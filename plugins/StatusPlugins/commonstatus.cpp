@@ -248,7 +248,7 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
 		things get messy because SRAway hooks ME_CLIST_STATUSMODECHANGE, so the status messages of SRAway and
 		commonstatus will clash
 	*/
-	NotifyEventHooks( hCSStatusChangedExEvent, ( WPARAM )&protoSettings, 0 );
+	NotifyEventHooks(hCSStatusChangedExEvent, (WPARAM)&protoSettings, 0);
 
 	// set all status messages first
 	for (int i=0; i < protoList->getCount(); i++) {

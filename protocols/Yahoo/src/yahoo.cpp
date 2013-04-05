@@ -329,8 +329,8 @@ HANDLE CYahooProto::add_buddy( const char *yahoo_id, const char *yahoo_name, int
 
 	//not already there: add
 	LOG(("[add_buddy] Adding buddy id: %s (Nick: %s), flags: %lu", yid, yahoo_name, flags));
-	hContact = ( HANDLE )CallService( MS_DB_CONTACT_ADD, 0, 0);
-	CallService( MS_PROTO_ADDTOCONTACT, ( WPARAM )hContact,(LPARAM)m_szModuleName );
+	hContact = (HANDLE)CallService( MS_DB_CONTACT_ADD, 0, 0);
+	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact,(LPARAM)m_szModuleName);
 	SetString( hContact, YAHOO_LOGINID, yid );
 	Set_Protocol( hContact, protocol );
 

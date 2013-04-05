@@ -219,5 +219,5 @@ void SendSendQueueItem(MessageSendQueueItem* item) {
 	}
 //	logInfo(" item sent [%s] next: [%s] prev: [%s]", item->sendBuffer, item->next != NULL ? item->next->sendBuffer : "", item->prev != NULL ? item->prev->sendBuffer : "");
 	LeaveCriticalSection(&queueMutex);
-	item->hSendId = (HANDLE) CallContactService(item->hContact, MsgServiceName(item->hContact), item->flags, (LPARAM) item->sendBuffer);
+	item->hSendId = (HANDLE)CallContactService(item->hContact, MsgServiceName(item->hContact), item->flags, (LPARAM)item->sendBuffer);
 }

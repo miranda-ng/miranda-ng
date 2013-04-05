@@ -283,7 +283,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 		if (bInactive && si->hWnd && db_get_b(NULL, "Chat", "FlashWindowHighlight", 0) != 0)
 			SendMessage(GetParent(si->hWnd), CM_STARTFLASHING, 0, 0);
 		if (db_get_b(si->windowData.hContact, "CList", "Hidden", 0) != 0)
-			DBDeleteContactSetting(si->windowData.hContact, "CList", "Hidden");
+			db_unset(si->windowData.hContact, "CList", "Hidden");
 		if (bInactive)
 			DoTrayIcon(si, gce);
 		if (bInactive || !g_Settings.PopUpInactiveOnly)
@@ -779,7 +779,7 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 	gcd->iType = iType;
 	gch->dwData = dwItem;
 	gch->pDest = gcd;
-	PostMessage(hwnd, GC_FIREHOOK, 0, (LPARAM) gch);
+	PostMessage(hwnd, GC_FIREHOOK, 0, (LPARAM)gch);
 	return TRUE;
 }
 

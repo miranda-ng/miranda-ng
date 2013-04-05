@@ -148,14 +148,12 @@ bool CContactCache::updateNick()
  */
 bool CContactCache::updateStatus()
 {
-	if (m_Valid) {
-		m_wOldStatus = m_wStatus;
-		m_wStatus = (WORD)DBGetContactSettingWord(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
+	if (!m_Valid)
+		return false;
 
-		return(m_wOldStatus != m_wStatus);
-	}
-	else
-		return(false);
+	m_wOldStatus = m_wStatus;
+	m_wStatus = (WORD)db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
+	return m_wOldStatus != m_wStatus;
 }
 
 /**
@@ -174,7 +172,7 @@ void CContactCache::updateMeta(bool fForce)
 				PROTOACCOUNT *acc = reinterpret_cast<PROTOACCOUNT *>(::CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)m_szMetaProto));
 				if (acc && acc->tszAccountName)
 					m_szAccount = acc->tszAccountName;
-				m_wMetaStatus = DBGetContactSettingWord(m_hSubContact, m_szMetaProto, "Status", ID_STATUS_OFFLINE);
+				m_wMetaStatus = db_get_w(m_hSubContact, m_szMetaProto, "Status", ID_STATUS_OFFLINE);
 				MultiByteToWideChar(CP_ACP, 0, m_szMetaProto, -1, m_tszMetaProto, 40);
 				m_tszMetaProto[39] = 0;
 			}

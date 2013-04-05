@@ -391,8 +391,8 @@ void CYahooProto::MenuMainInit( void )
 		hRoot = mainMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 	else {
-		if ( mainMenuRoot )
-			CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )mainMenuRoot, 0);
+		if (mainMenuRoot)
+			CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)mainMenuRoot, 0);
 		mainMenuRoot = NULL;
 	}
 		
@@ -498,25 +498,20 @@ void CYahooProto::MenuContactInit( void )
 void CYahooProto::MenuUninit( void )
 {
 	if ( mainMenuRoot )
-		CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )mainMenuRoot, 0);
+		CallService( MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)mainMenuRoot, 0);
 	
-	CallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )hShowProfileMenuItem, 0);
+	CallService( MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hShowProfileMenuItem, 0);
 }
 
 int __cdecl CYahooProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	const HANDLE hContact = (HANDLE)wParam;
-	if (!IsMyContact(hContact))  {
+	if (!IsMyContact(hContact)) {
 		DebugLog("[OnPrebuildContactMenu] Not a Yahoo Contact!!!");
 		return 0;
 	}
 
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS;
-	if (GetWord( hContact, "yprotoid", 0) != 0) 
-		mi.flags |= CMIF_HIDDEN;
-
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hShowProfileMenuItem, (LPARAM)&mi);
+	Menu_ShowItem(hShowProfileMenuItem, GetWord(hContact, "yprotoid", 0) == 0);
 	return 0;
 }
 

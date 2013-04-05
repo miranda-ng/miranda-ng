@@ -25,9 +25,9 @@ struct XSN_Data
 	HANDLE hContact;
 	TCHAR path[MAX_PATH];
 
-__inline XSN_Data(HANDLE _aContact, TCHAR *_path) :
-   hContact(_aContact)
-{
-	_tcsncpy(path, _path, SIZEOF(path));
-}
+	__forceinline XSN_Data(HANDLE _aContact, TCHAR *_path) :
+		hContact(_aContact)
+	{
+		_tcsncpy(path, _path, SIZEOF(path));
+	}
 };

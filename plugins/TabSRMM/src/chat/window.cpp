@@ -287,7 +287,7 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 	dat->hTabIcon = dat->hTabStatusIcon;
 
 	if (dat->iTabID >= 0) {
-		if (DBGetContactSettingWord(si->hContact, si->pszModule , "ApparentMode", 0) != 0)
+		if (db_get_w(si->hContact, si->pszModule , "ApparentMode", 0) != 0)
 			DBWriteContactSettingWord(si->hContact, si->pszModule , "ApparentMode", (LPARAM)0);
 		if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)szChatIconString);

@@ -74,12 +74,9 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 			mi.flags |= CMIM_ICON;
 			mi.hIcon = LoadSkinnedProtoIcon(gg->m_szModuleName, gg->m_iStatus);
 		}
-		else {
-			mi.flags |= CMIF_HIDDEN;
-			mi.hIcon = NULL;
-		}
+		else mi.flags |= CMIF_HIDDEN;
 
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)gginst->hInstanceMenuItem, (LPARAM)&mi);
+		Menu_ModifyItem(gginst->hInstanceMenuItem, &mi);
 		if (mi.hIcon)
 			Skin_ReleaseIcon(mi.hIcon);
 	}
@@ -156,14 +153,12 @@ void gg_links_destroy()
 
 void GGPROTO::links_instance_init()
 {
-	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
-	{
-		TMO_MenuItem tmi = {0};
-		tmi.cbSize = sizeof(tmi);
+	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
+		TMO_MenuItem tmi = { sizeof(tmi) };
 		tmi.flags = CMIF_TCHAR;
 		tmi.ownerdata = this;
 		tmi.position = list_count(g_Instances);
 		tmi.ptszName = m_tszUserName;
-		hInstanceMenuItem = (HANDLE)CallService(MO_ADDNEWMENUITEM, (WPARAM)hInstanceMenu, (LPARAM)&tmi);
+		hInstanceMenuItem = (HGENMENU)CallService(MO_ADDNEWMENUITEM, (WPARAM)hInstanceMenu, (LPARAM)&tmi);
 	}
 }

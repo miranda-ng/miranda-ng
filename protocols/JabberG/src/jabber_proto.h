@@ -346,7 +346,7 @@ struct CJabberProto : public PROTO_INTERFACE
 	DWORD m_dwSDLastRefresh;
 	DWORD m_dwSDLastAutoDisco;
 
-	HANDLE m_hChooseMenuItem;
+	HGENMENU m_hChooseMenuItem;
 	int m_privacyMenuServiceAllocated;
 
 	TFilterInfo m_filterInfo;
@@ -1005,8 +1005,8 @@ private:
 	BOOL     m_menuItemsStatus;
 	LIST<void> m_hPrivacyMenuItems;
 
-	int     m_nMenuResourceItems;
-	HANDLE* m_phMenuResourceItems;
+	int       m_nMenuResourceItems;
+	HGENMENU *m_phMenuResourceItems;
 };
 
 extern LIST<CJabberProto> g_Instances;

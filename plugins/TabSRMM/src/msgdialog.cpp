@@ -1319,7 +1319,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->cache->updateUIN();
 
 			if (dat->hContact && dat->szProto != NULL) {
-				dat->wStatus = DBGetContactSettingWord(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
+				dat->wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
 				mir_sntprintf(dat->szStatus, SIZEOF(dat->szStatus), _T("%s"), (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, GSMDF_TCHAR));
 			} else
 				dat->wStatus = ID_STATUS_OFFLINE;
@@ -3362,7 +3362,7 @@ quote_from_last:
 			if ((isForced = M->GetDword(dat->hContact, "tabSRMM_forced", -1)) >= 0) {
 				char szTemp[64];
 				mir_snprintf(szTemp, sizeof(szTemp), "Status%d", isForced);
-				if (DBGetContactSettingWord(dat->hContact, PluginConfig.szMetaName, szTemp, 0) == ID_STATUS_OFFLINE) {
+				if (db_get_w(dat->hContact, PluginConfig.szMetaName, szTemp, 0) == ID_STATUS_OFFLINE) {
 					TCHAR szBuffer[200];
 					mir_sntprintf(szBuffer, 200, TranslateT("Warning: you have selected a subprotocol for sending the following messages which is currently offline"));
 					SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)szBuffer);

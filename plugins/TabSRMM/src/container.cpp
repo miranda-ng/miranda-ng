@@ -2546,7 +2546,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 			if ((handle = (HANDLE)M->GetDword(dat->hContact, PluginConfig.szMetaName, szTemp, 0)) != 0) {
 				nick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)handle, GCDNF_TCHAR);
 				mir_snprintf(szTemp, sizeof(szTemp), "Status%d", i);
-				wStatus = (WORD)DBGetContactSettingWord(dat->hContact, PluginConfig.szMetaName, szTemp, 0);
+				wStatus = (WORD)db_get_w(dat->hContact, PluginConfig.szMetaName, szTemp, 0);
 				szStatusText = (TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wStatus, GSMDF_TCHAR);
 			}
 			mir_sntprintf(szMenuLine, SIZEOF(szMenuLine), _T("%s: %s [%s] %s"), acc->tszAccountName, nick, szStatusText,

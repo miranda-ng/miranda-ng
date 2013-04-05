@@ -1033,7 +1033,7 @@ void TSAPI DM_SetDBButtonStates(HWND hwndChild, struct TWindowData *dat)
 					break;
 				}
 				case DBVT_WORD: {
-					WORD val = DBGetContactSettingWord(hFinalContact, szModule, szSetting, 0);
+					WORD val = db_get_w(hFinalContact, szModule, szSetting, 0);
 					result = (val == *((WORD *) & buttonItem->bValuePush));
 					break;
 				}
@@ -1440,10 +1440,10 @@ void TSAPI DM_NotifyTyping(struct TWindowData *dat, int mode)
 		 * check visibility/invisibility lists to not "accidentially" send MTN to contacts who
 		 * should not see them (privacy issue)
 		 */
-		if (protoCaps & PF1_VISLIST && DBGetContactSettingWord(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
+		if (protoCaps & PF1_VISLIST && db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
 			return;
 
-		if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && DBGetContactSettingWord(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
+		if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
 			return;
 
 		/*

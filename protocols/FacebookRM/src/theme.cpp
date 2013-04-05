@@ -203,7 +203,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 		hRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	} else {
 		if ( m_hMenuRoot )
-			CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )m_hMenuRoot, 0 );
+			CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)m_hMenuRoot, 0);
 		m_hMenuRoot = NULL;
 	}
 
@@ -266,7 +266,7 @@ void FacebookProto::ToggleStatusMenuItems( BOOL bEnable )
 	CLISTMENUITEM clmi = {sizeof(clmi)};
 	clmi.flags = CMIM_FLAGS | (( bEnable ) ? 0 : CMIF_GRAYED);
 
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuRoot,   ( LPARAM )&clmi );
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hStatusMind, ( LPARAM )&clmi );
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuServicesRoot, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, (WPARAM)m_hMenuRoot,   ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, (WPARAM)m_hStatusMind, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, (WPARAM)m_hMenuServicesRoot, ( LPARAM )&clmi );
 }

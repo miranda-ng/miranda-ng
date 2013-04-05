@@ -206,7 +206,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	FindLocalIP(con); // get the local ip used for filetransfers etc
 
 	if ( info.m_iSSL > 0 ) {
-		if ( !CallService( MS_NETLIB_STARTSSL, ( WPARAM ) con, 0 ) && info.m_iSSL == 2 ) {
+		if ( !CallService(MS_NETLIB_STARTSSL, (WPARAM)con, 0) && info.m_iSSL == 2) {
 			Netlib_CloseHandle( con );
 			con = NULL;
 			m_info.Reset();

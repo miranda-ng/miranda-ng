@@ -587,7 +587,7 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 					DoUserhostWithReason(2, S.c_str(), true, one.c_str());
 			}	}
 
-			CallService( MS_MSG_SENDMESSAGE, ( WPARAM )hContact2, 0 );
+			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact2, 0);
 		}
 
 		if ( !two.IsEmpty()) {
@@ -661,7 +661,7 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 					}	}
 
 					if ( three.IsEmpty())
-						CallService( MS_FILE_SENDFILE, ( WPARAM )hContact, 0 );
+						CallService(MS_FILE_SENDFILE, (WPARAM)hContact, 0);
 					else {
 						CMString temp = GetWordAddress(text.c_str(), 3);
 						TCHAR* pp[2];

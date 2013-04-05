@@ -60,7 +60,7 @@ TCHAR* GetWindowTitle(HANDLE *hContact, const char *szProto)
 		tokens[0] = GetNickname(hContact, szProto);
 		tokenLen[0] = lstrlen(tokens[0]);
 		tokens[1] = mir_tstrdup((TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto ? 
-			DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE) : ID_STATUS_OFFLINE, GSMDF_TCHAR));
+			db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : ID_STATUS_OFFLINE, GSMDF_TCHAR));
 		tokenLen[1] = lstrlen(tokens[1]);
 		tokens[2] = DBGetStringT(hContact, "CList", "StatusMsg");
 		if (tokens[2] != NULL) {
@@ -245,7 +245,7 @@ static void GetMinimunWindowSize(ParentWindowData *dat, SIZE *size)
 	GetChildWindowRect(dat, &rc);
 	for (i=0;i<dat->childrenCount;i++) {
 		MessageWindowTabData * mwtd = GetChildFromTab(dat->hwndTabs, i);
-		SendMessage(mwtd->hwnd, WM_GETMINMAXINFO, 0, (LPARAM) &mmi);
+		SendMessage(mwtd->hwnd, WM_GETMINMAXINFO, 0, (LPARAM)&mmi);
 		if (i==0 || mmi.ptMinTrackSize.x > minW) minW = mmi.ptMinTrackSize.x;
 		if (i==0 || mmi.ptMinTrackSize.y > minH) minH = mmi.ptMinTrackSize.y;
 	}
@@ -268,7 +268,7 @@ static void SetupStatusBar(ParentWindowData *dat)
 	statwidths[1] = rc.right - rc.left - SB_UNICODE_WIDTH - 2 * (statusIconNum > 0) - statusIconNum * (GetSystemMetrics(SM_CXSMICON) + 2);
 	statwidths[2] = rc.right - rc.left - SB_UNICODE_WIDTH;
 	statwidths[3] = -1;
-	SendMessage(dat->hwndStatus, SB_SETPARTS, 4, (LPARAM) statwidths);
+	SendMessage(dat->hwndStatus, SB_SETPARTS, 4, (LPARAM)statwidths);
 	SendMessage(dat->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_OWNERDRAW) | 2, 0);
 	SendMessage(dat->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_NOBORDERS) | 3, 0);
 }
@@ -350,7 +350,7 @@ static void AddChild(ParentWindowData *dat, HWND hwnd, HANDLE hContact)
 	mwtd->parent = dat;
 	dat->childrenCount++;
 	tci.mask = TCIF_PARAM | TCIF_IMAGE | TCIF_TEXT;
-	tci.lParam = (LPARAM) mwtd;
+	tci.lParam = (LPARAM)mwtd;
 	tci.iImage = -1;
 	tci.pszText = _T("");
 	tabId = TabCtrl_InsertItem(dat->hwndTabs, dat->childrenCount-1, &tci);
@@ -514,7 +514,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				SetWindowPos(hwndDlg, 0, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_HIDEWINDOW);
 
 			if (!savePerContact && db_get_b(NULL, SRMMMOD, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE))
-				WindowList_Broadcast(g_dat.hParentWindowList, DM_CASCADENEWWINDOW, (WPARAM) hwndDlg, (LPARAM) &dat->windowWasCascaded);
+				WindowList_Broadcast(g_dat.hParentWindowList, DM_CASCADENEWWINDOW, (WPARAM) hwndDlg, (LPARAM)&dat->windowWasCascaded);
 
 			hMenu = GetSystemMenu( hwndDlg, FALSE );
 			InsertMenu( hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, NULL );
@@ -627,7 +627,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 
 	case WM_COMMAND:
-		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM) dat->hContact))
+		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)dat->hContact))
 			break;
 
 		if ( LOWORD(wParam) == IDCANCEL)
@@ -681,7 +681,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 								CloseOtherChilden(dat, mwtd->hwnd);
 								break;
 							default:
-								CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(menuResult), MPCF_CONTACTMENU), (LPARAM) mwtd->hContact);
+								CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(menuResult), MPCF_CONTACTMENU), (LPARAM)mwtd->hContact);
 							}
 							if (hUserMenu != NULL) {
 								DestroyMenu(hUserMenu);
@@ -912,7 +912,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					ShowWindow(hwndDlg, SW_SHOWMINNOACTIVE);
 
 				if (dat->childrenCount == 1 || ((g_dat.flags2 & SMF2_SWITCHTOACTIVE) && (IsIconic(hwndDlg) || GetForegroundWindow() != hwndDlg)))
-					SendMessage(hwndDlg, CM_ACTIVATECHILD, 0, (LPARAM) lParam);
+					SendMessage(hwndDlg, CM_ACTIVATECHILD, 0, (LPARAM)lParam);
 			}
 			else {
 				ShowWindow(hwndDlg, IsIconic(hwndDlg) ? SW_SHOWNORMAL : SW_SHOWNA);
@@ -1002,9 +1002,9 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					}
 				}
 				if (tbd->iFlags & TBDF_ICON) {
-					SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM) tbd->hIcon);
+					SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)tbd->hIcon);
 					if (tbd->hIconBig != NULL) {
-						SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM) tbd->hIconBig);
+						SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)tbd->hIconBig);
 					}
 					if (pTaskbarInterface)
 						pTaskbarInterface->SetOverlayIcon(hwndDlg,  tbd->hIconNot, L"");
@@ -1018,10 +1018,10 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			StatusBarData *sbd = (StatusBarData *) wParam;
 			if (sbd != NULL) {
 				if ((sbd->iFlags & SBDF_TEXT) && dat->hwndActive == hwnd) {
-					SendMessage(dat->hwndStatus, SB_SETTEXT, sbd->iItem, (LPARAM) sbd->pszText);
+					SendMessage(dat->hwndStatus, SB_SETTEXT, sbd->iItem, (LPARAM)sbd->pszText);
 				}
 				if ((sbd->iFlags & SBDF_ICON) && dat->hwndActive == hwnd) {
-					SendMessage(dat->hwndStatus, SB_SETICON, sbd->iItem, (LPARAM) sbd->hIcon);
+					SendMessage(dat->hwndStatus, SB_SETICON, sbd->iItem, (LPARAM)sbd->hIcon);
 				}
 				RedrawWindow(dat->hwndStatus, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW);
 			}
@@ -1377,7 +1377,7 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 									HMONITOR hMonitor;
 									RECT rc, rcDesktop;
 									newData.hContact = hContact;
-									hParent = (HWND)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGWIN), NULL, DlgProcParentWindow, (LPARAM) & newData);
+									hParent = (HWND)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGWIN), NULL, DlgProcParentWindow, (LPARAM)& newData);
 									GetWindowRect(hParent, &rc);
 									rc.right = (rc.right - rc.left);
 									rc.bottom = (rc.bottom - rc.top);
@@ -1399,11 +1399,11 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 								NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_CLOSING);
 								NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_CLOSE);
 								SetParent(hChild, hParent);
-								SendMessage(GetParent(hwnd), CM_REMOVECHILD, 0, (LPARAM) hChild);
-								SendMessage(hChild, DM_SETPARENT, 0, (LPARAM) hParent);
-								SendMessage(hParent, CM_ADDCHILD, (WPARAM)hChild, (LPARAM) hContact);
+								SendMessage(GetParent(hwnd), CM_REMOVECHILD, 0, (LPARAM)hChild);
+								SendMessage(hChild, DM_SETPARENT, 0, (LPARAM)hParent);
+								SendMessage(hParent, CM_ADDCHILD, (WPARAM)hChild, (LPARAM)hContact);
 								SendMessage(hChild, DM_UPDATETABCONTROL, 0, 0);
-								SendMessage(hParent, CM_ACTIVATECHILD, 0, (LPARAM) hChild);
+								SendMessage(hParent, CM_ACTIVATECHILD, 0, (LPARAM)hChild);
 								NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_OPENING);
 								NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_OPEN);
 								ShowWindow(hParent, SW_SHOWNA);
@@ -1601,5 +1601,5 @@ HWND GetParentWindow(HANDLE hContact, BOOL bChat) {
 	if (!(g_dat.flags2 & SMF2_SEPARATECHATSCONTAINERS)) {
 		newData.isChat =FALSE;
 	}
-	return CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGWIN), NULL, DlgProcParentWindow, (LPARAM) & newData);
+	return CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGWIN), NULL, DlgProcParentWindow, (LPARAM)& newData);
 }

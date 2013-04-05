@@ -265,7 +265,7 @@ extern const TCHAR *pszIDCSAVE_save, *pszIDCSAVE_close;
 extern char *TemplateNames[];
 extern HANDLE hUserPrefsWindowList;
 extern struct TCpTable cpTable[];
-extern HANDLE hJoinMenuItem, hLeaveMenuItem;
+extern HGENMENU hJoinMenuItem, hLeaveMenuItem;
 extern FONTINFO	aFonts[OPTIONS_FONTCOUNT];
 extern TCHAR *pszActiveWndID;
 extern char *pszActiveWndModule;

@@ -1987,7 +1987,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		LoadDefaultInfo();
 		PROTOCOLDESCRIPTOR** proto;
 		int protoCount;
-		CallService(MS_PROTO_ENUMPROTOS, ( WPARAM )&protoCount, ( LPARAM )&proto);
+		CallService(MS_PROTO_ENUMPROTOS, (WPARAM)&protoCount, (LPARAM)&proto);
 		for (i=0; i < protoCount; i++ )
 			LoadProtoInfo( proto[i] );
 		for (i=0; i < accCount; i++)

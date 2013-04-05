@@ -279,14 +279,12 @@ struct GGPROTO : public PROTO_INTERFACE
 	HANDLE netlib;
 	HGENMENU hMenuRoot;
 	HGENMENU hMainMenu[7];
-	HANDLE hPrebuildMenuHook;
-	HANDLE hBlockMenuItem;
-	HANDLE hImageMenuItem;
-	HANDLE hInstanceMenuItem;
-	HANDLE hAvatarsFolder;
-	HANDLE hImagesFolder;
-	HWND   hwndSessionsDlg;
-	HANDLE hPopupNotify, hPopupError;
+	HGENMENU hBlockMenuItem, hImageMenuItem, hInstanceMenuItem;
+	HANDLE   hPrebuildMenuHook;
+	HANDLE   hAvatarsFolder;
+	HANDLE   hImagesFolder;
+	HWND     hwndSessionsDlg;
+	HANDLE   hPopupNotify, hPopupError;
 };
 
 typedef struct

@@ -194,7 +194,7 @@ INT_PTR CList_JoinChat(WPARAM wParam, LPARAM lParam)
 	if ( hContact ) {
 		char* szProto = GetContactProto(hContact);
 		if ( szProto ) {
-			if ( DBGetContactSettingWord( hContact, szProto, "Status", 0 ) == ID_STATUS_OFFLINE )
+			if ( db_get_w( hContact, szProto, "Status", 0 ) == ID_STATUS_OFFLINE )
 				CallProtoService( szProto, PS_JOINCHAT, wParam, lParam );
 			else
 				CList_RoomDoubleclicked( wParam, 0 );
@@ -217,31 +217,28 @@ INT_PTR CList_LeaveChat(WPARAM wParam, LPARAM lParam)
 int CList_PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if ( hContact ) {
-		char* szProto = GetContactProto(hContact);
+	if (hContact == NULL)
+		return 0;
 
-		CLISTMENUITEM clmi = { sizeof(clmi) };
-		clmi.flags = CMIM_FLAGS | CMIF_DEFAULT | CMIF_HIDDEN;
+	bool bEnabled = false;
+	char *szProto = GetContactProto(hContact);
+	if ( szProto ) {
+		// display this menu item only for chats
+		if ( M->GetByte(hContact, szProto, "ChatRoom", 0 )) {
+			// still hide it for offline protos
+			if (CallProtoService( szProto, PS_GETSTATUS, 0, 0 ) != ID_STATUS_OFFLINE) {
+				CLISTMENUITEM clmi = { sizeof(clmi) };
+				clmi.flags = CMIM_NAME;
+				if (db_get_w( hContact, szProto, "Status", 0 ) == ID_STATUS_OFFLINE)
+					clmi.pszName = (char*)LPGEN("Join chat");
+				else
+					clmi.pszName = (char*)LPGEN("Open chat window");
+				Menu_ModifyItem(hJoinMenuItem, &clmi);
+				bEnabled = true;
+	}	}	}
 
-		if ( szProto ) {
-			// display this menu item only for chats
-			if ( M->GetByte(hContact, szProto, "ChatRoom", 0 )) {
-				// still hide it for offline protos
-				if ( CallProtoService( szProto, PS_GETSTATUS, 0, 0 ) != ID_STATUS_OFFLINE ) {
-					clmi.flags &= ~CMIF_HIDDEN;
-					clmi.flags |= CMIM_NAME;
-
-					if ( DBGetContactSettingWord( hContact, szProto, "Status", 0 ) == ID_STATUS_OFFLINE )
-						clmi.pszName = ( char* )LPGEN("Join chat");
-					else
-						clmi.pszName = ( char* )LPGEN("Open chat window");
-		}	}	}
-		CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hJoinMenuItem, ( LPARAM )&clmi );
-
-		clmi.flags &= ~(CMIM_NAME | CMIF_DEFAULT);
-		clmi.flags |= CMIF_NOTOFFLINE;
-		CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hLeaveMenuItem, ( LPARAM )&clmi );
-	}
+	Menu_ShowItem(hJoinMenuItem, bEnabled);
+	Menu_ShowItem(hLeaveMenuItem, bEnabled);
 	return 0;
 }
 
@@ -249,7 +246,6 @@ INT_PTR CList_PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam)
 {
 	return CList_PrebuildContactMenu(wParam, lParam);
 }
-
 
 void CList_CreateGroup(TCHAR* group)
 {

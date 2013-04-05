@@ -230,7 +230,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_SendOnDblEnter = 					(int)M->GetByte("SendOnDblEnter", 0);
 	m_AutoLocaleSupport = 				(int)M->GetByte("al", 0);
 	m_AutoSwitchTabs = 					(int)M->GetByte("autoswitchtabs", 1);
-	m_CutContactNameTo = 				(int) DBGetContactSettingWord(NULL, SRMSGMOD_T, "cut_at", 15);
+	m_CutContactNameTo = 				(int)db_get_w(NULL, SRMSGMOD_T, "cut_at", 15);
 	m_CutContactNameOnTabs = 			(int)M->GetByte("cuttitle", 0);
 	m_StatusOnTabs = 					(int)M->GetByte("tabstatus", 1);
 	m_LogStatusChanges = 				(int)M->GetByte("logstatuschanges", 0);

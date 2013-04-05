@@ -23,12 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_global.h"
 #include "msn_proto.h"
 
-static HGENMENU
-	hBlockMenuItem,
-	hLiveSpaceMenuItem,
-	hNetmeetingMenuItem,
-	hChatInviteMenuItem,
-	hOpenInboxMenuItem;
+static HGENMENU hBlockMenuItem, hLiveSpaceMenuItem, hNetmeetingMenuItem, hChatInviteMenuItem, hOpenInboxMenuItem;
+
 HANDLE hNetMeeting, hBlockCom, hSendHotMail, hInviteChat, hViewProfile;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -147,24 +143,20 @@ int CMsnProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	bool isMe = MSN_IsMeByContact(hContact, szEmail);
 	if (szEmail[0]) {
 		int listId = Lists_GetMask(szEmail);
-
 		bool noChat = !(listId & LIST_FL) || isMe || getByte(hContact, "ChatRoom", 0);
 
 		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_ICONFROMICOLIB;
-		if (noChat) mi.flags |= CMIF_HIDDEN;
+		mi.flags = CMIM_NAME;
 		mi.pszName = (char*)((listId & LIST_BL) ? "&Unblock" : "&Block");
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hBlockMenuItem, (LPARAM)&mi);
+		Menu_ModifyItem(hBlockMenuItem, &mi);
+		Menu_ShowItem(hBlockMenuItem, !noChat);
 
-		mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_ICONFROMICOLIB;
-		if (!emailEnabled) mi.flags |= CMIF_HIDDEN;
 		mi.pszName = isMe ? LPGEN("Open &Hotmail Inbox") : LPGEN("Send &Hotmail E-mail");
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hOpenInboxMenuItem, (LPARAM)&mi);
+		Menu_ModifyItem(hOpenInboxMenuItem, &mi);
+		Menu_ShowItem(hOpenInboxMenuItem, emailEnabled);
 
-		mi.flags = CMIM_FLAGS | CMIF_ICONFROMICOLIB | CMIF_NOTOFFLINE;
-		if (noChat) mi.flags |= CMIF_HIDDEN;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hNetmeetingMenuItem, (LPARAM)&mi);
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hChatInviteMenuItem, (LPARAM)&mi);
+		Menu_ShowItem(hNetmeetingMenuItem, !noChat);
+		Menu_ShowItem(hChatInviteMenuItem, !noChat);
 	}
 
 	return 0;
@@ -365,15 +357,12 @@ void  CMsnProto::MSN_EnableMenuItems(bool bEnable)
 	if (!bEnable)
 		mi.flags |= CMIF_GRAYED;
 
-	for (unsigned i=0; i < SIZEOF(menuItemsMain); i++)
+	for (int i=0; i < SIZEOF(menuItemsMain); i++)
 		if (menuItemsMain[i] != NULL)
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)menuItemsMain[i], (LPARAM)&mi);
+			Menu_ModifyItem(menuItemsMain[i], &mi);
 
-	if (bEnable) {
-		mi.flags = CMIM_FLAGS;
-		if (!emailEnabled) mi.flags |= CMIF_HIDDEN;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)menuItemsMain[1], (LPARAM)&mi);
-	}
+	if (bEnable)
+		Menu_ShowItem(menuItemsMain[1], emailEnabled);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -415,28 +404,17 @@ static INT_PTR MsnMenuSendHotmail(WPARAM wParam, LPARAM lParam)
 	return (ppro) ? ppro->MsnSendHotmail(wParam, lParam) : 0;
 }
 
-static void sttEnableMenuItem(HANDLE hMenuItem, bool bEnable)
-{
-	CLISTMENUITEM clmi = { sizeof(clmi) };
-	clmi.flags = CMIM_FLAGS;
-	if (!bEnable)
-		clmi.flags |= CMIF_HIDDEN;
-
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&clmi);
-}
-
 static int MSN_OnPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	CMsnProto* ppro = GetProtoInstanceByHContact((HANDLE)wParam);
 	if (ppro)
 		ppro->OnPrebuildContactMenu(wParam, lParam);
-	else
-	{
-		sttEnableMenuItem(hBlockMenuItem, false);
-		sttEnableMenuItem(hLiveSpaceMenuItem, false);
-		sttEnableMenuItem(hNetmeetingMenuItem, false);
-		sttEnableMenuItem(hChatInviteMenuItem, false);
-		sttEnableMenuItem(hOpenInboxMenuItem, false);
+	else {
+		Menu_ShowItem(hBlockMenuItem, false);
+		Menu_ShowItem(hLiveSpaceMenuItem, false);
+		Menu_ShowItem(hNetmeetingMenuItem, false);
+		Menu_ShowItem(hChatInviteMenuItem, false);
+		Menu_ShowItem(hOpenInboxMenuItem, false);
 	}
 
 	return 0;

@@ -25,7 +25,7 @@ void RegisterChatFonts( void );
 
 //globals
 HMENU       g_hMenu = NULL;
-HANDLE      hJoinMenuItem, hLeaveMenuItem;
+HGENMENU    hJoinMenuItem, hLeaveMenuItem;
 
 FONTINFO    aFonts[OPTIONS_FONTCOUNT];
 HBRUSH      hListBkgBrush = NULL;

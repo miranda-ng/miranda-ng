@@ -249,7 +249,7 @@ void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const
 		szProto = GetContactProto(hContact);
 	if (szProto) {
 		if (wStatus == 0)
-			wStatus = DBGetContactSettingWord((HANDLE)hContact, szProto, "Status", ID_STATUS_OFFLINE);
+			wStatus = db_get_w((HANDLE)hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		if (szStatus == NULL)
 			szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wStatus, GSMDF_TCHAR);
 	}

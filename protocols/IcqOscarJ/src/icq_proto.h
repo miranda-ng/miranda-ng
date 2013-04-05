@@ -813,8 +813,7 @@ struct CIcqProto : public PROTO_INTERFACE
 	HANDLE hHookExtraIconsRebuild;
 	HANDLE hHookStatusBuild;
 	HANDLE hHookExtraIconsApply;
-
-	HANDLE hXStatusItems[XSTATUS_COUNT + 1];
+	HGENMENU hXStatusItems[XSTATUS_COUNT + 1];
 
 	void   InitXStatusItems(BOOL bAllowStatus);
 	BYTE   getContactXStatus(HANDLE hContact);

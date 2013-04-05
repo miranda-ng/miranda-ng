@@ -132,14 +132,14 @@ char* contact_get_id(HANDLE hContact, bool bNameOnError) {
 		}
 	}
 	if (!pszUniqueID && bNameOnError) {
-		char *name = (char *)CallService( MS_CLIST_GETCONTACTDISPLAYNAME, ( WPARAM )hContact, 0 );
+		char *name = (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0);
 		if (name) pszUniqueID = mir_strdup(name);
 	}
 	return pszUniqueID;
 }
 
 __inline const TCHAR* contact_get_nameT(HANDLE hContact) {
-	return (TCHAR*)CallService( MS_CLIST_GETCONTACTDISPLAYNAME, ( WPARAM )hContact, GCDNF_TCHAR );
+	return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 }
 
 __inline const char* contact_get_proto(HANDLE hContact) {

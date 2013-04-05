@@ -236,7 +236,7 @@ static void InitSetting(TCHAR** ppPointer, char* pszSetting, TCHAR* pszDefault)
 	DBVARIANT dbv;
 	if ( !DBGetContactSettingTString(NULL, "Chat", pszSetting, &dbv )) {
 		replaceStr( ppPointer, dbv.ptszVal );
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else replaceStr( ppPointer, pszDefault );
 	}
@@ -338,7 +338,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 					if (iLen > 0)
 						db_set_b(NULL, "Chat", "NicklistRowDist", (BYTE)iLen);
 					else
-						DBDeleteContactSetting(NULL, "Chat", "NicklistRowDist");
+						db_unset(NULL, "Chat", "NicklistRowDist");
 					SaveBranch(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), branch1, SIZEOF(branch1));
 					SaveBranch(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), branch4, SIZEOF(branch4));
 
@@ -371,9 +371,9 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_CHAT_CHECKBOXES),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_CHAT_CHECKBOXES),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
 		SendDlgItemMessage(hwndDlg,IDC_CHAT_SPIN2,UDM_SETRANGE,0,MAKELONG(5000,0));
-		SendDlgItemMessage(hwndDlg,IDC_CHAT_SPIN2,UDM_SETPOS,0,MAKELONG(DBGetContactSettingWord(NULL,"Chat","LogLimit",100),0));
+		SendDlgItemMessage(hwndDlg,IDC_CHAT_SPIN2,UDM_SETPOS,0,MAKELONG(db_get_w(NULL,"Chat","LogLimit",100),0));
 		SendDlgItemMessage(hwndDlg,IDC_CHAT_SPIN3,UDM_SETRANGE,0,MAKELONG(10000,0));
-		SendDlgItemMessage(hwndDlg,IDC_CHAT_SPIN3,UDM_SETPOS,0,MAKELONG(DBGetContactSettingWord(NULL,"Chat","LoggingLimit",100),0));
+		SendDlgItemMessage(hwndDlg,IDC_CHAT_SPIN3,UDM_SETPOS,0,MAKELONG(db_get_w(NULL,"Chat","LoggingLimit",100),0));
 		{
 			TCHAR tszTemp[MAX_PATH];
 			PathToRelativeT(g_Settings.pszLogDir, tszTemp);
@@ -546,23 +546,23 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 					   *p2 = ' ';
 					   p2 = _tcschr(ptszText, (TCHAR)',');
 				    }
-				    DBWriteContactSettingTString(NULL, "Chat", "HighlightWords", ptszText);
+				    db_set_ts(NULL, "Chat", "HighlightWords", ptszText);
 				    mir_free(ptszText);
 				}
 			}
-			else DBDeleteContactSetting(NULL, "Chat", "HighlightWords");
+			else db_unset(NULL, "Chat", "HighlightWords");
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOGDIRECTORY));
 			if ( iLen > 0 ) {
 				TCHAR *pszText1 = (TCHAR *)malloc(iLen*sizeof(TCHAR) + 2);
 				GetDlgItemText(hwndDlg, IDC_CHAT_LOGDIRECTORY, pszText1, iLen + 1);
-				DBWriteContactSettingTString(NULL, "Chat", "LogDirectory", pszText1);
+				db_set_ts(NULL, "Chat", "LogDirectory", pszText1);
 				PathToAbsoluteT(pszText1, g_Settings.pszLogDir);
 				free(pszText1);
 			}
 			else {
 				lstrcpyn(g_Settings.pszLogDir, DEFLOGFILENAME, MAX_PATH);
-				DBDeleteContactSetting(NULL, "Chat", "LogDirectory");
+				db_unset(NULL, "Chat", "LogDirectory");
 			}
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOGTIMESTAMP));
@@ -571,7 +571,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 				GetDlgItemTextA(hwndDlg, IDC_CHAT_LOGTIMESTAMP, pszText,iLen+1);
 				DBWriteContactSettingString(NULL, "Chat", "LogTimestamp", pszText);
 			}
-			else DBDeleteContactSetting(NULL, "Chat", "LogTimestamp");
+			else db_unset(NULL, "Chat", "LogTimestamp");
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_TIMESTAMP));
 			if ( iLen > 0 ) {
@@ -579,7 +579,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 				GetDlgItemTextA(hwndDlg, IDC_CHAT_TIMESTAMP, pszText,iLen+1);
 				DBWriteContactSettingString(NULL, "Chat", "HeaderTime", pszText);
 			}
-			else DBDeleteContactSetting(NULL, "Chat", "HeaderTime");
+			else db_unset(NULL, "Chat", "HeaderTime");
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_INSTAMP));
 			if ( iLen > 0 ) {
@@ -587,7 +587,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 				GetDlgItemTextA(hwndDlg, IDC_CHAT_INSTAMP, pszText,iLen+1);
 				DBWriteContactSettingString(NULL, "Chat", "HeaderIncoming", pszText);
 			}
-			else DBDeleteContactSetting(NULL, "Chat", "HeaderIncoming");
+			else db_unset(NULL, "Chat", "HeaderIncoming");
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_OUTSTAMP));
 			if ( iLen > 0 ) {
@@ -595,7 +595,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 				GetDlgItemTextA(hwndDlg, IDC_CHAT_OUTSTAMP, pszText,iLen+1);
 				DBWriteContactSettingString(NULL, "Chat", "HeaderOutgoing", pszText);
 			}
-			else DBDeleteContactSetting(NULL, "Chat", "HeaderOutgoing");
+			else db_unset(NULL, "Chat", "HeaderOutgoing");
 
 			g_Settings.HighlightEnabled = IsDlgButtonChecked(hwndDlg, IDC_CHAT_HIGHLIGHT) == BST_CHECKED?TRUE:FALSE;
 			db_set_b(NULL, "Chat", "HighlightEnabled", (BYTE)g_Settings.HighlightEnabled);
@@ -778,11 +778,11 @@ void LoadGlobalSettings(void)
 	g_Settings.SoundsFocus = db_get_b(NULL, "Chat", "SoundsFocus", 0);
 	g_Settings.ShowTimeIfChanged = (BOOL)db_get_b(NULL, "Chat", "ShowTimeStampIfChanged", 0);
 	g_Settings.TimeStampEventColour = (BOOL)db_get_b(NULL, "Chat", "TimeStampEventColour", 0);
-	g_Settings.iEventLimit = DBGetContactSettingWord(NULL, "Chat", "LogLimit", 100);
+	g_Settings.iEventLimit = db_get_w(NULL, "Chat", "LogLimit", 100);
 	g_Settings.dwIconFlags = DBGetContactSettingDword(NULL, "Chat", "IconFlags", 0x0000);
 	g_Settings.dwTrayIconFlags = DBGetContactSettingDword(NULL, "Chat", "TrayIconFlags", 0x1000);
 	g_Settings.dwPopupFlags = DBGetContactSettingDword(NULL, "Chat", "PopupFlags", 0x0000);
-	g_Settings.LoggingLimit = DBGetContactSettingWord(NULL, "Chat", "LoggingLimit", 100);
+	g_Settings.LoggingLimit = db_get_w(NULL, "Chat", "LoggingLimit", 100);
 	g_Settings.LoggingEnabled = (BOOL)db_get_b(NULL, "Chat", "LoggingEnabled", 0);
 	g_Settings.FlashWindow = (BOOL)db_get_b(NULL, "Chat", "FlashWindow", 0);
 	g_Settings.HighlightEnabled = (BOOL)db_get_b(NULL, "Chat", "HighlightEnabled", 1);
@@ -796,7 +796,7 @@ void LoadGlobalSettings(void)
 	g_Settings.PopUpInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "PopUpInactiveOnly", 1);
 	g_Settings.AddColonToAutoComplete = (BOOL)db_get_b(NULL, "Chat", "AddColonToAutoComplete", 1);
 	g_Settings.iPopupStyle = db_get_b(NULL, "Chat", "PopupStyle", 1);
-	g_Settings.iPopupTimeout = DBGetContactSettingWord(NULL, "Chat", "PopupTimeout", 3);
+	g_Settings.iPopupTimeout = db_get_w(NULL, "Chat", "PopupTimeout", 3);
 	g_Settings.crPUBkgColour = DBGetContactSettingDword(NULL, "Chat", "PopupColorBG", GetSysColor(COLOR_WINDOW));
 	g_Settings.crPUTextColour = DBGetContactSettingDword(NULL, "Chat", "PopupColorText", 0);
 	g_Settings.ShowContactStatus = db_get_b(NULL, "Chat", "ShowContactStatus", 0);
@@ -812,7 +812,7 @@ void LoadGlobalSettings(void)
 	g_Settings.pszLogDir = (TCHAR *)mir_realloc(g_Settings.pszLogDir, MAX_PATH*sizeof(TCHAR));
 	if ( !DBGetContactSettingTString(NULL, "Chat", "LogDirectory", &dbv)) {
 		lstrcpyn(g_Settings.pszLogDir, dbv.ptszVal, MAX_PATH);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else lstrcpyn(g_Settings.pszLogDir, DEFLOGFILENAME, MAX_PATH);
 
@@ -890,7 +890,7 @@ int OptionsInit(void)
 	g_Settings.UserListFont = NULL;
 	g_Settings.UserListHeadingsFont = NULL;
 	g_Settings.MessageBoxFont = NULL;
-	g_Settings.iSplitterX = DBGetContactSettingWord(NULL, "Chat", "SplitterX", 105);
+	g_Settings.iSplitterX = db_get_w(NULL, "Chat", "SplitterX", 105);
 	LoadGlobalSettings();
 
 	SkinAddNewSoundEx("ChatMessage",   LPGEN("Group chats"), LPGEN("Incoming message"));

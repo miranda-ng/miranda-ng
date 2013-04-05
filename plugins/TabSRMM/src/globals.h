@@ -192,7 +192,7 @@ public:
    BYTE        m_dontUseDefaultKbd;
    HANDLE      hSvc[SERVICE_LAST];
    HANDLE      m_event_MsgWin, m_event_MsgPopup;
-   HANDLE      m_hMenuItem;
+   HGENMENU    m_hMenuItem;
    BYTE        m_useAeroPeek;
 
    WINDOWPLACEMENT    m_GlobalContainerWpos;

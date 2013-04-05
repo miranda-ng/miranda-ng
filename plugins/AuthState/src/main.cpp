@@ -22,7 +22,8 @@
 HINSTANCE g_hInst;
 static HANDLE hOptInitialise;
 static HANDLE hHookExtraIconsRebuild, hHookExtraIconsApply;
-static HANDLE hAuthMenuSelected, hUserMenu;
+static HANDLE hAuthMenuSelected;
+static HGENMENU hUserMenu;
 HANDLE hExtraIcon;
 int hLangpack;
 
@@ -64,22 +65,22 @@ INT_PTR getIconToUse(HANDLE hContact, LPARAM lParam)
 {
 	char *proto = GetContactProto(hContact);
 //	if (lParam == 1) return icon_none;
-	if (!DBGetContactSettingByte(hContact,"AuthState","ShowIcons",!bIconsForRecentContacts)) return icon_none;
+	if (!db_get_b(hContact,"AuthState","ShowIcons",!bIconsForRecentContacts)) return icon_none;
 
-	if (DBGetContactSettingByte(0,"ICQ","UseServerCList",0))
-		if (DBGetContactSettingWord(hContact,proto,"ServerId",1) == 0)
+	if (db_get_b(0,"ICQ","UseServerCList",0))
+		if (db_get_dw(hContact,proto,"ServerId",1) == 0)
 			return icon_both;
 
 	if (bUseAuthIcon & bUseGrantIcon)
-		if (DBGetContactSettingByte(hContact,proto,"Auth",0) && DBGetContactSettingByte(hContact,proto,"Grant",0))
+		if (db_get_b(hContact,proto,"Auth",0) && db_get_b(hContact,proto,"Grant",0))
 			return icon_both;
 
 	if (bUseAuthIcon)
-		if (DBGetContactSettingByte(hContact,proto,"Auth",0))
+		if (db_get_b(hContact,proto,"Auth",0))
 			return icon_auth;
 
 	if (bUseGrantIcon)
-		if (DBGetContactSettingByte(hContact,proto,"Grant",0))
+		if (db_get_b(hContact,proto,"Grant",0))
 			return icon_grant;
 	return icon_none;
 }
@@ -126,7 +127,7 @@ int onDBContactAdded(WPARAM wParam, LPARAM lParam)
 
 INT_PTR onAuthMenuSelected(WPARAM wParam, LPARAM lParam)
 {
-	byte enabled = DBGetContactSettingByte((HANDLE)wParam,"AuthState","ShowIcons",1);
+	byte enabled = db_get_b((HANDLE)wParam,"AuthState","ShowIcons",1);
 	DBWriteContactSettingByte((HANDLE)wParam, MODULENAME, "ShowIcons", !enabled);
 
 	onExtraImageApplying(wParam, 0);
@@ -135,30 +136,20 @@ INT_PTR onAuthMenuSelected(WPARAM wParam, LPARAM lParam)
 
 int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	char *proto = GetContactProto((HANDLE)wParam);
+	HANDLE hContact = (HANDLE)wParam;
+	char *proto = GetContactProto(hContact);
 	if (!proto)
 		return 0;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-
-	if (!DBGetContactSettingByte((HANDLE)wParam,proto,"Auth",0) && !DBGetContactSettingByte((HANDLE)wParam,proto,"Grant",0) && DBGetContactSettingWord((HANDLE)wParam,proto,"ServerId",0))
-		mi.flags = CMIF_TCHAR | CMIM_FLAGS | CMIF_HIDDEN;
-	else
-		mi.flags = CMIF_TCHAR | CMIM_FLAGS;
-
-	if (DBGetContactSettingByte((HANDLE)wParam,"AuthState","ShowIcons",1))
-	{
-		mi.flags |= CMIF_TCHAR | CMIM_NAME;
+	mi.flags = CMIF_TCHAR | CMIM_NAME;
+	if (db_get_b(hContact,"AuthState","ShowIcons",1))
 		mi.ptszName = LPGENT("Disable AuthState icons");
-	}
 	else
-	{
-		mi.flags |= CMIF_TCHAR | CMIM_NAME;
 		mi.ptszName = LPGENT("Enable AuthState icons");
-	}
+	Menu_ModifyItem(hUserMenu, &mi);
 
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hUserMenu, (LPARAM)&mi);
-
+	Menu_ShowItem(hUserMenu, db_get_b(hContact,proto,"Auth",0) || db_get_b(hContact,proto,"Grant",0) || !db_get_dw(hContact,proto,"ServerId",0));
 	return 0;
 }
 
@@ -205,10 +196,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 
-	bUseAuthIcon = DBGetContactSettingByte(NULL, MODULENAME, "EnableAuthIcon", 1);
-	bUseGrantIcon = DBGetContactSettingByte(NULL, MODULENAME, "EnableGrantIcon", 1);
-	bContactMenuItem = DBGetContactSettingByte(NULL, MODULENAME, "MenuItem", 0);
-	bIconsForRecentContacts = DBGetContactSettingByte(NULL, MODULENAME, "EnableOnlyForRecent", 0);
+	bUseAuthIcon = db_get_b(NULL, MODULENAME, "EnableAuthIcon", 1);
+	bUseGrantIcon = db_get_b(NULL, MODULENAME, "EnableGrantIcon", 1);
+	bContactMenuItem = db_get_b(NULL, MODULENAME, "MenuItem", 0);
+	bIconsForRecentContacts = db_get_b(NULL, MODULENAME, "EnableOnlyForRecent", 0);
 
 	HookEvent(ME_DB_CONTACT_ADDED, onDBContactAdded);
 

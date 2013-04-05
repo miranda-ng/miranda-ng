@@ -44,7 +44,7 @@ void CIrcProto::InitMainMenus(void)
 		}
 		else {
 			if (hMenuRoot)
-				CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )hMenuRoot, 0 );
+				CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hMenuRoot, 0);
 			hMenuRoot = NULL;
 		}
 
@@ -129,15 +129,12 @@ static INT_PTR IrcMenuIgnore(WPARAM wParam, LPARAM lParam)
 
 int IrcPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
+	Menu_ShowItem(hUMenuChanSettings, false);
+	Menu_ShowItem(hUMenuWhois, false);
+	Menu_ShowItem(hUMenuDisconnect, false);
+	Menu_ShowItem(hUMenuIgnore, false);
 
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuChanSettings, ( LPARAM )&mi );
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuWhois,        ( LPARAM )&mi );
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuDisconnect,   ( LPARAM )&mi );
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuIgnore,       ( LPARAM )&mi );
-
-	CIrcProto* ppro = IrcGetInstanceByHContact((HANDLE)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact((HANDLE)wParam);
 	return (ppro) ? ppro->OnMenuPreBuild(wParam, lParam) : 0;
 }
 
@@ -1006,53 +1003,44 @@ int __cdecl CIrcProto::OnPreShutdown(WPARAM, LPARAM)
 int __cdecl CIrcProto::OnMenuPreBuild(WPARAM wParam, LPARAM)
 {
 	DBVARIANT dbv;
-	HANDLE hContact = ( HANDLE )wParam;
-	if ( !hContact )
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact == NULL)
 		return 0;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
-
 	char *szProto = GetContactProto(hContact);
-	if ( szProto && !lstrcmpiA(szProto, m_szModuleName)) {
-		bool bIsOnline = getWord(hContact, "Status", ID_STATUS_OFFLINE)== ID_STATUS_OFFLINE ? false : true;
-		if ( getByte(hContact, "ChatRoom", 0) == GCW_CHATROOM) {
-			// context menu for chatrooms
-			mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE;
-			CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuChanSettings, ( LPARAM )&mi );
-		}
+	if (szProto && !lstrcmpiA(szProto, m_szModuleName)) {
+		bool bIsOnline = getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE;
+
+		// context menu for chatrooms
+		if (getByte(hContact, "ChatRoom", 0) == GCW_CHATROOM)
+			Menu_ShowItem(hUMenuChanSettings, true);
+
+		// context menu for contact
 		else if ( !getTString( hContact, "Default", &dbv )) {
-			// context menu for contact
+			Menu_ShowItem(hUMenuChanSettings, false);
+
+			// for DCC contact
 			BYTE bDcc = getByte( hContact, "DCC", 0) ;
-
-			mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-			CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuChanSettings,		( LPARAM )&mi );
-
-			mi.flags = CMIM_FLAGS;
-			if ( bDcc ) {
-				// for DCC contact
-				mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE;
-				CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuDisconnect,		( LPARAM )&mi );
-			}
+			if (bDcc)
+				Menu_ShowItem(hUMenuDisconnect, true);
 			else {
 				// for normal contact
-				mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE;
-				if ( !IsConnected())
-					mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-				CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuWhois, ( LPARAM )&mi );
+				Menu_ShowItem(hUMenuWhois, IsConnected());
 
+				bool bEnabled = true;
 				if (bIsOnline) {
 					DBVARIANT dbv3;
 					if ( !getString( hContact, "Host", &dbv3)) {
 						if (dbv3.pszVal[0] == 0)
-							mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-						DBFreeVariant( &dbv3 );
+							bEnabled = false;
+						DBFreeVariant(&dbv3);
 					}
 				}
-				CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuIgnore, ( LPARAM )&mi );
+				Menu_ShowItem(hUMenuIgnore, bEnabled);
 			}
 			DBFreeVariant( &dbv );
-	}	}
+		}
+	}
 
 	return 0;
 }
@@ -1245,5 +1233,5 @@ void CIrcProto::DoNetlibLog( const char* fmt, ... )
 	mir_vsnprintf( str, 32000, fmt, vararg );
 	va_end( vararg );
 
-	CallService( MS_NETLIB_LOG, ( WPARAM )hNetlib, ( LPARAM )str );
+	CallService( MS_NETLIB_LOG, (WPARAM)hNetlib, ( LPARAM )str );
 }

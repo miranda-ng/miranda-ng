@@ -85,8 +85,8 @@ void ReleaseIconEx(const char* name, bool big)
 
 void WindowSetIcon(HWND hWnd, const char* name)
 {
-	SendMessage(hWnd, WM_SETICON, ICON_BIG,   ( LPARAM )LoadIconEx( name, true ));
-	SendMessage(hWnd, WM_SETICON, ICON_SMALL, ( LPARAM )LoadIconEx( name ));
+	SendMessage(hWnd, WM_SETICON, ICON_BIG,   (LPARAM)LoadIconEx( name, true ));
+	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx( name ));
 }
 
 void WindowFreeIcon(HWND hWnd)
@@ -224,24 +224,14 @@ int CAimProto::OnPreBuildContactMenu(WPARAM wParam,LPARAM /*lParam*/)
 	bool isChatRoom = getByte(hContact, "ChatRoom", 0) != 0;
 
 	//see if we should add the html away message context menu items
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE;
-	if (getWord(hContact, AIM_KEY_ST, ID_STATUS_OFFLINE) != ID_STATUS_AWAY || isChatRoom)
-		mi.flags |= CMIF_HIDDEN;
-
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hHTMLAwayContextMenuItem,(LPARAM)&mi);
-
-	mi.flags = CMIM_FLAGS | CMIF_NOTONLINE;
-	if (getBuddyId(hContact, 1) || state == 0 || isChatRoom)
-		mi.flags |= CMIF_HIDDEN;
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hAddToServerListContextMenuItem,(LPARAM)&mi);
+	Menu_ShowItem(hHTMLAwayContextMenuItem, getWord(hContact, AIM_KEY_ST, ID_STATUS_OFFLINE) == ID_STATUS_AWAY && !isChatRoom);
+	Menu_ShowItem(hAddToServerListContextMenuItem, !getBuddyId(hContact, 1) && state != 0 && !isChatRoom);
 
 	DBVARIANT dbv;
-	if (!getString(hContact, AIM_KEY_SN, &dbv)) 
-	{
+	if (!getString(hContact, AIM_KEY_SN, &dbv)) {
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_NAME | CMIM_FLAGS;
-		switch(pd_mode)
-		{
+		switch(pd_mode) {
 		case 1:
 			mi.pszName = LPGEN("&Block");
 			break;
@@ -264,7 +254,7 @@ int CAimProto::OnPreBuildContactMenu(WPARAM wParam,LPARAM /*lParam*/)
 			break;
 		}
 
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hBlockContextMenuItem, (LPARAM)&mi);
+		Menu_ModifyItem(hBlockContextMenuItem, &mi);
 		DBFreeVariant(&dbv);
 	}
    

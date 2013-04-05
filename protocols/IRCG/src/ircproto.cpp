@@ -160,7 +160,7 @@ CIrcProto::~CIrcProto()
 	DeleteCriticalSection( &m_gchook );
 
 	if (hMenuRoot)
-		CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )hMenuRoot, 0 );
+		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hMenuRoot, 0);
 
 	mir_free( m_alias );
 
@@ -1035,7 +1035,7 @@ int __cdecl CIrcProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM 
 			CLISTMENUITEM mi = { sizeof(mi) };
 			mi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.ptszName = m_tszUserName;
-			CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuRoot, ( LPARAM )&mi );
+			CallService( MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuRoot, ( LPARAM )&mi );
 		}
 		break;
 

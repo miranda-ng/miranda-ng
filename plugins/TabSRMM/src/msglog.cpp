@@ -558,7 +558,7 @@ int TSAPI DbEventIsShown(struct TWindowData *dat, DBEVENTINFO * dbei)
 
 static int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 {
-	DBEVENTTYPEDESCR* et = ( DBEVENTTYPEDESCR* )CallService( MS_DB_EVENT_GETTYPE, ( WPARAM )dbei->szModule, ( LPARAM )dbei->eventType );
+	DBEVENTTYPEDESCR* et = ( DBEVENTTYPEDESCR* )CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
 	return et && ( et->flags & DETF_MSGWINDOW );
 }
 

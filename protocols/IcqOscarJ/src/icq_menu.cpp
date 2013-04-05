@@ -29,8 +29,8 @@
 
 #include <m_skin.h>
 
-HANDLE g_hContactMenuItems[6];
-HANDLE g_hContactMenuSvc[6];
+HGENMENU g_hContactMenuItems[6];
+HANDLE   g_hContactMenuSvc[6];
 
 static int sttCompareProtocols(const CIcqProto *p1, const CIcqProto *p2)
 {
@@ -88,24 +88,14 @@ static INT_PTR IcqMenuHandleOpenProfile(WPARAM wParam, LPARAM lParam)
 	return (ppro) ? ppro->OpenWebProfile(wParam, lParam) : 0;
 }
 
-static void sttEnableMenuItem( HANDLE hMenuItem, bool bEnable )
-{
-	CLISTMENUITEM clmi = { sizeof(clmi) };
-	clmi.flags = CMIM_FLAGS;
-	if ( !bEnable )
-		clmi.flags |= CMIF_HIDDEN;
-
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuItem, ( LPARAM )&clmi );
-}
-
 static int IcqPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
 {
-	sttEnableMenuItem(g_hContactMenuItems[ICMI_AUTH_REQUEST], FALSE);
-	sttEnableMenuItem(g_hContactMenuItems[ICMI_AUTH_GRANT], FALSE);
-	sttEnableMenuItem(g_hContactMenuItems[ICMI_AUTH_REVOKE], FALSE);
-	sttEnableMenuItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST], FALSE);
-	sttEnableMenuItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], FALSE);
-	sttEnableMenuItem(g_hContactMenuItems[ICMI_OPEN_PROFILE], FALSE);
+	Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_REQUEST], FALSE);
+	Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_GRANT], FALSE);
+	Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_REVOKE], FALSE);
+	Menu_ShowItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST], FALSE);
+	Menu_ShowItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], FALSE);
+	Menu_ShowItem(g_hContactMenuItems[ICMI_OPEN_PROFILE], FALSE);
 
 	CIcqProto* ppro = IcqGetInstanceByHContact((HANDLE)wParam);
 	return (ppro) ? ppro->OnPreBuildContactMenu(wParam, lParam) : 0;
@@ -121,58 +111,58 @@ void g_MenuInit(void)
 	// Contact menu initialization
 
 	char str[MAXMODULELABELLENGTH], *pszDest = str + 3;
-	strcpy( str, "ICQ" );
+	strcpy(str, "ICQ");
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = str;
 	mi.flags = CMIF_ICONFROMICOLIB;
 
 	// "Request authorization"
+	strcpy(pszDest, MS_REQ_AUTH); CreateServiceFunction(str, IcqMenuHandleRequestAuth );
+
 	mi.pszName = LPGEN("Request authorization");
 	mi.position = 1000030000;
 	mi.icolibItem = g_IconsList[ISI_AUTH_REQUEST].hIcolib;
-	strcpy(pszDest, MS_REQ_AUTH);
 	g_hContactMenuItems[ICMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
-	g_hContactMenuSvc[ICMI_AUTH_REQUEST] = CreateServiceFunction( str, IcqMenuHandleRequestAuth );
-
+	
 	// "Grant authorization"
+	strcpy(pszDest, MS_GRANT_AUTH); CreateServiceFunction(str, IcqMenuHandleGrantAuth);
+
 	mi.pszName = LPGEN("Grant authorization");
 	mi.position = 1000029999;
 	mi.icolibItem = g_IconsList[ISI_AUTH_GRANT].hIcolib;
-	strcpy(pszDest, MS_GRANT_AUTH);
 	g_hContactMenuItems[ICMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
-	g_hContactMenuSvc[ICMI_AUTH_GRANT] = CreateServiceFunction(mi.pszService, IcqMenuHandleGrantAuth);
-
+	
 	// "Revoke authorization"
+	strcpy(pszDest, MS_REVOKE_AUTH); CreateServiceFunction(str, IcqMenuHandleRevokeAuth);
+
 	mi.pszName = LPGEN("Revoke authorization");
 	mi.position = 1000029998;
 	mi.icolibItem = g_IconsList[ISI_AUTH_REVOKE].hIcolib;
-	strcpy(pszDest, MS_REVOKE_AUTH);
 	g_hContactMenuItems[ICMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
-	g_hContactMenuSvc[ICMI_AUTH_REVOKE] = CreateServiceFunction(mi.pszService, IcqMenuHandleRevokeAuth);
-
+	
 	// "Add to server list"
+	strcpy(pszDest, MS_ICQ_ADDSERVCONTACT); CreateServiceFunction(str, IcqMenuHandleAddServContact);
+
 	mi.pszName = LPGEN("Add to server list");
 	mi.position = -2049999999;
 	mi.icolibItem = g_IconsList[ISI_ADD_TO_SERVLIST].hIcolib;
-	strcpy(pszDest, MS_ICQ_ADDSERVCONTACT);
 	g_hContactMenuItems[ICMI_ADD_TO_SERVLIST] = Menu_AddContactMenuItem(&mi);
-	g_hContactMenuSvc[ICMI_ADD_TO_SERVLIST] = CreateServiceFunction(mi.pszService, IcqMenuHandleAddServContact);
-
+	
 	// "Show custom status details"
- 	mi.pszName = LPGEN("Show custom status details");
+ 	strcpy(pszDest, MS_XSTATUS_SHOWDETAILS); CreateServiceFunction(str, IcqMenuHandleXStatusDetails);
+
+	mi.pszName = LPGEN("Show custom status details");
 	mi.position = -2000004999;
 	mi.flags = 0;
-	strcpy(pszDest, MS_XSTATUS_SHOWDETAILS);
 	g_hContactMenuItems[ICMI_XSTATUS_DETAILS] = Menu_AddContactMenuItem(&mi);
-	g_hContactMenuSvc[ICMI_XSTATUS_DETAILS] = CreateServiceFunction(mi.pszService, IcqMenuHandleXStatusDetails);
-
+	
 	// "Open ICQ profile"
+	strcpy(pszDest, MS_OPEN_PROFILE); CreateServiceFunction(str, IcqMenuHandleOpenProfile);
+
 	mi.pszName = LPGEN("Open ICQ profile");
 	mi.position = 1000029997;
-	strcpy(pszDest, MS_OPEN_PROFILE);
 	g_hContactMenuItems[ICMI_OPEN_PROFILE] = Menu_AddContactMenuItem(&mi);
-	g_hContactMenuSvc[ICMI_OPEN_PROFILE] = CreateServiceFunction(mi.pszService, IcqMenuHandleOpenProfile);
 }
 
 void g_MenuUninit(void)
@@ -183,13 +173,6 @@ void g_MenuUninit(void)
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_ADD_TO_SERVLIST], 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_XSTATUS_DETAILS], 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_OPEN_PROFILE], 0);
-
-	DestroyServiceFunction(g_hContactMenuSvc[ICMI_AUTH_REQUEST]);
-	DestroyServiceFunction(g_hContactMenuSvc[ICMI_AUTH_GRANT]);
-	DestroyServiceFunction(g_hContactMenuSvc[ICMI_AUTH_REVOKE]);
-	DestroyServiceFunction(g_hContactMenuSvc[ICMI_ADD_TO_SERVLIST]);
-	DestroyServiceFunction(g_hContactMenuSvc[ICMI_XSTATUS_DETAILS]);
-	DestroyServiceFunction(g_hContactMenuSvc[ICMI_OPEN_PROFILE]);
 }
 
 
@@ -209,37 +192,34 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM wParam, LPARAM)
 	if (hContact == NULL)
 		return 0;
 
-	if (icqOnline())
-	{
+	if (icqOnline()) {
 		BOOL bCtrlPressed = (GetKeyState(VK_CONTROL)&0x8000 ) != 0;
 
 		DWORD dwUin = getContactUin(hContact);
 
-
-		sttEnableMenuItem(g_hContactMenuItems[ICMI_AUTH_REQUEST],
+		Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_REQUEST],
 			dwUin && (bCtrlPressed || (getSettingByte((HANDLE)wParam, "Auth", 0) && getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0))));
-		sttEnableMenuItem(g_hContactMenuItems[ICMI_AUTH_GRANT], dwUin && (bCtrlPressed || getSettingByte((HANDLE)wParam, "Grant", 0)));
-		sttEnableMenuItem(g_hContactMenuItems[ICMI_AUTH_REVOKE],
+		Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_GRANT], dwUin && (bCtrlPressed || getSettingByte((HANDLE)wParam, "Grant", 0)));
+		Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_REVOKE],
 			dwUin && (bCtrlPressed || (getSettingByte(NULL, "PrivacyItems", 0) && !getSettingByte((HANDLE)wParam, "Grant", 0))));
-		sttEnableMenuItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST],
+		Menu_ShowItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST],
 			m_bSsiEnabled && !getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0) &&
 			!getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_IGNORE, 0) &&
 			!db_get_b(hContact, "CList", "NotOnList", 0));
 	}
 
-	sttEnableMenuItem(g_hContactMenuItems[ICMI_OPEN_PROFILE],getContactUin(hContact) != 0);
+	Menu_ShowItem(g_hContactMenuItems[ICMI_OPEN_PROFILE],getContactUin(hContact) != 0);
 	BYTE bXStatus = getContactXStatus((HANDLE)wParam);
 
-	sttEnableMenuItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], m_bHideXStatusUI ? 0 : bXStatus != 0);
+	Menu_ShowItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], m_bHideXStatusUI ? 0 : bXStatus != 0);
 	if (bXStatus && !m_bHideXStatusUI) {
 		CLISTMENUITEM clmi = { sizeof(clmi) };
 		clmi.flags = CMIM_ICON;
-
 		if (bXStatus > 0 && bXStatus <= XSTATUS_COUNT)
 			clmi.hIcon = getXStatusIcon(bXStatus, LR_SHARED);
 		else
 			clmi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT);
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_XSTATUS_DETAILS], (LPARAM)&clmi);
+		Menu_ModifyItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], &clmi);
 	}
 
 	return 0;

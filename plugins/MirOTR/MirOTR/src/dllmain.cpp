@@ -104,7 +104,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	if(DBGetContactSettingByte(0, MODULENAME, "FilterOrderFix", 0) != 2) {
 		HANDLE hContact = db_find_first();
 		while ( hContact != NULL ) {
-			CallService( MS_PROTO_REMOVEFROMCONTACT, ( WPARAM )hContact, ( LPARAM )MODULENAME );
+			CallService(MS_PROTO_REMOVEFROMCONTACT, (WPARAM)hContact, (LPARAM)MODULENAME);
 			hContact = db_find_next(hContact);
 		}
 		DBWriteContactSettingByte(0, MODULENAME, "FilterOrderFix", 2);

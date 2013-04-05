@@ -765,7 +765,7 @@ void CConnectPrefsDlg::OnApply()
 	mi.flags = CMIM_FLAGS;
 	if ( !m_proto->m_useServer )
 		mi.flags |= CMIF_GRAYED;
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_proto->hMenuServer, ( LPARAM )&mi );
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)m_proto->hMenuServer, (LPARAM)&mi);
 
 	m_proto->m_joinOnInvite = m_autoJoin.GetState();
 	m_proto->m_hideServerWindow = !m_showServer.GetState();

@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static HWND hwndFindAdd = NULL;
 static HANDLE hHookModulesLoaded = 0;
-static HANDLE hMainMenuItem = NULL;
+static HGENMENU hMainMenuItem = NULL;
 static int OnSystemModulesLoaded(WPARAM wParam, LPARAM lParam);
 
 static int FindAddDlgResizer(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
@@ -1046,10 +1046,6 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 			netProtoCount++;
 	}
 
-	CLISTMENUITEM cmi = { sizeof(cmi) };
-	cmi.flags = CMIM_FLAGS;
-	if (netProtoCount == 0)
-		cmi.flags |= CMIF_HIDDEN;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMainMenuItem, (LPARAM)&cmi);
+	Menu_ShowItem(hMainMenuItem, netProtoCount != 0);
 	return 0;
 }

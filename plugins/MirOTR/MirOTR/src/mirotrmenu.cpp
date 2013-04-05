@@ -97,7 +97,7 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam,LPARAM)
 	TrustLevel level = ( TrustLevel )otr_context_get_trust(otrl_context_find_miranda(otr_user_state, hContact));
 	
 	mi.cbSize = sizeof(mi);
-	if ( CallService(MO_GETMENUITEM, ( WPARAM )pcpp->MenuItemHandle, ( LPARAM )&mi ) == 0 ) {
+	if ( CallService(MO_GETMENUITEM, (WPARAM)pcpp->MenuItemHandle, (LPARAM)&mi) == 0) {
 		
 		if ( mi.flags & CMIF_HIDDEN ) return FALSE;
 		if ( mi.flags & CMIF_NOTPRIVATE  && level==TRUST_PRIVATE  ) return FALSE;
@@ -154,7 +154,7 @@ INT_PTR OnAddMenuItemMirOTRMenu (WPARAM wParam, LPARAM lParam)
 	
 	TMO_MenuItem mi;	
 	mi.cbSize = sizeof(mi);
-	if ( CallService(MO_GETMENUITEM, ( WPARAM )lParam, ( LPARAM )&mi ) == 0 ) {
+	if ( CallService(MO_GETMENUITEM, (WPARAM)lParam, (LPARAM)&mi) == 0) {
 		if (mi.flags & CMIF_DISABLED) {
 			mii->fMask |= MIIM_STATE;
 			mii->fState |= MF_DISABLED;

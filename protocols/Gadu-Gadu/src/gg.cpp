@@ -238,12 +238,12 @@ static int gg_prebuildcontactmenu(WPARAM wParam, LPARAM lParam)
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
-	if ( db_get_dw(hContact, gg->m_szModuleName, GG_KEY_UIN, 0) == db_get_b(NULL, gg->m_szModuleName, GG_KEY_UIN, 0) ||
-		db_get_b(hContact, gg->m_szModuleName, "ChatRoom", 0) ||
-		db_get_b(hContact, "CList", "NotOnList", 0))
+	if ( db_get_dw(hContact, gg->m_szModuleName, GG_KEY_UIN, 0) == db_get_b(NULL, gg->m_szModuleName, GG_KEY_UIN, 0)
+			|| db_get_b(hContact, gg->m_szModuleName, "ChatRoom", 0)
+			|| db_get_b(hContact, "CList", "NotOnList", 0))
 		mi.flags |= CMIF_HIDDEN;
 	mi.ptszName = db_get_b(hContact, gg->m_szModuleName, GG_KEY_BLOCK, 0) ? LPGENT("&Unblock") : LPGENT("&Block");
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)gg->hBlockMenuItem, (LPARAM)&mi);
+	Menu_ModifyItem(gg->hBlockMenuItem, &mi);
 	return 0;
 }
 

@@ -27,7 +27,7 @@ int hLangpack;
 DWORD timer_id = 0;
 
 HANDLE hContactReturnedAction, hContactStillAbsentAction, hMissYouAction, hMenuMissYouClick;
-HANDLE hContactMenu;
+HGENMENU hContactMenu;
 
 HICON hIcon;
 HANDLE hExtraIcon;
@@ -453,20 +453,17 @@ int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
    else
 	   mi.flags = CMIM_FLAGS;
 
-   if (db_get_b((HANDLE)wParam, MODULE_NAME, "MissYou", 0))
-   {
+   if (db_get_b((HANDLE)wParam, MODULE_NAME, "MissYou", 0)) {
 		mi.flags |= CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 		mi.ptszName = LPGENT("Disable Miss You");
 		mi.icolibItem = iconList[1].hIcolib;
    }
-   else
-   {
+   else {
 		mi.flags |= CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 		mi.ptszName = LPGENT("Enable Miss You");
 		mi.icolibItem = iconList[2].hIcolib;
    }
-
-   CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenu, (LPARAM)&mi);
+	Menu_ModifyItem(hContactMenu, &mi);
 
    return 0;
 }

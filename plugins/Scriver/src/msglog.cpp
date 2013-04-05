@@ -96,13 +96,13 @@ TCHAR *GetNickname(HANDLE hContact, const char* szProto) {
 		ci.dwFlag |= CNF_UNICODE;
     }
 
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
 			if (ci.pszVal) {
 				if (IsUnicodeMIM()) {
 					if (!_tcscmp((TCHAR *)ci.pszVal, TranslateW(_T("'(Unknown Contact)'")))) {
 						ci.dwFlag &= ~CNF_UNICODE;
-						if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+						if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
 							szName = a2t((char *)ci.pszVal);
 						}
 					} else {
@@ -133,7 +133,7 @@ TCHAR *GetNickname(HANDLE hContact, const char* szProto) {
 
 int DbEventIsCustomForMsgWindow(DBEVENTINFO *dbei)
 {
-	DBEVENTTYPEDESCR* et = ( DBEVENTTYPEDESCR* )CallService( MS_DB_EVENT_GETTYPE, ( WPARAM )dbei->szModule, ( LPARAM )dbei->eventType );
+	DBEVENTTYPEDESCR* et = ( DBEVENTTYPEDESCR* )CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
 	return et && ( et->flags & DETF_MSGWINDOW );
 }
 
@@ -180,7 +180,7 @@ EventData *getEventFromDB(struct SrmmWindowData *dat, HANDLE hContact, HANDLE hD
         event->custom = DbEventIsCustomForMsgWindow(&dbei);
 	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_URL || event->custom)) {
 		db_event_markRead(hContact, hDbEvent);
-		CallService(MS_CLIST_REMOVEEVENT, (WPARAM) hContact, (LPARAM) hDbEvent);
+		CallService(MS_CLIST_REMOVEEVENT, (WPARAM) hContact, (LPARAM)hDbEvent);
 	} else if (dbei.eventType == EVENTTYPE_STATUSCHANGE || dbei.eventType == EVENTTYPE_JABBER_CHATSTATES ||
 		dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
 		db_event_markRead(hContact, hDbEvent);
@@ -866,7 +866,7 @@ void StreamInTestEvents(HWND hEditWnd, struct GlobalMessageData *gdat)
 	streamData.gdat = gdat;
 	stream.pfnCallback = LogStreamInEvents;
 	stream.dwCookie = (DWORD_PTR) & streamData;
-	SendMessage(hEditWnd, EM_STREAMIN, SF_RTF, (LPARAM) & stream);
+	SendMessage(hEditWnd, EM_STREAMIN, SF_RTF, (LPARAM)& stream);
 	SendMessage(hEditWnd, EM_HIDESELECTION, FALSE, 0);
 }
 void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
@@ -908,7 +908,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 
 	// IEVIew MOD End
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_HIDESELECTION, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXGETSEL, 0, (LPARAM) & oldSel);
+	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXGETSEL, 0, (LPARAM)& oldSel);
 	streamData.hContact = dat->windowData.hContact;
 	streamData.hDbEvent = hDbEventFirst;
 	streamData.hDbEventLast = dat->hDbEventLast;
@@ -926,19 +926,19 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 		gtxl.codepage = 1200;
         fi.chrg.cpMin = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
         sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), dat->windowData.codePage, FALSE);
-        SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM) & sel);
+        SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)& sel);
     } else {
 		SendDlgItemMessage(hwndDlg, IDC_LOG, WM_SETREDRAW, FALSE, 0);
 		SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
         sel.cpMin = 0;
 		sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), dat->windowData.codePage, FALSE);
-        SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM) & sel);
+        SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)& sel);
         fi.chrg.cpMin = 0;
 		dat->isMixed = 0;
 	}
 
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION |  SF_RTF, (LPARAM) & stream);
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM) & oldSel);
+	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION |  SF_RTF, (LPARAM)& stream);
+	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)& oldSel);
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_HIDESELECTION, FALSE, 0);
 	if (g_dat.smileyAddInstalled) {
 		SMADD_RICHEDIT3 smre;
@@ -946,7 +946,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 		smre.hwndRichEditControl = GetDlgItem(hwndDlg, IDC_LOG);
 		smre.Protocolname = dat->szProto;
         if (dat->szProto!=NULL && strcmp(dat->szProto,"MetaContacts")==0) {
-            HANDLE hContact = (HANDLE) CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) dat->windowData.hContact, 0);
+            HANDLE hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) dat->windowData.hContact, 0);
             if (hContact!=NULL) {
                 smre.Protocolname = GetContactProto(hContact);
             }
@@ -962,7 +962,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 		smre.disableRedraw = TRUE;
 		smre.hContact = dat->windowData.hContact;
 		smre.flags = 0;
-		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM) &smre);
+		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smre);
 	}
 
 	int len = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), dat->windowData.codePage, FALSE);

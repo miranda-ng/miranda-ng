@@ -1399,7 +1399,7 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 			if (dat->bActualHistory)
 				i = dat->cache->getSessionMsgCount();
 			else
-				i = DBGetContactSettingWord(NULL, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT);
+				i = db_get_w(NULL, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT);
 			//
 			for (; i > 0; i--) {
 				if (dat->hDbEventFirst == NULL)
@@ -1426,7 +1426,7 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 			dbei.timestamp = time(NULL);
 		else
 			db_event_get(dat->hDbEventFirst, &dbei);
-		firstTime = dbei.timestamp - 60 * DBGetContactSettingWord(NULL, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
+		firstTime = dbei.timestamp - 60 * db_get_w(NULL, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
 		for (;;) {
 			if (dat->hDbEventFirst == NULL)
 				hPrevEvent = db_event_last(dat->hContact);
@@ -2407,10 +2407,10 @@ void TSAPI SendHBitmapAsFile(const TWindowData* dat, HBITMAP hbmp)
 	if ((ID_STATUS_OFFLINE == wMyStatus) || (ID_STATUS_OFFLINE == dat->cache->getActiveStatus() && !(typeCaps & PF4_OFFLINEFILES)))
 		fSend = false;
 
-	if (protoCaps & PF1_VISLIST && DBGetContactSettingWord(dat->cache->getActiveContact(), szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
+	if (protoCaps & PF1_VISLIST && db_get_w(dat->cache->getActiveContact(), szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
 		fSend = false;
 
-	if (protoCaps & PF1_INVISLIST && wMyStatus == ID_STATUS_INVISIBLE && DBGetContactSettingWord(dat->cache->getActiveContact(), szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
+	if (protoCaps & PF1_INVISLIST && wMyStatus == ID_STATUS_INVISIBLE && db_get_w(dat->cache->getActiveContact(), szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
 		fSend = false;
 
 	if (!fSend) {

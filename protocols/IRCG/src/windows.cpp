@@ -87,7 +87,7 @@ void CWhoisDlg::OnInitDialog()
 	GetObject( hFont, sizeof( lf ), &lf );
 	lf.lfWeight = FW_BOLD;
 	hFont = CreateFontIndirect( &lf );
-	m_AwayTime.SendMsg( WM_SETFONT, ( WPARAM )hFont, 0 );
+	m_AwayTime.SendMsg(WM_SETFONT, (WPARAM)hFont, 0);
 
 	CCoolIrcDlg::OnInitDialog();
 

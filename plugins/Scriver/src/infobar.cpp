@@ -182,12 +182,12 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				case WM_LBUTTONUP:
 				{
 					CHARRANGE sel;
-					SendDlgItemMessage(hwnd, pNmhdr->idFrom, EM_EXGETSEL, 0, (LPARAM) &sel);
+					SendDlgItemMessage(hwnd, pNmhdr->idFrom, EM_EXGETSEL, 0, (LPARAM)&sel);
 					bWasCopy = FALSE;
 					if (sel.cpMin != sel.cpMax) {
 						SendDlgItemMessage(hwnd, pNmhdr->idFrom, WM_COPY, 0, 0);
 						sel.cpMin = sel.cpMax ;
-						SendDlgItemMessage(hwnd, pNmhdr->idFrom, EM_EXSETSEL, 0, (LPARAM) & sel);
+						SendDlgItemMessage(hwnd, pNmhdr->idFrom, EM_EXSETSEL, 0, (LPARAM)& sel);
 						bWasCopy = TRUE;
 					}
 					SetFocus(GetParent(hwnd));

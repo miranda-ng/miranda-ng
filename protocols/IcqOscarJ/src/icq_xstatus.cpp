@@ -32,8 +32,6 @@
 #include "m_extraicons.h"
 #include "..\icons_pack\src\resource.h"
 
-void CListShowMenuItem(HANDLE hMenuItem, BYTE bShow);
-
 static HANDLE hXStatusIcons[XSTATUS_COUNT];
 static int    hXStatusCListIcons[XSTATUS_COUNT];
 static BOOL   bXStatusCListIconsValid[XSTATUS_COUNT];
@@ -882,9 +880,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 		mi.pszContactOwner = m_szModuleName;
 
 		hXStatusItems[i] = Menu_AddStatusMenuItem(&mi);
-
-		// CMIF_HIDDEN does not work for adding services
-		CListShowMenuItem(hXStatusItems[i], !(m_bHideXStatusUI || m_bHideXStatusMenu));
+		Menu_ShowItem(hXStatusItems[i], !(m_bHideXStatusUI || m_bHideXStatusMenu));
 	}
 }
 

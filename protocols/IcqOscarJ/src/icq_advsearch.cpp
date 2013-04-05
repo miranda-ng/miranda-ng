@@ -45,7 +45,7 @@ static void InitComboBox(HWND hwndCombo, const FieldNamesItem *names)
 	else {
 		int ctryCount;
 		struct CountryListEntry *countries;
-		CallService( MS_UTILS_GETCOUNTRYLIST, ( WPARAM )&ctryCount, ( LPARAM )&countries );
+		CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&ctryCount, (LPARAM)&countries);
 		for (i = 0; i < ctryCount; i++)	{
 			if (countries[i].id != 0xFFFF && countries[i].id != 0)
 				iItem = ComboBoxAddStringUtf(hwndCombo, LPGEN(countries[i].szName), countries[i].id);

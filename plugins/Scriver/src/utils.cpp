@@ -158,7 +158,7 @@ TCHAR *GetRichText(HWND hwnd, int codepage) {
 		gt.cb = textBufferSize;
 		gt.flags = GT_USECRLF;
 		gt.codepage = codepage;
-		SendMessage(hwnd, EM_GETTEXTEX, (WPARAM) &gt, (LPARAM) textBuffer);
+		SendMessage(hwnd, EM_GETTEXTEX, (WPARAM) &gt, (LPARAM)textBuffer);
 	}
 	return textBuffer;
 }
@@ -315,7 +315,7 @@ TCHAR *GetRichEditSelection(HWND hwnd)
 		dwFlags = SF_TEXT|SF_UNICODE|SFF_SELECTION;
 		msi.sendBuffer = NULL;
 		msi.sendBufferSize = 0;
-		SendMessage(hwnd, EM_STREAMOUT, (WPARAM)dwFlags, (LPARAM) & stream);
+		SendMessage(hwnd, EM_STREAMOUT, (WPARAM)dwFlags, (LPARAM)& stream);
 		return (TCHAR *)msi.sendBuffer;
 	}
 	return NULL;
@@ -461,7 +461,7 @@ void SearchWord(TCHAR * word, int engine)
 			break;
 		}
 
-		CallService(MS_UTILS_OPENURL, 1, (LPARAM) szURL);
+		CallService(MS_UTILS_OPENURL, 1, (LPARAM)szURL);
 	}
 }
 
@@ -484,7 +484,7 @@ void GetContactUniqueId(struct SrmmWindowData *dat, char *buf, int maxlen) {
     ci.szProto = dat->szProto;
     ci.dwFlag = CNF_UNIQUEID;
 	buf[0] = 0;
-    if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+    if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
         switch (ci.type) {
             case CNFT_ASCIIZ:
                 mir_snprintf(buf, maxlen, "%s", ci.pszVal);
@@ -515,7 +515,7 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT* rec
 	ti.hinst = g_hInst;
 	ti.lpszText = ptszText;
 	ti.rect = *rect;
-	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM) (LPTOOLINFO) &ti);
+	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO) &ti);
 	SendMessage(hwndTT, TTM_SETTITLE, TTI_NONE, (LPARAM)ptszTitle);
 	return hwndTT;
 }
@@ -526,7 +526,7 @@ void SetToolTipText(HWND hwndParent, HWND hwndTT, LPTSTR ptszText, LPTSTR ptszTi
 	ti.hinst = g_hInst;
 	ti.hwnd = hwndParent;
 	ti.lpszText = ptszText;
-	SendMessage(hwndTT, TTM_UPDATETIPTEXT, 0, (LPARAM) (LPTOOLINFO) &ti);
+	SendMessage(hwndTT, TTM_UPDATETIPTEXT, 0, (LPARAM)(LPTOOLINFO) &ti);
 	SendMessage(hwndTT, TTM_SETTITLE, TTI_NONE, (LPARAM)ptszTitle);
 }
 
@@ -537,7 +537,7 @@ void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT* rect)
 	ti.hinst = g_hInst;
 	ti.hwnd = hwndParent;
 	ti.rect = *rect;
-	SendMessage(hwndTT, TTM_NEWTOOLRECT, 0, (LPARAM) (LPTOOLINFO) &ti);
+	SendMessage(hwndTT, TTM_NEWTOOLRECT, 0, (LPARAM)(LPTOOLINFO) &ti);
 }
 
 /* toolbar-related stuff, to be moved to a separate file */

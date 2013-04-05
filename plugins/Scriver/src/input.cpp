@@ -40,7 +40,7 @@ void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, HANDLE hConta
 	hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 	hSubMenu = GetSubMenu(hMenu, 2);
 	TranslateMenu(hSubMenu);
-	SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM) & sel);
+	SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)& sel);
 	if (sel.cpMin == sel.cpMax) {
 		EnableMenuItem(hSubMenu, IDM_CUT, MF_BYCOMMAND | MF_GRAYED);
 		EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
@@ -58,7 +58,7 @@ void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, HANDLE hConta
 			EnableMenuItem(hSubMenu, IDM_PASTE, MF_BYCOMMAND | MF_GRAYED);
 	}
 	if (lParam == 0xFFFFFFFF) {
-		SendMessage(hwnd, EM_POSFROMCHAR, (WPARAM) & pt, (LPARAM) sel.cpMax);
+		SendMessage(hwnd, EM_POSFROMCHAR, (WPARAM) & pt, (LPARAM)sel.cpMax);
 		ClientToScreen(hwnd, &pt);
 	}
 	else {
@@ -108,7 +108,7 @@ void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, HANDLE hConta
 		SendMessage(hwnd, EM_REPLACESEL, TRUE, 0);
 		break;
 	case IDM_SELECTALL:
-		SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM) & all);
+		SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)& all);
 		break;
 	case IDM_CLEAR:
 		SetWindowText(hwnd, _T( "" ));

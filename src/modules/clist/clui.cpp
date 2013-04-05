@@ -85,7 +85,7 @@ static int CluiIconsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-static HANDLE hRenameMenuItem;
+static HGENMENU hRenameMenuItem;
 
 static int MenuItem_PreBuild(WPARAM, LPARAM)
 {
@@ -93,14 +93,10 @@ static int MenuItem_PreBuild(WPARAM, LPARAM)
 	HANDLE hItem;
 	HWND hwndClist = GetFocus();
 
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS;
 	GetClassName(hwndClist, cls, SIZEOF(cls));
 	hwndClist = ( !lstrcmp( _T(CLISTCONTROL_CLASS), cls)) ? hwndClist : cli.hwndContactList;
 	hItem = (HANDLE) SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
-	if ( !hItem)
-		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hRenameMenuItem, (LPARAM) & mi);
+	Menu_ShowItem(hRenameMenuItem, hItem != 0);
 	return 0;
 }
 
@@ -340,49 +336,44 @@ int LoadCLUIModule(void)
 
 	PostMessage(cli.hwndContactList, M_RESTORESTATUS, 0, 0);
 
-	{
-		int state = db_get_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
-		cli.hMenuMain = GetMenu(cli.hwndContactList);
-		if ( !db_get_b(NULL, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
-			SetMenu(cli.hwndContactList, NULL);
-		if (state == SETTING_STATE_NORMAL)
-			ShowWindow(cli.hwndContactList, SW_SHOW);
-		else if (state == SETTING_STATE_MINIMIZED)
-			ShowWindow(cli.hwndContactList, SW_SHOWMINIMIZED);
-		SetWindowPos(cli.hwndContactList,
-			db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST,
-			0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-	}
-	{
-		CLISTMENUITEM mi = { sizeof(mi) };
+	int state = db_get_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
+	cli.hMenuMain = GetMenu(cli.hwndContactList);
+	if ( !db_get_b(NULL, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
+		SetMenu(cli.hwndContactList, NULL);
+	if (state == SETTING_STATE_NORMAL)
+		ShowWindow(cli.hwndContactList, SW_SHOW);
+	else if (state == SETTING_STATE_MINIMIZED)
+		ShowWindow(cli.hwndContactList, SW_SHOWMINIMIZED);
+	SetWindowPos(cli.hwndContactList,
+		db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST,
+		0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 
-		CreateServiceFunction("CList/DeleteContactCommand", MenuItem_DeleteContact);
-		mi.position = 2000070000;
-		mi.flags = CMIF_ICONFROMICOLIB;
-		mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_DELETE);
-		mi.pszContactOwner = NULL;      //on every contact
-		mi.pszName = LPGEN("De&lete");
-		mi.pszService = "CList/DeleteContactCommand";
-		Menu_AddContactMenuItem(&mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIF_ICONFROMICOLIB;
 
-		CreateServiceFunction("CList/RenameContactCommand", MenuItem_RenameContact);
-		mi.position = 2000050000;
-		mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_RENAME);
-		mi.pszContactOwner = NULL;      //on every contact
-		mi.pszName = LPGEN("&Rename");
-		mi.pszService = "CList/RenameContactCommand";
-		hRenameMenuItem = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction("CList/DeleteContactCommand", MenuItem_DeleteContact);
+	mi.position = 2000070000;
+	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_DELETE);
+	mi.pszName = LPGEN("De&lete");
+	mi.pszService = "CList/DeleteContactCommand";
+	Menu_AddContactMenuItem(&mi);
 
-		CreateServiceFunction("CList/AddToListContactCommand", MenuItem_AddContactToList);
-		mi.position = -2050000000;
-		mi.flags |= CMIF_NOTONLIST;
-		mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_ADDCONTACT);
-		mi.pszName = LPGEN("&Add permanently to list");
-		mi.pszService = "CList/AddToListContactCommand";
-		Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction("CList/RenameContactCommand", MenuItem_RenameContact);
+	mi.position = 2000050000;
+	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_RENAME);
+	mi.pszName = LPGEN("&Rename");
+	mi.pszService = "CList/RenameContactCommand";
+	hRenameMenuItem = Menu_AddContactMenuItem(&mi);
 
-		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, MenuItem_PreBuild);
-	}
+	CreateServiceFunction("CList/AddToListContactCommand", MenuItem_AddContactToList);
+	mi.position = -2050000000;
+	mi.flags |= CMIF_NOTONLIST;
+	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_ADDCONTACT);
+	mi.pszName = LPGEN("&Add permanently to list");
+	mi.pszService = "CList/AddToListContactCommand";
+	Menu_AddContactMenuItem(&mi);
+
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, MenuItem_PreBuild);
 	return 0;
 }
 

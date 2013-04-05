@@ -34,7 +34,7 @@ public:
 	CPepService(CJabberProto *proto, char *name, TCHAR *node);
 	virtual ~CPepService();
 
-	HANDLE GetMenu() { return m_hMenuItem; }
+	HGENMENU GetMenu() { return m_hMenuItem; }
 	TCHAR *GetNode() { return m_node; }
 	virtual void ProcessItems(const TCHAR *from, HXML items) = 0;
 
@@ -51,7 +51,7 @@ protected:
 	CJabberProto *m_proto;
 	char *m_name;
 	TCHAR *m_node;
-	HANDLE m_hMenuItem;
+	HGENMENU m_hMenuItem;
 
 	int m_wasPublished;
 

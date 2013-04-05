@@ -148,17 +148,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnPrebuildContactMenu event
 
-void CListShowMenuItem(HANDLE hMenuItem, BYTE bShow)
-{
-	CLISTMENUITEM mi = { sizeof(mi) };
-	if (bShow)
-		mi.flags = CMIM_FLAGS;
-	else
-		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&mi);
-}
-
 static void CListSetMenuItemIcon(HANDLE hMenuItem, HICON hIcon)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };

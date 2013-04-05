@@ -244,12 +244,12 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 			else
 				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s"), si->ptszName);
 			si->windowData.hContact = CList_AddRoom( gcw->pszModule, ptszID, szTemp, si->iType);
-			si->windowData.codePage = DBGetContactSettingWord(si->windowData.hContact, si->pszModule, "CodePage", (WORD) CP_ACP);
+			si->windowData.codePage = db_get_w(si->windowData.hContact, si->pszModule, "CodePage", (WORD) CP_ACP);
 			si->pszHeader = Log_CreateRtfHeader(mi, si);
 			DBWriteContactSettingString(si->windowData.hContact, si->pszModule , "Topic", "");
-			DBDeleteContactSetting(si->windowData.hContact, "CList", "StatusMsg");
+			db_unset(si->windowData.hContact, "CList", "StatusMsg");
 			if (si->ptszStatusbarText)
-				DBWriteContactSettingTString(si->windowData.hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
+				db_set_ts(si->windowData.hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
 				DBWriteContactSettingString(si->windowData.hContact, si->pszModule, "StatusBar", "");
 		}
@@ -368,7 +368,7 @@ static INT_PTR DoControl(GCEVENT * gce, WPARAM wp)
 		if (si) {
 			replaceStr( &si->ptszStatusbarText, gce->ptszText );
 			if ( si->ptszStatusbarText )
-				DBWriteContactSettingTString(si->windowData.hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
+				db_set_ts(si->windowData.hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
 				DBWriteContactSettingString(si->windowData.hContact, si->pszModule, "StatusBar", "");
 			if (si->hWnd)
@@ -430,8 +430,8 @@ void ShowRoom(SESSION_INFO * si, WPARAM wp, BOOL bSetForeground)
 	    si->hWnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHANNEL), hParent, RoomWndProc, (LPARAM)si);
 	}
 	SendMessage(si->hWnd, DM_UPDATETABCONTROL, -1, (LPARAM)si);
-	SendMessage(GetParent(si->hWnd), CM_ACTIVATECHILD, 0, (LPARAM) si->hWnd);
-	SendMessage(GetParent(si->hWnd), CM_POPUPWINDOW, 0, (LPARAM) si->hWnd);
+	SendMessage(GetParent(si->hWnd), CM_ACTIVATECHILD, 0, (LPARAM)si->hWnd);
+	SendMessage(GetParent(si->hWnd), CM_POPUPWINDOW, 0, (LPARAM)si->hWnd);
 	SendMessage(si->hWnd, WM_MOUSEACTIVATE, 0, 0);
 	SetFocus(GetDlgItem(si->hWnd, IDC_CHAT_MESSAGE));
 }
@@ -505,9 +505,9 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		if ( si ) {
 			if ( gce->pszText ) {
 				replaceStr( &si->ptszTopic, gce->ptszText);
-				DBWriteContactSettingTString( si->windowData.hContact, si->pszModule , "Topic", RemoveFormatting( si->ptszTopic ));
+				db_set_ts( si->windowData.hContact, si->pszModule , "Topic", RemoveFormatting( si->ptszTopic ));
 				if ( db_get_b( NULL, "Chat", "TopicOnClist", 0 ))
-					DBWriteContactSettingTString( si->windowData.hContact, "CList" , "StatusMsg", RemoveFormatting( si->ptszTopic ));
+					db_set_ts( si->windowData.hContact, "CList" , "StatusMsg", RemoveFormatting( si->ptszTopic ));
 		}	}
 		break;
 	}

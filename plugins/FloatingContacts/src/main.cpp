@@ -806,7 +806,7 @@ static INT_PTR OnMainMenu_HideAll( WPARAM wParam, LPARAM lParam )
 	clmi.flags = CMIM_NAME | CMIM_ICON|CMIF_TCHAR;
 	clmi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE ));
 	clmi.ptszName = fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs");
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMainMenuItemHideAll, ( LPARAM )&clmi );
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMainMenuItemHideAll, (LPARAM)&clmi);
 	return 0;
 }
 
@@ -879,7 +879,7 @@ static void LoadContact( HANDLE hContact )
 
 	DWORD	dwPos = db_get_dw( hContact, MODULE, "ThumbsPos", (DWORD)-1 );
 	if ( dwPos != -1 ) {
-		TCHAR	*ptName = (TCHAR*)CallService( MS_CLIST_GETCONTACTDISPLAYNAME, ( WPARAM )hContact, (LPARAM)GCDNF_TCHAR );
+		TCHAR	*ptName = (TCHAR*)CallService( MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, (LPARAM)GCDNF_TCHAR );
 		if ( ptName != NULL ) {
 			int nX = DB_POS_GETX( dwPos );
 			int nY = DB_POS_GETY( dwPos );
