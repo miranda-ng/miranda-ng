@@ -192,6 +192,12 @@ int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 		CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
 
 	}
+	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)"TranslitSwitcher/ConvertAllOrSelected");
+	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)"TranslitSwitcher/ConvertLastOrSelected");
+	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)"TranslitSwitcher/TranslitAllOrSelected");
+	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)"TranslitSwitcher/TranslitLastOrSelected");
+	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)"TranslitSwitcher/InvertCaseAllOrSelected");
+	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)"TranslitSwitcher/InvertCaseLastOrSelected");
 	return 0;
 }
 //-------------------------------------------------------------------------------------------------------
