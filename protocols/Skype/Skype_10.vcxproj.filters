@@ -4,11 +4,11 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{13e9b105-554f-4080-b7de-8adf0f43b9f6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Filess">
-      <UniqueIdentifier>{901463af-0f59-4125-b874-1662b095d403}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{b14a0070-da9c-49e8-8a47-d93df5eed672}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{901463af-0f59-4125-b874-1662b095d403}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +72,9 @@
     <ClCompile Include="src\base64\base64.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\skype_transfer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -95,10 +98,10 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Resource.rc">
-      <Filter>Resource Filess</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
     <ResourceCompile Include="res\Version.rc">
-      <Filter>Resource Filess</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>

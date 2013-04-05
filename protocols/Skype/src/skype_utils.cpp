@@ -396,7 +396,7 @@ void CSkypeProto::HookEvent(const char* szEvent, SkypeEventFunc handler)
 
 int CSkypeProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
-	ACKDATA ack = { sizeof(ACKDATA) };
+	/*ACKDATA ack = { sizeof(ACKDATA) };
 	ack.szModule = this->m_szModuleName;
 	ack.hContact = hContact;
 	ack.type = type;
@@ -404,7 +404,8 @@ int CSkypeProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hPr
 	ack.hProcess = hProcess;
 	ack.lParam = lParam;
 
-	return ::CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
+	return ::CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);*/
+	return ::ProtoBroadcastAck(this->m_szModuleName, hContact, type, result, hProcess, lParam);
 }
 
 DWORD CSkypeProto::SendBroadcastAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam, size_t paramSize)

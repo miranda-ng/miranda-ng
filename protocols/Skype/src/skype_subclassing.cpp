@@ -44,6 +44,11 @@ CMessage* CSkype::newMessage(int oid)
 	return new CMessage(oid, this); 
 }
 
+CTransfer* CSkype::newTransfer(int oid) 
+{ 
+	return new CTransfer(oid, this); 
+}
+
 CContactSearch*	CSkype::newContactSearch(int oid)
 {
 	return new CContactSearch(oid, this);
@@ -480,3 +485,23 @@ void CConversation::SetOnMessageReceivedCallback(OnMessageReceived callback, CSk
 // CMessage
 
 CMessage::CMessage(unsigned int oid, SERootObject* root) : Message(oid, root) { }
+
+// CTransfer
+
+CTransfer::CTransfer(unsigned int oid, SERootObject* root) : Transfer(oid, root) 
+{
+	this->proto = NULL;
+	this->transferCallback = NULL;
+}
+
+void CTransfer::SetOnTransferCallback(OnTransfer callback, CSkypeProto* proto)
+{
+	this->proto = proto;
+	this->transferCallback = callback;
+}
+
+void CTransfer::OnChange(int prop)
+{
+	if (this->proto)
+		(proto->*transferCallback)(prop, this->ref());
+}

@@ -93,3 +93,23 @@ void CSkypeProto::RaiseMessageSendedEvent(
 	
 	::CallService(MS_PROTO_CHAINSEND, 0, (LPARAM)&ccs);
 }
+
+void CSkypeProto::RaiseFileReceivedEvent(
+	DWORD timestamp,
+	const char* sid, 
+	const char* nick, 
+	const char* message)
+{	
+	PROTORECVFILET pre = {0};
+
+	CCSDATA ccs = {0};
+	ccs.szProtoService = PSR_FILE;
+	ccs.hContact = this->AddContactBySid(sid, nick);
+	ccs.wParam = 0;
+	ccs.lParam = (LPARAM)&pre;
+	pre.flags = PREF_UTF;
+	pre.timestamp = timestamp;
+	//pre.szMessage = (char *)message;
+	
+	::CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+}

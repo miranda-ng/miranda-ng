@@ -115,6 +115,7 @@ const SettingItem setting[]={
   {LPGENT("About"),			"About",		DBVT_WCHAR,	LI_STRING}
 };
 
+
 struct HtmlEntity
 {
 	const char *entity;
@@ -177,6 +178,27 @@ struct PasswordChangeBoxParam
 		if (password) ::mir_free(password);
 		if (password2) ::mir_free(password2);
 	}
+};
+
+struct FileTransfer
+{
+	CSkypeProto* ppro;
+	SEBinary guid;
+	CTransfer::Refs transfers;
+	//char *who;
+	//char *msg;
+	//char *ftoken;
+	//char *relay;
+	//HANDLE hContact;
+	//int  cancel;
+	//char *url;
+	//HANDLE hWaitEvent;
+	//DWORD action;
+	//int y7;
+	////YList *files;
+	//PROTOFILETRANSFERSTATUS pfts;
+
+	FileTransfer(CSkypeProto* ppro) { this->ppro = ppro; }
 };
 
 struct CSkypeProto : public PROTO_INTERFACE
@@ -273,8 +295,9 @@ protected:
 	CSkype *skype;
 	CAccount::Ref account;
 	CContact::Refs contactList;
+//	CTransfer::Refs transferList;
 	CContactGroup::Ref commonList;
-	CContactGroup::Ref authWaitList;
+	CContactGroup::Ref authWaitList;	
 
 	// account
 	void	OnAccountChanged(int prop);
@@ -298,6 +321,14 @@ protected:
 	void	OnMessage(CConversation::Ref conversation, CMessage::Ref message);
 	void	OnMessageSended(CConversation::Ref conversation, CMessage::Ref message);
 	void	OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message);
+
+	// file transfer
+	LIST<FileTransfer> fileTransferList;
+	FileTransfer *FindTransfer(SEBinary guid);
+	FileTransfer *FindFileTransfer(CTransfer::Ref transfer);
+	
+	void	OnFileReceived(CConversation::Ref conversation, CMessage::Ref message);
+	void	OnTransferChanged(int prop, CTransfer::Ref transfer);
 
 	// chat
 	static char* Groups[];
@@ -456,6 +487,11 @@ protected:
 		const char* nick,
 		const char* message = "");
 	void RaiseMessageSendedEvent(
+		DWORD timestamp,
+		const char* sid,
+		const char* nick,
+		const char* message = "");
+	void RaiseFileReceivedEvent(
 		DWORD timestamp,
 		const char* sid,
 		const char* nick,

@@ -207,6 +207,7 @@
     <ClCompile Include="src\skype_services.cpp" />
     <ClCompile Include="src\skype_settings.cpp" />
     <ClCompile Include="src\skype_subclassing.cpp" />
+    <ClCompile Include="src\skype_transfer.cpp" />
     <ClCompile Include="src\skype_utils.cpp" />
   </ItemGroup>
   <ItemGroup>

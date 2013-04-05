@@ -12,11 +12,29 @@ class CSkype;
 class CMessage : public Message
 {
 public:
-
 	typedef DRef<CMessage, Message> Ref;
 	typedef DRefs<CMessage, Message> Refs;
 
 	CMessage(unsigned int oid, SERootObject* root);
+};
+
+class CTransfer : public Transfer
+{
+public:
+	typedef void (CSkypeProto::* OnTransfer)(int prop, CTransfer::Ref transfer);
+
+	typedef DRef<CTransfer, Transfer> Ref;
+	typedef DRefs<CTransfer, Transfer> Refs;
+  
+	CTransfer(unsigned int oid, SERootObject* p_root);
+
+	void SetOnTransferCallback(OnTransfer callback, CSkypeProto* proto);
+
+private:
+	CSkypeProto* proto;
+	OnTransfer transferCallback;
+
+	void OnChange(int prop);
 };
 
 class CParticipant : public Participant
@@ -149,6 +167,7 @@ public:
 	CParticipant*	newParticipant(int oid);
 	CContact*		newContact(int oid);	
 	CMessage*		newMessage(int oid);
+	CTransfer*		newTransfer(int oid);
 
 	CConversation::Refs inbox;
 
