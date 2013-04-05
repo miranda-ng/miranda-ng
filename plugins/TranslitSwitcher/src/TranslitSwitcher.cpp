@@ -164,6 +164,36 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+int OnPreShutdown(WPARAM wParam, LPARAM lParam) 
+{
+	if (ServiceExists(MS_BB_REMOVEBUTTON)) {
+		BBButton bbd = {0};
+		bbd.cbSize = sizeof(BBButton);
+		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
+		bbd.pszModuleName = "Switch Layout and Send";
+		bbd.ptszTooltip = TranslateT("Switch Layout and Send");
+		bbd.hIcon = iconList[0].hIcolib;
+		bbd.dwButtonID = 1;
+		bbd.dwDefPos = 30;
+		CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
+
+		bbd.pszModuleName = "Translit and Send";
+		bbd.ptszTooltip = TranslateT("Translit and Send");
+		bbd.hIcon = iconList[1].hIcolib;
+		bbd.dwButtonID = 1;
+		bbd.dwDefPos = 40;
+		CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
+
+		bbd.pszModuleName = "Invert Case and Send";
+		bbd.ptszTooltip = TranslateT("Invert Case and Send");
+		bbd.hIcon = iconList[2].hIcolib;
+		bbd.dwButtonID = 1;
+		bbd.dwDefPos = 50;
+		CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
+
+	}
+	return 0;
+}
 //-------------------------------------------------------------------------------------------------------
 
 extern "C" __declspec(dllexport) int Load(void)
@@ -171,6 +201,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfoEx);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	return 0;
 }
 
