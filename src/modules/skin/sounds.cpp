@@ -302,7 +302,10 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			OPENFILENAME ofn;
 			ZeroMemory(&ofn, sizeof(ofn));
-			mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.wav; *.mp3; *.ogg; *.flac)%c*.WAV; *.MP3; *.OGG; *.FLAC%c%s (*)%c*%c"), TranslateT("Sound Files"), 0, 0, TranslateT("All Files"), 0, 0);
+			if (GetModuleHandle(_T("bass_interface.dll")))
+				mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*)%c*%c"), TranslateT("Sound Files"), 0, 0, TranslateT("All Files"), 0, 0);
+			else
+				mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.wav)%c*.wav%c%s (*)%c*%c"), TranslateT("WAV Files"), 0, 0, TranslateT("All Files"), 0, 0);
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner = GetParent(hwndDlg);
 			ofn.hInstance = NULL;
@@ -438,7 +441,6 @@ static int SkinOptionsInit(WPARAM wParam, LPARAM)
 	odp.position = -200000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SOUND);
-	odp.pszGroup = LPGEN("Customize");
 	odp.pszTitle = LPGEN("Sounds");
 	odp.pfnDlgProc = DlgProcSoundOpts;
 	odp.flags = ODPF_BOLDGROUPS;

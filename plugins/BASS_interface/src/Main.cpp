@@ -304,7 +304,7 @@ int OptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszTitle = ModuleName;
 	odp.pfnDlgProc = OptionsProc;
-	odp.pszGroup = LPGEN("Customize");
+	odp.pszGroup = LPGEN("Sounds");
 	odp.flags = ODPF_BOLDGROUPS;
 
 	Options_AddPage(wParam, &odp);
