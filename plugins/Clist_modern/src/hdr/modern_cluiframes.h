@@ -59,12 +59,10 @@ typedef struct
 
 struct FrameMenuHandles
 {
-	HANDLE MainMenuItem;
-	HANDLE MIVisible,MITitle,MITBVisible,MILock,MIColl,MIFloating,MIAlignRoot;
-	HANDLE MIAlignTop,MIAlignClient,MIAlignBottom;
-	HANDLE MIBorder;
-	HANDLE MIPosRoot;
-	HANDLE MIPosUp,MIPosDown;
+	HGENMENU MainMenuItem;
+	HGENMENU MIVisible,MITitle,MITBVisible,MILock,MIColl,MIFloating,MIAlignRoot;
+	HGENMENU MIAlignTop,MIAlignClient,MIAlignBottom;
+	HGENMENU MIBorder, MIPosRoot, MIPosUp, MIPosDown;
 };
 
 struct FrameTitleBar

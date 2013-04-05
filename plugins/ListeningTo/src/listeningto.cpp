@@ -161,7 +161,7 @@ void UpdateGlobalStatusMenus()
 	clmi.flags = CMIM_FLAGS
 			| (enabled ? CMIF_CHECKED : 0)
 			| (opts.enable_sending ? 0 : CMIF_GRAYED);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto_items[0].hMenu, (LPARAM) &clmi);
+	Menu_ModifyItem(proto_items[0].hMenu, &clmi);
 
 	if (hTTB != NULL)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM) hTTB, (LPARAM) (enabled ? TTBST_PUSHED : TTBST_RELEASED));
@@ -246,7 +246,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 			CLISTMENUITEM clmi = { sizeof(clmi) };
 			clmi.flags = CMIM_NAME | CMIF_TCHAR;
 			clmi.ptszName = text;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) info->hMenu, (LPARAM) &clmi);
+			Menu_ModifyItem(info->hMenu, &clmi);
 		}
 		else if (wParam == PRAC_REMOVED || (wParam == PRAC_CHECKED && !proto->bIsEnabled))
 		{
@@ -762,7 +762,7 @@ INT_PTR EnableListeningTo(char *proto,BOOL enabled)
 			clmi.flags = CMIM_FLAGS
 					| (enabled ? CMIF_CHECKED : 0)
 					| (opts.enable_sending ? 0 : CMIF_GRAYED);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) info->hMenu, (LPARAM) &clmi);
+			Menu_ModifyItem(info->hMenu, &clmi);
 
 			SetListeningInfo(proto,(opts.enable_sending && enabled) ? GetListeningInfo() : NULL);
 		}

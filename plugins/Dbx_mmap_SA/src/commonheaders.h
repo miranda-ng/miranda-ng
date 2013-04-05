@@ -35,6 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <win2k.h>
 #include <m_system_cpp.h>
 #include <m_database.h>
+#include <m_genmenu.h>
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_skin.h>
@@ -48,7 +49,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 
 extern HINSTANCE g_hInst;
-extern HANDLE hSetPwdMenu;
+extern HGENMENU hSetPwdMenu;
 
 #ifdef __GNUC__
 #define mir_i64(x) (x##LL)
@@ -80,7 +81,7 @@ INT_PTR CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 INT_PTR CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
 INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-void xModifyMenu(HANDLE hMenu,long flags,const TCHAR* name, HICON hIcon);
+void xModifyMenu(HGENMENU hMenu,long flags,const TCHAR* name, HICON hIcon);
 
 extern DBSignature dbSignature, dbSignatureSecured, dbSignatureNonSecured;
 

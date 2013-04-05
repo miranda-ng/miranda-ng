@@ -54,22 +54,21 @@ HMODULE hDwmapiDll	= 0;
 GLOBAL_WND_CLASSES g_wndClass = {0};
 
 //===== MTextControl ====
-HANDLE htuText				= NULL;
-HANDLE htuTitle				= NULL;
+HANDLE htuText;
+HANDLE htuTitle;
 
 //===== Menu item =====
-HANDLE hMenuRoot			= NULL;
-HANDLE hMenuItem			= NULL;
-HANDLE hMenuItemHistory		= NULL;
+HGENMENU hMenuRoot;
+HGENMENU hMenuItem;
+HGENMENU hMenuItemHistory;
 
 //===== Event Handles =====
-HANDLE hTTButton = NULL;
+HANDLE hTTButton;
 
 //===== Options pages =====
 static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize      = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position      = 100000000;
 	odp.groupPosition = 910000000;
 	odp.hInstance     = hInst;
@@ -129,12 +128,12 @@ static int IconsChanged(WPARAM wParam, LPARAM lParam)
 		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_OFF, 0);
 	}
 	mi.flags = CMIM_ICON;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&mi);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuRoot, (LPARAM)&mi);
+	Menu_ModifyItem(hMenuItem, &mi);
+	Menu_ModifyItem(hMenuRoot, &mi);
 
 	mi.hIcon = IcoLib_GetIcon(ICO_HISTORY, 0);
 	mi.flags = CMIM_ICON;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemHistory, (LPARAM)&mi);
+	Menu_ModifyItem(hMenuItemHistory, &mi);
 	return 0;
 }
 
@@ -158,9 +157,6 @@ static int TTBLoaded(WPARAM wParam, LPARAM lParam)
 //===== EnableDisableMenuCommand =====
 INT_PTR svcEnableDisableMenuCommand(WPARAM wp, LPARAM lp)
 {
-	int iResult = 0;
-	int iResultRoot = 0;
-
 	CLISTMENUITEM mi = { sizeof(mi) };
 	if (PopUpOptions.ModuleIsEnabled) {
 		//The module is enabled.
@@ -179,14 +175,14 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM wp, LPARAM lp)
 		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON,0);
 	}
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
-	iResult = CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&mi);
+	Menu_ModifyItem(hMenuItem, &mi);
 	mi.flags = CMIM_ICON;
-	iResultRoot = CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuRoot, (LPARAM)&mi);
+	Menu_ModifyItem(hMenuRoot, &mi);
 
 	if (hTTButton)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, (PopUpOptions.ModuleIsEnabled) ? TTBST_PUSHED : TTBST_RELEASED);
 
-	return (iResult != 0 && iResultRoot != 0);
+	return 0;
 }
 
 INT_PTR svcShowHistory(WPARAM, LPARAM)

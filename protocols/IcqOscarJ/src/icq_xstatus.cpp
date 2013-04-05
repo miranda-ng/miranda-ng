@@ -781,11 +781,11 @@ void CIcqProto::setXStatusEx(BYTE bXStatus, BYTE bQuiet)
 		CLISTMENUITEM mi = { sizeof(mi) };
 		if (bOldXStatus <= XSTATUS_COUNT) {
 			mi.flags = CMIM_FLAGS;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hXStatusItems[bOldXStatus], (LPARAM)&mi);
+			Menu_ModifyItem(hXStatusItems[bOldXStatus], &mi);
 		}
 
 		mi.flags = CMIM_FLAGS | CMIF_CHECKED;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hXStatusItems[bXStatus], (LPARAM)&mi);
+		Menu_ModifyItem(hXStatusItems[bXStatus], &mi);
 	}
 
 	if (bXStatus) {

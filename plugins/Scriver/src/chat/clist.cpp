@@ -207,7 +207,7 @@ int CList_PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 					clmi.pszName = (char*)LPGEN("Join chat");
 				else
 					clmi.pszName = (char*)LPGEN("Open chat window");
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hJoinMenuItem, (LPARAM)&clmi);
+				Menu_ModifyItem(hJoinMenuItem, &clmi);
 				bEnabled = true;
 	}	}	}
 

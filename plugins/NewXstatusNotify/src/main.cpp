@@ -25,8 +25,8 @@ HINSTANCE hInst;
 
 LIST<DBEVENT> eventList( 10 );
 
-HANDLE hStatusModeChange, hServiceMenu, hHookContactStatusChanged, hEnableDisableMenu;
-HANDLE hToolbarButton;
+HANDLE hStatusModeChange, hServiceMenu, hHookContactStatusChanged, hToolbarButton;
+HGENMENU hEnableDisableMenu;
 
 char szMetaModuleName[256] = {0};
 STATUS StatusList[STATUS_COUNT];
@@ -1051,7 +1051,7 @@ INT_PTR EnableDisableMenuCommand(WPARAM wParam, LPARAM lParam)
 		mi.icolibItem = GetIconHandle(ICO_NOTIFICATION_ON);
 	}
 
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hEnableDisableMenu, (LPARAM)&mi);
+	Menu_ModifyItem(hEnableDisableMenu, &mi);
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton, opt.TempDisabled ? TTBST_RELEASED : TTBST_PUSHED);
 	return 0;
 }

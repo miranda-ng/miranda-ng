@@ -1,6 +1,6 @@
 #include "common.h"
 
-HANDLE hMenuShowHistory, hMenuToggleOnOff;
+HGENMENU hMenuShowHistory, hMenuToggleOnOff;
 
 void StripBBCodesInPlace(wchar_t *text)
 {
@@ -190,7 +190,7 @@ void UpdateMenu()
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszName = (char*)(db_get_b(0, MODULE, "Enabled", 1) == 1 ? LPGEN("Disable Popups") : LPGEN("Enable Popups"));
 	mi.flags = CMIM_NAME;// | CMIM_ICON;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuToggleOnOff, (LPARAM)&mi);
+	Menu_ModifyItem(hMenuToggleOnOff, &mi);
 }
 
 INT_PTR PopupQuery(WPARAM wParam, LPARAM lParam) {

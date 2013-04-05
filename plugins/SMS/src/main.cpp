@@ -80,8 +80,8 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	ssSMSSettings.hHookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,OnModulesLoaded);
-	ssSMSSettings.hHookPreShutdown=HookEvent(ME_SYSTEM_PRESHUTDOWN,OnPreShutdown);
+	HookEvent(ME_SYSTEM_MODULESLOADED,OnModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN,OnPreShutdown);
 
 	SendSMSWindowInitialize();
 	RecvSMSWindowInitialize();
@@ -93,11 +93,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnloadServices();
-
-	if (ssSMSSettings.hHookPreShutdown)		{UnhookEvent(ssSMSSettings.hHookPreShutdown);	ssSMSSettings.hHookPreShutdown=NULL;}
-	if (ssSMSSettings.hHookModulesLoaded)	{UnhookEvent(ssSMSSettings.hHookModulesLoaded);	ssSMSSettings.hHookModulesLoaded=NULL;}
-
 	return 0;
 }
 
@@ -112,8 +107,6 @@ int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 int OnPreShutdown(WPARAM wParam,LPARAM lParam)
 {
-	UnloadModules();
-
 	RecvSMSWindowDestroy();
 	SendSMSWindowDestroy();
 	FreeAccountList();
@@ -126,24 +119,17 @@ void VersionConversions()
 	WCHAR wsztm[MAX_PATH];
 
 	if (DB_SMS_GetStaticStringW(NULL,"UseSignature",wsztm,SIZEOF(wsztm),NULL))
-	{
 		DB_SMS_SetByte(NULL,"UseSignature",(wsztm[0]=='0'));
-	}else{
+	else
 		DB_SMS_SetByte(NULL,"UseSignature",SMS_DEFAULT_USESIGNATURE);
-	}
 
 	if (DB_SMS_GetStaticStringW(NULL,"SignaturePos",wsztm,SIZEOF(wsztm),NULL))
-	{
 		DB_SMS_SetByte(NULL,"SignaturePos",(wsztm[0]=='0'));
-	}else{
+	else
 		DB_SMS_SetByte(NULL,"SignaturePos",SMS_DEFAULT_SIGNATUREPOS);
-	}
 
 	if (DB_SMS_GetStaticStringW(NULL,"ShowACK",wsztm,SIZEOF(wsztm),NULL))
-	{
 		DB_SMS_SetByte(NULL,"ShowACK",(wsztm[0]=='0'));
-	}else{
+	else
 		DB_SMS_SetByte(NULL,"ShowACK",SMS_DEFAULT_SHOWACK);
-	}
-
 }

@@ -728,7 +728,7 @@ int __cdecl CYahooProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARA
 				CLISTMENUITEM mi = { sizeof(mi) };
 				mi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 				mi.ptszName = m_tszUserName;
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)mainMenuRoot, (LPARAM)&mi );
+				Menu_ModifyItem(mainMenuRoot, &mi);
 			}
 			break;
 

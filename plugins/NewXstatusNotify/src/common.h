@@ -149,7 +149,7 @@ extern OPTIONS opt;
 extern LIST<DBEVENT> eventList;
 extern TEMPLATES templates;
 extern HINSTANCE hInst;
-extern HANDLE hEnableDisableMenu;
+extern HGENMENU hEnableDisableMenu;
 extern STATUS StatusList[STATUS_COUNT];
 
 #endif //COMMON_H

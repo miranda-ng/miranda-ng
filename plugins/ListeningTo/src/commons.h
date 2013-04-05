@@ -91,7 +91,7 @@ struct ProtocolInfo
 {
 	char proto[128];
 	TCHAR account[128];
-	HANDLE hMenu;
+	HGENMENU hMenu;
 	int old_xstatus;
 	TCHAR old_xstatus_name[1024];
 	TCHAR old_xstatus_message[1024];

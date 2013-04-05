@@ -427,7 +427,7 @@ void SetShutdownToolbarButton(BOOL fActive)
 
 /************************* Menu Item **********************************/
 
-static HANDLE hMainMenuItem,hTrayMenuItem;
+static HGENMENU hMainMenuItem,hTrayMenuItem;
 
 void SetShutdownMenuItem(BOOL fActive)
 {
@@ -440,7 +440,7 @@ void SetShutdownMenuItem(BOOL fActive)
 	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB;
 	if (hMainMenuItem != NULL) {
 		mi.flags |= CMIM_NAME | CMIM_ICON;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMainMenuItem, (LPARAM)&mi);
+		Menu_ModifyItem(hMainMenuItem, &mi);
 	}
 	else hMainMenuItem = Menu_AddMainMenuItem(&mi);
 
@@ -448,7 +448,7 @@ void SetShutdownMenuItem(BOOL fActive)
 	mi.position = 899999;
 	if(hTrayMenuItem != NULL) {
 		mi.flags |= CMIM_NAME | CMIM_ICON;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hTrayMenuItem, (LPARAM)&mi);
+		Menu_ModifyItem(hTrayMenuItem, &mi);
 	}
 	else hTrayMenuItem = Menu_AddTrayMenuItem(&mi);
 

@@ -61,7 +61,7 @@ static HANDLE hHttpAddChangeRemoveService = 0;
 static HANDLE hHttpGetShareService = 0;
 static HANDLE hHttpGetAllShares = 0;
 
-static HANDLE hAcceptConnectionsMenuItem = 0;
+static HGENMENU hAcceptConnectionsMenuItem = 0;
 
 char szPluginPath[MAX_PATH] = {0};
 int nPluginPathLen = 0;
@@ -625,8 +625,7 @@ static int nProtoAck(WPARAM /*wParam*/, LPARAM lParam) {
 /////////////////////////////////////////////////////////////////////
 
 INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/) {
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME | CMIM_ICON;
 
 	if (!hDirectBoundPort) {
@@ -670,7 +669,7 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/) {
 	}
 
 	if (hAcceptConnectionsMenuItem)
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hAcceptConnectionsMenuItem, (LPARAM)&mi);
+		Menu_ModifyItem(hAcceptConnectionsMenuItem, &mi);
 
 	if (! bShutdownInProgress)
 		db_set_b(NULL, MODULE, "AcceptConnections", hDirectBoundPort != 0);
@@ -935,9 +934,7 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 		indexCreationMode = (eIndexCreationMode) db_get_b(NULL, MODULE, "IndexCreationMode", 2);
 
 		if (db_get_b(NULL, MODULE, "AddAcceptConMenuItem", 1)) {
-			CLISTMENUITEM mi;
-			ZeroMemory(&mi, sizeof(mi));
-			mi.cbSize = sizeof(mi);
+			CLISTMENUITEM mi = { sizeof(mi) };
 			mi.flags = CMIF_TCHAR;
 			mi.pszContactOwner = NULL;  //all contacts
 			mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));

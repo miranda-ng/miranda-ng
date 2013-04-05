@@ -186,9 +186,7 @@ public:
 	void parseSmileys(std::string message, HANDLE hContact);
 
 	// Handles, Locks
-	HGENMENU m_hMenuRoot;
-	HGENMENU m_hMenuServicesRoot;
-	HANDLE  m_hStatusMind;
+	HGENMENU m_hMenuRoot, m_hMenuServicesRoot, m_hStatusMind;
 
 	HANDLE  signon_lock_;
 	HANDLE  avatar_lock_;

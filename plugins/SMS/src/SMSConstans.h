@@ -78,12 +78,9 @@ struct SERVICE_ITEM
 
 static const SERVICE_ITEM siPluginServices[] =
 {
-	{ SMS_READ,				ReadMsgSMS },
-	{ SMS_READ_ACK,			ReadAckSMS },
-	{ SMS_SEND,				SendSMSMenuCommand },
+	{ SMS_READ,     ReadMsgSMS },
+	{ SMS_READ_ACK, ReadAckSMS },
+	{ SMS_SEND,     SendSMSMenuCommand },
 };
-
-
-
 
 #endif // !defined(AFX_SMS_CONSTANS_H__F58D13FF_F6F2_476C_B8F0_7B9E9357CF48__INCLUDED_)

@@ -93,7 +93,7 @@ private:
 	* transliteration setting (on or off) is inverted for the contact owing the
 	* menu.
 	*/
-	static HANDLE hTransliterateCmdMenuItem;
+	static HGENMENU hTransliterateCmdMenuItem;
 
 	/**
 	* @param wParam The HANDLE of the contact that owns the menu item being

@@ -8,7 +8,7 @@
 
 extern LIST<CryptoModule> arCryptors;
 
-HANDLE hSetPwdMenu;
+HGENMENU hSetPwdMenu;
 
 BOOL ShowDlgItem(HWND hwndDlg, int iIDCtrl, BOOL bShow)
 {
@@ -69,7 +69,7 @@ INT_PTR ChangePassword(void* obj, LPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void xModifyMenu(HANDLE hMenu,long flags,const TCHAR* name, HICON hIcon)
+void xModifyMenu(HGENMENU hMenu,long flags,const TCHAR* name, HICON hIcon)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIF_TCHAR;
@@ -78,7 +78,7 @@ void xModifyMenu(HANDLE hMenu,long flags,const TCHAR* name, HICON hIcon)
 	mi.flags |= flags;
 	mi.ptszName = (TCHAR*)name;
 	mi.hIcon = hIcon;
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenu,(LPARAM)&mi);
+	Menu_ModifyItem(hMenu, &mi);
 }
 
 static IconItem iconList[] = 

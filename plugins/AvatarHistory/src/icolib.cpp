@@ -27,7 +27,7 @@ static void IcoLibUpdateMenus()
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIM_ICON;
 	mi.hIcon = createDefaultOverlayedIcon(FALSE);
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenu, ( LPARAM )&mi );
+	Menu_ModifyItem(hMenu, &mi);
 	DestroyIcon(mi.hIcon);
 }
 

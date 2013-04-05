@@ -23,9 +23,8 @@ HINSTANCE hinstance = NULL;
 
 WNDPROC mainProc;
 
-HANDLE 
-	hServiceOpenManager, hServiceShowFavMenu, hServiceCloseCurrentSession, hServiceSaveUserSession,
-	hServiceLoadLastSession, hmSaveCurrentSession, hmLoadLastSession, hmLoadSession, hmSessionsManager;
+HANDLE hServiceOpenManager, hServiceShowFavMenu, hServiceCloseCurrentSession, hServiceSaveUserSession, hServiceLoadLastSession;
+HGENMENU hmSaveCurrentSession, hmLoadLastSession, hmLoadSession, hmSessionsManager;
 
 HANDLE hmTBButton[2],hiTBbutton[2],iTBbutton[2];
 
@@ -991,7 +990,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	cl.cbSize = sizeof(cl);
 	cl.flags = CMIM_ICON;
 	cl.icolibItem = iconList[4].hIcolib;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hmSaveCurrentSession, (LPARAM)&cl);
+	Menu_ModifyItem(hmSaveCurrentSession, &cl);
 
 	return 0;
 }

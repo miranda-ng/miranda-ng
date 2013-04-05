@@ -361,10 +361,11 @@ extern HANDLE hNetlibUser, hNetlibHttp;
 extern HANDLE hHookWeatherUpdated;
 extern HANDLE hHookWeatherError;
 extern HANDLE hWindowList;
-extern HANDLE hMwinMenu;
 extern HANDLE hTBButton;
 extern UINT_PTR timerId;
 extern HANDLE hUpdateMutex;
+
+extern HGENMENU hMwinMenu;
 
 // check if weather is currently updating
 extern BOOL ThreadRunning;

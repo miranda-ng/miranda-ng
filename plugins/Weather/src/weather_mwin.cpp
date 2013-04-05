@@ -29,7 +29,7 @@ static ft_TrackMouseEvent f_TrackMouseEvent = NULL;
 static HANDLE hMwinWindowList;
 static HANDLE hFontHook;
 
-HANDLE hMwinMenu;
+HGENMENU hMwinMenu;
 
 typedef struct
 {
@@ -312,7 +312,7 @@ int BuildContactMenu(WPARAM wparam,LPARAM lparam)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS |
 		(db_get_dw((HANDLE)wparam, WEATHERPROTONAME, "mwin", 0) ? CMIF_CHECKED : 0);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMwinMenu, (LPARAM)&mi);
+	Menu_ModifyItem(hMwinMenu, &mi);
 	return 0;
 }
 

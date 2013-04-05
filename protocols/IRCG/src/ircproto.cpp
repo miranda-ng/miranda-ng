@@ -1035,7 +1035,7 @@ int __cdecl CIrcProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM 
 			CLISTMENUITEM mi = { sizeof(mi) };
 			mi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.ptszName = m_tszUserName;
-			CallService( MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuRoot, ( LPARAM )&mi );
+			Menu_ModifyItem(hMenuRoot, &mi);
 		}
 		break;
 

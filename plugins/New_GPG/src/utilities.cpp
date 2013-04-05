@@ -192,7 +192,8 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 	return 0;
 }
 
-extern HANDLE hLoadPublicKey, hToggleEncryption, hSendKey;
+extern HANDLE hLoadPublicKey;
+extern HGENMENU hToggleEncryption, hSendKey;
 
 INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 {
@@ -227,7 +228,7 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME;
 	enc?mi.pszName="Turn off GPG encryption":mi.pszName="Turn on GPG encryption";
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hToggleEncryption, (LPARAM)&mi);
+	Menu_ModifyItem(hToggleEncryption, &mi);
 	return 0;
 }
 
@@ -260,7 +261,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 		mir_sntprintf(buf, 127 * sizeof(TCHAR), _T("%s: %s"), TranslateT("Send publick key"), toUTF16(keyid).c_str());
 		mi2.ptszName = buf;
 		mi2.flags = CMIM_NAME | CMIF_TCHAR;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hSendKey, (LPARAM)&mi2);
+		Menu_ModifyItem(hSendKey, &mi2);
 	}
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME;
@@ -273,7 +274,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 	else
 		mi.flags = CMIM_NAME | CMIM_FLAGS;
 	mi.pszName = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0)?"Turn off GPG encryption":"Turn on GPG encryption";
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hToggleEncryption, (LPARAM)&mi);
+	Menu_ModifyItem(hToggleEncryption, &mi);
 	return 0;
 }
 

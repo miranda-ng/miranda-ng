@@ -18,7 +18,7 @@ HBRUSH bk_brush = 0;
 AlarmList alarm_list;
 CRITICAL_SECTION list_cs;
 
-HANDLE hMenuShowReminders = 0;
+HGENMENU hMenuShowReminders = 0;
 
 #define ID_FRAME_UPDATE_TIMER						1011
 #define ID_FRAME_SHOWHIDE_TIMER						1012
@@ -466,7 +466,7 @@ void FixMainMenu()
 				mi.pszName = Translate("Show Reminders");
 		}
 	}
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuShowReminders, (LPARAM)&mi);
+	Menu_ModifyItem(hMenuShowReminders, &mi);
 }
 
 /////////////////////////

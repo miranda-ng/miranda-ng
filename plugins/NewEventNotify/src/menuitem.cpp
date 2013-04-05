@@ -24,7 +24,7 @@
 
 #include "neweventnotify.h"
 
-HANDLE hMenuitemNotify;
+HGENMENU hMenuitemNotify;
 BOOL bNotify;
 
 static INT_PTR MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam)
@@ -46,7 +46,7 @@ int MenuitemUpdate(BOOL bStatus)
 	else
 		mi.ptszName = TranslateT(MENUITEM_ENABLE);
 	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_KEEPUNTRANSLATED | CMIF_TCHAR;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuitemNotify, (LPARAM)&mi);
+	Menu_ModifyItem(hMenuitemNotify, &mi);
 
 	return 0;
 }

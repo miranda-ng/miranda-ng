@@ -838,7 +838,7 @@ int GGPROTO::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 			CLISTMENUITEM mi = { sizeof(mi) };
 			mi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.ptszName = m_tszUserName;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuRoot, (LPARAM)&mi);
+			Menu_ModifyItem(hMenuRoot, &mi);
 		}
 		break;
 

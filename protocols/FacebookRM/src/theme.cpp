@@ -247,7 +247,7 @@ void FacebookProto::ToggleStatusMenuItems( BOOL bEnable )
 	CLISTMENUITEM clmi = {sizeof(clmi)};
 	clmi.flags = CMIM_FLAGS | (( bEnable ) ? 0 : CMIF_GRAYED);
 
-	CallService( MS_CLIST_MODIFYMENUITEM, (WPARAM)m_hMenuRoot,   ( LPARAM )&clmi );
-	CallService( MS_CLIST_MODIFYMENUITEM, (WPARAM)m_hStatusMind, ( LPARAM )&clmi );
-	CallService( MS_CLIST_MODIFYMENUITEM, (WPARAM)m_hMenuServicesRoot, ( LPARAM )&clmi );
+	Menu_ModifyItem(m_hMenuRoot, &clmi );
+	Menu_ModifyItem(m_hStatusMind, &clmi );
+	Menu_ModifyItem(m_hMenuServicesRoot, &clmi );
 }

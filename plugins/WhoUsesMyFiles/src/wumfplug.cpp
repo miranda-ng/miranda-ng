@@ -2,7 +2,7 @@
 
 HINSTANCE hInst;
 WUMF_OPTIONS WumfOptions = { 0 };
-HANDLE hMenuItem = 0;
+HGENMENU hMenuItem = 0;
 int hLangpack;
 HWND hDlg;
 
@@ -266,8 +266,8 @@ static INT_PTR WumfMenuCommand(WPARAM,LPARAM)
 	}
 	db_set_b(NULL, ModuleName, POPUPS_ENABLED, (BYTE)WumfOptions.PopupsEnabled);
 	mi.flags = CMIM_NAME | CMIM_ICON;
-    iResult = CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenuItem,(LPARAM)&mi);
-	return iResult;
+	Menu_ModifyItem(hMenuItem, &mi);
+	return 0;
 }
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)

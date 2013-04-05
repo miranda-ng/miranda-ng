@@ -1082,7 +1082,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		mi.flags = CMIM_NAME | CMIM_ICON;
 		mi.icolibItem = GetIconHandle(I_MENU);
 		mi.pszName = LPGEN("Toggle MetaContacts On");
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuOnOff, (LPARAM)&mi);
+		Menu_ModifyItem(hMenuOnOff, &mi);
 
 		Meta_HideMetaContacts(TRUE);
 	}
@@ -1391,7 +1391,7 @@ INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam)
 		mi.icolibItem = GetIconHandle(I_MENUOFF);
 		mi.pszName = LPGEN("Toggle MetaContacts Off");
 	}
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuOnOff, (LPARAM)&mi);
+	Menu_ModifyItem(hMenuOnOff, &mi);
 	return 0;
 }
 

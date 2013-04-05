@@ -471,8 +471,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 			if (reset || check) {
 				PMO_IntMenuItem timiParent = MO_GetIntMenuItem(timi->mi.root);
 				if (timiParent) {
-					CLISTMENUITEM mi2 = {0};
-					mi2.cbSize = sizeof(mi2);
+					CLISTMENUITEM mi2 = { sizeof(mi2) };
 					mi2.flags = CMIM_NAME | CMIF_TCHAR;
 					mi2.ptszName = TranslateTH(timi->mi.hLangpack, timi->mi.hIcon ? timi->mi.ptszName : LPGENT("Custom status"));
 
@@ -510,7 +509,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 						SetMenuItemInfo(it.OwnerMenu, it.position, TRUE, &mi);
 					}
 
-					CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)timi->mi.root, (LPARAM)&mi2);
+					Menu_ModifyItem(timi->mi.root, &mi2);
 					timiParent->iconId = timi->iconId;
 					if (timiParent->hBmp) DeleteObject(timiParent->hBmp);
 					timiParent->hBmp = NULL;

@@ -2,7 +2,8 @@
 
 HANDLE hTypingNotify;
 
-static HANDLE hDisableMenu = NULL;
+static HGENMENU hDisableMenu = NULL;
+
 static HANDLE hPopUpsList = NULL;
 
 static BYTE   OnePopUp;
@@ -56,7 +57,7 @@ static INT_PTR EnableDisableMenuCommand(WPARAM wParam,LPARAM lParam)
 			mi.hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED));
 		}
 
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hDisableMenu, (LPARAM)&mi);
+		Menu_ModifyItem(hDisableMenu, &mi);
 	}
 
 	return 0;

@@ -142,7 +142,7 @@ void InitTaskMenuItems()
 			mi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.hParentMenu = hTaskMainMenu;
 			mi.ptszName = (TCHAR*)taskIt->taskName.c_str();
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HGENMENU)*it, (LPARAM)&mi);
+			Menu_ModifyItem((HGENMENU)*it, &mi);
 		}
 
 		for(; it != taskMenus.end(); ++it)
@@ -151,7 +151,7 @@ void InitTaskMenuItems()
 			mi.cbSize = sizeof(mi);
 			mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | CMIF_HIDDEN;
 			mi.hParentMenu = hTaskMainMenu;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HGENMENU)*it, (LPARAM)&mi);
+			Menu_ModifyItem((HGENMENU)*it, &mi);
 		}
 
 		int pos = (int)taskMenus.size();
@@ -172,7 +172,7 @@ void InitTaskMenuItems()
 	{
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_FLAGS | CMIF_ROOTPOPUP | CMIF_HIDDEN;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hTaskMainMenu, (LPARAM)&mi);
+		Menu_ModifyItem(hTaskMainMenu, &mi);
 	}
 }
 

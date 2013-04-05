@@ -21,7 +21,7 @@
 
 bool g_fOptionsOpen;
 bool g_fReqRass;
-extern HANDLE g_hMenuItem;
+extern HGENMENU g_hMenuItem;
 
 //void Disable_ChildWindows(HWND hwndParent)
 //{

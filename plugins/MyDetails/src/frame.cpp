@@ -53,7 +53,7 @@ HWND hwnd_container = NULL;
 int frame_id = -1;
 bool g_bFramesExist = false;
 
-HANDLE hMenuShowHideFrame = 0;
+HGENMENU hMenuShowHideFrame = 0;
 
 #define FONT_NICK 0
 #define FONT_PROTO 1
@@ -2276,7 +2276,7 @@ void FixMainMenu()
 	else
 		mi.ptszName = LPGENT("Show My Details");
 
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuShowHideFrame, (LPARAM)&mi);
+	Menu_ModifyItem(hMenuShowHideFrame, &mi);
 }
 
 #include <math.h>

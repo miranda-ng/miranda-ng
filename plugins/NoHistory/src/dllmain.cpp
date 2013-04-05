@@ -162,7 +162,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 		mi.ptszName = (remove ? LPGENT("Enable History") : LPGENT("Disable History"));
 		mi.hIcon = (remove ? hIconKeep : hIconRemove);
 	}
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuToggle, (LPARAM)&mi);
+	Menu_ModifyItem(hMenuToggle, &mi);
 
 	Menu_ShowItem(hMenuClear, !chat_room && db_event_count(hContact) > 0);
 	return 0;

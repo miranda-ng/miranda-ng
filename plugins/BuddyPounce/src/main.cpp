@@ -43,8 +43,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 int MainInit(WPARAM wParam, LPARAM lParam)
 {
-	CLISTMENUITEM mi = {0};
-	mi.cbSize=sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position=10;
 	mi.flags=0;
 	mi.hIcon= LoadIcon(hInst,MAKEINTRESOURCE(IDI_POUNCE));

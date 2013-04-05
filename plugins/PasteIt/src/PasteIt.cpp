@@ -396,7 +396,7 @@ void DefWebPageChanged()
 		if (Options::instance->defWeb == i) 
 			mi.flags |= CMIF_CHECKED;
 
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hWebPageMenus[i], (LPARAM)&mi);
+		Menu_ModifyItem(hWebPageMenus[i], &mi);
 	}
 }
 

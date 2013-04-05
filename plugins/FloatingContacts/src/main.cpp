@@ -799,7 +799,7 @@ static INT_PTR OnMainMenu_HideAll( WPARAM wParam, LPARAM lParam )
 	clmi.flags = CMIM_NAME | CMIM_ICON|CMIF_TCHAR;
 	clmi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE ));
 	clmi.ptszName = fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs");
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMainMenuItemHideAll, (LPARAM)&clmi);
+	Menu_ModifyItem(hMainMenuItemHideAll, &clmi);
 	return 0;
 }
 

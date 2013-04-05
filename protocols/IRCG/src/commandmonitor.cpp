@@ -2332,9 +2332,9 @@ void CIrcProto::OnIrcDisconnected()
 	
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIF_GRAYED;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuJoin, (LPARAM)&mi);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuList, (LPARAM)&mi);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuNick, (LPARAM)&mi);
+	Menu_ModifyItem(hMenuJoin, &mi);
+	Menu_ModifyItem(hMenuList, &mi);
+	Menu_ModifyItem(hMenuNick, &mi);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -2362,9 +2362,9 @@ bool CIrcProto::DoOnConnect( const CIrcMessage* )
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuJoin, (LPARAM)&mi);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuList, (LPARAM)&mi);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuNick, (LPARAM)&mi);
+	Menu_ModifyItem(hMenuJoin, &mi);
+	Menu_ModifyItem(hMenuList, &mi);
+	Menu_ModifyItem(hMenuNick, &mi);
 
 	int Temp = m_iStatus;
 	m_iStatus = ID_STATUS_ONLINE;

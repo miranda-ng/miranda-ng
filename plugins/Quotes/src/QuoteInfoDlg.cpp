@@ -292,14 +292,14 @@ int Quotes_OnContactDoubleClick(WPARAM wp,LPARAM/* lp*/)
 
 namespace
 {
-	void enable_menu(HANDLE hMenu,bool bEnable)
+	void enable_menu(HGENMENU hMenu,bool bEnable)
 	{
 		CLISTMENUITEM clmi = { sizeof(clmi) };
 		clmi.flags = CMIM_FLAGS;
 		if(false == bEnable)
 			clmi.flags |= CMIF_GRAYED;
 
-		CallService(MS_CLIST_MODIFYMENUITEM,reinterpret_cast<WPARAM>(hMenu),reinterpret_cast<LPARAM>(&clmi));
+		Menu_ModifyItem(hMenu, &clmi);
 	}
 }
 

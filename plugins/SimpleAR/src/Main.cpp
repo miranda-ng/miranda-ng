@@ -19,7 +19,7 @@ Copyright (C) 2000-2  Richard Hughes, Roland Rabien & Tristan Van de Vreede
 HINSTANCE hinstance;
 
 HANDLE hPreBuildHook = NULL, hAddEventHook = NULL, hOptHook = NULL, hCheckDefHook = NULL, hOnPreShutdown = NULL, hToggleEnable = NULL, hToggleAutoanswer = NULL;
-HANDLE hToggle = NULL, hEnableMenu = NULL;
+HGENMENU hToggle, hEnableMenu;
 BOOL fEnabled, gbVarsServiceExist = FALSE;
 INT interval;
 int hLangpack;
@@ -71,7 +71,7 @@ INT_PTR ToggleEnable(WPARAM wParam, LPARAM lParam)
 		mi.ptszName = LPGENT("Enable Auto&reply");
 		mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF));
 	}
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hEnableMenu,(LPARAM)&mi);
+	Menu_ModifyItem(hEnableMenu, &mi);
 	return 0;
 }
 
@@ -87,7 +87,7 @@ INT_PTR Toggle(WPARAM w, LPARAM l)
 	mi.flags = CMIM_NAME |CMIM_ICON | CMIF_TCHAR;
 	mi.ptszName = on ? LPGENT("Turn off Autoanswer") : LPGENT("Turn on Autoanswer");
 	mi.hIcon = on ? LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)) : LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hToggle, (LPARAM)&mi);
+	Menu_ModifyItem(hToggle, &mi);
 	return 0;
 }
 
@@ -100,7 +100,7 @@ INT OnPreBuildContactMenu(WPARAM w, LPARAM l)
 	BOOL  on = !db_get_b(hContact, protocolname, "TurnedOn", 0);
 	mi.ptszName = on ? LPGENT("Turn off Autoanswer") : LPGENT("Turn on Autoanswer");
 	mi.hIcon = on?LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)):LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hToggle, (LPARAM)&mi);
+	Menu_ModifyItem(hToggle, &mi);
 	return 0;
 }
 

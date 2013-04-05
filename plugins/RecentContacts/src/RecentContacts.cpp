@@ -14,7 +14,7 @@ int hLangpack = 0;
 HANDLE hTopToolbarButtonShowList;
 HANDLE hMsgWndEvent;
 HANDLE hWindowList;
-HANDLE hMenuItemRemove;
+HGENMENU hMenuItemRemove;
 
 const INT_PTR boo = 0;
 
@@ -491,7 +491,7 @@ static int OnPrebuildContactMenu (WPARAM wParam, LPARAM lParam)
 	else
 		clmi.ptszName = TranslateT("Show Contact");
 
-	CallService( MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemRemove, (LPARAM)&clmi );
+	Menu_ModifyItem(hMenuItemRemove, &clmi);
 	return 0;
 }
 

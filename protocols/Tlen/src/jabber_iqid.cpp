@@ -243,9 +243,9 @@ void JabberIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 			{
 				CLISTMENUITEM mi = { sizeof(mi) };
 				mi.flags = CMIM_FLAGS;
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto->hMenuMUC, (LPARAM) &mi);
+				Menu_ModifyItem(proto->hMenuMUC, &mi);
 				if (proto->hMenuChats != NULL)
-					CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto->hMenuChats, (LPARAM)&mi);
+					Menu_ModifyItem(proto->hMenuChats, &mi);
 			}
 
 			proto->isOnline = TRUE;

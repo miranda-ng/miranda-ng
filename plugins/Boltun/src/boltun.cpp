@@ -47,16 +47,9 @@ PLUGININFOEX pluginInfo = {
 	{0x488c5c84, 0x56da, 0x434f, {0x96, 0xf1, 0xb1, 0x89, 0x0, 0xde, 0xf7, 0x60}}
 };
 
-static HANDLE hEventDbEventAdded;
-static HANDLE hEventOptInitialise;
-static HANDLE hEventPrebuild;
-static HANDLE hMenuItemAutoChat;
-static HANDLE hMenuItemNotToChat;
-static HANDLE hMenuItemStartChatting;
-
+static HGENMENU hMenuItemAutoChat, hMenuItemNotToChat, hMenuItemStartChatting;
 
 #define MIND_DIALOG_FILTER _T("%s (*.mindw)\1*.mindw\1%s (*.*)\1*.*\1")
-
 
 #ifdef DEBUG_LOAD_TIME
 #include <intrin.h>
@@ -568,8 +561,8 @@ static int MessagePrebuild(WPARAM wParam, LPARAM lParam)
 	{
 		clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
 
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemAutoChat, (LPARAM)&clmi);
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemNotToChat, (LPARAM)&clmi);
+		Menu_ModifyItem(hMenuItemAutoChat, &clmi);
+		Menu_ModifyItem(hMenuItemNotToChat, &clmi);
 	}
 	else
 	{
@@ -578,11 +571,11 @@ static int MessagePrebuild(WPARAM wParam, LPARAM lParam)
 
 		clmi.flags  = CMIM_FLAGS | CMIM_ICON | (boltunautochat ? CMIF_CHECKED : 0);
 		clmi.hIcon = LoadIcon( GetModuleHandle(NULL), MAKEINTRESOURCE((boltunautochat ? IDI_TICK : IDI_NOTICK)));
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemAutoChat, (LPARAM)&clmi);
+		Menu_ModifyItem(hMenuItemAutoChat, &clmi);
 
 		clmi.flags  = CMIM_FLAGS | CMIM_ICON | (boltunnottochat ? CMIF_CHECKED : 0);
 		clmi.hIcon = LoadIcon( GetModuleHandle(NULL), MAKEINTRESOURCE((boltunnottochat ? IDI_TICK : IDI_NOTICK)));
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemNotToChat, (LPARAM)&clmi);
+		Menu_ModifyItem(hMenuItemNotToChat, &clmi);
 	}
 	return 0;
 }
@@ -612,10 +605,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	*(_tcsrchr(path, _T('\\'))+1) = _T('\0');
 
 	/*initialize miranda hooks and services on options dialog*/
-	hEventOptInitialise = HookEvent(ME_OPT_INITIALISE, MessageOptInit);
+	HookEvent(ME_OPT_INITIALISE, MessageOptInit);
 	/*initialize miranda hooks and services*/
-	hEventDbEventAdded  = HookEvent(ME_DB_EVENT_ADDED, MessageEventAdded);
-	hEventPrebuild      = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, MessagePrebuild);
+	HookEvent(ME_DB_EVENT_ADDED, MessageEventAdded);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, MessagePrebuild);
 
 	CreateServiceFunction(SERV_CONTACT_AUTO_CHAT, ContactClickAutoChat);
 	CreateServiceFunction(SERV_CONTACT_NOT_TO_CHAT, ContactClickNotToChat);

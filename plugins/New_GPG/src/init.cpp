@@ -24,7 +24,8 @@ list <JabberAccount*> Accounts;
 
 HINSTANCE hInst;
 HFONT bold_font = NULL;
-HANDLE hLoadPubKey = NULL, hToggleEncryption = NULL, hOnPreBuildContactMenu = NULL, hSendKey = NULL, g_hCLIcon = NULL, hExportGpgKeys = NULL, hImportGpgKeys = NULL;
+HANDLE hLoadPubKey = NULL, g_hCLIcon = NULL, hExportGpgKeys = NULL, hImportGpgKeys = NULL;
+HGENMENU hSendKey = NULL, hToggleEncryption = NULL;
 RECT key_from_keyserver_rect = {0}, firstrun_rect = {0}, new_key_rect = {0}, key_gen_rect = {0}, load_key_rect = {0}, import_key_rect = {0}, key_password_rect = {0}, load_existing_key_rect = {0};
 XML_API xi = {0};
 int hLangpack = 0;
@@ -67,21 +68,21 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l);
 
 void init_vars()
 {
-	bAppendTags = db_get_b(NULL, szGPGModuleName, "bAppendTags", 0);
-	bStripTags = db_get_b(NULL, szGPGModuleName, "bStripTags", 0);
+	bAppendTags = db_get_b(NULL, szGPGModuleName, "bAppendTags", 0) != 0;
+	bStripTags = db_get_b(NULL, szGPGModuleName, "bStripTags", 0) != 0;
 	inopentag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInOpenTag", _T("<GPGdec>"));
 	inclosetag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInCloseTag", _T("</GPGdec>"));
 	outopentag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutOpenTag", _T("<GPGenc>"));
 	outclosetag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutCloseTag", _T("</GPGenc>"));
-	bDebugLog = db_get_b(NULL, szGPGModuleName, "bDebugLog", 0);
-	bAutoExchange = db_get_b(NULL, szGPGModuleName, "bAutoExchange", 0);
-	bSameAction = db_get_b(NULL, szGPGModuleName, "bSameAction", 0);
+	bDebugLog = db_get_b(NULL, szGPGModuleName, "bDebugLog", 0) != 0;
+	bAutoExchange = db_get_b(NULL, szGPGModuleName, "bAutoExchange", 0) != 0;
+	bSameAction = db_get_b(NULL, szGPGModuleName, "bSameAction", 0) != 0;
 	password = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
 	debuglog.init();
-	bIsMiranda09 = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0) >= 0x00090001?true:false;
-	bJabberAPI = db_get_b(NULL, szGPGModuleName, "bJabberAPI", bIsMiranda09?1:0);
-	bPresenceSigning = db_get_b(NULL, szGPGModuleName, "bPresenceSigning", 0);
-	bFileTransfers = db_get_b(NULL, szGPGModuleName, "bFileTransfers", 0);
+	bIsMiranda09 = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0) >= 0x00090001;
+	bJabberAPI = db_get_b(NULL, szGPGModuleName, "bJabberAPI", bIsMiranda09) != 0;
+	bPresenceSigning = db_get_b(NULL, szGPGModuleName, "bPresenceSigning", 0) != 0;
+	bFileTransfers = db_get_b(NULL, szGPGModuleName, "bFileTransfers", 0) != 0;
 	firstrun_rect.left = db_get_dw(NULL, szGPGModuleName, "FirstrunWindowX", 0);
 	firstrun_rect.top = db_get_dw(NULL, szGPGModuleName, "FirstrunWindowY", 0);
 	key_password_rect.left = db_get_dw(NULL, szGPGModuleName, "PasswordWindowX", 0);
@@ -144,8 +145,7 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
 	}
 
-
-	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT);
+	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT) != 0;
 	
 	if(bJabberAPI && bIsMiranda09)
 		GetJabberInterface(0,0);

@@ -59,14 +59,6 @@ typedef struct
    HGENMENU       hMainMenuItems[MAIN_MENU_ITEMS_COUNT+1];
    HGENMENU       hContactMenuItems[CONTACT_MENU_ITEMS_COUNT+1];
 
-   HANDLE         hHookModulesLoaded;
-   HANDLE         hHookPreShutdown;
-   HANDLE         hHookOptInitialize;
-   HANDLE         hHookRebuildCMenu;
-   HANDLE         hHookDbAdd;
-   HANDLE         hHookProtoAck;
-   HANDLE         hHookAccListChanged;
-
    LIST_MT        lmtSendSMSWindowsListMT;
    LIST_MT        lmtRecvSMSWindowsListMT;
 
@@ -155,8 +147,6 @@ int    OptInitialise(WPARAM wParam,LPARAM lParam);
 
 int    LoadServices();
 int    LoadModules();
-void   UnloadModules();
-void   UnloadServices();
 
 int    handleAckSMS(WPARAM wParam,LPARAM lParam);
 int    handleNewMessage(WPARAM wParam,LPARAM lParam);

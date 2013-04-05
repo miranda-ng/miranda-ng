@@ -57,7 +57,7 @@ void FacebookProto::CheckAvatarChange(HANDLE hContact, std::string image_url)
 	if (image_url.empty())
 		return;
 	
-	bool big_avatars = (bool)db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS);
+	bool big_avatars = db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS) != 0;
 	
 	// We've got url to avatar of default size 32x32px, let's change it to slightly bigger (50x50px) - looks like maximum size for square format
 	std::tstring::size_type pos = image_url.rfind( "/s32x32/" );

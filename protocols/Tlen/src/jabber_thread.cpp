@@ -353,9 +353,9 @@ void __cdecl JabberServerThread(ThreadData *info)
 
 			CLISTMENUITEM mi = { sizeof(mi) };
 			mi.flags = CMIM_FLAGS | CMIF_GRAYED;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) info->proto->hMenuMUC, (LPARAM) &mi);
+			Menu_ModifyItem(info->proto->hMenuMUC, &mi);
 			if (info->proto->hMenuChats != NULL)
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) info->proto->hMenuChats, (LPARAM) &mi);
+				Menu_ModifyItem(info->proto->hMenuChats, &mi);
 
 			// Set status to offline
 			oldStatus = info->proto->m_iStatus;

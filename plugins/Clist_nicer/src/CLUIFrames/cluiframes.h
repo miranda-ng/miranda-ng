@@ -49,10 +49,9 @@ typedef struct _DockOpt {
 DockOpt;
 
 typedef struct tagMenuHandles {
-    HANDLE MainMenuItem;
-    HANDLE MIVisible,MITitle,MITBVisible,MILock,MIColl,MIFloating,MIAlignRoot;
-    HANDLE MIAlignTop,MIAlignClient,MIAlignBottom;
-    HANDLE MIBorder, MISkinned;
+    HGENMENU MainMenuItem;
+    HGENMENU MIVisible,MITitle,MITBVisible,MILock,MIColl,MIFloating,MIAlignRoot;
+    HGENMENU MIAlignTop,MIAlignClient,MIAlignBottom,MIBorder,MISkinned;
 } FrameMenuHandles;
 
 typedef struct tagFrameTitleBar {

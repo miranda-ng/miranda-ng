@@ -241,7 +241,7 @@ void UpdateMenu(BOOL State)
 	}
 
 	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hEnableDisableMenu, (LPARAM)&mi);
+	Menu_ModifyItem(hEnableDisableMenu, &mi);
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, !State ? TTBST_PUSHED : TTBST_RELEASED);
 
 }
@@ -265,7 +265,7 @@ void UpdatePopupMenu(BOOL State)
 	}
 
 	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hEnableDisablePopupMenu, (LPARAM)&mi);
+	Menu_ModifyItem(hEnableDisablePopupMenu, &mi);
 }
 
 // update the weather auto-update menu item when click on it

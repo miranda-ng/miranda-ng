@@ -67,9 +67,10 @@ void UninitCustomMenus(void)
 #define CLUI_FAVSETRATE "CLUI/SetContactRate"  //LParam is rate, Wparam is contact handle
 #define CLUI_FAVTOGGLESHOWOFFLINE "CLUI/ToggleContactShowOffline" 
 
-static HGENMENU hFavoriteContactMenu = NULL;
-static HANDLE *hFavoriteContactMenuItems = NULL;
-static HANDLE hShowIfOflineItem = NULL;
+static HGENMENU  hFavoriteContactMenu = NULL;
+static HGENMENU *hFavoriteContactMenuItems = NULL;
+
+static HGENMENU  hShowIfOflineItem = NULL;
 static HANDLE hOnContactMenuBuild_FAV = NULL;
 
 static TCHAR * FAVMENUROOTNAME  = LPGENT("&Contact rate");
@@ -114,7 +115,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 		hFavoriteContactMenu = Menu_AddContactMenuItem(&mi);
 	else {
 		mi.flags |= CMIM_FLAGS | CMIM_NAME;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hFavoriteContactMenu, (LPARAM)&mi);				
+		Menu_ModifyItem(hFavoriteContactMenu, &mi);				
 		bModifyMenu = TRUE;
 	}
 
@@ -126,7 +127,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 
 	mi.hParentMenu = hFavoriteContactMenu;
 	if ( !hFavoriteContactMenuItems) {
-		hFavoriteContactMenuItems = (HANDLE*)malloc(sizeof(HANDLE)*SIZEOF(rates));
+		hFavoriteContactMenuItems = (HGENMENU*)malloc(sizeof(HANDLE)*SIZEOF(rates));
 		memset(hFavoriteContactMenuItems, 0, sizeof(HANDLE)*SIZEOF(rates));
 	}
 
@@ -139,7 +140,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 		mi.popupPosition = i;
 		if (bModifyMenu && hFavoriteContactMenuItems[i]) {
 			mi.flags |= CMIM_FLAGS | CMIM_ICON;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hFavoriteContactMenuItems[i], (LPARAM)&mi);
+			Menu_ModifyItem(hFavoriteContactMenuItems[i], &mi);
 		}
 		else hFavoriteContactMenuItems[i] = Menu_AddContactMenuItem(&mi);
 	}
@@ -152,7 +153,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 	mi.position = -100000000;
 	if (bModifyMenu && hShowIfOflineItem) {
 		mi.flags |= CMIM_FLAGS | CMIM_ICON;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hShowIfOflineItem, (LPARAM)&mi);            
+		Menu_ModifyItem(hShowIfOflineItem, &mi);            
 	}
 	else hShowIfOflineItem = Menu_AddContactMenuItem(&mi);
 

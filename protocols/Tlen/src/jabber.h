@@ -314,7 +314,7 @@ struct TlenProtocol : public PROTO_INTERFACE
 
 	CRITICAL_SECTION modeMsgMutex;
 
-	HANDLE hMenuRoot;
+	HGENMENU hMenuRoot;
 
 	char *searchJID;
 	int searchID;

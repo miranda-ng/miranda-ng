@@ -101,7 +101,7 @@ static void UpdateMenuItem()
 	else
 		mi.ptszName = ENABLE_SOUND;
 	mi.flags |= CMIM_NAME | CMIF_TCHAR;
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)noSoundMenu,(LPARAM)&mi);
+	Menu_ModifyItem(noSoundMenu, &mi);
 }
 
 //Called when the sound setting in the database is changed

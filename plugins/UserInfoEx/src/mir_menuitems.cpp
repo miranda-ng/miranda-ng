@@ -28,7 +28,7 @@ enum ECascadeType {
 	MCAS_NOTINITIATED = 128
 };
 
-int hMenuItemRefresh		= NULL;
+HGENMENU hMenuItemRefresh = NULL;
 HGENMENU *hMenuItemAccount	= NULL;
 
 /**

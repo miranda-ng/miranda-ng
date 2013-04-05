@@ -31,7 +31,8 @@
 // unique to this DLL, not to be shared
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
-HANDLE g_hMenuItem, g_hHideService, g_hIsHiddenService;
+HGENMENU g_hMenuItem;
+HANDLE g_hHideService, g_hIsHiddenService;
 HWINEVENTHOOK g_hWinHook;
 HWND g_hListenWindow, hDlg, g_hDlgPass, hOldForegroundWindow;
 HWND_ITEM *g_pMirWnds; // a pretty simple linked list
@@ -602,8 +603,7 @@ static IconItem iconList[] =
 
 static int GenMenuInit(WPARAM wParam, LPARAM lParam) // Modify menu item text before to show the main menu
 {
-	if (g_hMenuItem)
-	{
+	if (g_hMenuItem) {
 		TCHAR buf[128] = {0};
 		mir_sntprintf(buf, SIZEOF(buf), _T("%s [%s]"), TranslateT("Hide"), GetBossKeyText());
 
@@ -611,7 +611,7 @@ static int GenMenuInit(WPARAM wParam, LPARAM lParam) // Modify menu item text be
 		mi.flags = CMIM_FLAGS | CMIF_TCHAR  | CMIM_NAME;
 		mi.ptszName = buf;
 
-		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenuItem,(LPARAM)&mi);
+		Menu_ModifyItem(g_hMenuItem, &mi);
 	}
 	return 0;
 }

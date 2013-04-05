@@ -614,7 +614,7 @@ class CContactUpdater : public CContactQueue
 			clmi.flags = CMIM_NAME|CMIM_ICON;
 			clmi.pszName = LPGEN("Refresh Contact Details");
 			clmi.hIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hMenuItemRefresh, (LPARAM)&clmi);
+			Menu_ModifyItem(hMenuItemRefresh, &clmi);
 		}
 	}
 
@@ -740,7 +740,7 @@ public:
 			clmi.flags = CMIM_NAME|CMIM_ICON;
 			clmi.pszName = LPGEN("Abort Refreshing Contact Details");
 			clmi.hIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hMenuItemRefresh, (LPARAM) &clmi);
+			Menu_ModifyItem(hMenuItemRefresh, &clmi);
 		}
 	}
 

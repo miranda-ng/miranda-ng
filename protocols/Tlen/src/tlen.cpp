@@ -321,7 +321,7 @@ static void initMenuItems(TlenProtocol *proto)
 		mi.icolibItem = GetIconHandle(IDI_CHATS);
 		mi.pszService = text;
 		proto->hMenuChats = Menu_AddMainMenuItem(&mi);
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto->hMenuChats, (LPARAM) &clmi);
+		Menu_ModifyItem(proto->hMenuChats, &clmi);
 	}
 
 	// "Multi-User Conference"
@@ -332,7 +332,7 @@ static void initMenuItems(TlenProtocol *proto)
 	mi.icolibItem = GetIconHandle(IDI_MUC);
 	mi.pszService = text;
 	proto->hMenuMUC = Menu_AddMainMenuItem(&mi);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto->hMenuMUC, (LPARAM) &clmi);
+	Menu_ModifyItem(proto->hMenuMUC, &clmi);
 
 	sprintf(text, "%s/MainMenuInbox", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenMenuHandleInbox);

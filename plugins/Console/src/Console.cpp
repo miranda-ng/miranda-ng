@@ -103,7 +103,7 @@ static DWORD OutMsgs = 0;
 static DWORD InMsgs = 0;
 
 static HICON hIcons[15] = {0};
-static HANDLE hMenu = NULL;
+static HGENMENU hMenu = NULL;
 
 static void LoadSettings();
 static void ShowConsole(int show);
@@ -169,12 +169,11 @@ static void ShowConsole(int show)
 	if (show)
 		RedrawWindow(pActive->hList, NULL, NULL, RDW_INVALIDATE | RDW_FRAME |RDW_UPDATENOW | RDW_ERASE);
 
-	if (hMenu)
-	{
+	if (hMenu) {
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.ptszName = (show) ? LPGENT("Hide Console") : LPGENT("Show Console");
 		mi.flags = CMIM_NAME | CMIF_TCHAR;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenu, (LPARAM)&mi);
+		Menu_ModifyItem(hMenu, &mi);
 	}
 
 	if (hTTBButt)

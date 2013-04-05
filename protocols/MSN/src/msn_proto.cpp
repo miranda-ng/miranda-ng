@@ -1189,7 +1189,7 @@ int __cdecl CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 			CLISTMENUITEM clmi = { sizeof(clmi) };
 			clmi.flags = CMIM_NAME | CMIF_TCHAR;
 			clmi.ptszName = m_tszUserName;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)mainMenuRoot, (LPARAM)&clmi);
+			Menu_ModifyItem(mainMenuRoot, &clmi);
 		}
 		break;
 

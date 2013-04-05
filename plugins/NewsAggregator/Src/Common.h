@@ -85,7 +85,7 @@ void UpdateThreadProc(LPVOID AvatarCheck);
 void DestroyUpdateList(void);
 
 extern HANDLE hUpdateMutex;
-extern HANDLE hService2[7];
+extern HGENMENU hService2[7];
 
 int NewsAggrInit(WPARAM wParam,LPARAM lParam);
 INT OptInit(WPARAM wParam, LPARAM lParam);

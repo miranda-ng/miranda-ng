@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
-HANDLE hService2[7];
+HGENMENU hService2[7];
 
 VOID InitMenu()
 {
@@ -81,5 +81,5 @@ VOID InitMenu()
 		mi.icolibItem = GetIconHandle("enabled");
 	else
 		mi.icolibItem = GetIconHandle("disabled");
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hService2[0], (LPARAM)&mi);
+	Menu_ModifyItem(hService2[0], &mi);
 }

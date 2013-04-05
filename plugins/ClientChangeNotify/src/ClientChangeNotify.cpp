@@ -20,9 +20,9 @@
 #include "Common.h"
 
 HINSTANCE g_hInstance;
-HANDLE g_hMainThread;
-HANDLE g_hTogglePopupsMenuItem;
-int hLangpack;
+HANDLE    g_hMainThread;
+HGENMENU  g_hTogglePopupsMenuItem;
+int       hLangpack;
 
 COptPage *g_PreviewOptPage; // we need to show popup even for the NULL contact if g_PreviewOptPage is not NULL (used for popup preview)
 BOOL bPopupExists = FALSE, bMetaContactsExists = FALSE, bFingerprintExists = FALSE, bVariablesExists = FALSE;
@@ -346,7 +346,7 @@ static int PrebuildMainMenu(WPARAM wParam, LPARAM lParam)
 			mi.hIcon = Skin_GetIcon("popup_disabled");
 		}
 		mi.ptszPopupName = LPGENT("PopUps");
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hTogglePopupsMenuItem, (LPARAM)&mi);
+		Menu_ModifyItem(g_hTogglePopupsMenuItem, &mi);
 	}
 	return 0;
 }

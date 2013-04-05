@@ -255,7 +255,7 @@ void UpdateMenu(BOOL State)
 	}
 
 	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hService2[0], (LPARAM)&mi);
+	Menu_ModifyItem(hService2[0], &mi);
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, State ? TTBST_PUSHED : TTBST_RELEASED);
 	db_set_b(NULL, MODULE, "AutoUpdate", !State);
 }
