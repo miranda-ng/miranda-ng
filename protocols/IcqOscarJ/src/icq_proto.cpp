@@ -379,7 +379,7 @@ HANDLE __cdecl CIcqProto::AddToListByEvent( int flags, int iContact, HANDLE hDbE
 	dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob + 1);
 	dbei.pBlob[dbei.cbBlob] = '\0';
 
-	if ( db_event_get(hDbEvent, &dbei))
+	if (db_event_get(hDbEvent, &dbei))
 		return 0; // failed to get event
 
 	if (strcmpnull(dbei.szModule, m_szModuleName))
@@ -411,8 +411,8 @@ HANDLE __cdecl CIcqProto::AddToListByEvent( int flags, int iContact, HANDLE hDbE
 
 	case EVENTTYPE_AUTHREQUEST:
 	case EVENTTYPE_ADDED:
-		if ( getContactUid( DbGetAuthEventContact(&dbei), &uin, &uid))
-			return 0;
+		if (!getContactUid(DbGetAuthEventContact(&dbei), &uin, &uid))
+			break;
 
 	default:
 		return 0;
