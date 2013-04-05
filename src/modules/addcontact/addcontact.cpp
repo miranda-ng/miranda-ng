@@ -102,9 +102,10 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 		SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETCURSEL, 0, 0);
 		/* acs->szProto may be NULL don't expect it */
 		{
-			// By default check both checkboxes
+			// By default check all checkboxes
 			CheckDlgButton(hdlg, IDC_ADDED, BST_CHECKED);
 			CheckDlgButton(hdlg, IDC_AUTH, BST_CHECKED);
+			CheckDlgButton(hdlg, IDC_OPEN_WINDOW, BST_CHECKED);
 
 			DWORD flags = (acs->szProto) ? CallProtoServiceInt(NULL,acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
 			if (flags&PF4_FORCEADDED) { // force you were added requests for this protocol
@@ -196,6 +197,9 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 						CallContactService(hContact, PSS_AUTHREQUESTT, 0, (LPARAM)szReason);
 					}
 				}
+
+				if (IsDlgButtonChecked(hdlg, IDC_OPEN_WINDOW))
+					CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)hContact, 0);
 			}
 			// fall through
 		case IDCANCEL:

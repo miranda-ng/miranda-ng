@@ -406,6 +406,7 @@
 #define IDC_GROUP                       1541
 #define IDC_ADDED                       1542
 #define IDC_AUTH                        1543
+#define IDC_OPEN_WINDOW                 1544
 #define IDC_DELETEHISTORY               1560
 #define IDC_AUTHREQ                     1577
 #define IDC_AUTHGB                      1578
@@ -534,7 +535,7 @@
 #define ID_UNGROUP                      40067
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        323
