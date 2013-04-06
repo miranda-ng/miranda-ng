@@ -30,46 +30,50 @@ LRESULT CALLBACK AlphaTrackBarWndProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 //effekt name for drop down box
 LIST<TCHAR> g_lstPopupVfx(5, _tcsicmp);
-void OptAdv_RegisterVfx(char *name) {
+void OptAdv_RegisterVfx(char *name)
+{
 	g_lstPopupVfx.insert(mir_a2t(name));
 }
 
-void OptAdv_UnregisterVfx() {
+void OptAdv_UnregisterVfx()
+{
 	for (int i=0; i < g_lstPopupVfx.getCount(); ++i)
 		mir_free(g_lstPopupVfx[i]);
 	g_lstPopupVfx.destroy();
 }
 
 //Main Dialog Proc
-void LoadOption_AdvOpts() {
+void LoadOption_AdvOpts()
+{
 	//History
-	PopUpOptions.EnableHistory			= db_get_b (NULL,MODULNAME, "EnableHistory", TRUE);
-	PopUpOptions.HistorySize			= db_get_w (NULL,MODULNAME, "HistorySize", SETTING_HISTORYSIZE_DEFAULT);
-	PopUpOptions.UseHppHistoryLog		= db_get_b (NULL,MODULNAME, "UseHppHistoryLog", TRUE);
+	PopUpOptions.EnableHistory = db_get_b(NULL, MODULNAME, "EnableHistory", TRUE);
+	PopUpOptions.HistorySize = db_get_w(NULL, MODULNAME, "HistorySize", SETTING_HISTORYSIZE_DEFAULT);
+	PopUpOptions.UseHppHistoryLog = db_get_b(NULL, MODULNAME, "UseHppHistoryLog", TRUE);
 	//Avatars
-	PopUpOptions.avatarBorders			= db_get_b (NULL,MODULNAME, "AvatarBorders", TRUE);
-	PopUpOptions.avatarPNGBorders		= db_get_b (NULL,MODULNAME, "AvatarPNGBorders", FALSE);
-	PopUpOptions.avatarRadius			= db_get_b (NULL,MODULNAME, "AvatarRadius", 2);
-	PopUpOptions.avatarSize				= db_get_w (NULL,MODULNAME, "AvatarSize", SETTING_AVTSIZE_DEFAULT);
-	PopUpOptions.EnableAvatarUpdates	= db_get_b (NULL,MODULNAME, "EnableAvatarUpdates", FALSE);
+	PopUpOptions.avatarBorders = db_get_b(NULL, MODULNAME, "AvatarBorders", TRUE);
+	PopUpOptions.avatarPNGBorders = db_get_b(NULL, MODULNAME, "AvatarPNGBorders", FALSE);
+	PopUpOptions.avatarRadius = db_get_b(NULL, MODULNAME, "AvatarRadius", 2);
+	PopUpOptions.avatarSize = db_get_w(NULL, MODULNAME, "AvatarSize", SETTING_AVTSIZE_DEFAULT);
+	PopUpOptions.EnableAvatarUpdates = db_get_b(NULL, MODULNAME, "EnableAvatarUpdates", FALSE);
 	//Monitor
-	PopUpOptions.Monitor				= db_get_b (NULL,MODULNAME, "Monitor", SETTING_MONITOR_DEFAULT);
+	PopUpOptions.Monitor = db_get_b(NULL, MODULNAME, "Monitor", SETTING_MONITOR_DEFAULT);
 	//Transparency
-	PopUpOptions.Enable9xTransparency	= db_get_b (NULL,MODULNAME, "EnableRegionTransparency", TRUE);
-	PopUpOptions.UseTransparency		= db_get_b (NULL,MODULNAME, "UseTransparency", TRUE);
-	PopUpOptions.Alpha					= db_get_b (NULL,MODULNAME, "Alpha", SETTING_ALPHA_DEFAULT);
-	PopUpOptions.OpaqueOnHover			= db_get_b (NULL,MODULNAME, "OpaqueOnHover", TRUE);
+	PopUpOptions.Enable9xTransparency = db_get_b(NULL, MODULNAME, "EnableRegionTransparency", TRUE);
+	PopUpOptions.UseTransparency = db_get_b(NULL, MODULNAME, "UseTransparency", TRUE);
+	PopUpOptions.Alpha = db_get_b(NULL, MODULNAME, "Alpha", SETTING_ALPHA_DEFAULT);
+	PopUpOptions.OpaqueOnHover = db_get_b(NULL, MODULNAME, "OpaqueOnHover", TRUE);
 	//Effects
-	PopUpOptions.UseAnimations			= db_get_b (NULL,MODULNAME, "UseAnimations", TRUE);
-	PopUpOptions.UseEffect				= db_get_b (NULL,MODULNAME, "Fade", TRUE);
-	PopUpOptions.Effect					= (LPTSTR)DBGetContactSettingStringX(NULL,MODULNAME, "Effect", "", DBVT_TCHAR);
-	PopUpOptions.FadeIn					= db_get_dw(NULL,MODULNAME, "FadeInTime", SETTING_FADEINTIME_DEFAULT);
-	PopUpOptions.FadeOut				= db_get_dw(NULL,MODULNAME, "FadeOutTime",SETTING_FADEOUTTIME_DEFAULT);
+	PopUpOptions.UseAnimations = db_get_b(NULL, MODULNAME, "UseAnimations", TRUE);
+	PopUpOptions.UseEffect = db_get_b(NULL, MODULNAME, "Fade", TRUE);
+	PopUpOptions.Effect = (LPTSTR)DBGetContactSettingStringX(NULL, MODULNAME, "Effect", "", DBVT_TCHAR);
+	PopUpOptions.FadeIn = db_get_dw(NULL, MODULNAME, "FadeInTime", SETTING_FADEINTIME_DEFAULT);
+	PopUpOptions.FadeOut = db_get_dw(NULL, MODULNAME, "FadeOutTime", SETTING_FADEOUTTIME_DEFAULT);
 	//other old stuff
-	PopUpOptions.MaxPopups				= db_get_w (NULL,MODULNAME, "MaxPopups", 20);
+	PopUpOptions.MaxPopups = db_get_w(NULL, MODULNAME, "MaxPopups", 20);
 }
 
-INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	TCHAR tstr[64];
 	static bool bDlgInit = false;	//some controls send WM_COMMAND before or during WM_INITDIALOG
 
@@ -121,7 +125,7 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SetDlgItemInt(hwnd, IDC_AVT_RADIUS, PopUpOptions.avatarRadius, FALSE);
 			SendDlgItemMessage(hwnd, IDC_AVT_RADIUS_SPIN,UDM_SETRANGE, 0, (LPARAM)MAKELONG((PopUpOptions.avatarSize / 2),0));
 			//Size
-			mir_subclassWindow(GetDlgItem(hwnd, IDC_AVT_SIZE_SLIDE),	AvatarTrackBarWndProc);
+			mir_subclassWindow(GetDlgItem(hwnd, IDC_AVT_SIZE_SLIDE), AvatarTrackBarWndProc);
 
 			SendDlgItemMessage(hwnd, IDC_AVT_SIZE_SLIDE, TBM_SETRANGE,FALSE,
 				MAKELONG(SETTING_AVTSIZE_MIN, SETTING_AVTSIZE_MAX));
@@ -138,11 +142,11 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			bMonitor = GetSystemMetrics(SM_CMONITORS)>1;
 
 			CheckDlgButton(hwnd, IDC_MIRANDAWND, bMonitor ? (PopUpOptions.Monitor == MN_MIRANDA) : TRUE);
-			CheckDlgButton(hwnd, IDC_ACTIVEWND,  bMonitor ? (PopUpOptions.Monitor == MN_ACTIVE)  : FALSE);
-			EnableWindow(GetDlgItem(hwnd, IDC_GRP_MULTIMONITOR),  bMonitor);
+			CheckDlgButton(hwnd, IDC_ACTIVEWND, bMonitor ? (PopUpOptions.Monitor == MN_ACTIVE) : FALSE);
+			EnableWindow(GetDlgItem(hwnd, IDC_GRP_MULTIMONITOR), bMonitor);
 			EnableWindow(GetDlgItem(hwnd, IDC_MULTIMONITOR_DESC), bMonitor);
 			EnableWindow(GetDlgItem(hwnd, IDC_MIRANDAWND), bMonitor);
-			EnableWindow(GetDlgItem(hwnd, IDC_ACTIVEWND),  bMonitor);
+			EnableWindow(GetDlgItem(hwnd, IDC_ACTIVEWND), bMonitor);
 			}
 			//Group: Transparency
 			{
@@ -178,9 +182,9 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SetDlgItemInt (hwnd, IDC_FADEIN, PopUpOptions.FadeIn, FALSE);
 			SetDlgItemInt (hwnd, IDC_FADEOUT,PopUpOptions.FadeOut,FALSE);
 			UDACCEL aAccels[] = {{0,50},{1,100},{3,500}};
- 			SendDlgItemMessage(hwnd, IDC_FADEIN_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(SETTING_FADEINTIME_MAX, SETTING_FADEINTIME_MIN));
+			SendDlgItemMessage(hwnd, IDC_FADEIN_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(SETTING_FADEINTIME_MAX, SETTING_FADEINTIME_MIN));
 			SendDlgItemMessage(hwnd, IDC_FADEIN_SPIN, UDM_SETACCEL, (WPARAM)SIZEOF(aAccels), (LPARAM)&aAccels);
- 			SendDlgItemMessage(hwnd, IDC_FADEOUT_SPIN,UDM_SETRANGE, 0, (LPARAM)MAKELONG(SETTING_FADEOUTTIME_MAX,SETTING_FADEOUTTIME_MIN));
+			SendDlgItemMessage(hwnd, IDC_FADEOUT_SPIN,UDM_SETRANGE, 0, (LPARAM)MAKELONG(SETTING_FADEOUTTIME_MAX,SETTING_FADEOUTTIME_MIN));
 			SendDlgItemMessage(hwnd, IDC_FADEOUT_SPIN,UDM_SETACCEL, (WPARAM)SIZEOF(aAccels), (LPARAM)&aAccels);
 
 			BOOL how = PopUpOptions.UseAnimations || PopUpOptions.UseEffect;
@@ -195,7 +199,6 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			//effects drop down
 			{
 				DWORD dwItem, dwActiveItem = 0;
-
 
 				BOOL how = TRUE;
 
@@ -526,32 +529,32 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						case PSN_APPLY:
 							{
 							//History
-							db_set_b (NULL,MODULNAME, "EnableHistory", (BYTE)PopUpOptions.EnableHistory);
-							db_set_w(NULL,MODULNAME, "HistorySize", PopUpOptions.HistorySize);
+							db_set_b(NULL, MODULNAME, "EnableHistory", (BYTE)PopUpOptions.EnableHistory);
+							db_set_w(NULL, MODULNAME, "HistorySize", PopUpOptions.HistorySize);
 							PopupHistoryResize();
-							db_set_b(NULL,MODULNAME, "UseHppHistoryLog", PopUpOptions.UseHppHistoryLog);
+							db_set_b(NULL, MODULNAME, "UseHppHistoryLog", PopUpOptions.UseHppHistoryLog);
 							//Avatars
-							db_set_b(NULL,MODULNAME, "AvatarBorders", PopUpOptions.avatarBorders);
-							db_set_b(NULL,MODULNAME, "AvatarPNGBorders", PopUpOptions.avatarPNGBorders);
-							db_set_b(NULL,MODULNAME, "AvatarRadius", PopUpOptions.avatarRadius);
-							db_set_w(NULL,MODULNAME, "AvatarSize", PopUpOptions.avatarSize);
-							db_set_b(NULL,MODULNAME, "EnableAvatarUpdates", PopUpOptions.EnableAvatarUpdates);
+							db_set_b(NULL, MODULNAME, "AvatarBorders", PopUpOptions.avatarBorders);
+							db_set_b(NULL, MODULNAME, "AvatarPNGBorders", PopUpOptions.avatarPNGBorders);
+							db_set_b(NULL, MODULNAME, "AvatarRadius", PopUpOptions.avatarRadius);
+							db_set_w(NULL, MODULNAME, "AvatarSize", PopUpOptions.avatarSize);
+							db_set_b(NULL, MODULNAME, "EnableAvatarUpdates", PopUpOptions.EnableAvatarUpdates);
 							//Monitor
-							db_set_b(NULL,MODULNAME, "Monitor", PopUpOptions.Monitor);
+							db_set_b(NULL, MODULNAME, "Monitor", PopUpOptions.Monitor);
 							//Transparency
-							db_set_b(NULL,MODULNAME, "EnableRegionTransparency", PopUpOptions.Enable9xTransparency);
-							db_set_b(NULL,MODULNAME, "UseTransparency", PopUpOptions.UseTransparency);
-							db_set_b(NULL,MODULNAME, "Alpha", PopUpOptions.Alpha);
-							db_set_b(NULL,MODULNAME, "OpaqueOnHover", PopUpOptions.OpaqueOnHover);
+							db_set_b(NULL, MODULNAME, "EnableRegionTransparency", PopUpOptions.Enable9xTransparency);
+							db_set_b(NULL, MODULNAME, "UseTransparency", PopUpOptions.UseTransparency);
+							db_set_b(NULL, MODULNAME, "Alpha", PopUpOptions.Alpha);
+							db_set_b(NULL, MODULNAME, "OpaqueOnHover", PopUpOptions.OpaqueOnHover);
 
 							//Effects
-							db_set_b (NULL,MODULNAME, "UseAnimations", PopUpOptions.UseAnimations);
-							db_set_b (NULL,MODULNAME, "Fade", PopUpOptions.UseEffect);
+							db_set_b(NULL, MODULNAME, "UseAnimations", PopUpOptions.UseAnimations);
+							db_set_b(NULL, MODULNAME, "Fade", PopUpOptions.UseEffect);
 							db_set_ts(NULL, MODULNAME, "Effect", PopUpOptions.Effect);
-							db_set_dw(NULL,MODULNAME, "FadeInTime", PopUpOptions.FadeIn);
-							db_set_dw(NULL,MODULNAME, "FadeOutTime", PopUpOptions.FadeOut);
+							db_set_dw(NULL, MODULNAME, "FadeInTime", PopUpOptions.FadeIn);
+							db_set_dw(NULL, MODULNAME, "FadeOutTime", PopUpOptions.FadeOut);
 							//other old stuff
-							db_set_w(NULL,MODULNAME, "MaxPopups", (BYTE)PopUpOptions.MaxPopups);
+							db_set_w(NULL, MODULNAME, "MaxPopups", (BYTE)PopUpOptions.MaxPopups);
 							}
 							return TRUE;
 						default:
