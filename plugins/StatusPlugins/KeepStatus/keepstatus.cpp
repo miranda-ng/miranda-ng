@@ -45,7 +45,8 @@ static HWND hMessageWindow = NULL;
 
 // variables (general)
 static int CompareConnections( const TConnectionSettings* p1, const TConnectionSettings* p2 )
-{	return lstrcmpA( p1->szName, p2->szName );
+{
+	return lstrcmpA( p1->szName, p2->szName );
 }
 
 static OBJLIST<TConnectionSettings> connectionSettings( 10, CompareConnections );
@@ -158,7 +159,7 @@ int LoadMainOptions()
 		currentDelay = initDelay = 1000*db_get_dw(NULL, MODULENAME, SETTING_INITDELAY, DEFAULT_INITDELAY);
 		maxDelay = 1000*db_get_dw(NULL, MODULENAME, SETTING_MAXDELAY, DEFAULT_MAXDELAY);
 		maxRetries = db_get_b(NULL, MODULENAME, SETTING_MAXRETRIES,0);
-		if (maxRetries == 0) 
+		if (maxRetries == 0)
 			maxRetries = -1;
 		hProtoAckHook = HookEvent(ME_PROTO_ACK, ProcessProtoAck);
 		hStatusChangeHook = HookEvent(ME_CLIST_STATUSMODECHANGE, StatusChange);
@@ -173,14 +174,14 @@ int LoadMainOptions()
 		}
 		retryCount = 0;
 	}
-	
+
 	return 0;
 }
 
 static void GetCurrentConnectionSettings()
 {
 	connectionSettings.destroy();
-	
+
 	int count;
 	PROTOACCOUNT** protos;
 	ProtoEnumAccounts( &count, &protos );
@@ -247,7 +248,7 @@ static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, TCH
 		cs->status = cs->lastStatus;
 	else
 		cs->status = status;
-		
+
 	log_infoA("KeepStatus: assigning status %d to %s", cs->status, cs->szName);
 
 	if ( szMsg != NULL && lstrcmp(szMsg, cs->szMsg)) {
@@ -292,7 +293,7 @@ static int SetCurrentStatus()
 	ProcessPopup(KS_CONN_STATE_RETRY, (LPARAM)ps);
 	ret = CallService(MS_CS_SETSTATUSEX, (WPARAM)&ps, 0);
 	FreeProtoSettings(ps);
-		
+
 	return ret;
 }
 
@@ -313,7 +314,8 @@ static int StatusChange(WPARAM wParam, LPARAM lParam)
 			TConnectionSettings& cs = connectionSettings[i];
 			if ( GetStatus(cs) != ID_STATUS_DISABLED && !strcmp(cs.szName, szProto))
 				AssignStatus(&cs, wParam, 0, cs.szMsg);
-	}	}
+		}
+	}
 
 	return 0;
 }
@@ -336,7 +338,9 @@ static int CSStatusChange(WPARAM wParam, LPARAM lParam)
 				if (!strcmp(protoSettings[i]->szName, connectionSettings[j].szName))
 					if (GetStatus(connectionSettings[j]) != ID_STATUS_DISABLED)
 						AssignStatus(&connectionSettings[j], protoSettings[i]->status, protoSettings[i]->lastStatus, connectionSettings[j].szMsg);
-	}	}	}
+			}
+		}
+	}
 
 	return 0;
 }
@@ -383,7 +387,9 @@ static int StartTimerFunction(int timer, int timeout, BOOL restart)
 					processAckTimerId = SetTimer(NULL, 0, ackDelay, CheckAckStatusTimer);
 				else
 					processAckTimerId = SetTimer(NULL, 0, timeout, CheckAckStatusTimer);
-	}	}	}
+			}
+		}
+	}
 
 	if ( timer & IDT_CHECKCONN ) {
 		res = (checkConnectionTimerId == 0?0:1)||res;
@@ -391,11 +397,13 @@ static int StartTimerFunction(int timer, int timeout, BOOL restart)
 			if (timeout != -1) {
 				if (restart)
 					KillTimer(NULL, checkConnectionTimerId);
-				if  (timeout == 0)
+				if (timeout == 0)
 					checkConnectionTimerId = SetTimer(NULL, 0, initDelay, CheckConnectionTimer);
 				else
 					checkConnectionTimerId = SetTimer(NULL, 0, timeout, CheckConnectionTimer);
-	}	}	}
+			}
+		}
+	}
 
 	if ( timer & IDT_AFTERCHECK ) {
 		res = (afterCheckTimerId==0?0:1)||res;
@@ -407,7 +415,9 @@ static int StartTimerFunction(int timer, int timeout, BOOL restart)
 					afterCheckTimerId = SetTimer(NULL, 0, initDelay/2, AfterCheckTimer);
 				else
 					afterCheckTimerId = SetTimer(NULL, 0, timeout, AfterCheckTimer);
-	}	}	}
+			}
+		}
+	}
 
 	if ( timer & IDT_CHECKCONTIN ) {
 		res = (checkContinTimerId==0?0:1)||res;
@@ -420,7 +430,9 @@ static int StartTimerFunction(int timer, int timeout, BOOL restart)
 				}
 				else
 					checkContinTimerId = SetTimer(NULL, 0, timeout, CheckContinueslyTimer);
-	}	}	}
+			}
+		}
+	}
 
 	if ( timer & IDT_CHECKCONNECTING ) {
 		res = (checkConnectingTimerId==0?0:1)||res;
@@ -432,7 +444,9 @@ static int StartTimerFunction(int timer, int timeout, BOOL restart)
 					timeout = initDelay/2;
 				}
 				checkConnectingTimerId = SetTimer(NULL, 0, timeout, CheckConnectingTimer);
-	}	}	}
+			}
+		}
+	}
 
 	log_debugA("ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
 	log_debugA("StartTimer done %d", res);
@@ -482,7 +496,8 @@ static int StopTimer(int timer)
 			KillTimer(NULL, processAckTimerId);
 			processAckTimerId = 0;
 			res = 1;
-	}	}
+		}
+	}
 
 	if ( timer & IDT_CHECKCONN ) {
 		if (checkConnectionTimerId == 0)
@@ -491,7 +506,8 @@ static int StopTimer(int timer)
 			KillTimer(NULL, checkConnectionTimerId);
 			checkConnectionTimerId = 0;
 			res = 1;
-	}	}
+		}
+	}
 
 	if ( timer & IDT_AFTERCHECK ) {
 		if (afterCheckTimerId == 0)
@@ -500,7 +516,8 @@ static int StopTimer(int timer)
 			KillTimer(NULL, afterCheckTimerId);
 			afterCheckTimerId = 0;
 			res = 1;
-	}	}
+		}
+	}
 
 	if ( timer & IDT_CHECKCONTIN ) {
 		if (checkContinTimerId == 0)
@@ -509,7 +526,8 @@ static int StopTimer(int timer)
 			KillTimer(NULL, checkContinTimerId);
 			checkContinTimerId = 0;
 			res = 1;
-	}	}
+		}
+	}
 
 	if ( timer & IDT_CHECKCONNECTING ) {
 		if (checkConnectingTimerId == 0)
@@ -518,12 +536,13 @@ static int StopTimer(int timer)
 			KillTimer(NULL, checkConnectingTimerId);
 			checkConnectingTimerId = 0;
 			res = 1;
-	}	}
+		}
+	}
 
 	log_debugA("ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
 	log_debugA("StopTimer done %d", res);
 	LeaveCriticalSection(&GenTimerCS);
-	
+
 	return res;
 }
 
@@ -533,11 +552,11 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 	char dbSetting[128];
 	int i;
 
-	if ( (ack->type != ACKTYPE_STATUS) && (ack->type != ACKTYPE_LOGIN)) 
+	if ( (ack->type != ACKTYPE_STATUS) && (ack->type != ACKTYPE_LOGIN))
 		return 0;
 
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", ack->szModule);
-	if (!db_get_b(NULL, MODULENAME, dbSetting, 1)) 
+	if (!db_get_b(NULL, MODULENAME, dbSetting, 1))
 		return 0;
 
 	if ( db_get_b(NULL, ack->szModule, SETTING_PROTORETRY, 0)) {
@@ -554,11 +573,11 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 		StartTimer(IDT_PROCESSACK, 0, FALSE);
 		return 0;
 	}
-	
+
 	if (ack->type == ACKTYPE_LOGIN) {
 		if (ack->lParam == LOGINERR_OTHERLOCATION) {
 			int i, j;
-			
+
 			for (i=0;i<connectionSettings.getCount();i++) {
 				TConnectionSettings& cs = connectionSettings[i];
 				if (!strcmp(ack->szModule, cs.szName)) {
@@ -567,11 +586,13 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 						StopTimer(IDT_PROCESSACK);
 						for (j=0;j<connectionSettings.getCount();j++) {
 							AssignStatus(&connectionSettings[j], ID_STATUS_OFFLINE, 0, NULL);
-					}	}
+						}
+					}
 
 					NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_OTHERLOCATION, (LPARAM)cs.szName);
 					ProcessPopup(KS_CONN_STATE_OTHERLOCATION, (LPARAM)ack->szModule);
-			}	}
+				}
+			}
 		}
 		else if (ack->result == ACKRESULT_FAILED) {
 			// login failed
@@ -626,7 +647,11 @@ static VOID CALLBACK CheckConnectingTimer(HWND hwnd,UINT message,UINT_PTR idEven
 					// set offline
 					log_infoA("KeepStatus: %s is too long connecting; setting offline", cs.szName);
 					CallProtoService(cs.szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
-}	}	}	}	}
+				}
+			}
+		}
+	}
+}
 
 static VOID CALLBACK CheckAckStatusTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD dwTime)
 {
@@ -637,7 +662,7 @@ static VOID CALLBACK CheckAckStatusTimer(HWND hwnd,UINT message,UINT_PTR idEvent
 	needChecking = FALSE;
 	for (i=0;i<connectionSettings.getCount();i++) {
 		TConnectionSettings& cs = connectionSettings[i];
-		
+
 		int curStatus = GetStatus(cs);
 		int newStatus = CallProtoService(cs.szName,PS_GETSTATUS, 0, 0);
 		// ok, np
@@ -660,7 +685,9 @@ static VOID CALLBACK CheckAckStatusTimer(HWND hwnd,UINT message,UINT_PTR idEvent
 				log_infoA("KeepStatus: connection lost! (%s)", cs.szName);
 				NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOST, (LPARAM)cs.szName);
 				ProcessPopup(KS_CONN_STATE_LOST, (LPARAM)cs.szName);
-	}	}	}
+			}
+		}
+	}
 
 	if (needChecking == TRUE)
 		StartTimer(IDT_CHECKCONN, initDelay, FALSE);
@@ -670,7 +697,7 @@ static VOID CALLBACK CheckConnectionTimer(HWND hwnd,UINT message,UINT_PTR idEven
 {
 	int i, shouldBeStatus, realStatus, setStatus;
 	HICON hIcon;
-	
+
 	log_debugA("CheckConnectionTimer");
 	setStatus = FALSE;
 	if (showConnectionPopups)
@@ -682,13 +709,14 @@ static VOID CALLBACK CheckConnectionTimer(HWND hwnd,UINT message,UINT_PTR idEven
 		shouldBeStatus = GetStatus(cs);
 		if (shouldBeStatus == ID_STATUS_LAST)
 			shouldBeStatus = cs.lastStatus;
-		if (shouldBeStatus == ID_STATUS_DISABLED) 
+		if (shouldBeStatus == ID_STATUS_DISABLED)
 			continue;
 		if ( (shouldBeStatus != realStatus) && (realStatus == ID_STATUS_OFFLINE) || (realStatus < MIN_STATUS)) {
 			setStatus = TRUE;
 			if (showConnectionPopups)
 				hIcon = (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)cs.szName, (LPARAM)SKINICON_STATUS_OFFLINE);
-	}	}
+		}
+	}
 
 	// one of the status was wrong
 	if ( setStatus == TRUE && ( maxRetries == -1 || retryCount < maxRetries )) {
@@ -727,7 +755,8 @@ static int StopChecking()
 		if ( newStatus != curStatus && curStatus != ID_STATUS_DISABLED ) {
 			AssignStatus(&cs, newStatus, 0, NULL);
 			isOk = FALSE;
-	}	}
+		}
+	}
 
 	NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_STOPPEDCHECKING, (LPARAM)isOk);
 	ProcessPopup(KS_CONN_STATE_STOPPEDCHECKING, (LPARAM)isOk);
@@ -739,13 +768,13 @@ static int StopChecking()
 }
 
 static VOID CALLBACK AfterCheckTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD dwTime)
-{	
+{
 	// after each connection check, this function is called to see if connection was recovered
 	StopTimer(IDT_AFTERCHECK);
 
 	int setStatus = FALSE;
 
-	for ( int i=0; i <connectionSettings.getCount(); i++ ) {
+	for (int i=0; i < connectionSettings.getCount(); i++) {
 		TConnectionSettings& cs = connectionSettings[i];
 		int realStatus = CallProtoService(cs.szName, PS_GETSTATUS, 0, 0);
 		int shouldBeStatus = GetStatus(cs);
@@ -757,7 +786,7 @@ static VOID CALLBACK AfterCheckTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWO
 			setStatus = TRUE;
 	}
 
-	if ( setStatus == FALSE || retryCount == maxRetries )
+	if (setStatus == FALSE || retryCount == maxRetries)
 		StopChecking();
 
 	return;
@@ -770,7 +799,7 @@ typedef DWORD ( WINAPI *pfnIcmpSendEcho )( HANDLE, DWORD, int, int, void*, char*
 static void CheckContinueslyFunction(void *arg)
 {
 	static int pingFailures = 0;
-		
+
 	// one at the time is enough, do it the 'easy' way
 	EnterCriticalSection(&CheckContinueslyCS);
 
@@ -788,7 +817,8 @@ static void CheckContinueslyFunction(void *arg)
 		if (shouldBeStatus != ID_STATUS_OFFLINE) {
 			log_debugA("CheckContinueslyFunction: %s should be %d", cs.szName, shouldBeStatus);
 			doPing = TRUE;
-	}	}
+		}
+	}
 
 	if (!doPing) {
 		log_debugA("CheckContinueslyFunction: All protocols should be offline, no need to check connection");
@@ -810,7 +840,7 @@ static void CheckContinueslyFunction(void *arg)
 			HANDLE hICMPFile;
 			DWORD *addr;
 			struct hostent *hostent;
-			char reply[sizeof(ICMP_ECHO_REPLY)+8]; 
+			char reply[sizeof(ICMP_ECHO_REPLY)+8];
 
 			bLastPingResult = FALSE;
 			lpfnIcmpCreateFile = (pfnIcmpCreateFile)GetProcAddress(hICMP,"IcmpCreateFile");
@@ -848,7 +878,7 @@ static void CheckContinueslyFunction(void *arg)
 					else log_debugA("CheckContinueslyFunction: unable to resolve %s", host);
 
 					start = end;
-					while (*start == ' ') 
+					while (*start == ' ')
 						start++;
 				}
 			}
@@ -882,7 +912,7 @@ static void CheckContinueslyFunction(void *arg)
 				CallProtoService(protos[i]->szModuleName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
 			}
 		}
-		if (StartTimer(IDT_CHECKCONN|IDT_PROCESSACK, -1, FALSE)) {// are our 'set offlines' noticed? 
+		if (StartTimer(IDT_CHECKCONN|IDT_PROCESSACK, -1, FALSE)) {// are our 'set offlines' noticed?
 			log_debugA("CheckContinueslyFunction: currently checking");
 			LeaveCriticalSection(&CheckContinueslyCS);
 			return;
@@ -891,7 +921,7 @@ static void CheckContinueslyFunction(void *arg)
 		NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOST, 0);
 		ProcessPopup(KS_CONN_STATE_LOST, 0);
 		maxRetries = db_get_b(NULL, MODULENAME, SETTING_MAXRETRIES, 0);
-		if (maxRetries == 0) 
+		if (maxRetries == 0)
 			maxRetries = -1;
 		StartTimer(IDT_CHECKCONN, initDelay, FALSE);
 	}
@@ -901,7 +931,7 @@ static void CheckContinueslyFunction(void *arg)
 static VOID CALLBACK CheckContinueslyTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime)
 {
 	if ( db_get_b(NULL, MODULENAME, SETTING_BYPING, FALSE))
-		mir_forkthread(CheckContinueslyFunction, NULL);	
+		mir_forkthread(CheckContinueslyFunction, NULL);
 	else
 		CheckContinueslyFunction(NULL);
 }
@@ -911,7 +941,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 {
 	HICON hIcon;
 	char text[MAX_SECONDLINE], protoName[128], *szProto;
-		
+
 	if ( !db_get_b(NULL, MODULENAME, SETTING_SHOWCONNECTIONPOPUPS,FALSE) || !ServiceExists(MS_POPUP_ADDPOPUP))
 		return -1;
 
@@ -930,7 +960,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		CallProtoService(szProto, PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
 		mir_snprintf(text, sizeof(text), Translate("%s Connected from another location"), protoName);
 		break;
-	
+
 	case KS_CONN_STATE_LOGINERROR:	// lParam = 1 proto
 		/*******************
 		rethink this
@@ -951,7 +981,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			return -1;
 
 		break;
-	
+
 	case KS_CONN_STATE_LOST: // lParam = 1 proto, or NULL
 		if (!db_get_b(NULL, MODULENAME, SETTING_PUCONNLOST, TRUE))
 			return -1;
@@ -967,13 +997,13 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			_snprintf(text, sizeof(text), Translate("Status error (next retry (%d) in %ds)"), retryCount+1, currentDelay/1000);
 		}
 		break;
-	
+
 	case KS_CONN_STATE_RETRY:  // lParam = PROTOCOLSETTINGEX**
 		{
 			int i;
 			PROTOCOLSETTINGEX **ps;
 			char protoInfoLine[512], protoInfo[MAX_SECONDLINE];
-			
+
 			if (!db_get_b(NULL, MODULENAME, SETTING_PUCONNRETRY, TRUE))
 				return -1;
 
@@ -1021,7 +1051,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		else
 			_snprintf(text, sizeof(text), Translate("No internet connection seems available... (next retry (%d) in %ds)"), retryCount+2, currentDelay/1000);
 		break;
-	
+
 	case KS_CONN_STATE_STOPPEDCHECKING: // lParam == BOOL succes
 		if (!db_get_b(NULL, MODULENAME, SETTING_PURESULT, TRUE))
 			return -1;
@@ -1080,12 +1110,12 @@ static INT_PTR ShowPopup(char* msg, HICON hIcon)
 }
 
 LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{	
+{
 	switch(message) {
 	case WM_CONTEXTMENU: // right
 	case WM_COMMAND: // left
 		switch( db_get_b( NULL, MODULENAME, 
-						(message == WM_COMMAND) ? SETTING_POPUP_LEFTCLICK : SETTING_POPUP_RIGHTCLICK, 
+						(message == WM_COMMAND) ? SETTING_POPUP_LEFTCLICK : SETTING_POPUP_RIGHTCLICK,
 						POPUP_ACT_CLOSEPOPUP )) {
 		case POPUP_ACT_CANCEL:
 			// cancel timer
@@ -1211,7 +1241,7 @@ static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 		}
 		break;
-				
+
 	case WM_DESTROY:
 		if ( ps != NULL ) {
 			FreeProtoSettings(ps);
@@ -1233,14 +1263,16 @@ int OnAccChanged(WPARAM wParam,LPARAM lParam)
 	case PRAC_ADDED:
 		connectionSettings.insert( new TConnectionSettings( pa ));
 		break;
-		
+
 	case PRAC_REMOVED:
 		{
 			for ( int i=0; i < connectionSettings.getCount(); i++ ) {
 				if ( !lstrcmpA( connectionSettings[i].szName, pa->szModuleName )) {
 					connectionSettings.remove( i );
 					break;
-		}	}	}
+				}
+			}
+		}
 		break;
 	}
 
@@ -1266,7 +1298,7 @@ int CSModuleLoaded(WPARAM wParam,LPARAM lParam)
 	RegisterAction();
 	RegisterTrigger();
 #endif
-	
+
 	return 0;
 }
 
@@ -1288,7 +1320,7 @@ static int Exit(WPARAM wParam, LPARAM lParam)
 	StopTimer(IDT_CHECKCONN|IDT_PROCESSACK|IDT_AFTERCHECK|IDT_CHECKCONTIN);
 	if (IsWindow(hMessageWindow))
 		DestroyWindow(hMessageWindow);
-	
+
 	connectionSettings.destroy();
 
 	DeleteCriticalSection(&GenTimerCS);

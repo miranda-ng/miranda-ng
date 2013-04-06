@@ -44,7 +44,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg,UINT msg,WPARAM wParam,L
 			LVITEM lvItem;
 			int i;
 			DBVARIANT dbv;
-			
+
 			SetDlgItemInt(hwndDlg, IDC_MAXRETRIES, db_get_b(NULL,MODULENAME,SETTING_MAXRETRIES,DEFAULT_MAXRETRIES),FALSE);
 			SetDlgItemInt(hwndDlg, IDC_INITDELAY, db_get_dw(NULL,MODULENAME,SETTING_INITDELAY,DEFAULT_INITDELAY),FALSE);
 			CheckDlgButton(hwndDlg, IDC_CHECKCONNECTION, db_get_b(NULL, MODULENAME, SETTING_CHECKCONNECTION,FALSE)?BST_CHECKED:BST_UNCHECKED);
@@ -115,7 +115,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg,UINT msg,WPARAM wParam,L
 			break;
 		}
 		break;
-		
+
 	case WM_NOTIFY:
 		if (((NMHDR*)lParam)->idFrom == IDC_PROTOCOLLIST) {
 			switch(((NMHDR*)lParam)->code) {
@@ -126,7 +126,8 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg,UINT msg,WPARAM wParam,L
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
 				break;
-		}	}
+			}
+		}
 
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			int i;
@@ -167,7 +168,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg,UINT msg,WPARAM wParam,L
 		}
 		break;
 	}
-	
+
 	return 0;
 }
 
@@ -198,7 +199,7 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 		}
 		SendMessage(hwndDlg, KS_ENABLEITEMS, 0, 0);
 		break;
-						}
+	}
 	case WM_COMMAND:
 		if ( ((HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED)) && ((HWND)lParam == GetFocus()))
 			SendMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
@@ -208,7 +209,7 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 		case IDC_LOGINERR:
 			SendMessage(hwndDlg, KS_ENABLEITEMS, 0, 0);
 			break;
-			
+
 		case IDC_LOGINERR_CANCEL:
 		case IDC_LOGINERR_SETDELAY:
 			CheckRadioButton(hwndDlg, IDC_LOGINERR_CANCEL, IDC_LOGINERR_SETDELAY, LOWORD(wParam));
@@ -216,7 +217,7 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 			break;
 		}
 		break;
-		
+
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			db_set_b(NULL, MODULENAME, SETTING_INCREASEEXPONENTIAL, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_INCREASEEXPONENTIAL));
@@ -263,7 +264,7 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 
 		break;
 	}
-	
+
 	return 0;
 }
 
@@ -312,7 +313,7 @@ static INT_PTR CALLBACK DlgProcKsTabs(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			MoveWindow(hPage, (rcTabs.left - rcOptions.left) + ((rcTabs.right-rcTabs.left)-(rcPage.right-rcPage.left))/2, 10 + (rcTabs.top - rcOptions.top) + ((rcTabs.bottom-rcTabs.top)-(rcPage.bottom-rcPage.top))/2, rcPage.right-rcPage.left, rcPage.bottom-rcPage.top, TRUE);
 			ShowWindow(hPage, SW_HIDE);
 			TabCtrl_InsertItem(hTab, tabCount++, &tci);
-			ShowWindow(hShow, SW_SHOW);			
+			ShowWindow(hShow, SW_SHOW);
 		}
 		break;
 
@@ -343,8 +344,8 @@ static INT_PTR CALLBACK DlgProcKsTabs(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		}
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			TCITEM tci;
-             int i, count;
-             
+			int i, count;
+
 			tci.mask = TCIF_PARAM;
 			count = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TABS));
 			for (i=0;i<count;i++) {
@@ -367,7 +368,7 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 	switch(msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		
+
 		bFreeze = true;
 
 		// left action
@@ -375,11 +376,11 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 		case POPUP_ACT_CLOSEPOPUP:
 			CheckDlgButton(hwndDlg, IDC_LCLOSE, BST_CHECKED);
 			break;
-			
+
 		case POPUP_ACT_CANCEL:
 			CheckDlgButton(hwndDlg, IDC_LCANCEL, BST_CHECKED);
 			break;
-			
+
 		case POPUP_ACT_NOTHING:
 		default:
 			CheckDlgButton(hwndDlg, IDC_LNOTHING, BST_CHECKED);
@@ -390,11 +391,11 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 		case POPUP_ACT_CLOSEPOPUP:
 			CheckDlgButton(hwndDlg, IDC_RCLOSE, BST_CHECKED);
 			break;
-			
+
 		case POPUP_ACT_CANCEL:
 			CheckDlgButton(hwndDlg, IDC_RCANCEL, BST_CHECKED);
 			break;
-			
+
 		case POPUP_ACT_NOTHING:
 		default:
 			CheckDlgButton(hwndDlg, IDC_RNOTHING, BST_CHECKED);
@@ -444,7 +445,7 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 		CheckDlgButton(hwndDlg, IDC_PUSHOWEXTRA, db_get_b(NULL, MODULENAME, SETTING_PUSHOWEXTRA, TRUE)?BST_CHECKED:BST_UNCHECKED);
 		bFreeze = false;
 		break;
-		
+
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_WINCOLORS:
@@ -455,7 +456,7 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			EnableWindow(GetDlgItem(hwndDlg, IDC_WINCOLORS), (!IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS)));
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
-			
+
 		case IDC_DELAYFROMPU:
 		case IDC_DELAYPERMANENT:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY), FALSE);
@@ -484,11 +485,11 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			if ( !bFreeze )
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
-			
+
 		case IDC_PREV:
 			{
 				POPUPDATAT ppd = { NULL };
-				
+
 				ppd.lchContact = NULL;
 				ppd.lchIcon = LoadSkinnedIcon(SKINICON_STATUS_OFFLINE);
 				_tcsncpy( ppd.lptzContactName, TranslateT("KeepStatus"), MAX_CONTACTNAME);
@@ -527,7 +528,7 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			break;
 		}
 		break;
-		
+
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			// left action
@@ -570,12 +571,12 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 		}
 		break;
 	}
-	
+
 	return 0;
 }
 
 int OptionsInit(WPARAM wparam,LPARAM lparam)
-{	
+{
 	if ( IsWinVerXPPlus()) {
 		HMODULE hUxTheme = GetModuleHandle(_T("uxtheme.dll"));
 		if (hUxTheme)
