@@ -477,10 +477,7 @@ ProtocolSettings* HTMLBuilder::getChatProtocolSettings(const char *protocolName)
 
 ProtocolSettings* HTMLBuilder::getChatProtocolSettings(HANDLE hContact)
 {
-	char *szRealProto = getRealProto(hContact);
-	ProtocolSettings *protoSettings =  getChatProtocolSettings(szRealProto);
-	delete szRealProto;
-	return protoSettings;
+	return getChatProtocolSettings( mir_ptr<char>(getRealProto(hContact)));
 }
 
 void HTMLBuilder::setLastIEViewEvent(IEVIEWEVENT *event)

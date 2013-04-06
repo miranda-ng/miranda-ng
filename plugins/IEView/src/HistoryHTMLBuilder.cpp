@@ -220,15 +220,14 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
 	setLastEventType(-1);
 }
 
-void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event) {
-
+void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
+{
 	DWORD dwFlags = db_get_b(NULL, HPPMOD, SRMSGSET_SHOWICONS, 0) ? SMF_LOG_SHOWICONS : 0;
-	char *szRealProto = getRealProto(event->hContact);
+	mir_ptr<char> szRealProto( getRealProto(event->hContact));
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {
 		int outputSize;
-		char *output;
-		output = NULL;
+		char *output = NULL;
 		int isSent = eventData->dwFlags & IEEDF_SENT;
 		int isRTL = eventData->dwFlags & IEEDF_RTL;
 		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE
@@ -264,20 +263,20 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 					iconFile = "message.gif";
 					Utils::appendText(&output, &outputSize, "<div class=\"%s\">", isSent ? "divMessageOut" : "divMessageIn");
 			}
-			if (dwFlags & SMF_LOG_SHOWICONS && iconFile != NULL) {
+			if (dwFlags & SMF_LOG_SHOWICONS && iconFile != NULL)
 				Utils::appendIcon(&output, &outputSize, iconFile);
-			} else {
+			else
 				Utils::appendText(&output, &outputSize, " ");
-			}
+
 			Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s:</span>", isSent ? "nameOut" : "nameIn", szName);
 			Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s</span><br>", isSent ? "timeOut" : "timeIn", timestampToString(dwFlags, eventData->time));
-			if (eventData->iType == IEED_EVENT_FILE) {
+			if (eventData->iType == IEED_EVENT_FILE)
 				Utils::appendText(&output, &outputSize, "%s:<br> %s", isSent ? Translate("Outgoing File Transfer") : Translate("Incoming File Transfer"), szText);
-			} else if (eventData->iType == IEED_EVENT_URL) {
+			else if (eventData->iType == IEED_EVENT_URL)
 				Utils::appendText(&output, &outputSize, "%s:<br> %s", isSent ? Translate("URL sent") : Translate("URL received"), szText);
-			} else {
+			else
 				Utils::appendText(&output, &outputSize, "%s", szText);
-			}
+
 			Utils::appendText(&output, &outputSize, "</div>\n");
 			setLastEventType(MAKELONG(eventData->dwFlags, eventData->iType));
 			setLastEventTime(eventData->time);
@@ -289,7 +288,6 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			free(output);
 		}
 	}
-	if (szRealProto!=NULL) delete szRealProto;
 	view->documentClose();
 }
 
