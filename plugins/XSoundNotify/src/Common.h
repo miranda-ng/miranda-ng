@@ -19,15 +19,18 @@
 
 #define SETTINGSNAME "XSoundNotify"
 #define SETTINGSKEY "XSNPlugin_sound"
+#define SETTINGSIGNOREKEY "XSNPlugin_ignore"
 
 struct XSN_Data
 {
 	HANDLE hContact;
 	TCHAR path[MAX_PATH];
+	BYTE ignore;
 
-	__forceinline XSN_Data(HANDLE _aContact, TCHAR *_path) :
+	__forceinline XSN_Data(HANDLE _aContact, TCHAR *_path, BYTE _ignore) :
 		hContact(_aContact)
 	{
 		_tcsncpy(path, _path, SIZEOF(path));
+		ignore = _ignore;
 	}
 };
