@@ -250,7 +250,7 @@ void CommonOptionDlgProc(HWND hWnd,UINT msg,WPARAM wp,LPARAM lp,CCommonDlgProcDa
 					CAdvProviderSettings* pAdvSet = get_adv_settings(rData.m_pQuotesProvider,false);
 					if(pAdvSet)
 					{
-						pAdvSet->SaveToDb();						
+						pAdvSet->SaveToDb();
 					}
 				}
 				break;
