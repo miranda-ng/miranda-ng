@@ -50,6 +50,9 @@ static void LoadRegisteredFolderSections(HWND hWnd)
 static void LoadRegisteredFolderItems(HWND hWnd)
 {
 	int idx = SendDlgItemMessage(hWnd, IDC_FOLDERS_SECTIONS_LIST, LB_GETCURSEL, 0, 0);
+	if (idx == LB_ERR)
+		return;
+
 	char* szSection = (char*)SendDlgItemMessage(hWnd, IDC_FOLDERS_SECTIONS_LIST, LB_GETITEMDATA, idx, 0);
 
 	HWND hwndItems = GetDlgItem(hWnd, IDC_FOLDERS_ITEMS_LIST);
@@ -58,7 +61,7 @@ static void LoadRegisteredFolderItems(HWND hWnd)
 	for (int i=0; i < lstRegisteredFolders.getCount(); i++) {
 		CFolderItem &item = lstRegisteredFolders[i];
 		if ( !strcmp(szSection, item.GetSection())) {
-			int idx = SendMessage(hwndItems, LB_ADDSTRING, 0, (LPARAM)TranslateTS(item.GetUserName()));
+			idx = SendMessage(hwndItems, LB_ADDSTRING, 0, (LPARAM)TranslateTS(item.GetUserName()));
 			SendMessage(hwndItems, LB_SETITEMDATA, idx, (LPARAM)&item);
 		}
 	}
