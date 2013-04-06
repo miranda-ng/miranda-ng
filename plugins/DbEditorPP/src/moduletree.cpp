@@ -27,8 +27,8 @@ int doContacts(HWND hwnd2Tree,HTREEITEM contactsRoot,ModuleSettingLL *modlist, H
 	tvi.item.cChildren = 1;
 
 	while (hContact && hwnd2mainWindow) { // break after null contact
-		char *szProto = GetContactProto(hContact);
-		if (szProto) {
+		char szProto[100];
+		if (DBGetContactSettingStringStatic(hContact, "Protocol", "p", szProto, SIZEOF(szProto))) {
 			icon = GetProtoIcon(szProto);
 			loaded = (icon != DEF_ICON);
 		}

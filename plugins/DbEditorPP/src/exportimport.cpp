@@ -337,7 +337,6 @@ HANDLE CheckNewContact(char *myProto, char *uid, char *myName)
 
 	while (hContact)
 	{
-		//szProto = GetContactProto(hContact);
 		if (DBGetContactSettingStringStatic(hContact, "Protocol", "p", szProto, 256))
 		{
 			if (!mir_strcmp(szProto, myProto))
