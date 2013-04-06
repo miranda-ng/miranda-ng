@@ -27,7 +27,7 @@ struct QueueElem
 	bkstring fname;
 	bool needext;
 
-	QueueElem(bkstring& purl, bkstring& pfname, bool ne) 
+	QueueElem(bkstring& purl, bkstring& pfname, bool ne)
 		: url(purl), fname(pfname), needext(ne) {}
 };
 
@@ -37,7 +37,7 @@ static OBJLIST<QueueElem> dlQueue(10);
 static TCHAR cachepath[MAX_PATH];
 static bool threadRunning;
 
-bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl) 
+bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 {
 	int result = 0xBADBAD;
 	char* szRedirUrl  = NULL;
@@ -64,11 +64,11 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
 			(WPARAM)hNetlibUser,(LPARAM)&nlhr);
 
-		if (nlhrReply) 
+		if (nlhrReply)
 		{
 			hHttpDwnl = nlhrReply->nlc;
 			// if the recieved code is 200 OK
-			if(nlhrReply->resultCode == 200) 
+			if(nlhrReply->resultCode == 200)
 			{
 				char* delim = strrchr(szDest, '\\');
 				if (delim) *delim = '\0';
@@ -76,7 +76,7 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 				if (delim) *delim = '\\';
 				int res = -1;
 				int fh = _open(szDest, _O_BINARY | _O_WRONLY | _O_CREAT, _S_IREAD | _S_IWRITE);
-				if (fh != -1) 
+				if (fh != -1)
 				{
 					res = _write(fh, nlhrReply->pData, nlhrReply->dataLength);
 					_close(fh);
@@ -92,9 +92,9 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 			{
 				// get the url for the new location and save it to szInfo
 				// look for the reply header "Location"
-				for (int i=0; i<nlhrReply->headersCount; i++) 
+				for (int i=0; i<nlhrReply->headersCount; i++)
 				{
-					if (!strcmp(nlhrReply->headers[i].szName, "Location")) 
+					if (!strcmp(nlhrReply->headers[i].szName, "Location"))
 					{
 						size_t rlen = 0;
 						if (nlhrReply->headers[i].szValue[0] == '/')
@@ -103,24 +103,24 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 							const char* szPref = strstr(szUrl, "://");
 							szPref = szPref ? szPref + 3 : szUrl;
 							szPath = strchr(szPref, '/');
-							rlen = szPath != NULL ? szPath - szUrl : strlen(szUrl); 
+							rlen = szPath != NULL ? szPath - szUrl : strlen(szUrl);
 						}
 
-						szRedirUrl = (char*)mir_realloc(szRedirUrl, 
+						szRedirUrl = (char*)mir_realloc(szRedirUrl,
 							rlen + strlen(nlhrReply->headers[i].szValue)*3 + 1);
 
 						strncpy(szRedirUrl, szUrl, rlen);
-						strcpy(szRedirUrl+rlen, nlhrReply->headers[i].szValue); 
+						strcpy(szRedirUrl+rlen, nlhrReply->headers[i].szValue);
 
 						nlhr.szUrl = szRedirUrl;
 						break;
 					}
 				}
 			}
-			else 
+			else
 				result = 1;
 		}
-		else 
+		else
 		{
 			hHttpDwnl = NULL;
 			result = 1;
@@ -168,7 +168,6 @@ void __cdecl SmileyDownloadThread(void*)
 	}
 }
 
-
 bool GetSmileyFile(bkstring& url, const bkstring& packstr)
 {
 	_TPattern * urlsplit = _TPattern::compile(_T(".*/(.*)"));
@@ -189,7 +188,7 @@ bool GetSmileyFile(bkstring& url, const bkstring& packstr)
 
 	_tfinddata_t c_file;
 	INT_PTR hFile = _tfindfirst((TCHAR*)filename.c_str(), &c_file);
-	if (hFile > -1) 
+	if (hFile > -1)
 	{
 		_findclose(hFile);
 		filename.erase(pathpos);
@@ -234,7 +233,7 @@ void GetSmileyCacheFolder(void)
 	}
 }
 
-void DownloadInit(void) 
+void DownloadInit(void)
 {
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
@@ -247,7 +246,7 @@ void DownloadInit(void)
 	g_hDlMutex = CreateMutex(NULL, FALSE, NULL);
 }
 
-void DownloadClose(void) 
+void DownloadClose(void)
 {
 	CloseHandle(g_hDlMutex);
 	Netlib_CloseHandle(hNetlibUser);
