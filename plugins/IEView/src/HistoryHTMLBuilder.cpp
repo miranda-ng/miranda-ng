@@ -89,9 +89,7 @@ char *HistoryHTMLBuilder::timestampToString(DWORD dwFlags, time_t check) {
 	dbtts.szFormat = (char *)"d t";
 	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM) & dbtts);
 	strncat(szResult, str, 500);
-	char *tmp = mir_utf8encode(szResult);
-	lstrcpynA(szResult, tmp, 500);
-	mir_free(tmp);
+	lstrcpynA(szResult, mir_ptr<char>(mir_utf8encode(szResult)), 500);
 	return szResult;
 }
 
@@ -230,10 +228,10 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 		char *output = NULL;
 		int isSent = eventData->dwFlags & IEEDF_SENT;
 		int isRTL = eventData->dwFlags & IEEDF_RTL;
-		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE
-			|| eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_FILE) {
-			char *szName = NULL;
-			char *szText = NULL;
+		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE ||
+				eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_FILE)
+		{
+			mir_ptr<char> szName, szText;
 			if (eventData->dwFlags & IEEDF_UNICODE_NICK)
 				szName = encodeUTF8(event->hContact, szRealProto, eventData->pszNickW, ENF_NAMESMILEYS, true);
 			else
@@ -248,20 +246,20 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			const char *className = NULL;
 			const char *iconFile = NULL;
 			switch (eventData->iType) {
-				case IEED_EVENT_SYSTEM:
-					Utils::appendText(&output, &outputSize, "<div class=\"%s\">", "divSystem");
-					break;
-				case IEED_EVENT_FILE:
-					iconFile = "file.gif";
-					Utils::appendText(&output, &outputSize, "<div class=\"%s\">", isSent ? "divFileOut" : "divFileIn");
-					break;
-				case IEED_EVENT_URL:
-					iconFile = "url.gif";
-					Utils::appendText(&output, &outputSize, "<div class=\"%s\">", isSent ? "divUrlOut" : "divUrlIn");
-					break;
-				default:
-					iconFile = "message.gif";
-					Utils::appendText(&output, &outputSize, "<div class=\"%s\">", isSent ? "divMessageOut" : "divMessageIn");
+			case IEED_EVENT_SYSTEM:
+				Utils::appendText(&output, &outputSize, "<div class=\"%s\">", "divSystem");
+				break;
+			case IEED_EVENT_FILE:
+				iconFile = "file.gif";
+				Utils::appendText(&output, &outputSize, "<div class=\"%s\">", isSent ? "divFileOut" : "divFileIn");
+				break;
+			case IEED_EVENT_URL:
+				iconFile = "url.gif";
+				Utils::appendText(&output, &outputSize, "<div class=\"%s\">", isSent ? "divUrlOut" : "divUrlIn");
+				break;
+			default:
+				iconFile = "message.gif";
+				Utils::appendText(&output, &outputSize, "<div class=\"%s\">", isSent ? "divMessageOut" : "divMessageIn");
 			}
 			if (dwFlags & SMF_LOG_SHOWICONS && iconFile != NULL)
 				Utils::appendIcon(&output, &outputSize, iconFile);
@@ -280,8 +278,6 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			Utils::appendText(&output, &outputSize, "</div>\n");
 			setLastEventType(MAKELONG(eventData->dwFlags, eventData->iType));
 			setLastEventTime(eventData->time);
-			if (szName!=NULL) delete szName;
-			if (szText!=NULL) delete szText;
 		}
 		if (output != NULL) {
 			view->write(output);

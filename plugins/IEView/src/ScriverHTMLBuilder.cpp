@@ -171,9 +171,7 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 		//_tcsncat(szResult, str, 500);
 		strncat(szResult, str, 500);
 	}
-	char *tmp = mir_utf8encode(szResult);
-	lstrcpynA(szResult, tmp, 500);
-	mir_free(tmp);
+	lstrcpynA(szResult, mir_ptr<char>(mir_utf8encode(szResult)), 500);
 	return szResult;
 }
 
@@ -302,7 +300,7 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 					(((eventData->time < startedTime) == (getLastEventTime() < startedTime)) || !(eventData->dwFlags & IEEDF_READ))) {
 				isGroupBreak = FALSE;
 			}
-			char *szName = NULL, *szText = NULL;
+			mir_ptr<char> szName, szText;
 			if (eventData->dwFlags & IEEDF_UNICODE_NICK)
 				szName = encodeUTF8(event->hContact, szRealProto, eventData->pszNickW, ENF_NAMESMILEYS, true);
 			else
@@ -371,8 +369,7 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				if (eventData->iType == IEED_EVENT_MESSAGE) {
 					if (showColon)
 						Utils::appendText(&output, &outputSize, "<span class=\"%s\"> %s</span>",
-									isSent ? "nameOut" : "nameIn",
-									szName);
+									isSent ? "nameOut" : "nameIn", szName);
 					else
 						Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s</span>",
 									isSent ? "nameOut" : "nameIn", szName);
@@ -421,8 +418,6 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			Utils::appendText(&output, &outputSize, "</div>\n");
 			setLastEventType(MAKELONG(eventData->dwFlags, eventData->iType));
 			setLastEventTime(eventData->time);
-			if (szName!=NULL) delete szName;
-			if (szText!=NULL) delete szText;
 		}
 		if (output != NULL) {
 			view->write(output);

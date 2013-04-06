@@ -21,7 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "ieview_common.h"
 
-TextToken::TextToken(int type, const char *text, int len) {
+TextToken::TextToken(int type, const char *text, int len)
+{
 	next = NULL;
 	tag = 0;
 	end = false;
@@ -32,7 +33,8 @@ TextToken::TextToken(int type, const char *text, int len) {
 	this->wlink = NULL;
 }
 
-TextToken::TextToken(int type, const wchar_t *wtext, int len) {
+TextToken::TextToken(int type, const wchar_t *wtext, int len)
+{
 	next = NULL;
 	tag = 0;
 	end = false;
@@ -43,88 +45,87 @@ TextToken::TextToken(int type, const wchar_t *wtext, int len) {
 	this->wlink = NULL;
 }
 
-TextToken::~TextToken() {
-	if (text!=NULL) {
-		mir_free(text);
-	}
-	if (wtext!=NULL) {
-		mir_free(wtext);
-	}
-	if (link!=NULL) {
-		mir_free(link);
-	}
-	if (wlink!=NULL) {
-		mir_free(wlink);
-	}
+TextToken::~TextToken()
+{
+	mir_free(text);
+	mir_free(wtext);
+	mir_free(link);
+	mir_free(wlink);
 }
 
-TextToken * TextToken::getNext() {
+TextToken * TextToken::getNext()
+{
 	return next;
 }
 
-void TextToken::setNext(TextToken *ptr) {
+void TextToken::setNext(TextToken *ptr)
+{
 	next = ptr;
 }
 
-int TextToken::getType() {
+int TextToken::getType()
+{
 	return type;
 }
 
-const char *TextToken::getText() {
+const char *TextToken::getText()
+{
 	return text;
 }
 
-const wchar_t *TextToken::getTextW() {
+const wchar_t *TextToken::getTextW()
+{
 	return wtext;
 }
 
-int TextToken::getTag() {
+int TextToken::getTag()
+{
 	return tag;
 }
 
-void TextToken::setTag(int tag) {
+void TextToken::setTag(int tag)
+{
 	this->tag = tag;
 }
 
-bool TextToken::isEnd() {
+bool TextToken::isEnd()
+{
 	return end;
 }
 
-void TextToken::setEnd(bool b) {
+void TextToken::setEnd(bool b)
+{
 	this->end = b;
 }
 
-const char *TextToken::getLink() {
+const char *TextToken::getLink()
+{
 	return link;
 }
 
-const wchar_t *TextToken::getLinkW() {
+const wchar_t *TextToken::getLinkW()
+{
 	return wlink;
 }
 
-void TextToken::setLink(const char *link) {
-	if (this->link != NULL) {
-		delete this->link;
-	}
-	if (this->wlink != NULL) {
-		delete this->wlink;
-	}
-	this->link = mir_strdup(link);
-	this->wlink = mir_a2t(link);
+void TextToken::setLink(const char *_link)
+{
+	replaceStr(link, _link);
+
+	mir_free(wlink);
+	this->wlink = mir_a2t(_link);
 }
 
-void TextToken::setLink(const wchar_t *link) {
-	if (this->link != NULL) {
-		delete this->link;
-	}
-	if (this->wlink != NULL) {
-		delete this->wlink;
-	}
-	this->link = mir_t2a(link);
-	this->wlink = mir_tstrdup(link);
+void TextToken::setLink(const wchar_t *_link)
+{
+	replaceStrW(wlink, _link);
+
+	mir_free(link);
+	link = mir_u2a(_link);
 }
 
-static int countNoWhitespace(const wchar_t *str) {
+static int countNoWhitespace(const wchar_t *str)
+{
 	int c;
 	for (c=0; *str!='\n' && *str!='\r' && *str!='\t' && *str!=' ' && *str!='\0'; str++, c++);
 	return c;
@@ -307,9 +308,9 @@ TextToken* TextToken::tokenizeBBCodes(const wchar_t *text, int l) {
 						newTokenType = BBCODE;
 						newTokenSize = k - i;
 						if (bbTagArg[j]) {
-							wchar_t *urlLink = 	mir_tstrndup(text + tagArgStart, tagArgEnd - tagArgStart);
+							wchar_t *urlLink = mir_tstrndup(text + tagArgStart, tagArgEnd - tagArgStart);
 							bbToken->setLink(urlLink);
-							delete urlLink;
+							mir_free(urlLink);
 						}
 						break;
 					}
@@ -628,7 +629,8 @@ wchar_t *TextToken::htmlEncode(const wchar_t *str)
 	return output;
 }
 
-void TextToken::toString(wchar_t **str, int *sizeAlloced) {
+void TextToken::toString(wchar_t **str, int *sizeAlloced)
+{
 	wchar_t *eText = NULL, *eLink = NULL;
 	switch (type) {
 		case TEXT:
@@ -752,11 +754,8 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced) {
 					}
 					break;
 				case BB_BIMG:
-					{
-						wchar_t *absolutePath = Utils::toAbsolute(wtext);
-						eText = htmlEncode(absolutePath);
-						delete absolutePath;
-					}
+					eText = htmlEncode(mir_ptr<wchar_t>(Utils::toAbsolute(wtext)));
+
 					if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && (wcsstr(eText, L".swf")!=NULL)) {
 						Utils::appendText(str, sizeAlloced,
 		L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \

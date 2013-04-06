@@ -34,7 +34,7 @@ wchar_t* Utils::toAbsolute(wchar_t* relative)
 	const wchar_t* bdir = getBaseDir();
 	long len = (int)wcslen(bdir);
 	long tlen = len + (int)wcslen(relative);
-	wchar_t* result = new wchar_t[tlen + 1];
+	wchar_t* result = (wchar_t*)mir_alloc(sizeof(wchar_t)*(tlen + 1));
 	if(result) {
 		wcscpy(result, bdir);
 		wcscpy(result + len, relative);
@@ -159,19 +159,17 @@ int Utils::detectURL(const wchar_t *text)
 
 char *Utils::escapeString(const char *a)
 {
-	int i, l, len;
-	char *out;
-	if (a == NULL) {
+	if (a == NULL)
 		return NULL;
-	}
-	len = (int)strlen(a);
+
+	int i, l, len = (int)strlen(a);
 	for (i = l = 0; i < len; i++, l++) {
 		if (a[i] == '\\' || a[i] == '\n' || a[i] == '\r' || a[i] == '\"'
 			|| a[i] == '\'' || a[i] == '\b' || a[i] == '\t' || a[i] == '\f') {
 			l++;
 		}
 	}
-	out = new char[l+1];
+	char *out = (char*)mir_alloc(l+1);
 	for (i = l = 0; i < len; i++, l++) {
 		if (a[i] == '\\' || a[i] == '\n' || a[i] == '\r' || a[i] == '\"'
 			|| a[i] == '\'' || a[i] == '\b' || a[i] == '\t' || a[i] == '\f') {

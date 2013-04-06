@@ -87,13 +87,12 @@ char *ChatHTMLBuilder::timestampToString(time_t time)
 	char *pszStamp = "[%H:%M]";
 	//InitSetting( &g_Settings.pszTimeStamp, "HeaderTime", _T("[%H:%M]"));
 	strftime(str, 79, pszStamp, localtime(&time));
-	char *tmp = mir_utf8encode(str);
-	lstrcpynA(szResult, tmp, 500);
-	mir_free(tmp);
+	lstrcpynA(szResult, mir_ptr<char>(mir_utf8encode(str)), 500);
 	return szResult;
 }
 
-void ChatHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
+void ChatHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
+{
 	LOGFONTA lf;
 	COLORREF color;
 	char *output = NULL;
@@ -158,7 +157,8 @@ void ChatHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
  * The following method is going to be completely rewritten soon. Do not modify or complain for the time being...
  */
 
-void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event) {
+void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
+{
 	DWORD iconFlags = db_get_dw(NULL, CHATMOD, CHAT_ICON_FLAGS, 0);
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {
@@ -168,25 +168,26 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event) {
 		int isSent = eventData->bIsMe;
 		int outputSize = 0;
 		char *output = NULL;
-		char *szName = NULL, *szText = NULL;
 		const char *className = "";
 		bool showIcon = false;
 
-		if (eventData->dwFlags & IEEDF_UNICODE_TEXT) {
+		mir_ptr<char> szName, szText;
+		if (eventData->dwFlags & IEEDF_UNICODE_TEXT)
 			szText = encodeUTF8(NULL, event->pszProto, eventData->pszTextW, ENF_ALL | ENF_CHAT_FORMATTING, isSent);
-		} else {
+		else
 			szText = encodeUTF8(NULL, event->pszProto, (char *)eventData->pszText, ENF_ALL | ENF_CHAT_FORMATTING, isSent);
-		}
-		if (eventData->dwFlags & IEEDF_UNICODE_NICK) {
+
+		if (eventData->dwFlags & IEEDF_UNICODE_NICK)
 			szName = encodeUTF8(NULL, event->pszProto, eventData->pszNickW, ENF_NAMESMILEYS, true);
-		} else {
+		else
 			szName = encodeUTF8(NULL, event->pszProto, (char *) eventData->pszNick, ENF_NAMESMILEYS, true);
-		}
+
 		if (eventData->iType == IEED_GC_EVENT_MESSAGE) {
 			iconFile = isSent ? "message_out_chat.gif" : "message_in_chat.gif";
 			showIcon = iconFlags & (isSent ? GC_EVENT_MESSAGE : GC_EVENT_MESSAGE);
 			className = isSent ? "messageOut" : "messageIn";
-		} else {
+		}
+		else {
 			if (eventData->iType == IEED_GC_EVENT_ACTION) {
 				iconFile = "action.gif";
 				className = "action";
@@ -244,8 +245,6 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event) {
 			view->write(output);
 			free(output);
 		}
-		if (szName!=NULL) delete szName;
-		if (szText!=NULL) delete szText;
 	}
 }
 

@@ -28,46 +28,45 @@ INT_PTR HandleIEWindow(WPARAM wParam, LPARAM lParam) {
 	if (window->iType == IEW_CREATE) {
 		HTMLBuilder *builder = NULL;
 		switch (window->dwMode) {
-			case IEWM_MUCC:
-				builder = new MUCCHTMLBuilder();
-				break;
-			case IEWM_CHAT:
-				builder = new ChatHTMLBuilder();
-				break;
-			case IEWM_TABSRMM:
-				builder = new TabSRMMHTMLBuilder();
-				break;
-			case IEWM_SCRIVER:
-//				builder = new HistoryHTMLBuilder();
-				builder = new ScriverHTMLBuilder();
-				break;
-			case IEWM_HISTORY:
-				builder = new HistoryHTMLBuilder();
-				break;
-			case IEWM_BROWSER:
-				builder = NULL;
-				break;
-			default:
-				builder = new ScriverHTMLBuilder();
-				break;
+		case IEWM_MUCC:
+			builder = new MUCCHTMLBuilder();
+			break;
+		case IEWM_CHAT:
+			builder = new ChatHTMLBuilder();
+			break;
+		case IEWM_TABSRMM:
+			builder = new TabSRMMHTMLBuilder();
+			break;
+		case IEWM_SCRIVER:
+			builder = new ScriverHTMLBuilder();
+			break;
+		case IEWM_HISTORY:
+			builder = new HistoryHTMLBuilder();
+			break;
+		case IEWM_BROWSER:
+			builder = NULL;
+			break;
+		default:
+			builder = new ScriverHTMLBuilder();
+			break;
 		}
-		IEView * view = new IEView(window->parent, builder, window->x, window->y, window->cx, window->cy);
+		IEView *view = new IEView(window->parent, builder, window->x, window->y, window->cx, window->cy);
 		window->hwnd = view->getHWND();
-	} else if (window->iType == IEW_SETPOS) {
-		IEView * view = IEView::get(window->hwnd);
-		if (view!=NULL) {
+	}
+	else if (window->iType == IEW_SETPOS) {
+		IEView *view = IEView::get(window->hwnd);
+		if (view != NULL)
 			view->setWindowPos(window->x, window->y, window->cx,window->cy);
-		}
-	} else if (window->iType == IEW_SCROLLBOTTOM) {
-		IEView * view = IEView::get(window->hwnd);
-		if (view!=NULL) {
+	}
+	else if (window->iType == IEW_SCROLLBOTTOM) {
+		IEView *view = IEView::get(window->hwnd);
+		if (view != NULL)
 			view->scrollToBottom();
-		}
-	} else if (window->iType == IEW_DESTROY) {
-		IEView * view = IEView::get(window->hwnd);
-		if (view!=NULL) {
+	}
+	else if (window->iType == IEW_DESTROY) {
+		IEView *view = IEView::get(window->hwnd);
+		if (view != NULL)
 			delete view;
-		}
 	}
 	return 0;
 }
@@ -76,19 +75,18 @@ INT_PTR HandleIEEvent(WPARAM wParam, LPARAM lParam) {
 	IEVIEWEVENT *event = (IEVIEWEVENT *) lParam;
 	IEView::init();
 	Options::init();
-	IEView * view = IEView::get(event->hwnd);
+	IEView *view = IEView::get(event->hwnd);
 	if (view != NULL) {
-		if (event->iType == IEE_LOG_DB_EVENTS) {
+		if (event->iType == IEE_LOG_DB_EVENTS)
 			view->appendEventOld(event);
-		} else if (event->iType == IEE_CLEAR_LOG) {
+		else if (event->iType == IEE_CLEAR_LOG)
 			view->clear(event);
-		} else if (event->iType == IEE_GET_SELECTION) {
+		else if (event->iType == IEE_GET_SELECTION)
 			return (int)view->getSelection(event);
-		} else if (event->iType == IEE_SAVE_DOCUMENT) {
+		else if (event->iType == IEE_SAVE_DOCUMENT)
 			view->saveDocument();
-		} else if (event->iType == IEE_LOG_MEM_EVENTS) {
+		else if (event->iType == IEE_LOG_MEM_EVENTS)
 			view->appendEvent(event);
-		}
 	}
 	return 0;
 }
@@ -97,7 +95,7 @@ INT_PTR HandleIENavigate(WPARAM wParam, LPARAM lParam) {
 	IEVIEWNAVIGATE *navigate = (IEVIEWNAVIGATE *) lParam;
 	IEView::init();
 	Options::init();
-	IEView * view = IEView::get(navigate->hwnd);
+	IEView *view = IEView::get(navigate->hwnd);
 	if (view != NULL) {
 		if (navigate->iType == IEN_NAVIGATE) {
 			view->navigate(navigate);
