@@ -45,13 +45,15 @@
 //  Variables
 //=======================================================
 
-struct windowInfo {
+struct windowInfo
+{
 	HANDLE hContact;
 	HWND SendIfMy;
 	HWND SendWhenThey;
 };
 
-struct SendPounceDlgProcStruct {
+struct SendPounceDlgProcStruct
+{
 	HANDLE hContact;
 	int timer;
 	TCHAR *message;

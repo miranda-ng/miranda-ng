@@ -174,7 +174,7 @@ int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 					// check if we r giving up after x days
 					if (CheckDate(hContact)) {
 						if (db_get_w(hContact, modname, "ConfirmTimeout", 0)) {
-							struct SendPounceDlgProcStruct *spdps = (struct SendPounceDlgProcStruct *)mir_alloc(sizeof(struct SendPounceDlgProcStruct));
+							SendPounceDlgProcStruct *spdps = (SendPounceDlgProcStruct *)mir_alloc(sizeof(SendPounceDlgProcStruct));
 							TCHAR *message = mir_tstrdup(dbv.ptszVal); // will get free()ed in the send confirm window proc
 							spdps->hContact = hContact;
 							spdps->message = message;
