@@ -548,7 +548,7 @@ INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			SetDlgItemText(hwnd, LBL_CONTACT, message);
 			spdps->timer--;
 
-			if (spdps->timer == -1) {
+			if (spdps->timer == 0) {
 				KillTimer(hwnd,1);
 				SendPounce(spdps->message, ((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->hContact);
 				mir_free((TCHAR*)((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->message);
