@@ -523,7 +523,7 @@ void ModifyInvisSet(int mode,BOOL alpha)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_ICON;
 	mi.hIcon = (mode) ? hIcon[2] : (alpha ? hIcon[4] : LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT));
-	Menu_ModifyItem(hmenuVis, &mi);
+	Menu_ModifyItem(hmenuOff, &mi);
 }
 
 void ModifyCopyID(HANDLE hContact, BOOL bShowID, BOOL bTrimID)
