@@ -8,16 +8,16 @@ namespace
 	LPCTSTR g_pszVariableUserProfile = _T("%miranda_userdata%");
 
 	void update_file_controls(HWND hDlg)
-	{		
+	{
 		bool bEnable = (1 == ::IsDlgButtonChecked(hDlg,IDC_CHECK_EXTERNAL_FILE));
-		
+
 		::EnableWindow(::GetDlgItem(hDlg,IDC_EDIT_FILE_NAME),bEnable);
 		::EnableWindow(::GetDlgItem(hDlg,IDC_STATIC_SELECT_FILE),bEnable);
 		::EnableWindow(::GetDlgItem(hDlg,IDC_BUTTON_BROWSE),bEnable);
 		::EnableWindow(::GetDlgItem(hDlg,IDC_STATIC_LOG_FILE_FORMAT),bEnable);
 		::EnableWindow(::GetDlgItem(hDlg,IDC_EDIT_LOG_FILE_FORMAT),bEnable);
 		::EnableWindow(::GetDlgItem(hDlg,IDC_BUTTON_LOG_FILE_DESCRIPTION),bEnable);
-		::EnableWindow(::GetDlgItem(hDlg,IDC_CHECK_LOG_FILE_CONDITION),bEnable);	
+		::EnableWindow(::GetDlgItem(hDlg,IDC_CHECK_LOG_FILE_CONDITION),bEnable);
 	}
 
 	void update_history_controls(HWND hDlg)
@@ -27,7 +27,7 @@ namespace
 		::EnableWindow(::GetDlgItem(hDlg,IDC_STATIC_HISTORY_FORMAT),bEnable);
 		::EnableWindow(::GetDlgItem(hDlg,IDC_EDIT_HISTORY_FORMAT),bEnable);
 		::EnableWindow(::GetDlgItem(hDlg,IDC_BUTTON_HISTORY_DESCRIPTION),bEnable);
-		::EnableWindow(::GetDlgItem(hDlg,IDC_CHECK_HISTORY_CONDITION),bEnable);		
+		::EnableWindow(::GetDlgItem(hDlg,IDC_CHECK_HISTORY_CONDITION),bEnable);
 	}
 
 	void update_popup_controls(HWND hDlg)
@@ -37,7 +37,7 @@ namespace
 		::EnableWindow(::GetDlgItem(hDlg,IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED),bEnable);
 		::EnableWindow(::GetDlgItem(hDlg,IDC_STATIC_POPUP_FORMAT),bEnable);
 		::EnableWindow(::GetDlgItem(hDlg,IDC_BUTTON_POPUP_FORMAT_DESCRIPTION),bEnable);
-		::EnableWindow(::GetDlgItem(hDlg,IDC_BUTTON_POPUP_SETTINGS),bEnable);	
+		::EnableWindow(::GetDlgItem(hDlg,IDC_BUTTON_POPUP_SETTINGS),bEnable);
 	}
 
 	bool enable_popup_controls(HWND hDlg)
@@ -48,7 +48,7 @@ namespace
 		::EnableWindow(::GetDlgItem(hDlg,IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED),bIsPopupServiceEnabled);
 		::EnableWindow(::GetDlgItem(hDlg,IDC_STATIC_POPUP_FORMAT),bIsPopupServiceEnabled);
 		::EnableWindow(::GetDlgItem(hDlg,IDC_BUTTON_POPUP_FORMAT_DESCRIPTION),bIsPopupServiceEnabled);
-		::EnableWindow(::GetDlgItem(hDlg,IDC_BUTTON_POPUP_SETTINGS),bIsPopupServiceEnabled);		
+		::EnableWindow(::GetDlgItem(hDlg,IDC_BUTTON_POPUP_SETTINGS),bIsPopupServiceEnabled);
 
 		return bIsPopupServiceEnabled;
 	}
@@ -72,7 +72,7 @@ namespace
 		::EnableWindow(::GetDlgItem(hDlg,IDC_STATIC_HISTORY_FORMAT),(bIsCheckedContactSpec&&bIsCheckedHistory));
 		::EnableWindow(::GetDlgItem(hDlg,IDC_EDIT_HISTORY_FORMAT),(bIsCheckedContactSpec&&bIsCheckedHistory));
 		::EnableWindow(::GetDlgItem(hDlg,IDC_BUTTON_HISTORY_DESCRIPTION),(bIsCheckedContactSpec&&bIsCheckedHistory));
-		::EnableWindow(::GetDlgItem(hDlg,IDC_CHECK_HISTORY_CONDITION),(bIsCheckedContactSpec&&bIsCheckedHistory));	
+		::EnableWindow(::GetDlgItem(hDlg,IDC_CHECK_HISTORY_CONDITION),(bIsCheckedContactSpec&&bIsCheckedHistory));
 
 		bool bIsPopupServiceEnabled = 1 == ServiceExists(MS_POPUP_ADDPOPUPT);
 		bool bIsCheckedShowPopup = (1 == ::IsDlgButtonChecked(hDlg,IDC_CHECK_SHOW_POPUP));
@@ -81,7 +81,7 @@ namespace
 		::EnableWindow(::GetDlgItem(hDlg,IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED),(bIsCheckedContactSpec&&bIsPopupServiceEnabled&&bIsCheckedShowPopup));
 		::EnableWindow(::GetDlgItem(hDlg,IDC_STATIC_POPUP_FORMAT),(bIsCheckedContactSpec&&bIsPopupServiceEnabled&&bIsCheckedShowPopup));
 		::EnableWindow(::GetDlgItem(hDlg,IDC_BUTTON_POPUP_FORMAT_DESCRIPTION),(bIsCheckedContactSpec&&bIsPopupServiceEnabled&&bIsCheckedShowPopup));
-		::EnableWindow(::GetDlgItem(hDlg,IDC_BUTTON_POPUP_SETTINGS),(bIsCheckedContactSpec&&bIsPopupServiceEnabled));		
+		::EnableWindow(::GetDlgItem(hDlg,IDC_BUTTON_POPUP_SETTINGS),(bIsCheckedContactSpec&&bIsPopupServiceEnabled));
 	}
 
 	std::vector<TCHAR> get_filter()
@@ -100,10 +100,7 @@ namespace
 	}
 	void select_log_file(HWND hDlg)
 	{
-// 		tstring sFileName = GenerateLogFileName(
-// 			get_window_text(::GetDlgItem(hDlg,IDC_EDIT_FILE_NAME)),tstring(),glfnResolveUserProfile);
 		std::vector<TCHAR> aFileBuffer(_MAX_PATH*2,_T('\0'));
-// 		std::copy(sFileName.begin(),sFileName.end(),aFileBuffer.begin());
 		LPTSTR pszFile = &*aFileBuffer.begin();
 
 		std::vector<TCHAR> aFilterBuffer = get_filter();
@@ -118,9 +115,6 @@ namespace
 		ofn.nFilterIndex = 1;
 		ofn.hInstance = g_hInstance;
 		ofn.lpstrDefExt = _T("log");
-// 		ofn.lpstrFileTitle = NULL;
-// 		ofn.nMaxFileTitle = 0;
-// 		ofn.lpstrInitialDir = NULL;
 		ofn.Flags = OFN_PATHMUSTEXIST|OFN_HIDEREADONLY|OFN_EXPLORER;
 
 		BOOL b = GetOpenFileName(&ofn);
@@ -144,18 +138,12 @@ namespace
 		return reinterpret_cast<CSettingWindowParam*>(GetWindowLongPtr(hWnd,GWLP_USERDATA));
 	}
 
-
-// 	inline HANDLE get_contact(HWND hWnd)
-// 	{
-// 		return reinterpret_cast<HANDLE>(GetWindowLongPtr(hWnd,GWLP_USERDATA));
-// 	}
-
 	void update_popup_controls_settings(HWND hDlg)
 	{
 		bool bIsColoursEnabled = 1 == IsDlgButtonChecked(hDlg,IDC_RADIO_USER_DEFINED_COLOURS);
 		::EnableWindow(::GetDlgItem(hDlg,IDC_BGCOLOR),bIsColoursEnabled);
 		::EnableWindow(::GetDlgItem(hDlg,IDC_TEXTCOLOR),bIsColoursEnabled);
-		
+
 		bool bIsDelayEnabled = 1 == IsDlgButtonChecked(hDlg,IDC_DELAYCUSTOM);
 		::EnableWindow(::GetDlgItem(hDlg,IDC_DELAY),bIsDelayEnabled);
 
@@ -169,8 +157,6 @@ namespace
 			{
 				CPopupSettings* pSettings = reinterpret_cast<CPopupSettings*>(lp);
 				TranslateDialogDefault( hWnd );
-// 				::SendDlgItemMessage(hWnd,IDC_BGCOLOR,CPM_SETDEFAULTCOLOUR,0,::GetSysColor(COLOR_BTNFACE));
-// 				::SendDlgItemMessage(hWnd,IDC_TEXTCOLOR,CPM_SETDEFAULTCOLOUR,0,::GetSysColor(COLOR_BTNTEXT));
 				::SendDlgItemMessage(hWnd,IDC_BGCOLOR,CPM_SETCOLOUR,0,pSettings->GetColourBk());
 				::SendDlgItemMessage(hWnd,IDC_TEXTCOLOR,CPM_SETCOLOUR,0,pSettings->GetColourText());
 
@@ -202,7 +188,7 @@ namespace
 			}
 			return TRUE;
 		case WM_COMMAND:
-			switch(LOWORD(wp)) 
+			switch(LOWORD(wp))
 			{
 			case IDC_RADIO_DEFAULT_COLOURS:
 			case IDC_RADIO_USER_DEFINED_COLOURS:
@@ -266,8 +252,8 @@ namespace
 						pSettings->SetColourText(static_cast<COLORREF>(::SendDlgItemMessage(hWnd,IDC_TEXTCOLOR,CPM_GETCOLOUR,0,0)));
 
 						::EndDialog(hWnd,IDOK);
-					}					
-				}				
+					}
+				}
 				break;
 			}
 			break;
@@ -276,7 +262,7 @@ namespace
 		return FALSE;
 	}
 
-	INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd,UINT msg,WPARAM wp,LPARAM lp) 
+	INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd,UINT msg,WPARAM wp,LPARAM lp)
 	{
 		switch(msg)
 		{
@@ -296,7 +282,7 @@ namespace
 
 				BYTE bUseContactSpecific = db_get_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_CONTACT_SPEC_SETTINGS,0);
 				::CheckDlgButton(hWnd,IDC_CHECK_CONTACT_SPECIFIC,bUseContactSpecific);
-				
+
 				CAdvProviderSettings setGlobal(pProvider.get());
 				// log to history
 				WORD dwLogMode = db_get_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG,setGlobal.GetLogMode());
@@ -442,7 +428,7 @@ namespace
 						if(true == sLogFile.empty())
 						{
 							prepare_edit_ctrl_for_error(hwndLogFile);
-							Quotes_MessageBox(hWnd,TranslateT("Enter log file name."),MB_OK|MB_ICONERROR);	
+							Quotes_MessageBox(hWnd,TranslateT("Enter log file name."),MB_OK|MB_ICONERROR);
 							bOk = false;
 						}
 						else if(true == sLogFileFormat.empty())
@@ -456,7 +442,7 @@ namespace
 					if ((true == bOk) && (nLogMode&lmInternalHistory) && (true == sHistoryFormat.empty()))
 					{
 						prepare_edit_ctrl_for_error(hwndHistoryFrmt);
-						Quotes_MessageBox(hWnd,TranslateT("Enter history format."),MB_OK|MB_ICONERROR);	
+						Quotes_MessageBox(hWnd,TranslateT("Enter history format."),MB_OK|MB_ICONERROR);
 						bOk = false;
 					}
 
@@ -465,10 +451,10 @@ namespace
 					if ((true == bOk) && (nLogMode&lmPopup) && (true == sPopupFormat.empty()))
 					{
 						prepare_edit_ctrl_for_error(hwndPopupFrmt);
-						Quotes_MessageBox(hWnd,TranslateT("Enter popup window format."),MB_OK|MB_ICONERROR);	
+						Quotes_MessageBox(hWnd,TranslateT("Enter popup window format."),MB_OK|MB_ICONERROR);
 						bOk = false;
 					}
-					
+
 					if(true == bOk)
 					{
 						UINT nIfChangedHistory = IsDlgButtonChecked(hWnd,IDC_CHECK_HISTORY_CONDITION);
@@ -526,7 +512,7 @@ void ShowSettingsDlg(HANDLE hContact)
 	HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS,true);
 	assert(hWL);
 	HWND hWnd = WindowList_Find(hWL,hContact);
-	if(NULL != hWnd) 
+	if(NULL != hWnd)
 	{
 		SetForegroundWindow(hWnd);
 		SetFocus(hWnd);
@@ -541,7 +527,7 @@ void ShowSettingsDlg(HANDLE hContact)
 
 namespace
 {
-	INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd,UINT msg,WPARAM wp,LPARAM lp) 
+	INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd,UINT msg,WPARAM wp,LPARAM lp)
 	{
 		switch(msg)
 		{
@@ -551,7 +537,7 @@ namespace
 				CAdvProviderSettings* pAdvSettings = reinterpret_cast<CAdvProviderSettings*>(lp);
 
 				::SetDlgItemText(hWnd,IDC_EDIT_NAME,pAdvSettings->GetProviderPtr()->GetInfo().m_sName.c_str());
-				
+
 				// log to history
 				WORD dwLogMode = pAdvSettings->GetLogMode();
 				UINT nCheck = (dwLogMode&lmInternalHistory) ? 1 : 0;
@@ -584,7 +570,7 @@ namespace
 			}
 			return TRUE;
 		case WM_COMMAND:
-			switch(LOWORD(wp)) 
+			switch(LOWORD(wp))
 			{
 			case IDOK:
 				{
@@ -612,14 +598,14 @@ namespace
 					HWND hwndLogFileFrmt = ::GetDlgItem(hWnd,IDC_EDIT_LOG_FILE_FORMAT);
 					
 					tstring sLogFile = get_window_text(hwndLogFile);
-					tstring sLogFileFormat = get_window_text(hwndLogFileFrmt);					
+					tstring sLogFileFormat = get_window_text(hwndLogFileFrmt);
 					
 					if ((nLogMode&lmExternalFile))
 					{
 						if(true == sLogFile.empty())
 						{
 							prepare_edit_ctrl_for_error(hwndLogFile);
-							Quotes_MessageBox(hWnd,TranslateT("Enter log file name."),MB_OK|MB_ICONERROR);	
+							Quotes_MessageBox(hWnd,TranslateT("Enter log file name."),MB_OK|MB_ICONERROR);
 							bOk = false;
 						}
 						else if(true == sLogFileFormat.empty())
@@ -635,7 +621,7 @@ namespace
 					if ((true == bOk) && (nLogMode&lmInternalHistory) && (true == sHistoryFormat.empty()))
 					{
 						prepare_edit_ctrl_for_error(hwndHistoryFrmt);
-						Quotes_MessageBox(hWnd,TranslateT("Enter history format."),MB_OK|MB_ICONERROR);	
+						Quotes_MessageBox(hWnd,TranslateT("Enter history format."),MB_OK|MB_ICONERROR);
 						bOk = false;
 					}
 
@@ -644,7 +630,7 @@ namespace
 					if ((true == bOk) && (nLogMode&lmPopup) && (true == sPopupFormat.empty()))
 					{
 						prepare_edit_ctrl_for_error(hwndPopupFrmt);
-						Quotes_MessageBox(hWnd,TranslateT("Enter popup window format."),MB_OK|MB_ICONERROR);	
+						Quotes_MessageBox(hWnd,TranslateT("Enter popup window format."),MB_OK|MB_ICONERROR);
 						bOk = false;
 					}
 
@@ -868,7 +854,7 @@ void CAdvProviderSettings::SetLogOnlyChangedFlag(bool bMode)
 	m_bIsOnlyChangedLogFile = bMode;
 }
 
-const tstring& CAdvProviderSettings::GetPopupFormat() const 
+const tstring& CAdvProviderSettings::GetPopupFormat() const
 {
 	return m_sPopupFormat; 
 }
@@ -878,12 +864,12 @@ void CAdvProviderSettings::SetPopupFormat(const tstring& val)
 	m_sPopupFormat = val; 
 }
 
-bool CAdvProviderSettings::GetShowPopupIfValueChangedFlag() const 
+bool CAdvProviderSettings::GetShowPopupIfValueChangedFlag() const
 {
 	return m_bShowPopupIfValueChanged; 
 }
 
-void CAdvProviderSettings::SetShowPopupIfValueChangedFlag(bool val) 
+void CAdvProviderSettings::SetShowPopupIfValueChangedFlag(bool val)
 {
 	m_bShowPopupIfValueChanged = val; 
 }
@@ -899,8 +885,8 @@ CPopupSettings* CAdvProviderSettings::GetPopupSettingsPtr()const
 }
 
 CPopupSettings::CPopupSettings(const IQuotesProvider* pQuotesProvider)
-			   : m_modeColour(colourDefault),
-			     m_modeDelay(delayFromPopup),
+				: m_modeColour(colourDefault),
+				 m_modeDelay(delayFromPopup),
 				 m_rgbBkg(GetDefColourBk()),
 				 m_rgbText(GetDefColourText()),
 				 m_wDelay(3),
@@ -1061,7 +1047,7 @@ namespace
 				rChar = repl;
 				break;
 			}
-		}	
+		}
 	}
 
 }
