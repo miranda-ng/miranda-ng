@@ -285,9 +285,9 @@ struct TMUCSettings {
 	TCHAR*      pszTimeStampLog;
 	TCHAR*      pszIncomingNick;
 	TCHAR*      pszOutgoingNick;
-	TCHAR	    pszLogDir[MAX_PATH + 20];
-	LONG		iNickListFontHeight;
-	HFONT		UserListFont, UserListHeadingsFont;
+	TCHAR	      pszLogDir[MAX_PATH + 20];
+	LONG        iNickListFontHeight;
+	HFONT       UserListFont, UserListHeadingsFont;
 	HFONT       NameFont;
 	COLORREF    crUserListColor;
 	COLORREF    crUserListBGColor;
@@ -295,12 +295,12 @@ struct TMUCSettings {
 	COLORREF    crPUTextColour;
 	COLORREF    crPUBkgColour;
 	BYTE        ClassicIndicators;
-	//MAD
-	BYTE		LogClassicIndicators;
-	BYTE		AlternativeSorting;
-	BYTE		AnnoyingHighlight;
-	BYTE		CreateWindowOnHighlight;
-	//MAD_
+
+	BYTE        LogClassicIndicators;
+	BYTE        AlternativeSorting;
+	BYTE        AnnoyingHighlight;
+	BYTE        CreateWindowOnHighlight;
+
 	BYTE        LogSymbols;
 	BYTE        ClickableNicks;
 	BYTE        ColorizeNicks;

@@ -400,6 +400,10 @@ void CMimAPI::InitPaths()
 		lstrcpyn(m_szChatLogsPath, VARST(_T("%miranda_logpath%")), MAX_PATH);
 		lstrcpyn(m_szSkinsPath, VARST(_T("%miranda_path%\\Skins\\TabSRMM")), MAX_PATH);
 	}
+
+	Utils::ensureTralingBackslash(m_szChatLogsPath);
+	Utils::ensureTralingBackslash(m_szSkinsPath);
+
 	mir_sntprintf(m_szSavedAvatarsPath, MAX_PATH, _T("%s\\Saved Contact Pictures"), m_szProfilePath);
 }
 
