@@ -394,7 +394,10 @@ void CMimAPI::InitPaths()
 	mir_sntprintf(m_szProfilePath, MAX_PATH, _T("%stabSRMM"), szUserdataDir);
 	mir_sntprintf(m_szChatLogsPath, MAX_PATH, _T("%sLogs\\"), szUserdataDir);
 
-	mir_sntprintf(m_szSkinsPath, MAX_PATH, _T("%%miranda_path%%\\Skins\\TabSRMM\\"));
+	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
+		mir_sntprintf(m_szSkinsPath, MAX_PATH, _T("%%miranda_path%%\\Skins\\TabSRMM\\"));
+	else
+		mir_sntprintf(m_szSkinsPath, MAX_PATH, VARST(_T("%miranda_path%\\Skins\\TabSRMM\\")));
 	mir_sntprintf(m_szSavedAvatarsPath, MAX_PATH, _T("%s\\Saved Contact Pictures"), m_szProfilePath);
 }
 
