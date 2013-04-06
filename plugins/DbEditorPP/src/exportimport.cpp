@@ -152,7 +152,6 @@ void exportModule(HANDLE hContact, char* module, FILE* file)
 	FreeModuleSettingLL(&settinglist);
 }
 
-
 char *NickFromHContact(HANDLE hContact)
 {
 	static char nick[512] = "";
@@ -193,7 +192,6 @@ char *NickFromHContact(HANDLE hContact)
 
 	return nick;
 }
-
 
 void exportDB(HANDLE hContact, char* module) // hContact == -1 export entire db. module == NULL export entire contact.
 {                                            // hContact == -1, module == "" - all contacts
@@ -328,7 +326,6 @@ void exportDB(HANDLE hContact, char* module) // hContact == -1 export entire db.
 	FreeModuleSettingLL(&modlist);
 }
 
-
 HANDLE CheckNewContact(char *myProto, char *uid, char *myName)
 {
 	char szProto[256], szName[256];
@@ -363,11 +360,11 @@ HANDLE CheckNewContact(char *myProto, char *uid, char *myName)
 HANDLE Clist_GroupExists(WCHAR *tszGroup)
 {
 	unsigned int i = 0;
-	WCHAR*		 _t = 0;
-	char		 str[10];
-	INT_PTR		 result = 0;
-	DBVARIANT	 dbv = {0};
-	int			 match;
+	WCHAR *_t = 0;
+	char str[10];
+	INT_PTR result = 0;
+	DBVARIANT dbv = {0};
+	int match;
 
 	do {
 		_itoa(i, str, 10);
@@ -440,16 +437,16 @@ void importSettings(HANDLE hContact, char *importstring )
 							protouid = (char*)CallProtoService(szProto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
 							if ((INT_PTR)protouid != CALLSERVICE_NOTFOUND) {
 								if (!mir_strcmp(protouid, uid))
-        							hContact = CheckNewContact(szProto, uid, szUID);
-        					}
-	        				else hContact = CheckNewContact(szProto, uid, szUID);
+									hContact = CheckNewContact(szProto, uid, szUID);
+							}
+							else hContact = CheckNewContact(szProto, uid, szUID);
 						}
 					}
 				}
 			}
 
- 			if (hContact == INVALID_HANDLE_VALUE)
- 			{
+			if (hContact == INVALID_HANDLE_VALUE)
+			{
 				HANDLE temp = (HANDLE)CallService(MS_DB_CONTACT_ADD,0,0);
 				if (temp)
 					hContact = temp;
@@ -572,12 +569,11 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 					char *string = (char*)_alloca(length+3);
 					int Pos = 2;
 
-    				if (length)
+					if (length)
 					{
 						int	Range = SendDlgItemMessage(hwnd,IDC_TEXT,EM_GETSEL,0,0);
 						int Min = LOWORD(Range);
 						int Max = HIWORD(Range);
-
 
 						GetDlgItemText(hwnd, IDC_TEXT, string, length+1);
 
@@ -666,8 +662,8 @@ int Openfile2Import(char *outputFiles)
 }
 
 BOOL Exists(LPCTSTR strName)
-{   
-    return GetFileAttributes(strName) != INVALID_FILE_ATTRIBUTES;   
+{
+	return GetFileAttributes(strName) != INVALID_FILE_ATTRIBUTES;
 }
 
 void ImportSettingsFromFileMenuItem(HANDLE hContact, char* FilePath)
@@ -708,7 +704,7 @@ void ImportSettingsFromFileMenuItem(HANDLE hContact, char* FilePath)
 			if (hFile != INVALID_HANDLE_VALUE)
 			{
 				if (GetFileSize(hFile,  NULL) > 0)
-			 	{
+				{
 					hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL);
 
 					if (hMap) {
