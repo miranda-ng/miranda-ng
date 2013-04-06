@@ -174,7 +174,8 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 			return FALSE;
 		}
 
-	}return FALSE;
+	}
+	return FALSE;
 }
 
 static void LanguageChanged(HWND hDlg)
@@ -308,7 +309,7 @@ static int BackAllProtoStatuses(void)
 
 static void CreateTrayIcon(bool create)
 {
-    NOTIFYICONDATA nim;
+	NOTIFYICONDATA nim;
 	DBVARIANT dbVar;
 	if (!db_get_ts(NULL,MOD_NAME,"ToolTipText",&dbVar))
 	{
@@ -318,12 +319,12 @@ static void CreateTrayIcon(bool create)
 	else
 		lstrcpy(nim.szTip, _T("Miranda NG"));
 
-    nim.cbSize = sizeof(nim);
-    nim.hWnd = g_hListenWindow;
-    nim.uID = 100;
-    nim.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
-    nim.hIcon = Skin_GetIcon("hidemim");
-    nim.uCallbackMessage = WM_USER + 24;
+	nim.cbSize = sizeof(nim);
+	nim.hWnd = g_hListenWindow;
+	nim.uID = 100;
+	nim.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+	nim.hIcon = Skin_GetIcon("hidemim");
+	nim.uCallbackMessage = WM_USER + 24;
 	Shell_NotifyIcon(create ? NIM_ADD : NIM_DELETE, &nim);
 	g_TrayIcon = create;
 }
@@ -336,7 +337,7 @@ static void RestoreOldSettings(void)
 	if (g_bOldSetting & OLD_SOUND)
 		db_set_b(NULL,"Skin","UseSound", 1);
 
-    if (g_bOldSetting & OLD_FLTCONT) // show Floating contacts if needed
+	if (g_bOldSetting & OLD_FLTCONT) // show Floating contacts if needed
 	{
 		if(ServiceExists("FloatingContacts/MainHideAllThumbs"))
 			CallService("FloatingContacts/MainHideAllThumbs",0,0);
@@ -520,7 +521,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 static int MsgWinOpening(WPARAM wParam, LPARAM lParam) // hiding new message windows
 {
 	if (g_bWindowHidden)
-	EnumWindows(EnumWindowsProc,0);
+		EnumWindows(EnumWindowsProc, 0);
 	return 0;
 }
 
@@ -802,8 +803,6 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 
 	return(0);
 }
-
-
 
 extern "C" int __declspec(dllexport) Load(void)
 {
