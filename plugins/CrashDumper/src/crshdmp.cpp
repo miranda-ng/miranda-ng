@@ -128,9 +128,6 @@ INT_PTR UploadVersionInfo(WPARAM, LPARAM lParam)
 
 INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
 {
-	//	unsigned *p = (unsigned*)0x15;
-	//	*p = 324;
-
 	if (hRichModule == NULL && GetModuleHandle(TEXT("Riched20.dll")) == NULL)
 		hRichModule = LoadLibrary(TEXT("Riched20.dll"));
 	if(hViewWnd)
@@ -168,7 +165,6 @@ INT_PTR ServiceModeLaunch(WPARAM, LPARAM)
 	return SERVICE_ONLYDB;
 }
 
-
 static int FoldersPathChanged(WPARAM, LPARAM)
 {
 	FOLDERSGETDATA fgd = {0};
@@ -187,14 +183,14 @@ int OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 
-	odp.cbSize      = sizeof(odp);
-	odp.position    = -790000000;
-	odp.hInstance   = hInst;
+	odp.cbSize = sizeof(odp);
+	odp.position = -790000000;
+	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszTitle    = (char*)PluginName;
-	odp.pszGroup    = LPGEN("Services");
-	odp.flags       = ODPF_BOLDGROUPS;
-	odp.pfnDlgProc  = DlgProcOptions;
+	odp.pszTitle = PluginName;
+	odp.pszGroup = LPGEN("Services");
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 
 	return 0;
@@ -369,7 +365,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
-
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	DestroyAllWindows();
@@ -382,7 +377,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	mir_free(vertxt);
 	return 0;
 }
-
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID /*lpvReserved*/)
 {
