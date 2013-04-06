@@ -23,21 +23,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-HINSTANCE      g_hInst = 0;
-int            hLangpack;
+HINSTANCE g_hInst = 0;
+int hLangpack;
 
-static TCHAR   g_szDataPath[MAX_PATH];		// user datae path (read at startup only)
-static BOOL    g_MetaAvail = FALSE;
-BOOL           g_AvatarHistoryAvail = FALSE;
-static long    hwndSetMyAvatar = 0;
+static TCHAR g_szDataPath[MAX_PATH];		// user datae path (read at startup only)
+static BOOL g_MetaAvail = FALSE;
+BOOL g_AvatarHistoryAvail = FALSE;
+static long hwndSetMyAvatar = 0;
 
-static HANDLE  hMyAvatarsFolder;
-static HANDLE  hGlobalAvatarFolder;
-static HANDLE  hLoaderEvent;
-static HANDLE  hEventContactAvatarChanged, hMyAvatarChanged;
-HANDLE         hEventChanged;
+static HANDLE hMyAvatarsFolder;
+static HANDLE hGlobalAvatarFolder;
+static HANDLE hLoaderEvent;
+static HANDLE hEventContactAvatarChanged, hMyAvatarChanged;
+HANDLE hEventChanged;
 
-HICON	g_hIcon = 0;
+HICON g_hIcon = 0;
 
 BOOL (WINAPI *AvsAlphaBlend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION) = NULL;
 
@@ -65,11 +65,11 @@ char* g_szMetaName = NULL;
 
 // Stores the id of the dialog
 
-int			ChangeAvatar(HANDLE hContact, BOOL fLoad, BOOL fNotifyHist = FALSE, int pa_format = 0);
-static int	ShutdownProc(WPARAM wParam, LPARAM lParam);
-static int	OkToExitProc(WPARAM wParam, LPARAM lParam);
-static int	OnDetailsInit(WPARAM wParam, LPARAM lParam);
-static int	GetFileHash(TCHAR* filename);
+int ChangeAvatar(HANDLE hContact, BOOL fLoad, BOOL fNotifyHist = FALSE, int pa_format = 0);
+static int ShutdownProc(WPARAM wParam, LPARAM lParam);
+static int OkToExitProc(WPARAM wParam, LPARAM lParam);
+static int OnDetailsInit(WPARAM wParam, LPARAM lParam);
+static int GetFileHash(TCHAR* filename);
 static DWORD GetFileSize(TCHAR *szFilename);
 
 void ProcessAvatarInfo(HANDLE hContact, int type, PROTO_AVATAR_INFORMATIONT *pai, const char *szProto);
@@ -133,8 +133,8 @@ int ProtoServiceExists(const char *szModule,const char *szService)
 
 int _DebugTrace(const char *fmt, ...)
 {
-	char	debug[2048];
-	int		ibsize = 2047;
+	char debug[2048];
+	int ibsize = 2047;
 	va_list va;
 	va_start(va, fmt);
 
@@ -157,7 +157,7 @@ int _DebugTrace(HANDLE hContact, const char *fmt, ...)
 	char *proto = NULL;
 	if (hContact != NULL)
 	{
-		name = (char*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0);
+		name = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0);
 		proto = GetContactProto(hContact);
 	}
 
@@ -895,11 +895,13 @@ INT_PTR avSetAvatar(HANDLE hContact, TCHAR* tszPath)
 }
 
 INT_PTR SetAvatar(WPARAM wParam, LPARAM lParam)
-{	return avSetAvatar(( HANDLE )wParam, _A2T(( const char* )lParam ));
+{
+	return avSetAvatar(( HANDLE )wParam, _A2T(( const char* )lParam ));
 }
 
 INT_PTR SetAvatarW(WPARAM wParam, LPARAM lParam)
-{	return avSetAvatar(( HANDLE )wParam, ( TCHAR* )lParam );
+{
+	return avSetAvatar(( HANDLE )wParam, ( TCHAR* )lParam );
 }
 
 /*
@@ -921,7 +923,6 @@ struct SetMyAvatarHookData {
 
 	BOOL thumbnail;
 };
-
 
 /*
  * Callback to set thumbnaill view to open dialog
@@ -1340,7 +1341,7 @@ INT_PTR avSetMyAvatar( char* protocol, TCHAR* tszPath )
 	{
 		SetForegroundWindow((HWND) hwndSetMyAvatar);
 		SetFocus((HWND) hwndSetMyAvatar);
- 		ShowWindow((HWND) hwndSetMyAvatar, SW_SHOW);
+		ShowWindow((HWND) hwndSetMyAvatar, SW_SHOW);
 		return -2;
 	}
 
@@ -1441,11 +1442,13 @@ INT_PTR avSetMyAvatar( char* protocol, TCHAR* tszPath )
 }
 
 static INT_PTR SetMyAvatar( WPARAM wParam, LPARAM lParam )
-{	return avSetMyAvatar(( char* )wParam, _A2T(( const char* )lParam ));
+{
+	return avSetMyAvatar(( char* )wParam, _A2T(( const char* )lParam ));
 }
 
 static INT_PTR SetMyAvatarW( WPARAM wParam, LPARAM lParam )
-{	return avSetMyAvatar(( char* )wParam, ( TCHAR* )lParam );
+{
+	return avSetMyAvatar(( char* )wParam, ( TCHAR* )lParam );
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1511,8 +1514,7 @@ static void SaveImage(SaveProtocolData &d, char *protocol, int format)
 	}
 }
 
-static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilename, int originalFormat,
-							BOOL square, BOOL grow)
+static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilename, int originalFormat, BOOL square, BOOL grow)
 {
 	if (!ProtoServiceExists(protocol, PS_SETMYAVATAR))
 		return -1;
@@ -1546,7 +1548,6 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilenam
 
 	if (Proto_AvatarImageProportion(protocol) & PIP_SQUARE)
 		square = TRUE;
-
 
 	// Try to save until a valid image is found or we give up
 	int num_tries = 0;
@@ -1960,7 +1961,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	int i;
 	DBVARIANT dbv = {0};
 	TCHAR szEventName[100];
-	int   result = 0;
+	int result = 0;
 
 	mir_sntprintf(szEventName, 100, _T("avs_loaderthread_%d"), GetCurrentThreadId());
 	hLoaderEvent = CreateEvent(NULL, TRUE, FALSE, szEventName);
