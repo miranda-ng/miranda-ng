@@ -147,7 +147,6 @@ extern "C" __declspec(dllexport) int Load()
 	CreateServiceFunction("NIM_Contact/DoubleClick", doubleClick);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.position = 600090000;
 	mi.pszPopupName = LPGEN("&Non-IM Contact");
 	mi.popupPosition = 600090000;

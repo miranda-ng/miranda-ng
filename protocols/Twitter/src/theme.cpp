@@ -85,7 +85,7 @@ void InitContactMenus()
 	g_hMenuEvts[0] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU,PrebuildContactMenu);
 
 	CLISTMENUITEM mi = {sizeof(mi)};
-	mi.flags = CMIF_NOTOFFLINE | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 
 	mi.position=-2000006000;
 	mi.icolibItem = GetIconHandle("reply");

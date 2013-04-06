@@ -65,7 +65,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 		char service[64];
 
 		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE | CMIF_TCHAR;
+		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 		mi.hParentMenu = hRoot;
 
 		// Conferencing

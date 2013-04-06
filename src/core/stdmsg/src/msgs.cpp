@@ -301,7 +301,7 @@ static int SplitmsgModulesLoaded(WPARAM wParam, LPARAM lParam)
 	{
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = -2000090000;
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_DEFAULT;
+		mi.flags = CMIF_DEFAULT;
 		mi.icolibItem = LoadSkinnedIconHandle( SKINICON_EVENT_MESSAGE );
 		mi.pszName = LPGEN("&Message");
 		mi.pszService = MS_MSG_SENDMESSAGE;

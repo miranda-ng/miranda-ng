@@ -86,7 +86,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	CLISTMENUITEM cl = { sizeof(cl) };
 	cl.position = 10000000;
-	cl.flags = CMIF_ICONFROMICOLIB|CMIF_TCHAR;
+	cl.flags = CMIF_TCHAR;
 	cl.ptszPopupName = LPGENT("Birthdays (When Was It)");
 
 	cl.pszService = MS_WWI_CHECK_BIRTHDAYS;

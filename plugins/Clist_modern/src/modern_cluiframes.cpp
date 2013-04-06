@@ -827,7 +827,6 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid,int root,int popuppos,HGEN
 		return NULL;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.pszPopupName = (char *)root;
 	mi.popupPosition = frameid;
 	mi.position = popuppos++;
@@ -1719,7 +1718,7 @@ static int CLUIFramesLoadMainMenu()
 
 	// create root menu
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FRAME);
 	mi.position = 3000090000;
 	mi.pszName = LPGEN("Frames");

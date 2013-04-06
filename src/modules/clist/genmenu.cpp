@@ -316,15 +316,16 @@ int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, PMO_MenuItem pmi)
 	}
 
 	if (pmi->flags & CMIM_FLAGS) {
-		oldflags = pimi->mi.flags & (CMIF_ROOTHANDLE | CMIF_ICONFROMICOLIB);
+		oldflags = (pimi->mi.flags & CMIF_ROOTHANDLE);
 		pimi->mi.flags = (pmi->flags & ~CMIM_ALL) | oldflags;
 	}
 
 	if ((pmi->flags & CMIM_ICON) && !bIconsDisabled) {
-		if (pimi->mi.flags & CMIF_ICONFROMICOLIB) {
-			HICON hIcon = IcoLib_GetIconByHandle(pmi->hIcolibItem, false);
+		HANDLE hIcolibItem = IcoLib_IsManaged(pmi->hIcon);
+		if (hIcolibItem) {
+			HICON hIcon = IcoLib_GetIconByHandle(hIcolibItem, false);
 			if (hIcon != NULL) {
-				pimi->hIcolibItem = pmi->hIcolibItem;
+				pimi->hIcolibItem = hIcolibItem;
 				pimi->iconId = ImageList_ReplaceIcon(pimi->parent->m_hMenuIcons, pimi->iconId, hIcon);
 				IcoLib_ReleaseIcon(hIcon, 0);
 			}
@@ -648,20 +649,14 @@ PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 		p->mi.ptszName = mir_a2u(pmi->pszName);
 
 	if (pmi->hIcon != NULL && !bIconsDisabled) {
-		if (pmi->flags & CMIF_ICONFROMICOLIB) {
-			HICON hIcon = IcoLib_GetIconByHandle(pmi->hIcolibItem, false);
+		HANDLE hIcolibItem = IcoLib_IsManaged(pmi->hIcon);
+		if (hIcolibItem != NULL) {
+			HICON hIcon = IcoLib_GetIconByHandle(hIcolibItem, false);
 			p->iconId = ImageList_AddIcon(pmo->m_hMenuIcons, hIcon);
 			p->hIcolibItem = pmi->hIcolibItem;
 			IcoLib_ReleaseIcon(hIcon, 0);
 		}
-		else {
-			HANDLE hIcolibItem = IcoLib_IsManaged(pmi->hIcon);
-			if (hIcolibItem) {
-				p->iconId = ImageList_AddIcon(pmo->m_hMenuIcons, pmi->hIcon);
-				p->hIcolibItem = hIcolibItem;
-			}
-			else p->iconId = ImageList_AddIcon(pmo->m_hMenuIcons, pmi->hIcon);
-		}
+		else p->iconId = ImageList_AddIcon(pmo->m_hMenuIcons, pmi->hIcon);
 	}
 
 	if (p->mi.root == HGENMENU_ROOT)

@@ -349,7 +349,6 @@ int LoadCLUIModule(void)
 		0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB;
 
 	CreateServiceFunction("CList/DeleteContactCommand", MenuItem_DeleteContact);
 	mi.position = 2000070000;

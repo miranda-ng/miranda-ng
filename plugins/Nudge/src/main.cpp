@@ -674,7 +674,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 	mi.popupPosition = 500085000;
 	mi.pszContactOwner = proto->szModuleName;
 	mi.pszPopupName = proto->szModuleName;
-	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 	mi.position = -500050004;
 	mi.icolibItem = newNudge->item.hIcoLibItem;
 	mi.ptszName = LPGENT( "Send &Nudge" );

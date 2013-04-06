@@ -193,7 +193,6 @@ void g_MenuInit(void)
 	hChooserMenu = (HANDLE)CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&mnu);
 
 	TMO_MenuItem tmi = { sizeof(tmi) };
-	tmi.flags = CMIF_ICONFROMICOLIB;
 	tmi.pszName = "Cancel";
 	tmi.position = 9999999;
 	tmi.hIcolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
@@ -206,7 +205,6 @@ void g_MenuInit(void)
 
 	// "Request authorization"
 	mi.pszName = LPGEN("Request authorization");
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.position = -2000001000;
 	mi.icolibItem = g_GetIconHandle(IDI_REQUEST);
 	mi.pszService = "Jabber/ReqAuth";
@@ -294,10 +292,7 @@ void g_MenuInit(void)
 	g_hMenuDirectPresence[0] = Menu_AddContactMenuItem(&mi);
 
 	mi.flags |= CMIF_ROOTHANDLE;
-	mi.flags &= ~CMIF_ICONFROMICOLIB;
-
-	for (int i = 0; i < SIZEOF(PresenceModeArray); i++)
-	{
+	for (int i = 0; i < SIZEOF(PresenceModeArray); i++) {
 		char buf[] = "Jabber/DirectPresenceX";
 		buf[SIZEOF(buf)-2] = '0' + i;
 		mi.pszService = buf;
@@ -310,7 +305,6 @@ void g_MenuInit(void)
 	}
 
 	mi.flags &= ~CMIF_ROOTHANDLE;
-	mi.flags |= CMIF_ICONFROMICOLIB;
 
 	// Resource selector
 	mi.pszService = "Jabber/ResourceSelectorDummySvc";
@@ -477,10 +471,10 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 					else Menu_ShowItem(m_phMenuResourceItems[i], FALSE);
 				}
 
-				mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP | CMIF_ICONFROMICOLIB | ((item->resourceMode == RSMODE_LASTSEEN) ? CMIF_CHECKED : 0);
+				mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP | ((item->resourceMode == RSMODE_LASTSEEN) ? CMIF_CHECKED : 0);
 				Menu_ModifyItem(g_hMenuResourcesActive, &mi);
 
-				mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP | CMIF_ICONFROMICOLIB | ((item->resourceMode == RSMODE_SERVER) ? CMIF_CHECKED : 0);
+				mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP | ((item->resourceMode == RSMODE_SERVER) ? CMIF_CHECKED : 0);
 				Menu_ModifyItem(g_hMenuResourcesServer, &mi);
 
 				m_nMenuResourceItems = nMenuResourceItemsNew;
@@ -676,7 +670,7 @@ void CJabberProto::MenuInit()
 		mi.ptszName = m_tszUserName;
 		mi.position = -1999901006;
 		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = m_hProtoIcon;
 		hJabberRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
@@ -689,7 +683,7 @@ void CJabberProto::MenuInit()
 	// "Bookmarks..."
 	JCreateService("/Bookmarks", &CJabberProto::OnMenuHandleBookmarks);
 	strcpy(tDest, "/Bookmarks");
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP;
+	mi.flags = CMIF_CHILDPOPUP;
 	mi.hParentMenu = hJabberRoot;
 	mi.pszName = LPGEN("Bookmarks");
 	mi.position = 200001;
@@ -714,7 +708,7 @@ void CJabberProto::MenuInit()
 	// "Service Discovery..."
 	JCreateService("/ServiceDiscovery", &CJabberProto::OnMenuHandleServiceDiscovery);
 	strcpy(tDest, "/ServiceDiscovery");
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Service Discovery");
 	mi.position = 2000050001;
 	mi.icolibItem = GetIconHandle(IDI_SERVICE_DISCOVERY);
@@ -801,7 +795,7 @@ void CJabberProto::MenuInit()
 	mi.pszService = srvFce;
 	mi.pszName = szName;
 	mi.position = 2000040000;
-	mi.flags = CMIF_CHILDPOPUP | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_CHILDPOPUP;
 	mi.hParentMenu = m_hMenuPriorityRoot;
 
 	mir_snprintf(srvFce, sizeof(srvFce), "%s/menuSetPriority/0", m_szModuleName);

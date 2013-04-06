@@ -105,7 +105,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF;
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = Skin_GetIconHandle("check_update");
 	mi.pszName = LPGEN("Check for plugin updates");
 	mi.pszService = MODNAME"/CheckUpdates";

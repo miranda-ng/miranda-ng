@@ -270,7 +270,7 @@ void CAimProto::InitMainMenus(void)
 
 	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
 	if (hRoot == NULL) {
-		mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = GetIconHandle("aim");
 		mi.ptszName = m_tszUserName;
 		mi.hParentMenu = HGENMENU_ROOT;
@@ -285,7 +285,7 @@ void CAimProto::InitMainMenus(void)
 
 	mi.pszService = service_name;
 	mi.hParentMenu = hRoot;
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP;
+	mi.flags = CMIF_CHILDPOPUP;
 
 	mir_snprintf(service_name, sizeof(service_name), "%s%s", m_szModuleName, "/ManageAccount");
 	CreateProtoService("/ManageAccount", &CAimProto::ManageAccount);
@@ -323,7 +323,7 @@ void CAimProto::InitContactMenus(void)
 	mi.position = -2000006000;
 	mi.icolibItem = GetIconHandle("away");
 	mi.pszName = LPGEN("Read &HTML Away Message");
-	mi.flags = CMIF_NOTOFFLINE | CMIF_HIDDEN | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_NOTOFFLINE | CMIF_HIDDEN;
 	hHTMLAwayContextMenuItem = Menu_AddContactMenuItem(&mi);
 
 	mir_snprintf(service_name, sizeof(service_name), "%s%s", m_szModuleName, "/GetProfile");
@@ -331,7 +331,7 @@ void CAimProto::InitContactMenus(void)
 	mi.position = -2000005090;
 	mi.icolibItem = GetIconHandle("profile");
 	mi.pszName = LPGEN("Read Profile");
-	mi.flags = CMIF_NOTOFFLINE | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_NOTOFFLINE;
 	hReadProfileMenuItem = Menu_AddContactMenuItem(&mi);
 
 	mir_snprintf(service_name, sizeof(service_name), "%s%s", m_szModuleName, "/AddToServerList");
@@ -339,7 +339,7 @@ void CAimProto::InitContactMenus(void)
 	mi.position = -2000005080;
 	mi.icolibItem = GetIconHandle("add");
 	mi.pszName = LPGEN("Add To Server List");
-	mi.flags = CMIF_NOTONLINE | CMIF_HIDDEN | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_NOTONLINE | CMIF_HIDDEN;
 	hAddToServerListContextMenuItem = Menu_AddContactMenuItem(&mi);
 
 	mir_snprintf(service_name, sizeof(service_name), "%s%s", m_szModuleName, "/BlockCommand");
@@ -347,7 +347,7 @@ void CAimProto::InitContactMenus(void)
 	mi.position = -2000005060;
 	mi.icolibItem = GetIconHandle("block");
 	mi.pszName = LPGEN("&Block");
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_HIDDEN;
+	mi.flags = CMIF_HIDDEN;
 	hBlockContextMenuItem = Menu_AddContactMenuItem(&mi);
 }
 

@@ -25,7 +25,7 @@ VOID InitMenu()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszContactOwner = MODULE;
-	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB | CMIF_NOTOFFLINE;
+	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
 
 	// adding main menu items
 	mi.ptszPopupName = LPGENT("News Aggregator");

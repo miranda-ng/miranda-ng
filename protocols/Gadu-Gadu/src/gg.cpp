@@ -237,7 +237,7 @@ static int gg_prebuildcontactmenu(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+	mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_TCHAR;
 	if ( db_get_dw(hContact, gg->m_szModuleName, GG_KEY_UIN, 0) == db_get_b(NULL, gg->m_szModuleName, GG_KEY_UIN, 0)
 			|| db_get_b(hContact, gg->m_szModuleName, "ChatRoom", 0)
 			|| db_get_b(hContact, "CList", "NotOnList", 0))
@@ -269,7 +269,7 @@ void GGPROTO::block_init()
 	createObjService(service, &GGPROTO::blockuser);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+	mi.flags = CMIF_TCHAR;
 	mi.position = -500050000;
 	mi.icolibItem = iconList[8].hIcolib;
 	mi.ptszName = LPGENT("&Block");
@@ -299,13 +299,13 @@ void GGPROTO::menus_init()
 		mi.ptszName = m_tszUserName;
 		mi.position = 500090000;
 		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = iconList[0].hIcolib;
 		hGCRoot = hCLRoot = hRoot = hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 	else {
 		mi.hParentMenu = hRoot;
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE | CMIF_TCHAR;
+		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 
 		mi.ptszName = LPGENT("Conference");
 		mi.position = 200001;

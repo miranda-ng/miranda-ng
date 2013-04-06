@@ -761,7 +761,7 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	{
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = -2000090001;
-		mi.flags = CMIF_DEFAULT | CMIF_ICONFROMICOLIB;
+		mi.flags = CMIF_DEFAULT;
 		mi.icolibItem = LoadSkinnedIconHandle( SKINICON_CHAT_JOIN );
 		mi.pszName = LPGEN("&Join");
 		mi.pszService = "GChat/JoinChat";
@@ -769,7 +769,7 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 		mi.position = -2000090000;
 		mi.icolibItem = LoadSkinnedIconHandle( SKINICON_CHAT_LEAVE );
-		mi.flags = CMIF_NOTOFFLINE | CMIF_ICONFROMICOLIB;
+		mi.flags = CMIF_NOTOFFLINE;
 		mi.pszName = LPGEN("&Leave");
 		mi.pszService = "GChat/LeaveChat";
 		hLeaveMenuItem = Menu_AddContactMenuItem(&mi);

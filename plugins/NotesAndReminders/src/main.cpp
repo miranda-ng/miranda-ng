@@ -187,7 +187,7 @@ int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszContactOwner = NULL;
 	mi.ptszPopupName = LPGENT("Notes && Reminders");
-	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_TCHAR;
 
 	mi.position = 1600000000;
 	mi.icolibItem = iconList[2].hIcolib;

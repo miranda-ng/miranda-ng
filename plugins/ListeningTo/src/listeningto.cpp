@@ -320,7 +320,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 500080000;
 	mi.ptszName = LPGENT("Listening to");
-	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
 	mi.icolibItem = iconList[0].hIcolib;
 	hMainMenuGroup = Menu_AddMainMenuItem(&mi);
 

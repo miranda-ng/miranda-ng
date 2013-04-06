@@ -348,7 +348,7 @@ INT_PTR ContactMenuService(WPARAM wParam, LPARAM lParam)
 void InitMenuItems()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
 	mi.icolibItem = icon.hIcolib;
 	mi.position = 3000090005;
 	mi.ptszName = LPGENT("Paste It");

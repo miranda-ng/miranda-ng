@@ -962,7 +962,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	// Main menu
 	CLISTMENUITEM cl = { sizeof(cl) };
 	cl.position = 1000000000;
-	cl.flags = CMIM_ALL | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
+	cl.flags = CMIM_ALL | CMIF_TCHAR;
 
 	cl.ptszName = LPGENT("Save session...");
 	cl.ptszPopupName = LPGENT("Sessions Manager");

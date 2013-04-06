@@ -636,7 +636,6 @@ int LoadUserInfoModule(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownUserInfo);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.position = 1000050000;
 	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_USERDETAILS);
 	mi.pszName = LPGEN("User &Details");

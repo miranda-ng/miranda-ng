@@ -122,7 +122,6 @@ static int SRUrlModulesLoaded(WPARAM, LPARAM)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000040000;
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = GetSkinIconHandle(SKINICON_EVENT_URL);
 	mi.pszName = LPGEN("Web Page Address (&URL)");
 	mi.pszService = MS_URL_SENDURL;

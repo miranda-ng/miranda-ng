@@ -1414,7 +1414,7 @@ static int CLUIFramesLoadMainMenu()
 	// create root menu
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FRAME);
-	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_ROOTPOPUP;
 	mi.position = 3000090000;
 	mi.pszPopupName = (char*)-1;
 	mi.pszName = LPGEN("Frames");

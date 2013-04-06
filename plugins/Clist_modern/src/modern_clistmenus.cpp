@@ -110,7 +110,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 		mir_sntprintf(name, bufsize/sizeof(TCHAR), _T("%s (%s)"),FAVMENUROOTNAME,rates[bContactRate]);
 		mi.ptszName = name;            
 	}
-	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
 	if ( !hFavoriteContactMenu) 
 		hFavoriteContactMenu = Menu_AddContactMenuItem(&mi);
 	else {
@@ -135,7 +135,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 	for (i=0; i < SIZEOF(rates); i++) {
 		mi.icolibItem = iconList[i].hIcolib;
 		mi.ptszName = rates[i];
-		mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | ((bContactRate == i)?CMIF_CHECKED:0) | CMIF_ICONFROMICOLIB;
+		mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | ((bContactRate == i) ? CMIF_CHECKED : 0);
 		mi.pszService = CLUI_FAVSETRATE;
 		mi.popupPosition = i;
 		if (bModifyMenu && hFavoriteContactMenuItems[i]) {

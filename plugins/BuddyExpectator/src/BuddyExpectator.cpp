@@ -447,7 +447,7 @@ int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
    if (db_get_b((HANDLE)wParam, MODULE_NAME, "MissYou", 0)) {
 		mi.ptszName = LPGENT("Disable Miss You");
 		mi.icolibItem = iconList[1].hIcolib;
@@ -643,7 +643,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
 
 		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+		mi.flags = CMIF_TCHAR;
 		mi.icolibItem = iconList[2].hIcolib;
 		mi.position = 200000;
 		mi.ptszName = LPGENT("Enable Miss You");

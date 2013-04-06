@@ -299,7 +299,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	#ifdef _DEBUG
 		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.flags = CMIF_ICONFROMICOLIB;
 		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
 		mi.position = 1900000000;
 		mi.pszName = LPGEN("&Favourite Contacts...");

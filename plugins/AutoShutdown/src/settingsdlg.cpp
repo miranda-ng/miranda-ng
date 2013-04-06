@@ -437,7 +437,7 @@ void SetShutdownMenuItem(BOOL fActive)
 	mi.icolibItem = fActive ? iconList[1].hIcolib : iconList[2].hIcolib;
 	mi.ptszName = fActive ? LPGENT("Stop automatic &shutdown") : LPGENT("Automatic &shutdown..."); /* autotranslated */
 	mi.pszService = "AutoShutdown/MenuCommand";
-	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_TCHAR;
 	if (hMainMenuItem != NULL) {
 		mi.flags |= CMIM_NAME | CMIM_ICON;
 		Menu_ModifyItem(hMainMenuItem, &mi);

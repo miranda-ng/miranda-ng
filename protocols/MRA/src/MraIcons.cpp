@@ -177,12 +177,12 @@ void CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMain
 			hRootMenu = Menu_AddProtoMenuItem(&mi);
 		}
 		mi.hParentMenu = hRootMenu;
-		mi.flags = CMIF_UNICODE | CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP;
+		mi.flags = CMIF_UNICODE | CMIF_CHILDPOPUP;
 	}
 	else {
 		fnAddFunc = Menu_AddContactMenuItem;
 		mi.ptszPopupName = m_tszUserName;
-		mi.flags = CMIF_UNICODE | CMIF_ICONFROMICOLIB;
+		mi.flags = CMIF_UNICODE;
 	}
 
 	mi.popupPosition = lPopupPosition;

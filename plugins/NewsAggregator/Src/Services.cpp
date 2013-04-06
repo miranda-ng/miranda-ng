@@ -254,7 +254,7 @@ void UpdateMenu(BOOL State)
 		mi.icolibItem = GetIconHandle("disabled");
 	}
 
-	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
 	Menu_ModifyItem(hService2[0], &mi);
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, State ? TTBST_PUSHED : TTBST_RELEASED);
 	db_set_b(NULL, MODULE, "AutoUpdate", !State);

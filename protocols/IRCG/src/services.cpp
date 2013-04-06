@@ -38,7 +38,7 @@ void CIrcProto::InitMainMenus(void)
 			mi.ptszName = m_tszUserName;
 			mi.position = -1999901010;
 			mi.hParentMenu = HGENMENU_ROOT;
-			mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+			mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.icolibItem = GetIconHandle(IDI_MAIN);
 			hRoot = hMenuRoot = Menu_AddProtoMenuItem(&mi);
 		}
@@ -48,7 +48,7 @@ void CIrcProto::InitMainMenus(void)
 			hMenuRoot = NULL;
 		}
 
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP;
+		mi.flags = CMIF_CHILDPOPUP;
 		mi.pszName = LPGEN("&Quick connect");
 		mi.icolibItem = GetIconHandle(IDI_QUICK);
 		strcpy( d, IRC_QUICKCONNECT );
@@ -145,7 +145,6 @@ void InitContactMenus(void)
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = temp;
-	mi.flags = CMIF_ICONFROMICOLIB;
 
 	mi.pszName = LPGEN("Channel &settings");
 	mi.icolibItem = GetIconHandle(IDI_MANAGER);

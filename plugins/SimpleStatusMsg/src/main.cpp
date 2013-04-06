@@ -1646,7 +1646,7 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+	mi.flags = CMIF_TCHAR;
 	if (!db_get_b(NULL, "SimpleStatusMsg", "ShowStatusMenuItem", 1))
 		mi.flags |= CMIF_HIDDEN;
 	mi.icolibItem = GetIconHandle(IDI_CSMSG);

@@ -1003,7 +1003,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	////////////////////////////////////////////////////////////////////////////
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_ALL | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIM_ALL;
 
 	// main menu item
 	mi.icolibItem = GetIconHandle(I_MENUOFF);
@@ -1047,7 +1047,6 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.pszContactOwner = META_PROTO;
 
 	mi.position = -99000;
-	mi.flags &= ~CMIF_ICONFROMICOLIB;
 	for (i = 0; i < MAX_CONTACTS; i++) {
 		mi.position--;
 		strcpy(buffer3, (char *)Translate("Context"));

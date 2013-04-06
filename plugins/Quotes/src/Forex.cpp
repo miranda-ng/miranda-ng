@@ -48,13 +48,13 @@ namespace
 	{
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.ptszName = LPGENT("Quotes");
-		mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTPOPUP;
+		mi.flags = CMIF_TCHAR | CMIF_ROOTPOPUP;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 		g_ahMenus.push_back(hMenuRoot);
 
 		mi.ptszName = LPGENT("Refresh All Quotes\\Rates");
-		mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
+		mi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE;
 		//mi.position = 0x0FFFFFFF;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		mi.pszService = "Quotes/RefreshAll";
@@ -107,7 +107,7 @@ namespace
 		{
 			mi.pszPopupName=(char *)-1;
 			mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
-			mi.flags = CMIF_ICONFROMICOLIB|CMIF_TCHAR|CMIF_ROOTPOPUP;
+			mi.flags = CMIF_TCHAR | CMIF_ROOTPOPUP;
 			tstring sProtocolName = quotes_a2t(QUOTES_PROTOCOL_NAME);
 			mi.ptszName = const_cast<TCHAR*>(sProtocolName.c_str());//A2T(QUOTES_PROTOCOL_NAME);
 			mi.position = 0;
@@ -124,7 +124,6 @@ namespace
 
 		mi.ptszName = LPGENT("Refresh");
 		mi.popupPosition = 0;
-		mi.flags |= CMIF_ICONFROMICOLIB;
 		mi.icolibItem =  Quotes_GetIconHandle(IDI_ICON_REFRESH);
 		mi.pszService = "Quotes/RefreshContact";
 		hMenu = Menu_AddContactMenuItem(&mi);

@@ -75,7 +75,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 0x7FFFFFFF;
-	mi.flags = CMIF_ICONFROMICOLIB|CMIF_TCHAR;
+	mi.flags = CMIF_TCHAR;
 	mi.icolibItem = icon.hIcolib;
 	mi.ptszName = LPGENT("Open Folder");
 	mi.pszService = MS_OPENFOLDER_OPEN;

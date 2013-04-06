@@ -91,7 +91,7 @@ static int OnAccListChanged(WPARAM, LPARAM)
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = 500020001;
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+		mi.flags = CMIF_TCHAR;
 		mi.icolibItem = icon.hIcolib;
 		mi.ptszName = LPGENT("&Add contact...");
 		mi.pszService = MS_ADDCONTACTPLUS_SHOW;

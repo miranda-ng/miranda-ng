@@ -240,7 +240,7 @@ void UpdateMenu(BOOL State)
 		opt.AutoUpdate = 0;
 	}
 
-	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIM_ICON | CMIM_NAME;
 	Menu_ModifyItem(hEnableDisableMenu, &mi);
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, !State ? TTBST_PUSHED : TTBST_RELEASED);
 
@@ -264,7 +264,7 @@ void UpdatePopupMenu(BOOL State)
 		mi.icolibItem = GetIconHandle("nopopup");
 	}
 
-	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIM_ICON | CMIM_NAME;
 	Menu_ModifyItem(hEnableDisablePopupMenu, &mi);
 }
 
@@ -288,7 +288,6 @@ void AddMenuItems(void)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszContactOwner = WEATHERPROTONAME;
-	mi.flags = CMIF_ICONFROMICOLIB;
 
 	// contact menu
 	CreateServiceFunction(MS_WEATHER_UPDATE, UpdateSingleStation);

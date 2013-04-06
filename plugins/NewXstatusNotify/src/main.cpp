@@ -1059,7 +1059,7 @@ INT_PTR EnableDisableMenuCommand(WPARAM wParam, LPARAM lParam)
 void InitMainMenuItem()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_TCHAR;
 	mi.ptszPopupName = ServiceExists(MS_POPUP_ADDPOPUP) ? _T("PopUps") : NULL;
 	mi.pszService = MS_STATUSCHANGE_MENUCOMMAND;
 	hEnableDisableMenu = Menu_AddMainMenuItem(&mi);

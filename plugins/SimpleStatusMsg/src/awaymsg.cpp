@@ -455,7 +455,6 @@ int LoadAwayMsgModule(void)
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
 	hAwayMsgMenuItem = Menu_AddContactMenuItem(&mi);
 
-	mi.flags |= CMIF_ICONFROMICOLIB;
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_COPYMSG, CopyAwayMsgCommand);
 	mi.position = -2000006000;
 	mi.icolibItem = GetIconHandle(IDI_COPY);

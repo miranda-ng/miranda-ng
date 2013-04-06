@@ -100,8 +100,6 @@ void InitContactMenus()
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU,PrebuildContactMenu);
 
 	CLISTMENUITEM mi = {sizeof(mi)};
-	mi.flags = CMIF_ICONFROMICOLIB;
-
 	mi.position=-2000006000;
 	mi.icolibItem = GetIconHandle("homepage");
 	mi.pszName = GetIconDescription("homepage");
@@ -178,7 +176,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	if (hRoot == NULL) {
 		mi.popupPosition = 500085000;
 		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | ( this->isOnline() ? 0 : CMIF_GRAYED );
+		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | ( this->isOnline() ? 0 : CMIF_GRAYED );
 		mi.icolibItem = GetIconHandle( "facebook" );
 		mi.ptszName = m_tszUserName;
 		hRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
@@ -188,7 +186,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 		m_hMenuRoot = NULL;
 	}
 
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP | ( this->isOnline() ? 0 : CMIF_GRAYED );
+	mi.flags = CMIF_CHILDPOPUP | ( this->isOnline() ? 0 : CMIF_GRAYED );
 	mi.position = 201001;
 
 	CreateProtoService(m_szModuleName,"/Mind",&FacebookProto::OnMind,this);
@@ -200,7 +198,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 
 	CreateProtoService(m_szModuleName,"/VisitProfile",&FacebookProto::VisitProfile,this);
 	strcpy(tDest,"/VisitProfile");
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP;
+	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszName = LPGEN("Visit Profile");
 	mi.icolibItem = GetIconHandle("homepage");
 	// TODO RM: remember and properly free in destructor?
@@ -209,13 +207,13 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	// Services...
 	mi.pszName = LPGEN("Services...");
 	strcpy( tDest, "/Services" );
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP | ( this->isOnline() ? 0 : CMIF_GRAYED );
+	mi.flags = CMIF_CHILDPOPUP | ( this->isOnline() ? 0 : CMIF_GRAYED );
 	mi.icolibItem = NULL;
 	m_hMenuServicesRoot = Menu_AddProtoMenuItem(&mi);
 
 	CreateProtoService(m_szModuleName,"/RefreshBuddyList",&FacebookProto::RefreshBuddyList,this);
 	strcpy(tDest,"/RefreshBuddyList");
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Refresh Buddy List");
 	mi.pszPopupName = LPGEN("Services");
 	mi.icolibItem = NULL;
@@ -224,7 +222,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 
 	CreateProtoService(m_szModuleName,"/CheckFriendRequests",&FacebookProto::CheckFriendRequests,this);
 	strcpy(tDest,"/CheckFriendRequests");
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Check Friends Requests");
 	mi.icolibItem = NULL;
 	mi.hParentMenu = m_hMenuServicesRoot;
@@ -232,7 +230,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 
 	CreateProtoService(m_szModuleName,"/CheckNewsfeeds",&FacebookProto::CheckNewsfeeds,this);
 	strcpy(tDest,"/CheckNewsfeeds");
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Check Newsfeeds");
 	mi.pszPopupName = LPGEN("Services");
 	mi.icolibItem = NULL;

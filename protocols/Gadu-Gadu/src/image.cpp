@@ -74,7 +74,7 @@ int GGPROTO::img_init()
 
 	// Send image contact menu item
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+	mi.flags = CMIF_TCHAR;
 	mi.position = -2000010000;
 	mi.icolibItem = iconList[11].hIcolib;
 	mi.ptszName = LPGENT("&Image");

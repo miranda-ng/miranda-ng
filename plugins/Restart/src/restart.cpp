@@ -48,9 +48,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF;
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.icolibItem = icon.hIcolib;
-	mi.ptszName = LPGENT("Restart");
+	mi.pszName = LPGEN("Restart");
 	mi.pszService = "System/RestartMe";
 	Menu_AddMainMenuItem(&mi);
 	Menu_AddTrayMenuItem(&mi);

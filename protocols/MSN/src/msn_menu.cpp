@@ -292,7 +292,7 @@ void CMsnProto::MsnInitMainMenu(void)
 	if (hRoot == NULL) {
 		mi.popupPosition = 500085000;
 		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = GetIconHandle(IDI_MSN);
 		mi.ptszName = m_tszUserName;
 		hRoot = mainMenuRoot = Menu_AddProtoMenuItem(&mi);
@@ -302,7 +302,7 @@ void CMsnProto::MsnInitMainMenu(void)
 		mainMenuRoot = NULL;
 	}
 
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP;
+	mi.flags = CMIF_CHILDPOPUP;
 	mi.hParentMenu = hRoot;
 	mi.pszService = servicefunction;
 
@@ -427,7 +427,6 @@ void MSN_InitContactMenu(void)
 	char* tDest = servicefunction + strlen(servicefunction);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.pszService = servicefunction;
 
 	strcpy(tDest, MSN_BLOCK);
@@ -446,7 +445,7 @@ void MSN_InitContactMenu(void)
 
 	strcpy(tDest, MSN_NETMEETING);
 	hNetMeeting = CreateServiceFunction(servicefunction, MsnMenuSendNetMeeting);
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_NOTOFFLINE;
+	mi.flags = CMIF_NOTOFFLINE;
 	mi.position = -500050002;
 	mi.icolibItem = GetIconHandle(IDI_NETMEETING);
 	mi.pszName = LPGEN("&Start Netmeeting");
@@ -455,7 +454,7 @@ void MSN_InitContactMenu(void)
 	strcpy(tDest, "/SendHotmail");
 	hSendHotMail = CreateServiceFunction(servicefunction, MsnMenuSendHotmail);
 	mi.position = -2000010005;
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_HIDDEN;
+	mi.flags = CMIF_HIDDEN;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_SENDEMAIL);
 	mi.pszName = LPGEN("Open &Hotmail Inbox");
 	hOpenInboxMenuItem = Menu_AddContactMenuItem(&mi);

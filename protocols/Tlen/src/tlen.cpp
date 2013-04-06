@@ -303,11 +303,11 @@ static void initMenuItems(TlenProtocol *proto)
 	mi.ptszName = proto->m_tszUserName;
 	mi.position = -1999901009;
 	mi.pszPopupName = (char *)-1;
-	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
 	mi.icolibItem = GetIconHandle(IDI_TLEN);
 	proto->hMenuRoot = Menu_AddMainMenuItem(&mi);
 
-	mi.flags = CMIF_CHILDPOPUP | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_CHILDPOPUP;
 	//mi.pszPopupName = (char *)proto->hMenuRoot;
 	mi.hParentMenu = (HGENMENU)proto->hMenuRoot;
 
@@ -347,7 +347,6 @@ static void initMenuItems(TlenProtocol *proto)
 	// "Send picture"
 	sprintf(text, "%s/SendPicture", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenContactMenuHandleSendPicture);
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.pszName = LPGEN("Send picture");
 	mi.position = -2000019030;
 	mi.icolibItem = GetIconHandle(IDI_IMAGE);

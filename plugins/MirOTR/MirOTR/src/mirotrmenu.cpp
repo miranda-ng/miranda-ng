@@ -106,7 +106,7 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam,LPARAM)
 		if ( mi.flags & CMIF_NOTNOTPRIVATE && level==TRUST_NOT_PRIVATE ) return FALSE;
 	
 		if (pcpp->MenuItemHandle == hStatusInfoItem) {
-			mi.flags = CMIM_NAME | CMIM_ICON | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+			mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 			switch (level) {
 				case TRUST_PRIVATE:
 					mi.hIcolibItem = GetIconHandle(ICON_PRIVATE);
@@ -190,7 +190,6 @@ void ShowOTRMenu(HANDLE hContact, POINT pt){
 
 void InitMirOTRMenu(void)
 {
-
 	WNDCLASS wc = {0};
 	wc.hInstance = hInst;
 	wc.lpfnWndProc = PopupMenuWndProc;
@@ -205,14 +204,9 @@ void InitMirOTRMenu(void)
 	CreateServiceFunction("MIROTRMENUS/FreeOwnerDataMirOTRMenu",FreeOwnerDataMirOTRMenu);
 	CreateServiceFunction("MIROTRMENUS/OnAddMenuItemMirOTRMenu",OnAddMenuItemMirOTRMenu);
 
-
 	CreateServiceFunction(MS_MIROTR_ADDMIROTRMENUITEM,AddMirOTRMenuItem);
 	CreateServiceFunction(MS_MIROTR_MENUBUILDMIROTR,BuildMirOTRMenu);
 	CreateServiceFunction(MS_MIROTR_REMOVEMIROTRMENUITEM,RemoveMirOTRMenuItem);
-
-	//hPreBuildMirOTRMenuEvent=CreateHookableEvent(ME_CLIST_PREBUILDMirOTRMENU);
-
-	//MirOTR menu
 	{
 		TMenuParam tmp = { 0 };
 		tmp.cbSize=sizeof(tmp);
@@ -236,37 +230,36 @@ void InitMirOTRMenu(void)
 	params.Value = (INT_PTR)"MIROTRMENUS/OnAddMenuItemMirOTRMenu";
 	CallService(MO_SETOPTIONSMENUOBJECT, 0, (LPARAM)&params);
 
-
 	MIROTRMENUITEM mi = {0};
 	mi.cbSize = sizeof(mi);
 
-	mi.flags = CMIF_DISABLED|CMIF_TCHAR|CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_DISABLED | CMIF_TCHAR;
 	mi.ptszName = LPGENT("OTR Status");
 	mi.position = 0;
 	hStatusInfoItem = (HGENMENU) AddMirOTRMenuItem(0, (LPARAM) &mi);
 
-	mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_NOTPRIVATE|CMIF_NOTUNVERIFIED;
+	mi.flags = CMIF_TCHAR | CMIF_NOTPRIVATE | CMIF_NOTUNVERIFIED;
 	mi.ptszName = _T(LANG_MENU_START);
 	mi.position = 100001;
 	mi.pszService = MS_OTR_MENUSTART;
 	mi.icolibItem = GetIconHandle(ICON_UNVERIFIED);
 	AddMirOTRMenuItem(0, (LPARAM) &mi);
 
-	mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_NOTNOTPRIVATE|CMIF_NOTFINISHED;
+	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
 	mi.ptszName = _T(LANG_MENU_REFRESH);
 	mi.position = 100002;
 	mi.pszService = MS_OTR_MENUREFRESH;
 	mi.icolibItem = GetIconHandle(ICON_FINISHED);
 	AddMirOTRMenuItem(0, (LPARAM) &mi);
 
-	mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_NOTNOTPRIVATE;
+	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE;
 	mi.ptszName = _T(LANG_MENU_STOP);
 	mi.position = 100003;
 	mi.pszService = MS_OTR_MENUSTOP;
 	mi.icolibItem = GetIconHandle(ICON_NOT_PRIVATE);
 	AddMirOTRMenuItem(0, (LPARAM) &mi);
 
-	mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_NOTNOTPRIVATE|CMIF_NOTFINISHED;
+	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
 	mi.ptszName = _T(LANG_MENU_VERIFY);
 	mi.position = 200001;
 	mi.pszService = MS_OTR_MENUVERIFY;
@@ -278,9 +271,6 @@ void InitMirOTRMenu(void)
 	mi.position = 300001;
 	mi.pszService = MS_OTR_MENUTOGGLEHTML;
 	hHTMLConvMenuItem = (HGENMENU) AddMirOTRMenuItem(0, (LPARAM) &mi);
-
-
-	
 }
 
 void UninitMirOTRMenu(void)

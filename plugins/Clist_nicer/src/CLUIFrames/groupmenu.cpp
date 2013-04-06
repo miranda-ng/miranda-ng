@@ -315,7 +315,6 @@ void InitGroupMenus(void)
 		memset(&mi,0,sizeof(mi));
 		mi.cbSize=sizeof(mi);
 		mi.position=200000;
-		mi.flags = CMIF_ICONFROMICOLIB;
 		mi.icolibItem=LoadSkinnedIconHandle(SKINICON_OTHER_FINDUSER); //LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_FINDUSER));
 		mi.pszService="FindAdd/FindAddCommand";
 		mi.pszName=LPGEN("&Find/Add Contacts...");
@@ -345,7 +344,6 @@ void InitGroupMenus(void)
 		memset(&mi,0,sizeof(mi));
 		mi.cbSize=sizeof(mi);
 		mi.position=400000;
-		mi.flags = CMIF_ICONFROMICOLIB;
 		mi.icolibItem=LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS); //LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_OPTIONS));
 		mi.pszService="Options/OptionsCommand";
 		mi.pszName=LPGEN("&Options...");
@@ -355,7 +353,6 @@ void InitGroupMenus(void)
 		memset(&mi,0,sizeof(mi));
 		mi.cbSize=sizeof(mi);
 		mi.position=500000;
-		mi.flags = CMIF_ICONFROMICOLIB;
 		mi.icolibItem=LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA); //LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_MIRANDA));
 		mi.pszService="CLN/About";
 		mi.pszName=LPGEN("&About the contact list...");
@@ -637,7 +634,6 @@ void InitSubGroupMenus(void)
 		memset(&mi,0,sizeof(mi));
 		mi.cbSize=sizeof(mi);
 		mi.position=900001;
-		mi.flags = CMIF_ICONFROMICOLIB;
 		mi.icolibItem=LoadSkinnedIconHandle(SKINICON_OTHER_RENAME); //LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_RENAME));
 		mi.pszService="CLISTMENUSSubGroup/GroupMenuExecProxy";
 		mi.pszName=LPGEN("&Rename Group");
@@ -647,7 +643,6 @@ void InitSubGroupMenus(void)
 		memset(&mi,0,sizeof(mi));
 		mi.cbSize=sizeof(mi);
 		mi.position=900002;
-		mi.flags = CMIF_ICONFROMICOLIB;
 		mi.icolibItem=LoadSkinnedIconHandle(SKINICON_OTHER_DELETE); //LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_DELETE));
 		mi.pszService="CLISTMENUSSubGroup/GroupMenuExecProxy";
 		mi.pszName=LPGEN("&Delete Group");

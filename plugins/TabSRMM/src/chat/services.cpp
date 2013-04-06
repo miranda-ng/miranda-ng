@@ -67,14 +67,14 @@ int Chat_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000090001;
-	mi.flags = CMIF_DEFAULT | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_DEFAULT;
 	mi.icolibItem = LoadSkinnedIconHandle( SKINICON_CHAT_JOIN );
 	mi.pszName = LPGEN("&Join");
 	mi.pszService = "GChat/JoinChat";
 	hJoinMenuItem = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000090000;
-	mi.flags = CMIF_NOTOFFLINE | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_NOTOFFLINE;
 	mi.icolibItem = LoadSkinnedIconHandle( SKINICON_CHAT_LEAVE );
 	mi.pszName = LPGEN("&Leave");
 	mi.pszService = "GChat/LeaveChat";

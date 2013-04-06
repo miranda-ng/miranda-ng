@@ -125,7 +125,6 @@ void gg_links_instancemenu_init()
 	hInstanceMenu = (HANDLE)CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&mnu);
 
 	tmi.cbSize = sizeof(tmi);
-	tmi.flags = CMIF_ICONFROMICOLIB;
 	tmi.pszName = "Cancel";
 	tmi.position = 9999999;
 	tmi.hIcolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);

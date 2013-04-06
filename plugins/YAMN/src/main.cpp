@@ -196,7 +196,6 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 	//Insert "Check mail (YAMN)" item to Miranda's menu
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 0xb0000000;
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = g_GetIconHandle(0);
 	mi.pszName = LPGEN("Check &mail (All Account)");
 	mi.pszPopupName = NULL;//YAMN_DBMODULE;

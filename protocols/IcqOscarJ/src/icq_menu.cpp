@@ -115,7 +115,6 @@ void g_MenuInit(void)
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = str;
-	mi.flags = CMIF_ICONFROMICOLIB;
 
 	// "Request authorization"
 	strcpy(pszDest, MS_REQ_AUTH); CreateServiceFunction(str, IcqMenuHandleRequestAuth );

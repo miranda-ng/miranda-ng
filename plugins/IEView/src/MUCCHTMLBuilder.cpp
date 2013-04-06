@@ -186,9 +186,9 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event) {
 	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {
 		DWORD dwData = eventData->dwData;
 		char *style = NULL;
-		int styleSize;
-		int isSent = eventData->bIsMe;
-		int outputSize;
+		int  styleSize;
+		bool isSent = eventData->bIsMe != 0;
+		int  outputSize;
 		char *output = NULL;
 		mir_ptr<char> szName, szText;
 		if (eventData->iType == IEED_MUCC_EVENT_MESSAGE) {

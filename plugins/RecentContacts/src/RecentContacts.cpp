@@ -442,7 +442,6 @@ int Create_TopToolbarShowList(WPARAM wParam, LPARAM lParam)
 int Create_MenuitemShowList(void)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = icon.hIcolib;
 	mi.pszName = msLastUC_ShowListName;
 	mi.pszService = msLastUC_ShowList;

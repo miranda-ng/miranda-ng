@@ -406,7 +406,6 @@ int LoadHistoryModule(void)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1000090000;
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_HISTORY);
 	mi.pszName = LPGEN("View &History");
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;

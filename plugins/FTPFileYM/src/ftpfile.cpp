@@ -93,7 +93,7 @@ void InitMenuItems()
 	TCHAR stzName[256];
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
 	mi.icolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
 	mi.position = 3000090001;
 	mi.ptszName = LPGENT("FTP File");
@@ -115,7 +115,7 @@ void InitMenuItems()
 		if (DB::getStringF(0, MODULE, "Name%d", i, stzName))
 			mir_sntprintf(stzName, SIZEOF(stzName), TranslateT("FTP Server %d"), i + 1);
 
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+		mi.flags = CMIF_TCHAR;
 		mi.hParentMenu = 0; 
 		if (opt.bUseSubmenu)
 		{
@@ -164,7 +164,7 @@ void InitMenuItems()
 
 	memset(&mi, 0, sizeof(mi));
 	mi.cbSize = sizeof(mi);
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR;
+	mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.icolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
 	mi.position = 3000090001;
 	mi.ptszName = LPGENT("FTP File manager");

@@ -612,7 +612,6 @@ void InitTrayMenus(void)
 	mi.position = 900000;
 	mi.pszService = "CloseAction";
 	mi.pszName = LPGEN("E&xit");
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_EXIT);
 	AddTrayMenuItem(0, (LPARAM)&mi);
 

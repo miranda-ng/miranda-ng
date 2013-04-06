@@ -648,7 +648,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU
 	mi.popupPosition = frameid;
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&FrameTitle");
-	mi.flags = CMIF_CHILDPOPUP | CMIF_GRAYED | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_CHILDPOPUP | CMIF_GRAYED;
 	mi.pszContactOwner = 0;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) contMITitle = menuid;
@@ -1599,7 +1599,7 @@ static int CLUIFramesLoadMainMenu()
 	// create root menu
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FRAME);
-	mi.flags = CMIF_ROOTHANDLE | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.position = 3000090000;
 	mi.pszPopupName = (char*) - 1;
 	mi.pszName = LPGEN("Frames");

@@ -58,7 +58,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	metaProtoName = mir_strdup(temp == CALLSERVICE_NOTFOUND ? NULL : (char*)temp);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_ROOTPOPUP;
 	mi.popupPosition = 2000070050;
 	mi.position = 2000070050;
 	mi.icolibItem = icon.hIcolib;

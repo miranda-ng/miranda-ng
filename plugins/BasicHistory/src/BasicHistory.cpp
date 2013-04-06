@@ -99,7 +99,6 @@ void InitMenuItems()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1000090000;
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
 	mi.pszName = LPGEN("View &History");
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
@@ -110,7 +109,6 @@ void InitMenuItems()
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 1000090001;
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
 	mi.pszName = LPGEN("Delete All User History");
 	mi.pszService = MS_HISTORY_DELETEALLCONTACTHISTORY;
@@ -121,13 +119,11 @@ void InitMenuItems()
 
 void InitTaskMenuItems()
 {
-	if(Options::instance->taskOptions.size() > 0)
-	{
+	if(Options::instance->taskOptions.size() > 0) {
 		CLISTMENUITEM mi = { sizeof(mi) };
-		if(hTaskMainMenu == NULL)
-		{
+		if(hTaskMainMenu == NULL) {
 			mi.position = 500060005;
-			mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB;
+			mi.flags = CMIF_ROOTPOPUP;
 			mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
 			mi.pszName = LPGEN("Execute history task");
 			hTaskMainMenu = Menu_AddMainMenuItem(&mi);

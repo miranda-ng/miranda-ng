@@ -325,7 +325,6 @@ static int SRFileModulesLoaded(WPARAM, LPARAM)
 	mi.icolibItem = GetSkinIconHandle(SKINICON_EVENT_FILE);
 	mi.pszName = LPGEN("&File");
 	mi.pszService = MS_FILE_SENDFILE;
-	mi.flags = CMIF_ICONFROMICOLIB;
 	hSRFileMenuItem = Menu_AddContactMenuItem(&mi);
 
 	RemoveUnreadFileEvents();
@@ -419,7 +418,6 @@ int LoadSendRecvFileModule(void)
 	CreateServiceFunction("FtMgr/Show", FtMgrShowCommand);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = GetSkinIconHandle(SKINICON_EVENT_FILE);
 	mi.position = 1900000000;
 	mi.pszName = LPGEN("File &Transfers...");

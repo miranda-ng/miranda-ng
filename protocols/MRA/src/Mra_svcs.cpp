@@ -659,7 +659,7 @@ int CMraProto::MraRebuildStatusMenu(WPARAM wParam, LPARAM lParam)
 	mi.position = 2000060000;
 	mi.popupPosition = 500085000;
 	mi.ptszPopupName = szItem;
-	mi.flags = (CMIF_UNICODE|CMIF_ICONFROMICOLIB);
+	mi.flags = CMIF_UNICODE;
 	mi.pszService = szServiceFunction;
 	mi.pszContactOwner = m_szModuleName;
 

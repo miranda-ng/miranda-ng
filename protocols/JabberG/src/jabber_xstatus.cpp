@@ -480,7 +480,7 @@ void CPepGuiService::RebuildMenu()
 	mi.hParentMenu = hJabberRoot;
 	mi.pszService = szService;
 	mi.position = 200010;
-	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB | CMIF_HIDDEN | CMIF_ROOTHANDLE;
+	mi.flags = CMIF_TCHAR | CMIF_HIDDEN | CMIF_ROOTHANDLE;
 	mi.icolibItem = m_hIcolibItem;
 	mi.ptszName = m_szText ? m_szText : _T("<advanced status slot>");
 	m_hMenuItem = Menu_AddProtoMenuItem(&mi);
@@ -506,7 +506,7 @@ void CPepGuiService::UpdateMenuItem(HANDLE hIcolibIcon, TCHAR *text)
 	if ( !m_hMenuItem) return;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB | CMIM_ICON | CMIM_NAME;
+	mi.flags = CMIF_TCHAR | CMIM_ICON | CMIM_NAME;
 	mi.icolibItem = m_hIcolibItem;
 	mi.ptszName = m_szText ? m_szText : _T("<advanced status slot>");
 	Menu_ModifyItem(m_hMenuItem, &mi);

@@ -1391,7 +1391,6 @@ void InitCustomMenus(void)
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 0x7fffffff;
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.pszService = "CloseAction";
 	mi.pszName = LPGEN("E&xit");
 	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_EXIT);

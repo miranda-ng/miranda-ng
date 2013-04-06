@@ -97,7 +97,7 @@ int InitMenus(void *obj, WPARAM, LPARAM)
 
 	// main menu item
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_ALL | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIM_ALL | CMIF_TCHAR;
 	mi.icolibItem = iconList[1].hIcolib;
 	mi.ptszName = (p->m_bEncoding) ? LPGENT("Change password") : LPGENT("Set password");
 	mi.ptszPopupName = LPGENT("Database");

@@ -296,7 +296,6 @@ void GroupMenus_Init(void)
 	mi.pszService = "CloseAction";
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_EXIT);
 	mi.pszName = LPGEN("E&xit");
-	mi.flags = CMIF_ICONFROMICOLIB;
 	AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 500;
@@ -609,7 +608,6 @@ void InitSubGroupMenus(void)
 	memset(&mi, 0, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.position = 900001;
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_RENAME);
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
 	mi.pszName = LPGEN("&Rename Group");	
@@ -618,7 +616,6 @@ void InitSubGroupMenus(void)
 	DestroyIcon_protect(mi.hIcon);
 
 	mi.position = 900002;
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
 	mi.pszName = LPGEN("&Delete Group");	

@@ -621,7 +621,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	createObjService(service, &GGPROTO::import_server);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE | CMIF_TCHAR;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.hParentMenu = hRoot;
 	mi.position = 2000500001;
 	mi.icolibItem = iconList[1].hIcolib;

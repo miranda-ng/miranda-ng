@@ -449,12 +449,8 @@ static void IcoLib_RemoveSection(SectionItem* section)
 
 IcolibItem* IcoLib_FindIcon(const char* pszIconName)
 {
-	int indx;
-	IcolibItem key = { (char*)pszIconName };
-	if ((indx = iconList.getIndex(&key)) != -1)
-		return iconList[ indx ];
-
-	return NULL;
+	int indx = iconList.getIndex((IcolibItem*)&pszIconName);
+	return (indx != -1) ? iconList[ indx ] : 0;
 }
 
 IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big)
@@ -465,7 +461,7 @@ IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big)
 			big = (p->source_small == NULL);
 			return p;
 		}
-		if (p->source_small  && p->source_small->icon == hIcon) {
+		if (p->source_small && p->source_small->icon == hIcon) {
 			big = false;
 			return p;
 		}
@@ -838,18 +834,18 @@ int LoadIcoLibModule(void)
 	hIconBlank = LoadIconEx(NULL, MAKEINTRESOURCE(IDI_BLANK), 0);
 
 	InitializeCriticalSection(&csIconList);
-	hIcoLib_AddNewIcon = CreateServiceFunction("Skin2/Icons/AddIcon",     sttIcoLib_AddNewIcon);
-	hIcoLib_RemoveIcon = CreateServiceFunction(MS_SKIN2_REMOVEICON,       IcoLib_RemoveIcon);
-	hIcoLib_GetIcon = CreateServiceFunction(MS_SKIN2_GETICON,             sttIcoLib_GetIcon);
-	hIcoLib_GetIconHandle = CreateServiceFunction(MS_SKIN2_GETICONHANDLE, sttIcoLib_GetIconHandle);
-	hIcoLib_GetIcon2 = CreateServiceFunction(MS_SKIN2_GETICONBYHANDLE,    sttIcoLib_GetIconByHandle);
-	hIcoLib_IsManaged = CreateServiceFunction(MS_SKIN2_ISMANAGEDICON,     sttIcoLib_IsManaged);
-	hIcoLib_AddRef = CreateServiceFunction(MS_SKIN2_ADDREFICON,           IcoLib_AddRef);
-	hIcoLib_ReleaseIcon = CreateServiceFunction(MS_SKIN2_RELEASEICON,     sttIcoLib_ReleaseIcon);
-	hIcoLib_ReleaseIcon = CreateServiceFunction(MS_SKIN2_RELEASEICONBIG,  sttIcoLib_ReleaseIconBig);
+	hIcoLib_AddNewIcon    = CreateServiceFunction("Skin2/Icons/AddIcon",    sttIcoLib_AddNewIcon);
+	hIcoLib_RemoveIcon    = CreateServiceFunction(MS_SKIN2_REMOVEICON,      IcoLib_RemoveIcon);
+	hIcoLib_GetIcon       = CreateServiceFunction(MS_SKIN2_GETICON,         sttIcoLib_GetIcon);
+	hIcoLib_GetIconHandle = CreateServiceFunction(MS_SKIN2_GETICONHANDLE,   sttIcoLib_GetIconHandle);
+	hIcoLib_GetIcon2      = CreateServiceFunction(MS_SKIN2_GETICONBYHANDLE, sttIcoLib_GetIconByHandle);
+	hIcoLib_IsManaged     = CreateServiceFunction(MS_SKIN2_ISMANAGEDICON,   sttIcoLib_IsManaged);
+	hIcoLib_AddRef        = CreateServiceFunction(MS_SKIN2_ADDREFICON,      IcoLib_AddRef);
+	hIcoLib_ReleaseIcon   = CreateServiceFunction(MS_SKIN2_RELEASEICON,     sttIcoLib_ReleaseIcon);
+	hIcoLib_ReleaseIcon   = CreateServiceFunction(MS_SKIN2_RELEASEICONBIG,  sttIcoLib_ReleaseIconBig);
 
 	hIcons2ChangedEvent = CreateHookableEvent(ME_SKIN2_ICONSCHANGED);
-	hIconsChangedEvent = CreateHookableEvent(ME_SKIN_ICONSCHANGED);
+	hIconsChangedEvent  = CreateHookableEvent(ME_SKIN_ICONSCHANGED);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, SkinSystemModulesLoaded);
 

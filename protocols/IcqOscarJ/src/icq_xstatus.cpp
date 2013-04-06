@@ -873,7 +873,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 		if (!bXStatusMenuBuilt)
 			CreateProtoServiceParam(srvFce+len, &CIcqProto::menuXStatus, i);
 
-		mi.flags = (i ? CMIF_ICONFROMICOLIB : 0) | (bXStatus == i?CMIF_CHECKED:0);
+		mi.flags = (bXStatus == i ? CMIF_CHECKED : 0);
 		mi.icolibItem = i ? hXStatusIcons[i-1] : NULL;
 		mi.pszName = i ? (char*)nameXStatus[i-1] : (char *)LPGEN("None");
 		mi.pszService = srvFce;

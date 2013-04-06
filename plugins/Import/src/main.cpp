@@ -124,7 +124,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.pszName = LPGEN("&Import...");
 	mi.position = 500050000;
 	mi.pszService = IMPORT_SERVICE;
-	mi.flags = CMIF_ICONFROMICOLIB;
 	Menu_AddMainMenuItem(&mi);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
