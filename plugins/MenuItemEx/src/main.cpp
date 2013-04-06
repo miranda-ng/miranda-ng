@@ -529,7 +529,7 @@ void ModifyInvisSet(int mode,BOOL alpha)
 void ModifyCopyID(HANDLE hContact, BOOL bShowID, BOOL bTrimID)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_ICON | CMIM_NAME;
+	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_UNICODE;
 
 	if (isMetaContact(hContact)) {
 		HANDLE hC = getMostOnline(hContact);
@@ -798,7 +798,7 @@ static HGENMENU AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD fl
 	mi.position      =  pos;
 	mi.ptszName      =  name;
 	mi.hIcon         =  icon; 
-	mi.flags         =  CMIF_TCHAR | CMIF_CHILDPOPUP | flag;
+	mi.flags         =  CMIF_UNICODE | CMIF_CHILDPOPUP | flag;
 	mi.pszService    =  service;
 	return Menu_AddContactMenuItem(&mi);
 }
@@ -807,7 +807,7 @@ static void ModifySubmenuItem(HGENMENU hItem, TCHAR *name, int checked, int hidd
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.ptszName = name;
-	mi.flags = CMIM_FLAGS | CMIF_TCHAR;
+	mi.flags = CMIM_FLAGS | CMIF_UNICODE;
 	if (checked)
 		mi.flags |= CMIF_CHECKED;
 	if (hidden)
@@ -836,7 +836,7 @@ int BuildMenu(WPARAM wparam,LPARAM lparam)
 	if (bEnabled) {
 		BYTE bHidden = db_get_b((HANDLE)wparam,"CList","Hidden",0);
 		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.flags |= CMIM_ICON | CMIM_NAME;
+		mi.flags |= CMIM_ICON | CMIM_NAME | CMIF_UNICODE;
 		mi.hIcon = Skin_GetIcon(bHidden ? "miex_showil" : "miex_hidefl");
 		mi.ptszName = bHidden ? LPGENT("Show in list") : LPGENT("Hide from list");
 		Menu_ModifyItem(hmenuHide, &mi);
@@ -1090,7 +1090,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	ModuleLoad(0, 0);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcon = NULL;
 	mi.pszContactOwner = NULL;
 
@@ -1137,7 +1137,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 
 	EnumProtoSubmenu(0, 0);
 
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 
 	mi.position++;
 	mi.ptszName = LPGENT("Send 'You were added'");
