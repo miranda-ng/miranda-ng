@@ -787,16 +787,16 @@ void RegisterFontServiceFonts() {
 	strncpy(fid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 	strncpy(cid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 
-	for (int i=0; i < (sizeof(_clrs) / sizeof(_clrs[0])); i++) {
+	for (int i = 0; i < SIZEOF(_clrs); i++) {
 		cid.order = _clrs[i].order;
 		_tcsncpy(cid.group, _clrs[i].tszGroup, SIZEOF(fid.group));
-	 	_tcsncpy(cid.name, _clrs[i].tszName, SIZEOF(cid.name));
-	 	strncpy(cid.setting, _clrs[i].szSetting, SIZEOF(cid.setting));
-	 	if (_clrs[i].def & 0xff000000)
-	 		cid.defcolour = GetSysColor(_clrs[i].def & 0x000000ff);
-	 	else
-	 		cid.defcolour = _clrs[i].def;
-	 	ColourRegisterT(&cid);
+		_tcsncpy(cid.name, _clrs[i].tszName, SIZEOF(cid.name));
+		strncpy(cid.setting, _clrs[i].szSetting, SIZEOF(cid.setting));
+		if (_clrs[i].def & 0xff000000)
+			cid.defcolour = GetSysColor(_clrs[i].def & 0x000000ff);
+		else
+			cid.defcolour = _clrs[i].def;
+		ColourRegisterT(&cid);
 	}
 
 	strncpy(cid.dbSettingsGroup, SRMSGMOD_T, SIZEOF(fid.dbSettingsGroup));
@@ -804,17 +804,17 @@ void RegisterFontServiceFonts() {
 	/*
 	 * text and background colors for tabs
 	 */
-	for (int i=0; i < (sizeof(_tabclrs) / sizeof(_tabclrs[0])); i++) {
+	for (int i = 0; i < SIZEOF(_tabclrs); i++) {
 		cid.order = _tabclrs[i].order;
 		_tcsncpy(cid.group, _tabclrs[i].tszGroup, SIZEOF(fid.group));
-	 	_tcsncpy(cid.name, _tabclrs[i].tszName, SIZEOF(cid.name));
-	 	strncpy(cid.setting, _tabclrs[i].szSetting, SIZEOF(cid.setting));
-	 	if (_tabclrs[i].def & 0xff000000)
-	 		cid.defcolour = GetSysColor(_tabclrs[i].def & 0x000000ff);
-	 	else
-	 		cid.defcolour = _tabclrs[i].def;
+		_tcsncpy(cid.name, _tabclrs[i].tszName, SIZEOF(cid.name));
+		strncpy(cid.setting, _tabclrs[i].szSetting, SIZEOF(cid.setting));
+		if (_tabclrs[i].def & 0xff000000)
+			cid.defcolour = GetSysColor(_tabclrs[i].def & 0x000000ff);
+		else
+			cid.defcolour = _tabclrs[i].def;
 
-	 	ColourRegisterT(&cid);
+		ColourRegisterT(&cid);
 	}
 }
 
@@ -981,9 +981,9 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			ofn.lpstrDefExt = _T("log");
 			GetOpenFileName(&ofn);
 			break;
-											  }
+		}
 
-		case  IDC_FONTCHOOSE: {
+		case IDC_FONTCHOOSE: {
 			TCHAR tszDirectory[MAX_PATH];
 			LPITEMIDLIST idList;
 			LPMALLOC psMalloc;
@@ -998,7 +998,6 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				bi.lpfn = BrowseCallbackProc;
 				bi.lParam = (LPARAM)tszDirectory;
 
-
 				idList = SHBrowseForFolder(&bi);
 				if (idList) {
 					const TCHAR *szUserDir = M->getUserDir();
@@ -1011,7 +1010,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				psMalloc->Release();
 			}
 			break;
-									 }
+		}
 
 		case IDC_LOGGING:
 			if (PluginConfig.m_chat_enabled) {
@@ -1401,7 +1400,6 @@ int OptionsInit(void)
 	g_Settings.LogTextIndent = g_Settings.LogTextIndent * 12 / 10;
 	return 0;
 }
-
 
 int OptionsUnInit(void)
 {
