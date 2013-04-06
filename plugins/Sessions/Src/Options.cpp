@@ -50,14 +50,14 @@ int OpLoadSessionContacts(WPARAM wparam,LPARAM lparam)
 
 	for (hContact = db_find_first(); hContact;
 		hContact = db_find_next(hContact))
-	{	
+	{
 		if(LoadContactsFromMask(hContact,1,lparam))
 		{
 			i=GetInSessionOrder(hContact,1, lparam);
 			session_list_t[i]=(DWORD)hContact;
 		}
 	}
-	
+
 	i=0;
 	while(session_list_t[i]!=0)
 	{
@@ -75,17 +75,17 @@ static LRESULT CALLBACK ComboBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 	{
 		case WM_ERASEBKGND:
 			return TRUE;
-	
+
 		case EM_SETSEL:
 			if (!hOpClistControl)
 				return HideCaret(hwnd);
 			break;
-		
+
 		case WM_GETDLGCODE:
 			if (!hOpClistControl)
 				return DLGC_WANTARROWS;
 			break;
-			
+
 		case WM_SETCURSOR:
 		{
 			if (!hOpClistControl)
@@ -100,8 +100,8 @@ static LRESULT CALLBACK ComboBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 				break;
 			HideCaret(hwnd);
 
-		case WM_LBUTTONDBLCLK: 
-		case WM_MBUTTONDOWN:   
+		case WM_LBUTTONDBLCLK:
+		case WM_MBUTTONDOWN:
 		case WM_MBUTTONDBLCLK:
 			SendMessage(hComboBox,CB_SHOWDROPDOWN,1,0);
 			return TRUE;
@@ -118,7 +118,7 @@ static LRESULT CALLBACK ComboBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			else
 			{
 				MarkUserDefSession(opses_count,0);
-				hIcon=hNotMarked;			
+				hIcon=hNotMarked;
 				bChecked=FALSE;
 				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_FRAME);
 			}
@@ -172,7 +172,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			opses_count=0;
 			g_opHdlg=hdlg;
 			bOptionsInit=TRUE;
-			TranslateDialogDefault(hdlg); 
+			TranslateDialogDefault(hdlg);
 			hMarked = Skin_GetIconByHandle(iconList[1].hIcolib);
 			hNotMarked = Skin_GetIconByHandle(iconList[2].hIcolib);
 
@@ -187,7 +187,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			startupmode = db_get_b(NULL, MODNAME, "StartupMode", 3);
 			exitmode = db_get_b(NULL, MODNAME, "ShutdownMode", 2);
 
-			g_bExclHidden = db_get_b(NULL, MODNAME, "ExclHidden", 0);	
+			g_bExclHidden = db_get_b(NULL, MODNAME, "ExclHidden", 0);
 			g_bWarnOnHidden = db_get_b(NULL, MODNAME, "WarnOnHidden", 0);
 			g_bOtherWarnings = db_get_b(NULL, MODNAME, "OtherWarnings", 1);
 			g_bCrashRecovery = db_get_b(NULL, MODNAME, "CrashRecovery", 0);
@@ -267,10 +267,10 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				db_set_b(0, MODNAME, "TrackCount", (BYTE)(ses_limit=GetDlgItemInt(hdlg, IDC_TRACK,NULL, FALSE)));
 				if(IsDlgButtonChecked(hdlg, IDC_REXSAVE)) db_set_b(NULL, MODNAME, "ShutdownMode", 2);
 				else if(IsDlgButtonChecked(hdlg, IDC_REXDSAVE)) db_set_b(NULL, MODNAME, "ShutdownMode", 0);
-				else if(IsDlgButtonChecked(hdlg, IDC_REXASK)) db_set_b(NULL, MODNAME, "ShutdownMode", 1);			
+				else if(IsDlgButtonChecked(hdlg, IDC_REXASK)) db_set_b(NULL, MODNAME, "ShutdownMode", 1);
 
 				if(IsDlgButtonChecked(hdlg, IDC_STARTDIALOG))
-				{ 
+				{
 					if (!IsDlgButtonChecked(hdlg, IDC_CHECKLAST))
 						db_set_b(NULL, MODNAME, "StartupMode", 1);
 					else db_set_b(NULL, MODNAME, "StartupMode", 3);
@@ -358,7 +358,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				EnableWindow(GetDlgItem(hdlg,IDC_DEL),FALSE);
 				//EnableWindow(GetDlgItem(hdlg,IDC_SAVE),TRUE);
 				SetWindowText(GetDlgItem(hdlg,IDC_EDIT),TranslateT("View"));
-				hOpClistControl = CreateWindowEx(WS_EX_STATICEDGE, _T(CLISTCONTROL_CLASS), _T(""), 
+				hOpClistControl = CreateWindowEx(WS_EX_STATICEDGE, _T(CLISTCONTROL_CLASS), _T(""),
 					WS_TABSTOP |WS_VISIBLE | WS_CHILD , 
 					14,198,161,163,hdlg, (HMENU)IDC_EMCLIST, hinstance, 0);
 
@@ -373,7 +373,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					hItem=(HANDLE)SendMessage(hOpClistControl,CLM_FINDCONTACT, (WPARAM)session_list_t[i], 0);
 					//hItem=session_list[i];
 					SendMessage(hOpClistControl, CLM_SETCHECKMARK, (WPARAM)hItem,1);
-				}		
+				}
 			}
 			else
 			{
@@ -392,7 +392,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				HANDLE hContact = db_find_first();
 				for (i=0 ; hContact;hContact = db_find_next(hContact))
 				{
-					BYTE res =(BYTE)SendMessage(GetDlgItem(hdlg,IDC_EMCLIST), CLM_GETCHECKMARK, 
+					BYTE res =(BYTE)SendMessage(GetDlgItem(hdlg,IDC_EMCLIST), CLM_GETCHECKMARK,
 						SendMessage(GetDlgItem(hdlg,IDC_EMCLIST), CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);
 					if (res)
 					{
@@ -446,7 +446,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		case IDC_STARTDIALOG:
 			EnableWindow(GetDlgItem(hdlg, IDC_STARTDELAY), TRUE);
 			EnableWindow(GetDlgItem(hdlg, IDC_STATICOP), TRUE);
-			EnableWindow(GetDlgItem(hdlg, IDC_STATICMS), TRUE);	
+			EnableWindow(GetDlgItem(hdlg, IDC_STATICMS), TRUE);
 			EnableWindow(GetDlgItem(hdlg, IDC_CHECKLAST), TRUE);
 			SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
 			break;
@@ -454,7 +454,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		case IDC_RLOADLAST:
 			EnableWindow(GetDlgItem(hdlg, IDC_STARTDELAY), TRUE);
 			EnableWindow(GetDlgItem(hdlg, IDC_STATICOP), TRUE);
-			EnableWindow(GetDlgItem(hdlg, IDC_STATICMS), TRUE);				
+			EnableWindow(GetDlgItem(hdlg, IDC_STATICMS), TRUE);
 			EnableWindow(GetDlgItem(hdlg, IDC_CHECKLAST), FALSE);
 			SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
 			break;
@@ -470,7 +470,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		case IDC_REXSAVE:
 			EnableWindow(GetDlgItem(hdlg,IDC_EXSTATIC1),TRUE);
 			EnableWindow(GetDlgItem(hdlg,IDC_EXSTATIC2),TRUE);
-			EnableWindow(GetDlgItem(hdlg,IDC_TRACK),TRUE);	
+			EnableWindow(GetDlgItem(hdlg,IDC_TRACK),TRUE);
 			EnableWindow(GetDlgItem(hdlg,IDC_SPIN1),TRUE);
 			SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
 			break;
@@ -479,14 +479,14 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			EnableWindow(GetDlgItem(hdlg,IDC_EXSTATIC1),FALSE);
 			EnableWindow(GetDlgItem(hdlg,IDC_EXSTATIC2),FALSE);
 			EnableWindow(GetDlgItem(hdlg,IDC_TRACK),FALSE);
-			EnableWindow(GetDlgItem(hdlg,IDC_SPIN1),FALSE);	
+			EnableWindow(GetDlgItem(hdlg,IDC_SPIN1),FALSE);
 			SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
 			break;
 
 		case IDC_REXASK:
 			EnableWindow(GetDlgItem(hdlg,IDC_EXSTATIC1),TRUE);
 			EnableWindow(GetDlgItem(hdlg,IDC_EXSTATIC2),TRUE);
-			EnableWindow(GetDlgItem(hdlg,IDC_TRACK),TRUE);				
+			EnableWindow(GetDlgItem(hdlg,IDC_TRACK),TRUE);
 			EnableWindow(GetDlgItem(hdlg,IDC_SPIN1),TRUE);
 			SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
 			break;
