@@ -282,7 +282,7 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_MESSAGEONNEWLINE, 0) ? SMF_LOG_MSGONNEWLINE : 0;
 	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_DRAWLINES, 0) ? SMF_LOG_DRAWLINES : 0;
 
-	char *szRealProto = getRealProto(event->hContact);
+	mir_ptr<char> szRealProto( getRealProto(event->hContact));
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {
 		const char *className = "";
@@ -292,53 +292,52 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 		int isSent = eventData->dwFlags & IEEDF_SENT;
 		int isRTL = eventData->dwFlags & IEEDF_RTL;
 		showColon = false;
-		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE
-			|| eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_FILE) {
+		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE ||
+				eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_FILE)
+		{
 			int isGroupBreak = TRUE;
- 		  	if ((dwFlags & SMF_LOG_GROUPMESSAGES) && eventData->dwFlags == LOWORD(getLastEventType())
-			  && eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE
-			  && (isSameDate(eventData->time, getLastEventTime()))
-			  && (((eventData->time < startedTime) == (getLastEventTime() < startedTime)) || !(eventData->dwFlags & IEEDF_READ))) {
+ 		  	if ((dwFlags & SMF_LOG_GROUPMESSAGES) && eventData->dwFlags == LOWORD(getLastEventType()) &&
+					eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE &&
+					(isSameDate(eventData->time, getLastEventTime())) &&
+					(((eventData->time < startedTime) == (getLastEventTime() < startedTime)) || !(eventData->dwFlags & IEEDF_READ))) {
 				isGroupBreak = FALSE;
 			}
-			char *szName = NULL;
-			char *szText = NULL;
-			if (eventData->dwFlags & IEEDF_UNICODE_NICK) {
+			char *szName = NULL, *szText = NULL;
+			if (eventData->dwFlags & IEEDF_UNICODE_NICK)
 				szName = encodeUTF8(event->hContact, szRealProto, eventData->pszNickW, ENF_NAMESMILEYS, true);
-			} else {
+			else
 				szName = encodeUTF8(event->hContact, szRealProto, eventData->pszNick, ENF_NAMESMILEYS, true);
-			}
-			if (eventData->dwFlags & IEEDF_UNICODE_TEXT) {
+
+			if (eventData->dwFlags & IEEDF_UNICODE_TEXT)
 				szText = encodeUTF8(event->hContact, szRealProto, eventData->pszTextW, eventData->iType == IEED_EVENT_MESSAGE ? ENF_ALL : 0, isSent);
-			} else {
+			else
 				szText = encodeUTF8(event->hContact, szRealProto, eventData->pszText, event->codepage, eventData->iType == IEED_EVENT_MESSAGE ? ENF_ALL : 0, isSent);
-			}
+
 			/* Scriver-specific formatting */
-			if ((dwFlags & SMF_LOG_DRAWLINES) && isGroupBreak && getLastEventType()!=-1) {
-				if (eventData->iType == IEED_EVENT_MESSAGE) {
+			if ((dwFlags & SMF_LOG_DRAWLINES) && isGroupBreak && getLastEventType() != -1) {
+				if (eventData->iType == IEED_EVENT_MESSAGE)
 					className = isRTL ? isSent ? "divOutGridRTL" : "divInGridRTL" : isSent ? "divOutGrid" : "divInGrid";
-				} else {
+				else
 					className = isRTL ? isSent ? "divNoticeGridRTL" : "divNoticeGridRTL" : isSent ? "divNoticeGrid" : "divNoticeGrid";
-				}
-			} else {
-				if (eventData->iType == IEED_EVENT_MESSAGE) {
+			}
+			else {
+				if (eventData->iType == IEED_EVENT_MESSAGE)
 					className = isRTL ? isSent ? "divOutRTL" : "divInRTL" : isSent ? "divOut" : "divIn";
-				} else {
+				else
 					className = isRTL ? isSent ? "divNoticeRTL" : "divNoticeRTL" : isSent ? "divNotice" : "divNotice";
-				}
 			}
 			Utils::appendText(&output, &outputSize, "<div class=\"%s\">", className);
 			if ((dwFlags & SMF_LOG_SHOWICONS) && isGroupBreak) {
 				const char *iconFile = "";
-				if (eventData->iType == IEED_EVENT_MESSAGE) {
+				if (eventData->iType == IEED_EVENT_MESSAGE)
 					iconFile = isSent ? "message_out.gif" : "message_in.gif";
-				} else if (eventData->iType == IEED_EVENT_FILE) {
+				else if (eventData->iType == IEED_EVENT_FILE)
 					iconFile = "file.gif";
-				} else if (eventData->iType == IEED_EVENT_URL) {
+				else if (eventData->iType == IEED_EVENT_URL)
 					iconFile = "url.gif";
-				} else if (eventData->iType == IEED_EVENT_STATUSCHANGE) {
+				else if (eventData->iType == IEED_EVENT_STATUSCHANGE)
 					iconFile = "status.gif";
-				}
+
 				Utils::appendIcon(&output, &outputSize, iconFile);
 			}
 
@@ -348,45 +347,43 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				char* timestampString = NULL;
 				if (dwFlags & SMF_LOG_GROUPMESSAGES) {
 					if (isGroupBreak) {
-						if  (!(dwFlags & SMF_LOG_MARKFOLLOWUPS)) {
+						if  (!(dwFlags & SMF_LOG_MARKFOLLOWUPS))
 							timestampString = timestampToString(dwFlags, eventData->time, 0);
-						} else if (dwFlags & SMF_LOG_SHOWDATE)
+						else if (dwFlags & SMF_LOG_SHOWDATE)
 							timestampString = timestampToString(dwFlags, eventData->time, 1);
-					} else if (dwFlags & SMF_LOG_MARKFOLLOWUPS) {
-						timestampString = timestampToString(dwFlags, eventData->time, 2);
 					}
-				} else
-					timestampString = timestampToString(dwFlags, eventData->time, 0);
-				if (timestampString != NULL) {
-					Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s</span>",
-							isSent ? "timeOut" : "timeIn",
-							timestampString);
+					else if (dwFlags & SMF_LOG_MARKFOLLOWUPS)
+						timestampString = timestampToString(dwFlags, eventData->time, 2);
 				}
-				if (eventData->iType != IEED_EVENT_MESSAGE) {
+				else timestampString = timestampToString(dwFlags, eventData->time, 0);
+
+				if (timestampString != NULL)
+					Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s</span>",
+							isSent ? "timeOut" : "timeIn", timestampString);
+
+				if (eventData->iType != IEED_EVENT_MESSAGE)
 					Utils::appendText(&output, &outputSize, "<span class=\"%s\">: </span>",
 							isSent ? "colonOut" : "colonIn");
-				}
+
 				showColon = true;
 			}
 			if ((dwFlags & SMF_LOG_SHOWNICK && eventData->iType == IEED_EVENT_MESSAGE && isGroupBreak) || eventData->iType == IEED_EVENT_STATUSCHANGE ) {
 				if (eventData->iType == IEED_EVENT_MESSAGE) {
-					if (showColon) {
+					if (showColon)
 						Utils::appendText(&output, &outputSize, "<span class=\"%s\"> %s</span>",
 									isSent ? "nameOut" : "nameIn",
 									szName);
-					} else {
+					else
 						Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s</span>",
-									isSent ? "nameOut" : "nameIn",
-									szName);
-					}
+									isSent ? "nameOut" : "nameIn", szName);
+
 					showColon = true;
 					if (dwFlags & SMF_LOG_GROUPMESSAGES) {
 						Utils::appendText(&output, &outputSize, "<br>");
 						showColon = false;
 					}
-				} else {
-					Utils::appendText(&output, &outputSize, "<span class=\"notices\">%s </span>", szName);
 				}
+				else Utils::appendText(&output, &outputSize, "<span class=\"notices\">%s </span>", szName);
 			}
 			if (dwFlags & SMF_LOG_SHOWTIME && dwFlags & SMF_LOG_GROUPMESSAGES && dwFlags & SMF_LOG_MARKFOLLOWUPS
 				&& eventData->iType == IEED_EVENT_MESSAGE && isGroupBreak) {
@@ -395,33 +392,32 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 							timestampToString(dwFlags, eventData->time, 2));
 				showColon = true;
 			}
-			if (showColon && eventData->iType == IEED_EVENT_MESSAGE) {
+			if (showColon && eventData->iType == IEED_EVENT_MESSAGE)
 				Utils::appendText(&output, &outputSize, "<span class=\"%s\">: </span>",
 							isSent ? "colonOut" : "colonIn");
-			}
+
 			if (eventData->iType == IEED_EVENT_MESSAGE) {
-				if (dwFlags & SMF_LOG_MSGONNEWLINE && showColon) {
+				if (dwFlags & SMF_LOG_MSGONNEWLINE && showColon)
 					Utils::appendText(&output, &outputSize, "<br>");
-				}
+
 				className = isSent ? "messageOut" : "messageIn";
-			} else {
-				className = "notices";
 			}
+			else className = "notices";
+
 			if (eventData->iType == IEED_EVENT_FILE) {
-				if (isSent) {
+				if (isSent)
 					Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s: %s</span>", className, Translate("File sent"), szText);
-				} else {
+				else
 					Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s: %s</span>", className, Translate("File received"), szText);
-				}
-			} else if (eventData->iType == IEED_EVENT_URL) {
-				if (isSent) {
-					Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s: %s</span>", className, Translate("URL sent"), szText);
-				} else {
-					Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s: %s</span>", className, Translate("URL received"), szText);
-				}
-			} else {
-				Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s</span>", className, szText);
 			}
+			else if (eventData->iType == IEED_EVENT_URL) {
+				if (isSent)
+					Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s: %s</span>", className, Translate("URL sent"), szText);
+				else
+					Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s: %s</span>", className, Translate("URL received"), szText);
+			}
+			else Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s</span>", className, szText);
+
 			Utils::appendText(&output, &outputSize, "</div>\n");
 			setLastEventType(MAKELONG(eventData->dwFlags, eventData->iType));
 			setLastEventTime(eventData->time);
@@ -433,19 +429,17 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			free(output);
 		}
 	}
-	if (szRealProto!=NULL) delete szRealProto;
 	view->documentClose();
-//	view->scrollToBottom();
 }
 
-void ScriverHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event) {
+void ScriverHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
+{
 	ProtocolSettings *protoSettings = getSRMMProtocolSettings(event->hContact);
-	if (protoSettings == NULL) {
+	if (protoSettings == NULL)
 		return;
-	}
- 	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE) {
+
+ 	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE)
 		appendEventTemplate(view, event, protoSettings);
-	} else {
+	else
 		appendEventNonTemplate(view, event);
-	}
 }

@@ -297,24 +297,25 @@ void HTMLBuilder::appendEventNew(IEView *view, IEVIEWEVENT *event)
 	appendEvent(view, event);
 }
 
-void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event) {
-	IEVIEWEVENT newEvent;
+void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
+{
 	IEVIEWEVENTDATA* eventData;
 	IEVIEWEVENTDATA* prevEventData = NULL;
-	char *szProto = NULL;
 	HANDLE hDbEvent = event->hDbEventFirst;
 	event->hDbEventFirst = NULL;
-	newEvent.cbSize = sizeof (IEVIEWEVENT);
+
+	IEVIEWEVENT newEvent = { sizeof (IEVIEWEVENT) };
 	newEvent.iType = IEE_LOG_MEM_EVENTS;
 	newEvent.codepage = CP_ACP;
-	if (event->cbSize >= IEVIEWEVENT_SIZE_V2) {
+	if (event->cbSize >= IEVIEWEVENT_SIZE_V2)
 		newEvent.codepage = event->codepage;
-	}
-	if (event->cbSize >= IEVIEWEVENT_SIZE_V3 && event->pszProto != NULL) {
+
+	char *szProto;
+	if (event->cbSize >= IEVIEWEVENT_SIZE_V3 && event->pszProto != NULL)
 		szProto = mir_strdup(event->pszProto);
-	} else {
+	else
 		szProto = getProto(event->hContact);
-	}
+
 	newEvent.pszProto = szProto;
 	newEvent.count = 0;
 	newEvent.dwFlags = event->dwFlags;
@@ -333,9 +334,10 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event) {
 		if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_URL)) {
 			db_event_markRead(event->hContact, hDbEvent);
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM) event->hContact, (LPARAM) hDbEvent);
-		} else if (dbei.eventType == EVENTTYPE_STATUSCHANGE) {
-			db_event_markRead(event->hContact, hDbEvent);
 		}
+		else if (dbei.eventType == EVENTTYPE_STATUSCHANGE)
+			db_event_markRead(event->hContact, hDbEvent);
+
 		if (!isDbEventShown(&dbei)) {
 			free(dbei.pBlob);
 			hDbEvent = db_event_next(hDbEvent);
@@ -345,9 +347,9 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event) {
 		eventData->cbSize = sizeof(IEVIEWEVENTDATA);
 		eventData->dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2 |
 							(dbei.flags & DBEF_READ ? IEEDF_READ : 0) | (dbei.flags & DBEF_SENT ? IEEDF_SENT : 0) | (dbei.flags & DBEF_RTL ? IEEDF_RTL : 0);
-		if (event->dwFlags & IEEF_RTL) {
-			eventData->dwFlags  |= IEEDF_RTL;
-		}
+		if (event->dwFlags & IEEF_RTL)
+			eventData->dwFlags |= IEEDF_RTL;
+
 		eventData->time = dbei.timestamp;
 		eventData->pszNickW = NULL;
 		eventData->pszTextW = NULL;
@@ -355,7 +357,8 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event) {
 		if (dbei.flags & DBEF_SENT) {
 			eventData->pszNickW = getContactName(NULL, szProto);
 			eventData->bIsMe = TRUE;
-		} else {
+		}
+		else {
 			eventData->pszNickW = getContactName(event->hContact, szProto);
 			eventData->bIsMe = FALSE;
 		}
@@ -364,14 +367,14 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event) {
 			WCHAR* pwszEventText = (WCHAR*)CallService(MS_DB_EVENT_GETTEXT,0,(LPARAM)&temp);
 			eventData->pszTextW = mir_tstrdup(pwszEventText);
 			mir_free(pwszEventText);
-			if (dbei.eventType == EVENTTYPE_MESSAGE) {
+			if (dbei.eventType == EVENTTYPE_MESSAGE)
 				eventData->iType = IEED_EVENT_MESSAGE;
-			} else if (dbei.eventType == EVENTTYPE_URL) {
+			else if (dbei.eventType == EVENTTYPE_URL)
 				eventData->iType = IEED_EVENT_URL;
-			} else {
+			else
 				eventData->iType = IEED_EVENT_STATUSCHANGE;
-			}
-		} else if (dbei.eventType == EVENTTYPE_FILE) {
+		}
+		else if (dbei.eventType == EVENTTYPE_FILE) {
 			//blob is: sequenceid(DWORD),filename(ASCIIZ),description(ASCIIZ)
 			char* filename = ((char *)dbei.pBlob) + sizeof(DWORD);
 			char* descr = filename + lstrlenA(filename) + 1;
@@ -384,14 +387,16 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event) {
 				mir_free(tStr);
 			}
 			eventData->iType = IEED_EVENT_FILE;
-		} else if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
+		}
+		else if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
 			//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 			eventData->ptszText = mir_tstrdup(TranslateT(" requested authorisation"));
 			TCHAR *tStr = DbGetEventStringT(&dbei, (char *)dbei.pBlob + 8);
 			eventData->ptszNick = mir_tstrdup(tStr);
 			mir_free(tStr);
 			eventData->iType = IEED_EVENT_SYSTEM;
-		} else if (dbei.eventType == EVENTTYPE_ADDED) {
+		}
+		else if (dbei.eventType == EVENTTYPE_ADDED) {
 			//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 			eventData->ptszText = mir_tstrdup(TranslateT(" was added."));
 			TCHAR *tStr = DbGetEventStringT(&dbei, (char *)dbei.pBlob + 8);
@@ -401,11 +406,11 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event) {
 		}
 		free(dbei.pBlob);
 		eventData->next = NULL;
-		if (prevEventData != NULL) {
+		if (prevEventData != NULL)
 			prevEventData->next = eventData;
-		} else {
+		else
 			newEvent.eventData = eventData;
-		}
+		
 		prevEventData = eventData;
 		newEvent.count++;
 		event->hDbEventFirst = hDbEvent;
@@ -430,83 +435,81 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event) {
 	}
 }
 
-ProtocolSettings* HTMLBuilder::getSRMMProtocolSettings(const char *protocolName) {
+ProtocolSettings* HTMLBuilder::getSRMMProtocolSettings(const char *protocolName)
+{
 	ProtocolSettings *protoSettings =  Options::getProtocolSettings(protocolName);
-	if (protoSettings == NULL || !protoSettings->isSRMMEnable()) {
-		protoSettings =  Options::getProtocolSettings();
-	}
+	if (protoSettings == NULL || !protoSettings->isSRMMEnable())
+		protoSettings = Options::getProtocolSettings();
+
 	return protoSettings;
 }
 
-ProtocolSettings* HTMLBuilder::getSRMMProtocolSettings(HANDLE hContact) {
-	char *szRealProto = getRealProto(hContact);
-	ProtocolSettings *protoSettings =  getSRMMProtocolSettings(szRealProto);
-	mir_free(szRealProto);
-	return protoSettings;
+ProtocolSettings* HTMLBuilder::getSRMMProtocolSettings(HANDLE hContact)
+{
+	return getSRMMProtocolSettings( mir_ptr<char>(getRealProto(hContact)));
 }
 
-ProtocolSettings* HTMLBuilder::getHistoryProtocolSettings(const char *protocolName) {
+ProtocolSettings* HTMLBuilder::getHistoryProtocolSettings(const char *protocolName)
+{
 	ProtocolSettings *protoSettings =  Options::getProtocolSettings(protocolName);
-	if (protoSettings == NULL || !protoSettings->isHistoryEnable()) {
-		protoSettings =  Options::getProtocolSettings();
-	}
+	if (protoSettings == NULL || !protoSettings->isHistoryEnable())
+		protoSettings = Options::getProtocolSettings();
+
 	return protoSettings;
 }
 
-ProtocolSettings* HTMLBuilder::getHistoryProtocolSettings(HANDLE hContact) {
-	ProtocolSettings *protoSettings;
-	if (hContact != NULL) {
-		char *szRealProto = getRealProto(hContact);
-		protoSettings =  getHistoryProtocolSettings(szRealProto);
-		delete szRealProto;
-	} else {
-		protoSettings =  Options::getProtocolSettings();
-	}
-	return protoSettings;
+ProtocolSettings* HTMLBuilder::getHistoryProtocolSettings(HANDLE hContact)
+{
+	if (hContact != NULL)
+		return getHistoryProtocolSettings( mir_ptr<char>(getRealProto(hContact)));
+
+	return Options::getProtocolSettings();
 }
 
-ProtocolSettings* HTMLBuilder::getChatProtocolSettings(const char *protocolName) {
+ProtocolSettings* HTMLBuilder::getChatProtocolSettings(const char *protocolName)
+{
 	ProtocolSettings *protoSettings =  Options::getProtocolSettings(protocolName);
-	if (protoSettings == NULL || !protoSettings->isChatEnable()) {
-		protoSettings =  Options::getProtocolSettings();
-	}
+	if (protoSettings == NULL || !protoSettings->isChatEnable())
+		protoSettings = Options::getProtocolSettings();
+
 	return protoSettings;
 }
 
-ProtocolSettings* HTMLBuilder::getChatProtocolSettings(HANDLE hContact) {
+ProtocolSettings* HTMLBuilder::getChatProtocolSettings(HANDLE hContact)
+{
 	char *szRealProto = getRealProto(hContact);
 	ProtocolSettings *protoSettings =  getChatProtocolSettings(szRealProto);
 	delete szRealProto;
 	return protoSettings;
 }
 
-void HTMLBuilder::setLastIEViewEvent(IEVIEWEVENT *event) {
+void HTMLBuilder::setLastIEViewEvent(IEVIEWEVENT *event)
+{
 	lastIEViewEvent.cbSize = sizeof (IEVIEWEVENT);
 	lastIEViewEvent.iType = event->iType;
 	lastIEViewEvent.codepage = CP_ACP;
-	if (event->cbSize >= IEVIEWEVENT_SIZE_V2) {
+	if (event->cbSize >= IEVIEWEVENT_SIZE_V2)
 		lastIEViewEvent.codepage = event->codepage;
-	}
+
 	lastIEViewEvent.count = 0;
 	lastIEViewEvent.dwFlags = event->dwFlags;
 	lastIEViewEvent.hContact = event->hContact;
 	lastIEViewEvent.hwnd = event->hwnd;
 	lastIEViewEvent.eventData = NULL;
-	if (lastIEViewEvent.pszProto != NULL) {
+	if (lastIEViewEvent.pszProto != NULL)
 		mir_free((void*)lastIEViewEvent.pszProto);
-	}
-	if (event->cbSize >= IEVIEWEVENT_SIZE_V3 && event->pszProto != NULL) {
+
+	if (event->cbSize >= IEVIEWEVENT_SIZE_V3 && event->pszProto != NULL)
 		lastIEViewEvent.pszProto = mir_strdup(event->pszProto);
-	} else {
+	else
 		lastIEViewEvent.pszProto = getProto(event->hContact);
-	}
 }
 
-void HTMLBuilder::clear(IEView *view, IEVIEWEVENT *event) {
-	if (event != NULL) {
+void HTMLBuilder::clear(IEView *view, IEVIEWEVENT *event)
+{
+	if (event != NULL)
 		setLastIEViewEvent(event);
-	}
-	if (lastIEViewEvent.pszProto != NULL || event->hContact == NULL) {
+
+	if (lastIEViewEvent.pszProto != NULL || event->hContact == NULL)
 		buildHead(view, &lastIEViewEvent);
-	}
 }
