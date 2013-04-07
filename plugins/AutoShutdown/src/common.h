@@ -58,7 +58,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_hddinfo.h>
 #include <m_toptoolbar.h>
 #include <m_autoreplacer.h>
-#include <m_magneticwindows.h>
 #include <m_snappingwindows.h>
 #include "m_shutdown.h"
 

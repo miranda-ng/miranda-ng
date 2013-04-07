@@ -86,7 +86,6 @@ using namespace std;
 #include <m_popup2.h>
 #include <m_flags.h>
 #include <m_metacontacts.h>
-#include <m_magneticwindows.h>
 #include <m_toptoolbar.h>
 #include <m_userinfoex.h>
 

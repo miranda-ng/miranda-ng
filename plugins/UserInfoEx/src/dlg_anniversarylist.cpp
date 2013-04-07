@@ -653,7 +653,6 @@ class CAnnivList
 					SetUserData(hDlg, NULL);
 					delete pDlg;
 				}
-				MagneticWindows_RemoveWindow(hDlg);
 			} break;
 		}
 		return FALSE;
@@ -959,10 +958,8 @@ public:
 		LoadFilter();
 
 		_hDlg = CreateDialogParam(ghInst, MAKEINTRESOURCE(IDD_ANNIVERSARY_LIST), NULL, DlgProc, (LPARAM)this);
-		if (_hDlg) {
-				MagneticWindows_AddWindow(_hDlg);
-				_mHookExit = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, _hDlg, WM_CLOSE);
-		}
+		if (_hDlg)
+			_mHookExit = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, _hDlg, WM_CLOSE);
 		else {
 			_mHookExit = NULL;
 			delete this;

@@ -350,11 +350,8 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 		}
 		// create the dialog itself
 		hWnd = CreateDialogParam(ghInst, MAKEINTRESOURCE(IDD_DETAILS), NULL, DlgProc, (LPARAM)&psh);
-		if (!hWnd) {
+		if (!hWnd)
 			MsgErr(NULL, LPGENT("Details dialog failed to be created. Returning error is %d."), GetLastError());
-		}
-		else
-			MagneticWindows_AddWindow(hWnd);
 	}
 	return 0;
 }
@@ -1809,7 +1806,6 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			DeleteObject(pPs->hCaptionFont);
 			DeleteObject(pPs->hBoldFont);
 			mir_free(pPs); pPs = NULL;
-			MagneticWindows_RemoveWindow(hDlg);
 		}
 	}
 	return FALSE;
