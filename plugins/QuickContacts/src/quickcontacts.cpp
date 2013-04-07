@@ -779,19 +779,17 @@ static void FillCheckbox(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key)
 
 static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
-
 			RECT rc;
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_USERNAME), &rc);
 			ScreenToClient(hwndDlg, &rc);
 
 			HWND icon = CreateWindow(_T("STATIC"), _T(""), WS_CHILD | WS_VISIBLE | SS_ICON | SS_CENTERIMAGE, 
-                    rc.left - 20, rc.top + (rc.bottom - rc.top - 16) / 2, 16, 16, hwndDlg, (HMENU) IDC_ICO, 
-					hInst, NULL);
+				rc.left - 20, rc.top + (rc.bottom - rc.top - 16) / 2, 16, 16, hwndDlg, (HMENU) IDC_ICO, 
+				hInst, NULL);
 
 			if (!hasNewHotkeyModule)
 				hAcct = LoadAccelerators(hInst, MAKEINTRESOURCE(ACCEL_TABLE));
@@ -824,8 +822,6 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_SETEXTENDEDUI, (WPARAM)TRUE, 0);
 
-			MagneticWindows_AddWindow(hwndDlg);
-
 			Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE_NAME, "window");
 
 			LoadContacts(hwndDlg, FALSE);
@@ -843,252 +839,234 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			}
 
 			SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
-
-			return TRUE;
 		}
+		return TRUE;
 
-		case WM_COMMAND:
-		{
-			switch(LOWORD(wParam))
+	case WM_COMMAND:
+		switch(LOWORD(wParam)) {
+		case IDC_USERNAME:
+			if (HIWORD(wParam) == CBN_SELCHANGE)
 			{
-				case IDC_USERNAME:
-				{
-					if (HIWORD(wParam) == CBN_SELCHANGE)
-					{
-						int pos = SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_GETCURSEL, 0, 0);
-						EnableButtons(hwndDlg, pos < contacts.getCount() ? contacts[pos]->hcontact : NULL);
-					}
-					break;
-				}
-				case IDC_ENTER:
-				{
-					HANDLE hContact = GetSelectedContact(hwndDlg);
-					if (hContact == NULL)
-						break;
-
-					CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM) hContact, 0);
-
-					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
-					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
-					break;
-				}
-				case IDC_MESSAGE:
-				{
-					HANDLE hContact = GetSelectedContact(hwndDlg);
-					if (hContact == NULL)
-					{
-						SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
-						SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
-						break;
-					}
-
-					// Is button enabled?
-					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_MESSAGE)))
-						break;
-
-					CallService(MS_MSG_SENDMESSAGET, (WPARAM) hContact, 0);
-
-					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
-					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
-					break;
-				}
-				case HOTKEY_VOICE:
-				case IDC_VOICE:
-				{
-					HANDLE hContact = GetSelectedContact(hwndDlg);
-					if (hContact == NULL)
-					{
-						SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
-						SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
-						break;
-					}
-
-					// Is button enabled?
-					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_VOICE)))
-						break;
-
-					if (!ServiceExists(MS_VOICESERVICE_CALL))
-						break;
-
-					CallService(MS_VOICESERVICE_CALL, (WPARAM) hContact, 0);
-
-					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
-					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
-					break;
-				}
-				case HOTKEY_FILE:
-				case IDC_FILE:
-				{
-					HANDLE hContact = GetSelectedContact(hwndDlg);
-					if (hContact == NULL)
-					{
-						SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
-						SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
-						break;
-					}
-
-					// Is button enabled?
-					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_FILE)))
-						break;
-
-					CallService(MS_FILE_SENDFILE, (WPARAM) hContact, 0);
-
-					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
-					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
-					break;
-				}
-				case HOTKEY_URL:
-				case IDC_URL:
-				{
-					HANDLE hContact = GetSelectedContact(hwndDlg);
-					if (hContact == NULL)
-					{
-						SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
-						SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
-						break;
-					}
-
-					// Is button enabled?
-					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_URL)))
-						break;
-
-					CallService(MS_URL_SENDURL, (WPARAM) hContact, 0);
-
-					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
-					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
-					break;
-				}
-				case HOTKEY_INFO:
-				case IDC_USERINFO:
-				{
-					HANDLE hContact = GetSelectedContact(hwndDlg);
-					if (hContact == NULL)
-					{
-						SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
-						SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
-						break;
-					}
-
-					// Is button enabled?
-					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_USERINFO)))
-						break;
-
-					CallService(MS_USERINFO_SHOWDIALOG, (WPARAM) hContact, 0);
-
-					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
-					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
-					break;
-				}
-				case HOTKEY_HISTORY:
-				case IDC_HISTORY:
-				{
-					HANDLE hContact = GetSelectedContact(hwndDlg);
-					if (hContact == NULL)
-					{
-						SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
-						SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
-						break;
-					}
-
-					// Is button enabled?
-					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_HISTORY)))
-						break;
-
-					CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM) hContact, 0);
-
-					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
-					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
-					break;
-				}
-				case HOTKEY_MENU:
-				case IDC_MENU:
-				{
-					HANDLE hContact = GetSelectedContact(hwndDlg);
-					if (hContact == NULL)
-					{
-						SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
-						SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
-						break;
-					}
-
-					// Is button enabled?
-					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_MENU)))
-						break;
-
-                    RECT rc;
-                    GetWindowRect(GetDlgItem(hwndDlg, IDC_MENU), &rc);
-                    HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) hContact, 0);
-                    int ret = TrackPopupMenu(hMenu, TPM_TOPALIGN|TPM_RIGHTBUTTON|TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
-                    DestroyMenu(hMenu);
-
-					if(ret)
-					{
-						SendMessage(hwndDlg, WM_CLOSE, 0, 0);
-						CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(ret),MPCF_CONTACTMENU),(LPARAM) hContact);
-					}
-
-					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
-					break;
-				}
-				case HOTKEY_ALL_CONTACTS:
-				case IDC_SHOW_ALL_CONTACTS:
-				{
-					// Get old text
-					HWND hEdit = GetWindow(GetWindow(hwndDlg,GW_CHILD),GW_CHILD);
-					TCHAR sztext[120] = _T("");
-
-					if (SendMessage(hEdit, EM_GETSEL, 0, 0) != -1)
-						SendMessage(hEdit, EM_REPLACESEL, 0, (LPARAM)_T(""));
-
-					SendMessage(hEdit, WM_GETTEXT, (WPARAM)SIZEOF(sztext), (LPARAM)sztext);
-
-					// Fill combo			
-					BOOL all = IsDlgButtonChecked(hwndDlg, IDC_SHOW_ALL_CONTACTS);
-
-					if (LOWORD(wParam) == HOTKEY_ALL_CONTACTS)
-					{
-						// Toggle checkbox
-						all = !all;
-						CheckDlgButton(hwndDlg, IDC_SHOW_ALL_CONTACTS, all ? BST_CHECKED : BST_UNCHECKED);
-					}
-
-					LoadContacts(hwndDlg, all);
-
-					// Return selection
-					CheckText(hEdit, sztext);
-
-					break;
-				}
+				int pos = SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_GETCURSEL, 0, 0);
+				EnableButtons(hwndDlg, pos < contacts.getCount() ? contacts[pos]->hcontact : NULL);
 			}
-
 			break;
-		}
 
-		case WM_CLOSE:
-		{
-			Utils_SaveWindowPosition(hwndDlg, NULL, MODULE_NAME, "window");
-			MagneticWindows_RemoveWindow(hwndDlg);
-			DestroyWindow(hwndDlg);
-			break;
-		}
+		case IDC_ENTER:
+			{
+				HANDLE hContact = GetSelectedContact(hwndDlg);
+				if (hContact == NULL)
+					break;
 
-		case WM_DESTROY:
-		{
-			UnhookWindowsHookEx(hHook);
-			hwndMain = NULL;
-			FreeContacts();
-			InterlockedExchange(&main_dialog_open, 0);
-			break;
-		}
+				CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM) hContact, 0);
 
-		case WM_NCLBUTTONDBLCLK:
-		{
-			MagneticWindows_SnapWindowToList(hwndDlg, MS_MW_STL_List_Left | MS_MW_STL_List_Top
-													| MS_MW_STL_Wnd_Right | MS_MW_STL_Wnd_Top);
+				db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
+			}
 			break;
+		case IDC_MESSAGE:
+			{
+				HANDLE hContact = GetSelectedContact(hwndDlg);
+				if (hContact == NULL)
+				{
+					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
+					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
+					break;
+				}
+
+				// Is button enabled?
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_MESSAGE)))
+					break;
+
+				CallService(MS_MSG_SENDMESSAGET, (WPARAM) hContact, 0);
+
+				db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
+				break;
+			}
+		case HOTKEY_VOICE:
+		case IDC_VOICE:
+			{
+				HANDLE hContact = GetSelectedContact(hwndDlg);
+				if (hContact == NULL)
+				{
+					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
+					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
+					break;
+				}
+
+				// Is button enabled?
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_VOICE)))
+					break;
+
+				if (!ServiceExists(MS_VOICESERVICE_CALL))
+					break;
+
+				CallService(MS_VOICESERVICE_CALL, (WPARAM) hContact, 0);
+
+				db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
+				break;
+			}
+		case HOTKEY_FILE:
+		case IDC_FILE:
+			{
+				HANDLE hContact = GetSelectedContact(hwndDlg);
+				if (hContact == NULL)
+				{
+					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
+					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
+					break;
+				}
+
+				// Is button enabled?
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_FILE)))
+					break;
+
+				CallService(MS_FILE_SENDFILE, (WPARAM) hContact, 0);
+
+				db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
+				break;
+			}
+		case HOTKEY_URL:
+		case IDC_URL:
+			{
+				HANDLE hContact = GetSelectedContact(hwndDlg);
+				if (hContact == NULL)
+				{
+					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
+					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
+					break;
+				}
+
+				// Is button enabled?
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_URL)))
+					break;
+
+				CallService(MS_URL_SENDURL, (WPARAM) hContact, 0);
+
+				db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
+				break;
+			}
+		case HOTKEY_INFO:
+		case IDC_USERINFO:
+			{
+				HANDLE hContact = GetSelectedContact(hwndDlg);
+				if (hContact == NULL)
+				{
+					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
+					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
+					break;
+				}
+
+				// Is button enabled?
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_USERINFO)))
+					break;
+
+				CallService(MS_USERINFO_SHOWDIALOG, (WPARAM) hContact, 0);
+
+				db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
+				break;
+			}
+		case HOTKEY_HISTORY:
+		case IDC_HISTORY:
+			{
+				HANDLE hContact = GetSelectedContact(hwndDlg);
+				if (hContact == NULL)
+				{
+					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
+					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
+					break;
+				}
+
+				// Is button enabled?
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_HISTORY)))
+					break;
+
+				CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM) hContact, 0);
+
+				db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
+				break;
+			}
+		case HOTKEY_MENU:
+		case IDC_MENU:
+			{
+				HANDLE hContact = GetSelectedContact(hwndDlg);
+				if (hContact == NULL)
+				{
+					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
+					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
+					break;
+				}
+
+				// Is button enabled?
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_MENU)))
+					break;
+
+				RECT rc;
+				GetWindowRect(GetDlgItem(hwndDlg, IDC_MENU), &rc);
+				HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) hContact, 0);
+				int ret = TrackPopupMenu(hMenu, TPM_TOPALIGN|TPM_RIGHTBUTTON|TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
+				DestroyMenu(hMenu);
+
+				if(ret)
+				{
+					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
+					CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(ret),MPCF_CONTACTMENU),(LPARAM) hContact);
+				}
+
+				db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+				break;
+			}
+		case HOTKEY_ALL_CONTACTS:
+		case IDC_SHOW_ALL_CONTACTS:
+			{
+				// Get old text
+				HWND hEdit = GetWindow(GetWindow(hwndDlg,GW_CHILD),GW_CHILD);
+				TCHAR sztext[120] = _T("");
+
+				if (SendMessage(hEdit, EM_GETSEL, 0, 0) != -1)
+					SendMessage(hEdit, EM_REPLACESEL, 0, (LPARAM)_T(""));
+
+				SendMessage(hEdit, WM_GETTEXT, (WPARAM)SIZEOF(sztext), (LPARAM)sztext);
+
+				// Fill combo			
+				BOOL all = IsDlgButtonChecked(hwndDlg, IDC_SHOW_ALL_CONTACTS);
+
+				if (LOWORD(wParam) == HOTKEY_ALL_CONTACTS)
+				{
+					// Toggle checkbox
+					all = !all;
+					CheckDlgButton(hwndDlg, IDC_SHOW_ALL_CONTACTS, all ? BST_CHECKED : BST_UNCHECKED);
+				}
+
+				LoadContacts(hwndDlg, all);
+
+				// Return selection
+				CheckText(hEdit, sztext);
+
+				break;
+			}
 		}
-		
-		case WM_DRAWITEM:
+		break;
+
+	case WM_CLOSE:
+		Utils_SaveWindowPosition(hwndDlg, NULL, MODULE_NAME, "window");
+		DestroyWindow(hwndDlg);
+		break;
+
+	case WM_DESTROY:
+		UnhookWindowsHookEx(hHook);
+		hwndMain = NULL;
+		FreeContacts();
+		InterlockedExchange(&main_dialog_open, 0);
+		break;
+
+	case WM_DRAWITEM:
 		{
 			// add icons and protocol to listbox
 			LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
@@ -1122,7 +1100,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			rc.left = lpdis->rcItem.left + 5;
 			rc.top = (lpdis->rcItem.bottom + lpdis->rcItem.top - icon_height) / 2;
 			ImageList_Draw(hIml, CallService(MS_CLIST_GETCONTACTICON, (WPARAM)contacts[lpdis->itemData]->hcontact, 0), 
-							lpdis->hDC, rc.left, rc.top, ILD_NORMAL);
+				lpdis->hDC, rc.left, rc.top, ILD_NORMAL);
 
 			// Make rect for text
 			rc.left += icon_width + 5;
@@ -1142,7 +1120,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						RECT rcc = { 0, 0, 0x7FFF, 0x7FFF };
 
 						DrawText(lpdis->hDC, contacts[loop]->proto, lstrlen(contacts[loop]->proto), 
-								 &rcc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE | DT_CALCRECT);
+							&rcc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE | DT_CALCRECT);
 						max_proto_width = max(max_proto_width, rcc.right - rcc.left);
 					}
 
@@ -1160,7 +1138,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				rc_tmp.left = rc_tmp.right - max_proto_width;
 
 				DrawText(lpdis->hDC, contacts[lpdis->itemData]->proto, lstrlen(contacts[lpdis->itemData]->proto), 
-						 &rc_tmp, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
+					&rc_tmp, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
 
 				rc.right = rc_tmp.left - 5;
 			}
@@ -1182,7 +1160,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 
 				DrawText(lpdis->hDC, contacts[lpdis->itemData]->szgroup, lstrlen(contacts[lpdis->itemData]->szgroup),
-						 &rc_tmp, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
+					&rc_tmp, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
 			}
 
 			// Draw text
@@ -1197,11 +1175,10 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			// Restore old colors
 			SetTextColor(lpdis->hDC, clrfore);
 			SetBkColor(lpdis->hDC, clrback);
-
-			return TRUE;
 		}
+		return TRUE;
 
-		case WM_MEASUREITEM:
+	case WM_MEASUREITEM:
 		{
 			LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
 
@@ -1223,11 +1200,11 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			ImageList_GetIconSize(hIml, &icon_width, &icon_height);
 
 			lpmis->itemHeight = max(icon_height, tm.tmHeight);
-				
+
 			return TRUE;
 		}
 	}
-	
+
 	return FALSE;
 }
 
@@ -1245,7 +1222,7 @@ INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 	// Show it
 	SetForegroundWindow(hwndMain);
 	SetFocus(hwndMain);
- 	ShowWindow(hwndMain, SW_SHOW);
+	ShowWindow(hwndMain, SW_SHOW);
 
 	return 0;
 }
