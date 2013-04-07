@@ -21,7 +21,6 @@ Boston, MA 02111-1307, USA.
 #ifndef __M_AVATARHISTORY_H__
 # define __M_AVATARHISTORY_H__
 
-
 #define EVENTTYPE_AVATAR_CHANGE 9003
 
 
@@ -45,6 +44,7 @@ return: (TCHAR *) NULL if none is found or the path to the avatar. You need to f
 #define MS_AVATARHISTORY_GET_CACHED_AVATAR		"AvatarHistory/GetCachedAvatar"
 
 
+#define MS_AVATARHISTORY_SHOWDIALOG "AvatarHistory/ShowDialog"
 
 
 

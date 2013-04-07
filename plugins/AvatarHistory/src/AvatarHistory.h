@@ -22,7 +22,7 @@
 
 #include <m_folders.h>
 #include <m_metacontacts.h>
-#include <m_avatarhist.h>
+#include <m_avatarhistory.h>
 
 #include "../utils/mir_options.h"
 
