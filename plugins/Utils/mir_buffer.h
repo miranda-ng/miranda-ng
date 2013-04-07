@@ -26,25 +26,6 @@ Boston, MA 02111-1307, USA.
 #include "mir_memory.h"
 #include <m_variables.h>
 
-
-template<class T>
-static int __bvsnprintf(T *str, size_t size, const T *fmt, va_list args)
-{
-	return 0;
-}
-
-template<>
-static inline int __bvsnprintf<char>(char *str, size_t size, const char *fmt, va_list args)
-{
-	return _vsnprintf(str, size, fmt, args);
-}
-
-template<>
-static inline int __bvsnprintf<wchar_t>(wchar_t *str, size_t size, const wchar_t *fmt, va_list args)
-{
-	return _vsnwprintf(str, size, fmt, args);
-}
-
 template<class T>
 static inline size_t __blen(const T *str)
 {
