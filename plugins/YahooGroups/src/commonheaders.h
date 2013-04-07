@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_YAHOOGROUPS_COMMONHEADERS_H
 #define M_YAHOOGROUPS_COMMONHEADERS_H
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,9 +31,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <time.h>
 
 #include "version.h"
-#include "utils.h"
-#include "services.h"
 #include "dlg_handlers.h"
+#include "hooked_events.h"
+#include "services.h"
+#include "list.h"
+#include "services.h"
+#include "utils.h"
 
 #include "resource.h"
 
@@ -49,8 +54,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_utils.h>
 #include <m_message.h>
 #include <m_statusplugins.h>
-
-#include "hooked_events.h"
 
 extern char ModuleName[];
 extern HINSTANCE hInstance;

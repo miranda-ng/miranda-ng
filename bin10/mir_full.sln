@@ -381,6 +381,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NimContact", "..\plugins\No
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XSoundNotify", "..\plugins\XSoundNotify\XSoundNotify_10.vcxproj", "{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YahooGroups", "..\plugins\YahooGroups\YahooGroups_10.vcxproj", "{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1701,6 +1703,14 @@ Global
 		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Release|Win32.Build.0 = Release|Win32
 		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Release|x64.ActiveCfg = Release|x64
 		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Release|x64.Build.0 = Release|x64
+		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Debug|Win32.Build.0 = Debug|Win32
+		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Debug|x64.ActiveCfg = Debug|x64
+		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Debug|x64.Build.0 = Debug|x64
+		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Release|Win32.ActiveCfg = Release|Win32
+		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Release|Win32.Build.0 = Release|Win32
+		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Release|x64.ActiveCfg = Release|x64
+		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
