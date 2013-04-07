@@ -18,7 +18,6 @@ Features:
 */
 
 #include "stdafx.h"
-#include "Version.h"
 
 #include "..\Utils\mir_buffer.h"
 

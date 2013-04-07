@@ -21,19 +21,19 @@ Features:
 
 #include <windows.h>
 #include <time.h>
-#include <stdio.h>
-#include <list>
-#include "resource.h"
+#include <malloc.h>
 
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_database.h>
-#include <m_system_cpp.h>
 #include <m_langpack.h>
 #include <m_contacts.h>
 #include <m_options.h>
 #include <m_protosvc.h>
 #include <win2k.h>
+
+#include "resource.h"
+#include "Version.h"
 
 #define STATUS_OFFLINE               0x1
 #define STATUS_ONLINE                0x2
