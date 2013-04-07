@@ -148,7 +148,7 @@ void  CSkypeProto::InitMenus()
 
 	// "Request authorization"
 	mi.ptszName = LPGENT("Request authorization");
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+	mi.flags = CMIF_TCHAR;
 	mi.position = -2000001000;
 	mi.icolibItem = CSkypeProto::GetIconHandle("authRequest");
 	mi.pszService = "Skype/ReqAuth";
@@ -191,7 +191,7 @@ void CSkypeProto::OnInitStatusMenu()
 		mi.ptszName = m_tszUserName;
 		mi.position = -1999901006;
 		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = CSkypeProto::GetIconHandle("Skype_main");
 		hJabberRoot = m_hMenuRoot = ::Menu_AddProtoMenuItem(&mi);
 	}
@@ -202,7 +202,7 @@ void CSkypeProto::OnInitStatusMenu()
 	}
 
 	mi.hParentMenu = hJabberRoot;
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP | CMIF_TCHAR;	
+	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR;	
 
 	// Invite Command
 	strcpy(tDest, "/InviteCommand");
