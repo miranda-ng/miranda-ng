@@ -78,7 +78,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, HANDLE hContact, char *szModule, 
 	else if (proto_service)
 		unspecified = Proto_GetContactInfoSetting(hContact, szProto, szModule, szSetting, &dbv, 0);
 	else
-		unspecified = DBGetContactSettingW(hContact, szModule, szSetting, &dbv);
+		unspecified = db_get_s(hContact, szModule, szSetting, &dbv, 0);
 
 	if ( !unspecified) {
 		switch(dbv.type) {

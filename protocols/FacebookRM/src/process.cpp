@@ -97,8 +97,8 @@ void FacebookProto::ProcessBuddyList( void* data )
 				fbu->handle = AddToContactList(fbu, FACEBOOK_CONTACT_FRIEND);
 	
 				if (!fbu->real_name.empty()) {
-					DBWriteContactSettingUTF8String(fbu->handle,m_szModuleName,FACEBOOK_KEY_NAME,fbu->real_name.c_str());
-					DBWriteContactSettingUTF8String(fbu->handle,m_szModuleName,FACEBOOK_KEY_NICK,fbu->real_name.c_str());
+					db_set_utf(fbu->handle,m_szModuleName,FACEBOOK_KEY_NAME,fbu->real_name.c_str());
+					db_set_utf(fbu->handle,m_szModuleName,FACEBOOK_KEY_NICK,fbu->real_name.c_str());
 				}
 			}
 
@@ -189,15 +189,15 @@ void FacebookProto::ProcessFriendList( void* data )
 					db_set_b(hContact, m_szModuleName, "Gender", fbu->gender);
 
 				// Update real name
-				if ( !DBGetContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv))
+				if ( !db_get_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv))
 				{
 					update_required = strcmp( dbv.pszVal, fbu->real_name.c_str()) != 0;
 					db_free(&dbv);
 				}
 				if ( update_required )
 				{
-					DBWriteContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, fbu->real_name.c_str());
-					DBWriteContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
+					db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, fbu->real_name.c_str());
+					db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
 				}
 
 				if (db_get_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != FACEBOOK_CONTACT_FRIEND) {
@@ -235,7 +235,7 @@ void FacebookProto::ProcessFriendList( void* data )
 					db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_NONE);
 
 					std::string contactname = id;
-					if ( !DBGetContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv)) {
+					if ( !db_get_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv)) {
 						contactname = dbv.pszVal;
 						db_free(&dbv);
 					}
@@ -260,8 +260,8 @@ void FacebookProto::ProcessFriendList( void* data )
 		HANDLE hContact = AddToContactList(fbu, FACEBOOK_CONTACT_FRIEND, true); // This contact is surely new
 
 		db_set_b(hContact, m_szModuleName, "Gender", fbu->gender );
-		DBWriteContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, fbu->real_name.c_str());
-		DBWriteContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
+		db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, fbu->real_name.c_str());
+		db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
 		db_set_s(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, fbu->image_url.c_str());
 //		db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE );
 	}

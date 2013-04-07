@@ -100,7 +100,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)lphGroupsItems[i], 0);
 	lphGroupsItems.destroy();
 
-	TCHAR *szContactGroup = DBGetStringT((HANDLE)wParam, "CList", "Group");
+	mir_ptr<TCHAR> szContactGroup( db_get_tsa((HANDLE)wParam, "CList", "Group"));
 
 	int pos = 1000;
 
@@ -123,15 +123,12 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		mir_free(dbv.ptszVal);
 	}
 
-	for (i=0; i < groups.getCount(); i++)
-	{
+	for (i=0; i < groups.getCount(); i++) {
 		bool checked = szContactGroup && !_tcscmp(szContactGroup, groups[i].name);
 		AddGroupItem(hMoveToGroupItem, groups[i].name, ++pos, groups[i].position, checked);
 	}
 
 	groups.destroy();
-	mir_free(szContactGroup);
-
 	return 0;
 }
 

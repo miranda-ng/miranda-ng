@@ -43,7 +43,7 @@ INT_PTR Mydb_get(HANDLE hContact, const char *szModule, const char *szSetting, D
 	if ( !strsvcset) {strsvc = ServiceExists(MS_DB_CONTACT_GETSETTING_STR); strsvcset = TRUE;}
 	
 	// preserve unicode strings - this service should return other data types unchanged
-	if (strsvc) return DBGetContactSettingW(hContact, szModule, szSetting, dbv);
+	if (strsvc) return db_get_s(hContact, szModule, szSetting, dbv, 0);
 	
 	return db_get(hContact, szModule, szSetting, dbv);
 }

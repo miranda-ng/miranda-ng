@@ -58,36 +58,38 @@ void SetupInfobar(InfobarWindowData* idat) {
     RefreshInfobar(idat);
 }
 
-static HICON GetExtraStatusIcon(InfobarWindowData* idat) {
-    BYTE bXStatus = db_get_b(idat->mwd->windowData.hContact, idat->mwd->szProto, "XStatusId", 0);
-    if (bXStatus > 0) {
-        return (HICON) CallProtoService(idat->mwd->szProto, "/GetXStatusIcon", bXStatus, 0);
-    }
-    return NULL;
+static HICON GetExtraStatusIcon(InfobarWindowData* idat)
+{
+	BYTE bXStatus = db_get_b(idat->mwd->windowData.hContact, idat->mwd->szProto, "XStatusId", 0);
+	if (bXStatus > 0) {
+		return (HICON) CallProtoService(idat->mwd->szProto, "/GetXStatusIcon", bXStatus, 0);
+	}
+	return NULL;
 }
 
-void RefreshInfobar(InfobarWindowData* idat) {
+void RefreshInfobar(InfobarWindowData* idat)
+{
 	HWND hwnd = idat->hWnd;
 	struct SrmmWindowData *dat = idat->mwd;
-    TCHAR *szContactName = GetNickname(dat->windowData.hContact, dat->szProto);
-    TCHAR *szContactStatusMsg = DBGetStringT(dat->windowData.hContact, "CList", "StatusMsg");
-    TCHAR *szXStatusName = DBGetStringT(idat->mwd->windowData.hContact, idat->mwd->szProto, "XStatusName");
-	TCHAR *szXStatusMsg = DBGetStringT(idat->mwd->windowData.hContact, idat->mwd->szProto, "XStatusMsg");
-    HICON hIcon = GetExtraStatusIcon(idat);
+	TCHAR *szContactName = GetNickname(dat->windowData.hContact, dat->szProto);
+	TCHAR *szContactStatusMsg = db_get_tsa(dat->windowData.hContact, "CList", "StatusMsg");
+	TCHAR *szXStatusName = db_get_tsa(idat->mwd->windowData.hContact, idat->mwd->szProto, "XStatusName");
+	TCHAR *szXStatusMsg = db_get_tsa(idat->mwd->windowData.hContact, idat->mwd->szProto, "XStatusMsg");
+	HICON hIcon = GetExtraStatusIcon(idat);
 	TCHAR szText[2048];
 	SETTEXTEX st;
 	if ( szXStatusMsg && *szXStatusMsg )
 		mir_sntprintf(szText, 2047, _T("%s (%s)"), TranslateTS(szXStatusName), szXStatusMsg);
 	else
 		mir_sntprintf(szText, 2047, _T("%s"), TranslateTS(szXStatusName));
-    st.flags = ST_DEFAULT;
+	st.flags = ST_DEFAULT;
 	st.codepage = 1200;
 	SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETTEXTEX, (WPARAM) &st, (LPARAM)szContactName);
-    SendDlgItemMessage(hwnd, IDC_INFOBAR_STATUS, EM_SETTEXTEX, (WPARAM) &st, (LPARAM)szContactStatusMsg);
-    hIcon = (HICON)SendDlgItemMessage(hwnd, IDC_XSTATUSICON, STM_SETICON, (WPARAM)hIcon, 0);
-    if (hIcon) {
-        DestroyIcon(hIcon);
-    }
+	SendDlgItemMessage(hwnd, IDC_INFOBAR_STATUS, EM_SETTEXTEX, (WPARAM) &st, (LPARAM)szContactStatusMsg);
+	hIcon = (HICON)SendDlgItemMessage(hwnd, IDC_XSTATUSICON, STM_SETICON, (WPARAM)hIcon, 0);
+	if (hIcon) {
+		DestroyIcon(hIcon);
+	}
 	SetToolTipText(hwnd, idat->hXStatusTip, szText, NULL);
 	SendMessage(hwnd, WM_SIZE, 0, 0);
 	InvalidateRect(hwnd, NULL, TRUE);
@@ -159,59 +161,59 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			return TRUE;
 		}
 	case WM_CTLCOLORDLG:
-    case WM_CTLCOLORSTATIC:
+	case WM_CTLCOLORSTATIC:
 		return (INT_PTR)g_dat.hInfobarBrush;
-	
+
 	case WM_DROPFILES:
 		SendMessage(GetParent(hwnd), WM_DROPFILES, wParam, lParam);
 		return FALSE;	
-	
+
 	case WM_NOTIFY:
-	{
-		LPNMHDR pNmhdr = (LPNMHDR)lParam;
-		switch (pNmhdr->idFrom) {
-		case IDC_INFOBAR_NAME:
-		case IDC_INFOBAR_STATUS:
-			switch (pNmhdr->code) {
-			case EN_MSGFILTER:
-				switch (((MSGFILTER *) lParam)->msg) {
-				case WM_CHAR:
-					SendMessage(GetParent(hwnd), ((MSGFILTER *) lParam)->msg, ((MSGFILTER *) lParam)->wParam, ((MSGFILTER *) lParam)->lParam);
-					SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
-					return TRUE;
-				case WM_LBUTTONUP:
-				{
-					CHARRANGE sel;
-					SendDlgItemMessage(hwnd, pNmhdr->idFrom, EM_EXGETSEL, 0, (LPARAM)&sel);
-					bWasCopy = FALSE;
-					if (sel.cpMin != sel.cpMax) {
-						SendDlgItemMessage(hwnd, pNmhdr->idFrom, WM_COPY, 0, 0);
-						sel.cpMin = sel.cpMax ;
-						SendDlgItemMessage(hwnd, pNmhdr->idFrom, EM_EXSETSEL, 0, (LPARAM)& sel);
-						bWasCopy = TRUE;
-					}
-					SetFocus(GetParent(hwnd));
-				}
-			}
-			break;
-			case EN_LINK:
-				switch (((ENLINK *) lParam)->msg) {
-				case WM_RBUTTONDOWN:
-				case WM_LBUTTONUP:
-					if (!bWasCopy) {
-						if (HandleLinkClick(g_hInst, hwnd, GetDlgItem(GetParent(hwnd), IDC_MESSAGE),(ENLINK*)lParam)) {
-							SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
-							return TRUE;
+		{
+			LPNMHDR pNmhdr = (LPNMHDR)lParam;
+			switch (pNmhdr->idFrom) {
+			case IDC_INFOBAR_NAME:
+			case IDC_INFOBAR_STATUS:
+				switch (pNmhdr->code) {
+				case EN_MSGFILTER:
+					switch (((MSGFILTER *) lParam)->msg) {
+					case WM_CHAR:
+						SendMessage(GetParent(hwnd), ((MSGFILTER *) lParam)->msg, ((MSGFILTER *) lParam)->wParam, ((MSGFILTER *) lParam)->lParam);
+						SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
+						return TRUE;
+					case WM_LBUTTONUP:
+						{
+							CHARRANGE sel;
+							SendDlgItemMessage(hwnd, pNmhdr->idFrom, EM_EXGETSEL, 0, (LPARAM)&sel);
+							bWasCopy = FALSE;
+							if (sel.cpMin != sel.cpMax) {
+								SendDlgItemMessage(hwnd, pNmhdr->idFrom, WM_COPY, 0, 0);
+								sel.cpMin = sel.cpMax ;
+								SendDlgItemMessage(hwnd, pNmhdr->idFrom, EM_EXSETSEL, 0, (LPARAM)& sel);
+								bWasCopy = TRUE;
+							}
+							SetFocus(GetParent(hwnd));
 						}
 					}
-					bWasCopy = FALSE;
 					break;
+				case EN_LINK:
+					switch (((ENLINK *) lParam)->msg) {
+					case WM_RBUTTONDOWN:
+					case WM_LBUTTONUP:
+						if (!bWasCopy) {
+							if (HandleLinkClick(g_hInst, hwnd, GetDlgItem(GetParent(hwnd), IDC_MESSAGE),(ENLINK*)lParam)) {
+								SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
+								return TRUE;
+							}
+						}
+						bWasCopy = FALSE;
+						break;
+					}
 				}
+				break;
 			}
 			break;
 		}
-		break;
-	}
 
 	case WM_DRAWITEM:
 		{

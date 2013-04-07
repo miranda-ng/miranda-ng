@@ -286,7 +286,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 							char szCname[40];
 							mir_snprintf(szCname, 40, "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
 							pContainer->settings->fPrivate = false;
-							DBWriteContactSettingBlob(0, SRMSGMOD_T, szCname, pContainer->settings, sizeof(TContainerSettings));
+							db_set_blob(0, SRMSGMOD_T, szCname, pContainer->settings, sizeof(TContainerSettings));
 							free(pContainer->settings);
 						}
 						pContainer->settings = &PluginConfig.globalContainerSettings;
@@ -378,7 +378,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 					if (!IsDlgButtonChecked(hwndDlg, IDC_CNTPRIVATE)) {
 						ReloadGlobalContainerSettings(true);
-						::DBWriteContactSettingBlob(0, SRMSGMOD_T, CNT_KEYNAME, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
+						::db_set_blob(0, SRMSGMOD_T, CNT_KEYNAME, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
 					}
 					else {
 						char *szSetting = "CNTW_";

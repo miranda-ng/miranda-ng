@@ -51,7 +51,7 @@ int OpLoadSessionContacts(WPARAM wparam,LPARAM lparam)
 	for (hContact = db_find_first(); hContact;
 		hContact = db_find_next(hContact))
 	{
-		if(LoadContactsFromMask(hContact,1,lparam))
+		if (LoadContactsFromMask(hContact,1,lparam))
 		{
 			i=GetInSessionOrder(hContact,1, lparam);
 			session_list_t[i]=(DWORD)hContact;
@@ -96,7 +96,7 @@ static LRESULT CALLBACK ComboBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		}break;
 
 		case WM_LBUTTONDOWN:
-			if(hOpClistControl)
+			if (hOpClistControl)
 				break;
 			HideCaret(hwnd);
 
@@ -125,7 +125,7 @@ static LRESULT CALLBACK ComboBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			break;
 
 		case WM_MOUSEMOVE:
-			if(hOpClistControl)
+			if (hOpClistControl)
 				break;
 
 		case WM_NCMOUSEMOVE:
@@ -152,7 +152,7 @@ static LRESULT CALLBACK ComboBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		case WM_NCHITTEST:
 		{
 			LRESULT lr = mir_callNextSubclass(hwnd, ComboBoxSubclassProc, msg, wParam, lParam );
-			if(lr==HTNOWHERE )
+			if (lr==HTNOWHERE )
 				lr = HTOBJECT;
 			return lr;
 		}
@@ -198,7 +198,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			CheckDlgButton(hdlg,IDC_CRASHRECOVERY,g_bCrashRecovery?BST_CHECKED:BST_UNCHECKED);
 
 
-			if(startupmode==1)
+			if (startupmode==1)
 				CheckDlgButton(hdlg,IDC_STARTDIALOG,BST_CHECKED);
 			else if (startupmode==3)
 			{
@@ -218,7 +218,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				EnableWindow(GetDlgItem(hdlg, IDC_STATICMS), FALSE);
 				EnableWindow(GetDlgItem(hdlg, IDC_CHECKLAST), FALSE);
 			}
-			if(exitmode==0)
+			if (exitmode==0)
 			{
 				CheckDlgButton(hdlg,IDC_REXDSAVE,BST_CHECKED);
 				EnableWindow(GetDlgItem(hdlg,IDC_EXSTATIC1),FALSE);
@@ -230,7 +230,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			else if (exitmode==2) CheckDlgButton(hdlg,IDC_REXSAVE,BST_CHECKED);
 
 			LoadSessionToCombobox (hdlg,1,255,"UserSessionDsc",0);
-			if(SendDlgItemMessage(hdlg, IDC_LIST, CB_GETCOUNT, 0, 0))
+			if (SendDlgItemMessage(hdlg, IDC_LIST, CB_GETCOUNT, 0, 0))
 			{
 				EnableWindow(GetDlgItem(hdlg,IDC_EDIT),TRUE);
 				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
@@ -265,18 +265,18 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				db_set_w(0, MODNAME, "StartupModeDelay", (WORD)iDelay);
 
 				db_set_b(0, MODNAME, "TrackCount", (BYTE)(ses_limit=GetDlgItemInt(hdlg, IDC_TRACK,NULL, FALSE)));
-				if(IsDlgButtonChecked(hdlg, IDC_REXSAVE)) db_set_b(NULL, MODNAME, "ShutdownMode", 2);
-				else if(IsDlgButtonChecked(hdlg, IDC_REXDSAVE)) db_set_b(NULL, MODNAME, "ShutdownMode", 0);
-				else if(IsDlgButtonChecked(hdlg, IDC_REXASK)) db_set_b(NULL, MODNAME, "ShutdownMode", 1);
+				if (IsDlgButtonChecked(hdlg, IDC_REXSAVE)) db_set_b(NULL, MODNAME, "ShutdownMode", 2);
+				else if (IsDlgButtonChecked(hdlg, IDC_REXDSAVE)) db_set_b(NULL, MODNAME, "ShutdownMode", 0);
+				else if (IsDlgButtonChecked(hdlg, IDC_REXASK)) db_set_b(NULL, MODNAME, "ShutdownMode", 1);
 
-				if(IsDlgButtonChecked(hdlg, IDC_STARTDIALOG))
+				if (IsDlgButtonChecked(hdlg, IDC_STARTDIALOG))
 				{
 					if (!IsDlgButtonChecked(hdlg, IDC_CHECKLAST))
 						db_set_b(NULL, MODNAME, "StartupMode", 1);
 					else db_set_b(NULL, MODNAME, "StartupMode", 3);
 				}
-				else if(IsDlgButtonChecked(hdlg, IDC_RLOADLAST)) db_set_b(NULL, MODNAME, "StartupMode", 2);
-				else if(IsDlgButtonChecked(hdlg, IDC_RNOTHING)) db_set_b(NULL, MODNAME, "StartupMode", 0);
+				else if (IsDlgButtonChecked(hdlg, IDC_RLOADLAST)) db_set_b(NULL, MODNAME, "StartupMode", 2);
+				else if (IsDlgButtonChecked(hdlg, IDC_RNOTHING)) db_set_b(NULL, MODNAME, "StartupMode", 0);
 
 				db_set_b(NULL, MODNAME, "ExclHidden", (BYTE)(IsDlgButtonChecked(hdlg, IDC_EXCLHIDDEN) ? (g_bExclHidden = 1) : (g_bExclHidden = 0)));
 				db_set_b(NULL, MODNAME, "WarnOnHidden", (BYTE)(IsDlgButtonChecked(hdlg, IDC_LASTHIDDENWARN) ? (g_bWarnOnHidden = 1) : (g_bWarnOnHidden = 0)));
@@ -315,10 +315,10 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				{
 					HWND hCombo = GetDlgItem(hdlg, IDC_LIST);
 					int index = SendMessage(hCombo, CB_GETCURSEL, 0, 0);
-					if(index != CB_ERR) {
+					if (index != CB_ERR) {
 						opses_count = SendMessage(hCombo, CB_GETITEMDATA, (WPARAM)index, 0);
 						SendDlgItemMessage(hdlg, IDC_OPCLIST, LB_RESETCONTENT, 0, 0);
-						if(IsMarkedUserDefSession(opses_count)) {
+						if (IsMarkedUserDefSession(opses_count)) {
 							hIcon=hMarked;
 							bChecked=TRUE;
 							RedrawWindow(hComboBoxEdit, NULL, NULL, RDW_INVALIDATE|RDW_NOCHILDREN|RDW_UPDATENOW|RDW_FRAME);
@@ -406,8 +406,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 						SetInSessionOrder(hContact,1,opses_count,0);
 					}
 				}
-				if(bSesssionNameChanged) {
-					if(GetWindowTextLength(hComboBoxEdit)) {
+				if (bSesssionNameChanged) {
+					if (GetWindowTextLength(hComboBoxEdit)) {
 						TCHAR szUserSessionName[MAX_PATH]={'\0'};
 						GetWindowText(hComboBoxEdit, szUserSessionName, SIZEOF(szUserSessionName));
 						RenameUserDefSession(opses_count,szUserSessionName);
@@ -431,7 +431,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 				opses_count=0;
 
-				if(SendDlgItemMessage(hdlg, IDC_LIST, CB_GETCOUNT, 0, 0)) {
+				if (SendDlgItemMessage(hdlg, IDC_LIST, CB_GETCOUNT, 0, 0)) {
 					EnableWindow(GetDlgItem(hdlg,IDC_EDIT),TRUE);
 					SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
 					if (!OpLoadSessionContacts(0,opses_count))

@@ -33,8 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define setString( setting, value )         db_set_s( NULL, m_szModuleName, setting, value )
 #define getTString( setting, dest )         db_get_ts( NULL, m_szModuleName, setting, dest )
 #define setTString( setting, value )        db_set_ts( NULL, m_szModuleName, setting, value )
-#define getU8String( setting, dest )        DBGetContactSettingUTF8String( NULL, m_szModuleName, setting, dest )
-#define setU8String( setting, value )       DBWriteContactSettingUTF8String( NULL, m_szModuleName, setting, value )
+#define getU8String( setting, dest )        db_get_utf( NULL, m_szModuleName, setting, dest )
+#define setU8String( setting, value )       db_set_utf( NULL, m_szModuleName, setting, value )
 #define deleteSetting( setting )            db_unset( NULL, m_szModuleName, setting )
 
 // DB keys

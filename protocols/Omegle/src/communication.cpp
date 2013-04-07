@@ -333,7 +333,7 @@ bool Omegle_client::start()
 	else if ( db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_MEET_COMMON, 0))
 	{
 		DBVARIANT dbv;
-		if (!DBGetContactSettingUTF8String(NULL, parent->m_szModuleName, OMEGLE_KEY_INTERESTS, &dbv))
+		if (!db_get_utf(NULL, parent->m_szModuleName, OMEGLE_KEY_INTERESTS, &dbv))
 		{
 			std::string topics = dbv.pszVal;
 			std::string topic;
@@ -672,7 +672,7 @@ bool Omegle_client::events( )
 			// We got new stranger in this event, lets say him "Hi message" if enabled			
 			if ( db_get_b( NULL, parent->m_szModuleName, OMEGLE_KEY_HI_ENABLED, 0 )) {
 				DBVARIANT dbv;
-				if ( !DBGetContactSettingUTF8String( NULL, parent->m_szModuleName, OMEGLE_KEY_HI, &dbv )) {
+				if ( !db_get_utf( NULL, parent->m_szModuleName, OMEGLE_KEY_HI, &dbv )) {
 					std::string *message = new std::string(dbv.pszVal);
 					db_free(&dbv);
 	

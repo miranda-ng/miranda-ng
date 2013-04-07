@@ -137,7 +137,7 @@ void Xfire_base::readUtf8StringfromDB(char*name,unsigned int dbid,char**to)
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i",name,dbid);
-	if(!DBGetContactSettingUTF8String(NULL, protocolname, temp,&dbv))
+	if(!db_get_utf(NULL, protocolname, temp,&dbv))
 	{
 		//string setzen
 		setString(dbv.pszVal,to);
@@ -155,7 +155,7 @@ void Xfire_base::readUtf8StringfromDB(char*name,unsigned int dbid,int id,char**t
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i_%i",name,dbid,id);
-	if(!DBGetContactSettingUTF8String(NULL, protocolname, temp,&dbv))
+	if(!db_get_utf(NULL, protocolname, temp,&dbv))
 	{
 		//string setzen
 		setString(dbv.pszVal,to);
@@ -198,7 +198,7 @@ void Xfire_base::writeUtf8StringtoDB(char*name,unsigned int dbid,int id,char*val
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i_%i",name,dbid,id);
-	DBWriteContactSettingUTF8String(NULL, protocolname, temp,val);
+	db_set_utf(NULL, protocolname, temp,val);
 }
 
 //schreibt einen stringval in die db welche unterid hat
@@ -210,7 +210,7 @@ void Xfire_base::writeUtf8StringtoDB(char*name,unsigned int dbid,char*val)
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i",name,dbid);
-	DBWriteContactSettingUTF8String(NULL, protocolname, temp,val);
+	db_set_utf(NULL, protocolname, temp,val);
 }
 
 

@@ -8,30 +8,27 @@ void copyModule(char* module, HANDLE hContactFrom, HANDLE hContactTo)
 	EnumSettings(hContactFrom,module, &msll);
 
 	setting = msll.first;
-	while(setting)
-	{
+	while(setting) {
 		DBVARIANT dbv;
-		if (!GetSetting(hContactFrom, module, setting->name, &dbv))
-		{
-			switch (dbv.type)
-			{
-				case DBVT_BYTE:
-					db_set_b(hContactTo, module, setting->name, dbv.bVal);
+		if (!GetSetting(hContactFrom, module, setting->name, &dbv)) {
+			switch (dbv.type) {
+			case DBVT_BYTE:
+				db_set_b(hContactTo, module, setting->name, dbv.bVal);
 				break;
-				case DBVT_WORD:
-					db_set_w(hContactTo, module, setting->name, dbv.wVal);
+			case DBVT_WORD:
+				db_set_w(hContactTo, module, setting->name, dbv.wVal);
 				break;
-				case DBVT_DWORD:
-					db_set_dw(hContactTo, module, setting->name, dbv.dVal);
+			case DBVT_DWORD:
+				db_set_dw(hContactTo, module, setting->name, dbv.dVal);
 				break;
-				case DBVT_ASCIIZ:
-					db_set_s(hContactTo, module, setting->name, dbv.pszVal);
+			case DBVT_ASCIIZ:
+				db_set_s(hContactTo, module, setting->name, dbv.pszVal);
 				break;
-				case DBVT_UTF8:
-					db_set_utf(hContactTo, module, setting->name, dbv.pszVal);
+			case DBVT_UTF8:
+				db_set_utf(hContactTo, module, setting->name, dbv.pszVal);
 				break;
-				case DBVT_BLOB:
-					DBWriteContactSettingBlob(hContactTo, module, setting->name, dbv.pbVal, dbv.cpbVal);
+			case DBVT_BLOB:
+				db_set_blob(hContactTo, module, setting->name, dbv.pbVal, dbv.cpbVal);
 				break;
 			}
 		}

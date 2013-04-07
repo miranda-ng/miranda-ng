@@ -1738,7 +1738,7 @@ HANDLE CList_AddContact(XFireContact xfc, bool InList, bool SetOnline,int clan)
 		if(strlen(xfc.nick)>0)
 		{
 			if(myClient->useutf8)
-				DBWriteContactSettingUTF8String(hContact, protocolname, "Nick", xfc.nick);
+				db_set_utf(hContact, protocolname, "Nick", xfc.nick);
 			else
 				db_set_s(hContact, protocolname, "Nick", mir_utf8decode(( char* )xfc.nick,NULL));
 		}
@@ -2772,7 +2772,7 @@ void setBuddyStatusMsg(BuddyListEntry *entry)
 				db_free(&dbv);
 			}
 		}
-		DBWriteContactSettingUTF8String(entry->hcontact, protocolname, "XStatusMsg", xstatus.str().c_str());
+		db_set_utf(entry->hcontact, protocolname, "XStatusMsg", xstatus.str().c_str());
 	}
 	else
 	{		
@@ -2793,7 +2793,7 @@ void setBuddyStatusMsg(BuddyListEntry *entry)
 	db_set_w(entry->hcontact, protocolname, "Status", status_id);
 	
 	if (!entry->statusmsg.empty())
-		DBWriteContactSettingUTF8String(entry->hcontact, "CList", "StatusMsg", entry->statusmsg.c_str());
+		db_set_utf(entry->hcontact, "CList", "StatusMsg", entry->statusmsg.c_str());
 	else
 		db_unset(entry->hcontact, "CList", "StatusMsg");
 }
@@ -2884,7 +2884,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 				if(nick)
 				{
 					if(myClient->useutf8)
-						DBWriteContactSettingUTF8String(hContact, protocolname, "Nick", nick);
+						db_set_utf(hContact, protocolname, "Nick", nick);
 					else
 						db_set_s(hContact, protocolname, "Nick", nick);
 				}
@@ -2892,7 +2892,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 					db_set_s(hContact, protocolname, "Nick", entry->username.c_str());
 
 				//db_set_utf(hContact, protocolname, "Nick", entry->nick.c_str());
-				//DBWriteContactSettingUTF8String(hContact, protocolname, "Nick", ( char* )entry->nick.c_str());
+				//db_set_utf(hContact, protocolname, "Nick", ( char* )entry->nick.c_str());
 			} else
 				db_set_s(hContact, protocolname, "Nick", entry->username.c_str());
 
@@ -2903,7 +2903,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 				db_unset(hContact, protocolname, "XStatusId");
 				db_unset(hContact, protocolname, "XStatusName");
 				db_unset(hContact, "CList", "StatusMsg");
-				//DBWriteContactSettingUTF8String(hContact, protocolname, "XStatusName", "");
+				//db_set_utf(hContact, protocolname, "XStatusName", "");
 				db_unset(hContact, protocolname, "ServerIP");
 				db_unset(hContact, protocolname, "Port");
 				db_unset(hContact, protocolname, "VServerIP");
@@ -3067,7 +3067,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 
 					//db_unset(hContact, "CList", "StatusMsg");
 					db_set_w(hContact, protocolname, "Status", ID_STATUS_ONLINE);
-					DBWriteContactSettingUTF8String(hContact, protocolname, "XStatusName", Translate("Playing"));
+					db_set_utf(hContact, protocolname, "XStatusName", Translate("Playing"));
 					setBuddyStatusMsg(entry);
 					db_set_b(hContact, protocolname, "XStatusId", xgamelist.iconmngr.getGameIconId(entry->game)+2);
 
@@ -3120,7 +3120,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 				db_set_w(hContact, protocolname, "Status", ID_STATUS_ONLINE);
 				db_set_s(entry->hcontact, protocolname, "MirVer", "xfire");
 				if(clan>0) db_set_dw(hContact, protocolname, "Clan", clan);
-				//DBWriteContactSettingUTF8String(hContact, "CList", "StatusMsg", "");
+				//db_set_utf(hContact, "CList", "StatusMsg", "");
 				db_unset(hContact, protocolname, "XStatusMsg");
 				db_unset(hContact, protocolname, "XStatusId");
 				db_unset(hContact, protocolname, "XStatusName");
@@ -3378,7 +3378,7 @@ static void SendAMAck( LPVOID param )
 {
 	DBVARIANT dbv;
 
-	if(!DBGetContactSettingUTF8String((HANDLE)param, protocolname, "XStatusMsg",&dbv))
+	if(!db_get_utf((HANDLE)param, protocolname, "XStatusMsg",&dbv))
 	{
 		ProtoBroadcastAck(protocolname, (HANDLE)param, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, LPARAM(dbv.pszVal));
 	}

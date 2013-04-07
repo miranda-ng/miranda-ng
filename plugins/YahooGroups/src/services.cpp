@@ -101,7 +101,7 @@ void AddNewGroup(char *newGroup)
 	wchar_t wide[MAX_SIZE] = {0};
 	*wide = 1;
 	MultiByteToWideChar(currentCodePage, 0, group + 1, -1, wide + 1, MAX_SIZE - 1);
-	DBWriteContactSettingWString(NULL, CLIST_GROUPS, tmp, wide);
+	db_set_ws(NULL, CLIST_GROUPS, tmp, wide);
 	
 	availableGroups.Add(_strdup(group + 1));
 }
@@ -111,7 +111,7 @@ void AddContactToGroup(HANDLE hContact, char *group)
 	const int MAX_SIZE = 1024;
 	wchar_t wide[MAX_SIZE] = {0};
 	MultiByteToWideChar(currentCodePage, 0, group, -1, wide, MAX_SIZE);
-	DBWriteContactSettingWString(hContact, "CList", "Group", wide);
+	db_set_ws(hContact, "CList", "Group", wide);
 }
 
 void CreateGroup(char *group)

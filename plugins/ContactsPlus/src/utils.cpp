@@ -109,20 +109,15 @@ char *GetContactUID(HANDLE hContact, int bTchar)
     return null_strdup(szUid);
 }
 
-
 TCHAR* MirandaStatusToStringT(int mirandaStatus)
 {
-  return (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, mirandaStatus, GSMDF_UNICODE);
+	return (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, mirandaStatus, GSMDF_UNICODE);
 }
 
 int DBGetContactSettingT(HANDLE hContact, const char *szModule, const char* szSetting, DBVARIANT *dbv)
 {
-  if (ServiceExists(MS_DB_CONTACT_GETSETTING_STR))
-    return DBGetContactSettingW(hContact, szModule, szSetting, dbv);
-  else
-    return db_get(hContact, szModule, szSetting, dbv);
+	return db_get_s(hContact, szModule, szSetting, dbv, 0);
 }
-
 
 TCHAR* DBGetContactSettingStringT(HANDLE hContact, const char *szModule, const char* szSetting, TCHAR* szDef)
 {

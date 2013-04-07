@@ -378,159 +378,142 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM w
 					if (info->unicode)
 						wc = mir_a2u(value);
 
-					if (len <= 1 || GetSetting(info->hContact,info->module,info->setting,&dbv))
-					{
+					if (len <= 1 || GetSetting(info->hContact,info->module,info->setting, &dbv)) {
 						SendMessage(hwnd,WM_COMMAND,MAKEWPARAM(IDCANCEL,0),0);
 						return 0;
 					}
 
-					switch (info->subitem)
-					{
-						case 0:// setting name
-							if (!mir_strcmp(info->setting,value) || mir_strlen(value)>255)
-							{
-								db_free(&dbv);
-								SendMessage(hwnd,WM_COMMAND,MAKEWPARAM(IDCANCEL,0),0);
-								return 0;
-							}
-							switch (dbv.type)
-							{
-								case DBVT_UTF8:
-									db_set_utf(info->hContact,info->module,value,dbv.pszVal);
-								break;
-								case DBVT_ASCIIZ:
-									db_set_s(info->hContact,info->module,value,dbv.pszVal);
-								break;
-								case DBVT_BYTE:
-									db_set_b(info->hContact,info->module,value,dbv.bVal);
-								break;
-								case DBVT_WORD:
-									db_set_w(info->hContact,info->module,value,dbv.wVal);
-								break;
-								case DBVT_DWORD:
-									db_set_dw(info->hContact,info->module,value,dbv.dVal);
-								break;
-								case DBVT_BLOB:
-									DBWriteContactSettingBlob(info->hContact,info->module,value,dbv.pbVal,dbv.cpbVal);
-								break;
-							}
-							db_unset(info->hContact,info->module,info->setting);
-							{
-								LVFINDINFO lvfi;
-								int item;
+					switch (info->subitem) {
+					case 0:// setting name
+						if (!mir_strcmp(info->setting,value) || mir_strlen(value)>255) {
+							db_free(&dbv);
+							SendMessage(hwnd,WM_COMMAND,MAKEWPARAM(IDCANCEL,0),0);
+							return 0;
+						}
+						switch (dbv.type) {
+						case DBVT_UTF8:
+							db_set_utf(info->hContact,info->module,value,dbv.pszVal);
+							break;
+						case DBVT_ASCIIZ:
+							db_set_s(info->hContact,info->module,value,dbv.pszVal);
+							break;
+						case DBVT_BYTE:
+							db_set_b(info->hContact,info->module,value,dbv.bVal);
+							break;
+						case DBVT_WORD:
+							db_set_w(info->hContact,info->module,value,dbv.wVal);
+							break;
+						case DBVT_DWORD:
+							db_set_dw(info->hContact,info->module,value,dbv.dVal);
+							break;
+						case DBVT_BLOB:
+							db_set_blob(info->hContact,info->module,value,dbv.pbVal,dbv.cpbVal);
+							break;
+						}
+						db_unset(info->hContact,info->module,info->setting);
+						{
+							LVFINDINFO lvfi;
+							int item;
 
-								lvfi.flags = LVFI_STRING;
-								lvfi.psz = info->setting;
-								lvfi.vkDirection = VK_DOWN;
+							lvfi.flags = LVFI_STRING;
+							lvfi.psz = info->setting;
+							lvfi.vkDirection = VK_DOWN;
 
-								item = ListView_FindItem(info->hwnd,-1,&lvfi);
-								ListView_DeleteItem(info->hwnd,item);
-							}
+							item = ListView_FindItem(info->hwnd,-1,&lvfi);
+							ListView_DeleteItem(info->hwnd,item);
+						}
 						break;
-						case 1: // value
+					case 1: // value
 						{
 							int val;
 							int i = 0;
 
-							if (dbv.type == DBVT_BLOB)
-							{
+							if (dbv.type == DBVT_BLOB) {
 								WriteBlobFromString(info->hContact,info->module,info->setting,value,len);
 								break;
-                            }
+							}
 
-							switch (value[0])
-							{
-								case 'b':
-								case 'B':
-									if (value[1] == '0' && (value[2] == 'x' || value[2] == 'X'))
-										sscanf(&value[3],"%x",&val);
-									else if (value[1] >= '0' && value[1] <= '9')
-									{
-										val = atoi(&value[1]);
-										if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)
-											db_unset(info->hContact,info->module,info->setting);
+							switch (value[0]) {
+							case 'b':
+							case 'B':
+								if (value[1] == '0' && (value[2] == 'x' || value[2] == 'X'))
+									sscanf(&value[3],"%x",&val);
+								else if (value[1] >= '0' && value[1] <= '9') {
+									val = atoi(&value[1]);
+									if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)
+										db_unset(info->hContact,info->module,info->setting);
 
+									db_set_b(info->hContact,info->module,info->setting,(BYTE)val);
+								}
+								else writeStandardTextfromLabel(info, value, wc, dbv.type);
+								break;
+							case 'w':
+							case 'W':
+								if (value[1] == '0' && (value[2] == 'x' || value[2] == 'X'))
+									sscanf(&value[3],"%x",&val);
+								else if (value[1] >= '0' && value[1] <= '9') {
+									val = atoi(&value[1]);
+									if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)
+										db_unset(info->hContact,info->module,info->setting);
+									db_set_w(info->hContact,info->module,info->setting,(WORD)val);
+								}
+								else writeStandardTextfromLabel(info, value, wc, dbv.type);
+								break;
+							case 'd':
+							case 'D':
+								if (value[1] == '0' && (value[2] == 'x' || value[2] == 'X'))
+									sscanf(&value[3],"%x",&val);
+								else if (value[1] >= '0' && value[1] <= '9') {
+									val = atoi(&value[1]);
+									if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)
+										db_unset(info->hContact,info->module,info->setting);
+									db_set_dw(info->hContact,info->module,info->setting,val);
+								}
+								else writeStandardTextfromLabel(info, value, wc, dbv.type);
+								break;
+							case '0':
+								i=1;
+							case 'x':
+							case 'X':
+								if (value[i] == 'x' || value[i] == 'X') {
+									sscanf(&value[i+1],"%x",&val);
+									switch (dbv.type) {
+									case DBVT_UTF8:
+									case DBVT_ASCIIZ:
+										writeStandardTextfromLabel(info, value, wc, dbv.type);
+										break;
+									case DBVT_BYTE:
 										db_set_b(info->hContact,info->module,info->setting,(BYTE)val);
-									}
-									else
-										writeStandardTextfromLabel(info, value, wc, dbv.type);
-								break;
-								case 'w':
-								case 'W':
-									if (value[1] == '0' && (value[2] == 'x' || value[2] == 'X'))
-										sscanf(&value[3],"%x",&val);
-									else if (value[1] >= '0' && value[1] <= '9')
-									{
-										val = atoi(&value[1]);
-										if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)
-											db_unset(info->hContact,info->module,info->setting);
+										break;
+									case DBVT_WORD:
 										db_set_w(info->hContact,info->module,info->setting,(WORD)val);
+										break;
+									case DBVT_DWORD:
+										db_set_dw(info->hContact,info->module,info->setting,(DWORD)val);
+										break;
 									}
-									else
+								}
+								else {
+									val = atoi(value);
+									switch (dbv.type) {
+									case DBVT_ASCIIZ:
+									case DBVT_UTF8:
 										writeStandardTextfromLabel(info, value, wc, dbv.type);
-								break;
-								case 'd':
-								case 'D':
-									if (value[1] == '0' && (value[2] == 'x' || value[2] == 'X'))
-										sscanf(&value[3],"%x",&val);
-									else if (value[1] >= '0' && value[1] <= '9')
-									{
-										val = atoi(&value[1]);
-										if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)
-											db_unset(info->hContact,info->module,info->setting);
-										db_set_dw(info->hContact,info->module,info->setting,val);
+										break;
+									case DBVT_BYTE:
+										db_set_b(info->hContact,info->module,info->setting,(BYTE)val);
+										break;
+									case DBVT_WORD:
+										db_set_w(info->hContact,info->module,info->setting,(WORD)val);
+										break;
+									case DBVT_DWORD:
+										db_set_dw(info->hContact,info->module,info->setting,(DWORD)val);
+										break;
 									}
-									else
-										writeStandardTextfromLabel(info, value, wc, dbv.type);
+								}
 								break;
-								case '0':
-									i=1;
-								case 'x':
-								case 'X':
-									if (value[i] == 'x' || value[i] == 'X')
-									{
-
-										sscanf(&value[i+1],"%x",&val);
-										switch (dbv.type)
-										{
-											case DBVT_UTF8:
-											case DBVT_ASCIIZ:
-												writeStandardTextfromLabel(info, value, wc, dbv.type);
-											break;
-											case DBVT_BYTE:
-												db_set_b(info->hContact,info->module,info->setting,(BYTE)val);
-											break;
-											case DBVT_WORD:
-												db_set_w(info->hContact,info->module,info->setting,(WORD)val);
-											break;
-											case DBVT_DWORD:
-												db_set_dw(info->hContact,info->module,info->setting,(DWORD)val);
-											break;
-										}
-									}
-									else
-									{
-										val = atoi(value);
-										switch (dbv.type)
-										{
-											case DBVT_ASCIIZ:
-											case DBVT_UTF8:
-												writeStandardTextfromLabel(info, value, wc, dbv.type);
-											break;
-											case DBVT_BYTE:
-												db_set_b(info->hContact,info->module,info->setting,(BYTE)val);
-											break;
-											case DBVT_WORD:
-												db_set_w(info->hContact,info->module,info->setting,(WORD)val);
-											break;
-											case DBVT_DWORD:
-												db_set_dw(info->hContact,info->module,info->setting,(DWORD)val);
-											break;
-										}
-									}
-								break;
-								case '\"':
-								case '\'':
+							case '\"':
+							case '\'':
 								{
 									int nlen = mir_strlen(value);
 									int sh = 0;
@@ -545,36 +528,35 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM w
 									writeStandardTextfromLabel(info, &value[sh], wc, dbv.type);
 								}
 								break;
-								case '1':
-								case '2':
-								case '3':
-								case '4':
-								case '5':
-								case '6':
-								case '7':
-								case '8':
-								case '9':
-								case '-':
-									val = atoi(value);
-									switch (dbv.type)
-									{
-										case DBVT_ASCIIZ:
-										case DBVT_UTF8:
-											writeStandardTextfromLabel(info, value, wc, dbv.type);
-										break;
-										case DBVT_BYTE:
-											db_set_b(info->hContact,info->module,info->setting,(BYTE)val);
-										break;
-										case DBVT_WORD:
-											db_set_w(info->hContact,info->module,info->setting,(WORD)val);
-										break;
-										case DBVT_DWORD:
-											db_set_dw(info->hContact,info->module,info->setting,(DWORD)val);
-										break;
-									}
-								break;
-								default:
+							case '1':
+							case '2':
+							case '3':
+							case '4':
+							case '5':
+							case '6':
+							case '7':
+							case '8':
+							case '9':
+							case '-':
+								val = atoi(value);
+								switch (dbv.type) {
+								case DBVT_ASCIIZ:
+								case DBVT_UTF8:
 									writeStandardTextfromLabel(info, value, wc, dbv.type);
+									break;
+								case DBVT_BYTE:
+									db_set_b(info->hContact,info->module,info->setting,(BYTE)val);
+									break;
+								case DBVT_WORD:
+									db_set_w(info->hContact,info->module,info->setting,(WORD)val);
+									break;
+								case DBVT_DWORD:
+									db_set_dw(info->hContact,info->module,info->setting,(DWORD)val);
+									break;
+								}
+								break;
+							default:
+								writeStandardTextfromLabel(info, value, wc, dbv.type);
 								break;
 							} // switch (value[0])
 						}

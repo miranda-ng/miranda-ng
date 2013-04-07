@@ -48,88 +48,88 @@ static void SetValue(HWND hwndDlg, int idCtrl, HANDLE hContact, char *szModule, 
 
 	dbv.type = DBVT_DELETED;
 	if (szModule == NULL) unspecified = 1;
-	else unspecified = DBGetContactSettingW(hContact, szModule, szSetting, &dbv);
+	else unspecified = db_get(hContact, szModule, szSetting, &dbv);
 	if (!unspecified) {
 		switch (dbv.type) {
-			case DBVT_BYTE:
-				if (special == SVS_GENDER) {
-					if (dbv.cVal == 'M') ptstr = TranslateT("Male");
-					else if (dbv.cVal == 'F') ptstr = TranslateT("Female");
-					else unspecified = 1;
-				}
-				else if (special == SVS_MONTH) {
-					if (dbv.bVal > 0 && dbv.bVal <= 12) {
-						ptstr = str;
-						GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SABBREVMONTHNAME1 - 1 + dbv.bVal, str, SIZEOF(str));
-					}
-					else unspecified = 1;
-				}
-				else if (special == SVS_TIMEZONE) {
-					if (dbv.cVal == -100) unspecified = 1;
-					else {
-						ptstr = str;
-						mir_sntprintf(str, SIZEOF(str), dbv.cVal ? _T("GMT%+d:%02d") : _T("GMT"), -dbv.cVal / 2, (dbv.cVal & 1) * 30);
-					}
-				} else {
-					unspecified = (special == SVS_ZEROISUNSPEC && dbv.bVal == 0);
-					ptstr = _itot(special == SVS_SIGNED ? dbv.cVal : dbv.bVal, str, 10);
-				}
-				break;
-			case DBVT_WORD:
-				if (special == SVS_COUNTRY) {
-					char* pstr = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, dbv.wVal, 0);
-					if (pstr == NULL){
-						unspecified = 1;
-					} else {
-						ptstr = str;
-						mir_sntprintf(str, SIZEOF(str), _T("%S"), pstr);
-					}
-				}
-				else {
-					unspecified = (special == SVS_ZEROISUNSPEC && dbv.wVal == 0);
-					ptstr = _itot(special == SVS_SIGNED ? dbv.sVal : dbv.wVal, str, 10);
-				}
-				break;
-			case DBVT_DWORD:
-				unspecified = (special == SVS_ZEROISUNSPEC && dbv.dVal == 0);
-				if (special == SVS_IP) {
-					struct in_addr ia;
-					ia.S_un.S_addr = htonl(dbv.dVal);
-					char* pstr = inet_ntoa(ia);
-					if (pstr == NULL){
-						unspecified = 1;
-					} else {
-						ptstr = str;
-						mir_sntprintf(str, SIZEOF(str), _T("%S"), pstr);
-					}
-					if (dbv.dVal == 0) unspecified = 1;
-				} else if (special == SVS_GGVERSION) {
+		case DBVT_BYTE:
+			if (special == SVS_GENDER) {
+				if (dbv.cVal == 'M') ptstr = TranslateT("Male");
+				else if (dbv.cVal == 'F') ptstr = TranslateT("Female");
+				else unspecified = 1;
+			}
+			else if (special == SVS_MONTH) {
+				if (dbv.bVal > 0 && dbv.bVal <= 12) {
 					ptstr = str;
-					mir_sntprintf(str, SIZEOF(str), _T("%S"), (char *)gg_version2string(dbv.dVal));
-				} else {
-					ptstr = _itot(special == SVS_SIGNED ? dbv.lVal : dbv.dVal, str, 10);
+					GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SABBREVMONTHNAME1 - 1 + dbv.bVal, str, SIZEOF(str));
 				}
-				break;
-			case DBVT_ASCIIZ:
-				unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
+				else unspecified = 1;
+			}
+			else if (special == SVS_TIMEZONE) {
+				if (dbv.cVal == -100) unspecified = 1;
+				else {
+					ptstr = str;
+					mir_sntprintf(str, SIZEOF(str), dbv.cVal ? _T("GMT%+d:%02d") : _T("GMT"), -dbv.cVal / 2, (dbv.cVal & 1) * 30);
+				}
+			} else {
+				unspecified = (special == SVS_ZEROISUNSPEC && dbv.bVal == 0);
+				ptstr = _itot(special == SVS_SIGNED ? dbv.cVal : dbv.bVal, str, 10);
+			}
+			break;
+		case DBVT_WORD:
+			if (special == SVS_COUNTRY) {
+				char* pstr = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, dbv.wVal, 0);
+				if (pstr == NULL){
+					unspecified = 1;
+				} else {
+					ptstr = str;
+					mir_sntprintf(str, SIZEOF(str), _T("%S"), pstr);
+				}
+			}
+			else {
+				unspecified = (special == SVS_ZEROISUNSPEC && dbv.wVal == 0);
+				ptstr = _itot(special == SVS_SIGNED ? dbv.sVal : dbv.wVal, str, 10);
+			}
+			break;
+		case DBVT_DWORD:
+			unspecified = (special == SVS_ZEROISUNSPEC && dbv.dVal == 0);
+			if (special == SVS_IP) {
+				struct in_addr ia;
+				ia.S_un.S_addr = htonl(dbv.dVal);
+				char* pstr = inet_ntoa(ia);
+				if (pstr == NULL){
+					unspecified = 1;
+				} else {
+					ptstr = str;
+					mir_sntprintf(str, SIZEOF(str), _T("%S"), pstr);
+				}
+				if (dbv.dVal == 0) unspecified = 1;
+			} else if (special == SVS_GGVERSION) {
 				ptstr = str;
-				mir_sntprintf(str, SIZEOF(str), _T("%S"), dbv.pszVal);
-				break;
-			case DBVT_TCHAR:
-				unspecified = (special == SVS_ZEROISUNSPEC && dbv.ptszVal[0] == '\0');
-				ptstr = dbv.ptszVal;
-				break;
-			case DBVT_UTF8:
-				unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
-				valT = mir_utf8decodeT(dbv.pszVal);
-				ptstr = str;
-				_tcscpy_s(str, SIZEOF(str), valT);
-				mir_free(valT);
-				break;
-			default:
-				ptstr = str;
-				lstrcpy(str, _T("???"));
-				break;
+				mir_sntprintf(str, SIZEOF(str), _T("%S"), (char *)gg_version2string(dbv.dVal));
+			} else {
+				ptstr = _itot(special == SVS_SIGNED ? dbv.lVal : dbv.dVal, str, 10);
+			}
+			break;
+		case DBVT_ASCIIZ:
+			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
+			ptstr = str;
+			mir_sntprintf(str, SIZEOF(str), _T("%S"), dbv.pszVal);
+			break;
+		case DBVT_TCHAR:
+			unspecified = (special == SVS_ZEROISUNSPEC && dbv.ptszVal[0] == '\0');
+			ptstr = dbv.ptszVal;
+			break;
+		case DBVT_UTF8:
+			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
+			valT = mir_utf8decodeT(dbv.pszVal);
+			ptstr = str;
+			_tcscpy_s(str, SIZEOF(str), valT);
+			mir_free(valT);
+			break;
+		default:
+			ptstr = str;
+			lstrcpy(str, _T("???"));
+			break;
 		}
 	}
 

@@ -77,7 +77,7 @@ void LoadOptions() {
 	options.autoshow_verify = (db_get_b(0, MODULENAME, "AutoShowVerify", 1) == 1);
 
 	DBVARIANT dbv;
-	if (!DBGetContactSettingUTF8String(0, MODULENAME, "Prefix", &dbv)) {
+	if (!db_get_utf(0, MODULENAME, "Prefix", &dbv)) {
 		strncpy(options.prefix, dbv.pszVal, OPTIONS_PREFIXLEN);
 		options.prefix[OPTIONS_PREFIXLEN-1] = 0;
 		db_free(&dbv);

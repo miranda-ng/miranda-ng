@@ -32,7 +32,7 @@ void renameModule(char* oldName, char* newName, HANDLE hContact)
 					db_set_utf(hContact, newName, setting->name, dbv.pszVal);
 				break;
 				case DBVT_BLOB:
-					DBWriteContactSettingBlob(hContact, newName, setting->name, dbv.pbVal, dbv.cpbVal);
+					db_set_blob(hContact, newName, setting->name, dbv.pbVal, dbv.cpbVal);
 				break;
 
 			}

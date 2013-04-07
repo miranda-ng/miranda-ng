@@ -200,9 +200,8 @@ void RenameDbProto(HANDLE hContact, HANDLE hContactNew, char* oldName, char* new
 				db_set_utf(hContactNew, newName, setting->name, dbv.pszVal);
 				break;
 			case DBVT_BLOB:
-				DBWriteContactSettingBlob(hContactNew, newName, setting->name, dbv.pbVal, dbv.cpbVal);
+				db_set_blob(hContactNew, newName, setting->name, dbv.pbVal, dbv.cpbVal);
 				break;
-
 			}
 			if (delOld)
 				db_unset(hContact, oldName, setting->name);
@@ -321,21 +320,19 @@ void GetID(HANDLE hContact,LPSTR szProto,LPSTR szID)
 
 int StatusMsgExists(HANDLE hContact)
 {
-	LPSTR module,msg;
 	char par[32];
 	BOOL ret = 0;
-	int i;
 
-	module = GetContactProto(hContact);
+	LPSTR module = GetContactProto(hContact);
 	if (!module) return 0;
 
-	for(i = 0; i < SIZEOF(statusMsg); i++) {
+	for(int i = 0; i < SIZEOF(statusMsg); i++) {
 		if (statusMsg[i].flag & 8)
 			mir_snprintf(par, SIZEOF(par), "%s/%s", module, statusMsg[i].name);
 		else
 			strcpy(par, statusMsg[i].name);
 
-		msg = DBGetString(hContact, (statusMsg[i].module) ? statusMsg[i].module : module, par);
+		LPSTR msg = db_get_sa(hContact, (statusMsg[i].module) ? statusMsg[i].module : module, par);
 		if (msg) {
 			if (strlen(msg))	
 				ret |= statusMsg[i].flag;
@@ -367,7 +364,7 @@ BOOL MirVerExists(HANDLE hContact)
 	szProto = GetContactProto(hContact);
 	if (!szProto) return 0;
 
-	msg = DBGetString(hContact,szProto,"MirVer");
+	msg = db_get_sa(hContact,szProto,"MirVer");
 	if (msg) {
 		if (strlen(msg))	ret = 1;
 		mir_free(msg);
@@ -390,12 +387,10 @@ void getIP(HANDLE hContact,LPSTR szProto,LPSTR szIP)
 
 LPSTR getMirVer(HANDLE hContact)
 {
-	LPSTR szProto, msg;
-
-	szProto = GetContactProto(hContact);
+	LPSTR szProto = GetContactProto(hContact);
 	if (!szProto) return NULL;
 
-	msg = DBGetString(hContact,szProto,"MirVer");
+	LPSTR msg = db_get_sa(hContact,szProto,"MirVer");
 	if (msg) {
 		if (strlen(msg))	
 			return msg;
@@ -679,7 +674,7 @@ INT_PTR onCopyStatusMsg(WPARAM wparam,LPARAM lparam)
 		else
 			strcpy(par, statusMsg[i].name);
 
-		LPTSTR msg = DBGetStringT((HANDLE)wparam, (statusMsg[i].module) ? statusMsg[i].module : module, par);
+		LPTSTR msg = db_get_tsa((HANDLE)wparam, (statusMsg[i].module) ? statusMsg[i].module : module, par);
 		if (msg) {
 			if (_tcsclen(msg)) {
 				if (flags & VF_SMNAME) {

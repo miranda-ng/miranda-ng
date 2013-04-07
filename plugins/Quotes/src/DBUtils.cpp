@@ -3,7 +3,7 @@
 std::string Quotes_DBGetStringA(HANDLE hContact,const char* szModule,const char* szSetting,const char* pszDefValue /*= NULL*/)
 {
 	std::string sResult;
-	char* pszSymbol = DBGetString(hContact,szModule,szSetting);
+	char* pszSymbol = db_get_sa(hContact,szModule,szSetting);
 	if(NULL != pszSymbol)
 	{
 		sResult = pszSymbol;
@@ -20,7 +20,7 @@ std::string Quotes_DBGetStringA(HANDLE hContact,const char* szModule,const char*
 std::wstring Quotes_DBGetStringW(HANDLE hContact,const char* szModule,const char* szSetting,const wchar_t* pszDefValue/* = NULL*/)
 {
 	std::wstring sResult;
-	wchar_t* pszSymbol = DBGetStringW(hContact,szModule,szSetting);
+	wchar_t* pszSymbol = db_get_wsa(hContact,szModule,szSetting);
 	if(NULL != pszSymbol)
 	{
 		sResult = pszSymbol;

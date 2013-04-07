@@ -169,34 +169,28 @@ int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, 
 	int res = 1;
 	int len;
 	dbv.type = DBVT_WCHAR;
-	if (DBGetContactSettingWString(hContact, szModule, szSettingName, &dbv) == 0)
-		{
-			res = 0;
-			if (dbv.type != DBVT_WCHAR)
-			{
-				MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, szResult, count);
-			}
-			else{
-				int tmp = wcslen(dbv.pwszVal);
-				len = (tmp < count - 1) ? tmp : count - 1;
-				wcsncpy(szResult, dbv.pwszVal, len);
-				szResult[len] = L'\0';
-			}
-			mir_free(dbv.pwszVal);
+	if ( db_get_s(hContact, szModule, szSettingName, &dbv, 0) == 0) {
+		res = 0;
+		if (dbv.type != DBVT_WCHAR)
+			MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, szResult, count);
+		else {
+			int tmp = wcslen(dbv.pwszVal);
+			len = (tmp < count - 1) ? tmp : count - 1;
+			wcsncpy(szResult, dbv.pwszVal, len);
+			szResult[len] = L'\0';
 		}
-		else{
-			res = 1;
-			if (szError)
-				{
-					int tmp = wcslen(szError);
-					len = (tmp < count - 1) ? tmp : count - 1;
-					wcsncpy(szResult, szError, len);
-					szResult[len] = L'\0';
-				}
-				else{
-					szResult[0] = L'\0';
-				}
+		mir_free(dbv.pwszVal);
+	}
+	else {
+		res = 1;
+		if (szError) {
+			int tmp = wcslen(szError);
+			len = (tmp < count - 1) ? tmp : count - 1;
+			wcsncpy(szResult, szError, len);
+			szResult[len] = L'\0';
 		}
+		else szResult[0] = L'\0';
+	}
 	return res;
 }
 

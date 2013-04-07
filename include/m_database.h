@@ -832,40 +832,6 @@ Disables a setting saving to the database.
 
 #ifndef DB_NOHELPERFUNCTIONS
 
-/* Deprecated & bizarre aliases */
-#define DBGetContactSettingByte                   db_get_b
-#define DBGetContactSettingWord                   db_get_w
-#define DBGetContactSettingDword                  db_get_dw
-#define DBGetContactSetting                       db_get
-#define DBGetContactSettingW(a,b,c,d)             db_get_s(a,b,c,d,0)
-#define DBGetContactSettingString(a,b,c,d)        db_get_s(a,b,c,d,DBVT_ASCIIZ)
-#define DBGetContactSettingWString(a,b,c,d)       db_get_s(a,b,c,d,DBVT_WCHAR)
-#define DBGetContactSettingTString(a,b,c,d)       db_get_s(a,b,c,d,DBVT_WCHAR)
-#define DBGetContactSettingStringUtf(a,b,c,d)     db_get_s(a,b,c,d,DBVT_UTF8)
-#define DBGetContactSettingUTF8String(a,b,c,d)    db_get_s(a,b,c,d,DBVT_UTF8)
-#define DBFreeVariant                             db_free
-
-#define DBGetString                               db_get_sa
-#define DBGetStringA                              db_get_sa
-#define DBGetStringW										  db_get_wsa
-#define DBGetStringT										  db_get_wsa
-
-#define DBDeleteContactSetting                    db_unset 
-#define DBWriteContactSettingByte                 db_set_b
-#define DBWriteContactSettingWord                 db_set_w
-#define DBWriteContactSettingDword                db_set_dw
-#define DBWriteContactSettingString               db_set_s
-#define DBWriteContactSettingWString              db_set_ws
-#define DBWriteContactSettingStringUtf            db_set_utf
-#define DBWriteContactSettingUTF8String           db_set_utf
-#define DBWriteContactSettingBlob                 db_set_blob
-
-#ifdef _UNICODE
-	#define DBWriteContactSettingTString           db_set_ws
-#else
-	#define DBWriteContactSettingTString           db_set_s
-#endif
-
 /* inlined range tolerate versions */
 
 __inline BYTE DBGetContactSettingRangedByte(HANDLE hContact, const char *szModule, const char *szSetting, BYTE errorValue, BYTE minValue, BYTE maxValue)

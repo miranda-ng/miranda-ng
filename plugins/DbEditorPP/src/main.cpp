@@ -363,7 +363,7 @@ int WriteBlobFromString(HANDLE hContact,const char *szModule,const char *szSetti
 	}
 
 	if (i)
-		return DBWriteContactSettingBlob(hContact,szModule,szSetting, data, (WORD)i);
+		return db_set_blob(hContact,szModule,szSetting, data, (WORD)i);
 
 	return 0;
 }

@@ -236,7 +236,7 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new) 
 		break;
 	}
 
-	if ( !DBGetContactSettingW(smi->hContact, "UserOnline", "OldStatusMsg", &dbv_old)) {
+	if ( !db_get_s(smi->hContact, "UserOnline", "OldStatusMsg", &dbv_old, 0)) {
 		switch (dbv_old.type) {
 		case DBVT_ASCIIZ:
 			smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(dbv_old.pszVal, CP_ACP));

@@ -782,8 +782,8 @@ bool facebook_client::home( )
 		// Get real_name
 		this->self_.real_name = utils::text::source_get_value( &resp.data, 2, "<strong class=\"profileName\">", "</strong>" );
 		if (!this->self_.real_name.empty()) {
-			DBWriteContactSettingUTF8String(NULL, parent->m_szModuleName, FACEBOOK_KEY_NAME, this->self_.real_name.c_str());
-			DBWriteContactSettingUTF8String(NULL, parent->m_szModuleName, FACEBOOK_KEY_NICK, this->self_.real_name.c_str());
+			db_set_utf(NULL, parent->m_szModuleName, FACEBOOK_KEY_NAME, this->self_.real_name.c_str());
+			db_set_utf(NULL, parent->m_szModuleName, FACEBOOK_KEY_NICK, this->self_.real_name.c_str());
 			parent->Log("      Got self real name: %s", this->self_.real_name.c_str());
 		} else {
 			client_notify(TranslateT("Something happened to Facebook. Maybe there was some major update so you should wait for an update."));

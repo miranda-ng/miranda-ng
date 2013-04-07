@@ -616,36 +616,32 @@ static __inline int RemoveAllConditionSettings(DWORD conditionID, char *szModule
 // Database Helper Functions: Triggers
 // --------------------------------------------------------------------------
 
-static int __inline DBWriteTriggerSettingByte(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting,BYTE val) {
-
+static int __inline DBWriteTriggerSettingByte(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting,BYTE val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBWriteContactSettingByte(hContact, szModule, dbSetting, val);
+	return db_set_b(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteTriggerSettingWord(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting,WORD val) {
-
+static int __inline DBWriteTriggerSettingWord(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting,WORD val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBWriteContactSettingWord(hContact, szModule, dbSetting, val);
+	return db_set_w(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteTriggerSettingDword(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting,DWORD val) {
-
+static int __inline DBWriteTriggerSettingDword(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting,DWORD val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBWriteContactSettingDword(hContact, szModule, dbSetting, val);
+	return db_set_dw(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteTriggerSettingString(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting,const char *val) {
-
+static int __inline DBWriteTriggerSettingString(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting,const char *val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBWriteContactSettingString(hContact, szModule, dbSetting, val);
+	return db_set_s(hContact, szModule, dbSetting, val);
 }
 
 static int __inline DBWriteTriggerSettingTString(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting,const TCHAR *val) {
@@ -653,371 +649,316 @@ static int __inline DBWriteTriggerSettingTString(DWORD triggerID, HANDLE hContac
 	char dbSetting[MAX_SETTING_LEN];
 
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBWriteContactSettingTString(hContact, szModule, dbSetting, val);
+	return db_set_ts(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteTriggerSettingWString(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting,const WCHAR *val) {
-
+static int __inline DBWriteTriggerSettingWString(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting,const WCHAR *val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBWriteContactSettingWString(hContact, szModule, dbSetting, val);
+	return db_set_ws(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteTriggerSettingStringUtf(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting,const char *val) {
-
+static int __inline DBWriteTriggerSettingStringUtf(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting,const char *val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBWriteContactSettingStringUtf(hContact, szModule, dbSetting, val);
+	return db_set_utf(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBGetTriggerSettingByte(DWORD triggerID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue) {
-
-
+static int __inline DBGetTriggerSettingByte(DWORD triggerID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBGetContactSettingByte(hContact, szModule, dbSetting, errorValue);
+	return db_get_b(hContact, szModule, dbSetting, errorValue);
 }
 
-static WORD __inline DBGetTriggerSettingWord(DWORD triggerID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue) {
-
-
+static WORD __inline DBGetTriggerSettingWord(DWORD triggerID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBGetContactSettingWord(hContact, szModule, dbSetting, errorValue);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
+	return db_get_w(hContact, szModule, dbSetting, errorValue);
 }
 
-static DWORD __inline DBGetTriggerSettingDword(DWORD triggerID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue) {
-
-
+static DWORD __inline DBGetTriggerSettingDword(DWORD triggerID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBGetContactSettingDword(hContact, szModule, dbSetting, errorValue);
+	return db_get_dw(hContact, szModule, dbSetting, errorValue);
 }
 
-static int __inline DBGetTriggerSetting(DWORD triggerID, HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv) {
-
-
+static int __inline DBGetTriggerSetting(DWORD triggerID, HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBGetContactSetting(hContact, szModule, dbSetting, dbv);
+	return db_get(hContact, szModule, dbSetting, dbv);
 }
 
-static int __inline DBGetTriggerSettingW(DWORD triggerID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv) {
-
+static int __inline DBGetTriggerSettingW(DWORD triggerID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBGetContactSettingW(hContact, szModule, dbSetting, dbv);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
+	return db_get_s(hContact, szModule, dbSetting, dbv, 0);
 }
 
-static int __inline DBGetTriggerSettingTString(DWORD triggerID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv) {
-
+static int __inline DBGetTriggerSettingTString(DWORD triggerID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBGetContactSettingTString(hContact, szModule, dbSetting, dbv);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
+	return db_get_ts(hContact, szModule, dbSetting, dbv);
 }
 
-static int __inline DBGetTriggerSettingWString(DWORD triggerID, HANDLE hContact,const char *szModule,	const char *szSetting,DBVARIANT *dbv) {
-
+static int __inline DBGetTriggerSettingWString(DWORD triggerID, HANDLE hContact,const char *szModule,	const char *szSetting,DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBGetContactSettingWString(hContact, szModule, dbSetting, dbv);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
+	return db_get_ws(hContact, szModule, dbSetting, dbv);
 }
 
-static int __inline DBGetTriggerSettingStringUtf(DWORD triggerID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv) {
-
+static int __inline DBGetTriggerSettingStringUtf(DWORD triggerID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBGetContactSettingStringUtf(hContact, szModule, dbSetting, dbv);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
+	return db_get_utf(hContact, szModule, dbSetting, dbv);
 }
 
-static int __inline DBDeleteTriggerSetting(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting) {
-
+static int __inline DBDeleteTriggerSetting(DWORD triggerID, HANDLE hContact,const char *szModule,const char *szSetting)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
-	return DBDeleteContactSetting(hContact, szModule, dbSetting);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_TRIGGERID, triggerID, szSetting);
+	return db_unset(hContact, szModule, dbSetting);
 }
 
 // --------------------------------------------------------------------------
 // Database Helper Functions: Actions
 // --------------------------------------------------------------------------
 
-static int __inline DBWriteActionSettingByte(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting,BYTE val) {
-
+static int __inline DBWriteActionSettingByte(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting,BYTE val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBWriteContactSettingByte(hContact, szModule, dbSetting, val);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_set_b(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteActionSettingWord(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting,WORD val) {
-
+static int __inline DBWriteActionSettingWord(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting,WORD val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBWriteContactSettingWord(hContact, szModule, dbSetting, val);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_set_w(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteActionSettingDword(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting,DWORD val) {
-
+static int __inline DBWriteActionSettingDword(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting,DWORD val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBWriteContactSettingDword(hContact, szModule, dbSetting, val);
+	return db_set_dw(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteActionSettingString(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting,const char *val) {
-
+static int __inline DBWriteActionSettingString(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting,const char *val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBWriteContactSettingString(hContact, szModule, dbSetting, val);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_set_s(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteActionSettingTString(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting,const TCHAR *val) {
-
+static int __inline DBWriteActionSettingTString(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting,const TCHAR *val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBWriteContactSettingTString(hContact, szModule, dbSetting, val);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_set_ts(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteActionSettingWString(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting,const WCHAR *val) {
-
+static int __inline DBWriteActionSettingWString(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting,const WCHAR *val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBWriteContactSettingWString(hContact, szModule, dbSetting, val);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_set_ws(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteActionSettingStringUtf(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting,const char *val) {
-
+static int __inline DBWriteActionSettingStringUtf(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting,const char *val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBWriteContactSettingStringUtf(hContact, szModule, dbSetting, val);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_set_utf(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBGetActionSettingByte(DWORD actionID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue) {
-
-
+static int __inline DBGetActionSettingByte(DWORD actionID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBGetContactSettingByte(hContact, szModule, dbSetting, errorValue);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_get_b(hContact, szModule, dbSetting, errorValue);
 }
 
-static WORD __inline DBGetActionSettingWord(DWORD actionID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue) {
-
-
+static WORD __inline DBGetActionSettingWord(DWORD actionID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBGetContactSettingWord(hContact, szModule, dbSetting, errorValue);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_get_w(hContact, szModule, dbSetting, errorValue);
 }
 
-static DWORD __inline DBGetActionSettingDword(DWORD actionID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue) {
-
-
+static DWORD __inline DBGetActionSettingDword(DWORD actionID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBGetContactSettingDword(hContact, szModule, dbSetting, errorValue);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_get_dw(hContact, szModule, dbSetting, errorValue);
 }
 
-static int __inline DBGetActionSetting(DWORD actionID, HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv) {
-
-
+static int __inline DBGetActionSetting(DWORD actionID, HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBGetContactSetting(hContact, szModule, dbSetting, dbv);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_get(hContact, szModule, dbSetting, dbv);
 }
 
-static int __inline DBGetActionSettingW(DWORD actionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv) {
-
+static int __inline DBGetActionSettingW(DWORD actionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBGetContactSettingW(hContact, szModule, dbSetting, dbv);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_get_s(hContact, szModule, dbSetting, dbv, 0);
 }
 
-static int __inline DBGetActionSettingTString(DWORD actionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv) {
-
+static int __inline DBGetActionSettingTString(DWORD actionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBGetContactSettingTString(hContact, szModule, dbSetting, dbv);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_get_ts(hContact, szModule, dbSetting, dbv);
 }
 
-static int __inline DBGetActionSettingWString(DWORD actionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv) {
-
+static int __inline DBGetActionSettingWString(DWORD actionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBGetContactSettingWString(hContact, szModule, dbSetting, dbv);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_get_ws(hContact, szModule, dbSetting, dbv);
 }
 
-static int __inline DBGetActionSettingStringUtf(DWORD actionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv) {
-
+static int __inline DBGetActionSettingStringUtf(DWORD actionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBGetContactSettingStringUtf(hContact, szModule, dbSetting, dbv);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_get_utf(hContact, szModule, dbSetting, dbv);
 }
 
-static int __inline DBDeleteActionSetting(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting) {
-
+static int __inline DBDeleteActionSetting(DWORD actionID, HANDLE hContact,const char *szModule,const char *szSetting)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
-	return DBDeleteContactSetting(hContact, szModule, dbSetting);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ACTIONID, actionID, szSetting);
+	return db_unset(hContact, szModule, dbSetting);
 }
 
 // --------------------------------------------------------------------------
 // Database Helper Functions: Conditions
 // --------------------------------------------------------------------------
 
-static int __inline DBWriteConditionSettingByte(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting,BYTE val) {
-
+static int __inline DBWriteConditionSettingByte(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting,BYTE val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBWriteContactSettingByte(hContact, szModule, dbSetting, val);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
+	return db_set_b(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteConditionSettingWord(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting,WORD val) {
-
+static int __inline DBWriteConditionSettingWord(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting,WORD val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBWriteContactSettingWord(hContact, szModule, dbSetting, val);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
+	return db_set_w(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteConditionSettingDword(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting,DWORD val) {
-
+static int __inline DBWriteConditionSettingDword(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting,DWORD val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBWriteContactSettingDword(hContact, szModule, dbSetting, val);
+	return db_set_dw(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteConditionSettingString(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting,const char *val) {
-
+static int __inline DBWriteConditionSettingString(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting,const char *val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBWriteContactSettingString(hContact, szModule, dbSetting, val);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
+	return db_set_s(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteConditionSettingTString(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting,const TCHAR *val) {
-
+static int __inline DBWriteConditionSettingTString(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting,const TCHAR *val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBWriteContactSettingTString(hContact, szModule, dbSetting, val);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
+	return db_set_ts(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteConditionSettingWString(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting,const WCHAR *val) {
-
+static int __inline DBWriteConditionSettingWString(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting,const WCHAR *val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBWriteContactSettingWString(hContact, szModule, dbSetting, val);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
+	return db_set_ws(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBWriteConditionSettingStringUtf(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting,const char *val) {
-
+static int __inline DBWriteConditionSettingStringUtf(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting,const char *val)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBWriteContactSettingStringUtf(hContact, szModule, dbSetting, val);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
+	return db_set_utf(hContact, szModule, dbSetting, val);
 }
 
-static int __inline DBGetConditionSettingByte(DWORD conditionID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue) {
-
-
+static int __inline DBGetConditionSettingByte(DWORD conditionID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBGetContactSettingByte(hContact, szModule, dbSetting, errorValue);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
+	return db_get_b(hContact, szModule, dbSetting, errorValue);
 }
 
-static WORD __inline DBGetConditionSettingWord(DWORD conditionID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue) {
-
-
+static WORD __inline DBGetConditionSettingWord(DWORD conditionID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBGetContactSettingWord(hContact, szModule, dbSetting, errorValue);
+	return db_get_w(hContact, szModule, dbSetting, errorValue);
 }
 
-static DWORD __inline DBGetConditionSettingDword(DWORD conditionID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue) {
-
-
+static DWORD __inline DBGetConditionSettingDword(DWORD conditionID, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBGetContactSettingDword(hContact, szModule, dbSetting, errorValue);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
+	return db_get_dw(hContact, szModule, dbSetting, errorValue);
 }
 
-static int __inline DBGetConditionSetting(DWORD conditionID, HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv) {
-
-
+static int __inline DBGetConditionSetting(DWORD conditionID, HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBGetContactSetting(hContact, szModule, dbSetting, dbv);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
+	return db_get(hContact, szModule, dbSetting, dbv);
 }
 
-static int __inline DBGetConditionSettingW(DWORD conditionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv) {
-
+static int __inline DBGetConditionSettingW(DWORD conditionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBGetContactSettingW(hContact, szModule, dbSetting, dbv);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
+	return db_get_s(hContact, szModule, dbSetting, dbv);
 }
 
-static int __inline DBGetConditionSettingTString(DWORD conditionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv) {
-
+static int __inline DBGetConditionSettingTString(DWORD conditionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBGetContactSettingTString(hContact, szModule, dbSetting, dbv);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
+	return db_get_ts(hContact, szModule, dbSetting, dbv);
 }
 
-static int __inline DBGetConditionSettingWString(DWORD conditionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv) {
-
+static int __inline DBGetConditionSettingWString(DWORD conditionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBGetContactSettingWString(hContact, szModule, dbSetting, dbv);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
+	return db_get_ws(hContact, szModule, dbSetting, dbv);
 }
 
-static int __inline DBGetConditionSettingStringUtf(DWORD conditionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv) {
-
+static int __inline DBGetConditionSettingStringUtf(DWORD conditionID, HANDLE hContact,const char *szModule, const char *szSetting,DBVARIANT *dbv)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBGetContactSettingStringUtf(hContact, szModule, dbSetting, dbv);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
+	return db_get_utf(hContact, szModule, dbSetting, dbv);
 }
 
-static int __inline DBDeleteConditionSetting(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting) {
-
+static int __inline DBDeleteConditionSetting(DWORD conditionID, HANDLE hContact,const char *szModule,const char *szSetting)
+{
 	char dbSetting[MAX_SETTING_LEN];
-
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
-	return DBDeleteContactSetting(hContact, szModule, dbSetting);
+ 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_CONDITIONID, conditionID, szSetting);
+	return db_unset(hContact, szModule, dbSetting);
 }
 
 #endif // nohelper

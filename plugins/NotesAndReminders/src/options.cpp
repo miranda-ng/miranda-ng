@@ -574,7 +574,7 @@ void InitSettings(void)
 		FreeSettingBlob(Sz1,P);
 	}
 
-	g_lpszAltBrowser = DBGetString(0,MODULENAME,"AltBrowser");
+	g_lpszAltBrowser = db_get_sa(0,MODULENAME,"AltBrowser");
 
 	g_ShowNotesAtStart = (BOOL)ReadSettingInt(0,MODULENAME,"ShowNotesAtStart",1);
 	g_ShowNoteButtons = (BOOL)ReadSettingInt(0,MODULENAME,"ShowNoteButtons",1);

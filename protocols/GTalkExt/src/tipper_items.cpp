@@ -131,22 +131,23 @@ void AddTipperItem()
 		for (i = 0; i < MAX_TIPPER_ITEM_PROP; i++)
 			ShiftTipperSettings(setting, itemCount, TipperItemProps[i]);
 
-		#define WRITE_TIPPER_PROP(type, index, value)\
+		#define WRITE_TIPPER_PROPS(index, value)\
 			sprintf(setting, TipperItemProps[##index##], 0);\
-			DBWriteContactSetting##type##(0, TIPPER_ITEMS_MOD_NAME, setting, ##value##)
+			db_set_ts(0, TIPPER_ITEMS_MOD_NAME, setting, ##value##)
+		#define WRITE_TIPPER_PROPB(index, value)\
+			sprintf(setting, TipperItemProps[##index##], 0);\
+			db_set_b(0, TIPPER_ITEMS_MOD_NAME, setting, ##value##)
 
 		LPTSTR label = TranslateTS(UNREAD_THREADS_LABEL);
 
 		db_set_ts(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, label);
 
-		WRITE_TIPPER_PROP(TString,	0, label);
-		WRITE_TIPPER_PROP(Byte,		1, 0);
-		WRITE_TIPPER_PROP(Byte,		2, 0);
-		WRITE_TIPPER_PROP(Byte,		3, 0);
-		WRITE_TIPPER_PROP(TString,	4, UNREAD_THREADS_RAW);
-		WRITE_TIPPER_PROP(Byte,		5, 1);
-
-		#undef WRITE_TIPPER_PROP
+		WRITE_TIPPER_PROPS(0, label);
+		WRITE_TIPPER_PROPB(1, 0);
+		WRITE_TIPPER_PROPB(2, 0);
+		WRITE_TIPPER_PROPB(3, 0);
+		WRITE_TIPPER_PROPS(4, UNREAD_THREADS_RAW);
+		WRITE_TIPPER_PROPB(5, 1);
 	}
 	__finally {
 		free(setting);

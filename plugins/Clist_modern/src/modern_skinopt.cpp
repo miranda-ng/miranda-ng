@@ -432,10 +432,9 @@ HTREEITEM FillAvailableSkinList(HWND hwndDlg)
 	if (attrib != INVALID_FILE_ATTRIBUTES && (attrib & FILE_ATTRIBUTE_DIRECTORY))
 		SearchSkinFiles(hwndDlg, SkinsFolder);
 	{
-		TCHAR * skinfile;
 		TCHAR skinfull[MAX_PATH];
-		skinfile = DBGetStringT( NULL, SKIN, "SkinFile");
-		if ( skinfile ) {
+		TCHAR *skinfile = db_get_tsa( NULL, SKIN, "SkinFile");
+		if (skinfile) {
 			PathToAbsoluteT(skinfile, skinfull);
 			res = AddSkinToListFullName(hwndDlg, skinfull);
 
@@ -542,7 +541,7 @@ HTREEITEM AddItemToTree(HWND hTree, TCHAR *folder, TCHAR *itemName, void *data)
 
 INT_PTR SvcActiveSkin(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR *skinfile = DBGetStringT(NULL, SKIN, "SkinFile");
+	TCHAR *skinfile = db_get_tsa(NULL, SKIN, "SkinFile");
 	if ( skinfile ) {
 		TCHAR skinfull[MAX_PATH];
 		PathToAbsoluteT(skinfile, skinfull);

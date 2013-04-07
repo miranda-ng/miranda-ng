@@ -120,8 +120,8 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_
 
 			if (strlen(new_name) > 0)
 			{
-				DBWriteContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, new_name);
-				DBWriteContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NICK, new_name);
+				db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, new_name);
+				db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, new_name);
 			}
 			
 			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, type);

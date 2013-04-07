@@ -546,7 +546,7 @@ int LocateStorePosition(int Frameid,int maxstored)
 	for (int i=0; i < maxstored; i++) {
 		char settingname[255];
 		mir_snprintf(settingname, sizeof(settingname), "Name%d",i);
-		LPTSTR frmname = DBGetStringT(0,CLUIFrameModule,settingname);
+		LPTSTR frmname = db_get_tsa(0,CLUIFrameModule,settingname);
 		if (frmname == NULL)
 			continue;
 

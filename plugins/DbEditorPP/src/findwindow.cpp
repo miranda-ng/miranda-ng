@@ -480,7 +480,7 @@ int replaceModule(HWND hwnd, HANDLE hContact, const char *module, const char *fi
 						db_set_utf(hContact, newModule, setting->name, dbv.pszVal);
 					break;
 					case DBVT_BLOB:
-						DBWriteContactSettingBlob(hContact, newModule, setting->name, dbv.pbVal, dbv.cpbVal);
+						db_set_blob(hContact, newModule, setting->name, dbv.pbVal, dbv.cpbVal);
 					break;
 				}
 

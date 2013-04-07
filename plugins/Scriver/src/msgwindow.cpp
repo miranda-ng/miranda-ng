@@ -50,10 +50,10 @@ TCHAR* GetWindowTitle(HANDLE *hContact, const char *szProto)
 {
 	int isTemplate;
 	int i, j, len;
-    TCHAR* tokens[4] = {0};
-    int tokenLen[4] = {0};
+	TCHAR* tokens[4] = {0};
+	int tokenLen[4] = {0};
 	TCHAR *p, *tmplt, *title;
-    char *accModule;
+	char *accModule;
 	TCHAR *pszNewTitleEnd = mir_tstrdup(TranslateT("Message Session"));
 	isTemplate = 0;
 	if (hContact && szProto) {
@@ -62,7 +62,7 @@ TCHAR* GetWindowTitle(HANDLE *hContact, const char *szProto)
 		tokens[1] = mir_tstrdup((TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto ? 
 			db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : ID_STATUS_OFFLINE, GSMDF_TCHAR));
 		tokenLen[1] = lstrlen(tokens[1]);
-		tokens[2] = DBGetStringT(hContact, "CList", "StatusMsg");
+		tokens[2] = db_get_tsa(hContact, "CList", "StatusMsg");
 		if (tokens[2] != NULL) {
 			tokenLen[2] = (int)lstrlen(tokens[2]);
 			for (i = j = 0; i < tokenLen[2]; i++) {
@@ -78,15 +78,15 @@ TCHAR* GetWindowTitle(HANDLE *hContact, const char *szProto)
 			tokenLen[2] = j;
 		}
 
-    	accModule = (char *) CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM) hContact, 0);
-        if (accModule != NULL) {
-            PROTOACCOUNT* proto = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)accModule);
-            if (proto != NULL) {
-                tokens[3] = mir_tstrdup(proto->tszAccountName);
-                tokenLen[3] = lstrlen(tokens[3]);
-            }
-        }
-        tmplt = DBGetStringT(NULL, SRMMMOD, SRMSGSET_WINDOWTITLE);
+		accModule = (char *) CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM) hContact, 0);
+		if (accModule != NULL) {
+			PROTOACCOUNT* proto = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)accModule);
+			if (proto != NULL) {
+				tokens[3] = mir_tstrdup(proto->tszAccountName);
+				tokenLen[3] = lstrlen(tokens[3]);
+			}
+		}
+		tmplt = db_get_tsa(NULL, SRMMMOD, SRMSGSET_WINDOWTITLE);
 		if (tmplt != NULL) {
 			isTemplate = 1;
 		} else {
@@ -101,14 +101,14 @@ TCHAR* GetWindowTitle(HANDLE *hContact, const char *szProto)
 	}
 	for (len = 0, p = tmplt; *p; p++, len++) {
 		if (*p == '%') {
-            for (i = 0; i < SIZEOF(titleTokenNames); i ++) {
-                int tnlen = (int)_tcslen(titleTokenNames[i]);
-                if (!_tcsncmp(p, titleTokenNames[i], tnlen)) {
-                    len += tokenLen[i] - 1;
-                    p += tnlen - 1;
-                    break;
-                }
-            }
+			for (i = 0; i < SIZEOF(titleTokenNames); i ++) {
+				int tnlen = (int)_tcslen(titleTokenNames[i]);
+				if (!_tcsncmp(p, titleTokenNames[i], tnlen)) {
+					len += tokenLen[i] - 1;
+					p += tnlen - 1;
+					break;
+				}
+			}
 		}
 	}
 	if (!isTemplate) {
@@ -117,17 +117,17 @@ TCHAR* GetWindowTitle(HANDLE *hContact, const char *szProto)
 	title = (TCHAR *)mir_alloc(sizeof(TCHAR) * (len + 1));
 	for (len = 0, p = tmplt; *p; p++) {
 		if (*p == '%') {
-            for (i = 0; i < SIZEOF(titleTokenNames); i ++) {
-                int tnlen = lstrlen(titleTokenNames[i]);
-                if (!_tcsncmp(p, titleTokenNames[i], tnlen)) {
-                    if (tokens[i] != NULL) {
-                        memcpy(title+len, tokens[i], sizeof(TCHAR) * tokenLen[i]);
-                        len += tokenLen[i];
-                    }
-                    p += tnlen - 1;
-                    break;
-                }
-            }
+			for (i = 0; i < SIZEOF(titleTokenNames); i ++) {
+				int tnlen = lstrlen(titleTokenNames[i]);
+				if (!_tcsncmp(p, titleTokenNames[i], tnlen)) {
+					if (tokens[i] != NULL) {
+						memcpy(title+len, tokens[i], sizeof(TCHAR) * tokenLen[i]);
+						len += tokenLen[i];
+					}
+					p += tnlen - 1;
+					break;
+				}
+			}
 			if (i < SIZEOF(titleTokenNames)) continue;
 		}
 		title[len++] = *p;
@@ -140,22 +140,23 @@ TCHAR* GetWindowTitle(HANDLE *hContact, const char *szProto)
 	if (isTemplate) {
 		mir_free(tmplt);
 	}
-    for (i = 0; i < SIZEOF(titleTokenNames); i ++) {
-        mir_free(tokens[i]);
-    }
+	for (i = 0; i < SIZEOF(titleTokenNames); i ++) {
+		mir_free(tokens[i]);
+	}
 	mir_free(pszNewTitleEnd);
 	return title;
 }
 
 TCHAR* GetTabName(HANDLE *hContact)
 {
-	if (hContact) {
+	if (hContact)
 		return GetNickname(hContact, NULL);
-	}
+
 	return NULL;
 }
 
-static int GetChildCount(ParentWindowData *dat) {
+static int GetChildCount(ParentWindowData *dat)
+{
 	return TabCtrl_GetItemCount(dat->hwndTabs);
 }
 
@@ -166,9 +167,9 @@ static void GetChildWindowRect(ParentWindowData *dat, RECT *rcChild)
 	GetClientRect(dat->hwndTabs, &rcTabs);
 	TabCtrl_AdjustRect(dat->hwndTabs, FALSE, &rcTabs);
 	rcStatus.top = rcStatus.bottom = 0;
-	if (dat->flags2 & SMF2_SHOWSTATUSBAR) {
+	if (dat->flags2 & SMF2_SHOWSTATUSBAR)
 		GetWindowRect(dat->hwndStatus, &rcStatus);
-	}
+
 	rcChild->left = 0;
 	rcChild->right = rc.right;
 	if (dat->flags2 & SMF2_TABSATBOTTOM) {

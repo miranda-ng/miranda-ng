@@ -525,20 +525,15 @@ int DBStoreFrameSettingsAtPos(int pos, int Frameid)
 
 int LocateStorePosition(int Frameid, int maxstored)
 {
-	int i;
-	LPTSTR frmname;
-	char settingname[255];
 	if (Frames[Frameid].name == NULL) return -1;
 
-	for (i = 0;i < maxstored;i++) {
+	for (int i = 0;i < maxstored;i++) {
+		char settingname[255];
 		mir_snprintf(settingname, sizeof(settingname), "Name%d", i);
-		frmname = DBGetStringT(0, CLUIFrameModule, settingname);
+		mir_ptr<TCHAR> frmname( db_get_tsa(0, CLUIFrameModule, settingname));
 		if (frmname == NULL) continue;
-		if (lstrcmpi(frmname, Frames[Frameid].name) == 0) {
-			mir_free(frmname);
+		if (lstrcmpi(frmname, Frames[Frameid].name) == 0)
 			return i;
-		}
-		mir_free(frmname);
 	}
 	return -1;
 }

@@ -176,7 +176,7 @@ static TCHAR *parseDBProfilePath(ARGUMENTSINFO *ai)
 static TCHAR* getDBSetting(HANDLE hContact, char* module, char* setting, TCHAR* defaultValue)
 {
 	DBVARIANT dbv;
-	if (DBGetContactSettingW(hContact, module, setting, &dbv))
+	if (db_get_s(hContact, module, setting, &dbv, 0))
 		return defaultValue;
 
 	TCHAR* var = NULL;

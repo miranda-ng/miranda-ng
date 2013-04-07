@@ -630,7 +630,7 @@ int CGlobals::OkToExit(WPARAM wParam, LPARAM lParam)
 		CMimAPI::m_shutDown = true;
 
 		PluginConfig.globalContainerSettings.fPrivate = false;
-		::DBWriteContactSettingBlob(0, SRMSGMOD_T, CNT_KEYNAME, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
+		::db_set_blob(0, SRMSGMOD_T, CNT_KEYNAME, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
 #if defined(__USE_EX_HANDLERS)
 	}
 	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"SHUTDOWN_STAGE1", false)) {
