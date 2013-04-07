@@ -330,6 +330,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 			break;
 		case 'l':
 		case 'L':
+		case '-':
 			db_unset(NULL, szSection, szName);
 			break;
 		case 'e':
