@@ -43,12 +43,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_kbdnotify.h>
 #include <m_metacontacts.h>
-#include <m_trigger.h>
 
 #include "flash.h"
 #include "ignore.h"
 #include "keyboard.h"
-#include "trigger.h"
 #include "constants.h"
 #include "protolist.h"
 #include "EnumProc.h"

@@ -105,8 +105,7 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 
 static int ShutdownOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize=sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SHUTDOWN);
 	odp.position = 900000002;
@@ -119,60 +118,12 @@ static int ShutdownOptInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/************************* Trigger ************************************/
-
-static int __stdcall ActionProc(DWORD idAction,REPORTINFO *ri,int shutdownType)
-{
-	if(idAction&ACT_PERFORM) ServiceShutdown(shutdownType,TRUE);
-	return 0;
-}
-#define ActionProcJmp(shutdownType) { return ActionProc(id,ri,shutdownType); }
-
-static int CloseActionProc(DWORD id,REPORTINFO *ri)      ActionProcJmp(SDSDT_CLOSEMIRANDA)
-static int SetOfflineActionProc(DWORD id,REPORTINFO *ri) ActionProcJmp(SDSDT_SETMIRANDAOFFLINE)
-static int LogoffActionProc(DWORD id,REPORTINFO *ri)     ActionProcJmp(SDSDT_LOGOFF)
-static int RebootActionProc(DWORD id,REPORTINFO *ri)     ActionProcJmp(SDSDT_REBOOT)
-static int ShutdownActionProc(DWORD id,REPORTINFO *ri)   ActionProcJmp(SDSDT_SHUTDOWN)
-static int StandbyActionProc(DWORD id,REPORTINFO *ri)    ActionProcJmp(SDSDT_STANDBY)
-static int HibernateActionProc(DWORD id,REPORTINFO *ri)  ActionProcJmp(SDSDT_HIBERNATE)
-static int LockActionProc(DWORD id,REPORTINFO *ri)       ActionProcJmp(SDSDT_LOCKWORKSTATION)
-static int HangupActionProc(DWORD id,REPORTINFO *ri)     ActionProcJmp(SDSDT_CLOSERASCONNECTIONS)
-
-static int TriggerRegisterActions(WPARAM wParam,LPARAM lParam)
-{
-	/* new trigger API (0.2.0.69+) */
-	if(ServiceExists(MS_TRIGGER_REGISTERCONDITION)) {
-		ACTIONREGISTER ar;
-		BYTE shutdownType;
-		char *pszDesc,szName[138];
-		ACTIONFUNCTION actionFunctions[SDSDT_MAX]={CloseActionProc,SetOfflineActionProc,LogoffActionProc,
-												   RebootActionProc,ShutdownActionProc,StandbyActionProc,
-												   HibernateActionProc,LockActionProc,HangupActionProc};
-		ZeroMemory(&ar,sizeof(ar));
-		ar.cbSize=sizeof(ar);
-		ar.flags=ARF_TCHAR|ARF_FUNCTION;
-		ar.pszName=szName;
-		for(shutdownType=1;shutdownType<=SDSDT_MAX;++shutdownType)
-			if(ServiceIsTypeEnabled(shutdownType,0)) {
-				pszDesc=(char*)ServiceGetTypeDescription(shutdownType,GSTDF_UNTRANSLATED);
-				if(pszDesc!=NULL) {
-					mir_snprintf(szName,sizeof(szName),"Shutdown: %s",pszDesc); /* autotranslated */
-					ar.actionFunction=actionFunctions[shutdownType-1];
-					CallService(MS_TRIGGER_REGISTERACTION,0,(LPARAM)&ar);
-				}
-			}
-	}
-	return 0;
-}
-
 /************************* Misc ***************************************/
 
 void InitOptions(void)
 {
 	/* Option Page */
 	hHookOptInit=HookEvent(ME_OPT_INITIALISE,ShutdownOptInit);
-	/* Trigger */
-	hHookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,TriggerRegisterActions);
 }
 
 void UninitOptions(void)

@@ -209,9 +209,6 @@
     <ClCompile Include="src\parse_system.cpp" />
     <ClCompile Include="src\parse_variables.cpp" />
     <ClCompile Include="src\parse_xml.cpp" />
-    <ClCompile Include="src\action_variables.cpp" />
-    <ClCompile Include="src\condition_variables.cpp" />
-    <ClCompile Include="src\trigger_variables.cpp" />
     <ClCompile Include="..\helpers\gen_helpers.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -234,7 +231,6 @@
     <ClInclude Include="src\parse_system.h" />
     <ClInclude Include="src\parse_variables.h" />
     <ClInclude Include="src\parse_xml.h" />
-    <ClInclude Include="src\trigger_variables.h" />
     <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>

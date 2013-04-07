@@ -179,10 +179,6 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	HookEvent(ME_TTB_MODULELOADED, InitTopToolbarButton);
 
 	InitFrames();
-
-	// TriggerPlugin support
-	LoadTriggerSupport();
-
 	return 0;
 }
 

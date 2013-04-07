@@ -43,7 +43,6 @@
 #include <m_icolib.h>	
 #include <win2k.h>
 
-#include <m_trigger.h>
 #include <m_metacontacts.h>
 #include <m_nudge.h>
 #include <m_msg_buttonsbar.h>

@@ -197,7 +197,6 @@
     <ClCompile Include="src\icons.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\time_utils.cpp" />
-    <ClCompile Include="src\trigger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\alarm_win.h" />
@@ -209,7 +208,6 @@
     <ClInclude Include="src\options.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\time_utils.h" />
-    <ClInclude Include="src\trigger.h" />
     <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>

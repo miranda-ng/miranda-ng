@@ -19,12 +19,6 @@
     <Filter Include="Source Files\Parse">
       <UniqueIdentifier>{c92d28b1-a1b2-48e8-bc84-c58d24e60e7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\TriggerPlugin">
-      <UniqueIdentifier>{ddad588f-184c-4019-8f67-290a68fdf002}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\TriggerPlugin">
-      <UniqueIdentifier>{68dc4171-ed30-45bd-aaef-98c9b9bfc2f6}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\contact.cpp">
@@ -87,15 +81,6 @@
     <ClCompile Include="src\parse_xml.cpp">
       <Filter>Source Files\Parse</Filter>
     </ClCompile>
-    <ClCompile Include="src\action_variables.cpp">
-      <Filter>Source Files\TriggerPlugin</Filter>
-    </ClCompile>
-    <ClCompile Include="src\condition_variables.cpp">
-      <Filter>Source Files\TriggerPlugin</Filter>
-    </ClCompile>
-    <ClCompile Include="src\trigger_variables.cpp">
-      <Filter>Source Files\TriggerPlugin</Filter>
-    </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -145,9 +130,6 @@
     </ClInclude>
     <ClInclude Include="src\parse_xml.h">
       <Filter>Header Files\Parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\trigger_variables.h">
-      <Filter>Header Files\TriggerPlugin</Filter>
     </ClInclude>
     <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>

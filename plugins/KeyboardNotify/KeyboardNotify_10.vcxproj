@@ -184,7 +184,6 @@
     <ClInclude Include="src\keypresses.h" />
     <ClInclude Include="src\protolist.h" />
     <ClInclude Include="src\resource.h" />
-    <ClInclude Include="src\trigger.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\Version.h" />
   </ItemGroup>
@@ -199,7 +198,6 @@
     </ClCompile>
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\trigger.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>

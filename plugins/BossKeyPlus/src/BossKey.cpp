@@ -370,9 +370,6 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			if (g_bWindowHidden || g_fOptionsOpen) // already hidden or in options, no hiding
 				break;
 
-			if (ServiceExists(MS_TRIGGER_REGISTERTRIGGER))
-				BossKeyEvent(g_bWindowHidden, 0);
-
 			DWORD dwWndPID; // remember foreground window
 			HWND hForegroundWnd = GetForegroundWindow();
 			GetWindowThreadProcessId(hForegroundWnd,&dwWndPID);
@@ -464,13 +461,8 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				}
 			}
 
-			if (ServiceExists(MS_TRIGGER_REGISTERTRIGGER))
-				BossKeyEvent(g_bWindowHidden, 0);
-
 			if (g_wMask & OPT_CHANGESTATUS && g_wMask & OPT_SETONLINEBACK) // set back to some status
-			{
 				BackAllProtoStatuses();
-			}
 
 			HWND_ITEM *pCurWnd = g_pMirWnds;
 			while (pCurWnd != NULL)
@@ -773,10 +765,7 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 	if (g_wMaskAdv & OPT_MENUITEM)
 		BossKeyMenuItemInit();
 
-	if (ServiceExists(MS_TRIGGER_REGISTERTRIGGER))
-		RegisterTrigger();
-
-// Register token for variables plugin
+	// Register token for variables plugin
 	if (ServiceExists(MS_VARS_REGISTERTOKEN))
 	{
 		TOKENREGISTER tr = {0};
@@ -796,8 +785,7 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 	if (g_bOldSetting && !(g_wMaskAdv & OPT_RESTORE)) // Restore settings if Miranda was crushed or killed in hidden mode and "Restore hiding on startup after failure" option is disabled
 		RestoreOldSettings();
 
-	if (g_wMaskAdv & OPT_HIDEONSTART ||
-		(g_wMaskAdv & OPT_RESTORE && g_bOldSetting))
+	if ((g_wMaskAdv & OPT_HIDEONSTART) || (g_wMaskAdv & OPT_RESTORE && g_bOldSetting))
 		BossKeyHideMiranda(0, 0);
 
 	return(0);

@@ -205,65 +205,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-static INT_PTR CALLBACK DlgProcOptsTrigger(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	BOOL bshakeClist,bshakeChat;
-	DWORD actionID = (DWORD)lParam;
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		// lParam = (LPARAM)(DWORD)actionID or 0 if this is a new trigger entry
-		TranslateDialogDefault(hwnd);
-		// Initialize the dialog according to the action ID
-		bshakeClist = DBGetActionSettingByte(actionID, NULL, "Nudge", "ShakeClist",FALSE);
-		bshakeChat = DBGetActionSettingByte(actionID, NULL, "Nudge", "ShakeChat",FALSE);
-		CheckDlgButton(hwnd, IDC_TRIGGER_SHAKECLIST, bshakeClist ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_TRIGGER_SHAKECHAT, bshakeChat ? BST_CHECKED : BST_UNCHECKED);
-		break;
-
-	case TM_ADDACTION:
-		bshakeClist = (IsDlgButtonChecked(hwnd,IDC_TRIGGER_SHAKECLIST)==BST_CHECKED);
-		bshakeChat = (IsDlgButtonChecked(hwnd,IDC_TRIGGER_SHAKECHAT)==BST_CHECKED);
-		DBWriteActionSettingByte(actionID, NULL, "Nudge", "ShakeClist",bshakeClist);
-		DBWriteActionSettingByte(actionID, NULL, "Nudge", "ShakeChat",bshakeChat);
-		break;
-	}
-
-	return FALSE;
-}
-
-int TriggerActionRecv( DWORD actionID, REPORTINFO *ri)
-{
-	// check how to process this call
-	if (ri->flags&ACT_PERFORM) {
-		BOOL bshakeClist,bshakeChat;
-		HANDLE hContact = ((ri->td!=NULL)&&(ri->td->dFlags&DF_CONTACT))?ri->td->hContact:NULL;
-		bshakeClist = DBGetActionSettingByte(actionID, NULL, "Nudge", "ShakeClist",FALSE);
-		bshakeChat = DBGetActionSettingByte(actionID, NULL, "Nudge", "ShakeChat",FALSE);
-
-		if(bshakeClist)
-			ShakeClist(NULL,NULL);
-		if(bshakeChat && (hContact != NULL))
-			ShakeChat((WPARAM)hContact,NULL);
-	}
-
-	if (ri->flags&ACT_CLEANUP) // request to delete all associated settings
-		RemoveAllActionSettings(actionID, "Nudge");
-
-	return FALSE;
-}
-
-int TriggerActionSend( DWORD actionID, REPORTINFO *ri)
-{
-	if (ri->flags & ACT_PERFORM) {
-		HANDLE hContact = ((ri->td!=NULL)&&(ri->td->dFlags&DF_CONTACT))?ri->td->hContact:NULL;
-		if(hContact != NULL)
-			NudgeSend((WPARAM)hContact,NULL);
-	}
-
-	return FALSE;
-}
-
 void LoadProtocols(void)
 {
 	//Load the default nudge
@@ -284,37 +225,11 @@ void LoadProtocols(void)
 	shake.Load();
 }
 
-void RegisterToTrigger(void)
-{
-	if ( ServiceExists(MS_TRIGGER_REGISTERACTION)) {
-		ACTIONREGISTER ar;
-		ZeroMemory(&ar, sizeof(ar));
-		ar.cbSize = sizeof(ar);
-		ar.hInstance = hInst;
-		ar.flags = ARF_TCHAR|ARF_FUNCTION;
-		ar.actionFunction = TriggerActionRecv;
-		ar.pfnDlgProc = DlgProcOptsTrigger;
-		ar.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TRIGGER);
-		ar.pszName = Translate("Nudge : Shake contact list/chat window");
-
-		// register the action
-		CallService(MS_TRIGGER_REGISTERACTION, 0, (LPARAM)&ar);
-
-		ar.actionFunction = TriggerActionSend;
-		ar.pszName = Translate("Nudge : Send a nudge");
-		ar.pfnDlgProc = NULL;
-		ar.pszTemplate = NULL;
-
-		// register the action
-		CallService(MS_TRIGGER_REGISTERACTION, 0, (LPARAM)&ar);
-	}
-}
-
 void RegisterToDbeditorpp(void)
 {
-    // known modules list
-    if (ServiceExists("DBEditorpp/RegisterSingleModule"))
-        CallService("DBEditorpp/RegisterSingleModule", (WPARAM)"Nudge", 0);
+	// known modules list
+	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
+		CallService("DBEditorpp/RegisterSingleModule", (WPARAM)"Nudge", 0);
 }
 
 static IconItem iconList[] =
@@ -380,7 +295,6 @@ static int ContactWindowOpen(WPARAM wparam,LPARAM lParam)
 
 int ModulesLoaded(WPARAM,LPARAM)
 {
-	RegisterToTrigger();
 	RegisterToDbeditorpp();
 	LoadProtocols();
 	LoadIcons();
@@ -684,7 +598,6 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 
 void AutoResendNudge(void *wParam)
 {
-
 	Sleep(GlobalNudge.resendDelaySec * 1000);
 	NudgeSend((WPARAM) wParam,NULL);
 }

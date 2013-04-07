@@ -23,16 +23,6 @@ HINSTANCE hInst;
 DWORD g_mirandaVersion;
 int hLangpack = 0;
 
-static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
-{
-	// trigger plugin
-#if !defined(WINE)
-	initTriggerModule();
-#endif
-
-	return 0;
-}
-
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
@@ -69,9 +59,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP( &pluginInfoEx );
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	LoadVarModule();
-		
 	return 0;
 }
 

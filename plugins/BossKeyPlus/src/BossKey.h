@@ -44,7 +44,6 @@
 #include <m_message.h>
 #include <m_hotkeys.h>
 
-#include <m_trigger.h>
 #include <m_variables.h>
 #include <m_toptoolbar.h>
 #include <m_msg_buttonsbar.h>
@@ -97,8 +96,6 @@ int OptsDlgInit(WPARAM wParam,LPARAM lParam);
 INT_PTR BossKeyHideMiranda(WPARAM wParam, LPARAM lParam);
 void BossKeyMenuItemInit(void);
 void BossKeyMenuItemUnInit(void);
-int BossKeyEvent(WPARAM wParam, LPARAM lParam);
-int RegisterTrigger(void);
 TCHAR *GetBossKeyText(void);
 void InitIdleTimer(void);
 void UninitIdleTimer(void);

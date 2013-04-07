@@ -32,7 +32,6 @@ void copy_alarm_data(ALARM *dest, ALARM *src) {
 	dest->snoozer = src->snoozer;
 	dest->sound_num = src->sound_num;
 	dest->time = src->time;
-	dest->trigger_id = src->trigger_id;
 
 	free_alarm_data(dest);
 	dest->szTitle = mir_tstrdup(src->szTitle);
@@ -241,9 +240,6 @@ void LoadAlarms() {
 			break;
 		}
 
-		sprintf(buff, "TriggerID%d", i);
-		alarm.trigger_id = db_get_dw(0, MODULE, buff, 0);
-
 		if (UpdateAlarm(alarm.time, alarm.occurrence)) {
 			sprintf(buff, "ActionFlags%d", i);
 			alarm.action = (unsigned short)db_get_dw(0, MODULE, buff, AAF_POPUP | AAF_SOUND);
@@ -280,15 +276,6 @@ void LoadAlarms() {
 
 			alarm.id = next_alarm_id++;
 			alarms.push_back(&alarm);
-
-		} else { // else ignore it - it's an expired one-off alarm (but clean up triggers)
-			if (alarm.trigger_id != 0 && ServiceExists(MS_TRIGGER_REPORTEVENT)) {
-				REPORTINFO ri = {0};
-				ri.cbSize = sizeof(ri);
-				ri.triggerID = alarm.trigger_id;
-				ri.flags = TRG_CLEANUP;
-				CallService(MS_TRIGGER_REPORTEVENT, 0, (LPARAM)&ri);
-			}
 		}
 		free_alarm_data(&alarm);
 	}
@@ -359,9 +346,6 @@ void SaveAlarms() {
 
 		sprintf(buff, "Flags%d", index);
 		db_set_dw(0, MODULE, buff, i->flags);
-
-		sprintf(buff, "TriggerID%d", index);
-		db_set_dw(0, MODULE, buff, i->trigger_id);
 	}
 	db_set_w(0, MODULE, "Count", index);
 
@@ -440,13 +424,6 @@ void remove(unsigned short alarm_id) {
 	ALARM *i;
 	for(alarms.reset(); i = alarms.current(); alarms.next()) {
 		if (i->id == alarm_id) {
-			if (i->trigger_id != 0 && ServiceExists(MS_TRIGGER_REPORTEVENT)) {
-				REPORTINFO ri = {0};
-				ri.cbSize = sizeof(ri);
-				ri.triggerID = i->trigger_id;
-				ri.flags = TRG_CLEANUP;
-				CallService(MS_TRIGGER_REPORTEVENT, 0, (LPARAM)&ri);
-			}
 			alarms.erase();
 			break;
 		}
@@ -589,19 +566,8 @@ void DoAlarm(ALARM *alarm)
 			}
 		}
 
-		if (alarm->trigger_id != 0 && ServiceExists(MS_TRIGGER_REPORTEVENT)) {
-			REPORTINFO ri = {0};
-			ri.cbSize = sizeof(ri);
-			ri.triggerID = alarm->trigger_id;
-			ri.flags = TRG_PERFORM;
-			if (alarm->occurrence == OC_ONCE)
-				ri.flags |= TRG_CLEANUP;
-			CallService(MS_TRIGGER_REPORTEVENT, 0, (LPARAM)&ri);
-		}
-		
-		if (alarm->action & AAF_COMMAND) {
+		if (alarm->action & AAF_COMMAND)
 			ShellExecute(0, 0, alarm->szCommand, alarm->szCommandParams, 0, SW_NORMAL);
-		}
 
 		if (alarm->action & AAF_SYSTRAY)
 		{

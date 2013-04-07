@@ -42,7 +42,6 @@
 #include <m_clc.h>
 
 #include <m_variables.h>
-#include <m_trigger.h>
 #include <m_metacontacts.h>
 
 #include "..\helpers\gen_helpers.h"
@@ -64,7 +63,6 @@
 #include "resource.h"
 #include "version.h"
 #include "contact.h"
-#include "trigger_variables.h"
 #include "enumprocs.h"
 #include "parse_alias.h"
 #include "parse_external.h"
@@ -196,8 +194,6 @@ int  registerRegExpTokens();
 int  registerInetTokens();
 // xml
 int  registerXsltTokens();
-// trigger
-int  initTriggerModule();
 // help
 INT_PTR  showHelpService(WPARAM wParam, LPARAM lParam);
 INT_PTR  showHelpExService(WPARAM wParam, LPARAM lParam);

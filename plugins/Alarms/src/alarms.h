@@ -5,7 +5,5 @@
 #include "alarmlist.h"
 #include "options.h"
 #include "frame.h"
-#include "trigger.h"
-
 
 #endif

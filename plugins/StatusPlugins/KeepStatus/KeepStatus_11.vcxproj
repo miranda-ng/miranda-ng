@@ -216,11 +216,9 @@
     <ClCompile Include="..\..\helpers\gen_helpers.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="action_keepstatus.cpp" />
     <ClCompile Include="keepstatus.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="options.cpp" />
-    <ClCompile Include="trigger_keepstatus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\commonstatus.h" />

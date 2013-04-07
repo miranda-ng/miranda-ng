@@ -29,18 +29,18 @@ BOOL DB_GetStaticStringW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LP
 		if (lpwszRetBuff && dwRetBuffSize>=sizeof(WCHAR)) (*((WCHAR*)lpwszRetBuff))=0;
 		if (pdwRetBuffSize)	(*pdwRetBuffSize)=0;
 	}
-return(bRet);
+	return(bRet);
 }
 
 
 BOOL DB_SetStringExW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszValue,SIZE_T dwValueSize)
 {
 	BOOL bRet=FALSE;
-	
+
 	if (lpwszValue && dwValueSize)
 	{
 		LPWSTR lpwszValueLocal=(LPWSTR)MEMALLOC(((dwValueSize+MAX_PATH)*sizeof(WCHAR)));
-		
+
 		if (lpwszValueLocal)
 		{
 			DBCONTACTWRITESETTING cws={0};
@@ -51,14 +51,14 @@ BOOL DB_SetStringExW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR
 			cws.value.pwszVal=(WCHAR*)lpwszValueLocal;
 			CopyMemory(lpwszValueLocal,lpwszValue,(dwValueSize*sizeof(WCHAR)));
 			bRet=(CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws)==0);
-			
+
 			MEMFREE(lpwszValueLocal);
 		}
 	}else{
 		bRet=TRUE;
 		db_unset(hContact,lpszModule,lpszValueName);
 	}
-return(bRet);
+	return(bRet);
 }
 
 
@@ -94,7 +94,7 @@ SIZE_T CopyNumberA(LPSTR lpszOutBuff,LPSTR lpszBuff,SIZE_T dwLen)
 	}
 	(*lpbOutBuff)=0;
 
-return((lpbOutBuff-(LPBYTE)lpszOutBuff));
+	return((lpbOutBuff-(LPBYTE)lpszOutBuff));
 }
 
 SIZE_T CopyNumberW(LPWSTR lpcOutBuff,LPWSTR lpcBuff,SIZE_T dwLen)
@@ -109,7 +109,7 @@ SIZE_T CopyNumberW(LPWSTR lpcOutBuff,LPWSTR lpcBuff,SIZE_T dwLen)
 	}
 	(*lpwszOutBuff)=0;
 
-return((lpwszOutBuff-lpcOutBuff));
+	return((lpwszOutBuff-lpcOutBuff));
 }
 
 
@@ -173,23 +173,23 @@ BOOL IsContactPhoneParam(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LP
 	SIZE_T i,dwPhoneSizeLocal;
 
 	if ( DB_GetStaticStringW(hContact,lpszModule,lpszValueName,wszPhoneLocal,SIZEOF(wszPhoneLocal),&dwPhoneSizeLocal))
-	if ( IsPhoneW(wszPhoneLocal,dwPhoneSizeLocal)) {
-		dwPhoneSizeLocal = CopyNumberW(wszPhoneLocal,wszPhoneLocal,dwPhoneSizeLocal);
-		if (MemoryCompare(wszPhoneLocal,dwPhoneSizeLocal,lpwszPhone,dwPhoneSize)==CSTR_EQUAL)
-			return TRUE;
-	}
+		if ( IsPhoneW(wszPhoneLocal,dwPhoneSizeLocal)) {
+			dwPhoneSizeLocal = CopyNumberW(wszPhoneLocal,wszPhoneLocal,dwPhoneSizeLocal);
+			if (MemoryCompare(wszPhoneLocal,dwPhoneSizeLocal,lpwszPhone,dwPhoneSize)==CSTR_EQUAL)
+				return TRUE;
+		}
 
-	for (i=0; i <= PHONES_MIN_COUNT; i++) {
-		mir_snprintf(szBuff,sizeof(szBuff),"%s%ld",lpszValueName,i);
-		if ( DB_GetStaticStringW(hContact,lpszModule,szBuff,wszPhoneLocal,SIZEOF(wszPhoneLocal),&dwPhoneSizeLocal)) {
-			if (IsPhoneW(wszPhoneLocal,dwPhoneSizeLocal)) {
-				dwPhoneSizeLocal=CopyNumberW(wszPhoneLocal,wszPhoneLocal,dwPhoneSizeLocal);
-				if (MemoryCompare(wszPhoneLocal,dwPhoneSizeLocal,lpwszPhone,dwPhoneSize) == CSTR_EQUAL)
-					return TRUE;
+		for (i=0; i <= PHONES_MIN_COUNT; i++) {
+			mir_snprintf(szBuff,sizeof(szBuff),"%s%ld",lpszValueName,i);
+			if ( DB_GetStaticStringW(hContact,lpszModule,szBuff,wszPhoneLocal,SIZEOF(wszPhoneLocal),&dwPhoneSizeLocal)) {
+				if (IsPhoneW(wszPhoneLocal,dwPhoneSizeLocal)) {
+					dwPhoneSizeLocal=CopyNumberW(wszPhoneLocal,wszPhoneLocal,dwPhoneSizeLocal);
+					if (MemoryCompare(wszPhoneLocal,dwPhoneSizeLocal,lpwszPhone,dwPhoneSize) == CSTR_EQUAL)
+						return TRUE;
+				}
 			}
 		}
-	}
-	return FALSE;
+		return FALSE;
 }
 
 
@@ -308,11 +308,11 @@ BOOL GetXMLFieldEx(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR *plpszData,SIZE_T *pdwDa
 		}
 		else {
 			if (++thisLevel==1)
-			if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszFindTag,-1,lpszTagStart,((lpszTagEnd+1)-lpszTagStart))==CSTR_EQUAL) {
-				lpszFindTag=va_arg(va,LPSTR);
-				if (lpszFindTag==NULL) lpszDataStart=(lpszTagEnd+2);
-				thisLevel=0;
-			}
+				if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszFindTag,-1,lpszTagStart,((lpszTagEnd+1)-lpszTagStart))==CSTR_EQUAL) {
+					lpszFindTag=va_arg(va,LPSTR);
+					if (lpszFindTag==NULL) lpszDataStart=(lpszTagEnd+2);
+					thisLevel=0;
+				}
 		}
 	}
 	va_end(va);
@@ -354,12 +354,12 @@ BOOL GetXMLFieldExBuff(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR lpszBuff,SIZE_T dwBu
 					}
 				}else{
 					if (++thisLevel==1)
-					if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszFindTag,-1,lpszTagStart,((lpszTagEnd+1)-lpszTagStart))==CSTR_EQUAL)
-					{
-						lpszFindTag=va_arg(va,LPSTR);
-						if (lpszFindTag==NULL) lpszDataStart=(lpszTagEnd+2);
-						thisLevel=0;
-					}
+						if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszFindTag,-1,lpszTagStart,((lpszTagEnd+1)-lpszTagStart))==CSTR_EQUAL)
+						{
+							lpszFindTag=va_arg(va,LPSTR);
+							if (lpszFindTag==NULL) lpszDataStart=(lpszTagEnd+2);
+							thisLevel=0;
+						}
 				}
 			}else{
 				break;
@@ -377,81 +377,8 @@ BOOL GetXMLFieldExBuff(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR lpszBuff,SIZE_T dwBu
 		if (pdwBuffSizeRet)	(*pdwBuffSizeRet)=0;
 	}
 
-return(bRet);
+	return(bRet);
 }
-
-
-/*BOOL GetXMLFieldExW(LPWSTR lpwszXML,SIZE_T dwXMLSize,LPWSTR *plpwszData,SIZE_T *pdwDataSize,const WCHAR *tag1,...)
-{
-	BOOL bRet=FALSE;
-	int thisLevel=0;
-	LPWSTR lpwszFindTag=(LPWSTR)tag1,lpwszTagStart,lpwszTagEnd=lpwszXML,lpwszDataStart=NULL;
-	va_list va;
-
-	va_start(va,tag1);
-	while (TRUE)
-	{
-		lpwszTagStart=(LPWSTR)MemoryFind((lpwszTagEnd-lpwszXML),lpwszXML,dwXMLSize,_T("<"),2);
-		if (lpwszTagStart)
-		{
-			lpwszTagEnd=(LPWSTR)MemoryFind((lpwszTagStart-lpwszXML),lpwszXML,dwXMLSize,_T(">"),2);
-			if (lpwszTagEnd)
-			{
-				lpwszTagStart++;
-				lpwszTagEnd--;
-				if ((*((WORD*)lpwszTagStart))==(*((WORD*)"/")))
-				{
-					if (--thisLevel<0)
-					{
-						if (lpwszDataStart)
-						{
-							if (plpwszData) (*plpwszData)=lpwszDataStart;
-							if (pdwDataSize) (*pdwDataSize)=((lpwszTagStart-1)-lpwszDataStart);
-							bRet=TRUE;
-						}
-						break;
-					}
-				}else{
-					if (++thisLevel==1)
-					if (CompareStringW(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpwszFindTag,-1,lpwszTagStart,((lpwszTagEnd+1)-lpwszTagStart))==CSTR_EQUAL)
-					{
-						lpwszFindTag=va_arg(va,LPWSTR);
-						if (lpwszFindTag==NULL) lpwszDataStart=(lpwszTagEnd+2);
-						thisLevel=0;
-					}
-				}
-			}else{
-				break;
-			}
-		}else{
-			break;
-		}
-	}
-	va_end(va);
-return(bRet);
-}
-
-
-BOOL GetXMLFieldExBuffW(LPWSTR lpwszXML,SIZE_T dwXMLSize,LPWSTR lpwszBuff,SIZE_T dwBuffSize,SIZE_T *pdwBuffSizeRet,const WCHAR *tag1,...)
-{
-	BOOL bRet;
-	LPWSTR lpwszData;
-	SIZE_T dwDataSize;
-
-	if ((bRet=GetXMLFieldExW(lpwszXML,dwXMLSize,&lpwszData,&dwDataSize,tag1)))
-	{
-		SIZE_T dwBuffSizeRet=min((dwBuffSize-2),dwDataSize);
-
-		if (lpwszBuff && dwBuffSize) CopyMemory(lpwszBuff,lpwszData,dwBuffSizeRet);(*((WORD*)(lpwszBuff+dwBuffSizeRet)))=0;
-		if (pdwBuffSizeRet) (*pdwBuffSizeRet)=dwBuffSizeRet;
-	}else{
-		if (lpwszBuff)		(*((WORD*)lpwszBuff))=0;
-		if (pdwBuffSizeRet)	(*pdwBuffSizeRet)=0;
-	}
-
-return(bRet);
-}//*/
-
 
 DWORD ReplaceInBuff(LPVOID lpInBuff,SIZE_T dwInBuffSize,SIZE_T dwReplaceItemsCount,LPVOID *plpInReplaceItems,SIZE_T *pdwInReplaceItemsCounts,LPVOID *plpOutReplaceItems,SIZE_T *pdwOutReplaceItemsCounts,LPVOID lpOutBuff,SIZE_T dwOutBuffSize,SIZE_T *pdwOutBuffSize)
 {
@@ -513,7 +440,7 @@ DWORD ReplaceInBuff(LPVOID lpInBuff,SIZE_T dwInBuffSize,SIZE_T dwReplaceItemsCou
 
 	if (pdwOutBuffSize) (*pdwOutBuffSize)=(lpszMessageConvertedCur-((LPBYTE)lpOutBuff));
 
-return(dwRetErrorCode);
+	return(dwRetErrorCode);
 }
 
 
@@ -528,16 +455,16 @@ DWORD DecodeXML(LPTSTR lptszMessage,SIZE_T dwMessageSize,LPTSTR lptszMessageConv
 	DWORD dwRet=ReplaceInBuff(lptszMessage,(dwMessageSize*sizeof(TCHAR)),SIZEOF(lpszXMLTags),(LPVOID*)lpszXMLTags,(SIZE_T*)dwXMLTagsCount,(LPVOID*)lpszXMLSymbols,(SIZE_T*)dwXMLSymbolsCount,lptszMessageConverted,(dwMessageConvertedBuffSize*sizeof(TCHAR)),pdwMessageConvertedSize);
 
 	if (pdwMessageConvertedSize) (*pdwMessageConvertedSize)/=sizeof(TCHAR);
-return(dwRet);
+	return(dwRet);
 }
 
 //Encode XML coded string. The function translate special saved xml characters into special characters.
 DWORD EncodeXML(LPTSTR lptszMessage,SIZE_T dwMessageSize,LPTSTR lptszMessageConverted,SIZE_T dwMessageConvertedBuffSize,SIZE_T *pdwMessageConvertedSize)
 {
 	DWORD dwRet=ReplaceInBuff(lptszMessage,(dwMessageSize*sizeof(TCHAR)),SIZEOF(lpszXMLTags),(LPVOID*)lpszXMLSymbols,(SIZE_T*)dwXMLSymbolsCount,(LPVOID*)lpszXMLTags,(SIZE_T*)dwXMLTagsCount,lptszMessageConverted,(dwMessageConvertedBuffSize*sizeof(TCHAR)),pdwMessageConvertedSize);
-	
+
 	if (pdwMessageConvertedSize) (*pdwMessageConvertedSize)/=sizeof(TCHAR);
-return(dwRet);
+	return(dwRet);
 }
 
 
@@ -634,7 +561,7 @@ int RefreshAccountList(WPARAM eventCode,LPARAM lParam)
 	ssSMSSettings.dwSMSAccountsCount=dwSMSAccountsCount;
 	SendSMSWindowsUpdateAllAccountLists();
 
-return 0;
+	return 0;
 }
 
 //This function free the global account list. 
@@ -644,23 +571,3 @@ void FreeAccountList()
 	MEMFREE(ssSMSSettings.ppaSMSAccounts);
 	ssSMSSettings.dwSMSAccountsCount=0;
 }
-
-//This function check if the module is in the account list that supports sms sending in miranda.
-/*BOOL IsModuleInAccountList(LPSTR lpszModule)
-{
-	BOOL bRet=FALSE;
-
-	if (ssSMSSettings.ppaSMSAccounts && ssSMSSettings.dwSMSAccountsCount)
-	{
-		for(SIZE_T i=0;i<ssSMSSettings.dwSMSAccountsCount;i++)
-		{
-			if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,ssSMSSettings.ppaSMSAccounts[i]->szModuleName,-1,lpszModule,-1)==CSTR_EQUAL)
-			{
-				bRet=TRUE;
-				break;
-			}
-		}
-	}
-return(bRet);
-}//*/
-

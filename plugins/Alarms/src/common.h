@@ -27,7 +27,6 @@
 #include <win2k.h>
 
 #include <m_toptoolbar.h>
-#include <m_trigger.h>
 #include <m_alarms.h>
 
 #include "resource.h"
@@ -51,7 +50,6 @@ typedef struct ALARM_tag {
 	TCHAR *szCommandParams;
 	BYTE sound_num;
 	int flags;
-	DWORD trigger_id;
 } ALARM;
 
 #endif

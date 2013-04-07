@@ -30,13 +30,6 @@
 	#define SECS_PER_MINUTE		60 /* default I believe */
 #endif
 
-#define TRIGGERPLUGIN /* remove this to compile without it */
-
-#ifdef TRIGGERPLUGIN
-extern int InitTrigger();
-extern int DeInitTrigger();
-#endif
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int CompareSettings( const TAAAProtoSetting* p1, const TAAAProtoSetting* p2 )
@@ -629,10 +622,5 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 	////////////////////////////////////////////////////////////////////////////////////////
 
 	LoadOptions(*autoAwaySettings, FALSE);
-
-#ifdef TRIGGERPLUGIN
-	InitTrigger();
-#endif
-
 	return 0;
 }

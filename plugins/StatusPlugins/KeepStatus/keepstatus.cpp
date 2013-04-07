@@ -98,15 +98,6 @@ static int Exit(WPARAM wParam, LPARAM lParam);
 extern int OptionsInit(WPARAM wparam,LPARAM lparam);
 extern int InitCommonStatus();
 
-#define TRIGGERPLUGIN /* remove this to compile without it */
-
-#ifdef TRIGGERPLUGIN
-extern int RegisterAction();
-extern int DeInitAction();
-extern int RegisterTrigger();
-extern int DeInitTrigger();
-#endif
-
 TConnectionSettings::TConnectionSettings( PROTOACCOUNT* pa )
 {
 	cbSize = sizeof(PROTOCOLSETTINGEX);
@@ -1294,21 +1285,11 @@ int CSModuleLoaded(WPARAM wParam,LPARAM lParam)
 	hOptionsHook = HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	hShutdownHook = HookEvent(ME_SYSTEM_OKTOEXIT, Exit);
 	hAccChangeHook = HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);
-#ifdef TRIGGERPLUGIN
-	RegisterAction();
-	RegisterTrigger();
-#endif
-
 	return 0;
 }
 
 static int Exit(WPARAM wParam, LPARAM lParam)
 {
-#ifdef TRIGGERPLUGIN
-	DeInitTrigger();
-	DeInitAction();
-#endif
-
 	UnhookEvent(hOptionsHook);
 	UnhookEvent(hShutdownHook);
 	UnhookEvent(hAccChangeHook);

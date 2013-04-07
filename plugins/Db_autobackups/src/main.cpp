@@ -26,14 +26,6 @@ static IconItem iconList[] = {
 	{LPGEN("Save Profile As..."), "saveas", IDI_ICON1 }
 };
 
-INT_PTR BackupServiceTrgr(WPARAM wParam, LPARAM lParam)
-{
-	if(wParam & ACT_PERFORM)
-		mir_forkthread(BackupThread, NULL);
-
-	return 0;
-}
-
 static int FoldersGetBackupPath(WPARAM wParam, LPARAM lParam)
 {
 	FoldersGetCustomPathT(hFolder, options.folder, MAX_PATH, DIR SUB_DIR);
@@ -67,16 +59,6 @@ static void MenuInit(void)
 	Menu_AddMainMenuItem(&mi);
 }
 
-static void TriggerActionInit(void)
-{
-	ACTIONREGISTER ar = {0};
-	ar.cbSize = sizeof(ACTIONREGISTER);
-	ar.pszName = "Backup Database";
-	ar.pszService = MS_AB_BACKUPTRGR;
-
-	CallService(MS_TRIGGER_REGISTERACTION, 0, (LPARAM)&ar);
-}
-
 static int ModulesLoad(WPARAM wParam, LPARAM lParam)
 {
 	profilePath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
@@ -86,10 +68,6 @@ static int ModulesLoad(WPARAM wParam, LPARAM lParam)
 	FoldersInit();
 	LoadOptions();
 	MenuInit();
-
-	// register trigger action for triggerplugin
-	if ( ServiceExists(MS_TRIGGER_REGISTERACTION))
-		TriggerActionInit();
 
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	if(options.backup_types & BT_START)
@@ -115,7 +93,6 @@ void SysInit()
 	OleInitialize(0);
 
 	CreateServiceFunction(MS_AB_BACKUP, ABService);
-	CreateServiceFunction(MS_AB_BACKUPTRGR, BackupServiceTrgr);
 	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);

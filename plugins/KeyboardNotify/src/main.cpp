@@ -901,7 +901,6 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hFlashingEventService = CreateServiceFunction(MS_KBDNOTIFY_FLASHINGACTIVE, IsFlashingActiveService);
 	hNormalizeSequenceService = CreateServiceFunction(MS_KBDNOTIFY_NORMALSEQUENCE, NormalizeSequenceService);
 
-	RegisterAction();
 	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
 		CallService("DBEditorpp/RegisterSingleModule", (WPARAM)KEYBDMODULE, 0);
 	
@@ -912,11 +911,8 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-
 	hInst = hinstDLL;
-
 	return TRUE;
-
 }
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
@@ -926,7 +922,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP(&pluginInfo);
 
 	GetWindowsVersion();
@@ -955,9 +950,7 @@ void destroyProtocolList(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-
 	UnhookWindowsHooks();
-	DeInitAction();
 	if (hModulesLoaded)
 		UnhookEvent(hModulesLoaded);
 	if (hMsgEventHook)

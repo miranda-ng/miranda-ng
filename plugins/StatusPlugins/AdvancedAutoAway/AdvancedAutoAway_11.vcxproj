@@ -234,13 +234,11 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="msgoptions.cpp" />
     <ClCompile Include="options.cpp" />
-    <ClCompile Include="trigger_aaa.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="advancedautoaway.h" />
     <ClInclude Include="..\commonstatus.h" />
     <ClInclude Include="..\resource.h" />
-    <ClInclude Include="trigger_aaa.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\useronli.ico" />

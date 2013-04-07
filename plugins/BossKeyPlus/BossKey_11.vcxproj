@@ -186,7 +186,6 @@
   <ItemGroup>
     <ClCompile Include="src\BossKey.cpp" />
     <ClCompile Include="src\BossKeyIdle.cpp" />
-    <ClCompile Include="src\BossKeyTriggers.cpp" />
     <ClCompile Include="src\Options.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
