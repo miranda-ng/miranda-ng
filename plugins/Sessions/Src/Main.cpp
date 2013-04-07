@@ -23,7 +23,6 @@ HINSTANCE hinstance = NULL;
 
 WNDPROC mainProc;
 
-HANDLE hServiceOpenManager, hServiceShowFavMenu, hServiceCloseCurrentSession, hServiceSaveUserSession, hServiceLoadLastSession;
 HGENMENU hmSaveCurrentSession, hmLoadLastSession, hmLoadSession, hmSessionsManager;
 
 HANDLE hmTBButton[2],hiTBbutton[2],iTBbutton[2];
@@ -45,9 +44,9 @@ HWND g_hSDlg;
 BOOL DONT = FALSE;
 BOOL StartUp, isLastTRUE = FALSE, g_mode,bSC = FALSE;
 
-DWORD session_list[255] = {0};
-DWORD user_session_list[255] = {0};
-DWORD session_list_recovered[255];
+HANDLE session_list[255] = {0};
+HANDLE user_session_list[255] = {0};
+HANDLE session_list_recovered[255];
 
 int count = 0;
 unsigned int ses_count = 0;
@@ -234,9 +233,8 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 							for (i=0; hContact; hContact = db_find_next(hContact))
 							{
 								BYTE res =(BYTE)SendMessage(hClistControl, CLM_GETCHECKMARK, SendMessage(hClistControl, CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);
-								if (res)
-								{
-									user_session_list[i]=(DWORD)hContact;
+								if (res) {
+									user_session_list[i] = hContact;
 									i++;
 								}
 							}
@@ -287,16 +285,16 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 		case WM_INITDIALOG:
 		{
 			int iDelay=db_get_w(NULL, MODNAME, "StartupModeDelay", 1500);
-			if (g_hghostw==TRUE)
+			if (g_hghostw == TRUE)
 				SetTimer(hdlg, TIMERID_LOAD, iDelay, NULL);
 			else
 			{
 				ses_count=0;
 				TranslateDialogDefault(hdlg);
-				if ((ses_count=LoadSessionToCombobox(hdlg,0,ses_limit,"SessionDate",0))==ses_limit)
+				if ((ses_count=LoadSessionToCombobox(hdlg,0,ses_limit,"SessionDate",0)) == ses_limit)
 					EnableWindow(GetDlgItem(hdlg,IDC_SESSDEL),TRUE);
 
-				if (LoadSessionToCombobox(hdlg,0,255,"UserSessionDsc",ses_limit)==0 && ses_count!=0)
+				if (LoadSessionToCombobox(hdlg,0,255,"UserSessionDsc",ses_limit) == 0 && ses_count!=0)
 					ses_count=0;
 
 				if (session_list_recovered[0])
@@ -353,12 +351,12 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 
 				case IDC_SESSDEL:
 				{
-					if (session_list_recovered[0]&&ses_count==256)
+					if (session_list_recovered[0]&&ses_count == 256)
 					{
 						int i=0;
 						while(session_list_recovered[i])
 						{
-							db_set_b((HANDLE)session_list_recovered[i], MODNAME, "wasInLastSession", 0);
+							db_set_b(session_list_recovered[i], MODNAME, "wasInLastSession", 0);
 							i++;
 						}
 						ZeroMemory(session_list_recovered,SIZEOF(session_list_recovered));
@@ -367,10 +365,10 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 						EnableWindow(GetDlgItem(hdlg,IDC_SESSDEL),FALSE);
 						SendDlgItemMessage(hdlg, IDC_LIST, CB_RESETCONTENT, 0, 0);
 
-						if ((ses_count=LoadSessionToCombobox(hdlg,1,ses_limit,"SessionDate",0))==ses_limit)
+						if ((ses_count=LoadSessionToCombobox(hdlg,1,ses_limit,"SessionDate",0)) == ses_limit)
 							EnableWindow(GetDlgItem(hdlg,IDC_SESSDEL),TRUE);
 
-						if (LoadSessionToCombobox(hdlg,1,255,"UserSessionDsc",ses_limit)==0 && ses_count!=0)
+						if (LoadSessionToCombobox(hdlg,1,255,"UserSessionDsc",ses_limit) == 0 && ses_count!=0)
 							ses_count=0;
 
 						SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
@@ -383,10 +381,10 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 						EnableWindow(GetDlgItem(hdlg,IDC_SESSDEL),FALSE);
 						SendDlgItemMessage(hdlg, IDC_LIST, CB_RESETCONTENT, 0, 0);
 
-						if ((ses_count=LoadSessionToCombobox(hdlg,0,ses_limit,"SessionDate",0))==ses_limit)
+						if ((ses_count=LoadSessionToCombobox(hdlg,0,ses_limit,"SessionDate",0)) == ses_limit)
 							EnableWindow(GetDlgItem(hdlg,IDC_SESSDEL),TRUE);
 
-						if (LoadSessionToCombobox(hdlg,0,255,"UserSessionDsc",ses_limit)==0 && ses_count!=0)
+						if (LoadSessionToCombobox(hdlg,0,255,"UserSessionDsc",ses_limit) == 0 && ses_count!=0)
 							ses_count=0;
 
 						if (session_list_recovered[0]) ses_count=256;
@@ -398,10 +396,10 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 						DeleteAutoSession(ses_count);
 						EnableWindow(GetDlgItem(hdlg,IDC_SESSDEL),FALSE);
 						SendDlgItemMessage(hdlg, IDC_LIST, CB_RESETCONTENT, 0, 0);
-						if ((ses_count=LoadSessionToCombobox(hdlg,0,ses_limit,"SessionDate",0))==ses_limit)
+						if ((ses_count=LoadSessionToCombobox(hdlg,0,ses_limit,"SessionDate",0)) == ses_limit)
 							EnableWindow(GetDlgItem(hdlg,IDC_SESSDEL),TRUE);
 
-						if (LoadSessionToCombobox(hdlg,0,255,"UserSessionDsc",ses_limit)==0 && ses_count!=0)
+						if (LoadSessionToCombobox(hdlg,0,255,"UserSessionDsc",ses_limit) == 0 && ses_count!=0)
 							ses_count=0;
 
 						if (session_list_recovered[0]) ses_count=256;
@@ -449,7 +447,7 @@ INT_PTR CloseCurrentSession(WPARAM wparam,LPARAM lparam)
 	while(session_list[0]!=0)
 	{
 		mwid.cbSize = sizeof(MessageWindowInputData);
-		mwid.hContact=(HANDLE)session_list[i];
+		mwid.hContact=session_list[i];
 		mwid.uFlags=MSG_WINDOW_UFLAG_MSG_BOTH;
 
 		mwd.cbSize = sizeof(MessageWindowData);
@@ -462,8 +460,7 @@ INT_PTR CloseCurrentSession(WPARAM wparam,LPARAM lparam)
 			hWnd=GetAncestor(mwd.hwndWindow,GA_ROOT);
 			SendMessage(hWnd,WM_CLOSE,0,1);
 		}
-		else
-			SendMessage(mwd.hwndWindow, WM_CLOSE, 0, 0);
+		else SendMessage(mwd.hwndWindow, WM_CLOSE, 0, 0);
 	}
 	ZeroMemory(session_list,SIZEOF(session_list));
 	return 0;
@@ -471,34 +468,25 @@ INT_PTR CloseCurrentSession(WPARAM wparam,LPARAM lparam)
 
 int SaveSessionHandles(WPARAM wparam,LPARAM lparam)
 {
-	int k=0;
-
-	if (session_list[0]!=0)
-	{
-		for (HANDLE hContact = db_find_first(); hContact;
-			hContact = db_find_next(hContact))
-		{
-			if ((k=CheckForDuplicate(session_list,(DWORD)hContact))!=-1
-				&&!(g_bExclHidden&&!CheckContactVisibility(hContact)))
-			{
-				AddSessionMark((HANDLE)hContact,lparam,'1');
-				AddInSessionOrder((HANDLE)hContact,lparam,k,1);
-			}
-			else
-			{
-				AddSessionMark((HANDLE)hContact,lparam,'0');
-				AddInSessionOrder((HANDLE)hContact,lparam,0,0);
-			}
-		}
-		if (lparam==1)
-		{
-			g_ses_count++;
-			db_set_b(0, MODNAME, "UserSessionsCount", (BYTE)g_ses_count);
-		}
-		return 0;
-	}
-	else
+	if (session_list[0] == 0)
 		return 1;
+
+	int k=0;
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		if ((k=CheckForDuplicate(session_list,hContact)) != -1 && !(g_bExclHidden && !CheckContactVisibility(hContact))) {
+			AddSessionMark(hContact,lparam,'1');
+			AddInSessionOrder(hContact,lparam,k,1);
+		}
+		else {
+			AddSessionMark(hContact,lparam,'0');
+			AddInSessionOrder(hContact,lparam,0,0);
+		}
+	}
+	if (lparam == 1) {
+		g_ses_count++;
+		db_set_b(0, MODNAME, "UserSessionsCount", (BYTE)g_ses_count);
+	}
+	return 0;
 }
 
 INT_PTR SaveUserSessionHandles(WPARAM wparam,LPARAM lparam)
@@ -614,7 +602,7 @@ int LoadSession(WPARAM wparam,LPARAM lparam)
 	int dup=0;
 	int hidden[255]={'0'};
 	HANDLE hContact;
-	DWORD session_list_t[255]={0};
+	HANDLE session_list_t[255]={0};
 	int mode=0;
 	int i=0,j=0;
 	if ((UINT)lparam>=ses_limit&&lparam!=256)
@@ -622,27 +610,24 @@ int LoadSession(WPARAM wparam,LPARAM lparam)
 		mode=1;
 		lparam-=ses_limit;
 	}
-	if (session_list_recovered[0]&&lparam==256&&mode==0)
+	if (session_list_recovered[0]&&lparam == 256&&mode == 0)
 		 memcpy(session_list_t,session_list_recovered,SIZEOF(session_list_t));
 	else
-		for (hContact = db_find_first(); hContact;
-			hContact = db_find_next(hContact))
-		{
-			if (LoadContactsFromMask(hContact,mode,lparam))
-			{
+		for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			if (LoadContactsFromMask(hContact,mode,lparam)) {
 				i=GetInSessionOrder(hContact,mode, lparam);
-				session_list_t[i]=(DWORD)hContact;
+				session_list_t[i] = hContact;
 			}
 		}
 	i=0;
 	//TODO: change to "switch"
 	while(session_list_t[i]!=0)
 	{
-		if (CheckForDuplicate(session_list,session_list_t[i])==-1)
+		if (CheckForDuplicate(session_list, session_list_t[i]) == -1)
 			CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)session_list_t[i], 0);
 		else if (g_bWarnOnHidden)
 		{
-			if (!CheckContactVisibility((HANDLE)session_list_t[i]))
+			if (!CheckContactVisibility(session_list_t[i]))
 			{
 				hidden[j]=i+1;
 				j++;
@@ -652,13 +637,13 @@ int LoadSession(WPARAM wparam,LPARAM lparam)
 		i++;
 	}
 
-	if (i==0)
+	if (i == 0)
 	{
 		if (g_bOtherWarnings)
 			MessageBox(NULL, TranslateT("No contacts to open"), TranslateT("Sessions Manager"), MB_OK|MB_ICONWARNING);
 		return 1;
 	}
-	else if (dup==i)
+	else if (dup == i)
 	{
 		if (!hidden)
 		{
@@ -673,7 +658,7 @@ int LoadSession(WPARAM wparam,LPARAM lparam)
 		}
 		else if (g_bWarnOnHidden)
 		{
-			if (MessageBox(NULL, TranslateT("This Session already opened(but probably hidden)\nDo you want to show hidden contacts?"), TranslateT("Sessions Manager"), MB_YESNO|MB_ICONQUESTION)==IDYES)
+			if (MessageBox(NULL, TranslateT("This Session already opened(but probably hidden)\nDo you want to show hidden contacts?"), TranslateT("Sessions Manager"), MB_YESNO|MB_ICONQUESTION) == IDYES)
 			{
 				j=0;
 				while(hidden[j]!=0)
@@ -768,11 +753,6 @@ int DeleteAutoSession(int ses_count)
 int SessionPreShutdown(WPARAM wparam,LPARAM lparam)
 {
 	DONT=1;
-	DestroyServiceFunction(hServiceOpenManager);
-	DestroyServiceFunction(hServiceCloseCurrentSession);
-	DestroyServiceFunction(hServiceShowFavMenu);
-	DestroyServiceFunction(hServiceLoadLastSession);
-	DestroyServiceFunction(hServiceSaveUserSession);
 
 	if (g_hDlg)  DestroyWindow(g_hDlg);
 	if (g_hSDlg) DestroyWindow(g_hSDlg);
@@ -780,7 +760,7 @@ int SessionPreShutdown(WPARAM wparam,LPARAM lparam)
 	if (g_bIncompletedSave) {
 		int i=0;
 		while(session_list_recovered[i]) {
-			db_set_b((HANDLE)session_list_recovered[i], MODNAME, "wasInLastSession", 0);
+			db_set_b(session_list_recovered[i], MODNAME, "wasInLastSession", 0);
 			i++;
 		}
 	}
@@ -793,17 +773,16 @@ int OkToExit(WPARAM wparam,LPARAM lparam)
 {
 	int exitmode=db_get_b(NULL, MODNAME, "ShutdownMode", 2);
 	DONT=1;
-	if (exitmode==2&&session_list[0]!=0)
-	{
+	if (exitmode == 2&&session_list[0]!=0) {
 		SaveSessionDate();
 		SaveSessionHandles(0,0);
 		db_set_b(NULL, MODNAME, "lastempty", 0);
 	}
-	else if (exitmode==1&&session_list[0]!=0)
+	else if (exitmode == 1&&session_list[0]!=0)
 	{
 		DialogBox(hinstance,MAKEINTRESOURCE(IDD_EXDIALOG), 0, ExitDlgProc);
 	}
-	else   db_set_b(NULL, MODNAME, "lastempty", 1);
+	else db_set_b(NULL, MODNAME, "lastempty", 1);
 	return 0;
 }
 
@@ -811,15 +790,13 @@ static int GetContactHandle(WPARAM wparam,LPARAM lParam)
 {
 	MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
 
-	if (MWeventdata->uType == MSG_WINDOW_EVT_OPEN)
-	{
+	if (MWeventdata->uType == MSG_WINDOW_EVT_OPEN) {
 		if (strstr(MWeventdata->szModule,"tabSRMsg")) g_mode=1;
-		AddToCurSession((DWORD)MWeventdata->hContact,0);
+		AddToCurSession(MWeventdata->hContact,0);
 		if (g_bCrashRecovery) db_set_b(MWeventdata->hContact, MODNAME, "wasInLastSession", 1);
 	}
-	else if (MWeventdata->uType == MSG_WINDOW_EVT_CLOSE)
-	{
-		if (!DONT) DelFromCurSession((DWORD)MWeventdata->hContact,0);
+	else if (MWeventdata->uType == MSG_WINDOW_EVT_CLOSE) {
+		if (!DONT) DelFromCurSession(MWeventdata->hContact,0);
 		if (g_bCrashRecovery) db_set_b(MWeventdata->hContact, MODNAME, "wasInLastSession", 0);
 	}
 
@@ -835,7 +812,7 @@ INT_PTR BuildFavMenu(WPARAM wparam,LPARAM lparam)
 	GetCursorPos(&pt);
 	FillFavoritesMenu(hMenu,g_ses_count);
 	res = TrackPopupMenu(hMenu, TPM_RETURNCMD|TPM_NONOTIFY, pt.x, pt.y, 0, GetActiveWindow(), NULL);
-	if (res==0) return 1;
+	if (res == 0) return 1;
 	LoadSession(0,(res-1)+ses_limit);
 	return 0;
 }
@@ -875,50 +852,14 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	HookEvent(ME_OPT_INITIALISE,  OptionsInit);
 	HookEvent(ME_TTB_MODULELOADED, CreateButtons);
 
-	hServiceShowFavMenu = CreateServiceFunction(MS_SESSIONS_SHOWFAVORITESMENU, BuildFavMenu);
-	hServiceOpenManager = CreateServiceFunction(MS_SESSIONS_OPENMANAGER, OpenSessionsManagerWindow);
-	hServiceLoadLastSession = CreateServiceFunction(MS_SESSIONS_RESTORELASTSESSION, LoadLastSession/*LoadSession*/);
-	hServiceSaveUserSession = CreateServiceFunction(MS_SESSIONS_SAVEUSERSESSION, SaveUserSessionHandles);
-	hServiceCloseCurrentSession = CreateServiceFunction(MS_SESSIONS_CLOSESESSION, CloseCurrentSession);
-
-	g_ses_count = db_get_b(0, MODNAME, "UserSessionsCount", 0);
-	if (!g_ses_count)
-		g_ses_count = db_get_b(0, "Sessions (Unicode)", "UserSessionsCount", 0);
-	ses_limit = db_get_b(0, MODNAME, "TrackCount", 10);
-	g_bExclHidden = db_get_b(NULL, MODNAME, "ExclHidden", 0);
-	g_bWarnOnHidden = db_get_b(NULL, MODNAME, "WarnOnHidden", 0);
-	g_bOtherWarnings = db_get_b(NULL, MODNAME, "OtherWarnings", 1);
-	g_bCrashRecovery = db_get_b(NULL, MODNAME, "CrashRecovery", 0);
-
-	if (g_bCrashRecovery)
-		g_bIncompletedSave=!db_get_b(NULL, MODNAME, "lastSaveCompleted", 0);
-
-	if (g_bIncompletedSave)
-	{
-		int i=0;
-		HANDLE hContact;
-		ZeroMemory(session_list_recovered,255);
-
-		for (hContact = db_find_first(); hContact;
-			hContact = db_find_next(hContact))
-		{
-			if (db_get_b(hContact, MODNAME, "wasInLastSession", 0))
-				session_list_recovered[i++]=(DWORD)hContact;
-		}
-	}
-	if (!session_list_recovered[0]) g_bIncompletedSave=FALSE;
-	db_set_b(NULL, MODNAME, "lastSaveCompleted", 0);
-
-	if (!db_get_b(NULL, MODNAME, "lastempty", 1)||g_bIncompletedSave) isLastTRUE=TRUE;
-
 	startup=db_get_b(NULL, MODNAME, "StartupMode", 3);
 
-	if (startup==1||(startup==3&&isLastTRUE==TRUE))
+	if (startup == 1||(startup == 3&&isLastTRUE == TRUE))
 	{
 		StartUp=TRUE;
 		g_hDlg=CreateDialog(hinstance,MAKEINTRESOURCE(IDD_WLCMDIALOG), 0, LoadSessionDlgProc);
 	}
-	else if (startup==2&&isLastTRUE==TRUE)
+	else if (startup == 2&&isLastTRUE == TRUE)
 	{
 		g_hghostw=TRUE;
 		g_hDlg=CreateDialog(hinstance,MAKEINTRESOURCE(IDD_WLCMDIALOG), 0, LoadSessionDlgProc);
@@ -1006,6 +947,38 @@ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
+
+	CreateServiceFunction(MS_SESSIONS_SHOWFAVORITESMENU, BuildFavMenu);
+	CreateServiceFunction(MS_SESSIONS_OPENMANAGER, OpenSessionsManagerWindow);
+	CreateServiceFunction(MS_SESSIONS_RESTORELASTSESSION, LoadLastSession/*LoadSession*/);
+	CreateServiceFunction(MS_SESSIONS_SAVEUSERSESSION, SaveUserSessionHandles);
+	CreateServiceFunction(MS_SESSIONS_CLOSESESSION, CloseCurrentSession);
+
+	g_ses_count = db_get_b(0, MODNAME, "UserSessionsCount", 0);
+	if (!g_ses_count)
+		g_ses_count = db_get_b(0, "Sessions (Unicode)", "UserSessionsCount", 0);
+	ses_limit = db_get_b(0, MODNAME, "TrackCount", 10);
+	g_bExclHidden = db_get_b(NULL, MODNAME, "ExclHidden", 0);
+	g_bWarnOnHidden = db_get_b(NULL, MODNAME, "WarnOnHidden", 0);
+	g_bOtherWarnings = db_get_b(NULL, MODNAME, "OtherWarnings", 1);
+	g_bCrashRecovery = db_get_b(NULL, MODNAME, "CrashRecovery", 0);
+
+	if (g_bCrashRecovery)
+		g_bIncompletedSave=!db_get_b(NULL, MODNAME, "lastSaveCompleted", 0);
+
+	if (g_bIncompletedSave) {
+		int i=0;
+		ZeroMemory(session_list_recovered, sizeof(session_list_recovered));
+
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+			if (db_get_b(hContact, MODNAME, "wasInLastSession", 0))
+				session_list_recovered[i++] = hContact;
+	}
+	if (!session_list_recovered[0]) g_bIncompletedSave=FALSE;
+	db_set_b(NULL, MODNAME, "lastSaveCompleted", 0);
+
+	if (!db_get_b(NULL, MODNAME, "lastempty", 1)||g_bIncompletedSave)
+		isLastTRUE = TRUE;
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
 	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExit);
