@@ -39,7 +39,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <m_icq.h>
 #include <win2k.h>
 
-#include <m_fortunemsg.h>
 #include <m_statusplugins.h>
 #include <m_toptoolbar.h>
 #include <m_variables.h>

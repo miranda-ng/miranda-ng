@@ -458,10 +458,7 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 	else
 		DeleteMenu(hmenuTrackPopup, 8, MF_BYPOSITION);
 
-	if (ServiceExists(MS_FORTUNEMSG_GETSTATUSMSG))
-		DeleteMenu(hmenuTrackPopup, ID__FORTUNEAWAYMSG, MF_BYCOMMAND);
-	else
-		DeleteMenu(hmenuTrackPopup, 7, MF_BYPOSITION);
+	DeleteMenu(hmenuTrackPopup, 7, MF_BYPOSITION);
 
 	int m_selection = TrackPopupMenu(hmenuTrackPopup, TPM_LEFTALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
  	switch (m_selection)
