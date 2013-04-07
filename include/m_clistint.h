@@ -230,12 +230,6 @@ typedef struct _menuProto
 #define TIM_CALLBACK   (WM_USER+1857)
 #define TIM_CREATE     (WM_USER+1858)
 
-// Miranda 0.4.3.0+
-// retrieves the pointer to a CLIST_INTERFACE structure
-// NOTE: valid only for the clist clone building, not for the regular use
-
-#define MS_CLIST_RETRIEVE_INTERFACE "CList/RetrieveInterface"
-
 /***************************************************************************
  * CLIST_INTERFACE structure definition
  ***************************************************************************/
@@ -481,4 +475,13 @@ typedef struct
 
 extern CLIST_INTERFACE cli, *pcli;
 
+// Miranda 0.4.3.0+
+// retrieves the pointer to a CLIST_INTERFACE structure
+// NOTE: valid only for the clist clone building, not for the regular use
+
+#define MS_CLIST_RETRIEVE_INTERFACE "CList/RetrieveInterface"
+
+__forceinline CLIST_INTERFACE* mir_getCLI()
+{	return (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
+}
 #endif // M_CLISTINT_H__
