@@ -37,9 +37,6 @@
     <ClCompile Include="src\list.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\resizer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\wumf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

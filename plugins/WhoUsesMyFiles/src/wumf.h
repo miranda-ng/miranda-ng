@@ -18,7 +18,7 @@
 #include "resource.h"
 #include "Version.h"
 
-#define ModuleName		"WUMF Plugin"
+#define MODULENAME		"WUMF Plugin"
 
 #define LIFETIME_MAX 60
 #define LIFETIME_MIN 1
@@ -50,46 +50,48 @@
 #define IDM_SHOW  0x0405
 #define IDM_EXIT  0x0404
 
-typedef struct
+struct WUMF_OPTIONS
 {
-	BOOL 		PopupsEnabled;
+	BOOL     PopupsEnabled;
+	BOOL     UseWinColor;
+	BOOL     UseDefColor;
+	BOOL     SelectColor;
+	BOOL     DelayInf;
+	BOOL     DelayDef;
+	BOOL     DelaySet;
+	int      DelaySec;
 
-	BOOL		UseWinColor;
-	BOOL		UseDefColor;
-	BOOL		SelectColor;
-	COLORREF 	ColorText;
-	COLORREF 	ColorBack;
-	BOOL        DelayInf;
-	BOOL        DelayDef;
-	BOOL        DelaySet;
-	int         DelaySec;
+	BOOL     LogToFile;
+	BOOL     LogFolders;
+	BOOL     AlertFolders;
+	BOOL     LogUNC;
+	BOOL     AlertUNC;
+	BOOL     LogComp;
+	BOOL     AlertComp;
 
-	BOOL 		LogToFile;
-	BOOL 		LogFolders;
-	BOOL		AlertFolders;
-	BOOL		LogUNC;
-	BOOL		AlertUNC;
-	BOOL		LogComp;
-	BOOL		AlertComp;
+	COLORREF ColorText;
+	COLORREF ColorBack;
 
-	TCHAR		LogFile[255];
-} WUMF_OPTIONS;
+	TCHAR    LogFile[255];
+};
 
-typedef struct _WUMF{
-	DWORD dwID;
-	LPTSTR szID;
+struct Wumf
+{
+	DWORD  dwID;
+	TCHAR  szID[10], szPerm[10];
 	LPTSTR szUser;
 	LPTSTR szPath;
 	LPTSTR szComp;
 	LPTSTR szUNC;
-	LPTSTR szPerm;
-	DWORD dwSess; 
-	DWORD dwLocks; 
-	DWORD dwAttr;
-	DWORD dwPerm;
-	BOOL  mark;
-	struct _WUMF* next;
-} Wumf, *PWumf;
+	DWORD  dwSess; 
+	DWORD  dwLocks; 
+	DWORD  dwAttr;
+	DWORD  dwPerm;
+	BOOL   mark;
+	Wumf  *next;
+};
+
+typedef Wumf *PWumf;
 
 PWumf new_wumf(
 	DWORD dwID, 
@@ -119,7 +121,6 @@ extern PWumf list;
 void FreeAll();
 VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 INT_PTR CALLBACK ConnDlgProc(HWND, UINT, WPARAM, LPARAM);
-int ResizeDialog(WPARAM wParam,LPARAM lParam);
 
 void ShowThePopUp(PWumf w, LPTSTR, LPTSTR);
 void ShowWumfPopUp(PWumf w);
@@ -131,40 +132,3 @@ void printError(DWORD res);
 #define msg(X) MessageBox(NULL, X, _T("WUMF"), MB_OK|MB_ICONSTOP)
 #define MS_WUMF_SWITCHPOPUP 	"WUMF/SwitchPopup"
 #define MS_WUMF_CONNECTIONSSHOW "WUMF/ShowConnections"
-
-#define malloc(size) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, size)
-#define free(something) HeapFree(GetProcessHeap(), 0, something)
-
-#ifndef RD_ANCHORX_CUSTOM
-#define RD_ANCHORX_CUSTOM   0	//function did everything required to the x axis, do no more processing
-#define RD_ANCHORX_LEFT     0	//move the control to keep it constant distance from the left edge of the dialog
-#define RD_ANCHORX_RIGHT    1	//move the control to keep it constant distance from the right edge of the dialog
-#define RD_ANCHORX_WIDTH    2	//size the control to keep it constant distance from both edges of the dialog
-#define RD_ANCHORX_CENTRE   4	//move the control to keep it constant distance from the centre of the dialog
-#define RD_ANCHORY_CUSTOM   0
-#define RD_ANCHORY_TOP      0
-#define RD_ANCHORY_BOTTOM   8
-#define RD_ANCHORY_HEIGHT   16
-#define RD_ANCHORY_CENTRE   32
-
-typedef struct {
-	int cbSize;
-	UINT wId;				//control ID
-	RECT rcItem;			//original control rectangle, relative to dialog
-                            //modify in-place to specify the new position
-	SIZE dlgOriginalSize;	//size of dialog client area in template
-	SIZE dlgNewSize;		//current size of dialog client area
-} UTILRESIZECONTROL;
-
-typedef int (*DIALOGRESIZERPROC)(HWND hwndDlg,LPARAM lParam,UTILRESIZECONTROL *urc);
-
-typedef struct {
-	int cbSize;
-	HWND hwndDlg;
-	HINSTANCE hInstance;	//module containing the dialog template
-	LPCTSTR lpTemplate;		//dialog template
-	LPARAM lParam;			//caller-defined
-	DIALOGRESIZERPROC pfnResizer;
-} UTILRESIZEDIALOG;
-
-#endif

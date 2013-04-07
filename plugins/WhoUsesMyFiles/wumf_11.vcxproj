@@ -194,7 +194,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\list.cpp" />
-    <ClCompile Include="src\resizer.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
