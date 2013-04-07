@@ -151,7 +151,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 				BOOL error;
 				int port = GetDlgItemInt(hwnd, IDC_PORT, &error, FALSE);
 				proto->SetSettingWord("Port", port);
-				proto->GetSettingByte("UseAlternativePorts", IsDlgButtonChecked( hwnd, IDC_USE_ALT_PORTS ) > 0);
+				proto->SetSettingByte("UseAlternativePorts", IsDlgButtonChecked(hwnd, IDC_USE_ALT_PORTS) > 0);
 			}
 
 			return TRUE;
