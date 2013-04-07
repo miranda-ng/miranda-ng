@@ -21,25 +21,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CMDLINE_VERSION_H
 #define M_CMDLINE_VERSION_H
 
-#define __MAJOR_VERSION   0
-#define __MINOR_VERSION   0
-#define __RELEASE_NUM     1
-#define __BUILD_NUM       1
+#define __MAJOR_VERSION				0
+#define __MINOR_VERSION				0
+#define __RELEASE_NUM				1
+#define __BUILD_NUM					1
 
-#define VERSION PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM)
+#define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
-#define __PLUGINVERSION_STRING      __MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
-#define __PLUGINVERSION_STRING_DOTS	__MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
-#define __STRINGIFY_(x) #x
-#define __STRINGIFY(x) __STRINGIFY_(x)
-#define __VERSION_STRING            __STRINGIFY(__PLUGINVERSION_STRING_DOTS)
-
-#define __DESC                  "This plugin imports and creates the Yahoo groups defined in Yahoo Messenger."
-#define __AUTHOR                "Cristian Libotean"
-#define __AUTHOREMAIL           "eblis102@yahoo.com"
-#define __COPYRIGHT             "© 2007 Cristian Libotean"
-#define __AUTHORWEB             "http://www.miranda-ng.org/"
-
-#define __PLUGIN_DISPLAY_NAME   "Yahoo Groups"
+#define __PLUGIN_NAME				"Yahoo groups"
+#define __FILENAME					"YahooGroups.dll"
+#define __DESCRIPTION 				"This plugin imports and creates the Yahoo groups defined in Yahoo Messenger."
+#define __AUTHOR					"Cristian Libotean"
+#define __AUTHOREMAIL				"eblis102@yahoo.com"
+#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __COPYRIGHT					"© 2007 Cristian Libotean"
 
 #endif //M_CMDLINE_VERSION_H

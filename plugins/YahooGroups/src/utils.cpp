@@ -80,14 +80,14 @@ int Info(char *title, char *format, ...)
 	return MessageBoxA(0, str, title, MB_OK | MB_ICONINFORMATION);		
 }
 
-int MyPUShowMessage(char *lpzText, BYTE kind)
+int MyPUShowMessage(TCHAR *lpzText, BYTE kind)
 {
 	if (ServiceExists(MS_POPUP_SHOWMESSAGE))
 	{
-		return PUShowMessage(lpzText, kind);
+		return PUShowMessageT(lpzText, kind);
 	}
 	else{
-		char *title = (kind == SM_NOTIFY) ? Translate("Notify") : Translate("Warning");
+		TCHAR *title = (kind == SM_NOTIFY) ? TranslateT("Notify") : TranslateT("Warning");
 		
 		return MessageBox(NULL, lpzText, title, MB_OK | (kind == SM_NOTIFY) ? MB_ICONINFORMATION : MB_ICONEXCLAMATION);
 	}
@@ -117,7 +117,7 @@ void HexToBin(char *inData, ULONG &size, LPBYTE &outData)
 {
 	char buffer[32] = {0};
 	strcpy(buffer, "0x");
-	STRNCPY(buffer + 2, inData, HEX_SIZE);
+	strncpy(buffer + 2, inData, HEX_SIZE);
 	sscanf(buffer, "%x", &size);
 	outData = (unsigned char*)new char[size*2];
 	UINT i;
@@ -126,7 +126,7 @@ void HexToBin(char *inData, ULONG &size, LPBYTE &outData)
 	buffer[4] = '\0'; //mark the end of the string
 	for (i = 0; i < size; i++)
 		{
-			STRNCPY(buffer + 2, &tmp[i * 2], 2);
+			strncpy(buffer + 2, &tmp[i * 2], 2);
 			sscanf(buffer, "%x", &outData[i]);
 		}
 	i = size;
@@ -210,7 +210,6 @@ int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, 
 	return GetStringFromDatabase(NULL, ModuleName, szSettingName, szError, szResult, count);
 }
 
-#pragma warning (disable: 4312) 
 TCHAR *GetContactName(HANDLE hContact, char *szProto)
 {
 	CONTACTINFO ctInfo;
@@ -246,16 +245,12 @@ TCHAR *GetContactName(HANDLE hContact, char *szProto)
 		}
 	return buffer;
 }
-#pragma warning (default: 4312)
 
-#pragma warning (disable: 4312) 
 void GetContactProtocol(HANDLE hContact, char *szProto, int size)
 {
 	GetStringFromDatabase(hContact, "Protocol", "p", NULL, szProto, size);
 }
-#pragma warning (default: 4312)
 
-#pragma warning (disable: 4312)
 TCHAR *GetContactID(HANDLE hContact)
 {
 	char protocol[256];
@@ -282,7 +277,7 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 				{
 					case CNFT_BYTE:
 						{
-							_stprintf(tmp, _T("%d"), ctInfo.bVal);
+							mir_sntprintf(tmp, SIZEOF(tmp), _T("%d"), ctInfo.bVal);
 							buffer = _tcsdup(tmp);
 						
 							break;
@@ -290,7 +285,7 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 						
 					case CNFT_WORD:
 						{
-							_stprintf(tmp, _T("%d"), ctInfo.wVal);
+							mir_sntprintf(tmp, SIZEOF(tmp), _T("%d"), ctInfo.wVal);
 							buffer = _tcsdup(tmp);
 						
 							break;
@@ -298,7 +293,7 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 						
 					case CNFT_DWORD:
 						{
-							_stprintf(tmp, _T("%ld"), ctInfo.dVal);
+							mir_sntprintf(tmp, SIZEOF(tmp), _T("%ld"), ctInfo.dVal);
 							buffer = _tcsdup(tmp);
 							
 							break;
@@ -324,16 +319,14 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 			return NULL;
 		}
 }
-#pragma warning (default: 4312)
 
-#pragma warning (disable: 4312)
 HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 {
 	HANDLE hContact = db_find_first();
 	TCHAR *szHandle;
 	TCHAR dispName[1024];
 	char cProtocol[256];
-	char *tmp;
+	TCHAR *tmp;
 
 	int found = 0;
 	while (hContact)
@@ -341,8 +334,8 @@ HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 		GetContactProtocol(hContact, cProtocol, sizeof(cProtocol));
 		szHandle = GetContactID(hContact, cProtocol);
 		
-		tmp = (char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, 0);
-		STRNCPY(dispName, tmp, sizeof(dispName));
+		tmp = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+		_tcsncpy(dispName, tmp, SIZEOF(dispName));
 		
 		if ((szHandle) && ((_tcsicmp(szHandle, szID) == 0) || (_tcsicmp(dispName, szID) == 0)) && ((szProto == NULL) || (_stricmp(szProto, cProtocol) == 0)))
 		{
@@ -442,12 +435,4 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 			rChild.top += cy;
 		}
 	return rChild;
-}
-
-inline char *STRNCPY(char *output, const char *input, size_t size)
-{
-	char *res = strncpy(output, input, size);
-	output[size - 1] = 0;
-	
-	return res;
 }

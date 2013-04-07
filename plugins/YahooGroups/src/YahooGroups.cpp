@@ -28,18 +28,18 @@ int hLangpack = 0;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	__PLUGIN_DISPLAY_NAME,
-	VERSION,
-	__DESC,
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
 	__AUTHOR,
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	0, //unicode aware
-	{0x2f3fe8b9, 0x7327, 0x4008, {0xa6, 0x0d, 0x93, 0xf0, 0xf4, 0xf7, 0xf0, 0xf1}} //{2f3fe8b9-7327-4008-a60d-93f0f4f7f0f1}	
-}; //not used
+	UNICODE_AWARE,
+	// {2F3FE8B9-7327-4008-A60D-93F0F4F7F0F1}	
+	{0x2f3fe8b9, 0x7327, 0x4008, {0xa6, 0x0d, 0x93, 0xf0, 0xf4, 0xf7, 0xf0, 0xf1}}
+};
 	
-
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
 {
 	return &pluginInfo;
@@ -68,7 +68,7 @@ extern "C" int __declspec(dllexport) Unload()
 	return 0;
 }
 
-bool WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInstance = hinstDLL;
 	if (fdwReason == DLL_PROCESS_ATTACH)

@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_YAHOOGROUPS_UTILS_H
 #define M_YAHOOGROUPS_UTILS_H
 
-#include <stdarg.h>
 #include "commonheaders.h"
 
 //#define USE_LOG
@@ -58,7 +57,5 @@ HANDLE GetContactFromID(TCHAR *szID, wchar_t *szProto);
 void GetContactProtocol(HANDLE hContact, char *szProto, int size);
 
 int MyPUShowMessage(char *lpzText, BYTE kind);
-
-inline char *STRNCPY(char *output, const char *input, size_t size);
 
 #endif
