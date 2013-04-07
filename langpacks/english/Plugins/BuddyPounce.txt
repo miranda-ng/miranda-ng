@@ -24,7 +24,7 @@
 [Advanced >>]
 [The Message]
 [Dialog]
-[Static]
+[Status]
 [Check1]
 [Use Advanced Dialog]
 [The Message:       (Characters:  )]

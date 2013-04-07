@@ -10,6 +10,7 @@
 [&Cancel]
 [Send "You were added"]
 [Send authorization request]
+[Open contact's chat window]
 [Custom name:]
 [Group:]
 [Options]
@@ -1300,6 +1301,7 @@
 [Main Icons]
 ;file \src\modules\skin\sounds.cpp
 [Sound Files]
+[WAV Files]
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 [All Bitmaps]
@@ -2509,6 +2511,7 @@
 [Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
 [Delete avatar?]
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
+[Avatar History is empty!]
 [avatar path is null.]
 [View Avatar History]
 [Save Avatar for %s]
@@ -2906,7 +2909,7 @@
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 [--default device--]
-[Customize]
+[Sounds]
 [Disable sounds]
 [Enable sounds]
 [Frame Background]
@@ -3104,7 +3107,7 @@
 [Advanced >>]
 [The Message]
 [Dialog]
-[Static]
+[Status]
 [Check1]
 [Use Advanced Dialog]
 [The Message:       (Characters:  )]
@@ -10434,7 +10437,6 @@
 [Error]
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
 [Are you sure?]
-[Delete MetaContact]
 [Remove from MetaContact]
 ;file \plugins\MetaContacts\src\meta_options.cpp
 [<default>]
@@ -10446,6 +10448,7 @@
 [Add to existing MetaContact...]
 [Edit MetaContact...]
 [Set as MetaContact default]
+[Delete MetaContact]
 [Context]
 [Toggle MetaContacts On]
 [General]
@@ -12032,7 +12035,6 @@
 [Unless Non-IM Contacts protocol is OFFLINE]
 [Timer Intervals.  ]
 [Dialog]
-[Ignore global status change]
 [Away as another status]
 [Disable timer]
 [Timer interval (in seconds)]
@@ -12085,6 +12087,8 @@
 [Non-IM Contacts]
 ;file \plugins\Non-IM Contact\src\main.cpp
 [Plugins]
+[Main Icon]
+[Non-IM Contact]
 [&Non-IM Contact]
 [&Add Non-IM Contact]
 [&View/Edit Files]
@@ -19365,14 +19369,11 @@
 ;============================================================
 ;  File: XSoundNotify.dll
 ;  Plugin: XSoundNotify
-;  Version: 1.0.0.0
+;  Version: 1.0.0.1
 ;  Authors: Roman Torsten
 ;============================================================
 [Provides extended options for sound notifications.]
 ;file \plugins\XSoundNotify\res\XSoundNotify.rc
-[XSoundNotify settings]
-[OK]
-[Cancel]
 [Protocol :]
 [Nick :]
 [Sound :]
@@ -19380,8 +19381,16 @@
 [Choose]
 [Test play]
 [Reset]
+[Ignore sound for this contact]
+[OK]
+[Cancel]
 ;file \plugins\XSoundNotify\src\xsn_main.cpp
-[&XSoundNotify Plugin]
+[Sound files]
+[WAV files]
+[Sounds]
+[XSound Notify]
+[Custom sound for %s (%s)]
+[Custom contact sound]
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
@@ -19519,6 +19528,24 @@
 [System Error: %s]
 [Server Connection Error: %s]
 [Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+﻿#muuid {2f3fe8b9-7327-4008-a60d-93f0f4f7f0f1}
+;============================================================
+;  File: YahooGroups.dll
+;  Plugin: Yahoo groups
+;  Version: 0.0.1.1
+;  Authors: Cristian Libotean
+;============================================================
+[This plugin imports and creates the Yahoo groups defined in Yahoo Messenger.]
+;file \plugins\YahooGroups\res\YahooGroups.rc
+[Dialog]
+[Move yahoo contacts to groups now]
+[Move Yahoo contacts automatically on startup]
+;file \plugins\YahooGroups\src\hooked_events.cpp
+[Yahoo Groups]
+[Plugins]
+;file \plugins\YahooGroups\src\utils.cpp
+[Notify]
+[Warning]
 ﻿#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
 ;============================================================
 ;  File: YAMN.dll

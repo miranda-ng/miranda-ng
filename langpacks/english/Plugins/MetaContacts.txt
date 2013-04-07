@@ -100,7 +100,6 @@
 [Error]
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
 [Are you sure?]
-[Delete MetaContact]
 [Remove from MetaContact]
 ;file \plugins\MetaContacts\src\meta_options.cpp
 [<default>]
@@ -112,6 +111,7 @@
 [Add to existing MetaContact...]
 [Edit MetaContact...]
 [Set as MetaContact default]
+[Delete MetaContact]
 [Context]
 [Toggle MetaContacts On]
 [General]

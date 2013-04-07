@@ -10,6 +10,7 @@
 [&Cancel]
 [Send "You were added"]
 [Send authorization request]
+[Open contact's chat window]
 [Custom name:]
 [Group:]
 [Options]
@@ -1300,6 +1301,7 @@
 [Main Icons]
 ;file \src\modules\skin\sounds.cpp
 [Sound Files]
+[WAV Files]
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 [All Bitmaps]

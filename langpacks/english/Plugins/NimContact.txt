@@ -35,7 +35,6 @@
 [Unless Non-IM Contacts protocol is OFFLINE]
 [Timer Intervals.  ]
 [Dialog]
-[Ignore global status change]
 [Away as another status]
 [Disable timer]
 [Timer interval (in seconds)]
@@ -88,6 +87,8 @@
 [Non-IM Contacts]
 ;file \plugins\Non-IM Contact\src\main.cpp
 [Plugins]
+[Main Icon]
+[Non-IM Contact]
 [&Non-IM Contact]
 [&Add Non-IM Contact]
 [&View/Edit Files]

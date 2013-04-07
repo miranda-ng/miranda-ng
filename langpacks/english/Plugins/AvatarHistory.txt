@@ -59,6 +59,7 @@
 [Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
 [Delete avatar?]
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
+[Avatar History is empty!]
 [avatar path is null.]
 [View Avatar History]
 [Save Avatar for %s]

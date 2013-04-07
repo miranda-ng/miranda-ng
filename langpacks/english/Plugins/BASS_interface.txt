@@ -32,7 +32,7 @@
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 [--default device--]
-[Customize]
+[Sounds]
 [Disable sounds]
 [Enable sounds]
 [Frame Background]
