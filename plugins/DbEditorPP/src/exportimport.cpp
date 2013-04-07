@@ -532,6 +532,7 @@ void importSettings(HANDLE hContact, char *importstring )
 						break;
 					case 'l':
 					case 'L':
+					case '-':
 						db_unset(hContact, module, setting);
 						break;
 					case 'n':
