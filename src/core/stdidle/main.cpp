@@ -72,8 +72,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	MyMonitorFromWindow = (pfnMyMonitorFromWindow)GetProcAddress(hUser32, "MonitorFromWindow");
 	MyGetMonitorInfo = (pfnMyGetMonitorInfo)GetProcAddress(hUser32, "GetMonitorInfoW");
-
-	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
+	mir_getCLI();
 
 	LoadIdleModule();
 	return 0;

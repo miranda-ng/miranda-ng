@@ -156,7 +156,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 
 	PreloadCLCModule();
 
-	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);
+	mir_getCLI();
 	pcli->pfnBuildGroupPopupMenu = BuildGroupPopupMenu;
 	pcli->pfnCalcEipPosition = CalcEipPosition;
 	pcli->pfnCheckCacheItem = CheckPDNCE;

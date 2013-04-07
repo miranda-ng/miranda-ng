@@ -77,7 +77,7 @@ INT_PTR AnnounceStatusChangeService(WPARAM wParam, LPARAM lParam);
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP( &pluginInfoEx );
-	pcli = (CLIST_INTERFACE*)CallService( MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
+	mir_getCLI();
 
 	InitCommonStatus();
 

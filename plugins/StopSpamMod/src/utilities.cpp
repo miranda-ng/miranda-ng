@@ -67,19 +67,12 @@ bool ProtoInList(std::string proto)
 
 int CreateCListGroup(TCHAR* szGroupName)
 {
-  int hGroup;
-  CLIST_INTERFACE *clint = NULL;
+	int hGroup = CallService(MS_CLIST_GROUPCREATE, 0, 0);
 
-  if (ServiceExists(MS_CLIST_RETRIEVE_INTERFACE))
-    clint = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
+	TCHAR* usTmp = szGroupName;
+	pcli->pfnRenameGroup(hGroup, usTmp);
 
-  hGroup = CallService(MS_CLIST_GROUPCREATE, 0, 0);
-
-    TCHAR* usTmp = szGroupName;
-
-    clint->pfnRenameGroup(hGroup, usTmp);
-
-  return hGroup;
+	return hGroup;
 }
 
 void DeleteCListGroupsByName(TCHAR* szGroupName)

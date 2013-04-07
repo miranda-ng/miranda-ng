@@ -98,11 +98,10 @@ int ModuleLoad(WPARAM wParam, LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP( &pluginInfo );
+	mir_getCLI();
 
 	srand(time(NULL));
 	_tzset();
-
-	pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
 
 	// Register the module
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };

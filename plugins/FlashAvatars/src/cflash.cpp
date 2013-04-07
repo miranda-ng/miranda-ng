@@ -58,6 +58,7 @@ HINSTANCE g_hInst = 0;
 
 
 int hLangpack;
+CLIST_INTERFACE *pcli;
 
 HANDLE hNetlibUser;
 
@@ -208,17 +209,15 @@ static void __cdecl loadFlash_Thread(void *p) {
 	flash->Release();
 }
 
-static void ShowBalloon(TCHAR *title, TCHAR *msg, int icon) {
+static void ShowBalloon(TCHAR *title, TCHAR *msg, int icon)
+{
 	MIRANDASYSTRAYNOTIFY msn = {0};
 	msn.cbSize = sizeof(MIRANDASYSTRAYNOTIFY);
 	msn.dwInfoFlags = icon | NIIF_INTERN_UNICODE;
 	msn.tszInfo = TranslateTS(msg);
 	msn.tszInfoTitle = TranslateTS(title);
 	msn.uTimeout = 5000;
-
-	CLIST_INTERFACE* c = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);
-	if (c)
-		c->pfnCListTrayNotify(&msn);
+	pcli->pfnCListTrayNotify(&msn);
 }
 
 static void prepareFlash(char* pProto, const TCHAR* pUrl, FLASHAVATAR& fa, IShockwaveFlash* flash)
@@ -615,6 +614,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirand
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, systemModulesLoaded);
 	return 0;

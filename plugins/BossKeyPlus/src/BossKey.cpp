@@ -730,7 +730,6 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 	HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit);
 	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
 
-	pcli = (CLIST_INTERFACE *)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInstance);
 	GetWindowThreadProcessId(pcli->hwndContactList, &g_dwMirandaPID);
 
 	// let's create our secret window
@@ -807,6 +806,7 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	g_wMaskAdv = db_get_w(NULL,MOD_NAME,"optsmaskadv",0);
 	g_bOldSetting = db_get_b(NULL, MOD_NAME, "OldSetting", 0);

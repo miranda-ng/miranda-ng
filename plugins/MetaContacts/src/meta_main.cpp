@@ -142,7 +142,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInstance);
+	mir_getCLI();
 
 	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/Status"));
 	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/IdleTS"));

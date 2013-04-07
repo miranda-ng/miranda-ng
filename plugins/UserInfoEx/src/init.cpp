@@ -180,7 +180,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	ZeroMemory(&myGlobals, sizeof(MGLOBAL));
 
 	// init clist interface
-	pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
+	mir_getCLI();
 
 	// init new miranda timezone interface
 	mir_getTMI(&tmi);

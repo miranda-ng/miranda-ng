@@ -15,7 +15,6 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #include "headers.h"
 
 BOOL gbDosServiceExist = 0;
@@ -55,11 +54,8 @@ std::wstring gbAuthRepl;
 extern TCHAR const * defQuestion;
 extern int RemoveTmp(WPARAM,LPARAM);
 
-
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's extended information
-
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -137,19 +133,17 @@ HANDLE hEventFilter = 0, hOptInitialise = 0, hSettingChanged = 0;
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
-	/*if(DLL_PROCESS_ATTACH == fdwReason)
-		hInst=hinstDLL;
-	return TRUE;*/
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-
 int hLangpack = 0;
+CLIST_INTERFACE *pcli;
 
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
 	CreateServiceFunction("/RemoveTmp", (MIRANDASERVICE)RemoveTmp);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);

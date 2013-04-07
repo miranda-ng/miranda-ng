@@ -22,9 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 static void RebuildStatusMenu(void)
 {
-	CLIST_INTERFACE* pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
-	if (pcli && pcli->version > 4)
-		pcli->pfnReloadProtoMenus();
+	pcli->pfnReloadProtoMenus();
 }
 
 static LRESULT CALLBACK OptEditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)

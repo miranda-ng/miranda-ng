@@ -141,7 +141,7 @@ static INT_PTR GetStatusMode(WPARAM wParam, LPARAM lParam)
 
 extern "C" int __declspec(dllexport) CListInitialise()
 {
-	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);
+	mir_getCLI();
 
 #define CLIST_SWAP(a)  pfn##a = pcli->pfn##a; pcli->pfn##a = a
 

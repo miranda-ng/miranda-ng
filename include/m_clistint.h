@@ -481,7 +481,7 @@ extern CLIST_INTERFACE cli, *pcli;
 
 #define MS_CLIST_RETRIEVE_INTERFACE "CList/RetrieveInterface"
 
-__forceinline CLIST_INTERFACE* mir_getCLI()
-{	return (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
+__forceinline void mir_getCLI()
+{	pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
 }
 #endif // M_CLISTINT_H__

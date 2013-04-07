@@ -278,7 +278,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	PreloadContactListModule();
 
 	// get the clist interface
-	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);
+	mir_getCLI();
 	pcli->pfnBuildGroupPopupMenu = BuildGroupPopupMenu;
 	pcli->pfnCluiProtocolStatusChanged = CluiProtocolStatusChanged;
 	pcli->pfnCompareContacts = CompareContacts;

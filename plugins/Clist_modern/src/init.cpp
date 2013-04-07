@@ -143,7 +143,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 static HRESULT SubclassClistInterface()
 {
 	// get the contact list interface
-	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);
+	mir_getCLI();
 
 	// OVERLOAD CLIST INTERFACE FUNCTIONS
 	//

@@ -228,6 +228,7 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getXI(&xi);
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	WORD v[4];
 	CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
@@ -236,8 +237,6 @@ extern "C" int __declspec(dllexport) Load()
 	CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&g_cbCountries, (LPARAM)&g_countries);
 
 	setlocale(LC_ALL, "");
-
-	pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
 
 	// Register protocol module
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };

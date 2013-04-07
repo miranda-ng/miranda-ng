@@ -233,7 +233,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
-	pcli = mir_getCLI();
+	mir_getCLI();
 
 	// Load plugin options from DB
 	hForwardFrom     = (HANDLE)db_get_dw(NULL, "yaRelay", "ForwardFrom", 0);

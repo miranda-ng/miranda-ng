@@ -355,8 +355,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getXI(&xi);
 	mir_getLP(&pluginInfo);
-
-	pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInstance);
+	mir_getCLI();
 
 	// Hook system events
 	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, gg_modulesloaded);
@@ -375,7 +374,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// Instance list
 	g_Instances = NULL;
-
 	return 0;
 }
 

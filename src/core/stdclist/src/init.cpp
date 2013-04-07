@@ -134,8 +134,7 @@ static INT_PTR GetStatusMode(WPARAM wParam, LPARAM lParam)
 extern "C" __declspec(dllexport) int CListInitialise()
 {
 	mir_getLP( &pluginInfo );
-
-	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);
+	mir_getCLI();
 
 	pcli->pfnPaintClc = PaintClc;
 

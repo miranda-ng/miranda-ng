@@ -61,8 +61,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 	mir_getTMI(&tmi);
-
-	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
+	mir_getCLI();
 
 	if ( IsWinVerXPPlus()) {
 		HINSTANCE hThemeAPI = LoadLibraryA("uxtheme.dll");

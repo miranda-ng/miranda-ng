@@ -78,7 +78,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_AUTOAW
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP( &pluginInfoEx );
-	pcli = (CLIST_INTERFACE*)CallService( MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
+	mir_getCLI();
 
 	autoAwaySettings = new OBJLIST<TAAAProtoSetting>(10, CompareSettings);
 
