@@ -229,9 +229,31 @@ INT_PTR MetaFilter_SendMessage(WPARAM wParam,LPARAM lParam)
 
 	// if subcontact sending, add db event to keep metacontact history correct
 	if (options.metahistory && !(ccs->wParam & PREF_METANODB)) {
-		HANDLE hContact = ccs->hContact; ccs->hContact = hMeta;
-		CallService(MS_PROTO_CHAINSEND, 0, lParam);
-		ccs->hContact = hContact;
+
+		// reject "file As Message" messages
+		if (strlen((char *)ccs->lParam) > 5 && strncmp((char *)ccs->lParam, "<%fAM", 5) == 0)
+			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);	// continue processing
+
+		// reject "data As Message" messages
+		if (strlen((char *)ccs->lParam) > 5 && strncmp((char *)ccs->lParam, "<%dAM", 5) == 0)
+			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);	// continue processing
+
+		// reject "OTR" messages
+		if (strlen((char *)ccs->lParam) > 5 && strncmp((char *)ccs->lParam, "?OTR", 4) == 0)
+			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);	// continue processing
+
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		dbei.szModule = META_PROTO;
+		dbei.flags = DBEF_SENT;
+		dbei.timestamp = time(NULL);
+		dbei.eventType = EVENTTYPE_MESSAGE;
+		if (ccs->wParam & PREF_RTL) dbei.flags |= DBEF_RTL;
+		if (ccs->wParam & PREF_UTF) dbei.flags |= DBEF_UTF;
+		dbei.cbBlob = (DWORD)strlen((char *)ccs->lParam) + 1;
+		if ( ccs->wParam & PREF_UNICODE )
+			dbei.cbBlob *= ( sizeof( wchar_t )+1 );
+		dbei.pBlob = (PBYTE)ccs->lParam;
+		db_event_add(hMeta, &dbei);
 	}
 
 	return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
@@ -371,7 +393,7 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 
 		// add a clist event, so that e.g. there is an icon flashing
 		// (only add it when message api available, 'cause then we can remove the event when the message window is opened)
-		if (message_window_api_enabled 
+		if (message_window_api_enabled
 			&& db_get_b(ccs->hContact, META_PROTO, "WindowOpen", 0) == 0
 			&& db_get_b(hMeta, META_PROTO, "WindowOpen", 0) == 0
 			&& options.flash_meta_message_icon)
