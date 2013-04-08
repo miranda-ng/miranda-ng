@@ -653,7 +653,7 @@ PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 		if (hIcolibItem != NULL) {
 			HICON hIcon = IcoLib_GetIconByHandle(hIcolibItem, false);
 			p->iconId = ImageList_AddIcon(pmo->m_hMenuIcons, hIcon);
-			p->hIcolibItem = pmi->hIcolibItem;
+			p->hIcolibItem = hIcolibItem;
 			IcoLib_ReleaseIcon(hIcon, 0);
 		}
 		else p->iconId = ImageList_AddIcon(pmo->m_hMenuIcons, pmi->hIcon);
