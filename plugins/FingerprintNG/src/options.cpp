@@ -23,37 +23,38 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 struct
 {
-	int idCtrl;
+	int idCtrl, defValue;
 	LPCSTR szSetName;
 }
 static settings[] =
 {
-	{IDC_GROUP_MIRANDA,           "GroupMiranda"},
-	{IDC_GROUP_MIRANDA_VERSION,   "GroupMirandaVersion"},
-	{IDC_GROUP_MIRANDA_PACKS,     "GroupMirandaPacks"},
+	{IDC_GROUP_MIRANDA,           TRUE,  "GroupMiranda"},
+	{IDC_GROUP_MIRANDA_VERSION,   FALSE, "GroupMirandaVersion"},
+	{IDC_GROUP_MIRANDA_PACKS,     TRUE,  "GroupMirandaPacks"},
 	
-	{IDC_GROUP_MULTI,             "GroupMulti"},
-	{IDC_GROUP_AIM,               "GroupAIM"},
-	{IDC_GROUP_GG,                "GroupGG"},
-	{IDC_GROUP_ICQ,               "GroupICQ"},
-	{IDC_GROUP_IRC,               "GroupIRC"},
-	{IDC_GROUP_JABBER,            "GroupJabber"},
-	{IDC_GROUP_MRA,               "GroupMRA"},
-	{IDC_GROUP_MSN,               "GroupMSN"},
-	{IDC_GROUP_QQ,                "GroupQQ"},
-	{IDC_GROUP_RSS,               "GroupRSS"},
-	{IDC_GROUP_TLEN,              "GroupTlen"},
-	{IDC_GROUP_WEATHER,           "GroupWeather"},
-	{IDC_GROUP_YAHOO,             "GroupYahoo"},
+	{IDC_GROUP_MULTI,             TRUE,  "GroupMulti"},
+	{IDC_GROUP_AIM,               TRUE,  "GroupAIM"},
+	{IDC_GROUP_GG,                TRUE,  "GroupGG"},
+	{IDC_GROUP_ICQ,               TRUE,  "GroupICQ"},
+	{IDC_GROUP_IRC,               TRUE,  "GroupIRC"},
+	{IDC_GROUP_JABBER,            TRUE,  "GroupJabber"},
+	{IDC_GROUP_MRA,               TRUE,  "GroupMRA"},
+	{IDC_GROUP_MSN,               TRUE,  "GroupMSN"},
+	{IDC_GROUP_QQ,                TRUE,  "GroupQQ"},
+	{IDC_GROUP_RSS,               TRUE,  "GroupRSS"},
+	{IDC_GROUP_TLEN,              TRUE,  "GroupTlen"},
+	{IDC_GROUP_WEATHER,           TRUE,  "GroupWeather"},
+	{IDC_GROUP_YAHOO,             TRUE,  "GroupYahoo"},
 	
-	{IDC_GROUP_OTHER_PROTOS,      "GroupOtherProtos"},
-	{IDC_GROUP_OTHERS,            "GroupOthers"},
+	{IDC_GROUP_OTHER_PROTOS,      TRUE,  "GroupOtherProtos"},
+	{IDC_GROUP_OTHERS,            TRUE,  "GroupOthers"},
 
-	{IDC_GROUP_OVERLAYS_RESOURCE, "GroupOverlaysResource"},
-	{IDC_GROUP_OVERLAYS_PLATFORM, "GroupOverlaysPlatform"},
-	{IDC_GROUP_OVERLAYS_UNICODE, "GroupOverlaysUnicode"},
-	{IDC_GROUP_OVERLAYS_PROTO,    "GroupOverlaysProtos"},
-	{IDC_GROUP_OVERLAYS_SECURITY, "GroupOverlaysSecurity"}
+	{IDC_GROUP_OVERLAYS_RESOURCE, TRUE,  "GroupOverlaysResource"},
+	{IDC_GROUP_OVERLAYS_PLATFORM, TRUE,  "GroupOverlaysPlatform"},
+	{IDC_GROUP_OVERLAYS_UNICODE,  TRUE,  "GroupOverlaysUnicode"},
+	{IDC_GROUP_OVERLAYS_PROTO,    TRUE,  "GroupOverlaysProtos"},
+	{IDC_GROUP_OVERLAYS_SECURITY, TRUE,  "GroupOverlaysSecurity"},
+	{IDC_STATUSBAR,               TRUE,  "StatusBarIcon"}
 };
 
 /*static void OptDlgChanged(HWND hwndDlg, BOOL show)
@@ -65,12 +66,12 @@ static settings[] =
 
 static void LoadDBCheckState(HWND hwndDlg, int idCtrl, LPCSTR szSetting, BYTE bDef)
 {
-	CheckDlgButton(hwndDlg, idCtrl, db_get_b(NULL,	"Finger", szSetting, bDef));
+	CheckDlgButton(hwndDlg, idCtrl, db_get_b(NULL,	MODULENAME, szSetting, bDef));
 }
 
 static void StoreDBCheckState(HWND hwndDlg, int idCtrl, LPCSTR szSetting)
 {
-	db_set_b(NULL,	"Finger", szSetting, (BYTE)IsDlgButtonChecked(hwndDlg, idCtrl));
+	db_set_b(NULL,	MODULENAME, szSetting, (BYTE)IsDlgButtonChecked(hwndDlg, idCtrl));
 }
 
 static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -79,20 +80,13 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			for (int i = 0; i < SIZEOF(settings); i++) {
-				if (!lstrcmpA(settings[i].szSetName, "GroupMirandaVersion"))
-					LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, 0);
-				else
-					LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, 1);
-			}
-
-			//ShowWindow(GetDlgItem(hwndDlg, IDC_OPTCHANGENOTE), SW_HIDE);
+			for (int i = 0; i < SIZEOF(settings); i++)
+				LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, settings[i].defValue);
 		}
 		break;
 
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
-		
 		case IDC_GROUP_MIRANDA:
 		case IDC_GROUP_MIRANDA_VERSION:
 		case IDC_GROUP_MIRANDA_PACKS:
@@ -118,11 +112,8 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_GROUP_OVERLAYS_PROTO:
 		case IDC_GROUP_OVERLAYS_UNICODE:
 		case IDC_GROUP_OVERLAYS_SECURITY:
+		case IDC_STATUSBAR:
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-
-		default:
-			return 0;
 		}
 		break;
 
@@ -145,8 +136,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
 	odp.ptszGroup = LPGENT("Icons");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG);

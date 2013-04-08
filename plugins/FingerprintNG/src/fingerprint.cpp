@@ -104,7 +104,7 @@ void RegisterIcons()
 	for (i = 0; i < DEFAULT_KN_FP_OVERLAYS_COUNT; i++)
 		Prepare(&def_kn_fp_overlays_mask[i], true);
 
-	if ( db_get_b(NULL, "Finger", "GroupMirandaVersion", 0)) {
+	if ( db_get_b(NULL, MODULENAME, "GroupMirandaVersion", 0)) {
 		for (i = 0; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++)
 			Prepare(&def_kn_fp_overlays2_mask[i], true);
 	}
@@ -115,7 +115,7 @@ void RegisterIcons()
 			Prepare(&def_kn_fp_overlays2_mask[i], false);
 	}
 
-	if ( db_get_b(NULL, "Finger", "GroupOverlaysUnicode", 1)) {
+	if ( db_get_b(NULL, MODULENAME, "GroupOverlaysUnicode", 1)) {
 		for (i = 0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++)
 			Prepare(&def_kn_fp_overlays3_mask[i], true);
 	}
@@ -130,6 +130,37 @@ void RegisterIcons()
 		Prepare(&def_kn_fp_overlays4_mask[i], true);
 }
 
+static int OnSrmmWindowEvent(WPARAM wParam, LPARAM lParam)
+{
+	if ( !db_get_b(NULL, MODULENAME, "StatusBarIcon", 1))
+		return 0;
+
+	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
+	if (event == NULL || event->cbSize < sizeof(MessageWindowEventData))
+		return 0;
+
+	if (event->uType == MSG_WINDOW_EVT_OPEN) {
+		StatusIconData sid = { sizeof(sid) };
+		sid.szModule = MODULENAME;
+		sid.dwId = 1;
+		sid.flags = MBF_OWNERSTATE;
+		sid.szTooltip = LPGEN("Client icon");
+
+		char *szProto = GetContactProto(event->hContact);
+		if (szProto != NULL) {
+			mir_ptr<TCHAR> ptszMirVer( db_get_tsa(event->hContact, szProto, "MirVer"));
+			if ( lstrlen(ptszMirVer))
+				sid.hIcon = sid.hIconDisabled = (HICON)ServiceGetClientIconW((WPARAM)ptszMirVer, TRUE);
+			else
+				sid.flags |= MBF_HIDDEN;
+		}
+		else sid.flags |= MBF_HIDDEN;
+		CallService(MS_MSG_MODIFYICON, (WPARAM)event->hContact, (LPARAM)&sid);
+	}
+
+	return 0;
+}
+
 /*
 *	OnModulesLoaded
 *	Hook necessary events here
@@ -142,13 +173,22 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
+	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowEvent);
 
 	PathToAbsoluteT(DEFAULT_SKIN_FOLDER, g_szSkinLib);
 
 	RegisterIcons();
 
-	hExtraIcon = ExtraIcon_Register("Client",LPGEN("Fingerprint"),"client_Miranda_Unknown",
+	hExtraIcon = ExtraIcon_Register("Client", LPGEN("Fingerprint"), "client_Miranda_Unknown",
 		OnExtraIconListRebuild,OnExtraImageApply,OnExtraIconClick);
+
+	if (db_get_b(NULL, MODULENAME, "StatusBarIcon", 1) && ServiceExists(MS_MSG_ADDICON)) {
+		StatusIconData sid = { sizeof(sid) };
+		sid.szModule = MODULENAME;
+		sid.flags = MBF_OWNERSTATE | MBF_HIDDEN;
+		sid.dwId = 1;
+		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+	} 
 
 	return 0;
 }
@@ -812,15 +852,10 @@ HBITMAP __fastcall CreateBitmap32Point(int cx, int cy, LPVOID* bits)
 	bmpi.bmiHeader.biWidth = cx;
 	bmpi.bmiHeader.biHeight = cy;
 	bmpi.bmiHeader.biPlanes = 1;
-//	bmpi.bmiHeader.biCompression = BI_RGB;
 	bmpi.bmiHeader.biBitCount = 32;
+	DirectBitmap = CreateDIBSection(NULL, &bmpi, DIB_RGB_COLORS, &ptPixels, NULL, 0);
 
-	DirectBitmap = CreateDIBSection(NULL,
-					&bmpi,
-					DIB_RGB_COLORS,
-					&ptPixels,
-					NULL, 0);
- 	GdiFlush();
+	GdiFlush();
 	if (ptPixels) memset(ptPixels, 0, cx * cy * 4);
 	if (bits != NULL) *bits = ptPixels;
 

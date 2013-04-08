@@ -52,6 +52,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <m_protocols.h>
 #include <m_userinfo.h>
 #include <m_extraicons.h>
+#include <m_message.h>
 
 #include <m_fingerprint.h>
 
@@ -122,6 +123,8 @@ typedef struct _foundInfo
 
 #define LIB_REG		2
 #define LIB_USE		3
+
+#define MODULENAME   "Finger"
 
 #define DEFAULT_SKIN_FOLDER		_T("Icons\\Fp_icons.dll")
 

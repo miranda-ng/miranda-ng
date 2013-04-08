@@ -178,10 +178,6 @@ int   TN_OptionsInitialize(WPARAM wParam, LPARAM lParam);
 int   TN_ModuleDeInit();
 void  TN_TypingMessage(HANDLE hContact, int iMode);
 
-// mod plus
-
-int   ChangeClientIconInStatusBar(const TWindowData *dat);
-
 // hotkeys
 
 LRESULT ProcessHotkeysByMsgFilter(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, UINT_PTR ctrlId);

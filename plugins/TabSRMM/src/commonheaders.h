@@ -224,11 +224,6 @@ enum DWMWINDOWATTRIBUTE
 	#define WM_DWMSENDICONICLIVEPREVIEWBITMAP   0x0326
 #endif
 
-
-/* State of icon with such flag will not be saved, and you must set it manually */
-#define MBF_OWNERSTATE        0x04
-
-
 #if !defined(_WIN64) && !defined(_USE_32BIT_TIME_T)
 	#define _USE_32BIT_TIME_T
 #else

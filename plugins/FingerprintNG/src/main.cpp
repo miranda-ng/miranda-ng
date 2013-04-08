@@ -26,16 +26,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 HINSTANCE g_hInst;
 int hLangpack;
 
-HANDLE hHeap					= NULL;
+HANDLE hHeap = NULL;
 
-HANDLE compClientServA			= NULL;
-HANDLE getClientIconA			= NULL;
-
-HANDLE compClientServW			= NULL;
-HANDLE getClientIconW			= NULL;
-LPSTR g_szClientDescription		= NULL;
-
-HANDLE hStaticHooks[1]			= { NULL };
+LPSTR g_szClientDescription = NULL;
 
 //End of header
 
@@ -67,10 +60,11 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 static int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
-	DestroyServiceFunction(compClientServA);
-	DestroyServiceFunction(getClientIconA);
-	DestroyServiceFunction(compClientServW);
-	DestroyServiceFunction(getClientIconW);
+	if (ServiceExists(MS_MSG_REMOVEICON)) {
+		StatusIconData sid = { sizeof(sid) };
+		sid.szModule = MODULENAME;
+		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
+	}
 
 	return 0;
 }
@@ -79,13 +73,13 @@ extern "C" int	__declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	hStaticHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
-	compClientServA = CreateServiceFunction(MS_FP_SAMECLIENTS, ServiceSameClientsA);
-	getClientIconA = CreateServiceFunction(MS_FP_GETCLIENTICON, ServiceGetClientIconA);
-
-	compClientServW = CreateServiceFunction(MS_FP_SAMECLIENTSW, ServiceSameClientsW);
-	getClientIconW = CreateServiceFunction(MS_FP_GETCLIENTICONW, ServiceGetClientIconW);
+	
+	CreateServiceFunction(MS_FP_SAMECLIENTS, ServiceSameClientsA);
+	CreateServiceFunction(MS_FP_GETCLIENTICON, ServiceGetClientIconA);
+	CreateServiceFunction(MS_FP_SAMECLIENTSW, ServiceSameClientsW);
+	CreateServiceFunction(MS_FP_GETCLIENTICONW, ServiceGetClientIconW);
 	return 0;
 }
 
@@ -98,11 +92,5 @@ extern "C" int	__declspec(dllexport) Unload()
 
 	HeapDestroy(hHeap);
 	ClearFI();
-
-	for (size_t i = 0; i < SIZEOF(hStaticHooks); i++)
-	{
-		UnhookEvent(hStaticHooks[i]);
-		hStaticHooks[i] = NULL;
-	}
 	return 0;
 }

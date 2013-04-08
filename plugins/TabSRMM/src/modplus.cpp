@@ -49,24 +49,8 @@ int     g_bStartup=0;
 
 BOOL    g_bIMGtagButton;
 
-static char* getMirVer(HANDLE hContact)
+static TCHAR* getMenuEntry(int i)
 {
-	char 		*szProto = NULL;
-	char		*msg = NULL;
-	DBVARIANT 	dbv = {0};
-
-	szProto = GetContactProto(hContact);
-	if ( !szProto )
-		return (NULL);
-
-	if ( !db_get_s(hContact, szProto, "MirVer", &dbv)) {
-		msg=mir_strdup(dbv.pszVal);
-		db_free(&dbv);
-	}
-	return (msg);
-}
-
-static TCHAR* getMenuEntry(int i)  {
 	TCHAR		*msg = NULL;
 	char 		MEntry[256] = {'\0'};
 	DBVARIANT 	dbv = {0};
@@ -77,29 +61,6 @@ static TCHAR* getMenuEntry(int i)  {
 		db_free(&dbv);
 	}
 	return (msg);
-}
-
-int ChangeClientIconInStatusBar(const TWindowData *dat)
-{
-	if (!ServiceExists(MS_FP_GETCLIENTICON))
-		return(S_FALSE);
-
-	char		*msg = getMirVer(dat->hContact);
-
-	if ( !msg )
-		return (S_FALSE);
-
-	StatusIconData sid = {0};
-
-	sid.cbSize = sizeof(sid);
-	sid.szModule = (char *)"tabmodplus";
-	sid.hIcon = sid.hIconDisabled = dat->hClientIcon;
-	sid.dwId = 1;
-	sid.szTooltip = msg;
-	sid.flags = MBF_OWNERSTATE;
-	CallService(MS_MSG_MODIFYICON,(WPARAM)dat->hContact, (LPARAM)&sid);
-	mir_free(msg);
-	return (S_OK);
 }
 
 static int RegisterCustomButton(WPARAM wParam,LPARAM lParam)
