@@ -298,11 +298,12 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 		StatusIconData sid = {0};
 		sid.cbSize = sizeof(sid);
 		sid.szModule = m_szModuleName;
-		sid.hIcon = LoadIconEx("main");
-		sid.hIconDisabled = LoadIconEx("main");
+		sid.hIcon = sid.hIconDisabled = LoadIconEx("main");
 		sid.flags = MBF_HIDDEN;
 		sid.szTooltip = Translate("Jabber Resource");
 		CallService(MS_MSG_ADDICON, 0, (LPARAM) &sid);
+		Skin_ReleaseIcon(sid.hIcon);
+
 		JHookEvent(ME_MSG_ICONPRESSED, &CJabberProto::OnProcessSrmmIconClick);
 		JHookEvent(ME_MSG_WINDOWEVENT, &CJabberProto::OnProcessSrmmEvent);
 

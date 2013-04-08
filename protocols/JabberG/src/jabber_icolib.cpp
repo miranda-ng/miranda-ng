@@ -26,10 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber.h"
 #include "jabber_list.h"
 
-#include <m_icolib.h>
-
-#include <m_cluiframes.h>
-
 #define IDI_ONLINE                      104
 #define IDI_OFFLINE                     105
 #define IDI_AWAY                        128
@@ -190,9 +186,10 @@ HICON CJabberProto::LoadIconEx(const char* name, bool big)
 	if (HICON result = g_LoadIconEx(name, big))
 		return result;
 
-	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", m_szModuleName, name);
-	return Skin_GetIcon(szSettingName, big);
+	if ( !strcmp(name, "main"))
+		return Skin_GetIconByHandle(m_hProtoIcon, big);
+
+	return NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

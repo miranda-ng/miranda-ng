@@ -633,6 +633,8 @@ void CJabberProto::InitPopups(void)
 	ppc.colorText = RGB(255, 245, 225); //Yellow
 	ppc.iSeconds = 60;
 	m_hPopupClass = Popup_RegisterClass(&ppc);
+
+	Skin_ReleaseIcon(ppc.hIcon);
 }
 
 void CJabberProto::MsgPopup(HANDLE hContact, const TCHAR *szMsg, const TCHAR *szTitle)
