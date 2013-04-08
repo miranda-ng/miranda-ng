@@ -255,4 +255,5 @@ MirandaIM v0.4 #2 оверлей
 NewGPG оверлей
 [MirOTR overlay]
 MirOTR оверлей
-
+[Show client icon in message window status bar]
+Показывать значок клиента в панели статуса окна сообщений

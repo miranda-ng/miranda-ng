@@ -306,8 +306,6 @@ RTL шаблоны
 Дополнительные настройки
 [Message window tweaks]
 Настройки окна сообщений
-[Show client icon in status bar (fingerprint plugin required)]
-Показывать значок клиента в панели статуса (необходим плагин Fingerprint)
 [Show skinnable tooltip in chat (tipper plugin required)]
 Использовать плагин tipper для отображения подсказок в чате
 [Enable typing sounds]
