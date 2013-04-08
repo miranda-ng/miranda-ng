@@ -244,16 +244,6 @@ int ModPlus_Init(WPARAM wparam,LPARAM lparam)
 	HookEvent(ME_MSG_BUTTONPRESSED, CustomButtonPressed);
 	HookEvent(ME_MSG_TOOLBARLOADED, RegisterCustomButton);
 
-	if (PluginConfig.g_bClientInStatusBar&&ServiceExists(MS_MSG_ADDICON)) {
-		StatusIconData sid = {0};
-		sid.cbSize = sizeof(sid);
-		sid.szModule = (char *)"tabmodplus";
-		sid.flags = MBF_OWNERSTATE|MBF_HIDDEN;
-		sid.dwId = 1;
-		sid.szTooltip = 0;
-		sid.hIcon = sid.hIconDisabled = 0;
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
-	}
 	g_bStartup = 0;
-	return (0);
+	return 0;
 }

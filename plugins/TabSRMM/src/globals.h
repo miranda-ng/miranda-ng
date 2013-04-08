@@ -188,7 +188,6 @@ public:
    COLORREF    m_ipBackgroundGradient;
    COLORREF    m_ipBackgroundGradientHigh;
    COLORREF    m_tbBackgroundHigh, m_tbBackgroundLow, m_fillColor, m_cRichBorders, m_genericTxtColor;
-   BYTE        g_bClientInStatusBar;
    BYTE        m_dontUseDefaultKbd;
    HANDLE      hSvc[SERVICE_LAST];
    HANDLE      m_event_MsgWin, m_event_MsgPopup;

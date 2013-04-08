@@ -1594,9 +1594,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->dwFlags &= ~MWF_INITMODE;
 			TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPEN, 0);
 
-			if (PluginConfig.g_bClientInStatusBar)
-				ChangeClientIconInStatusBar(dat);
-
 			/*
 			* show a popup if wanted...
 			*/
@@ -3415,8 +3412,6 @@ quote_from_last:
 		GetClientIcon(dat);
 		if (dat->hClientIcon && dat->Panel->isActive())
 			InvalidateRect(hwndDlg, NULL, TRUE);
-		if (PluginConfig.g_bClientInStatusBar)
-			ChangeClientIconInStatusBar(dat);
 		return 0;
 
 	case DM_UPDATEUIN:

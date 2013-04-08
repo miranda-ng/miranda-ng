@@ -302,7 +302,6 @@ void CGlobals::reloadAdv()
 	g_bDisableAniAvatars = M->GetByte("adv_DisableAniAvatars", 0);
 	g_bSoundOnTyping = M->GetByte("adv_soundontyping", 0);
 	m_dontUseDefaultKbd = M->GetByte("adv_leaveKeyboardAlone", 1);
-	g_bClientInStatusBar = M->GetByte("adv_ClientIconInStatusBar", 0);
 
 	if (g_bSoundOnTyping && m_TypingSoundAdded == false) {
 		SkinAddNewSoundEx("SoundOnTyping", LPGEN("Other"), LPGEN("TABSRMM: Typing"));

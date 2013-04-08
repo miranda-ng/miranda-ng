@@ -64,8 +64,6 @@ static void FillDialog(HWND hwndDlg)
 		lvItems[i].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), &tvi);
 	}
 
-	PluginConfig.g_bClientInStatusBar = M->GetByte("adv_ClientIconInStatusBar", 0);
-
 	SendDlgItemMessage(hwndDlg, IDC_TIMEOUTSPIN, UDM_SETRANGE, 0, MAKELONG(300, SRMSGSET_MSGTIMEOUT_MIN / 1000));
 	SendDlgItemMessage(hwndDlg, IDC_TIMEOUTSPIN, UDM_SETPOS, 0, PluginConfig.m_MsgTimeout / 1000);
 
