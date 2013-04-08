@@ -427,7 +427,7 @@ HICON GetMainStatusOverlay(int STATUS)
 
 void UnloadAvatarOverlayIcon()
 {
-	for (int i=0 ; i < MAX_REGS(g_pAvatarOverlayIcons); i++) {
+	for (int i = 0; i < SIZEOF(g_pAvatarOverlayIcons); i++) {
 		g_pAvatarOverlayIcons[i].listID = -1;
 		g_pStatusOverlayIcons[i].listID = -1;
 	}

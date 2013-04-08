@@ -1486,8 +1486,8 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact
 
 						//TODO fix overlays
 						// Draw overlay
-						if ( dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + ( dat->avatars_draw_border ? 2 : 0 )
-							&& GetContactCachedStatus( Drawing->hContact ) - ID_STATUS_OFFLINE < MAX_REGS( g_pAvatarOverlayIcons ))
+						if (dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
+							&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons))
 						{
 							p_rect.top = p_rect.bottom - ICON_HEIGHT;
 							p_rect.left = p_rect.right - ICON_HEIGHT;
@@ -2424,8 +2424,8 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact *D
 					&& ( !Drawing->image_is_special || !has_avatar  || 
 					( 
 					dat->avatars_draw_overlay
-					&& dat->avatars_maxheight_size >= ICON_HEIGHT + ( dat->avatars_draw_border ? 2 : 0 )
-					&& GetContactCachedStatus( Drawing->hContact ) - ID_STATUS_OFFLINE < MAX_REGS( g_pAvatarOverlayIcons )
+					&& dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
+					&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons)
 					&& dat->avatars_overlay_type == SETTING_AVATAR_OVERLAY_TYPE_CONTACT
 					)))
 				{
@@ -2954,8 +2954,8 @@ void CLCPaint::_DrawContactAvatar( HDC hdcMem, ClcData *dat, ClcContact *Drawing
 	{
 		int overlayIdx = -1;
 		int blendmode = 255;
-		if ( dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + ( dat->avatars_draw_border ? 2 : 0 )
-			&&  GetContactCachedStatus( Drawing->hContact ) - ID_STATUS_OFFLINE < MAX_REGS( g_pAvatarOverlayIcons ))
+		if (dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
+			&&  GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons))
 		{
 			switch( dat->avatars_overlay_type )
 			{
@@ -3026,8 +3026,8 @@ void CLCPaint::_DrawContactAvatar( HDC hdcMem, ClcData *dat, ClcContact *Drawing
 		SelectClipRgn( hdcMem, rgn );
 		DeleteObject( rgn );
 		// Draw overlays
-		if ( dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + ( dat->avatars_draw_border ? 2 : 0 )
-			&&  GetContactCachedStatus( Drawing->hContact ) - ID_STATUS_OFFLINE < MAX_REGS( g_pAvatarOverlayIcons ))
+		if (dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
+			&&  GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons))
 		{
 			POINT ptOverlay = { prcItem->right-ICON_HEIGHT, prcItem->bottom-ICON_HEIGHT };
 			if ( dat->avatars_draw_border )

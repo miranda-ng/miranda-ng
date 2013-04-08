@@ -58,7 +58,7 @@ HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, char * Caption)
     tvi.mask = TVIF_TEXT|TVIF_HANDLE;
     tvi.pszText = (LPSTR)&buf;
     tvi.cchTextMax = 254;
-    TreeView_GetItemA(hTree,&tvi);
+    TreeView_GetItem(hTree,&tvi);
     if (mir_bool_strcmpi(Caption,tvi.pszText))
       return tmp;
     tmp = TreeView_GetNextSibling(hTree,tmp);
@@ -101,7 +101,7 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 					tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_PARAM;
 					tvis.item.pszText = ptr;
 					tvis.item.lParam = 0;
-					cItem = TreeView_InsertItemA(GetDlgItem(hwndDlg,ID),&tvis);
+					cItem = TreeView_InsertItem(GetDlgItem(hwndDlg, ID), &tvis);
 					
 				}	
 				rootItem = cItem;
@@ -119,7 +119,7 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 		tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_PARAM;
 		tvis.item.pszText = ptr;
 		tvis.item.lParam = (LPARAM)data;
-		TreeView_InsertItemA(GetDlgItem(hwndDlg,ID),&tvis);
+		TreeView_InsertItem(GetDlgItem(hwndDlg, ID), &tvis);
 	}
 	mir_free(path);
 	return 0;
@@ -480,7 +480,7 @@ void StoreTreeNode(HWND hTree, HTREEITEM node, char * section)
     tvi.mask = TVIF_TEXT|TVIF_HANDLE;
     tvi.pszText = (LPSTR)&buf;
     tvi.cchTextMax = 254;
-    TreeView_GetItemA(hTree,&tvi);
+    TreeView_GetItem(hTree, &tvi);
 	if (tvi.lParam)
 	{
 		OPT_OBJECT_DATA * dat  = (OPT_OBJECT_DATA*)(tvi.lParam);

@@ -107,7 +107,7 @@ static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Skin_AddIcon(&sid);
 
 	sid.pszSection = LPGEN("Contact List") "/" LPGEN("Avatar Overlay");
-	for (i=0; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++) {
+	for (i=0; i < SIZEOF(g_pAvatarOverlayIcons) ; i++) {
 		sid.pszDescription = g_pAvatarOverlayIcons[i].description;
 		sid.pszName = g_pAvatarOverlayIcons[i].name;
 		sid.iDefaultIndex = - g_pAvatarOverlayIcons[i].id;
@@ -115,7 +115,7 @@ static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 
 	sid.pszSection = LPGEN("Contact List") "/" LPGEN("Status Overlay");
-	for (i=0; i < MAX_REGS(g_pStatusOverlayIcons); i++) {
+	for (i=0; i < SIZEOF(g_pStatusOverlayIcons); i++) {
 		sid.pszDescription = g_pStatusOverlayIcons[i].description;
 		sid.pszName = g_pStatusOverlayIcons[i].name;
 		sid.iDefaultIndex = - g_pStatusOverlayIcons[i].id;
@@ -169,14 +169,14 @@ static int clcHookIconsChanged(WPARAM wParam, LPARAM lParam)
 {
 	int i;
 	if (MirandaExiting()) return 0;
-	for (i=0 ; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++)
+	for (i=0 ; i < SIZEOF(g_pAvatarOverlayIcons) ; i++)
 	{
 		g_pAvatarOverlayIcons[i].listID = -1;
 		g_pStatusOverlayIcons[i].listID = -1;
 	}
 	if (hAvatarOverlays) ImageList_Destroy(hAvatarOverlays);
-	hAvatarOverlays = ImageList_Create(16,16,ILC_MASK|ILC_COLOR32,MAX_REGS(g_pAvatarOverlayIcons)*2,1);
-	for (i=0 ; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++)
+	hAvatarOverlays = ImageList_Create(16, 16, ILC_MASK|ILC_COLOR32, SIZEOF(g_pAvatarOverlayIcons)*2, 1);
+	for (i=0 ; i < SIZEOF(g_pAvatarOverlayIcons) ; i++)
 	{
 		HICON hIcon = Skin_GetIcon(g_pAvatarOverlayIcons[i].name);
 		g_pAvatarOverlayIcons[i].listID = ImageList_AddIcon(hAvatarOverlays,hIcon);

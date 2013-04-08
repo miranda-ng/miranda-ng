@@ -411,7 +411,7 @@ int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
 	if ( !dat->text_ignore_size_for_row_height) {
 		// Get contact font size
 		tmp = 0;
-		for (i=0 ; i < MAX_REGS(contact_fonts) ; i++)
+		for (i = 0; i < SIZEOF(contact_fonts); i++)
 			if (tmp < dat->fontModernInfo[contact_fonts[i]].fontHeight)
 				tmp = dat->fontModernInfo[contact_fonts[i]].fontHeight;
 
@@ -435,7 +435,7 @@ int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
 		}
 
 		// Get other font sizes
-		for (i=0 ; i < MAX_REGS(other_fonts) ; i++)
+		for (i = 0; i < SIZEOF(other_fonts); i++)
 			if (max_height < dat->fontModernInfo[other_fonts[i]].fontHeight)
 				max_height = dat->fontModernInfo[other_fonts[i]].fontHeight;
 	}

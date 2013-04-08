@@ -121,11 +121,6 @@ extern char *g_szMetaModuleName;
 #define CLUI_FRAME_AUTOHIDENOTIFY  512
 #define CLUI_FRAME_SHOWALWAYS      1024
 
-
-//#define alloc(n) mir_alloc(n)
-
-#define MAX_REGS(_A_) (sizeof(_A_)/sizeof(_A_[0]))
-
 #ifndef CS_DROPSHADOW
 #define CS_DROPSHADOW 0x00020000
 #endif
@@ -196,10 +191,6 @@ void MakeButtonSkinned(HWND hWnd);
 #define AC_SRC_ALPHA            0x01
 #endif
 
-//#ifdef _DEBUG
-//#define DeleteObject(a) DebugDeleteObject(a)
-//#endif
-
 #define strsetA(a,b) {if (a) mir_free_and_nill(a); a=mir_strdup(b);}
 #define strsetT(a,b) {if (a) mir_free_and_nill(a); a=mir_tstrdup(b);}
 
@@ -236,14 +227,6 @@ BOOL DestroyIcon_protect(HICON icon);
 #define ETDT_USETABTEXTURE  0x00000004
 #define ETDT_ENABLETAB      (ETDT_ENABLE  | ETDT_USETABTEXTURE)
 #endif
-
-
-
-#define TreeView_InsertItemA(hwnd, lpis) \
-	(HTREEITEM)SendMessageA((hwnd), TVM_INSERTITEMA, 0, (LPARAM)(LPTV_INSERTSTRUCTA)(lpis))
-
-#define TreeView_GetItemA(hwnd, pitem) \
-	(BOOL)SendMessageA((hwnd), TVM_GETITEMA, 0, (LPARAM)(TV_ITEM *)(pitem))
 
 enum
 {
