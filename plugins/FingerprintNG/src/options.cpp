@@ -76,51 +76,28 @@ static void StoreDBCheckState(HWND hwndDlg, int idCtrl, LPCSTR szSetting)
 
 static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	int i;
+
 	switch(msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		{
-			for (int i = 0; i < SIZEOF(settings); i++)
-				LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, settings[i].defValue);
-		}
+		for (i=0; i < SIZEOF(settings); i++)
+			LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, settings[i].defValue);
 		break;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
-		case IDC_GROUP_MIRANDA:
-		case IDC_GROUP_MIRANDA_VERSION:
-		case IDC_GROUP_MIRANDA_PACKS:
-		case IDC_GROUP_MULTI:
-		case IDC_GROUP_AIM:
-		case IDC_GROUP_GG:
-		case IDC_GROUP_ICQ:
-		case IDC_GROUP_IRC:
-		case IDC_GROUP_JABBER:
-		case IDC_GROUP_MRA:
-		case IDC_GROUP_MSN:
-		case IDC_GROUP_QQ:
-		case IDC_GROUP_RSS:
-		case IDC_GROUP_TLEN:
-		case IDC_GROUP_WEATHER:
-		case IDC_GROUP_YAHOO:
-		
-		case IDC_GROUP_OTHER_PROTOS:
-		case IDC_GROUP_OTHERS:
-		
-		case IDC_GROUP_OVERLAYS_RESOURCE:
-		case IDC_GROUP_OVERLAYS_PLATFORM:
-		case IDC_GROUP_OVERLAYS_PROTO:
-		case IDC_GROUP_OVERLAYS_UNICODE:
-		case IDC_GROUP_OVERLAYS_SECURITY:
-		case IDC_STATUSBAR:
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		}
+		if ( HIWORD(wParam) == BN_CLICKED)
+			for (i=0; i < SIZEOF(settings); i++)
+				if (settings[i].idCtrl == LOWORD(wParam)) {
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					break;
+				}
 		break;
 
 	case WM_NOTIFY:
 		NMHDR *hdr = (NMHDR *)lParam;
 		if (hdr && hdr->code == PSN_APPLY) {
-			for (int i = 0; i < SIZEOF(settings); i++)
+			for (i=0; i < SIZEOF(settings); i++)
 				StoreDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName);
 
 			ClearFI();
