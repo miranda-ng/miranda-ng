@@ -313,6 +313,7 @@ void FacebookProto::ProcessUnreadMessages( void* )
 
 		get_data = "sk=inbox&query=is%3Aunread&thread_query=is%3Aunread&action=read&tid=";
 		get_data += utils::text::source_get_value( &thread_content, 2, "id=\\\"", "\\\"" );
+		utils::text::replace_all(&get_data, "+", "%2B");
 		
 		resp = facy.flap( FACEBOOK_REQUEST_ASYNC, &data, &get_data );
 		// TODO: move this to new thread...
