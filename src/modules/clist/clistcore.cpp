@@ -62,7 +62,7 @@ static void fnReloadProtoMenus(void)
 	cli.pfnCluiProtocolStatusChanged(0, 0);
 }
 
-static INT_PTR srvRetrieveInterface(WPARAM, LPARAM lParam)
+static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 {
 	int rc;
 
@@ -210,8 +210,6 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM lParam)
 
 		cli.pfnReloadExtraIcons                = fnReloadExtraIcons;
 		cli.pfnSetAllExtraIcons                = fnSetAllExtraIcons;
-
-		cli.hInst = (HMODULE)lParam;
 
 		rc = LoadContactListModule2();
 		if (rc == 0)

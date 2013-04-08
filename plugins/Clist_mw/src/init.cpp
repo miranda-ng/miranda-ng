@@ -153,10 +153,11 @@ extern "C" int __declspec(dllexport) CListInitialise()
 
 	OutputDebugStringA("CListInitialise ClistMW\r\n");
 	mir_getLP( &pluginInfo );
+	mir_getCLI();
 
 	PreloadCLCModule();
 
-	mir_getCLI();
+	pcli->hInst = g_hInst;
 	pcli->pfnBuildGroupPopupMenu = BuildGroupPopupMenu;
 	pcli->pfnCalcEipPosition = CalcEipPosition;
 	pcli->pfnCheckCacheItem = CheckPDNCE;

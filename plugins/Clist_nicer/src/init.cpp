@@ -208,8 +208,9 @@ static int fnIconFromStatusMode( const char* szProto, int status, HANDLE hContac
 
 extern "C" int __declspec(dllexport) CListInitialise()
 {
-	mir_getTMI(&tmi);
 	mir_getLP( &pluginInfo );
+	mir_getCLI();
+	mir_getTMI(&tmi);
 
 	API::onInit();
 	RegisterCLUIFrameClasses();
@@ -278,7 +279,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	PreloadContactListModule();
 
 	// get the clist interface
-	mir_getCLI();
+	pcli->hInst = g_hInst;
 	pcli->pfnBuildGroupPopupMenu = BuildGroupPopupMenu;
 	pcli->pfnCluiProtocolStatusChanged = CluiProtocolStatusChanged;
 	pcli->pfnCompareContacts = CompareContacts;

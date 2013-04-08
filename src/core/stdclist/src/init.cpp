@@ -136,6 +136,7 @@ extern "C" __declspec(dllexport) int CListInitialise()
 	mir_getLP( &pluginInfo );
 	mir_getCLI();
 
+	pcli->hInst = g_hInst;
 	pcli->pfnPaintClc = PaintClc;
 
 	MySetLayeredWindowAttributes = (BOOL(WINAPI *) (HWND, COLORREF, BYTE, DWORD)) GetProcAddress(

@@ -82,6 +82,10 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int CListInitialise()
 {
+	mir_getLP( &pluginInfo );
+	mir_getCLI();
+	mir_getTMI(&tmi);
+
 	HMODULE hKernel = GetModuleHandleA("kernel32.dll");
 	fnTryEnterCriticalSection = ( pfnTryEnterCriticalSection )GetProcAddress( hKernel, "TryEnterCriticalSection");
 
@@ -94,8 +98,6 @@ extern "C" __declspec(dllexport) int CListInitialise()
 		fnGetAncestor = MyGetAncestor;
 
 	g_dwMainThreadID = GetCurrentThreadId();
-	mir_getTMI(&tmi);
-	mir_getLP( &pluginInfo );
 
 	CHECKRES ( PreLoadContactListModule ( )	);
 	CHECKRES ( SubclassClistInterface ( )	);
@@ -142,9 +144,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 static HRESULT SubclassClistInterface()
 {
-	// get the contact list interface
-	mir_getCLI();
-
 	// OVERLOAD CLIST INTERFACE FUNCTIONS
 	//
 	//	Naming convention is:
@@ -154,6 +153,7 @@ static HRESULT SubclassClistInterface()
 
 	corecli = *pcli;
 
+	pcli->hInst = g_hInst;
 	pcli->bDisplayLocked = TRUE;
 
 	pcli->pfnCheckCacheItem	= cliCheckCacheItem;
