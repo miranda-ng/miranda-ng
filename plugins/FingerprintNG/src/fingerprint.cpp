@@ -28,6 +28,10 @@ static HANDLE hFolderChanged = NULL, hIconFolder = NULL;
 static FOUNDINFO* fiList = NULL;
 static int nFICount = 0;
 
+static LIST<void> arMonitoredWindows(3, PtrKeySortT);
+
+static INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM lParam);
+
 /*
 *	Prepare
 *	prepares upperstring masks and registers them in IcoLib
@@ -130,74 +134,27 @@ void RegisterIcons()
 		Prepare(&def_kn_fp_overlays4_mask[i], true);
 }
 
-static int OnSrmmWindowEvent(WPARAM wParam, LPARAM lParam)
-{
-	if ( !db_get_b(NULL, MODULENAME, "StatusBarIcon", 1))
-		return 0;
-
-	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
-	if (event == NULL || event->cbSize < sizeof(MessageWindowEventData))
-		return 0;
-
-	if (event->uType == MSG_WINDOW_EVT_OPEN) {
-		StatusIconData sid = { sizeof(sid) };
-		sid.szModule = MODULENAME;
-		sid.dwId = 1;
-		sid.flags = MBF_OWNERSTATE;
-		sid.szTooltip = LPGEN("Client icon");
-
-		char *szProto = GetContactProto(event->hContact);
-		if (szProto != NULL) {
-			mir_ptr<TCHAR> ptszMirVer( db_get_tsa(event->hContact, szProto, "MirVer"));
-			if ( lstrlen(ptszMirVer))
-				sid.hIcon = sid.hIconDisabled = (HICON)ServiceGetClientIconW((WPARAM)ptszMirVer, TRUE);
-			else
-				sid.flags |= MBF_HIDDEN;
-		}
-		else sid.flags |= MBF_HIDDEN;
-		CallService(MS_MSG_MODIFYICON, (WPARAM)event->hContact, (LPARAM)&sid);
-	}
-
-	return 0;
-}
-
-/*
-*	OnModulesLoaded
-*	Hook necessary events here
-*/
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
-{
-	g_LPCodePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
-
-	//Hook necessary events
-	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
-	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
-	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowEvent);
-
-	PathToAbsoluteT(DEFAULT_SKIN_FOLDER, g_szSkinLib);
-
-	RegisterIcons();
-
-	hExtraIcon = ExtraIcon_Register("Client", LPGEN("Fingerprint"), "client_Miranda_Unknown",
-		OnExtraIconListRebuild,OnExtraImageApply,OnExtraIconClick);
-
-	if (db_get_b(NULL, MODULENAME, "StatusBarIcon", 1) && ServiceExists(MS_MSG_ADDICON)) {
-		StatusIconData sid = { sizeof(sid) };
-		sid.szModule = MODULENAME;
-		sid.flags = MBF_OWNERSTATE | MBF_HIDDEN;
-		sid.dwId = 1;
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
-	} 
-
-	return 0;
-}
-
 /*	ApplyFingerprintImage
 *	 1)Try to find appropriate mask
 *	 2)Register icon in extraimage list if not yet registered (EMPTY_EXTRA_ICON)
 *	 3)Set ExtraImage for contact
 */
+
+static void SetSrmmIcon(HANDLE hContact, LPTSTR ptszMirver)
+{
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = MODULENAME;
+	sid.dwId = 1;
+	sid.flags = MBF_OWNERSTATE;
+	sid.szTooltip = LPGEN("Client icon");
+
+	if ( lstrlen(ptszMirver))
+		sid.hIcon = sid.hIconDisabled = (HICON)ServiceGetClientIconW((WPARAM)ptszMirver, TRUE);
+	else
+		sid.flags |= MBF_HIDDEN;
+
+	CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
+}
 
 int __fastcall ApplyFingerprintImage(HANDLE hContact, LPTSTR szMirVer)
 {
@@ -209,94 +166,15 @@ int __fastcall ApplyFingerprintImage(HANDLE hContact, LPTSTR szMirVer)
 		hImage = GetIconIndexFromFI(szMirVer);
 
 	ExtraIcon_SetIcon(hExtraIcon, hContact, hImage);
+
+	if (arMonitoredWindows.getIndex(hContact) != -1)
+		SetSrmmIcon(hContact, szMirVer);
 	return 0;
 }
 
 int OnExtraIconClick(WPARAM wParam, LPARAM lParam, LPARAM)
 {
 	CallService(MS_USERINFO_SHOWDIALOG, wParam, NULL);
-	return 0;
-}
-
-/*
-*	OnExtraIconListRebuild
-*	Set all registered indexes in array to EMPTY_EXTRA_ICON (unregistered icon)
-*/
-int OnExtraIconListRebuild(WPARAM wParam, LPARAM lParam)
-{
-	ClearFI();
-	return 0;
-}
-
-/*
-*	OnIconsChanged
-*/
-int OnIconsChanged(WPARAM wParam, LPARAM lParam)
-{
-	ClearFI();
-	return 0;
-}
-
-/*
-*	 OnExtraImageApply
-*	 Try to get MirVer value from db for contact and if success calls ApplyFingerprintImage
-*/
-
-int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
-{
-	HANDLE hContact = (HANDLE)wParam;
-	if (hContact == NULL)
-		return 0;
-
-	char *szProto = GetContactProto((HANDLE)wParam);
-	if (szProto != NULL) {
-		DBVARIANT dbvMirVer;
-		if ( !db_get_ts(hContact, szProto, "MirVer", &dbvMirVer)) {
-			ApplyFingerprintImage(hContact, dbvMirVer.ptszVal);
-			db_free(&dbvMirVer);
-		}
-		else ApplyFingerprintImage(hContact, NULL);
-	}
-	else ApplyFingerprintImage(hContact, NULL);
-	return 0;
-}
-
-/*
-*	 OnContactSettingChanged
-*	 if contact settings changed apply new image or remove it
-*/
-int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
-{
-	if ((HANDLE)wParam == NULL)
-		return 0;
-
-	DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
-	if (cws && cws->szSetting && !strcmp(cws->szSetting, "MirVer")) {
-		if (cws->value.type == DBVT_UTF8) {
-			LPWSTR wszVal = NULL;
-			int iValLen = MultiByteToWideChar(CP_UTF8, 0, cws->value.pszVal, -1, NULL, 0);
-			if (iValLen > 0) {
-				wszVal = (LPWSTR)mir_alloc(iValLen * sizeof(WCHAR));
-				MultiByteToWideChar(CP_UTF8, 0, cws->value.pszVal, -1, wszVal, iValLen);
-			}
-			ApplyFingerprintImage((HANDLE)wParam, wszVal);
-			mir_free(wszVal);
-		}
-		else if (cws->value.type == DBVT_ASCIIZ) {
-			LPWSTR wszVal = NULL;
-			int iValLen = MultiByteToWideChar(g_LPCodePage, 0, cws->value.pszVal, -1, NULL, 0);
-			if (iValLen > 0) {
-				wszVal = (LPWSTR)mir_alloc(iValLen * sizeof(WCHAR));
-				MultiByteToWideChar(g_LPCodePage, 0, cws->value.pszVal, -1, wszVal, iValLen);
-			}
-			ApplyFingerprintImage((HANDLE)wParam, wszVal);
-			mir_free(wszVal);
-		}
-		else if (cws->value.type == DBVT_WCHAR) {
-			ApplyFingerprintImage((HANDLE)wParam, cws->value.pwszVal);
-		}
-		else ApplyFingerprintImage((HANDLE)wParam, NULL);
-	}
 	return 0;
 }
 
@@ -641,188 +519,6 @@ HICON __fastcall CreateIconFromIndexes(short base, short overlay, short overlay2
 	return hIcon;
 }
 
-/*
-*	ServiceGetClientIconA
-*	MS_FP_GETCLIENTICON service implementation.
-*	wParam - char * MirVer value to get client for.
-*	lParam - int noCopy - if wParam is equal to "1"	will return icon handler without copiing icon.
-*	ICON IS ALWAYS COPIED!!!
-*/
-
-INT_PTR ServiceGetClientIconA(WPARAM wParam, LPARAM lParam)
-{
-	LPSTR szMirVer = (LPSTR)wParam;			// MirVer value to get client for.
-	if (szMirVer == NULL)
-		return 0;
-
-	HICON hIcon = NULL;			// returned HICON
-	int NoCopy = (int)lParam;	// noCopy
-	short base, overlay, overlay2, overlay3, overlay4;
-
-	GetIconsIndexesA(szMirVer, &base, &overlay, &overlay2, &overlay3, &overlay4);
-	if (base != -1)
-		hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3, overlay4);
-	return (INT_PTR)hIcon;
-}
-
-/*
- *	 ServiceSameClientA
- *	 MS_FP_SAMECLIENTS service implementation.
- *	 wParam - char * first MirVer value
- *	 lParam - char * second MirVer value
- *	 return pointer to char string - client desription (do not destroy) if clients are same
- */
-
-INT_PTR ServiceSameClientsA(WPARAM wParam, LPARAM lParam)
-{
-	LPSTR szMirVerFirst = (LPSTR)wParam;	// MirVer value to get client for.
-	LPSTR szMirVerSecond = (LPSTR)lParam;	// MirVer value to get client for.
-	int firstIndex, secondIndex;
-	BOOL Result = FALSE;
-
-	firstIndex = secondIndex = 0;
-	if (!szMirVerFirst || !szMirVerSecond)
-		return (INT_PTR)NULL;	//one of its is not null
-
-	{
-		LPTSTR tszMirVerFirstUp, tszMirVerSecondUp;
-		int iMirVerFirstUpLen, iMirVerSecondUpLen;
-
-		iMirVerFirstUpLen = MultiByteToWideChar(g_LPCodePage, 0, szMirVerFirst, -1, NULL, 0);
-		iMirVerSecondUpLen = MultiByteToWideChar(g_LPCodePage, 0, szMirVerSecond, -1, NULL, 0);
-
-		tszMirVerFirstUp = (LPTSTR)mir_alloc(iMirVerFirstUpLen * sizeof(TCHAR));
-		tszMirVerSecondUp = (LPTSTR)mir_alloc(iMirVerSecondUpLen * sizeof(TCHAR));
-
-		MultiByteToWideChar(g_LPCodePage, 0, szMirVerFirst, -1, tszMirVerFirstUp, iMirVerFirstUpLen);
-		MultiByteToWideChar(g_LPCodePage, 0, szMirVerSecond, -1, tszMirVerSecondUp, iMirVerSecondUpLen);
-
-		_tcsupr_s(tszMirVerFirstUp, iMirVerFirstUpLen);
-		_tcsupr_s(tszMirVerSecondUp, iMirVerSecondUpLen);
-
-		if (_tcscmp(tszMirVerFirstUp, _T("?")) == 0)
-			firstIndex = UNKNOWN_MASK_NUMBER;
-		else
-			while(firstIndex < DEFAULT_KN_FP_MASK_COUNT) {
-				if (WildCompare(tszMirVerFirstUp, def_kn_fp_mask[firstIndex].szMaskUpper))
-					break;
-				firstIndex++;
-			}
-
-		if (_tcscmp(tszMirVerSecondUp, _T("?")) == 0)
-			secondIndex = UNKNOWN_MASK_NUMBER;
-		else
-			while(secondIndex < DEFAULT_KN_FP_MASK_COUNT) {
-				if (WildCompare(tszMirVerSecondUp, def_kn_fp_mask[secondIndex].szMaskUpper))
-					break;
-	 			secondIndex++;
-			}
-
-		mir_free(tszMirVerFirstUp);
-		mir_free(tszMirVerSecondUp);
-
-		if (firstIndex == secondIndex && firstIndex < DEFAULT_KN_FP_MASK_COUNT)
-		{
-			int iClientDescriptionLen = WideCharToMultiByte(g_LPCodePage, 0, def_kn_fp_mask[firstIndex].szClientDescription, -1, NULL, 0, NULL, NULL);
-			if (iClientDescriptionLen > 0)
-				g_szClientDescription = (LPSTR)mir_realloc(g_szClientDescription, iClientDescriptionLen * sizeof(CHAR));
-			else
-				return (INT_PTR)NULL;
-
-			WideCharToMultiByte(g_LPCodePage, 0, def_kn_fp_mask[firstIndex].szClientDescription, -1, g_szClientDescription, iClientDescriptionLen, NULL, NULL);
-			return (INT_PTR)g_szClientDescription;
-
-		}
-	}
-	return (INT_PTR)NULL;
-}
-
-/*
-*	ServiceGetClientIconW
-*	MS_FP_GETCLIENTICONW service implementation.
-*	wParam - LPWSTR MirVer value to get client for.
-*	lParam - int noCopy - if wParam is equal to "1"	will return icon handler without copiing icon.
-*	ICON IS ALWAYS COPIED!!!
-*/
-
-INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM lParam)
-{
-	LPWSTR wszMirVer = (LPWSTR)wParam;			// MirVer value to get client for.
-	if (wszMirVer == NULL)
-		return 0;
-
-	short base, overlay, overlay2, overlay3, overlay4;
-	GetIconsIndexesW(wszMirVer, &base, &overlay, &overlay2, &overlay3, &overlay4);
-
-	HICON hIcon = NULL;			// returned HICON
-	if (base != -1)
-		hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3, overlay4);
-
-	return (INT_PTR)hIcon;
-}
-
-/*
- *	 ServiceSameClientW
- *	 MS_FP_SAMECLIENTSW service implementation.
- *	 wParam - LPWSTR first MirVer value
- *	 lParam - LPWSTR second MirVer value
- *	 return pointer to char string - client desription (do not destroy) if clients are same
- */
-INT_PTR ServiceSameClientsW(WPARAM wParam, LPARAM lParam)
-{
-	LPWSTR wszMirVerFirst = (LPWSTR)wParam;	// MirVer value to get client for.
-	LPWSTR wszMirVerSecond = (LPWSTR)lParam;	// MirVer value to get client for.
-	int firstIndex, secondIndex;
-	BOOL Result = FALSE;
-
-	firstIndex = secondIndex = 0;
-	if (!wszMirVerFirst || !wszMirVerSecond) return (INT_PTR)NULL;	//one of its is not null
-
-	{
-		LPWSTR wszMirVerFirstUp, wszMirVerSecondUp;
-		size_t iMirVerFirstUpLen, iMirVerSecondUpLen;
-
-		iMirVerFirstUpLen = wcslen(wszMirVerFirst) + 1;
-		iMirVerSecondUpLen = wcslen(wszMirVerSecond) + 1;
-
-		wszMirVerFirstUp = (LPWSTR)mir_alloc(iMirVerFirstUpLen * sizeof(WCHAR));
-		wszMirVerSecondUp = (LPWSTR)mir_alloc(iMirVerSecondUpLen * sizeof(WCHAR));
-
-		wcscpy_s(wszMirVerFirstUp, iMirVerFirstUpLen, wszMirVerFirst);
-		wcscpy_s(wszMirVerSecondUp, iMirVerSecondUpLen, wszMirVerSecond);
-
-		_wcsupr_s(wszMirVerFirstUp, iMirVerFirstUpLen);
-		_wcsupr_s(wszMirVerSecondUp, iMirVerSecondUpLen);
-
-		if (wcscmp(wszMirVerFirstUp, L"?") == 0)
-			firstIndex = UNKNOWN_MASK_NUMBER;
-		else
-			while(firstIndex < DEFAULT_KN_FP_MASK_COUNT) {
-				if (WildCompareW(wszMirVerFirstUp, def_kn_fp_mask[firstIndex].szMaskUpper))
-					break;
-				firstIndex++;
-			}
-
-		if (wcscmp(wszMirVerSecondUp, L"?") == 0)
-			secondIndex = UNKNOWN_MASK_NUMBER;
-		else
-			while(secondIndex < DEFAULT_KN_FP_MASK_COUNT) {
-				if (WildCompareW(wszMirVerSecondUp, def_kn_fp_mask[secondIndex].szMaskUpper))
-					break;
-	 			secondIndex++;
-			}
-
-		mir_free(wszMirVerFirstUp);
-		mir_free(wszMirVerSecondUp);
-
-		if (firstIndex == secondIndex && firstIndex < DEFAULT_KN_FP_MASK_COUNT)
-		{
-			return (INT_PTR)def_kn_fp_mask[firstIndex].szClientDescription;
-		}
-	}
-	return (INT_PTR)NULL;
-}
-
 /******************************************************************************
  *	Futher routines is for creating joined 'overlay' icons.
  ******************************************************************************/
@@ -1154,4 +850,350 @@ VOID ClearFI()
 		mir_free(fiList);
 	fiList = NULL;
 	nFICount = 0;
+}
+
+/****************************************************************************************
+*	ServiceGetClientIconA
+*	MS_FP_GETCLIENTICON service implementation.
+*	wParam - char * MirVer value to get client for.
+*	lParam - int noCopy - if wParam is equal to "1"	will return icon handler without copiing icon.
+*	ICON IS ALWAYS COPIED!!!
+*/
+
+static INT_PTR ServiceGetClientIconA(WPARAM wParam, LPARAM lParam)
+{
+	LPSTR szMirVer = (LPSTR)wParam;			// MirVer value to get client for.
+	if (szMirVer == NULL)
+		return 0;
+
+	HICON hIcon = NULL;			// returned HICON
+	int NoCopy = (int)lParam;	// noCopy
+	short base, overlay, overlay2, overlay3, overlay4;
+
+	GetIconsIndexesA(szMirVer, &base, &overlay, &overlay2, &overlay3, &overlay4);
+	if (base != -1)
+		hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3, overlay4);
+	return (INT_PTR)hIcon;
+}
+
+/****************************************************************************************
+ *	 ServiceSameClientA
+ *	 MS_FP_SAMECLIENTS service implementation.
+ *	 wParam - char * first MirVer value
+ *	 lParam - char * second MirVer value
+ *	 return pointer to char string - client desription (do not destroy) if clients are same
+ */
+
+static INT_PTR ServiceSameClientsA(WPARAM wParam, LPARAM lParam)
+{
+	LPSTR szMirVerFirst = (LPSTR)wParam;	// MirVer value to get client for.
+	LPSTR szMirVerSecond = (LPSTR)lParam;	// MirVer value to get client for.
+	int firstIndex, secondIndex;
+	BOOL Result = FALSE;
+
+	firstIndex = secondIndex = 0;
+	if (!szMirVerFirst || !szMirVerSecond)
+		return (INT_PTR)NULL;	//one of its is not null
+
+	{
+		LPTSTR tszMirVerFirstUp, tszMirVerSecondUp;
+		int iMirVerFirstUpLen, iMirVerSecondUpLen;
+
+		iMirVerFirstUpLen = MultiByteToWideChar(g_LPCodePage, 0, szMirVerFirst, -1, NULL, 0);
+		iMirVerSecondUpLen = MultiByteToWideChar(g_LPCodePage, 0, szMirVerSecond, -1, NULL, 0);
+
+		tszMirVerFirstUp = (LPTSTR)mir_alloc(iMirVerFirstUpLen * sizeof(TCHAR));
+		tszMirVerSecondUp = (LPTSTR)mir_alloc(iMirVerSecondUpLen * sizeof(TCHAR));
+
+		MultiByteToWideChar(g_LPCodePage, 0, szMirVerFirst, -1, tszMirVerFirstUp, iMirVerFirstUpLen);
+		MultiByteToWideChar(g_LPCodePage, 0, szMirVerSecond, -1, tszMirVerSecondUp, iMirVerSecondUpLen);
+
+		_tcsupr_s(tszMirVerFirstUp, iMirVerFirstUpLen);
+		_tcsupr_s(tszMirVerSecondUp, iMirVerSecondUpLen);
+
+		if (_tcscmp(tszMirVerFirstUp, _T("?")) == 0)
+			firstIndex = UNKNOWN_MASK_NUMBER;
+		else
+			while(firstIndex < DEFAULT_KN_FP_MASK_COUNT) {
+				if (WildCompare(tszMirVerFirstUp, def_kn_fp_mask[firstIndex].szMaskUpper))
+					break;
+				firstIndex++;
+			}
+
+		if (_tcscmp(tszMirVerSecondUp, _T("?")) == 0)
+			secondIndex = UNKNOWN_MASK_NUMBER;
+		else
+			while(secondIndex < DEFAULT_KN_FP_MASK_COUNT) {
+				if (WildCompare(tszMirVerSecondUp, def_kn_fp_mask[secondIndex].szMaskUpper))
+					break;
+	 			secondIndex++;
+			}
+
+		mir_free(tszMirVerFirstUp);
+		mir_free(tszMirVerSecondUp);
+
+		if (firstIndex == secondIndex && firstIndex < DEFAULT_KN_FP_MASK_COUNT)
+		{
+			int iClientDescriptionLen = WideCharToMultiByte(g_LPCodePage, 0, def_kn_fp_mask[firstIndex].szClientDescription, -1, NULL, 0, NULL, NULL);
+			if (iClientDescriptionLen > 0)
+				g_szClientDescription = (LPSTR)mir_realloc(g_szClientDescription, iClientDescriptionLen * sizeof(CHAR));
+			else
+				return (INT_PTR)NULL;
+
+			WideCharToMultiByte(g_LPCodePage, 0, def_kn_fp_mask[firstIndex].szClientDescription, -1, g_szClientDescription, iClientDescriptionLen, NULL, NULL);
+			return (INT_PTR)g_szClientDescription;
+
+		}
+	}
+	return (INT_PTR)NULL;
+}
+
+/****************************************************************************************
+*	ServiceGetClientIconW
+*	MS_FP_GETCLIENTICONW service implementation.
+*	wParam - LPWSTR MirVer value to get client for.
+*	lParam - int noCopy - if wParam is equal to "1"	will return icon handler without copiing icon.
+*	ICON IS ALWAYS COPIED!!!
+*/
+
+static INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM lParam)
+{
+	LPWSTR wszMirVer = (LPWSTR)wParam;			// MirVer value to get client for.
+	if (wszMirVer == NULL)
+		return 0;
+
+	short base, overlay, overlay2, overlay3, overlay4;
+	GetIconsIndexesW(wszMirVer, &base, &overlay, &overlay2, &overlay3, &overlay4);
+
+	HICON hIcon = NULL;			// returned HICON
+	if (base != -1)
+		hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3, overlay4);
+
+	return (INT_PTR)hIcon;
+}
+
+/****************************************************************************************
+ *	 ServiceSameClientW
+ *	 MS_FP_SAMECLIENTSW service implementation.
+ *	 wParam - LPWSTR first MirVer value
+ *	 lParam - LPWSTR second MirVer value
+ *	 return pointer to char string - client desription (do not destroy) if clients are same
+ */
+
+static INT_PTR ServiceSameClientsW(WPARAM wParam, LPARAM lParam)
+{
+	LPWSTR wszMirVerFirst = (LPWSTR)wParam;	// MirVer value to get client for.
+	LPWSTR wszMirVerSecond = (LPWSTR)lParam;	// MirVer value to get client for.
+	int firstIndex, secondIndex;
+	BOOL Result = FALSE;
+
+	firstIndex = secondIndex = 0;
+	if (!wszMirVerFirst || !wszMirVerSecond) return (INT_PTR)NULL;	//one of its is not null
+
+	{
+		LPWSTR wszMirVerFirstUp, wszMirVerSecondUp;
+		size_t iMirVerFirstUpLen, iMirVerSecondUpLen;
+
+		iMirVerFirstUpLen = wcslen(wszMirVerFirst) + 1;
+		iMirVerSecondUpLen = wcslen(wszMirVerSecond) + 1;
+
+		wszMirVerFirstUp = (LPWSTR)mir_alloc(iMirVerFirstUpLen * sizeof(WCHAR));
+		wszMirVerSecondUp = (LPWSTR)mir_alloc(iMirVerSecondUpLen * sizeof(WCHAR));
+
+		wcscpy_s(wszMirVerFirstUp, iMirVerFirstUpLen, wszMirVerFirst);
+		wcscpy_s(wszMirVerSecondUp, iMirVerSecondUpLen, wszMirVerSecond);
+
+		_wcsupr_s(wszMirVerFirstUp, iMirVerFirstUpLen);
+		_wcsupr_s(wszMirVerSecondUp, iMirVerSecondUpLen);
+
+		if (wcscmp(wszMirVerFirstUp, L"?") == 0)
+			firstIndex = UNKNOWN_MASK_NUMBER;
+		else
+			while(firstIndex < DEFAULT_KN_FP_MASK_COUNT) {
+				if (WildCompareW(wszMirVerFirstUp, def_kn_fp_mask[firstIndex].szMaskUpper))
+					break;
+				firstIndex++;
+			}
+
+		if (wcscmp(wszMirVerSecondUp, L"?") == 0)
+			secondIndex = UNKNOWN_MASK_NUMBER;
+		else
+			while(secondIndex < DEFAULT_KN_FP_MASK_COUNT) {
+				if (WildCompareW(wszMirVerSecondUp, def_kn_fp_mask[secondIndex].szMaskUpper))
+					break;
+	 			secondIndex++;
+			}
+
+		mir_free(wszMirVerFirstUp);
+		mir_free(wszMirVerSecondUp);
+
+		if (firstIndex == secondIndex && firstIndex < DEFAULT_KN_FP_MASK_COUNT)
+		{
+			return (INT_PTR)def_kn_fp_mask[firstIndex].szClientDescription;
+		}
+	}
+	return (INT_PTR)NULL;
+}
+
+/****************************************************************************************
+*	OnExtraIconListRebuild
+*	Set all registered indexes in array to EMPTY_EXTRA_ICON (unregistered icon)
+*/
+
+static int OnExtraIconListRebuild(WPARAM wParam, LPARAM lParam)
+{
+	ClearFI();
+	return 0;
+}
+
+/****************************************************************************************
+*	OnIconsChanged
+*/
+
+static int OnIconsChanged(WPARAM wParam, LPARAM lParam)
+{
+	ClearFI();
+	return 0;
+}
+
+/****************************************************************************************
+*	 OnExtraImageApply
+*	 Try to get MirVer value from db for contact and if success calls ApplyFingerprintImage
+*/
+
+int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
+{
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact == NULL)
+		return 0;
+
+	char *szProto = GetContactProto(hContact);
+	if (szProto != NULL) {
+		DBVARIANT dbvMirVer;
+		if ( !db_get_ts(hContact, szProto, "MirVer", &dbvMirVer)) {
+			ApplyFingerprintImage(hContact, dbvMirVer.ptszVal);
+			db_free(&dbvMirVer);
+		}
+		else ApplyFingerprintImage(hContact, NULL);
+	}
+	else ApplyFingerprintImage(hContact, NULL);
+	return 0;
+}
+
+/****************************************************************************************
+*	 OnContactSettingChanged
+*	 if contact settings changed apply new image or remove it
+*/
+
+static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
+{
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact == NULL)
+		return 0;
+
+	DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
+	if (cws && cws->szSetting && !strcmp(cws->szSetting, "MirVer")) {
+		switch (cws->value.type) {
+		case DBVT_UTF8:
+			ApplyFingerprintImage(hContact, mir_ptr<TCHAR>(mir_utf8decodeT(cws->value.pszVal)));
+			break;
+		case DBVT_ASCIIZ:
+			ApplyFingerprintImage(hContact, _A2T(cws->value.pszVal));
+			break;
+		case DBVT_WCHAR:
+			ApplyFingerprintImage(hContact, cws->value.pwszVal);
+			break;
+		default:
+			ApplyFingerprintImage(hContact, NULL);
+		}
+	}
+	return 0;
+}
+
+/****************************************************************************************
+*	OnSrmmWindowEvent
+*	Monitors SRMM window's creation to draw a statusbar icon
+*/
+
+static int OnSrmmWindowEvent(WPARAM wParam, LPARAM lParam)
+{
+	if ( !db_get_b(NULL, MODULENAME, "StatusBarIcon", 1))
+		return 0;
+
+	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
+	if (event == NULL || event->cbSize < sizeof(MessageWindowEventData))
+		return 0;
+
+	if (event->uType == MSG_WINDOW_EVT_OPEN) {
+		mir_ptr<TCHAR> ptszMirVer;
+		char *szProto = GetContactProto(event->hContact);
+		if (szProto != NULL)
+			ptszMirVer = db_get_tsa(event->hContact, szProto, "MirVer");
+		SetSrmmIcon(event->hContact, ptszMirVer);
+		arMonitoredWindows.insert(event->hContact);
+	}
+	else if (event->uType == MSG_WINDOW_EVT_CLOSE)
+		arMonitoredWindows.remove(event->hContact);
+
+	return 0;
+}
+
+/****************************************************************************************
+*	OnModulesLoaded
+*	Hook necessary events here
+*/
+
+int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+{
+	g_LPCodePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
+
+	//Hook necessary events
+	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
+	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
+	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowEvent);
+
+	PathToAbsoluteT(DEFAULT_SKIN_FOLDER, g_szSkinLib);
+
+	RegisterIcons();
+
+	hExtraIcon = ExtraIcon_Register("Client", LPGEN("Fingerprint"), "client_Miranda_Unknown",
+		OnExtraIconListRebuild,OnExtraImageApply,OnExtraIconClick);
+
+	if (db_get_b(NULL, MODULENAME, "StatusBarIcon", 1) && ServiceExists(MS_MSG_ADDICON)) {
+		StatusIconData sid = { sizeof(sid) };
+		sid.szModule = MODULENAME;
+		sid.flags = MBF_OWNERSTATE | MBF_HIDDEN;
+		sid.dwId = 1;
+		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+	} 
+
+	return 0;
+}
+
+/****************************************************************************************
+*	OnPreShutdown
+*	Drops all unused graphic stuff
+*/
+
+static int OnPreShutdown(WPARAM wParam, LPARAM lParam)
+{
+	if (ServiceExists(MS_MSG_REMOVEICON)) {
+		StatusIconData sid = { sizeof(sid) };
+		sid.szModule = MODULENAME;
+		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
+	}
+
+	return 0;
+}
+
+void InitFingerModule()
+{
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
+	
+	CreateServiceFunction(MS_FP_SAMECLIENTS, ServiceSameClientsA);
+	CreateServiceFunction(MS_FP_GETCLIENTICON, ServiceGetClientIconA);
+	CreateServiceFunction(MS_FP_SAMECLIENTSW, ServiceSameClientsW);
+	CreateServiceFunction(MS_FP_GETCLIENTICONW, ServiceGetClientIconW);
 }

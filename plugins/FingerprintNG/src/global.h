@@ -130,19 +130,9 @@ typedef struct _foundInfo
 
 void ClearFI();
 
-int OnIconsChanged(WPARAM wParam, LPARAM lParam);
-int OnExtraIconClick(WPARAM wParam, LPARAM lParam,LPARAM);
-int OnExtraIconListRebuild(WPARAM wParam, LPARAM lParam);
-int OnExtraImageApply(WPARAM wParam, LPARAM lParam);
-int OnContactSettingChanged(WPARAM wParam, LPARAM lParam);
-int OnOptInitialise(WPARAM wParam, LPARAM lParam);
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
-int OnPreShutdown(WPARAM wParam, LPARAM lParam);
-
-INT_PTR ServiceSameClientsA(WPARAM wParam, LPARAM lParam);
-INT_PTR ServiceGetClientIconA(WPARAM wParam, LPARAM lParam);
-INT_PTR ServiceSameClientsW(WPARAM wParam, LPARAM lParam);
-INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM lParam);
+void InitFingerModule(void);
+int  OnOptInitialise(WPARAM wParam, LPARAM lParam);
+int  OnExtraImageApply(WPARAM wParam, LPARAM lParam);
 
 HICON __fastcall CreateJoinedIcon(HICON hBottom, HICON hTop);
 HBITMAP __inline CreateBitmap32(int cx, int cy);

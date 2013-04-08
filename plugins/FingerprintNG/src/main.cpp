@@ -58,28 +58,11 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfoEx;
 }
 
-static int OnPreShutdown(WPARAM wParam, LPARAM lParam)
-{
-	if (ServiceExists(MS_MSG_REMOVEICON)) {
-		StatusIconData sid = { sizeof(sid) };
-		sid.szModule = MODULENAME;
-		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
-	}
-
-	return 0;
-}
-
 extern "C" int	__declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
-	
-	CreateServiceFunction(MS_FP_SAMECLIENTS, ServiceSameClientsA);
-	CreateServiceFunction(MS_FP_GETCLIENTICON, ServiceGetClientIconA);
-	CreateServiceFunction(MS_FP_SAMECLIENTSW, ServiceSameClientsW);
-	CreateServiceFunction(MS_FP_GETCLIENTICONW, ServiceGetClientIconW);
+	InitFingerModule();
 	return 0;
 }
 
