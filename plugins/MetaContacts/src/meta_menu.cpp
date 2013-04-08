@@ -450,10 +450,8 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 			Menu_ShowItem(hMenuDefault, false);
 		}
 
-		for (int i = 0; i < MAX_CONTACTS; i++) {
-			mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-			Menu_ShowItem(hMenuContact[i], (LPARAM)&mi);
-		}
+		for (int i = 0; i < MAX_CONTACTS; i++)
+			Menu_ShowItem(hMenuContact[i], false);
 	}
 	return 0;
 }

@@ -1027,7 +1027,6 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	////////////////////////////////////////////////////////////////////////////
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_ALL;
 
 	// main menu item
 	mi.icolibItem = GetIconHandle(I_MENUOFF);
