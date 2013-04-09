@@ -155,6 +155,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	CLIST_SWAP(GetRowHeight);
 	CLIST_SWAP(SortCLC);
 
+	pcli->hInst = g_hInst;
 	pcli->pfnPaintClc = PaintClc;
 
 	MySetLayeredWindowAttributes = (BOOL(WINAPI *) (HWND, COLORREF, BYTE, DWORD)) GetProcAddress(
@@ -203,7 +204,7 @@ TCHAR* MyDBGetContactSettingTString(HANDLE hContact, char* module, char* setting
 			lstrcpyn(out, dbv.pwszVal, (int)len);
 		else if (def != NULL)
 			lstrcpyn(out, def, (int)len);
-		
+
 		db_free(&dbv);
 	}
 	else {
@@ -273,9 +274,9 @@ int CopyData(StringHelper *str, const TCHAR *text, size_t len)
 }
 
 
-TCHAR * ParseText(const TCHAR *text, 
-	const TCHAR **variables, size_t variablesSize, 
-	const TCHAR **data, size_t dataSize) 
+TCHAR * ParseText(const TCHAR *text,
+	const TCHAR **variables, size_t variablesSize,
+	const TCHAR **data, size_t dataSize)
 {
 	size_t length = lstrlen(text);
 	size_t nextPos = 0;
@@ -365,7 +366,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		SetWindowLong(hwnd, 0, (LONG) dat);
 
 		dat->hwnd_list = CreateWindow(_T("LISTBOX"), _T(""),
-			(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY | LBS_WANTKEYBOARDINPUT | WS_VSCROLL), 
+			(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY | LBS_WANTKEYBOARDINPUT | WS_VSCROLL),
 			0, 0, 0, 0, hwnd, NULL, g_hInst,0);
 		dat->need_rebuild = FALSE;
 
@@ -448,7 +449,7 @@ static int GetRealStatus(struct ClcContact *contact, int status)
 }
 
 TCHAR status_name[128];
-TCHAR *GetStatusName(struct ClcContact *item) 
+TCHAR *GetStatusName(struct ClcContact *item)
 {
 	int status;
 
@@ -470,7 +471,7 @@ TCHAR *GetStatusName(struct ClcContact *item)
 
 
 TCHAR status_message[256];
-TCHAR *GetStatusMessage(struct ClcContact *item) 
+TCHAR *GetStatusMessage(struct ClcContact *item)
 {
 	status_message[0] = _T('\0');
 	if (item->hContact == NULL || item->proto == NULL)
@@ -489,7 +490,7 @@ TCHAR *GetStatusMessage(struct ClcContact *item)
 
 
 TCHAR proto_name[128];
-TCHAR *GetProtoName(struct ClcContact *item) 
+TCHAR *GetProtoName(struct ClcContact *item)
 {
 	PROTOACCOUNT *acc;
 #ifdef UNICODE
@@ -560,7 +561,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 	size = MAX_REGS(tmp);
 	while(1)
 	{
-		if (group->scanIndex == group->cl.count) 
+		if (group->scanIndex == group->cl.count)
 		{
 			group = group->parent;
 			if (group == NULL)
@@ -590,7 +591,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 				};
 				TCHAR *txt;
 
-				if (szCounts[0] != '\0') 
+				if (szCounts[0] != '\0')
 				{
 #ifdef UNICODE
 					mir_sntprintf(count, MAX_REGS(count), L"%S ", szCounts);
@@ -615,7 +616,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 				const TCHAR *t[] = {
 					_T("%name%"),
 					_T("%status%"),
-					_T("%protocol%"), 
+					_T("%protocol%"),
 					_T("%status_message%")
 				};
 				const TCHAR *v[] = {
@@ -645,7 +646,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 
 		SendMessage(dat->hwnd_list, LB_ADDSTRING, 0, (LPARAM) tmp);
 
-		if (item->type == CLCIT_GROUP && item->group->expanded) 
+		if (item->type == CLCIT_GROUP && item->group->expanded)
 		{
 			group = item->group;
 			text[0] = _T(' ');
@@ -708,7 +709,7 @@ int GetRowHeight(ClcData *tmp_dat, int item)
 
 void SortCLC(HWND hwnd, ClcData *tmp_dat, int useInsertionSort)
 {
-	if ( tmp_dat->needsResort ) 
+	if ( tmp_dat->needsResort )
 	{
 		ClcData *dat = (ClcData*)tmp_dat;
 
