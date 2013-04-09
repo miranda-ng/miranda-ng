@@ -66,7 +66,7 @@ HGENMENU hMenuItemHistory;
 HANDLE hTTButton;
 
 //===== Options pages =====
-static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
+static int OptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position      = 100000000;
@@ -108,13 +108,13 @@ static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int FontsChanged(WPARAM wParam, LPARAM lParam)
+static int FontsChanged(WPARAM, LPARAM)
 {
 	ReloadFonts();
 	return 0;
 }
 
-static int IconsChanged(WPARAM wParam, LPARAM lParam)
+static int IconsChanged(WPARAM, LPARAM)
 {
 	LoadActions();
 
@@ -137,7 +137,7 @@ static int IconsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int TTBLoaded(WPARAM wParam, LPARAM lParam)
+static int TTBLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = { sizeof(ttb) };
 	ttb.pszService = MENUCOMMAND_SVC;
@@ -155,7 +155,7 @@ static int TTBLoaded(WPARAM wParam, LPARAM lParam)
 }
 
 //===== EnableDisableMenuCommand =====
-INT_PTR svcEnableDisableMenuCommand(WPARAM wp, LPARAM lp)
+INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	if (PopUpOptions.ModuleIsEnabled) {
@@ -224,7 +224,7 @@ void InitMenuItems(void)
 }
 
 //===== GetStatus =====
-INT_PTR GetStatus(WPARAM wp, LPARAM lp)
+INT_PTR GetStatus(WPARAM, LPARAM)
 {
 	return PopUpOptions.ModuleIsEnabled;
 }
@@ -250,7 +250,7 @@ void LoadHotkey()
 
 //menu
 //Function which makes the initializations
-static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
+static int ModulesLoaded(WPARAM,LPARAM)
 {
 	//check if History++ is installed
 	gbHppInstalled = ServiceExists(MS_HPP_GETVERSION) && ServiceExists(MS_HPP_EG_WINDOW) &&
@@ -317,15 +317,16 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 //Called by Miranda to get the information associated to this plugin.
 //It only returns the PLUGININFOEX structure, without any test on the version
 //@param mirandaVersion - The version of the application calling this function
-MIRAPI PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+MIRAPI PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
 //ME_SYSTEM_PRESHUTDOWN event
 //called before the app goes into shutdown routine to make sure everyone is happy to exit
-static int OkToExit(WPARAM wParam, LPARAM lParam)
+static int OkToExit(WPARAM, LPARAM)
 {
+	SrmmMenu_Unload();
 	closing = TRUE;
 	StopPopupThread();
 	return 0;
@@ -365,10 +366,7 @@ MIRAPI int Load(void)
 	RegisterOptPrevBox();
 
 	// Register in DBEditor++
-	DBVARIANT dbv;
-	if (db_get(NULL, "KnownModules", MODULNAME, &dbv))
-		db_set_s(NULL, "KnownModules", pluginInfoEx.shortName, MODULNAME);
-	db_free(&dbv);
+	db_set_s(NULL, "KnownModules", pluginInfoEx.shortName, MODULNAME);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
@@ -423,8 +421,6 @@ MIRAPI int Load(void)
 
 MIRAPI int Unload(void)
 {
-	SrmmMenu_Unload();
-
 	DeleteObject(fonts.title);
 	DeleteObject(fonts.clock);
 	DeleteObject(fonts.text);

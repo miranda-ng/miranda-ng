@@ -30,7 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 *************************************************************************************/
 
 static HANDLE hDialogsList = NULL;
-static HANDLE hIconPressed=0,hWindowEvent=0;
 
 static int SrmmMenu_ProcessEvent(WPARAM wParam, LPARAM lParam);
 static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam);
@@ -65,23 +64,30 @@ void SrmmMenu_Load()
 		sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_POPUP_OFF,0);
 		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
 	
-		hIconPressed = HookEvent(ME_MSG_ICONPRESSED, SrmmMenu_ProcessIconClick);
-		hWindowEvent = HookEvent(ME_MSG_WINDOWEVENT, SrmmMenu_ProcessEvent);
-/*
-		HANDLE hContact = db_find_first();
-		while (hContact)
-		{
-			SrmmMenu_UpdateIcon(hContact);
-			hContact = db_find_next(hContact);
-		}
-*/
+		HookEvent(ME_MSG_ICONPRESSED, SrmmMenu_ProcessIconClick);
+		HookEvent(ME_MSG_WINDOWEVENT, SrmmMenu_ProcessEvent);
 	}
 }
 
 void SrmmMenu_Unload()
 {
-	UnhookEvent(hIconPressed);
-	UnhookEvent(hWindowEvent);
+	if (ServiceExists(MS_MSG_REMOVEICON))
+	{
+		StatusIconData sid = { sizeof(sid) };
+		sid.szModule = MODULNAME;
+
+		sid.dwId = 0;
+		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
+
+		sid.dwId = 1;
+		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
+
+		sid.dwId = 2;
+		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
+
+		sid.dwId = 3;
+		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
+	}
 }
 
 static void SrmmMenu_UpdateIcon(HANDLE hContact)
@@ -102,22 +108,22 @@ static void SrmmMenu_UpdateIcon(HANDLE hContact)
 	}
 }
 
-static int SrmmMenu_ProcessEvent(WPARAM wParam, LPARAM lParam)
+static int SrmmMenu_ProcessEvent(WPARAM, LPARAM lParam)
 {
-	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
+	MessageWindowEventData *mwevent = (MessageWindowEventData *)lParam;
 
-	if ( event->uType == MSG_WINDOW_EVT_OPEN )
+	if ( mwevent->uType == MSG_WINDOW_EVT_OPEN )
 	{
 		if (!hDialogsList)
 			hDialogsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
-		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
-		SrmmMenu_UpdateIcon(event->hContact);
+		WindowList_Add(hDialogsList, mwevent->hwndWindow, mwevent->hContact);
+		SrmmMenu_UpdateIcon(mwevent->hContact);
 	}
-	else if ( event->uType == MSG_WINDOW_EVT_CLOSING )
+	else if ( mwevent->uType == MSG_WINDOW_EVT_CLOSING )
 	{
 		if (hDialogsList)
-			WindowList_Remove(hDialogsList, event->hwndWindow);
+			WindowList_Remove(hDialogsList, mwevent->hwndWindow);
 	}
 
 	return 0;
@@ -153,8 +159,7 @@ static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam)
 		}
 	} else
 	{
-		db_set_b(hContact, MODULNAME, "ShowMode",
-			(mode == PU_SHOWMODE_AUTO) ? PU_SHOWMODE_BLOCK : PU_SHOWMODE_AUTO);
+		db_set_b(hContact, MODULNAME, "ShowMode", (mode == PU_SHOWMODE_AUTO) ? PU_SHOWMODE_BLOCK : PU_SHOWMODE_AUTO);
 		SrmmMenu_UpdateIcon(hContact);
 	}
 
