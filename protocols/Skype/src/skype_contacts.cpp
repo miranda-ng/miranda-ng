@@ -189,7 +189,7 @@ HANDLE CSkypeProto::GetContactBySid(const char *sid)
 	{
 		if  (this->IsProtoContact(hContact) && !this->IsChatRoom(hContact))
 		{
-			char *contactSid = ::DBGetString(hContact, this->m_szModuleName, "sid");
+			char *contactSid = ::db_get_sa(hContact, this->m_szModuleName, "sid");
 			if (contactSid && ::strcmp(sid, contactSid) == 0)
 				return hContact;
 		}
@@ -227,8 +227,8 @@ HANDLE CSkypeProto::AddContactBySid(const char* sid, const char* nick, DWORD fla
 		hContact = (HANDLE)::CallService(MS_DB_CONTACT_ADD, 0, 0);
 		::CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
 
-		::DBWriteContactSettingString(hContact, this->m_szModuleName, "sid", sid);
-		::DBWriteContactSettingString(hContact, this->m_szModuleName, "Nick", nick);
+		::db_set_s(hContact, this->m_szModuleName, "sid", sid);
+		::db_set_s(hContact, this->m_szModuleName, "Nick", nick);
 		
 		CContact::Ref contact;
 		if (this->skype->GetContact(sid, contact))
@@ -253,21 +253,21 @@ HANDLE CSkypeProto::AddContactBySid(const char* sid, const char* nick, DWORD fla
 		else
 		{
 			this->SetSettingByte(hContact, "Auth", 1);
-			::DBDeleteContactSetting(hContact, this->m_szModuleName, "IsSkypeOut");
+			::db_unset(hContact, this->m_szModuleName, "IsSkypeOut");
 
 			this->UpdateProfile(contact.fetch(), hContact);
 
 			if (flags & PALF_TEMPORARY)
 			{
-				::DBWriteContactSettingByte(hContact, "CList", "NotOnList", 1);
-				::DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
+				::db_set_b(hContact, "CList", "NotOnList", 1);
+				::db_set_b(hContact, "CList", "Hidden", 1);
 			}
 		}
 	}
 	else
 	{
 		if ( !(flags & PALF_TEMPORARY))
-			::DBDeleteContactSetting(hContact, "CList", "NotOnList");
+			::db_unset(hContact, "CList", "NotOnList");
 	}
 
 	return hContact;

@@ -2,7 +2,7 @@
 
 BYTE CSkypeProto::GetSettingByte(HANDLE hContact, const char *setting, BYTE errorValue)
 {
-	return ::DBGetContactSettingByte(hContact, this->m_szModuleName, setting, errorValue);
+	return ::db_get_b(hContact, this->m_szModuleName, setting, errorValue);
 }
 
 BYTE CSkypeProto::GetSettingByte(const char *setting, BYTE errorValue)
@@ -12,7 +12,7 @@ BYTE CSkypeProto::GetSettingByte(const char *setting, BYTE errorValue)
 
 WORD CSkypeProto::GetSettingWord(HANDLE hContact, const char *setting, WORD errorValue)
 {
-	return ::DBGetContactSettingWord(hContact, this->m_szModuleName, setting, errorValue);
+	return ::db_get_w(hContact, this->m_szModuleName, setting, errorValue);
 }
 
 WORD CSkypeProto::GetSettingWord(const char *setting, WORD errorValue)
@@ -22,7 +22,7 @@ WORD CSkypeProto::GetSettingWord(const char *setting, WORD errorValue)
 
 DWORD CSkypeProto::GetSettingDword(HANDLE hContact, const char *setting, DWORD errorValue)
 {
-	return ::DBGetContactSettingDword(hContact, this->m_szModuleName, setting, errorValue);
+	return ::db_get_dw(hContact, this->m_szModuleName, setting, errorValue);
 }
 
 DWORD CSkypeProto::GetSettingDword(const char *setting, DWORD errorValue)
@@ -35,10 +35,10 @@ wchar_t* CSkypeProto::GetSettingString(HANDLE hContact, const char *setting, wch
 	DBVARIANT dbv = {0};
 	wchar_t* result = NULL;
 
-	if ( !::DBGetContactSettingWString(hContact, this->m_szModuleName, setting, &dbv))
+	if ( !::db_get_ws(hContact, this->m_szModuleName, setting, &dbv))
 	{
 		result = ::mir_wstrdup(dbv.pwszVal);
-		::DBFreeVariant(&dbv);
+		::db_free(&dbv);
 	}
 	else
 	{
@@ -58,10 +58,10 @@ char* CSkypeProto::GetDecodeSettingString(HANDLE hContact, const char *setting, 
 	DBVARIANT dbv = {0};
 	char* result = NULL;
 
-	if ( !::DBGetContactSettingString(hContact, this->m_szModuleName, setting, &dbv))
+	if ( !::db_get_s(hContact, this->m_szModuleName, setting, &dbv))
 	{
 		result = ::mir_strdup(dbv.pszVal);
-		::DBFreeVariant(&dbv);
+		::db_free(&dbv);
 
 		::CallService(
 			MS_DB_CRYPT_DECODESTRING,
@@ -77,7 +77,7 @@ char* CSkypeProto::GetDecodeSettingString(HANDLE hContact, const char *setting, 
 
 bool CSkypeProto::SetSettingByte(HANDLE hContact, const char *setting, BYTE value)
 {
-	return !::DBWriteContactSettingByte(hContact, this->m_szModuleName, setting, value);
+	return !::db_set_b(hContact, this->m_szModuleName, setting, value);
 }
 
 bool CSkypeProto::SetSettingByte(const char *setting, BYTE errorValue)
@@ -87,7 +87,7 @@ bool CSkypeProto::SetSettingByte(const char *setting, BYTE errorValue)
 
 bool CSkypeProto::SetSettingWord(HANDLE hContact, const char *setting, WORD value)
 {
-	return !::DBWriteContactSettingWord(hContact, this->m_szModuleName, setting, value);
+	return !::db_set_w(hContact, this->m_szModuleName, setting, value);
 }
 
 bool CSkypeProto::SetSettingWord(const char *setting, WORD value)
@@ -97,7 +97,7 @@ bool CSkypeProto::SetSettingWord(const char *setting, WORD value)
 
 bool CSkypeProto::SetSettingDword(HANDLE hContact, const char *setting, DWORD value)
 {
-	return !::DBWriteContactSettingDword(hContact, this->m_szModuleName, setting, value);
+	return !::db_set_dw(hContact, this->m_szModuleName, setting, value);
 }
 
 bool CSkypeProto::SetSettingDword(const char *setting, DWORD value)
@@ -107,7 +107,7 @@ bool CSkypeProto::SetSettingDword(const char *setting, DWORD value)
 
 bool CSkypeProto::SetSettingString(HANDLE hContact, const char *szSetting, const wchar_t* value)
 {
-	return !::DBWriteContactSettingWString(hContact, this->m_szModuleName, szSetting, value);
+	return !::db_set_ws(hContact, this->m_szModuleName, szSetting, value);
 }
 
 bool CSkypeProto::SetSettingString(const char *szSetting, const wchar_t* value)
@@ -137,5 +137,5 @@ void CSkypeProto::DeleteSetting(const char *setting)
 
 void CSkypeProto::DeleteSetting(HANDLE hContact, const char *setting)
 {
-	::DBDeleteContactSetting(hContact, this->m_szModuleName, setting);
+	::db_unset(hContact, this->m_szModuleName, setting);
 }

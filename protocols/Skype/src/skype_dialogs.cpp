@@ -13,12 +13,12 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 			proto = (CSkypeProto*)lParam;
 			::SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 			{
-				char *sid = ::DBGetString(NULL, proto->m_szModuleName, SKYPE_SETTINGS_LOGIN);
+				char *sid = ::db_get_sa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_LOGIN);
 				SetDlgItemTextA(hwnd, IDC_SL, sid);
 				::mir_free(sid);
 			}
 			{
-				char *pwd = ::DBGetString(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD);
+				char *pwd = ::db_get_sa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD);
 
 				if (pwd)
 				{
@@ -137,13 +137,13 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 		{
 			char data[128];
 			GetDlgItemTextA(hwnd, IDC_SL, data, SIZEOF(data));
-			::DBWriteContactSettingString(NULL, proto->m_szModuleName, "sid", data);
+			::db_set_s(NULL, proto->m_szModuleName, "sid", data);
 			::mir_free(proto->login);
 			proto->login = ::mir_strdup(data);
 
 			GetDlgItemTextA(hwnd, IDC_PW, data, sizeof(data));
 			::CallService(MS_DB_CRYPT_ENCODESTRING, strlen(data), LPARAM((char*)data));
-			::DBWriteContactSettingString(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD, data);
+			::db_set_s(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD, data);
 
 			HWND item = GetDlgItem(hwnd, IDC_PORT);
 			if (item)
@@ -578,7 +578,7 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 					if (param->id)
 					{
 						HANDLE hContact = param->ppro->GetChatRoomByID(param->id);
-						if (hContact && ::DBGetContactSettingWord(hContact, param->ppro->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+						if (hContact && ::db_get_w(hContact, param->ppro->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 						{
 							contacts = param->ppro->GetChatUsers(param->id);
 						}
@@ -594,7 +594,7 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 					if (param->id)
 					{
 						HANDLE hContact = param->ppro->GetChatRoomByID(param->id);
-						if (hContact && ::DBGetContactSettingWord(hContact, param->ppro->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+						if (hContact && ::db_get_w(hContact, param->ppro->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 						{
 							contacts = param->ppro->GetChatUsers(param->id);
 						}

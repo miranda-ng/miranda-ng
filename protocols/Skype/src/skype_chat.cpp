@@ -22,7 +22,7 @@ char *CSkypeProto::Groups[] =
 
 bool CSkypeProto::IsChatRoom(HANDLE hContact)
 {
-	return ::DBGetContactSettingByte(hContact, this->m_szModuleName, "ChatRoom", 0) > 0;
+	return ::db_get_b(hContact, this->m_szModuleName, "ChatRoom", 0) > 0;
 }
 
 HANDLE CSkypeProto::GetChatRoomByID(const char *cid)
@@ -32,7 +32,7 @@ HANDLE CSkypeProto::GetChatRoomByID(const char *cid)
 	{
 		if  (this->IsProtoContact(hContact) && this->IsChatRoom(hContact))
 		{
-			char *chatID = ::DBGetString(hContact, this->m_szModuleName, "ChatRoomID");
+			char *chatID = ::db_get_sa(hContact, this->m_szModuleName, "ChatRoomID");
 			if (chatID && ::strcmp(cid, chatID) == 0)
 				return hContact;
 		}
@@ -51,16 +51,16 @@ HANDLE CSkypeProto::AddChatRoomByID(const char* cid, const char* name, DWORD fla
 		hContact = (HANDLE)::CallService(MS_DB_CONTACT_ADD, 0, 0);
 		::CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
 
-		::DBWriteContactSettingByte(hContact, this->m_szModuleName, "ChatRoom", 1);
-		::DBWriteContactSettingString(hContact, this->m_szModuleName, "ChatRoomID", cid);
-		::DBWriteContactSettingString(hContact, this->m_szModuleName, "Nick", name);
-		::DBWriteContactSettingWord(hContact, this->m_szModuleName, "Status", ID_STATUS_OFFLINE);
-		::DBWriteContactSettingWord(hContact, this->m_szModuleName, "ApparentMode", ID_STATUS_OFFLINE);
+		::db_set_b(hContact, this->m_szModuleName, "ChatRoom", 1);
+		::db_set_s(hContact, this->m_szModuleName, "ChatRoomID", cid);
+		::db_set_s(hContact, this->m_szModuleName, "Nick", name);
+		::db_set_w(hContact, this->m_szModuleName, "Status", ID_STATUS_OFFLINE);
+		::db_set_w(hContact, this->m_szModuleName, "ApparentMode", ID_STATUS_OFFLINE);
 		
-		wchar_t *defaultGroup = ::DBGetStringW(NULL, "Chat", "AddToGroup");
+		wchar_t *defaultGroup = ::db_get_wsa(NULL, "Chat", "AddToGroup");
 		if (defaultGroup)
 		{
-			::DBWriteContactSettingWString(hContact, "CList", "Group", defaultGroup);		
+			::db_set_ws(hContact, "CList", "Group", defaultGroup);		
 		}
 	}
 
@@ -127,7 +127,7 @@ void CSkypeProto::GetInviteContacts(HANDLE hItem, HWND hwndList, SEStringList &c
 				}
 				else 
 				{
-					char *sid = ::DBGetString(hItem, this->m_szModuleName, "sid");
+					char *sid = ::db_get_sa(hItem, this->m_szModuleName, "sid");
 					if (sid) chatTargets.append(sid);
 				}
 			}
@@ -357,7 +357,7 @@ INT_PTR __cdecl CSkypeProto::OnJoinChat(WPARAM wParam, LPARAM)
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact)
 	{
-		this->JoinToChat(::DBGetString(hContact, this->m_szModuleName, "ChatRoomID"));
+		this->JoinToChat(::db_get_sa(hContact, this->m_szModuleName, "ChatRoomID"));
 	}
 
 	return 0;
@@ -368,7 +368,7 @@ INT_PTR __cdecl CSkypeProto::OnLeaveChat(WPARAM wParam, LPARAM)
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact)
 	{
-		char *cid = ::DBGetString(hContact, this->m_szModuleName, "ChatRoomID");
+		char *cid = ::db_get_sa(hContact, this->m_szModuleName, "ChatRoomID");
 		this->LeaveChat(cid);
 		
 		::mir_free(cid);

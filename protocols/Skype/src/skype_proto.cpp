@@ -274,12 +274,12 @@ HANDLE __cdecl CSkypeProto::SendFile( HANDLE hContact, const TCHAR* szDescriptio
 	if (this->IsOnline() && hContact && ppszFiles)
 	{
 		SEStringList targets;
-		char* sid = ::DBGetString(hContact, this->m_szModuleName, "sid");
+		char* sid = ::db_get_sa(hContact, this->m_szModuleName, "sid");
 		targets.append(sid);		
 
 		CConversation::Ref conversation = CConversation::FindBySid(
 			this->skype, 
-			::DBGetString(hContact, this->m_szModuleName, "sid"));
+			::db_get_sa(hContact, this->m_szModuleName, "sid"));
 		conversation.fetch();
 
 		SEFilenameList fileList;
@@ -329,7 +329,7 @@ int    __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char* msg)
 
 	CConversation::Ref conversation = CConversation::FindBySid(
 		this->skype,
-		::DBGetString(hContact, this->m_szModuleName, "sid"));
+		::db_get_sa(hContact, this->m_szModuleName, "sid"));
 	if (conversation)
 	{
 		Message::Ref message;
@@ -417,11 +417,11 @@ int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type )
 {
 	if (hContact && this->IsOnline() && this->m_iStatus != ID_STATUS_INVISIBLE)
 	{
-		if (::strcmp(::DBGetString(hContact, this->m_szModuleName, "sid"), this->login) != 0)
+		if (::strcmp(::db_get_sa(hContact, this->m_szModuleName, "sid"), this->login) != 0)
 		{
 			CConversation::Ref conversation = CConversation::FindBySid(
 				this->skype,
-				::DBGetString(hContact, this->m_szModuleName, "sid"));
+				::db_get_sa(hContact, this->m_szModuleName, "sid"));
 			if (conversation)
 			{
 				switch (type)

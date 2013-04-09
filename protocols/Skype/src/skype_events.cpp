@@ -35,7 +35,7 @@ int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 	{
 		if (this->IsChatRoom(hContact))
 		{
-			char *chatID = ::DBGetString(hContact, this->m_szModuleName, "ChatRoomID");
+			char *chatID = ::db_get_sa(hContact, this->m_szModuleName, "ChatRoomID");
 			this->LeaveChat(chatID);
 
 			CConversation::Ref conversation;
@@ -89,7 +89,7 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 
 		//this->SendChatMessage(cid, sid, ::mir_utf8decodeA(text));
 
-		char *nick = (char *)::DBGetString(NULL, this->m_szModuleName, "Nick");
+		char *nick = (char *)::db_get_sa(NULL, this->m_szModuleName, "Nick");
 		if (::stricmp(nick, "") == 0)
 		{
 			nick = sid;
@@ -336,7 +336,7 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 			char *cid = ::mir_strdup(data);
 
 			HANDLE hContact = this->GetChatRoomByID(cid);
-			if ( !hContact || ::DBGetContactSettingWord(hContact, this->m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+			if ( !hContact || ::db_get_w(hContact, this->m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 			{
 				SEStringList empty;
 				this->StartChat(cid, empty);

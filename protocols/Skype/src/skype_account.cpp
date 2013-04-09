@@ -101,7 +101,7 @@ void __cdecl CSkypeProto::SignInAsync(void*)
 
 bool CSkypeProto::SignIn(int status)
 {
-	this->login = ::DBGetString(NULL, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);	
+	this->login = ::db_get_sa(NULL, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);	
 	if ( !this->login || !::strlen(this->login))
 	{
 		this->m_iStatus = ID_STATUS_OFFLINE;
@@ -119,7 +119,7 @@ bool CSkypeProto::SignIn(int status)
 				::mir_free(this->password);
 				this->password = NULL;
 			}
-			this->password = ::DBGetString(NULL, this->m_szModuleName, SKYPE_SETTINGS_PASSWORD);
+			this->password = ::db_get_sa(NULL, this->m_szModuleName, SKYPE_SETTINGS_PASSWORD);
 			if ( !this->password || !::strlen(this->password))
 			{
 				if (this->password)

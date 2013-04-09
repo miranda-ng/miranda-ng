@@ -480,7 +480,7 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 {
 	if (::Miranda_Terminated()) return;
 
-	if ( !::ServiceExists(MS_POPUP_ADDPOPUPT) || !::DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1))
+	if ( !::ServiceExists(MS_POPUP_ADDPOPUPT) || !::db_get_b(NULL, "PopUp", "ModuleIsEnabled", 1))
 		::MessageBoxW(NULL, message, caption, MB_OK | flags);
 	else
 	{
