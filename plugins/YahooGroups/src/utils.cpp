@@ -138,7 +138,7 @@ int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, 
 	int res = 1;
 	int len;
 	dbv.type = DBVT_ASCIIZ;
-	if (db_get_ts(hContact, szModule, szSettingName, &dbv) == 0)
+	if (db_get_s(hContact, szModule, szSettingName, &dbv) == 0)
 		{
 			res = 0;
 			int tmp = strlen(dbv.pszVal);
