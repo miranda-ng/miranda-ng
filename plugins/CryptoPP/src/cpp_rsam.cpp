@@ -74,6 +74,7 @@ int __cdecl rsa_done(void) {
 		delete p;
 		tmp->pdata = 0;
 		cpp_delete_context(hRSA4096);
+		hRSA4096 = NULL;
 	}
 
 	return 1;
