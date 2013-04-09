@@ -291,19 +291,17 @@ BOOL CList_AddEvent(HANDLE hContact, HICON Icon, HANDLE event, int type, const T
 
 HANDLE CList_FindRoom(const char* pszModule, const TCHAR* pszRoom)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *szProto = GetContactProto(hContact);
-		if (szProto && !lstrcmpiA(szProto, pszModule)) {
-			if (M->GetByte(hContact, szProto, "ChatRoom", 0) != 0) {
-				DBVARIANT dbv;
-				if (!M->GetTString(hContact, szProto, "ChatRoomID", &dbv)) {
-					if (!lstrcmpi(dbv.ptszVal, pszRoom)) {
-						db_free(&dbv);
-						return hContact;
-					}
-					db_free(&dbv);
-				}
+	for (HANDLE hContact = db_find_first(pszModule); hContact; hContact = db_find_next(hContact, pszModule)) {
+		if ( !M->GetByte(hContact, pszModule, "ChatRoom", 0))
+			continue;
+
+		DBVARIANT dbv;
+		if (!M->GetTString(hContact, pszModule, "ChatRoomID", &dbv)) {
+			if (!lstrcmpi(dbv.ptszVal, pszRoom)) {
+				db_free(&dbv);
+				return hContact;
 			}
+			db_free(&dbv);
 		}
 	}
 	return 0;

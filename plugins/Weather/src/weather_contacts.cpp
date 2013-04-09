@@ -448,26 +448,24 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 	// now the default station is deleted, try to get a new one
 
 	// start looking for other weather stations
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (IsMyContact(hContact)) {
-			if ( !db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
-				// if the station is not a default station, set it as the new default station
-				// this is the first weather station encountered from the search
-				if ( _tcscmp(opt.Default, dbv.ptszVal)) {
-					_tcscpy(opt.Default, dbv.ptszVal);
-					opt.DefStn = hContact;
-					db_free(&dbv);
-					if ( !db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
-						TCHAR str[255];
-						mir_sntprintf(str, SIZEOF(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
-						db_free(&dbv);
-						MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
-					}
-					db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);
-					return 0;		// exit this function quickly
-				}
+	for (HANDLE hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME)) {
+		if ( !db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
+			// if the station is not a default station, set it as the new default station
+			// this is the first weather station encountered from the search
+			if ( _tcscmp(opt.Default, dbv.ptszVal)) {
+				_tcscpy(opt.Default, dbv.ptszVal);
+				opt.DefStn = hContact;
 				db_free(&dbv);
+				if ( !db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
+					TCHAR str[255];
+					mir_sntprintf(str, SIZEOF(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
+					db_free(&dbv);
+					MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
+				}
+				db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);
+				return 0;		// exit this function quickly
 			}
+			db_free(&dbv);
 		}
 	}
 	// got here if no more weather station left

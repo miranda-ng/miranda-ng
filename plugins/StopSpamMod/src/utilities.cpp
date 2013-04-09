@@ -310,13 +310,10 @@ void CleanProtocolTmpThread(std::string proto)
 	}
 
 	std::list<HANDLE> contacts;
-	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *proto_tmp = GetContactProto(hContact);
-		if(proto_tmp)
-			if(!strcmp(proto.c_str(), proto_tmp))
-				if(db_get_b(hContact, "CList", "NotOnList", 0)|| (_T("Not In List")== DBGetContactSettingStringPAN(hContact,"CList","Group",_T(""))))
-					contacts.push_back(hContact);
-	}
+	for(HANDLE hContact = db_find_first(proto.c_str()); hContact; hContact = db_find_next(hContact, proto.c_str()))
+		if(db_get_b(hContact, "CList", "NotOnList", 0)|| (_T("Not In List")== DBGetContactSettingStringPAN(hContact,"CList","Group",_T(""))))
+			contacts.push_back(hContact);
+
 	boost::this_thread::sleep(boost::posix_time::seconds(5));
 	clean_mutex.lock();
 	std::list<HANDLE>::iterator end = contacts.end();
@@ -340,14 +337,10 @@ void CleanProtocolExclThread(std::string proto)
 	}
 
 	std::list<HANDLE> contacts;
-	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-	{
-		char *proto_tmp = GetContactProto(hContact);
-		if(proto_tmp)
-			if(!strcmp(proto.c_str(), proto_tmp))
-				if(db_get_b(hContact, "CList", "NotOnList", 0) && db_get_b(hContact, pluginName, "Excluded", 0))
-					contacts.push_back(hContact);
-	}
+	for(HANDLE hContact = db_find_first(proto.c_str()); hContact; hContact = db_find_next(hContact, proto.c_str()))
+		if(db_get_b(hContact, "CList", "NotOnList", 0) && db_get_b(hContact, pluginName, "Excluded", 0))
+			contacts.push_back(hContact);
+
 	boost::this_thread::sleep(boost::posix_time::seconds(5));
 	clean_mutex.lock();
 	std::list<HANDLE>::iterator end = contacts.end();

@@ -14,31 +14,28 @@ INT_PTR exportContacts(WPARAM wParam,LPARAM lParam)
 	if (!file)
 		return 0;
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		const char* proto = GetContactProto(hContact); 
-		if (proto && !strcmp(proto, MODNAME)) {
-			int tmp;
-			char DBVar[1024];
-			if (db_get_static(hContact, MODNAME, "Name", DBVar)) {
-				fprintf(file, "\r\n[Non-IM Contact]\r\nName=%s\r\n", DBVar);
-				if (db_get_static(hContact, MODNAME, "ProgramString", DBVar))
-					fprintf(file, "ProgramString=%s\r\n", DBVar);
-				if (db_get_static(hContact, MODNAME, "ProgramParamString", DBVar))
-					fprintf(file, "ProgramParamString=%s\r\n", DBVar);
-				if (db_get_static(hContact, MODNAME, "ToolTip", DBVar))
-					fprintf(file, "ToolTip=%s</tooltip>\r\n", DBVar);
-				if (db_get_static(hContact, "CList", "Group", DBVar))
-					fprintf(file, "Group=%s\r\n", DBVar);
-				if (tmp = db_get_w(hContact, MODNAME, "Icon", 40072))
-					fprintf(file, "Icon=%d\r\n", tmp);
-				if (tmp = db_get_b(hContact, MODNAME, "UseTimer", 0))
-					fprintf(file, "UseTimer=%d\r\n", tmp);
-				if (tmp = db_get_b(hContact, MODNAME, "Minutes", 1))
-					fprintf(file, "Minutes=%d\r\n", tmp);
-				if (tmp = db_get_w(hContact, MODNAME, "Timer", 0))
-					fprintf(file, "Timer=%d\r\n", tmp);
-				fprintf(file, "[/Non-IM Contact]\r\n");
-			}
+	for (HANDLE hContact = db_find_first(MODNAME); hContact; hContact = db_find_next(hContact, MODNAME)) {
+		int tmp;
+		char DBVar[1024];
+		if (db_get_static(hContact, MODNAME, "Name", DBVar)) {
+			fprintf(file, "\r\n[Non-IM Contact]\r\nName=%s\r\n", DBVar);
+			if (db_get_static(hContact, MODNAME, "ProgramString", DBVar))
+				fprintf(file, "ProgramString=%s\r\n", DBVar);
+			if (db_get_static(hContact, MODNAME, "ProgramParamString", DBVar))
+				fprintf(file, "ProgramParamString=%s\r\n", DBVar);
+			if (db_get_static(hContact, MODNAME, "ToolTip", DBVar))
+				fprintf(file, "ToolTip=%s</tooltip>\r\n", DBVar);
+			if (db_get_static(hContact, "CList", "Group", DBVar))
+				fprintf(file, "Group=%s\r\n", DBVar);
+			if (tmp = db_get_w(hContact, MODNAME, "Icon", 40072))
+				fprintf(file, "Icon=%d\r\n", tmp);
+			if (tmp = db_get_b(hContact, MODNAME, "UseTimer", 0))
+				fprintf(file, "UseTimer=%d\r\n", tmp);
+			if (tmp = db_get_b(hContact, MODNAME, "Minutes", 1))
+				fprintf(file, "Minutes=%d\r\n", tmp);
+			if (tmp = db_get_w(hContact, MODNAME, "Timer", 0))
+				fprintf(file, "Timer=%d\r\n", tmp);
+			fprintf(file, "[/Non-IM Contact]\r\n");
 		}
 	}
 	fclose(file);

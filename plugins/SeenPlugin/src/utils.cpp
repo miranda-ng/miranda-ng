@@ -653,20 +653,14 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 static void cleanThread(void *param)
 {
 	logthread_info* infoParam = (logthread_info*)param;
+	char *szProto = infoParam->sProtoName;
 
 	// I hope in 10 secons all logged-in contacts will be listed
 	if ( WaitForSingleObject(g_hShutdownEvent, 10000) == WAIT_TIMEOUT) {
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			char *contactProto = GetContactProto(hContact);
-			if (!contactProto)
-				continue;
-
-			if ( strncmp(infoParam->sProtoName, contactProto, MAXMODULELABELLENGTH))
-				continue;
-
+		for (HANDLE hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto)) {
 			WORD oldStatus = db_get_w(hContact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE) | 0x8000;
 			if (oldStatus > ID_STATUS_OFFLINE) {
-				if (db_get_w(hContact,contactProto,"Status",ID_STATUS_OFFLINE)==ID_STATUS_OFFLINE){
+				if (db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)==ID_STATUS_OFFLINE){
 					db_set_w(hContact,S_MOD,"OldStatus",(WORD)(oldStatus|0x8000));
 					if (includeIdle)db_set_b(hContact,S_MOD,"OldIdle",(BYTE)((oldStatus&0x8000)?0:1));
 					db_set_w(hContact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE);

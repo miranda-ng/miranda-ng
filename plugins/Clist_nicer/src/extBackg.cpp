@@ -1223,7 +1223,7 @@ void IMG_LoadItems()
 
 void LoadPerContactSkins(TCHAR *tszFileName)
 {
-	char *p, *szProto, *uid, szItem[100];
+	char *p, szItem[100];
 	char *szSections = reinterpret_cast<char *>(malloc(3002));
 	StatusItems_t *items = NULL, *this_item;
 	int i = 1;
@@ -1261,58 +1261,57 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 
 	if (items) {
 		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			char UIN[40];
-			int j;
+			char *szProto = GetContactProto(hContact);
+			if (szProto == NULL)
+				continue;
 
-			szProto = GetContactProto(hContact);
-			if (szProto) {
-				uid = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-				if ((INT_PTR) uid != CALLSERVICE_NOTFOUND && uid != NULL) {
-					DBVARIANT dbv = {0};
+			char *uid = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+			if ((INT_PTR) uid != CALLSERVICE_NOTFOUND && uid != NULL) {
+				DBVARIANT dbv = {0};
+				db_get(hContact, szProto, uid, &dbv);
 
-					db_get(hContact, szProto, uid, &dbv);
-					switch(dbv.type) {
-					case DBVT_DWORD:
-						mir_snprintf(UIN, 40, "%d", dbv.dVal);
-						break;
-					case DBVT_ASCIIZ:
-						mir_snprintf(UIN, 40, "%s", dbv.pszVal);
-						db_free(&dbv);
-						break;
-					default:
-						UIN[0] = 0;
+				char UIN[40];
+				switch(dbv.type) {
+				case DBVT_DWORD:
+					mir_snprintf(UIN, 40, "%d", dbv.dVal);
+					break;
+				case DBVT_ASCIIZ:
+					mir_snprintf(UIN, 40, "%s", dbv.pszVal);
+					db_free(&dbv);
+					break;
+				default:
+					UIN[0] = 0;
+					break;
+				}
+
+				int j;
+				for (j = 0; j < i - 1; j++) {
+					if ( !strcmp(szProto, items[j].szName) && !strcmp(UIN, items[j].szDBname) &&
+							lstrlenA(szProto) == lstrlenA(items[j].szName) && lstrlenA(UIN) == lstrlenA(items[j].szDBname)) {
+						cfg::writeDword(hContact, "EXTBK", "TEXT", items[j].TEXTCOLOR);
+						cfg::writeDword(hContact, "EXTBK", "COLOR1", items[j].COLOR);
+						cfg::writeDword(hContact, "EXTBK", "COLOR2", items[j].COLOR2);
+						cfg::writeByte(hContact, "EXTBK", "ALPHA", (BYTE)items[j].ALPHA);
+
+						cfg::writeByte(hContact, "EXTBK", "LEFT", (BYTE)items[j].MARGIN_LEFT);
+						cfg::writeByte(hContact, "EXTBK", "RIGHT", (BYTE)items[j].MARGIN_RIGHT);
+						cfg::writeByte(hContact, "EXTBK", "TOP", (BYTE)items[j].MARGIN_TOP);
+						cfg::writeByte(hContact, "EXTBK", "BOTTOM", (BYTE)items[j].MARGIN_BOTTOM);
+
+						cfg::writeByte(hContact, "EXTBK", "TRANS", items[j].COLOR2_TRANSPARENT);
+						cfg::writeDword(hContact, "EXTBK", "BDR", items[j].BORDERSTYLE);
+
+						cfg::writeByte(hContact, "EXTBK", "CORNER", items[j].CORNER);
+						cfg::writeByte(hContact, "EXTBK", "GRAD", items[j].GRADIENT);
+						cfg::writeByte(hContact, "EXTBK", "TRANS", items[j].COLOR2_TRANSPARENT);
+
+						cfg::writeByte(hContact, "EXTBK", "VALID", 1);
 						break;
 					}
-					for (j = 0; j < i - 1; j++) {
-						if ( !strcmp(szProto, items[j].szName) && !strcmp(UIN, items[j].szDBname)
-							&& lstrlenA(szProto) == lstrlenA(items[j].szName) && lstrlenA(UIN) == lstrlenA(items[j].szDBname)) {
-
-								//_DebugPopup(hContact, "Found: %s, %s", szProto, UIN);
-								cfg::writeDword(hContact, "EXTBK", "TEXT", items[j].TEXTCOLOR);
-								cfg::writeDword(hContact, "EXTBK", "COLOR1", items[j].COLOR);
-								cfg::writeDword(hContact, "EXTBK", "COLOR2", items[j].COLOR2);
-								cfg::writeByte(hContact, "EXTBK", "ALPHA", (BYTE)items[j].ALPHA);
-
-								cfg::writeByte(hContact, "EXTBK", "LEFT", (BYTE)items[j].MARGIN_LEFT);
-								cfg::writeByte(hContact, "EXTBK", "RIGHT", (BYTE)items[j].MARGIN_RIGHT);
-								cfg::writeByte(hContact, "EXTBK", "TOP", (BYTE)items[j].MARGIN_TOP);
-								cfg::writeByte(hContact, "EXTBK", "BOTTOM", (BYTE)items[j].MARGIN_BOTTOM);
-
-								cfg::writeByte(hContact, "EXTBK", "TRANS", items[j].COLOR2_TRANSPARENT);
-								cfg::writeDword(hContact, "EXTBK", "BDR", items[j].BORDERSTYLE);
-
-								cfg::writeByte(hContact, "EXTBK", "CORNER", items[j].CORNER);
-								cfg::writeByte(hContact, "EXTBK", "GRAD", items[j].GRADIENT);
-								cfg::writeByte(hContact, "EXTBK", "TRANS", items[j].COLOR2_TRANSPARENT);
-
-								cfg::writeByte(hContact, "EXTBK", "VALID", 1);
-								break;
-						}
-					}
-					if (j == i - 1) {            // disable the db copy if it has been disabled in the skin .ini file
-						if (cfg::getByte(hContact, "EXTBK", "VALID", 0))
-							cfg::writeByte(hContact, "EXTBK", "VALID", 0);
-					}
+				}
+				if (j == i - 1) {            // disable the db copy if it has been disabled in the skin .ini file
+					if (cfg::getByte(hContact, "EXTBK", "VALID", 0))
+						cfg::writeByte(hContact, "EXTBK", "VALID", 0);
 				}
 			}
 		}

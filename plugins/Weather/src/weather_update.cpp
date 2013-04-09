@@ -282,12 +282,10 @@ void DestroyUpdateList(void)
 void UpdateAll(BOOL AutoUpdate, BOOL RemoveData) 
 {
 	// add all weather contact to the update queue list
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (IsMyContact(hContact)) {
-			if ( !db_get_b(hContact,WEATHERPROTONAME, "AutoUpdate",FALSE) || !AutoUpdate) {
-				if (RemoveData)	DBDataManage((HANDLE)hContact, WDBM_REMOVE, 0, 0);
-				UpdateListAdd(hContact);
-			}
+	for (HANDLE hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME)) {
+		if ( !db_get_b(hContact,WEATHERPROTONAME, "AutoUpdate",FALSE) || !AutoUpdate) {
+			if (RemoveData)	DBDataManage((HANDLE)hContact, WDBM_REMOVE, 0, 0);
+			UpdateListAdd(hContact);
 		}
 	}
 

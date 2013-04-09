@@ -1403,7 +1403,7 @@ static void clist_chat_invite_send(HANDLE hItem, HWND hwndList, chat_list_item* 
 static void clist_validate_contact(HANDLE hItem, HWND hwndList, CAimProto* ppro)
 {
 	if (!ppro->is_my_contact(hItem) || ppro->getByte(hItem, "ChatRoom", 0) || 
-		ppro->getWord(hItem, AIM_KEY_ST, ID_STATUS_OFFLINE) == ID_STATUS_ONTHEPHONE)
+			ppro->getWord(hItem, AIM_KEY_ST, ID_STATUS_OFFLINE) == ID_STATUS_ONTHEPHONE)
 		SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 }
 

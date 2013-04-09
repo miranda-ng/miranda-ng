@@ -220,10 +220,9 @@ INT_PTR CMraProto::MraWebSearch(WPARAM wParam, LPARAM lParam)
 INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
 {
 	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateW(MRA_UPD_ALL_USERS_INFO_STR), MB_YESNO | MB_ICONQUESTION) == IDYES ) {
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			size_t dwEMailSize;
 			CHAR szEMail[MAX_EMAIL_LEN];
-			if ( IsContactMra(hContact))
 			if ( mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize))
 				MraWPRequestByEMail(hContact, ACKTYPE_GETINFO, szEMail, dwEMailSize);
 		}
@@ -234,11 +233,10 @@ INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
 INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM wParam, LPARAM lParam)
 {
 	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateW(MRA_CHK_USERS_AVATARS_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			size_t dwEMailSize;
 			CHAR szEMail[MAX_EMAIL_LEN];
 
-			if (IsContactMra(hContact))
 			if (mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize))
 			if (IsEMailChatAgent(szEMail, dwEMailSize) == FALSE)// только для оптимизации, MraAvatarsQueueGetAvatarSimple сама умеет фильтровать чатконтакты
 				MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, 0/*GAIF_FORCE*/, hContact, 0);
@@ -253,7 +251,7 @@ INT_PTR CMraProto::MraRequestAuthForAll(WPARAM wParam, LPARAM lParam)
 		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			DWORD dwContactSeverFlags;
 			if (GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwContactSeverFlags, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL) == NO_ERROR)
-			if (dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED && dwContactSeverFlags != -1)
+			if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED && dwContactSeverFlags != -1)
 				MraRequestAuthorization((WPARAM)hContact, 0);
 		}
 	}

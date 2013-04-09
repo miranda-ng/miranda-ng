@@ -1802,79 +1802,68 @@ BOOL IsXFireContact(HANDLE hContact)
 
 HANDLE CList_FindContact (int uid)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *szProto = GetContactProto(hContact);
-		if ( szProto != NULL && !lstrcmpiA( szProto, protocolname )) {
-			if ( db_get_dw(hContact, protocolname, "UserId",-1)==uid)
-				return hContact;
-		}
-	}
+	for (HANDLE hContact = db_find_first(protocolname); hContact; hContact = db_find_next(hContact, protocolname))
+		if ( db_get_dw(hContact, protocolname, "UserId", -1) == uid)
+			return hContact;
+
 	return 0;
 }
 
 void CList_MakeAllOffline()
 {
 	vector<HANDLE> fhandles;
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *szProto = GetContactProto(hContact);
-		if ( szProto != NULL && !lstrcmpiA( szProto, protocolname )) {
-			//freunde von freunden in eine seperate liste setzen
-			//nur wenn das nicht abgestellt wurde
-			if(db_get_b(hContact,protocolname,"friendoffriend",0)==1&&
-				db_get_b(NULL,protocolname,"fofdbremove",0)==1)
-			{
-				fhandles.push_back(hContact);
-			}
+	for (HANDLE hContact = db_find_first(protocolname); hContact; hContact = db_find_next(hContact, protocolname)) {
+		//freunde von freunden in eine seperate liste setzen
+		//nur wenn das nicht abgestellt wurde
+		if(db_get_b(hContact,protocolname,"friendoffriend",0)==1 && db_get_b(NULL,protocolname,"fofdbremove",0)==1)
+			fhandles.push_back(hContact);
 
-			db_unset(hContact, "CList", "StatusMsg");
-			db_unset(hContact, protocolname, "ServerIP");
-			db_unset(hContact, protocolname, "Port");
-			db_unset(hContact, protocolname, "ServerName");
-			db_unset(hContact, protocolname, "GameType");
-			db_unset(hContact, protocolname, "Map");
-			db_unset(hContact, protocolname, "Players");
-			db_unset(hContact, protocolname, "Passworded");
+		db_unset(hContact, "CList", "StatusMsg");
+		db_unset(hContact, protocolname, "ServerIP");
+		db_unset(hContact, protocolname, "Port");
+		db_unset(hContact, protocolname, "ServerName");
+		db_unset(hContact, protocolname, "GameType");
+		db_unset(hContact, protocolname, "Map");
+		db_unset(hContact, protocolname, "Players");
+		db_unset(hContact, protocolname, "Passworded");
 
-			db_unset(hContact, protocolname, "XStatusMsg");
-			db_unset(hContact, protocolname, "XStatusId");
-			db_unset(hContact, protocolname, "XStatusName");
+		db_unset(hContact, protocolname, "XStatusMsg");
+		db_unset(hContact, protocolname, "XStatusId");
+		db_unset(hContact, protocolname, "XStatusName");
 
-			if(db_get_b(NULL,protocolname,"noavatars",-1)==1)
-			{
-				db_unset(hContact, "ContactPhoto", "File");
-				db_unset(hContact, "ContactPhoto", "RFile");
-				db_unset(hContact, "ContactPhoto", "Backup");
-				db_unset(hContact, "ContactPhoto", "Format");
-				db_unset(hContact, "ContactPhoto", "ImageHash");
-				db_unset(hContact, "ContactPhoto", "XFireAvatarId");
-				db_unset(hContact, "ContactPhoto", "XFireAvatarMode");
-			}
-			else
-			{
-				//prüf ob der avatar noch existiert
-				DBVARIANT dbv;
-				if(!db_get_s(hContact, "ContactPhoto", "File",&dbv))
-				{
-					FILE*f=fopen(dbv.pszVal,"r");
-					if(f==NULL)
-					{
-						db_unset(hContact, "ContactPhoto", "File");
-						db_unset(hContact, "ContactPhoto", "RFile");
-						db_unset(hContact, "ContactPhoto", "Backup");
-						db_unset(hContact, "ContactPhoto", "Format");
-						db_unset(hContact, "ContactPhoto", "ImageHash");
-						db_unset(hContact, "ContactPhoto", "XFireAvatarId");
-						db_unset(hContact, "ContactPhoto", "XFireAvatarMode");
-					}
-					else
-					{
-						fclose(f);
-					}
-					db_free(&dbv);
-				}
-			}
-			db_set_w(hContact,protocolname,"Status",ID_STATUS_OFFLINE);
+		if(db_get_b(NULL,protocolname,"noavatars",-1)==1)
+		{
+			db_unset(hContact, "ContactPhoto", "File");
+			db_unset(hContact, "ContactPhoto", "RFile");
+			db_unset(hContact, "ContactPhoto", "Backup");
+			db_unset(hContact, "ContactPhoto", "Format");
+			db_unset(hContact, "ContactPhoto", "ImageHash");
+			db_unset(hContact, "ContactPhoto", "XFireAvatarId");
+			db_unset(hContact, "ContactPhoto", "XFireAvatarMode");
 		}
+		else
+		{
+			//prüf ob der avatar noch existiert
+			DBVARIANT dbv;
+			if(!db_get_s(hContact, "ContactPhoto", "File",&dbv))
+			{
+				FILE*f=fopen(dbv.pszVal,"r");
+				if(f==NULL)
+				{
+					db_unset(hContact, "ContactPhoto", "File");
+					db_unset(hContact, "ContactPhoto", "RFile");
+					db_unset(hContact, "ContactPhoto", "Backup");
+					db_unset(hContact, "ContactPhoto", "Format");
+					db_unset(hContact, "ContactPhoto", "ImageHash");
+					db_unset(hContact, "ContactPhoto", "XFireAvatarId");
+					db_unset(hContact, "ContactPhoto", "XFireAvatarMode");
+				}
+				else fclose(f);
+
+				db_free(&dbv);
+			}
+		}
+		db_set_w(hContact,protocolname,"Status",ID_STATUS_OFFLINE);
 	}
 
 	//alle gefundenen handles lsöchen

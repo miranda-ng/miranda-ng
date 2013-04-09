@@ -474,19 +474,17 @@ void SaveState()
 			dwGlobalMask = GetMaskForItem(hInfoItem);
 			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-				if (hItem)
-				{
-					if (SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
-					{
-						dwLocalMask = GetMaskForItem(hItem);
-						db_set_dw(hContact, CLVM_MODULE, szModeName, MAKELONG(1, (unsigned short)dwLocalMask));
-						stickies++;
-					}
-					else
-					{
-						if (db_get_dw(hContact, CLVM_MODULE, szModeName, 0))
-							db_set_dw(hContact, CLVM_MODULE, szModeName, 0);
-					}
+				if (hItem == NULL)
+					continue;
+				
+				if (SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
+					dwLocalMask = GetMaskForItem(hItem);
+					db_set_dw(hContact, CLVM_MODULE, szModeName, MAKELONG(1, (unsigned short)dwLocalMask));
+					stickies++;
+				}
+				else {
+					if (db_get_dw(hContact, CLVM_MODULE, szModeName, 0))
+						db_set_dw(hContact, CLVM_MODULE, szModeName, 0);
 				}
 			}
 

@@ -22,10 +22,7 @@ INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/)
 
 INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hContact = db_find_first();
-	while ( hContact ) {
-		HANDLE hNext = db_find_next(hContact);
-
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		DBVARIANT dbv = { 0 };
 		if ( db_get_ts( hContact, "CList", "Group", &dbv ))
 			dbv.ptszVal = NULL;
@@ -48,7 +45,6 @@ INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 		}
 
 		db_free( &dbv );
-		hContact = hNext;
 	}
 		
 	int hGroup = 1;

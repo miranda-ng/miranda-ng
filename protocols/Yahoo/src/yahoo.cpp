@@ -284,19 +284,17 @@ void CYahooProto::AddBuddy(HANDLE hContact, const char *group, const TCHAR *msg)
 
 HANDLE CYahooProto::getbuddyH(const char *yahoo_id)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (IsMyContact(hContact)) {
-			DBVARIANT dbv;
-			if (GetString(hContact, YAHOO_LOGINID, &dbv))
-				continue;
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		DBVARIANT dbv;
+		if (GetString(hContact, YAHOO_LOGINID, &dbv))
+			continue;
 
-			int tCompareResult = lstrcmpiA( dbv.pszVal, yahoo_id );
-			db_free( &dbv );
-			if ( tCompareResult )
-				continue;
+		int tCompareResult = lstrcmpiA( dbv.pszVal, yahoo_id );
+		db_free( &dbv );
+		if ( tCompareResult )
+			continue;
 
-			return hContact;
-		}	
+		return hContact;
 	}
 
 	return NULL;
@@ -604,39 +602,37 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 	if (stealthlist)
 		stealth = y_strsplit(stealthlist, ",", -1);
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (IsMyContact(hContact)) {
-			DBVARIANT dbv;
-			if (GetString( hContact, YAHOO_LOGINID, &dbv))
-				continue;
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		DBVARIANT dbv;
+		if (GetString( hContact, YAHOO_LOGINID, &dbv))
+			continue;
 
-			found = 0;
+		found = 0;
 
-			for(s = stealth; s && *s; s++) {
+		for(s = stealth; s && *s; s++) {
 
-				if (lstrcmpiA(*s, dbv.pszVal) == 0) {
-					YAHOO_DEBUGLOG("GOT id = %s", dbv.pszVal);
-					found = 1;
-					break;
-				}
+			if (lstrcmpiA(*s, dbv.pszVal) == 0) {
+				YAHOO_DEBUGLOG("GOT id = %s", dbv.pszVal);
+				found = 1;
+				break;
 			}
+		}
 
-			/* Check the stealth list */
-			if (found) { /* we have him on our Stealth List */
-				YAHOO_DEBUGLOG("Setting STEALTH for id = %s", dbv.pszVal);
-				/* need to set the ApparentMode thingy */
-				if (ID_STATUS_OFFLINE != GetWord(hContact, "ApparentMode", 0))
-					GetWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
+		/* Check the stealth list */
+		if (found) { /* we have him on our Stealth List */
+			YAHOO_DEBUGLOG("Setting STEALTH for id = %s", dbv.pszVal);
+			/* need to set the ApparentMode thingy */
+			if (ID_STATUS_OFFLINE != GetWord(hContact, "ApparentMode", 0))
+				GetWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
 
-			} else { /* he is not on the Stealth List */
-				//LOG(("Resetting STEALTH for id = %s", dbv.pszVal));
-				/* need to delete the ApparentMode thingy */
-				if (GetWord(hContact, "ApparentMode", 0))
-					db_unset(hContact, m_szModuleName, "ApparentMode");
-			}
+		} else { /* he is not on the Stealth List */
+			//LOG(("Resetting STEALTH for id = %s", dbv.pszVal));
+			/* need to delete the ApparentMode thingy */
+			if (GetWord(hContact, "ApparentMode", 0))
+				db_unset(hContact, m_szModuleName, "ApparentMode");
+		}
 
-			db_free( &dbv );
-		}		
+		db_free( &dbv );
 	}
 }
 

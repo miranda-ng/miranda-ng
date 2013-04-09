@@ -496,14 +496,9 @@ void TwitterProto::UpdateSettings()
 		if(in_chat_)
 			OnLeaveChat(0,0);
 
-		for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-		{
-			if(!IsMyContact(hContact,true))
-				continue;
-
+		for(HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 			if(db_get_b(hContact,m_szModuleName,"ChatRoom",0))
 				CallService(MS_DB_CONTACT_DELETE,reinterpret_cast<WPARAM>(hContact),0);
-		}
 	}
 }
 

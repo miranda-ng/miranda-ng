@@ -429,13 +429,9 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					BOOL oldVal = db_get_b(NULL, AVS_MODULE, szProto, 1);
 					BOOL newVal = ListView_GetCheckState(hwndList, i);
 
-					if (oldVal && !newVal) {
-						for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-							char *szContactProto = GetContactProto(hContact);
-							if (szContactProto != NULL && !strcmp(szContactProto, szProto))
-								DeleteAvatarFromCache(hContact, TRUE);
-						}
-					}
+					if (oldVal && !newVal)
+						for (HANDLE hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto))
+							DeleteAvatarFromCache(hContact, TRUE);
 
 					if (newVal)
 						db_set_b(NULL, AVS_MODULE, szProto, 1);

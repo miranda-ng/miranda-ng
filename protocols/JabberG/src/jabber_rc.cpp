@@ -477,31 +477,28 @@ int CJabberProto::AdhocOptionsHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 int CJabberProto::RcGetUnreadEventsCount()
 {
 	int nEventsSent = 0;
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *szProto = GetContactProto(hContact);
-		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
-			DBVARIANT dbv;
-			if ( !JGetStringT(hContact, "jid", &dbv)) {
-				HANDLE hDbEvent = db_event_firstUnread(hContact);
-				while (hDbEvent) {
-					DBEVENTINFO dbei = { sizeof(dbei) };
-					dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-					if (dbei.cbBlob != -1) {
-						dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
-						int nGetTextResult = db_event_get(hDbEvent, &dbei);
-						if ( !nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
-							TCHAR* szEventText = DbGetEventTextT(&dbei, CP_ACP);
-							if (szEventText) {
-								nEventsSent++;
-								mir_free(szEventText);
-							}
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		DBVARIANT dbv;
+		if ( !JGetStringT(hContact, "jid", &dbv)) {
+			HANDLE hDbEvent = db_event_firstUnread(hContact);
+			while (hDbEvent) {
+				DBEVENTINFO dbei = { sizeof(dbei) };
+				dbei.cbBlob = db_event_getBlobSize(hDbEvent);
+				if (dbei.cbBlob != -1) {
+					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
+					int nGetTextResult = db_event_get(hDbEvent, &dbei);
+					if ( !nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
+						TCHAR* szEventText = DbGetEventTextT(&dbei, CP_ACP);
+						if (szEventText) {
+							nEventsSent++;
+							mir_free(szEventText);
 						}
-						mir_free(dbei.pBlob);
 					}
-					hDbEvent = db_event_next(hDbEvent);
+					mir_free(dbei.pBlob);
 				}
-				db_free(&dbv);
+				hDbEvent = db_event_next(hDbEvent);
 			}
+			db_free(&dbv);
 		}
 	}
 	return nEventsSent;
@@ -571,63 +568,61 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 		m_options.RcMarkMessagesAsRead = bRemoveCListEvents ? 1 : 0;
 
 		int nEventsSent = 0;
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			char *szProto = GetContactProto(hContact);
-			if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
-				DBVARIANT dbv;
-				if ( !JGetStringT(hContact, "jid", &dbv)) {
-					HANDLE hDbEvent = db_event_firstUnread(hContact);
-					while (hDbEvent) {
-						DBEVENTINFO dbei = { 0 };
-						dbei.cbSize = sizeof(dbei);
-						dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-						if (dbei.cbBlob != -1) {
-							dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
-							int nGetTextResult = db_event_get(hDbEvent, &dbei);
-							if ( !nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
-								TCHAR* szEventText = DbGetEventTextT(&dbei, CP_ACP);
-								if (szEventText) {
-									XmlNode msg(_T("message"));
-									msg << XATTR(_T("to"), pInfo->GetFrom()) << XATTRID(SerialNext())
-										<< XCHILD(_T("body"), szEventText);
+		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+			DBVARIANT dbv;
+			if ( JGetStringT(hContact, "jid", &dbv))
+				continue;
+				
+			HANDLE hDbEvent = db_event_firstUnread(hContact);
+			while (hDbEvent) {
+				DBEVENTINFO dbei = { 0 };
+				dbei.cbSize = sizeof(dbei);
+				dbei.cbBlob = db_event_getBlobSize(hDbEvent);
+				if (dbei.cbBlob != -1) {
+					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
+					int nGetTextResult = db_event_get(hDbEvent, &dbei);
+					if ( !nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
+						TCHAR* szEventText = DbGetEventTextT(&dbei, CP_ACP);
+						if (szEventText) {
+							XmlNode msg(_T("message"));
+							msg << XATTR(_T("to"), pInfo->GetFrom()) << XATTRID(SerialNext())
+								<< XCHILD(_T("body"), szEventText);
 
-									HXML addressesNode = msg << XCHILDNS(_T("addresses"), _T(JABBER_FEAT_EXT_ADDRESSING));
-									TCHAR szOFrom[ JABBER_MAX_JID_LEN ];
-									EnterCriticalSection(&m_csLastResourceMap);
-									TCHAR *szOResource = FindLastResourceByDbEvent(hDbEvent);
-									if (szOResource)
-										mir_sntprintf(szOFrom, SIZEOF(szOFrom), _T("%s/%s"), dbv.ptszVal, szOResource);
-									else
-										mir_sntprintf(szOFrom, SIZEOF(szOFrom), _T("%s"), dbv.ptszVal);
-									LeaveCriticalSection(&m_csLastResourceMap);
-									addressesNode << XCHILD(_T("address")) << XATTR(_T("type"), _T("ofrom")) << XATTR(_T("jid"), szOFrom);
-									addressesNode << XCHILD(_T("address")) << XATTR(_T("type"), _T("oto")) << XATTR(_T("jid"), m_ThreadInfo->fullJID);
+							HXML addressesNode = msg << XCHILDNS(_T("addresses"), _T(JABBER_FEAT_EXT_ADDRESSING));
+							TCHAR szOFrom[ JABBER_MAX_JID_LEN ];
+							EnterCriticalSection(&m_csLastResourceMap);
+							TCHAR *szOResource = FindLastResourceByDbEvent(hDbEvent);
+							if (szOResource)
+								mir_sntprintf(szOFrom, SIZEOF(szOFrom), _T("%s/%s"), dbv.ptszVal, szOResource);
+							else
+								mir_sntprintf(szOFrom, SIZEOF(szOFrom), _T("%s"), dbv.ptszVal);
+							LeaveCriticalSection(&m_csLastResourceMap);
+							addressesNode << XCHILD(_T("address")) << XATTR(_T("type"), _T("ofrom")) << XATTR(_T("jid"), szOFrom);
+							addressesNode << XCHILD(_T("address")) << XATTR(_T("type"), _T("oto")) << XATTR(_T("jid"), m_ThreadInfo->fullJID);
 
-									time_t ltime = (time_t)dbei.timestamp;
-									struct tm *gmt = gmtime(&ltime);
-									TCHAR stime[ 512 ];
-									wsprintf(stime, _T("%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ"), gmt->tm_year + 1900, gmt->tm_mon + 1, gmt->tm_mday,
-										gmt->tm_hour, gmt->tm_min, gmt->tm_sec);
-									msg << XCHILDNS(_T("delay"), _T("urn:xmpp:delay")) << XATTR(_T("stamp"), stime);
+							time_t ltime = (time_t)dbei.timestamp;
+							struct tm *gmt = gmtime(&ltime);
+							TCHAR stime[ 512 ];
+							wsprintf(stime, _T("%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ"), gmt->tm_year + 1900, gmt->tm_mon + 1, gmt->tm_mday,
+								gmt->tm_hour, gmt->tm_min, gmt->tm_sec);
+							msg << XCHILDNS(_T("delay"), _T("urn:xmpp:delay")) << XATTR(_T("stamp"), stime);
 
-									m_ThreadInfo->send(msg);
+							m_ThreadInfo->send(msg);
 
-									nEventsSent++;
+							nEventsSent++;
 
-									db_event_markRead(hContact, hDbEvent);
-									if (bRemoveCListEvents)
-										CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)hDbEvent);
+							db_event_markRead(hContact, hDbEvent);
+							if (bRemoveCListEvents)
+								CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)hDbEvent);
 
-									mir_free(szEventText);
-								}
-							}
-							mir_free(dbei.pBlob);
+							mir_free(szEventText);
 						}
-						hDbEvent = db_event_next(hDbEvent);
 					}
-					db_free(&dbv);
+					mir_free(dbei.pBlob);
 				}
+				hDbEvent = db_event_next(hDbEvent);
 			}
+			db_free(&dbv);
 		}
 
 		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("%d message(s) forwarded"), nEventsSent);

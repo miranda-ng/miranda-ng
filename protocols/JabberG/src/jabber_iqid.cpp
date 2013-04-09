@@ -535,24 +535,21 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 	if (m_options.RosterSync == TRUE) {
 		int listSize = 0, listAllocSize = 0;
 		HANDLE* list = NULL;
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			char* str = GetContactProto(hContact);
-			if (str != NULL && !strcmp(str, m_szModuleName)) {
-				DBVARIANT dbv;
-				if ( !JGetStringT(hContact, "jid", &dbv)) {
-					if ( !ListExist(LIST_ROSTER, dbv.ptszVal)) {
-						Log("Syncing roster: preparing to delete %S (hContact=0x%x)", dbv.ptszVal, hContact);
-						if (listSize >= listAllocSize) {
-							listAllocSize = listSize + 100;
-							if ((list=(HANDLE *) mir_realloc(list, listAllocSize * sizeof(HANDLE))) == NULL) {
-								listSize = 0;
-								break;
-						}	}
+		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+			DBVARIANT dbv;
+			if ( !JGetStringT(hContact, "jid", &dbv)) {
+				if ( !ListExist(LIST_ROSTER, dbv.ptszVal)) {
+					Log("Syncing roster: preparing to delete %S (hContact=0x%x)", dbv.ptszVal, hContact);
+					if (listSize >= listAllocSize) {
+						listAllocSize = listSize + 100;
+						if ((list=(HANDLE *) mir_realloc(list, listAllocSize * sizeof(HANDLE))) == NULL) {
+							listSize = 0;
+							break;
+					}	}
 
-						list[listSize++] = hContact;
-					}
-					db_free(&dbv);
+					list[listSize++] = hContact;
 				}
+				db_free(&dbv);
 			}
 		}
 

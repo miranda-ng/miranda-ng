@@ -124,54 +124,51 @@ void EraseAllInfo()
 	HANDLE LastContact = NULL;
 	DBVARIANT dbv;
 	// loop through all contacts
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		// see if the contact is a weather contact
-		if ( IsMyContact(hContact)) {
-			db_set_w(hContact,WEATHERPROTONAME, "Status",ID_STATUS_OFFLINE);
-			db_set_w(hContact,WEATHERPROTONAME, "StatusIcon",ID_STATUS_OFFLINE);
-			db_unset(hContact, "CList", "MyHandle");
-			// clear all data
-			if ( db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
-				db_set_ts(hContact, WEATHERPROTONAME, "Nick", TranslateT("<Enter city name here>"));
-				db_set_s(hContact, WEATHERPROTONAME, "LastLog", "never");
-				db_set_s(hContact, WEATHERPROTONAME, "LastCondition", "None");
-				db_set_s(hContact, WEATHERPROTONAME, "LastTemperature", "None");
-			}
-			else db_free(&dbv);
+	for (HANDLE hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME)) {
+		db_set_w(hContact,WEATHERPROTONAME, "Status",ID_STATUS_OFFLINE);
+		db_set_w(hContact,WEATHERPROTONAME, "StatusIcon",ID_STATUS_OFFLINE);
+		db_unset(hContact, "CList", "MyHandle");
+		// clear all data
+		if ( db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
+			db_set_ts(hContact, WEATHERPROTONAME, "Nick", TranslateT("<Enter city name here>"));
+			db_set_s(hContact, WEATHERPROTONAME, "LastLog", "never");
+			db_set_s(hContact, WEATHERPROTONAME, "LastCondition", "None");
+			db_set_s(hContact, WEATHERPROTONAME, "LastTemperature", "None");
+		}
+		else db_free(&dbv);
 
-			DBDataManage(hContact, WDBM_REMOVE, 0, 0);
-			db_set_s(hContact, "UserInfo", "MyNotes", "");
-			// reset update tag
-			db_set_b(hContact,WEATHERPROTONAME, "IsUpdated",FALSE);
-			// reset logging settings
-			if ( !db_get_ts(hContact,WEATHERPROTONAME, "Log", &dbv)) {
-				db_set_b(hContact,WEATHERPROTONAME, "File",(BYTE)(dbv.ptszVal[0] != 0));
+		DBDataManage(hContact, WDBM_REMOVE, 0, 0);
+		db_set_s(hContact, "UserInfo", "MyNotes", "");
+		// reset update tag
+		db_set_b(hContact,WEATHERPROTONAME, "IsUpdated",FALSE);
+		// reset logging settings
+		if ( !db_get_ts(hContact,WEATHERPROTONAME, "Log", &dbv)) {
+			db_set_b(hContact,WEATHERPROTONAME, "File",(BYTE)(dbv.ptszVal[0] != 0));
+			db_free(&dbv);
+		}
+		else db_set_b(hContact,WEATHERPROTONAME, "File",FALSE);
+
+		// if no default station find, assign a new one
+		if (opt.Default[0] == 0) {
+			GetStationID(hContact, opt.Default, SIZEOF(opt.Default));
+
+			opt.DefStn = hContact;
+			if ( !db_get_ts(hContact,WEATHERPROTONAME, "Nick",&dbv)) {
+				wsprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
+				db_free(&dbv);
+				MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK|MB_ICONINFORMATION);
+			}
+		}
+		// get the handle of the default station
+		if (opt.DefStn == NULL) {
+			if ( !db_get_ts(hContact,WEATHERPROTONAME, "ID",&dbv)) {
+				if ( !_tcscmp(dbv.ptszVal, opt.Default))
+					opt.DefStn = hContact;
 				db_free(&dbv);
 			}
-			else db_set_b(hContact,WEATHERPROTONAME, "File",FALSE);
-
-			// if no default station find, assign a new one
-			if (opt.Default[0] == 0) {
-				GetStationID(hContact, opt.Default, SIZEOF(opt.Default));
-
-				opt.DefStn = hContact;
-				if ( !db_get_ts(hContact,WEATHERPROTONAME, "Nick",&dbv)) {
-					wsprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
-					db_free(&dbv);
-					MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK|MB_ICONINFORMATION);
-				}
-			}
-			// get the handle of the default station
-			if (opt.DefStn == NULL) {
-				if ( !db_get_ts(hContact,WEATHERPROTONAME, "ID",&dbv)) {
-					if ( !_tcscmp(dbv.ptszVal, opt.Default))
-						opt.DefStn = hContact;
-					db_free(&dbv);
-				}
-			}
-			ContactCount++;		// increment counter
-			LastContact = hContact;
 		}
+		ContactCount++;		// increment counter
+		LastContact = hContact;
 	}
 
 	// if weather contact exists, set the status to online so it is ready for update

@@ -144,24 +144,22 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 
 	DisconnectAllDCCSessions(false);
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *szProto = GetContactProto(hContact);
-		if (szProto != NULL && !lstrcmpiA( szProto, m_szModuleName)) {
-			if ( getByte( hContact, "ChatRoom", 0 ) == 0 ) {
-				if ( getByte(hContact, "DCC", 0 ) != 0 ) {
-					if ( ChatsToo )
-						setWord(hContact, "Status", ID_STATUS_OFFLINE);
-				}
-				else if ( !getTString( hContact, "Default", &dbv )) {
-					setTString( hContact, "Nick", dbv.ptszVal);
-					setWord( hContact, "Status", ID_STATUS_OFFLINE );
-					db_free( &dbv );
-				}
-				db_unset( hContact, m_szModuleName, "IP" );
-				setString( hContact, "User", "" );
-				setString( hContact, "Host", "" );
-			}
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		if ( getByte( hContact, "ChatRoom", 0 ))
+			continue;
+
+		if ( getByte(hContact, "DCC", 0 ) != 0 ) {
+			if ( ChatsToo )
+				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 		}
+		else if ( !getTString( hContact, "Default", &dbv )) {
+			setTString( hContact, "Nick", dbv.ptszVal);
+			setWord( hContact, "Status", ID_STATUS_OFFLINE );
+			db_free( &dbv );
+		}
+		db_unset( hContact, m_szModuleName, "IP" );
+		setString( hContact, "User", "" );
+		setString( hContact, "Host", "" );
 	}
 	return true;
 }
@@ -180,63 +178,61 @@ HANDLE CIrcProto::CList_FindContact (CONTACT* user)
 	DBVARIANT dbv4;	
 	DBVARIANT dbv5;	
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *szProto = GetContactProto(hContact);
-		if ( szProto != NULL && !lstrcmpiA( szProto, m_szModuleName )) {
-			if ( getByte( hContact, "ChatRoom", 0) == 0) {
-				HANDLE hContact_temp = NULL;
-				TCHAR* DBDefault = NULL;
-				TCHAR* DBNick = NULL;
-				TCHAR* DBWildcard = NULL;
-				TCHAR* DBUser = NULL;
-				TCHAR* DBHost = NULL;
-				if ( !getTString(hContact, "Default",   &dbv1)) DBDefault = dbv1.ptszVal;
-				if ( !getTString(hContact, "Nick",      &dbv2)) DBNick = dbv2.ptszVal;
-				if ( !getTString(hContact, "UWildcard", &dbv3)) DBWildcard = dbv3.ptszVal;
-				if ( !getTString(hContact, "UUser",     &dbv4)) DBUser = dbv4.ptszVal;
-				if ( !getTString(hContact, "UHost",     &dbv5)) DBHost = dbv5.ptszVal;
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		if ( getByte( hContact, "ChatRoom", 0))
+			continue;
+
+		HANDLE hContact_temp = NULL;
+		TCHAR* DBDefault = NULL;
+		TCHAR* DBNick = NULL;
+		TCHAR* DBWildcard = NULL;
+		TCHAR* DBUser = NULL;
+		TCHAR* DBHost = NULL;
+		if ( !getTString(hContact, "Default",   &dbv1)) DBDefault = dbv1.ptszVal;
+		if ( !getTString(hContact, "Nick",      &dbv2)) DBNick = dbv2.ptszVal;
+		if ( !getTString(hContact, "UWildcard", &dbv3)) DBWildcard = dbv3.ptszVal;
+		if ( !getTString(hContact, "UUser",     &dbv4)) DBUser = dbv4.ptszVal;
+		if ( !getTString(hContact, "UHost",     &dbv5)) DBHost = dbv5.ptszVal;
 				
-				if ( DBWildcard )
-					CharLower( DBWildcard );
-				if ( IsChannel( user->name )) {
-					if ( DBDefault && !lstrcmpi( DBDefault, user->name ))
-						hContact_temp = (HANDLE)-1;
-				}
-				else if ( user->ExactNick && DBNick && !lstrcmpi( DBNick, user->name ))
-					hContact_temp = hContact;
+		if ( DBWildcard )
+			CharLower( DBWildcard );
+		if ( IsChannel( user->name )) {
+			if ( DBDefault && !lstrcmpi( DBDefault, user->name ))
+				hContact_temp = (HANDLE)-1;
+		}
+		else if ( user->ExactNick && DBNick && !lstrcmpi( DBNick, user->name ))
+			hContact_temp = hContact;
 				
-				else if ( user->ExactOnly && DBDefault && !lstrcmpi( DBDefault, user->name ))
-					hContact_temp = hContact;
+		else if ( user->ExactOnly && DBDefault && !lstrcmpi( DBDefault, user->name ))
+			hContact_temp = hContact;
 			
-				else if ( user->ExactWCOnly ) {
-					if ( DBWildcard && !lstrcmpi( DBWildcard, lowercasename ) 
-						|| ( DBWildcard && !lstrcmpi( DBNick, lowercasename ) && !WCCmp( DBWildcard, lowercasename ))
-						|| ( !DBWildcard && !lstrcmpi(DBNick, lowercasename)))
-					{
-						hContact_temp = hContact;
-					}
-				}
-				else if ( _tcschr(user->name, ' ' ) == 0 ) {
-					if (( DBDefault && !lstrcmpi(DBDefault, user->name) || DBNick && !lstrcmpi(DBNick, user->name) || 
-						   DBWildcard && WCCmp( DBWildcard, lowercasename ))
-						&& ( WCCmp(DBUser, user->user) && WCCmp(DBHost, user->host)))
-					{
-						hContact_temp = hContact;
-				}	}
-
-				if ( DBDefault )   db_free(&dbv1);
-				if ( DBNick )      db_free(&dbv2);
-				if ( DBWildcard )  db_free(&dbv3);
-				if ( DBUser )      db_free(&dbv4);
-				if ( DBHost )      db_free(&dbv5);
-
-				if ( hContact_temp != NULL ) {
-					mir_free(lowercasename);
-					if ( hContact_temp != (HANDLE)-1 )
-						return hContact_temp;
-					return 0;
-				}
+		else if ( user->ExactWCOnly ) {
+			if ( DBWildcard && !lstrcmpi( DBWildcard, lowercasename ) 
+				|| ( DBWildcard && !lstrcmpi( DBNick, lowercasename ) && !WCCmp( DBWildcard, lowercasename ))
+				|| ( !DBWildcard && !lstrcmpi(DBNick, lowercasename)))
+			{
+				hContact_temp = hContact;
 			}
+		}
+		else if ( _tcschr(user->name, ' ' ) == 0 ) {
+			if (( DBDefault && !lstrcmpi(DBDefault, user->name) || DBNick && !lstrcmpi(DBNick, user->name) || 
+					DBWildcard && WCCmp( DBWildcard, lowercasename ))
+				&& ( WCCmp(DBUser, user->user) && WCCmp(DBHost, user->host)))
+			{
+				hContact_temp = hContact;
+		}	}
+
+		if ( DBDefault )   db_free(&dbv1);
+		if ( DBNick )      db_free(&dbv2);
+		if ( DBWildcard )  db_free(&dbv3);
+		if ( DBUser )      db_free(&dbv4);
+		if ( DBHost )      db_free(&dbv5);
+
+		if ( hContact_temp != NULL ) {
+			mir_free(lowercasename);
+			if ( hContact_temp != (HANDLE)-1 )
+				return hContact_temp;
+			return 0;
 		}
 	}
 	mir_free(lowercasename);

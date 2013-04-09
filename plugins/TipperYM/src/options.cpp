@@ -2072,71 +2072,61 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
+			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) FALSE, 0);
+		else
+			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) TRUE, 0);
+
+		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS, 0, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN, 2, 0);
 		{
-			TranslateDialogDefault(hwndDlg);
-
-			if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
-				SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) FALSE, 0);
-			else
-				SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) TRUE, 0);
-
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN, 2, 0);
-
 			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 				if (hItem && db_get_b(hContact, MODULE, "FavouriteContact", 0))
 					SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 			}
-
-			CheckDlgButton(hwndDlg, IDC_CHK_HIDEOFFLINE, opt.iFavoriteContFlags & FAVCONT_HIDE_OFFLINE);
-			CheckDlgButton(hwndDlg, IDC_CHK_APPENDPROTO, opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO);
-
-			return TRUE;
 		}
-		case WM_COMMAND:
-		{
-			switch(LOWORD(wParam))
+		CheckDlgButton(hwndDlg, IDC_CHK_HIDEOFFLINE, opt.iFavoriteContFlags & FAVCONT_HIDE_OFFLINE);
+		CheckDlgButton(hwndDlg, IDC_CHK_APPENDPROTO, opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO);
+		return TRUE;
+
+	case WM_COMMAND:
+		switch(LOWORD(wParam)) {
+		case IDC_BTN_OK:
 			{
-				case IDC_BTN_OK:
-				{
-					BYTE isChecked;
-					int count = 0;
+				BYTE isChecked;
+				int count = 0;
 
-					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-						HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-						if (hItem)
-						{
-							isChecked = (BYTE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0);
-							db_set_b(hContact, MODULE, "FavouriteContact", isChecked);
-							if (isChecked) count++;
-						}
+				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+					HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+					if (hItem) {
+						isChecked = (BYTE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0);
+						db_set_b(hContact, MODULE, "FavouriteContact", isChecked);
+						if (isChecked) count++;
 					}
-					db_set_dw(0, MODULE, "FavouriteContactsCount", count);
-
-					opt.iFavoriteContFlags = 0;
-					opt.iFavoriteContFlags |= IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDEOFFLINE) ? FAVCONT_HIDE_OFFLINE : 0 | 
-											  IsDlgButtonChecked(hwndDlg, IDC_CHK_APPENDPROTO) ? FAVCONT_APPEND_PROTO : 0;
-
-					db_set_dw(0, MODULE, "FavContFlags", opt.iFavoriteContFlags);
-				} // fall through
-				case IDC_BTN_CANCEL:
-				{
-					DestroyWindow(hwndDlg);
-					break;
 				}
-			}
-			return TRUE;
-		}
-		case WM_CLOSE:
-		{
+				db_set_dw(0, MODULE, "FavouriteContactsCount", count);
+
+				opt.iFavoriteContFlags = 0;
+				opt.iFavoriteContFlags |= IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDEOFFLINE) ? FAVCONT_HIDE_OFFLINE : 0 | 
+					IsDlgButtonChecked(hwndDlg, IDC_CHK_APPENDPROTO) ? FAVCONT_APPEND_PROTO : 0;
+
+				db_set_dw(0, MODULE, "FavContFlags", opt.iFavoriteContFlags);
+			} // fall through
+		case IDC_BTN_CANCEL:
 			DestroyWindow(hwndDlg);
-			return TRUE;
+			break;
 		}
+		return TRUE;
+
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		return TRUE;
 	}
 
 	return FALSE;

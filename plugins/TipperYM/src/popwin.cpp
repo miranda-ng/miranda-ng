@@ -1551,13 +1551,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (dwItems & TRAYTIP_NUMCONTACTS) {
 					int iCount = 0, iCountOnline = 0;
-					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-						char *proto = GetContactProto(hContact);
-						if (proto && !strcmp(proto, pa->szModuleName)) {
-							if (db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-								iCountOnline++;
-							iCount++;
-						}
+					for (HANDLE hContact = db_find_first(pa->szModuleName); hContact; hContact = db_find_next(hContact, pa->szModuleName)) {
+						if (db_get_w(hContact, pa->szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+							iCountOnline++;
+						iCount++;
 					}
 					mir_sntprintf(buff, 64, _T("(%d/%d)"), iCountOnline, iCount);
 				} 
@@ -1679,32 +1676,33 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 						if (db_get_b(hContact, MODULE, "FavouriteContact", 0)) {
 							char *proto = GetContactProto(hContact);
-							if (proto) {
-								WORD wStatus = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
-								WordToStatusDesc(hContact, proto, "Status", swzStatus, 256);
+							if (proto == NULL)
+								continue;
 
-								if (wStatus != ID_STATUS_OFFLINE) 
-									iCountOnline++;
+							WORD wStatus = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
+							WordToStatusDesc(hContact, proto, "Status", swzStatus, 256);
 
-								iCount++;			
+							if (wStatus != ID_STATUS_OFFLINE) 
+								iCountOnline++;
 
-								if ( !(opt.iFavoriteContFlags & FAVCONT_HIDE_OFFLINE && wStatus == ID_STATUS_OFFLINE)) {
-									if (!bTitlePainted) {
-										AddRow(pwd, TranslateT("Fav. contacts"), NULL, NULL, false, false, !bFirstItem, true, NULL);
-										bFirstItem = false;
-										bTitlePainted = true;
-									}
+							iCount++;			
 
-									TCHAR *swzNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);			
-									if (opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO) {
-										TCHAR *swzProto = a2t(proto);
-										mir_sntprintf(swzName, 256, _T("%s (%s)"), swzNick, swzProto);
-										mir_free(swzProto);
-									}
-									else _tcscpy(swzName, swzNick);
-
-									AddRow(pwd, swzName, swzStatus, NULL, false, false, false);
+							if ( !(opt.iFavoriteContFlags & FAVCONT_HIDE_OFFLINE && wStatus == ID_STATUS_OFFLINE)) {
+								if (!bTitlePainted) {
+									AddRow(pwd, TranslateT("Fav. contacts"), NULL, NULL, false, false, !bFirstItem, true, NULL);
+									bFirstItem = false;
+									bTitlePainted = true;
 								}
+
+								TCHAR *swzNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);			
+								if (opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO) {
+									TCHAR *swzProto = a2t(proto);
+									mir_sntprintf(swzName, 256, _T("%s (%s)"), swzNick, swzProto);
+									mir_free(swzProto);
+								}
+								else _tcscpy(swzName, swzNick);
+
+								AddRow(pwd, swzName, swzStatus, NULL, false, false, false);
 							}
 						}
 					}

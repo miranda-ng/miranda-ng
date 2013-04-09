@@ -236,8 +236,7 @@ int CAimProto::OnGroupChange(WPARAM wParam,LPARAM lParam)
 	}
 	else
 	{
-		if (is_my_contact(hContact) && getBuddyId(hContact, 1) && 
-			!db_get_b(hContact, MOD_KEY_CL, AIM_KEY_NL, 0))
+		if (is_my_contact(hContact) && getBuddyId(hContact, 1) && !db_get_b(hContact, MOD_KEY_CL, AIM_KEY_NL, 0))
 		{
 			if (grpchg->pszNewName)
 			{

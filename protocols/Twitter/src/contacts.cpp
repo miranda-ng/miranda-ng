@@ -221,9 +221,9 @@ bool TwitterProto::IsMyContact(HANDLE hContact,bool include_chat)
 
 HANDLE TwitterProto::UsernameToHContact(const char *name)
 {
-	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for(HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		if(!IsMyContact(hContact))
+		if( db_get_b(hContact, m_szModuleName, "ChatRoom", 0))
 			continue;
 
 		DBVARIANT dbv;
@@ -284,13 +284,9 @@ HANDLE TwitterProto::AddToClientList(const char *name,const char *status)
 
 void TwitterProto::SetAllContactStatuses(int status)
 {
-	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-	{
-		if(!IsMyContact(hContact))
-			continue;
-
-		db_set_w(hContact,m_szModuleName,"Status",status);
-	}
+	for(HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+		if( !db_get_b(hContact, m_szModuleName, "ChatRoom", 0))
+			db_set_w(hContact,m_szModuleName,"Status",status);
 
 	SetChatStatus(status);
 }

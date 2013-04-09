@@ -154,49 +154,47 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);
 
 			HANDLE hContact;
-			for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-				if (IsMyContact(hContact)) {
-					DBVARIANT dbNick = {0};
-					if (db_get_ts(hContact, MODULE, "Nick", &dbNick))
-						continue;
-					else if (lstrcmp(dbNick.ptszVal, SelItem.nick) == 0) {
-						db_free(&dbNick);
-						DBVARIANT dbURL = {0};
-						if (db_get_ts(hContact, MODULE, "URL", &dbURL))
-							continue;
-						else if (lstrcmp(dbURL.ptszVal, SelItem.url) == 0) {
-							db_free(&dbURL);
-							nSelItem->hContact = hContact;
-							SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)nSelItem);
-							SetDlgItemText(hwndDlg, IDC_FEEDURL, SelItem.url);
-							SetDlgItemText(hwndDlg, IDC_FEEDTITLE, SelItem.nick);
-							SetDlgItemInt(hwndDlg, IDC_CHECKTIME, db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
-							DBVARIANT dbMsg = {0};
-							if (!db_get_ts(hContact, MODULE, "MsgFormat", &dbMsg)) {
-								SetDlgItemText(hwndDlg, IDC_TAGSEDIT, dbMsg.ptszVal);
-								db_free(&dbMsg);
-							}
-							if (db_get_b(hContact, MODULE, "UseAuth", 0)) {
-								CheckDlgButton(hwndDlg, IDC_USEAUTH, BST_CHECKED);
-								EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
-								EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
-								DBVARIANT dbLogin = {0};
-								if (!db_get_ts(hContact, MODULE, "Login", &dbLogin)) {
-									SetDlgItemText(hwndDlg, IDC_LOGIN, dbLogin.ptszVal);
-									db_free(&dbLogin);
-								}
-								DBVARIANT dbPass = {0};
-								if (!db_get_ts(hContact, MODULE, "Password", &dbPass)) {
-									SetDlgItemText(hwndDlg, IDC_PASSWORD, dbPass.ptszVal);
-									db_free(&dbPass);
-								}
-							}
-							break;
-						}
-						db_free(&dbURL);
-					}
+			for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+				DBVARIANT dbNick = {0};
+				if (db_get_ts(hContact, MODULE, "Nick", &dbNick))
+					continue;
+				else if (lstrcmp(dbNick.ptszVal, SelItem.nick) == 0) {
 					db_free(&dbNick);
+					DBVARIANT dbURL = {0};
+					if (db_get_ts(hContact, MODULE, "URL", &dbURL))
+						continue;
+					else if (lstrcmp(dbURL.ptszVal, SelItem.url) == 0) {
+						db_free(&dbURL);
+						nSelItem->hContact = hContact;
+						SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)nSelItem);
+						SetDlgItemText(hwndDlg, IDC_FEEDURL, SelItem.url);
+						SetDlgItemText(hwndDlg, IDC_FEEDTITLE, SelItem.nick);
+						SetDlgItemInt(hwndDlg, IDC_CHECKTIME, db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
+						DBVARIANT dbMsg = {0};
+						if (!db_get_ts(hContact, MODULE, "MsgFormat", &dbMsg)) {
+							SetDlgItemText(hwndDlg, IDC_TAGSEDIT, dbMsg.ptszVal);
+							db_free(&dbMsg);
+						}
+						if (db_get_b(hContact, MODULE, "UseAuth", 0)) {
+							CheckDlgButton(hwndDlg, IDC_USEAUTH, BST_CHECKED);
+							EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
+							EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
+							DBVARIANT dbLogin = {0};
+							if (!db_get_ts(hContact, MODULE, "Login", &dbLogin)) {
+								SetDlgItemText(hwndDlg, IDC_LOGIN, dbLogin.ptszVal);
+								db_free(&dbLogin);
+							}
+							DBVARIANT dbPass = {0};
+							if (!db_get_ts(hContact, MODULE, "Password", &dbPass)) {
+								SetDlgItemText(hwndDlg, IDC_PASSWORD, dbPass.ptszVal);
+								db_free(&dbPass);
+							}
+						}
+						break;
+					}
+					db_free(&dbURL);
 				}
+				db_free(&dbNick);
 			}
 			WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
 			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
@@ -492,26 +490,24 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				ListView_GetItemText(hwndList, sel, 0, nick, MAX_PATH);
 				ListView_GetItemText(hwndList, sel, 1, url, MAX_PATH);
 
-				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-					if(IsMyContact(hContact)) {
-						DBVARIANT dbNick = {0};
-						if (db_get_ts(hContact, MODULE, "Nick", &dbNick))
-							break;
-						else if (lstrcmp(dbNick.ptszVal, nick) == 0) {
-							db_free(&dbNick);
-							DBVARIANT dbURL = {0};
-							if (db_get_ts(hContact, MODULE, "URL", &dbURL))
-								break;
-							else if (lstrcmp(dbURL.ptszVal, url) == 0) {
-								db_free(&dbURL);
-								CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
-								ListView_DeleteItem(hwndList, sel);
-								break;
-							}
-							db_free(&dbURL);
-						}
+				for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+					DBVARIANT dbNick = {0};
+					if (db_get_ts(hContact, MODULE, "Nick", &dbNick))
+						break;
+					else if (lstrcmp(dbNick.ptszVal, nick) == 0) {
 						db_free(&dbNick);
+						DBVARIANT dbURL = {0};
+						if (db_get_ts(hContact, MODULE, "URL", &dbURL))
+							break;
+						else if (lstrcmp(dbURL.ptszVal, url) == 0) {
+							db_free(&dbURL);
+							CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+							ListView_DeleteItem(hwndList, sel);
+							break;
+						}
+						db_free(&dbURL);
 					}
+					db_free(&dbNick);
 				}
 			}
 			return FALSE;
@@ -714,57 +710,55 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					HXML title = xi.addChild(header, _T("title"), _T("Miranda NG NewsAggregator plugin export"));
 					header = xi.addChild(hXml, _T("body"), NULL);
 
-					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-						if (IsMyContact(hContact)) {
-							TCHAR *title = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
-							DBVARIANT dbv = {0};
-							if (!db_get_ts(hContact, MODULE, "Nick", &dbv)) {
-								title = mir_tstrdup(dbv.ptszVal);
-								db_free(&dbv);
-							}
-							if (!db_get_ts(hContact, MODULE, "URL", &dbv)) {
-								url = mir_tstrdup(dbv.ptszVal);
-								db_free(&dbv);
-							}
-							if (!db_get_ts(hContact, MODULE, "Homepage", &dbv)) {
-								siteurl = mir_tstrdup(dbv.ptszVal);
-								db_free(&dbv);
-							}
-							if (!db_get_ts(hContact, "CList", "Group", &dbv)) {
-								group = mir_tstrdup(dbv.ptszVal);
-								db_free(&dbv);
-							}
-							HXML elem = header;
-							if (group)
-							{
-								TCHAR *section = _tcstok(group, _T("\\"));
-								while (section != NULL)
-								{
-									HXML existgroup = xi.getChildByAttrValue(header, _T("outline"), _T("title"), section);
-									if ( !existgroup)
-									{
-										elem = xi.addChild(elem, _T("outline"), NULL);
-										xi.addAttr(elem, _T("title"), section);
-										xi.addAttr(elem, _T("text"), section);
-									} else {
-										elem = existgroup;
-									}
-									section = _tcstok(NULL, _T("\\"));
-								}
-								elem = xi.addChild(elem, _T("outline"), NULL);
-							} else
-								elem = xi.addChild(elem, _T("outline"), NULL);
-							xi.addAttr(elem, _T("text"), title);
-							xi.addAttr(elem, _T("title"), title);
-							xi.addAttr(elem, _T("type"), _T("rss"));
-							xi.addAttr(elem, _T("xmlUrl"), url);
-							xi.addAttr(elem, _T("htmlUrl"), siteurl);
-
-							mir_free(title);
-							mir_free(url);
-							mir_free(siteurl);
-							mir_free(group);
+					for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+						TCHAR *title = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
+						DBVARIANT dbv = {0};
+						if (!db_get_ts(hContact, MODULE, "Nick", &dbv)) {
+							title = mir_tstrdup(dbv.ptszVal);
+							db_free(&dbv);
 						}
+						if (!db_get_ts(hContact, MODULE, "URL", &dbv)) {
+							url = mir_tstrdup(dbv.ptszVal);
+							db_free(&dbv);
+						}
+						if (!db_get_ts(hContact, MODULE, "Homepage", &dbv)) {
+							siteurl = mir_tstrdup(dbv.ptszVal);
+							db_free(&dbv);
+						}
+						if (!db_get_ts(hContact, "CList", "Group", &dbv)) {
+							group = mir_tstrdup(dbv.ptszVal);
+							db_free(&dbv);
+						}
+						HXML elem = header;
+						if (group)
+						{
+							TCHAR *section = _tcstok(group, _T("\\"));
+							while (section != NULL)
+							{
+								HXML existgroup = xi.getChildByAttrValue(header, _T("outline"), _T("title"), section);
+								if ( !existgroup)
+								{
+									elem = xi.addChild(elem, _T("outline"), NULL);
+									xi.addAttr(elem, _T("title"), section);
+									xi.addAttr(elem, _T("text"), section);
+								} else {
+									elem = existgroup;
+								}
+								section = _tcstok(NULL, _T("\\"));
+							}
+							elem = xi.addChild(elem, _T("outline"), NULL);
+						} else
+							elem = xi.addChild(elem, _T("outline"), NULL);
+						xi.addAttr(elem, _T("text"), title);
+						xi.addAttr(elem, _T("title"), title);
+						xi.addAttr(elem, _T("type"), _T("rss"));
+						xi.addAttr(elem, _T("xmlUrl"), url);
+						xi.addAttr(elem, _T("htmlUrl"), siteurl);
+
+						mir_free(title);
+						mir_free(url);
+						mir_free(siteurl);
+						mir_free(group);
 					}
 					xi.toFile(hXml, FileName, 1);
 					xi.destroyNode(hXml);
@@ -786,18 +780,16 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				{
 					db_set_b(NULL, MODULE, "StartupRetrieve", IsDlgButtonChecked(hwndDlg, IDC_STARTUPRETRIEVE));
 					int i = 0;
-					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-						if(IsMyContact(hContact)) {
-							db_set_b(hContact, MODULE, "CheckState", ListView_GetCheckState(hwndList, i));
-							if (!ListView_GetCheckState(hwndList, i))
-								db_set_b(hContact, "CList", "Hidden", 1);
-							else
-								db_unset(hContact,"CList","Hidden");
-							i += 1;
-						}
+					for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+						db_set_b(hContact, MODULE, "CheckState", ListView_GetCheckState(hwndList, i));
+						if (!ListView_GetCheckState(hwndList, i))
+							db_set_b(hContact, "CList", "Hidden", 1);
+						else
+							db_unset(hContact,"CList","Hidden");
+						i += 1;
 					}
-					break;
 				}
+				break;
 
 			case NM_DBLCLK:
 				{

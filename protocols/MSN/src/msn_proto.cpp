@@ -92,13 +92,11 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	LoadOptions();
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (MSN_IsMyContact(hContact)) {
-			deleteSetting(hContact, "Status");
-			deleteSetting(hContact, "IdleTS");
-			deleteSetting(hContact, "p2pMsgId");
-			deleteSetting(hContact, "AccList");
-		}
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		deleteSetting(hContact, "Status");
+		deleteSetting(hContact, "IdleTS");
+		deleteSetting(hContact, "p2pMsgId");
+		deleteSetting(hContact, "AccList");
 	}
 	deleteSetting(NULL, "MobileEnabled");
 	deleteSetting(NULL, "MobileAllowed");

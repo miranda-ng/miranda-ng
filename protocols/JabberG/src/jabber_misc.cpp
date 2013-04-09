@@ -157,7 +157,6 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 	HANDLE hContact;
 	TCHAR* s, *p, *q;
 	size_t len;
-	char *szProto;
 
 	if (jid==NULL || jid[0]=='\0')
 		return NULL;
@@ -174,18 +173,15 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 	len = _tcslen(s);
 
 	// We can't use JabberHContactFromJID() here because of the stripResource option
-	for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		szProto = GetContactProto(hContact);
-		if (szProto!=NULL && !strcmp(m_szModuleName, szProto)) {
-			DBVARIANT dbv;
-			if ( !JGetStringT(hContact, "jid", &dbv)) {
-				p = dbv.ptszVal;
-				if (p && _tcslen(p)>=len && (p[len]=='\0'||p[len]=='/') && !_tcsnicmp(p, s, len)) {
-					db_free(&dbv);
-					break;
-				}
+	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		DBVARIANT dbv;
+		if ( !JGetStringT(hContact, "jid", &dbv)) {
+			p = dbv.ptszVal;
+			if (p && _tcslen(p) >= len && (p[len]=='\0'||p[len]=='/') && !_tcsnicmp(p, s, len)) {
 				db_free(&dbv);
+				break;
 			}
+			db_free(&dbv);
 		}
 	}
 
@@ -318,13 +314,9 @@ void CJabberProto::ResolveTransportNicks(const TCHAR *jid)
 	// Set all contacts to offline
 	HANDLE hContact = m_ThreadInfo->resolveContact;
 	if (hContact == NULL)
-		hContact = (HANDLE)db_find_first();
+		hContact = (HANDLE)db_find_first(m_szModuleName);
 
-	for (; hContact != NULL; hContact = db_find_next(hContact)) {
-		char *szProto = GetContactProto(hContact);
-		if (lstrcmpA(szProto, m_szModuleName))
-			continue;
-
+	for (; hContact != NULL; hContact = db_find_next(hContact, m_szModuleName)) {
 		if ( !JGetByte(hContact, "IsTransported", 0))
 			continue;
 

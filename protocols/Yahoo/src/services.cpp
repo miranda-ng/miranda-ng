@@ -31,17 +31,14 @@
 void CYahooProto::logoff_buddies()
 {
 	//set all contacts to 'offline'
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (IsMyContact(hContact)) {
-			SetWord( hContact, "Status", ID_STATUS_OFFLINE );
-			SetDword(hContact, "IdleTS", 0);
-			SetDword(hContact, "PictLastCheck", 0);
-			SetDword(hContact, "PictLoading", 0);
-			db_unset(hContact, "CList", "StatusMsg");
-			db_unset(hContact, m_szModuleName, "YMsg");
-			db_unset(hContact, m_szModuleName, "YGMsg");
-			//db_unset(hContact, m_szModuleName, "MirVer");
-		}
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		SetWord( hContact, "Status", ID_STATUS_OFFLINE );
+		SetDword(hContact, "IdleTS", 0);
+		SetDword(hContact, "PictLastCheck", 0);
+		SetDword(hContact, "PictLoading", 0);
+		db_unset(hContact, "CList", "StatusMsg");
+		db_unset(hContact, m_szModuleName, "YMsg");
+		db_unset(hContact, m_szModuleName, "YGMsg");
 	}	
 }
 

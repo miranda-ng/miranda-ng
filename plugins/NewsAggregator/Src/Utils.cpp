@@ -240,27 +240,25 @@ VOID UpdateList(HWND hwndList)
 	// Initialize LVITEM members that are common to all
 	// items.
 	int i = 0;
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (IsMyContact(hContact)) {
-			UpdateListFlag = TRUE;
-			lvI.mask = LVIF_TEXT;
-			lvI.iSubItem = 0;
-			DBVARIANT dbNick = {0};
-			if (!db_get_ts(hContact, MODULE, "Nick", &dbNick)) {
-				lvI.pszText = dbNick.ptszVal;
-				lvI.iItem = i;
-				ListView_InsertItem(hwndList, &lvI);
-				lvI.iSubItem = 1;
-				DBVARIANT dbURL = {0};
-				if (!db_get_ts(hContact, MODULE, "URL", &dbURL)) {
-					lvI.pszText = dbURL.ptszVal;
-					ListView_SetItem(hwndList, &lvI);
-					i += 1;
-					ListView_SetCheckState(hwndList, lvI.iItem, db_get_b(hContact, MODULE, "CheckState", 1));
-					db_free(&dbURL);
-				}
-				db_free(&dbNick);
+	for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+		UpdateListFlag = TRUE;
+		lvI.mask = LVIF_TEXT;
+		lvI.iSubItem = 0;
+		DBVARIANT dbNick = {0};
+		if (!db_get_ts(hContact, MODULE, "Nick", &dbNick)) {
+			lvI.pszText = dbNick.ptszVal;
+			lvI.iItem = i;
+			ListView_InsertItem(hwndList, &lvI);
+			lvI.iSubItem = 1;
+			DBVARIANT dbURL = {0};
+			if (!db_get_ts(hContact, MODULE, "URL", &dbURL)) {
+				lvI.pszText = dbURL.ptszVal;
+				ListView_SetItem(hwndList, &lvI);
+				i += 1;
+				ListView_SetCheckState(hwndList, lvI.iItem, db_get_b(hContact, MODULE, "CheckState", 1));
+				db_free(&dbURL);
 			}
+			db_free(&dbNick);
 		}
 	}
 	UpdateListFlag = FALSE;

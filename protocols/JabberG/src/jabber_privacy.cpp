@@ -432,14 +432,11 @@ public:
 
 				SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_RESETCONTENT, 0, 0);
 
-				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-					char *szProto = GetContactProto(hContact);
-					if (szProto != NULL && !strcmp(szProto, m_proto->m_szModuleName)) {
-						DBVARIANT dbv;
-						if ( !m_proto->JGetStringT(hContact, "jid", &dbv)) {
-							SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
-							db_free(&dbv);
-						}
+				for (HANDLE hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
+					DBVARIANT dbv;
+					if ( !m_proto->JGetStringT(hContact, "jid", &dbv)) {
+						SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
+						db_free(&dbv);
 					}
 				}
 
@@ -1359,12 +1356,9 @@ void CJabberDlgPrivacyLists::CListResetOptions(HWND)
 
 void CJabberDlgPrivacyLists::CListFilter(HWND)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *proto = GetContactProto(hContact);
-		if ( !proto || lstrcmpA(proto, m_proto->m_szModuleName))
-			if (HANDLE hItem = m_clcClist.FindContact(hContact))
-				m_clcClist.DeleteItem(hItem);
-	}
+	for (HANDLE hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName))
+		if (HANDLE hItem = m_clcClist.FindContact(hContact))
+			m_clcClist.DeleteItem(hItem);
 }
 
 bool CJabberDlgPrivacyLists::CListIsGroup(HANDLE hGroup)

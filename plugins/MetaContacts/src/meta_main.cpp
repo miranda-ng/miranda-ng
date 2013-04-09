@@ -151,18 +151,15 @@ extern "C" __declspec(dllexport) int Load(void)
 	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/WindowOpen"));
 
 	//set all contacts to 'offline', and initialize subcontact counter for db consistency check
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *proto = GetContactProto(hContact);
-		if (proto && !lstrcmpA( META_PROTO, proto)) {
-			db_set_w(hContact, META_PROTO, "Status", ID_STATUS_OFFLINE);
-			db_set_dw(hContact, META_PROTO, "IdleTS", 0);
-			db_set_b(hContact, META_PROTO, "ContactCountCheck", 0);
+	for (HANDLE hContact = db_find_first(META_PROTO); hContact; hContact = db_find_next(hContact, META_PROTO)) {
+		db_set_w(hContact, META_PROTO, "Status", ID_STATUS_OFFLINE);
+		db_set_dw(hContact, META_PROTO, "IdleTS", 0);
+		db_set_b(hContact, META_PROTO, "ContactCountCheck", 0);
 
-			// restore any saved defaults that might have remained if miranda was closed or crashed while a convo was happening
-			if (db_get_dw(hContact, META_PROTO, "SavedDefault", (DWORD)-1) != (DWORD)-1) {
-				db_set_dw(hContact, META_PROTO, "Default", db_get_dw(hContact, META_PROTO, "SavedDefault", 0));
-				db_set_dw(hContact, META_PROTO, "SavedDefault", (DWORD)-1);
-			}
+		// restore any saved defaults that might have remained if miranda was closed or crashed while a convo was happening
+		if (db_get_dw(hContact, META_PROTO, "SavedDefault", (DWORD)-1) != (DWORD)-1) {
+			db_set_dw(hContact, META_PROTO, "Default", db_get_dw(hContact, META_PROTO, "SavedDefault", 0));
+			db_set_dw(hContact, META_PROTO, "SavedDefault", (DWORD)-1);
 		}
 	}	
 

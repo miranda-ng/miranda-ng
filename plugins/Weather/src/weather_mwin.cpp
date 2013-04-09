@@ -384,25 +384,19 @@ void InitMwin(void)
 		FontRegisterT(&fontid);
 	}
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		// see if the contact is a weather contact
-		if (IsMyContact(hContact)) {
-			if (db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0))
-				addWindow(hContact);
-		}
-	}
+	for (HANDLE hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME))
+		if (db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0))
+			addWindow(hContact);
+
 	hFontHook = HookEvent(ME_FONT_RELOAD, RedrawFrame);
 }
 
 void DestroyMwin(void)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		// see if the contact is a weather contact
-		if (IsMyContact(hContact)) {
-			DWORD frameId = db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0);
-			if (frameId)
-				CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);
-		}
+	for (HANDLE hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME)) {
+		DWORD frameId = db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0);
+		if (frameId)
+			CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);
 	}
 	UnregisterClass( _T("WeatherFrame"), hInst);
 	UnhookEvent(hFontHook);

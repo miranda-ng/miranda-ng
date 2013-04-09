@@ -274,18 +274,6 @@ void __cdecl JabberServerThread(ThreadData *info)
 			return;
 		}
 
-		// Determine local IP
-		/*
-		socket = CallService(MS_NETLIB_GETSOCKET, (WPARAM) proto, 0);
-		struct sockaddr_in saddr;
-		int len;
-
-		len = sizeof(saddr);
-		getsockname(socket, (struct sockaddr *) &saddr, &len);
-		jabberLocalIP = saddr.sin_addr.S_un.S_addr;
-		JabberLog("Local IP = %s", inet_ntoa(saddr.sin_addr));
-		*/
-
 		// User may change status to OFFLINE while we are connecting above
 		if (info->proto->m_iDesiredStatus != ID_STATUS_OFFLINE) {
 
@@ -357,19 +345,15 @@ void __cdecl JabberServerThread(ThreadData *info)
 				Menu_ModifyItem(info->proto->hMenuChats, &mi);
 
 			// Set status to offline
+			char *szProto = info->proto->m_szModuleName;
 			oldStatus = info->proto->m_iStatus;
 			info->proto->m_iStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(info->proto->m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, info->proto->m_iStatus);
+			ProtoBroadcastAck(szProto, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, info->proto->m_iStatus);
 
 			// Set all contacts to offline
-			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-				str = GetContactProto(hContact);
-				if (str != NULL && !strcmp(str, info->proto->m_szModuleName)) {
-					if (db_get_w(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
-						db_set_w(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
-					}
-				}
-			}
+			for (HANDLE hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto))
+				if (db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+					db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
 			JabberListWipeSpecial(info->proto);
 		}

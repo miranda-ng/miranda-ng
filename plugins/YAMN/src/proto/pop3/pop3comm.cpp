@@ -278,23 +278,19 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 	for (Finder=POP3Plugin->FirstAccount;Finder != NULL;Finder=Finder->Next)
 	{
 		Finder->hContact = NULL;
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			szProto = GetContactProto(hContact);
-			if (szProto != NULL && strcmp(szProto, YAMN_DBMODULE)==0)
-			{
-				if (!db_get_s(hContact,YAMN_DBMODULE,"Id",&dbv)) {
-					if ( strcmp( dbv.pszVal, Finder->Name) == 0) {
-						Finder->hContact = hContact;
-						db_set_w(Finder->hContact, YAMN_DBMODULE, "Status", ID_STATUS_ONLINE);
-						db_set_s(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
-						if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
-							db_unset(Finder->hContact, "CList", "Hidden");
+		for (HANDLE hContact = db_find_first(YAMN_DBMODULE); hContact; hContact = db_find_next(hContact, YAMN_DBMODULE)) {
+			if (!db_get_s(hContact,YAMN_DBMODULE,"Id",&dbv)) {
+				if ( strcmp( dbv.pszVal, Finder->Name) == 0) {
+					Finder->hContact = hContact;
+					db_set_w(Finder->hContact, YAMN_DBMODULE, "Status", ID_STATUS_ONLINE);
+					db_set_s(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
+					if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
+						db_unset(Finder->hContact, "CList", "Hidden");
 
-						if (!(Finder->Flags & YAMN_ACC_ENA) || !(Finder->NewMailN.Flags & YAMN_ACC_CONT))
-							db_set_b(Finder->hContact, "CList", "Hidden", 1);
-					}
-					db_free(&dbv);
+					if (!(Finder->Flags & YAMN_ACC_ENA) || !(Finder->NewMailN.Flags & YAMN_ACC_CONT))
+						db_set_b(Finder->hContact, "CList", "Hidden", 1);
 				}
+				db_free(&dbv);
 			}
 		}
 

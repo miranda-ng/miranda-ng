@@ -30,14 +30,12 @@ VOID CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	// only run if it is not current updating and the auto update option is enabled
 	if (!ThreadRunning && !Miranda_Terminated()) {
 		BOOL HaveUpdates = FALSE;
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			if(IsMyContact(hContact)) {
-				if (db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME)) {
-					double diff = difftime(time(NULL), db_get_dw(hContact, MODULE, "LastCheck", 0));
-					if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && diff >= db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME) * 60) {
-						UpdateListAdd(hContact);
-						HaveUpdates = TRUE;
-					}
+		for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+			if (db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME)) {
+				double diff = difftime(time(NULL), db_get_dw(hContact, MODULE, "LastCheck", 0));
+				if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && diff >= db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME) * 60) {
+					UpdateListAdd(hContact);
+					HaveUpdates = TRUE;
 				}
 			}
 		}

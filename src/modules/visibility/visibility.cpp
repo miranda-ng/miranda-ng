@@ -108,27 +108,28 @@ static void SetAllContactIcons(HWND hwndList)
 {
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-		if (hItem) {
-			DWORD flags;
-			WORD status;
-			char *szProto = GetContactProto(hContact);
-			if (szProto == NULL) {
-				flags = 0;
-				status = 0;
-			}
-			else {
-				flags = CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-				status = db_get_w(hContact, szProto, "ApparentMode", 0);
-			}
+		if (hItem == NULL)
+			continue;
 
-			if (flags & PF1_INVISLIST)
-				if (SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, 0)) == EMPTY_EXTRA_ICON)
-					SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, status == ID_STATUS_ONLINE ? 1 : 0));
-
-			if (flags & PF1_VISLIST)
-				if (SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, 0)) == EMPTY_EXTRA_ICON)
-					SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, status == ID_STATUS_OFFLINE ? 2 : 0));
+		DWORD flags;
+		WORD status;
+		char *szProto = GetContactProto(hContact);
+		if (szProto == NULL) {
+			flags = 0;
+			status = 0;
 		}
+		else {
+			flags = CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+			status = db_get_w(hContact, szProto, "ApparentMode", 0);
+		}
+
+		if (flags & PF1_INVISLIST)
+			if (SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, 0)) == EMPTY_EXTRA_ICON)
+				SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, status == ID_STATUS_ONLINE ? 1 : 0));
+
+		if (flags & PF1_VISLIST)
+			if (SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, 0)) == EMPTY_EXTRA_ICON)
+				SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, status == ID_STATUS_OFFLINE ? 2 : 0));
 	}
 }
 
@@ -244,19 +245,20 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-					if (hItem) {
-						int set = 0;
-						for (int i=0; i < 2; i++) {
-							int iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
-							if (iImage == i+1) {
-								CallContactService(hContact, PSS_SETAPPARENTMODE, iImage == 1?ID_STATUS_ONLINE:ID_STATUS_OFFLINE, 0);
-								set = 1;
-								break;
-							}
+					if (hItem == NULL)
+						continue;
+
+					int set = 0;
+					for (int i=0; i < 2; i++) {
+						int iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
+						if (iImage == i+1) {
+							CallContactService(hContact, PSS_SETAPPARENTMODE, iImage == 1?ID_STATUS_ONLINE:ID_STATUS_OFFLINE, 0);
+							set = 1;
+							break;
 						}
-						if ( !set)
-							CallContactService(hContact, PSS_SETAPPARENTMODE, 0, 0);
 					}
+					if ( !set)
+						CallContactService(hContact, PSS_SETAPPARENTMODE, 0, 0);
 				}
 				return TRUE;
 			}

@@ -60,7 +60,7 @@ void CQuotesProviders::InitProviders()
 	const WORD nCurrentVersion = 17;
 	WORD nVersion = db_get_w(NULL,QUOTES_MODULE_NAME,LAST_RUN_VERSION,1);
 
-	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for(HANDLE hContact = db_find_first(QUOTES_MODULE_NAME); hContact; hContact = db_find_next(hContact, QUOTES_MODULE_NAME))
 	{
 		TQuotesProviderPtr pProvider = GetContactProviderPtr(hContact);
 		if(pProvider)

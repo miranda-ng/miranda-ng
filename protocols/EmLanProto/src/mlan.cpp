@@ -127,12 +127,9 @@ void CMLan::SetMirandaStatus(u_int status)
 
 void CMLan::SetAllOffline()
 {	
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *svc = GetContactProto(hContact);
-		if (svc != NULL && lstrcmp(PROTONAME,svc) == 0) {
-			db_set_w(hContact,PROTONAME,"Status",ID_STATUS_OFFLINE);
-			db_unset(hContact, PROTONAME, "IP");
-		}
+	for (HANDLE hContact = db_find_first(PROTONAME); hContact; hContact = db_find_next(hContact, PROTONAME)) {
+		db_set_w(hContact, PROTONAME, "Status", ID_STATUS_OFFLINE);
+		db_unset(hContact, PROTONAME, "IP");
 	}
 	DeleteCache();
 }
@@ -241,18 +238,15 @@ void CMLan::SendPacketExt(TPacket& pak, u_long addr)
 
 HANDLE CMLan::FindContact(in_addr addr, const char* nick,  bool add_to_list, bool make_permanent, bool make_visible, u_int status)
 {
-	for (HANDLE res = db_find_first(); res; res = db_find_next(res)) {
-		char *szProto = GetContactProto(res);
-		if (szProto!=NULL && !lstrcmp(PROTONAME, szProto)) {
-			u_long caddr = db_get_dw(res, PROTONAME, "ipaddr", -1);
-			if (caddr==addr.S_un.S_addr) {					
-				if (make_permanent)
-					db_unset(res,"CList","NotOnList");
-				if (make_visible)
-					db_unset(res,"CList","Hidden");
-				return res;
-			}			
-		}
+	for (HANDLE res = db_find_first(PROTONAME); res; res = db_find_next(res, PROTONAME)) {
+		u_long caddr = db_get_dw(res, PROTONAME, "ipaddr", -1);
+		if (caddr==addr.S_un.S_addr) {					
+			if (make_permanent)
+				db_unset(res,"CList","NotOnList");
+			if (make_visible)
+				db_unset(res,"CList","Hidden");
+			return res;
+		}			
 	}
 
 	if (add_to_list) {

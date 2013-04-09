@@ -948,47 +948,48 @@ typedef struct {
 
 static void __cdecl TlenMUCCSendQueryResultThread(void *ptr)
 {
-	MUCCQUERYRESULT queryResult;
 	DBVARIANT dbv;
 	MUCSENDQUERYTHREADDATA* threadData = (MUCSENDQUERYTHREADDATA*)ptr;
+	char *szProto = threadData->proto->m_szModuleName;
+
+	MUCCQUERYRESULT queryResult;
 	queryResult.cbSize = sizeof (MUCCQUERYRESULT);
 	queryResult.iType = MUCC_EVENT_QUERY_CONTACTS;
-	queryResult.pszModule = threadData->proto->m_szModuleName;
+	queryResult.pszModule = szProto;
 	queryResult.pszParent = threadData->roomId;
 	queryResult.iItemsNum = 0;
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *str = GetContactProto(hContact);
-		if (str != NULL && !strcmp(str, threadData->proto->m_szModuleName)) {
-			if (!db_get_b(hContact, threadData->proto->m_szModuleName, "bChat", FALSE)) {
-				if (!db_get(hContact, threadData->proto->m_szModuleName, "jid", &dbv)) {
-					if (strcmp(dbv.pszVal, "b73@tlen.pl")) {
-						queryResult.iItemsNum++;
-					}
-					db_free(&dbv);
-				}
-			}
+
+	for (HANDLE hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto)) {
+		if ( db_get_b(hContact, szProto, "bChat", FALSE))
+			continue;
+
+		if ( !db_get_s(hContact, szProto, "jid", &dbv)) {
+			if (strcmp(dbv.pszVal, "b73@tlen.pl"))
+				queryResult.iItemsNum++;
+
+			db_free(&dbv);
 		}
 	}
+
 	queryResult.pItems = (MUCCQUERYITEM*)mir_alloc(sizeof(MUCCQUERYITEM) * queryResult.iItemsNum);
 	memset(queryResult.pItems, 0, sizeof(MUCCQUERYITEM) * queryResult.iItemsNum);
 	queryResult.iItemsNum = 0;
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *baseProto = GetContactProto(hContact);
-		if (baseProto != NULL && !strcmp(baseProto, threadData->proto->m_szModuleName)) {
-			if (!db_get_b(hContact, threadData->proto->m_szModuleName, "bChat", FALSE)) {
-				if (!db_get(hContact, threadData->proto->m_szModuleName, "jid", &dbv)) {
-					if (strcmp(dbv.pszVal, "b73@tlen.pl")) {
-						queryResult.pItems[queryResult.iItemsNum].pszID = mir_strdup(dbv.pszVal);
-						queryResult.pItems[queryResult.iItemsNum].pszName = mir_strdup((char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, 0));
-						queryResult.iItemsNum++;
-					}
-					db_free(&dbv);
-				}
+	for (HANDLE hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto)) {
+		if ( db_get_b(hContact, szProto, "bChat", FALSE))
+			continue;
+
+		if (!db_get(hContact, szProto, "jid", &dbv)) {
+			if (strcmp(dbv.pszVal, "b73@tlen.pl")) {
+				queryResult.pItems[queryResult.iItemsNum].pszID = mir_strdup(dbv.pszVal);
+				queryResult.pItems[queryResult.iItemsNum].pszName = mir_strdup((char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, 0));
+				queryResult.iItemsNum++;
 			}
+			db_free(&dbv);
 		}
 	}
+
 	CallService(MS_MUCC_QUERY_RESULT, 0, (LPARAM) &queryResult);
 	TlenMUCFreeQueryResult(&queryResult);
 	mir_free(threadData->roomId);

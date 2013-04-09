@@ -328,21 +328,22 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	CheckAllContactsAreTransported();
 
 	// Set all contacts to offline
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *szProto = GetContactProto(hContact);
-		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
-			SetContactOfflineStatus(hContact);
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		SetContactOfflineStatus(hContact);
 
-			if (JGetByte(hContact, "IsTransport", 0)) {
-				DBVARIANT dbv;
-				if ( !JGetStringT(hContact, "jid", &dbv)) {
-					TCHAR* domain = NEWTSTR_ALLOCA(dbv.ptszVal);
-					TCHAR* resourcepos = _tcschr(domain, '/');
-					if (resourcepos != NULL)
-						*resourcepos = '\0';
-					m_lstTransports.insert(mir_tstrdup(domain));
-					db_free(&dbv);
-	}	}	}	}
+		if ( !JGetByte(hContact, "IsTransport", 0))
+			continue;
+			
+		DBVARIANT dbv;
+		if ( !JGetStringT(hContact, "jid", &dbv)) {
+			TCHAR* domain = NEWTSTR_ALLOCA(dbv.ptszVal);
+			TCHAR* resourcepos = _tcschr(domain, '/');
+			if (resourcepos != NULL)
+				*resourcepos = '\0';
+			m_lstTransports.insert(mir_tstrdup(domain));
+			db_free(&dbv);
+		}
+	}
 
 	CleanLastResourceMap();
 	return 0;

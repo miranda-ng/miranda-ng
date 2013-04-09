@@ -91,19 +91,17 @@ HANDLE JabberHContactFromJID(TlenProtocol *proto, const char *jid)
 	if (jid == NULL)
 		return NULL;
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		szProto = GetContactProto(hContact);
-		if (szProto != NULL && !strcmp(proto->m_szModuleName, szProto)) {
-			if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
-				if ((p=dbv.pszVal) != NULL) {
-					if (!stricmp(p, jid)) {	// exact match (node@domain/resource)
-						db_free(&dbv);
-						return hContact;
-					}
-				}
+	for (HANDLE hContact = db_find_first(proto->m_szModuleName); hContact; hContact = db_find_next(hContact, proto->m_szModuleName)) {
+		if ( db_get(hContact, proto->m_szModuleName, "jid", &dbv))
+			continue;
+
+		if ((p=dbv.pszVal) != NULL) {
+			if (!stricmp(p, jid)) {	// exact match (node@domain/resource)
 				db_free(&dbv);
+				return hContact;
 			}
 		}
+		db_free(&dbv);
 	}
 
 	return NULL;

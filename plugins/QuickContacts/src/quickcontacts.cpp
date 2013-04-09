@@ -361,89 +361,89 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *pszProto = GetContactProto(hContact);
-		if(pszProto != NULL)
+		if(pszProto == NULL)
+			continue;
+
+		// Get meta
+		HANDLE hMeta = NULL;
+		if (metacontactsEnabled)
 		{
-			// Get meta
-			HANDLE hMeta = NULL;
-			if (metacontactsEnabled)
-			{
-				if ((!show_all && opts.hide_subcontacts) || opts.group_append)
-					hMeta = (HANDLE) CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
-			}
-			else
-			{
-				if (metacontacts_proto != NULL && strcmp(metacontacts_proto, pszProto) == 0)
-					continue;
-			}
-
-
-			if (!show_all)
-			{
-				// Check if is offline and have to show
-				if (GetStatus(hContact, pszProto) <= ID_STATUS_OFFLINE)
-				{
-					// See if has to show
-					char setting[128];
-					mir_snprintf(setting, sizeof(setting), "ShowOffline%s", pszProto);
-
-					if (!db_get_b(NULL, MODULE_NAME, setting, FALSE))
-						continue;
-
-					// Check if proto offline
-					else if (opts.hide_from_offline_proto 
-							&& CallProtoService(pszProto, PS_GETSTATUS, 0, 0) <= ID_STATUS_OFFLINE)
-						continue;
-
-				}
-
-				// Check if is subcontact
-				if (opts.hide_subcontacts && hMeta != NULL) 
-				{
-					if (!opts.keep_subcontacts_from_offline)
-						continue;
-
-					if (GetStatus(hMeta, metacontacts_proto) > ID_STATUS_OFFLINE)
-					{
-						continue;
-					}
-					else 
-					{
-						char setting[128];
-						mir_snprintf(setting, sizeof(setting), "ShowOffline%s", metacontacts_proto);
-						if (db_get_b(NULL, MODULE_NAME, setting, FALSE))
-							continue;
-					}
-				}
-			}
-
-			// Add to list
-
-			// Get group
-			c_struct *contact = new c_struct();
-			
-			if (opts.group_append)
-			{
-				DBVARIANT dbv;
-				if (db_get_ts(hMeta == NULL ? hContact : hMeta, "CList", "Group", &dbv) == 0)
-				{
-					if (dbv.ptszVal != NULL)
-						lstrcpyn(contact->szgroup, dbv.ptszVal, SIZEOF(contact->szgroup));
-
-					db_free(&dbv);
-				}
-			}
-
-			// Make contact name
-			TCHAR *tmp = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR);
-			lstrcpyn(contact->szname, tmp, SIZEOF(contact->szname));
-
-			PROTOACCOUNT *acc = ProtoGetAccount(pszProto);
-			if (acc != NULL)
-				lstrcpyn(contact->proto, acc->tszAccountName, SIZEOF(contact->proto));
-
-			contact->hcontact = hContact;
-			contacts.insert(contact);
+			if ((!show_all && opts.hide_subcontacts) || opts.group_append)
+				hMeta = (HANDLE) CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
 		}
+		else
+		{
+			if (metacontacts_proto != NULL && strcmp(metacontacts_proto, pszProto) == 0)
+				continue;
+		}
+
+
+		if (!show_all)
+		{
+			// Check if is offline and have to show
+			if (GetStatus(hContact, pszProto) <= ID_STATUS_OFFLINE)
+			{
+				// See if has to show
+				char setting[128];
+				mir_snprintf(setting, sizeof(setting), "ShowOffline%s", pszProto);
+
+				if (!db_get_b(NULL, MODULE_NAME, setting, FALSE))
+					continue;
+
+				// Check if proto offline
+				else if (opts.hide_from_offline_proto 
+						&& CallProtoService(pszProto, PS_GETSTATUS, 0, 0) <= ID_STATUS_OFFLINE)
+					continue;
+
+			}
+
+			// Check if is subcontact
+			if (opts.hide_subcontacts && hMeta != NULL) 
+			{
+				if (!opts.keep_subcontacts_from_offline)
+					continue;
+
+				if (GetStatus(hMeta, metacontacts_proto) > ID_STATUS_OFFLINE)
+				{
+					continue;
+				}
+				else 
+				{
+					char setting[128];
+					mir_snprintf(setting, sizeof(setting), "ShowOffline%s", metacontacts_proto);
+					if (db_get_b(NULL, MODULE_NAME, setting, FALSE))
+						continue;
+				}
+			}
+		}
+
+		// Add to list
+
+		// Get group
+		c_struct *contact = new c_struct();
+			
+		if (opts.group_append)
+		{
+			DBVARIANT dbv;
+			if (db_get_ts(hMeta == NULL ? hContact : hMeta, "CList", "Group", &dbv) == 0)
+			{
+				if (dbv.ptszVal != NULL)
+					lstrcpyn(contact->szgroup, dbv.ptszVal, SIZEOF(contact->szgroup));
+
+				db_free(&dbv);
+			}
+		}
+
+		// Make contact name
+		TCHAR *tmp = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR);
+		lstrcpyn(contact->szname, tmp, SIZEOF(contact->szname));
+
+		PROTOACCOUNT *acc = ProtoGetAccount(pszProto);
+		if (acc != NULL)
+			lstrcpyn(contact->proto, acc->tszAccountName, SIZEOF(contact->proto));
+
+		contact->hcontact = hContact;
+		contacts.insert(contact);
 	}
 
 	SortArray();

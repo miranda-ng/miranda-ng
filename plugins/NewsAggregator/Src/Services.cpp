@@ -33,9 +33,8 @@ static void __cdecl WorkingThread(void* param)
 {
 	int nStatus = (int)param;
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-		if(IsMyContact(hContact))
-			SetContactStatus(hContact, nStatus);
+	for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE))
+		SetContactStatus(hContact, nStatus);
 }
 
 int OnFoldersChanged(WPARAM, LPARAM)
@@ -52,12 +51,10 @@ int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 	else
 		lstrcpyn(tszRoot, VARST( _T("%miranda_userdata%\\Avatars\\"_T(DEFAULT_AVATARS_FOLDER))), SIZEOF(tszRoot));
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if(IsMyContact(hContact)) {
-			if (!db_get_b(NULL, MODULE, "StartupRetrieve", 1))
-				db_set_dw(hContact, MODULE, "LastCheck", time(NULL));
-			SetContactStatus(hContact, ID_STATUS_ONLINE);
-		}
+	for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+		if (!db_get_b(NULL, MODULE, "StartupRetrieve", 1))
+			db_set_dw(hContact, MODULE, "LastCheck", time(NULL));
+		SetContactStatus(hContact, ID_STATUS_ONLINE);
 	}
 
 	NetlibInit();
@@ -154,10 +151,10 @@ INT_PTR NewsAggrGetInfo(WPARAM wParam,LPARAM lParam)
 
 INT_PTR CheckAllFeeds(WPARAM wParam,LPARAM lParam)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (IsMyContact(hContact) && lParam && db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
+	for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+		if (lParam && db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
 			UpdateListAdd(hContact);
-		else if (IsMyContact(hContact) && !lParam)
+		else if (!lParam)
 			UpdateListAdd(hContact);
 	}
 	if (!ThreadRunning)

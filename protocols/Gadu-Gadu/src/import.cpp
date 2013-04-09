@@ -101,85 +101,84 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 	char *contacts;
 
 	// Readup contacts
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *szProto = GetContactProto(hContact);
-		if (szProto != NULL && !strcmp(szProto, gg->m_szModuleName) && !db_get_b(hContact, gg->m_szModuleName, "ChatRoom", 0)) {
-			DBVARIANT dbv;
+	for (HANDLE hContact = db_find_first(gg->m_szModuleName); hContact; hContact = db_find_next(hContact, gg->m_szModuleName)) {
+		if (db_get_b(hContact, gg->m_szModuleName, "ChatRoom", 0))
+			continue;
 
-			// Readup FirstName
-			if (!db_get_s(hContact, gg->m_szModuleName, GG_KEY_PD_FIRSTNAME, &dbv, DBVT_WCHAR))
-			{
-				char* pszValA = mir_t2a(dbv.ptszVal);
-				string_append(s, dbv.pszVal);
-				mir_free(pszValA);
-				db_free(&dbv);
-			}
-			string_append_c(s, ';');
-			// Readup LastName
-			if (!db_get_s(hContact, gg->m_szModuleName, GG_KEY_PD_LASTNAME, &dbv, DBVT_WCHAR))
-			{
-				char* pszValA = mir_t2a(dbv.ptszVal);
-				string_append(s, dbv.pszVal);
-				mir_free(pszValA);
-				db_free(&dbv);
-			}
-			string_append_c(s, ';');
-
-			// Readup Nick
-			if (!db_get_s(hContact, "CList", "MyHandle", &dbv, DBVT_TCHAR) || !db_get_s(hContact, gg->m_szModuleName, GG_KEY_NICK, &dbv, DBVT_TCHAR))
-			{
-				char* dbvA = mir_t2a(dbv.ptszVal);
-				DBVARIANT dbv2;
-				if (!db_get_s(hContact, gg->m_szModuleName, GG_KEY_PD_NICKNAME, &dbv2, DBVT_WCHAR))
-				{
-					char* pszValA = mir_t2a(dbv2.ptszVal);
-					string_append(s, pszValA);
-					mir_free(pszValA);
-					db_free(&dbv2);
-				}
-				else string_append(s, dbvA);
-
-				string_append_c(s, ';');
-				string_append(s, dbvA);
-				mir_free(dbvA);
-				db_free(&dbv);
-			}
-			else
-				string_append_c(s, ';');
-			string_append_c(s, ';');
-
-			// Readup Phone (fixed: uses stored editable phones)
-			if (!db_get_s(hContact, "UserInfo", "MyPhone0", &dbv, DBVT_ASCIIZ))
-			{
-				// Remove SMS postfix
-				char *sms = strstr(dbv.pszVal, " SMS");
-				if (sms) *sms = 0;
-
-				string_append(s, dbv.pszVal);
-				db_free(&dbv);
-			}
-			string_append_c(s, ';');
-			// Readup Group
-			if (!db_get_s(hContact, "CList", "Group", &dbv, DBVT_ASCIIZ))
-			{
-				string_append(s, dbv.pszVal);
-				db_free(&dbv);
-			}
-			string_append_c(s, ';');
-			// Readup Uin
-			string_append(s, ditoa(db_get_dw(hContact, gg->m_szModuleName, GG_KEY_UIN, 0)));
-			string_append_c(s, ';');
-			// Readup Mail (fixed: uses stored editable mails)
-			if (!db_get_s(hContact, "UserInfo", "Mye-mail0", &dbv, DBVT_ASCIIZ))
-			{
-				string_append(s, dbv.pszVal);
-				db_free(&dbv);
-			}
-			if (cr)
-				string_append(s, ";0;;0;\r\n");
-			else
-				string_append(s, ";0;;0;\n");
+		// Readup FirstName
+		DBVARIANT dbv;
+		if (!db_get_s(hContact, gg->m_szModuleName, GG_KEY_PD_FIRSTNAME, &dbv, DBVT_WCHAR))
+		{
+			char* pszValA = mir_t2a(dbv.ptszVal);
+			string_append(s, dbv.pszVal);
+			mir_free(pszValA);
+			db_free(&dbv);
 		}
+		string_append_c(s, ';');
+		// Readup LastName
+		if (!db_get_s(hContact, gg->m_szModuleName, GG_KEY_PD_LASTNAME, &dbv, DBVT_WCHAR))
+		{
+			char* pszValA = mir_t2a(dbv.ptszVal);
+			string_append(s, dbv.pszVal);
+			mir_free(pszValA);
+			db_free(&dbv);
+		}
+		string_append_c(s, ';');
+
+		// Readup Nick
+		if (!db_get_s(hContact, "CList", "MyHandle", &dbv, DBVT_TCHAR) || !db_get_s(hContact, gg->m_szModuleName, GG_KEY_NICK, &dbv, DBVT_TCHAR))
+		{
+			char* dbvA = mir_t2a(dbv.ptszVal);
+			DBVARIANT dbv2;
+			if (!db_get_s(hContact, gg->m_szModuleName, GG_KEY_PD_NICKNAME, &dbv2, DBVT_WCHAR))
+			{
+				char* pszValA = mir_t2a(dbv2.ptszVal);
+				string_append(s, pszValA);
+				mir_free(pszValA);
+				db_free(&dbv2);
+			}
+			else string_append(s, dbvA);
+
+			string_append_c(s, ';');
+			string_append(s, dbvA);
+			mir_free(dbvA);
+			db_free(&dbv);
+		}
+		else
+			string_append_c(s, ';');
+		string_append_c(s, ';');
+
+		// Readup Phone (fixed: uses stored editable phones)
+		if (!db_get_s(hContact, "UserInfo", "MyPhone0", &dbv, DBVT_ASCIIZ))
+		{
+			// Remove SMS postfix
+			char *sms = strstr(dbv.pszVal, " SMS");
+			if (sms) *sms = 0;
+
+			string_append(s, dbv.pszVal);
+			db_free(&dbv);
+		}
+		string_append_c(s, ';');
+		// Readup Group
+		if (!db_get_s(hContact, "CList", "Group", &dbv, DBVT_ASCIIZ))
+		{
+			string_append(s, dbv.pszVal);
+			db_free(&dbv);
+		}
+		string_append_c(s, ';');
+		// Readup Uin
+		string_append(s, ditoa(db_get_dw(hContact, gg->m_szModuleName, GG_KEY_UIN, 0)));
+		string_append_c(s, ';');
+		// Readup Mail (fixed: uses stored editable mails)
+		if (!db_get_s(hContact, "UserInfo", "Mye-mail0", &dbv, DBVT_ASCIIZ))
+		{
+			string_append(s, dbv.pszVal);
+			db_free(&dbv);
+		}
+		if (cr)
+			string_append(s, ";0;;0;\r\n");
+		else
+			string_append(s, ";0;;0;\n");
 	}
 
 	contacts = string_free(s, 0);

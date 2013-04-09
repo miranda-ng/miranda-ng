@@ -298,7 +298,7 @@ INT_PTR Quotes_Export(WPARAM wp,LPARAM lp)
 	}
 	else
 	{
-		for(hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) 
+		for(hContact = db_find_first(QUOTES_MODULE_NAME); hContact; hContact = db_find_next(hContact, QUOTES_MODULE_NAME)) 
 		{
 			CQuotesProviders::TQuotesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);
 			if(pProvider)

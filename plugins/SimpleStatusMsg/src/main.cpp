@@ -1813,13 +1813,12 @@ static int OnICQStatusMsgRequest(WPARAM wParam, LPARAM lParam, LPARAM lMirParam)
 	if (db_get_b(NULL, "SimpleStatusMsg", "NoUpdateOnICQReq", 1))
 		return 0;
 
-	char *szProto;
+	char *szProto = (char *)lMirParam;
 	BOOL bContactFound = FALSE;
 	HANDLE hContact;
 
-	for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		szProto = GetContactProto(hContact);
-		if (szProto != NULL && !strcmp(szProto, (char *)lMirParam) && db_get_dw(hContact, szProto, "UIN", 0) == (DWORD)lParam) {
+	for (hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto)) {
+		if (db_get_dw(hContact, szProto, "UIN", 0) == (DWORD)lParam) {
 			bContactFound = TRUE;
 			break;
 		}

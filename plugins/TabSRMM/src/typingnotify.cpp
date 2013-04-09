@@ -303,12 +303,6 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			case IDC_PREVIEW:
 				if (PluginConfig.g_PopupAvail) {
-					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-						char *szProto = GetContactProto(hContact);
-						if (szProto != NULL)
-							break;
-					}
-
 					POPUPDATAT ppd = { 0 };
 					for (i=0; i < 2; i++) {
 						int notyping;

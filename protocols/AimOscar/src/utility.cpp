@@ -168,14 +168,13 @@ bool CAimProto::is_my_contact(HANDLE hContact)
 
 HANDLE CAimProto::find_chat_contact(const char* room)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (is_my_contact(hContact)) {
-			DBVARIANT dbv;
-			if (!getString(hContact, "ChatRoomID", &dbv)) {
-				bool found = !strcmp(room, dbv.pszVal); 
-				db_free(&dbv);
-				if (found) return hContact; 
-			}
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		DBVARIANT dbv;
+		if (!getString(hContact, "ChatRoomID", &dbv)) {
+			bool found = !strcmp(room, dbv.pszVal); 
+			db_free(&dbv);
+			if (found)
+				return hContact; 
 		}
 	}
 	return NULL;
@@ -185,15 +184,13 @@ HANDLE CAimProto::contact_from_sn(const char* sn, bool addIfNeeded, bool tempora
 {
 	mir_ptr<char> norm_sn( normalize_name(sn));
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (is_my_contact(hContact)) {
-			DBVARIANT dbv;
-			if (!getString(hContact, AIM_KEY_SN, &dbv)) {
-				bool found = !strcmp(norm_sn, dbv.pszVal); 
-				db_free(&dbv);
-				if (found)
-					return hContact; 
-			}
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		DBVARIANT dbv;
+		if (!getString(hContact, AIM_KEY_SN, &dbv)) {
+			bool found = !strcmp(norm_sn, dbv.pszVal); 
+			db_free(&dbv);
+			if (found)
+				return hContact; 
 		}
 	}
 
@@ -321,9 +318,8 @@ void CAimProto::offline_contact(HANDLE hContact, bool remove_settings)
 
 void CAimProto::offline_contacts(void)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-		if (is_my_contact(hContact))
-			offline_contact(hContact,true);
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+		offline_contact(hContact,true);
 
 	allow_list.destroy();
 	block_list.destroy();
@@ -387,14 +383,12 @@ unsigned short CAimProto::search_for_free_item_id(HANDLE hbuddy)//returns a free
 retry:
 	id = get_random();
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (is_my_contact(hContact)) {		
-			for(int i=1; ;++i) {
-				unsigned short item_id = getBuddyId(hContact, i);
-				if (item_id == 0) break;
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		for(int i=1; ;++i) {
+			unsigned short item_id = getBuddyId(hContact, i);
+			if (item_id == 0) break;
 
-				if (item_id == id) goto retry;    //found one no need to look through anymore
-			}
+			if (item_id == id) goto retry;    //found one no need to look through anymore
 		}
 	}
 
@@ -408,19 +402,17 @@ unsigned short* CAimProto::get_members_of_group(unsigned short group_id, unsigne
 	unsigned short* list = NULL;
 	size = 0;
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (is_my_contact(hContact)) {
-			for(int i=1; ;++i) {
-				unsigned short user_group_id = getGroupId(hContact, i);
-				if (user_group_id == 0)
-					break;
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		for(int i=1; ;++i) {
+			unsigned short user_group_id = getGroupId(hContact, i);
+			if (user_group_id == 0)
+				break;
 
-				if (group_id == user_group_id) {
-					unsigned short buddy_id = getBuddyId(hContact, i);
-					if (buddy_id) {
-						list = (unsigned short*)mir_realloc(list, ++size*sizeof(list[0]));
-						list[size-1] = _htons(buddy_id);
-					}
+			if (group_id == user_group_id) {
+				unsigned short buddy_id = getBuddyId(hContact, i);
+				if (buddy_id) {
+					list = (unsigned short*)mir_realloc(list, ++size*sizeof(list[0]));
+					list[size-1] = _htons(buddy_id);
 				}
 			}
 		}
@@ -430,9 +422,9 @@ unsigned short* CAimProto::get_members_of_group(unsigned short group_id, unsigne
 
 void CAimProto::upload_nicks(void)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
-		if (is_my_contact(hContact) && !db_get_utf(hContact, MOD_KEY_CL, "MyHandle", &dbv)) {
+		if ( !db_get_utf(hContact, MOD_KEY_CL, "MyHandle", &dbv)) {
 			set_local_nick(hContact, dbv.pszVal, NULL);
 			db_free(&dbv);
 		}

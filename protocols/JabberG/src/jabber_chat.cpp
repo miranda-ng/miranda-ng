@@ -817,20 +817,17 @@ public:
 		HWND hwndList = GetDlgItem(m_hwnd, IDC_CLIST);
 
 		// invite users from roster
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			char *proto = GetContactProto(hContact);
-			if ( !lstrcmpA(proto, m_proto->m_szModuleName) && !db_get_b(hContact, proto, "ChatRoom", 0))
-			{
-				if (int hItem = SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0))
-				{
-					if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
-					{
-						DBVARIANT dbv={0};
-						m_proto->JGetStringT(hContact, "jid", &dbv);
-						if (dbv.ptszVal && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR))
-							InviteUser(dbv.ptszVal, text);
-						db_free(&dbv);
-					}
+		for (HANDLE hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
+			if ( db_get_b(hContact, m_proto->m_szModuleName, "ChatRoom", 0))
+				continue;
+
+			if (int hItem = SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0)) {
+				if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
+					DBVARIANT dbv={0};
+					m_proto->JGetStringT(hContact, "jid", &dbv);
+					if (dbv.ptszVal && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR))
+						InviteUser(dbv.ptszVal, text);
+					db_free(&dbv);
 				}
 			}
 		}

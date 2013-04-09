@@ -72,27 +72,23 @@ void CJabberProto::Log(const char* fmt, ...)
 HANDLE CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 {
 	if (jid == NULL)
-		return (HANDLE)NULL;
+		return NULL;
 
-	HANDLE hContactMatched = NULL;
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *szProto = GetContactProto(hContact);
-		if (szProto != NULL && !strcmp(m_szModuleName, szProto)) {
-			DBVARIANT dbv;
-			int result = JGetStringT(hContact, "ChatRoomID", &dbv);
-			if (result)
-				result = JGetStringT(hContact, "jid", &dbv);
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		DBVARIANT dbv;
+		int result = JGetStringT(hContact, "ChatRoomID", &dbv);
+		if (result)
+			result = JGetStringT(hContact, "jid", &dbv);
 
-			if ( !result) {
-				int result;
-				result = lstrcmpi(jid, dbv.ptszVal);
-				db_free(&dbv);
-				if ( !result && JGetByte(hContact, "ChatRoom", 0) != 0) {
-					hContactMatched = hContact;
-					break;
-	}	}	}	}
+		if ( !result) {
+			int result;
+			result = lstrcmpi(jid, dbv.ptszVal);
+			db_free(&dbv);
+			if ( !result && JGetByte(hContact, "ChatRoom", 0) != 0)
+				return hContact;
+	}	}
 
-	return hContactMatched;
+	return NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -105,44 +101,40 @@ HANDLE CJabberProto::HContactFromJID(const TCHAR *jid , BOOL bStripResource)
 
 	JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_CHATROOM, jid);
 
-	HANDLE hContactMatched = NULL;
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		DBVARIANT dbv;
+		int result;
+		//safer way to check UID (coz some contact have both setting from convert to chat)
+		if (db_get_b(hContact, m_szModuleName, "ChatRoom",0))
+			result = JGetStringT(hContact, "ChatRoomID", &dbv);
+		else
+			result = JGetStringT(hContact, "jid", &dbv);
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *szProto = GetContactProto(hContact);
-		if (szProto != NULL && !strcmp(m_szModuleName, szProto)) {
-			DBVARIANT dbv;
+		if ( !result) {
 			int result;
-			//safer way to check UID (coz some contact have both setting from convert to chat)
-			if (db_get_b(hContact, szProto, "ChatRoom",0))
-				result = JGetStringT(hContact, "ChatRoomID", &dbv);
-			else
-				result = JGetStringT(hContact, "jid", &dbv);
-
-			if ( !result) {
-				int result;
-				if (item != NULL)
-					result = lstrcmpi(jid, dbv.ptszVal);
-				else {
-					if (bStripResource == 3) {
-						if (JGetByte(hContact, "ChatRoom", 0))
-							result = lstrcmpi(jid, dbv.ptszVal);  // for chat room we have to have full contact matched
-						else if (TRUE)
-							result = _tcsnicmp(jid, dbv.ptszVal, _tcslen(dbv.ptszVal));
-						else
-							result = JabberCompareJids(jid, dbv.ptszVal);
-					}
-					// most probably it should just look full matching contact
+			if (item != NULL)
+				result = lstrcmpi(jid, dbv.ptszVal);
+			else {
+				if (bStripResource == 3) {
+					if (JGetByte(hContact, "ChatRoom", 0))
+						result = lstrcmpi(jid, dbv.ptszVal);  // for chat room we have to have full contact matched
+					else if (TRUE)
+						result = _tcsnicmp(jid, dbv.ptszVal, _tcslen(dbv.ptszVal));
 					else
-						result = lstrcmpi(jid, dbv.ptszVal);
-
+						result = JabberCompareJids(jid, dbv.ptszVal);
 				}
-				db_free(&dbv);
-				if ( !result) {
-					hContactMatched = hContact;
-					break;
-	}	}	}	}
+				// most probably it should just look full matching contact
+				else
+					result = lstrcmpi(jid, dbv.ptszVal);
 
-	return hContactMatched;
+			}
+			db_free(&dbv);
+			if ( !result)
+				return hContact;
+		}
+	}
+
+	return NULL;
 }
 
 TCHAR* __stdcall JabberNickFromJID(const TCHAR *jid)

@@ -139,42 +139,46 @@ VOID CALLBACK OnlineNotifTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 
 	if ( name.IsEmpty() && name2.IsEmpty()) {
 		DBVARIANT dbv;
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		   char *szProto = GetContactProto(hContact);
-		   if (szProto != NULL && !lstrcmpiA( szProto, ppro->m_szModuleName)) {
-			   BYTE bRoom = ppro->getByte(hContact, "ChatRoom", 0);
-			   if ( bRoom == 0 ) {
-				   BYTE bDCC = ppro->getByte(hContact, "DCC", 0);
-				   BYTE bHidden = db_get_b(hContact,"CList", "Hidden", 0);
-					if ( bDCC == 0 && bHidden == 0 ) {
-						if ( !ppro->getTString( hContact, "Default", &dbv )) {
-							BYTE bAdvanced = ppro->getByte(hContact, "AdvancedMode", 0) ;
-							if ( !bAdvanced ) {
-								db_free( &dbv );
-								if ( !ppro->getTString( hContact, "Nick", &dbv )) {	
-									ppro->m_namesToUserhost += CMString(dbv.ptszVal) + _T(" ");
-									db_free( &dbv );
-								}
-							}
-							else {
-								db_free( &dbv );
-								DBVARIANT dbv2;
+		for (HANDLE hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
+			if ( ppro->getByte(hContact, "ChatRoom", 0))
+				continue;
+
+			BYTE bDCC = ppro->getByte(hContact, "DCC", 0);
+			BYTE bHidden = db_get_b(hContact,"CList", "Hidden", 0);
+			if ( bDCC || bHidden)
+				continue;
+			if ( ppro->getTString( hContact, "Default", &dbv ))
+				continue;
+
+			BYTE bAdvanced = ppro->getByte(hContact, "AdvancedMode", 0) ;
+			if ( !bAdvanced ) {
+				db_free( &dbv );
+				if ( !ppro->getTString( hContact, "Nick", &dbv )) {	
+					ppro->m_namesToUserhost += CMString(dbv.ptszVal) + _T(" ");
+					db_free( &dbv );
+				}
+			}
+			else {
+				db_free( &dbv );
+				DBVARIANT dbv2;
 								
-								TCHAR* DBNick = NULL;
-								TCHAR* DBWildcard = NULL;
-								if ( !ppro->getTString( hContact, "Nick", &dbv ))
-									DBNick = dbv.ptszVal;
-								if ( !ppro->getTString( hContact, "UWildcard", &dbv2 ))
-									DBWildcard = dbv2.ptszVal;
+				TCHAR* DBNick = NULL;
+				TCHAR* DBWildcard = NULL;
+				if ( !ppro->getTString( hContact, "Nick", &dbv ))
+					DBNick = dbv.ptszVal;
+				if ( !ppro->getTString( hContact, "UWildcard", &dbv2 ))
+					DBWildcard = dbv2.ptszVal;
 
-								if ( DBNick && ( !DBWildcard || !WCCmp(CharLower(DBWildcard), CharLower(DBNick)))) 
-									ppro->m_namesToWho += CMString(DBNick) + _T(" ");
-								else if ( DBWildcard )
-									ppro->m_namesToWho += CMString(DBWildcard) + _T(" ");
+				if ( DBNick && ( !DBWildcard || !WCCmp(CharLower(DBWildcard), CharLower(DBNick)))) 
+					ppro->m_namesToWho += CMString(DBNick) + _T(" ");
+				else if ( DBWildcard )
+					ppro->m_namesToWho += CMString(DBWildcard) + _T(" ");
 
-								if ( DBNick )     db_free(&dbv);
-                        if ( DBWildcard ) db_free(&dbv2);
-	}	}	}	}	}	}	}
+				if ( DBNick )     db_free(&dbv);
+            if ( DBWildcard ) db_free(&dbv2);
+			}
+		}
+	}
 
 	if ( ppro->m_namesToWho.IsEmpty() && ppro->m_namesToUserhost.IsEmpty()) {
 		ppro->SetChatTimer( ppro->OnlineNotifTimer, 60*1000, OnlineNotifTimerProc );
