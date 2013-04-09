@@ -153,8 +153,8 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, EM_LIMITTEXT, 3, 0);
 			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);
 
-			HANDLE hContact = db_find_first();
-			while (hContact != NULL) {
+			HANDLE hContact;
+			for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				if (IsMyContact(hContact)) {
 					DBVARIANT dbNick = {0};
 					if (db_get_ts(hContact, MODULE, "Nick", &dbNick))
@@ -197,7 +197,6 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 					db_free(&dbNick);
 				}
-				hContact = db_find_next(hContact);
 			}
 			WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
 			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
@@ -493,8 +492,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				ListView_GetItemText(hwndList, sel, 0, nick, MAX_PATH);
 				ListView_GetItemText(hwndList, sel, 1, url, MAX_PATH);
 
-				HANDLE hContact = db_find_first();
-				while (hContact != NULL) {
+				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					if(IsMyContact(hContact)) {
 						DBVARIANT dbNick = {0};
 						if (db_get_ts(hContact, MODULE, "Nick", &dbNick))
@@ -514,7 +512,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 						}
 						db_free(&dbNick);
 					}
-					hContact = db_find_next(hContact);
 				}
 			}
 			return FALSE;
@@ -716,8 +713,8 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					HXML header = xi.addChild(hXml, _T("head"), NULL);
 					HXML title = xi.addChild(header, _T("title"), _T("Miranda NG NewsAggregator plugin export"));
 					header = xi.addChild(hXml, _T("body"), NULL);
-					HANDLE hContact = db_find_first();
-					while (hContact != NULL) {
+
+					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 						if (IsMyContact(hContact)) {
 							TCHAR *title = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
 							DBVARIANT dbv = {0};
@@ -768,7 +765,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 							mir_free(siteurl);
 							mir_free(group);
 						}
-						hContact = db_find_next(hContact);
 					}
 					xi.toFile(hXml, FileName, 1);
 					xi.destroyNode(hXml);
@@ -789,12 +785,9 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			case PSN_APPLY:
 				{
 					db_set_b(NULL, MODULE, "StartupRetrieve", IsDlgButtonChecked(hwndDlg, IDC_STARTUPRETRIEVE));
-					HANDLE hContact = db_find_first();
 					int i = 0;
-					while (hContact != NULL)
-					{
-						if(IsMyContact(hContact))
-						{
+					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+						if(IsMyContact(hContact)) {
 							db_set_b(hContact, MODULE, "CheckState", ListView_GetCheckState(hwndList, i));
 							if (!ListView_GetCheckState(hwndList, i))
 								db_set_b(hContact, "CList", "Hidden", 1);
@@ -802,7 +795,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 								db_unset(hContact,"CList","Hidden");
 							i += 1;
 						}
-						hContact = db_find_next(hContact);
 					}
 					break;
 				}

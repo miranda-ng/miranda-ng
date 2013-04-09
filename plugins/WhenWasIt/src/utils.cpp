@@ -219,20 +219,15 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 
 HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 {
-	HANDLE hContact = db_find_first();
-
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *m_szProto = GetContactProto(hContact);
 		TCHAR *szHandle = GetContactID(hContact, szProto);
-		if (szHandle)
-		{
+		if (szHandle) {
 			bool found = (!_tcsicmp(szHandle, szID) && !_stricmp(szProto, m_szProto));
 			free(szHandle);
 			if (found)
 				return hContact;
 		}
-
-		hContact = db_find_next(hContact);
 	}
 	return NULL;
 }

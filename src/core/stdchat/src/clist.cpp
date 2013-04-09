@@ -99,21 +99,16 @@ BOOL CList_SetOffline(HANDLE hContact, BOOL bHide)
 
 BOOL CList_SetAllOffline(BOOL bHide, const char *pszModule)
 {
-	HANDLE hContact;
-	char* szProto;
-
-	hContact = db_find_first();
-	while ( hContact ) {
-		szProto = GetContactProto(hContact);
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		char *szProto = GetContactProto(hContact);
 		if ( MM_FindModule( szProto )) {
 			if ( !pszModule || ( pszModule && !strcmp( pszModule, szProto ))) {
 				int i = db_get_b(hContact, szProto, "ChatRoom", 0);
 				if ( i != 0 ) {
 					db_set_w(hContact, szProto,"ApparentMode",(LPARAM)(WORD) 0);
 					db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-		}	}	}
-		hContact = db_find_next(hContact);
-	}
+	}	}	}	}
+
 	return TRUE;
 }
 
@@ -288,8 +283,7 @@ BOOL CList_AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR
 
 HANDLE CList_FindRoom ( const char* pszModule, const TCHAR* pszRoom)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
 		if ( szProto && !lstrcmpiA( szProto, pszModule )) {
 			if ( db_get_b( hContact, szProto, "ChatRoom", 0) != 0 ) {
@@ -300,10 +294,8 @@ HANDLE CList_FindRoom ( const char* pszModule, const TCHAR* pszRoom)
 						return hContact;
 					}
 					db_free(&dbv);
-		}	}	}
+	}	}	}	}
 
-		hContact = db_find_next(hContact);
-	}
 	return 0;
 }
 

@@ -46,16 +46,13 @@ void InitDisplayNameCache(SortedList *list)
 	list->sortFunc = (FSortFunc)handleCompare;
 	list->increment = CallService(MS_DB_CONTACT_GETCOUNT,0,0)+1;
 
-	hContact = db_find_first();
 	i = 0;
-	while (hContact != 0)
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ClcCacheEntry *pdnce = (ClcCacheEntry *)mir_calloc(sizeof(ClcCacheEntry));
 		pdnce->hContact = hContact;
 		InvalidateDisplayNameCacheEntryByPDNE(hContact,pdnce,0);
 		List_GetIndex(list,pdnce,&idx);
 		List_Insert(list,pdnce,idx);
-		hContact = db_find_next(hContact);
 		i++;
 }	}
 

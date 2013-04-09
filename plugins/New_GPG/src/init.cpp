@@ -243,8 +243,6 @@ extern "C" int __declspec(dllexport) Load()
 extern list<wstring> transfers;
 extern "C" int __declspec(dllexport) Unload(void)
 {
-//	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-//		db_unset(hContact, szGPGModuleName, "KeyID_Prescense");
 	if(!transfers.empty())
 	{
 		for(list<wstring>::iterator p = transfers.begin(); p != transfers.end(); p++)

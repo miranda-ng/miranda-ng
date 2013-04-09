@@ -701,15 +701,13 @@ class CGroupchatInviteDlg : public CJabberDlgBase
 
 	void FilterList(CCtrlClc *)
 	{
-		for	(HANDLE hContact = db_find_first();
-				hContact;
-				hContact = db_find_next(hContact))
-		{
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			char *proto = GetContactProto(hContact);
 			if (lstrcmpA(proto, m_proto->m_szModuleName) || db_get_b(hContact, proto, "ChatRoom", 0))
 				if (HANDLE hItem = m_clc.FindContact(hContact))
 					m_clc.DeleteItem(hItem);
-	}	}
+		}
+	}
 
 	void ResetListOptions(CCtrlClc *)
 	{
@@ -819,10 +817,7 @@ public:
 		HWND hwndList = GetDlgItem(m_hwnd, IDC_CLIST);
 
 		// invite users from roster
-		for	(HANDLE hContact = db_find_first();
-				hContact;
-				hContact = db_find_next(hContact))
-		{
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			char *proto = GetContactProto(hContact);
 			if ( !lstrcmpA(proto, m_proto->m_szModuleName) && !db_get_b(hContact, proto, "ChatRoom", 0))
 			{

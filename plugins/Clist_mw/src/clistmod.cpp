@@ -129,11 +129,8 @@ static int ContactListShutdownProc(WPARAM wParam,LPARAM lParam)
 
 int LoadContactListModule(void)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		db_set_s(hContact, "CList", "StatusMsg", "");
-		hContact = db_find_next(hContact);
-	}
 
 	hCListImages = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 	DefaultImageListColorDepth = db_get_dw(NULL,"CList","DefaultImageListColorDepth",ILC_COLOR32);

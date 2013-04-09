@@ -598,18 +598,12 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 		sprintf_s(buf, "Task_zipPassword_%d", i);
 		db_set_s(0, MODULE, buf, it->zipPassword.c_str());
 
-		HANDLE _hContact = db_find_first();
 		sprintf_s(buf, "IsInTask_%d", i);
-		while(_hContact)
-		{
-			db_unset(_hContact, MODULE, buf);
-			_hContact = db_find_next(_hContact);
-		}
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+			db_unset(hContact, MODULE, buf);
 
 		for(size_t j = 0; j < it->contacts.size(); ++j)
-		{
 			db_set_b(it->contacts[j], MODULE, buf, 1);
-		}
 
 		it->orderNr = i++;
 		taskOptions.push_back(*it);
@@ -660,13 +654,9 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 		sprintf_s(buf, "Task_taskName_%d", i);
 		db_unset(NULL, MODULE, buf);
 
-		HANDLE _hContact = db_find_first();
 		sprintf_s(buf, "IsInTask_%d", i);
-		while(_hContact)
-		{
-			db_unset(_hContact, MODULE, buf);
-			_hContact = db_find_next(_hContact);
-		}
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+			db_unset(hContact, MODULE, buf);
 	}
 
 	LeaveCriticalSection(&criticalSection);
@@ -758,17 +748,10 @@ void Options::LoadTasks()
 			db_free(&var);
 		}
 
-		HANDLE _hContact = db_find_first();
 		sprintf_s(buf, "IsInTask_%d", i);
-		while(_hContact)
-		{
-			if(db_get_b(_hContact, MODULE, buf, 0) == 1)
-			{
-				to.contacts.push_back(_hContact);
-			}
-
-			_hContact = db_find_next(_hContact);
-		}
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+			if(db_get_b(hContact, MODULE, buf, 0) == 1)
+				to.contacts.push_back(hContact);
 
 		to.orderNr = i;
 		taskOptions.push_back(to);
@@ -1765,19 +1748,15 @@ void RebuildList(HWND hwnd, HANDLE hSystem, TaskOptions* to)
 
 void SaveList(HWND hwnd, HANDLE hSystem, TaskOptions* to)
 {
-	HANDLE hContact, hItem;
-
 	to->contacts.clear();
 	if (hSystem)
 		to->isSystem = SendMessage(hwnd, CLM_GETCHECKMARK, (WPARAM) hSystem, 0) != 0;
-	hContact = db_find_first();
-	do 
-	{
-		hItem = (HANDLE) SendMessage(hwnd, CLM_FINDCONTACT, (WPARAM) hContact, 0);
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		HANDLE hItem = (HANDLE) SendMessage(hwnd, CLM_FINDCONTACT, (WPARAM) hContact, 0);
 		if (hItem && SendMessage(hwnd, CLM_GETCHECKMARK, (WPARAM) hItem, 0))
 			to->contacts.push_back(hContact);
 	} 
-	while (hContact = db_find_next(hContact));
 }
 
 bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top = NULL, std::wstring* err = NULL, std::wstring* errDescr = NULL);

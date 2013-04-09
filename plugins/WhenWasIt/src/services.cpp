@@ -334,8 +334,7 @@ int DoExport(TCHAR *fileName)
 	_ftprintf(fout, _T("%c%s"), _T(COMMENT_CHAR), TranslateT("Warning! Please do not mix Unicode and Ansi exported birthday files. You should use the same version (Ansi/Unicode) of WhenWasIt that was used to export the info.\n"));
 	_ftprintf(fout, _T("%c%s"), _T(COMMENT_CHAR), TranslateT("This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n"));
 
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		int year, month, day;
 		GetContactDOB(hContact, year, month, day);
 		if ( IsDOBValid(year, month, day)) {
@@ -348,8 +347,6 @@ int DoExport(TCHAR *fileName)
 			if (szHandle)
 				free(szHandle);
 		}
-
-		hContact = db_find_next(hContact);
 	}
 
 	fclose(fout);

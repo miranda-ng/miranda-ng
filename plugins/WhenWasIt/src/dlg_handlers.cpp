@@ -691,11 +691,9 @@ int LoadBirthdays(HWND hWnd, int bShowAll)
 	ListView_DeleteAllItems(hList);
 
 	int count = 0;
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		count = UpdateBirthdayEntry(hList, hContact, count, bShowAll, commonData.cShowAgeMode, 1); 
-		hContact = db_find_next(hContact);
-	}
+
 	SetBirthdaysCount(hWnd);
 	return 0;
 }

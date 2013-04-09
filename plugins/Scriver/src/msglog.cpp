@@ -804,44 +804,44 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	if (dat->buffer == NULL) {
 		dat->bufferOffset = 0;
 		switch (dat->stage) {
-			case STREAMSTAGE_HEADER:
-				dat->buffer = CreateRTFHeader(dat->dlgDat, dat->gdat);
-				dat->stage = STREAMSTAGE_EVENTS;
+		case STREAMSTAGE_HEADER:
+			dat->buffer = CreateRTFHeader(dat->dlgDat, dat->gdat);
+			dat->stage = STREAMSTAGE_EVENTS;
+			break;
+		case STREAMSTAGE_EVENTS:
+			if (dat->events != NULL) {
+				EventData *event = dat->events;
+				dat->buffer = NULL;
+				dat->buffer = CreateRTFFromEvent(dat->dlgDat, event, dat->gdat, dat);
+				dat->events = event->next;
+				freeEvent(event);
+			} else if (dat->eventsToInsert) {
+				do {
+					EventData *event = getEventFromDB(dat->dlgDat, dat->hContact, dat->hDbEvent);
+					dat->buffer = NULL;
+					if (event != NULL) {
+						dat->buffer = CreateRTFFromEvent(dat->dlgDat, event, dat->gdat, dat);
+						freeEvent(event);
+					}
+					if (dat->buffer)
+						dat->hDbEventLast = dat->hDbEvent;
+					dat->hDbEvent = db_event_next(dat->hDbEvent);
+					if (--dat->eventsToInsert == 0)
+						break;
+				} while (dat->buffer == NULL && dat->hDbEvent);
+			}
+			if (dat->buffer) {
 				break;
-			case STREAMSTAGE_EVENTS:
-                if (dat->events != NULL) {
-                    EventData *event = dat->events;
-                    dat->buffer = NULL;
-                    dat->buffer = CreateRTFFromEvent(dat->dlgDat, event, dat->gdat, dat);
-                    dat->events = event->next;
-                    freeEvent(event);
-                } else if (dat->eventsToInsert) {
-                    do {
-                        EventData *event = getEventFromDB(dat->dlgDat, dat->hContact, dat->hDbEvent);
-                        dat->buffer = NULL;
-                        if (event != NULL) {
-                            dat->buffer = CreateRTFFromEvent(dat->dlgDat, event, dat->gdat, dat);
-                            freeEvent(event);
-                        }
-                        if (dat->buffer)
-                            dat->hDbEventLast = dat->hDbEvent;
-                        dat->hDbEvent = db_event_next(dat->hDbEvent);
-                        if (--dat->eventsToInsert == 0)
-                            break;
-                    } while (dat->buffer == NULL && dat->hDbEvent);
-				}
-                if (dat->buffer) {
-                    break;
-                }
-				dat->stage = STREAMSTAGE_TAIL;
-				//fall through
-			case STREAMSTAGE_TAIL:
-				dat->buffer = CreateRTFTail();
-				dat->stage = STREAMSTAGE_STOP;
-				break;
-			case STREAMSTAGE_STOP:
-				*pcb = 0;
-				return 0;
+			}
+			dat->stage = STREAMSTAGE_TAIL;
+			//fall through
+		case STREAMSTAGE_TAIL:
+			dat->buffer = CreateRTFTail();
+			dat->stage = STREAMSTAGE_STOP;
+			break;
+		case STREAMSTAGE_STOP:
+			*pcb = 0;
+			return 0;
 		}
 		dat->bufferLen = lstrlenA(dat->buffer);
 	}

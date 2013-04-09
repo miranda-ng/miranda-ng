@@ -239,8 +239,7 @@ INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam)
 				return 0;
 		}
 
-		HANDLE hContact = db_find_first();
-		while(hContact) {
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			 // This contact is assigned to the MetaContact that will be deleted, clear the "MetaContacts" information
 			if ( db_get_dw(hContact, META_PROTO, META_LINK,(DWORD)-1) == metaID) {
 				db_unset(hContact, META_PROTO, "IsSubcontact");
@@ -256,7 +255,6 @@ INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam)
 				if (options.suppress_status)
 					CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 			}
-			hContact = db_find_next(hContact);
 		}
 
 		NotifyEventHooks(hSubcontactsChanged, (WPARAM)wParam, 0);

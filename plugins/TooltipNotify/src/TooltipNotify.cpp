@@ -807,48 +807,33 @@ void CTooltipNotify::ResetCList(HWND hwndDlg)
 void CTooltipNotify::LoadList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
 {
 	if (hItemNew && !m_sOptions.bIgnoreNew)
-	{
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM) hItemNew, 1);
-	}
-	if (hItemUnknown && !m_sOptions.bIgnoreUnknown)
-	{
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM) hItemUnknown, 1);
-	}
 
-	HANDLE hContact = db_find_first();
-	do
-	{
+	if (hItemUnknown && !m_sOptions.bIgnoreUnknown)
+		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM) hItemUnknown, 1);
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM) hContact, 0);
 		if (hItem && !db_get_b(hContact, s_szModuleName, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
-		{
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM) hItem, 1);
-		}
 	}
-	while (hContact = db_find_next(hContact));
 }
 
 void CTooltipNotify::SaveList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
 {
 	if (hItemNew)
-	{
 		m_sOptions.bIgnoreNew = (BYTE) (SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItemNew, 0) ? 0 : 1);
-	}
-	if (hItemUnknown)
-	{
-		m_sOptions.bIgnoreUnknown = (BYTE) (SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItemUnknown, 0) ? 0 : 1);
-	}
 
-	HANDLE hContact = db_find_first();
-	do
-	{
+	if (hItemUnknown)
+		m_sOptions.bIgnoreUnknown = (BYTE) (SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItemUnknown, 0) ? 0 : 1);
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM) hContact, 0);
-		if (hItem)
-		{
+		if (hItem) {
 			BYTE bChecked = (BYTE) (SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItem, 0));
 			db_set_b(hContact, s_szModuleName, CONTACT_IGNORE_TTNOTIFY, bChecked ? 0 : 1);
 		}
 	}
-	while (hContact = db_find_next(hContact));
 }
 
 

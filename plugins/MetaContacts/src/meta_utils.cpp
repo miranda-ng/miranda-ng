@@ -104,7 +104,6 @@ HANDLE Meta_GetHandle(const char *protocol, DBVARIANT *id)
 {
 	char *field;
 	DBVARIANT dbv;
-	HANDLE hUser;
 	DWORD i,res = 1;
 	// Get the field identifying the contact in the database.
 	char str[MAXMODULELABELLENGTH];
@@ -114,10 +113,10 @@ HANDLE Meta_GetHandle(const char *protocol, DBVARIANT *id)
 		return NULL;
 	
 	field = (char *)CallProtoService(protocol,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
-	hUser = db_find_first();
-	while(hUser) {
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		// Scan the database and retrieve the field for each contact
-		if ( !db_get(hUser,protocol,field,&dbv)) {
+		if ( !db_get(hContact, protocol, field, &dbv)) {
 			if (dbv.type == id->type) {
 				// If the id parameter and the value returned by the db_get
 				// are the same, this is the correct HANDLE, return it.
@@ -126,21 +125,21 @@ HANDLE Meta_GetHandle(const char *protocol, DBVARIANT *id)
 					break;
 				case DBVT_BYTE:
 					if (dbv.bVal == id->bVal)
-						return hUser;
+						return hContact;
 					break;
 				case DBVT_WORD:
 					if (dbv.wVal == id->wVal)
-						return hUser;
+						return hContact;
 					break;
 				case DBVT_DWORD:
 					if (dbv.dVal == id->dVal)
-						return hUser;
+						return hContact;
 					break;
 				case DBVT_ASCIIZ:
 				case DBVT_UTF8:
 					if ( !strcmp(dbv.pszVal,id->pszVal)) {
 						db_free(&dbv);
-						return hUser;
+						return hContact;
 					}
 					db_free(&dbv);
 					break;
@@ -148,7 +147,7 @@ HANDLE Meta_GetHandle(const char *protocol, DBVARIANT *id)
 				case DBVT_WCHAR:
 					if ( !wcscmp(dbv.pwszVal,id->pwszVal)) {
 						db_free(&dbv);
-						return hUser;
+						return hContact;
 					}
 					db_free(&dbv);
 					break;
@@ -159,7 +158,7 @@ HANDLE Meta_GetHandle(const char *protocol, DBVARIANT *id)
 							res = (dbv.pbVal[i] == id->pbVal[i]);
 						if (res) {
 							db_free(&dbv);
-							return hUser;
+							return hContact;
 						}
 					}
 					db_free(&dbv);
@@ -168,8 +167,6 @@ HANDLE Meta_GetHandle(const char *protocol, DBVARIANT *id)
 			}
 			else db_free(&dbv);
 		}
-		// This contact wasn't the good one, go to the next.
-		hUser = db_find_next(hUser);
 	}
 	return NULL;
 }
@@ -1004,17 +1001,14 @@ int Meta_HideLinkedContacts(void) {
 /** Unhide all contacts linked to any meta contact
 *
 */
-int Meta_UnhideLinkedContacts(void) {
-	HANDLE hContact = db_find_first();
-
-	while ( hContact != NULL ) {
+int Meta_UnhideLinkedContacts(void)
+{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (db_get_dw(hContact, META_PROTO, META_LINK,(DWORD)-1)!=(DWORD)-1) {
 			// has a link - unhide it
 			// restore old group
 			Meta_RestoreGroup(hContact);			
 		}
-
-		hContact = db_find_next(hContact);
 	}	
 
 	if ( !CallService(MS_SYSTEM_TERMINATED, 0, 0))
@@ -1022,32 +1016,27 @@ int Meta_UnhideLinkedContacts(void) {
 	return 0;
 }
 
-int Meta_HideMetaContacts(int hide) {
-	HANDLE hContact = db_find_first();
-
+int Meta_HideMetaContacts(int hide)
+{
 	// set status suppression
 	if (hide) Meta_SuppressStatus(FALSE);
 	else Meta_SuppressStatus(options.suppress_status);
 
-	while ( hContact != NULL ) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (db_get_dw(hContact, META_PROTO, META_ID,(DWORD)-1)!=(DWORD)-1) {
 			// is a meta contact
-
 			if (hide)
 				db_set_b(hContact, "CList", "Hidden", 1);
 			else
 				db_unset(hContact, "CList", "Hidden");
-
-		} else if (db_get_dw(hContact, META_PROTO, META_LINK,(DWORD)-1)!=(DWORD)-1) {
-			// when metacontacts are hidden, show subcontacts, and vice versa
-			if (hide) {
-				Meta_RestoreGroup(hContact);
-			} else {
-				Meta_SetGroup(hContact);
-			}
 		}
-
-		hContact = db_find_next(hContact);
+		else if (db_get_dw(hContact, META_PROTO, META_LINK,(DWORD)-1)!=(DWORD)-1) {
+			// when metacontacts are hidden, show subcontacts, and vice versa
+			if (hide)
+				Meta_RestoreGroup(hContact);
+			else
+				Meta_SetGroup(hContact);
+		}
 	}	
 
 	if ( !CallService(MS_SYSTEM_TERMINATED, 0, 0))
@@ -1201,10 +1190,9 @@ void Meta_GetStatusString(int status, TCHAR *buf, size_t size)
 	}
 }
 
-int Meta_SuppressStatus(BOOL suppress) {
-	HANDLE hContact = db_find_first();
-
-	while ( hContact != NULL ) {
+int Meta_SuppressStatus(BOOL suppress)
+{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (db_get_dw(hContact, META_PROTO, META_LINK,(DWORD)-1)!=(DWORD)-1) {
 			// is a subcontact
 			if (suppress)
@@ -1212,8 +1200,6 @@ int Meta_SuppressStatus(BOOL suppress) {
 			else
 				CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 		}
-
-		hContact = db_find_next(hContact);
 	}	
 
 	return 0;
@@ -1258,17 +1244,14 @@ int Meta_CopyContactNick(HANDLE hMeta, HANDLE hContact) {
 
 int Meta_SetAllNicks()
 {
-	HANDLE hContact = db_find_first(), most_online;
-
-	while ( hContact != NULL ) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (db_get_dw(hContact, META_PROTO, META_ID,(DWORD)-1)!=(DWORD)-1) {
-			most_online = Meta_GetMostOnline(hContact);
+			HANDLE most_online = Meta_GetMostOnline(hContact);
 			Meta_CopyContactNick(hContact, most_online);
 			Meta_FixStatus(hContact);
 			Meta_CopyData(hContact);
 		}
-		
-		hContact = db_find_next(hContact);
+	
 	}
 	return 0;
 }

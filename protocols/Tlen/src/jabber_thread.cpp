@@ -107,7 +107,6 @@ void __cdecl JabberServerThread(ThreadData *info)
 	char *buffer;
 	int datalen;
 	XmlState xmlState;
-	HANDLE hContact;
 	int jabberNetworkBufferSize;
 	int oldStatus = ID_STATUS_OFFLINE;
 	int reconnectMaxTime;
@@ -363,15 +362,13 @@ void __cdecl JabberServerThread(ThreadData *info)
 			ProtoBroadcastAck(info->proto->m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, info->proto->m_iStatus);
 
 			// Set all contacts to offline
-			hContact = db_find_first();
-			while (hContact != NULL) {
+			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				str = GetContactProto(hContact);
 				if (str != NULL && !strcmp(str, info->proto->m_szModuleName)) {
 					if (db_get_w(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 						db_set_w(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
 					}
 				}
-				hContact = db_find_next(hContact);
 			}
 
 			JabberListWipeSpecial(info->proto);

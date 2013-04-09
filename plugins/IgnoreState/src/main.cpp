@@ -141,11 +141,8 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	hExtraIcon = ExtraIcon_Register("ignore", LPGEN("Ignore State"), "ignore_full");
 
 	// Set initial value for all contacts
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		applyExtraImage(hContact);
-		hContact = db_find_next(hContact);
-	}
 
 	return 0;
 }

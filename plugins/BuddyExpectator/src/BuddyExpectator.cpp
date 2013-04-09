@@ -565,11 +565,8 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	HANDLE hContact = db_find_first();
-	char *proto;
-	while (hContact != 0)
-	{
-		proto = GetContactProto(hContact);
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		char *proto = GetContactProto(hContact);
 		if (proto && (db_get_b(hContact, proto, "ChatRoom", 0) == 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) && isContactGoneFor(hContact, options.iAbsencePeriod2) && (db_get_b(hContact, MODULE_NAME, "StillAbsentNotified", 0) == 0))
 		{
 			db_set_b(hContact, MODULE_NAME, "StillAbsentNotified", 1);
@@ -596,8 +593,6 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 			GoneNotify(hContact, message);
 		}
-
-		hContact = db_find_next(hContact);
 	}
 }
 /**
@@ -712,15 +707,13 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// ensure all contacts are timestamped
 	DBVARIANT dbv;
-	HANDLE hContact = db_find_first();
 	DWORD current_time = (DWORD)time(0);
-	while (hContact != 0) {
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if ( !db_get(hContact, MODULE_NAME, "CreationTime", &dbv))
 			db_free(&dbv);
 		else
 			db_set_dw(hContact, MODULE_NAME, "CreationTime", current_time);
-
-		hContact = db_find_next(hContact);
 	}
 
 	return 0;

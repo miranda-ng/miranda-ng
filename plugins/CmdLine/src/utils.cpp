@@ -337,32 +337,27 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 #pragma warning (disable: 4312)
 HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 {
-	HANDLE hContact = db_find_first();
-	TCHAR *szHandle;
 	TCHAR dispName[1024];
 	char cProtocol[256];
 	char *tmp;
 
 	int found = 0;
-	while (hContact)
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		GetContactProto(hContact, cProtocol, sizeof(cProtocol));
-		szHandle = GetContactID(hContact, cProtocol);
+		TCHAR *szHandle = GetContactID(hContact, cProtocol);
 		
 		tmp = (char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, 0);
 		STRNCPY(dispName, tmp, sizeof(dispName));
 		
 		if ((szHandle) && ((_tcsicmp(szHandle, szID) == 0) || (_tcsicmp(dispName, szID) == 0)) && ((szProto == NULL) || (_stricmp(szProto, cProtocol) == 0)))
-		{
 			found = 1;
-		}
-		if (szHandle) { free(szHandle); }
+
+		if (szHandle) free(szHandle);
 	
-		if (found) { break; }
-		hContact = db_find_next(hContact);
+		if (found) return hContact;
 	}
 	
-	return hContact;
+	return NULL;
 }
 #pragma warning (default: 4312)
 

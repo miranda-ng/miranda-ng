@@ -45,10 +45,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	{
 		int index, loaded;
 		char szProto[256];
-		HANDLE hContact = db_find_first();
-
-		while (hContact)
-		{
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			if (GetValue(hContact,"Protocol","p",szProto,SIZEOF(szProto)))
 				loaded = IsProtocolLoaded(szProto);
 			else
@@ -56,10 +53,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 			// filter
 			if ((loaded && Mode == MODE_UNLOADED) || (!loaded && Mode == MODE_LOADED))
-			{
-				hContact = db_find_next(hContact);
 				continue;
-			}
 
 			// contacts name
 			DBVARIANT dbv ={0};
@@ -78,8 +72,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					else
 						mir_snwprintf(nick, SIZEOF(nick), L"%s (%s) %s", GetContactName(hContact, szProto, 1), protoW, L"(UNLOADED)");
 				}
-				else
-					wcscpy(nick, nick_unknownW);
+				else wcscpy(nick, nick_unknownW);
 			}
 			else {
 				if (Order)
@@ -90,8 +83,6 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 			index = SendMessageW(GetDlgItem(hwnd, IDC_CONTACTS), CB_ADDSTRING, 0, (LPARAM)nick);
 			SendMessageW(GetDlgItem(hwnd, IDC_CONTACTS), CB_SETITEMDATA, index, (LPARAM)hContact);
-
-			hContact = db_find_next(hContact);
 		}
 
 		index = (int)SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_INSERTSTRING, 0, (LPARAM)(char*)Translate("Settings"));
@@ -101,46 +92,33 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lParam);
 		TranslateDialogDefault(hwnd);
 	}
-	else
-	if (msg == WM_COMMAND)
+	else if (msg == WM_COMMAND)
 	{
-		switch(LOWORD(wParam))
-		{
-			case CHK_COPY2ALL:
-				EnableWindow(GetDlgItem(hwnd, IDC_CONTACTS),!IsDlgButtonChecked(hwnd,CHK_COPY2ALL));
+		switch(LOWORD(wParam)) {
+		case CHK_COPY2ALL:
+			EnableWindow(GetDlgItem(hwnd, IDC_CONTACTS),!IsDlgButtonChecked(hwnd,CHK_COPY2ALL));
 			break;
-			case IDOK:
-			{
-				HANDLE hContact;
 
-				if (!IsDlgButtonChecked(hwnd,CHK_COPY2ALL))
-				{
-					hContact = (HANDLE)SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_GETITEMDATA, SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_GETCURSEL, 0, 0), 0);
-					copyModule(mac->module, mac->hContact, hContact);
-				}
-				else
-				{
-					SetCursor(LoadCursor(NULL,IDC_WAIT));
-					hContact = db_find_first();
-
-					while (hContact)
-					{
-						copyModule(mac->module, mac->hContact, hContact);
-						hContact = db_find_next(hContact);
-					}
-
-					SetCursor(LoadCursor(NULL,IDC_ARROW));
-				}
-				mir_free(mac);
-				refreshTree(1);
-				DestroyWindow(hwnd);
+		case IDOK:
+			if (!IsDlgButtonChecked(hwnd,CHK_COPY2ALL)) {
+				HANDLE hContact = (HANDLE)SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_GETITEMDATA, SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_GETCURSEL, 0, 0), 0);
+				copyModule(mac->module, mac->hContact, hContact);
 			}
+			else {
+				SetCursor(LoadCursor(NULL,IDC_WAIT));
+				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+					copyModule(mac->module, mac->hContact, hContact);
+
+				SetCursor(LoadCursor(NULL,IDC_ARROW));
+			}
+			mir_free(mac);
+			refreshTree(1);
+			DestroyWindow(hwnd);
 			break;
-			case IDCANCEL:
-				{
-					mir_free(mac);
-					DestroyWindow(hwnd);
-				}
+
+		case IDCANCEL:
+			mir_free(mac);
+			DestroyWindow(hwnd);
 			break;
 		}
 	}

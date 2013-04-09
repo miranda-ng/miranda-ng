@@ -102,11 +102,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	// remove us as a filter to all contacts - fix filter type problem
 	if(db_get_b(0, MODULENAME, "FilterOrderFix", 0) != 2) {
-		HANDLE hContact = db_find_first();
-		while ( hContact != NULL ) {
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			CallService(MS_PROTO_REMOVEFROMCONTACT, (WPARAM)hContact, (LPARAM)MODULENAME);
-			hContact = db_find_next(hContact);
-		}
 		db_set_b(0, MODULENAME, "FilterOrderFix", 2);
 	}
 

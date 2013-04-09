@@ -1829,17 +1829,13 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 	{
 		if (_stricmp(argv[2], "list") == 0)
 		{
-			HANDLE hContact = NULL;
 			char buffer[1024];
 			char protocol[128];
-			
-			hContact = db_find_first();
+		
 			int count = 0;
 			
 			reply->code = MIMRES_SUCCESS;
-			while (hContact)
-			{
-				
+			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				GetContactProto(hContact, protocol, sizeof(protocol));
 				
 				char *contact = GetContactName(hContact, protocol);
@@ -1869,8 +1865,6 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 				
 				free(contact);
 				free(id);
-				
-				hContact = db_find_next(hContact);
 			}
 		}
 		else{
@@ -1878,14 +1872,11 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 			{
 				if (argc > 3)
 				{
-					HANDLE hContact = NULL;
 					char protocol[128];
-					hContact = db_find_first();
 					
 					reply->code = MIMRES_SUCCESS;
 					*reply->message = 0;
-					while (hContact)
-					{
+					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 						GetContactProto(hContact, protocol, sizeof(protocol));
 						
 						char *contact = GetContactName(hContact, protocol);
@@ -1898,42 +1889,26 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 						
 						free(contact);
 						free(id);
-						
-						hContact = db_find_next(hContact);
 					}
 				}
-				else{
-					if (argc == 3)
-					{
-						HANDLE hContact = NULL;
-						hContact = db_find_first();
+				else if (argc == 3) {
+					reply->code = MIMRES_SUCCESS;
+					*reply->message = 0;
 
-						reply->code = MIMRES_SUCCESS;
-						*reply->message = 0;
-
-						while (hContact) {
-							HANDLE hUnreadEvent = db_event_firstUnread(hContact);
-							if (hUnreadEvent != NULL) {
-								DWORD threadID;
-								HANDLE thread = CreateThread(NULL, NULL, OpenMessageWindowThread, hContact, NULL, &threadID);
-							}
-
-							hContact = db_find_next(hContact);
+					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+						HANDLE hUnreadEvent = db_event_firstUnread(hContact);
+						if (hUnreadEvent != NULL) {
+							DWORD threadID;
+							HANDLE thread = CreateThread(NULL, NULL, OpenMessageWindowThread, hContact, NULL, &threadID);
 						}
 					}
-					else {
-						HandleWrongParametersCount(command, reply);
-					}
 				}
+				else HandleWrongParametersCount(command, reply);
 			}
-			else{
-				HandleUnknownParameter(command, argv[2], reply);
-			}
+			else HandleUnknownParameter(command, argv[2], reply);
 		}
 	}
-	else{
-		HandleWrongParametersCount(command, reply);	
-	}
+	else HandleWrongParametersCount(command, reply);	
 }
 
 void AddHistoryEvent(DBEVENTINFO *dbEvent, char *contact, PReply reply)
@@ -1996,8 +1971,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 					reply->code = MIMRES_SUCCESS;
 					mir_snprintf(reply->message, reply->cMessage, Translate("No unread messages found."));
 
-					HANDLE hContact = db_find_first();
-					while (hContact) {
+					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 						HANDLE hEvent = db_event_firstUnread(hContact);
 						if (hEvent != NULL) {
 							count = 0;
@@ -2024,18 +1998,13 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 
 							free(contact);
 						}
-
-						hContact = db_find_next(hContact);
 					}
 				}
-				else{
+				else {
 					if (_stricmp(cmd, "show") == 0)
-					{
 						HandleWrongParametersCount(command, reply);
-					}
-					else{
+					else
 						HandleUnknownParameter(command, cmd, reply);
-					}
 				}
 
 				break;

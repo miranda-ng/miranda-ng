@@ -853,41 +853,33 @@ static void ResetCList(HWND hwndDlg)
 
 static void RebuildList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
 {
-	HANDLE hContact, hItem;
 	BYTE defType = M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW);
-
-	if (hItemNew && defType) {
+	if (hItemNew && defType)
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemNew, 1);
-	}
-	if (hItemUnknown && M->GetByte(SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN)) {
+
+	if (hItemUnknown && M->GetByte(SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemUnknown, 1);
-	}
-	hContact = db_find_first();
-	do {
-		hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-		if (hItem && M->GetByte(hContact, SRMSGMOD, SRMSGSET_TYPING, defType)) {
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		if (hItem && M->GetByte(hContact, SRMSGMOD, SRMSGSET_TYPING, defType))
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
-		}
-	} while (hContact = db_find_next(hContact));
+	}
 }
 
 static void SaveList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
 {
-	HANDLE hContact, hItem;
-
-	if (hItemNew) {
+	if (hItemNew)
 		M->WriteByte(SRMSGMOD, SRMSGSET_TYPINGNEW, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemNew, 0) ? 1 : 0));
-	}
-	if (hItemUnknown) {
+
+	if (hItemUnknown)
 		M->WriteByte(SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemUnknown, 0) ? 1 : 0));
-	}
-	hContact = db_find_first();
-	do {
-		hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-		if (hItem) {
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		if (hItem)
 			db_set_b(hContact, SRMSGMOD, SRMSGSET_TYPING, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0) ? 1 : 0));
-		}
-	} while (hContact = db_find_next(hContact));
+	}
 }
 
 static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

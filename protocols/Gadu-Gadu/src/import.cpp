@@ -101,12 +101,9 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 	char *contacts;
 
 	// Readup contacts
-	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
-		if (szProto != NULL && !strcmp(szProto, gg->m_szModuleName) && !db_get_b(hContact, gg->m_szModuleName, "ChatRoom", 0))
-		{
+		if (szProto != NULL && !strcmp(szProto, gg->m_szModuleName) && !db_get_b(hContact, gg->m_szModuleName, "ChatRoom", 0)) {
 			DBVARIANT dbv;
 
 			// Readup FirstName
@@ -139,9 +136,9 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 					string_append(s, pszValA);
 					mir_free(pszValA);
 					db_free(&dbv2);
-				} else {
-					string_append(s, dbvA);
 				}
+				else string_append(s, dbvA);
+
 				string_append_c(s, ';');
 				string_append(s, dbvA);
 				mir_free(dbvA);
@@ -183,7 +180,6 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 			else
 				string_append(s, ";0;;0;\n");
 		}
-		hContact = db_find_next(hContact);
 	}
 
 	contacts = string_free(s, 0);

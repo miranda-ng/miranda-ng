@@ -1446,12 +1446,10 @@ void GGPROTO::setalloffline()
 {
 	netlog("setalloffline(): started. Setting buddies offline");
 	db_set_w(NULL, m_szModuleName, GG_KEY_STATUS, ID_STATUS_OFFLINE);
-	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
-		if (szProto != NULL && !strcmp(szProto, m_szModuleName))
-		{
+		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 			db_set_w(hContact, m_szModuleName, GG_KEY_STATUS, ID_STATUS_OFFLINE);
 			// Clear IP and port settings
 			db_unset(hContact, m_szModuleName, GG_KEY_CLIENTIP);
@@ -1459,7 +1457,6 @@ void GGPROTO::setalloffline()
 			// Delete status descr
 			db_unset(hContact, "CList", GG_KEY_STATUSDESCR);
 		}
-		hContact = db_find_next(hContact);
 	}
 #ifdef DEBUGMODE
 	netlog("setalloffline(): End.");
@@ -1519,20 +1516,17 @@ void GGPROTO::notifyall()
 
 	netlog("notifyall(): Subscribing notification to all users");
 	// Readup count
-	hContact = db_find_first();
-	while (hContact)
-	{
+
+	for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		szProto = GetContactProto(hContact);
-		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) count ++;
-		hContact = db_find_next(hContact);
+		if (szProto != NULL && !strcmp(szProto, m_szModuleName))
+			count ++;
 	}
 
 	// Readup list
 	/* FIXME: If we have nothing on the list but we omit gg_notify_ex we have problem with receiving any contacts */
-	if (count == 0)
-	{
-		if (isonline())
-		{
+	if (count == 0) {
+		if (isonline()) {
 			gg_EnterCriticalSection(&sess_mutex, "notifyall", 29, "sess_mutex", 1);
 			gg_notify_ex(sess, NULL, NULL, 0);
 			gg_LeaveCriticalSection(&sess_mutex, "notifyall", 29, 1, "sess_mutex", 1);
@@ -1542,12 +1536,9 @@ void GGPROTO::notifyall()
 	uins = (uin_t*)calloc(sizeof(uin_t), count);
 	types = (char*)calloc(sizeof(char), count);
 
-	hContact = db_find_first();
-	while (hContact && cc < count)
-	{
+	for (hContact = db_find_first(); hContact && cc < count; hContact = db_find_next(hContact)) {
 		szProto = GetContactProto(hContact);
-		if (szProto != NULL && !strcmp(szProto, m_szModuleName) && (uins[cc] = db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0)))
-		{
+		if (szProto != NULL && !strcmp(szProto, m_szModuleName) && (uins[cc] = db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0))) {
 			if ((db_get_w(hContact, m_szModuleName, GG_KEY_APPARENT, (WORD) ID_STATUS_ONLINE) == ID_STATUS_OFFLINE) ||
 				db_get_b(hContact, "CList", "NotOnList", 0))
 				types[cc] = GG_USER_OFFLINE;
@@ -1557,7 +1548,6 @@ void GGPROTO::notifyall()
 				types[cc] = GG_USER_NORMAL;
 			cc ++;
 		}
-		hContact = db_find_next(hContact);
 	}
 	if (cc < count) count = cc;
 
@@ -1582,8 +1572,7 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 	netlog("getcontact(): uin=%d create=%d inlist=%d", uin, create, inlist);
 #endif
 	// Look for contact in DB
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 			if ((uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0) == uin
@@ -1596,11 +1585,10 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 				return hContact;
 			}
 		}
-		hContact = db_find_next(hContact);
 	}
 	if (!create) return NULL;
 
-	hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
+	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (!hContact) {
 		netlog("getcontact(): Failed to create Gadu-Gadu contact %S", szNick);
 		return NULL;

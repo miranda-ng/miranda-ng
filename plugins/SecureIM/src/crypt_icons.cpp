@@ -107,12 +107,9 @@ void RefreshContactListIcons(void)
 	for (int i=0; i < arIcoList.getCount(); i++)
 		arIcoList[i].hCLIcon = 0;
 
-	HANDLE hContact = db_find_first();
-	while (hContact) { // и снова зажигаем иконку
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (isSecureProtocol(hContact))
 			ShowStatusIcon(hContact);
-		hContact = db_find_next(hContact);
-	}
 }
 
 // EOF

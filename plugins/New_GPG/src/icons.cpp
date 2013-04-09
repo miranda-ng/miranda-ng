@@ -95,11 +95,9 @@ void setSrmmIcon(HANDLE h)
 void RefreshContactListIcons() 
 {
 	CallService(MS_CLUI_LISTBEGINREBUILD,0,0);
-	HANDLE hContact = db_find_first();
-	while (hContact) 
-	{
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		setClistIcon(hContact);
-		hContact = db_find_next(hContact);
-	}
+
 	CallService(MS_CLUI_LISTENDREBUILD,0,0);
 }

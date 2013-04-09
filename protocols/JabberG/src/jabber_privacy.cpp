@@ -424,8 +424,7 @@ public:
 			return;
 
 		LRESULT nItemData = SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_GETITEMDATA, nCurSel, 0);
-		switch (nItemData)
-		{
+		switch (nItemData) {
 			case Jid:
 			{
 				ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUES), SW_SHOW);
@@ -433,20 +432,15 @@ public:
 
 				SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_RESETCONTENT, 0, 0);
 
-				HANDLE hContact = (HANDLE)db_find_first();
-				while (hContact != NULL)
-				{
+				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					char *szProto = GetContactProto(hContact);
-					if (szProto != NULL && !strcmp(szProto, m_proto->m_szModuleName))
-					{
+					if (szProto != NULL && !strcmp(szProto, m_proto->m_szModuleName)) {
 						DBVARIANT dbv;
-						if ( !m_proto->JGetStringT(hContact, "jid", &dbv))
-						{
+						if ( !m_proto->JGetStringT(hContact, "jid", &dbv)) {
 							SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
 							db_free(&dbv);
 						}
 					}
-					hContact = db_find_next(hContact);
 				}
 
 				// append known chatroom jids from bookmarks
@@ -1365,10 +1359,7 @@ void CJabberDlgPrivacyLists::CListResetOptions(HWND)
 
 void CJabberDlgPrivacyLists::CListFilter(HWND)
 {
-	for	(HANDLE hContact = db_find_first();
-			hContact;
-			hContact = db_find_next(hContact))
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact);
 		if ( !proto || lstrcmpA(proto, m_proto->m_szModuleName))
 			if (HANDLE hItem = m_clcClist.FindContact(hContact))
@@ -1468,12 +1459,10 @@ void CJabberDlgPrivacyLists::CListApplyList(HWND hwndList, CPrivacyList *pList)
 		CListResetIcons(hwndList, hItem, bHideIcons);
 	}
 
-	for (HANDLE hContact=db_find_first(); hContact;
-			hContact=db_find_next(hContact))
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = m_clcClist.FindContact(hContact);
-		if ( !hItem) continue;
-		CListResetIcons(hwndList, hItem, bHideIcons);
+		if (hItem)
+			CListResetIcons(hwndList, hItem, bHideIcons);
 	}
 
 	for (int iJid = 0; iJid < clc_info.newJids.getCount(); ++iJid)
@@ -1569,8 +1558,7 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 
 	pList->RemoveAllRules();
 
-	for (int iJid = 0; iJid < clc_info.newJids.getCount(); ++iJid)
-	{
+	for (int iJid = 0; iJid < clc_info.newJids.getCount(); ++iJid) {
 		hItem = clc_info.newJids[iJid]->hItem;
 		szJid = clc_info.newJids[iJid]->jid;
 
@@ -1580,16 +1568,13 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 			pList->AddRule(Jid, szJid, FALSE, dwOrder++, dwPackets);
 	}
 
-	for (HANDLE hContact=db_find_first(); hContact;
-			hContact=db_find_next(hContact))
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		hItem = m_clcClist.FindContact(hContact);
 
 		DBVARIANT dbv = {0};
-		if (m_proto->JGetStringT(hContact, "jid", &dbv)) {
+		if (m_proto->JGetStringT(hContact, "jid", &dbv))
 			if (m_proto->JGetStringT(hContact, "ChatRoomID", &dbv))
 				continue;
-		}
 
 		szJid = dbv.ptszVal;
 
@@ -1602,8 +1587,7 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 	}
 
 	// group handles start with 1 (0 is "root")
-	for (int iGroup = 1; ; ++iGroup)
-	{
+	for (int iGroup = 1; ; ++iGroup) {
 		char idstr[33];
 		_itoa(iGroup-1, idstr, 10);
 		DBVARIANT dbv = {0};

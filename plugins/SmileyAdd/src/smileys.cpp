@@ -958,12 +958,8 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 	for (int i = 0; i < protoCount; i++) 
 		AddAccountAsCategory(accList[i], defaultFile);
 
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) 
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		AddContactTransportAsCategory(hContact, defaultFile);
-		hContact = db_find_next(hContact);
-	}
 
 	bkstring cats;
 	opt.ReadCustomCategories(cats);

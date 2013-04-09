@@ -77,7 +77,6 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	StatusIconData sid = {0};
 	int i, sweep = db_get_b(NULL, ModuleName, "SweepHistory", 0);
-	HANDLE hContact = db_find_first();
 
 	sid.cbSize = sizeof(sid);
 	sid.szModule = ModuleName;
@@ -119,8 +118,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
 	
 	// for new contacts
-	while ( hContact != NULL )
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ZeroMemory(&sid,sizeof(sid));
 
 		sweep = db_get_b(hContact, ModuleName, "SweepHistory", 0);
@@ -128,14 +126,11 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		sid.cbSize = sizeof(sid);
 		sid.szModule = ModuleName;
 		
-		for(i = 0; i < 4; i++)
-		{
+		for(i = 0; i < 4; i++) {
 			sid.dwId = i;
 			sid.flags = (sweep == i) ? 0 : MBF_HIDDEN;
 			CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
 		}
-
-		hContact = db_find_next(hContact);
 	}
 
 	hHooks[2] = HookEvent(ME_MSG_WINDOWEVENT, OnWindowEvent);

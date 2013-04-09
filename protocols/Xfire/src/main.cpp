@@ -1802,14 +1802,12 @@ BOOL IsXFireContact(HANDLE hContact)
 
 HANDLE CList_FindContact (int uid)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
 		if ( szProto != NULL && !lstrcmpiA( szProto, protocolname )) {
 			if ( db_get_dw(hContact, protocolname, "UserId",-1)==uid)
 				return hContact;
 		}
-		hContact = db_find_next(hContact);
 	}
 	return 0;
 }
@@ -1817,8 +1815,7 @@ HANDLE CList_FindContact (int uid)
 void CList_MakeAllOffline()
 {
 	vector<HANDLE> fhandles;
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
 		if ( szProto != NULL && !lstrcmpiA( szProto, protocolname )) {
 			//freunde von freunden in eine seperate liste setzen
@@ -1878,7 +1875,6 @@ void CList_MakeAllOffline()
 			}
 			db_set_w(hContact,protocolname,"Status",ID_STATUS_OFFLINE);
 		}
-		hContact = db_find_next(hContact);
 	}
 
 	//alle gefundenen handles lsöchen

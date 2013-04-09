@@ -323,7 +323,6 @@ void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 {
 //	char *szProto;
 	DWORD style = GetWindowLongPtr(hwnd,GWL_STYLE);
-	HANDLE hContact;
 	struct ClcContact * cont;
 	ClcGroup *group;
 	//DBVARIANT dbv;
@@ -352,9 +351,7 @@ void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 		}
 	}
 
-	hContact = db_find_first();
-	while(hContact) {
-		
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ClcCacheEntry *cacheEntry;
 		cont = NULL;
 		cacheEntry = GetContactFullCacheEntry(hContact);
@@ -389,7 +386,6 @@ void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 			if (strcmp(cont->proto,"MetaContacts") == 0)
 				AddSubcontacts(cont);
 		}
-		hContact = db_find_next(hContact);
 	}
 
 	if (style&CLS_HIDEEMPTYGROUPS) {

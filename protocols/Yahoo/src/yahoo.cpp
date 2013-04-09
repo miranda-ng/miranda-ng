@@ -284,24 +284,16 @@ void CYahooProto::AddBuddy(HANDLE hContact, const char *group, const TCHAR *msg)
 
 HANDLE CYahooProto::getbuddyH(const char *yahoo_id)
 {
-	HANDLE hContact;
-
-	for ( hContact = db_find_first();
-		hContact != NULL;
-		hContact = db_find_next(hContact))
-	{
-		if (IsMyContact(hContact))
-		{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		if (IsMyContact(hContact)) {
 			DBVARIANT dbv;
 			if (GetString(hContact, YAHOO_LOGINID, &dbv))
 				continue;
 
-			{	
-				int tCompareResult = lstrcmpiA( dbv.pszVal, yahoo_id );
-				db_free( &dbv );
-				if ( tCompareResult )
-					continue;
-			}
+			int tCompareResult = lstrcmpiA( dbv.pszVal, yahoo_id );
+			db_free( &dbv );
+			if ( tCompareResult )
+				continue;
 
 			return hContact;
 		}	
@@ -606,17 +598,13 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 	char **s;
 	int found = 0;
 	char **stealth = NULL;
-	HANDLE hContact;
 
 	LOG(("[ext_got_stealth] list: %s", stealthlist));
 	
 	if (stealthlist)
 		stealth = y_strsplit(stealthlist, ",", -1);
 
-	for ( hContact = db_find_first();
-		   hContact != NULL;
-			hContact = db_find_next(hContact))
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (IsMyContact(hContact)) {
 			DBVARIANT dbv;
 			if (GetString( hContact, YAHOO_LOGINID, &dbv))

@@ -118,11 +118,8 @@ void loadContactList()
 	freeContactList();
 	loadSupportedProtocols();
 
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		addContact(hContact);
-		hContact = db_find_next(hContact);
-	}
 }
 
 // free list of secureIM users

@@ -85,32 +85,27 @@ char *JabberJIDFromHContact(TlenProtocol *proto, HANDLE hContact)
 
 HANDLE JabberHContactFromJID(TlenProtocol *proto, const char *jid)
 {
-	HANDLE hContact, hContactMatched;
 	DBVARIANT dbv;
 	char *szProto;
 	char *p;
-	if (jid == NULL) return (HANDLE) NULL;
-	hContactMatched = NULL;
-	hContact = db_find_first();
-	while (hContact != NULL) {
+	if (jid == NULL)
+		return NULL;
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(proto->m_szModuleName, szProto)) {
 			if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 				if ((p=dbv.pszVal) != NULL) {
 					if (!stricmp(p, jid)) {	// exact match (node@domain/resource)
-						hContactMatched = hContact;
 						db_free(&dbv);
-						break;
+						return hContact;
 					}
 				}
 				db_free(&dbv);
 			}
 		}
-		hContact = db_find_next(hContact);
 	}
-	if (hContactMatched != NULL) {
-		return hContactMatched;
-	}
+
 	return NULL;
 }
 

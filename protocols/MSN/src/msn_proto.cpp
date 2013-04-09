@@ -92,17 +92,13 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	LoadOptions();
 
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL)
-	{
-		if (MSN_IsMyContact(hContact))
-		{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		if (MSN_IsMyContact(hContact)) {
 			deleteSetting(hContact, "Status");
 			deleteSetting(hContact, "IdleTS");
 			deleteSetting(hContact, "p2pMsgId");
 			deleteSetting(hContact, "AccList");
 		}
-		hContact = db_find_next(hContact);
 	}
 	deleteSetting(NULL, "MobileEnabled");
 	deleteSetting(NULL, "MobileAllowed");
@@ -112,8 +108,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 		strcmp(path, MSN_DEFAULT_GATEWAY) == 0))
 		deleteSetting(NULL, "LoginServer");
 
-	if (MyOptions.SlowSend)
-	{
+	if (MyOptions.SlowSend) {
 		if (db_get_dw(NULL, "SRMsg", "MessageTimeout", 10000) < 60000)
 			db_set_dw(NULL, "SRMsg", "MessageTimeout", 60000);
 		if (db_get_dw(NULL, "SRMM", "MessageTimeout", 10000) < 60000)

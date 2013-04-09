@@ -154,6 +154,7 @@ void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 
 HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL temporary, BOOL stripResource)
 {
+	HANDLE hContact;
 	TCHAR* s, *p, *q;
 	size_t len;
 	char *szProto;
@@ -173,8 +174,7 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 	len = _tcslen(s);
 
 	// We can't use JabberHContactFromJID() here because of the stripResource option
-	HANDLE hContact = (HANDLE)db_find_first();
-	while (hContact != NULL) {
+	for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		szProto = GetContactProto(hContact);
 		if (szProto!=NULL && !strcmp(m_szModuleName, szProto)) {
 			DBVARIANT dbv;
@@ -185,8 +185,8 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 					break;
 				}
 				db_free(&dbv);
-		}	}
-		hContact = db_find_next(hContact);
+			}
+		}
 	}
 
 	if (hContact == NULL) {

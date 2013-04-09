@@ -18,9 +18,7 @@ void lib_cs_unlock() {
 }
 
 HANDLE find_contact(const char* userid, const char* protocol) {
-	HANDLE hContact = db_find_first();
-	while ( hContact != NULL )
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		const char *proto = contact_get_proto(hContact);
 		if(proto && strcmp(proto, protocol) == 0) {
 			char *name = contact_get_id(hContact);
@@ -30,7 +28,6 @@ HANDLE find_contact(const char* userid, const char* protocol) {
 			}
 			mir_free(name);
 		}
-		hContact = db_find_next(hContact);
 	}
 	
 	return 0;

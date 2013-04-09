@@ -423,31 +423,24 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		case 0:
 			switch (((LPNMHDR) lParam)->code) {
 			case PSN_APPLY:
-				{
-					for (int i = 0; i < ListView_GetItemCount(hwndList); i++) {
-						char *szProto = GetProtoFromList(hwndDlg, i);
+				for (int i = 0; i < ListView_GetItemCount(hwndList); i++) {
+					char *szProto = GetProtoFromList(hwndDlg, i);
 
-						BOOL oldVal = db_get_b(NULL, AVS_MODULE, szProto, 1);
-						BOOL newVal = ListView_GetCheckState(hwndList, i);
+					BOOL oldVal = db_get_b(NULL, AVS_MODULE, szProto, 1);
+					BOOL newVal = ListView_GetCheckState(hwndList, i);
 
-						if (oldVal && !newVal)
-						{
-							HANDLE hContact = db_find_first();
-							while (hContact != NULL)
-							{
-								char* szContactProto = GetContactProto(hContact);
-								if (szContactProto != NULL && !strcmp(szContactProto, szProto))
-									DeleteAvatarFromCache(hContact, TRUE);
-
-								hContact = db_find_next(hContact);
-							}
+					if (oldVal && !newVal) {
+						for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+							char *szContactProto = GetContactProto(hContact);
+							if (szContactProto != NULL && !strcmp(szContactProto, szProto))
+								DeleteAvatarFromCache(hContact, TRUE);
 						}
-
-						if (newVal)
-							db_set_b(NULL, AVS_MODULE, szProto, 1);
-						else
-							db_set_b(NULL, AVS_MODULE, szProto, 0);
 					}
+
+					if (newVal)
+						db_set_b(NULL, AVS_MODULE, szProto, 1);
+					else
+						db_set_b(NULL, AVS_MODULE, szProto, 0);
 				}
 			}
 		}

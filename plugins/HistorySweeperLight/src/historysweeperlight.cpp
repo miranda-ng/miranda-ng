@@ -209,19 +209,13 @@ void SweepHistoryFromContact(HANDLE hContact, CriteriaStruct Criteria, BOOL keep
 void ShutdownAction(void)
 { 
 	CriteriaStruct Criteria;
-	HANDLE hContact = db_find_first();
-
 	Criteria.keep = KeepCriteria(db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0));
 	Criteria.time = BuildCriteria(db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0));
 
 	SweepHistoryFromContact(NULL, Criteria, FALSE);				// sweep system history, keepunread==0
 	
-	while ( hContact != NULL )
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		SweepHistoryFromContact(hContact, Criteria, TRUE);		// sweep contact history, keepunread==1
-
-		hContact = db_find_next(hContact);	// go to next contact
-	}
 }
 
 int OnWindowEvent(WPARAM wParam, LPARAM lParam)

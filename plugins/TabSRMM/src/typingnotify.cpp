@@ -303,12 +303,10 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			case IDC_PREVIEW:
 				if (PluginConfig.g_PopupAvail) {
-					HANDLE hContact = db_find_first();
-					while (hContact) {
+					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 						char *szProto = GetContactProto(hContact);
 						if (szProto != NULL)
 							break;
-						hContact = db_find_next(hContact);
 					}
 
 					POPUPDATAT ppd = { 0 };

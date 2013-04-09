@@ -779,11 +779,8 @@ void SaveContactsPos()
 
 static void LoadContacts()
 {
-	HANDLE hContact = db_find_first() ;
-	while( hContact != NULL ) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		LoadContact( hContact );
-		hContact = db_find_next(hContact);
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -161,12 +161,8 @@ void CreateGroup(char *group)
 
 void ProcessContacts(void (*callback)(HANDLE, char *), char *protocol)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		callback(hContact, protocol);
-		hContact = db_find_next(hContact);
-	}
 }
 
 void YahooMoveCallback(HANDLE hContact, char *unused)

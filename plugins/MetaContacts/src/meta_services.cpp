@@ -611,15 +611,11 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 	{
 		// import process has just been run...call startup routines...
 		Meta_SetHandles();
-		{
-			HANDLE hContact = db_find_first();
-			while ( hContact != NULL ) {
-				int meta_id;
-				if ((meta_id = db_get_dw(hContact, META_PROTO, META_ID,(DWORD)-1)) != (DWORD)-1)
-					Meta_CopyData(hContact);
 
-				hContact = db_find_next(hContact);
-			}
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			int meta_id;
+			if ((meta_id = db_get_dw(hContact, META_PROTO, META_ID,(DWORD)-1)) != (DWORD)-1)
+				Meta_CopyData(hContact);
 		}
 
 		Meta_HideLinkedContacts();
@@ -1087,14 +1083,10 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	// loop and copy data from subcontacts
 	if (options.copydata) {
-		HANDLE hContact = db_find_first();
 		int meta_id;
-		while ( hContact != NULL ) {
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			if ((meta_id = db_get_dw(hContact, META_PROTO, META_ID,(DWORD)-1))!=(DWORD)-1)
 				Meta_CopyData(hContact);
-
-			hContact = db_find_next(hContact);
-		}
 	}
 
 	Meta_HideLinkedContacts();

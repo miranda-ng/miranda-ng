@@ -112,19 +112,11 @@ static int UpdateCheckmarks(HWND hwndList, CIcqProto* ppro, HANDLE phItemAll)
 
 static void DeleteOtherContactsFromControl(HWND hCtrl, CIcqProto* ppro)
 {
-	HANDLE hContact;
-	HANDLE hItem;
-
-	hContact = db_find_first();
-	while (hContact)
-	{
-		hItem = (HANDLE)SendMessage(hCtrl, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		HANDLE hItem = (HANDLE)SendMessage(hCtrl, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem)
-		{
 			if (!ppro->IsICQContact(hContact))
 				SendMessage(hCtrl, CLM_DELETEITEM, (WPARAM)hItem, 0);
-		}
-		hContact = db_find_next(hContact);
 	}
 }
 

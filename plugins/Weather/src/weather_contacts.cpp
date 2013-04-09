@@ -448,8 +448,7 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 	// now the default station is deleted, try to get a new one
 
 	// start looking for other weather stations
-	HANDLE hContact = db_find_first();
-	while(hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (IsMyContact(hContact)) {
 			if ( !db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
 				// if the station is not a default station, set it as the new default station
@@ -470,7 +469,6 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 				db_free(&dbv);
 			}
 		}
-		hContact = db_find_next(hContact);
 	}
 	// got here if no more weather station left
 	opt.Default[0] = 0;	// no default station

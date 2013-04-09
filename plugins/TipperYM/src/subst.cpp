@@ -885,8 +885,7 @@ TCHAR *GetProtoExtraStatusMessage(char *szProto)
 			swzText = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 
-		if (ServiceExists(MS_VARS_FORMATSTRING))
-		{
+		if (ServiceExists(MS_VARS_FORMATSTRING)) {
 			HANDLE hContact = db_find_first();
 			char *proto = GetContactProto(hContact);
 			while(!proto)

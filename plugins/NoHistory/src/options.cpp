@@ -84,8 +84,7 @@ static void ResetListOptions(HWND hwndList)
 
 static void SetAllContactIcons(HWND hwndList)
 {
-	HANDLE hContact = db_find_first();
-	do {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact);
 		bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 
@@ -97,7 +96,6 @@ static void SetAllContactIcons(HWND hwndList)
 			}
 		}
 	}
-		while(hContact = db_find_next(hContact));
 }
 											 
 static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -200,8 +198,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				HANDLE hContact = db_find_first();
-				do {
+				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					char *proto = GetContactProto(hContact);
 					bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 
@@ -213,8 +210,6 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						}
 					}
 				}
-					while(hContact = db_find_next(hContact));
-
 				return TRUE;
 			}
 		}

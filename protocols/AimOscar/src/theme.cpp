@@ -144,46 +144,30 @@ void set_contact_icon(CAimProto* ppro, HANDLE hContact)
 
 void remove_AT_icons(CAimProto* ppro)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (ppro->is_my_contact(hContact) && !ppro->getByte(hContact, "ChatRoom", 0)) 
 			ExtraIcon_Clear(hExtraAT, hContact);
-
-		hContact = db_find_next(hContact);
-	}
 }
 
 void remove_ES_icons(CAimProto* ppro)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (ppro->is_my_contact(hContact) && !ppro->getByte(hContact, "ChatRoom", 0)) 
 			ExtraIcon_Clear(hExtraES, hContact);
-
-		hContact = db_find_next(hContact);
-	}
 }
 
 void add_AT_icons(CAimProto* ppro)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (ppro->is_my_contact(hContact)) 
 			set_AT_icon(ppro, hContact);
-
-		hContact = db_find_next(hContact);
-	}
 }
 
 void add_ES_icons(CAimProto* ppro)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (ppro->is_my_contact(hContact)) 
 			set_ES_icon(ppro, hContact);
-
-		hContact = db_find_next(hContact);
-	}
 }
 
 void InitExtraIcons(void)

@@ -185,23 +185,19 @@ static void UpdateStickies()
 {
 	DWORD localMask;
 	int i;
-	HANDLE hItem;
 
-	HANDLE hContact = db_find_first();
-	while(hContact)
-	{
-		hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		HANDLE hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem)
 			SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, (BYTE)db_get_dw(hContact, CLVM_MODULE, g_szModename, 0) ? 1 : 0);
 		localMask = HIWORD(db_get_dw(hContact, CLVM_MODULE, g_szModename, 0));
 		UpdateClistItem(hItem, (localMask == 0 || localMask == stickyStatusMask) ? stickyStatusMask : localMask);
-		hContact = db_find_next(hContact);
 	}
 
 	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 		SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hInfoItem, MAKELONG(i - ID_STATUS_OFFLINE, (1 << (i - ID_STATUS_OFFLINE)) & stickyStatusMask ? i - ID_STATUS_OFFLINE : ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1));
 
-	hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETNEXTITEM,CLGN_ROOT,0);
+	HANDLE hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETNEXTITEM,CLGN_ROOT,0);
 	hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST,CLM_GETNEXTITEM,CLGN_NEXTGROUP, (LPARAM)hItem);
 	while(hItem) {
 		for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
@@ -476,9 +472,7 @@ void SaveState()
 			}
 
 			dwGlobalMask = GetMaskForItem(hInfoItem);
-			hContact = db_find_first();
-			while(hContact)
-			{
+			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 				if (hItem)
 				{
@@ -494,8 +488,8 @@ void SaveState()
 							db_set_dw(hContact, CLVM_MODULE, szModeName, 0);
 					}
 				}
-				hContact = db_find_next(hContact);
 			}
+
 			operators |= ((SendDlgItemMessage(clvmHwnd, IDC_PROTOGROUPOP, CB_GETCURSEL, 0, 0) == 1 ? CLVM_PROTOGROUP_OP : 0) |
 				(SendDlgItemMessage(clvmHwnd, IDC_GROUPSTATUSOP, CB_GETCURSEL, 0, 0) == 1 ? CLVM_GROUPSTATUS_OP : 0) |
 				(IsDlgButtonChecked(clvmHwnd, IDC_AUTOCLEAR) ? CLVM_AUTOCLEAR : 0) |
@@ -687,13 +681,10 @@ void DeleteViewMode( char * szName )
 		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		SetWindowText(hwndSelector, TranslateT("All contacts"));
 	}
-	HANDLE hContact = db_find_first();
-	while(hContact)
-	{
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (db_get_dw(hContact, CLVM_MODULE, szName, -1) != -1)
 			db_set_dw(hContact, CLVM_MODULE, szName, 0);
-		hContact = db_find_next(hContact);
-	}
 }
 
 INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -879,12 +870,10 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 		case IDC_CLEARALL:
 			{
-				HANDLE hContact = db_find_first();
-				while(hContact) {
+				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 					if (hItem)
 						SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 0);
-					hContact = db_find_next(hContact);
 				}
 			}
 		case IDOK:

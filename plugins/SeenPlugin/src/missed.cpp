@@ -42,11 +42,8 @@ int RemoveUser(int pos)
 
 int ResetMissed(void)
 {
-	HANDLE hcontact = db_find_first();
-	while (hcontact != NULL) {
-		db_set_b(hcontact, S_MOD, "Missed", 0);
-		hcontact = db_find_next(hcontact);
-	}
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		db_set_b(hContact, S_MOD, "Missed", 0);
 
 	ZeroMemory(&mcs,sizeof(mcs));
 	return 0;
@@ -54,13 +51,9 @@ int ResetMissed(void)
 
 int CheckIfOnline(void)
 {
-	HANDLE hcontact = db_find_first();
-	while (hcontact != NULL) {
-		if ( CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hcontact, 0) != ICON_OFFLINE)
-			db_set_b(hcontact, S_MOD, "Missed", 2);
-
-		hcontact = db_find_next(hcontact);
-	}
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		if ( CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0) != ICON_OFFLINE)
+			db_set_b(hContact, S_MOD, "Missed", 2);
 
 	return 0;
 }

@@ -375,45 +375,39 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 	HWND	hwndDlg = dat->hwnd;
 
 	if (dat->sendMode & SMODE_MULTIPLE) {
-		HANDLE			hContact, hItem;
-		int				iJobs = 0;
-		int				iMinLength = 0;
-		CContactCache*	c = 0;
-
-		hContact = db_find_first();
+		int iJobs = 0;
+		int iMinLength = 0;
 
 		m_jobs[iEntry].hOwner = dat->hContact;
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
 		m_jobs[iEntry].hwndOwner = hwndDlg;
 
-		int	iSendLength = getSendLength(iEntry, dat->sendMode);
+		int iSendLength = getSendLength(iEntry, dat->sendMode);
 
-		do {
-			hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
-				c = CContactCache::getContactCache(hContact);
+				CContactCache *c = CContactCache::getContactCache(hContact);
 				if (c)
 					iMinLength = (iMinLength == 0 ? c->getMaxMessageLength() : min(c->getMaxMessageLength(), iMinLength));
 			}
-		} while (hContact = db_find_next(hContact));
+		}
 
 		if (iSendLength >= iMinLength) {
 			TCHAR	tszError[256];
-
 			mir_sntprintf(tszError, 256, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), iMinLength);
 			::SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, reinterpret_cast<LPARAM>(tszError));
 			sendQueue->clearJob(iEntry);
 			return 0;
 		}
 
-		hContact = db_find_first();
-		do {
-			hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 				doSendLater(iEntry, 0, hContact, false);
 				iJobs++;
 			}
-		} while (hContact = db_find_next(hContact));
+		}
 
 		sendQueue->clearJob(iEntry);
 		if (iJobs)

@@ -899,18 +899,11 @@ void UpdateFileToColWidth()
 {
 	clFileTo1ColWidth.clear();
 
-	HANDLE hContact = db_find_first();
-	for(;;)
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		tstring sNick = NickFromHandle( hContact );
 		string::size_type &rnValue = clFileTo1ColWidth[ GetFilePathFromUser( hContact) ];
 		if (rnValue  < sNick.size())
 			rnValue = sNick.size();
-
-		if ( !hContact )
-			break;
-
-		hContact = db_find_next(hContact);
 	}
 }
 
@@ -1602,16 +1595,10 @@ int nContactDeleted(WPARAM wparam,LPARAM /*lparam*/)
 
 	tstring sFilePath = GetFilePathFromUser( hContact );
 
-	{ // Test if there is another user using this file
-		for(HANDLE hOtherContact = db_find_first();hOtherContact;hOtherContact = db_find_next(hOtherContact))
-		{
-			if (hContact != hOtherContact && sFilePath == GetFilePathFromUser( hOtherContact))
-			{
-				return 0; // we found another contact abort mission :-)
-			}
-		}
-	}
-
+	// Test if there is another user using this file
+	for(HANDLE hOtherContact = db_find_first();hOtherContact;hOtherContact = db_find_next(hOtherContact))
+		if (hContact != hOtherContact && sFilePath == GetFilePathFromUser( hOtherContact))
+			return 0; // we found another contact abort mission :-)
 
 	// Test to see if there is a file to delete
 	HANDLE hPrevFile = CreateFile( sFilePath.c_str(), 

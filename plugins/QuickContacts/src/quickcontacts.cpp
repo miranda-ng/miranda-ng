@@ -358,10 +358,8 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 	// enumerate all contacts and write them to the array
 	// item data of listbox-strings is the array position
 	FreeContacts();
-	for(HANDLE hContact = db_find_first(); 
-		hContact != NULL; 
-		hContact = db_find_next(hContact))
-	{
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *pszProto = GetContactProto(hContact);
 		if(pszProto != NULL)
 		{
@@ -441,12 +439,9 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 
 			PROTOACCOUNT *acc = ProtoGetAccount(pszProto);
 			if (acc != NULL)
-			{
 				lstrcpyn(contact->proto, acc->tszAccountName, SIZEOF(contact->proto));
-			}
 
 			contact->hcontact = hContact;
-
 			contacts.insert(contact);
 		}
 	}

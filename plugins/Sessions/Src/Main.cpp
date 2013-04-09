@@ -219,19 +219,15 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 				case IDOK:
 				{
 					DWORD session_list_temp[255]={0};
-					int lenght,i;
+					int lenght,i = 0;
 					TCHAR szUserSessionName[MAX_PATH];
 					lenght = GetWindowTextLength(GetDlgItem(hdlg, IDC_LIST));
 					SavePosition(hdlg, "SaveDlg");
-					if (lenght>0)
-					{
+					if (lenght>0) {
 						GetWindowText(GetDlgItem(hdlg, IDC_LIST), szUserSessionName, SIZEOF(szUserSessionName));
 						szUserSessionName[lenght+1]='\0';
-						if (IsDlgButtonChecked(hdlg,IDC_SELCONTACTS)&&bSC)
-						{
-							HANDLE hContact = db_find_first();
-							for (i=0; hContact; hContact = db_find_next(hContact))
-							{
+						if (IsDlgButtonChecked(hdlg,IDC_SELCONTACTS)&&bSC) {
+							for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 								BYTE res =(BYTE)SendMessage(hClistControl, CLM_GETCHECKMARK, SendMessage(hClistControl, CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);
 								if (res) {
 									user_session_list[i] = hContact;
@@ -722,9 +718,7 @@ int DeleteAutoSession(int ses_count)
 
 	TCHAR *szSessionNameBuf=NULL;
 
-	for (hContact = db_find_first(); hContact;
-		hContact = db_find_next(hContact))
-	{
+	for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		RemoveSessionMark(hContact,0,ses_count);
 		SetInSessionOrder(hContact,0,ses_count,0);
 	}

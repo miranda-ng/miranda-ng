@@ -151,8 +151,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/WindowOpen"));
 
 	//set all contacts to 'offline', and initialize subcontact counter for db consistency check
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact);
 		if (proto && !lstrcmpA( META_PROTO, proto)) {
 			db_set_w(hContact, META_PROTO, "Status", ID_STATUS_OFFLINE);
@@ -165,8 +164,6 @@ extern "C" __declspec(dllexport) int Load(void)
 				db_set_dw(hContact, META_PROTO, "SavedDefault", (DWORD)-1);
 			}
 		}
-
-		hContact = db_find_next(hContact);
 	}	
 
 	Meta_ReadOptions(&options);

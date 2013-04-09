@@ -656,22 +656,22 @@ static void cleanThread(void *param)
 
 	// I hope in 10 secons all logged-in contacts will be listed
 	if ( WaitForSingleObject(g_hShutdownEvent, 10000) == WAIT_TIMEOUT) {
-		HANDLE hcontact = db_find_first();
-		while(hcontact != NULL) {
-			char *contactProto = GetContactProto(hcontact);
-			if (contactProto) {
-				if ( !strncmp(infoParam->sProtoName, contactProto, MAXMODULELABELLENGTH)) {
-					WORD oldStatus = db_get_w(hcontact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE) | 0x8000;
-					if (oldStatus > ID_STATUS_OFFLINE) {
-						if (db_get_w(hcontact,contactProto,"Status",ID_STATUS_OFFLINE)==ID_STATUS_OFFLINE){
-							db_set_w(hcontact,S_MOD,"OldStatus",(WORD)(oldStatus|0x8000));
-							if (includeIdle)db_set_b(hcontact,S_MOD,"OldIdle",(BYTE)((oldStatus&0x8000)?0:1));
-							db_set_w(hcontact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE);
-						}
-					}
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			char *contactProto = GetContactProto(hContact);
+			if (!contactProto)
+				continue;
+
+			if ( strncmp(infoParam->sProtoName, contactProto, MAXMODULELABELLENGTH))
+				continue;
+
+			WORD oldStatus = db_get_w(hContact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE) | 0x8000;
+			if (oldStatus > ID_STATUS_OFFLINE) {
+				if (db_get_w(hContact,contactProto,"Status",ID_STATUS_OFFLINE)==ID_STATUS_OFFLINE){
+					db_set_w(hContact,S_MOD,"OldStatus",(WORD)(oldStatus|0x8000));
+					if (includeIdle)db_set_b(hContact,S_MOD,"OldIdle",(BYTE)((oldStatus&0x8000)?0:1));
+					db_set_w(hContact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE);
 				}
 			}
-			hcontact = db_find_next(hcontact);
 		}
 
 		char *str = (char *)malloc(MAXMODULELABELLENGTH+9);

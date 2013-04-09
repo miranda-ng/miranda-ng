@@ -330,39 +330,39 @@ typedef struct _recentEntry {
 
 void TSAPI LoadFavoritesAndRecent()
 {
-	RCENTRY	*recentEntries, rceTemp;
 	DWORD	dwRecent;
-	int		iIndex = 0, i, j;
-	HANDLE	hContact = db_find_first();
-	recentEntries = new RCENTRY[nen_options.wMaxRecent + 1];
-	if (recentEntries != NULL) {
-		while (hContact != 0) {
-			if (M->GetByte(hContact, SRMSGMOD_T, "isFavorite", 0))
-				AddContactToFavorites(hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuFavorites);
-			if ((dwRecent = M->GetDword(hContact, "isRecent", 0)) != 0 && iIndex < nen_options.wMaxRecent) {
-				recentEntries[iIndex].dwTimestamp = dwRecent;
-				recentEntries[iIndex++].hContact = hContact;
-			}
-			hContact = db_find_next(hContact);
-		}
-		if (iIndex == 0) {
-			free(recentEntries);
-			return;
-		}
+	int iIndex = 0, i, j;
 
-		for (i=0; i < iIndex - 1; i++) {
-			for (j = 0; j < iIndex - 1; j++) {
-				if (recentEntries[j].dwTimestamp > recentEntries[j+1].dwTimestamp) {
-					rceTemp = recentEntries[j];
-					recentEntries[j] = recentEntries[j+1];
-					recentEntries[j+1] = rceTemp;
-				}
-			}
-		}
-		for (i=0; i < iIndex; i++)
-			AddContactToFavorites(recentEntries[i].hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuRecent);
+	RCENTRY *recentEntries = new RCENTRY[nen_options.wMaxRecent + 1];
+	if (recentEntries == NULL)
+		return;
 
-		delete[] recentEntries;
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		if (M->GetByte(hContact, SRMSGMOD_T, "isFavorite", 0))
+			AddContactToFavorites(hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuFavorites);
+		if ((dwRecent = M->GetDword(hContact, "isRecent", 0)) != 0 && iIndex < nen_options.wMaxRecent) {
+			recentEntries[iIndex].dwTimestamp = dwRecent;
+			recentEntries[iIndex++].hContact = hContact;
+		}
 	}
+
+	if (iIndex == 0) {
+		free(recentEntries);
+		return;
+	}
+
+	for (i=0; i < iIndex - 1; i++) {
+		for (j = 0; j < iIndex - 1; j++) {
+			if (recentEntries[j].dwTimestamp > recentEntries[j+1].dwTimestamp) {
+				RCENTRY rceTemp = recentEntries[j];
+				recentEntries[j] = recentEntries[j+1];
+				recentEntries[j+1] = rceTemp;
+			}
+		}
+	}
+	for (i=0; i < iIndex; i++)
+		AddContactToFavorites(recentEntries[i].hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuRecent);
+
+	delete[] recentEntries;
 }
 

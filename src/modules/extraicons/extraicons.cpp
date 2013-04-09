@@ -330,12 +330,8 @@ void fnSetAllExtraIcons(HWND hwndList, HANDLE hContact)
 	if (hContact == NULL)
 		hContact = db_find_first();
 
-	do {
-		HANDLE hItem = hContact;
-		if (hItem == 0)
-			continue;
-
-		ClcCacheEntry* pdnce = (ClcCacheEntry*)cli.pfnGetCacheEntry(hItem);
+	for (; hContact; hContact = db_find_next(hContact)) {
+		ClcCacheEntry* pdnce = (ClcCacheEntry*)cli.pfnGetCacheEntry(hContact);
 		if (pdnce == NULL)
 			continue;
 
@@ -343,7 +339,6 @@ void fnSetAllExtraIcons(HWND hwndList, HANDLE hContact)
 		if (hcontgiven) break;
 		Sleep(0);
 	}
-		while(hContact = db_find_next(hContact));
 
 	g_mutex_bSetAllExtraIconsCycle = 0;
 	cli.pfnInvalidateRect(hwndList, NULL, FALSE);

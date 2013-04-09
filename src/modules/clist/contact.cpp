@@ -69,23 +69,18 @@ int GetStatusModeOrdering(int statusMode)
 
 void fnLoadContactTree(void)
 {
-	HANDLE hContact;
-	int i, status, hideOffline;
-
 	CallService(MS_CLUI_LISTBEGINREBUILD, 0, 0);
-	for (i = 1;; i++) {
+	for (int i = 1;; i++) {
 		if (cli.pfnGetGroupName(i, NULL) == NULL)
 			break;
 		CallService(MS_CLUI_GROUPADDED, i, 0);
 	}
 
-	hideOffline = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
-	hContact = db_find_first();
-	while (hContact != NULL) {
-		status = GetContactStatus(hContact);
+	int hideOffline = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		int status = GetContactStatus(hContact);
 		if (( !hideOffline || status != ID_STATUS_OFFLINE) && !db_get_b(hContact, "CList", "Hidden", 0))
 			cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(GetContactProto(hContact), status, hContact), 1);
-		hContact = db_find_next(hContact);
 	}
 	sortByStatus = db_get_b(NULL, "CList", "SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
 	sortByProto = db_get_b(NULL, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);

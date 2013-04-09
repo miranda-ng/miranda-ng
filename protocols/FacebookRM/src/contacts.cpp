@@ -38,10 +38,7 @@ bool FacebookProto::IsMyContact(HANDLE hContact, bool include_chat)
 
 HANDLE FacebookProto::ChatIDToHContact(std::string chat_id)
 {
-	for(HANDLE hContact = db_find_first();
-	    hContact;
-	    hContact = db_find_next(hContact))
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if(!IsMyContact(hContact, true))
 			continue;
 
@@ -63,10 +60,7 @@ HANDLE FacebookProto::ChatIDToHContact(std::string chat_id)
 
 HANDLE FacebookProto::ContactIDToHContact(std::string user_id)
 {
-	for(HANDLE hContact = db_find_first();
-	    hContact;
-	    hContact = db_find_next(hContact))
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if(!IsMyContact(hContact))
 			continue;
 
@@ -140,10 +134,7 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_
 
 void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 {
-	for (HANDLE hContact = db_find_first();
-	    hContact;
-	    hContact = db_find_next(hContact))
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (!IsMyContact(hContact))
 			continue;
 		

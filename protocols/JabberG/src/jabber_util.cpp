@@ -75,8 +75,7 @@ HANDLE CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 		return (HANDLE)NULL;
 
 	HANDLE hContactMatched = NULL;
-	HANDLE hContact = (HANDLE)db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(m_szModuleName, szProto)) {
 			DBVARIANT dbv;
@@ -91,10 +90,7 @@ HANDLE CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 				if ( !result && JGetByte(hContact, "ChatRoom", 0) != 0) {
 					hContactMatched = hContact;
 					break;
-		}	}	}
-
-		hContact = db_find_next(hContact);
-	}
+	}	}	}	}
 
 	return hContactMatched;
 }
@@ -110,8 +106,8 @@ HANDLE CJabberProto::HContactFromJID(const TCHAR *jid , BOOL bStripResource)
 	JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_CHATROOM, jid);
 
 	HANDLE hContactMatched = NULL;
-	HANDLE hContact = (HANDLE)db_find_first();
-	while (hContact != NULL) {
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(m_szModuleName, szProto)) {
 			DBVARIANT dbv;
@@ -144,10 +140,7 @@ HANDLE CJabberProto::HContactFromJID(const TCHAR *jid , BOOL bStripResource)
 				if ( !result) {
 					hContactMatched = hContact;
 					break;
-		}	}	}
-
-		hContact = db_find_next(hContact);
-	}
+	}	}	}	}
 
 	return hContactMatched;
 }

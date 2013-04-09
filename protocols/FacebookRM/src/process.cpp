@@ -160,10 +160,7 @@ void FacebookProto::ProcessFriendList( void* data )
 
 
 	// Check and update old contacts
-	for(HANDLE hContact = db_find_first();
-	    hContact;
-	    hContact = db_find_next(hContact))
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (!IsMyContact(hContact))
 			continue;
 

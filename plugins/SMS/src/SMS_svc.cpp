@@ -77,11 +77,12 @@ int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam)
 		EnableWindow(GetDlgItem(hwndSendSms,IDC_NAME),TRUE);
 		EnableWindow(GetDlgItem(hwndSendSms,IDC_SAVENUMBER),FALSE);
 
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			if (GetContactPhonesCount(hContact)) {
 				SEND_DLG_ITEM_MESSAGEW(hwndSendSms,IDC_NAME,CB_ADDSTRING,0,(LPARAM)GetContactNameW(hContact));
 				SendSMSWindowSMSContactAdd(hwndSendSms,hContact);
 			}
+		}
 	}
 	return 0;
 }
@@ -135,7 +136,7 @@ void RestoreUnreadMessageAlerts(void)
 
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		for (HANDLE hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hDbEvent)) {
-			dbei.cbBlob=0;
+			dbei.cbBlob = 0;
 			if (db_event_get(hDbEvent, &dbei) == 0)
 			if ((dbei.flags & (DBEF_SENT|DBEF_READ))==0 && ((dbei.eventType==ICQEVENTTYPE_SMS) || (dbei.eventType==ICQEVENTTYPE_SMSCONFIRMATION)))
 			if (dbei.cbBlob>MIN_SMS_DBEVENT_LEN)
@@ -143,7 +144,7 @@ void RestoreUnreadMessageAlerts(void)
 		}
 
 	for (HANDLE hDbEvent = db_event_firstUnread(NULL); hDbEvent; hDbEvent = db_event_next(hDbEvent)) {
-		dbei.cbBlob=0;
+		dbei.cbBlob = 0;
 		if (db_event_get(hDbEvent, &dbei) == 0)
 		if ((dbei.flags & (DBEF_SENT|DBEF_READ))==0 && ((dbei.eventType==ICQEVENTTYPE_SMS) || (dbei.eventType==ICQEVENTTYPE_SMSCONFIRMATION)))
 		if (dbei.cbBlob > MIN_SMS_DBEVENT_LEN)

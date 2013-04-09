@@ -985,10 +985,9 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit)
 	LVITEM lvi; memset(&lvi,0,sizeof(lvi));
 	lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 
-	HANDLE hContact = db_find_first();
 	char tmp[NAMSIZE];
 
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		pUinKey ptr = getUinKey(hContact);
 		if (ptr && isSecureProtocol(hContact) && !isChatRoom(hContact)) {
 			if (iInit) {
@@ -1013,7 +1012,6 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit)
 			else				setListViewPUB(hLV, itemNum, hasKey(ptr));
 			setListViewIcon(hLV, itemNum, ptr);
 		}
-		hContact = db_find_next(hContact);
 	}
 	ListView_Sort(hLV,0);
 }
@@ -1073,10 +1071,9 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 	LVITEM lvi; memset(&lvi,0,sizeof(lvi));
 	lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 
-	HANDLE hContact = db_find_first();
 	char tmp[NAMSIZE];
 
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		pUinKey ptr = getUinKey(hContact);
 		if (ptr && ptr->mode == MODE_PGP && isSecureProtocol(hContact) /*&& !getMetaContact(hContact)*/ && !isChatRoom(hContact)) {
 			LPSTR szKeyID = db_get_sa(hContact,MODULENAME,"pgp_abbr");
@@ -1095,7 +1092,6 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 			LV_SetItemTextA(hLV, itemNum, 2, (szKeyID)?szKeyID:Translate(sim221));
 			SAFE_FREE(szKeyID);
 		}
-		hContact = db_find_next(hContact);
 	}
 	ListView_Sort(hLV,(LPARAM)0x10);
 }
@@ -1135,10 +1131,9 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit)
 	LVITEM lvi; memset(&lvi,0,sizeof(lvi));
 	lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 
-	HANDLE hContact = db_find_first();
 	char tmp[NAMSIZE];
 
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		pUinKey ptr = getUinKey(hContact);
 		if (ptr && ptr->mode == MODE_GPG && isSecureProtocol(hContact) /*&& !getMetaContact(hContact)*/ && !isChatRoom(hContact)) {
 			if (iInit )
@@ -1161,7 +1156,6 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit)
 			LV_SetItemTextA(hLV, itemNum, 3, (ptr->tgpgMode)?Translate(sim228):Translate(sim229));
 			SAFE_FREE(szKeyID);
 		}
-		hContact = db_find_next(hContact);
 	}
 	ListView_Sort(hLV,(LPARAM)0x20);
 }

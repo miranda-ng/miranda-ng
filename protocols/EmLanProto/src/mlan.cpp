@@ -127,14 +127,12 @@ void CMLan::SetMirandaStatus(u_int status)
 
 void CMLan::SetAllOffline()
 {	
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *svc = GetContactProto(hContact);
 		if (svc != NULL && lstrcmp(PROTONAME,svc) == 0) {
 			db_set_w(hContact,PROTONAME,"Status",ID_STATUS_OFFLINE);
 			db_unset(hContact, PROTONAME, "IP");
 		}
-		hContact = db_find_next(hContact);
 	}
 	DeleteCache();
 }
@@ -243,8 +241,7 @@ void CMLan::SendPacketExt(TPacket& pak, u_long addr)
 
 HANDLE CMLan::FindContact(in_addr addr, const char* nick,  bool add_to_list, bool make_permanent, bool make_visible, u_int status)
 {
-	HANDLE res = db_find_first();
-	while (res != NULL) {
+	for (HANDLE res = db_find_first(); res; res = db_find_next(res)) {
 		char *szProto = GetContactProto(res);
 		if (szProto!=NULL && !lstrcmp(PROTONAME, szProto)) {
 			u_long caddr = db_get_dw(res, PROTONAME, "ipaddr", -1);
@@ -256,11 +253,10 @@ HANDLE CMLan::FindContact(in_addr addr, const char* nick,  bool add_to_list, boo
 				return res;
 			}			
 		}
-		res = db_find_next(res);
 	}
 
 	if (add_to_list) {
-		res=(HANDLE)CallService(MS_DB_CONTACT_ADD,0,0);
+		HANDLE res=(HANDLE)CallService(MS_DB_CONTACT_ADD,0,0);
 		CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)res,(LPARAM)PROTONAME);
 		db_set_dw(res,PROTONAME, "ipaddr", addr.S_un.S_addr);
 		db_set_s(res,PROTONAME, "Nick", nick);
@@ -271,10 +267,10 @@ HANDLE CMLan::FindContact(in_addr addr, const char* nick,  bool add_to_list, boo
 			db_set_b(res,"CList","Hidden",1);
 
 		db_set_w(res,PROTONAME, "Status", status);
+		return res;
 	}
-	else res = NULL;
 
-	return res;
+	return NULL;
 }
 
 void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)

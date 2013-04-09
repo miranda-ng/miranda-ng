@@ -1226,13 +1226,11 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 	char *p, *szProto, *uid, szItem[100];
 	char *szSections = reinterpret_cast<char *>(malloc(3002));
 	StatusItems_t *items = NULL, *this_item;
-	HANDLE hContact;
 	int i = 1;
 
 	char    file[MAX_PATH];
 	WideCharToMultiByte(CP_ACP, 0, tszFileName, MAX_PATH, file, MAX_PATH, 0, 0);
 	file[MAX_PATH - 1] = 0;
-
 
 	ReadItem(&default_item, "%Default", file);
 	ZeroMemory(szSections, 3000);
@@ -1262,8 +1260,7 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 	}
 
 	if (items) {
-		hContact = db_find_first();
-		while(hContact) {
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			char UIN[40];
 			int j;
 
@@ -1318,7 +1315,6 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 					}
 				}
 			}
-			hContact = db_find_next(hContact);
 		}
 	}
 	free(szSections);

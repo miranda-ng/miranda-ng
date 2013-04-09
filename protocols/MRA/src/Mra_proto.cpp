@@ -1516,7 +1516,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 					dwAuthMessageSize = lstrlenW(wszAuthMessage);
 				}
 
-				for (hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact)) {
+				for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					if (GetContactBasicInfoW(hContact, &dwID, NULL, NULL, NULL, NULL, szEMail, SIZEOF(szEMail), &dwEMailSize, NULL, 0, NULL, NULL, 0, NULL) == NO_ERROR)
 					if (dwID == -1) {
 						if (IsEMailChatAgent(szEMail, dwEMailSize)) {// чат: ещё раз запросим авторизацию, пометим как видимый в списке, постоянный

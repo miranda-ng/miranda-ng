@@ -1055,47 +1055,41 @@ void CJabberProto::_RosterHandleGetRequest(HXML node)
 				group = xmlGetText(groupNode);
 			_RosterInsertListItem(hList, jid, name, group, subscription, TRUE);
 		}
+
 		// now it is require to process whole contact list to add not in roster contacts
-		{
-			HANDLE hContact = (HANDLE)db_find_first();
-			while (hContact != NULL)
-			{
-				char* str = GetContactProto(hContact);
-				if (str != NULL && !strcmp(str, m_szModuleName))
-				{
-					DBVARIANT dbv;
-					if ( !JGetStringT(hContact, "jid", &dbv))
-					{
-						LVFINDINFO lvfi={0};
-						lvfi.flags = LVFI_STRING;
-						lvfi.psz = dbv.ptszVal;
-						TCHAR *p = _tcschr(dbv.ptszVal,_T('@'));
-						if (p) {
-							p = _tcschr(dbv.ptszVal, _T('/'));
-							if (p) *p = _T('\0');
-						}
-						if (ListView_FindItem(hList, -1, &lvfi) == -1) {
-							TCHAR *jid = mir_tstrdup(dbv.ptszVal);
-							TCHAR *name = NULL;
-							TCHAR *group = NULL;
-							DBVARIANT dbvtemp;
-							if ( !db_get_ts(hContact, "CList", "MyHandle", &dbvtemp)) {
-								name = mir_tstrdup(dbvtemp.ptszVal);
-								db_free(&dbvtemp);
-							}
-							if ( !db_get_ts(hContact, "CList", "Group", &dbvtemp)) {
-								group = mir_tstrdup(dbvtemp.ptszVal);
-								db_free(&dbvtemp);
-							}
-							_RosterInsertListItem(hList, jid, name, group, NULL, FALSE);
-							if (jid) mir_free(jid);
-							if (name) mir_free(name);
-							if (group) mir_free(group);
-						}
-						db_free(&dbv);
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			char* str = GetContactProto(hContact);
+			if (str != NULL && !strcmp(str, m_szModuleName)) {
+				DBVARIANT dbv;
+				if ( !JGetStringT(hContact, "jid", &dbv)) {
+					LVFINDINFO lvfi={0};
+					lvfi.flags = LVFI_STRING;
+					lvfi.psz = dbv.ptszVal;
+					TCHAR *p = _tcschr(dbv.ptszVal,_T('@'));
+					if (p) {
+						p = _tcschr(dbv.ptszVal, _T('/'));
+						if (p) *p = _T('\0');
 					}
+					if (ListView_FindItem(hList, -1, &lvfi) == -1) {
+						TCHAR *jid = mir_tstrdup(dbv.ptszVal);
+						TCHAR *name = NULL;
+						TCHAR *group = NULL;
+						DBVARIANT dbvtemp;
+						if ( !db_get_ts(hContact, "CList", "MyHandle", &dbvtemp)) {
+							name = mir_tstrdup(dbvtemp.ptszVal);
+							db_free(&dbvtemp);
+						}
+						if ( !db_get_ts(hContact, "CList", "Group", &dbvtemp)) {
+							group = mir_tstrdup(dbvtemp.ptszVal);
+							db_free(&dbvtemp);
+						}
+						_RosterInsertListItem(hList, jid, name, group, NULL, FALSE);
+						if (jid) mir_free(jid);
+						if (name) mir_free(name);
+						if (group) mir_free(group);
+					}
+					db_free(&dbv);
 				}
-				hContact = db_find_next(hContact);
 			}
 		}
 		rrud.bReadyToDownload = FALSE;

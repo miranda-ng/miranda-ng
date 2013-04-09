@@ -54,13 +54,9 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				bUseGrantIcon = IsDlgButtonChecked(hwndDlg, IDC_GRANTICON);
 				bContactMenuItem = IsDlgButtonChecked(hwndDlg, IDC_ENABLEMENUITEM);
 				bIconsForRecentContacts = IsDlgButtonChecked(hwndDlg, IDC_ICONSFORRECENT);
-				{
-					HANDLE hContact = db_find_first();
-					while (hContact) {
-						onExtraImageApplying((WPARAM)hContact,0);
-						hContact = db_find_next(hContact);
-					}
-				}
+
+				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+					onExtraImageApplying((WPARAM)hContact,0);
 
 				//Store options values to DB
 				db_set_b(NULL, MODULENAME, "EnableAuthIcon", bUseAuthIcon);

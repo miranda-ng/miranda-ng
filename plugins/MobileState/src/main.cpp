@@ -100,11 +100,8 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	hExtraIcon = ExtraIcon_Register("mobilestate", LPGEN("Mobile State"), "mobile_icon");
 
 	// Set initial value for all contacts
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		ExtraIconsApply((WPARAM)hContact, 1);
-		hContact = db_find_next(hContact);
-	}
 
 	return 0;
 }

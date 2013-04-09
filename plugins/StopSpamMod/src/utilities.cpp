@@ -100,92 +100,6 @@ void DeleteCListGroupsByName(TCHAR* szGroupName)
 		db_set_b(NULL, "CList", "ConfirmDelete", ConfirmDelete);
 }
 
-/*
-void RemoveExcludedUsers()
-{
-	HANDLE hContact;
-	hContact_entry *first, *plist, *tmp;
-	hContact = db_find_first();
-	first = new hContact_entry;
-	plist = first;
-	plist->hContact = INVALID_HANDLE_VALUE;
-	if(hContact)
-	{
-		do{
-			if(db_get_b(hContact, "CList", "NotOnList", 0) && db_get_b(hContact, pluginName, "Excluded", 0))
-			{
-				plist->hContact = hContact;
-				plist->next = new hContact_entry;
-				plist = plist->next;
-				plist->hContact = INVALID_HANDLE_VALUE;
-			}
-		}while(hContact = db_find_next(hContact));
-
-		plist = first;
-		while(plist->hContact != INVALID_HANDLE_VALUE)
-		{
-			std::string proto=DBGetContactSettingStringPAN_A(plist->hContact,"Protocol","p","");
-			UINT status = CallProtoService(proto.c_str(), PS_GETSTATUS, 0, 0);
-
-			if(status>= ID_STATUS_CONNECTING && status <= ID_STATUS_OFFLINE){
-				LogSpamToFile(plist->hContact, _T("Mark for delete"));
-				db_set_b(plist->hContact,"CList","Delete", 1);
-			}else{
-				LogSpamToFile(plist->hContact, _T("Deleted"));
-				CallService(MS_DB_CONTACT_DELETE, (WPARAM)plist->hContact, 0);
-			};
-			tmp = plist;
-			plist = plist->next;
-			delete tmp;
-		}
-		delete plist;
-	}
-}
-
-void RemoveTemporaryUsers()
-{
-	HANDLE hContact;
-	hContact_entry *first, *plist, *tmp;
-	hContact = db_find_first();
-	first = new hContact_entry;
-	plist = first;
-	plist->hContact = INVALID_HANDLE_VALUE;
-	if(hContact)
-	{
-		do{
-			if(db_get_b(hContact, "CList", "NotOnList", 0)||
-				(_T("Not In List")== DBGetContactSettingStringPAN(hContact,"CList","Group",_T("")))
-			)
-			{
-				plist->hContact = hContact;
-				plist->next = new hContact_entry;
-				plist = plist->next;
-				plist->hContact = INVALID_HANDLE_VALUE;
-			}
-		}while(hContact = db_find_next(hContact));
-
-		plist = first;
-		while(plist->hContact != INVALID_HANDLE_VALUE)
-		{
-			std::string proto=DBGetContactSettingStringPAN_A(plist->hContact,"Protocol","p","");
-			UINT status = CallProtoService(proto.c_str(), PS_GETSTATUS, 0, 0);
-
-			if(status>= ID_STATUS_CONNECTING && status <= ID_STATUS_OFFLINE){
-				LogSpamToFile(plist->hContact, _T("Mark for delete"));
-				db_set_b(plist->hContact,"CList","Delete", 1);
-			}else{
-				LogSpamToFile(plist->hContact, _T("Deleted"));
-				CallService(MS_DB_CONTACT_DELETE, (WPARAM)plist->hContact, 0);
-			};
-
-			tmp = plist;
-			plist = plist->next;
-			delete tmp;
-		}
-		delete plist;
-	};
-	DeleteCListGroupsByName(_T("Not In List"));
-}*/
 int RemoveTmp(WPARAM,LPARAM)
 {
 	void CleanThread();
@@ -394,9 +308,9 @@ void CleanProtocolTmpThread(std::string proto)
 			break;
 		boost::this_thread::sleep(boost::posix_time::seconds(2));
 	}
+
 	std::list<HANDLE> contacts;
-	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-	{
+	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto_tmp = GetContactProto(hContact);
 		if(proto_tmp)
 			if(!strcmp(proto.c_str(), proto_tmp))
@@ -424,6 +338,7 @@ void CleanProtocolExclThread(std::string proto)
 			break;
 		boost::this_thread::sleep(boost::posix_time::seconds(2));
 	}
+
 	std::list<HANDLE> contacts;
 	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 	{

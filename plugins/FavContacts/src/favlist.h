@@ -99,12 +99,10 @@ public:
 	void build()
 	{
 		TCHAR *prevGroup = NULL;
-		int i;
-		
+	
 		nGroups = 1;
 
-		HANDLE hContact = db_find_first();
-		for ( ; hContact; hContact = db_find_next(hContact))
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			if (db_get_b(hContact, "FavContacts", "IsFavourite", 0))
 			{
 				TCHAR *group = addContact(hContact, true)->getGroup();
@@ -114,9 +112,8 @@ public:
 			}
 
 		int nRecent = 0;
-		for (i = 0; nRecent < g_Options.wMaxRecent; ++i)
-		{
-			hContact = g_contactCache->get(i);
+		for (int i = 0; nRecent < g_Options.wMaxRecent; ++i) {
+			HANDLE hContact = g_contactCache->get(i);
 			if (!hContact) break;
 			if (!db_get_b(hContact, "FavContacts", "IsFavourite", 0))
 			{

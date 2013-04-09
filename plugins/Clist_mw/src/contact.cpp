@@ -82,9 +82,8 @@ void LoadContactTree(void)
 			CallService(MS_CLUI_GROUPADDED, i, 0);
 
 	int hideOffline = db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);
-	HANDLE hContact = db_find_first();
 
-	while(hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ClcCacheEntry *cacheEntry = GetContactFullCacheEntry(hContact);
 		if (cacheEntry == NULL) {
 			MessageBoxA(0,"Fail To Get CacheEntry for hContact","!!!!!",0);
@@ -93,7 +92,6 @@ void LoadContactTree(void)
 		int status = cacheEntry->status;
 		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !cacheEntry->bIsHidden)
 			ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact,(char*)cacheEntry->szProto,status),1);
-		hContact = db_find_next(hContact);
 	}
 	sortByStatus = db_get_b(NULL,"CList","SortByStatus",SETTING_SORTBYSTATUS_DEFAULT);
 	sortByProto = db_get_b(NULL,"CList","SortByProto",SETTING_SORTBYPROTO_DEFAULT);

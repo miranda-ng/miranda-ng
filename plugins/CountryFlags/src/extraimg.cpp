@@ -64,21 +64,15 @@ static void CALLBACK SetExtraImage(HANDLE hContact)
 // always call in context of main thread
 static void RemoveExtraImages(void)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		ExtraIcon_Clear(hExtraIcon, hContact);
-		hContact = db_find_next(hContact);
-	}
 }
 
 // always call in context of main thread
 static void EnsureExtraImages(void)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		SetExtraImage(hContact);
-		hContact = db_find_next(hContact);
-	}
 }
 
 static void CALLBACK UpdateExtraImages(LPARAM lParam)

@@ -144,9 +144,8 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 
 	DisconnectAllDCCSessions(false);
 
-	HANDLE hContact = db_find_first();
-	while ( hContact ) {
-		char* szProto = GetContactProto(hContact);
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !lstrcmpiA( szProto, m_szModuleName)) {
 			if ( getByte( hContact, "ChatRoom", 0 ) == 0 ) {
 				if ( getByte(hContact, "DCC", 0 ) != 0 ) {
@@ -161,9 +160,8 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 				db_unset( hContact, m_szModuleName, "IP" );
 				setString( hContact, "User", "" );
 				setString( hContact, "Host", "" );
-		}	}
-
-		hContact = db_find_next(hContact);
+			}
+		}
 	}
 	return true;
 }
@@ -176,15 +174,14 @@ HANDLE CIrcProto::CList_FindContact (CONTACT* user)
 	TCHAR* lowercasename = mir_tstrdup( user->name );
 	CharLower(lowercasename);
 	
-	char *szProto;
 	DBVARIANT dbv1;
 	DBVARIANT dbv2;	
 	DBVARIANT dbv3;	
 	DBVARIANT dbv4;	
 	DBVARIANT dbv5;	
-	HANDLE hContact = db_find_first();
-	while (hContact) {
-		szProto = GetContactProto(hContact);
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		char *szProto = GetContactProto(hContact);
 		if ( szProto != NULL && !lstrcmpiA( szProto, m_szModuleName )) {
 			if ( getByte( hContact, "ChatRoom", 0) == 0) {
 				HANDLE hContact_temp = NULL;
@@ -238,9 +235,9 @@ HANDLE CIrcProto::CList_FindContact (CONTACT* user)
 					if ( hContact_temp != (HANDLE)-1 )
 						return hContact_temp;
 					return 0;
-		}	}	}
-		
-		hContact = db_find_next(hContact);
+				}
+			}
+		}
 	}
 	mir_free(lowercasename);
 	return 0;

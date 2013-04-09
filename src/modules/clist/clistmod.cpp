@@ -144,13 +144,11 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 	if ((int)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
 		DWORD caps = (DWORD)CallProtoServiceInt(NULL,ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (caps & PF1_SERVERCLIST) {
-			HANDLE hContact = db_find_first();
-			while (hContact) {
+			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				char *szProto = GetContactProto(hContact);
 				if (szProto != NULL && !strcmp(szProto, ack->szModule))
 					if (db_get_b(hContact, "CList", "Delete", 0))
 						CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
-				hContact = db_find_next(hContact);
 			}
 		}
 	}

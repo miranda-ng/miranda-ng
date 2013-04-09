@@ -103,18 +103,6 @@ void PopUpPreview()
 	ppd.cbSize		= sizeof(ppd);
 	ppd.flags		= PU2_TCHAR;
 
-#if defined(_DEBUG)
-	// test per-contact popups
-	for (HANDLE hContact = db_find_first(); hContact;
-			hContact = db_find_next(hContact))
-	{
-		if (db_get_dw(hContact, "ICQ", "UIN", 0) == 256771455)
-		{
-			ppd.lchContact = hContact;
-			break;
-		}
-	}
-#endif
 	ppd.lptzTitle	= lptzTitle1Eng;
 	ppd.lptzText	= lptzText1Eng;
 	ppd.lchIcon		= LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
@@ -128,30 +116,7 @@ void PopUpPreview()
 	ppd.lptzText	= lptzText2;
 	ppd.lchIcon		= LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 	ppd.hbmAvatar	= hbmNoAvatar;
-#if defined(_DEBUG)
-//remove testactions
-	POPUPACTION actions[3];
-	actions[0].cbSize	= sizeof(POPUPACTION);
-	actions[0].flags	= PAF_ENABLED;
-	lstrcpyA(actions[0].lpzTitle, "Popup Plus/Test action");
-	actions[0].lchIcon	= IcoLib_GetIcon(ICO_POPUP_ON,0);
-	actions[0].wParam	= actions[0].lParam = -1;
 
-	actions[1].cbSize	= sizeof(POPUPACTION);
-	actions[1].flags	= PAF_ENABLED;
-	lstrcpyA(actions[1].lpzTitle, "Popup Plus/Second test action");
-	actions[1].lchIcon	= IcoLib_GetIcon(ICO_ACT_CLOSE,0);
-	actions[1].wParam	= actions[1].lParam = -1;
-
-	actions[2].cbSize	= sizeof(POPUPACTION);
-	actions[2].flags	= PAF_ENABLED;
-	lstrcpyA(actions[2].lpzTitle, "Popup Plus/One more action");
-	actions[2].lchIcon	= LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	actions[2].wParam	= actions[2].lParam = -1;
-
-	ppd.lpActions	= actions;
-	ppd.actionCount	= SIZEOF(actions);
-#endif
 	CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
 	if (PopUpOptions.UseAnimations || PopUpOptions.UseEffect) Sleep((ANIM_TIME*2)/3); //Pause
 

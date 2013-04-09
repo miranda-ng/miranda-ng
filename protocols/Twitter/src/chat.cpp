@@ -197,8 +197,7 @@ void TwitterProto::SetChatStatus(int status)
 	if(status == ID_STATUS_ONLINE)
 	{
 		// Add all friends to contact list
-		for(HANDLE hContact = db_find_first();hContact;hContact = db_find_next(hContact))
-		{
+		for(HANDLE hContact = db_find_first();hContact;hContact = db_find_next(hContact)) {
 			if(!IsMyContact(hContact))
 				continue;
 

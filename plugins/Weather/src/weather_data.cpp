@@ -124,8 +124,7 @@ void EraseAllInfo()
 	HANDLE LastContact = NULL;
 	DBVARIANT dbv;
 	// loop through all contacts
-	HANDLE hContact = db_find_first();
-	while(hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		// see if the contact is a weather contact
 		if ( IsMyContact(hContact)) {
 			db_set_w(hContact,WEATHERPROTONAME, "Status",ID_STATUS_OFFLINE);
@@ -173,7 +172,6 @@ void EraseAllInfo()
 			ContactCount++;		// increment counter
 			LastContact = hContact;
 		}
-		hContact = db_find_next(hContact);
 	}
 
 	// if weather contact exists, set the status to online so it is ready for update

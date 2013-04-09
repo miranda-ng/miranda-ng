@@ -271,22 +271,18 @@ int getContactFromString( CONTACTSINFO* ci )
 
 	LeaveCriticalSection(&csContactCache);
 	/* contact was not in cache, do a search */
-	hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		szFind = NULL;
 		bMatch = FALSE;
 		ZeroMemory(&dbv, sizeof(DBVARIANT));
 		szProto = GetContactProto(hContact);
-		if (szProto == NULL) {
-			hContact = db_find_next(hContact);
+		if (szProto == NULL)
 			continue;
-		}
+
 		// <proto:id> (exact)
-		if (ci->flags&CI_PROTOID)
-		{
+		if (ci->flags & CI_PROTOID) {
 			cInfo = getContactInfoT(CNF_UNIQUEID, hContact);
-			if (cInfo == NULL)
-			{
+			if (cInfo == NULL) {
 				// <HANDLE:hContact>
 				cInfo = (TCHAR*)mir_alloc(32);
 				_stprintf(cInfo, _T("%p"), hContact);
@@ -295,22 +291,17 @@ int getContactFromString( CONTACTSINFO* ci )
 				{
 					wsprintf(szFind, _T("<%s:%s>"), _T(PROTOID_HANDLE), cInfo);
 					if (!_tcsncmp(tszContact, szFind, _tcslen(tszContact)))
-					{
 						bMatch = TRUE;
-					}
+
 					mir_free(cInfo);
 					mir_free(szFind);
 				}
 			}
-			else
-			{
+			else {
 				szFind = (TCHAR*)mir_alloc((_tcslen(cInfo) + strlen(szProto) + 4)*sizeof(TCHAR));
-				if (szFind != NULL)
-				{
+				if (szFind != NULL) {
 					tszProto = mir_a2t(szProto);
-
-					if ((tszProto != NULL) && (szFind != NULL))
-					{
+					if ((tszProto != NULL) && (szFind != NULL)) {
 						wsprintf(szFind, _T("<%s:%s>"), tszProto, cInfo);
 						mir_free(cInfo);
 						mir_free(tszProto);
@@ -401,7 +392,6 @@ int getContactFromString( CONTACTSINFO* ci )
 			ci->hContacts[count] = hContact;
 			count += 1;
 		}
-		hContact=db_find_next(hContact);
 	}
 
 	if (count == 1) { /* cache the found result */

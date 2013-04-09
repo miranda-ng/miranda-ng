@@ -2389,25 +2389,21 @@ void TSAPI DeleteContainer(int iIndex)
 	char *szKey = "TAB_ContainersW";
 	char *szSettingP = "CNTW_";
 	char *szSubKey = "containerW";
-	HANDLE hhContact;
 	_snprintf(szIndex, 8, "%d", iIndex);
-
 
 	if (!M->GetTString(NULL, szKey, szIndex, &dbv)) {
 		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
 			TCHAR *wszContainerName = dbv.ptszVal;
 			M->WriteTString(NULL, szKey, szIndex, _T("**free**"));
 
-			hhContact = db_find_first();
-			while (hhContact) {
+			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				DBVARIANT dbv_c;
-				if (!M->GetTString(hhContact, SRMSGMOD_T, szSubKey, &dbv_c)) {
+				if (!M->GetTString(hContact, SRMSGMOD_T, szSubKey, &dbv_c)) {
 					TCHAR *wszString = dbv_c.ptszVal;
 					if (_tcscmp(wszString, wszContainerName) && lstrlen(wszString) == lstrlen(wszContainerName))
-						db_unset(hhContact, SRMSGMOD_T, "containerW");
+						db_unset(hContact, SRMSGMOD_T, "containerW");
 					db_free(&dbv_c);
 				}
-				hhContact = db_find_next(hhContact);
 			}
 			_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%d_Flags", szSettingP, iIndex);
 			db_unset(NULL, SRMSGMOD_T, szSetting);
@@ -2433,27 +2429,24 @@ void TSAPI RenameContainer(int iIndex, const TCHAR *szNew)
 	char *szSettingP = "CNTW_";
 	char *szSubKey = "containerW";
 	char szIndex[10];
-	HANDLE hhContact;
 
 	_snprintf(szIndex, 8, "%d", iIndex);
 	if (!M->GetTString(NULL, szKey, szIndex, &dbv)) {
-		if (szNew != NULL) {
+		if (szNew != NULL)
 			if (lstrlen(szNew) != 0)
 				M->WriteTString(NULL, szKey, szIndex, szNew);
-		}
-		hhContact = db_find_first();
-		while (hhContact) {
+
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			DBVARIANT dbv_c;
-			if (!M->GetTString(hhContact, SRMSGMOD_T, szSubKey, &dbv_c)) {
+			if (!M->GetTString(hContact, SRMSGMOD_T, szSubKey, &dbv_c)) {
 				if (!_tcscmp(dbv.ptszVal, dbv_c.ptszVal) && lstrlen(dbv_c.ptszVal) == lstrlen(dbv.ptszVal)) {
 					if (szNew != NULL) {
 						if (lstrlen(szNew) != 0)
-							M->WriteTString(hhContact, SRMSGMOD_T, szSubKey, szNew);
+							M->WriteTString(hContact, SRMSGMOD_T, szSubKey, szNew);
 					}
 				}
 				db_free(&dbv_c);
 			}
-			hhContact = db_find_next(hhContact);
 		}
 		db_free(&dbv);
 	}

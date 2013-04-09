@@ -31,9 +31,7 @@
 void CYahooProto::logoff_buddies()
 {
 	//set all contacts to 'offline'
-	HANDLE hContact = db_find_first();
-	while ( hContact != NULL) 
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (IsMyContact(hContact)) {
 			SetWord( hContact, "Status", ID_STATUS_OFFLINE );
 			SetDword(hContact, "IdleTS", 0);
@@ -44,8 +42,6 @@ void CYahooProto::logoff_buddies()
 			db_unset(hContact, m_szModuleName, "YGMsg");
 			//db_unset(hContact, m_szModuleName, "MirVer");
 		}
-
-		hContact = db_find_next(hContact);
 	}	
 }
 

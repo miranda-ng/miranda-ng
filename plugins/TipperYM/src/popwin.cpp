@@ -1551,15 +1551,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (dwItems & TRAYTIP_NUMCONTACTS) {
 					int iCount = 0, iCountOnline = 0;
-					HANDLE hContact = db_find_first();
-					while (hContact) {
+					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 						char *proto = GetContactProto(hContact);
 						if (proto && !strcmp(proto, pa->szModuleName)) {
 							if (db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 								iCountOnline++;
 							iCount++;
 						}
-						hContact = db_find_next(hContact);
 					}
 					mir_sntprintf(buff, 64, _T("(%d/%d)"), iCountOnline, iCount);
 				} 
@@ -1678,8 +1676,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					bool bTitlePainted = false;
 					int iCount = 0, iCountOnline = 0;
 
-					HANDLE hContact = db_find_first();
-					while (hContact) {
+					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 						if (db_get_b(hContact, MODULE, "FavouriteContact", 0)) {
 							char *proto = GetContactProto(hContact);
 							if (proto) {
@@ -1710,7 +1707,6 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 								}
 							}
 						}
-						hContact = db_find_next(hContact);
 					}
 
 					int index = pwd->iRowCount - 1;

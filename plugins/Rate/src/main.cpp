@@ -106,11 +106,8 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	hExtraIcon = ExtraIcon_Register("contact_rate", LPGEN("Contact rate"), "rate_high");
 
 	// Set initial value for all contacts
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		setExtraIcon(hContact, -1, FALSE);
-		hContact = db_find_next(hContact);
-	}
 
 	return 0;
 }

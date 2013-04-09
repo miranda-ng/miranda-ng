@@ -462,18 +462,14 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, HANDLE hContact
 
 void CJabberProto::CheckAllContactsAreTransported()
 {
-	HANDLE hContact = (HANDLE)db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
 		if ( !lstrcmpA(m_szModuleName, szProto)) {
 			DBVARIANT dbv;
 			if ( !JGetStringT(hContact, "jid", &dbv)) {
 				DBCheckIsTransportedContact(dbv.ptszVal, hContact);
 				db_free(&dbv);
-		}	}
-
-		hContact = db_find_next(hContact);
-}	}
+}	}	}	}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Cross-instance shared icons

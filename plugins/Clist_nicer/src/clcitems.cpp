@@ -171,8 +171,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 		}
 	}
 
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (style & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(hContact, NULL, dat)) {
 			ZeroMemory((void *)&dbv, sizeof(dbv));
 			if (cfg::getTString(hContact, "CList", "Group", &dbv))
@@ -196,7 +195,6 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 				else AddContactToGroup(dat, group, hContact);
 			}
 		}
-		hContact = db_find_next(hContact);
 	}
 
 	if (style & CLS_HIDEEMPTYGROUPS) {

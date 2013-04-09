@@ -61,21 +61,14 @@ INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 				{
 					char modulename[256];
 					GetDlgItemText(hwnd, IDC_MODNAME, modulename, 256);
-					if (IsDlgButtonChecked(hwnd,CHK_ADD2ALL))
-					{
-						HANDLE hContact = db_find_first();
+					if (IsDlgButtonChecked(hwnd,CHK_ADD2ALL)) {
 						// null contact
 						db_set_b(NULL, modulename, "(Default)", 0);
-						while (hContact)
-						{
+						for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 							db_set_b(hContact, modulename, "(Default)", 0);
-							hContact = db_find_next(hContact);
-						}
 					}
-					else
-					{
-						db_set_b((HANDLE)GetWindowLongPtr(hwnd,GWLP_USERDATA), modulename, "(Default)", 0);
-					}
+					else db_set_b((HANDLE)GetWindowLongPtr(hwnd,GWLP_USERDATA), modulename, "(Default)", 0);
+
 					refreshTree(1);
 				}
 			}

@@ -287,8 +287,7 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 
 static void RemoveUnreadFileEvents(void)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hDbEvent = db_event_firstUnread(hContact);
 		while (hDbEvent) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
@@ -297,7 +296,6 @@ static void RemoveUnreadFileEvents(void)
 				db_event_markRead(hContact, hDbEvent);
 			hDbEvent = db_event_next(hDbEvent);
 		}
-		hContact = db_find_next(hContact);
 	}
 }
 

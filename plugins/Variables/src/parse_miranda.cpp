@@ -546,14 +546,13 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 				hDbEvent = db_event_prev(hDbEvent);
 		}
 		else {
-			HANDLE hMatchEvent, hSearchEvent, hSearchContact;
+			HANDLE hMatchEvent, hSearchEvent;
 			DWORD matchTimestamp, priorTimestamp;
 
-			hMatchEvent = hSearchEvent = hSearchContact = NULL;
+			hMatchEvent = hSearchEvent = NULL;
 			matchTimestamp = priorTimestamp = 0;
 			if (flags & DBE_FIRST) {
-				hSearchContact = db_find_first();
-				do {
+				for (HANDLE hSearchContact = db_find_first(); hSearchContact; hSearchContact = db_find_next(hSearchContact)) {
 					hSearchEvent = findDbEvent(hSearchContact, NULL, flags);
 					dbe.cbBlob = 0;
 					if (!db_event_get(hSearchEvent, &dbe)) {
@@ -562,13 +561,11 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 							matchTimestamp = dbe.timestamp;
 						}
 					}
-					hSearchContact = db_find_next(hSearchContact);
-				} while (hSearchContact);
+				}
 				hDbEvent = hMatchEvent;
 			}
-			else if (flags&DBE_LAST) {
-				hSearchContact = db_find_first();
-				do {
+			else if (flags & DBE_LAST) {
+				for (HANDLE hSearchContact = db_find_first(); hSearchContact; hSearchContact = db_find_next(hSearchContact)) {
 					hSearchEvent = findDbEvent(hSearchContact, NULL, flags);
 					dbe.cbBlob = 0;
 					if (!db_event_get(hSearchEvent, &dbe)) {
@@ -577,16 +574,14 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 							matchTimestamp = dbe.timestamp;
 						}
 					}
-					hSearchContact = db_find_next(hSearchContact);
-				} while (hSearchContact);
+				}
 				hDbEvent = hMatchEvent;
 			}
-			else if (flags&DBE_NEXT) {
+			else if (flags & DBE_NEXT) {
 				dbe.cbBlob = 0;
 				if (!db_event_get(hDbEvent, &dbe)) {
 					priorTimestamp = dbe.timestamp;
-					hSearchContact = db_find_first();
-					do {
+					for (HANDLE hSearchContact = db_find_first(); hSearchContact; hSearchContact = db_find_next(hSearchContact)) {
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
 						if (!db_event_get(hSearchEvent, &dbe)) {
@@ -595,16 +590,14 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 								matchTimestamp = dbe.timestamp;
 							}
 						}
-						hSearchContact = db_find_next(hSearchContact);
-					} while (hSearchContact);
+					}
 					hDbEvent = hMatchEvent;
 				}
 			}
-			else if (flags&DBE_PREV) {
+			else if (flags & DBE_PREV) {
 				if (!db_event_get(hDbEvent, &dbe)) {
 					priorTimestamp = dbe.timestamp;
-					hSearchContact = db_find_first();
-					do {
+					for (HANDLE hSearchContact = db_find_first(); hSearchContact; hSearchContact = db_find_next(hSearchContact)) {
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
 						if (!db_event_get(hSearchEvent, &dbe)) {
@@ -613,8 +606,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 								matchTimestamp = dbe.timestamp;
 							}
 						}
-						hSearchContact = db_find_next(hSearchContact);
-					} while (hSearchContact);
+					}
 					hDbEvent = hMatchEvent;
 				}
 			}

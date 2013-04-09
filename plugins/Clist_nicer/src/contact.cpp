@@ -111,20 +111,17 @@ extern TCHAR g_ptszEventName[];
 
 void MF_UpdateThread(LPVOID)
 {
-	HANDLE hContact;
 	HANDLE hEvent = OpenEvent(EVENT_ALL_ACCESS, FALSE, g_ptszEventName);
 
 	WaitForSingleObject(hEvent, 20000);
 	ResetEvent(hEvent);
 
 	while(mf_updatethread_running) {
-		hContact = db_find_first();
-		while (hContact != NULL && mf_updatethread_running) {
+		for (HANDLE hContact = db_find_first(); hContact && mf_updatethread_running; hContact = db_find_next(hContact)) {
 			MF_CalcFrequency(hContact, 50, 1);
 			if (mf_updatethread_running)
 				WaitForSingleObject(hEvent, 5000);
 			ResetEvent(hEvent);
-			hContact = db_find_next(hContact);
 		}
 		if (mf_updatethread_running)
 			WaitForSingleObject(hEvent, 1000000);
@@ -137,7 +134,6 @@ static BOOL mc_hgh_removed = FALSE;
 
 void LoadContactTree(void)
 {
-	HANDLE hContact;
 	int i, status, hideOffline;
 	BOOL mc_disablehgh = ServiceExists(MS_MC_DISABLEHIDDENGROUP);
 	DBVARIANT dbv = {0};
@@ -151,8 +147,8 @@ void LoadContactTree(void)
 	}
 
 	hideOffline = cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
-	hContact = db_find_first();
-	while (hContact != NULL) {
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		status = GetContactStatus(hContact);
 		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !CLVM_GetContactHiddenStatus(hContact, NULL, NULL))
 			pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(GetContactProto(hContact), status, hContact, NULL), 1);
@@ -168,8 +164,6 @@ void LoadContactTree(void)
 		// build initial data for message frequency
 		if ( !bMsgFrequency)
 			MF_CalcFrequency(hContact, 100, 0);
-
-		hContact = db_find_next(hContact);
 	}
 	cfg::writeByte("CList", "fhistdata", 1);
 	mc_hgh_removed = TRUE;

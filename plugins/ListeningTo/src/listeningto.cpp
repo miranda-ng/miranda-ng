@@ -300,8 +300,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	// Extra icon support
 	hExtraIcon = ExtraIcon_Register(MODULE_NAME, LPGEN("Listening to music"), "listening_to_icon");
 	
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact);
 		if (proto != NULL) {
 			DBVARIANT dbv;
@@ -312,8 +311,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 				db_free(&dbv);
 			}
 		}
-
-		hContact = db_find_next(hContact);
 	}
 
 	// Add main menu item

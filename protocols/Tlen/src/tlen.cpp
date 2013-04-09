@@ -252,20 +252,19 @@ INT_PTR TlenMenuHandleInbox(void *ptr, LPARAM wParam, LPARAM lParam)
 
 int TlenOnModulesLoaded(void *ptr, WPARAM wParam, LPARAM lParam)
 {
-
 	char str[128];
 	TlenProtocol *proto = (TlenProtocol *)ptr;
 	/* Set all contacts to offline */
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(szProto, proto->m_szModuleName)) {
 			if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 				db_set_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
 			}
 		}
-		hContact = db_find_next(hContact);
 	}
+
 	TlenMUCInit(proto);
 	sprintf(str, "%s", LPGEN("Incoming mail"));
 	SkinAddNewSoundEx("TlenMailNotify", proto->m_szModuleName, str);

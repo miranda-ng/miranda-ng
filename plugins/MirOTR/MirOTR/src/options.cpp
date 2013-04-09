@@ -560,9 +560,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 
 			const char *proto;
 			TCHAR *proto_t;
-			HANDLE hContact = db_find_first();
-			while ( hContact != NULL )
-			{
+			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				proto = contact_get_proto(hContact);
 				if(proto && db_get_b(hContact, proto, "ChatRoom", 0) == 0 && CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)MODULENAME) // ignore chatrooms
 					&& (g_metaproto  == 0 || strcmp(proto, g_metaproto) != 0)) // and MetaContacts
@@ -580,13 +578,11 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 					ListView_SetItemText(lv, lvI.iItem, 2, (TCHAR*)policy_to_string((OtrlPolicy)db_get_dw(hContact, MODULENAME, "Policy", CONTACT_DEFAULT_POLICY)) );
 					ListView_SetItemText(lv, lvI.iItem, 3, (db_get_b(hContact, MODULENAME, "HTMLConv", 0))?TranslateT(LANG_YES):TranslateT(LANG_NO) );
 				}
-
-
-				hContact = db_find_next(hContact);
 			}
 		}
 		return TRUE;
 		break;
+
 	case WM_COMMAND:
 		switch ( HIWORD( wParam )) {
 			case CBN_SELCHANGE:

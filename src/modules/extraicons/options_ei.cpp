@@ -56,11 +56,8 @@ BOOL ScreenToClient(HWND hWnd, LPRECT lpRect)
 
 static void RemoveExtraIcons(int slot)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		Clist_SetExtraIcon(hContact, slot, INVALID_HANDLE_VALUE);
-		hContact = db_find_next(hContact);
-	}
 }
 
 #ifndef TVIS_FOCUSED

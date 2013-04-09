@@ -595,15 +595,11 @@ recvRest:
 			JSendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 			// Set all contacts to offline
-			HANDLE hContact = (HANDLE)db_find_first();
-			while (hContact != NULL) {
-				if ( !lstrcmpA(GetContactProto(hContact), m_szModuleName))
-				{
+			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+				if ( !lstrcmpA(GetContactProto(hContact), m_szModuleName)) {
 					SetContactOfflineStatus(hContact);
 					MenuHideSrmmIcon(hContact);
 				}
-
-				hContact = db_find_next(hContact);
 			}
 
 			mir_free(m_szJabberJID);

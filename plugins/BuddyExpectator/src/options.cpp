@@ -247,13 +247,9 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 				SaveOptions();
 
 				// clear all notified settings
-				HANDLE hContact = db_find_first();
-				while (hContact != 0) {
+				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 					if(db_get_b(hContact, MODULE_NAME, "StillAbsentNotified", 0))
 						db_set_b(hContact, MODULE_NAME, "StillAbsentNotified", 0);
-
-					hContact = db_find_next(hContact);
-				}
 
 				// restart timer & run check
 				KillTimer(0, timer_id);

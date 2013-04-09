@@ -9,7 +9,6 @@ static ModuleTreeInfoStruct settings_mtis = {CONTACT, 0};
 int doContacts(HWND hwnd2Tree,HTREEITEM contactsRoot,ModuleSettingLL *modlist, HANDLE hSelectedContact, char *SelectedModule, char *SelectedSetting)
 {
 	TVINSERTSTRUCT tvi;
-	HANDLE hContact;
 	HTREEITEM contact;
 	ModuleTreeInfoStruct *lParam;
 	struct ModSetLinkLinkItem *module;
@@ -21,12 +20,10 @@ int doContacts(HWND hwnd2Tree,HTREEITEM contactsRoot,ModuleSettingLL *modlist, H
 
 	SetWindowText(hwnd2mainWindow, Translate("Loading contacts..."));
 
-	hContact = db_find_first();
-
 	tvi.hInsertAfter = TVI_SORT;
 	tvi.item.cChildren = 1;
 
-	while (hContact && hwnd2mainWindow) { // break after null contact
+	for (HANDLE hContact = db_find_first(); hContact && hwnd2mainWindow; hContact = db_find_next(hContact)) {
 		char szProto[100];
 		if (DBGetContactSettingStringStatic(hContact, "Protocol", "p", szProto, SIZEOF(szProto))) {
 			icon = GetProtoIcon(szProto);
@@ -40,10 +37,8 @@ int doContacts(HWND hwnd2Tree,HTREEITEM contactsRoot,ModuleSettingLL *modlist, H
 		i++;
 
 		// filter
-		if ((loaded && Mode == MODE_UNLOADED) || (!loaded && Mode == MODE_LOADED)) {
-			hContact = db_find_next(hContact);
+		if ((loaded && Mode == MODE_UNLOADED) || (!loaded && Mode == MODE_LOADED))
 			continue;
-		}
 
 		// add the contact
 		lParam = (ModuleTreeInfoStruct *)mir_calloc(sizeof(ModuleTreeInfoStruct));
@@ -122,8 +117,6 @@ int doContacts(HWND hwnd2Tree,HTREEITEM contactsRoot,ModuleSettingLL *modlist, H
 
 			hItem = findItemInTree(hwnd2Tree, hSelectedContact, SelectedModule);
 		}
-
-		hContact = db_find_next(hContact);
 	}
 
 	if (hItem != -1) {

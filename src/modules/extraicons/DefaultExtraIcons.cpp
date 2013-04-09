@@ -342,13 +342,10 @@ void DefaultExtraIcons_Load()
 			p.hExtraIcon = ExtraIcon_Register(p.name, p.desc, LoadSkinnedIconName(p.iSkinIcon));
 	}
 
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		SetExtraIcons(hContact);
 		SetVisibility(hContact, -1, false);
 		SetGender(hContact, -1, false);
-
-		hContact = db_find_next(hContact);
 	}
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);

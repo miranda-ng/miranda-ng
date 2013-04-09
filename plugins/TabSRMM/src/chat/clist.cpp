@@ -115,12 +115,8 @@ BOOL CList_SetOffline(HANDLE hContact, BOOL bHide)
 
 BOOL CList_SetAllOffline(BOOL bHide, const char *pszModule)
 {
-	HANDLE hContact;
-	char* szProto;
-
-	hContact = db_find_first();
-	while (hContact) {
-		szProto = GetContactProto(hContact);
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		char *szProto = GetContactProto(hContact);
 		if (MM_FindModule(szProto)) {
 			if (!pszModule || (pszModule && !strcmp(pszModule, szProto))) {
 				int i = M->GetByte(hContact, szProto, "ChatRoom", 0);
@@ -130,8 +126,6 @@ BOOL CList_SetAllOffline(BOOL bHide, const char *pszModule)
 				}
 			}
 		}
-
-		hContact = db_find_next(hContact);
 	}
 	return TRUE;
 }
@@ -297,9 +291,8 @@ BOOL CList_AddEvent(HANDLE hContact, HICON Icon, HANDLE event, int type, const T
 
 HANDLE CList_FindRoom(const char* pszModule, const TCHAR* pszRoom)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact) {
-		char* szProto = GetContactProto(hContact);
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		char *szProto = GetContactProto(hContact);
 		if (szProto && !lstrcmpiA(szProto, pszModule)) {
 			if (M->GetByte(hContact, szProto, "ChatRoom", 0) != 0) {
 				DBVARIANT dbv;
@@ -312,8 +305,6 @@ HANDLE CList_FindRoom(const char* pszModule, const TCHAR* pszRoom)
 				}
 			}
 		}
-
-		hContact = db_find_next(hContact);
 	}
 	return 0;
 }

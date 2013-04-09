@@ -272,16 +272,13 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 	//HookEvent(ME_OPT_INITIALISE,POP3OptInit);
 
 	HACCOUNT Finder;
-	HANDLE hContact;
 	DBVARIANT dbv;
 	char *szProto;
 
 	for (Finder=POP3Plugin->FirstAccount;Finder != NULL;Finder=Finder->Next)
 	{
 		Finder->hContact = NULL;
-		hContact = db_find_first();
-		while(hContact) 
-		{
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			szProto = GetContactProto(hContact);
 			if (szProto != NULL && strcmp(szProto, YAMN_DBMODULE)==0)
 			{
@@ -299,7 +296,6 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 					db_free(&dbv);
 				}
 			}
-			hContact = db_find_next(hContact);
 		}
 
 		if (Finder->hContact == NULL && (Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {

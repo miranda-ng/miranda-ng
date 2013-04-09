@@ -571,8 +571,7 @@ HANDLE CMraProto::MraHContactFromEmail(LPSTR lpszEMail, size_t dwEMailSize, BOOL
 
 		if (dwEMailSize == -1) dwEMailSize = lstrlenA(lpszEMail);
 		//check not already on list
-		for (hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact))
-		{
+		for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			if (IsContactMra(hContact))
 			if (mraGetStaticStringA(hContact, "e-mail", szEMailLocal, SIZEOF(szEMailLocal), &dwEMailLocalSize))
 			if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, szEMailLocal, dwEMailLocalSize, lpszEMail, dwEMailSize) == CSTR_EQUAL)
@@ -598,15 +597,12 @@ HANDLE CMraProto::MraHContactFromEmail(LPSTR lpszEMail, size_t dwEMailSize, BOOL
 				gcw.dwFlags = GC_UNICODE;
 				MultiByteToWideChar(MRA_CODE_PAGE, 0, lpszEMail, dwEMailSize, wszEMail, SIZEOF(wszEMail));
 
-				if (CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw) == 0)
-				{
+				if (CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw) == 0) {
 					BOOL bChatAdded = FALSE;
-					for (hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact))
-					{
+					for (hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact)) {
 						if (IsContactMra(hContact))
 						if (mraGetStaticStringA(hContact, "ChatRoomID", szEMailLocal, SIZEOF(szEMailLocal), &dwEMailLocalSize))
-						if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, szEMailLocal, dwEMailLocalSize, lpszEMail, dwEMailSize) == CSTR_EQUAL)
-						{
+						if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, szEMailLocal, dwEMailLocalSize, lpszEMail, dwEMailSize) == CSTR_EQUAL) {
 							bChatAdded = TRUE;
 							break;
 						}

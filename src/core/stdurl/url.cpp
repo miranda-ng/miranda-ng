@@ -74,8 +74,7 @@ static void RestoreUnreadUrlAlerts(void)
 	cle.pszService = "SRUrl/ReadUrl";
 	cle.flags = CLEF_TCHAR;
 
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hDbEvent = db_event_firstUnread(hContact);
 		while (hDbEvent) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
@@ -91,7 +90,6 @@ static void RestoreUnreadUrlAlerts(void)
 			}
 			hDbEvent = db_event_next(hDbEvent);
 		}
-		hContact = db_find_next(hContact);
 	}
 }
 

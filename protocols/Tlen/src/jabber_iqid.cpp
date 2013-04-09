@@ -145,7 +145,6 @@ void JabberIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 			XmlNode *itemNode, *groupNode;
 			JABBER_SUBSCRIPTION sub;
 			JABBER_LIST_ITEM *item;
-			HANDLE hContact;
 			char *jid, *name, *nick;
 			int i, oldStatus;
 
@@ -166,6 +165,7 @@ void JabberIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 							nick = JabberLocalNickFromJID(jid);
 						}
 						if (nick != NULL) {
+							HANDLE hContact;
 							item = JabberListAdd(proto, LIST_ROSTER, jid);
 							if (item->nick) mir_free(item->nick);
 							item->nick = nick;
@@ -211,8 +211,8 @@ void JabberIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 
 				listSize = listAllocSize = 0;
 				list = NULL;
-				hContact = db_find_first();
-				while (hContact != NULL) {
+
+				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					str = GetContactProto(hContact);
 					if (str != NULL && !strcmp(str, proto->m_szModuleName)) {
 						if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
@@ -230,8 +230,8 @@ void JabberIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 							db_free(&dbv);
 						}
 					}
-					hContact = db_find_next(hContact);
 				}
+
 				for (i=0; i<listSize; i++) {
 					JabberLog(proto, "Syncing roster: deleting 0x%x", list[i]);
 					CallService(MS_DB_CONTACT_DELETE, (WPARAM) list[i], 0);

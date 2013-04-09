@@ -372,8 +372,7 @@ void cliRebuildEntireList(HWND hwnd,ClcData *dat)
 		}
 	}
 
-	hContact = db_find_first();
-	while(hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ClcCacheEntry *cacheEntry = NULL;
 		cont = NULL;
 		cacheEntry = pcli->pfnGetCacheEntry(hContact);
@@ -408,7 +407,6 @@ void cliRebuildEntireList(HWND hwnd,ClcData *dat)
 			if (cont->proto && g_szMetaModuleName && dat->IsMetaContactsEnabled  && strcmp(cont->proto,g_szMetaModuleName) == 0)
 				AddSubcontacts(dat,cont,CLCItems_IsShowOfflineGroup(group));
 		}
-		hContact = db_find_next(hContact);
 	}
 
 	if (style & CLS_HIDEEMPTYGROUPS) {

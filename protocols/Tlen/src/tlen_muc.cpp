@@ -948,7 +948,6 @@ typedef struct {
 
 static void __cdecl TlenMUCCSendQueryResultThread(void *ptr)
 {
-	HANDLE hContact;
 	MUCCQUERYRESULT queryResult;
 	DBVARIANT dbv;
 	MUCSENDQUERYTHREADDATA* threadData = (MUCSENDQUERYTHREADDATA*)ptr;
@@ -957,8 +956,8 @@ static void __cdecl TlenMUCCSendQueryResultThread(void *ptr)
 	queryResult.pszModule = threadData->proto->m_szModuleName;
 	queryResult.pszParent = threadData->roomId;
 	queryResult.iItemsNum = 0;
-	hContact = db_find_first();
-	while (hContact != NULL) {
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *str = GetContactProto(hContact);
 		if (str != NULL && !strcmp(str, threadData->proto->m_szModuleName)) {
 			if (!db_get_b(hContact, threadData->proto->m_szModuleName, "bChat", FALSE)) {
@@ -970,13 +969,12 @@ static void __cdecl TlenMUCCSendQueryResultThread(void *ptr)
 				}
 			}
 		}
-		hContact = db_find_next(hContact);
 	}
 	queryResult.pItems = (MUCCQUERYITEM*)mir_alloc(sizeof(MUCCQUERYITEM) * queryResult.iItemsNum);
 	memset(queryResult.pItems, 0, sizeof(MUCCQUERYITEM) * queryResult.iItemsNum);
 	queryResult.iItemsNum = 0;
-	hContact = db_find_first();
-	while (hContact != NULL) {
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *baseProto = GetContactProto(hContact);
 		if (baseProto != NULL && !strcmp(baseProto, threadData->proto->m_szModuleName)) {
 			if (!db_get_b(hContact, threadData->proto->m_szModuleName, "bChat", FALSE)) {
@@ -990,7 +988,6 @@ static void __cdecl TlenMUCCSendQueryResultThread(void *ptr)
 				}
 			}
 		}
-		hContact = db_find_next(hContact);
 	}
 	CallService(MS_MUCC_QUERY_RESULT, 0, (LPARAM) &queryResult);
 	TlenMUCFreeQueryResult(&queryResult);

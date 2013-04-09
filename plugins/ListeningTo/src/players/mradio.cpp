@@ -34,30 +34,13 @@ void MRadio::EnableDisable()
 
 int MRadio::GetData()
 {
-	HANDLE hContact;
+	for (HANDLE hContact = db_find_first("mRadio"); hContact; hContact = db_find_next(hContact, "mRadio")) {
+		WORD status = db_get_w(hContact, "mRadio", "Status", ID_STATUS_OFFLINE); 
+		if (status != ID_STATUS_ONLINE)
+			continue;
 
-	hContact = db_find_first();
-	while (hContact != NULL) 
-	{
-		char *proto = GetContactProto(hContact);
-		if (proto)
-		{
-			if (strcmp("mRadio", proto) == 0) 
-			{
-				WORD status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE); 
-				if (status == ID_STATUS_ONLINE)
-					break;
-			}
-		}
-
-		hContact = db_find_next(hContact);
-	}
-
-	if (hContact)
-	{
-		DBVARIANT dbv = {0};
-		if (!db_get_s(hContact, "mRadio", "Nick", &dbv))
-		{	
+		DBVARIANT dbv;
+		if (!db_get_s(hContact, "mRadio", "Nick", &dbv)) {	
 			listening_info.cbSize = sizeof(listening_info);
 			listening_info.dwFlags = LTI_TCHAR;
 			listening_info.ptszArtist = mir_tstrdup(_T("Radio"));

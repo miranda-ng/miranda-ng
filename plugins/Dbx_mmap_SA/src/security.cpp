@@ -186,15 +186,9 @@ int SelectEncoder()
 
 void CDbxMmapSA::EncodeAll()
 {
-	HANDLE hContact;
-
-	hContact = db_find_first();
-	if (hContact){
-		do {
-			EncodeContactEvents(hContact);
-			EncodeContactSettings(hContact);
-		}
-			while(hContact = FindNextContact(hContact));
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		EncodeContactEvents(hContact);
+		EncodeContactSettings(hContact);
 	}
 
 	EncodeContactEvents(NULL);
@@ -203,14 +197,9 @@ void CDbxMmapSA::EncodeAll()
 
 void CDbxMmapSA::DecodeAll()
 {
-	HANDLE hContact;
-
-	hContact = db_find_first();
-	if (hContact){
-		do{
-			DecodeContactEvents(hContact);
-			DecodeContactSettings(hContact);
-		}while(hContact = db_find_next(hContact));
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		DecodeContactEvents(hContact);
+		DecodeContactSettings(hContact);
 	}
 	DecodeContactEvents(NULL);
 	DecodeContactSettings(NULL);

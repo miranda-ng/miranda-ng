@@ -477,8 +477,7 @@ int CJabberProto::AdhocOptionsHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 int CJabberProto::RcGetUnreadEventsCount()
 {
 	int nEventsSent = 0;
-	HANDLE hContact = (HANDLE)db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 			DBVARIANT dbv;
@@ -504,7 +503,6 @@ int CJabberProto::RcGetUnreadEventsCount()
 				db_free(&dbv);
 			}
 		}
-		hContact = db_find_next(hContact);
 	}
 	return nEventsSent;
 }
@@ -573,8 +571,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 		m_options.RcMarkMessagesAsRead = bRemoveCListEvents ? 1 : 0;
 
 		int nEventsSent = 0;
-		HANDLE hContact = (HANDLE)db_find_first();
-		while (hContact != NULL) {
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			char *szProto = GetContactProto(hContact);
 			if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 				DBVARIANT dbv;
@@ -631,7 +628,6 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 					db_free(&dbv);
 				}
 			}
-			hContact = db_find_next(hContact);
 		}
 
 		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("%d message(s) forwarded"), nEventsSent);

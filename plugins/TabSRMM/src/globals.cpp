@@ -562,7 +562,6 @@ int CGlobals::MetaContactEvent(WPARAM wParam, LPARAM lParam)
 
 int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE 	hContact;
 	int		i;
 
 #if defined(__USE_EX_HANDLERS)
@@ -579,11 +578,8 @@ int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 			::SendMessage(pFirstContainer->hwnd, WM_CLOSE, 0, 1);
 		}
 
-		hContact = db_find_first();
-		while (hContact) {
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			M->WriteDword(hContact, SRMSGMOD_T, "messagecount", 0);
-			hContact = db_find_next(hContact);
-		}
 
 		for (i=0; i < SERVICE_LAST; i++) {
 			if (PluginConfig.hSvc[i])
@@ -651,8 +647,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 	cle.pszService = "SRMsg/ReadMessage";
 	cle.flags = CLEF_TCHAR;
 
-	HANDLE hContact = db_find_first();
-	while (hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (M->GetDword(hContact, "SendLater", "count", 0))
 		   sendLater->addContact(hContact);
 
@@ -675,7 +670,6 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 			}
 			hDbEvent = db_event_next(hDbEvent);
 		}
-		hContact = db_find_next(hContact);
 	}
 }
 

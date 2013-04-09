@@ -81,16 +81,12 @@ void CContactCache::Rebuild()
 	unsigned long timestamp = time(NULL);
 	m_lastUpdate = time(NULL);
 
-	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		TContactInfo *info = new TContactInfo;
 		info->hContact = hContact;
 		info->rate = 0;
 
-		HANDLE hEvent = db_event_last(hContact);
-		while (hEvent)
-		{
+		for (HANDLE hEvent = db_event_last(hContact); hEvent; hEvent = db_event_prev(hEvent)) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			if (!db_event_get(hEvent, &dbei)) {
 				if (float weight = GetEventWeight(timestamp - dbei.timestamp))
@@ -100,11 +96,9 @@ void CContactCache::Rebuild()
 				}
 				else break;
 			}
-			hEvent = db_event_prev(hEvent);
 		}
 
 		m_cache.insert(info);
-		hContact = db_find_next(hContact);
 	}
 }
 

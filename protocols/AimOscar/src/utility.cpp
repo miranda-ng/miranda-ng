@@ -168,69 +168,50 @@ bool CAimProto::is_my_contact(HANDLE hContact)
 
 HANDLE CAimProto::find_chat_contact(const char* room)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
-		if (is_my_contact(hContact))
-		{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		if (is_my_contact(hContact)) {
 			DBVARIANT dbv;
-			if (!getString(hContact, "ChatRoomID", &dbv))
-			{
+			if (!getString(hContact, "ChatRoomID", &dbv)) {
 				bool found = !strcmp(room, dbv.pszVal); 
 				db_free(&dbv);
 				if (found) return hContact; 
 			}
 		}
-		hContact = db_find_next(hContact);
 	}
 	return NULL;
 }
 
 HANDLE CAimProto::contact_from_sn(const char* sn, bool addIfNeeded, bool temporary)
 {
-	char* norm_sn = normalize_name(sn);
+	mir_ptr<char> norm_sn( normalize_name(sn));
 
-	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
-		if (is_my_contact(hContact))
-		{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		if (is_my_contact(hContact)) {
 			DBVARIANT dbv;
-			if (!getString(hContact, AIM_KEY_SN, &dbv))
-			{
+			if (!getString(hContact, AIM_KEY_SN, &dbv)) {
 				bool found = !strcmp(norm_sn, dbv.pszVal); 
 				db_free(&dbv);
 				if (found)
-				{
-					mir_free(norm_sn);
 					return hContact; 
-				}
 			}
 		}
-		hContact = db_find_next(hContact);
 	}
 
-	if (addIfNeeded)
-	{
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		if (hContact)
-		{
-			if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) m_szModuleName) == 0)
-			{
+	if (addIfNeeded) {
+		HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		if (hContact) {
+			if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) m_szModuleName) == 0) {
 				setString(hContact, AIM_KEY_SN, norm_sn);
 				setString(hContact, AIM_KEY_NK, sn);
 				LOG("Adding contact %s to client side list.",norm_sn);
 				if (temporary)
 					db_set_b(hContact, "CList", "NotOnList", 1);
-				mir_free(norm_sn);
 				return hContact;
 			}
-			else
-				CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 		}
 	}
 
-	mir_free(norm_sn);
 	return NULL;
 }
 
@@ -340,13 +321,10 @@ void CAimProto::offline_contact(HANDLE hContact, bool remove_settings)
 
 void CAimProto::offline_contacts(void)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (is_my_contact(hContact))
 			offline_contact(hContact,true);
-		hContact = db_find_next(hContact);
-	}
+
 	allow_list.destroy();
 	block_list.destroy();
 	group_list.destroy();
@@ -409,20 +387,15 @@ unsigned short CAimProto::search_for_free_item_id(HANDLE hbuddy)//returns a free
 retry:
 	id = get_random();
 
-	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
-		if (is_my_contact(hContact))
-		{		
-			for(int i=1; ;++i)
-			{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		if (is_my_contact(hContact)) {		
+			for(int i=1; ;++i) {
 				unsigned short item_id = getBuddyId(hContact, i);
 				if (item_id == 0) break;
 
 				if (item_id == id) goto retry;    //found one no need to look through anymore
 			}
 		}
-		hContact = db_find_next(hContact);
 	}
 
 	setBuddyId(hbuddy, 1, id);
@@ -435,44 +408,34 @@ unsigned short* CAimProto::get_members_of_group(unsigned short group_id, unsigne
 	unsigned short* list = NULL;
 	size = 0;
 
-	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
-		if (is_my_contact(hContact))
-		{
-			for(int i=1; ;++i)
-			{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		if (is_my_contact(hContact)) {
+			for(int i=1; ;++i) {
 				unsigned short user_group_id = getGroupId(hContact, i);
-				if (user_group_id == 0) break;
+				if (user_group_id == 0)
+					break;
 
-				if (group_id == user_group_id)
-				{
+				if (group_id == user_group_id) {
 					unsigned short buddy_id = getBuddyId(hContact, i);
-					if (buddy_id)
-					{
+					if (buddy_id) {
 						list = (unsigned short*)mir_realloc(list, ++size*sizeof(list[0]));
 						list[size-1] = _htons(buddy_id);
 					}
 				}
 			}
 		}
-		hContact = db_find_next(hContact);
 	}
 	return list;
 }
 
 void CAimProto::upload_nicks(void)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		DBVARIANT dbv;
-		if (is_my_contact(hContact) && !db_get_utf(hContact, MOD_KEY_CL, "MyHandle", &dbv))
-		{
+		if (is_my_contact(hContact) && !db_get_utf(hContact, MOD_KEY_CL, "MyHandle", &dbv)) {
 			set_local_nick(hContact, dbv.pszVal, NULL);
 			db_free(&dbv);
 		}
-		hContact = db_find_next(hContact);
 	}
 }
 

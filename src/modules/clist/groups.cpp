@@ -184,10 +184,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 
 	CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), NULL, NULL };
 
-	for (hContact = db_find_first();
-		hContact;
-		hContact = db_find_next(hContact))
-	{
+	for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (db_get_ts(hContact, "CList", "Group", &dbv))
 			continue;
 
@@ -256,7 +253,6 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	char idstr[33];
 	TCHAR str[256], oldName[256];
 	DBVARIANT dbv;
-	HANDLE hContact;
 
 	if (GroupNameExists(szName, groupId)) {
 		MessageBox(NULL, TranslateT("You already have a group with that name. Please enter a unique name for the group."), TranslateT("Rename Group"), MB_OK);
@@ -274,16 +270,15 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	db_set_ts(NULL, "CListGroups", idstr, str);
 
 	//must rename setting in all child contacts too
-	hContact = db_find_first();
-	do {
-		ClcCacheEntry* cache = cli.pfnGetCacheEntry(hContact);
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		ClcCacheEntry *cache = cli.pfnGetCacheEntry(hContact);
 		if ( !lstrcmp(cache->tszGroup, oldName)) {
 			db_set_ts(hContact, "CList", "Group", szName);
 			mir_free(cache->tszGroup);
 			cache->tszGroup = 0;
 			cli.pfnCheckCacheItem(cache);
 		}
-	} while ((hContact = db_find_next(hContact)) != NULL);
+	}
 
 	//rename subgroups
 	{

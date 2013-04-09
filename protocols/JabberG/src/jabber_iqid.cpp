@@ -535,8 +535,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 	if (m_options.RosterSync == TRUE) {
 		int listSize = 0, listAllocSize = 0;
 		HANDLE* list = NULL;
-		HANDLE hContact = (HANDLE)db_find_first();
-		while (hContact != NULL) {
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			char* str = GetContactProto(hContact);
 			if (str != NULL && !strcmp(str, m_szModuleName)) {
 				DBVARIANT dbv;
@@ -553,9 +552,8 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 						list[listSize++] = hContact;
 					}
 					db_free(&dbv);
-			}	}
-
-			hContact = db_find_next(hContact);
+				}
+			}
 		}
 
 		for (i=0; i < listSize; i++) {

@@ -319,16 +319,12 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 						if (!hOpClistControl)
 							EnableWindow(GetDlgItem(hdlg,IDC_DEL),TRUE);
 						else {
-							int i;
-							HANDLE hContact = db_find_first();
-
-							for ( ; hContact; hContact = db_find_next(hContact))
+							for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 								SendMessage(hOpClistControl, CLM_SETCHECKMARK, (WPARAM)hContact,0);
-							for (i=0 ; session_list_t[i]>0; i++)
-							{
-								hContact=(HANDLE)SendMessage(hOpClistControl,CLM_FINDCONTACT, (WPARAM)session_list_t[i], 0);
-								//hItem=session_list[i];
-								SendMessage(hOpClistControl, CLM_SETCHECKMARK, (WPARAM)hContact,1);
+
+							for (int i=0 ; session_list_t[i] > 0; i++) {
+								HANDLE hContact = (HANDLE)SendMessage(hOpClistControl,CLM_FINDCONTACT, (WPARAM)session_list_t[i], 0);
+								SendMessage(hOpClistControl, CLM_SETCHECKMARK, (WPARAM)hContact, 1);
 							}
 							EnableWindow(GetDlgItem(hdlg,IDC_SAVE),FALSE);
 						}

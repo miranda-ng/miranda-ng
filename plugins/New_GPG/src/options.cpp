@@ -145,10 +145,8 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT);
 		int i = 1, iRow = 0;
 		bool isContactHaveKey(HANDLE);
-		for(HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
-		{
-			if(isContactHaveKey(hContact))
-			{
+		for(HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
+			if(isContactHaveKey(hContact)) {
 				TCHAR *name = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 				item.mask = LVIF_TEXT;
 				item.iItem = i;
@@ -241,13 +239,10 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				  ismetacontact = true;
 			  }
 			  tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", "");
-			  for(HANDLE hcnttmp = db_find_first(); hcnttmp != NULL; hcnttmp = db_find_next(hcnttmp))
-			  {
-				  if(hcnttmp != hContact)
-				  {
+			  for(HANDLE hcnttmp = db_find_first(); hcnttmp != NULL; hcnttmp = db_find_next(hcnttmp)) {
+				  if(hcnttmp != hContact) {
 					  char *tmp2 = UniGetContactSettingUtf(hcnttmp, szGPGModuleName, "KeyID", "");
-					  if(!strcmp(tmp, tmp2))
-					  {
+					  if(!strcmp(tmp, tmp2)) {
 						  mir_free(tmp2);
 						  keep = true;
 						  break;

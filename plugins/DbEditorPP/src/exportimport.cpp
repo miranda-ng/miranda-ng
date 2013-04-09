@@ -329,32 +329,14 @@ void exportDB(HANDLE hContact, char* module) // hContact == -1 export entire db.
 HANDLE CheckNewContact(char *myProto, char *uid, char *myName)
 {
 	char szProto[256], szName[256];
-	HANDLE resultHandle = INVALID_HANDLE_VALUE;
-	HANDLE hContact = db_find_first();
 
-	while (hContact)
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (DBGetContactSettingStringStatic(hContact, "Protocol", "p", szProto, 256))
-		{
 			if (!mir_strcmp(szProto, myProto))
-			{
-				if (GetValue(hContact, szProto, uid, szName, SIZEOF(szName)) &&
-					!mir_strcmp(szName, myName))
-				{
-					//char msg[1024];
-					//_snprintf(msg, 1024, Translate("Do you want to overwrite it \"%s\"?"), szName);
-					//if (MessageBox(0,msg, Translate("Contact already exists"), MB_YESNO|MB_ICONEXCLAMATION) == IDYES)
-					resultHandle = hContact;
-					break;
-				}
-			}
-		}
+				if (GetValue(hContact, szProto, uid, szName, SIZEOF(szName)) && !mir_strcmp(szName, myName))
+					return hContact;
 
-		hContact = db_find_next(hContact);
-	}
-
-	return resultHandle;
-
+	return INVALID_HANDLE_VALUE;
 }
 
 HANDLE Clist_GroupExists(WCHAR *tszGroup)

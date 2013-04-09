@@ -168,8 +168,7 @@ static void SaveItemMask(HWND hwndList, HANDLE hContact, HANDLE hItem, const cha
 
 static void SetAllContactIcons(HWND hwndList)
 {
-	HANDLE hContact = db_find_first();
-	do {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 0)) == EMPTY_EXTRA_ICON) {
 			DWORD proto1Caps, proto4Caps;
@@ -184,7 +183,6 @@ static void SetAllContactIcons(HWND hwndList)
 				SendMessage(hwndList, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 		}
 	}
-		while (hContact = db_find_next(hContact));
 }
 
 static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
@@ -291,41 +289,33 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 					SetListGroupIcons( GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
-				break;
 			}
 			break;
 
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				{
-					HANDLE hContact = db_find_first();
-					do {
-						HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-						if (hItem) SaveItemMask( GetDlgItem(hwndDlg, IDC_LIST), hContact, hItem, "Mask1");
-						if (SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
-							db_unset(hContact, "CList", "Hidden");
-						else
-							db_set_b(hContact, "CList", "Hidden", 1);
-					}
-					while (hContact = db_find_next(hContact));
-					SaveItemMask( GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemAll, "Default1");
-					SaveItemMask( GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemUnknown, "Mask1");
+				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+					if (hItem) SaveItemMask( GetDlgItem(hwndDlg, IDC_LIST), hContact, hItem, "Mask1");
+					if (SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
+						db_unset(hContact, "CList", "Hidden");
+					else
+						db_set_b(hContact, "CList", "Hidden", 1);
 				}
-				return TRUE;
 
+				SaveItemMask( GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemAll, "Default1");
+				SaveItemMask( GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemUnknown, "Mask1");
+				return TRUE;
 			}
-			break;
 		}
 		break;
 
 	case WM_DESTROY:
-		{
-			for (int i=0; i < SIZEOF(hIcons); i++)
-				DestroyIcon(hIcons[i]);
-			HIMAGELIST hIml = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
-			ImageList_Destroy(hIml);
-		}
+		for (int i=0; i < SIZEOF(hIcons); i++)
+			DestroyIcon(hIcons[i]);
+		HIMAGELIST hIml = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
+		ImageList_Destroy(hIml);
 		break;
 	}
 	return FALSE;

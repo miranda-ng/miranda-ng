@@ -35,25 +35,20 @@ void __cdecl PopulateModuleDropListThreadFunc(LPVOID di)
 	HWND hwnd = (HWND)di;
 	ModuleSettingLL msll;
 	struct ModSetLinkLinkItem *module;
-	HANDLE hContact;
 	int moduleEmpty;
 	if (!EnumModules(&msll)) DestroyWindow(hwnd);
 	module = msll.first;
-	while (module && working)
-	{
+	while (module && working) {
 		moduleEmpty = 1;
 		// check the null
-		if (!IsModuleEmpty(NULL,module->name))
-		{
+		if (!IsModuleEmpty(NULL,module->name)) {
 			SendDlgItemMessage(hwnd,IDC_CONTACTS,CB_ADDSTRING,0,(LPARAM)module->name);
 			moduleEmpty = 0;
 			module = (struct ModSetLinkLinkItem *)module->next;
 			continue;
 		}
-		for (hContact = db_find_first();moduleEmpty && hContact;hContact = db_find_next(hContact))
-		{
-			if (!IsModuleEmpty(hContact,module->name))
-			{
+		for (HANDLE hContact = db_find_first();moduleEmpty && hContact;hContact = db_find_next(hContact)) {
+			if (!IsModuleEmpty(hContact,module->name)) {
 				SendDlgItemMessage(hwnd,IDC_CONTACTS,CB_ADDSTRING,0,(LPARAM)module->name);
 				moduleEmpty = 0;
 				break;
@@ -78,63 +73,51 @@ void __cdecl PopulateModuleDropListThreadFunc(LPVOID di)
 
 INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)
-	{
-		case WM_INITDIALOG:
-		{
-			SetWindowText(hwnd,Translate("Delete module from Database... Loading"));
-			EnableWindow(GetDlgItem(hwnd,IDC_CONTACTS),0);
-			EnableWindow(GetDlgItem(hwnd,IDOK),0);
-			SetDlgItemText(hwnd,IDC_INFOTEXT,"Delete module from Database");
-			SetDlgItemText(hwnd,CHK_COPY2ALL,"Delete module from all contacts (Includes Setting)");
-			EnableWindow(GetDlgItem(hwnd,CHK_COPY2ALL),0);
-			CheckDlgButton(hwnd,CHK_COPY2ALL,1);
-			TranslateDialogDefault(hwnd);
-			working = 1;
-			forkthread(PopulateModuleDropListThreadFunc,0,hwnd);
-		}
+	switch(msg) {
+	case WM_INITDIALOG:
+		SetWindowText(hwnd,Translate("Delete module from Database... Loading"));
+		EnableWindow(GetDlgItem(hwnd,IDC_CONTACTS),0);
+		EnableWindow(GetDlgItem(hwnd,IDOK),0);
+		SetDlgItemText(hwnd,IDC_INFOTEXT,"Delete module from Database");
+		SetDlgItemText(hwnd,CHK_COPY2ALL,"Delete module from all contacts (Includes Setting)");
+		EnableWindow(GetDlgItem(hwnd,CHK_COPY2ALL),0);
+		CheckDlgButton(hwnd,CHK_COPY2ALL,1);
+		TranslateDialogDefault(hwnd);
+		working = 1;
+		forkthread(PopulateModuleDropListThreadFunc,0,hwnd);
 		return TRUE;
-		case WM_COMMAND:
-			switch(LOWORD(wParam))
+
+	case WM_COMMAND:
+		switch(LOWORD(wParam)) {
+		case IDOK:
 			{
-				case IDOK:
-				{
-					char text[128];
-					HANDLE hContact = db_find_first();
-					GetDlgItemText(hwnd,IDC_CONTACTS,text,128);
-					SetCursor(LoadCursor(NULL,IDC_WAIT));
-					while (hContact)
-					{
-						deleteModule(text,hContact,1);
-						hContact = db_find_next(hContact);
-					}
-					// do the null
-					deleteModule(text,NULL,1);
-					SetCursor(LoadCursor(NULL,IDC_ARROW));
-					refreshTree(1);
-				}
-					// fall through
-				case IDCANCEL:
-				{
-					if (working == 1)
-					{
-						working = 0;
-						EnableWindow(GetDlgItem(hwnd,IDCANCEL),0);
-					}
-					else
-						DestroyWindow(hwnd);
-				}
-				break;
+				char text[128];
+				GetDlgItemText(hwnd,IDC_CONTACTS,text,128);
+				SetCursor(LoadCursor(NULL,IDC_WAIT));
+				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+					deleteModule(text,hContact,1);
+
+				// do the null
+				deleteModule(text,NULL,1);
+				SetCursor(LoadCursor(NULL,IDC_ARROW));
+				refreshTree(1);
 			}
+			// fall through
+		case IDCANCEL:
+			if (working == 1) {
+				working = 0;
+				EnableWindow(GetDlgItem(hwnd,IDCANCEL),0);
+			}
+			else DestroyWindow(hwnd);
+		}
 		break;
-		case WM_DESTROY:
-			hwnd2Delete = NULL;
+
+	case WM_DESTROY:
+		hwnd2Delete = NULL;
 		break;
 	}
 	return 0;
 }
-
-
 
 void deleteModuleGui()
 {

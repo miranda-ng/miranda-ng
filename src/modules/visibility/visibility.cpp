@@ -106,8 +106,7 @@ static void ResetListOptions(HWND hwndList)
 
 static void SetAllContactIcons(HWND hwndList)
 {
-	HANDLE hContact = db_find_first();
-	do {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem) {
 			DWORD flags;
@@ -131,7 +130,6 @@ static void SetAllContactIcons(HWND hwndList)
 					SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, status == ID_STATUS_OFFLINE ? 2 : 0));
 		}
 	}
-		while (hContact = db_find_next(hContact));
 }
 
 static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
@@ -244,8 +242,7 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 
 		case 0:
 			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-				HANDLE hContact = db_find_first();
-				do {
+				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 					if (hItem) {
 						int set = 0;
@@ -261,7 +258,6 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 							CallContactService(hContact, PSS_SETAPPARENTMODE, 0, 0);
 					}
 				}
-					while (hContact = db_find_next(hContact));
 				return TRUE;
 			}
 		}

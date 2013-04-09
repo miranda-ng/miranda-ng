@@ -139,12 +139,9 @@ VOID CALLBACK OnlineNotifTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 
 	if ( name.IsEmpty() && name2.IsEmpty()) {
 		DBVARIANT dbv;
-		char* szProto;
-
-		HANDLE hContact = db_find_first();
-		while ( hContact ) {
-		   szProto = GetContactProto(hContact);
-		   if ( szProto != NULL && !lstrcmpiA( szProto, ppro->m_szModuleName )) {
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		   char *szProto = GetContactProto(hContact);
+		   if (szProto != NULL && !lstrcmpiA( szProto, ppro->m_szModuleName)) {
 			   BYTE bRoom = ppro->getByte(hContact, "ChatRoom", 0);
 			   if ( bRoom == 0 ) {
 				   BYTE bDCC = ppro->getByte(hContact, "DCC", 0);
@@ -177,10 +174,7 @@ VOID CALLBACK OnlineNotifTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 
 								if ( DBNick )     db_free(&dbv);
                         if ( DBWildcard ) db_free(&dbv2);
-			}	}	}	}	}
-
-			hContact = db_find_next(hContact);
-	}	}
+	}	}	}	}	}	}	}
 
 	if ( ppro->m_namesToWho.IsEmpty() && ppro->m_namesToUserhost.IsEmpty()) {
 		ppro->SetChatTimer( ppro->OnlineNotifTimer, 60*1000, OnlineNotifTimerProc );

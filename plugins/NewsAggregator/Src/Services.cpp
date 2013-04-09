@@ -32,13 +32,10 @@ void SetContactStatus(HANDLE hContact, int nNewStatus)
 static void __cdecl WorkingThread(void* param)
 {
 	int nStatus = (int)param;
-	HANDLE hContact= db_find_first();
-	while (hContact != NULL) {
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if(IsMyContact(hContact))
 			SetContactStatus(hContact, nStatus);
-
-		hContact = db_find_next(hContact);
-	}
 }
 
 int OnFoldersChanged(WPARAM, LPARAM)
@@ -55,15 +52,14 @@ int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 	else
 		lstrcpyn(tszRoot, VARST( _T("%miranda_userdata%\\Avatars\\"_T(DEFAULT_AVATARS_FOLDER))), SIZEOF(tszRoot));
 
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if(IsMyContact(hContact)) {
 			if (!db_get_b(NULL, MODULE, "StartupRetrieve", 1))
 				db_set_dw(hContact, MODULE, "LastCheck", time(NULL));
 			SetContactStatus(hContact, ID_STATUS_ONLINE);
 		}
-		hContact = db_find_next(hContact);
 	}
+
 	NetlibInit();
 	InitIcons();
 	InitMenu();
@@ -158,13 +154,11 @@ INT_PTR NewsAggrGetInfo(WPARAM wParam,LPARAM lParam)
 
 INT_PTR CheckAllFeeds(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (IsMyContact(hContact) && lParam && db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
 			UpdateListAdd(hContact);
 		else if (IsMyContact(hContact) && !lParam)
 			UpdateListAdd(hContact);
-		hContact = db_find_next(hContact);
 	}
 	if (!ThreadRunning)
 		mir_forkthread(UpdateThreadProc, (LPVOID)FALSE);

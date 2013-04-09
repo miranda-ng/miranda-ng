@@ -1392,10 +1392,8 @@ void ExportGpGKeysFunc(int type)
 	int exported_keys = 0;
 	if(!file.is_open())
 		return; //TODO: handle error
-	if(!type || type == 2)
-	{
-		for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-		{
+	if(!type || type == 2) {
+		for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			char *k = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", "");
 			if(!k[0])
 			{
@@ -1693,8 +1691,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 			if(acc.length())
 			{
 				const char * uid = (const char*)CallProtoService(acc.c_str(), PS_GETCAPS,  (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
-				for(HANDLE hContact = db_find_first(acc.c_str()); hContact; hContact = db_find_next(hContact, acc.c_str()))
-				{
+				for(HANDLE hContact = db_find_first(acc.c_str()); hContact; hContact = db_find_next(hContact, acc.c_str())) {
 					DBVARIANT dbv = {0};
 					DBCONTACTGETSETTING dbcgs = {0};
 					dbcgs.pValue = &dbv;

@@ -1773,27 +1773,19 @@ void HistoryWindow::ReloadContacts()
 		}
 	}
 
-	HANDLE _hContact = db_find_first();
-	while(_hContact)
-	{
-		if(EventList::GetContactMessageNumber(_hContact) && (metaContactProto == NULL || db_get_b(_hContact, metaContactProto, "IsSubcontact", 0) == 0))
+	HANDLE hContact;
+	for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		if(EventList::GetContactMessageNumber(hContact) && (metaContactProto == NULL || db_get_b(hContact, metaContactProto, "IsSubcontact", 0) == 0))
 		{
-			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
+			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 			if(hItem == NULL)
-			{
-				SendMessage(contactList, CLM_ADDCONTACT, (WPARAM)_hContact, 0);
-			}
+				SendMessage(contactList, CLM_ADDCONTACT, (WPARAM)hContact, 0);
 		}
-		else
-		{
-			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
+		else {
+			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 			if(hItem != NULL)
-			{
-				SendMessage(contactList, CLM_DELETEITEM, (WPARAM)_hContact, 0);
-			}
+				SendMessage(contactList, CLM_DELETEITEM, (WPARAM)hContact, 0);
 		}
-
-		_hContact = db_find_next(_hContact);
 	}
 
 	if(hContact != NULL)
@@ -1944,17 +1936,14 @@ void HistoryWindow::SavePos(bool all)
 	HANDLE contactToSave = hContact;
 	if(all)
 	{
-		HANDLE _hContact = db_find_first();
-		while(_hContact)
-		{
-			db_unset(_hContact, MODULE, "history_x");
-			db_unset(_hContact, MODULE, "history_y");
-			db_unset(_hContact, MODULE, "history_width");
-			db_unset(_hContact, MODULE, "history_height");
-			db_unset(_hContact, MODULE, "history_ismax");
-			db_unset(_hContact, MODULE, "history_splitterv");
-			db_unset(_hContact, MODULE, "history_splitter");
-			_hContact = db_find_next(_hContact);
+		for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			db_unset(hContact, MODULE, "history_x");
+			db_unset(hContact, MODULE, "history_y");
+			db_unset(hContact, MODULE, "history_width");
+			db_unset(hContact, MODULE, "history_height");
+			db_unset(hContact, MODULE, "history_ismax");
+			db_unset(hContact, MODULE, "history_splitterv");
+			db_unset(hContact, MODULE, "history_splitter");
 		}
 
 		contactToSave = NULL;
@@ -2170,12 +2159,9 @@ void HistoryWindow::DoImport(IImport::ImportType type)
 	std::vector<IImport::ExternalMessage> messages;
 	std::wstring err;
 	std::vector<HANDLE> contacts;
-	HANDLE _hContact = db_find_first();
-	while(_hContact)
-	{
-		contacts.push_back(_hContact);
-		_hContact = db_find_next(_hContact);
-	}
+
+	for(hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		contacts.push_back(hContact);
 
 	bool changeContact = false;
 	HANDLE lastContact = hContact;

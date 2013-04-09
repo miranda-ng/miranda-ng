@@ -144,17 +144,15 @@ static DWORD GetMaskForItem(HANDLE hItem)
 
 static void UpdateStickies()
 {
-	HANDLE hContact = db_find_first();
 	HANDLE hItem;
 	int i;
 
-	while(hContact) {
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem)
 			SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, cfg::getByte(hContact, "CLVM", g_szModename, 0) ? 1 : 0);
 		DWORD localMask = HIWORD(cfg::getDword(hContact, "CLVM", g_szModename, 0));
 		UpdateClistItem(hItem, (localMask == 0 || localMask == stickyStatusMask) ? stickyStatusMask : localMask);
-		hContact = db_find_next(hContact);
 	}
 
 	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
@@ -348,7 +346,7 @@ void SaveState()
 	HWND hwndList;
 	char *szModeName = NULL;
 	DWORD statusMask = 0;
-	HANDLE hContact, hItem;
+	HANDLE hItem;
 	DWORD operators = 0;
 
 	if (clvm_curItem == -1)
@@ -395,10 +393,10 @@ void SaveState()
 		}
 	}
 	hwndList = GetDlgItem(clvmHwnd, IDC_STATUSMODES);
-	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 		if (ListView_GetCheckState(hwndList, i - ID_STATUS_OFFLINE))
 			statusMask |= (1 << (i - ID_STATUS_OFFLINE));
-	}
+
 	iLen = SendMessageA(GetDlgItem(clvmHwnd, IDC_VIEWMODES), LB_GETTEXTLEN, clvm_curItem, 0);
 	if (iLen) {
 		unsigned int stickies = 0;
@@ -408,16 +406,10 @@ void SaveState()
 		szModeName = ( char* )malloc(iLen + 1);
 		if (szModeName) {
 			DWORD options, lmdat;
-			//char *vastring = NULL;
-			//int len = GetWindowTextLengthA(GetDlgItem(clvmHwnd, IDC_VARIABLES)) + 1;
-
-			//vastring = (char *)malloc(len);
-			//if (vastring)
-			//    GetDlgItemTextA(clvmHwnd, IDC_VARIABLES, vastring, len);
 			SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szModeName);
 			dwGlobalMask = GetMaskForItem(hInfoItem);
-			hContact = db_find_first();
-			while(hContact) {
+		
+			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 				if (hItem) {
 					if (SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
@@ -425,13 +417,11 @@ void SaveState()
 						cfg::writeDword(hContact, "CLVM", szModeName, MAKELONG(1, (unsigned short)dwLocalMask));
 						stickies++;
 					}
-					else {
-						if (cfg::getDword(hContact, "CLVM", szModeName, 0))
-							cfg::writeDword(hContact, "CLVM", szModeName, 0);
-					}
+					else if (cfg::getDword(hContact, "CLVM", szModeName, 0))
+						cfg::writeDword(hContact, "CLVM", szModeName, 0);
 				}
-				hContact = db_find_next(hContact);
 			}
+
 			operators |= ((SendDlgItemMessage(clvmHwnd, IDC_PROTOGROUPOP, CB_GETCURSEL, 0, 0) == 1 ? CLVM_PROTOGROUP_OP : 0) |
 				(SendDlgItemMessage(clvmHwnd, IDC_GROUPSTATUSOP, CB_GETCURSEL, 0, 0) == 1 ? CLVM_GROUPSTATUS_OP : 0) |
 				(IsDlgButtonChecked(clvmHwnd, IDC_AUTOCLEAR) ? CLVM_AUTOCLEAR : 0) |
@@ -700,12 +690,10 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 								pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 								SetWindowTextA(hwndSelector, Translate("No view mode"));
 							}
-							hContact = db_find_first();
-							while(hContact) {
+							for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 								if (cfg::getDword(hContact, "CLVM", szBuf, -1) != -1)
 									cfg::writeDword(hContact, "CLVM", szBuf, 0);
-								hContact = db_find_next(hContact);
-							}
+
 							SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_DELETESTRING, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), 0);
 							if (SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, 0, 0) != LB_ERR) {
 								clvm_curItem = 0;
@@ -748,14 +736,10 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 		case IDC_CLEARALL:
 			{
-				HANDLE hItem;
-				HANDLE hContact = db_find_first();
-
-				while(hContact) {
-					hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 					if (hItem)
 						SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 0);
-					hContact = db_find_next(hContact);
 				}
 			}
 		case IDOK:

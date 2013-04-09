@@ -105,8 +105,8 @@ INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_RESETCONTENT, 0, 0);
 				int cursel = SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETCURSEL, 0, 0);
 				PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETITEMDATA, cursel, 0);
-				HANDLE hContact = db_find_first();
-				while (hContact != NULL) {
+
+				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					char* szUniqueId = (char*)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 					if ((INT_PTR) szUniqueId != CALLSERVICE_NOTFOUND && szUniqueId != NULL) {
 						DBVARIANT dbvuid = {0};
@@ -134,9 +134,7 @@ INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 							db_free(&dbvuid);
 						}
 					}
-					hContact = db_find_next(hContact);
 				}
-
 			}
 			return 0;
 
