@@ -72,7 +72,7 @@
 [Correction:]
 Исправление:
 [Add auto-replace word]
-Добавка автозамены слова
+Добавление слова для автозамены
 [OLD WORD]
 Старое слово
 [Wrong word:]
