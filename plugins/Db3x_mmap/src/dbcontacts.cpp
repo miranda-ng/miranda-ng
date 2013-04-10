@@ -25,18 +25,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CDb3Base::CheckProto(HANDLE hContact, const char *proto)
 {
-	char protobuf[MAX_PATH] = {0};
-	DBVARIANT dbv;
-	DBCONTACTGETSETTING sVal = { "Protocol", "p", &dbv };
+	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+	if (cc == NULL)
+		cc = m_cache->AddContactToCache(hContact);
 
- 	dbv.type = DBVT_ASCIIZ;
-	dbv.pszVal = protobuf;
-	dbv.cchVal = sizeof(protobuf);
+	if (cc->szProto == NULL) {
+		char protobuf[MAX_PATH] = {0};
+		DBVARIANT dbv;
+		DBCONTACTGETSETTING sVal = { "Protocol", "p", &dbv };
 
-	if ( GetContactSettingStatic(hContact, &sVal) != 0 || (dbv.type != DBVT_ASCIIZ))
-		return 0;
+ 		dbv.type = DBVT_ASCIIZ;
+		dbv.pszVal = protobuf;
+		dbv.cchVal = sizeof(protobuf);
+		if ( GetContactSettingStatic(hContact, &sVal) != 0 || (dbv.type != DBVT_ASCIIZ))
+			return 0;
 
-	return !strcmp(protobuf, proto);
+		cc->szProto = m_cache->GetCachedSetting(NULL, protobuf, 0, (int)strlen(protobuf));
+	}
+
+	return !strcmp(cc->szProto, proto);
 }
 
 STDMETHODIMP_(LONG) CDb3Base::GetContactCount(void)
@@ -148,10 +155,6 @@ STDMETHODIMP_(LONG) CDb3Base::DeleteContact(HANDLE hContact)
 		}
 		dbcPrev->ofsNext = ofsNext;
 		DBWrite(ofsThis,dbcPrev,sizeof(DBContact));
-
-		DBCachedContact *VL = m_cache->GetCachedContact((HANDLE)ofsThis);
-		if (VL)
-			VL->hNext = (HANDLE)ofsNext;
 	}
 
 	//delete contact
