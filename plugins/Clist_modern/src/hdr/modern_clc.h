@@ -245,7 +245,6 @@ struct ClcModernFontInfo {
 
 struct ClcData : public ClcDataBase
 {
-	SortedList lCLCContactsCache;
 	BYTE HiLightMode;
 	BYTE doubleClickExpand;
 	int MetaIgnoreEmptyExtra;
