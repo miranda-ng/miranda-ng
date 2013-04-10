@@ -53,7 +53,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		if (data != NULL)
 		{
 			std::string url = mir_t2a_cp(data,CP_UTF8);
-			if ( url.substr(0,4) != "http" )
+			if (url.substr(0,4) != "http")
 				url = FACEBOOK_URL_HOMEPAGE + url; // make absolute url
 
 			CallService(MS_UTILS_OPENURL, (WPARAM) 1, (LPARAM) url.c_str());
@@ -86,61 +86,61 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 {
 	int ret; int timeout; COLORREF colorBack = 0; COLORREF colorText = 0;
 
-	switch ( flags )
+	switch (flags)
 	{
 	case FACEBOOK_EVENT_CLIENT:
-		if ( !getByte( FACEBOOK_KEY_EVENT_CLIENT_ENABLE, DEFAULT_EVENT_CLIENT_ENABLE ))
+		if (!getByte(FACEBOOK_KEY_EVENT_CLIENT_ENABLE, DEFAULT_EVENT_CLIENT_ENABLE))
 			goto exit;
-		if ( !getByte( FACEBOOK_KEY_EVENT_CLIENT_DEFAULT, 0 ))
+		if (!getByte(FACEBOOK_KEY_EVENT_CLIENT_DEFAULT, 0))
 		{
-			colorBack = getDword( FACEBOOK_KEY_EVENT_CLIENT_COLBACK, DEFAULT_EVENT_COLBACK );
-			colorText = getDword( FACEBOOK_KEY_EVENT_CLIENT_COLTEXT, DEFAULT_EVENT_COLTEXT );
+			colorBack = getDword(FACEBOOK_KEY_EVENT_CLIENT_COLBACK, DEFAULT_EVENT_COLBACK);
+			colorText = getDword(FACEBOOK_KEY_EVENT_CLIENT_COLTEXT, DEFAULT_EVENT_COLTEXT);
 		}
-		timeout = getDword( FACEBOOK_KEY_EVENT_CLIENT_TIMEOUT, 0 );
+		timeout = getDword(FACEBOOK_KEY_EVENT_CLIENT_TIMEOUT, 0);
 		flags |= NIIF_WARNING;
 		break;
 
 	case FACEBOOK_EVENT_NEWSFEED:
-		if ( !getByte( FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE ))
+		if (!getByte(FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE))
 			goto exit;
-		if ( !getByte( FACEBOOK_KEY_EVENT_FEEDS_DEFAULT, 0 ))
+		if (!getByte(FACEBOOK_KEY_EVENT_FEEDS_DEFAULT, 0))
 		{
-			colorBack = getDword( FACEBOOK_KEY_EVENT_FEEDS_COLBACK, DEFAULT_EVENT_COLBACK );
-			colorText = getDword( FACEBOOK_KEY_EVENT_FEEDS_COLTEXT, DEFAULT_EVENT_COLTEXT );
+			colorBack = getDword(FACEBOOK_KEY_EVENT_FEEDS_COLBACK, DEFAULT_EVENT_COLBACK);
+			colorText = getDword(FACEBOOK_KEY_EVENT_FEEDS_COLTEXT, DEFAULT_EVENT_COLTEXT);
 		}
-		timeout = getDword( FACEBOOK_KEY_EVENT_FEEDS_TIMEOUT, 0 );
-		SkinPlaySound( "NewsFeed" );
+		timeout = getDword(FACEBOOK_KEY_EVENT_FEEDS_TIMEOUT, 0);
+		SkinPlaySound("NewsFeed");
 		flags |= NIIF_INFO;
 		break;
 
 	case FACEBOOK_EVENT_NOTIFICATION:
-		if ( !getByte( FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE ))
+		if (!getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
 			goto exit;
-		if ( !getByte( FACEBOOK_KEY_EVENT_NOTIFICATIONS_DEFAULT, 0 ))
+		if (!getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_DEFAULT, 0))
 		{
-			colorBack = getDword( FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLBACK, DEFAULT_EVENT_COLBACK );
-			colorText = getDword( FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLTEXT, DEFAULT_EVENT_COLTEXT );
+			colorBack = getDword(FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLBACK, DEFAULT_EVENT_COLBACK);
+			colorText = getDword(FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLTEXT, DEFAULT_EVENT_COLTEXT);
 		}
-		timeout = getDword( FACEBOOK_KEY_EVENT_NOTIFICATIONS_TIMEOUT, 0 );
-		SkinPlaySound( "Notification" );
+		timeout = getDword(FACEBOOK_KEY_EVENT_NOTIFICATIONS_TIMEOUT, 0);
+		SkinPlaySound("Notification");
 		flags |= NIIF_INFO;
 		break;
 
 	case FACEBOOK_EVENT_OTHER:
-		if ( !getByte( FACEBOOK_KEY_EVENT_OTHER_ENABLE, DEFAULT_EVENT_OTHER_ENABLE ))
+		if (!getByte(FACEBOOK_KEY_EVENT_OTHER_ENABLE, DEFAULT_EVENT_OTHER_ENABLE))
 			goto exit;
-		if ( !getByte( FACEBOOK_KEY_EVENT_OTHER_DEFAULT, 0 ))
+		if (!getByte(FACEBOOK_KEY_EVENT_OTHER_DEFAULT, 0))
 		{
-			colorBack = getDword( FACEBOOK_KEY_EVENT_OTHER_COLBACK, DEFAULT_EVENT_COLBACK );
-			colorText = getDword( FACEBOOK_KEY_EVENT_OTHER_COLTEXT, DEFAULT_EVENT_COLTEXT );
+			colorBack = getDword(FACEBOOK_KEY_EVENT_OTHER_COLBACK, DEFAULT_EVENT_COLBACK);
+			colorText = getDword(FACEBOOK_KEY_EVENT_OTHER_COLTEXT, DEFAULT_EVENT_COLTEXT);
 		}
-		timeout = getDword( FACEBOOK_KEY_EVENT_OTHER_TIMEOUT, 0 );
-		SkinPlaySound( "OtherEvent" );
+		timeout = getDword(FACEBOOK_KEY_EVENT_OTHER_TIMEOUT, 0);
+		SkinPlaySound("OtherEvent");
 		flags |= NIIF_INFO;
 		break;
 	}
 
-	if ( !getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY,DEFAULT_SYSTRAY_NOTIFY))
+	if (!getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY,DEFAULT_SYSTRAY_NOTIFY))
 	{
 		if (ServiceExists(MS_POPUP_ADDPOPUP))
 		{
@@ -164,10 +164,10 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 		{
 			MIRANDASYSTRAYNOTIFY err;
 			int niif_flags = flags;
-			REMOVE_FLAG( niif_flags, FACEBOOK_EVENT_CLIENT |
+			REMOVE_FLAG(niif_flags, FACEBOOK_EVENT_CLIENT |
 			                         FACEBOOK_EVENT_NEWSFEED |
 			                         FACEBOOK_EVENT_NOTIFICATION |
-			                         FACEBOOK_EVENT_OTHER );
+			                         FACEBOOK_EVENT_OTHER);
 			err.szProto = m_szModuleName;
 			err.cbSize = sizeof(err);
 			err.dwInfoFlags = NIIF_INTERN_TCHAR | niif_flags;

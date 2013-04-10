@@ -48,7 +48,7 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 
 	
 	// Close chat window, if set
-	ForkThread( &FacebookProto::MessagingWorker, this, new send_messaging(chat_id, FACEBOOK_SEND_MESSAGE ));
+	ForkThread(&FacebookProto::MessagingWorker, this, new send_messaging(chat_id, FACEBOOK_SEND_MESSAGE));
 }
 
 int FacebookProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
@@ -198,9 +198,9 @@ void FacebookProto::AddChat(const char *id, const char *name)
 	// Create a user statuses
 	gcd.iType = GC_EVENT_ADDGROUP;
 	gce.ptszStatus = _T("Admin");
-	CallServiceSync( MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 	gce.ptszStatus = _T("Normal");
-	CallServiceSync( MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 	
 	// Finish initialization
 	gcd.iType = GC_EVENT_CONTROL;
@@ -258,10 +258,10 @@ int FacebookProto::OnJoinChat(WPARAM,LPARAM suppress)
 	gcd.iType = GC_EVENT_ADDGROUP;
 
 	gce.ptszStatus = _T("Admin");
-	CallServiceSync( MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 	
 	gce.ptszStatus = _T("Normal");
-	CallServiceSync( MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 
 	SetTopic("Omegle is a great way of meeting new friends!");
 

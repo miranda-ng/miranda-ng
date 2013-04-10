@@ -75,7 +75,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
-static PROTO_INTERFACE* protoInit(const char *proto_name,const TCHAR *username )
+static PROTO_INTERFACE* protoInit(const char *proto_name,const TCHAR *username)
 {
 	FacebookProto *proto = new FacebookProto(proto_name,username);
 	g_Instances.insert(proto);
@@ -84,7 +84,7 @@ static PROTO_INTERFACE* protoInit(const char *proto_name,const TCHAR *username )
 
 static int protoUninit(PROTO_INTERFACE* proto)
 {
-	g_Instances.remove(( FacebookProto* )proto);
+	g_Instances.remove((FacebookProto*)proto);
 	return EXIT_SUCCESS;
 }
 
@@ -109,22 +109,22 @@ extern "C" int __declspec(dllexport) Load(void)
 	// Init native User-Agent
 	{
 		std::stringstream agent;
-//		DWORD mir_ver = ( DWORD )CallService( MS_SYSTEM_GETVERSION, NULL, NULL );
+//		DWORD mir_ver = (DWORD)CallService(MS_SYSTEM_GETVERSION, NULL, NULL);
 		agent << "MirandaNG/";
-		agent << (( g_mirandaVersion >> 24) & 0xFF);
+		agent << ((g_mirandaVersion >> 24) & 0xFF);
 		agent << ".";
-		agent << (( g_mirandaVersion >> 16) & 0xFF);
+		agent << ((g_mirandaVersion >> 16) & 0xFF);
 		agent << ".";
-		agent << (( g_mirandaVersion >>  8) & 0xFF);
+		agent << ((g_mirandaVersion >>  8) & 0xFF);
 		agent << ".";
-		agent << (( g_mirandaVersion      ) & 0xFF);
+		agent << ((g_mirandaVersion     ) & 0xFF);
 	#ifdef _WIN64
 		agent << " Facebook Protocol RM x64/";
 	#else
 		agent << " Facebook Protocol RM/";
 	#endif
 		agent << __VERSION_STRING;
-		g_strUserAgent = agent.str( );
+		g_strUserAgent = agent.str();
 	}
 
   return 0;

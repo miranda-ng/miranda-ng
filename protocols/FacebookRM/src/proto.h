@@ -25,94 +25,94 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class FacebookProto : public PROTO_INTERFACE
 {
 public:
-	FacebookProto( const char *proto_name, const TCHAR *username );
-	~FacebookProto( );
+	FacebookProto(const char *proto_name, const TCHAR *username);
+	~FacebookProto();
 
-	inline const char* ModuleName( ) const
+	inline const char* ModuleName() const
 	{
 		return m_szModuleName;
 	}
 
-	inline bool isOnline( )
+	inline bool isOnline()
 	{
-		return ( m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING );
+		return (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING);
 	}
 
-	inline bool isOffline( )
+	inline bool isOffline()
 	{
-		return ( m_iStatus == ID_STATUS_OFFLINE );
+		return (m_iStatus == ID_STATUS_OFFLINE);
 	}
 
-	inline bool isInvisible( )
+	inline bool isInvisible()
 	{
-		return ( m_iStatus == ID_STATUS_INVISIBLE );
+		return (m_iStatus == ID_STATUS_INVISIBLE);
 	}
 
 	//PROTO_INTERFACE
 
-	virtual	HANDLE   __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
-	virtual	HANDLE   __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent );
+	virtual	HANDLE   __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
+	virtual	HANDLE   __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent);
 
-	virtual	int      __cdecl Authorize( HANDLE hDbEvent );
-	virtual	int      __cdecl AuthDeny( HANDLE hDbEvent, const PROTOCHAR* szReason );
-	virtual	int      __cdecl AuthRecv( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int      __cdecl AuthRequest( HANDLE hContact, const PROTOCHAR* szMessage );
+	virtual	int      __cdecl Authorize(HANDLE hDbEvent);
+	virtual	int      __cdecl AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason);
+	virtual	int      __cdecl AuthRecv(HANDLE hContact, PROTORECVEVENT*);
+	virtual	int      __cdecl AuthRequest(HANDLE hContact, const PROTOCHAR* szMessage);
 
-	virtual	HANDLE   __cdecl ChangeInfo( int iInfoType, void* pInfoData );
+	virtual	HANDLE   __cdecl ChangeInfo(int iInfoType, void* pInfoData);
 
-	virtual	HANDLE   __cdecl FileAllow( HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szPath );
-	virtual	int      __cdecl FileCancel( HANDLE hContact, HANDLE hTransfer );
-	virtual	int      __cdecl FileDeny( HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szReason );
-	virtual	int      __cdecl FileResume( HANDLE hTransfer, int* action, const PROTOCHAR** szFilename );
+	virtual	HANDLE   __cdecl FileAllow(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szPath);
+	virtual	int      __cdecl FileCancel(HANDLE hContact, HANDLE hTransfer);
+	virtual	int      __cdecl FileDeny(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szReason);
+	virtual	int      __cdecl FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename);
 
-	virtual	DWORD_PTR __cdecl GetCaps( int type, HANDLE hContact = NULL );
-	virtual	int       __cdecl GetInfo( HANDLE hContact, int infoType );
+	virtual	DWORD_PTR __cdecl GetCaps(int type, HANDLE hContact = NULL);
+	virtual	int       __cdecl GetInfo(HANDLE hContact, int infoType);
 
-	virtual	HANDLE    __cdecl SearchBasic( const PROTOCHAR* id );
-	virtual	HANDLE    __cdecl SearchByEmail( const PROTOCHAR* email );
-	virtual	HANDLE    __cdecl SearchByName( const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName );
-	virtual	HWND      __cdecl SearchAdvanced( HWND owner );
-	virtual	HWND      __cdecl CreateExtendedSearchUI( HWND owner );
+	virtual	HANDLE    __cdecl SearchBasic(const PROTOCHAR* id);
+	virtual	HANDLE    __cdecl SearchByEmail(const PROTOCHAR* email);
+	virtual	HANDLE    __cdecl SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName);
+	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
+	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int       __cdecl RecvContacts( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int       __cdecl RecvFile( HANDLE hContact, PROTOFILEEVENT* );
-	virtual	int       __cdecl RecvMsg( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int       __cdecl RecvUrl( HANDLE hContact, PROTORECVEVENT* );
+	virtual	int       __cdecl RecvContacts(HANDLE hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvFile(HANDLE hContact, PROTOFILEEVENT*);
+	virtual	int       __cdecl RecvMsg(HANDLE hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvUrl(HANDLE hContact, PROTORECVEVENT*);
 
-	virtual	int       __cdecl SendContacts( HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList );
-	virtual	HANDLE    __cdecl SendFile( HANDLE hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles );
-	virtual	int       __cdecl SendMsg( HANDLE hContact, int flags, const char* msg );
-	virtual	int       __cdecl SendUrl( HANDLE hContact, int flags, const char* url );
+	virtual	int       __cdecl SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList);
+	virtual	HANDLE    __cdecl SendFile(HANDLE hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles);
+	virtual	int       __cdecl SendMsg(HANDLE hContact, int flags, const char* msg);
+	virtual	int       __cdecl SendUrl(HANDLE hContact, int flags, const char* url);
 
-	virtual	int       __cdecl SetApparentMode( HANDLE hContact, int mode );
-	virtual	int       __cdecl SetStatus( int iNewStatus );
+	virtual	int       __cdecl SetApparentMode(HANDLE hContact, int mode);
+	virtual	int       __cdecl SetStatus(int iNewStatus);
 
-	virtual	HANDLE    __cdecl GetAwayMsg( HANDLE hContact );
-	virtual	int       __cdecl RecvAwayMsg( HANDLE hContact, int mode, PROTORECVEVENT* evt );
-	virtual	int       __cdecl SendAwayMsg( HANDLE hContact, HANDLE hProcess, const char* msg );
-	virtual	int       __cdecl SetAwayMsg( int iStatus, const PROTOCHAR* msg );
+	virtual	HANDLE    __cdecl GetAwayMsg(HANDLE hContact);
+	virtual	int       __cdecl RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT* evt);
+	virtual	int       __cdecl SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char* msg);
+	virtual	int       __cdecl SetAwayMsg(int iStatus, const PROTOCHAR* msg);
 
-	virtual	int       __cdecl UserIsTyping( HANDLE hContact, int type );
+	virtual	int       __cdecl UserIsTyping(HANDLE hContact, int type);
 
-	virtual	int       __cdecl OnEvent( PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam );
+	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
 
 	////////////////////////
 
 	// Services
-	int  __cdecl GetMyAwayMsg( WPARAM, LPARAM );
-	int  __cdecl SetMyAwayMsg( WPARAM, LPARAM );
-	int  __cdecl SvcCreateAccMgrUI( WPARAM, LPARAM );
-	int  __cdecl GetMyAvatar(WPARAM, LPARAM );
-	int  __cdecl GetAvatarInfo(WPARAM, LPARAM );
-	int  __cdecl GetAvatarCaps(WPARAM, LPARAM );
-	int  __cdecl VisitProfile(WPARAM, LPARAM );
-	int  __cdecl CancelFriendship(WPARAM, LPARAM );
-	int  __cdecl RequestFriendship(WPARAM, LPARAM );
-	int  __cdecl ApproveFriendship(WPARAM, LPARAM );
-	int  __cdecl OnCancelFriendshipRequest(WPARAM, LPARAM );
-	int  __cdecl CheckNewsfeeds(WPARAM, LPARAM );
-	int  __cdecl CheckFriendRequests(WPARAM, LPARAM );
-	int  __cdecl RefreshBuddyList(WPARAM, LPARAM );
+	int  __cdecl GetMyAwayMsg(WPARAM, LPARAM);
+	int  __cdecl SetMyAwayMsg(WPARAM, LPARAM);
+	int  __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
+	int  __cdecl GetMyAvatar(WPARAM, LPARAM);
+	int  __cdecl GetAvatarInfo(WPARAM, LPARAM);
+	int  __cdecl GetAvatarCaps(WPARAM, LPARAM);
+	int  __cdecl VisitProfile(WPARAM, LPARAM);
+	int  __cdecl CancelFriendship(WPARAM, LPARAM);
+	int  __cdecl RequestFriendship(WPARAM, LPARAM);
+	int  __cdecl ApproveFriendship(WPARAM, LPARAM);
+	int  __cdecl OnCancelFriendshipRequest(WPARAM, LPARAM);
+	int  __cdecl CheckNewsfeeds(WPARAM, LPARAM);
+	int  __cdecl CheckFriendRequests(WPARAM, LPARAM);
+	int  __cdecl RefreshBuddyList(WPARAM, LPARAM);
 
 	// Events
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
@@ -182,7 +182,7 @@ public:
 	std::tstring GetAvatarFolder();
 	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *url);
 	void CheckAvatarChange(HANDLE hContact, std::string image_url);
-	void ToggleStatusMenuItems( BOOL bEnable );
+	void ToggleStatusMenuItems(BOOL bEnable);
 	void parseSmileys(std::string message, HANDLE hContact);
 
 	// Handles, Locks

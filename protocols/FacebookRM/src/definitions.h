@@ -25,11 +25,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CODE_BLOCK_BEGIN        {
 #define CODE_BLOCK_TRY          try {
 #define CODE_BLOCK_CATCH        } catch(const std::exception &e) {
-#define CODE_BLOCK_INFINITE     while( true ) {
+#define CODE_BLOCK_INFINITE     while(true) {
 #define CODE_BLOCK_END          }
 
-#define FLAG_CONTAINS(x,y)      ( ( x & y ) == y )
-#define REMOVE_FLAG(x,y)        ( x = ( x & ~y ))
+#define FLAG_CONTAINS(x,y)      ((x & y) == y)
+#define REMOVE_FLAG(x,y)        (x = (x & ~y))
 
 #define LOG Log
 

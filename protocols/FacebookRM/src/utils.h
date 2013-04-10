@@ -38,7 +38,7 @@ void CreateProtoService(const char *module,const char *service,
 	char temp[MAX_PATH*2];
 
 	mir_snprintf(temp,sizeof(temp),"%s%s",module,service);
-	CreateServiceFunctionObj(temp,( MIRANDASERVICEOBJ )*(void**)&serviceProc, self );
+	CreateServiceFunctionObj(temp,(MIRANDASERVICEOBJ)*(void**)&serviceProc, self);
 }
 
 template<typename T>
@@ -50,7 +50,7 @@ void HookProtoEvent(const char* evt, int (__cdecl T::*eventProc)(WPARAM,LPARAM),
 template<typename T>
 HANDLE ForkThreadEx(void (__cdecl T::*thread)(void*),T *self,void *data = 0)
 {
-	return reinterpret_cast<HANDLE>( mir_forkthreadowner(
+	return reinterpret_cast<HANDLE>(mir_forkthreadowner(
 		(pThreadFuncOwner)*(void**)&thread,self,data,0));
 }
 
@@ -70,14 +70,14 @@ namespace utils
 
 	namespace time
 	{
-		std::string unix_timestamp( );
-		std::string mili_timestamp( );
-		DWORD fix_timestamp( double );
+		std::string unix_timestamp();
+		std::string mili_timestamp();
+		DWORD fix_timestamp(double);
 	};
 
 	namespace number
 	{
-		int random( );
+		int random();
 	};
 
 	namespace text
@@ -85,7 +85,7 @@ namespace utils
 		void replace_first(std::string* data, std::string from, std::string to);
 		void replace_all(std::string* data, std::string from, std::string to);
 		unsigned int count_all(std::string* data, std::string term);
-		std::string special_expressions_decode( std::string data);
+		std::string special_expressions_decode(std::string data);
 		std::string edit_html(std::string data);
 		std::string remove_html(std::string data);
 		std::string slashu_to_utf8(std::string data);
@@ -98,8 +98,8 @@ namespace utils
 
 	namespace conversion
 	{
-		DWORD to_timestamp( std::string data );
-		std::string to_string( void*, WORD type );		
+		DWORD to_timestamp(std::string data);
+		std::string to_string(void*, WORD type);		
 		
 		template <class T>
 		bool from_string(T& t, const std::string& s, std::ios_base& (*f)(std::ios_base&)) {
@@ -115,7 +115,7 @@ namespace utils
 
 	namespace mem
 	{
-		void __fastcall detract(char** str );
+		void __fastcall detract(char** str);
 		void __fastcall detract(void** p);
 		void __fastcall detract(void* p);
 		void* __fastcall allocate(size_t size);
@@ -146,5 +146,5 @@ private:
 
 int ext_to_format(const std::string &ext);
 
-void MB( const char* m );
-void MBI( int a );
+void MB(const char* m);
+void MBI(int a);

@@ -58,7 +58,7 @@ int FacebookProto::FileResume(HANDLE hTransfer,int *action,const PROTOCHAR **fil
 	return 1;
 }
 
-int FacebookProto::GetInfo( HANDLE hContact, int infoType )
+int FacebookProto::GetInfo(HANDLE hContact, int infoType)
 {
 	// TODO: Most probably some ProtoAck should be here instead
 	return 1;

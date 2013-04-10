@@ -69,7 +69,7 @@ HGENMENU g_hContactMenuItems[CMITEMS_COUNT];
 static FacebookProto * GetInstanceByHContact(HANDLE hContact)
 {
 	char *proto = GetContactProto(hContact);
-	if( !proto )
+	if(!proto)
 		return 0;
 
 	for(int i=0; i<g_Instances.getCount(); i++)
@@ -176,17 +176,17 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	if (hRoot == NULL) {
 		mi.popupPosition = 500085000;
 		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | ( this->isOnline() ? 0 : CMIF_GRAYED );
-		mi.icolibItem = GetIconHandle( "facebook" );
+		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | (this->isOnline() ? 0 : CMIF_GRAYED);
+		mi.icolibItem = GetIconHandle("facebook");
 		mi.ptszName = m_tszUserName;
 		hRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	} else {
-		if ( m_hMenuRoot )
+		if (m_hMenuRoot)
 			CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)m_hMenuRoot, 0);
 		m_hMenuRoot = NULL;
 	}
 
-	mi.flags = CMIF_CHILDPOPUP | ( this->isOnline() ? 0 : CMIF_GRAYED );
+	mi.flags = CMIF_CHILDPOPUP | (this->isOnline() ? 0 : CMIF_GRAYED);
 	mi.position = 201001;
 
 	CreateProtoService(m_szModuleName,"/Mind",&FacebookProto::OnMind,this);
@@ -206,8 +206,8 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 
 	// Services...
 	mi.pszName = LPGEN("Services...");
-	strcpy( tDest, "/Services" );
-	mi.flags = CMIF_CHILDPOPUP | ( this->isOnline() ? 0 : CMIF_GRAYED );
+	strcpy(tDest, "/Services");
+	mi.flags = CMIF_CHILDPOPUP | (this->isOnline() ? 0 : CMIF_GRAYED);
 	mi.icolibItem = NULL;
 	m_hMenuServicesRoot = Menu_AddProtoMenuItem(&mi);
 
@@ -240,12 +240,12 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-void FacebookProto::ToggleStatusMenuItems( BOOL bEnable )
+void FacebookProto::ToggleStatusMenuItems(BOOL bEnable)
 {
 	CLISTMENUITEM clmi = {sizeof(clmi)};
-	clmi.flags = CMIM_FLAGS | (( bEnable ) ? 0 : CMIF_GRAYED);
+	clmi.flags = CMIM_FLAGS | ((bEnable) ? 0 : CMIF_GRAYED);
 
-	Menu_ModifyItem(m_hMenuRoot, &clmi );
-	Menu_ModifyItem(m_hStatusMind, &clmi );
-	Menu_ModifyItem(m_hMenuServicesRoot, &clmi );
+	Menu_ModifyItem(m_hMenuRoot, &clmi);
+	Menu_ModifyItem(m_hStatusMind, &clmi);
+	Menu_ModifyItem(m_hMenuServicesRoot, &clmi);
 }

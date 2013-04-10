@@ -36,11 +36,11 @@ static BOOL StoreDBCheckState(FacebookProto* ppro, HWND hwnd, int idCtrl, const 
 	return state;
 }
 
-INT_PTR CALLBACK FBAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam )
+INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	FacebookProto *proto;
 
-	switch ( message )
+	switch (message)
 	{
 
 	case WM_INITDIALOG:
@@ -50,13 +50,13 @@ INT_PTR CALLBACK FBAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
 
 		DBVARIANT dbv;
-		if ( !db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,&dbv))
+		if (!db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,&dbv))
 		{
 			SetDlgItemTextA(hwnd,IDC_UN,dbv.pszVal);
 			db_free(&dbv);
 		}
 
-		if ( !db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_PASS,&dbv))
+		if (!db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_PASS,&dbv))
 		{
 			CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
 				reinterpret_cast<LPARAM>(dbv.pszVal));
@@ -71,14 +71,14 @@ INT_PTR CALLBACK FBAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 		return TRUE;
 
 	case WM_COMMAND:
-		if ( LOWORD( wparam ) == IDC_NEWACCOUNTLINK )
+		if (LOWORD(wparam) == IDC_NEWACCOUNTLINK)
 		{
 			CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>
-				( FACEBOOK_URL_HOMEPAGE ));
+				(FACEBOOK_URL_HOMEPAGE));
 			return TRUE;
 		}
 
-		if ( HIWORD( wparam ) == EN_CHANGE && reinterpret_cast<HWND>(lparam) == GetFocus())
+		if (HIWORD(wparam) == EN_CHANGE && reinterpret_cast<HWND>(lparam) == GetFocus())
 		{
 			switch(LOWORD(wparam))
 			{
@@ -90,7 +90,7 @@ INT_PTR CALLBACK FBAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 		break;
 
 	case WM_NOTIFY:
-		if ( reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY )
+		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
 		{
 			proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 			char str[128];
@@ -111,7 +111,7 @@ INT_PTR CALLBACK FBAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 	return FALSE;
 }
 
-INT_PTR CALLBACK FBMindProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam )
+INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	FacebookProto *proto;
 
@@ -130,27 +130,27 @@ INT_PTR CALLBACK FBMindProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lpar
 
 		if (!db_get_ts(NULL,proto->m_szModuleName,FACEBOOK_KEY_NAME,&dbv))
 		{
-			SetWindowText( hwnd, dbv.ptszVal );
-			db_free( &dbv );
+			SetWindowText(hwnd, dbv.ptszVal);
+			db_free(&dbv);
 		}
 	}
 
-	EnableWindow(GetDlgItem( hwnd, IDOK ), FALSE);
+	EnableWindow(GetDlgItem(hwnd, IDOK), FALSE);
 	return TRUE;
 
 	case WM_COMMAND:
-		if ( LOWORD( wparam ) == IDC_MINDMSG && HIWORD( wparam ) == EN_CHANGE )
+		if (LOWORD(wparam) == IDC_MINDMSG && HIWORD(wparam) == EN_CHANGE)
 		{
 			size_t len = SendDlgItemMessage(hwnd,IDC_MINDMSG,WM_GETTEXTLENGTH,0,0);
 			TCHAR str[4];
-			_sntprintf( str, 4, TEXT( "%d" ), FACEBOOK_MIND_LIMIT-len );
+			_sntprintf(str, 4, TEXT("%d"), FACEBOOK_MIND_LIMIT-len);
 			SetDlgItemText(hwnd,IDC_CHARACTERS,str);
 
-			EnableWindow(GetDlgItem( hwnd, IDOK ), len > 0);
+			EnableWindow(GetDlgItem(hwnd, IDOK), len > 0);
 
 			return TRUE;
 		}
-		else if ( LOWORD( wparam ) == IDOK )
+		else if (LOWORD(wparam) == IDOK)
 		{
 			TCHAR mindMessage[FACEBOOK_MIND_LIMIT+1];
 			proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
@@ -169,7 +169,7 @@ INT_PTR CALLBACK FBMindProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lpar
 			EndDialog(hwnd, wparam); 
 			return TRUE;
 		}
-		else if ( LOWORD( wparam ) == IDCANCEL )
+		else if (LOWORD(wparam) == IDCANCEL)
 		{
 			EndDialog(hwnd, wparam);
 			return TRUE;
@@ -181,11 +181,11 @@ INT_PTR CALLBACK FBMindProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lpar
 	return FALSE;
 }
 
-INT_PTR CALLBACK FBOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam )
+INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	FacebookProto *proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
-	switch ( message )
+	switch (message)
 	{
 
 	case WM_INITDIALOG:
@@ -196,13 +196,13 @@ INT_PTR CALLBACK FBOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
 
 		DBVARIANT dbv;
-		if ( !db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,&dbv))
+		if (!db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,&dbv))
 		{
 			SetDlgItemTextA(hwnd,IDC_UN,dbv.pszVal);
 			db_free(&dbv);
 		}
 
-		if ( !db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_PASS,&dbv))
+		if (!db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_PASS,&dbv))
 		{
 			CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,reinterpret_cast<LPARAM>(dbv.pszVal));
 			SetDlgItemTextA(hwnd,IDC_PW,dbv.pszVal);
@@ -217,7 +217,7 @@ INT_PTR CALLBACK FBOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 
 		SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, FACEBOOK_GROUP_NAME_LIMIT, 0);
 
-		if ( !db_get_ts(0,proto->ModuleName(),FACEBOOK_KEY_DEF_GROUP,&dbv))
+		if (!db_get_ts(0,proto->ModuleName(),FACEBOOK_KEY_DEF_GROUP,&dbv))
 		{
 			SetDlgItemText(hwnd,IDC_GROUP,dbv.ptszVal);
 			db_free(&dbv);
@@ -230,14 +230,14 @@ INT_PTR CALLBACK FBOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 	} return TRUE;
 
 	case WM_COMMAND: {
-		if ( LOWORD( wparam ) == IDC_NEWACCOUNTLINK )
+		if (LOWORD(wparam) == IDC_NEWACCOUNTLINK)
 		{
 			CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>
-				( FACEBOOK_URL_HOMEPAGE ));
+				(FACEBOOK_URL_HOMEPAGE));
 			return TRUE;
 		}
 
-		if ( LOWORD( wparam ) == IDC_SECURE ) {			
+		if (LOWORD(wparam) == IDC_SECURE) {			
 			EnableWindow(GetDlgItem(hwnd, IDC_SECURE_CHANNEL), IsDlgButtonChecked(hwnd, IDC_SECURE));
 		}		
 		
@@ -250,7 +250,7 @@ INT_PTR CALLBACK FBOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 	} break;
 
 	case WM_NOTIFY:
-		if ( reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY )
+		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
 		{
 			char str[128]; TCHAR tstr[128];
 
@@ -262,10 +262,10 @@ INT_PTR CALLBACK FBOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 			db_set_s(NULL,proto->m_szModuleName,FACEBOOK_KEY_PASS,str);
 
 			GetDlgItemText(hwnd,IDC_GROUP,tstr,sizeof(tstr));
-			if ( lstrlen( tstr ) > 0 )
+			if (lstrlen(tstr) > 0)
 			{
 				db_set_ts(NULL,proto->m_szModuleName,FACEBOOK_KEY_DEF_GROUP,tstr);
-				CallService( MS_CLIST_GROUPCREATE, 0, (LPARAM)tstr );
+				CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)tstr);
 			}
 			else
 				db_unset(NULL,proto->m_szModuleName,FACEBOOK_KEY_DEF_GROUP);
@@ -283,11 +283,11 @@ INT_PTR CALLBACK FBOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 	return FALSE;
 }
 
-INT_PTR CALLBACK FBOptionsAdvancedProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam )
+INT_PTR CALLBACK FBOptionsAdvancedProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	FacebookProto *proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
-	switch ( message )
+	switch (message)
 	{
 
 	case WM_INITDIALOG:
@@ -311,12 +311,12 @@ INT_PTR CALLBACK FBOptionsAdvancedProc( HWND hwnd, UINT message, WPARAM wparam, 
 	}
 
 	case WM_COMMAND: {
-		if ( LOWORD( wparam ) == IDC_SECURE ) {			
+		if (LOWORD(wparam) == IDC_SECURE) {			
 			EnableWindow(GetDlgItem(hwnd, IDC_SECURE_CHANNEL), IsDlgButtonChecked(hwnd, IDC_SECURE));
 		}		
 		
 		if (LOWORD(wparam) == IDC_SECURE_CHANNEL && IsDlgButtonChecked(hwnd, IDC_SECURE_CHANNEL))
-			MessageBox( hwnd, TranslateT("Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly."), proto->m_tszUserName, MB_OK );
+			MessageBox(hwnd, TranslateT("Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly."), proto->m_tszUserName, MB_OK);
 
 		SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
 		
@@ -324,7 +324,7 @@ INT_PTR CALLBACK FBOptionsAdvancedProc( HWND hwnd, UINT message, WPARAM wparam, 
 	}
 
 	case WM_NOTIFY:
-		if ( reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY )
+		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
 		{
 			StoreDBCheckState(proto, hwnd, IDC_SECURE, FACEBOOK_KEY_FORCE_HTTPS);
 			StoreDBCheckState(proto, hwnd, IDC_LOGGING, FACEBOOK_KEY_LOGGING_ENABLE);
@@ -354,7 +354,7 @@ INT_PTR CALLBACK FBOptionsAdvancedProc( HWND hwnd, UINT message, WPARAM wparam, 
 }
 
 
-INT_PTR CALLBACK FBEventsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam )
+INT_PTR CALLBACK FBEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	FacebookProto *proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
@@ -411,16 +411,16 @@ INT_PTR CALLBACK FBEventsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 	} return TRUE;
 
 	case WM_COMMAND: {
-		switch ( LOWORD( wparam ))
+		switch (LOWORD(wparam))
 		{
 		case IDC_PREVIEW:
 		{
 			TCHAR protoName[255];
-			lstrcpy( protoName, proto->m_tszUserName );
-			proto->NotifyEvent( protoName, TranslateT("Sample event"), NULL, FACEBOOK_EVENT_CLIENT ); 
-			proto->NotifyEvent( protoName, TranslateT("Sample request"), NULL, FACEBOOK_EVENT_OTHER ); 
-			proto->NotifyEvent( protoName, TranslateT("Sample newsfeed"), NULL, FACEBOOK_EVENT_NEWSFEED ); 
-			proto->NotifyEvent( protoName, TranslateT("Sample notification"), NULL, FACEBOOK_EVENT_NOTIFICATION ); 
+			lstrcpy(protoName, proto->m_tszUserName);
+			proto->NotifyEvent(protoName, TranslateT("Sample event"), NULL, FACEBOOK_EVENT_CLIENT); 
+			proto->NotifyEvent(protoName, TranslateT("Sample request"), NULL, FACEBOOK_EVENT_OTHER); 
+			proto->NotifyEvent(protoName, TranslateT("Sample newsfeed"), NULL, FACEBOOK_EVENT_NEWSFEED); 
+			proto->NotifyEvent(protoName, TranslateT("Sample notification"), NULL, FACEBOOK_EVENT_NOTIFICATION); 
 		} break;
 
 		case IDC_COLTEXT:
@@ -444,7 +444,7 @@ INT_PTR CALLBACK FBEventsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 
 	case WM_NOTIFY:
 	{
-		if ( reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY )
+		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
 		{			
 			db_set_b(NULL, proto->m_szModuleName, FACEBOOK_KEY_FEED_TYPE, SendDlgItemMessage(hwnd, IDC_FEED_TYPE, CB_GETCURSEL, 0, 0));
 

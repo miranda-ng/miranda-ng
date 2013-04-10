@@ -60,15 +60,15 @@ void FacebookProto::CheckAvatarChange(HANDLE hContact, std::string image_url)
 	bool big_avatars = db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS) != 0;
 	
 	// We've got url to avatar of default size 32x32px, let's change it to slightly bigger (50x50px) - looks like maximum size for square format
-	std::tstring::size_type pos = image_url.rfind( "/s32x32/" );
+	std::tstring::size_type pos = image_url.rfind("/s32x32/");
 	if (pos != std::wstring::npos)
-		image_url = image_url.replace( pos, 8, big_avatars ? "/s200x200/" : "/s50x50/" );
+		image_url = image_url.replace(pos, 8, big_avatars ? "/s200x200/" : "/s50x50/");
 	
 	if (big_avatars)
 	{
-		pos = image_url.rfind( "_q." );
+		pos = image_url.rfind("_q.");
 		if (pos != std::wstring::npos)
-			image_url = image_url.replace( pos, 3, "_s." );
+			image_url = image_url.replace(pos, 3, "_s.");
 	}
 	
 	DBVARIANT dbv;
@@ -135,8 +135,8 @@ void FacebookProto::UpdateAvatarWorker(void *)
 std::tstring FacebookProto::GetAvatarFolder()
 {
 	TCHAR path[MAX_PATH];
-	if ( !hAvatarFolder_ || FoldersGetCustomPathT(hAvatarFolder_, path, SIZEOF(path), _T("")))
-		mir_sntprintf(path, SIZEOF(path), _T("%s\\%s"), (TCHAR*)VARST( _T("%miranda_avatarcache%")), m_tszUserName);
+	if (!hAvatarFolder_ || FoldersGetCustomPathT(hAvatarFolder_, path, SIZEOF(path), _T("")))
+		mir_sntprintf(path, SIZEOF(path), _T("%s\\%s"), (TCHAR*)VARST(_T("%miranda_avatarcache%")), m_tszUserName);
 	return path;
 }
 
@@ -196,7 +196,7 @@ int FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		if (needLoad)
 		{												
 			LOG("***** Starting avatar request thread for %s", AI->filename);
-			ScopedLock s( avatar_lock_ );
+			ScopedLock s(avatar_lock_);
 
 			if (std::find(avatar_queue.begin(), avatar_queue.end(), AI->hContact) == avatar_queue.end())
 			{
@@ -221,8 +221,8 @@ int FacebookProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	if (!wParam || !lParam)
 		return -3;
 
-	TCHAR* buf = ( TCHAR* )wParam;
-	int  size = ( int )lParam;
+	TCHAR* buf = (TCHAR*)wParam;
+	int  size = (int)lParam;
 
 	PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai)};
 	switch (GetAvatarInfo(0, (LPARAM)&ai))

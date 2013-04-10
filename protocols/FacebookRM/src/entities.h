@@ -36,7 +36,7 @@ struct facebook_user
 
 	bool deleted;
 
-	facebook_user( )
+	facebook_user()
 	{
 		this->handle = NULL;
 		this->user_id = this->real_name = this->image_url = "";
@@ -45,7 +45,7 @@ struct facebook_user
 		this->deleted = false;
 	}
 
-	facebook_user( facebook_user* fu )
+	facebook_user(facebook_user* fu)
 	{
 		this->handle = fu->handle;
 		this->image_url = fu->image_url;
@@ -64,13 +64,13 @@ struct facebook_message
 	std::string sender_name;
 	DWORD time;
 
-	facebook_message( )
+	facebook_message()
 	{
 		this->user_id = this->message_text = this->sender_name = "";
 		this->time = 0;
 	}
 
-	facebook_message( const facebook_message& msg )
+	facebook_message(const facebook_message& msg)
 	{
 		this->user_id = msg.user_id;
 		this->message_text = msg.message_text;
@@ -85,7 +85,7 @@ struct facebook_notification
 	std::string text;
 	std::string link;
 
-	facebook_notification( )
+	facebook_notification()
 	{
 		this->user_id = this->text = this->link = "";
 	}
@@ -98,7 +98,7 @@ struct facebook_newsfeed
 	std::string text;
 	std::string link;
 
-	facebook_newsfeed( )
+	facebook_newsfeed()
 	{
 		this->user_id = this->title = this->text = this->link = "";
 	}
