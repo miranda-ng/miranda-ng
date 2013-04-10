@@ -224,7 +224,7 @@ BEGIN
     CONTROL         "Use ports 80 and 443 as alternative incoming",IDC_USE_ALT_PORTS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,97,276,10
     PUSHBUTTON      "Register new account",IDC_REGISTER,204,17,87,14,WS_DISABLED
-    PUSHBUTTON      "Chande password",IDC_CHANGE_PWD,204,33,87,14,WS_DISABLED
+    PUSHBUTTON      "Change password",IDC_CHANGE_PWD,204,33,87,14,WS_DISABLED
 END
 
 

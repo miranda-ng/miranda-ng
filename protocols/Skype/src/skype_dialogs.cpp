@@ -44,11 +44,11 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 				SendMessage(GetDlgItem(hwnd, IDC_SL), EM_SETREADONLY, 1, 0);
 				SendMessage(GetDlgItem(hwnd, IDC_PW), EM_SETREADONLY, 1, 0); 
 				SendMessage(GetDlgItem(hwnd, IDC_PORT), EM_SETREADONLY, 1, 0); 
-				SendMessage(GetDlgItem(hwnd, IDC_USE_ALT_PORTS), EM_SETREADONLY, 1, 0); 
+				EnableWindow(GetDlgItem(hwnd, IDC_USE_ALT_PORTS), FALSE);
 				EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), FALSE); 
 				EnableWindow(GetDlgItem(hwnd, IDC_CHANGE_PWD), TRUE);
 			}
-			else if (proto->GetSettingWord("Status") > 0)
+			else if (proto->GetSettingWord("Status") > ID_STATUS_OFFLINE)
 			{
 				EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), FALSE); 
 			}
@@ -63,7 +63,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 				{
 					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
 
-					if ( !proto->IsOnline() && proto->GetSettingWord("Status") == 0)
+					if (!proto->IsOnline() && proto->GetSettingWord("Status") <= ID_STATUS_OFFLINE)
 					{
 						char sid[128];
 						GetDlgItemTextA(hwnd, IDC_SL, sid, SIZEOF(sid));
@@ -151,7 +151,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 				BOOL error;
 				int port = GetDlgItemInt(hwnd, IDC_PORT, &error, FALSE);
 				proto->SetSettingWord("Port", port);
-				proto->SetSettingByte("UseAlternativePorts", IsDlgButtonChecked(hwnd, IDC_USE_ALT_PORTS) > 0);
+				proto->SetSettingByte("UseAlternativePorts", (BYTE)IsDlgButtonChecked(hwnd, IDC_USE_ALT_PORTS));
 			}
 
 			return TRUE;
