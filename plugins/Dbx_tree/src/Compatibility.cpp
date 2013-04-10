@@ -40,6 +40,29 @@ HANDLE hEventDeletedEvent,
 		 hContactDeletedEvent,
 		 hContactAddedEvent;
 
+int CDataBase::CheckProto(HANDLE hContact, const char *proto)
+{
+	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+	if (cc == NULL)
+		cc = m_cache->AddContactToCache(hContact);
+
+	if (cc->szProto == NULL) {
+		char protobuf[MAX_PATH] = {0};
+		DBVARIANT dbv;
+		DBCONTACTGETSETTING sVal = { "Protocol", "p", &dbv };
+
+ 		dbv.type = DBVT_ASCIIZ;
+		dbv.pszVal = protobuf;
+		dbv.cchVal = sizeof(protobuf);
+		if ( GetContactSettingStatic(hContact, &sVal) != 0 || (dbv.type != DBVT_ASCIIZ))
+			return 0;
+
+		cc->szProto = m_cache->GetCachedSetting(NULL, protobuf, 0, (int)strlen(protobuf));
+	}
+
+	return !strcmp(cc->szProto, proto);
+}
+
 STDMETHODIMP_(HANDLE) CDataBase::AddContact(void)
 {
 	TDBTEntity entity = {0,0,0,0};
@@ -61,6 +84,9 @@ STDMETHODIMP_(LONG) CDataBase::DeleteContact(HANDLE hContact)
 	int res = DBEntityDelete((WPARAM)hContact, 0);
 	if (res == DBT_INVALIDPARAM)
 		return 1;
+
+	if (res == 0)
+		m_cache->FreeCachedContact(hContact);
 
 	return res;
 }
@@ -97,16 +123,37 @@ STDMETHODIMP_(LONG) CDataBase::GetContactCount(void)
 	return c;
 }
 
-//!!!!!!!!!!!!!!!!!!!! szProto ignored
 STDMETHODIMP_(HANDLE) CDataBase::FindFirstContact(const char* szProto)
 {
-	return (HANDLE)getEntities().compFirstContact();
+	HANDLE hContact = (HANDLE)getEntities().compFirstContact();
+	if (!szProto || CheckProto(hContact, szProto))
+		return hContact;
+
+	return FindNextContact(hContact, szProto);
 }
 
-//!!!!!!!!!!!!!!!!!!!! szProto ignored
 STDMETHODIMP_(HANDLE) CDataBase::FindNextContact(HANDLE hContact, const char* szProto)
 {
-	return (HANDLE)getEntities().compNextContact((WPARAM)hContact);
+	while (hContact) {
+		DBCachedContact *VL = m_cache->GetCachedContact(hContact);
+		if (VL == NULL)
+			VL = m_cache->AddContactToCache(hContact);
+
+		if (VL->hNext != NULL) {
+			if (!szProto || CheckProto(VL->hNext, szProto))
+				return VL->hNext;
+
+			hContact = VL->hNext;
+			continue;
+		}
+
+		VL->hNext = (HANDLE)getEntities().compNextContact((WPARAM)hContact);
+		if (VL->hNext != NULL && (!szProto || CheckProto(VL->hNext, szProto)))
+			return VL->hNext;
+
+		hContact = VL->hNext;
+	}
+	return NULL;
 }
 
 STDMETHODIMP_(BOOL) CDataBase::GetContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
