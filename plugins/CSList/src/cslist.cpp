@@ -31,7 +31,7 @@ CLIST_INTERFACE *pcli;
 int hLangpack;
 HINSTANCE g_hInst;
 
-static LIST<CSWindow> arWindows(3, LIST<CSWindow>::FTSortFunc(HandleKeySort));
+static LIST<CSWindow> arWindows(3, HandleKeySortT);
 
 PLUGININFOEX pluginInfoEx =
 {

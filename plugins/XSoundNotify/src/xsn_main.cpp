@@ -11,7 +11,7 @@ There is no warranty.
 
 HINSTANCE hInst;
 int hLangpack;
-LIST<XSN_Data> XSN_Users(10, LIST<XSN_Data>::FTSortFunc(HandleKeySort));
+LIST<XSN_Data> XSN_Users(10, HandleKeySortT);
 HGENMENU hChangeSound = NULL;
 HANDLE hChangeSoundDlgList = NULL;
 

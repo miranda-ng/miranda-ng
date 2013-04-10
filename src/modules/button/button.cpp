@@ -34,7 +34,7 @@ struct TTooltips
 	HWND  hwnd;
 };
 
-static LIST<TTooltips> lToolTips(1, (LIST<TTooltips>::FTSortFunc)NumericKeySort);
+static LIST<TTooltips> lToolTips(1, NumericKeySortT);
 static CRITICAL_SECTION csTips;
 static BOOL bModuleInitialized = FALSE;
 

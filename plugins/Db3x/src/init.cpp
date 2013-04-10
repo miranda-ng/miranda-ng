@@ -42,7 +42,7 @@ static PLUGININFOEX pluginInfo =
 
 HINSTANCE g_hInst = NULL;
 
-LIST<CDb3x> g_Dbs(1, (LIST<CDb3x>::FTSortFunc)HandleKeySort);
+LIST<CDb3x> g_Dbs(1, HandleKeySortT);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

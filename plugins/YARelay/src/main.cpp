@@ -29,7 +29,7 @@ HANDLE hForwardFrom, hForwardTo;
 TCHAR tszForwardTemplate[MAXTEMPLATESIZE]; 
 int iSplit, iSplitMaxSize, iSendParts, iMarkRead, iSendAndHistory, iForwardOnStatus;
 
-LIST<MESSAGE_PROC> arMessageProcs(10, LIST<MESSAGE_PROC>::FTSortFunc(HandleKeySort));
+LIST<MESSAGE_PROC> arMessageProcs(10, HandleKeySortT);
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
