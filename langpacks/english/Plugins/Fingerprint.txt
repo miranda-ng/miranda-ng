@@ -32,7 +32,9 @@
 [Multi-protocol clients]
 [Other (rare) protocols]
 [Other icons]
+[Show client icon in message window status bar]
 ;file \plugins\FingerprintNG\src\fingerprint.cpp
+[Client icon]
 [Fingerprint]
 ;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons]

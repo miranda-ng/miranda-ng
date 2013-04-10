@@ -142,9 +142,6 @@
 [Becoming active without status change]
 [TriggerData]
 [Status: The status the account will change to\r\nAccount: The account changing state]
-;file \plugins\StatusPlugins\KeepStatus\action_keepstatus.cpp
-[Protocol]
-[<from trigger>]
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 [KeepStatus]
 [%s Connected from another location]
@@ -160,6 +157,7 @@
 [Status was set ok]
 [Giving up]
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
+[Protocol]
 [Basic]
 [Advanced]
 [You broke the Internet!]

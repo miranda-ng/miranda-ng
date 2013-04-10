@@ -2261,7 +2261,6 @@
 [Error]
 [The alarm time you have selected is in the past.]
 [Events]
-;file \plugins\Alarms\src\trigger.cpp
 ﻿#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
 ;============================================================
 ;  File: AssocMgr.dll
@@ -5837,7 +5836,9 @@
 [Multi-protocol clients]
 [Other (rare) protocols]
 [Other icons]
+[Show client icon in message window status bar]
 ;file \plugins\FingerprintNG\src\fingerprint.cpp
+[Client icon]
 [Fingerprint]
 ;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons]
@@ -9919,9 +9920,6 @@
 [Becoming active without status change]
 [TriggerData]
 [Status: The status the account will change to\r\nAccount: The account changing state]
-;file \plugins\StatusPlugins\KeepStatus\action_keepstatus.cpp
-[Protocol]
-[<from trigger>]
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 [KeepStatus]
 [%s Connected from another location]
@@ -9937,6 +9935,7 @@
 [Status was set ok]
 [Giving up]
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
+[Protocol]
 [Basic]
 [Advanced]
 [You broke the Internet!]
@@ -12406,8 +12405,6 @@
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
 [Nudge]
 [Default Nudge]
-[Nudge : Shake contact list/chat window]
-[Nudge : Send a nudge]
 [Nudge as Default]
 [Send Nudge]
 [Show Nudge]
@@ -14214,10 +14211,6 @@
 [Incoming Secure Message]
 [Outgoing Secure Message]
 [SecureIM status]
-[SecureIM [Native]]
-[SecureIM [PGP]]
-[SecureIM [GPG]]
-[SecureIM [RSA/AES]]
 ;file \plugins\SecureIM\src\options.cpp
 [Executable Files]
 [Select GnuPG Executable]
@@ -14234,6 +14227,11 @@
 [Secure Popup]
 [Message Popup]
 [PopUps]
+;file \plugins\SecureIM\src\svcs_srmm.cpp
+[SecureIM [Native]]
+[SecureIM [PGP]]
+[SecureIM [GPG]]
+[SecureIM [RSA/AES]]
 ﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;============================================================
 ;  File: SeenPlugin.dll
@@ -16258,7 +16256,6 @@
 ;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
 [Error feedback]
-[Show client icon in status bar (fingerprint plugin required)]
 [Show skinnable tooltip in chat (tipper plugin required)]
 [Enable typing sounds]
 [Disable animated GIF avatars (will not affect already open message windows)]
@@ -19085,7 +19082,7 @@
 ;============================================================
 ;  File: WhoUsesMyFiles.dll
 ;  Plugin: Who Use My Files
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
@@ -19825,6 +19822,44 @@
 [Copy title to clipboard]
 [Copy message to clipboard]
 [Copy timestamp to clipboard]
+﻿#muuid {01202e6a-c1b3-42e5-838a-3e497b31f38e}
+;============================================================
+;  File: YARelay.dll
+;  Plugin: YARelay
+;  Version: 0.1.0.1
+;  Authors: Anar Ibragimoff
+;============================================================
+[Forwards messages to some contact when you are not available.]
+;file \plugins\YARelay\res\yaRelay.rc
+[Forward messages from...]
+[Everyone]
+[Contact]
+[Forward when your status is...]
+[Offline]
+[Online]
+[Away]
+[NA]
+[Occupied]
+[DND]
+[Free for chat]
+[Invisible]
+[Forward messages to...]
+[Template]
+[%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
+[Forwarding options]
+[Split message (%m)]
+[Send only first]
+[Max size of split part (chars)]
+[Mark received messages as 'read']
+[Save sent messages in recipient's history]
+[split parts (0 = all)]
+[Note: Max size - it's a size of %m parameter]
+[Note: messages from this contact will not be forwarded]
+;file \plugins\YARelay\src\options.cpp
+[!EVERYONE!]
+[!DON'T FORWARD!]
+[Plugins]
+[yaRelay]
 ﻿#muuid {47d489d3-310d-4ef6-bd05-699fffd5a4aa}
 ;============================================================
 ;  File: ZeroNotify.dll

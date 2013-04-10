@@ -198,10 +198,6 @@
 [Incoming Secure Message]
 [Outgoing Secure Message]
 [SecureIM status]
-[SecureIM [Native]]
-[SecureIM [PGP]]
-[SecureIM [GPG]]
-[SecureIM [RSA/AES]]
 ;file \plugins\SecureIM\src\options.cpp
 [Executable Files]
 [Select GnuPG Executable]
@@ -218,3 +214,8 @@
 [Secure Popup]
 [Message Popup]
 [PopUps]
+;file \plugins\SecureIM\src\svcs_srmm.cpp
+[SecureIM [Native]]
+[SecureIM [PGP]]
+[SecureIM [GPG]]
+[SecureIM [RSA/AES]]

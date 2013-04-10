@@ -48,8 +48,6 @@
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
 [Nudge]
 [Default Nudge]
-[Nudge : Shake contact list/chat window]
-[Nudge : Send a nudge]
 [Nudge as Default]
 [Send Nudge]
 [Show Nudge]

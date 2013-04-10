@@ -102,4 +102,3 @@
 [Error]
 [The alarm time you have selected is in the past.]
 [Events]
-;file \plugins\Alarms\src\trigger.cpp

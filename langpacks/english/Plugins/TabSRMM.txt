@@ -848,7 +848,6 @@
 ;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
 [Error feedback]
-[Show client icon in status bar (fingerprint plugin required)]
 [Show skinnable tooltip in chat (tipper plugin required)]
 [Enable typing sounds]
 [Disable animated GIF avatars (will not affect already open message windows)]
