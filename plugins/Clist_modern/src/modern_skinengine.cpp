@@ -547,7 +547,7 @@ static int ske_UnlockSkin()
 	return 0;
 }
 
-typedef struct _tagDCBuffer
+struct DCBUFFER
 {
 	HDC hdcOwnedBy;
 	int nUsageID;
@@ -558,43 +558,34 @@ typedef struct _tagDCBuffer
 	HBITMAP oldBitmap;
 	HBITMAP hBitmap;
 	DWORD dwDestroyAfterTime;
-}DCBUFFER;
+};
+
+static int SortBufferList(const DCBUFFER *buf1, const DCBUFFER *buf2)
+{
+	if (buf1->hdcOwnedBy != buf2->hdcOwnedBy) return (int)(buf1->hdcOwnedBy < buf2->hdcOwnedBy);
+	else if (buf1->nUsageID != buf2->nUsageID) return (int) (buf1->nUsageID < buf2->nUsageID);
+	else return (int) (buf1->hDC < buf2->hDC);
+}
+
+LIST<DCBUFFER> BufferList(2, SortBufferList);
 CRITICAL_SECTION BufferListCS = {0};
 
-SortedList * BufferList = NULL;
 enum
 {
 	BUFFER_DRAWICON = 0,
 	BUFFER_DRAWIMAGE
 };
 
-int SortBufferList(void* it1, void * it2)
-{
-	DCBUFFER * buf1 = (DCBUFFER *)it1;
-	DCBUFFER * buf2 = (DCBUFFER *)it2;
-	if (buf1->hdcOwnedBy != buf2->hdcOwnedBy) return (int)(buf1->hdcOwnedBy < buf2->hdcOwnedBy);
-	else if (buf1->nUsageID != buf2->nUsageID) return (int) (buf1->nUsageID < buf2->nUsageID);
-	else return (int) (buf1->hDC < buf2->hDC);
-}
-
 HDC ske_RequestBufferDC(HDC hdcOwner, int dcID, int width, int height, BOOL fClear)
 {
-	DCBUFFER buf;
-	DCBUFFER * pBuf;
-	if (BufferList == NULL)
-	{
-		BufferList = List_Create(0, 2);
-		BufferList->sortFunc = SortBufferList;
-		InitializeCriticalSection(&BufferListCS);
-	}
-	EnterCriticalSection(&BufferListCS);
+	mir_cslock lck(BufferListCS);
 	//Try to find DC in buffer list
+	DCBUFFER buf;
 	buf.hdcOwnedBy = hdcOwner;
 	buf.nUsageID = dcID;
 	buf.hDC = NULL;
-	pBuf = (DCBUFFER*)List_Find(BufferList,(void*)&buf);
-	if ( !pBuf)
-	{
+	DCBUFFER *pBuf = BufferList.find(&buf);
+	if ( !pBuf) {
 		//if not found - allocate it
 		pBuf = (DCBUFFER *)mir_alloc(sizeof(DCBUFFER));
 		*pBuf = buf;
@@ -604,7 +595,7 @@ HDC ske_RequestBufferDC(HDC hdcOwner, int dcID, int width, int height, BOOL fCle
 		pBuf->hDC = CreateCompatibleDC(hdcOwner);
 		pBuf->oldBitmap = (HBITMAP)SelectObject(pBuf->hDC,pBuf->hBitmap);
 		pBuf->dwDestroyAfterTime = 0;
-		List_InsertPtr(BufferList,pBuf);
+		BufferList.insert(pBuf);
 	}
 	else
 	{
@@ -621,42 +612,33 @@ HDC ske_RequestBufferDC(HDC hdcOwner, int dcID, int width, int height, BOOL fCle
 			memset(pBuf->pImage, 0, width*height*sizeof(DWORD));
 	}
 	pBuf->dwDestroyAfterTime = 0;
-	LeaveCriticalSection(&BufferListCS);
 	return pBuf->hDC;
 }
 
 int ske_ReleaseBufferDC(HDC hDC, int keepTime)
 {
 	DWORD dwCurrentTime = GetTickCount();
-	DCBUFFER * pBuf = NULL;
+
 	//Try to find DC in buffer list - set flag to be release after time;
-	int i=0;
-	EnterCriticalSection(&BufferListCS);
-	for (i=0; i < BufferList->realCount; i++)
-	{
-		pBuf = (DCBUFFER *)BufferList->items[i];
-		if (pBuf)
-		{
-			if (hDC != NULL && pBuf->hDC == hDC)
-			{
+	mir_cslock lck(BufferListCS);
+	for (int i=0; i < BufferList.getCount(); i++) {
+		DCBUFFER *pBuf = BufferList[i];
+		if (pBuf) {
+			if (hDC != NULL && pBuf->hDC == hDC) {
 				pBuf->dwDestroyAfterTime = dwCurrentTime+keepTime;
 				break;
 			}
-			else
-			{
-				if ((pBuf->dwDestroyAfterTime && pBuf->dwDestroyAfterTime < dwCurrentTime) || keepTime == -1)
-				{
-					SelectObject(pBuf->hDC,pBuf->oldBitmap);
-					DeleteObject(pBuf->hBitmap);
-					DeleteDC(pBuf->hDC);
-					mir_free(pBuf);
-					List_Remove(BufferList,i);
-					i--;
-				}
+
+			if ((pBuf->dwDestroyAfterTime && pBuf->dwDestroyAfterTime < dwCurrentTime) || keepTime == -1) {
+				SelectObject(pBuf->hDC,pBuf->oldBitmap);
+				DeleteObject(pBuf->hBitmap);
+				DeleteDC(pBuf->hDC);
+				mir_free(pBuf);
+				BufferList.remove(i);
+				i--;
 			}
 		}
 	}
-	LeaveCriticalSection(&BufferListCS);
 	return 0;
 }
 
@@ -4155,52 +4137,42 @@ static void ske_AddParseTextGlyphObject(char * szGlyphTextID,char * szDefineStri
 */
 static void ske_AddParseSkinFont(char * szFontID,char * szDefineString,SKINOBJECTSLIST *Skin)
 {
-	//SortedList * gl_plSkinFonts = NULL;
-	SKINFONT * sf  = NULL;
-	sf = (SKINFONT*)mir_calloc(sizeof(SKINFONT));
-	if (sf)
-	{
-		{
-			char buf[255];
-			int fntSize = 0;
-			BOOL fntBold = FALSE, fntItalic = FALSE, fntUnderline = FALSE;
-			LOGFONTA logfont = {0};
-			logfont.lfCharSet = DEFAULT_CHARSET;
-			logfont.lfOutPrecision = OUT_DEFAULT_PRECIS;
-			logfont.lfClipPrecision = CLIP_DEFAULT_PRECIS;
-			logfont.lfQuality = DEFAULT_QUALITY;
-			logfont.lfPitchAndFamily = DEFAULT_PITCH|FF_DONTCARE;
+	SKINFONT *sf = (SKINFONT*)mir_calloc(sizeof(SKINFONT));
+	if (!sf)
+		return;
 
-			strncpy(logfont.lfFaceName,GetParamN(szDefineString,buf,sizeof(buf), 0, ',',TRUE),32);
-			logfont.lfHeight = atoi(GetParamN(szDefineString,buf,sizeof(buf),1,',',TRUE));
-			if (logfont.lfHeight < 0)
-			{
-				HDC hdc = CreateCompatibleDC(NULL);
-				logfont.lfHeight = (long)-MulDiv(logfont.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
-				DeleteDC(hdc);
-			}
-			logfont.lfHeight = -logfont.lfHeight;
-			GetParamN(szDefineString,buf,sizeof(buf),2,',',TRUE);
-			buf[0] &= 95; buf[1] &= 95; buf[2] &= 95;
-			logfont.lfWeight = (buf[0] == 'B')?FW_BOLD:FW_NORMAL;
-			logfont.lfItalic = (buf[1] == 'I')?1:0;
-			logfont.lfUnderline = (buf[2] == 'U')?1:0;
+	char buf[255];
+	int fntSize = 0;
+	BOOL fntBold = FALSE, fntItalic = FALSE, fntUnderline = FALSE;
+	LOGFONTA logfont = {0};
+	logfont.lfCharSet = DEFAULT_CHARSET;
+	logfont.lfOutPrecision = OUT_DEFAULT_PRECIS;
+	logfont.lfClipPrecision = CLIP_DEFAULT_PRECIS;
+	logfont.lfQuality = DEFAULT_QUALITY;
+	logfont.lfPitchAndFamily = DEFAULT_PITCH|FF_DONTCARE;
 
-			sf->hFont = CreateFontIndirectA(&logfont);
-			if (sf->hFont)
-			{
-				sf->szFontID = mir_strdup(szFontID);
-				if ( !gl_plSkinFonts)
-					gl_plSkinFonts = List_Create(0, 1);
-				if (gl_plSkinFonts)
-				{
-					List_Insert(gl_plSkinFonts,(void*)sf,gl_plSkinFonts->realCount);
-				}
-			}
-
-		}
+	strncpy(logfont.lfFaceName,GetParamN(szDefineString,buf,sizeof(buf), 0, ',',TRUE),32);
+	logfont.lfHeight = atoi(GetParamN(szDefineString,buf,sizeof(buf),1,',',TRUE));
+	if (logfont.lfHeight < 0) {
+		HDC hdc = CreateCompatibleDC(NULL);
+		logfont.lfHeight = (long)-MulDiv(logfont.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
+		DeleteDC(hdc);
 	}
+	logfont.lfHeight = -logfont.lfHeight;
+	GetParamN(szDefineString,buf,sizeof(buf),2,',',TRUE);
+	buf[0] &= 95; buf[1] &= 95; buf[2] &= 95;
+	logfont.lfWeight = (buf[0] == 'B')?FW_BOLD:FW_NORMAL;
+	logfont.lfItalic = (buf[1] == 'I')?1:0;
+	logfont.lfUnderline = (buf[2] == 'U')?1:0;
 
+	sf->hFont = CreateFontIndirectA(&logfont);
+	if (sf->hFont) {
+		sf->szFontID = mir_strdup(szFontID);
+		if ( !gl_plSkinFonts)
+			gl_plSkinFonts = List_Create(0, 1);
+		if (gl_plSkinFonts)
+			List_Insert(gl_plSkinFonts,(void*)sf,gl_plSkinFonts->realCount);
+	}
 }
 
 /*

@@ -671,8 +671,6 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					if (iLen) {
 						char *szBuf = ( char* )malloc(iLen + 1);
 						if (szBuf) {
-							HANDLE hContact;
-
 							SendDlgItemMessageA(hwndDlg, IDC_VIEWMODES, LB_GETTEXT, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), (LPARAM)szBuf);
 							mir_snprintf(szSetting, 256, "%c%s_PF", 246, szBuf);
 							db_unset(NULL, CLVM_MODULE, szSetting);

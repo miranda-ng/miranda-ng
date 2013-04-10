@@ -393,12 +393,7 @@ void SaveState()
 {
 	TCHAR newGroupFilter[2048] = _T("|");
 	char newProtoFilter[2048] = "|";
-	int i, iLen;
-	HWND hwndList;
-	TCHAR *szTempModeName = NULL;
-	char *szModeName = NULL;
 	DWORD statusMask = 0;
-	HANDLE hContact, hItem;
 	DWORD operators = 0;
 
 	if (clvm_curItem == -1)
@@ -408,8 +403,8 @@ void SaveState()
 		LVITEMA item = {0};
 		char szTemp[256];
 
-		hwndList = GetDlgItem(clvmHwnd, IDC_PROTOCOLS);
-		for (i=0; i < ListView_GetItemCount(hwndList); i++) {
+		HWND hwndList = GetDlgItem(clvmHwnd, IDC_PROTOCOLS);
+		for (int i=0; i < ListView_GetItemCount(hwndList); i++) {
 			if (ListView_GetCheckState(hwndList, i)) {
 				item.mask = LVIF_TEXT;
 				item.pszText = szTemp;
@@ -422,16 +417,15 @@ void SaveState()
 			}
 		}
 	}
-
 	{
 		LVITEM item = {0};
 		TCHAR szTemp[256];
 
-		hwndList = GetDlgItem(clvmHwnd, IDC_GROUPS);
+		HWND hwndList = GetDlgItem(clvmHwnd, IDC_GROUPS);
 
 		operators |= ListView_GetCheckState(hwndList, 0) ? CLVM_INCLUDED_UNGROUPED : 0;
 
-		for (i=0; i < ListView_GetItemCount(hwndList); i++) {
+		for (int i=0; i < ListView_GetItemCount(hwndList); i++) {
 			if (ListView_GetCheckState(hwndList, i)) {
 				item.mask = LVIF_TEXT;
 				item.pszText = szTemp;
@@ -444,41 +438,31 @@ void SaveState()
 			}
 		}
 	}
-	hwndList = GetDlgItem(clvmHwnd, IDC_STATUSMODES);
-	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-		if (ListView_GetCheckState(hwndList, i - ID_STATUS_OFFLINE))
-			statusMask |= (1 << (i - ID_STATUS_OFFLINE));
+	{
+		HWND hwndList = GetDlgItem(clvmHwnd, IDC_STATUSMODES);
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+			if (ListView_GetCheckState(hwndList, i - ID_STATUS_OFFLINE))
+				statusMask |= (1 << (i - ID_STATUS_OFFLINE));
 	}
-	iLen = SendMessage(GetDlgItem(clvmHwnd, IDC_VIEWMODES), LB_GETTEXTLEN, clvm_curItem, 0);
+
+	int iLen = SendMessage(GetDlgItem(clvmHwnd, IDC_VIEWMODES), LB_GETTEXTLEN, clvm_curItem, 0);
 	if (iLen) {
 		unsigned int stickies = 0;
-		DWORD dwGlobalMask, dwLocalMask;
-		BOOL translated;
 
-		szTempModeName = ( TCHAR* )mir_alloc((iLen + 1)*sizeof(TCHAR));
-		if (szTempModeName)
-		{
-			DWORD options, lmdat;
-			//char *vastring = NULL;
-			//int len = GetWindowTextLengthA(GetDlgItem(clvmHwnd, IDC_VARIABLES)) + 1;
-
-			//vastring = (char *)malloc(len);
-			//if (vastring)
-			//GetDlgItemTextA(clvmHwnd, IDC_VARIABLES, vastring, len);
+		TCHAR *szTempModeName = ( TCHAR* )mir_alloc((iLen + 1)*sizeof(TCHAR));
+		if (szTempModeName) {
 			SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szTempModeName);
 
-			{
-				szModeName = mir_utf8encodeT(szTempModeName);
-			}
+			mir_ptr<char> szModeName( mir_utf8encodeT(szTempModeName));
 
-			dwGlobalMask = GetMaskForItem(hInfoItem);
+			DWORD dwGlobalMask = GetMaskForItem(hInfoItem);
 			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-				hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+				HANDLE hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 				if (hItem == NULL)
 					continue;
 				
 				if (SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
-					dwLocalMask = GetMaskForItem(hItem);
+					DWORD dwLocalMask = GetMaskForItem(hItem);
 					db_set_dw(hContact, CLVM_MODULE, szModeName, MAKELONG(1, (unsigned short)dwLocalMask));
 					stickies++;
 				}
@@ -496,15 +480,16 @@ void SaveState()
 				(IsDlgButtonChecked(clvmHwnd, IDC_USEGROUPS) == BST_UNCHECKED ? CLVM_DONOTUSEGROUPS : 0)
 				);
 
-			options = SendDlgItemMessage(clvmHwnd, IDC_AUTOCLEARSPIN, UDM_GETPOS, 0, 0);
+			DWORD options = SendDlgItemMessage(clvmHwnd, IDC_AUTOCLEARSPIN, UDM_GETPOS, 0, 0);
 
-			lmdat = MAKELONG(GetDlgItemInt(clvmHwnd, IDC_LASTMSGVALUE, &translated, FALSE),
+			BOOL translated;
+			DWORD lmdat = MAKELONG(GetDlgItemInt(clvmHwnd, IDC_LASTMSGVALUE, &translated, FALSE),
 				MAKEWORD(SendDlgItemMessage(clvmHwnd, IDC_LASTMESSAGEOP, CB_GETCURSEL, 0, 0),
 				SendDlgItemMessage(clvmHwnd, IDC_LASTMESSAGEUNIT, CB_GETCURSEL, 0, 0)));
 
 			SaveViewMode(szModeName, newGroupFilter, newProtoFilter, statusMask, dwGlobalMask, options, 
 				stickies, operators, lmdat);
-			//free(vastring);
+
 			if (szModeName && szModeName != (char*)szTempModeName)
 				mir_free(szModeName);
 			mir_free(szTempModeName);
