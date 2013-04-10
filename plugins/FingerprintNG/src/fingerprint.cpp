@@ -145,7 +145,6 @@ static void SetSrmmIcon(HANDLE hContact, LPTSTR ptszMirver)
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULENAME;
 	sid.dwId = 1;
-	sid.flags = MBF_OWNERSTATE;
 	sid.szTooltip = LPGEN("Client icon");
 
 	if ( lstrlen(ptszMirver))
@@ -1163,7 +1162,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (db_get_b(NULL, MODULENAME, "StatusBarIcon", 1) && ServiceExists(MS_MSG_ADDICON)) {
 		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = MODULENAME;
-		sid.flags = MBF_OWNERSTATE | MBF_HIDDEN;
+		sid.flags = MBF_HIDDEN;
 		sid.dwId = 1;
 		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
 	} 
@@ -1181,6 +1180,7 @@ static int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_MSG_REMOVEICON)) {
 		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = MODULENAME;
+		sid.dwId = 1;
 		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
 	}
 

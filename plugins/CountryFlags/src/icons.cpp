@@ -96,7 +96,7 @@ static int __fastcall CountryNumberToBitmapIndex(int countryNumber)
 // only operates on color icons, which isn't a problem here
 static HICON __fastcall ResizeIconCentered(HICON hIcon,int cx,int cy)
 {
-	HICON hResIcon=NULL;
+	HICON hResIcon = NULL;
 	HDC hdc = CreateCompatibleDC(NULL);
 	if (hdc != NULL) {
 		ICONINFO icoi;

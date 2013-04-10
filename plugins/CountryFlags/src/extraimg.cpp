@@ -34,13 +34,13 @@ static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 	int countryNumber = 0xFFFF;
 	char *pszProto = GetContactProto((HANDLE)wParam);
 	/* ip detect */
-	if ( db_get_b(NULL,"Flags","UseIpToCountry",SETTING_USEIPTOCOUNTRY_DEFAULT))
-		countryNumber=ServiceIpToCountry(db_get_dw((HANDLE)wParam,pszProto,"RealIP",0),0);
+	if ( db_get_b(NULL, MODULENAME, "UseIpToCountry", SETTING_USEIPTOCOUNTRY_DEFAULT))
+		countryNumber = ServiceIpToCountry(db_get_dw((HANDLE)wParam,pszProto,"RealIP",0),0);
 	/* fallback */
 	if (countryNumber == 0xFFFF)
-		countryNumber=db_get_w((HANDLE)wParam,pszProto,"Country",0);
+		countryNumber = db_get_w((HANDLE)wParam,pszProto,"Country",0);
 	if (countryNumber == 0 || countryNumber == 0xFFFF)
-		countryNumber=db_get_w((HANDLE)wParam,pszProto,"CompanyCountry",0);
+		countryNumber = db_get_w((HANDLE)wParam,pszProto,"CompanyCountry",0);
 	return (countryNumber == 0) ? 0xFFFF : countryNumber;
 }
 
@@ -52,7 +52,7 @@ static HANDLE hExtraIcon;
 
 static void CALLBACK SetExtraImage(HANDLE hContact)
 {
-	if ( !db_get_b(NULL, "Flags", "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT))
+	if ( !db_get_b(NULL, MODULENAME, "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT))
 		return;
 		
 	int countryNumber = ServiceDetectContactOriginCountry((WPARAM)hContact, 0);
@@ -77,7 +77,7 @@ static void EnsureExtraImages(void)
 
 static void CALLBACK UpdateExtraImages(LPARAM lParam)
 {
-	if ( db_get_b(NULL,"Flags","ShowExtraImgFlag",SETTING_SHOWEXTRAIMGFLAG_DEFAULT))
+	if ( db_get_b(NULL, MODULENAME, "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT))
 		EnsureExtraImages();
 	else
 		RemoveExtraImages();
@@ -85,7 +85,7 @@ static void CALLBACK UpdateExtraImages(LPARAM lParam)
 
 static int ExtraImageApply(WPARAM wParam,LPARAM lParam)
 {
-	if ( db_get_b(NULL,"Flags","ShowExtraImgFlag",SETTING_SHOWEXTRAIMGFLAG_DEFAULT)) 
+	if ( db_get_b(NULL, MODULENAME, "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT)) 
 		SetExtraImage((HANDLE)wParam); /* unbuffered */
 	return 0;
 }
@@ -97,92 +97,67 @@ static int ExtraImageApply(WPARAM wParam,LPARAM lParam)
 // always call in context of main thread
 static void __fastcall SetStatusIcon(HANDLE hContact,int countryNumber)
 {
-	HICON hIcon = NULL;
-
 	StatusIconData sid = { sizeof(sid) };
-	sid.szModule = "Flags";
-	
-	if (countryNumber != 0xFFFF || db_get_b(NULL, "Flags", "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT)) {
-		/* copy icon as status icon API will call DestroyIcon() on it */
-		hIcon = LoadFlagIcon(countryNumber);
-		sid.hIcon = (hIcon != NULL) ? CopyIcon(hIcon) : NULL;
-		Skin_ReleaseIcon(hIcon); /* does NULL check */
-		hIcon = sid.hIcon;
-		/* ensure status icon is registered */
-		sid.dwId = countryNumber;
-		sid.szTooltip = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,countryNumber,0));
-		if (CallService(MS_MSG_MODIFYICON, 0, (LPARAM)&sid)) /* not yet registered? */
-			CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
-	}	
+	sid.szModule = MODULENAME;
 
-	/* disable all other flags for this contact */
-	sid.hIcon = NULL;
-	sid.szTooltip = NULL;
-	sid.flags = MBF_HIDDEN;
-	for (int i=0; i < nCountriesCount; ++i) {
-		sid.dwId = countries[i].id;
-		if (countryNumber == countries[i].id && hIcon != NULL)
-			sid.flags = 0;
-		else
-			sid.flags = MBF_HIDDEN;
-		CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
-	}
+	if (countryNumber != 0xFFFF || db_get_b(NULL, MODULENAME, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT)) {
+		/* copy icon as status icon API will call DestroyIcon() on it */
+		sid.hIcon = LoadFlagIcon(countryNumber);
+		sid.szTooltip = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,countryNumber,0));
+	}	
+	else sid.flags = MBF_HIDDEN;
+
+	CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
+
+	if (sid.hIcon)
+		Skin_ReleaseIcon(sid.hIcon);
 }
 
 // always call in context of main thread
-static void __fastcall UnsetStatusIcon(HANDLE hContact,int countryNumber)
+static void __fastcall UnsetStatusIcon(HANDLE hContact)
 {
-	StatusIconData sid;
-	sid.cbSize=sizeof(sid);
-	sid.szModule="Flags";
-	sid.dwId=countryNumber;
-	sid.hIconDisabled=sid.hIcon=NULL;
-	sid.szTooltip=NULL;
-	sid.flags=MBF_HIDDEN;
-	CallService(MS_MSG_MODIFYICON,(WPARAM)hContact,(LPARAM)&sid); /* registered? */
-	/* can't call MS_MSG_REMOVEICON here as the icon might be
-	 * in use by other contacts simultanously, removing them all at exit */
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = MODULENAME;
+	sid.flags = MBF_HIDDEN;
+	CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
 }
 
 static int MsgWndEvent(WPARAM wParam,LPARAM lParam)
 {
 	MessageWindowEventData *msgwe=(MessageWindowEventData*)lParam;
 	switch(msgwe->uType) {
-		case MSG_WINDOW_EVT_OPENING:
-		case MSG_WINDOW_EVT_CLOSE:
-		{	int countryNumber;
-			if (msgwe->hContact == NULL || !ServiceExists(MS_MSG_ADDICON)) break; /* sanity check */
-			countryNumber=ServiceDetectContactOriginCountry((WPARAM)msgwe->hContact,0);
-			if ( db_get_b(NULL,"Flags","ShowStatusIconFlag",SETTING_SHOWSTATUSICONFLAG_DEFAULT)) {
-				if (msgwe->uType == MSG_WINDOW_EVT_OPENING) SetStatusIcon(msgwe->hContact,countryNumber);
-				else UnsetStatusIcon(msgwe->hContact,countryNumber);
-			}
-			/* ensure it is hidden, RemoveStatusIcons() only enums currently opened ones  */
-			else UnsetStatusIcon(msgwe->hContact,countryNumber);
+	case MSG_WINDOW_EVT_OPENING:
+	case MSG_WINDOW_EVT_CLOSE:
+		if ( db_get_b(NULL, MODULENAME, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT)) {
+			int countryNumber = ServiceDetectContactOriginCountry((WPARAM)msgwe->hContact, 0);
+			if (msgwe->uType == MSG_WINDOW_EVT_OPENING && countryNumber != 0xFFFF)
+				SetStatusIcon(msgwe->hContact,countryNumber);
+			else
+				UnsetStatusIcon(msgwe->hContact);
 		}
+		/* ensure it is hidden, RemoveStatusIcons() only enums currently opened ones  */
+		else UnsetStatusIcon(msgwe->hContact);
 	}
 	return 0;
 }
 
 static void CALLBACK UpdateStatusIcons(LPARAM lParam)
 {
-	MessageWindowInputData msgwi; /* input */
-	MessageWindowData msgw; /* output */
-	BOOL fShow;
-	int countryNumber;
+	BOOL fShow = db_get_b(NULL,MODULENAME,"ShowStatusIconFlag",SETTING_SHOWSTATUSICONFLAG_DEFAULT);
 
-	msgwi.cbSize=sizeof(msgwi);
-	msgw.cbSize=sizeof(msgw);
-	msgwi.uFlags=MSG_WINDOW_UFLAG_MSG_BOTH;
-	/* enum all opened message windows */
-	fShow=db_get_b(NULL,"Flags","ShowStatusIconFlag",SETTING_SHOWSTATUSICONFLAG_DEFAULT);
-	msgwi.hContact=db_find_first();
+	MessageWindowInputData msgwi = { sizeof(msgwi) };
+	msgwi.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
+	msgwi.hContact = db_find_first();
 	while (msgwi.hContact != NULL) {
 		/* is a message window opened for this contact? */
-		if (!CallService(MS_MSG_GETWINDOWDATA,(WPARAM)&msgwi,(LPARAM)&msgw) && msgw.uState&MSG_WINDOW_STATE_EXISTS) {
-			countryNumber=ServiceDetectContactOriginCountry((WPARAM)msgwi.hContact,0);
-			if (fShow) SetStatusIcon(msgwi.hContact,countryNumber);
-			else UnsetStatusIcon(msgwi.hContact,countryNumber);
+		MessageWindowData msgw; /* output */
+		msgw.cbSize = sizeof(msgw);
+		if (!CallService(MS_MSG_GETWINDOWDATA,(WPARAM)&msgwi,(LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
+			if (fShow) {
+				int countryNumber = ServiceDetectContactOriginCountry((WPARAM)msgwi.hContact, 0);
+				SetStatusIcon(msgwi.hContact, countryNumber);
+			}
+			else UnsetStatusIcon(msgwi.hContact);
 		}
 		msgwi.hContact = db_find_next(msgw.hContact);
 	}
@@ -191,8 +166,8 @@ static void CALLBACK UpdateStatusIcons(LPARAM lParam)
 static int StatusIconsChanged(WPARAM wParam,LPARAM lParam)
 {
 	if (ServiceExists(MS_MSG_ADDICON))
-		if ( db_get_b(NULL,"Flags","ShowStatusIconFlag",SETTING_SHOWSTATUSICONFLAG_DEFAULT))
-			CallFunctionBuffered(UpdateStatusIcons,0,FALSE,STATUSICON_REFRESHDELAY);
+		if ( db_get_b(NULL, MODULENAME, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT))
+			CallFunctionBuffered(UpdateStatusIcons, 0, FALSE, STATUSICON_REFRESHDELAY);
 	return 0;
 }
 
@@ -209,17 +184,19 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 		{
 			BOOL val;
 			/* Status Icon */
-			if (ServiceExists(MS_MSG_ADDICON)) val=db_get_b(NULL,"Flags","ShowStatusIconFlag",SETTING_SHOWSTATUSICONFLAG_DEFAULT) != 0;
-			else EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG),val=FALSE);
+			if (ServiceExists(MS_MSG_ADDICON))
+				val = db_get_b(NULL, MODULENAME, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT) != 0;
+			else
+				EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG),val=FALSE);
 			CheckDlgButton(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG,val);
 			/* Extra Image */
-			val=db_get_b(NULL,"Flags","ShowExtraImgFlag",SETTING_SHOWEXTRAIMGFLAG_DEFAULT) != 0;
+			val = db_get_b(NULL,MODULENAME,"ShowExtraImgFlag",SETTING_SHOWEXTRAIMGFLAG_DEFAULT) != 0;
 			CheckDlgButton(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG,val);
 			/* Unknown Flag */
-			val=db_get_b(NULL,"Flags","UseUnknownFlag",SETTING_USEUNKNOWNFLAG_DEFAULT) != 0;
+			val = db_get_b(NULL,MODULENAME,"UseUnknownFlag",SETTING_USEUNKNOWNFLAG_DEFAULT) != 0;
 			CheckDlgButton(hwndDlg,IDC_CHECK_USEUNKNOWNFLAG,val);
 			/* IP-to-country */
-			val=db_get_b(NULL,"Flags","UseIpToCountry",SETTING_USEIPTOCOUNTRY_DEFAULT) != 0;
+			val = db_get_b(NULL,MODULENAME,"UseIpToCountry",SETTING_USEIPTOCOUNTRY_DEFAULT) != 0;
 			CheckDlgButton(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY,val);
 		}
 		SendMessage(hwndDlg,M_ENABLE_SUBCTLS,0,0);
@@ -244,14 +221,14 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 	case WM_NOTIFY:
 		switch(((NMHDR*)lParam)->code) {
 		case PSN_APPLY: /* setting change hook will pick these up  */
-			db_set_b(NULL,"Flags","UseUnknownFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_USEUNKNOWNFLAG) != 0));
-			db_set_b(NULL,"Flags","UseIpToCountry",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY) != 0));
+			db_set_b(NULL,MODULENAME,"UseUnknownFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_USEUNKNOWNFLAG) != 0));
+			db_set_b(NULL,MODULENAME,"UseIpToCountry",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY) != 0));
 			/* Status Icon */
 			if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG)))
-				db_set_b(NULL,"Flags","ShowStatusIconFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG) != 0));
+				db_set_b(NULL,MODULENAME,"ShowStatusIconFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG) != 0));
 			/* Extra Image */
 			if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG)))
-				db_set_b(NULL,"Flags","ShowExtraImgFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG) != 0));
+				db_set_b(NULL,MODULENAME,"ShowExtraImgFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG) != 0));
 			return TRUE;
 		}
 		break;
@@ -261,8 +238,7 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 
 static int ExtraImgOptInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXTRAIMG);
 	odp.position = 900000002;
@@ -279,7 +255,7 @@ static int ExtraImgSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
 	if ((HANDLE)wParam == NULL) {
-		if (!lstrcmpA(dbcws->szModule,"Flags")) {
+		if (!lstrcmpA(dbcws->szModule,MODULENAME)) {
 			/* Extra Image */
 			if (!lstrcmpA(dbcws->szSetting,"ShowExtraImgFlag") ||
 			    !lstrcmpA(dbcws->szSetting,"ExtraImgFlagColumn") ||
@@ -313,23 +289,38 @@ static int ExtraImgModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	/* Options */
 	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
-		CallService("DBEditorpp/RegisterSingleModule",(WPARAM)"Flags",0);
+		CallService("DBEditorpp/RegisterSingleModule",(WPARAM)MODULENAME,0);
 
 	/* Extra Image */
 	hExtraIcon = ExtraIcon_Register("flags_extra", LPGEN("Country flag"));
 	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,ExtraImageApply);
 
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = MODULENAME; // dwID = 0
+	sid.flags = MBF_HIDDEN;
+	CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+
 	/* Status Icon */
-	HookEvent(ME_MSG_WINDOWEVENT,MsgWndEvent);
+	HookEvent(ME_MSG_WINDOWEVENT, MsgWndEvent);
+	return 0;
+}
+
+static int ExtraImgShutdown(WPARAM, LPARAM)
+{
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = MODULENAME; // dwID = 0
+	sid.flags = MBF_HIDDEN;
+	CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
 	return 0;
 }
 
 void InitExtraImg(void)
 {
 	/* Services */
-	hServiceDetectContactOrigin=CreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY,ServiceDetectContactOriginCountry);
+	hServiceDetectContactOrigin = CreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY,ServiceDetectContactOriginCountry);
 	/* Misc */
-	HookEvent(ME_SYSTEM_MODULESLOADED,ExtraImgModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ExtraImgModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, ExtraImgShutdown);
 	/* Status icon */
 	HookEvent(ME_SKIN2_ICONSCHANGED,StatusIconsChanged);
 	/* Options */

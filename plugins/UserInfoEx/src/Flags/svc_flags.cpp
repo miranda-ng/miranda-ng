@@ -336,46 +336,25 @@ MsgWndData::~MsgWndData() {
 	FlagsIconUnset();			//check if realy need
 }
 
-void
-MsgWndData::FlagsIconSet() {
-	HICON hIcon				= NULL;
-	StatusIconData sid		= {0};
-	sid.cbSize				= sizeof(sid);
-	sid.szModule			= MODNAMEFLAGS;
+void MsgWndData::FlagsIconSet()
+{
 	/* ensure status icon is registered */
-	if (	m_countryID!=0xFFFF || gFlagsOpts.bUseUnknownFlag) {
-		/* copy icon as status icon API will call DestroyIcon() on it */
-		hIcon = LoadFlagIcon(m_countryID);
-		sid.hIcon			= (hIcon!=NULL)?CopyIcon(hIcon):NULL;
-		Skin_ReleaseIcon(hIcon); /* does NULL check */
-		hIcon = sid.hIcon;
-		sid.dwId			= (DWORD)m_countryID;
-		sid.hIconDisabled	= sid.hIcon/*NULL*/;
-		sid.szTooltip		= Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,m_countryID,0));
-		sid.flags			= 0;
+	if (m_countryID != 0xFFFF || gFlagsOpts.bUseUnknownFlag) {
+		StatusIconData sid = { sizeof(sid) };
+		sid.szModule = MODNAMEFLAGS;
+		sid.hIconDisabled	= sid.hIcon = LoadFlagIcon(m_countryID);
+		sid.szTooltip = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,m_countryID,0));
 		if(CallService(MS_MSG_MODIFYICON,(WPARAM)m_hContact,(LPARAM)&sid) !=0) /* not yet registered? */
 			CallService(MS_MSG_ADDICON,0,(LPARAM)&sid);
 	}	
-	sid.hIcon				= NULL;
-	sid.szTooltip			= NULL;
-	sid.hIconDisabled		= NULL;
-	for(int i=0;i<nCountriesCount;++i) {
-		sid.dwId			= (DWORD)countries[i].id;
-		sid.flags			= (m_countryID==countries[i].id && hIcon!=NULL)? 0:MBF_HIDDEN;
-		CallService(MS_MSG_MODIFYICON,(WPARAM)m_hContact,(LPARAM)&sid);
-	}
 }
 
-void
-MsgWndData::FlagsIconUnset() {
-	StatusIconData sid		= {0};
-	sid.cbSize				= sizeof(sid);
-	sid.szModule			= MODNAMEFLAGS;
-	sid.dwId				= (DWORD)m_countryID;
-	sid.flags				= MBF_HIDDEN;
+void MsgWndData::FlagsIconUnset()
+{
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = MODNAMEFLAGS;
+	sid.flags = MBF_HIDDEN;
 	CallService(MS_MSG_MODIFYICON,(WPARAM)m_hContact,(LPARAM)&sid);
-	/* can't call MS_MSG_REMOVEICON here as the icon might be
-	 * in use by other contacts simultanously, removing them all at exit */
 }
 
 static int CompareMsgWndData(const MsgWndData* p1, const MsgWndData* p2)

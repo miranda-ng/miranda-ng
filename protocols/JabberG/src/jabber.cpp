@@ -104,38 +104,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
 
 ///////////////////////////////////////////////////////////////////////////////
-// OnPreShutdown - prepares Miranda to be shut down
-
-int __cdecl CJabberProto::OnPreShutdown(WPARAM, LPARAM)
-{
-	UI_SAFE_CLOSE_HWND(m_hwndAgentRegInput);
-	UI_SAFE_CLOSE_HWND(m_hwndRegProgress);
-	UI_SAFE_CLOSE_HWND(m_hwndMucVoiceList);
-	UI_SAFE_CLOSE_HWND(m_hwndMucMemberList);
-	UI_SAFE_CLOSE_HWND(m_hwndMucModeratorList);
-	UI_SAFE_CLOSE_HWND(m_hwndMucBanList);
-	UI_SAFE_CLOSE_HWND(m_hwndMucAdminList);
-	UI_SAFE_CLOSE_HWND(m_hwndMucOwnerList);
-	UI_SAFE_CLOSE_HWND(m_hwndJabberChangePassword);
-	UI_SAFE_CLOSE_HWND(m_hwndJabberAddBookmark);
-	UI_SAFE_CLOSE_HWND(m_hwndPrivacyRule);
-
-	UI_SAFE_CLOSE(m_pDlgPrivacyLists);
-	UI_SAFE_CLOSE(m_pDlgBookmarks);
-	UI_SAFE_CLOSE(m_pDlgServiceDiscovery);
-	UI_SAFE_CLOSE(m_pDlgJabberJoinGroupchat);
-	UI_SAFE_CLOSE(m_pDlgNotes);
-
-	m_iqManager.ExpireAll();
-	m_iqManager.Shutdown();
-	m_messageManager.Shutdown();
-	m_presenceManager.Shutdown();
-	m_sendManager.Shutdown();
-	ConsoleUninit();
-	return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
 // OnModulesLoaded - execute some code when all plugins are initialized
 
 static INT_PTR g_SvcParseXmppUri(WPARAM w, LPARAM l)

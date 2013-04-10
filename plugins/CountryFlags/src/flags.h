@@ -36,6 +36,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FLAGS_NOHELPERFUNCTIONS
 #include <m_flags.h>
 
+#define MODULENAME "Flags"
+
 #include "resource.h"
 #include "version.h"
 

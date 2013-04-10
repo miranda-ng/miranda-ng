@@ -295,13 +295,12 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	}
 
 	if (ServiceExists(MS_MSG_ADDICON)) {
-		StatusIconData sid = {0};
-		sid.cbSize = sizeof(sid);
+		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = m_szModuleName;
 		sid.hIcon = sid.hIconDisabled = LoadIconEx("main");
 		sid.flags = MBF_HIDDEN;
 		sid.szTooltip = Translate("Jabber Resource");
-		CallService(MS_MSG_ADDICON, 0, (LPARAM) &sid);
+		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
 		Skin_ReleaseIcon(sid.hIcon);
 
 		JHookEvent(ME_MSG_ICONPRESSED, &CJabberProto::OnProcessSrmmIconClick);
@@ -346,6 +345,44 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	}
 
 	CleanLastResourceMap();
+	return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// OnPreShutdown - prepares Miranda to be shut down
+
+int __cdecl CJabberProto::OnPreShutdown(WPARAM, LPARAM)
+{
+	UI_SAFE_CLOSE_HWND(m_hwndAgentRegInput);
+	UI_SAFE_CLOSE_HWND(m_hwndRegProgress);
+	UI_SAFE_CLOSE_HWND(m_hwndMucVoiceList);
+	UI_SAFE_CLOSE_HWND(m_hwndMucMemberList);
+	UI_SAFE_CLOSE_HWND(m_hwndMucModeratorList);
+	UI_SAFE_CLOSE_HWND(m_hwndMucBanList);
+	UI_SAFE_CLOSE_HWND(m_hwndMucAdminList);
+	UI_SAFE_CLOSE_HWND(m_hwndMucOwnerList);
+	UI_SAFE_CLOSE_HWND(m_hwndJabberChangePassword);
+	UI_SAFE_CLOSE_HWND(m_hwndJabberAddBookmark);
+	UI_SAFE_CLOSE_HWND(m_hwndPrivacyRule);
+
+	UI_SAFE_CLOSE(m_pDlgPrivacyLists);
+	UI_SAFE_CLOSE(m_pDlgBookmarks);
+	UI_SAFE_CLOSE(m_pDlgServiceDiscovery);
+	UI_SAFE_CLOSE(m_pDlgJabberJoinGroupchat);
+	UI_SAFE_CLOSE(m_pDlgNotes);
+
+	m_iqManager.ExpireAll();
+	m_iqManager.Shutdown();
+	m_messageManager.Shutdown();
+	m_presenceManager.Shutdown();
+	m_sendManager.Shutdown();
+	ConsoleUninit();
+
+	if (ServiceExists(MS_MSG_REMOVEICON)) {
+		StatusIconData sid = { sizeof(sid) };
+		sid.szModule = m_szModuleName;
+		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
+	}
 	return 0;
 }
 
