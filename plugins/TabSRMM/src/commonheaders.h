@@ -242,8 +242,6 @@ extern TContainerData *pFirstContainer, *pLastActiveContainer;
 extern HANDLE hTypingNotify;
 extern SESSION_INFO *m_WndList;
 extern ButtonSet g_ButtonSet;
-extern int status_icon_list_size;
-extern TStatusBarIconNode *status_icon_list;
 extern HANDLE g_hEvent;
 extern RECT rcLastStatusBarClick;
 extern PLUGININFOEX pluginInfo;

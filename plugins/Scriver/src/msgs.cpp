@@ -377,7 +377,7 @@ static void RegisterStatusIcons()
 	sid.hIconDisabled = CopyIcon(GetCachedIcon("scriver_TYPINGOFF"));
 	sid.flags = MBF_HIDDEN;
 	sid.szTooltip = NULL;
-	AddStickyStatusIcon((WPARAM) 0, (LPARAM)&sid);
+	CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
 }
 
 void ChangeStatusIcons()
@@ -386,13 +386,13 @@ void ChangeStatusIcons()
 	sid.szModule = SRMMMOD;
 	sid.hIcon = CopyIcon(GetCachedIcon("scriver_UNICODEON"));
 	sid.hIconDisabled = CopyIcon(GetCachedIcon("scriver_UNICODEOFF"));
-	ModifyStatusIcon(0, (LPARAM)&sid);
+	CallService(MS_MSG_MODIFYICON, 0, (LPARAM)&sid);
 
 	sid.dwId = 1;
 	sid.hIcon = CopyIcon(GetCachedIcon("scriver_TYPING"));
 	sid.hIconDisabled = CopyIcon(GetCachedIcon("scriver_TYPINGOFF"));
 	sid.flags = MBF_HIDDEN;
-	ModifyStatusIcon(0, (LPARAM)&sid);
+	CallService(MS_MSG_MODIFYICON, 0, (LPARAM)&sid);
 }
 
 int StatusIconPressed(WPARAM wParam, LPARAM lParam)

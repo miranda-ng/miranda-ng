@@ -2015,199 +2015,44 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 */
 
 static HANDLE hHookIconPressedEvt;
-TStatusBarIconNode *status_icon_list = 0;
-int status_icon_list_size = 0;
 
-static INT_PTR SI_AddStatusIcon(WPARAM wParam, LPARAM lParam)
+static int OnSrmmIconChanged(WPARAM wParam, LPARAM)
 {
-	StatusIconData *sid = (StatusIconData *)lParam;
-	TStatusBarIconNode *siln = (TStatusBarIconNode *)mir_alloc(sizeof(TStatusBarIconNode));
-
-	siln->sid.cbSize = sid->cbSize;
-	siln->sid.szModule = mir_strdup(sid->szModule);
-	siln->sid.dwId = sid->dwId;
-	siln->sid.hIcon = sid->hIcon;
-	siln->sid.hIconDisabled = sid->hIconDisabled;
-	siln->sid.flags = sid->flags;
-	siln->sid.szTooltip = mir_strdup(sid->szTooltip);
-	siln->next = status_icon_list;
-	status_icon_list = siln;
-	status_icon_list_size++;
-
-	M->BroadcastMessage(DM_STATUSICONCHANGE, 0, 0);
-	return 0;
-}
-
-static INT_PTR SI_RemoveStatusIcon(WPARAM wParam, LPARAM lParam)
-{
-	StatusIconData *sid = (StatusIconData *)lParam;
-	TStatusBarIconNode *current = status_icon_list, *prev = 0;
-
-	while (current) {
-		if (strcmp(current->sid.szModule, sid->szModule) == 0 && current->sid.dwId == sid->dwId) {
-			if (prev) prev->next = current->next;
-			else status_icon_list = current->next;
-
-			status_icon_list_size--;
-
-			mir_free(current->sid.szModule);
-			DestroyIcon(current->sid.hIcon);
-			if (current->sid.hIconDisabled)
-				DestroyIcon(current->sid.hIconDisabled);
-			mir_free(current->sid.szTooltip);
-			mir_free(current);
-			M->BroadcastMessage(DM_STATUSICONCHANGE, 0, 0);
-			return 0;
-		}
-
-		prev = current;
-		current = current->next;
-	}
-	return 1;
-}
-
-static void SI_RemoveAllStatusIcons(void)
-{
-	TStatusBarIconNode *current;
-
-	while (status_icon_list) {
-		current = status_icon_list;
-		status_icon_list = status_icon_list->next;
-		status_icon_list_size--;
-
-		mir_free(current->sid.szModule);
-		DestroyIcon(current->sid.hIcon);
-		if (current->sid.hIconDisabled) DestroyIcon(current->sid.hIconDisabled);
-		if (current->sid.szTooltip) mir_free(current->sid.szTooltip);
-		mir_free(current);
-	}
-	M->BroadcastMessage(DM_STATUSICONCHANGE, 0, 0);
-}
-
-static INT_PTR SI_ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
-{
-	StatusIconData *sid = (StatusIconData *)lParam;
-	if ( !sid || !sid->szModule)
-		return 1;
-
-	TStatusBarIconNode *current = status_icon_list;
 	HANDLE hContact = (HANDLE)wParam;
-
-	while (current) {
-		if ( strcmp(current->sid.szModule, sid->szModule) == 0 && current->sid.dwId == sid->dwId) {
-			if (!hContact) {
-				current->sid.flags = sid->flags;
-				if (sid->hIcon) {
-					DestroyIcon(current->sid.hIcon);
-					current->sid.hIcon = sid->hIcon;
-				}
-				if (sid->hIconDisabled) {
-					DestroyIcon(current->sid.hIconDisabled);
-					current->sid.hIconDisabled = sid->hIconDisabled;
-				}
-				if (sid->szTooltip)
-					replaceStr(current->sid.szTooltip, sid->szTooltip);
-
-				M->BroadcastMessage(DM_STATUSICONCHANGE, 0, 0);
-			}
-			else {
-				char buff[256];
-				HWND hwnd;
-				if ( !(sid->flags & MBF_OWNERSTATE)) {
-					sprintf(buff, "SRMMStatusIconFlags%d", (int)sid->dwId);
-					M->WriteByte(hContact, sid->szModule, buff, (BYTE)sid->flags);
-				}
-				if ((hwnd = M->FindWindow(hContact))) {
-					if (sid->flags & MBF_OWNERSTATE) {
-						TStatusBarIconNode *siln = NULL;
-						TWindowData *dat = (TWindowData*) GetWindowLongPtr(hwnd, GWLP_USERDATA);
-						TStatusBarIconNode *psi = dat->pSINod;
-						while (psi) {
-							if (strcmp(psi->sid.szModule, sid->szModule) == 0 && psi->sid.dwId == sid->dwId) {
-								siln = psi;
-								break;
-							}
-							psi = psi->next;
-						}
-						if (!siln) {
-							siln = (TStatusBarIconNode *)mir_alloc(sizeof(TStatusBarIconNode));
-							siln->sid.szModule = mir_strdup(sid->szModule);
-							siln->sid.dwId = sid->dwId;
-							siln->sid.hIcon = sid->hIcon;
-							siln->sid.hIconDisabled = sid->hIconDisabled;
-							siln->sid.flags = sid->flags;
-
-							if (sid->szTooltip) siln->sid.szTooltip = mir_strdup(sid->szTooltip);
-							else siln->sid.szTooltip = 0;
-
-							siln->next = dat->pSINod;
-							dat->pSINod = siln;
-						}
-						else {
-							siln->sid.hIcon = sid->hIcon;
-							siln->sid.hIconDisabled = sid->hIconDisabled;
-							siln->sid.flags = sid->flags;
-							if (siln->sid.szTooltip) mir_free(siln->sid.szTooltip);
-
-							if (sid->szTooltip) siln->sid.szTooltip = mir_strdup(sid->szTooltip);
-							else siln->sid.szTooltip = 0;
-
-						}
-					}
-					PostMessage(hwnd, DM_STATUSICONCHANGE, 0, 0);
-				}
-			}
-			return 0;
-		}
-		current = current->next;
+	if (hContact == NULL)
+		M->BroadcastMessage(DM_STATUSICONCHANGE, 0, 0);
+	else {
+		HWND hwnd = M->FindWindow(hContact);
+		if (hwnd)
+			PostMessage(hwnd, DM_STATUSICONCHANGE, 0, 0);
 	}
-	return 1;
+	return 0;
 }
 
 void DrawStatusIcons(struct TWindowData *dat, HDC hDC, RECT r, int gap)
 {
-	TStatusBarIconNode*	current = status_icon_list;
-	HICON 				hIcon = NULL;
-	char 				buff[256];
-	int 				flags;
-	int 				x = r.left;
-	LONG 				cx_icon = PluginConfig.m_smcxicon;
-	LONG				cy_icon = PluginConfig.m_smcyicon;
-	LONG				y = (r.top + r.bottom - cx_icon) >> 1;
+	HICON hIcon = NULL;
+	int 	x = r.left;
+	LONG 	cx_icon = PluginConfig.m_smcxicon;
+	LONG	cy_icon = PluginConfig.m_smcyicon;
+	LONG	y = (r.top + r.bottom - cx_icon) >> 1;
 
 	SetBkMode(hDC, TRANSPARENT);
-	while (current) {
-		if (current->sid.flags&MBF_OWNERSTATE) {
-			TStatusBarIconNode *currentSIN = dat->pSINod;
-			flags = current->sid.flags;
-			hIcon = current->sid.hIcon;
-			while (currentSIN) {
-				if (strcmp(currentSIN->sid.szModule, current->sid.szModule) == 0 && currentSIN->sid.dwId == current->sid.dwId) {
-					flags = currentSIN->sid.flags;
-					hIcon = currentSIN->sid.hIcon;
-					break;
-				}
-				currentSIN = currentSIN->next;
-			}
-		} else {
-			sprintf(buff, "SRMMStatusIconFlags%d", (int)current->sid.dwId);
-			flags = M->GetByte(dat->hContact, current->sid.szModule, buff, current->sid.flags);
-		}
 
-		if (!(flags & MBF_HIDDEN)) {
-			if (!(flags&MBF_OWNERSTATE) && (flags & MBF_DISABLED) && current->sid.hIconDisabled)
-				hIcon = current->sid.hIconDisabled;
-			else if (!(flags&MBF_OWNERSTATE))
-				hIcon = current->sid.hIcon;
+	StatusIconData *si;
+	int nIcon = 0;
+	while ((si = (StatusIconData*)CallService(MS_MSG_GETNTHICON, (WPARAM)dat->hContact, nIcon++)) != NULL) {
+		if ((si->flags & MBF_DISABLED) && si->hIconDisabled)
+			hIcon = si->hIconDisabled;
+		else
+			hIcon = si->hIcon;
 
-			if (flags & MBF_DISABLED && current->sid.hIconDisabled == (HICON)0)
-				CSkin::DrawDimmedIcon(hDC, x, y, cx_icon, cy_icon, hIcon, 50);
-			else
-				DrawIconEx(hDC, x, y, hIcon, 16, 16, 0, NULL, DI_NORMAL);
+		if (si->flags & MBF_DISABLED && si->hIconDisabled == (HICON)0)
+			CSkin::DrawDimmedIcon(hDC, x, y, cx_icon, cy_icon, hIcon, 50);
+		else
+			DrawIconEx(hDC, x, y, hIcon, 16, 16, 0, NULL, DI_NORMAL);
 
-			x += 16 + gap;
-		}
-		current = current->next;
+		x += 16 + gap;
 	}
 	DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_SOUNDS],
 			cx_icon, cy_icon, 0, NULL, DI_NORMAL);
@@ -2235,13 +2080,9 @@ void DrawStatusIcons(struct TWindowData *dat, HDC hDC, RECT r, int gap)
 void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, RECT r, int gap, int code)
 {
 	StatusIconClickData sicd;
-	TStatusBarIconNode *current = status_icon_list;
-	TStatusBarIconNode *clicked = NULL;
 
 	UINT  iconNum = (pt.x - (r.left + 0)) / (PluginConfig.m_smcxicon + gap);
 	UINT  list_icons = 0;
-	char  buff[100];
-	DWORD	flags;
 
 	if (dat && (code == NM_CLICK || code == NM_RCLICK)) {
 		POINT	ptScreen;
@@ -2251,27 +2092,13 @@ void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, R
 			return;
 	}
 
-	while (current && dat) {
-		if (current->sid.flags & MBF_OWNERSTATE) {
-			TStatusBarIconNode *currentSIN = dat->pSINod;
-			flags = current->sid.flags;
-			while (currentSIN) {
-				if (strcmp(currentSIN->sid.szModule, current->sid.szModule) == 0 && currentSIN->sid.dwId == current->sid.dwId) {
-					flags = currentSIN->sid.flags;
-					break;
-				}
-				currentSIN = currentSIN->next;
-			}
-		} else  {
-			sprintf(buff, "SRMMStatusIconFlags%d", (int)current->sid.dwId);
-			flags = M->GetByte(dat->hContact, current->sid.szModule, buff, current->sid.flags);
+	StatusIconData *si, *clicked = NULL;
+	if (dat)
+		while ((si = (StatusIconData*)CallService(MS_MSG_GETNTHICON, (WPARAM)dat->hContact, list_icons)) != NULL) {
+			if (list_icons == iconNum)
+				clicked = si;
+			list_icons++;
 		}
-		if ( !(flags & MBF_HIDDEN)) {
-			if (list_icons++ == iconNum)
-				clicked = current;
-		}
-		current = current->next;
-	}
 
 	if ((int)iconNum == list_icons && code != NM_RCLICK) {
 		if (GetKeyState(VK_SHIFT) & 0x8000) {
@@ -2297,8 +2124,8 @@ void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, R
 	} else if (clicked) {
 		sicd.cbSize = sizeof(StatusIconClickData);
 		GetCursorPos(&sicd.clickLocation);
-		sicd.dwId = clicked->sid.dwId;
-		sicd.szModule = clicked->sid.szModule;
+		sicd.dwId = clicked->dwId;
+		sicd.szModule = clicked->szModule;
 		sicd.flags = (code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0);
 		NotifyEventHooks(hHookIconPressedEvt, (WPARAM)dat->hContact, (LPARAM)&sicd);
 		InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
@@ -2307,22 +2134,14 @@ void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, R
 
 int SI_InitStatusIcons()
 {
-	CreateServiceFunction(MS_MSG_ADDICON, SI_AddStatusIcon);
-	CreateServiceFunction(MS_MSG_REMOVEICON, SI_RemoveStatusIcon);
-	CreateServiceFunction(MS_MSG_MODIFYICON, SI_ModifyStatusIcon);
+	HookEvent(ME_MSG_ICONSCHANGED, OnSrmmIconChanged);
+
 	hHookIconPressedEvt = CreateHookableEvent(ME_MSG_ICONPRESSED);
 	return 0;
 }
 
-
 int SI_DeinitStatusIcons()
 {
 	DestroyHookableEvent(hHookIconPressedEvt);
-	SI_RemoveAllStatusIcons();
 	return 0;
-}
-
-int SI_GetStatusIconsCount()
-{
-	return status_icon_list_size;
 }

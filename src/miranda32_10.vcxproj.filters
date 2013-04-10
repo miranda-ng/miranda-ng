@@ -73,6 +73,9 @@
     <Filter Include="Modules\extraicons">
       <UniqueIdentifier>{e125e36b-fc7d-4a78-8f13-67d3c9333621}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\srmm">
+      <UniqueIdentifier>{3da88f1b-9c87-43dc-a7a1-140d8dc6eefc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\m_addcontact.h">
@@ -619,6 +622,9 @@
     </ClCompile>
     <ClCompile Include="core\stdafx.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\srmm\statusicon.cpp">
+      <Filter>Modules\srmm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

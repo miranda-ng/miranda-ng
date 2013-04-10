@@ -43,6 +43,7 @@ int LoadAccountsModule(void);    // core: account manager
 int LoadIgnoreModule(void);		// protocol filter: ignore
 int LoadDbintfModule(void);
 int LoadEventsModule(void);
+int LoadSrmmModule(void);
 
 int LoadContactsModule(void);
 int LoadContactListModule(void);// ui: clist
@@ -81,6 +82,7 @@ void UnloadNewPlugins(void);
 void UnloadProtocolsModule(void);
 void UnloadSkinSounds(void);
 void UnloadSkinHotkeys(void);
+void UnloadSrmmModule(void);
 void UnloadSslModule(void);
 void UnloadUtilsModule(void);
 
@@ -138,6 +140,7 @@ int LoadDefaultModules(void)
 	if ( LoadSkinSounds()) return 1;
 	if ( LoadSkinHotkeys()) return 1;
 	if ( LoadFontserviceModule()) return 1;
+	if ( LoadSrmmModule()) return 1;
 
 	if ( LoadDescButtonModule()) return 1;
 	if ( LoadOptionsModule()) return 1;
@@ -170,6 +173,7 @@ void UnloadDefaultModules(void)
 	UnloadProtocolsModule();
 	UnloadSkinSounds();
 	UnloadSkinHotkeys();
+	UnloadSrmmModule();
 //	UnloadErrorsModule();
 	UnloadIcoLibModule();
 	UnloadUtilsModule();

@@ -923,39 +923,19 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 	 */
 	case WM_USER + 101:
 		{
+			int list_icons = 0;
 			struct TWindowData *dat = (struct TWindowData *)lParam;
-			RECT rcs;
-			int statwidths[5];
-			TStatusBarIconNode *current = status_icon_list;
-			int    list_icons = 0;
-			char   buff[100];
-			DWORD  flags;
-
-			while (current && dat) {
-				flags=current->sid.flags;
-				if (current->sid.flags&MBF_OWNERSTATE){
-					TStatusBarIconNode *currentSIN = dat->pSINod;
-
-					while (currentSIN) {
-						if (strcmp(currentSIN->sid.szModule, current->sid.szModule) == 0 && currentSIN->sid.dwId == current->sid.dwId) {
-							flags=currentSIN->sid.flags;
-							break;
-						}
-						currentSIN = currentSIN->next;
-					}
-				}
-				else {
-					sprintf(buff, "SRMMStatusIconFlags%d", (int)current->sid.dwId);
-					flags = M->GetByte(dat->hContact, current->sid.szModule, buff, current->sid.flags);
-				}
-				if (!(flags & MBF_HIDDEN))
+			if (dat) {
+				while ( CallService(MS_MSG_GETNTHICON, (WPARAM)dat->hContact, list_icons))
 					list_icons++;
-				current = current->next;
 			}
 
 			SendMessage(hWnd, WM_SIZE, 0, 0);
+
+			RECT rcs;
 			GetWindowRect(hWnd, &rcs);
 
+			int statwidths[5];
 			statwidths[0] = (rcs.right - rcs.left) - (2 * SB_CHAR_WIDTH + 20) - (52 + ((list_icons) * (PluginConfig.m_smcxicon + 2)));
 			statwidths[1] = (rcs.right - rcs.left) - (62 + ((list_icons) * (PluginConfig.m_smcxicon + 2)));
 			statwidths[2] = -1;
@@ -1030,48 +1010,13 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				SendMessage(hWnd, SB_GETRECT, 2, (LPARAM)&rc);
 				if (dat && PtInRect(&rc, pt)) {
 					int gap = 2;
-					TStatusBarIconNode *current = status_icon_list;
-					TStatusBarIconNode *clicked = NULL;
-					TStatusBarIconNode *currentSIN = NULL;
-
 					unsigned int iconNum = (pt.x - rc.left) / (PluginConfig.m_smcxicon + gap);
-					unsigned int list_icons = 0;
-					char         buff[100];
-					DWORD        flags;
 
-					while (current) {
-						if (current->sid.flags&MBF_OWNERSTATE&&dat->pSINod){
-							TStatusBarIconNode *currentSIN = dat->pSINod;
-							flags=current->sid.flags;
-							while (currentSIN)	{
-								if (strcmp(currentSIN->sid.szModule, current->sid.szModule) == 0 && currentSIN->sid.dwId == current->sid.dwId) {
-									flags=currentSIN->sid.flags;
-									break;
-								}
-								currentSIN = currentSIN->next;
-							}
-						}
-						else  {
-							sprintf(buff, "SRMMStatusIconFlags%d", (int)current->sid.dwId);
-							flags = M->GetByte(dat->hContact, current->sid.szModule, buff, current->sid.flags);
-						}
-						if (!(flags & MBF_HIDDEN)) {
-							if (list_icons++ == iconNum)
-								clicked = current;
-						}
-						current = current->next;
-					}
-
-					if (clicked&&clicked->sid.flags&MBF_OWNERSTATE) {
-						currentSIN=dat->pSINod;
-						while (currentSIN) {
-							if (strcmp(currentSIN->sid.szModule, clicked->sid.szModule) == 0 && currentSIN->sid.dwId == clicked->sid.dwId) {
-								clicked=currentSIN;
-								break;
-							}
-							currentSIN = currentSIN->next;
-						}
-					}
+					int list_icons = 0;
+					StatusIconData *si, *clicked = NULL;
+					while ((si = (StatusIconData*)CallService(MS_MSG_GETNTHICON, (WPARAM)dat->hContact, list_icons)) != NULL)
+						if (list_icons++ == iconNum)
+							clicked = si;
 
 					if ((int)iconNum == list_icons && pContainer) {
 						TCHAR wBuf[512];
@@ -1100,7 +1045,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					}
 					else {
 						if (clicked) {
-							CallService("mToolTip/ShowTip", (WPARAM)clicked->sid.szTooltip, (LPARAM)&ti);
+							CallService("mToolTip/ShowTip", (WPARAM)clicked->szTooltip, (LPARAM)&ti);
 							tooltip_active = TRUE;
 						}
 					}

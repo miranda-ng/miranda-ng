@@ -1245,28 +1245,26 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 	case DM_UPDATESTATUSBAR:
 		{
-			StatusIconData sid;
-			StatusBarData sbd;
-			HICON hIcon;
 			MODULEINFO* mi = MM_FindModule(si->pszModule);
 			TCHAR szTemp[512];
-			hIcon = si->wStatus==ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
+			HICON hIcon = si->wStatus==ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
 			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s : %s"), mi->ptszModDispName, si->ptszStatusbarText ? si->ptszStatusbarText : _T(""));
+
+			StatusBarData sbd;
 			sbd.iItem = 0;
 			sbd.iFlags = SBDF_TEXT | SBDF_ICON;
 			sbd.hIcon = hIcon;
 			sbd.pszText = szTemp;
 			SendMessage(GetParent(hwndDlg), CM_UPDATESTATUSBAR, (WPARAM) &sbd, (LPARAM)hwndDlg);
+
 			sbd.iItem = 1;
 			sbd.hIcon = NULL;
-			sbd.pszText   = _T("");
+			sbd.pszText = _T("");
 			SendMessage(GetParent(hwndDlg), CM_UPDATESTATUSBAR, (WPARAM) &sbd, (LPARAM)hwndDlg);
-			sid.cbSize = sizeof(sid);
-			sid.szModule = SRMMMOD;
-			sid.dwId = 0;
-			sid.flags = 0;
 
-			ModifyStatusIcon((WPARAM)si->windowData.hContact, (LPARAM)&sid);
+			StatusIconData sid = { sizeof(sid) };
+			sid.szModule = SRMMMOD;
+			CallService(MS_MSG_MODIFYICON, (WPARAM)si->windowData.hContact, (LPARAM)&sid);
 		}
 		break;
 

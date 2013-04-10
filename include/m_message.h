@@ -131,8 +131,6 @@ typedef struct {
 
 #define MBF_DISABLED       0x01
 #define MBF_HIDDEN         0x02
-/* State of icon with such flag will not be saved, and you must set it manually */
-#define MBF_OWNERSTATE     0x04
 
 typedef struct {
 	int cbSize;
@@ -153,23 +151,36 @@ typedef struct {
 	int flags;								// bitwize OR of MBCF_* flags above
 } StatusIconClickData;
 
-#define MS_MSG_ADDICON			"MessageAPI/AddIcon"
+// wParam = 0 (unused)
 // lParam = (StatusIconData *)&StatusIconData
+#define MS_MSG_ADDICON			"MessageAPI/AddIcon"
 
-#define MS_MSG_REMOVEICON		"MessageAPI/RemoveIcon"
+// wParam = 0 (unused)
 // lParam = (StatusIconData *)&StatusIconData
 // only szModule and szId are used
+#define MS_MSG_REMOVEICON		"MessageAPI/RemoveIcon"
 
-#define MS_MSG_MODIFYICON		"MessageAPI/ModifyIcon"
 // wParam = (HANDLE)hContact
 // lParam = (StatusIconData *)&StatusIconData
 // if hContact is null, icon is modified for all contacts
 // otherwise, only the flags field is valid
 // if either hIcon, hIconDisabled or szTooltip is null, they will not be modified
+#define MS_MSG_MODIFYICON		"MessageAPI/ModifyIcon"
 
-#define ME_MSG_ICONPRESSED		"MessageAPI/IconPressed"
+// wParam = (HANDLE)hContact
+// lParam = (int)zero-based index of a visible icon
+// returns (StatusIconData*)icon description filled for the required contact
+// don't free this memory.
+#define MS_MSG_GETNTHICON    "MessageAPI/GetNthIcon"
+
 // wParam = (HANDLE)hContact;
 // lParam = (StatusIconClickData *)&StatusIconClickData;
 // catch to show a popup menu, etc.
+#define ME_MSG_ICONPRESSED		"MessageAPI/IconPressed"
+
+// wParam = (HANDLE)hContact;
+// lParam = (StatusIconkData*)pIcon
+// catch to be notified about the icon list's change.
+#define ME_MSG_ICONSCHANGED   "MessageAPI/IconsChanged"
 
 #endif // M_MESSAGE_H__
