@@ -235,7 +235,6 @@ int getContactFromString( CONTACTSINFO* ci )
 	TCHAR *szFind, *cInfo, *tszContact, *tszProto;
 	BOOL bMatch;
 	DBVARIANT dbv;
-	HANDLE hContact;
 	int count, i;
 
 	if (ci == NULL)

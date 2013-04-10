@@ -273,10 +273,8 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 
 	HACCOUNT Finder;
 	DBVARIANT dbv;
-	char *szProto;
 
-	for (Finder=POP3Plugin->FirstAccount;Finder != NULL;Finder=Finder->Next)
-	{
+	for (Finder=POP3Plugin->FirstAccount;Finder != NULL;Finder=Finder->Next) {
 		Finder->hContact = NULL;
 		for (HANDLE hContact = db_find_first(YAMN_DBMODULE); hContact; hContact = db_find_next(hContact, YAMN_DBMODULE)) {
 			if (!db_get_s(hContact,YAMN_DBMODULE,"Id",&dbv)) {

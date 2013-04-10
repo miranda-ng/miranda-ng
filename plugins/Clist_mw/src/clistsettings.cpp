@@ -40,7 +40,6 @@ static int handleCompare( ClcCacheEntry* c1, ClcCacheEntry* c2 )
 void InitDisplayNameCache(SortedList *list)
 {
 	int i, idx;
-	HANDLE hContact;
 
 	memset(list,0,sizeof(SortedList));
 	list->sortFunc = (FSortFunc)handleCompare;

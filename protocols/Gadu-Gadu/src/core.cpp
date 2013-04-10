@@ -1506,7 +1506,6 @@ void GGPROTO::notifyuser(HANDLE hContact, int refresh)
 void GGPROTO::notifyall()
 {
 	HANDLE hContact;
-	char *szProto;
 	int count = 0, cc = 0;
 	uin_t *uins;
 	char *types;
