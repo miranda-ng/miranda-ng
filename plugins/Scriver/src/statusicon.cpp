@@ -44,7 +44,7 @@ void DrawStatusIcons(HANDLE hContact, HDC hDC, RECT r, int gap)
 
 void CheckStatusIconClick(HANDLE hContact, HWND hwndFrom, POINT pt, RECT r, int gap, int click_flags)
 {
-	unsigned int iconNum = (pt.x - r.left) / (GetSystemMetrics(SM_CXSMICON) + gap) + 1;
+	unsigned int iconNum = (pt.x - r.left) / (GetSystemMetrics(SM_CXSMICON) + gap);
 	StatusIconData *si = Srmm_GetNthIcon(hContact, iconNum);
 	if (si == NULL)
 		return;

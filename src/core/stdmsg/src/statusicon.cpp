@@ -32,7 +32,7 @@ static int OnSrmmIconChanged(WPARAM wParam, LPARAM)
 	else {
 		HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
 		if (hwnd != NULL)
-			PostMessage(GetParent(hwnd), DM_STATUSICONCHANGE, 0, 0);
+			PostMessage(hwnd, DM_STATUSICONCHANGE, 0, 0);
 	}
 	return 0;
 }
@@ -76,6 +76,8 @@ HANDLE hServiceIcon[3];
 
 int InitStatusIcons()
 {
+	HookEvent(ME_MSG_ICONSCHANGED, OnSrmmIconChanged);
+
 	hHookIconPressedEvt = CreateHookableEvent(ME_MSG_ICONPRESSED);
 	return 0;
 }
