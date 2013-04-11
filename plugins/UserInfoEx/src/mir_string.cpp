@@ -128,7 +128,7 @@ size_t mir_snwprintf(wchar_t *pszDest, const size_t cchDest, const wchar_t *pszF
 
 int mir_IsEmptyA(char *str)
 {
-	if(str == NULL || str[0] == 0)
+	if (str == NULL || str[0] == 0)
 		return 1;
 	int i = 0;
 	while (str[i]) {
@@ -143,7 +143,7 @@ int mir_IsEmptyA(char *str)
 
 int mir_IsEmptyW(wchar_t *str)
 {
-	if(str == NULL || str[0] == 0)
+	if (str == NULL || str[0] == 0)
 		return 1;
 	int i = 0;
 	while (str[i]) {

@@ -107,7 +107,7 @@ static void __fastcall SetStatusIcon(HANDLE hContact,int countryNumber)
 	}	
 	else sid.flags = MBF_HIDDEN;
 
-	CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
+	Srmm_ModifyIcon(hContact, &sid);
 
 	if (sid.hIcon)
 		Skin_ReleaseIcon(sid.hIcon);
@@ -119,7 +119,7 @@ static void __fastcall UnsetStatusIcon(HANDLE hContact)
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULENAME;
 	sid.flags = MBF_HIDDEN;
-	CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
+	Srmm_ModifyIcon(hContact, &sid);
 }
 
 static int MsgWndEvent(WPARAM wParam,LPARAM lParam)
@@ -165,9 +165,8 @@ static void CALLBACK UpdateStatusIcons(LPARAM lParam)
 
 static int StatusIconsChanged(WPARAM wParam,LPARAM lParam)
 {
-	if (ServiceExists(MS_MSG_MODIFYICON))
-		if ( db_get_b(NULL, MODULENAME, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT))
-			CallFunctionBuffered(UpdateStatusIcons, 0, FALSE, STATUSICON_REFRESHDELAY);
+	if ( db_get_b(NULL, MODULENAME, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT))
+		CallFunctionBuffered(UpdateStatusIcons, 0, FALSE, STATUSICON_REFRESHDELAY);
 	return 0;
 }
 

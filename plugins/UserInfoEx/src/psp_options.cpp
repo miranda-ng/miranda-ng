@@ -389,8 +389,8 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 
 						SvcGenderEnableExtraIcons(IsDlgButtonChecked(hDlg, CHECK_OPT_GENDER)? 1:-1, TRUE);
 
-						if(FlagsClistChange)  EnsureExtraImages();
-						if(FlagsMsgWndChange) UpdateStatusIcons(NULL);
+						if (FlagsClistChange)  EnsureExtraImages();
+						if (FlagsMsgWndChange) UpdateStatusIcons(NULL);
 
 						SvcHomepageEnableExtraIcons(IsDlgButtonChecked(hDlg, CHECK_OPT_HOMEPAGEICON), TRUE);
 						SvcEMailEnableExtraIcons(IsDlgButtonChecked(hDlg, CHECK_OPT_EMAILICON), TRUE);
@@ -490,7 +490,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 							DBGetCheckBtn(hDlg, CHECK_OPT_BUTTONICONS, SET_ICONS_BUTTONS, TRUE);
 							DBGetCheckBtn(hDlg, CHECK_OPT_METASCAN, SET_META_SCAN, TRUE);
 							DBGetCheckBtn(hDlg, CHECK_OPT_SREMAIL_ENABLED, SET_EXTENDED_EMAILSERVICE, TRUE);
-							if(tmi.getTimeZoneTime) {
+							if (tmi.getTimeZoneTime) {
 								CheckDlgButton(hDlg, CHECK_OPT_AUTOTIMEZONE, TRUE);
 								EnableWindow(GetDlgItem(hDlg, CHECK_OPT_AUTOTIMEZONE),	FALSE);
 							}

@@ -136,7 +136,7 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			switch (LOWORD(wParam)) 
 			{
 			case EDIT_COUNTRY:
-				if(HIWORD(wParam) == CBN_SELCHANGE) {
+				if (HIWORD(wParam) == CBN_SELCHANGE) {
 					LPIDSTRLIST pd = (LPIDSTRLIST)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
 					UpDate_CountryIcon(GetDlgItem(hDlg, ICO_COUNTRY), pd->nID);
 				}

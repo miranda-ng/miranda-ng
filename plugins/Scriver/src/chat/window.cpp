@@ -1264,7 +1264,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 			StatusIconData sid = { sizeof(sid) };
 			sid.szModule = SRMMMOD;
-			CallService(MS_MSG_MODIFYICON, (WPARAM)si->windowData.hContact, (LPARAM)&sid);
+			Srmm_ModifyIcon(si->windowData.hContact, &sid);
 		}
 		break;
 

@@ -254,7 +254,7 @@ BYTE	IsEmpty(HANDLE hContact, LPCSTR pszModule)
  **/
 BYTE	IsMeta(LPCSTR pszModule)
 {
-	if(myGlobals.szMetaProto)
+	if (myGlobals.szMetaProto)
 		return !mir_strcmp(pszModule, myGlobals.szMetaProto);
 	return !mir_strcmp(pszModule, "MetaContacts");
 }
@@ -1042,7 +1042,7 @@ BYTE	GetInfoWithData(HANDLE hEvent, DBEVENTINFO *dbei)
 		INT_PTR size = BlobSizeOf(hEvent);
 		dbei->cbBlob = (size != -1) ? (DWORD)size : 0;
 	}
-	if(dbei->cbBlob) {
+	if (dbei->cbBlob) {
 		dbei->pBlob = (PBYTE) mir_alloc(dbei->cbBlob);
 		if (dbei->pBlob == NULL) {
 			dbei->cbBlob = 0;
@@ -1106,7 +1106,7 @@ BYTE	IsEqual(const DBEVENTINFO *d1, const DBEVENTINFO *d2, bool Data)
 				(d1->cbBlob == d2->cbBlob) && 
 				(!d1->szModule || !d2->szModule || !_stricmp(d1->szModule, d2->szModule))
 				;
-	if(Data) {
+	if (Data) {
 			return res &&
 				(!d1->pBlob || !d2->pBlob || !memcmp(d1->pBlob,d2->pBlob,d1->cbBlob))
 				;
@@ -1141,9 +1141,9 @@ BYTE	Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 				if ((dbei->timestamp < edbei.timestamp)) {
 					return FALSE;
 				}
-				if(IsEqual(dbei, &edbei, false)) {
+				if (IsEqual(dbei, &edbei, false)) {
 					if (!GetInfoWithData(hDbExistingEvent, &edbei)) {
-						if(IsEqual(dbei, &edbei, true)) {
+						if (IsEqual(dbei, &edbei, true)) {
 							mir_free(edbei.pBlob);
 							return TRUE;
 						}
@@ -1166,7 +1166,7 @@ BYTE	Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 			hDbExistingEvent = edbe;
 			//compare without data (faster)
 			if ( result = IsEqual(dbei, &edbei, false)) {
-				if(NULL == (result = !GetInfoWithData(edbe, &edbei))) continue;
+				if (NULL == (result = !GetInfoWithData(edbe, &edbei))) continue;
 				//compare with data
 				result = IsEqual(dbei, &edbei, true);
 				mir_free(edbei.pBlob);
@@ -1183,7 +1183,7 @@ BYTE	Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 				hDbExistingEvent = edbe;
 				//compare without data (faster)
 				if ( result = IsEqual(dbei, &edbei, false)) {
-					if(NULL == (result = !GetInfoWithData(edbe, &edbei))) continue;
+					if (NULL == (result = !GetInfoWithData(edbe, &edbei))) continue;
 					//compare with data
 					result = IsEqual(dbei, &edbei, true);
 					mir_free(edbei.pBlob);

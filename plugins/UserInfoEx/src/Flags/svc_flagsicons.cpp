@@ -106,17 +106,17 @@ static int CountryNumberToBitmapIndex(int countryNumber)
 		int i,high/*,low=0*/;
 		high=SIZEOF(BitmapIndexMap);
 		/*old code need sortet BitmapIndexMap*/
-		/*if(countryNumber<=BitmapIndexMap[high])
+		/*if (countryNumber<=BitmapIndexMap[high])
 			while(low<=high) {
 				i=low+((high-low)/2);
 				// never happens
-				if(i<0 || i>=SIZEOF(BitmapIndexMap)) DebugBreak();
-				if(BitmapIndexMap[i]==countryNumber) return i;
-				if(countryNumber>BitmapIndexMap[i]) low=i+1;      
+				if (i<0 || i>=SIZEOF(BitmapIndexMap)) DebugBreak();
+				if (BitmapIndexMap[i]==countryNumber) return i;
+				if (countryNumber>BitmapIndexMap[i]) low=i+1;      
 				else high=i-1;
 			}*/
 		for ( i=0; i < high; i++ ) {
-			if(BitmapIndexMap[i]==countryNumber) return i;
+			if (BitmapIndexMap[i]==countryNumber) return i;
 		}
 	}
 	/* Other,Unknown,Unspecified */
@@ -149,8 +149,8 @@ int CountryNumberToIndex(int countryNumber)
 {
 	int nf=0;
 	for(int i=0; i < nCountriesCount; i++) {
-		if(countries[i].id == countryNumber) return i;
-		if(countries[i].id == 0xFFFF) nf=i;
+		if (countries[i].id == countryNumber) return i;
+		if (countries[i].id == 0xFFFF) nf=i;
 	}
 	return nf; /* Unknown */
 }
@@ -161,12 +161,12 @@ FIBITMAP* ConvertTo(FIBITMAP* dib, UINT destBits, bool greyscale)
 	switch (destBits) {
 		case 8:
 			// convert to 8Bits
-			if(greyscale) {
+			if (greyscale) {
 				dib_res = FIP->FI_ConvertTo8Bits(dib);
 			}
 			else {
 				FIBITMAP* dib_tmp = FIP->FI_ConvertTo24Bits(dib);
-				if(dib_tmp) {
+				if (dib_tmp) {
 					dib_res = FIP->FI_ColorQuantize(dib_tmp, FIQ_WUQUANT/*FIQ_NNQUANT*/);
 					FIP->FI_Unload(dib_tmp);
 				}
@@ -193,7 +193,7 @@ FIBITMAP* ConvertTo(FIBITMAP* dib, UINT destBits, bool greyscale)
 FIBITMAP* LoadResource(UINT ID, LPTSTR lpType)
 {
 	FIBITMAP *dib      = NULL;
-	if(lpType) {
+	if (lpType) {
 		HRSRC	hResInfo	= FindResource(ghInst,MAKEINTRESOURCE(ID),lpType);
 		DWORD	ResSize		= SizeofResource(ghInst,hResInfo);
 		HGLOBAL	hRes		= LoadResource(ghInst,hResInfo);
@@ -215,7 +215,7 @@ FIBITMAP* LoadResource(UINT ID, LPTSTR lpType)
 	}
 	else {
 		HBITMAP hScrBM = 0;
-		if(NULL == (hScrBM = (HBITMAP)LoadImage(ghInst,MAKEINTRESOURCE(ID), IMAGE_BITMAP, 0, 0,LR_SHARED)))
+		if (NULL == (hScrBM = (HBITMAP)LoadImage(ghInst,MAKEINTRESOURCE(ID), IMAGE_BITMAP, 0, 0,LR_SHARED)))
 			return dib;
 		dib = FIP->FI_CreateDIBFromHBITMAP(hScrBM);
 		DeleteObject(hScrBM);
@@ -229,7 +229,7 @@ static INT_PTR ServiceLoadFlagIcon(WPARAM wParam,LPARAM lParam)
 {
 	/* return handle */
 	if ((BOOL)lParam) {
-		if(phIconHandles==NULL) return NULL;
+		if (phIconHandles==NULL) return NULL;
 		return (INT_PTR)phIconHandles[CountryNumberToIndex((int)wParam)];
 	}
 	/* return icon */
@@ -248,24 +248,24 @@ static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 	HRGN hrgn;
 	HBITMAP hbmPrev;
 	/* load both icons */
-	if(NULL == (hLowerIcon=(HICON)ServiceLoadFlagIcon((WPARAM)lParam,0))) return NULL;
+	if (NULL == (hLowerIcon=(HICON)ServiceLoadFlagIcon((WPARAM)lParam,0))) return NULL;
 	hUpperIcon=(HICON)ServiceLoadFlagIcon(wParam,0);
 	/* merge them */
-	if(GetIconInfo(hLowerIcon,&icoi)) {
-		if(hUpperIcon!=NULL && GetObject(icoi.hbmColor,sizeof(bm),&bm)) {
+	if (GetIconInfo(hLowerIcon,&icoi)) {
+		if (hUpperIcon!=NULL && GetObject(icoi.hbmColor,sizeof(bm),&bm)) {
 			hdc=CreateCompatibleDC(NULL);
-			if(hdc!=NULL) {
+			if (hdc!=NULL) {
 				ZeroMemory(&aptTriangle,sizeof(aptTriangle));
 				aptTriangle[1].y=bm.bmHeight-1;
 				aptTriangle[2].x=bm.bmWidth-1;
 				hrgn=CreatePolygonRgn(aptTriangle,SIZEOF(aptTriangle),WINDING);
-				if(hrgn!=NULL) {
+				if (hrgn!=NULL) {
 					SelectClipRgn(hdc,hrgn);
 					DeleteObject(hrgn);
 					hbmPrev=(HBITMAP)SelectObject(hdc,icoi.hbmColor);
-					if(hbmPrev!=NULL) {  /* error on select? */
-						if(DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,NULL,DI_NOMIRROR|DI_IMAGE)) {
-							if(SelectObject(hdc,icoi.hbmMask)!=NULL) /* error on select? */
+					if (hbmPrev!=NULL) {  /* error on select? */
+						if (DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,NULL,DI_NOMIRROR|DI_IMAGE)) {
+							if (SelectObject(hdc,icoi.hbmMask)!=NULL) /* error on select? */
 								DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,NULL,DI_NOMIRROR|DI_MASK);
 						}
 						SelectObject(hdc,hbmPrev);
@@ -299,7 +299,7 @@ void InitIcons()
 //	FREE_IMAGE_FORMAT	fif			= FIP->FI_GetFIFFromFilename("dummy.bmp");
 
 	/* all those flag icons storing in a large 24bit opaque bitmap to reduce file size */
-	if(NULL == (dib = LoadResource(IDB_FLAGSPNG,_T("PNG"))))
+	if (NULL == (dib = LoadResource(IDB_FLAGSPNG,_T("PNG"))))
 		return;
 
 	if		(IsWinVerXPPlus())		bitDest = bit = ILC_COLOR32;
@@ -321,7 +321,7 @@ void InitIcons()
 	}
 
 //	res = FIP->FI_IsTransparent(dib_ico);
-	if(bit<32) {
+	if (bit<32) {
 		//disable transparency
 		FIP->FI_SetTransparent(dib, FALSE);
 		FIP->FI_SetTransparent(dib_ico, FALSE);
@@ -333,7 +333,7 @@ void InitIcons()
 	UINT b = t + FIP->FI_GetHeight(dib);
 
 	//copy dib to new dib_ico (centered)
-	if(FIP->FI_Paste(dib_ico, dib, 0, t-1, 255+1)) {
+	if (FIP->FI_Paste(dib_ico, dib, 0, t-1, 255+1)) {
 		FIP->FI_Unload(dib);	dib = NULL;
 		switch (bitDest) {
 			case 8:
@@ -342,7 +342,7 @@ void InitIcons()
 			{//transparency by 1bit monocrome icon mask (for bit < 32)
 				BYTE value;
 				FIBITMAP *dib_mask;
-				if(NULL == (dib_mask = FIP->FI_Allocate(w, h, 1, 0, 0, 0))) {
+				if (NULL == (dib_mask = FIP->FI_Allocate(w, h, 1, 0, 0, 0))) {
 					FIP->FI_Unload(dib_ico);
 					return;
 				}
@@ -357,7 +357,7 @@ void InitIcons()
 				//convert to target resolution
 				if (!hbmMask || !(dib_ico = ConvertTo(dib_ico, bitDest, 0))) {
 					FIP->FI_Unload(dib_ico);
-					if(hbmMask) DeleteObject(hbmMask);
+					if (hbmMask) DeleteObject(hbmMask);
 					return;
 				}
 			} break;
@@ -421,7 +421,7 @@ void InitIcons()
 				index = CountryNumberToIndex(countries[i].id);
 
 				phIconHandles[index] = Skin_AddIcon(&sid);
-				if(sid.hDefaultIcon!=NULL) DestroyIcon(sid.hDefaultIcon);
+				if (sid.hDefaultIcon!=NULL) DestroyIcon(sid.hDefaultIcon);
 				mir_free(sid.ptszDescription); sid.ptszDescription = NULL;
 			}
 		}

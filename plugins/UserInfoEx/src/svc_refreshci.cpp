@@ -888,7 +888,7 @@ static int OnContactAdded(WPARAM wParam, LPARAM lParam)
  **/
 static int OnPreShutdown(WPARAM, LPARAM)
 {
-	if(ContactUpdater) {
+	if (ContactUpdater) {
 		delete ContactUpdater;
 		ContactUpdater = 0;
 	}

@@ -383,15 +383,11 @@ void ChangeStatusIcons()
 {
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = SRMMMOD;
-	sid.hIcon = CopyIcon(GetCachedIcon("scriver_UNICODEON"));
-	sid.hIconDisabled = CopyIcon(GetCachedIcon("scriver_UNICODEOFF"));
-	CallService(MS_MSG_MODIFYICON, 0, (LPARAM)&sid);
-
 	sid.dwId = 1;
 	sid.hIcon = CopyIcon(GetCachedIcon("scriver_TYPING"));
 	sid.hIconDisabled = CopyIcon(GetCachedIcon("scriver_TYPINGOFF"));
 	sid.flags = MBF_HIDDEN;
-	CallService(MS_MSG_MODIFYICON, 0, (LPARAM)&sid);
+	Srmm_ModifyIcon(NULL, &sid);
 }
 
 int StatusIconPressed(WPARAM wParam, LPARAM lParam)

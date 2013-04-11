@@ -49,8 +49,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HINSTANCE hInst;
 
 // options.c
-extern const char* time_stamp_strings[];
-extern const char* keep_strings[];
+extern char* time_stamp_strings[];
+extern char* keep_strings[];
 int HSOptInitialise(WPARAM wParam, LPARAM lParam);
 void InitIcons(void);
 void  ReleaseIconEx(const char* name);

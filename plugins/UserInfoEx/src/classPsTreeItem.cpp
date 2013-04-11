@@ -226,12 +226,12 @@ BYTE	CPsTreeItem::HasName(const LPCSTR pszName) const
  **/
 void CPsTreeItem::Rename(const LPTSTR pszLabel)
 {
-	if(pszLabel && *pszLabel)
+	if (pszLabel && *pszLabel)
 	{
 		LPTSTR pszDup = mir_tcsdup(pszLabel);
-		if(pszDup) 
+		if (pszDup) 
 		{
-			if(_ptszLabel)
+			if (_ptszLabel)
 			{
 				mir_free(_ptszLabel);
 			}

@@ -68,27 +68,21 @@ void setSrmmIcon(HANDLE h)
 		hMC = metaGetContact(hContact);
 	else if(metaIsProtoMetaContacts(hContact))
 		hMC = metaGetContact(hContact);
-	if(ServiceExists(MS_MSG_MODIFYICON))
-	{
-		StatusIconData sid = {0};
-		sid.cbSize = sizeof(sid);
-		sid.szModule = szGPGModuleName;
-		sid.hIcon = IconLibGetIcon("secured");
-		sid.dwId = 0x00000001;
-		sid.flags = enabled?0:MBF_HIDDEN;
-		CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
-		if( hMC )
-			CallService(MS_MSG_MODIFYICON, (WPARAM)hMC, (LPARAM)&sid);
-		ZeroMemory(&sid, sizeof(sid));
-		sid.cbSize = sizeof(sid);
-		sid.szModule = szGPGModuleName;
-		sid.hIcon = IconLibGetIcon("unsecured");
-		sid.dwId = 0x00000002;
-		sid.flags = enabled?MBF_HIDDEN:0;
-		CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
-		if( hMC )
-			CallService(MS_MSG_MODIFYICON, (WPARAM)hMC, (LPARAM)&sid);
-	}
+
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = szGPGModuleName;
+	sid.hIcon = IconLibGetIcon("secured");
+	sid.dwId = 1;
+	sid.flags = enabled ? 0 : MBF_HIDDEN;
+	Srmm_ModifyIcon(hContact, &sid);
+	if(hMC)
+		Srmm_ModifyIcon(hMC, &sid);
+
+	sid.hIcon = IconLibGetIcon("unsecured");
+	sid.dwId = 2;
+	Srmm_ModifyIcon(hContact, &sid);
+	if(hMC)
+		Srmm_ModifyIcon(hMC, &sid);
 }
 
 

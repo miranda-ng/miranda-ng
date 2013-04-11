@@ -60,20 +60,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 		SaveOptions();
 		MessageBox(0, TranslateT(LANG_OTR_SECUREIM_TEXT), TranslateT(LANG_OTR_SECUREIM_TITLE), 0x30);
 	}
-	if (!options.bHaveSRMMIcons) {
-		MessageBox(NULL, TranslateT("OTR Info"), TranslateT("Your SRMM plugin does not support status icons. Not all OTR-functions are available!"), 0x30);
-	}
-
-	// HookEvent(ME_OPT_INITIALISE, OptInit);
-
-	// hook setting changed to monitor status
-	//hSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
-
-	// hook status mode changes to terminate sessions when we go offline
-	// (this would be hooked as the ME_CLIST_STATUSMODECHANGE handler except that event is sent *after* the proto goes offline)
-	// (instead, it's called from the SettingChanged handler for protocol status db setting changes)
-	//HookEvent(ME_CLIST_STATUSMODECHANGE, StatusModeChange);
-
 	return 0;
 }
 

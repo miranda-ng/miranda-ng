@@ -1027,7 +1027,7 @@ void CJabberProto::MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item)
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = m_szModuleName;
 	sid.flags = item->resourceCount ? 0 : MBF_DISABLED;
-	CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
+	Srmm_ModifyIcon(hContact, &sid);
 }
 
 int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)

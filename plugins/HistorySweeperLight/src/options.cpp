@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "historysweeperlight.h"
 
 // Time Stamps strings
-const char* time_stamp_strings[] =
+char* time_stamp_strings[] =
 {
 	LPGEN("Delete older than 1 day"),
 	LPGEN("Delete older than 3 days"),
@@ -34,7 +34,7 @@ const char* time_stamp_strings[] =
 	LPGEN("Delete older than 1 year (365 days)")
 };
 
-const char* keep_strings[] =
+char* keep_strings[] =
 {
 	LPGEN("Keep 1 last event"),
 	LPGEN("Keep 2 last events"),
@@ -179,14 +179,13 @@ void SaveSettings(HWND hwndDlg)
 
 		st = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, 0);
 		if ( st != 0 )	db_set_b(hContact, ModuleName, "SweepHistory", (BYTE)st);
-		else			db_unset(hContact, ModuleName, "SweepHistory");
+		else db_unset(hContact, ModuleName, "SweepHistory");
 
 		// set per-contact icons in status bar
-		for(i = 0; i < 4; i++)
-		{
+		for(i = 0; i < 4; i++) {
 			sid.dwId = i;
 			sid.flags = (st == i) ? 0 : MBF_HIDDEN;
-			CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
+			Srmm_ModifyIcon(hContact, &sid);
 		}
 	}
 
@@ -194,20 +193,20 @@ void SaveSettings(HWND hwndDlg)
 	st = db_get_b(NULL, ModuleName, "SweepHistory", 0);
 
 	sid.dwId = 0;
-	if		(st == 0)	sid.szTooltip = Translate("Keep all events");
-	else if (st == 1)	sid.szTooltip = Translate(time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)]);
-	else if (st == 2)	sid.szTooltip = Translate(keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)]);
-	else if (st == 3)	sid.szTooltip = Translate("Delete all events");
-	CallService(MS_MSG_MODIFYICON, 0, (LPARAM)&sid);
+	if		(st == 0)	sid.szTooltip = LPGEN("Keep all events");
+	else if (st == 1)	sid.szTooltip = LPGEN(time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)]);
+	else if (st == 2)	sid.szTooltip = LPGEN(keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)]);
+	else if (st == 3)	sid.szTooltip = LPGEN("Delete all events");
+	Srmm_ModifyIcon(NULL, &sid);
 
 	sid.dwId = 1;
-	sid.szTooltip = Translate(time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)]);
-	CallService(MS_MSG_MODIFYICON, 0, (LPARAM)&sid);
+	sid.szTooltip = time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)];
+	Srmm_ModifyIcon(NULL, &sid);
 
 	sid.dwId = 2;
-	sid.szTooltip = Translate(keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)]);
-	CallService(MS_MSG_MODIFYICON, 0, (LPARAM)&sid);
-}//SaveSettings
+	sid.szTooltip = keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)];
+	Srmm_ModifyIcon(NULL, &sid);
+}
 
 INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {

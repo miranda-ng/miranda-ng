@@ -167,7 +167,7 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				break;
 
 			case EDIT_COUNTRY:
-				if(HIWORD(wParam) == CBN_SELCHANGE) {
+				if (HIWORD(wParam) == CBN_SELCHANGE) {
 					LPIDSTRLIST pd = (LPIDSTRLIST)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
 					UpDate_CountryIcon(GetDlgItem(hDlg, ICO_COUNTRY), pd->nID);
 				}
@@ -322,7 +322,7 @@ INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				break;
 
 			case EDIT_COUNTRY:
-				if(HIWORD(wParam) == CBN_SELCHANGE) {
+				if (HIWORD(wParam) == CBN_SELCHANGE) {
 					LPIDSTRLIST pd = (LPIDSTRLIST)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
 					UpDate_CountryIcon(GetDlgItem(hDlg, ICO_COUNTRY), pd->nID);
 				}

@@ -250,7 +250,7 @@ HANDLE CExImContactBase::toDB()
 	// create new contact if none exists
 	if (_hContact == INVALID_HANDLE_VALUE && _pszProto && _pszUIDKey && _dbvUID.type != DBVT_DELETED) {
 		PROTOACCOUNT* pszAccount = 0;
-		if(NULL == (pszAccount = ProtoGetAccount( _pszProto ))) {
+		if (NULL == (pszAccount = ProtoGetAccount( _pszProto ))) {
 			//account does not exist
 			_hContact = INVALID_HANDLE_VALUE;
 			return INVALID_HANDLE_VALUE;
@@ -394,7 +394,7 @@ BYTE CExImContactBase::compareUID(DBVARIANT *dbv)
 				hash = hashSettingW_M2((const char *)tmp);
 				mir_free(tmp);
 			}
-			if(hash == _dbvUIDHash) return TRUE;
+			if (hash == _dbvUIDHash) return TRUE;
 			break;
 		case DBVT_BLOB:		//'n' cpbVal and pbVal are valid
 			if (_dbvUID.type == dbv->type && 

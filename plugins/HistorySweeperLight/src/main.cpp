@@ -59,14 +59,14 @@ int OnIconPressed(WPARAM wParam, LPARAM lParam)
 		sid.szModule = ModuleName;
 		sid.dwId = nh;
 		sid.flags = MBF_HIDDEN;
-		CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);	
+		Srmm_ModifyIcon(hContact, &sid);	
 		
 		nh = (nh + 1) % 4;
 		db_set_b((HANDLE)wParam, ModuleName, "SweepHistory", (BYTE)nh);
 
 		sid.dwId = nh;
 		sid.flags = 0;
-		CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
+		Srmm_ModifyIcon(hContact, &sid);
 	}
 	return 0;
 }
@@ -84,9 +84,9 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (sweep == 0)
 		sid.szTooltip = LPGEN("Keep all events");
 	else if (sweep == 1)
-		sid.szTooltip = (char*)time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)];
+		sid.szTooltip = time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)];
 	else if (sweep == 2)
-		sid.szTooltip = (char*)keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)];
+		sid.szTooltip = keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)];
 	else if (sweep == 3)
 		sid.szTooltip = LPGEN("Delete all events");
 
@@ -95,13 +95,13 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	sid.dwId = 1;
 	sid.hIcon = LoadIconEx("act1");
-	sid.szTooltip = (char*)time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)];
+	sid.szTooltip = time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)];
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 2;
 	sid.hIcon = LoadIconEx("act2");
-	sid.szTooltip = (char*)keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)];
+	sid.szTooltip = keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)];
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid);
 
@@ -123,7 +123,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		for(i = 0; i < 4; i++) {
 			sid.dwId = i;
 			sid.flags = (sweep == i) ? 0 : MBF_HIDDEN;
-			CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
+			Srmm_ModifyIcon(hContact, &sid);
 		}
 	}
 

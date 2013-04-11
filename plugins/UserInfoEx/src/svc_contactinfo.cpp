@@ -148,7 +148,7 @@ static FORCEINLINE INT_PTR GCIVarEx(CONTACTINFO *ci, LPCSTR pszSetting)
 static FORCEINLINE INT_PTR GCILangEx(CONTACTINFO *ci, LPCSTR pszSetting)
 {
 	if (0 == GCIVarEx(ci, pszSetting)) {
-		if(ci->type!= CNFT_ASCIIZ) {
+		if (ci->type!= CNFT_ASCIIZ) {
 			//lang was safed in database as code
 			LPIDSTRLIST pList;
 			UINT nList, i, res = 0;
@@ -160,7 +160,7 @@ static FORCEINLINE INT_PTR GCILangEx(CONTACTINFO *ci, LPCSTR pszSetting)
 			}
 			GetLanguageList(&nList, &pList);
 			for(i = 0; i<nList; i++) {
-				if(pList[i].nID == res)	{
+				if (pList[i].nID == res)	{
 					//use untranslate string (pszText member)
 					ci->pszVal = (ci->dwFlag & CNF_UNICODE)
 								? (LPTSTR) mir_a2u(pList[i].pszText)
@@ -379,7 +379,7 @@ INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam)
 
 		case CNF_FIRSTLAST:		{
 				result = GCIVarEx(ci, SET_CONTACT_FIRSTLASTNAME);	//first try to read "FullName"
-				if(result) result = GCIFirstLast(ci);				//fallback to "FirstName" + "LastName"
+				if (result) result = GCIFirstLast(ci);				//fallback to "FirstName" + "LastName"
 			} break;
 
 		case CNF_NICK:			{
@@ -576,7 +576,7 @@ INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam)
 
 		case CNF_TIMEZONE:		{
 				//use new core tz interface
-				if(tmi.prepareList) {
+				if (tmi.prepareList) {
 					HANDLE hTz = tmi.createByContact(ci->hContact, TZF_KNOWNONLY);
 					if (hTz) {
 						LPTIME_ZONE_INFORMATION tzi = tmi.getTzi(hTz);

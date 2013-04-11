@@ -78,7 +78,7 @@ static void SrmmMenu_UpdateIcon(HANDLE hContact)
 	for (int i=0; i < 4; ++i) {
 		sid.dwId = i;
 		sid.flags = (i == mode) ? 0 : MBF_HIDDEN;
-		CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
+		Srmm_ModifyIcon(hContact, &sid);
 	}
 }
 

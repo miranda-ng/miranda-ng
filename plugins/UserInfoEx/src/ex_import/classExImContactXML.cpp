@@ -376,7 +376,7 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 			break;
 		case DBVT_ASCIIZ:	//'s' pszVal is valid
 		{
-			if(mir_IsEmptyA(dbv.pszVal)) break;
+			if (mir_IsEmptyA(dbv.pszVal)) break;
 			DB::Variant::ConvertString(&dbv, DBVT_UTF8);
 			if (str = (LPSTR)mir_alloc(mir_strlen(dbv.pszVal) + 2)) {
 				str[0] = 's';
@@ -388,7 +388,7 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 		}
 		case DBVT_UTF8:		//'u' pszVal is valid
 		{
-			if(mir_IsEmptyA(dbv.pszVal)) break;
+			if (mir_IsEmptyA(dbv.pszVal)) break;
 			if (str = (LPSTR)mir_alloc(mir_strlen(dbv.pszVal) + 2)) {
 				str[0] = 'u';
 				mir_strcpy(&str[1], dbv.pszVal);
@@ -399,7 +399,7 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 		}
 		case DBVT_WCHAR:	//'u' pwszVal is valid
 		{
-			if(mir_IsEmptyW(dbv.pwszVal)) break;
+			if (mir_IsEmptyW(dbv.pwszVal)) break;
 			DB::Variant::ConvertString(&dbv, DBVT_UTF8);
 			if (str = (LPSTR)mir_alloc(mir_strlen(dbv.pszVal) + 2)) {
 				str[0] = 'u';
@@ -912,7 +912,7 @@ int CExImContactXML::ImportModule(TiXmlNode* xmlModule)
 				continue;
 			}
 			// just ignore MetaModule on Meta to avoid errors (only import spetial keys)
-			else if(isProtoModule && isMetaModule) {
+			else if (isProtoModule && isMetaModule) {
 				if (!mir_stricmp(xKey->Attribute("key"),"Nick") ||
 					!mir_stricmp(xKey->Attribute("key"),"TzName") ||
 					!mir_stricmp(xKey->Attribute("key"),"Timezone")) {
@@ -1030,12 +1030,12 @@ int CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
 	if (CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)_hContact, (LPARAM)&cws)) {
 		//if (cws.value.pbVal>0)
 		mir_free(cws.value.pbVal);
-		if(cws.value.type == DBVT_ASCIIZ || cws.value.type == DBVT_UTF8) mir_free(cws.value.pszVal);
+		if (cws.value.type == DBVT_ASCIIZ || cws.value.type == DBVT_UTF8) mir_free(cws.value.pszVal);
 		return ERROR_NOT_ADDED;
 	}
 	//if (cws.value.pbVal>0)
 	mir_free(cws.value.pbVal);
-	if(cws.value.type == DBVT_ASCIIZ || cws.value.type == DBVT_UTF8) mir_free(cws.value.pszVal);
+	if (cws.value.type == DBVT_ASCIIZ || cws.value.type == DBVT_UTF8) mir_free(cws.value.pszVal);
 	return ERROR_OK;
 }
 

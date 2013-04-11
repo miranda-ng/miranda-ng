@@ -793,9 +793,8 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 {
 	static HANDLE hContact = NULL;
 
-	switch (message)
-	{
-		case WM_MEASUREITEM:
+	switch (message) {
+	case WM_MEASUREITEM:
 		{
 			LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
 
@@ -807,7 +806,7 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 			return sttMeasureItem(lpmis);
 		}
 
-		case WM_DRAWITEM:
+	case WM_DRAWITEM:
 		{
 			LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
 
@@ -819,20 +818,17 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 			return sttDrawItem(lpdis);
 		}
 
-		case WM_MENUCHAR:
+	case WM_MENUCHAR:
 		{
 			while (GetMenuItemCount((HMENU)lParam) > 1)
 				RemoveMenu((HMENU)lParam, 1, MF_BYPOSITION);
 
-			if (LOWORD(wParam) == VK_BACK)
-			{
+			if (LOWORD(wParam) == VK_BACK) {
 				if (int l = lstrlen(g_filter))
 					g_filter[l-1] = 0;
-			} else
-			if (_istalnum(LOWORD(wParam)))
-			{
-				if (lstrlen(g_filter) < SIZEOF(g_filter)-1)
-				{
+			}
+			else if (_istalnum(LOWORD(wParam))) {
+				if (lstrlen(g_filter) < SIZEOF(g_filter)-1) {
 					TCHAR s[] = { LOWORD(wParam), 0 };
 					lstrcat(g_filter, s);
 				}
@@ -840,8 +836,7 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 
 			int nRecent = 0;
 			int maxRecent = g_Options.wMaxRecent ? g_Options.wMaxRecent : 10;
-			for (int i = 0; nRecent < maxRecent; ++i)
-			{
+			for (int i = 0; nRecent < maxRecent; ++i) {
 				HANDLE hContact = g_contactCache->get(i);
 				if (!hContact) break;
 				if (!g_contactCache->filter(i, g_filter)) continue;
@@ -852,10 +847,9 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 			return MAKELRESULT(1, MNC_SELECT);
 		}
 
-		case WM_MENURBUTTONUP:
+	case WM_MENURBUTTONUP:
 		{
-			MENUITEMINFO mii = {0};
-			mii.cbSize = sizeof(mii);
+			MENUITEMINFO mii = { sizeof(mii) };
 			mii.fMask = MIIM_DATA;
 			GetMenuItemInfo((HMENU)lParam, wParam, TRUE, &mii);
 			HANDLE hContact = (HANDLE)mii.dwItemData;
@@ -897,18 +891,15 @@ int sttShowMenu(bool centered)
 	if (g_Options.bUseColumns) g_maxItemWidth /= favList.groupCount();
 
 	prevGroup = NULL;
-	for (i = 0; i < favList.getCount(); ++i)
-	{
+	for (i = 0; i < favList.getCount(); ++i) {
 		hContact = favList[i]->getHandle();
 
 		MEASUREITEMSTRUCT mis = {0};
 		mis.CtlID = 0;
 		mis.CtlType = ODT_MENU;
 
-		if (!prevGroup || lstrcmp(prevGroup, favList[i]->getGroup()))
-		{
-			if (prevGroup && g_Options.bUseColumns)
-			{
+		if (!prevGroup || lstrcmp(prevGroup, favList[i]->getGroup())) {
+			if (prevGroup && g_Options.bUseColumns) {
 				szMenu.cx += szColumn.cx;
 				szMenu.cy = max(szMenu.cy, szColumn.cy);
 				szColumn.cx = szColumn.cy = 0;
@@ -948,25 +939,18 @@ int sttShowMenu(bool centered)
 	}
 
 	POINT pt;
-
-//	RECT rc;
-//	GetMenuItemRect(g_hwndMenuHost, hMenu, 1, &rc);
-
-	if (centered)
-	{
+	if (centered) {
 		if ((pt.x = (GetSystemMetrics(SM_CXSCREEN) - szMenu.cx) / 2) < 0) pt.x = 0;
 		if ((pt.y = (GetSystemMetrics(SM_CYSCREEN) - szMenu.cy) / 2) < 0) pt.y = 0;
-	} else
-	{
-		GetCursorPos(&pt);
 	}
+	else GetCursorPos(&pt);
 
 	HWND hwndSave = GetForegroundWindow();
 	SetForegroundWindow(g_hwndMenuHost);
 	hContact = NULL;
 	g_filter[0] = 0;
-	if (int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, g_hwndMenuHost, NULL))
-	{
+
+	if (int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, g_hwndMenuHost, NULL)) {
 		MENUITEMINFO mii = {0};
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA;
@@ -1008,8 +992,7 @@ int ProcessSrmmEvent( WPARAM wParam, LPARAM lParam )
 {
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
 
-	if ( event->uType == MSG_WINDOW_EVT_OPEN )
-	{
+	if (event->uType == MSG_WINDOW_EVT_OPEN) {
 		if ( !hDialogsList )
 			hDialogsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
@@ -1019,10 +1002,9 @@ int ProcessSrmmEvent( WPARAM wParam, LPARAM lParam )
 		sid.cbSize = sizeof(sid);
 		sid.szModule = "FavContacts";
 		sid.flags = fav ? 0 : MBF_DISABLED;
-		CallService(MS_MSG_MODIFYICON, (WPARAM)event->hContact, (LPARAM)&sid);
+		Srmm_ModifyIcon(event->hContact, &sid);
 
-		if (event->hContact == hContactToActivate)
-		{
+		if (event->hContact == hContactToActivate) {
 			HWND hwndRoot = event->hwndWindow;
 			while (HWND hwndParent = GetParent(hwndRoot))
 				hwndRoot = hwndParent;
@@ -1051,23 +1033,20 @@ int ProcessSrmmIconClick( WPARAM wParam, LPARAM lParam )
 	if (lstrcmpA(sicd->szModule, "FavContacts")) return 0;
 
 	HANDLE hContact = (HANDLE)wParam;
-	if (!hContact) return 0;
+	if (!hContact)
+		return 0;
 
-	if (sicd->flags & MBCF_RIGHTBUTTON)
-	{
+	if (sicd->flags & MBCF_RIGHTBUTTON) {
 		BYTE fav = !db_get_b(hContact, "FavContacts", "IsFavourite", 0);
 		db_set_b(hContact, "FavContacts", "IsFavourite", fav);
 		if (fav) CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
 
-		StatusIconData sid = {0};
-		sid.cbSize = sizeof(sid);
+		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = "FavContacts";
 		sid.flags = fav ? 0 : MBF_DISABLED;
-		CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
-	} else
-	{
-		sttShowMenu(false);
+		Srmm_ModifyIcon(hContact, &sid);
 	}
+	else sttShowMenu(false);
 
 	return 0;
 }
@@ -1076,7 +1055,6 @@ int ProcessSrmmIconClick( WPARAM wParam, LPARAM lParam )
 // Options
 static void sttResetListOptions(HWND hwndList)
 {
-	int i;
 	SendMessage(hwndList,CLM_SETBKBITMAP,0,(LPARAM)(HBITMAP)NULL);
 	SendMessage(hwndList,CLM_SETBKCOLOR,GetSysColor(COLOR_WINDOW),0);
 	SendMessage(hwndList,CLM_SETGREYOUTFLAGS,0,0);
@@ -1084,7 +1062,7 @@ static void sttResetListOptions(HWND hwndList)
 	SendMessage(hwndList,CLM_SETINDENT,10,0);
 	SendMessage(hwndList,CLM_SETHIDEEMPTYGROUPS,1,0);
 	SendMessage(hwndList,CLM_SETHIDEOFFLINEROOT,1,0);
-	for (i = 0; i <= FONTID_MAX; ++i)
+	for (int i = 0; i <= FONTID_MAX; ++i)
 		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }
 

@@ -860,21 +860,18 @@ void GetContactLanguage(Dialog *dlg)
 
 void ModifyIcon(Dialog *dlg)
 {
-	if ( ServiceExists(MS_MSG_MODIFYICON)) {
-		StatusIconData sid = {0};
-		sid.cbSize = sizeof(sid);
-		sid.szModule = MODULE_NAME;
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = MODULE_NAME;
 
-		for (int i = 0; i < languages.getCount(); i++) {
-			sid.dwId = i;
+	for (int i = 0; i < languages.getCount(); i++) {
+		sid.dwId = i;
 
-			if (languages[i] == dlg->lang)
-				sid.flags = (dlg->enabled ? 0 : MBF_DISABLED);
-			else
-				sid.flags = MBF_HIDDEN;
+		if (languages[i] == dlg->lang)
+			sid.flags = (dlg->enabled ? 0 : MBF_DISABLED);
+		else
+			sid.flags = MBF_HIDDEN;
 
-			CallService(MS_MSG_MODIFYICON, (WPARAM) dlg->hContact, (LPARAM) &sid);
-		}
+		Srmm_ModifyIcon(dlg->hContact, &sid);
 	}
 }
 

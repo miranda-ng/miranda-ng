@@ -663,7 +663,7 @@ int CPsTree::BeginLabelEdit(HTREEITEM hItem)
 						NULL,
 						ghInst,
 						NULL );
-		if(_hLabelEdit)
+		if (_hLabelEdit)
 		{
 			_hDragItem = hItem;
 			SetUserData(_hLabelEdit, this);

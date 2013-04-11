@@ -55,7 +55,7 @@ CBaseCtrl* CTzCombo::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
 	ctrl = new CTzCombo(hDlg, idCtrl, pszSetting);
 	if (ctrl) {
 		//use new core tz interface
-		if(tmi.prepareList) {
+		if (tmi.prepareList) {
 			//set the adress of our timezone handle as itemdata
 			//caller can obtain the handle htz to extract all relevant information
 			ctrl->_curSel = 0;
@@ -161,7 +161,7 @@ BOOL CTzCombo::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
 {
 	if (!_Flags.B.hasChanged) {
 		//use new core tz interface to change the cbbox
-		if(tmi.storeListResults) {
+		if (tmi.storeListResults) {
 			_curSel = CB_ERR;
 //			_curSel = tmi.selectListItem(hContact, _hwnd, TZF_PLF_CB);
 										//dident work well, coz no fallback to proto setting.
@@ -205,7 +205,7 @@ void CTzCombo::OnApply(HANDLE hContact, LPCSTR pszProto)
 		const char* pszModule = hContact ? USERINFO : pszProto;
 		if (_Flags.B.hasCustom || !hContact) {
 			//use new core tz interface
-			if(tmi.storeListResults) {
+			if (tmi.storeListResults) {
 				tmi.storeListResults(hContact, _hwnd, TZF_PLF_CB);
 				if (!hContact) {
 					_Flags.B.hasCustom = 0;
@@ -276,7 +276,7 @@ void CTzCombo::OnChangedByUser(WORD wChangedMsg)
 void CTzCombo::GetTime(LPTSTR szTime, WORD cchTime)
 {
 	//use new core tz interface
-	if(tmi.printDateTime) {
+	if (tmi.printDateTime) {
 		tmi.printDateTime((HANDLE)ComboBox_GetItemData(_hwnd, _curSel), _T("t"), szTime, cchTime, 0);
 	}
 	//fallback use old UIEX method

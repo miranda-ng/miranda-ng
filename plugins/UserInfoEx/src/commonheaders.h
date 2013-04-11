@@ -173,7 +173,6 @@ typedef struct _MGLOBAL
 {
 	DWORD		mirandaVersion;					// mirandaVersion
 	BYTE		CanChangeDetails : 1;			// is service to upload own contact information for icq present?
-	BYTE		MsgAddIconExist : 1;			// Messsage Window support status Icon
 	BYTE		TzIndexExist : 1;				// Win Reg has Timzone Index Info
 	BYTE		PopUpActionsExist : 1;			// Popup++ or MS_POPUP_REGISTERACTIONS exist
 	BYTE		ShowPropsheetColours : 1;		// cached SET_PROPSHEET_SHOWCOLOURS database value

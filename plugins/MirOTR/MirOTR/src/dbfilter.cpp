@@ -246,7 +246,6 @@ int WindowEvent(WPARAM wParam, LPARAM lParam) {
 	}
 
 	if(mwd->uType != MSG_WINDOW_EVT_OPEN) return 0;
-	if (!options.bHaveSRMMIcons) return 0;
 
 	HANDLE hContact = mwd->hContact, hTemp;
 	if(options.bHaveMetaContacts && (hTemp = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)

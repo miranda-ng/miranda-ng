@@ -70,7 +70,6 @@ static int OnTopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	myGlobals.PopUpActionsExist = ServiceExists(MS_POPUP_REGISTERACTIONS);
-	myGlobals.MsgAddIconExist = ServiceExists(MS_MSG_MODIFYICON);
 
 	// init meta contacts
 	INT_PTR ptr = CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
@@ -187,10 +186,10 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// init freeimage interface
 	INT_PTR result = CALLSERVICE_NOTFOUND;
-	if(ServiceExists(MS_IMG_GETINTERFACE))
+	if (ServiceExists(MS_IMG_GETINTERFACE))
 		result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
 
-	if(FIP == NULL || result != S_OK) {
+	if (FIP == NULL || result != S_OK) {
 		MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Flags Module will be disabled."), _T("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 		return 1;
 	}

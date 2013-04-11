@@ -1266,7 +1266,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				db_get_b(NULL, SRMMMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)));
 			db_set_b(dat->windowData.hContact, SRMMMOD, SRMSGSET_TYPING, (BYTE)!typingNotify);
 			sid.flags = typingNotify ? MBF_DISABLED : 0;
-			CallService(MS_MSG_MODIFYICON, (WPARAM)dat->windowData.hContact, (LPARAM)&sid);
+			Srmm_ModifyIcon(dat->windowData.hContact, &sid);
 		}
 		break;
 
@@ -1503,7 +1503,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			sid.cbSize = sizeof(sid);
 			sid.szModule = SRMMMOD;
 			sid.flags = MBF_DISABLED;
-			CallService(MS_MSG_MODIFYICON, (WPARAM)dat->windowData.hContact, (LPARAM)&sid);
+			Srmm_ModifyIcon(dat->windowData.hContact, &sid);
 			sid.dwId = 1;
 			if (IsTypingNotificationSupported(dat) && g_dat.flags2 & SMF2_SHOWTYPINGSWITCH)
 				sid.flags = (db_get_b(dat->windowData.hContact, SRMMMOD, SRMSGSET_TYPING,
@@ -1511,7 +1511,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			else
 				sid.flags = MBF_HIDDEN;
 
-			CallService(MS_MSG_MODIFYICON, (WPARAM)dat->windowData.hContact, (LPARAM)&sid);
+			Srmm_ModifyIcon(dat->windowData.hContact, &sid);
 		}
 		break;
 

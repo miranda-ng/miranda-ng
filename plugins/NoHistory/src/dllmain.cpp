@@ -183,7 +183,7 @@ INT_PTR ServiceToggle(WPARAM wParam, LPARAM lParam)
 	for (int i = 0; i < 2; ++i) {
 		sid.dwId = i;
 		sid.flags = (i == remove) ? 0 : MBF_HIDDEN;
-		CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
+		Srmm_ModifyIcon(hContact, &sid);
 	}
 	return 0;
 }
@@ -193,25 +193,23 @@ int WindowEvent(WPARAM wParam, LPARAM lParam)
 	MessageWindowEventData *mwd = (MessageWindowEventData *)lParam;
 	HANDLE hContact = mwd->hContact;
 
-	if (mwd->uType == MSG_WINDOW_EVT_CLOSE) {
+	switch(mwd->uType) {
+	case MSG_WINDOW_EVT_CLOSE:
 		RemoveReadEvents(hContact);
-		return 0;
-	}
+		break;
 
-	if (mwd->uType != MSG_WINDOW_EVT_OPEN || !ServiceExists(MS_MSG_MODIFYICON))
-		return 0;
+	case MSG_WINDOW_EVT_OPEN:
+		char *proto = GetContactProto(hContact);
+		bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
+		int remove = db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) != 0;
 
-	char *proto = GetContactProto(hContact);
-	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
-	int remove = db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) != 0;
-
-	StatusIconData sid = {0};
-	sid.cbSize = sizeof(sid);
-	sid.szModule = MODULE;
-	for (int i=0; i < 2; ++i) {
-		sid.dwId = i;
-		sid.flags = (chat_room ? MBF_HIDDEN : (i == remove) ? 0 : MBF_HIDDEN);
-		CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
+		StatusIconData sid = { sizeof(sid) };
+		sid.szModule = MODULE;
+		for (int i=0; i < 2; ++i) {
+			sid.dwId = i;
+			sid.flags = (chat_room ? MBF_HIDDEN : (i == remove) ? 0 : MBF_HIDDEN);
+			Srmm_ModifyIcon(hContact, &sid);
+		}
 	}
 
 	return 0;
