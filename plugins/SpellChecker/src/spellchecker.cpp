@@ -212,7 +212,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		sid.dwId = i;
 
 		TCHAR tmp[128];
-		mir_sntprintf(tmp, SIZEOF(tmp), _T("%s - %S"), 
+		mir_sntprintf(tmp, SIZEOF(tmp), _T("%s - %s"), 
 			TranslateT("Spell Checker"), languages[i]->full_name);
 		sid.tszTooltip = tmp;
 
