@@ -9,8 +9,10 @@
 //
 #include <winres.h>
 #include "..\..\..\include\statusmodes.h"
-
-
+
+
+
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 

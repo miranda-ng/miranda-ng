@@ -935,8 +935,8 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			GetWindowRect(hWnd, &rcs);
 
 			int statwidths[5];
-			statwidths[0] = (rcs.right - rcs.left) - (2 * SB_CHAR_WIDTH + 20) - (52 + ((list_icons) * (PluginConfig.m_smcxicon + 2)));
-			statwidths[1] = (rcs.right - rcs.left) - (62 + ((list_icons) * (PluginConfig.m_smcxicon + 2)));
+			statwidths[0] = (rcs.right - rcs.left) - (2 * SB_CHAR_WIDTH + 20) - (list_icons * (PluginConfig.m_smcxicon + 2));
+			statwidths[1] = (rcs.right - rcs.left) - (10 + (list_icons * (PluginConfig.m_smcxicon + 2)));
 			statwidths[2] = -1;
 			SendMessage(hWnd, SB_SETPARTS, 3, (LPARAM)statwidths);
 		}
@@ -991,7 +991,6 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 	case WM_TIMER:
 		if (wParam == TIMERID_HOVER) {
 			POINT pt;
-			char *szTTService = "mToolTip/ShowTipW";
 			CLCINFOTIP ti = {0};
 			ti.cbSize = sizeof(ti);
 
@@ -1000,50 +999,35 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			if (pt.x == ptMouse.x && pt.y == ptMouse.y) {
 				RECT rc;
 				struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-				//mad
 				SIZE size;
-				TCHAR  szStatusBarText[512];
-				//mad_
+				TCHAR wBuf[512]; wBuf[0] = 0;
 				ti.ptCursor = pt;
 				ScreenToClient(hWnd, &pt);
 				SendMessage(hWnd, SB_GETRECT, 2, (LPARAM)&rc);
 				if (dat && PtInRect(&rc, pt)) {
-					int gap = 2;
-					unsigned int iconNum = (pt.x - rc.left) / (PluginConfig.m_smcxicon + gap);
+					unsigned int iconNum = (pt.x - rc.left) / (PluginConfig.m_smcxicon + 2);
+					StatusIconData *sid = Srmm_GetNthIcon(dat->hContact, iconNum);
+					if (sid == NULL)
+						break;
 
-					char *szModule = NULL; TCHAR *tszTooltip;
-					int list_icons = 0;
-					while (StatusIconData *sid = Srmm_GetNthIcon(dat->hContact, list_icons))
-						if (list_icons++ == iconNum)
-							szModule = sid->szModule, tszTooltip = sid->tszTooltip;
+					if ( !strcmp(sid->szModule, MSG_ICON_MODULE)) {
+						if (sid->dwId == MSG_ICON_SOUND && pContainer)
+							mir_sntprintf(wBuf, SIZEOF(wBuf), TranslateT("Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers"),
+								pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
 
-					if ((int)iconNum == list_icons && pContainer) {
-						TCHAR wBuf[512];
-
-						mir_sntprintf(wBuf, SIZEOF(wBuf), TranslateT("Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers"),
-							pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
-						CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
-						tooltip_active = TRUE;
+						else if (sid->dwId == MSG_ICON_UTN && dat && dat->bType == SESSIONTYPE_IM) {
+							int mtnStatus = (int)M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+							mir_sntprintf(wBuf, SIZEOF(wBuf), TranslateT("Sending typing notifications is %s."),
+								mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
+						}
+						else if (sid->dwId == MSG_ICON_SESSION)
+							mir_sntprintf(wBuf, SIZEOF(wBuf), _T("%s"), TranslateT("Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior"));
 					}
-					else if ((int)iconNum == list_icons + 1 && dat && dat->bType == SESSIONTYPE_IM) {
-						int mtnStatus = (int)M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
-						TCHAR wBuf[512];
+					else if (sid->tszTooltip)
+						_tcsncpy(wBuf, sid->tszTooltip, SIZEOF(wBuf));
 
-						mir_sntprintf(wBuf, SIZEOF(wBuf), TranslateT("Sending typing notifications is %s."),
-							mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
-						CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
-						tooltip_active = TRUE;
-					}
-					else if ((int)iconNum == list_icons + 2) {
-						TCHAR wBuf[512];
-
-						mir_sntprintf(wBuf, SIZEOF(wBuf), _T("%s"), TranslateT("Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior"));
-
-						CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
-						tooltip_active = TRUE;
-					}
-					else if (szModule) {
-						CallService(szTTService, (WPARAM)tszTooltip, (LPARAM)&ti);
+					if (wBuf[0]) {
+						CallService("mToolTip/ShowTipW", (WPARAM)wBuf, (LPARAM)&ti);
 						tooltip_active = TRUE;
 					}
 				}
@@ -1057,18 +1041,17 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					iLength = SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)& gtxl, 0);
 					tooltip_active = TRUE;
 
-					TCHAR wBuf[512];
 					const TCHAR *szFormat = TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery");
 
 					mir_sntprintf(wBuf, SIZEOF(wBuf), szFormat, dat->iOpenJobs, iLength, dat->nMax ? dat->nMax : 20000, iQueued);
-					CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
+					CallService("mToolTip/ShowTipW", (WPARAM)wBuf, (LPARAM)&ti);
 				}
-				//MAD
-				if (SendMessage(dat->pContainer->hwndStatus, SB_GETTEXT, 0, (LPARAM)szStatusBarText)) {
+
+				if (SendMessage(dat->pContainer->hwndStatus, SB_GETTEXT, 0, (LPARAM)wBuf)) {
 					HDC hdc;
 					int iLen=SendMessage(dat->pContainer->hwndStatus,SB_GETTEXTLENGTH,0,0);
 					SendMessage(hWnd, SB_GETRECT, 0, (LPARAM)&rc);
-					GetTextExtentPoint32( hdc=GetDC( dat->pContainer->hwndStatus), szStatusBarText, iLen, &size );
+					GetTextExtentPoint32( hdc=GetDC( dat->pContainer->hwndStatus), wBuf, iLen, &size );
 					ReleaseDC (dat->pContainer->hwndStatus,hdc);
 
 					if (dat && PtInRect(&rc,pt)&&((rc.right-rc.left)<size.cx)) {
@@ -1078,7 +1061,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 							M->GetTString(dat->hContact,dat->szProto,"Topic",&dbv);
 
 						tooltip_active = TRUE;
-						CallService(szTTService, (WPARAM)dbv.ptszVal, (LPARAM)&ti);
+						CallService("mToolTip/ShowTipW", (WPARAM)dbv.ptszVal, (LPARAM)&ti);
 						if (dbv.pszVal)
 							db_free(&dbv);
 					}

@@ -1933,39 +1933,42 @@ void DrawStatusIcons(struct TWindowData *dat, HDC hDC, RECT r, int gap)
 
 	int nIcon = 0;
 	while (StatusIconData *si = Srmm_GetNthIcon(dat->hContact, nIcon++)) {
-		if ((si->flags & MBF_DISABLED) && si->hIconDisabled)
-			hIcon = si->hIconDisabled;
-		else
-			hIcon = si->hIcon;
+		if ( !strcmp(si->szModule, MSG_ICON_MODULE)) {
+			if (si->dwId == MSG_ICON_SOUND) {
+				DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_SOUNDS], 
+					cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 
-		if (si->flags & MBF_DISABLED && si->hIconDisabled == (HICON)0)
-			CSkin::DrawDimmedIcon(hDC, x, y, cx_icon, cy_icon, hIcon, 50);
-		else
-			DrawIconEx(hDC, x, y, hIcon, 16, 16, 0, NULL, DI_NORMAL);
+				DrawIconEx(hDC, x, y, dat->pContainer->dwFlags & CNT_NOSOUND ?
+					PluginConfig.g_iconOverlayDisabled : PluginConfig.g_iconOverlayEnabled,
+					cx_icon, cy_icon, 0, NULL, DI_NORMAL);
+			}
+			else if (si->dwId == MSG_ICON_UTN) {
+				if (dat->bType == SESSIONTYPE_IM) {
+					DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 
-		x += 16 + gap;
+					DrawIconEx(hDC, x, y, M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)) ?
+						PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
+				}
+				else CSkin::DrawDimmedIcon(hDC, x, y, cx_icon, cy_icon, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], 50);
+			}
+			else if (si->dwId == MSG_ICON_SESSION) {
+				DrawIconEx(hDC, x, y, PluginConfig.g_sideBarIcons[0], cx_icon, cy_icon, 0, NULL, DI_NORMAL);
+			}
+		}
+		else {
+			if ((si->flags & MBF_DISABLED) && si->hIconDisabled)
+				hIcon = si->hIconDisabled;
+			else
+				hIcon = si->hIcon;
+
+			if (si->flags & MBF_DISABLED && si->hIconDisabled == (HICON)0)
+				CSkin::DrawDimmedIcon(hDC, x, y, cx_icon, cy_icon, hIcon, 50);
+			else
+				DrawIconEx(hDC, x, y, hIcon, 16, 16, 0, NULL, DI_NORMAL);
+		}
+
+		x += cx_icon + gap;
 	}
-	DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_SOUNDS],
-			cx_icon, cy_icon, 0, NULL, DI_NORMAL);
-
-	DrawIconEx(hDC, x, y, dat->pContainer->dwFlags & CNT_NOSOUND ?
-			PluginConfig.g_iconOverlayDisabled : PluginConfig.g_iconOverlayEnabled,
-			cx_icon, cy_icon, 0, NULL, DI_NORMAL);
-
-	x += (cx_icon + gap);
-
-	if (dat->bType == SESSIONTYPE_IM) {
-		DrawIconEx(hDC, x, y,
-				PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], cx_icon, cy_icon, 0, NULL, DI_NORMAL);
-		DrawIconEx(hDC, x, y, M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)) ?
-				PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
-	}
-	else
-		CSkin::DrawDimmedIcon(hDC, x, y, cx_icon, cy_icon,
-					PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], 50);
-
-	x += (cx_icon + gap);
-	DrawIconEx(hDC, x, y, PluginConfig.g_sideBarIcons[0], cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 }
 
 void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, RECT r, int gap, int code)
@@ -1979,42 +1982,39 @@ void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, R
 	}
 
 	UINT iconNum = (pt.x - (r.left + 0)) / (PluginConfig.m_smcxicon + gap), list_icons = 0;
-	DWORD dwID;
-	char *szModule = NULL;
-	if (dat)
-		while (StatusIconData *si = Srmm_GetNthIcon(dat->hContact, list_icons)) {
-			if (list_icons == iconNum)
-				szModule = si->szModule, dwID = si->dwId;
-			list_icons++;
-		}
+	StatusIconData *si = Srmm_GetNthIcon((dat) ? dat->hContact : 0, iconNum);
+	if (si == NULL)
+		return;
 
-	if ((int)iconNum == list_icons && code != NM_RCLICK) {
-		if (GetKeyState(VK_SHIFT) & 0x8000) {
-			for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
-				p->dwFlags = ((dat->pContainer->dwFlags & CNT_NOSOUND) ? p->dwFlags | CNT_NOSOUND : p->dwFlags & ~CNT_NOSOUND);
+	if ( !strcmp(si->szModule, MSG_ICON_MODULE)) {
+		if (si->dwId == MSG_ICON_SOUND && code != NM_RCLICK) {
+			if (GetKeyState(VK_SHIFT) & 0x8000) {
+				for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
+					p->dwFlags = ((dat->pContainer->dwFlags & CNT_NOSOUND) ? p->dwFlags | CNT_NOSOUND : p->dwFlags & ~CNT_NOSOUND);
+					InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
+				}
+			}
+			else {
+				dat->pContainer->dwFlags ^= CNT_NOSOUND;
 				InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
 			}
 		}
-		else {
-			dat->pContainer->dwFlags ^= CNT_NOSOUND;
+		else if (si->dwId == MSG_ICON_UTN && code != NM_RCLICK && dat->bType == SESSIONTYPE_IM) {
+			SendMessage(dat->pContainer->hwndActive, WM_COMMAND, IDC_SELFTYPING, 0);
 			InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
 		}
+		else if (si->dwId == MSG_ICON_SESSION) {
+			if (code == NM_CLICK)
+				PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_LBUTTONUP);
+			else if (code == NM_RCLICK)
+				PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_RBUTTONUP);
+		}
 	}
-	else if ((int)iconNum == list_icons + 1 && code != NM_RCLICK && dat->bType == SESSIONTYPE_IM) {
-		SendMessage(dat->pContainer->hwndActive, WM_COMMAND, IDC_SELFTYPING, 0);
-		InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
-	}
-	else if ((int)iconNum == list_icons + 2) {
-		if (code == NM_CLICK)
-			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_LBUTTONUP);
-		else if (code == NM_RCLICK)
-			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_RBUTTONUP);
-	}
-	else if (szModule) {
+	else {
 		StatusIconClickData sicd = { sizeof(sicd) };
 		GetCursorPos(&sicd.clickLocation);
-		sicd.dwId = dwID;
-		sicd.szModule = szModule;
+		sicd.dwId = si->dwId;
+		sicd.szModule = si->szModule;
 		sicd.flags = (code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0);
 		NotifyEventHooks(hHookIconPressedEvt, (WPARAM)dat->hContact, (LPARAM)&sicd);
 		InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
@@ -2023,6 +2023,17 @@ void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, R
 
 int SI_InitStatusIcons()
 {
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = MSG_ICON_MODULE;
+	sid.dwId = MSG_ICON_SOUND; // Sounds
+	Srmm_AddIcon(&sid);
+
+	sid.dwId = MSG_ICON_UTN;
+	Srmm_AddIcon(&sid);
+
+	sid.dwId = MSG_ICON_SESSION;
+	Srmm_AddIcon(&sid);
+
 	HookEvent(ME_MSG_ICONSCHANGED, OnSrmmIconChanged);
 
 	hHookIconPressedEvt = CreateHookableEvent(ME_MSG_ICONPRESSED);

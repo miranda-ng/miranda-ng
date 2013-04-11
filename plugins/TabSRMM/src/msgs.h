@@ -161,19 +161,22 @@ class CContactCache;
 class CProxyWindow;
 
 #define STICK_ICON_MSG 10
-struct TLogTheme {
-	COLORREF 	inbg, outbg, bg, oldinbg, oldoutbg, statbg, inputbg;
-	COLORREF 	hgrid;
-	COLORREF 	custom_colors[5];
-	DWORD 		dwFlags;
-	DWORD 		left_indent, right_indent;
-	LOGFONTA*	logFonts;
-	COLORREF*	fontColors;
-	char*		rtfFonts;
-	bool		isPrivate;
+
+struct TLogTheme
+{
+	COLORREF  inbg, outbg, bg, oldinbg, oldoutbg, statbg, inputbg;
+	COLORREF  hgrid;
+	COLORREF  custom_colors[5];
+	DWORD     dwFlags;
+	DWORD     left_indent, right_indent;
+	LOGFONTA *logFonts;
+	COLORREF *fontColors;
+	char     *rtfFonts;
+	bool      isPrivate;
 };
 
-struct TContainerSettings {
+struct TContainerSettings
+{
 	bool	fPrivate;
 	DWORD	dwFlags;
 	DWORD	dwFlagsEx;
@@ -187,65 +190,62 @@ struct TContainerSettings {
 	BYTE	reserved[10];
 };
 
-struct TContainerData {
+struct TContainerData
+{
 	TContainerData *pNext;
-	TCHAR   szName[CONTAINER_NAMELEN + 4];		// container name
-	HWND    hwndActive;		// active message window
-	HWND    hwnd;				// the container handle
-	int     iTabIndex;			// next tab id
-	int	    iChilds;
-	int     iContainerIndex;
-	bool	fHidden;
-	HMENU   hMenuContext;
-	HWND    hwndTip;			// tab - tooltips...
-	BOOL    bDontSmartClose;      // if set, do not search and select the next possible tab after closing one.
-	DWORD   dwFlags;
-	DWORD   dwFlagsEx;
-	LONG    uChildMinHeight;
-	int     tBorder;
-	int	    tBorder_outer_left, tBorder_outer_right, tBorder_outer_top, tBorder_outer_bottom;
-	HANDLE  hContactFrom;
-	BOOL    isCloned;
-	HWND    hwndStatus;
-	int     statusBarHeight;
-	DWORD   dwLastActivity;
-	int     hIcon;                	// current window icon stick indicator
-	HICON	hIconTaskbarOverlay;	// contains a "sticky" taskbar overlay (e.g. new message icon)
-	DWORD   dwFlashingStarted;
-	HWND    hWndOptions;
-	BOOL    bSizingLoop;
-	TCHAR   szRelThemeFile[MAX_PATH], szAbsThemeFile[MAX_PATH];
+
+	TCHAR    szName[CONTAINER_NAMELEN + 4];		// container name
+	HWND     hwndActive;		// active message window
+	HWND     hwnd;				// the container handle
+	int      iTabIndex;			// next tab id
+	int	   iChilds;
+	int      iContainerIndex;
+	bool	   fHidden;
+	HMENU    hMenuContext;
+	HWND     hwndTip;			// tab - tooltips...
+	BOOL     bDontSmartClose;      // if set, do not search and select the next possible tab after closing one.
+	DWORD    dwFlags;
+	DWORD    dwFlagsEx;
+	LONG     uChildMinHeight;
+	int      tBorder;
+	int	   tBorder_outer_left, tBorder_outer_right, tBorder_outer_top, tBorder_outer_bottom;
+	HANDLE   hContactFrom;
+	BOOL     isCloned;
+	HWND     hwndStatus;
+	int      statusBarHeight;
+	DWORD    dwLastActivity;
+	int      hIcon;                	// current window icon stick indicator
+	HICON	   hIconTaskbarOverlay;	// contains a "sticky" taskbar overlay (e.g. new message icon)
+	DWORD    dwFlashingStarted;
+	HWND     hWndOptions;
+	BOOL     bSizingLoop;
+	TCHAR    szRelThemeFile[MAX_PATH], szAbsThemeFile[MAX_PATH];
 	TTemplateSet *ltr_templates, *rtl_templates;
-	HDC     cachedDC;
-	HBITMAP cachedHBM, oldHBM;
-	SIZE    oldDCSize;
-	RECT    rcClose, rcMin, rcMax;
-	struct  TitleBtn buttons[3];
-	struct  TitleBtn oldbuttons[3];
-	int     ncActive;
-	HWND    hwndSaved;
+	HDC      cachedDC;
+	HBITMAP  cachedHBM, oldHBM;
+	SIZE     oldDCSize;
+	RECT     rcClose, rcMin, rcMax;
+	TitleBtn buttons[3];
+	TitleBtn oldbuttons[3];
+	int      ncActive;
+	HWND     hwndSaved;
 	ButtonItem *buttonItems;
-	RECT    rcSaved, rcLogSaved;
-	POINT	ptLogSaved;
-	DWORD   exFlags;
-	BOOL	fPrivateThemeChanged;
-	MARGINS mOld;
+	RECT     rcSaved, rcLogSaved;
+	POINT	   ptLogSaved;
+	DWORD    exFlags;
+	BOOL	   fPrivateThemeChanged;
+	MARGINS  mOld;
 	HDC		cachedToolbarDC;
-	HBITMAP hbmToolbarBG, oldhbmToolbarBG;
-	SIZE	szOldToolbarSize;
-	SIZE    oldSize, preSIZE;
-	WORD	avatarMode, ownAvatarMode;
-	BYTE	bTBRenderingMode;
-	TLogTheme 	theme;
+	HBITMAP  hbmToolbarBG, oldhbmToolbarBG;
+	SIZE	   szOldToolbarSize;
+	SIZE     oldSize, preSIZE;
+	WORD	   avatarMode, ownAvatarMode;
+	BYTE	   bTBRenderingMode;
+	TLogTheme theme;
 	TContainerSettings* settings;
 	CTaskbarInteract*	TaskBar;
-	CMenuBar*			MenuBar;
-	CSideBar*			SideBar;
-};
-
-struct TStatusBarIconNode {
-	TStatusBarIconNode*	next;
-	StatusIconData 		sid;
+	CMenuBar *MenuBar;
+	CSideBar *SideBar;
 };
 
 struct SESSIONINFO_TYPE;
@@ -278,7 +278,6 @@ struct TWindowData
    UINT    bbRSideWidth;    //MAD
    BYTE    kstate[256];
 
-	TStatusBarIconNode *pSINod;
 	SESSIONINFO_TYPE* si;
 
 	RECT     rcNick, rcUIN, rcStatus, rcPic;
@@ -1017,8 +1016,11 @@ typedef struct {
  * encryption status bar indicator
  */
 
-// extern HANDLE hHookIconPressedEvt;
-extern int status_icon_list_size;
+#define MSG_ICON_MODULE "\x01TabSrmm"
+
+#define MSG_ICON_SESSION 0
+#define MSG_ICON_UTN     1
+#define MSG_ICON_SOUND   2
 
 int SI_InitStatusIcons();
 int SI_DeinitStatusIcons();

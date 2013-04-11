@@ -3540,7 +3540,8 @@ quote_from_last:
 				if (PluginConfig.m_EscapeCloses == 1) {
 					SendMessage(hwndContainer, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 					return(TRUE);
-				} else if (PluginConfig.m_HideOnClose && PluginConfig.m_EscapeCloses == 2) {
+				}
+				else if (PluginConfig.m_HideOnClose && PluginConfig.m_EscapeCloses == 2) {
 					ShowWindow(hwndContainer, SW_HIDE);
 					return(TRUE);
 				}
@@ -3551,13 +3552,11 @@ quote_from_last:
 				if (dat->dwFlags & MWF_ERRORSTATE)
 					SendMessage(hwndDlg, DM_ERRORDECIDED, MSGERROR_CANCEL, 1);
 				else if (dat) {
-					LRESULT result;
-
 					if (dat->dwFlagsEx & MWF_EX_WARNCLOSE)
 						return TRUE;
 
 					dat->dwFlagsEx |= MWF_EX_WARNCLOSE;
-					result = SendQueue::WarnPendingJobs(0);
+					LRESULT result = SendQueue::WarnPendingJobs(0);
 					dat->dwFlagsEx &= ~MWF_EX_WARNCLOSE;
 					if (result == IDNO)
 						return TRUE;
@@ -3569,28 +3568,15 @@ quote_from_last:
 				return 1;
 			}
 
-			TStatusBarIconNode *current;
-
-			while (dat->pSINod) {
-				current = dat->pSINod;
-				dat->pSINod = dat->pSINod->next;
-
-				mir_free(current->sid.szModule);
-				DestroyIcon(current->sid.hIcon);
-				if (current->sid.hIconDisabled) DestroyIcon(current->sid.hIconDisabled);
-				if (current->sid.szTooltip) mir_free(current->sid.szTooltip);
-				mir_free(current);
-			}
-
 			m_pContainer->iChilds--;
 			i = GetTabIndexFromHWND(hwndTab, hwndDlg);
 
 			/*
-			* after closing a tab, we need to activate the tab to the left side of
-			* the previously open tab.
-			* normally, this tab has the same index after the deletion of the formerly active tab
-			* unless, of course, we closed the last (rightmost) tab.
-			*/
+			 * after closing a tab, we need to activate the tab to the left side of
+			 * the previously open tab.
+			 * normally, this tab has the same index after the deletion of the formerly active tab
+			 * unless, of course, we closed the last (rightmost) tab.
+			 */
 			if (!m_pContainer->bDontSmartClose && iTabs > 1 && lParam != 3) {
 				if (i == iTabs - 1)
 					i--;
