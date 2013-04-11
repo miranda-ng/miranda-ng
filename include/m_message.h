@@ -160,7 +160,7 @@ typedef struct {
 // #define MS_MSG_ADDICON			"MessageAPI/AddIcon"
 
 __forceinline INT_PTR Srmm_AddIcon(StatusIconData *sid)
-{	return CallService("MessageAPI/AddIcon", hLangpack, (LPARAM)&sid);
+{	return CallService("MessageAPI/AddIcon", hLangpack, (LPARAM)sid);
 }
 
 // wParam = 0 (unused)
@@ -169,7 +169,7 @@ __forceinline INT_PTR Srmm_AddIcon(StatusIconData *sid)
 #define MS_MSG_REMOVEICON		"MessageAPI/RemoveIcon"
 
 __forceinline void Srmm_RemoveIcon(StatusIconData *sid)
-{	CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
+{	CallService(MS_MSG_REMOVEICON, 0, (LPARAM)sid);
 }
 
 // wParam = (HANDLE)hContact
