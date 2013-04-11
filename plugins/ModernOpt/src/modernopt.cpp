@@ -68,15 +68,15 @@ static void ModernOptUI_SelectSection(HWND hwndDlg, struct ModernOptionsData *da
 // Main option pages
 struct ModernOptMainPageInfo g_ModernOptPages[MODERNOPT_PAGE_COUNT] =
 {
-	{0,					FALSE,	IDI_MIRANDA,		_T("Home"),			LPGENT("Miranda NG configuration center")},
-	{IDC_BTN_ACCOUNTS,	TRUE,	IDI_BIG_NETWORK,	_T("Accounts"),		LPGENT("Setup your account information to start messaging.")},
-	{IDC_BTN_SKINS,		TRUE,	IDI_BIG_SKINS,		_T("Style"),		LPGENT("Change the look of Miranda NG according to your taste.")},
-	{IDC_BTN_CLIST,		TRUE,	IDI_BIG_BUDDYLIST,	_T("Contacts"),		LPGENT("Configure behaviour of your contact list.")},
-	{IDC_BTN_MESSAGING,	TRUE,	IDI_BIG_MESSAGE,	_T("Chats"),		LPGENT("Customize look&&feel of your chat windows here.")},
-	{IDC_BTN_IGNORE,	TRUE,	IDI_BIG_IGNORE,		_T("Ignore"),		LPGENT("Ban those users and events, you are annoyed with.")},
-	{IDC_BTN_STATUS,	TRUE,	IDI_BIG_STATUS,		_T("Status"),		LPGENT("Set your status messages and idle reporting.")},
-	{IDC_BTN_ADVANCED,	TRUE,	IDI_BIG_ADVANCED,	_T("Advanced"),		LPGENT("")},
-	{IDC_BTN_PLUGINS,	TRUE,	IDI_BIG_MODULES,	_T("Addons"),		LPGENT("Miranda NG is all about plugins. Manage all the plugins you have here.")},
+	{0,					FALSE,	IDI_MIRANDA,		LPGENT("Home"),			LPGENT("Miranda NG configuration center")},
+	{IDC_BTN_ACCOUNTS,	TRUE,	IDI_BIG_NETWORK,	LPGENT("Accounts"),		LPGENT("Setup your account information to start messaging.")},
+	{IDC_BTN_SKINS,		TRUE,	IDI_BIG_SKINS,		LPGENT("Style"),		LPGENT("Change the look of Miranda NG according to your taste.")},
+	{IDC_BTN_CLIST,		TRUE,	IDI_BIG_BUDDYLIST,	LPGENT("Contacts"),		LPGENT("Configure behaviour of your contact list.")},
+	{IDC_BTN_MESSAGING,	TRUE,	IDI_BIG_MESSAGE,	LPGENT("Chats"),		LPGENT("Customize look&&feel of your chat windows here.")},
+	{IDC_BTN_IGNORE,	TRUE,	IDI_BIG_IGNORE,		LPGENT("Ignore"),		LPGENT("Ban those users and events, you are annoyed with.")},
+	{IDC_BTN_STATUS,	TRUE,	IDI_BIG_STATUS,		LPGENT("Status"),		LPGENT("Set your status messages and idle reporting.")},
+	{IDC_BTN_ADVANCED,	TRUE,	IDI_BIG_ADVANCED,	LPGENT("Advanced"),		LPGENT("")},
+	{IDC_BTN_PLUGINS,	TRUE,	IDI_BIG_MODULES,	LPGENT("Addons"),		LPGENT("Miranda NG is all about plugins. Manage all the plugins you have here.")},
 };
 
 ////////////////////////////////////////////////////////////////////////////////
