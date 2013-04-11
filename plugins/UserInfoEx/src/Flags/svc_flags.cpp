@@ -329,6 +329,12 @@ MsgWndData::MsgWndData(HWND hwnd, HANDLE hContact) {
 	m_hwnd		= hwnd;
 	m_hContact	= hContact;
 	m_countryID	= (int)ServiceDetectContactOriginCountry((WPARAM)m_hContact,0);
+
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = MODNAMEFLAGS;
+	sid.flags = MBF_HIDDEN;
+	Srmm_AddIcon(&sid);
+
 	FlagsIconUpdate();
 }
 
@@ -344,8 +350,7 @@ void MsgWndData::FlagsIconSet()
 		sid.szModule = MODNAMEFLAGS;
 		sid.hIconDisabled	= sid.hIcon = LoadFlagIcon(m_countryID);
 		sid.szTooltip = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,m_countryID,0));
-		if(CallService(MS_MSG_MODIFYICON,(WPARAM)m_hContact,(LPARAM)&sid) !=0) /* not yet registered? */
-			CallService(MS_MSG_ADDICON,0,(LPARAM)&sid);
+		CallService(MS_MSG_MODIFYICON, (WPARAM)m_hContact, (LPARAM)&sid);
 	}	
 }
 
@@ -369,7 +374,8 @@ static int CompareIconListData(const IconList* p1, const IconList* p2)
 }
 static OBJLIST<IconList> gIListMW(10, CompareIconListData);
 
-IconList::IconList(StatusIconData *sid) {
+IconList::IconList(StatusIconData *sid)
+{
 	m_StatusIconData.cbSize			= sid->cbSize;
 	m_StatusIconData.szModule		= mir_strdup(sid->szModule);
 	m_StatusIconData.dwId			= sid->dwId;
@@ -379,13 +385,15 @@ IconList::IconList(StatusIconData *sid) {
 	m_StatusIconData.szTooltip		= mir_strdup(sid->szTooltip);
 
 	m_ID = sid->dwId;
-	CallService(MS_MSG_ADDICON,0,(LPARAM)sid);
+	Srmm_AddIcon(sid);
 
 }
-IconList::~IconList() {
+IconList::~IconList()
+{
 	mir_free(m_StatusIconData.szModule);
 	mir_free(m_StatusIconData.szTooltip);
 }
+
 // const char *pszName;			// [Optional] Name of an icon registered with icolib to be used in GUI.
 static __inline int MessageAPI_AddIcon(const char* pszName, const char* szModul/*StatusIconData *sid*/,int ID, int flags, const char* szTooltip)
 {

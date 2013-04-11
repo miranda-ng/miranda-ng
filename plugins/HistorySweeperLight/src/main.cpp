@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HINSTANCE hInst;
 
-static HANDLE hHooks[5];
 int hLangpack;
 
 static PLUGININFOEX pluginInfoEx =
@@ -85,37 +84,32 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (sweep == 0)
 		sid.szTooltip = Translate("Keep all events");
 	else if (sweep == 1)
-	{
 		sid.szTooltip = Translate(time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)]);
-	}
 	else if (sweep == 2)
-	{
 		sid.szTooltip = Translate(keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)]);
-	}
 	else if (sweep == 3)
-	{
 		sid.szTooltip = Translate("Delete all events");
-	}
+
 	sid.flags = MBF_HIDDEN;
-	CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+	Srmm_AddIcon(&sid);
 
 	sid.dwId = 1;
 	sid.hIcon = LoadIconEx("act1");
 	sid.szTooltip = Translate(time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)]);
 	sid.flags = MBF_HIDDEN;
-	CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+	Srmm_AddIcon(&sid);
 
 	sid.dwId = 2;
 	sid.hIcon = LoadIconEx("act2");
 	sid.szTooltip = Translate(keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)]);
 	sid.flags = MBF_HIDDEN;
-	CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+	Srmm_AddIcon(&sid);
 
 	sid.dwId = 3;
 	sid.hIcon = LoadIconEx("actDel");
 	sid.szTooltip = Translate("Delete all events");
 	sid.flags = MBF_HIDDEN;
-	CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+	Srmm_AddIcon(&sid);
 	
 	// for new contacts
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
@@ -133,8 +127,8 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	hHooks[2] = HookEvent(ME_MSG_WINDOWEVENT, OnWindowEvent);
-	hHooks[3] = HookEvent(ME_MSG_ICONPRESSED, OnIconPressed);
+	HookEvent(ME_MSG_WINDOWEVENT, OnWindowEvent);
+	HookEvent(ME_MSG_ICONPRESSED, OnIconPressed);
 
 	return 0;
 }
@@ -146,11 +140,10 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP(&pluginInfoEx);
 
-	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	hHooks[1] = HookEvent(ME_OPT_INITIALISE, HSOptInitialise);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, HSOptInitialise);
 	
 	InitIcons();
 
@@ -159,15 +152,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 { 
-	int i;
-
 	ShutdownAction();
-
-	for (i = 0; i < SIZEOF(hHooks); i++)
-	{
-		if (hHooks[i])
-			UnhookEvent(hHooks[i]);
-	}
-
 	return 0;
 }

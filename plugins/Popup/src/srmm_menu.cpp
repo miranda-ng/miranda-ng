@@ -37,62 +37,37 @@ static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam);
 
 void SrmmMenu_Load()
 {
-	if (ServiceExists(MS_MSG_ADDICON))
-	{
-		StatusIconData sid = {0};
-		sid.cbSize = sizeof(sid);
-		sid.szModule = MODULNAME;
-		sid.flags = 0;
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = MODULNAME;
 
-		sid.dwId = 0;
-		sid.szTooltip = Translate("Popup Mode: Auto");
-		sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_POPUP_ON,0);
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+	sid.dwId = 0;
+	sid.szTooltip = Translate("Popup Mode: Auto");
+	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_POPUP_ON,0);
+	Srmm_AddIcon(&sid);
 
-		sid.dwId = 1;
-		sid.szTooltip = Translate("Popup Mode: Favourite");
-		sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_FAV,0);
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+	sid.dwId = 1;
+	sid.szTooltip = Translate("Popup Mode: Favourite");
+	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_FAV,0);
+	Srmm_AddIcon(&sid);
 
-		sid.dwId = 2;
-		sid.szTooltip = Translate("Popup Mode: Ignore fullscreen");
-		sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_FULLSCREEN,0);
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+	sid.dwId = 2;
+	sid.szTooltip = Translate("Popup Mode: Ignore fullscreen");
+	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_FULLSCREEN,0);
+	Srmm_AddIcon(&sid);
 
-		sid.dwId = 3;
-		sid.szTooltip = Translate("Popup Mode: Block contact");
-		sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_POPUP_OFF,0);
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+	sid.dwId = 3;
+	sid.szTooltip = Translate("Popup Mode: Block contact");
+	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_POPUP_OFF,0);
+	Srmm_AddIcon(&sid);
 	
-		HookEvent(ME_MSG_ICONPRESSED, SrmmMenu_ProcessIconClick);
-		HookEvent(ME_MSG_WINDOWEVENT, SrmmMenu_ProcessEvent);
-	}
-}
-
-void SrmmMenu_Unload()
-{
-	if (ServiceExists(MS_MSG_REMOVEICON))
-	{
-		StatusIconData sid = { sizeof(sid) };
-		sid.szModule = MODULNAME;
-
-		sid.dwId = 0;
-		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
-
-		sid.dwId = 1;
-		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
-
-		sid.dwId = 2;
-		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
-
-		sid.dwId = 3;
-		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
-	}
+	HookEvent(ME_MSG_ICONPRESSED, SrmmMenu_ProcessIconClick);
+	HookEvent(ME_MSG_WINDOWEVENT, SrmmMenu_ProcessEvent);
 }
 
 static void SrmmMenu_UpdateIcon(HANDLE hContact)
 {
-	if (!hContact) return;
+	if (!hContact)
+		return;
 
 	int mode = db_get_b(hContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO);
 
@@ -100,8 +75,7 @@ static void SrmmMenu_UpdateIcon(HANDLE hContact)
 	sid.cbSize = sizeof(sid);
 	sid.szModule = MODULNAME;
 
-	for (int i=0; i < 4; ++i)
-	{
+	for (int i=0; i < 4; ++i) {
 		sid.dwId = i;
 		sid.flags = (i == mode) ? 0 : MBF_HIDDEN;
 		CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
@@ -112,15 +86,14 @@ static int SrmmMenu_ProcessEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *mwevent = (MessageWindowEventData *)lParam;
 
-	if ( mwevent->uType == MSG_WINDOW_EVT_OPEN )
-	{
+	if (mwevent->uType == MSG_WINDOW_EVT_OPEN) {
 		if (!hDialogsList)
 			hDialogsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 		WindowList_Add(hDialogsList, mwevent->hwndWindow, mwevent->hContact);
 		SrmmMenu_UpdateIcon(mwevent->hContact);
 	}
-	else if ( mwevent->uType == MSG_WINDOW_EVT_CLOSING )
+	else if (mwevent->uType == MSG_WINDOW_EVT_CLOSING)
 	{
 		if (hDialogsList)
 			WindowList_Remove(hDialogsList, mwevent->hwndWindow);
@@ -139,8 +112,7 @@ static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam)
 
 	int mode = db_get_b(hContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO);
 
-	if (sicd->flags&MBCF_RIGHTBUTTON)
-	{
+	if (sicd->flags & MBCF_RIGHTBUTTON) {
 		HMENU hMenu = CreatePopupMenu();
 
 		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_AUTO,		TranslateT("Auto"));
@@ -157,8 +129,8 @@ static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam)
 			db_set_b(hContact, MODULNAME, "ShowMode", mode-1);
 			SrmmMenu_UpdateIcon(hContact);
 		}
-	} else
-	{
+	}
+	else {
 		db_set_b(hContact, MODULNAME, "ShowMode", (mode == PU_SHOWMODE_AUTO) ? PU_SHOWMODE_BLOCK : PU_SHOWMODE_AUTO);
 		SrmmMenu_UpdateIcon(hContact);
 	}

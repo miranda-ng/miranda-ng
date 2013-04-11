@@ -31,8 +31,6 @@ extern HINSTANCE hInst;
 
 #endif
 
-
 void SrmmMenu_Load();
-void SrmmMenu_Unload();
 
 

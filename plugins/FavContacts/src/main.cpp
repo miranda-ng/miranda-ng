@@ -144,18 +144,15 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	HookEvent(ME_TTB_MODULELOADED, ProcessTBLoaded);
 
-	if (ServiceExists(MS_MSG_ADDICON)) {
-		StatusIconData sid = {0};
-		sid.cbSize = sizeof(sid);
-		sid.szModule = "FavContacts";
-		sid.szTooltip = "Favourite Contacts";
-		sid.hIcon = Skin_GetIconByHandle(iconList[0].hIcolib);
-		sid.hIconDisabled = Skin_GetIconByHandle(iconList[1].hIcolib);
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = "FavContacts";
+	sid.szTooltip = "Favourite Contacts";
+	sid.hIcon = Skin_GetIconByHandle(iconList[0].hIcolib);
+	sid.hIconDisabled = Skin_GetIconByHandle(iconList[1].hIcolib);
+	Srmm_AddIcon(&sid);
 
-		HookEvent(ME_MSG_ICONPRESSED, ProcessSrmmIconClick);
-		HookEvent(ME_MSG_WINDOWEVENT, ProcessSrmmEvent);
-	}
+	HookEvent(ME_MSG_ICONPRESSED, ProcessSrmmIconClick);
+	HookEvent(ME_MSG_WINDOWEVENT, ProcessSrmmEvent);
 
 	/////////////////////////////////////////////////////////////////////////////////////
 

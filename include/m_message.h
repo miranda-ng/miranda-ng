@@ -24,6 +24,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_MESSAGE_H__
 #define M_MESSAGE_H__ 1
 
+#include <m_core.h>
+
+extern int hLangpack;
+
 //brings up the send message dialog for a contact
 //wParam = (WPARAM)(HANDLE)hContact
 //lParam = (LPARAM)(char*)szText
@@ -151,14 +155,22 @@ typedef struct {
 	int flags;								// bitwize OR of MBCF_* flags above
 } StatusIconClickData;
 
-// wParam = 0 (unused)
+// wParam = (int)hLangpack
 // lParam = (StatusIconData *)&StatusIconData
-#define MS_MSG_ADDICON			"MessageAPI/AddIcon"
+// #define MS_MSG_ADDICON			"MessageAPI/AddIcon"
+
+__forceinline INT_PTR Srmm_AddIcon(StatusIconData *sid)
+{	return CallService("MessageAPI/AddIcon", hLangpack, (LPARAM)&sid);
+}
 
 // wParam = 0 (unused)
 // lParam = (StatusIconData *)&StatusIconData
 // only szModule and szId are used
 #define MS_MSG_REMOVEICON		"MessageAPI/RemoveIcon"
+
+__forceinline void Srmm_RemoveIcon(StatusIconData *sid)
+{	CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
+}
 
 // wParam = (HANDLE)hContact
 // lParam = (StatusIconData *)&StatusIconData

@@ -91,9 +91,8 @@ int DeinitStatusIcons()
 
 int GetStatusIconsCount(HANDLE hContact)
 {
-	StatusIconData *si;
 	int nIcon = 0;
-	while ((si = (StatusIconData*)CallService(MS_MSG_GETNTHICON, (WPARAM)hContact, nIcon)) != NULL)
+	while ( CallService(MS_MSG_GETNTHICON, (WPARAM)hContact, nIcon) != NULL)
 		nIcon++;
 	return nIcon;
 }

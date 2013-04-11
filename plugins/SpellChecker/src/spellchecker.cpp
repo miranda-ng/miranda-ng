@@ -98,12 +98,6 @@ static int IconsChanged(WPARAM wParam, LPARAM lParam)
 
 static int PreShutdown(WPARAM wParam, LPARAM lParam)
 {
-	if (ServiceExists(MS_MSG_REMOVEICON)) {
-		StatusIconData sid = { sizeof(sid) };
-		sid.szModule = MODULE_NAME;
-		CallService(MS_MSG_REMOVEICON, 0, (LPARAM) &sid);
-	}
-
 	mir_free(dictionariesFolder);
 	mir_free(customDictionariesFolder);
 	mir_free(flagsDllFolder);
@@ -211,30 +205,27 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CreateServiceFunction(MS_SPELLCHECKER_REMOVE_RICHEDIT, RemoveContactTextBoxService);
 	CreateServiceFunction(MS_SPELLCHECKER_SHOW_POPUP_MENU, ShowPopupMenuService);
 
-	if (ServiceExists(MS_MSG_ADDICON)) {
-		StatusIconData sid = { sizeof(sid) };
-		sid.szModule = MODULE_NAME;
-		sid.hIconDisabled = Skin_GetIcon("spellchecker_disabled");
-		sid.flags = MBF_HIDDEN;
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = MODULE_NAME;
+	sid.hIconDisabled = Skin_GetIcon("spellchecker_disabled");
+	sid.flags = MBF_HIDDEN;
 
-		for (int i = 0; i < languages.getCount(); i++) {
-			sid.dwId = i;
+	for (int i = 0; i < languages.getCount(); i++) {
+		sid.dwId = i;
 
-			char tmp[128];
-			mir_snprintf(tmp, SIZEOF(tmp), "%s - %S", 
-				Translate("Spell Checker"), languages[i]->full_name);
-			sid.szTooltip = tmp;
+		char tmp[128];
+		mir_snprintf(tmp, SIZEOF(tmp), "%s - %S", 
+			Translate("Spell Checker"), languages[i]->full_name);
+		sid.szTooltip = tmp;
 
-			HICON hIcon = (opts.use_flags) ? Skin_GetIconByHandle(languages[i]->hIcolib) : Skin_GetIcon("spellchecker_enabled");
-			sid.hIcon = CopyIcon(hIcon);
-			Skin_ReleaseIcon(hIcon);
+		HICON hIcon = (opts.use_flags) ? Skin_GetIconByHandle(languages[i]->hIcolib) : Skin_GetIcon("spellchecker_enabled");
+		sid.hIcon = CopyIcon(hIcon);
+		Skin_ReleaseIcon(hIcon);
 
-			CallService(MS_MSG_ADDICON, 0, (LPARAM) &sid);
-		}
+		Srmm_AddIcon(&sid);
 	}
 
-	HOTKEYDESC hkd = {0};
-	hkd.cbSize = sizeof(hkd);
+	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.pszName = "Spell Checker/Toggle";
 	hkd.pszSection = LPGEN("Spell Checker");
 	hkd.pszDescription = LPGEN("Enable/disable spell checker");

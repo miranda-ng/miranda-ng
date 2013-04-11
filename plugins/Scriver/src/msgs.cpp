@@ -376,8 +376,7 @@ static void RegisterStatusIcons()
 	sid.hIcon = CopyIcon(GetCachedIcon("scriver_TYPING"));
 	sid.hIconDisabled = CopyIcon(GetCachedIcon("scriver_TYPINGOFF"));
 	sid.flags = MBF_HIDDEN;
-	sid.szTooltip = NULL;
-	CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+	Srmm_AddIcon(&sid);
 }
 
 void ChangeStatusIcons()

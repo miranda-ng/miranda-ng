@@ -165,7 +165,7 @@ static void CALLBACK UpdateStatusIcons(LPARAM lParam)
 
 static int StatusIconsChanged(WPARAM wParam,LPARAM lParam)
 {
-	if (ServiceExists(MS_MSG_ADDICON))
+	if (ServiceExists(MS_MSG_MODIFYICON))
 		if ( db_get_b(NULL, MODULENAME, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT))
 			CallFunctionBuffered(UpdateStatusIcons, 0, FALSE, STATUSICON_REFRESHDELAY);
 	return 0;
@@ -184,7 +184,7 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 		{
 			BOOL val;
 			/* Status Icon */
-			if (ServiceExists(MS_MSG_ADDICON))
+			if (ServiceExists(MS_MSG_REMOVEICON))
 				val = db_get_b(NULL, MODULENAME, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT) != 0;
 			else
 				EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG),val=FALSE);
@@ -266,7 +266,7 @@ static int ExtraImgSettingChanged(WPARAM wParam,LPARAM lParam)
 			if (!lstrcmpA(dbcws->szSetting,"ShowStatusIconFlag") ||
 			   !lstrcmpA(dbcws->szSetting,"UseUnknownFlag") ||
 			   !lstrcmpA(dbcws->szSetting,"UseIpToCountry"))
-			   if (ServiceExists(MS_MSG_ADDICON))
+			   if (ServiceExists(MS_MSG_REMOVEICON))
 				   CallFunctionBuffered(UpdateStatusIcons,0,FALSE,STATUSICON_REFRESHDELAY);
 		}
 	}
@@ -277,7 +277,7 @@ static int ExtraImgSettingChanged(WPARAM wParam,LPARAM lParam)
 		/* Extra Image */
 	   SetExtraImage((HANDLE)wParam);
 		/* Status Icon */
-		if (ServiceExists(MS_MSG_ADDICON))
+		if (ServiceExists(MS_MSG_REMOVEICON))
 		   CallFunctionBuffered(UpdateStatusIcons,0,FALSE,STATUSICON_REFRESHDELAY);
 	}
 	return 0;
@@ -298,19 +298,10 @@ static int ExtraImgModulesLoaded(WPARAM wParam,LPARAM lParam)
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULENAME; // dwID = 0
 	sid.flags = MBF_HIDDEN;
-	CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+	Srmm_AddIcon(&sid);
 
 	/* Status Icon */
 	HookEvent(ME_MSG_WINDOWEVENT, MsgWndEvent);
-	return 0;
-}
-
-static int ExtraImgShutdown(WPARAM, LPARAM)
-{
-	StatusIconData sid = { sizeof(sid) };
-	sid.szModule = MODULENAME; // dwID = 0
-	sid.flags = MBF_HIDDEN;
-	CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
 	return 0;
 }
 
@@ -320,7 +311,6 @@ void InitExtraImg(void)
 	hServiceDetectContactOrigin = CreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY,ServiceDetectContactOriginCountry);
 	/* Misc */
 	HookEvent(ME_SYSTEM_MODULESLOADED, ExtraImgModulesLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, ExtraImgShutdown);
 	/* Status icon */
 	HookEvent(ME_SKIN2_ICONSCHANGED,StatusIconsChanged);
 	/* Options */

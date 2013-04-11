@@ -2,6 +2,5 @@
 #define __SVCS_SRMM_H__
 
 void InitSRMMIcons();
-void DeinitSRMMIcons();
 
 #endif

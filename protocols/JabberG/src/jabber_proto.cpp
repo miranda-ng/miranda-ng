@@ -294,31 +294,24 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 		JHookEvent(ME_GC_BUILDMENU, &CJabberProto::JabberGcMenuHook);
 	}
 
-	if (ServiceExists(MS_MSG_ADDICON)) {
-		StatusIconData sid = { sizeof(sid) };
-		sid.szModule = m_szModuleName;
-		sid.hIcon = sid.hIconDisabled = LoadIconEx("main");
-		sid.flags = MBF_HIDDEN;
-		sid.szTooltip = Translate("Jabber Resource");
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
-		Skin_ReleaseIcon(sid.hIcon);
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = m_szModuleName;
+	sid.hIcon = sid.hIconDisabled = LoadIconEx("main");
+	sid.flags = MBF_HIDDEN;
+	sid.szTooltip = Translate("Jabber Resource");
+	Srmm_AddIcon(&sid);
+	Skin_ReleaseIcon(sid.hIcon);
 
-		JHookEvent(ME_MSG_ICONPRESSED, &CJabberProto::OnProcessSrmmIconClick);
-		JHookEvent(ME_MSG_WINDOWEVENT, &CJabberProto::OnProcessSrmmEvent);
+	JHookEvent(ME_MSG_ICONPRESSED, &CJabberProto::OnProcessSrmmIconClick);
+	JHookEvent(ME_MSG_WINDOWEVENT, &CJabberProto::OnProcessSrmmEvent);
 
-		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
-			MenuHideSrmmIcon(hContact);
-	}
-
-	DBEVENTTYPEDESCR dbEventType = {0};
-	dbEventType.cbSize = sizeof(DBEVENTTYPEDESCR);
-	dbEventType.eventType = JABBER_DB_EVENT_TYPE_CHATSTATES;
+	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
 	dbEventType.module = m_szModuleName;
+	dbEventType.eventType = JABBER_DB_EVENT_TYPE_CHATSTATES;
 	dbEventType.descr = "Chat state notifications";
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
 	dbEventType.eventType = JABBER_DB_EVENT_TYPE_PRESENCE;
-	dbEventType.module = m_szModuleName;
 	dbEventType.descr = "Presence notifications";
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
@@ -378,11 +371,9 @@ int __cdecl CJabberProto::OnPreShutdown(WPARAM, LPARAM)
 	m_sendManager.Shutdown();
 	ConsoleUninit();
 
-	if (ServiceExists(MS_MSG_REMOVEICON)) {
-		StatusIconData sid = { sizeof(sid) };
-		sid.szModule = m_szModuleName;
-		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
-	}
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = m_szModuleName;
+	Srmm_RemoveIcon(&sid);
 	return 0;
 }
 

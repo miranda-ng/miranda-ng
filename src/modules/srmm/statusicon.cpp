@@ -49,6 +49,8 @@ struct StatusIconMain : public MZeroedObject
 	}
 
 	StatusIconData sid;
+
+	int hPangpack;
 	OBJLIST<StatusIconChild> arChildren;
 };
 
@@ -111,6 +113,7 @@ static INT_PTR AddStatusIcon(WPARAM wParam, LPARAM lParam)
 
 	p = new StatusIconMain;
 	memcpy(&p->sid, sid, sizeof(p->sid));
+	p->hPangpack = (int)wParam;
 	p->sid.szModule = mir_strdup(sid->szModule);
 	p->sid.szTooltip = mir_strdup(sid->szTooltip);
 	arIcons.insert(p);
@@ -185,9 +188,18 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
+void KillModuleSrmmIcons(int hLangpack)
+{
+	for (int i=arIcons.getCount()-1; i >= 0; i--) {
+		StatusIconMain &p = arIcons[i];
+		if (p.hPangpack == hLangpack)
+			arIcons.remove(i);
+	}
+}
+
 int LoadSrmmModule()
 {
-	CreateServiceFunction(MS_MSG_ADDICON,    AddStatusIcon);
+	CreateServiceFunction("MessageAPI/AddIcon", AddStatusIcon);
 	CreateServiceFunction(MS_MSG_REMOVEICON, RemoveStatusIcon);
 	CreateServiceFunction(MS_MSG_MODIFYICON, ModifyStatusIcon);
 	CreateServiceFunction(MS_MSG_GETNTHICON, GetNthIcon);

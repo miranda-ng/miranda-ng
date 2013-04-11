@@ -366,6 +366,7 @@ int Plugin_UnloadDyn(pluginEntry *p)
 		KillModuleHotkeys(hLangpack);
 		KillModuleSounds(hLangpack);
 		KillModuleExtraIcons(hLangpack);
+		KillModuleSrmmIcons(hLangpack);
 	}
 
 	NotifyEventHooks(hevUnloadModule, (WPARAM)p->bpi.pluginInfo, (LPARAM)p->bpi.hInst);

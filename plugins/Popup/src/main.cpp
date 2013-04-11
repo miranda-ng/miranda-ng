@@ -326,7 +326,6 @@ MIRAPI PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 //called before the app goes into shutdown routine to make sure everyone is happy to exit
 static int OkToExit(WPARAM, LPARAM)
 {
-	SrmmMenu_Unload();
 	closing = TRUE;
 	StopPopupThread();
 	return 0;

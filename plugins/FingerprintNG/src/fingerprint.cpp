@@ -1159,30 +1159,13 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hExtraIcon = ExtraIcon_Register("Client", LPGEN("Fingerprint"), "client_Miranda_Unknown",
 		OnExtraIconListRebuild,OnExtraImageApply,OnExtraIconClick);
 
-	if (db_get_b(NULL, MODULENAME, "StatusBarIcon", 1) && ServiceExists(MS_MSG_ADDICON)) {
+	if (db_get_b(NULL, MODULENAME, "StatusBarIcon", 1)) {
 		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = MODULENAME;
 		sid.flags = MBF_HIDDEN;
 		sid.dwId = 1;
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+		Srmm_AddIcon(&sid);
 	} 
-
-	return 0;
-}
-
-/****************************************************************************************
-*	OnPreShutdown
-*	Drops all unused graphic stuff
-*/
-
-static int OnPreShutdown(WPARAM wParam, LPARAM lParam)
-{
-	if (ServiceExists(MS_MSG_REMOVEICON)) {
-		StatusIconData sid = { sizeof(sid) };
-		sid.szModule = MODULENAME;
-		sid.dwId = 1;
-		CallService(MS_MSG_REMOVEICON, 0, (LPARAM)&sid);
-	}
 
 	return 0;
 }
@@ -1190,7 +1173,6 @@ static int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 void InitFingerModule()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	
 	CreateServiceFunction(MS_FP_SAMECLIENTS, ServiceSameClientsA);
 	CreateServiceFunction(MS_FP_GETCLIENTICON, ServiceGetClientIconA);

@@ -124,26 +124,21 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	if(!db_get_b(NULL, szGPGModuleName, "FirstRun", 1))
 		InitCheck();
 	InitIconLib();
-	if(ServiceExists(MS_MSG_ADDICON)) 
-	{
-		HICON IconLibGetIcon(const char* ident);
-		StatusIconData sid = {0};
-		sid.cbSize = sizeof(sid);
-		sid.szModule = szGPGModuleName;
-		sid.flags = MBF_HIDDEN;
-		sid.dwId = 0x00000001;
-		sid.hIcon = IconLibGetIcon("secured");
-		sid.szTooltip = Translate("GPG Turn off encryption");
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
-		ZeroMemory(&sid, sizeof(sid));
-		sid.cbSize = sizeof(sid);
-		sid.szModule = szGPGModuleName;
-		sid.flags = MBF_HIDDEN;
-		sid.dwId = 0x00000002;
-		sid.hIcon = IconLibGetIcon("unsecured");
-		sid.szTooltip = Translate("GPG Turn on encryption");
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
-	}
+
+	HICON IconLibGetIcon(const char* ident);
+
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = szGPGModuleName;
+	sid.flags = MBF_HIDDEN;
+	sid.dwId = 0x00000001;
+	sid.hIcon = IconLibGetIcon("secured");
+	sid.szTooltip = Translate("GPG Turn off encryption");
+	Srmm_AddIcon(&sid);
+
+	sid.dwId = 0x00000002;
+	sid.hIcon = IconLibGetIcon("unsecured");
+	sid.szTooltip = Translate("GPG Turn on encryption");
+	Srmm_AddIcon(&sid);
 
 	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT) != 0;
 	

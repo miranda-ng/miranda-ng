@@ -379,7 +379,6 @@ int onSystemOKToExit(WPARAM, LPARAM)
 	free_rtfconv();
 
 	DeinitNetlib();
-	DeinitSRMMIcons();
 	return 0;
 }
 

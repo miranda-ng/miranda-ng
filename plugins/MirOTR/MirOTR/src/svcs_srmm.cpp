@@ -251,12 +251,12 @@ void InitSRMM() {
 		sid.hIconDisabled = hIconNotSecure;
 		sid.flags = MBF_DISABLED | MBF_HIDDEN;
 		sid.szTooltip = Translate(LANG_OTR_TOOLTIP);
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+		Srmm_AddIcon(&sid);
 
 		sid.dwId = 1;
 		sid.hIcon = hIconPrivate;
 		sid.hIconDisabled = hIconUnverified;
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
+		Srmm_AddIcon(&sid);
 		
 		// hook the window events so that we can can change the status of the icon
 		

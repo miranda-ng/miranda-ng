@@ -239,27 +239,22 @@ int IconPressed(WPARAM wParam, LPARAM lParam)
 // add icon to srmm status icons
 void SrmmMenu_Load()
 {
-	if ( ServiceExists(MS_MSG_ADDICON)) {
-		StatusIconData sid = { sizeof(sid) };
-		sid.szModule = MODULE;
-		sid.flags = 0;
-		sid.dwId = 0;
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = MODULE;
 
-		sid.szTooltip = Translate("History Enabled");
-		sid.hIcon = sid.hIconDisabled = hIconKeep;
+	sid.dwId = 0;
+	sid.szTooltip = Translate("History Enabled");
+	sid.hIcon = sid.hIconDisabled = hIconKeep;
+	Srmm_AddIcon(&sid);
 
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
-
-		sid.dwId = 1;
-		sid.szTooltip = Translate("History Disabled");
-		sid.hIcon = sid.hIconDisabled = hIconRemove;
-		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
-
+	sid.dwId = 1;
+	sid.szTooltip = Translate("History Disabled");
+	sid.hIcon = sid.hIconDisabled = hIconRemove;
+	Srmm_AddIcon(&sid);
 		
-		// hook the window events so that we can can change the status of the icon
-		HookEvent(ME_MSG_WINDOWEVENT, WindowEvent);
-		HookEvent(ME_MSG_ICONPRESSED, IconPressed);
-	}	
+	// hook the window events so that we can can change the status of the icon
+	HookEvent(ME_MSG_WINDOWEVENT, WindowEvent);
+	HookEvent(ME_MSG_ICONPRESSED, IconPressed);
 }
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
