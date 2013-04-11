@@ -157,7 +157,7 @@ typedef struct {
 
 // wParam = (int)hLangpack
 // lParam = (StatusIconData *)&StatusIconData
-// #define MS_MSG_ADDICON			"MessageAPI/AddIcon"
+// #define MS_MSG_ADDICON "MessageAPI/AddIcon"
 
 __forceinline INT_PTR Srmm_AddIcon(StatusIconData *sid)
 {	return CallService("MessageAPI/AddIcon", hLangpack, (LPARAM)sid);
@@ -166,7 +166,7 @@ __forceinline INT_PTR Srmm_AddIcon(StatusIconData *sid)
 // wParam = 0 (unused)
 // lParam = (StatusIconData *)&StatusIconData
 // only szModule and szId are used
-#define MS_MSG_REMOVEICON		"MessageAPI/RemoveIcon"
+#define MS_MSG_REMOVEICON "MessageAPI/RemoveIcon"
 
 __forceinline void Srmm_RemoveIcon(StatusIconData *sid)
 {	CallService(MS_MSG_REMOVEICON, 0, (LPARAM)sid);
@@ -177,13 +177,20 @@ __forceinline void Srmm_RemoveIcon(StatusIconData *sid)
 // if hContact is null, icon is modified for all contacts
 // otherwise, only the flags field is valid
 // if either hIcon, hIconDisabled or szTooltip is null, they will not be modified
-#define MS_MSG_MODIFYICON		"MessageAPI/ModifyIcon"
+#define MS_MSG_MODIFYICON "MessageAPI/ModifyIcon"
+
+__forceinline void Srmm_ModifyIcon(HANDLE hContact, StatusIconData *sid)
+{	CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)sid);
+}
 
 // wParam = (HANDLE)hContact
 // lParam = (int)zero-based index of a visible icon
 // returns (StatusIconData*)icon description filled for the required contact
 // don't free this memory.
-#define MS_MSG_GETNTHICON    "MessageAPI/GetNthIcon"
+
+__forceinline StatusIconData* Srmm_GetNthIcon(HANDLE hContact, int index)
+{	return (StatusIconData*)CallService("MessageAPI/GetNthIcon", (WPARAM)hContact, index);
+}
 
 // wParam = (HANDLE)hContact;
 // lParam = (StatusIconClickData *)&StatusIconClickData;

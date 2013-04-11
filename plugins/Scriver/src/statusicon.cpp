@@ -30,9 +30,8 @@ void DrawStatusIcons(HANDLE hContact, HDC hDC, RECT r, int gap)
 	HICON hIcon;
 	int x = r.left;
 
-	StatusIconData *si;
 	int nIcon = 0;
-	while ((si = (StatusIconData*)CallService(MS_MSG_GETNTHICON, (WPARAM)hContact, nIcon++)) != NULL) {
+	while (StatusIconData *si = Srmm_GetNthIcon(hContact, nIcon++)) {
 		if ((si->flags & MBF_DISABLED) && si->hIconDisabled) hIcon = si->hIconDisabled;
 		else hIcon = si->hIcon;
 
@@ -46,7 +45,7 @@ void DrawStatusIcons(HANDLE hContact, HDC hDC, RECT r, int gap)
 void CheckStatusIconClick(HANDLE hContact, HWND hwndFrom, POINT pt, RECT r, int gap, int click_flags)
 {
 	unsigned int iconNum = (pt.x - r.left) / (GetSystemMetrics(SM_CXSMICON) + gap) + 1;
-	StatusIconData *si = (StatusIconData*)CallService(MS_MSG_GETNTHICON, (WPARAM)hContact, iconNum);
+	StatusIconData *si = Srmm_GetNthIcon(hContact, iconNum);
 	if (si == NULL)
 		return;
 
@@ -92,7 +91,7 @@ int DeinitStatusIcons()
 int GetStatusIconsCount(HANDLE hContact)
 {
 	int nIcon = 0;
-	while ( CallService(MS_MSG_GETNTHICON, (WPARAM)hContact, nIcon) != NULL)
+	while ( Srmm_GetNthIcon(hContact, nIcon) != NULL)
 		nIcon++;
 	return nIcon;
 }

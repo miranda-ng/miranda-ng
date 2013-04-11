@@ -695,8 +695,6 @@ struct CJabberProto : public PROTO_INTERFACE
 	void   GlobalMenuUninit(void);
 
 	void   MenuInit(void);
-
-	void   MenuHideSrmmIcon(HANDLE hContact);
 	void   MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item);
 
 	void   AuthWorker(HANDLE hContact, char* authReqType);

@@ -1015,28 +1015,18 @@ void CJabberProto::CheckMenuItems()
 
 static HANDLE hDialogsList = NULL;
 
-void CJabberProto::MenuHideSrmmIcon(HANDLE hContact)
-{
-	StatusIconData sid = {0};
-	sid.cbSize = sizeof(sid);
-	sid.szModule = m_szModuleName;
-	sid.flags = MBF_HIDDEN;
-	CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
-}
-
 void CJabberProto::MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item)
 {
-	if (item->list != LIST_ROSTER || !ServiceExists(MS_MSG_MODIFYICON))
+	if (item->list != LIST_ROSTER)
 		return;
 
 	HANDLE hContact = HContactFromJID(item->jid);
 	if ( !hContact)
 		return;
 
-	StatusIconData sid = {0};
-	sid.cbSize = sizeof(sid);
+	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = m_szModuleName;
-	sid.flags = item->resourceCount ? 0 : MBF_HIDDEN;
+	sid.flags = item->resourceCount ? 0 : MBF_DISABLED;
 	CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
 }
 

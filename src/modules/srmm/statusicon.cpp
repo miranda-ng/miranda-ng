@@ -154,10 +154,10 @@ static INT_PTR GetNthIcon(WPARAM wParam, LPARAM lParam)
 		if (nVis == (int)lParam) {
 			memcpy(&res, &p, sizeof(res));
 			if (pc) {
-				res.hIcon = pc->hIcon;
-				res.hIconDisabled = pc->hIconDisabled;
+				if (pc->hIcon) res.hIcon = pc->hIcon;
+				if (pc->hIconDisabled) res.hIconDisabled = pc->hIconDisabled;
+				if (pc->szTooltip) res.szTooltip = pc->szTooltip;
 				res.flags = pc->flags;
-				res.szTooltip = pc->szTooltip;
 			}
 			return (INT_PTR)&res;
 		}
@@ -168,25 +168,6 @@ static INT_PTR GetNthIcon(WPARAM wParam, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-static int OnWindowEvent(WPARAM, LPARAM lParam)
-{
-	MessageWindowEventData *evt = (MessageWindowEventData*)lParam;
-	if (evt->uType == MSG_WINDOW_EVT_CLOSE) {
-		for (int i=0; i < arIcons.getCount(); i++) {
-			StatusIconMain &p = arIcons[i];
-			p.arChildren.remove((StatusIconChild*)&evt->hContact);
-		}
-	}
-
-	return 0;			
-}
-
-static int OnModulesLoaded(WPARAM, LPARAM)
-{
-	HookEvent(ME_MSG_WINDOWEVENT, OnWindowEvent);
-	return 0;
-}
 
 void KillModuleSrmmIcons(int hLangpack)
 {
@@ -202,9 +183,7 @@ int LoadSrmmModule()
 	CreateServiceFunction("MessageAPI/AddIcon", AddStatusIcon);
 	CreateServiceFunction(MS_MSG_REMOVEICON, RemoveStatusIcon);
 	CreateServiceFunction(MS_MSG_MODIFYICON, ModifyStatusIcon);
-	CreateServiceFunction(MS_MSG_GETNTHICON, GetNthIcon);
-
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	CreateServiceFunction("MessageAPI/GetNthIcon", GetNthIcon);
 
 	hHookIconsChanged = CreateHookableEvent(ME_MSG_ICONSCHANGED);
 	return 0;

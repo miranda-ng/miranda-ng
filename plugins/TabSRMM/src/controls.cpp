@@ -925,10 +925,9 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		{
 			int list_icons = 0;
 			struct TWindowData *dat = (struct TWindowData *)lParam;
-			if (dat) {
-				while ( CallService(MS_MSG_GETNTHICON, (WPARAM)dat->hContact, list_icons))
+			if (dat)
+				while ( Srmm_GetNthIcon(dat->hContact, list_icons))
 					list_icons++;
-			}
 
 			SendMessage(hWnd, WM_SIZE, 0, 0);
 
@@ -1012,11 +1011,11 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					int gap = 2;
 					unsigned int iconNum = (pt.x - rc.left) / (PluginConfig.m_smcxicon + gap);
 
+					char *szModule = NULL, *szTooltip;
 					int list_icons = 0;
-					StatusIconData *si, *clicked = NULL;
-					while ((si = (StatusIconData*)CallService(MS_MSG_GETNTHICON, (WPARAM)dat->hContact, list_icons)) != NULL)
+					while (StatusIconData *sid = Srmm_GetNthIcon(dat->hContact, list_icons))
 						if (list_icons++ == iconNum)
-							clicked = si;
+							szModule = sid->szModule, szTooltip = sid->szTooltip;
 
 					if ((int)iconNum == list_icons && pContainer) {
 						TCHAR wBuf[512];
@@ -1043,11 +1042,9 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 						CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
 						tooltip_active = TRUE;
 					}
-					else {
-						if (clicked) {
-							CallService("mToolTip/ShowTip", (WPARAM)clicked->szTooltip, (LPARAM)&ti);
-							tooltip_active = TRUE;
-						}
+					else if (szModule) {
+						CallService("mToolTip/ShowTip", (WPARAM)szTooltip, (LPARAM)&ti);
+						tooltip_active = TRUE;
 					}
 				}
 				SendMessage(hWnd, SB_GETRECT, 1, (LPARAM)&rc);

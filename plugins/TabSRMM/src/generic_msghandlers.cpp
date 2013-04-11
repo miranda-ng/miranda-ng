@@ -2039,9 +2039,8 @@ void DrawStatusIcons(struct TWindowData *dat, HDC hDC, RECT r, int gap)
 
 	SetBkMode(hDC, TRANSPARENT);
 
-	StatusIconData *si;
 	int nIcon = 0;
-	while ((si = (StatusIconData*)CallService(MS_MSG_GETNTHICON, (WPARAM)dat->hContact, nIcon++)) != NULL) {
+	while (StatusIconData *si = Srmm_GetNthIcon(dat->hContact, nIcon++)) {
 		if ((si->flags & MBF_DISABLED) && si->hIconDisabled)
 			hIcon = si->hIconDisabled;
 		else
@@ -2079,11 +2078,6 @@ void DrawStatusIcons(struct TWindowData *dat, HDC hDC, RECT r, int gap)
 
 void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, RECT r, int gap, int code)
 {
-	StatusIconClickData sicd;
-
-	UINT  iconNum = (pt.x - (r.left + 0)) / (PluginConfig.m_smcxicon + gap);
-	UINT  list_icons = 0;
-
 	if (dat && (code == NM_CLICK || code == NM_RCLICK)) {
 		POINT	ptScreen;
 
@@ -2092,11 +2086,13 @@ void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, R
 			return;
 	}
 
-	StatusIconData *si, *clicked = NULL;
+	UINT iconNum = (pt.x - (r.left + 0)) / (PluginConfig.m_smcxicon + gap), list_icons = 0;
+	DWORD dwID;
+	char *szModule = NULL;
 	if (dat)
-		while ((si = (StatusIconData*)CallService(MS_MSG_GETNTHICON, (WPARAM)dat->hContact, list_icons)) != NULL) {
+		while (StatusIconData *si = Srmm_GetNthIcon(dat->hContact, list_icons)) {
 			if (list_icons == iconNum)
-				clicked = si;
+				szModule = si->szModule, dwID = si->dwId;
 			list_icons++;
 		}
 
@@ -2121,11 +2117,12 @@ void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, R
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_LBUTTONUP);
 		else if (code == NM_RCLICK)
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_RBUTTONUP);
-	} else if (clicked) {
-		sicd.cbSize = sizeof(StatusIconClickData);
+	}
+	else if (szModule) {
+		StatusIconClickData sicd = { sizeof(sicd) };
 		GetCursorPos(&sicd.clickLocation);
-		sicd.dwId = clicked->dwId;
-		sicd.szModule = clicked->szModule;
+		sicd.dwId = dwID;
+		sicd.szModule = szModule;
 		sicd.flags = (code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0);
 		NotifyEventHooks(hHookIconPressedEvt, (WPARAM)dat->hContact, (LPARAM)&sicd);
 		InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
