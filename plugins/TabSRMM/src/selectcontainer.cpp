@@ -42,7 +42,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case WM_INITDIALOG: {
 			TCHAR szNewTitle[128];
 			RECT rc, rcParent;
-			struct TContainerData *pContainer = 0;
+			TContainerData *pContainer = 0;
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) lParam);
 			hwndMsgDlg = (HWND) lParam;
@@ -105,10 +105,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				}
 				case IDC_RENAMECONTAINER: {
 					TCHAR szNewName[CONTAINER_NAMELEN], szName[CONTAINER_NAMELEN + 1];
-					int iLen, iItem;
-					struct TContainerData *pCurrent = pFirstContainer;
-
-					iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_NEWCONTAINERNAME));
+					int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_NEWCONTAINERNAME));
 					if (iLen) {
 						GetWindowText(GetDlgItem(hwndDlg, IDC_NEWCONTAINERNAME), szNewName, CONTAINER_NAMELEN);
 						if (!_tcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN) || !_tcsncmp(szNewName, TranslateT("Default container"), CONTAINER_NAMELEN)) {
@@ -116,7 +113,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 							break;
 						}
 
-						iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)- 1, (LPARAM)szNewName);
+						int iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)- 1, (LPARAM)szNewName);
 						if (iItem != LB_ERR) {
 							TCHAR szOldName[CONTAINER_NAMELEN + 1];
 							SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szOldName);
@@ -134,12 +131,11 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 								int iIndex = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETITEMDATA, (WPARAM)iItem, 0);
 								RenameContainer(iIndex, szNewName);
 								SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_RESETCONTENT, 0, 0);
-								while (pCurrent) {
-									if (!_tcsncmp(pCurrent->szName, szName, CONTAINER_NAMELEN) && lstrlen(pCurrent->szName) == lstrlen(szName)) {
-										_tcsncpy(pCurrent->szName, szNewName, CONTAINER_NAMELEN);
-										SendMessage(pCurrent->hwnd, DM_CONFIGURECONTAINER, 0, 0);
+								for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
+									if (!_tcsncmp(p->szName, szName, CONTAINER_NAMELEN) && lstrlen(p->szName) == lstrlen(szName)) {
+										_tcsncpy(p->szName, szNewName, CONTAINER_NAMELEN);
+										SendMessage(p->hwnd, DM_CONFIGURECONTAINER, 0, 0);
 									}
-									pCurrent = pCurrent->pNextContainer;
 								}
 								SendMessage(hwndDlg, DM_SC_BUILDLIST, 0, 0);
 								BuildContainerMenu();
@@ -149,13 +145,12 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					break;
 				}
 				case IDC_CREATENEW: {
-					int iLen, iItem;
 					TCHAR szNewName[CONTAINER_NAMELEN], szName[CONTAINER_NAMELEN + 1];
 
-					iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_NEWCONTAINER));
+					int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_NEWCONTAINER));
 					if (iLen) {
 						GetWindowText(GetDlgItem(hwndDlg, IDC_NEWCONTAINER), szNewName, CONTAINER_NAMELEN);
-						iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)- 1, (LPARAM)szNewName);
+						int iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)- 1, (LPARAM)szNewName);
 						if (iItem != LB_ERR || !_tcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN)) {
 							SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szName);
 							if (lstrlen(szName) == lstrlen(szNewName) || !_tcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN)) {
@@ -186,7 +181,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			int iCounter = 0, iItemNew;
 			char *szKey = "TAB_ContainersW";
 			char szValue[10];
-			struct TContainerData *pContainer = 0;
+			TContainerData *pContainer = 0;
 			do {
 				_snprintf(szValue, 8, "%d", iCounter);
 				if (M->GetTString(NULL, szKey, szValue, &dbv))

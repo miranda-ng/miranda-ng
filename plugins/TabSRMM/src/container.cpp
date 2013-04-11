@@ -134,12 +134,12 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
  * pointer and for removing the struct from the linked list.
  */
 
-struct TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDLE hContactFrom)
+TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDLE hContactFrom)
 {
 	char *szKey = "TAB_ContainersW";
 	int iFirstFree = -1, iFound = FALSE;
 
-	struct TContainerData *pContainer = (struct TContainerData *)calloc(sizeof(struct TContainerData), 1);
+	TContainerData *pContainer = (TContainerData *)calloc(sizeof(TContainerData), 1);
 	if (!pContainer)
 		return NULL;
 
@@ -200,7 +200,7 @@ struct TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDL
 
 static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct TContainerData *pContainer = (struct TContainerData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	TContainerData *pContainer = (TContainerData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	BOOL bSkinned = CSkin::m_skinEnabled ? TRUE : FALSE;
 
 	switch (msg) {
@@ -553,13 +553,12 @@ static BOOL fHaveTipper = FALSE;
 
 static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct TContainerData *pContainer = 0;        // pointer to our struct ContainerWindowData
 	int iItem = 0;
 	TCITEM item;
 	HWND  hwndTab;
 	BOOL  bSkinned;
 
-	pContainer = (struct TContainerData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	TContainerData *pContainer = (TContainerData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	bSkinned = CSkin::m_skinEnabled ? TRUE : FALSE;
 	hwndTab = GetDlgItem(hwndDlg, IDC_MSGTABS);
 
@@ -580,7 +579,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			fHaveTipper = ServiceExists("mToolTip/ShowTip");
 			fForceOverlayIcons = M->GetByte("forceTaskBarStatusOverlays", 0) ? true : false;
 
-			pContainer = (struct TContainerData *) lParam;
+			pContainer = (TContainerData*)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) pContainer);
 			mir_subclassWindow(hwndDlg, ContainerWndProc);
 
@@ -2212,48 +2211,43 @@ int TSAPI CutContactName(const TCHAR *oldname, TCHAR *newname, unsigned int size
 * functions for handling the linked list of struct ContainerWindowData *foo
 */
 
-static struct TContainerData* TSAPI AppendToContainerList(struct TContainerData *pContainer) {
-	struct TContainerData *pCurrent = 0;
-
+static TContainerData* TSAPI AppendToContainerList(TContainerData *pContainer)
+{
 	if (!pFirstContainer) {
 		pFirstContainer = pContainer;
-		pFirstContainer->pNextContainer = NULL;
+		pFirstContainer->pNext = NULL;
 		return pFirstContainer;
-	} else {
-		pCurrent = pFirstContainer;
-		while (pCurrent->pNextContainer != 0)
-			pCurrent = pCurrent->pNextContainer;
-		pCurrent->pNextContainer = pContainer;
-		pContainer->pNextContainer = NULL;
-		return pCurrent;
 	}
+	
+	TContainerData *p = pFirstContainer;
+	while (p->pNext != 0)
+		p = p->pNext;
+	p->pNext = pContainer;
+	pContainer->pNext = NULL;
+	return p;
 }
 
-struct TContainerData* TSAPI FindContainerByName(const TCHAR *name) {
-	struct TContainerData *pCurrent = pFirstContainer;
-
+TContainerData* TSAPI FindContainerByName(const TCHAR *name)
+{
 	if (name == NULL || lstrlen(name) == 0)
 		return 0;
 
-	if (M->GetByte("singlewinmode", 0)) {            // single window mode - always return 0 and force a new container
+	if (M->GetByte("singlewinmode", 0)) // single window mode - always return 0 and force a new container
 		return NULL;
-	}
 
-	while (pCurrent) {
-		if (!_tcsncmp(pCurrent->szName, name, CONTAINER_NAMELEN))
-			return pCurrent;
-		pCurrent = pCurrent->pNextContainer;
-	}
+	for (TContainerData *p = pFirstContainer; p; p = p->pNext)
+		if (!_tcsncmp(p->szName, name, CONTAINER_NAMELEN))
+			return p;
+		
 	// error, didn't find it.
 	return NULL;
 }
 
-static struct TContainerData* TSAPI RemoveContainerFromList(struct TContainerData *pContainer) {
-	struct TContainerData *pCurrent = pFirstContainer;
-
+static TContainerData* TSAPI RemoveContainerFromList(TContainerData *pContainer)
+{
 	if (pContainer == pFirstContainer) {
-		if (pContainer->pNextContainer != NULL)
-			pFirstContainer = pContainer->pNextContainer;
+		if (pContainer->pNext != NULL)
+			pFirstContainer = pContainer->pNext;
 		else
 			pFirstContainer = NULL;
 
@@ -2263,16 +2257,16 @@ static struct TContainerData* TSAPI RemoveContainerFromList(struct TContainerDat
 		return pFirstContainer;
 	}
 
-	do {
-		if (pCurrent->pNextContainer == pContainer) {
-			pCurrent->pNextContainer = pCurrent->pNextContainer->pNextContainer;
+	for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
+		if (p->pNext == pContainer) {
+			p->pNext = p->pNext->pNext;
 
 			if (pLastActiveContainer == pContainer)     // make sure, we don't reference this container anymore
 				pLastActiveContainer = pFirstContainer;
 
 			return 0;
 		}
-	} while (pCurrent = pCurrent->pNextContainer);
+	}
 	return NULL;
 }
 
@@ -2283,22 +2277,20 @@ static struct TContainerData* TSAPI RemoveContainerFromList(struct TContainerDat
 * rc is the RECT obtained by GetClientRect(hwndTab)
 */
 
-void TSAPI AdjustTabClientRect(struct TContainerData *pContainer, RECT *rc)
+void TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc)
 {
 	HWND hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
-	RECT rcTab, rcTabOrig;
-	DWORD dwBottom, dwTop;
 	DWORD tBorder = pContainer->tBorder;
 	DWORD dwStyle = GetWindowLongPtr(hwndTab, GWL_STYLE);
 
+	RECT rcTab, rcTabOrig;
 	GetClientRect(hwndTab, &rcTab);
-	dwBottom = rcTab.bottom;
-	dwTop = rcTab.top;
+	DWORD dwBottom = rcTab.bottom;
+	DWORD dwTop = rcTab.top;
 	if (!(pContainer->dwFlags & CNT_SIDEBAR) && (pContainer->iChilds > 1 || !(pContainer->dwFlags & CNT_HIDETABS))) {
-		DWORD dwTopPad;
 		rcTabOrig = rcTab;
 		TabCtrl_AdjustRect(hwndTab, FALSE, &rcTab);
-		dwTopPad = rcTab.top - rcTabOrig.top;
+		DWORD dwTopPad = rcTab.top - rcTabOrig.top;
 
 		rc->left += tBorder;
 		rc->right -= tBorder;
@@ -2348,7 +2340,6 @@ void TSAPI AdjustTabClientRect(struct TContainerData *pContainer, RECT *rc)
 int TSAPI GetContainerNameForContact(HANDLE hContact, TCHAR *szName, int iNameLen)
 {
 	DBVARIANT dbv;
-
 	if (M->GetByte("singlewinmode", 0)) {           // single window mode using cloned (temporary) containers
 		_tcsncpy(szName, _T("Message Session"), iNameLen);
 		return 0;
@@ -2368,6 +2359,7 @@ int TSAPI GetContainerNameForContact(HANDLE hContact, TCHAR *szName, int iNameLe
 			return dbv.cchVal;
 		}
 	}
+
 	if (M->GetTString(hContact, SRMSGMOD_T, "containerW", &dbv)) {
 		_tcsncpy(szName, _T("default"), iNameLen);
 		return 0;
@@ -2384,13 +2376,13 @@ int TSAPI GetContainerNameForContact(HANDLE hContact, TCHAR *szName, int iNameLe
 
 void TSAPI DeleteContainer(int iIndex)
 {
-	DBVARIANT dbv;
 	char szIndex[10], szSetting[CONTAINER_NAMELEN + 30];
 	char *szKey = "TAB_ContainersW";
 	char *szSettingP = "CNTW_";
 	char *szSubKey = "containerW";
 	_snprintf(szIndex, 8, "%d", iIndex);
 
+	DBVARIANT dbv;
 	if (!M->GetTString(NULL, szKey, szIndex, &dbv)) {
 		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
 			TCHAR *wszContainerName = dbv.ptszVal;
@@ -2566,7 +2558,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 * iMode == 0: turn off flashing
 */
 
-void TSAPI FlashContainer(struct TContainerData *pContainer, int iMode, int iCount) {
+void TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iCount) {
 	FLASHWINFO fwi;
 
 	if (CMimAPI::m_MyFlashWindowEx == NULL)
@@ -2594,7 +2586,7 @@ void TSAPI FlashContainer(struct TContainerData *pContainer, int iMode, int iCou
 	CMimAPI::m_MyFlashWindowEx(&fwi);
 }
 
-void TSAPI ReflashContainer(struct TContainerData *pContainer)
+void TSAPI ReflashContainer(TContainerData *pContainer)
 {
 	DWORD dwStartTime = pContainer->dwFlashingStarted;
 

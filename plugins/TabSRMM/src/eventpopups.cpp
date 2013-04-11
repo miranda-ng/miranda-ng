@@ -372,8 +372,6 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			break;
 
 		case PSN_APPLY:
-			struct TContainerData *pContainer = pFirstContainer;
-
 			TOptionListItem *defaultItems = CTranslator::getTree(CTranslator::TREE_NEN);
 			for (int i=0; defaultItems[i].szName != NULL; i++) {
 				TVITEM item = {0};
@@ -854,7 +852,7 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 }
 
 
-int tabSRMM_ShowPopup(WPARAM wParam, LPARAM lParam, WORD eventType, int windowOpen, struct TContainerData *pContainer, HWND hwndChild, const char *szProto, struct TWindowData *dat)
+int tabSRMM_ShowPopup(WPARAM wParam, LPARAM lParam, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto, struct TWindowData *dat)
 {
 	if (nen_options.iDisable) // no popups at all. Period
 		return 0;

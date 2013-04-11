@@ -296,7 +296,7 @@ static BOOL DoTrayIcon(SESSION_INFO* si, GCEVENT * gce)
 static BOOL DoPopup(SESSION_INFO* si, GCEVENT* gce, struct TWindowData* dat)
 {
 	int iEvent = gce->pDest->iType;
-	struct TContainerData *pContainer = dat ? dat->pContainer : NULL;
+	TContainerData *pContainer = dat ? dat->pContainer : NULL;
 	char *szProto = dat ? dat->szProto : si->pszModule;
 
 	TCHAR *bbStart, *bbEnd;

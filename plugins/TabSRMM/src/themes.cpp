@@ -1092,16 +1092,17 @@ void CSkin::Init(bool fStartup)
  */
 bool CSkin::warnToClose() const
 {
-	if (::pFirstContainer) {
-		if (MessageBox(0, TranslateT("All message containers need to close before the skin can be changed\nProceed?"),
-					   TranslateT("Change skin"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-			TContainerData *pContainer = ::pFirstContainer;
-			while (pFirstContainer)
-				SendMessage(pFirstContainer->hwnd, WM_CLOSE, 0, 1);
-			return true;
-		} else
-			return false;
-	}
+	if (::pFirstContainer == NULL)
+		return true;
+
+	if (MessageBox(0,
+			TranslateT("All message containers need to close before the skin can be changed\nProceed?"),
+			TranslateT("Change skin"), MB_YESNO | MB_ICONQUESTION) != IDYES)
+		return false;
+
+	TContainerData *pContainer = ::pFirstContainer;
+	while (pFirstContainer)
+		SendMessage(pFirstContainer->hwnd, WM_CLOSE, 0, 1);
 	return true;
 }
 
@@ -1911,7 +1912,7 @@ void CSkin::SkinCalcFrameWidth()
  * @param rcClient   RECT *: client rectangle (target area)
  * @param hdcTarget  HDC: device context of the target window
  */
-void CSkin::SkinDrawBG(HWND hwndClient, HWND hwnd, struct TContainerData *pContainer, RECT *rcClient, HDC hdcTarget)
+void CSkin::SkinDrawBG(HWND hwndClient, HWND hwnd, TContainerData *pContainer, RECT *rcClient, HDC hdcTarget)
 {
 	RECT rcWindow;
 	POINT pt;
@@ -2520,14 +2521,11 @@ void CSkin::initAeroEffect()
 		m_BrushBack = ::CreateSolidBrush(0);
 	}
 
-	TContainerData *pContainer = pFirstContainer;
-
-	while (pContainer) {
-		InvalidateRect(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), NULL, TRUE);
-		InvalidateRect(pContainer->hwnd, NULL, TRUE);
-		if (IsWindow(GetDlgItem(pContainer->hwnd, 5000)))
-			InvalidateRect(GetDlgItem(pContainer->hwnd, 5000), NULL, TRUE);
-		pContainer = pContainer->pNextContainer;
+	for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
+		InvalidateRect(GetDlgItem(p->hwnd, IDC_MSGTABS), NULL, TRUE);
+		InvalidateRect(p->hwnd, NULL, TRUE);
+		if (IsWindow(GetDlgItem(p->hwnd, 5000)))
+			InvalidateRect(GetDlgItem(p->hwnd, 5000), NULL, TRUE);
 	}
 }
 

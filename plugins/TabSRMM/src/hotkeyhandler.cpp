@@ -146,7 +146,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	static POINT ptLast;
 	static int iMousedown;
-	
+
 	if (msg == WM_TASKBARCREATED) {
 		CreateSystrayIcon(FALSE);
 		if (nen_options.bTraySupport)
@@ -154,7 +154,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return 0;
 	}
 
-	TContainerData *pContainer = pFirstContainer;
+	TContainerData *p;
 	int iSelection;
 
 	switch (msg) {
@@ -276,8 +276,8 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 								break;
 							}
 						}
-							while (--i >= 0);
-						
+						while (--i >= 0);
+
 						if (uid == 0 && pLastActiveContainer != NULL) {                // no session found, restore last active container
 							if (IsIconic(pLastActiveContainer->hwnd) || !IsWindowVisible(pLastActiveContainer->hwnd)) {
 								SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
@@ -339,26 +339,20 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 								nen_options.iNoAutoPopup ^= 1;
 								break;
 							case ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS:
-								while (pContainer) {
-									ShowWindow(pContainer->hwnd, SW_HIDE);
-									pContainer = pContainer->pNextContainer;
-								}
+								for (p = pFirstContainer; p; p = p->pNext)
+									ShowWindow(p->hwnd, SW_HIDE);
 								break;
 							case ID_TRAYCONTEXT_RESTOREALLMESSAGECONTAINERS:
-								while (pContainer) {
-									ShowWindow(pContainer->hwnd, SW_SHOW);
-									pContainer = pContainer->pNextContainer;
-								}
+								for (p = pFirstContainer; p; p = p->pNext)
+									ShowWindow(p->hwnd, SW_SHOW);
 								break;
 							case ID_TRAYCONTEXT_BE:
 								nen_options.iDisable = 1;
 								nen_options.iNoSounds = 1;
 								nen_options.iNoAutoPopup = 1;
 
-								while (pContainer) {
-									SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 1);
-									pContainer = pContainer->pNextContainer;
-								}
+								for (p = pFirstContainer; p; p = p->pNext)
+									SendMessage(p->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 1);
 								break;
 							}
 						}
@@ -372,15 +366,15 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 		/*
-		* handle an event from the popup module (mostly window activation). Since popups may run in different threads, the message
-		* is posted to our invisible hotkey handler which does always run within the main thread.
-		* wParam is the hContact
-		* lParam the event handle
-		*/
+		 * handle an event from the popup module (mostly window activation). Since popups may run in different threads, the message
+		 * is posted to our invisible hotkey handler which does always run within the main thread.
+		 * wParam is the hContact
+		 * lParam the event handle
+		 */
 	case DM_HANDLECLISTEVENT:
 		/*
-		* if lParam == NULL, don't consider clist events, just open the message tab
-		*/
+		 * if lParam == NULL, don't consider clist events, just open the message tab
+		 */
 		if (lParam == 0)
 			HandleMenuEntryFromhContact((int)wParam);
 		else {
@@ -400,7 +394,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			HWND hWnd = M->FindWindow((HANDLE)lParam);
 			if (hWnd && IsWindow(hWnd)) {
-				pContainer = 0;
+				TContainerData *pContainer = 0;
 				SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 				if (pContainer) {
 					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS));
@@ -409,7 +403,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else
 						SendMessage(hWnd, WM_CLOSE, 0, 1);
 
-					CreateNewTabForContact((struct TContainerData *)wParam, (HANDLE)lParam, 0, NULL, TRUE, TRUE, FALSE, 0);
+					CreateNewTabForContact((TContainerData *)wParam, (HANDLE)lParam, 0, NULL, TRUE, TRUE, FALSE, 0);
 				}
 			}
 		}
@@ -419,7 +413,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			SESSION_INFO *si = SM_FindSessionByHWND((HWND)lParam);
 			if (si && IsWindow(si->hWnd)) {
-				pContainer = 0;
+				TContainerData *pContainer = 0;
 				SendMessage(si->hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 				if (pContainer) {
 					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, 1159));
@@ -428,7 +422,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else
 						SendMessage(si->hWnd, WM_CLOSE, 0, 1);
 
-					si->hWnd = CreateNewRoom((struct TContainerData *)wParam, si, TRUE, 0, 0);
+					si->hWnd = CreateNewRoom((TContainerData *)wParam, si, TRUE, 0, 0);
 				}
 			}
 		}
@@ -447,8 +441,8 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return 0;
 
 		/*
-		* sent from the popup to "dismiss" the event. we should do this in the main thread
-		*/
+		 * sent from the popup to "dismiss" the event. we should do this in the main thread
+		 */
 	case DM_REMOVECLISTEVENT:
 		CallService(MS_CLIST_REMOVEEVENT, wParam, lParam);
 		db_event_markRead((HANDLE)wParam, (HANDLE)lParam);
@@ -479,38 +473,37 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		return 0;
 		/*
-		* react to changes in the desktop composition state
-		* (enable/disable DWM, change to a non-aero visual style
-		* or classic Windows theme
-		*/
+		 * react to changes in the desktop composition state
+		 * (enable/disable DWM, change to a non-aero visual style
+		 * or classic Windows theme
+		 */
 	case WM_DWMCOMPOSITIONCHANGED:
 		{
 			bool fNewAero = M->getAeroState();					// refresh dwm state
 			SendMessage(hwndDlg, WM_THEMECHANGED, 0, 0);
 
-			while (pContainer) {
+			for (p = pFirstContainer; p; p = p->pNext) {
 				if (fNewAero)
-					SetAeroMargins(pContainer);
+					SetAeroMargins(p);
 				else {
 					MARGINS m = {0};
 					if (M->m_pfnDwmExtendFrameIntoClientArea)
-						M->m_pfnDwmExtendFrameIntoClientArea(pContainer->hwnd, &m);
+						M->m_pfnDwmExtendFrameIntoClientArea(p->hwnd, &m);
 				}
-				if (pContainer->SideBar->isActive())
-					RedrawWindow(GetDlgItem(pContainer->hwnd, 5000), NULL, NULL, RDW_ERASE|RDW_INVALIDATE|RDW_UPDATENOW);			// the container for the sidebar buttons
-				RedrawWindow(pContainer->hwnd, NULL, NULL, RDW_ERASE|RDW_INVALIDATE|RDW_UPDATENOW|RDW_ALLCHILDREN);
-				pContainer = pContainer->pNextContainer;
+				if (p->SideBar->isActive())
+					RedrawWindow(GetDlgItem(p->hwnd, 5000), NULL, NULL, RDW_ERASE|RDW_INVALIDATE|RDW_UPDATENOW);			// the container for the sidebar buttons
+				RedrawWindow(p->hwnd, NULL, NULL, RDW_ERASE|RDW_INVALIDATE|RDW_UPDATENOW|RDW_ALLCHILDREN);
 			}
 		}
 		M->BroadcastMessage(WM_DWMCOMPOSITIONCHANGED, 0, 0);
 		break;
 
 		/*
-		* this message is fired when the user changes desktop color
-		* settings (Desktop->personalize)
-		* the handler reconfigures the aero-related skin images for
-		* tabs and buttons to match the new desktop color theme.
-		*/
+		 * this message is fired when the user changes desktop color
+		 * settings (Desktop->personalize)
+		 * the handler reconfigures the aero-related skin images for
+		 * tabs and buttons to match the new desktop color theme.
+		 */
 	case WM_DWMCOLORIZATIONCOLORCHANGED:
 		M->getAeroState();
 		Skin->setupAeroSkins();
@@ -518,9 +511,9 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 		/*
-		* user has changed the visual style or switched to/from
-		* classic Windows theme
-		*/
+		 * user has changed the visual style or switched to/from
+		 * classic Windows theme
+		 */
 	case WM_THEMECHANGED:
 		M->getAeroState();
 		Skin->setupTabCloseBitmap();
@@ -529,10 +522,10 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &PluginConfig.m_ncm, 0);
 		FreeTabConfig();
 		ReloadTabConfig();
-		while (pContainer) {
-			SendMessage(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), EM_THEMECHANGED, 0, 0);
-			BroadCastContainer(pContainer, EM_THEMECHANGED, 0, 0);
-			pContainer = pContainer->pNextContainer;
+
+		for (p = pFirstContainer; p; p = p->pNext) {
+			SendMessage(GetDlgItem(p->hwnd, IDC_MSGTABS), EM_THEMECHANGED, 0, 0);
+			BroadCastContainer(p, EM_THEMECHANGED, 0, 0);
 		}
 		break;
 
@@ -562,7 +555,6 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case DM_MUCFLASHWORKER:
 		{
 			FLASH_PARAMS *p = reinterpret_cast<FLASH_PARAMS*>(lParam);
-
 			if (1 == wParam) {
 				CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)p->hContact, 1);
 				p->bActiveTab = TRUE;
@@ -582,18 +574,16 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_POWERBROADCAST:
 	case WM_DISPLAYCHANGE:
-		while (pContainer) {
+		for (p = pFirstContainer; p; p = p->pNext)
 			if (CSkin::m_skinEnabled) {             // invalidate cached background DCs for skinned containers
-				pContainer->oldDCSize.cx = pContainer->oldDCSize.cy = 0;
-				SelectObject(pContainer->cachedDC, pContainer->oldHBM);
-				DeleteObject(pContainer->cachedHBM);
-				DeleteDC(pContainer->cachedDC);
-				pContainer->cachedDC = 0;
-				RedrawWindow(pContainer->hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
+				p->oldDCSize.cx = p->oldDCSize.cy = 0;
+				SelectObject(p->cachedDC, p->oldHBM);
+				DeleteObject(p->cachedHBM);
+				DeleteDC(p->cachedDC);
+				p->cachedDC = 0;
+				RedrawWindow(p->hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
 			}
-			pContainer = pContainer->pNextContainer;
-		}
-		break;
+			break;
 
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) != WA_ACTIVE)
@@ -606,28 +596,27 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_TIMER:
 		if (wParam == TIMERID_SENDLATER) {
 			/*
-			* send heartbeat to each container, they use this to update
-			* dynamic content (i.e. local time in the info panel).
-			*/
-			while(pContainer) {
-				SendMessage(pContainer->hwnd, WM_TIMER, TIMERID_HEARTBEAT, 0);
-				pContainer = pContainer->pNextContainer;
-			}
+			 * send heartbeat to each container, they use this to update
+			 * dynamic content (i.e. local time in the info panel).
+			 */
+			for (p = pFirstContainer; p; p = p->pNext)
+				SendMessage(p->hwnd, WM_TIMER, TIMERID_HEARTBEAT, 0);
+
 			/*
-			* process send later contacts and jobs, if enough time has elapsed
-			*/
+			 * process send later contacts and jobs, if enough time has elapsed
+			 */
 			if (sendLater->isAvail() && !sendLater->isInteractive() && (time(0) - sendLater->lastProcessed()) > CSendLater::SENDLATER_PROCESS_INTERVAL) {
 				sendLater->setLastProcessed(time(0));
 
 				/*
-				* check the list of contacts that may have new send later jobs
-				* (added on user's request)
-				*/
+				 * check the list of contacts that may have new send later jobs
+				 * (added on user's request)
+				 */
 				sendLater->processContacts();
 
 				/*
-				* start processing the job list
-				*/
+				 * start processing the job list
+				 */
 				if (!sendLater->isJobListEmpty()) {
 					KillTimer(hwndDlg, wParam);
 					sendLater->startJobListProcess();
@@ -636,10 +625,10 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 		}
 		/*
-		* process one entry per tick (default: 200ms)
-		* TODO better timings, possibly slow down when many jobs are in the
-		* queue.
-		*/
+		 * process one entry per tick (default: 200ms)
+		 * TODO better timings, possibly slow down when many jobs are in the
+		 * queue.
+		 */
 		else if (wParam == TIMERID_SENDLATER_TICK) {
 			if ( !sendLater->haveJobs()) {
 				KillTimer(hwndDlg, wParam);

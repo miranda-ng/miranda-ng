@@ -2759,7 +2759,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		return 0;
 									 }
 	case DM_QUERYCONTAINER: {
-		struct TContainerData **pc = (struct TContainerData **) lParam;
+		TContainerData **pc = (TContainerData **) lParam;
 		if (pc)
 			*pc = m_pContainer;
 		return 0;

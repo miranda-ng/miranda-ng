@@ -362,10 +362,9 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 					PluginConfig.m_HideOnClose = FALSE;
 
-					while(pFirstContainer) {
+					while(pFirstContainer)
 						if (pFirstContainer->hwnd)
 							SendMessage(pFirstContainer->hwnd, WM_CLOSE, 0, 1);
-					}
 
 					PluginConfig.m_HideOnClose = fOldHideSetting;
 					break;

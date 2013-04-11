@@ -205,7 +205,7 @@ static INT_PTR GetWindowAPI(WPARAM,LPARAM)
 INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd = 0;
-	struct TContainerData *pContainer = NULL;
+	TContainerData *pContainer = NULL;
 
 	if (wParam)
 		hwnd = M->FindWindow((HANDLE)wParam);
@@ -253,7 +253,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 	else {
 		TCHAR szName[CONTAINER_NAMELEN + 1];
 		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
-		struct TContainerData *pContainer = FindContainerByName(szName);
+		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer == NULL)
 			pContainer = CreateContainer(szName, FALSE, hContact);
 		CreateNewTabForContact(pContainer, hContact, 0, NULL, TRUE, TRUE, FALSE, 0);
@@ -312,7 +312,7 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 		TCHAR szName[CONTAINER_NAMELEN + 1];
 
 		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
-		struct TContainerData *pContainer = FindContainerByName(szName);
+		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer == NULL)
 			pContainer = CreateContainer(szName, FALSE, hContact);
 		CreateNewTabForContact(pContainer, hContact, 1, (const char *)lParam, TRUE, TRUE, FALSE, 0);
@@ -368,7 +368,7 @@ INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 	} else {
 		TCHAR szName[CONTAINER_NAMELEN + 1];
 		GetContainerNameForContact((HANDLE) wParam, szName, CONTAINER_NAMELEN);
-		struct TContainerData *pContainer = FindContainerByName(szName);
+		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer == NULL)
 			pContainer = CreateContainer(szName, FALSE, hContact);
 		CreateNewTabForContact(pContainer, hContact, 0, (const char *) lParam, TRUE, TRUE, FALSE, 0);
@@ -441,12 +441,8 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 	if (wParam == 0 || IsBadReadPtr((void*)wParam, 4))
 		return 0;
 
-	struct TContainerData *pContainer = pFirstContainer;
-
-	while (pContainer) {
-		BroadCastContainer(pContainer, DM_MYAVATARCHANGED, wParam, lParam);
-		pContainer = pContainer->pNextContainer;
-	}
+	for (TContainerData *p = pFirstContainer; p; p = p->pNext)
+		BroadCastContainer(p, DM_MYAVATARCHANGED, wParam, lParam);
 	return 0;
 }
 
@@ -662,7 +658,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
  * bPopupContainer: restore container if it was minimized, otherwise flash it...
  */
 
-HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hContact, int isSend, const char *pszInitialText, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup, HANDLE hdbEvent)
+HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, int isSend, const char *pszInitialText, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup, HANDLE hdbEvent)
 {
 	TCHAR  newcontactname[128], tabtitle[128];
 	int		newItem;
@@ -831,32 +827,26 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
  * a new (cloned) one.
  */
 
-struct TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName, HANDLE hContact)
+TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName, HANDLE hContact)
 {
-	struct TContainerData *pDesired = 0;
 	int iMaxTabs = M->GetDword("maxtabs", 0);
-
 	if (iMaxTabs > 0 && M->GetByte("limittabs", 0) && !_tcsncmp(szName, _T("default"), 6)) {
-		struct TContainerData *pCurrent = pFirstContainer;
 		// search a "default" with less than iMaxTabs opened...
-		while (pCurrent) {
-			if (!_tcsncmp(pCurrent->szName, _T("default"), 6) && pCurrent->iChilds < iMaxTabs) {
-				pDesired = pCurrent;
-				break;
-			}
-			pCurrent = pCurrent->pNextContainer;
-		}
-		return(pDesired != NULL ? pDesired : NULL);
-	} else
-		return FindContainerByName(szName);
+		for (TContainerData *p = pFirstContainer; p; p = p->pNext)
+			if (!_tcsncmp(p->szName, _T("default"), 6) && p->iChilds < iMaxTabs)
+				return p;
+
+		return NULL;
+	}
+	return FindContainerByName(szName);
 }
+
 /*
  * load some global icons.
  */
 
 void TSAPI CreateImageList(BOOL bInitial)
 {
-	HICON hIcon;
 	int cxIcon = GetSystemMetrics(SM_CXSMICON);
 	int cyIcon = GetSystemMetrics(SM_CYSMICON);
 
@@ -868,7 +858,7 @@ void TSAPI CreateImageList(BOOL bInitial)
 
 	if (bInitial) {
 		PluginConfig.g_hImageList = ImageList_Create(16, 16, PluginConfig.m_bIsXP ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 2, 0);
-		hIcon = CreateIcon(g_hInst, 16, 16, 1, 4, NULL, NULL);
+		HICON hIcon = CreateIcon(g_hInst, 16, 16, 1, 4, NULL, NULL);
 		ImageList_AddIcon(PluginConfig.g_hImageList, hIcon);
 		DestroyIcon(hIcon);
 	}

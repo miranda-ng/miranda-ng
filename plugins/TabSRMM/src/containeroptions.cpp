@@ -39,18 +39,15 @@ static void MY_CheckDlgButton(HWND hWnd, UINT id, int iCheck)
 
 static void ReloadGlobalContainerSettings(bool fForceReconfig)
 {
-	struct TContainerData *pC = pFirstContainer;
-
-	while (pC) {
-		if (!pC->settings->fPrivate) {
-			Utils::SettingsToContainer(pC);
+	for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
+		if (!p->settings->fPrivate) {
+			Utils::SettingsToContainer(p);
 			if (fForceReconfig)
-				SendMessage(pC->hwnd, DM_CONFIGURECONTAINER, 0, 0);
+				SendMessage(p->hwnd, DM_CONFIGURECONTAINER, 0, 0);
 			else
-				SendMessage(pC->hwnd, WM_SIZE, 0, 1);
-			BroadCastContainer(pC, DM_SETINFOPANEL, 0, 0);
+				SendMessage(p->hwnd, WM_SIZE, 0, 1);
+			BroadCastContainer(p, DM_SETINFOPANEL, 0, 0);
 		}
-		pC = pC->pNextContainer;
 	}
 }
 
@@ -78,16 +75,11 @@ void TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT m
 		if (flags & CNT_INFOPANEL)
 			BroadCastContainer(pContainer, DM_SETINFOPANEL, 0, 0);
 		if (flags & CNT_SIDEBAR) {
-			struct TContainerData *pC = pFirstContainer;
-			while (pC) {
-				if (!pC->settings->fPrivate) {
-					SendMessage(pC->hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
-				}
-				pC = pC->pNextContainer;
-			}
+			for (TContainerData *p = pFirstContainer; p; p = p->pNext)
+				if (!p->settings->fPrivate)
+					SendMessage(p->hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
 		}
-		else
-			ReloadGlobalContainerSettings(fForceResize);
+		else ReloadGlobalContainerSettings(fForceResize);
 	}
 	else {
 		if (!isEx)
@@ -153,9 +145,9 @@ static void ShowPage(HWND hwndDlg, int iPage, BOOL fShow)
 
 INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct TContainerData *pContainer = 0;
+	TContainerData *pContainer = 0;
 	HWND   hwndTree = GetDlgItem(hwndDlg, IDC_SECTIONTREE);
-	pContainer = (struct TContainerData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	pContainer = (TContainerData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 		case WM_INITDIALOG: {

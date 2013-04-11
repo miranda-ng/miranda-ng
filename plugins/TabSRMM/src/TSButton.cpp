@@ -559,7 +559,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, 
 			bct->dimmed = (wParam != 0);
 			break;
 		case BUTTONSETCONTAINER:
-			bct->pContainer = (struct TContainerData *)wParam;
+			bct->pContainer = (TContainerData *)wParam;
 			break;
 		case BUTTONSETASTITLE:
 			bct->bTitleButton = TRUE;

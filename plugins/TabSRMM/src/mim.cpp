@@ -702,7 +702,7 @@ int CMimAPI::DispatchNewEvent(WPARAM wParam, LPARAM lParam)
 int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 {
 	BYTE bAutoPopup = FALSE, bAutoCreate = FALSE, bAutoContainer = FALSE, bAllowAutoCreate = 0;
-	struct TContainerData *pContainer = 0;
+	TContainerData *pContainer = 0;
 	TCHAR szName[CONTAINER_NAMELEN + 1];
 	DWORD dwStatusMask = 0;
 	struct TWindowData *mwdat=NULL;
@@ -718,7 +718,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM)1);
 		//MaD: hide on close mod, simulating standard behavior for hidden container
 	if (hwnd) {
-		struct TContainerData *pTargetContainer = 0;
+		TContainerData *pTargetContainer = 0;
 		WINDOWPLACEMENT wp={0};
 		wp.length = sizeof(wp);
 		SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pTargetContainer);

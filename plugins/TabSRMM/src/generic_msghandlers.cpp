@@ -1990,21 +1990,21 @@ void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, R
 
 	if ((int)iconNum == list_icons && code != NM_RCLICK) {
 		if (GetKeyState(VK_SHIFT) & 0x8000) {
-			struct TContainerData *piContainer = pFirstContainer;
-
-			while (piContainer) {
-				piContainer->dwFlags = ((dat->pContainer->dwFlags & CNT_NOSOUND) ? piContainer->dwFlags | CNT_NOSOUND : piContainer->dwFlags & ~CNT_NOSOUND);
+			for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
+				p->dwFlags = ((dat->pContainer->dwFlags & CNT_NOSOUND) ? p->dwFlags | CNT_NOSOUND : p->dwFlags & ~CNT_NOSOUND);
 				InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
-				piContainer = piContainer->pNextContainer;
 			}
-		} else {
+		}
+		else {
 			dat->pContainer->dwFlags ^= CNT_NOSOUND;
 			InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
 		}
-	} else if ((int)iconNum == list_icons + 1 && code != NM_RCLICK && dat->bType == SESSIONTYPE_IM) {
+	}
+	else if ((int)iconNum == list_icons + 1 && code != NM_RCLICK && dat->bType == SESSIONTYPE_IM) {
 		SendMessage(dat->pContainer->hwndActive, WM_COMMAND, IDC_SELFTYPING, 0);
 		InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
-	} else if ((int)iconNum == list_icons + 2) {
+	}
+	else if ((int)iconNum == list_icons + 2) {
 		if (code == NM_CLICK)
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_LBUTTONUP);
 		else if (code == NM_RCLICK)

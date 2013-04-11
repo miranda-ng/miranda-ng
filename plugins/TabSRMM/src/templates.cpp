@@ -142,8 +142,8 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			dat = (TWindowData*)calloc( sizeof(TWindowData), 1);
 
 			ZeroMemory((void*) dat, sizeof(struct TWindowData));
-			dat->pContainer = (struct TContainerData *)malloc(sizeof(struct TContainerData));
-			ZeroMemory((void*)dat->pContainer, sizeof(struct TContainerData));
+			dat->pContainer = (TContainerData *)malloc(sizeof(TContainerData));
+			ZeroMemory((void*)dat->pContainer, sizeof(TContainerData));
 			teInfo = (TemplateEditorInfo *)dat->pContainer;
 			ZeroMemory((void*)teInfo, sizeof(TemplateEditorInfo));
 			teInfo->hContact = teNew->hContact;

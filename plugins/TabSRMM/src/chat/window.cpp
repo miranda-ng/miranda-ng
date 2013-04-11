@@ -3484,7 +3484,7 @@ LABEL_SHOWWINDOW:
 			break;
 
 		case DM_CONTAINERSELECTED: {
-			struct TContainerData *pNewContainer = 0;
+			TContainerData *pNewContainer = 0;
 			TCHAR *szNewName = (TCHAR *)lParam;
 			if (!_tcscmp(szNewName, TranslateT("Default container")))
 				szNewName = CGlobals::m_default_container_name;
@@ -3505,7 +3505,7 @@ LABEL_SHOWWINDOW:
 		// container API support functions
 
 		case DM_QUERYCONTAINER: {
-			struct TContainerData **pc = (struct TContainerData **) lParam;
+			TContainerData **pc = (TContainerData **) lParam;
 			if (pc)
 				*pc = dat->pContainer;
 			return 0;
@@ -3522,7 +3522,7 @@ LABEL_SHOWWINDOW:
 			int iTabs, i;
 			TCITEM item = {0};
 			RECT rc;
-			struct TContainerData *pContainer = dat->pContainer;
+			TContainerData *pContainer = dat->pContainer;
 			BOOL   bForced = (lParam == 2);
 
 			iTabs = TabCtrl_GetItemCount(hwndTab);

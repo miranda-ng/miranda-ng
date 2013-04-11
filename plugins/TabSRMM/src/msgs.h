@@ -188,7 +188,7 @@ struct TContainerSettings {
 };
 
 struct TContainerData {
-	TContainerData *pNextContainer;
+	TContainerData *pNext;
 	TCHAR   szName[CONTAINER_NAMELEN + 4];		// container name
 	HWND    hwndActive;		// active message window
 	HWND    hwnd;				// the container handle

@@ -1472,9 +1472,6 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			case PSN_APPLY:
 				{
 					BOOL translated;
-					int  fixedWidth;
-
-					struct TContainerData *pContainer = pFirstContainer;
 
 					M->WriteByte(SRMSGMOD_T, "y-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE)));
 					M->WriteByte(SRMSGMOD_T, "x-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE)));
@@ -1485,15 +1482,15 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					M->WriteByte(SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_bottom" : "tborder_outer_bottom", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERBOTTOM, &translated, FALSE));
 					M->WriteDword(SRMSGMOD_T, "bottomadjust", GetDlgItemInt(hwndDlg, IDC_BOTTOMTABADJUST, &translated, TRUE));
 
-					fixedWidth = GetDlgItemInt(hwndDlg, IDC_TABWIDTH, &translated, FALSE);
+					int fixedWidth = GetDlgItemInt(hwndDlg, IDC_TABWIDTH, &translated, FALSE);
 					fixedWidth = (fixedWidth < 60 ? 60 : fixedWidth);
 					M->WriteDword(SRMSGMOD_T, "fixedwidth", fixedWidth);
 					FreeTabConfig();
 					ReloadTabConfig();
-					while (pContainer) {
-						TabCtrl_SetPadding(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE), GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE));
-						RedrawWindow(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), NULL, NULL, RDW_INVALIDATE | RDW_ERASE);
-						pContainer = pContainer->pNextContainer;
+			
+					for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
+						TabCtrl_SetPadding(GetDlgItem(p->hwnd, IDC_MSGTABS), GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE), GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE));
+						RedrawWindow(GetDlgItem(p->hwnd, IDC_MSGTABS), NULL, NULL, RDW_INVALIDATE | RDW_ERASE);
 					}
 					return TRUE;
 				}
