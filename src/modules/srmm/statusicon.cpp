@@ -27,13 +27,13 @@ struct StatusIconChild : public MZeroedObject
 {
 	~StatusIconChild()
 	{
-		mir_free(szTooltip);
+		mir_free(tszTooltip);
 	}
 
 	HANDLE hContact;
-	HICON hIcon, hIconDisabled;
-	int flags;
-	char *szTooltip;
+	HICON  hIcon, hIconDisabled;
+	int    flags;
+	TCHAR *tszTooltip;
 };
 
 struct StatusIconMain : public MZeroedObject
@@ -81,7 +81,10 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 	if (hContact == NULL) {
 		memcpy(&p->sid, sid, sizeof(p->sid));
 		replaceStr(p->sid.szModule, sid->szModule);
-		replaceStr(p->sid.szTooltip, sid->szTooltip);
+
+		mir_free(p->sid.szTooltip);
+		p->sid.tszTooltip = (sid->flags & MBF_UNICODE) ? mir_u2t(sid->wszTooltip) : mir_a2t(sid->szTooltip);
+
 		NotifyEventHooks(hHookIconsChanged, NULL, (LPARAM)p);
 		return 0;
 	}
@@ -96,7 +99,10 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 	pc->flags = sid->flags;
 	pc->hIcon = sid->hIcon;
 	pc->hIconDisabled = sid->hIconDisabled;
-	replaceStr(pc->szTooltip, sid->szTooltip);
+
+	mir_free(pc->tszTooltip);
+	pc->tszTooltip = (sid->flags & MBF_UNICODE) ? mir_u2t(sid->wszTooltip) : mir_a2t(sid->szTooltip);
+
 	NotifyEventHooks(hHookIconsChanged, wParam, (LPARAM)p);
 	return 0;
 }
@@ -115,7 +121,10 @@ static INT_PTR AddStatusIcon(WPARAM wParam, LPARAM lParam)
 	memcpy(&p->sid, sid, sizeof(p->sid));
 	p->hPangpack = (int)wParam;
 	p->sid.szModule = mir_strdup(sid->szModule);
-	p->sid.szTooltip = mir_strdup(sid->szTooltip);
+	if (sid->flags & MBF_UNICODE)
+		p->sid.tszTooltip = mir_u2t(sid->wszTooltip);
+	else
+		p->sid.tszTooltip = mir_a2t(sid->szTooltip);
 	arIcons.insert(p);
 
 	NotifyEventHooks(hHookIconsChanged, NULL, (LPARAM)p);
@@ -156,9 +165,10 @@ static INT_PTR GetNthIcon(WPARAM wParam, LPARAM lParam)
 			if (pc) {
 				if (pc->hIcon) res.hIcon = pc->hIcon;
 				if (pc->hIconDisabled) res.hIconDisabled = pc->hIconDisabled;
-				if (pc->szTooltip) res.szTooltip = pc->szTooltip;
+				if (pc->tszTooltip) res.tszTooltip = pc->tszTooltip;
 				res.flags = pc->flags;
 			}
+			res.tszTooltip = TranslateTH(p.hPangpack, res.tszTooltip);
 			return (INT_PTR)&res;
 		}
 		nVis++;

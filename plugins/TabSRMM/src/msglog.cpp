@@ -40,7 +40,7 @@ struct TCpTable cpTable[] = {
 	{ 950,	LPGENT("Traditional Chinese") },
 	{ 1250,	LPGENT("Central European") },
 	{ 1251,	LPGENT("Cyrillic") },
-	{ 20866,LPGENT("Cyrillic KOI8-R") },
+	{ 20866, LPGENT("Cyrillic KOI8-R") },
 	{ 1252,	LPGENT("Latin I") },
 	{ 1253,	LPGENT("Greek") },
 	{ 1254,	LPGENT("Turkish") },
@@ -71,7 +71,7 @@ static TCHAR *szYourName = NULL;
 
 static int logPixelSY;
 static TCHAR szToday[22], szYesterday[22];
-char rtfFontsGlobal[MSGDLGFONTCOUNT + 2][RTFCACHELINESIZE];
+char  rtfFontsGlobal[MSGDLGFONTCOUNT + 2][RTFCACHELINESIZE];
 char *rtfFonts;
 
 LOGFONTA logfonts[MSGDLGFONTCOUNT + 2];

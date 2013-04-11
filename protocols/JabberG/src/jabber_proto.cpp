@@ -299,7 +299,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	sid.szModule = m_szModuleName;
 	sid.hIcon = CopyIcon(hIcon);
 	sid.flags = MBF_HIDDEN;
-	sid.szTooltip = Translate("Jabber Resource");
+	sid.szTooltip = LPGEN("Jabber Resource");
 	Srmm_AddIcon(&sid);
 	Skin_ReleaseIcon(hIcon);
 

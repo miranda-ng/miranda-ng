@@ -55,7 +55,8 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData* dat)
 		event.count = 0;
 		event.codepage = 0;
 		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
-	} else if (dat) {
+	}
+	else if (dat) {
 		TCHAR  szInitialDir[MAX_PATH + 2];
 
 		mir_sntprintf(szFilter, SIZEOF(szFilter), _T("%s%c*.rtf%c%c"), TranslateT("Rich Edit file"), 0, 0, 0);
@@ -877,112 +878,6 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 }
 
 /*
-* action and callback procedures for the stock button objects
-*/
-
-static void BTN_StockAction(ButtonItem *item, HWND hwndDlg, struct TWindowData *dat, HWND hwndBtn)
-{
-	POINT pt;
-	int iSelection;
-
-	if (item->dwStockFlags & SBI_HANDLEBYCLIENT && IsWindow(hwndDlg) && dat) {
-		SendMessage(hwndDlg, WM_COMMAND, MAKELONG(item->uId, BN_CLICKED), (LPARAM)hwndBtn);
-		return;
-	}
-
-	switch (item->uId) {
-	case IDC_SBAR_CANCEL:
-		PostMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_SAVE, BN_CLICKED), (LPARAM)hwndBtn);
-		break;
-	case IDC_SBAR_SLIST:
-		SendMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_LBUTTONUP);
-		break;
-	case IDC_SBAR_FAVORITES:
-		GetCursorPos(&pt);
-		iSelection = TrackPopupMenu(PluginConfig.g_hMenuFavorites, TPM_RETURNCMD, pt.x, pt.y, 0, PluginConfig.g_hwndHotkeyHandler, NULL);
-		HandleMenuEntryFromhContact(iSelection);
-		break;
-
-	case IDC_SBAR_RECENT:
-		GetCursorPos(&pt);
-		iSelection = TrackPopupMenu(PluginConfig.g_hMenuRecent, TPM_RETURNCMD, pt.x, pt.y, 0, PluginConfig.g_hwndHotkeyHandler, NULL);
-		HandleMenuEntryFromhContact(iSelection);
-		break;
-
-	case IDC_SBAR_USERPREFS:
-		{
-			HANDLE hContact = 0;
-			SendMessage(hwndDlg, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
-			if (hContact != 0)
-				CallService(MS_TABMSG_SETUSERPREFS, (WPARAM)hContact, 0);
-		}
-		break;
-
-	case IDC_SBAR_TOGGLEFORMAT:
-		if (dat) {
-			if (IsDlgButtonChecked(hwndDlg, IDC_SBAR_TOGGLEFORMAT) == BST_UNCHECKED) {
-				dat->SendFormat = 0;
-				GetSendFormat(dat, 0);
-			}
-			else {
-				dat->SendFormat = SENDFORMAT_BBCODE;
-				GetSendFormat(dat, 0);
-			}
-		}
-		break;
-	}
-}
-
-static void BTN_StockCallback(ButtonItem *item, HWND hwndDlg, struct TWindowData *dat, HWND hwndBtn)
-{
-}
-
-/*
-* predefined button objects for customizeable buttons
-*/
-
-static struct SIDEBARITEM sbarItems[] = {
-	0, 0, 0, 0, 0, _T(""), NULL, NULL, _T("")
-};
-
-int TSAPI BTN_GetStockItem(ButtonItem *item, const TCHAR *szName)
-{
-	for (int i=0; sbarItems[i].uId; i++) {
-		if (!_tcsicmp(sbarItems[i].szName, szName)) {
-			item->uId = sbarItems[i].uId;
-			//item->dwFlags |= BUTTON_ISSIDEBAR;
-			//myGlobals.m_SideBarEnabled = TRUE;
-			if (item->dwFlags & BUTTON_ISSIDEBAR) {
-				if (sbarItems[i].dwFlags & SBI_TOP)
-					item->yOff = 0;
-				else if (sbarItems[i].dwFlags & SBI_BOTTOM)
-					item->yOff = -1;
-			}
-			item->dwStockFlags = sbarItems[i].dwFlags;
-			item->dwFlags = sbarItems[i].dwFlags & SBI_TOGGLE ? item->dwFlags | BUTTON_ISTOGGLE : item->dwFlags & ~BUTTON_ISTOGGLE;
-			item->pfnAction = sbarItems[i].pfnAction;
-			item->pfnCallback = sbarItems[i].pfnCallback;
-			lstrcpyn(item->szTip, sbarItems[i].tszTip, 256);
-			item->szTip[255] = 0;
-			if (sbarItems[i].hIcon) {
-				item->normalGlyphMetrics[0] = (LONG_PTR)sbarItems[i].hIcon;
-				item->dwFlags |= BUTTON_NORMALGLYPHISICON;
-			}
-			if (sbarItems[i].hIconPressed) {
-				item->pressedGlyphMetrics[0] = (LONG_PTR)sbarItems[i].hIconPressed;
-				item->dwFlags |= BUTTON_PRESSEDGLYPHISICON;
-			}
-			if (sbarItems[i].hIconHover) {
-				item->hoverGlyphMetrics[0] = (LONG_PTR)sbarItems[i].hIconHover;
-				item->dwFlags |= BUTTON_HOVERGLYPHISICON;
-			}
-			return 1;
-		}
-	}
-	return 0;
-}
-
-/*
 * set the states of defined database action buttons (only if button is a toggle)
 */
 
@@ -1089,15 +984,12 @@ void TSAPI DM_ScrollToBottom(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		InvalidateRect(hwnd, NULL, FALSE);
 }
 
-static void LoadKLThread(LPVOID vParam)
+static void LoadKLThread(LPVOID _param)
 {
-	HANDLE 		hContact = reinterpret_cast<HANDLE>(vParam);
-	DBVARIANT 	dbv = {0};
-
-	LRESULT res = M->GetTString(hContact, SRMSGMOD_T, "locale", &dbv);
-	if (res == 0) {
+	DBVARIANT dbv;
+	if (!M->GetTString(_param, SRMSGMOD_T, "locale", &dbv)) {
 		HKL hkl = LoadKeyboardLayout(dbv.ptszVal, 0);
-		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SETLOCALE, (WPARAM)hContact, (LPARAM)hkl);
+		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SETLOCALE, (WPARAM)_param, (LPARAM)hkl);
 		db_free(&dbv);
 	}
 }
@@ -1276,12 +1168,10 @@ HWND TSAPI DM_CreateClist(TWindowData *dat)
 LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, struct TWindowData *mwdat, WPARAM wParam, LPARAM lParam)
 {
 	RECT rc, rc1;
-	POINT pt;
-	TCHITTESTINFO hti;
-	HWND hwndTab;
 	UINT uID = mwdat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG;
 	UINT uIDMsg = mwdat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE;
 
+	POINT pt;
 	GetCursorPos(&pt);
 	GetWindowRect(hwnd, &rc);
 	if (PtInRect(&rc, pt))
@@ -1326,7 +1216,9 @@ LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, struct TWindowDat
 		else SendMessage(hwnd, WM_MOUSEWHEEL, wParam, lParam);
 		return 0;
 	}
-	hwndTab = GetDlgItem(mwdat->pContainer->hwnd, IDC_MSGTABS);
+
+	HWND hwndTab = GetDlgItem(mwdat->pContainer->hwnd, IDC_MSGTABS);
+	TCHITTESTINFO hti;
 	GetCursorPos(&hti.pt);
 	ScreenToClient(hwndTab, &hti.pt);
 	hti.flags = 0;
@@ -1397,66 +1289,67 @@ void TSAPI DM_NotifyTyping(struct TWindowData *dat, int mode)
 	const 	char* szProto = 0;
 	HANDLE 	hContact = 0;
 
-	if (dat && dat->hContact) {
-		DeletePopupsForContact(dat->hContact, PU_REMOVE_ON_TYPE);
+	if (!dat || !dat->hContact)
+		return;
+		
+	DeletePopupsForContact(dat->hContact, PU_REMOVE_ON_TYPE);
 
-		if (dat->bIsMeta){
-			szProto = dat->cache->getActiveProto();
-			hContact = dat->cache->getActiveContact();
-		}
-		else {
-			szProto = dat->szProto;
-			hContact = dat->hContact;
-		}
-
-		/*
-		 * editing user notes or preparing a message for queued delivery -> don't send MTN
-		 */
-		if (dat->fEditNotesActive || dat->sendMode & SMODE_SENDLATER)
-			return;
-
-		/*
-		 * allow supression of sending out TN for the contact (NOTE: for metacontacts, do NOT use the subcontact handle)
-		 */
-		if (!M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
-			return;
-
-		if (!dat->szProto)			// should not, but who knows...
-			return;
-
-		/*
-		 * check status and capabilities of the protocol
-		 */
-		protoStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-		protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-		typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
-
-		if (!(typeCaps & PF4_SUPPORTTYPING))
-			return;
-		if (protoStatus < ID_STATUS_ONLINE)
-			return;
-
-		/*
-		 * check visibility/invisibility lists to not "accidentially" send MTN to contacts who
-		 * should not see them (privacy issue)
-		 */
-		if (protoCaps & PF1_VISLIST && db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
-			return;
-
-		if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
-			return;
-
-		/*
-		 * don't send to contacts which are not permanently added to the contact list,
-		 * unless the option to ignore added status is set.
-		 */
-		if (M->GetByte(dat->hContact, "CList", "NotOnList", 0)
-				&& !M->GetByte(SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
-			return;
-		// End user check
-		dat->nTypeMode = mode;
-		CallService(MS_PROTO_SELFISTYPING, (WPARAM)hContact, dat->nTypeMode);
+	if (dat->bIsMeta){
+		szProto = dat->cache->getActiveProto();
+		hContact = dat->cache->getActiveContact();
 	}
+	else {
+		szProto = dat->szProto;
+		hContact = dat->hContact;
+	}
+
+	/*
+	* editing user notes or preparing a message for queued delivery -> don't send MTN
+	*/
+	if (dat->fEditNotesActive || dat->sendMode & SMODE_SENDLATER)
+		return;
+
+	/*
+	* allow supression of sending out TN for the contact (NOTE: for metacontacts, do NOT use the subcontact handle)
+	*/
+	if (!M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
+		return;
+
+	if (!dat->szProto)			// should not, but who knows...
+		return;
+
+	/*
+	* check status and capabilities of the protocol
+	*/
+	protoStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+	protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+	typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+
+	if (!(typeCaps & PF4_SUPPORTTYPING))
+		return;
+	if (protoStatus < ID_STATUS_ONLINE)
+		return;
+
+	/*
+	* check visibility/invisibility lists to not "accidentially" send MTN to contacts who
+	* should not see them (privacy issue)
+	*/
+	if (protoCaps & PF1_VISLIST && db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
+		return;
+
+	if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
+		return;
+
+	/*
+	* don't send to contacts which are not permanently added to the contact list,
+	* unless the option to ignore added status is set.
+	*/
+	if (M->GetByte(dat->hContact, "CList", "NotOnList", 0)
+		&& !M->GetByte(SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
+		return;
+	// End user check
+	dat->nTypeMode = mode;
+	CallService(MS_PROTO_SELFISTYPING, (WPARAM)hContact, dat->nTypeMode);
 }
 
 void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam)
@@ -1464,7 +1357,7 @@ void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	if (dat == 0)
 		return;
 
-	HWND 				hwndDlg = dat->hwnd;
+	HWND hwndDlg = dat->hwnd;
 	TContainerData *m_pContainer = dat->pContainer;
 
 	dat->szMicroLf[0] = 0;
@@ -1603,12 +1496,12 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
  */
 int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 {
-	RECT 			rcWin;
-	short 			newMessagePos;
-	LONG			newPos;
-	TWindowData*	srcDat = PluginConfig.lastSPlitterPos.pSrcDat;
-	TContainerData*	srcCnt = PluginConfig.lastSPlitterPos.pSrcContainer;
-	bool			fCntGlobal = (!dat->pContainer->settings->fPrivate ? true : false);
+	RECT rcWin;
+	short newMessagePos;
+	LONG newPos;
+	TWindowData *srcDat = PluginConfig.lastSPlitterPos.pSrcDat;
+	TContainerData *srcCnt = PluginConfig.lastSPlitterPos.pSrcContainer;
+	bool fCntGlobal = (!dat->pContainer->settings->fPrivate ? true : false);
 
 #if defined(__FEAT_EXP_AUTOSPLITTER)
 	if (dat->fIsAutosizingInput)
@@ -1670,8 +1563,7 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 	}
-	else
-		newPos = wParam;
+	else newPos = wParam;
 
 	newMessagePos = (short)rcWin.bottom - (short)newPos;
 

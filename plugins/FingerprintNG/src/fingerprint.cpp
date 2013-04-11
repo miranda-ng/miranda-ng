@@ -145,14 +145,15 @@ static void SetSrmmIcon(HANDLE hContact, LPTSTR ptszMirver)
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULENAME;
 	sid.dwId = 1;
-	sid.szTooltip = LPGEN("Client icon");
+	sid.flags = MBF_TCHAR;
+	sid.tszTooltip = ptszMirver;
 
 	if ( lstrlen(ptszMirver))
 		sid.hIcon = sid.hIconDisabled = (HICON)ServiceGetClientIconW((WPARAM)ptszMirver, TRUE);
 	else
 		sid.flags |= MBF_HIDDEN;
 
-	CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
+	Srmm_ModifyIcon(hContact, &sid);
 }
 
 int __fastcall ApplyFingerprintImage(HANDLE hContact, LPTSTR szMirVer)

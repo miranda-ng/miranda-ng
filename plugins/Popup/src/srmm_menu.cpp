@@ -41,22 +41,22 @@ void SrmmMenu_Load()
 	sid.szModule = MODULNAME;
 
 	sid.dwId = 0;
-	sid.szTooltip = Translate("Popup Mode: Auto");
+	sid.szTooltip = LPGEN("Popup Mode: Auto");
 	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_POPUP_ON,0);
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 1;
-	sid.szTooltip = Translate("Popup Mode: Favourite");
+	sid.szTooltip = LPGEN("Popup Mode: Favourite");
 	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_FAV,0);
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 2;
-	sid.szTooltip = Translate("Popup Mode: Ignore fullscreen");
+	sid.szTooltip = LPGEN("Popup Mode: Ignore fullscreen");
 	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_FULLSCREEN,0);
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 3;
-	sid.szTooltip = Translate("Popup Mode: Block contact");
+	sid.szTooltip = LPGEN("Popup Mode: Block contact");
 	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_POPUP_OFF,0);
 	Srmm_AddIcon(&sid);
 	

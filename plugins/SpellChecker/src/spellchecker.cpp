@@ -208,15 +208,15 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULE_NAME;
 	sid.hIconDisabled = Skin_GetIcon("spellchecker_disabled");
-	sid.flags = MBF_HIDDEN;
+	sid.flags = MBF_TCHAR | MBF_HIDDEN;
 
 	for (int i = 0; i < languages.getCount(); i++) {
 		sid.dwId = i;
 
-		char tmp[128];
-		mir_snprintf(tmp, SIZEOF(tmp), "%s - %S", 
-			Translate("Spell Checker"), languages[i]->full_name);
-		sid.szTooltip = tmp;
+		TCHAR tmp[128];
+		mir_sntprintf(tmp, SIZEOF(tmp), _T("%s - %S"), 
+			TranslateT("Spell Checker"), languages[i]->full_name);
+		sid.tszTooltip = tmp;
 
 		HICON hIcon = (opts.use_flags) ? Skin_GetIconByHandle(languages[i]->hIcolib) : Skin_GetIcon("spellchecker_enabled");
 		sid.hIcon = CopyIcon(hIcon);

@@ -129,9 +129,6 @@
     <ClInclude Include="..\include\m_langpack.h">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\m_message.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\m_netlib.h">
       <Filter>SDK</Filter>
     </ClInclude>
@@ -287,6 +284,9 @@
     </ClInclude>
     <ClInclude Include="modules\extraicons\extraicons.h">
       <Filter>Modules\extraicons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\m_message.h">
+      <Filter>Modules\srmm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

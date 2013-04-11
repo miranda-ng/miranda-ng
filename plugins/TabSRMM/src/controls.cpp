@@ -1011,11 +1011,11 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					int gap = 2;
 					unsigned int iconNum = (pt.x - rc.left) / (PluginConfig.m_smcxicon + gap);
 
-					char *szModule = NULL, *szTooltip;
+					char *szModule = NULL; TCHAR *tszTooltip;
 					int list_icons = 0;
 					while (StatusIconData *sid = Srmm_GetNthIcon(dat->hContact, list_icons))
 						if (list_icons++ == iconNum)
-							szModule = sid->szModule, szTooltip = sid->szTooltip;
+							szModule = sid->szModule, tszTooltip = sid->tszTooltip;
 
 					if ((int)iconNum == list_icons && pContainer) {
 						TCHAR wBuf[512];
@@ -1043,7 +1043,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 						tooltip_active = TRUE;
 					}
 					else if (szModule) {
-						CallService("mToolTip/ShowTip", (WPARAM)szTooltip, (LPARAM)&ti);
+						CallService(szTTService, (WPARAM)tszTooltip, (LPARAM)&ti);
 						tooltip_active = TRUE;
 					}
 				}

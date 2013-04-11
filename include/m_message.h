@@ -71,16 +71,16 @@ typedef struct {
 	HWND hwndLog; // log area window for the contact (or NULL if there is none)
 } MessageWindowEventData;
 
-#define MS_MSG_GETWINDOWAPI "MessageAPI/WindowAPI"
 //wparam = 0
 //lparam = 0
 //Returns a dword with the current message api version
 //Current version is 0, 0, 0, 4
+#define MS_MSG_GETWINDOWAPI "MessageAPI/WindowAPI"
 
-#define MS_MSG_GETWINDOWCLASS "MessageAPI/WindowClass"
 //wparam = (char*)szBuf
 //lparam = (int)cbSize size of buffer
 //Sets the window class name in wParam (ex. "SRMM" for srmm.dll)
+#define MS_MSG_GETWINDOWCLASS "MessageAPI/WindowClass"
 
 typedef struct {
 	int cbSize;
@@ -102,18 +102,18 @@ typedef struct {
 	void *local; // used to store pointer to custom data
 } MessageWindowData;
 
-#define MS_MSG_GETWINDOWDATA "MessageAPI/GetWindowData"
 //wparam = (MessageWindowInputData*)
 //lparam = (MessageWindowData*)
 //returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
+#define MS_MSG_GETWINDOWDATA "MessageAPI/GetWindowData"
 
-
-#define ME_MSG_WINDOWPOPUP		"MessageAPI/WindowPopupRequested"
 // wParam = 0
 // lParam = (MessageWindowPopupData *)&MessageWindowPopupData;
 // Fired to allow plugins to add items to the msg window popup menu
 // Always fired twice: once with MSG_WINDOWPOPUP_SHOWING and once with MSG_WINDOWPOPUP_SELECTED.
 // This is done to allow cleaning of resources.
+#define ME_MSG_WINDOWPOPUP		"MessageAPI/WindowPopupRequested"
+
 #define MSG_WINDOWPOPUP_SHOWING  1
 #define MSG_WINDOWPOPUP_SELECTED 2
 
@@ -131,28 +131,39 @@ typedef struct {
 	int selection; // The menu control id or 0 if no one was selected
 } MessageWindowPopupData;
 
-// status icons - HICONs will be automatically destroyed when removed or when miranda exits
+// status icons
 
 #define MBF_DISABLED       0x01
 #define MBF_HIDDEN         0x02
+#define MBF_UNICODE        0x04
+
+#ifdef _UNICODE
+	#define MBF_TCHAR MBF_UNICODE
+#else
+	#define MBF_TCHAR 0
+#endif
 
 typedef struct {
-	int cbSize;
-	char *szModule;						// used in combo with the dwId below to create a unique identifier
-	DWORD dwId;
-	HICON hIcon, hIconDisabled;		// hIconDisabled is optional - if null, will use hIcon in the disabled state
-	int flags;								// bitwize OR of MBF_* flags above
-	char *szTooltip;
+	int   cbSize;                    // must be equal to sizeof(StatusIconData)
+	char *szModule;                  // used in combo with the dwId below to create a unique identifier
+	DWORD dwId;                      // uniquely defines a button inside a module
+	HICON hIcon, hIconDisabled;      // hIconDisabled is optional - if null, will use hIcon in the disabled state
+	int   flags;                     // bitwize OR of MBF_* flags above
+	union {
+		char *szTooltip;              // controlled by MBF_UNICODE
+		TCHAR *tszTooltip;
+		wchar_t *wszTooltip;
+	};
 } StatusIconData;
 
-#define MBCF_RIGHTBUTTON   0x01		// if this flag is specified, the click was a right button - otherwize it was a left click
+#define MBCF_RIGHTBUTTON   0x01     // if this flag is specified, the click was a right button - otherwize it was a left click
 
 typedef struct {
-	int cbSize;
-	POINT clickLocation;					// click location, in screen coordinates
+	int   cbSize;
+	POINT clickLocation;             // click location, in screen coordinates
 	char *szModule;
 	DWORD dwId;
-	int flags;								// bitwize OR of MBCF_* flags above
+	int   flags;                       // bitwize OR of MBCF_* flags above
 } StatusIconClickData;
 
 // wParam = (int)hLangpack

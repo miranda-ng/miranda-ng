@@ -82,32 +82,32 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	sid.hIcon = LoadIconEx("actG");
 	if (sweep == 0)
-		sid.szTooltip = Translate("Keep all events");
+		sid.szTooltip = LPGEN("Keep all events");
 	else if (sweep == 1)
-		sid.szTooltip = Translate(time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)]);
+		sid.szTooltip = (char*)time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)];
 	else if (sweep == 2)
-		sid.szTooltip = Translate(keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)]);
+		sid.szTooltip = (char*)keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)];
 	else if (sweep == 3)
-		sid.szTooltip = Translate("Delete all events");
+		sid.szTooltip = LPGEN("Delete all events");
 
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 1;
 	sid.hIcon = LoadIconEx("act1");
-	sid.szTooltip = Translate(time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)]);
+	sid.szTooltip = (char*)time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)];
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 2;
 	sid.hIcon = LoadIconEx("act2");
-	sid.szTooltip = Translate(keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)]);
+	sid.szTooltip = (char*)keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)];
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 3;
 	sid.hIcon = LoadIconEx("actDel");
-	sid.szTooltip = Translate("Delete all events");
+	sid.szTooltip = LPGEN("Delete all events");
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid);
 	

@@ -31,7 +31,6 @@
  */
 
 void    TSAPI DM_SetDBButtonStates(HWND hwndChild, struct TWindowData *dat);
-int     TSAPI BTN_GetStockItem (ButtonItem *item, const TCHAR *szName);
 HWND    TSAPI DM_CreateClist(TWindowData *dat);
 
 void    TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam);

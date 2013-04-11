@@ -132,12 +132,12 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	sid.flags = MBF_HIDDEN;
 	sid.dwId = 0x00000001;
 	sid.hIcon = IconLibGetIcon("secured");
-	sid.szTooltip = Translate("GPG Turn off encryption");
+	sid.szTooltip = LPGEN("GPG Turn off encryption");
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 0x00000002;
 	sid.hIcon = IconLibGetIcon("unsecured");
-	sid.szTooltip = Translate("GPG Turn on encryption");
+	sid.szTooltip = LPGEN("GPG Turn on encryption");
 	Srmm_AddIcon(&sid);
 
 	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT) != 0;

@@ -243,12 +243,12 @@ void SrmmMenu_Load()
 	sid.szModule = MODULE;
 
 	sid.dwId = 0;
-	sid.szTooltip = Translate("History Enabled");
+	sid.szTooltip = LPGEN("History Enabled");
 	sid.hIcon = sid.hIconDisabled = hIconKeep;
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 1;
-	sid.szTooltip = Translate("History Disabled");
+	sid.szTooltip = LPGEN("History Disabled");
 	sid.hIcon = sid.hIconDisabled = hIconRemove;
 	Srmm_AddIcon(&sid);
 		

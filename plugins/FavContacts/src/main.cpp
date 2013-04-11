@@ -146,7 +146,7 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = "FavContacts";
-	sid.szTooltip = "Favourite Contacts";
+	sid.szTooltip = LPGEN("Favourite Contacts");
 	sid.hIcon = Skin_GetIconByHandle(iconList[0].hIcolib);
 	sid.hIconDisabled = Skin_GetIconByHandle(iconList[1].hIcolib);
 	Srmm_AddIcon(&sid);
