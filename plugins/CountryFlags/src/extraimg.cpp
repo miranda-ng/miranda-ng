@@ -103,7 +103,7 @@ static void __fastcall SetStatusIcon(HANDLE hContact,int countryNumber)
 	if (countryNumber != 0xFFFF || db_get_b(NULL, MODULENAME, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT)) {
 		/* copy icon as status icon API will call DestroyIcon() on it */
 		sid.hIcon = LoadFlagIcon(countryNumber);
-		sid.szTooltip = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,countryNumber,0));
+		sid.szTooltip = (char*) CallService(MS_UTILS_GETCOUNTRYBYNUMBER,countryNumber,0);
 	}	
 	else sid.flags = MBF_HIDDEN;
 
