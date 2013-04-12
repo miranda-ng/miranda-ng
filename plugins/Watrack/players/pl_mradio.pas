@@ -72,7 +72,7 @@ function Fill:integer;
 var
   i:integer;
 begin
-  CurrentStation:=CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+  CurrentStation:=db_find_first(playername);
   while CurrentStation<>0 do
   begin
     i:=DBReadWord(CurrentStation,playername,'Status',WORD(-1));
@@ -81,7 +81,7 @@ begin
       result:=1;
       exit;
     end;
-    CurrentStation:=CallService(MS_DB_CONTACT_FINDNEXT,CurrentStation,0);
+    CurrentStation:=db_find_next(CurrentStation,playername);
   end;
   result:=WAT_RES_NOTFOUND;
 end;
@@ -234,9 +234,7 @@ end;
 
 function GetInfo(var SongInfo:tSongInfo;flags:integer):integer;cdecl;
 var
-  lfile:pWideChar;
   isRemote:bool;
-  isChanging:bool;
 begin
   result:=0;
   if (flags and WAT_OPT_PLAYERDATA)<>0 then
@@ -259,32 +257,20 @@ begin
       end
       else
       begin
-        lfile:=GetFileName(plwnd,flags);
-        isRemote:=StrPosW(lfile,'://')<>nil;
-        if (prevfile=nil) or isRemote or (StrCmpW(prevfile,lfile)<>0) then
+        isRemote:=StrPosW(mfile,'://')<>nil;
+        if (prevfile=nil) or isRemote or (StrCmpW(prevfile,mfile)<>0) then
         begin
           ClearTrackInfo(SongInfo,false);
-          mfile:=lfile;
           mFreeMem(prevfile);
           StrDupW(prevfile,mfile);
-          isChanging:=true;
-        end
-        else
-        begin
-          isChanging:=false;
-          mFreeMem(lfile);
-        end;
 
-        if not isRemote then
-        begin
-          if isChanging then
+          if not isRemote then
           begin
             CallService(MS_WAT_GETFILEINFO,0,lparam(@SongInfo));
             fsize:=GetFSize(mfile);
-            mFreeMem(prevfile);
-            StrDupW(prevfile,mfile);
           end;
         end;
+
 //!!
         if kbps  =0   then kbps  :=GetKbps;
         if genre =nil then genre :=GetGenre;

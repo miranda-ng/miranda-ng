@@ -45,7 +45,7 @@ begin
     'users version of miranda,group or city.';
   PluginInfo.author     :='Awkward, based on Bethoven sources';
   PluginInfo.authorEmail:='panda75@bk.ru; awk1975@ya.ru';
-  PluginInfo.copyright  :='(c) 2004,2005 Bethoven; 2006-2012 Awkward';
+  PluginInfo.copyright  :='(c) 2004,2005 Bethoven; 2006-2013 Awkward';
   PluginInfo.homepage   :='http://code.google.com/p/delphi-miranda-plugins/';
   PluginInfo.flags      :=UNICODE_AWARE;
   PluginInfo.uuid       :=MIID_QUICKSEARCH;
@@ -164,7 +164,7 @@ begin
   odp.hInstance  :=hInstance;
   odp.pszTemplate:=PAnsiChar(IDD_DIALOG1);
   odp.szTitle.a  :=qs_name;
-  odp.szGroup.a  :='Contact List';
+  odp.szGroup.a  :='Contacts';
   odp.pfnDlgProc :=@sr_optdialog.DlgProcOptions;
   odp.flags      :=ODPF_BOLDGROUPS;
   Options_AddPage(wParam,@odp);
@@ -240,7 +240,6 @@ exports
   Load, Unload,
   MirandaPluginInfoEx;
 
-initialization
+begin
   DisableThreadLibraryCalls(hInstance);
-
 end.

@@ -34,6 +34,32 @@ type
     XML_ELEM_TYPE_CHILD,XML_ELEM_TYPE_ATTRIBUTE,
     XML_ELEM_TYPE_TEXT ,XML_ELEM_TYPE_CLEAR);
 
+/// Enumeration for XML parse errors.
+type
+  XMLError = (
+    eXMLErrorNone,
+    eXMLErrorMissingEndTag,
+    eXMLErrorNoXMLTagFound,
+    eXMLErrorEmpty,
+    eXMLErrorMissingTagName,
+    eXMLErrorMissingEndTagName,
+    eXMLErrorUnmatchedEndTag,
+    eXMLErrorUnmatchedEndClearTag,
+    eXMLErrorUnexpectedToken,
+    eXMLErrorNoElements,
+    eXMLErrorFileNotFound,
+    eXMLErrorFirstTagNotFound,
+    eXMLErrorUnknownCharacterEntity,
+    eXMLErrorCharacterCodeAbove255,
+    eXMLErrorCharConversionError,
+    eXMLErrorCannotOpenWriteFile,
+    eXMLErrorCannotWriteFile,
+
+    eXMLErrorBase64DataSizeIsNotMultipleOf4,
+    eXMLErrorBase64DecodeIllegalCharacter,
+    eXMLErrorBase64DecodeTruncatedData,
+    eXMLErrorBase64DecodeBufferTooSmall);
+
 const
   XML_API_SIZEOF_V1 = SizeOf(size_t)+26*sizeof(dword);
 
@@ -115,6 +141,9 @@ type
     positionOfChildByName :function(node:HXML; name:PAnsiChar; i:int):XML_ELEMENT_POS;cdecl;
     positionOfText        :function(node:HXML; i:int):XML_ELEMENT_POS;cdecl;
     positionOfClear       :function(node:HXML; i:int):XML_ELEMENT_POS;cdecl;
+
+    parseFile:function(filename:PAnsiChar; datalen:pint; tag:PAnsiChar):HXML;
+    toFile   :function(node:HXML; filename:PAnsiChar; withformattiing:int):XMLError;
   end;
 
   XML_API_W = record
@@ -194,6 +223,9 @@ type
     positionOfChildByName :function(node:HXML; name:PWideChar; i:int):XML_ELEMENT_POS;cdecl;
     positionOfText        :function(node:HXML; i:int):XML_ELEMENT_POS;cdecl;
     positionOfClear       :function(node:HXML; i:int):XML_ELEMENT_POS;cdecl;
+
+    parseFile:function(filename:PAnsiChar; datalen:pint; tag:PAnsiChar):HXML;
+    toFile   :function(node:HXML; filename:PAnsiChar; withformattiing:int):XMLError;
   end;
 
 // every protocol should declare this variable to use the XML API

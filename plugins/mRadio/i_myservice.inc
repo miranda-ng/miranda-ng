@@ -29,25 +29,21 @@ begin
       cni.dwFlag:=CNF_DISPLAY or CNF_UNICODE;
     cni.szProto :=PluginName;
 
-    hContact:=CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+    hContact:=db_find_first(PluginName);
     while hContact<>0 do
     begin
-      p:=PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,hContact,0));
-      if (p<>nil) and (StrCmp(p,PluginName)=0) then
+      cni.hContact:=hContact;
+      if CallService(MS_CONTACT_GETCONTACTINFO,0,tlparam(@cni))=0 then
       begin
-        cni.hContact:=hContact;
-        if CallService(MS_CONTACT_GETCONTACTINFO,0,tlparam(@cni))=0 then
-        begin
-          if lParam=1 then
-            i:=StrCmp(pAnsiChar(wParam),cni.retval.szVal.a)
-          else
-            i:=StrCmpW(pWideChar(wParam),cni.retval.szVal.w);
-          mir_free(cni.retval.szVal.w);
-          if i=0 then
-            break;
-        end;
+        if lParam=1 then
+          i:=StrCmp(pAnsiChar(wParam),cni.retval.szVal.a)
+        else
+          i:=StrCmpW(pWideChar(wParam),cni.retval.szVal.w);
+        mir_free(cni.retval.szVal.w);
+        if i=0 then
+          break;
       end;
-      hContact:=CallService(MS_DB_CONTACT_FINDNEXT,hContact,0);
+      hContact:=db_find_next(hContact,PluginName);
     end;
   end;
 

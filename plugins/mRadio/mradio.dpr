@@ -70,14 +70,11 @@ begin
 
   if hContact=0 then
   begin
-    hContact:=CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+    hContact:=db_find_first(PluginName);
     while hContact<>0 do
     begin
-      if StrCmp(PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,hContact,0)),PluginName)=0 then
-      begin
-        DBWriteWord(hContact,PluginName,optStatus,status);
-      end;
-      hContact:=CallService(MS_DB_CONTACT_FINDNEXT,hContact,0);
+      DBWriteWord(hContact,PluginName,optStatus,status);
+      hContact:=db_find_next(hContact,PluginName);
     end;
   end
   else
@@ -101,12 +98,12 @@ begin
   result:=@PluginInfo;
   PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
   PluginInfo.shortName  :='mRadio Mod';
-  PluginInfo.version    :=$00000202;
+  PluginInfo.version    :=$00000203;
   PluginInfo.description:='This plugin plays and records Internet radio streams.'+
                           ' Also local media files can be played.';
   PluginInfo.author     :='Awkward';
   PluginInfo.authorEmail:='panda75@bk.ru; awk1975@ya.ru';
-  PluginInfo.copyright  :='(c) 2007-2012 Awkward';
+  PluginInfo.copyright  :='(c) 2007-2013 Awkward';
   PluginInfo.homepage   :='http://code.google.com/p/delphi-miranda-plugins/';
   PluginInfo.flags      :=UNICODE_AWARE;
   PluginInfo.uuid       :=MIID_MRADIO;
@@ -330,7 +327,6 @@ begin
     PluginStatus:=ID_STATUS_OFFLINE;
   end;
   mFreeMem(custom);
-
   Result:=0;
 end;
 
@@ -344,7 +340,6 @@ exports
   Load, Unload,
   MirandaPluginInfoEx;
 
-initialization
+begin
   DisableThreadLibraryCalls(hInstance);
-
 end.

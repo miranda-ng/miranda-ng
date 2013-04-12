@@ -253,14 +253,14 @@ Always returns 0.
 type
   PDBEVENTTYPEDESCR = ^TDBEVENTTYPEDESCR;
   TDBEVENTTYPEDESCR = record
-    cbSize     :int;      // structure size in bytes
-    module     :PAnsiChar;    // event module name
-    eventType  :int;      // event id, unique for this module
-    descr      :PAnsiChar;    // event type description (i.e. "File Transfer")
-    textService:PAnsiChar;    // service name for MS_DB_EVENT_GETTEXT (0.8+, default Module+'/GetEventText'+EvtID)
-    iconService:PAnsiChar;    // service name for MS_DB_EVENT_GETICON (0.8+, default Module+'/GetEventIcon'+EvtID)
-    eventIcon  :THANDLE;  // icolib handle to eventicon (0.8+, default 'eventicon_'+Module+EvtID)
-    flags      :DWORD;    // flags, combination of the DETF_*
+    cbSize     :int;       // structure size in bytes
+    module     :PAnsiChar; // event module name
+    eventType  :int;       // event id, unique for this module (actually, word size)
+    descr      :PAnsiChar; // event type description (i.e. "File Transfer")
+    textService:PAnsiChar; // service name for MS_DB_EVENT_GETTEXT (0.8+, default Module+'/GetEventText'+EvtID)
+    iconService:PAnsiChar; // service name for MS_DB_EVENT_GETICON (0.8+, default Module+'/GetEventIcon'+EvtID)
+    eventIcon  :THANDLE;   // icolib handle to eventicon           (0.8+, default 'eventicon_'+Module+EvtID)
+    flags      :DWORD;     // flags, combination of the DETF_*
   end;
 
 const
@@ -315,7 +315,6 @@ const
              modules are free to define their own, beginning at 2000
              DBEVENTINFO.timestamp is in GMT, as returned by time()
   }
-
 const
   MS_DB_EVENT_ADD:PAnsiChar = 'DB/Event/Add';
 

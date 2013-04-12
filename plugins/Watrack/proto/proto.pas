@@ -185,18 +185,18 @@ begin
         WideToAnsi(ss,p,UserCP);
         if ccs^.wParam=0 then
         begin
-          ccs^.lParam:=dword(p);
+          ccs^.lParam:=tlparam(p);
         end
         else
         begin
           move(PAnsiChar(ss)^,(PAnsiChar(ss)+StrLen(p)+1)^,
             (StrLenW(ss)+1)*SizeOf(WideChar));
           StrCopy(PAnsiChar(ss),p);
-          ccs^.lParam:=dword(ss);
+          ccs^.lParam:=tlparam(ss);
         end;
         result:=CallService(MS_PROTO_CHAINSEND,wParam,lParam);
         mFreeMem(p);
-        ccs^.lParam:=dword(s);
+        ccs^.lParam:=tlparam(s);
         mFreeMem(ss);
         exit;
       end;
@@ -313,7 +313,7 @@ begin
           i:=WideToCombo(textpos,encbuf,UserCP);
           if (HistMask and hmOutInfo)<>0 then
             AddEvent(ccs^.hContact,EVENTTYPE_WAT_MESSAGE,DBEF_SENT,encbuf,i);
-//          if CallContactService(ccs^.hContact,PSS_MESSAGEW,PREF_UNICODE,dword(encbuf))=
+//          if CallContactService(ccs^.hContact,PSS_MESSAGEW,PREF_UNICODE,tlparam(encbuf))=
 //             ACKRESULT_FAILED then
             CallContactService(ccs^.hContact,PSS_MESSAGE,PREF_UNICODE,tlparam(encbuf));
         end;
@@ -409,12 +409,12 @@ procedure RegisterContacts;
 var
   hContact:integer;
 begin
-  hContact:=CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+  hContact:=db_find_first();
   while hContact<>0 do
   begin
     if not IsChat(hContact) then
       CallService(MS_PROTO_ADDTOCONTACT,hContact,lparam(PluginShort));
-    hContact:=CallService(MS_DB_CONTACT_FINDNEXT,hContact,0);
+    hContact:=db_find_next(hContact);
   end;
 end;
 
@@ -476,7 +476,7 @@ begin
   FillChar(mi, sizeof(mi), 0);
   mi.cbSize       :=sizeof(mi);
   mi.szPopupName.a:=PluginShort;
-  mi.flags        :=CMIF_NOTOFFLINE or CMIF_NOTOFFLIST or CMIF_ICONFROMICOLIB;
+  mi.flags        :=CMIF_NOTOFFLINE or CMIF_NOTOFFLIST;
 //  mi.popupPosition:=MenuUserInfoPos;
   mi.hIcon        :=Icons.hIcolib;
   mi.szName.a     :='Get user''s Music Info';
@@ -517,6 +517,7 @@ begin
   vproto.Init      :=@InitProc;
   vproto.DeInit    :=@DeInitProc;
   vproto.AddOption :=@AddOptionsPage;
+  vproto.Check     :=nil;
   vproto.ModuleName:='Protocol';
   ModuleLink       :=@vproto;
 end;

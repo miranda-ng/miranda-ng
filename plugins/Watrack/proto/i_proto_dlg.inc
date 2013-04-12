@@ -4,7 +4,7 @@ procedure SetAllContactStat(hwndList:HWND);
 var
   hContact,hItem:THANDLE;
 begin
-  hContact:=CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+  hContact:=db_find_first();
   while hContact<>0 do
   begin
     hItem:=SendMessage(hwndList,CLM_FINDCONTACT,hContact,0);
@@ -13,7 +13,7 @@ begin
       SendMessage(hwndList,CLM_SETCHECKMARK,hItem,
         DBReadByte(hContact,strCList,ShareOptText,0));
     end;
-    hContact:=CallService(MS_DB_CONTACT_FINDNEXT,hContact,0);
+    hContact:=db_find_next(hContact);
   end;
 end;
 
@@ -21,7 +21,7 @@ procedure SaveAllContactStat(hwndList:HWND);
 var
   hContact,hItem:THANDLE;
 begin
-  hContact:=CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+  hContact:=db_find_first();
   while hContact<>0 do
   begin
     hItem:=SendMessage(hwndList,CLM_FINDCONTACT,hContact,0);
@@ -32,7 +32,7 @@ begin
       else
         DBDeleteSetting(hContact,strCList,ShareOptText);
     end;
-    hContact:=CallService(MS_DB_CONTACT_FINDNEXT,hContact,0);
+    hContact:=db_find_next(hContact);
   end;
 end;
 
@@ -100,7 +100,7 @@ begin
       cii.cbSize   :=SizeOf(cii);
       cii.flags    :=CLCIIF_GROUPFONT or CLCIIF_CHECKBOX;
       cii.pszText.w:=TranslateW('** All contacts **');
-      hItemAll:=SendMessage(hList,CLM_ADDINFOITEM,0,dword(@cii));
+      hItemAll:=SendMessage(hList,CLM_ADDINFOITEM,0,tlparam(@cii));
 }
       SetAllContactStat(hList);
       SetHistMask(Dialog);

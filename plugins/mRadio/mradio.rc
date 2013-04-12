@@ -153,7 +153,7 @@ IDI_ADD   ICON "ico\new.ico"
 IDI_DEL   ICON "ico\delete.ico"
 BTN_RECUP ICON "ico\recon.ico"
 BTN_RECDN ICON "ico\recoff.ico"
-
+/*
 LANGUAGE 0,0 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION 0,0,2,2
@@ -183,3 +183,4 @@ BEGIN
       VALUE "Translation",0,1200 
   END
 END
+*/

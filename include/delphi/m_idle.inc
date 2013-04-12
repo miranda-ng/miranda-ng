@@ -33,19 +33,19 @@ const
   IDF_PRIVACY = $8; // if set, the information provided shouldn't be given to third parties.
 
 const
-  {
-    wParam: 0
-    lParam: IDF_  (or'd field)
-    Affect: This event is fired when information about idle changes.
-    Note: You will get multiple calls with IDF_ISIDLE set, the first is for short idle
-      then long idle, then anytime during you might get IDF_ONFORCE if the screensaver
-      or station become locked.
+{
+  wParam: 0
+  lParam: IDF_  (or'd field)
+  Affect: This event is fired when information about idle changes.
+  Note: You will get multiple calls with IDF_ISIDLE set, the first is for short idle
+    then long idle, then anytime during you might get IDF_ONFORCE if the screensaver
+    or station become locked.
 
-      It is up to you to keep state, i.e. once the idle that you care about is reported
-      ignore other status notifications with IDF_ISIDLE set until you get one with
-      IDF_ISIDLE isn't  set.
-    Version: 0.3.4a+ (2004/09/16)
-   }
+    It is up to you to keep state, i.e. once the idle that you care about is reported
+    ignore other status notifications with IDF_ISIDLE set until you get one with
+    IDF_ISIDLE isn't  set.
+  Version: 0.3.4a+ (2004/09/16)
+}
   ME_IDLE_CHANGED:PAnsiChar = 'Miranda/Idle/Changed';
 
 type
@@ -59,14 +59,15 @@ type
     idleType     : int;
     idlesoundsoff: int;
   end;
-  {
-    wParam; 0
-    lParam: address of MIRANDA_IDLE_INFO
-    Affect: Return information about current idle settings, like short/long idle time in mins
-      and if the user wants that info kept private, etc
-    Returns: zero on success, non zero on failure
-    Version: 0.3.4 (2004/09/16)
-   }
+
+{
+  wParam; 0
+  lParam: address of MIRANDA_IDLE_INFO
+  Affect: Return information about current idle settings, like short/long idle time in mins
+    and if the user wants that info kept private, etc
+  Returns: zero on success, non zero on failure
+  Version: 0.3.4 (2004/09/16)
+}
 const
   MS_IDLE_GETIDLEINFO:PAnsiChar = 'Miranda/Idle/GetInfo';
 

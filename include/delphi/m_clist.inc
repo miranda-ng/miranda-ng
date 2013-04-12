@@ -89,7 +89,6 @@ const
   CMIF_ROOTHANDLE = 384; // means that hParentMenu member is set (since 0.8#26)
   CMIF_UNICODE    = 512; // will return TCHAR* instead of AnsiChar*
   CMIF_KEEPUNTRANSLATED = 1024; // don't translate a menu item
-  CMIF_ICONFROMICOLIB   = 2048; // use icolibName instead of hIcon
 
   CMIF_DEFAULT = 4096; // this menu item is the default one
 

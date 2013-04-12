@@ -526,7 +526,7 @@ begin
       ST_SERVICE: begin
         if wparam._type=ptCurrent then wparam.n:=hContact;
         if lparam._type=ptCurrent then lparam.n:=hContact;
-        tmp:=CallService(protov,wparam.n,lparam.n);
+        tmp:=uint_ptr(CallService(protov,wparam.n,lparam.n));
         if tmp=CALLSERVICE_NOTFOUND then exit;
         case setting_cnftype of
           ptString: begin
@@ -619,7 +619,7 @@ begin
       end;
 
       ST_LASTEVENT: begin
-        hDbEvent := db_event_last(hContact);
+        hDbEvent:=db_event_last(hContact);
         if hDbEvent<>0 then
         begin
           ZeroMemory(@dbei,sizeof(dbei));
@@ -1190,14 +1190,14 @@ begin
   // filling buffer
   LastMeta:=0;
   cnt1:=0;
-  hContact:=CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+  hContact:=db_find_first();
   while hContact<>0 do
   begin
     //!! check account
     AddContact(cnt1,hContact);
     inc(cnt1);
     if cnt1=cnt then break; // additional checking
-    hContact:=CallService(MS_DB_CONTACT_FINDNEXT,hContact,0);
+    hContact:=db_find_next(hContact);
   end;
   if cnt1<>cnt then
   begin
@@ -1949,7 +1949,7 @@ begin
         FastWideToAnsiBuf(MainBuf[i,sub].text,buf);
 
 //        ListView_GetItemTextA(grid,lplvcd^.nmcd.dwItemSpec,lplvcd^.iSubItem,buf,SizeOf(buf));
-//
+//!!
         if (buf[0]<>#0) and (ServiceExists(MS_FP_GETCLIENTICON)<>0) then
         begin
           h:=CallService(MS_FP_GETCLIENTICON,tlparam(@buf),0);

@@ -49,32 +49,28 @@ begin
 
   // Fill list
   FillChar(srch,SizeOf(srch),0);
-  hContact:=CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+  hContact:=db_find_first(PluginName);
   while hContact<>0 do
   begin
-     if StrCmp(PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,hContact,0)),cPluginName)=0 then
+     p:=DBReadUnicode(hContact,strCList,'MyHandle',nil);
+     if p<>nil then
      begin
-       p:=DBReadUnicode(hContact,strCList,'MyHandle',nil);
-       if p<>nil then
+       srch.name:=p;
+       // search in list
+       if List_GetIndex(@trayStations,@srch,@idx)<>0 then
+         // found - set mark
+         pTrayRadioStation(trayStations.Items[idx]).presents:=1
+       else // add if not found
        begin
-         srch.name:=p;
-         // search in list
-         if List_GetIndex(@trayStations,@srch,@idx)<>0 then
-           // found - set mark
-           pTrayRadioStation(trayStations.Items[idx]).presents:=1
-         else // add if not found
-         begin
-           mGetMem(tmp,SizeOf(tTrayRadioStation));
-           tmp.name    :=p;
-           tmp.presents:=2;
-           tmp.hContact:=hContact;
-           List_InsertPtr(@trayStations,tmp);
-         end;
+         mGetMem(tmp,SizeOf(tTrayRadioStation));
+         tmp.name    :=p;
+         tmp.presents:=2;
+         tmp.hContact:=hContact;
+         List_InsertPtr(@trayStations,tmp);
        end;
      end;
-    hContact:=CallService(MS_DB_CONTACT_FINDNEXT,hContact,0);
+    hContact:=db_find_next(hContact,PluginName);
   end;
-
   // delete obsolete elements
   for i:=trayStations.realCount-1 downto 0 do
   begin

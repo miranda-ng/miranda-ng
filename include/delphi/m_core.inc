@@ -164,12 +164,11 @@ function db_set_utf(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:
 function db_set_blob(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:pointer; len:uint):int_ptr; stdcall;
                  external CoreDLL name 'db_set_blob';
 
-// Aliases
+// deprecated Aliases
 function DBFreeVariant(dbv:PDBVARIANT):int_ptr; stdcall;
                  external CoreDLL name 'db_free';
 function DBDeleteContactSetting(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):int_ptr; stdcall;
                  external CoreDLL name 'db_unset';
-
 function DBGetContactSettingByte(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; errorValue:int):int; stdcall;
                  external CoreDLL name 'db_get_b';
 function DBGetContactSettingWord(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; errorValue:int):int; stdcall;
@@ -200,7 +199,6 @@ function DBWriteContactSettingUTF8String(hContact:THANDLE; const szModule:pAnsiC
 function DBWriteContactSettingBlob(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:pointer; len:uint):int_ptr; stdcall;
                  external CoreDLL name 'db_set_blob';
 
-
 ///////////////////////////////////////////////////////////////////////////////
 // events, hooks & services
 
@@ -213,16 +211,16 @@ type
   TMIRANDAHOOKOBJ         = function(ptr:pointer;wParam:WPARAM;lParam:LPARAM): int; cdecl;
   TMIRANDAHOOKOBJPARAM    = function(ptr:pointer;wParam:WPARAM;lParam,lParam1: LPARAM): int; cdecl;
 
-  TMIRANDASERVICE         = function(wParam: WPARAM; lParam: LPARAM): uint_ptr; cdecl;
-  TMIRANDASERVICEPARAM    = function(wParam:WPARAM;lParam,lParam1:LPARAM):uint_ptr; cdecl;
-  TMIRANDASERVICEOBJ      = function(ptr:pointer;wParam,lParam:LPARAM):uint_ptr; cdecl;
-  TMIRANDASERVICEOBJPARAM = function(ptr:pointer;wParam:WPARAM;lParam,lParam1:LPARAM):uint_ptr; cdecl;
+  TMIRANDASERVICE         = function(wParam: WPARAM; lParam: LPARAM): int_ptr; cdecl;
+  TMIRANDASERVICEPARAM    = function(wParam:WPARAM;lParam,lParam1:LPARAM):int_ptr; cdecl;
+  TMIRANDASERVICEOBJ      = function(ptr:pointer;wParam,lParam:LPARAM):int_ptr; cdecl;
+  TMIRANDASERVICEOBJPARAM = function(ptr:pointer;wParam:WPARAM;lParam,lParam1:LPARAM):int_ptr; cdecl;
 
 const
   {$IFDEF WIN64}
-  CALLSERVICE_NOTFOUND = uint_ptr($8000000000000000);
+  CALLSERVICE_NOTFOUND = int_ptr($8000000000000000);
   {$ELSE}
-  CALLSERVICE_NOTFOUND = uint_ptr($80000000);
+  CALLSERVICE_NOTFOUND = int_ptr($80000000);
   {$ENDIF}
 
 function CreateHookableEvent(const name: PAnsiChar): THANDLE; stdcall;
@@ -268,9 +266,9 @@ function DestroyServiceFunction(hService:THANDLE):int; stdcall;
 function ServiceExists(const name:PAnsiChar):int; stdcall;
                  external CoreDLL name 'ServiceExists';
 
-function CallService(const name:PAnsiChar; wParam:WPARAM; lParam:LPARAM):uint_ptr; stdcall;
+function CallService(const name:PAnsiChar; wParam:WPARAM; lParam:LPARAM):int_ptr; stdcall;
                  external CoreDLL name 'CallService';
-function CallServiceSync(const name:PAnsiChar; wParam:WPARAM; lParam:LPARAM):uint_ptr; stdcall;
+function CallServiceSync(const name:PAnsiChar; wParam:WPARAM; lParam:LPARAM):int_ptr; stdcall;
                  external CoreDLL name 'CallServiceSync';
 
 function CallFunctionAsync(ptr1,ptr2:pointer):int; stdcall;
@@ -280,16 +278,16 @@ procedure KillModuleServices(hInst:HINST); stdcall;
 procedure KillObjectServices(var ptr); stdcall;
                  external CoreDLL name 'KillObjectServices';
 
-function CallContactService(hContact:THANDLE;const name:PAnsiChar;wParam:WPARAM;lParam:LPARAM):uint_ptr; cdecl;
+function CallContactService(hContact:THANDLE;const name:PAnsiChar;wParam:WPARAM;lParam:LPARAM):int_ptr; cdecl;
                  external CoreDLL name 'CallContactService';
-function CallProtoService(const szModule:PAnsiChar;const szService:PAnsiChar;wParam:WPARAM;lParam:LPARAM):uint_ptr; cdecl;
+function CallProtoService(const szModule:PAnsiChar;const szService:PAnsiChar;wParam:WPARAM;lParam:LPARAM):int_ptr; cdecl;
                  external CoreDLL name 'CallProtoService';
 
 ///////////////////////////////////////////////////////////////////////////////
 // http
 
 // returned result must be freed using mir_free()
-function mir_urlEncode(url:pAnsiChar):pAnsiChar; stdcall;
+function mir_urlEncode(url:pAnsiChar): pAnsiChar; stdcall;
                  external CoreDLL name 'mir_urlEncode';
 
 ///////////////////////////////////////////////////////////////////////////////

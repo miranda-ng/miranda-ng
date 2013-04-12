@@ -43,7 +43,16 @@ function Langpack_Register:int_ptr;
 function ProtoBroadcastAck(const szModule: PAnsiChar; hContact: THandle; type_: int; result_: int; hProcess: THandle; lParam: LPARAM): int_ptr;
 function CreateProtoServiceFunction(const szModule, szService: PAnsiChar; serviceProc: TMIRANDASERVICE): int_ptr;
 
-function LoadSkinnedIcon(id: int): THandle;
+function  Srmm_AddIcon   (sid: PStatusIconData):int_ptr;
+procedure Srmm_RemoveIcon(sid: PStatusIconData);
+procedure Srmm_ModifyIcon(hContact:THANDLE; sid:PStatusIconData);
+function  Srmm_GetNthIcon(hContact:THANDLE; index:int):pStatusIconData;
+
+function LoadSkinnedIcon      (id: int): HICON;
+function LoadSkinnedIconHandle(id: int): THandle;
+function LoadSkinnedIconBig   (id: int): HICON;
+function LoadSkinnedIconName  (id: int): PAnsiChar;
+
 function LoadSkinnedProtoIcon(const szProto: PAnsiChar; status: int): THandle;
 function SkinAddNewSound(const name, description, defaultFile: PAnsiChar): int_ptr;
 function SkinPlaySound (const name: PAnsiChar): int_ptr;
@@ -367,11 +376,52 @@ begin
   Result := CreateServiceFunction(szStr, @serviceProc);
 end;
 
-
-function LoadSkinnedIcon(id: int): THandle;
+function Srmm_AddIcon(sid: PStatusIconData):int_ptr;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
-  Result := CallService(MS_SKIN_LOADICON, id, 0);
+  result:=CallService(MS_MSG_ADDICON, hLangpack, LPARAM(sid));
+end;
+
+procedure Srmm_RemoveIcon(sid: PStatusIconData);
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  CallService(MS_MSG_REMOVEICON, 0, LPARAM(sid));
+end;
+
+procedure Srmm_ModifyIcon(hContact:THANDLE; sid:PStatusIconData);
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  CallService(MS_MSG_GETNTHICON, hContact, LPARAM(sid));
+end;
+
+function Srmm_GetNthIcon(hContact:THANDLE; index:int):PStatusIconData;
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  result:=PStatusIconData(CallService(MS_MSG_GETNTHICON, hContact, index));
+end;
+
+function LoadSkinnedIcon(id: int): HICON;
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  Result := HICON(CallService(MS_SKIN_LOADICON, id, 0));
+end;
+
+function LoadSkinnedIconHandle(id: int): THandle;
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  Result := THANDLE(CallService(MS_SKIN_LOADICON, id, 1));
+end;
+
+function LoadSkinnedIconBig(id: int): HICON;
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  Result := HICON(CallService(MS_SKIN_LOADICON, id, 2));
+end;
+
+function LoadSkinnedIconName(id: int): PAnsiChar;
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  Result := PAnsiChar(CallService(MS_SKIN_LOADICON, id, 3));
 end;
 
 function LoadSkinnedProtoIcon(const szProto: PAnsiChar; status: int): THandle;

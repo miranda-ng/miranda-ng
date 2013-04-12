@@ -126,16 +126,12 @@ begin
     end
     else
     begin
-      hContact:=CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+      hContact:=db_find_first(PluginName);
       while hContact<>0 do
       begin
-        if StrCmp(PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,hContact,0)),
-               PluginName)=0 then
-        begin
-          inc(result);
-          ExportRadioContact(result,dst,hContact);
-        end;
-        hContact:=CallService(MS_DB_CONTACT_FINDNEXT,hContact,0);
+        inc(result);
+        ExportRadioContact(result,dst,hContact);
+        hContact:=db_find_next(hContact,PluginName);
       end;
     end;
   end;

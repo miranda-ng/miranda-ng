@@ -384,7 +384,7 @@ begin
         title:='Miranda event help';
         note :='';
       end;
-      SendMessageW(HelpWindow,WM_SETTEXT,0,LPARAM(title));
+      SendMessageW(HelpWindow,WM_SETTEXT,0,LPARAM(TranslateW(title)));
 
       SendMessageW(GetDlgItem(HelpWindow,IDC_HLP_NOTE),WM_SETTEXT,0,LPARAM(TranslateW(Note)));
     end;

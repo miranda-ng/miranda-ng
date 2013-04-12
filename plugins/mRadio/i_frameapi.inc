@@ -47,7 +47,7 @@ begin
     WM_INITDIALOG: begin
       hMuteFrmCtrl:=GetDlgItem(Dialog,IDC_RADIO_MUTE);
       SendMessage(hMuteFrmCtrl, BUTTONSETASFLATBTN,0,0);
-      SetButtonIcon(hMuteFrmCtrl,IcoBtnOn);
+//      SetButtonIcon(hMuteFrmCtrl,IcoBtnOn);
 
       hwndTooltip:=CreateWindowW(TOOLTIPS_CLASS,nil,TTS_ALWAYSTIP,
           integer(CW_USEDEFAULT),integer(CW_USEDEFAULT),
@@ -189,7 +189,7 @@ begin
     begin
       cbSize  :=SizeOf(Frame);
       hWnd    :=FrameWnd;
-      hIcon   :=0;
+      hIcon   :=CallService(MS_SKIN2_GETICON,0,lparam(IcoBtnSettings));
       align   :=alTop;
       height  :=tr.bottom-tr.top+2;
       Flags   :=F_VISIBLE or F_NOBORDER or F_UNICODE;

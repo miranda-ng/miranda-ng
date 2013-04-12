@@ -380,7 +380,7 @@ begin
   begin
     FillChar(clmi,SizeOf(clmi),0);
     clmi.cbSize:=SizeOf(clmi);
-    clmi.flags :=CMIF_UNICODE or CMIF_ICONFROMICOLIB;
+    clmi.flags :=CMIF_UNICODE;
 
     if (UAMenuItem.szMenuPopup<>nil) and (UAMenuItem.szMenuPopup^<>#0) then
       clmi.szName.w:=ParseVarString(UAMenuItem.szMenuPopup)
@@ -417,7 +417,7 @@ begin
 {}{}
   FillChar(clmi,SizeOf(clmi),0);
   clmi.cbSize:=SizeOf(clmi);
-  clmi.flags:=CMIF_UNICODE or CMIF_ICONFROMICOLIB;
+  clmi.flags:=CMIF_UNICODE;
   if (ActionItem.flags and (UAF_2STATE+UAF_PRESSED))<>(UAF_2STATE+UAF_PRESSED) then
   begin
     clmi.hIcon:=ActionItem.hIcolibIcon;
@@ -426,7 +426,7 @@ begin
   else
   begin
     clmi.hIcon:=ActionItem.hIcolibIconPressed;
-    clmi.flags:=CMIF_UNICODE or CMIF_ICONFROMICOLIB or CMIF_CHECKED;
+    clmi.flags:=CMIF_UNICODE or CMIF_CHECKED;
     extra:='1';
   end;
 
@@ -504,7 +504,7 @@ begin
           if (mi.flags and CMIF_HIDDEN)=0 then
           begin
             //!!!! icon (check for contact menu)
-            mi.flags:=mi.flags or CMIM_ICON or CMIM_FLAGS or CMIF_ICONFROMICOLIB;
+            mi.flags:=mi.flags or CMIM_ICON or CMIM_FLAGS;
 
             if (mtype=contact_menu) and IsLocalItem(UActionList[i]) then
             begin
@@ -625,8 +625,8 @@ begin
     if ActionItem.szTTBTooltip =nil then
       pc1:=pc
     else pc1:=ActionItem.szTTBTooltip;
-    
-    if ((ActionItem.flags and UAF_2STATE)=0) or 
+
+    if ((ActionItem.flags and UAF_2STATE)=0) or
        (ActionItem.szTTBTooltipPressed=nil) then
       pc2:=pc1
     else
