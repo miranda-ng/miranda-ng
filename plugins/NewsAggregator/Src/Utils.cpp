@@ -660,7 +660,11 @@ TCHAR * CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 		mir_free(szData);
 		if (hXml != NULL) {
 			int childcount = 0;
-			HXML node = xi.getChild(hXml, childcount);
+			HXML node;
+			if ( !lstrcmpi(xi.getName(hXml), _T("xml")))
+				node = xi.getChild(hXml, childcount);
+			else
+				node = hXml;
 			while (node) {
 				if (!lstrcmpi(xi.getName(node), _T("rss")) || !lstrcmpi(xi.getName(node), _T("rdf"))) {
 					HXML chan = xi.getChild(node, 0);
@@ -721,7 +725,11 @@ VOID CheckCurrentFeed(HANDLE hContact)
 			mir_free(szData);
 			if(hXml != NULL) {
 				int childcount = 0;
-				HXML node = xi.getChild(hXml, childcount);
+				HXML node;
+				if ( !lstrcmpi(xi.getName(hXml), _T("xml")))
+					node = xi.getChild(hXml, childcount);
+				else
+					node = hXml;
 				while (node) {
 					if (!lstrcmpi(xi.getName(node), _T("rss")) || !lstrcmpi(xi.getName(node), _T("rdf"))) {
 						if (!lstrcmpi(xi.getName(node), _T("rss"))) {
