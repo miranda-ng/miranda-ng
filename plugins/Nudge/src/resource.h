@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Used by ..\res\resource.rc
 //
 #define IDD_DIALOG1                     101
 #define IDI_NUDGE                       102
@@ -12,7 +12,6 @@
 #define IDD_SHAKEOPT                    126
 #define IDD_OPT_NUDGE                   126
 #define IDD_OPT_SHAKE                   128
-#define IDD_OPT_TRIGGER                 129
 #define IDC_BUTTON1                     1000
 #define IDC_PREVIEW                     1000
 #define IDC_EDIT1                       1001
@@ -67,10 +66,8 @@
 #define IDC_POPUPTIME                   1038
 #define IDC_SENDTIME                    1039
 #define IDC_RECVTIME                    1040
-#define IDC_TRIGGER_SHAKECLIST          1040
 #define IDC_CHECKEVENT2                 1041
 #define IDC_CHECKSTATUS                 1041
-#define IDC_TRIGGER_SHAKECHAT           1041
 #define IDC_AUTORESEND                  1042
 #define IDC_RESENDDELAY                 1043
 #define IDC_OPENMESSAGE                 1044

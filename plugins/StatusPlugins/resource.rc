@@ -12,24 +12,31 @@
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
+/////////////////////////////////////////////////////////////////////////////
+// German (Germany) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""winres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -271,26 +278,6 @@ BEGIN
     LTEXT           "Set status message",IDC_DESCRIPTION,7,7,226,8
 END
 
-IDD_OPT_KS_TRIGGER DIALOGEX 0, 0, 201, 103
-STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    CONTROL         "Trigger when connection loss is detected",IDC_CONNLOST,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,22,170,10
-    CONTROL         "Trigger when reconnection attempt is made",IDC_CONNRETRY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,58,170,10
-    CONTROL         "Trigger when successfull reconnected",IDC_CONNSUCCESS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,70,170,10
-    CONTROL         "Trigger when giving up reconnecting",IDC_CONNGIVEUP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,82,170,10
-    CONTROL         "Trigger when reconnected from another location",IDC_OTHERLOC,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,46,170,10
-    GROUPBOX        "Pre-conditions",IDC_STATIC,7,7,187,89
-    CONTROL         "Trigger when a login error occurs",IDC_LOGINERROR,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,34,170,10
-END
-
 IDD_OPT_STATUSPROFILES DIALOGEX 0, 0, 305, 234
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
@@ -471,14 +458,6 @@ BEGIN
         BOTTOMMARGIN, 119
     END
 
-    IDD_OPT_KS_TRIGGER, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 194
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 96
-    END
-
     IDD_OPT_STATUSPROFILES, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -514,6 +493,11 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
+#endif    // German (Germany) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -523,3 +507,4 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+

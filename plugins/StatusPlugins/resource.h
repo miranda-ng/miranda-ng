@@ -1,5 +1,5 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
+// Microsoft Visual C++ generated include file.
 // Used by resource.rc
 //
 #define IDD_OPT_KEEPSTATUS              101
@@ -16,7 +16,6 @@
 #define IDD_OPT_GENAUTOAWAY             119
 #define IDD_OPT_KS_ACTION               120
 #define IDD_SETSTSMSGDIALOG             121
-#define IDD_OPT_KS_TRIGGER              122
 #define IDD_OPT_STATUSPROFILES          123
 #define IDD_OPT_AAATABS                 126
 #define IDD_OPT_TABS                    126
@@ -69,7 +68,6 @@
 #define IDC_WINCOLORS                   1045
 #define IDC_CHKINET                     1045
 #define IDC_IGNLOCK                     1045
-#define IDC_CONNLOST                    1045
 #define IDC_CREATETTBBUTTONS            1046
 #define IDC_CREATETTB                   1046
 #define IDC_PERPROTOCOLSETTINGS         1050
@@ -78,11 +76,9 @@
 #define IDC_SETSTSMSG                   1053
 #define IDC_DEFAULTCOLORS               1057
 #define IDC_ONLOCK                      1057
-#define IDC_CONNSUCCESS                 1057
 #define IDC_LOGINERR                    1057
 #define IDC_LV2ONINACTIVE               1062
 #define IDC_CNCOTHERLOC                 1062
-#define IDC_CONNRETRY                   1062
 #define IDC_PUCONNLOST                  1062
 #define IDC_DLGTIMEOUT                  1063
 #define IDC_AWAYCHECKTIMEINSECS         1063
@@ -104,7 +100,6 @@
 #define IDC_DISABLECHECKING             1081
 #define IDC_IDLEWARNING                 1084
 #define IDC_DESCRIPTION                 1085
-#define IDC_CONNGIVEUP                  1086
 #define IDC_CONTCHECK                   1087
 #define IDC_BYPING                      1088
 #define IDC_CHECKAPMRESUME              1089
@@ -150,8 +145,6 @@
 #define IDC_LEAVEFIRST                  1136
 #define IDC_LEAVESECOND                 1137
 #define IDC_BECOMEACTIVE                1138
-#define IDC_OTHERLOC                    1139
-#define IDC_LOGINERROR                  1140
 #define IDC_SCREENSAVE                  1145
 #define IDC_TIMED                       1146
 #define IDC_AWAYTIME                    1147
@@ -162,7 +155,7 @@
 #define IDC_SETNASTR                    1568
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        129

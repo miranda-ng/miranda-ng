@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Used by ..\res\resource.rc
 //
 #define IDD_DIALOG1                     101
 #define IDD_OPT1                        102
@@ -15,7 +15,6 @@
 #define IDR_MENU1                       116
 #define IDI_TBUP                        123
 #define IDI_TBDN                        124
-#define IDD_OPTTRIGGER                  125
 #define IDC_ALIST                       1006
 #define IDC_TIME                        1007
 #define IDC_TITLE                       1010
@@ -62,7 +61,6 @@
 #define IDC_CHK_AWROUND                 1050
 #define IDC_CHK_AWNOACTIVATE            1051
 #define IDC_BTN_PREVIEW                 1052
-#define IDC_LST_TRIGLIST                1053
 #define IDC_BTN_CAL                     1055
 #define IDC_CHK_APOPUP                  1060
 #define IDC_SNOOZE2                     1061
@@ -77,7 +75,6 @@
 #define ID_REMINDERFRAMECONTEXT_DELETE  40005
 #define ID_REMINDERFRAMECONTEXT_OPTIONS 40006
 #define ID_REMINDERFRAMECONTEXT_NEWALARM 40007
-#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

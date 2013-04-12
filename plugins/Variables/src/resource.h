@@ -1,9 +1,8 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by Variables.rc
+// Microsoft Visual C++ generated include file.
+// Used by ..\res\Variables.rc
 //
 #define IDD_OPTS_DIALOG                 101
-#define IDD_TRG_STRINGCHANGE            102
 #define IDD_INPUT_DIALOG                103
 #define IDD_CLIST_DIALOG                104
 #define IDD_EXTRATEXT_DIALOG            105
@@ -42,7 +41,6 @@
 #define IDC_STRIPWS                     1039
 #define IDC_STRIPALL                    1041
 #define IDC_PARSEASYNC                  1047
-#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

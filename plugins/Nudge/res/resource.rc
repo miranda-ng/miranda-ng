@@ -118,15 +118,6 @@ BEGIN
     LTEXT           "Static",IDC_LNUMBER_CHAT,276,121,21,8
 END
 
-IDD_OPT_TRIGGER DIALOGEX 0, 0, 319, 249
-STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    CONTROL         "Shake the contact list",IDC_TRIGGER_SHAKECLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,20,270,10
-    CONTROL         "Shake the chat window",IDC_TRIGGER_SHAKECHAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,35,270,10
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -178,29 +169,6 @@ BEGIN
         HORZGUIDE, 147
         HORZGUIDE, 156
     END
-
-    IDD_OPT_TRIGGER, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 312
-        VERTGUIDE, 13
-        VERTGUIDE, 85
-        VERTGUIDE, 160
-        VERTGUIDE, 307
-        TOPMARGIN, 4
-        BOTTOMMARGIN, 243
-        HORZGUIDE, 5
-        HORZGUIDE, 20
-        HORZGUIDE, 147
-        HORZGUIDE, 157
-        HORZGUIDE, 173
-        HORZGUIDE, 184
-        HORZGUIDE, 207
-        HORZGUIDE, 217
-        HORZGUIDE, 228
-        HORZGUIDE, 239
-        HORZGUIDE, 243
-    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -221,7 +189,7 @@ IDI_NUDGE_META          ICON                    "NudgeMeta.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
-	
+
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

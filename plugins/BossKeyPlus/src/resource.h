@@ -1,11 +1,10 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by BossKey.rc
+// Used by ..\res\BossKey.rc
 //
 #define IDD_OPTDIALOGMAIN               101
 #define IDD_PASSDIALOGNEW               103
 #define IDI_DLGPASSWD                   105
-#define IDD_OPT_TRIGGER                 105
 #define IDD_OPTDIALOGADV                106
 #define IDC_MAINOPT_CHGSTS              1000
 #define IDC_MAINOPT_STATMSG             1001
@@ -19,11 +18,8 @@
 #define IDC_MAINOPT_PASS                1013
 #define IDC_MAINOPT_LNK_HOTKEY          1014
 #define IDC_MAINOPT_ONLINEONLY          1015
-#define IDC_BK_HIDE                     1016
-#define IDC_BK_SHOW                     1017
 #define IDC_MAINOPT_USEDEFMSG           1018
 #define IDC_MAINOPT_VARHELP             1019
-
 #define IDC_MAINOPT_TRAYICON            1023
 #define IDC_MAINOPT_HIDEIFLOCK          1024
 #define IDC_MAINOPT_HIDEIFWINIDLE       1025
