@@ -19,11 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "flags.h"
 
-extern HINSTANCE hInst;
-extern int nCountriesCount;
-extern struct CountryListEntry *countries;
-static HANDLE hServiceLoadIcon,hServiceCreateMergedIcon;
-
 /************************* Bitmap Access **************************/
 
 static HANDLE *phIconHandles;
@@ -194,9 +189,9 @@ static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 
 	/* merge them */
 	ICONINFO icoi;
-	if (GetIconInfo(hLowerIcon,&icoi)) {
+	if (GetIconInfo(hLowerIcon, &icoi)) {
 		BITMAP bm;
-		if (hUpperIcon != NULL && GetObject(icoi.hbmColor,sizeof(bm),&bm)) {
+		if (hUpperIcon != NULL && GetObject(icoi.hbmColor, sizeof(bm), &bm)) {
 			HDC hdc = CreateCompatibleDC(NULL);
 			if (hdc != NULL) {
 				POINT aptTriangle[3] = { 0 };
@@ -269,12 +264,6 @@ void InitIcons(void)
 	}
 
 	/* create services */
-	hServiceLoadIcon = CreateServiceFunction(MS_FLAGS_LOADFLAGICON, ServiceLoadFlagIcon);
-	hServiceCreateMergedIcon = CreateServiceFunction(MS_FLAGS_CREATEMERGEDFLAGICON, ServiceCreateMergedFlagIcon);
-}
-
-void UninitIcons(void)
-{
-	DestroyServiceFunction(hServiceLoadIcon);
-	DestroyServiceFunction(hServiceCreateMergedIcon);
+	CreateServiceFunction(MS_FLAGS_LOADFLAGICON, ServiceLoadFlagIcon);
+	CreateServiceFunction(MS_FLAGS_CREATEMERGEDFLAGICON, ServiceCreateMergedFlagIcon);
 }

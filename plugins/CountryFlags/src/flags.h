@@ -41,6 +41,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "resource.h"
 #include "version.h"
 
+extern HINSTANCE hInst;
+extern int nCountriesCount;
+extern CountryListEntry *countries;
+
 /* huffman.c */
 #ifdef HUFFMAN_ENCODE
 	int Huffman_Compress(unsigned char *in,unsigned char *out,unsigned int insize );
@@ -51,7 +55,6 @@ void Huffman_Uncompress(unsigned char *in,unsigned char *out,unsigned int insize
 HICON __fastcall LoadFlagIcon(int countryNumber);
 int __fastcall CountryNumberToIndex(int countryNumber);
 void InitIcons(void);
-void UninitIcons(void);
 
 /* ip2country.c */
 INT_PTR ServiceIpToCountry(WPARAM wParam,LPARAM lParam);
@@ -60,7 +63,6 @@ void UninitIpToCountry(void);
 
 /* extraimg.c */
 void InitExtraImg(void);
-void UninitExtraImg(void);
 
 /* utils.c */
 typedef void (CALLBACK *BUFFEREDPROC)(LPARAM lParam);
@@ -73,3 +75,8 @@ typedef void (CALLBACK *BUFFEREDPROC)(LPARAM lParam);
 #endif
 void PrepareBufferedFunctions(void);
 void KillBufferedFunctions(void);
+
+/* options.c */
+extern bool bUseUnknown, bShowStatusIcon, bShowExtraIcon, bUseIpToCountry;
+void LoadOptions(void);
+int OnOptionsInit(WPARAM wParam,LPARAM lParam);

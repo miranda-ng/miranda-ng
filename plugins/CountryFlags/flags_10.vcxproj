@@ -196,6 +196,7 @@
     <ClCompile Include="src\icons.cpp" />
     <ClCompile Include="src\ip2country.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

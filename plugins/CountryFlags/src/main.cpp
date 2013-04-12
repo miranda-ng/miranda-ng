@@ -19,9 +19,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "flags.h"
 
-HINSTANCE hInst;
 int nCountriesCount;
-struct CountryListEntry *countries;
+CountryListEntry *countries;
+
+HINSTANCE hInst;
 int hLangpack;
 
 static PLUGININFOEX pluginInfo={
@@ -59,14 +60,13 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitIcons();
 	InitIpToCountry();
 	InitExtraImg();
+	LoadOptions();
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	KillBufferedFunctions();
-	UninitExtraImg();
 	UninitIpToCountry();
-	UninitIcons();
 	return 0;
 }
