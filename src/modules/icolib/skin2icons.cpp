@@ -455,6 +455,9 @@ IcolibItem* IcoLib_FindIcon(const char* pszIconName)
 
 IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big)
 {
+	if (hIcon == NULL)
+		return NULL;
+
 	for (int i = 0; i < iconList.getCount(); i++) {
 		IcolibItem *p = iconList[i];
 		if ((void*)p == hIcon) {
