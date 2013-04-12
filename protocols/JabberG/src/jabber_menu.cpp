@@ -310,7 +310,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/ResourceSelectorDummySvc";
 	mi.pszName = LPGEN("Jabber Resource");
 	mi.position = -1999901011;
-	mi.pszPopupName = (char *)-1;
+	mi.hParentMenu = HGENMENU_ROOT;
 	mi.icolibItem = g_GetIconHandle(IDI_JABBER);
 	g_hMenuResourcesRoot = Menu_AddContactMenuItem(&mi);
 
@@ -326,7 +326,6 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/UseResource_server";
 	mi.pszName = LPGEN("Server's Choice");
 	mi.position = -1999901000;
-	mi.pszPopupName = (char *)g_hMenuResourcesRoot;
 	mi.icolibItem = g_GetIconHandle(IDI_NODE_SERVER);
 	g_hMenuResourcesServer = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunctionParam(mi.pszService, JabberMenuHandleResource, MENUITEM_SERVER);
@@ -418,10 +417,15 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 				Menu_ShowItem(g_hMenuResourcesRoot, TRUE);
 
 				CLISTMENUITEM mi = { sizeof(mi) };
-				mi.flags = CMIM_ICON|CMIM_FLAGS;
+				mi.flags = CMIM_ICON | CMIM_FLAGS;
 				mi.icolibItem = m_hProtoIcon;
 				Menu_ModifyItem(g_hMenuResourcesRoot, &mi);
+
+				mi.flags = CMIM_ICON | CMIM_FLAGS | ((item->resourceMode == RSMODE_LASTSEEN) ? CMIF_CHECKED : 0);
 				Menu_ModifyItem(g_hMenuResourcesActive, &mi);
+
+				mi.flags = CMIM_FLAGS | ((item->resourceMode == RSMODE_SERVER) ? CMIF_CHECKED : 0);
+				Menu_ModifyItem(g_hMenuResourcesServer, &mi);
 
 				int nMenuResourceItemsNew = m_nMenuResourceItems;
 				if (m_nMenuResourceItems < item->resourceCount) {
@@ -436,7 +440,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 				mi.flags = CMIF_CHILDPOPUP;
 				mi.position = 0;
-				mi.icolibItem = GetIconHandle(IDI_REQUEST);
+				mi.icolibItem = NULL;
 				mi.pszService = text;
 				mi.pszContactOwner = m_szModuleName;
 
@@ -447,7 +451,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 						JCreateServiceParam(tDest, &CJabberProto::OnMenuHandleResource, MENUITEM_RESOURCES+i);
 						mi.pszName = "";
 						mi.position = i;
-						mi.pszPopupName = (char *)g_hMenuResourcesRoot;
+						mi.hParentMenu = g_hMenuResourcesRoot;
 						m_phMenuResourceItems[i] = Menu_AddContactMenuItem(&mi);
 					}
 					if (i < item->resourceCount) {
@@ -470,12 +474,6 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 					}
 					else Menu_ShowItem(m_phMenuResourceItems[i], FALSE);
 				}
-
-				mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP | ((item->resourceMode == RSMODE_LASTSEEN) ? CMIF_CHECKED : 0);
-				Menu_ModifyItem(g_hMenuResourcesActive, &mi);
-
-				mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP | ((item->resourceMode == RSMODE_SERVER) ? CMIF_CHECKED : 0);
-				Menu_ModifyItem(g_hMenuResourcesServer, &mi);
 
 				m_nMenuResourceItems = nMenuResourceItemsNew;
 			}
@@ -621,25 +619,26 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportResolve(WPARAM wParam, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM wParam, LPARAM)
 {
+	HANDLE hContact = (HANDLE)wParam;
+	if (!hContact)
+		return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
+
 	DBVARIANT dbv;
-	if ( !wParam) return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
-	if ( !JGetStringT((HANDLE)wParam, "ChatRoomID", &dbv)) {
+	if ( !JGetStringT(hContact, "ChatRoomID", &dbv)) {
 		TCHAR *roomID = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 		if (ListGetItemPtr(LIST_BOOKMARK, roomID) == NULL) {
 			TCHAR *nick = 0;
-			if ( !JGetStringT((HANDLE)wParam, "Nick", &dbv)) {
+			if ( !JGetStringT(hContact, "Nick", &dbv)) {
 				nick = mir_tstrdup(dbv.ptszVal);
 				db_free(&dbv);
 			}
-			JABBER_LIST_ITEM* item = NULL;
-
-			item = (JABBER_LIST_ITEM*)mir_alloc(sizeof(JABBER_LIST_ITEM));
-			ZeroMemory(item, sizeof(JABBER_LIST_ITEM));
+			
+			JABBER_LIST_ITEM *item = (JABBER_LIST_ITEM*)mir_calloc(sizeof(JABBER_LIST_ITEM));
 			item->jid = mir_tstrdup(roomID);
-			item->name = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR);
+			item->name = pcli->pfnGetContactDisplayName(hContact, 0);
 			item->type = _T("conference");
-			if ( !JGetStringT((HANDLE)wParam, "MyNick", &dbv)) {
+			if ( !JGetStringT(hContact, "MyNick", &dbv)) {
 				item->nick = mir_tstrdup(dbv.ptszVal);
 				db_free(&dbv);
 			}

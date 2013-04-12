@@ -1408,7 +1408,7 @@ static void sttLogListHook(CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* g
 			if (item != NULL) {
 				item->type = _T("conference");
 				HANDLE hContact = ppro->HContactFromJID(item->jid);
-				item->name = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+				item->name = pcli->pfnGetContactDisplayName(hContact, 0);
 				ppro->AddEditBookmark(item);
 			}
 		}

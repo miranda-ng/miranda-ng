@@ -70,20 +70,10 @@ void CJabberProto::JDeleteSetting(HANDLE hContact, const char* valueName)
 {
    db_unset(hContact, m_szModuleName, valueName);
 }
-/*
-DWORD CJabberProto::JGetByte(const char* valueName, int parDefltValue)
-{
-	return db_get_b(NULL, m_szModuleName, valueName, parDefltValue);
-}
-*/
+
 DWORD CJabberProto::JGetByte(HANDLE hContact, const char* valueName, int parDefltValue)
 {
 	return db_get_b(hContact, m_szModuleName, valueName, parDefltValue);
-}
-
-char* __stdcall JGetContactName(HANDLE hContact)
-{
-	return (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(hContact), 0);
 }
 
 DWORD CJabberProto::JGetDword(HANDLE hContact, const char* valueName, DWORD parDefltValue)
