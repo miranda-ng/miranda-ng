@@ -41,6 +41,8 @@
 Выравнивать фрейм
 [Avatar popup]
 Аватар
+[Draw border]
+Рамки на аватарах
 [Background Color:]
 Цвет заливки:
 [Bottom:]
