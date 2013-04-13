@@ -66,8 +66,7 @@ uses
 {$include m_ieview.inc}
 
 var
-  hExtWindowIE, hExtEventIE, hExtNavigateIE, hExtOptChangedIE: THandle;
-  hExtWindow, hExtEvent, hExtNavigate, hExtOptChanged: THandle;
+  hExtOptChangedIE, hExtOptChanged: THandle;
 
 function _ExtWindow(wParam:WPARAM; lParam: LPARAM; GridMode: TExGridMode): uint_ptr;
 var
@@ -253,14 +252,14 @@ begin
   ImitateIEView := GetDBBool(hppDBName,'IEViewAPI',false);
   if ImitateIEView then
   begin
-    hExtWindowIE     := CreateServiceFunction(MS_IEVIEW_WINDOW,ExtWindowIEView);
-    hExtEventIE      := CreateServiceFunction(MS_IEVIEW_EVENT,ExtEventIEView);
-    hExtNavigateIE   := CreateServiceFunction(MS_IEVIEW_NAVIGATE,ExtNavigate);
+    CreateServiceFunction(MS_IEVIEW_WINDOW,@ExtWindowIEView);
+    CreateServiceFunction(MS_IEVIEW_EVENT,@ExtEventIEView);
+    CreateServiceFunction(MS_IEVIEW_NAVIGATE,@ExtNavigate);
     hExtOptChangedIE := CreateHookableEvent(ME_IEVIEW_OPTIONSCHANGED);
   end;
-  hExtWindow     := CreateServiceFunction(MS_HPP_EG_WINDOW,ExtWindowNative);
-  hExtEvent      := CreateServiceFunction(MS_HPP_EG_EVENT,ExtEventNative);
-  hExtNavigate   := CreateServiceFunction(MS_HPP_EG_NAVIGATE,ExtNavigate);
+  CreateServiceFunction(MS_HPP_EG_WINDOW,@ExtWindowNative);
+  CreateServiceFunction(MS_HPP_EG_EVENT,@ExtEventNative);
+  CreateServiceFunction(MS_HPP_EG_NAVIGATE,@ExtNavigate);
   hExtOptChanged := CreateHookableEvent(ME_HPP_EG_OPTIONSCHANGED);
 end;
 
@@ -268,14 +267,8 @@ procedure UnregisterExtGridServices;
 begin
   if ImitateIEView then
   begin
-    DestroyServiceFunction(hExtWindowIE);
-    DestroyServiceFunction(hExtEventIE);
-    DestroyServiceFunction(hExtNavigateIE);
     DestroyHookableEvent(hExtOptChangedIE);
   end;
-  DestroyServiceFunction(hExtWindow);
-  DestroyServiceFunction(hExtEvent);
-  DestroyServiceFunction(hExtNavigate);
   DestroyHookableEvent(hExtOptChanged);
   ExternalGrids.Destroy;
 end;

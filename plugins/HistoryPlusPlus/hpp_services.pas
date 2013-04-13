@@ -54,12 +54,6 @@ uses
   HistoryForm, PassForm, PassCheckForm;
 
 var
-  hAllHistoryRichEditProcess,
-  hHppShowHistory,
-  hHppEmptyHistory,
-  hHppGetVersion,
-  hHppShowGlobalSearch,
-  hHppOpenHistoryEvent,
   hHppRichEditItemProcess: THandle;
   HstWindowList: TList;
   PassFm: TfmPass;
@@ -236,27 +230,20 @@ procedure hppRegisterServices;
 begin
   HstWindowList := TList.Create;
 
-  hHppShowHistory := CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY,HppShowHistory);
-  hHppEmptyHistory := CreateServiceFunction(MS_HPP_EMPTYHISTORY, HppEmptyHistory);
-  hHppGetVersion := CreateServiceFunction(MS_HPP_GETVERSION, HppGetVersion);
-  hHppShowGlobalSearch := CreateServiceFunction(MS_HPP_SHOWGLOBALSEARCH,HppShowGlobalSearch);
-  hHppOpenHistoryEvent := CreateServiceFunction(MS_HPP_OPENHISTORYEVENT,HppOpenHistoryEvent);
+  CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY,@HppShowHistory);
+  CreateServiceFunction(MS_HPP_EMPTYHISTORY, @HppEmptyHistory);
+  CreateServiceFunction(MS_HPP_GETVERSION, @HppGetVersion);
+  CreateServiceFunction(MS_HPP_SHOWGLOBALSEARCH,@HppShowGlobalSearch);
+  CreateServiceFunction(MS_HPP_OPENHISTORYEVENT,@HppOpenHistoryEvent);
 
   hHppRichEditItemProcess := CreateHookableEvent(ME_HPP_RICHEDIT_ITEMPROCESS);
-  hAllHistoryRichEditProcess := HookEvent(ME_HPP_RICHEDIT_ITEMPROCESS,AllHistoryRichEditProcess);
+  HookEvent(ME_HPP_RICHEDIT_ITEMPROCESS,AllHistoryRichEditProcess);
 end;
 
 procedure hppUnregisterServices;
 begin
   CloseHistoryWindows;
   CloseGlobalSearchWindow;
-  UnhookEvent(hAllHistoryRichEditProcess);
-  DestroyServiceFunction(hHppShowHistory);
-  DestroyServiceFunction(hHppEmptyHistory);
-  DestroyServiceFunction(hHppGetVersion);
-  DestroyServiceFunction(hHppShowGlobalSearch);
-  DestroyServiceFunction(hHppOpenHistoryEvent);
-  DestroyServiceFunction(hHppEmptyHistory);
   DestroyHookableEvent(hHppRichEditItemProcess);
   HstWindowList.Free;
 end;
