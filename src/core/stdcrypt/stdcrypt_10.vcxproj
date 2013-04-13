@@ -211,7 +211,6 @@
   <ItemGroup>
     <ClInclude Include="..\stdplug.h" />
     <ClInclude Include="commonheaders.h" />
-    <ClInclude Include="url.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
