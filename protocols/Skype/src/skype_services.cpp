@@ -48,21 +48,20 @@ INT_PTR __cdecl CSkypeProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	break;
 	
 	case AF_PROPORTION:
-		return PIP_SQUARE;
+		return PIP_NONE;
 
 	case AF_FORMATSUPPORTED:
-		if (lParam == PA_FORMAT_JPEG)
-			return 1;
+		return lParam == PA_FORMAT_JPEG;
 
 	case AF_ENABLED:
 			return 1;
 	
 	case AF_DONTNEEDDELAYS:
-		break;
+		return 1;
 
 	case AF_MAXFILESIZE:
-		// server accepts images of 7168 bytees, not bigger
-		return 7168;
+		// server accepts images of 32000 bytees, not bigger
+		return 32000;
 	
 	case AF_DELAYAFTERFAIL:
 		// do not request avatar again if server gave an error
@@ -99,13 +98,13 @@ INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 
 	if (path)
 	{
-		int dwPaFormat = CSkypeProto::DetectAvatarFormat(path);
+		/*int dwPaFormat = CSkypeProto::DetectAvatarFormat(path);
 		if (dwPaFormat != PA_FORMAT_XML)
 		{ 
 			HBITMAP avt = (HBITMAP)::CallService(MS_UTILS_LOADBITMAPT, 0, (WPARAM)path);
 			if (!avt) return iRet;
 			::DeleteObject(avt);
-		}
+		}*/
 
 		wchar_t *avatarPath = this->GetContactAvatarFilePath(NULL);
 		if (::wcscmp(path, avatarPath) && !::CopyFile(path, avatarPath, FALSE))
@@ -113,17 +112,44 @@ INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 			this->Log(L"Failed to copy our avatar to local storage.");
 			return iRet;
 		}
-		// need to validate avatar Skype::ValidateAvatar
-		//this->account->SetBinProperty(Account::P_AVATAR_IMAGE, avt);
+		
+		int len;
+		char *buffer;
+		FILE* fp = _wfopen(avatarPath, L"rb");
+		if (!fp)
+		{
+			this->Log(L"Failed to read avatar in local storage.");
+			return iRet;
+		}
+		fseek(fp, 0, SEEK_END);
+		len = ftell(fp);
+		fseek(fp, 0, SEEK_SET);
+		buffer = new char[len + 1];
+		fread(buffer, len, 1, fp);
+		fclose(fp);
 
-		// todo: add avatar loading to skype server
+		int fbl;
+		SEBinary avatar(buffer, len);
+		Skype::VALIDATERESULT result = Skype::NOT_VALIDATED;
+		if (!this->skype->ValidateAvatar(avatar, result, fbl) || result != Skype::VALIDATED_OK)
+		{
+			this->Log(CSkypeProto::ValidationReasons[result]);
+			return iRet;
+		}
+		if (!this->account->SetBinProperty(Account::P_AVATAR_IMAGE, avatar))
+		{
+			this->Log(L"Failed to send avatar on server.");
+			return iRet;
+		}
+
+		delete [] buffer;
 
 		this->SetSettingDword("AvatarTS", time(NULL));
 		iRet = 0;
 	}
 	else
 	{
-		// todo: avatar deletig
+		this->account->SetBinProperty(Account::P_AVATAR_IMAGE, SEBinary());
 		this->DeleteSetting("AvatarTS");
 		iRet = 0;
 	}

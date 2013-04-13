@@ -8,7 +8,8 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 	wchar_t *path = this->GetContactAvatarFilePath(hContact);
 	SEBinary data = obj->GetBinProp(/* *::P_AVATAR_IMAGE */ 37);
 
-	if ((newTS > oldTS) || (!newTS && data.size() > 0 && _waccess(path, 0) == -1) || (newTS && _waccess(path, 0) == -1)) //hack for avatars without timestamp
+	//if ((newTS > oldTS) || (!newTS && data.size() > 0 && _waccess(path, 0) == -1) || (newTS && _waccess(path, 0) == -1)) //hack for avatars without timestamp
+	if ((newTS > oldTS) || (!::PathFileExists(path)))
 	{
 		FILE* fp = _wfopen(path, L"wb");
 		if (fp)

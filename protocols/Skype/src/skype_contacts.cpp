@@ -468,7 +468,7 @@ void CSkypeProto::OnContactFinded(HANDLE hSearch, CContact::Ref contact)
 
 void __cdecl CSkypeProto::SearchBySidAsync(void* arg)
 {
-	const char *sid = (char *)arg;
+	const char *sid = ::mir_u2a((wchar_t*)arg);
 
 	HANDLE hContact = this->GetContactBySid(sid);
 	if (hContact)

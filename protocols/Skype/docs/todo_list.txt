@@ -1,5 +1,4 @@
 Features:
-- add avatar loading to skype server
 - add correct own info
 - multiuser chat
 - voice
