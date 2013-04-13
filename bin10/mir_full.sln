@@ -385,6 +385,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YahooGroups", "..\plugins\Y
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YARelay", "..\plugins\YARelay\YARelay_10.vcxproj", "{AA5CA2D0-F096-4001-B1B6-439C7FC11E77}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdCrypt", "..\src\core\stdcrypt\stdcrypt_10.vcxproj", "{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1721,6 +1723,14 @@ Global
 		{AA5CA2D0-F096-4001-B1B6-439C7FC11E77}.Release|Win32.Build.0 = Release|Win32
 		{AA5CA2D0-F096-4001-B1B6-439C7FC11E77}.Release|x64.ActiveCfg = Release|x64
 		{AA5CA2D0-F096-4001-B1B6-439C7FC11E77}.Release|x64.Build.0 = Release|x64
+		{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}.Debug|Win32.Build.0 = Debug|Win32
+		{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}.Debug|x64.ActiveCfg = Debug|x64
+		{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}.Debug|x64.Build.0 = Debug|x64
+		{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}.Release|Win32.ActiveCfg = Release|Win32
+		{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}.Release|Win32.Build.0 = Release|Win32
+		{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}.Release|x64.ActiveCfg = Release|x64
+		{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
