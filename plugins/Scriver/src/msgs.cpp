@@ -541,7 +541,7 @@ int OnLoadModule(void)
 	hCurHyperlinkHand = LoadCursor(NULL, IDC_HAND);
 	if (hCurHyperlinkHand == NULL)
 		hCurHyperlinkHand = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
-	hDragCursor = LoadCursor(g_hInst,  MAKEINTRESOURCE(IDC_DRAGCURSOR));
+	hDragCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DRAGCURSOR));
 
 	Chat_Load();
 	return 0;

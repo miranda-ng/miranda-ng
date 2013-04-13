@@ -72,7 +72,7 @@ TCHAR* RemoveFormatting(const TCHAR* pszWord)
 
 static void __stdcall ShowRoomFromPopup(void * pi)
 {
-	SESSION_INFO* si = (SESSION_INFO*) pi;
+	SESSION_INFO *si = (SESSION_INFO*) pi;
 	ShowRoom(si, WINDOW_VISIBLE, TRUE);
 }
 
@@ -81,7 +81,7 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	switch(message) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
-			SESSION_INFO* si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,0);;
+			SESSION_INFO *si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,0);;
 
 			CallFunctionAsync(ShowRoomFromPopup, si);
 
@@ -91,7 +91,7 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		break;
 	case WM_CONTEXTMENU:
 		{
-			SESSION_INFO* si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,0);
+			SESSION_INFO *si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,0);
 			if (si->windowData.hContact)
 				if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->windowData.hContact, 0))
 					CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->windowData.hContact, (LPARAM)"chaticon");
@@ -103,7 +103,7 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-static int ShowPopup (HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* pszProtoName,  TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
+static int ShowPopup (HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
 {
 	POPUPDATAT pd = {0};
 	va_list marker;
@@ -146,7 +146,7 @@ static int ShowPopup (HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* psz
 	return PUAddPopUpT(&pd);
 }
 
-static BOOL DoTrayIcon(SESSION_INFO* si, GCEVENT * gce)
+static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT * gce)
 {
 	int iEvent = gce->pDest->iType;
 
@@ -197,7 +197,7 @@ static BOOL DoTrayIcon(SESSION_INFO* si, GCEVENT * gce)
 	return TRUE;
 }
 
-static BOOL DoPopup(SESSION_INFO* si, GCEVENT * gce)
+static BOOL DoPopup(SESSION_INFO *si, GCEVENT * gce)
 {
 	int iEvent = gce->pDest->iType;
 
@@ -263,7 +263,7 @@ static BOOL DoPopup(SESSION_INFO* si, GCEVENT * gce)
 	return TRUE;
 }
 
-BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighlight, int bManyFix)
+BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT * gce, BOOL bHighlight, int bManyFix)
 {
 	BOOL bInactive;
 	int iEvent;
@@ -411,7 +411,7 @@ TCHAR* my_strstri( const TCHAR* s1, const TCHAR* s2)
 	return NULL;
 }
 
-BOOL IsHighlighted(SESSION_INFO* si, const TCHAR* pszText)
+BOOL IsHighlighted(SESSION_INFO *si, const TCHAR* pszText)
 {
 	if ( g_Settings.HighlightEnabled && g_Settings.pszHighlightWords && pszText && si->pMe ) {
 		TCHAR* p1 = g_Settings.pszHighlightWords;
@@ -489,7 +489,7 @@ BOOL IsHighlighted(SESSION_INFO* si, const TCHAR* pszText)
 	return FALSE;
 }
 
-BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
+BOOL LogToFile(SESSION_INFO *si, GCEVENT * gce)
 {
 	MODULEINFO * mi = NULL;
 	TCHAR szBuffer[4096];
@@ -658,7 +658,7 @@ BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
 	return FALSE;
 }
 
-UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO* si, TCHAR* pszUID, TCHAR* pszWordText)
+UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText)
 {
 	GCMENUITEMS gcmi = {0};
 	int i;
@@ -754,7 +754,7 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
 
 BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem)
 {
-	SESSION_INFO* si;
+	SESSION_INFO *si;
 	GCHOOK* gch = (GCHOOK*)mir_alloc( sizeof( GCHOOK ));
 	GCDEST* gcd = (GCDEST*)mir_alloc( sizeof( GCDEST ));
 
@@ -785,7 +785,7 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 
 BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem)
 {
-	SESSION_INFO* si;
+	SESSION_INFO *si;
 	GCHOOK gch = {0};
 	GCDEST gcd = {0};
 

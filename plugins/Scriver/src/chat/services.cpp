@@ -203,7 +203,7 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 
 	if (( mi = MM_FindModule( gcw->pszModule )) != NULL ) {
 		TCHAR* ptszID = a2tf( gcw->ptszID, gcw->dwFlags );
-		SESSION_INFO* si = SM_AddSession( ptszID, gcw->pszModule);
+		SESSION_INFO *si = SM_AddSession( ptszID, gcw->pszModule);
 
 		if (mi->hOfflineIcon == NULL) {
 			LoadModuleIcons(mi);
@@ -284,7 +284,7 @@ static INT_PTR DoControl(GCEVENT * gce, WPARAM wp)
 		switch (wp) {
 		case WINDOW_HIDDEN:
 			{
-				SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+				SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 				if (si) {
 					si->bInitDone = TRUE;
 					SetActiveSession(si->ptszID, si->pszModule);
@@ -299,7 +299,7 @@ static INT_PTR DoControl(GCEVENT * gce, WPARAM wp)
 		case WINDOW_VISIBLE:
 		case SESSION_INITDONE:
 			{
-				SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+				SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 				if (si) {
 					si->bInitDone = TRUE;
 					if (wp != SESSION_INITDONE || db_get_b(NULL, "Chat", "PopupOnJoin", 0) == 0)
@@ -318,7 +318,7 @@ static INT_PTR DoControl(GCEVENT * gce, WPARAM wp)
 
 		case WINDOW_CLEARLOG:
 		{
-			SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+			SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 			if ( si ) {
 				LM_RemoveAll(&si->pLog, &si->pLogEnd);
 				si->iEventCount = 0;
@@ -339,7 +339,7 @@ static INT_PTR DoControl(GCEVENT * gce, WPARAM wp)
 
 	else if (gce->pDest->iType == GC_EVENT_CHANGESESSIONAME && gce->pszText)
 	{
-		SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if ( si ) {
 			replaceStr( &si->ptszName, gce->ptszText );
 			if (si->hWnd)
@@ -349,13 +349,13 @@ static INT_PTR DoControl(GCEVENT * gce, WPARAM wp)
 	}
 
 	else if (gce->pDest->iType == GC_EVENT_SETITEMDATA) {
-		SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if (si)
 			si->dwItemData = gce->dwItemData;
 	}
 
 	else if (gce->pDest->iType ==GC_EVENT_GETITEMDATA) {
-		SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if (si) {
 			gce->dwItemData = si->dwItemData;
 			return si->dwItemData;
@@ -364,7 +364,7 @@ static INT_PTR DoControl(GCEVENT * gce, WPARAM wp)
 	}
 	else if (gce->pDest->iType ==GC_EVENT_SETSBTEXT)
 	{
-		SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if (si) {
 			replaceStr( &si->ptszStatusbarText, gce->ptszText );
 			if ( si->ptszStatusbarText )
@@ -396,7 +396,7 @@ static INT_PTR DoControl(GCEVENT * gce, WPARAM wp)
 
 static void AddUser(GCEVENT * gce)
 {
-	SESSION_INFO* si = SM_FindSession( gce->pDest->ptszID, gce->pDest->pszModule);
+	SESSION_INFO *si = SM_FindSession( gce->pDest->ptszID, gce->pDest->pszModule);
 	if ( si ) {
 		WORD status = TM_StringToWord( si->pStatuses, gce->ptszStatus );
 		USERINFO * ui = SM_AddUser( si, gce->ptszUID, gce->ptszNick, status);
@@ -465,11 +465,11 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		save_gce = *gce;
 		save_gcd = *gce->pDest;
 		gce->pDest->ptszID = a2tf( gce->pDest->ptszID, gce->dwFlags );
-		gce->ptszUID       = a2tf( gce->ptszUID,       gce->dwFlags );
-		gce->ptszNick      = a2tf( gce->ptszNick,      gce->dwFlags );
-		gce->ptszStatus    = a2tf( gce->ptszStatus,    gce->dwFlags );
-		gce->ptszText      = a2tf( gce->ptszText,      gce->dwFlags );
-		gce->ptszUserInfo  = a2tf( gce->ptszUserInfo,  gce->dwFlags );
+		gce->ptszUID       = a2tf( gce->ptszUID,      gce->dwFlags );
+		gce->ptszNick      = a2tf( gce->ptszNick,     gce->dwFlags );
+		gce->ptszStatus    = a2tf( gce->ptszStatus,   gce->dwFlags );
+		gce->ptszText      = a2tf( gce->ptszText,     gce->dwFlags );
+		gce->ptszUserInfo  = a2tf( gce->ptszUserInfo, gce->dwFlags );
 	}
 
 	// Do different things according to type of event
@@ -501,7 +501,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 
 	case GC_EVENT_TOPIC:
 	{
-		SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if ( si ) {
 			if ( gce->pszText ) {
 				replaceStr( &si->ptszTopic, gce->ptszText);
@@ -522,7 +522,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_ACTION:
 		if ( !gce->bIsMe && gce->pDest->pszID && gce->pszText ) {
-			SESSION_INFO* si = SM_FindSession( gce->pDest->ptszID, gce->pDest->pszModule );
+			SESSION_INFO *si = SM_FindSession( gce->pDest->ptszID, gce->pDest->pszModule );
 			if ( si )
 				if ( IsHighlighted( si, gce->ptszText ))
 					bIsHighlighted = TRUE;
@@ -550,7 +550,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		pMod = gcd->pszModule;
 	}
 	else if ( gcd->iType == GC_EVENT_NOTICE || gcd->iType == GC_EVENT_INFORMATION ) {
-		SESSION_INFO* si = GetActiveSession();
+		SESSION_INFO *si = GetActiveSession();
 		if ( si && !lstrcmpA( si->pszModule, gcd->pszModule )) {
 			pWnd = si->ptszID;
 			pMod = si->pszModule;
@@ -570,7 +570,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 
 	// add to log
 	if ( pWnd ) {
-		SESSION_INFO* si = SM_FindSession(pWnd, pMod);
+		SESSION_INFO *si = SM_FindSession(pWnd, pMod);
 
 		// fix for IRC's old stuyle mode notifications. Should not affect any other protocol
 		if ((gce->pDest->iType == GC_EVENT_ADDSTATUS || gce->pDest->iType == GC_EVENT_REMOVESTATUS) && !( gce->dwFlags & GCEF_ADDTOLOG )) {
@@ -641,17 +641,17 @@ void HookEvents(void)
 
 void CreateServiceFunctions(void)
 {
-	CreateServiceFunction(MS_GC_REGISTER,        Service_Register);
-	CreateServiceFunction(MS_GC_NEWSESSION,      Service_NewChat);
-	CreateServiceFunction(MS_GC_EVENT,           Service_AddEvent);
-	CreateServiceFunction(MS_GC_GETEVENTPTR,     Service_GetAddEventPtr);
-	CreateServiceFunction(MS_GC_GETINFO,         Service_GetInfo);
+	CreateServiceFunction(MS_GC_REGISTER,       Service_Register);
+	CreateServiceFunction(MS_GC_NEWSESSION,     Service_NewChat);
+	CreateServiceFunction(MS_GC_EVENT,          Service_AddEvent);
+	CreateServiceFunction(MS_GC_GETEVENTPTR,    Service_GetAddEventPtr);
+	CreateServiceFunction(MS_GC_GETINFO,        Service_GetInfo);
 	CreateServiceFunction(MS_GC_GETSESSIONCOUNT, Service_GetCount);
 
-	CreateServiceFunction("GChat/DblClickEvent",     CList_EventDoubleclickedSvc);
+	CreateServiceFunction("GChat/DblClickEvent",    CList_EventDoubleclickedSvc);
 	CreateServiceFunction("GChat/PrebuildMenuEvent", CList_PrebuildContactMenuSvc);
-	CreateServiceFunction("GChat/JoinChat",          CList_JoinChat);
-	CreateServiceFunction("GChat/LeaveChat",         CList_LeaveChat);
+	CreateServiceFunction("GChat/JoinChat",         CList_JoinChat);
+	CreateServiceFunction("GChat/LeaveChat",        CList_LeaveChat);
 }
 
 void CreateHookableEvents(void)

@@ -1008,7 +1008,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)tbd->hIconBig);
 					}
 					if (pTaskbarInterface)
-						pTaskbarInterface->SetOverlayIcon(hwndDlg,  tbd->hIconNot, L"");
+						pTaskbarInterface->SetOverlayIcon(hwndDlg, tbd->hIconNot, L"");
 				}
 			}
 			break;

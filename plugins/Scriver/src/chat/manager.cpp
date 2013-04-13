@@ -32,12 +32,12 @@ MODULEINFO *m_ModList = 0;
 
 void SetActiveSession(const TCHAR* pszID, const char* pszModule)
 {
-	SESSION_INFO* si = SM_FindSession(pszID, pszModule);
+	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if ( si )
 		SetActiveSessionEx(si);
 }
 
-void SetActiveSessionEx(SESSION_INFO* si)
+void SetActiveSessionEx(SESSION_INFO *si)
 {
 	if ( si ) {
 		replaceStr( &pszActiveWndID, si->ptszID );
@@ -46,7 +46,7 @@ void SetActiveSessionEx(SESSION_INFO* si)
 
 SESSION_INFO* GetActiveSession( void )
 {
-	SESSION_INFO* si = SM_FindSession( pszActiveWndID, pszActiveWndModule );
+	SESSION_INFO *si = SM_FindSession( pszActiveWndID, pszActiveWndModule );
 	if ( si )
 		return si;
 
@@ -229,7 +229,7 @@ BOOL SM_SetStatusEx( const TCHAR* pszID, const char* pszModule, const TCHAR* psz
 	return TRUE;
 }
 
-char SM_GetStatusIndicator(SESSION_INFO* si, USERINFO * ui)
+char SM_GetStatusIndicator(SESSION_INFO *si, USERINFO * ui)
 {
 	STATUSINFO * ti;
 	if (!ui || !si)
@@ -260,7 +260,7 @@ char SM_GetStatusIndicator(SESSION_INFO* si, USERINFO * ui)
 	return '\0';
 }
 
-HICON SM_GetStatusIcon(SESSION_INFO* si, USERINFO * ui)
+HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui)
 {
 	STATUSINFO * ti;
 	if (!ui || !si)
@@ -740,7 +740,7 @@ SESSION_INFO* SM_FindSessionByIndex(const char* pszModule, int iItem)
 
 }
 
-char* SM_GetUsers(SESSION_INFO* si)
+char* SM_GetUsers(SESSION_INFO *si)
 {
 	SESSION_INFO* pTemp = m_WndList;
 	USERINFO* utemp = NULL;

@@ -747,7 +747,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 	return 0;
 }
 
-void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, BOOL bRedraw)
+void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw)
 {
 	EDITSTREAM stream;
 	LOGSTREAMDATA streamData;
@@ -862,7 +862,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, BOOL bRedr
 			InvalidateRect(hwndRich, NULL, TRUE);
 }	}	}
 
-char * Log_CreateRtfHeader(MODULEINFO * mi, SESSION_INFO* si)
+char * Log_CreateRtfHeader(MODULEINFO * mi, SESSION_INFO *si)
 {
 	char *buffer;
 	int bufferAlloced, bufferEnd, i = 0;

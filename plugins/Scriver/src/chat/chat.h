@@ -231,8 +231,8 @@ typedef struct
 	LOGINFO*      lin;
 	BOOL          bStripFormat;
 	BOOL          bRedraw;
-	BOOL		  isFirst;
-	SESSION_INFO* si;
+	BOOL          isFirst;
+	SESSION_INFO *si;
 }
 	LOGSTREAMDATA;
 
@@ -288,7 +288,7 @@ typedef struct{
 	int           yPosition;
 	HWND          hWndTarget;
 	BOOL          bForeground;
-	SESSION_INFO* si;
+	SESSION_INFO *si;
 }
 	COLORCHOOSER;
 
@@ -301,12 +301,12 @@ void UpgradeCheck(void);
 INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //log.c
-void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO* si, BOOL bRedraw);
+void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw);
 void   LoadMsgLogBitmaps(void);
 void   FreeMsgLogBitmaps(void);
 TCHAR* GetChatLogsFilename (HANDLE  hContact, time_t tTime);
 TCHAR* MakeTimeStamp(TCHAR* pszStamp, time_t time);
-char*  Log_CreateRtfHeader(MODULEINFO * mi, SESSION_INFO* si);
+char*  Log_CreateRtfHeader(MODULEINFO * mi, SESSION_INFO *si);
 
 //window.c
 INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam);
@@ -331,22 +331,22 @@ int    Chat_FontsChanged(WPARAM wParam,LPARAM lParam);
 int    Chat_SmileyOptionsChanged(WPARAM wParam,LPARAM lParam);
 int    Chat_PreShutdown(WPARAM wParam,LPARAM lParam);
 int    Chat_IconsChanged(WPARAM wParam,LPARAM lParam);
-void   ShowRoom(SESSION_INFO* si, WPARAM wp, BOOL bSetForeground);
+void   ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
 
 //manager.c
 void          SetActiveSession(const TCHAR* pszID, const char* pszModule);
-void          SetActiveSessionEx(SESSION_INFO* si);
+void          SetActiveSessionEx(SESSION_INFO *si);
 SESSION_INFO* GetActiveSession(void);
 SESSION_INFO* SM_AddSession(const TCHAR* pszID, const char* pszModule);
 int           SM_RemoveSession(const TCHAR* pszID, const char* pszModule, BOOL removeContact);
 SESSION_INFO* SM_FindSession(const TCHAR* pszID, const char* pszModule);
 HWND          SM_FindWindowByContact(HANDLE hContact);
-USERINFO*     SM_AddUser(SESSION_INFO* si, const TCHAR* pszUID, const TCHAR* pszNick, WORD wStatus);
+USERINFO*     SM_AddUser(SESSION_INFO *si, const TCHAR* pszUID, const TCHAR* pszNick, WORD wStatus);
 BOOL          SM_ChangeUID(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszNewUID);
 BOOL          SM_ChangeNick(const TCHAR* pszID, const char* pszModule, GCEVENT * gce);
 BOOL          SM_RemoveUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID);
 BOOL          SM_SetOffline(const TCHAR* pszID, const char* pszModule);
-HICON         SM_GetStatusIcon(SESSION_INFO* si, USERINFO * ui);
+HICON         SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui);
 BOOL          SM_SetStatus(const TCHAR* pszID, const char* pszModule, int wStatus);
 BOOL          SM_SetStatusEx(const TCHAR* pszID, const char* pszModule, const TCHAR* pszText, int flags );
 BOOL          SM_SendUserMessage(const TCHAR* pszID, const char* pszModule, const TCHAR* pszText);
@@ -363,9 +363,9 @@ BOOL          SM_TakeStatus(const TCHAR* pszID, const char* pszModule, const TCH
 BOOL          SM_MoveUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID);
 int           SM_GetCount(const char* pszModule);
 SESSION_INFO* SM_FindSessionByIndex(const char* pszModule, int iItem);
-char*         SM_GetUsers(SESSION_INFO* si);
+char*         SM_GetUsers(SESSION_INFO *si);
 USERINFO*     SM_GetUserFromIndex(const TCHAR* pszID, const char* pszModule, int index);
-char          SM_GetStatusIndicator(SESSION_INFO* si, USERINFO * ui);
+char          SM_GetStatusIndicator(SESSION_INFO *si, USERINFO * ui);
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const TCHAR* pszOriginal, const TCHAR* pszCurrent);
 MODULEINFO*   MM_AddModule(const char* pszModule);
 MODULEINFO*   MM_FindModule(const char* pszModule);
@@ -413,20 +413,20 @@ int           WCCmp(TCHAR* wild, TCHAR*string);
 
 //tools.c
 TCHAR*        RemoveFormatting(const TCHAR* pszText);
-BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighlight, int bManyFix);
+BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT * gce, BOOL bHighlight, int bManyFix);
 int           GetColorIndex(const char* pszModule, COLORREF cr);
 void          CheckColorsInModule(const char* pszModule);
 TCHAR*        my_strstri(const TCHAR* s1, const TCHAR* s2) ;
-BOOL          IsHighlighted(SESSION_INFO* si, const TCHAR* pszText);
-UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO* si, TCHAR* pszUID, TCHAR* pszWordText);
+BOOL          IsHighlighted(SESSION_INFO *si, const TCHAR* pszText);
+UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
 void          DestroyGCMenu(HMENU *hMenu, int iIndex);
 BOOL          DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
 BOOL          DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem);
 BOOL          IsEventSupported(int eventType);
-BOOL          LogToFile(SESSION_INFO* si, GCEVENT * gce);
+BOOL          LogToFile(SESSION_INFO *si, GCEVENT * gce);
 
 // message.c
-TCHAR*        DoRtfToTags( char* pszRtfText, SESSION_INFO* si);
+TCHAR*        DoRtfToTags( char* pszRtfText, SESSION_INFO *si);
 
 //////////////////////////////////////////////////////////////////////////////////
 

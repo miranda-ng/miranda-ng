@@ -296,14 +296,14 @@ struct CheckBoxValues_t
 
 static const struct CheckBoxValues_t statusValues[] =
 {
-	{ MODEF_OFFLINE,  LPGENT("Offline")       },
-	{ PF2_ONLINE,     LPGENT("Online")        },
-	{ PF2_SHORTAWAY,  LPGENT("Away")          },
-	{ PF2_LONGAWAY,   LPGENT("NA")            },
-	{ PF2_LIGHTDND,   LPGENT("Occupied")      },
-	{ PF2_HEAVYDND,   LPGENT("DND")           },
-	{ PF2_FREECHAT,   LPGENT("Free for chat") },
-	{ PF2_INVISIBLE,  LPGENT("Invisible")     },
+	{ MODEF_OFFLINE, LPGENT("Offline")       },
+	{ PF2_ONLINE,    LPGENT("Online")        },
+	{ PF2_SHORTAWAY, LPGENT("Away")          },
+	{ PF2_LONGAWAY,  LPGENT("NA")            },
+	{ PF2_LIGHTDND,  LPGENT("Occupied")      },
+	{ PF2_HEAVYDND,  LPGENT("DND")           },
+	{ PF2_FREECHAT,  LPGENT("Free for chat") },
+	{ PF2_INVISIBLE, LPGENT("Invisible")     },
 	{ PF2_OUTTOLUNCH, LPGENT("Out to lunch")  },
 	{ PF2_ONTHEPHONE, LPGENT("On the phone")  }
 };

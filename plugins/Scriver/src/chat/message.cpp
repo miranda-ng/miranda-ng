@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../commonheaders.h"
 
-static int RTFColorToIndex(int *pIndex, int iCol, SESSION_INFO* si)
+static int RTFColorToIndex(int *pIndex, int iCol, SESSION_INFO *si)
 {
 	int i;
 	MODULEINFO * pMod = MM_FindModule(si->pszModule);
@@ -33,7 +33,7 @@ static int RTFColorToIndex(int *pIndex, int iCol, SESSION_INFO* si)
 	return -1;
 }
 
-static void CreateColorMap( char* Text, int *pIndex, SESSION_INFO* si)
+static void CreateColorMap( char* Text, int *pIndex, SESSION_INFO *si)
 {
 	char *p1, *p2, *pEnd;
 	int iIndex = 1;
@@ -76,7 +76,7 @@ static int ReadInteger( const char* p, int* result )
 	return i;
 }
 
-TCHAR* DoRtfToTags( char* pszText, SESSION_INFO* si)
+TCHAR* DoRtfToTags( char* pszText, SESSION_INFO *si)
 {
 	char *p1;
 	int*  pIndex;
