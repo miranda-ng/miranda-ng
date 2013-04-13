@@ -1719,12 +1719,6 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 				}
 			}
 		}
-#ifdef _DEBUG
-		else
-		{
-			DebugBreak();
-		}
-#endif
 	}
 
 	if ( db_get_b(NULL,"CList","PlaceOfflineToRoot",SETTING_PLACEOOFLINETOROOT_DEFAULT))

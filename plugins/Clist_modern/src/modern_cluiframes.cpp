@@ -1932,8 +1932,6 @@ static int _us_DoAddFrame(WPARAM wParam,LPARAM lParam)
 		}
 		GetWindowRect(pcli->hwndContactList,&mainRect);
 		mainHeight = mainRect.bottom-mainRect.top;
-		//if (mainHeight < minHeight)
-		//	  DebugBreak();
 	}
 	_nClientFrameId = eUnknownId;//recalc it
 	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);

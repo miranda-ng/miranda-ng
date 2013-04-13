@@ -1068,18 +1068,10 @@ HBITMAP ske_CreateDIB32(int cx, int cy)
 
 HBITMAP ske_CreateDIB32Point(int cx, int cy, void ** bits)
 {
-	BITMAPINFO RGB32BitsBITMAPINFO;
-	UINT * ptPixels;
-	HBITMAP DirectBitmap;
-
-	if ( cx < 0 || cy < 0 ) {
-#ifdef _DEBUG
-		DebugBreak();
-#endif
+	if (cx < 0 || cy < 0)
 		return NULL;
-	}
 
-	ZeroMemory(&RGB32BitsBITMAPINFO,sizeof(BITMAPINFO));
+	BITMAPINFO RGB32BitsBITMAPINFO = { 0 };
 	RGB32BitsBITMAPINFO.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	RGB32BitsBITMAPINFO.bmiHeader.biWidth = cx;//bm.bmWidth;
 	RGB32BitsBITMAPINFO.bmiHeader.biHeight = cy;//bm.bmHeight;
@@ -1087,8 +1079,8 @@ HBITMAP ske_CreateDIB32Point(int cx, int cy, void ** bits)
 	RGB32BitsBITMAPINFO.bmiHeader.biBitCount = 32;
 	// pointer used for direct Bitmap pixels access
 
-
-	DirectBitmap = CreateDIBSection(NULL,
+	UINT *ptPixels;
+	HBITMAP DirectBitmap = CreateDIBSection(NULL,
 		(BITMAPINFO *)&RGB32BitsBITMAPINFO,
 		DIB_RGB_COLORS,
 		(void **)&ptPixels,
@@ -1101,7 +1093,7 @@ HBITMAP ske_CreateDIB32Point(int cx, int cy, void ** bits)
 #endif
 		;
 	}
-	else	memset(ptPixels, 0, cx*cy*4);
+	else memset(ptPixels, 0, cx*cy*4);
 	if (bits != NULL) *bits = ptPixels;
 	return DirectBitmap;
 }
@@ -2660,10 +2652,7 @@ static BOOL ske_DrawTextEffect(BYTE* destPt,BYTE* maskPt, DWORD width, DWORD hei
 static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format, DWORD ARGBcolor)
 {
 	if ( !( lpString && lpRect ))
-	{
-		DebugBreak();
 		return 0;
-	}
 
 	// Step first fill fast calc correction tables:
 	static bool _tables_empty = true;
