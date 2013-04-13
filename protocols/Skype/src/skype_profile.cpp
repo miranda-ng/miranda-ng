@@ -9,27 +9,38 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 	SEBinary data = obj->GetBinProp(/* *::P_AVATAR_IMAGE */ 37);
 
 	//if ((newTS > oldTS) || (!newTS && data.size() > 0 && _waccess(path, 0) == -1) || (newTS && _waccess(path, 0) == -1)) //hack for avatars without timestamp
-	if ((newTS > oldTS) || (!::PathFileExists(path)))
+	bool hasNewAvatar = newTS > oldTS;
+	bool isAvatarEmpty = data.size() == 0;
+	bool isAvatarFileExists = ::PathFileExists(path);
+	if ( !isAvatarEmpty)
 	{
-		FILE* fp = _wfopen(path, L"wb");
-		if (fp)
+		if (hasNewAvatar || !isAvatarFileExists)
 		{
-			fwrite(data.data(), sizeof(char), data.size(), fp);
-			fclose(fp);
+			FILE* fp = ::_wfopen(path, L"wb");
+			if (fp)
+			{
+				::fwrite(data.data(), sizeof(char), data.size(), fp);
+				::fclose(fp);
 
-			this->SetSettingDword("AvatarTS", newTS);
+				this->SetSettingDword("AvatarTS", newTS);
 
-			PROTO_AVATAR_INFORMATIONW pai = {0};
-			pai.cbSize = sizeof(pai);
-			pai.format = PA_FORMAT_JPEG;
-			pai.hContact = hContact;
-			wcscpy(pai.filename, path);
+				PROTO_AVATAR_INFORMATIONW pai = {0};
+				pai.cbSize = sizeof(pai);
+				pai.format = PA_FORMAT_JPEG;
+				pai.hContact = hContact;
+				::wcscpy(pai.filename, path);
 		
-			this->SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+				this->SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+			}
 		}
 	}
+	else if (isAvatarFileExists)
+	{
+		::_wremove(path);
+		this->SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
+	}
 
-	delete path;
+	delete [] path;
 }
 
 void CSkypeProto::UpdateProfileAboutText(SEObject *obj, HANDLE hContact)
@@ -280,6 +291,7 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 	uint newTS = obj->GetUintProp(/* *::P_PROFILE_TIMESTAMP */ 19);
 	if (newTS > this->GetSettingDword("ProfileTS"))
 	{
+		this->UpdateProfileAvatar(obj, hContact);
 		this->UpdateProfileAboutText(obj, hContact);
 		this->UpdateProfileBirthday(obj, hContact);
 		this->UpdateProfileCity(obj, hContact);
