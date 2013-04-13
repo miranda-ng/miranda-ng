@@ -122,7 +122,8 @@ static MuuidReplacement pluginDefault[] =
 	{	MIID_SRAWAY,          _T("stdaway"),       NULL },  // 10
 	{	MIID_CLIST,           _T("stdclist"),      NULL },  // 11
 	{	MIID_CHAT,            _T("stdchat"),       NULL },  // 12
-	{	MIID_SRMM,            _T("stdmsg"),        NULL }   // 13
+	{	MIID_SRMM,            _T("stdmsg"),        NULL },  // 13
+	{	MIID_CRYPTO,          _T("stdcrypt"),      NULL },  // 14
 };
 
 int getDefaultPluginIdx(const MUUID& muuid)
