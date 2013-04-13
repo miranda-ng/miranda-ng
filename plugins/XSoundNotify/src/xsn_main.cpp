@@ -14,6 +14,7 @@ int hLangpack;
 LIST<XSN_Data> XSN_Users(10, HandleKeySortT);
 HGENMENU hChangeSound = NULL;
 HANDLE hChangeSoundDlgList = NULL;
+BYTE isIgnoreSound = 0, isOwnSound = 0;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -54,12 +55,26 @@ INT ProcessEvent(WPARAM wParam, LPARAM lParam)
 	if (!isReceiveMessage(lParam))
 		return 0;
 
+	isIgnoreSound = db_get_b((HANDLE)wParam, SETTINGSNAME, SETTINGSIGNOREKEY, 0);
 	DBVARIANT dbv;
-	if ( !db_get_b((HANDLE)wParam, SETTINGSNAME, SETTINGSIGNOREKEY, 0) && !db_get_ts((HANDLE)wParam, SETTINGSNAME, SETTINGSKEY, &dbv)) {
-		TCHAR longpath[MAX_PATH] = {0};
-		PathToAbsoluteT(dbv.ptszVal, longpath);
-		SkinPlaySoundFile(longpath);
+	if ( !isIgnoreSound && !db_get_ts((HANDLE)wParam, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+		TCHAR PlaySoundPath[MAX_PATH] = {0};
+		PathToAbsoluteT(dbv.ptszVal, PlaySoundPath);
+		SkinPlaySoundFile(PlaySoundPath);
 		db_free(&dbv);
+		isOwnSound = 1;
+	}
+
+	return 0;
+}
+
+int OnPlaySound(WPARAM wParam, LPARAM lParam)
+{
+	if (isIgnoreSound)
+		return 1;
+	if (isOwnSound) {
+		isOwnSound = 0;
+		return 1;
 	}
 
 	return 0;
@@ -207,6 +222,7 @@ INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				int cursel = SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETCURSEL, 0, 0);
 				HANDLE hContact = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETITEMDATA, cursel, 0);
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
+				isIgnoreSound = 0;
 				if (p == NULL) {
 					DBVARIANT dbv;
 					if ( !db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
@@ -432,6 +448,7 @@ INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			{
 				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
+				isIgnoreSound = 0;
 				if (p == NULL)
 				{
 					DBVARIANT dbv;
@@ -560,6 +577,7 @@ extern "C" int __declspec(dllexport) Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnLoadInit);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
+	HookEvent(ME_SKIN_PLAYINGSOUND, OnPlaySound);
 	return 0;
 }
 
