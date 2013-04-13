@@ -221,19 +221,15 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 			int ret = TrackPopupMenu(submenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON|TPM_RETURNCMD, p.x, p.y, 0, hwndList, NULL);
 			DestroyMenu(menu);
 
+			ListEntry *le = (ListEntry*) SendMessage(hwndList, LB_GETITEMDATA, pos, 0);
+			HANDLE hContact = (HANDLE) GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			switch(ret) {
 			case ID_AVATARLISTPOPUP_SAVEAS:
-				{
-					HANDLE hContact = (HANDLE) GetWindowLongPtr(hwnd, GWLP_USERDATA);
-					ListEntry *le = (ListEntry*) SendMessage(hwndList, LB_GETITEMDATA, pos, 0);
-					ShowSaveDialog(hwnd, le->filename, hContact);
-				}
+				ShowSaveDialog(hwnd, le->filename, hContact);
 				break;
 
 			case ID_AVATARLISTPOPUP_DELETE:
 				{
-					ListEntry *le = (ListEntry*) SendMessage(hwndList, LB_GETITEMDATA, pos, 0);
-
 					BOOL blDelete;
 
 					if (le->hDbEvent)
@@ -244,8 +240,6 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 						TranslateT("Delete avatar log?"), MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2|MB_SETFOREGROUND|MB_TOPMOST) == IDYES;
 
 					if (blDelete) {
-						HANDLE hContact = (HANDLE) GetWindowLongPtr(hwnd, GWLP_USERDATA);
-
 						if (le->hDbEvent)
 							db_event_delete(hContact, le->hDbEvent);
 						else
@@ -269,8 +263,6 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 				break;
 
 			case ID_AVATARLISTPOPUP_DELETE_BOTH:
-				ListEntry *le = (ListEntry*) SendMessage(hwndList, LB_GETITEMDATA, pos, 0);
-
 				BOOL blDelete;
 
 				if (le->hDbEvent)
@@ -281,8 +273,6 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 					TranslateT("Delete avatar?"), MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2|MB_SETFOREGROUND|MB_TOPMOST) == IDYES;
 
 				if (blDelete) {
-					HANDLE hContact = (HANDLE) GetWindowLongPtr(hwnd, GWLP_USERDATA);
-
 					DeleteFile(le->filename);
 
 					if (le->hDbEvent)
@@ -391,7 +381,6 @@ int FillAvatarListFromFiles(HWND list, HANDLE hContact)
 
 	GetContactFolder(dir, hContact);
 	mir_sntprintf(path, MAX_PATH, _T("%s\\*.*"), dir);
-	ShowPopup(hContact,_T("look sc"),path);
 
 	HANDLE hFind = FindFirstFile(path, &finddata);
 	if (hFind == INVALID_HANDLE_VALUE)
@@ -439,7 +428,7 @@ int FillAvatarListFromFolder(HWND list, HANDLE hContact)
 	SendMessage(list, LB_SETCURSEL, max_pos, 0); // Set to first item
 	return 0;
 }
-																					 
+
 int FillAvatarListFromDB(HWND list, HANDLE hContact)
 {
 	int max_pos = 0;
