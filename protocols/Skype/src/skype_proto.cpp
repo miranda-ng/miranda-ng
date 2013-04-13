@@ -13,15 +13,15 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) : fileTra
 	this->signin_lock = CreateMutex(0, false, 0);
 	this->SetAllContactStatus(ID_STATUS_OFFLINE);
 
-	this->CreateService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
+	this->CreateServiceObj(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
 	// Chat API
-	this->CreateService(PS_JOINCHAT, &CSkypeProto::OnJoinChat);
-	this->CreateService(PS_LEAVECHAT, &CSkypeProto::OnLeaveChat);
+	this->CreateServiceObj(PS_JOINCHAT, &CSkypeProto::OnJoinChat);
+	this->CreateServiceObj(PS_LEAVECHAT, &CSkypeProto::OnLeaveChat);
 	// Avatar API
-	this->CreateService(PS_GETAVATARINFOT, &CSkypeProto::GetAvatarInfo);
-	this->CreateService(PS_GETAVATARCAPS, &CSkypeProto::GetAvatarCaps);
-	this->CreateService(PS_GETMYAVATART, &CSkypeProto::GetMyAvatar);
-	this->CreateService(PS_SETMYAVATART, &CSkypeProto::SetMyAvatar);
+	this->CreateServiceObj(PS_GETAVATARINFOT, &CSkypeProto::GetAvatarInfo);
+	this->CreateServiceObj(PS_GETAVATARCAPS, &CSkypeProto::GetAvatarCaps);
+	this->CreateServiceObj(PS_GETMYAVATART, &CSkypeProto::GetMyAvatar);
+	this->CreateServiceObj(PS_SETMYAVATART, &CSkypeProto::SetMyAvatar);
 }
 
 CSkypeProto::~CSkypeProto()

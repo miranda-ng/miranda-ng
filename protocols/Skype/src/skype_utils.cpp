@@ -344,7 +344,7 @@ wchar_t* CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 	{
 		wchar_t *tmpPath = ::Utils_ReplaceVarsT(L"%miranda_avatarcache%");
 		::mir_sntprintf(path, MAX_PATH, _T("%s\\%S"), tmpPath, this->m_szModuleName);
-		mir_free(tmpPath);
+		::mir_free(tmpPath);
 	}
 
 	DWORD dwAttributes = GetFileAttributes(path);
@@ -356,6 +356,11 @@ wchar_t* CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 		::mir_sntprintf(path, MAX_PATH, _T("%s\\%s.jpg"), path, sid);
 	else if (sid != NULL)
 		::mir_sntprintf(path, MAX_PATH, _T("%s\\%s avatar.jpg"), path, sid);
+	else
+	{
+		delete path;
+		return NULL;
+	}
 
 	return path;
 }
@@ -365,7 +370,7 @@ int CSkypeProto::CompareProtos(const CSkypeProto *p1, const CSkypeProto *p2)
 	return wcscmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
-void CSkypeProto::CreateService(const char* szService, SkypeServiceFunc serviceProc)
+void CSkypeProto::CreateServiceObj(const char* szService, SkypeServiceFunc serviceProc)
 {
 	char moduleName[MAXMODULELABELLENGTH];
 
@@ -373,7 +378,7 @@ void CSkypeProto::CreateService(const char* szService, SkypeServiceFunc serviceP
 	::CreateServiceFunctionObj(moduleName, (MIRANDASERVICEOBJ)*(void**)&serviceProc, this);
 }
 
-void CSkypeProto::CreateServiceParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam)
+void CSkypeProto::CreateServiceObjParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam)
 {
 	char moduleName[MAXMODULELABELLENGTH];
 

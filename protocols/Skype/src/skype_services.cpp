@@ -80,14 +80,13 @@ INT_PTR __cdecl CSkypeProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	if (!wParam) return -2;
 
 	wchar_t *path = this->GetContactAvatarFilePath(NULL);
-	if (path && !_waccess(path, 0)) 
+	if (path && ::PathFileExists(path)) 
 	{
 		::wcsncpy((wchar_t *)wParam, path, (int)lParam);
 		delete path;
 		return 0;
 	}
 
-	delete path;
 	return -1;
 }
 
@@ -98,14 +97,6 @@ INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 
 	if (path)
 	{
-		/*int dwPaFormat = CSkypeProto::DetectAvatarFormat(path);
-		if (dwPaFormat != PA_FORMAT_XML)
-		{ 
-			HBITMAP avt = (HBITMAP)::CallService(MS_UTILS_LOADBITMAPT, 0, (WPARAM)path);
-			if (!avt) return iRet;
-			::DeleteObject(avt);
-		}*/
-
 		wchar_t *avatarPath = this->GetContactAvatarFilePath(NULL);
 		if (::wcscmp(path, avatarPath) && !::CopyFile(path, avatarPath, FALSE))
 		{
@@ -115,18 +106,34 @@ INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 		
 		int len;
 		char *buffer;
-		FILE* fp = _wfopen(avatarPath, L"rb");
+		FILE* fp = ::_wfopen(avatarPath, L"rb");
 		if (!fp)
 		{
 			this->Log(L"Failed to read avatar in local storage.");
 			return iRet;
 		}
-		fseek(fp, 0, SEEK_END);
-		len = ftell(fp);
-		fseek(fp, 0, SEEK_SET);
+		::fseek(fp, 0, SEEK_END);
+		len = ::ftell(fp);
+		::fseek(fp, 0, SEEK_SET);
 		buffer = new char[len + 1];
-		fread(buffer, len, 1, fp);
-		fclose(fp);
+		::fread(buffer, len, 1, fp);
+		::fclose(fp);
+
+		::mir_md5_byte_t digest[16];
+		::mir_md5_hash((BYTE*)buffer, len, digest);
+
+		DBVARIANT dbv;
+		::db_get(NULL, this->m_szModuleName, "AvatarHash", &dbv);
+		if (dbv.type == DBVT_BLOB && dbv.pbVal && dbv.cpbVal == 16)
+		{
+			if (::memcmp(digest, dbv.pbVal, 16) == 0)
+			{
+				::db_free(&dbv);
+				delete [] buffer;
+				return 0;
+			}
+		}
+		::db_free(&dbv);
 
 		int fbl;
 		SEBinary avatar(buffer, len);

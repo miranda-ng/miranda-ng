@@ -438,8 +438,8 @@ protected:
 	static LIST<CSkypeProto> instanceList;
 	static int CompareProtos(const CSkypeProto *p1, const CSkypeProto *p2);
 
-	void	CreateService(const char* szService, SkypeServiceFunc serviceProc);
-	void	CreateServiceParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam);
+	void	CreateServiceObj(const char* szService, SkypeServiceFunc serviceProc);
+	void	CreateServiceObjParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam);
 
 	HANDLE	CreateEvent(const char* szService);
 	void	HookEvent(const char*, SkypeEventFunc);

@@ -11,7 +11,7 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 	//if ((newTS > oldTS) || (!newTS && data.size() > 0 && _waccess(path, 0) == -1) || (newTS && _waccess(path, 0) == -1)) //hack for avatars without timestamp
 	bool hasNewAvatar = newTS > oldTS;
 	bool isAvatarEmpty = data.size() == 0;
-	bool isAvatarFileExists = ::PathFileExists(path);
+	bool isAvatarFileExists = ::PathFileExists(path) > 0;
 	if ( !isAvatarEmpty)
 	{
 		if (hasNewAvatar || !isAvatarFileExists)
@@ -24,13 +24,24 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 
 				this->SetSettingDword("AvatarTS", newTS);
 
-				PROTO_AVATAR_INFORMATIONW pai = {0};
-				pai.cbSize = sizeof(pai);
-				pai.format = PA_FORMAT_JPEG;
-				pai.hContact = hContact;
-				::wcscpy(pai.filename, path);
-		
-				this->SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+				if (hContact)
+				{
+					PROTO_AVATAR_INFORMATIONW pai = {0};
+					pai.cbSize = sizeof(pai);
+					pai.format = PA_FORMAT_JPEG;
+					pai.hContact = hContact;
+					::wcscpy(pai.filename, path);
+						
+					this->SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+				}
+				else
+				{
+					::mir_md5_byte_t digest[16];
+					::mir_md5_hash((BYTE*)data.data(), data.size(), digest);
+					::db_set_blob(hContact, this->m_szModuleName, "AvatarHash", digest, 16);
+
+					::CallService(MS_AV_SETMYAVATART, (WPARAM)m_szModuleName, (LPARAM)path);
+				}
 			}
 		}
 	}
@@ -288,10 +299,11 @@ void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 {
+	this->UpdateProfileAvatar(obj, hContact);
+
 	uint newTS = obj->GetUintProp(/* *::P_PROFILE_TIMESTAMP */ 19);
 	if (newTS > this->GetSettingDword("ProfileTS"))
 	{
-		this->UpdateProfileAvatar(obj, hContact);
 		this->UpdateProfileAboutText(obj, hContact);
 		this->UpdateProfileBirthday(obj, hContact);
 		this->UpdateProfileCity(obj, hContact);
