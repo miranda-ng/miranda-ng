@@ -93,20 +93,22 @@ static LIST<THREAD_WAIT_ENTRY> threads(10, NumericKeySortT);
 
 struct FORK_ARG {
 	HANDLE hEvent;
-	pThreadFunc threadcode;
-	pThreadFuncEx threadcodeex;
+	union {
+		pThreadFunc threadcode;
+		pThreadFuncEx threadcodeex;
+	};
 	void *arg, *owner;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // forkthread - starts a new thread
 
-void __cdecl forkthread_r(void * arg)
+void __cdecl forkthread_r(void *arg)
 {
-	struct FORK_ARG * fa = (struct FORK_ARG *) arg;
-	void (*callercode)(void*)=fa->threadcode;
-	void * cookie=fa->arg;
-	Thread_Push(( HINSTANCE)callercode);
+	FORK_ARG *fa = (FORK_ARG*)arg;
+	pThreadFunc callercode = fa->threadcode;
+	void *cookie = fa->arg;
+	Thread_Push((HINSTANCE)callercode);
 	SetEvent(fa->hEvent);
 	__try
 	{
@@ -122,12 +124,11 @@ void __cdecl forkthread_r(void * arg)
 
 MIR_CORE_DLL(UINT_PTR) forkthread( void (__cdecl *threadcode)(void*), unsigned long stacksize, void *arg)
 {
-	UINT_PTR rc;
-	struct FORK_ARG fa;
-	fa.hEvent=CreateEvent(NULL, FALSE, FALSE, NULL);
-	fa.threadcode=threadcode;
-	fa.arg=arg;
-	rc=_beginthread(forkthread_r, stacksize, &fa);
+	FORK_ARG fa;
+	fa.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	fa.threadcode = threadcode;
+	fa.arg = arg;
+	UINT_PTR rc = _beginthread(forkthread_r, stacksize, &fa);
 	if ((UINT_PTR)-1L != rc)
 		WaitForSingleObject(fa.hEvent, INFINITE);
 
@@ -173,13 +174,12 @@ MIR_CORE_DLL(UINT_PTR) forkthreadex(
 	void *arg,
 	unsigned *thraddr)
 {
-	UINT_PTR rc;
 	struct FORK_ARG fa = { 0 };
 	fa.threadcodeex = threadcode;
 	fa.arg = arg;
 	fa.owner = owner;
-	fa.hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-	rc = _beginthreadex(sec, stacksize, forkthreadex_r, (void *)&fa, 0, thraddr);
+	fa.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	UINT_PTR rc = _beginthreadex(sec, stacksize, forkthreadex_r, (void *)&fa, 0, thraddr);
 	if (rc)
 		WaitForSingleObject(fa.hEvent, INFINITE);
 
