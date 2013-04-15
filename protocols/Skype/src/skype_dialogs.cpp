@@ -681,9 +681,11 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 								status);
 						}
 					}
+					if (chatID)
+						EndDialog(hwndDlg, IDOK);
+					else
+						param->ppro->ShowNotification(TranslateT("You did not select any contact"));
 				}
-
-				EndDialog(hwndDlg, IDOK);
 				break;
 
 			case IDCANCEL:

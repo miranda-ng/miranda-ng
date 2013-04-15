@@ -160,63 +160,66 @@ char *CSkypeProto::StartChat(const char *cid, const SEStringList &invitedContact
 	SEString data;
 	CConversation::Ref conversation;
 
-	if (cid)
-	{
-		this->skype->GetConversationByIdentity(cid, conversation);
-		conversation->GetJoinBlob(data);
-		this->skype->GetConversationByBlob(data, conversation, false);
-		conversation->Join();
+	if (invitedContacts.size()) {
+		if (cid)
+		{
+			this->skype->GetConversationByIdentity(cid, conversation);
+			conversation->GetJoinBlob(data);
+			this->skype->GetConversationByBlob(data, conversation, false);
+			conversation->Join();
 
-		chatID = ::mir_strdup(cid);
-	}
-	else
-	{
-		this->skype->CreateConference(conversation);
-		conversation->SetOption(CConversation::P_OPT_JOINING_ENABLED,	true);
-		conversation->SetOption(CConversation::P_OPT_ENTRY_LEVEL_RANK,	CParticipant::WRITER);
-		conversation->SetOption(CConversation::P_OPT_DISCLOSE_HISTORY,  1);
+			chatID = ::mir_strdup(cid);
+		}
+		else
+		{
+			this->skype->CreateConference(conversation);
+			conversation->SetOption(CConversation::P_OPT_JOINING_ENABLED,	true);
+			conversation->SetOption(CConversation::P_OPT_ENTRY_LEVEL_RANK,	CParticipant::WRITER);
+			conversation->SetOption(CConversation::P_OPT_DISCLOSE_HISTORY,  1);
 
-		conversation->GetPropIdentity(data);
-		chatID = ::mir_strdup(data);
-	}	
+			conversation->GetPropIdentity(data);
+			chatID = ::mir_strdup(data);
+		}	
 
-	conversation->AddConsumers(invitedContacts);
+		conversation->AddConsumers(invitedContacts);
 
-	conversation->GetPropDisplayname(data);
-	char *chatName;
-	if (data.length())
-		chatName = ::mir_utf8decodeA(data);
-	else
-		chatName = Translate("New conference");
+		conversation->GetPropDisplayname(data);
+		TCHAR *chatName;
+		if (data.length())
+			chatName = ::mir_utf8decodeT(data);
+		else
+			chatName = TranslateT("New conference");
 
-	GCSESSION gcw = {0};
-	gcw.cbSize = sizeof(gcw);
-	gcw.iType = GCW_CHATROOM;
-	gcw.pszModule = this->m_szModuleName;
-	gcw.pszName = chatName;
-	gcw.pszID = chatID;
-	::CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+		GCSESSION gcw = {0};
+		gcw.cbSize = sizeof(gcw);
+		gcw.iType = GCW_CHATROOM;
+		gcw.pszModule = this->m_szModuleName;
+		gcw.ptszName = chatName;
+		gcw.pszID = chatID;
+		::CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
-	GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_ADDGROUP };
-	gcd.pszID = chatID;
+		GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_ADDGROUP };
+		gcd.pszID = chatID;
 
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(GCEVENT);
-	gce.pDest = &gcd;
-	for (int i = 0; i < SIZEOF(CSkypeProto::Groups); i++)
-	{
-		gce.pszStatus = Translate(CSkypeProto::Groups[i]);
-		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
-	}
+		GCEVENT gce = {0};
+		gce.cbSize = sizeof(GCEVENT);
+		gce.pDest = &gcd;
+		for (int i = 0; i < SIZEOF(CSkypeProto::Groups); i++)
+		{
+			gce.pszStatus = Translate(CSkypeProto::Groups[i]);
+			CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+		}
 
-	gcd.iType = GC_EVENT_CONTROL;
-	::CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
-	::CallServiceSync(MS_GC_EVENT, SESSION_ONLINE,   (LPARAM)&gce);
-	::CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE,   (LPARAM)&gce);
+		gcd.iType = GC_EVENT_CONTROL;
+		::CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
+		::CallServiceSync(MS_GC_EVENT, SESSION_ONLINE,   (LPARAM)&gce);
+		::CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE,   (LPARAM)&gce);
 
-	::mir_free(chatName);
+		::mir_free(chatName);
 
-	return chatID;
+		return chatID;
+	} else
+		return NULL;
 }
 
 void CSkypeProto::JoinToChat(const char *cid, bool showWindow)
