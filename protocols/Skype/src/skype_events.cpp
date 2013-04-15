@@ -4,7 +4,7 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	this->InitSkype();
 
-	//this->InitChat();
+	this->InitChat();
 	this->InitNetLib();
 	this->InitCustomFolders();
 

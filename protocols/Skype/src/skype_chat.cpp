@@ -142,11 +142,11 @@ void CSkypeProto::InitChat()
 {
 	GCREGISTER gcr = {0};
 	gcr.cbSize = sizeof(gcr);
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
+	gcr.dwFlags = GC_TCHAR | GC_TYPNOTIF | GC_CHANMGR;
 	gcr.iMaxText = 0;
 	gcr.nColors = 16;
 	gcr.pColors = (COLORREF*)crCols;
-	gcr.pszModuleDispName = ::mir_u2a(this->m_tszUserName);
+	gcr.ptszModuleDispName = this->m_tszUserName;
 	gcr.pszModule = this->m_szModuleName;
 	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
 
