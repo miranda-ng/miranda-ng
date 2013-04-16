@@ -387,6 +387,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YARelay", "..\plugins\YARel
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdCrypt", "..\src\core\stdcrypt\stdcrypt_10.vcxproj", "{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeStatusChange", "..\plugins\SkypeStatusChange\SkypeStatusChange_10.vcxproj", "{10F78F26-2B20-4158-869F-CB29533B4C2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1731,6 +1733,14 @@ Global
 		{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}.Release|Win32.Build.0 = Release|Win32
 		{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}.Release|x64.ActiveCfg = Release|x64
 		{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}.Release|x64.Build.0 = Release|x64
+		{10F78F26-2B20-4158-869F-CB29533B4C2C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{10F78F26-2B20-4158-869F-CB29533B4C2C}.Debug|Win32.Build.0 = Debug|Win32
+		{10F78F26-2B20-4158-869F-CB29533B4C2C}.Debug|x64.ActiveCfg = Debug|x64
+		{10F78F26-2B20-4158-869F-CB29533B4C2C}.Debug|x64.Build.0 = Debug|x64
+		{10F78F26-2B20-4158-869F-CB29533B4C2C}.Release|Win32.ActiveCfg = Release|Win32
+		{10F78F26-2B20-4158-869F-CB29533B4C2C}.Release|Win32.Build.0 = Release|Win32
+		{10F78F26-2B20-4158-869F-CB29533B4C2C}.Release|x64.ActiveCfg = Release|x64
+		{10F78F26-2B20-4158-869F-CB29533B4C2C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
