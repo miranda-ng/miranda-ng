@@ -1192,37 +1192,38 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		SD_FLG_HASUSER			= 0x100
 	};
 
-	static struct
+	struct
 	{
 		TCHAR *feature;
 		TCHAR *title;
 		int action;
 		DWORD flags;
-	} items[] =
+	}
+	static items[] =
 	{
-		{NULL,							_T("Contact Menu..."),		SD_ACT_USERMENU,			SD_FLG_NONODE},
-		{NULL,							_T("View vCard"),			SD_ACT_VCARD,				SD_FLG_NONODE},
-		{_T(JABBER_FEAT_MUC),			_T("Join chatroom"),		SD_ACT_JOIN,				SD_FLG_NORESOURCE},
-		{0},
-		{NULL,							_T("Refresh Info"),			SD_ACT_REFRESH},
-		{NULL,							_T("Refresh Children"),		SD_ACT_REFRESHCHILDREN},
-		{0},
-		{NULL,							_T("Add to favorites"),		SD_ACT_FAVORITE},
-		{NULL,							_T("Add to roster"),		SD_ACT_ROSTER,				SD_FLG_NONODE|SD_FLG_NOTONROSTER},
-		{_T(JABBER_FEAT_MUC),			_T("Bookmark chatroom"),	SD_ACT_BOOKMARK,			SD_FLG_NORESOURCE|SD_FLG_HASUSER},
-		{_T("jabber:iq:search"),		_T("Add search directory"),	SD_ACT_ADDDIRECTORY},
-		{_T(JABBER_FEAT_BYTESTREAMS),	_T("Use this proxy"),		SD_ACT_PROXY},
-		{0},
-		{_T(JABBER_FEAT_REGISTER),		_T("Register"),				SD_ACT_REGISTER},
-		{_T("jabber:iq:gateway"),		_T("Unregister"),			SD_ACT_UNREGISTER,			SD_FLG_ONROSTER|SD_FLG_SUBSCRIBED},
-		{_T(JABBER_FEAT_COMMANDS),		_T("Commands..."),			SD_ACT_ADHOC},
-		{0},
-		{_T("jabber:iq:gateway"),		_T("Logon"),				SD_ACT_LOGON,				SD_FLG_ONROSTER|SD_FLG_SUBSCRIBED|SD_FLG_ONLINE},
-		{_T("jabber:iq:gateway"),		_T("Logoff"),				SD_ACT_LOGOFF,				SD_FLG_ONROSTER|SD_FLG_SUBSCRIBED|SD_FLG_NOTONLINE},
-		{0},
-		{NULL,							_T("Copy JID"),				SD_ACT_COPYJID},
-		{NULL,							_T("Copy node name"),		SD_ACT_COPYNODE},
-		{NULL,							_T("Copy node information"),SD_ACT_COPYINFO},
+		{ NULL,                        LPGENT("Contact Menu..."),       SD_ACT_USERMENU,         SD_FLG_NONODE},
+      { NULL,                        LPGENT("View vCard"),            SD_ACT_VCARD,            SD_FLG_NONODE},
+      { _T(JABBER_FEAT_MUC),         LPGENT("Join chatroom"),         SD_ACT_JOIN,             SD_FLG_NORESOURCE},
+      {0},
+      { NULL,                        LPGENT("Refresh Info"),          SD_ACT_REFRESH},
+      { NULL,                        LPGENT("Refresh Children"),      SD_ACT_REFRESHCHILDREN},
+      {0},
+      { NULL,                        LPGENT("Add to favorites"),      SD_ACT_FAVORITE},
+      { NULL,                        LPGENT("Add to roster"),         SD_ACT_ROSTER,           SD_FLG_NONODE|SD_FLG_NOTONROSTER},
+      { _T(JABBER_FEAT_MUC),         LPGENT("Bookmark chatroom"),     SD_ACT_BOOKMARK,         SD_FLG_NORESOURCE|SD_FLG_HASUSER},
+      { _T("jabber:iq:search"),      LPGENT("Add search directory"),  SD_ACT_ADDDIRECTORY},
+      { _T(JABBER_FEAT_BYTESTREAMS), LPGENT("Use this proxy"),        SD_ACT_PROXY},
+      {0},
+      { _T(JABBER_FEAT_REGISTER),    LPGENT("Register"),              SD_ACT_REGISTER},
+      { _T("jabber:iq:gateway"),     LPGENT("Unregister"),            SD_ACT_UNREGISTER,       SD_FLG_ONROSTER|SD_FLG_SUBSCRIBED},
+      { _T(JABBER_FEAT_COMMANDS),    LPGENT("Commands..."),           SD_ACT_ADHOC},
+      {0},
+      { _T("jabber:iq:gateway"),     LPGENT("Logon"),                 SD_ACT_LOGON,            SD_FLG_ONROSTER|SD_FLG_SUBSCRIBED|SD_FLG_ONLINE},
+      { _T("jabber:iq:gateway"),     LPGENT("Logoff"),                SD_ACT_LOGOFF,           SD_FLG_ONROSTER|SD_FLG_SUBSCRIBED|SD_FLG_NOTONLINE},
+      {0},
+      { NULL,                        LPGENT("Copy JID"),              SD_ACT_COPYJID},
+      { NULL,                        LPGENT("Copy node name"),        SD_ACT_COPYNODE},
+      { NULL,                        LPGENT("Copy node information"), SD_ACT_COPYINFO},
 	};
 
 	HMENU hMenu = CreatePopupMenu();

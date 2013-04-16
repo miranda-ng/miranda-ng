@@ -530,23 +530,23 @@ struct tagErrorCodeToStr {
 	TCHAR* str;
 }
 static JabberErrorCodeToStrMapping[] = {
-	{ JABBER_ERROR_REDIRECT,               _T("Redirect") },
-	{ JABBER_ERROR_BAD_REQUEST,            _T("Bad request") },
-	{ JABBER_ERROR_UNAUTHORIZED,           _T("Unauthorized") },
-	{ JABBER_ERROR_PAYMENT_REQUIRED,       _T("Payment required") },
-	{ JABBER_ERROR_FORBIDDEN,              _T("Forbidden") },
-	{ JABBER_ERROR_NOT_FOUND,              _T("Not found") },
-	{ JABBER_ERROR_NOT_ALLOWED,            _T("Not allowed") },
-	{ JABBER_ERROR_NOT_ACCEPTABLE,         _T("Not acceptable") },
-	{ JABBER_ERROR_REGISTRATION_REQUIRED,  _T("Registration required") },
-	{ JABBER_ERROR_REQUEST_TIMEOUT,        _T("Request timeout") },
-	{ JABBER_ERROR_CONFLICT,               _T("Conflict") },
-	{ JABBER_ERROR_INTERNAL_SERVER_ERROR,  _T("Internal server error") },
-	{ JABBER_ERROR_NOT_IMPLEMENTED,        _T("Not implemented") },
-	{ JABBER_ERROR_REMOTE_SERVER_ERROR,    _T("Remote server error") },
-	{ JABBER_ERROR_SERVICE_UNAVAILABLE,    _T("Service unavailable") },
-	{ JABBER_ERROR_REMOTE_SERVER_TIMEOUT,  _T("Remote server timeout") },
-	{ -1,                                  _T("Unknown error") }
+	{ JABBER_ERROR_REDIRECT,               LPGENT("Redirect") },
+	{ JABBER_ERROR_BAD_REQUEST,            LPGENT("Bad request") },
+	{ JABBER_ERROR_UNAUTHORIZED,           LPGENT("Unauthorized") },
+	{ JABBER_ERROR_PAYMENT_REQUIRED,       LPGENT("Payment required") },
+	{ JABBER_ERROR_FORBIDDEN,              LPGENT("Forbidden") },
+	{ JABBER_ERROR_NOT_FOUND,              LPGENT("Not found") },
+	{ JABBER_ERROR_NOT_ALLOWED,            LPGENT("Not allowed") },
+	{ JABBER_ERROR_NOT_ACCEPTABLE,         LPGENT("Not acceptable") },
+	{ JABBER_ERROR_REGISTRATION_REQUIRED,  LPGENT("Registration required") },
+	{ JABBER_ERROR_REQUEST_TIMEOUT,        LPGENT("Request timeout") },
+	{ JABBER_ERROR_CONFLICT,               LPGENT("Conflict") },
+	{ JABBER_ERROR_INTERNAL_SERVER_ERROR,  LPGENT("Internal server error") },
+	{ JABBER_ERROR_NOT_IMPLEMENTED,        LPGENT("Not implemented") },
+	{ JABBER_ERROR_REMOTE_SERVER_ERROR,    LPGENT("Remote server error") },
+	{ JABBER_ERROR_SERVICE_UNAVAILABLE,    LPGENT("Service unavailable") },
+	{ JABBER_ERROR_REMOTE_SERVER_TIMEOUT,  LPGENT("Remote server timeout") },
+	{ -1,                                  LPGENT("Unknown error") }
 };
 
 TCHAR* __stdcall JabberErrorStr(int errorCode)
