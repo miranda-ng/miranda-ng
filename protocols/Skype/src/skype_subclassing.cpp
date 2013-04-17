@@ -280,13 +280,12 @@ CSkype *CSkype::GetInstance(HINSTANCE hInstance, const wchar_t *profileName, con
 	int port = 8963;
 	if (!CSkype::StartSkypeRuntime(hInstance, profileName, port, dbPath)) return NULL;
 
-
- 	char *keyPair = CSkype::LoadKeyPair(hInstance);
+	char *keyPair = CSkype::LoadKeyPair(hInstance);
 	if (!keyPair)
 		return NULL;
 
 	CSkype *skype = new CSkype();
-	TransportInterface::Status status = skype->init(keyPair, "127.0.0.1", port, 0, 2, 3);
+	TransportInterface::Status status = skype->init(keyPair, "127.0.0.1", port);
 	if (status != TransportInterface::OK)
 		return NULL;
 	skype->start();
