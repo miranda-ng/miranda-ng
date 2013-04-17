@@ -123,7 +123,7 @@ KN_FP_MASK def_kn_fp_mask[] =
                                 _T("|*+umBU9yx9Cu+R8jvPWIZ3vWD59M=*"),          _T("IM+"),                          IDI_IMPLUS,              MULTI_CASE,         TRUE    },
 	{"client_IMVU",             _T("*IMVU*"),                                   _T("IMVU"),                         IDI_IMVU,                MULTI_CASE,         TRUE    },
 	{"client_IMadering",        _T("*IMadering*"),                              _T("IMadering"),                    IDI_IMADERING,           MULTI_CASE,         TRUE    },
-	{"client_ImoIm",            _T("*imo.im*"),                                 _T("Imo.im"),                       IDI_IMOIM,               MULTI_CASE,         TRUE    },
+	{"client_imoIM",            _T("|*imo.im*|*sleekxmpp.com*"),                _T("imo.im"),                       IDI_IMOIM,               MULTI_CASE,         TRUE    },
 	{"client_Inlux",            _T("*Inlux*"),                                  _T("Inlux Messenger"),              IDI_INLUX,               MULTI_CASE,         TRUE    },
 	{"client_Instantbird",      _T("*Instantbird*"),                            _T("Instantbird"),                  IDI_INSTANTBIRD,         MULTI_CASE,         TRUE    },
 	{"client_iCall",            _T("*iCall*"),                                  _T("iCall"),                        IDI_ICALL,               MULTI_CASE,         TRUE    },
