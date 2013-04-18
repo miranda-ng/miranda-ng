@@ -1914,7 +1914,7 @@ GMT-09:00 Аляска
 [Service help]
 Помощь
 [Undefined]
-Неопределено
+Не определено
 [Return]
 Возвращаемое
 [Yes to &All]
