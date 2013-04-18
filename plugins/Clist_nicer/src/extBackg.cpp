@@ -1615,7 +1615,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				sd.hWndParent = hwnd;
 				sd.hWndTab = GetDlgItem(hwnd, IDC_OPTIONSTAB);
 				sd.pfnSaveCompleteStruct = SaveCompleteStructToDB;
-				sd.lastItem = ID_STATUS_OFFLINE + arStatusItems.getCount() + 1;
+				sd.lastItem = ID_STATUS_OFFLINE + arStatusItems.getCount();
 				sd.firstItem = ID_STATUS_OFFLINE;
 				sd.pfnClcOptionsChanged = pcli->pfnClcOptionsChanged;
 				sd.hwndCLUI = pcli->hwndContactList;

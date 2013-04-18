@@ -623,7 +623,7 @@ static void FillItemList(HWND hwndDlg)
 	int n, iOff;
 	UINT item;
 
-	for (n = 0; n <= ID_EXTBK_LAST - ID_EXTBK_FIRST; n++) {
+	for (n = 0; n < ID_EXTBK_LAST - ID_EXTBK_FIRST; n++) {
 		iOff = 0;
 		if (strstr(StatusItems[n]->szName, "{-}")) {
 			item = SendDlgItemMessageA(hwndDlg, IDC_ITEMS, LB_ADDSTRING, 0, (LPARAM)"------------------------");
@@ -666,7 +666,7 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		AppendMenuA(psd->hMenuItems, MF_SEPARATOR, (UINT_PTR)0, NULL);
 
 		{
-			for (int i = ID_EXTBK_FIRST; i <= ID_EXTBK_LAST; i++) {
+			for (int i = ID_EXTBK_FIRST; i < ID_EXTBK_LAST; i++) {
 				int iOff = StatusItems[i - ID_EXTBK_FIRST]->szName[0] == '{' ? 3 : 0;
 				if (iOff)
 					AppendMenuA(psd->hMenuItems, MF_SEPARATOR, (UINT_PTR)0, NULL);
@@ -701,7 +701,7 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			SetBkMode(dis->hDC, TRANSPARENT);
 			FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_WINDOW));
 
-			if (iItem >= ID_EXTBK_FIRST && iItem <= ID_EXTBK_LAST)
+			if (iItem >= ID_EXTBK_FIRST && iItem < ID_EXTBK_LAST)
 				item = StatusItems[iItem - ID_EXTBK_FIRST];
 
 			if (dis->itemState & ODS_SELECTED && iItem != ID_EXTBKSEPARATOR) {
@@ -748,11 +748,11 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			if (PtInRect(&rc, pt)) {
 				int iSelection = (int)TrackPopupMenu(psd->hMenuItems, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 
-				if (iSelection >= ID_EXTBK_FIRST && iSelection <= ID_EXTBK_LAST) {
+				if (iSelection >= ID_EXTBK_FIRST && iSelection < ID_EXTBK_LAST) {
 					iSelection -= ID_EXTBK_FIRST;
 					StatusItems_t *pSel = StatusItems[iSelection];
 
-					for(int i = ID_EXTBK_FIRST; i <= ID_EXTBK_LAST; i++) {
+					for(int i = ID_EXTBK_FIRST; i < ID_EXTBK_LAST; i++) {
 						if ( SendMessage(hwndList, LB_GETSEL, i - ID_EXTBK_FIRST, 0) <= 0)
 							continue;
 
