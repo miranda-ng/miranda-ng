@@ -203,7 +203,7 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 			SetDlgItemText(hdlg, IDC_MENUSTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		else SetDlgItemText(hdlg, IDC_MENUSTAMP, _T(DEFAULT_MENUSTAMP));
+		else SetDlgItemText(hdlg, IDC_MENUSTAMP, DEFAULT_MENUSTAMP);
 
 		if ( !db_get_ts(NULL, S_MOD, "UserStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_USERSTAMP, dbv.ptszVal);
@@ -215,19 +215,19 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 			SetDlgItemText(hdlg, IDC_FILESTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		else SetDlgItemText(hdlg, IDC_FILESTAMP, _T(DEFAULT_FILESTAMP));
+		else SetDlgItemText(hdlg, IDC_FILESTAMP, DEFAULT_FILESTAMP);
 
 		if ( !db_get_ts(NULL, S_MOD, "FileName", &dbv)) {
 			SetDlgItemText(hdlg, IDC_FILENAME, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		else SetDlgItemText(hdlg, IDC_FILENAME, _T(DEFAULT_FILENAME));
+		else SetDlgItemText(hdlg, IDC_FILENAME, DEFAULT_FILENAME);
 
 		if ( !db_get_ts(NULL, S_MOD, "HistoryStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_HISTORYSTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		else SetDlgItemText(hdlg, IDC_HISTORYSTAMP, _T(DEFAULT_HISTORYSTAMP));
+		else SetDlgItemText(hdlg, IDC_HISTORYSTAMP, DEFAULT_HISTORYSTAMP);
 
 		SetDlgItemInt(hdlg, IDC_HISTORYSIZE,db_get_w(NULL,S_MOD,"HistoryMax",10-1)-1,FALSE);
 
@@ -287,7 +287,7 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 		if (LOWORD(wparam) == IDC_VARIABLES) {
 			char szout[2048];
 			wsprintfA(szout,VARIABLE_LIST);
-			MessageBoxA(NULL,szout,Translate("Last Seen Variables"),MB_OK|MB_TOPMOST);
+			MessageBoxA(hdlg,szout,Translate("Last Seen Variables"),MB_OK|MB_TOPMOST);
 		}
 		break; //case WM_COMMAND
 
@@ -367,15 +367,14 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 
 				// save protocol list
 				HWND hwndTreeView = GetDlgItem(hdlg, IDC_PROTOCOLLIST);
-				HTREEITEM hItem;
-				TVITEM tvItem;
-				char *watchedProtocols;
 				char *protocol;
 				int size=1;
 
-				watchedProtocols = (char *)malloc(sizeof(char));
+				char *watchedProtocols = (char *)malloc(sizeof(char));
 				*watchedProtocols = '\0';
-				hItem = TreeView_GetRoot(hwndTreeView);
+				HTREEITEM hItem = TreeView_GetRoot(hwndTreeView);
+
+				TVITEM tvItem;
 				tvItem.mask = TVIF_HANDLE | TVIF_STATE | TVIF_PARAM;
 				tvItem.stateMask = TVIS_STATEIMAGEMASK;
 
@@ -436,7 +435,7 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 	return 0;
 }
 
-int OptionsInit(WPARAM wparam,LPARAM lparam)
+int OptionsInit(WPARAM wparam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;

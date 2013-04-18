@@ -27,22 +27,26 @@ Prepares the log file:
 */
 int InitFileOutput(void)
 {
-	TCHAR szfpath[256], szmpath[256];
+	TCHAR szfpath[MAX_PATH], szmpath[MAX_PATH];
 	GetModuleFileName(NULL, szmpath, MAX_PATH);
 
 	DBVARIANT dbv;
-	_tcscpy(szfpath, !db_get_ts(NULL, S_MOD, "FileName", &dbv) ? dbv.ptszVal : _T(DEFAULT_FILENAME));
-	db_free(&dbv);
+	if(!db_get_ts(NULL, S_MOD, "FileName", &dbv))
+	{
+		_tcsncpy(szfpath, dbv.ptszVal, MAX_PATH);
+		db_free(&dbv);
+	}
+	else _tcsncpy(szfpath, DEFAULT_FILENAME, MAX_PATH);
 
 	if (szfpath[0] == '\\')
-		_tcscpy(szfpath, szfpath+1);
+		_tcsncpy(szfpath, szfpath+1, MAX_PATH);
 
 	TCHAR *str = _tcsrchr(szmpath, '\\');
 	if (str != NULL)
 		*++str=0;
 
-	_tcscat(szmpath, szfpath);
-	_tcscpy(szfpath, szmpath);
+	_tcsncat(szmpath, szfpath, MAX_PATH);
+	_tcsncpy(szfpath, szmpath, MAX_PATH);
 
 	str = _tcsrchr(szmpath, '\\');
 	if (str != NULL)
@@ -60,13 +64,17 @@ void FileWrite(HANDLE hcontact)
 	TCHAR szout[1024];
 
 	DBVARIANT dbv;
-	db_get_ts(NULL, S_MOD, "PathToFile", &dbv);
-	_tcscpy(szout, ParseString(dbv.ptszVal, hcontact, 1));
+	if(!db_get_ts(NULL, S_MOD, "PathToFile", &dbv))
+	{
+		_tcsncpy(szout, ParseString(dbv.ptszVal, hcontact, 1), SIZEOF(szout));
+		db_free(&dbv);
+	}
+	else _tcsncpy(szout, DEFAULT_FILENAME, SIZEOF(szout));
 
 	HANDLE fhout = CreateFile(szout, GENERIC_WRITE, 0, NULL, OPEN_ALWAYS, 0, NULL);
 	if (fhout == INVALID_HANDLE_VALUE){
 		TCHAR fullpath[1024];
-		_tcscpy(fullpath, szout);
+		_tcsncpy(fullpath, szout, SIZEOF(fullpath));
 		TCHAR *dirpath = _tcsrchr(fullpath, '\\');
 		if (dirpath != NULL)
 			*dirpath = '\0';
@@ -75,14 +83,13 @@ void FileWrite(HANDLE hcontact)
 		if (fhout == INVALID_HANDLE_VALUE)
 			return;
 	}
-	db_free(&dbv);
 	SetFilePointer(fhout,0,0,FILE_END);
 
 	if ( !db_get_ts(NULL, S_MOD,"FileStamp", &dbv)) {
-		_tcscpy(szout, ParseString(dbv.ptszVal, hcontact, 1));
+		_tcsncpy(szout, ParseString(dbv.ptszVal, hcontact, 1), SIZEOF(szout));
 		db_free(&dbv);
 	}
-	else _tcscpy(szout, ParseString( _T(DEFAULT_FILESTAMP), hcontact, 1));
+	else _tcsncpy(szout, ParseString(DEFAULT_FILESTAMP, hcontact, 1), SIZEOF(szout));
 	
 	DWORD byteswritten;
 	WriteFile(fhout, _T2A(szout), (DWORD)_tcslen(szout), &byteswritten, NULL);

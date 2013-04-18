@@ -107,7 +107,7 @@ int ShowMissed(void)
 
 	TCHAR sztemp[1024], szcount[7];
 	for (int loop=0; loop < mcs.count; loop++) {
-		_tcscat(sztemp, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, mcs.wpcontact[loop], GCDNF_TCHAR));
+		_tcsncat(sztemp, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, mcs.wpcontact[loop], GCDNF_TCHAR), SIZEOF(sztemp));
 		if ( db_get_b(NULL, S_MOD, "MissedOnes_Count", 0)) {
 			wsprintf(szcount, _T(" [%i]"), mcs.times[loop]);
 			_tcscat(sztemp, szcount);
@@ -159,7 +159,7 @@ int Test(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
-int ModeChange_mo(WPARAM wparam,LPARAM lparam)
+int ModeChange_mo(WPARAM,LPARAM lparam)
 {
 	ACKDATA *ack = (ACKDATA *)lparam;
 	if (ack->type != ACKTYPE_STATUS || ack->result != ACKRESULT_SUCCESS || ack->hContact != NULL)

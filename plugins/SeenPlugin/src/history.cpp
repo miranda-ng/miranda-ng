@@ -55,7 +55,7 @@ void HistoryWrite(HANDLE hContact)
 		ptszString = ParseString(dbv.ptszVal, hContact, 0);
 		db_free(&dbv);
 	}
-	else ptszString = ParseString( _T(DEFAULT_HISTORYSTAMP), hContact, 0);
+	else ptszString = ParseString(DEFAULT_HISTORYSTAMP, hContact, 0);
 	db_set_ts(hContact, S_MOD, BuildSetting(historyLast), ptszString);
 
 	historyLast = (historyLast+1) % historyMax;

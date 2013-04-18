@@ -28,13 +28,13 @@ void InitHistoryDialog(void);
 /*
 Handles the messages sent by clicking the contact's menu item
 */
-INT_PTR MenuitemClicked(WPARAM wparam,LPARAM lparam)
+INT_PTR MenuitemClicked(WPARAM wparam,LPARAM)
 {
 	ShowHistory((HANDLE)wparam, 0);
 	return 0;
 }
 
-int BuildContactMenu(WPARAM wparam,LPARAM lparam)
+int BuildContactMenu(WPARAM wparam,LPARAM)
 {
 	int id = -1, isetting;
 	HANDLE hContact = (HANDLE)wparam;
@@ -52,7 +52,7 @@ int BuildContactMenu(WPARAM wparam,LPARAM lparam)
 			cmi.ptszName = ParseString(dbv.ptszVal, (HANDLE)wparam, 0);
 			db_free(&dbv);
 		}
-		else cmi.ptszName = ParseString( _T(DEFAULT_MENUSTAMP), (HANDLE)wparam, 0);
+		else cmi.ptszName = ParseString(DEFAULT_MENUSTAMP, (HANDLE)wparam, 0);
 		
 		if ( !_tcscmp(cmi.ptszName, TranslateT("<unknown>"))) {	
 			if ( IsWatchedProtocol(szProto))

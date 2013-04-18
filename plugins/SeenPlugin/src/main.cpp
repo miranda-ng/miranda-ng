@@ -49,7 +49,7 @@ DBVTranslation idleTr[TRANSNUMBER]={
 BOOL includeIdle;
 LIST<logthread_info> arContacts(16, LIST<logthread_info>::FTSortFunc(HandleKeySortT));
 
-int MainInit(WPARAM wparam,LPARAM lparam)
+int MainInit(WPARAM,LPARAM)
 {
 	includeIdle = (BOOL )db_get_b(NULL,S_MOD,"IdleSupport",1);
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
@@ -103,7 +103,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }

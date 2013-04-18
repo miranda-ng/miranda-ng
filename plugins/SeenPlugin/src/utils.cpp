@@ -262,7 +262,7 @@ LBL_charPtr:
 
 		case 'G':
 			if ( !db_get_ts(hcontact, "CList", "Group", &dbv)) {
-				_tcscpy(szdbsetting, dbv.ptszVal);
+				_tcsncpy(szdbsetting, dbv.ptszVal, SIZEOF(szdbsetting));
 				db_free(&dbv);
 				charPtr = szdbsetting;
 				goto LBL_charPtr;
@@ -283,29 +283,9 @@ LBL_charPtr:
 					_ltot(ci.dVal, szdbsetting, 10);
 					break;
 				case CNFT_ASCIIZ:
-					_tcscpy(szdbsetting, ci.pszVal);
+					_tcsncpy(szdbsetting, ci.pszVal, SIZEOF(szdbsetting));
 					break;
 				}
-			}
-			else if (ci.szProto != NULL) {
-				if ( isYahoo(ci.szProto)) { // YAHOO support
-					db_get_ts(hcontact, ci.szProto, "id", &dbv);
-					_tcscpy(szdbsetting, dbv.ptszVal);
-					db_free(&dbv);
-				}
-				else if ( isJabber(ci.szProto)) { // JABBER support
-					if ( db_get_ts(hcontact, ci.szProto, "LoginName", &dbv))
-						goto LBL_noData;
-
-					_tcscpy(szdbsetting, dbv.ptszVal);
-					db_free(&dbv);
-					
-					db_get_ts(hcontact, ci.szProto, "LoginServer", &dbv);
-					_tcscat(szdbsetting, _T("@"));
-					_tcscat(szdbsetting, dbv.ptszVal);
-					db_free(&dbv);
-				}
-				else goto LBL_noData;
 			}
 			else goto LBL_noData;
 			charPtr = szdbsetting;
@@ -313,10 +293,10 @@ LBL_charPtr:
 
 		case 's':
 			if (isetting = db_get_w(hcontact,S_MOD,hcontact ? "StatusTriger" : courProtoName, 0)) {
-				_tcscpy(szdbsetting, TranslateTS((TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(isetting|0x8000), GSMDF_TCHAR)));
+				_tcsncpy(szdbsetting, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(isetting|0x8000), GSMDF_TCHAR), SIZEOF(szdbsetting));
 				if ( !(isetting & 0x8000)) {
-					_tcscat(szdbsetting, _T("/"));
-					_tcscat(szdbsetting, TranslateT("Idle"));
+					_tcsncat(szdbsetting, _T("/"), SIZEOF(szdbsetting));
+					_tcsncat(szdbsetting, TranslateT("Idle"), SIZEOF(szdbsetting));
 				}
 				charPtr = szdbsetting;
 				goto LBL_charPtr;
@@ -333,10 +313,10 @@ LBL_charPtr:
 
 		case 'o':
 			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "OldStatus" : courProtoName, 0)) {
-				_tcscpy(szdbsetting, TranslateTS((TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)isetting, GSMDF_TCHAR)));
-				if (includeIdle) if (hcontact) if ( db_get_b(hcontact, S_MOD, "OldIdle", 0)) {
-					_tcscat(szdbsetting, _T("/"));
-					_tcscat(szdbsetting, TranslateT("Idle"));
+				_tcsncpy(szdbsetting, (TCHAR*) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)isetting, GSMDF_TCHAR), SIZEOF(szdbsetting));
+				if (includeIdle && hcontact && db_get_b(hcontact, S_MOD, "OldIdle", 0)) {
+					_tcsncat(szdbsetting, _T("/"), SIZEOF(szdbsetting));
+					_tcsncat(szdbsetting, TranslateT("Idle"), SIZEOF(szdbsetting));
 				}
 				charPtr = szdbsetting;
 				goto LBL_charPtr;
@@ -349,7 +329,7 @@ LBL_charPtr:
 				if ( db_get_ts(hcontact, ci.szProto, *p == 'i' ? "Resource" : "System", &dbv))
 					goto LBL_noData;
 
-				_tcscpy(szdbsetting, dbv.ptszVal);
+				_tcsncpy(szdbsetting, dbv.ptszVal, SIZEOF(szdbsetting));
 				db_free(&dbv);
 				charPtr = szdbsetting;
 			}
@@ -359,13 +339,13 @@ LBL_charPtr:
 					goto LBL_noData;
 
 				ia.S_un.S_addr = htonl(dwsetting);
-				_tcscpy(szdbsetting, _A2T( inet_ntoa(ia)));
+				_tcsncpy(szdbsetting, _A2T( inet_ntoa(ia)), SIZEOF(szdbsetting));
 				charPtr = szdbsetting;
 			}
 			goto LBL_charPtr;
 
 		case 'P':
-			_tcscpy(szdbsetting, ci.szProto ? _A2T(ci.szProto) : (wantempty ? _T("") : _T("ProtoUnknown")));
+			_tcsncpy(szdbsetting, ci.szProto ? _A2T(ci.szProto) : (wantempty ? _T("") : _T("ProtoUnknown")), SIZEOF(szdbsetting));
 			charPtr = szdbsetting;
 			goto LBL_charPtr;
 
@@ -375,7 +355,7 @@ LBL_charPtr:
 
 		case 'C': // Get Client Info
 			if ( !db_get_ts(hcontact, ci.szProto, "MirVer", &dbv)) {
-				_tcscpy(szdbsetting, dbv.ptszVal);
+				_tcsncpy(szdbsetting, dbv.ptszVal, SIZEOF(szdbsetting));
 				db_free(&dbv);
 			}
 			else goto LBL_noData;
@@ -385,6 +365,16 @@ LBL_charPtr:
 		case 't':
 			charPtr = _T("\t");
 			goto LBL_charPtr;
+
+		case 'A':
+			{
+			PROTOACCOUNT *pa = ProtoGetAccount(ci.szProto);
+			if(!pa) goto LBL_noData;
+			_tcsncpy(szdbsetting, pa->tszAccountName, SIZEOF(szdbsetting));
+			charPtr = szdbsetting;
+			goto LBL_charPtr;
+			}
+			
 
 		default:
 			*d++ = p[-1];
@@ -398,13 +388,13 @@ LBL_charPtr:
 
 void _DBWriteTime(SYSTEMTIME *st,HANDLE hcontact)
 {
-	db_set_w((HANDLE)hcontact,S_MOD,"Day",st->wDay);
-	db_set_w((HANDLE)hcontact,S_MOD,"Month",st->wMonth);
-	db_set_w((HANDLE)hcontact,S_MOD,"Year",st->wYear);
-	db_set_w((HANDLE)hcontact,S_MOD,"Hours",st->wHour);
-	db_set_w((HANDLE)hcontact,S_MOD,"Minutes",st->wMinute);
-	db_set_w((HANDLE)hcontact,S_MOD,"Seconds",st->wSecond);
-	db_set_w((HANDLE)hcontact,S_MOD,"WeekDay",st->wDayOfWeek);
+	db_set_w(hcontact,S_MOD,"Day",st->wDay);
+	db_set_w(hcontact,S_MOD,"Month",st->wMonth);
+	db_set_w(hcontact,S_MOD,"Year",st->wYear);
+	db_set_w(hcontact,S_MOD,"Hours",st->wHour);
+	db_set_w(hcontact,S_MOD,"Minutes",st->wMinute);
+	db_set_w(hcontact,S_MOD,"Seconds",st->wSecond);
+	db_set_w(hcontact,S_MOD,"WeekDay",st->wDayOfWeek);
 
 }
 
