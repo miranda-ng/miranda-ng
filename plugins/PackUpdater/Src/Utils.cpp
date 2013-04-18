@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2010 Mataes
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "Common.h"
@@ -114,7 +114,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	NETLIBHTTPREQUEST nlhr = {0};
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
-	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
+	nlhr.flags = NLHRF_REDIRECT | NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 	char* szUrl = mir_t2a(tszURL);
 	nlhr.szUrl = szUrl;
 	nlhr.headersCount = 4;
@@ -134,7 +134,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 
 	if (pReply)
 	{
-		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) 
+		if ((200 == pReply->resultCode) && (pReply->dataLength > 0))
 		{
 			hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 			WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
@@ -311,7 +311,7 @@ static void CheckUpdates(void *)
 			{
 				//добавить проверку на существование файла
 				TCHAR tszFilePathDest[MAX_PATH] = {0};
-				TCHAR* tszUtilRootPlug = NULL; 
+				TCHAR* tszUtilRootPlug = NULL;
 				TCHAR* tszUtilRootIco = NULL;
 				TCHAR* tszUtilRoot = NULL;
 
