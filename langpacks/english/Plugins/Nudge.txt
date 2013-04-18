@@ -42,8 +42,6 @@
 [Width of move]
 [Static]
 [Shaking Message Window Options]
-[Shake the contact list]
-[Shake the chat window]
 ;file \plugins\Nudge\src\main.cpp
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
 [Nudge]

@@ -10,6 +10,6 @@
 [Autorun]
 [Launch Miranda NG at system startup]
 [Note: At startup Miranda NG will use current profile]
-;file \plugins\AutoRun\src\autorun.h
 ;file \plugins\AutoRun\src\main.cpp
 [Services]
+;file \plugins\AutoRun\src\stdafx.h

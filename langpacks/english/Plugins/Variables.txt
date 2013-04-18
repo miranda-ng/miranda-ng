@@ -16,7 +16,6 @@
 [Parse the following string at startup]
 [Auto parse]
 [Parse]
-[Trigger when the following string changes]
 [Please enter your input below]
 [Don't set a contact]
 [Set to the following contact]
