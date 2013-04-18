@@ -1,0 +1,67 @@
+﻿#muuid {01202e6a-c1b3-42e5-838a-3e497b31f38e}
+;============================================================
+;  File: YARelay.dll
+;  Plugin: YARelay
+;  Version: 0.1.0.1
+;  Authors: Anar Ibragimoff
+;============================================================
+[Forwards messages to some contact when you are not available.]
+Leitet Nachrichten an einen anderen Kontakt weiter, wenn Sie nicht da sind.
+;file \plugins\YARelay\res\yaRelay.rc
+[Forward messages from...]
+Nachrichten weiterleiten von...
+[Everyone]
+Jedem
+[Contact]
+Kontakt
+[Forward when your status is...]
+Jedem, wenn Ihr Status ist...
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Abwesend
+[NA]
+Außer Haus
+[Occupied]
+Beschäftigt
+[DND]
+Bitte nicht stören
+[Free for chat]
+Für Chat bereit
+[Invisible]
+Unsichtbar
+[Forward messages to...]
+Nachrichten weiterleiten an...
+[Template]
+Vorlage
+[%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
+
+[Forwarding options]
+
+[Split message (%m)]
+
+[Send only first]
+
+[Max size of split part (chars)]
+
+[Mark received messages as 'read']
+
+[Save sent messages in recipient's history]
+
+[split parts (0 = all)]
+
+[Note: Max size - it's a size of %m parameter]
+
+[Note: messages from this contact will not be forwarded]
+
+;file \plugins\YARelay\src\options.cpp
+[!EVERYONE!]
+
+[!DON'T FORWARD!]
+
+[Plugins]
+Plugins
+[yaRelay]
+

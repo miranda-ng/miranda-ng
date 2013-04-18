@@ -1,0 +1,26 @@
+﻿#muuid {2f3fe8b9-7327-4008-a60d-93f0f4f7f0f1}
+;============================================================
+;  File: YahooGroups.dll
+;  Plugin: Yahoo groups
+;  Version: 0.0.1.1
+;  Authors: Cristian Libotean
+;============================================================
+[This plugin imports and creates the Yahoo groups defined in Yahoo Messenger.]
+Dieses Plugin importiert und erstellt die Yahoo-Gruppen aus dem Yahoo-Messenger.
+;file \plugins\YahooGroups\res\YahooGroups.rc
+[Dialog]
+Dialog
+[Move yahoo contacts to groups now]
+Yahoo-Kontakte nun in Gruppen verschieben
+[Move Yahoo contacts automatically on startup]
+Yahoo Kontakte automatisch beim Start verschieben
+;file \plugins\YahooGroups\src\hooked_events.cpp
+[Yahoo Groups]
+Yahoo-Gruppen
+[Plugins]
+Plugins
+;file \plugins\YahooGroups\src\utils.cpp
+[Notify]
+Benachrichtigung
+[Warning]
+Warnung
