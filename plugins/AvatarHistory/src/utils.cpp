@@ -140,15 +140,14 @@ TCHAR* GetProtocolFolder(TCHAR *fn, char *proto)
 
 TCHAR* GetContactFolder(TCHAR *fn, HANDLE hContact)
 {
-	TCHAR uin[MAX_PATH];
-
 	char *proto = GetContactProto(hContact);
 	GetProtocolFolder(fn, proto);
 	
+	TCHAR uin[MAX_PATH];
 	GetUIDFromHContact(hContact, uin, SIZEOF(uin));
+	ConvertToFilename(uin, sizeof(uin)); //added so that weather id's like "yw/CI0000" work
 	mir_sntprintf(fn, MAX_PATH, _T("%s\\%s"), fn, uin);
 	CreateDirectoryTreeT(fn);
-	ConvertToFilename(uin, sizeof(uin)); //added so that weather id's like "yw/CI0000" work
 	
 #ifdef DBGPOPUPS
 	TCHAR log[1024];
