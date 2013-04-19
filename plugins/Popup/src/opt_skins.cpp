@@ -209,39 +209,38 @@ int  SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos
 		LPGENT("Enable Aero Glass (Vista+)"),
 		LPGENT("Use Windows colours"),
 		LPGENT("Use advanced text render")};
+
 	for (int i=0; i < SIZEOF(mainOption); i++) {
 		bCheck = 0;
 		switch (i) {
-			case 0:
-				*dwGlobalOptions |= PopUpOptions.DisplayTime ? (1 << i) : 0;
-				bCheck = PopUpOptions.DisplayTime;
-				break;
-			case 1:
-				if (!IsWinVerXPPlus()) continue;
-				*dwGlobalOptions |= PopUpOptions.DropShadow ? (1 << i) : 0;
-				bCheck = PopUpOptions.DropShadow;
-				break;
-			case 2:
-				if (!IsWinVerXPPlus()) continue;
-				*dwGlobalOptions |= PopUpOptions.EnableFreeformShadows ? (1 << i) : 0;
-				bCheck = PopUpOptions.EnableFreeformShadows;
-				break;
-			case 3:
-				if (!MyDwmEnableBlurBehindWindow) continue;
-				*dwGlobalOptions |= PopUpOptions.EnableAeroGlass ? (1 << i) : 0;
-				bCheck = PopUpOptions.EnableAeroGlass;
-				break;
-			case 4:
-				*dwGlobalOptions |= PopUpOptions.UseWinColors ? (1 << i) : 0;
-				bCheck = PopUpOptions.UseWinColors;
-				break;
-			case 5:
-				if (!(htuText&&htuTitle)) continue;
-				*dwGlobalOptions |= PopUpOptions.UseMText ? (1 << i) : 0;
-				bCheck = PopUpOptions.UseMText;
-				break;
-			default:
-				break;
+		case 0:
+			*dwGlobalOptions |= PopUpOptions.DisplayTime ? (1 << i) : 0;
+			bCheck = PopUpOptions.DisplayTime;
+			break;
+		case 1:
+			if (!IsWinVerXPPlus()) continue;
+			*dwGlobalOptions |= PopUpOptions.DropShadow ? (1 << i) : 0;
+			bCheck = PopUpOptions.DropShadow;
+			break;
+		case 2:
+			if (!IsWinVerXPPlus()) continue;
+			*dwGlobalOptions |= PopUpOptions.EnableFreeformShadows ? (1 << i) : 0;
+			bCheck = PopUpOptions.EnableFreeformShadows;
+			break;
+		case 3:
+			if (!MyDwmEnableBlurBehindWindow) continue;
+			*dwGlobalOptions |= PopUpOptions.EnableAeroGlass ? (1 << i) : 0;
+			bCheck = PopUpOptions.EnableAeroGlass;
+			break;
+		case 4:
+			*dwGlobalOptions |= PopUpOptions.UseWinColors ? (1 << i) : 0;
+			bCheck = PopUpOptions.UseWinColors;
+			break;
+		case 5:
+			if (!(htuText&&htuTitle)) continue;
+			*dwGlobalOptions |= PopUpOptions.UseMText ? (1 << i) : 0;
+			bCheck = PopUpOptions.UseMText;
+			break;
 		}
 		*OptionsCount += 1;
 		options = (OPTTREE_OPTION*)mir_realloc(options,sizeof(OPTTREE_OPTION)*(*OptionsCount));
@@ -443,8 +442,6 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				case IDC_GETSKINS:
 					CallService(MS_UTILS_OPENURL,0,(LPARAM)"http://miranda-ng.org/");
 					break;
-				default:
-					break;
 				}//end switch(idCtrl)
 				updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
 				break;
@@ -534,13 +531,13 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 static void BoxPreview_OnPaint(HWND hwnd, HDC mydc, int mode)
 {
-	switch (mode)
-	{
-		case 0:
+	RECT rc;
+
+	switch (mode) {
+	case 0:
 		{ // Avatar
 			HDC hdcAvatar = CreateCompatibleDC(mydc);
 			HBITMAP hbmSave = (HBITMAP)SelectObject(hdcAvatar, hbmNoAvatar);
-			RECT rc;
 			GetClientRect(hwnd, &rc);
 			BITMAP bmp;
 			GetObject(hbmNoAvatar, sizeof(bmp), &bmp);
@@ -552,9 +549,8 @@ static void BoxPreview_OnPaint(HWND hwnd, HDC mydc, int mode)
 			DeleteObject(rgn);
 			break;
 		}
-		case 1:
+	case 1:
 		{ // Opacity
-			RECT rc;
 			HBRUSH hbr = CreateSolidBrush(fonts.clBack);
 			HFONT hfnt = (HFONT)SelectObject(mydc, fonts.title);
 			GetClientRect(hwnd, &rc);
@@ -575,13 +571,12 @@ static void BoxPreview_OnPaint(HWND hwnd, HDC mydc, int mode)
 			FrameRect(mydc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
 			SelectObject(mydc, hfnt);
 			DeleteObject(hbr);
-			break;
 		}
-		case 2:
+		break;
+
+	case 2:
 		{ // Position
-			RECT rc;
-			HBRUSH hbr;
-			hbr = CreateSolidBrush(GetSysColor(COLOR_WINDOW));
+			HBRUSH hbr = CreateSolidBrush(GetSysColor(COLOR_WINDOW));
 			GetClientRect(hwnd, &rc);
 			FillRect(mydc, &rc, hbr);
 			DeleteObject(hbr);
@@ -604,43 +599,33 @@ static void BoxPreview_OnPaint(HWND hwnd, HDC mydc, int mode)
 			GetWindowRgn(hwnd, hrgn);
 			FrameRgn(mydc, hrgn, (HBRUSH)GetStockObject(BLACK_BRUSH), 1, 1);
 			DeleteObject(hrgn);
-
-			break;
 		}
+		break;
 	}
 }
 
 INT_PTR CALLBACK BoxPreviewWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-		case WM_PAINT:
-		{
-			if (GetUpdateRect(hwnd, 0, FALSE))
-			{
-				PAINTSTRUCT ps;
-				HDC mydc = BeginPaint(hwnd, &ps);
-				BoxPreview_OnPaint(hwnd, mydc, GetWindowLongPtr(hwnd, GWLP_USERDATA));
-				EndPaint(hwnd, &ps);
-				return TRUE;
-			}
-			break;
-		}
-
-		case WM_PRINT:
-		case WM_PRINTCLIENT:
-		{
-			HDC mydc = (HDC)wParam;
+	switch (msg) {
+	case WM_PAINT:
+		if (GetUpdateRect(hwnd, 0, FALSE)) {
+			PAINTSTRUCT ps;
+			HDC mydc = BeginPaint(hwnd, &ps);
 			BoxPreview_OnPaint(hwnd, mydc, GetWindowLongPtr(hwnd, GWLP_USERDATA));
+			EndPaint(hwnd, &ps);
 			return TRUE;
 		}
+		break;
 
-		case WM_LBUTTONDOWN:
-		{
-			ReleaseCapture();
-			SendMessage(hwnd, WM_SYSCOMMAND, 0xF012 /*SC_DRAGMOVE*/, 0);
-			return TRUE;
-		}
+	case WM_PRINT:
+	case WM_PRINTCLIENT:
+		BoxPreview_OnPaint(hwnd, (HDC)wParam, GetWindowLongPtr(hwnd, GWLP_USERDATA));
+		return TRUE;
+
+	case WM_LBUTTONDOWN:
+		ReleaseCapture();
+		SendMessage(hwnd, WM_SYSCOMMAND, 0xF012 /*SC_DRAGMOVE*/, 0);
+		return TRUE;
 	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }

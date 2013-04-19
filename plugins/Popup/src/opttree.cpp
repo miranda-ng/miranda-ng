@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "headers.h"
 
+enum { IMG_GROUP, IMG_CHECK, IMG_NOCHECK, IMG_RCHECK, IMG_NORCHECK, IMG_GRPOPEN, IMG_GRPCLOSED };
+
 static void OptTree_TranslateItem(HWND hwndTree, HTREEITEM hItem)
 {
 	union
@@ -160,10 +162,8 @@ HTREEITEM OptTree_AddItem(HWND hwndTree, LPTSTR name, LPARAM lParam, int iconInd
 	return result;
 }
 
-BOOL  OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, int *result, int idcTree, OPTTREE_OPTION *options, int optionCount)
+BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, int *result, int idcTree, OPTTREE_OPTION *options, int optionCount)
 {
-	enum { IMG_GROUP, IMG_CHECK, IMG_NOCHECK, IMG_RCHECK, IMG_NORCHECK, IMG_GRPOPEN, IMG_GRPCLOSED };
-
 	HWND hwndTree = GetDlgItem(hwnd, idcTree);
 	switch (msg)
 	{
@@ -348,8 +348,6 @@ BOOL  OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, 
 
 DWORD OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, LPTSTR pszSettingName)
 {
-	enum { IMG_GROUP, IMG_CHECK, IMG_NOCHECK, IMG_RCHECK, IMG_NORCHECK, IMG_GRPOPEN, IMG_GRPCLOSED };
-
 	HWND hwndTree = GetDlgItem(hwnd, idcTree);
 	DWORD result = 0;
 	int i;
@@ -358,7 +356,7 @@ DWORD OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int op
 		if ((!options[i].pszSettingName && !pszSettingName) ||
 			(options[i].pszSettingName && pszSettingName && !lstrcmp(options[i].pszSettingName, pszSettingName)))
 		{
-			TVITEM tvi;
+			TVITEM tvi = { 0 };
 			tvi.mask = TVIF_HANDLE|TVIF_IMAGE;
 			tvi.hItem = options[i].hItem;
 			TreeView_GetItem(hwndTree, &tvi);
@@ -371,11 +369,8 @@ DWORD OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int op
 
 void OptTree_SetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, DWORD dwOptions, LPTSTR pszSettingName)
 {
-	enum { IMG_GROUP, IMG_CHECK, IMG_NOCHECK, IMG_RCHECK, IMG_NORCHECK, IMG_GRPOPEN, IMG_GRPCLOSED };
-
 	HWND hwndTree = GetDlgItem(hwnd, idcTree);
-	int i;
-	for (i = 0; i < optionCount; ++i)
+	for (int i = 0; i < optionCount; ++i)
 	{
 		if ((!options[i].pszSettingName && !pszSettingName) ||
 			(options[i].pszSettingName && pszSettingName && !lstrcmp(options[i].pszSettingName, pszSettingName)))
@@ -384,12 +379,10 @@ void OptTree_SetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int opt
 			tvi.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 			tvi.hItem = options[i].hItem;
 			if (options[i].groupId == OPTTREE_CHECK)
-			{
 				tvi.iImage = tvi.iSelectedImage = (dwOptions & options[i].dwFlag) ? IMG_CHECK : IMG_NOCHECK;
-			} else
-			{
+			else
 				tvi.iImage = tvi.iSelectedImage = (dwOptions & options[i].dwFlag) ? IMG_RCHECK : IMG_NORCHECK;
-			}
+
 			TreeView_SetItem(hwndTree, &tvi);
 		}
 	}

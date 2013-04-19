@@ -30,14 +30,13 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 {
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwnd);
+
+		SendMessage(GetDlgItem(hwnd, IDC_ICO_AUTO),			STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_DEF,0), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_ICO_FAVORITE),		STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_FAV,0), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_ICO_FULLSCREEN),	STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_FULLSCREEN,0), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_ICO_BLOCK),		STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_BLOCK,0), 0);
 		{
-			TranslateDialogDefault(hwnd);
-
-			SendMessage(GetDlgItem(hwnd, IDC_ICO_AUTO),			STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_DEF,0), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_ICO_FAVORITE),		STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_FAV,0), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_ICO_FULLSCREEN),	STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_FULLSCREEN,0), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_ICO_BLOCK),		STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_BLOCK,0), 0);
-
 			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),
 				(IsWinVerXPPlus()?ILC_COLOR32:ILC_COLOR16)|ILC_MASK,5,5);
 			ImageList_AddIcon(hIml, LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT));
@@ -49,9 +48,8 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRACOLUMNS, 4 /*SIZEOF(sttIcons)*/, 0);
 			sttResetListOptions(GetDlgItem(hwnd, IDC_LIST));
 			sttSetAllContactIcons(GetDlgItem(hwnd, IDC_LIST));
-
-			break;
 		}
+		break;
 
 	case WM_NOTIFY:
 		switch(((LPNMHDR)lParam)->idFrom) {
@@ -65,27 +63,22 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				sttResetListOptions(GetDlgItem(hwnd,IDC_LIST));
 				break;
 			case NM_CLICK:
-				{
-					HANDLE hItem;
-					NMCLISTCONTROL *nm=(NMCLISTCONTROL*)lParam;
-					DWORD hitFlags;
-					int iImage;
+				NMCLISTCONTROL *nm=(NMCLISTCONTROL*)lParam;
+				if (nm->iColumn==-1) break;
 
-					if (nm->iColumn==-1) break;
-					hItem=(HANDLE)SendDlgItemMessage(hwnd,IDC_LIST,CLM_HITTEST,(WPARAM)&hitFlags,MAKELPARAM(nm->pt.x,nm->pt.y));
-					if (hItem==NULL) break;
-					if (!(hitFlags&CLCHT_ONITEMEXTRA)) break;
+				DWORD hitFlags;
+				HANDLE hItem = (HANDLE)SendDlgItemMessage(hwnd,IDC_LIST,CLM_HITTEST,(WPARAM)&hitFlags,MAKELPARAM(nm->pt.x,nm->pt.y));
+				if (hItem==NULL) break;
+				if (!(hitFlags&CLCHT_ONITEMEXTRA)) break;
 
-					iImage = SendDlgItemMessage(hwnd,IDC_LIST,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(nm->iColumn,0));
-					if (iImage != EMPTY_EXTRA_ICON) {
-						for (int i=0; i < 4 /*SIZEOF(sttIcons)*/; ++i)
-							//hIml element [0]    = SKINICON_OTHER_SMALLDOT
-								//hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
-									SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, (i==nm->iColumn)?i+1:0));
-					}
-					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-					break;
+				int iImage = SendDlgItemMessage(hwnd,IDC_LIST,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(nm->iColumn,0));
+				if (iImage != EMPTY_EXTRA_ICON) {
+					for (int i=0; i < 4 /*SIZEOF(sttIcons)*/; ++i)
+						//hIml element [0]    = SKINICON_OTHER_SMALLDOT
+							//hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
+								SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, (i==nm->iColumn)?i+1:0));
 				}
+				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			}
 			break;
 
