@@ -145,7 +145,7 @@ TCHAR* GetContactFolder(TCHAR *fn, HANDLE hContact)
 	
 	TCHAR uin[MAX_PATH];
 	GetUIDFromHContact(hContact, uin, SIZEOF(uin));
-	ConvertToFilename(uin, sizeof(uin)); //added so that weather id's like "yw/CI0000" work
+	ConvertToFilename(uin, MAX_PATH); //added so that weather id's like "yw/CI0000" work
 	mir_sntprintf(fn, MAX_PATH, _T("%s\\%s"), fn, uin);
 	CreateDirectoryTreeT(fn);
 	
