@@ -193,6 +193,10 @@
 				RelativePath=".\mDynDNS.h"
 				>
 			</File>
+			<File
+				RelativePath=".\version.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -204,15 +208,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\dyndns.ico"
+				>
+			</File>
+			<File
 				RelativePath=".\resource.h"
 				>
 			</File>
 			<File
 				RelativePath=".\resource.rc"
-				>
-			</File>
-			<File
-				RelativePath=".\version.h"
 				>
 			</File>
 			<File
@@ -226,6 +230,10 @@
 		</File>
 		<File
 			RelativePath=".\readme.txt"
+			>
+		</File>
+		<File
+			RelativePath=".\resource."
 			>
 		</File>
 	</Files>
