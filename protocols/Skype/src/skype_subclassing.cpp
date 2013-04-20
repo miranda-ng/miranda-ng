@@ -446,6 +446,46 @@ CContact::CContact(unsigned int oid, SERootObject* root) : Contact(oid, root)
 	this->callback == NULL;
 }
 
+SEString CContact::GetSid()
+{
+	SEString result;
+	CContact::AVAILABILITY availability;
+	this->GetPropAvailability(availability);
+	if (availability == CContact::SKYPEOUT)
+		this->GetPropPstnnumber(result);
+	else
+		this->GetPropSkypename(result);
+	return result;
+}
+
+SEString CContact::GetNick()
+{
+	SEString result;
+	CContact::AVAILABILITY availability;
+	this->GetPropAvailability(availability);
+	if (availability == CContact::SKYPEOUT)
+		result = this->GetSid();
+	else
+		this->GetPropDisplayname(result);
+	return result;
+}
+
+bool CContact::GetFullname(SEString &firstName, SEString &lastName)
+{
+	SEString fullname;
+	this->GetPropFullname(fullname);
+	int pos = fullname.find(" ");
+	if (pos && pos < fullname.length())
+	{
+		firstName = fullname.substr(0, pos);
+		lastName = fullname.right(pos);
+	}
+
+	firstName = fullname;
+	
+	return true;
+}
+
 void CContact::SetOnContactChangedCallback(OnContactChanged callback, CSkypeProto* proto)
 {
 	this->proto = proto;
@@ -491,10 +531,11 @@ void CConversation::OnChange(int prop)
 	}
 }
 
-CConversation::Ref CConversation::FindBySid(CSkype *skype, SEString sid)
+CConversation::Ref CConversation::FindBySid(CSkype *skype, const wchar_t *sid)
 {
+	SEString identity = ::mir_u2a(sid);
 	SEStringList participants;
-	participants.append(sid);
+	participants.append(identity);
 	
 	CConversation::Ref conversation;
 	skype->GetConversationByParticipants(participants, conversation);

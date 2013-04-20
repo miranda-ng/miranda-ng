@@ -123,7 +123,7 @@ int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 	if (this->IsOnline() && hContact)
 	{
 		CContact::Ref contact;
-		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
+		SEString sid(::mir_u2a(this->GetSettingString(hContact, SKYPE_SETTINGS_LOGIN)));
 		if (this->skype->GetContact(sid, contact))
 		{
 			contact->SetBuddyStatus(Contact::AUTHORIZED_BY_ME);
@@ -187,6 +187,7 @@ int    __cdecl CSkypeProto::FileDeny( HANDLE hContact, HANDLE hTransfer, const T
 
 	return 0;
 }
+
 int    __cdecl CSkypeProto::FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename ) 
 { 
 	return 0; 
@@ -205,9 +206,9 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS |
 			PF4_OFFLINEFILES | PF4_IMSENDUTF | PF4_IMSENDOFFLINE;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)Translate("Skype Name");
+		return (DWORD_PTR)::Translate("Skype Name");
 	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR) "sid";
+		return (DWORD_PTR)SKYPE_SETTINGS_LOGIN;
 	default:
 		return 0;
 	}
@@ -220,8 +221,7 @@ HANDLE __cdecl CSkypeProto::SearchBasic(const TCHAR* id)
 	if ( !this->IsOnline())
 		return 0;
 
-	wchar_t *data = ::mir_tstrdup(id);
-	this->ForkThread(&CSkypeProto::SearchBySidAsync, data);
+	this->ForkThread(&CSkypeProto::SearchBySidAsync, ::mir_tstrdup(id));
 
 	return (HANDLE)SKYPE_SEARCH_BYSID;
 }
@@ -231,22 +231,21 @@ HANDLE __cdecl CSkypeProto::SearchByEmail(const TCHAR* email)
 	if ( !this->IsOnline())
 		return 0;
 
-	wchar_t *data = ::mir_tstrdup(email);
-	this->ForkThread(&CSkypeProto::SearchByEmailAsync, data);
+	this->ForkThread(&CSkypeProto::SearchByEmailAsync, ::mir_tstrdup(email));
 
 	return (HANDLE)SKYPE_SEARCH_BYEMAIL;
 }
 
 HANDLE __cdecl CSkypeProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
 {
-	PROTOSEARCHRESULT isr = {0};
-	isr.cbSize = sizeof(isr);
-	isr.flags = PSR_TCHAR;
-	isr.nick = ::mir_wstrdup(nick);
-	isr.firstName = ::mir_wstrdup(firstName);
-	isr.lastName = ::mir_wstrdup(lastName);
+	PROTOSEARCHRESULT psr = {0};
+	psr.cbSize = sizeof(psr);
+	psr.flags = PSR_TCHAR;
+	psr.nick = ::mir_wstrdup(nick);
+	psr.firstName = ::mir_wstrdup(firstName);
+	psr.lastName = ::mir_wstrdup(lastName);
 
-	this->ForkThread(&CSkypeProto::SearchByNamesAsync, &isr);
+	this->ForkThread(&CSkypeProto::SearchByNamesAsync, &psr);
 
 	return (HANDLE)SKYPE_SEARCH_BYNAMES;
 }
@@ -277,12 +276,12 @@ HANDLE __cdecl CSkypeProto::SendFile( HANDLE hContact, const TCHAR* szDescriptio
 	if (this->IsOnline() && hContact && ppszFiles)
 	{
 		SEStringList targets;
-		char* sid = ::db_get_sa(hContact, this->m_szModuleName, "sid");
-		targets.append(sid);		
+		mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+		targets.append(::mir_u2a(sid));
 
 		CConversation::Ref conversation = CConversation::FindBySid(
 			this->skype, 
-			::db_get_sa(hContact, this->m_szModuleName, "sid"));
+			sid);
 		conversation.fetch();
 
 		SEFilenameList fileList;
@@ -330,7 +329,7 @@ int    __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char* msg)
 {
 	CConversation::Ref conversation = CConversation::FindBySid(
 		this->skype,
-		(char*)::mir_ptr<char>(::db_get_sa(hContact, this->m_szModuleName, "sid")));
+		::mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN)));
 
 	if (conversation)
 	{
@@ -416,11 +415,10 @@ int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type )
 {
 	if (hContact && this->IsOnline() && this->m_iStatus != ID_STATUS_INVISIBLE)
 	{
-		if (::strcmp(::db_get_sa(hContact, this->m_szModuleName, "sid"), this->login) != 0)
+		mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+		if (::wcsicmp(sid, this->login) != 0)
 		{
-			CConversation::Ref conversation = CConversation::FindBySid(
-				this->skype,
-				::db_get_sa(hContact, this->m_szModuleName, "sid"));
+			CConversation::Ref conversation = CConversation::FindBySid(this->skype, sid);
 			if (conversation)
 			{
 				switch (type)

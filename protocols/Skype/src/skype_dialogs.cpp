@@ -117,14 +117,14 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 
 			case IDC_CHANGE_PWD:
 				{
-					char sid[128], pwd[128];
-					GetDlgItemTextA(hwnd, IDC_SL, sid, SIZEOF(sid));
-					GetDlgItemTextA(hwnd, IDC_PW, pwd, SIZEOF(pwd));
+					wchar_t sid[128], pwd[128];
+					GetDlgItemText(hwnd, IDC_SL, sid, SIZEOF(sid));
+					GetDlgItemText(hwnd, IDC_PW, pwd, SIZEOF(pwd));
 
 					PasswordChangeBoxParam param;
 					if (proto->ChangePassword(param))
 					{
-						proto->account->ChangePassword(param.password, param.password2);
+						proto->account->ChangePassword(::mir_utf8encodeW(param.password), ::mir_utf8encodeW(param.password2));
 					}
 				}
 				break;
@@ -135,15 +135,15 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY && !proto->IsOnline())
 		{
-			char data[128];
-			GetDlgItemTextA(hwnd, IDC_SL, data, SIZEOF(data));
-			::db_set_s(NULL, proto->m_szModuleName, "sid", data);
+			wchar_t data[128];
+			GetDlgItemText(hwnd, IDC_SL, data, SIZEOF(data));
+			::db_set_ws(NULL, proto->m_szModuleName, SKYPE_SETTINGS_LOGIN, data);
 			::mir_free(proto->login);
-			proto->login = ::mir_strdup(data);
+			proto->login = ::mir_wstrdup(data);
 
-			GetDlgItemTextA(hwnd, IDC_PW, data, sizeof(data));
-			::CallService(MS_DB_CRYPT_ENCODESTRING, strlen(data), LPARAM((char*)data));
-			::db_set_s(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD, data);
+			GetDlgItemText(hwnd, IDC_PW, data, sizeof(data));
+			::CallService(MS_DB_CRYPT_ENCODESTRING, wcslen(data), (LPARAM)&data);
+			::db_set_ws(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD, data);
 
 			HWND item = GetDlgItem(hwnd, IDC_PORT);
 			if (item)
@@ -211,7 +211,7 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordRequestProc(HWND hwndDlg, UINT msg, W
 				title, 
 				MAX_PATH, 
 				::TranslateT("Enter a password for Skype Name %s:"), 
-				::mir_a2u(param->login));
+				param->login);
 			::SetDlgItemText(hwndDlg, IDC_INSTRUCTION, title);
 
 			::SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_LIMITTEXT, 128 - 1, 0);
@@ -233,9 +233,9 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordRequestProc(HWND hwndDlg, UINT msg, W
 				{
 					param->rememberPassword = ::IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD) > 0;
 
-					char password[SKYPE_PASSWORD_LIMIT];
-					::GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, SIZEOF(password));
-					param->password = ::mir_strdup(password);
+					wchar_t password[SKYPE_PASSWORD_LIMIT];
+					::GetDlgItemText(hwndDlg, IDC_PASSWORD, password, SIZEOF(password));
+					param->password = ::mir_wstrdup(password);
 
 					::EndDialog(hwndDlg, IDOK);
 				}
@@ -290,16 +290,16 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordChangeProc(HWND hwndDlg, UINT msg, WP
 			{
 			case IDOK:
 				{
-					char oldPwd[SKYPE_PASSWORD_LIMIT];
-					::GetDlgItemTextA(hwndDlg, IDC_PASSWORD, oldPwd, SIZEOF(oldPwd));
-					param->password = ::mir_strdup(oldPwd);
+					wchar_t oldPwd[SKYPE_PASSWORD_LIMIT];
+					::GetDlgItemText(hwndDlg, IDC_PASSWORD, oldPwd, SIZEOF(oldPwd));
+					param->password = ::mir_wstrdup(oldPwd);
 
-					char pwd1[SKYPE_PASSWORD_LIMIT];
-					::GetDlgItemTextA(hwndDlg, IDC_PASSWORD2, pwd1, SIZEOF(pwd1));
-					param->password2 = ::mir_strdup(pwd1);
+					wchar_t pwd1[SKYPE_PASSWORD_LIMIT];
+					::GetDlgItemText(hwndDlg, IDC_PASSWORD2, pwd1, SIZEOF(pwd1));
+					param->password2 = ::mir_wstrdup(pwd1);
 
-					char pwd2[SKYPE_PASSWORD_LIMIT];
-					::GetDlgItemTextA(hwndDlg, IDC_PASSWORD3, pwd2, SIZEOF(pwd2));
+					wchar_t pwd2[SKYPE_PASSWORD_LIMIT];
+					::GetDlgItemText(hwndDlg, IDC_PASSWORD3, pwd2, SIZEOF(pwd2));
 
 					::EndDialog(hwndDlg, IDOK);
 				}
@@ -359,7 +359,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 					if (!szProto)
 						break;
 
-					::SetDlgItemText(hwndDlg, IDC_SID, ppro->GetSettingString(hContact, "sid"));
+					::SetDlgItemText(hwndDlg, IDC_SID, ppro->GetSettingString(hContact, SKYPE_SETTINGS_LOGIN));
 					::SetDlgItemText(hwndDlg, IDC_STATUSTEXT, ppro->GetSettingString(hContact, "XStatusMsg") ? ppro->GetSettingString(hContact, "XStatusMsg") : TranslateT("<not specified>"));
 
 					if (ppro->GetSettingDword(hContact, "OnlineSinceTS")) {
@@ -639,7 +639,7 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 					SEStringList invitedContacts;
 					param->ppro->GetInviteContacts(NULL, hwndList, invitedContacts);
 
-					char *chatID = ::mir_strdup(param->id);
+					wchar_t *chatID = ::mir_wstrdup(param->id);
 
 					if (chatID)
 					{
@@ -653,13 +653,13 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 							//todo: fix rank
 							param->ppro->AddChatContact(
 								chatID, 
-								invitedContacts[i], 
-								CParticipant::GetRankName(CParticipant::SPEAKER),
+								::mir_utf8decodeW(invitedContacts[i]),
+								mir_utf8decodeW(CParticipant::GetRankName(CParticipant::SPEAKER)),
 								status);
 						}
 
 						CConversation::Ref conversation;
-						param->ppro->skype->GetConversationByIdentity(chatID, conversation);
+						param->ppro->skype->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation);
 						conversation->AddConsumers(invitedContacts);
 					}
 					else
@@ -676,8 +676,8 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 							//todo: fix rank
 							param->ppro->AddChatContact(
 								chatID, 
-								invitedContacts[i], 
-								CParticipant::GetRankName(CParticipant::SPEAKER),
+								::mir_utf8decodeW(invitedContacts[i]), 
+								::mir_utf8decodeW(CParticipant::GetRankName(CParticipant::SPEAKER)),
 								status);
 						}
 					}

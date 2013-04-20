@@ -10,6 +10,12 @@
     <Filter Include="Resource Files">
       <UniqueIdentifier>{901463af-0f59-4125-b874-1662b095d403}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Icons">
+      <UniqueIdentifier>{092ce045-936d-405a-abaf-200a3abba159}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Bin">
+      <UniqueIdentifier>{f1aeb5a2-f105-4b8c-a656-08dbe6dc7b2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\skype.cpp">
@@ -105,19 +111,23 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\SkypeKit\SDK\bin\windows-x86\windows-x86-skypekit.exe" />
-    <None Include="..\..\..\SkypeKit\keypair.bin" />
     <None Include="res\auth_grant.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\auth_request.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\auth_revoke.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\Main.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="..\..\..\SkypeKit\SDK\bin\windows-x86\windows-x86-skypekit.exe">
+      <Filter>Resource Files\Bin</Filter>
+    </None>
+    <None Include="..\..\..\SkypeKit\keypair.bin">
+      <Filter>Resource Files\Bin</Filter>
     </None>
   </ItemGroup>
 </Project>

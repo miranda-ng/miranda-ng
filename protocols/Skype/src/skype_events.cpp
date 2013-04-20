@@ -10,9 +10,6 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	this->HookEvent(ME_OPT_INITIALISE,		&CSkypeProto::OnOptionsInit);
 	this->HookEvent(ME_USERINFO_INITIALISE, &CSkypeProto::OnUserInfoInit);
-	
-	//this->login = ::DBGetString(NULL, this->m_szModuleName, "sid");
-	//this->rememberPassword = this->GetSettingByte("RememberPassword") > 0;
 
 	return 0;
 }
@@ -22,7 +19,6 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 	this->SetStatus(ID_STATUS_OFFLINE);
 
 	this->UninitNetLib();
-
 	this->UninitSkype();
 
 	return 0;
@@ -35,11 +31,11 @@ int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 	{
 		if (this->IsChatRoom(hContact))
 		{
-			char *chatID = ::db_get_sa(hContact, this->m_szModuleName, "ChatRoomID");
+			wchar_t *chatID = ::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID");
 			this->LeaveChat(chatID);
 
 			CConversation::Ref conversation;
-			this->skype->GetConversationByIdentity(chatID, conversation);
+			this->skype->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation);
 			conversation->RetireFrom();
 			conversation->Delete();
 		}
@@ -64,7 +60,7 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 	message->GetPropConsumptionStatus(status);
 
 	message->GetPropBodyXml(data);
-	char *text = CSkypeProto::RemoveHtml(data);
+	wchar_t *text = ::mir_utf8decodeW(CSkypeProto::RemoveHtml(data));
 
 	CConversation::TYPE type;
 	conversation->GetPropType(type);
@@ -89,15 +85,15 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 	else
 	{
 		receiver->GetIdentity(data);
-		char *sid = ::mir_strdup(data);
+		wchar_t *sid = ::mir_utf8decodeW(data);
 
 		conversation->GetPropIdentity(data);
-		char *cid = ::mir_strdup(data);
+		wchar_t *cid = ::mir_utf8decodeW(data);
 
 		//this->SendChatMessage(cid, sid, ::mir_utf8decodeA(text));
 
-		char *nick = (char *)::db_get_sa(NULL, this->m_szModuleName, "Nick");
-		if (::stricmp(nick, "") == 0)
+		wchar_t *nick = (wchar_t *)::db_get_wsa(NULL, this->m_szModuleName, "Nick");
+		if (::wcsicmp(nick, L"") == 0)
 		{
 			nick = sid;
 		}
@@ -125,7 +121,7 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::R
 	message->GetPropConsumptionStatus(status);
 		
 	message->GetPropBodyXml(data);
-	char *text = CSkypeProto::RemoveHtml(data);
+	wchar_t *text = ::mir_utf8decodeW(CSkypeProto::RemoveHtml(data));
 
 	CConversation::TYPE type;
 	conversation->GetPropType(type);
@@ -143,10 +139,10 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::R
 	else
 	{
 		message->GetPropAuthor(data);
-		char *sid = ::mir_strdup(data);
+		wchar_t *sid = ::mir_utf8decodeW(data);
 
 		conversation->GetPropIdentity(data);
-		char *cid = ::mir_strdup(data);
+		wchar_t *cid = ::mir_utf8decodeW(data);
 
 		this->SendChatMessage(cid, sid, text);
 
@@ -164,20 +160,11 @@ void CSkypeProto::OnTransferChanged(int prop, CTransfer::Ref transfer)
 		Transfer::STATUS status;
 		transfer->GetPropStatus(status);
 
-		/*CConversation::Ref conversation;
-		transfer->GetPropConvoId(conversation);
-
-		SEBinary guid;
-		transfer->GetPropChatmsgGuid(guid);
-		auto ft = this->FindTransfer(guid);*/
 		auto ft = this->FindFileTransfer(transfer);
 
-		SEString sid;
-		transfer->GetPropPartnerHandle(sid);
-		//CParticipant::Refs participants;
-		//conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);
-		////for (uint i = 0; i < participants.size(); i++)
-		//participants[0]->GetPropIdentity(sid);
+		SEString data;
+		transfer->GetPropPartnerHandle(data);
+		mir_ptr<wchar_t> sid(::mir_utf8decodeW(data));
 
 		HANDLE hContact = this->GetContactBySid(sid);
 
@@ -270,8 +257,10 @@ void CSkypeProto::OnFileReceived(CConversation::Ref conversation, CMessage::Ref 
 
 			wchar_t *path = ::mir_utf8decodeW(name);
 
-			SEString sid;
-			transfer->GetPropPartnerHandle(sid);
+			SEString data;
+			transfer->GetPropPartnerHandle(data);
+			mir_ptr<wchar_t> sid(::mir_utf8decodeW(data));
+
 			HANDLE hContact = this->GetContactBySid(sid);
 
 			auto ft = new FileTransfer(this);
@@ -318,8 +307,8 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 		{
 			SEString identity;
 			message->GetPropAuthor(identity);			
-			char *sid = ::mir_strdup(identity);
-			if (::stricmp(sid, this->login) == 0)
+			wchar_t *sid = ::mir_utf8decodeW(identity);
+			if (::wcsicmp(sid, this->login) == 0)
 			{
 				CParticipant::Refs participants;
 				conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);
@@ -347,7 +336,7 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 			SEString data;
 
 			conversation->GetPropIdentity(data);
-			char *cid = ::mir_strdup(data);
+			wchar_t *cid = ::mir_utf8decodeW(data);
 
 			HANDLE hContact = this->GetChatRoomByID(cid);
 			if ( !hContact || ::db_get_w(hContact, this->m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
@@ -371,8 +360,8 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 
 					this->AddChatContact(
 						cid, 
-						data, 
-						CParticipant::GetRankName(rank),
+						::mir_utf8decodeW(data), 
+						::mir_utf8decodeW(CParticipant::GetRankName(rank)),
 						status);
 				}
 			}
@@ -386,7 +375,7 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 				for (int i = 0; i < needToAdd.getCount(); i++)
 				{
 					char *sid = needToAdd[i];
-					if (::stricmp(sid, this->login) != 0 && !alreadyInChat.contains(sid))
+					if (::wcsicmp(::mir_a2u(sid), this->login) != 0 && !alreadyInChat.contains(sid))
 					{
 						CContact::Ref contact;
 						CContact::AVAILABILITY status;
@@ -396,8 +385,8 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 						//todo: fix rank
 						this->AddChatContact(
 							cid, 
-							sid, 
-							CParticipant::GetRankName(CParticipant::WRITER),
+							::mir_a2u(sid), 
+							::mir_utf8decodeW(CParticipant::GetRankName(CParticipant::WRITER)),
 							status);
 					}
 				}
@@ -410,14 +399,14 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 			SEString data;
 
 			conversation->GetPropIdentity(data);
-			char *cid = ::mir_strdup(data);
+			wchar_t *cid = ::mir_utf8decodeW(data);
 
 			StringList alreadyInChat(this->GetChatUsers(cid), " ");
 			
 			message->GetPropAuthor(data);	
-			char *sid = ::mir_strdup(data);
-			if (::stricmp(sid, this->login) != 0)
-				if (alreadyInChat.contains(sid))
+			wchar_t *sid = ::mir_utf8decodeW(data);
+			if (::wcsicmp(sid, this->login) != 0)
+				if (alreadyInChat.contains(::mir_u2a(sid)))
 					this->RemoveChatContact(cid, sid);
 		}
 		break;
@@ -426,7 +415,7 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 			SEString data;
 
 			conversation->GetPropIdentity(data);
-			char *cid = ::mir_strdup(data);
+			wchar_t *cid = ::mir_utf8decodeW(data);
 
 			message->GetPropIdentities(data);
 
@@ -435,8 +424,8 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 				
 			for (int i = 0; i < needToKick.getCount(); i++)
 			{
-				char *sid = needToKick[i];
-				if (::stricmp(sid, this->login) != 0 && !alreadyInChat.contains(sid))
+				wchar_t *sid = ::mir_utf8decodeW(needToKick[i]);
+				if (::wcsicmp(sid, this->login) != 0 && !alreadyInChat.contains(::mir_u2a(sid)))
 					this->KickChatContact(cid, sid);
 			}
 		}

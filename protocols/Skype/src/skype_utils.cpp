@@ -351,14 +351,14 @@ wchar_t* CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
 
-	wchar_t *sid = this->GetSettingString(hContact, "sid");
+	::mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
 	if (hContact != NULL)
 		::mir_sntprintf(path, MAX_PATH, _T("%s\\%s.jpg"), path, sid);
 	else if (sid != NULL)
 		::mir_sntprintf(path, MAX_PATH, _T("%s\\%s avatar.jpg"), path, sid);
 	else
 	{
-		delete path;
+		delete [] path;
 		return NULL;
 	}
 

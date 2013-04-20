@@ -67,8 +67,9 @@ void CSkypeProto::OnContactChanged(CContact::Ref contact, int prop)
 {
 	SEString data;
 	contact->GetPropSkypename(data);
-	const char *sid = (const char*)data;
+	wchar_t *sid = ::mir_utf8decodeW(data);
 	HANDLE hContact = this->GetContactBySid(sid);
+	::mir_free(sid);
 
 	SEObject *contactObj = contact.fetch();
 
@@ -147,15 +148,15 @@ bool CSkypeProto::IsProtoContact(HANDLE hContact)
 	return ::CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName) < 0;
 }
 
-HANDLE CSkypeProto::GetContactBySid(const char *sid)
+HANDLE CSkypeProto::GetContactBySid(const wchar_t *sid)
 {
 	HANDLE hContact = ::db_find_first();
 	while (hContact)
 	{
 		if  (this->IsProtoContact(hContact) && !this->IsChatRoom(hContact))
 		{
-			char *contactSid = ::db_get_sa(hContact, this->m_szModuleName, "sid");
-			if (contactSid && ::strcmp(sid, contactSid) == 0)
+			mir_ptr<wchar_t> contactSid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+			if (contactSid && ::wcsicmp(sid, contactSid) == 0)
 				return hContact;
 		}
 
@@ -186,21 +187,10 @@ HANDLE CSkypeProto::GetContactFromAuthEvent(HANDLE hEvent)
 
 HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 {
-	SEString data;
-
-	contact->GetPropSkypename(data);
-	char *sid = ::mir_strdup(data);
+	wchar_t *sid = ::mir_utf8decodeW(contact->GetSid());
 
 	CContact::AVAILABILITY availability;
 	contact->GetPropAvailability(availability);
-
-	if (availability == CContact::SKYPEOUT)
-	{
-		//flags |= 256;
-		contact->GetPropPstnnumber(data);
-		::mir_free(sid);
-		sid = ::mir_strdup((const char *)data);
-	}
 
 	HANDLE hContact = this->GetContactBySid(sid);
 	if ( !hContact)
@@ -208,58 +198,35 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 		hContact = (HANDLE)::CallService(MS_DB_CONTACT_ADD, 0, 0);
 		::CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
 
-		char *nick;
-		if (availability == CContact::SKYPEOUT)
+		wchar_t *nick = ::mir_utf8decodeW(contact->GetNick());
+
+		
+		switch(availability)
 		{
-			nick = ::mir_strdup(sid);
+		case CContact::SKYPEOUT:
 			this->SetSettingByte(hContact, "IsSkypeOut", 1);
-		}
-		else
-		{
-			contact->GetPropDisplayname(data);
-			nick = ::mir_utf8decodeA(data);
+			break;
+		
+		case CContact::PENDINGAUTH:
+			::db_set_b(hContact, "CList", "NotOnList", 1);
+			break;
+
+		case CContact::BLOCKED:
+		case CContact::BLOCKED_SKYPEOUT:
+			::db_set_b(hContact, "CList", "Hidden", 1);
+			break;
+
+		default:
+			::db_unset(hContact, this->m_szModuleName, "IsSkypeOut");
+			//::db_unset(hContact, "CList", "Hidden");
+			::db_unset(hContact, "CList", "NotOnList");
 		}
 
-		::db_set_s(hContact, this->m_szModuleName, "sid", sid);
-		::db_set_s(hContact, this->m_szModuleName, "Nick", nick);
+		::db_set_ws(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN, sid);
+		::db_set_ws(hContact, this->m_szModuleName, "Nick", nick);
 
 		::mir_free(nick);
-		
-		// why i do this?
-		/*bool result;
-		if (contact->IsMemberOfHardwiredGroup(CContactGroup::ALL_BUDDIES, result))
-		{
-			CContactGroup::Ref group;
-			if (this->skype->GetHardwiredContactGroup(CContactGroup::ALL_BUDDIES, group))
-			{
-				group.fetch();
-				group->AddContact(contact);
-			}
-		}*/
-
-		/*if (flags & 256)
-		{
-			this->SetSettingByte(hContact, "IsSkypeOut", 1);
-		}
-		else
-		{
-			this->SetSettingByte(hContact, "Auth", 1);
-			::db_unset(hContact, this->m_szModuleName, "IsSkypeOut");
-
-			this->UpdateProfile(contact.fetch(), hContact);
-
-			if (flags & PALF_TEMPORARY)
-			{
-				::db_set_b(hContact, "CList", "NotOnList", 1);
-				::db_set_b(hContact, "CList", "Hidden", 1);
-			}
-		}*/
 	}
-	/*else
-	{
-		if ( !(flags & PALF_TEMPORARY))
-			::db_unset(hContact, "CList", "NotOnList");
-	}*/
 
 	::mir_free(sid);
 
@@ -273,23 +240,18 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 	this->commonList->SetOnContactListChangedCallback(
 		(CContactGroup::OnContactListChanged)&CSkypeProto::OnContactListChanged, 
 		this);
-	this->commonList->GetContacts(this->contactList);
-	Sid::fetch(this->contactList);	
 
-	for (unsigned int i = 0; i < this->contactList.size(); i++)
+	this->commonList->GetContacts(this->contactList);
+	for (uint i = 0; i < this->contactList.size(); i++)
 	{
 		CContact::Ref contact = this->contactList[i];
+		SEObject *obj = contact.fetch();
 		contact->SetOnContactChangedCallback(
 			(CContact::OnContactChanged)&CSkypeProto::OnContactChanged, 
 			this);
 
-		DWORD flags = 0;
-		CContact::AVAILABILITY availability;
-		contact->GetPropAvailability(availability);
-
 		HANDLE hContact = this->AddContact(contact);
 
-		SEObject *obj = contact.fetch();
 		this->UpdateContactAuthState(hContact, contact);
 		this->UpdateContactStatus(hContact, contact);
 
@@ -343,39 +305,20 @@ void __cdecl CSkypeProto::LoadChatList(void*)
 
 void __cdecl CSkypeProto::LoadAuthWaitList(void*)
 {
-	// raise auth event for all non auth contacts
 	CContact::Refs authContacts;
 	this->skype->GetHardwiredContactGroup(CContactGroup::CONTACTS_WAITING_MY_AUTHORIZATION, this->authWaitList);
 	this->authWaitList.fetch();
 	this->authWaitList->SetOnContactListChangedCallback(
 		(CContactGroup::OnContactListChanged)&CSkypeProto::OnContactListChanged, 
 		this);
-	this->authWaitList->GetContacts(authContacts);
-    //Sid::fetch(this->contactList);	
 
-    for (unsigned int i = 0; i < authContacts.size(); i++)
+	this->authWaitList->GetContacts(authContacts);
+    for (uint i = 0; i < authContacts.size(); i++)
     {
 		CContact::Ref contact = authContacts[i];
-		/*contact->SetOnContactChangedCallback(
-			(CContact::OnContactChanged)&CSkypeProto::OnContactChanged, 
-			this);*/
-
-		SEString data;
 
 		uint newTS = 0;
 		contact->GetPropAuthreqTimestamp(newTS);
-
-		contact->GetPropSkypename(data);
-		const char* sid = (const char *)data;
-		
-		CContact::AVAILABILITY availability;
-		contact->GetPropAvailability(availability);
-
-		if (availability == CContact::SKYPEOUT)
-		{
-			contact->GetPropPstnnumber(data);
-			sid = (const char*)data;
-		}
 					
 		this->RaiseAuthRequestEvent(newTS, contact);
 	}
@@ -386,12 +329,9 @@ void CSkypeProto::SetAllContactStatus(int status)
 	HANDLE hContact = ::db_find_first();
 	while (hContact)
 	{
-		if  (this->IsProtoContact(hContact))
-		{
-			//if ( !this->GetSettingWord(hContact, SKYPE_SETTINGS_STATUS, ID_STATUS_OFFLINE) == status)
-			if ( this->GetSettingByte(hContact, "IsSkypeOut", 0) == 0)
-				this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, status);
-		}
+		if  (this->IsProtoContact(hContact) && this->GetSettingByte(hContact, "IsSkypeOut", 0) == 0)
+			this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, status);
+
 		hContact = ::db_find_next(hContact);
 	}
 }
@@ -403,37 +343,40 @@ void CSkypeProto::OnSearchCompleted(HANDLE hSearch)
 
 void CSkypeProto::OnContactFinded(HANDLE hSearch, CContact::Ref contact)
 {
-	PROTOSEARCHRESULT isr = {0};
-	isr.cbSize = sizeof(isr);
-	isr.flags = PSR_TCHAR;
+	PROTOSEARCHRESULT psr = {0};
+	psr.cbSize = sizeof(psr);
+	psr.flags = PSR_TCHAR;
 		
 	SEString data;
 	contact->GetPropSkypename(data);
-	isr.id = ::mir_utf8decodeW((const char *)data);
+	psr.id = ::mir_utf8decodeW(data);
 	contact->GetPropDisplayname(data);
-	isr.nick  = ::mir_utf8decodeW((const char *)data);
-	{
-		contact->GetPropFullname(data);
-		wchar_t *fullname = ::mir_utf8decodeW((const char*)data);
+	psr.nick  = ::mir_utf8decodeW(data);
+	
+	SEString firstName, lastName;
+	contact->GetFullname(firstName, lastName);
+	psr.firstName = ::mir_utf8decodeW(firstName);
+	psr.lastName = ::mir_utf8decodeW(lastName);
 
-		isr.lastName = fullname;
-	}
 	{
 		contact->GetPropEmails(data);
-		wchar_t *emails = ::mir_utf8decodeW((const char*)data);
+		wchar_t *emails = ::mir_utf8decodeW(data);
 
-		wchar_t* main = wcstok(emails, L" ");
+		wchar_t* main = ::wcstok(emails, L" ");
 		if (main != NULL)
 		{
-			isr.email = main;
+			psr.email = main;
 		}
+
+		::mir_free(emails);
 	}
-	this->SendBroadcast(ACKTYPE_SEARCH, ACKRESULT_DATA, hSearch, (LPARAM)&isr);
+
+	this->SendBroadcast(ACKTYPE_SEARCH, ACKRESULT_DATA, hSearch, (LPARAM)&psr);
 }
 
 void __cdecl CSkypeProto::SearchBySidAsync(void* arg)
 {
-	const char *sid = ::mir_u2a((wchar_t*)arg);
+	wchar_t *sid = (wchar_t*)arg;
 
 	HANDLE hContact = this->GetContactBySid(sid);
 	if (hContact)
@@ -444,7 +387,7 @@ void __cdecl CSkypeProto::SearchBySidAsync(void* arg)
 	}
 
 	CContactSearch::Ref search;
-	this->skype->CreateIdentitySearch(sid, search);
+	this->skype->CreateIdentitySearch(::mir_u2a(sid), search);
 	search.fetch();
 	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYSID);
 	search->SetOnContactFindedCallback(
@@ -459,11 +402,13 @@ void __cdecl CSkypeProto::SearchBySidAsync(void* arg)
 	}
 	search->BlockWhileSearch();
 	search->Release();
+
+	::mir_free(sid);
 }
 
 void __cdecl CSkypeProto::SearchByEmailAsync(void* arg)
 {
-	const wchar_t *email = (wchar_t *)arg;
+	wchar_t *email = (wchar_t *)arg;
 
 	CContactSearch::Ref search;
 	this->skype->CreateContactSearch(search);
@@ -481,8 +426,12 @@ void __cdecl CSkypeProto::SearchByEmailAsync(void* arg)
 	}
 	search->BlockWhileSearch();
 	search->Release();
+
+	::mir_free(email);
 }
 
 void __cdecl CSkypeProto::SearchByNamesAsync(void* arg)
 {
+	//todo: write me
+	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT *)arg;
 }

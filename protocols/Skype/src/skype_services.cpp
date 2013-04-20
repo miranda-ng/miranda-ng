@@ -17,7 +17,7 @@ INT_PTR __cdecl CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 		return GAIR_NOAVATAR;
 	}
 
-	wchar_t *sid = this->GetSettingString(pai->hContact, "sid");
+	wchar_t *sid = ::db_get_wsa(pai->hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
 	if (sid)
 	{
 		wchar_t *path = this->GetContactAvatarFilePath(pai->hContact);
@@ -27,6 +27,8 @@ INT_PTR __cdecl CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 			pai->format = PA_FORMAT_JPEG;
 			return GAIR_SUCCESS;
 		}
+
+		::mir_free(sid);
 	}
 
 	return GAIR_NOAVATAR;

@@ -22,10 +22,8 @@ void CSkypeProto::OnAccountChanged(int prop)
 			{
 				this->m_iStatus = ID_STATUS_OFFLINE;
 				this->SendBroadcast(
-					ACKTYPE_LOGIN, 
-					ACKRESULT_FAILED, 
-					NULL, 
-					this->SkypeToMirandaLoginError(whyLogout));
+					ACKTYPE_LOGIN, ACKRESULT_FAILED, 
+					NULL, this->SkypeToMirandaLoginError(whyLogout));
 
 				this->ShowNotification(CSkypeProto::LogoutReasons[whyLogout - 1]);
 
@@ -90,75 +88,99 @@ void __cdecl CSkypeProto::SignInAsync(void*)
 	}
 	else
 	{
-		::CallService(MS_DB_CRYPT_ENCODESTRING, ::strlen(this->password), LPARAM(this->password));
+		::CallService(MS_DB_CRYPT_ENCODESTRING, ::wcslen(this->password), (LPARAM)this->password);
 	}
 
 	this->LoadOwnInfo(this);
 	this->LoadContactList(this);
+	this->LoadAuthWaitList(this);
+	this->LoadChatList(this);
 
 	this->SetStatus(this->m_iDesiredStatus);
 }
 
-bool CSkypeProto::SignIn(int status)
+bool CSkypeProto::PrepareLogin()
 {
-	this->login = ::db_get_sa(NULL, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);	
-	if ( !this->login || !::strlen(this->login))
+	this->login = ::db_get_wsa(NULL, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);	
+	if ( !this->login || !::wcslen(this->login))
 	{
 		this->m_iStatus = ID_STATUS_OFFLINE;
 		this->SendBroadcast(ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 		this->ShowNotification(
-			TranslateT("You have not entered a Skype name.\n\
-						Configure this in Options->Network->Skype and try again."));
+			::TranslateT("You have not entered a Skype name.\n\
+						 Configure this in Options->Network->Skype and try again."));
+		return false;
 	}
-	else if (this->skype->GetAccount(this->login, this->account))
+
+	return true;
+}
+
+bool CSkypeProto::PreparePassword()
+{
+	if ( !this->rememberPassword)
 	{
-		if ( !this->rememberPassword)
+		if (this->password)
+		{
+			::mir_free(this->password);
+			this->password = NULL;
+		}
+		this->password = ::db_get_wsa(NULL, this->m_szModuleName, SKYPE_SETTINGS_PASSWORD);
+		if ( !this->password || !::wcslen(this->password))
 		{
 			if (this->password)
 			{
 				::mir_free(this->password);
 				this->password = NULL;
 			}
-			this->password = ::db_get_sa(NULL, this->m_szModuleName, SKYPE_SETTINGS_PASSWORD);
-			if ( !this->password || !::strlen(this->password))
+			PasswordRequestBoxParam param(this->login);
+			if ( !this->RequestPassword(param))
 			{
-				if (this->password)
-				{
-					::mir_free(this->password);
-					this->password = NULL;
-				}
-				PasswordRequestBoxParam param(this->login);
-				if ( !this->RequestPassword(param))
-				{
-					this->SetStatus(ID_STATUS_OFFLINE);
-					return false;
-				}
-				else
-				{
-					this->password = ::mir_strdup(param.password);
-					this->rememberPassword = param.rememberPassword;
-				}
+				this->SetStatus(ID_STATUS_OFFLINE);
+				return false;
 			}
-			else ::CallService(MS_DB_CRYPT_DECODESTRING, ::strlen(this->password), LPARAM(this->password));
+			else
+			{
+				this->password = ::mir_wstrdup(param.password);
+				this->rememberPassword = param.rememberPassword;
+			}
 		}
+		else 
+			::CallService(MS_DB_CRYPT_DECODESTRING, ::wcslen(this->password), (LPARAM)this->password);
+	}
+
+	return true;
+}
+
+bool CSkypeProto::SignIn(int status)
+{
+	if ( !this->PrepareLogin())
+		return false;
+
+	if (this->skype->GetAccount(::mir_u2a(this->login), this->account))
+	{
+		if ( !this->PreparePassword())
+			return false;
 
 		this->account.fetch();
 		this->account->SetOnAccountChangedCallback(
 			(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged,
 			this);
 
-		int port = this->GetSettingWord("Port", rand() % 10000 + 10000);
-		this->skype->SetInt(SETUPKEY_PORT, port);
-		this->skype->SetInt(SETUPKEY_DISABLE_PORT80, (int)!this->GetSettingByte("UseAlternativePorts", 1));
-
 		this->InitProxy();
 
-		this->account->LoginWithPassword(this->password, false, false);
+		this->SetAccountSettings();	
 
-		return true;
+		this->account->LoginWithPassword(::mir_utf8encodeW(this->password), false, false);
 	}
 
-	return false;
+	return true;
+}
+
+void CSkypeProto::SetAccountSettings()
+{
+	int port = this->GetSettingWord("Port", rand() % 10000 + 10000);
+	this->skype->SetInt(SETUPKEY_PORT, port);
+	this->skype->SetInt(SETUPKEY_DISABLE_PORT80, (int)!this->GetSettingByte("UseAlternativePorts", 1));
 }
 
 bool CSkypeProto::IsAvatarChanged(const SEBinary &avatar)

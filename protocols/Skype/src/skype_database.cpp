@@ -19,26 +19,18 @@ void CSkypeProto::RaiseAuthRequestEvent(
 	DWORD timestamp,
 	CContact::Ref contact)
 {	
+	char *sid = ::mir_utf8decodeA(contact->GetSid());
+	char *nick = ::mir_utf8decodeA(contact->GetNick());
+
 	SEString data;
 
-	contact->GetPropSkypename(data);
-	char *sid = ::mir_strdup(data);
-
-	contact->GetPropDisplayname(data);
-	char *nick = ::mir_utf8decodeA(data);
-
 	contact->GetPropReceivedAuthrequest(data);
-	char* reason = ::mir_utf8decodeA((const char*)data);
+	char* reason = ::mir_utf8decodeA(data);
 
-	contact->GetPropFullname(data);
-	char* fullname = ::mir_utf8decodeA((const char*)data);
-
-	char* firstName = strtok(fullname, " ");
-	char* lastName = strtok(NULL, " ");
-	if (lastName == NULL)
-	{
-		lastName = "";
-	}
+	SEString last;
+	contact->GetFullname(data, last);
+	char* firstName = ::mir_utf8decodeA(data);
+	char* lastName = ::mir_utf8decodeA(last);
 
 	PROTORECVEVENT pre = {0};
 
@@ -113,17 +105,17 @@ bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char* me
 void CSkypeProto::RaiseMessageReceivedEvent(
 	HANDLE hContact,
 	DWORD timestamp,
-	const char* message,
+	const wchar_t *message,
 	bool isNeedCheck)
 {	
-	if (isNeedCheck)
+	/*if (isNeedCheck)
 		if (this->IsMessageInDB(hContact, timestamp, message))
-			return;
+			return;*/
 
 	PROTORECVEVENT recv;
-	recv.flags = PREF_UTF;
+	recv.flags = PREF_UNICODE;
 	recv.timestamp = timestamp;
-	recv.szMessage = ::mir_strdup(message);
+	recv.tszMessage = ::mir_wstrdup(message);
 	
 	::ProtoChainRecvMsg(hContact, &recv);
 }
@@ -131,19 +123,21 @@ void CSkypeProto::RaiseMessageReceivedEvent(
 void CSkypeProto::RaiseMessageSendedEvent(
 	HANDLE hContact,
 	DWORD timestamp,
-	const char* message)
+	const wchar_t *message)
 {	
-	if (this->IsMessageInDB(hContact, timestamp, message, DBEF_SENT))
-		return;
+	/*if (this->IsMessageInDB(hContact, timestamp, message, DBEF_SENT))
+		return;*/
+
+	char *msg = ::mir_utf8encodeW(message);
 
 	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
 	dbei.szModule = this->m_szModuleName;
 	dbei.timestamp = timestamp;
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = (DWORD)::strlen(message) + 1;
-	dbei.pBlob = (PBYTE)::mir_strdup(message);
-	dbei.flags = DBEF_UTF | DBEF_SENT;
+	dbei.cbBlob = (DWORD)::strlen(msg) + 1;
+	dbei.pBlob = (PBYTE)msg;
+	dbei.flags = PREF_UTF | DBEF_SENT;
 
 	::db_event_add(hContact, &dbei);
 }

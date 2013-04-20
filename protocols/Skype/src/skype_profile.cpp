@@ -85,7 +85,7 @@ void CSkypeProto::UpdateProfileAboutText(SEObject *obj, HANDLE hContact)
 	if ( !::wcslen(aboutText))
 		this->DeleteSetting(hContact, "About");
 	else
-		this->SetSettingString(hContact, "About", aboutText);
+		::db_set_ws(hContact, this->m_szModuleName, "About", aboutText);
 	::mir_free(aboutText);
 }
 
@@ -127,7 +127,7 @@ void CSkypeProto::UpdateProfileCity(SEObject *obj, HANDLE hContact)
 	if ( !::wcslen(city))
 		this->DeleteSetting(hContact, "City");
 	else
-		this->SetSettingString(hContact, "City", city);
+		::db_set_ws(hContact, this->m_szModuleName, "City", city);
 	::mir_free(city);
 }
 
@@ -138,12 +138,12 @@ void CSkypeProto::UpdateProfileCountry(SEObject *obj, HANDLE hContact)
 	if ( !::strlen(isocode))
 	{
 		country = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, 0xFFFF, 0);
-		this->SetSettingString(hContact, "Country", ::mir_a2t(country));
+		::db_set_ws(hContact, this->m_szModuleName, "Country", ::mir_a2t(country));
 	}
 	else
 	{
 		country = (char*)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode, 0);
-		this->SetSettingString(hContact, "Country", ::mir_a2t(country));
+		::db_set_ws(hContact, this->m_szModuleName, "Country", ::mir_a2t(country));
 	}
 	::mir_free(isocode);
 }
@@ -168,9 +168,9 @@ void CSkypeProto::UpdateProfileEmails(SEObject *obj, HANDLE hContact)
 		{
 			this->SetSettingString(hContact, "e-mail0", p);
 			p = wcstok(NULL, L" ");
-			if (p) this->SetSettingString(hContact, "e-mail1", p);
+			if (p) ::db_set_ws(hContact, this->m_szModuleName, "e-mail1", p);
 			p = wcstok(NULL, L" ");
-			if (p) this->SetSettingString(hContact, "e-mail2", p);
+			if (p) ::db_set_ws(hContact, this->m_szModuleName, "e-mail2", p);
 		}
 		::mir_free(p);
 	}
@@ -179,11 +179,23 @@ void CSkypeProto::UpdateProfileEmails(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileFullName(SEObject *obj, HANDLE hContact)
 {
-	wchar_t* fullname = ::mir_utf8decodeW(obj->GetStrProp(/* *::P_FULLNAME */ 5));
+	wchar_t *fullname = ::mir_utf8decodeW(obj->GetStrProp(/* *::P_FULLNAME */ 5));
 	if ( !::wcslen(fullname))
+	{
+		this->DeleteSetting(hContact, "FirstName");
 		this->DeleteSetting(hContact, "LastName");
+	}
 	else
-		this->SetSettingString(hContact, "LastName", fullname);
+	{
+		wchar_t *firstName = ::wcstok(fullname, L" ");
+		wchar_t *lastName = ::wcstok(NULL, L" ");
+		if (lastName == NULL)
+		{
+			lastName = L"";
+		}
+		::db_set_ws(hContact, this->m_szModuleName, "FirstName", firstName);
+		::db_set_ws(hContact, this->m_szModuleName, "LastName", lastName);
+	}
 	::mir_free(fullname);
 }
 
@@ -202,7 +214,7 @@ void CSkypeProto::UpdateProfileHomepage(SEObject *obj, HANDLE hContact)
 	if (::wcscmp(homepage, L"") == 0)
 		this->DeleteSetting(hContact, "Homepage");
 	else
-		this->SetSettingString(hContact, "Homepage", homepage);
+		::db_set_ws(hContact, this->m_szModuleName, "Homepage", homepage);
 	::mir_free(homepage);	
 }
 
@@ -220,15 +232,15 @@ void CSkypeProto::UpdateProfileLanguages(SEObject *obj, HANDLE hContact)
 		wchar_t* p = wcstok(isocodes, L" ");
 		if (p == NULL)
 		{
-			this->SetSettingString(hContact, "e-Language1", isocodes);
+			::db_set_ws(hContact, this->m_szModuleName, "Language1", isocodes);
 		}
 		else
 		{
-			this->SetSettingString(hContact, "e-Language1", p);
+			::db_set_ws(hContact, this->m_szModuleName, "Language1", p);
 			p = wcstok(NULL, L" ");
-			if (p) this->SetSettingString(hContact, "e-Language2", p);
+			if (p) ::db_set_ws(hContact, this->m_szModuleName, "Language2", p);
 			p = wcstok(NULL, L" ");
-			if (p) this->SetSettingString(hContact, "e-Language3", p);
+			if (p) ::db_set_ws(hContact, this->m_szModuleName, "Language3", p);
 		}
 
 		// todo: fix
@@ -248,7 +260,7 @@ void CSkypeProto::UpdateProfileMobilePhone(SEObject *obj, HANDLE hContact)
 	if ( !::wcslen(phone))
 		this->DeleteSetting(hContact, "Cellular");
 	else
-		this->SetSettingString(hContact, "Cellular", phone);
+		::db_set_ws(hContact, this->m_szModuleName, "Cellular", phone);
 	::mir_free(phone);
 }
 
@@ -258,7 +270,7 @@ void CSkypeProto::UpdateProfilePhone(SEObject *obj, HANDLE hContact)
 	if ( !::wcslen(phone))
 		this->DeleteSetting(hContact, "Phone");
 	else
-		this->SetSettingString(hContact, "Phone", phone);
+		::db_set_ws(hContact, this->m_szModuleName, "Phone", phone);
 	::mir_free(phone);
 }
 
@@ -268,7 +280,7 @@ void CSkypeProto::UpdateProfileOfficePhone(SEObject *obj, HANDLE hContact)
 	if ( !::wcslen(phone))
 		this->DeleteSetting(hContact, "CompanyPhone");
 	else
-		this->SetSettingString(hContact, "CompanyPhone", phone);		
+		::db_set_ws(hContact, this->m_szModuleName, "CompanyPhone", phone);		
 	::mir_free(phone);
 }
 
@@ -278,7 +290,7 @@ void CSkypeProto::UpdateProfileState(SEObject *obj, HANDLE hContact)
 	if ( !::wcslen(state))
 		this->DeleteSetting(hContact, "State");
 	else
-		this->SetSettingString(hContact, "State", state);		
+		::db_set_ws(hContact, this->m_szModuleName, "State", state);		
 	::mir_free(state);
 }
 
@@ -288,7 +300,7 @@ void CSkypeProto::UpdateProfileStatusMessage(SEObject *obj, HANDLE hContact)
 	if ( !::wcslen(statusMessage))
 		this->DeleteSetting(hContact, "XStatusMsg");
 	else
-		this->SetSettingString(hContact, "XStatusMsg", statusMessage);
+		::db_set_ws(hContact, this->m_szModuleName, "XStatusMsg", statusMessage);
 	::mir_free(statusMessage);
 }
 
@@ -349,7 +361,7 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 			this->UpdateContactOnlineSinceTime(obj, hContact);
 			this->UpdateContactLastEventDate(obj, hContact);
 
-			this->SetSettingString(hContact, "MirVer", L"Skype");
+			::db_set_ws(hContact, this->m_szModuleName, "MirVer", L"Skype");
 		}
 
 		this->SetSettingDword("ProfileTS", newTS);

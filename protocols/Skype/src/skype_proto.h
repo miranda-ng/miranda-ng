@@ -108,12 +108,12 @@ const HtmlEntity htmlEntities[]={
 
 struct InviteChatParam
 {
-	char		*id;
+	wchar_t		*id;
 	HANDLE		hContact;
 	CSkypeProto *ppro;
 
-	InviteChatParam(const char *id, HANDLE hContact, CSkypeProto *ppro)
-		: id(::mir_strdup(id)), hContact(hContact), ppro(ppro) {}
+	InviteChatParam(const wchar_t *id, HANDLE hContact, CSkypeProto *ppro)
+		: id(::mir_wstrdup(id)), hContact(hContact), ppro(ppro) {}
 
 	~InviteChatParam()
 	{ ::mir_free(id); }
@@ -121,13 +121,13 @@ struct InviteChatParam
 
 struct PasswordRequestBoxParam
 {
-	char		*login;
-	char		*password;
+	wchar_t		*login;
+	wchar_t		*password;
 	bool		rememberPassword;
 	bool		showRememberPasswordBox;
 
-	PasswordRequestBoxParam(const char *login, bool showRememberPasswordBox = true, bool rememberPassword = false) :
-		login(::mir_strdup(login)),
+	PasswordRequestBoxParam(const wchar_t *login, bool showRememberPasswordBox = true, bool rememberPassword = false) :
+		login(::mir_wstrdup(login)),
 		password(NULL),
 		rememberPassword(rememberPassword),
 		showRememberPasswordBox(showRememberPasswordBox) { }
@@ -141,8 +141,8 @@ struct PasswordRequestBoxParam
 
 struct PasswordChangeBoxParam
 {
-	char		*password;
-	char		*password2;
+	wchar_t		*password;
+	wchar_t		*password2;
 
 	PasswordChangeBoxParam() { }
 
@@ -274,15 +274,21 @@ protected:
 	// account
 	void	OnAccountChanged(int prop);
 
-	char	*login;
-	char	*password;
+	wchar_t	*login;
+	wchar_t	*password;
 	bool	rememberPassword;
+	
 	bool	RequestPassword(PasswordRequestBoxParam &param);
 	bool	ChangePassword(PasswordChangeBoxParam &param);
+	
+	bool	PrepareLogin();
+	bool	PreparePassword();
 
 	HANDLE	signin_lock;
 	bool	SignIn(int status);
 	void __cdecl SignInAsync(void*);
+
+	void SetAccountSettings();
 
 	bool IsAvatarChanged(const SEBinary &avatar);
 
@@ -307,13 +313,13 @@ protected:
 	void	OnTransferChanged(int prop, CTransfer::Ref transfer);
 
 	// chat
-	static char* Groups[];
+	static wchar_t* Groups[];
 
 	bool IsChatRoom(HANDLE hContact);
-	HANDLE GetChatRoomByID(const char *cid);
-	HANDLE	AddChatRoomByID(const char* cid, const char* name, DWORD flags = 0);
+	HANDLE GetChatRoomByID(const wchar_t *cid);
+	HANDLE	AddChatRoomByID(const wchar_t* cid, const wchar_t* name, DWORD flags = 0);
 
-	char *CSkypeProto::GetChatUsers(const char *cid);
+	char *CSkypeProto::GetChatUsers(const wchar_t *cid);
 
 	void ChatValidateContact(HANDLE hItem, HWND hwndList, const char *contacts);
 	void ChatPrepare(HANDLE hItem, HWND hwndList, const char *contacts);
@@ -321,15 +327,15 @@ protected:
 	void GetInviteContacts(HANDLE hItem, HWND hwndList, SEStringList &invitedContacts);
 
 	void InitChat();
-	char *StartChat(const char *cid, const SEStringList &invitedContacts);
-	void JoinToChat(const char *cid, bool showWindow = true);
-	void LeaveChat(const char *cid);
+	wchar_t *StartChat(const wchar_t *cid, const SEStringList &invitedContacts);
+	void JoinToChat(const wchar_t *cid, bool showWindow = true);
+	void LeaveChat(const wchar_t *cid);
 
-	void RaiseChatEvent(const char *cid, const char *sid, int evt, const DWORD itemData = 0, const char *status = NULL, const char *message = NULL);
-	void SendChatMessage(const char *cid, const char *sid, const char *message);
-	void AddChatContact(const char *cid, const char *sid, const char *group, const WORD status = ID_STATUS_ONLINE);
-	void KickChatContact(const char *cid, const char *sid);
-	void RemoveChatContact(const char *cid, const char *sid);
+	void RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt, const DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
+	void SendChatMessage(const wchar_t *cid, const wchar_t *sid, const wchar_t *message);
+	void AddChatContact(const wchar_t *cid, const wchar_t *sid, const wchar_t *group, const WORD status = ID_STATUS_ONLINE);
+	void KickChatContact(const wchar_t *cid, const wchar_t *sid);
+	void RemoveChatContact(const wchar_t *cid, const wchar_t *sid);
 
 	INT_PTR __cdecl OnJoinChat(WPARAM wParam, LPARAM);
 	INT_PTR __cdecl OnLeaveChat(WPARAM wParam, LPARAM);
@@ -351,7 +357,7 @@ protected:
 	void	OnContactListChanged(const ContactRef& contact);
 
 	bool	IsProtoContact(HANDLE hContact);
-	HANDLE	GetContactBySid(const char* sid);
+	HANDLE	GetContactBySid(const wchar_t* sid);
 	HANDLE	GetContactFromAuthEvent(HANDLE hEvent);
 	HANDLE	AddContact(CContact::Ref contact);
 
@@ -467,12 +473,12 @@ protected:
 	void RaiseMessageReceivedEvent(
 		HANDLE hContact,
 		DWORD timestamp,
-		const char* message,
+		const wchar_t *message,
 		bool isNeedCheck = true);
 	void RaiseMessageSendedEvent(
 		HANDLE hContact,
 		DWORD timestamp,
-		const char* message);
+		const wchar_t *message);
 	/*void RaiseFileReceivedEvent(
 		DWORD timestamp,
 		const char* sid,

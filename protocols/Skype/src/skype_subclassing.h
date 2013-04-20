@@ -58,7 +58,7 @@ public:
 
 	CConversation(unsigned int oid, SERootObject* root);
 
-	static CConversation::Ref FindBySid(CSkype *skype, SEString sid);
+	static CConversation::Ref FindBySid(CSkype *skype, const wchar_t *sid);
 
 	void SetOnMessageReceivedCallback(OnMessageReceived callback, CSkypeProto* proto);
 
@@ -81,6 +81,10 @@ public:
 	CContact(unsigned int oid, SERootObject* root);
 
 	/*bool SentAuthRequest(SEString message);*/
+
+	SEString GetSid();
+	SEString GetNick();
+	bool GetFullname(SEString &firstName, SEString &lastName);
 
 	void SetOnContactChangedCallback(OnContactChanged callback, CSkypeProto* proto);
 

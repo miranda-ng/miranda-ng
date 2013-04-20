@@ -60,9 +60,9 @@
 #define MODULE "Skype"
 #define SKYPE_SID_LIMIT 128
 #define SKYPE_PASSWORD_LIMIT 128
-#define SKYPE_SETTINGS_NAME "Name"
-#define SKYPE_SETTINGS_STATUS "Status"
-#define SKYPE_SETTINGS_LOGIN "sid"
+
+#define SKYPE_SETTINGS_STATUS	"Status"
+#define SKYPE_SETTINGS_LOGIN	"sid"
 #define SKYPE_SETTINGS_PASSWORD "Password"
 
 #define SKYPE_SEARCH_BYSID 1001
