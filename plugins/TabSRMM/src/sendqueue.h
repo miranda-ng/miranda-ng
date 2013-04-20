@@ -38,21 +38,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define	SENDJOBS_MAX_SENDS 100
 
-struct SendJob {
-	HANDLE  hSendId;
-	char    *sendBuffer;
-	int     dwLen;			// actual buffer length (checked for reallocs()
+struct SendJob
+{
+	HANDLE   hSendId;
+	char    *szSendBuffer;
+	int      dwLen;			// actual buffer length (checked for reallocs()
 	int		iSendLength;	// length of message in utf-8 octets (used to check maxlen)
-	int     sendCount;
-	HANDLE  hOwner;
-	HWND    hwndOwner;
-	unsigned int iStatus;
-	TCHAR   szErrorMsg[128];
-	DWORD   dwFlags;
-	int     iAcksNeeded;
-	HANDLE  hEventSplit;
-	int     chunkSize;
-	DWORD   dwTime;
+	int      sendCount;
+	HANDLE   hOwner;
+	HWND     hwndOwner;
+	unsigned iStatus;
+	TCHAR    szErrorMsg[128];
+	DWORD    dwFlags;
+	int      iAcksNeeded;
+	HANDLE   hEventSplit;
+	int      chunkSize;
+	DWORD    dwTime;
 };
 
 class SendQueue {
@@ -75,36 +76,34 @@ public:
 
 	~SendQueue()
 	{
-		for (int i = 0; i < NR_SENDJOBS; i++) {
-			if (m_jobs[i].sendBuffer)
-				free(m_jobs[i].sendBuffer);
-		}
+		for (int i = 0; i < NR_SENDJOBS; i++)
+			free(m_jobs[i].szSendBuffer);
 	}
 
 	SendJob *getJobByIndex(const int index) { return(&m_jobs[index]); }
 
-	void 	clearJob					(const int index);
-	int 	findNextFailed				(const TWindowData *dat) const;
-	void 	handleError					(TWindowData *dat, const int iEntry) const;
-	int 	addTo						(TWindowData *dat, const int iLen, int dwFlags);
-	int 	sendQueued					(TWindowData *dat, const int iEntry);
-	int		getSendLength				(const int iEntry, const int sendMode);
-	void 	checkQueue 		 			(const TWindowData *dat) const;
-	void 	logError					(const TWindowData *dat, int iSendJobIndex,
-										 const TCHAR *szErrMsg) const;
-	void 	recallFailed				(const TWindowData *dat, int iEntry) const;
-	void 	showErrorControls			(TWindowData *dat, const int showCmd) const;
-	int 	ackMessage					(TWindowData *dat, WPARAM wParam, LPARAM lParam);
-	int		doSendLater					(int iIndex, TWindowData *dat, HANDLE hContact = 0, bool fIsSendLater = true);
+	void  clearJob(const int index);
+	int   findNextFailed(const TWindowData *dat) const;
+	void  handleError(TWindowData *dat, const int iEntry) const;
+	int   addTo(TWindowData *dat, const int iLen, int dwFlags);
+	int   sendQueued(TWindowData *dat, const int iEntry);
+	int   getSendLength(const int iEntry, const int sendMode);
+	void  checkQueue(const TWindowData *dat) const;
+	void  logError(const TWindowData *dat, int iSendJobIndex, const TCHAR *szErrMsg) const;
+	void  recallFailed(const TWindowData *dat, int iEntry) const;
+	void  showErrorControls(TWindowData *dat, const int showCmd) const;
+	int   ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam);
+	int   doSendLater(int iIndex, TWindowData *dat, HANDLE hContact = 0, bool fIsSendLater = true);
 	/*
 	 * static members
 	 */
-	static	int TSAPI RTL_Detect				(const wchar_t *pszwText);
-	static  int   TSAPI GetProtoIconFromList	(const char *szProto, int iStatus);
-	static  LRESULT TSAPI WarnPendingJobs		(unsigned int uNrMessages);
-	static	void  TSAPI NotifyDeliveryFailure	(const TWindowData *dat);
-	static	void  TSAPI UpdateSaveAndSendButton	(TWindowData *dat);
-	static	void  TSAPI EnableSending			(const TWindowData *dat, const int iMode);
+	static int     TSAPI RTL_Detect(const wchar_t *pszwText);
+	static int     TSAPI GetProtoIconFromList(const char *szProto, int iStatus);
+	static LRESULT TSAPI WarnPendingJobs(unsigned int uNrMessages);
+	static void    TSAPI NotifyDeliveryFailure(const TWindowData *dat);
+	static void    TSAPI UpdateSaveAndSendButton(TWindowData *dat);
+	static void    TSAPI EnableSending(const TWindowData *dat, const int iMode);
+
 private:
 	SendJob		m_jobs[NR_SENDJOBS];
 	int			m_currentIndex;
