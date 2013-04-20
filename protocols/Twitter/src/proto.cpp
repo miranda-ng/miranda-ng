@@ -29,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <ctime>
 #include <direct.h>
 
+static volatile LONG g_msgid = 1;
+
 TwitterProto::TwitterProto(const char *proto_name,const TCHAR *username)
 {
 	ProtoConstructor(this, proto_name, username);
@@ -129,9 +131,13 @@ int TwitterProto::RecvMsg(HANDLE hContact,PROTORECVEVENT *pre)
 
 struct send_direct
 {
-	send_direct(HANDLE hContact,const std::string &msg) : hContact(hContact),msg(msg) {}
+	__inline send_direct(HANDLE _hContact, const std::string &_msg, int _msgid) :
+		hContact(_hContact), msg(_msg), msgid(_msgid)
+		{}
+
 	HANDLE hContact;
 	std::string msg;
+	int msgid;
 };
 
 void TwitterProto::SendSuccess(void *p)
@@ -146,7 +152,7 @@ void TwitterProto::SendSuccess(void *p)
 		ScopedLock s(twitter_lock_);
 		twit_.send_direct(dbv.pszVal,data->msg);
 
-		ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_SUCCESS,(HANDLE)1,0);
+		ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_SUCCESS,(HANDLE)data->msgid,0);
 		db_free(&dbv);
 	}
 
@@ -166,8 +172,9 @@ int TwitterProto::SendMsg(HANDLE hContact,int flags,const char *msg)
 	else
 		tszMsg = mir_a2t( msg );
 
-	ForkThread(&TwitterProto::SendSuccess, this,new send_direct(hContact,msg));
-	return 1;
+	int seq = InterlockedIncrement(&g_msgid);
+	ForkThread(&TwitterProto::SendSuccess, this,new send_direct(hContact, msg, seq));
+	return seq;
 }
 
 // *************************

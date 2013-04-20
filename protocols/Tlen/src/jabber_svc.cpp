@@ -39,7 +39,6 @@ extern int TlenPreShutdown(void *ptr, WPARAM wParam, LPARAM lParam);
 extern int TlenSystemModulesLoaded(void *ptr, WPARAM wParam, LPARAM lParam);
 extern int TlenPrebuildContactMenu(void *ptr, WPARAM wParam, LPARAM lParam);
 
-
 DWORD_PTR __cdecl TlenProtocol::GetCaps(int type, HANDLE hContact)
 {
 	if (type == PFLAGNUM_1)
@@ -545,25 +544,33 @@ int __cdecl TlenProtocol::SetApparentMode(HANDLE hContact, int mode)
 	return 0;
 }
 
-typedef struct{
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct SENDACKTHREADDATA
+{
+	__inline SENDACKTHREADDATA(TlenProtocol *_ppro, HANDLE _hContact, int _msgid=0) :
+		proto(_ppro), hContact(_hContact), msgid(_msgid)
+		{}
+		
 	TlenProtocol *proto;
 	HANDLE hContact;
-} SENDACKTHREADDATA;
+	int msgid;
+};
 
 static void __cdecl JabberSendMessageAckThread(void *ptr)
 {
 	SENDACKTHREADDATA *data = (SENDACKTHREADDATA *)ptr;
 	SleepEx(10, TRUE);
-	ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
-	mir_free(data);
+	ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)data->msgid, 0);
+	delete data;
 }
 
 static void __cdecl TlenSendMessageFailedThread(void *ptr)
 {
 	SENDACKTHREADDATA *data = (SENDACKTHREADDATA *)ptr;
 	SleepEx(10, TRUE);
-	ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE) 2, 0);
-	mir_free(data);
+	ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, 0);
+	delete data;
 }
 
 static void __cdecl TlenGetAwayMsgThread(void *ptr)
@@ -575,16 +582,14 @@ static void __cdecl TlenGetAwayMsgThread(void *ptr)
 		if ((item=JabberListGetItemPtr(data->proto, LIST_ROSTER, dbv.pszVal)) != NULL) {
 			db_free(&dbv);
 			if (item->statusMessage != NULL) {
-				ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) item->statusMessage);
+				ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)data->msgid, (LPARAM) item->statusMessage);
 				return;
 			}
 		}
-		else {
-			db_free(&dbv);
-		}
+		else db_free(&dbv);
 	}
 	ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) "");
-	mir_free(data);
+	delete data;
 }
 
 INT_PTR TlenSendAlert(void *ptr, LPARAM wParam, LPARAM lParam)
@@ -605,54 +610,46 @@ int __cdecl TlenProtocol::SendMsg(HANDLE hContact, int flags, const char* msg)
 	DBVARIANT dbv;
 	char *msgEnc;
 	JABBER_LIST_ITEM *item;
-	int id;
 	char msgType[16];
 
 	if (!isOnline || db_get(hContact, m_szModuleName, "jid", &dbv)) {
-		SENDACKTHREADDATA *tdata = (SENDACKTHREADDATA*) mir_alloc(sizeof(SENDACKTHREADDATA));
-		tdata->proto = this;
-		tdata->hContact = hContact;
-		JabberForkThread(TlenSendMessageFailedThread, 0, (void *) tdata);
+		JabberForkThread(TlenSendMessageFailedThread, 0, new SENDACKTHREADDATA(this, hContact, 2));
 		return 2;
 	}
+
+	int id = JabberSerialNext(this);
+
 	if (!strcmp(msg, "<alert>")) {
-		SENDACKTHREADDATA *tdata = (SENDACKTHREADDATA*) mir_alloc(sizeof(SENDACKTHREADDATA));
-		tdata->proto = this;
-		tdata->hContact = hContact;
 		JabberSend(this, "<m tp='a' to='%s'/>", dbv.pszVal);
-		JabberForkThread(JabberSendMessageAckThread, 0, (void *) tdata);
-	}  else if (!strcmp(msg, "<image>")) {
-		SENDACKTHREADDATA *tdata = (SENDACKTHREADDATA*) mir_alloc(sizeof(SENDACKTHREADDATA));
-		tdata->proto = this;
-		tdata->hContact = hContact;
-		id = JabberSerialNext(this);
+		JabberForkThread(JabberSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
+	}
+	else if (!strcmp(msg, "<image>")) {
 		JabberSend(this, "<message to='%s' type='%s' crc='%x' idt='%d'/>", dbv.pszVal, "pic", 0x757f044, id);
-		JabberForkThread(JabberSendMessageAckThread, 0, (void *) tdata);
-	} else {
+		JabberForkThread(JabberSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
+	}
+	else {
 		if ((msgEnc=JabberTextEncode(msg)) != NULL) {
-			if (JabberListExist(this, LIST_CHATROOM, dbv.pszVal) && strchr(dbv.pszVal, '/') == NULL) {
+			if (JabberListExist(this, LIST_CHATROOM, dbv.pszVal) && strchr(dbv.pszVal, '/') == NULL)
 				strcpy(msgType, "groupchat");
-			} else if (db_get_b(hContact, m_szModuleName, "bChat", FALSE)) {
+			else if (db_get_b(hContact, m_szModuleName, "bChat", FALSE))
 				strcpy(msgType, "privchat");
-			} else {
+			else
 				strcpy(msgType, "chat");
-			}
+
 			if (!strcmp(msgType, "groupchat") || db_get_b(NULL, m_szModuleName, "MsgAck", FALSE) == FALSE) {
 				SENDACKTHREADDATA *tdata = (SENDACKTHREADDATA*) mir_alloc(sizeof(SENDACKTHREADDATA));
 				tdata->proto = this;
 				tdata->hContact = hContact;
-				if (!strcmp(msgType, "groupchat")) {
+				if (!strcmp(msgType, "groupchat"))
 					JabberSend(this, "<message to='%s' type='%s'><body>%s</body></message>", dbv.pszVal, msgType, msgEnc);
-				} else if (!strcmp(msgType, "privchat")) {
+				else if (!strcmp(msgType, "privchat"))
 					JabberSend(this, "<m to='%s'><b n='6' s='10' f='0' c='000000'>%s</b></m>", dbv.pszVal, msgEnc);
-				} else {
-					id = JabberSerialNext(this);
+				else
 					JabberSend(this, "<message to='%s' type='%s' id='"JABBER_IQID"%d'><body>%s</body><x xmlns='jabber:x:event'><composing/></x></message>", dbv.pszVal, msgType, id, msgEnc);
-				}
-				JabberForkThread(JabberSendMessageAckThread, 0, (void *) tdata);
+
+				JabberForkThread(JabberSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
 			}
 			else {
-				id = JabberSerialNext(this);
 				if ((item=JabberListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL)
 					item->idMsgAckPending = id;
 				JabberSend(this, "<message to='%s' type='%s' id='"JABBER_IQID"%d'><body>%s</body><x xmlns='jabber:x:event'><offline/><delivered/><composing/></x></message>", dbv.pszVal, msgType, id, msgEnc);
@@ -661,7 +658,7 @@ int __cdecl TlenProtocol::SendMsg(HANDLE hContact, int flags, const char* msg)
 		mir_free(msgEnc);
 	}
 	db_free(&dbv);
-	return 1;
+	return id;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

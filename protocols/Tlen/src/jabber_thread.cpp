@@ -112,7 +112,6 @@ void __cdecl JabberServerThread(ThreadData *info)
 	int reconnectMaxTime;
 	int numRetry;
 	int reconnectTime;
-	char *str;
 	int loginErr = 0;
 	JabberLog(info->proto, "Thread started");
 

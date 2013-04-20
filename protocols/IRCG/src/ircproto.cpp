@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_genmenu.h>
 
+static volatile LONG g_msgid = 1;
+
 static int CompareSessions( const CDccSession* p1, const CDccSession* p2 )
 {
 	return INT_PTR( p1->di->hContact ) - INT_PTR( p2->di->hContact );
@@ -186,7 +188,8 @@ static int sttCheckPerform( const char *szSetting, LPARAM lParam )
 		if ( s != szSetting ) {
 			OBJLIST<String>* p = ( OBJLIST<String>* )lParam;
 			p->insert( new String( szSetting ));
-	}	}
+		}
+	}
 	return 0;
 }
 
@@ -224,10 +227,8 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 	}
 
 	if ( ServiceExists( MS_GC_REGISTER )) {
-		GCREGISTER gcr = {0};
-		gcr.cbSize = sizeof(GCREGISTER);
+		GCREGISTER gcr = { sizeof(GCREGISTER) };
 		gcr.dwFlags = GC_CHANMGR | GC_BOLD | GC_ITALICS | GC_UNDERLINE | GC_COLOR | GC_BKGCOLOR | GC_TCHAR;
-		gcr.iMaxText = 0;
 		gcr.nColors = 16;
 		gcr.pColors = colors;
 		gcr.ptszModuleDispName = m_tszUserName;
@@ -236,11 +237,7 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 		IrcHookEvent( ME_GC_EVENT, &CIrcProto::GCEventHook );
 		IrcHookEvent( ME_GC_BUILDMENU, &CIrcProto::GCMenuHook );
 
-		GCSESSION gcw = {0};
-		GCDEST gcd = {0};
-		GCEVENT gce = {0};
-
-		gcw.cbSize = sizeof(GCSESSION);
+		GCSESSION gcw = { sizeof(GCSESSION) };
 		gcw.dwFlags = GC_TCHAR;
 		gcw.iType = GCW_SERVER;
 		gcw.ptszID = SERVERWINDOW;
@@ -248,14 +245,15 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 		gcw.ptszName = NEWTSTR_ALLOCA(( TCHAR* )_A2T( m_network ));
 		CallServiceSync( MS_GC_NEWSESSION, 0, (LPARAM)&gcw );
 
-		gce.cbSize = sizeof(GCEVENT);
-		gce.dwFlags = GC_TCHAR;
-		gce.pDest = &gcd;
+		GCDEST gcd = { 0 };
 		gcd.ptszID = SERVERWINDOW;
 		gcd.pszModule = m_szModuleName;
 		gcd.iType = GC_EVENT_CONTROL;
 
+		GCEVENT gce = { sizeof(GCEVENT) };
+		gce.dwFlags = GC_TCHAR;
 		gce.pDest = &gcd;
+
 		if ( m_useServer && !m_hideServerWindow )
 			CallChatEvent( WINDOW_VISIBLE, (LPARAM)&gce);
 		else
@@ -294,14 +292,14 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 	mir_free( szLoadFileName );
 
 	if ( !getByte( "PerformConversionDone", 0 )) {
-		OBJLIST<String> performToConvert( 10 );
+		OBJLIST<String> performToConvert(10);
 		DBCONTACTENUMSETTINGS dbces;
 		dbces.pfnEnumProc = sttCheckPerform;
 		dbces.lParam = ( LPARAM )&performToConvert;
 		dbces.szModule = m_szModuleName;
-		CallService( MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbces );
+		CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbces);
 
-		for ( int i = 0; i < performToConvert.getCount(); i++ ) {
+		for (int i = 0; i < performToConvert.getCount(); i++) {
 			String s = performToConvert[i];
 			DBVARIANT dbv;
 			if ( !getTString( s, &dbv )) {
@@ -319,7 +317,7 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 	IrcHookEvent( ME_USERINFO_INITIALISE, &CIrcProto::OnInitUserInfo );
 	IrcHookEvent( ME_OPT_INITIALISE, &CIrcProto::OnInitOptionsPages );
 
-	if ( m_nick[0] ) {
+	if (m_nick[0]) {
 		TCHAR szBuf[ 40 ];
 		if ( lstrlen( m_alternativeNick ) == 0 ) {
 			mir_sntprintf( szBuf, SIZEOF(szBuf), _T("%s%u"), m_nick, rand()%9999);
@@ -798,55 +796,69 @@ HANDLE __cdecl CIrcProto::SendFile( HANDLE hContact, const TCHAR*, TCHAR** ppszF
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendMessage - sends a message
 
-void __cdecl CIrcProto::AckMessageFail( void* info )
+struct TFakeAckParam
 {
-	ProtoBroadcastAck( m_szModuleName, info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE) 1, (LPARAM)Translate("The protocol is not online"));
+	__inline TFakeAckParam(HANDLE _hContact, int _msgid) :
+		hContact(_hContact), msgid(_msgid)
+		{}
+
+	HANDLE hContact;
+	int    msgid;
+};
+
+void __cdecl CIrcProto::AckMessageFail(void *info)
+{
+	ProtoBroadcastAck(m_szModuleName, info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The protocol is not online"));
 }
 
-void __cdecl CIrcProto::AckMessageFailDcc( void* info )
+void __cdecl CIrcProto::AckMessageFailDcc(void *info)
 {
-	ProtoBroadcastAck( m_szModuleName, info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE) 1, (LPARAM)Translate("The dcc chat connection is not active"));
+	ProtoBroadcastAck(m_szModuleName, info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The dcc chat connection is not active"));
 }
 
-void __cdecl CIrcProto::AckMessageSuccess( void* info )
+void __cdecl CIrcProto::AckMessageSuccess(void *info)
 {
-	ProtoBroadcastAck( m_szModuleName, info, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	TFakeAckParam *param = (TFakeAckParam*)info;
+	ProtoBroadcastAck(m_szModuleName, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)param->msgid, 0);
+	delete param;
 }
 
-int __cdecl CIrcProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc )
+int __cdecl CIrcProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 {
-	BYTE bDcc = getByte( hContact, "DCC", 0) ;
-	WORD wStatus = getWord( hContact, "Status", ID_STATUS_OFFLINE) ;
-	if ( m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING && !bDcc || bDcc && wStatus == ID_STATUS_ONLINE ) {
-		int codepage = getCodepage();
+	BYTE bDcc = getByte(hContact, "DCC", 0);
+	WORD wStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+	if (bDcc && wStatus != ID_STATUS_ONLINE) {
+		ircFork(&CIrcProto::AckMessageFailDcc, hContact);
+		return 0;
+	}
+	if (!bDcc && (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)) {
+		ircFork(&CIrcProto::AckMessageFail, hContact);
+		return 0;
+	}
 
-		TCHAR* result;
-		if ( flags & PREF_UNICODE ) {
-			const char* p = strchr( pszSrc, '\0' );
-			if ( p != pszSrc ) {
-				while ( *(++p) == '\0' )
-					;
-				result = mir_u2t_cp(( wchar_t* )p, codepage );
-			}
-			else result = mir_a2t_cp( pszSrc, codepage );
-		}
-		else if ( flags & PREF_UTF ) {
-			mir_utf8decode( NEWSTR_ALLOCA(pszSrc), &result );
+	int codepage = getCodepage();
+
+	TCHAR *result;
+	if ( flags & PREF_UNICODE ) {
+		const char* p = strchr( pszSrc, '\0' );
+		if ( p != pszSrc ) {
+			while ( *(++p) == '\0' )
+				;
+			result = mir_u2t_cp((wchar_t*)p, codepage );
 		}
 		else result = mir_a2t_cp( pszSrc, codepage );
-
-		PostIrcMessageWnd(NULL, hContact, result );
-		mir_free( result );
-		ircFork( &CIrcProto::AckMessageSuccess, hContact );
 	}
-	else {
-		if ( bDcc )
-			ircFork( &CIrcProto::AckMessageFailDcc, hContact );
-		else
-			ircFork( &CIrcProto::AckMessageFail, hContact );
-	}
+	else if (flags & PREF_UTF)
+		mir_utf8decode(NEWSTR_ALLOCA(pszSrc), &result);
+	else
+		result = mir_a2t_cp( pszSrc, codepage );
 
-	return 1;
+	PostIrcMessageWnd(NULL, hContact, result);
+	mir_free(result);
+
+	int seq = InterlockedIncrement(&g_msgid);
+	ircFork(&CIrcProto::AckMessageSuccess, new TFakeAckParam(hContact, seq));
+	return seq;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

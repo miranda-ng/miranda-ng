@@ -86,13 +86,12 @@ char *JabberJIDFromHContact(TlenProtocol *proto, HANDLE hContact)
 HANDLE JabberHContactFromJID(TlenProtocol *proto, const char *jid)
 {
 	DBVARIANT dbv;
-	char *szProto;
 	char *p;
 	if (jid == NULL)
 		return NULL;
 
 	for (HANDLE hContact = db_find_first(proto->m_szModuleName); hContact; hContact = db_find_next(hContact, proto->m_szModuleName)) {
-		if ( db_get(hContact, proto->m_szModuleName, "jid", &dbv))
+		if ( db_get_s(hContact, proto->m_szModuleName, "jid", &dbv))
 			continue;
 
 		if ((p=dbv.pszVal) != NULL) {

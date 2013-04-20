@@ -907,8 +907,7 @@ int __cdecl CMsnProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 	int seq = 0;
 	int netId  = Lists_GetNetId(tEmail);
 
-	switch (netId)
-	{
+	switch (netId) {
 	case NETID_MOB:
 		if (strlen(msg) > 133)
 		{

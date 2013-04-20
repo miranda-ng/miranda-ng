@@ -1127,11 +1127,12 @@ HANDLE __cdecl CJabberProto::SendFile(HANDLE hContact, const TCHAR *szDescriptio
 
 struct TFakeAckParams
 {
-	inline TFakeAckParams(HANDLE p1, const char* p2)
-		: hContact(p1), msg(p2) {}
+	inline TFakeAckParams(HANDLE _hContact, const char* _msg, int _msgid = 0)
+		: hContact(_hContact), msg(_msg), msgid(_msgid) {}
 
 	HANDLE hContact;
 	const char *msg;
+	int msgid;
 };
 
 void __cdecl CJabberProto::SendMessageAckThread(void* param)
@@ -1141,7 +1142,7 @@ void __cdecl CJabberProto::SendMessageAckThread(void* param)
 	Log("Broadcast ACK");
 	JSendBroadcast(par->hContact, ACKTYPE_MESSAGE,
 		par->msg ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
-		(HANDLE)1, (LPARAM) par->msg);
+		(HANDLE)par->msgid, (LPARAM) par->msg);
 	Log("Returning from thread");
 	delete par;
 }
@@ -1151,17 +1152,15 @@ static char PGP_EPILOG[] = "\r\n-----END PGP MESSAGE-----\r\n";
 
 int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 {
-	int id;
-
-	DBVARIANT dbv;
-	if ( !m_bJabberOnline || JGetStringT(hContact, "jid", &dbv)) {
+	mir_ptr<TCHAR> ptszJid( db_get_tsa(hContact, m_szModuleName, "jid"));
+	if ( !m_bJabberOnline || ptszJid == NULL) {
 		TFakeAckParams *param = new TFakeAckParams(hContact, Translate("Protocol is offline or no jid"));
 		JForkThread(&CJabberProto::SendMessageAckThread, param);
 		return 1;
 	}
 
 	TCHAR *msg;
-	int  isEncrypted;
+	int  isEncrypted, id = SerialNext();
 
 	if ( !strncmp(pszSrc, PGP_PROLOG, strlen(PGP_PROLOG))) {
 		const char* szEnd = strstr(pszSrc, PGP_EPILOG);
@@ -1182,79 +1181,73 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 	else
 		msg = mir_a2t(pszSrc);
 
-	int nSentMsgId = 0;
+	if (msg == NULL)
+		return 0;
 
-	if (msg != NULL) {
-		TCHAR *msgType;
-		if (ListExist(LIST_CHATROOM, dbv.ptszVal) && _tcschr(dbv.ptszVal, '/') == NULL)
-			msgType = _T("groupchat");
-		else
-			msgType = _T("chat");
+	TCHAR *msgType;
+	if (ListExist(LIST_CHATROOM, ptszJid) && _tcschr(ptszJid, '/') == NULL)
+		msgType = _T("groupchat");
+	else
+		msgType = _T("chat");
 
-		XmlNode m(_T("message")); xmlAddAttr(m, _T("type"), msgType);
-		if ( !isEncrypted)
-			m << XCHILD(_T("body"), msg);
-		else {
-			m << XCHILD(_T("body"), _T("[This message is encrypted.]"));
-			m << XCHILD(_T("x"), msg) << XATTR(_T("xmlns"), _T("jabber:x:encrypted"));
-		}
-		mir_free(msg);
+	XmlNode m(_T("message")); xmlAddAttr(m, _T("type"), msgType);
+	if ( !isEncrypted)
+		m << XCHILD(_T("body"), msg);
+	else {
+		m << XCHILD(_T("body"), _T("[This message is encrypted.]"));
+		m << XCHILD(_T("x"), msg) << XATTR(_T("xmlns"), _T("jabber:x:encrypted"));
+	}
+	mir_free(msg);
 
-		TCHAR szClientJid[ JABBER_MAX_JID_LEN ];
-		GetClientJID(dbv.ptszVal, szClientJid, SIZEOF(szClientJid));
+	TCHAR szClientJid[ JABBER_MAX_JID_LEN ];
+	GetClientJID(ptszJid, szClientJid, SIZEOF(szClientJid));
 
-		JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(szClientJid);
-		if (r)
-			r->bMessageSessionActive = TRUE;
+	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(szClientJid);
+	if (r)
+		r->bMessageSessionActive = TRUE;
 
-		JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
+	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
 
-		if (jcb & JABBER_RESOURCE_CAPS_ERROR)
-			jcb = JABBER_RESOURCE_CAPS_NONE;
+	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
+		jcb = JABBER_RESOURCE_CAPS_NONE;
 
-		if (jcb & JABBER_CAPS_CHATSTATES)
-			m << XCHILDNS(_T("active"), _T(JABBER_FEAT_CHATSTATES));
+	if (jcb & JABBER_CAPS_CHATSTATES)
+		m << XCHILDNS(_T("active"), _T(JABBER_FEAT_CHATSTATES));
 
-		if (
-			// if message delivery check disabled by entity caps manager
-			(jcb & JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY) ||
-			// if client knows nothing about delivery
-			!(jcb & (JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_MESSAGE_RECEIPTS)) ||
-			// if message sent to groupchat
-			!lstrcmp(msgType, _T("groupchat")) ||
-			// if message delivery check disabled in settings
-			!m_options.MsgAck || !JGetByte(hContact, "MsgAck", TRUE)) {
-			if ( !lstrcmp(msgType, _T("groupchat")))
-				xmlAddAttr(m, _T("to"), dbv.ptszVal);
-			else {
-				id = SerialNext();
-				xmlAddAttr(m, _T("to"), szClientJid); xmlAddAttrID(m, id);
-			}
-			m_ThreadInfo->send(m);
-
-			JForkThread(&CJabberProto::SendMessageAckThread, new TFakeAckParams(hContact, 0));
-
-			nSentMsgId = 1;
-		}
+	if (
+		// if message delivery check disabled by entity caps manager
+		(jcb & JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY) ||
+		// if client knows nothing about delivery
+		!(jcb & (JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_MESSAGE_RECEIPTS)) ||
+		// if message sent to groupchat
+		!lstrcmp(msgType, _T("groupchat")) ||
+		// if message delivery check disabled in settings
+		!m_options.MsgAck || !JGetByte(hContact, "MsgAck", TRUE))
+	{
+		if ( !lstrcmp(msgType, _T("groupchat")))
+			xmlAddAttr(m, _T("to"), (TCHAR*)ptszJid);
 		else {
 			id = SerialNext();
 			xmlAddAttr(m, _T("to"), szClientJid); xmlAddAttrID(m, id);
+		}
+		m_ThreadInfo->send(m);
 
-			// message receipts XEP priority
-			if (jcb & JABBER_CAPS_MESSAGE_RECEIPTS)
-				m << XCHILDNS(_T("request"), _T(JABBER_FEAT_MESSAGE_RECEIPTS));
-			else if (jcb & JABBER_CAPS_MESSAGE_EVENTS) {
-				HXML x = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_MESSAGE_EVENTS));
-				x << XCHILD(_T("delivered")); x << XCHILD(_T("offline"));
-			}
-			else id = 1;
+		JForkThread(&CJabberProto::SendMessageAckThread, new TFakeAckParams(hContact, 0, id));
+	}
+	else {
+		xmlAddAttr(m, _T("to"), szClientJid); xmlAddAttrID(m, id);
 
-			m_ThreadInfo->send(m);
-			nSentMsgId = id;
-	}	}
+		// message receipts XEP priority
+		if (jcb & JABBER_CAPS_MESSAGE_RECEIPTS)
+			m << XCHILDNS(_T("request"), _T(JABBER_FEAT_MESSAGE_RECEIPTS));
+		else if (jcb & JABBER_CAPS_MESSAGE_EVENTS) {
+			HXML x = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_MESSAGE_EVENTS));
+			x << XCHILD(_T("delivered")); x << XCHILD(_T("offline"));
+		}
 
-	db_free(&dbv);
-	return nSentMsgId;
+		m_ThreadInfo->send(m);
+	}
+	return id;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

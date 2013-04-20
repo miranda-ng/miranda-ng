@@ -606,9 +606,11 @@ void __cdecl GGPROTO::sendackthread(void *ack)
 
 int GGPROTO::SendMsg(HANDLE hContact, int flags, const char *msg)
 {
-	uin_t uin;
-	char* msg_utf8;
+	uin_t uin = (uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0);
+	if (!isonline() || !uin)
+		return 0;
 
+	char* msg_utf8;
 	if ( flags & PREF_TCHAR )
 		msg_utf8 = mir_utf8encodeT( ( wchar_t* )&msg[ strlen( msg )+1 ] );
 	else if ( flags & PREF_UTF )
@@ -616,32 +618,28 @@ int GGPROTO::SendMsg(HANDLE hContact, int flags, const char *msg)
 	else
 		msg_utf8 = mir_utf8encode(msg);
 
+	if (!msg_utf8)
+		return 0;
 
-	if (msg_utf8 && isonline() && (uin = (uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0)))
+	gg_EnterCriticalSection(&sess_mutex, "SendMsg", 53, "sess_mutex", 1);
+	int seq = gg_send_message(sess, GG_CLASS_CHAT, uin, (BYTE*)msg_utf8);
+	gg_LeaveCriticalSection(&sess_mutex, "SendMsg", 53, 1, "sess_mutex", 1);
+	if (!db_get_b(NULL, m_szModuleName, GG_KEY_MSGACK, GG_KEYDEF_MSGACK))
 	{
-		int seq;
-		gg_EnterCriticalSection(&sess_mutex, "SendMsg", 53, "sess_mutex", 1);
-		seq = gg_send_message(sess, GG_CLASS_CHAT, uin, (BYTE*)msg_utf8);
-		gg_LeaveCriticalSection(&sess_mutex, "SendMsg", 53, 1, "sess_mutex", 1);
-		if (!db_get_b(NULL, m_szModuleName, GG_KEY_MSGACK, GG_KEYDEF_MSGACK))
+		// Auto-ack message without waiting for server ack
+		GG_SEQ_ACK *ack = (GG_SEQ_ACK*)mir_alloc(sizeof(GG_SEQ_ACK));
+		if (ack)
 		{
-			// Auto-ack message without waiting for server ack
-			GG_SEQ_ACK *ack = (GG_SEQ_ACK*)mir_alloc(sizeof(GG_SEQ_ACK));
-			if (ack)
-			{
-				ack->seq = seq;
-				ack->hContact = hContact;
+			ack->seq = seq;
+			ack->hContact = hContact;
 #ifdef DEBUGMODE
-				netlog("SendMsg(): forkthread 16 GGPROTO::sendackthread");
+			netlog("SendMsg(): forkthread 16 GGPROTO::sendackthread");
 #endif
-				forkthread(&GGPROTO::sendackthread, ack);
-			}
+			forkthread(&GGPROTO::sendackthread, ack);
 		}
-		mir_free(msg_utf8);
-		return seq;
 	}
 	mir_free(msg_utf8);
-	return 0;
+	return seq;
 }
 
 //////////////////////////////////////////////////////////
