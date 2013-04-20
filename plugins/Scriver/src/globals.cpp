@@ -453,10 +453,11 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 	if ( !( item->flags & PREF_UTF ))
 		dbei.cbBlob *= sizeof(TCHAR) + 1;
 	dbei.pBlob = (PBYTE) item->sendBuffer;
-	HANDLE hNewEvent = db_event_add(item->hContact, &dbei);
 
-	MessageWindowEvent evt = { sizeof(evt), (int)item->hSendId, item->hContact, hNewEvent };
+	MessageWindowEvent evt = { sizeof(evt), (int)item->hSendId, item->hContact, &dbei };
 	NotifyEventHooks(hHookWinWrite, 0, (LPARAM)&evt);
+
+	db_event_add(item->hContact, &dbei);
 
 	if (item->hwndErrorDlg != NULL)
 		DestroyWindow(item->hwndErrorDlg);

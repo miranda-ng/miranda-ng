@@ -121,10 +121,10 @@ const
   MS_MSG_GETWINDOWDATA:PAnsiChar = 'MessageAPI/GetWindowData';
 
 { wparam=0(unused)
-  lparam=(pMessageWindowEvent) event written
-  fired when SRMM writes an entered message into the database
+  lparam=(pMessageWindowEvent) event being written
+  fired before SRMM writes an entered message into the database
 }
-  ME_MSG_WRITEEVENT:PAnsiChar = 'MessageAPI/OnWriteEvent';
+  ME_MSG_PRECREATEEVENT:PAnsiChar = 'MessageAPI/PreCreateEvent';
 
 { wParam = 0
  lParam = (MessageWindowPopupData *)&MessageWindowPopupData;
@@ -158,7 +158,7 @@ type
     cbSize   :int;
     seq      :int;     // number returned by PSS_MESSAGE
     hContact :THANDLE;
-    hDbEvent :THANDLE; // database event written on the basis of message sent
+    dbei     :pDbEventInfo; // database event written on the basis of message sent
   end;
 
 // status icons

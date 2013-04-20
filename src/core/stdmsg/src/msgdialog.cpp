@@ -128,11 +128,11 @@ HANDLE SendMessageDirect(const TCHAR *szMsg, HANDLE hContact, char *szProto)
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.cbBlob = (DWORD)bufSize;
 	dbei.pBlob = (PBYTE)sendBuffer;
-	HANDLE hNewEvent = db_event_add(hContact, &dbei);
 
-	MessageWindowEvent evt = { sizeof(evt), sendId, hContact, hNewEvent };
+	MessageWindowEvent evt = { sizeof(evt), sendId, hContact, &dbei };
 	NotifyEventHooks(hHookWinWrite, 0, (LPARAM)&evt);
 
+	HANDLE hNewEvent = db_event_add(hContact, &dbei);
 	msgQueue_add(hContact, sendId, szMsg, hNewEvent);
 	mir_free(sendBuffer);
 	return hNewEvent;

@@ -109,14 +109,14 @@ typedef struct {
 
 //wparam = 0 (unused)
 //lparam = (MessageWindowEvent*)
-//fired when SRMM writes an entered message into the database
-#define ME_MSG_WRITEEVENT    "MessageAPI/OnWriteEvent"
+//fired before SRMM writes an entered message into the database
+#define ME_MSG_PRECREATEEVENT    "MessageAPI/PreCreateEvent"
 
 typedef struct {
-	int    cbSize;
-	int    seq;      // number returned by PSS_MESSAGE
+	int cbSize;
+	int seq;      // number returned by PSS_MESSAGE
 	HANDLE hContact;
-	HANDLE hDbEvent; // database event written on the basis of message sent
+	DBEVENTINFO *dbei; // database event written on the basis of message sent
 } MessageWindowEvent;
 
 /////////////////////////////////////////////////////////////////////////////////////////

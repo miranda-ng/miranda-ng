@@ -761,10 +761,11 @@ inform_and_discard:
 	if (m_jobs[iFound].dwFlags & PREF_UTF)
 		dbei.flags |= DBEF_UTF;
 	dbei.pBlob = (PBYTE) m_jobs[iFound].sendBuffer;
-	hNewEvent = db_event_add(m_jobs[iFound].hOwner, &dbei);
 
-	MessageWindowEvent evt = { sizeof(evt), (int)m_jobs[iFound].hSendId, m_jobs[iFound].hOwner, hNewEvent };
+	MessageWindowEvent evt = { sizeof(evt), (int)m_jobs[iFound].hSendId, m_jobs[iFound].hOwner, &dbei };
 	NotifyEventHooks(PluginConfig.m_event_WriteEvent, 0, (LPARAM)&evt);
+
+	hNewEvent = db_event_add(m_jobs[iFound].hOwner, &dbei);
 
 	if (m_pContainer)
 		if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))

@@ -536,7 +536,7 @@ int OnLoadModule(void)
 
 	hHookWinEvt = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	hHookWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
-	hHookWinWrite = CreateHookableEvent(ME_MSG_WRITEEVENT);
+	hHookWinWrite = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
 
 	SkinAddNewSoundEx("RecvMsgActive", LPGEN("Instant messages"), LPGEN("Incoming (Focused Window)"));
 	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (Unfocused Window)"));
