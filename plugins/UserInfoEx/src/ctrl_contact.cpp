@@ -546,10 +546,10 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			SendMessage(cbex->hEdit, WM_SETFONT, (WPARAM)cbex->hFont, NULL);
 			SendMessage(cbex->hEdit, EM_LIMITTEXT, (WPARAM)MAXDATASIZE, NULL);
 			// add tooltips
-			SendMessage(cbex->hBtnMenu, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Choose the item to display."), MBF_TCHAR);
-			SendMessage(cbex->hBtnEdit, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Edit the currently displayed item."), MBF_TCHAR);
-			SendMessage(cbex->hBtnAdd, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Add a new custom item."), MBF_TCHAR);
-			SendMessage(cbex->hBtnDel, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete the selected item."), MBF_TCHAR);
+			SendMessage(cbex->hBtnMenu, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Choose the item to display."), MBBF_TCHAR);
+			SendMessage(cbex->hBtnEdit, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Edit the currently displayed item."), MBBF_TCHAR);
+			SendMessage(cbex->hBtnAdd, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Add a new custom item."), MBBF_TCHAR);
+			SendMessage(cbex->hBtnDel, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete the selected item."), MBBF_TCHAR);
 			// reload icons
 			CtrlContactWndProc(hwnd, WM_SETICON, NULL, NULL);
 			cbex->bLocked = 0;

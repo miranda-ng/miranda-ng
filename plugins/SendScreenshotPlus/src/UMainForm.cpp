@@ -321,21 +321,21 @@ LRESULT TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	CheckDlgButton(m_hWnd,ID_chkOpenAgain, m_opt_chkOpenAgain ? BST_CHECKED : BST_UNCHECKED);
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnAbout)) {
-		SendDlgItemMessage(m_hWnd, ID_btnAbout, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Information"), MBF_TCHAR);
+		SendDlgItemMessage(m_hWnd, ID_btnAbout, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Information"), MBBF_TCHAR);
 		HICON hIcon = IcoLib_GetIcon(ICO_PLUG_SSHELP);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("?"));
 	}
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnExplore)) {
-		SendDlgItemMessage(m_hWnd, ID_btnExplore, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open Folder"), MBF_TCHAR);
+		SendDlgItemMessage(m_hWnd, ID_btnExplore, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open Folder"), MBBF_TCHAR);
 		HICON hIcon = IcoLib_GetIcon(ICO_PLUG_SSFOLDERO);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("..."));
 	}
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnDesc)) {
-		SendDlgItemMessage(m_hWnd, ID_btnDesc, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Fill description textbox."), MBF_TCHAR);
+		SendDlgItemMessage(m_hWnd, ID_btnDesc, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Fill description textbox."), MBBF_TCHAR);
 		HICON hIcon = IcoLib_GetIcon(m_opt_btnDesc ? ICO_PLUG_SSDESKON : ICO_PLUG_SSDESKOFF);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("D"));
@@ -343,7 +343,7 @@ LRESULT TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	}
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnDeleteAfterSend)) {
-		SendDlgItemMessage(m_hWnd, ID_btnDeleteAfterSend, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete after send"), MBF_TCHAR);
+		SendDlgItemMessage(m_hWnd, ID_btnDeleteAfterSend, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete after send"), MBBF_TCHAR);
 		HICON hIcon = IcoLib_GetIcon(m_opt_btnDeleteAfterSend ? ICO_PLUG_SSDELON : ICO_PLUG_SSDELOFF);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("X"));
@@ -351,7 +351,7 @@ LRESULT TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	}
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnCapture)) {
-		SendDlgItemMessage(m_hWnd, ID_btnCapture, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Capture"), MBF_TCHAR);
+		SendDlgItemMessage(m_hWnd, ID_btnCapture, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Capture"), MBBF_TCHAR);
 		HICON hIcon = IcoLib_GetIcon(ICO_PLUG_OK);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, TranslateT("&Capture"));

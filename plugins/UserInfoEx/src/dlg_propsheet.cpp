@@ -785,8 +785,8 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				SendDlgItemMessage(hDlg, IDOK, BUTTONTRANSLATE, NULL, NULL);
 				SendDlgItemMessage(hDlg, IDCANCEL, BUTTONTRANSLATE, NULL, NULL);
 				SendDlgItemMessage(hDlg, IDAPPLY, BUTTONTRANSLATE, NULL, NULL);
-				SendDlgItemMessage(hDlg, BTN_EXPORT, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Export to file"), MBF_TCHAR);
-				SendDlgItemMessage(hDlg, BTN_IMPORT, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Import from file"), MBF_TCHAR);
+				SendDlgItemMessage(hDlg, BTN_EXPORT, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Export to file"), MBBF_TCHAR);
+				SendDlgItemMessage(hDlg, BTN_IMPORT, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Import from file"), MBBF_TCHAR);
 			}
 
 			//

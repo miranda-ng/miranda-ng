@@ -185,7 +185,7 @@ void TfrmAbout::btnPageClick() {
 	if(!m_Page) {
 		ShowWindow(GetDlgItem(m_hWnd, IDC_CREDIT), SW_HIDE);
 		ShowWindow(GetDlgItem(m_hWnd, IDC_LICENSE), SW_SHOW);
-		SendDlgItemMessage(m_hWnd, IDA_CONTRIBLINK, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Credits >"), MBF_TCHAR);
+		SendDlgItemMessage(m_hWnd, IDA_CONTRIBLINK, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Credits >"), MBBF_TCHAR);
 		HICON hIcon = IcoLib_GetIcon(ICO_PLUG_ARROWR);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? TranslateT("Credits") : TranslateT("Credits >"));
@@ -193,7 +193,7 @@ void TfrmAbout::btnPageClick() {
 	else {
 		ShowWindow(GetDlgItem(m_hWnd, IDC_CREDIT), SW_SHOW);
 		ShowWindow(GetDlgItem(m_hWnd, IDC_LICENSE), SW_HIDE);
-		SendDlgItemMessage(m_hWnd, IDA_CONTRIBLINK, BUTTONADDTOOLTIP, (WPARAM)TranslateT("< Copyright"), MBF_TCHAR);
+		SendDlgItemMessage(m_hWnd, IDA_CONTRIBLINK, BUTTONADDTOOLTIP, (WPARAM)TranslateT("< Copyright"), MBBF_TCHAR);
 		HICON hIcon = IcoLib_GetIcon(ICO_PLUG_ARROWL);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? TranslateT("Copyright") : TranslateT("< Copyright"));

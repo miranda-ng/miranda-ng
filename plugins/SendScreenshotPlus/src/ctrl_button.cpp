@@ -565,7 +565,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 				hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL, WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
 			}
 
-			if (lParam == MBF_UNICODE) {
+			if (lParam == MBBF_UNICODE) {
 				TOOLINFOW ti;
 
 				ZeroMemory(&ti, sizeof(TOOLINFOW));

@@ -48,8 +48,8 @@ CAnnivEditCtrl::CAnnivEditCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
 	_numDates = 0;
 	
 	// set button tooltips
-	SendMessage(_hBtnAdd, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Add a new anniversary"), MBF_TCHAR);
-	SendMessage(_hBtnDel, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete an existing anniversary"), MBF_TCHAR);
+	SendMessage(_hBtnAdd, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Add a new anniversary"), MBBF_TCHAR);
+	SendMessage(_hBtnDel, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete an existing anniversary"), MBBF_TCHAR);
 
 	// limit textinput
 	SendDlgItemMessage(_hwndDlg, EDIT_REMIND, EM_LIMITTEXT, 2, 0);

@@ -251,14 +251,14 @@ lParam = not used
 // button styles
 #define MBS_DEFBUTTON		0x00001000L			// default button
 #define MBS_PUSHBUTTON		0x00002000L			// toggle button
-#define MBS_FLAT			0x00004000L			// flat button
+#define MBS_FLAT           0x00004000L			// flat button
 #define MBS_DOWNARROW		0x00008000L			// has arrow on the right
 
-#define MBF_UNICODE			1
+#define MBBF_UNICODE			1
 #ifdef _UNICODE
- #define MBF_TCHAR			MBF_UNICODE
+ #define MBBF_TCHAR			MBBF_UNICODE
 #else
- #define MBF_TCHAR			0
+ #define MBBF_TCHAR			0
 #endif
 
 // BUTTONADDTOOLTIP

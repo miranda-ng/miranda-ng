@@ -51,7 +51,7 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 				mir_sntprintf(szAddr, MAX_PATH, _T("%s (%s)"), TranslateT("Address"), TranslateT("Home"));
 				SetDlgItemText(hDlg, IDC_PAGETITLE, szAddr);
-				SendDlgItemMessage(hDlg, BTN_GOTO, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open in Browser"), MBF_TCHAR);
+				SendDlgItemMessage(hDlg, BTN_GOTO, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open in Browser"), MBBF_TCHAR);
 				TranslateDialogDefault(hDlg);
 
 				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_STREET,					SET_CONTACT_STREET,			DBVT_TCHAR));
@@ -208,7 +208,7 @@ INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 				mir_sntprintf(szAddr, MAX_PATH, _T("%s (%s)"), TranslateT("Address & Contact"), TranslateT("Company"));
 				SetDlgItemText(hDlg, IDC_PAGETITLE, szAddr);
-				SendDlgItemMessage(hDlg, BTN_GOTO, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open in Browser"), MBF_TCHAR);
+				SendDlgItemMessage(hDlg, BTN_GOTO, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open in Browser"), MBBF_TCHAR);
 				TranslateDialogDefault(hDlg);
 
 				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_STREET,					SET_CONTACT_COMPANY_STREET,		DBVT_TCHAR));

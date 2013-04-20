@@ -71,6 +71,7 @@ using namespace std;
 #include <m_ftpfile.h>
 #include <m_popup2.h>
 #include <m_sendss.h>
+#include <m_userinfoex.h>
 
 #include "mir_string.h"
 #include "mir_icolib.h"
@@ -141,33 +142,3 @@ std::basic_string<_Elem> replace(const std::basic_string<_Elem> & Origninal, con
 }
 
 #endif
-
-/*************************************************************
- *	Uinfobuttonclass module
- */
- 
-// button styles
-#define MBS_DEFBUTTON		0x00001000L			// default button
-#define MBS_PUSHBUTTON		0x00002000L			// toggle button
-#define MBS_FLAT			0x00004000L			// flat button
-#define MBS_DOWNARROW		0x00008000L			// has arrow on the right
-
-#define MBF_UNICODE			1
-
-#define MBF_TCHAR			MBF_UNICODE
-
-
-// BUTTONADDTOOLTIP
-// use lParam=MBF_UNICODE to set unicode tooltips
-// for lParam=0 the string is interpreted as ansi
-
-// message to explicitly translate the buttons text,
-// as it is not done by default translation routine
-// wParam=lParam=NULL
-#define BUTTONTRANSLATE		(WM_USER+6)
-
-/* UserInfo/MsgBox v0.1.0.4+
-Slightly modified version of MButtonClass, to draw both text and icon in a button control
-*/
-#define UINFOBUTTONCLASS	_T("UInfoButtonClass")
-
