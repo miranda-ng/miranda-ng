@@ -370,5 +370,10 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 
 void __cdecl CSkypeProto::LoadOwnInfo(void*)
 {
+	wchar_t *nick = ::db_get_wsa(NULL, this->m_szModuleName, "Nick");
+	if (!nick || !::wcslen(nick))
+	{
+		::db_set_ws(NULL, this->m_szModuleName, "Nick", this->login);
+	}
 	this->UpdateProfile(this->account.fetch());
 }

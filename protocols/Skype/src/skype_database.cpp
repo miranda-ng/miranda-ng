@@ -63,11 +63,9 @@ void CSkypeProto::RaiseAuthRequestEvent(
 	::CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
 }
 
-bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char* message, int flag)
+bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char* guid, int flag)
 {
 	bool result = false;
-
-	int length = ::strlen(message);
 
 	HANDLE hDbEvent = ::db_event_last(hContact);
 	while (hDbEvent) 
@@ -86,8 +84,7 @@ bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char* me
 		int sendFlag = dbei.flags & DBEF_SENT;
 		if (dbei.eventType == EVENTTYPE_MESSAGE && sendFlag == flag)
 		{
-			char *dbMessage = (char *)dbei.pBlob;
-			if (::strncmp(dbMessage, message, length) == 0 && dbei.timestamp == timestamp)
+			if (::memcmp(&dbei.pBlob[dbei.cbBlob - 32], guid, 32) == 0)
 			{
 				::mir_free(dbei.pBlob);
 				result = true;
@@ -105,17 +102,19 @@ bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char* me
 void CSkypeProto::RaiseMessageReceivedEvent(
 	HANDLE hContact,
 	DWORD timestamp,
+	const char *guid,
 	const wchar_t *message,
 	bool isNeedCheck)
 {	
-	/*if (isNeedCheck)
-		if (this->IsMessageInDB(hContact, timestamp, message))
-			return;*/
+	if (isNeedCheck)
+		if (this->IsMessageInDB(hContact, timestamp, guid))
+			return;
 
 	PROTORECVEVENT recv;
-	recv.flags = PREF_UNICODE;
+	recv.flags = PREF_UTF;
+	recv.lParam = (LPARAM)guid;
 	recv.timestamp = timestamp;
-	recv.tszMessage = ::mir_wstrdup(message);
+	recv.szMessage = ::mir_utf8encodeW(message);
 	
 	::ProtoChainRecvMsg(hContact, &recv);
 }
@@ -123,10 +122,11 @@ void CSkypeProto::RaiseMessageReceivedEvent(
 void CSkypeProto::RaiseMessageSendedEvent(
 	HANDLE hContact,
 	DWORD timestamp,
+	const char *guid,
 	const wchar_t *message)
 {	
-	/*if (this->IsMessageInDB(hContact, timestamp, message, DBEF_SENT))
-		return;*/
+	if (this->IsMessageInDB(hContact, timestamp, guid, DBEF_SENT))
+		return;
 
 	char *msg = ::mir_utf8encodeW(message);
 

@@ -46,6 +46,23 @@ int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+int CSkypeProto::OnMessagePreCreate(WPARAM, LPARAM lParam)
+{
+	MessageWindowEvent *evt = (MessageWindowEvent *)lParam;
+
+	MessageRef message(evt->seq);
+	
+	SEBinary guid;
+	if (message->GetPropGuid(guid))
+	{
+		evt->dbei->pBlob = (PBYTE)::mir_realloc(evt->dbei->pBlob, (evt->dbei->cbBlob + 32));
+		::memcpy(&evt->dbei->pBlob[evt->dbei->cbBlob], guid.data(), 32);
+		evt->dbei->cbBlob += 32;
+	}
+
+	return 1;
+}
+
 void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref message, CContact::Ref receiver)
 {
 	SEString data;
@@ -70,15 +87,25 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 			
 		if (sstatus != CMessage::SENDING)
 		{
+			// todo: shit shit shit
+			this->SendBroadcast(
+				hContact,
+				ACKTYPE_MESSAGE,
+				sstatus == CMessage::FAILED_TO_SEND ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
+				(HANDLE)message->getOID(), 0);
 			this->SendBroadcast(
 				hContact,
 				ACKTYPE_MESSAGE,
 				sstatus == CMessage::FAILED_TO_SEND ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
 				(HANDLE)message->getOID(), 0);
 
+			SEBinary guid;
+			message->GetPropGuid(guid);
+
 			this->RaiseMessageSendedEvent(
 				hContact,
 				timestamp,
+				guid.data(),
 				text);
 		}
 	}
@@ -129,10 +156,13 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::R
 	{
 		HANDLE hContact = this->AddContact(author);
 
-		// fixme
+		SEBinary guid;
+		message->GetPropGuid(guid);
+
 		this->RaiseMessageReceivedEvent(
 			hContact,
 			timestamp, 
+			guid.data(),
 			text,
 			status != CMessage::UNCONSUMED_NORMAL);
 	}

@@ -13,6 +13,8 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) : fileTra
 	this->signin_lock = CreateMutex(0, false, 0);
 	this->SetAllContactStatus(ID_STATUS_OFFLINE);
 
+	this->HookEvent(ME_MSG_PRECREATEEVENT, &CSkypeProto::OnMessagePreCreate);
+
 	this->CreateServiceObj(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
 	// Chat API
 	this->CreateServiceObj(PS_JOINCHAT, &CSkypeProto::OnJoinChat);
@@ -264,6 +266,11 @@ int    __cdecl CSkypeProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt)
 int    __cdecl CSkypeProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* pre)
 {
 	this->UserIsTyping(hContact, PROTOTYPE_SELFTYPING_OFF);
+
+	int length = ::strlen(pre->szMessage) + 1;
+	pre->szMessage = (char *)::mir_realloc(pre->szMessage, length + 32);
+	::memcpy(&pre->szMessage[length], (char *)pre->lParam, 32);
+
 	return ::Proto_RecvMessage(hContact, pre);
 }
 

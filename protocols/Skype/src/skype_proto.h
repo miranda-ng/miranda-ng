@@ -239,6 +239,8 @@ public:
 	int __cdecl OnUserInfoInit(WPARAM, LPARAM);
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
 
+	int __cdecl OnMessagePreCreate(WPARAM, LPARAM);
+
 	// instances
 	static CSkypeProto* InitSkypeProto(const char* protoName, const wchar_t* userName);
 	static int UninitSkypeProto(CSkypeProto* ppro);
@@ -473,11 +475,13 @@ protected:
 	void RaiseMessageReceivedEvent(
 		HANDLE hContact,
 		DWORD timestamp,
+		const char* guid,
 		const wchar_t *message,
 		bool isNeedCheck = true);
 	void RaiseMessageSendedEvent(
 		HANDLE hContact,
 		DWORD timestamp,
+		const char* guid,
 		const wchar_t *message);
 	/*void RaiseFileReceivedEvent(
 		DWORD timestamp,

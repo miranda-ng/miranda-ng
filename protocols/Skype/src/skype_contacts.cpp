@@ -168,6 +168,7 @@ HANDLE CSkypeProto::GetContactBySid(const wchar_t *sid)
 
 HANDLE CSkypeProto::GetContactFromAuthEvent(HANDLE hEvent)
 {
+	// db_event_getContact
 	DWORD body[3];
 	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
 	dbei.cbBlob = sizeof(DWORD) * 2;
@@ -242,10 +243,10 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 		this);
 
 	this->commonList->GetContacts(this->contactList);
+	fetch(this->contactList);
 	for (uint i = 0; i < this->contactList.size(); i++)
 	{
 		CContact::Ref contact = this->contactList[i];
-		SEObject *obj = contact.fetch();
 		contact->SetOnContactChangedCallback(
 			(CContact::OnContactChanged)&CSkypeProto::OnContactChanged, 
 			this);
@@ -255,6 +256,7 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 		this->UpdateContactAuthState(hContact, contact);
 		this->UpdateContactStatus(hContact, contact);
 
+		SEObject *obj = contact.fetch();
 		this->UpdateProfile(obj, hContact);
 		this->UpdateProfileAvatar(obj, hContact);
 		this->UpdateProfileStatusMessage(obj, hContact);
