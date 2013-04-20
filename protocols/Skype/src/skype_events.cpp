@@ -85,14 +85,8 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 	{
 		HANDLE hContact = this->AddContact(receiver);
 			
-		if (sstatus != CMessage::SENDING)
+		//if (sstatus != CMessage::SENDING)
 		{
-			// todo: shit shit shit
-			this->SendBroadcast(
-				hContact,
-				ACKTYPE_MESSAGE,
-				sstatus == CMessage::FAILED_TO_SEND ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
-				(HANDLE)message->getOID(), 0);
 			this->SendBroadcast(
 				hContact,
 				ACKTYPE_MESSAGE,
