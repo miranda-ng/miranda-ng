@@ -50,40 +50,47 @@ int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref message)
+void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref message, CContact::Ref receiver)
 {
 	SEString data;
 
 	uint timestamp;
 	message->GetPropTimestamp(timestamp);
 
-	message->GetPropAuthor(data);
-	char *sid = ::mir_strdup(data);
+	CMessage::SENDING_STATUS sstatus;
+	message->GetPropSendingStatus(sstatus);
+
+	CMessage::CONSUMPTION_STATUS status;
+	message->GetPropConsumptionStatus(status);
 
 	message->GetPropBodyXml(data);
-	char *text = ::mir_strdup(data);
+	char *text = CSkypeProto::RemoveHtml(data);
 
 	CConversation::TYPE type;
 	conversation->GetPropType(type);
 	if (type == CConversation::DIALOG)
 	{
-		CParticipant::Refs participants;
-		conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);
-		
-		//for (uint i = 0; i < participants.size(); i ++)
+		HANDLE hContact = this->AddContact(receiver);
+			
+		if (sstatus != CMessage::SENDING)
 		{
-			participants[0]->GetPropIdentity(data);
-			char *contactSid = ::mir_strdup(data);
-			//todo: get nickname
+			this->SendBroadcast(
+				hContact,
+				ACKTYPE_MESSAGE,
+				sstatus == CMessage::FAILED_TO_SEND ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
+				(HANDLE)message->getOID(), 0);
+
 			this->RaiseMessageSendedEvent(
+				hContact,
 				timestamp,
-				contactSid,
-				contactSid,
-				CSkypeProto::RemoveHtml(text));
+				text);
 		}
 	}
 	else
 	{
+		receiver->GetIdentity(data);
+		char *sid = ::mir_strdup(data);
+
 		conversation->GetPropIdentity(data);
 		char *cid = ::mir_strdup(data);
 
@@ -98,54 +105,56 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 		this->SendChatMessage(
 			cid, 
 			nick, 
-			CSkypeProto::RemoveHtml(::mir_utf8decodeA(text)));
+			text);
 
+		::mir_free(sid);
 		::mir_free(cid);
 	}
+
+	::mir_free(text);
 }
 
-void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message)
+void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message, CContact::Ref author)
 {
 	SEString data;
 
 	uint timestamp;
 	message->GetPropTimestamp(timestamp);
 
-	message->GetPropAuthor(data);
-	char *sid = ::mir_strdup(data);
+	CMessage::CONSUMPTION_STATUS status;
+	message->GetPropConsumptionStatus(status);
 		
 	message->GetPropBodyXml(data);
-	char *text = ::mir_strdup(data);
+	char *text = CSkypeProto::RemoveHtml(data);
 
 	CConversation::TYPE type;
 	conversation->GetPropType(type);
 	if (type == CConversation::DIALOG)
 	{
-		message->GetPropAuthorDisplayname(data);
-		char *nick = ::mir_utf8decodeA(data);
+		HANDLE hContact = this->AddContact(author);
 
+		// fixme
 		this->RaiseMessageReceivedEvent(
-			(DWORD)timestamp, 
-			sid, 
-			nick, 
-			CSkypeProto::RemoveHtml(text));
+			hContact,
+			timestamp, 
+			text,
+			status != CMessage::UNCONSUMED_NORMAL);
 	}
 	else
 	{
+		message->GetPropAuthor(data);
+		char *sid = ::mir_strdup(data);
+
 		conversation->GetPropIdentity(data);
 		char *cid = ::mir_strdup(data);
 
-		this->SendChatMessage(cid, sid, CSkypeProto::RemoveHtml(::mir_utf8decodeA(text)));
+		this->SendChatMessage(cid, sid, text);
 
+		::mir_free(sid);
 		::mir_free(cid);
 	}
-
-	/*int len = ::strlen(text) + 8;
-	wchar_t *xml = new wchar_t[len];
-	::mir_sntprintf(xml, len, L"<m>%s</m>", ::mir_utf8decodeW(text));
-
-	int bytesProcessed = 0;
-	HXML hXml = xi.parseString(xml, &bytesProcessed, NULL);*/
+	
+	::mir_free(text);
 }
 
 void CSkypeProto::OnTransferChanged(int prop, CTransfer::Ref transfer)
@@ -293,39 +302,44 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 	CMessage::TYPE messageType;
 	message->GetPropType(messageType);
 
-	CMessage::SENDING_STATUS sendingStatus;
-	message->GetPropSendingStatus(sendingStatus);
+	//CMessage::SENDING_STATUS sendingStatus;
+	//message->GetPropSendingStatus(sendingStatus);
 
-	if (messageType == CMessage::POSTED_FILES)
-	{
-		this->OnFileReceived(conversation, message);
-		return;
-	}
-
-	CMessage::CONSUMPTION_STATUS status;
-	message->GetPropConsumptionStatus(status);
-
-	// it's old message (hystory sync)
-	if (status == CMessage::CONSUMED && sendingStatus != CMessage::SENT) return;
+	//CMessage::CONSUMPTION_STATUS status;
+	//message->GetPropConsumptionStatus(status);
 
 	switch (messageType)
 	{
 	case CMessage::POSTED_EMOTE:
+		//int i = 0;
+		break;
+
 	case CMessage::POSTED_TEXT:
 		{
-			SEString data;
-
-			message->GetPropAuthor(data);
-			char *sid = ::mir_strdup(data);
-
+			SEString identity;
+			message->GetPropAuthor(identity);			
+			char *sid = ::mir_strdup(identity);
 			if (::stricmp(sid, this->login) == 0)
-				this->OnMessageSended(conversation, message);
+			{
+				CParticipant::Refs participants;
+				conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);
+				participants[0]->GetPropIdentity(identity);
+				CContact::Ref receiver;
+				this->skype->GetContact(identity, receiver);
+				this->OnMessageSended(conversation, message, receiver);
+			}
 			else
-				this->OnMessageReceived(conversation, message);
+			{
+				CContact::Ref author;
+				this->skype->GetContact(identity, author);
+				this->OnMessageReceived(conversation, message, author);
+			}	
+			::mir_free(sid);
 		}
 		break;
 
 	case CMessage::POSTED_FILES:
+		this->OnFileReceived(conversation, message);
 		break;
 
 	case CMessage::ADDED_CONSUMERS:

@@ -306,8 +306,22 @@ CAccount::CAccount(unsigned int oid, SERootObject* root) : Account(oid, root)
 
 void CAccount::SetOnAccountChangedCallback(OnAccountChanged callback, CSkypeProto* proto)
 {
+	this->skype = (CSkype *)root;
+
 	this->proto = proto;
 	this->callback = callback;
+}
+
+bool CAccount::SetAvatar(SEBinary avatar, Skype::VALIDATERESULT &result)
+{
+	int fbl;
+	if (!this->skype->ValidateAvatar(avatar, result, fbl) || result != Skype::VALIDATED_OK)
+		return false;
+
+	if (!this->SetBinProperty(Account::P_AVATAR_IMAGE, avatar))
+		return false;
+
+	return true;
 }
 
 void CAccount::OnChange(int prop)
@@ -462,6 +476,19 @@ void CConversation::OnMessage(const MessageRef & message)
 {
 	if (this->proto)
 		(proto->*messageReceivedCallback)(message->ref());
+}
+
+void CConversation::OnChange(int prop)
+{
+	if (prop == Conversation::P_LOCAL_LIVESTATUS)
+	{
+		Conversation::LOCAL_LIVESTATUS liveStatus;
+		this->GetPropLocalLivestatus(liveStatus);
+		if (liveStatus == Conversation::RINGING_FOR_ME)
+		{
+
+		}
+	}
 }
 
 CConversation::Ref CConversation::FindBySid(CSkype *skype, SEString sid)

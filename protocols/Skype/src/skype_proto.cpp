@@ -35,13 +35,16 @@ CSkypeProto::~CSkypeProto()
 		this->password = NULL;
 	}
 
-	ProtoDestructor(this);
+	::ProtoDestructor(this);
 }
 
 HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	//todo:ref
-	return this->AddContactBySid(::mir_u2a(psr->id), ::mir_u2a(psr->nick), 0);
+	//fixme
+	CContact::Ref contact;
+	this->skype->GetContact(::mir_u2a(psr->id), contact);
+	return this->AddContact(contact);
+	return 0;
 }
 
 HANDLE __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
@@ -325,24 +328,20 @@ HANDLE __cdecl CSkypeProto::SendFile( HANDLE hContact, const TCHAR* szDescriptio
 
 int    __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char* msg)
 {
-	int result = ::InterlockedIncrement((LONG volatile*)&dwCMDNum);
-
 	CConversation::Ref conversation = CConversation::FindBySid(
 		this->skype,
-		::db_get_sa(hContact, this->m_szModuleName, "sid"));
+		(char*)::mir_ptr<char>(::db_get_sa(hContact, this->m_szModuleName, "sid")));
+
 	if (conversation)
 	{
-		Message::Ref message;
-		conversation->PostText(msg, message);
+		CMessage::Ref message;
+		if (!conversation->PostText(msg, message))
+			return 0;
+
+		return message->getOID();
 	}
 
-	this->SendBroadcastAsync(
-		hContact,
-		ACKTYPE_MESSAGE,
-		ACKRESULT_SUCCESS,
-		(HANDLE)result, 0);
-
-	return result;
+	return 0;
 }
 
 int    __cdecl CSkypeProto::SendUrl( HANDLE hContact, int flags, const char* url ) { return 0; }

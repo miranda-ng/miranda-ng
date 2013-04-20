@@ -450,7 +450,7 @@ INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 					LV_ITEM lvi = {0};
 					lvi.mask = LVIF_PARAM | LVIF_TEXT;
 
-					for (lvi.iItem = 0; lvi.iItem < SIZEOF(setting); lvi.iItem++) 
+					for (lvi.iItem = 0; lvi.iItem < SIZEOF(CSkypeProto::setting); lvi.iItem++) 
 					{
 						lvi.lParam = lvi.iItem;
 						lvi.pszText = (LPTSTR)setting[lvi.iItem].szDescription;

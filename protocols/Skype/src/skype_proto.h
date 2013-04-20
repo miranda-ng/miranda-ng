@@ -3,7 +3,6 @@
 #include "skype.h"
 #include <time.h>
 
-
 struct CSkypeProto;
 
 typedef void    (__cdecl CSkypeProto::* SkypeThreadFunc) (void*);
@@ -89,32 +88,6 @@ struct SettingItem
   int dbType;              //DBVT_ constant
   unsigned displayType;    //LI_ constant
 };
-
-const SettingItem setting[]={
-  {LPGENT("Full name"),		"Nick",			DBVT_WCHAR,	LI_STRING},
-  {LPGENT("Mood"),			"XStatusMsg",	DBVT_WCHAR,	LI_STRING},
-
-  {LPGENT("Mobile phone"),	"Cellular",		DBVT_WCHAR,	LI_NUMBER},
-  {LPGENT("Home phone"),	"Phone",		DBVT_WCHAR,	LI_NUMBER},
-  {LPGENT("Office phone"),	"CompanyPhone",	DBVT_WCHAR,	LI_NUMBER},
-  {LPGENT("E-mail 1"),		"e-mail0",		DBVT_WCHAR,	LI_STRING},
-  {LPGENT("E-mail 2"),		"e-mail1",		DBVT_WCHAR,	LI_STRING},
-  {LPGENT("E-mail 3"),		"e-mail2",		DBVT_WCHAR,	LI_STRING},
-
-  {LPGENT("Country"),		"Country",		DBVT_WCHAR,	LI_LIST},
-  {LPGENT("State"),			"State",		DBVT_WCHAR,	LI_STRING},
-  {LPGENT("City"),			"City",			DBVT_WCHAR,	LI_STRING},
-  {LPGENT("Time zone"),		"Timezone",		DBVT_BYTE,	LI_LIST},
-  {LPGENT("Homepage"),		"Homepage",		DBVT_WCHAR,	LI_STRING},
-  {LPGENT("Gender"),		"Gender",		DBVT_BYTE,	LI_LIST},
-  {LPGENT("Birth day"),		"BirthDay",		DBVT_BYTE,	LI_NUMBER},
-  {LPGENT("Birth month"),	"BirthMonth",	DBVT_BYTE,	LI_NUMBER},
-  {LPGENT("Birth year"),	"BirthYear",	DBVT_WORD,	LI_NUMBER},
-  {LPGENT("Language"),		"Language1",	DBVT_WCHAR,	LI_LIST},
-
-  {LPGENT("About"),			"About",		DBVT_WCHAR,	LI_STRING}
-};
-
 
 struct HtmlEntity
 {
@@ -291,7 +264,6 @@ public:
 	bool	IsOnline();
 
 protected:
-	DWORD   dwCMDNum;
 	CSkype *skype;
 	CAccount::Ref account;
 	CContact::Refs contactList;
@@ -312,6 +284,10 @@ protected:
 	bool	SignIn(int status);
 	void __cdecl SignInAsync(void*);
 
+	bool IsAvatarChanged(const SEBinary &avatar);
+
+	static SettingItem setting[19];
+
 	static wchar_t* LogoutReasons[];
 	static wchar_t* ValidationReasons[];
 	static wchar_t* PasswordChangeReasons[];
@@ -319,8 +295,8 @@ protected:
 
 	// messages
 	void	OnMessage(CConversation::Ref conversation, CMessage::Ref message);
-	void	OnMessageSended(CConversation::Ref conversation, CMessage::Ref message);
-	void	OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message);
+	void	OnMessageSended(CConversation::Ref conversation, CMessage::Ref message, CContact::Ref receiver);
+	void	OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message, CContact::Ref author);
 
 	// file transfer
 	LIST<FileTransfer> fileTransferList;
@@ -377,11 +353,14 @@ protected:
 	bool	IsProtoContact(HANDLE hContact);
 	HANDLE	GetContactBySid(const char* sid);
 	HANDLE	GetContactFromAuthEvent(HANDLE hEvent);
-	HANDLE	AddContactBySid(const char* sid, const char* nick, DWORD flags = 0);
+	HANDLE	AddContact(CContact::Ref contact);
 
 	void	SetAllContactStatus(int status);
 
 	void __cdecl LoadContactList(void*);
+	void __cdecl LoadChatList(void*);
+	void __cdecl LoadAuthWaitList(void*);
+
 	void __cdecl SearchBySidAsync(void*);
 	void __cdecl SearchByNamesAsync(void*);
 	void __cdecl SearchByEmailAsync(void*);
@@ -425,10 +404,12 @@ protected:
 	static void ShowNotification(const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
 	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
 
-	static char *RemoveHtml(char *data);
+	static char *RemoveHtml(const char *data);
 
 	int		SkypeToMirandaStatus(CContact::AVAILABILITY availability);
 	CContact::AVAILABILITY MirandaToSkypeStatus(int status);
+
+	SEBinary GetAvatarBinary(wchar_t *path);
 
 	// runtime
 	void InitSkype();
@@ -480,29 +461,26 @@ protected:
 
 
 	// database
+	bool IsMessageInDB(HANDLE hContact, DWORD timestamp, const char* guid, int flag = 0);
+
 	HANDLE AddDataBaseEvent(HANDLE hContact, WORD type, DWORD time, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 	void RaiseMessageReceivedEvent(
+		HANDLE hContact,
 		DWORD timestamp,
-		const char* sid,
-		const char* nick,
-		const char* message = "");
+		const char* message,
+		bool isNeedCheck = true);
 	void RaiseMessageSendedEvent(
+		HANDLE hContact,
+		DWORD timestamp,
+		const char* message);
+	/*void RaiseFileReceivedEvent(
 		DWORD timestamp,
 		const char* sid,
 		const char* nick,
-		const char* message = "");
-	void RaiseFileReceivedEvent(
-		DWORD timestamp,
-		const char* sid,
-		const char* nick,
-		const char* message = "");
+		const char* message);*/
 	void RaiseAuthRequestEvent(
 		DWORD timestamp,
-		const char* sid,
-		const char* nick,
-		const char* firstName = "",
-		const char* lastName = "",
-		const char* reason = "");
+		CContact::Ref contact);
 
 	// database settings
 	BYTE	GetSettingByte(const char *setting, BYTE errorValue = 0);

@@ -104,54 +104,28 @@ INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 			return iRet;
 		}
 		
-		int len;
-		char *buffer;
-		FILE* fp = ::_wfopen(avatarPath, L"rb");
-		if (!fp)
+		SEBinary avatar = this->GetAvatarBinary(avatarPath);
+		if (avatar.size() == 0)
 		{
-			this->Log(L"Failed to read avatar in local storage.");
+			this->Log(L"Failed to read avatar file.");
 			return iRet;
 		}
-		::fseek(fp, 0, SEEK_END);
-		len = ::ftell(fp);
-		::fseek(fp, 0, SEEK_SET);
-		buffer = new char[len + 1];
-		::fread(buffer, len, 1, fp);
-		::fclose(fp);
 
-		::mir_md5_byte_t digest[16];
-		::mir_md5_hash((BYTE*)buffer, len, digest);
-
-		DBVARIANT dbv;
-		::db_get(NULL, this->m_szModuleName, "AvatarHash", &dbv);
-		if (dbv.type == DBVT_BLOB && dbv.pbVal && dbv.cpbVal == 16)
+		if (!this->IsAvatarChanged(avatar))
 		{
-			if (::memcmp(digest, dbv.pbVal, 16) == 0)
-			{
-				::db_free(&dbv);
-				delete [] buffer;
-				return 0;
-			}
+			this->Log(L"New avatar are same with old.");
+			return iRet;
 		}
-		::db_free(&dbv);
 
-		int fbl;
-		SEBinary avatar(buffer, len);
 		Skype::VALIDATERESULT result = Skype::NOT_VALIDATED;
-		if (!this->skype->ValidateAvatar(avatar, result, fbl) || result != Skype::VALIDATED_OK)
+		if (!this->account->SetAvatar(avatar, result))
 		{
 			this->Log(CSkypeProto::ValidationReasons[result]);
 			return iRet;
 		}
-		if (!this->account->SetBinProperty(Account::P_AVATAR_IMAGE, avatar))
-		{
-			this->Log(L"Failed to send avatar on server.");
-			return iRet;
-		}
 
-		delete [] buffer;
-
-		this->SetSettingDword("AvatarTS", time(NULL));
+		uint newTS = this->account->GetUintProp(/* *::P_AVATAR_TIMESTAMP */ 182);
+		this->SetSettingDword("AvatarTS", newTS);
 		iRet = 0;
 	}
 	else

@@ -160,3 +160,24 @@ bool CSkypeProto::SignIn(int status)
 
 	return false;
 }
+
+bool CSkypeProto::IsAvatarChanged(const SEBinary &avatar)
+{
+	bool result = false;
+
+	::mir_md5_byte_t digest[16];
+	::mir_md5_hash((PBYTE)avatar.data(), avatar.size(), digest);
+
+	DBVARIANT dbv;
+	::db_get(NULL, this->m_szModuleName, "AvatarHash", &dbv);
+	if (dbv.type == DBVT_BLOB && dbv.pbVal && dbv.cpbVal == 16)
+	{
+		if (::memcmp(digest, dbv.pbVal, 16) == 0)
+		{
+			result = true;
+		}
+	}
+	::db_free(&dbv);
+
+	return result;
+}

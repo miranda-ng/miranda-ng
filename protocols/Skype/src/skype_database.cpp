@@ -17,17 +17,34 @@ HANDLE CSkypeProto::AddDataBaseEvent(HANDLE hContact, WORD type, DWORD time, DWO
 
 void CSkypeProto::RaiseAuthRequestEvent(
 	DWORD timestamp,
-	const char* sid, 
-	const char* nick, 
-	const char* firstName,
-	const char* lastName,
-	const char* reason)
+	CContact::Ref contact)
 {	
+	SEString data;
+
+	contact->GetPropSkypename(data);
+	char *sid = ::mir_strdup(data);
+
+	contact->GetPropDisplayname(data);
+	char *nick = ::mir_utf8decodeA(data);
+
+	contact->GetPropReceivedAuthrequest(data);
+	char* reason = ::mir_utf8decodeA((const char*)data);
+
+	contact->GetPropFullname(data);
+	char* fullname = ::mir_utf8decodeA((const char*)data);
+
+	char* firstName = strtok(fullname, " ");
+	char* lastName = strtok(NULL, " ");
+	if (lastName == NULL)
+	{
+		lastName = "";
+	}
+
 	PROTORECVEVENT pre = {0};
 
 	CCSDATA ccs = {0};
 	ccs.szProtoService = PSR_AUTH;
-	ccs.hContact = this->AddContactBySid(sid, nick);
+	ccs.hContact = this->AddContact(contact);
 	ccs.wParam = 0;
 	ccs.lParam = (LPARAM)&pre;
 	pre.timestamp = timestamp;
@@ -54,62 +71,99 @@ void CSkypeProto::RaiseAuthRequestEvent(
 	::CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
 }
 
-void CSkypeProto::RaiseMessageReceivedEvent(
-	DWORD timestamp,
-	const char* sid, 
-	const char* nick, 
-	const char* message)
-{	
-	PROTORECVEVENT pre = {0};
+bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char* message, int flag)
+{
+	bool result = false;
 
-	CCSDATA ccs = {0};
-	ccs.szProtoService = PSR_MESSAGE;
-	ccs.hContact = this->AddContactBySid(sid, nick);
-	ccs.wParam = 0;
-	ccs.lParam = (LPARAM)&pre;
-	pre.flags = PREF_UTF;
-	pre.timestamp = timestamp;
-	pre.szMessage = (char *)message;
+	int length = ::strlen(message);
+
+	HANDLE hDbEvent = ::db_event_last(hContact);
+	while (hDbEvent) 
+	{
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		dbei.cbBlob = ::db_event_getBlobSize(hDbEvent);
+		dbei.pBlob = (PBYTE)::mir_alloc(dbei.cbBlob);
+		::db_event_get(hDbEvent, &dbei);
+
+		if (dbei.timestamp < timestamp)
+		{
+			::mir_free(dbei.pBlob);
+			break;
+		}
+
+		int sendFlag = dbei.flags & DBEF_SENT;
+		if (dbei.eventType == EVENTTYPE_MESSAGE && sendFlag == flag)
+		{
+			char *dbMessage = (char *)dbei.pBlob;
+			if (::strncmp(dbMessage, message, length) == 0 && dbei.timestamp == timestamp)
+			{
+				::mir_free(dbei.pBlob);
+				result = true;
+				break;
+			}
+		}
+
+		::mir_free(dbei.pBlob);
+		hDbEvent = ::db_event_prev(hDbEvent);		
+	}
+
+	return result;
+}
+
+void CSkypeProto::RaiseMessageReceivedEvent(
+	HANDLE hContact,
+	DWORD timestamp,
+	const char* message,
+	bool isNeedCheck)
+{	
+	if (isNeedCheck)
+		if (this->IsMessageInDB(hContact, timestamp, message))
+			return;
+
+	PROTORECVEVENT recv;
+	recv.flags = PREF_UTF;
+	recv.timestamp = timestamp;
+	recv.szMessage = ::mir_strdup(message);
 	
-	::CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+	::ProtoChainRecvMsg(hContact, &recv);
 }
 
 void CSkypeProto::RaiseMessageSendedEvent(
+	HANDLE hContact,
 	DWORD timestamp,
-	const char* sid, 
-	const char* nick, 
 	const char* message)
 {	
-	PROTORECVEVENT pre = {0};
+	if (this->IsMessageInDB(hContact, timestamp, message, DBEF_SENT))
+		return;
 
-	CCSDATA ccs = {0};
-	ccs.szProtoService = PSR_MESSAGE;
-	ccs.hContact = this->AddContactBySid(sid, nick);
-	ccs.wParam = 0;
-	ccs.lParam = (LPARAM)&pre;
-	pre.flags = PREF_UTF;
-	pre.timestamp = timestamp;
-	pre.szMessage = (char *)message;
-	
-	::CallService(MS_PROTO_CHAINSEND, 0, (LPARAM)&ccs);
+	DBEVENTINFO dbei = { 0 };
+	dbei.cbSize = sizeof(dbei);
+	dbei.szModule = this->m_szModuleName;
+	dbei.timestamp = timestamp;
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.cbBlob = (DWORD)::strlen(message) + 1;
+	dbei.pBlob = (PBYTE)::mir_strdup(message);
+	dbei.flags = DBEF_UTF | DBEF_SENT;
+
+	::db_event_add(hContact, &dbei);
 }
 
-void CSkypeProto::RaiseFileReceivedEvent(
-	DWORD timestamp,
-	const char* sid, 
-	const char* nick, 
-	const char* message)
-{	
-	PROTORECVFILET pre = {0};
-
-	CCSDATA ccs = {0};
-	ccs.szProtoService = PSR_FILE;
-	ccs.hContact = this->AddContactBySid(sid, nick);
-	ccs.wParam = 0;
-	ccs.lParam = (LPARAM)&pre;
-	pre.flags = PREF_UTF;
-	pre.timestamp = timestamp;
-	//pre.szMessage = (char *)message;
-	
-	::CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
-}
+//void CSkypeProto::RaiseFileReceivedEvent(
+//	DWORD timestamp,
+//	const char* sid, 
+//	const char* nick, 
+//	const char* message)
+//{	
+//	PROTORECVFILET pre = {0};
+//
+//	CCSDATA ccs = {0};
+//	ccs.szProtoService = PSR_FILE;
+//	ccs.hContact = this->AddContactBySid(sid, nick);
+//	ccs.wParam = 0;
+//	ccs.lParam = (LPARAM)&pre;
+//	pre.flags = PREF_UTF;
+//	pre.timestamp = timestamp;
+//	//pre.szMessage = (char *)message;
+//	
+//	::CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+//}

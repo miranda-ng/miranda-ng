@@ -507,7 +507,7 @@ void CSkypeProto::ShowNotification(const wchar_t *message, int flags, HANDLE hCo
 	CSkypeProto::ShowNotification(TranslateT("Skype Protocol"), message, flags, hContact);
 }
 
-char *CSkypeProto::RemoveHtml(char *text)
+char *CSkypeProto::RemoveHtml(const char *text)
 {
 	std::string new_string = "";
 	std::string data = text;
@@ -551,7 +551,6 @@ char *CSkypeProto::RemoveHtml(char *text)
 		new_string += data.at(i);
 	}
 
-	::mir_free(text);
 	return ::mir_strdup(new_string.c_str());
 }
 
@@ -617,4 +616,29 @@ CContact::AVAILABILITY CSkypeProto::MirandaToSkypeStatus(int status)
 	}
 
 	return availability;
+}
+
+SEBinary CSkypeProto::GetAvatarBinary(wchar_t *path)
+{
+	SEBinary avatar;
+
+	if (::PathFileExists(path))
+	{
+		int len;
+		char *buffer;
+		FILE* fp = ::_wfopen(path, L"rb");
+		if (fp)
+		{
+			::fseek(fp, 0, SEEK_END);
+			len = ::ftell(fp);
+			::fseek(fp, 0, SEEK_SET);
+			buffer = new char[len + 1];
+			::fread(buffer, len, 1, fp);
+			::fclose(fp);
+
+			avatar.set(buffer, len);
+		}
+	}
+
+	return avatar;
 }

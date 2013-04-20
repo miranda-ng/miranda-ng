@@ -67,6 +67,7 @@ private:
 	OnMessageReceived messageReceivedCallback;
 	
 	void OnMessage(const MessageRef & message);
+	void OnChange(int prop);
 };
 
 class CContact : public Contact
@@ -146,10 +147,13 @@ public:
 	typedef DRefs<CAccount, Account> Refs;
 	
 	CAccount(unsigned int oid, SERootObject* root);
+
+	bool SetAvatar(SEBinary avatar, Skype::VALIDATERESULT &result);
 	
 	void SetOnAccountChangedCallback(OnAccountChanged callback, CSkypeProto* proto);
 
 private:
+	CSkype *skype;
 	CSkypeProto* proto;
 	OnAccountChanged callback;
 	void OnChange(int prop);
