@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 HCURSOR  hCurSplitNS, hCurSplitWE, hCurHyperlinkHand, hDragCursor;
-HANDLE   hHookWinEvt=NULL, hHookWinPopup=NULL;
+HANDLE   hHookWinEvt, hHookWinPopup, hHookWinWrite;
 HGENMENU hMsgMenuItem;
 
 extern HWND GetParentWindow(HANDLE hContact, BOOL bChat);
@@ -476,12 +476,16 @@ int OnSystemPreshutdown(WPARAM wParam, LPARAM lParam)
 int OnUnloadModule(void)
 {
 	Chat_Unload();
+
 	DestroyCursor(hCurSplitNS);
 	DestroyCursor(hCurHyperlinkHand);
 	DestroyCursor(hCurSplitWE);
 	DestroyCursor(hDragCursor);
+
 	DestroyHookableEvent(hHookWinEvt);
 	DestroyHookableEvent(hHookWinPopup);
+	DestroyHookableEvent(hHookWinWrite);
+
 	ReleaseIcons();
 	FreeMsgLogIcons();
 	FreeLibrary(GetModuleHandleA("riched20.dll"));
@@ -532,6 +536,8 @@ int OnLoadModule(void)
 
 	hHookWinEvt = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	hHookWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
+	hHookWinWrite = CreateHookableEvent(ME_MSG_WRITEEVENT);
+
 	SkinAddNewSoundEx("RecvMsgActive", LPGEN("Instant messages"), LPGEN("Incoming (Focused Window)"));
 	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (Unfocused Window)"));
 	SkinAddNewSoundEx("AlertMsg", LPGEN("Instant messages"), LPGEN("Incoming (New Session)"));

@@ -76,7 +76,6 @@ extern "C" int __declspec(dllexport) Load(void)
 		return 1;
 	}
 
-
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 

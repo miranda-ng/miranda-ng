@@ -178,9 +178,9 @@ void CGlobals::reloadSystemModulesChanged()
 	}
 	else M->WriteByte(SRMSGMOD_T, "ieview_installed", 0);
 
-	g_iButtonsBarGap = 							M->GetByte("ButtonsBarGap", 1);
-	m_hwndClist = 								(HWND)CallService(MS_CLUI_GETHWND, 0, 0);
-	m_MathModAvail = 							(ServiceExists(MATH_RTF_REPLACE_FORMULAE) ? 1 : 0);
+	g_iButtonsBarGap = M->GetByte("ButtonsBarGap", 1);
+	m_hwndClist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+	m_MathModAvail = (ServiceExists(MATH_RTF_REPLACE_FORMULAE) ? 1 : 0);
 	if (m_MathModAvail) {
 		char *szDelim = (char *)CallService(MATH_GET_STARTDELIMITER, 0, 0);
 		if (szDelim) {
@@ -223,69 +223,69 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_ncm.cbSize = sizeof(NONCLIENTMETRICS);
 	SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &m_ncm, 0);
 
-	DWORD dwFlags = 					M->GetDword("mwflags", MWF_LOG_DEFAULT);
+	DWORD dwFlags = M->GetDword("mwflags", MWF_LOG_DEFAULT);
 
-	m_SendOnShiftEnter = 				(int)M->GetByte("sendonshiftenter", 0);
-	m_SendOnEnter = 					(int)M->GetByte(SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER);
-	m_SendOnDblEnter = 					(int)M->GetByte("SendOnDblEnter", 0);
-	m_AutoLocaleSupport = 				(int)M->GetByte("al", 0);
-	m_AutoSwitchTabs = 					(int)M->GetByte("autoswitchtabs", 1);
-	m_CutContactNameTo = 				(int)db_get_w(NULL, SRMSGMOD_T, "cut_at", 15);
-	m_CutContactNameOnTabs = 			(int)M->GetByte("cuttitle", 0);
-	m_StatusOnTabs = 					(int)M->GetByte("tabstatus", 1);
-	m_LogStatusChanges = 				(int)M->GetByte("logstatuschanges", 0);
-	m_UseDividers = 					(int)M->GetByte("usedividers", 0);
-	m_DividersUsePopupConfig = 			(int)M->GetByte("div_popupconfig", 0);
-	m_MsgTimeout = 						(int)M->GetDword(SRMSGMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
+	m_SendOnShiftEnter = M->GetByte("sendonshiftenter", 0);
+	m_SendOnEnter = M->GetByte(SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER);
+	m_SendOnDblEnter = M->GetByte("SendOnDblEnter", 0);
+	m_AutoLocaleSupport = M->GetByte("al", 0);
+	m_AutoSwitchTabs = M->GetByte("autoswitchtabs", 1);
+	m_CutContactNameTo = db_get_w(NULL, SRMSGMOD_T, "cut_at", 15);
+	m_CutContactNameOnTabs = M->GetByte("cuttitle", 0);
+	m_StatusOnTabs = M->GetByte("tabstatus", 1);
+	m_LogStatusChanges = M->GetByte("logstatuschanges", 0);
+	m_UseDividers = M->GetByte("usedividers", 0);
+	m_DividersUsePopupConfig = M->GetByte("div_popupconfig", 0);
+	m_MsgTimeout = M->GetDword(SRMSGMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
 
 	if (m_MsgTimeout < SRMSGSET_MSGTIMEOUT_MIN)
 		m_MsgTimeout = SRMSGSET_MSGTIMEOUT_MIN;
 
-	m_EscapeCloses = 					(int)M->GetByte("escmode", 0);
+	m_EscapeCloses = M->GetByte("escmode", 0);
 
-	m_HideOnClose =						(int) M->GetByte("hideonclose", 0);
-	m_AllowTab =						(int) M->GetByte("tabmode", 0);
+	m_HideOnClose = M->GetByte("hideonclose", 0);
+	m_AllowTab = M->GetByte("tabmode", 0);
 
-	m_FlashOnClist = 					(int)M->GetByte("flashcl", 0);
-	m_AlwaysFullToolbarWidth = 			(int)M->GetByte("alwaysfulltoolbar", 1);
-	m_LimitStaticAvatarHeight = 		(int)M->GetDword("avatarheight", 96);
-	m_SendFormat = 						(int)M->GetByte("sendformat", 0);
+	m_FlashOnClist = M->GetByte("flashcl", 0);
+	m_AlwaysFullToolbarWidth = M->GetByte("alwaysfulltoolbar", 1);
+	m_LimitStaticAvatarHeight = M->GetDword("avatarheight", 96);
+	m_SendFormat = M->GetByte("sendformat", 0);
 	m_FormatWholeWordsOnly = 1;
-	m_RTLDefault = 						(int)M->GetByte("rtldefault", 0);
-	m_TabAppearance = 					(int)M->GetDword("tabconfig", TCF_FLASHICON | TCF_SINGLEROWTABCONTROL);
-	m_panelHeight = 					(DWORD)M->GetDword("panelheight", CInfoPanel::DEGRADE_THRESHOLD);
-	m_MUCpanelHeight = 					M->GetDword("Chat", "panelheight", CInfoPanel::DEGRADE_THRESHOLD);
-	m_IdleDetect = 						(int)M->GetByte("dimIconsForIdleContacts", 1);
+	m_RTLDefault = M->GetByte("rtldefault", 0);
+	m_TabAppearance = M->GetDword("tabconfig", TCF_FLASHICON | TCF_SINGLEROWTABCONTROL);
+	m_panelHeight = (DWORD)M->GetDword("panelheight", CInfoPanel::DEGRADE_THRESHOLD);
+	m_MUCpanelHeight = M->GetDword("Chat", "panelheight", CInfoPanel::DEGRADE_THRESHOLD);
+	m_IdleDetect = M->GetByte("dimIconsForIdleContacts", 1);
 	m_smcxicon = 16;
 	m_smcyicon = 16;
-	m_PasteAndSend = 					(int)M->GetByte("pasteandsend", 1);
-	m_szNoStatus = 						TranslateT("No status message");
-	m_LangPackCP = 						ServiceExists(MS_LANGPACK_GETCODEPAGE) ? CallService(MS_LANGPACK_GETCODEPAGE, 0, 0) : CP_ACP;
-	m_visualMessageSizeIndicator = 		M->GetByte("msgsizebar", 0);
-	m_autoSplit = 						M->GetByte("autosplit", 0);
-	m_FlashOnMTN = 						M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH);
+	m_PasteAndSend = M->GetByte("pasteandsend", 1);
+	m_szNoStatus = TranslateT("No status message");
+	m_LangPackCP = ServiceExists(MS_LANGPACK_GETCODEPAGE) ? CallService(MS_LANGPACK_GETCODEPAGE, 0, 0) : CP_ACP;
+	m_visualMessageSizeIndicator = M->GetByte("msgsizebar", 0);
+	m_autoSplit = M->GetByte("autosplit", 0);
+	m_FlashOnMTN = M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH);
 	if (m_MenuBar == 0) {
 		m_MenuBar = ::LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENUBAR));
 		TranslateMenu(m_MenuBar);
 	}
 
-	m_ipBackgroundGradient = 			M->GetDword(FONTMODULE, "ipfieldsbg", 0x62caff);
+	m_ipBackgroundGradient = M->GetDword(FONTMODULE, "ipfieldsbg", 0x62caff);
 	if (0 == m_ipBackgroundGradient)
 		m_ipBackgroundGradient = 0x62caff;
 
-	m_ipBackgroundGradientHigh = 		M->GetDword(FONTMODULE, "ipfieldsbgHigh", 0xf0f0f0);
+	m_ipBackgroundGradientHigh = M->GetDword(FONTMODULE, "ipfieldsbgHigh", 0xf0f0f0);
 	if (0 == m_ipBackgroundGradientHigh)
 		m_ipBackgroundGradientHigh = 0xf0f0f0;
 
-	m_tbBackgroundHigh = 				M->GetDword(FONTMODULE, "tbBgHigh", 0);
-	m_tbBackgroundLow = 				M->GetDword(FONTMODULE, "tbBgLow", 0);
-	m_fillColor =						M->GetDword(FONTMODULE, "fillColor", 0);
+	m_tbBackgroundHigh = M->GetDword(FONTMODULE, "tbBgHigh", 0);
+	m_tbBackgroundLow = M->GetDword(FONTMODULE, "tbBgLow", 0);
+	m_fillColor = M->GetDword(FONTMODULE, "fillColor", 0);
 	if (CSkin::m_BrushFill) {
 		::DeleteObject(CSkin::m_BrushFill);
 		CSkin::m_BrushFill = 0;
 	}
-	m_genericTxtColor = 				M->GetDword(FONTMODULE, "genericTxtClr", GetSysColor(COLOR_BTNTEXT));
-	m_cRichBorders =					M->GetDword(FONTMODULE, "cRichBorders", 0);
+	m_genericTxtColor = M->GetDword(FONTMODULE, "genericTxtClr", GetSysColor(COLOR_BTNTEXT));
+	m_cRichBorders = M->GetDword(FONTMODULE, "cRichBorders", 0);
 
 	::CopyMemory(&globalContainerSettings, &_cnt_default, sizeof(TContainerSettings));
 	Utils::ReadContainerSettingsFromDB(0, &globalContainerSettings);
@@ -594,6 +594,7 @@ int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 
 		DestroyHookableEvent(PluginConfig.m_event_MsgWin);
 		DestroyHookableEvent(PluginConfig.m_event_MsgPopup);
+		DestroyHookableEvent(PluginConfig.m_event_WriteEvent);
 
 		::NEN_WriteOptions(&nen_options);
 		::DestroyWindow(PluginConfig.g_hwndHotkeyHandler);

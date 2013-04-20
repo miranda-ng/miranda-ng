@@ -1,20 +1,20 @@
-{  
-  Miranda IM: the free IM client for Microsoft  Windows 
-  
-  Copyright 2000-2003 Miranda ICQ/IM project, 
-  all portions of this codebase are copyrighted to the people 
+{
+  Miranda IM: the free IM client for Microsoft  Windows
+
+  Copyright 2000-2003 Miranda ICQ/IM project,
+  all portions of this codebase are copyrighted to the people
   listed in contributors.txt.
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -120,6 +120,12 @@ const
 }
   MS_MSG_GETWINDOWDATA:PAnsiChar = 'MessageAPI/GetWindowData';
 
+{ wparam=0(unused)
+  lparam=(pMessageWindowEvent) event written
+  fired when SRMM writes an entered message into the database
+}
+  ME_MSG_WRITEEVENT:PAnsiChar = 'MessageAPI/OnWriteEvent';
+
 { wParam = 0
  lParam = (MessageWindowPopupData *)&MessageWindowPopupData;
  Fired to allow plugins to add itens to the msg window popup menu
@@ -144,6 +150,15 @@ type
     hMenu    :HMENU;   // The handle to the menu
     pt       :TPOINT;  // The point, in screen coords
     selection:int;     // The menu control id or 0 if no one was selected
+  end;
+
+type
+  pMessageWindowEvent = ^MessageWindowEvent;
+  MessageWindowEvent = record
+    cbSize   :int;
+    seq      :int;     // number returned by PSS_MESSAGE
+    hContact :THANDLE;
+    hDbEvent :THANDLE; // database event written on the basis of message sent
   end;
 
 // status icons

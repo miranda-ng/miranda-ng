@@ -190,7 +190,7 @@ public:
    COLORREF    m_tbBackgroundHigh, m_tbBackgroundLow, m_fillColor, m_cRichBorders, m_genericTxtColor;
    BYTE        m_dontUseDefaultKbd;
    HANDLE      hSvc[SERVICE_LAST];
-   HANDLE      m_event_MsgWin, m_event_MsgPopup;
+   HANDLE      m_event_MsgWin, m_event_MsgPopup, m_event_WriteEvent;
    HGENMENU    m_hMenuItem;
    BYTE        m_useAeroPeek;
 

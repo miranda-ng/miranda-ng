@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define VALID_AVATAR(x)      (x == PA_FORMAT_PNG || x == PA_FORMAT_JPEG || x == PA_FORMAT_ICON || x == PA_FORMAT_BMP || x == PA_FORMAT_GIF)
 
 extern HCURSOR hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
-extern HANDLE hHookWinEvt, hHookWinPopup;
+extern HANDLE hHookWinEvt, hHookWinPopup, hHookWinWrite;
 extern CREOleCallback reOleCallback;
 
 static void UpdateReadChars(HWND hwndDlg, HWND hwndStatus);
@@ -82,6 +82,9 @@ static int RTL_Detect(const TCHAR *ptszText)
 
 HANDLE SendMessageDirect(const TCHAR *szMsg, HANDLE hContact, char *szProto)
 {
+	if (hContact == NULL)
+		return NULL;
+
 	int flags = 0;
 	int bufSize = 0;
 	char *sendBuffer = NULL;
@@ -113,29 +116,27 @@ HANDLE SendMessageDirect(const TCHAR *szMsg, HANDLE hContact, char *szProto)
 		bufSize += (int)bufSizeT;
 	}
 
-	if (hContact == NULL) {
-		mir_free(sendBuffer);
+	if (sendBuffer == NULL)
 		return NULL;
-	}
 
-	if (sendBuffer) {
-		DBEVENTINFO dbei = { sizeof(dbei) };
-		dbei.eventType = EVENTTYPE_MESSAGE;
-		dbei.flags = DBEF_SENT | (flags & PREF_UTF ? DBEF_UTF : 0) | (flags & PREF_RTL ? DBEF_RTL : 0);
-		dbei.szModule = szProto;
-		dbei.timestamp = (DWORD)time(NULL);
-		dbei.cbBlob = (DWORD)bufSize;
-		dbei.pBlob = (PBYTE)sendBuffer;
-		HANDLE hNewEvent = db_event_add(hContact, &dbei);
+	int sendId = CallContactService(hContact, PSS_MESSAGE, flags, (LPARAM)sendBuffer);
 
-		HANDLE hSendId = (HANDLE) CallContactService(hContact, PSS_MESSAGE, flags, (LPARAM) sendBuffer);
-		msgQueue_add(hContact, hSendId, szMsg, hNewEvent);
-		mir_free(sendBuffer);
-		return hNewEvent;
-	}
-	return NULL;
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.flags = DBEF_SENT | (flags & PREF_UTF ? DBEF_UTF : 0) | (flags & PREF_RTL ? DBEF_RTL : 0);
+	dbei.szModule = szProto;
+	dbei.timestamp = (DWORD)time(NULL);
+	dbei.cbBlob = (DWORD)bufSize;
+	dbei.pBlob = (PBYTE)sendBuffer;
+	HANDLE hNewEvent = db_event_add(hContact, &dbei);
+
+	MessageWindowEvent evt = { sizeof(evt), sendId, hContact, hNewEvent };
+	NotifyEventHooks(hHookWinWrite, 0, (LPARAM)&evt);
+
+	msgQueue_add(hContact, sendId, szMsg, hNewEvent);
+	mir_free(sendBuffer);
+	return hNewEvent;
 }
-
 
 static void AddToFileList(TCHAR ***pppFiles,int *totalCount,const TCHAR* szFilename)
 {

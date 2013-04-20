@@ -604,14 +604,13 @@ void SendQueue::recallFailed(const TWindowData *dat, int iEntry) const
 void SendQueue::UpdateSaveAndSendButton(TWindowData *dat)
 {
 	if (dat) {
-		int		len;
 		HWND	hwndDlg = dat->hwnd;
 
-		GETTEXTLENGTHEX	gtxl = {0};
+		GETTEXTLENGTHEX gtxl = {0};
 		gtxl.codepage = CP_UTF8;
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
 
-		len = SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)& gtxl, 0);
+		int len = SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)& gtxl, 0);
 		if (len && GetSendButtonState(hwndDlg) == PBS_DISABLED)
 			EnableSendButton(dat, TRUE);
 		else if (len == 0 && GetSendButtonState(hwndDlg) != PBS_DISABLED)
@@ -665,21 +664,19 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 
 int SendQueue::RTL_Detect(const WCHAR *pszwText)
 {
-	WORD	*infoTypeC2;
-	int		i, n = 0;
-	int		iLen = lstrlenW(pszwText);
+	int i, n = 0;
+	int iLen = lstrlenW(pszwText);
 
-	infoTypeC2 = (WORD *)mir_alloc(sizeof(WORD) * (iLen + 2));
-
+	WORD *infoTypeC2 = (WORD *)mir_alloc(sizeof(WORD) * (iLen + 2));
 	if (infoTypeC2) {
 		ZeroMemory(infoTypeC2, sizeof(WORD) * (iLen + 2));
 
 		GetStringTypeW(CT_CTYPE2, pszwText, iLen, infoTypeC2);
 
-		for (i=0; i < iLen; i++) {
+		for (i=0; i < iLen; i++)
 			if (infoTypeC2[i] == C2_RIGHTTOLEFT)
 				n++;
-		}
+
 		mir_free(infoTypeC2);
 		return(n >= 2 ? 1 : 0);
 	}
@@ -766,17 +763,18 @@ inform_and_discard:
 	dbei.pBlob = (PBYTE) m_jobs[iFound].sendBuffer;
 	hNewEvent = db_event_add(m_jobs[iFound].hOwner, &dbei);
 
-	if (m_pContainer) {
+	MessageWindowEvent evt = { sizeof(evt), (int)m_jobs[iFound].hSendId, m_jobs[iFound].hOwner, hNewEvent };
+	NotifyEventHooks(PluginConfig.m_event_WriteEvent, 0, (LPARAM)&evt);
+
+	if (m_pContainer)
 		if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
 			SkinPlaySound("SendMsg");
-	}
 
-	if (dat && (m_jobs[iFound].hOwner == dat->hContact)) {
+	if (dat && (m_jobs[iFound].hOwner == dat->hContact))
 		if (dat->hDbEventFirst == NULL) {
 			dat->hDbEventFirst = hNewEvent;
 			SendMessage(dat->hwnd, DM_REMAKELOG, 0, 0);
 		}
-	}
 
 	m_jobs[iFound].hSendId = NULL;
 	m_jobs[iFound].iAcksNeeded--;

@@ -416,54 +416,59 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 
 	ACKDATA *ack = (ACKDATA*) lParam;
 	MessageSendQueueItem *item = FindSendQueueItem((HANDLE)pAck->hContact, (HANDLE)pAck->hProcess);
-	if (item != NULL) {
-		HWND hwndSender = item->hwndSender;
-		if (ack->result == ACKRESULT_FAILED) {
-			if (item->hwndErrorDlg != NULL) {
-				item = FindOldestPendingSendQueueItem(hwndSender, (HANDLE)pAck->hContact);
+	if (item == NULL)
+		return 0;
+
+	HWND hwndSender = item->hwndSender;
+	if (ack->result == ACKRESULT_FAILED) {
+		if (item->hwndErrorDlg != NULL) {
+			item = FindOldestPendingSendQueueItem(hwndSender, (HANDLE)pAck->hContact);
+		}
+		if (item != NULL && item->hwndErrorDlg == NULL) {
+			if (hwndSender != NULL) {
+				ErrorWindowData *ewd = (ErrorWindowData *) mir_alloc(sizeof(ErrorWindowData));
+				ewd->szName = GetNickname(item->hContact, item->proto);
+				ewd->szDescription = a2t((char *) ack->lParam);
+				ewd->szText = GetSendBufferMsg(item);
+				ewd->hwndParent = hwndSender;
+				ewd->queueItem = item;
+				SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
+				SendMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)ewd);
+			} else {
+				RemoveSendQueueItem(item);
 			}
-			if (item != NULL && item->hwndErrorDlg == NULL) {
-				if (hwndSender != NULL) {
-					ErrorWindowData *ewd = (ErrorWindowData *) mir_alloc(sizeof(ErrorWindowData));
-					ewd->szName = GetNickname(item->hContact, item->proto);
-					ewd->szDescription = a2t((char *) ack->lParam);
-					ewd->szText = GetSendBufferMsg(item);
-					ewd->hwndParent = hwndSender;
-					ewd->queueItem = item;
-					SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
-					SendMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)ewd);
-				} else {
-					RemoveSendQueueItem(item);
-				}
-			}
-			return 0;
 		}
-
-		DBEVENTINFO dbei = { 0 };
-		dbei.cbSize = sizeof(dbei);
-		dbei.eventType = EVENTTYPE_MESSAGE;
-		dbei.flags = DBEF_SENT | (( item->flags & PREF_RTL) ? DBEF_RTL : 0 );
-		if ( item->flags & PREF_UTF )
-			dbei.flags |= DBEF_UTF;
-		dbei.szModule = GetContactProto(item->hContact);
-		dbei.timestamp = time(NULL);
-		dbei.cbBlob = lstrlenA(item->sendBuffer) + 1;
-		if ( !( item->flags & PREF_UTF ))
-			dbei.cbBlob *= sizeof(TCHAR) + 1;
-		dbei.pBlob = (PBYTE) item->sendBuffer;
-		db_event_add(item->hContact, &dbei);
-
-		if (item->hwndErrorDlg != NULL)
-			DestroyWindow(item->hwndErrorDlg);
-
-		if (RemoveSendQueueItem(item) && db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
-			if (hwndSender != NULL)
-				DestroyWindow(hwndSender);
-		}
-		else if (hwndSender != NULL) {
-			SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
-			SkinPlaySound("SendMsg");
-		}
+		return 0;
 	}
+
+	DBEVENTINFO dbei = { 0 };
+	dbei.cbSize = sizeof(dbei);
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.flags = DBEF_SENT | (( item->flags & PREF_RTL) ? DBEF_RTL : 0 );
+	if ( item->flags & PREF_UTF )
+		dbei.flags |= DBEF_UTF;
+	dbei.szModule = GetContactProto(item->hContact);
+	dbei.timestamp = time(NULL);
+	dbei.cbBlob = lstrlenA(item->sendBuffer) + 1;
+	if ( !( item->flags & PREF_UTF ))
+		dbei.cbBlob *= sizeof(TCHAR) + 1;
+	dbei.pBlob = (PBYTE) item->sendBuffer;
+	HANDLE hNewEvent = db_event_add(item->hContact, &dbei);
+
+	MessageWindowEvent evt = { sizeof(evt), (int)item->hSendId, item->hContact, hNewEvent };
+	NotifyEventHooks(hHookWinWrite, 0, (LPARAM)&evt);
+
+	if (item->hwndErrorDlg != NULL)
+		DestroyWindow(item->hwndErrorDlg);
+
+	if (RemoveSendQueueItem(item) && db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
+		if (hwndSender != NULL)
+			DestroyWindow(hwndSender);
+	}
+	else if (hwndSender != NULL) {
+		SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
+		SkinPlaySound("SendMsg");
+	}
+
 	return 0;
 }

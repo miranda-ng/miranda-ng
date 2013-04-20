@@ -540,6 +540,7 @@ static void TSAPI InitAPI()
 
 	PluginConfig.m_event_MsgWin = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	PluginConfig.m_event_MsgPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
+	PluginConfig.m_event_WriteEvent = CreateHookableEvent(ME_MSG_WRITEEVENT);
 }
 
 int LoadSendRecvMessageModule(void)

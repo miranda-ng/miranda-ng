@@ -37,7 +37,7 @@ __inline TCHAR* tcmdlist_getitem(SortedList *list, int ind)
 
 typedef struct _TMsgQueue
 {
-	HANDLE id;
+	int id;
 	HANDLE hContact;
 	TCHAR* szMsg;
 	HANDLE hDbEvent;
@@ -45,8 +45,8 @@ typedef struct _TMsgQueue
 }
 TMsgQueue;
 
-void msgQueue_add(HANDLE hContact, HANDLE id, const TCHAR* szMsg, HANDLE hDbEvent);
-void msgQueue_processack(HANDLE hContact, HANDLE id, BOOL success, const char* szErr);
+void msgQueue_add(HANDLE hContact, int id, const TCHAR* szMsg, HANDLE hDbEvent);
+void msgQueue_processack(HANDLE hContact, int id, BOOL success, const char* szErr);
 void msgQueue_init(void);
 void msgQueue_destroy(void);
 

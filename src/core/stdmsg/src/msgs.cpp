@@ -29,7 +29,7 @@ const CLSID IID_IRichEditOleCallback = { 0x00020D03, 0x00, 0x00, { 0xC0, 0x00, 0
 #endif
 
 HCURSOR  hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
-HANDLE   hHookWinEvt, hHookWinPopup;
+HANDLE   hHookWinEvt, hHookWinPopup, hHookWinWrite;
 HGENMENU hMsgMenuItem;
 
 static int SRMMStatusToPf2(int status)
@@ -155,7 +155,6 @@ static INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 static INT_PTR ReadMessageCommand(WPARAM wParam, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT *) lParam;
-
 	if (cle)
 		SendMessageCmd(cle->hContact, NULL, 0);
 
@@ -178,8 +177,7 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 		mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR));
 
 		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags&SMF_SHOWTYPINGCLIST)) {
-			MIRANDASYSTRAYNOTIFY tn = {0};
-			tn.cbSize = sizeof(tn);
+			MIRANDASYSTRAYNOTIFY tn = { sizeof(tn) };
 			tn.tszInfoTitle = TranslateT("Typing Notification");
 			tn.tszInfo = szTip;
 			tn.dwInfoFlags = NIIF_INFO;
@@ -188,11 +186,9 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 			CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) & tn);
 		}
 		else {
-			CLISTEVENT cle = {0};
-
-			cle.cbSize = sizeof(cle);
-			cle.hContact = (HANDLE) wParam;
-			cle.hDbEvent = (HANDLE) 1;
+			CLISTEVENT cle = { sizeof(cle) };
+			cle.hContact = (HANDLE)wParam;
+			cle.hDbEvent = (HANDLE)1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 			cle.hIcon = LoadSkinnedIcon( SKINICON_OTHER_TYPING );
 			cle.pszService = "SRMsg/ReadMessage";
@@ -318,20 +314,6 @@ int PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int SplitmsgShutdown(void)
-{
-	DestroyCursor(hCurSplitNS);
-	DestroyCursor(hCurHyperlinkHand);
-	DestroyCursor(hCurSplitWE);
-
-	FreeMsgLogIcons();
-	FreeLibrary(GetModuleHandleA("riched20"));
-	OleUninitialize();
-	RichUtil_Unload();
-	msgQueue_destroy();
-	return 0;
-}
-
 static int IconsChanged(WPARAM wParam, LPARAM lParam)
 {
 	FreeMsgLogIcons();
@@ -427,6 +409,7 @@ int LoadSendRecvMessageModule(void)
 
 	hHookWinEvt   = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	hHookWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
+	hHookWinWrite = CreateHookableEvent(ME_MSG_WRITEEVENT);
 
 	SkinAddNewSoundEx("RecvMsgActive", LPGEN("Instant messages"), LPGEN("Incoming (Focused Window)"));
 	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (Unfocused Window)"));
@@ -441,6 +424,24 @@ int LoadSendRecvMessageModule(void)
 		hCurHyperlinkHand = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
 
 	InitStatusIcons();
+	return 0;
+}
+
+int SplitmsgShutdown(void)
+{
+	DestroyCursor(hCurSplitNS);
+	DestroyCursor(hCurHyperlinkHand);
+	DestroyCursor(hCurSplitWE);
+
+	DestroyHookableEvent(hHookWinEvt);
+	DestroyHookableEvent(hHookWinPopup);
+	DestroyHookableEvent(hHookWinWrite);
+
+	FreeMsgLogIcons();
+	FreeLibrary(GetModuleHandleA("riched20"));
+	OleUninitialize();
+	RichUtil_Unload();
+	msgQueue_destroy();
 	return 0;
 }
 

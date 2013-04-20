@@ -120,7 +120,7 @@ extern HMENU        g_hMenu;
 extern HANDLE       hBuildMenuEvent;
 extern HANDLE       hSendEvent;
 extern TABLIST *g_TabList;
-extern HANDLE   hHookWinPopup;
+extern HANDLE   hHookWinPopup, hHookWinWrite;
 extern HCURSOR  hCurSplitNS, hCurSplitWE;
 
 extern CREOleCallback reOleCallback;

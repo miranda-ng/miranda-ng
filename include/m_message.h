@@ -107,6 +107,21 @@ typedef struct {
 //returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
 #define MS_MSG_GETWINDOWDATA "MessageAPI/GetWindowData"
 
+//wparam = 0 (unused)
+//lparam = (MessageWindowEvent*)
+//fired when SRMM writes an entered message into the database
+#define ME_MSG_WRITEEVENT    "MessageAPI/OnWriteEvent"
+
+typedef struct {
+	int    cbSize;
+	int    seq;      // number returned by PSS_MESSAGE
+	HANDLE hContact;
+	HANDLE hDbEvent; // database event written on the basis of message sent
+} MessageWindowEvent;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// SRMM popup menu
+
 // wParam = 0
 // lParam = (MessageWindowPopupData *)&MessageWindowPopupData;
 // Fired to allow plugins to add items to the msg window popup menu
@@ -131,6 +146,7 @@ typedef struct {
 	int selection; // The menu control id or 0 if no one was selected
 } MessageWindowPopupData;
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // status icons
 
 #define MBF_DISABLED       0x01
