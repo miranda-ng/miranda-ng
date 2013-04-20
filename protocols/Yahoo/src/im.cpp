@@ -175,38 +175,27 @@ void __cdecl CYahooProto::im_sendackfail_longmsg(HANDLE hContact)
 
 int __cdecl CYahooProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc )
 {
-	DBVARIANT dbv;
-	char *msg;
-	int  bANSI;
-
-	bANSI = 0;/*GetByte("DisableUTF8", 0);*/
-
 	if (!m_bLoggedIn) {/* don't send message if we not connected! */
 		YForkThread( &CYahooProto::im_sendackfail, hContact );
 		return 1;
 	}
 
-	if (bANSI) 
-		/* convert to ANSI */
-		msg = ( char* )pszSrc;
-	else if ( flags & PREF_UNICODE )
-		/* convert to utf8 */
+	mir_ptr<char> msg;
+	if (flags & PREF_UNICODE) /* convert to utf8 */
 		msg = mir_utf8encodeW(( wchar_t* )&pszSrc[ strlen(pszSrc)+1 ] );
 	else if ( flags & PREF_UTF )
-		msg = mir_strdup(( char* )pszSrc );
+		msg = mir_strdup(pszSrc);
 	else
-		msg = mir_utf8encode(( char* )pszSrc );
+		msg = mir_utf8encode(pszSrc);
 
 	if (lstrlenA(msg) > 800) {
 		YForkThread( &CYahooProto::im_sendackfail_longmsg, hContact );
 		return 1;
 	}
 
+	DBVARIANT dbv;
 	if (!GetString( hContact, YAHOO_LOGINID, &dbv)) {
-		send_msg(dbv.pszVal, GetWord( hContact, "yprotoid", 0), msg, (!bANSI) ? 1 : 0);
-
-		if (!bANSI)
-			mir_free(msg);
+		send_msg(dbv.pszVal, GetWord( hContact, "yprotoid", 0), msg, 1);
 
 		YForkThread( &CYahooProto::im_sendacksuccess, hContact );
 

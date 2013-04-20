@@ -943,17 +943,6 @@ struct	ReplyEditData
 	WNDPROC		oldWndProc;
 };
 
-bool	IsMsgServiceNameW(HANDLE hContact)
-{
-	char szServiceName[100];
-	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
-		return false;
-
-	mir_snprintf(szServiceName, sizeof(szServiceName), "%s%sW", szProto, PSS_MESSAGE);
-	return ServiceExists(szServiceName) != 0;
-}
-
 BOOL	IsUtfSendAvailable(HANDLE hContact)
 {
 	char* szProto = GetContactProto(hContact);
@@ -988,101 +977,76 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 	ReplyEditData *dat = (ReplyEditData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	WNDPROC oldWndProc = dat ? dat->oldWndProc : NULL;
 
-	switch (message)
-	{
-/*
-		case WM_ERASEBKGND:
-		{
-			HDC hdc = (HDC)wParam;
-			RECT rc; GetClientRect(hwnd, &rc);
-			FillRect(hdc, &rc, GetSysColorBrush(COLOR_WINDOW));
-			SetTextColor(hdc, GetSysColor(COLOR_GRAYTEXT));
-			DrawText(hdc, "Quick Reply", -1, &rc, DT_BOTTOM|DT_RIGHT|DT_SINGLELINE);
-			return TRUE;
-		}
-*/
-		case WM_KEYDOWN:
-		{
-			switch (wParam)
+	switch (message) {
+	case WM_KEYDOWN:
+		switch (wParam) {
+		case VK_RETURN:
 			{
-				case VK_RETURN:
-				{
-					char *buf = NULL;
-					int flag = 0;
-					bool bSendW = IsMsgServiceNameW(dat->hContact);
-					//if (g_popup.isMirUnicode)
-					if (IsWindowUnicode(hwnd))
-					{
-						WCHAR msg[2048];
-						LPWSTR bufW = NULL;
+				char *buf = NULL;
+				int flag = 0;
+				if (IsWindowUnicode(hwnd)) {
+					WCHAR msg[2048];
+					LPWSTR bufW = NULL;
 
-						SendMessageW(hwnd, WM_GETTEXT, SIZEOF(msg), (LPARAM)msg);
+					SendMessageW(hwnd, WM_GETTEXT, SIZEOF(msg), (LPARAM)msg);
 
-						if (wcslen(msg)==0){
-							DestroyWindow(hwnd);
-							return 0;
-						}
-						// we have unicode message, check if it is possible and reasonable to send it as unicode
-						if (IsUtfSendAvailable(dat->hContact)) {
-							buf = mir_utf8encodeW(msg);
-							flag = PREF_UTF;
-						}
-						else if (bSendW){
-							bufW = mir_wstrdup(msg)	/*mir_tstrdup(msg)*/;
-							buf = (char*)bufW;
-							flag = PREF_UNICODE		/*PREF_TCHAR*/;
-						}
-						else {
-							buf = mir_u2a(msg);
-							flag = 0;
-						}
+					if (wcslen(msg)==0){
+						DestroyWindow(hwnd);
+						return 0;
+					}
+					// we have unicode message, check if it is possible and reasonable to send it as unicode
+					if (IsUtfSendAvailable(dat->hContact)) {
+						buf = mir_utf8encodeW(msg);
+						flag = PREF_UTF;
 					}
 					else {
-						char msg[2048];
-						GetWindowTextA(hwnd, msg, SIZEOF(msg));
-						if (strlen(msg)==0){
-							DestroyWindow(hwnd);
-							return 0;
-						}
-						// we have message, check if it is possible and reasonable to send it as unicode
-						if ( IsUtfSendAvailable( dat->hContact )) {
-							buf = mir_utf8encode(msg);
-							flag = PREF_UTF;
-						}
-						else {
-							buf = mir_strdup(msg)	/*mir_tstrdup(msg)*/;
-							flag = 0				/*PREF_TCHAR*/;
-						}
+						buf = mir_u2a(msg);
+						flag = 0;
 					}
-					
-					CallContactService(dat->hContact, bSendW ? (PSS_MESSAGE"W"):PSS_MESSAGE, flag, (LPARAM)buf);
-					AddMessageToDB(dat->hContact, buf, flag);
-					mir_free(buf);
+				}
+				else {
+					char msg[2048];
+					GetWindowTextA(hwnd, msg, SIZEOF(msg));
+					if (strlen(msg)==0){
+						DestroyWindow(hwnd);
+						return 0;
+					}
+					// we have message, check if it is possible and reasonable to send it as unicode
+					if ( IsUtfSendAvailable( dat->hContact )) {
+						buf = mir_utf8encode(msg);
+						flag = PREF_UTF;
+					}
+					else {
+						buf = mir_strdup(msg)	/*mir_tstrdup(msg)*/;
+						flag = 0				/*PREF_TCHAR*/;
+					}
+				}
 
-					DestroyWindow(hwnd);
-					return 0;
-				}
-				case VK_ESCAPE:
-				{
-					DestroyWindow(hwnd);
-					return 0;
-				}
+				CallContactService(dat->hContact, PSS_MESSAGE, flag, (LPARAM)buf);
+				AddMessageToDB(dat->hContact, buf, flag);
+				mir_free(buf);
 			}
-			break;
+			DestroyWindow(hwnd);
+			return 0;
+
+		case VK_ESCAPE:
+			DestroyWindow(hwnd);
+			return 0;
 		}
+		break;
 
-		case WM_ACTIVATE:
-			if (wParam == WA_INACTIVE)
-				DestroyWindow(hwnd);
-			break;
+	case WM_ACTIVATE:
+		if (wParam == WA_INACTIVE)
+			DestroyWindow(hwnd);
+		break;
 
-		case WM_DESTROY:
-			PopupThreadUnlock();
-			if (!(PopUpOptions.actions&ACT_DEF_KEEPWND))
-				PUDeletePopUp(dat->hwndPopup);
-			SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)dat->oldWndProc);
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-			mir_free(dat);
+	case WM_DESTROY:
+		PopupThreadUnlock();
+		if (!(PopUpOptions.actions&ACT_DEF_KEEPWND))
+			PUDeletePopUp(dat->hwndPopup);
+		SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)dat->oldWndProc);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+		mir_free(dat);
 	}
 
 	if (oldWndProc)

@@ -34,38 +34,6 @@
 
 SendQueue *sendQueue = 0;
 
-static char *pss_msg = "/SendMsg";
-static char *pss_msgw = "/SendMsgW";
-
-/**
- * get the service name to send a message
- *
- * @param hContact (HANDLE) contact's handle
- * @param dat      _MessageWindowData
- * @param dwFlags
- *
- * @return (char *) name of the service to send a message to this contact
- */
-char *SendQueue::MsgServiceName(const HANDLE hContact = 0, const TWindowData *dat = 0, int dwFlags = 0)
-{
-	char	szServiceName[100];
-	char	*szProto = GetContactProto(hContact);
-
-	if (szProto == NULL)
-		return pss_msg;
-
-	if (dat) {
-		if (dat->sendMode & SMODE_FORCEANSI || !(dwFlags & PREF_UNICODE))
-			return pss_msg;
-	}
-
-	_snprintf(szServiceName, sizeof(szServiceName), "%s%sW", szProto, PSS_MESSAGE);
-	if (ServiceExists(szServiceName))
-		return pss_msgw;
-
-	return pss_msg;
-}
-
 /*
  * searches the queue for a message belonging to the given contact which has been marked
  * as "failed" by either the ACKRESULT_FAILED or a timeout handler
@@ -169,21 +137,19 @@ entry_found:
 
 #define SPLIT_WORD_CUTOFF 20
 
-static int SendChunkW(WCHAR *chunk, HANDLE hContact, char *szSvc, DWORD dwFlags)
+static int SendChunkW(WCHAR *chunk, HANDLE hContact, DWORD dwFlags)
 {
-	BYTE	*pBuf = NULL;
-	int		wLen = lstrlenW(chunk), id;
+	int wLen = lstrlenW(chunk);
 	DWORD	memRequired = (wLen + 1) * sizeof(WCHAR);
 	DWORD	codePage = db_get_dw(hContact, SRMSGMOD_T, "ANSIcodepage", CP_ACP);
-	int		mbcsSize = WideCharToMultiByte(codePage, 0, chunk, -1, (char *)pBuf, 0, 0, 0);
 
+	int mbcsSize = WideCharToMultiByte(codePage, 0, chunk, -1, NULL, 0, 0, 0);
 	memRequired += mbcsSize;
-	pBuf = (BYTE *)mir_alloc(memRequired);
-	WideCharToMultiByte(codePage, 0, chunk, -1, (char *)pBuf, mbcsSize, 0, 0);
-	CopyMemory(&pBuf[mbcsSize], chunk, (wLen + 1) * sizeof(WCHAR));
-	id = CallContactService(hContact, szSvc, dwFlags, (LPARAM)pBuf);
-	mir_free(pBuf);
-	return id;
+
+	mir_ptr<char> pBuf((char*)mir_alloc(memRequired));
+	WideCharToMultiByte(codePage, 0, chunk, -1, pBuf, mbcsSize, 0, 0);
+	CopyMemory(&pBuf[mbcsSize], chunk, (wLen+1) * sizeof(WCHAR));
+	return CallContactService(hContact, PSS_MESSAGE, dwFlags, (LPARAM)pBuf);
 }
 
 static int SendChunkA(char *chunk, HANDLE hContact, char *szSvc, DWORD dwFlags)
@@ -199,21 +165,10 @@ static void DoSplitSendW(LPVOID param)
 	WCHAR   *wszBegin, *wszTemp, *wszSaved, savedChar;
 	int     iLen, iCur = 0, iSavedCur = 0, i;
 	BOOL    fSplitting = TRUE;
-	char    szServiceName[100], *svcName;
 	HANDLE  hContact = job->hOwner;
 	DWORD   dwFlags = job->dwFlags;
 	int     chunkSize = job->chunkSize / 2;
 	char    *szProto = GetContactProto(hContact);
-
-	if (szProto == NULL)
-		svcName = pss_msg;
-	else {
-		_snprintf(szServiceName, sizeof(szServiceName), "%s%sW", szProto, PSS_MESSAGE);
-		if (ServiceExists(szServiceName))
-			svcName = pss_msgw;
-		else
-			svcName = pss_msg;
-	}
 
 	iLen = lstrlenA(job->sendBuffer);
 	wszBegin = (WCHAR *) & job->sendBuffer[iLen + 1];
@@ -250,7 +205,7 @@ static void DoSplitSendW(LPVOID param)
 			}
 			savedChar = *wszSaved;
 			*wszSaved = 0;
-			id = SendChunkW(wszTemp, hContact, svcName, dwFlags);
+			id = SendChunkW(wszTemp, hContact, dwFlags);
 			if (!fFirstSend) {
 				job->hSendId = (HANDLE)id;
 				fFirstSend = TRUE;
@@ -264,7 +219,7 @@ static void DoSplitSendW(LPVOID param)
 			}
 		}
 		else {
-			id = SendChunkW(wszTemp, hContact, svcName, dwFlags);
+			id = SendChunkW(wszTemp, hContact, dwFlags);
 			if (!fFirstSend) {
 				job->hSendId = (HANDLE)id;
 				fFirstSend = TRUE;
@@ -285,12 +240,9 @@ static void DoSplitSendA(LPVOID param)
 	char    *szBegin, *szTemp, *szSaved, savedChar;
 	int     iLen, iCur = 0, iSavedCur = 0, i;
 	BOOL    fSplitting = TRUE;
-	char    *svcName;
 	HANDLE  hContact = job->hOwner;
 	DWORD   dwFlags = job->dwFlags;
 	int     chunkSize = job->chunkSize;
-
-	svcName = pss_msg;
 
 	iLen = lstrlenA(job->sendBuffer);
 	szTemp = (char *)mir_alloc(iLen + 1);
@@ -414,82 +366,82 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 			sendLater->flushQueue();							// force queue processing
 		return 0;
 	}
+
+	if (dat->hContact == NULL)
+		return 0;  //never happens
+
+	dat->nMax = dat->cache->getMaxMessageLength();                      // refresh length info
+
+	if (dat->sendMode & SMODE_FORCEANSI && M->GetByte(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 1))
+		M->WriteByte(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 0);
+	else if (!(dat->sendMode & SMODE_FORCEANSI) && !M->GetByte(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 0))
+		M->WriteByte(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 1);
+
+	if (M->GetByte("autosplit", 0) && !(dat->sendMode & SMODE_SENDLATER)) {
+		BOOL    fSplit = FALSE;
+		DWORD   dwOldFlags;
+
+		/*
+		 * determine send buffer length
+		 */
+		if (getSendLength(iEntry, dat->sendMode) >= dat->nMax)
+			fSplit = true;
+
+		if (!fSplit)
+			goto send_unsplitted;
+
+		m_jobs[iEntry].hOwner = dat->hContact;
+		m_jobs[iEntry].hwndOwner = hwndDlg;
+		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
+		m_jobs[iEntry].iAcksNeeded = 1;
+		m_jobs[iEntry].chunkSize = dat->nMax;
+
+		dwOldFlags = m_jobs[iEntry].dwFlags;
+		if (dat->sendMode & SMODE_FORCEANSI)
+			m_jobs[iEntry].dwFlags &= ~PREF_UNICODE;
+
+		if (!(m_jobs[iEntry].dwFlags & PREF_UNICODE) || dat->sendMode & SMODE_FORCEANSI)
+			mir_forkthread(DoSplitSendA, (LPVOID)iEntry);
+		else
+			mir_forkthread(DoSplitSendW, (LPVOID)iEntry);
+		m_jobs[iEntry].dwFlags = dwOldFlags;
+	}
 	else {
-		if (dat->hContact == NULL)
-			return 0;  //never happens
-
-		dat->nMax = dat->cache->getMaxMessageLength();                      // refresh length info
-
-		if (dat->sendMode & SMODE_FORCEANSI && M->GetByte(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 1))
-			M->WriteByte(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 0);
-		else if (!(dat->sendMode & SMODE_FORCEANSI) && !M->GetByte(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 0))
-			M->WriteByte(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 1);
-
-		if (M->GetByte("autosplit", 0) && !(dat->sendMode & SMODE_SENDLATER)) {
-			BOOL    fSplit = FALSE;
-			DWORD   dwOldFlags;
-
-			/*
-			 * determine send buffer length
-			 */
-			if (getSendLength(iEntry, dat->sendMode) >= dat->nMax)
-				fSplit = true;
-
-			if (!fSplit)
-				goto send_unsplitted;
-
-			m_jobs[iEntry].hOwner = dat->hContact;
-			m_jobs[iEntry].hwndOwner = hwndDlg;
-			m_jobs[iEntry].iStatus = SQ_INPROGRESS;
-			m_jobs[iEntry].iAcksNeeded = 1;
-			m_jobs[iEntry].chunkSize = dat->nMax;
-
-			dwOldFlags = m_jobs[iEntry].dwFlags;
-			if (dat->sendMode & SMODE_FORCEANSI)
-				m_jobs[iEntry].dwFlags &= ~PREF_UNICODE;
-
-			if (!(m_jobs[iEntry].dwFlags & PREF_UNICODE) || dat->sendMode & SMODE_FORCEANSI)
-				mir_forkthread(DoSplitSendA, (LPVOID)iEntry);
-			else
-				mir_forkthread(DoSplitSendW, (LPVOID)iEntry);
-			m_jobs[iEntry].dwFlags = dwOldFlags;
-		}
-		else {
 
 send_unsplitted:
 
-			m_jobs[iEntry].hOwner = dat->hContact;
-			m_jobs[iEntry].hwndOwner = hwndDlg;
-			m_jobs[iEntry].iStatus = SQ_INPROGRESS;
-			m_jobs[iEntry].iAcksNeeded = 1;
-			if (dat->sendMode & SMODE_SENDLATER) {
-				TCHAR	tszError[256];
+		m_jobs[iEntry].hOwner = dat->hContact;
+		m_jobs[iEntry].hwndOwner = hwndDlg;
+		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
+		m_jobs[iEntry].iAcksNeeded = 1;
+		if (dat->sendMode & SMODE_SENDLATER) {
+			TCHAR	tszError[256];
 
-				int iSendLength = getSendLength(iEntry, dat->sendMode);
-				if (iSendLength >= dat->nMax) {
-					mir_sntprintf(tszError, 256, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->nMax);
-					SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, reinterpret_cast<LPARAM>(tszError));
-					clearJob(iEntry);
-					return 0;
-				}
-				doSendLater(iEntry, dat);
+			int iSendLength = getSendLength(iEntry, dat->sendMode);
+			if (iSendLength >= dat->nMax) {
+				mir_sntprintf(tszError, 256, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->nMax);
+				SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, reinterpret_cast<LPARAM>(tszError));
 				clearJob(iEntry);
 				return 0;
 			}
-			m_jobs[iEntry].hSendId = (HANDLE) CallContactService(dat->hContact, MsgServiceName(dat->hContact, dat, m_jobs[iEntry].dwFlags), (dat->sendMode & SMODE_FORCEANSI) ? (m_jobs[iEntry].dwFlags & ~PREF_UNICODE) : m_jobs[iEntry].dwFlags, (LPARAM)m_jobs[iEntry].sendBuffer);
-
-			if (dat->sendMode & SMODE_NOACK) {              // fake the ack if we are not interested in receiving real acks
-				ACKDATA ack = {0};
-				ack.hContact = dat->hContact;
-				ack.hProcess = m_jobs[iEntry].hSendId;
-				ack.type = ACKTYPE_MESSAGE;
-				ack.result = ACKRESULT_SUCCESS;
-				SendMessage(hwndDlg, HM_EVENTSENT, (WPARAM)MAKELONG(iEntry, 0), (LPARAM)&ack);
-			}
-			else
-				SetTimer(hwndDlg, TIMERID_MSGSEND + iEntry, PluginConfig.m_MsgTimeout, NULL);
+			doSendLater(iEntry, dat);
+			clearJob(iEntry);
+			return 0;
 		}
+		m_jobs[iEntry].hSendId = (HANDLE) CallContactService(dat->hContact, PSS_MESSAGE,
+			(dat->sendMode & SMODE_FORCEANSI) ? (m_jobs[iEntry].dwFlags & ~PREF_UNICODE) : m_jobs[iEntry].dwFlags, (LPARAM)m_jobs[iEntry].sendBuffer);
+
+		if (dat->sendMode & SMODE_NOACK) {              // fake the ack if we are not interested in receiving real acks
+			ACKDATA ack = {0};
+			ack.hContact = dat->hContact;
+			ack.hProcess = m_jobs[iEntry].hSendId;
+			ack.type = ACKTYPE_MESSAGE;
+			ack.result = ACKRESULT_SUCCESS;
+			SendMessage(hwndDlg, HM_EVENTSENT, (WPARAM)MAKELONG(iEntry, 0), (LPARAM)&ack);
+		}
+		else SetTimer(hwndDlg, TIMERID_MSGSEND + iEntry, PluginConfig.m_MsgTimeout, NULL);
 	}
+
 	dat->iOpenJobs++;
 	m_currentIndex++;
 
@@ -550,14 +502,13 @@ void SendQueue::checkQueue(const TWindowData *dat) const
 
 void SendQueue::logError(const TWindowData *dat, int iSendJobIndex, const TCHAR *szErrMsg) const
 {
-	DBEVENTINFO	dbei = {0};
 	int				iMsgLen;
 
 	if (dat == 0)
 		return;
 
+	DBEVENTINFO	dbei = { sizeof(dbei) };
 	dbei.eventType = EVENTTYPE_ERRMSG;
-	dbei.cbSize = sizeof(dbei);
 	if (iSendJobIndex >= 0) {
 		dbei.pBlob = (BYTE *)m_jobs[iSendJobIndex].sendBuffer;
 		iMsgLen = lstrlenA(m_jobs[iSendJobIndex].sendBuffer) + 1;
@@ -738,7 +689,6 @@ int SendQueue::RTL_Detect(const WCHAR *pszwText)
 int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA				*ack = (ACKDATA *) lParam;
-	DBEVENTINFO			dbei = { 0};
 	HANDLE				hNewEvent;
 	int					iFound = SendQueue::NR_SENDJOBS, iNextFailed;
 	TContainerData *m_pContainer = 0;
@@ -792,7 +742,7 @@ inform_and_discard:
 		}
 	}
 
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT;
 	dbei.szModule = GetContactProto(m_jobs[iFound].hOwner);

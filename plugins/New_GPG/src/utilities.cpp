@@ -171,7 +171,7 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 	{
 		BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 		db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-		CallContactService(hContact, PSS_MESSAGE, (WPARAM)PREF_UTF, (LPARAM)szMessage);
+		CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)szMessage);
 		std::string msg = "Public key ";
 		char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, key_id_str.c_str(), "");
 		if(!keyid[0])
@@ -1332,7 +1332,7 @@ void send_encrypted_msgs_thread(HANDLE hContact)
 			extern std::list<HANDLE> sent_msgs;
 			for(list<string>::iterator p = hcontact_data[hContact].msgs_to_send.begin(); p != end; ++p)
 			{
-				sent_msgs.push_back((HANDLE)CallContactService(hContact, PSS_MESSAGE, (WPARAM)PREF_UTF, (LPARAM)p->c_str()));
+				sent_msgs.push_back((HANDLE)CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)p->c_str()));
 				HistoryLog(hContact, db_event((char*)p->c_str(),0,0, DBEF_SENT));
 				boost::this_thread::sleep(boost::posix_time::seconds(1));
 			}

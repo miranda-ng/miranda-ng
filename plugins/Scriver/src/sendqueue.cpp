@@ -25,44 +25,34 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static MessageSendQueueItem *global_sendQueue = NULL;
 static CRITICAL_SECTION queueMutex;
-static char *MsgServiceName(HANDLE hContact)
+
+TCHAR * GetSendBufferMsg(MessageSendQueueItem *item)
 {
+	TCHAR *szMsg = NULL;
+	size_t len = strlen(item->sendBuffer);
 
-    char szServiceName[100];
-    char *szProto = GetContactProto(hContact);
-    if (szProto == NULL)
-        return PSS_MESSAGE;
+	if (item->flags & PREF_UTF)
+		szMsg = mir_utf8decodeW(item->sendBuffer);
+	else {
+		szMsg = (TCHAR *)mir_alloc(item->sendBufferSize - len - 1);
+		memcpy(szMsg, item->sendBuffer + len + 1, item->sendBufferSize - len - 1);
+	}
 
-    mir_snprintf(szServiceName, sizeof(szServiceName), "%s%sW", szProto, PSS_MESSAGE);
-    if (ServiceExists(szServiceName))
-        return PSS_MESSAGE "W";
-
-    return PSS_MESSAGE;
+	return szMsg;
 }
 
-TCHAR * GetSendBufferMsg(MessageSendQueueItem *item) {
-    TCHAR *szMsg = NULL;
-    size_t len = strlen(item->sendBuffer);
-
-    if (item->flags & PREF_UTF) {
-        szMsg = mir_utf8decodeW(item->sendBuffer);
-    } else {
-        szMsg = (TCHAR *)mir_alloc(item->sendBufferSize - len - 1);
-        memcpy(szMsg, item->sendBuffer + len + 1, item->sendBufferSize - len - 1);
-    }
-
-    return szMsg;
-}
-
-void InitSendQueue() {
+void InitSendQueue()
+{
 	InitializeCriticalSection(&queueMutex);
 }
 
-void DestroySendQueue() {
+void DestroySendQueue()
+{
 	DeleteCriticalSection(&queueMutex);
 }
 
-MessageSendQueueItem* CreateSendQueueItem(HWND hwndSender) {
+MessageSendQueueItem* CreateSendQueueItem(HWND hwndSender)
+{
 	MessageSendQueueItem *item = (MessageSendQueueItem *) mir_alloc(sizeof(MessageSendQueueItem));
 	EnterCriticalSection(&queueMutex);
 	ZeroMemory(item, sizeof(MessageSendQueueItem));
@@ -76,7 +66,8 @@ MessageSendQueueItem* CreateSendQueueItem(HWND hwndSender) {
 	return item;
 }
 
-MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, HANDLE hContact) {
+MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, HANDLE hContact)
+{
 	MessageSendQueueItem *item, *found = NULL;
 	EnterCriticalSection(&queueMutex);
 	for (item = global_sendQueue; item != NULL; item = item->next) {
@@ -88,54 +79,49 @@ MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, HANDLE hCo
 	return found;
 }
 
-MessageSendQueueItem* FindSendQueueItem(HANDLE hContact, HANDLE hSendId) {
-	MessageSendQueueItem *item;
-	EnterCriticalSection(&queueMutex);
-	for (item = global_sendQueue; item != NULL; item = item->next) {
-		if (item->hContact == hContact && item->hSendId == hSendId) {
-			break;
-		}
-	}
-	LeaveCriticalSection(&queueMutex);
-	return item;
+MessageSendQueueItem* FindSendQueueItem(HANDLE hContact, HANDLE hSendId)
+{
+	mir_cslock lock(queueMutex);
+	for (MessageSendQueueItem *item = global_sendQueue; item != NULL; item = item->next)
+		if (item->hContact == hContact && item->hSendId == hSendId)
+			return item;
+
+	return NULL;
 }
 
-BOOL RemoveSendQueueItem(MessageSendQueueItem* item) {
-	BOOL result = TRUE;
+BOOL RemoveSendQueueItem(MessageSendQueueItem* item)
+{
 	HWND hwndSender = item->hwndSender;
-//	logInfo(" removing [%s] next: [%s] prev: [%s]", item->sendBuffer, item->next != NULL ? item->next->sendBuffer : "", item->prev != NULL ? item->prev->sendBuffer : "");
-	EnterCriticalSection(&queueMutex);
-	if (item->prev != NULL) {
+
+	mir_cslock lock(queueMutex);
+	if (item->prev != NULL)
 		item->prev->next = item->next;
-	} else {
+	else
 		global_sendQueue = item->next;
-	}
-	if (item->next != NULL) {
+
+	if (item->next != NULL)
 		item->next->prev = item->prev;
-	}
-	if (item->sendBuffer) {
- 		mir_free(item->sendBuffer);
-	}
-	if (item->proto) {
- 		mir_free(item->proto);
-	}
+	
+	mir_free(item->sendBuffer);
+	mir_free(item->proto);
 	mir_free(item);
-	for (item = global_sendQueue; item != NULL; item = item->next) {
-		if (item->hwndSender == hwndSender) {
-			result = FALSE;
-		}
-	}
-	LeaveCriticalSection(&queueMutex);
-	return result;
+
+	for (item = global_sendQueue; item != NULL; item = item->next)
+		if (item->hwndSender == hwndSender)
+			return FALSE;
+
+	return TRUE;
 }
 
-void ReportSendQueueTimeouts(HWND hwndSender) {
+void ReportSendQueueTimeouts(HWND hwndSender)
+{
 	MessageSendQueueItem *item, *item2;
 	int timeout = db_get_dw(NULL, SRMMMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
-	EnterCriticalSection(&queueMutex);
+
+	mir_cslock lock(queueMutex);
+
 	for (item = global_sendQueue; item != NULL; item = item2) {
 		item2 = item->next;
-//		logInfo(" item in the queue [%s] next: [%s] prev: [%s]", item->sendBuffer, item->next != NULL ? item->next->sendBuffer : "", item->prev != NULL ? item->prev->sendBuffer : "");
 		if (item->timeout < timeout) {
 			item->timeout += 1000;
 			if (item->timeout >= timeout) {
@@ -156,68 +142,67 @@ void ReportSendQueueTimeouts(HWND hwndSender) {
 			}
 		}
 	}
-	LeaveCriticalSection(&queueMutex);
 }
 
-void ReleaseSendQueueItems(HWND hwndSender) {
-	MessageSendQueueItem *item;
-	EnterCriticalSection(&queueMutex);
-	for (item = global_sendQueue; item != NULL; item = item->next) {
+void ReleaseSendQueueItems(HWND hwndSender)
+{
+	mir_cslock lock(queueMutex);
+
+	for (MessageSendQueueItem *item = global_sendQueue; item != NULL; item = item->next) {
 		if (item->hwndSender == hwndSender) {
 			item->hwndSender = NULL;
-			if (item->hwndErrorDlg != NULL) {
+			if (item->hwndErrorDlg != NULL)
 				DestroyWindow(item->hwndErrorDlg);
-			}
+
 			item->hwndErrorDlg = NULL;
 		}
 	}
-	LeaveCriticalSection(&queueMutex);
 }
 
-int ReattachSendQueueItems(HWND hwndSender, HANDLE hContact) {
+int ReattachSendQueueItems(HWND hwndSender, HANDLE hContact)
+{
 	int count = 0;
-	MessageSendQueueItem *item;
-	EnterCriticalSection(&queueMutex);
-	for (item = global_sendQueue; item != NULL; item = item->next) {
+
+	mir_cslock lock(queueMutex);
+
+	for (MessageSendQueueItem *item = global_sendQueue; item != NULL; item = item->next) {
 		if (item->hContact == hContact && item->hwndSender == NULL) {
 			item->hwndSender = hwndSender;
 			item->timeout = 0;
 			count++;
-//			logInfo(" reattaching [%s]", item->sendBuffer);
 		}
 	}
-	LeaveCriticalSection(&queueMutex);
 	return count;
 }
 
-
-void RemoveAllSendQueueItems() {
+void RemoveAllSendQueueItems()
+{
 	MessageSendQueueItem *item, *item2;
-	EnterCriticalSection(&queueMutex);
+	mir_cslock lock(queueMutex);
 	for (item = global_sendQueue; item != NULL; item = item2) {
 		item2 = item->next;
 		RemoveSendQueueItem(item);
 	}
-	LeaveCriticalSection(&queueMutex);
 }
 
-void SendSendQueueItem(MessageSendQueueItem* item) {
-	EnterCriticalSection(&queueMutex);
+void SendSendQueueItem(MessageSendQueueItem* item)
+{
+	mir_cslockfull lock(queueMutex);
 	item->timeout = 0;
-//	logInfo(" sending item  [%s] next: [%s] prev: [%s]", item->sendBuffer, item->next != NULL ? item->next->sendBuffer : "", item->prev != NULL ? item->prev->sendBuffer : "");
+
 	if (item->prev != NULL) {
 		item->prev->next = item->next;
-		if (item->next != NULL) {
+		if (item->next != NULL)
 			item->next->prev = item->prev;
-		}
+
 		item->next = global_sendQueue;
 		item->prev = NULL;
-		if (global_sendQueue != NULL) {
+		if (global_sendQueue != NULL)
 			global_sendQueue->prev = item;
-		}
+
 		global_sendQueue = item;
 	}
-//	logInfo(" item sent [%s] next: [%s] prev: [%s]", item->sendBuffer, item->next != NULL ? item->next->sendBuffer : "", item->prev != NULL ? item->prev->sendBuffer : "");
-	LeaveCriticalSection(&queueMutex);
-	item->hSendId = (HANDLE)CallContactService(item->hContact, MsgServiceName(item->hContact), item->flags, (LPARAM)item->sendBuffer);
+	lock.unlock();
+
+	item->hSendId = (HANDLE)CallContactService(item->hContact, PSS_MESSAGE, item->flags, (LPARAM)item->sendBuffer);
 }

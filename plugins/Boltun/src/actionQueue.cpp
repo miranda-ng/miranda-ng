@@ -81,21 +81,6 @@ static bool NotifyTyping(HANDLE hContact)
 	return res != 0;
 }
 
-static char *MsgServiceName(HANDLE hContact)
-{
-
-    char szServiceName[100];
-    char *szProto = GetContactProto(hContact);
-    if (szProto == NULL)
-        return PSS_MESSAGE;
-
-    mir_snprintf(szServiceName, sizeof(szServiceName), "%s%sW", szProto, PSS_MESSAGE);
-    if (ServiceExists(szServiceName))
-        return PSS_MESSAGE "W";
-
-    return PSS_MESSAGE;
-}
-
 static void TimerAnswer(HANDLE hContact, const TalkBot::MessageInfo* info)
 {
 	DBEVENTINFO ldbei;
@@ -105,15 +90,13 @@ static void TimerAnswer(HANDLE hContact, const TalkBot::MessageInfo* info)
 
 	bufsize *= sizeof(TCHAR) + 1;
 	msg = new char[bufsize];
-	//msg[size - 1] = '\0';
 	
 	if (!WideCharToMultiByte(CP_ACP, 0, info->Answer.c_str(), -1, msg, size, 
 		NULL, NULL))
 		FillMemory(msg, size - 1, '-'); //In case of fault return "----" in ANSI part
 	CopyMemory(msg + size, info->Answer.c_str(), size * 2);
 
-
-	CallContactService(hContact, MsgServiceName(hContact), PREF_TCHAR, (LPARAM)msg);
+	CallContactService(hContact, PSS_MESSAGE, PREF_TCHAR, (LPARAM)msg);
 
 	ZeroMemory(&ldbei, sizeof(ldbei));
 	ldbei.cbSize    = sizeof(ldbei);

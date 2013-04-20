@@ -310,7 +310,6 @@ int onModulesLoaded(WPARAM, LPARAM)
 	// hook message transport
 	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, onRecvMsg);
 	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, onSendMsg);
-	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE"W", onSendMsgW);
 	CreateProtoServiceFunction(MODULENAME, PSS_FILE, onSendFile);
 
 	// create a menu item for creating a secure im connection to the user.

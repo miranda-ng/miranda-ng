@@ -1388,8 +1388,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 	if (streamData.dbei != 0)
 		isSent = (streamData.dbei->flags & DBEF_SENT) != 0;
 	else {
-		DBEVENTINFO dbei = {0};
-		dbei.cbSize = sizeof(dbei);
+		DBEVENTINFO dbei = { sizeof(dbei) };
 		db_event_get(hDbEventFirst, &dbei);
 		isSent = (dbei.flags & DBEF_SENT) != 0;
 	}

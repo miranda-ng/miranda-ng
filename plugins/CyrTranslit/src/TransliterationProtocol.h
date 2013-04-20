@@ -44,8 +44,7 @@ public:
 	* @param lParam (LPARAM)(const char*)szMessage
 	* @return a hProcess corresponding to the one in the ack event.
 	*/
-	static INT_PTR sendMessageA(WPARAM wParam, LPARAM lParam);
-	static INT_PTR sendMessageW(WPARAM wParam, LPARAM lParam);
+	static INT_PTR sendMessage(WPARAM wParam, LPARAM lParam);
 
 	static void TranslateMessageA(WPARAM wParam, LPARAM lParam);
 	static void TranslateMessageW(WPARAM wParam, LPARAM lParam);

@@ -2698,40 +2698,38 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				sendQueue->handleError(dat, iNextFailed);
 			break;
 										 }
-		case MSGERROR_RETRY: {
-			int resent = 0;;
+		case MSGERROR_RETRY:
+			if (dat->dwFlags & MWF_ERRORSTATE) {
+				int resent = 0;
 
-			if (!(dat->dwFlags & MWF_ERRORSTATE))
-				break;
+				dat->cache->saveHistory(0, 0);
+				if (dat->iCurrentQueueError >= 0 && dat->iCurrentQueueError < SendQueue::NR_SENDJOBS) {
+					SendJob *job = sendQueue->getJobByIndex(dat->iCurrentQueueError);
+					if (job->hSendId == 0 && job->hOwner == 0)
+						break;
 
-			dat->cache->saveHistory(0, 0);
-			if (dat->iCurrentQueueError >= 0 && dat->iCurrentQueueError < SendQueue::NR_SENDJOBS) {
-				SendJob *job = sendQueue->getJobByIndex(dat->iCurrentQueueError);
+					job->hSendId = (HANDLE) CallContactService(job->hOwner, PSS_MESSAGE,
+						(dat->sendMode & SMODE_FORCEANSI) ? (job->dwFlags & ~PREF_UNICODE) : job->dwFlags, (LPARAM)job->sendBuffer);
+					resent++;
+				}
 
-				if (job->hSendId == 0 && job->hOwner == 0)
-					break;
-				job->hSendId = (HANDLE) CallContactService(job->hOwner,
-					SendQueue::MsgServiceName(job->hOwner, dat, job->dwFlags), (dat->sendMode & SMODE_FORCEANSI) ? (job->dwFlags & ~PREF_UNICODE) : job->dwFlags, (LPARAM)job->sendBuffer);
-				resent++;
+				if (resent) {
+					int iNextFailed;
+					SendJob *job = sendQueue->getJobByIndex(dat->iCurrentQueueError);
+
+					SetTimer(hwndDlg, TIMERID_MSGSEND + dat->iCurrentQueueError, PluginConfig.m_MsgTimeout, NULL);
+					job->iStatus = SendQueue::SQ_INPROGRESS;
+					dat->iCurrentQueueError = -1;
+					sendQueue->showErrorControls(dat, FALSE);
+					SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
+					sendQueue->checkQueue(dat);
+					if ((iNextFailed = sendQueue->findNextFailed(dat)) >= 0)
+						sendQueue->handleError(dat, iNextFailed);
+				}
 			}
-
-			if (resent) {
-				int iNextFailed;
-				SendJob *job = sendQueue->getJobByIndex(dat->iCurrentQueueError);
-
-				SetTimer(hwndDlg, TIMERID_MSGSEND + dat->iCurrentQueueError, PluginConfig.m_MsgTimeout, NULL);
-				job->iStatus = SendQueue::SQ_INPROGRESS;
-				dat->iCurrentQueueError = -1;
-				sendQueue->showErrorControls(dat, FALSE);
-				SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
-				sendQueue->checkQueue(dat);
-				if ((iNextFailed = sendQueue->findNextFailed(dat)) >= 0)
-					sendQueue->handleError(dat, iNextFailed);
-			}
-									}
-									break;
 		}
 		break;
+
 	case DM_SELECTTAB:
 		SendMessage(hwndContainer, DM_SELECTTAB, wParam, lParam);       // pass the msg to our container
 		return 0;

@@ -124,15 +124,6 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 	return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 }
 
-INT_PTR SVC_OTRSendMessageW(WPARAM wParam, LPARAM lParam){
-	if (!lParam) return 0;
-
-	CCSDATA *ccs = (CCSDATA *) lParam;
-	if (!(ccs->wParam & PREF_UTF)) ccs->wParam |= PREF_UNICODE;
-
-	return SVC_OTRSendMessage(wParam, lParam);
-}
-
 /*
 #define MESSAGE_PREFIX			"(OTR) "
 #define MESSAGE_PREFIXW			L"(OTR) "

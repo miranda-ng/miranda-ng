@@ -100,7 +100,6 @@ public:
 	 * static members
 	 */
 	static	int TSAPI RTL_Detect				(const wchar_t *pszwText);
-	static	char* TSAPI MsgServiceName			(const HANDLE hContact, const TWindowData *dat, int isUnicode);
 	static  int   TSAPI GetProtoIconFromList	(const char *szProto, int iStatus);
 	static  LRESULT TSAPI WarnPendingJobs		(unsigned int uNrMessages);
 	static	void  TSAPI NotifyDeliveryFailure	(const TWindowData *dat);

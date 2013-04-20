@@ -58,19 +58,6 @@ static void NotifyLocalWinEvent(HANDLE hContact, HWND hwnd, unsigned int type)
 	NotifyEventHooks(hHookWinEvt, 0, (LPARAM)&mwe);
 }
 
-static char *MsgServiceName(HANDLE hContact)
-{
-	char szServiceName[100];
-	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
-		return PSS_MESSAGE;
-
-	mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s%sW", szProto, PSS_MESSAGE);
-	if (ServiceExists(szServiceName))
-		return PSS_MESSAGE "W";
-	return PSS_MESSAGE;
-}
-
 static BOOL IsUtfSendAvailable(HANDLE hContact)
 {
 	char* szProto = GetContactProto(hContact);
@@ -141,7 +128,7 @@ HANDLE SendMessageDirect(const TCHAR *szMsg, HANDLE hContact, char *szProto)
 		dbei.pBlob = (PBYTE)sendBuffer;
 		HANDLE hNewEvent = db_event_add(hContact, &dbei);
 
-		HANDLE hSendId = (HANDLE) CallContactService(hContact, MsgServiceName(hContact), flags, (LPARAM) sendBuffer);
+		HANDLE hSendId = (HANDLE) CallContactService(hContact, PSS_MESSAGE, flags, (LPARAM) sendBuffer);
 		msgQueue_add(hContact, hSendId, szMsg, hNewEvent);
 		mir_free(sendBuffer);
 		return hNewEvent;

@@ -164,13 +164,9 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	pd.type = PROTOTYPE_ENCRYPTION;
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
 	
-	CreateProtoServiceFunction(szGPGModuleName, PSR_MESSAGE, (MIRANDASERVICE)RecvMsgSvc);
-	CreateProtoServiceFunction(szGPGModuleName, PSS_MESSAGE, (MIRANDASERVICE)SendMsgSvc);
-	CreateProtoServiceFunction(szGPGModuleName, PSR_MESSAGE"W", (MIRANDASERVICE)RecvMsgSvc);
-	CreateProtoServiceFunction(szGPGModuleName, PSS_MESSAGE"W", (MIRANDASERVICE)SendMsgSvc);
-
-	CreateProtoServiceFunction(szGPGModuleName, PSS_FILE, (MIRANDASERVICE)onSendFile);
-	CreateProtoServiceFunction(szGPGModuleName, PSS_FILE"W", (MIRANDASERVICE)onSendFile);
+	CreateProtoServiceFunction(szGPGModuleName, PSR_MESSAGE, RecvMsgSvc);
+	CreateProtoServiceFunction(szGPGModuleName, PSS_MESSAGE, SendMsgSvc);
+	CreateProtoServiceFunction(szGPGModuleName, PSS_FILE,    onSendFile);
 	clean_temp_dir();
 	return 0;
 }

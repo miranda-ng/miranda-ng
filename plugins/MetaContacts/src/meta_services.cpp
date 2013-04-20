@@ -294,7 +294,6 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 	}
 
-	char szServiceName[100];
 	HANDLE most_online = Meta_GetMostOnline(ccs->hContact);
 
 	if ( !most_online) {
@@ -324,15 +323,6 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 	Meta_SetNick(proto);	// (no matter what was there before)
 
 	// don't bypass filters etc
-	strncpy(szServiceName, PSS_MESSAGE, sizeof(szServiceName));
-
-	if (ccs->wParam & PREF_UNICODE) {
-		char szTemp[100];
-		_snprintf(szTemp, sizeof(szTemp), "%s%sW", proto, PSS_MESSAGE);
-		if (ServiceExists(szTemp))
-			strncpy(szServiceName, PSS_MESSAGE "W", sizeof(szServiceName));
-	}
-
 	if (options.subhistory && !(ccs->wParam & PREF_METANODB)) {
 		// add sent event to subcontact
 		DBEVENTINFO dbei = { sizeof(dbei) };
@@ -354,7 +344,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 	// prevent send filter from adding another copy of this send event to the db
 	ccs->wParam |= PREF_METANODB;
 
-	return CallContactService(ccs->hContact, szServiceName, ccs->wParam, ccs->lParam);
+	return CallContactService(ccs->hContact, PSS_MESSAGE, ccs->wParam, ccs->lParam);
 }
 
 /** Transmit a message received by a contact.
@@ -1464,7 +1454,6 @@ void Meta_InitServices()
 
 	CreateProtoServiceFunction(META_PROTO, PS_GETSTATUS, Meta_GetStatus);
 	CreateProtoServiceFunction(META_PROTO, PSS_MESSAGE, Meta_SendMessage);
-	CreateProtoServiceFunction(META_PROTO, PSS_MESSAGE"W", Meta_SendMessage); // unicode send (same send func as above line, checks for PREF_UNICODE)
 
 	CreateProtoServiceFunction(META_PROTO, PSS_USERISTYPING, Meta_UserIsTyping );
 
@@ -1481,7 +1470,6 @@ void Meta_InitServices()
 
 	CreateProtoServiceFunction(META_FILTER, PSR_MESSAGE, MetaFilter_RecvMessage);
 	CreateProtoServiceFunction(META_FILTER, PSS_MESSAGE, MetaFilter_SendMessage);
-	CreateProtoServiceFunction(META_FILTER, PSS_MESSAGE"W", MetaFilter_SendMessage);
 
 	// API services and events
 	CreateServiceFunction(MS_MC_GETMETACONTACT, MetaAPI_GetMeta);

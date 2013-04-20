@@ -95,9 +95,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	// create our services
 	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, SVC_OTRSendMessage);
-	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE"W", SVC_OTRSendMessageW);
 	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, SVC_OTRRecvMessage);
-
 
 	// hook modules loaded for updater support
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

@@ -33,8 +33,7 @@ void TransliterationProtocol::initialize()
 	pd.type = PROTOTYPE_TRANSLATION;
 	CallService(MS_PROTO_REGISTERMODULE, 0, reinterpret_cast<LPARAM>(&pd));
 
-	CreateProtoServiceFunction(MODULE_NAME, PSS_MESSAGE,    sendMessageA);
-	CreateProtoServiceFunction(MODULE_NAME, PSS_MESSAGE"W", sendMessageW);
+	CreateProtoServiceFunction(MODULE_NAME, PSS_MESSAGE, sendMessage);
 }
 
 //------------------------------------------------------------------------------
@@ -90,26 +89,9 @@ void TransliterationProtocol::TranslateMessageA(WPARAM wParam, LPARAM lParam)
 	strcpy(reinterpret_cast<char*>(ccs->lParam), txt.c_str());
 }
 
-INT_PTR TransliterationProtocol::sendMessageW(WPARAM wParam, LPARAM lParam)
-{
-	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
-	if ( !MirandaContact::bIsActive(ccs->hContact))
-		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
-
-	LPARAM oldlParam = ccs->lParam;
-
-	TranslateMessageW(wParam, lParam);
-
-	int ret = CallService(MS_PROTO_CHAINSEND /* "W" */, wParam, lParam);
-
-	mir_free(reinterpret_cast<void*>(ccs->lParam));
-	ccs->lParam = oldlParam;
-
-	return ret;
-}
 //------------------------------------------------------------------------------
 
-INT_PTR TransliterationProtocol::sendMessageA(WPARAM wParam, LPARAM lParam)
+INT_PTR TransliterationProtocol::sendMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
 	if ( !MirandaContact::bIsActive(ccs->hContact))

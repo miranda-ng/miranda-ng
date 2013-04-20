@@ -1579,13 +1579,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			item->flags = msi->flags;
 			item->codepage = dat->windowData.codePage;
 			if ( IsUtfSendAvailable( dat->windowData.hContact )) {
-				char* szMsgUtf;
-				szMsgUtf = mir_utf8encodeW( (TCHAR *)&msi->sendBuffer[strlen(msi->sendBuffer) + 1] );
+				char *szMsgUtf = mir_utf8encodeW( (TCHAR *)&msi->sendBuffer[strlen(msi->sendBuffer) + 1] );
 				item->flags &= ~PREF_UNICODE;
 				if (!szMsgUtf) {
 					break;
 				}
-				if  (*szMsgUtf == 0) {
+				if (*szMsgUtf == 0) {
 					mir_free(szMsgUtf);
 					break;
 				}
@@ -1726,24 +1725,23 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				break;
 
 			if (dat->windowData.hContact != NULL) {
-				GETTEXTEX  gt = {0};
-				PARAFORMAT2 pf2;
-				MessageSendQueueItem msi = { 0 };
-				int bufSize;
 				int ansiBufSize = GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), dat->windowData.codePage, TRUE) + 1;
-				bufSize = ansiBufSize;
+				int bufSize = ansiBufSize + GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), 1200, TRUE) + 2;
+
+				PARAFORMAT2 pf2;
 				ZeroMemory((void *)&pf2, sizeof(pf2));
 				pf2.cbSize = sizeof(pf2);
 				pf2.dwMask = PFM_RTLPARA;
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
+
+				MessageSendQueueItem msi = { 0 };
+				msi.flags = PREF_TCHAR;
 				if (pf2.wEffects & PFE_RTLPARA)
 					msi.flags |= PREF_RTL;
-					bufSize += GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), 1200, TRUE) + 2;
-				
 				msi.sendBufferSize = bufSize;
 				msi.sendBuffer = (char *) mir_alloc(msi.sendBufferSize);
-				msi.flags |= PREF_TCHAR;
 
+				GETTEXTEX gt = {0};
 				gt.flags = GT_USECRLF;
 				gt.cb = ansiBufSize;
 				gt.codepage = dat->windowData.codePage;
@@ -1758,20 +1756,20 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					mir_free (msi.sendBuffer);
 					break;
 				}
-				{
-					/* Store messaging history */
-					char *msgText = GetRichTextEncoded(GetDlgItem(hwndDlg, IDC_MESSAGE), dat->windowData.codePage);
-					TCmdList *cmdListNew = tcmdlist_last(dat->windowData.cmdList);
-					while (cmdListNew != NULL && cmdListNew->temporary) {
-						dat->windowData.cmdList = tcmdlist_remove(dat->windowData.cmdList, cmdListNew);
-						cmdListNew = tcmdlist_last(dat->windowData.cmdList);
-					}
-					if (msgText != NULL) {
-						dat->windowData.cmdList = tcmdlist_append(dat->windowData.cmdList, msgText, 20, FALSE);
-						mir_free(msgText);
-					}
-					dat->windowData.cmdListCurrent = NULL;
+
+				/* Store messaging history */
+				char *msgText = GetRichTextEncoded(GetDlgItem(hwndDlg, IDC_MESSAGE), dat->windowData.codePage);
+				TCmdList *cmdListNew = tcmdlist_last(dat->windowData.cmdList);
+				while (cmdListNew != NULL && cmdListNew->temporary) {
+					dat->windowData.cmdList = tcmdlist_remove(dat->windowData.cmdList, cmdListNew);
+					cmdListNew = tcmdlist_last(dat->windowData.cmdList);
 				}
+				if (msgText != NULL) {
+					dat->windowData.cmdList = tcmdlist_append(dat->windowData.cmdList, msgText, 20, FALSE);
+					mir_free(msgText);
+				}
+				dat->windowData.cmdListCurrent = NULL;
+
 				if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON)
 					NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
 

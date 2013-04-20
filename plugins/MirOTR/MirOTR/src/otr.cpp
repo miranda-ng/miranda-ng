@@ -141,17 +141,8 @@ extern "C" {
 		//MessageBox(0, message, "OTR Inject", MB_OK);
 		HANDLE hContact = (HANDLE)opdata;
 
-		if(protocol && db_get_w(hContact, protocol, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
-			/* this would be with translation
-			TCHAR *decode = mir_utf8decodeT(message);
-			TCHAR *encode = mir_utf8encodeT(TranslateT(decide));
-			mir_free(decode);
-			CallContactService(hContact, PSS_MESSAGE, PREF_UTF|PREF_BYPASS_OTR, (LPARAM)encode);
-			mir_free(encode);
-			*/
+		if(protocol && db_get_w(hContact, protocol, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 			CallContactService(hContact, PSS_MESSAGE, PREF_UTF|PREF_BYPASS_OTR, (LPARAM)message);
-			//DEBUGOUT_T("INJECT")
-		}
 	}
 
 	/* Display a notification message for a particular accountname /

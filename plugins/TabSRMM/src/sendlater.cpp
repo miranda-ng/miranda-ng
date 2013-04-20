@@ -33,7 +33,6 @@
 
 CSendLater *sendLater = 0;
 
-#define U_PREF_UNICODE PREF_UNICODE
 /*
  * implementation of the CSendLaterJob class
  */
@@ -461,9 +460,7 @@ int CSendLater::sendIt(CSendLaterJob *job)
 		return 0;
 	}
 
-	dwFlags = IsUtfSendAvailable(hContact) ? PREF_UTF : U_PREF_UNICODE;
-
-	char *svcName = SendQueue::MsgServiceName(hContact, 0, dwFlags);
+	dwFlags = IsUtfSendAvailable(hContact) ? PREF_UTF : PREF_UNICODE;
 
 	job->lastSent = now;
 	job->iSendCount++;
@@ -471,9 +468,9 @@ int CSendLater::sendIt(CSendLaterJob *job)
 	job->bCode = CSendLaterJob::JOB_WAITACK;
 
 	if (dwFlags & PREF_UTF)
-		job->hProcess = (HANDLE)CallContactService(hContact, svcName, dwFlags, (LPARAM)job->sendBuffer);
+		job->hProcess = (HANDLE)CallContactService(hContact, PSS_MESSAGE, dwFlags, (LPARAM)job->sendBuffer);
 	else
-		job->hProcess = (HANDLE)CallContactService(hContact, svcName, dwFlags, (LPARAM)job->pBuf);
+		job->hProcess = (HANDLE)CallContactService(hContact, PSS_MESSAGE, dwFlags, (LPARAM)job->pBuf);
 	return 0;
 }
 

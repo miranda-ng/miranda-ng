@@ -611,9 +611,9 @@ int GGPROTO::SendMsg(HANDLE hContact, int flags, const char *msg)
 		return 0;
 
 	char* msg_utf8;
-	if ( flags & PREF_TCHAR )
-		msg_utf8 = mir_utf8encodeT( ( wchar_t* )&msg[ strlen( msg )+1 ] );
-	else if ( flags & PREF_UTF )
+	if (flags & PREF_UNICODE)
+		msg_utf8 = mir_utf8encodeW((wchar_t*)&msg[ strlen( msg )+1 ] );
+	else if (flags & PREF_UTF)
 		msg_utf8 = mir_strdup(msg);
 	else
 		msg_utf8 = mir_utf8encode(msg);

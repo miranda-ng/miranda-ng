@@ -475,18 +475,6 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 	return ret;
 }
 
-// SendMsgW handler
-INT_PTR __cdecl onSendMsgW(WPARAM wParam, LPARAM lParam)
-{
-	if (!lParam) return 0;
-
-	CCSDATA *ccs = (CCSDATA*)lParam;
-	if (!(ccs->wParam & PREF_UTF))
-		ccs->wParam |= PREF_UNICODE;
-	
-	return onSendMsg(wParam, lParam);
-}
-
 // SendMsg handler
 INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 {
