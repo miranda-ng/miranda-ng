@@ -195,7 +195,7 @@ private:
 		const MessageRef & supersedesHistoryMessage,
 		const ConversationRef & conversation);
 
-		static BOOL IsRunAsAdmin();
-		static char *LoadKeyPair(HINSTANCE hInstance);
-		static int	StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port, const wchar_t *dbPath);
+	static BOOL IsRunAsAdmin();
+	static char *LoadKeyPair(HINSTANCE hInstance);
+	static int	StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port, const wchar_t *dbPath);
 };

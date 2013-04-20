@@ -471,7 +471,7 @@ protected:
 	// database
 	bool IsMessageInDB(HANDLE hContact, DWORD timestamp, const char* guid, int flag = 0);
 
-	HANDLE AddDataBaseEvent(HANDLE hContact, WORD type, DWORD time, DWORD flags, DWORD cbBlob, PBYTE pBlob);
+	HANDLE AddDataBaseEvent(HANDLE hContact, WORD type, DWORD time, DWORD flags = 0, DWORD cbBlob = 0, PBYTE pBlob = 0);
 	void RaiseMessageReceivedEvent(
 		HANDLE hContact,
 		DWORD timestamp,

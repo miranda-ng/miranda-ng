@@ -1,18 +1,17 @@
 #include "skype_proto.h"
 
-HANDLE CSkypeProto::AddDataBaseEvent(HANDLE hContact, WORD type, DWORD time, DWORD flags, DWORD cbBlob, PBYTE pBlob)
+HANDLE CSkypeProto::AddDataBaseEvent(HANDLE hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
 {
-	DBEVENTINFO dbei = {0};
-
+	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
 	dbei.szModule = this->m_szModuleName;
-	dbei.timestamp = time;
-	dbei.flags = flags;
-	dbei.eventType = type;
+	dbei.timestamp = timestamp;
+	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = cbBlob;
 	dbei.pBlob = pBlob;
+	dbei.flags = flags;
 
-	return (HANDLE)CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+	return ::db_event_add(hContact, &dbei);
 }
 
 void CSkypeProto::RaiseAuthRequestEvent(

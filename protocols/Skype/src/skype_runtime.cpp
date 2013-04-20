@@ -6,7 +6,9 @@ void CSkypeProto::InitSkype()
 	wchar_t *dbPath = ::Utils_ReplaceVarsT(L"%miranda_userdata%\\SkypeKit\\");	
 
 	this->skype = CSkype::GetInstance(g_hInstance, profileName, dbPath);
-	this->skype->SetOnMessageCallback((CSkype::OnMessaged)&CSkypeProto::OnMessage, this);
+	this->skype->SetOnMessageCallback(
+		(CSkype::OnMessaged)&CSkypeProto::OnMessage, 
+		this);
 }
 
 void CSkypeProto::UninitSkype()

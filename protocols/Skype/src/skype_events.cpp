@@ -469,6 +469,32 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 		}
 		break;
 
+	case CMessage::STARTED_LIVESESSION:
+		//conversation->LeaveLiveSession();
+
+		uint timestamp;
+		message->GetPropTimestamp(timestamp);
+
+		SEString identity;
+		message->GetPropAuthor(identity);
+
+		CContact::Ref author;
+		this->skype->GetContact(identity, author);
+
+		HANDLE hContact = this->AddContact(author);
+		
+		wchar_t *message = new wchar_t[14];
+		::wcscpy(message, L"Incoming call");
+		
+		this->AddDataBaseEvent(
+			hContact,
+			SKYPE_DB_EVENT_TYPE_CALL,
+			timestamp,
+			DBEF_UTF,
+			::wcslen(message) + 1,
+			(PBYTE)message);
+		break;
+
 	//case CMessage::REQUESTED_AUTH:
 	//	break;
 
