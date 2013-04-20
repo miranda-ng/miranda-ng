@@ -24,21 +24,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_SENDQUEUE_H
 #define SRMM_SENDQUEUE_H
 
-typedef struct MessageSendQueueItemStruct
+struct MessageSendQueueItem
 {
 	HWND	hwndSender;
-	HANDLE  hContact;
-	char *	proto;
-	HANDLE 	hSendId;
-	int		timeout;
-	char *	sendBuffer;
-	int		sendBufferSize;
-	int		codepage;
-	int		flags;
-	HWND	hwndErrorDlg;
-	struct MessageSendQueueItemStruct *prev;
-	struct MessageSendQueueItemStruct *next;
-}MessageSendQueueItem;
+	HANDLE hContact;
+	char  *proto;
+	HANDLE hSendId;
+	int    timeout;
+	char  *sendBuffer;
+	int    sendBufferSize;
+	int    codepage;
+	int    flags;
+	HWND   hwndErrorDlg;
+	
+	MessageSendQueueItem *prev, *next;
+};
 
 void InitSendQueue();
 void DestroySendQueue();

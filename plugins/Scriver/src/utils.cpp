@@ -292,8 +292,8 @@ TCHAR *GetRichTextWord(HWND hwnd, POINTL *ptl)
 
 static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
-	MessageSendQueueItem * msi = (MessageSendQueueItem *) dwCookie;
-	msi->sendBuffer = (char *)mir_realloc(msi->sendBuffer, msi->sendBufferSize + cb + 2);
+	MessageSendQueueItem *msi = (MessageSendQueueItem *) dwCookie;
+	msi->sendBuffer = (char*)mir_realloc(msi->sendBuffer, msi->sendBufferSize + cb + 2);
 	memcpy (msi->sendBuffer + msi->sendBufferSize, pbBuff, cb);
 	msi->sendBufferSize += cb;
 	*((TCHAR *)(msi->sendBuffer+msi->sendBufferSize)) = '\0';
@@ -316,7 +316,7 @@ TCHAR *GetRichEditSelection(HWND hwnd)
 		msi.sendBuffer = NULL;
 		msi.sendBufferSize = 0;
 		SendMessage(hwnd, EM_STREAMOUT, (WPARAM)dwFlags, (LPARAM)& stream);
-		return (TCHAR *)msi.sendBuffer;
+		return (TCHAR*)msi.sendBuffer;
 	}
 	return NULL;
 }

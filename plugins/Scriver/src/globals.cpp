@@ -441,18 +441,17 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.flags = DBEF_SENT | (( item->flags & PREF_RTL) ? DBEF_RTL : 0 );
-	if ( item->flags & PREF_UTF )
+	dbei.flags = DBEF_SENT | ((item->flags & PREF_RTL) ? DBEF_RTL : 0);
+	if (item->flags & PREF_UTF)
 		dbei.flags |= DBEF_UTF;
 	dbei.szModule = GetContactProto(item->hContact);
 	dbei.timestamp = time(NULL);
 	dbei.cbBlob = lstrlenA(item->sendBuffer) + 1;
-	if ( !( item->flags & PREF_UTF ))
+	if ( !( item->flags & PREF_UTF))
 		dbei.cbBlob *= sizeof(TCHAR) + 1;
-	dbei.pBlob = (PBYTE) item->sendBuffer;
+	dbei.pBlob = (PBYTE)item->sendBuffer;
 
 	MessageWindowEvent evt = { sizeof(evt), (int)item->hSendId, item->hContact, &dbei };
 	NotifyEventHooks(hHookWinWrite, 0, (LPARAM)&evt);

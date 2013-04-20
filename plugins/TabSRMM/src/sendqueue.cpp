@@ -808,8 +808,9 @@ inform_and_discard:
 
 LRESULT SendQueue::WarnPendingJobs(unsigned int uNrMessages)
 {
-	return(MessageBox(0, TranslateT("There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?"),
-					  TranslateT("Message window warning"), MB_YESNO | MB_ICONHAND));
+	return MessageBox(0,
+		TranslateT("There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?"),
+		TranslateT("Message window warning"), MB_YESNO | MB_ICONHAND);
 }
 
 /**
@@ -862,19 +863,18 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HANDLE hContact, boo
 
 	if (iJobIndex >= 0 && iJobIndex < NR_SENDJOBS) {
 		SendJob*	job = &m_jobs[iJobIndex];
-		char		szKeyName[20];
-		TCHAR 		tszTimestamp[30], tszHeader[150];
-		time_t 		now = time(0);
+		char szKeyName[20];
+		TCHAR tszHeader[150];
 
 		if (fIsSendLater) {
-			TCHAR *formatTime = _T("%Y.%m.%d - %H:%M");
-			_tcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&now));
+			time_t now = time(0);
+			TCHAR tszTimestamp[30];
+			_tcsftime(tszTimestamp, SIZEOF(tszTimestamp), _T("%Y.%m.%d - %H:%M"), _localtime32((__time32_t *)&now));
 			tszTimestamp[29] = 0;
 			mir_snprintf(szKeyName, 20, "S%d", now);
 			mir_sntprintf(tszHeader, SIZEOF(tszHeader), TranslateT("\n(Sent delayed. Original timestamp %s)"), tszTimestamp);
 		}
-		else
-			mir_sntprintf(tszHeader, SIZEOF(tszHeader), _T("M%d|"), time(0));
+		else mir_sntprintf(tszHeader, SIZEOF(tszHeader), _T("M%d|"), time(0));
 
 		if (job->dwFlags & PREF_UTF || !(job->dwFlags & PREF_UNICODE)) {
 			char *utf_header = mir_utf8encodeT(tszHeader);
@@ -919,5 +919,5 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HANDLE hContact, boo
 		}
 		return(iJobIndex);
 	}
-	return(-1);
+	return -1;
 }
