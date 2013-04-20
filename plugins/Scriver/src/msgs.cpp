@@ -183,7 +183,7 @@ static INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 		if (lParam) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
-			SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(char *) lParam);
+			SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(char*) lParam);
 		}
 		SendMessage(GetParent(hwnd), CM_POPUPWINDOW, 0, (LPARAM)hwnd);
 	}
@@ -296,7 +296,7 @@ static void RestoreUnreadMessageAlerts(void)
 				else {
 					cle.hContact = hContact;
 					cle.hDbEvent = hDbEvent;
-					mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), (char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR));
+					mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), (char*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR));
 					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)& cle);
 				}
 			}

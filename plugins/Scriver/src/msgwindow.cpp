@@ -78,7 +78,7 @@ TCHAR* GetWindowTitle(HANDLE *hContact, const char *szProto)
 			tokenLen[2] = j;
 		}
 
-		accModule = (char *) CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM) hContact, 0);
+		accModule = (char*) CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM) hContact, 0);
 		if (accModule != NULL) {
 			PROTOACCOUNT* proto = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)accModule);
 			if (proto != NULL) {

@@ -108,7 +108,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 	lineLen = lineLen*20 + 8;
 	if (*cbBufferEnd + lineLen > *cbBufferAlloced) {
 		cbBufferAlloced[0] += (lineLen + 1024 - lineLen % 1024);
-		*buffer = (char *) mir_realloc(*buffer, *cbBufferAlloced);
+		*buffer = (char*) mir_realloc(*buffer, *cbBufferAlloced);
 	}
 
 	d = *buffer + *cbBufferEnd;
@@ -489,26 +489,18 @@ static void LogEventIEView(LOGSTREAMDATA *streamData, TCHAR *ptszNick)
 	TCHAR *buffer = NULL;
 	int bufferEnd = 0;
 	int bufferAlloced = 0;
-	IEVIEWEVENTDATA ied;
-	IEVIEWEVENT event;
-	ZeroMemory(&event, sizeof(event));
-	event.cbSize = sizeof(event);
-	event.dwFlags = 0;
+
+	IEVIEWEVENTDATA ied = { 0 };
+
+	IEVIEWEVENT event = { sizeof(event) };
 	event.hwnd = streamData->si->windowData.hwndLog;
 	event.hContact = streamData->si->windowData.hContact;
 	event.codepage = streamData->si->windowData.codePage;
 	event.pszProto = streamData->si->pszModule;
-	/*
-	if (!fAppend) {
-		event.iType = IEE_CLEAR_LOG;
-		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
-	}
-	*/
 	event.iType = IEE_LOG_MEM_EVENTS;
 	event.eventData = &ied;
 	event.count = 1;
 
-	ZeroMemory(&ied, sizeof(ied));
 	AddEventToBufferIEView(&buffer, &bufferEnd, &bufferAlloced, streamData, ptszNick);
 	ied.ptszNick = ptszNick;
 	ied.ptszText = buffer;
@@ -591,7 +583,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData, BOOL ieviewMode)
 	// guesstimate amount of memory for the RTF
 	bufferEnd = 0;
 	bufferAlloced = streamData->bRedraw ? 1024 * (streamData->si->iEventCount+2) : 2048;
-	buffer = (char *) mir_alloc(bufferAlloced);
+	buffer = (char*) mir_alloc(bufferAlloced);
 	buffer[0] = '\0';
 
 	// ### RTF HEADER
@@ -641,7 +633,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData, BOOL ieviewMode)
 					AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\fs1  ");
 					while (bufferAlloced - bufferEnd < logIconBmpSize[0])
 						bufferAlloced += 4096;
-					buffer = (char *) mir_realloc(buffer, bufferAlloced);
+					buffer = (char*) mir_realloc(buffer, bufferAlloced);
 					CopyMemory(buffer + bufferEnd, pLogIconBmpBits[iIndex], logIconBmpSize[iIndex]);
 					bufferEnd += logIconBmpSize[iIndex];
 					AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " ");
@@ -749,8 +741,6 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 
 void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw)
 {
-	EDITSTREAM stream;
-	LOGSTREAMDATA streamData;
 	CHARRANGE oldsel, sel, newsel;
 	POINT point ={0};
 	SCROLLINFO scroll;
@@ -761,20 +751,19 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 		return;
 
 	hwndRich = GetDlgItem(hwndDlg, IDC_CHAT_LOG);
-	ZeroMemory(&streamData, sizeof(LOGSTREAMDATA));
+
+	LOGSTREAMDATA streamData = { 0 };
 	streamData.hwnd = hwndRich;
 	streamData.si = si;
 	streamData.lin = lin;
 	streamData.bStripFormat = FALSE;
 	streamData.isFirst = bRedraw ? 1 : (GetRichTextLength(hwndRich, CP_ACP, FALSE) == 0);
 
-	//	bPhaseTwo = bRedraw && bPhaseTwo;
-
 	if (bRedraw || si->iType != GCW_CHATROOM || !si->bFilterEnabled || (si->iLogFilterFlags&lin->iType) != 0)
 	{
 		BOOL bFlag = FALSE;
 
-		ZeroMemory(&stream, sizeof(stream));
+		EDITSTREAM stream = { 0 };
 		stream.pfnCallback = Log_StreamCallback;
 		stream.dwCookie = (DWORD_PTR) & streamData;
 		scroll.cbSize= sizeof(SCROLLINFO);
@@ -820,14 +809,12 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 			&& lin->iType != GC_EVENT_ADDSTATUS
 			&& lin->iType != GC_EVENT_REMOVESTATUS )))
 		{
-			SMADD_RICHEDIT3 sm;
-
 			newsel.cpMax = -1;
 			newsel.cpMin = sel.cpMin;
 			if (newsel.cpMin < 0)
 				newsel.cpMin = 0;
-			ZeroMemory(&sm, sizeof(sm));
-			sm.cbSize = sizeof(sm);
+			
+			SMADD_RICHEDIT3 sm = { sizeof(sm) };
 			sm.hwndRichEditControl = hwndRich;
 			sm.Protocolname = si->pszModule;
 			sm.rangeToReplace = bRedraw?NULL:&newsel;
@@ -872,7 +859,7 @@ char * Log_CreateRtfHeader(MODULEINFO * mi, SESSION_INFO *si)
 	// guesstimate amount of memory for the RTF header
 	bufferEnd = 0;
 	bufferAlloced = 4096;
-	buffer = (char *) mir_realloc(si->pszHeader, bufferAlloced);
+	buffer = (char*) mir_realloc(si->pszHeader, bufferAlloced);
 	buffer[0] = '\0';
 
 	// ### RTF HEADER
@@ -918,47 +905,43 @@ char * Log_CreateRtfHeader(MODULEINFO * mi, SESSION_INFO *si)
 #define RTFPICTHEADERMAXSIZE   78
 void LoadMsgLogBitmaps(void)
 {
-	HICON hIcon;
-	HBITMAP hBmp, hoBmp;
-	HDC hdc, hdcMem;
-	BITMAPINFOHEADER bih = { 0 };
-	int widthBytes, i;
-	RECT rc;
-	HBRUSH hBkgBrush;
-	int rtfHeaderSize;
-	PBYTE pBmpBits;
+	HBRUSH hBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorLogBG", GetSysColor(COLOR_WINDOW)));
 
-	hBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorLogBG", GetSysColor(COLOR_WINDOW)));
+	BITMAPINFOHEADER bih = { 0 };
 	bih.biSize = sizeof(bih);
 	bih.biBitCount = 24;
 	bih.biCompression = BI_RGB;
 	bih.biHeight = 10; //GetSystemMetrics(SM_CYSMICON);
 	bih.biPlanes = 1;
 	bih.biWidth = 10; //GetSystemMetrics(SM_CXSMICON);
-	widthBytes = ((bih.biWidth * bih.biBitCount + 31) >> 5) * 4;
+
+	int widthBytes = ((bih.biWidth * bih.biBitCount + 31) >> 5) * 4;
+
+	RECT rc;
 	rc.top = rc.left = 0;
 	rc.right = bih.biWidth;
 	rc.bottom = bih.biHeight;
-	hdc = GetDC(NULL);
-	hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
-	hdcMem = CreateCompatibleDC(hdc);
-	pBmpBits = (PBYTE) mir_alloc(widthBytes * bih.biHeight);
-	for (i = 0; i < SIZEOF(pLogIconBmpBits); i++) {
-		hIcon = GetCachedIcon(logIconNames[i]);
+
+	HDC hdc = GetDC(NULL);
+	HBITMAP hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
+	HDC hdcMem = CreateCompatibleDC(hdc);
+	PBYTE pBmpBits = (PBYTE) mir_alloc(widthBytes * bih.biHeight);
+	for (int i = 0; i < SIZEOF(pLogIconBmpBits); i++) {
+		HICON hIcon = GetCachedIcon(logIconNames[i]);
 		pLogIconBmpBits[i] = (PBYTE) mir_alloc(RTFPICTHEADERMAXSIZE + (bih.biSize + widthBytes * bih.biHeight) * 2);
-		rtfHeaderSize = sprintf((char *)pLogIconBmpBits[i], "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, (unsigned int)bih.biWidth, (unsigned int)bih.biHeight);
-		hoBmp = (HBITMAP) SelectObject(hdcMem, hBmp);
+		int rtfHeaderSize = sprintf((char*)pLogIconBmpBits[i], "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, (unsigned int)bih.biWidth, (unsigned int)bih.biHeight);
+		HBITMAP hoBmp = (HBITMAP) SelectObject(hdcMem, hBmp);
 		FillRect(hdcMem, &rc, hBkgBrush);
 		DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, NULL, DI_NORMAL);
 		SelectObject(hdcMem, hoBmp);
 		GetDIBits(hdc, hBmp, 0, bih.biHeight, pBmpBits, (BITMAPINFO *) & bih, DIB_RGB_COLORS);
-		{
-			int n;
-			for (n = 0; n < sizeof(BITMAPINFOHEADER); n++)
-				sprintf((char *)pLogIconBmpBits[i] + rtfHeaderSize + n * 2, "%02X", ((PBYTE) & bih)[n]);
-			for (n = 0; n < widthBytes * bih.biHeight; n += 4)
-				sprintf((char *)pLogIconBmpBits[i] + rtfHeaderSize + (bih.biSize + n) * 2, "%02X%02X%02X%02X", pBmpBits[n], pBmpBits[n + 1], pBmpBits[n + 2], pBmpBits[n + 3]);
-		}
+
+		int n;
+		for (n = 0; n < sizeof(BITMAPINFOHEADER); n++)
+			sprintf((char*)pLogIconBmpBits[i] + rtfHeaderSize + n * 2, "%02X", ((PBYTE) & bih)[n]);
+		for (n = 0; n < widthBytes * bih.biHeight; n += 4)
+			sprintf((char*)pLogIconBmpBits[i] + rtfHeaderSize + (bih.biSize + n) * 2, "%02X%02X%02X%02X", pBmpBits[n], pBmpBits[n + 1], pBmpBits[n + 2], pBmpBits[n + 3]);
+
 		logIconBmpSize[i] = rtfHeaderSize + (bih.biSize + widthBytes * bih.biHeight) * 2 + 1;
 		pLogIconBmpBits[i][logIconBmpSize[i] - 1] = '}';
 	}

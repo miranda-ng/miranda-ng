@@ -65,8 +65,7 @@ SESSION_INFO* SM_AddSession( const TCHAR* pszID, const char* pszModule)
 		return NULL;
 
 	if ( !SM_FindSession(pszID, pszModule)) {
-		SESSION_INFO*node = (SESSION_INFO*) mir_alloc(sizeof(SESSION_INFO));
-		ZeroMemory(node, sizeof(SESSION_INFO));
+		SESSION_INFO *node = (SESSION_INFO*) mir_calloc(sizeof(SESSION_INFO));
 		node->ptszID = mir_tstrdup( pszID );
 		node->pszModule = mir_strdup( pszModule );
 		node->windowData.flags = CWDF_RTF_INPUT;
@@ -126,14 +125,14 @@ int SM_RemoveSession(const TCHAR* pszID, const char* pszModule, BOOL removeConta
 			if (removeContact)
 				CallService(MS_DB_CONTACT_DELETE, (WPARAM)pTemp->windowData.hContact, 0);
 
-			mir_free( pTemp->pszModule );
-			mir_free( pTemp->ptszID );
-			mir_free( pTemp->ptszName );
-			mir_free( pTemp->ptszStatusbarText );
-			mir_free( pTemp->ptszTopic );
-			mir_free( pTemp->pszHeader );
-			mir_free( pTemp->pszID );
-			mir_free( pTemp->pszName );
+			mir_free(pTemp->pszModule);
+			mir_free(pTemp->ptszID);
+			mir_free(pTemp->ptszName);
+			mir_free(pTemp->ptszStatusbarText);
+			mir_free(pTemp->ptszTopic);
+			mir_free(pTemp->pszHeader);
+			mir_free(pTemp->pszID);
+			mir_free(pTemp->pszName);
 	
 			// delete commands
 			tcmdlist_free(pTemp->windowData.cmdList);
@@ -763,7 +762,7 @@ char* SM_GetUsers(SESSION_INFO *si)
 	do {
 		int pLen = lstrlenA(p), nameLen = lstrlen(utemp->pszUID);
 		if ( pLen + nameLen + 2 > alloced )
-			p = (char *)mir_realloc( p, alloced += 4096 );
+			p = (char*)mir_realloc( p, alloced += 4096 );
 
 		WideCharToMultiByte( CP_ACP, 0, utemp->pszUID, -1, p + pLen, nameLen+1, 0, 0 );
 
@@ -925,8 +924,7 @@ STATUSINFO * TM_AddStatus(STATUSINFO** ppStatusList, const TCHAR* pszStatus, int
 		return NULL;
 
 	if ( !TM_FindStatus(*ppStatusList, pszStatus)) {
-		STATUSINFO *node = (STATUSINFO*) mir_alloc(sizeof(STATUSINFO));
-		ZeroMemory(node, sizeof(STATUSINFO));
+		STATUSINFO *node = (STATUSINFO*)mir_calloc(sizeof(STATUSINFO));
 		replaceStr( &node->pszGroup, pszStatus );
 		node->hIcon = (HICON)(*iCount);
 		while ((INT_PTR)node->hIcon > STATUSICONCOUNT - 1)
@@ -1118,8 +1116,7 @@ USERINFO* UM_AddUser(STATUSINFO* pStatusList, USERINFO** ppUserList, const TCHAR
 
 	//	if (!UM_FindUser(*ppUserList, pszUI, wStatus)
 	{
-		USERINFO *node = (USERINFO*) mir_alloc(sizeof(USERINFO));
-		ZeroMemory(node, sizeof(USERINFO));
+		USERINFO *node = (USERINFO*)mir_calloc(sizeof(USERINFO));
 		replaceStr( &node->pszUID, pszUID );
 
 		if (*ppUserList == NULL) { // list is empty
@@ -1327,16 +1324,10 @@ BOOL UM_RemoveAll (USERINFO** ppUserList)
 
 LOGINFO * LM_AddEvent(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd)
 {
-
-	LOGINFO *node = NULL;
-
 	if (!ppLogListStart || !ppLogListEnd)
 		return NULL;
 
-	node = (LOGINFO*) mir_alloc(sizeof(LOGINFO));
-	ZeroMemory(node, sizeof(LOGINFO));
-
-
+	LOGINFO *node = (LOGINFO*)mir_calloc(sizeof(LOGINFO));
 	if (*ppLogListStart == NULL) // list is empty
 	{
 		*ppLogListStart = node;

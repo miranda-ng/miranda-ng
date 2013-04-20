@@ -65,7 +65,8 @@ TCHAR* RemoveFormatting(const TCHAR* pszWord)
 			szTemp[j] = pszWord[i];
 			j++;
 			i++;
-	}	}
+		}
+	}
 
 	return (TCHAR*) &szTemp;
 }
@@ -105,17 +106,17 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 static int ShowPopup (HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
 {
-	POPUPDATAT pd = {0};
-	va_list marker;
 	static TCHAR szBuf[4*1024];
 
 	if (!fmt || lstrlen(fmt) == 0 || lstrlen(fmt) > 2000)
 		return 0;
 
+	va_list marker;
 	va_start(marker, fmt);
 	_vsntprintf(szBuf, 4096, fmt, marker);
 	va_end(marker);
 
+	POPUPDATAT pd = {0};
 	pd.lchContact = hContact;
 
 	if ( hIcon )
@@ -192,7 +193,8 @@ static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT * gce)
 		case GC_EVENT_REMOVESTATUS:
 			CList_AddEvent(si->windowData.hContact, GetCachedIcon("chat_log_removestatus"), "chaticon", CLEF_ONLYAFEW, TranslateT("%s disables \'%s\' status for %s in %s"), gce->pszText, gce->pszStatus, gce->ptszNick, si->ptszName);
 			break;
-	}	}
+		}
+	}
 
 	return TRUE;
 }
@@ -223,21 +225,21 @@ static BOOL DoPopup(SESSION_INFO *si, GCEVENT * gce)
 				ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_part"), si->pszModule, si->ptszName, aFonts[4].color, TranslateT("%s has left"), gce->ptszNick);
 			else
 				ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_part"), si->pszModule, si->ptszName, aFonts[4].color, TranslateT("%s has left (%s)"), gce->ptszNick, RemoveFormatting(gce->ptszText));
-				break;
+			break;
 		case GC_EVENT_QUIT:
 			if (!gce->pszText)
 				ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_quit"), si->pszModule, si->ptszName, aFonts[5].color, TranslateT("%s has disconnected"), gce->ptszNick);
 			else
 				ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_quit"), si->pszModule, si->ptszName, aFonts[5].color, TranslateT("%s has disconnected (%s)"), gce->ptszNick,RemoveFormatting(gce->ptszText));
-				break;
+			break;
 		case GC_EVENT_NICK:
 			ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_nick"), si->pszModule, si->ptszName, aFonts[7].color, TranslateT("%s is now known as %s"), gce->ptszNick, gce->ptszText);
 			break;
 		case GC_EVENT_KICK:
 			if (!gce->pszText)
-				ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_kick"), si->pszModule, si->ptszName, aFonts[6].color, TranslateT("%s kicked %s"), (char *)gce->pszStatus, gce->ptszNick);
+				ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_kick"), si->pszModule, si->ptszName, aFonts[6].color, TranslateT("%s kicked %s"), (char*)gce->pszStatus, gce->ptszNick);
 			else
-				ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_kick"), si->pszModule, si->ptszName, aFonts[6].color, TranslateT("%s kicked %s (%s)"), (char *)gce->pszStatus, gce->ptszNick, RemoveFormatting(gce->ptszText));
+				ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_kick"), si->pszModule, si->ptszName, aFonts[6].color, TranslateT("%s kicked %s (%s)"), (char*)gce->pszStatus, gce->ptszNick, RemoveFormatting(gce->ptszText));
 			break;
 		case GC_EVENT_NOTICE:
 			ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_notice"), si->pszModule, si->ptszName, aFonts[8].color, TranslateT("Notice from %s: %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));
@@ -252,10 +254,10 @@ static BOOL DoPopup(SESSION_INFO *si, GCEVENT * gce)
 			ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_info"), si->pszModule, si->ptszName, aFonts[12].color, _T("%s"), RemoveFormatting(gce->ptszText));
 			break;
 		case GC_EVENT_ADDSTATUS:
-			ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_addstatus"), si->pszModule, si->ptszName, aFonts[13].color, TranslateT("%s enables \'%s\' status for %s"), gce->ptszText, (char *)gce->pszStatus, gce->ptszNick);
+			ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_addstatus"), si->pszModule, si->ptszName, aFonts[13].color, TranslateT("%s enables \'%s\' status for %s"), gce->ptszText, (char*)gce->pszStatus, gce->ptszNick);
 			break;
 		case GC_EVENT_REMOVESTATUS:
-			ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_removestatus"), si->pszModule, si->ptszName, aFonts[14].color, TranslateT("%s disables \'%s\' status for %s"), gce->ptszText, (char *)gce->pszStatus, gce->ptszNick);
+			ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_removestatus"), si->pszModule, si->ptszName, aFonts[14].color, TranslateT("%s disables \'%s\' status for %s"), gce->ptszText, (char*)gce->pszStatus, gce->ptszNick);
 			break;
 		}
 	}
@@ -355,7 +357,8 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT * gce, BOOL bHighligh
 			if (bInactive || !g_Settings.SoundsFocus)
 				SkinPlaySound("ChatTopic");
 			break;
-	}	}
+		}
+	}
 
 	return TRUE;
 }
@@ -363,12 +366,10 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT * gce, BOOL bHighligh
 int GetColorIndex(const char* pszModule, COLORREF cr)
 {
 	MODULEINFO * pMod = MM_FindModule(pszModule);
-	int i = 0;
-
 	if (!pMod || pMod->nColorCount == 0)
 		return -1;
 
-	for (i = 0; i < pMod->nColorCount; i++)
+	for (int i = 0; i < pMod->nColorCount; i++)
 		if (pMod->crColors[i] == cr)
 			return i;
 
@@ -382,8 +383,7 @@ int GetColorIndex(const char* pszModule, COLORREF cr)
 
 void CheckColorsInModule(const char* pszModule)
 {
-	MODULEINFO * pMod = MM_FindModule( pszModule );
-	int i = 0;
+	MODULEINFO *pMod = MM_FindModule( pszModule );
 	COLORREF crFG;
 	COLORREF crBG = (COLORREF)db_get_dw(NULL, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
 
@@ -392,13 +392,15 @@ void CheckColorsInModule(const char* pszModule)
 	if ( !pMod )
 		return;
 
-	for (i = 0; i < pMod->nColorCount; i++) {
+	for (int i = 0; i < pMod->nColorCount; i++) {
 		if (pMod->crColors[i] == crFG || pMod->crColors[i] == crBG) {
 			if (pMod->crColors[i] == RGB(255,255,255))
 				pMod->crColors[i]--;
 			else
 				pMod->crColors[i]++;
-}	}	}
+		}
+	}
+}
 
 TCHAR* my_strstri( const TCHAR* s1, const TCHAR* s2)
 {
@@ -552,21 +554,21 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT * gce)
 			break;
 		case GC_EVENT_JOIN:
 			p = '>';
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has joined"), (char *)pszNick);
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has joined"), (char*)pszNick);
 			break;
 		case GC_EVENT_PART:
 			p = '<';
 			if (!gce->pszText)
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has left"), (char *)pszNick);
+				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has left"), (char*)pszNick);
 			else
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has left (%s)"), (char *)pszNick, RemoveFormatting(gce->ptszText));
+				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has left (%s)"), (char*)pszNick, RemoveFormatting(gce->ptszText));
 				break;
 		case GC_EVENT_QUIT:
 			p = '<';
 			if (!gce->pszText)
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has disconnected"), (char *)pszNick);
+				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has disconnected"), (char*)pszNick);
 			else
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has disconnected (%s)"), (char *)pszNick,RemoveFormatting(gce->ptszText));
+				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has disconnected (%s)"), (char*)pszNick,RemoveFormatting(gce->ptszText));
 				break;
 		case GC_EVENT_NICK:
 			p = '^';
@@ -575,9 +577,9 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT * gce)
 		case GC_EVENT_KICK:
 			p = '~';
 			if (!gce->pszText)
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s kicked %s"), (char *)gce->pszStatus, gce->ptszNick);
+				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s kicked %s"), (char*)gce->pszStatus, gce->ptszNick);
 			else
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s kicked %s (%s)"), (char *)gce->pszStatus, gce->ptszNick, RemoveFormatting(gce->ptszText));
+				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s kicked %s (%s)"), (char*)gce->pszStatus, gce->ptszNick, RemoveFormatting(gce->ptszText));
 			break;
 		case GC_EVENT_NOTICE:
 			p = 'o';
@@ -596,11 +598,11 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT * gce)
 			break;
 		case GC_EVENT_ADDSTATUS:
 			p = '+';
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s enables \'%s\' status for %s"), gce->ptszText, (char *)gce->pszStatus, gce->ptszNick);
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s enables \'%s\' status for %s"), gce->ptszText, (char*)gce->pszStatus, gce->ptszNick);
 			break;
 		case GC_EVENT_REMOVESTATUS:
 			p = '-';
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s disables \'%s\' status for %s"), gce->ptszText, (char *)gce->pszStatus, gce->ptszNick);
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s disables \'%s\' status for %s"), gce->ptszText, (char*)gce->pszStatus, gce->ptszNick);
 			break;
 		}
 		if (p)
@@ -734,7 +736,7 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 		else if (gcmi.Item[i].uType == MENU_CHECK)
 			AppendMenu(*hMenu, dwState | MF_CHECKED | MF_STRING, gcmi.Item[i].dwID, ptszText);
 
-		mir_free( ptszDescr );
+		mir_free(ptszDescr);
 	}
 	return TrackPopupMenu(*hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
 }
@@ -790,60 +792,59 @@ BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCH
 	GCDEST gcd = {0};
 
 	gcd.pszModule = (char*)pszModule;
-	if (( si = SM_FindSession(pszID, pszModule)) == NULL )
+	if ((si = SM_FindSession(pszID, pszModule)) == NULL)
 		return FALSE;
 
-	if ( !( si->dwFlags & GC_UNICODE )) {
-		gcd.pszID = t2a( pszID );
-		gch.pszUID = t2a( pszUID );
-		gch.pszText = t2a( pszText );
+	if ( !(si->dwFlags & GC_UNICODE)) {
+		gcd.pszID = t2a(pszID);
+		gch.pszUID = t2a(pszUID);
+		gch.pszText = t2a(pszText);
 	}
 	else {
-		gcd.ptszID = mir_tstrdup( pszID );
-		gch.ptszUID = mir_tstrdup( pszUID );
-		gch.ptszText = mir_tstrdup( pszText );
+		gcd.ptszID = mir_tstrdup(pszID);
+		gch.ptszUID = mir_tstrdup(pszUID);
+		gch.ptszText = mir_tstrdup(pszText);
 	}
 
 	gcd.iType = iType;
 	gch.dwData = dwItem;
 	gch.pDest = &gcd;
-	NotifyEventHooks(hSendEvent,0,(WPARAM)&gch);
+	NotifyEventHooks(hSendEvent, 0, (WPARAM)&gch);
 
-	mir_free( gcd.pszID );
-	mir_free( gch.ptszUID );
-	mir_free( gch.ptszText );
+	mir_free(gcd.pszID);
+	mir_free(gch.ptszUID);
+	mir_free(gch.ptszText);
 	return TRUE;
 }
 
 BOOL IsEventSupported(int eventType)
 {
-	switch (eventType)
-	{
+	switch (eventType) {
 		// Supported events
-		case GC_EVENT_JOIN:
-		case GC_EVENT_PART:
-		case GC_EVENT_QUIT:
-		case GC_EVENT_KICK:
-		case GC_EVENT_NICK:
-		case GC_EVENT_NOTICE:
-		case GC_EVENT_MESSAGE:
-		case GC_EVENT_TOPIC:
-		case GC_EVENT_INFORMATION:
-		case GC_EVENT_ACTION:
-		case GC_EVENT_ADDSTATUS:
-		case GC_EVENT_REMOVESTATUS:
-		case GC_EVENT_CHUID:
-		case GC_EVENT_CHANGESESSIONAME:
-		case GC_EVENT_ADDGROUP:
-		case GC_EVENT_SETITEMDATA:
-		case GC_EVENT_GETITEMDATA:
-		case GC_EVENT_SETSBTEXT:
-		case GC_EVENT_ACK:
-		case GC_EVENT_SENDMESSAGE:
-		case GC_EVENT_SETSTATUSEX:
-		case GC_EVENT_CONTROL:
-		case GC_EVENT_SETCONTACTSTATUS:
-			return TRUE;
+	case GC_EVENT_JOIN:
+	case GC_EVENT_PART:
+	case GC_EVENT_QUIT:
+	case GC_EVENT_KICK:
+	case GC_EVENT_NICK:
+	case GC_EVENT_NOTICE:
+	case GC_EVENT_MESSAGE:
+	case GC_EVENT_TOPIC:
+	case GC_EVENT_INFORMATION:
+	case GC_EVENT_ACTION:
+	case GC_EVENT_ADDSTATUS:
+	case GC_EVENT_REMOVESTATUS:
+	case GC_EVENT_CHUID:
+	case GC_EVENT_CHANGESESSIONAME:
+	case GC_EVENT_ADDGROUP:
+	case GC_EVENT_SETITEMDATA:
+	case GC_EVENT_GETITEMDATA:
+	case GC_EVENT_SETSBTEXT:
+	case GC_EVENT_ACK:
+	case GC_EVENT_SENDMESSAGE:
+	case GC_EVENT_SETSTATUSEX:
+	case GC_EVENT_CONTROL:
+	case GC_EVENT_SETCONTACTSTATUS:
+		return TRUE;
 	}
 
 	// Other events
@@ -852,50 +853,48 @@ BOOL IsEventSupported(int eventType)
 
 TCHAR* a2tf( const TCHAR* str, int flags )
 {
-	if ( str == NULL )
+	if (str == NULL)
 		return NULL;
 
-	if ( flags & GC_UNICODE )
-		return mir_tstrdup( str );
-	else {
-		int codepage = CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 );
+	if (flags & GC_UNICODE)
+		return mir_tstrdup(str);
 
-		int cbLen = MultiByteToWideChar( codepage, 0, (char*)str, -1, 0, 0 );
-		TCHAR* result = ( TCHAR* )mir_alloc( sizeof(TCHAR)*( cbLen+1 ));
-		if ( result == NULL )
-			return NULL;
+	int codepage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
 
-		MultiByteToWideChar( codepage, 0, (char*)str, -1, result, cbLen );
-		result[ cbLen ] = 0;
-		return result;
-	}
+	int cbLen = MultiByteToWideChar(codepage, 0, (char*)str, -1, 0, 0);
+	TCHAR *result = (TCHAR*)mir_alloc( sizeof(TCHAR)*( cbLen+1 ));
+	if (result == NULL)
+		return NULL;
+
+	MultiByteToWideChar(codepage, 0, (char*)str, -1, result, cbLen);
+	result[cbLen] = 0;
+	return result;
 }
 
 TCHAR* replaceStr( TCHAR** dest, const TCHAR* src )
 {
-	mir_free( *dest );
-	*dest = mir_tstrdup( src );
+	mir_free(*dest);
+	*dest = mir_tstrdup(src);
 	return *dest;
 }
 
 char* replaceStrA( char** dest, const char* src )
 {
-	mir_free( *dest );
-	*dest = mir_strdup( src );
+	mir_free(*dest);
+	*dest = mir_strdup(src);
 	return *dest;
 }
 
 TCHAR* GetChatLogsFilename (HANDLE  hContact, time_t tTime)
-{	REPLACEVARSARRAY rva[11];
-	REPLACEVARSDATA dat = {0};
-	static TCHAR tszFileName[MAX_PATH];
+{
+	REPLACEVARSARRAY rva[11];
 	TCHAR *p = {0}, *tszParsedName = {0};
 	int i;
 
 	if (g_Settings.pszLogDir[_tcslen(g_Settings.pszLogDir)-1] == '\\')
 		_tcscat(g_Settings.pszLogDir, _T("%userid%.log"));
 	if (!tTime)
-	  time(&tTime);
+		time(&tTime);
 
 	// day 1-31
 	rva[0].lptzKey = _T("d");
@@ -931,20 +930,22 @@ TCHAR* GetChatLogsFilename (HANDLE  hContact, time_t tTime)
 	rva[10].lptzKey = NULL;
 	rva[10].lptzValue = NULL;
 
-	dat.cbSize    = sizeof(dat);
-	dat.dwFlags   = RVF_TCHAR;
-	dat.hContact  = hContact;
+	REPLACEVARSDATA dat = { sizeof(dat) };
+	dat.dwFlags = RVF_TCHAR;
+	dat.hContact = hContact;
 	dat.variables = rva;
 	tszParsedName = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)g_Settings.pszLogDir, (LPARAM)&dat);
+
+	static TCHAR tszFileName[MAX_PATH];
 	_tcsncpy(tszFileName, tszParsedName, MAX_PATH);
 	mir_free(tszParsedName);
-	for (i=0; i < SIZEOF(rva);i++)
+
+	for (int i=0; i < SIZEOF(rva);i++)
 		mir_free(rva[i].lptzValue);
 
-	for (p = tszFileName + 2; *p; ++p) {
+	for (p = tszFileName + 2; *p; ++p)
 		if (*p == ':' || *p == '*' || *p == '?' || *p == '"' || *p == '<' || *p == '>' || *p == '|' )
 			*p = _T('_');
-	}
 
 	return tszFileName;
 }

@@ -234,19 +234,16 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					BITMAP bminfo;
 					GetObject(idat->mwd->avatarPic, sizeof(bminfo), &bminfo);
 					if ( bminfo.bmWidth != 0 && bminfo.bmHeight != 0 ) {
-						AVATARDRAWREQUEST adr;
 						int avatarHeight = itemHeight;
 						int avatarWidth = bminfo.bmWidth * avatarHeight / bminfo.bmHeight;
 						if (avatarWidth > itemWidth) {
 							avatarWidth = itemWidth;
 							avatarHeight = bminfo.bmHeight * avatarWidth / bminfo.bmWidth;
 						}
-						ZeroMemory(&adr, sizeof(adr));
-						adr.cbSize = sizeof (AVATARDRAWREQUEST);
+
+						AVATARDRAWREQUEST adr = { sizeof(adr) };
 						adr.hContact = idat->mwd->windowData.hContact;
 						adr.hTargetDC = hdcMem;
-						adr.rcDraw.left = 0;
-						adr.rcDraw.top = 0;
 						adr.rcDraw.right = avatarWidth - 1;
 						adr.rcDraw.bottom = avatarHeight - 1;
 						adr.dwFlags = AVDRQ_DRAWBORDER | AVDRQ_HIDEBORDERONTRANSPARENCY;

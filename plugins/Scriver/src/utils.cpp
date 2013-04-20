@@ -89,7 +89,7 @@ wchar_t *a2w(const char *src, int len) {
 	if (len <0) {
 		len = (int)strlen(src);
 	}
-	wline = (wchar_t *)mir_alloc(2 * (len + 1));
+	wline = (wchar_t*)mir_alloc(2 * (len + 1));
 	for (i = 0; i < len; i ++) {
 		wline[i] = src[i];
 	}
@@ -122,9 +122,9 @@ void logInfo(const char *fmt, ...) {
 	if (flog!=NULL) {
 		GetLocalTime(&time);
     	va_start(vararg, fmt);
-    	str = (char *) malloc(strsize=2048);
+    	str = (char*) malloc(strsize=2048);
     	while (_vsnprintf(str, strsize, fmt, vararg) == -1)
-    		str = (char *) realloc(str, strsize+=2048);
+    		str = (char*) realloc(str, strsize+=2048);
     	va_end(vararg);
     	fprintf(flog,"%04d-%02d-%02d %02d:%02d:%02d,%03d [%s]",time.wYear,time.wMonth,time.wDay,time.wHour,time.wMinute,time.wSecond,time.wMilliseconds, "INFO");
 		fprintf(flog,"  %s\n",str);
@@ -198,14 +198,14 @@ static DWORD CALLBACK RichTextStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, 
 	char ** ppText = (char **) dwCookie;
 
 	if (*ppText == NULL) {
-		*ppText = (char *)mir_alloc(cb + 1);
+		*ppText = (char*)mir_alloc(cb + 1);
 		memcpy(*ppText, pbBuff, cb);
 		(*ppText)[cb] = 0;
 		*pcb = cb;
 		dwRead = cb;
 	}
 	else {
-		char  *p = (char *)mir_alloc(dwRead + cb + 1);
+		char  *p = (char*)mir_alloc(dwRead + cb + 1);
 		memcpy(p, *ppText, dwRead);
 		memcpy(p+dwRead, pbBuff, cb);
 		p[dwRead + cb] = 0;
@@ -332,7 +332,7 @@ void AppendToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const
 		if (charsDone >= 0)
 			break;
 		*cbBufferAlloced += 1024;
-		*buffer = (char *) mir_realloc(*buffer, *cbBufferAlloced);
+		*buffer = (char*) mir_realloc(*buffer, *cbBufferAlloced);
 	}
 	va_end(va);
 	*cbBufferEnd += charsDone;
@@ -410,7 +410,7 @@ char to_hex(char code) {
 /* Returns a url-encoded version of str */
 /* IMPORTANT: be sure to free() the returned string after use */
 char *url_encode(char *str) {
-	char *pstr = str, *buf = (char *)mir_alloc(strlen(str) * 3 + 1), *pbuf = buf;
+	char *pstr = str, *buf = (char*)mir_alloc(strlen(str) * 3 + 1), *pbuf = buf;
 	while (*pstr) {
 		if ( (48 <= *pstr && *pstr <= 57) ||//0-9
              (65 <= *pstr && *pstr <= 90) ||//ABC...XYZ

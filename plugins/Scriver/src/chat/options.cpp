@@ -327,7 +327,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 					iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_GROUP));
 					if (iLen > 0)
 					{
-						pszText = (char *)mir_realloc(pszText, iLen+1);
+						pszText = (char*)mir_realloc(pszText, iLen+1);
 						GetDlgItemTextA(hwndDlg, IDC_CHAT_GROUP, pszText,iLen+1);
 						db_set_s(NULL, "Chat", "AddToGroup", pszText);
 					}
@@ -567,7 +567,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOGTIMESTAMP));
 			if ( iLen > 0 ) {
-                pszText = (char *)mir_realloc(pszText, iLen+1);
+                pszText = (char*)mir_realloc(pszText, iLen+1);
 				GetDlgItemTextA(hwndDlg, IDC_CHAT_LOGTIMESTAMP, pszText,iLen+1);
 				db_set_s(NULL, "Chat", "LogTimestamp", pszText);
 			}
@@ -575,7 +575,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_TIMESTAMP));
 			if ( iLen > 0 ) {
-                pszText = (char *)mir_realloc(pszText, iLen+1);
+                pszText = (char*)mir_realloc(pszText, iLen+1);
 				GetDlgItemTextA(hwndDlg, IDC_CHAT_TIMESTAMP, pszText,iLen+1);
 				db_set_s(NULL, "Chat", "HeaderTime", pszText);
 			}
@@ -583,7 +583,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_INSTAMP));
 			if ( iLen > 0 ) {
-                pszText = (char *)mir_realloc(pszText, iLen+1);
+                pszText = (char*)mir_realloc(pszText, iLen+1);
 				GetDlgItemTextA(hwndDlg, IDC_CHAT_INSTAMP, pszText,iLen+1);
 				db_set_s(NULL, "Chat", "HeaderIncoming", pszText);
 			}
@@ -591,7 +591,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_OUTSTAMP));
 			if ( iLen > 0 ) {
-			pszText = (char *)mir_realloc(pszText, iLen+1);
+			pszText = (char*)mir_realloc(pszText, iLen+1);
 				GetDlgItemTextA(hwndDlg, IDC_CHAT_OUTSTAMP, pszText,iLen+1);
 				db_set_s(NULL, "Chat", "HeaderOutgoing", pszText);
 			}

@@ -26,13 +26,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int OnLoadModule(void);
 int OnUnloadModule(void);
 
-TIME_API tmi;
-
-
-HINSTANCE g_hInst;
 int hLangpack;
+TIME_API tmi;
+HINSTANCE g_hInst;
+CLIST_INTERFACE *pcli;
 
-ITaskbarList3 * pTaskbarInterface;
+ITaskbarList3 *pTaskbarInterface;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -65,7 +64,8 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	// set the memory manager
 	mir_getTMI(&tmi);
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	if (IsWinVer7Plus())
 		CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);

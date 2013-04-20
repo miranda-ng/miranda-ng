@@ -810,7 +810,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		SendDlgItemMessage(hwndDlg, IDC_LINECOLOUR, CPM_SETCOLOUR, 0, db_get_dw(NULL, SRMMMOD, SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR));
 		{
 			PARAFORMAT2 pf2;
-			ZeroMemory((void *)&pf2, sizeof(pf2));
+			ZeroMemory(&pf2, sizeof(pf2));
 			pf2.cbSize = sizeof(pf2);
 			pf2.dwMask = PFM_OFFSETINDENT | PFM_RIGHTINDENT;
 			pf2.dxStartIndent = 30;

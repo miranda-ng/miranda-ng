@@ -230,8 +230,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 	switch (msg) {
 	case EM_SUBCLASSED:
-		dat = (MESSAGESUBDATA *) mir_alloc(sizeof(MESSAGESUBDATA));
-		ZeroMemory(dat, sizeof(MESSAGESUBDATA));
+		dat = (MESSAGESUBDATA*) mir_calloc(sizeof(MESSAGESUBDATA));
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR) dat);
 		return 0;
 
@@ -1119,11 +1118,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETOLECALLBACK, 0, (LPARAM)& reOleCallback);
 
 			if (db_get_b(NULL, "Chat", "UseIEView", 0)) {
-				IEVIEWWINDOW ieWindow;
-				IEVIEWEVENT iee;
-
-				ZeroMemory(&ieWindow, sizeof(ieWindow));
-				ieWindow.cbSize = sizeof(ieWindow);
+				IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
 				ieWindow.iType = IEW_CREATE;
 				ieWindow.dwFlags = 0;
 				ieWindow.dwMode = IEWM_CHAT;
@@ -1133,9 +1128,10 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				ieWindow.cx = 200;
 				ieWindow.cy = 300;
 				CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
+
 				si->windowData.hwndLog = ieWindow.hwnd;
-				ZeroMemory(&iee, sizeof(iee));
-				iee.cbSize = sizeof(iee);
+
+				IEVIEWEVENT iee = { sizeof(iee) };
 				iee.iType = IEE_CLEAR_LOG;
 				iee.hwnd = si->windowData.hwndLog;
 				iee.hContact = si->windowData.hContact;
@@ -1970,7 +1966,6 @@ LABEL_SHOWWINDOW:
 				}
 				else {
 					COLORREF cr;
-
 					LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, NULL, &cr, FALSE);
 					cf.dwMask = CFM_COLOR;
 					cf.crTextColor = cr;
@@ -2045,12 +2040,9 @@ LABEL_SHOWWINDOW:
 	case WM_RBUTTONUP:
 		{
 			int i;
-			POINT pt;
-			MENUITEMINFO mii;
 			hToolbarMenu = CreatePopupMenu();
 			for (i = 0; i < SIZEOF(toolbarButtons); i++) {
-				ZeroMemory(&mii, sizeof(mii));
-				mii.cbSize = sizeof(mii);
+				MENUITEMINFO mii = { sizeof(mii) };
 				mii.fMask = MIIM_ID | MIIM_STRING | MIIM_STATE | MIIM_DATA | MIIM_BITMAP;
 				mii.fType = MFT_STRING;
 				mii.fState = (g_dat.chatBbuttonVisibility & (1<< i)) ? MFS_CHECKED : MFS_UNCHECKED;
@@ -2060,7 +2052,8 @@ LABEL_SHOWWINDOW:
 				mii.dwTypeData = TranslateTS((toolbarButtons[i].name));
 				InsertMenuItem(hToolbarMenu, i, TRUE, &mii);
 			}
-			//			TranslateMenu(hToolbarMenu);
+
+			POINT pt;
 			pt.x = (short) LOWORD(GetMessagePos());
 			pt.y = (short) HIWORD(GetMessagePos());
 			i = TrackPopupMenu(hToolbarMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
@@ -2083,7 +2076,7 @@ LABEL_SHOWWINDOW:
 	case WM_CONTEXTMENU:
 		if (GetParent(hwndDlg) == (HWND) wParam) {
 			POINT pt;
-			HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) si->windowData.hContact, 0);
+			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) si->windowData.hContact, 0);
 			GetCursorPos(&pt);
 			TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hwndDlg, NULL);
 			DestroyMenu(hMenu);
@@ -2117,5 +2110,5 @@ LABEL_SHOWWINDOW:
 		NotifyLocalWinEvent(si->windowData.hContact, hwndDlg, MSG_WINDOW_EVT_CLOSE);
 		break;
 	}
-	return(FALSE);
+	return FALSE;
 }

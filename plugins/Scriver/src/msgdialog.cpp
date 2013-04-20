@@ -53,7 +53,7 @@ static ToolbarButton toolbarButtons[] = {
 static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
 	MessageSendQueueItem * msi = (MessageSendQueueItem *) dwCookie;
-	msi->sendBuffer = (char *)mir_realloc(msi->sendBuffer, msi->sendBufferSize + cb + 2);
+	msi->sendBuffer = (char*)mir_realloc(msi->sendBuffer, msi->sendBufferSize + cb + 2);
 	memcpy (msi->sendBuffer + msi->sendBufferSize, pbBuff, cb);
 	msi->sendBufferSize += cb;
 	*((TCHAR *)(msi->sendBuffer+msi->sendBufferSize)) = '\0';
@@ -61,19 +61,18 @@ static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
     return 0;
 }
 
-static TCHAR *GetIEViewSelection(struct SrmmWindowData *dat) {
-	IEVIEWEVENT event;
-	ZeroMemory(&event, sizeof(event));
-	event.cbSize = sizeof(event);
-	event.dwFlags = 0;
-	event.codepage = dat->windowData.codePage;
-	event.hwnd = dat->windowData.hwndLog;
-	event.hContact = dat->windowData.hContact;
-	event.iType = IEE_GET_SELECTION;
-	return mir_tstrdup((TCHAR *)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event));
+static TCHAR *GetIEViewSelection(struct SrmmWindowData *dat)
+{
+	IEVIEWEVENT evt = { sizeof(evt) };
+	evt.codepage = dat->windowData.codePage;
+	evt.hwnd = dat->windowData.hwndLog;
+	evt.hContact = dat->windowData.hContact;
+	evt.iType = IEE_GET_SELECTION;
+	return mir_tstrdup((TCHAR *)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt));
 }
 
-static TCHAR *GetQuotedTextW(TCHAR * text) {
+static TCHAR *GetQuotedTextW(TCHAR * text)
+{
 	int i, j, l, newLine, wasCR;
 	TCHAR *out;
 	l = (int)wcslen(text);
@@ -134,17 +133,18 @@ static TCHAR *GetQuotedTextW(TCHAR * text) {
 	return out;
 }
 
-static void saveDraftMessage(HWND hwnd, HANDLE hContact, int codepage) {
+static void saveDraftMessage(HWND hwnd, HANDLE hContact, int codepage)
+{
 	char *textBuffer = GetRichTextEncoded(hwnd, codepage);
 	if (textBuffer != NULL) {
 		g_dat.draftList = tcmdlist_append2(g_dat.draftList, hContact, textBuffer);
 		mir_free(textBuffer);
-	} else {
-		g_dat.draftList = tcmdlist_remove2(g_dat.draftList, hContact);
 	}
+	else g_dat.draftList = tcmdlist_remove2(g_dat.draftList, hContact);
 }
 
-void NotifyLocalWinEvent(HANDLE hContact, HWND hwnd, unsigned int type) {
+void NotifyLocalWinEvent(HANDLE hContact, HWND hwnd, unsigned int type)
+{
 	MessageWindowEventData mwe = { 0 };
 	BOOL bChat = FALSE;
 	if (hContact==NULL || hwnd==NULL) return;
@@ -251,7 +251,8 @@ static void SetDialogToType(HWND hwndDlg)
 	SendMessage(hwndDlg, WM_SIZE, 0, 0);
 }
 
-void SetStatusIcon(struct SrmmWindowData *dat) {
+void SetStatusIcon(struct SrmmWindowData *dat)
+{
 	if (dat->szProto == NULL)
 		return;
 
@@ -402,18 +403,16 @@ static LRESULT CALLBACK LogEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct MsgEditSubclassData *dat;
-	struct SrmmWindowData *pdat;
-	CommonWindowData *windowData;
-	BOOL isCtrl = GetKeyState(VK_CONTROL) & 0x8000;
-	BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
-	dat = (struct MsgEditSubclassData *) GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	pdat=(struct SrmmWindowData *)GetWindowLongPtr(GetParent(hwnd),GWLP_USERDATA);
-	windowData = &pdat->windowData;
+	struct MsgEditSubclassData *dat = (MsgEditSubclassData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	struct SrmmWindowData *pdat = (SrmmWindowData*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
+	CommonWindowData *windowData = &pdat->windowData;
 
 	int result = InputAreaShortcuts(hwnd, msg, wParam, lParam, windowData);
 	if (result != -1)
 		return result;
+
+	BOOL isCtrl = GetKeyState(VK_CONTROL) & 0x8000;
+	BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
 
 	switch (msg) {
 	case EM_SUBCLASSED:
@@ -734,9 +733,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			int len = 0;
 			int notifyUnread = 0;
 			RECT minEditInit;
-			NewMessageWindowLParam *newData = (NewMessageWindowLParam *) lParam;
-			dat = (struct SrmmWindowData *) mir_alloc(sizeof(struct SrmmWindowData));
-			ZeroMemory(dat, sizeof(struct SrmmWindowData));
+			NewMessageWindowLParam *newData = (NewMessageWindowLParam*)lParam;
+			dat = (SrmmWindowData*)mir_calloc(sizeof(struct SrmmWindowData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) dat);
 			dat->windowData.hContact = newData->hContact;
 			NotifyLocalWinEvent(dat->windowData.hContact, hwndDlg, MSG_WINDOW_EVT_OPENING);
@@ -773,7 +771,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->flags |= g_dat.ieviewInstalled ? g_dat.flags & SMF_USEIEVIEW : 0;
 			{
 				PARAFORMAT2 pf2;
-				ZeroMemory((void *)&pf2, sizeof(pf2));
+				ZeroMemory(&pf2, sizeof(pf2));
 				pf2.cbSize = sizeof(pf2);
 				pf2.dwMask = PFM_RTLPARA;
 				if (!(dat->flags & SMF_RTL)) {
@@ -786,7 +784,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				}
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 				/* Workaround to make Richedit display RTL messages correctly */
-				ZeroMemory((void *)&pf2, sizeof(pf2));
+				ZeroMemory(&pf2, sizeof(pf2));
 				pf2.cbSize = sizeof(pf2);
 				pf2.dwMask = PFM_RTLPARA | PFM_OFFSETINDENT | PFM_RIGHTINDENT;
 				pf2.wEffects = PFE_RTLPARA;
@@ -994,12 +992,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_RBUTTONUP:
 		{
 			int i;
-			POINT pt;
-			MENUITEMINFO mii;
 			hToolbarMenu = CreatePopupMenu();
 			for (i = 0; i < SIZEOF(toolbarButtons); i++) {
-				ZeroMemory(&mii, sizeof(mii));
-				mii.cbSize = sizeof(mii);
+				MENUITEMINFO mii = { sizeof(mii) };
 				mii.fMask = MIIM_ID | MIIM_STRING | MIIM_STATE | MIIM_DATA | MIIM_BITMAP;
 				mii.fType = MFT_STRING;
 				mii.fState = (g_dat.buttonVisibility & (1<< i)) ? MFS_CHECKED : MFS_UNCHECKED;
@@ -1009,8 +1004,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				mii.dwTypeData = TranslateTS((toolbarButtons[i].name));
 				InsertMenuItem(hToolbarMenu, i, TRUE, &mii);
 			}
-			pt.x = (short) LOWORD(GetMessagePos());
-			pt.y = (short) HIWORD(GetMessagePos());
+			POINT pt = { (short)LOWORD(GetMessagePos()), (short) HIWORD(GetMessagePos()) };
 			i = TrackPopupMenu(hToolbarMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 			if (i > 0) {
 				g_dat.buttonVisibility ^= (1 << (i - 1));
@@ -1273,7 +1267,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case DM_SWITCHRTL:
 		{
 			PARAFORMAT2 pf2;
-			ZeroMemory((void *)&pf2, sizeof(pf2));
+			ZeroMemory(&pf2, sizeof(pf2));
 			pf2.cbSize = sizeof(pf2);
 			pf2.dwMask = PFM_RTLPARA;
 			dat->flags ^= SMF_RTL;
@@ -1516,20 +1510,17 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case DM_CLEARLOG:
-	// IEVIew MOD Begin
 		if (dat->windowData.hwndLog != NULL) {
-			IEVIEWEVENT event;
-			ZeroMemory(&event, sizeof(event));
-			event.cbSize = sizeof(event);
-			event.iType = IEE_CLEAR_LOG;
-			event.dwFlags = ((dat->flags & SMF_RTL) ? IEEF_RTL : 0);
-			event.hwnd = dat->windowData.hwndLog;
-			event.hContact = dat->windowData.hContact;
-			event.codepage = dat->windowData.codePage;
-			event.pszProto = dat->szProto;
-			CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
+			IEVIEWEVENT evt = { sizeof(evt) };
+			evt.iType = IEE_CLEAR_LOG;
+			evt.dwFlags = ((dat->flags & SMF_RTL) ? IEEF_RTL : 0);
+			evt.hwnd = dat->windowData.hwndLog;
+			evt.hContact = dat->windowData.hContact;
+			evt.codepage = dat->windowData.codePage;
+			evt.pszProto = dat->szProto;
+			CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt);
 		}
-	// IEVIew MOD End
+
 		SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
 		dat->hDbEventFirst = NULL;
 		dat->lastEventType = -1;
@@ -1581,9 +1572,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if ( IsUtfSendAvailable( dat->windowData.hContact )) {
 				char *szMsgUtf = mir_utf8encodeW( (TCHAR *)&msi->sendBuffer[strlen(msi->sendBuffer) + 1] );
 				item->flags &= ~PREF_UNICODE;
-				if (!szMsgUtf) {
+				if (!szMsgUtf)
 					break;
-				}
+
 				if (*szMsgUtf == 0) {
 					mir_free(szMsgUtf);
 					break;
@@ -1591,9 +1582,10 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				item->sendBufferSize = (int)strlen(szMsgUtf) + 1;
 				item->sendBuffer = szMsgUtf;
 				item->flags |= PREF_UTF;
-			} else {
+			}
+			else {
 				item->sendBufferSize = msi->sendBufferSize;
-				item->sendBuffer = (char *) mir_alloc(msi->sendBufferSize);
+				item->sendBuffer = (char*) mir_alloc(msi->sendBufferSize);
 				memcpy(item->sendBuffer, msi->sendBuffer, msi->sendBufferSize);
 			}
 			SendMessage(hwndDlg, DM_STARTMESSAGESENDING, 0, 0);
@@ -1671,15 +1663,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					BITMAP bminfo;
 					GetObject(dat->avatarPic, sizeof(bminfo), &bminfo);
 					if ( bminfo.bmWidth != 0 && bminfo.bmHeight != 0 ) {
-						AVATARDRAWREQUEST adr;
 						avatarHeight = itemHeight;
 						avatarWidth = bminfo.bmWidth * avatarHeight / bminfo.bmHeight;
 						if (avatarWidth > itemWidth) {
 							avatarWidth = itemWidth;
 							avatarHeight = bminfo.bmHeight * avatarWidth / bminfo.bmWidth;
 						}
-						ZeroMemory(&adr, sizeof(adr));
-						adr.cbSize = sizeof (AVATARDRAWREQUEST);
+
+						AVATARDRAWREQUEST adr = { sizeof(adr) };
 						adr.hContact = dat->windowData.hContact;
 						adr.hTargetDC = hdcMem;
 						adr.rcDraw.left = (itemWidth - avatarWidth) / 2;
@@ -1687,7 +1678,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						adr.rcDraw.right = avatarWidth - 1;
 						adr.rcDraw.bottom = avatarHeight - 1;
 						adr.dwFlags = AVDRQ_DRAWBORDER | AVDRQ_HIDEBORDERONTRANSPARENCY;
-
 						CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&adr);
 					}
 				}
@@ -1729,7 +1719,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				int bufSize = ansiBufSize + GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), 1200, TRUE) + 2;
 
 				PARAFORMAT2 pf2;
-				ZeroMemory((void *)&pf2, sizeof(pf2));
+				ZeroMemory(&pf2, sizeof(pf2));
 				pf2.cbSize = sizeof(pf2);
 				pf2.dwMask = PFM_RTLPARA;
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
@@ -1739,9 +1729,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (pf2.wEffects & PFE_RTLPARA)
 					msi.flags |= PREF_RTL;
 				msi.sendBufferSize = bufSize;
-				msi.sendBuffer = (char *) mir_alloc(msi.sendBufferSize);
+				msi.sendBuffer = (char*)mir_alloc(msi.sendBufferSize);
 
-				GETTEXTEX gt = {0};
+				GETTEXTEX gt = { 0 };
 				gt.flags = GT_USECRLF;
 				gt.cb = ansiBufSize;
 				gt.codepage = dat->windowData.codePage;
@@ -1749,7 +1739,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				gt.cb = bufSize - ansiBufSize;
 				gt.codepage = 1200;
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETTEXTEX, (WPARAM) &gt, (LPARAM)&msi.sendBuffer[ansiBufSize]);
-				if ( RTL_Detect((wchar_t *)&msi.sendBuffer[ansiBufSize] ))
+				if ( RTL_Detect((wchar_t*)&msi.sendBuffer[ansiBufSize] ))
 					msi.flags |= PREF_RTL;
 
 				if (msi.sendBuffer[0] == 0) {
