@@ -523,12 +523,12 @@ BEGIN
     GROUPBOX        "MetaContacts stuff",IDC_FRAME_META,2,81,218,101
     GROUPBOX        "Additional stuff",IDC_FRAME_META2,2,12,218,65
     CTEXT           "For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org",IDC_FRAME_META_CAPT,11,94,201,26,NOT WS_VISIBLE
-    CONTROL         "Allow internal requesting of away message text",IDC_DISCOVER_AWAYMSG,
+    CONTROL         "Allow internal requesting of status message text",IDC_DISCOVER_AWAYMSG,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,38,201,10
     EDITTEXT        IDC_SUBINDENT,154,163,35,12,ES_NUMBER
     CONTROL         "",IDC_SUBINDENTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,190,162,11,12
     LTEXT           "Subcontacts indent:",IDC_SUBIDENTCAPT,26,164,126,10
-    CONTROL         "Remove away message if contact became offline",IDC_REMOVE_OFFLINE_AWAYMSG,
+    CONTROL         "Remove status message if contact became offline",IDC_REMOVE_OFFLINE_AWAYMSG,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,50,201,10
     CONTROL         "Use improved search method in contactlist",IDC_FILTER_SEARCH,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,62,201,10
@@ -722,14 +722,14 @@ BEGIN
     LTEXT           "Text:",IDC_STATIC_TEXT,7,67,83,9
     CONTROL         "Status",IDC_STATUS,"Button",BS_AUTORADIOBUTTON,18,79,118,8
     CONTROL         "Nickname",IDC_NICKNAME,"Button",BS_AUTORADIOBUTTON,18,90,118,8
-    CONTROL         "Away Message",IDC_STATUS_MESSAGE,"Button",BS_AUTORADIOBUTTON,18,101,118,8
+    CONTROL         "Status Message",IDC_STATUS_MESSAGE,"Button",BS_AUTORADIOBUTTON,18,101,118,8
     CONTROL         "Listening to",IDC_LISTENING_TO,"Button",BS_AUTORADIOBUTTON,18,112,118,8
     CONTROL         "Contact time",IDC_CONTACT_TIME,"Button",BS_AUTORADIOBUTTON,18,123,118,8
     CONTROL         "Text:",IDC_TEXT,"Button",BS_AUTORADIOBUTTON,18,134,118,8
     EDITTEXT        IDC_VARIABLE_TEXT,32,149,217,73,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
-    CONTROL         "Show status if there isn't away message",IDC_SHOW_STATUS_IF_NOAWAY,
+    CONTROL         "Show status if there is no status message",IDC_SHOW_STATUS_IF_NOAWAY,
                     "Button",BS_AUTOCHECKBOX | BS_LEFT | BS_TOP | BS_MULTILINE | WS_TABSTOP,150,76,99,18
-    CONTROL         "Show listening to if there isn't away message",IDC_SHOW_LISTENING_IF_NOAWAY,
+    CONTROL         "Show listening to if there is no status message",IDC_SHOW_LISTENING_IF_NOAWAY,
                     "Button",BS_AUTOCHECKBOX | BS_LEFT | BS_TOP | BS_MULTILINE | WS_TABSTOP,150,94,99,18
     CONTROL         "XStatus has priority",IDC_XSTATUS_HAS_PRIORITY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,111,99,12
     CONTROL         "Use 'XStatus: XMessage'",IDC_USE_NAME_AND_MESSAGE,
@@ -751,14 +751,14 @@ BEGIN
     LTEXT           "Text:",IDC_STATIC_TEXT,7,67,83,9
     CONTROL         "Status",IDC_STATUS,"Button",BS_AUTORADIOBUTTON,18,79,118,8
     CONTROL         "Nickname",IDC_NICKNAME,"Button",BS_AUTORADIOBUTTON,18,90,118,8
-    CONTROL         "Away Message",IDC_STATUS_MESSAGE,"Button",BS_AUTORADIOBUTTON,18,101,118,8
+    CONTROL         "Status Message",IDC_STATUS_MESSAGE,"Button",BS_AUTORADIOBUTTON,18,101,118,8
     CONTROL         "Listening to",IDC_LISTENING_TO,"Button",BS_AUTORADIOBUTTON,18,112,118,8
     CONTROL         "Contact time",IDC_CONTACT_TIME,"Button",BS_AUTORADIOBUTTON,18,123,118,8
     CONTROL         "Text:",IDC_TEXT,"Button",BS_AUTORADIOBUTTON,18,134,118,8
     EDITTEXT        IDC_VARIABLE_TEXT,32,150,217,73,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
-    CONTROL         "Show status if there isn't away message",IDC_SHOW_STATUS_IF_NOAWAY,
+    CONTROL         "Show status if there is no status message",IDC_SHOW_STATUS_IF_NOAWAY,
                     "Button",BS_AUTOCHECKBOX | BS_LEFT | BS_TOP | BS_MULTILINE | WS_TABSTOP,150,76,99,18
-    CONTROL         "Show listening to if there isn't away message",IDC_SHOW_LISTENING_IF_NOAWAY,
+    CONTROL         "Show listening to if there is no status message",IDC_SHOW_LISTENING_IF_NOAWAY,
                     "Button",BS_AUTOCHECKBOX | BS_LEFT | BS_TOP | BS_MULTILINE | WS_TABSTOP,150,94,99,18
     CONTROL         "XStatus has priority",IDC_XSTATUS_HAS_PRIORITY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,111,99,12
     CONTROL         "Use 'XStatus: XMessage'",IDC_USE_NAME_AND_MESSAGE,
