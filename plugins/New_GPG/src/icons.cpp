@@ -63,7 +63,7 @@ void setSrmmIcon(HANDLE h)
 {
 	HANDLE hContact = metaIsProtoMetaContacts(h)?metaGetMostOnline(h):h;
 	bool enabled = isContactSecured(hContact);	
-	HANDLE hMC = hContact;
+	HANDLE hMC = NULL;
 	if(metaIsSubcontact(hContact))
 		hMC = metaGetContact(hContact);
 	else if(metaIsProtoMetaContacts(hContact))
@@ -80,6 +80,7 @@ void setSrmmIcon(HANDLE h)
 
 	sid.hIcon = IconLibGetIcon("unsecured");
 	sid.dwId = 2;
+	sid.flags = enabled ? MBF_HIDDEN : 0;
 	Srmm_ModifyIcon(hContact, &sid);
 	if(hMC)
 		Srmm_ModifyIcon(hMC, &sid);
