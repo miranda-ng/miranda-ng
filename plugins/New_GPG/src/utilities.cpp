@@ -534,7 +534,7 @@ std::wstring encrypt_file(HANDLE hContact, TCHAR *filename)
 }
 
 //from secureim partially
-int onSendFile(WPARAM w, LPARAM l)
+INT_PTR onSendFile(WPARAM w, LPARAM l)
 {
 	if(!bFileTransfers)
 		return CallService(MS_PROTO_CHAINSEND, w, l);

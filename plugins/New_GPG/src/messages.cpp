@@ -356,7 +356,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 	return;
 }
 
-int RecvMsgSvc(WPARAM w, LPARAM l)
+INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 {
 	CCSDATA *ccs = (CCSDATA*)l;
 	if (!ccs)
@@ -800,7 +800,7 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 	return;
 }
 
-int SendMsgSvc(WPARAM w, LPARAM l)
+INT_PTR SendMsgSvc(WPARAM w, LPARAM l)
 {
 	CCSDATA *ccs = (CCSDATA*)l;
 	if (!ccs)

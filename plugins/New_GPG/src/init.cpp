@@ -105,8 +105,8 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	int GpgOptInit(WPARAM wParam,LPARAM lParam);
 	int OnPreBuildContactMenu(WPARAM w, LPARAM l);
-	int RecvMsgSvc(WPARAM w, LPARAM l);
-	int SendMsgSvc(WPARAM w, LPARAM l);
+	INT_PTR RecvMsgSvc(WPARAM w, LPARAM l);
+	INT_PTR SendMsgSvc(WPARAM w, LPARAM l);
 	int HookSendMsg(WPARAM w, LPARAM l);
 //	int TestHook(WPARAM w, LPARAM l);
 	int GetJabberInterface(WPARAM w, LPARAM l);
@@ -115,7 +115,7 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	int onExtraImageListRebuilding(WPARAM, LPARAM);
 	int onExtraImageApplying(WPARAM wParam, LPARAM);
 	int onProtoAck(WPARAM, LPARAM);
-	int onSendFile(WPARAM, LPARAM);
+	INT_PTR onSendFile(WPARAM, LPARAM);
 	void InitIconLib();
 
 	void InitCheck();
