@@ -148,7 +148,7 @@ void CSkypeProto::InitChat()
 	gcr.pColors = (COLORREF*)crCols;
 	gcr.ptszModuleDispName = this->m_tszUserName;
 	gcr.pszModule = this->m_szModuleName;
-	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
+	::CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
 
 	this->HookEvent(ME_GC_EVENT, &CSkypeProto::OnGCEventHook);
 	this->HookEvent(ME_GC_BUILDMENU, &CSkypeProto::OnGCMenuHook);
@@ -185,15 +185,16 @@ wchar_t *CSkypeProto::StartChat(const wchar_t *cid, const SEStringList &invitedC
 		conversation->AddConsumers(invitedContacts);
 
 		conversation->GetPropDisplayname(data);
-		TCHAR *chatName;
+		wchar_t *chatName;
 		if (data.length())
 			chatName = ::mir_utf8decodeT(data);
 		else
-			chatName = TranslateT("New conference");
+			chatName = ::TranslateT("New conference");
 
 		GCSESSION gcw = {0};
 		gcw.cbSize = sizeof(gcw);
 		gcw.iType = GCW_CHATROOM;
+		gcw.dwFlags = GC_TCHAR;
 		gcw.pszModule = this->m_szModuleName;
 		gcw.ptszName = chatName;
 		gcw.ptszID = chatID;
@@ -204,10 +205,11 @@ wchar_t *CSkypeProto::StartChat(const wchar_t *cid, const SEStringList &invitedC
 
 		GCEVENT gce = {0};
 		gce.cbSize = sizeof(GCEVENT);
+		gce.dwFlags = GC_TCHAR;
 		gce.pDest = &gcd;
 		for (int i = 0; i < SIZEOF(CSkypeProto::Groups); i++)
 		{
-			gce.ptszStatus = TranslateW(CSkypeProto::Groups[i]);
+			gce.ptszStatus =:: TranslateW(CSkypeProto::Groups[i]);
 			::CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 		}
 
@@ -237,13 +239,14 @@ void CSkypeProto::JoinToChat(const wchar_t *cid, bool showWindow)
 	conversation->Join();
 
 	conversation->GetPropDisplayname(data);
-	char *chatName = ::mir_utf8decodeA((const char *)data);
+	wchar_t *chatName = ::mir_utf8decodeW(data);
 
 	GCSESSION gcw = {0};
 	gcw.cbSize = sizeof(gcw);
 	gcw.iType = GCW_CHATROOM;
+	gcw.dwFlags = GC_TCHAR;
 	gcw.pszModule = this->m_szModuleName;
-	gcw.pszName = chatName;
+	gcw.ptszName = chatName;
 	gcw.ptszID = chatID;
 	::CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
@@ -252,6 +255,7 @@ void CSkypeProto::JoinToChat(const wchar_t *cid, bool showWindow)
 
 	GCEVENT gce = {0};
 	gce.cbSize = sizeof(GCEVENT);
+	gce.dwFlags = GC_TCHAR;
 	gce.pDest = &gcd;
 
 	gcd.iType = GC_EVENT_ADDGROUP;
@@ -300,6 +304,7 @@ void CSkypeProto::LeaveChat(const wchar_t *cid)
 
 	GCEVENT gce = {0};
 	gce.cbSize = sizeof(GCEVENT);
+	gce.dwFlags = GC_TCHAR;
 	gce.pDest = &gcd;
 	::CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
 	::CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
@@ -314,7 +319,7 @@ void CSkypeProto::RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt
 
 	HANDLE hContact = this->GetContactBySid(sid);
 	wchar_t *nick = hContact ? 
-		(wchar_t *)::CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(hContact), 0) : 
+		::mir_a2u((char *)::CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(hContact), 0)) : 
 		snt;
 
 	GCDEST gcd = { this->m_szModuleName, { NULL },  evt };
@@ -322,7 +327,7 @@ void CSkypeProto::RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt
 
 	GCEVENT gce = {0};
 	gce.cbSize = sizeof(gce);
-	gce.dwFlags = GCEF_ADDTOLOG;
+	gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
 	gce.pDest = &gcd;
 	gce.ptszNick = nick;
 	gce.ptszUID = snt;
@@ -449,7 +454,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 					MAKEINTRESOURCE(IDD_CHATROOM_INVITE), 
 					NULL, 
 					CSkypeProto::InviteToChatProc, 
-					LPARAM(new InviteChatParam(chatID, NULL, this)));
+					(LPARAM)new InviteChatParam(chatID, NULL, this));
 				break;
 
 			case 20:

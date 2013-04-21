@@ -265,37 +265,40 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 
 void __cdecl CSkypeProto::LoadChatList(void*)
 {
-	//CConversation::Refs conversations;
-	//this->skype->GetConversationList(conversations);
-	//for (uint i = 0; i < conversations.size(); i++)
-	//{
-	//	CConversation::TYPE type;
-	//	conversations[i]->GetPropType(type);
+	CConversation::Refs conversations;
+	this->skype->GetConversationList(conversations);
+	for (uint i = 0; i < conversations.size(); i++)
+	{
+		CConversation::TYPE type;
+		conversations[i]->GetPropType(type);
 
-	//	CConversation::MY_STATUS status;
-	//	conversations[i]->GetPropMyStatus(status);
-	//	if (type == CConversation::CONFERENCE)
-	//	{
-	//		SEString data;
+		CConversation::MY_STATUS status;
+		conversations[i]->GetPropMyStatus(status);
+		if (type == CConversation::CONFERENCE)
+		{
+			SEString data;
 
-	//		conversations[i]->GetPropIdentity(data);
-	//		char *cid = ::mir_strdup(data);
+			conversations[i]->GetPropIdentity(data);
+			wchar_t *cid = ::mir_utf8decodeW(data);
 
-	//		conversations[i]->GetPropDisplayname(data);
-	//		char *name = ::mir_utf8decodeA(data);
+			conversations[i]->GetPropDisplayname(data);
+			wchar_t *name = ::mir_utf8decodeW(data);
 
-	//		HANDLE hContact = this->AddChatRoomByID(cid, name);
-	//		//::DBWriteContactSettingString(hContact, this->m_szModuleName, "Nick", name);
+			HANDLE hContact = this->AddChatRoomByID(cid, name);
+			//::DBWriteContactSettingString(hContact, this->m_szModuleName, "Nick", name);
 
-	//		CConversation::LOCAL_LIVESTATUS live;
-	//		conversations[i]->GetPropLocalLivestatus(live);
+			::mir_free(cid);
+			::mir_free(name);
 
-	//		if (status == CConversation::CONSUMER)// && live != CConversation::NONE)
-	//		{
-	//			this->JoinToChat(cid, false);
-	//		}
-	//	}
-	//}
+			CConversation::LOCAL_LIVESTATUS live;
+			conversations[i]->GetPropLocalLivestatus(live);
+
+			if (status == CConversation::CONSUMER)// && live != CConversation::NONE)
+			{
+				this->JoinToChat(cid, false);
+			}
+		}
+	}
 
 	/*CConversation::Refs conversations;
 	this->skype->GetConversationList(conversations);

@@ -303,8 +303,8 @@ protected:
 
 	// messages
 	void	OnMessage(CConversation::Ref conversation, CMessage::Ref message);
-	void	OnMessageSended(CConversation::Ref conversation, CMessage::Ref message, CContact::Ref receiver);
-	void	OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message, CContact::Ref author);
+	void	OnMessageSended(CConversation::Ref conversation, CMessage::Ref message);
+	void	OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message);
 
 	// file transfer
 	LIST<FileTransfer> fileTransferList;

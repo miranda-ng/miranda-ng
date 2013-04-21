@@ -63,7 +63,7 @@ int CSkypeProto::OnMessagePreCreate(WPARAM, LPARAM lParam)
 	return 1;
 }
 
-void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref message, CContact::Ref receiver)
+void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref message)
 {
 	SEString data;
 
@@ -83,6 +83,13 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 	conversation->GetPropType(type);
 	if (type == CConversation::DIALOG)
 	{
+		CParticipant::Refs participants;
+		conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);
+		participants[0]->GetPropIdentity(data);
+		
+		CContact::Ref receiver;
+		this->skype->GetContact(data, receiver);
+
 		HANDLE hContact = this->AddContact(receiver);
 			
 		//if (sstatus != CMessage::SENDING)
@@ -105,33 +112,25 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 	}
 	else
 	{
-		receiver->GetIdentity(data);
-		wchar_t *sid = ::mir_utf8decodeW(data);
-
 		conversation->GetPropIdentity(data);
 		wchar_t *cid = ::mir_utf8decodeW(data);
 
-		//this->SendChatMessage(cid, sid, ::mir_utf8decodeA(text));
-
-		wchar_t *nick = (wchar_t *)::db_get_wsa(NULL, this->m_szModuleName, "Nick");
+		wchar_t *nick = ::db_get_wsa(NULL, this->m_szModuleName, "Nick");
 		if (::wcsicmp(nick, L"") == 0)
 		{
-			nick = sid;
+			nick = ::db_get_wsa(NULL, this->m_szModuleName, "sid");
 		}
 
-		this->SendChatMessage(
-			cid, 
-			nick, 
-			text);
+		this->SendChatMessage(cid, nick, text);
 
-		::mir_free(sid);
+		::mir_free(nick);
 		::mir_free(cid);
 	}
 
 	::mir_free(text);
 }
 
-void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message, CContact::Ref author)
+void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message)
 {
 	SEString data;
 
@@ -148,6 +147,11 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::R
 	conversation->GetPropType(type);
 	if (type == CConversation::DIALOG)
 	{
+		message->GetPropAuthor(data);			
+		
+		CContact::Ref author;
+		this->skype->GetContact(data, author);
+
 		HANDLE hContact = this->AddContact(author);
 
 		SEBinary guid;
@@ -315,12 +319,6 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 	CMessage::TYPE messageType;
 	message->GetPropType(messageType);
 
-	//CMessage::SENDING_STATUS sendingStatus;
-	//message->GetPropSendingStatus(sendingStatus);
-
-	//CMessage::CONSUMPTION_STATUS status;
-	//message->GetPropConsumptionStatus(status);
-
 	switch (messageType)
 	{
 	case CMessage::POSTED_EMOTE:
@@ -329,25 +327,13 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 
 	case CMessage::POSTED_TEXT:
 		{
-			SEString identity;
-			message->GetPropAuthor(identity);			
-			wchar_t *sid = ::mir_utf8decodeW(identity);
-			if (::wcsicmp(sid, this->login) == 0)
-			{
-				CParticipant::Refs participants;
-				conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);
-				participants[0]->GetPropIdentity(identity);
-				CContact::Ref receiver;
-				this->skype->GetContact(identity, receiver);
-				this->OnMessageSended(conversation, message, receiver);
-			}
+			SEString author;
+			message->GetPropAuthor(author);
+			
+			if (::wcsicmp(mir_ptr<wchar_t>(::mir_utf8decodeW(author)), this->login) == 0)
+				this->OnMessageSended(conversation, message);
 			else
-			{
-				CContact::Ref author;
-				this->skype->GetContact(identity, author);
-				this->OnMessageReceived(conversation, message, author);
-			}	
-			::mir_free(sid);
+				this->OnMessageReceived(conversation, message);
 		}
 		break;
 
