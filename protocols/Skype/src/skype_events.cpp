@@ -183,80 +183,94 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::R
 
 void CSkypeProto::OnTransferChanged(int prop, CTransfer::Ref transfer)
 {
-	// todo: add progress changing
-	if (prop == Transfer::P_STATUS)
+	switch (prop)
 	{
-		SEBinary guid;
-		transfer->GetPropChatmsgGuid(guid);
-
-		CMessage::Ref message;
-		this->skype->GetMessageByGuid(guid, message);
-
-		uint oid = message->getOID();
-
-		SEString data;
-		transfer->GetPropPartnerHandle(data);
-		HANDLE hContact = this->GetContactBySid(mir_ptr<wchar_t>(::mir_utf8decodeW(data)));
-
-		Transfer::STATUS status;
-		transfer->GetPropStatus(status);
-		switch(status)
+	case Transfer::P_STATUS:
 		{
-		/*case CTransfer::NEW:
-			break;*/
-		/*case CTransfer::WAITING_FOR_ACCEPT:
-			break;*/
-		case CTransfer::CONNECTING:
-			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)oid, 0);
-			break;
-		/*case CTransfer::TRANSFERRING:
-		case CTransfer::TRANSFERRING_OVER_RELAY:
-			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)oid, 0);
-			break;*/
-		case CTransfer::FAILED:
-			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oid, 0);
-			this->transferList.remove_val(transfer);
-			break;
-		case CTransfer::COMPLETED:
-			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)oid, 0);
-			this->transferList.remove_val(transfer);
-			break;
-		case CTransfer::CANCELLED:
-		case CTransfer::CANCELLED_BY_REMOTE:
-			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)oid, 0);
-			this->transferList.remove_val(transfer);
-			break;
+			SEBinary guid;
+			transfer->GetPropChatmsgGuid(guid);
+
+			CMessage::Ref message;
+			this->skype->GetMessageByGuid(guid, message);
+
+			uint oid = message->getOID();
+
+			SEString data;
+			transfer->GetPropPartnerHandle(data);
+			HANDLE hContact = this->GetContactBySid(mir_ptr<wchar_t>(::mir_utf8decodeW(data)));
+
+			Transfer::STATUS status;
+			transfer->GetPropStatus(status);
+			switch(status)
+			{
+			/*case CTransfer::NEW:
+				break;*/
+			/*case CTransfer::WAITING_FOR_ACCEPT:
+				break;*/
+			case CTransfer::CONNECTING:
+				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)oid, 0);
+				break;
+			case CTransfer::TRANSFERRING:
+			case CTransfer::TRANSFERRING_OVER_RELAY:
+				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)oid, 0);
+				break;
+			case CTransfer::FAILED:
+				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oid, 0);
+				this->transferList.remove_val(transfer);
+				break;
+			case CTransfer::COMPLETED:
+				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)oid, 0);
+				this->transferList.remove_val(transfer);
+				break;
+			case CTransfer::CANCELLED:
+			case CTransfer::CANCELLED_BY_REMOTE:
+				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)oid, 0);
+				this->transferList.remove_val(transfer);
+				break;
+			}
 		}
-	}
-	//if (prop == Transfer::P_BYTESTRANSFERRED)
-	//{
-		//PROTOFILETRANSFERSTATUS
-		//this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ccid, 0);
-		//SEString transferProgressStr;
-		//transfer->GetPropBytestransferred(transferProgressStr);
-		//uint transferProgress = transferProgressStr.toUInt();
+		break;
 
-		//SEString fileSizeStr;
-		//transfer->GetPropFilesize(fileSizeStr);
+	case Transfer::P_BYTESTRANSFERRED:
+		{
+			SEString data;
 
-		//// fileSize is float here, to avoid trouble with 
-		//// files lessthan 100 bytes in size.
-		//float fileSize = (float)fileSizeStr.toUInt();
-		//float progress = (100 * transferProgress) / fileSize;
+			SEBinary guid;			
+			transfer->GetPropChatmsgGuid(guid);
 
+			CMessage::Ref message;
+			this->skype->GetMessageByGuid(guid, message);
+
+			uint oid = message->getOID();				
+
+			PROTOFILETRANSFERSTATUS pfts = {0};
+			pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
+			pfts.flags = PFTS_UTF | PFTS_RECEIVING;
+			pfts.totalFiles = 1;
+			pfts.currentFileNumber = 0;
+			
+			transfer->GetPropPartnerHandle(data);
+			HANDLE hContact = this->GetContactBySid(mir_ptr<wchar_t>(::mir_utf8decodeW(data)));
+			pfts.hContact = hContact;
+		
+			transfer->GetPropFilename(data);
+			pfts.szCurrentFile = ::mir_strdup(data);
+
+			pfts.pszFiles = &pfts.szCurrentFile;
+
+			transfer->GetPropFilesize(data);
+			pfts.totalBytes = pfts.currentFileSize = data.toUInt();
+
+			transfer->GetPropBytestransferred(data);
+			pfts.totalProgress = pfts.currentFileProgress = data.toUInt();
+
+			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)oid, (LPARAM)&pfts);
+		}
+		break;
 		//uint transferRate;
 		//transfer->GetPropBytespersecond(transferRate);
 		//float transferRateInKb = (float)transferRate / 1024;
-
-		//PROTOFILETRANSFERSTATUS pfts = {0};
-		//pfts.cbSize = sizeof(pfts);
-		////pfts.szCurrentFile
-		//pfts.currentFileProgress = progress;
-		//pfts.
-
-		//this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)ccid, 0);
-  //  printf("Progress: %3.0f%% (%1.0f KB/s)\n", progress, transferRateInKb);
-	//}
+	}
 }
 
 void CSkypeProto::OnFile(CConversation::Ref conversation, CMessage::Ref message)
@@ -283,6 +297,12 @@ void CSkypeProto::OnFile(CConversation::Ref conversation, CMessage::Ref message)
 			transfer->GetPropType(transferType);
 			if (transferType == Transfer::INCOMING)
 			{
+				transfer.fetch();
+				transfer->SetOnTransferCallback(
+					(CTransfer::OnTransfer)&CSkypeProto::OnTransferChanged,
+					this);
+				this->transferList.append(transfer);
+
 				uint timestamp;
 				message->GetPropTimestamp(timestamp);
 
@@ -301,12 +321,6 @@ void CSkypeProto::OnFile(CConversation::Ref conversation, CMessage::Ref message)
 				pre.ptszFiles =  &path;
 				pre.lParam = (LPARAM)message->getOID();
 				::ProtoChainRecvFile(hContact, &pre);
-
-				transfer.fetch();
-				transfer->SetOnTransferCallback(
-					(CTransfer::OnTransfer)&CSkypeProto::OnTransferChanged,
-					this);
-				this->transferList.append(transfer);
 			}
 			/*else
 			{
