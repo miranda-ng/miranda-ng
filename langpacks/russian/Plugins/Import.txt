@@ -87,10 +87,6 @@ Miranda теперь настроена на автоматическую заг
 Системная история
 [Only since:]
 Только с:
-[FileTrasfers]
-Передачи файлов
-[FileTransfers]
-Передачи файлов
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or browse to it.]
 Miranda нашла следующие профили. Пожалуйста, выберите один для импорта или выберите другой.
 [This looks like a Miranda database, version 0.1.0.0 or above.]
