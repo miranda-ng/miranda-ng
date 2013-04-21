@@ -197,9 +197,9 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Дополнительно
 [Ignore Empty Extra icons places (arrange to right).]
 Игнорировать пустые дополнительные значки (справа)
-[Allow internal requesting of away message text]
+[Allow internal requesting of status message text]
 Разрешить внутренние запросы статусных сообщений
-[Remove away message if contact became offline]
+[Remove status message if contact became offline]
 Удалить статусное сообщение, если контакт оффлайн
 [Use improved search method in contactlist]
 Поиск по списку с фильтрацией результатов
@@ -329,11 +329,11 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Положение:
 [Draw smileys on second line]
 Смайлики на второй строке
-[Away Message]
+[Status Message]
 Статусное сообщение
-[Show status if there isn't away message]
+[Show status if there is no status message]
 Статус, если нет статусного сообщения
-[Show listening to if there isn't away message]
+[Show listening to if there is no status message]
 "Слушаю", если нет статусного сообщения
 [XStatus has priority]
 Приоритет xСтатуса
