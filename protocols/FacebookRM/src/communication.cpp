@@ -33,7 +33,7 @@ http::response facebook_client::flap(const int request_type, std::string* reques
 	nlhr.requestType = !method ? choose_method(request_type) : method;
 	std::string url = choose_request_url(request_type, request_data, request_get_data);
 	nlhr.szUrl = (char*)url.c_str();
-	nlhr.flags = NLHRF_REDIRECT | NLHRF_HTTP11 | NLHRF_NODUMP | choose_security_level(request_type);
+	nlhr.flags = NLHRF_HTTP11 | NLHRF_NODUMP | choose_security_level(request_type);
 	nlhr.headers = get_request_headers(nlhr.requestType, &nlhr.headersCount);
 	
 	switch (request_type)
