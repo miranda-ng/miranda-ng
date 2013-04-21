@@ -329,6 +329,15 @@ void __cdecl CSkypeProto::LoadAuthWaitList(void*)
 	}
 }
 
+bool CSkypeProto::IsContactOnline(HANDLE hContact)
+{
+	return ::db_get_w(
+		hContact, 
+		this->m_szModuleName, 
+		SKYPE_SETTINGS_STATUS, 
+		ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE;
+}
+
 void CSkypeProto::SetAllContactStatus(int status)
 {
 	HANDLE hContact = ::db_find_first();

@@ -183,19 +183,23 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::R
 
 void CSkypeProto::OnTransferChanged(int prop, CTransfer::Ref transfer)
 {
+	// todo: add progress changing
 	if (prop == Transfer::P_STATUS)
 	{
-		Transfer::STATUS status;
-		transfer->GetPropStatus(status);
+		SEBinary guid;
+		transfer->GetPropChatmsgGuid(guid);
 
-		auto ft = this->FindFileTransfer(transfer);
+		CMessage::Ref message;
+		this->skype->GetMessageByGuid(guid, message);
+
+		uint oid = message->getOID();
 
 		SEString data;
 		transfer->GetPropPartnerHandle(data);
-		mir_ptr<wchar_t> sid(::mir_utf8decodeW(data));
+		HANDLE hContact = this->GetContactBySid(mir_ptr<wchar_t>(::mir_utf8decodeW(data)));
 
-		HANDLE hContact = this->GetContactBySid(sid);
-
+		Transfer::STATUS status;
+		transfer->GetPropStatus(status);
 		switch(status)
 		{
 		/*case CTransfer::NEW:
@@ -203,26 +207,29 @@ void CSkypeProto::OnTransferChanged(int prop, CTransfer::Ref transfer)
 		/*case CTransfer::WAITING_FOR_ACCEPT:
 			break;*/
 		case CTransfer::CONNECTING:
-			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)ft, 0);
+			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)oid, 0);
 			break;
-		case CTransfer::TRANSFERRING:
+		/*case CTransfer::TRANSFERRING:
 		case CTransfer::TRANSFERRING_OVER_RELAY:
-			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)ft, 0);
-			break;
+			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)oid, 0);
+			break;*/
 		case CTransfer::FAILED:
-			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ft, 0);
+			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oid, 0);
+			this->transferList.remove_val(transfer);
 			break;
 		case CTransfer::COMPLETED:
-			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)ft, 0);
+			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)oid, 0);
+			this->transferList.remove_val(transfer);
 			break;
 		case CTransfer::CANCELLED:
 		case CTransfer::CANCELLED_BY_REMOTE:
-			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)ft, 0);
+			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)oid, 0);
+			this->transferList.remove_val(transfer);
 			break;
 		}
 	}
-	if (prop == Transfer::P_BYTESTRANSFERRED)
-	{
+	//if (prop == Transfer::P_BYTESTRANSFERRED)
+	//{
 		//PROTOFILETRANSFERSTATUS
 		//this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ccid, 0);
 		//SEString transferProgressStr;
@@ -249,69 +256,64 @@ void CSkypeProto::OnTransferChanged(int prop, CTransfer::Ref transfer)
 
 		//this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)ccid, 0);
   //  printf("Progress: %3.0f%% (%1.0f KB/s)\n", progress, transferRateInKb);
-	}
+	//}
 }
 
-void CSkypeProto::OnFileReceived(CConversation::Ref conversation, CMessage::Ref message)
+void CSkypeProto::OnFile(CConversation::Ref conversation, CMessage::Ref message)
 {
-	CTransfer::Refs transferList;
-	message->GetTransfers(transferList);
-	Sid::fetch(transferList);
+	CTransfer::Refs transfers;
+	message->GetTransfers(transfers);
+	//Sid::fetch(transferList);
 
 	Transfer::TYPE transferType;
 	Transfer::STATUS transferStatus;
 
-	for (uint i = 0; i < transferList.size(); i++)
+	for (uint i = 0; i < transfers.size(); i++)
 	{
-		auto transfer = transferList[i];
-		transfer.fetch();
-		transfer->SetOnTransferCallback(
-			(CTransfer::OnTransfer)&CSkypeProto::OnTransferChanged,
-			this);
-		//this->transferList.append(transfer);
+		auto transfer = transfers[i];
 
 		// For incomings, we need to check for transfer status, just to be sure.
 		// In some cases, a transfer can appear with STATUS == PLACEHOLDER
 		// As such transfers cannot be accepted, we will need to just store
 		// the reference to Transfer Object and then check for further
 		// status changes in Transfer::OnChange
-		transfer->GetPropType(transferType);
 		transfer->GetPropStatus(transferStatus);
-		if ((transferType == Transfer::INCOMING) && (transferStatus == Transfer::NEW))
+		if (transferStatus == Transfer::NEW)
 		{
-			//transferList[i]->AutoAccept();
-			SEString name;
-			transfer->GetPropFilename(name);
+			transfer->GetPropType(transferType);
+			if (transferType == Transfer::INCOMING)
+			{
+				uint timestamp;
+				message->GetPropTimestamp(timestamp);
 
-			wchar_t *path = ::mir_utf8decodeW(name);
+				SEString data;
+				transfer->GetPropPartnerHandle(data);
+				HANDLE hContact = this->GetContactBySid(mir_ptr<wchar_t>(::mir_utf8decodeW(data)));
 
-			SEString data;
-			transfer->GetPropPartnerHandle(data);
-			mir_ptr<wchar_t> sid(::mir_utf8decodeW(data));
+				transfer->GetPropFilename(data);
+				wchar_t *path = ::mir_utf8decodeW(data);
 
-			HANDLE hContact = this->GetContactBySid(sid);
+				PROTORECVFILET pre = {0};
+				pre.flags = PREF_TCHAR;
+				pre.fileCount = 1;
+				pre.timestamp = timestamp;
+				pre.tszDescription = L" ";
+				pre.ptszFiles =  &path;
+				pre.lParam = (LPARAM)message->getOID();
+				::ProtoChainRecvFile(hContact, &pre);
 
-			auto ft = new FileTransfer(this);
-			ft->transfers.append(transfer);
-			transfer->GetPropChatmsgGuid(ft->guid);
-			this->fileTransferList.insert(ft);
-
-			PROTORECVFILET pre = {0};
-			pre.flags = PREF_TCHAR;
-			pre.fileCount = 1;
-			pre.timestamp = time(NULL);
-			pre.tszDescription = L" ";
-			pre.ptszFiles = &path;
-			pre.lParam = (LPARAM)ft;
-			::ProtoChainRecvFile(hContact, &pre);
-
-			::mir_free(path);
+				transfer.fetch();
+				transfer->SetOnTransferCallback(
+					(CTransfer::OnTransfer)&CSkypeProto::OnTransferChanged,
+					this);
+				this->transferList.append(transfer);
+			}
+			/*else
+			{
+			}*/
 		}
-	}
 
-	//SEString bodyXml;
-	//message->GetPropBodyXml(bodyXml);
-	//printf("File transfer msg BodyXML:\n%s\n", (const char*)bodyXml);
+	}
 }
 
 void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref message)
@@ -338,7 +340,7 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 		break;
 
 	case CMessage::POSTED_FILES:
-		this->OnFileReceived(conversation, message);
+		this->OnFile(conversation, message);
 		break;
 
 	case CMessage::ADDED_CONSUMERS:

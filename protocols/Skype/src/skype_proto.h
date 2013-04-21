@@ -3,17 +3,14 @@
 #include "skype.h"
 #include <time.h>
 
-struct CSkypeProto;
-
 typedef void    (__cdecl CSkypeProto::* SkypeThreadFunc) (void*);
-typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFunc)(WPARAM, LPARAM);
 typedef int     (__cdecl CSkypeProto::* SkypeEventFunc)(WPARAM, LPARAM);
+typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFunc)(WPARAM, LPARAM);
 typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFuncParam)(WPARAM, LPARAM, LPARAM);
 
 struct StringList : public LIST<char>
 {
-	static int compare(const char* p1, const char* p2)
-	{ return _stricmp(p1, p2); }
+	static int compare(const char* p1, const char* p2) { return _stricmp(p1, p2); }
 
 	StringList() : LIST<char>(2, compare) {}
 	StringList(const char* string, const char *delimeters) : LIST<char>(2, compare)
@@ -153,27 +150,6 @@ struct PasswordChangeBoxParam
 	}
 };
 
-struct FileTransfer
-{
-	CSkypeProto* ppro;
-	SEBinary guid;
-	CTransfer::Refs transfers;
-	//char *who;
-	//char *msg;
-	//char *ftoken;
-	//char *relay;
-	//HANDLE hContact;
-	//int  cancel;
-	//char *url;
-	//HANDLE hWaitEvent;
-	//DWORD action;
-	//int y7;
-	////YList *files;
-	//PROTOFILETRANSFERSTATUS pfts;
-
-	FileTransfer(CSkypeProto* ppro) { this->ppro = ppro; }
-};
-
 struct CSkypeProto : public PROTO_INTERFACE
 {
 public:
@@ -269,7 +245,7 @@ protected:
 	CSkype *skype;
 	CAccount::Ref account;
 	CContact::Refs contactList;
-//	CTransfer::Refs transferList;
+	CTransfer::Refs transferList;
 	CContactGroup::Ref commonList;
 	CContactGroup::Ref authWaitList;	
 
@@ -306,12 +282,8 @@ protected:
 	void	OnMessageSended(CConversation::Ref conversation, CMessage::Ref message);
 	void	OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message);
 
-	// file transfer
-	LIST<FileTransfer> fileTransferList;
-	FileTransfer *FindTransfer(SEBinary guid);
-	FileTransfer *FindFileTransfer(CTransfer::Ref transfer);
-	
-	void	OnFileReceived(CConversation::Ref conversation, CMessage::Ref message);
+	// transfer
+	void	OnFile(CConversation::Ref conversation, CMessage::Ref message);
 	void	OnTransferChanged(int prop, CTransfer::Ref transfer);
 
 	// chat
@@ -363,6 +335,7 @@ protected:
 	HANDLE	GetContactFromAuthEvent(HANDLE hEvent);
 	HANDLE	AddContact(CContact::Ref contact);
 
+	bool	IsContactOnline(HANDLE hContact);	
 	void	SetAllContactStatus(int status);
 
 	void __cdecl LoadContactList(void*);

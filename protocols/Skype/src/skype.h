@@ -80,3 +80,6 @@
 #define CMITEMS_COUNT 3
 
 extern HINSTANCE g_hInstance;
+
+
+struct CSkypeProto;

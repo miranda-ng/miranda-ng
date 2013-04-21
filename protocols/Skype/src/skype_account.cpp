@@ -97,6 +97,8 @@ void __cdecl CSkypeProto::SignInAsync(void*)
 	this->LoadChatList(this);
 
 	this->SetStatus(this->m_iDesiredStatus);
+
+	fetch(this->transferList);
 }
 
 bool CSkypeProto::PrepareLogin()

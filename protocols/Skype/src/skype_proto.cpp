@@ -1,13 +1,9 @@
 ﻿#include "skype_proto.h"
 
-CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) : fileTransferList(1)
+CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 {
 	ProtoConstructor(this, protoName, userName);
 
-	//this->fileTransferList = new LIST<FileTransfer>(1);
-
-	//this->login = NULL;
-	//this->password = NULL;
 	this->rememberPassword = false;
 
 	this->signin_lock = CreateMutex(0, false, 0);
@@ -148,17 +144,22 @@ HANDLE __cdecl CSkypeProto::ChangeInfo( int iInfoType, void* pInfoData ) { retur
 
 HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const TCHAR* szPath ) 
 { 
-	auto ft = (FileTransfer*)hTransfer;
+	uint oid = (uint)hTransfer;
 
-	for (uint i = 0; i < ft->transfers.size(); i++)
+	MessageRef message(oid);
+
+	CTransfer::Refs transfers;
+	message->GetTransfers(transfers);
+	for (uint i = 0; i < transfers.size(); i++)
 	{
 		bool success;
 		SEString name;
 		wchar_t fullPath[MAX_PATH] = {0};
-		ft->transfers[i]->GetPropFilename(name);
+		transfers[i]->GetPropFilename(name);
 		::mir_sntprintf(fullPath, MAX_PATH, L"%s%s", szPath, ::mir_utf8decodeW(name));
-		if (ft->transfers[i]->Accept(::mir_u2a(fullPath), success) && success)
+		if (!transfers[i]->Accept(::mir_u2a(fullPath), success) || !success)
 		{
+			// todo: write to log!
 			return 0;
 		}
 	}
@@ -168,32 +169,42 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 
 int    __cdecl CSkypeProto::FileCancel( HANDLE hContact, HANDLE hTransfer ) 
 {
-	auto ft = (FileTransfer*)hTransfer;
+	uint oid = (uint)hTransfer;
 
-	for (uint i = 0; i < ft->transfers.size(); i++)
+	MessageRef message(oid);
+
+	CTransfer::Refs transfers;
+	message->GetTransfers(transfers);
+	for (uint i = 0; i < transfers.size(); i++)
 	{
-		if (ft->transfers[i]->Cancel())
+		if (!transfers[i]->Cancel())
 		{
-			return 1;
+			// todo: write to log!
+			return 0;
 		}
 	}
 
-	return 0; 
+	return 1; 
 }
 
 int    __cdecl CSkypeProto::FileDeny( HANDLE hContact, HANDLE hTransfer, const TCHAR* szReason ) 
 { 
-	auto ft = (FileTransfer*)hTransfer;
+	uint oid = (uint)hTransfer;
 
-	for (uint i = 0; i < ft->transfers.size(); i++)
+	MessageRef message(oid);
+
+	CTransfer::Refs transfers;
+	message->GetTransfers(transfers);
+	for (uint i = 0; i < transfers.size(); i++)
 	{
-		if (ft->transfers[i]->Cancel())
+		if (!transfers[i]->Cancel())
 		{
-			return 1;
+			// todo: write to log!
+			return 0;
 		}
 	}
 
-	return 0;
+	return 1; 
 }
 
 int    __cdecl CSkypeProto::FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename ) 
@@ -263,14 +274,16 @@ HWND   __cdecl CSkypeProto::SearchAdvanced( HWND owner ) { return 0; }
 HWND   __cdecl CSkypeProto::CreateExtendedSearchUI( HWND owner ){ return 0; }
 
 int    __cdecl CSkypeProto::RecvContacts( HANDLE hContact, PROTORECVEVENT* ) { return 0; }
+
 int    __cdecl CSkypeProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt) 
 { 
-	//db_unset(hContact, "CList", "Hidden");
+	::db_unset(hContact, "CList", "Hidden");
 	return Proto_RecvFile(hContact, evt);
 }
 
 int    __cdecl CSkypeProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* pre)
 {
+	::db_unset(hContact, "CList", "Hidden");
 	this->UserIsTyping(hContact, PROTOTYPE_SELFTYPING_OFF);
 
 	int length = ::strlen(pre->szMessage) + 1;
@@ -290,49 +303,33 @@ HANDLE __cdecl CSkypeProto::SendFile( HANDLE hContact, const TCHAR* szDescriptio
 	{
 		SEStringList targets;
 		mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
-		targets.append(::mir_u2a(sid));
+		targets.append((char *)mir_ptr<char>(::mir_utf8encodeW(sid)));
 
-		CConversation::Ref conversation = CConversation::FindBySid(
-			this->skype, 
-			sid);
-		conversation.fetch();
+		CConversation::Ref conversation = CConversation::FindBySid(this->skype, sid);
 
 		SEFilenameList fileList;
 		for (int i = 0; ppszFiles[i]; i++)
-		{
-			char* file = ::mir_u2a(ppszFiles[i]);
-			fileList.append(file);
-		}
+			fileList.append((char *)mir_ptr<char>(::mir_utf8encodeW(ppszFiles[i])));
 
 		auto error = TRANSFER_OPEN_SUCCESS;
 		SEFilename errFile; MessageRef msgRef;
-		if ( !conversation->PostFiles(fileList, ::mir_u2a(szDescription), error, errFile, msgRef) || error)
-		{
-			// todo: despair
-			//this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ccid, 0);
+		//(char *)mir_ptr<char>(::mir_utf8encodeW(szDescription))
+		if ( !conversation->PostFiles(fileList, " ", error, errFile, msgRef) || error)
 			return 0;
-		}
 
-		FileTransfer *ft = new FileTransfer(this);
-		if (msgRef->GetTransfers(ft->transfers))
+		CTransfer::Refs transfers;
+		if (msgRef->GetTransfers(transfers))
 		{
-			Sid::fetch(ft->transfers);
-			for (uint i = 0; i < ft->transfers.size(); i++)
+			for (uint i = 0; i < transfers.size(); i++)
 			{
-				auto transfer = ft->transfers[i];
+				auto transfer = transfers[i];
 				transfer.fetch();
-				transfer->SetOnTransferCallback(
-					(CTransfer::OnTransfer)&CSkypeProto::OnTransferChanged,
-					this);
-				//this->transferList.append(transfer);
+				transfer->SetOnTransferCallback((CTransfer::OnTransfer)&CSkypeProto::OnTransferChanged, this);
+				this->transferList.append(transfer);
 			}
 		}
 
-		//auto ft = new FileTransfer(this);
-		msgRef->GetPropGuid(ft->guid);
-		this->fileTransferList.insert(ft);
-
-		return ft;
+		return (HANDLE)msgRef->getOID();
 	}
 
 	return 0; 
