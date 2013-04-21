@@ -77,7 +77,7 @@ public:
 	~SendQueue()
 	{
 		for (int i = 0; i < NR_SENDJOBS; i++)
-			free(m_jobs[i].szSendBuffer);
+			mir_free(m_jobs[i].szSendBuffer);
 	}
 
 	SendJob *getJobByIndex(const int index) { return(&m_jobs[index]); }
