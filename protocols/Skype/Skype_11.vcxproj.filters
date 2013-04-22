@@ -78,9 +78,6 @@
     <ClCompile Include="src\skype_runtime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skype_transfer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\aes\aes.c">
       <Filter>Source Files\aes</Filter>
     </ClCompile>
