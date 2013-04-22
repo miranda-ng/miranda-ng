@@ -8,23 +8,23 @@ typedef int     (__cdecl CSkypeProto::* SkypeEventFunc)(WPARAM, LPARAM);
 typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFunc)(WPARAM, LPARAM);
 typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFuncParam)(WPARAM, LPARAM, LPARAM);
 
-struct StringList : public LIST<char>
+struct StringList : public LIST<wchar_t>
 {
-	static int compare(const char* p1, const char* p2) { return _stricmp(p1, p2); }
+	static int compare(const wchar_t* p1, const wchar_t* p2) { return ::wcsicmp(p1, p2); }
 
-	StringList() : LIST<char>(2, compare) {}
-	StringList(const char* string, const char *delimeters) : LIST<char>(2, compare)
+	StringList() : LIST<wchar_t>(2, compare) {}
+	StringList(const wchar_t* string, const wchar_t *delimeters = L" ") : LIST<wchar_t>(2, compare)
 	{
-		char *data = ::mir_strdup(string);
+		wchar_t *data = ::mir_wstrdup(string);
 		if (data)
 		{
-			char *p = ::strtok(data, delimeters);
+			wchar_t *p = ::wcstok(data, delimeters);
 			if (p)
 			{
-				this->insert(::mir_strdup(p));
-				while (p = strtok(NULL, delimeters))
+				this->insert(::mir_wstrdup(p));
+				while (p = wcstok(NULL, delimeters))
 				{
-					this->insert(::mir_strdup(p));
+					this->insert(::mir_wstrdup(p));
 				}
 			}
 			::mir_free(data);
@@ -40,7 +40,7 @@ struct StringList : public LIST<char>
 		List_Destroy((SortedList*)this);
 	}
 
-	int insertn(const char* p) { return insert(mir_strdup(p)); }
+	int insertn(const wchar_t* p) { return insert(::mir_wstrdup(p)); }
 
 	int remove(int idx)
 	{
@@ -48,16 +48,16 @@ struct StringList : public LIST<char>
 		return List_Remove((SortedList*)this, idx);
 	}
 
-	int remove(const char* p)
+	int remove(const wchar_t* p)
 	{
 		int idx;
-		return  List_GetIndex((SortedList*)this, (char*)p, &idx) == 1 ? remove(idx) : -1;
+		return  List_GetIndex((SortedList*)this, (wchar_t*)p, &idx) == 1 ? remove(idx) : -1;
 	}
 
-	bool contains(char* p)
+	bool contains(wchar_t* p)
 	{
 		int idx;
-		return List_GetIndex((SortedList*)this, (char*)p, &idx) == 1;
+		return List_GetIndex((SortedList*)this, (wchar_t*)p, &idx) == 1;
 	}
 };
 
@@ -290,20 +290,24 @@ protected:
 	static wchar_t* Groups[];
 
 	bool IsChatRoom(HANDLE hContact);
-	HANDLE GetChatRoomByID(const wchar_t *cid);
-	HANDLE	AddChatRoomByID(const wchar_t* cid, const wchar_t* name, DWORD flags = 0);
+	HANDLE GetChatRoomByCid(const wchar_t *cid);
+	HANDLE	AddChatRoom(CConversation::Ref conversation);
 
-	char *CSkypeProto::GetChatUsers(const wchar_t *cid);
+	wchar_t *CSkypeProto::GetChatUsers(const wchar_t *cid);
+	void CSkypeProto::UpdateChatUserStatus(const wchar_t *sid, const WORD status = ID_STATUS_OFFLINE);
 
-	void ChatValidateContact(HANDLE hItem, HWND hwndList, const char *contacts);
-	void ChatPrepare(HANDLE hItem, HWND hwndList, const char *contacts);
+	void ChatValidateContact(HANDLE hItem, HWND hwndList, const wchar_t *contacts);
+	void ChatPrepare(HANDLE hItem, HWND hwndList, const wchar_t *contacts);
 
 	void GetInviteContacts(HANDLE hItem, HWND hwndList, SEStringList &invitedContacts);
 
 	void InitChat();
 	wchar_t *StartChat(const wchar_t *cid, const SEStringList &invitedContacts);
-	void JoinToChat(const wchar_t *cid, bool showWindow = true);
 	void LeaveChat(const wchar_t *cid);
+
+	void CreateChatWindow(CConversation::Ref conversation, bool showWindow = true);
+
+	void JoinToChat(CConversation::Ref conversation, bool showWindow = true);
 
 	void RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt, const DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
 	void SendChatMessage(const wchar_t *cid, const wchar_t *sid, const wchar_t *message);

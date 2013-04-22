@@ -28,12 +28,11 @@ SettingItem CSkypeProto::setting[] = {
 void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 {
 	uint newTS = obj->GetUintProp(/* *::P_AVATAR_TIMESTAMP */ 182);
-	DWORD oldTS = this->GetSettingDword(hContact, "AvatarTS");
+	DWORD oldTS = ::db_get_dw(hContact, this->m_szModuleName, "AvatarTS", 0);
 	
 	wchar_t *path = this->GetContactAvatarFilePath(hContact);
 	SEBinary data = obj->GetBinProp(/* *::P_AVATAR_IMAGE */ 37);
 
-	//if ((newTS > oldTS) || (!newTS && data.size() > 0 && _waccess(path, 0) == -1) || (newTS && _waccess(path, 0) == -1)) //hack for avatars without timestamp
 	bool hasNewAvatar = newTS > oldTS;
 	bool isAvatarEmpty = data.size() == 0;
 	bool isAvatarFileExists = ::PathFileExists(path) > 0;
@@ -336,10 +335,10 @@ void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 {
-	this->UpdateProfileAvatar(obj, hContact);
+	this->UpdateProfileAvatar(obj, hContact);	
 
 	uint newTS = obj->GetUintProp(/* *::P_PROFILE_TIMESTAMP */ 19);
-	if (newTS > this->GetSettingDword("ProfileTS"))
+	if (newTS > ::db_get_dw(hContact, this->m_szModuleName, "ProfileTS", 0))
 	{
 		this->UpdateProfileAboutText(obj, hContact);
 		this->UpdateProfileBirthday(obj, hContact);
@@ -354,6 +353,7 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 		this->UpdateProfilePhone(obj, hContact);
 		this->UpdateProfileOfficePhone(obj, hContact);
 		this->UpdateProfileState(obj, hContact);
+		this->UpdateProfileStatusMessage(obj, hContact);
 		this->UpdateProfileTimezone(obj, hContact);
 
 		if (hContact)

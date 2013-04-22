@@ -54,13 +54,10 @@ void CSkypeProto::UpdateContactOnlineSinceTime(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateContactLastEventDate(SEObject *obj, HANDLE hContact)
 {
-	if (hContact)
-	{
-		uint newTS = obj->GetUintProp(/* CContact::P_LASTUSED_TIMESTAMP */39);
-		DWORD oldTS = this->GetSettingDword(hContact, "LastEventDateTS");
-		if (newTS > oldTS)
-			this->SetSettingDword(hContact, "LastEventDateTS", newTS);
-	}
+	uint newTS = obj->GetUintProp(/* CContact::P_LASTUSED_TIMESTAMP */39);
+	DWORD oldTS = this->GetSettingDword(hContact, "LastEventDateTS");
+	if (newTS > oldTS)
+		this->SetSettingDword(hContact, "LastEventDateTS", newTS);
 }
 
 void CSkypeProto::OnContactChanged(CContact::Ref contact, int prop)
@@ -253,13 +250,11 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 
 		HANDLE hContact = this->AddContact(contact);
 
+		// todo: move to AddContact?
 		this->UpdateContactAuthState(hContact, contact);
 		this->UpdateContactStatus(hContact, contact);
 
-		SEObject *obj = contact.fetch();
-		this->UpdateProfile(obj, hContact);
-		this->UpdateProfileAvatar(obj, hContact);
-		this->UpdateProfileStatusMessage(obj, hContact);
+		this->UpdateProfile(contact.fetch(), hContact);
 	}
 }
 
@@ -274,29 +269,12 @@ void __cdecl CSkypeProto::LoadChatList(void*)
 
 		CConversation::MY_STATUS status;
 		conversations[i]->GetPropMyStatus(status);
-		if (type == CConversation::CONFERENCE)
+		if (type == CConversation::CONFERENCE && status == CConversation::CONSUMER)
 		{
-			SEString data;
+			auto conversation = conversations[i];
 
-			conversations[i]->GetPropIdentity(data);
-			wchar_t *cid = ::mir_utf8decodeW(data);
-
-			conversations[i]->GetPropDisplayname(data);
-			wchar_t *name = ::mir_utf8decodeW(data);
-
-			HANDLE hContact = this->AddChatRoomByID(cid, name);
-			//::DBWriteContactSettingString(hContact, this->m_szModuleName, "Nick", name);
-
-			::mir_free(cid);
-			::mir_free(name);
-
-			CConversation::LOCAL_LIVESTATUS live;
-			conversations[i]->GetPropLocalLivestatus(live);
-
-			if (status == CConversation::CONSUMER)// && live != CConversation::NONE)
-			{
-				this->JoinToChat(cid, false);
-			}
+			this->AddChatRoom(conversation);
+			this->JoinToChat(conversation, false);
 		}
 	}
 

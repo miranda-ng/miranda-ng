@@ -574,11 +574,11 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 			case CLN_NEWCONTACT:
 				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0) 
 				{
-					char *contacts = NULL;
+					wchar_t *contacts = NULL;
 					if (param->id)
 					{
-						HANDLE hContact = param->ppro->GetChatRoomByID(param->id);
-						if (hContact && ::db_get_w(hContact, param->ppro->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+						HANDLE hContact = param->ppro->GetChatRoomByCid(param->id);
+						if (hContact && param->ppro->IsContactOnline(hContact))
 						{
 							contacts = param->ppro->GetChatUsers(param->id);
 						}
@@ -590,11 +590,11 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 			case CLN_LISTREBUILT:
 				if (param) 
 				{
-					char *contacts = NULL;
+					wchar_t *contacts = NULL;
 					if (param->id)
 					{
-						HANDLE hContact = param->ppro->GetChatRoomByID(param->id);
-						if (hContact && ::db_get_w(hContact, param->ppro->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+						HANDLE hContact = param->ppro->GetChatRoomByCid(param->id);
+						if (hContact && param->ppro->IsContactOnline(hContact))
 						{
 							contacts = param->ppro->GetChatUsers(param->id);
 						}
