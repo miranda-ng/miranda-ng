@@ -20,9 +20,9 @@ typedef struct{
 } Cryptor;
 
 typedef struct rc4_key
-{      
-   BYTE state[256];       
-   BYTE x;        
+{
+   BYTE state[256];
+   BYTE x;
    BYTE y;
 } rc4_key;
 
@@ -111,7 +111,7 @@ void __stdcall DecryptMem(BYTE* data, int size, void* key)
 	rc4(data, size, (rc4_key*)key);
 }
 
-Cryptor cryptor = 
+Cryptor cryptor =
 	{
 		GenerateKey,
 		FreeKey,
@@ -127,7 +127,7 @@ Cryptor cryptor =
 	};
 
 
-__declspec(dllexport) Cryptor* GetCryptor()
+extern "C" __declspec(dllexport) Cryptor* GetCryptor()
 {
 	return &cryptor;
 }
