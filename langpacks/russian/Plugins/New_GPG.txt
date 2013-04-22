@@ -149,3 +149,11 @@
 Продолжить
 [Key Generation dialog]
 Создание приватного ключа
+[Copy public key]
+Копировать публич. ключ
+[Export private key]
+Экспорт приватного ключа
+[Export GPG Public keys]
+Экспортировать публичные GPG ключи
+[Import GPG Public keys]
+Импортировать публичные GPG ключи
