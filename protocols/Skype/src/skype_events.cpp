@@ -2,14 +2,16 @@
 
 int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	this->InitSkype();
-
 	this->InitChat();
 	this->InitNetLib();
 	this->InitCustomFolders();
 
 	this->HookEvent(ME_OPT_INITIALISE,		&CSkypeProto::OnOptionsInit);
 	this->HookEvent(ME_USERINFO_INITIALISE, &CSkypeProto::OnUserInfoInit);
+
+	g_skype->SetOnMessageCallback(
+		(CSkype::OnMessaged)&CSkypeProto::OnMessage, 
+		this);
 
 	return 0;
 }
@@ -19,7 +21,6 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 	this->SetStatus(ID_STATUS_OFFLINE);
 
 	this->UninitNetLib();
-	this->UninitSkype();
 
 	return 0;
 }
@@ -35,7 +36,7 @@ int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 			this->LeaveChat(chatID);
 
 			CConversation::Ref conversation;
-			this->skype->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation);
+			g_skype->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation);
 			conversation->RetireFrom();
 			conversation->Delete();
 		}
@@ -55,15 +56,17 @@ int CSkypeProto::OnMessagePreCreate(WPARAM, LPARAM lParam)
 	SEBinary guid;
 	if (message->GetPropGuid(guid))
 	{
-		evt->dbei->pBlob = (PBYTE)::mir_realloc(evt->dbei->pBlob, (evt->dbei->cbBlob + 32));
+		evt->dbei->pBlob = (PBYTE)::mir_realloc(evt->dbei->pBlob, (evt->dbei->cbBlob + 33));
 		::memcpy(&evt->dbei->pBlob[evt->dbei->cbBlob], guid.data(), 32);
-		evt->dbei->cbBlob += 32;
+		evt->dbei->cbBlob += 33;
 	}
+
+	//delete message;
 
 	return 1;
 }
 
-void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref message)
+void CSkypeProto::OnMessageSended(CConversation::Ref &conversation, CMessage::Ref &message)
 {
 	SEString data;
 
@@ -88,7 +91,7 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 		participants[0]->GetPropIdentity(data);
 		
 		CContact::Ref receiver;
-		this->skype->GetContact(data, receiver);
+		g_skype->GetContact(data, receiver);
 
 		HANDLE hContact = this->AddContact(receiver);
 			
@@ -130,7 +133,7 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 	::mir_free(text);
 }
 
-void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message)
+void CSkypeProto::OnMessageReceived(CConversation::Ref &conversation, CMessage::Ref &message)
 {
 	SEString data;
 
@@ -150,7 +153,7 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::R
 		message->GetPropAuthor(data);			
 		
 		CContact::Ref author;
-		this->skype->GetContact(data, author);
+		g_skype->GetContact(data, author);
 
 		HANDLE hContact = this->AddContact(author);
 
@@ -181,7 +184,7 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::R
 	::mir_free(text);
 }
 
-void CSkypeProto::OnTransferChanged(int prop, CTransfer::Ref transfer)
+void CSkypeProto::OnTransferChanged(CTransfer::Ref transfer, int prop)
 {
 	switch (prop)
 	{
@@ -191,7 +194,7 @@ void CSkypeProto::OnTransferChanged(int prop, CTransfer::Ref transfer)
 			transfer->GetPropChatmsgGuid(guid);
 
 			CMessage::Ref message;
-			this->skype->GetMessageByGuid(guid, message);
+			g_skype->GetMessageByGuid(guid, message);
 
 			uint oid = message->getOID();
 
@@ -239,7 +242,7 @@ void CSkypeProto::OnTransferChanged(int prop, CTransfer::Ref transfer)
 			transfer->GetPropChatmsgGuid(guid);
 
 			CMessage::Ref message;
-			this->skype->GetMessageByGuid(guid, message);
+			g_skype->GetMessageByGuid(guid, message);
 
 			uint oid = message->getOID();				
 
@@ -259,10 +262,10 @@ void CSkypeProto::OnTransferChanged(int prop, CTransfer::Ref transfer)
 			pfts.pszFiles = &pfts.szCurrentFile;
 
 			transfer->GetPropFilesize(data);
-			pfts.totalBytes = pfts.currentFileSize = data.toUInt();
+			pfts.totalBytes = pfts.currentFileSize = data.toUInt64();
 
 			transfer->GetPropBytestransferred(data);
-			pfts.totalProgress = pfts.currentFileProgress = data.toUInt();
+			pfts.totalProgress = pfts.currentFileProgress = data.toUInt64();
 
 			this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)oid, (LPARAM)&pfts);
 		}
@@ -270,7 +273,7 @@ void CSkypeProto::OnTransferChanged(int prop, CTransfer::Ref transfer)
 	}
 }
 
-void CSkypeProto::OnFile(CConversation::Ref conversation, CMessage::Ref message)
+void CSkypeProto::OnFile(CConversation::Ref &conversation, CMessage::Ref &message)
 {
 	CTransfer::Refs transfers;
 	message->GetTransfers(transfers);
@@ -375,7 +378,7 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 					if ( !alreadyInChat.contains(sid))
 					{
 						CContact::Ref contact;
-						this->skype->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(sid)), contact);
+						g_skype->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(sid)), contact);
 
 						CContact::AVAILABILITY status;
 						contact->GetPropAvailability(status);
@@ -453,7 +456,7 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 		message->GetPropAuthor(identity);
 
 		CContact::Ref author;
-		this->skype->GetContact(identity, author);
+		g_skype->GetContact(identity, author);
 
 		HANDLE hContact = this->AddContact(author);
 		

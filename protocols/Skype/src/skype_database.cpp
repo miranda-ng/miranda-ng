@@ -12,16 +12,16 @@ bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char* gu
 		dbei.pBlob = (PBYTE)::mir_alloc(dbei.cbBlob);
 		::db_event_get(hDbEvent, &dbei);
 
-		if (dbei.timestamp < timestamp)
+		/*if (dbei.timestamp < timestamp)
 		{
 			::mir_free(dbei.pBlob);
 			break;
-		}
+		}*/
 
 		int sendFlag = dbei.flags & DBEF_SENT;
 		if (dbei.eventType == EVENTTYPE_MESSAGE && sendFlag == flag)
 		{
-			if (::memcmp(&dbei.pBlob[dbei.cbBlob - 32], guid, 32) == 0)
+			if (::memcmp(&dbei.pBlob[dbei.cbBlob], guid, 32) == 0)
 			{
 				::mir_free(dbei.pBlob);
 				result = true;
@@ -100,9 +100,9 @@ void CSkypeProto::RaiseMessageReceivedEvent(
 	const wchar_t *message,
 	bool isNeedCheck)
 {	
-	if (isNeedCheck)
-		if (this->IsMessageInDB(hContact, timestamp, guid))
-			return;
+	//if (isNeedCheck)
+	//	if (this->IsMessageInDB(hContact, timestamp, guid))
+	//		return;
 
 	PROTORECVEVENT recv;
 	recv.flags = PREF_UTF;
@@ -119,8 +119,8 @@ void CSkypeProto::RaiseMessageSendedEvent(
 	const char *guid,
 	const wchar_t *message)
 {	
-	if (this->IsMessageInDB(hContact, timestamp, guid, DBEF_SENT))
-		return;
+	//if (this->IsMessageInDB(hContact, timestamp, guid, DBEF_SENT))
+	//	return;
 
 	char *msg = ::mir_utf8encodeW(message);
 

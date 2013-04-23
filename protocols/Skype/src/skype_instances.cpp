@@ -1,10 +1,5 @@
 #include "skype_proto.h"
 
-int CSkypeProto::SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam)
-{
-	return this->SendBroadcast(NULL, type, result, hProcess, lParam);
-}
-
 LIST<CSkypeProto> CSkypeProto::instanceList(1, CSkypeProto::CompareProtos);
 
 CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* userName)
@@ -18,6 +13,7 @@ CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* u
 			MB_ICONWARNING);
 		return NULL;
 	}
+
 	CSkypeProto *ppro = new CSkypeProto(protoName, userName);
 	CSkypeProto::instanceList.insert(ppro);
 

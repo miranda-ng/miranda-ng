@@ -195,7 +195,7 @@ void CSkypeProto::CreateChatWindow(CConversation::Ref conversation, bool showWin
 	}
 
 	gcd.iType = GC_EVENT_CONTROL;
-	::CallServiceSync(MS_GC_EVENT, ShowWindow ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce);
+	::CallServiceSync(MS_GC_EVENT, showWindow ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce);
 	::CallServiceSync(MS_GC_EVENT, SESSION_ONLINE,   (LPARAM)&gce);
 
 	::mir_free(cid);
@@ -212,16 +212,16 @@ wchar_t *CSkypeProto::StartChat(const wchar_t *cid, const SEStringList &invitedC
 	{
 		if (cid)
 		{
-			this->skype->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation);
+			g_skype->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation);
 			conversation->GetJoinBlob(data);
-			this->skype->GetConversationByBlob(data, conversation, false);
+			g_skype->GetConversationByBlob(data, conversation, false);
 			conversation->Join();
 
 			chatID = ::mir_wstrdup(cid);
 		}
 		else
 		{
-			this->skype->CreateConference(conversation);
+			g_skype->CreateConference(conversation);
 			conversation->SetOption(CConversation::P_OPT_JOINING_ENABLED,	true);
 			conversation->SetOption(CConversation::P_OPT_ENTRY_LEVEL_RANK,	CParticipant::WRITER);
 			conversation->SetOption(CConversation::P_OPT_DISCLOSE_HISTORY,  1);
@@ -300,7 +300,7 @@ void CSkypeProto::JoinToChat(CConversation::Ref conversation, bool showWindow)
 		mir_ptr<wchar_t> group = ::mir_utf8decodeW(CParticipant::GetRankName(rank));
 
 		CContact::Ref contact;
-		this->skype->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(sid)), contact);
+		g_skype->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(sid)), contact);
 
 		CContact::AVAILABILITY status;
 		contact->GetPropAvailability(status);
@@ -392,9 +392,9 @@ INT_PTR __cdecl CSkypeProto::OnJoinChat(WPARAM wParam, LPARAM)
 		CConversation::Ref conversation;
 
 		//todo: fixme
-		this->skype->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation);
+		g_skype->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation);
 		conversation->GetJoinBlob(data);
-		this->skype->GetConversationByBlob(data, conversation, false);
+		g_skype->GetConversationByBlob(data, conversation, false);
 		conversation->Join();
 
 		this->JoinToChat(conversation);
@@ -436,7 +436,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 		case GC_SESSION_TERMINATE:
 			{
 				CConversation::Ref conversation;
-				if (this->skype->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation, false))
+				if (g_skype->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation, false))
 				{
 					Participant::Refs participants;
 					conversation->GetParticipants(participants, CConversation::MYSELF);
@@ -449,7 +449,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 			if (gch->ptszText && gch->ptszText[0]) 
 			{
 				CConversation::Ref conversation;
-				if (this->skype->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation, false))
+				if (g_skype->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation, false))
 				{
 					CMessage::Ref message;
 					::mir_ptr<char> text(::mir_utf8encodeW(gch->ptszText));
@@ -588,7 +588,7 @@ void CSkypeProto::UpdateChatUserStatus(CContact::Ref contact)
 
 	GC_INFO gci = {0};
 	gci.Flags = BYINDEX | ID;
-	gci.pszModule = m_szModuleName;
+	gci.pszModule = this->m_szModuleName;
 
 	int count = ::CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)this->m_szModuleName);
 	for (int i = 0; i < count ; i++)

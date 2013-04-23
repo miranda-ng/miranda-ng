@@ -77,7 +77,7 @@ int CSkypeProto::GrantAuth(WPARAM wParam, LPARAM lParam)
 	CContact::Ref contact;
 	HANDLE hContact = (HANDLE)wParam;
 	SEString sid(::mir_u2a(::mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN))));
-	if (this->skype->GetContact(sid, contact))
+	if (g_skype->GetContact(sid, contact))
 	{
 		if (contact->SetBuddyStatus(true))
 		{
@@ -94,7 +94,7 @@ int CSkypeProto::RevokeAuth(WPARAM wParam, LPARAM lParam)
 	CContact::Ref contact;
 	HANDLE hContact = (HANDLE)wParam;
 	SEString sid(::mir_u2a(::mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN))));
-	if (this->skype->GetContact(sid, contact))
+	if (g_skype->GetContact(sid, contact))
 	{
 		if (contact->SetBuddyStatus(false))
 		{

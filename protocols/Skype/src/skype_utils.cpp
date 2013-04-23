@@ -281,14 +281,6 @@ LanguagesListEntry CSkypeProto::languages[] =
 	{"Zulu", "zu"}
 };
 
-
-void CSkypeProto::FakeAsync(void *param)
-{
-	::Sleep(100);
-	::CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)param);
-	::mir_free(param);
-}
-
 int CSkypeProto::DetectAvatarFormatBuffer(const char *pBuffer)
 {
 	if (!strncmp(pBuffer, "%PNG", 4))
@@ -399,18 +391,21 @@ void CSkypeProto::HookEvent(const char* szEvent, SkypeEventFunc handler)
 	::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*( void**)&handler, this);
 }
 
+void CSkypeProto::FakeAsync(void *param)
+{
+	::Sleep(100);
+	::CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)param);
+	::mir_free(param);
+}
+
 int CSkypeProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
-	/*ACKDATA ack = { sizeof(ACKDATA) };
-	ack.szModule = this->m_szModuleName;
-	ack.hContact = hContact;
-	ack.type = type;
-	ack.result = result;
-	ack.hProcess = hProcess;
-	ack.lParam = lParam;
-
-	return ::CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);*/
 	return ::ProtoBroadcastAck(this->m_szModuleName, hContact, type, result, hProcess, lParam);
+}
+
+int CSkypeProto::SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam)
+{
+	return this->SendBroadcast(NULL, type, result, hProcess, lParam);
 }
 
 DWORD CSkypeProto::SendBroadcastAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam, size_t paramSize)

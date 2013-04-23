@@ -83,6 +83,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -180,17 +181,36 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\aes\aes.h" />
     <ClInclude Include="src\base64\base64.h" />
-    <ClInclude Include="src\skype_subclassing.h" />
     <ClInclude Include="src\skype.h" />
+    <ClInclude Include="src\skypekit\account.h" />
+    <ClInclude Include="src\skypekit\common.h" />
+    <ClInclude Include="src\skypekit\contact.h" />
+    <ClInclude Include="src\skypekit\conversation.h" />
+    <ClInclude Include="src\skypekit\group.h" />
+    <ClInclude Include="src\skypekit\message.h" />
+    <ClInclude Include="src\skypekit\participant.h" />
+    <ClInclude Include="src\skypekit\search.h" />
+    <ClInclude Include="src\skypekit\skype.h" />
+    <ClInclude Include="src\skypekit\transfer.h" />
     <ClInclude Include="src\skype_proto.h" />
     <ClInclude Include="src\version.h" />
     <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\aes\aes.c" />
+    <ClCompile Include="src\aes\aes.cpp" />
     <ClCompile Include="src\base64\base64.cpp" />
     <ClCompile Include="src\skype.cpp" />
+    <ClCompile Include="src\skypekit\account.cpp" />
+    <ClCompile Include="src\skypekit\contact.cpp" />
+    <ClCompile Include="src\skypekit\conversation.cpp" />
+    <ClCompile Include="src\skypekit\group.cpp" />
+    <ClCompile Include="src\skypekit\message.cpp" />
+    <ClCompile Include="src\skypekit\participant.cpp" />
+    <ClCompile Include="src\skypekit\search.cpp" />
+    <ClCompile Include="src\skypekit\skype.cpp" />
+    <ClCompile Include="src\skypekit\transfer.cpp" />
     <ClCompile Include="src\skype_account.cpp" />
     <ClCompile Include="src\skype_chat.cpp" />
     <ClCompile Include="src\skype_contacts.cpp" />
@@ -203,10 +223,8 @@
     <ClCompile Include="src\skype_netlib.cpp" />
     <ClCompile Include="src\skype_profile.cpp" />
     <ClCompile Include="src\skype_proto.cpp" />
-    <ClCompile Include="src\skype_runtime.cpp" />
     <ClCompile Include="src\skype_services.cpp" />
     <ClCompile Include="src\skype_settings.cpp" />
-    <ClCompile Include="src\skype_subclassing.cpp" />
     <ClCompile Include="src\skype_utils.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 
 CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 {
-	ProtoConstructor(this, protoName, userName);
+	::ProtoConstructor(this, protoName, userName);
 
 	this->rememberPassword = false;
 
@@ -15,7 +15,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 	dbEventType.descr = "Call";
 	::CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
-	this->HookEvent(ME_MSG_PRECREATEEVENT, &CSkypeProto::OnMessagePreCreate);
+	//this->HookEvent(ME_MSG_PRECREATEEVENT, &CSkypeProto::OnMessagePreCreate);
 
 	this->CreateServiceObj(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
 	// Chat API
@@ -46,7 +46,7 @@ HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	//fixme
 	CContact::Ref contact;
-	this->skype->GetContact(::mir_u2a(psr->id), contact);
+	g_skype->GetContact(::mir_u2a(psr->id), contact);
 	return this->AddContact(contact);
 	return 0;
 }
@@ -128,7 +128,7 @@ int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 	{
 		CContact::Ref contact;
 		SEString sid(::mir_u2a(this->GetSettingString(hContact, SKYPE_SETTINGS_LOGIN)));
-		if (this->skype->GetContact(sid, contact))
+		if (g_skype->GetContact(sid, contact))
 		{
 			contact->SetBuddyStatus(Contact::AUTHORIZED_BY_ME);
 			contact->SendAuthRequest(::mir_utf8encodeW(szMessage));
@@ -146,7 +146,7 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 { 
 	uint oid = (uint)hTransfer;
 
-	MessageRef message(oid);
+	CMessage *message = new CMessage(oid, g_skype);
 
 	CTransfer::Refs transfers;
 	message->GetTransfers(transfers);
@@ -160,9 +160,12 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 		if (!transfers[i]->Accept(::mir_u2a(fullPath), success) || !success)
 		{
 			// todo: write to log!
+			delete message;
 			return 0;
 		}
 	}
+	
+	delete message;
 
 	return hTransfer; 
 }
@@ -225,7 +228,7 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS |
 			PF4_OFFLINEFILES | PF4_IMSENDUTF | PF4_IMSENDOFFLINE;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)::Translate("Skype Name");
+		return (DWORD_PTR)::Translate("g_skype Name");
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)SKYPE_SETTINGS_LOGIN;
 	default:
@@ -286,9 +289,9 @@ int    __cdecl CSkypeProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* pre)
 	::db_unset(hContact, "CList", "Hidden");
 	this->UserIsTyping(hContact, PROTOTYPE_SELFTYPING_OFF);
 
-	int length = ::strlen(pre->szMessage) + 1;
+	/*int length = ::strlen(pre->szMessage) + 1;
 	pre->szMessage = (char *)::mir_realloc(pre->szMessage, length + 32);
-	::memcpy(&pre->szMessage[length], (char *)pre->lParam, 32);
+	::memcpy(&pre->szMessage[length], (char *)pre->lParam, 32);*/
 
 	return ::Proto_RecvMessage(hContact, pre);
 }
@@ -305,7 +308,8 @@ HANDLE __cdecl CSkypeProto::SendFile( HANDLE hContact, const TCHAR* szDescriptio
 		mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
 		targets.append((char *)mir_ptr<char>(::mir_utf8encodeW(sid)));
 
-		CConversation::Ref conversation = CConversation::FindBySid(this->skype, sid);
+		CConversation::Ref conversation;
+		g_skype->GetConversationByParticipants(targets, conversation);
 
 		SEFilenameList fileList;
 		for (int i = 0; ppszFiles[i]; i++)
@@ -337,9 +341,13 @@ HANDLE __cdecl CSkypeProto::SendFile( HANDLE hContact, const TCHAR* szDescriptio
 
 int    __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char* msg)
 {
-	CConversation::Ref conversation = CConversation::FindBySid(
-		this->skype,
-		::mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN)));
+	SEStringList targets;
+	wchar_t * sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
+	SEString identity = ::mir_u2a(sid);
+	targets.append(identity);
+
+	CConversation::Ref conversation;
+	g_skype->GetConversationByParticipants(targets, conversation);
 
 	if (conversation)
 	{
@@ -428,7 +436,13 @@ int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type )
 		mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
 		if (::wcsicmp(sid, this->login) != 0)
 		{
-			CConversation::Ref conversation = CConversation::FindBySid(this->skype, sid);
+			SEStringList targets;
+			mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+			targets.append((char *)mir_ptr<char>(::mir_utf8encodeW(sid)));
+
+			CConversation::Ref conversation;
+			g_skype->GetConversationByParticipants(targets, conversation);
+
 			if (conversation)
 			{
 				switch (type)

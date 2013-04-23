@@ -88,7 +88,7 @@ void __cdecl CSkypeProto::SignInAsync(void*)
 	}
 	else
 	{
-		::CallService(MS_DB_CRYPT_ENCODESTRING, ::wcslen(this->password), (LPARAM)this->password);
+		::CallService(MS_DB_CRYPT_ENCODESTRING, ::strlen(this->password), (LPARAM)this->password);
 	}
 
 	this->LoadOwnInfo(this);
@@ -126,8 +126,8 @@ bool CSkypeProto::PreparePassword()
 			::mir_free(this->password);
 			this->password = NULL;
 		}
-		this->password = ::db_get_wsa(NULL, this->m_szModuleName, SKYPE_SETTINGS_PASSWORD);
-		if ( !this->password || !::wcslen(this->password))
+		this->password = ::db_get_sa(NULL, this->m_szModuleName, SKYPE_SETTINGS_PASSWORD);
+		if ( !this->password || !::strlen(this->password))
 		{
 			if (this->password)
 			{
@@ -142,12 +142,12 @@ bool CSkypeProto::PreparePassword()
 			}
 			else
 			{
-				this->password = ::mir_wstrdup(param.password);
+				this->password = ::mir_strdup(param.password);
 				this->rememberPassword = param.rememberPassword;
 			}
 		}
 		else 
-			::CallService(MS_DB_CRYPT_DECODESTRING, ::wcslen(this->password), (LPARAM)this->password);
+			::CallService(MS_DB_CRYPT_DECODESTRING, ::strlen(this->password), (LPARAM)this->password);
 	}
 
 	return true;
@@ -158,7 +158,7 @@ bool CSkypeProto::SignIn(int status)
 	if ( !this->PrepareLogin())
 		return false;
 
-	if (this->skype->GetAccount(::mir_u2a(this->login), this->account))
+	if (g_skype->GetAccount(::mir_u2a(this->login), this->account))
 	{
 		if ( !this->PreparePassword())
 			return false;
@@ -172,7 +172,7 @@ bool CSkypeProto::SignIn(int status)
 
 		this->SetAccountSettings();	
 
-		this->account->LoginWithPassword(::mir_utf8encodeW(this->password), false, false);
+		this->account->LoginWithPassword(this->password, false, false);
 	}
 
 	return true;
@@ -181,8 +181,8 @@ bool CSkypeProto::SignIn(int status)
 void CSkypeProto::SetAccountSettings()
 {
 	int port = this->GetSettingWord("Port", rand() % 10000 + 10000);
-	this->skype->SetInt(SETUPKEY_PORT, port);
-	this->skype->SetInt(SETUPKEY_DISABLE_PORT80, (int)!this->GetSettingByte("UseAlternativePorts", 1));
+	g_skype->SetInt(SETUPKEY_PORT, port);
+	g_skype->SetInt(SETUPKEY_DISABLE_PORT80, (int)!this->GetSettingByte("UseAlternativePorts", 1));
 }
 
 bool CSkypeProto::IsAvatarChanged(const SEBinary &avatar)

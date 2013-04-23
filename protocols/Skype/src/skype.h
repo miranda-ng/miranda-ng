@@ -23,6 +23,7 @@
 #include <m_database.h>
 //#include <m_history.h>
 //#include <m_idle.h>
+#include <m_folders.h>
 #include <m_langpack.h>
 #include <m_message.h>
 #include <m_netlib.h>
@@ -48,14 +49,10 @@
 
 #include <io.h>
 #include <fcntl.h>
-
-#include <m_folders.h>
+#include <time.h>
 
 #include "resource.h"
 #include "version.h"
-#include "skype_subclassing.h"
-
-#include "..\..\..\skypekit\key.h"
 
 #define MODULE "Skype"
 #define SKYPE_SID_LIMIT 128
@@ -79,7 +76,7 @@
 
 #define CMITEMS_COUNT 3
 
+class CSkype;
+
+extern CSkype *g_skype;
 extern HINSTANCE g_hInstance;
-
-
-struct CSkypeProto;

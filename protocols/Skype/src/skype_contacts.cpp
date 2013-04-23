@@ -234,7 +234,7 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 
 void __cdecl CSkypeProto::LoadContactList(void*)
 {
-	this->skype->GetHardwiredContactGroup(CContactGroup::ALL_BUDDIES, this->commonList);
+	g_skype->GetHardwiredContactGroup(CContactGroup::ALL_BUDDIES, this->commonList);
 	this->commonList.fetch();
 	this->commonList->SetOnContactListChangedCallback(
 		(CContactGroup::OnContactListChanged)&CSkypeProto::OnContactListChanged, 
@@ -262,7 +262,7 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 void __cdecl CSkypeProto::LoadChatList(void*)
 {
 	CConversation::Refs conversations;
-	this->skype->GetConversationList(conversations);
+	g_skype->GetConversationList(conversations);
 	for (uint i = 0; i < conversations.size(); i++)
 	{
 		CConversation::TYPE type;
@@ -280,7 +280,7 @@ void __cdecl CSkypeProto::LoadChatList(void*)
 	}
 
 	/*CConversation::Refs conversations;
-	this->skype->GetConversationList(conversations);
+	g_skype->GetConversationList(conversations);
 	for (uint i = 0; i < conversations.size(); i++)
 	{
 		conversations[i]->Delete();
@@ -290,7 +290,7 @@ void __cdecl CSkypeProto::LoadChatList(void*)
 void __cdecl CSkypeProto::LoadAuthWaitList(void*)
 {
 	CContact::Refs authContacts;
-	this->skype->GetHardwiredContactGroup(CContactGroup::CONTACTS_WAITING_MY_AUTHORIZATION, this->authWaitList);
+	g_skype->GetHardwiredContactGroup(CContactGroup::CONTACTS_WAITING_MY_AUTHORIZATION, this->authWaitList);
 	this->authWaitList.fetch();
 	this->authWaitList->SetOnContactListChangedCallback(
 		(CContactGroup::OnContactListChanged)&CSkypeProto::OnContactListChanged, 
@@ -334,7 +334,7 @@ void CSkypeProto::OnSearchCompleted(HANDLE hSearch)
 	this->SendBroadcast(ACKTYPE_SEARCH, ACKRESULT_SUCCESS, hSearch, 0);
 }
 
-void CSkypeProto::OnContactFinded(HANDLE hSearch, CContact::Ref contact)
+void CSkypeProto::OnContactFinded(CContact::Ref contact, HANDLE hSearch)
 {
 	PROTOSEARCHRESULT psr = {0};
 	psr.cbSize = sizeof(psr);
@@ -380,7 +380,7 @@ void __cdecl CSkypeProto::SearchBySidAsync(void* arg)
 	}
 
 	CContactSearch::Ref search;
-	this->skype->CreateIdentitySearch(::mir_u2a(sid), search);
+	g_skype->CreateIdentitySearch(::mir_u2a(sid), search);
 	search.fetch();
 	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYSID);
 	search->SetOnContactFindedCallback(
@@ -404,7 +404,7 @@ void __cdecl CSkypeProto::SearchByEmailAsync(void* arg)
 	wchar_t *email = (wchar_t *)arg;
 
 	CContactSearch::Ref search;
-	this->skype->CreateContactSearch(search);
+	g_skype->CreateContactSearch(search);
 	search.fetch();
 	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYEMAIL);
 	search->SetOnContactFindedCallback(

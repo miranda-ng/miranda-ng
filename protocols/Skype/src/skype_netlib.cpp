@@ -38,40 +38,40 @@ void CSkypeProto::InitProxy()
 			{
 			case PROXYTYPE_HTTP:
 			case PROXYTYPE_HTTPS:
-				this->skype->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 1);
-				this->skype->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 0);
-				this->skype->SetStr(SETUPKEY_HTTPS_PROXY_ADDR, address);
+				g_skype->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 1);
+				g_skype->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 0);
+				g_skype->SetStr(SETUPKEY_HTTPS_PROXY_ADDR, address);
 				if (nlus.useProxyAuth)
 				{
 					char encodedPass[MAX_PATH];
 					Base64::Encode(nlus.szProxyAuthPassword, encodedPass, MAX_PATH);
 
-					this->skype->SetStr(SETUPKEY_HTTPS_PROXY_USER,	nlus.szProxyAuthUser);
-					this->skype->SetStr(SETUPKEY_HTTPS_PROXY_PWD,	encodedPass);
+					g_skype->SetStr(SETUPKEY_HTTPS_PROXY_USER,	nlus.szProxyAuthUser);
+					g_skype->SetStr(SETUPKEY_HTTPS_PROXY_PWD,	encodedPass);
 				}
 				break;
 
 			case PROXYTYPE_SOCKS4:
 			case PROXYTYPE_SOCKS5:
-				this->skype->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 0);
-				this->skype->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 1);
-				this->skype->SetStr(SETUPKEY_SOCKS_PROXY_ADDR, address);
+				g_skype->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 0);
+				g_skype->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 1);
+				g_skype->SetStr(SETUPKEY_SOCKS_PROXY_ADDR, address);
 				if (nlus.useProxyAuth)
 				{
-					this->skype->SetStr(SETUPKEY_SOCKS_PROXY_USER,	nlus.szProxyAuthUser);
-					this->skype->SetStr(SETUPKEY_SOCKS_PROXY_PWD,	nlus.szProxyAuthPassword);
+					g_skype->SetStr(SETUPKEY_SOCKS_PROXY_USER,	nlus.szProxyAuthUser);
+					g_skype->SetStr(SETUPKEY_SOCKS_PROXY_PWD,	nlus.szProxyAuthPassword);
 				}
 				break;
 
 			default:
-				this->skype->Delete(SETUPKEY_HTTPS_PROXY_ENABLE);
-				this->skype->Delete(SETUPKEY_HTTPS_PROXY_ADDR);
-				this->skype->Delete(SETUPKEY_HTTPS_PROXY_USER);
-				this->skype->Delete(SETUPKEY_HTTPS_PROXY_PWD);
-				this->skype->Delete(SETUPKEY_SOCKS_PROXY_ENABLE);
-				this->skype->Delete(SETUPKEY_SOCKS_PROXY_ADDR);
-				this->skype->Delete(SETUPKEY_SOCKS_PROXY_USER);
-				this->skype->Delete(SETUPKEY_SOCKS_PROXY_PWD);
+				g_skype->Delete(SETUPKEY_HTTPS_PROXY_ENABLE);
+				g_skype->Delete(SETUPKEY_HTTPS_PROXY_ADDR);
+				g_skype->Delete(SETUPKEY_HTTPS_PROXY_USER);
+				g_skype->Delete(SETUPKEY_HTTPS_PROXY_PWD);
+				g_skype->Delete(SETUPKEY_SOCKS_PROXY_ENABLE);
+				g_skype->Delete(SETUPKEY_SOCKS_PROXY_ADDR);
+				g_skype->Delete(SETUPKEY_SOCKS_PROXY_USER);
+				g_skype->Delete(SETUPKEY_SOCKS_PROXY_PWD);
 				break;
 			}
 		}

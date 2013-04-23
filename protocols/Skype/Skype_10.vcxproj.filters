@@ -16,6 +16,12 @@
     <Filter Include="Resource Files\Bin">
       <UniqueIdentifier>{f1aeb5a2-f105-4b8c-a656-08dbe6dc7b2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\skypekit">
+      <UniqueIdentifier>{a39a08d1-b79a-47eb-8433-1351f9f01401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\skypekit">
+      <UniqueIdentifier>{171bef99-1ab9-424f-835d-9e47ab62365c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\skype.cpp">
@@ -25,9 +31,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\skype_dialogs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\skype_subclassing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\skype_events.cpp">
@@ -69,13 +72,37 @@
     <ClCompile Include="src\skype_chat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skype_runtime.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\aes\aes.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\base64\base64.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skypekit\account.cpp">
+      <Filter>Source Files\skypekit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skypekit\contact.cpp">
+      <Filter>Source Files\skypekit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skypekit\conversation.cpp">
+      <Filter>Source Files\skypekit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skypekit\group.cpp">
+      <Filter>Source Files\skypekit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skypekit\message.cpp">
+      <Filter>Source Files\skypekit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skypekit\participant.cpp">
+      <Filter>Source Files\skypekit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skypekit\search.cpp">
+      <Filter>Source Files\skypekit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skypekit\skype.cpp">
+      <Filter>Source Files\skypekit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skypekit\transfer.cpp">
+      <Filter>Source Files\skypekit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\aes\aes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,10 +119,40 @@
     <ClInclude Include="src\skype_proto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\skype_subclassing.h">
+    <ClInclude Include="src\base64\base64.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base64\base64.h">
+    <ClInclude Include="src\skypekit\account.h">
+      <Filter>Header Files\skypekit</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skypekit\common.h">
+      <Filter>Header Files\skypekit</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skypekit\contact.h">
+      <Filter>Header Files\skypekit</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skypekit\conversation.h">
+      <Filter>Header Files\skypekit</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skypekit\group.h">
+      <Filter>Header Files\skypekit</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skypekit\message.h">
+      <Filter>Header Files\skypekit</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skypekit\participant.h">
+      <Filter>Header Files\skypekit</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skypekit\search.h">
+      <Filter>Header Files\skypekit</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skypekit\skype.h">
+      <Filter>Header Files\skypekit</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skypekit\transfer.h">
+      <Filter>Header Files\skypekit</Filter>
+    </ClInclude>
+    <ClInclude Include="src\aes\aes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

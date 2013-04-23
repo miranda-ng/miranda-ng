@@ -1,7 +1,7 @@
 #pragma once
 
 #include "skype.h"
-#include <time.h>
+#include "skypekit\skype.h"
 
 typedef void    (__cdecl CSkypeProto::* SkypeThreadFunc) (void*);
 typedef int     (__cdecl CSkypeProto::* SkypeEventFunc)(WPARAM, LPARAM);
@@ -119,7 +119,7 @@ struct InviteChatParam
 struct PasswordRequestBoxParam
 {
 	wchar_t		*login;
-	wchar_t		*password;
+	char		*password;
 	bool		rememberPassword;
 	bool		showRememberPasswordBox;
 
@@ -138,8 +138,8 @@ struct PasswordRequestBoxParam
 
 struct PasswordChangeBoxParam
 {
-	wchar_t		*password;
-	wchar_t		*password2;
+	char		*password;
+	char		*password2;
 
 	PasswordChangeBoxParam() { }
 
@@ -153,7 +153,7 @@ struct PasswordChangeBoxParam
 struct CSkypeProto : public PROTO_INTERFACE
 {
 public:
-	CSkypeProto(const char *, const wchar_t *);
+	CSkypeProto(const char *protoName, const wchar_t *userName);
 	~CSkypeProto();
 
 	// PROTO_INTERFACE
@@ -242,7 +242,6 @@ public:
 	bool	IsOnline();
 
 protected:
-	CSkype *skype;
 	CAccount::Ref account;
 	CContact::Refs contactList;
 	CTransfer::Refs transferList;
@@ -253,7 +252,7 @@ protected:
 	void	OnAccountChanged(int prop);
 
 	wchar_t	*login;
-	wchar_t	*password;
+	char	*password;
 	bool	rememberPassword;
 	
 	bool	RequestPassword(PasswordRequestBoxParam &param);
@@ -279,12 +278,12 @@ protected:
 
 	// messages
 	void	OnMessage(CConversation::Ref conversation, CMessage::Ref message);
-	void	OnMessageSended(CConversation::Ref conversation, CMessage::Ref message);
-	void	OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message);
+	void	OnMessageSended(CConversation::Ref &conversation, CMessage::Ref &message);
+	void	OnMessageReceived(CConversation::Ref &conversation, CMessage::Ref &message);
 
 	// transfer
-	void	OnFile(CConversation::Ref conversation, CMessage::Ref message);
-	void	OnTransferChanged(int prop, CTransfer::Ref transfer);
+	void	OnFile(CConversation::Ref &conversation, CMessage::Ref &message);
+	void	OnTransferChanged(CTransfer::Ref transfer, int prop);
 
 	// chat
 	static wchar_t* Groups[];
@@ -329,7 +328,7 @@ protected:
 	void	UpdateContactLastEventDate(SEObject *obj, HANDLE hContact);
 
 	void	OnSearchCompleted(HANDLE hSearch);
-	void	OnContactFinded(HANDLE hSearch, CContact::Ref contact);
+	void	OnContactFinded(CContact::Ref contact, HANDLE hSearch);
 
 	void	OnContactChanged(CContact::Ref contact, int prop);
 	void	OnContactListChanged(const ContactRef& contact);
@@ -395,10 +394,6 @@ protected:
 	CContact::AVAILABILITY MirandaToSkypeStatus(int status);
 
 	SEBinary GetAvatarBinary(wchar_t *path);
-
-	// runtime
-	void InitSkype();
-	void UninitSkype();
 
 	// instances
 	static LIST<CSkypeProto> instanceList;

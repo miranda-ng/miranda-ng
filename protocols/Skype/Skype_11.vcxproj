@@ -186,7 +186,6 @@
   <ItemGroup>
     <ClInclude Include="src\aes\aes.h" />
     <ClInclude Include="src\base64\base64.h" />
-    <ClInclude Include="src\skype_subclassing.h" />
     <ClInclude Include="src\skype.h" />
     <ClInclude Include="src\skype_proto.h" />
     <ClInclude Include="src\version.h" />
@@ -211,7 +210,6 @@
     <ClCompile Include="src\skype_runtime.cpp" />
     <ClCompile Include="src\skype_services.cpp" />
     <ClCompile Include="src\skype_settings.cpp" />
-    <ClCompile Include="src\skype_subclassing.cpp" />
     <ClCompile Include="src\skype_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
