@@ -167,7 +167,7 @@ void CSkypeProto::CreateChatWindow(CConversation::Ref conversation, bool showWin
 	SEString data;
 
 	conversation->GetPropIdentity(data);
-	wchar_t *chatID = ::mir_utf8decodeW(data);
+	wchar_t *cid = ::mir_utf8decodeW(data);
 
 	conversation->GetPropDisplayname(data);
 	wchar_t *chatName = ::mir_utf8decodeW(data);
@@ -178,11 +178,11 @@ void CSkypeProto::CreateChatWindow(CConversation::Ref conversation, bool showWin
 	gcw.dwFlags = GC_TCHAR;
 	gcw.pszModule = this->m_szModuleName;
 	gcw.ptszName = chatName;
-	gcw.ptszID = chatID;
+	gcw.ptszID = cid;
 	::CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
 	GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_ADDGROUP };
-	gcd.ptszID = chatID;
+	gcd.ptszID = cid;
 
 	GCEVENT gce = {0};
 	gce.cbSize = sizeof(GCEVENT);
@@ -195,10 +195,10 @@ void CSkypeProto::CreateChatWindow(CConversation::Ref conversation, bool showWin
 	}
 
 	gcd.iType = GC_EVENT_CONTROL;
-	::CallServiceSync(MS_GC_EVENT, showWindow ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce);
+	::CallServiceSync(MS_GC_EVENT, ShowWindow ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce);
 	::CallServiceSync(MS_GC_EVENT, SESSION_ONLINE,   (LPARAM)&gce);
 
-	::mir_free(chatID);
+	::mir_free(cid);
 	::mir_free(chatName);
 }
 
@@ -333,25 +333,22 @@ void CSkypeProto::LeaveChat(const wchar_t *cid)
 	::mir_free(chatID);
 }
 
-void CSkypeProto::RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt, const DWORD itemData, const wchar_t *status, const wchar_t *message)
+void CSkypeProto::RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt, DWORD flags, DWORD itemData, const wchar_t *status, const wchar_t *message)
 {
-	wchar_t *idt = ::mir_wstrdup(cid);
-	wchar_t *snt = ::mir_wstrdup(sid);
-
 	HANDLE hContact = this->GetContactBySid(sid);
 	wchar_t *nick = hContact ? 
 		::mir_a2u((char *)::CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(hContact), 0)) : 
-		snt;
+		::mir_wstrdup(sid);
 
 	GCDEST gcd = { this->m_szModuleName, { NULL },  evt };
-	gcd.ptszID = idt;
+	gcd.ptszID = ::mir_wstrdup(cid);
 
 	GCEVENT gce = {0};
 	gce.cbSize = sizeof(gce);
-	gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
+	gce.dwFlags = flags | GC_TCHAR;
 	gce.pDest = &gcd;
 	gce.ptszNick = nick;
-	gce.ptszUID = snt;
+	gce.ptszUID = sid;
 	gce.bIsMe = ::wcsicmp(sid, this->login) == 0;
 	gce.dwItemData = itemData;
 	gce.ptszStatus = status;	
@@ -359,30 +356,29 @@ void CSkypeProto::RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt
 	gce.time = time(NULL);
 	::CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 
-	::mir_free(snt);
-	::mir_free(idt);
+	::mir_free(nick);
 }
 
 void CSkypeProto::SendChatMessage(const wchar_t *cid, const wchar_t *sid, const wchar_t *message)
 {
-	this->RaiseChatEvent(cid, sid, GC_EVENT_MESSAGE, 0, NULL, message);
+	this->RaiseChatEvent(cid, sid, GC_EVENT_MESSAGE, GCEF_ADDTOLOG, 0, NULL, message);
 }
 
 void CSkypeProto::AddChatContact(const wchar_t *cid, const wchar_t *sid, const wchar_t *group, const WORD status)
 {
 	this->RaiseChatEvent(cid, sid, GC_EVENT_JOIN);
-	this->RaiseChatEvent(cid, sid, GC_EVENT_ADDSTATUS, 0, CSkypeProto::Groups[SKYPE_CHAT_GROUP_WIRTER]);
+	this->RaiseChatEvent(cid, sid, GC_EVENT_ADDSTATUS, 0, 0, CSkypeProto::Groups[SKYPE_CHAT_GROUP_WIRTER], L"Owner");
 	this->RaiseChatEvent(cid, sid, GC_EVENT_SETCONTACTSTATUS, status);
 }
 
 void CSkypeProto::KickChatContact(const wchar_t *cid, const wchar_t *sid)
 {
-	this->RaiseChatEvent(cid, sid, GC_EVENT_KICK);
+	this->RaiseChatEvent(cid, sid, GC_EVENT_KICK, GCEF_ADDTOLOG);
 }
 
 void CSkypeProto::RemoveChatContact(const wchar_t *cid, const wchar_t *sid)
 {
-	this->RaiseChatEvent(cid, sid, GC_EVENT_QUIT);
+	this->RaiseChatEvent(cid, sid, GC_EVENT_QUIT, GCEF_ADDTOLOG);
 }
 
 INT_PTR __cdecl CSkypeProto::OnJoinChat(WPARAM wParam, LPARAM)
@@ -581,19 +577,34 @@ wchar_t *CSkypeProto::GetChatUsers(const wchar_t *cid)
 	return ::mir_a2u(gci.pszUsers);
 }
 
-void CSkypeProto::UpdateChatUserStatus(const wchar_t *sid, const WORD status)
+void CSkypeProto::UpdateChatUserStatus(CContact::Ref contact)
 {
+	CContact::AVAILABILITY availability;
+	contact->GetPropAvailability(availability);
+
+	SEString identity;
+	contact->GetIdentity(identity);
+	wchar_t *sid = ::mir_utf8decodeW(identity);
+
 	GC_INFO gci = {0};
-	gci.Flags = BYINDEX | ID | DATA | NAME | TYPE;
+	gci.Flags = BYINDEX | ID;
 	gci.pszModule = m_szModuleName;
 
 	int count = ::CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)this->m_szModuleName);
 	for (int i = 0; i < count ; i++)
 	{
 		gci.iItem = i;
-		
 		::CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci);
 
-		//this->RaiseChatEvent(gci.pszID, sid, int evt, const DWORD itemData, const wchar_t *status, const wchar_t *message)
+		this->RaiseChatEvent(
+			gci.pszID, 
+			sid, 
+			GC_EVENT_SETCONTACTSTATUS,
+			0,
+			this->SkypeToMirandaStatus(availability));
+
+		//::mir_free(gci.pszID);
 	}
+
+	::mir_free(sid);
 }

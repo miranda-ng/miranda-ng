@@ -92,6 +92,7 @@ void CSkypeProto::OnContactChanged(CContact::Ref contact, int prop)
 
 		case CContact::P_AVAILABILITY:
 			this->UpdateContactStatus(hContact, contact);
+			this->UpdateChatUserStatus(contact);
 			break;
 
 		//case CContact::P_AVATAR_IMAGE:

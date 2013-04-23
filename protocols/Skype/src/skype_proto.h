@@ -294,7 +294,7 @@ protected:
 	HANDLE	AddChatRoom(CConversation::Ref conversation);
 
 	wchar_t *CSkypeProto::GetChatUsers(const wchar_t *cid);
-	void CSkypeProto::UpdateChatUserStatus(const wchar_t *sid, const WORD status = ID_STATUS_OFFLINE);
+	void CSkypeProto::UpdateChatUserStatus(CContact::Ref contact);
 
 	void ChatValidateContact(HANDLE hItem, HWND hwndList, const wchar_t *contacts);
 	void ChatPrepare(HANDLE hItem, HWND hwndList, const wchar_t *contacts);
@@ -309,7 +309,7 @@ protected:
 
 	void JoinToChat(CConversation::Ref conversation, bool showWindow = true);
 
-	void RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt, const DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
+	void RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt, DWORD flags = 0x0001, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
 	void SendChatMessage(const wchar_t *cid, const wchar_t *sid, const wchar_t *message);
 	void AddChatContact(const wchar_t *cid, const wchar_t *sid, const wchar_t *group, const WORD status = ID_STATUS_ONLINE);
 	void KickChatContact(const wchar_t *cid, const wchar_t *sid);
