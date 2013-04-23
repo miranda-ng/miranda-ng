@@ -20,7 +20,7 @@ HINSTANCE hinstance;
 
 HANDLE hPreBuildHook = NULL, hAddEventHook = NULL, hOptHook = NULL, hCheckDefHook = NULL, hOnPreShutdown = NULL, hToggleEnable = NULL, hToggleAutoanswer = NULL;
 HGENMENU hToggle, hEnableMenu;
-BOOL fEnabled, gbVarsServiceExist = FALSE;
+BOOL gbVarsServiceExist = FALSE;
 INT interval;
 int hLangpack;
 
@@ -60,17 +60,13 @@ BOOL WINAPI DllMain(HINSTANCE hinst,DWORD fdwReason,LPVOID lpvReserved)
 
 INT_PTR ToggleEnable(WPARAM wParam, LPARAM lParam)
 {
+	BOOL fEnabled = db_get_b(NULL, protocolname, KEY_ENABLED, 1);
+	db_set_b(NULL, protocolname, KEY_ENABLED, !fEnabled);
+
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_NAME|CMIM_ICON|CMIF_TCHAR;
-	fEnabled = !fEnabled;
-	if (fEnabled) {
-		mi.ptszName = LPGENT("Disable Auto&reply");
-		mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
-	}
-	else {
-		mi.ptszName = LPGENT("Enable Auto&reply");
-		mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF));
-	}
+	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
+	mi.ptszName = !fEnabled ? LPGENT("Disable Auto&reply") : LPGENT("Enable Auto&reply");
+	mi.hIcon = !fEnabled ? LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)) : LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
 	Menu_ModifyItem(hEnableMenu, &mi);
 	return 0;
 }
@@ -78,13 +74,12 @@ INT_PTR ToggleEnable(WPARAM wParam, LPARAM lParam)
 INT_PTR Toggle(WPARAM w, LPARAM l)
 {
 	HANDLE hContact = (HANDLE)w;
-	BOOL on = 0;
-	on = !db_get_b(hContact, protocolname, "TurnedOn", 0);
-	db_set_b(hContact, protocolname, "TurnedOn", on ? 1 : 0);
-	on = on?0:1;
+	BOOL on = !db_get_b(hContact, protocolname, "TurnedOn", 0);
+	db_set_b(hContact, protocolname, "TurnedOn", on);
+	on = !on;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_NAME |CMIM_ICON | CMIF_TCHAR;
+	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	mi.ptszName = on ? LPGENT("Turn off Autoanswer") : LPGENT("Turn on Autoanswer");
 	mi.hIcon = on ? LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)) : LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
 	Menu_ModifyItem(hToggle, &mi);
@@ -99,7 +94,7 @@ INT OnPreBuildContactMenu(WPARAM w, LPARAM l)
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	BOOL  on = !db_get_b(hContact, protocolname, "TurnedOn", 0);
 	mi.ptszName = on ? LPGENT("Turn off Autoanswer") : LPGENT("Turn on Autoanswer");
-	mi.hIcon = on?LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)):LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
+	mi.hIcon = on ? LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)) : LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
 	Menu_ModifyItem(hToggle, &mi);
 	return 0;
 }
@@ -112,7 +107,6 @@ INT CheckDefaults(WPARAM, LPARAM)
 
 	UnhookEvent(hCheckDefHook);
 
-	fEnabled=!db_get_b(NULL,protocolname,KEY_ENABLED,1)==1;
 	interval=db_get_w(NULL,protocolname,KEY_REPEATINTERVAL,300);
 
 	if (db_get_ts(NULL,protocolname,KEY_HEADING,&dbv))
@@ -146,7 +140,13 @@ INT CheckDefaults(WPARAM, LPARAM)
 	if (ServiceExists(MS_VARS_FORMATSTRING))
 		gbVarsServiceExist = TRUE;
 
-	ToggleEnable(0,0);
+	BOOL fEnabled = db_get_b(NULL, protocolname, KEY_ENABLED, 1);
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
+	mi.ptszName = fEnabled ? LPGENT("Disable Auto&reply") : LPGENT("Enable Auto&reply");
+	mi.hIcon = fEnabled ? LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)) : LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
+	Menu_ModifyItem(hEnableMenu, &mi);
+
 	return 0;
 }
 
@@ -188,6 +188,7 @@ INT addEvent(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	HANDLE hDBEvent = (HANDLE)lParam;
+	BOOL fEnabled = db_get_b(NULL, protocolname, KEY_ENABLED, 1);
 
 	if (!fEnabled || !hContact || !hDBEvent)
 		return FALSE;	/// unspecifyed error

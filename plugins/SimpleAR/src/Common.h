@@ -23,8 +23,8 @@
 
 //General
 extern HINSTANCE hinstance;
-extern BOOL fEnabled;
 extern INT interval;
-extern TCHAR* ptszDefaultMsg[6];
+extern TCHAR *ptszDefaultMsg[6];
+extern HGENMENU hEnableMenu;
 
-extern INT OptInit(WPARAM wParam,LPARAM lParam);
+extern INT OptInit(WPARAM wParam, LPARAM lParam);

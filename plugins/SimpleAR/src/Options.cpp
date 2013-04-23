@@ -87,18 +87,21 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			{
 				case PSN_APPLY:
 				{
-					INT size;
 					TCHAR ptszText[1024];
-					char szStatus[6]={0};
 					BOOL translated;
 
-					fEnabled=IsDlgButtonChecked(hwndDlg,IDC_ENABLEREPLIER)==1;
-					db_set_b(NULL,protocolname,KEY_ENABLED,(BYTE)fEnabled);
+					BOOL fEnabled = IsDlgButtonChecked(hwndDlg, IDC_ENABLEREPLIER) == 1;
+					db_set_b(NULL, protocolname, KEY_ENABLED, (BYTE)fEnabled);
+					CLISTMENUITEM mi = { sizeof(mi) };
+					mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
+					mi.ptszName = fEnabled ? LPGENT("Disable Auto&reply") : LPGENT("Enable Auto&reply");
+					mi.hIcon = fEnabled ? LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON)) : LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF));
+					Menu_ModifyItem(hEnableMenu, &mi);
 
-					GetDlgItemText(hwndDlg,IDC_HEADING,ptszText,SIZEOF(ptszText));
-					db_set_ts(NULL,protocolname,KEY_HEADING,ptszText);
+					GetDlgItemText(hwndDlg, IDC_HEADING, ptszText, SIZEOF(ptszText));
+					db_set_ts(NULL, protocolname, KEY_HEADING, ptszText);
 
-					size=GetDlgItemInt(hwndDlg,IDC_INTERVAL,&translated,FALSE);
+					INT size = GetDlgItemInt(hwndDlg, IDC_INTERVAL, &translated, FALSE);
 					if (translated)
 						interval=size*60;
 					db_set_w(NULL,protocolname,KEY_REPEATINTERVAL,interval);
@@ -112,14 +115,15 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							continue;
 						else
 						{
-						mir_snprintf(szStatus,SIZEOF(szStatus),"%d",c);
+							char szStatus[6] = {0};
+							mir_snprintf(szStatus, SIZEOF(szStatus), "%d", c);
 
-						if (c<40077 && ptszMessage[c-ID_STATUS_ONLINE-1])
-							db_set_ts(NULL,protocolname,szStatus,ptszMessage[c-ID_STATUS_ONLINE-1]);
-						else if (c>40078 && ptszMessage[c-ID_STATUS_ONLINE-3])
-							db_set_ts(NULL,protocolname,szStatus,ptszMessage[c-ID_STATUS_ONLINE-3]);
-						else
-							db_unset(NULL,protocolname,szStatus);
+							if (c<40077 && ptszMessage[c-ID_STATUS_ONLINE-1])
+								db_set_ts(NULL,protocolname,szStatus,ptszMessage[c-ID_STATUS_ONLINE-1]);
+							else if (c>40078 && ptszMessage[c-ID_STATUS_ONLINE-3])
+								db_set_ts(NULL,protocolname,szStatus,ptszMessage[c-ID_STATUS_ONLINE-3]);
+							else
+								db_unset(NULL,protocolname,szStatus);
 						}
 					}
 					return TRUE;
