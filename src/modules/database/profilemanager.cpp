@@ -318,11 +318,11 @@ BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 		}
 
 		item2.iSubItem = 3;
-		item2.pszText = trtrim(_tctime(&statbuf.st_ctime));
+		item2.pszText = rtrimt(_tctime(&statbuf.st_ctime));
 		SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item2);
 
 		item2.iSubItem = 4;
-		item2.pszText = trtrim(_tctime(&statbuf.st_mtime));
+		item2.pszText = rtrimt(_tctime(&statbuf.st_mtime));
 		SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item2);
 	}
 	return TRUE;

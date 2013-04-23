@@ -103,7 +103,7 @@ mir_vsntprintf                @100
 mir_wstrdup                   @101
 rtrim                         @102
 wildcmp                       @103
-wrtrim                        @104
+rtrimw                        @104
 mir_snprintf                  @105
 mir_sntprintf                 @106
 db_unset                      @107

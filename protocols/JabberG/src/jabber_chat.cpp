@@ -1510,7 +1510,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 	switch (gch->pDest->iType) {
 	case GC_USER_MESSAGE:
 		if (gch->pszText && lstrlen(gch->ptszText) > 0) {
-			trtrim(gch->ptszText);
+			rtrimt(gch->ptszText);
 
 			if (m_bJabberOnline) {
 				TCHAR* buf = NEWTSTR_ALLOCA(gch->ptszText);

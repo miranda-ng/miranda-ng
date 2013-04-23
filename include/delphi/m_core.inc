@@ -555,8 +555,8 @@ procedure mir_sha1_hash(dataIn:pmir_sha1_byte_t; len:int;hashout:SHA1Hash); stdc
 
 function rtrim(str:pAnsiChar):pAnsiChar; stdcall;
                external CoreDLL name 'rtrim';
-function wrtrim(str:pWideChar):pWideChar; stdcall;
-                external CoreDLL name 'wrtrim';
+function rtrimw(str:pWideChar):pWideChar; stdcall;
+                external CoreDLL name 'rtrimw';
 
 // returns pointer to the beginning of string
 function ltrim(str:pAnsiChar):pAnsiChar; stdcall;

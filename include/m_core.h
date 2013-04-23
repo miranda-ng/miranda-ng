@@ -454,18 +454,12 @@ MIR_CORE_DLL(void) mir_sha1_hash(mir_sha1_byte_t *dataIn, int len, mir_sha1_byte
 // strings
 
 MIR_CORE_DLL(char*)  rtrim(char *str);
-MIR_CORE_DLL(WCHAR*) wrtrim(WCHAR *str);
+MIR_CORE_DLL(WCHAR*) rtrimw(WCHAR *str);
 
-#ifdef _UNICODE
-	#define trtrim wrtrim
-#else
-	#define trtrim rtrim
-#endif
-
-MIR_CORE_DLL(char*) ltrim(char *str);   // returns pointer to the beginning of string
+MIR_CORE_DLL(char*)  ltrim(char *str);   // returns pointer to the beginning of string
 MIR_CORE_DLL(WCHAR*) ltrimw(WCHAR *str);
 
-MIR_CORE_DLL(char*) ltrimp(char *str);  // returns pointer to the trimmed portion of string
+MIR_CORE_DLL(char*)  ltrimp(char *str);  // returns pointer to the trimmed portion of string
 MIR_CORE_DLL(WCHAR*) ltrimpw(WCHAR *str);
 
 MIR_CORE_DLL(int) wildcmp(const char *name, const char *mask);
@@ -503,6 +497,7 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 	#define mir_tstrndup mir_wstrndup
 	#define replaceStrT  replaceStrW
 
+	#define rtrimt rtrimw
 	#define ltrimt ltrimw
 	#define ltrimpt ltrimpw
 
@@ -523,6 +518,7 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 	#define mir_tstrndup mir_strndup
 	#define replaceStrT  replaceStr
 	
+	#define rtrimt rtrim
 	#define ltrimt ltrim
 	#define ltrimpt ltrimp
 

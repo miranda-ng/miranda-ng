@@ -687,7 +687,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else if (IsDlgButtonChecked(hwndDlg, IDC_BYPROTOID)) {
 					TCHAR str[256];
 					GetDlgItemText(hwndDlg, IDC_PROTOID, str, SIZEOF(str));
-					trtrim(str);
+					rtrimt(str);
 					if (str[0] == 0)
 						MessageBox(hwndDlg, sttErrMsg, sttErrTitle, MB_OK);
 					else
@@ -696,7 +696,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else if (IsDlgButtonChecked(hwndDlg, IDC_BYEMAIL)) {
 					TCHAR str[256];
 					GetDlgItemText(hwndDlg, IDC_EMAIL, str, SIZEOF(str));
-					trtrim(str);
+					rtrimt(str);
 					if (str[0] == 0)
 						MessageBox(hwndDlg, sttErrMsg, sttErrTitle, MB_OK);
 					else
@@ -755,7 +755,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else {
 					TCHAR str[256];
 					GetDlgItemText(hwndDlg, IDC_PROTOID, str, SIZEOF(str));
-					if (*trtrim(str) == 0)
+					if (*rtrimt(str) == 0)
 						break;
 
 					PROTOSEARCHRESULT psr = {0};
