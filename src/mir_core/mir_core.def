@@ -154,3 +154,8 @@ db_event_last                 @151
 db_event_markRead             @152
 db_event_next                 @153
 db_event_prev                 @154
+ltrimw                        @155
+ltrimpw                       @156
+wildcmpw                      @157
+wildcmpi                      @158
+wildcmpiw                     @159

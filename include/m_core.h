@@ -463,19 +463,26 @@ MIR_CORE_DLL(WCHAR*) wrtrim(WCHAR *str);
 #endif
 
 MIR_CORE_DLL(char*) ltrim(char *str);   // returns pointer to the beginning of string
+MIR_CORE_DLL(WCHAR*) ltrimw(WCHAR *str);
+
 MIR_CORE_DLL(char*) ltrimp(char *str);  // returns pointer to the trimmed portion of string
+MIR_CORE_DLL(WCHAR*) ltrimpw(WCHAR *str);
 
-MIR_CORE_DLL(int)   wildcmp(char *name, char *mask);
+MIR_CORE_DLL(int) wildcmp(const char *name, const char *mask);
+MIR_CORE_DLL(int) wildcmpw(const WCHAR *name, const WCHAR *mask);
 
-__forceinline char* lrtrim(char* str) { return ltrim(rtrim(str)); };
-__forceinline char* lrtrimp(char* str) { return ltrimp(rtrim(str)); };
+MIR_CORE_DLL(int) wildcmpi(const char *name, const char *mask);
+MIR_CORE_DLL(int) wildcmpiw(const WCHAR *name, const WCHAR *mask);
+
+__forceinline char* lrtrim(char *str) { return ltrim(rtrim(str)); };
+__forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 
 #if defined( __cplusplus )
-	MIR_CORE_DLL(char*) replaceStr( char* &dest, const char *src );
-	MIR_CORE_DLL(WCHAR*) replaceStrW( WCHAR* &dest, const WCHAR *src );
+	MIR_CORE_DLL(char*) replaceStr(char* &dest, const char *src);
+	MIR_CORE_DLL(WCHAR*) replaceStrW(WCHAR* &dest, const WCHAR *src);
 #else
-	MIR_CORE_DLL(char*) replaceStr( char **dest, const char *src );
-	MIR_CORE_DLL(WCHAR*) replaceStrW( WCHAR **dest, const WCHAR *src );
+	MIR_CORE_DLL(char*) replaceStr(char **dest, const char *src);
+	MIR_CORE_DLL(WCHAR*) replaceStrW(WCHAR **dest, const WCHAR *src);
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -495,6 +502,12 @@ __forceinline char* lrtrimp(char* str) { return ltrimp(rtrim(str)); };
 	#define mir_tstrdup  mir_wstrdup
 	#define mir_tstrndup mir_wstrndup
 	#define replaceStrT  replaceStrW
+
+	#define ltrimt ltrimw
+	#define ltrimpt ltrimpw
+
+	#define wildcmpt wildcmpw
+	#define wildcmpit wildcmpiw
 #else
 	#define mir_t2a(s) mir_strdup(s)
 	#define mir_a2t(s) mir_strdup(s)
@@ -509,6 +522,12 @@ __forceinline char* lrtrimp(char* str) { return ltrimp(rtrim(str)); };
 	#define mir_tstrdup  mir_strdup
 	#define mir_tstrndup mir_strndup
 	#define replaceStrT  replaceStr
+	
+	#define ltrimt ltrim
+	#define ltrimpt ltrimp
+
+	#define wildcmpt wildcmp
+	#define wildcmpit wildcmpi
 #endif
 
 MIR_CORE_DLL(WCHAR*) mir_a2u_cp(const char* src, int codepage);

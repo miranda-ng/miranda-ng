@@ -561,12 +561,23 @@ function wrtrim(str:pWideChar):pWideChar; stdcall;
 // returns pointer to the beginning of string
 function ltrim(str:pAnsiChar):pAnsiChar; stdcall;
                external CoreDLL name 'ltrim';
+function ltrimw(str:pWideChar):pWideChar; stdcall;
+               external CoreDLL name 'ltrimw';
 // returns pointer to the trimmed portion of string
 function ltrimp(str:pAnsiChar):pAnsiChar; stdcall;
                 external CoreDLL name 'ltrimp';
+function ltrimpw(str:pWideChar):pWideChar; stdcall;
+                external CoreDLL name 'ltrimpw';
 
 function wildcmp(name:pAnsiChar; mask:pAnsiChar):int; stdcall;
                  external CoreDLL name 'wildcmp';
+function wildcmpw(name:pWideChar; mask:pWideChar):int; stdcall;
+                 external CoreDLL name 'wildcmpw';
+
+function wildcmpi(name:pAnsiChar; mask:pAnsiChar):int; stdcall;
+                 external CoreDLL name 'wildcmpi';
+function wildcmpiw(name:pWideChar; mask:pWideChar):int; stdcall;
+                 external CoreDLL name 'wildcmpiw';
 
 // mir_free dest, mir_strdup src to dest
 function replaceStr(var dest:pAnsiChar; const src:pAnsiChar):pAnsiChar; stdcall;

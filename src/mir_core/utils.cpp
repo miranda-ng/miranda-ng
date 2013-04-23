@@ -61,7 +61,7 @@ MIR_CORE_DLL(WCHAR*) wrtrim(WCHAR *str)
 	if (str == NULL)
 		return NULL;
 
-	WCHAR* p = _tcschr(str, 0);
+	WCHAR *p = _tcschr(str, 0);
 	while (--p >= str) {
 		switch (*p) {
 		case ' ': case '\t': case '\n': case '\r':
@@ -90,12 +90,29 @@ MIR_CORE_DLL(char*) ltrim(char* str)
 	}
 }
 
-MIR_CORE_DLL(char*) ltrimp(char* str)
+MIR_CORE_DLL(WCHAR*) ltrimw(WCHAR *str)
 {
 	if (str == NULL)
 		return NULL;
 
-	char* p = str;
+	WCHAR *p = str;
+	for (;;) {
+		switch (*p) {
+		case ' ': case '\t': case '\n': case '\r':
+			++p; break;
+		default:
+			memmove(str, p, sizeof(WCHAR)*(wcslen(p) + 1));
+			return str;
+		}
+	}
+}
+
+MIR_CORE_DLL(char*) ltrimp(char *str)
+{
+	if (str == NULL)
+		return NULL;
+
+	char *p = str;
 	for (;;) {
 		switch (*p) {
 		case ' ': case '\t': case '\n': case '\r':
@@ -106,20 +123,92 @@ MIR_CORE_DLL(char*) ltrimp(char* str)
 	}
 }
 
-MIR_CORE_DLL(int) wildcmp(char * name, char * mask)
+MIR_CORE_DLL(WCHAR*) ltrimpw(WCHAR *str)
 {
-	char * last='\0';
+	if (str == NULL)
+		return NULL;
+
+	WCHAR *p = str;
+	for (;;) {
+		switch (*p) {
+		case ' ': case '\t': case '\n': case '\r':
+			++p; break;
+		default:
+			return p;
+		}
+	}
+}
+
+MIR_CORE_DLL(int) wildcmp(const char *name, const char *mask)
+{
+	const char *last='\0';
 	for (;; mask++, name++) {
 		if (*mask != '?' && *mask != *name) break;
 		if (*name == '\0') return ((BOOL)!*mask);
 	}
 	if (*mask != '*') return FALSE;
-	for (;; mask++, name++){
+	for (;; mask++, name++) {
 		while (*mask == '*') {
 			last = mask++;
 			if (*mask == '\0') return ((BOOL)!*mask);   /* true */
 		}
 		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
 		if (*mask != '?' && *mask != *name) name -= (size_t)(mask - last) - 1, mask = last;
+	}
+}
+
+MIR_CORE_DLL(int) wildcmpw(const WCHAR *name, const WCHAR *mask)
+{
+	const WCHAR* last = '\0';
+	for (;; mask++, name++) {
+		if (*mask != '?' && *mask != *name) break;
+		if (*name == '\0') return ((BOOL)!*mask);
+	}
+	if (*mask != '*') return FALSE;
+	for (;; mask++, name++) {
+		while(*mask == '*') {
+			last = mask++;
+			if (*mask == '\0') return ((BOOL)!*mask);   /* true */
+		}
+		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
+		if (*mask != '?' && *mask != *name) name -= (size_t)(mask - last) - 1, mask = last;
+	}
+}
+
+#define _qtoupper(_c) (((_c) >= 'a' && (_c) <= 'z')?((_c)-('a'+'A')):(_c))
+
+MIR_CORE_DLL(int) wildcmpi(const char *name, const char *mask)
+{
+	const char *last = NULL;
+	for (;; mask++, name++) {
+		if (*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
+		if (*name == '\0') return ((BOOL)!*mask);
+	}
+	if (*mask != '*') return FALSE;
+	for (;; mask++, name++) {
+		while(*mask == '*') {
+			last = mask++;
+			if (*mask == '\0') return ((BOOL)!*mask);   /* true */
+		}
+		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
+		if (*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name)) name -= (size_t)(mask - last) - 1, mask = last;
+	}
+}
+
+MIR_CORE_DLL(int) wildcmpiw(const WCHAR *name, const WCHAR *mask)
+{
+	const WCHAR* last = NULL;
+	for (;; mask++, name++) {
+		if (*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
+		if (*name == '\0') return ((BOOL)!*mask);
+	}
+	if (*mask != '*') return FALSE;
+	for (;; mask++, name++) {
+		while(*mask == '*') {
+			last = mask++;
+			if (*mask == '\0') return ((BOOL)!*mask);   /* true */
+		}
+		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
+		if (*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name)) name -= (size_t)(mask - last) - 1, mask = last;
 	}
 }
