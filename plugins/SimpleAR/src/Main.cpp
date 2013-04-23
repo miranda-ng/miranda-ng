@@ -18,7 +18,6 @@ Copyright (C) 2000-2  Richard Hughes, Roland Rabien & Tristan Van de Vreede
 
 HINSTANCE hinstance;
 
-HANDLE hPreBuildHook = NULL, hAddEventHook = NULL, hOptHook = NULL, hCheckDefHook = NULL, hOnPreShutdown = NULL, hToggleEnable = NULL, hToggleAutoanswer = NULL;
 HGENMENU hToggle, hEnableMenu;
 BOOL gbVarsServiceExist = FALSE;
 INT interval;
@@ -44,7 +43,7 @@ PLUGININFOEX pluginInfoEx = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {46BF191F-8DFB-4656-88B2-4C20BE4CFA44}
-	{0x46bf191f, 0x8dfb, 0x4656, { 0x88, 0xb2, 0x4c, 0x20, 0xbe, 0x4c, 0xfa, 0x44}}
+	{0x46bf191f, 0x8dfb, 0x4656, {0x88, 0xb2, 0x4c, 0x20, 0xbe, 0x4c, 0xfa, 0x44}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
@@ -52,21 +51,21 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfoEx;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinst,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hinstance=hinst;
+	hinstance = hinst;
 	return TRUE;
 }
 
 INT_PTR ToggleEnable(WPARAM wParam, LPARAM lParam)
 {
-	BOOL fEnabled = db_get_b(NULL, protocolname, KEY_ENABLED, 1);
-	db_set_b(NULL, protocolname, KEY_ENABLED, !fEnabled);
+	BOOL fEnabled = !db_get_b(NULL, protocolname, KEY_ENABLED, 1);
+	db_set_b(NULL, protocolname, KEY_ENABLED, fEnabled);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
-	mi.ptszName = !fEnabled ? LPGENT("Disable Auto&reply") : LPGENT("Enable Auto&reply");
-	mi.hIcon = !fEnabled ? LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)) : LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
+	mi.ptszName = fEnabled ? LPGENT("Disable Auto&reply") : LPGENT("Enable Auto&reply");
+	mi.icolibItem = fEnabled ? iconList[0].hIcolib : iconList[1].hIcolib;
 	Menu_ModifyItem(hEnableMenu, &mi);
 	return 0;
 }
@@ -81,7 +80,7 @@ INT_PTR Toggle(WPARAM w, LPARAM l)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	mi.ptszName = on ? LPGENT("Turn off Autoanswer") : LPGENT("Turn on Autoanswer");
-	mi.hIcon = on ? LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)) : LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
+	mi.icolibItem = on ? iconList[0].hIcolib : iconList[1].hIcolib;
 	Menu_ModifyItem(hToggle, &mi);
 	return 0;
 }
@@ -94,7 +93,7 @@ INT OnPreBuildContactMenu(WPARAM w, LPARAM l)
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	BOOL  on = !db_get_b(hContact, protocolname, "TurnedOn", 0);
 	mi.ptszName = on ? LPGENT("Turn off Autoanswer") : LPGENT("Turn on Autoanswer");
-	mi.hIcon = on ? LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)) : LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
+	mi.icolibItem = on ? iconList[0].hIcolib : iconList[1].hIcolib;
 	Menu_ModifyItem(hToggle, &mi);
 	return 0;
 }
@@ -102,10 +101,8 @@ INT OnPreBuildContactMenu(WPARAM w, LPARAM l)
 INT CheckDefaults(WPARAM, LPARAM)
 {
 	DBVARIANT dbv;
-	TCHAR* ptszDefault;
+	TCHAR *ptszDefault;
 	char szStatus[6]={0};
-
-	UnhookEvent(hCheckDefHook);
 
 	interval=db_get_w(NULL,protocolname,KEY_REPEATINTERVAL,300);
 
@@ -136,7 +133,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 				db_free(&dbv);
 		}
 	}
-	hPreBuildHook = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildContactMenu);
 	if (ServiceExists(MS_VARS_FORMATSTRING))
 		gbVarsServiceExist = TRUE;
 
@@ -144,7 +141,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	mi.ptszName = fEnabled ? LPGENT("Disable Auto&reply") : LPGENT("Enable Auto&reply");
-	mi.hIcon = fEnabled ? LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)) : LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
+	mi.icolibItem = fEnabled ? iconList[0].hIcolib : iconList[1].hIcolib;
 	Menu_ModifyItem(hEnableMenu, &mi);
 
 	return 0;
@@ -300,21 +297,18 @@ INT addEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT OnPreShutdown(WPARAM wParam, LPARAM lParam)
+IconItemT iconList[] =
 {
-	UnhookEvent(hAddEventHook);
-	UnhookEvent(hPreBuildHook);
-	UnhookEvent(hOptHook);
-	UnhookEvent(hOnPreShutdown);
-	return 0;
-}
+	{ LPGENT("Disable Auto&reply"), "Disable Auto&reply", IDI_OFF },
+	{ LPGENT("Enable Auto&reply"), "Enable Auto&reply", IDI_ON }
+};
 
 extern "C" int __declspec(dllexport)Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	hToggleEnable = CreateServiceFunction(protocolname"/ToggleEnable", ToggleEnable);
-	hToggleAutoanswer = CreateServiceFunction(protocolname"/ToggleAutoanswer",Toggle);
+	CreateServiceFunction(protocolname"/ToggleEnable", ToggleEnable);
+	CreateServiceFunction(protocolname"/ToggleAutoanswer",Toggle);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 500090000;
@@ -328,17 +322,16 @@ extern "C" int __declspec(dllexport)Load(void)
 	hToggle = Menu_AddContactMenuItem(&mi);
 
 	//add hook
-	hOptHook = HookEvent(ME_OPT_INITIALISE, OptInit);
-	hAddEventHook = HookEvent(ME_DB_EVENT_ADDED, addEvent);
-	hCheckDefHook = HookEvent(ME_SYSTEM_MODULESLOADED, CheckDefaults);
-	hOnPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_DB_EVENT_ADDED, addEvent);
+	HookEvent(ME_SYSTEM_MODULESLOADED, CheckDefaults);
+
+	Icon_RegisterT(hinstance, _T("Simple Auto Replier"), iconList, SIZEOF(iconList));
 
 	return 0;
 }
 
 extern "C" __declspec(dllexport)int Unload(void)
 {
-	DestroyServiceFunction(hToggleEnable);
-	DestroyServiceFunction(hToggleAutoanswer);
 	return 0;
 }

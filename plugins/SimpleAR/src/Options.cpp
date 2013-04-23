@@ -95,7 +95,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					CLISTMENUITEM mi = { sizeof(mi) };
 					mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 					mi.ptszName = fEnabled ? LPGENT("Disable Auto&reply") : LPGENT("Enable Auto&reply");
-					mi.hIcon = fEnabled ? LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON)) : LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF));
+					mi.icolibItem = fEnabled ? iconList[0].hIcolib : iconList[1].hIcolib;
 					Menu_ModifyItem(hEnableMenu, &mi);
 
 					GetDlgItemText(hwndDlg, IDC_HEADING, ptszText, SIZEOF(ptszText));
