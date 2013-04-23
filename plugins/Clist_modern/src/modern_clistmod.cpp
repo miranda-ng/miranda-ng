@@ -36,11 +36,6 @@ pfnMyGetMonitorInfo    MyGetMonitorInfo = NULL;
 
 int OnLoadLangpack(WPARAM, LPARAM);
 
-static HANDLE hookSystemShutdown_CListMod = NULL;
-HANDLE  hookOptInitialise_CList = NULL,
-        hookOptInitialise_Skin = NULL,
-        hookContactAdded_CListSettings = NULL;
-
 int CListMod_HideWindow(HWND hwndContactList, int mode);
 
 void GroupMenus_Init(void);
@@ -227,15 +222,15 @@ INT_PTR SvcApplySkin(WPARAM wParam, LPARAM lParam);
 HRESULT  CluiLoadModule()
 {
 	InitDisplayNameCache();
-	hookSystemShutdown_CListMod  = HookEvent(ME_SYSTEM_SHUTDOWN,CListMod_ContactListShutdownProc);
-	hookOptInitialise_CList      = HookEvent(ME_OPT_INITIALISE,CListOptInit);
-	hookOptInitialise_Skin       = HookEvent(ME_OPT_INITIALISE,SkinOptInit);
+	HookEvent(ME_SYSTEM_SHUTDOWN,CListMod_ContactListShutdownProc);
+	HookEvent(ME_OPT_INITIALISE,CListOptInit);
+	HookEvent(ME_OPT_INITIALISE,SkinOptInit);
 
 	CreateServiceFunction("ModernSkinSel/Active", SvcActiveSkin);
 	CreateServiceFunction("ModernSkinSel/Preview", SvcPreviewSkin);
 	CreateServiceFunction("ModernSkinSel/Apply", SvcApplySkin);
 	
-	hookContactAdded_CListSettings = HookEvent(ME_DB_CONTACT_ADDED,ContactAdded);	
+	HookEvent(ME_DB_CONTACT_ADDED,ContactAdded);	
 	CreateServiceFunction(MS_CLIST_TRAYICONPROCESSMESSAGE,cli_TrayIconProcessMessage);
 	CreateServiceFunction(MS_CLIST_PAUSEAUTOHIDE,TrayIconPauseAutoHide);
 	CreateServiceFunction(MS_CLIST_CONTACTCHANGEGROUP,ContactChangeGroup);

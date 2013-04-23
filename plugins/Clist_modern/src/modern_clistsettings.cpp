@@ -448,7 +448,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 		if ( !strcmp(cws->szSetting,"IsSubcontact"))
 			PostMessage(pcli->hwndContactTree,CLM_AUTOREBUILD, 0, 0);
 
-		if ( !mir_strcmp(cws->szSetting, "Status") || wildcmp((char*)cws->szSetting, (char*) "Status?",2)) {
+		if ( !mir_strcmp(cws->szSetting, "Status") || wildcmp(cws->szSetting, "Status?")) {
 			if (g_szMetaModuleName && !mir_strcmp(cws->szModule,g_szMetaModuleName) && mir_strcmp(cws->szSetting, "Status")) {
 				int res = 0;
 				if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled) 

@@ -203,15 +203,13 @@ int     Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam);
 void    DrawBackGround(HWND hwnd,HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColour, DWORD backgroundBmpUse );
 HRESULT BackgroundsLoadModule();
 int     BackgroundsUnloadModule();
-BOOL    wildcmp(const char *name, const char *mask, BYTE option);                              //mod_skin_selector.c
-BOOL    wildcmpi(const char *name, const char *mask);                                       //mod_skin_selector.c
-BOOL    wildcmpi(const WCHAR *name, const WCHAR *mask);                                       //mod_skin_selector.c
 INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);   //SkinEditor.c
 INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);   //RowTemplate.c
 BOOL    FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles * dat);   //GenMenu.c
 BOOL    MatchMask(char *name, char *mask);                                    //mod_skin_selector.c
 char*   GetContactCachedProtocol(HANDLE hContact);                                 //clistsettings.c
 char*   GetParamN(char *string, char *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces);  //mod_skin_selector.c
+WCHAR*  GetParamN(WCHAR *string, WCHAR *buf, int buflen, BYTE paramN, WCHAR Delim, BOOL SkipSpaces);
 DWORD   CompareContacts2_getLMTime(HANDLE u);                                    //contact.c
 DWORD   mod_CalcHash(const char * a);                                          //mod_skin_selector.c
 HICON   cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status);            //clistmod.c

@@ -62,71 +62,6 @@ int SkinSelector_DeleteMask(MODERNMASK *mm)
 	return 1;
 }
 
-#define _qtoupper(_c) (((_c) >= 'a' && (_c) <= 'z')?((_c)-('a'+'A')):(_c))
-
-BOOL wildcmpi(const WCHAR *name, const WCHAR *mask)
-{
-	const WCHAR* last = NULL;
-	for (;; mask++, name++)
-	{
-		if (*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
-		if (*name == '\0') return ((BOOL)!*mask);
-	}
-	if (*mask != '*') return FALSE;
-	for (;; mask++, name++)
-	{
-		while(*mask == '*')
-		{
-			last = mask++;
-			if (*mask == '\0') return ((BOOL)!*mask);   /* true */
-		}
-		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
-		if (*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name)) name -= (size_t)(mask - last) - 1, mask = last;
-	}
-}
-
-BOOL wildcmpi(const char *name, const char *mask)
-{
-	const char *last = NULL;
-	for (;; mask++, name++)
-	{
-		if (*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
-		if (*name == '\0') return ((BOOL)!*mask);
-	}
-	if (*mask != '*') return FALSE;
-	for (;; mask++, name++)
-	{
-		while(*mask == '*')
-		{
-			last = mask++;
-			if (*mask == '\0') return ((BOOL)!*mask);   /* true */
-		}
-		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
-		if (*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name)) name -= (size_t)(mask - last) - 1, mask = last;
-	}
-}
-
-BOOL __inline wildcmp(const char * name, const char * mask, BYTE option)
-{
-	const char * last = '\0';
-	for (;; mask++, name++)
-	{
-		if (*mask != '?' && *mask != *name) break;
-		if (*name == '\0') return ((BOOL)!*mask);
-	}
-	if (*mask != '*') return FALSE;
-	for (;; mask++, name++)
-	{
-		while(*mask == '*')
-		{
-			last = mask++;
-			if (*mask == '\0') return ((BOOL)!*mask);   /* true */
-		}
-		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
-		if (*mask != '?' && *mask != *name) name -= (size_t)(mask - last) - 1, mask = last;
-	}
-}
-
 BOOL MatchMask(char * name, char * mask)
 {
 	if ( !mask || !name) return mask == name;
@@ -488,7 +423,7 @@ BOOL CompareModernMask(MODERNMASK *mmValue,MODERNMASK *mmTemplate)
 			{
 				if (mmValue->pl_Params[pVal].dwId == ph)
 				{
-					if (wildcmp(mmValue->pl_Params[pVal].szValue,p.szValue,0)){finded = 1; break;}
+					if (wildcmp(mmValue->pl_Params[pVal].szValue,p.szValue)){finded = 1; break;}
 					else {finded = 0; break;}
 				}
 				pVal++;
@@ -574,6 +509,40 @@ TCHAR * GetParamNT(char * string, TCHAR * buf, int buflen, BYTE paramN, char Del
 	GetParamN(string, ansibuf, buflen/sizeof(TCHAR), paramN, Delim, SkipSpaces);
 	MultiByteToWideChar(CP_UTF8, 0, ansibuf,-1,buf,buflen);
 	mir_free(ansibuf);
+	return buf;
+}
+
+WCHAR* GetParamN(WCHAR *string, WCHAR *buf, int buflen, BYTE paramN, WCHAR Delim, BOOL SkipSpaces)
+{
+	int i=0;
+	DWORD start = 0;
+	DWORD end = 0;
+	DWORD CurentCount = 0;
+	DWORD len;
+	while (i < lstrlen(string))
+	{
+		if (string[i] == Delim)
+		{
+			if (CurentCount == paramN) break;
+			start = i+1;
+			CurentCount++;
+		}
+		i++;
+	}
+	if (CurentCount == paramN)
+	{
+		if (SkipSpaces)
+		{ //remove spaces
+			while (string[start] == ' ' && (int)start < lstrlen(string))
+				start++;
+			while (i>1 && string[i-1] == ' ' && i>(int)start)
+				i--;
+		}
+		len = ((int)(i-start) < buflen)?i-start:buflen;
+		_tcsncpy(buf, string+start, len);
+		buf[len] = '\0';
+	}
+	else buf[0] = '\0';
 	return buf;
 }
 

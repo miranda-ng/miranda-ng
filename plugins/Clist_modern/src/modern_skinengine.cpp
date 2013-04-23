@@ -184,9 +184,9 @@ HRESULT IniParser::WriteStrToDb( const char * szSection, const char * szName, co
 	if ( This->_SecCheck)
 	{
 		//TODO check security here
-		if ( wildcmp( szSection,"Skin_Description_Section",1 )) return S_OK;
+		if ( wildcmp( szSection,"Skin_Description_Section")) return S_OK;
 	}
-	if (( This->_Flags == IniParser::FLAG_ONLY_OBJECTS ) && !wildcmp( szSection, DEFAULTSKINSECTION,1 ))
+	if (( This->_Flags == IniParser::FLAG_ONLY_OBJECTS ) && !wildcmp( szSection, DEFAULTSKINSECTION))
 		return S_OK;					 // skip not objects
 
 
@@ -1819,7 +1819,7 @@ static HBITMAP ske_LoadGlyphImage_TGA(const TCHAR *szFilename)
 	BOOL err = FALSE;
 	tga_header_t header;
 	if ( !szFilename) return NULL;
-	if ( !wildcmpi(szFilename, _T("*\\*%.tga"))) {
+	if ( !wildcmpit(szFilename, _T("*\\*%.tga"))) {
 		//Loading TGA image from file
 		FILE *fp = _tfopen (szFilename, _T("rb"));
 		if ( !fp) {
@@ -2001,7 +2001,7 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 
 static HBITMAP ske_skinLoadGlyphImage(const TCHAR *tszFileName)
 {
-	if ( !g_CluiData.fGDIPlusFail && !wildcmpi(tszFileName, _T("*.tga")))
+	if ( !g_CluiData.fGDIPlusFail && !wildcmpit(tszFileName, _T("*.tga")))
 		return GDIPlus_LoadGlyphImage(tszFileName);
 
 	return ske_LoadGlyphImageByDecoders(tszFileName);

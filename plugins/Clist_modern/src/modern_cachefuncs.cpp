@@ -754,7 +754,7 @@ void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 		else
 			height_clip = width_clip * ace->bmHeight / ace->bmWidth;					
 
-		if (wildcmpi(contact->avatar_data->szFilename,_T("*.gif"))) {
+		if (wildcmpit(contact->avatar_data->szFilename,_T("*.gif"))) {
 			if (old_pos == AVATAR_POS_ANIMATED)
 				AniAva_RemoveAvatar(contact->hContact);
 

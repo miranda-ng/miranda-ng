@@ -235,7 +235,7 @@ void * AddTempGroup(HWND hwnd,ClcData *dat,const TCHAR *szName,DWORD flags,int g
 	TCHAR * szGroupName;
 	DWORD groupFlags;
 
-	if ( wildcmp( _T2A(szName), "-@-HIDDEN-GROUP-@-",0))
+	if ( wildcmp( _T2A(szName), "-@-HIDDEN-GROUP-@-"))
 		return NULL;
 
 	for (i = 1;;i++) {
@@ -339,7 +339,6 @@ int RestoreSelection( ClcData *dat, HANDLE hSelected )
 void cliRebuildEntireList(HWND hwnd,ClcData *dat)
 {
 	DWORD style = GetWindowLongPtr(hwnd,GWL_STYLE);
-	HANDLE hContact;
 	ClcContact *cont;
 	ClcGroup *group;
 	static int rebuildCounter = 0;

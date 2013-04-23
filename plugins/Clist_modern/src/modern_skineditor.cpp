@@ -30,10 +30,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef struct _OPT_OBJECT_DATA
 {
-	char * szName;
-	char * szPath;
-	char * szValue;
-	char * szTempValue;
+	char  *szName;
+	TCHAR *szPath;
+	TCHAR *szValue;
+	TCHAR *szTempValue;
 } OPT_OBJECT_DATA;
 
 static char *gl_Mask = NULL;
@@ -43,7 +43,8 @@ int EnableGroup(HWND hwndDlg, HWND first, BOOL bEnable);
 int ShowGroup(HWND hwndDlg, HWND first, BOOL bEnable);
 BOOL glOtherSkinWasLoaded = FALSE;
 BYTE glSkinWasModified = 0;  //1- but not applied, 2-stored to DB 
-HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, char * Caption)
+
+HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, TCHAR *Caption)
 {
   HTREEITEM res = NULL, tmp = NULL;
   if (Parent) 
@@ -52,14 +53,14 @@ HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, char * Caption)
 	tmp = TreeView_GetRoot(hTree);
   while (tmp)
   {
-    TVITEMA tvi;
-    char buf[255];
+    TVITEM tvi;
+    TCHAR buf[255];
     tvi.hItem = tmp;
     tvi.mask = TVIF_TEXT|TVIF_HANDLE;
-    tvi.pszText = (LPSTR)&buf;
+    tvi.pszText = (LPTSTR)&buf;
     tvi.cchTextMax = 254;
     TreeView_GetItem(hTree,&tvi);
-    if (mir_bool_strcmpi(Caption,tvi.pszText))
+    if (lstrcmpi(Caption,tvi.pszText))
       return tmp;
     tmp = TreeView_GetNextSibling(hTree,tmp);
   }
@@ -70,15 +71,13 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 {
 	HTREEITEM rootItem = NULL;
 	HTREEITEM cItem = NULL;
-	char * path;
-	char * ptr;
-	char * ptrE;
-	char buf[255];
+	TCHAR *ptr, *ptrE;
 	BOOL ext = FALSE;
-	path = data->szPath?mir_strdup(data->szPath):(data->szName[1] == '$')?mir_strdup((data->szName)+2):NULL;
+	TCHAR *path = data->szPath ? mir_tstrdup(data->szPath):(data->szName[1] == '$') ? mir_a2t(data->szName+2):NULL;
 	if ( !path) {
-		mir_snprintf(buf,SIZEOF(buf),"$(other)/%s",(data->szName)+1);
-		path = mir_strdup(buf);
+		TCHAR buf[255];
+		mir_sntprintf(buf, SIZEOF(buf), _T("$(other)/%S"), data->szName+1);
+		path = mir_tstrdup(buf);
 	}
 
 	ptr = path;
@@ -92,10 +91,10 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 			ptrE++;
 			// find item if not - create;
 			{
-				cItem = FindChild(GetDlgItem(hwndDlg,ID),rootItem,ptr);
+				cItem = FindChild(GetDlgItem(hwndDlg,ID), rootItem, ptr);
 				if ( !cItem) // not found - create node
 				{
-					TVINSERTSTRUCTA tvis;
+					TVINSERTSTRUCT tvis;
 					tvis.hParent = rootItem;
 					tvis.hInsertAfter = TVI_SORT;
 					tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_PARAM;
@@ -113,7 +112,7 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 	
 	//Insert item node
 	{
-		TVINSERTSTRUCTA tvis;
+		TVINSERTSTRUCT tvis;
 		tvis.hParent = rootItem;
 		tvis.hInsertAfter = TVI_SORT;
 		tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_PARAM;
@@ -127,16 +126,13 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 
 int enumDB_SkinObjectsForEditorProc(const char *szSetting,LPARAM lParam)
 {
-	if (wildcmp((char *)szSetting,gl_Mask,0) || wildcmp((char *)szSetting,"$*",0))
+	if (wildcmp(szSetting,gl_Mask) || wildcmp(szSetting,"$*"))
 	{
-		char * value;
-		char *desc;
-		char *descKey;
-		descKey = mir_strdup(szSetting);
+		char *descKey = mir_strdup(szSetting);
 		descKey[0] = '%';
-		value = db_get_sa(NULL,SKIN,szSetting);
-		desc = db_get_sa(NULL,SKIN,descKey);
-		if (wildcmp(value,"?lyph*",0))
+		TCHAR *value = db_get_tsa(NULL,SKIN,szSetting);
+		TCHAR *desc = db_get_tsa(NULL,SKIN,descKey);
+		if ( wildcmpt(value, _T("?lyph*")))
 		{
 			OPT_OBJECT_DATA * a = (OPT_OBJECT_DATA*)mir_alloc(sizeof(OPT_OBJECT_DATA));
 			a->szPath = desc;
@@ -230,9 +226,9 @@ void SetAppropriateGroups(HWND hwndDlg, int Type)
 	}
 }
 
-void SetControls(HWND hwndDlg, char * str)
+void SetControls(HWND hwndDlg, TCHAR *str)
 {
-	char buf[250];
+	TCHAR buf[250];
 	int Type=0;
 	if ( !str)
 	{
@@ -240,9 +236,9 @@ void SetControls(HWND hwndDlg, char * str)
 		return;
 	}
 	GetParamN(str,buf,SIZEOF(buf),1,',',TRUE);
-	if (mir_bool_strcmpi(buf,"Solid")) Type=1;
-	else if (mir_bool_strcmpi(buf,"Image")) Type=2;
-	else if (mir_bool_strcmpi(buf,"Fragment")) Type=3;
+	if (!lstrcmpi(buf,_T("Solid"))) Type=1;
+	else if (!lstrcmpi(buf, _T("Image"))) Type=2;
+	else if (!lstrcmpi(buf, _T("Fragment"))) Type=3;
 	SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_SETCURSEL,(WPARAM)Type,0);
 	SetAppropriateGroups(hwndDlg,Type);
 	switch (Type)
@@ -252,10 +248,10 @@ void SetControls(HWND hwndDlg, char * str)
 			int r,g,b,a;
 			r = g = b = 200;
 			a = 255;
-			r = atoi(GetParamN(str,buf,SIZEOF(buf),2,',',TRUE));
-			g = atoi(GetParamN(str,buf,SIZEOF(buf),3,',',TRUE));
-			b = atoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
-			a = atoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
+			r = _ttoi(GetParamN(str,buf,SIZEOF(buf),2,',',TRUE));
+			g = _ttoi(GetParamN(str,buf,SIZEOF(buf),3,',',TRUE));
+			b = _ttoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
+			a = _ttoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
 			SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_SETCOLOUR, 0, (LPARAM)RGB(r,g,b));
 			SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_SETDEFAULTCOLOUR, 0, (LPARAM)RGB(r,g,b));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS, 0, MAKELONG(a,0));
@@ -269,11 +265,11 @@ void SetControls(HWND hwndDlg, char * str)
 			l = t = r = b = 0;
 			a = 255;
 			
-			l = atoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
-			t = atoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
-			r = atoi(GetParamN(str,buf,SIZEOF(buf),6,',',TRUE));
-			b = atoi(GetParamN(str,buf,SIZEOF(buf),7,',',TRUE));
-			a = atoi(GetParamN(str,buf,SIZEOF(buf),8,',',TRUE));
+			l = _ttoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
+			t = _ttoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
+			r = _ttoi(GetParamN(str,buf,SIZEOF(buf),6,',',TRUE));
+			b = _ttoi(GetParamN(str,buf,SIZEOF(buf),7,',',TRUE));
+			a = _ttoi(GetParamN(str,buf,SIZEOF(buf),8,',',TRUE));
 			
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS, 0, MAKELONG(a,0));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_SETPOS, 0, MAKELONG(l,0));
@@ -285,9 +281,9 @@ void SetControls(HWND hwndDlg, char * str)
 			SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_SETTEXT, 0, (LPARAM)buf);
 			
 			GetParamN(str,buf,SIZEOF(buf),3,',',TRUE);
-			if (mir_bool_strcmpi(buf,"TileBoth")) fitmode = FM_TILE_BOTH;
-            else if (mir_bool_strcmpi(buf,"TileVert")) fitmode = FM_TILE_VERT;
-            else if (mir_bool_strcmpi(buf,"TileHorz")) fitmode = FM_TILE_HORZ;
+			if (!lstrcmpi(buf,_T("TileBoth"))) fitmode = FM_TILE_BOTH;
+            else if (!lstrcmpi(buf,_T("TileVert"))) fitmode = FM_TILE_VERT;
+            else if (!lstrcmpi(buf,_T("TileHorz"))) fitmode = FM_TILE_HORZ;
             else fitmode = 0;  
 			SendDlgItemMessage(hwndDlg,IDC_FIT,CB_SETCURSEL,(WPARAM)fitmode,0);
 		}
@@ -303,16 +299,16 @@ void SetControls(HWND hwndDlg, char * str)
 			x = y = w = h = 0;
 			a = 255;
 			
-			x = atoi(GetParamN(str,buf,SIZEOF(buf),3,',',TRUE));
-			y = atoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
-			w = atoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
-			h = atoi(GetParamN(str,buf,SIZEOF(buf),6,',',TRUE));
+			x = _ttoi(GetParamN(str,buf,SIZEOF(buf),3,',',TRUE));
+			y = _ttoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
+			w = _ttoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
+			h = _ttoi(GetParamN(str,buf,SIZEOF(buf),6,',',TRUE));
 
-			l = atoi(GetParamN(str,buf,SIZEOF(buf),8,',',TRUE));
-			t = atoi(GetParamN(str,buf,SIZEOF(buf),9,',',TRUE));
-			r = atoi(GetParamN(str,buf,SIZEOF(buf),10, ',',TRUE));
-			b = atoi(GetParamN(str,buf,SIZEOF(buf),11,',',TRUE));
-			a = atoi(GetParamN(str,buf,SIZEOF(buf),12,',',TRUE));
+			l = _ttoi(GetParamN(str,buf,SIZEOF(buf),8,',',TRUE));
+			t = _ttoi(GetParamN(str,buf,SIZEOF(buf),9,',',TRUE));
+			r = _ttoi(GetParamN(str,buf,SIZEOF(buf),10, ',',TRUE));
+			b = _ttoi(GetParamN(str,buf,SIZEOF(buf),11,',',TRUE));
+			a = _ttoi(GetParamN(str,buf,SIZEOF(buf),12,',',TRUE));
 			
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS, 0, MAKELONG(a,0));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_SETPOS, 0, MAKELONG(l,0));
@@ -329,9 +325,9 @@ void SetControls(HWND hwndDlg, char * str)
 			SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_SETTEXT, 0, (LPARAM)buf);
 			
 			GetParamN(str,buf,SIZEOF(buf),7,',',TRUE);
-			if (mir_bool_strcmpi(buf,"TileBoth")) fitmode = FM_TILE_BOTH;
-            else if (mir_bool_strcmpi(buf,"TileVert")) fitmode = FM_TILE_VERT;
-            else if (mir_bool_strcmpi(buf,"TileHorz")) fitmode = FM_TILE_HORZ;
+			if (!lstrcmpi(buf,_T("TileBoth"))) fitmode = FM_TILE_BOTH;
+            else if (!lstrcmpi(buf,_T("TileVert"))) fitmode = FM_TILE_VERT;
+            else if (!lstrcmpi(buf,_T("TileHorz"))) fitmode = FM_TILE_HORZ;
             else fitmode = 0;  
 			SendDlgItemMessage(hwndDlg,IDC_FIT,CB_SETCURSEL,(WPARAM)fitmode,0);
 		}
@@ -365,7 +361,7 @@ int GetShortFileName(TCHAR *FullFile)
 	return 2; //mirand folder relative
 }
 
-char * MadeString(HWND hwndDlg)
+TCHAR* MadeString(HWND hwndDlg)
 {
 	char buf[MAX_PATH*2] = {0};
 	int i = SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_GETCURSEL, 0, 0);
@@ -434,12 +430,13 @@ char * MadeString(HWND hwndDlg)
 		}
 		break;
 	}
-	if (buf[0] != '\0') return mir_strdup(buf);
+	if (buf[0] != '\0') return mir_a2t(buf);
 	return 0;
 }
+
 void UpdateInfo(HWND hwndDlg)
 {
-	char *b = MadeString(hwndDlg);
+	TCHAR *b = MadeString(hwndDlg);
 	if ( !b) 
 	{
 		SendDlgItemMessageA(hwndDlg,IDC_EDIT1,WM_SETTEXT, 0, (LPARAM)"");
@@ -451,15 +448,15 @@ void UpdateInfo(HWND hwndDlg)
 		HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg,IDC_OBJECT_TREE));				
 		if (hti)
 		{
-			TVITEMA tvi = {0};
+			TVITEM tvi = {0};
 			tvi.hItem = hti;
-			tvi.mask = TVIF_HANDLE|TVIF_PARAM;
+			tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 			TreeView_GetItem(GetDlgItem(hwndDlg,IDC_OBJECT_TREE),&tvi);
 			sd = (OPT_OBJECT_DATA*)(tvi.lParam);
 			if (sd)
 			{
 				mir_free(sd->szValue);
-				sd->szValue = mir_strdup(b);
+				sd->szValue = mir_tstrdup(b);
 			}
 		}
 	}
@@ -485,7 +482,7 @@ void StoreTreeNode(HWND hTree, HTREEITEM node, char * section)
 	{
 		OPT_OBJECT_DATA * dat  = (OPT_OBJECT_DATA*)(tvi.lParam);
 		if (dat->szName && dat->szValue)
-			db_set_s(NULL,section,dat->szName,dat->szValue);
+			db_set_ts(NULL,section,dat->szName,dat->szValue);
 	}
 	tmp2 = TreeView_GetChild(hTree,tmp);
 	if (tmp2) StoreTreeNode(hTree,tmp2,section);
@@ -503,7 +500,7 @@ void StoreTreeToDB(HWND hTree, char * section)
   glSkinWasModified = 2;
 }
 static BOOL fileChanged = FALSE;
-static char * object_clipboard = NULL;
+static TCHAR *object_clipboard = NULL;
 int GetFileSizes(HWND hwndDlg)
 {
 	TCHAR buf[MAX_PATH];
@@ -615,7 +612,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						sd = (OPT_OBJECT_DATA*)(tvi.lParam);
 					}
 					if (sd && sd->szValue) 
-						object_clipboard = mir_strdup(sd->szValue);
+						object_clipboard = mir_tstrdup(sd->szValue);
 
 					EnableWindow(GetDlgItem(hwndDlg,IDC_PASTE),object_clipboard != NULL);
 					return 0;
