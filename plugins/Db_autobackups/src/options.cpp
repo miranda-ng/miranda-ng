@@ -1,5 +1,6 @@
 #include "headers.h"
 
+HWND hPathTip;
 Options options;
 
 int LoadOptions(void)
@@ -137,7 +138,6 @@ int CALLBACK BrowseProc(HWND hwnd,UINT uMsg, LPARAM lParam, LPARAM lpData)
 INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TCHAR folder_buff[MAX_PATH] = {0};
-	HWND hPathTip = NULL;
 
 	switch (msg) {
 	case WM_INITDIALOG:
