@@ -85,6 +85,7 @@ void CSkypeProto::OnContactChanged(CContact::Ref contact, int prop)
 				}
 			}
 			break;
+
 		case CContact::P_AUTHREQUEST_COUNT:
 			// todo: all authrequests after first should be catch here
 			this->UpdateContactAuthState(hContact, contact);
@@ -99,6 +100,7 @@ void CSkypeProto::OnContactChanged(CContact::Ref contact, int prop)
 		case CContact::P_AVATAR_TIMESTAMP:
 			this->UpdateProfileAvatar(contactObj, hContact);
 			break;
+
 		//case CContact::P_MOOD_TEXT:
 		case CContact::P_MOOD_TIMESTAMP:
 			this->UpdateProfileStatusMessage(contactObj, hContact);
@@ -151,7 +153,7 @@ HANDLE CSkypeProto::GetContactBySid(const wchar_t *sid)
 	HANDLE hContact = ::db_find_first();
 	while (hContact)
 	{
-		if  (this->IsProtoContact(hContact) && !this->IsChatRoom(hContact))
+		if (this->IsProtoContact(hContact) && !this->IsChatRoom(hContact))
 		{
 			mir_ptr<wchar_t> contactSid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
 			if (contactSid && ::wcsicmp(sid, contactSid) == 0)
@@ -199,13 +201,12 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 
 		wchar_t *nick = ::mir_utf8decodeW(contact->GetNick());
 
-		
 		switch(availability)
 		{
 		case CContact::SKYPEOUT:
 			this->SetSettingByte(hContact, "IsSkypeOut", 1);
 			break;
-		
+
 		case CContact::PENDINGAUTH:
 			::db_set_b(hContact, "CList", "NotOnList", 1);
 			break;
@@ -297,13 +298,13 @@ void __cdecl CSkypeProto::LoadAuthWaitList(void*)
 		this);
 
 	this->authWaitList->GetContacts(authContacts);
-    for (uint i = 0; i < authContacts.size(); i++)
-    {
+	for (uint i = 0; i < authContacts.size(); i++)
+	{
 		CContact::Ref contact = authContacts[i];
 
 		uint newTS = 0;
 		contact->GetPropAuthreqTimestamp(newTS);
-					
+
 		this->RaiseAuthRequestEvent(newTS, contact);
 	}
 }
@@ -311,9 +312,9 @@ void __cdecl CSkypeProto::LoadAuthWaitList(void*)
 bool CSkypeProto::IsContactOnline(HANDLE hContact)
 {
 	return ::db_get_w(
-		hContact, 
-		this->m_szModuleName, 
-		SKYPE_SETTINGS_STATUS, 
+		hContact,
+		this->m_szModuleName,
+		SKYPE_SETTINGS_STATUS,
 		ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE;
 }
 
@@ -322,7 +323,7 @@ void CSkypeProto::SetAllContactStatus(int status)
 	HANDLE hContact = ::db_find_first();
 	while (hContact)
 	{
-		if  (this->IsProtoContact(hContact) && this->GetSettingByte(hContact, "IsSkypeOut", 0) == 0)
+		if (this->IsProtoContact(hContact) && this->GetSettingByte(hContact, "IsSkypeOut", 0) == 0)
 			this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, status);
 
 		hContact = ::db_find_next(hContact);
@@ -339,13 +340,13 @@ void CSkypeProto::OnContactFinded(CContact::Ref contact, HANDLE hSearch)
 	PROTOSEARCHRESULT psr = {0};
 	psr.cbSize = sizeof(psr);
 	psr.flags = PSR_TCHAR;
-		
+
 	SEString data;
 	contact->GetPropSkypename(data);
 	psr.id = ::mir_utf8decodeW(data);
 	contact->GetPropDisplayname(data);
 	psr.nick  = ::mir_utf8decodeW(data);
-	
+
 	SEString firstName, lastName;
 	contact->GetFullname(firstName, lastName);
 	psr.firstName = ::mir_utf8decodeW(firstName);
@@ -391,7 +392,7 @@ void __cdecl CSkypeProto::SearchBySidAsync(void* arg)
 	bool valid;
 	if (!search->IsValid(valid) || !valid || !search->Submit())
 	{
-		return; 
+		return;
 	}
 	search->BlockWhileSearch();
 	search->Release();

@@ -53,11 +53,11 @@ BOOL IsRunAsAdmin()
 	// Allocate and initialize a SID of the administrators group.
 	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
 	if ( !AllocateAndInitializeSid(
-		&NtAuthority, 
-		2, 
-		SECURITY_BUILTIN_DOMAIN_RID, 
-		DOMAIN_ALIAS_RID_ADMINS, 
-		0, 0, 0, 0, 0, 0, 
+		&NtAuthority,
+		2,
+		SECURITY_BUILTIN_DOMAIN_RID,
+		DOMAIN_ALIAS_RID_ADMINS,
+		0, 0, 0, 0, 0, 0,
 		&pAdministratorsGroup))
 	{
 		dwError = GetLastError();
@@ -127,36 +127,29 @@ char *LoadKeyPair(HINSTANCE hInstance)
 
 int StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port/*, const wchar_t *dbPath*/)
 {
-	STARTUPINFO cif;
-	PROCESS_INFORMATION pi;
-	wchar_t param[128];
-
-	::ZeroMemory(&cif, sizeof(STARTUPINFO));
+	STARTUPINFO cif = {0};
 	cif.cb = sizeof(STARTUPINFO);
 	cif.dwFlags = STARTF_USESHOWWINDOW;
 	cif.wShowWindow = SW_HIDE;
 
-	//HRSRC 	hRes;
-	//HGLOBAL	hResource;
 	wchar_t	fileName[MAX_PATH];
+	::GetModuleFileName(hInstance, fileName, MAX_PATH);
 
-	HRSRC hRes = ::FindResource(hInstance, MAKEINTRESOURCE(/*IDR_RUNTIME*/102), L"BIN");
-	if (hRes)
+	wchar_t *skypeKitPath = ::wcsrchr(fileName, '\\');
+	if (skypeKitPath != NULL)
+		*skypeKitPath = 0;
+	::swprintf(fileName, SIZEOF(fileName), L"%s\\%s", fileName, L"SkypeKit.exe");
+	if ( !::PathFileExists(fileName))
 	{
-		HGLOBAL hResource = ::LoadResource(hInstance, hRes);
-		if (hResource)
+		HRSRC hRes = ::FindResource(hInstance, MAKEINTRESOURCE(/*IDR_RUNTIME*/102), L"BIN");
+		if (hRes)
 		{
-			HANDLE hFile;
-			char *pData = (char *)LockResource(hResource);
-			DWORD dwSize = SizeofResource(hInstance, hRes), written = 0;
-			::GetModuleFileName(hInstance, fileName, MAX_PATH);
-
-			wchar_t *skypeKitPath = ::wcsrchr(fileName, '\\');
-			if (skypeKitPath != NULL)
-				*skypeKitPath = 0;
-			::swprintf(fileName, SIZEOF(fileName), L"%s\\%s", fileName, L"SkypeKit.exe");
-			if ( !::PathFileExists(fileName))
+			HGLOBAL hResource = ::LoadResource(hInstance, hRes);
+			if (hResource)
 			{
+				HANDLE hFile;
+				char *pData = (char *)LockResource(hResource);
+				DWORD dwSize = SizeofResource(hInstance, hRes), written = 0;
 				if ((hFile = ::CreateFile(
 					fileName,
 					GENERIC_WRITE,
@@ -180,17 +173,17 @@ int StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port
 
 						if (profileName)
 							::swprintf(
-								cmdLine,
-								SIZEOF(cmdLine),
-								L" /restart:%d /profile=%s",
-								::GetCurrentProcessId(),
-								profileName);
+							cmdLine,
+							SIZEOF(cmdLine),
+							L" /restart:%d /profile=%s",
+							::GetCurrentProcessId(),
+							profileName);
 						else
 							::swprintf(
-								cmdLine,
-								SIZEOF(cmdLine),
-								L" /restart:%d",
-								::GetCurrentProcessId());
+							cmdLine,
+							SIZEOF(cmdLine),
+							L" /restart:%d",
+							::GetCurrentProcessId());
 
 						// Launch itself as administrator.
 						SHELLEXECUTEINFO sei = { sizeof(sei) };
@@ -209,16 +202,16 @@ int StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port
 								// Do nothing ...
 							}
 						}
-						//else
-						//{
-						//	//DestroyWindow(hDlg);  // Quit itself
-						//	::CallService("CloseAction", 0, 0);
-						//}
 					}
-					return 0;
+					else
+						return 0;
 				}
 			}
+			else
+				return 0;
 		}
+		else
+			return 0;
 	}
 
 	PROCESSENTRY32 entry;
@@ -237,6 +230,8 @@ int StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port
 	}
 	::CloseHandle(snapshot);
 
+	wchar_t param[128];
+	PROCESS_INFORMATION pi;
 	//::swprintf(param, SIZEOF(param), L"-p -P %d -f %s", port, dbPath);
 	::swprintf(param, SIZEOF(param), L"-p -P %d", port);
 	int startingrt = ::CreateProcess(
@@ -244,12 +239,7 @@ int StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port
 		NULL, NULL, FALSE,
 		CREATE_NEW_CONSOLE,
 		NULL, NULL, &cif, &pi);
-	DWORD rterr = GetLastError();
 
-	//if (startingrt && rterr == ERROR_SUCCESS)
-		//return 1;
-	//else
-		//return 0;
 	return startingrt;
 }
 
@@ -263,7 +253,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	int port = 8963;
 	VARST profilename( _T("%miranda_profilename%"));
 
-	if ( !StartSkypeRuntime(g_hInstance, (TCHAR*)profilename, port)) 
+	if ( !StartSkypeRuntime(g_hInstance, (TCHAR *)profilename, port))
 	{
 		::MessageBox(NULL, TranslateT("Proccess SkypeKit.exe did not start."), _T(MODULE), MB_OK | MB_ICONERROR);
 		return 1;
@@ -295,11 +285,11 @@ extern "C" int __declspec(dllexport) Load(void)
 	// ---
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
-	pd.szName =		"SKYPE";
-	pd.type =		PROTOTYPE_PROTOCOL;
-	pd.fnInit =		(pfnInitProto)	CSkypeProto::InitSkypeProto;
-	pd.fnUninit =	(pfnUninitProto)CSkypeProto::UninitSkypeProto;
-	CallService(MS_PROTO_REGISTERMODULE, 0, reinterpret_cast<LPARAM>(&pd));
+	pd.szName = "SKYPE";
+	pd.type = PROTOTYPE_PROTOCOL;
+	pd.fnInit = (pfnInitProto)CSkypeProto::InitSkypeProto;
+	pd.fnUninit = (pfnUninitProto)CSkypeProto::UninitSkypeProto;
+	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	CSkypeProto::InitIcons();
 	CSkypeProto::InitServiceList();

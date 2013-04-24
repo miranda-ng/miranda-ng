@@ -30,7 +30,7 @@ bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char* gu
 		}
 
 		::mir_free(dbei.pBlob);
-		hDbEvent = ::db_event_prev(hDbEvent);		
+		hDbEvent = ::db_event_prev(hDbEvent);
 	}
 
 	return result;
@@ -50,10 +50,8 @@ HANDLE CSkypeProto::AddDataBaseEvent(HANDLE hContact, WORD type, DWORD timestamp
 	return ::db_event_add(hContact, &dbei);
 }
 
-void CSkypeProto::RaiseAuthRequestEvent(
-	DWORD timestamp,
-	CContact::Ref contact)
-{	
+void CSkypeProto::RaiseAuthRequestEvent(DWORD timestamp, CContact::Ref contact)
+{
 	char *sid = ::mir_strdup(contact->GetSid());
 	char *nick = ::mir_strdup(contact->GetNick());
 
@@ -76,12 +74,12 @@ void CSkypeProto::RaiseAuthRequestEvent(
 		::strlen(firstName) + 
 		::strlen(lastName) + 
 		::strlen(sid) + 
-		::strlen(reason) + 		
+		::strlen(reason) + 
 		5;
 
-	PBYTE pBlob, pCurBlob;	
+	PBYTE pBlob, pCurBlob;
 	pCurBlob = pBlob = (PBYTE)::mir_alloc(cbBlob);
-	
+
 	*((PDWORD)pCurBlob) = 0; pCurBlob += sizeof(DWORD);
 	*((PDWORD)pCurBlob) = (DWORD)hContact; pCurBlob += sizeof(DWORD);
 	::strcpy((char*)pCurBlob, nick); pCurBlob += ::strlen(nick) + 1;
@@ -89,17 +87,12 @@ void CSkypeProto::RaiseAuthRequestEvent(
 	::strcpy((char*)pCurBlob, lastName); pCurBlob += ::strlen(lastName) + 1;
 	::strcpy((char*)pCurBlob, sid); pCurBlob += ::strlen(sid) + 1;
 	::strcpy((char*)pCurBlob, reason);
-	
+
 	this->AddDataBaseEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), PREF_UTF, cbBlob, pBlob);
 }
 
-void CSkypeProto::RaiseMessageReceivedEvent(
-	HANDLE hContact,
-	DWORD timestamp,
-	const char *guid,
-	const wchar_t *message,
-	bool isNeedCheck)
-{	
+void CSkypeProto::RaiseMessageReceivedEvent(HANDLE hContact, DWORD timestamp, const char *guid, const wchar_t *message, bool isNeedCheck)
+{
 	//if (isNeedCheck)
 	//	if (this->IsMessageInDB(hContact, timestamp, guid))
 	//		return;
@@ -109,16 +102,12 @@ void CSkypeProto::RaiseMessageReceivedEvent(
 	recv.lParam = (LPARAM)guid;
 	recv.timestamp = timestamp;
 	recv.szMessage = ::mir_utf8encodeW(message);
-	
+
 	::ProtoChainRecvMsg(hContact, &recv);
 }
 
-void CSkypeProto::RaiseMessageSendedEvent(
-	HANDLE hContact,
-	DWORD timestamp,
-	const char *guid,
-	const wchar_t *message)
-{	
+void CSkypeProto::RaiseMessageSendedEvent(HANDLE hContact, DWORD timestamp, const char *guid, const wchar_t *message)
+{
 	//if (this->IsMessageInDB(hContact, timestamp, guid, DBEF_SENT))
 	//	return;
 

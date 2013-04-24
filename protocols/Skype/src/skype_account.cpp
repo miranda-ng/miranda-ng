@@ -7,7 +7,7 @@ void CSkypeProto::OnAccountChanged(int prop)
 	case CAccount::P_STATUS:
 		CAccount::STATUS loginStatus;
 		this->account->GetPropStatus(loginStatus);
-		
+
 		if (loginStatus == CAccount::LOGGED_IN)
 		{
 			this->ForkThread(&CSkypeProto::SignInAsync, 0);
@@ -103,14 +103,14 @@ void __cdecl CSkypeProto::SignInAsync(void*)
 
 bool CSkypeProto::PrepareLogin()
 {
-	this->login = ::db_get_wsa(NULL, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);	
+	this->login = ::db_get_wsa(NULL, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
 	if ( !this->login || !::wcslen(this->login))
 	{
 		this->m_iStatus = ID_STATUS_OFFLINE;
 		this->SendBroadcast(ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 		this->ShowNotification(
 			::TranslateT("You have not entered a Skype name.\n\
-						 Configure this in Options->Network->Skype and try again."));
+						Configure this in Options->Network->Skype and try again."));
 		return false;
 	}
 
@@ -146,7 +146,7 @@ bool CSkypeProto::PreparePassword()
 				this->rememberPassword = param.rememberPassword;
 			}
 		}
-		else 
+		else
 			::CallService(MS_DB_CRYPT_DECODESTRING, ::strlen(this->password), (LPARAM)this->password);
 	}
 

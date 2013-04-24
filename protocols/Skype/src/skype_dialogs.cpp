@@ -39,7 +39,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 			{
 				CheckDlgButton(hwnd, IDC_USE_ALT_PORTS, proto->GetSettingByte("UseAlternativePorts", 1));
 			}
-			if (proto->IsOnline()) 
+			if (proto->IsOnline())
 			{
 				SendMessage(GetDlgItem(hwnd, IDC_SL), EM_SETREADONLY, 1, 0);
 				SendMessage(GetDlgItem(hwnd, IDC_PW), EM_SETREADONLY, 1, 0); 
@@ -55,7 +55,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 		}
 		return TRUE;
 
-	case WM_COMMAND: 
+	case WM_COMMAND:
 		{
 			switch(LOWORD(wParam))
 			{
@@ -96,10 +96,10 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 					char sid[128], pwd[128];
 					GetDlgItemTextA(hwnd, IDC_SL, sid, SIZEOF(sid));
 					GetDlgItemTextA(hwnd, IDC_PW, pwd, SIZEOF(pwd));
-						
+
 					CSkype::VALIDATERESULT reason;
 					g_skype->ValidatePassword(sid, pwd, reason);
-						
+
 					if (reason == CSkype::VALIDATED_OK)
 					{
 						CAccount::Ref account;
@@ -166,10 +166,10 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 INT_PTR __cdecl CSkypeProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
 {
 	return (int)::CreateDialogParam(
-		g_hInstance, 
-		MAKEINTRESOURCE(IDD_ACCMGR), 
-		(HWND)lParam, 
-		&CSkypeProto::SkypeMainOptionsProc, 
+		g_hInstance,
+		MAKEINTRESOURCE(IDD_ACCMGR),
+		(HWND)lParam,
+		&CSkypeProto::SkypeMainOptionsProc,
 		(LPARAM)this);
 }
 
@@ -196,7 +196,7 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordRequestProc(HWND hwndDlg, UINT msg, W
 {
 	PasswordRequestBoxParam *param = reinterpret_cast<PasswordRequestBoxParam*>(::GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		::TranslateDialogDefault(hwndDlg);
@@ -228,7 +228,7 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordRequestProc(HWND hwndDlg, UINT msg, W
 
 	case WM_COMMAND:
 		{
-			switch (LOWORD(wParam)) 
+			switch (LOWORD(wParam))
 			{
 			case IDOK:
 				{
@@ -268,7 +268,7 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordChangeProc(HWND hwndDlg, UINT msg, WP
 {
 	PasswordChangeBoxParam *param = reinterpret_cast<PasswordChangeBoxParam*>(::GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		::TranslateDialogDefault(hwndDlg);
@@ -287,7 +287,7 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordChangeProc(HWND hwndDlg, UINT msg, WP
 
 	case WM_COMMAND:
 		{
-			switch (LOWORD(wParam)) 
+			switch (LOWORD(wParam))
 			{
 			case IDOK:
 				{
@@ -451,7 +451,7 @@ INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 					LV_ITEM lvi = {0};
 					lvi.mask = LVIF_PARAM | LVIF_TEXT;
 
-					for (lvi.iItem = 0; lvi.iItem < SIZEOF(CSkypeProto::setting); lvi.iItem++) 
+					for (lvi.iItem = 0; lvi.iItem < SIZEOF(CSkypeProto::setting); lvi.iItem++)
 					{
 						lvi.lParam = lvi.iItem;
 						lvi.pszText = (LPTSTR)setting[lvi.iItem].szDescription;
@@ -540,7 +540,7 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 {
 	InviteChatParam *param = (InviteChatParam *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		{
@@ -570,10 +570,10 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 		NMCLISTCONTROL* nmc = (NMCLISTCONTROL*)lParam;
 		if (nmc->hdr.idFrom == IDC_CCLIST)
 		{
-			switch (nmc->hdr.code) 
+			switch (nmc->hdr.code)
 			{
 			case CLN_NEWCONTACT:
-				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0) 
+				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
 				{
 					wchar_t *contacts = NULL;
 					if (param->id)
@@ -589,7 +589,7 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 				break;
 
 			case CLN_LISTREBUILT:
-				if (param) 
+				if (param)
 				{
 					wchar_t *contacts = NULL;
 					if (param->id)
@@ -602,7 +602,7 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 					}
 					param->ppro->ChatPrepare(NULL, nmc->hdr.hwndFrom, contacts);
 				}
-				break; 
+				break;
 			}
 		}
 	}
@@ -610,7 +610,7 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 
 	case WM_COMMAND:
 		{
-			switch (LOWORD(wParam)) 
+			switch (LOWORD(wParam))
 			{
 			case IDC_ADDSCR:
 				if (param->ppro->IsOnline())
@@ -624,10 +624,10 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 					cii.pszText = ::wcslwr(sid);
 
 					HANDLE hItem = (HANDLE)::SendDlgItemMessage(
-						hwndDlg, 
-						IDC_CCLIST, 
-						CLM_ADDINFOITEM, 
-						0, 
+						hwndDlg,
+						IDC_CCLIST,
+						CLM_ADDINFOITEM,
+						0,
 						(LPARAM)&cii);
 					::SendDlgItemMessage(hwndDlg, IDC_CCLIST, CLM_SETCHECKMARK, (LPARAM)hItem, 1);
 				}
