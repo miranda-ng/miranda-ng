@@ -17,7 +17,9 @@ void CSkypeProto::OnAccountChanged(int prop)
 		if (loginStatus == CAccount::LOGGED_OUT)
 		{
 			CAccount::LOGOUTREASON whyLogout;
-			this->account->GetPropLogoutreason(whyLogout);
+			if (!this->account->GetPropLogoutreason(whyLogout))
+				break;
+
 			if (whyLogout != CAccount::LOGOUT_CALLED)
 			{
 				this->m_iStatus = ID_STATUS_OFFLINE;
