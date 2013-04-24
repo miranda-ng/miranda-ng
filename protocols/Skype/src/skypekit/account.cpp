@@ -1,5 +1,5 @@
 #include "account.h"
-#include "skype.h"
+#include "skypekit.h"
 
 CAccount::CAccount(unsigned int oid, SERootObject* root) : Account(oid, root) 
 {

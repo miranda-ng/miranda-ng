@@ -192,7 +192,7 @@
     <ClInclude Include="src\skypekit\message.h" />
     <ClInclude Include="src\skypekit\participant.h" />
     <ClInclude Include="src\skypekit\search.h" />
-    <ClInclude Include="src\skypekit\skype.h" />
+    <ClInclude Include="src\skypekit\skypekit.h" />
     <ClInclude Include="src\skypekit\transfer.h" />
     <ClInclude Include="src\skype_proto.h" />
     <ClInclude Include="src\version.h" />
@@ -209,7 +209,7 @@
     <ClCompile Include="src\skypekit\message.cpp" />
     <ClCompile Include="src\skypekit\participant.cpp" />
     <ClCompile Include="src\skypekit\search.cpp" />
-    <ClCompile Include="src\skypekit\skype.cpp" />
+    <ClCompile Include="src\skypekit\skypekit.cpp" />
     <ClCompile Include="src\skypekit\transfer.cpp" />
     <ClCompile Include="src\skype_account.cpp" />
     <ClCompile Include="src\skype_chat.cpp" />

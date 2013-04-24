@@ -1,7 +1,7 @@
 #pragma once
 
 #include "skype.h"
-#include "skypekit\skype.h"
+#include "skypekit\skypekit.h"
 
 typedef void    (__cdecl CSkypeProto::* SkypeThreadFunc) (void*);
 typedef int     (__cdecl CSkypeProto::* SkypeEventFunc)(WPARAM, LPARAM);

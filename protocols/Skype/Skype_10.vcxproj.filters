@@ -96,13 +96,13 @@
     <ClCompile Include="src\skypekit\search.cpp">
       <Filter>Source Files\skypekit</Filter>
     </ClCompile>
-    <ClCompile Include="src\skypekit\skype.cpp">
-      <Filter>Source Files\skypekit</Filter>
-    </ClCompile>
     <ClCompile Include="src\skypekit\transfer.cpp">
       <Filter>Source Files\skypekit</Filter>
     </ClCompile>
     <ClCompile Include="src\aes\aes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skypekit\skypekit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -146,14 +146,14 @@
     <ClInclude Include="src\skypekit\search.h">
       <Filter>Header Files\skypekit</Filter>
     </ClInclude>
-    <ClInclude Include="src\skypekit\skype.h">
-      <Filter>Header Files\skypekit</Filter>
-    </ClInclude>
     <ClInclude Include="src\skypekit\transfer.h">
       <Filter>Header Files\skypekit</Filter>
     </ClInclude>
     <ClInclude Include="src\aes\aes.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skypekit\skypekit.h">
+      <Filter>Header Files\skypekit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
