@@ -1,4 +1,4 @@
-#include "skype.h"
+#include "skypekit.h"
 
 CSkype::CSkype(int num_threads) : Skype(num_threads)
 {
