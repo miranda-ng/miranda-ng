@@ -190,7 +190,7 @@ bool CSkypeProto::IsAvatarChanged(const SEBinary &avatar)
 	bool result = false;
 
 	::mir_md5_byte_t digest[16];
-	::mir_md5_hash((PBYTE)avatar.data(), avatar.size(), digest);
+	::mir_md5_hash((PBYTE)avatar.data(), (int)avatar.size(), digest);
 
 	DBVARIANT dbv;
 	::db_get(NULL, this->m_szModuleName, "AvatarHash", &dbv);

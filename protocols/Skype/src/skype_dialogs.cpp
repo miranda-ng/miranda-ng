@@ -67,7 +67,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 					{
 						wchar_t sid[128];
 						GetDlgItemText(hwnd, IDC_SL, sid, SIZEOF(sid));
-						EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), ::wcslen(sid));
+						EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), ::wcslen(sid) != 0);
 					}
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
@@ -80,7 +80,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 					{
 						char pwd[128];
 						GetDlgItemTextA(hwnd, IDC_SL, pwd, SIZEOF(pwd));
-						EnableWindow(GetDlgItem(hwnd, IDC_CHANGE_PWD), ::strlen(pwd));
+						EnableWindow(GetDlgItem(hwnd, IDC_CHANGE_PWD), ::strlen(pwd) != 0);
 					}
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}

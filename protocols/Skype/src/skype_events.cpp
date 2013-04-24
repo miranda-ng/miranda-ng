@@ -468,7 +468,7 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 			SKYPE_DB_EVENT_TYPE_CALL,
 			timestamp,
 			DBEF_UTF,
-			::wcslen(message) + 1,
+			(DWORD)::wcslen(message) + 1,
 			(PBYTE)message);
 		break;
 

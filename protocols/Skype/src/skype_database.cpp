@@ -69,13 +69,13 @@ void CSkypeProto::RaiseAuthRequestEvent(DWORD timestamp, CContact::Ref contact)
 
 	/*blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), sid(ASCIIZ), reason(ASCIIZ)*/
 	DWORD cbBlob = (DWORD)
-		(sizeof(DWORD) * 2) + 
+		(sizeof(DWORD) * 2 + 
 		::strlen(nick) + 
 		::strlen(firstName) + 
 		::strlen(lastName) + 
 		::strlen(sid) + 
 		::strlen(reason) + 
-		5;
+		5);
 
 	PBYTE pBlob, pCurBlob;
 	pCurBlob = pBlob = (PBYTE)::mir_alloc(cbBlob);
