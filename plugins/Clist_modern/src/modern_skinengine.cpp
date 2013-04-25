@@ -2326,10 +2326,8 @@ static int ske_LoadSkinFromResource(BOOL bOnlyObjects)
 }
 
 //Load data from ini file
-int ske_LoadSkinFromIniFile(TCHAR * szFileName, BOOL bOnlyObjects)
+int ske_LoadSkinFromIniFile(TCHAR *szFileName, BOOL bOnlyObjects)
 {
-	TCHAR skinFolder[MAX_PATH] = {0};
-	TCHAR skinFile[MAX_PATH] = {0};
 	if (_tcschr(szFileName,_T('%')))
 		return ske_LoadSkinFromResource( bOnlyObjects );
 
@@ -2337,11 +2335,13 @@ int ske_LoadSkinFromIniFile(TCHAR * szFileName, BOOL bOnlyObjects)
 	if ( !parser.CheckOK()) return 0;
 
 	ske_DeleteAllSettingInSection("ModernSkin");
-	IniParser::GetSkinFolder(szFileName,skinFolder);
+
+	TCHAR skinFolder[MAX_PATH], skinFile[MAX_PATH];
+	IniParser::GetSkinFolder(szFileName, skinFolder);
 	PathToRelativeT(szFileName, skinFile);
 
-	db_set_ws(NULL,SKIN,"SkinFolder", skinFolder);
-	db_set_ws(NULL,SKIN,"SkinFile", skinFile);
+	db_set_ts(NULL,SKIN,"SkinFolder", skinFolder);
+	db_set_ts(NULL,SKIN,"SkinFile", skinFile);
 
 	parser.Parse( IniParser::WriteStrToDb, 1 );
 

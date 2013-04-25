@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2008 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or ( at your option ) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -129,8 +129,8 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					TCHAR Contact[255];
 					TCHAR Description[400];
 					TCHAR text[2000];
-					SkinListData *sd = NULL;  
-					HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ));				
+					SkinListData *sd = NULL;
+					HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ));
 					if ( hti == 0 ) return 0;
 					{
 						TVITEM tvi = {0};
@@ -146,17 +146,17 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						GetPrivateProfileString( _T("Skin_Description_Section"), _T("URL"), 		_T(""), 						URL, 		SIZEOF( URL ), 		sd->File );
 						GetPrivateProfileString( _T("Skin_Description_Section"), _T("Contact"), 	_T(""), 						Contact, 	SIZEOF( Contact ), 	sd->File );
 						GetPrivateProfileString( _T("Skin_Description_Section"), _T("Description"), _T(""), 					Description, SIZEOF( Description ), sd->File );
-						_sntprintf( text, SIZEOF( text ), TranslateT("%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"), 
+						_sntprintf( text, SIZEOF( text ), TranslateT("%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
 							sd->Name, Description, Author, Contact, URL, sd->File );
 					}
 					else
 					{
-						_sntprintf( text, SIZEOF( text ), TranslateT("%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"), 
-							TranslateT("reVista for Modern v0.5"), 
-							TranslateT("This is second default Modern Contact list skin in Vista Aero style"), 
-							TranslateT("Angeli-Ka (graphics), FYR (template)"), 
-							_T("JID: fyr@jabber.ru"), 
-							_T("fyr.mirandaim.ru"), 
+						_sntprintf( text, SIZEOF( text ), TranslateT("%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
+							TranslateT("reVista for Modern v0.5"),
+							TranslateT("This is second default Modern Contact list skin in Vista Aero style"),
+							TranslateT("Angeli-Ka (graphics), FYR (template)"),
+							_T("JID: fyr@jabber.ru"),
+							_T("fyr.mirandaim.ru"),
 							TranslateT("Inside library"));
 					}
 					MessageBox( hwndDlg, text, TranslateT("Skin Information"), MB_OK|MB_ICONINFORMATION );
@@ -164,9 +164,9 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				break;
 			case IDC_BUTTON_APPLY_SKIN:
 				if ( HIWORD(wParam ) == BN_CLICKED )
-				{ 		
-					SkinListData *sd = NULL;  
-					HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ));				
+				{
+					SkinListData *sd = NULL;
+					HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ));
 					if ( hti == 0 ) return 0;
 					{
 						TVITEM tvi = {0};
@@ -266,7 +266,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				{
 					BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
 					imgDC = CreateCompatibleDC( dis->hDC );
-					imgOldbmp = ( HBITMAP )SelectObject( imgDC, hPreviewBitmap );                 
+					imgOldbmp = ( HBITMAP )SelectObject( imgDC, hPreviewBitmap );
 					ske_AlphaBlend( memDC, imgPos.x, imgPos.y, dWidth, dHeight, imgDC, 0, 0, bmp.bmWidth, bmp.bmHeight, bf );
 					SelectObject( imgDC, imgOldbmp );
 					DeleteDC( imgDC );
@@ -282,12 +282,12 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_NOTIFY:
 		switch (( ( LPNMHDR )lParam)->idFrom ) {
 		case IDC_TREE1:
-			{		
+			{
 				NMTREEVIEW * nmtv = ( NMTREEVIEW * ) lParam;
 				if (nmtv == NULL)
 					return 0;
 
-				if (nmtv->hdr.code == TVN_SELCHANGEDA || nmtv->hdr.code == TVN_SELCHANGEDW) {	
+				if (nmtv->hdr.code == TVN_SELCHANGEDA || nmtv->hdr.code == TVN_SELCHANGEDW) {
 					SkinListData * sd = NULL;
 					if (hPreviewBitmap) {
 						ske_UnloadGlyphImage( hPreviewBitmap );
@@ -312,7 +312,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 						EnableWindow( GetDlgItem( hwndDlg, IDC_BUTTON_APPLY_SKIN ), TRUE );
 						EnableWindow( GetDlgItem( hwndDlg, IDC_BUTTON_INFO ), TRUE );
-						if ( hPreviewBitmap ) 
+						if ( hPreviewBitmap )
 							InvalidateRect( GetDlgItem( hwndDlg, IDC_PREVIEW ), NULL, TRUE );
 						else { //prepare text
 							TCHAR Author[255];
@@ -321,7 +321,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							TCHAR Description[400];
 							TCHAR text[2000];
 							SkinListData* sd = NULL;
-							HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ));				
+							HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ));
 							if ( hti == 0 ) return 0;
 							{
 								TVITEM tvi = {0};
@@ -338,22 +338,22 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 								GetPrivateProfileString( _T("Skin_Description_Section"), _T("URL"), 		_T(""), 						URL, 		SIZEOF( URL ), 		sd->File );
 								GetPrivateProfileString( _T("Skin_Description_Section"), _T("Contact"), 	_T(""), 						Contact, 	SIZEOF( Contact ), 	sd->File );
 								GetPrivateProfileString( _T("Skin_Description_Section"), _T("Description"), _T(""), 					Description, SIZEOF( Description ), sd->File );
-								_sntprintf( text, SIZEOF( text ), TranslateT("Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s"), 
+								_sntprintf( text, SIZEOF( text ), TranslateT("Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s"),
 									sd->Name, Description, Author, Contact, URL );
 							}
 							else
 							{
-								_sntprintf( text, SIZEOF( text ), TranslateT("%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n"), 
-									TranslateT("reVista for Modern v0.5"), 
-									TranslateT("This is second default Modern Contact list skin in Vista Aero style"), 
-									TranslateT("graphics by Angeli-Ka\ntemplate by FYR"), 
-									_T("JID: fyr@jabber.ru"), 
+								_sntprintf( text, SIZEOF( text ), TranslateT("%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n"),
+									TranslateT("reVista for Modern v0.5"),
+									TranslateT("This is second default Modern Contact list skin in Vista Aero style"),
+									TranslateT("graphics by Angeli-Ka\ntemplate by FYR"),
+									_T("JID: fyr@jabber.ru"),
 									_T("fyr.mirandaim.ru"));
 							}
 							ShowWindow( GetDlgItem( hwndDlg, IDC_PREVIEW ), SW_HIDE );
 							ShowWindow( GetDlgItem( hwndDlg, IDC_STATIC_INFO ), SW_SHOW );
 							SendDlgItemMessage( hwndDlg, IDC_STATIC_INFO, WM_SETTEXT, 0, (LPARAM)text );
-						}					
+						}
 					}
 					else {
 						//no selected
@@ -365,7 +365,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					}
 					ShowWindow( GetDlgItem( hwndDlg, IDC_PREVIEW ), hPreviewBitmap?SW_SHOW:SW_HIDE );
 					return 0;
-				}			
+				}
 				else if (nmtv->hdr.code == TVN_DELETEITEMA || nmtv->hdr.code == TVN_DELETEITEMW) {
 					mir_free_and_nil( nmtv->itemOld.lParam);
 					return 0;
@@ -378,7 +378,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			case PSN_APPLY:
 				pcli->pfnClcBroadcast( INTM_RELOADOPTIONS, 0, 0 );
 				NotifyEventHooks( g_CluiData.hEventBkgrChanged, 0, 0 );
-				pcli->pfnClcBroadcast( INTM_INVALIDATE, 0, 0 );	
+				pcli->pfnClcBroadcast( INTM_INVALIDATE, 0, 0 );
 				RedrawWindow( GetParent( pcli->hwndContactTree ), NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_ALLCHILDREN );
 			}
 			break;
@@ -391,13 +391,13 @@ int SearchSkinFiles( HWND hwndDlg, TCHAR * Folder )
 {
 	struct _tfinddata_t fd = {0};
 	TCHAR mask[MAX_PATH];
-	long hFile; 
-	_sntprintf( mask, SIZEOF( mask ), _T("%s\\*.msf"), Folder ); 
+	long hFile;
+	_sntprintf( mask, SIZEOF( mask ), _T("%s\\*.msf"), Folder );
 	//fd.attrib = _A_SUBDIR;
 	hFile = _tfindfirst( mask, &fd );
 	if ( hFile != -1 )
 	{
-		do {     
+		do {
 			AddSkinToList( hwndDlg, Folder, fd.name );
 		}
 			while ( !_tfindnext( hFile, &fd ));
@@ -422,7 +422,7 @@ int SearchSkinFiles( HWND hwndDlg, TCHAR * Folder )
 HTREEITEM FillAvailableSkinList(HWND hwndDlg)
 {
 	struct _finddata_t fd = {0};
-	//long hFile; 
+	//long hFile;
 	HTREEITEM res = (HTREEITEM)-1;
 	int attrib;
 
@@ -433,12 +433,10 @@ HTREEITEM FillAvailableSkinList(HWND hwndDlg)
 		SearchSkinFiles(hwndDlg, SkinsFolder);
 	{
 		TCHAR skinfull[MAX_PATH];
-		TCHAR *skinfile = db_get_tsa( NULL, SKIN, "SkinFile");
+		mir_ptr<TCHAR> skinfile( db_get_tsa( NULL, SKIN, "SkinFile"));
 		if (skinfile) {
 			PathToAbsoluteT(skinfile, skinfull);
 			res = AddSkinToListFullName(hwndDlg, skinfull);
-
-			mir_free( skinfile );
 		}
 	}
 	return res;
@@ -449,7 +447,7 @@ HTREEITEM AddSkinToListFullName( HWND hwndDlg, TCHAR * fullName )
 	TCHAR file[MAX_PATH] = {0};
 	TCHAR *buf;
 	_tcsncpy( path, fullName, SIZEOF( path ));
-	buf = path + _tcslen( path );  
+	buf = path + _tcslen( path );
 	while ( buf > path )
 	{
 		if ( *buf == _T( '\\' ))
@@ -490,9 +488,9 @@ HTREEITEM AddSkinToList( HWND hwndDlg, TCHAR * path, TCHAR* file )
 HTREEITEM FindChild( HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data )
 {
 	HTREEITEM res = NULL, tmp = NULL;
-	if ( Parent ) 
+	if ( Parent )
 		tmp = TreeView_GetChild( hTree, Parent );
-	else 
+	else
 		tmp = TreeView_GetRoot( hTree );
 
 	while (tmp) {
@@ -541,11 +539,10 @@ HTREEITEM AddItemToTree(HWND hTree, TCHAR *folder, TCHAR *itemName, void *data)
 
 INT_PTR SvcActiveSkin(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR *skinfile = db_get_tsa(NULL, SKIN, "SkinFile");
-	if ( skinfile ) {
+	mir_ptr<TCHAR> skinfile( db_get_tsa(NULL, SKIN, "SkinFile"));
+	if (skinfile) {
 		TCHAR skinfull[MAX_PATH];
 		PathToAbsoluteT(skinfile, skinfull);
-		mir_free(skinfile);
 		return (INT_PTR)mir_tstrdup(skinfull);
 	}
 
@@ -554,12 +551,12 @@ INT_PTR SvcActiveSkin(WPARAM wParam, LPARAM lParam)
 
 INT_PTR SvcApplySkin(WPARAM wParam, LPARAM lParam)
 {
-	ske_LoadSkinFromIniFile((TCHAR *)lParam, FALSE );
-	ske_LoadSkinFromDB( );	
+	ske_LoadSkinFromIniFile((TCHAR *)lParam, FALSE);
+	ske_LoadSkinFromDB( );
 	glOtherSkinWasLoaded = TRUE;
 	pcli->pfnClcBroadcast( INTM_RELOADOPTIONS, 0, 0 );
 	Sync( CLUIFrames_OnClistResize_mod, 0, 0 );
-	ske_RedrawCompleteWindow( );        
+	ske_RedrawCompleteWindow( );
 	Sync( CLUIFrames_OnClistResize_mod, 0, 0 );
 
 	HWND hwnd = pcli->hwndContactList;
@@ -567,7 +564,7 @@ INT_PTR SvcApplySkin(WPARAM wParam, LPARAM lParam)
 	GetWindowRect( hwnd, &rc );
 	Sync( CLUIFrames_OnMoving, hwnd, &rc );
 
-	if ( g_hCLUIOptionsWnd ) {
+	if (g_hCLUIOptionsWnd) {
 		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, db_get_b( NULL, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT ));
 		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, db_get_b( NULL, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT ));
 		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, db_get_b( NULL, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT ));
@@ -613,19 +610,19 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 			if ( wWidth < bmp.bmWidth ) xScale = ( float )wWidth/bmp.bmWidth;
 			if ( wHeight < bmp.bmHeight ) yScale = ( float )wHeight/bmp.bmHeight;
 			xScale = min( xScale, yScale );
-			yScale = xScale;                    
+			yScale = xScale;
 			dWidth = ( int )( xScale*bmp.bmWidth );
 			dHeight = ( int )( yScale*bmp.bmHeight );
 			//CalcPosition
 			imgPos.x = workRect.left+(( wWidth-dWidth )>>1 );
-			imgPos.y = workRect.top+(( wHeight-dHeight )>>1 );     
+			imgPos.y = workRect.top+(( wHeight-dHeight )>>1 );
 			//DrawImage
 			if ( !g_CluiData.fGDIPlusFail ) //Use gdi+ engine
 				DrawAvatarImageWithGDIp( dis->hDC, imgPos.x, imgPos.y, dWidth, dHeight, hPreviewBitmap, 0, 0, bmp.bmWidth, bmp.bmHeight, 8, 255 );
 			else {
 				BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
 				imgDC = CreateCompatibleDC( dis->hDC );
-				imgOldbmp = ( HBITMAP )SelectObject( imgDC, hPreviewBitmap );                 
+				imgOldbmp = ( HBITMAP )SelectObject( imgDC, hPreviewBitmap );
 				ske_AlphaBlend( dis->hDC, imgPos.x, imgPos.y, dWidth, dHeight, imgDC, 0, 0, bmp.bmWidth, bmp.bmHeight, bf );
 				SelectObject( imgDC, imgOldbmp );
 				DeleteDC( imgDC );
