@@ -246,7 +246,7 @@ protected:
 	CContact::Refs contactList;
 	CTransfer::Refs transferList;
 	CContactGroup::Ref commonList;
-	CContactGroup::Ref authWaitList;	
+	CContactGroup::Ref authWaitList;
 
 	// account
 	void	OnAccountChanged(int prop);
@@ -331,14 +331,14 @@ protected:
 	void	OnContactFinded(CContact::Ref contact, HANDLE hSearch);
 
 	void	OnContactChanged(CContact::Ref contact, int prop);
-	void	OnContactListChanged(const ContactRef& contact);
+	void	OnContactListChanged(CContact::Ref contact);
 
 	bool	IsProtoContact(HANDLE hContact);
 	HANDLE	GetContactBySid(const wchar_t* sid);
 	HANDLE	GetContactFromAuthEvent(HANDLE hEvent);
 	HANDLE	AddContact(CContact::Ref contact);
 
-	bool	IsContactOnline(HANDLE hContact);	
+	bool	IsContactOnline(HANDLE hContact);
 	void	SetAllContactStatus(int status);
 
 	void __cdecl LoadContactList(void*);

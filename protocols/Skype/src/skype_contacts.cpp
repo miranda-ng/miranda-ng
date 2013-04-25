@@ -113,7 +113,7 @@ void CSkypeProto::OnContactChanged(CContact::Ref contact, int prop)
 	}
 }
 
-void CSkypeProto::OnContactListChanged(const ContactRef& contact)
+void CSkypeProto::OnContactListChanged(CContact::Ref contact)
 {
 	bool result;
 
