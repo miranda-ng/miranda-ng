@@ -181,8 +181,6 @@ int CLUI_ShowWindowMod(HWND hwnd, int cmd);
 
 void MakeButtonSkinned(HWND hWnd);
 
-#define GSMDF_TCHAR_MY GSMDF_TCHAR|CNF_UNICODE
-
 #ifndef LWA_COLORKEY
 #define LWA_COLORKEY            0x00000001
 #endif

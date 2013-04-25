@@ -311,7 +311,7 @@ int GetStatusName(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus
 
 	// Get Status name
 	{
-		TCHAR *tmp = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)nStatus, GSMDF_TCHAR_MY);
+		TCHAR *tmp = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)nStatus, GSMDF_TCHAR);
 		lstrcpyn(text, tmp, text_size);
 		//CopySkipUnprintableChars(text, dbv.pszVal, text_size-1);
 		if (text[0] != '\0')

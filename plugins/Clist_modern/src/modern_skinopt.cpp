@@ -61,16 +61,16 @@ int SkinOptInit(WPARAM wParam, LPARAM lParam)
 		odp.hInstance = g_hInst;
 		odp.pfnDlgProc = DlgSkinOpts;
 		odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPT_SKIN );
-		odp.pszGroup = LPGEN("Skins");
-		odp.pszTitle = LPGEN("Contact List");
-		odp.flags = ODPF_BOLDGROUPS;
-		odp.pszTab = LPGEN("Load/Save");
+		odp.ptszGroup = LPGENT("Skins");
+		odp.ptszTitle = LPGENT("Contact List");
+		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+		odp.ptszTab = LPGENT("Load/Save");
 		Options_AddPage(wParam, &odp);
 
 		if ( db_get_b( NULL, "ModernData", "EnableSkinEditor", SETTING_ENABLESKINEDITOR_DEFAULT )) {
 			odp.pfnDlgProc = DlgSkinEditorOpts;
 			odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPT_SKINEDITOR );
-			odp.pszTab = LPGEN("Object Editor");
+			odp.ptszTab = LPGENT("Object Editor");
 			Options_AddPage(wParam, &odp);
 		}
 	}
@@ -104,9 +104,8 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_INITDIALOG:
 		{
-			HTREEITEM it;
 			TranslateDialogDefault( hwndDlg );
-			it = FillAvailableSkinList( hwndDlg );
+			HTREEITEM it = FillAvailableSkinList( hwndDlg );
 			HWND wnd = GetDlgItem( hwndDlg, IDC_TREE1 );
 			TreeView_SelectItem( wnd, it );
 		}
@@ -124,11 +123,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 			case IDC_BUTTON_INFO:
 				{
-					TCHAR Author[255];
-					TCHAR URL[MAX_PATH];
-					TCHAR Contact[255];
-					TCHAR Description[400];
-					TCHAR text[2000];
+					TCHAR Author[255], URL[MAX_PATH], Contact[255], Description[400], text[2000];
 					SkinListData *sd = NULL;
 					HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ));
 					if ( hti == 0 ) return 0;
@@ -221,17 +216,15 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		if ( wParam == IDC_PREVIEW )
 		{
 			//TODO:Draw hPreviewBitmap here
-			HDC memDC, imgDC;
-			HBITMAP hbmp, holdbmp, imgOldbmp;
 			int mWidth, mHeight;
 			RECT workRect = {0};
 			HBRUSH hbr = CreateSolidBrush( GetSysColor( COLOR_3DFACE ));
 			DRAWITEMSTRUCT *dis = ( DRAWITEMSTRUCT * )lParam;
 			mWidth = dis->rcItem.right-dis->rcItem.left;
 			mHeight = dis->rcItem.bottom-dis->rcItem.top;
-			memDC = CreateCompatibleDC( dis->hDC );
-			hbmp = ske_CreateDIB32( mWidth, mHeight );
-			holdbmp = ( HBITMAP )SelectObject( memDC, hbmp );
+			HDC memDC = CreateCompatibleDC( dis->hDC );
+			HBITMAP hbmp = ske_CreateDIB32( mWidth, mHeight );
+			HBITMAP holdbmp = ( HBITMAP )SelectObject( memDC, hbmp );
 			workRect = dis->rcItem;
 			OffsetRect( &workRect, -workRect.left, -workRect.top );
 			FillRect( memDC, &workRect, hbr );
@@ -241,19 +234,17 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				//variables
 				BITMAP bmp = {0};
 				POINT imgPos = {0};
-				int wWidth, wHeight;
-				int dWidth, dHeight;
 				float xScale = 1, yScale = 1;
 				//GetSize
 				GetObject( hPreviewBitmap, sizeof( BITMAP ), &bmp );
-				wWidth = workRect.right-workRect.left;
-				wHeight = workRect.bottom-workRect.top;
+				int wWidth = workRect.right-workRect.left;
+				int wHeight = workRect.bottom-workRect.top;
 				if ( wWidth < bmp.bmWidth ) xScale = ( float )wWidth/bmp.bmWidth;
 				if ( wHeight < bmp.bmHeight ) yScale = ( float )wHeight/bmp.bmHeight;
 				xScale = min( xScale, yScale );
 				yScale = xScale;
-				dWidth = ( int )( xScale*bmp.bmWidth );
-				dHeight = ( int )( yScale*bmp.bmHeight );
+				int dWidth = ( int )( xScale*bmp.bmWidth );
+				int dHeight = ( int )( yScale*bmp.bmHeight );
 				//CalcPosition
 				imgPos.x = workRect.left+(( wWidth-dWidth )>>1 );
 				imgPos.y = workRect.top+(( wHeight-dHeight )>>1 );
@@ -265,8 +256,8 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				else
 				{
 					BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
-					imgDC = CreateCompatibleDC( dis->hDC );
-					imgOldbmp = ( HBITMAP )SelectObject( imgDC, hPreviewBitmap );
+					HDC imgDC = CreateCompatibleDC( dis->hDC );
+					HBITMAP imgOldbmp = (HBITMAP) SelectObject( imgDC, hPreviewBitmap );
 					ske_AlphaBlend( memDC, imgPos.x, imgPos.y, dWidth, dHeight, imgDC, 0, 0, bmp.bmWidth, bmp.bmHeight, bf );
 					SelectObject( imgDC, imgOldbmp );
 					DeleteDC( imgDC );
@@ -299,11 +290,9 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 						TCHAR buf[MAX_PATH];
 						PathToRelativeT(sd->File, buf);
-						SendDlgItemMessage(hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, (LPARAM)buf );
+						SetDlgItemText(hwndDlg,IDC_EDIT_SKIN_FILENAME,buf);
 
-						TCHAR prfn[MAX_PATH] = {0};
-						TCHAR imfn[MAX_PATH] = {0};
-						TCHAR skinfolder[MAX_PATH] = {0};
+						TCHAR prfn[MAX_PATH] = {0}, imfn[MAX_PATH] = {0}, skinfolder[MAX_PATH] = {0};
 						GetPrivateProfileString( _T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, SIZEOF( imfn ), sd->File );
 						IniParser::GetSkinFolder( sd->File, skinfolder );
 						_sntprintf( prfn, SIZEOF( prfn ), _T("%s\\%s"), skinfolder, imfn );
@@ -315,11 +304,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						if ( hPreviewBitmap )
 							InvalidateRect( GetDlgItem( hwndDlg, IDC_PREVIEW ), NULL, TRUE );
 						else { //prepare text
-							TCHAR Author[255];
-							TCHAR URL[MAX_PATH];
-							TCHAR Contact[255];
-							TCHAR Description[400];
-							TCHAR text[2000];
+							TCHAR Author[255], URL[MAX_PATH], Contact[255], Description[400], text[2000];
 							SkinListData* sd = NULL;
 							HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ));
 							if ( hti == 0 ) return 0;
@@ -352,15 +337,15 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							}
 							ShowWindow( GetDlgItem( hwndDlg, IDC_PREVIEW ), SW_HIDE );
 							ShowWindow( GetDlgItem( hwndDlg, IDC_STATIC_INFO ), SW_SHOW );
-							SendDlgItemMessage( hwndDlg, IDC_STATIC_INFO, WM_SETTEXT, 0, (LPARAM)text );
+							SetDlgItemText(hwndDlg, IDC_STATIC_INFO, text);
 						}
 					}
 					else {
 						//no selected
-						SendDlgItemMessage( hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, (LPARAM)TranslateT("Select skin from list"));
+						SetDlgItemText(hwndDlg, IDC_EDIT_SKIN_FILENAME, TranslateT("Select skin from list"));
 						EnableWindow( GetDlgItem( hwndDlg, IDC_BUTTON_APPLY_SKIN ), FALSE );
 						EnableWindow( GetDlgItem( hwndDlg, IDC_BUTTON_INFO ), FALSE );
-						SendDlgItemMessage( hwndDlg, IDC_STATIC_INFO, WM_SETTEXT, 0, (LPARAM)TranslateT("Please select skin to apply"));
+						SetDlgItemText(hwndDlg, IDC_STATIC_INFO, TranslateT("Please select skin to apply"));
 						ShowWindow( GetDlgItem( hwndDlg, IDC_PREVIEW ), SW_HIDE );
 					}
 					ShowWindow( GetDlgItem( hwndDlg, IDC_PREVIEW ), hPreviewBitmap?SW_SHOW:SW_HIDE );

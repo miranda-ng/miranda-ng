@@ -276,7 +276,7 @@ static int FillDialog(HWND hwnd)
 	{
 		LVITEM item = {0};
 		item.mask = LVIF_TEXT;
-		item.pszText = TranslateTS((TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)i, GSMDF_TCHAR_MY));
+		item.pszText = (TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)i, GSMDF_TCHAR);
 		item.iItem = i - ID_STATUS_OFFLINE;
 		newItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 	}
