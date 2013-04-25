@@ -96,11 +96,18 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 				{
 					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 						return 0;
-					else
-						SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
+				break;
 
 			case IDC_PORT:
+				{
+					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
+						return 0;
+					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+				}
+				break;
+
 			case IDC_USE_ALT_PORTS:
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
@@ -128,6 +135,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 						proto->ShowNotification(CSkypeProto::ValidationReasons[reason]);
 					}
 				}
+				return FALSE;
 
 			case IDC_CHANGE_PWD:
 				{
