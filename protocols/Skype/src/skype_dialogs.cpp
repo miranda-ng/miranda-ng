@@ -52,6 +52,12 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 			{
 				EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), FALSE); 
 			}
+
+			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, SKYPE_GROUP_NAME_LIMIT, 0);
+
+			wchar_t *defgroup = db_get_wsa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP);
+			SetDlgItemText(hwnd, IDC_GROUP, defgroup);
+			::mir_free(defgroup);
 		}
 		return TRUE;
 
@@ -85,6 +91,14 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
 				break;
+
+			case IDC_GROUP:
+				{
+					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
+						return 0;
+					else
+						SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+				}
 
 			case IDC_PORT:
 			case IDC_USE_ALT_PORTS:
@@ -154,6 +168,16 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 				proto->SetSettingWord("Port", port);
 				proto->SetSettingByte("UseAlternativePorts", (BYTE)IsDlgButtonChecked(hwnd, IDC_USE_ALT_PORTS));
 			}
+
+			wchar_t tstr[128];
+			GetDlgItemText(hwnd, IDC_GROUP, tstr, SIZEOF(tstr));
+			if (lstrlen(tstr) > 0)
+			{
+				db_set_ts(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP, tstr);
+				CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)tstr);
+			}
+			else
+				db_unset(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP);
 
 			return TRUE;
 		}

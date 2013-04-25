@@ -224,6 +224,12 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 
 		::db_set_ws(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN, sid);
 		::db_set_ws(hContact, this->m_szModuleName, "Nick", nick);
+		DBVARIANT dbv;
+		if(!db_get_ts(NULL, m_szModuleName, SKYPE_SETTINGS_DEF_GROUP, &dbv))
+		{
+			db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
+			db_free(&dbv);
+		}
 
 		::mir_free(nick);
 	}

@@ -225,6 +225,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,97,276,10
     PUSHBUTTON      "Register new account",IDC_REGISTER,204,17,87,14,WS_DISABLED
     PUSHBUTTON      "Change password",IDC_CHANGE_PWD,204,33,87,14,WS_DISABLED
+    EDITTEXT        IDC_GROUP,90,120,104,14,ES_AUTOHSCROLL
+    LTEXT           "Default group:",IDC_STATIC,15,121,63,8
 END
 
 
