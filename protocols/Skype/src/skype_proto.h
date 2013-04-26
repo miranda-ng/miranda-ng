@@ -306,7 +306,7 @@ protected:
 
 	bool IsChatRoom(HANDLE hContact);
 	HANDLE GetChatRoomByCid(const wchar_t *cid);
-	HANDLE	AddChatRoom(CConversation::Ref conversation);
+	HANDLE AddChatRoom(CConversation::Ref conversation);
 
 	wchar_t *CSkypeProto::GetChatUsers(const wchar_t *cid);
 	void CSkypeProto::UpdateChatUserStatus(CContact::Ref contact);
@@ -406,6 +406,7 @@ protected:
 
 	static char *RemoveHtml(const char *data);
 
+	void		SetServerStatus(int iStatus);
 	int		SkypeToMirandaStatus(CContact::AVAILABILITY availability);
 	CContact::AVAILABILITY MirandaToSkypeStatus(int status);
 

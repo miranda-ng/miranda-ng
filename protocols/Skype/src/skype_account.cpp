@@ -103,7 +103,7 @@ bool CSkypeProto::PreparePassword()
 
 bool CSkypeProto::LogIn()
 {
-	if (this->IsOnline()|| !this->PrepareLogin())
+	if (this->IsOnline() || !this->PrepareLogin())
 		return false;
 
 	if (g_skype->GetAccount(::mir_u2a(this->login), this->account))
@@ -133,7 +133,6 @@ void CSkypeProto::LogOut()
 		this->account->SetAvailability(CContact::OFFLINE);
 		this->account->Logout(true);
 
-		this->m_iStatus = ID_STATUS_OFFLINE;
 		this->SetAllContactStatus(ID_STATUS_OFFLINE);
 	}
 }
@@ -229,7 +228,26 @@ void CSkypeProto::OnLoggedIn()
 
 	fetch(this->transferList);
 
-	this->SetStatus(this->m_iDesiredStatus);
+	this->SetServerStatus(this->m_iDesiredStatus);
+}
+
+void CSkypeProto::SetServerStatus(int iNewStatus)
+{
+	if (!this->account)
+		return;
+
+	// change status
+	if (m_iStatus == iNewStatus)
+		return;
+
+	int oldStatus = m_iStatus;
+	m_iStatus = iNewStatus;
+
+	CContact::AVAILABILITY availability = this->MirandaToSkypeStatus(iNewStatus);
+	if (availability != CContact::UNKNOWN)
+		this->account->SetAvailability(availability);
+
+	this->SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, this->m_iStatus);
 }
 
 void CSkypeProto::OnCblUpdated()
