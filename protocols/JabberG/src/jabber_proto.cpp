@@ -1325,17 +1325,13 @@ int __cdecl CJabberProto::SetStatus(int iNewStatus)
 
 			m_ThreadInfo->send("</stream:stream>");
 			m_ThreadInfo->shutdown();
-
-			if (m_bJabberConnected) {
-				m_bJabberConnected = m_bJabberOnline = FALSE;
-				RebuildInfoFrame();
-			}
+			RebuildInfoFrame();
 		}
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		JSendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
-	else if ( !m_bJabberConnected && !m_ThreadInfo && !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
+	else if (!m_ThreadInfo && !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ThreadData* thread = new ThreadData(this, JABBER_SESSION_NORMAL);
 		JSendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);

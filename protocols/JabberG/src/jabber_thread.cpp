@@ -457,7 +457,6 @@ LBL_FatalError:
 	if (m_iDesiredStatus != ID_STATUS_OFFLINE || info->type == JABBER_SESSION_REGISTER) {
 
 		if (info->type == JABBER_SESSION_NORMAL) {
-			m_bJabberConnected = TRUE;
 			size_t len = _tcslen(info->username) + strlen(info->server)+1;
 			m_szJabberJID = (TCHAR*)mir_alloc(sizeof(TCHAR)*(len+1));
 			mir_sntprintf(m_szJabberJID, len+1, _T("%s@%S"), info->username, info->server);
@@ -569,7 +568,6 @@ recvRest:
 		if (info->type == JABBER_SESSION_NORMAL) {
 			m_iqManager.ExpireAll(info);
 			m_bJabberOnline = FALSE;
-			m_bJabberConnected = FALSE;
 			info->zlibUninit();
 			EnableMenuItems(FALSE);
 			RebuildInfoFrame();
