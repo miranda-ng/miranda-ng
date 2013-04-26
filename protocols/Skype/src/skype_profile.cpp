@@ -263,6 +263,14 @@ void CSkypeProto::UpdateProfileMobilePhone(SEObject *obj, HANDLE hContact)
 	::mir_free(phone);
 }
 
+void CSkypeProto::UpdateProfileNickName(SEObject *obj, HANDLE hContact)
+{
+	wchar_t *nick = ::mir_utf8decodeW(obj->GetStrProp(/* *::P_DISPLAYNAME */ 21));
+	if (::wcslen(nick))
+		::db_set_ws(hContact, this->m_szModuleName, "Nick", nick);
+	::mir_free(nick);
+}
+
 void CSkypeProto::UpdateProfilePhone(SEObject *obj, HANDLE hContact)
 {
 	wchar_t* phone = ::mir_a2u(obj->GetStrProp(/* *::P_PHONE_HOME */ 13));
@@ -335,7 +343,7 @@ void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 {
-	this->UpdateProfileAvatar(obj, hContact);	
+	this->UpdateProfileAvatar(obj, hContact);
 
 	uint newTS = obj->GetUintProp(/* *::P_PROFILE_TIMESTAMP */ 19);
 	if (newTS > ::db_get_dw(hContact, this->m_szModuleName, "ProfileTS", 0))

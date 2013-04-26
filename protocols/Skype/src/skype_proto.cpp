@@ -282,11 +282,26 @@ int    __cdecl CSkypeProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* pre)
 	::db_unset(hContact, "CList", "Hidden");
 	this->UserIsTyping(hContact, PROTOTYPE_SELFTYPING_OFF);
 
-	/*int length = ::strlen(pre->szMessage) + 1;
-	pre->szMessage = (char *)::mir_realloc(pre->szMessage, length + 32);
-	::memcpy(&pre->szMessage[length], (char *)pre->lParam, 32);*/
+	DBEVENTINFO dbei = { 0 };
+	dbei.cbSize = sizeof(dbei);
+	dbei.szModule = GetContactProto(hContact);
+	dbei.timestamp = pre->timestamp;
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.cbBlob = (DWORD)strlen(pre->szMessage) + 1;
+	dbei.pBlob = (PBYTE) pre->szMessage;
 
-	return ::Proto_RecvMessage(hContact, pre);
+	char *guid = (char *)pre->lParam;
+	dbei.pBlob = (PBYTE)::mir_realloc(dbei.pBlob, dbei.cbBlob + 32);
+	::memcpy((char *)&dbei.pBlob[dbei.cbBlob], guid, 32);
+
+	if (pre->flags & PREF_CREATEREAD)
+		dbei.flags |= DBEF_READ;
+	if (pre->flags & PREF_UTF)
+		dbei.flags |= DBEF_UTF;
+
+	return (INT_PTR)::db_event_add(hContact, &dbei);
+
+	//return ::Proto_RecvMessage(hContact, pre);
 }
 
 int    __cdecl CSkypeProto::RecvUrl( HANDLE hContact, PROTORECVEVENT* ) { return 0; }
@@ -395,7 +410,7 @@ int CSkypeProto::SetStatus(int new_status)
 		}
 		else
 		{
-			if (this->m_iStatus == ID_STATUS_CONNECTING) 
+			if ( !this->account->IsOnline()) 
 				return 0;
 
 			CContact::AVAILABILITY availability = this->MirandaToSkypeStatus(new_status);

@@ -224,6 +224,7 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 
 		::db_set_ws(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN, sid);
 		::db_set_ws(hContact, this->m_szModuleName, "Nick", nick);
+
 		DBVARIANT dbv;
 		if(!db_get_ts(NULL, m_szModuleName, SKYPE_SETTINGS_DEF_GROUP, &dbv))
 		{
@@ -239,8 +240,10 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 	return hContact;
 }
 
-void __cdecl CSkypeProto::LoadContactList(void*)
+void __cdecl CSkypeProto::LoadContactList(void* data)
 {
+	bool isFirstLoad = data != NULL;
+
 	g_skype->GetHardwiredContactGroup(CContactGroup::ALL_BUDDIES, this->commonList);
 	this->commonList.fetch();
 	this->commonList->SetOnContactListChangedCallback(
@@ -258,11 +261,15 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 
 		HANDLE hContact = this->AddContact(contact);
 
-		// todo: move to AddContact?
-		this->UpdateContactAuthState(hContact, contact);
-		this->UpdateContactStatus(hContact, contact);
-
-		this->UpdateProfile(contact.fetch(), hContact);
+		if ( !isFirstLoad)
+		{
+			// todo: move to AddContact?
+			this->UpdateContactAuthState(hContact, contact);
+			this->UpdateContactStatus(hContact, contact);
+			
+			this->UpdateProfileNickName(contact.fetch(), hContact);
+			this->UpdateProfile(contact.fetch(), hContact);
+		}
 	}
 }
 

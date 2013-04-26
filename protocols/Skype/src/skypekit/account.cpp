@@ -15,6 +15,13 @@ void CAccount::SetOnAccountChangedCallback(OnAccountChanged callback, CSkypeProt
 	this->callback = callback;
 }
 
+bool CAccount::IsOnline()
+{
+	CAccount::STATUS status;
+	this->GetPropStatus(status);
+	return status == CAccount::LOGGED_IN;
+}
+
 bool CAccount::SetAvatar(SEBinary avatar, Skype::VALIDATERESULT &result)
 {
 	int fbl;

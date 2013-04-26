@@ -14,6 +14,7 @@ public:
 	
 	CAccount(unsigned int oid, SERootObject* root);
 
+	bool IsOnline();
 	bool SetAvatar(SEBinary avatar, Skype::VALIDATERESULT &result);
 	
 	void SetOnAccountChangedCallback(OnAccountChanged callback, CSkypeProto* proto);

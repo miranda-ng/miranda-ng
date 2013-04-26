@@ -223,7 +223,7 @@ void CSkypeProto::OnLoggedIn()
 
 	this->LoadOwnInfo(this);
 	this->LoadChatList(this);
-	this->LoadContactList(this);
+	this->LoadContactList(reinterpret_cast<void *>(static_cast<int>(true)));
 	this->LoadAuthWaitList(this);
 	
 
@@ -235,7 +235,7 @@ void CSkypeProto::OnLoggedIn()
 void CSkypeProto::OnCblUpdated()
 {
 	// reload our CL after skype CL fully synced
-	this->LoadContactList(this);
+	this->LoadContactList(reinterpret_cast<void *>(static_cast<int>(false)));
 	this->LoadAuthWaitList(this);
 }
 

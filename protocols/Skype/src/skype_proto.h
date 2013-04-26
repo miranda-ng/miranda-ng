@@ -379,6 +379,7 @@ protected:
 	void	UpdateProfileHomepage(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileLanguages(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileMobilePhone(SEObject *obj, HANDLE hContact = NULL);
+	void	UpdateProfileNickName(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfilePhone(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileOfficePhone(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileState(SEObject *obj, HANDLE hContact = NULL);
