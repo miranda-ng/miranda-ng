@@ -221,9 +221,6 @@ public:
 	static CSkypeProto* InitSkypeProto(const char* protoName, const wchar_t* userName);
 	static int UninitSkypeProto(CSkypeProto* ppro);
 
-	// services
-	static void InitServiceList();
-
 	// icons
 	static void InitIcons();
 	static void UninitIcons();
@@ -233,6 +230,14 @@ public:
 	void OnInitStatusMenu();
 	static void InitMenus();
 	static void UninitMenus();
+
+	// services
+	static void InitServiceList();
+	static void UninitServiceList();
+
+	// hooks
+	static void InitHookList();
+	static void UninitHookList();
 
 	INT_PTR __cdecl InviteCommand(WPARAM, LPARAM);
 
@@ -249,32 +254,43 @@ protected:
 	CContactGroup::Ref authWaitList;
 
 	// account
-	void	OnAccountChanged(int prop);
+	static wchar_t* LogoutReasons[];
+	static wchar_t* PasswordChangeReasons[];
 
 	wchar_t	*login;
 	char	*password;
-	bool	rememberPassword;
-	
+	bool	rememberPassword;	
+
 	bool	RequestPassword(PasswordRequestBoxParam &param);
 	bool	ChangePassword(PasswordChangeBoxParam &param);
 	
 	bool	PrepareLogin();
 	bool	PreparePassword();
 
-	HANDLE	signin_lock;
-	bool	SignIn(int status);
-	void __cdecl SignInAsync(void*);
+	void	InitProxy();
+	void	SetAccountSettings();
 
-	void SetAccountSettings();
+	bool	LogIn();
+	void	LogOut();
+	
+	void	OnLoggedIn();
+	void	OnCblUpdated();
+	void	OnLoggedOut(CAccount::LOGOUTREASON reason);
 
+	void	OnAccountChanged(int prop);
+
+	// avatars
 	bool IsAvatarChanged(const SEBinary &avatar);
 
-	static SettingItem setting[19];
+	static int DetectAvatarFormatBuffer(const char *pBuffer);
+	static int DetectAvatarFormat(const wchar_t *path);
 
-	static wchar_t* LogoutReasons[];
-	static wchar_t* ValidationReasons[];
-	static wchar_t* PasswordChangeReasons[];
-	static LanguagesListEntry languages[223];
+	wchar_t* GetContactAvatarFilePath(HANDLE hContact);
+
+	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
+	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
+	INT_PTR __cdecl SetMyAvatar(WPARAM, LPARAM);
 
 	// messages
 	void	OnMessage(CConversation::Ref conversation, CMessage::Ref message);
@@ -286,7 +302,7 @@ protected:
 	void	OnTransferChanged(CTransfer::Ref transfer, int prop);
 
 	// chat
-	static wchar_t* Groups[];
+	static wchar_t* Roles[];
 
 	bool IsChatRoom(HANDLE hContact);
 	HANDLE GetChatRoomByCid(const wchar_t *cid);
@@ -350,6 +366,8 @@ protected:
 	void __cdecl SearchByEmailAsync(void*);
 
 	// profile
+	static SettingItem setting[19];
+
 	void	UpdateProfileAvatar(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileAboutText(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileBirthday(SEObject *obj, HANDLE hContact = NULL);
@@ -372,16 +390,13 @@ protected:
 	void __cdecl LoadOwnInfo(void*);
 
 	// utils
+	static wchar_t* ValidationReasons[];
+
 	static void FakeAsync(void*);
 	void InitCustomFolders();
 
 	HANDLE m_hAvatarsFolder;
 	bool   m_bInitDone;
-
-	static int DetectAvatarFormatBuffer(const char *pBuffer);
-	static int DetectAvatarFormat(const wchar_t *path);
-
-	wchar_t* GetContactAvatarFilePath(HANDLE hContact);
 
 	int SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason);
 
@@ -414,18 +429,25 @@ protected:
 
 	// netlib
 	HANDLE	hNetLibUser;
+	
 	void	InitNetLib();
 	void	UninitNetLib();
-	void	InitProxy();
+
 	void	Log(const wchar_t *fmt, ...);
 
 	// services
 	static LIST<void> serviceList;
 
-	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
-	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
-	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
-	INT_PTR __cdecl SetMyAvatar(WPARAM, LPARAM);
+	LIST<void> instanceServiceList;
+	void InitInstanceServiceList();
+	void UninitInstanceServiceList();
+
+	// hooks
+	static LIST<void> hookList;
+
+	LIST<void> instanceHookList;
+	void InitInstanceHookList();
+	void UninitInstanceHookList();
 
 	// icons
 	static _tag_iconList IconList[];

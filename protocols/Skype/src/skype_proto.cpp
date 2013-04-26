@@ -1,43 +1,36 @@
 ﻿#include "skype_proto.h"
 
-CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
+CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) : 
+	instanceHookList(1),
+	instanceServiceList(1)
 {
 	::ProtoConstructor(this, protoName, userName);
 
 	this->rememberPassword = false;
 
-	this->signin_lock = CreateMutex(0, false, 0);
 	this->SetAllContactStatus(ID_STATUS_OFFLINE);
 
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
 	dbEventType.module = m_szModuleName;
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_CALL;
-	dbEventType.descr = "Call";
+	dbEventType.descr = "Skype call";
 	::CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
-	//this->HookEvent(ME_MSG_PRECREATEEVENT, &CSkypeProto::OnMessagePreCreate);
+	this->HookEvent(ME_MSG_PRECREATEEVENT, &CSkypeProto::OnMessagePreCreate);
 
-	this->CreateServiceObj(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
-	// Chat API
-	this->CreateServiceObj(PS_JOINCHAT, &CSkypeProto::OnJoinChat);
-	this->CreateServiceObj(PS_LEAVECHAT, &CSkypeProto::OnLeaveChat);
-	// Avatar API
-	this->CreateServiceObj(PS_GETAVATARINFOT, &CSkypeProto::GetAvatarInfo);
-	this->CreateServiceObj(PS_GETAVATARCAPS, &CSkypeProto::GetAvatarCaps);
-	this->CreateServiceObj(PS_GETMYAVATART, &CSkypeProto::GetMyAvatar);
-	this->CreateServiceObj(PS_SETMYAVATART, &CSkypeProto::SetMyAvatar);
+	this->InitInstanceServiceList();
 }
 
 CSkypeProto::~CSkypeProto()
 {
-	::CloseHandle(this->signin_lock);
-
 	::mir_free(this->login);
 	if (this->password)
 	{
 		::mir_free(this->password);
 		this->password = NULL;
 	}
+
+	this->UninitInstanceServiceList();
 
 	::ProtoDestructor(this);
 }
@@ -367,7 +360,7 @@ int    __cdecl CSkypeProto::SetApparentMode( HANDLE hContact, int mode ) { retur
 
 int CSkypeProto::SetStatus(int new_status)
 {
-	switch (new_status)
+	/*switch (new_status)
 	{
 	case ID_STATUS_OCCUPIED:
 		new_status = ID_STATUS_DND;
@@ -380,7 +373,7 @@ int CSkypeProto::SetStatus(int new_status)
 	case ID_STATUS_NA:
 		new_status = ID_STATUS_AWAY;
 		break;
-	}
+	}*/
 
 	if (new_status == this->m_iStatus)
 		return 0;
@@ -388,27 +381,23 @@ int CSkypeProto::SetStatus(int new_status)
 	int old_status = this->m_iStatus;
 	this->m_iDesiredStatus = new_status;
 
-	switch (new_status)
+	if (new_status == ID_STATUS_OFFLINE)
 	{
-	case ID_STATUS_OFFLINE:
-		if	(this->IsOnline() || this->m_iStatus == ID_STATUS_CONNECTING)
-		{
-			this->account->SetAvailability(CContact::OFFLINE);
-			this->account->Logout(true);
-
-			this->m_iStatus = new_status;
-			this->SetAllContactStatus(ID_STATUS_OFFLINE);
-		}
-		break;
-
-	default:
+		this->LogOut();
+	}
+	else
+	{
 		if (old_status == ID_STATUS_OFFLINE && !this->IsOnline())
 		{
 			this->m_iStatus = ID_STATUS_CONNECTING;
-			if ( !this->SignIn(this->m_iDesiredStatus)) return 0;
+			if ( !this->LogIn()) 
+				return 0;
 		}
 		else
 		{
+			if (this->m_iStatus == ID_STATUS_CONNECTING) 
+				return 0;
+
 			CContact::AVAILABILITY availability = this->MirandaToSkypeStatus(new_status);
 			if (availability != CContact::UNKNOWN)
 			{
@@ -416,7 +405,6 @@ int CSkypeProto::SetStatus(int new_status)
 				this->m_iStatus = new_status;
 			}
 		}
-		break;
 	}
 
 	this->SetSettingWord("Status", this->m_iStatus);

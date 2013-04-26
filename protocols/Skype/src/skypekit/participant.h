@@ -10,5 +10,6 @@ public:
 
 	CParticipant(unsigned int oid, SERootObject* root);
 
-	static SEString GetRankName(CParticipant::RANK rank);
+private:
+	void OnChange(int prop);
 };

@@ -5,9 +5,7 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 	this->InitChat();
 	this->InitNetLib();
 	this->InitCustomFolders();
-
-	this->HookEvent(ME_OPT_INITIALISE,		&CSkypeProto::OnOptionsInit);
-	this->HookEvent(ME_USERINFO_INITIALISE, &CSkypeProto::OnUserInfoInit);
+	this->InitInstanceHookList();
 
 	g_skype->SetOnMessageCallback(
 		(CSkype::OnMessaged)&CSkypeProto::OnMessage, 
@@ -20,6 +18,7 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	this->SetStatus(ID_STATUS_OFFLINE);
 
+	this->UninitInstanceHookList();
 	this->UninitNetLib();
 
 	return 0;
@@ -52,16 +51,12 @@ int CSkypeProto::OnMessagePreCreate(WPARAM, LPARAM lParam)
 	MessageWindowEvent *evt = (MessageWindowEvent *)lParam;
 
 	MessageRef message(evt->seq);
-	
 	SEBinary guid;
 	if (message->GetPropGuid(guid))
 	{
-		evt->dbei->pBlob = (PBYTE)::mir_realloc(evt->dbei->pBlob, (evt->dbei->cbBlob + 33));
-		::memcpy(&evt->dbei->pBlob[evt->dbei->cbBlob], guid.data(), 32);
-		evt->dbei->cbBlob += 33;
+		evt->dbei->pBlob = (PBYTE)::mir_realloc(evt->dbei->pBlob, guid.size() + 1);
+		::strncpy((char *)&evt->dbei->pBlob[evt->dbei->cbBlob], guid.data(), guid.size());
 	}
-
-	//delete message;
 
 	return 1;
 }
@@ -387,7 +382,7 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 						this->AddChatContact(
 							cid, 
 							sid, 
-							::mir_utf8decodeW(CParticipant::GetRankName(CParticipant::WRITER)),
+							CSkypeProto::Roles[CParticipant::WRITER],
 							status);
 					}
 				}

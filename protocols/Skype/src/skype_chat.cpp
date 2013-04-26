@@ -3,7 +3,7 @@
 #include <m_message.h>
 #include <m_history.h>
 
-wchar_t *CSkypeProto::Groups[] = 
+wchar_t *CSkypeProto::Roles[] = 
 { 
 	L"Creator",
 	L"Admin",
@@ -189,9 +189,9 @@ void CSkypeProto::CreateChatWindow(CConversation::Ref conversation, bool showWin
 	gce.cbSize = sizeof(GCEVENT);
 	gce.dwFlags = GC_TCHAR;
 	gce.pDest = &gcd;
-	for (int i = 0; i < SIZEOF(CSkypeProto::Groups); i++)
+	for (int i = 0; i < SIZEOF(CSkypeProto::Roles); i++)
 	{
-		gce.ptszStatus =:: TranslateW(CSkypeProto::Groups[i]);
+		gce.ptszStatus =:: TranslateW(CSkypeProto::Roles[i]);
 		::CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 	}
 
@@ -256,9 +256,9 @@ wchar_t *CSkypeProto::StartChat(const wchar_t *cid, const SEStringList &invitedC
 		gce.cbSize = sizeof(GCEVENT);
 		gce.dwFlags = GC_TCHAR;
 		gce.pDest = &gcd;
-		for (int i = 0; i < SIZEOF(CSkypeProto::Groups); i++)
+		for (int i = 0; i < SIZEOF(CSkypeProto::Roles); i++)
 		{
-			gce.ptszStatus =:: TranslateW(CSkypeProto::Groups[i]);
+			gce.ptszStatus =:: TranslateW(CSkypeProto::Roles[i]);
 			::CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 		}
 
@@ -298,7 +298,6 @@ void CSkypeProto::JoinToChat(CConversation::Ref conversation, bool showWindow)
 
 		CParticipant::RANK rank;
 		participants[i]->GetPropRank(rank);
-		mir_ptr<wchar_t> group = ::mir_utf8decodeW(CParticipant::GetRankName(rank));
 
 		CContact::Ref contact;
 		g_skype->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(sid)), contact);
@@ -309,7 +308,7 @@ void CSkypeProto::JoinToChat(CConversation::Ref conversation, bool showWindow)
 		this->AddChatContact(
 			chatID,
 			sid,
-			group,
+			CSkypeProto::Roles[rank],
 			this->SkypeToMirandaStatus(status));
 	}
 
@@ -368,7 +367,7 @@ void CSkypeProto::SendChatMessage(const wchar_t *cid, const wchar_t *sid, const 
 void CSkypeProto::AddChatContact(const wchar_t *cid, const wchar_t *sid, const wchar_t *group, const WORD status)
 {
 	this->RaiseChatEvent(cid, sid, GC_EVENT_JOIN);
-	this->RaiseChatEvent(cid, sid, GC_EVENT_ADDSTATUS, 0, 0, CSkypeProto::Groups[SKYPE_CHAT_GROUP_WIRTER], L"Owner");
+	this->RaiseChatEvent(cid, sid, GC_EVENT_ADDSTATUS, 0, 0, CSkypeProto::Roles[SKYPE_CHAT_GROUP_WIRTER], L"Owner");
 	this->RaiseChatEvent(cid, sid, GC_EVENT_SETCONTACTSTATUS, status);
 }
 

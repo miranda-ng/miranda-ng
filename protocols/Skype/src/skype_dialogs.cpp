@@ -687,7 +687,7 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 							param->ppro->AddChatContact(
 								chatID, 
 								::mir_utf8decodeW(invitedContacts[i]),
-								mir_utf8decodeW(CParticipant::GetRankName(CParticipant::SPEAKER)),
+								CSkypeProto::Roles[CParticipant::SPEAKER],
 								status);
 						}
 
@@ -710,7 +710,7 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 							param->ppro->AddChatContact(
 								chatID, 
 								::mir_utf8decodeW(invitedContacts[i]), 
-								::mir_utf8decodeW(CParticipant::GetRankName(CParticipant::SPEAKER)),
+								CSkypeProto::Roles[CParticipant::SPEAKER],
 								status);
 						}
 					}

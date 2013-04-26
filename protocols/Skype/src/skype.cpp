@@ -295,16 +295,19 @@ extern "C" int __declspec(dllexport) Load(void)
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	CSkypeProto::InitIcons();
-	CSkypeProto::InitServiceList();
 	CSkypeProto::InitMenus();
+	CSkypeProto::InitHookList();
+	CSkypeProto::InitServiceList();
 
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	CSkypeProto::UninitMenus();
+	CSkypeProto::UninitServiceList();
+	CSkypeProto::UninitHookList();
 	CSkypeProto::UninitIcons();
+	CSkypeProto::UninitMenus();
 
 	g_skype->stop();
 	delete g_skype;

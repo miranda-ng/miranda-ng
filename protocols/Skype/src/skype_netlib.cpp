@@ -1,5 +1,4 @@
 #include "skype_proto.h"
-#include "base64/base64.h"
 
 void CSkypeProto::InitNetLib()
 {
@@ -20,62 +19,6 @@ void CSkypeProto::UninitNetLib()
 {
 	::Netlib_CloseHandle(this->hNetLibUser);
 	this->hNetLibUser = NULL;
-}
-
-void CSkypeProto::InitProxy()
-{
-	if (this->hNetLibUser)
-	{
-		NETLIBUSERSETTINGS nlus = { sizeof(NETLIBUSERSETTINGS) };
-		::CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)this->hNetLibUser, (LPARAM)&nlus);
-
-		if (nlus.useProxy) 
-		{
-			char address[MAX_PATH];
-			::mir_snprintf(address, MAX_PATH, "%s:%d", nlus.szProxyServer, nlus.wProxyPort);
-
-			switch (nlus.proxyType)
-			{
-			case PROXYTYPE_HTTP:
-			case PROXYTYPE_HTTPS:
-				g_skype->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 1);
-				g_skype->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 0);
-				g_skype->SetStr(SETUPKEY_HTTPS_PROXY_ADDR, address);
-				if (nlus.useProxyAuth)
-				{
-					char encodedPass[MAX_PATH];
-					Base64::Encode(nlus.szProxyAuthPassword, encodedPass, MAX_PATH);
-
-					g_skype->SetStr(SETUPKEY_HTTPS_PROXY_USER,	nlus.szProxyAuthUser);
-					g_skype->SetStr(SETUPKEY_HTTPS_PROXY_PWD,	encodedPass);
-				}
-				break;
-
-			case PROXYTYPE_SOCKS4:
-			case PROXYTYPE_SOCKS5:
-				g_skype->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 0);
-				g_skype->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 1);
-				g_skype->SetStr(SETUPKEY_SOCKS_PROXY_ADDR, address);
-				if (nlus.useProxyAuth)
-				{
-					g_skype->SetStr(SETUPKEY_SOCKS_PROXY_USER,	nlus.szProxyAuthUser);
-					g_skype->SetStr(SETUPKEY_SOCKS_PROXY_PWD,	nlus.szProxyAuthPassword);
-				}
-				break;
-
-			default:
-				g_skype->Delete(SETUPKEY_HTTPS_PROXY_ENABLE);
-				g_skype->Delete(SETUPKEY_HTTPS_PROXY_ADDR);
-				g_skype->Delete(SETUPKEY_HTTPS_PROXY_USER);
-				g_skype->Delete(SETUPKEY_HTTPS_PROXY_PWD);
-				g_skype->Delete(SETUPKEY_SOCKS_PROXY_ENABLE);
-				g_skype->Delete(SETUPKEY_SOCKS_PROXY_ADDR);
-				g_skype->Delete(SETUPKEY_SOCKS_PROXY_USER);
-				g_skype->Delete(SETUPKEY_SOCKS_PROXY_PWD);
-				break;
-			}
-		}
-	}
 }
 
 void CSkypeProto::Log(const wchar_t *fmt, ...)

@@ -2,6 +2,11 @@
 
 LIST<CSkypeProto> CSkypeProto::instanceList(1, CSkypeProto::CompareProtos);
 
+int CSkypeProto::CompareProtos(const CSkypeProto *p1, const CSkypeProto *p2)
+{
+	return wcscmp(p1->m_tszUserName, p2->m_tszUserName);
+}
+
 CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* userName)
 {
 	if (CSkypeProto::instanceList.getCount() > 0) 

@@ -130,10 +130,6 @@ int CSkypeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 void  CSkypeProto::InitMenus()
 {
-	CSkypeProto::hPrebuildMenuHook = ::HookEvent(
-		ME_CLIST_PREBUILDCONTACTMENU, 
-		CSkypeProto::PrebuildContactMenu);
-
 	TMenuParam mnu = {0};
 	mnu.cbSize = sizeof(mnu);
 	mnu.name = "SkypeAccountChooser";
@@ -174,7 +170,7 @@ void  CSkypeProto::InitMenus()
 
 void  CSkypeProto::UninitMenus()
 {
-	::UnhookEvent(CSkypeProto::hPrebuildMenuHook);
+	//::UnhookEvent(CSkypeProto::hPrebuildMenuHook);
 }
 
 void CSkypeProto::OnInitStatusMenu()

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common.h"
+#include "participant.h"
 
 class CConversation : public Conversation
 {
@@ -12,4 +13,7 @@ public:
 
 private:
 	CSkypeProto* proto;
+	CParticipant::Refs participants;
+
+	void OnParticipantListChange();
 };
