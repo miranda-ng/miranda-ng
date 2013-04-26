@@ -153,7 +153,7 @@ void g_MenuInit(void)
 
 	mi.pszName = LPGEN("Show custom status details");
 	mi.position = -2000004999;
-	mi.flags = 0;
+	mi.icolibItem = 0;
 	g_hContactMenuItems[ICMI_XSTATUS_DETAILS] = Menu_AddContactMenuItem(&mi);
 	
 	// "Open ICQ profile"
