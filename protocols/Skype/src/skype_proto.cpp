@@ -385,7 +385,6 @@ int CSkypeProto::SetStatus(int new_status)
 	{
 		this->LogOut();
 		this->m_iStatus = this->m_iDesiredStatus = ID_STATUS_OFFLINE;
-		this->SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	}
 	else
 	{
@@ -397,13 +396,16 @@ int CSkypeProto::SetStatus(int new_status)
 		}
 		else
 		{
-			if ( this->account->IsOnline()) 
+			if ( this->account->IsOnline()) {
 				SetServerStatus(new_status);
-			else
-				SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+				return 0;
+			}
+			
+			SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 		}
 	}
 
+	this->SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	return 0;
 }
 
