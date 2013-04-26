@@ -54,8 +54,8 @@ int CSkypeProto::OnMessagePreCreate(WPARAM, LPARAM lParam)
 	SEBinary guid;
 	if (message->GetPropGuid(guid))
 	{
-		evt->dbei->pBlob = (PBYTE)::mir_realloc(evt->dbei->pBlob, guid.size() + 1);
-		::strncpy((char *)&evt->dbei->pBlob[evt->dbei->cbBlob], guid.data(), guid.size());
+		evt->dbei->pBlob = (PBYTE)::mir_realloc(evt->dbei->pBlob, evt->dbei->cbBlob + guid.size());
+		::memcpy((char *)&evt->dbei->pBlob[evt->dbei->cbBlob], guid.data(), guid.size());
 	}
 
 	return 1;
