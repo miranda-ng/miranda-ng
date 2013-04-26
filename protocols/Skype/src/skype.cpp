@@ -230,13 +230,10 @@ int StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port
 	}
 	::CloseHandle(snapshot);
 
-	wchar_t param[128], path[MAX_PATH];
+	wchar_t param[128];
 	PROCESS_INFORMATION pi;
 	VARST dbPath( _T("%miranda_userdata%\\SkypeKit"));
-	_tcslwr(dbPath);
-	mir_sntprintf(path, SIZEOF(path), _T("\"%s\""), dbPath);
-	::swprintf(param, SIZEOF(param), L"-p -P %d -f %s", port, path);
-	//::swprintf(param, SIZEOF(param), L"-p -P %d", port);
+	::swprintf(param, SIZEOF(param), L"-p -P %d -f \"%s\"", port, dbPath);
 	int startingrt = ::CreateProcess(
 		fileName, param,
 		NULL, NULL, FALSE,
