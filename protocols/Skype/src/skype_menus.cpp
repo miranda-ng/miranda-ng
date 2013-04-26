@@ -31,12 +31,12 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	if (hContact == NULL)
 		return 0;
 
-	if (this->IsOnline() && !this->GetSettingByte(hContact, "ChatRoom"))
+	if (this->IsOnline() && !::db_get_b(hContact, this->m_szModuleName, "ChatRoom", 0))
 	{
 		bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 
-		bool authNeed = this->GetSettingByte(hContact, "Auth") > 0;
-		bool grantNeed = this->GetSettingByte(hContact, "Grant") > 0;
+		bool authNeed = ::db_get_b(hContact, this->m_szModuleName, "Auth", 0) > 0;
+		bool grantNeed = ::db_get_b(hContact, this->m_szModuleName, "Grant", 0) > 0;
 
 		sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_REQUEST], ctrlPressed || authNeed);
 		sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_GRANT], ctrlPressed || grantNeed);
@@ -81,8 +81,8 @@ int CSkypeProto::GrantAuth(WPARAM wParam, LPARAM lParam)
 	{
 		if (contact->SetBuddyStatus(true))
 		{
-			this->DeleteSetting(hContact, "Auth");
-			this->DeleteSetting(hContact, "Grant");
+			::db_unset(hContact, this->m_szModuleName, "Auth");
+			::db_unset(hContact, this->m_szModuleName, "Grant");
 		}
 	}
 
@@ -98,7 +98,7 @@ int CSkypeProto::RevokeAuth(WPARAM wParam, LPARAM lParam)
 	{
 		if (contact->SetBuddyStatus(false))
 		{
-			this->SetSettingByte(hContact, "Grant", 1);
+			::db_set_b(hContact, this->m_szModuleName, "Grant", 1);
 		}
 		this->contactList.remove_val(contact);
 	}

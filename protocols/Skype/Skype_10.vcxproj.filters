@@ -36,9 +36,6 @@
     <ClCompile Include="src\skype_events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skype_settings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\skype_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

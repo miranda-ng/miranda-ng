@@ -101,11 +101,11 @@ void CSkypeProto::OnMessageSended(CConversation::Ref &conversation, CMessage::Re
 			SEBinary guid;
 			message->GetPropGuid(guid);
 
-			//this->RaiseMessageSendedEvent(
-				//hContact,
-				//timestamp,
-				//guid.data(),
-				//text);
+			this->RaiseMessageSendedEvent(
+				hContact,
+				timestamp,
+				guid.data(),
+				text);
 		}
 	}
 	else

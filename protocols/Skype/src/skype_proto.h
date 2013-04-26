@@ -488,30 +488,6 @@ protected:
 		DWORD timestamp,
 		CContact::Ref contact);
 
-	// database settings
-	BYTE	GetSettingByte(const char *setting, BYTE errorValue = 0);
-	BYTE	GetSettingByte(HANDLE hContact, const char *setting, BYTE errorValue = 0);
-	WORD	GetSettingWord(const char *setting, WORD errorValue = 0);
-	WORD	GetSettingWord(HANDLE hContact, const char *setting, WORD errorValue = 0);
-	DWORD	GetSettingDword(const char *setting, DWORD defVal = 0);
-	DWORD	GetSettingDword(HANDLE hContact, const char *setting, DWORD errorValue = 0);
-	wchar_t *GetSettingString(const char *setting, wchar_t* errorValue = NULL);
-	wchar_t *GetSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue = NULL);
-	char	*GetDecodeSettingString(HANDLE hContact, const char *setting, char* errorValue = NULL);
-	//
-	bool	SetSettingByte(const char *setting, BYTE value);
-	bool	SetSettingByte(HANDLE hContact, const char *setting, BYTE value);
-	bool	SetSettingWord(const char *setting, WORD value);
-	bool	SetSettingWord(HANDLE hContact, const char *setting, WORD value);
-	bool	SetSettingDword(const char *setting, DWORD value);
-	bool	SetSettingDword(HANDLE hContact, const char *setting, DWORD value);
-	bool	SetSettingString(const char *setting, const wchar_t* value);
-	bool	SetSettingString(HANDLE hContact, const char *setting, const wchar_t* value);
-	bool	SetDecodeSettingString(HANDLE hContact, const char *setting, const char* value);
-	//
-	void	DeleteSetting(const char *setting);
-	void	DeleteSetting(HANDLE hContact, const char *setting);
-
 	// dialog procs
 	static INT_PTR CALLBACK SkypeMainOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 	static INT_PTR CALLBACK SkypePasswordRequestProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

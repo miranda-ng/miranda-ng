@@ -89,7 +89,7 @@ INT_PTR __cdecl CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATIONW *pai = (PROTO_AVATAR_INFORMATIONW*)lParam;
 
-	if (this->GetSettingWord(pai->hContact, "AvatarTS"))
+	if (::db_get_dw(pai->hContact, this->m_szModuleName, "AvatarTS", 0))
 	{
 		return GAIR_NOAVATAR;
 	}
@@ -204,13 +204,13 @@ INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 		}
 
 		uint newTS = this->account->GetUintProp(/* *::P_AVATAR_TIMESTAMP */ 182);
-		this->SetSettingDword("AvatarTS", newTS);
+		::db_set_dw(NULL, this->m_szModuleName, "AvatarTS", newTS);
 		iRet = 0;
 	}
 	else
 	{
 		this->account->SetBinProperty(Account::P_AVATAR_IMAGE, SEBinary());
-		this->DeleteSetting("AvatarTS");
+		::db_unset(NULL, this->m_szModuleName, "AvatarTS");
 		iRet = 0;
 	}
 

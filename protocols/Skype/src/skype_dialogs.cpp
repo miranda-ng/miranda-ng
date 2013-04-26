@@ -33,11 +33,11 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 			}
 			{
 				int port = rand() % 10000 + 10000;
-				SetDlgItemInt(hwnd, IDC_PORT, proto->GetSettingWord("Port", port), FALSE);
+				SetDlgItemInt(hwnd, IDC_PORT, ::db_get_w(NULL, proto->m_szModuleName, "Port", port), FALSE);
 				SendMessage(GetDlgItem(hwnd, IDC_PORT), EM_SETLIMITTEXT, 5, 0);
 			}
 			{
-				CheckDlgButton(hwnd, IDC_USE_ALT_PORTS, proto->GetSettingByte("UseAlternativePorts", 1));
+				CheckDlgButton(hwnd, IDC_USE_ALT_PORTS, ::db_set_b(NULL, proto->m_szModuleName, "UseAlternativePorts", 1));
 			}
 			if (proto->IsOnline())
 			{
@@ -48,7 +48,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 				EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), FALSE); 
 				EnableWindow(GetDlgItem(hwnd, IDC_CHANGE_PWD), TRUE);
 			}
-			else if (proto->GetSettingWord("Status") > ID_STATUS_OFFLINE)
+			else if (::db_get_w(NULL, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) > ID_STATUS_OFFLINE)
 			{
 				EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), FALSE); 
 			}
@@ -69,7 +69,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 				{
 					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
 
-					if (!proto->IsOnline() && proto->GetSettingWord("Status") <= ID_STATUS_OFFLINE)
+					if (!proto->IsOnline() && ::db_get_w(NULL, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) <= ID_STATUS_OFFLINE)
 					{
 						wchar_t sid[128];
 						GetDlgItemText(hwnd, IDC_SL, sid, SIZEOF(sid));
@@ -173,19 +173,19 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 			{
 				BOOL error;
 				int port = GetDlgItemInt(hwnd, IDC_PORT, &error, FALSE);
-				proto->SetSettingWord("Port", port);
-				proto->SetSettingByte("UseAlternativePorts", (BYTE)IsDlgButtonChecked(hwnd, IDC_USE_ALT_PORTS));
+				::db_set_w(NULL, proto->m_szModuleName, "Port", port);
+				::db_set_b(NULL, proto->m_szModuleName, "UseAlternativePorts", (BYTE)IsDlgButtonChecked(hwnd, IDC_USE_ALT_PORTS));
 			}
 
 			wchar_t tstr[128];
 			GetDlgItemText(hwnd, IDC_GROUP, tstr, SIZEOF(tstr));
 			if (lstrlen(tstr) > 0)
 			{
-				db_set_ts(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP, tstr);
-				CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)tstr);
+				::db_set_ts(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP, tstr);
+				::CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)tstr);
 			}
 			else
-				db_unset(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP);
+				::db_unset(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP);
 
 			return TRUE;
 		}
@@ -392,38 +392,38 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 					if (!szProto)
 						break;
 
-					::SetDlgItemText(hwndDlg, IDC_SID, ppro->GetSettingString(hContact, SKYPE_SETTINGS_LOGIN));
-					::SetDlgItemText(hwndDlg, IDC_STATUSTEXT, ppro->GetSettingString(hContact, "XStatusMsg") ? ppro->GetSettingString(hContact, "XStatusMsg") : TranslateT("<not specified>"));
+					::SetDlgItemText(hwndDlg, IDC_SID, ::db_get_wsa(hContact, ppro->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+					::SetDlgItemText(hwndDlg, IDC_STATUSTEXT, ::db_get_wsa(hContact, ppro->m_szModuleName, "XStatusMsg") ? ::db_get_wsa(hContact, ppro->m_szModuleName, "XStatusMsg") : TranslateT("<not specified>"));
 
-					if (ppro->GetSettingDword(hContact, "OnlineSinceTS")) {
+					if (::db_get_dw(hContact, ppro->m_szModuleName, "OnlineSinceTS", 0)) {
 						TCHAR date[64];
 						DBTIMETOSTRINGT tts = {0};
 						tts.szFormat = _T("d s");
 						tts.szDest = date;
 						tts.cbDest = sizeof(date);
-						CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)ppro->GetSettingDword(hContact, "OnlineSinceTS"), (LPARAM)&tts);
+						CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)::db_get_dw(hContact, ppro->m_szModuleName, "OnlineSinceTS", 0), (LPARAM)&tts);
 						::SetDlgItemText(hwndDlg, IDC_ONLINESINCE, date);
 					} else
 						::SetDlgItemText(hwndDlg, IDC_ONLINESINCE, TranslateT("<not specified>"));
 
-					if (ppro->GetSettingDword(hContact, "LastEventDateTS")) {
+					if (::db_get_dw(hContact, ppro->m_szModuleName, "LastEventDateTS", 0)) {
 						TCHAR date[64];
 						DBTIMETOSTRINGT tts = {0};
 						tts.szFormat = _T("d s");
 						tts.szDest = date;
 						tts.cbDest = sizeof(date);
-						CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)ppro->GetSettingDword(hContact, "LastEventDateTS"), (LPARAM)&tts);
+						::CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)::db_get_dw(hContact, ppro->m_szModuleName, "LastEventDateTS", 0), (LPARAM)&tts);
 						::SetDlgItemText(hwndDlg, IDC_LASTEVENTDATE, date);
 					} else
 						::SetDlgItemText(hwndDlg, IDC_ONLINESINCE, TranslateT("<not specified>"));
 
-					if (ppro->GetSettingDword(hContact, "ProfileTS")) {
+					if (::db_get_dw(hContact, ppro->m_szModuleName, "ProfileTS", 0)) {
 						TCHAR date[64];
 						DBTIMETOSTRINGT tts = {0};
 						tts.szFormat = _T("d s");
 						tts.szDest = date;
 						tts.cbDest = sizeof(date);
-						CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)ppro->GetSettingDword(hContact, "ProfileTS"), (LPARAM)&tts);
+						::CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)::db_get_dw(hContact, ppro->m_szModuleName, "ProfileTS", 0), (LPARAM)&tts);
 						::SetDlgItemText(hwndDlg, IDC_LASTPROFILECHANGE, date);
 					} else
 						::SetDlgItemText(hwndDlg, IDC_ONLINESINCE, TranslateT("<not specified>"));
@@ -491,12 +491,12 @@ INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 						wchar_t *text = L"";
 						switch(setting[lvi.iItem].dbType) {
 							case DBVT_WCHAR:
-								text = ppro->GetSettingString(setting[lvi.iItem].szDbSetting);
+								text = ::db_get_wsa(NULL, ppro->m_szModuleName, setting[lvi.iItem].szDbSetting);
 								break;
 							case DBVT_BYTE:
 							{
 								if (!strcmp(setting[lvi.iItem].szDbSetting, "Gender")) {
-									switch(ppro->GetSettingByte(setting[lvi.iItem].szDbSetting)) {
+									switch(::db_get_b(NULL, ppro->m_szModuleName, setting[lvi.iItem].szDbSetting, 'M')) {
 									case 'M':
 										text = L"Male";
 										break;
@@ -510,7 +510,7 @@ INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 									text = mir_tstrdup(TzDescr);
 								} else {
 									wchar_t tmp[10];
-									_ltot(ppro->GetSettingByte(setting[lvi.iItem].szDbSetting), tmp, 10);
+									_ltot(::db_get_b(NULL, ppro->m_szModuleName, setting[lvi.iItem].szDbSetting, 0), tmp, 10);
 									text = mir_tstrdup(tmp);
 								}
 								break;
@@ -518,7 +518,7 @@ INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 							case DBVT_WORD:
 							{
 								wchar_t tmp[10];
-								_ltot(ppro->GetSettingWord(setting[lvi.iItem].szDbSetting), tmp, 10);
+								_ltot(::db_get_w(NULL, ppro->m_szModuleName, setting[lvi.iItem].szDbSetting, 0), tmp, 10);
 								text = mir_tstrdup(tmp);
 								//text = (wchar_t*)ppro->GetSettingWord(setting[lvi.iItem].szDbSetting);
 								break;

@@ -226,7 +226,6 @@
     <ClCompile Include="src\skype_profile.cpp" />
     <ClCompile Include="src\skype_proto.cpp" />
     <ClCompile Include="src\skype_services.cpp" />
-    <ClCompile Include="src\skype_settings.cpp" />
     <ClCompile Include="src\skype_utils.cpp" />
   </ItemGroup>
   <ItemGroup>

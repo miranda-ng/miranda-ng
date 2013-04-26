@@ -4,24 +4,24 @@ void CSkypeProto::UpdateContactAuthState(HANDLE hContact, CContact::Ref contact)
 {
 	uint newTS = 0;
 	contact->GetPropAuthreqTimestamp(newTS);
-	DWORD oldTS = this->GetSettingDword(hContact, "AuthTS");
+	DWORD oldTS = ::db_get_dw(NULL, this->m_szModuleName, "AuthTS", 0);
 	if (newTS > oldTS)
 	{
 		bool result;
 		if (contact->HasAuthorizedMe(result) && !result)
 		{
-			this->SetSettingByte(hContact, "Auth", !result);
+			::db_set_b(hContact, this->m_szModuleName, "Auth", !result);
 		}
 		else
 		{
-			this->DeleteSetting(hContact, "Auth");
+			::db_unset(hContact, this->m_szModuleName, "Auth");
 			if (contact->IsMemberOfHardwiredGroup(CContactGroup::ALL_BUDDIES, result) && !result)
-				this->SetSettingByte(hContact, "Grant", !result);
+				::db_set_b(hContact, this->m_szModuleName, "Grant", !result);
 			else
-				this->DeleteSetting(hContact, "Grant");
+				::db_unset(hContact, this->m_szModuleName, "Grant");
 		}
 
-		this->SetSettingDword(hContact, "AuthTS", newTS);
+		::db_set_dw(hContact, this->m_szModuleName, "AuthTS", newTS);
 	}
 }
 
@@ -29,35 +29,35 @@ void CSkypeProto::UpdateContactStatus(HANDLE hContact, CContact::Ref contact)
 {
 	CContact::AVAILABILITY availability;
 	contact->GetPropAvailability(availability);
-	this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, this->SkypeToMirandaStatus(availability));
+	::db_set_w(hContact, this->m_szModuleName, SKYPE_SETTINGS_STATUS, this->SkypeToMirandaStatus(availability));
 
 	if (availability == CContact::SKYPEOUT)
 	{
-		this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, ID_STATUS_OUTTOLUNCH);
+		::db_set_w(hContact, this->m_szModuleName, SKYPE_SETTINGS_STATUS, ID_STATUS_OUTTOLUNCH);
 	}
 	else
 	{
 		if (availability == CContact::PENDINGAUTH)
-			this->SetSettingByte(hContact, "Auth", 1);
+			::db_set_b(hContact, this->m_szModuleName, "Auth", 1);
 		else
-			this->DeleteSetting(hContact, "Auth");
+			::db_unset(hContact, this->m_szModuleName, "Auth");
 	}
 }
 
 void CSkypeProto::UpdateContactOnlineSinceTime(SEObject *obj, HANDLE hContact)
 {
 	uint newTS = obj->GetUintProp(/* CContact::P_LASTONLINE_TIMESTAMP */35);
-	DWORD oldTS = this->GetSettingDword(hContact, "OnlineSinceTS");
+	DWORD oldTS = ::db_get_dw(hContact, this->m_szModuleName, "OnlineSinceTS", 0);
 	if (newTS > oldTS)
-		this->SetSettingDword(hContact, "OnlineSinceTS", newTS);
+		::db_set_dw(hContact, this->m_szModuleName, "OnlineSinceTS", newTS);
 }
 
 void CSkypeProto::UpdateContactLastEventDate(SEObject *obj, HANDLE hContact)
 {
 	uint newTS = obj->GetUintProp(/* CContact::P_LASTUSED_TIMESTAMP */39);
-	DWORD oldTS = this->GetSettingDword(hContact, "LastEventDateTS");
+	DWORD oldTS = ::db_get_dw(hContact, this->m_szModuleName, "LastEventDateTS", 0);
 	if (newTS > oldTS)
-		this->SetSettingDword(hContact, "LastEventDateTS", newTS);
+		::db_set_dw(hContact, this->m_szModuleName, "LastEventDateTS", newTS);
 }
 
 void CSkypeProto::OnContactChanged(CContact::Ref contact, int prop)
@@ -78,7 +78,7 @@ void CSkypeProto::OnContactChanged(CContact::Ref contact, int prop)
 			{
 				uint newTS = 0;
 				contact->GetPropAuthreqTimestamp(newTS);
-				DWORD oldTS = this->GetSettingDword(hContact, "AuthTS");
+				DWORD oldTS = ::db_get_dw(hContact, this->m_szModuleName, "AuthTS", 0);
 				if (newTS > oldTS)
 				{
 					this->RaiseAuthRequestEvent(newTS, contact);
@@ -204,7 +204,7 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 		switch(availability)
 		{
 		case CContact::SKYPEOUT:
-			this->SetSettingByte(hContact, "IsSkypeOut", 1);
+			::db_set_b(hContact, this->m_szModuleName, "IsSkypeOut", 1);
 			break;
 
 		case CContact::PENDINGAUTH:
@@ -336,8 +336,8 @@ void CSkypeProto::SetAllContactStatus(int status)
 	HANDLE hContact = ::db_find_first();
 	while (hContact)
 	{
-		if (this->IsProtoContact(hContact) && this->GetSettingByte(hContact, "IsSkypeOut", 0) == 0)
-			this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, status);
+		if (this->IsProtoContact(hContact) && ::db_get_b(hContact, this->m_szModuleName, "IsSkypeOut", 0) == 0)
+			::db_set_w(hContact, this->m_szModuleName, SKYPE_SETTINGS_STATUS, status);
 
 		hContact = ::db_find_next(hContact);
 	}

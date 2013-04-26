@@ -120,7 +120,7 @@ int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 	if (this->IsOnline() && hContact)
 	{
 		CContact::Ref contact;
-		SEString sid(::mir_u2a(this->GetSettingString(hContact, SKYPE_SETTINGS_LOGIN)));
+		SEString sid(::mir_u2a(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN)));
 		if (g_skype->GetContact(sid, contact))
 		{
 			contact->SetBuddyStatus(Contact::AUTHORIZED_BY_ME);

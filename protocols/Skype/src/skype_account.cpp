@@ -139,16 +139,16 @@ void CSkypeProto::LogOut()
 
 void CSkypeProto::SetAccountSettings()
 {
-	int port = this->GetSettingWord("Port", rand() % 10000 + 10000);
+	int port = ::db_get_w(NULL, this->m_szModuleName, "Port", rand() % 10000 + 10000);
 	g_skype->SetInt(SETUPKEY_PORT, port);
-	g_skype->SetInt(SETUPKEY_DISABLE_PORT80, (int)!this->GetSettingByte("UseAlternativePorts", 1));
+	g_skype->SetInt(SETUPKEY_DISABLE_PORT80, (int)!::db_get_b(NULL, this->m_szModuleName, "UseAlternativePorts", 1));
 
 	// Create default group for new contacts
 	DBVARIANT dbv = {0};
-	if (!db_get_ts(NULL, m_szModuleName, SKYPE_SETTINGS_DEF_GROUP, &dbv) && lstrlen(dbv.ptszVal) > 0)
+	if (!::db_get_ts(NULL, m_szModuleName, SKYPE_SETTINGS_DEF_GROUP, &dbv) && lstrlen(dbv.ptszVal) > 0)
 	{
-		CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)dbv.ptszVal);
-		db_free(&dbv);
+		::CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)dbv.ptszVal);
+		::db_free(&dbv);
 	}
 }
 
