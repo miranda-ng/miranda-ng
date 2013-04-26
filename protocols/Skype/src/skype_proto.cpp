@@ -293,6 +293,7 @@ int    __cdecl CSkypeProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* pre)
 	char *guid = (char *)pre->lParam;
 	dbei.pBlob = (PBYTE)::mir_realloc(dbei.pBlob, dbei.cbBlob + 32);
 	::memcpy((char *)&dbei.pBlob[dbei.cbBlob], guid, 32);
+	dbei.cbBlob += 32;
 
 	if (pre->flags & PREF_CREATEREAD)
 		dbei.flags |= DBEF_READ;
