@@ -42,7 +42,6 @@ struct SendJob
 {
 	HANDLE   hSendId;
 	char    *szSendBuffer;
-	int      dwLen;			// actual buffer length (checked for reallocs()
 	int		iSendLength;	// length of message in utf-8 octets (used to check maxlen)
 	int      sendCount;
 	HANDLE   hOwner;

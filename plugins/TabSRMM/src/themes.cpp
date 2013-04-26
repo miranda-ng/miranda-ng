@@ -928,8 +928,6 @@ void CImageItem::Free()
 void CImageItem::SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha)
 {
 	BITMAP bmp;
-	DWORD dwLen;
-	BYTE *p;
 	int x, y;
 	BOOL fixIt = TRUE;
 
@@ -938,8 +936,8 @@ void CImageItem::SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha)
 	if (bmp.bmBitsPixel != 32)
 		return;
 
-	dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
-	p = (BYTE *)malloc(dwLen);
+	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
+	BYTE *p = (BYTE *)malloc(dwLen);
 	if (p == NULL)
 		return;
 	memset(p, 0, dwLen);
@@ -960,25 +958,21 @@ void CImageItem::SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha)
 
 void CImageItem::PreMultiply(HBITMAP hBitmap, int mode)
 {
-	BYTE *p = NULL;
-	DWORD dwLen;
-	int width, height, x, y;
 	BITMAP bmp;
-	BYTE alpha;
-
 	::GetObject(hBitmap, sizeof(bmp), &bmp);
-	width = bmp.bmWidth;
-	height = bmp.bmHeight;
-	dwLen = width * height * 4;
-	p = (BYTE *)malloc(dwLen);
+
+	int width = bmp.bmWidth;
+	int height = bmp.bmHeight;
+	DWORD dwLen = width * height * 4;
+	BYTE *p = (BYTE *)malloc(dwLen);
 	if (p) {
 		::GetBitmapBits(hBitmap, dwLen, p);
-		for (y = 0; y < height; ++y) {
+		for (int y = 0; y < height; ++y) {
 			BYTE *px = p + width * 4 * y;
 
-			for (x = 0; x < width; ++x) {
+			for (int x = 0; x < width; ++x) {
 				if (mode) {
-					alpha = px[3];
+					BYTE alpha = px[3];
 					px[0] = px[0] * alpha / 255;
 					px[1] = px[1] * alpha / 255;
 					px[2] = px[2] * alpha / 255;

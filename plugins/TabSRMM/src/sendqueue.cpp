@@ -73,7 +73,7 @@ void SendQueue::handleError(TWindowData *dat, const int iEntry) const
  */
 int SendQueue::addTo(TWindowData *dat, const int iLen, int dwFlags)
 {
-	int iLength = 0, i;
+	int i;
 	int iFound = NR_SENDJOBS;
 
 	if (m_currentIndex >= NR_SENDJOBS) {
@@ -104,20 +104,15 @@ entry_found:
 	}
 
 	SendJob &job = m_jobs[iFound];
-	iLength = iLen;
+	int iLength = iLen;
 	if (iLength > 0) {
 		if (job.szSendBuffer == NULL) {
 			if (iLength < HISTORY_INITIAL_ALLOCSIZE)
 				iLength = HISTORY_INITIAL_ALLOCSIZE;
 			job.szSendBuffer = (char*)mir_alloc(iLength);
-			job.dwLen = iLength;
 		}
-		else {
-			if (iLength > job.dwLen) {
-				job.szSendBuffer = (char*)mir_realloc(job.szSendBuffer, iLength);
-				job.dwLen = iLength;
-			}
-		}
+		else job.szSendBuffer = (char*)mir_realloc(job.szSendBuffer, iLength);
+
 		CopyMemory(job.szSendBuffer, dat->sendBuffer, iLen);
 	}
 	job.dwFlags = dwFlags;
@@ -459,15 +454,9 @@ send_unsplitted:
 
 void SendQueue::clearJob(const int iIndex)
 {
-	m_jobs[iIndex].hOwner = 0;
-	m_jobs[iIndex].hwndOwner = 0;
-	m_jobs[iIndex].iStatus = 0;
-	m_jobs[iIndex].iAcksNeeded = 0;
-	m_jobs[iIndex].dwFlags = 0;
-	m_jobs[iIndex].chunkSize = 0;
-	m_jobs[iIndex].dwTime = 0;
-	m_jobs[iIndex].hSendId = 0;
-	m_jobs[iIndex].iSendLength = 0;
+	SendJob &job = m_jobs[iIndex];
+	mir_free(job.szSendBuffer);
+	memset(&job, 0, sizeof(SendJob));
 }
 
 /*
@@ -718,8 +707,7 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 				SkinPlaySound("SendError");
 
 			TCHAR *szAckMsg = mir_a2t((char *)ack->lParam);
-			mir_sntprintf(job.szErrorMsg, SIZEOF(job.szErrorMsg),
-						 TranslateT("Delivery failure: %s"), szAckMsg);
+			mir_sntprintf(job.szErrorMsg, SIZEOF(job.szErrorMsg), TranslateT("Delivery failure: %s"), szAckMsg);
 			job.iStatus = SQ_ERROR;
 			mir_free(szAckMsg);
 			KillTimer(dat->hwnd, TIMERID_MSGSEND + iFound);
@@ -727,12 +715,11 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 				handleError(dat, iFound);
 			return 0;
 		}
-		else {
+
 inform_and_discard:
-			_DebugPopup(job.hOwner, TranslateT("A message delivery has failed after the contacts chat window was closed. You may want to resend the last message"));
-			clearJob(iFound);
-			return 0;
-		}
+		_DebugPopup(job.hOwner, TranslateT("A message delivery has failed after the contacts chat window was closed. You may want to resend the last message"));
+		clearJob(iFound);
+		return 0;
 	}
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
