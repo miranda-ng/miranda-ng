@@ -125,7 +125,7 @@ char *LoadKeyPair(HINSTANCE hInstance)
 	return NULL;
 }
 
-int StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port/*, const wchar_t *dbPath*/)
+int StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port)
 {
 	STARTUPINFO cif = {0};
 	cif.cb = sizeof(STARTUPINFO);
@@ -141,7 +141,7 @@ int StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port
 	::swprintf(fileName, SIZEOF(fileName), L"%s\\%s", fileName, L"SkypeKit.exe");
 	if ( !::PathFileExists(fileName))
 	{
-		HRSRC hRes = ::FindResource(hInstance, MAKEINTRESOURCE(/*IDR_RUNTIME*/102), L"BIN");
+		HRSRC hRes = ::FindResource(hInstance, MAKEINTRESOURCE(IDR_RUNTIME), L"BIN");
 		if (hRes)
 		{
 			HGLOBAL hResource = ::LoadResource(hInstance, hRes);
@@ -230,10 +230,13 @@ int StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port
 	}
 	::CloseHandle(snapshot);
 
-	wchar_t param[128];
+	wchar_t param[128], path[MAX_PATH];
 	PROCESS_INFORMATION pi;
-	//::swprintf(param, SIZEOF(param), L"-p -P %d -f %s", port, dbPath);
-	::swprintf(param, SIZEOF(param), L"-p -P %d", port);
+	VARST dbPath( _T("%miranda_userdata%\\SkypeKit"));
+	_tcslwr(dbPath);
+	mir_sntprintf(path, SIZEOF(path), _T("\"%s\""), dbPath);
+	::swprintf(param, SIZEOF(param), L"-p -P %d -f %s", port, path);
+	//::swprintf(param, SIZEOF(param), L"-p -P %d", port);
 	int startingrt = ::CreateProcess(
 		fileName, param,
 		NULL, NULL, FALSE,
@@ -274,13 +277,13 @@ extern "C" int __declspec(dllexport) Load(void)
 		return 1;
 	}
 
+	free(keyPair);
+
 	if ( !g_skype->start())
 	{
 		::MessageBox(NULL, TranslateT("SkypeKit did not start."), _T(MODULE), MB_OK | MB_ICONERROR);
 		return 1;
 	}
-
-	free(keyPair);
 
 	// ---
 
