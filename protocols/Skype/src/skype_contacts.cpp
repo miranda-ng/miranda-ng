@@ -44,6 +44,17 @@ void CSkypeProto::UpdateContactStatus(HANDLE hContact, CContact::Ref contact)
 	}
 }
 
+void CSkypeProto::UpdateContactNickName(SEObject *obj, HANDLE hContact)
+{
+	// todo: P_DISPLAYNAME = 21 is unworked
+	wchar_t *nick = ::mir_utf8decodeW(obj->GetStrProp(/* *::P_FULLNAME */ 5));
+	if ( !::wcslen(nick))
+		::db_unset(hContact, this->m_szModuleName, "Nick");
+	else
+		::db_set_ws(hContact, this->m_szModuleName, "Nick", nick);
+	::mir_free(nick);
+}
+
 void CSkypeProto::UpdateContactOnlineSinceTime(SEObject *obj, HANDLE hContact)
 {
 	uint newTS = obj->GetUintProp(/* CContact::P_LASTONLINE_TIMESTAMP */35);
@@ -267,7 +278,16 @@ void __cdecl CSkypeProto::LoadContactList(void* data)
 			this->UpdateContactAuthState(hContact, contact);
 			this->UpdateContactStatus(hContact, contact);
 			
-			this->UpdateProfileNickName(contact.fetch(), hContact);
+			wchar_t *nick = ::db_get_wsa(hContact, "CList", "MyHandle");
+			if ( !nick || !::wcslen(nick))
+			{
+				SEString data;
+				contact->GetPropFullname(data);
+
+				mir_ptr<wchar_t> nick = ::mir_utf8decodeW(data);
+				::db_set_ws(hContact, "CList", "MyHandle", nick);
+			}
+
 			this->UpdateProfile(contact.fetch(), hContact);
 		}
 	}

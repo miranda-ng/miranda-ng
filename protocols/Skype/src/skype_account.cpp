@@ -254,7 +254,6 @@ void CSkypeProto::OnCblUpdated()
 {
 	// reload our CL after skype CL fully synced
 	this->LoadContactList(reinterpret_cast<void *>(static_cast<int>(false)));
-	this->LoadAuthWaitList(this);
 }
 
 void CSkypeProto::OnLoggedOut(CAccount::LOGOUTREASON reason)

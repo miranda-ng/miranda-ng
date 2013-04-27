@@ -65,6 +65,58 @@ int CSkypeProto::OnMessagePreCreate(WPARAM, LPARAM lParam)
 	return 1;
 }
 
+void CSkypeProto::OnMessageReceived(CConversation::Ref &conversation, CMessage::Ref &message)
+{
+	SEString data;
+
+	uint timestamp;
+	message->GetPropTimestamp(timestamp);
+
+	CMessage::CONSUMPTION_STATUS status;
+	message->GetPropConsumptionStatus(status);
+		
+	message->GetPropBodyXml(data);
+	char *text = CSkypeProto::RemoveHtml(data);
+
+	CConversation::TYPE type;
+	conversation->GetPropType(type);
+	if (type == CConversation::DIALOG)
+	{
+		message->GetPropAuthor(data);			
+		
+		CContact::Ref author;
+		g_skype->GetContact(data, author);
+
+		HANDLE hContact = this->AddContact(author);
+
+		SEBinary guid;
+		message->GetPropGuid(guid);
+
+		char *cguid = ::mir_strdup(guid.data());
+		cguid[guid.size()] = 0;
+
+		this->RaiseMessageReceivedEvent(
+			hContact,
+			timestamp, 
+			cguid,
+			text,
+			status == CMessage::UNCONSUMED_NORMAL);
+	}
+	else
+	{
+		message->GetPropAuthor(data);
+		wchar_t *sid = ::mir_utf8decodeW(data);
+
+		conversation->GetPropIdentity(data);
+		wchar_t *cid = ::mir_utf8decodeW(data);
+
+		this->SendChatMessage(cid, sid, ::mir_utf8decodeW(text));
+
+		::mir_free(sid);
+		::mir_free(cid);
+	}
+}
+
 void CSkypeProto::OnMessageSended(CConversation::Ref &conversation, CMessage::Ref &message)
 {
 	SEString data;
@@ -79,7 +131,7 @@ void CSkypeProto::OnMessageSended(CConversation::Ref &conversation, CMessage::Re
 	message->GetPropConsumptionStatus(status);
 
 	message->GetPropBodyXml(data);
-	wchar_t *text = ::mir_utf8decodeW(CSkypeProto::RemoveHtml(data));
+	char *text = CSkypeProto::RemoveHtml(data);
 
 	CConversation::TYPE type;
 	conversation->GetPropType(type);
@@ -112,7 +164,8 @@ void CSkypeProto::OnMessageSended(CConversation::Ref &conversation, CMessage::Re
 				hContact,
 				timestamp,
 				cguid,
-				text);
+				text,
+				status == CMessage::UNCONSUMED_NORMAL);
 		}
 	}
 	else
@@ -126,68 +179,13 @@ void CSkypeProto::OnMessageSended(CConversation::Ref &conversation, CMessage::Re
 			nick = ::db_get_wsa(NULL, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
 		}
 
-		this->SendChatMessage(cid, nick, text);
+		this->SendChatMessage(cid, nick, ::mir_utf8decodeW(text));
 
 		::mir_free(nick);
 		::mir_free(cid);
 	}
-
-	::mir_free(text);
 }
 
-void CSkypeProto::OnMessageReceived(CConversation::Ref &conversation, CMessage::Ref &message)
-{
-	SEString data;
-
-	uint timestamp;
-	message->GetPropTimestamp(timestamp);
-
-	CMessage::CONSUMPTION_STATUS status;
-	message->GetPropConsumptionStatus(status);
-		
-	message->GetPropBodyXml(data);
-	wchar_t *text = ::mir_utf8decodeW(CSkypeProto::RemoveHtml(data));
-
-	CConversation::TYPE type;
-	conversation->GetPropType(type);
-	if (type == CConversation::DIALOG)
-	{
-		message->GetPropAuthor(data);			
-		
-		CContact::Ref author;
-		g_skype->GetContact(data, author);
-
-		HANDLE hContact = this->AddContact(author);
-
-		SEBinary guid;
-		message->GetPropGuid(guid);
-
-		char *cguid = ::mir_strdup(guid.data());
-		cguid[guid.size()] = 0;
-
-		this->RaiseMessageReceivedEvent(
-			hContact,
-			timestamp, 
-			cguid,
-			text,
-			status != CMessage::UNCONSUMED_NORMAL);
-	}
-	else
-	{
-		message->GetPropAuthor(data);
-		wchar_t *sid = ::mir_utf8decodeW(data);
-
-		conversation->GetPropIdentity(data);
-		wchar_t *cid = ::mir_utf8decodeW(data);
-
-		this->SendChatMessage(cid, sid, text);
-
-		::mir_free(sid);
-		::mir_free(cid);
-	}
-	
-	::mir_free(text);
-}
 
 void CSkypeProto::OnTransferChanged(CTransfer::Ref transfer, int prop)
 {

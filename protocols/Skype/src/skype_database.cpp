@@ -91,9 +91,9 @@ void CSkypeProto::RaiseAuthRequestEvent(DWORD timestamp, CContact::Ref contact)
 	this->AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), PREF_UTF, cbBlob, pBlob);
 }
 
-void CSkypeProto::RaiseMessageReceivedEvent(HANDLE hContact, DWORD timestamp, const char *guid, const wchar_t *message, bool isNeedCheck)
+void CSkypeProto::RaiseMessageReceivedEvent(HANDLE hContact, DWORD timestamp, const char *guid, const char *message, bool isUnreaded)
 {
-	if (isNeedCheck)
+	if ( !isUnreaded)
 		if (this->IsMessageInDB(hContact, timestamp, guid))
 			return;
 
@@ -101,23 +101,33 @@ void CSkypeProto::RaiseMessageReceivedEvent(HANDLE hContact, DWORD timestamp, co
 	recv.flags = PREF_UTF;
 	recv.lParam = (LPARAM)guid;
 	recv.timestamp = timestamp;
-	recv.szMessage = ::mir_utf8encodeW(message);
+	recv.szMessage = ::mir_strdup(message);
 
 	::ProtoChainRecvMsg(hContact, &recv);
 }
 
-void CSkypeProto::RaiseMessageSendedEvent(HANDLE hContact, DWORD timestamp, const char *guid, const wchar_t *message)
+void CSkypeProto::RaiseMessageSendedEvent(HANDLE hContact, DWORD timestamp, const char *guid, const char *message, bool isUnreaded)
 {
 	if (this->IsMessageInDB(hContact, timestamp, guid, DBEF_SENT))
 		return;
 
 	int guidLen = ::strlen(guid);
 
-	char *msg = ::mir_utf8encodeW(message);
+	char *msg = ::mir_strdup(message);
 	int  msgLen = ::strlen(msg) + 1;
 
 	msg = (char *)::mir_realloc(msg, msgLen + 32);
 	::memcpy((char *)&msg[msgLen], guid, 32);
 
-	this->AddDBEvent(hContact, EVENTTYPE_MESSAGE, timestamp, PREF_UTF | DBEF_SENT, msgLen + guidLen, (PBYTE)msg);
+	DWORD flags = DBEF_UTF | DBEF_SENT;
+	if ( !isUnreaded)
+		flags |= DBEF_READ;
+
+	this->AddDBEvent(
+		hContact, 
+		EVENTTYPE_MESSAGE, 
+		timestamp, 
+		flags, 
+		msgLen + guidLen, 
+		(PBYTE)msg);
 }

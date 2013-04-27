@@ -1,7 +1,7 @@
 #include "skype_proto.h"
 
 SettingItem CSkypeProto::setting[] = {
-  {LPGENT("Full name"),		"Nick",			DBVT_WCHAR,	LI_STRING},
+  {LPGENT("Nick"),			"Nick",			DBVT_WCHAR,	LI_STRING},
   {LPGENT("Mood"),			"XStatusMsg",	DBVT_WCHAR,	LI_STRING},
 
   {LPGENT("Mobile phone"),	"Cellular",		DBVT_WCHAR,	LI_NUMBER},
@@ -263,14 +263,6 @@ void CSkypeProto::UpdateProfileMobilePhone(SEObject *obj, HANDLE hContact)
 	::mir_free(phone);
 }
 
-void CSkypeProto::UpdateProfileNickName(SEObject *obj, HANDLE hContact)
-{
-	wchar_t *nick = ::mir_utf8decodeW(obj->GetStrProp(/* *::P_DISPLAYNAME */ 21));
-	if (::wcslen(nick))
-		::db_set_ws(hContact, this->m_szModuleName, "Nick", nick);
-	::mir_free(nick);
-}
-
 void CSkypeProto::UpdateProfilePhone(SEObject *obj, HANDLE hContact)
 {
 	wchar_t* phone = ::mir_a2u(obj->GetStrProp(/* *::P_PHONE_HOME */ 13));
@@ -366,6 +358,7 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 
 		if (hContact)
 		{
+			this->UpdateContactNickName(obj, hContact);
 			this->UpdateContactOnlineSinceTime(obj, hContact);
 			this->UpdateContactLastEventDate(obj, hContact);
 
@@ -379,9 +372,14 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 void __cdecl CSkypeProto::LoadOwnInfo(void*)
 {
 	wchar_t *nick = ::db_get_wsa(NULL, this->m_szModuleName, "Nick");
-	if (!nick || !::wcslen(nick))
+	if ( !nick || !::wcslen(nick))
 	{
-		::db_set_ws(NULL, this->m_szModuleName, "Nick", this->login);
+		SEString data;
+		this->account->GetPropFullname(data);
+
+		mir_ptr<wchar_t> nick = ::mir_utf8decodeW(data);
+		::db_set_ws(NULL, this->m_szModuleName, "Nick", nick);
 	}
+
 	this->UpdateProfile(this->account.fetch());
 }

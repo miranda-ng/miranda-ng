@@ -340,6 +340,7 @@ protected:
 	void	UpdateContactAuthState(HANDLE hContact, CContact::Ref contact);
 	void	UpdateContactAvatar(HANDLE hContact, CContact::Ref contact);
 	void	UpdateContactStatus(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactNickName(SEObject *obj, HANDLE hContact);
 	void	UpdateContactOnlineSinceTime(SEObject *obj, HANDLE hContact);
 	void	UpdateContactLastEventDate(SEObject *obj, HANDLE hContact);
 
@@ -472,18 +473,14 @@ protected:
 		HANDLE hContact,
 		DWORD timestamp,
 		const char* guid,
-		const wchar_t *message,
-		bool isNeedCheck = true);
+		const char *message,
+		bool isUnreaded = true);
 	void RaiseMessageSendedEvent(
 		HANDLE hContact,
 		DWORD timestamp,
 		const char* guid,
-		const wchar_t *message);
-	/*void RaiseFileReceivedEvent(
-		DWORD timestamp,
-		const char* sid,
-		const char* nick,
-		const char* message);*/
+		const char *message, 
+		bool isUnreaded = true);
 	void RaiseAuthRequestEvent(
 		DWORD timestamp,
 		CContact::Ref contact);
