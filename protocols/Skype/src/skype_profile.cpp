@@ -40,11 +40,11 @@ SettingItem CSkypeProto::setting[] = {
 
 void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 {
-	uint newTS = obj->GetUintProp(/* *::P_AVATAR_TIMESTAMP */ 182);
+	uint newTS = hContact ? obj->GetUintProp(Contact::P_AVATAR_TIMESTAMP) : obj->GetUintProp(Account::P_AVATAR_TIMESTAMP);
 	DWORD oldTS = ::db_get_dw(hContact, this->m_szModuleName, "AvatarTS", 0);
 	
 	wchar_t *path = this->GetContactAvatarFilePath(hContact);
-	SEBinary data = obj->GetBinProp(/* *::P_AVATAR_IMAGE */ 37);
+	SEBinary data = hContact ? obj->GetBinProp(Contact::P_AVATAR_IMAGE) : obj->GetBinProp(Account::P_AVATAR_IMAGE);
 
 	bool hasNewAvatar = newTS > oldTS;
 	bool isAvatarEmpty = data.size() == 0;
@@ -53,7 +53,7 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 	{
 		if (hasNewAvatar || !isAvatarFileExists)
 		{
-			FILE* fp = ::_wfopen(path, L"wb");
+			FILE *fp = ::_wfopen(path, L"wb");
 			if (fp)
 			{
 				::fwrite(data.data(), sizeof(char), data.size(), fp);
@@ -93,7 +93,7 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileAboutText(SEObject *obj, HANDLE hContact)
 {
-	wchar_t* aboutText = ::mir_utf8decodeW(obj->GetStrProp(/* *::P_ABOUT */ 18));
+	wchar_t *aboutText = hContact ? ::mir_utf8decodeW(obj->GetStrProp(Contact::P_ABOUT)) : ::mir_utf8decodeW(obj->GetStrProp(Account::P_ABOUT));
 	if ( !::wcslen(aboutText))
 		::db_unset(hContact, this->m_szModuleName, "About");
 	else
@@ -103,7 +103,7 @@ void CSkypeProto::UpdateProfileAboutText(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileBirthday(SEObject *obj, HANDLE hContact)
 {
-	uint data = obj->GetUintProp(/* *::P_BIRTHDAY */ 7);
+	uint data = hContact ? obj->GetUintProp(Contact::P_BIRTHDAY) : obj->GetUintProp(Account::P_BIRTHDAY);
 	if (data > 0)
 	{
 		TCHAR date[9];
@@ -135,7 +135,7 @@ void CSkypeProto::UpdateProfileBirthday(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileCity(SEObject *obj, HANDLE hContact)
 {
-	wchar_t* city = ::mir_utf8decodeW(obj->GetStrProp(/* *::P_CITY */ 12));
+	wchar_t *city = hContact ? ::mir_utf8decodeW(obj->GetStrProp(Contact::P_CITY)) : ::mir_utf8decodeW(obj->GetStrProp(Account::P_CITY));
 	if ( !::wcslen(city))
 		::db_unset(hContact, this->m_szModuleName, "City");
 	else
@@ -145,16 +145,16 @@ void CSkypeProto::UpdateProfileCity(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileCountry(SEObject *obj, HANDLE hContact)
 {
-	char* country;
-	char* isocode = ::mir_strdup(obj->GetStrProp(/* *::P_COUNTRY */ 10));
+	char *country;
+	char *isocode = hContact ? ::mir_strdup(obj->GetStrProp(Contact::P_COUNTRY)) : ::mir_strdup(obj->GetStrProp(Account::P_COUNTRY));
 	if ( !::strlen(isocode))
 	{
-		country = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, 0xFFFF, 0);
+		country = (char *)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, 0xFFFF, 0);
 		::db_set_ws(hContact, this->m_szModuleName, "Country", ::mir_a2t(country));
 	}
 	else
 	{
-		country = (char*)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode, 0);
+		country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode, 0);
 		::db_set_ws(hContact, this->m_szModuleName, "Country", ::mir_a2t(country));
 	}
 	::mir_free(isocode);
@@ -162,7 +162,7 @@ void CSkypeProto::UpdateProfileCountry(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileEmails(SEObject *obj, HANDLE hContact)
 {
-	wchar_t* emails = ::mir_a2u(obj->GetStrProp(/* *::P_EMAILS */ 16));
+	wchar_t *emails = hContact ? ::mir_a2u(obj->GetStrProp(Contact::P_EMAILS)) : ::mir_a2u(obj->GetStrProp(Account::P_EMAILS));
 	if (::wcscmp(emails, L"") == 0)
 	{
 		::db_unset(hContact, this->m_szModuleName, "e-mail0");
@@ -186,7 +186,7 @@ void CSkypeProto::UpdateProfileEmails(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileFullName(SEObject *obj, HANDLE hContact)
 {
-	wchar_t *fullname = ::mir_utf8decodeW(obj->GetStrProp(/* *::P_FULLNAME */ 5));
+	wchar_t *fullname = hContact ? ::mir_utf8decodeW(obj->GetStrProp(Contact::P_FULLNAME)) : ::mir_utf8decodeW(obj->GetStrProp(Account::P_FULLNAME));
 	if ( !::wcslen(fullname))
 	{
 		::db_unset(hContact, this->m_szModuleName, "FirstName");
@@ -206,7 +206,7 @@ void CSkypeProto::UpdateProfileFullName(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileGender(SEObject *obj, HANDLE hContact)
 {
-	uint data = obj->GetUintProp(/* *::P_GENDER */ 8);
+	uint data = hContact ? obj->GetUintProp(Contact::P_GENDER) : obj->GetUintProp(Account::P_GENDER);
 	if (data)
 		::db_set_b(hContact, this->m_szModuleName, "Gender", (BYTE)(data == 1 ? 'M' : 'F'));
 	else
@@ -215,7 +215,7 @@ void CSkypeProto::UpdateProfileGender(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileHomepage(SEObject *obj, HANDLE hContact)
 {
-	wchar_t* homepage = ::mir_a2u(obj->GetStrProp(/* *::P_HOMEPAGE */ 17));
+	wchar_t *homepage = hContact ? ::mir_a2u(obj->GetStrProp(Contact::P_HOMEPAGE)) : ::mir_a2u(obj->GetStrProp(Account::P_HOMEPAGE));
 	if (::wcscmp(homepage, L"") == 0)
 		::db_unset(hContact, this->m_szModuleName, "Homepage");
 	else
@@ -225,7 +225,7 @@ void CSkypeProto::UpdateProfileHomepage(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileLanguages(SEObject *obj, HANDLE hContact)
 {
-	wchar_t *isocodes = ::mir_utf8decodeW(obj->GetStrProp(/* *::P_LANGUAGES */ 9));
+	wchar_t *isocodes = hContact ? ::mir_utf8decodeW(obj->GetStrProp(Contact::P_LANGUAGES)) : ::mir_utf8decodeW(obj->GetStrProp(Account::P_LANGUAGES));
 	if ( !::wcslen(isocodes))
 	{
 		::db_unset(hContact, this->m_szModuleName, "Language1");
@@ -252,7 +252,7 @@ void CSkypeProto::UpdateProfileLanguages(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileMobilePhone(SEObject *obj, HANDLE hContact)
 {
-	wchar_t* phone = ::mir_a2u(obj->GetStrProp(/* *::P_PHONE_MOBILE */ 15));
+	wchar_t *phone = hContact ? ::mir_a2u(obj->GetStrProp(Contact::P_PHONE_MOBILE)) : ::mir_a2u(obj->GetStrProp(Account::P_PHONE_MOBILE));
 	if ( !::wcslen(phone))
 		::db_unset(hContact, this->m_szModuleName, "Cellular");
 	else
@@ -262,7 +262,7 @@ void CSkypeProto::UpdateProfileMobilePhone(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfilePhone(SEObject *obj, HANDLE hContact)
 {
-	wchar_t* phone = ::mir_a2u(obj->GetStrProp(/* *::P_PHONE_HOME */ 13));
+	wchar_t *phone = hContact ? ::mir_a2u(obj->GetStrProp(Contact::P_PHONE_HOME)) : ::mir_a2u(obj->GetStrProp(Account::P_PHONE_HOME));
 	if ( !::wcslen(phone))
 		::db_unset(hContact, this->m_szModuleName, "Phone");
 	else
@@ -272,7 +272,7 @@ void CSkypeProto::UpdateProfilePhone(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileOfficePhone(SEObject *obj, HANDLE hContact)
 {
-	wchar_t* phone = ::mir_a2u(obj->GetStrProp(/* *::P_PHONE_OFFICE */ 14));
+	wchar_t *phone = hContact ? ::mir_a2u(obj->GetStrProp(Contact::P_PHONE_OFFICE)) : ::mir_a2u(obj->GetStrProp(Account::P_PHONE_OFFICE));
 	if ( !::wcslen(phone))
 		::db_unset(hContact, this->m_szModuleName, "CompanyPhone");
 	else
@@ -282,7 +282,7 @@ void CSkypeProto::UpdateProfileOfficePhone(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileState(SEObject *obj, HANDLE hContact)
 {
-	wchar_t* state = ::mir_utf8decodeW(obj->GetStrProp(/* *::P_PROVINCE */ 11));
+	wchar_t *state = hContact ? ::mir_utf8decodeW(obj->GetStrProp(Contact::P_PROVINCE)) : ::mir_utf8decodeW(obj->GetStrProp(Account::P_PROVINCE));
 	if ( !::wcslen(state))
 		::db_unset(hContact, this->m_szModuleName, "State");
 	else
@@ -292,7 +292,7 @@ void CSkypeProto::UpdateProfileState(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileStatusMessage(SEObject *obj, HANDLE hContact)
 {
-	wchar_t* statusMessage = ::mir_utf8decodeW(obj->GetStrProp(/* *::P_MOOD_TEXT */ 26));
+	wchar_t *statusMessage = hContact ? ::mir_utf8decodeW(obj->GetStrProp(Contact::P_MOOD_TEXT)) : ::mir_utf8decodeW(obj->GetStrProp(Account::P_MOOD_TEXT));
 	if ( !::wcslen(statusMessage))
 		::db_unset(hContact, this->m_szModuleName, "XStatusMsg");
 	else
@@ -302,7 +302,7 @@ void CSkypeProto::UpdateProfileStatusMessage(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HANDLE hContact)
 {
-	uint data = obj->GetUintProp(/* *::P_TIMEZONE */ 27);
+	uint data = hContact ? obj->GetUintProp(Contact::P_TIMEZONE) : obj->GetUintProp(Account::P_TIMEZONE);
 	if (data > 0)
 	{
 		uint diffmin = (data - 24*3600) / 60;
@@ -334,7 +334,7 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 {
 	this->UpdateProfileAvatar(obj, hContact);
 
-	uint newTS = obj->GetUintProp(/* *::P_PROFILE_TIMESTAMP */ 19);
+	uint newTS = hContact ? obj->GetUintProp(Contact::P_PROFILE_TIMESTAMP) : obj->GetUintProp(Account::P_PROFILE_TIMESTAMP);
 	if (newTS > ::db_get_dw(hContact, this->m_szModuleName, "ProfileTS", 0))
 	{
 		this->UpdateProfileAboutText(obj, hContact);
@@ -366,7 +366,7 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 	}
 }
 
-void __cdecl CSkypeProto::LoadOwnInfo(void*)
+void __cdecl CSkypeProto::LoadOwnInfo(void *)
 {
 	wchar_t *nick = ::db_get_wsa(NULL, this->m_szModuleName, "Nick");
 	if ( !nick || !::wcslen(nick))

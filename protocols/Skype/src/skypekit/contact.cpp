@@ -39,9 +39,8 @@ bool CContact::GetFullname(SEString &firstName, SEString &lastName)
 	{
 		firstName = fullname.substr(0, pos);
 		lastName = fullname.right(pos);
-	}
-
-	firstName = fullname;
+	} else
+		firstName = fullname;
 	
 	return true;
 }
