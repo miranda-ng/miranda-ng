@@ -202,6 +202,7 @@
     <ClInclude Include="src\skypekit\skypekit.h" />
     <ClInclude Include="src\skypekit\transfer.h" />
     <ClInclude Include="src\skype_proto.h" />
+    <ClInclude Include="src\string_list.h" />
     <ClInclude Include="src\version.h" />
     <ClInclude Include="src\resource.h" />
   </ItemGroup>

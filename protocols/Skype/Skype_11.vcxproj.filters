@@ -158,6 +158,9 @@
     <ClInclude Include="src\skypekit\skypekit.h">
       <Filter>Header Files\skypekit</Filter>
     </ClInclude>
+    <ClInclude Include="src\string_list.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Resource.rc">
