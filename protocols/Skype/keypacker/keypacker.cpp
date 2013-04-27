@@ -157,7 +157,7 @@ int main()
 	strcpy(output, "#define MY_KEY \"");
 	strcat(output, (const char*)tmpk);
 	strcat(output, "\"");
-	fout = fopen("..\\..\\..\\..\\SkypeKit\\key.h", "wb");
+	fout = fopen("key.h", "wb");
 	fputs((const char*)output, fout);
 	fclose(fout);
 	free(buf);
@@ -165,7 +165,7 @@ int main()
 	aes_set_key( &ctx, (BYTE*)MY_KEY, 128);
 
 	//encrypt
-	fin = fopen("..\\..\\..\\..\\SkypeKit\\keypair.crt", "rb");
+	fin = fopen("keypair.crt", "rb");
 	fseek(fin, 0, SEEK_END);
 	long fileSize =	ftell(fin);
 	rewind (fin);
@@ -188,14 +188,14 @@ int main()
 	tmp = (unsigned char *)encode(locbuf, corsize, false);
 	tmp[basecoded] = 0;
 	free(locbuf);
-	fout = fopen("..\\..\\..\\..\\SkypeKit\\keypair.bin", "wb");
+	fout = fopen("keypair.bin", "wb");
 	fputs((const char*)tmp, fout);
 	fclose(fout);
 	free(buf);
 	//free(tmp); todo:fix
 
 	//decrypt
-	fin = fopen("..\\..\\..\\..\\SkypeKit\\keypair.bin", "rb");
+	fin = fopen("keypair.bin", "rb");
 	fseek(fin, 0, SEEK_END);
 	long fileSizeD = ftell(fin);
 	rewind(fin);
@@ -213,7 +213,7 @@ int main()
 	bufD[basedecoded] = 0; //cert should be null terminated
 	//free(inBufD); todo:fix
 	free(tmpD);
-	fout = fopen("..\\..\\..\\..\\SkypeKit\\keypair.crt.decrypted", "wb");
+	fout = fopen("keypair.crt.decrypted", "wb");
 	fputs((const char*)bufD, fout);
 	fclose(fout);
 	free(bufD);

@@ -15,7 +15,7 @@ ULONG Base64::Encode(const char *inputString, char *outputBuffer, SIZE_T nMaxLen
 
 	for (unsigned int i = 0; i < ::strlen(inputString); i += 3)
 	{
-		if (outpos + 4 >= nMaxLength)break;
+		if (outpos + 4 >= (int)nMaxLength)break;
 
 		chr[0] = inputString[i];
 		chr[1] = inputString[i+1];
@@ -75,9 +75,9 @@ ULONG Base64::Decode(const char *inputString, char *outputBuffer, SIZE_T nMaxLen
 	int outpos = 0;
 	char chr[3], enc[4];	
 
-	for (int i = 0; i < ::strlen(inputString); i += 4)
+	for (int i = 0; i < (int)::strlen(inputString); i += 4)
 	{
-		if (outpos+3 >= nMaxLength) break;
+		if (outpos+3 >= (int)nMaxLength) break;
 
 		enc[0] = Base64::IndexBase64[inputString[i]];
 		enc[1] = Base64::IndexBase64[inputString[i+1]];

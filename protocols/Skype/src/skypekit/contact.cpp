@@ -35,7 +35,7 @@ bool CContact::GetFullname(SEString &firstName, SEString &lastName)
 	SEString fullname;
 	this->GetPropFullname(fullname);
 	int pos = fullname.find(" ");
-	if (pos && pos < fullname.length())
+	if (pos && pos < (int)fullname.length())
 	{
 		firstName = fullname.substr(0, pos);
 		lastName = fullname.right(pos);
