@@ -13,6 +13,8 @@ HINSTANCE g_hInstance;
 
 TIME_API tmi = {0};
 
+std::map<std::wstring, std::wstring> CSkypeProto::languages = CSkypeProto::FillLanguages();
+
 PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),

@@ -195,35 +195,6 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 	return FALSE;
 }
 
-INT_PTR __cdecl CSkypeProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
-{
-	return (int)::CreateDialogParam(
-		g_hInstance,
-		MAKEINTRESOURCE(IDD_ACCMGR),
-		(HWND)lParam,
-		&CSkypeProto::SkypeMainOptionsProc,
-		(LPARAM)this);
-}
-
-int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
-{
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
-	odp.hInstance = g_hInstance;
-	odp.ptszTitle = m_tszUserName;
-	odp.dwInitParam = LPARAM(this);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-
-	odp.position = 271828;
-	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTab = LPGENT("Account");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
-	odp.pfnDlgProc = SkypeMainOptionsProc;
-	::Options_AddPage(wParam, &odp);
-
-	return 0;
-}
-
 INT_PTR CALLBACK CSkypeProto::SkypePasswordRequestProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	PasswordRequestBoxParam *param = reinterpret_cast<PasswordRequestBoxParam*>(::GetWindowLongPtr(hwndDlg, GWLP_USERDATA));

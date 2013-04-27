@@ -3,6 +3,9 @@
 #include "skype.h"
 #include "skypekit\skypekit.h"
 
+#include <map>
+#include <string>
+
 typedef void    (__cdecl CSkypeProto::* SkypeThreadFunc) (void*);
 typedef int     (__cdecl CSkypeProto::* SkypeEventFunc)(WPARAM, LPARAM);
 typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFunc)(WPARAM, LPARAM);
@@ -67,11 +70,6 @@ struct _tag_iconList
 	char*		Name;
 	int			IconId;
 	HANDLE		Handle;
-};
-
-struct LanguagesListEntry {
-	const char *szName;
-	char ISOcode[3];
 };
 
 #define LI_STRING        0
@@ -367,7 +365,10 @@ protected:
 	void __cdecl SearchByEmailAsync(void*);
 
 	// profile
-	static SettingItem setting[19];
+	static std::map<std::wstring, std::wstring> languages;
+	static std::map<std::wstring, std::wstring> FillLanguages();
+
+	static SettingItem setting[23];
 
 	void	UpdateProfileAvatar(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileAboutText(SEObject *obj, HANDLE hContact = NULL);
@@ -407,7 +408,7 @@ protected:
 
 	static char *RemoveHtml(const char *data);
 
-	void		SetServerStatus(int iStatus);
+	void	SetServerStatus(int iStatus);
 	int		SkypeToMirandaStatus(CContact::AVAILABILITY availability);
 	CContact::AVAILABILITY MirandaToSkypeStatus(int status);
 

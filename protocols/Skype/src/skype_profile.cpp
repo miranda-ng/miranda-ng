@@ -1,28 +1,37 @@
 #include "skype_proto.h"
+#include <sstream>
 
 SettingItem CSkypeProto::setting[] = {
   {LPGENT("Nick"),			"Nick",			DBVT_WCHAR,	LI_STRING},
+  {LPGENT("First name"),	"FirstName",	DBVT_WCHAR,	LI_STRING},
+  {LPGENT("Last name"),		"LastName",		DBVT_WCHAR,	LI_STRING},
+  {LPGENT("Gender"),		"Gender",		DBVT_BYTE,	LI_LIST},
+
   {LPGENT("Mood"),			"XStatusMsg",	DBVT_WCHAR,	LI_STRING},
 
   {LPGENT("Mobile phone"),	"Cellular",		DBVT_WCHAR,	LI_NUMBER},
   {LPGENT("Home phone"),	"Phone",		DBVT_WCHAR,	LI_NUMBER},
   {LPGENT("Office phone"),	"CompanyPhone",	DBVT_WCHAR,	LI_NUMBER},
+
   {LPGENT("E-mail 1"),		"e-mail0",		DBVT_WCHAR,	LI_STRING},
   {LPGENT("E-mail 2"),		"e-mail1",		DBVT_WCHAR,	LI_STRING},
   {LPGENT("E-mail 3"),		"e-mail2",		DBVT_WCHAR,	LI_STRING},
 
+  {LPGENT("Time zone"),		"Timezone",		DBVT_BYTE,	LI_LIST},
   {LPGENT("Country"),		"Country",		DBVT_WCHAR,	LI_LIST},
   {LPGENT("State"),			"State",		DBVT_WCHAR,	LI_STRING},
-  {LPGENT("City"),			"City",			DBVT_WCHAR,	LI_STRING},
-  {LPGENT("Time zone"),		"Timezone",		DBVT_BYTE,	LI_LIST},
-  {LPGENT("Homepage"),		"Homepage",		DBVT_WCHAR,	LI_STRING},
-  {LPGENT("Gender"),		"Gender",		DBVT_BYTE,	LI_LIST},
+  {LPGENT("City"),			"City",			DBVT_WCHAR,	LI_STRING},  
+
   {LPGENT("Birth day"),		"BirthDay",		DBVT_BYTE,	LI_NUMBER},
   {LPGENT("Birth month"),	"BirthMonth",	DBVT_BYTE,	LI_NUMBER},
   {LPGENT("Birth year"),	"BirthYear",	DBVT_WORD,	LI_NUMBER},
-  {LPGENT("Language"),		"Language1",	DBVT_WCHAR,	LI_LIST},
 
-  {LPGENT("About"),			"About",		DBVT_WCHAR,	LI_STRING}
+  {LPGENT("Language 1"),	"Language1",	DBVT_WCHAR,	LI_LIST},
+  {LPGENT("Language 2"),	"Language2",	DBVT_WCHAR,	LI_LIST},
+  {LPGENT("Language 3"),	"Language3",	DBVT_WCHAR,	LI_LIST},
+
+  {LPGENT("About"),			"About",		DBVT_WCHAR,	LI_STRING},
+  {LPGENT("Homepage"),		"Homepage",		DBVT_WCHAR,	LI_STRING}
 };
 
 void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
@@ -46,7 +55,7 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 				::fwrite(data.data(), sizeof(char), data.size(), fp);
 				::fclose(fp);
 
-				::db_set_dw(NULL, this->m_szModuleName, "AvatarTS", newTS);
+				::db_set_dw(hContact, this->m_szModuleName, "AvatarTS", newTS);
 
 				if (hContact)
 				{
@@ -150,7 +159,7 @@ void CSkypeProto::UpdateProfileCountry(SEObject *obj, HANDLE hContact)
 void CSkypeProto::UpdateProfileEmails(SEObject *obj, HANDLE hContact)
 {
 	wchar_t* emails = ::mir_a2u(obj->GetStrProp(/* *::P_EMAILS */ 16));
-	if (wcscmp(emails, L"") == 0)
+	if (::wcscmp(emails, L"") == 0)
 	{
 		::db_unset(hContact, this->m_szModuleName, "e-mail0");
 		::db_unset(hContact, this->m_szModuleName, "e-mail1");
@@ -158,20 +167,15 @@ void CSkypeProto::UpdateProfileEmails(SEObject *obj, HANDLE hContact)
 	}
 	else
 	{
-		wchar_t* p = wcstok(emails, L" ");
-		if (p == NULL)
+		StringList emls = emails;
+		for (int i = 0; i < emls.getCount(); i++)
 		{
-			::db_set_ws(hContact, this->m_szModuleName, "e-mail0", emails);
+			std::stringstream ss;
+			ss << "e-mail" << i;
+			std::string key = ss.str();
+		
+			::db_set_ws(hContact, this->m_szModuleName, key.c_str(), emls[i]);
 		}
-		else
-		{
-			::db_set_ws(hContact, this->m_szModuleName, "e-mail0", p);
-			p = wcstok(NULL, L" ");
-			if (p) ::db_set_ws(hContact, this->m_szModuleName, "e-mail1", p);
-			p = wcstok(NULL, L" ");
-			if (p) ::db_set_ws(hContact, this->m_szModuleName, "e-mail2", p);
-		}
-		::mir_free(p);
 	}
 	::mir_free(emails);
 }
@@ -186,14 +190,12 @@ void CSkypeProto::UpdateProfileFullName(SEObject *obj, HANDLE hContact)
 	}
 	else
 	{
-		wchar_t *firstName = ::wcstok(fullname, L" ");
-		wchar_t *lastName = ::wcstok(NULL, L" ");
-		if (lastName == NULL)
-		{
-			lastName = L"";
-		}
-		::db_set_ws(hContact, this->m_szModuleName, "FirstName", firstName);
-		::db_set_ws(hContact, this->m_szModuleName, "LastName", lastName);
+		SEString firstName, lastName;
+		CContact *contact = (CContact *)obj;
+		contact->GetFullname(firstName, lastName);
+
+		::db_set_ws(hContact, this->m_szModuleName, "FirstName", mir_ptr<wchar_t>(::mir_utf8decodeW(firstName)));
+		::db_set_ws(hContact, this->m_szModuleName, "LastName", mir_ptr<wchar_t>(::mir_utf8decodeW(lastName)));
 	}
 	::mir_free(fullname);
 }
@@ -228,27 +230,18 @@ void CSkypeProto::UpdateProfileLanguages(SEObject *obj, HANDLE hContact)
 	}
 	else
 	{
-		wchar_t* p = wcstok(isocodes, L" ");
-		if (p == NULL)
+		StringList langs = isocodes;
+		for (int i = 0; i < langs.getCount(); i++)
 		{
-			::db_set_ws(hContact, this->m_szModuleName, "Language1", isocodes);
-		}
-		else
-		{
-			::db_set_ws(hContact, this->m_szModuleName, "Language1", p);
-			p = wcstok(NULL, L" ");
-			if (p) ::db_set_ws(hContact, this->m_szModuleName, "Language2", p);
-			p = wcstok(NULL, L" ");
-			if (p) ::db_set_ws(hContact, this->m_szModuleName, "Language3", p);
-		}
-
-		// todo: fix
-		/*for (int i = 0; i < SIZEOF(CSkypeProto::languages); i++)
-			if ( ::stricmp((char*)isocode, CSkypeProto::languages[i].ISOcode) == 0)
+			if (CSkypeProto::languages.count(langs[i]))
 			{
-				this->SetSettingString(hContact, "Language1", ::mir_a2u(CSkypeProto::languages[i].szName));
-				break;
-			}*/
+				std::stringstream ss;
+				ss << "Language" << i + 1;
+				std::string key = ss.str();
+				std::wstring val = CSkypeProto::languages[langs[i]];
+				::db_set_ws(hContact, this->m_szModuleName, key.c_str(), val.c_str());
+			}
+		}
 	}
 	::mir_free(isocodes);
 }
@@ -365,7 +358,7 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 			::db_set_ws(hContact, this->m_szModuleName, "MirVer", L"Skype");
 		}
 
-		::db_set_dw(NULL, this->m_szModuleName, "ProfileTS", newTS);
+		::db_set_dw(hContact, this->m_szModuleName, "ProfileTS", newTS);
 	}
 }
 

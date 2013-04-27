@@ -113,10 +113,10 @@ void CSkypeProto::RaiseMessageSendedEvent(HANDLE hContact, DWORD timestamp, cons
 
 	int guidLen = ::strlen(guid);
 
-	char *msg = ::mir_strdup(message);
-	int  msgLen = ::strlen(msg) + 1;
+	int  msgLen = ::strlen(message) + 1;
+	char *msg = (char *)::mir_alloc(msgLen + guidLen);
 
-	msg = (char *)::mir_realloc(msg, msgLen + 32);
+	::strcpy(msg, message); msg[msgLen - 1] = 0;
 	::memcpy((char *)&msg[msgLen], guid, 32);
 
 	DWORD flags = DBEF_UTF | DBEF_SENT;
