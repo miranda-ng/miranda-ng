@@ -54,9 +54,12 @@ int CSkypeProto::OnMessagePreCreate(WPARAM, LPARAM lParam)
 	SEBinary guid;
 	if (message->GetPropGuid(guid))
 	{
+		char *cguid = ::mir_strdup(guid.data());
+		cguid[guid.size()] = 0;
+
 		evt->dbei->pBlob = (PBYTE)::mir_realloc(evt->dbei->pBlob, evt->dbei->cbBlob + guid.size());
-		::memcpy((char *)&evt->dbei->pBlob[evt->dbei->cbBlob], guid.data(), guid.size());
-		evt->dbei->cbBlob += 32;
+		::memcpy((char *)&evt->dbei->pBlob[evt->dbei->cbBlob], cguid, guid.size());
+		evt->dbei->cbBlob += guid.size();
 	}
 
 	return 1;
@@ -102,10 +105,13 @@ void CSkypeProto::OnMessageSended(CConversation::Ref &conversation, CMessage::Re
 			SEBinary guid;
 			message->GetPropGuid(guid);
 
+			char *cguid = ::mir_strdup(guid.data());
+			cguid[guid.size()] = 0;
+
 			this->RaiseMessageSendedEvent(
 				hContact,
 				timestamp,
-				guid.data(),
+				cguid,
 				text);
 		}
 	}
@@ -117,7 +123,7 @@ void CSkypeProto::OnMessageSended(CConversation::Ref &conversation, CMessage::Re
 		wchar_t *nick = ::db_get_wsa(NULL, this->m_szModuleName, "Nick");
 		if (::wcsicmp(nick, L"") == 0)
 		{
-			nick = ::db_get_wsa(NULL, this->m_szModuleName, "sid");
+			nick = ::db_get_wsa(NULL, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
 		}
 
 		this->SendChatMessage(cid, nick, text);
@@ -156,10 +162,13 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref &conversation, CMessage::
 		SEBinary guid;
 		message->GetPropGuid(guid);
 
+		char *cguid = ::mir_strdup(guid.data());
+		cguid[guid.size()] = 0;
+
 		this->RaiseMessageReceivedEvent(
 			hContact,
 			timestamp, 
-			guid.data(),
+			cguid,
 			text,
 			status != CMessage::UNCONSUMED_NORMAL);
 	}
@@ -459,7 +468,7 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 		wchar_t *message = new wchar_t[14];
 		::wcscpy(message, L"Incoming call");
 		
-		this->AddDataBaseEvent(
+		this->AddDBEvent(
 			hContact,
 			SKYPE_DB_EVENT_TYPE_CALL,
 			timestamp,

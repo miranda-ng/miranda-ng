@@ -36,7 +36,7 @@ bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char* gu
 	return result;
 }
 
-HANDLE CSkypeProto::AddDataBaseEvent(HANDLE hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
+HANDLE CSkypeProto::AddDBEvent(HANDLE hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
 {
 	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
@@ -88,7 +88,7 @@ void CSkypeProto::RaiseAuthRequestEvent(DWORD timestamp, CContact::Ref contact)
 	::strcpy((char*)pCurBlob, sid); pCurBlob += ::strlen(sid) + 1;
 	::strcpy((char*)pCurBlob, reason);
 
-	this->AddDataBaseEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), PREF_UTF, cbBlob, pBlob);
+	this->AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), PREF_UTF, cbBlob, pBlob);
 }
 
 void CSkypeProto::RaiseMessageReceivedEvent(HANDLE hContact, DWORD timestamp, const char *guid, const wchar_t *message, bool isNeedCheck)
@@ -111,16 +111,13 @@ void CSkypeProto::RaiseMessageSendedEvent(HANDLE hContact, DWORD timestamp, cons
 	if (this->IsMessageInDB(hContact, timestamp, guid, DBEF_SENT))
 		return;
 
+	int guidLen = ::strlen(guid);
+
 	char *msg = ::mir_utf8encodeW(message);
+	int  msgLen = ::strlen(msg) + 1;
 
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
-	dbei.szModule = this->m_szModuleName;
-	dbei.timestamp = timestamp;
-	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = (DWORD)::strlen(msg) + 1;
-	dbei.pBlob = (PBYTE)msg;
-	dbei.flags = PREF_UTF | DBEF_SENT;
+	msg = (char *)::mir_realloc(msg, msgLen + 32);
+	::memcpy((char *)&msg[msgLen], guid, 32);
 
-	::db_event_add(hContact, &dbei);
+	this->AddDBEvent(hContact, EVENTTYPE_MESSAGE, timestamp, PREF_UTF | DBEF_SENT, msgLen + guidLen, (PBYTE)msg);
 }

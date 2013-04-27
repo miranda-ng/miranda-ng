@@ -104,7 +104,7 @@ int __cdecl CSkypeProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 	if (pre->flags & PREF_UTF)
 		flags |= DBEF_UTF;
 
-	this->AddDataBaseEvent(
+	this->AddDBEvent(
 		hContact,
 		EVENTTYPE_AUTHREQUEST,
 		pre->timestamp,
@@ -274,7 +274,7 @@ int    __cdecl CSkypeProto::RecvContacts( HANDLE hContact, PROTORECVEVENT* ) { r
 int    __cdecl CSkypeProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt) 
 { 
 	::db_unset(hContact, "CList", "Hidden");
-	return Proto_RecvFile(hContact, evt);
+	return ::Proto_RecvFile(hContact, evt);
 }
 
 int    __cdecl CSkypeProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* pre)
@@ -282,25 +282,22 @@ int    __cdecl CSkypeProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* pre)
 	::db_unset(hContact, "CList", "Hidden");
 	this->UserIsTyping(hContact, PROTOTYPE_SELFTYPING_OFF);
 
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
-	dbei.szModule = GetContactProto(hContact);
-	dbei.timestamp = pre->timestamp;
-	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = (DWORD)strlen(pre->szMessage) + 1;
-	dbei.pBlob = (PBYTE) pre->szMessage;
-
 	char *guid = (char *)pre->lParam;
-	dbei.pBlob = (PBYTE)::mir_realloc(dbei.pBlob, dbei.cbBlob + 32);
-	::memcpy((char *)&dbei.pBlob[dbei.cbBlob], guid, 32);
-	dbei.cbBlob += 32;
+	int guidLen = ::strlen(guid);
 
-	if (pre->flags & PREF_CREATEREAD)
-		dbei.flags |= DBEF_READ;
-	if (pre->flags & PREF_UTF)
-		dbei.flags |= DBEF_UTF;
+	char *message = (char *)pre->szMessage;
+	int msgLen = ::strlen(message) + 1;
 
-	return (INT_PTR)::db_event_add(hContact, &dbei);
+	message = (char *)::mir_realloc(message, msgLen + guidLen);
+	::memcpy((char *)&message[msgLen], guid, guidLen);
+
+	return (INT_PTR)this->AddDBEvent(
+		hContact,
+		EVENTTYPE_MESSAGE,
+		pre->timestamp,
+		DBEF_UTF | ((pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0),
+		msgLen + guidLen,
+		(PBYTE)message);
 
 	//return ::Proto_RecvMessage(hContact, pre);
 }
