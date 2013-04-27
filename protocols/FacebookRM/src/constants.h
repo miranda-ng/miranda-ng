@@ -90,6 +90,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_REQUEST_LOAD_FRIENDS			121 // getting list of all friends
 #define FACEBOOK_REQUEST_FEEDS                  122 // getting feeds
 #define FACEBOOK_REQUEST_NOTIFICATIONS			123 // getting notifications
+#define FACEBOOK_REQUEST_UNREAD_MESSAGES		124	// getting unread messages
 #define FACEBOOK_REQUEST_LOAD_REQUESTS			125 // getting friend requests
 #define FACEBOOK_REQUEST_REQUEST_FRIEND			126 // requesting friends
 #define FACEBOOK_REQUEST_APPROVE_FRIEND			127 // approving friends

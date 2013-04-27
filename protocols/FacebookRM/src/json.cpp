@@ -56,10 +56,27 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 		for (List::Item< facebook_user >* i = buddy_list->begin(); i != NULL; i = i->next) {
 			i->data->status_id = ID_STATUS_OFFLINE;
 		}
+
+		// Load last active times
+		const Object& lastActive = objRoot["payload"]["buddy_list"]["last_active_times"];
+		for (Object::const_iterator itLastActive(lastActive.Begin()); itLastActive != lastActive.End(); ++itLastActive)
+		{
+			const Object::Member& member = *itLastActive;
+
+			current = buddy_list->find(member.name);
+			if (current == NULL) {
+				buddy_list->insert(std::make_pair(member.name, new facebook_user()));
+				current = buddy_list->find(member.name);
+				current->user_id = member.name;
+			}
+
+			const Number& timestamp = member.element;
+			current->last_active = timestamp.Value();
+		}
 		
-		const Array& mobileFriends = objRoot["payload"]["buddy_list"]["mobile_friends"];
 		// Find mobile friends
-		for (Array::const_iterator buddy(mobileFriends.Begin());	buddy != mobileFriends.End(); ++buddy) {
+		const Array& mobileFriends = objRoot["payload"]["buddy_list"]["mobile_friends"];
+		for (Array::const_iterator buddy(mobileFriends.Begin()); buddy != mobileFriends.End(); ++buddy) {
 			const Number& member = *buddy;
 			char was_id[32];
 			lltoa(member.Value(), was_id, 10);
@@ -73,13 +90,13 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 					current = buddy_list->find(id);
 					current->user_id = id;
 				}
-					
+
 				current->status_id = ID_STATUS_ONTHEPHONE;
 			}
 		}
 
-		const Object& nowAvailableList = objRoot["payload"]["buddy_list"]["nowAvailableList"];
 		// Find now awailable contacts
+		const Object& nowAvailableList = objRoot["payload"]["buddy_list"]["nowAvailableList"];
 		for (Object::const_iterator itAvailable(nowAvailableList.Begin());
 			itAvailable != nowAvailableList.End(); ++itAvailable)
 		{
@@ -95,12 +112,12 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 				current = buddy_list->find(member.name);
 				current->user_id = current->real_name = member.name;	
 			}
-						
+
 			current->status_id = (idle ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
 		}
 
-		const Object& userInfosList = objRoot["payload"]["buddy_list"]["userInfos"];
 		// Get aditional informations about contacts (if available)
+		const Object& userInfosList = objRoot["payload"]["buddy_list"]["userInfos"];
 		for (Object::const_iterator itUserInfo(userInfosList.Begin());
 			itUserInfo != userInfosList.End(); ++itUserInfo)
 		{
@@ -119,6 +136,7 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 			current->image_url = utils::text::slashu_to_utf8(
 			    utils::text::special_expressions_decode(imageUrl.Value()));
 		}
+
 	}
 	catch (Reader::ParseException& e)
 	{
@@ -160,7 +178,10 @@ int facebook_json_parser::parse_friends(void* data, std::map< std::string, faceb
 			const String& realName = objMember["name"];
 			const String& imageUrl = objMember["thumbSrc"];
 			//const String& vanity = objMember["vanity"];
+			//const String& uri = objMember["uri"];
 			const Number& gender = objMember["gender"];
+			//const Boolean& isFriend = objMember["is_friend"];
+			//const String& type = objMember["type"]; // "friend" = existing classic contact, "user" = contact with disabled/deleted account
 			
 			facebook_user *fbu = new facebook_user();
 

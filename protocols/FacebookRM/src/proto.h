@@ -138,6 +138,7 @@ public:
 	void __cdecl ProcessFriendList(void*);
 	void __cdecl ProcessMessages(void*);
 	void __cdecl ProcessUnreadMessages(void*);
+	void __cdecl ProcessUnreadMessage(void*);
 	void __cdecl ProcessFeeds(void*);
 	void __cdecl ProcessNotifications(void*);
 	void __cdecl ProcessFriendRequests(void*);

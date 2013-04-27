@@ -245,6 +245,7 @@ DWORD facebook_client::choose_security_level(int request_type)
 //	case FACEBOOK_REQUEST_VISIBILITY:
 //	case FACEBOOK_REQUEST_TABS:
 //	case FACEBOOK_REQUEST_ASYNC:
+//	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
 //	case FACEBOOK_REQUEST_TYPING_SEND:
 	default:
 		return (DWORD)0;
@@ -282,6 +283,7 @@ int facebook_client::choose_method(int request_type)
 //	case FACEBOOK_REQUEST_LOAD_FRIENDS:		
 //	case FACEBOOK_REQUEST_LOAD_REQUESTS:
 //	case FACEBOOK_REQUEST_SEARCH:
+//	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
 	default:
 		return REQUEST_GET;
 	}
@@ -315,6 +317,7 @@ std::string facebook_client::choose_server(int request_type, std::string* data, 
 	case FACEBOOK_REQUEST_APPROVE_FRIEND:
 	case FACEBOOK_REQUEST_LOAD_REQUESTS:
 	case FACEBOOK_REQUEST_SEARCH:
+	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
 		return FACEBOOK_SERVER_MOBILE;
 
 //	case FACEBOOK_REQUEST_LOGOUT:
@@ -377,6 +380,15 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 	case FACEBOOK_REQUEST_SEARCH:
 	{
 		std::string action = "/search/?search=people&query=";
+		if (get_data != NULL) {
+			action += *get_data;
+		}
+		return action;
+	}
+
+	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
+	{
+		std::string action = "/messages/?folder=unread";
 		if (get_data != NULL) {
 			action += *get_data;
 		}
@@ -820,7 +832,7 @@ bool facebook_client::chat_state(bool online)
 	std::string data = (online ? "visibility=1" : "visibility=0");
 	data += "&window_id=0";
 	data += "&fb_dtsg=" + this->dtsg_;
-	data += "&lsd=&phstamp=0&__user=" + self_.user_id;
+	data += "&phstamp=0&__user=" + self_.user_id;
 	http::response resp = flap(FACEBOOK_REQUEST_VISIBILITY, &data);
   
 	return handle_success("chat_state");
@@ -865,18 +877,16 @@ bool facebook_client::buddy_list()
 	handle_entry("buddy_list");
 
 	// Prepare update data
-	std::string data = "user=" + this->self_.user_id + "&fetch_mobile=true&fb_dtsg=" + this->dtsg_ + "&lsd=&__user=" + this->self_.user_id;
+	std::string data = "user=" + this->self_.user_id + "&fetch_mobile=true&phstamp=0&fb_dtsg=" + this->dtsg_ + "&__user=" + this->self_.user_id;
 
 	{
 		ScopedLock s(buddies_lock_);
 
+		data += "&cached_user_info_ids=";
 		int counter = 0;
 		for (List::Item< facebook_user >* i = buddies.begin(); i != NULL; i = i->next, counter++)
 		{
-			data += "&available_user_info_ids[";
-			data += utils::conversion::to_string(&counter, UTILS_CONV_UNSIGNED_NUMBER);
-			data += "]=";
-			data += i->data->user_id;
+			data += i->data->user_id + "%2C";
 		}
 	}
 
