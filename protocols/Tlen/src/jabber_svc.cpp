@@ -581,14 +581,13 @@ static void __cdecl TlenGetAwayMsgThread(void *ptr)
 	if (!db_get(data->hContact, data->proto->m_szModuleName, "jid", &dbv)) {
 		if ((item=JabberListGetItemPtr(data->proto, LIST_ROSTER, dbv.pszVal)) != NULL) {
 			db_free(&dbv);
-			if (item->statusMessage != NULL) {
-				ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)data->msgid, (LPARAM) item->statusMessage);
-				return;
-			}
+			ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 
+				item->statusMessage==NULL ? (LPARAM)NULL : (LPARAM)(TCHAR*)_A2T(item->statusMessage));
+			return;
 		}
 		else db_free(&dbv);
 	}
-	ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) "");
+	ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)(TCHAR*)TEXT(""));
 	delete data;
 }
 
@@ -605,7 +604,7 @@ INT_PTR TlenSendAlert(void *ptr, LPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int __cdecl TlenProtocol::SendMsg(HANDLE hContact, int flags, const char* msg)
+int __cdecl TlenProtocol::SendMsg(HANDLE hContact, int flags, const char* msgRAW)
 {
 	DBVARIANT dbv;
 	char *msgEnc;
@@ -616,6 +615,15 @@ int __cdecl TlenProtocol::SendMsg(HANDLE hContact, int flags, const char* msg)
 		JabberForkThread(TlenSendMessageFailedThread, 0, new SENDACKTHREADDATA(this, hContact, 2));
 		return 2;
 	}
+
+	char* msg;
+	if (flags & PREF_UNICODE)
+		msg = mir_u2a((wchar_t*)&msgRAW[strlen(msgRAW) + 1]);
+	else if (flags & PREF_UTF)
+		msg = mir_utf8decodeA(msgRAW);
+	else
+		msg = mir_strdup(msgRAW);
+
 
 	int id = JabberSerialNext(this);
 
@@ -657,6 +665,8 @@ int __cdecl TlenProtocol::SendMsg(HANDLE hContact, int flags, const char* msg)
 		}
 		mir_free(msgEnc);
 	}
+
+	mir_free(msg);
 	db_free(&dbv);
 	return id;
 }
@@ -705,10 +715,8 @@ static INT_PTR TlenGetAvatarInfo(void *ptr, LPARAM wParam, LPARAM lParam)
 
 HANDLE __cdecl TlenProtocol::GetAwayMsg(HANDLE hContact)
 {
-	SENDACKTHREADDATA *tdata = (SENDACKTHREADDATA*) mir_alloc(sizeof(SENDACKTHREADDATA));
-	tdata->proto = this;
-	tdata->hContact = hContact;
-	JabberForkThread((void (__cdecl *)(void*))TlenGetAwayMsgThread, 0, (void *) tdata);
+	SENDACKTHREADDATA *tdata = new SENDACKTHREADDATA(this, hContact, 0);
+	JabberForkThread((void (__cdecl *)(void*))TlenGetAwayMsgThread, 0, (void*)tdata);
 	return (HANDLE)1;
 }
 
