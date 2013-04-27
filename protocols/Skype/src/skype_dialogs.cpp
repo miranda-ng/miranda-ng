@@ -640,50 +640,33 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 				{
 					HWND hwndList = ::GetDlgItem(hwndDlg, IDC_CCLIST);
 
-					SEStringList invitedContacts;
+					StringList invitedContacts;
 					param->ppro->GetInviteContacts(NULL, hwndList, invitedContacts);
 
 					wchar_t *chatID = ::mir_wstrdup(param->id);
 
+					SEStringList needToAdd;
+					CConversation::Ref conversation;
 					if (chatID)
 					{
-						for (uint i = 0; i < invitedContacts.size(); i++)
-						{
-							CContact::Ref contact;
-							CContact::AVAILABILITY status;
-							g_skype->GetContact(invitedContacts[i], contact);
-							contact->GetPropAvailability(status);
-
-							//todo: fix rank
-							param->ppro->AddChatContact(
-								chatID, 
-								::mir_utf8decodeW(invitedContacts[i]),
-								CSkypeProto::Roles[CParticipant::SPEAKER],
-								status);
-						}
-
-						CConversation::Ref conversation;
 						g_skype->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation);
-						conversation->AddConsumers(invitedContacts);
+						for (uint i = 0; i < invitedContacts.getCount(); i++)
+							needToAdd.append((char *)mir_ptr<char>(::mir_u2a(invitedContacts[i])));
+						conversation->AddConsumers(needToAdd);
 					}
 					else
-					{
-						chatID = param->ppro->StartChat(NULL, invitedContacts);
+					{						
+						g_skype->CreateConference(conversation);
+						conversation->SetOption(CConversation::P_OPT_JOINING_ENABLED, true);
+						conversation->SetOption(CConversation::P_OPT_ENTRY_LEVEL_RANK, CParticipant::WRITER);
+						conversation->SetOption(CConversation::P_OPT_DISCLOSE_HISTORY, 1);
+						conversation->AddConsumers(needToAdd);
+						
+						SEString data;
+						conversation->GetPropIdentity(data);
+						chatID = ::mir_utf8decodeW(data);						
 
-						for (uint i = 0; i < invitedContacts.size(); i++)
-						{
-							CContact::Ref contact;
-							CContact::AVAILABILITY status;
-							g_skype->GetContact(invitedContacts[i], contact);
-							contact->GetPropAvailability(status);
-
-							//todo: fix rank
-							param->ppro->AddChatContact(
-								chatID, 
-								::mir_utf8decodeW(invitedContacts[i]), 
-								CSkypeProto::Roles[CParticipant::SPEAKER],
-								status);
-						}
+						param->ppro->JoinToChat(conversation);
 					}
 					if (chatID)
 						EndDialog(hwndDlg, IDOK);

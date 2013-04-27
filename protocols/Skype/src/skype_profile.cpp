@@ -1,6 +1,10 @@
 #include "skype_proto.h"
 #include <sstream>
 
+#define LI_STRING        0
+#define LI_LIST          1
+#define LI_NUMBER        2
+
 SettingItem CSkypeProto::setting[] = {
   {LPGENT("Nick"),			"Nick",			DBVT_WCHAR,	LI_STRING},
   {LPGENT("First name"),	"FirstName",	DBVT_WCHAR,	LI_STRING},

@@ -399,15 +399,19 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 			}
 			else
 			{
-				message->GetPropIdentities(data);
-
 				StringList alreadyInChat(this->GetChatUsers(cid));
+
+				message->GetPropIdentities(data);
 				StringList needToAdd(::mir_utf8decodeW(data));
-				needToAdd.remove(this->login);
-				for (int i = 0; i < needToAdd.getCount(); i++)
+
+				CParticipant::Refs participants;
+				conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);
+				for (uint i = 0; i < participants.size(); i++)
 				{
-					wchar_t *sid = needToAdd[i];
-					if ( !alreadyInChat.contains(sid))
+					participants[i]->GetPropIdentity(data);
+					mir_ptr<wchar_t> sid = ::mir_utf8decodeW(data);
+					
+					if (needToAdd.contains(sid) && !alreadyInChat.contains(sid))
 					{
 						CContact::Ref contact;
 						g_skype->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(sid)), contact);
@@ -415,11 +419,13 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 						CContact::AVAILABILITY status;
 						contact->GetPropAvailability(status);
 
-						//todo: fix rank
+						CParticipant::RANK rank;
+						participants[i]->GetPropRank(rank);
+
 						this->AddChatContact(
 							cid, 
 							sid, 
-							CSkypeProto::Roles[CParticipant::WRITER],
+							CSkypeProto::Roles[rank],
 							status);
 					}
 				}
@@ -470,11 +476,11 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 			conversation->GetPropIdentity(data);
 			char *cid = ::mir_strdup(data);
 
-			/*HANDLE hContact = this->GetChatRoomByCid(cid);
-			if ( !hContact || this->IsContactOnline(hContact))
+			HANDLE hContact = this->AddChatRoom(conversation);
+			if ( !this->IsContactOnline(hContact))
 			{
-				this->JoinChat(cid);
-			}*/
+				this->JoinToChat(conversation);
+			}
 		}
 		break;
 
