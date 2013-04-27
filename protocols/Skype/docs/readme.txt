@@ -10,7 +10,8 @@ how to compile skypekit libs:
 	d:\SkypeKit\SDK\examples
 	etc.
 4) download and install cmake from here: http://www.cmake.org/
-5) start d:\SkypeKit\SDK\build_all.bat and wait when it finished.
+5) start d:\SkypeKit\SDK\build_all.bat and wait when it finished. Note: if you have more than one version of MSVC installed - cmake will use the one that was installed last.
+You can specify the compiler by editing build_all.bat and adding '-G' key to command line (cmake -G "Visual Studio 10" - for MSVC 2010).
 6) go to d:\SkypeKit\SDK\build_all_cmake\build_cmake\ and copy skypekit.sln to skypekit_libs.sln
 7) run skypekit_libs.sln and remove all not needed projects, you need save only:
 	reference_opengl_lib
