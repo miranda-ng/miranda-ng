@@ -644,14 +644,15 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 					param->ppro->GetInviteContacts(NULL, hwndList, invitedContacts);
 
 					wchar_t *chatID = ::mir_wstrdup(param->id);
-
+					
 					SEStringList needToAdd;
+					for (uint i = 0; i < (uint)invitedContacts.getCount(); i++)
+						needToAdd.append((char *)mir_ptr<char>(::mir_u2a(invitedContacts[i])));
+
 					CConversation::Ref conversation;
 					if (chatID)
 					{
 						g_skype->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation);
-						for (uint i = 0; i < (uint)invitedContacts.getCount(); i++)
-							needToAdd.append((char *)mir_ptr<char>(::mir_u2a(invitedContacts[i])));
 						conversation->AddConsumers(needToAdd);
 					}
 					else
@@ -666,12 +667,12 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 						conversation->GetPropIdentity(data);
 						chatID = ::mir_utf8decodeW(data);						
 
-						param->ppro->JoinToChat(conversation);
+						//param->ppro->JoinToChat(conversation);
 					}
 					if (chatID)
 						::EndDialog(hwndDlg, IDOK);
 					else
-						param->ppro->ShowNotification(TranslateT("You did not select any contact"));
+						param->ppro->ShowNotification(::TranslateT("You did not select any contact"));
 				}
 				break;
 

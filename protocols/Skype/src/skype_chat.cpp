@@ -78,14 +78,7 @@ HANDLE CSkypeProto::AddChatRoom(CConversation::Ref conversation)
 void CSkypeProto::ChatValidateContact(HANDLE hItem, HWND hwndList, const wchar_t *contacts)
 {
 	if ( !this->IsProtoContact(hItem) || this->IsChatRoom(hItem)) 
-	{
-		/*HANDLE hContact = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
-		char *sid = ::DBGetString(hContact, this->m_szModuleName, "sid");
-		if (!sid)
-			::SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
-		else if(contacts && ::strstr(contacts, sid))*/
-			::SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
-	}
+		::SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 }
 
 void CSkypeProto::ChatPrepare(HANDLE hItem, HWND hwndList, const wchar_t *contacts)

@@ -194,12 +194,11 @@ void CSkypeProto::UpdateProfileFullName(SEObject *obj, HANDLE hContact)
 	}
 	else
 	{
-		SEString firstName, lastName;
-		CContact *contact = (CContact *)obj;
-		contact->GetFullname(firstName, lastName);
+		StringList names = fullname;
 
-		::db_set_ws(hContact, this->m_szModuleName, "FirstName", mir_ptr<wchar_t>(::mir_utf8decodeW(firstName)));
-		::db_set_ws(hContact, this->m_szModuleName, "LastName", mir_ptr<wchar_t>(::mir_utf8decodeW(lastName)));
+		::db_set_ws(hContact, this->m_szModuleName, "FirstName", names[0]);
+		if (names.getCount() > 1)
+			::db_set_ws(hContact, this->m_szModuleName, "LastName", names[1]);
 	}
 	::mir_free(fullname);
 }

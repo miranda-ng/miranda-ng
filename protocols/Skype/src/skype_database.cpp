@@ -124,7 +124,7 @@ void CSkypeProto::RaiseMessageSendedEvent(HANDLE hContact, DWORD timestamp, cons
 
 	::strcpy(msg, message);
 	msg[msgLen - 1] = 0;
-	::memcpy((char *)&msg[msgLen], guid, 32);
+	::memcpy((char *)&msg[msgLen], guid, guidLen);
 
 	DWORD flags = DBEF_UTF | DBEF_SENT;
 	if ( !isUnreaded)
