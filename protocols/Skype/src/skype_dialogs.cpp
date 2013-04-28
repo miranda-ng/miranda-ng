@@ -2,7 +2,7 @@
 
 INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	CSkypeProto *proto = reinterpret_cast<CSkypeProto*>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
+	CSkypeProto *proto = reinterpret_cast<CSkypeProto *>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
 	switch (message)
 	{
@@ -10,7 +10,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 		{
 			::TranslateDialogDefault(hwnd);
 
-			proto = (CSkypeProto*)lParam;
+			proto = (CSkypeProto *)lParam;
 			::SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 			{
 				wchar_t *sid = ::db_get_wsa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_LOGIN);
@@ -197,7 +197,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 
 INT_PTR CALLBACK CSkypeProto::SkypePasswordRequestProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	PasswordRequestBoxParam *param = reinterpret_cast<PasswordRequestBoxParam*>(::GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+	PasswordRequestBoxParam *param = reinterpret_cast<PasswordRequestBoxParam *>(::GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 
 	switch (msg)
 	{
@@ -269,7 +269,7 @@ bool CSkypeProto::RequestPassword(PasswordRequestBoxParam &param)
 
 INT_PTR CALLBACK CSkypeProto::SkypePasswordChangeProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	PasswordChangeBoxParam *param = reinterpret_cast<PasswordChangeBoxParam*>(::GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+	PasswordChangeBoxParam *param = reinterpret_cast<PasswordChangeBoxParam *>(::GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 
 	switch (msg)
 	{
@@ -279,13 +279,13 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordChangeProc(HWND hwndDlg, UINT msg, WP
 		param = (PasswordChangeBoxParam *)lParam;
 		::SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		{
-			::SendMessage(hwndDlg, WM_SETICON, ICON_BIG,	(LPARAM)CSkypeProto::IconList[0].Handle);
-			::SendMessage(hwndDlg, WM_SETICON, ICON_SMALL,	(LPARAM)CSkypeProto::IconList[0].Handle);
+			::SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)CSkypeProto::IconList[0].Handle);
+			::SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)CSkypeProto::IconList[0].Handle);
 		}
 		break;
 
 	case WM_CLOSE:
-		EndDialog(hwndDlg, 0);
+		::EndDialog(hwndDlg, 0);
 		break;
 
 	case WM_COMMAND:
@@ -343,22 +343,22 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_PARAMCHANGED:
-				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (( PSHNOTIFY* )lParam )->lParam );
+				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, ((PSHNOTIFY *)lParam )->lParam);
 				break;
 
 			case PSN_INFOCHANGED:
 				{
-					CSkypeProto* ppro = (CSkypeProto*)::GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+					CSkypeProto *ppro = (CSkypeProto *)::GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					if (!ppro)
 						break;
 
-					char* szProto;
+					char *szProto;
 					HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
 
 					if (hContact == NULL)
 						szProto = ppro->m_szModuleName;
 					else
-						szProto = (char*)::CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+						szProto = (char *)::CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 
 					if (!szProto)
 						break;
@@ -429,12 +429,12 @@ INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_PARAMCHANGED:
-				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (( PSHNOTIFY* )lParam )->lParam );
+				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, ((PSHNOTIFY *)lParam)->lParam);
 				break;
 
 			case PSN_INFOCHANGED:
 				{
-					CSkypeProto* ppro = (CSkypeProto*)::GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+					CSkypeProto *ppro = (CSkypeProto *)::GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					if (!ppro)
 						break;
 
@@ -524,7 +524,7 @@ int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 
 	HANDLE hContact = (HANDLE)lParam;
 	if (hContact) {
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 			odp.pfnDlgProc = SkypeDlgProc;
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SKYPE);
@@ -550,7 +550,7 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 			TranslateDialogDefault(hwndDlg);
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-			param = (InviteChatParam*)lParam;
+			param = (InviteChatParam *)lParam;
 
 			HWND hwndClist = GetDlgItem(hwndDlg, IDC_CCLIST);
 			SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) & ~CLS_HIDEOFFLINE);
@@ -560,7 +560,7 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 		break;
 
 	case WM_CLOSE:
-		EndDialog(hwndDlg, 0);
+		::EndDialog(hwndDlg, 0);
 		break;
 
 	case WM_NCDESTROY:
@@ -570,7 +570,7 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 
 	case WM_NOTIFY:
 	{
-		NMCLISTCONTROL* nmc = (NMCLISTCONTROL*)lParam;
+		NMCLISTCONTROL *nmc = (NMCLISTCONTROL *)lParam;
 		if (nmc->hdr.idFrom == IDC_CCLIST)
 		{
 			switch (nmc->hdr.code)
@@ -669,14 +669,14 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 						param->ppro->JoinToChat(conversation);
 					}
 					if (chatID)
-						EndDialog(hwndDlg, IDOK);
+						::EndDialog(hwndDlg, IDOK);
 					else
 						param->ppro->ShowNotification(TranslateT("You did not select any contact"));
 				}
 				break;
 
 			case IDCANCEL:
-				EndDialog(hwndDlg, IDCANCEL);
+				::EndDialog(hwndDlg, IDCANCEL);
 				break;
 			}
 		}

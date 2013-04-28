@@ -302,11 +302,11 @@ int __cdecl CSkypeProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 	//return ::Proto_RecvMessage(hContact, pre);
 }
 
-int    __cdecl CSkypeProto::RecvUrl( HANDLE hContact, PROTORECVEVENT* ) { return 0; }
+int __cdecl CSkypeProto::RecvUrl(HANDLE hContact, PROTORECVEVENT *) { return 0; }
 
-int    __cdecl CSkypeProto::SendContacts( HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList ) { return 0; }
+int __cdecl CSkypeProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE *hContactsList) { return 0; }
 
-HANDLE __cdecl CSkypeProto::SendFile( HANDLE hContact, const TCHAR* szDescription, TCHAR** ppszFiles ) 
+HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription, TCHAR **ppszFiles)
 {
 	if (this->IsOnline() && hContact && ppszFiles)
 	{
@@ -345,10 +345,10 @@ HANDLE __cdecl CSkypeProto::SendFile( HANDLE hContact, const TCHAR* szDescriptio
 	return 0; 
 }
 
-int    __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char* msg)
+int __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 {
 	SEStringList targets;
-	wchar_t * sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
+	wchar_t *sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
 	SEString identity = ::mir_u2a(sid);
 	targets.append(identity);
 
@@ -367,9 +367,9 @@ int    __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char* msg)
 	return 0;
 }
 
-int    __cdecl CSkypeProto::SendUrl( HANDLE hContact, int flags, const char* url ) { return 0; }
+int __cdecl CSkypeProto::SendUrl(HANDLE hContact, int flags, const char *url) { return 0; }
 
-int    __cdecl CSkypeProto::SetApparentMode( HANDLE hContact, int mode ) { return 0; }
+int __cdecl CSkypeProto::SetApparentMode(HANDLE hContact, int mode) { return 0; }
 
 int CSkypeProto::SetStatus(int new_status)
 {
@@ -408,11 +408,11 @@ int CSkypeProto::SetStatus(int new_status)
 }
 
 HANDLE __cdecl CSkypeProto::GetAwayMsg(HANDLE hContact) { return 0; }
-int    __cdecl CSkypeProto::RecvAwayMsg( HANDLE hContact, int mode, PROTORECVEVENT* evt ) { return 0; }
-int    __cdecl CSkypeProto::SendAwayMsg( HANDLE hContact, HANDLE hProcess, const char* msg ) { return 0; }
-int    __cdecl CSkypeProto::SetAwayMsg( int m_iStatus, const TCHAR* msg ) { return 0; }
+int    __cdecl CSkypeProto::RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT *evt) { return 0; }
+int    __cdecl CSkypeProto::SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char *msg) { return 0; }
+int    __cdecl CSkypeProto::SetAwayMsg(int m_iStatus, const TCHAR *msg) { return 0; }
 
-int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type )
+int __cdecl CSkypeProto::UserIsTyping(HANDLE hContact, int type)
 {
 	if (hContact && this->IsOnline() && this->m_iStatus != ID_STATUS_INVISIBLE)
 	{
@@ -445,7 +445,7 @@ int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type )
 	return 1;
 }
 
-int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
+int __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
 	switch (eventType)
 	{

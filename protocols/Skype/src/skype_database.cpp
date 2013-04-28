@@ -1,6 +1,6 @@
 #include "skype_proto.h"
 
-bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char* guid, int flag)
+bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char *guid, int flag)
 {
 	bool result = false;
 
@@ -58,12 +58,12 @@ void CSkypeProto::RaiseAuthRequestEvent(DWORD timestamp, CContact::Ref contact)
 	SEString data;
 
 	contact->GetPropReceivedAuthrequest(data);
-	char* reason = ::mir_strdup(data);
+	char *reason = ::mir_strdup(data);
 
 	SEString last;
 	contact->GetFullname(data, last);
-	char* firstName = ::mir_strdup(data);
-	char* lastName = ::mir_strdup(last);
+	char *firstName = ::mir_strdup(data);
+	char *lastName = ::mir_strdup(last);
 
 	HANDLE hContact = this->AddContact(contact);
 
@@ -80,13 +80,19 @@ void CSkypeProto::RaiseAuthRequestEvent(DWORD timestamp, CContact::Ref contact)
 	PBYTE pBlob, pCurBlob;
 	pCurBlob = pBlob = (PBYTE)::mir_alloc(cbBlob);
 
-	*((PDWORD)pCurBlob) = 0; pCurBlob += sizeof(DWORD);
-	*((PDWORD)pCurBlob) = (DWORD)hContact; pCurBlob += sizeof(DWORD);
-	::strcpy((char*)pCurBlob, nick); pCurBlob += ::strlen(nick) + 1;
-	::strcpy((char*)pCurBlob, firstName); pCurBlob += ::strlen(firstName) + 1;
-	::strcpy((char*)pCurBlob, lastName); pCurBlob += ::strlen(lastName) + 1;
-	::strcpy((char*)pCurBlob, sid); pCurBlob += ::strlen(sid) + 1;
-	::strcpy((char*)pCurBlob, reason);
+	*((PDWORD)pCurBlob) = 0;
+	pCurBlob += sizeof(DWORD);
+	*((PDWORD)pCurBlob) = (DWORD)hContact;
+	pCurBlob += sizeof(DWORD);
+	::strcpy((char *)pCurBlob, nick);
+	pCurBlob += ::strlen(nick) + 1;
+	::strcpy((char *)pCurBlob, firstName);
+	pCurBlob += ::strlen(firstName) + 1;
+	::strcpy((char *)pCurBlob, lastName);
+	pCurBlob += ::strlen(lastName) + 1;
+	::strcpy((char *)pCurBlob, sid);
+	pCurBlob += ::strlen(sid) + 1;
+	::strcpy((char *)pCurBlob, reason);
 
 	this->AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), PREF_UTF, cbBlob, pBlob);
 }
