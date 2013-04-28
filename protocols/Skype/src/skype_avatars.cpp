@@ -1,6 +1,6 @@
 #include "skype_proto.h"
 
-bool CSkypeProto::IsAvatarChanged(const SEBinary &avatar)
+bool CSkypeProto::IsAvatarChanged(const SEBinary &avatar, HANDLE hContact)
 {
 	bool result = false;
 
@@ -8,7 +8,7 @@ bool CSkypeProto::IsAvatarChanged(const SEBinary &avatar)
 	::mir_md5_hash((PBYTE)avatar.data(), (int)avatar.size(), digest);
 
 	DBVARIANT dbv;
-	::db_get(NULL, this->m_szModuleName, "AvatarHash", &dbv);
+	::db_get(hContact, this->m_szModuleName, "AvatarHash", &dbv);
 	if (dbv.type == DBVT_BLOB && dbv.pbVal && dbv.cpbVal == 16)
 	{
 		if (::memcmp(digest, dbv.pbVal, 16) == 0)
@@ -56,7 +56,7 @@ int CSkypeProto::DetectAvatarFormat(const wchar_t *path)
 
 wchar_t * CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 {
-	wchar_t *path = new wchar_t[MAX_PATH];
+	wchar_t *path = (wchar_t*)::mir_alloc(MAX_PATH * sizeof(wchar_t));
 
 	this->InitCustomFolders();
 
@@ -78,7 +78,7 @@ wchar_t * CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 		::mir_sntprintf(path, MAX_PATH, _T("%s\\%s avatar.jpg"), path, sid);
 	else
 	{
-		delete [] path;
+		::mir_free(path);
 		return NULL;
 	}
 
@@ -94,7 +94,7 @@ INT_PTR __cdecl CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 		return GAIR_NOAVATAR;
 	}
 
-	wchar_t *sid = ::db_get_wsa(pai->hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
+	mir_ptr<wchar_t> sid = ::db_get_wsa(pai->hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
 	if (sid)
 	{
 		wchar_t *path = this->GetContactAvatarFilePath(pai->hContact);
@@ -105,7 +105,7 @@ INT_PTR __cdecl CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 			return GAIR_SUCCESS;
 		}
 
-		::mir_free(sid);
+		::mir_free(path);		
 	}
 
 	return GAIR_NOAVATAR;
@@ -160,10 +160,10 @@ INT_PTR __cdecl CSkypeProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 		return -2;
 
 	wchar_t *path = this->GetContactAvatarFilePath(NULL);
-	if (path && ::PathFileExists(path)) 
+	if (path && CSkypeProto::FileExists(path)) 
 	{
 		::wcsncpy((wchar_t *)wParam, path, (int)lParam);
-		delete path;
+		::mir_free(path);
 		return 0;
 	}
 
@@ -178,25 +178,31 @@ INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 	if (path)
 	{
 		wchar_t *avatarPath = this->GetContactAvatarFilePath(NULL);
-		if (::wcscmp(path, avatarPath) && !::CopyFile(path, avatarPath, FALSE))
+		if ( !::wcscmp(path, avatarPath))
 		{
-			this->Log(L"Failed to copy our avatar to local storage.");
+			this->Log(L"New avatar path are same with old.");
 			return iRet;
 		}
 
-		SEBinary avatar = this->GetAvatarBinary(avatarPath);
+		SEBinary avatar = this->GetAvatarBinary(path);
 		if (avatar.size() == 0)
 		{
 			this->Log(L"Failed to read avatar file.");
 			return iRet;
 		}
 
-		if (!this->IsAvatarChanged(avatar))
+		if (this->IsAvatarChanged(avatar))
 		{
 			this->Log(L"New avatar are same with old.");
 			return iRet;
 		}
 
+		if ( !::CopyFile(path, avatarPath, FALSE))
+		{
+			this->Log(L"Failed to copy new avatar to local storage.");
+			return iRet;
+		}
+		
 		Skype::VALIDATERESULT result = Skype::NOT_VALIDATED;
 		if (!this->account->SetAvatar(avatar, result))
 		{
@@ -207,6 +213,8 @@ INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 		uint newTS = this->account->GetUintProp(/* *::P_AVATAR_TIMESTAMP */ 182);
 		::db_set_dw(NULL, this->m_szModuleName, "AvatarTS", newTS);
 		iRet = 0;
+
+		::mir_free(avatarPath);
 	}
 	else
 	{
@@ -216,4 +224,29 @@ INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 	}
 
 	return iRet;
+}
+
+SEBinary CSkypeProto::GetAvatarBinary(wchar_t *path)
+{
+	SEBinary avatar;
+
+	if (CSkypeProto::FileExists(path))
+	{
+		int len;
+		char *buffer;
+		FILE* fp = ::_wfopen(path, L"rb");
+		if (fp)
+		{
+			::fseek(fp, 0, SEEK_END);
+			len = ::ftell(fp);
+			::fseek(fp, 0, SEEK_SET);
+			buffer = new char[len + 1];
+			::fread(buffer, len, 1, fp);
+			::fclose(fp);
+
+			avatar.set(buffer, len);
+		}
+	}
+
+	return avatar;
 }

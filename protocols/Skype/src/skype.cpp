@@ -137,7 +137,7 @@ int StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port
 	if (skypeKitPath != NULL)
 		*skypeKitPath = 0;
 	::swprintf(fileName, SIZEOF(fileName), L"%s\\%s", fileName, L"SkypeKit.exe");
-	if ( !::PathFileExists(fileName))
+	if ( ::GetFileAttributes(fileName) == DWORD(-1))
 	{
 		HRSRC hRes = ::FindResource(hInstance, MAKEINTRESOURCE(IDR_RUNTIME), L"BIN");
 		if (hRes)

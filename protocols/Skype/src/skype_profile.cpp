@@ -41,17 +41,16 @@ SettingItem CSkypeProto::setting[] = {
 void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 {
 	uint newTS = hContact ? obj->GetUintProp(Contact::P_AVATAR_TIMESTAMP) : obj->GetUintProp(Account::P_AVATAR_TIMESTAMP);
-	DWORD oldTS = ::db_get_dw(hContact, this->m_szModuleName, "AvatarTS", 0);
-	
-	wchar_t *path = this->GetContactAvatarFilePath(hContact);
-	SEBinary data = hContact ? obj->GetBinProp(Contact::P_AVATAR_IMAGE) : obj->GetBinProp(Account::P_AVATAR_IMAGE);
+	if (!newTS) return;
 
-	bool hasNewAvatar = newTS > oldTS;
-	bool isAvatarEmpty = data.size() == 0;
-	bool isAvatarFileExists = ::PathFileExists(path) > 0;
-	if ( !isAvatarEmpty)
+	DWORD oldTS = ::db_get_dw(hContact, this->m_szModuleName, "AvatarTS", 0);
+
+	wchar_t *path = this->GetContactAvatarFilePath(hContact);
+	bool isAvatarFileExists = CSkypeProto::FileExists(path);
+	if (newTS > oldTS || !isAvatarFileExists)
 	{
-		if (hasNewAvatar || !isAvatarFileExists)
+		SEBinary data = hContact ? obj->GetBinProp(Contact::P_AVATAR_IMAGE) : obj->GetBinProp(Account::P_AVATAR_IMAGE);
+		if (data.size() > 0)
 		{
 			FILE *fp = ::_wfopen(path, L"wb");
 			if (fp)
@@ -81,14 +80,14 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 				}
 			}
 		}
-	}
-	else if (isAvatarFileExists)
-	{
-		::_wremove(path);
-		this->SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
+		else if (isAvatarFileExists)
+		{
+			::_wremove(path);
+			this->SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
+		}
 	}
 
-	delete [] path;
+	::mir_free(path);
 }
 
 void CSkypeProto::UpdateProfileAboutText(SEObject *obj, HANDLE hContact)
@@ -331,7 +330,7 @@ void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 {
-	this->UpdateProfileAvatar(obj, hContact);
+	//this->UpdateProfileAvatar(obj, hContact);
 
 	uint newTS = hContact ? obj->GetUintProp(Contact::P_PROFILE_TIMESTAMP) : obj->GetUintProp(Account::P_PROFILE_TIMESTAMP);
 	if (newTS > ::db_get_dw(hContact, this->m_szModuleName, "ProfileTS", 0))
@@ -376,6 +375,6 @@ void __cdecl CSkypeProto::LoadOwnInfo(void *)
 		mir_ptr<wchar_t> nick = ::mir_utf8decodeW(data);
 		::db_set_ws(NULL, this->m_szModuleName, "Nick", nick);
 	}
-
+	this->UpdateProfileAvatar(this->account.fetch());
 	this->UpdateProfile(this->account.fetch());
 }

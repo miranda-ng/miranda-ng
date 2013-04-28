@@ -505,27 +505,16 @@ CContact::AVAILABILITY CSkypeProto::MirandaToSkypeStatus(int status)
 	return availability;
 }
 
-SEBinary CSkypeProto::GetAvatarBinary(wchar_t *path)
+bool CSkypeProto::FileExists(wchar_t *path)
 {
-	SEBinary avatar;
-
-	if (::PathFileExists(path))
+	//return ::GetFileAttributes(fileName) != DWORD(-1)
+	WIN32_FIND_DATA wfd;
+	HANDLE hFind = ::FindFirstFile(path, &wfd);
+	if (INVALID_HANDLE_VALUE != hFind)
 	{
-		int len;
-		char *buffer;
-		FILE* fp = ::_wfopen(path, L"rb");
-		if (fp)
-		{
-			::fseek(fp, 0, SEEK_END);
-			len = ::ftell(fp);
-			::fseek(fp, 0, SEEK_SET);
-			buffer = new char[len + 1];
-			::fread(buffer, len, 1, fp);
-			::fclose(fp);
-
-			avatar.set(buffer, len);
-		}
+		::FindClose(hFind);
+		return true;
 	}
-
-	return avatar;
+	return false;
 }
+

@@ -222,7 +222,7 @@ protected:
 	void	OnAccountChanged(int prop);
 
 	// avatars
-	bool IsAvatarChanged(const SEBinary &avatar);
+	bool IsAvatarChanged(const SEBinary &avatar, HANDLE hContact = NULL);
 
 	static int DetectAvatarFormatBuffer(const char *pBuffer);
 	static int DetectAvatarFormat(const wchar_t *path);
@@ -233,6 +233,8 @@ protected:
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
 	INT_PTR __cdecl SetMyAvatar(WPARAM, LPARAM);
+
+	SEBinary GetAvatarBinary(wchar_t *path);
 
 	// messages
 	void	OnMessage(CConversation::Ref conversation, CMessage::Ref message);
@@ -357,7 +359,7 @@ protected:
 	int		SkypeToMirandaStatus(CContact::AVAILABILITY availability);
 	CContact::AVAILABILITY MirandaToSkypeStatus(int status);
 
-	SEBinary GetAvatarBinary(wchar_t *path);
+	static bool FileExists(wchar_t *path);	
 
 	// instances
 	static LIST<CSkypeProto> instanceList;
