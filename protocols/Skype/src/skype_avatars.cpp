@@ -32,7 +32,7 @@ int CSkypeProto::DetectAvatarFormatBuffer(const char *pBuffer)
 	if (!_strnicmp(pBuffer, "<?xml", 5))
 		return PA_FORMAT_XML;
 
-	if ((((DWORD*)pBuffer)[0] == 0xE0FFD8FFul) || (((DWORD*)pBuffer)[0] == 0xE1FFD8FFul))
+	if ((((DWORD *)pBuffer)[0] == 0xE0FFD8FFul) || (((DWORD *)pBuffer)[0] == 0xE1FFD8FFul))
 		return PA_FORMAT_JPEG;
 
 	if (!strncmp(pBuffer, "BM", 2))
@@ -54,9 +54,9 @@ int CSkypeProto::DetectAvatarFormat(const wchar_t *path)
 	return CSkypeProto::DetectAvatarFormatBuffer(pBuf);
 }
 
-wchar_t* CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
+wchar_t * CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 {
-	wchar_t* path = new wchar_t[MAX_PATH];
+	wchar_t *path = new wchar_t[MAX_PATH];
 
 	this->InitCustomFolders();
 
@@ -87,7 +87,7 @@ wchar_t* CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 
 INT_PTR __cdecl CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATIONW *pai = (PROTO_AVATAR_INFORMATIONW*)lParam;
+	PROTO_AVATAR_INFORMATIONW *pai = (PROTO_AVATAR_INFORMATIONW *)lParam;
 
 	if (::db_get_dw(pai->hContact, this->m_szModuleName, "AvatarTS", 0))
 	{
@@ -117,7 +117,7 @@ INT_PTR __cdecl CSkypeProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	{
 	case AF_MAXSIZE:
 	{
-		POINT *size = (POINT*)lParam;
+		POINT *size = (POINT *)lParam;
 		if (size)
 		{
 			size->x = 96;
@@ -156,7 +156,8 @@ INT_PTR __cdecl CSkypeProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 INT_PTR __cdecl CSkypeProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	if (!wParam) return -2;
+	if (!wParam)
+		return -2;
 
 	wchar_t *path = this->GetContactAvatarFilePath(NULL);
 	if (path && ::PathFileExists(path)) 
@@ -182,7 +183,7 @@ INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 			this->Log(L"Failed to copy our avatar to local storage.");
 			return iRet;
 		}
-		
+
 		SEBinary avatar = this->GetAvatarBinary(avatarPath);
 		if (avatar.size() == 0)
 		{

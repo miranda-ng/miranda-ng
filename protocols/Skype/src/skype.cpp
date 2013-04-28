@@ -1,10 +1,6 @@
-//#include "skype.h"
 #include "skype_proto.h"
-
 #include "aes\aes.h" 
 #include "base64\base64.h"
-//#include "skypekit\skype.h"
-
 #include "..\..\..\skypekit\key.h"
 
 int hLangpack;
