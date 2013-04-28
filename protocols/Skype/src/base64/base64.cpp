@@ -2,10 +2,10 @@
 
 char Base64::CharBase64[] = 
 {
-	'A','B','C','D','E','F','G','H','I','J','K','L','M  ','N','O','P',
-	'Q','R','S','T','U','V','W','X','Y','Z','a','b','c  ','d','e','f',
-	'g','h','i','j','k','l','m','n','o','p','q','r','s  ','t','u','v',
-	'w','x','y','z','0','1','2','3','4','5','6','7','8  ','9','+','/'
+	'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
+	'Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f',
+	'g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v',
+	'w','x','y','z','0','1','2','3','4','5','6','7','8','9','+','/'
 };
 
 ULONG Base64::Encode(const char *inputString, char *outputBuffer, SIZE_T nMaxLength)
@@ -15,7 +15,8 @@ ULONG Base64::Encode(const char *inputString, char *outputBuffer, SIZE_T nMaxLen
 
 	for (unsigned int i = 0; i < ::strlen(inputString); i += 3)
 	{
-		if (outpos + 4 >= (int)nMaxLength)break;
+		if (outpos + 4 >= (int)nMaxLength)
+			break;
 
 		chr[0] = inputString[i];
 		chr[1] = inputString[i+1];

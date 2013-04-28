@@ -277,16 +277,16 @@ int    __cdecl CSkypeProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt)
 	return ::Proto_RecvFile(hContact, evt);
 }
 
-int    __cdecl CSkypeProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* pre)
+int __cdecl CSkypeProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 {
 	::db_unset(hContact, "CList", "Hidden");
 	this->UserIsTyping(hContact, PROTOTYPE_SELFTYPING_OFF);
 
 	char *guid = (char *)pre->lParam;
-	int guidLen = ::strlen(guid);
+	int guidLen = (int)::strlen(guid);
 
 	char *message = (char *)pre->szMessage;
-	int msgLen = ::strlen(message) + 1;
+	int msgLen = (int)::strlen(message) + 1;
 
 	message = (char *)::mir_realloc(message, msgLen + guidLen);
 	::memcpy((char *)&message[msgLen], guid, guidLen);

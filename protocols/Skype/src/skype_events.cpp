@@ -88,7 +88,7 @@ int CSkypeProto::OnMessagePreCreate(WPARAM, LPARAM lParam)
 
 		evt->dbei->pBlob = (PBYTE)::mir_realloc(evt->dbei->pBlob, evt->dbei->cbBlob + guid.size());
 		::memcpy((char *)&evt->dbei->pBlob[evt->dbei->cbBlob], cguid, guid.size());
-		evt->dbei->cbBlob += guid.size();
+		evt->dbei->cbBlob += (DWORD)guid.size();
 	}
 
 	return 1;
