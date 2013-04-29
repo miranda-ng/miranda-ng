@@ -41,7 +41,7 @@ SettingItem CSkypeProto::setting[] = {
 void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 {
 	uint newTS = hContact ? obj->GetUintProp(Contact::P_AVATAR_TIMESTAMP) : obj->GetUintProp(Account::P_AVATAR_TIMESTAMP);
-	if (!newTS) return;
+	//if (!newTS) return; //uncomment when skypekit will be work correctly
 
 	DWORD oldTS = ::db_get_dw(hContact, this->m_szModuleName, "AvatarTS", 0);
 
@@ -330,7 +330,7 @@ void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 {
-	//this->UpdateProfileAvatar(obj, hContact);
+	this->UpdateProfileAvatar(obj, hContact);
 
 	uint newTS = hContact ? obj->GetUintProp(Contact::P_PROFILE_TIMESTAMP) : obj->GetUintProp(Account::P_PROFILE_TIMESTAMP);
 	if (newTS > ::db_get_dw(hContact, this->m_szModuleName, "ProfileTS", 0))
