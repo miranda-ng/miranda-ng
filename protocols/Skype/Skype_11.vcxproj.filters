@@ -189,5 +189,11 @@
     <None Include="..\..\..\SkypeKit\keypair.bin">
       <Filter>Resource Files\Bin</Filter>
     </None>
+    <None Include="res\call.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\conf_invite.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
   </ItemGroup>
 </Project>
