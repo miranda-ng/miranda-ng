@@ -107,8 +107,8 @@ char *LoadKeyPair(HINSTANCE hInstance)
 			if (!pData)
 				return NULL;
 
-			unsigned char *bufD = (unsigned char*)::malloc(basedecoded + 1);
-			unsigned char *tmpD = (unsigned char*)::malloc(basedecoded + 1);
+			unsigned char *bufD = (unsigned char *)::malloc(basedecoded + 1);
+			unsigned char *tmpD = (unsigned char *)::malloc(basedecoded + 1);
 			basedecoded = Base64::Decode(pData, (char *)tmpD, basedecoded);
 
 			for (int i = 0; i < basedecoded; i += 16)

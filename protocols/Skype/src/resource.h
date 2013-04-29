@@ -16,7 +16,6 @@
 #define IDD_PASSWORD_REQUEST            106
 #define IDR_KEY                         107
 #define IDI_CALL                        108
-#define IDI_ICON1                       109
 #define IDI_CONF_INVITE                 109
 #define IDC_CCLIST                      173
 #define IDC_EDITSCR                     174

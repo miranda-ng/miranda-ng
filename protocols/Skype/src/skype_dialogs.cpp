@@ -37,7 +37,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 				SendMessage(GetDlgItem(hwnd, IDC_PORT), EM_SETLIMITTEXT, 5, 0);
 			}
 			{
-				CheckDlgButton(hwnd, IDC_USE_ALT_PORTS, ::db_set_b(NULL, proto->m_szModuleName, "UseAlternativePorts", 1));
+				CheckDlgButton(hwnd, IDC_USE_ALT_PORTS, ::db_get_b(NULL, proto->m_szModuleName, "UseAlternativePorts", 1));
 			}
 			if (proto->IsOnline())
 			{

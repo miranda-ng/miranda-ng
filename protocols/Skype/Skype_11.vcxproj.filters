@@ -180,7 +180,7 @@
     <None Include="res\auth_revoke.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
-    <None Include="res\Main.ico">
+    <None Include="res\main.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="..\..\..\SkypeKit\SDK\bin\windows-x86\windows-x86-skypekit.exe">
