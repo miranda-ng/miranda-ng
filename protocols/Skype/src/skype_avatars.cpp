@@ -210,7 +210,7 @@ INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 			return iRet;
 		}
 
-		uint newTS = this->account->GetUintProp(/* *::P_AVATAR_TIMESTAMP */ 182);
+		uint newTS = this->account->GetUintProp(Account::P_AVATAR_IMAGE);
 		::db_set_dw(NULL, this->m_szModuleName, "AvatarTS", newTS);
 		iRet = 0;
 

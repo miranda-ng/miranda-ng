@@ -369,7 +369,7 @@ protected:
 	void	CreateServiceObjParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam);
 
 	HANDLE	CreateEvent(const char* szService);
-	void	HookEvent(const char*, SkypeEventFunc);
+	HANDLE	HookEvent(const char*, SkypeEventFunc);
 
 	int		SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam);
 	int		SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);

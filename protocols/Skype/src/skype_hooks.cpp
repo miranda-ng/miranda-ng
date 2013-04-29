@@ -18,8 +18,13 @@ void CSkypeProto::UninitHookList()
 
 void CSkypeProto::InitInstanceHookList()
 {
-	this->HookEvent(ME_OPT_INITIALISE,		&CSkypeProto::OnOptionsInit);
-	this->HookEvent(ME_USERINFO_INITIALISE, &CSkypeProto::OnUserInfoInit);
+	this->instanceHookList.insert(
+		this->HookEvent(ME_OPT_INITIALISE,		&CSkypeProto::OnOptionsInit));
+	this->instanceHookList.insert(
+		this->HookEvent(ME_USERINFO_INITIALISE, &CSkypeProto::OnUserInfoInit));
+
+	this->instanceHookList.insert(
+		this->HookEvent(ME_MSG_PRECREATEEVENT, &CSkypeProto::OnMessagePreCreate));
 }
 
 void CSkypeProto::UninitInstanceHookList()

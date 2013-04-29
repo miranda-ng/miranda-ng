@@ -2,7 +2,10 @@
 
 _tag_iconList CSkypeProto::IconList[] =
 {
-	{ LPGENT("Protocol icon"),		"main",			IDI_ICON },
+	{ LPGENT("Protocol icon"),			"main",				IDI_ICON },
+
+	{ LPGENT("Call"),					"call",				IDI_CALL },
+	{ LPGENT("Invite to conference"),	"confInvite",		IDI_CONF_INVITE },
 	{ LPGENT("Revoke authorization"),	"authRevoke",		IDI_AUTH_REVOKE },
 	{ LPGENT("Request authorization"),	"authRequest",		IDI_AUTH_REQUEST },
 	{ LPGENT("Grant authorization"),	"authGrant",		IDI_AUTH_GRANT },
@@ -38,7 +41,7 @@ HANDLE CSkypeProto::GetIconHandle(const char* name)
 {
 	for (size_t i = 0; i < SIZEOF(CSkypeProto::IconList); i++)
 	{
-		if (::strcmp(CSkypeProto::IconList[i].Name, name) == 0)
+		if (::stricmp(CSkypeProto::IconList[i].Name, name) == 0)
 			return CSkypeProto::IconList[i].Handle;
 	}
 	return 0;

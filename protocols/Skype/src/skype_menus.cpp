@@ -188,7 +188,7 @@ void CSkypeProto::OnInitStatusMenu()
 		mi.position = -1999901006;
 		mi.hParentMenu = HGENMENU_ROOT;
 		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		mi.icolibItem = CSkypeProto::GetIconHandle("Skype_main");
+		mi.icolibItem = CSkypeProto::GetIconHandle("main");
 		hJabberRoot = m_hMenuRoot = ::Menu_AddProtoMenuItem(&mi);
 	}
 	else {

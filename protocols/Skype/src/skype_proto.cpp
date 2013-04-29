@@ -11,12 +11,17 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 	this->SetAllContactStatus(ID_STATUS_OFFLINE);
 
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
-	dbEventType.module = m_szModuleName;
-	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_CALL;
-	dbEventType.descr = "Skype call";
+	dbEventType.module = this->m_szModuleName;
+	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
+	
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_EMOTE;
+	dbEventType.descr = "Skype emote";
 	::CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
-	this->HookEvent(ME_MSG_PRECREATEEVENT, &CSkypeProto::OnMessagePreCreate);
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_CALL;
+	dbEventType.descr = "Skype call";
+	dbEventType.eventIcon = CSkypeProto::GetIconHandle("call");
+	::CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);	
 
 	this->InitInstanceServiceList();
 }

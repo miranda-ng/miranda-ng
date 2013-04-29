@@ -278,9 +278,9 @@ HANDLE CSkypeProto::CreateEvent(const char* szService)
 	return ::CreateHookableEvent(moduleName);
 }
 
-void CSkypeProto::HookEvent(const char* szEvent, SkypeEventFunc handler)
+HANDLE CSkypeProto::HookEvent(const char* szEvent, SkypeEventFunc handler)
 {
-	::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*( void**)&handler, this);
+	return ::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*( void**)&handler, this);
 }
 
 void CSkypeProto::FakeAsync(void *param)

@@ -98,6 +98,9 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref &conversation, CMessage::
 {
 	SEString data;
 
+	CMessage::TYPE messageType;
+	message->GetPropType(messageType);
+
 	uint timestamp;
 	message->GetPropTimestamp(timestamp);
 
@@ -149,6 +152,9 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref &conversation, CMessage::
 void CSkypeProto::OnMessageSended(CConversation::Ref &conversation, CMessage::Ref &message)
 {
 	SEString data;
+
+	CMessage::TYPE messageType;
+	message->GetPropType(messageType);
 
 	uint timestamp;
 	message->GetPropTimestamp(timestamp);
@@ -366,9 +372,6 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 	switch (messageType)
 	{
 	case CMessage::POSTED_EMOTE:
-		//int i = 0;
-		break;
-
 	case CMessage::POSTED_TEXT:
 		{
 			SEString author;
@@ -485,7 +488,7 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 		break;
 
 	case CMessage::STARTED_LIVESESSION:
-		//conversation->LeaveLiveSession();
+		conversation->LeaveLiveSession();
 
 		uint timestamp;
 		message->GetPropTimestamp(timestamp);
@@ -498,15 +501,14 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 
 		HANDLE hContact = this->AddContact(author);
 		
-		wchar_t *message = new wchar_t[14];
-		::wcscpy(message, L"Incoming call");
+		char *message = ::mir_utf8encode(Translate("Incoming call"));
 		
 		this->AddDBEvent(
 			hContact,
 			SKYPE_DB_EVENT_TYPE_CALL,
 			timestamp,
 			DBEF_UTF,
-			(DWORD)::wcslen(message) + 1,
+			(DWORD)::strlen(message) + 1,
 			(PBYTE)message);
 		break;
 
