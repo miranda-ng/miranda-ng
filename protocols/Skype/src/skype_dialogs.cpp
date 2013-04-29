@@ -417,93 +417,110 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
-INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	const unsigned long iPageId = 0;
+	CSkypeProto* ppro = (CSkypeProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (msg) {
 	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
+		if (lParam) {
+			ppro = (CSkypeProto*)lParam;
+			TranslateDialogDefault(hwndDlg);
+
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+
+			SendMessage(GetDlgItem(hwndDlg, IDC_GENDER), CB_ADDSTRING, 0, (LPARAM)_T(""));
+			SendMessage(GetDlgItem(hwndDlg, IDC_GENDER), CB_ADDSTRING, 0, (LPARAM)TranslateT("Male"));
+			SendMessage(GetDlgItem(hwndDlg, IDC_GENDER), CB_ADDSTRING, 0, (LPARAM)TranslateT("Female"));
+			for (int i = 1; i < 32; i++)
+			{
+				TCHAR day[3];
+				_itot(i, day, 10);
+				SendMessage(GetDlgItem(hwndDlg, IDC_BIRTH_DAY), CB_ADDSTRING, 0, (LPARAM)day);
+			}
+			for (int i = 1; i < 13; i++)
+			{
+				TCHAR mon[3];
+				_itot(i, mon, 10);
+				SendMessage(GetDlgItem(hwndDlg, IDC_BIRTH_MONTH), CB_ADDSTRING, 0, (LPARAM)mon);
+			}
+			for (int i = 1900; i < 2214; i++)
+			{
+				TCHAR year[5];
+				_itot(i, year, 10);
+				SendMessage(GetDlgItem(hwndDlg, IDC_BIRTH_YEAR), CB_ADDSTRING, 0, (LPARAM)year);
+
+			}
+	
+			for (std::map<std::wstring, std::wstring>::iterator it = CSkypeProto::languages.begin(); it != CSkypeProto::languages.end(); ++it)
+			{
+				const wchar_t* value = it->second.c_str();
+				SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE1), CB_ADDSTRING, 0, (LPARAM)value);
+				SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE2), CB_ADDSTRING, 0, (LPARAM)value);
+				SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE3), CB_ADDSTRING, 0, (LPARAM)value);
+			}
+			DBVARIANT dbv;
+			if ( !db_get_ts(NULL, ppro->m_szModuleName, "Nick", &dbv)) {
+				SetDlgItemText(hwndDlg, IDC_FULLNAME, dbv.ptszVal);
+				db_free(&dbv);
+			}
+			else
+				SetDlgItemText(hwndDlg, IDC_FULLNAME, _T(""));
+
+			if ( !db_get_ts(NULL, ppro->m_szModuleName, "Homepage", &dbv)) {
+				SetDlgItemText(hwndDlg, IDC_HOMEPAGE, dbv.ptszVal);
+				db_free(&dbv);
+			}
+			else
+				SetDlgItemText(hwndDlg, IDC_HOMEPAGE, _T(""));
+
+			if ( !db_get_ts(NULL, ppro->m_szModuleName, "About", &dbv)) {
+				SetDlgItemText(hwndDlg, IDC_ABOUT, dbv.ptszVal);
+				db_free(&dbv);
+			}
+			else
+				SetDlgItemText(hwndDlg, IDC_ABOUT, _T(""));
+
+			BYTE b = db_get_b(NULL, ppro->m_szModuleName, "Gender", 0);
+			if (b = 'M')
+				SetDlgItemText(hwndDlg, IDC_GENDER, TranslateT("Male"));
+			else if (b = 'F')
+				SetDlgItemText(hwndDlg, IDC_GENDER, TranslateT("Female"));
+			else
+				SetDlgItemText(hwndDlg, IDC_GENDER, _T(""));
+			BYTE bday = db_get_b(NULL, ppro->m_szModuleName, "BirthDay", 0);
+			if (bday > 1 && bday < 32)
+				SetDlgItemInt(hwndDlg, IDC_BIRTH_DAY, bday, false);
+			BYTE bmon = db_get_b(NULL, ppro->m_szModuleName, "BirthMonth", 0);
+			if (bmon > 1 && bmon < 13)
+				SetDlgItemInt(hwndDlg, IDC_BIRTH_MONTH, bmon, false);
+			WORD byear = db_get_w(NULL, ppro->m_szModuleName, "BirthYear", 0);
+			if (byear > 1900 && bmon < 2214)
+				SetDlgItemInt(hwndDlg, IDC_BIRTH_YEAR, byear, false);
+		}
+		break;
+
+	case WM_COMMAND:
+		if (((HWND)lParam==GetFocus() && HIWORD(wParam)==EN_CHANGE) ||
+			((HWND)lParam==GetDlgItem(hwndDlg, IDC_GENDER) && (HIWORD(wParam)==CBN_EDITCHANGE||HIWORD(wParam)==CBN_SELCHANGE)))
+		{
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		}
 		break;
 
 	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
+		if (((LPNMHDR)lParam)->idFrom == 0) {
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_PARAMCHANGED:
-				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, ((PSHNOTIFY *)lParam)->lParam);
+				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY*)lParam)->lParam);
 				break;
-
-			case PSN_INFOCHANGED:
-				{
-					CSkypeProto *ppro = (CSkypeProto *)::GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					if (!ppro)
-						break;
-
-					HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
-					ListView_SetExtendedListViewStyle(hwndList, LVS_EX_FULLROWSELECT);
-					// Prepare ListView Columns
-					LV_COLUMN lvc = {0};
-					RECT rc;
-					GetClientRect(hwndList, &rc);
-					rc.right -= GetSystemMetrics(SM_CXVSCROLL);
-					lvc.mask = LVCF_WIDTH;
-					lvc.cx = rc.right / 3;
-					ListView_InsertColumn(hwndList, 0, &lvc);
-					lvc.cx = rc.right - lvc.cx;
-					ListView_InsertColumn(hwndList, 1, &lvc);
-					// Prepare Setting Items
-					LV_ITEM lvi = {0};
-					lvi.mask = LVIF_PARAM | LVIF_TEXT;
-
-					for (lvi.iItem = 0; lvi.iItem < SIZEOF(CSkypeProto::setting); lvi.iItem++)
-					{
-						lvi.lParam = lvi.iItem;
-						lvi.pszText = (LPTSTR)setting[lvi.iItem].szDescription;
-						ListView_InsertItem(hwndList, &lvi);
-						wchar_t *text = L"";
-						switch(setting[lvi.iItem].dbType) {
-							case DBVT_WCHAR:
-								text = ::db_get_wsa(NULL, ppro->m_szModuleName, setting[lvi.iItem].szDbSetting);
-								break;
-							case DBVT_BYTE:
-							{
-								if (!strcmp(setting[lvi.iItem].szDbSetting, "Gender")) {
-									switch(::db_get_b(NULL, ppro->m_szModuleName, setting[lvi.iItem].szDbSetting, 'M')) {
-									case 'M':
-										text = L"Male";
-										break;
-									case 'F':
-										text = L"Female";
-										break;
-									}
-								} else if (!strcmp(setting[lvi.iItem].szDbSetting, "Timezone")) {
-									HANDLE hTimeZone = tmi.createByContact ? tmi.createByContact(NULL, 0) : 0;
-									LPCTSTR TzDescr = tmi.getTzDescription(tmi.getTzName(hTimeZone));
-									text = mir_tstrdup(TzDescr);
-								} else {
-									wchar_t tmp[10];
-									_ltot(::db_get_b(NULL, ppro->m_szModuleName, setting[lvi.iItem].szDbSetting, 0), tmp, 10);
-									text = mir_tstrdup(tmp);
-								}
-								break;
-							}
-							case DBVT_WORD:
-							{
-								wchar_t tmp[10];
-								_ltot(::db_get_w(NULL, ppro->m_szModuleName, setting[lvi.iItem].szDbSetting, 0), tmp, 10);
-								text = mir_tstrdup(tmp);
-								//text = (wchar_t*)ppro->GetSettingWord(setting[lvi.iItem].szDbSetting);
-								break;
-							}
-						}
-						ListView_SetItemText(hwndList, lvi.iItem, 1, text);
-						if (setting[lvi.iItem].dbType == DBVT_WORD || (strcmp(setting[lvi.iItem].szDbSetting, "Gender") && setting[lvi.iItem].dbType == DBVT_BYTE))
-							mir_free(text);
-					}
-				}
+			case PSN_APPLY:
+				//ppro->SaveVcardToDB(hwndDlg, iPageId);
+				//if ( !ppro->m_vCardUpdates)
+				//	ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
 				break;
-			}
-			break;
-		}
+		}	}
 		break;
 	}
 	return FALSE;
@@ -516,7 +533,7 @@ int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
-	odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_TCHAR | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
 	odp.hInstance = g_hInstance;
 	odp.dwInitParam = LPARAM(this);
 	odp.position = -1900000000;
@@ -531,8 +548,8 @@ int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 			UserInfo_AddPage(wParam, &odp);
 		}
 	} else {
-		odp.pfnDlgProc = OwnSkypeDlgProc;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_SKYPE);
+		odp.pfnDlgProc = PersonalSkypeDlgProc;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_PERSONAL);
 		UserInfo_AddPage(wParam, &odp);
 	}
 

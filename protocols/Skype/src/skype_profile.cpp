@@ -1,43 +1,6 @@
 #include "skype_proto.h"
 #include <sstream>
 
-#define LI_STRING        0
-#define LI_LIST          1
-#define LI_NUMBER        2
-
-SettingItem CSkypeProto::setting[] = {
-  {LPGENT("Nick"),			"Nick",			DBVT_WCHAR,	LI_STRING},
-  {LPGENT("First name"),	"FirstName",	DBVT_WCHAR,	LI_STRING},
-  {LPGENT("Last name"),		"LastName",		DBVT_WCHAR,	LI_STRING},
-  {LPGENT("Gender"),		"Gender",		DBVT_BYTE,	LI_LIST},
-
-  {LPGENT("Mood"),			"XStatusMsg",	DBVT_WCHAR,	LI_STRING},
-
-  {LPGENT("Mobile phone"),	"Cellular",		DBVT_WCHAR,	LI_NUMBER},
-  {LPGENT("Home phone"),	"Phone",		DBVT_WCHAR,	LI_NUMBER},
-  {LPGENT("Office phone"),	"CompanyPhone",	DBVT_WCHAR,	LI_NUMBER},
-
-  {LPGENT("E-mail 1"),		"e-mail0",		DBVT_WCHAR,	LI_STRING},
-  {LPGENT("E-mail 2"),		"e-mail1",		DBVT_WCHAR,	LI_STRING},
-  {LPGENT("E-mail 3"),		"e-mail2",		DBVT_WCHAR,	LI_STRING},
-
-  {LPGENT("Time zone"),		"Timezone",		DBVT_BYTE,	LI_LIST},
-  {LPGENT("Country"),		"Country",		DBVT_WCHAR,	LI_LIST},
-  {LPGENT("State"),			"State",		DBVT_WCHAR,	LI_STRING},
-  {LPGENT("City"),			"City",			DBVT_WCHAR,	LI_STRING},  
-
-  {LPGENT("Birth day"),		"BirthDay",		DBVT_BYTE,	LI_NUMBER},
-  {LPGENT("Birth month"),	"BirthMonth",	DBVT_BYTE,	LI_NUMBER},
-  {LPGENT("Birth year"),	"BirthYear",	DBVT_WORD,	LI_NUMBER},
-
-  {LPGENT("Language 1"),	"Language1",	DBVT_WCHAR,	LI_LIST},
-  {LPGENT("Language 2"),	"Language2",	DBVT_WCHAR,	LI_LIST},
-  {LPGENT("Language 3"),	"Language3",	DBVT_WCHAR,	LI_LIST},
-
-  {LPGENT("About"),			"About",		DBVT_WCHAR,	LI_STRING},
-  {LPGENT("Homepage"),		"Homepage",		DBVT_WCHAR,	LI_STRING}
-};
-
 void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 {
 	uint newTS = hContact ? obj->GetUintProp(Contact::P_AVATAR_TIMESTAMP) : obj->GetUintProp(Account::P_AVATAR_TIMESTAMP);

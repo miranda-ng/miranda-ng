@@ -1,12 +1,14 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by e:\Projects\C++\MirandaNG\protocols\Skype\res\Resource.rc
+// Used by c:\Temp\Miranda NG\protocols\Skype\res\Resource.rc
 //
 #define IDD_ACCMGR                      9
 #define IDD_OPT_MAIN                    10
 #define IDD_INFO_SKYPE                  11
-#define IDD_OWNINFO_SKYPE               12
-#define IDD_PASSWORD_CHANGE             13
+#define IDD_OWNINFO_PERSONAL            12
+#define IDD_OWNINFO_HOME                13
+#define IDD_OWNINFO_CONTACT             14
+#define IDD_PASSWORD_CHANGE             15
 #define IDD_CHATROOM_INVITE             40
 #define IDI_ICON                        101
 #define IDR_RUNTIME                     102
@@ -33,9 +35,6 @@
 #define IDC_LASTEVENTDATE               1011
 #define IDC_PASSWORD3                   1011
 #define IDC_LASTPROFILECHANGE           1012
-#define IDC_SAVE                        1013
-#define IDC_LIST                        1014
-#define IDC_UPLOADING                   1015
 #define IDC_PORT                        1016
 #define IDC_USE_ALT_PORTS               1017
 #define IDC_REGISTER                    1018
@@ -45,6 +44,17 @@
 #define IDC_INSTRUCTION2                1022
 #define IDC_PASSWORD2                   1023
 #define IDC_INSTRUCTION3                1024
+#define IDC_FULLNAME                    1025
+#define IDC_BIRTH_DAY                   1026
+#define IDC_BIRTH_MONTH                 1027
+#define IDC_BIRTH_YEAR                  1028
+#define IDC_GENDER                      1029
+#define IDC_HOMEPAGE                    1030
+#define IDC_LANGUAGE1                   1031
+#define IDC_LANGUAGE2                   1032
+#define IDC_LANGUAGE3                   1033
+#define IDC_HOMEPAGE2                   1034
+#define IDC_ABOUT                       1034
 
 // Next default values for new objects
 // 

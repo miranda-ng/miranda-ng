@@ -20,14 +20,6 @@ struct _tag_iconList
 	HANDLE		Handle;
 };
 
-struct SettingItem
-{
-  const TCHAR *szDescription;
-  const char *szDbSetting;
-  int dbType;              //DBVT_ constant
-  unsigned displayType;    //LI_ constant
-};
-
 struct HtmlEntity
 {
 	const char *entity;
@@ -187,6 +179,7 @@ public:
 	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 
 	bool	IsOnline();
+	static std::map<std::wstring, std::wstring> languages;
 
 protected:
 	CAccount::Ref account;
@@ -312,10 +305,7 @@ protected:
 	void __cdecl SearchByEmailAsync(void*);
 
 	// profile
-	static std::map<std::wstring, std::wstring> languages;
 	static std::map<std::wstring, std::wstring> FillLanguages();
-
-	static SettingItem setting[23];
 
 	void	UpdateProfileAvatar(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileAboutText(SEObject *obj, HANDLE hContact = NULL);
