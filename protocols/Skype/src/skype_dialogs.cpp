@@ -420,12 +420,12 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	const unsigned long iPageId = 0;
-	CSkypeProto* ppro = (CSkypeProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CSkypeProto *ppro = (CSkypeProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		if (lParam) {
-			ppro = (CSkypeProto*)lParam;
+			ppro = (CSkypeProto *)lParam;
 			TranslateDialogDefault(hwndDlg);
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
@@ -453,12 +453,14 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 			}
 	
+			wchar_t *lang = ::db_get_wsa(NULL, ppro->m_szModuleName, "Language1");
 			for (std::map<std::wstring, std::wstring>::iterator it = CSkypeProto::languages.begin(); it != CSkypeProto::languages.end(); ++it)
 			{
 				const wchar_t* value = it->second.c_str();
-				SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE1), CB_ADDSTRING, 0, (LPARAM)value);
-				SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE2), CB_ADDSTRING, 0, (LPARAM)value);
-				SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE3), CB_ADDSTRING, 0, (LPARAM)value);
+				SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE), CB_ADDSTRING, 0, (LPARAM)TranslateTS(value));
+				if ( !lang || !::wcslen(lang))
+					if ( !lstrcmp(lang, value))
+						SetDlgItemText(hwndDlg, IDC_LANGUAGE, TranslateTS(value));
 			}
 			DBVARIANT dbv;
 			if ( !db_get_ts(NULL, ppro->m_szModuleName, "Nick", &dbv)) {

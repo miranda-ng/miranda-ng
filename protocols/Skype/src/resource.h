@@ -50,10 +50,7 @@
 #define IDC_BIRTH_YEAR                  1028
 #define IDC_GENDER                      1029
 #define IDC_HOMEPAGE                    1030
-#define IDC_LANGUAGE1                   1031
-#define IDC_LANGUAGE2                   1032
-#define IDC_LANGUAGE3                   1033
-#define IDC_HOMEPAGE2                   1034
+#define IDC_LANGUAGE                    1031
 #define IDC_ABOUT                       1034
 
 // Next default values for new objects
