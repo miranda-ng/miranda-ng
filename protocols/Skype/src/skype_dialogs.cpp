@@ -492,9 +492,9 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				SetDlgItemText(hwndDlg, IDC_ABOUT, _T(""));
 
 			BYTE b = db_get_b(NULL, ppro->m_szModuleName, "Gender", 0);
-			if (b = 'M')
+			if (b == 'M')
 				SetDlgItemText(hwndDlg, IDC_GENDER, TranslateT("Male"));
-			else if (b = 'F')
+			else if (b == 'F')
 				SetDlgItemText(hwndDlg, IDC_GENDER, TranslateT("Female"));
 			else
 				SetDlgItemText(hwndDlg, IDC_GENDER, _T(""));
@@ -898,27 +898,56 @@ void CSkypeProto::SaveToDB(HWND hwndPage, int iPage)
 	switch (iPage) {
 	// Page 0: Personal
 	case 0:
-		/*GetDlgItemText(hwndPage, IDC_FULLNAME, text, SIZEOF(text));
-		JSetStringT(NULL, "FullName", text);
-		GetDlgItemText(hwndPage, IDC_NICKNAME, text, SIZEOF(text));
-		JSetStringT(NULL, "Nick", text);
-		GetDlgItemText(hwndPage, IDC_FIRSTNAME, text, SIZEOF(text));
-		JSetStringT(NULL, "FirstName", text);
-		GetDlgItemText(hwndPage, IDC_MIDDLE, text, SIZEOF(text));
-		JSetStringT(NULL, "MiddleName", text);
-		GetDlgItemText(hwndPage, IDC_LASTNAME, text, SIZEOF(text));
-		JSetStringT(NULL, "LastName", text);
-		GetDlgItemText(hwndPage, IDC_BIRTH, text, SIZEOF(text));
-		JSetStringT(NULL, "BirthDate", text);
-		switch(SendMessage(GetDlgItem(hwndPage, IDC_GENDER), CB_GETCURSEL, 0, 0)) {
-			case 0:	JSetString(NULL, "GenderString", "Male");   break;
-			case 1:	JSetString(NULL, "GenderString", "Female"); break;
-			default: JSetString(NULL, "GenderString", "");       break;
+		{
+			GetDlgItemText(hwndPage, IDC_FULLNAME, text, SIZEOF(text));
+			if (text && _tcslen(text) > 0)
+				db_set_ws(NULL, this->m_szModuleName, "Nick", text);
+			else
+				db_unset(NULL, this->m_szModuleName, "Nick");
+			GetDlgItemText(hwndPage, IDC_MOOD, text, SIZEOF(text));
+			if (text && _tcslen(text) > 0)
+				db_set_ws(NULL, this->m_szModuleName, "XStatusMsg", text);
+			else
+				db_unset(NULL, this->m_szModuleName, "XStatusMsg");
+			GetDlgItemText(hwndPage, IDC_ABOUT, text, SIZEOF(text));
+			if (text && _tcslen(text) > 0)
+				db_set_ws(NULL, this->m_szModuleName, "About", text);
+			else
+				db_unset(NULL, this->m_szModuleName, "About");
+			GetDlgItemText(hwndPage, IDC_HOMEPAGE, text, SIZEOF(text));
+			if (text && _tcslen(text) > 0)
+				db_set_ws(NULL, this->m_szModuleName, "Homepage", text);
+			else
+				db_unset(NULL, this->m_szModuleName, "Homepage");
+			switch (SendMessage(GetDlgItem(hwndPage, IDC_GENDER), CB_GETCURSEL, 0, 0)) {
+			case 0:
+				db_unset(NULL, this->m_szModuleName, "Gender");
+				break;
+			case 1:
+				db_set_b(NULL, this->m_szModuleName, "Gender", 'M');
+				break;
+			case 2:
+				db_set_b(NULL, this->m_szModuleName, "Gender", 'F');
+				break;
+			}
+			GetDlgItemText(hwndPage, IDC_BIRTH_DAY, text, SIZEOF(text));
+			if (text && _tcslen(text) > 0)
+				db_set_b(NULL, this->m_szModuleName, "BirthDay", _ttoi(text));
+			else
+				db_unset(NULL, this->m_szModuleName, "BirthDay");
+			GetDlgItemText(hwndPage, IDC_BIRTH_MONTH, text, SIZEOF(text));
+			if (text && _tcslen(text) > 0)
+				db_set_b(NULL, this->m_szModuleName, "BirthMonth", _ttoi(text));
+			else
+				db_unset(NULL, this->m_szModuleName, "BirthMonth");
+			GetDlgItemText(hwndPage, IDC_BIRTH_YEAR, text, SIZEOF(text));
+			if (text && _tcslen(text) > 0)
+				db_set_w(NULL, this->m_szModuleName, "BirthYear", _ttoi(text));
+			else
+				db_unset(NULL, this->m_szModuleName, "BirthYear");
+
+			int lang = SendMessage(GetDlgItem(hwndPage, IDC_LANGUAGE), CB_GETCURSEL, 0, 0);
 		}
-		GetDlgItemText(hwndPage, IDC_OCCUPATION, text, SIZEOF(text));
-		JSetStringT(NULL, "Role", text);
-		GetDlgItemText(hwndPage, IDC_HOMEPAGE, text, SIZEOF(text));
-		JSetStringT(NULL, "Homepage", text);*/
 		break;
 
 	// Page 1: Contacts
