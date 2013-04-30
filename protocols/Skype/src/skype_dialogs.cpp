@@ -659,6 +659,9 @@ static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 
 			tmi.prepareList((HANDLE)lParam, GetDlgItem(hwndDlg, IDC_TIMEZONE), TZF_PLF_CB);
+			HANDLE hTimeZone = tmi.createByContact ? tmi.createByContact(NULL, 0) : 0;
+			LPCTSTR TzDescr = tmi.getTzDescription(tmi.getTzName(hTimeZone));
+			SetDlgItemText(hwndDlg, IDC_TIMEZONE, TzDescr);
 		}
 		break;
 
