@@ -296,8 +296,8 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 	this->UpdateProfileAvatar(obj, hContact);
 
 	uint newTS = hContact ? obj->GetUintProp(Contact::P_PROFILE_TIMESTAMP) : obj->GetUintProp(Account::P_PROFILE_TIMESTAMP);
-	if (newTS > ::db_get_dw(hContact, this->m_szModuleName, "ProfileTS", 0))
-	{
+	//if (newTS > ::db_get_dw(hContact, this->m_szModuleName, "ProfileTS", 0))
+	//{
 		this->UpdateProfileAboutText(obj, hContact);
 		this->UpdateProfileBirthday(obj, hContact);
 		this->UpdateProfileCity(obj, hContact);
@@ -324,7 +324,7 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 		}
 
 		::db_set_dw(hContact, this->m_szModuleName, "ProfileTS", newTS);
-	}
+	//}
 }
 
 void __cdecl CSkypeProto::LoadOwnInfo(void *)
