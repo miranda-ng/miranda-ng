@@ -419,6 +419,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	const unsigned long iPageId = 0;
 	CSkypeProto *ppro = (CSkypeProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
@@ -515,6 +516,7 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			(HWND)lParam==GetDlgItem(hwndDlg, IDC_BIRTH_MONTH) || (HWND)lParam==GetDlgItem(hwndDlg, IDC_BIRTH_YEAR) ||
 			(HWND)lParam==GetDlgItem(hwndDlg, IDC_LANGUAGE)) && (HIWORD(wParam)==CBN_EDITCHANGE||HIWORD(wParam)==CBN_SELCHANGE)))
 		{
+			ppro->NeedUpdate = 1;
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
 		break;
@@ -526,9 +528,13 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY *)lParam)->lParam);
 				break;
 			case PSN_APPLY:
-				//ppro->SaveVcardToDB(hwndDlg, iPageId);
-				//if ( !ppro->m_vCardUpdates)
-				//	ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
+				if (ppro->IsOnline() && ppro->NeedUpdate)
+				{
+					ppro->SaveToDB(hwndDlg, iPageId);
+					ppro->SaveToServer();
+				}
+				else if ( !ppro->IsOnline())
+					ppro->ShowNotification(::TranslateT("You are not currently connected to the Skype network. You must be online in order to update your information on the server."));
 				break;
 			}
 		}
@@ -539,6 +545,7 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 static INT_PTR CALLBACK ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	const unsigned long iPageId = 1;
 	CSkypeProto *ppro = (CSkypeProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
@@ -596,7 +603,10 @@ static INT_PTR CALLBACK ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 	case WM_COMMAND:
 		if ((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE)
+		{
+			ppro->NeedUpdate = 1;
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		}
 		break;
 
 	case WM_NOTIFY:
@@ -619,6 +629,7 @@ static INT_PTR CALLBACK ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	const unsigned long iPageId = 2;
 	CSkypeProto *ppro = (CSkypeProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
@@ -667,7 +678,10 @@ static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 	case WM_COMMAND:
 		if ((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE)
+		{
+			ppro->NeedUpdate = 1;
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		}
 		break;
 
 	case WM_NOTIFY:
@@ -710,6 +724,7 @@ int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 			UserInfo_AddPage(wParam, &odp);
 		}
 	} else {
+		NeedUpdate = 0;
 		odp.pfnDlgProc = ContactSkypeDlgProc;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_CONTACT);
 		odp.ptszTab = LPGENT("Contacts");
@@ -874,4 +889,86 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 		break;
 	}
 	return FALSE;
+}
+
+void CSkypeProto::SaveToDB(HWND hwndPage, int iPage)
+{
+	TCHAR text[2048];
+
+	switch (iPage) {
+	// Page 0: Personal
+	case 0:
+		/*GetDlgItemText(hwndPage, IDC_FULLNAME, text, SIZEOF(text));
+		JSetStringT(NULL, "FullName", text);
+		GetDlgItemText(hwndPage, IDC_NICKNAME, text, SIZEOF(text));
+		JSetStringT(NULL, "Nick", text);
+		GetDlgItemText(hwndPage, IDC_FIRSTNAME, text, SIZEOF(text));
+		JSetStringT(NULL, "FirstName", text);
+		GetDlgItemText(hwndPage, IDC_MIDDLE, text, SIZEOF(text));
+		JSetStringT(NULL, "MiddleName", text);
+		GetDlgItemText(hwndPage, IDC_LASTNAME, text, SIZEOF(text));
+		JSetStringT(NULL, "LastName", text);
+		GetDlgItemText(hwndPage, IDC_BIRTH, text, SIZEOF(text));
+		JSetStringT(NULL, "BirthDate", text);
+		switch(SendMessage(GetDlgItem(hwndPage, IDC_GENDER), CB_GETCURSEL, 0, 0)) {
+			case 0:	JSetString(NULL, "GenderString", "Male");   break;
+			case 1:	JSetString(NULL, "GenderString", "Female"); break;
+			default: JSetString(NULL, "GenderString", "");       break;
+		}
+		GetDlgItemText(hwndPage, IDC_OCCUPATION, text, SIZEOF(text));
+		JSetStringT(NULL, "Role", text);
+		GetDlgItemText(hwndPage, IDC_HOMEPAGE, text, SIZEOF(text));
+		JSetStringT(NULL, "Homepage", text);*/
+		break;
+
+	// Page 1: Contacts
+	case 1:
+		/*GetDlgItemText(hwndPage, IDC_ADDRESS1, text, SIZEOF(text));
+		JSetStringT(NULL, "Street", text);
+		GetDlgItemText(hwndPage, IDC_ADDRESS2, text, SIZEOF(text));
+		JSetStringT(NULL, "Street2", text);
+		GetDlgItemText(hwndPage, IDC_CITY, text, SIZEOF(text));
+		JSetStringT(NULL, "City", text);
+		GetDlgItemText(hwndPage, IDC_STATE, text, SIZEOF(text));
+		JSetStringT(NULL, "State", text);
+		GetDlgItemText(hwndPage, IDC_ZIP, text, SIZEOF(text));
+		JSetStringT(NULL, "ZIP", text);
+		{
+			int i = SendMessage(GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETCURSEL, 0, 0);
+			TCHAR *country = mir_a2t((i) ? g_countries[i+2].szName : g_countries[1].szName);
+			JSetStringT(NULL, "Country", country);
+			mir_free(country);
+		}*/
+		break;
+
+	// Page 2: Home
+	case 2:
+		/*GetDlgItemText(hwndPage, IDC_COMPANY, text, SIZEOF(text));
+		JSetStringT(NULL, "Company", text);
+		GetDlgItemText(hwndPage, IDC_DEPARTMENT, text, SIZEOF(text));
+		JSetStringT(NULL, "CompanyDepartment", text);
+		GetDlgItemText(hwndPage, IDC_TITLE, text, SIZEOF(text));
+		JSetStringT(NULL, "CompanyPosition", text);
+		GetDlgItemText(hwndPage, IDC_ADDRESS1, text, SIZEOF(text));
+		JSetStringT(NULL, "CompanyStreet", text);
+		GetDlgItemText(hwndPage, IDC_ADDRESS2, text, SIZEOF(text));
+		JSetStringT(NULL, "CompanyStreet2", text);
+		GetDlgItemText(hwndPage, IDC_CITY, text, SIZEOF(text));
+		JSetStringT(NULL, "CompanyCity", text);
+		GetDlgItemText(hwndPage, IDC_STATE, text, SIZEOF(text));
+		JSetStringT(NULL, "CompanyState", text);
+		GetDlgItemText(hwndPage, IDC_ZIP, text, SIZEOF(text));
+		JSetStringT(NULL, "CompanyZIP", text);
+		{
+			int i = SendMessage(GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETCURSEL, 0, 0);
+			TCHAR *country = mir_a2t((i) ? g_countries[i+2].szName : g_countries[1].szName);
+			JSetStringT(NULL, "CompanyCountry", country);
+			mir_free(country);
+		}*/
+		break;
+	}
+}
+
+void CSkypeProto::SaveToServer()
+{
 }

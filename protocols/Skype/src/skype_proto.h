@@ -181,6 +181,13 @@ public:
 	bool	IsOnline();
 	static std::map<std::wstring, std::wstring> languages;
 
+	BYTE NeedUpdate;
+	void SaveToDB(HWND hwndPage, int iPage);
+	void SaveToServer();
+
+	static void ShowNotification(const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
+	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
+
 protected:
 	CAccount::Ref account;
 	CContact::Refs contactList;
@@ -339,9 +346,6 @@ protected:
 	bool   m_bInitDone;
 
 	int SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason);
-
-	static void ShowNotification(const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
-	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
 
 	static char *RemoveHtml(const char *data);
 
