@@ -45,13 +45,27 @@
 #define IDC_PASSWORD2                   1023
 #define IDC_INSTRUCTION3                1024
 #define IDC_FULLNAME                    1025
+#define IDC_EMAIL1                      1025
 #define IDC_BIRTH_DAY                   1026
+#define IDC_EMAIL2                      1026
 #define IDC_BIRTH_MONTH                 1027
+#define IDC_EMAIL3                      1027
 #define IDC_BIRTH_YEAR                  1028
+#define IDC_MOBPHONE                    1028
 #define IDC_GENDER                      1029
+#define IDC_HOMEPHONE                   1029
 #define IDC_HOMEPAGE                    1030
+#define IDC_HOMEPHONE2                  1030
+#define IDC_OFFICEPHONE                 1030
 #define IDC_LANGUAGE                    1031
 #define IDC_ABOUT                       1034
+#define IDC_ABOUT2                      1035
+#define IDC_MOOD                        1035
+#define IDC_CITY                        1036
+#define IDC_STATE                       1037
+#define IDC_COUNTRY                     1038
+#define IDC_COUNTRY2                    1039
+#define IDC_TIMEZONE                    1039
 
 // Next default values for new objects
 // 
@@ -59,7 +73,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        110
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1025
+#define _APS_NEXT_CONTROL_VALUE         1029
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

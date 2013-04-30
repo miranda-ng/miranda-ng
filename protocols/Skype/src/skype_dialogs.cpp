@@ -419,7 +419,6 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	const unsigned long iPageId = 0;
 	CSkypeProto *ppro = (CSkypeProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
@@ -458,9 +457,9 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			{
 				const wchar_t* value = it->second.c_str();
 				SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE), CB_ADDSTRING, 0, (LPARAM)TranslateTS(value));
-				if ( !lang || !::wcslen(lang))
-					if ( !lstrcmp(lang, value))
-						SetDlgItemText(hwndDlg, IDC_LANGUAGE, TranslateTS(value));
+				int ii = it->second.compare(lang);
+				if(it->second.compare(lang) == 0)
+					SetDlgItemText(hwndDlg, IDC_LANGUAGE, TranslateTS(value));
 			}
 			DBVARIANT dbv;
 			if ( !db_get_ts(NULL, ppro->m_szModuleName, "Nick", &dbv)) {
@@ -479,6 +478,13 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 			if ( !db_get_ts(NULL, ppro->m_szModuleName, "About", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_ABOUT, dbv.ptszVal);
+				db_free(&dbv);
+			}
+			else
+				SetDlgItemText(hwndDlg, IDC_ABOUT, _T(""));
+
+			if ( !db_get_ts(NULL, ppro->m_szModuleName, "XStatusMsg", &dbv)) {
+				SetDlgItemText(hwndDlg, IDC_MOOD, dbv.ptszVal);
 				db_free(&dbv);
 			}
 			else
@@ -505,7 +511,9 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 	case WM_COMMAND:
 		if (((HWND)lParam==GetFocus() && HIWORD(wParam)==EN_CHANGE) ||
-			((HWND)lParam==GetDlgItem(hwndDlg, IDC_GENDER) && (HIWORD(wParam)==CBN_EDITCHANGE||HIWORD(wParam)==CBN_SELCHANGE)))
+			(((HWND)lParam==GetDlgItem(hwndDlg, IDC_GENDER) || (HWND)lParam==GetDlgItem(hwndDlg, IDC_BIRTH_DAY) ||
+			(HWND)lParam==GetDlgItem(hwndDlg, IDC_BIRTH_MONTH) || (HWND)lParam==GetDlgItem(hwndDlg, IDC_BIRTH_YEAR) ||
+			(HWND)lParam==GetDlgItem(hwndDlg, IDC_LANGUAGE)) && (HIWORD(wParam)==CBN_EDITCHANGE||HIWORD(wParam)==CBN_SELCHANGE)))
 		{
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
@@ -515,14 +523,163 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		if (((LPNMHDR)lParam)->idFrom == 0) {
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_PARAMCHANGED:
-				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY*)lParam)->lParam);
+				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY *)lParam)->lParam);
 				break;
 			case PSN_APPLY:
 				//ppro->SaveVcardToDB(hwndDlg, iPageId);
 				//if ( !ppro->m_vCardUpdates)
 				//	ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
 				break;
-		}	}
+			}
+		}
+		break;
+	}
+	return FALSE;
+}
+
+static INT_PTR CALLBACK ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	CSkypeProto *ppro = (CSkypeProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		if (lParam) {
+			ppro = (CSkypeProto *)lParam;
+			TranslateDialogDefault(hwndDlg);
+
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+
+			DBVARIANT dbv;
+			if ( !db_get_ts(NULL, ppro->m_szModuleName, "Cellular", &dbv)) {
+				SetDlgItemText(hwndDlg, IDC_MOBPHONE, dbv.ptszVal);
+				db_free(&dbv);
+			}
+			else
+				SetDlgItemText(hwndDlg, IDC_MOBPHONE, _T(""));
+
+			if ( !db_get_ts(NULL, ppro->m_szModuleName, "Phone", &dbv)) {
+				SetDlgItemText(hwndDlg, IDC_HOMEPHONE, dbv.ptszVal);
+				db_free(&dbv);
+			}
+			else
+				SetDlgItemText(hwndDlg, IDC_HOMEPHONE, _T(""));
+
+			if ( !db_get_ts(NULL, ppro->m_szModuleName, "CompanyPhone", &dbv)) {
+				SetDlgItemText(hwndDlg, IDC_OFFICEPHONE, dbv.ptszVal);
+				db_free(&dbv);
+			}
+			else
+				SetDlgItemText(hwndDlg, IDC_OFFICEPHONE, _T(""));
+
+			if ( !db_get_ts(NULL, ppro->m_szModuleName, "e-mail0", &dbv)) {
+				SetDlgItemText(hwndDlg, IDC_EMAIL1, dbv.ptszVal);
+				db_free(&dbv);
+			}
+			else
+				SetDlgItemText(hwndDlg, IDC_EMAIL1, _T(""));
+
+			if ( !db_get_ts(NULL, ppro->m_szModuleName, "e-mail1", &dbv)) {
+				SetDlgItemText(hwndDlg, IDC_EMAIL2, dbv.ptszVal);
+				db_free(&dbv);
+			}
+			else
+				SetDlgItemText(hwndDlg, IDC_EMAIL2, _T(""));
+
+			if ( !db_get_ts(NULL, ppro->m_szModuleName, "e-mail2", &dbv)) {
+				SetDlgItemText(hwndDlg, IDC_EMAIL3, dbv.ptszVal);
+				db_free(&dbv);
+			}
+			else
+				SetDlgItemText(hwndDlg, IDC_EMAIL3, _T(""));
+		}
+		break;
+
+	case WM_COMMAND:
+		if ((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		break;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->idFrom == 0) {
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_PARAMCHANGED:
+				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY *)lParam)->lParam);
+				break;
+			case PSN_APPLY:
+				//ppro->SaveVcardToDB(hwndDlg, iPageId);
+				//if ( !ppro->m_vCardUpdates)
+				//	ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
+				break;
+			}
+		}
+		break;
+	}
+	return FALSE;
+}
+
+static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	CSkypeProto *ppro = (CSkypeProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		if (lParam) {
+			ppro = (CSkypeProto *)lParam;
+			TranslateDialogDefault(hwndDlg);
+
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+
+			DBVARIANT dbv;
+			if ( !db_get_ts(NULL, ppro->m_szModuleName, "City", &dbv)) {
+				SetDlgItemText(hwndDlg, IDC_CITY, dbv.ptszVal);
+				db_free(&dbv);
+			}
+			else
+				SetDlgItemText(hwndDlg, IDC_MOBPHONE, _T(""));
+
+			if ( !db_get_ts(NULL, ppro->m_szModuleName, "State", &dbv)) {
+				SetDlgItemText(hwndDlg, IDC_STATE, dbv.ptszVal);
+				db_free(&dbv);
+			}
+			else
+				SetDlgItemText(hwndDlg, IDC_STATE, _T(""));
+
+			int g_cbCountries;
+			struct CountryListEntry* g_countries;
+			CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&g_cbCountries, (LPARAM)&g_countries);
+			wchar_t *countr = ::db_get_wsa(NULL, ppro->m_szModuleName, "Country");
+			for (int i = 0; i < g_cbCountries; i++)	{
+				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
+					TCHAR *country = mir_a2t(g_countries[i].szName);
+					SendMessage(GetDlgItem(hwndDlg, IDC_COUNTRY), CB_ADDSTRING, 0, (LPARAM)TranslateTS(country));
+					if (_tcscmp(country, countr) == 0)
+						SetDlgItemText(hwndDlg, IDC_COUNTRY, TranslateTS(country));
+					mir_free(country);
+				}
+			}
+
+			tmi.prepareList((HANDLE)lParam, GetDlgItem(hwndDlg, IDC_TIMEZONE), TZF_PLF_CB);
+		}
+		break;
+
+	case WM_COMMAND:
+		if ((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		break;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->idFrom == 0) {
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_PARAMCHANGED:
+				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY *)lParam)->lParam);
+				break;
+			case PSN_APPLY:
+				//ppro->SaveVcardToDB(hwndDlg, iPageId);
+				//if ( !ppro->m_vCardUpdates)
+				//	ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
+				break;
+			}
+		}
 		break;
 	}
 	return FALSE;
@@ -550,8 +707,19 @@ int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 			UserInfo_AddPage(wParam, &odp);
 		}
 	} else {
+		odp.pfnDlgProc = ContactSkypeDlgProc;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_CONTACT);
+		odp.ptszTab = LPGENT("Contacts");
+		UserInfo_AddPage(wParam, &odp);
+
+		odp.pfnDlgProc = HomeSkypeDlgProc;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_HOME);
+		odp.ptszTab = LPGENT("Home");
+		UserInfo_AddPage(wParam, &odp);
+
 		odp.pfnDlgProc = PersonalSkypeDlgProc;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_PERSONAL);
+		odp.ptszTab = LPGENT("General");
 		UserInfo_AddPage(wParam, &odp);
 	}
 
