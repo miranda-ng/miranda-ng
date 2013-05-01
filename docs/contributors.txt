@@ -6,6 +6,7 @@ Alexander Gluzsky aka sss
 Vladislav Grishenko aka theMIROn
 Ekaterina Gritsenko aka Tuarisa
 George Hazan aka ghazan
+Vitaly Igonin aka persei
 Alexey Koulakov aka Awkward
 Michael Kunz aka Protogenes
 Dmitry Kuzkin aka Bio
@@ -15,6 +16,7 @@ Vlad Mironov aka mironych
 Alexey Oblezov aka faith_healer
 Victor Pavlychko aka nullbie
 Robert Pösel aka Robyer
+Kostia Romanov aka Kildor
 Ivan Rozhuk aka rozhuk
 Alexander Shorin aka Kxepal
 Artem Shpynov aka FYR
