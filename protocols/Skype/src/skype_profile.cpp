@@ -263,10 +263,10 @@ void CSkypeProto::UpdateProfileStatusMessage(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HANDLE hContact)
 {
-	uint data = hContact ? obj->GetUintProp(Contact::P_TIMEZONE) : obj->GetUintProp(Account::P_TIMEZONE);
+	LONG data = hContact ? obj->GetUintProp(Contact::P_TIMEZONE) : obj->GetUintProp(Account::P_TIMEZONE);
 	if (data > 0)
 	{
-		uint diffmin = (data - 24*3600) / 60;
+		LONG diffmin = (data - 24*3600) / 60;
 		wchar_t sign[2];
 		if (diffmin < 0)
 			::wcscpy(sign, L"-");
