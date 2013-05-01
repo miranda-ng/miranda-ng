@@ -11,6 +11,9 @@ TIME_API tmi = {0};
 
 std::map<std::wstring, std::wstring> CSkypeProto::languages = CSkypeProto::FillLanguages();
 
+int g_cbCountries;
+struct CountryListEntry* g_countries;
+
 PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
@@ -288,6 +291,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnInit = (pfnInitProto)CSkypeProto::InitSkypeProto;
 	pd.fnUninit = (pfnUninitProto)CSkypeProto::UninitSkypeProto;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+
+	CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&g_cbCountries, (LPARAM)&g_countries);
 
 	CSkypeProto::InitIcons();
 	CSkypeProto::InitMenus();

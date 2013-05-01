@@ -84,6 +84,9 @@ struct PasswordChangeBoxParam
 	}
 };
 
+extern int g_cbCountries;
+extern struct CountryListEntry* g_countries;
+
 struct CSkypeProto : public PROTO_INTERFACE
 {
 public:

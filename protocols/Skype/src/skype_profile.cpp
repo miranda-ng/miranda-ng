@@ -288,7 +288,7 @@ void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HANDLE hContact)
 		::db_set_b(hContact, this->m_szModuleName, "Timezone", (signed char)nTz);
 	}
 	else
-		::db_unset(hContact, this->m_szModuleName, "TimeZone");
+		::db_unset(hContact, this->m_szModuleName, "Timezone");
 }
 
 void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)

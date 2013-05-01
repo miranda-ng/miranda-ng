@@ -2,7 +2,7 @@
 
 INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	CSkypeProto *proto = reinterpret_cast<CSkypeProto *>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
+	CSkypeProto *proto = (CSkypeProto *)::GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	switch (message)
 	{
@@ -452,15 +452,15 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				SendMessage(GetDlgItem(hwndDlg, IDC_BIRTH_YEAR), CB_ADDSTRING, 0, (LPARAM)year);
 
 			}
-	
+
 			wchar_t *lang = ::db_get_wsa(NULL, ppro->m_szModuleName, "Language1");
 			for (std::map<std::wstring, std::wstring>::iterator it = CSkypeProto::languages.begin(); it != CSkypeProto::languages.end(); ++it)
 			{
-				const wchar_t* value = it->second.c_str();
-				SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE), CB_ADDSTRING, 0, (LPARAM)TranslateTS(value));
+				int nItem = SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE), CB_ADDSTRING, 0, (LPARAM)TranslateTS(it->second.c_str()));
+				SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE), CB_SETITEMDATA, nItem, (LPARAM)it->first.c_str());
 				int ii = it->second.compare(lang);
 				if(it->second.compare(lang) == 0)
-					SetDlgItemText(hwndDlg, IDC_LANGUAGE, TranslateTS(value));
+					SetDlgItemText(hwndDlg, IDC_LANGUAGE, TranslateTS(it->second.c_str()));
 			}
 			DBVARIANT dbv;
 			if ( !db_get_ts(NULL, ppro->m_szModuleName, "Nick", &dbv)) {
@@ -511,10 +511,10 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		break;
 
 	case WM_COMMAND:
-		if (((HWND)lParam==GetFocus() && HIWORD(wParam)==EN_CHANGE) ||
-			(((HWND)lParam==GetDlgItem(hwndDlg, IDC_GENDER) || (HWND)lParam==GetDlgItem(hwndDlg, IDC_BIRTH_DAY) ||
-			(HWND)lParam==GetDlgItem(hwndDlg, IDC_BIRTH_MONTH) || (HWND)lParam==GetDlgItem(hwndDlg, IDC_BIRTH_YEAR) ||
-			(HWND)lParam==GetDlgItem(hwndDlg, IDC_LANGUAGE)) && (HIWORD(wParam)==CBN_EDITCHANGE||HIWORD(wParam)==CBN_SELCHANGE)))
+		if (((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE) ||
+			(((HWND)lParam == GetDlgItem(hwndDlg, IDC_GENDER) || (HWND)lParam == GetDlgItem(hwndDlg, IDC_BIRTH_DAY) ||
+			(HWND)lParam == GetDlgItem(hwndDlg, IDC_BIRTH_MONTH) || (HWND)lParam == GetDlgItem(hwndDlg, IDC_BIRTH_YEAR) ||
+			(HWND)lParam == GetDlgItem(hwndDlg, IDC_LANGUAGE)) && (HIWORD(wParam) == CBN_EDITCHANGE || HIWORD(wParam) == CBN_SELCHANGE)))
 		{
 			ppro->NeedUpdate = 1;
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -616,9 +616,13 @@ static INT_PTR CALLBACK ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY *)lParam)->lParam);
 				break;
 			case PSN_APPLY:
-				//ppro->SaveVcardToDB(hwndDlg, iPageId);
-				//if ( !ppro->m_vCardUpdates)
-				//	ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
+				if (ppro->IsOnline() && ppro->NeedUpdate)
+				{
+					ppro->SaveToDB(hwndDlg, iPageId);
+					ppro->SaveToServer();
+				}
+				else if ( !ppro->IsOnline())
+					ppro->ShowNotification(::TranslateT("You are not currently connected to the Skype network. You must be online in order to update your information on the server."));
 				break;
 			}
 		}
@@ -655,14 +659,12 @@ static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			else
 				SetDlgItemText(hwndDlg, IDC_STATE, _T(""));
 
-			int g_cbCountries;
-			struct CountryListEntry* g_countries;
-			CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&g_cbCountries, (LPARAM)&g_countries);
 			wchar_t *countr = ::db_get_wsa(NULL, ppro->m_szModuleName, "Country");
 			for (int i = 0; i < g_cbCountries; i++)	{
 				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
 					TCHAR *country = mir_a2t(g_countries[i].szName);
-					SendMessage(GetDlgItem(hwndDlg, IDC_COUNTRY), CB_ADDSTRING, 0, (LPARAM)TranslateTS(country));
+					int nItem = SendMessage(GetDlgItem(hwndDlg, IDC_COUNTRY), CB_ADDSTRING, 0, (LPARAM)TranslateTS(country));
+					SendMessage(GetDlgItem(hwndDlg, IDC_COUNTRY), CB_SETITEMDATA, nItem, (LPARAM)g_countries[i].id);
 					if (_tcscmp(country, countr) == 0)
 						SetDlgItemText(hwndDlg, IDC_COUNTRY, TranslateTS(country));
 					mir_free(country);
@@ -670,14 +672,16 @@ static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 
 			tmi.prepareList((HANDLE)lParam, GetDlgItem(hwndDlg, IDC_TIMEZONE), TZF_PLF_CB);
-			HANDLE hTimeZone = tmi.createByContact ? tmi.createByContact(NULL, 0) : 0;
-			LPCTSTR TzDescr = tmi.getTzDescription(tmi.getTzName(hTimeZone));
-			SetDlgItemText(hwndDlg, IDC_TIMEZONE, TzDescr);
+			//HANDLE hTimeZone = tmi.createByContact ? tmi.createByContact(NULL, 0) : 0;
+			//LPCTSTR TzDescr = tmi.getTzDescription(tmi.getTzName(hTimeZone));
+			//SetDlgItemText(hwndDlg, IDC_TIMEZONE, TzDescr);
 		}
 		break;
 
 	case WM_COMMAND:
-		if ((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE)
+		if (((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE) ||
+			(((HWND)lParam == GetDlgItem(hwndDlg, IDC_COUNTRY) || (HWND)lParam == GetDlgItem(hwndDlg, IDC_TIMEZONE)) &&
+			(HIWORD(wParam) == CBN_EDITCHANGE || HIWORD(wParam) == CBN_SELCHANGE)))
 		{
 			ppro->NeedUpdate = 1;
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -691,9 +695,13 @@ static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY *)lParam)->lParam);
 				break;
 			case PSN_APPLY:
-				//ppro->SaveVcardToDB(hwndDlg, iPageId);
-				//if ( !ppro->m_vCardUpdates)
-				//	ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
+				if (ppro->IsOnline() && ppro->NeedUpdate)
+				{
+					ppro->SaveToDB(hwndDlg, iPageId);
+					ppro->SaveToServer();
+				}
+				else if ( !ppro->IsOnline())
+					ppro->ShowNotification(::TranslateT("You are not currently connected to the Skype network. You must be online in order to update your information on the server."));
 				break;
 			}
 		}
@@ -947,53 +955,64 @@ void CSkypeProto::SaveToDB(HWND hwndPage, int iPage)
 				db_unset(NULL, this->m_szModuleName, "BirthYear");
 
 			int lang = SendMessage(GetDlgItem(hwndPage, IDC_LANGUAGE), CB_GETCURSEL, 0, 0);
+			wchar_t *key = (wchar_t *)SendMessage(GetDlgItem(hwndPage, IDC_LANGUAGE), CB_GETITEMDATA, lang, 0);
+			std::wstring value = CSkypeProto::languages[key];
+			db_set_ws(NULL, this->m_szModuleName, "Language1", value.c_str());
 		}
 		break;
 
 	// Page 1: Contacts
 	case 1:
-		/*GetDlgItemText(hwndPage, IDC_ADDRESS1, text, SIZEOF(text));
-		JSetStringT(NULL, "Street", text);
-		GetDlgItemText(hwndPage, IDC_ADDRESS2, text, SIZEOF(text));
-		JSetStringT(NULL, "Street2", text);
-		GetDlgItemText(hwndPage, IDC_CITY, text, SIZEOF(text));
-		JSetStringT(NULL, "City", text);
-		GetDlgItemText(hwndPage, IDC_STATE, text, SIZEOF(text));
-		JSetStringT(NULL, "State", text);
-		GetDlgItemText(hwndPage, IDC_ZIP, text, SIZEOF(text));
-		JSetStringT(NULL, "ZIP", text);
-		{
-			int i = SendMessage(GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETCURSEL, 0, 0);
-			TCHAR *country = mir_a2t((i) ? g_countries[i+2].szName : g_countries[1].szName);
-			JSetStringT(NULL, "Country", country);
-			mir_free(country);
-		}*/
+		GetDlgItemText(hwndPage, IDC_EMAIL1, text, SIZEOF(text));
+		if (text && _tcslen(text) > 0)
+			db_set_ws(NULL, this->m_szModuleName, "e-mail0", text);
+		else
+			db_unset(NULL, this->m_szModuleName, "e-mail0");
+		GetDlgItemText(hwndPage, IDC_EMAIL2, text, SIZEOF(text));
+		if (text && _tcslen(text) > 0)
+			db_set_ws(NULL, this->m_szModuleName, "e-mail1", text);
+		else
+			db_unset(NULL, this->m_szModuleName, "e-mail1");
+		GetDlgItemText(hwndPage, IDC_EMAIL3, text, SIZEOF(text));
+		if (text && _tcslen(text) > 0)
+			db_set_ws(NULL, this->m_szModuleName, "e-mail2", text);
+		else
+			db_unset(NULL, this->m_szModuleName, "e-mail2");
+		GetDlgItemText(hwndPage, IDC_MOBPHONE, text, SIZEOF(text));
+		if (text && _tcslen(text) > 0)
+			db_set_ws(NULL, this->m_szModuleName, "Cellular", text);
+		else
+			db_unset(NULL, this->m_szModuleName, "Cellular");
+		GetDlgItemText(hwndPage, IDC_HOMEPHONE, text, SIZEOF(text));
+		if (text && _tcslen(text) > 0)
+			db_set_ws(NULL, this->m_szModuleName, "Phone", text);
+		else
+			db_unset(NULL, this->m_szModuleName, "Phone");
+		GetDlgItemText(hwndPage, IDC_OFFICEPHONE, text, SIZEOF(text));
+		if (text && _tcslen(text) > 0)
+			db_set_ws(NULL, this->m_szModuleName, "CompanyPhone", text);
+		else
+			db_unset(NULL, this->m_szModuleName, "CompanyPhone");
 		break;
 
 	// Page 2: Home
 	case 2:
-		/*GetDlgItemText(hwndPage, IDC_COMPANY, text, SIZEOF(text));
-		JSetStringT(NULL, "Company", text);
-		GetDlgItemText(hwndPage, IDC_DEPARTMENT, text, SIZEOF(text));
-		JSetStringT(NULL, "CompanyDepartment", text);
-		GetDlgItemText(hwndPage, IDC_TITLE, text, SIZEOF(text));
-		JSetStringT(NULL, "CompanyPosition", text);
-		GetDlgItemText(hwndPage, IDC_ADDRESS1, text, SIZEOF(text));
-		JSetStringT(NULL, "CompanyStreet", text);
-		GetDlgItemText(hwndPage, IDC_ADDRESS2, text, SIZEOF(text));
-		JSetStringT(NULL, "CompanyStreet2", text);
 		GetDlgItemText(hwndPage, IDC_CITY, text, SIZEOF(text));
-		JSetStringT(NULL, "CompanyCity", text);
+		if (text && _tcslen(text) > 0)
+			db_set_ws(NULL, this->m_szModuleName, "City", text);
+		else
+			db_unset(NULL, this->m_szModuleName, "City");
 		GetDlgItemText(hwndPage, IDC_STATE, text, SIZEOF(text));
-		JSetStringT(NULL, "CompanyState", text);
-		GetDlgItemText(hwndPage, IDC_ZIP, text, SIZEOF(text));
-		JSetStringT(NULL, "CompanyZIP", text);
-		{
-			int i = SendMessage(GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETCURSEL, 0, 0);
-			TCHAR *country = mir_a2t((i) ? g_countries[i+2].szName : g_countries[1].szName);
-			JSetStringT(NULL, "CompanyCountry", country);
-			mir_free(country);
-		}*/
+		if (text && _tcslen(text) > 0)
+			db_set_ws(NULL, this->m_szModuleName, "State", text);
+		else
+			db_unset(NULL, this->m_szModuleName, "State");
+		int i = SendMessage(GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETCURSEL, 0, 0);
+		int id = SendMessage(GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETITEMDATA, i, 0);
+		char *countrystr = (char *)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, (WPARAM)id, 0);
+		TCHAR *country = mir_a2t(countrystr);
+		db_set_ws(NULL, this->m_szModuleName, "Country", country);
+		mir_free(country);
 		break;
 	}
 }
