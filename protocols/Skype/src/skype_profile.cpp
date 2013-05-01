@@ -281,10 +281,6 @@ void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HANDLE hContact)
 		int nTz = ::_wtoi(timeshift) * -2;
 		nTz += (nTz < 0 ? -1 : 1) * (szMin ? _ttoi( szMin + 1 ) / 30 : 0);
 
-		TIME_ZONE_INFORMATION tzinfo;
-		if (::GetTimeZoneInformation(&tzinfo) == TIME_ZONE_ID_DAYLIGHT)
-			nTz -= tzinfo.DaylightBias / 30;
-
 		::db_set_b(hContact, this->m_szModuleName, "Timezone", (signed char)nTz);
 	}
 	else
