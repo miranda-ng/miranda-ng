@@ -7,14 +7,15 @@
 ;============================================================
 [Provides extended options for sound notifications.]
 ;file \plugins\XSoundNotify\res\XSoundNotify.rc
-[Protocol :]
-[Nick :]
-[Sound :]
+[Account:]
+[Nick:]
+[Sound:]
 [Not set]
 [Choose]
 [Test play]
 [Reset]
 [Ignore sound for this contact]
+[XSoundNotify]
 [OK]
 [Cancel]
 ;file \plugins\XSoundNotify\src\xsn_main.cpp

@@ -91,6 +91,7 @@
 [internal IP]
 [Client info]
 [Protocol]
+[Account]
 [-- Format --]
 [tabulator]
 [line break]
