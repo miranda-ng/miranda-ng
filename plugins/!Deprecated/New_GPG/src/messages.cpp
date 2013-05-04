@@ -1017,7 +1017,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 								CallContactService(hContact, PSS_MESSAGE, (dbei->flags & DBEF_UTF) ? PREF_UTF : 0, (LPARAM)"-----PGP KEY REQUEST-----");
 								hcontact_data[hContact].msgs_to_send.push_back((char*)dbei->pBlob);
 								boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, hContact));
-								mir_free((char*)dbei->pBlob);
+								//mir_free((char*)dbei->pBlob);
 								//TODO: wait for message
 								return 0;
 							}
@@ -1041,7 +1041,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 		if(bAppendTags)
 		{
 			string str_event = (char*)dbei->pBlob;
-			mir_free(dbei->pBlob);
+			//mir_free(dbei->pBlob);
 			str_event.insert(0, toUTF8(outopentag));
 			str_event.append(toUTF8(outclosetag));
 			dbei->pBlob = (PBYTE)mir_strdup(str_event.c_str());
