@@ -446,12 +446,12 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 				for (uint i = 0; i < participants.size(); i++)
 				{
 					participants[i]->GetPropIdentity(data);
-					mir_ptr<wchar_t> sid = ::mir_utf8decodeW(data);
+					std::wstring sid = ::mir_utf8decodeW(data);
 					
-					if (needToAdd.contains(sid) && !alreadyInChat.contains(sid))
+					if (needToAdd.contains(sid.c_str()) && !alreadyInChat.contains(sid.c_str()))
 					{
 						CContact::Ref contact;
-						g_skype->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(sid)), contact);
+						g_skype->GetContact(std::string(::mir_utf8encodeW(sid.c_str())).c_str(), contact);
 
 						CContact::AVAILABILITY status;
 						contact->GetPropAvailability(status);
@@ -461,9 +461,9 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 
 						this->AddChatContact(
 							cid, 
-							sid, 
+							sid.c_str(), 
 							CSkypeProto::Roles[rank],
-							CSkypeProto::MirandaToSkypeStatus(status));
+							CSkypeProto::SkypeToMirandaStatus(status));
 					}
 				}
 			}
