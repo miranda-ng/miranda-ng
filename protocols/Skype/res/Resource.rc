@@ -332,6 +332,7 @@ IDI_AUTH_REQUEST        ICON                    "auth_request.ico"
 IDI_AUTH_REVOKE         ICON                    "auth_revoke.ico"
 IDI_CALL                ICON                    "call.ico"
 IDI_CONF_INVITE         ICON                    "conf_invite.ico"
+IDI_CONF_SPAWN          ICON                    "conf_spawn.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

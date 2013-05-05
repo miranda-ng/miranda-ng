@@ -29,7 +29,7 @@ void CSkypeProto::UpdateContactStatus(HANDLE hContact, CContact::Ref contact)
 {
 	CContact::AVAILABILITY availability;
 	contact->GetPropAvailability(availability);
-	::db_set_w(hContact, this->m_szModuleName, SKYPE_SETTINGS_STATUS, this->SkypeToMirandaStatus(availability));
+	::db_set_w(hContact, this->m_szModuleName, SKYPE_SETTINGS_STATUS, CSkypeProto::SkypeToMirandaStatus(availability));
 
 	if (availability == CContact::SKYPEOUT)
 	{
@@ -166,8 +166,8 @@ HANDLE CSkypeProto::GetContactBySid(const wchar_t *sid)
 	{
 		if (this->IsProtoContact(hContact) && !this->IsChatRoom(hContact))
 		{
-			mir_ptr<wchar_t> contactSid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
-			if (contactSid && ::wcsicmp(sid, contactSid) == 0)
+			std::wstring contactSid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
+			if (contactSid.compare(sid) == 0)
 				return hContact;
 		}
 
@@ -297,17 +297,18 @@ void __cdecl CSkypeProto::LoadChatList(void*)
 {
 	CConversation::Refs conversations;
 	g_skype->GetConversationList(conversations);
+
 	for (uint i = 0; i < conversations.size(); i++)
 	{
+		auto conversation = conversations[i];
+
 		CConversation::TYPE type;
-		conversations[i]->GetPropType(type);
+		conversation->GetPropType(type);
 
 		CConversation::MY_STATUS status;
-		conversations[i]->GetPropMyStatus(status);
+		conversation->GetPropMyStatus(status);
 		if (type == CConversation::CONFERENCE && status == CConversation::CONSUMER)
 		{
-			auto conversation = conversations[i];
-
 			this->AddChatRoom(conversation);
 			this->JoinToChat(conversation, false);
 		}

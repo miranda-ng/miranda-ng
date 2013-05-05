@@ -33,6 +33,7 @@
 #include <m_xml.h>
 #include <win2k.h>
 #include <m_timezones.h>
+#include <m_msg_buttonsbar.h>
 
 #include <m_folders.h>
 
@@ -52,6 +53,8 @@
 #define SKYPE_SEARCH_BYSID 1001
 #define SKYPE_SEARCH_BYEMAIL 1002
 #define SKYPE_SEARCH_BYNAMES 1003
+
+#define BBB_ID_CONF_SPAWN 1
 
 #define SKYPE_DB_EVENT_TYPE_EMOTE	10001
 #define SKYPE_DB_EVENT_TYPE_CALL	10010

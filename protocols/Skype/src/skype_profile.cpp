@@ -134,7 +134,7 @@ void CSkypeProto::UpdateProfileEmails(SEObject *obj, HANDLE hContact)
 	else
 	{
 		StringList emls = emails;
-		for (int i = 0; i < emls.getCount(); i++)
+		for (size_t i = 0; i < emls.size(); i++)
 		{
 			std::stringstream ss;
 			ss << "e-mail" << i;
@@ -159,7 +159,7 @@ void CSkypeProto::UpdateProfileFullName(SEObject *obj, HANDLE hContact)
 		StringList names = fullname;
 
 		::db_set_ws(hContact, this->m_szModuleName, "FirstName", names[0]);
-		if (names.getCount() > 1)
+		if (names.size() > 1)
 			::db_set_ws(hContact, this->m_szModuleName, "LastName", names[1]);
 	}
 	::mir_free(fullname);
@@ -196,7 +196,7 @@ void CSkypeProto::UpdateProfileLanguages(SEObject *obj, HANDLE hContact)
 	else
 	{
 		StringList langs = isocodes;
-		for (int i = 0; i < langs.getCount(); i++)
+		for (size_t i = 0; i < langs.size(); i++)
 		{
 			if (CSkypeProto::languages.count(langs[i]))
 			{
@@ -325,14 +325,14 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 
 void __cdecl CSkypeProto::LoadOwnInfo(void *)
 {
-	wchar_t *nick = ::db_get_wsa(NULL, this->m_szModuleName, "Nick");
-	if ( !nick || !::wcslen(nick))
+	std::wstring nick = ::db_get_wsa(NULL, this->m_szModuleName, "Nick");
+	if (nick.empty())
 	{
 		SEString data;
 		this->account->GetPropFullname(data);
 
-		mir_ptr<wchar_t> nick = ::mir_utf8decodeW(data);
-		::db_set_ws(NULL, this->m_szModuleName, "Nick", nick);
+		nick = ::mir_utf8decodeW(data);
+		::db_set_ws(NULL, this->m_szModuleName, "Nick", nick.c_str());
 	}
 	this->UpdateProfileAvatar(this->account.fetch());
 	this->UpdateProfile(this->account.fetch());

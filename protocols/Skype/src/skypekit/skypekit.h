@@ -29,6 +29,8 @@ public:
 
 	void SetOnMessageCallback(OnMessaged callback, CSkypeProto* proto);
 
+	bool CreateConferenceWithConsumers(ConversationRef &conference, const SEStringList &identities);
+
 private:
 	CSkypeProto*	proto;
 	OnMessaged		onMessagedCallback;

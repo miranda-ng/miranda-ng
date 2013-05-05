@@ -40,11 +40,11 @@ const HtmlEntity htmlEntities[]={
 struct InviteChatParam
 {
 	wchar_t		*id;
-	HANDLE		hContact;
+	StringList	invitedContacts;
 	CSkypeProto *ppro;
 
-	InviteChatParam(const wchar_t *id, HANDLE hContact, CSkypeProto *ppro)
-		: id(::mir_wstrdup(id)), hContact(hContact), ppro(ppro) {}
+	InviteChatParam(const wchar_t *id, const StringList &contacts, CSkypeProto *ppro)
+		: id(::mir_wstrdup(id)), invitedContacts(contacts), ppro(ppro) { /*this->invitedContacts = contacts;*/ }
 
 	~InviteChatParam()
 	{ ::mir_free(id); }
@@ -153,6 +153,7 @@ public:
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
 
 	int __cdecl OnMessagePreCreate(WPARAM, LPARAM);
+	int __cdecl OnTabSRMMButtonPressed(WPARAM, LPARAM);
 
 	// instances
 	static CSkypeProto* InitSkypeProto(const char* protoName, const wchar_t* userName);
@@ -195,8 +196,9 @@ protected:
 	CAccount::Ref account;
 	CContact::Refs contactList;
 	CTransfer::Refs transferList;
+	
 	CContactGroup::Ref commonList;
-	CContactGroup::Ref authWaitList;
+	CContactGroup::Ref authWaitList;	
 
 	// account
 	static wchar_t* LogoutReasons[];
@@ -214,6 +216,8 @@ protected:
 
 	void	InitProxy();
 	void	SetAccountSettings();
+
+	void	SetServerStatus(int iStatus);
 
 	bool	LogIn();
 	void	LogOut();
@@ -258,25 +262,27 @@ protected:
 	wchar_t *CSkypeProto::GetChatUsers(const wchar_t *cid);
 	void CSkypeProto::UpdateChatUserStatus(CContact::Ref contact);
 
-	void ChatValidateContact(HANDLE hItem, HWND hwndList, const wchar_t *contacts);
-	void ChatPrepare(HANDLE hItem, HWND hwndList, const wchar_t *contacts);
+	void ChatValidateContact(HANDLE hItem, HWND hwndList, const StringList &contacts);
+	void ChatPrepare(HANDLE hItem, HWND hwndList, const StringList &contacts);
 
-	void GetInviteContacts(HANDLE hItem, HWND hwndList, StringList &invitedContacts);
+	void GetInvitedContacts(HANDLE hItem, HWND hwndList, StringList &invitedContacts);
 
 	void InitChat();
-	//wchar_t *StartChat(const wchar_t *cid, const SEStringList &invitedContacts);
+	CConversation::Ref StartChat();
+	CConversation::Ref StartChat(StringList &invitedContacts);
 	void LeaveChat(const wchar_t *cid);
 
 	void CreateChatWindow(CConversation::Ref conversation, bool showWindow = true);
 
 	void JoinToChat(CConversation::Ref conversation, bool showWindow = true);
+	void InviteConactsToChat(CConversation::Ref conversation, const StringList &invitedContacts);
 	void AddConactsToChat(CConversation::Ref conversation, const StringList &invitedContacts);
 
 	void RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt, DWORD flags = 0x0001, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
 	void SendChatMessage(const wchar_t *cid, const wchar_t *sid, const wchar_t *message);
 	void AddChatContact(const wchar_t *cid, const wchar_t *sid, const wchar_t *group, const WORD status = ID_STATUS_ONLINE);
 	void KickChatContact(const wchar_t *cid, const wchar_t *sid);
-	void RemoveChatContact(const wchar_t *cid, const wchar_t *sid);
+	void RemoveChatContact(const wchar_t *cid, const wchar_t *sid);	
 
 	INT_PTR __cdecl OnJoinChat(WPARAM wParam, LPARAM);
 	INT_PTR __cdecl OnLeaveChat(WPARAM wParam, LPARAM);
@@ -348,13 +354,12 @@ protected:
 	HANDLE m_hAvatarsFolder;
 	bool   m_bInitDone;
 
-	int SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason);
+	static int SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason);
 
 	static char *RemoveHtml(const char *data);
 
-	void	SetServerStatus(int iStatus);
-	int		SkypeToMirandaStatus(CContact::AVAILABILITY availability);
-	CContact::AVAILABILITY MirandaToSkypeStatus(int status);
+	static int SkypeToMirandaStatus(CContact::AVAILABILITY availability);
+	static CContact::AVAILABILITY MirandaToSkypeStatus(int status);
 
 	static bool FileExists(wchar_t *path);	
 

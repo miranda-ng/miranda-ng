@@ -1,13 +1,16 @@
 #pragma once
 
-#include <m_system_cpp.h>
+#include <algorithm>
+#include <vector>
 
-struct StringList : public LIST<wchar_t>
+class StringList
 {
-	static int compare(const wchar_t* p1, const wchar_t* p2) { return ::wcsicmp(p1, p2); }
+private:
+	std::vector<std::wstring> strings;
 
-	StringList() : LIST<wchar_t>(2, compare) {}
-	StringList(const wchar_t* string, const wchar_t *delimeters = L" ") : LIST<wchar_t>(2, compare)
+public:
+	StringList() {}
+	StringList(const wchar_t* string, const wchar_t *delimeters = L" ")
 	{
 		wchar_t *data = ::mir_wstrdup(string);
 		if (data)
@@ -15,42 +18,44 @@ struct StringList : public LIST<wchar_t>
 			wchar_t *p = ::wcstok(data, delimeters);
 			if (p)
 			{
-				this->insert(::mir_wstrdup(p));
+				this->strings.push_back(::mir_wstrdup(p));
 				while (p = wcstok(NULL, delimeters))
 				{
-					this->insert(::mir_wstrdup(p));
+					this->strings.push_back(::mir_wstrdup(p));
 				}
 			}
 			::mir_free(data);
 		}
 	}
-	~StringList() { destroy(); }
+	virtual ~StringList() {}
 
-	void destroy( void )
-	{
-		for (int i=0; i < count; i++)
-			mir_free(items[i]);
-
-		List_Destroy((SortedList*)this);
+	__inline const wchar_t *operator[](size_t idx) const 
+	{ 
+		return (idx >= 0 && idx < this->size()) ? this->strings[idx].c_str() : NULL; 
 	}
 
-	int insertn(const wchar_t* p) { return insert(::mir_wstrdup(p)); }
-
-	int remove(int idx)
+	__inline void insert(const wchar_t* p)
 	{
-		mir_free(items[idx]);
-		return List_Remove((SortedList*)this, idx);
+		this->strings.push_back(::mir_wstrdup(p));
 	}
 
-	int remove(const wchar_t* p)
+	__inline bool contains(const wchar_t* p) const
 	{
-		int idx;
-		return  List_GetIndex((SortedList*)this, (wchar_t*)p, &idx) == 1 ? remove(idx) : -1;
+		return std::find(this->strings.begin(), this->strings.end(), p) != this->strings.end();
 	}
 
-	bool contains(wchar_t* p) const
+	__inline size_t size() const
 	{
-		int idx;
-		return List_GetIndex((SortedList*)this, (wchar_t*)p, &idx) == 1;
+		return this->strings.size();
+	}
+
+	__inline bool empty() const
+	{
+		return this->strings.empty();
+	}
+
+	__inline void clear()
+	{
+		this->strings.clear();
 	}
 };

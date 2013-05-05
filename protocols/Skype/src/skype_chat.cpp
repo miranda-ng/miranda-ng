@@ -75,13 +75,20 @@ HANDLE CSkypeProto::AddChatRoom(CConversation::Ref conversation)
 	return hContact;
 }
 
-void CSkypeProto::ChatValidateContact(HANDLE hItem, HWND hwndList, const wchar_t *contacts)
+void CSkypeProto::ChatValidateContact(HANDLE hItem, HWND hwndList, const StringList &contacts)
 {
-	if ( !this->IsProtoContact(hItem) || this->IsChatRoom(hItem)) 
+	//HANDLE hContact = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+	if (this->IsProtoContact(hItem) && !this->IsChatRoom(hItem))
+	{
+		std::wstring sid = ::db_get_wsa(hItem, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
+		if (sid.empty() || contacts.contains(sid.c_str()))
+			::SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
+	}
+	else
 		::SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 }
 
-void CSkypeProto::ChatPrepare(HANDLE hItem, HWND hwndList, const wchar_t *contacts)
+void CSkypeProto::ChatPrepare(HANDLE hItem, HWND hwndList, const StringList &contacts)
 {
 	if (hItem == NULL)
 		hItem = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
@@ -102,7 +109,7 @@ void CSkypeProto::ChatPrepare(HANDLE hItem, HWND hwndList, const wchar_t *contac
 	}
 }
 
-void CSkypeProto::GetInviteContacts(HANDLE hItem, HWND hwndList, StringList &chatTargets)
+void CSkypeProto::GetInvitedContacts(HANDLE hItem, HWND hwndList, StringList &chatTargets)
 {
 	if (hItem == NULL)
 		hItem = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
@@ -113,7 +120,7 @@ void CSkypeProto::GetInviteContacts(HANDLE hItem, HWND hwndList, StringList &cha
 		{
 			HANDLE hItemT = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
-				this->GetInviteContacts(hItemT, hwndList, chatTargets);
+				this->GetInvitedContacts(hItemT, hwndList, chatTargets);
 		}
 		else
 		{
@@ -125,12 +132,12 @@ void CSkypeProto::GetInviteContacts(HANDLE hItem, HWND hwndList, StringList &cha
 					TCHAR buf[128] = _T("");
 					SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
 
-					if (buf[0]) chatTargets.insertn(buf);
+					if (buf[0]) chatTargets.insert(buf);
 				}
 				else
 				{
-					::mir_ptr<wchar_t> sid(::db_get_wsa(hItem, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
-					chatTargets.insertn(sid);
+					std::wstring sid(::db_get_wsa(hItem, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+					chatTargets.insert(sid.c_str());
 				}
 			}
 		}
@@ -196,77 +203,75 @@ void CSkypeProto::CreateChatWindow(CConversation::Ref conversation, bool showWin
 	::mir_free(chatName);
 }
 
-//wchar_t *CSkypeProto::StartChat(const wchar_t *cid, const SEStringList &invitedContacts)
-//{
-//	wchar_t *chatID;
-//	SEString data;
-//	CConversation::Ref conversation;
-//
-//	if (invitedContacts.size())
-//	{
-//		if (cid)
-//		{
-//			g_skype->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation);
-//			conversation->GetJoinBlob(data);
-//			g_skype->GetConversationByBlob(data, conversation, false);
-//			conversation->Join();
-//
-//			chatID = ::mir_wstrdup(cid);
-//		}
-//		else
-//		{
-//			g_skype->CreateConference(conversation);
-//			conversation->SetOption(CConversation::P_OPT_JOINING_ENABLED, true);
-//			conversation->SetOption(CConversation::P_OPT_ENTRY_LEVEL_RANK, CParticipant::WRITER);
-//			conversation->SetOption(CConversation::P_OPT_DISCLOSE_HISTORY, 1);
-//
-//			conversation->GetPropIdentity(data);
-//			chatID = ::mir_utf8decodeW(data);
-//		}
-//
-//		conversation->AddConsumers(invitedContacts);
-//
-//		conversation->GetPropDisplayname(data);
-//		wchar_t *chatName;
-//		if (data.length())
-//			chatName = ::mir_utf8decodeT(data);
-//		else
-//			chatName = ::TranslateT("New conference");
-//
-//		GCSESSION gcw = {0};
-//		gcw.cbSize = sizeof(gcw);
-//		gcw.iType = GCW_CHATROOM;
-//		gcw.dwFlags = GC_TCHAR;
-//		gcw.pszModule = this->m_szModuleName;
-//		gcw.ptszName = chatName;
-//		gcw.ptszID = chatID;
-//		::CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
-//
-//		GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_ADDGROUP };
-//		gcd.ptszID = chatID;
-//
-//		GCEVENT gce = {0};
-//		gce.cbSize = sizeof(GCEVENT);
-//		gce.dwFlags = GC_TCHAR;
-//		gce.pDest = &gcd;
-//		for (int i = 0; i < SIZEOF(CSkypeProto::Roles); i++)
-//		{
-//			gce.ptszStatus =:: TranslateW(CSkypeProto::Roles[i]);
-//			::CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
-//		}
-//
-//		gcd.iType = GC_EVENT_CONTROL;
-//		::CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
-//		::CallServiceSync(MS_GC_EVENT, SESSION_ONLINE,   (LPARAM)&gce);
-//		::CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE,   (LPARAM)&gce);
-//
-//		::mir_free(chatName);
-//
-//		return chatID;
-//	}
-//	else
-//		return NULL;
-//}
+CConversation::Ref CSkypeProto::StartChat(StringList &invitedContacts)
+{
+	InviteChatParam *param = new InviteChatParam(NULL, invitedContacts, this);
+
+	SEStringList needToAdd;
+	for (size_t i = 0; i < param->invitedContacts.size(); i++)
+		needToAdd.append(std::string(::mir_utf8encodeW(param->invitedContacts[i])).c_str());
+	
+	if (::DialogBoxParam(
+		g_hInstance, 
+		MAKEINTRESOURCE(IDD_CHATROOM_INVITE), 
+		NULL, 
+		CSkypeProto::InviteToChatProc, 
+		(LPARAM)param) == IDOK)
+	{
+		for (size_t i = 0; i < param->invitedContacts.size(); i++)
+		{
+			std::string sid(::mir_utf8encodeW(param->invitedContacts[i]));
+			if ( !needToAdd.contains(sid.c_str()))
+				needToAdd.append(sid.c_str());
+		}
+
+		CConversation::Ref conversation;
+		if (g_skype->CreateConferenceWithConsumers(conversation, needToAdd))
+		{
+			delete param;
+
+			return conversation;
+		}
+	}
+
+	delete param;
+
+	return NULL;
+}
+
+CConversation::Ref CSkypeProto::StartChat()
+{
+	StringList empty;
+	return this->StartChat(empty);
+}
+
+void CSkypeProto::InviteConactsToChat(CConversation::Ref conversation, const StringList &invitedContacts)
+{
+	SEString data;
+
+	conversation->GetPropIdentity(data);
+	wchar_t *cid = ::mir_utf8decodeW(data);
+
+	InviteChatParam *param = new InviteChatParam(cid, invitedContacts, this);
+	
+	if (::DialogBoxParam(
+		g_hInstance, 
+		MAKEINTRESOURCE(IDD_CHATROOM_INVITE), 
+		NULL, 
+		CSkypeProto::InviteToChatProc, 
+		(LPARAM)param) == IDOK)
+	{
+		SEStringList needToAdd;
+		for (size_t i = 0; i < param->invitedContacts.size(); i++)
+			needToAdd.append(std::string(::mir_utf8encodeW(param->invitedContacts[i])).c_str());
+
+		conversation->AddConsumers(needToAdd);
+	}
+
+	delete param;
+
+	::mir_free(cid);
+}
 
 void CSkypeProto::JoinToChat(CConversation::Ref conversation, bool showWindow)
 {
@@ -275,10 +280,7 @@ void CSkypeProto::JoinToChat(CConversation::Ref conversation, bool showWindow)
 	SEString data;
 
 	conversation->GetPropIdentity(data);
-	wchar_t *chatID = ::mir_utf8decodeW(data);
-
-	//conversation->GetPropDisplayname(data);
-	//wchar_t *chatName = ::mir_utf8decodeW(data);
+	wchar_t *cid = ::mir_utf8decodeW(data);
 
 	this->CreateChatWindow(conversation, showWindow);
 
@@ -287,26 +289,25 @@ void CSkypeProto::JoinToChat(CConversation::Ref conversation, bool showWindow)
 	for (uint i = 0; i < participants.size(); i++)
 	{
 		participants[i]->GetPropIdentity(data);
-		mir_ptr<wchar_t> sid = ::mir_utf8decodeW(data);
+		std::wstring sid = ::mir_utf8decodeW(data);
 
 		CParticipant::RANK rank;
 		participants[i]->GetPropRank(rank);
 
 		CContact::Ref contact;
-		g_skype->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(sid)), contact);
+		g_skype->GetContact(std::string(::mir_utf8encodeW(sid.c_str())).c_str(), contact);
 
-		CContact::AVAILABILITY status;
+		auto status = Contact::OFFLINE;
 		contact->GetPropAvailability(status);
 
 		this->AddChatContact(
-			chatID,
-			sid,
+			cid,
+			sid.c_str(),
 			CSkypeProto::Roles[rank],
-			this->SkypeToMirandaStatus(status));
+			CSkypeProto::SkypeToMirandaStatus(status));
 	}
 
-//	::mir_free(chatName);
-	::mir_free(chatID);
+	::mir_free(cid);
 }
 
 void CSkypeProto::AddConactsToChat(CConversation::Ref conversation, const StringList &invitedContacts)
@@ -395,9 +396,8 @@ void CSkypeProto::SendChatMessage(const wchar_t *cid, const wchar_t *sid, const 
 
 void CSkypeProto::AddChatContact(const wchar_t *cid, const wchar_t *sid, const wchar_t *group, const WORD status)
 {
-	this->RaiseChatEvent(cid, sid, GC_EVENT_JOIN);
-	this->RaiseChatEvent(cid, sid, GC_EVENT_ADDSTATUS, 0, 0, CSkypeProto::Roles[SKYPE_CHAT_GROUP_WIRTER], L"Owner");
-	this->RaiseChatEvent(cid, sid, GC_EVENT_SETCONTACTSTATUS, status);
+	this->RaiseChatEvent(cid, sid, GC_EVENT_JOIN, 0, 0, CSkypeProto::Roles[SKYPE_CHAT_GROUP_WIRTER]);
+	this->RaiseChatEvent(cid, sid, GC_EVENT_SETCONTACTSTATUS, 0, status);
 }
 
 void CSkypeProto::KickChatContact(const wchar_t *cid, const wchar_t *sid)
@@ -457,7 +457,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 	if (::strcmp(gch->pDest->pszModule, this->m_szModuleName))
 		return 0;
 
-	wchar_t *chatID = ::mir_wstrdup(gch->pDest->ptszID);
+	wchar_t *cid = ::mir_wstrdup(gch->pDest->ptszID);
 	wchar_t *sid = ::mir_wstrdup(gch->ptszUID);
 
 	switch (gch->pDest->iType)
@@ -465,7 +465,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 		case GC_SESSION_TERMINATE:
 			{
 				CConversation::Ref conversation;
-				if (g_skype->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation, false))
+				if (g_skype->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation, false))
 				{
 					Participant::Refs participants;
 					conversation->GetParticipants(participants, CConversation::MYSELF);
@@ -478,7 +478,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 			if (gch->ptszText && gch->ptszText[0])
 			{
 				CConversation::Ref conversation;
-				if (g_skype->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation, false))
+				if (g_skype->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation, false))
 				{
 					CMessage::Ref message;
 					::mir_ptr<char> text(::mir_utf8encodeW(gch->ptszText));
@@ -488,12 +488,14 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 			break;
 
 		case GC_USER_CHANMGR:
-			DialogBoxParam(
-				g_hInstance,
-				MAKEINTRESOURCE(IDD_CHATROOM_INVITE),
-				NULL,
-				CSkypeProto::InviteToChatProc,
-				LPARAM(new InviteChatParam(chatID, NULL, this)));
+			{
+				CConversation::Ref conversation;
+				if (g_skype->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation, false))
+				{
+					StringList invitedContacts(this->GetChatUsers(cid));
+					this->InviteConactsToChat(conversation, invitedContacts); 
+				}
+			}
 			break;
 
 		case GC_USER_PRIVMESS:
@@ -504,16 +506,18 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 			switch(gch->dwData)
 			{
 			case 10:
-				::DialogBoxParam(
-					g_hInstance,
-					MAKEINTRESOURCE(IDD_CHATROOM_INVITE),
-					NULL,
-					CSkypeProto::InviteToChatProc,
-					(LPARAM)new InviteChatParam(chatID, NULL, this));
+				{
+					CConversation::Ref conversation;
+					if (g_skype->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation, false))
+					{
+						StringList invitedContacts(this->GetChatUsers(cid));
+						this->InviteConactsToChat(conversation, invitedContacts);
+					}
+				}
 				break;
 
 			case 20:
-				this->LeaveChat(chatID);
+				this->LeaveChat(cid);
 				break;
 			}
 			break;
@@ -530,7 +534,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 				break;
 
 			case 110:
-				this->LeaveChat(chatID);
+				this->LeaveChat(cid);
 				break;
 			}
 			break;
@@ -539,7 +543,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 			break;
 	}
 	::mir_free(sid);
-	::mir_free(chatID);
+	::mir_free(cid);
 
 	return 0;
 }
@@ -630,10 +634,117 @@ void CSkypeProto::UpdateChatUserStatus(CContact::Ref contact)
 			sid,
 			GC_EVENT_SETCONTACTSTATUS,
 			0,
-			this->SkypeToMirandaStatus(availability));
+			CSkypeProto::SkypeToMirandaStatus(availability));
 
 		//::mir_free(gci.pszID);
 	}
 
 	::mir_free(sid);
+}
+
+INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	InviteChatParam *param = (InviteChatParam *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (msg)
+	{
+	case WM_INITDIALOG:
+		{
+			TranslateDialogDefault(hwndDlg);
+
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+			param = (InviteChatParam *)lParam;
+
+			HWND hwndClist = GetDlgItem(hwndDlg, IDC_CCLIST);
+			SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) & ~CLS_HIDEOFFLINE);
+
+	//		WindowSetIcon(hwndDlg, "msn");
+		}
+		break;
+
+	case WM_CLOSE:
+		::EndDialog(hwndDlg, 0);
+		break;
+
+	case WM_NCDESTROY:
+//		WindowFreeIcon(hwndDlg);
+		//delete param;
+		break;
+
+	case WM_NOTIFY:
+	{
+		NMCLISTCONTROL *nmc = (NMCLISTCONTROL *)lParam;
+		if (nmc->hdr.idFrom == IDC_CCLIST)
+		{
+			switch (nmc->hdr.code)
+			{
+			case CLN_NEWCONTACT:
+				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
+				{
+					param->ppro->ChatValidateContact(nmc->hItem, nmc->hdr.hwndFrom, param->invitedContacts);
+				}
+				break;
+
+			case CLN_LISTREBUILT:
+				if (param)
+				{
+					param->ppro->ChatPrepare(NULL, nmc->hdr.hwndFrom, param->invitedContacts);
+				}
+				break;
+			}
+		}
+	}
+	break;
+
+	case WM_COMMAND:
+		{
+			switch (LOWORD(wParam))
+			{
+			case IDC_ADDSCR:
+				if (param->ppro->IsOnline())
+				{
+					wchar_t sid[SKYPE_SID_LIMIT];
+					::GetDlgItemText(hwndDlg, IDC_EDITSCR, sid, SIZEOF(sid));
+
+					CLCINFOITEM cii = {0};
+					cii.cbSize = sizeof(cii);
+					cii.flags = CLCIIF_CHECKBOX | CLCIIF_BELOWCONTACTS;
+					cii.pszText = ::wcslwr(sid);
+
+					HANDLE hItem = (HANDLE)::SendDlgItemMessage(
+						hwndDlg,
+						IDC_CCLIST,
+						CLM_ADDINFOITEM,
+						0,
+						(LPARAM)&cii);
+					::SendDlgItemMessage(hwndDlg, IDC_CCLIST, CLM_SETCHECKMARK, (LPARAM)hItem, 1);
+				}
+				break;
+
+			case IDOK:
+				{
+					HWND hwndList = ::GetDlgItem(hwndDlg, IDC_CCLIST);
+
+					param->invitedContacts.clear();
+					param->ppro->GetInvitedContacts(NULL, hwndList, param->invitedContacts);
+
+					if ( !param->invitedContacts.empty())
+					{
+						//SetWindowLongPtr(hwndDlg, 0, (LONG_PTR)bct);
+						SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+						::EndDialog(hwndDlg, IDOK);
+					}
+					else
+						param->ppro->ShowNotification(::TranslateT("You did not select any contact"));
+				}
+				break;
+
+			case IDCANCEL:
+				::EndDialog(hwndDlg, IDCANCEL);
+				break;
+			}
+		}
+		break;
+	}
+	return FALSE;
 }

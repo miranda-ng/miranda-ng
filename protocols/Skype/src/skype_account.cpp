@@ -225,7 +225,6 @@ void CSkypeProto::OnLoggedIn()
 	this->LoadContactList(reinterpret_cast<void *>(static_cast<int>(true)));
 	this->LoadAuthWaitList(this);
 	
-
 	fetch(this->transferList);
 
 	this->SetServerStatus(this->m_iDesiredStatus);
@@ -243,7 +242,7 @@ void CSkypeProto::SetServerStatus(int iNewStatus)
 	int oldStatus = m_iStatus;
 	m_iStatus = iNewStatus;
 
-	CContact::AVAILABILITY availability = this->MirandaToSkypeStatus(iNewStatus);
+	CContact::AVAILABILITY availability = CSkypeProto::MirandaToSkypeStatus(iNewStatus);
 	if (availability != CContact::UNKNOWN)
 		this->account->SetAvailability(availability);
 
@@ -261,7 +260,7 @@ void CSkypeProto::OnLoggedOut(CAccount::LOGOUTREASON reason)
 	this->m_iStatus = ID_STATUS_OFFLINE;
 	this->SendBroadcast(
 		ACKTYPE_LOGIN, ACKRESULT_FAILED, 
-		NULL, this->SkypeToMirandaLoginError(reason));
+		NULL, CSkypeProto::SkypeToMirandaLoginError(reason));
 
 	this->ShowNotification(CSkypeProto::LogoutReasons[reason - 1]);
 

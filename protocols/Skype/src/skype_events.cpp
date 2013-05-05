@@ -7,6 +7,21 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 	this->InitCustomFolders();
 	this->InitInstanceHookList();
 
+	if (::ServiceExists(MS_BB_ADDBUTTON))
+	{
+		BBButton bbd = {0};
+		bbd.cbSize = sizeof(BBButton);
+		bbd.pszModuleName = MODULE;
+
+		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON;
+		bbd.ptszTooltip = ::TranslateT("Spawn conference");
+		bbd.hIcon = CSkypeProto::GetIconHandle("confSpawn");
+		bbd.dwButtonID = BBB_ID_CONF_SPAWN;
+		bbd.dwDefPos = 100 + bbd.dwButtonID;
+		
+		::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
+	}
+
 	g_skype->SetOnMessageCallback(
 		(CSkype::OnMessaged)&CSkypeProto::OnMessage, 
 		this);
@@ -73,6 +88,25 @@ int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	::Options_AddPage(wParam, &odp);
 
 	return 0;
+}
+
+int __cdecl CSkypeProto::OnTabSRMMButtonPressed(WPARAM wParam, LPARAM lParam)
+{
+	HANDLE hContact = (HANDLE)wParam;
+	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
+	
+	if (cbcd->dwButtonId == BBB_ID_CONF_SPAWN)
+	{
+		if (this->IsOnline() && !this->IsChatRoom(hContact))
+		{
+			StringList targets;
+			targets.insert(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+
+			this->StartChat(targets);
+		}
+	}
+
+	return 1;
 }
 
 int CSkypeProto::OnMessagePreCreate(WPARAM, LPARAM lParam)
@@ -429,7 +463,7 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 							cid, 
 							sid, 
 							CSkypeProto::Roles[rank],
-							status);
+							CSkypeProto::MirandaToSkypeStatus(status));
 					}
 				}
 			}
@@ -464,9 +498,9 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 			StringList alreadyInChat(this->GetChatUsers(cid));
 			StringList needToKick(::mir_utf8decodeW(data));
 				
-			for (int i = 0; i < needToKick.getCount(); i++)
+			for (size_t i = 0; i < needToKick.size(); i++)
 			{
-				wchar_t *sid = needToKick[i];
+				const wchar_t *sid = needToKick[i];
 				if (::wcsicmp(sid, this->login) != 0 && !alreadyInChat.contains(sid))
 					this->KickChatContact(cid, sid);
 			}

@@ -421,12 +421,11 @@ int __cdecl CSkypeProto::UserIsTyping(HANDLE hContact, int type)
 {
 	if (hContact && this->IsOnline() && this->m_iStatus != ID_STATUS_INVISIBLE)
 	{
-		mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+		wchar_t *sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
 		if (::wcsicmp(sid, this->login) != 0)
 		{
 			SEStringList targets;
-			mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
-			targets.append((char *)mir_ptr<char>(::mir_utf8encodeW(sid)));
+			targets.append(std::string(::mir_utf8encodeW(sid)).c_str());
 
 			CConversation::Ref conversation;
 			g_skype->GetConversationByParticipants(targets, conversation);
@@ -445,6 +444,7 @@ int __cdecl CSkypeProto::UserIsTyping(HANDLE hContact, int type)
 				}
 			}
 		}
+		::mir_free(sid);
 	}
 
 	return 1;
@@ -462,6 +462,7 @@ int __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 
 	case EV_PROTO_ONMENU:
 		this->OnInitStatusMenu();
+		break;
 
 	case EV_PROTO_ONCONTACTDELETED:
 		return this->OnContactDeleted(wParam, lParam);

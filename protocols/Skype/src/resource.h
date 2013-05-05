@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by c:\Temp\Miranda NG\protocols\Skype\res\Resource.rc
+// Used by e:\Projects\C++\MirandaNG\protocols\Skype\res\Resource.rc
 //
 #define IDD_ACCMGR                      9
 #define IDD_OPT_MAIN                    10
@@ -19,6 +19,7 @@
 #define IDR_KEY                         107
 #define IDI_CALL                        108
 #define IDI_CONF_INVITE                 109
+#define IDI_CONF_SPAWN                  110
 #define IDC_CCLIST                      173
 #define IDC_EDITSCR                     174
 #define IDC_ADDSCR                      175
@@ -71,7 +72,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        110
+#define _APS_NEXT_RESOURCE_VALUE        111
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1029
 #define _APS_NEXT_SYMED_VALUE           101

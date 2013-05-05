@@ -108,12 +108,8 @@ int CSkypeProto::RevokeAuth(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CSkypeProto::InviteCommand(WPARAM, LPARAM)
 {
-	::DialogBoxParam(
-		g_hInstance, 
-		MAKEINTRESOURCE(IDD_CHATROOM_INVITE), 
-		NULL, 
-		CSkypeProto::InviteToChatProc, 
-		LPARAM(new InviteChatParam(NULL, NULL, this)));
+	this->StartChat();
+
 	return 0;
 }
 

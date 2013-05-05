@@ -46,6 +46,27 @@ CContactSearch*	CSkype::newContactSearch(int oid)
 	return new CContactSearch(oid, this);
 }
 
+bool CSkype::CreateConferenceWithConsumers(ConversationRef &conference, const SEStringList &identities)
+{
+	if (this->CreateConference(conference))
+	{
+		conference->SetOption(CConversation::P_OPT_JOINING_ENABLED, true);
+		conference->SetOption(CConversation::P_OPT_ENTRY_LEVEL_RANK, CParticipant::WRITER);
+		conference->SetOption(CConversation::P_OPT_DISCLOSE_HISTORY, 1);
+		conference->AddConsumers(identities);
+
+		return true;
+	}
+
+	return false;
+}
+
+void CSkype::SetOnMessageCallback(OnMessaged callback, CSkypeProto* proto)
+{
+	this->proto = proto;
+	this->onMessagedCallback = callback;
+}
+
 void CSkype::OnMessage (
 	const MessageRef & message,
 	const bool & changesInboxTimestamp,
@@ -54,10 +75,4 @@ void CSkype::OnMessage (
 {
 	if (this->proto)
 		(proto->*onMessagedCallback)(conversation, message);
-}
-
-void CSkype::SetOnMessageCallback(OnMessaged callback, CSkypeProto* proto)
-{
-	this->proto = proto;
-	this->onMessagedCallback = callback;
 }

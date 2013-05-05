@@ -25,6 +25,9 @@ void CSkypeProto::InitInstanceHookList()
 
 	this->instanceHookList.insert(
 		this->HookEvent(ME_MSG_PRECREATEEVENT, &CSkypeProto::OnMessagePreCreate));
+
+	this->instanceHookList.insert(
+		this->HookEvent(ME_MSG_BUTTONPRESSED, &CSkypeProto::OnTabSRMMButtonPressed)); 
 }
 
 void CSkypeProto::UninitInstanceHookList()

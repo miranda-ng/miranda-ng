@@ -17,4 +17,4 @@
 #define __AUTHOR					"Unsane, Mataes"
 #define __AUTHOREMAIL				"mataes2007@gmail.com"
 #define __AUTHORWEB					"http://miranda-ng.org/"
-#define __COPYRIGHT					"© 2012 Unsane, Mataes"
+#define __COPYRIGHT					"© 2012-2013 Unsane, Mataes"
