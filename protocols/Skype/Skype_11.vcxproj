@@ -248,6 +248,7 @@
     <None Include="res\auth_revoke.ico" />
     <None Include="res\call.ico" />
     <None Include="res\conf_invite.ico" />
+    <None Include="res\conf_spawn.ico" />
     <None Include="res\main.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
