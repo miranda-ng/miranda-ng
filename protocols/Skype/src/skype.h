@@ -63,9 +63,9 @@
 #define CMI_AUTH_REQUEST 1
 #define CMI_AUTH_GRANT 2
 
-#define SMI_CHAT_INVOKE 0
+#define CMI_TEMS_COUNT 3
 
-#define CMITEMS_COUNT 3
+#define SMI_CHAT_INVITE 0
 
 class CSkype;
 

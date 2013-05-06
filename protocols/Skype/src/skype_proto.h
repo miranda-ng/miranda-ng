@@ -371,7 +371,7 @@ protected:
 	void	CreateServiceObjParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam);
 
 	HANDLE	CreateEvent(const char* szService);
-	HANDLE	HookEvent(const char*, SkypeEventFunc);
+	
 
 	int		SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam);
 	int		SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
@@ -399,6 +399,9 @@ protected:
 	static LIST<void> hookList;
 
 	LIST<void> instanceHookList;
+
+	HANDLE HookEvent(const char*, SkypeEventFunc);
+
 	void InitInstanceHookList();
 	void UninitInstanceHookList();
 
@@ -408,12 +411,14 @@ protected:
 	// menu
 	HGENMENU m_hMenuRoot;
 	static HANDLE hChooserMenu;
-	static HANDLE hPrebuildMenuHook;
-	static HANDLE g_hContactMenuItems[CMITEMS_COUNT];
-	static HANDLE g_hContactMenuSvc[CMITEMS_COUNT];
-	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
-	int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
+	static HANDLE contactMenuItems[CMI_TEMS_COUNT];
+	static HANDLE contactMenuServices[CMI_TEMS_COUNT];
+	
+	static void EnableMenuItem(HANDLE hMenuItem, BOOL bEnable);
 
+	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
+	
+	int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
 
 	// database
 	bool IsMessageInDB(HANDLE hContact, DWORD timestamp, const char* guid, int flag = 0);

@@ -508,8 +508,15 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 			for (size_t i = 0; i < needToKick.size(); i++)
 			{
 				const wchar_t *sid = needToKick[i];
-				if (::wcsicmp(sid, this->login) != 0 && !alreadyInChat.contains(sid))
+				if (::wcsicmp(sid, this->login) == 0)
+				{
+					HANDLE hContact = this->GetChatRoomByCid(cid);
+					this->ShowNotification(::TranslateT("You have been kicked from the chat room"), 0, hContact);
+					this->LeaveChat(cid);					
+				}
+				else if ( !alreadyInChat.contains(sid))
 					this->KickChatContact(cid, sid);
+				::mir_free(cid);
 			}
 		}
 		break;
@@ -531,26 +538,42 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 	case CMessage::STARTED_LIVESESSION:
 		conversation->LeaveLiveSession();
 
-		uint timestamp;
-		message->GetPropTimestamp(timestamp);
+		CConversation::TYPE type;
+		conversation->GetPropType(type);
+		if (type == CConversation::DIALOG)
+		{
 
-		SEString identity;
-		message->GetPropAuthor(identity);
+			uint timestamp;
+			message->GetPropTimestamp(timestamp);
 
-		CContact::Ref author;
-		g_skype->GetContact(identity, author);
+			SEString identity;
+			message->GetPropAuthor(identity);
 
-		HANDLE hContact = this->AddContact(author);
+			CContact::Ref author;
+			g_skype->GetContact(identity, author);
+
+			HANDLE hContact = this->AddContact(author);
 		
-		char *message = ::mir_utf8encode(Translate("Incoming call"));
+			char *message = ::mir_utf8encode(::Translate("Incoming call"));
 		
-		this->AddDBEvent(
-			hContact,
-			SKYPE_DB_EVENT_TYPE_CALL,
-			timestamp,
-			DBEF_UTF,
-			(DWORD)::strlen(message) + 1,
-			(PBYTE)message);
+			this->AddDBEvent(
+				hContact,
+				SKYPE_DB_EVENT_TYPE_CALL,
+				timestamp,
+				DBEF_UTF,
+				(DWORD)::strlen(message) + 1,
+				(PBYTE)message);
+		}
+		else
+		{
+			SEString data;
+
+			conversation->GetPropIdentity(data);
+			wchar_t *cid = ::mir_utf8decodeW(data);
+			HANDLE hContact = this->GetChatRoomByCid(cid);
+			this->RaiseChatEvent(cid, this->login, /*GC_EVENT_NOTICE*/ 0x0020, /*GCEF_ADDTOLOG*/ 0x0001, 0, NULL, ::TranslateT("There was incoming call"));
+			::mir_free(cid);
+		}
 		break;
 
 	//case CMessage::REQUESTED_AUTH:

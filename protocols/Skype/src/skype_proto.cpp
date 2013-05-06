@@ -21,7 +21,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_CALL;
 	dbEventType.descr = "Skype call";
 	dbEventType.eventIcon = CSkypeProto::GetIconHandle("call");
-	::CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);	
+	::CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
 	this->InitInstanceServiceList();
 }

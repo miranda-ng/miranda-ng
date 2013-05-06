@@ -278,11 +278,6 @@ HANDLE CSkypeProto::CreateEvent(const char* szService)
 	return ::CreateHookableEvent(moduleName);
 }
 
-HANDLE CSkypeProto::HookEvent(const char* szEvent, SkypeEventFunc handler)
-{
-	return ::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*( void**)&handler, this);
-}
-
 void CSkypeProto::FakeAsync(void *param)
 {
 	::Sleep(100);
@@ -378,11 +373,11 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 	{
 		POPUPDATAW ppd = {0};
 		ppd.lchContact = hContact;
-		if (!hContact)
+		//if (!hContact)
 		{
-			lstrcpyn(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
+			::wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
 		}
-		lstrcpyn(ppd.lpwzText, message, MAX_SECONDLINE);
+		::wcsncpy(ppd.lpwzText, message, MAX_SECONDLINE);
 		ppd.lchIcon = ::Skin_GetIcon("Skype_main");
 
 		PUAddPopUpW(&ppd);
@@ -391,7 +386,7 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 
 void CSkypeProto::ShowNotification(const wchar_t *message, int flags, HANDLE hContact)
 {
-	CSkypeProto::ShowNotification(TranslateT("Skype Protocol"), message, flags, hContact);
+	CSkypeProto::ShowNotification(::TranslateT(MODULE), message, flags, hContact);
 }
 
 char *CSkypeProto::RemoveHtml(const char *text)
