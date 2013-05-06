@@ -9,8 +9,7 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	if (::ServiceExists(MS_BB_ADDBUTTON))
 	{
-		BBButton bbd = {0};
-		bbd.cbSize = sizeof(BBButton);
+		BBButton bbd = { sizeof(bbd) };
 		bbd.pszModuleName = MODULE;
 
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON;
@@ -31,6 +30,14 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 
 int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 {
+	if (::ServiceExists(MS_BB_REMOVEBUTTON))
+	{
+		BBButton bbd = { sizeof(bbd) };
+		bbd.pszModuleName = MODULE;
+		bbd.dwButtonID = BBB_ID_CONF_SPAWN;
+		::CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
+	}
+
 	this->SetStatus(ID_STATUS_OFFLINE);
 
 	this->UninitInstanceHookList();
