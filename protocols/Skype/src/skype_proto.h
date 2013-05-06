@@ -149,6 +149,7 @@ public:
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int __cdecl OnContactDeleted(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int __cdecl OnSrmmWindowOpen(WPARAM, LPARAM);
 	int __cdecl OnUserInfoInit(WPARAM, LPARAM);
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
 
@@ -171,11 +172,9 @@ public:
 
 	// services
 	static void InitServiceList();
-	static void UninitServiceList();
 
 	// hooks
 	static void InitHookList();
-	static void UninitHookList();
 
 	INT_PTR __cdecl InviteCommand(WPARAM, LPARAM);
 
@@ -389,21 +388,12 @@ protected:
 	void	Log(const wchar_t *fmt, ...);
 
 	// services
-	static LIST<void> serviceList;
-
-	LIST<void> instanceServiceList;
 	void InitInstanceServiceList();
-	void UninitInstanceServiceList();
 
 	// hooks
-	static LIST<void> hookList;
-
-	LIST<void> instanceHookList;
-
 	HANDLE HookEvent(const char*, SkypeEventFunc);
 
 	void InitInstanceHookList();
-	void UninitInstanceHookList();
 
 	// icons
 	static _tag_iconList IconList[];

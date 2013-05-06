@@ -1,19 +1,8 @@
 #include "skype_proto.h"
 
-LIST<void> CSkypeProto::serviceList(1);
-
 void CSkypeProto::InitServiceList()
 {
-	CSkypeProto::serviceList.insert(
-		::CreateServiceFunction("Skype/MenuChoose", CSkypeProto::MenuChooseService));
-}
-
-void CSkypeProto::UninitServiceList()
-{
-	for (int i = 0; i < CSkypeProto::serviceList.getCount(); i++)
-	{
-		::DestroyServiceFunction(CSkypeProto::serviceList[i]);
-	}
+	::CreateServiceFunction("Skype/MenuChoose", CSkypeProto::MenuChooseService);
 }
 
 void CSkypeProto::InitInstanceServiceList()
@@ -28,12 +17,4 @@ void CSkypeProto::InitInstanceServiceList()
 	this->CreateServiceObj(PS_GETAVATARCAPS, &CSkypeProto::GetAvatarCaps);
 	this->CreateServiceObj(PS_GETMYAVATART, &CSkypeProto::GetMyAvatar);
 	this->CreateServiceObj(PS_SETMYAVATART, &CSkypeProto::SetMyAvatar);
-}
-
-void CSkypeProto::UninitInstanceServiceList()
-{
-	for (int i = 0; i < this->instanceServiceList.getCount(); i++)
-	{
-		::DestroyServiceFunction(this->instanceServiceList[i]);
-	}
 }

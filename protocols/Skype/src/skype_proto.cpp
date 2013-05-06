@@ -1,8 +1,6 @@
 ﻿#include "skype_proto.h"
 
-CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) : 
-	instanceHookList(1),
-	instanceServiceList(1)
+CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 {
 	::ProtoConstructor(this, protoName, userName);
 
@@ -34,8 +32,6 @@ CSkypeProto::~CSkypeProto()
 		::mir_free(this->password);
 		this->password = NULL;
 	}
-
-	this->UninitInstanceServiceList();
 
 	::ProtoDestructor(this);
 }

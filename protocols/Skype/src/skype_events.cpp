@@ -17,8 +17,9 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 		bbd.hIcon = CSkypeProto::GetIconHandle("confSpawn");
 		bbd.dwButtonID = BBB_ID_CONF_SPAWN;
 		bbd.dwDefPos = 100 + bbd.dwButtonID;
-		
 		::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
+
+		HookEvent(ME_MSG_WINDOWEVENT, &CSkypeProto::OnSrmmWindowOpen);
 	}
 
 	g_skype->SetOnMessageCallback(
@@ -40,9 +41,7 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 
 	this->SetStatus(ID_STATUS_OFFLINE);
 
-	this->UninitInstanceHookList();
 	this->UninitNetLib();
-
 	return 0;
 }
 
@@ -66,6 +65,20 @@ int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 	}
 
 	return 0;
+}
+
+int __cdecl CSkypeProto::OnSrmmWindowOpen(WPARAM, LPARAM lParam)
+{
+	MessageWindowEventData *ev = (MessageWindowEventData*)lParam;
+	if (ev->uType == MSG_WINDOW_EVT_OPENING && ev->hContact) 
+	{ 
+		BBButton bbd = { sizeof(bbd) };
+		bbd.pszModuleName = MODULE;
+		bbd.dwButtonID = BBB_ID_CONF_SPAWN;
+		bbd.bbbFlags = (!strcmp( GetContactProto(ev->hContact), this->m_szModuleName)) ? 0 : BBSF_HIDDEN | BBSF_DISABLED;
+		::CallService(MS_BB_SETBUTTONSTATE, (WPARAM)ev->hContact, (LPARAM)&bbd);
+	} 
+	return 0; 
 }
 
 INT_PTR __cdecl CSkypeProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
