@@ -9,27 +9,26 @@ bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char *gu
 	{
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.cbBlob = ::db_event_getBlobSize(hDbEvent);
-		dbei.pBlob = (PBYTE)::mir_alloc(dbei.cbBlob);
+		if (dbei.cbBlob < 32)
+			continue;
+
+		mir_ptr<BYTE> blob((PBYTE)::mir_alloc(dbei.cbBlob));
+		dbei.pBlob = blob;
 		::db_event_get(hDbEvent, &dbei);
 
 		if (dbei.timestamp < timestamp)
-		{
-			::mir_free(dbei.pBlob);
 			break;
-		}
 
 		int sendFlag = dbei.flags & DBEF_SENT;
 		if (dbei.eventType == EVENTTYPE_MESSAGE && sendFlag == flag)
 		{
 			if (::memcmp(&dbei.pBlob[dbei.cbBlob - 32], guid, 32) == 0)
 			{
-				::mir_free(dbei.pBlob);
 				result = true;
 				break;
 			}
 		}
 
-		::mir_free(dbei.pBlob);
 		hDbEvent = ::db_event_prev(hDbEvent);
 	}
 

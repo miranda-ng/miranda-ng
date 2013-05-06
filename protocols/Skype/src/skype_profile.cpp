@@ -325,14 +325,14 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 
 void __cdecl CSkypeProto::LoadOwnInfo(void *)
 {
-	std::wstring nick = ::db_get_wsa(NULL, this->m_szModuleName, "Nick");
-	if (nick.empty())
+	mir_ptr<wchar_t> nick( ::db_get_wsa(NULL, this->m_szModuleName, "Nick"));
+	if (nick == NULL)
 	{
 		SEString data;
 		this->account->GetPropFullname(data);
 
 		nick = ::mir_utf8decodeW(data);
-		::db_set_ws(NULL, this->m_szModuleName, "Nick", nick.c_str());
+		::db_set_ws(NULL, this->m_szModuleName, "Nick", nick);
 	}
 	this->UpdateProfileAvatar(this->account.fetch());
 	this->UpdateProfile(this->account.fetch());
