@@ -178,15 +178,12 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref &conversation, CMessage::
 	else
 	{
 		message->GetPropAuthor(data);
-		wchar_t *sid = ::mir_utf8decodeW(data);
+		mir_ptr<wchar_t> sid( ::mir_utf8decodeW(data));
 
 		conversation->GetPropIdentity(data);
-		wchar_t *cid = ::mir_utf8decodeW(data);
+		mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
 
-		this->SendChatMessage(cid, sid, ::mir_utf8decodeW(text));
-
-		::mir_free(sid);
-		::mir_free(cid);
+		this->SendChatMessage(cid, sid, mir_ptr<wchar_t>(::mir_utf8decodeW(text)));
 	}
 }
 
@@ -253,7 +250,7 @@ void CSkypeProto::OnMessageSended(CConversation::Ref &conversation, CMessage::Re
 		if (::wcsicmp(nick, L"") == 0)
 			nick = ::db_get_wsa(NULL, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
 
-		this->SendChatMessage(cid, nick, ::mir_utf8decodeW(text));
+		this->SendChatMessage(cid, nick, mir_ptr<wchar_t>(::mir_utf8decodeW(text)));
 	}
 }
 
@@ -493,7 +490,7 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 			SEString data;
 
 			conversation->GetPropIdentity(data);
-			wchar_t *cid = ::mir_utf8decodeW(data);
+			mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
 
 			message->GetPropIdentities(data);
 
@@ -511,7 +508,6 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 				}
 				else if ( !alreadyInChat.contains(sid))
 					this->KickChatContact(cid, sid);
-				::mir_free(cid);
 			}
 		}
 		break;
@@ -564,10 +560,9 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 			SEString data;
 
 			conversation->GetPropIdentity(data);
-			wchar_t *cid = ::mir_utf8decodeW(data);
+			mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
 			HANDLE hContact = this->GetChatRoomByCid(cid);
 			this->RaiseChatEvent(cid, this->login, /*GC_EVENT_NOTICE*/ 0x0020, /*GCEF_ADDTOLOG*/ 0x0001, 0, NULL, ::TranslateT("There was incoming call"));
-			::mir_free(cid);
 		}
 		break;
 

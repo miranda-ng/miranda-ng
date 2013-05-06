@@ -17,27 +17,20 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 				SetDlgItemText(hwnd, IDC_SL, sid);
 			}
 			{
-				char *pwd = ::db_get_sa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD);
-
+				mir_ptr<char> pwd( ::db_get_sa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD));
 				if (pwd)
-				{
-					::CallService(
-						MS_DB_CRYPT_DECODESTRING,
-						::strlen(pwd),
-						reinterpret_cast<LPARAM>(pwd));
-				}
+					::CallService(MS_DB_CRYPT_DECODESTRING, ::strlen(pwd), pwd);
 
 				SetDlgItemTextA(hwnd, IDC_PW, pwd);
-				::mir_free(pwd);
 			}
 			{
 				int port = rand() % 10000 + 10000;
 				SetDlgItemInt(hwnd, IDC_PORT, ::db_get_w(NULL, proto->m_szModuleName, "Port", port), FALSE);
 				SendMessage(GetDlgItem(hwnd, IDC_PORT), EM_SETLIMITTEXT, 5, 0);
 			}
-			{
-				CheckDlgButton(hwnd, IDC_USE_ALT_PORTS, ::db_get_b(NULL, proto->m_szModuleName, "UseAlternativePorts", 1));
-			}
+
+			CheckDlgButton(hwnd, IDC_USE_ALT_PORTS, ::db_get_b(NULL, proto->m_szModuleName, "UseAlternativePorts", 1));
+			
 			if (proto->IsOnline())
 			{
 				SendMessage(GetDlgItem(hwnd, IDC_SL), EM_SETREADONLY, 1, 0);

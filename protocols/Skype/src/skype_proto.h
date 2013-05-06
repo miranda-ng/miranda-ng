@@ -65,8 +65,8 @@ struct PasswordRequestBoxParam
 
 	~PasswordRequestBoxParam()
 	{
-		if (login) ::mir_free(login);
-		if (password) ::mir_free(password);
+		::mir_free(login);
+		::mir_free(password);
 	}
 };
 
@@ -79,8 +79,8 @@ struct PasswordChangeBoxParam
 
 	~PasswordChangeBoxParam()
 	{
-		if (password) ::mir_free(password);
-		if (password2) ::mir_free(password2);
+		::mir_free(password);
+		::mir_free(password2);
 	}
 };
 

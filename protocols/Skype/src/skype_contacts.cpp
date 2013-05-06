@@ -47,12 +47,11 @@ void CSkypeProto::UpdateContactStatus(HANDLE hContact, CContact::Ref contact)
 void CSkypeProto::UpdateContactNickName(SEObject *obj, HANDLE hContact)
 {
 	// todo: P_DISPLAYNAME = 21 is unworked
-	wchar_t *nick = ::mir_utf8decodeW(obj->GetStrProp(/* *::P_FULLNAME */ 5));
+	mir_ptr<wchar_t> nick( ::mir_utf8decodeW(obj->GetStrProp(/* *::P_FULLNAME */ 5)));
 	if ( !::wcslen(nick))
 		::db_unset(hContact, this->m_szModuleName, "Nick");
 	else
 		::db_set_ws(hContact, this->m_szModuleName, "Nick", nick);
-	::mir_free(nick);
 }
 
 void CSkypeProto::UpdateContactOnlineSinceTime(SEObject *obj, HANDLE hContact)
@@ -83,8 +82,7 @@ void CSkypeProto::OnContactChanged(CContact::Ref contact, int prop)
 
 	if (hContact)
 	{
-		switch(prop)
-		{
+		switch(prop) {
 		case CContact::P_AUTHREQ_TIMESTAMP:
 			{
 				uint newTS = 0;
@@ -199,7 +197,7 @@ HANDLE CSkypeProto::GetContactFromAuthEvent(HANDLE hEvent)
 
 HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 {
-	wchar_t *sid = ::mir_utf8decodeW(contact->GetSid());
+	mir_ptr<wchar_t> sid( ::mir_utf8decodeW(contact->GetSid()));
 
 	CContact::AVAILABILITY availability;
 	contact->GetPropAvailability(availability);
@@ -210,10 +208,9 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 		hContact = (HANDLE)::CallService(MS_DB_CONTACT_ADD, 0, 0);
 		::CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
 
-		wchar_t *nick = ::mir_utf8decodeW(contact->GetNick());
+		mir_ptr<wchar_t> nick( ::mir_utf8decodeW(contact->GetNick()));
 
-		switch(availability)
-		{
+		switch(availability) {
 		case CContact::SKYPEOUT:
 			::db_set_b(hContact, this->m_szModuleName, "IsSkypeOut", 1);
 			break;
@@ -242,11 +239,7 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 			db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
 			db_free(&dbv);
 		}
-
-		::mir_free(nick);
 	}
-
-	::mir_free(sid);
 
 	return hContact;
 }
@@ -388,15 +381,13 @@ void CSkypeProto::OnContactFinded(CContact::Ref contact, HANDLE hSearch)
 
 	{
 		contact->GetPropEmails(data);
-		wchar_t *emails = ::mir_utf8decodeW(data);
+		mir_ptr<wchar_t> emails( ::mir_utf8decodeW(data));
 
 		wchar_t* main = ::wcstok(emails, L" ");
 		if (main != NULL)
 		{
 			psr.email = main;
 		}
-
-		::mir_free(emails);
 	}
 
 	this->SendBroadcast(ACKTYPE_SEARCH, ACKRESULT_DATA, hSearch, (LPARAM)&psr);
@@ -404,7 +395,7 @@ void CSkypeProto::OnContactFinded(CContact::Ref contact, HANDLE hSearch)
 
 void __cdecl CSkypeProto::SearchBySidAsync(void* arg)
 {
-	wchar_t *sid = (wchar_t*)arg;
+	mir_ptr<wchar_t> sid((wchar_t*)arg);
 
 	HANDLE hContact = this->GetContactBySid(sid);
 	if (hContact)
@@ -425,18 +416,15 @@ void __cdecl CSkypeProto::SearchBySidAsync(void* arg)
 
 	bool valid;
 	if (!search->IsValid(valid) || !valid || !search->Submit())
-	{
 		return;
-	}
+
 	search->BlockWhileSearch();
 	search->Release();
-
-	::mir_free(sid);
 }
 
 void __cdecl CSkypeProto::SearchByEmailAsync(void* arg)
 {
-	wchar_t *email = (wchar_t *)arg;
+	mir_ptr<wchar_t> email((wchar_t *)arg);
 
 	CContactSearch::Ref search;
 	g_skype->CreateContactSearch(search);
@@ -449,13 +437,10 @@ void __cdecl CSkypeProto::SearchByEmailAsync(void* arg)
 
 	bool valid;
 	if (!search->AddEmailTerm(::mir_u2a(email), valid) || !valid || !search->Submit())
-	{
 		return; 
-	}
+
 	search->BlockWhileSearch();
 	search->Release();
-
-	::mir_free(email);
 }
 
 void __cdecl CSkypeProto::SearchByNamesAsync(void* arg)
