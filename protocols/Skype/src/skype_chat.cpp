@@ -20,61 +20,6 @@ wchar_t *CSkypeProto::Roles[] =
 #define SKYPE_CHAT_GROUP_RETRIED	4
 #define SKYPE_CHAT_GROUP_OUTLAW		5
 
-bool CSkypeProto::IsChatRoom(HANDLE hContact)
-{
-	return ::db_get_b(hContact, this->m_szModuleName, "ChatRoom", 0) > 0;
-}
-
-HANDLE CSkypeProto::GetChatRoomByCid(const wchar_t *cid)
-{
-	HANDLE hContact = ::db_find_first();
-	while (hContact)
-	{
-		if  (this->IsProtoContact(hContact) && this->IsChatRoom(hContact))
-		{
-			mir_ptr<wchar_t> chatID(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
-			if ( lstrcmp(cid, chatID) == 0)
-				return hContact;
-		}
-
-		hContact = ::db_find_next(hContact);
-	}
-
-	return 0;
-}
-
-HANDLE CSkypeProto::AddChatRoom(CConversation::Ref conversation)
-{
-	SEString data;
-
-	conversation->GetPropIdentity(data);
-	mir_ptr<wchar_t> cid = ::mir_utf8decodeW(data);
-
-	HANDLE hContact = this->GetChatRoomByCid(cid);
-	if ( !hContact)
-	{
-		hContact = (HANDLE)::CallService(MS_DB_CONTACT_ADD, 0, 0);
-		::CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
-
-		conversation->GetPropDisplayname(data);
-		mir_ptr<wchar_t> name = ::mir_utf8decodeW(data);
-
-		::db_set_b(hContact, this->m_szModuleName, "ChatRoom", 1);
-		::db_set_ws(hContact, this->m_szModuleName, "ChatRoomID", cid);
-		::db_set_ws(hContact, this->m_szModuleName, "Nick", name);
-		::db_set_w(hContact, this->m_szModuleName, "Status", ID_STATUS_OFFLINE);
-		::db_set_w(hContact, this->m_szModuleName, "ApparentMode", ID_STATUS_OFFLINE);
-		
-		mir_ptr<wchar_t> defaultGroup = ::db_get_wsa(NULL, "Chat", "AddToGroup");
-		if (defaultGroup)
-		{
-			::db_set_ws(hContact, "CList", "Group", defaultGroup);
-		}
-	}
-
-	return hContact;
-}
-
 void CSkypeProto::ChatValidateContact(HANDLE hItem, HWND hwndList, const StringList &contacts)
 {
 	//HANDLE hContact = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
@@ -143,6 +88,156 @@ void CSkypeProto::GetInvitedContacts(HANDLE hItem, HWND hwndList, StringList &ch
 		}
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 	}
+}
+
+INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	InviteChatParam *param = (InviteChatParam *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		param = (InviteChatParam *)lParam;
+		{
+			HWND hwndClist = GetDlgItem(hwndDlg, IDC_CCLIST);
+			SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) & ~CLS_HIDEOFFLINE);
+		}
+		break;
+
+	case WM_CLOSE:
+		::EndDialog(hwndDlg, 0);
+		break;
+
+	case WM_NOTIFY:
+		{
+			NMCLISTCONTROL *nmc = (NMCLISTCONTROL *)lParam;
+			if (nmc->hdr.idFrom == IDC_CCLIST)
+			{
+				switch (nmc->hdr.code)
+				{
+				case CLN_NEWCONTACT:
+					if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
+					{
+						param->ppro->ChatValidateContact(nmc->hItem, nmc->hdr.hwndFrom, param->invitedContacts);
+					}
+					break;
+
+				case CLN_LISTREBUILT:
+					if (param)
+					{
+						param->ppro->ChatPrepare(NULL, nmc->hdr.hwndFrom, param->invitedContacts);
+					}
+					break;
+				}
+			}
+		}
+		break;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_ADDSCR:
+			if (param->ppro->IsOnline())
+			{
+				wchar_t sid[SKYPE_SID_LIMIT];
+				::GetDlgItemText(hwndDlg, IDC_EDITSCR, sid, SIZEOF(sid));
+
+				CLCINFOITEM cii = {0};
+				cii.cbSize = sizeof(cii);
+				cii.flags = CLCIIF_CHECKBOX | CLCIIF_BELOWCONTACTS;
+				cii.pszText = ::wcslwr(sid);
+
+				HANDLE hItem = (HANDLE)::SendDlgItemMessage(
+					hwndDlg,
+					IDC_CCLIST,
+					CLM_ADDINFOITEM,
+					0,
+					(LPARAM)&cii);
+				::SendDlgItemMessage(hwndDlg, IDC_CCLIST, CLM_SETCHECKMARK, (LPARAM)hItem, 1);
+			}
+			break;
+
+		case IDOK:
+			{
+				HWND hwndList = ::GetDlgItem(hwndDlg, IDC_CCLIST);
+
+				param->invitedContacts.clear();
+				param->ppro->GetInvitedContacts(NULL, hwndList, param->invitedContacts);
+
+				if ( !param->invitedContacts.empty())
+				{
+					//SetWindowLongPtr(hwndDlg, 0, (LONG_PTR)bct);
+					SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+					::EndDialog(hwndDlg, IDOK);
+				}
+				else
+					param->ppro->ShowNotification(::TranslateT("You did not select any contact"));
+			}
+			break;
+
+		case IDCANCEL:
+			::EndDialog(hwndDlg, IDCANCEL);
+			break;
+		}
+		break;
+	}
+	return FALSE;
+}
+
+bool CSkypeProto::IsChatRoom(HANDLE hContact)
+{
+	return ::db_get_b(hContact, this->m_szModuleName, "ChatRoom", 0) > 0;
+}
+
+HANDLE CSkypeProto::GetChatRoomByCid(const wchar_t *cid)
+{
+	HANDLE hContact = ::db_find_first();
+	while (hContact)
+	{
+		if  (this->IsProtoContact(hContact) && this->IsChatRoom(hContact))
+		{
+			mir_ptr<wchar_t> chatID(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
+			if ( lstrcmp(cid, chatID) == 0)
+				return hContact;
+		}
+
+		hContact = ::db_find_next(hContact);
+	}
+
+	return 0;
+}
+
+HANDLE CSkypeProto::AddChatRoom(CConversation::Ref conversation)
+{
+	SEString data;
+
+	conversation->GetPropIdentity(data);
+	mir_ptr<wchar_t> cid = ::mir_utf8decodeW(data);
+
+	HANDLE hContact = this->GetChatRoomByCid(cid);
+	if ( !hContact)
+	{
+		hContact = (HANDLE)::CallService(MS_DB_CONTACT_ADD, 0, 0);
+		::CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
+
+		conversation->GetPropDisplayname(data);
+		mir_ptr<wchar_t> name = ::mir_utf8decodeW(data);
+
+		::db_set_b(hContact, this->m_szModuleName, "ChatRoom", 1);
+		::db_set_ws(hContact, this->m_szModuleName, "ChatRoomID", cid);
+		::db_set_ws(hContact, this->m_szModuleName, "Nick", name);
+		::db_set_w(hContact, this->m_szModuleName, "Status", ID_STATUS_OFFLINE);
+		::db_set_w(hContact, this->m_szModuleName, "ApparentMode", ID_STATUS_OFFLINE);
+		
+		mir_ptr<wchar_t> defaultGroup = ::db_get_wsa(NULL, "Chat", "AddToGroup");
+		if (defaultGroup)
+		{
+			::db_set_ws(hContact, "CList", "Group", defaultGroup);
+		}
+	}
+
+	return hContact;
 }
 
 static const COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
@@ -464,13 +559,13 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 		}
 		break;
 
-	case GC_USER_CHANMGR:
+	/*case GC_USER_CHANMGR:
 		if (g_skype->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation, false))
 		{
 			StringList invitedContacts(this->GetChatUsers(cid));
 			this->InviteConactsToChat(conversation, invitedContacts); 
 		}
-		break;
+		break;*/
 
 	case GC_USER_PRIVMESS:
 		::CallService(MS_MSG_SENDMESSAGE, (WPARAM)this->GetContactBySid(sid), 0);
@@ -525,7 +620,7 @@ int __cdecl CSkypeProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 	{
 		static const struct gc_item Items[] = 
 		{
-			{ TranslateT("&Invite user..."), 10, MENU_ITEM, FALSE },
+			{ TranslateT("Invite to conference"), 10, MENU_ITEM, FALSE },
 			{ TranslateT("&Leave chat session"), 20, MENU_ITEM, FALSE }
 		};
 		gcmi->nItems = SIZEOF(Items);
@@ -550,7 +645,7 @@ int __cdecl CSkypeProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 			static const struct gc_item Items[] = 
 			{
 				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
-				{ TranslateT("User &history"), 20, MENU_ITEM, FALSE }
+				{ TranslateT("User &history"), 20, MENU_ITEM, FALSE },
 			};
 			gcmi->nItems = SIZEOF(Items);
 			gcmi->Item = (gc_item*)Items;
@@ -600,99 +695,4 @@ void CSkypeProto::UpdateChatUserStatus(CContact::Ref contact)
 			0,
 			CSkypeProto::SkypeToMirandaStatus(availability));
 	}
-}
-
-INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	InviteChatParam *param = (InviteChatParam *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		param = (InviteChatParam *)lParam;
-		{
-			HWND hwndClist = GetDlgItem(hwndDlg, IDC_CCLIST);
-			SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) & ~CLS_HIDEOFFLINE);
-		}
-		break;
-
-	case WM_CLOSE:
-		::EndDialog(hwndDlg, 0);
-		break;
-
-	case WM_NOTIFY:
-		{
-			NMCLISTCONTROL *nmc = (NMCLISTCONTROL *)lParam;
-			if (nmc->hdr.idFrom == IDC_CCLIST)
-			{
-				switch (nmc->hdr.code)
-				{
-				case CLN_NEWCONTACT:
-					if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
-					{
-						param->ppro->ChatValidateContact(nmc->hItem, nmc->hdr.hwndFrom, param->invitedContacts);
-					}
-					break;
-
-				case CLN_LISTREBUILT:
-					if (param)
-					{
-						param->ppro->ChatPrepare(NULL, nmc->hdr.hwndFrom, param->invitedContacts);
-					}
-					break;
-				}
-			}
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_ADDSCR:
-			if (param->ppro->IsOnline())
-			{
-				wchar_t sid[SKYPE_SID_LIMIT];
-				::GetDlgItemText(hwndDlg, IDC_EDITSCR, sid, SIZEOF(sid));
-
-				CLCINFOITEM cii = {0};
-				cii.cbSize = sizeof(cii);
-				cii.flags = CLCIIF_CHECKBOX | CLCIIF_BELOWCONTACTS;
-				cii.pszText = ::wcslwr(sid);
-
-				HANDLE hItem = (HANDLE)::SendDlgItemMessage(
-					hwndDlg,
-					IDC_CCLIST,
-					CLM_ADDINFOITEM,
-					0,
-					(LPARAM)&cii);
-				::SendDlgItemMessage(hwndDlg, IDC_CCLIST, CLM_SETCHECKMARK, (LPARAM)hItem, 1);
-			}
-			break;
-
-		case IDOK:
-			{
-				HWND hwndList = ::GetDlgItem(hwndDlg, IDC_CCLIST);
-
-				param->invitedContacts.clear();
-				param->ppro->GetInvitedContacts(NULL, hwndList, param->invitedContacts);
-
-				if ( !param->invitedContacts.empty())
-				{
-					//SetWindowLongPtr(hwndDlg, 0, (LONG_PTR)bct);
-					SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-					::EndDialog(hwndDlg, IDOK);
-				}
-				else
-					param->ppro->ShowNotification(::TranslateT("You did not select any contact"));
-			}
-			break;
-
-		case IDCANCEL:
-			::EndDialog(hwndDlg, IDCANCEL);
-			break;
-		}
-		break;
-	}
-	return FALSE;
 }

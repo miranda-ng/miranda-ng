@@ -12,6 +12,13 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 		BBButton bbd = { sizeof(bbd) };
 		bbd.pszModuleName = MODULE;
 
+		bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
+		bbd.ptszTooltip = ::TranslateT("Invite to conference");
+		bbd.hIcon = CSkypeProto::GetIconHandle("confInvite");
+		bbd.dwButtonID = BBB_ID_CONF_INVITE;
+		bbd.dwDefPos = 100 + bbd.dwButtonID;
+		::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
+
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON;
 		bbd.ptszTooltip = ::TranslateT("Spawn conference");
 		bbd.hIcon = CSkypeProto::GetIconHandle("confSpawn");
@@ -67,20 +74,6 @@ int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int __cdecl CSkypeProto::OnSrmmWindowOpen(WPARAM, LPARAM lParam)
-{
-	MessageWindowEventData *ev = (MessageWindowEventData*)lParam;
-	if (ev->uType == MSG_WINDOW_EVT_OPENING && ev->hContact) 
-	{ 
-		BBButton bbd = { sizeof(bbd) };
-		bbd.pszModuleName = MODULE;
-		bbd.dwButtonID = BBB_ID_CONF_SPAWN;
-		bbd.bbbFlags = (!strcmp( GetContactProto(ev->hContact), this->m_szModuleName)) ? 0 : BBSF_HIDDEN | BBSF_DISABLED;
-		::CallService(MS_BB_SETBUTTONSTATE, (WPARAM)ev->hContact, (LPARAM)&bbd);
-	} 
-	return 0; 
-}
-
 INT_PTR __cdecl CSkypeProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
 {
 	return (int)::CreateDialogParam(
@@ -110,13 +103,41 @@ int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+int __cdecl CSkypeProto::OnSrmmWindowOpen(WPARAM, LPARAM lParam)
+{
+	MessageWindowEventData *ev = (MessageWindowEventData*)lParam;
+	if (ev->uType == MSG_WINDOW_EVT_OPENING && ev->hContact) 
+	{ 
+		BBButton bbd = { sizeof(bbd) };
+		bbd.pszModuleName = MODULE;
+		bbd.bbbFlags = (!strcmp( GetContactProto(ev->hContact), this->m_szModuleName)) ? 0 : BBSF_HIDDEN | BBSF_DISABLED;
+
+		bbd.dwButtonID = BBB_ID_CONF_INVITE;
+		::CallService(MS_BB_SETBUTTONSTATE, (WPARAM)ev->hContact, (LPARAM)&bbd);
+
+		bbd.dwButtonID = BBB_ID_CONF_SPAWN;
+		::CallService(MS_BB_SETBUTTONSTATE, (WPARAM)ev->hContact, (LPARAM)&bbd);
+	} 
+	return 0; 
+}
+
 int __cdecl CSkypeProto::OnTabSRMMButtonPressed(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
 	
-	if (cbcd->dwButtonId == BBB_ID_CONF_SPAWN)
+	switch (cbcd->dwButtonId)
 	{
+	case BBB_ID_CONF_INVITE:
+		if (this->IsOnline() && this->IsChatRoom(hContact))
+		{
+			StringList targets = this->GetChatUsers(mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID")));
+
+			this->StartChat(targets);
+		}
+		break;
+
+	case BBB_ID_CONF_SPAWN:
 		if (this->IsOnline() && !this->IsChatRoom(hContact))
 		{
 			StringList targets;
@@ -124,6 +145,7 @@ int __cdecl CSkypeProto::OnTabSRMMButtonPressed(WPARAM wParam, LPARAM lParam)
 
 			this->StartChat(targets);
 		}
+		break;
 	}
 
 	return 1;
@@ -575,7 +597,22 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 			conversation->GetPropIdentity(data);
 			mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
 			HANDLE hContact = this->GetChatRoomByCid(cid);
-			this->RaiseChatEvent(cid, this->login, /*GC_EVENT_NOTICE*/ 0x0020, /*GCEF_ADDTOLOG*/ 0x0001, 0, NULL, ::TranslateT("There was incoming call"));
+			this->RaiseChatEvent(cid, this->login, /*GC_EVENT_INFORMATION*/ 0x0100, /*GCEF_ADDTOLOG*/ 0x0001, 0, NULL, ::TranslateT("Group call"));
+		}
+		break;
+
+	case CMessage::ENDED_LIVESESSION:
+
+		CConversation::TYPE type;
+		conversation->GetPropType(type);
+		if (type != CConversation::DIALOG)
+		{
+			SEString data;
+
+			conversation->GetPropIdentity(data);
+			mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
+			HANDLE hContact = this->GetChatRoomByCid(cid);
+			this->RaiseChatEvent(cid, this->login, /*GC_EVENT_INFORMATION*/ 0x0100, /*GCEF_ADDTOLOG*/ 0x0001, 0, NULL, ::TranslateT("The call is completed"));
 		}
 		break;
 
