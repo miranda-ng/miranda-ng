@@ -32,7 +32,7 @@ HANDLE CSkypeProto::GetChatRoomByCid(const wchar_t *cid)
 	{
 		if  (this->IsProtoContact(hContact) && this->IsChatRoom(hContact))
 		{
-			::mir_ptr<wchar_t> chatID(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
+			mir_ptr<wchar_t> chatID(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
 			if (::wcscmp(cid, chatID) == 0)
 				return hContact;
 		}
@@ -80,8 +80,8 @@ void CSkypeProto::ChatValidateContact(HANDLE hItem, HWND hwndList, const StringL
 	//HANDLE hContact = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 	if (this->IsProtoContact(hItem) && !this->IsChatRoom(hItem))
 	{
-		std::wstring sid = ::db_get_wsa(hItem, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
-		if (sid.empty() || contacts.contains(sid.c_str()))
+		mir_ptr<wchar_t> sid( ::db_get_wsa(hItem, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+		if (sid == NULL || contacts.contains(sid))
 			::SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 	}
 	else
@@ -136,8 +136,8 @@ void CSkypeProto::GetInvitedContacts(HANDLE hItem, HWND hwndList, StringList &ch
 				}
 				else
 				{
-					std::wstring sid(::db_get_wsa(hItem, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
-					chatTargets.insert(sid.c_str());
+					mir_ptr<wchar_t> login( ::db_get_wsa(hItem, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+					chatTargets.insert(login);
 				}
 			}
 		}
@@ -415,7 +415,7 @@ INT_PTR __cdecl CSkypeProto::OnJoinChat(WPARAM wParam, LPARAM)
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact)
 	{
-		wchar_t *cid = ::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID");
+		mir_ptr<wchar_t> cid( ::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
 
 		SEString data;
 		CConversation::Ref conversation;
@@ -427,8 +427,6 @@ INT_PTR __cdecl CSkypeProto::OnJoinChat(WPARAM wParam, LPARAM)
 		conversation->Join();
 
 		this->JoinToChat(conversation);
-
-		::mir_free(cid);
 	}
 
 	return 0;
@@ -438,13 +436,7 @@ INT_PTR __cdecl CSkypeProto::OnLeaveChat(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact)
-	{
-		wchar_t *cid = ::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID");
-		
-		this->LeaveChat(cid);
-
-		::mir_free(cid);
-	}
+		this->LeaveChat( mir_ptr<wchar_t>( ::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID")));
 
 	return 0;
 }
@@ -481,7 +473,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 				if (g_skype->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation, false))
 				{
 					CMessage::Ref message;
-					::mir_ptr<char> text(::mir_utf8encodeW(gch->ptszText));
+					mir_ptr<char> text(::mir_utf8encodeW(gch->ptszText));
 					conversation->PostText((char *)text, message);
 				}
 			}

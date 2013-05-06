@@ -13,9 +13,8 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 			proto = (CSkypeProto *)lParam;
 			::SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 			{
-				wchar_t *sid = ::db_get_wsa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_LOGIN);
+				mir_ptr<wchar_t> sid( ::db_get_wsa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_LOGIN));
 				SetDlgItemText(hwnd, IDC_SL, sid);
-				::mir_free(sid);
 			}
 			{
 				char *pwd = ::db_get_sa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD);
@@ -55,9 +54,8 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 
 			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, SKYPE_GROUP_NAME_LIMIT, 0);
 
-			wchar_t *defgroup = db_get_wsa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP);
+			mir_ptr<wchar_t> defgroup( db_get_wsa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP));
 			SetDlgItemText(hwnd, IDC_GROUP, defgroup);
-			::mir_free(defgroup);
 		}
 		return TRUE;
 
@@ -363,8 +361,8 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 					if (!szProto)
 						break;
 
-					::SetDlgItemText(hwndDlg, IDC_SID, ::db_get_wsa(hContact, ppro->m_szModuleName, SKYPE_SETTINGS_LOGIN));
-					::SetDlgItemText(hwndDlg, IDC_STATUSTEXT, ::db_get_wsa(hContact, ppro->m_szModuleName, "XStatusMsg") ? ::db_get_wsa(hContact, ppro->m_szModuleName, "XStatusMsg") : TranslateT("<not specified>"));
+					::SetDlgItemText(hwndDlg, IDC_SID, mir_ptr<wchar_t>(::db_get_wsa(hContact, ppro->m_szModuleName, SKYPE_SETTINGS_LOGIN)));
+					::SetDlgItemText(hwndDlg, IDC_STATUSTEXT, mir_ptr<wchar_t>(::db_get_wsa(hContact, ppro->m_szModuleName, "XStatusMsg")) ? mir_ptr<wchar_t>(::db_get_wsa(hContact, ppro->m_szModuleName, "XStatusMsg")) : TranslateT("<not specified>"));
 
 					if (::db_get_dw(hContact, ppro->m_szModuleName, "OnlineSinceTS", 0)) {
 						TCHAR date[64];
@@ -453,7 +451,7 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 			}
 
-			wchar_t *lang = ::db_get_wsa(NULL, ppro->m_szModuleName, "Language1");
+			mir_ptr<wchar_t> lang( ::db_get_wsa(NULL, ppro->m_szModuleName, "Language1"));
 			for (std::map<std::wstring, std::wstring>::iterator it = CSkypeProto::languages.begin(); it != CSkypeProto::languages.end(); ++it)
 			{
 				int nItem = SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE), CB_ADDSTRING, 0, (LPARAM)TranslateTS(it->second.c_str()));
@@ -659,7 +657,7 @@ static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			else
 				SetDlgItemText(hwndDlg, IDC_STATE, _T(""));
 
-			wchar_t *countr = ::db_get_wsa(NULL, ppro->m_szModuleName, "Country");
+			mir_ptr<wchar_t> countr( ::db_get_wsa(NULL, ppro->m_szModuleName, "Country"));
 			for (int i = 0; i < g_cbCountries; i++)	{
 				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
 					TCHAR *country = mir_a2t(g_countries[i].szName);

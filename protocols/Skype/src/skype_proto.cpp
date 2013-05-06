@@ -125,7 +125,7 @@ int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 	if (this->IsOnline() && hContact)
 	{
 		CContact::Ref contact;
-		SEString sid(::mir_u2a(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN)));
+		SEString sid( mir_ptr<char>(::mir_u2a( mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN)))));
 		if (g_skype->GetContact(sid, contact))
 		{
 			contact->SetBuddyStatus(Contact::AUTHORIZED_BY_ME);
@@ -353,7 +353,7 @@ HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription
 int __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 {
 	SEStringList targets;
-	wchar_t *sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
+	mir_ptr<wchar_t> sid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
 	SEString identity = ::mir_u2a(sid);
 	targets.append(identity);
 
@@ -421,7 +421,7 @@ int __cdecl CSkypeProto::UserIsTyping(HANDLE hContact, int type)
 {
 	if (hContact && this->IsOnline() && this->m_iStatus != ID_STATUS_INVISIBLE)
 	{
-		wchar_t *sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
+		mir_ptr<wchar_t> sid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
 		if (::wcsicmp(sid, this->login) != 0)
 		{
 			SEStringList targets;
@@ -444,7 +444,6 @@ int __cdecl CSkypeProto::UserIsTyping(HANDLE hContact, int type)
 				}
 			}
 		}
-		::mir_free(sid);
 	}
 
 	return 1;

@@ -53,7 +53,7 @@ int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 	{
 		if (this->IsChatRoom(hContact))
 		{
-			wchar_t *chatID = ::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID");
+			mir_ptr<wchar_t> chatID(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
 			this->LeaveChat(chatID);
 
 			CConversation::Ref conversation;
@@ -107,7 +107,7 @@ int __cdecl CSkypeProto::OnTabSRMMButtonPressed(WPARAM wParam, LPARAM lParam)
 		if (this->IsOnline() && !this->IsChatRoom(hContact))
 		{
 			StringList targets;
-			targets.insert(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+			targets.insert( mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN)));
 
 			this->StartChat(targets);
 		}
@@ -247,18 +247,13 @@ void CSkypeProto::OnMessageSended(CConversation::Ref &conversation, CMessage::Re
 	else
 	{
 		conversation->GetPropIdentity(data);
-		wchar_t *cid = ::mir_utf8decodeW(data);
+		mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
 
-		wchar_t *nick = ::db_get_wsa(NULL, this->m_szModuleName, "Nick");
+		mir_ptr<wchar_t> nick( ::db_get_wsa(NULL, this->m_szModuleName, "Nick"));
 		if (::wcsicmp(nick, L"") == 0)
-		{
 			nick = ::db_get_wsa(NULL, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
-		}
 
 		this->SendChatMessage(cid, nick, ::mir_utf8decodeW(text));
-
-		::mir_free(nick);
-		::mir_free(cid);
 	}
 }
 

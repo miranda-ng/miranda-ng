@@ -166,8 +166,8 @@ HANDLE CSkypeProto::GetContactBySid(const wchar_t *sid)
 	{
 		if (this->IsProtoContact(hContact) && !this->IsChatRoom(hContact))
 		{
-			std::wstring contactSid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
-			if (contactSid.compare(sid) == 0)
+			mir_ptr<wchar_t> contactSid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+			if ( lstrcmp(contactSid, sid) == 0)
 				return hContact;
 		}
 
@@ -278,13 +278,13 @@ void __cdecl CSkypeProto::LoadContactList(void* data)
 			this->UpdateContactAuthState(hContact, contact);
 			this->UpdateContactStatus(hContact, contact);
 			
-			wchar_t *nick = ::db_get_wsa(hContact, "CList", "MyHandle");
+			mir_ptr<wchar_t> nick( ::db_get_wsa(hContact, "CList", "MyHandle"));
 			if ( !nick || !::wcslen(nick))
 			{
 				SEString data;
 				contact->GetPropFullname(data);
 
-				mir_ptr<wchar_t> nick = ::mir_utf8decodeW(data);
+				nick = ::mir_utf8decodeW(data);
 				::db_set_ws(hContact, "CList", "MyHandle", nick);
 			}
 
