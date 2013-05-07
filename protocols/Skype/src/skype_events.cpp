@@ -602,8 +602,6 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 		break;
 
 	case CMessage::ENDED_LIVESESSION:
-
-		CConversation::TYPE type;
 		conversation->GetPropType(type);
 		if (type != CConversation::DIALOG)
 		{
