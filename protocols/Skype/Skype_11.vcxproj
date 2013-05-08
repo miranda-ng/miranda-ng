@@ -232,6 +232,7 @@
     <ClCompile Include="src\skype_menus.cpp" />
     <ClCompile Include="src\skype_messages.cpp" />
     <ClCompile Include="src\skype_netlib.cpp" />
+    <ClCompile Include="src\skype_own_info.cpp" />
     <ClCompile Include="src\skype_profile.cpp" />
     <ClCompile Include="src\skype_proto.cpp" />
     <ClCompile Include="src\skype_services.cpp" />

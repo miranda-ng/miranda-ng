@@ -108,6 +108,11 @@
     <ClCompile Include="src\skype_hooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\skype_messages.cpp" />
+    <ClCompile Include="src\skype_transfers.cpp" />
+    <ClCompile Include="src\skype_own_info.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
