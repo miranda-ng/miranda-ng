@@ -721,7 +721,7 @@ INT_PTR CALLBACK CSkypeProto::HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 				if (ppro->IsOnline() && ppro->NeedUpdate)
 				{
 					//ppro->SaveToDB(hwndDlg, iPageId);
-					ppro->SaveToServer(hwndDlg, iPageId);
+					//ppro->SaveToServer(hwndDlg, iPageId);
 				}
 				else if ( !ppro->IsOnline())
 					ppro->ShowNotification(::TranslateT("You are not currently connected to the Skype network. You must be online in order to update your information on the server."));
