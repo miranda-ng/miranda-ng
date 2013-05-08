@@ -246,6 +246,7 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 
 void __cdecl CSkypeProto::LoadContactList(void* data)
 {
+	this->Log(L"Updating contacts list");
 	bool isFirstLoad = data != NULL;
 
 	g_skype->GetHardwiredContactGroup(CContactGroup::ALL_BUDDIES, this->commonList);
@@ -288,6 +289,7 @@ void __cdecl CSkypeProto::LoadContactList(void* data)
 
 void __cdecl CSkypeProto::LoadChatList(void*)
 {
+	this->Log(L"Updating group chats list");
 	CConversation::Refs conversations;
 	g_skype->GetConversationList(conversations);
 

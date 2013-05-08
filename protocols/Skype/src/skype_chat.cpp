@@ -696,3 +696,44 @@ void CSkypeProto::UpdateChatUserStatus(CContact::Ref contact)
 			CSkypeProto::SkypeToMirandaStatus(availability));
 	}
 }
+
+void CSkypeProto::OnChatMessageReceived(CConversation::Ref &conversation, CMessage::Ref &message)
+{
+	SEString data;
+
+	uint timestamp;
+	message->GetPropTimestamp(timestamp);
+
+	message->GetPropBodyXml(data);
+	char *text = CSkypeProto::RemoveHtml(data);
+
+	message->GetPropAuthor(data);
+	mir_ptr<wchar_t> sid( ::mir_utf8decodeW(data));
+
+	conversation->GetPropIdentity(data);
+	mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
+
+	//this->SendChatMessage(cid, sid, mir_ptr<wchar_t>(::mir_utf8decodeW(text)));
+	this->RaiseChatEvent(cid, sid, GC_EVENT_MESSAGE, GCEF_ADDTOLOG, 0, NULL, mir_ptr<wchar_t>(::mir_utf8decodeW(text)));
+}
+
+void CSkypeProto::OnChatMessageSended(CConversation::Ref &conversation, CMessage::Ref &message)
+{
+	SEString data;
+
+	uint timestamp;
+	message->GetPropTimestamp(timestamp);
+
+	message->GetPropBodyXml(data);
+	char *text = CSkypeProto::RemoveHtml(data);
+
+	conversation->GetPropIdentity(data);
+	mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
+
+	mir_ptr<wchar_t> nick( ::db_get_wsa(NULL, this->m_szModuleName, "Nick"));
+	if (::wcsicmp(nick, L"") == 0)
+		nick = ::db_get_wsa(NULL, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
+
+	//this->SendChatMessage(cid, nick, mir_ptr<wchar_t>(::mir_utf8decodeW(text)));
+	this->RaiseChatEvent(cid, nick, GC_EVENT_MESSAGE, GCEF_ADDTOLOG, 0, NULL, mir_ptr<wchar_t>(::mir_utf8decodeW(text)));
+}

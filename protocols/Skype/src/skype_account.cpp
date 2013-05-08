@@ -120,6 +120,7 @@ bool CSkypeProto::LogIn()
 
 		this->SetAccountSettings();	
 
+		this->Log(L"Login in an account");
 		this->account->LoginWithPassword(this->password, false, false);
 	}
 
@@ -131,6 +132,7 @@ void CSkypeProto::LogOut()
 	if	(this->IsOnline() || this->m_iStatus == ID_STATUS_CONNECTING)
 	{
 		this->account->SetAvailability(CContact::OFFLINE);
+		this->Log(L"Logout from account");
 		this->account->Logout(true);
 
 		this->SetAllContactStatus(ID_STATUS_OFFLINE);
@@ -140,13 +142,19 @@ void CSkypeProto::LogOut()
 void CSkypeProto::SetAccountSettings()
 {
 	int port = ::db_get_w(NULL, this->m_szModuleName, "Port", rand() % 10000 + 10000);
+	this->Log(L"Setting port number to %d", port);
 	g_skype->SetInt(SETUPKEY_PORT, port);
-	g_skype->SetInt(SETUPKEY_DISABLE_PORT80, (int)!::db_get_b(NULL, this->m_szModuleName, "UseAlternativePorts", 1));
+
+	bool useAlternativePorts = (bool)::db_get_b(NULL, this->m_szModuleName, "UseAlternativePorts", 1);
+	if (useAlternativePorts)
+		this->Log(L"Setting listening of alternative ports (80, 443)");
+	g_skype->SetInt(SETUPKEY_DISABLE_PORT80, (int)!useAlternativePorts);
 
 	// Create default group for new contacts
 	DBVARIANT dbv = {0};
-	if (!::db_get_ts(NULL, m_szModuleName, SKYPE_SETTINGS_DEF_GROUP, &dbv) && lstrlen(dbv.ptszVal) > 0)
+	if ( !::db_get_ts(NULL, m_szModuleName, SKYPE_SETTINGS_DEF_GROUP, &dbv) && lstrlen(dbv.ptszVal) > 0)
 	{
+		this->Log(L"Setting default group for new contacts");
 		::CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)dbv.ptszVal);
 		::db_free(&dbv);
 	}
@@ -168,6 +176,7 @@ void CSkypeProto::InitProxy()
 			{
 			case PROXYTYPE_HTTP:
 			case PROXYTYPE_HTTPS:
+				this->Log(L"Setting https user proxy config");
 				g_skype->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 1);
 				g_skype->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 0);
 				g_skype->SetStr(SETUPKEY_HTTPS_PROXY_ADDR, address);
@@ -183,6 +192,7 @@ void CSkypeProto::InitProxy()
 
 			case PROXYTYPE_SOCKS4:
 			case PROXYTYPE_SOCKS5:
+				this->Log(L"Setting socks user proxy config");
 				g_skype->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 0);
 				g_skype->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 1);
 				g_skype->SetStr(SETUPKEY_SOCKS_PROXY_ADDR, address);
@@ -194,6 +204,7 @@ void CSkypeProto::InitProxy()
 				break;
 
 			default:
+				this->Log(L"Setting automatic proxy detection");
 				g_skype->Delete(SETUPKEY_HTTPS_PROXY_ENABLE);
 				g_skype->Delete(SETUPKEY_HTTPS_PROXY_ADDR);
 				g_skype->Delete(SETUPKEY_HTTPS_PROXY_USER);
@@ -220,14 +231,14 @@ void CSkypeProto::OnLoggedIn()
 		::CallService(MS_DB_CRYPT_ENCODESTRING, ::strlen(this->password), (LPARAM)this->password);
 	}
 
+	this->SetServerStatus(this->m_iDesiredStatus);
+
 	this->LoadOwnInfo(this);
 	this->LoadChatList(this);
 	this->LoadContactList(reinterpret_cast<void *>(static_cast<int>(true)));
 	this->LoadAuthWaitList(this);
 	
 	fetch(this->transferList);
-
-	this->SetServerStatus(this->m_iDesiredStatus);
 }
 
 void CSkypeProto::SetServerStatus(int iNewStatus)
@@ -244,7 +255,10 @@ void CSkypeProto::SetServerStatus(int iNewStatus)
 
 	CContact::AVAILABILITY availability = CSkypeProto::MirandaToSkypeStatus(iNewStatus);
 	if (availability != CContact::UNKNOWN)
+	{
+		this->Log(L"Setting status to %d", iNewStatus);
 		this->account->SetAvailability(availability);
+	}
 
 	this->SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, this->m_iStatus);
 }
@@ -257,6 +271,8 @@ void CSkypeProto::OnCblUpdated()
 
 void CSkypeProto::OnLoggedOut(CAccount::LOGOUTREASON reason)
 {
+	this->Log(L"Failed to login: %s", CSkypeProto::SkypeToMirandaLoginError(reason));
+
 	this->m_iStatus = ID_STATUS_OFFLINE;
 	this->SendBroadcast(
 		ACKTYPE_LOGIN, ACKRESULT_FAILED, 
@@ -292,7 +308,7 @@ void CSkypeProto::OnAccountChanged(int prop)
 		if (loginStatus == CAccount::LOGGED_OUT)
 		{
 			CAccount::LOGOUTREASON reason;
-			if (!this->account->GetPropLogoutreason(reason))
+			if ( !this->account->GetPropLogoutreason(reason))
 				break;
 
 			if (reason != CAccount::LOGOUT_CALLED)
@@ -318,7 +334,10 @@ void CSkypeProto::OnAccountChanged(int prop)
 			CAccount::PWDCHANGESTATUS status;
 			this->account->GetPropPwdchangestatus(status);
 			if (status != CAccount::PWD_CHANGING)
+			{
+				this->Log(L"Failed to chage password: %s", CSkypeProto::PasswordChangeReasons[status]);
 				this->ShowNotification(CSkypeProto::PasswordChangeReasons[status]);
+			}
 		}
 		break;
 

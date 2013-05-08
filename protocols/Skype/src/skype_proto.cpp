@@ -38,11 +38,9 @@ CSkypeProto::~CSkypeProto()
 
 HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	//fixme
 	CContact::Ref contact;
-	g_skype->GetContact(::mir_u2a(psr->id), contact);
+	g_skype->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(psr->id)), contact);
 	return this->AddContact(contact);
-	return 0;
 }
 
 HANDLE __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
@@ -142,6 +140,7 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 
 	CMessage *message = new CMessage(oid, g_skype);
 
+	this->Log(L"Incoming file transfer is accepted");
 	CTransfer::Refs transfers;
 	message->GetTransfers(transfers);
 	for (uint i = 0; i < transfers.size(); i++)
@@ -153,7 +152,6 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 		::mir_sntprintf(fullPath, MAX_PATH, L"%s%s", szPath, ::mir_utf8decodeW(name));
 		if (!transfers[i]->Accept(::mir_u2a(fullPath), success) || !success)
 		{
-			// todo: write to log!
 			delete message;
 			return 0;
 		}
@@ -170,13 +168,13 @@ int    __cdecl CSkypeProto::FileCancel( HANDLE hContact, HANDLE hTransfer )
 
 	MessageRef message(oid);
 
+	this->Log(L"Incoming file transfer is cancelled");
 	CTransfer::Refs transfers;
 	message->GetTransfers(transfers);
 	for (uint i = 0; i < transfers.size(); i++)
 	{
 		if (!transfers[i]->Cancel())
 		{
-			// todo: write to log!
 			return 0;
 		}
 	}
@@ -189,14 +187,13 @@ int    __cdecl CSkypeProto::FileDeny( HANDLE hContact, HANDLE hTransfer, const T
 	uint oid = (uint)hTransfer;
 
 	MessageRef message(oid);
-
+	this->Log(L"Incoming file transfer is denied");
 	CTransfer::Refs transfers;
 	message->GetTransfers(transfers);
 	for (uint i = 0; i < transfers.size(); i++)
 	{
 		if (!transfers[i]->Cancel())
 		{
-			// todo: write to log!
 			return 0;
 		}
 	}
@@ -222,7 +219,7 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS |
 			PF4_OFFLINEFILES | PF4_IMSENDUTF | PF4_IMSENDOFFLINE;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)::Translate("g_skype Name");
+		return (DWORD_PTR)::Translate("Skype Name");
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)SKYPE_SETTINGS_LOGIN;
 	default:
@@ -274,12 +271,14 @@ int    __cdecl CSkypeProto::RecvContacts( HANDLE hContact, PROTORECVEVENT* ) { r
 
 int    __cdecl CSkypeProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt) 
 { 
+	this->Log(L"Incoming file transfer");
 	::db_unset(hContact, "CList", "Hidden");
 	return ::Proto_RecvFile(hContact, evt);
 }
 
 int __cdecl CSkypeProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 {
+	this->Log(L"Incoming message");
 	::db_unset(hContact, "CList", "Hidden");
 	this->UserIsTyping(hContact, PROTOTYPE_SELFTYPING_OFF);
 
@@ -311,6 +310,7 @@ HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription
 {
 	if (this->IsOnline() && hContact && ppszFiles)
 	{
+		this->Log(L"Outcoming file transfer");
 		SEStringList targets;
 		mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
 		targets.append((char *)mir_ptr<char>(::mir_utf8encodeW(sid)));
@@ -348,6 +348,7 @@ HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription
 
 int __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 {
+	this->Log(L"Outcoming message");
 	SEStringList targets;
 	mir_ptr<wchar_t> sid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
 	SEString identity = ::mir_u2a(sid);

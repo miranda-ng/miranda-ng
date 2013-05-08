@@ -275,6 +275,7 @@ void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 {
+	this->Log(L"Updating profile for %p", hContact);
 	this->UpdateProfileAvatar(obj, hContact);
 
 	uint newTS = hContact ? obj->GetUintProp(Contact::P_PROFILE_TIMESTAMP) : obj->GetUintProp(Account::P_PROFILE_TIMESTAMP);
@@ -320,6 +321,6 @@ void __cdecl CSkypeProto::LoadOwnInfo(void *)
 		nick = ::mir_utf8decodeW(data);
 		::db_set_ws(NULL, this->m_szModuleName, "Nick", nick);
 	}
-	this->UpdateProfileAvatar(this->account.fetch());
+	//this->UpdateProfileAvatar(this->account.fetch());
 	this->UpdateProfile(this->account.fetch());
 }

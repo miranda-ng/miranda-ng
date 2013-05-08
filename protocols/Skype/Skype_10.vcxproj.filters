@@ -108,6 +108,12 @@
     <ClCompile Include="src\skype_hooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\skype_messages.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_transfers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -159,6 +165,9 @@
       <Filter>Header Files\skypekit</Filter>
     </ClInclude>
     <ClInclude Include="src\string_list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skype_chat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

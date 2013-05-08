@@ -389,6 +389,23 @@ void CSkypeProto::ShowNotification(const wchar_t *message, int flags, HANDLE hCo
 	CSkypeProto::ShowNotification(::TranslateT(MODULE), message, flags, hContact);
 }
 
+struct HtmlEntity
+{
+	const char *entity;
+	char symbol;
+};
+
+const HtmlEntity htmlEntities[]={
+	{"nbsp",	' '},
+	{"amp",		'&'},
+	{"quot",	'"'},
+	{"lt",		'<'},
+	{"gt",		'>'},
+	{"apos",	'\''},
+	{"copy",	'©'},
+	// TODO: add more
+};
+
 char *CSkypeProto::RemoveHtml(const char *text)
 {
 	std::string new_string = "";

@@ -20,23 +20,6 @@ struct _tag_iconList
 	HANDLE		Handle;
 };
 
-struct HtmlEntity
-{
-	const char *entity;
-	char symbol;
-};
-
-const HtmlEntity htmlEntities[]={
-	{"nbsp",	' '},
-	{"amp",		'&'},
-	{"quot",	'"'},
-	{"lt",		'<'},
-	{"gt",		'>'},
-	{"apos",	'\''},
-	{"copy",	'©'},
-	// TODO: add more
-};
-
 struct InviteChatParam
 {
 	wchar_t		*id;
@@ -242,8 +225,12 @@ protected:
 
 	SEBinary GetAvatarBinary(wchar_t *path);
 
+	// events
+	void	OnSkypeEvent(CConversation::Ref conversation, CMessage::Ref message);
+	void	OnChatEvent(CConversation::Ref &conversation, CMessage::Ref &message);
+
 	// messages
-	void	OnMessage(CConversation::Ref conversation, CMessage::Ref message);
+	void	OnMessageEvent(CConversation::Ref conversation, CMessage::Ref message);
 	void	OnMessageSended(CConversation::Ref &conversation, CMessage::Ref &message);
 	void	OnMessageReceived(CConversation::Ref &conversation, CMessage::Ref &message);
 
@@ -288,6 +275,9 @@ protected:
 
 	int __cdecl OnGCMenuHook(WPARAM, LPARAM lParam);
 	int __cdecl OnGCEventHook(WPARAM, LPARAM lParam);
+	
+	void	OnChatMessageSended(CConversation::Ref &conversation, CMessage::Ref &message);
+	void	OnChatMessageReceived(CConversation::Ref &conversation, CMessage::Ref &message);
 
 	// contacts
 	void	UpdateContactAuthState(HANDLE hContact, CContact::Ref contact);
