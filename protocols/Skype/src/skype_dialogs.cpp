@@ -408,96 +408,130 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
-static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	const unsigned long iPageId = 0;
-	CSkypeProto *ppro = (CSkypeProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CSkypeProto *ppro = (CSkypeProto *)::GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) {
+	switch (msg)
+	{
 	case WM_INITDIALOG:
-		if (lParam) {
+		if (lParam)
+		{
 			ppro = (CSkypeProto *)lParam;
-			TranslateDialogDefault(hwndDlg);
+			::TranslateDialogDefault(hwndDlg);
 
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+			::SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_GENDER), CB_ADDSTRING, 0, (LPARAM)_T(""));
-			SendMessage(GetDlgItem(hwndDlg, IDC_GENDER), CB_ADDSTRING, 0, (LPARAM)TranslateT("Male"));
-			SendMessage(GetDlgItem(hwndDlg, IDC_GENDER), CB_ADDSTRING, 0, (LPARAM)TranslateT("Female"));
+			// gender
+			::SendMessage(::GetDlgItem(hwndDlg, IDC_GENDER), CB_ADDSTRING, 0, (LPARAM)L"");
+			::SendMessage(::GetDlgItem(hwndDlg, IDC_GENDER), CB_ADDSTRING, 0, (LPARAM)::TranslateT("Male"));
+			::SendMessage(::GetDlgItem(hwndDlg, IDC_GENDER), CB_ADDSTRING, 0, (LPARAM)::TranslateT("Female"));
+			
+			BYTE b = ::db_get_b(NULL, ppro->m_szModuleName, "Gender", 0);
+			switch (b)
+			{
+			case 0:
+				::SetDlgItemText(hwndDlg, IDC_GENDER, _T(""));
+				break;
+			case 'M':
+				::SetDlgItemText(hwndDlg, IDC_GENDER, TranslateT("Male"));
+				break;
+			case 'F':
+				SetDlgItemText(hwndDlg, IDC_GENDER, TranslateT("Female"));
+				break;
+			}				
+
+			// birthday
+			wchar_t date[5];
+
 			for (int i = 1; i < 32; i++)
 			{
-				TCHAR day[3];
-				_itot(i, day, 10);
-				SendMessage(GetDlgItem(hwndDlg, IDC_BIRTH_DAY), CB_ADDSTRING, 0, (LPARAM)day);
+				::mir_sntprintf(date, 3, L"%02d", i);
+				::SendMessage(GetDlgItem(hwndDlg, IDC_BIRTH_DAY), CB_ADDSTRING, 0, (LPARAM)date);
 			}
+			BYTE bday = ::db_get_b(NULL, ppro->m_szModuleName, "BirthDay", 0);
+			if (bday > 1 && bday < 32)
+			{
+				::mir_sntprintf(date, 3, L"%02d", bday);
+				::SetDlgItemText(hwndDlg, IDC_BIRTH_DAY, date);
+			}
+
 			for (int i = 1; i < 13; i++)
 			{
-				TCHAR mon[3];
-				_itot(i, mon, 10);
-				SendMessage(GetDlgItem(hwndDlg, IDC_BIRTH_MONTH), CB_ADDSTRING, 0, (LPARAM)mon);
+				::mir_sntprintf(date, 3, L"%02d", i);
+				::SendMessage(::GetDlgItem(hwndDlg, IDC_BIRTH_MONTH), CB_ADDSTRING, 0, (LPARAM)date);
 			}
+			BYTE bmon = ::db_get_b(NULL, ppro->m_szModuleName, "BirthMonth", 0);
+			if (bmon > 1 && bmon < 13)
+			{
+				::mir_sntprintf(date, 3, L"%02d", bmon);
+				::SetDlgItemText(hwndDlg, IDC_BIRTH_MONTH, date);
+			}
+
 			for (int i = 1900; i < 2214; i++)
 			{
-				TCHAR year[5];
-				_itot(i, year, 10);
-				SendMessage(GetDlgItem(hwndDlg, IDC_BIRTH_YEAR), CB_ADDSTRING, 0, (LPARAM)year);
+				::_itow(i, date, 10);
+				::SendMessage(::GetDlgItem(hwndDlg, IDC_BIRTH_YEAR), CB_ADDSTRING, 0, (LPARAM)date);
 
 			}
-
-			mir_ptr<wchar_t> lang( ::db_get_wsa(NULL, ppro->m_szModuleName, "Language1"));
-			for (std::map<std::wstring, std::wstring>::iterator it = CSkypeProto::languages.begin(); it != CSkypeProto::languages.end(); ++it)
-			{
-				int nItem = SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE), CB_ADDSTRING, 0, (LPARAM)TranslateTS(it->second.c_str()));
-				SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE), CB_SETITEMDATA, nItem, (LPARAM)it->first.c_str());
-				int ii = it->second.compare(lang);
-				if(it->second.compare(lang) == 0)
-					SetDlgItemText(hwndDlg, IDC_LANGUAGE, TranslateTS(it->second.c_str()));
-			}
-			DBVARIANT dbv;
-			if ( !db_get_ts(NULL, ppro->m_szModuleName, "Nick", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_FULLNAME, dbv.ptszVal);
-				db_free(&dbv);
-			}
-			else
-				SetDlgItemText(hwndDlg, IDC_FULLNAME, _T(""));
-
-			if ( !db_get_ts(NULL, ppro->m_szModuleName, "Homepage", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_HOMEPAGE, dbv.ptszVal);
-				db_free(&dbv);
-			}
-			else
-				SetDlgItemText(hwndDlg, IDC_HOMEPAGE, _T(""));
-
-			if ( !db_get_ts(NULL, ppro->m_szModuleName, "About", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_ABOUT, dbv.ptszVal);
-				db_free(&dbv);
-			}
-			else
-				SetDlgItemText(hwndDlg, IDC_ABOUT, _T(""));
-
-			if ( !db_get_ts(NULL, ppro->m_szModuleName, "XStatusMsg", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_MOOD, dbv.ptszVal);
-				db_free(&dbv);
-			}
-			else
-				SetDlgItemText(hwndDlg, IDC_ABOUT, _T(""));
-
-			BYTE b = db_get_b(NULL, ppro->m_szModuleName, "Gender", 0);
-			if (b == 'M')
-				SetDlgItemText(hwndDlg, IDC_GENDER, TranslateT("Male"));
-			else if (b == 'F')
-				SetDlgItemText(hwndDlg, IDC_GENDER, TranslateT("Female"));
-			else
-				SetDlgItemText(hwndDlg, IDC_GENDER, _T(""));
-			BYTE bday = db_get_b(NULL, ppro->m_szModuleName, "BirthDay", 0);
-			if (bday > 1 && bday < 32)
-				SetDlgItemInt(hwndDlg, IDC_BIRTH_DAY, bday, false);
-			BYTE bmon = db_get_b(NULL, ppro->m_szModuleName, "BirthMonth", 0);
-			if (bmon > 1 && bmon < 13)
-				SetDlgItemInt(hwndDlg, IDC_BIRTH_MONTH, bmon, false);
-			WORD byear = db_get_w(NULL, ppro->m_szModuleName, "BirthYear", 0);
+			WORD byear = ::db_get_w(NULL, ppro->m_szModuleName, "BirthYear", 0);
 			if (byear > 1900 && bmon < 2214)
-				SetDlgItemInt(hwndDlg, IDC_BIRTH_YEAR, byear, false);
+				::SetDlgItemInt(hwndDlg, IDC_BIRTH_YEAR, byear, false);
+
+			// language
+			int i = 0;
+			mir_ptr<wchar_t> lang( ::db_get_wsa(NULL, ppro->m_szModuleName, "Language1"));
+			for (auto it = CSkypeProto::languages.begin(); it != CSkypeProto::languages.end(); ++it)
+			{
+				/*int nItem = */::SendMessage(
+					::GetDlgItem(hwndDlg, IDC_LANGUAGE), 
+					CB_ADDSTRING, 
+					0, 
+					(LPARAM)::TranslateTS(it->second.c_str()));
+				
+				::SendMessage(
+					::GetDlgItem(hwndDlg, IDC_LANGUAGE), 
+					CB_SETITEMDATA, i++, (LPARAM)&it->first);
+
+				if (it->second.compare(lang) == 0)
+					::SetDlgItemText(hwndDlg, IDC_LANGUAGE, ::TranslateTS(it->second.c_str()));
+			}
+			
+			// nick
+			DBVARIANT dbv;
+			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "Nick", &dbv))
+			{
+				::SetDlgItemText(hwndDlg, IDC_FULLNAME, dbv.ptszVal);
+				::db_free(&dbv);
+			}
+			else
+				::SetDlgItemText(hwndDlg, IDC_FULLNAME, _T(""));
+
+			// homepage
+			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "Homepage", &dbv))
+			{
+				::SetDlgItemText(hwndDlg, IDC_HOMEPAGE, dbv.ptszVal);
+				::db_free(&dbv);
+			}
+			else
+				::SetDlgItemText(hwndDlg, IDC_HOMEPAGE, _T(""));
+
+			// about
+			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "About", &dbv)) {
+				::SetDlgItemText(hwndDlg, IDC_ABOUT, dbv.ptszVal);
+				::db_free(&dbv);
+			}
+			else
+				::SetDlgItemText(hwndDlg, IDC_ABOUT, _T(""));
+
+			// mood
+			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "XStatusMsg", &dbv)) {
+				::SetDlgItemText(hwndDlg, IDC_MOOD, dbv.ptszVal);
+				::db_free(&dbv);
+			}
+			else
+				::SetDlgItemText(hwndDlg, IDC_ABOUT, _T(""));
 		}
 		break;
 
@@ -508,7 +542,7 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			(HWND)lParam == GetDlgItem(hwndDlg, IDC_LANGUAGE)) && (HIWORD(wParam) == CBN_EDITCHANGE || HIWORD(wParam) == CBN_SELCHANGE)))
 		{
 			ppro->NeedUpdate = 1;
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			::SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
 		break;
 
@@ -516,13 +550,12 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		if (((LPNMHDR)lParam)->idFrom == 0) {
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_PARAMCHANGED:
-				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY *)lParam)->lParam);
+				::SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY *)lParam)->lParam);
 				break;
 			case PSN_APPLY:
 				if (ppro->IsOnline() && ppro->NeedUpdate)
 				{
-					ppro->SaveToDB(hwndDlg, iPageId);
-					ppro->SaveToServer();
+					ppro->SaveOwnInfoToServer(hwndDlg, iPageId);
 				}
 				else if ( !ppro->IsOnline())
 					ppro->ShowNotification(::TranslateT("You are not currently connected to the Skype network. You must be online in order to update your information on the server."));
@@ -534,7 +567,7 @@ static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 	return FALSE;
 }
 
-static INT_PTR CALLBACK ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK CSkypeProto::ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	const unsigned long iPageId = 1;
 	CSkypeProto *ppro = (CSkypeProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -609,8 +642,7 @@ static INT_PTR CALLBACK ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			case PSN_APPLY:
 				if (ppro->IsOnline() && ppro->NeedUpdate)
 				{
-					ppro->SaveToDB(hwndDlg, iPageId);
-					ppro->SaveToServer();
+					ppro->SaveOwnInfoToServer(hwndDlg, iPageId);
 				}
 				else if ( !ppro->IsOnline())
 					ppro->ShowNotification(::TranslateT("You are not currently connected to the Skype network. You must be online in order to update your information on the server."));
@@ -622,7 +654,7 @@ static INT_PTR CALLBACK ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 	return FALSE;
 }
 
-static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK CSkypeProto::HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	const unsigned long iPageId = 2;
 	CSkypeProto *ppro = (CSkypeProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -688,8 +720,8 @@ static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			case PSN_APPLY:
 				if (ppro->IsOnline() && ppro->NeedUpdate)
 				{
-					ppro->SaveToDB(hwndDlg, iPageId);
-					ppro->SaveToServer();
+					//ppro->SaveToDB(hwndDlg, iPageId);
+					ppro->SaveToServer(hwndDlg, iPageId);
 				}
 				else if ( !ppro->IsOnline())
 					ppro->ShowNotification(::TranslateT("You are not currently connected to the Skype network. You must be online in order to update your information on the server."));
@@ -699,168 +731,4 @@ static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		break;
 	}
 	return FALSE;
-}
-
-int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
-{
-	if ((!this->IsProtoContact((HANDLE)lParam)) && lParam)
-		return 0;
-
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
-	odp.flags = ODPF_TCHAR | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
-	odp.hInstance = g_hInstance;
-	odp.dwInitParam = LPARAM(this);
-	odp.position = -1900000000;
-	odp.ptszTitle = m_tszUserName;
-
-	HANDLE hContact = (HANDLE)lParam;
-	if (hContact) {
-		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
-			odp.pfnDlgProc = SkypeDlgProc;
-			odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SKYPE);
-			UserInfo_AddPage(wParam, &odp);
-		}
-	} else {
-		NeedUpdate = 0;
-		odp.pfnDlgProc = ContactSkypeDlgProc;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_CONTACT);
-		odp.ptszTab = LPGENT("Contacts");
-		UserInfo_AddPage(wParam, &odp);
-
-		odp.pfnDlgProc = HomeSkypeDlgProc;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_HOME);
-		odp.ptszTab = LPGENT("Home");
-		UserInfo_AddPage(wParam, &odp);
-
-		odp.pfnDlgProc = PersonalSkypeDlgProc;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_PERSONAL);
-		odp.ptszTab = LPGENT("General");
-		UserInfo_AddPage(wParam, &odp);
-	}
-
-	return 0;
-}
-
-void CSkypeProto::SaveToDB(HWND hwndPage, int iPage)
-{
-	TCHAR text[2048];
-
-	switch (iPage) {
-	// Page 0: Personal
-	case 0:
-		{
-			GetDlgItemText(hwndPage, IDC_FULLNAME, text, SIZEOF(text));
-			if (text && _tcslen(text) > 0)
-				db_set_ws(NULL, this->m_szModuleName, "Nick", text);
-			else
-				db_unset(NULL, this->m_szModuleName, "Nick");
-			GetDlgItemText(hwndPage, IDC_MOOD, text, SIZEOF(text));
-			if (text && _tcslen(text) > 0)
-				db_set_ws(NULL, this->m_szModuleName, "XStatusMsg", text);
-			else
-				db_unset(NULL, this->m_szModuleName, "XStatusMsg");
-			GetDlgItemText(hwndPage, IDC_ABOUT, text, SIZEOF(text));
-			if (text && _tcslen(text) > 0)
-				db_set_ws(NULL, this->m_szModuleName, "About", text);
-			else
-				db_unset(NULL, this->m_szModuleName, "About");
-			GetDlgItemText(hwndPage, IDC_HOMEPAGE, text, SIZEOF(text));
-			if (text && _tcslen(text) > 0)
-				db_set_ws(NULL, this->m_szModuleName, "Homepage", text);
-			else
-				db_unset(NULL, this->m_szModuleName, "Homepage");
-			switch (SendMessage(GetDlgItem(hwndPage, IDC_GENDER), CB_GETCURSEL, 0, 0)) {
-			case 0:
-				db_unset(NULL, this->m_szModuleName, "Gender");
-				break;
-			case 1:
-				db_set_b(NULL, this->m_szModuleName, "Gender", 'M');
-				break;
-			case 2:
-				db_set_b(NULL, this->m_szModuleName, "Gender", 'F');
-				break;
-			}
-			GetDlgItemText(hwndPage, IDC_BIRTH_DAY, text, SIZEOF(text));
-			if (text && _tcslen(text) > 0)
-				db_set_b(NULL, this->m_szModuleName, "BirthDay", _ttoi(text));
-			else
-				db_unset(NULL, this->m_szModuleName, "BirthDay");
-			GetDlgItemText(hwndPage, IDC_BIRTH_MONTH, text, SIZEOF(text));
-			if (text && _tcslen(text) > 0)
-				db_set_b(NULL, this->m_szModuleName, "BirthMonth", _ttoi(text));
-			else
-				db_unset(NULL, this->m_szModuleName, "BirthMonth");
-			GetDlgItemText(hwndPage, IDC_BIRTH_YEAR, text, SIZEOF(text));
-			if (text && _tcslen(text) > 0)
-				db_set_w(NULL, this->m_szModuleName, "BirthYear", _ttoi(text));
-			else
-				db_unset(NULL, this->m_szModuleName, "BirthYear");
-
-			int lang = SendMessage(GetDlgItem(hwndPage, IDC_LANGUAGE), CB_GETCURSEL, 0, 0);
-			wchar_t *key = (wchar_t *)SendMessage(GetDlgItem(hwndPage, IDC_LANGUAGE), CB_GETITEMDATA, lang, 0);
-			std::wstring value = CSkypeProto::languages[key];
-			db_set_ws(NULL, this->m_szModuleName, "Language1", value.c_str());
-		}
-		break;
-
-	// Page 1: Contacts
-	case 1:
-		GetDlgItemText(hwndPage, IDC_EMAIL1, text, SIZEOF(text));
-		if (text && _tcslen(text) > 0)
-			db_set_ws(NULL, this->m_szModuleName, "e-mail0", text);
-		else
-			db_unset(NULL, this->m_szModuleName, "e-mail0");
-		GetDlgItemText(hwndPage, IDC_EMAIL2, text, SIZEOF(text));
-		if (text && _tcslen(text) > 0)
-			db_set_ws(NULL, this->m_szModuleName, "e-mail1", text);
-		else
-			db_unset(NULL, this->m_szModuleName, "e-mail1");
-		GetDlgItemText(hwndPage, IDC_EMAIL3, text, SIZEOF(text));
-		if (text && _tcslen(text) > 0)
-			db_set_ws(NULL, this->m_szModuleName, "e-mail2", text);
-		else
-			db_unset(NULL, this->m_szModuleName, "e-mail2");
-		GetDlgItemText(hwndPage, IDC_MOBPHONE, text, SIZEOF(text));
-		if (text && _tcslen(text) > 0)
-			db_set_ws(NULL, this->m_szModuleName, "Cellular", text);
-		else
-			db_unset(NULL, this->m_szModuleName, "Cellular");
-		GetDlgItemText(hwndPage, IDC_HOMEPHONE, text, SIZEOF(text));
-		if (text && _tcslen(text) > 0)
-			db_set_ws(NULL, this->m_szModuleName, "Phone", text);
-		else
-			db_unset(NULL, this->m_szModuleName, "Phone");
-		GetDlgItemText(hwndPage, IDC_OFFICEPHONE, text, SIZEOF(text));
-		if (text && _tcslen(text) > 0)
-			db_set_ws(NULL, this->m_szModuleName, "CompanyPhone", text);
-		else
-			db_unset(NULL, this->m_szModuleName, "CompanyPhone");
-		break;
-
-	// Page 2: Home
-	case 2:
-		GetDlgItemText(hwndPage, IDC_CITY, text, SIZEOF(text));
-		if (text && _tcslen(text) > 0)
-			db_set_ws(NULL, this->m_szModuleName, "City", text);
-		else
-			db_unset(NULL, this->m_szModuleName, "City");
-		GetDlgItemText(hwndPage, IDC_STATE, text, SIZEOF(text));
-		if (text && _tcslen(text) > 0)
-			db_set_ws(NULL, this->m_szModuleName, "State", text);
-		else
-			db_unset(NULL, this->m_szModuleName, "State");
-		int i = SendMessage(GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETCURSEL, 0, 0);
-		int id = SendMessage(GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETITEMDATA, i, 0);
-		char *countrystr = (char *)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, (WPARAM)id, 0);
-		TCHAR *country = mir_a2t(countrystr);
-		db_set_ws(NULL, this->m_szModuleName, "Country", country);
-		mir_free(country);
-		break;
-	}
-}
-
-void CSkypeProto::SaveToServer()
-{
 }

@@ -107,6 +107,52 @@ int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
+{
+	if ((!this->IsProtoContact((HANDLE)lParam)) && lParam)
+		return 0;
+
+	OPTIONSDIALOGPAGE odp = {0};
+	odp.cbSize = sizeof(odp);
+	odp.flags = ODPF_TCHAR | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
+	odp.hInstance = g_hInstance;
+	odp.dwInitParam = LPARAM(this);
+	odp.position = -1900000000;
+	odp.ptszTitle = this->m_tszUserName;
+
+	HANDLE hContact = (HANDLE)lParam;
+	if (hContact) 
+	{
+		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) 
+		{
+			odp.pfnDlgProc = SkypeDlgProc;
+			odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SKYPE);
+			UserInfo_AddPage(wParam, &odp);
+		}
+	} 
+	else 
+	{
+		NeedUpdate = 0;
+		odp.pfnDlgProc = ContactSkypeDlgProc;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_CONTACT);
+		odp.ptszTab = LPGENT("Contacts");
+		UserInfo_AddPage(wParam, &odp);
+
+		odp.pfnDlgProc = HomeSkypeDlgProc;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_HOME);
+		odp.ptszTab = LPGENT("Home");
+		UserInfo_AddPage(wParam, &odp);
+
+		odp.pfnDlgProc = PersonalSkypeDlgProc;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_PERSONAL);
+		odp.ptszTab = LPGENT("General");
+		UserInfo_AddPage(wParam, &odp);
+	}
+
+	return 0;
+}
+
 int __cdecl CSkypeProto::OnSrmmWindowOpen(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *ev = (MessageWindowEventData*)lParam;

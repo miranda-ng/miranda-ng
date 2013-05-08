@@ -60,9 +60,6 @@
     <ClCompile Include="src\skype_database.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skype_profile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\skype_account.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -112,6 +109,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\skype_transfers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_own_info.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_profile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -165,11 +165,8 @@ public:
 	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 
 	bool	IsOnline();
-	static std::map<std::wstring, std::wstring> languages;
 
 	BYTE NeedUpdate;
-	void SaveToDB(HWND hwndPage, int iPage);
-	void SaveToServer();
 
 	static void ShowNotification(const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
 	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
@@ -180,11 +177,13 @@ protected:
 	CTransfer::Refs transferList;
 	
 	CContactGroup::Ref commonList;
-	CContactGroup::Ref authWaitList;	
+	CContactGroup::Ref authWaitList;
+
+	static std::map<std::wstring, std::wstring> languages;
 
 	// account
-	static wchar_t* LogoutReasons[];
-	static wchar_t* PasswordChangeReasons[];
+	static wchar_t *LogoutReasons[];
+	static wchar_t *PasswordChangeReasons[];
 
 	wchar_t	*login;
 	char	*password;
@@ -334,6 +333,8 @@ protected:
 
 	void __cdecl LoadOwnInfo(void*);
 
+	void SaveOwnInfoToServer(HWND hwndPage, int iPage);
+
 	// utils
 	static wchar_t* ValidationReasons[];
 
@@ -424,7 +425,11 @@ protected:
 	static INT_PTR CALLBACK SkypeMainOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 	static INT_PTR CALLBACK SkypePasswordRequestProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK SkypePasswordChangeProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	static INT_PTR CALLBACK SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+
 };
