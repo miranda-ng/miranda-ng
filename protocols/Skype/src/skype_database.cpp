@@ -1,6 +1,6 @@
 #include "skype_proto.h"
 
-bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char *guid, int flag)
+bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid, int flag)
 {
 	bool result = false;
 
@@ -9,7 +9,7 @@ bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char *gu
 	{
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.cbBlob = ::db_event_getBlobSize(hDbEvent);
-		if (dbei.cbBlob < 32)
+		if (dbei.cbBlob < guid.size())
 			continue;
 
 		mir_ptr<BYTE> blob((PBYTE)::mir_alloc(dbei.cbBlob));
@@ -22,7 +22,7 @@ bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, const char *gu
 		int sendFlag = dbei.flags & DBEF_SENT;
 		if (dbei.eventType == EVENTTYPE_MESSAGE && sendFlag == flag)
 		{
-			if (::memcmp(&dbei.pBlob[dbei.cbBlob - 32], guid, 32) == 0)
+			if (::memcmp(&dbei.pBlob[dbei.cbBlob - 32], guid.data(), guid.size()) == 0)
 			{
 				result = true;
 				break;
@@ -96,7 +96,7 @@ void CSkypeProto::RaiseAuthRequestEvent(DWORD timestamp, CContact::Ref contact)
 	this->AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), PREF_UTF, cbBlob, pBlob);
 }
 
-void CSkypeProto::RaiseMessageReceivedEvent(HANDLE hContact, DWORD timestamp, const char *guid, const char *message, bool isUnreaded)
+void CSkypeProto::RaiseMessageReceivedEvent(HANDLE hContact, DWORD timestamp, SEBinary &guid, const char *message, bool isUnreaded)
 {
 	if ( !isUnreaded)
 		if (this->IsMessageInDB(hContact, timestamp, guid))
@@ -104,26 +104,25 @@ void CSkypeProto::RaiseMessageReceivedEvent(HANDLE hContact, DWORD timestamp, co
 
 	PROTORECVEVENT recv;
 	recv.flags = PREF_UTF;
-	recv.lParam = (LPARAM)guid;
+	recv.lParam = (LPARAM)&guid;
 	recv.timestamp = timestamp;
 	recv.szMessage = ::mir_strdup(message);
-
 	::ProtoChainRecvMsg(hContact, &recv);
 }
 
-void CSkypeProto::RaiseMessageSendedEvent(HANDLE hContact, DWORD timestamp, const char *guid, const char *message, bool isUnreaded)
+void CSkypeProto::RaiseMessageSendedEvent(HANDLE hContact, DWORD timestamp, SEBinary &guid, const char *message, bool isUnreaded)
 {
 	if (this->IsMessageInDB(hContact, timestamp, guid, DBEF_SENT))
 		return;
 
-	int guidLen = (int)::strlen(guid);
+	int guidLen = (int)guid.size();
 
 	int  msgLen = (int)::strlen(message) + 1;
 	char *msg = (char *)::mir_alloc(msgLen + guidLen);
 
 	::strcpy(msg, message);
 	msg[msgLen - 1] = 0;
-	::memcpy((char *)&msg[msgLen], guid, guidLen);
+	::memcpy((char *)&msg[msgLen], guid.data(), guidLen);
 
 	DWORD flags = DBEF_UTF | DBEF_SENT;
 	if ( !isUnreaded)

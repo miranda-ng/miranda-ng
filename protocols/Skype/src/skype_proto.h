@@ -402,19 +402,19 @@ protected:
 	int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
 
 	// database
-	bool IsMessageInDB(HANDLE hContact, DWORD timestamp, const char* guid, int flag = 0);
+	bool IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid, int flag = 0);
 
 	HANDLE AddDBEvent(HANDLE hContact, WORD type, DWORD time, DWORD flags = 0, DWORD cbBlob = 0, PBYTE pBlob = 0);
 	void RaiseMessageReceivedEvent(
 		HANDLE hContact,
 		DWORD timestamp,
-		const char* guid,
+		SEBinary &guid,
 		const char *message,
 		bool isUnreaded = true);
 	void RaiseMessageSendedEvent(
 		HANDLE hContact,
 		DWORD timestamp,
-		const char* guid,
+		SEBinary &guid,
 		const char *message, 
 		bool isUnreaded = true);
 	void RaiseAuthRequestEvent(

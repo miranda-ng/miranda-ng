@@ -8,11 +8,8 @@ int CSkypeProto::OnMessagePreCreate(WPARAM, LPARAM lParam)
 	SEBinary guid;
 	if (message->GetPropGuid(guid))
 	{
-		char *cguid = ::mir_strdup(guid.data());
-		cguid[guid.size()] = 0;
-
 		evt->dbei->pBlob = (PBYTE)::mir_realloc(evt->dbei->pBlob, evt->dbei->cbBlob + guid.size());
-		::memcpy((char *)&evt->dbei->pBlob[evt->dbei->cbBlob], cguid, guid.size());
+		::memcpy((char *)&evt->dbei->pBlob[evt->dbei->cbBlob], guid.data(), guid.size());
 		evt->dbei->cbBlob += (DWORD)guid.size();
 	}
 
@@ -45,13 +42,10 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref &conversation, CMessage::
 	SEBinary guid;
 	message->GetPropGuid(guid);
 
-	char *cguid = ::mir_strdup(guid.data());
-	cguid[guid.size()] = 0;
-
 	this->RaiseMessageReceivedEvent(
 		hContact,
 		timestamp, 
-		cguid,
+		guid,
 		text,
 		status == CMessage::UNCONSUMED_NORMAL);
 }
@@ -93,13 +87,10 @@ void CSkypeProto::OnMessageSended(CConversation::Ref &conversation, CMessage::Re
 	SEBinary guid;
 	message->GetPropGuid(guid);
 
-	char *cguid = ::mir_strdup(guid.data());
-	cguid[guid.size()] = 0;
-
 	this->RaiseMessageSendedEvent(
 		hContact,
 		timestamp,
-		cguid,
+		guid,
 		text,
 		status == CMessage::UNCONSUMED_NORMAL);
 }
