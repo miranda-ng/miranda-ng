@@ -18,7 +18,7 @@ bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid
 
 		int sendFlag = dbei.flags & DBEF_SENT;
 		if (dbei.eventType == EVENTTYPE_MESSAGE && sendFlag == flag)
-			if (::memcmp(&dbei.pBlob[dbei.cbBlob - 32], guid.data(), guid.size()) == 0)
+			if (::memcmp(&dbei.pBlob[dbei.cbBlob - guid.size()], guid.data(), guid.size()) == 0)
 				return true;
 	}
 

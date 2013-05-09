@@ -80,6 +80,11 @@ void CSkypeProto::OnMessageSent(CConversation::Ref &conversation, CMessage::Ref 
 	g_skype->GetContact(data, receiver);
 
 	HANDLE hContact = this->AddContact(receiver);
+	this->SendBroadcast(
+		hContact,
+		ACKTYPE_MESSAGE,
+		sstatus == CMessage::FAILED_TO_SEND ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
+		(HANDLE)message->getOID(), 0);
 			
 	SEBinary guid;
 	message->GetPropGuid(guid);
@@ -90,12 +95,6 @@ void CSkypeProto::OnMessageSent(CConversation::Ref &conversation, CMessage::Ref 
 		guid,
 		text,
 		status == CMessage::UNCONSUMED_NORMAL);
-
-	this->SendBroadcastAsync(
-		hContact,
-		ACKTYPE_MESSAGE,
-		sstatus == CMessage::FAILED_TO_SEND ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
-		(HANDLE)message->getOID(), 0);
 }
 
 void CSkypeProto::OnMessageEvent(CConversation::Ref conversation, CMessage::Ref message)
