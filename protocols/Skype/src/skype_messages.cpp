@@ -38,6 +38,7 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref &conversation, CMessage::
 	g_skype->GetContact(data, author);
 
 	HANDLE hContact = this->AddContact(author);
+	this->UserIsTyping(hContact, PROTOTYPE_SELFTYPING_OFF);
 
 	SEBinary guid;
 	message->GetPropGuid(guid);

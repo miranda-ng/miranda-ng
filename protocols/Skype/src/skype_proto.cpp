@@ -280,7 +280,6 @@ int __cdecl CSkypeProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 {
 	this->Log(L"Incoming message");
 	::db_unset(hContact, "CList", "Hidden");
-	this->UserIsTyping(hContact, PROTOTYPE_SELFTYPING_OFF);
 
 	SEBinary *guid = (SEBinary*)pre->lParam;
 
