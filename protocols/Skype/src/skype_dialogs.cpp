@@ -468,8 +468,10 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 				::mir_sntprintf(date, 3, L"%02d", bmon);
 				::SetDlgItemText(hwndDlg, IDC_BIRTH_MONTH, date);
 			}
-
-			for (int i = 1900; i < 2214; i++)
+			SYSTEMTIME sToday = {0};
+			::GetLocalTime(&sToday);
+			// ages from 10 to 50 is need more?
+			for (size_t i = sToday.wYear - 50; i < sToday.wYear - 10; i++)
 			{
 				::_itow(i, date, 10);
 				::SendMessage(::GetDlgItem(hwndDlg, IDC_BIRTH_YEAR), CB_ADDSTRING, 0, (LPARAM)date);
@@ -494,7 +496,7 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 					::GetDlgItem(hwndDlg, IDC_LANGUAGE), 
 					CB_SETITEMDATA, i++, (LPARAM)&it->first);
 
-				if (it->second.compare(lang) == 0)
+				if (lang && it->second.compare(lang) == 0)
 					::SetDlgItemText(hwndDlg, IDC_LANGUAGE, ::TranslateTS(it->second.c_str()));
 			}
 			
@@ -554,9 +556,7 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 				break;
 			case PSN_APPLY:
 				if (ppro->IsOnline() && ppro->NeedUpdate)
-				{
 					ppro->SaveOwnInfoToServer(hwndDlg, iPageId);
-				}
 				else if ( !ppro->IsOnline())
 					ppro->ShowNotification(::TranslateT("You are not currently connected to the Skype network. You must be online in order to update your information on the server."));
 				break;
@@ -576,52 +576,52 @@ INT_PTR CALLBACK CSkypeProto::ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM
 	case WM_INITDIALOG:
 		if (lParam) {
 			ppro = (CSkypeProto *)lParam;
-			TranslateDialogDefault(hwndDlg);
+			::TranslateDialogDefault(hwndDlg);
 
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+			::SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 			DBVARIANT dbv;
-			if ( !db_get_ts(NULL, ppro->m_szModuleName, "Cellular", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_MOBPHONE, dbv.ptszVal);
-				db_free(&dbv);
+			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "Cellular", &dbv)) {
+				::SetDlgItemText(hwndDlg, IDC_MOBPHONE, dbv.ptszVal);
+				::db_free(&dbv);
 			}
 			else
-				SetDlgItemText(hwndDlg, IDC_MOBPHONE, _T(""));
+				::SetDlgItemText(hwndDlg, IDC_MOBPHONE, _T(""));
 
-			if ( !db_get_ts(NULL, ppro->m_szModuleName, "Phone", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_HOMEPHONE, dbv.ptszVal);
-				db_free(&dbv);
+			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "Phone", &dbv)) {
+				::SetDlgItemText(hwndDlg, IDC_HOMEPHONE, dbv.ptszVal);
+				::db_free(&dbv);
 			}
 			else
-				SetDlgItemText(hwndDlg, IDC_HOMEPHONE, _T(""));
+				::SetDlgItemText(hwndDlg, IDC_HOMEPHONE, _T(""));
 
-			if ( !db_get_ts(NULL, ppro->m_szModuleName, "CompanyPhone", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_OFFICEPHONE, dbv.ptszVal);
-				db_free(&dbv);
+			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "CompanyPhone", &dbv)) {
+				::SetDlgItemText(hwndDlg, IDC_OFFICEPHONE, dbv.ptszVal);
+				::db_free(&dbv);
 			}
 			else
-				SetDlgItemText(hwndDlg, IDC_OFFICEPHONE, _T(""));
+				::SetDlgItemText(hwndDlg, IDC_OFFICEPHONE, _T(""));
 
-			if ( !db_get_ts(NULL, ppro->m_szModuleName, "e-mail0", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_EMAIL1, dbv.ptszVal);
-				db_free(&dbv);
+			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "e-mail0", &dbv)) {
+				::SetDlgItemText(hwndDlg, IDC_EMAIL1, dbv.ptszVal);
+				::db_free(&dbv);
 			}
 			else
-				SetDlgItemText(hwndDlg, IDC_EMAIL1, _T(""));
+				::SetDlgItemText(hwndDlg, IDC_EMAIL1, _T(""));
 
-			if ( !db_get_ts(NULL, ppro->m_szModuleName, "e-mail1", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_EMAIL2, dbv.ptszVal);
-				db_free(&dbv);
+			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "e-mail1", &dbv)) {
+				::SetDlgItemText(hwndDlg, IDC_EMAIL2, dbv.ptszVal);
+				::db_free(&dbv);
 			}
 			else
-				SetDlgItemText(hwndDlg, IDC_EMAIL2, _T(""));
+				::SetDlgItemText(hwndDlg, IDC_EMAIL2, _T(""));
 
-			if ( !db_get_ts(NULL, ppro->m_szModuleName, "e-mail2", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_EMAIL3, dbv.ptszVal);
-				db_free(&dbv);
+			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "e-mail2", &dbv)) {
+				::SetDlgItemText(hwndDlg, IDC_EMAIL3, dbv.ptszVal);
+				::db_free(&dbv);
 			}
 			else
-				SetDlgItemText(hwndDlg, IDC_EMAIL3, _T(""));
+				::SetDlgItemText(hwndDlg, IDC_EMAIL3, _T(""));
 		}
 		break;
 
@@ -629,7 +629,7 @@ INT_PTR CALLBACK CSkypeProto::ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM
 		if ((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE)
 		{
 			ppro->NeedUpdate = 1;
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			::SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
 		break;
 
@@ -637,13 +637,11 @@ INT_PTR CALLBACK CSkypeProto::ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM
 		if (((LPNMHDR)lParam)->idFrom == 0) {
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_PARAMCHANGED:
-				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY *)lParam)->lParam);
+				::SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY *)lParam)->lParam);
 				break;
 			case PSN_APPLY:
 				if (ppro->IsOnline() && ppro->NeedUpdate)
-				{
 					ppro->SaveOwnInfoToServer(hwndDlg, iPageId);
-				}
 				else if ( !ppro->IsOnline())
 					ppro->ShowNotification(::TranslateT("You are not currently connected to the Skype network. You must be online in order to update your information on the server."));
 				break;
@@ -663,34 +661,47 @@ INT_PTR CALLBACK CSkypeProto::HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 	case WM_INITDIALOG:
 		if (lParam) {
 			ppro = (CSkypeProto *)lParam;
-			TranslateDialogDefault(hwndDlg);
+			::TranslateDialogDefault(hwndDlg);
 
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+			::SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 			DBVARIANT dbv;
-			if ( !db_get_ts(NULL, ppro->m_szModuleName, "City", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_CITY, dbv.ptszVal);
-				db_free(&dbv);
+			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "City", &dbv)) {
+				::SetDlgItemText(hwndDlg, IDC_CITY, dbv.ptszVal);
+				::db_free(&dbv);
 			}
 			else
-				SetDlgItemText(hwndDlg, IDC_MOBPHONE, _T(""));
+				::SetDlgItemText(hwndDlg, IDC_MOBPHONE, _T(""));
 
-			if ( !db_get_ts(NULL, ppro->m_szModuleName, "State", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_STATE, dbv.ptszVal);
-				db_free(&dbv);
+			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "State", &dbv)) {
+				::SetDlgItemText(hwndDlg, IDC_STATE, dbv.ptszVal);
+				::db_free(&dbv);
 			}
 			else
-				SetDlgItemText(hwndDlg, IDC_STATE, _T(""));
+				::SetDlgItemText(hwndDlg, IDC_STATE, _T(""));
 
-			mir_ptr<wchar_t> countr( ::db_get_wsa(NULL, ppro->m_szModuleName, "Country"));
-			for (int i = 0; i < g_cbCountries; i++)	{
-				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
-					TCHAR *country = mir_a2t(g_countries[i].szName);
-					int nItem = SendMessage(GetDlgItem(hwndDlg, IDC_COUNTRY), CB_ADDSTRING, 0, (LPARAM)TranslateTS(country));
-					SendMessage(GetDlgItem(hwndDlg, IDC_COUNTRY), CB_SETITEMDATA, nItem, (LPARAM)g_countries[i].id);
-					if (_tcscmp(country, countr) == 0)
-						SetDlgItemText(hwndDlg, IDC_COUNTRY, TranslateTS(country));
-					mir_free(country);
+			mir_ptr<wchar_t> countr(::db_get_wsa(NULL, ppro->m_szModuleName, "Country"));
+			for (int i = 0; i < g_cbCountries; i++)
+			{
+				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0)
+				{
+					wchar_t *country = mir_a2t(g_countries[i].szName);
+					int nItem = ::SendMessage(
+						::GetDlgItem(hwndDlg, IDC_COUNTRY), 
+						CB_ADDSTRING, 
+						0, 
+						(LPARAM)::TranslateTS(country));
+					
+					::SendMessage(
+						::GetDlgItem(hwndDlg, IDC_COUNTRY), 
+						CB_SETITEMDATA, 
+						i, 
+						(LPARAM)g_countries[i].id);
+
+					if (::wcscmp(country, countr) == 0)
+						::SetDlgItemText(hwndDlg, IDC_COUNTRY, TranslateTS(country));
+
+					::mir_free(country);
 				}
 			}
 
@@ -719,10 +730,7 @@ INT_PTR CALLBACK CSkypeProto::HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 				break;
 			case PSN_APPLY:
 				if (ppro->IsOnline() && ppro->NeedUpdate)
-				{
-					//ppro->SaveToDB(hwndDlg, iPageId);
-					//ppro->SaveToServer(hwndDlg, iPageId);
-				}
+					ppro->SaveOwnInfoToServer(hwndDlg, iPageId);
 				else if ( !ppro->IsOnline())
 					ppro->ShowNotification(::TranslateT("You are not currently connected to the Skype network. You must be online in order to update your information on the server."));
 				break;

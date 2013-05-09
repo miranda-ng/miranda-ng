@@ -166,6 +166,8 @@ public:
 
 	bool	IsOnline();
 
+	static void InitLanguages();
+
 	BYTE NeedUpdate;
 
 	static void ShowNotification(const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
@@ -312,7 +314,7 @@ protected:
 	void __cdecl SearchByEmailAsync(void*);
 
 	// profile
-	static std::map<std::wstring, std::wstring> FillLanguages();
+	//static std::map<std::wstring, std::wstring> FillLanguages();
 
 	void	UpdateProfileAvatar(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileAboutText(SEObject *obj, HANDLE hContact = NULL);

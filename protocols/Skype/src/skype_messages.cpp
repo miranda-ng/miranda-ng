@@ -4,7 +4,7 @@ int CSkypeProto::OnMessagePreCreate(WPARAM, LPARAM lParam)
 {
 	MessageWindowEvent *evt = (MessageWindowEvent *)lParam;
 
-	MessageRef message(evt->seq);
+	CMessage *message = g_skype->newMessage(evt->seq);
 	SEBinary guid;
 	if (message->GetPropGuid(guid))
 	{

@@ -14,7 +14,7 @@
 #define __INTERNAL_NAME				"Skype"
 #define __FILENAME					"Skype.dll"
 #define __DESCRIPTION 				"Skype protocol support for Miranda NG."
-#define __AUTHOR					"Unsane, Mataes"
+#define __AUTHOR					"unsane, mataes, ghazan"
 #define __AUTHOREMAIL				"mataes2007@gmail.com"
 #define __AUTHORWEB					"http://miranda-ng.org/"
 #define __COPYRIGHT					"© 2012-2013 Unsane, Mataes"
