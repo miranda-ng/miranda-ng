@@ -2,10 +2,7 @@
 
 bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid, int flag)
 {
-	bool result = false;
-
-	HANDLE hDbEvent = ::db_event_last(hContact);
-	while (hDbEvent) 
+	for (HANDLE hDbEvent = ::db_event_last(hContact); hDbEvent; hDbEvent = ::db_event_prev(hDbEvent))
 	{
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.cbBlob = ::db_event_getBlobSize(hDbEvent);
@@ -21,18 +18,11 @@ bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid
 
 		int sendFlag = dbei.flags & DBEF_SENT;
 		if (dbei.eventType == EVENTTYPE_MESSAGE && sendFlag == flag)
-		{
 			if (::memcmp(&dbei.pBlob[dbei.cbBlob - 32], guid.data(), guid.size()) == 0)
-			{
-				result = true;
-				break;
-			}
-		}
-
-		hDbEvent = ::db_event_prev(hDbEvent);
+				return true;
 	}
 
-	return result;
+	return false;
 }
 
 HANDLE CSkypeProto::AddDBEvent(HANDLE hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
