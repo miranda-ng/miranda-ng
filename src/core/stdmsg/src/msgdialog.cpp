@@ -134,7 +134,7 @@ HANDLE SendMessageDirect(const TCHAR *szMsg, HANDLE hContact, char *szProto)
 
 	HANDLE hNewEvent = db_event_add(hContact, &dbei);
 	msgQueue_add(hContact, sendId, szMsg, hNewEvent);
-	mir_free(sendBuffer);
+	mir_free(dbei.pBlob);
 	return hNewEvent;
 }
 
