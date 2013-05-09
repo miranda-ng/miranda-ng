@@ -3,6 +3,8 @@
 int CSkypeProto::OnMessagePreCreate(WPARAM, LPARAM lParam)
 {
 	MessageWindowEvent *evt = (MessageWindowEvent *)lParam;
+	if ( strcmp(GetContactProto(evt->hContact), this->m_szModuleName))
+		return 0;
 
 	MessageRef message(evt->seq);
 	SEBinary guid;
