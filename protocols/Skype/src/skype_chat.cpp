@@ -717,7 +717,7 @@ void CSkypeProto::OnChatMessageReceived(CConversation::Ref &conversation, CMessa
 	this->RaiseChatEvent(cid, sid, GC_EVENT_MESSAGE, GCEF_ADDTOLOG, 0, NULL, mir_ptr<wchar_t>(::mir_utf8decodeW(text)));
 }
 
-void CSkypeProto::OnChatMessageSended(CConversation::Ref &conversation, CMessage::Ref &message)
+void CSkypeProto::OnChatMessageSent(CConversation::Ref &conversation, CMessage::Ref &message)
 {
 	SEString data;
 

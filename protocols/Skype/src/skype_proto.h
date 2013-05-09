@@ -171,6 +171,9 @@ public:
 	static void ShowNotification(const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
 	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
 
+	int SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam);
+	int SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
+
 protected:
 	CAccount::Ref account;
 	CContact::Refs contactList;
@@ -230,7 +233,7 @@ protected:
 
 	// messages
 	void	OnMessageEvent(CConversation::Ref conversation, CMessage::Ref message);
-	void	OnMessageSended(CConversation::Ref &conversation, CMessage::Ref &message);
+	void	OnMessageSent(CConversation::Ref &conversation, CMessage::Ref &message);
 	void	OnMessageReceived(CConversation::Ref &conversation, CMessage::Ref &message);
 
 	// transfer
@@ -275,7 +278,7 @@ protected:
 	int __cdecl OnGCMenuHook(WPARAM, LPARAM lParam);
 	int __cdecl OnGCEventHook(WPARAM, LPARAM lParam);
 	
-	void	OnChatMessageSended(CConversation::Ref &conversation, CMessage::Ref &message);
+	void	OnChatMessageSent(CConversation::Ref &conversation, CMessage::Ref &message);
 	void	OnChatMessageReceived(CConversation::Ref &conversation, CMessage::Ref &message);
 
 	// contacts
@@ -362,9 +365,6 @@ protected:
 
 	HANDLE	CreateEvent(const char* szService);
 	
-
-	int		SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam);
-	int		SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 	DWORD	SendBroadcastAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam, size_t paramSize = 0);
 
 	void	ForkThread(SkypeThreadFunc, void*);
@@ -411,7 +411,7 @@ protected:
 		SEBinary &guid,
 		const char *message,
 		bool isUnreaded = true);
-	void RaiseMessageSendedEvent(
+	void RaiseMessageSentEvent(
 		HANDLE hContact,
 		DWORD timestamp,
 		SEBinary &guid,

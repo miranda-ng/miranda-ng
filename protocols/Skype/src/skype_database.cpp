@@ -110,7 +110,7 @@ void CSkypeProto::RaiseMessageReceivedEvent(HANDLE hContact, DWORD timestamp, SE
 	::ProtoChainRecvMsg(hContact, &recv);
 }
 
-void CSkypeProto::RaiseMessageSendedEvent(HANDLE hContact, DWORD timestamp, SEBinary &guid, const char *message, bool isUnreaded)
+void CSkypeProto::RaiseMessageSentEvent(HANDLE hContact, DWORD timestamp, SEBinary &guid, const char *message, bool isUnreaded)
 {
 	if (this->IsMessageInDB(hContact, timestamp, guid, DBEF_SENT))
 		return;

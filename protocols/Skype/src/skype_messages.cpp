@@ -50,7 +50,9 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref &conversation, CMessage::
 		status == CMessage::UNCONSUMED_NORMAL);
 }
 
-void CSkypeProto::OnMessageSended(CConversation::Ref &conversation, CMessage::Ref &message)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CSkypeProto::OnMessageSent(CConversation::Ref &conversation, CMessage::Ref &message)
 {
 	SEString data;
 
@@ -78,21 +80,21 @@ void CSkypeProto::OnMessageSended(CConversation::Ref &conversation, CMessage::Re
 
 	HANDLE hContact = this->AddContact(receiver);
 			
-	this->SendBroadcast(
-		hContact,
-		ACKTYPE_MESSAGE,
-		sstatus == CMessage::FAILED_TO_SEND ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
-		(HANDLE)message->getOID(), 0);
-
 	SEBinary guid;
 	message->GetPropGuid(guid);
 
-	this->RaiseMessageSendedEvent(
+	this->RaiseMessageSentEvent(
 		hContact,
 		timestamp,
 		guid,
 		text,
 		status == CMessage::UNCONSUMED_NORMAL);
+
+	this->SendBroadcastAsync(
+		hContact,
+		ACKTYPE_MESSAGE,
+		sstatus == CMessage::FAILED_TO_SEND ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
+		(HANDLE)message->getOID(), 0);
 }
 
 void CSkypeProto::OnMessageEvent(CConversation::Ref conversation, CMessage::Ref message)
@@ -109,7 +111,7 @@ void CSkypeProto::OnMessageEvent(CConversation::Ref conversation, CMessage::Ref 
 			message->GetPropAuthor(author);
 			
 			if (::wcsicmp(mir_ptr<wchar_t>(::mir_utf8decodeW(author)), this->login) == 0)
-				this->OnMessageSended(conversation, message);
+				this->OnMessageSent(conversation, message);
 			else
 				this->OnMessageReceived(conversation, message);
 		}

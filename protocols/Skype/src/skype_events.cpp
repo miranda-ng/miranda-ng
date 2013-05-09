@@ -215,7 +215,7 @@ void CSkypeProto::OnChatEvent(CConversation::Ref &conversation, CMessage::Ref &m
 			message->GetPropAuthor(author);
 			
 			if (::wcsicmp(mir_ptr<wchar_t>(::mir_utf8decodeW(author)), this->login) == 0)
-				this->OnChatMessageSended(conversation, message);
+				this->OnChatMessageSent(conversation, message);
 			else
 				this->OnChatMessageReceived(conversation, message);
 		}
@@ -383,7 +383,7 @@ void CSkypeProto::OnSkypeEvent(CConversation::Ref conversation, CMessage::Ref me
 		{
 			CConversation::TYPE type;
 			conversation->GetPropType(type);
-			if (type == CConversation::DIALOG)
+			if (type == 0 || type == CConversation::DIALOG)
 				this->OnMessageEvent(conversation, message);
 			else
 				this->OnChatEvent(conversation, message);
