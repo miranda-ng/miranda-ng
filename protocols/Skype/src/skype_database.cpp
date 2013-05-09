@@ -27,15 +27,13 @@ bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid
 
 HANDLE CSkypeProto::AddDBEvent(HANDLE hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
 {
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = this->m_szModuleName;
 	dbei.timestamp = timestamp;
 	dbei.eventType = type;
 	dbei.cbBlob = cbBlob;
 	dbei.pBlob = pBlob;
 	dbei.flags = flags;
-
 	return ::db_event_add(hContact, &dbei);
 }
 

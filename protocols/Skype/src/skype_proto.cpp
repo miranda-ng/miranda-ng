@@ -282,24 +282,21 @@ int __cdecl CSkypeProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 	::db_unset(hContact, "CList", "Hidden");
 	this->UserIsTyping(hContact, PROTOTYPE_SELFTYPING_OFF);
 
-	char *guid = (char *)pre->lParam;
-	int guidLen = (int)::strlen(guid);
+	SEBinary *guid = (SEBinary*)pre->lParam;
 
 	char *message = (char *)pre->szMessage;
-	int msgLen = (int)::strlen(message) + 1;
+	size_t msgLen = ::strlen(message) + 1;
 
-	message = (char *)::mir_realloc(message, msgLen + guidLen);
-	::memcpy((char *)&message[msgLen], guid, guidLen);
+	message = (char *)::mir_realloc(message, msgLen + guid->size());
+	::memcpy((char *)&message[msgLen], guid->data(), guid->size());
 
 	return (INT_PTR)this->AddDBEvent(
 		hContact,
 		EVENTTYPE_MESSAGE,
 		pre->timestamp,
 		DBEF_UTF | ((pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0),
-		msgLen + guidLen,
+		DWORD(msgLen + guid->size()),
 		(PBYTE)message);
-
-	//return ::Proto_RecvMessage(hContact, pre);
 }
 
 int __cdecl CSkypeProto::RecvUrl(HANDLE hContact, PROTORECVEVENT *) { return 0; }
