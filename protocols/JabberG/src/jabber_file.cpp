@@ -540,12 +540,12 @@ int filetransfer::create()
 		WaitForSingleObject(hWaitEvent, INFINITE);
 
 	if (fileId == -1) {
-		ppro->Log("Saving to [%s]", std.tszCurrentFile);
+		ppro->Log("Saving to [%S]", std.tszCurrentFile);
 		fileId = _topen(std.tszCurrentFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
 	}
 
 	if (fileId == -1)
-		ppro->Log("Cannot create file '%s' during a file transfer", filefull);
+		ppro->Log("Cannot create file '%S' during a file transfer", filefull);
 	else if (std.currentFileSize != 0)
 		_chsize(fileId, std.currentFileSize);
 
