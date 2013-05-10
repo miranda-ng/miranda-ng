@@ -625,28 +625,13 @@ int __cdecl CSkypeProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST)
 	{
-		if (!::wcsicmp(this->login, gcmi->pszUID))
+		static const struct gc_item Items[] = 
 		{
-			static const struct gc_item Items[] = 
-			{
-				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
-				{ TranslateT("User &history"), 20, MENU_ITEM, FALSE },
-				{ _T(""), 100, MENU_SEPARATOR, FALSE },
-				{ TranslateT("&Leave chat session"), 110, MENU_ITEM, FALSE }
-			};
-			gcmi->nItems = SIZEOF(Items);
-			gcmi->Item = (gc_item*)Items;
-		}
-		else
-		{
-			static const struct gc_item Items[] = 
-			{
-				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
-				{ TranslateT("User &history"), 20, MENU_ITEM, FALSE },
-			};
-			gcmi->nItems = SIZEOF(Items);
-			gcmi->Item = (gc_item*)Items;
-		}
+			{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
+			{ TranslateT("User &history"), 20, MENU_ITEM, FALSE },
+		};
+		gcmi->nItems = SIZEOF(Items);
+		gcmi->Item = (gc_item*)Items;
 	}
 
 	return 0;

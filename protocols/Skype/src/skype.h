@@ -72,3 +72,6 @@ class CSkype;
 
 extern CSkype *g_skype;
 extern HINSTANCE g_hInstance;
+
+extern int g_cbCountries;
+extern struct CountryListEntry* g_countries;

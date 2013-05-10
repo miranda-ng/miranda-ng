@@ -265,7 +265,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		return 1;
 	}
 
-	g_skype = new CSkype(4);
+	g_skype = new CSkype(1);
 	TransportInterface::Status status = g_skype->init(keyPair, "127.0.0.1", port);
 	if (status != TransportInterface::OK)
 	{
