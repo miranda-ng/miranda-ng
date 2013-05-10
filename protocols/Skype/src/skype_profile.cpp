@@ -107,8 +107,7 @@ void CSkypeProto::UpdateProfileCountry(SEObject *obj, HANDLE hContact)
 	mir_ptr<char> isocode(hContact ? ::mir_strdup(obj->GetStrProp(Contact::P_COUNTRY)) : ::mir_strdup(obj->GetStrProp(Account::P_COUNTRY)));
 	if ( !::strlen(isocode))
 	{
-		country = (char *)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, 0xFFFF, 0);
-		::db_set_ws(hContact, this->m_szModuleName, "Country", ::mir_a2t(country));
+		::db_unset(hContact, this->m_szModuleName, "Country");
 	}
 	else
 	{
@@ -179,25 +178,21 @@ void CSkypeProto::UpdateProfileHomepage(SEObject *obj, HANDLE hContact)
 void CSkypeProto::UpdateProfileLanguages(SEObject *obj, HANDLE hContact)
 {
 	mir_ptr<wchar_t> isocodes(hContact ? ::mir_utf8decodeW(obj->GetStrProp(Contact::P_LANGUAGES)) : ::mir_utf8decodeW(obj->GetStrProp(Account::P_LANGUAGES)));
-	if ( !::wcslen(isocodes))
+
+	::db_unset(hContact, this->m_szModuleName, "Language1");
+	::db_unset(hContact, this->m_szModuleName, "Language2");
+	::db_unset(hContact, this->m_szModuleName, "Language3");
+
+	StringList langs = isocodes;
+	for (size_t i = 0; i < langs.size(); i++)
 	{
-		::db_unset(hContact, this->m_szModuleName, "Language1");
-		::db_unset(hContact, this->m_szModuleName, "Language2");
-		::db_unset(hContact, this->m_szModuleName, "Language3");
-	}
-	else
-	{
-		StringList langs = isocodes;
-		for (size_t i = 0; i < langs.size(); i++)
+		if (CSkypeProto::languages.count(langs[i]))
 		{
-			if (CSkypeProto::languages.count(langs[i]))
-			{
-				std::stringstream ss;
-				ss << "Language" << i + 1;
-				std::string key = ss.str();
-				std::wstring val = CSkypeProto::languages[langs[i]];
-				::db_set_ws(hContact, this->m_szModuleName, key.c_str(), val.c_str());
-			}
+			std::stringstream ss;
+			ss << "Language" << i + 1;
+			std::string key = ss.str();
+			std::wstring val = CSkypeProto::languages[langs[i]];
+			::db_set_ws(hContact, this->m_szModuleName, key.c_str(), val.c_str());
 		}
 	}
 }

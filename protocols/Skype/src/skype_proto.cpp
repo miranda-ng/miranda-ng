@@ -6,6 +6,8 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 
 	this->rememberPassword = false;
 
+	::InitializeCriticalSection(&this->cl_loading);
+
 	this->SetAllContactStatus(ID_STATUS_OFFLINE);
 
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
@@ -26,6 +28,8 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 
 CSkypeProto::~CSkypeProto()
 {
+	::DeleteCriticalSection(&this->cl_loading);
+
 	::mir_free(this->login);
 	if (this->password)
 	{

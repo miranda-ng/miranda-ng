@@ -24,9 +24,9 @@ SEString CContact::GetNick()
 	CContact::AVAILABILITY availability;
 	this->GetPropAvailability(availability);
 	if (availability == CContact::SKYPEOUT)
-		result = this->GetSid();
+		this->GetPropPstnnumber(result);
 	else
-		this->GetPropDisplayname(result);
+		this->GetPropFullname(result);
 	return result;
 }
 

@@ -3,7 +3,7 @@
 void __cdecl CSkypeProto::LoadOwnInfo(void *)
 {
 	mir_ptr<wchar_t> nick( ::db_get_wsa(NULL, this->m_szModuleName, "Nick"));
-	if (nick == NULL)
+	if ( !nick)
 	{
 		SEString data;
 		this->account->GetPropFullname(data);
@@ -11,7 +11,7 @@ void __cdecl CSkypeProto::LoadOwnInfo(void *)
 		nick = ::mir_utf8decodeW(data);
 		::db_set_ws(NULL, this->m_szModuleName, "Nick", nick);
 	}
-	//this->UpdateProfileAvatar(this->account.fetch());
+
 	this->UpdateProfile(this->account.fetch());
 }
 
@@ -25,7 +25,8 @@ void CSkypeProto::SaveOwnInfoToServer(HWND hwndPage, int iPage)
 	case 0:
 		{
 			::GetDlgItemText(hwndPage, IDC_FULLNAME, text, SIZEOF(text));
-			this->account->SetStrProperty(Account::P_FULLNAME, (char*)mir_ptr<char>(::mir_utf8encodeW(text)));
+			if (this->account->SetStrProperty(Account::P_FULLNAME, (char*)mir_ptr<char>(::mir_utf8encodeW(text))))
+				::db_set_ws(NULL, this->m_szModuleName, "Nick", text);
 
 			::GetDlgItemText(hwndPage, IDC_MOOD, text, SIZEOF(text));
 			this->account->SetStrProperty(Account::P_MOOD_TEXT, (char*)mir_ptr<char>(::mir_utf8encodeW(text)));
@@ -49,12 +50,10 @@ void CSkypeProto::SaveOwnInfoToServer(HWND hwndPage, int iPage)
 			this->account->SetIntProperty(Account::P_BIRTHDAY, value);
 
 			int lang = ::SendMessage(GetDlgItem(hwndPage, IDC_LANGUAGE), CB_GETCURSEL, 0, 0);
-			if (lang != -1) {
-				std::wstring key = *(std::wstring *)SendMessage(GetDlgItem(hwndPage, IDC_LANGUAGE), CB_GETITEMDATA, lang, 0);
-				this->account->SetStrProperty(
-					Account::P_LANGUAGES, 
-					(char*)mir_ptr<char>(::mir_utf8encodeW(CSkypeProto::languages[key].c_str())));
-			}
+			std::wstring key = *(std::wstring *)SendMessage(GetDlgItem(hwndPage, IDC_LANGUAGE), CB_GETITEMDATA, lang, 0);
+			this->account->SetStrProperty(
+				Account::P_LANGUAGES, 
+				(char*)mir_ptr<char>(::mir_utf8encodeW(key.c_str())));
 		}
 		break;
 
@@ -74,7 +73,7 @@ void CSkypeProto::SaveOwnInfoToServer(HWND hwndPage, int iPage)
 			::wcscat(emails, L" ");
 			::wcscat(emails, text);
 		}
-		this->account->SetStrProperty(Account::P_EMAILS, (char*)mir_ptr<char>(::mir_utf8encodeW(text)));
+		this->account->SetStrProperty(Account::P_EMAILS, (char*)mir_ptr<char>(::mir_utf8encodeW(emails)));
 
 		::GetDlgItemText(hwndPage, IDC_MOBPHONE, text, SIZEOF(text));
 		this->account->SetStrProperty(Account::P_PHONE_MOBILE, (char*)mir_ptr<char>(::mir_utf8encodeW(text)));
@@ -95,10 +94,21 @@ void CSkypeProto::SaveOwnInfoToServer(HWND hwndPage, int iPage)
 		::GetDlgItemText(hwndPage, IDC_STATE, text, SIZEOF(text));
 		this->account->SetStrProperty(Account::P_PROVINCE, (char*)mir_ptr<char>(::mir_utf8encodeW(text)));
 
-		int i = ::SendMessage(GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETCURSEL, 0, 0);
-		int id = ::SendMessage(GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETITEMDATA, i, 0);
-		char *countrystr = (char *)::CallService(MS_UTILS_GETCOUNTRYBYNUMBER, (WPARAM)id, 0);
-		this->account->SetStrProperty(Account::P_COUNTRY, countrystr);
+		int i = ::SendMessage(::GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETCURSEL, 0, 0);
+		char *iso = (char *)::SendMessage(::GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETITEMDATA, i, 0);
+		this->account->SetStrProperty(Account::P_COUNTRY, iso);
+
+		HWND ctrl = ::GetDlgItem(hwndPage, IDC_TIMEZONE);
+		i = ::SendMessage(ctrl, CB_GETCURSEL, 0, 0);
+		HANDLE hTimeZone = (HANDLE)::SendMessage(ctrl, CB_GETITEMDATA, i, 0);
+
+		SYSTEMTIME my_st, utc_ts;
+		tmi.getTimeZoneTime(hTimeZone, &my_st);
+		tmi.getTimeZoneTime(UTC_TIME_HANDLE, &utc_ts);
+
+		uint diff_to_UTC_in_seconds = (my_st.wHour - utc_ts.wHour) * 3600 + (my_st.wMinute - utc_ts.wMinute) * 60;
+		uint timezone = 24*3600 + diff_to_UTC_in_seconds;
+		this->account->SetIntProperty(Account::P_TIMEZONE, timezone);
 
 		break;
 	}

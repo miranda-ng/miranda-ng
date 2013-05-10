@@ -184,6 +184,8 @@ protected:
 	CContactGroup::Ref commonList;
 	CContactGroup::Ref authWaitList;
 
+	CRITICAL_SECTION cl_loading;
+
 	static std::map<std::wstring, std::wstring> languages;
 
 	// account

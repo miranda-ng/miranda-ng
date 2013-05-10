@@ -192,17 +192,14 @@ bool CSkypeProto::IsChatRoom(HANDLE hContact)
 
 HANDLE CSkypeProto::GetChatRoomByCid(const wchar_t *cid)
 {
-	HANDLE hContact = ::db_find_first();
-	while (hContact)
+	for (HANDLE hContact = ::db_find_first(this->m_szModuleName); hContact; hContact = ::db_find_next(hContact, this->m_szModuleName))
 	{
-		if  (this->IsProtoContact(hContact) && this->IsChatRoom(hContact))
+		if  (this->IsChatRoom(hContact))
 		{
 			mir_ptr<wchar_t> chatID(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
-			if ( lstrcmp(cid, chatID) == 0)
+			if (::lstrcmp(cid, chatID) == 0)
 				return hContact;
 		}
-
-		hContact = ::db_find_next(hContact);
 	}
 
 	return 0;

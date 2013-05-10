@@ -3,6 +3,7 @@
 
 wchar_t *CSkypeProto::LogoutReasons[] =
 {
+	LPGENW("")															/* ---							*/,
 	LPGENW("LOGOUT_CALLED")												/* LOGOUT_CALLED				*/,
 	LPGENW("HTTPS_PROXY_AUTH_FAILED")									/* HTTPS_PROXY_AUTH_FAILED		*/,
 	LPGENW("SOCKS_PROXY_AUTH_FAILED")									/* SOCKS_PROXY_AUTH_FAILED		*/,
@@ -235,7 +236,7 @@ void CSkypeProto::OnLoggedIn()
 
 	this->LoadOwnInfo(this);
 	this->LoadChatList(this);
-	this->LoadContactList(reinterpret_cast<void *>(static_cast<int>(true)));
+	this->LoadContactList(this);
 	this->LoadAuthWaitList(this);
 	
 	fetch(this->transferList);
@@ -266,19 +267,19 @@ void CSkypeProto::SetServerStatus(int iNewStatus)
 void CSkypeProto::OnCblUpdated()
 {
 	// reload our CL after skype CL fully synced
-	this->LoadContactList(reinterpret_cast<void *>(static_cast<int>(false)));
+	this->LoadContactList(NULL);
 }
 
 void CSkypeProto::OnLoggedOut(CAccount::LOGOUTREASON reason)
 {
 	this->Log(L"Failed to login: %s", CSkypeProto::LogoutReasons[reason]);
 
-	this->m_iStatus = ID_STATUS_OFFLINE;
+	this->SetStatus(ID_STATUS_OFFLINE);
 	this->SendBroadcast(
 		ACKTYPE_LOGIN, ACKRESULT_FAILED, 
 		NULL, CSkypeProto::SkypeToMirandaLoginError(reason));
 
-	this->ShowNotification(CSkypeProto::LogoutReasons[reason - 1]);
+	this->ShowNotification(CSkypeProto::LogoutReasons[reason]);
 
 	if (this->rememberPassword && reason == CAccount::INCORRECT_PASSWORD)
 	{

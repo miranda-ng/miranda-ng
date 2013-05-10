@@ -485,7 +485,7 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 			mir_ptr<wchar_t> lang( ::db_get_wsa(NULL, ppro->m_szModuleName, "Language1"));
 			for (auto it = CSkypeProto::languages.begin(); it != CSkypeProto::languages.end(); ++it)
 			{
-				/*int nItem = */::SendMessage(
+				::SendMessage(
 					::GetDlgItem(hwndDlg, IDC_LANGUAGE), 
 					CB_ADDSTRING, 
 					0, 
@@ -493,10 +493,13 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 				
 				::SendMessage(
 					::GetDlgItem(hwndDlg, IDC_LANGUAGE), 
-					CB_SETITEMDATA, i++, (LPARAM)&it->first);
+					CB_SETITEMDATA, 
+					i, 
+					(LPARAM)&it->first);
 
 				if (lang && it->second.compare(lang) == 0)
-					::SetDlgItemText(hwndDlg, IDC_LANGUAGE, ::TranslateTS(it->second.c_str()));
+					::SendMessage(GetDlgItem(hwndDlg, IDC_LANGUAGE), CB_SETCURSEL, i, 0);
+				i++;
 			}
 			
 			// nick
@@ -694,22 +697,20 @@ INT_PTR CALLBACK CSkypeProto::HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 					::SendMessage(
 						::GetDlgItem(hwndDlg, IDC_COUNTRY), 
 						CB_SETITEMDATA, 
-						i, 
-						(LPARAM)g_countries[i].id);
+						nItem, 
+						(LPARAM)&g_countries[i].ISOcode);
 
 					if (countr && ::wcscmp(country, countr) == 0)
-						::SetDlgItemText(hwndDlg, IDC_COUNTRY, TranslateTS(country));
+						::SendMessage(GetDlgItem(hwndDlg, IDC_COUNTRY), CB_SETCURSEL, nItem, 0);
 
 					::mir_free(country);
 				}
 			}
 
-			tmi.prepareList((HANDLE)lParam, GetDlgItem(hwndDlg, IDC_TIMEZONE), TZF_PLF_CB);
-			//HANDLE hTimeZone = tmi.createByContact ? tmi.createByContact(NULL, 0) : 0;
-			//LPCTSTR TzDescr = tmi.getTzDescription(tmi.getTzName(hTimeZone));
-			//SetDlgItemText(hwndDlg, IDC_TIMEZONE, TzDescr);
-
-			//BYTE nTz = ::db_get_b(NULL, ppro->m_szModuleName, "Timezone", 0);
+			tmi.prepareList((HANDLE)lParam, ::GetDlgItem(hwndDlg, IDC_TIMEZONE), TZF_PLF_CB);
+			HANDLE hTimeZone = tmi.createByContact ? tmi.createByContact(NULL, 0) : 0;
+			LPCTSTR TzDescr = tmi.getTzDescription(tmi.getTzName(hTimeZone));
+			::SetDlgItemText(hwndDlg, IDC_TIMEZONE, TzDescr);
 		}
 		break;
 

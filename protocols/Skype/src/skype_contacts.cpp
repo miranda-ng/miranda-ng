@@ -164,7 +164,7 @@ HANDLE CSkypeProto::GetContactBySid(const wchar_t *sid)
 		if ( !this->IsChatRoom(hContact))
 		{
 			mir_ptr<wchar_t> contactSid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
-			if (::wcsicmp(contactSid, sid) == 0)
+			if (::lstrcmpi(contactSid, sid) == 0)
 				return hContact;
 		}
 	}
@@ -205,7 +205,7 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 		hContact = (HANDLE)::CallService(MS_DB_CONTACT_ADD, 0, 0);
 		::CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
 
-		mir_ptr<wchar_t> nick( ::mir_utf8decodeW(contact->GetNick()));
+		mir_ptr<wchar_t> nick(::mir_utf8decodeW(contact->GetNick()));
 
 		switch(availability) {
 		case CContact::SKYPEOUT:
@@ -243,7 +243,10 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 
 void __cdecl CSkypeProto::LoadContactList(void* data)
 {
+	::EnterCriticalSection(&this->cl_loading);
+
 	this->Log(L"Updating contacts list");
+
 	bool isFirstLoad = data != NULL;
 
 	g_skype->GetHardwiredContactGroup(CContactGroup::ALL_BUDDIES, this->commonList);
@@ -260,7 +263,7 @@ void __cdecl CSkypeProto::LoadContactList(void* data)
 		contact->SetOnContactChangedCallback(
 			(CContact::OnContactChanged)&CSkypeProto::OnContactChanged, 
 			this);
-		mir_ptr<wchar_t> sid( ::mir_utf8decodeW(contact->GetSid()));
+
 		HANDLE hContact = this->AddContact(contact);
 
 		if ( !isFirstLoad)
@@ -272,16 +275,15 @@ void __cdecl CSkypeProto::LoadContactList(void* data)
 			mir_ptr<wchar_t> nick( ::db_get_wsa(hContact, "CList", "MyHandle"));
 			if ( !nick || !::wcslen(nick))
 			{
-				SEString data;
-				contact->GetPropFullname(data);
-
-				nick = ::mir_utf8decodeW(data);
+				nick = ::mir_utf8decodeW(contact->GetNick());
 				::db_set_ws(hContact, "CList", "MyHandle", nick);
 			}
 
 			this->UpdateProfile(contact.fetch(), hContact);
 		}
 	}
+	
+	::LeaveCriticalSection(&this->cl_loading);
 }
 
 void __cdecl CSkypeProto::LoadChatList(void*)
@@ -305,13 +307,6 @@ void __cdecl CSkypeProto::LoadChatList(void*)
 			this->JoinToChat(conversation, false);
 		}
 	}
-
-	/*CConversation::Refs conversations;
-	g_skype->GetConversationList(conversations);
-	for (uint i = 0; i < conversations.size(); i++)
-	{
-		conversations[i]->Delete();
-	}*/
 }
 
 void __cdecl CSkypeProto::LoadAuthWaitList(void*)
@@ -346,13 +341,10 @@ bool CSkypeProto::IsContactOnline(HANDLE hContact)
 
 void CSkypeProto::SetAllContactStatus(int status)
 {
-	HANDLE hContact = ::db_find_first();
-	while (hContact)
+	for (HANDLE hContact = ::db_find_first(this->m_szModuleName); hContact; hContact = ::db_find_next(hContact, this->m_szModuleName))
 	{
-		if (this->IsProtoContact(hContact) && ::db_get_b(hContact, this->m_szModuleName, "IsSkypeOut", 0) == 0)
+		if (::db_get_b(hContact, this->m_szModuleName, "IsSkypeOut", 0) == 0)
 			::db_set_w(hContact, this->m_szModuleName, SKYPE_SETTINGS_STATUS, status);
-
-		hContact = ::db_find_next(hContact);
 	}
 }
 
