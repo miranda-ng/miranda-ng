@@ -84,21 +84,7 @@ void CSkypeProto::RaiseAuthRequestEvent(DWORD timestamp, CContact::Ref contact)
 	this->AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), PREF_UTF, cbBlob, pBlob);
 }
 
-void CSkypeProto::RaiseMessageReceivedEvent(HANDLE hContact, DWORD timestamp, SEBinary &guid, const char *message, bool isUnreaded)
-{
-	if ( !isUnreaded)
-		if (this->IsMessageInDB(hContact, timestamp, guid))
-			return;
-
-	PROTORECVEVENT recv;
-	recv.flags = PREF_UTF;
-	recv.lParam = (LPARAM)&guid;
-	recv.timestamp = timestamp;
-	recv.szMessage = ::mir_strdup(message);
-	::ProtoChainRecvMsg(hContact, &recv);
-}
-
-void CSkypeProto::RaiseMessageSentEvent(HANDLE hContact, DWORD timestamp, SEBinary &guid, const char *message, bool isUnreaded)
+void CSkypeProto::RaiseMessageSentEvent(HANDLE hContact, DWORD timestamp, SEBinary &guid, const char *message, bool isUnread)
 {
 	if (this->IsMessageInDB(hContact, timestamp, guid, DBEF_SENT))
 		return;
@@ -113,7 +99,7 @@ void CSkypeProto::RaiseMessageSentEvent(HANDLE hContact, DWORD timestamp, SEBina
 	::memcpy((char *)&msg[msgLen], guid.data(), guidLen);
 
 	DWORD flags = DBEF_UTF | DBEF_SENT;
-	if ( !isUnreaded)
+	if ( !isUnread)
 		flags |= DBEF_READ;
 
 	this->AddDBEvent(

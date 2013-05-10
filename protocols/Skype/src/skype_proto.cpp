@@ -285,26 +285,20 @@ int __cdecl CSkypeProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 	this->Log(L"Incoming message");
 	::db_unset(hContact, "CList", "Hidden");
 
-	SEBinary *guid = (SEBinary*)pre->lParam;
+	ReadMessageParam *param = (ReadMessageParam*)pre->lParam;
 
 	char *message = (char *)pre->szMessage;
 	size_t msgLen = ::strlen(message) + 1;
 
-	message = (char *)::mir_realloc(message, msgLen + guid->size());
-	::memcpy((char *)&message[msgLen], guid->data(), guid->size());
-
-	CMessage::Ref skype_message;
-	g_skype->GetMessageByGuid(*guid, skype_message);
-
-	CMessage::TYPE messageType;
-	skype_message->GetPropType(messageType);
+	message = (char *)::mir_realloc(message, msgLen + param->guid.size());
+	::memcpy((char *)&message[msgLen], param->guid.data(), param->guid.size());
 
 	return (INT_PTR)this->AddDBEvent(
 		hContact,
-		messageType == CMessage::POSTED_TEXT ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_EMOTE,
+		param->msgType == CMessage::POSTED_TEXT ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_EMOTE,
 		pre->timestamp,
 		DBEF_UTF | ((pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0),
-		DWORD(msgLen + guid->size()),
+		DWORD(msgLen + param->guid.size()),
 		(PBYTE)message);
 }
 

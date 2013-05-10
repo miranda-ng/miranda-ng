@@ -20,6 +20,12 @@ struct _tag_iconList
 	HANDLE		Handle;
 };
 
+struct ReadMessageParam
+{
+	SEBinary& guid;
+	CMessage::TYPE msgType;
+};
+
 struct InviteChatParam
 {
 	wchar_t		*id;
@@ -409,18 +415,12 @@ protected:
 	bool IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid, int flag = 0);
 
 	HANDLE AddDBEvent(HANDLE hContact, WORD type, DWORD time, DWORD flags = 0, DWORD cbBlob = 0, PBYTE pBlob = 0);
-	void RaiseMessageReceivedEvent(
-		HANDLE hContact,
-		DWORD timestamp,
-		SEBinary &guid,
-		const char *message,
-		bool isUnreaded = true);
 	void RaiseMessageSentEvent(
 		HANDLE hContact,
 		DWORD timestamp,
 		SEBinary &guid,
 		const char *message,
-		bool isUnreaded = true);
+		bool isUnread = true);
 	void RaiseAuthRequestEvent(
 		DWORD timestamp,
 		CContact::Ref contact);
@@ -435,5 +435,4 @@ protected:
 	static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
 };

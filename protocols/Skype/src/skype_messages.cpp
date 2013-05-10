@@ -59,13 +59,18 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref &conversation, CMessage::
 
 	SEBinary guid;
 	message->GetPropGuid(guid);
+	ReadMessageParam param = { guid, messageType };
 
-	this->RaiseMessageReceivedEvent(
-		hContact,
-		timestamp, 
-		guid,
-		text,
-		status == CMessage::UNCONSUMED_NORMAL);
+	if (status != CMessage::UNCONSUMED_NORMAL)
+		if (this->IsMessageInDB(hContact, timestamp, guid))
+			return;
+
+	PROTORECVEVENT recv;
+	recv.flags = PREF_UTF;
+	recv.lParam = (LPARAM)&param;
+	recv.timestamp = timestamp;
+	recv.szMessage = ::mir_strdup(text);
+	::ProtoChainRecvMsg(hContact, &recv);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
