@@ -145,7 +145,7 @@ void CSkypeProto::SetAccountSettings()
 	this->Log(L"Setting port number to %d", port);
 	g_skype->SetInt(SETUPKEY_PORT, port);
 
-	bool useAlternativePorts = (bool)::db_get_b(NULL, this->m_szModuleName, "UseAlternativePorts", 1);
+	bool useAlternativePorts = ::db_get_b(NULL, this->m_szModuleName, "UseAlternativePorts", 1) > 0;
 	if (useAlternativePorts)
 		this->Log(L"Setting listening of alternative ports (80, 443)");
 	g_skype->SetInt(SETUPKEY_DISABLE_PORT80, (int)!useAlternativePorts);
