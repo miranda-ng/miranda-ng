@@ -293,9 +293,15 @@ int __cdecl CSkypeProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 	message = (char *)::mir_realloc(message, msgLen + guid->size());
 	::memcpy((char *)&message[msgLen], guid->data(), guid->size());
 
+	CMessage::Ref skype_message;
+	g_skype->GetMessageByGuid(*guid, skype_message);
+
+	CMessage::TYPE messageType;
+	skype_message->GetPropType(messageType);
+
 	return (INT_PTR)this->AddDBEvent(
 		hContact,
-		EVENTTYPE_MESSAGE,
+		messageType == CMessage::POSTED_TEXT ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_EMOTE,
 		pre->timestamp,
 		DBEF_UTF | ((pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0),
 		DWORD(msgLen + guid->size()),

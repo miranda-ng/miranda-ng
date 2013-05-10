@@ -419,7 +419,7 @@ protected:
 		HANDLE hContact,
 		DWORD timestamp,
 		SEBinary &guid,
-		const char *message, 
+		const char *message,
 		bool isUnreaded = true);
 	void RaiseAuthRequestEvent(
 		DWORD timestamp,

@@ -10,9 +10,24 @@ int CSkypeProto::OnMessagePreCreate(WPARAM, LPARAM lParam)
 	SEBinary guid;
 	if (message->GetPropGuid(guid))
 	{
-		evt->dbei->pBlob = (PBYTE)::mir_realloc(evt->dbei->pBlob, evt->dbei->cbBlob + guid.size());
-		::memcpy((char *)&evt->dbei->pBlob[evt->dbei->cbBlob], guid.data(), guid.size());
-		evt->dbei->cbBlob += (DWORD)guid.size();
+		CMessage::TYPE messageType;
+		message->GetPropType(messageType);
+
+		if (messageType == CMessage::POSTED_TEXT)
+		{
+			evt->dbei->pBlob = (PBYTE)::mir_realloc(evt->dbei->pBlob, evt->dbei->cbBlob + guid.size());
+			::memcpy((char *)&evt->dbei->pBlob[evt->dbei->cbBlob], guid.data(), guid.size());
+			evt->dbei->cbBlob += (DWORD)guid.size();
+		}
+		else if (messageType == CMessage::POSTED_EMOTE)
+		{
+			evt->dbei->pBlob = (PBYTE)::mir_realloc(evt->dbei->pBlob, evt->dbei->cbBlob + guid.size() - 4);
+			::memcpy((char *)&evt->dbei->pBlob[0], (char *)&evt->dbei->pBlob[4], evt->dbei->cbBlob - 4);
+			::memcpy((char *)&evt->dbei->pBlob[evt->dbei->cbBlob - 4], guid.data(), guid.size());
+			evt->dbei->cbBlob += (DWORD)guid.size() - 4;
+
+			evt->dbei->eventType = SKYPE_DB_EVENT_TYPE_EMOTE;
+		}
 	}
 
 	return 1;

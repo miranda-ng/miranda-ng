@@ -17,7 +17,7 @@ bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid
 			break;
 
 		int sendFlag = dbei.flags & DBEF_SENT;
-		if (dbei.eventType == EVENTTYPE_MESSAGE && sendFlag == flag)
+		if ((dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == SKYPE_DB_EVENT_TYPE_EMOTE) && sendFlag == flag)
 			if (::memcmp(&dbei.pBlob[dbei.cbBlob - guid.size()], guid.data(), guid.size()) == 0)
 				return true;
 	}
@@ -118,7 +118,7 @@ void CSkypeProto::RaiseMessageSentEvent(HANDLE hContact, DWORD timestamp, SEBina
 
 	this->AddDBEvent(
 		hContact, 
-		EVENTTYPE_MESSAGE, 
+		EVENTTYPE_MESSAGE,
 		timestamp, 
 		flags, 
 		msgLen + guidLen, 
