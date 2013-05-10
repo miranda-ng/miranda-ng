@@ -371,6 +371,21 @@ int __cdecl CSkypeProto::SetApparentMode(HANDLE hContact, int mode) { return 0; 
 
 int CSkypeProto::SetStatus(int new_status)
 {
+	switch (new_status) 
+	{
+		case ID_STATUS_OCCUPIED: 
+			new_status = ID_STATUS_DND; 
+		break;
+		case ID_STATUS_FREECHAT: 
+			new_status = ID_STATUS_ONLINE; 
+		break;
+		case ID_STATUS_ONTHEPHONE: 
+		case ID_STATUS_OUTTOLUNCH: 
+		case ID_STATUS_NA: 
+			new_status = ID_STATUS_AWAY; 
+		break;
+	}
+	
 	if (new_status == this->m_iDesiredStatus)
 		return 0;
 
