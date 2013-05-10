@@ -271,7 +271,7 @@ void CSkypeProto::OnCblUpdated()
 
 void CSkypeProto::OnLoggedOut(CAccount::LOGOUTREASON reason)
 {
-	this->Log(L"Failed to login: %s", CSkypeProto::SkypeToMirandaLoginError(reason));
+	this->Log(L"Failed to login: %s", CSkypeProto::LogoutReasons[reason]);
 
 	this->m_iStatus = ID_STATUS_OFFLINE;
 	this->SendBroadcast(

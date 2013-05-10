@@ -1,5 +1,5 @@
 #define __MAJOR_VERSION				0
-#define __MINOR_VERSION				0
+#define __MINOR_VERSION				11
 #define __RELEASE_NUM				0
 #define __BUILD_NUM					1
 
@@ -17,4 +17,4 @@
 #define __AUTHOR					"unsane, mataes, ghazan"
 #define __AUTHOREMAIL				"mataes2007@gmail.com"
 #define __AUTHORWEB					"http://miranda-ng.org/"
-#define __COPYRIGHT					"© 2012-2013 Unsane, Mataes"
+#define __COPYRIGHT					"© 2012-2013 Miranda NG team"

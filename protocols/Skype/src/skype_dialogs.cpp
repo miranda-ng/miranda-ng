@@ -471,7 +471,7 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 			SYSTEMTIME sToday = {0};
 			::GetLocalTime(&sToday);
 			// ages from 10 to 50 is need more?
-			for (size_t i = sToday.wYear - 50; i < sToday.wYear - 10; i++)
+			for (WORD i = sToday.wYear - 50; i < sToday.wYear - 10; i++)
 			{
 				::_itow(i, date, 10);
 				::SendMessage(::GetDlgItem(hwndDlg, IDC_BIRTH_YEAR), CB_ADDSTRING, 0, (LPARAM)date);
@@ -698,7 +698,7 @@ INT_PTR CALLBACK CSkypeProto::HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 						i, 
 						(LPARAM)g_countries[i].id);
 
-					if (::wcscmp(country, countr) == 0)
+					if (countr && ::wcscmp(country, countr) == 0)
 						::SetDlgItemText(hwndDlg, IDC_COUNTRY, TranslateTS(country));
 
 					::mir_free(country);
@@ -709,6 +709,8 @@ INT_PTR CALLBACK CSkypeProto::HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 			//HANDLE hTimeZone = tmi.createByContact ? tmi.createByContact(NULL, 0) : 0;
 			//LPCTSTR TzDescr = tmi.getTzDescription(tmi.getTzName(hTimeZone));
 			//SetDlgItemText(hwndDlg, IDC_TIMEZONE, TzDescr);
+
+			//BYTE nTz = ::db_get_b(NULL, ppro->m_szModuleName, "Timezone", 0);
 		}
 		break;
 
