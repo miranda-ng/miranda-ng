@@ -438,4 +438,54 @@ void __cdecl CSkypeProto::SearchByNamesAsync(void* arg)
 {
 	//todo: write me
 	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT *)arg;
+
+	std::string nick = ::mir_utf8encodeW(psr->nick);
+	std::string fName = ::mir_utf8encodeW(psr->firstName);
+	std::string lName = " "; lName += ::mir_utf8encodeW(psr->lastName);
+
+	CContactSearch::Ref search;
+	g_skype->CreateContactSearch(search);
+	search.fetch();
+	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYNAMES);
+	search->SetOnContactFindedCallback(
+		(CContactSearch::OnContactFinded)&CSkypeProto::OnContactFinded);
+	search->SetOnSearchCompleatedCallback(
+		(CContactSearch::OnSearchCompleted)&CSkypeProto::OnSearchCompleted);
+
+	bool valid;
+	if (nick.length() != 0)
+	{
+		search->AddStrTerm(
+			Contact::P_FULLNAME,
+			CContactSearch::CONTAINS_WORD_PREFIXES,
+			nick.c_str(), 
+			valid,
+			true);
+	}
+	if (fName.length() != 0)
+	{
+		search->AddOr();
+		search->AddStrTerm(
+			Contact::P_FULLNAME,
+			CContactSearch::CONTAINS_WORD_PREFIXES,
+			fName.c_str(), 
+			valid,
+			true);
+	}
+	if (lName.length() != 0)
+	{		
+		search->AddOr();
+		search->AddStrTerm(
+			Contact::P_FULLNAME,
+			CContactSearch::CONTAINS_WORD_PREFIXES,
+			lName.c_str(), 
+			valid,
+			true);
+	}
+
+	if (!search->Submit())
+		return; 
+
+	search->BlockWhileSearch();
+	search->Release();
 }
