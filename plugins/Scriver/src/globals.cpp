@@ -456,6 +456,7 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 	MessageWindowEvent evt = { sizeof(evt), (int)item->hSendId, item->hContact, &dbei };
 	NotifyEventHooks(hHookWinWrite, 0, (LPARAM)&evt);
 
+	item->sendBuffer = (char*)dbei.pBlob;
 	db_event_add(item->hContact, &dbei);
 
 	if (item->hwndErrorDlg != NULL)

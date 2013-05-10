@@ -104,17 +104,9 @@ entry_found:
 	}
 
 	SendJob &job = m_jobs[iFound];
-	int iLength = iLen;
-	if (iLength > 0) {
-		if (job.szSendBuffer == NULL) {
-			if (iLength < HISTORY_INITIAL_ALLOCSIZE)
-				iLength = HISTORY_INITIAL_ALLOCSIZE;
-			job.szSendBuffer = (char*)mir_alloc(iLength);
-		}
-		else job.szSendBuffer = (char*)mir_realloc(job.szSendBuffer, iLength);
+	job.szSendBuffer = (char*)mir_alloc(iLen);
+	CopyMemory(job.szSendBuffer, dat->sendBuffer, iLen);
 
-		CopyMemory(job.szSendBuffer, dat->sendBuffer, iLen);
-	}
 	job.dwFlags = dwFlags;
 	job.dwTime = time(NULL);
 
@@ -748,6 +740,7 @@ inform_and_discard:
 	MessageWindowEvent evt = { sizeof(evt), (int)job.hSendId, job.hOwner, &dbei };
 	NotifyEventHooks(PluginConfig.m_event_WriteEvent, 0, (LPARAM)&evt);
 
+	job.szSendBuffer = (char*)dbei.pBlob;
 	HANDLE hNewEvent = db_event_add(job.hOwner, &dbei);
 
 	if (m_pContainer)
