@@ -64,7 +64,7 @@
 #define CMI_AUTH_REQUEST 2
 #define CMI_AUTH_GRANT 3
 
-#define CMI_TEMS_COUNT 3
+#define CMI_TEMS_COUNT 4
 
 #define SMI_CHAT_INVITE 1
 
