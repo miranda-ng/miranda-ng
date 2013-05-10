@@ -41,7 +41,7 @@ CTransfer* CSkype::newTransfer(int oid)
 	return new CTransfer(oid, this); 
 }
 
-CContactSearch*	CSkype::newContactSearch(int oid)
+CContactSearch* CSkype::newContactSearch(int oid)
 {
 	return new CContactSearch(oid, this);
 }
@@ -73,6 +73,6 @@ void CSkype::OnMessage (
 	const MessageRef & supersedesHistoryMessage,
 	const ConversationRef & conversation)
 {
-	if (this->proto)
+	if (this->proto && this->onMessagedCallback)
 		(proto->*onMessagedCallback)(conversation, message);
 }
