@@ -159,17 +159,14 @@ bool CSkypeProto::IsProtoContact(HANDLE hContact)
 
 HANDLE CSkypeProto::GetContactBySid(const wchar_t *sid)
 {
-	HANDLE hContact = ::db_find_first();
-	while (hContact)
+	for (HANDLE hContact = ::db_find_first(this->m_szModuleName); hContact; hContact = ::db_find_next(hContact, this->m_szModuleName))
 	{
-		if (this->IsProtoContact(hContact) && !this->IsChatRoom(hContact))
+		if ( !this->IsChatRoom(hContact))
 		{
 			mir_ptr<wchar_t> contactSid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
-			if ( lstrcmp(contactSid, sid) == 0)
+			if (::wcsicmp(contactSid, sid) == 0)
 				return hContact;
 		}
-
-		hContact = ::db_find_next(hContact);
 	}
 
 	return 0;
@@ -263,7 +260,7 @@ void __cdecl CSkypeProto::LoadContactList(void* data)
 		contact->SetOnContactChangedCallback(
 			(CContact::OnContactChanged)&CSkypeProto::OnContactChanged, 
 			this);
-
+		mir_ptr<wchar_t> sid( ::mir_utf8decodeW(contact->GetSid()));
 		HANDLE hContact = this->AddContact(contact);
 
 		if ( !isFirstLoad)
