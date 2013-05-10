@@ -274,11 +274,12 @@ void CSkypeProto::OnLoggedOut(CAccount::LOGOUTREASON reason)
 {
 	this->Log(L"Failed to login: %s", CSkypeProto::LogoutReasons[reason]);
 
-	this->SetStatus(ID_STATUS_OFFLINE);
-	this->SendBroadcast(
-		ACKTYPE_LOGIN, ACKRESULT_FAILED, 
-		NULL, CSkypeProto::SkypeToMirandaLoginError(reason));
+	if (this->m_iStatus == ID_STATUS_CONNECTING)
+		this->SendBroadcast(
+			ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL,
+			CSkypeProto::SkypeToMirandaLoginError(reason));
 
+	this->SetStatus(ID_STATUS_OFFLINE);
 	this->ShowNotification(CSkypeProto::LogoutReasons[reason]);
 
 	if (this->rememberPassword && reason == CAccount::INCORRECT_PASSWORD)
@@ -309,13 +310,9 @@ void CSkypeProto::OnAccountChanged(int prop)
 		if (loginStatus == CAccount::LOGGED_OUT)
 		{
 			CAccount::LOGOUTREASON reason;
-			if ( !this->account->GetPropLogoutreason(reason))
-				break;
-
-			if (reason != CAccount::LOGOUT_CALLED)
-			{
-				this->OnLoggedOut(reason);
-			}
+			if (this->account->GetPropLogoutreason(reason))
+				if (reason != CAccount::LOGOUT_CALLED)
+					this->OnLoggedOut(reason);
 		}
 		break;
 
