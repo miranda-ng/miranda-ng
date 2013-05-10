@@ -451,7 +451,7 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 				::SendMessage(GetDlgItem(hwndDlg, IDC_BIRTH_DAY), CB_ADDSTRING, 0, (LPARAM)date);
 			}
 			BYTE bday = ::db_get_b(NULL, ppro->m_szModuleName, "BirthDay", 0);
-			if (bday > 1 && bday < 32)
+			if (bday > 0 && bday < 32)
 			{
 				::mir_sntprintf(date, 3, L"%02d", bday);
 				::SetDlgItemText(hwndDlg, IDC_BIRTH_DAY, date);
@@ -463,7 +463,7 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 				::SendMessage(::GetDlgItem(hwndDlg, IDC_BIRTH_MONTH), CB_ADDSTRING, 0, (LPARAM)date);
 			}
 			BYTE bmon = ::db_get_b(NULL, ppro->m_szModuleName, "BirthMonth", 0);
-			if (bmon > 1 && bmon < 13)
+			if (bmon > 0 && bmon < 13)
 			{
 				::mir_sntprintf(date, 3, L"%02d", bmon);
 				::SetDlgItemText(hwndDlg, IDC_BIRTH_MONTH, date);
@@ -475,7 +475,6 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 			{
 				::_itow(i, date, 10);
 				::SendMessage(::GetDlgItem(hwndDlg, IDC_BIRTH_YEAR), CB_ADDSTRING, 0, (LPARAM)date);
-
 			}
 			WORD byear = ::db_get_w(NULL, ppro->m_szModuleName, "BirthYear", 0);
 			if (byear > 1900 && bmon < 2214)
