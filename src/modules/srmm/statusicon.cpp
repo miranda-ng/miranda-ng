@@ -79,8 +79,9 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact == NULL) {
+		mir_free(p->sid.szModule);
 		memcpy(&p->sid, sid, sizeof(p->sid));
-		replaceStr(p->sid.szModule, sid->szModule);
+		p->sid.szModule = mir_strdup(sid->szModule);
 
 		mir_free(p->sid.szTooltip);
 		p->sid.tszTooltip = (sid->flags & MBF_UNICODE) ? mir_u2t(sid->wszTooltip) : mir_a2t(sid->szTooltip);
