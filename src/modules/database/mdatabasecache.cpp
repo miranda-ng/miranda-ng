@@ -71,6 +71,8 @@ DBCachedContact* MDatabaseCache::AddContactToCache(HANDLE hContact)
 
 DBCachedContact* MDatabaseCache::GetCachedContact(HANDLE hContact)
 {
+	mir_cslock lck(m_cs);
+
 	int index = m_lContacts.getIndex((DBCachedContact*)&hContact);
 	return (index == -1) ? NULL : m_lContacts[index];
 }
