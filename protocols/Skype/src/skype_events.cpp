@@ -244,9 +244,8 @@ void CSkypeProto::OnChatMessageSent(CConversation::Ref &conversation, CMessage::
 	conversation->GetPropIdentity(data);
 	mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
 
-	mir_ptr<wchar_t> nick( ::db_get_wsa(NULL, this->m_szModuleName, "Nick"));
-	if (::wcsicmp(nick, L"") == 0)
-		nick = ::db_get_wsa(NULL, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
+	message->GetPropAuthor(data);
+	mir_ptr<wchar_t> sid( ::mir_utf8decodeW(data));
 
 	CMessage::TYPE messageType;
 	message->GetPropType(messageType);
@@ -254,7 +253,7 @@ void CSkypeProto::OnChatMessageSent(CConversation::Ref &conversation, CMessage::
 	//this->SendChatMessage(cid, nick, mir_ptr<wchar_t>(::mir_utf8decodeW(text)));
 	this->RaiseChatEvent(
 		cid, 
-		nick, 
+		sid, 
 		messageType == CMessage::POSTED_TEXT ? /*GC_EVENT_MESSAGE */ 0x0040 : /*GC_EVENT_ACTION */ 0x0200,
 		/*GCEF_ADDTOLOG*/ 0x0001, 
 		0, 

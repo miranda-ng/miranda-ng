@@ -192,17 +192,23 @@ bool CSkypeProto::IsChatRoom(HANDLE hContact)
 
 HANDLE CSkypeProto::GetChatRoomByCid(const wchar_t *cid)
 {
-	for (HANDLE hContact = ::db_find_first(this->m_szModuleName); hContact; hContact = ::db_find_next(hContact, this->m_szModuleName))
+	HANDLE hContact = NULL;
+
+	::EnterCriticalSection(&this->contact_search_lock);
+
+	for (hContact = ::db_find_first(this->m_szModuleName); hContact; hContact = ::db_find_next(hContact, this->m_szModuleName))
 	{
 		if  (this->IsChatRoom(hContact))
 		{
 			mir_ptr<wchar_t> chatID(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
 			if (::lstrcmp(cid, chatID) == 0)
-				return hContact;
+				break;
 		}
 	}
 
-	return 0;
+	::LeaveCriticalSection(&this->contact_search_lock);
+
+	return hContact;
 }
 
 HANDLE CSkypeProto::AddChatRoom(CConversation::Ref conversation)
@@ -449,9 +455,12 @@ void CSkypeProto::LeaveChat(const wchar_t *cid)
 void CSkypeProto::RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt, DWORD flags, DWORD itemData, const wchar_t *status, const wchar_t *message)
 {
 	HANDLE hContact = this->GetContactBySid(sid);
-	mir_ptr<wchar_t> nick( hContact ? 
+	mir_ptr<wchar_t> nick(::db_get_wsa(hContact, this->m_szModuleName, "Nick"));
+	if (!nick)
+		nick = ::mir_wstrdup(sid);
+	/*mir_ptr<wchar_t> nick( hContact ? 
 		::mir_a2u((char *)::CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(hContact), 0)) : 
-		::mir_wstrdup(sid));
+		::mir_wstrdup(sid));*/
 
 	GCDEST gcd = { this->m_szModuleName, { NULL }, evt };
 	gcd.ptszID = ::mir_wstrdup(cid);

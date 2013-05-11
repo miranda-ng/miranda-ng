@@ -8,6 +8,11 @@ void __cdecl CSkypeProto::LoadOwnInfo(void *)
 		SEString data;
 		this->account->GetPropFullname(data);
 
+		if (data.length() == 0)
+		{
+			this->account->GetPropSkypename(data);
+		}
+
 		nick = ::mir_utf8decodeW(data);
 		::db_set_ws(NULL, this->m_szModuleName, "Nick", nick);
 	}

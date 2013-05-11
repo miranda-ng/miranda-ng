@@ -6,7 +6,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 
 	this->rememberPassword = false;
 
-	::InitializeCriticalSection(&this->cl_loading);
+	::InitializeCriticalSection(&this->contact_search_lock);
 
 	this->SetAllContactStatus(ID_STATUS_OFFLINE);
 
@@ -28,7 +28,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 
 CSkypeProto::~CSkypeProto()
 {
-	::DeleteCriticalSection(&this->cl_loading);
+	::DeleteCriticalSection(&this->contact_search_lock);
 
 	::mir_free(this->login);
 	if (this->password)

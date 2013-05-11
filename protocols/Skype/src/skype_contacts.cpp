@@ -159,17 +159,23 @@ bool CSkypeProto::IsProtoContact(HANDLE hContact)
 
 HANDLE CSkypeProto::GetContactBySid(const wchar_t *sid)
 {
-	for (HANDLE hContact = ::db_find_first(this->m_szModuleName); hContact; hContact = ::db_find_next(hContact, this->m_szModuleName))
+	HANDLE hContact = NULL;
+
+	::EnterCriticalSection(&this->contact_search_lock);
+
+	for (hContact = ::db_find_first(this->m_szModuleName); hContact; hContact = ::db_find_next(hContact, this->m_szModuleName))
 	{
 		if ( !this->IsChatRoom(hContact))
 		{
 			mir_ptr<wchar_t> contactSid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
 			if (::lstrcmpi(contactSid, sid) == 0)
-				return hContact;
+				break;
 		}
 	}
 
-	return 0;
+	::LeaveCriticalSection(&this->contact_search_lock);
+
+	return hContact;
 }
 
 HANDLE CSkypeProto::GetContactFromAuthEvent(HANDLE hEvent)
@@ -207,7 +213,8 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 
 		mir_ptr<wchar_t> nick(::mir_utf8decodeW(contact->GetNick()));
 
-		switch(availability) {
+		switch(availability) 
+		{
 		case CContact::SKYPEOUT:
 			::db_set_b(hContact, this->m_szModuleName, "IsSkypeOut", 1);
 			break;
@@ -243,8 +250,6 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 
 void __cdecl CSkypeProto::LoadContactList(void* data)
 {
-	::EnterCriticalSection(&this->cl_loading);
-
 	this->Log(L"Updating contacts list");
 
 	bool isFirstLoad = data != NULL;
@@ -282,8 +287,6 @@ void __cdecl CSkypeProto::LoadContactList(void* data)
 			this->UpdateProfile(contact.fetch(), hContact);
 		}
 	}
-	
-	::LeaveCriticalSection(&this->cl_loading);
 }
 
 void __cdecl CSkypeProto::LoadChatList(void*)
@@ -341,11 +344,15 @@ bool CSkypeProto::IsContactOnline(HANDLE hContact)
 
 void CSkypeProto::SetAllContactStatus(int status)
 {
+	::EnterCriticalSection(&this->contact_search_lock);
+
 	for (HANDLE hContact = ::db_find_first(this->m_szModuleName); hContact; hContact = ::db_find_next(hContact, this->m_szModuleName))
 	{
 		if (::db_get_b(hContact, this->m_szModuleName, "IsSkypeOut", 0) == 0)
 			::db_set_w(hContact, this->m_szModuleName, SKYPE_SETTINGS_STATUS, status);
 	}
+
+	::LeaveCriticalSection(&this->contact_search_lock);
 }
 
 void CSkypeProto::OnSearchCompleted(HANDLE hSearch)
