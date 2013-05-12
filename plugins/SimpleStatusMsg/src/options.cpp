@@ -110,7 +110,6 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 	case WM_INITDIALOG:
 		{
 			int	val, i, index;
-			DBVARIANT dbv;
 
 			TranslateDialogDefault(hwndDlg);
 
@@ -138,11 +137,8 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 						val = db_get_b(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(i, "Flags"), STATUS_DEFAULT);
 						data->status_msg[0].flags[i - ID_STATUS_ONLINE] = val;
-						if (db_get_ts(NULL, "SRAway", StatusModeToDbSetting(i, "Default"), &dbv))
-							dbv.ptszVal = mir_tstrdup(GetDefaultMessage(i));
-						lstrcpy(data->status_msg[0].msg[i - ID_STATUS_ONLINE], dbv.ptszVal);
-						mir_free(dbv.ptszVal);
-						db_free(&dbv);
+						mir_ptr<TCHAR> text = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(i, "Default"));
+						lstrcpyn(data->status_msg[0].msg[i - ID_STATUS_ONLINE], (text == NULL) ? GetDefaultMessage(i) : text, 1024);
 
 						for (j = 0; j < accounts->count; j++)
 						{
@@ -153,11 +149,8 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 							val = db_get_b(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(i, setting), STATUS_DEFAULT);
 							data->status_msg[j+1].flags[i-ID_STATUS_ONLINE] = val;
 							mir_snprintf(setting, SIZEOF(setting), "%sDefault", accounts->pa[j]->szModuleName);
-							if (db_get_ts(NULL, "SRAway", StatusModeToDbSetting(i, setting), &dbv))
-								dbv.ptszVal = mir_tstrdup(GetDefaultMessage(i));
-							lstrcpy(data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE], dbv.ptszVal);
-							mir_free(dbv.ptszVal);
-							db_free(&dbv);
+							text = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(i, setting));
+							lstrcpyn(data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE], (text == NULL) ? GetDefaultMessage(i) : text, 1024);
 						}
 					}
 				}
@@ -183,7 +176,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				data->proto_ok = TRUE;
 
 				index = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_ADDSTRING, 0, (LPARAM)TranslateT("Global status change"));
-				//				SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_SETITEMDATA, index, 0);
+
 				if (index != CB_ERR && index != CB_ERRSPACE)
 				{
 					data->proto_msg[0].msg = NULL;
@@ -209,17 +202,12 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					if (index != CB_ERR && index != CB_ERRSPACE)
 					{
 						mir_snprintf(setting, SIZEOF(setting), "Proto%sDefault", accounts->pa[i]->szModuleName);
-						if (!db_get_ts(NULL, "SimpleStatusMsg", setting, &dbv))
-						{
-							data->proto_msg[i+1].msg = mir_tstrdup(dbv.ptszVal);
-							db_free(&dbv);
-						}
-						else
-							data->proto_msg[i+1].msg = NULL;
+						data->proto_msg[i+1].msg = db_get_tsa(NULL, "SimpleStatusMsg", setting);
 
 						mir_snprintf(setting, SIZEOF(setting), "Proto%sFlags", accounts->pa[i]->szModuleName);
 						val = db_get_b(NULL, "SimpleStatusMsg", setting, PROTO_DEFAULT);
 						data->proto_msg[i+1].flags = val;
+
 						mir_snprintf(setting, SIZEOF(setting), "Proto%sMaxLen", accounts->pa[i]->szModuleName);
 						val = db_get_w(NULL, "SimpleStatusMsg", setting, 1024);
 						data->proto_msg[i+1].max_length = val;
@@ -229,13 +217,11 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 				if (accounts->statusMsgCount == 1)
 				{
-					//					ShowWindow(GetDlgItem(hwndDlg, IDC_BOPTPROTO), SW_HIDE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTPROTO), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), FALSE);
 					SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_SETCURSEL, 1, 0);
 				}
-				else
-					SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_SETCURSEL, 0, 0);
+				else SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_SETCURSEL, 0, 0);
 
 				SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_CBOPTPROTO, CBN_SELCHANGE), (LPARAM)GetDlgItem(hwndDlg, IDC_CBOPTPROTO));
 			}
