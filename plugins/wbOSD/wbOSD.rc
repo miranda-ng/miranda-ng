@@ -1,0 +1,188 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Slovak resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_SKY)
+#ifdef _WIN32
+LANGUAGE LANG_SLOVAK, SUBLANG_DEFAULT
+#pragma code_page(1250)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG1 DIALOGEX 0, 0, 316, 250
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Radio1",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,21,22,8,8
+    CONTROL         "Radio1",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,39,22,8,
+                    8
+    CONTROL         "Radio1",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,59,22,8,
+                    8
+    CONTROL         "Radio1",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,21,33,8,
+                    8
+    CONTROL         "Radio1",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,39,33,8,
+                    8
+    CONTROL         "Radio1",IDC_RADIO6,"Button",BS_AUTORADIOBUTTON,59,33,8,
+                    8
+    CONTROL         "Radio1",IDC_RADIO7,"Button",BS_AUTORADIOBUTTON,21,45,8,
+                    8
+    CONTROL         "Radio1",IDC_RADIO8,"Button",BS_AUTORADIOBUTTON,39,45,8,
+                    8
+    CONTROL         "Radio1",IDC_RADIO9,"Button",BS_AUTORADIOBUTTON,59,45,8,
+                    8
+    PUSHBUTTON      "Select font",IDC_BUTTON1,80,17,68,14
+    PUSHBUTTON      "Text color",IDC_BUTTON2,175,91,68,14
+    PUSHBUTTON      "Background color",IDC_BUTTON4,11,182,67,14
+    CONTROL         "Transparent",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,11,199,72,10
+    CONTROL         "Radio1",IDC_RADIO10,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,21,99,8,8
+    CONTROL         "Radio1",IDC_RADIO11,"Button",BS_AUTORADIOBUTTON,39,99,8,
+                    8
+    CONTROL         "Radio1",IDC_RADIO12,"Button",BS_AUTORADIOBUTTON,59,99,8,
+                    8
+    CONTROL         "Radio1",IDC_RADIO13,"Button",BS_AUTORADIOBUTTON,21,110,
+                    8,8
+    CONTROL         "Radio1",IDC_RADIO14,"Button",BS_AUTORADIOBUTTON,39,110,
+                    8,8
+    CONTROL         "Radio1",IDC_RADIO15,"Button",BS_AUTORADIOBUTTON,59,110,
+                    8,8
+    CONTROL         "Radio1",IDC_RADIO16,"Button",BS_AUTORADIOBUTTON,21,121,
+                    8,8
+    CONTROL         "Radio1",IDC_RADIO17,"Button",BS_AUTORADIOBUTTON,39,121,
+                    8,8
+    CONTROL         "Radio1",IDC_RADIO18,"Button",BS_AUTORADIOBUTTON,59,121,
+                    8,8
+    PUSHBUTTON      "Shadow color",IDC_BUTTON3,80,92,67,14
+    CONTROL         "Alternative shadow",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,13,135,133,10
+    EDITTEXT        IDC_EDIT1,79,148,27,14,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "Shadow align",IDC_STATIC,13,89,62,43
+    GROUPBOX        "General",IDC_STATIC,6,0,150,66
+    GROUPBOX        "Shadow",IDC_STATIC,5,70,151,99
+    GROUPBOX        "Align",IDC_STATIC,13,13,61,43
+    LTEXT           "Shadow distance:",IDC_STATIC,10,151,64,8,
+                    SS_PATHELLIPSIS,WS_EX_RIGHT
+    GROUPBOX        "Other",IDC_STATIC,5,171,152,75
+    LTEXT           "Alpha:",IDC_STATIC,92,183,60,8,SS_PATHELLIPSIS
+    GROUPBOX        "Announce",IDC_STATIC,162,0,150,246
+    LTEXT           "Timeout (ms):",IDC_STATIC,91,213,62,8,SS_PATHELLIPSIS
+    EDITTEXT        IDC_EDIT5,91,224,27,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_TREE1,"SysTreeView32",TVS_DISABLEDRAGDROP | 
+                    TVS_NOTOOLTIPS | WS_BORDER | WS_TABSTOP | 0x4000,170,22,
+                    138,55
+    CONTROL         "Show",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    13,80,85,10
+    CONTROL         "Show events",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,167,110,139,10
+    CONTROL         "Status changes",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,167,10,136,10
+    PUSHBUTTON      "Show testing OSD",IDC_BUTTON5,11,224,67,14
+    CONTROL         "Show my status changes",IDC_CHECK7,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,175,80,133,10
+    CONTROL         "Show message window after click",IDC_CHECK2,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,167,156,138,10
+    CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,87,193,45,15
+    LTEXT           "Static",IDC_ALPHATXT,136,195,17,8
+    PUSHBUTTON      "Text color",IDC_BUTTON6,175,121,68,14
+    EDITTEXT        IDC_EDIT2,214,137,81,14,ES_AUTOHSCROLL
+    LTEXT           "Format:",IDC_STATIC,177,140,35,8
+    PUSHBUTTON      "?",IDC_BUTTON7,298,137,10,14
+    CONTROL         "",IDC_TREE2,"SysTreeView32",TVS_DISABLEDRAGDROP | 
+                    TVS_NOTOOLTIPS | WS_BORDER | WS_TABSTOP | 0x4000,170,182,
+                    138,59
+    LTEXT           "Show when my status is:",IDC_STATIC,168,171,139,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DIALOG1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 243
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Slovak resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
