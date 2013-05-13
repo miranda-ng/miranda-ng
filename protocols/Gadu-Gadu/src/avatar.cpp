@@ -25,16 +25,16 @@
 
 //////////////////////////////////////////////////////////
 // Avatars support
+
 void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 {
 	int tPathLen;
 	TCHAR *path = (TCHAR*)alloca(cbLen * sizeof(TCHAR));
 	TCHAR *avatartype = NULL;
 
-	if (hAvatarsFolder == NULL || FoldersGetCustomPathT(hAvatarsFolder, path, cbLen, _T(""))) {
-		mir_ptr<TCHAR> tmpPath( Utils_ReplaceVarsT( _T("%miranda_avatarcache%")));
-		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%s"), (TCHAR*)tmpPath, m_tszUserName);
-	} else {
+	if (hAvatarsFolder == NULL || FoldersGetCustomPathT(hAvatarsFolder, path, cbLen, _T("")))
+		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST( _T("%miranda_avatarcache%")), m_szModuleName);
+	else {
 		_tcscpy(pszDest, path);
 		tPathLen = (int)_tcslen(pszDest);
 	}
@@ -65,9 +65,8 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 			mir_free(avatarHashT);
 			db_free(&dbv);
 		}
-	} else {
-		mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s avatar.%s"), m_tszUserName, avatartype);
 	}
+	else mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%S avatar.%s"), m_szModuleName, avatartype);
 }
 
 void GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
