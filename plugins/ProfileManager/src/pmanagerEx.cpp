@@ -9,11 +9,12 @@ There is no warranty.
 
 #include "Common.h"
 
-HINSTANCE hInst;
+#define SRV_LOAD_PM    "Database/LoadPM"
+#define SRV_CHANGE_PM  "Database/ChangePM"
+#define SRV_CHECK_DB   "Database/CheckDb"
+#define SRV_RESTART_ME "System/RestartMe"
 
-TCHAR fn[MAX_PATH];
-TCHAR lmn[MAX_PATH];
-TCHAR* pathn;
+HINSTANCE hInst;
 int hLangpack;
 
 PLUGININFOEX pluginInfo={
@@ -35,14 +36,19 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static INT_PTR ChangePM(WPARAM wParam, LPARAM lParam)
 {
+	TCHAR fn[MAX_PATH];
 	GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
 	ShellExecute(0, _T("open"), fn, _T("/ForceShowPM"), _T(""), 1);
 	CallService("CloseAction", 0, 0);
@@ -51,6 +57,7 @@ static INT_PTR ChangePM(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR LoadPM(WPARAM wParam, LPARAM lParam)
 {
+	TCHAR fn[MAX_PATH];
 	GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
 	ShellExecute(0, _T("open"), fn, _T("/ForceShowPM"), _T(""), 1);
 	return 0;
@@ -77,56 +84,39 @@ static INT_PTR RestartMe(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Load profile"),   SRV_LOAD_PM,    IDI_LoadPM    },
+	{ LPGEN("Change profile"), SRV_CHANGE_PM,  IDI_ChangePM  },
+	{ LPGEN("Check database"), SRV_CHECK_DB,   IDI_Dbchecker },
+	{ LPGEN("Restart"),        SRV_RESTART_ME, IDI_Restart   }
+};
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	CreateServiceFunction("Database/LoadPM", LoadPM);
+	Icon_Register(hInst, LPGEN("Profile manager"), iconList, SIZEOF(iconList));
 
-   // !!!!!!!! check it later
+	CreateServiceFunction(SRV_LOAD_PM, LoadPM);
+	CreateServiceFunction(SRV_CHECK_DB, CheckDb);
+	CreateServiceFunction(SRV_CHANGE_PM, ChangePM);
+	CreateServiceFunction(SRV_RESTART_ME, RestartMe);
+
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -500200000;
-	mi.flags = CMIF_TCHAR;
-	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LoadPM));
-	mi.ptszPopupName = LPGENT("Database");
-	mi.ptszName = LPGENT("Load profile");
-	mi.pszService = "Database/LoadPM";
-	Menu_AddMainMenuItem(&mi);
+	mi.pszPopupName = LPGEN("Database");
 
-	CreateServiceFunction("Database/ChangePM", ChangePM);
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
-	mi.position = -500200000;
-	mi.flags = CMIF_TCHAR;
-	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ChangePM));
-	mi.ptszPopupName = LPGENT("Database");
-	mi.ptszName = LPGENT("Change profile");
-	mi.pszService = "Database/ChangePM";
-	Menu_AddMainMenuItem(&mi);
+	for (int i=0; i < SIZEOF(iconList); i++) {
+		mi.pszName = iconList[i].szDescr;
+		mi.pszService = iconList[i].szName;
+		mi.icolibItem = iconList[i].hIcolib;
+		if (i == 3)
+			mi.pszPopupName = NULL;
+		Menu_AddMainMenuItem(&mi);
+	}
 
-	CreateServiceFunction("Database/CheckDb", CheckDb);
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
-	mi.position = -500200000;
-	mi.flags = CMIF_TCHAR;
-	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_Dbchecker));
-	mi.ptszPopupName = LPGENT("Database");
-	mi.ptszName = LPGENT("Check database");
-	mi.pszService = "Database/CheckDb";
-	Menu_AddMainMenuItem(&mi);
-
-	CreateServiceFunction("System/RestartMe", RestartMe);
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
-	mi.position = -500200000;
-	mi.flags = CMIF_TCHAR;
-	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_Restart));
-	mi.ptszPopupName = NULL;
-	mi.ptszName = LPGENT("Restart");
-	mi.pszService = "System/RestartMe";
-	Menu_AddMainMenuItem(&mi);
 	Menu_AddTrayMenuItem(&mi);
-
 	return 0;
 }
 
