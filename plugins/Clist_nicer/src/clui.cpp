@@ -784,7 +784,7 @@ static void GetButtonRect(HWND hwnd, RECT *rc)
 LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
-	case WM_CREATE: {
+	case WM_CREATE:
 		int i;
 		{
 			int flags = WS_CHILD | CCS_BOTTOM;
@@ -826,7 +826,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		TranslateMenu(GetMenu(hwnd));
 		PostMessage(hwnd, M_CREATECLC, 0, 0);
 		return FALSE;
-						 }
+
 	case WM_NCCREATE:
 		{
 			LPCREATESTRUCT p = (LPCREATESTRUCT)lParam;
@@ -905,150 +905,153 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		if (cfg::dat.bSkinnedButtonMode)
 			return TRUE;
 		return DefWindowProc(hwnd, msg, wParam, lParam);
-	case WM_PAINT: {
-		PAINTSTRUCT ps;
-		RECT rc, rcFrame, rcClient;
-		HDC hdc;
-		HRGN rgn = 0;
-		HDC hdcReal = BeginPaint(hwnd, &ps);
 
-		if (during_sizing)
-			rcClient = rcWPC;
-		else
-			GetClientRect(hwnd, &rcClient);
-		CopyRect(&rc, &rcClient);
+	case WM_PAINT:
+		{
+			PAINTSTRUCT ps;
+			RECT rc, rcFrame, rcClient;
+			HDC hdc;
+			HRGN rgn = 0;
+			HDC hdcReal = BeginPaint(hwnd, &ps);
 
-		if ( !cfg::dat.hdcBg || rc.right > cfg::dat.dcSize.cx || rc.bottom + cfg::dat.statusBarHeight > cfg::dat.dcSize.cy) {
-			RECT rcWorkArea;
-
-			SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
-			if (API::pfnMonitorFromWindow)
-			{
-				HMONITOR hMon = API::pfnMonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
-				MONITORINFO mi;
-				mi.cbSize = sizeof(mi);
-				if (API::pfnGetMonitorInfo(hMon, &mi))
-					rcWorkArea = mi.rcWork;
-			}
-
-			cfg::dat.dcSize.cy = max(rc.bottom + cfg::dat.statusBarHeight, rcWorkArea.bottom - rcWorkArea.top);
-			cfg::dat.dcSize.cx = max(rc.right, (rcWorkArea.right - rcWorkArea.left) / 2);
-
-			if (cfg::dat.hdcBg) {
-				SelectObject(cfg::dat.hdcBg, cfg::dat.hbmBgOld);
-				DeleteObject(cfg::dat.hbmBg);
-				DeleteDC(cfg::dat.hdcBg);
-			}
-			cfg::dat.hdcBg = CreateCompatibleDC(hdcReal);
-			cfg::dat.hbmBg = CreateCompatibleBitmap(hdcReal, cfg::dat.dcSize.cx, cfg::dat.dcSize.cy);
-			cfg::dat.hbmBgOld = reinterpret_cast<HBITMAP>(SelectObject(cfg::dat.hdcBg, cfg::dat.hbmBg));
-		}
-
-		if (cfg::shutDown) {
-			EndPaint(hwnd, &ps);
-			return 0;
-		}
-
-		hdc = cfg::dat.hdcBg;
-
-		CopyRect(&rcFrame, &rcClient);
-		if (g_CLUISkinnedBkColor) {
-			if (cfg::dat.fOnDesktop) {
-				HDC dc = GetDC(0);
-				RECT rcWin;
-
-				GetWindowRect(hwnd, &rcWin);
-				BitBlt(hdc, 0, 0, rcClient.right, rcClient.bottom, dc, rcWin.left, rcWin.top, SRCCOPY);
-			} else
-				FillRect(hdc, &rcClient, g_CLUISkinnedBkColor);
-		}
-
-		if (cfg::dat.bClipBorder != 0 || cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME) {
-			int docked = CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0);
-			int clip = cfg::dat.bClipBorder;
-
-			if ( !g_CLUISkinnedBkColor)
-				FillRect(hdc, &rcClient, cfg::dat.hBrushColorKey);
-			if (cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME)
-				rgn = CreateRoundRectRgn(clip, docked ? 0 : clip, rcClient.right - clip + 1, rcClient.bottom - (docked ? 0 : clip - 1), 8 + clip, 8 + clip);
+			if (during_sizing)
+				rcClient = rcWPC;
 			else
-				rgn = CreateRectRgn(clip, docked ? 0 : clip, rcClient.right - clip, rcClient.bottom - (docked ? 0 : clip));
-			SelectClipRgn(hdc, rgn);
-		}
+				GetClientRect(hwnd, &rcClient);
+			CopyRect(&rc, &rcClient);
 
-		if (g_CLUIImageItem) {
-			IMG_RenderImageItem(hdc, g_CLUIImageItem, &rcFrame);
-			cfg::dat.ptW.x = cfg::dat.ptW.y = 0;
-			ClientToScreen(hwnd, &cfg::dat.ptW);
-			goto skipbg;
-		}
+			if ( !cfg::dat.hdcBg || rc.right > cfg::dat.dcSize.cx || rc.bottom + cfg::dat.statusBarHeight > cfg::dat.dcSize.cy) {
+				RECT rcWorkArea;
 
-		if (cfg::dat.bWallpaperMode)
-			FillRect(hdc, &rcClient, cfg::dat.hBrushCLCBk);
-		else
-			FillRect(hdc, &rcClient, GetSysColorBrush(COLOR_3DFACE));
+				SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
+				if (API::pfnMonitorFromWindow)
+				{
+					HMONITOR hMon = API::pfnMonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+					MONITORINFO mi;
+					mi.cbSize = sizeof(mi);
+					if (API::pfnGetMonitorInfo(hMon, &mi))
+						rcWorkArea = mi.rcWork;
+				}
 
-		rcFrame.left += (cfg::dat.bCLeft - 1);
-		rcFrame.right -= (cfg::dat.bCRight - 1);
-		rcFrame.bottom++;
-		rcFrame.bottom -= cfg::dat.statusBarHeight;
-		rcFrame.top += (cfg::dat.topOffset - 1);
+				cfg::dat.dcSize.cy = max(rc.bottom + cfg::dat.statusBarHeight, rcWorkArea.bottom - rcWorkArea.top);
+				cfg::dat.dcSize.cx = max(rc.right, (rcWorkArea.right - rcWorkArea.left) / 2);
 
-		if (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN) {
-			if (cfg::dat.bWallpaperMode && cfg::clcdat != NULL) {
-				InflateRect(&rcFrame, -1, -1);
+				if (cfg::dat.hdcBg) {
+					SelectObject(cfg::dat.hdcBg, cfg::dat.hbmBgOld);
+					DeleteObject(cfg::dat.hbmBg);
+					DeleteDC(cfg::dat.hdcBg);
+				}
+				cfg::dat.hdcBg = CreateCompatibleDC(hdcReal);
+				cfg::dat.hbmBg = CreateCompatibleBitmap(hdcReal, cfg::dat.dcSize.cx, cfg::dat.dcSize.cy);
+				cfg::dat.hbmBgOld = reinterpret_cast<HBITMAP>(SelectObject(cfg::dat.hdcBg, cfg::dat.hbmBg));
+			}
+
+			if (cfg::shutDown) {
+				EndPaint(hwnd, &ps);
+				return 0;
+			}
+
+			hdc = cfg::dat.hdcBg;
+
+			CopyRect(&rcFrame, &rcClient);
+			if (g_CLUISkinnedBkColor) {
+				if (cfg::dat.fOnDesktop) {
+					HDC dc = GetDC(0);
+					RECT rcWin;
+
+					GetWindowRect(hwnd, &rcWin);
+					BitBlt(hdc, 0, 0, rcClient.right, rcClient.bottom, dc, rcWin.left, rcWin.top, SRCCOPY);
+				} else
+					FillRect(hdc, &rcClient, g_CLUISkinnedBkColor);
+			}
+
+			if (cfg::dat.bClipBorder != 0 || cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME) {
+				int docked = CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0);
+				int clip = cfg::dat.bClipBorder;
+
+				if ( !g_CLUISkinnedBkColor)
+					FillRect(hdc, &rcClient, cfg::dat.hBrushColorKey);
+				if (cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME)
+					rgn = CreateRoundRectRgn(clip, docked ? 0 : clip, rcClient.right - clip + 1, rcClient.bottom - (docked ? 0 : clip - 1), 8 + clip, 8 + clip);
+				else
+					rgn = CreateRectRgn(clip, docked ? 0 : clip, rcClient.right - clip, rcClient.bottom - (docked ? 0 : clip));
+				SelectClipRgn(hdc, rgn);
+			}
+
+			if (g_CLUIImageItem) {
+				IMG_RenderImageItem(hdc, g_CLUIImageItem, &rcFrame);
+				cfg::dat.ptW.x = cfg::dat.ptW.y = 0;
+				ClientToScreen(hwnd, &cfg::dat.ptW);
+				goto skipbg;
+			}
+
+			if (cfg::dat.bWallpaperMode)
+				FillRect(hdc, &rcClient, cfg::dat.hBrushCLCBk);
+			else
+				FillRect(hdc, &rcClient, GetSysColorBrush(COLOR_3DFACE));
+
+			rcFrame.left += (cfg::dat.bCLeft - 1);
+			rcFrame.right -= (cfg::dat.bCRight - 1);
+			rcFrame.bottom++;
+			rcFrame.bottom -= cfg::dat.statusBarHeight;
+			rcFrame.top += (cfg::dat.topOffset - 1);
+
+			if (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN) {
+				if (cfg::dat.bWallpaperMode && cfg::clcdat != NULL) {
+					InflateRect(&rcFrame, -1, -1);
+					if (cfg::dat.bmpBackground)
+						BlitWallpaper(hdc, &rcFrame, &ps.rcPaint, cfg::clcdat);
+					cfg::dat.ptW.x = cfg::dat.ptW.y = 0;
+					ClientToScreen(hwnd, &cfg::dat.ptW);
+				}
+				InflateRect(&rcFrame, 1, 1);
+				if (cfg::dat.bSkinnedButtonMode)
+					rcFrame.bottom -= (cfg::dat.bottomOffset);
+				DrawEdge(hdc, &rcFrame, BDR_SUNKENOUTER, BF_RECT);
+			} else if (cfg::dat.bWallpaperMode && cfg::clcdat != NULL) {
 				if (cfg::dat.bmpBackground)
 					BlitWallpaper(hdc, &rcFrame, &ps.rcPaint, cfg::clcdat);
 				cfg::dat.ptW.x = cfg::dat.ptW.y = 0;
 				ClientToScreen(hwnd, &cfg::dat.ptW);
 			}
-			InflateRect(&rcFrame, 1, 1);
-			if (cfg::dat.bSkinnedButtonMode)
-				rcFrame.bottom -= (cfg::dat.bottomOffset);
-			DrawEdge(hdc, &rcFrame, BDR_SUNKENOUTER, BF_RECT);
-		} else if (cfg::dat.bWallpaperMode && cfg::clcdat != NULL) {
-			if (cfg::dat.bmpBackground)
-				BlitWallpaper(hdc, &rcFrame, &ps.rcPaint, cfg::clcdat);
-			cfg::dat.ptW.x = cfg::dat.ptW.y = 0;
-			ClientToScreen(hwnd, &cfg::dat.ptW);
-		}
 skipbg:
-		BitBlt(hdcReal, 0, 0, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top, hdc, 0, 0, SRCCOPY);
-		if (rgn) {
-			SelectClipRgn(hdc, NULL);
-			DeleteObject(rgn);
+			BitBlt(hdcReal, 0, 0, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top, hdc, 0, 0, SRCCOPY);
+			if (rgn) {
+				SelectClipRgn(hdc, NULL);
+				DeleteObject(rgn);
+			}
+			EndPaint(hwnd, &ps);
 		}
-		EndPaint(hwnd, &ps);
 		return 0;
-						}
-	case WM_ENTERSIZEMOVE: {
-		RECT rc;
-		POINT pt = {0};
 
-		GetWindowRect(hwnd, &g_PreSizeRect);
-		GetClientRect(hwnd, &rc);
-		ClientToScreen(hwnd, &pt);
-		g_CLUI_x_off = pt.x - g_PreSizeRect.left;
-		g_CLUI_y_off = pt.y - g_PreSizeRect.top;
-		pt.x = rc.right;
-		ClientToScreen(hwnd, &pt);
-		g_CLUI_x1_off = g_PreSizeRect.right - pt.x;
-		pt.x = 0;
-		pt.y = rc.bottom;
-		ClientToScreen(hwnd, &pt);
-		g_CLUI_y1_off = g_PreSizeRect.bottom - pt.y;
-		//g_CluiData.neeedSnap = TRUE;
+	case WM_ENTERSIZEMOVE:
+		{
+			RECT rc;
+			POINT pt = {0};
+
+			GetWindowRect(hwnd, &g_PreSizeRect);
+			GetClientRect(hwnd, &rc);
+			ClientToScreen(hwnd, &pt);
+			g_CLUI_x_off = pt.x - g_PreSizeRect.left;
+			g_CLUI_y_off = pt.y - g_PreSizeRect.top;
+			pt.x = rc.right;
+			ClientToScreen(hwnd, &pt);
+			g_CLUI_x1_off = g_PreSizeRect.right - pt.x;
+			pt.x = 0;
+			pt.y = rc.bottom;
+			ClientToScreen(hwnd, &pt);
+			g_CLUI_y1_off = g_PreSizeRect.bottom - pt.y;
+		}
 		break;
-								  }
+
 	case WM_EXITSIZEMOVE:
-		//g_CluiData.neeedSnap = FALSE;
 		PostMessage(hwnd, CLUIINTM_REDRAW, 0, 0);
-		//RedrawWindow(hwnd,NULL,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_FRAME|RDW_UPDATENOW|RDW_ALLCHILDREN);
 		break;
-	case WM_SIZING: {
-		RECT *szrect = (RECT *)lParam;
 
+	case WM_SIZING:
 		break;
+		/*
+		RECT *szrect = (RECT *)lParam;
 		if (Docking_IsDocked(0, 0))
 			break;
 		g_SizingRect = *((RECT *)lParam);
@@ -1056,25 +1059,19 @@ skipbg:
 			szrect->bottom = g_PreSizeRect.bottom;
 		if (wParam != WMSZ_RIGHT && wParam != WMSZ_BOTTOMRIGHT && wParam != WMSZ_TOPRIGHT)
 			szrect->right = g_PreSizeRect.right;
+		*/
 		return TRUE;
-						 }
 
 	case WM_WINDOWPOSCHANGED:
-		if ( !Docking_IsDocked(0, 0))
-			return(0);
-		else
+		if ( Docking_IsDocked(0, 0))
 			break;
 
-	case WM_WINDOWPOSCHANGING: {
-		WINDOWPOS *wp = (WINDOWPOS *)lParam;
-
-		if (wp && wp->flags & SWP_NOSIZE)
-			return FALSE;
-
-		//if (Docking_IsDocked(0, 0))
-		//	break;
-
+	case WM_WINDOWPOSCHANGING:
 		if (pcli->hwndContactList != NULL) {
+			WINDOWPOS *wp = (WINDOWPOS *)lParam;
+			if (wp && wp->flags & SWP_NOSIZE)
+				return FALSE;
+
 			RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 			during_sizing = true;
 
@@ -1091,8 +1088,8 @@ skipbg:
 				if (wp->cx != g_oldSize.cx)
 					SendMessage(hwnd, CLUIINTM_STATUSBARUPDATE, 0, 0);
 				RedrawWindow(pcli->hwndStatus, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
-			} else
-				cfg::dat.statusBarHeight = 0;
+			}
+			else cfg::dat.statusBarHeight = 0;
 
 			SizeFramesByWindowRect(&new_window_rect);
 			dock_prevent_moving = 0;
@@ -1103,16 +1100,11 @@ skipbg:
 			g_oldSize.cx = wp->cx;
 			g_oldSize.cy = wp->cy;
 			rcWPC = new_window_rect;
-
-			during_sizing = false;
 		}
 		during_sizing = false;
-		return(0);
-										}
+		return 0;
 
-	case WM_SIZE: {
-		RECT rc;
-
+	case WM_SIZE:
 		if ((wParam == 0 && lParam == 0) || Docking_IsDocked(0, 0)) {
 
 			if (IsZoomed(hwnd))
@@ -1120,8 +1112,9 @@ skipbg:
 
 			if (pcli->hwndContactList != 0) {
 				SendMessage(hwnd, WM_ENTERSIZEMOVE, 0, 0);
+				RECT rc;
 				GetWindowRect(hwnd, &rc);
-				WINDOWPOS	wp = {0};
+				WINDOWPOS wp = {0};
 				wp.cx = rc.right - rc.left;
 				wp.cy = rc.bottom - rc.top;
 				wp.x = rc.left;
@@ -1131,7 +1124,7 @@ skipbg:
 				SendMessage(hwnd, WM_EXITSIZEMOVE, 0, 0);
 			}
 		}
-					  }
+
 	case WM_MOVE:
 		if ( !IsIconic(hwnd)) {
 			RECT rc;
@@ -1269,6 +1262,7 @@ skipbg:
 			PostMessage(hwnd, CLUIINTM_REDRAW, 0, 0);
 		}
 		return TRUE;
+
 	case WM_SHOWWINDOW:
 		{
 			static int noRecurse = 0;
@@ -1692,19 +1686,18 @@ buttons_done:
 			}
 			if (dis->hwndItem == pcli->hwndStatus) {
 				ProtocolData *pd = (ProtocolData *)dis->itemData;
-				int nParts = SendMessage(pcli->hwndStatus, SB_GETPARTS, 0, 0);
-				char *szProto;
-				int status, x;
-				SIZE textSize;
-				BYTE showOpts = cfg::getByte("CLUI", "SBarShow", 1);
 				if (IsBadCodePtr((FARPROC)pd))
 					return TRUE;
 				if (cfg::shutDown)
 					return TRUE;
-				szProto = pd->RealName;
-				status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+
+				int nParts = SendMessage(pcli->hwndStatus, SB_GETPARTS, 0, 0);
+				SIZE textSize;
+				BYTE showOpts = cfg::getByte("CLUI", "SBarShow", 1);
+				char *szProto = pd->RealName;
+				int status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 				SetBkMode(dis->hDC, TRANSPARENT);
-				x = dis->rcItem.left;
+				int x = dis->rcItem.left;
 
 				if (showOpts & 1) {
 					HICON hIcon;

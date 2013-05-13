@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commonheaders.h>
 #include "../CLUIFrames/cluiframes.h"
 
-WNDPROC OldStatusBarProc = 0;
-    
 static POINT ptMouse = {0};
 static RECT rcMouse = {0};
 static int timer_set = 0, tooltip_active = 0;
@@ -91,13 +89,8 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hwnd, &ps);
 			HDC hdcMem = CreateCompatibleDC(hdc);
-			HBITMAP hbmMem, hbmOld;
 			RECT rcClient, rcWindow;
-			StatusItems_t *item = NULL;
 			DRAWITEMSTRUCT dis = {0};
-			int nParts = 0;
-			int i;
-			HFONT hOldFont = 0;
 			POINT pt;
 			BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
 			LONG b_offset = cfg::dat.bClipBorder + (windowStyle == SETTING_WINDOWSTYLE_NOBORDER ? 2 : (windowStyle == SETTING_WINDOWSTYLE_THINBORDER ? 1 : 0));
@@ -108,12 +101,12 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			pt.y = rcWindow.top;
 			ScreenToClient(pcli->hwndContactList, &pt);
 
-			hbmMem = CreateCompatibleBitmap(hdc, rcClient.right, rcClient.bottom);
-			hbmOld = reinterpret_cast<HBITMAP>(SelectObject(hdcMem, hbmMem));
+			HBITMAP hbmMem = CreateCompatibleBitmap(hdc, rcClient.right, rcClient.bottom);
+			HBITMAP hbmOld = reinterpret_cast<HBITMAP>(SelectObject(hdcMem, hbmMem));
 			SetBkMode(hdcMem, TRANSPARENT);
-			hOldFont = reinterpret_cast<HFONT>(SelectObject(hdcMem, GetStockObject(DEFAULT_GUI_FONT)));
+			HFONT hOldFont = reinterpret_cast<HFONT>(SelectObject(hdcMem, GetStockObject(DEFAULT_GUI_FONT)));
 			BitBlt(hdcMem, 0, 0, rcClient.right, rcClient.bottom, cfg::dat.hdcBg, pt.x, pt.y, SRCCOPY);
-			item = arStatusItems[ID_EXTBKSTATUSBAR - ID_STATUS_OFFLINE];
+			StatusItems_t *item = arStatusItems[ID_EXTBKSTATUSBAR - ID_STATUS_OFFLINE];
 			if ( !item->IGNORED) {
 				RECT rc = rcClient;
 				rc.left += item->MARGIN_LEFT;
@@ -123,14 +116,14 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				DrawAlpha(hdcMem, &rc, item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT, item->GRADIENT,
 					item->CORNER, item->BORDERSTYLE, item->imageItem);
 				SetTextColor(hdcMem, item->TEXTCOLOR);
-			}else{
-				SetTextColor(hdcMem, GetSysColor(COLOR_BTNTEXT));
 			}
+			else SetTextColor(hdcMem, GetSysColor(COLOR_BTNTEXT));
+
 			dis.hwndItem = hwnd;
 			dis.hDC = hdcMem;
 			dis.CtlType = 0;
-			nParts = SendMessage(hwnd, SB_GETPARTS, 0, 0);
-			for (i = 0; i < nParts; i++) {
+			int nParts = SendMessage(hwnd, SB_GETPARTS, 0, 0);
+			for (int i = 0; i < nParts; i++) {
 				SendMessage(hwnd, SB_GETRECT, i, (LPARAM)&dis.rcItem);
 				OffsetRect(&dis.rcItem, 0, -b_offset);
 				dis.itemData = SendMessage(hwnd, SB_GETTEXTA, i, 0);

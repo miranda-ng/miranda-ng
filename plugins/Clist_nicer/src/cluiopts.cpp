@@ -25,7 +25,6 @@ UNICODE done
 */
 #include "commonheaders.h"
 
-extern WNDPROC OldStatusBarProc;
 extern HANDLE hExtraImageApplying;
 extern SIZE g_oldSize;
 extern POINT g_oldPos;
@@ -406,12 +405,14 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				int flags = WS_CHILD | CCS_BOTTOM;
 				cfg::writeByte("CLUI", "ShowGrip", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWGRIP));
 				ShowWindow(pcli->hwndStatus, SW_HIDE);
-				SetWindowLongPtr(pcli->hwndStatus, GWLP_WNDPROC, (LONG_PTR)OldStatusBarProc);
+				mir_unsubclassWindow(pcli->hwndStatus, NewStatusBarWndProc);
 				DestroyWindow(pcli->hwndStatus);
+
 				flags |= cfg::getByte("CLUI", "ShowSBar", 1) ? WS_VISIBLE : 0;
 				flags |= cfg::getByte("CLUI", "ShowGrip", 1) ? SBARS_SIZEGRIP : 0;
+
 				pcli->hwndStatus = CreateWindow(STATUSCLASSNAME, NULL, flags, 0, 0, 0, 0, parent, NULL, g_hInst, NULL);
-				OldStatusBarProc = (WNDPROC)SetWindowLongPtr(pcli->hwndStatus, GWLP_WNDPROC, (LONG_PTR)NewStatusBarWndProc);
+				mir_subclassWindow(pcli->hwndStatus, NewStatusBarWndProc);
 			}
 			if (IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR)) {
 				ShowWindow(pcli->hwndStatus, SW_SHOW);
