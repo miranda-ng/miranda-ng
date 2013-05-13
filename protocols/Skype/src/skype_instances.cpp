@@ -20,6 +20,37 @@ CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* u
 	}
 
 	CSkypeProto *ppro = new CSkypeProto(protoName, userName);
+
+	VARST profilename( _T("%miranda_profilename%"));
+
+	if ( !ppro->StartSkypeRuntime((TCHAR *)profilename))
+	{
+		CSkypeProto::ShowNotification(::TranslateT("Did not unpack SkypeKit.exe."));
+		return NULL;
+	}
+
+	char *keyPair = ppro->LoadKeyPair();
+	if ( !keyPair)
+	{
+		CSkypeProto::ShowNotification(::TranslateT("Initialization key corrupted or not valid."));
+		return NULL;
+	}
+
+	TransportInterface::Status status = ppro->init(keyPair, "127.0.0.1", ppro->runtimePort);
+	if (status != TransportInterface::OK)
+	{
+		CSkypeProto::ShowNotification(::TranslateT("SkypeKit did not initialize."));
+		return NULL;
+	}
+
+	free(keyPair);
+
+	if ( !ppro->start())
+	{
+		::MessageBox(NULL, TranslateT("SkypeKit did not start."), _T(MODULE), MB_OK | MB_ICONERROR);
+		return NULL;
+	}
+
 	CSkypeProto::instanceList.insert(ppro);
 
 	return ppro;
@@ -27,6 +58,8 @@ CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* u
 
 int CSkypeProto::UninitSkypeProto(CSkypeProto* ppro)
 {
+	ppro->StopSkypeRuntime();
+
 	CSkypeProto::instanceList.remove(ppro);
 	delete ppro;
 

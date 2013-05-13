@@ -2,7 +2,16 @@
 
 #include "skype.h"
 #include "string_list.h"
-#include "skypekit\skypekit.h"
+
+#include "skypekit\common.h"
+#include "skypekit\group.h"
+#include "skypekit\search.h"
+#include "skypekit\account.h"
+#include "skypekit\contact.h"
+#include "skypekit\message.h"
+#include "skypekit\transfer.h"
+#include "skypekit\participant.h"
+#include "skypekit\conversation.h"
 
 #include <map>
 #include <string>
@@ -73,9 +82,10 @@ struct PasswordChangeBoxParam
 	}
 };
 
-struct CSkypeProto : public PROTO_INTERFACE
+struct CSkypeProto : public PROTO_INTERFACE, private Skype
 {
 public:
+	// PROTO_INTERFACE
 	CSkypeProto(const char *protoName, const wchar_t *userName);
 	~CSkypeProto();
 
@@ -126,30 +136,15 @@ public:
 
 	virtual	int    __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
 
-	virtual	int __cdecl RequestAuth(WPARAM, LPARAM);
-	virtual	int __cdecl GrantAuth(WPARAM, LPARAM);
-	virtual	int __cdecl RevokeAuth(WPARAM, LPARAM);
-
-	// events
-	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
-	int __cdecl OnPreShutdown(WPARAM, LPARAM);
-	int __cdecl OnContactDeleted(WPARAM, LPARAM);
-	int __cdecl OnOptionsInit(WPARAM, LPARAM);
-	int __cdecl OnSrmmWindowOpen(WPARAM, LPARAM);
-	int __cdecl OnUserInfoInit(WPARAM, LPARAM);
-	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
-
-	int __cdecl OnMessagePreCreate(WPARAM, LPARAM);
-	int __cdecl OnTabSRMMButtonPressed(WPARAM, LPARAM);
-
 	// instances
 	static CSkypeProto* InitSkypeProto(const char* protoName, const wchar_t* userName);
 	static int UninitSkypeProto(CSkypeProto* ppro);
 
+	static CSkypeProto* GetInstanceByHContact(HANDLE hContact);
+
 	// icons
 	static void InitIcons();
 	static void UninitIcons();
-	static HANDLE GetIconHandle(const char *name);
 
 	// menus
 	void OnInitStatusMenu();
@@ -162,22 +157,29 @@ public:
 	// hooks
 	static void InitHookList();
 
-	INT_PTR __cdecl InviteCommand(WPARAM, LPARAM);
-
-	static CSkypeProto* GetInstanceByHContact(HANDLE hContact);
-	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
-
-	bool	IsOnline();
-
+	// languages
 	static void InitLanguages();
 
-	BYTE NeedUpdate;
+private:
+	// Skype
+	CAccount		*newAccount(int oid);
+	CContactGroup	*newContactGroup(int oid);
+	CConversation	*newConversation(int oid);
+	CContactSearch	*newContactSearch(int oid);
+	CParticipant	*newParticipant(int oid);
+	CContact		*newContact(int oid);	
+	CMessage		*newMessage(int oid);
+	CTransfer		*newTransfer(int oid);
 
-	static void ShowNotification(const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
-	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
+	bool CreateConferenceWithConsumers(ConversationRef &conference, const SEStringList &identities);
 
-	int SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam);
-	int SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
+	void OnMessage(
+		const MessageRef & message,
+		const bool & changesInboxTimestamp,
+		const MessageRef & supersedesHistoryMessage,
+		const ConversationRef & conversation);
+
+	PROCESS_INFORMATION pi;
 
 protected:
 	CAccount::Ref account;
@@ -189,7 +191,9 @@ protected:
 
 	CRITICAL_SECTION contact_search_lock;
 
-	static std::map<std::wstring, std::wstring> languages;
+	bool	IsOnline();
+
+	BYTE NeedUpdate;
 
 	// account
 	static wchar_t *LogoutReasons[];
@@ -234,17 +238,13 @@ protected:
 
 	SEBinary GetAvatarBinary(wchar_t *path);
 
-	// events
-	void	OnSkypeEvent(CConversation::Ref conversation, CMessage::Ref message);
-	void	OnChatEvent(CConversation::Ref &conversation, CMessage::Ref &message);
-
 	// messages
-	void	OnMessageEvent(CConversation::Ref conversation, CMessage::Ref message);
-	void	OnMessageSent(CConversation::Ref &conversation, CMessage::Ref &message);
-	void	OnMessageReceived(CConversation::Ref &conversation, CMessage::Ref &message);
+	void	OnMessageEvent(const ConversationRef &conversation, const MessageRef &message);
+	void	OnMessageSent(const ConversationRef &conversation, const MessageRef &message);
+	void	OnMessageReceived(const ConversationRef &conversation, const MessageRef &message);
 
 	// transfer
-	void	OnFile(CConversation::Ref &conversation, CMessage::Ref &message);
+	void	OnFile(const ConversationRef &conversation, const MessageRef &message);
 	void	OnTransferChanged(CTransfer::Ref transfer, int prop);
 
 	// chat
@@ -273,7 +273,7 @@ protected:
 	void InviteConactsToChat(CConversation::Ref conversation, const StringList &invitedContacts);
 	void AddConactsToChat(CConversation::Ref conversation, const StringList &invitedContacts);
 
-	void RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt, DWORD flags = 0x0001, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
+	void RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt, DWORD flags = 0x0001, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL, DWORD timestamp = time(NULL));
 	void SendChatMessage(const wchar_t *cid, const wchar_t *sid, const wchar_t *message);
 	void AddChatContact(const wchar_t *cid, const wchar_t *sid, const wchar_t *group, const WORD status = ID_STATUS_ONLINE);
 	void KickChatContact(const wchar_t *cid, const wchar_t *sid);
@@ -285,8 +285,9 @@ protected:
 	int __cdecl OnGCMenuHook(WPARAM, LPARAM lParam);
 	int __cdecl OnGCEventHook(WPARAM, LPARAM lParam);
 	
-	void	OnChatMessageSent(CConversation::Ref &conversation, CMessage::Ref &message);
-	void	OnChatMessageReceived(CConversation::Ref &conversation, CMessage::Ref &message);
+	void	OnChatMessageSent(const ConversationRef &conversation, const MessageRef &message, uint messageType);
+	void	OnChatMessageReceived(const ConversationRef &conversation, const MessageRef &message, uint messageType);
+	void	OnChatEvent(const ConversationRef &conversation, const MessageRef &message);
 
 	// contacts
 	void	UpdateContactAuthState(HANDLE hContact, CContact::Ref contact);
@@ -361,11 +362,21 @@ protected:
 	static int SkypeToMirandaStatus(CContact::AVAILABILITY availability);
 	static CContact::AVAILABILITY MirandaToSkypeStatus(int status);
 
-	static bool FileExists(wchar_t *path);	
+	static bool FileExists(wchar_t *path);
+
+	static void ShowNotification(const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
+	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
+
+	// languages
+	static std::map<std::wstring, std::wstring> languages;
 
 	// instances
 	static LIST<CSkypeProto> instanceList;
 	static int CompareProtos(const CSkypeProto *p1, const CSkypeProto *p2);
+
+	//
+	int SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam);
+	int SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 
 	void	CreateServiceObj(const char* szService, SkypeServiceFunc serviceProc);
 	void	CreateServiceObjParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam);
@@ -395,17 +406,25 @@ protected:
 
 	// icons
 	static _tag_iconList IconList[];
+	static HANDLE GetIconHandle(const char *name);
 
-	// menu
+	// menus
 	HGENMENU m_hMenuRoot;
 	static HANDLE hChooserMenu;
 	static HANDLE contactMenuItems[CMI_TEMS_COUNT];
 	static HANDLE contactMenuServices[CMI_TEMS_COUNT];
+
+	virtual	int __cdecl RequestAuth(WPARAM, LPARAM);
+	virtual	int __cdecl GrantAuth(WPARAM, LPARAM);
+	virtual	int __cdecl RevokeAuth(WPARAM, LPARAM);
 	
 	static void EnableMenuItem(HANDLE hMenuItem, BOOL bEnable);
 
 	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
-	
+
+	INT_PTR __cdecl InviteCommand(WPARAM, LPARAM);
+
+	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 	int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
 
 	// database
@@ -432,4 +451,22 @@ protected:
 	static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	// skype runtime
+	int runtimePort;
+	char *LoadKeyPair();
+	int StartSkypeRuntime(const wchar_t *profileName);
+	void CSkypeProto::StopSkypeRuntime();
+
+	// events
+	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
+	int __cdecl OnPreShutdown(WPARAM, LPARAM);
+	int __cdecl OnContactDeleted(WPARAM, LPARAM);
+	int __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int __cdecl OnSrmmWindowOpen(WPARAM, LPARAM);
+	int __cdecl OnUserInfoInit(WPARAM, LPARAM);
+	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
+
+	int __cdecl OnMessagePreCreate(WPARAM, LPARAM);
+	int __cdecl OnTabSRMMButtonPressed(WPARAM, LPARAM);
 };

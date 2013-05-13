@@ -1,10 +1,6 @@
 #include "skype_proto.h"
-#include "aes\aes.h" 
-#include "base64\base64.h"
-#include "..\..\..\skypekit\key.h"
 
 int hLangpack;
-CSkype *g_skype;
 HINSTANCE g_hInstance;
 
 TIME_API tmi = {0};
@@ -88,49 +84,8 @@ Cleanup:
 	return fIsRunAsAdmin;
 }
 
-char *LoadKeyPair(HINSTANCE hInstance)
+int UnpackSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName)
 {
-	HRSRC hRes = FindResource(hInstance, MAKEINTRESOURCE(IDR_KEY), L"BIN");
-	if (hRes)
-	{
-		HGLOBAL hResource = LoadResource(hInstance, hRes);
-		if (hResource)
-		{
-			aes_context ctx;
-			unsigned char key[128];
-
-			int basedecoded = Base64::Decode(MY_KEY, (char *)key, MAX_PATH);
-			::aes_set_key(&ctx, key, 128);
-			memset(key, 0, sizeof(key));
-
-			basedecoded = ::SizeofResource(hInstance, hRes);
-			char *pData = (char *)hResource;
-			if (!pData)
-				return NULL;
-
-			unsigned char *bufD = (unsigned char *)::malloc(basedecoded + 1);
-			unsigned char *tmpD = (unsigned char *)::malloc(basedecoded + 1);
-			basedecoded = Base64::Decode(pData, (char *)tmpD, basedecoded);
-
-			for (int i = 0; i < basedecoded; i += 16)
-				aes_decrypt(&ctx, tmpD+i, bufD+i);
-
-			::free(tmpD);
-			bufD[basedecoded] = 0; //cert should be null terminated
-			return (char *)bufD;
-		}
-		return NULL;
-	}
-	return NULL;
-}
-
-int StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port)
-{
-	STARTUPINFO cif = {0};
-	cif.cb = sizeof(STARTUPINFO);
-	cif.dwFlags = STARTF_USESHOWWINDOW;
-	cif.wShowWindow = SW_HIDE;
-
 	wchar_t	fileName[MAX_PATH];
 	::GetModuleFileName(hInstance, fileName, MAX_PATH);
 
@@ -213,75 +168,23 @@ int StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port
 			return 0;
 	}
 
-	PROCESSENTRY32 entry;
-	entry.dwSize = sizeof(PROCESSENTRY32);
-
-	HANDLE snapshot = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
-	if (::Process32First(snapshot, &entry) == TRUE) {
-		while (::Process32Next(snapshot, &entry) == TRUE) {
-			if (::wcsicmp(entry.szExeFile, L"SkypeKit.exe") == 0) {
-				HANDLE hProcess = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
-				port += rand() % 8963 + 1000;
-				::CloseHandle(hProcess);
-				break;
-			}
-		}
-	}
-	::CloseHandle(snapshot);
-
-	wchar_t param[128];
-	PROCESS_INFORMATION pi;
-	VARST dbPath( _T("%miranda_userdata%\\SkypeKit"));
-	::swprintf(param, SIZEOF(param), L"-p -P %d -f \"%s\"", port, dbPath);
-	int startingrt = ::CreateProcess(
-		fileName, param,
-		NULL, NULL, FALSE,
-		CREATE_NEW_CONSOLE,
-		NULL, NULL, &cif, &pi);
-
-	return startingrt;
+	return 1;
 }
 
 // ---
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getTMI(&tmi);
-	mir_getLP(&pluginInfo);
-
-	int port = 8963;
 	VARST profilename( _T("%miranda_profilename%"));
 
-	if ( !StartSkypeRuntime(g_hInstance, (TCHAR *)profilename, port))
+	if ( !UnpackSkypeRuntime(g_hInstance, (TCHAR *)profilename))
 	{
-		::MessageBox(NULL, TranslateT("Proccess SkypeKit.exe did not start."), _T(MODULE), MB_OK | MB_ICONERROR);
+		::MessageBox(NULL, TranslateT("Did not unpack SkypeKit.exe."), _T(MODULE), MB_OK | MB_ICONERROR);
 		return 1;
 	}
 
-	char *keyPair = LoadKeyPair(g_hInstance);
-	if ( !keyPair)
-	{
-		::MessageBox(NULL, TranslateT("Initialization key corrupted or not valid."), _T(MODULE), MB_OK | MB_ICONERROR);
-		return 1;
-	}
-
-	g_skype = new CSkype(1);
-	TransportInterface::Status status = g_skype->init(keyPair, "127.0.0.1", port);
-	if (status != TransportInterface::OK)
-	{
-		::MessageBox(NULL, TranslateT("SkypeKit did not initialize."), _T(MODULE), MB_OK | MB_ICONERROR);
-		return 1;
-	}
-
-	free(keyPair);
-
-	if ( !g_skype->start())
-	{
-		::MessageBox(NULL, TranslateT("SkypeKit did not start."), _T(MODULE), MB_OK | MB_ICONERROR);
-		return 1;
-	}
-
-	// ---
+	mir_getTMI(&tmi);
+	mir_getLP(&pluginInfo);
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "SKYPE";
@@ -292,11 +195,10 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&g_cbCountries, (LPARAM)&g_countries);
 
-	CSkypeProto::InitLanguages();
-
 	CSkypeProto::InitIcons();
 	CSkypeProto::InitMenus();
 	CSkypeProto::InitHookList();
+	CSkypeProto::InitLanguages();
 	CSkypeProto::InitServiceList();
 
 	return 0;
@@ -307,8 +209,8 @@ extern "C" int __declspec(dllexport) Unload(void)
 	CSkypeProto::UninitIcons();
 	CSkypeProto::UninitMenus();
 
-	g_skype->stop();
-	delete g_skype;
+	//this->stop();
+	//delete this->skypeKit;
 
 	return 0;
 }

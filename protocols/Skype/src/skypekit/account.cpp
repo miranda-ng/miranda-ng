@@ -1,5 +1,4 @@
 #include "account.h"
-#include "skypekit.h"
 
 CAccount::CAccount(unsigned int oid, SERootObject* root) : Account(oid, root) 
 {
@@ -9,7 +8,7 @@ CAccount::CAccount(unsigned int oid, SERootObject* root) : Account(oid, root)
 
 void CAccount::SetOnAccountChangedCallback(OnAccountChanged callback, CSkypeProto* proto)
 {
-	this->skype = (CSkype *)root;
+	this->skype = (Skype *)root;
 
 	this->proto = proto;
 	this->callback = callback;

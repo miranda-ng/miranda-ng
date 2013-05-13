@@ -254,7 +254,7 @@ void __cdecl CSkypeProto::LoadContactList(void* data)
 
 	bool isFirstLoad = data != NULL;
 
-	g_skype->GetHardwiredContactGroup(CContactGroup::ALL_BUDDIES, this->commonList);
+	this->GetHardwiredContactGroup(CContactGroup::ALL_BUDDIES, this->commonList);
 	this->commonList.fetch();
 	this->commonList->SetOnContactListChangedCallback(
 		(CContactGroup::OnContactListChanged)&CSkypeProto::OnContactListChanged, 
@@ -293,7 +293,7 @@ void __cdecl CSkypeProto::LoadChatList(void*)
 {
 	this->Log(L"Updating group chats list");
 	CConversation::Refs conversations;
-	g_skype->GetConversationList(conversations);
+	this->GetConversationList(conversations);
 
 	for (uint i = 0; i < conversations.size(); i++)
 	{
@@ -315,7 +315,7 @@ void __cdecl CSkypeProto::LoadChatList(void*)
 void __cdecl CSkypeProto::LoadAuthWaitList(void*)
 {
 	CContact::Refs authContacts;
-	g_skype->GetHardwiredContactGroup(CContactGroup::CONTACTS_WAITING_MY_AUTHORIZATION, this->authWaitList);
+	this->GetHardwiredContactGroup(CContactGroup::CONTACTS_WAITING_MY_AUTHORIZATION, this->authWaitList);
 	this->authWaitList.fetch();
 	this->authWaitList->SetOnContactListChangedCallback(
 		(CContactGroup::OnContactListChanged)&CSkypeProto::OnContactListChanged, 
@@ -404,7 +404,7 @@ void __cdecl CSkypeProto::SearchBySidAsync(void* arg)
 	}
 
 	CContactSearch::Ref search;
-	g_skype->CreateIdentitySearch(::mir_u2a(sid), search);
+	this->CreateIdentitySearch(::mir_u2a(sid), search);
 	search.fetch();
 	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYSID);
 	search->SetOnContactFindedCallback(
@@ -425,7 +425,7 @@ void __cdecl CSkypeProto::SearchByEmailAsync(void* arg)
 	mir_ptr<wchar_t> email((wchar_t *)arg);
 
 	CContactSearch::Ref search;
-	g_skype->CreateContactSearch(search);
+	this->CreateContactSearch(search);
 	search.fetch();
 	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYEMAIL);
 	search->SetOnContactFindedCallback(
@@ -451,7 +451,7 @@ void __cdecl CSkypeProto::SearchByNamesAsync(void* arg)
 	std::string lName = " "; lName += ::mir_utf8encodeW(psr->lastName);
 
 	CContactSearch::Ref search;
-	g_skype->CreateContactSearch(search);
+	this->CreateContactSearch(search);
 	search.fetch();
 	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYNAMES);
 	search->SetOnContactFindedCallback(

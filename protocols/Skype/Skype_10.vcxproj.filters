@@ -99,9 +99,6 @@
     <ClCompile Include="src\skype_avatars.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skypekit\skypekit.cpp">
-      <Filter>Source Files\skypekit</Filter>
-    </ClCompile>
     <ClCompile Include="src\skype_hooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -115,6 +112,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\skype_profile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_skype.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_runtime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -163,9 +166,6 @@
     </ClInclude>
     <ClInclude Include="src\aes\aes.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\skypekit\skypekit.h">
-      <Filter>Header Files\skypekit</Filter>
     </ClInclude>
     <ClInclude Include="src\string_list.h">
       <Filter>Header Files</Filter>

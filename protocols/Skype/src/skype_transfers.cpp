@@ -10,7 +10,7 @@ void CSkypeProto::OnTransferChanged(CTransfer::Ref transfer, int prop)
 			transfer->GetPropChatmsgGuid(guid);
 
 			CMessage::Ref message;
-			g_skype->GetMessageByGuid(guid, message);
+			this->GetMessageByGuid(guid, message);
 
 			uint oid = message->getOID();
 
@@ -58,7 +58,7 @@ void CSkypeProto::OnTransferChanged(CTransfer::Ref transfer, int prop)
 			transfer->GetPropChatmsgGuid(guid);
 
 			CMessage::Ref message;
-			g_skype->GetMessageByGuid(guid, message);
+			this->GetMessageByGuid(guid, message);
 
 			uint oid = message->getOID();				
 
@@ -89,7 +89,7 @@ void CSkypeProto::OnTransferChanged(CTransfer::Ref transfer, int prop)
 	}
 }
 
-void CSkypeProto::OnFile(CConversation::Ref &conversation, CMessage::Ref &message)
+void CSkypeProto::OnFile(const ConversationRef &conversation, const MessageRef &message)
 {
 	CTransfer::Refs transfers;
 	message->GetTransfers(transfers);

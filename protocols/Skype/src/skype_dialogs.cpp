@@ -109,13 +109,13 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 					GetDlgItemTextA(hwnd, IDC_SL, sid, SIZEOF(sid));
 					GetDlgItemTextA(hwnd, IDC_PW, pwd, SIZEOF(pwd));
 
-					CSkype::VALIDATERESULT reason;
-					g_skype->ValidatePassword(sid, pwd, reason);
+					Skype::VALIDATERESULT reason;
+					proto->ValidatePassword(sid, pwd, reason);
 
-					if (reason == CSkype::VALIDATED_OK)
+					if (reason == Skype::VALIDATED_OK)
 					{
 						CAccount::Ref account;
-						g_skype->GetAccount(sid, proto->account);
+						proto->GetAccount(sid, proto->account);
 						proto->account->SetStrProperty(CAccount::P_FULLNAME, sid);
 						proto->account->SetOnAccountChangedCallback(
 							(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged, proto);

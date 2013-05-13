@@ -114,8 +114,11 @@
     <ClCompile Include="src\skype_transfers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skypekit\skypekit.cpp">
-      <Filter>Source Files\skypekit</Filter>
+    <ClCompile Include="src\skype_runtime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_skype.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

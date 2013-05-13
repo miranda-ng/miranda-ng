@@ -107,7 +107,7 @@ bool CSkypeProto::LogIn()
 	if (this->IsOnline() || !this->PrepareLogin())
 		return false;
 
-	if (g_skype->GetAccount(::mir_u2a(this->login), this->account))
+	if (this->GetAccount(::mir_u2a(this->login), this->account))
 	{
 		if ( !this->PreparePassword())
 			return false;
@@ -144,12 +144,12 @@ void CSkypeProto::SetAccountSettings()
 {
 	int port = ::db_get_w(NULL, this->m_szModuleName, "Port", rand() % 10000 + 10000);
 	this->Log(L"Setting port number to %d", port);
-	g_skype->SetInt(SETUPKEY_PORT, port);
+	this->SetInt(SETUPKEY_PORT, port);
 
 	bool useAlternativePorts = ::db_get_b(NULL, this->m_szModuleName, "UseAlternativePorts", 1) > 0;
 	if (useAlternativePorts)
 		this->Log(L"Setting listening of alternative ports (80, 443)");
-	g_skype->SetInt(SETUPKEY_DISABLE_PORT80, (int)!useAlternativePorts);
+	this->SetInt(SETUPKEY_DISABLE_PORT80, (int)!useAlternativePorts);
 
 	// Create default group for new contacts
 	DBVARIANT dbv = {0};
@@ -178,42 +178,42 @@ void CSkypeProto::InitProxy()
 			case PROXYTYPE_HTTP:
 			case PROXYTYPE_HTTPS:
 				this->Log(L"Setting https user proxy config");
-				g_skype->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 1);
-				g_skype->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 0);
-				g_skype->SetStr(SETUPKEY_HTTPS_PROXY_ADDR, address);
+				this->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 1);
+				this->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 0);
+				this->SetStr(SETUPKEY_HTTPS_PROXY_ADDR, address);
 				if (nlus.useProxyAuth)
 				{
 					char encodedPass[MAX_PATH];
 					Base64::Encode(nlus.szProxyAuthPassword, encodedPass, MAX_PATH);
 
-					g_skype->SetStr(SETUPKEY_HTTPS_PROXY_USER,	nlus.szProxyAuthUser);
-					g_skype->SetStr(SETUPKEY_HTTPS_PROXY_PWD,	encodedPass);
+					this->SetStr(SETUPKEY_HTTPS_PROXY_USER,	nlus.szProxyAuthUser);
+					this->SetStr(SETUPKEY_HTTPS_PROXY_PWD,	encodedPass);
 				}
 				break;
 
 			case PROXYTYPE_SOCKS4:
 			case PROXYTYPE_SOCKS5:
 				this->Log(L"Setting socks user proxy config");
-				g_skype->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 0);
-				g_skype->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 1);
-				g_skype->SetStr(SETUPKEY_SOCKS_PROXY_ADDR, address);
+				this->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 0);
+				this->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 1);
+				this->SetStr(SETUPKEY_SOCKS_PROXY_ADDR, address);
 				if (nlus.useProxyAuth)
 				{
-					g_skype->SetStr(SETUPKEY_SOCKS_PROXY_USER,	nlus.szProxyAuthUser);
-					g_skype->SetStr(SETUPKEY_SOCKS_PROXY_PWD,	nlus.szProxyAuthPassword);
+					this->SetStr(SETUPKEY_SOCKS_PROXY_USER,	nlus.szProxyAuthUser);
+					this->SetStr(SETUPKEY_SOCKS_PROXY_PWD,	nlus.szProxyAuthPassword);
 				}
 				break;
 
 			default:
 				this->Log(L"Setting automatic proxy detection");
-				g_skype->Delete(SETUPKEY_HTTPS_PROXY_ENABLE);
-				g_skype->Delete(SETUPKEY_HTTPS_PROXY_ADDR);
-				g_skype->Delete(SETUPKEY_HTTPS_PROXY_USER);
-				g_skype->Delete(SETUPKEY_HTTPS_PROXY_PWD);
-				g_skype->Delete(SETUPKEY_SOCKS_PROXY_ENABLE);
-				g_skype->Delete(SETUPKEY_SOCKS_PROXY_ADDR);
-				g_skype->Delete(SETUPKEY_SOCKS_PROXY_USER);
-				g_skype->Delete(SETUPKEY_SOCKS_PROXY_PWD);
+				this->Delete(SETUPKEY_HTTPS_PROXY_ENABLE);
+				this->Delete(SETUPKEY_HTTPS_PROXY_ADDR);
+				this->Delete(SETUPKEY_HTTPS_PROXY_USER);
+				this->Delete(SETUPKEY_HTTPS_PROXY_PWD);
+				this->Delete(SETUPKEY_SOCKS_PROXY_ENABLE);
+				this->Delete(SETUPKEY_SOCKS_PROXY_ADDR);
+				this->Delete(SETUPKEY_SOCKS_PROXY_USER);
+				this->Delete(SETUPKEY_SOCKS_PROXY_PWD);
 				break;
 			}
 		}

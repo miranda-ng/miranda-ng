@@ -29,10 +29,6 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 		HookEvent(ME_MSG_WINDOWEVENT, &CSkypeProto::OnSrmmWindowOpen);
 	}
 
-	g_skype->SetOnMessageCallback(
-		(CSkype::OnMessaged)&CSkypeProto::OnSkypeEvent, 
-		this);
-
 	return 0;
 }
 
@@ -53,6 +49,7 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 	this->SetStatus(ID_STATUS_OFFLINE);
 
 	this->UninitNetLib();
+
 	return 0;
 }
 
@@ -67,7 +64,7 @@ int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 			this->LeaveChat(chatID);
 
 			CConversation::Ref conversation;
-			g_skype->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation);
+			this->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation);
 			conversation->RetireFrom();
 			conversation->Delete();
 		}
@@ -201,235 +198,11 @@ int __cdecl CSkypeProto::OnTabSRMMButtonPressed(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-void CSkypeProto::OnChatMessageReceived(CConversation::Ref &conversation, CMessage::Ref &message)
-{
-	SEString data;
-
-	uint timestamp;
-	message->GetPropTimestamp(timestamp);
-
-	message->GetPropBodyXml(data);
-	char *text = CSkypeProto::RemoveHtml(data);
-
-	message->GetPropAuthor(data);
-	mir_ptr<wchar_t> sid( ::mir_utf8decodeW(data));
-
-	conversation->GetPropIdentity(data);
-	mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
-
-	CMessage::TYPE messageType;
-	message->GetPropType(messageType);
-
-	//this->SendChatMessage(cid, sid, mir_ptr<wchar_t>(::mir_utf8decodeW(text)));
-	this->RaiseChatEvent(
-		cid, 
-		sid, 
-		messageType == CMessage::POSTED_TEXT ? /*GC_EVENT_MESSAGE */ 0x0040 : /*GC_EVENT_ACTION */ 0x0200,
-		/*GCEF_ADDTOLOG*/ 0x0001, 
-		0, 
-		NULL, 
-		mir_ptr<wchar_t>(::mir_utf8decodeW(text)));
-}
-
-void CSkypeProto::OnChatMessageSent(CConversation::Ref &conversation, CMessage::Ref &message)
-{
-	SEString data;
-
-	uint timestamp;
-	message->GetPropTimestamp(timestamp);
-
-	message->GetPropBodyXml(data);
-	char *text = CSkypeProto::RemoveHtml(data);
-
-	conversation->GetPropIdentity(data);
-	mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
-
-	message->GetPropAuthor(data);
-	mir_ptr<wchar_t> sid( ::mir_utf8decodeW(data));
-
-	CMessage::TYPE messageType;
-	message->GetPropType(messageType);
-
-	//this->SendChatMessage(cid, nick, mir_ptr<wchar_t>(::mir_utf8decodeW(text)));
-	this->RaiseChatEvent(
-		cid, 
-		sid, 
-		messageType == CMessage::POSTED_TEXT ? /*GC_EVENT_MESSAGE */ 0x0040 : /*GC_EVENT_ACTION */ 0x0200,
-		/*GCEF_ADDTOLOG*/ 0x0001, 
-		0, 
-		NULL, 
-		mir_ptr<wchar_t>(::mir_utf8decodeW(text)));
-}
-
-void CSkypeProto::OnChatEvent(CConversation::Ref &conversation, CMessage::Ref &message)
-{
-	CMessage::TYPE messageType;
-	message->GetPropType(messageType);
-
-	switch (messageType)
-	{
-	case CMessage::POSTED_EMOTE:
-	case CMessage::POSTED_TEXT:
-		{
-			SEString author;
-			message->GetPropAuthor(author);
-			
-			if (::wcsicmp(mir_ptr<wchar_t>(::mir_utf8decodeW(author)), this->login) == 0)
-				this->OnChatMessageSent(conversation, message);
-			else
-				this->OnChatMessageReceived(conversation, message);
-		}
-		break;
-
-	case CMessage::ADDED_CONSUMERS:
-		{
-			SEString data;
-
-			conversation->GetPropIdentity(data);
-			wchar_t *cid = ::mir_utf8decodeW(data);
-
-			HANDLE hContact = this->AddChatRoom(conversation);
-			if ( !this->IsContactOnline(hContact))
-			{
-				this->JoinToChat(conversation);
-			}
-			else
-			{
-				StringList alreadyInChat(this->GetChatUsers(cid));
-
-				message->GetPropIdentities(data);
-				StringList needToAdd(::mir_utf8decodeW(data));
-
-				CParticipant::Refs participants;
-				conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);
-				for (uint i = 0; i < participants.size(); i++)
-				{
-					participants[i]->GetPropIdentity(data);
-					std::wstring sid = ::mir_utf8decodeW(data);
-					
-					if (needToAdd.contains(sid.c_str()) && !alreadyInChat.contains(sid.c_str()))
-					{
-						CContact::Ref contact;
-						g_skype->GetContact(std::string(::mir_utf8encodeW(sid.c_str())).c_str(), contact);
-
-						CContact::AVAILABILITY status;
-						contact->GetPropAvailability(status);
-
-						CParticipant::RANK rank;
-						participants[i]->GetPropRank(rank);
-
-						this->AddChatContact(
-							cid, 
-							sid.c_str(), 
-							CSkypeProto::Roles[rank],
-							CSkypeProto::SkypeToMirandaStatus(status));
-					}
-				}
-			}
-		}
-		break;
-
-	case CMessage::RETIRED:
-		{
-			SEString data;
-
-			conversation->GetPropIdentity(data);
-			wchar_t *cid = ::mir_utf8decodeW(data);
-
-			StringList alreadyInChat(this->GetChatUsers(cid));
-			
-			message->GetPropAuthor(data);	
-			wchar_t *sid = ::mir_utf8decodeW(data);
-			if (::wcsicmp(sid, this->login) != 0)
-				if (alreadyInChat.contains(sid))
-					this->RemoveChatContact(cid, sid);
-		}
-		break;
-
-	case CMessage::RETIRED_OTHERS:
-		{
-			SEString data;
-
-			conversation->GetPropIdentity(data);
-			mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
-
-			message->GetPropIdentities(data);
-
-			StringList alreadyInChat(this->GetChatUsers(cid));
-			StringList needToKick(::mir_utf8decodeW(data));
-				
-			for (size_t i = 0; i < needToKick.size(); i++)
-			{
-				const wchar_t *sid = needToKick[i];
-				if (::wcsicmp(sid, this->login) == 0)
-				{
-					HANDLE hContact = this->GetChatRoomByCid(cid);
-					this->ShowNotification(::TranslateT("You have been kicked from the chat room"), 0, hContact);
-					this->LeaveChat(cid);					
-				}
-				else if ( !alreadyInChat.contains(sid))
-					this->KickChatContact(cid, sid);
-			}
-		}
-		break;
-
-	case CMessage::SPAWNED_CONFERENCE:
-		{
-			SEString data;
-			conversation->GetPropIdentity(data);
-			char *cid = ::mir_strdup(data);
-
-			HANDLE hContact = this->AddChatRoom(conversation);
-			if ( !this->IsContactOnline(hContact))
-			{
-				this->JoinToChat(conversation);
-			}
-		}
-		break;
-
-	case CMessage::STARTED_LIVESESSION:
-		{
-			conversation->LeaveLiveSession();
-
-			SEString data;
-
-			conversation->GetPropIdentity(data);
-			mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
-			HANDLE hContact = this->GetChatRoomByCid(cid);
-			
-			this->RaiseChatEvent(
-				cid, 
-				this->login, 
-				/*GC_EVENT_INFORMATION*/ 0x0100, 
-				/*GCEF_ADDTOLOG*/ 0x0001, 
-				0, 
-				NULL, 
-				::TranslateT("Group call"));
-		}
-		break;
-
-	case CMessage::ENDED_LIVESESSION:
-		{
-			SEString data;
-
-			conversation->GetPropIdentity(data);
-			mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
-			HANDLE hContact = this->GetChatRoomByCid(cid);
-			
-			this->RaiseChatEvent(
-				cid, 
-				this->login, 
-				/*GC_EVENT_INFORMATION*/ 0x0100, 
-				/*GCEF_ADDTOLOG*/ 0x0001, 
-				0, 
-				NULL, 
-				::TranslateT("The call is completed"));
-		}
-		break;
-	}
-}
-
-void CSkypeProto::OnSkypeEvent(CConversation::Ref conversation, CMessage::Ref message)
+void CSkypeProto::OnMessage (
+	const MessageRef & message,
+	const bool & changesInboxTimestamp,
+	const MessageRef & supersedesHistoryMessage,
+	const ConversationRef & conversation)
 {
 	CMessage::TYPE messageType;
 	message->GetPropType(messageType);
