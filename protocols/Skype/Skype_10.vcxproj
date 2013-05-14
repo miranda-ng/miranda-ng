@@ -84,6 +84,7 @@
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
+      <PrecompiledHeaderFile>afxres.h</PrecompiledHeaderFile> 
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
