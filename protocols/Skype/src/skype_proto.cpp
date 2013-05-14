@@ -18,6 +18,11 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) : Skype(1
 	dbEventType.descr = "Skype emote";
 	::CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_CONTACTS;
+	dbEventType.descr = "Skype contacts";
+	dbEventType.eventIcon = CSkypeProto::GetIconHandle("sendContacts");
+	::CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_CALL;
 	dbEventType.descr = "Skype call";
 	dbEventType.eventIcon = CSkypeProto::GetIconHandle("call");
@@ -218,7 +223,7 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 	{
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_FILE | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME |
-			PF1_AUTHREQ | PF1_CHAT | PF1_SERVERCLIST/* | PF1_ADDSEARCHRES | F1_CONTACT*/;
+			PF1_AUTHREQ | PF1_CHAT | PF1_SERVERCLIST | PF1_CONTACT/* | PF1_ADDSEARCHRES*/;
 	case PFLAGNUM_2:
 	case PFLAGNUM_3:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_INVISIBLE | PF2_OUTTOLUNCH;
@@ -229,6 +234,8 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 		return PF2_OUTTOLUNCH;
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)::Translate("Skype Name");
+	case PFLAG_MAXCONTACTSPERPACKET:
+		return 1024;
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)SKYPE_SETTINGS_LOGIN;
 	default:
@@ -276,13 +283,25 @@ HWND   __cdecl CSkypeProto::SearchAdvanced( HWND owner ) { return 0; }
 
 HWND   __cdecl CSkypeProto::CreateExtendedSearchUI( HWND owner ){ return 0; }
 
-int    __cdecl CSkypeProto::RecvContacts( HANDLE hContact, PROTORECVEVENT* ) { return 0; }
+int    __cdecl CSkypeProto::RecvContacts( HANDLE hContact, PROTORECVEVENT* pre) 
+{
+	this->Log(L"Incoming contacts");
+	::db_unset(hContact, "CList", "Hidden");
+	
+	return (INT_PTR)this->AddDBEvent(
+		hContact,
+		EVENTTYPE_CONTACTS,
+		pre->timestamp,
+		DBEF_UTF | ((pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0),
+		pre->lParam,
+		(PBYTE)pre->szMessage);
+}
 
-int    __cdecl CSkypeProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt) 
+int    __cdecl CSkypeProto::RecvFile( HANDLE hContact, PROTORECVFILET* pre) 
 { 
 	this->Log(L"Incoming file transfer");
 	::db_unset(hContact, "CList", "Hidden");
-	return ::Proto_RecvFile(hContact, evt);
+	return ::Proto_RecvFile(hContact, pre);
 }
 
 int __cdecl CSkypeProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
@@ -309,7 +328,47 @@ int __cdecl CSkypeProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 
 int __cdecl CSkypeProto::RecvUrl(HANDLE hContact, PROTORECVEVENT *) { return 0; }
 
-int __cdecl CSkypeProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE *hContactsList) { return 0; }
+int __cdecl CSkypeProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE *hContactsList) 
+{
+	if (this->IsOnline() && hContact && hContactsList)
+	{
+		this->Log(L"Outcoming contacts");
+		SEStringList targets;
+		mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+		targets.append((char *)mir_ptr<char>(::mir_utf8encodeW(sid)));
+
+		CConversation::Ref conversation;
+		this->GetConversationByParticipants(targets, conversation);
+
+		CContact::Refs contacts;
+		for (int i = 0; i < nContacts; i++)
+		{
+			CContact::Ref contact;
+			
+			mir_ptr<wchar_t> csid(::db_get_wsa(hContactsList[i], this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+			this->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(csid)), contact);
+			contacts.append(contact);
+		}
+
+		time_t timestamp = time(NULL);
+
+		if ( !conversation->PostContacts(contacts))
+			return 0;
+
+		// todo: bad hack
+		CMessage::Refs msgs;
+		this->GetMessageListByType(Message::POSTED_CONTACTS, true, msgs, timestamp);
+		
+		if (msgs.size() == 0)
+			return 0;
+
+		CMessage::Ref lastMsg = msgs[msgs.size() - 1];
+
+		return lastMsg->getOID();
+	}
+
+	return 0; 
+}
 
 HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription, TCHAR **ppszFiles)
 {

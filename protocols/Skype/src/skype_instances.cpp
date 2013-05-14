@@ -36,7 +36,7 @@ CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* u
 		return NULL;
 	}
 
-	TransportInterface::Status status = ppro->init(keyPair, "127.0.0.1", ppro->runtimePort);
+	TransportInterface::Status status = ppro->init(keyPair, "127.0.0.1", ppro->skypeKitPort, 0, 1);
 	if (status != TransportInterface::OK)
 	{
 		CSkypeProto::ShowNotification(::TranslateT("SkypeKit did not initialize."));

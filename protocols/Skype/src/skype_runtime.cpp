@@ -46,7 +46,7 @@ int CSkypeProto::StartSkypeRuntime(const wchar_t *profileName)
 	STARTUPINFO cif = {0};
 	cif.cb = sizeof(STARTUPINFO);
 	cif.dwFlags = STARTF_USESHOWWINDOW;
-	cif.wShowWindow = SW_HIDE;
+	cif.wShowWindow = SW_HIDE;	
 
 	wchar_t	fileName[MAX_PATH];
 	::GetModuleFileName(g_hInstance, fileName, MAX_PATH);
@@ -59,13 +59,15 @@ int CSkypeProto::StartSkypeRuntime(const wchar_t *profileName)
 	PROCESSENTRY32 entry;
 	entry.dwSize = sizeof(PROCESSENTRY32);
 
+	// todo: rework
 	HANDLE snapshot = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
-	if (::Process32First(snapshot, &entry) == TRUE) {
-		while (::Process32Next(snapshot, &entry) == TRUE) {
-			if (::wcsicmp(entry.szExeFile, L"SkypeKit.exe") == 0) {
-				HANDLE hProcess = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
-				this->runtimePort += rand() % 8963 + 1000;
-				::CloseHandle(hProcess);
+	if (::Process32First(snapshot, &entry) == TRUE)
+	{
+		while (::Process32Next(snapshot, &entry) == TRUE)
+		{
+			if (::wcsicmp(entry.szExeFile, L"SkypeKit.exe") == 0)
+			{
+				this->skypeKitPort += rand() % 1000 + 8963;
 				break;
 			}
 		}
@@ -73,21 +75,21 @@ int CSkypeProto::StartSkypeRuntime(const wchar_t *profileName)
 	::CloseHandle(snapshot);
 
 	wchar_t param[128];
-	//PROCESS_INFORMATION pi;
 	VARST dbPath( _T("%miranda_userdata%\\SkypeKit"));
-	::swprintf(param, SIZEOF(param), L"-p -P %d -f \"%s\"", this->runtimePort, dbPath);
+	::swprintf(param, SIZEOF(param), L"-p -P %d -f \"%s\"", this->skypeKitPort, dbPath);
 	int startingrt = ::CreateProcess(
 		fileName, param,
 		NULL, NULL, FALSE,
 		CREATE_NEW_CONSOLE,
-		NULL, NULL, &cif, &this->pi);
+		NULL, NULL, &cif, &this->skypeKitProcessInfo);
 
 	return startingrt;
 }
 
 void CSkypeProto::StopSkypeRuntime()
 {
-	DWORD exitCode = 0;
-	GetExitCodeProcess(this->pi.hProcess, &exitCode);
-	TerminateProcess(this->pi.hProcess, exitCode);
+	::TerminateProcess(this->skypeKitProcessInfo.hProcess, 0);
+	::CloseHandle(this->skypeKitProcessInfo.hThread);
+	::CloseHandle(this->skypeKitProcessInfo.hProcess);
+
 }

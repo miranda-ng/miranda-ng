@@ -231,7 +231,11 @@ void CSkypeProto::OnMessage (
 		break;
 
 	case CMessage::POSTED_FILES:
-		this->OnFile(conversation, message);
+		this->OnFileEvent(conversation, message);
+		break;
+
+	case CMessage::POSTED_CONTACTS:
+			this->OnContactsEvent(conversation, message);
 		break;
 
 	//case CMessage::REQUESTED_AUTH:

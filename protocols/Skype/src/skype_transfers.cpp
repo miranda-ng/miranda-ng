@@ -89,7 +89,7 @@ void CSkypeProto::OnTransferChanged(CTransfer::Ref transfer, int prop)
 	}
 }
 
-void CSkypeProto::OnFile(const ConversationRef &conversation, const MessageRef &message)
+void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const MessageRef &message)
 {
 	CTransfer::Refs transfers;
 	message->GetTransfers(transfers);

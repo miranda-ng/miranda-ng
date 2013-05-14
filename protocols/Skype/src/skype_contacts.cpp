@@ -496,3 +496,95 @@ void __cdecl CSkypeProto::SearchByNamesAsync(void* arg)
 	search->BlockWhileSearch();
 	search->Release();
 }
+
+void CSkypeProto::OnContactsReceived(const ConversationRef &conversation, const MessageRef &message)
+{
+	CContact::Refs contacts;
+	message->GetContacts(contacts);
+
+	uint timestamp;
+	message->GetPropTimestamp(timestamp);
+
+	CMessage::TYPE messageType;
+	message->GetPropType(messageType);
+
+	SEString data;
+	message->GetPropAuthor(data);			
+		
+	CContact::Ref author;
+	this->GetContact(data, author);
+
+	HANDLE hContact = this->AddContact(author);
+
+	SEBinary guid;
+	message->GetPropGuid(guid);
+	ReadMessageParam param = { guid, messageType };
+
+	PROTORECVEVENT pre;
+	pre.flags = PREF_UTF;
+	pre.lParam = (LPARAM)&param;
+	pre.timestamp = timestamp;
+
+	int msgSize = 1;
+	pre.szMessage = (char *)::mir_alloc(msgSize);
+	pre.szMessage[0] = 0;
+
+	int len = 0;
+	char* pCur = &pre.szMessage[0];
+
+	for (size_t i = 0; i < contacts.size(); i ++)
+	{
+		contacts[i]->GetIdentity(data);
+		if ( ::lstrcmpi(mir_ptr<wchar_t>(::mir_utf8decodeW(data)), this->login) != 0)
+			this->AddContact(contacts[i]);
+	}
+
+	char *text = ::mir_utf8encode(::Translate("Contacts received"));
+
+	this->AddDBEvent(
+		hContact,
+		SKYPE_DB_EVENT_TYPE_CONTACTS,
+		timestamp,
+		PREF_UTF,
+		(DWORD)::strlen(text) + 1,
+		(PBYTE)text);
+}
+
+void CSkypeProto::OnContactsSent(const ConversationRef &conversation, const MessageRef &message)
+{
+	SEString data;
+
+	CMessage::TYPE messageType;
+	message->GetPropType(messageType);
+
+	uint timestamp;
+	message->GetPropTimestamp(timestamp);
+
+	CMessage::SENDING_STATUS status;
+	message->GetPropSendingStatus(status);
+
+	CParticipant::Refs participants;
+	conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);
+	participants[0]->GetPropIdentity(data);
+		
+	CContact::Ref receiver;
+	this->GetContact(data, receiver);
+
+	HANDLE hContact = this->AddContact(receiver);
+	this->SendBroadcast(
+		hContact,
+		ACKTYPE_CONTACTS,
+		status == CMessage::FAILED_TO_SEND ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
+		(HANDLE)message->getOID(), 0);
+}
+
+void CSkypeProto::OnContactsEvent(const ConversationRef &conversation, const MessageRef &message)
+{
+	SEString author;
+	message->GetPropAuthor(author);
+			
+	if (::wcsicmp(mir_ptr<wchar_t>(::mir_utf8decodeW(author)), this->login) == 0)
+		this->OnContactsSent(conversation, message);
+	else
+		this->OnContactsReceived(conversation, message);
+}

@@ -65,8 +65,12 @@ void CSkypeProto::OnMessageReceived(const ConversationRef &conversation, const M
 		if (this->IsMessageInDB(hContact, timestamp, guid))
 			return;
 
+	DWORD flags = PREF_UTF;
+	if (status != CMessage::UNCONSUMED_NORMAL) 
+		flags |= PREF_CREATEREAD;
+
 	PROTORECVEVENT recv;
-	recv.flags = PREF_UTF;
+	recv.flags = flags;	
 	recv.lParam = (LPARAM)&param;
 	recv.timestamp = timestamp;
 	recv.szMessage = ::mir_strdup(text);

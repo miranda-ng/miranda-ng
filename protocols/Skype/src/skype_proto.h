@@ -179,7 +179,8 @@ private:
 		const MessageRef & supersedesHistoryMessage,
 		const ConversationRef & conversation);
 
-	PROCESS_INFORMATION pi;
+	int skypeKitPort;
+	PROCESS_INFORMATION skypeKitProcessInfo;
 
 protected:
 	CAccount::Ref account;
@@ -243,8 +244,13 @@ protected:
 	void	OnMessageSent(const ConversationRef &conversation, const MessageRef &message);
 	void	OnMessageReceived(const ConversationRef &conversation, const MessageRef &message);
 
+	// contacts
+	void	OnContactsEvent(const ConversationRef &conversation, const MessageRef &message);
+	void	OnContactsSent(const ConversationRef &conversation, const MessageRef &message);
+	void	OnContactsReceived(const ConversationRef &conversation, const MessageRef &message);
+
 	// transfer
-	void	OnFile(const ConversationRef &conversation, const MessageRef &message);
+	void	OnFileEvent(const ConversationRef &conversation, const MessageRef &message);
 	void	OnTransferChanged(CTransfer::Ref transfer, int prop);
 
 	// chat
@@ -453,7 +459,6 @@ protected:
 	static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// skype runtime
-	int runtimePort;
 	char *LoadKeyPair();
 	int StartSkypeRuntime(const wchar_t *profileName);
 	void CSkypeProto::StopSkypeRuntime();
