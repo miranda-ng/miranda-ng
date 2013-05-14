@@ -1,6 +1,6 @@
 ﻿#include "skype_proto.h"
 
-CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) : Skype(1)
+CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) : Skype(1), skypeKitPort(8963)
 {
 	::ProtoConstructor(this, protoName, userName);
 

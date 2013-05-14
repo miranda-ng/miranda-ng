@@ -65,7 +65,7 @@ int CSkypeProto::StartSkypeRuntime(const wchar_t *profileName)
 	{
 		while (::Process32Next(snapshot, &entry) == TRUE)
 		{
-			if (::wcsicmp(entry.szExeFile, L"SkypeKit.exe") == 0)
+			if (::wcsicmp(entry.szExeFile, L"SkypeKit.exe") == 0 || ::wcsicmp(entry.szExeFile, L"Skype.exe") == 0)
 			{
 				this->skypeKitPort += rand() % 1000 + 8963;
 				break;
