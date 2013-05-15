@@ -99,8 +99,9 @@ namespace utils
 	namespace conversion
 	{
 		DWORD to_timestamp(std::string data);
-		std::string to_string(void*, WORD type);		
-		
+		struct tm *fbtime_to_timeinfo(double timestamp);
+		std::string to_string(void*, WORD type);
+
 		template <class T>
 		bool from_string(T& t, const std::string& s, std::ios_base& (*f)(std::ios_base&)) {
 			std::istringstream iss(s);

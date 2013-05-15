@@ -329,11 +329,30 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					proto->Log(msg.c_str());
 				}
 			}
-			else if (type.Value() == "messaging") // inbox message (multiuser or direct)
+			else if (type.Value() == "messaging") 
 			{				
 				const String& type = objMember["event"];
 
-				if (type.Value() == "deliver") {
+				if (type.Value() == "read_receipt") {
+					// user read message
+					const Number& reader = objMember["reader"];
+					const Number& time = objMember["time"];
+
+					char user_id[32];
+					lltoa(reader.Value(), user_id, 10);
+
+					// TODO: add check for chat contacts
+					HANDLE hContact = proto->ContactIDToHContact(user_id);
+					if (hContact) {
+						TCHAR ttime[100], tstr[200];
+						_tcsftime(ttime, SIZEOF(ttime), _T("%X"), utils::conversion::fbtime_to_timeinfo(time.Value()));
+						mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read at %s"), ttime);
+
+						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)tstr);
+					}
+
+				} else if (type.Value() == "deliver") {
+					// inbox message (multiuser or direct)
 					const Object& messageContent = objMember["message"];
 
 					const Number& sender_fbid = messageContent["sender_fbid"];
