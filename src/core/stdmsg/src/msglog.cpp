@@ -43,7 +43,7 @@ struct LogStreamData
 	int bufferOffset, bufferLen;
 	int eventsToInsert;
 	int isEmpty;
-	struct SrmmWindowData *dlgDat;
+	SrmmWindowData *dlgDat;
 };
 
 static char szSep2[40], szSep2_RTL[50];
@@ -183,7 +183,7 @@ static int AppendToBufferWithRTF(char **buffer, int *cbBufferEnd, int *cbBufferA
 
 #define FONT_FORMAT "{\\f%u\\fnil\\fcharset%u %S;}"
 
-static char *CreateRTFHeader(struct SrmmWindowData *dat)
+static char *CreateRTFHeader(SrmmWindowData *dat)
 {
 	char *buffer;
 	int bufferAlloced, bufferEnd;
@@ -219,7 +219,7 @@ static char *CreateRTFHeader(struct SrmmWindowData *dat)
 }
 
 //mir_free() the return value
-static char *CreateRTFTail(struct SrmmWindowData *dat)
+static char *CreateRTFTail(SrmmWindowData *dat)
 {
 	char *buffer;
 	int bufferAlloced, bufferEnd;
@@ -249,7 +249,7 @@ int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 	return et && ( et->flags & DETF_MSGWINDOW );
 }
 
-int DbEventIsShown(DBEVENTINFO * dbei, struct SrmmWindowData *dat)
+int DbEventIsShown(DBEVENTINFO * dbei, SrmmWindowData *dat)
 {
 	switch (dbei->eventType) {
 		case EVENTTYPE_MESSAGE:
@@ -264,7 +264,7 @@ int DbEventIsShown(DBEVENTINFO * dbei, struct SrmmWindowData *dat)
 }
 
 //mir_free() the return value
-static char *CreateRTFFromDbEvent(struct SrmmWindowData *dat, HANDLE hContact, HANDLE hDbEvent, struct LogStreamData *streamData)
+static char *CreateRTFFromDbEvent(SrmmWindowData *dat, HANDLE hContact, HANDLE hDbEvent, struct LogStreamData *streamData)
 {
 	char *buffer;
 	int bufferAlloced, bufferEnd;
@@ -511,7 +511,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 {
 	EDITSTREAM stream = {0};
 	struct LogStreamData streamData = {0};
-	struct SrmmWindowData *dat = (struct SrmmWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	SrmmWindowData *dat = (SrmmWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	CHARRANGE oldSel, sel;
 	POINT scrollPos;
 	BOOL bottomScroll = TRUE;

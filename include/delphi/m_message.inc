@@ -120,6 +120,12 @@ const
 }
   MS_MSG_GETWINDOWDATA:PAnsiChar = 'MessageAPI/GetWindowData';
 
+{ wparam=(THANDLE)hContact
+  lparam=(pWideChar)ptszMessageText
+  Sets a status line text for the appropriate contact
+}
+  MS_MSG_SETSTATUSTEXT:PAnsiChar = 'MessageAPI/SetStatusText';
+
 { wparam=0(unused)
   lparam=(pMessageWindowEvent) event being written
   fired before SRMM writes an entered message into the database
@@ -127,10 +133,10 @@ const
   ME_MSG_PRECREATEEVENT:PAnsiChar = 'MessageAPI/PreCreateEvent';
 
 { wParam = 0
- lParam = (MessageWindowPopupData *)&MessageWindowPopupData;
- Fired to allow plugins to add itens to the msg window popup menu
- Always fired twice: once with MSG_WINDOWPOPUP_SHOWING and once with MSG_WINDOWPOPUP_SELECTED.
- This is done to allow cleaning of resources.
+  lParam = (MessageWindowPopupData *)&MessageWindowPopupData;
+  Fired to allow plugins to add itens to the msg window popup menu
+  Always fired twice: once with MSG_WINDOWPOPUP_SHOWING and once with MSG_WINDOWPOPUP_SELECTED.
+  This is done to allow cleaning of resources.
 }
   ME_MSG_WINDOWPOPUP:PAnsiChar = 'MessageAPI/WindowPopupRequested';
 

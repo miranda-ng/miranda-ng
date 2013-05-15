@@ -176,7 +176,7 @@ static void UpdateReadChars(HWND hwndDlg, HWND hwndStatus)
 	}
 }
 
-static void ShowTime(struct SrmmWindowData *dat)
+static void ShowTime(SrmmWindowData *dat)
 {
 	if (dat->hwndStatus && dat->hTimeZone) {
 		SYSTEMTIME st;
@@ -192,7 +192,7 @@ static void ShowTime(struct SrmmWindowData *dat)
 	}
 }
 
-static void SetupStatusBar(HWND hwndDlg, struct SrmmWindowData *dat)
+static void SetupStatusBar(HWND hwndDlg, SrmmWindowData *dat)
 {
 	int icons_width, cx, i = 0, statwidths[4];
 	RECT rc;
@@ -220,9 +220,9 @@ static void SetupStatusBar(HWND hwndDlg, struct SrmmWindowData *dat)
 
 static void SetDialogToType(HWND hwndDlg)
 {
-	struct SrmmWindowData *dat;
+	SrmmWindowData *dat;
 
-	dat = (struct SrmmWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	dat = (SrmmWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	if (dat->hContact)
 		ShowMultipleControls(hwndDlg, infoLineControls, SIZEOF(infoLineControls), (g_dat.flags&SMF_SHOWINFO) ? SW_SHOW : SW_HIDE);
 	else
@@ -269,7 +269,7 @@ static void SetEditorText(HWND hwnd, const TCHAR* txt)
 
 static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct SrmmWindowData *pdat = (struct SrmmWindowData *)GetWindowLongPtr(GetParent(hwnd),GWLP_USERDATA);
+	SrmmWindowData *pdat = (SrmmWindowData *)GetWindowLongPtr(GetParent(hwnd),GWLP_USERDATA);
 	struct MsgEditSubclassData *dat = (struct MsgEditSubclassData *) GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	switch (msg) {
@@ -494,7 +494,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct SrmmWindowData *pdat = (struct SrmmWindowData *)GetWindowLongPtr(GetParent(hwnd),GWLP_USERDATA);
+	SrmmWindowData *pdat = (SrmmWindowData *)GetWindowLongPtr(GetParent(hwnd),GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_NCHITTEST:
@@ -529,7 +529,7 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * urc)
 {
-	struct SrmmWindowData *dat = (struct SrmmWindowData *) lParam;
+	SrmmWindowData *dat = (SrmmWindowData *) lParam;
 
 	if ( !(g_dat.flags & SMF_SHOWINFO) && !(g_dat.flags & SMF_SHOWBTNS)) {
 		for (int i = 0; i < SIZEOF(buttonLineControls); i++)
@@ -602,7 +602,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
-void ShowAvatar(HWND hwndDlg, struct SrmmWindowData *dat)
+void ShowAvatar(HWND hwndDlg, SrmmWindowData *dat)
 {
 	if (g_dat.flags & SMF_AVATAR) {
 		AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)dat->hContact, 0);
@@ -617,7 +617,7 @@ void ShowAvatar(HWND hwndDlg, struct SrmmWindowData *dat)
 	SendMessage(hwndDlg, DM_AVATARSIZECHANGE, 0, 0);
 }
 
-static void NotifyTyping(struct SrmmWindowData *dat, int mode)
+static void NotifyTyping(SrmmWindowData *dat, int mode)
 {
 	if ( !dat->hContact)
 		return;
@@ -678,15 +678,14 @@ void Window_FreeIcon_IcoLib(HWND hwndDlg)
 
 INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct SrmmWindowData *dat;
+	SrmmWindowData *dat = (SrmmWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	dat = (struct SrmmWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-			struct NewMessageWindowLParam *newData = (struct NewMessageWindowLParam *) lParam;
+			NewMessageWindowLParam *newData = (NewMessageWindowLParam *) lParam;
 			TranslateDialogDefault(hwndDlg);
-			dat = (struct SrmmWindowData *) mir_calloc(sizeof(struct SrmmWindowData));
+			dat = (SrmmWindowData *) mir_calloc(sizeof(SrmmWindowData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) dat);
 
 			dat->hContact = newData->hContact;

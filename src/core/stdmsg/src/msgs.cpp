@@ -81,7 +81,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 		char *szProto = GetContactProto((HANDLE)wParam);
 		if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
 		{
-			struct NewMessageWindowLParam newData = { 0 };
+			NewMessageWindowLParam newData = { 0 };
 			newData.hContact = (HANDLE) wParam;
 			newData.noActivate = db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS);
 			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM) & newData);
@@ -133,7 +133,7 @@ INT_PTR SendMessageCmd(HANDLE hContact, char* msg, int isWchar)
 	}
 	else
 	{
-		struct NewMessageWindowLParam newData = { 0 };
+		NewMessageWindowLParam newData = { 0 };
 		newData.hContact = hContact;
 		newData.szInitialText = msg;
 		newData.isWchar = isWchar;
@@ -355,6 +355,20 @@ static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
+{
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam);
+	if (hwnd == NULL)
+		return 1;
+
+	SrmmWindowData *dat = (SrmmWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	if (dat == NULL)
+		return 1;
+
+	SendMessage(dat->hwndStatus, SB_SETTEXT, 0, lParam);
+	return 0;
+}
+
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
@@ -405,6 +419,7 @@ int LoadSendRecvMessageModule(void)
 	CreateServiceFunction(MS_MSG_GETWINDOWAPI, GetWindowAPI);
 	CreateServiceFunction(MS_MSG_GETWINDOWCLASS, GetWindowClass);
 	CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);
+	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
 
 	hHookWinEvt   = CreateHookableEvent(ME_MSG_WINDOWEVENT);
