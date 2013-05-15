@@ -137,15 +137,21 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 {
+	TContainerData *pContainer;
+
 	HWND hwnd = M->FindWindow((HANDLE)wParam);
-	if (hwnd == NULL)
-		return 1;
+	if (hwnd != NULL) {
+		TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		if (dat == NULL || (pContainer = dat->pContainer) == NULL)
+			return 1;
+	}
+	else {
+		SESSION_INFO *si = SM_FindSessionByHCONTACT((HANDLE)wParam);
+		if (si == NULL || si->hWnd == 0 || (pContainer = si->pContainer) == NULL)
+			return 1;
+	}
 
-	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (dat == NULL || dat->pContainer == NULL)
-		return 1;
-
-	SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, lParam);
+	SendMessage(pContainer->hwndStatus, SB_SETTEXT, 0, lParam);
 	return 0;
 }
 
