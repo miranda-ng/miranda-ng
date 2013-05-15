@@ -344,9 +344,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					// TODO: add check for chat contacts
 					HANDLE hContact = proto->ContactIDToHContact(user_id);
 					if (hContact) {
-						TCHAR ttime[100], tstr[200];
+						TCHAR ttime[64], tstr[100];
 						_tcsftime(ttime, SIZEOF(ttime), _T("%X"), utils::conversion::fbtime_to_timeinfo(time.Value()));
-						mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read at %s"), ttime);
+						mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read: %s"), ttime);
 
 						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)tstr);
 					}

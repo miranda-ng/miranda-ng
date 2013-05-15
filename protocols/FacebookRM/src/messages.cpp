@@ -65,6 +65,7 @@ void FacebookProto::SendMsgWorker(void *p)
 		}
 		if (result) {
 			ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_SUCCESS, data->msgid,0);
+			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)data->hContact, NULL);
 			MessagingWorker(new send_messaging(dbv.pszVal, FACEBOOK_SEND_MESSAGE));
 		} else {
 			char *err = mir_utf8decodeA(error_text.c_str());

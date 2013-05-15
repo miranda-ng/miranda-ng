@@ -144,6 +144,13 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 		TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		if (dat == NULL || (pContainer = dat->pContainer) == NULL)
 			return 1;
+
+		if (lParam == NULL) {
+			DM_UpdateLastMessage(dat);
+			return 0;
+		}
+		
+		_tcsncpy(dat->szStatusBar, (TCHAR *)lParam, SIZEOF(dat->szStatusBar));
 	}
 	else {
 		SESSION_INFO *si = SM_FindSessionByHCONTACT((HANDLE)wParam);
