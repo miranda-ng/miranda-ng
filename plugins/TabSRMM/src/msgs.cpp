@@ -149,12 +149,15 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 			DM_UpdateLastMessage(dat);
 			return 0;
 		}
-		
+
 		_tcsncpy(dat->szStatusBar, (TCHAR *)lParam, SIZEOF(dat->szStatusBar));
+
+		if (pContainer->hwndActive != dat->hwnd)
+			return 1;
 	}
 	else {
 		SESSION_INFO *si = SM_FindSessionByHCONTACT((HANDLE)wParam);
-		if (si == NULL || si->hWnd == 0 || (pContainer = si->pContainer) == NULL)
+		if (si == NULL || si->hWnd == 0 || (pContainer = si->pContainer) == NULL || pContainer->hwndActive != si->hWnd)
 			return 1;
 	}
 
