@@ -61,23 +61,6 @@ private:
 class CGlobals
 {
 public:
-	enum {
-		H_MS_MSG_SENDMESSAGE 		= 0,
-		H_MS_MSG_SENDMESSAGEW 		= 1,
-		H_MS_MSG_FORWARDMESSAGE 	= 2,
-		H_MS_MSG_GETWINDOWAPI 		= 3,
-		H_MS_MSG_GETWINDOWCLASS 	= 4,
-		H_MS_MSG_GETWINDOWDATA 		= 5,
-		H_MS_MSG_READMESSAGE 		= 6,
-		H_MS_MSG_TYPINGMESSAGE 		= 7,
-		H_MS_MSG_MOD_MESSAGEDIALOGOPENED = 8,
-		H_MS_TABMSG_SETUSERPREFS 	= 9,
-		H_MS_TABMSG_TRAYSUPPORT 	= 10,
-		H_MSG_MOD_GETWINDOWFLAGS 	= 11,
-		H_MS_TABMSG_SLQMGR			= 12,
-		SERVICE_LAST 				= 13
-	};
-
 	CGlobals()
 	{
 		::ZeroMemory(this, sizeof(CGlobals));
@@ -189,7 +172,6 @@ public:
    COLORREF    m_ipBackgroundGradientHigh;
    COLORREF    m_tbBackgroundHigh, m_tbBackgroundLow, m_fillColor, m_cRichBorders, m_genericTxtColor;
    BYTE        m_dontUseDefaultKbd;
-   HANDLE      hSvc[SERVICE_LAST];
    HANDLE      m_event_MsgWin, m_event_MsgPopup, m_event_WriteEvent;
    HGENMENU    m_hMenuItem;
    BYTE        m_useAeroPeek;

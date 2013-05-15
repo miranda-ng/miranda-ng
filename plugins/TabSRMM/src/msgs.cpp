@@ -132,6 +132,24 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 }
 
 /*
+ * service function. Sets a status bar text for a contact
+ */
+
+static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
+{
+	HWND hwnd = M->FindWindow((HANDLE)wParam);
+	if (hwnd == NULL)
+		return 1;
+
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	if (dat == NULL || dat->pContainer == NULL)
+		return 1;
+
+	SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, lParam);
+	return 0;
+}
+
+/*
  * service function. Invoke the user preferences dialog for the contact given (by handle) in wParam
  */
 
@@ -505,32 +523,24 @@ int IconsChanged(WPARAM wParam, LPARAM lParam)
  * initialises the internal API, services, events etc...
  */
 
-static struct _svcdef {
-	char 			*szName;
-	INT_PTR			(*pfnService)(WPARAM wParam, LPARAM lParam);
-	HANDLE			*h;
-} SERVICES[] = {
-	MS_MSG_SENDMESSAGE, 	SendMessageCommand, 	&PluginConfig.hSvc[CGlobals::H_MS_MSG_SENDMESSAGE],
-	MS_MSG_GETWINDOWAPI, 	GetWindowAPI, 			&PluginConfig.hSvc[CGlobals::H_MS_MSG_GETWINDOWAPI],
-	MS_MSG_GETWINDOWCLASS, 	GetWindowClass,			&PluginConfig.hSvc[CGlobals::H_MS_MSG_GETWINDOWCLASS],
-	MS_MSG_GETWINDOWDATA,	GetWindowData,			&PluginConfig.hSvc[CGlobals::H_MS_MSG_GETWINDOWDATA],
-	"SRMsg/ReadMessage",	ReadMessageCommand,		&PluginConfig.hSvc[CGlobals::H_MS_MSG_READMESSAGE],
-	"SRMsg/TypingMessage",	TypingMessageCommand,	&PluginConfig.hSvc[CGlobals::H_MS_MSG_TYPINGMESSAGE],
-	MS_MSG_MOD_MESSAGEDIALOGOPENED, MessageWindowOpened, &PluginConfig.hSvc[CGlobals::H_MS_MSG_MOD_MESSAGEDIALOGOPENED],
-	MS_TABMSG_SETUSERPREFS,	SetUserPrefs,			&PluginConfig.hSvc[CGlobals::H_MS_TABMSG_SETUSERPREFS],
-	MS_TABMSG_TRAYSUPPORT,	Service_OpenTrayMenu,	&PluginConfig.hSvc[CGlobals::H_MS_TABMSG_TRAYSUPPORT],
-	MS_MSG_MOD_GETWINDOWFLAGS, GetMessageWindowFlags, &PluginConfig.hSvc[CGlobals::H_MSG_MOD_GETWINDOWFLAGS],
-	MS_TABMSG_SLQMGR,		CSendLater::svcQMgr,	&PluginConfig.hSvc[CGlobals::H_MS_TABMSG_SLQMGR]
-};
-
 static void TSAPI InitAPI()
 {
-	ZeroMemory(PluginConfig.hSvc, sizeof(HANDLE) * CGlobals::SERVICE_LAST);
+	CreateServiceFunction(MS_MSG_SENDMESSAGE,     SendMessageCommand);
+	CreateServiceFunction(MS_MSG_SENDMESSAGE "W", SendMessageCommand_W);
+	CreateServiceFunction(MS_MSG_GETWINDOWAPI,    GetWindowAPI);
+	CreateServiceFunction(MS_MSG_GETWINDOWCLASS,  GetWindowClass);
+	CreateServiceFunction(MS_MSG_GETWINDOWDATA,   GetWindowData);
+	CreateServiceFunction(MS_MSG_SETSTATUSTEXT,   SetStatusText);
 
-	for (int i=0; i < SIZEOF(SERVICES); i++)
-		*(SERVICES[i].h) = CreateServiceFunction(SERVICES[i].szName, SERVICES[i].pfnService);
+	CreateServiceFunction("SRMsg/ReadMessage",    ReadMessageCommand);
+	CreateServiceFunction("SRMsg/TypingMessage",  TypingMessageCommand);
+	CreateServiceFunction(MS_TABMSG_SETUSERPREFS, SetUserPrefs);
+	CreateServiceFunction(MS_TABMSG_TRAYSUPPORT,  Service_OpenTrayMenu);
+	CreateServiceFunction(MS_TABMSG_SLQMGR,       CSendLater::svcQMgr);
 
-	*(SERVICES[CGlobals::H_MS_MSG_SENDMESSAGEW].h) = CreateServiceFunction(MS_MSG_SENDMESSAGE "W", SendMessageCommand_W);
+	CreateServiceFunction(MS_MSG_MOD_GETWINDOWFLAGS, GetMessageWindowFlags);
+	CreateServiceFunction(MS_MSG_MOD_MESSAGEDIALOGOPENED, MessageWindowOpened);
+
 	SI_InitStatusIcons();
 	CB_InitCustomButtons();
 

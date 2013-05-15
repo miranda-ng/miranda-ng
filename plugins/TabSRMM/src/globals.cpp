@@ -562,8 +562,6 @@ int CGlobals::MetaContactEvent(WPARAM wParam, LPARAM lParam)
 
 int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 {
-	int		i;
-
 #if defined(__USE_EX_HANDLERS)
 	__try {
 #endif
@@ -580,11 +578,6 @@ int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 
 		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			M->WriteDword(hContact, SRMSGMOD_T, "messagecount", 0);
-
-		for (i=0; i < SERVICE_LAST; i++) {
-			if (PluginConfig.hSvc[i])
-				DestroyServiceFunction(PluginConfig.hSvc[i]);
-		}
 
 		::SI_DeinitStatusIcons();
 		::CB_DeInitCustomButtons();
