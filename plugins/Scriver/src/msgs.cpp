@@ -322,19 +322,35 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
-	HWND hwnd;
 
 	if (mwid == NULL || mwd == NULL) return 1; 
 	if (mwid->cbSize != sizeof(MessageWindowInputData) || mwd->cbSize != sizeof(SrmmWindowData)) return 1; 
 	if (mwid->hContact == NULL) return 1; 
 	if (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH) return 1; 
-	hwnd = WindowList_Find(g_dat.hMessageWindowList, mwid->hContact);
+
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, mwid->hContact);
 	if (hwnd == NULL)
 		hwnd = SM_FindWindowByContact(mwid->hContact);
 	mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	mwd->hwndWindow = hwnd;
 	mwd->local = 0;
 	mwd->uState = SendMessage(hwnd, DM_GETWINDOWSTATE, 0, 0);
+	return 0;
+}
+
+static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
+{
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam);
+	if (hwnd == NULL)
+		hwnd = SM_FindWindowByContact((HANDLE)wParam);
+	if (hwnd == NULL)
+		return 1;
+
+	SrmmWindowData *dat = (SrmmWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	if (dat == NULL || dat->parent == NULL)
+		return 1;
+
+	SendMessage(dat->parent->hwndStatus, SB_SETTEXT, 0, lParam);
 	return 0;
 }
 
@@ -531,6 +547,7 @@ int OnLoadModule(void)
 	CreateServiceFunction(MS_MSG_GETWINDOWAPI, GetWindowAPI);
 	CreateServiceFunction(MS_MSG_GETWINDOWCLASS, GetWindowClass);
 	CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);
+	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
 	CreateServiceFunction("SRMsg/TypingMessage", TypingMessageCommand);
 
