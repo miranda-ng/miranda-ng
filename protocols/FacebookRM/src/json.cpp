@@ -336,71 +336,37 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				if (type.Value() == "deliver") {
 					const Object& messageContent = objMember["message"];
 
-					const Number& from = messageContent["sender_fbid"];
+					const Number& sender_fbid = messageContent["sender_fbid"];
+					const String& sender_name = messageContent["sender_name"];
+					const String& text = messageContent["body"];
+					const String& tid = messageContent["tid"];
+					const Number& time_sent = messageContent["timestamp"];
+
 					char was_id[32];
-					lltoa(from.Value(), was_id, 10);
+					lltoa(sender_fbid.Value(), was_id, 10);
 
-
-					// Ignore if message is from self user
+					// Ignore messages from myself
 					if (was_id == proto->facy.self_.user_id)
 						continue;
 
-				
-					const String& text = messageContent["body"];
-					//std::string tid = ((const String&)messageContent["tid"]).Value();
+					// Ignore group chat messages
+					if (tid.Value().substr(0, 3) == "id.")
+						continue;
 
-					const String& sender_name = messageContent["sender_name"];
-
-					std::string row = ((const String &)objMember["thread_row"]).Value();
-        
-					const Number& time_sent = messageContent["timestamp"];
 					//proto->Log("????? Checking time %15.2f > %15.2f", time_sent.Value(), proto->facy.last_message_time_);
 
 					if (last_msg != text.Value()) {
 						last_msg = text.Value();
 
   						facebook_message* message = new facebook_message();
-						message->message_text = utils::text::special_expressions_decode(
-							utils::text::slashu_to_utf8(text.Value()));
+						message->message_text = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value()));
 
-						message->sender_name = utils::text::special_expressions_decode(
-							utils::text::slashu_to_utf8(sender_name.Value()));
+						message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(sender_name.Value()));
 
 						message->time = utils::time::fix_timestamp(time_sent.Value());
-						message->user_id = was_id; // TODO: Check if we have contact with this ID in friendlist and then do something different?
-
-						if (row.find("uiSplitPic",0) != std::string::npos) {
-							// This is multiuser message
-							
-							std::string authors = utils::text::special_expressions_decode(
-								utils::text::slashu_to_utf8(row));
-							authors = utils::text::source_get_value(&authors, 2, "<strong class=\"authors\">", "<");
-
-							const String& to_id = messageContent["tid"];
-
-							std::string popup_text = message->sender_name;
-							popup_text += ": ";
-							popup_text += message->message_text;
-
-							std::string title = Translate("Multichat");
-							title += ": ";
-							title += authors;
-				
-							std::string url = "/?action=read&sk=inbox&page&query&tid=";
-							url += to_id.Value();
-
-							proto->Log("      Got multichat message");
-		    
-							TCHAR* szTitle = mir_a2t_cp(title.c_str(), CP_UTF8);
-							TCHAR* szText = mir_a2t_cp(popup_text.c_str(), CP_UTF8);
-							TCHAR* szUrl = mir_a2t_cp(url.c_str(), CP_UTF8);
-							proto->NotifyEvent(szTitle,szText,NULL,FACEBOOK_EVENT_OTHER, szUrl);
-							mir_free(szTitle);
-							mir_free(szText);
-
-						} else {
-							messages->push_back(message);
-						}
+						message->user_id = was_id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
+			
+						messages->push_back(message);
 					} else {
 						std::string msg = "????? Got duplicit inbox message?\n";
 						msg += utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value()));
@@ -418,7 +384,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				char was_id[32];
 				lltoa(from.Value(), was_id, 10);
 
-				// Ignore if message is from self user
+				// Ignore messages from myself
 				if (was_id == proto->facy.self_.user_id)
 					continue;
 
