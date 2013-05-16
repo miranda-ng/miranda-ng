@@ -28,7 +28,6 @@
 
 #define BOSSKEY_LISTEN_INFO _T("MY6BossKey_Param")
 
-#include <m_stdhdr.h>
 #include <windows.h>
 #include <shellapi.h>
 

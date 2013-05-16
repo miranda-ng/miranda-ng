@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define _WIN32_WINNT 0x0501
 #define _WIN32_IE 0x0501
 
-#include "m_stdhdr.h"
-
 #define _CRT_SECURE_NO_WARNINGS
 
 #define WIN32_LEAN_AND_MEAN
@@ -39,6 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdio.h>
 #include <stdlib.h>
 #include <process.h>
+#include <malloc.h>
 #include <math.h>
 #include <winsock.h>
 #include <commctrl.h>

@@ -25,12 +25,12 @@
 #include <limits>
 
 #define MIRANDA_VER 0x0A00
-#include <m_stdhdr.h>
 
 #include <windows.h>
 #include <wincrypt.h>
 #include <winsock2.h>
 
+#include <malloc.h>
 #include <process.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,7 +44,6 @@
 
 // Miranda API
 #include <newpluginapi.h>
-#include <m_stdhdr.h>
 #include <m_system.h>
 #include <m_database.h>
 #include <m_langpack.h>

@@ -27,8 +27,6 @@ Created by Anton Senko aka ZORG , tweaked by Artem Shpynov aka FYR
 #include "hdr/modern_commonheaders.h"
 
 /*
-#include "m_stdhdr.h"
-
 #include <windows.h>
 #include <commctrl.h>
 #include <stdio.h>

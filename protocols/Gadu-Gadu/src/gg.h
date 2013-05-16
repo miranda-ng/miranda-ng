@@ -32,8 +32,6 @@
 #define _WIN32_WINNT 0x0501
 #endif
 
-#include <m_stdhdr.h>
-
 // Windows headers
 // Visual C++ .NET tries to include winsock.h
 // which is very ver bad
@@ -44,6 +42,8 @@
 #endif
 #include <commctrl.h>
 #include <commdlg.h>
+
+#include <malloc.h>
 #include <process.h>
 #include <stdio.h>
 #include <time.h>

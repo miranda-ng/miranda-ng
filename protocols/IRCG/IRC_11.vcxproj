@@ -218,7 +218,6 @@
     <ClCompile Include="src\windows.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\commandmonitor.h" />
     <ClInclude Include="src\irc.h" />
     <ClInclude Include="src\irc_dlg.h" />
     <ClInclude Include="src\irclib.h" />

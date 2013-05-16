@@ -47,7 +47,6 @@
 #include <shlwapi.h>
 #include <Richedit.h>
 
-#include <m_stdhdr.h>
 #include <newpluginapi.h>
 #include <win2k.h>
 #include <m_clistint.h>

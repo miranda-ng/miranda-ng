@@ -37,13 +37,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <shlwapi.h>
 #include <uxtheme.h>
 #include <vssym32.h>
-#include <time.h>
-#include <math.h>
 #include <richedit.h>
 #include <richole.h>
 
-#include <win2k.h>
-#include <m_stdhdr.h>
+#include <malloc.h>
+#include <math.h>
+#include <time.h>
+
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_langpack.h>
@@ -65,6 +65,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_hotkeys.h>
 #include <m_popup.h>
 #include <m_timezones.h>
+#include <win2k.h>
 
 #include <m_ieview.h>
 #include <m_smileyadd.h>

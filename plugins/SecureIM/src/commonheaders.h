@@ -25,11 +25,12 @@
 #include <commdlg.h>
 #include <commctrl.h>
 #include <shlwapi.h>
+
+#include <malloc.h>
 #include <process.h>
 #include <time.h>
 
 #include <win2k.h>
-#include <m_stdhdr.h>
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_protomod.h>

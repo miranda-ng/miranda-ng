@@ -20,7 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <windows.h>
 #include <richedit.h>
+
 #include <delayimp.h>
+#include <malloc.h>
 
 #include <newpluginapi.h>
 #include <m_database.h>
@@ -30,7 +32,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_hotkeys.h>
 #include <m_protocols.h>
 #include <m_icolib.h>
-#include <m_stdhdr.h>
 #include <m_options.h>
 #include <m_popup.h>
 #include <m_netlib.h>

@@ -31,8 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MIRANDA_VER 0x0A00
 
-#include "m_stdhdr.h"
-
 #define LISTFOREACH(var__, obj__, list__)	\
 	for (int var__ = 0; (var__ = obj__->ListFindNext(list__, var__)) >= 0; ++var__)
 #define LISTFOREACH_NODEF(var__, obj__, list__)	\
@@ -43,9 +41,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *******************************************************************/
 #define _WIN32_WINNT 0x501
 #define _WIN32_IE 0x501
+
 #include <windows.h>
 #include <commctrl.h>
 #include <uxtheme.h>
+
+#include <malloc.h>
 #include <process.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -53,6 +54,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <limits.h>
 #include <ctype.h>
 #include <stdarg.h>
+
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_system_cpp.h>

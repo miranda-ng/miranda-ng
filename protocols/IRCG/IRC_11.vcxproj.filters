@@ -69,9 +69,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\commandmonitor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\irc.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -28,8 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _WIN32_WINNT   0x0500
 #define _WIN32_WINDOWS 0x0500
 
-#include <m_stdhdr.h>
-
 #include <string>
 #include <cstring>
 #include <sstream>

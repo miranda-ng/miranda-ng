@@ -19,14 +19,13 @@
 	#define snprintf  _snprintf
 #endif
 
-#include <m_stdhdr.h>
+#include <windows.h>
+#include <shlwapi.h>
 
+#include <malloc.h>
 #include <sys/stat.h>
 #include <io.h>
 #include <time.h>
-
-#include <windows.h>
-#include <shlwapi.h>
 
 /*
  * Yahoo Services

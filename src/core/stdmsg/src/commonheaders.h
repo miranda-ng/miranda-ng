@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <m_stdhdr.h>
-
 #include <windows.h>
 #include <windowsx.h>
 #include <ole2.h>
@@ -36,6 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commctrl.h>
 #include <vssym32.h>
 
+#include <malloc.h>
 #include <time.h>
 
 #include "resource.h"

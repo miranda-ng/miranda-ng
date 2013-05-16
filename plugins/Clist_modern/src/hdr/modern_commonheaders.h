@@ -68,12 +68,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <windows.h>
 #include <Shlwapi.h>
 #include <vssym32.h>
+
+#include <malloc.h>
 #include <time.h>
 #include <stddef.h>
 #include <io.h>
 #include <math.h>
 
-#include <m_stdhdr.h>
 #include <newpluginapi.h>
 #include <m_system_cpp.h>
 #include <win2k.h>

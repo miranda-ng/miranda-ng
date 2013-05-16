@@ -31,8 +31,6 @@
 #include <fcntl.h>
 #include <Winsock2.h>
 
-#include <m_stdhdr.h>
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_system_cpp.h>
 #include <m_database.h>
@@ -41,6 +39,7 @@
 #include <m_avatars.h>
 #include <m_netlib.h>
 #include <m_clistint.h>
+#include <win2k.h>
 
 #include <m_folders.h>
 #include <m_flash.h>

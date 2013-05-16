@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define _WIN32_WINNT 0x0501
 #define _WIN32_IE 0x0501
 
-#include <m_stdhdr.h>
-
 #include <shlobj.h>
 #include <windows.h>
 #include <commctrl.h>
@@ -38,6 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <Initguid.h>
 #include <Oleacc.h>
 
+#include <malloc.h>
 #include <time.h>
 
 #include <win2k.h>

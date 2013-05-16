@@ -27,8 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define INCL_WINSOCK_API_TYPEDEFS 1
 
-#include "m_stdhdr.h"
-
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <windows.h>
@@ -38,6 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commctrl.h>
 #include <vssym32.h>
 
+#include <malloc.h>
 #include <stdio.h>
 #include <time.h>
 #include <stddef.h>

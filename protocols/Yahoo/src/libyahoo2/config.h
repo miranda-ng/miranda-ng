@@ -22,8 +22,6 @@
 #define PACKAGE "libyahoo2"
 #define VERSION "0.7.5"
 
-#include <m_stdhdr.h>
-
 #include <windows.h>
 #include <stdio.h>
 

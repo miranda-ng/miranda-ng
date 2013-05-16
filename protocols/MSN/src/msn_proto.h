@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _MSN_PROTO_H_
 #define _MSN_PROTO_H_
 
-#include <m_stdhdr.h>
 #include <m_protoint.h>
 
 struct CMsnProto;
