@@ -6,7 +6,7 @@
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
-
+Omegle protokol pro Mirandu NG.
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]
 Server:
@@ -108,7 +108,7 @@ Vy i cizinec mluvíte stejnou řečí.
 [%s server connection]
 %s - spojení se serverem
 [Unable to get Netlib connection for Omegle]
-
+Nelze získat Netlib připojení pro Omegle
 [Stranger typing]
 Cizinec píše zprávu
 [Stranger stopped typing]

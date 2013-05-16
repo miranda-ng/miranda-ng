@@ -6,7 +6,7 @@
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
-
+Facebook protokol pro Mirandu NG.
 ;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 E-mail:
