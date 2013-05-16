@@ -58,6 +58,8 @@ CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* u
 
 int CSkypeProto::UninitSkypeProto(CSkypeProto* ppro)
 {
+	ppro->stop();
+
 	ppro->StopSkypeRuntime();
 
 	CSkypeProto::instanceList.remove(ppro);

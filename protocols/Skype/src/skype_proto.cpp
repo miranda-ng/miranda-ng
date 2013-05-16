@@ -42,8 +42,6 @@ CSkypeProto::~CSkypeProto()
 		this->password = NULL;
 	}
 
-	this->stop();
-
 	::ProtoDestructor(this);
 }
 

@@ -88,8 +88,14 @@ int CSkypeProto::StartSkypeRuntime(const wchar_t *profileName)
 
 void CSkypeProto::StopSkypeRuntime()
 {
-	::TerminateProcess(this->skypeKitProcessInfo.hProcess, 0);
+	::PostThreadMessage(this->skypeKitProcessInfo.dwThreadId, WM_CLOSE, 0, 0);
+	::WaitForSingleObject(this->skypeKitProcessInfo.hProcess, 1500);
+
+	DWORD dwExitCode = 0;
+	::GetExitCodeProcess(this->skypeKitProcessInfo.hProcess, &dwExitCode);
+	if (dwExitCode == STILL_ACTIVE)
+		::TerminateProcess(this->skypeKitProcessInfo.hProcess, 0); // Zero is the exit code
+
 	::CloseHandle(this->skypeKitProcessInfo.hThread);
 	::CloseHandle(this->skypeKitProcessInfo.hProcess);
-
 }
