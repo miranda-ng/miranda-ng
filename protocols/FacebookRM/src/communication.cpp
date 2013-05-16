@@ -618,7 +618,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 	data += "&email=" + utils::url::encode(username);
 	data += "&pass=" + utils::url::encode(password);
 
-	MCBuf locale( db_get_sa(NULL, parent->m_szModuleName, FACEBOOK_KEY_LOCALE));
+	ptrA locale( db_get_sa(NULL, parent->m_szModuleName, FACEBOOK_KEY_LOCALE));
 	if (locale != NULL)
 		data += "&locale=" + std::string(locale);
 
@@ -723,7 +723,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 
 		TCHAR buf[200];
 		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Login error: %s"), 
-			(!error_str.length()) ? TranslateT("Unknown error") : MTBuf(mir_utf8decodeT(error_str.c_str())));
+			(!error_str.length()) ? TranslateT("Unknown error") : ptrT(mir_utf8decodeT(error_str.c_str())));
 		client_notify(buf);
 	}
 	case HTTP_CODE_FORBIDDEN: // Forbidden

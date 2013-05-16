@@ -135,7 +135,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 
 	// build a message
 	Buffer<char> szUtfMsg;
-	MCBuf szTemplate( mir_utf8encodeT(tszForwardTemplate));
+	ptrA szTemplate( mir_utf8encodeT(tszForwardTemplate));
 	for (char *p = szTemplate; *p; p++) {
 		if (*p != '%') {
 			szUtfMsg.append(*p);
@@ -146,7 +146,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 		switch(*++p) {
 		case 'u':
 		case 'U':
-			szUtfMsg.append( MCBuf(mir_utf8encodeT(pcli->pfnGetContactDisplayName(hContact, 0))));
+			szUtfMsg.append( ptrA(mir_utf8encodeT(pcli->pfnGetContactDisplayName(hContact, 0))));
 			break;
 
 		case 'i':
@@ -167,19 +167,19 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 				}
 				else mir_sntprintf(buf, SIZEOF(buf), _T("%p"), hContact);
 			}
-			szUtfMsg.append( MCBuf(mir_utf8encodeT(buf)));
+			szUtfMsg.append( ptrA(mir_utf8encodeT(buf)));
 			break;
 
 		case 't':
 		case 'T':
 			_tcsftime(buf, 10, _T("%H:%M"), tm_time);
-			szUtfMsg.append( MCBuf(mir_utf8encodeT(buf)));
+			szUtfMsg.append( ptrA(mir_utf8encodeT(buf)));
 			break;
 
 		case 'd':
 		case 'D':
 			_tcsftime(buf, 12, _T("%d/%m/%Y"), tm_time);
-			szUtfMsg.append( MCBuf(mir_utf8encodeT(buf)));
+			szUtfMsg.append( ptrA(mir_utf8encodeT(buf)));
 			break;
 
 		case 'm':
@@ -187,7 +187,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 			if (dbei.flags & DBEF_UTF)
 				szUtfMsg.append((char*)dbei.pBlob, dbei.cbBlob);
 			else
-				szUtfMsg.append( MCBuf(mir_utf8encode((char*)dbei.pBlob)));
+				szUtfMsg.append( ptrA(mir_utf8encode((char*)dbei.pBlob)));
 			break;
 
 		case '%':

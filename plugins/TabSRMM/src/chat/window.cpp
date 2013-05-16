@@ -3113,10 +3113,10 @@ LABEL_SHOWWINDOW:
 					if (GetSendButtonState(hwndDlg) != PBS_DISABLED) {
 						MODULEINFO *mi = MM_FindModule(si->pszModule);
 
-						MCBuf pszRtf( Chat_Message_GetFromStream(hwndDlg, si));
+						ptrA pszRtf( Chat_Message_GetFromStream(hwndDlg, si));
 						SM_AddCommand(si->ptszID, si->pszModule, pszRtf);
 
-						MTBuf ptszText( Chat_DoRtfToTags(pszRtf, si));
+						ptrT ptszText( Chat_DoRtfToTags(pszRtf, si));
 						if ((TCHAR*)ptszText == NULL)
 							break;
 

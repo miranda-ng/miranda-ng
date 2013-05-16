@@ -827,7 +827,7 @@ void CMsnProto::sttProcessStatusMessage(char* buf, unsigned len, const char* wli
 	else db_unset(hContact, "CList", "StatusMsg");
 
 	{
-		MTBuf tszStatus( mir_utf8decodeT(szStatMsg));
+		ptrT tszStatus( mir_utf8decodeT(szStatMsg));
 		SendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, tszStatus);
 	}
 

@@ -453,7 +453,7 @@ void SaveState()
 		if (szTempModeName) {
 			SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szTempModeName);
 
-			MCBuf szModeName( mir_utf8encodeT(szTempModeName));
+			ptrA szModeName( mir_utf8encodeT(szTempModeName));
 
 			DWORD dwGlobalMask = GetMaskForItem(hInfoItem);
 			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {

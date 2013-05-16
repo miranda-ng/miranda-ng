@@ -197,7 +197,7 @@ char *TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isG
 	}
 	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM) & dbtts);
 	strncat(szResult, str, 500);
-	lstrcpynA(szResult, MCBuf(mir_utf8encode(szResult)), 500);
+	lstrcpynA(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;
 }
 
@@ -327,7 +327,7 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				isGroupBreak = FALSE;
 			}
 
-			MCBuf szName, szText;
+			ptrA szName, szText;
 			if (eventData->dwFlags & IEEDF_UNICODE_NICK)
 				szName = encodeUTF8(event->hContact, szRealProto, eventData->pszNickW, ENF_NAMESMILEYS, true);
   			else

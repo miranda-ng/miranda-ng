@@ -901,7 +901,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							job->writeFlags();
 							break;
 						case ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD:
-							Utils::CopyToClipBoard((TCHAR*)MTBuf( mir_utf8decodeT(job->sendBuffer)), m_hwndDlg);
+							Utils::CopyToClipBoard((TCHAR*)ptrT( mir_utf8decodeT(job->sendBuffer)), m_hwndDlg);
 							break;
 						case ID_QUEUEMANAGER_RESETSELECTED:
 							if (job->bCode == CSendLaterJob::JOB_DEFERRED) {

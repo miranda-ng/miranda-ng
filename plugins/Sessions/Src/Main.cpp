@@ -503,7 +503,7 @@ INT_PTR OpenSessionsManagerWindow(WPARAM wparam,LPARAM lparam)
 		return 0;
 	}
 	
-	MTBuf 
+	ptrT 
 		tszSession(db_get_tsa(NULL, MODNAME, "SessionDate_0")),
 		tszUserSession(db_get_tsa(NULL, MODNAME, "UserSessionDsc_0"));
 	if (g_bIncompletedSave || tszSession || tszUserSession) {

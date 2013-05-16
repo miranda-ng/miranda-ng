@@ -1256,10 +1256,10 @@ static void OpenOptionsNow(int hLangpack, const char *pszGroup, const char *pszP
 		ShowWindow(hwndOptions, SW_RESTORE);
 		SetForegroundWindow(hwndOptions);
 		if (pszPage != NULL) {
-			MTBuf ptszPage( mir_a2t(pszPage));
+			ptrT ptszPage( mir_a2t(pszPage));
 			HTREEITEM hItem = NULL;
 			if (pszGroup != NULL) {
-				MTBuf ptszGroup( mir_a2t(pszGroup));
+				ptrT ptszGroup( mir_a2t(pszGroup));
 				hItem = FindNamedTreeItemAtRoot( GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(hLangpack, ptszGroup));
 				if (hItem != NULL)
 					hItem = FindNamedTreeItemAtChildren( GetDlgItem(hwndOptions, IDC_PAGETREE), hItem, TranslateTH(hLangpack, ptszPage));

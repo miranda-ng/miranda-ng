@@ -174,7 +174,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 
 	if (!db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_MARK_READ, 0)) {
 		// old variant - no seen info updated
-		MCBuf id( db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID));
+		ptrA id( db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID));
 		if (id == NULL) return;
 
 		std::string data = "action=chatMarkRead";
@@ -185,7 +185,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 		http::response resp = facy.flap(FACEBOOK_REQUEST_ASYNC, &data);
 	} else {
 		// new variant - with seen info 
-		MCBuf mid( db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_MESSAGE_ID));
+		ptrA mid( db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_MESSAGE_ID));
 		if (mid == NULL) return;
 
 		std::string data = "ids[" + std::string(mid) + "]=true";

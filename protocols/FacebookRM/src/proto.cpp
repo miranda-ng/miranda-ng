@@ -459,7 +459,7 @@ int FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 
 	std::string url = FACEBOOK_URL_PROFILE;
 
-	MCBuf val = db_get_sa(hContact, m_szModuleName, "Homepage");
+	ptrA val = db_get_sa(hContact, m_szModuleName, "Homepage");
 	if (val != NULL) {
 		// Homepage link already present, get it
 		url = val;
@@ -481,7 +481,7 @@ int FacebookProto::VisitFriendship(WPARAM wParam,LPARAM lParam)
 	if (wParam == 0 || !IsMyContact(hContact))
 		return 1;
 
-	MCBuf id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+	ptrA id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
 
 	std::string url = FACEBOOK_URL_PROFILE;
 	url += facy.self_.user_id;
@@ -498,7 +498,7 @@ int FacebookProto::Poke(WPARAM wParam,LPARAM lParam)
 
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
-	MCBuf id( db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID));
+	ptrA id( db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID));
 	if (id == NULL)
 		return 1;
 	
@@ -520,14 +520,14 @@ int FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 		|| (deleting && db_get_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != FACEBOOK_CONTACT_FRIEND))
 		return 0;
 
-	MTBuf tname = db_get_tsa(hContact, m_szModuleName, FACEBOOK_KEY_NAME);
+	ptrT tname = db_get_tsa(hContact, m_szModuleName, FACEBOOK_KEY_NAME);
 	if (tname == NULL)
 		tname = db_get_tsa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
 
 	TCHAR tstr[256];
 	if (MessageBox(0, tstr, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
 
-		MCBuf id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+		ptrA id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
 		if (id == NULL)
 			return 1;
 
@@ -552,7 +552,7 @@ int FacebookProto::RequestFriendship(WPARAM wParam,LPARAM lParam)
 
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
-	MCBuf id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+	ptrA id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
 	if (id == NULL)
 		return 1;
 	

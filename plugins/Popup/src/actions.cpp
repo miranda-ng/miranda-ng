@@ -261,7 +261,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				LVITEM item = {0};
 				item.mask = LVIF_IMAGE|LVIF_PARAM|LVIF_TEXT|LVIF_STATE|LVIF_INDENT;
 				item.iItem = i;
-				MTBuf tszName( mir_a2t(szName));
+				ptrT tszName( mir_a2t(szName));
 				item.pszText = TranslateTS(tszName);
 				item.iImage = ImageList_AddIcon(hImgList, gActions[i]->lchIcon);
 				item.lParam = i;

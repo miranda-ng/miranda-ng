@@ -308,8 +308,8 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 
 	// replace spaces with %20
 	char loc[256];
-	MCBuf szSearchName( mir_utf8encodeT(name));
-	wsprintfA(loc, sData->SearchURL, MCBuf( mir_urlEncode(szSearchName)));
+	ptrA szSearchName( mir_utf8encodeT(name));
+	wsprintfA(loc, sData->SearchURL, ptrA( mir_urlEncode(szSearchName)));
 	if (InternetDownloadFile(loc, NULL, &szData) == 0) {
 		TCHAR* szInfo = szData;
 		search = _tcsstr(szInfo, sData->NotFoundStr);	// determine if data is available

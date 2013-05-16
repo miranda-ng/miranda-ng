@@ -554,11 +554,11 @@ static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 				if (dbe->cbBlob > (sizeof(DWORD) + namelength + 1))
 					szDescr = szFileName + namelength + 1;
 
-				MTBuf tszFileName( DbGetEventStringT(dbe, szFileName));
+				ptrT tszFileName( DbGetEventStringT(dbe, szFileName));
 				TCHAR buf[1024];
 
 				if (szDescr && Utils::safe_strlen(szDescr, dbe->cbBlob - sizeof(DWORD) - namelength - 1) > 0) {
-					MTBuf tszDescr( DbGetEventStringT(dbe, szDescr));
+					ptrT tszDescr( DbGetEventStringT(dbe, szDescr));
 					if (tszFileName && tszDescr) {
 						mir_sntprintf(buf, SIZEOF(buf), _T("%s: %s (%s)"), TranslateT("Incoming file"), tszFileName, tszDescr);
 						return mir_tstrdup(buf);

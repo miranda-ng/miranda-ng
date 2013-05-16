@@ -1095,7 +1095,7 @@ static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (cws && cws->szSetting && !strcmp(cws->szSetting, "MirVer")) {
 		switch (cws->value.type) {
 		case DBVT_UTF8:
-			ApplyFingerprintImage(hContact, MTBuf(mir_utf8decodeT(cws->value.pszVal)));
+			ApplyFingerprintImage(hContact, ptrT(mir_utf8decodeT(cws->value.pszVal)));
 			break;
 		case DBVT_ASCIIZ:
 			ApplyFingerprintImage(hContact, _A2T(cws->value.pszVal));
@@ -1125,7 +1125,7 @@ static int OnSrmmWindowEvent(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	if (event->uType == MSG_WINDOW_EVT_OPEN) {
-		MTBuf ptszMirVer;
+		ptrT ptszMirVer;
 		char *szProto = GetContactProto(event->hContact);
 		if (szProto != NULL)
 			ptszMirVer = db_get_tsa(event->hContact, szProto, "MirVer");

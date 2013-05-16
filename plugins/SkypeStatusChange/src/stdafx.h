@@ -64,7 +64,7 @@ class COptions
 			iStatus(_status)
 		{}
 
-		MCBuf szProto;
+		ptrA szProto;
 		int iStatus;
 	};
 

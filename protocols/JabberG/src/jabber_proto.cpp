@@ -1150,7 +1150,7 @@ static char PGP_EPILOG[] = "\r\n-----END PGP MESSAGE-----\r\n";
 
 int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 {
-	MTBuf ptszJid( db_get_tsa(hContact, m_szModuleName, "jid"));
+	ptrT ptszJid( db_get_tsa(hContact, m_szModuleName, "jid"));
 	if ( !m_bJabberOnline || ptszJid == NULL) {
 		TFakeAckParams *param = new TFakeAckParams(hContact, Translate("Protocol is offline or no jid"));
 		JForkThread(&CJabberProto::SendMessageAckThread, param);

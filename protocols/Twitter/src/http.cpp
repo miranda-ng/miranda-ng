@@ -23,5 +23,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 std::string http::url_encode(const std::string &s)
 {
-	return (char*)MCBuf( mir_urlEncode( s.c_str()));
+	return (char*)ptrA( mir_urlEncode( s.c_str()));
 }

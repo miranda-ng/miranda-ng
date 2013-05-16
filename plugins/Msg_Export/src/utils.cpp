@@ -452,11 +452,11 @@ static bool bWriteTextToFile(HANDLE hFile, const TCHAR *pszSrc, bool bUtf8File, 
 
 	if ( !bUtf8File) {
 		// We need to downgrade text to ansi
-		MCBuf pszAstr( mir_t2a(pszSrc));
+		ptrA pszAstr( mir_t2a(pszSrc));
 		return bWriteToFile(hFile, pszAstr, -1);
 	}
 	
-	MCBuf pszUtf8( mir_utf8encodeT(pszSrc));
+	ptrA pszUtf8( mir_utf8encodeT(pszSrc));
 	return bWriteToFile(hFile, pszUtf8, -1);
 }
 
@@ -473,7 +473,7 @@ static bool bWriteTextToFile( HANDLE hFile, const char *pszSrc, bool bUtf8File, 
 		pszSrc = tmp;
 	}
 
-	MCBuf pszUtf8( mir_utf8encode(pszSrc));
+	ptrA pszUtf8( mir_utf8encode(pszSrc));
 	return bWriteToFile(hFile, pszUtf8, -1);
 }
 

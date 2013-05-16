@@ -182,7 +182,7 @@ HANDLE CAimProto::find_chat_contact(const char* room)
 
 HANDLE CAimProto::contact_from_sn(const char* sn, bool addIfNeeded, bool temporary)
 {
-	MCBuf norm_sn( normalize_name(sn));
+	ptrA norm_sn( normalize_name(sn));
 
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;

@@ -450,7 +450,7 @@ int FillAvatarListFromDB(HWND list, HANDLE hContact)
 
 		// Get file in disk
 		TCHAR path[MAX_PATH];
-		MTBuf tszStoredPath(mir_utf8decodeT((char*)dbei.pBlob));
+		ptrT tszStoredPath(mir_utf8decodeT((char*)dbei.pBlob));
 		PathToAbsoluteT(tszStoredPath, path);
 
 		// Add to list

@@ -91,7 +91,7 @@ LPSTR HttpPost(HANDLE hUser, LPSTR reqUrl, LPSTR reqParams)
 
 LPSTR MakeRequest(HANDLE hUser, LPSTR reqUrl, LPSTR reqParamsFormat, LPSTR p1, LPSTR p2)
 {
-	MCBuf encodedP1( mir_urlEncode(p1)), encodedP2( mir_urlEncode(p2));
+	ptrA encodedP1( mir_urlEncode(p1)), encodedP2( mir_urlEncode(p2));
 	LPSTR reqParams = (LPSTR)alloca(lstrlenA(reqParamsFormat) + 1 + lstrlenA(encodedP1) + lstrlenA(encodedP2));
 	sprintf(reqParams, reqParamsFormat, encodedP1, encodedP2);
 	return HttpPost(hUser, reqUrl, reqParams);
@@ -119,7 +119,7 @@ LPSTR FindSid(LPSTR resp, LPSTR *LSID)
 
 void DoOpenUrl(LPSTR tokenResp, LPSTR url)
 {
-	MCBuf encodedUrl( mir_urlEncode(url)), encodedToken( mir_urlEncode(tokenResp));
+	ptrA encodedUrl( mir_urlEncode(url)), encodedToken( mir_urlEncode(tokenResp));
 	LPSTR composedUrl = (LPSTR)alloca(lstrlenA(TOKEN_AUTH_URL) + 1 + lstrlenA(encodedToken) + lstrlenA(encodedUrl));
 	sprintf(composedUrl, TOKEN_AUTH_URL, encodedToken, encodedUrl);
 	CallService(MS_UTILS_OPENURL, 0, (LPARAM)composedUrl);
@@ -127,13 +127,13 @@ void DoOpenUrl(LPSTR tokenResp, LPSTR url)
 
 BOOL AuthAndOpen(HANDLE hUser, LPSTR url, LPSTR mailbox, LPSTR pwd)
 {
-	MCBuf authResp( MakeRequest(hUser, AUTH_REQUEST_URL, AUTH_REQUEST_PARAMS, mailbox, pwd));
+	ptrA authResp( MakeRequest(hUser, AUTH_REQUEST_URL, AUTH_REQUEST_PARAMS, mailbox, pwd));
 	if (!authResp)
 		return FALSE;
 
 	LPSTR LSID;
 	LPSTR SID = FindSid(authResp, &LSID);
-	MCBuf tokenResp( MakeRequest(hUser, ISSUE_TOKEN_REQUEST_URL, ISSUE_TOKEN_REQUEST_PARAMS, SID, LSID));
+	ptrA tokenResp( MakeRequest(hUser, ISSUE_TOKEN_REQUEST_URL, ISSUE_TOKEN_REQUEST_PARAMS, SID, LSID));
 	if (!tokenResp)
 		return FALSE;
 

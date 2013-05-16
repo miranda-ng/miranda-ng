@@ -712,7 +712,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 				mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("changed status from %s to %s."), szOldStatus, szNewStatus);
 		}
 
-		MCBuf szMsg( mir_utf8encodeT(buffer));
+		ptrA szMsg( mir_utf8encodeT(buffer));
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.pBlob = (PBYTE)(char*)szMsg;
 		dbei.cbBlob = lstrlenA(szMsg) + 1;

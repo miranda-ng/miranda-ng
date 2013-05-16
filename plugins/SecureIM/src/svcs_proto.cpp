@@ -104,7 +104,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 	if (ssig == SiG_NONE && !ptr->msgSplitted) {
 		Sent_NetLog("onRecvMsg: non-secure message");
 
-		MCBuf szPlainMsg((ppre->flags & PREF_UNICODE) ? m_awstrcat(Translate(sim402),szEncMsg) : m_aastrcat(Translate(sim402),szEncMsg));
+		ptrA szPlainMsg((ppre->flags & PREF_UNICODE) ? m_awstrcat(Translate(sim402),szEncMsg) : m_aastrcat(Translate(sim402),szEncMsg));
 		ppre->szMessage = szPlainMsg;
 		pccsd->wParam |= PREF_SIMNOMETA;
 		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
@@ -189,7 +189,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			szNewMsg = m_ustrcat(Translate(sim403), szOldMsg);
 			szOldMsg = szNewMsg;
 		}
-		MCBuf szMsgUtf( utf8_to_miranda(szOldMsg, ppre->flags));
+		ptrA szMsgUtf( utf8_to_miranda(szOldMsg, ppre->flags));
 		pccsd->wParam = ppre->flags;
 		ppre->szMessage = szMsgUtf;
 
@@ -224,7 +224,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			if (!szOldMsg)
 				return 1; // don't display it ...
 
-			MCBuf szNewMsg( utf8_to_miranda(szOldMsg, ppre->flags));
+			ptrA szNewMsg( utf8_to_miranda(szOldMsg, ppre->flags));
 			pccsd->wParam = ppre->flags;
 			ppre->szMessage = szNewMsg;
 
@@ -252,7 +252,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			// reinit key exchange user has send an encrypted message and i have no key
 			cpp_reset_context(ptr->cntx);
 
-			MCBuf reSend((LPSTR)mir_alloc(strlen(szEncMsg)+LEN_RSND));
+			ptrA reSend((LPSTR)mir_alloc(strlen(szEncMsg)+LEN_RSND));
 			strcpy(reSend,SIG_RSND); // copy resend sig
 			strcat(reSend,szEncMsg); // add mess
 
@@ -261,7 +261,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			pccsd->szProtoService = PSS_MESSAGE;
 			CallService(MS_PROTO_CHAINSEND, wParam, lParam); // send back cipher message
 
-			MCBuf keyToSend( InitKeyA(ptr, 0)); // calculate public and private key
+			ptrA keyToSend( InitKeyA(ptr, 0)); // calculate public and private key
 			pccsd->lParam = (LPARAM)(char*)keyToSend;
 			CallService(MS_PROTO_CHAINSEND, wParam, lParam); // send new key
 
@@ -301,7 +301,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 		if (cpp_keyx(ptr->cntx)) {
 			// decrypt sended back message and save message for future sending with a new secret key
-			addMsg2Queue(ptr, pccsd->wParam, MCBuf(decodeMsg(ptr,(LPARAM)pccsd,szEncMsg)));
+			addMsg2Queue(ptr, pccsd->wParam, ptrA(decodeMsg(ptr,(LPARAM)pccsd,szEncMsg)));
 			showPopUpRM(ptr->hContact);
 			showPopUp(sim004,NULL,g_hPOP[POP_PU_DIS],0);
 		}
@@ -373,7 +373,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			if (ptr->features & CPP_FEATURES_NEWPG) {
 				cpp_reset_context(ptr->cntx);
 
-				MCBuf keyToSend( InitKeyA(ptr,CPP_FEATURES_NEWPG|KEY_A_SIG)); // calculate NEW public and private key
+				ptrA keyToSend( InitKeyA(ptr,CPP_FEATURES_NEWPG|KEY_A_SIG)); // calculate NEW public and private key
 				Sent_NetLog("onRecvMsg: Sending KEYA %s", keyToSend);
 
 				pccsd->wParam |= PREF_METANODB;
@@ -388,7 +388,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 			// auto send my public key to keyB user if not done before
 			if (!cpp_keya(ptr->cntx)) {
-				MCBuf keyToSend( InitKeyA(ptr,0)); // calculate public and private key
+				ptrA keyToSend( InitKeyA(ptr,0)); // calculate public and private key
 				Sent_NetLog("onRecvMsg: Sending KEYA %s", keyToSend);
 
 				pccsd->wParam |= PREF_METANODB;
@@ -418,7 +418,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				return 1;
 			}
 			else {
-				MCBuf keyToSend( InitKeyA(ptr, CPP_FEATURES_NEWPG | KEY_B_SIG)); // calculate NEW public and private key
+				ptrA keyToSend( InitKeyA(ptr, CPP_FEATURES_NEWPG | KEY_B_SIG)); // calculate NEW public and private key
 				Sent_NetLog("onRecvMsg: Sending KEYB %s", keyToSend);
 
 				pccsd->wParam |= PREF_METANODB;
@@ -511,7 +511,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			if (!ptr->keyLoaded ) return returnError(pccsd->hContact,Translate(sim108));
 
 			LPSTR szNewMsg = NULL;
-			MCBuf szUtfMsg( miranda_to_utf8((LPCSTR)pccsd->lParam,pccsd->wParam));
+			ptrA szUtfMsg( miranda_to_utf8((LPCSTR)pccsd->lParam,pccsd->wParam));
 			if (ptr->keyLoaded == 1) // PGP
 				szNewMsg = pgp_encode(ptr->cntx,szUtfMsg);
 			else if (ptr->keyLoaded == 2) // GPG
@@ -559,7 +559,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			}
 
 			// шлем шифрованное в оффлайн
-			exp->rsa_send(ptr->cntx, MCBuf( miranda_to_utf8((LPCSTR)pccsd->lParam,pccsd->wParam)));
+			exp->rsa_send(ptr->cntx, ptrA( miranda_to_utf8((LPCSTR)pccsd->lParam,pccsd->wParam)));
 			showPopUpSM(ptr->hContact);
 			return returnNoError(pccsd->hContact);
 		}
@@ -591,7 +591,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 
 		// соединение установлено
 		if (ptr->cntx && exp->rsa_get_state(ptr->cntx) == 7) {
-			exp->rsa_send(ptr->cntx, MCBuf(miranda_to_utf8((LPCSTR)pccsd->lParam,pccsd->wParam)));
+			exp->rsa_send(ptr->cntx, ptrA(miranda_to_utf8((LPCSTR)pccsd->lParam,pccsd->wParam)));
 			ShowStatusIconNotify(ptr->hContact);
 			showPopUpSM(ptr->hContact);
 			return returnNoError(pccsd->hContact);
@@ -738,7 +738,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 	if (cpp_keyx(ptr->cntx)) {
 		Sent_NetLog("onSendMsg: cryptokey exist");
 
-		MCBuf szNewMsg( encodeMsg(ptr,(LPARAM)pccsd));
+		ptrA szNewMsg( encodeMsg(ptr,(LPARAM)pccsd));
 		Sent_NetLog("onSend: encrypted msg '%s'",szNewMsg);
 
 		pccsd->wParam |= PREF_METANODB;
@@ -759,7 +759,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 
 		if (!ptr->waitForExchange) {
 			// init || always_try || always_if_possible
-			MCBuf keyToSend( InitKeyA(ptr,0));	// calculate public and private key & fill KeyA
+			ptrA keyToSend( InitKeyA(ptr,0));	// calculate public and private key & fill KeyA
 			Sent_NetLog("Sending KEY3: %s", keyToSend);
 
 			pccsd->wParam &= ~PREF_UNICODE;

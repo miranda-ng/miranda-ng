@@ -428,17 +428,17 @@ __forceinline TCHAR* Utils_ReplaceVarsT(const TCHAR *szData) {
 		#include "m_system_cpp.h"
 	#endif
 
-	struct VARS : public MCBuf
+	struct VARS : public ptrA
 	{
 		__forceinline VARS(const char *str) :
-			MCBuf( Utils_ReplaceVars(str))
+			ptrA( Utils_ReplaceVars(str))
 			{}
 	};
 
-	struct VARST : public MTBuf
+	struct VARST : public ptrT
 	{
 		__forceinline VARST(const TCHAR *str) :
-			MTBuf( Utils_ReplaceVarsT(str))
+			ptrT( Utils_ReplaceVarsT(str))
 			{}
 	};
 #endif

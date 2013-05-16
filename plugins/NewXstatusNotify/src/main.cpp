@@ -462,11 +462,11 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 		if (_stricmp(smi.proto, "mRadio") == 0 && !cws->value.type == DBVT_DELETED) {
 			TCHAR buf[MAX_PATH];
 			mir_sntprintf(buf, SIZEOF(buf), _T(" (%s)"), TranslateT("connecting"));
-			MCBuf pszUtf( mir_utf8encodeT(buf));
+			ptrA pszUtf( mir_utf8encodeT(buf));
 			mir_sntprintf(buf, SIZEOF(buf), _T(" (%s)"), TranslateT("aborting"));
-			MCBuf pszUtf2( mir_utf8encodeT(buf));
+			ptrA pszUtf2( mir_utf8encodeT(buf));
 			mir_sntprintf(buf, SIZEOF(buf), _T(" (%s)"), TranslateT("playing"));
-			MCBuf pszUtf3( mir_utf8encodeT(buf));
+			ptrA pszUtf3( mir_utf8encodeT(buf));
 			if (_stricmp(cws->value.pszVal, pszUtf) == 0 || _stricmp(cws->value.pszVal, pszUtf2) == 0 || _stricmp(cws->value.pszVal, pszUtf3) == 0)
 				return 0;
 		}

@@ -431,8 +431,8 @@ void SearchWord(TCHAR * word, int engine)
 {
 	char szURL[4096];
 	if (word && word[0]) {
-		MCBuf wordUTF( mir_utf8encodeT(word));
-		MCBuf wordURL( mir_urlEncode(wordUTF));
+		ptrA wordUTF( mir_utf8encodeT(word));
+		ptrA wordURL( mir_urlEncode(wordUTF));
 		switch (engine) {
 		case SEARCHENGINE_WIKIPEDIA:
 			mir_snprintf(szURL, SIZEOF(szURL), "http://en.wikipedia.org/wiki/%s", wordURL);

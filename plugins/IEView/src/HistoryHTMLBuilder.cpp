@@ -89,7 +89,7 @@ char *HistoryHTMLBuilder::timestampToString(DWORD dwFlags, time_t check) {
 	dbtts.szFormat = (char *)"d t";
 	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM) & dbtts);
 	strncat(szResult, str, 500);
-	lstrcpynA(szResult, MCBuf(mir_utf8encode(szResult)), 500);
+	lstrcpynA(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;
 }
 
@@ -221,7 +221,7 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
 void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
 	DWORD dwFlags = db_get_b(NULL, HPPMOD, SRMSGSET_SHOWICONS, 0) ? SMF_LOG_SHOWICONS : 0;
-	MCBuf szRealProto( getRealProto(event->hContact));
+	ptrA szRealProto( getRealProto(event->hContact));
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {
 		int outputSize;
@@ -231,7 +231,7 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE ||
 				eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_FILE)
 		{
-			MCBuf szName, szText;
+			ptrA szName, szText;
 			if (eventData->dwFlags & IEEDF_UNICODE_NICK)
 				szName = encodeUTF8(event->hContact, szRealProto, eventData->pszNickW, ENF_NAMESMILEYS, true);
 			else

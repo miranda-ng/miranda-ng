@@ -189,10 +189,10 @@ public:
 	__inline operator INT_PTR() const { return (INT_PTR)data; }
 };
 
-struct VARST : public MTBuf
+struct VARST : public ptrT
 {
 	__forceinline VARST(const TCHAR *str) :
-		MTBuf( Utils_ReplaceVarsT(str))
+		ptrT( Utils_ReplaceVarsT(str))
 		{}
 };
 

@@ -1346,7 +1346,7 @@ static void sttLogListHook(CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* g
 		mir_sntprintf(szCaption, SIZEOF(szCaption), _T("%s %s"), TranslateT("Set topic for"), gch->pDest->ptszID);
 		{	
 			size_t cbLen = 2048 + lstrlen(item->itemResource.statusMessage)*2;
-			MTBuf ptszBuf((TCHAR*)mir_alloc( sizeof(TCHAR) * cbLen));
+			ptrT ptszBuf((TCHAR*)mir_alloc( sizeof(TCHAR) * cbLen));
 			if (item->itemResource.statusMessage) {
 				TCHAR *d = ptszBuf;
 				for (int i = 0; i < (int)cbLen; i++) {

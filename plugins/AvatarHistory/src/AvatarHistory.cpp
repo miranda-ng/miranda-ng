@@ -218,7 +218,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 		if (ContactEnabled(hContact, "LogToHistory", AVH_DEF_LOGTOHISTORY)) {
 			TCHAR rel_path[MAX_PATH];
 			PathToRelativeT(history_filename, rel_path);
-			MCBuf blob( mir_utf8encodeT(rel_path));
+			ptrA blob( mir_utf8encodeT(rel_path));
 
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			dbei.szModule = GetContactProto(hContact);
