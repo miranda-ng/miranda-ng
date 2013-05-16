@@ -53,6 +53,10 @@ public:
 	__inline operator INT_PTR() const { return (INT_PTR)data; }
 };
 
+typedef mir_ptr<char>  MCBuf;
+typedef mir_ptr<TCHAR> MTBuf;
+typedef mir_ptr<WCHAR> MWBuf;
+
 ///////////////////////////////////////////////////////////////////////////////
 // mir_cslock - simple locker for the critical sections
 

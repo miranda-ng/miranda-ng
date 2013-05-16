@@ -179,11 +179,11 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			PROTOACCOUNT* acc = ProtoGetAccount(dbei.szModule);
 
-			mir_ptr<TCHAR> lastT(dbei.flags & DBEF_UTF ? Utf8DecodeT(last) : mir_a2t(last));
-			mir_ptr<TCHAR> firstT(dbei.flags & DBEF_UTF ? Utf8DecodeT(first) : mir_a2t(first));
-			mir_ptr<TCHAR> nickT(dbei.flags & DBEF_UTF ? Utf8DecodeT(nick) : mir_a2t(nick));
-			mir_ptr<TCHAR> emailT(dbei.flags & DBEF_UTF ? Utf8DecodeT(email) : mir_a2t(email));
-			mir_ptr<TCHAR> reasonT(dbei.flags & DBEF_UTF ? Utf8DecodeT(reason) : mir_a2t(reason));
+			MTBuf lastT(dbei.flags & DBEF_UTF ? Utf8DecodeT(last) : mir_a2t(last));
+			MTBuf firstT(dbei.flags & DBEF_UTF ? Utf8DecodeT(first) : mir_a2t(first));
+			MTBuf nickT(dbei.flags & DBEF_UTF ? Utf8DecodeT(nick) : mir_a2t(nick));
+			MTBuf emailT(dbei.flags & DBEF_UTF ? Utf8DecodeT(email) : mir_a2t(email));
+			MTBuf reasonT(dbei.flags & DBEF_UTF ? Utf8DecodeT(reason) : mir_a2t(reason));
 
 			TCHAR name[128] = _T("");
 			int off = 0;

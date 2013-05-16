@@ -165,7 +165,7 @@ static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
 	if (pre->szMessage == NULL)
 		return NULL;
 
-	mir_ptr<char> pszTemp;
+	MCBuf pszTemp;
 
 	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);

@@ -64,7 +64,7 @@ class COptions
 			iStatus(_status)
 		{}
 
-		mir_ptr<char> szProto;
+		MCBuf szProto;
 		int iStatus;
 	};
 

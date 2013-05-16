@@ -137,7 +137,7 @@ INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 								break;
 
 							case DBVT_UTF8:
-								_tcscpy(uid, mir_ptr<TCHAR>(mir_utf8decodeT(dbvuid.pszVal)));
+								_tcscpy(uid, MTBuf(mir_utf8decodeT(dbvuid.pszVal)));
 								break;
 							}
 
@@ -344,7 +344,7 @@ INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						break;
 
 					case DBVT_UTF8:
-						_tcscpy(uid, mir_ptr<TCHAR>( mir_utf8decodeT(dbvuid.pszVal)));
+						_tcscpy(uid, MTBuf( mir_utf8decodeT(dbvuid.pszVal)));
 						break;
 					}
 

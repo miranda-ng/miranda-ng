@@ -214,10 +214,10 @@ void RequestMail(LPCTSTR jidWithRes, IJabberInterface *ji)
 	xi.addAttr(node, ATTRNAME_FROM, jidWithRes);
 
 	UINT uID = ji->Net()->SerialNext();
-	mir_ptr<TCHAR> jid( ExtractJid(jidWithRes));
+	MTBuf jid( ExtractJid(jidWithRes));
 	xi.addAttr(node, ATTRNAME_TO, jid);
 
-	mir_ptr<TCHAR> 
+	MTBuf 
 		lastMailTime( ReadJidSetting(LAST_MAIL_TIME_FROM_JID, jid)),
 		lastThreadId( ReadJidSetting(LAST_THREAD_ID_FROM_JID, jid));
 
@@ -280,7 +280,7 @@ void SetNotificationSetting(LPCTSTR jidWithResource, IJabberInterface *ji)
 	xi.addAttr(node, ATTRNAME_TYPE, IQTYPE_SET);
 	xi.addAttr(node, ATTRNAME_FROM, jidWithResource);
 
-	mir_ptr<TCHAR> jid( ExtractJid(jidWithResource));
+	MTBuf jid( ExtractJid(jidWithResource));
 	xi.addAttr(node, ATTRNAME_TO, jid);
 
 	TCHAR id[30];

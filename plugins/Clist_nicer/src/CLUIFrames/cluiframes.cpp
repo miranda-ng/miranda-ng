@@ -530,7 +530,7 @@ int LocateStorePosition(int Frameid, int maxstored)
 	for (int i = 0;i < maxstored;i++) {
 		char settingname[255];
 		mir_snprintf(settingname, sizeof(settingname), "Name%d", i);
-		mir_ptr<TCHAR> frmname( db_get_tsa(0, CLUIFrameModule, settingname));
+		MTBuf frmname( db_get_tsa(0, CLUIFrameModule, settingname));
 		if (frmname == NULL) continue;
 		if (lstrcmpi(frmname, Frames[Frameid].name) == 0)
 			return i;

@@ -1029,7 +1029,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 		dat->lpData = (char*)malloc(dat->nSize);
 		memcpy(dat->lpData, e->event.image_reply.image, dat->nSize);
 
-		mir_ptr<TCHAR> tmpFileName( mir_a2t(e->event.image_reply.filename));
+		MTBuf tmpFileName( mir_a2t(e->event.image_reply.filename));
 		if (!gg_img_hasextension(tmpFileName)) {
 			// Add missing file extension
 			const TCHAR *szImgType = gg_img_guessfileextension(dat->lpData);

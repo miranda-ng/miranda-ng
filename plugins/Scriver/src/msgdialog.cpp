@@ -355,7 +355,7 @@ static LRESULT CALLBACK LogEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 		POINTL ptl = { (LONG)pt.x, (LONG)pt.y };
 		ScreenToClient(hwnd, (LPPOINT)&ptl);
-		mir_ptr<TCHAR> pszWord( GetRichTextWord(hwnd, &ptl));
+		MTBuf pszWord( GetRichTextWord(hwnd, &ptl));
 		if ( pszWord && pszWord[0] ) {
 			TCHAR szMenuText[4096];
 			mir_sntprintf( szMenuText, 4096, TranslateT("Look up \'%s\':"), pszWord );
@@ -1109,8 +1109,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					wStatus = db_get_w( dat->windowData.hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
 					// log status change - should be moved to a separate place
 					if (dat->wStatus != wStatus && db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWSTATUSCH, SRMSGDEFSET_SHOWSTATUSCH)) {
-						mir_ptr<TCHAR> szOldStatus( mir_tstrdup((TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM) dat->wStatus, GSMDF_TCHAR)));
-						mir_ptr<TCHAR> szNewStatus( mir_tstrdup((TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM) wStatus, GSMDF_TCHAR)));
+						MTBuf szOldStatus( mir_tstrdup((TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM) dat->wStatus, GSMDF_TCHAR)));
+						MTBuf szNewStatus( mir_tstrdup((TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM) wStatus, GSMDF_TCHAR)));
 
 						int iLen;
 						TCHAR buffer[512];

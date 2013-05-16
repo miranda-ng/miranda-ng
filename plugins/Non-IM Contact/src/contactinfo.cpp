@@ -111,7 +111,7 @@ int BrowseForFolder(HWND hwnd,char *szPath)
 	if (SUCCEEDED(OleInitialize(NULL))) {
 		LPMALLOC pMalloc;
 		if (SUCCEEDED(CoGetMalloc(1,&pMalloc))) {
-			mir_ptr<TCHAR> tszPath( mir_a2t(szPath));
+			MTBuf tszPath( mir_a2t(szPath));
 			BROWSEINFO bi={0};
 			bi.hwndOwner = hwnd;
 			bi.pszDisplayName = tszPath;

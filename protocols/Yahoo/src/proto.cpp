@@ -209,9 +209,9 @@ int CYahooProto::Authorize( HANDLE hdbe )
 	/* Need to remove the buddy from our Miranda Lists */
 	HANDLE hContact = DbGetAuthEventContact(&dbei);
 	if (hContact != NULL) {
-		mir_ptr<char> who( db_get_sa(hContact, m_szModuleName, YAHOO_LOGINID));
+		MCBuf who( db_get_sa(hContact, m_szModuleName, YAHOO_LOGINID));
 		if (who) {
-			mir_ptr<char> myid( db_get_sa(hContact, m_szModuleName, "MyIdentity"));
+			MCBuf myid( db_get_sa(hContact, m_szModuleName, "MyIdentity"));
 			DebugLog("Accepting buddy:%s", who);
 			accept(myid, who, GetWord(hContact, "yprotoid", 0));
 		}
@@ -254,10 +254,10 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 	/* Need to remove the buddy from our Miranda Lists */
 	HANDLE hContact = DbGetAuthEventContact(&dbei);
 	if (hContact != NULL) {
-		mir_ptr<char> who( db_get_sa(hContact, m_szModuleName, YAHOO_LOGINID));
+		MCBuf who( db_get_sa(hContact, m_szModuleName, YAHOO_LOGINID));
 		if (who) {
-			mir_ptr<char> myid( db_get_sa(hContact, m_szModuleName, "MyIdentity"));
-			mir_ptr<char> u_reason( mir_utf8encodeT(reason));
+			MCBuf myid( db_get_sa(hContact, m_szModuleName, "MyIdentity"));
+			MCBuf u_reason( mir_utf8encodeT(reason));
 
 			DebugLog("Rejecting buddy:%s msg: %s", who, u_reason);
 			reject(myid, who, GetWord(hContact, "yprotoid", 0), u_reason);

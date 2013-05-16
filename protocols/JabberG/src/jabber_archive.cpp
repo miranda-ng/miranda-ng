@@ -292,7 +292,7 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode)
 		if (!tszBody || !tszSecs)
 			continue;
 
-		mir_ptr<char> szEventText( mir_utf8encodeT(tszBody));
+		MCBuf szEventText( mir_utf8encodeT(tszBody));
 
 		DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
 		dbei.eventType = EVENTTYPE_MESSAGE;

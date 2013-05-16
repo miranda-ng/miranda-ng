@@ -289,7 +289,7 @@ static void CheckUpdates(void *)
 	REPLACEVARSDATA dat = { sizeof(REPLACEVARSDATA) };
 	dat.dwFlags = RVF_TCHAR;
 	dat.variables = vars;
-	mir_ptr<TCHAR> tszBaseUrl((TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)dbVar.ptszVal, (LPARAM)&dat));
+	MTBuf tszBaseUrl((TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)dbVar.ptszVal, (LPARAM)&dat));
 	db_free(&dbVar);
 
 	// Download version info

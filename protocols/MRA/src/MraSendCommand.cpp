@@ -105,7 +105,7 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 
 		dwFlags |= MESSAGE_FLAG_RTF;
 		lpszMessageRTF = (LPSTR)mir_calloc(dwRFTBuffSize);
-		mir_ptr<char> lpbRTFData((char*)mir_calloc(dwRFTBuffSize));
+		MCBuf lpbRTFData((char*)mir_calloc(dwRFTBuffSize));
 		if (lpszMessageRTF && lpbRTFData) {
 			DWORD dwBackColour = mraGetDword(NULL, "RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
 			lpbDataCurrent = (LPBYTE)lpszMessageRTF;
@@ -130,7 +130,7 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 			size_t dwRFTBuffSize = (((dwMessageSize*sizeof(WCHAR))*16)+8192), dwRTFDataSize;
 
 			lpszMessageRTF = (LPSTR)mir_calloc(dwRFTBuffSize);
-			mir_ptr<char> lpbRTFData((char*)mir_calloc(dwRFTBuffSize));
+			MCBuf lpbRTFData((char*)mir_calloc(dwRFTBuffSize));
 			if (lpszMessageRTF && lpbRTFData) {
 				if ( !MraConvertToRTFW(lpwszMessage, dwMessageSize, (LPSTR)lpbRTFData, dwRFTBuffSize, &dwRTFDataSize)) {
 					DWORD dwBackColour = mraGetDword(NULL, "RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);

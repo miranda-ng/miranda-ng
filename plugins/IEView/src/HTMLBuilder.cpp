@@ -312,7 +312,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 	HANDLE hDbEvent = event->hDbEventFirst;
 	event->hDbEventFirst = NULL;
 
-	mir_ptr<char> szProto;
+	MCBuf szProto;
 	if (event->cbSize >= IEVIEWEVENT_SIZE_V3 && event->pszProto != NULL)
 		szProto = mir_strdup(event->pszProto);
 	else
@@ -435,7 +435,7 @@ ProtocolSettings* HTMLBuilder::getSRMMProtocolSettings(const char *protocolName)
 
 ProtocolSettings* HTMLBuilder::getSRMMProtocolSettings(HANDLE hContact)
 {
-	return getSRMMProtocolSettings( mir_ptr<char>(getRealProto(hContact)));
+	return getSRMMProtocolSettings( MCBuf(getRealProto(hContact)));
 }
 
 ProtocolSettings* HTMLBuilder::getHistoryProtocolSettings(const char *protocolName)
@@ -450,7 +450,7 @@ ProtocolSettings* HTMLBuilder::getHistoryProtocolSettings(const char *protocolNa
 ProtocolSettings* HTMLBuilder::getHistoryProtocolSettings(HANDLE hContact)
 {
 	if (hContact != NULL)
-		return getHistoryProtocolSettings( mir_ptr<char>(getRealProto(hContact)));
+		return getHistoryProtocolSettings( MCBuf(getRealProto(hContact)));
 
 	return Options::getProtocolSettings();
 }
@@ -466,7 +466,7 @@ ProtocolSettings* HTMLBuilder::getChatProtocolSettings(const char *protocolName)
 
 ProtocolSettings* HTMLBuilder::getChatProtocolSettings(HANDLE hContact)
 {
-	return getChatProtocolSettings( mir_ptr<char>(getRealProto(hContact)));
+	return getChatProtocolSettings( MCBuf(getRealProto(hContact)));
 }
 
 void HTMLBuilder::setLastIEViewEvent(IEVIEWEVENT *event)

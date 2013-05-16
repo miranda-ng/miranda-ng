@@ -586,7 +586,7 @@ void CYahooProto::ext_got_calendar(const char *url, int type, const char *msg, i
 {
 	LOG(("[ext_got_calendar] URL:%s type: %d msg: %s svc: %d", url, type, msg, svc));
 	
-	mir_ptr<TCHAR> tszMsg(mir_utf8decodeT(msg));
+	MTBuf tszMsg(mir_utf8decodeT(msg));
 	if (!ShowPopup( TranslateT("Calendar Reminder"), tszMsg, url))
 		ShowNotification(TranslateT("Calendar Reminder"), tszMsg, NIIF_INFO);
 }
@@ -731,8 +731,8 @@ void CYahooProto::ext_rejected(const char *who, const char *msg)
 	}
 	else LOG(("[ext_rejected] Buddy not on our buddy list"));
 
-	mir_ptr<TCHAR> tszWho( mir_utf8decodeT(who));
-	mir_ptr<TCHAR> tszMsg( mir_utf8decodeT(msg));
+	MTBuf tszWho( mir_utf8decodeT(who));
+	MTBuf tszMsg( mir_utf8decodeT(msg));
 
 	TCHAR buff[1024];
 	mir_sntprintf(buff, SIZEOF(buff), TranslateT("%s has rejected your request and sent the following message:"), (TCHAR*)tszWho);
@@ -991,8 +991,8 @@ void CYahooProto::ext_mail_notify(const char *from, const char *subj, int cnt)
 			else {
 				mir_sntprintf(title, SIZEOF(title), TranslateT("New Mail (%i msgs)"), cnt);
 
-				mir_ptr<TCHAR> tszFrom( mir_utf8decodeT(from));
-				mir_ptr<TCHAR> tszSubj( mir_utf8decodeT(subj));
+				MTBuf tszFrom( mir_utf8decodeT(from));
+				MTBuf tszSubj( mir_utf8decodeT(subj));
 				mir_sntprintf(z, SIZEOF(z), TranslateT("From: %s\nSubject: %s"), (TCHAR*)tszFrom, (TCHAR*)tszSubj);
 			}
 	
@@ -1009,8 +1009,8 @@ void CYahooProto::ext_system_message(const char *me, const char *who, const char
 {
 	LOG(("[ext_system_message] System Message to: %s from: %s msg: %s", me, who, msg));
 
-	mir_ptr<TCHAR> tszWho( mir_utf8decodeT(who));
-	mir_ptr<TCHAR> tszMsg( mir_utf8decodeT(msg));
+	MTBuf tszWho( mir_utf8decodeT(who));
+	MTBuf tszMsg( mir_utf8decodeT(msg));
 	ShowPopup((who != NULL) ? tszWho : TranslateT("Yahoo System Message"), tszMsg, NULL);
 }
 
@@ -1069,7 +1069,7 @@ void CYahooProto::ext_got_ping(const char *errormsg)
 
 	if (errormsg) {
 		LOG(("[ext_got_ping] Error msg: %s", errormsg));
-		mir_ptr<TCHAR> tszMsg( mir_utf8decodeT(errormsg));
+		MTBuf tszMsg( mir_utf8decodeT(errormsg));
 		ShowError( TranslateT("Yahoo Ping Error"), tszMsg);
 		return;
 	}
@@ -1168,7 +1168,7 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 
 void CYahooProto::ext_error(const char *err, int fatal, int num)
 {
-	mir_ptr<TCHAR> tszErr( mir_utf8decodeT(err));
+	MTBuf tszErr( mir_utf8decodeT(err));
 	TCHAR buff[1024];
 	
 	LOG(("[ext_error] Error: fatal: %d, num: %d, err: %s", fatal, num, err));

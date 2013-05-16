@@ -180,7 +180,7 @@ int __cdecl CYahooProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc
 		return 1;
 	}
 
-	mir_ptr<char> msg;
+	MCBuf msg;
 	if (flags & PREF_UNICODE) /* convert to utf8 */
 		msg = mir_utf8encodeW(( wchar_t* )&pszSrc[ strlen(pszSrc)+1 ] );
 	else if ( flags & PREF_UTF )

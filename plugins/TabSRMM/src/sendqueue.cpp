@@ -136,7 +136,7 @@ static int SendChunkW(WCHAR *chunk, HANDLE hContact, DWORD dwFlags)
 	int mbcsSize = WideCharToMultiByte(codePage, 0, chunk, -1, NULL, 0, 0, 0);
 	memRequired += mbcsSize;
 
-	mir_ptr<char> pBuf((char*)mir_alloc(memRequired));
+	MCBuf pBuf((char*)mir_alloc(memRequired));
 	WideCharToMultiByte(codePage, 0, chunk, -1, pBuf, mbcsSize, 0, 0);
 	CopyMemory(&pBuf[mbcsSize], chunk, (wLen+1) * sizeof(WCHAR));
 	return CallContactService(hContact, PSS_MESSAGE, dwFlags, (LPARAM)pBuf);

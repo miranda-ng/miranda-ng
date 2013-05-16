@@ -87,7 +87,7 @@ char *ChatHTMLBuilder::timestampToString(time_t time)
 	char *pszStamp = "[%H:%M]";
 	//InitSetting( &g_Settings.pszTimeStamp, "HeaderTime", _T("[%H:%M]"));
 	strftime(str, 79, pszStamp, localtime(&time));
-	lstrcpynA(szResult, mir_ptr<char>(mir_utf8encode(str)), 500);
+	lstrcpynA(szResult, MCBuf(mir_utf8encode(str)), 500);
 	return szResult;
 }
 
@@ -171,7 +171,7 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 		const char *className = "";
 		bool showIcon = false;
 
-		mir_ptr<char> szName, szText;
+		MCBuf szName, szText;
 		if (eventData->dwFlags & IEEDF_UNICODE_TEXT)
 			szText = encodeUTF8(NULL, event->pszProto, eventData->pszTextW, ENF_ALL | ENF_CHAT_FORMATTING, isSent);
 		else

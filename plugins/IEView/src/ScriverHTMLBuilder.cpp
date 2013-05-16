@@ -171,7 +171,7 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 		//_tcsncat(szResult, str, 500);
 		strncat(szResult, str, 500);
 	}
-	lstrcpynA(szResult, mir_ptr<char>(mir_utf8encode(szResult)), 500);
+	lstrcpynA(szResult, MCBuf(mir_utf8encode(szResult)), 500);
 	return szResult;
 }
 
@@ -280,7 +280,7 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_MESSAGEONNEWLINE, 0) ? SMF_LOG_MSGONNEWLINE : 0;
 	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_DRAWLINES, 0) ? SMF_LOG_DRAWLINES : 0;
 
-	mir_ptr<char> szRealProto( getRealProto(event->hContact));
+	MCBuf szRealProto( getRealProto(event->hContact));
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {
 		const char *className = "";
@@ -300,7 +300,7 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 					(((eventData->time < startedTime) == (getLastEventTime() < startedTime)) || !(eventData->dwFlags & IEEDF_READ))) {
 				isGroupBreak = FALSE;
 			}
-			mir_ptr<char> szName, szText;
+			MCBuf szName, szText;
 			if (eventData->dwFlags & IEEDF_UNICODE_NICK)
 				szName = encodeUTF8(event->hContact, szRealProto, eventData->pszNickW, ENF_NAMESMILEYS, true);
 			else

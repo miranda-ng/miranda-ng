@@ -1383,12 +1383,12 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 		else {
 			*pData->ptszName = 0;
 			if (pData->flags & CSSF_UNICODE) {
-				mir_ptr<TCHAR> title( ReadAdvStatusT(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TITLE));
+				MTBuf title( ReadAdvStatusT(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TITLE));
 				if (title)
 					_tcsncpy(pData->ptszName, title, STATUS_TITLE_MAX);
 			}
 			else {
-				mir_ptr<char> title( ReadAdvStatusA(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TITLE));
+				MCBuf title( ReadAdvStatusA(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TITLE));
 				if (title)
 					strncpy(pData->pszName, title, STATUS_TITLE_MAX);
 			}
@@ -1399,12 +1399,12 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 	if (pData->flags & CSSF_MASK_MESSAGE) {
 		*pData->pszMessage = 0;
 		if (pData->flags & CSSF_UNICODE) {
-			mir_ptr<TCHAR> title( ReadAdvStatusT(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TEXT));
+			MTBuf title( ReadAdvStatusT(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TEXT));
 			if (title)
 				_tcsncpy(pData->ptszMessage, title, STATUS_TITLE_MAX);
 		}
 		else {
-			mir_ptr<char> title( ReadAdvStatusA(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TEXT));
+			MCBuf title( ReadAdvStatusA(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TEXT));
 			if (title)
 				strncpy(pData->pszMessage, title, STATUS_TITLE_MAX);
 		}

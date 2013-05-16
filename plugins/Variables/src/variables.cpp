@@ -502,7 +502,7 @@ TCHAR *formatString(FORMATINFO *fi)
 	if ((fi == NULL) || (fi->tszFormat == NULL))
 		return NULL;
 
-	mir_ptr<TCHAR> string( mir_tstrdup(fi->tszFormat));
+	MTBuf string( mir_tstrdup(fi->tszFormat));
 	if (string == NULL)
 		return NULL;
 

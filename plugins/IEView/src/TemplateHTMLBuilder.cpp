@@ -151,7 +151,7 @@ char *TemplateHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mo
 		}
 	}
 
-	lstrcpynA(szResult, mir_ptr<char>(mir_utf8encodeT(str)), 500);
+	lstrcpynA(szResult, MCBuf(mir_utf8encodeT(str)), 500);
 	return szResult;
 }
 
@@ -297,7 +297,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 			}
 			if (tokenVal != NULL) {
 				if (token->getEscape())
-					Utils::appendText(&output, &outputSize, "%s", mir_ptr<char>(Utils::escapeString(tokenVal)));
+					Utils::appendText(&output, &outputSize, "%s", MCBuf(Utils::escapeString(tokenVal)));
 				else
 					Utils::appendText(&output, &outputSize, "%s", tokenVal);
 			}
@@ -606,7 +606,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 					}
 					if (tokenVal != NULL) {
 						if (token->getEscape())
-							Utils::appendText(&output, &outputSize, "%s", mir_ptr<char>(Utils::escapeString(tokenVal)));
+							Utils::appendText(&output, &outputSize, "%s", MCBuf(Utils::escapeString(tokenVal)));
 						else
 							Utils::appendText(&output, &outputSize, "%s", tokenVal);
 					}

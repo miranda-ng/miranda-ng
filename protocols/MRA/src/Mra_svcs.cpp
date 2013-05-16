@@ -186,7 +186,7 @@ INT_PTR CMraProto::MraSendSMS(WPARAM wParam, LPARAM lParam)
 	if (!m_bLoggedIn || !wParam || !lParam)
 		return 0;
 
-	mir_ptr<WCHAR> lpwszMessageXMLEncoded( mir_utf8decodeW((LPSTR)lParam));
+	MWBuf lpwszMessageXMLEncoded( mir_utf8decodeW((LPSTR)lParam));
 	size_t dwBuffLen = lstrlenA((LPSTR)lParam) + MAX_PATH;
 	LPWSTR lpwszMessageXMLDecoded = (LPWSTR)mir_calloc((dwBuffLen*sizeof(WCHAR)));
 	if (lpwszMessageXMLEncoded && lpwszMessageXMLDecoded) {

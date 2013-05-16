@@ -69,7 +69,7 @@ int TwitterProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
 	case GC_USER_MESSAGE:
 		LOG ( _T("**Chat - Outgoing message: %s"), hook->ptszText);
 		{
-			mir_ptr<char> text( mir_utf8encodeT(hook->ptszText));
+			MCBuf text( mir_utf8encodeT(hook->ptszText));
 
 			std::string tweet(text);
 			replaceAll(tweet, "%%", "%"); // the chat plugin will turn "%" into "%%", so we have to change it back :/
@@ -81,7 +81,7 @@ int TwitterProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
 
 	case GC_USER_PRIVMESS:
 		{
-			mir_ptr<char> text( mir_t2a(hook->ptszUID));
+			MCBuf text( mir_t2a(hook->ptszUID));
 			CallService(MS_MSG_SENDMESSAGE, WPARAM(UsernameToHContact(text)), 0);
 		}
 		break;

@@ -241,11 +241,11 @@ void Protocol::GetStatusMsg(int aStatus, TCHAR *msg, size_t msg_size)
 	if ( !CanGetStatusMsg())
 		lcopystr(msg, _T(""), msg_size);
 	else if (aStatus == status && ProtoServiceExists(name, PS_GETMYAWAYMSG)) {
-		mir_ptr<TCHAR> tmp((TCHAR*)CallProtoService(name, PS_GETMYAWAYMSG, 0, SGMA_TCHAR));
+		MTBuf tmp((TCHAR*)CallProtoService(name, PS_GETMYAWAYMSG, 0, SGMA_TCHAR));
 		lcopystr(msg, tmp == NULL ? _T("") : tmp, msg_size);
 	}
 	else if (ServiceExists(MS_AWAYMSG_GETSTATUSMSG)) {
-		mir_ptr<TCHAR> tmp((TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)aStatus, 0));
+		MTBuf tmp((TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)aStatus, 0));
 		lcopystr(msg, tmp == NULL ? _T("") : tmp, msg_size);
 	}
 }

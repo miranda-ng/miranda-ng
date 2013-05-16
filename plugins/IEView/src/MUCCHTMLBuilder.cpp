@@ -109,7 +109,7 @@ char *MUCCHTMLBuilder::timestampToString(DWORD dwData, time_t check)
 	}
 	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM) & dbtts);
 	strncat(szResult, str, 500);
-	lstrcpynA(szResult, mir_ptr<char>(mir_utf8encode(szResult)), 500);
+	lstrcpynA(szResult, MCBuf(mir_utf8encode(szResult)), 500);
 	return szResult;
 }
 
@@ -190,7 +190,7 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event) {
 		bool isSent = eventData->bIsMe != 0;
 		int  outputSize;
 		char *output = NULL;
-		mir_ptr<char> szName, szText;
+		MCBuf szName, szText;
 		if (eventData->iType == IEED_MUCC_EVENT_MESSAGE) {
 			if (eventData->dwFlags & IEEDF_UNICODE_TEXT)
 				szText = encodeUTF8(NULL, event->pszProto, eventData->pszTextW, ENF_ALL, isSent);

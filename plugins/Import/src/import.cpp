@@ -84,7 +84,7 @@ static HANDLE HContactFromID(char* szProto, char* pszSetting, TCHAR* pwszID)
 	while (hContact != NULL) {
 		char* szProto = GetContactProto(hContact);
 		if ( !lstrcmpA(szProto, szProto)) {
-			mir_ptr<WCHAR> id( db_get_tsa(hContact, szProto, pszSetting));
+			MWBuf id( db_get_tsa(hContact, szProto, pszSetting));
 			if ( !lstrcmp(pwszID, id))
 				return hContact;
 		}

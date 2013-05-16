@@ -1006,7 +1006,7 @@ int CMLan::TFileConnection::Recv(bool halt)
 				EMLOGERR();
 				return FCS_TERMINATE;
 			}
-			if (len >= min(size,FILE_MIN_BLOCK));
+			if (len >= min(size,FILE_MIN_BLOCK))
 				break;
 			Sleep(10);
 			if (m_state == FCS_TERMINATE) {
@@ -1018,7 +1018,7 @@ int CMLan::TFileConnection::Recv(bool halt)
 		Lock();
 		res = recv(m_socket, (char*)m_buf+csize, size-csize, 0);
 		Unlock();
-		EMLOGERR(res == SOCKET_ERROR);
+		EMLOGERR();
 		EMLOGIF("Connection was gracefully closed", res==0);
 		if (res==0 || res==SOCKET_ERROR)
 			return FCS_TERMINATE;
@@ -1153,7 +1153,6 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 	EMLOG("File added to connectionn list");
 	FileAddToList(conn);
 
-	CCSDATA ccs;
 	PROTORECVEVENT pre;
 
 	int rcTotalSize = *((int*)(conn->m_buf+1));
@@ -1351,7 +1350,7 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 		while (fts.currentFileProgress<fts.currentFileSize)
 		{
 			EMLOG("Waiting for data");
-			bool isErr = conn->Recv();
+			BOOL isErr = conn->Recv();
 			if (isErr || conn->m_recSize==0 || conn->m_buf[0]!=FCODE_SND_FILEDATA)
 			{
 				EMLOGIF("Error conn->Recv()", isErr);

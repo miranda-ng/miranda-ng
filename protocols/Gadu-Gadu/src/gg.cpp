@@ -158,7 +158,7 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 
 		TCHAR avatarsPath[MAX_PATH];
 		if (hAvatarsFolder == NULL || FoldersGetCustomPathT(hAvatarsFolder, avatarsPath, MAX_PATH, _T(""))) {
-			mir_ptr<TCHAR> tmpPath( Utils_ReplaceVarsT( _T("%miranda_avatarcache%")));
+			MTBuf tmpPath( Utils_ReplaceVarsT( _T("%miranda_avatarcache%")));
 			mir_sntprintf(avatarsPath, MAX_PATH, _T("%s\\%s"), (TCHAR*)tmpPath, m_tszUserName);
 		}
 		netlog("cleanuplastplugin() 1: miranda_avatarcache = %S", avatarsPath);

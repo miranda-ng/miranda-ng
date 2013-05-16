@@ -366,19 +366,19 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						ListView_GetItemText(hwndList, hdr->iItem, 1, buf, SIZEOF(buf));
 						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGININFOFRAME), sel ? buf : _T(""));
 
-						mir_ptr<TCHAR> tszAuthor( latin2t(sel ? dat->author : NULL));
+						MTBuf tszAuthor( latin2t(sel ? dat->author : NULL));
 						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINAUTHOR), tszAuthor);
 
-						mir_ptr<TCHAR> tszEmail( latin2t(sel ? dat->authorEmail : NULL));
+						MTBuf tszEmail( latin2t(sel ? dat->authorEmail : NULL));
 						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINEMAIL), tszEmail);
 
-						mir_ptr<TCHAR> p( Langpack_PcharToTchar(dat->description));
+						MTBuf p( Langpack_PcharToTchar(dat->description));
 						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINLONGINFO), sel ? (TCHAR*)p : _T(""));
 
-						mir_ptr<TCHAR> tszCopyright( latin2t(sel ? dat->copyright : NULL));
+						MTBuf tszCopyright( latin2t(sel ? dat->copyright : NULL));
 						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINCPYR), tszCopyright);
 
-						mir_ptr<TCHAR> tszUrl( latin2t(sel ? dat->homepage : NULL));
+						MTBuf tszUrl( latin2t(sel ? dat->homepage : NULL));
 						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINURL), tszUrl);
 
 						if ( !equalUUID(miid_last, dat->uuid)) {
