@@ -1,7 +1,14 @@
 ﻿#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
-;langpack template for Omegle
+;============================================================
+;  File: Omegle.dll
+;  Plugin: Omegle Protocol
+;  Version: 0.1.2.0
+;  Authors: Robert Pösel
+;============================================================
+[Omegle protocol support for Miranda NG.]
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]
+[Language:]
 [Visible name:]
 [Meet strangers with common interests (separated by commas):]
 [Automatically send this message to stranger after connection:]
@@ -35,6 +42,8 @@
 [Stranger 2]
 [Stranger]
 [You and the Stranger both like: ]
+[Stranger is typing.]
+[Stranger stopped typing.]
 [%s disconnected.]
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 [Error: ]
@@ -45,6 +54,9 @@
 [We are already waiting for new stranger...]
 [Connecting...]
 [Waiting for Stranger...]
+;file \protocols\Omegle\src\constants.h
+[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
+[You and stranger speak the same language.]
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 [Unable to get Netlib connection for Omegle]

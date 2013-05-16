@@ -1,7 +1,7 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: NewXstatusNotify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
@@ -28,7 +28,7 @@
 [Use individual sounds]
 [Log to file]
 [Enable]
-[Go to Customize -> Sound to select the sounds]
+[Go to Sound to select the sounds]
 [Extra status]
 [Open]
 [Status message]

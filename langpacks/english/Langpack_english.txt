@@ -1728,7 +1728,7 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaіek
+;  Authors: Bartosz 'Dezeath' Białek
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 ;file \plugins\AddContactPlus\res\resource.rc
@@ -11814,7 +11814,7 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: NewXstatusNotify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
@@ -11841,7 +11841,7 @@
 [Use individual sounds]
 [Log to file]
 [Enable]
-[Go to Customize -> Sound to select the sounds]
+[Go to Sound to select the sounds]
 [Extra status]
 [Open]
 [Status message]
@@ -12636,9 +12636,16 @@
 [Events]
 [Window Shaking]
 ﻿#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
-;langpack template for Omegle
+;============================================================
+;  File: Omegle.dll
+;  Plugin: Omegle Protocol
+;  Version: 0.1.2.0
+;  Authors: Robert Pösel
+;============================================================
+[Omegle protocol support for Miranda NG.]
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]
+[Language:]
 [Visible name:]
 [Meet strangers with common interests (separated by commas):]
 [Automatically send this message to stranger after connection:]
@@ -12672,6 +12679,8 @@
 [Stranger 2]
 [Stranger]
 [You and the Stranger both like: ]
+[Stranger is typing.]
+[Stranger stopped typing.]
 [%s disconnected.]
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 [Error: ]
@@ -12682,6 +12691,9 @@
 [We are already waiting for new stranger...]
 [Connecting...]
 [Waiting for Stranger...]
+;file \protocols\Omegle\src\constants.h
+[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
+[You and stranger speak the same language.]
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 [Unable to get Netlib connection for Omegle]
@@ -14858,7 +14870,7 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.4
-;  Authors: Bartosz 'Dezeath' Biaіek, Harven
+;  Authors: Bartosz 'Dezeath' Białek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
 ;file \plugins\SimpleStatusMsg\res\resource.rc
