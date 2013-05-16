@@ -1,7 +1,7 @@
 ---------------------------
-| Omegle Protocol 0.1.1.0 |
+| Omegle Protocol 0.1.2.0 |
 |       pro Miranda NG    |
-|         (8.3.2013)      |
+|         (16.5.2013)     |
 ---------------------------
 
 Autor: Robyer
@@ -22,6 +22,11 @@ TimeoutsLimit (byte) - poèet povolených timeoutù pøed odpojením protokolu
 --------------------------------
        Historie verzí
 --------------------------------
+0.1.2.0 - 16.5.2013
+ + Zobrazení upozornìní na psaní cizince ve stavovém øádku
+ + Pøidána možnost pro volbu jazyka cizince
+ ! Drobné opravy.
+
 0.1.1.0 - 8.3.2013
  + Možnost automaticky se pøipojit pøi pøepnutí protokolu do online
  * Aktualizace (tohoto) readme

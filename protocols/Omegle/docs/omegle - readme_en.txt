@@ -1,7 +1,7 @@
 ---------------------------
-| Omegle Protocol 0.1.1.0 |
+| Omegle Protocol 0.1.2.0 |
 |       for Miranda NG    |
-|         (8.3.2013)      |
+|         (16.5.2013)     |
 ---------------------------
 
 Autor: Robyer
@@ -22,6 +22,11 @@ TimeoutsLimit (byte) - number of allowed timeouts before disconnection protocol
 --------------------------------
        Version history
 --------------------------------
+0.1.2.0 - 16.5.2013
+ + Show in status bar when Stranger is typing
+ + Added option to chose language of Stranger
+ ! Small fixes.
+ 
 0.1.1.0 - 8.3.2013
  + Option to automatically connect to stranger when protocol is turned online
  * Updated (this) readme
