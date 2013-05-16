@@ -100,6 +100,8 @@ Připojování...
 [Waiting for Stranger...]
 Čekání na cizince...
 ;file \protocols\Omegle\src\constants.h
+[Random]
+Náhodný
 [Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
 Cizinec používá mobilní stránky Omegle (omegle.com na telefonu nebo tabletu)
 [You and stranger speak the same language.]

@@ -48,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Servers list
 //static const char *servers[] = {"Random", "bajor", "cardassia", "promenade", "odo-bucket", "ferengi", "quilt", "empok-nor", "quibbler"};
-static const char *servers[] = {"Random", "front1", "front2", "front3", "front4", "front5", "front6", "front7", "front8", "front9"};
+static const char *servers[] = {LPGEN("Random"), "front1", "front2", "front3", "front4", "front5", "front6", "front7", "front8", "front9"};
 
 static const struct {
 	const char *id;
