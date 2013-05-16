@@ -699,9 +699,12 @@ void FacebookProto::ProcessFeeds(void* data)
 		pos += 5;
 
 		std::string post_header = utils::text::source_get_value(&post, 4, "<h5 class=", "uiStreamHeadline", ">", "<\\/h5>");
-		std::string post_message = utils::text::source_get_value(&post, 3, "<h5 class=\"uiStreamMessage userContentWrapper", ">", "<\\/h5>");
+		std::string post_message = utils::text::source_get_value(&post, 3, "<h5 class=\\\"uiStreamMessage userContentWrapper", ">", "<\\/h5>");
 		std::string post_link = utils::text::source_get_value(&post, 3, "<span class=\\\"uiStreamSource\\\"", ">", "<\\/span>");
 		std::string post_attach = utils::text::source_get_value(&post, 4, "<div class=", "uiStreamAttachments", ">", "<form");
+
+		//std::string post_time = utils::text::source_get_value(&post_link, 2, "data-utime=\\\"", "\\\"");
+		//std::string post_time_text = utils::text::source_get_value(&post_link, 3, "class=\\\"timestamp livetimestamp", ">", "<");
 
 		// in title keep only name, end of events like "X shared link" put into message
 		pos2 = post_header.find("<\\/a>") + 5;
@@ -726,6 +729,8 @@ void FacebookProto::ProcessFeeds(void* data)
 			utils::text::special_expressions_decode(
 				utils::text::remove_html(
 					utils::text::edit_html(post_message))));
+
+		//nf->text += "\n" + post_time_text;
 
 		if (!nf->title.length() || !nf->text.length())
 		{
