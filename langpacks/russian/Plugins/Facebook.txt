@@ -75,9 +75,9 @@
 Пожалуйста, введите пароль.
 [Sample request]
 Пример запроса
-[Visit Profile]
+[Visit profile]
 Мой профиль
-[Friendship Details]
+[Visit friendship details]
 Информация о дружбе
 [News Feed]
 Новости
@@ -139,7 +139,7 @@
 Сообщения со стены
 [Apps and Games]
 Приложения и игры
-[Facebook Icon]
+[Facebook icon]
 Значок Facebook
 [Mind]
 Мнение
@@ -147,3 +147,5 @@
 Другое событие
 [Message read: %s]
 Сообщение прочтено в: %s
+[Poke]
+Подмигнуть
