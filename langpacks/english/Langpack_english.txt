@@ -5633,8 +5633,8 @@
 [Login error: Some Facebook things are required.]
 [Your account requires HTTPS connection. Activating.]
 [Login error: Captcha code is required. Bad login credentials?]
-[Unknown login error]
-[Login error: ]
+[Login error: %s]
+[Unknown error]
 [Login error, probably bad login credentials.]
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 [Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
@@ -5663,6 +5663,7 @@
 [Sample newsfeed]
 [Sample notification]
 ;file \protocols\FacebookRM\src\json.cpp
+[Message read: %s]
 [Multichat]
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
@@ -5685,16 +5686,18 @@
 [Loading newsfeeds...]
 [Checking friend requests...]
 [Refreshing buddy list...]
-[Do you want to cancel your friendship with '%s'?]
 ;file \protocols\FacebookRM\src\theme.cpp
-[Facebook Icon]
+[Facebook icon]
 [Mind]
+[Poke]
 [Cancel friendship]
 [Cancel friendship request]
 [Request friendship]
 [Approve friendship]
-[Visit Profile]
+[Visit profile]
+[Visit friendship details]
 [Mind...]
+[Visit Profile]
 [Services...]
 [Refresh Buddy List]
 [Services]
@@ -13051,11 +13054,12 @@
 ;file \plugins\ProfileManager\src\pmanagerEx.cpp
 [Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
 [Check Database]
-[Database]
 [Load profile]
 [Change profile]
 [Check database]
 [Restart]
+[Profile manager]
+[Database]
 ﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
 ;  File: PopUp.dll
@@ -19048,6 +19052,46 @@
 [Winamp Track]
 [Plugins]
 [Watrack MPD]
+﻿#muuid {fc718bc7-abc8-43cd-aad9-761614617738}
+;============================================================
+;  File: wbOSD.dll
+;  Plugin: WannaBe OSD
+;  Version: 0.2.1.0
+;  Authors: Andrej Krutak
+;============================================================
+[Shows new message/status change info using onscreen display.]
+;file \plugins\wbOSD\res\wbOSD.rc
+[Dialog]
+[Radio1]
+[Select font]
+[Text color]
+[Background color]
+[Transparent]
+[Shadow color]
+[Alternative shadow]
+[Shadow align]
+[General]
+[Shadow]
+[Align]
+[Shadow distance:]
+[Other]
+[Alpha:]
+[Announce]
+[Timeout (ms):]
+[Show]
+[Show events]
+[Status changes]
+[Show testing OSD]
+[Show my status changes]
+[Show message window after click]
+[Static]
+[Format:]
+[Show when my status is:]
+;file \plugins\wbOSD\src\events.cpp
+[%s is %s]
+;file \plugins\wbOSD\src\options.cpp
+[Plugins]
+[OSD]
 ﻿#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
 ;============================================================
 ;  File: Weather.dll

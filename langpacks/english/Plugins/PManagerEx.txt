@@ -9,8 +9,9 @@
 ;file \plugins\ProfileManager\src\pmanagerEx.cpp
 [Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
 [Check Database]
-[Database]
 [Load profile]
 [Change profile]
 [Check database]
 [Restart]
+[Profile manager]
+[Database]
