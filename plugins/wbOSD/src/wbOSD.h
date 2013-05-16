@@ -10,24 +10,16 @@ Distributed under GNU's GPL 2 or later
 #define _WIN32_WINNT 0x0500
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <tchar.h>
-#include <windows.h>
 #include <shlwapi.h>
 #include <commctrl.h>
-#include <stdio.h>
 
 #include "resource.h"
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_database.h>
 #include <m_options.h>
-#include <m_clc.h>
-#include <m_system.h>
 #include <m_clist.h>
-#include <m_protocols.h>
 #include <m_protosvc.h>
-#include <m_utils.h>
-#include <m_contacts.h>
 #include <m_ignore.h>
 #include <win2k.h>
 
