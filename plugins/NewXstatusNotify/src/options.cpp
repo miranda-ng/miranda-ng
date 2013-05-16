@@ -237,7 +237,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				{
 					OPENOPTIONSDIALOG ood = {0};
 					ood.cbSize = sizeof(ood);
-					ood.pszGroup = "Customize";
+					//ood.pszGroup = "Customize";
 					ood.pszPage = "Sounds";
 					Options_Open(&ood);
 					return FALSE;

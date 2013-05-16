@@ -131,7 +131,7 @@ BEGIN
     CONTROL         "Use individual sounds",IDC_USEINDIVSOUNDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,122,279,10
     GROUPBOX        "Log to file",IDC_STATIC,3,166,292,28
     CONTROL         "Enable",IDC_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,178,57,10
-    CONTROL         "Go to Customize -> Sound to select the sounds",IDC_HYPERLINK,
+    CONTROL         "Go to Sound to select the sounds",IDC_HYPERLINK,
                     "Hyperlink",WS_TABSTOP,6,203,288,14
     CONTROL         "Extra status",IDC_CHK_XSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,103,50,89,10
     EDITTEXT        IDC_LOGFILE,72,175,154,14,ES_AUTOHSCROLL | ES_READONLY
