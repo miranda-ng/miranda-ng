@@ -219,7 +219,6 @@
     <ClInclude Include="..\include\m_email.h" />
     <ClInclude Include="..\include\m_file.h" />
     <ClInclude Include="..\include\m_findadd.h" />
-    <ClInclude Include="..\include\m_fuse.h" />
     <ClInclude Include="..\include\m_history.h" />
     <ClInclude Include="..\include\m_hotkeys.h" />
     <ClInclude Include="..\include\m_icq.h" />

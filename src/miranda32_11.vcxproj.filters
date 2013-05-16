@@ -108,9 +108,6 @@
     <ClInclude Include="..\include\m_findadd.h">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\m_fuse.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\m_history.h">
       <Filter>SDK</Filter>
     </ClInclude>
