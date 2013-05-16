@@ -124,8 +124,8 @@ void FacebookProto::ProcessBuddyList(void* data)
 
 				std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;					
 
-				TCHAR* szTitle = mir_a2t_cp(fbu->real_name.c_str(), CP_UTF8);
-				TCHAR* szUrl = mir_a2t_cp(url.c_str(), CP_UTF8);
+				TCHAR* szTitle = mir_utf8decodeT(fbu->real_name.c_str());
+				TCHAR* szUrl = mir_utf8decodeT(url.c_str());
 				NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, FACEBOOK_EVENT_OTHER, szUrl);
 				mir_free(szTitle);
 				// mir_free(szUrl); // url is free'd in popup procedure
@@ -215,8 +215,8 @@ void FacebookProto::ProcessFriendList(void* data)
 
 					std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;					
 
-					TCHAR* szTitle = mir_a2t_cp(fbu->real_name.c_str(), CP_UTF8);
-					TCHAR* szUrl = mir_a2t_cp(url.c_str(), CP_UTF8);
+					TCHAR* szTitle = mir_utf8decodeT(fbu->real_name.c_str());
+					TCHAR* szUrl = mir_utf8decodeT(url.c_str());
 					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_OTHER, szUrl);					
 					mir_free(szTitle);
 					// mir_free(szUrl); // url is free'd in popup procedure
@@ -246,8 +246,8 @@ void FacebookProto::ProcessFriendList(void* data)
 
 					std::string url = FACEBOOK_URL_PROFILE + id;
 
-					TCHAR* szTitle = mir_a2t_cp(contactname.c_str(), CP_UTF8);
-					TCHAR* szUrl = mir_a2t_cp(url.c_str(), CP_UTF8);
+					TCHAR* szTitle = mir_utf8decodeT(contactname.c_str());
+					TCHAR* szUrl = mir_utf8decodeT(url.c_str());
 					NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_OTHER, szUrl);
 					mir_free(szTitle);
 					// mir_free(szUrl); // url is free'd in popup procedure
@@ -477,6 +477,7 @@ void FacebookProto::ProcessMessages(void* data)
 			fbu.user_id = messages[i]->user_id;
 
 			HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE, false, messages[i]->sender_name.c_str());
+			db_set_s(hContact, m_szModuleName, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
 
 			// TODO: if contact is newly added, get his user info
 			// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
@@ -496,9 +497,9 @@ void FacebookProto::ProcessMessages(void* data)
 	for(std::vector<facebook_notification*>::size_type i=0; i<notifications.size(); i++)
 	{
 		LOG("      Got notification: %s", notifications[i]->text.c_str());
-		TCHAR* szTitle = mir_a2t_cp(this->m_szModuleName, CP_UTF8);
-		TCHAR* szText = mir_a2t_cp(notifications[i]->text.c_str(), CP_UTF8);
-		TCHAR* szUrl = mir_a2t_cp(notifications[i]->link.c_str(), CP_UTF8);
+		TCHAR* szTitle = mir_utf8decodeT(this->m_szModuleName);
+		TCHAR* szText = mir_utf8decodeT(notifications[i]->text.c_str());
+		TCHAR* szUrl = mir_utf8decodeT(notifications[i]->link.c_str());
 		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, szUrl);
 		mir_free(szTitle);
 		mir_free(szText);
@@ -556,9 +557,9 @@ void FacebookProto::ProcessNotifications(void*)
 	for(std::vector<facebook_notification*>::size_type i=0; i<notifications.size(); i++)
 	{
 		LOG("      Got notification: %s", notifications[i]->text.c_str());
-		TCHAR* szTitle = mir_a2t_cp(this->m_szModuleName, CP_UTF8);
-		TCHAR* szText = mir_a2t_cp(notifications[i]->text.c_str(), CP_UTF8);
-		TCHAR* szUrl = mir_a2t_cp(notifications[i]->link.c_str(), CP_UTF8);
+		TCHAR* szTitle = mir_utf8decodeT(this->m_szModuleName);
+		TCHAR* szText = mir_utf8decodeT(notifications[i]->text.c_str());
+		TCHAR* szUrl = mir_utf8decodeT(notifications[i]->link.c_str());
 		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, szUrl);
 		mir_free(szTitle);
 		mir_free(szText);
@@ -752,9 +753,9 @@ void FacebookProto::ProcessFeeds(void* data)
 	for(std::vector<facebook_newsfeed*>::size_type i=0; i<news.size(); i++)
 	{
 		LOG("      Got newsfeed: %s %s", news[i]->title.c_str(), news[i]->text.c_str());
-		TCHAR* szTitle = mir_a2t_cp(news[i]->title.c_str(), CP_UTF8);
-		TCHAR* szText = mir_a2t_cp(news[i]->text.c_str(), CP_UTF8);
-		TCHAR* szUrl = mir_a2t_cp(news[i]->link.c_str(), CP_UTF8);
+		TCHAR* szTitle = mir_utf8decodeT(news[i]->title.c_str());
+		TCHAR* szText = mir_utf8decodeT(news[i]->text.c_str());
+		TCHAR* szUrl = mir_utf8decodeT(news[i]->link.c_str());
 		NotifyEvent(szTitle,szText,this->ContactIDToHContact(news[i]->user_id),FACEBOOK_EVENT_NEWSFEED, szUrl);
 		mir_free(szTitle);
 		mir_free(szText);
@@ -832,11 +833,11 @@ void FacebookProto::SearchAckThread(void *targ)
 				if (id.empty() || id == facy.self_.user_id)
 					continue;
 
-				TCHAR* tid = mir_a2t_cp(id.c_str(), CP_UTF8);
-				TCHAR* tname = mir_a2t_cp(name.c_str(), CP_UTF8);
-				TCHAR* tsurname = mir_a2t_cp(surname.c_str(), CP_UTF8);
-				TCHAR* tnick = mir_a2t_cp(nick.c_str(), CP_UTF8);
-				TCHAR* tcommon = mir_a2t_cp(common.c_str(), CP_UTF8);
+				TCHAR* tid = mir_utf8decodeT(id.c_str());
+				TCHAR* tname = mir_utf8decodeT(name.c_str());
+				TCHAR* tsurname = mir_utf8decodeT(surname.c_str());
+				TCHAR* tnick = mir_utf8decodeT(nick.c_str());
+				TCHAR* tcommon = mir_utf8decodeT(common.c_str());
 
 				PROTOSEARCHRESULT isr = {0};
 				isr.cbSize = sizeof(isr);

@@ -303,6 +303,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				
 				const Object& messageContent = objMember["msg"];
 				const String& text = messageContent["text"];
+				const String& message_id = messageContent["messageId"];
 				//"tab_type":"friend",     objMember["tab_type"]
         
 				const Number& time_sent = messageContent["time"];
@@ -317,10 +318,10 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				} else if (last_msg != text.Value()) {
 					last_msg = text.Value();
   					facebook_message* message = new facebook_message();
-					message->message_text = utils::text::special_expressions_decode(
-						utils::text::slashu_to_utf8(text.Value()));
+					message->message_text = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value()));
 					message->time = utils::time::fix_timestamp(time_sent.Value());
 					message->user_id = was_id;
+					message->message_id = message_id;
 
 					messages->push_back(message);
 				} else {
@@ -359,6 +360,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					const String& sender_name = messageContent["sender_name"];
 					const String& text = messageContent["body"];
 					const String& tid = messageContent["tid"];
+					const String& mid = messageContent["mid"];
 					const Number& time_sent = messageContent["timestamp"];
 
 					char was_id[32];
@@ -384,7 +386,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 						message->time = utils::time::fix_timestamp(time_sent.Value());
 						message->user_id = was_id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
-			
+						message->message_id = mid.Value();
+
 						messages->push_back(message);
 					} else {
 						std::string msg = "????? Got duplicit inbox message?\n";
@@ -430,9 +433,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 				proto->Log("      Got multichat message");
 		    
-				TCHAR* szTitle = mir_a2t_cp(title.c_str(), CP_UTF8);
-				TCHAR* szText = mir_a2t_cp(popup_text.c_str(), CP_UTF8);
-				TCHAR* szUrl = mir_a2t_cp(url.c_str(), CP_UTF8);
+				TCHAR* szTitle = mir_utf8decodeT(title.c_str());
+				TCHAR* szText = mir_utf8decodeT(popup_text.c_str());
+				TCHAR* szUrl = mir_utf8decodeT(url.c_str());
 				proto->NotifyEvent(szTitle,szText,NULL,FACEBOOK_EVENT_OTHER, szUrl);
 				mir_free(szTitle);
 				mir_free(szText);

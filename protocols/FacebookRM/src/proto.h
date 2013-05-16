@@ -107,6 +107,7 @@ public:
 	int  __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	int  __cdecl VisitProfile(WPARAM, LPARAM);
 	int  __cdecl VisitFriendship(WPARAM, LPARAM);
+	int  __cdecl Poke(WPARAM, LPARAM);
 	int  __cdecl CancelFriendship(WPARAM, LPARAM);
 	int  __cdecl RequestFriendship(WPARAM, LPARAM);
 	int  __cdecl ApproveFriendship(WPARAM, LPARAM);
@@ -154,11 +155,12 @@ public:
 	void __cdecl SendMsgWorker(void*);
 	void __cdecl SendChatMsgWorker(void*);
 	void __cdecl SendTypingWorker(void*);
-	void __cdecl MessagingWorker(void*);
+	void __cdecl ReadMessageWorker(void*);
 	void __cdecl DeleteContactFromServer(void*);
 	void __cdecl AddContactToServer(void*);
 	void __cdecl ApproveContactToServer(void*);
 	void __cdecl CancelFriendsRequest(void*);
+	void __cdecl SendPokeWorker(void*);
 
 	// Contacts handling
 	bool    IsMyContact(HANDLE, bool include_chat = false);

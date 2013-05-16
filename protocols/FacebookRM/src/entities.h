@@ -64,11 +64,12 @@ struct facebook_message
 	std::string user_id;
 	std::string message_text;
 	std::string sender_name;
+	std::string message_id;
 	DWORD time;
 
 	facebook_message()
 	{
-		this->user_id = this->message_text = this->sender_name = "";
+		this->user_id = this->message_text = this->sender_name = this->message_id = "";
 		this->time = 0;
 	}
 
@@ -77,6 +78,7 @@ struct facebook_message
 		this->user_id = msg.user_id;
 		this->message_text = msg.message_text;
 		this->sender_name = msg.sender_name;
+		this->message_id = msg.message_id;
 		this->time = msg.time;
 	}
 };

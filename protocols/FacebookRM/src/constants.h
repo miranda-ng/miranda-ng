@@ -103,12 +103,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_REQUEST_MESSAGES_RECEIVE       302 // receiving messages
 #define FACEBOOK_REQUEST_TYPING_SEND            304 // sending typing notification
 #define FACEBOOK_REQUEST_VISIBILITY             305 // setting chat visibility
-#define FACEBOOK_REQUEST_TABS					306 // closing message window
 #define	FACEBOOK_REQUEST_ASYNC					307 // marking messages read and getting other things
+#define FACEBOOK_REQUEST_MARK_READ				308 // marking messages read (new)
 #define FACEBOOK_REQUEST_THREAD_INFO			310 // getting thread info
-
-#define FACEBOOK_RECV_MESSAGE	1
-#define FACEBOOK_SEND_MESSAGE	2
+#define FACEBOOK_REQUEST_POKE					311 // sending pokes
 
 // Send message types
 #define MESSAGE_INBOX	0

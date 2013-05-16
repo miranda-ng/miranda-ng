@@ -45,10 +45,6 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 	mir_free(const_cast<TCHAR*>(gce.ptszNick));
 	mir_free(const_cast<TCHAR*>(gce.ptszText));
 	mir_free(const_cast<TCHAR*>(gcd.ptszID));
-
-	
-	// Close chat window, if set
-	ForkThread(&FacebookProto::MessagingWorker, this, new send_messaging(chat_id, FACEBOOK_SEND_MESSAGE));
 }
 
 int FacebookProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)

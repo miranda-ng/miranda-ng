@@ -243,8 +243,9 @@ DWORD facebook_client::choose_security_level(int request_type)
 //	case FACEBOOK_REQUEST_THREAD_INFO:
 //	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
 //	case FACEBOOK_REQUEST_VISIBILITY:
-//	case FACEBOOK_REQUEST_TABS:
+//	case FACEBOOK_REQUEST_POKE:
 //	case FACEBOOK_REQUEST_ASYNC:
+//	case FACEBOOK_REQUEST_MARK_READ:
 //	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
 //	case FACEBOOK_REQUEST_TYPING_SEND:
 	default:
@@ -264,8 +265,9 @@ int facebook_client::choose_method(int request_type)
 	case FACEBOOK_REQUEST_MESSAGE_SEND2:
 	case FACEBOOK_REQUEST_THREAD_INFO:
 	case FACEBOOK_REQUEST_VISIBILITY:
-	case FACEBOOK_REQUEST_TABS:
+	case FACEBOOK_REQUEST_POKE:
 	case FACEBOOK_REQUEST_ASYNC:
+	case FACEBOOK_REQUEST_MARK_READ:
 	case FACEBOOK_REQUEST_TYPING_SEND:
 	case FACEBOOK_REQUEST_LOGOUT:
 	case FACEBOOK_REQUEST_DELETE_FRIEND:
@@ -331,8 +333,9 @@ std::string facebook_client::choose_server(int request_type, std::string* data, 
 //	case FACEBOOK_REQUEST_MESSAGE_SEND2:
 //	case FACEBOOK_REQUEST_THREAD_INFO:
 //	case FACEBOOK_REQUEST_VISIBILITY:
-//	case FACEBOOK_REQUEST_TABS:
+//	case FACEBOOK_REQUEST_POKE:
 //	case FACEBOOK_REQUEST_ASYNC:
+//	case FACEBOOK_REQUEST_MARK_READ:
 //	case FACEBOOK_REQUEST_TYPING_SEND:
 //	case FACEBOOK_REQUEST_SETUP_MACHINE:
 //  case FACEBOOK_REQUEST_DELETE_FRIEND:
@@ -478,8 +481,8 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 	case FACEBOOK_REQUEST_VISIBILITY:
 		return "/ajax/chat/privacy/visibility.php?__a=1";
 
-	case FACEBOOK_REQUEST_TABS:
-		return "/ajax/chat/tabs.php?__a=1";
+	case FACEBOOK_REQUEST_POKE:
+		return "/ajax/poke_dialog.php?__a=1";
 
 	case FACEBOOK_REQUEST_ASYNC:
 	{
@@ -489,6 +492,9 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 		}
 		return action;
 	}
+
+	case FACEBOOK_REQUEST_MARK_READ:
+		return "/ajax/mercury/change_read_status.php?__a=1";
 
 	case FACEBOOK_REQUEST_TYPING_SEND:
 		return "/ajax/messaging/typ.php?__a=1";
@@ -608,9 +614,13 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 	flap(FACEBOOK_REQUEST_HOME, NULL);
 
 	// Prepare login data
-	std::string data = "charset_test=%e2%82%ac%2c%c2%b4%2c%e2%82%ac%2c%c2%b4%2c%e6%b0%b4%2c%d0%94%2c%d0%84&locale=en&pass_placeHolder=Password&login=Login&persistent=1";
+	std::string data = "charset_test=%e2%82%ac%2c%c2%b4%2c%e2%82%ac%2c%c2%b4%2c%e6%b0%b4%2c%d0%94%2c%d0%84&pass_placeHolder=Password&login=Login&persistent=1";
 	data += "&email=" + utils::url::encode(username);
-	data += "&pass=" + utils::url::encode(password);	
+	data += "&pass=" + utils::url::encode(password);
+
+	mir_ptr<char> locale = db_get_sa(NULL, parent->m_szModuleName, FACEBOOK_KEY_LOCALE);
+	if (locale != NULL)
+		data += "&locale=" + std::string(locale);
 
 	// Send validation
 	http::response resp = flap(FACEBOOK_REQUEST_LOGIN, &data);
@@ -707,16 +717,14 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 			utils::text::special_expressions_decode(
 				utils::text::remove_html(
 					utils::text::edit_html(
-						utils::text::source_get_value(&resp.data, 3, "login_error_box", "<p>", "</p>")))));
-		
-		if (!error_str.length())
-			error_str = Translate("Unknown login error");
-		parent->Log(" ! !  Login error: %s", error_str.c_str());
+						utils::text::source_get_value(&resp.data, 4, "login_error_box", "<div", ">", "</div>")))));
 
-		std::string message = Translate("Login error: ") + error_str;
-		TCHAR* tmessage = mir_a2t(message.c_str());
-		client_notify(tmessage);
-		mir_free(tmessage);
+		parent->Log(" ! !  Login error: %s", error_str.length() ? error_str.c_str() : "Unknown error");
+
+		TCHAR buf[200];
+		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Login error: %s"), 
+			(!error_str.length()) ? TranslateT("Unknown error") : mir_ptr<TCHAR>(mir_utf8decodeT(error_str.c_str())));
+		client_notify(buf);
 	}
 	case HTTP_CODE_FORBIDDEN: // Forbidden
 	case HTTP_CODE_NOT_FOUND: // Not Found
@@ -1163,38 +1171,6 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 		handle_error("send_message");
 		return false;
 	}
-}
-
-void facebook_client::close_chat(std::string message_recipient)
-{
-	// TODO RM: better optimalization for close_chat
-	// add items to list and then checking every x seconds
-/*	if ((::time(NULL) - parent->facy.last_close_chat_time_) < 8)
-		return;*/
-	// parent->facy.last_close_chat_time_ = ::time(NULL);
-
-	/* Wait some time before close window, because sometimes facebook
-		can't close it so soon. But maybe this didnt help also. */
-	Sleep(300); 
-
-	std::string data = "close_chat=" + message_recipient;
-	data += "&window_id=0";
-	data += "&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
-	data += "&__user=" + self_.user_id;
-	
-	http::response resp = flap(FACEBOOK_REQUEST_TABS, &data);
-}
-
-void facebook_client::chat_mark_read(std::string message_recipient)
-{
-	// TODO RM: optimalization?
-
-	std::string data = "action=chatMarkRead";
-	data += "&other_user=" + message_recipient;
-	data += "&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
-	data += "&lsd=&__user=" + self_.user_id;
-	
-	http::response resp = flap(FACEBOOK_REQUEST_ASYNC, &data);
 }
 
 bool facebook_client::set_status(const std::string &status_text)

@@ -491,6 +491,21 @@ int FacebookProto::VisitFriendship(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
+int FacebookProto::Poke(WPARAM wParam,LPARAM lParam)
+{
+	if (wParam == NULL || isOffline())
+		return 1;
+
+	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+
+	mir_ptr<char> id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+	if (id == NULL)
+		return 1;
+	
+	ForkThread(&FacebookProto::SendPokeWorker, this, new std::string(id));
+	return 0;
+}
+
 int FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 {
 	if (wParam == NULL || isOffline())

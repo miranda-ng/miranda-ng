@@ -321,6 +321,42 @@ void FacebookProto::CancelFriendsRequest(void *data)
 		facy.handle_error("CancelFriendsRequest");
 }
 
+void FacebookProto::SendPokeWorker(void *p)
+{
+	facy.handle_entry("SendPokeWorker");
+
+	if (p == NULL)
+		return;
+
+	std::string id = (*(std::string*)p);
+	delete p;
+
+	std::string data = "uid=" + id;
+	data += "&phstamp=0&pokeback=0&ask_for_confirm=0";
+	data += "&fb_dtsg=" + facy.dtsg_;
+	data += "&__user=" + facy.self_.user_id;
+
+	// Send poke
+	http::response resp = facy.flap(FACEBOOK_REQUEST_POKE, &data);
+
+	// Process result data
+	facy.validate_response(&resp);
+
+	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
+		
+		std::string message = utils::text::special_expressions_decode(
+			utils::text::remove_html(
+				utils::text::slashu_to_utf8(
+					utils::text::source_get_value(&resp.data, 3, "\"body\":", "__html\":\"", "\"}"))));
+
+		TCHAR* tmessage = mir_utf8decodeT(message.c_str());
+		NotifyEvent(m_tszUserName, tmessage, NULL, FACEBOOK_EVENT_OTHER, NULL);
+		mir_free(tmessage);
+	}
+
+	facy.handle_success("SendPokeWorker");
+}
+
 
 HANDLE FacebookProto::GetAwayMsg(HANDLE hContact)
 {

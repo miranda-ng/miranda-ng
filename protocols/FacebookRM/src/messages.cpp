@@ -24,14 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 int FacebookProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
 {
-	DBVARIANT dbv;
-
-	if (!db_get_s(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
-	{
-		ForkThread(&FacebookProto::MessagingWorker, this, new send_messaging(dbv.pszVal, FACEBOOK_RECV_MESSAGE));
-		db_free(&dbv);
-	}
-
+	ForkThread(&FacebookProto::ReadMessageWorker, this, hContact);
 	CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 
 	return Proto_RecvMessage(hContact, pre);
@@ -66,7 +59,6 @@ void FacebookProto::SendMsgWorker(void *p)
 		if (result) {
 			ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_SUCCESS, data->msgid,0);
 			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)data->hContact, NULL);
-			MessagingWorker(new send_messaging(dbv.pszVal, FACEBOOK_SEND_MESSAGE));
 		} else {
 			char *err = mir_utf8decodeA(error_text.c_str());
 			ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED, data->msgid,(LPARAM)err);
@@ -171,17 +163,38 @@ void FacebookProto::SendTypingWorker(void *p)
 	delete typing;
 }
 
-void FacebookProto::MessagingWorker(void *p)
+void FacebookProto::ReadMessageWorker(void *p)
 {
 	if (p == NULL)
 		return;
 
-	send_messaging *data = static_cast<send_messaging*>(p);
+	return;
 
-	if (data->type == FACEBOOK_RECV_MESSAGE)
-		facy.chat_mark_read(data->user_id);
+	HANDLE hContact = static_cast<HANDLE>(p);
 
-	delete data;
+	if (!db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_MARK_READ, 0)) {
+		// old variant - no seen info updated
+		mir_ptr<char> id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+		if (id == NULL) return;
+
+		std::string data = "action=chatMarkRead";
+		data += "&other_user=" + std::string(id);
+		data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+		data += "&lsd=&__user=" + facy.self_.user_id;
+	
+		http::response resp = facy.flap(FACEBOOK_REQUEST_ASYNC, &data);
+	} else {
+		// new variant - with seen info 
+		mir_ptr<char> mid = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_MESSAGE_ID);
+		if (mid == NULL) return;
+
+		std::string data = "ids[" + std::string(mid) + "]=true";
+		data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+		data += "&__user=" + facy.self_.user_id;
+		data += "&__a=1&__dyn=&__req=j&phstamp=0";
+
+		http::response resp = facy.flap(FACEBOOK_REQUEST_MARK_READ, &data);
+	}
 }
 
 void FacebookProto::parseSmileys(std::string message, HANDLE hContact)

@@ -157,6 +157,12 @@
     <None Include="res\auth_revoke.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\poke.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\notification.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\facebook.rc">

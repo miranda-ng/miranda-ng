@@ -26,16 +26,18 @@ extern OBJLIST<FacebookProto> g_Instances;
 
 static IconItem icons[] =
 {
-	{ LPGEN("Facebook Icon"),             "facebook",      IDI_FACEBOOK },
+	{ LPGEN("Facebook icon"),             "facebook",      IDI_FACEBOOK },
 	{ LPGEN("Mind"),                      "mind",          IDI_MIND },
+	{ LPGEN("Poke"),                      "poke",          IDI_POKE },
+	{ LPGEN("Notification"),              "notification",  IDI_NOTIFICATION },
 	
 	{ LPGEN("Cancel friendship"),         "authRevoke",    IDI_AUTH_REVOKE },
 	{ LPGEN("Cancel friendship request"), "authRevokeReq", IDI_AUTH_REVOKE },
 	{ LPGEN("Request friendship"),        "authAsk",       IDI_AUTH_ASK },
 	{ LPGEN("Approve friendship"),        "authGrant",     IDI_AUTH_GRANT },
 	
-	{ LPGEN("Visit Profile"),             "homepage",      0 },
-	{ LPGEN("Friendship Details"),        "friendship",    0 },
+	{ LPGEN("Visit profile"),             "homepage",      0 },
+	{ LPGEN("Visit friendship details"),  "friendship",    0 },
 };
 
 // TODO: uninit
@@ -117,27 +119,34 @@ void InitContactMenus()
 	g_hContactMenuItems[CMI_VISIT_FRIENDSHIP] = Menu_AddContactMenuItem(&mi);
 
 	mi.position=-2000006002;
+	mi.icolibItem = GetIconHandle("poke");
+	mi.pszName = GetIconDescription("poke");
+	mi.pszService = "FacebookProto/Poke";
+	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::Poke>);
+	g_hContactMenuItems[CMI_POKE] = Menu_AddContactMenuItem(&mi);
+
+	mi.position=-2000006010;
 	mi.icolibItem = GetIconHandle("authRevoke");
 	mi.pszName = GetIconDescription("authRevoke");
 	mi.pszService = "FacebookProto/CancelFriendship";
 	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::CancelFriendship>);
 	g_hContactMenuItems[CMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
 
-	mi.position=-2000006003;
+	mi.position=-2000006011;
 	mi.icolibItem = GetIconHandle("authRevokeReq");
 	mi.pszName = GetIconDescription("authRevokeReq");
 	mi.pszService = "FacebookProto/CancelFriendshipRequest";
 	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::OnCancelFriendshipRequest>);
 	g_hContactMenuItems[CMI_AUTH_CANCEL] = Menu_AddContactMenuItem(&mi);
 
-	mi.position=-2000006004;
+	mi.position=-2000006012;
 	mi.icolibItem = GetIconHandle("authAsk");
 	mi.pszName = GetIconDescription("authAsk");
 	mi.pszService = "FacebookProto/RequestFriendship";
 	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::RequestFriendship>);
 	g_hContactMenuItems[CMI_AUTH_ASK] = Menu_AddContactMenuItem(&mi);
 
-	mi.position=-2000006005;
+	mi.position=-2000006013;
 	mi.icolibItem = GetIconHandle("authGrant");
 	mi.pszName = GetIconDescription("authGrant");
 	mi.pszService = "FacebookProto/ApproveFriendship";
@@ -168,6 +177,8 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_GRANT], ctrlPressed || type == FACEBOOK_CONTACT_APPROVE);
 		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_REVOKE], ctrlPressed || type == FACEBOOK_CONTACT_FRIEND);
 		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_CANCEL], ctrlPressed || type == FACEBOOK_CONTACT_REQUEST);		
+
+		Menu_ShowItem(g_hContactMenuItems[CMI_POKE], true);
 	}
 
 	return 0;

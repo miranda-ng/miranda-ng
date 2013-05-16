@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Z:\Myranda\trunk\protocols\FacebookRM\res\facebook.rc
+// Used by D:\Development\Miranda NG\protocols\FacebookRM\res\facebook.rc
 //
 #define IDI_FACEBOOK                    101
 #define IDI_MIND                        102
@@ -12,6 +12,8 @@
 #define IDD_OPTIONS                     113
 #define IDD_OPTIONS_EVENTS              114
 #define IDD_OPTIONS_ADVANCED            115
+#define IDI_POKE                        127
+#define IDI_NOTIFICATION                128
 #define IDC_UN                          1001
 #define IDC_PW                          1002
 #define IDC_NEWACCOUNTLINK              1003
@@ -60,7 +62,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        126
+#define _APS_NEXT_RESOURCE_VALUE        129
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1202
 #define _APS_NEXT_SYMED_VALUE           131
