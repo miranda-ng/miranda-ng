@@ -8,7 +8,7 @@ Distributed under GNU's GPL 2 or later
 */
 
 #include "wbOSD.h"
-#include "buildnumber.h"
+#include "version.h"
 
 HINSTANCE hI;
 
@@ -26,15 +26,16 @@ int MainInit(WPARAM,LPARAM);
 
 static PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"WannaBe OSD",
-	__VERSION_DWORD,
-	"Show new message/status change info using onscreen display",
-	"Andrej Krutak",
-	"andree182 {at} gmail (dot) com",
-	"©2005 Andrej Krutak",
-	"http://urtax.ms.mff.cuni.cz/~andree/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	{ 0xfc718bc7, 0xabc8, 0x43cd, { 0xaa, 0xd9, 0x76, 0x16, 0x14, 0x61, 0x77, 0x38 } } // {FC718BC7-ABC8-43CD-AAD9-761614617738}
+	// {FC718BC7-ABC8-43CD-AAD9-761614617738}
+	{ 0xfc718bc7, 0xabc8, 0x43cd, { 0xaa, 0xd9, 0x76, 0x16, 0x14, 0x61, 0x77, 0x38 } }
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
