@@ -4,3 +4,4 @@
 [Full Ignore]
 [Partial Ignore]
 [Message Ignore]
+[Ignore State]

@@ -121,3 +121,6 @@
 [Similar artists]
 [Music Info from ]
 [You Get Error]
+[Slider Hovered]
+[Slider Pushed]
+[WATrack status]

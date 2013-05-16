@@ -1,11 +1,11 @@
 ﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;============================================================
 ;  File: MirOTR.dll
-;  Plugin: MirOTR
+;  Plugin: Miranda OTR
 ;  Version: 0.11.0.4
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
-[OTR (Off-the-Record) plugin for Miranda NG]
+[OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
 
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
 [OTR Generating Private Key]
@@ -58,18 +58,6 @@ Nikdy
 
 [Forget]
 Zapomenout
-[MirOTR]
-
-[OTR status]
-
-[&Start OTR session]
-
-[&Refresh OTR session]
-
-[Sto&p OTR session]
-
-[&Verify Fingerprint]
-
 [Socialist Millionaires Protocol]
 
 [Socialist Millionaires Protocol\r\nVerification progress]
@@ -84,10 +72,17 @@ Zapomenout
 &Ne
 [&Yes]
 &Ano
-;file \plugins\MirOTR\MirOTR\src\dllmain.cpp
-[OTR Info]
+[MirOTR]
 
-[Your SRMM plugin does not support status icons. Not all OTR-functions are available!]
+[OTR status]
+
+[&Start OTR session]
+
+[&Refresh OTR session]
+
+[Sto&p OTR session]
+
+[&Verify Fingerprint]
 
 ;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
@@ -147,12 +142,6 @@ neznámý
 [OTR: %s (%s)]
 
 [OTR %s (%s)]
-
-[OTR New Fingerprint]
-
-[OTR encrypted session with '%s'.\n\nFingerprint is UNVERIFIED.\n\n%s\n\nVerify?]
-
-[A new fingerprint has been recieved from '%s'\n\n%s\n\nDo you trust it?]
 
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 
@@ -262,17 +251,7 @@ Heslo
 [OTR Status]
 
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
+[Private Data]
+
 [Services]
 Služby
-;file \plugins\MirOTR\MirOTR\src\otr.cpp
-[Would you like to generate a new private key for this protocol?]
-
-[Generating new private key.]
-
-[Please wait.]
-
-[Would you like to save the current fingerprint list?]
-
-[OTR Log Message]
-
-;file \plugins\MirOTR\MirOTR\src\svcs_proto.cpp

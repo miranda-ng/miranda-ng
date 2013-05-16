@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.0.9.3
+;  Version: 0.0.9.6
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -83,10 +83,10 @@ Pro nestandardní stavy použít Neviditelný (nikoli Online)
 Váš účet vyžaduje zabezpečené spojení. Aktivováno.
 [Login error: Captcha code is required. Bad login credentials?]
 
-[Unknown login error]
+[Login error: %s]
 
-[Login error: ]
-
+[Unknown error]
+Neznámá chyba
 [Login error, probably bad login credentials.]
 Chyba při přihlašování, možná máte špatné přihlašovací údaje.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
@@ -100,6 +100,19 @@ Chyba při připojování k síti Facebook. Důvodem mohou být větší změny 
 Zadejte uživatelské jméno.
 [Please enter a password.]
 Zadejte heslo.
+;file \protocols\FacebookRM\src\constants.h
+[Most Recent]
+Nejnovější
+[Wall Posts]
+
+[Top News]
+Hlavní zprávy
+[Photos]
+Fotografie
+[Links]
+Odkazy
+[Apps and Games]
+
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 
@@ -125,6 +138,8 @@ Ukázková novinka
 [Sample notification]
 Ukázkové upozornění
 ;file \protocols\FacebookRM\src\json.cpp
+[Message read: %s]
+
 [Multichat]
 
 ;file \protocols\FacebookRM\src\messages.cpp
@@ -148,6 +163,8 @@ Oznámení
 Novinky
 [Other Event]
 Ostatní
+[Avatars]
+Avatary
 [Network]
 Sítě
 [Account]
@@ -164,13 +181,13 @@ Události
 
 [Refreshing buddy list...]
 
-[Do you want to cancel your friendship with '%s'?]
-
 ;file \protocols\FacebookRM\src\theme.cpp
-[Facebook Icon]
-Ikona
+[Facebook icon]
+
 [Mind]
 Stavová zpráva
+[Poke]
+
 [Cancel friendship]
 Zrušit přátelství
 [Cancel friendship request]
@@ -179,10 +196,14 @@ Zrušit přátelství
 Požádat o přátelství
 [Approve friendship]
 Potvrdit přátelství
-[Visit Profile]
-Zobrazit profil
+[Visit profile]
+
+[Visit friendship details]
+
 [Mind...]
 Stavová zpráva...
+[Visit Profile]
+Zobrazit profil
 [Services...]
 Služby
 [Refresh Buddy List]

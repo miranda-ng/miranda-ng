@@ -9,5 +9,6 @@
 [Set status modes]
 [The service %s specified by the %s button definition was not found. You may need to install additional plugins]
 [Service failure]
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 [Clist docking]

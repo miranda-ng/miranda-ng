@@ -156,7 +156,7 @@ Plan:
 [Quality]
 
 [In]
-V
+V
 [Out]
 
 [Finish]
@@ -183,8 +183,6 @@ Extra
 Upozornění
 [Network]
 Sítě
-[PopUps]
-Oznámení
 [These changes will take effect the next time you connect to the Tlen network.]
 
 [Tlen Protocol Option]
@@ -213,20 +211,6 @@ Ignorovat obrázky od neautorizovaných kontaktů
 Ignorovat všechny obrázky
 [<Last message>]
 <poslední zpráva>
-[<Ask me>]
-
-[Online]
-Online
-[Away]
-Na chvíli pryč
-[NA]
-Nejsem tady
-[DND]
-Nerušit!
-[Free for chat]
-Mám volno
-[Invisible]
-Neviditelný
 [Forwarding]
 Přeposílání
 [SOCKS4]

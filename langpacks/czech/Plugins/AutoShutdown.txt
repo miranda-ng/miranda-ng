@@ -71,12 +71,6 @@ H&ned!
 Ukončit v:
 [Time left:]
 Zbývající čas:
-[Progress Bar]
-Ukazatel průběhu
-[Background]
-Pozadí
-[Countdown on Frame]
-Rámeček: Odpočítávání
 [Paused]
 Pauza
 [&Unpause Countdown]
@@ -87,6 +81,12 @@ Pauza
 &Zrušit odpočítávání
 [AutoShutdown]
 Automatické ukončení
+[Countdown on Frame]
+Rámeček: Odpočítávání
+[Background]
+Pozadí
+[Progress Bar]
+Ukazatel průběhu
 ;file \plugins\AutoShutdown\src\main.cpp
 [Header]
 Hlavička

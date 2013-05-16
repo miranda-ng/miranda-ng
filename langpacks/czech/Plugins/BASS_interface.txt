@@ -56,14 +56,16 @@ Náhled
 
 [--default device--]
 
-[Customize]
-Vlastní úpravy
+[Sounds]
+Zvuky
 [Disable sounds]
 
 [Enable sounds]
 Povolit zvuky
 [Frame Background]
 Barva pozadí rámečku
+[Bass library]
+
 [Sounds enabled]
 
 [Sounds disabled]

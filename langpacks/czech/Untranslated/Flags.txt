@@ -1,2 +1,2 @@
-﻿[Use &unknown flag if the country can not be determined]
-[Use &IP-to-country database for country detection]
+﻿[Use &IP-to-country database for country detection]
+[Use &unknown flag if the country can not be determined]

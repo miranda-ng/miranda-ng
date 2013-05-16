@@ -1,7 +1,7 @@
 ﻿#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 ;============================================================
 ;  File: WhenWasIt.dll
-;  Plugin: WhenWasIt
+;  Plugin: Birthday reminder
 ;  Version: 0.3.3.4
 ;  Authors: Cristian Libotean
 ;============================================================
@@ -112,7 +112,7 @@ Všechny kontakty
 [All contacts except hidden and ignored ones]
 
 [Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occuring today]]
-Nastavit prodlevu oznámení při oznamování nadcházejících narozenin.\nFormát: výchozí prodleva [ | prodleva pro dnešní narozeniny]
+Nastavit prodlevu oznámení při oznamování nadcházejících narozenin.\nFormát: výchozí prodleva [ | prodleva pro dnešní narozeniny]
 [Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
 
 [Set birthday for %s:]
@@ -140,6 +140,12 @@ Modul
 [Closing in %d second]
 
 ;file \plugins\WhenWasIt\src\hooked_events.cpp
+[Check for birthdays]
+Zjistit narozeniny
+[Birthdays]
+
+[Contacts]
+Kontakty
 [WhenWasIt]
 
 [Birthday near]
@@ -148,8 +154,6 @@ Narozeniny (brzy)
 Narozeniny (dnes)
 [Birthdays (When Was It)]
 Narozeniny (Kdy to bylo?)
-[Check for birthdays]
-Zjistit narozeniny
 [Refresh user details]
 Aktualizovat informace o kontaktu
 [Import birthdays]
@@ -158,10 +162,6 @@ Importovat narozeniny...
 Exportovat narozeniny...
 [Add/change user &birthday]
 Změnit narozenin&y...
-[Birthdays]
-
-[Contacts]
-Kontakty
 ;file \plugins\WhenWasIt\src\icons.cpp
 [Check birthdays menu item]
 
@@ -170,6 +170,10 @@ Kontakty
 [Add/change birthday]
 
 [1 day to birthday]
+
+[%d days to birthday]
+
+[More than %d days to birthday]
 
 [WhenWasIt birthday reminder]
 

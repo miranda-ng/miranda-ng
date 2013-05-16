@@ -1,4 +1,5 @@
-﻿[Go to the "Customize -> Folders" to change settings]
+﻿[Db autobackuper plugin.]
+[Go to the "Customize -> Folders" to change settings]
 [Miranda Databases]
 [Save Profile As...]
 [Database/Database Backups]

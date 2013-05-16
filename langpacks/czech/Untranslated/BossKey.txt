@@ -1,7 +1,4 @@
 ﻿[Anti-Boss plugin.]
-[Trigger when Miranda is hiding]
-[Trigger when Miranda is showing]
-[Pre-conditions]
 [EN]
 [min]
 [Miranda NG is locked.\nEnter password to unlock it.]

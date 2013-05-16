@@ -396,6 +396,8 @@ Potvrzení
 [** Unknown missed message event.]
 
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
+[Avatars]
+Avatary
 [Error uploading avatar to server, server temporarily unavailable.]
 
 [Error uploading avatar to server, server refused to accept the image.]
@@ -416,8 +418,6 @@ Angola
 Anguilla
 [Antigua and Barbuda]
 Antigua a Barbuda
-[Antilles]
-Antily
 [Argentina]
 Argentina
 [Armenia]
@@ -448,8 +448,6 @@ Bahrajn
 Bangladéš
 [Barbados]
 Barbados
-[Barbuda]
-Barbuda
 [Belarus]
 Bělorusko
 [Belgium]
@@ -500,8 +498,6 @@ Středoafrická republika
 Chile
 [China]
 Čína
-[Cocos (Keeling) Islands]
-Kokosové ostrovy
 [Colombia]
 Kolumbie
 [Comoros]
@@ -722,8 +718,6 @@ Nizozemské Antily
 
 [Netherlands (St. Eustatius Island)]
 
-[Nevis]
-Nevis
 [New Caledonia]
 Nová Kaledonie
 [New Zealand]
@@ -768,8 +762,6 @@ Katar
 Reunion
 [Romania]
 Rumunsko
-[Rota Island]
-Rota
 [Russia]
 Rusko
 [Rwanda]
@@ -780,8 +772,6 @@ Rwanda
 
 [Saint Helena]
 Svatá Helena
-[Saint Kitts]
-Sv. Kryštof
 [Saint Kitts and Nevis]
 Sv. Kryštof a Nevis
 [Saint Lucia]
@@ -790,8 +780,6 @@ Sv. Lucie
 Sv. Petr a Mikelon
 [Saint Vincent and the Grenadines]
 Sv. Vincenc a Grenadiny
-[Saipan Island]
-Saipan
 [San Marino]
 San Marino
 [Sao Tome and Principe]
@@ -844,8 +832,6 @@ Tádžikistán
 Tanzánie
 [Thailand]
 Thajsko
-[Tinian Island]
-Tinian
 [Timor, East]
 
 [Togo]
@@ -1640,10 +1626,14 @@ Píšu
 %s (rozšířený stav)
 [None]
 ---
+[Custom Status]
+Rozšířený stav
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 
 ;file \protocols\IcqOscarJ\src\init.cpp
+[ICQ XStatus]
+ICQ XStatus
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 ICQ: Upozornění

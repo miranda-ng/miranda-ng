@@ -181,3 +181,15 @@ Extra
 Zastavit
 [Play]
 Přehrát
+[Frame background]
+
+[OFF]
+
+[Volume]
+Hlasitost
+[Device list]
+
+[Equalizer]
+Ekvalizér
+[New]
+Nový

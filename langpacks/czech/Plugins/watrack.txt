@@ -643,3 +643,12 @@ Prodleva (ms)
 
 [You Get Error]
 
+;other strings
+[Slider]
+Posuvník
+[Slider Hovered]
+
+[Slider Pushed]
+
+[WATrack status]
+

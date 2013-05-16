@@ -1,0 +1,270 @@
+﻿#muuid {9c448c61-fc3f-42f9-b9f0-4a30e1cf8671}
+;============================================================
+;  File: Skype.dll
+;  Plugin: Skype Protocol
+;  Version: 0.0.0.1
+;  Authors: Unsane, Mataes
+;============================================================
+[Skype protocol support for Miranda NG.]
+
+;file \protocols\Skype\res\Resource.rc
+[Invite Contact To Chat]
+Pozvat k diskusi
+[sid]
+
+[&Invite]
+&Pozvat
+[&Cancel]
+&Zrušit
+[Add]
+Přidat
+[Enter password]
+Zadejte heslo
+[Enter a password for skype name %d:]
+
+[Remember this session password]
+Zapamatovat heslo této relace
+[OK]
+OK
+[Cancel]
+Zrušit
+[Skype name:]
+
+[Status text:]
+
+[Online since:]
+Online od:
+[Last event date:]
+
+[Last profile change:]
+
+[Full name:]
+Celé jméno:
+[Date of birth:]
+Narozeniny:
+[Gender:]
+Pohlaví:
+[Homepage:]
+WWW:
+[Language:]
+Jazyk:
+[About:]
+Ostatní informace:
+[Mood:]
+Nálada:
+[E-mail 1:]
+
+[E-mail 2:]
+
+[E-mail 3:]
+
+[Mobile phone:]
+
+[Home phone:]
+
+[Office phone:]
+
+[City:]
+Město:
+[State:]
+Stát:
+[Country:]
+Země:
+[Timezone:]
+Časové pásmo:
+[Change password]
+Změnit heslo
+[Old password]
+
+[New password]
+
+[Confirmation]
+Potvrzení
+[Password:]
+Heslo:
+[Register new account]
+
+[User Details]
+Informace o uživateli
+[Skype login:]
+
+[Connection]
+Spojení
+[Use port]
+
+[for incoming connections]
+
+[Use ports 80 and 443 as alternative incoming]
+
+[Default group:]
+Výchozí skupina:
+;file \protocols\Skype\src\skype.cpp
+[Proccess SkypeKit.exe did not start.]
+
+[Initialization key corrupted or not valid.]
+
+[SkypeKit did not initialize.]
+
+[SkypeKit did not start.]
+
+;file \protocols\Skype\src\skype_account.cpp
+[LOGOUT_CALLED]
+
+[HTTPS_PROXY_AUTH_FAILED]
+
+[SOCKS_PROXY_AUTH_FAILED]
+
+[P2P_CONNECT_FAILED]
+
+[SERVER_CONNECT_FAILED]
+
+[SERVER_OVERLOADED]
+
+[DB_IN_USE]
+
+[Invalid skypename]
+
+[Invalid email]
+
+[Unacceptable password]
+
+[SKYPENAME_TAKEN]
+
+[REJECTED_AS_UNDERAGE]
+
+[NO_SUCH_IDENTITY]
+
+[Incorrect password]
+
+[Too many login attempts]
+
+[PASSWORD_HAS_CHANGED]
+
+[PERIODIC_UIC_UPDATE_FAILED]
+
+[DB_DISK_FULL]
+
+[DB_IO_ERROR]
+
+[DB_CORRUPT]
+
+[DB_FAILURE]
+
+[INVALID_APP_ID]
+
+[APP_ID_FAILURE]
+
+[UNSUPPORTED_VERSION]
+
+[ATO (Account TakeOver) detected, account blocked]
+
+[Logout from another instance]
+
+[Password change succeeded]
+
+[Old password was incorrect]
+
+[Failed to verify password. No connection to server]
+
+[Password was set but server didn't like it much]
+
+[New password was exactly the same as old one]
+
+[The new password was unacceptable]
+
+[Account was currently not logged in]
+
+[You have not entered a Skype name.\n						Configure this in Options->Network->Skype and try again.]
+
+;file \protocols\Skype\src\skype_chat.cpp
+[&Invite user...]
+Pozvat k d&iskusi...
+[&Leave chat session]
+&Opustit diskusi
+[User &details]
+&Detaily uživatele
+[User &history]
+Zobrazit &historii
+;file \protocols\Skype\src\skype_contacts.cpp
+[Contact already in your contact list]
+
+;file \protocols\Skype\src\skype_dialogs.cpp
+[Enter a password for Skype Name %s:]
+
+[<not specified>]
+<neurčeno>
+[Male]
+muž
+[Female]
+žena
+[You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
+
+[Contacts]
+Kontakty
+[Home]
+Domov
+[General]
+Obecné
+[You did not select any contact]
+
+;file \protocols\Skype\src\skype_events.cpp
+[Network]
+Sítě
+[Account]
+Účet
+[Incoming call]
+
+;file \protocols\Skype\src\skype_icons.cpp
+[Protocol icon]
+Ikona protokolu
+[Call]
+Volat
+[Invite to conference]
+
+[Revoke authorization]
+Odvolat autorizaci
+[Request authorization]
+Požádat o autorizaci
+[Grant authorization]
+Udělit autorizaci
+[Protocols]
+Protokoly
+;file \protocols\Skype\src\skype_instances.cpp
+[SkypeKit will only permit you to login to one account at a time. 						  Adding multiple instances of SkypeKit is prohibited in the licence 						  agreement and standard distribution terms.]
+
+;file \protocols\Skype\src\skype_menus.cpp
+[Hi! I'd like to add you to my contact list]
+
+;file \protocols\Skype\src\skype_netlib.cpp
+[%s connection]
+%s - spojení se serverem
+;file \protocols\Skype\src\skype_proto.cpp
+[g_skype Name]
+
+;file \protocols\Skype\src\skype_utils.cpp
+[NOT_VALIDATED]
+
+[Validation succeeded]
+
+[Password is too short]
+
+[The value exceeds max size limit for the given property]
+
+[Value contains illegal characters]
+
+[Value contains whitespace]
+
+[Password cannot be the same as skypename]
+
+[Value has invalid format]
+
+[Value contains invalid word]
+
+[Password is too simple]
+
+[Value starts with an invalid character]
+
+[Avatars]
+Avatary
+[Skype Protocol]
+

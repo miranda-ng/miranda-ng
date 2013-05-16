@@ -1,4 +1,5 @@
-﻿[Do not change icon when testing]
+﻿[Ping labelled IP addresses or domain names.]
+[Do not change icon when testing]
 [Use the Customize/Fonts options to change text size and colour.]
 [Repeats for success/failure:]
 [Attach to contact list]

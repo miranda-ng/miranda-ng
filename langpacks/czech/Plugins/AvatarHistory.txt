@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AvatarHistory.dll
 ;  Plugin: Avatar history
-;  Version: 0.0.3.3
+;  Version: 0.1.0.1
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
@@ -111,6 +111,8 @@ Opravdu chcete odstranit vybraný avatar?\nTímto odstraníte záznam z historie
 Odstranit avatar?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Opravdu chcete odstranit vybraný avatar?\nTímto odstraníte zástupce i s obrázkem.\nVAROVÁNÍ: Tato operace může ovlivnit více zástupců!
+[Avatar History is empty!]
+
 [avatar path is null.]
 
 [View Avatar History]
@@ -120,23 +122,7 @@ Zobrazit historii avatarů
 [Save Avatar]
 
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-[Contact changed avatar]
-
-[Contact removed avatar]
-
-[Avatars]
-Avatary
-[Avatar History: Unable to create shortcut]
-
-[AVH Debug: Shortcut created successfully]
-
 [AVH Debug]
-
-[Invalid contact/avatar... skipping]
-
-[Invalid protocol... skipping]
-
-[Ignoring metacontacts notification]
 
 [Removed avatar, no avatar before...skipping]
 
@@ -146,11 +132,11 @@ Avatary
 
 [AVH Debug: File copied successfully]
 
-[Unknown UIN]
-neznámé UIN
-[Unknown Protocol]
-neznámý protokol
-[AVH Debug: GetOldStyleAvatarName]
+[Avatars]
+Avatary
+[Contact changed avatar]
+
+[Contact removed avatar]
 
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]
@@ -163,12 +149,6 @@ Historie
 [Avatar Overlay]
 Překrytí avataru
 ;file \plugins\AvatarHistory\src\options.cpp
-[Avatar]
-Avatar
-[PopUps]
-Oznámení
-[Avatar Change]
-Změna avataru
 [Do nothing]
 Nedělat nic
 [Close popup]
@@ -181,3 +161,20 @@ Zobrazit historii kontaktu
 Testovací kontakt
 [Test description]
 Testovací popis
+[Avatar]
+Avatar
+[PopUps]
+Oznámení
+[Avatar Change]
+Změna avataru
+;file \plugins\AvatarHistory\src\utils.cpp
+[Unknown UIN]
+neznámé UIN
+[Unknown Protocol]
+neznámý protokol
+[AVH Debug: GetOldStyleAvatarName]
+
+[Avatar History: Unable to create shortcut]
+
+[AVH Debug: Shortcut created successfully]
+

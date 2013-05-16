@@ -1,5 +1,12 @@
 ﻿#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
-;langpack template for FileAsMessage
+;============================================================
+;  File: FileAsMessage.dll
+;  Plugin: File as message
+;  Version: 0.0.2.4
+;  Authors: Denis Stanishevskiy
+;============================================================
+[File tranfer by using the messaging services - as plain text.]
+
 ;file \plugins\FileAsMessage\res\resources.rc
 [fileAsMessage]
 
@@ -77,6 +84,16 @@ Přerušeno uživatelem
 [Transfer is in progress. Do you really want to close?]
 Přenos dat ještě nebyl dokončen. Opravdu ho chcete přerušit?
 ;file \plugins\FileAsMessage\src\main.cpp
+[Play]
+Přehrát
+[Pause]
+Pozastavit
+[Revive]
+
+[Stop]
+Zastavit
+[Main]
+Hlavní
 [Plugins]
 Doplňky
 [File As Message...]
@@ -84,5 +101,5 @@ Soubor jako zpráva...
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]
 
-[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 PLUGIN_URL " for more information and download.]
+[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 "http://miranda-ng.org/ for more information and download.]
 

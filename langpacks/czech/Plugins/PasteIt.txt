@@ -1,7 +1,7 @@
 ﻿#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
 ;============================================================
 ;  File: PasteIt.dll
-;  Plugin: Paste It
+;  Plugin: Paste it
 ;  Version: 1.0.0.3
 ;  Authors: Krzysztof Kral
 ;============================================================

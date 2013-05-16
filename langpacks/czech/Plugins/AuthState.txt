@@ -29,8 +29,8 @@ Ověření
 Schválení
 [Auth & Grant]
 Autorizace & Schválení
+[Auth State]
+Stav autorizace
 ;file \plugins\AuthState\src\options.cpp
 [Icons]
 Ikony
-[Auth State]
-Stav autorizace

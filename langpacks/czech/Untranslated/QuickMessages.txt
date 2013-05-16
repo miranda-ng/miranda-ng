@@ -1,4 +1,5 @@
-﻿[Button Right-Click value]
+﻿[Plugin for quick insert pre-defined messages in message input area.]
+[Button Right-Click value]
 [Button Left-Click menu]
 [Menu entry value:]
 [Misc.]
@@ -30,3 +31,4 @@
 [Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
 [New Button]
 [New Menu Entry]
+[Quick Messages Button %u]

@@ -1,4 +1,5 @@
-﻿[Load Public GPG key]
+﻿[New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
+[Load Public GPG key]
 [Load from file]
 [Select existing]
 [Turn on encryption]

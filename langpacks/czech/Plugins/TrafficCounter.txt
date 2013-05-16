@@ -1,10 +1,12 @@
 ﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
 ;============================================================
 ;  File: TrafficCounter.dll
-;  Plugin: TrafficCounter
+;  Plugin: Traffic counter
 ;  Version: 0.1.1.8
-;  Authors: 
+;  Authors: Ghost, Mironych
 ;============================================================
+[Adding traffic and time counters.]
+
 ;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 
@@ -46,7 +48,56 @@ Odstup mezi řádky:
 
 [Display traffic for current]
 
-;file \plugins\TrafficCounter\src\statistics.c
+;file \plugins\TrafficCounter\src\options.cpp
+[Display]
+Zobrazení
+[Icon]
+Ikona
+[Account name]
+Název účtu
+[Current traffic]
+
+[Total traffic]
+
+[Current online]
+
+[Total online]
+
+[General]
+Obecné
+[Draw frame as skin element]
+
+[Show tooltip in traffic window]
+
+["Toggle traffic counter" in main menu]
+
+[Visible accounts]
+
+[Summary traffic for visible accounts]
+
+[Overall traffic]
+
+[Hide now]
+Skrýt okno
+[Day]
+den
+[Week]
+týden
+[Month]
+měsíc
+[Year]
+rok
+[Services]
+Služby
+[Options]
+Možnosti
+[Traffic counter]
+Počitadlo dat
+[Statistics]
+Statistika
+[PopUps]
+Oznámení
+;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 bajtů
 [KB]
@@ -77,65 +128,19 @@ Odchozí
 Online
 [Now traffic statistics for selected accounts will be cleared.\nContinue?]
 
-[Traffic counter]
-Počitadlo dat
 [Couldn't read statistics file]
 
 [Traffic Counter]
 
-;file \plugins\TrafficCounter\src\TrafficCounter.c
+;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Písmo
+[Show/Hide frame]
+
 [Hide traffic window]
 
 [Clear the current (Now:) value]
 
-[Display/]
-
-[Icon]
-Ikona
-[Account name]
-Název účtu
-[Current traffic]
-
-[Total traffic]
-
-[Current online]
-
-[Total online]
-
-[General/]
-
-[Draw frame as skin element]
-
-[Show tooltip in traffic window]
-
-["Toggle traffic counter" in main menu]
-
-[Visible accounts/]
-
-[Summary traffic for visible accounts]
-
-[Overall traffic]
-
-[Hide now]
-Skrýt okno
-[Day]
-den
-[Week]
-týden
-[Month]
-měsíc
-[Year]
-rok
-[Services]
-Služby
-[Options]
-Možnosti
-[Statistics]
-Statistika
-[PopUps]
-Oznámení
 [Toggle traffic counter]
 
 [Traffic counter notification]

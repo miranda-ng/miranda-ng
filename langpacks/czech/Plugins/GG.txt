@@ -22,8 +22,6 @@ Smazat účet
 Změnit heslo
 [Retrieve password]
 Získat zpět heslo
-[Change e-mail]
-Změnit e-mail
 [Options]
 Možnosti
 [Friends only]
@@ -32,8 +30,6 @@ Zobrazit pouze přátele
 Zobrazit uživatele offline poskytující stavovou zprávu jako neviditelné
 [After disconnection leave away message of status:]
 Po odpojení ponechat na serveru zprávu stavu:
-[Ignore incoming conference messages]
-Ignorovat zprávy přicházející z konference
 [Receive image and after image is received use:]
 Po dokončení přenosu obrázku použít:
 [Show links from unknown contacts]
@@ -62,10 +58,6 @@ Po přerušení automaticky navázat spojení
 Odeslat zprávy pomaleji, ale s úplným potvrzením
 [Manually specify connection servers' hosts]
 Určit hostitele pro připojení
-[Host:]
-Hostitel:
-[Port:]
-Port:
 [* new line is separator\n** hostname:port format]
 * 1 položka = 1 řádek\n** ve formátu hostitel:port
 [Use SSL secure connection]
@@ -74,12 +66,14 @@ Použít zabezpečené spojení (SSL)
 Přenos souborů
 [Use direct connections]
 Použít přímé spojení
+[Port:]
+Port:
 [Use forwarding]
 Použít přesměrování
+[Host:]
+Hostitel:
 [Number:]
 Číslo:
-[Version:]
-Verze:
 [Internal IP:]
 Interní IP:
 [First name:]
@@ -229,16 +223,6 @@ Konference
 Extra
 [<Last Status>]
 <poslední stav>
-[Online]
-Online
-[Away]
-Na chvíli pryč
-[DND]
-Nerušit!
-[Free for chat]
-Mám volno
-[Invisible]
-Neviditelný
 [System tray icon]
 Ikona v oznamovací oblasti
 [Popup window]
@@ -288,6 +272,10 @@ Seznam kontaktů
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
 %s - spojení se serverem
+[Avatars]
+Avatary
+[Images]
+
 [Gadu-Gadu Number]
 Identifikátor
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp

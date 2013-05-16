@@ -1,5 +1,12 @@
 ﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
-;langpack template for Nudge
+;============================================================
+;  File: Nudge.dll
+;  Plugin: Nudge
+;  Version: 0.0.2.0
+;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
+;============================================================
+[Plugin to shake the clist and chat window.]
+
 ;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 Možnosti protokolu
@@ -18,7 +25,7 @@ Zobrazit jako změnu stavu
 [Auto resend nudge after]
 Automaticky znovu drcnout po
 [s]
-s
+s
 [Enable popup notification]
 Povolit oznámení
 [Respect ignore settings (status changes)]
@@ -71,10 +78,6 @@ O kolik posunout
 Statický
 [Shaking Message Window Options]
 Možnosti komunikačního okna
-[Shake the contact list]
-
-[Shake the chat window]
-Zatřást komunikačním oknem
 ;file \plugins\Nudge\src\main.cpp
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
 Upozornění: Drcnutí lze opakovat jen jednou za %d sek. (%d sek. zbývá)
@@ -82,10 +85,6 @@ Upozornění: Drcnutí lze opakovat jen jednou za %d sek. (%d sek. zbývá)
 Drcnutí
 [Default Nudge]
 Výchozí drcnutí
-[Nudge : Shake contact list/chat window]
-
-[Nudge : Send a nudge]
-
 [Nudge as Default]
 Drcnutí jako výchozí
 [Send Nudge]

@@ -87,10 +87,8 @@ Identifikátor
 [Add]
 Přidat
 ;file \protocols\Yahoo\src\avatar.cpp
-[Yahoo Error]
-Chyba Yahoo
-[Avatar upload failed!?!]
-
+[Avatars]
+Avatary
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 Přišla pozvánka na konferenci v místnosti %s. Text: %s.
@@ -128,6 +126,8 @@ Změnit stav
 [Calendar]
 Kalendář
 ;file \protocols\Yahoo\src\im.cpp
+[Yahoo Error]
+Chyba Yahoo
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
@@ -139,12 +139,10 @@ Zpráva je příliš dlouhá. Protokol Yahoo umožňuje napsat max. 800 znaků (
 [YAHOO plugin HTTP connections]
 Yahoo - spojení pomocí protokolu HTTP
 ;file \protocols\Yahoo\src\options.cpp
-[The changes you have made require you to restart Miranda NG before they take effect]
-Poznámka: Tato změna vyžaduje restart programu Miranda NG.
-[YAHOO Options]
-Možnosti Yahoo
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 Změny se projeví až při příštím připojení do sítě Yahoo.
+[YAHOO Options]
+Možnosti Yahoo
 [You need to be connected to Yahoo to add to Ignore List.]
 Novou položku lze přidat až po připojení do sítě Yahoo.
 [Yahoo Ignore]
@@ -197,8 +195,6 @@ Sezn&am kontaktů
 &Kalendář
 [Create Conference]
 
-[&Refresh]
-A&ktualizovat
 [&Show Profile]
 &Zobrazit profil
 ;file \protocols\Yahoo\src\webcam.cpp
@@ -235,8 +231,6 @@ Chyba při přihlašování do sítě Yahoo; neplatné heslo. Zkontrolujte pros�
 Chyba při přihlašování do sítě Yahoo. Váš účet je zamknutý.\nPřejděte na %s, kde ho můžete znovu aktivovat.
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 Byli jste odpojeni od sítě Yahoo. Jeden z důvodů může být přihlášení ke stejnému účtu z jiného počítače.
-[You have been logged out of the yahoo service.]
-Byli jste odpojeni od sítě Yahoo.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Chyba při přihlašování do sítě Yahoo. Zkontrolujte zda, je správně zadaná adresa serveru a nastavení proxy.
 [Could not log in, unknown reason: %d.]

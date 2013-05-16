@@ -188,8 +188,6 @@ Chyba
 Tímto odstraníte metakontakt natrvalo.\n\nUrčitě chcete pokračovat?
 [Are you sure?]
 Opravdu chcete pokračovat?
-[Delete MetaContact]
-Smazat metakontakt
 [Remove from MetaContact]
 Odstranit z metakontaktu
 ;file \plugins\MetaContacts\src\meta_options.cpp
@@ -210,6 +208,8 @@ Přidat k existujícímu metakontaktu...
 Upravit metakontakt...
 [Set as MetaContact default]
 Nastavit jako výchozí
+[Delete MetaContact]
+Smazat metakontakt
 [Context]
 Kontext
 [Toggle MetaContacts On]

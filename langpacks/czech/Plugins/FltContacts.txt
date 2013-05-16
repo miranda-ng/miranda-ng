@@ -1,8 +1,8 @@
 ﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
 ;============================================================
 ;  File: FltContacts.dll
-;  Plugin: Floating Contacts
-;  Version: x.x.x.x
+;  Plugin: Floating contacts
+;  Version: 0.7.0.0
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 [Floating Contacts plugin for Miranda.]
@@ -22,8 +22,8 @@ pix.
 
 [Hide when a fulscreen app is active]
 
-[Show tooltips]
-Zobrazovat tipy
+[Show tooltips*]
+
 [ms]
 ms
 [Tooltips]
@@ -32,7 +32,7 @@ Tipy
 Ostatní
 [0 = Default]
 0 = výchozí
-[requires mToolTip or Tipper plugin]
+[*requires Tipper plugin]
 
 [Bring to front]
 
@@ -46,33 +46,15 @@ sek.
 Zařídit vše jedním kliknutím myši
 [Dim idle contacts]
 Zešednout neaktivní kontakty
-[Fonts]
-Písma
-[same]
-stejné
-[Typeface]
-Typ písma
-[Size]
-Velikost
-[Style]
-Vzhled
-[Colour]
-Barva
-[as:]
-jako:
-[Bold]
-Tučné
-[Italic]
-Kurzíva
-[Underline]
-Podtržené
+[Idle contacts]
+
 [Border]
 Okraj
 [Draw border]
 
-[Left-top edges color:]
+[Left-top edge's color:]
 
-[Right-bottom eges color:]
+[Right-bottom edge's color:]
 
 [Background]
 Pozadí
@@ -92,21 +74,7 @@ Svisle vedle sebe
 Uzpůsobit poměrně
 [Opacity:]
 Neprůhlednost:
-;file \plugins\FloatingContacts\src\bitmap_funcs.cpp
-[You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
-Obrázky ve formátu PNG vyžadují doplněk png2dib 0.1.3.x nebo novější.
-[Error]
-Chyba
 ;file \plugins\FloatingContacts\src\main.cpp
-[Remove thumb]
-
-[Show all thumbs]
-
-[Hide all thumbs]
-
-[Show/Hide all thumbs]
-
-;file \plugins\FloatingContacts\src\options.cpp
 [Standard contacts]
 Standardní kontakty
 [Online contacts to whom you have a different visibility]
@@ -117,6 +85,17 @@ Kontakty offline
 Kontakty offline, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
 [Contacts which are 'not on list']
 Kontakty, které "nejsou v seznamu"
+[Floating contacts]
+Plovoucí kontakty
+[Show all thumbs]
+
+[Hide all thumbs]
+
+[Remove thumb]
+
+[Show/Hide all thumbs]
+
+;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 
 [Contact List]
@@ -125,9 +104,3 @@ Seznam kontaktů
 Hlavní vlastnosti
 [Appearance]
 Vzhled
-[Sample]
-Příkladový text
-[<none>]
-<žádný>
-[<Contact List Text>]
-

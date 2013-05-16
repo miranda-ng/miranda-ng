@@ -1,37 +1,13 @@
 ﻿#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
 ;============================================================
 ;  File: LangMan.dll
-;  Plugin: LangMan
-;  Version: x.x.x.x
-;  Authors: 
+;  Plugin: Language pack manager
+;  Version: 1.0.2.3
+;  Authors: H. Herkenrath
 ;============================================================
+[Helps you manage Language Packs of different languages.]
+Usnadňuje správu souborů s překlady v různých jazycích.
 ;file \plugins\LangMan\res\resource.rc
-[Language Pack Update Now Available]
-Nová verze překladu
-[A new version of a Language Pack is now available. Click the install button to download and install this new update.]
-K dispozici je nová verze překladu programu Miranda IM. Stáhnete a nainstalujete ji kliknutím na tlačítko 'Instalovat'.
-[Language:]
-Jazyk:
-[Current:]
-Aktuální:
-[New:]
-Nový:
-[&Install Now]
-&Instalovat
-[Close]
-Zavřít
-[Select your language]
-Vyberte požadovaný jazyk
-[Miranda NG is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
-Program Miranda NG je pře&ložen do mnoha jazyků.\nVyberte si prosím ze seznamu váš mateřský jazyk:
-[Download &all languages]
-Stáhnout všechny j&azyky
-[Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
-Poznámka: Pomocí této funkce stáhnete a nainstalujete nejnovější překlad v daném jazyce. Nezapomeňte ovšem, že může existovat několik variant překladů od různých autorů.
-[OK]
-OK
-[Cancel]
-Zrušit
 [Author(s):]
 Autor:
 [E-mail:]
@@ -44,16 +20,10 @@ Datum:
 Verze:
 [Locale:]
 Lokalizace:
-[Not included:]
-V překladu chybí:
 [Download more Language Packs]
 Stáhnout další překlady
 [Please restart Miranda NG for your changes to take effect.]
 Poznámka: Tato změna vyžaduje restart programu Miranda NG.
-[Check for new &versions of Language Packs periodically]
-Pravidelně zjišťovat nové &verze překladů
-[&Download Language]
-Stáhnout překla&d
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
 

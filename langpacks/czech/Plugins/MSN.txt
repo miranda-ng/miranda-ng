@@ -198,6 +198,10 @@ Za&blokovat
 [&Start Netmeeting]
 Spustit Netmeetin&g
 ;file \protocols\MSN\src\msn_misc.cpp
+[Avatars]
+Avatary
+[Custom Smileys]
+
 [Notify]
 Oznámení
 [Error]
@@ -259,8 +263,6 @@ Upozornění
 MirandaIM zatím nepodporuje příjem obrázků v webové kamery.
 [Contact tried to view our webcam data (currently not supported)]
 MirandaIM zatím nepodporuje posílání obrázků z webové kamery.
-[Contact tried to share media with us (currently not supported)]
-
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Nová pošta (Live)

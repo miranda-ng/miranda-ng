@@ -136,6 +136,9 @@ O&dmítnout
 Zpráva
 [Room]
 Místnost
+;file \protocols\AimOscar\src\avatars.cpp
+[Avatars]
+Avatary
 ;file \protocols\AimOscar\src\chat.cpp
 [Me]
 Já
@@ -297,8 +300,6 @@ Autom. odpověď:
 
 [No information has been provided by the server.]
 Server nedodal požadované informace.
-[Successfully removed buddy from list.]
-
 [Item you want to delete not found in list.]
 
 [Failed to add buddy to list: Item already exist.]
@@ -312,8 +313,6 @@ Server nedodal požadované informace.
 [Cannot add this buddy because it requires authorization.]
 
 [Unknown error when adding buddy to list. Error code %#x]
-
-[Successfully modified group.]
 
 [Item you want to modify not found in list.]
 
@@ -394,6 +393,8 @@ Horní index ne
 Normální písmo
 [Not Normal Script]
 Normální písmo ne
+[Profile Editor]
+Editor profilu
 [AIM Account Type]
 Typ AIM účtu
 [AIM Extended Status]

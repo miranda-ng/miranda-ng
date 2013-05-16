@@ -313,9 +313,9 @@ DCC: Žádost o chat od %s odmítnuta
 [DCC: File transfer request from %s denied]
 DCC: Žádost o přenos souborů od %s odmítnuta
 [DCC: Reverse file transfer request from %s denied [No local IP]]
-DCC: Žádost o reverzní přenos souborů od %s odmítnuta [není lokální IP]
+DCC: Žádost o reverzní přenos souborů od %s odmítnuta [není lokální IP]
 [DCC ERROR: Malformed CTCP request from %s [%s]]
-Chyba DCC: Poškozená žádost CTCP od %s [%s]
+Chyba DCC: Poškozená žádost CTCP od %s [%s]
 [DCC: File transfer resume request from %s denied]
 DCC: Žádost o navázání přenosu souborů od %s odmítnuta
 [CTCP %s requested by %s]
@@ -416,9 +416,9 @@ Přezdívka
 [DCC ERROR: No valid files specified]
 Chyba DCC: Vybrali jste neplatné soubory
 [DCC reversed file transfer request sent to %s [%s]]
-Odeslána žádost o reverzní přenos souborů pomocí DCC -> %s [%s]
+Odeslána žádost o reverzní přenos souborů pomocí DCC -> %s [%s]
 [DCC file transfer request sent to %s [%s]]
-Odeslána žádost o přenos souborů pomocí DCC -> %s [%s]
+Odeslána žádost o přenos souborů pomocí DCC -> %s [%s]
 [DCC ERROR: Unable to bind local port]
 Chyba DCC: Nelze navázat spojení na požadovaném lokálním portu
 [The protocol is not online]

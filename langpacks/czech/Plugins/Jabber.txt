@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: 
 ;============================================================
 ;file \protocols\JabberG\res\jabber.rc
@@ -256,8 +256,6 @@ Místnost:
 Záložky
 [JID List]
 Seznam identifikátorů
-[List4]
-
 [Apply Filter]
 Použít filtr
 [Reset Filter]
@@ -449,6 +447,14 @@ Poslat
 ;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
 
+[Frame title]
+Záhlaví rámečku
+[Frame text]
+Text rámečku
+[Jabber Activity]
+Jabber aktivita
+[Jabber Mood]
+Jabber nálada
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 
@@ -492,6 +498,95 @@ Odkazy
 ;file \protocols\JabberG\src\jabber_byte.cpp
 [Bytestream Proxy not available]
 
+;file \protocols\JabberG\src\jabber_caps.cpp
+[Supports Service Discovery info]
+Podporuje vyhledání služeb
+[Supports Service Discovery items list]
+Podporuje výpis vyhledaných služeb
+[Can inform about its Jabber capabilities]
+Poskytuje informace o možnostech klienta
+[Supports stream initiation (for filetransfers for ex.)]
+Podporuje zahájení relace (např. pro přenos souborů)
+[Supports stream initiation for file transfers]
+Podporuje zahájení relace pro přenos souborů
+[Supports file transfers via SOCKS5 Bytestreams]
+Podporuje přenos souborů pomocí SOCKS5
+[Supports file transfers via In-Band Bytestreams]
+Podporuje přenos souborů typu In-Band
+[Supports file transfers via Out-of-Band Bytestreams]
+Podporuje přenos souborů typu Out-of-Band
+[Supports execution of Ad-Hoc commands]
+Podporuje příkazy Ad-Hoc
+[Supports in-band registration]
+Podporuje registraci In-Band
+[Supports multi-user chat]
+Podporuje diskuse ve více lidech
+[Can report chat state in a chat session]
+Poskytuje informace o stavu diskuse
+[Can report information about the last activity of the user]
+Poskytuje informace posledních akcích uživatele
+[Can report own version information]
+Poskytuje informace o verzi klienta
+[Can report local time of the user]
+Poskytuje informace o místním času
+[Can send and receive ping requests]
+Umožňuje poslat a přijmout ping
+[Supports data forms]
+Podporuje formulářové prvky
+[Can request and respond to events relating to the delivery, display, and composition of messages]
+Umožňuje zpracovávat a reagovat na události typu doručení, zobrazení a psaní zprávy
+[Supports vCard]
+Podporuje vCard
+[Supports iq-based avatars]
+Podporuje avatary dle IQ
+[Supports XHTML formatting of chat messages]
+
+[Supports Jabber Browsing]
+Podporuje katalogizaci služeb
+[Can negotiate options for specific features]
+
+[Can request advanced processing of message stanzas]
+
+[Can report information about user moods]
+Poskytuje informace o náladě
+[Receives information about user moods]
+Přijímá informace o náladě
+[Supports generic publish-subscribe functionality]
+
+[Supports SecureIM plugin for Miranda NG]
+Podporuje doplněk SecureIM pro Mirandu
+[Supports MirOTR plugin for Miranda NG]
+
+[Supports New_GPG plugin for Miranda NG]
+
+[Can block communications from particular other users using Privacy lists]
+Umožňuje blokovat komunikaci na základě definovaných filtrů
+[Supports Message Receipts]
+Podporuje potvrzenky o doručení
+[Can report information about the music to which a user is listening]
+Poskytuje informace o poslouchané hudbě
+[Receives information about the music to which a user is listening]
+Přijímá informace o poslouchané hudbě
+[Supports private XML Storage (for bookmakrs and other)]
+Podporuje ukládání soukromých dat (pro záložky aj.)
+[Supports attention requests ('nudge')]
+Podporuje zpracování žádosti o pozornost (tzv. drcnutí)
+[Supports chat history retrieving]
+
+[Supports chat history management]
+
+[Can report information about user activity]
+Umožňuje odesílat informace o aktivitě uživatele
+[Receives information about user activity]
+Přijímá informace o aktivitě uživatele
+[Supports Miranda NG notes extension]
+Podporuje rozšíření poznámky Miranda NG
+[Supports Jingle]
+Podporuje Jingle
+[Supports Roster Exchange]
+Podporuje výměnu seznamů na serveru
+[Supports GTalk private multi-user chat]
+Podporuje důvěrný režim
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 
@@ -510,6 +605,14 @@ Přihlížející
 Účastník
 [Moderator]
 Moderátor
+[Visitors]
+Přihlížející
+[Participants]
+Účastníci
+[Moderators]
+Moderátoři
+[Owners]
+Vlastníci
 [User %s in now banned.]
 
 [User %s changed status to %s with message: %s]
@@ -670,6 +773,38 @@ Registrované služby
 Procházet lokální služby
 [Browse chatrooms]
 Procházet diskuse
+[Contact Menu...]
+Uživatelské menu...
+[View vCard]
+Zobrazit vCard...
+[Join chatroom]
+Připojit se do diskuse...
+[Refresh Info]
+Aktualizovat informace
+[Refresh Children]
+Aktualizovat potomka
+[Add to favorites]
+Přidat mezi oblíbené
+[Add to roster]
+Přidat do seznamu
+[Bookmark chatroom]
+Přidat mezi záložky...
+[Add search directory]
+
+[Use this proxy]
+
+[Commands...]
+Příkazy...
+[Logon]
+
+[Logoff]
+
+[Copy JID]
+Zkopírovat JID
+[Copy node name]
+Zkopírovat název uzlu
+[Copy node information]
+Zkopírovat informace o uzlu
 ;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 Identity
@@ -686,6 +821,283 @@ Podporované funkce
 [Info request error]
 
 [Items request error]
+
+;file \protocols\JabberG\src\jabber_form2.cpp
+[One or more addresses for communication related to abusive traffic]
+
+[One or more addresses for customer feedback]
+
+[One or more addresses for communication related to sales and marketing]
+
+[One or more addresses for communication related to security concerns]
+
+[One or more addresses for customer support]
+
+[The Jabber ID of a single entity to which an operation applies]
+
+[The Jabber ID of one or more entities to which an operation applies]
+
+[The Jabber IDs associated with active sessions]
+
+[The number of online entities that are active]
+
+[A list of entities with administrative privileges]
+
+[The text of an announcement to be sent to active users or all users]
+
+[A list of entities with whom communication is blocked]
+
+[The number of seconds to delay before applying a change]
+
+[The Jabber IDs that have been disabled]
+
+[The number of disabled entities]
+
+[The email address for a user]
+
+[The given (first) name of a user]
+
+[The number of online entities that are idle]
+
+[The IP addresses of an account's online sessions]
+
+[The last login time (per XEP-0082) of a user]
+
+[The number of logins per minute for an account]
+
+[The maximum number of items associated with a search or list]
+
+[The text of a message of the day]
+
+[The names of an account's online sessions]
+
+[The Jabber IDs associated with online users]
+
+[The number of online entities]
+
+[The password for an account]
+
+[Password verification]
+
+[A list of registered entities]
+
+[The number of registered entities]
+
+[Number of roster items for an account]
+
+[The number of stanzas being sent per second by an account]
+
+[The family (last) name of a user]
+
+[The text of a welcome message]
+
+[A list of entities with whom communication is allowed]
+
+[First Name]
+Jméno
+[Last Name]
+Příjmení
+[Desired Nickname]
+
+[Your URL]
+
+[Email Address]
+
+[FAQ Entry]
+
+[Whether to Allow Occupants to Invite Others]
+
+[Whether to Allow Occupants to Change Subject]
+
+[Whether to Enable Logging of Room Conversations]
+
+[Natural Language for Room Discussions]
+
+[Maximum Number of Room Occupants]
+
+[Whether an Make Room Members-Only]
+
+[Whether to Make Room Moderated]
+
+[Whether a Password is Required to Enter]
+
+[Whether to Make Room Persistent]
+
+[Roles for which Presence is Broadcast]
+
+[Whether to Allow Public Searching for Room]
+
+[Full List of Room Admins]
+
+[Short Description of Room]
+
+[Natural-Language Room Name]
+
+[Full List of Room Owners]
+
+[The Room Password]
+
+[Affiliations that May Discover Real JIDs of Occupants]
+
+[Precondition: node configuration with the specified access model]
+
+[Whether to allow the subscription]
+
+[The SubID of the subscription]
+
+[The NodeID of the relevant node]
+
+[The address (JID) of the subscriber]
+
+[Whether an entity wants to receive or disable notifications]
+
+[Whether an entity wants to receive digests (aggregations) of notifications or all notifications individually]
+
+[The minimum number of milliseconds between sending any two notification digests]
+
+[The DateTime at which a leased subscription will end or has ended]
+
+[Whether an entity wants to receive an XMPP message body in addition to the payload format]
+
+[The presence states for which an entity wants to receive notifications]
+
+[Who may subscribe and retrieve items]
+
+[The URL of an XSL transformation which can be applied to payloads in order to generate an appropriate message body element.]
+
+[The collection with which a node is affiliated]
+
+[The URL of an XSL transformation which can be applied to the payload format in order to generate a valid Data Forms result that the client could display using a generic Data Forms rendering engine]
+
+[Whether to deliver payloads with event notifications]
+
+[Whether owners or publisher should receive replies to items]
+
+[Who may associate leaf nodes with a collection]
+
+[The list of JIDs that may associated leaf nodes with a collection]
+
+[The child nodes (leaf or collection) associated with a collection]
+
+[The maximum number of child nodes that can be associated with a collection]
+
+[The maximum number of items to persist]
+
+[The maximum payload size in bytes]
+
+[Whether the node is a leaf (default) or a collection]
+
+[Whether to notify subscribers when the node configuration changes]
+
+[Whether to notify subscribers when the node is deleted]
+
+[Whether to notify subscribers when items are removed from the node]
+
+[Whether to persist items to storage]
+
+[Whether to deliver notifications to available users only]
+
+[The publisher model]
+
+[The specific multi-user chat rooms to specify for replyroom]
+
+[The specific JID(s) to specify for replyto]
+
+[The roster group(s) allowed to subscribe and retrieve items]
+
+[Whether to send items to new subscribers]
+
+[Whether to allow subscriptions]
+
+[A friendly name for the node]
+
+[The type of node data, usually specified by the namespace of the payload (if any); MAY be list-single rather than text-single]
+
+[The JIDs of those to contact with questions]
+
+[The datetime when the node was created]
+
+[The JID of the node creator]
+
+[A description of the node]
+
+[The default language of the node]
+
+[The number of subscribers to the node]
+
+[The JIDs of those with an affiliation of owner]
+
+[The JIDs of those with an affiliation of publisher]
+
+[The name of the node]
+
+[Payload type]
+
+[Whether to automatically authorize subscription requests]
+
+[Whether to automatically accept file transfers]
+
+[Whether to automatically open new messages]
+
+[Whether to automatically go offline when idle]
+
+[Whether to play sounds]
+
+[A list of pending file transfers]
+
+[A list of joined groupchat rooms]
+
+[A presence or availability status]
+
+[The status message text]
+
+[The new priority for the client]
+
+[Account name associated with the user]
+
+[Familiar name of the user]
+
+[Password or secret for the user]
+
+[Full name of the user]
+
+[First name or given name of the user]
+
+[Last name, surname, or family name of the user]
+
+[Email address of the user]
+
+[Street portion of a physical or mailing address]
+
+[Locality portion of a physical or mailing address]
+
+[Region portion of a physical or mailing address]
+
+[Postal code portion of a physical or mailing address]
+
+[Family Name]
+
+[Whether to accept the invitation]
+
+[Another resource with which to continue the session]
+
+[Disclosure of content, decryption keys or identities]
+
+[Whether may send Chat State Notifications per XEP-0085]
+
+[Whether allowed to use XHTML-IM formatting per XEP-0071]
+
+[Primary written language of the chat (each value appears in order of preference and conforms to RFC 4646 and the IANA registry)]
+
+[Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
+
+[Whether to renegotiate the session]
+
+[Minimum security level]
+
+[Whether to terminate the session]
+
+[Whether to enable Message Receipts per XEP-0184]
 
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
@@ -729,8 +1141,6 @@ Udělit autorizaci
 Odvolat autorizaci
 [Convert to room]
 Změnit na místnost
-[Add to roster]
-Přidat do seznamu
 [Login/logout]
 Přihlásit/odhlásit
 [Resolve nicks]
@@ -791,6 +1201,14 @@ Zakázat stavy (přích.)
 Zakázat stavy (odch.)
 [Deny Queries]
 Zakázat žádosti
+[Protocols]
+Protokoly
+[Dialogs]
+Dialogy
+[Discovery]
+Vyhledávání
+[Privacy]
+Soukromí
 ;file \protocols\JabberG\src\jabber_iqid.cpp
 [Authentication failed for]
 Chyba při ověřování:
@@ -867,6 +1285,8 @@ Priorita umístění (%d)
 Připojit se do diskuse
 [Open bookmarks]
 Otevřít záložky
+[Privacy lists]
+Filtrování kontaktů
 [Service discovery]
 Vyhledání služeb
 [Last active]
@@ -881,6 +1301,8 @@ Stavová zpráva
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 Tato funkce vyžaduje doplněk 'Chat'. Před použitím je třeba nainstalovat.
+[Avatars]
+Avatary
 [To]
 Do
 [From]
@@ -905,6 +1327,376 @@ Opravdu chcete pokračovat?
 [Incoming note]
 
 ;file \protocols\JabberG\src\jabber_opt.cpp
+[Afar]
+
+[Abkhazian]
+
+[Afrikaans]
+afrikánština
+[Akan]
+
+[Albanian]
+albánština
+[Amharic]
+
+[Arabic]
+arabština
+[Aragonese]
+
+[Armenian]
+arménština
+[Assamese]
+
+[Avaric]
+
+[Avestan]
+
+[Aymara]
+
+[Azerbaijani]
+ázerbajdžánština
+[Bashkir]
+
+[Bambara]
+
+[Basque]
+
+[Belarusian]
+běloruština
+[Bengali]
+
+[Bihari]
+
+[Bislama]
+
+[Bosnian]
+bosenština
+[Breton]
+
+[Bulgarian]
+bulharština
+[Burmese]
+barmština
+[Catalan; Valencian]
+
+[Chamorro]
+čamoro
+[Chechen]
+
+[Chinese]
+čínština
+[Church Slavic; Old Slavonic]
+
+[Chuvash]
+
+[Cornish]
+
+[Corsican]
+
+[Cree]
+
+[Czech]
+čeština
+[Danish]
+dánština
+[Divehi; Dhivehi; Maldivian]
+
+[Dutch; Flemish]
+
+[Dzongkha]
+
+[English]
+angličtina
+[Esperanto]
+esperanto
+[Estonian]
+estonština
+[Ewe]
+
+[Faroese]
+
+[Fijian]
+
+[Finnish]
+finština
+[French]
+francouzština
+[Western Frisian]
+
+[Fulah]
+
+[Georgian]
+
+[German]
+němčina
+[Gaelic; Scottish Gaelic]
+
+[Irish]
+
+[Galician]
+
+[Manx]
+
+[Greek, Modern (1453-)]
+
+[Guarani]
+
+[Gujarati]
+gudžarátština
+[Haitian; Haitian Creole]
+
+[Hausa]
+
+[Hebrew]
+hebrejština
+[Herero]
+
+[Hindi]
+hindština
+[Hiri Motu]
+
+[Hungarian]
+maďarština
+[Igbo]
+
+[Icelandic]
+islandština
+[Ido]
+
+[Sichuan Yi]
+
+[Inuktitut]
+
+[Interlingue]
+
+[Interlingua (International Auxiliary Language Association)]
+
+[Indonesian]
+indonézština
+[Inupiaq]
+
+[Italian]
+italština
+[Javanese]
+
+[Japanese]
+japonština
+[Kalaallisut; Greenlandic]
+
+[Kannada]
+
+[Kashmiri]
+
+[Kanuri]
+
+[Kazakh]
+
+[Central Khmer]
+
+[Kikuyu; Gikuyu]
+
+[Kinyarwanda]
+
+[Kirghiz; Kyrgyz]
+
+[Komi]
+
+[Kongo]
+
+[Korean]
+korejština
+[Kuanyama; Kwanyama]
+
+[Kurdish]
+kurdština
+[Lao]
+laoština
+[Latin]
+
+[Latvian]
+lotyšština
+[Limburgan; Limburger; Limburgish]
+
+[Lingala]
+
+[Lithuanian]
+litevština
+[Luxembourgish; Letzeburgesch]
+
+[Luba-Katanga]
+
+[Ganda]
+
+[Macedonian]
+makedonština
+[Marshallese]
+
+[Malayalam]
+
+[Maori]
+
+[Marathi]
+
+[Malay]
+malajština
+[Malagasy]
+
+[Maltese]
+
+[Moldavian]
+
+[Mongolian]
+mongolština
+[Nauru]
+Nauru
+[Navajo; Navaho]
+
+[Ndebele, South; South Ndebele]
+
+[Ndebele, North; North Ndebele]
+
+[Ndonga]
+
+[Nepali]
+
+[Norwegian Nynorsk; Nynorsk, Norwegian]
+
+[Bokmaal, Norwegian; Norwegian Bokmaal]
+
+[Norwegian]
+norština
+[Chichewa; Chewa; Nyanja]
+
+[Occitan (post 1500); Provencal]
+
+[Ojibwa]
+
+[Oriya]
+
+[Oromo]
+
+[Ossetian; Ossetic]
+
+[Panjabi; Punjabi]
+
+[Persian]
+perština
+[Pali]
+
+[Polish]
+polština
+[Portuguese]
+portugalština
+[Pushto]
+
+[Quechua]
+
+[Romansh]
+
+[Romanian]
+rumunština
+[Rundi]
+
+[Russian]
+ruština
+[Sango]
+
+[Sanskrit]
+
+[Serbian]
+
+[Croatian]
+chorvatština
+[Sinhala; Sinhalese]
+
+[Slovak]
+slovenština
+[Slovenian]
+slovinština
+[Northern Sami]
+
+[Samoan]
+
+[Shona]
+
+[Sindhi]
+sindhština
+[Somali]
+somálština
+[Sotho, Southern]
+
+[Spanish; Castilian]
+
+[Sardinian]
+
+[Swati]
+
+[Sundanese]
+
+[Swahili]
+svahilština
+[Swedish]
+švédština
+[Tahitian]
+
+[Tamil]
+tamilština
+[Tatar]
+tatarština
+[Telugu]
+
+[Tajik]
+
+[Tagalog]
+tagalština
+[Thai]
+thajština
+[Tibetan]
+
+[Tigrinya]
+
+[Tonga (Tonga Islands)]
+
+[Tswana]
+
+[Tsonga]
+
+[Turkmen]
+
+[Turkish]
+turečtina
+[Twi]
+
+[Uighur; Uyghur]
+
+[Ukrainian]
+ukrajinština
+[Urdu]
+urdu
+[Uzbek]
+
+[Venda]
+
+[Vietnamese]
+vietnamština
+[Volapuk]
+
+[Welsh]
+velština
+[Walloon]
+
+[Wolof]
+
+[Xhosa]
+
+[Yiddish]
+jidiš
+[Yoruba]
+jorubština
+[Zhuang; Chuang]
+
+[Zulu]
+
 [These changes will take effect the next time you connect to the Jabber network.]
 Změny se projeví až při příštím připojení do sítě Jabber.
 [Jabber Protocol Option]
@@ -1040,6 +1832,8 @@ LiveJournal Talk
 [Facebook Chat]
 
 [Vkontakte]
+
+[Odnoklassniki]
 
 [Some changes will take effect the next time you connect to the Jabber network.]
 Některé změny se projeví až při příštím přihlášení do vybrané sítě Jabber.
@@ -1350,6 +2144,40 @@ neznámý formát
 [Photo]
 Fotka
 ;file \protocols\JabberG\src\jabber_util.cpp
+[Redirect]
+
+[Bad request]
+
+[Unauthorized]
+
+[Payment required]
+
+[Forbidden]
+
+[Not found]
+Nenalezeno
+[Not allowed]
+
+[Not acceptable]
+
+[Registration required]
+
+[Request timeout]
+
+[Conflict]
+
+[Internal server error]
+
+[Not implemented]
+Prozatím nefunguje
+[Remote server error]
+
+[Service unavailable]
+
+[Remote server timeout]
+
+[Unknown error]
+Neznámá chyba
 [Error]
 Chyba
 [Unknown error message]
@@ -1713,6 +2541,10 @@ píšu
 Zadání činnosti
 [Listening To]
 Poslech hudby
+[Moods]
+Nálada
+[Activities]
+Činnosti
 ;file \protocols\JabberG\src\ui_utils.cpp
 [Set filter...]
 Filtrovat...

@@ -27,7 +27,7 @@ Možnosti
 [Enable BBCodes]
 Povolit BBCode
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
-K dispozici jsou tyto BBCode značky: [b][i][u][s][img][size][color][url]
+K dispozici jsou tyto BBCode značky: [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
 Povolit smajlíky ve Flashi a formátování pomocí BBCode
 [Enable workaround for PNG transparency]
@@ -80,13 +80,26 @@ Odeslaný odkaz
 [URL received]
 Přijatý odkaz
 ;file \plugins\IEView\src\HTMLBuilder.cpp
-['(Unknown Contact)']
-'(neznámý kontakt)'
 [(Unknown Contact)]
 (neznámý kontakt)
 [ requested authorisation]
 
 [ was added.]
+
+;file \plugins\IEView\src\IEView.cpp
+[IID_IOleObject failed.]
+
+[RESULT]
+
+[IID_IOleInPlaceObject failed.]
+
+[Failed to Advise]
+
+[C++ Event Sink]
+
+[OleInitialize failed.]
+
+[ERROR]
 
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
@@ -108,8 +121,6 @@ Skupinové rozhovory
 Historie
 [Default]
 Výchozí
-[protocol]
-protokol
 [Message Sessions]
 Komunikace
 [IEView]

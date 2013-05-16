@@ -192,4 +192,3 @@ Chyba
 Datum a čas musí být z budoucnosti. Zadejte je znovu.
 [Events]
 Události
-;file \plugins\Alarms\src\trigger.cpp

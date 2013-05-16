@@ -25,6 +25,8 @@
 [Tags Mask Reset]
 [Change Feed]
 [Contact deleting]
+[OPML files]
+[Not valid import file.]
 [Enable/disable auto update]
 [NewsAggregator HTTP connection]
 [New Aggregator]

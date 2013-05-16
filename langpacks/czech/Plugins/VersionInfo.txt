@@ -1,7 +1,7 @@
 ﻿#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
 ;============================================================
 ;  File: VersionInfo.dll
-;  Plugin: VersionInfo
+;  Plugin: Version information
 ;  Version: 1.5.0.3
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
@@ -50,8 +50,8 @@ Heslo
 Zvýraznit číslo verze pomocí
 [Show disabled plugins too]
 Vypsat i neaktivní doplňky
-[Attempt to find unloadable plugins (doesn't work on Windows 98)]
-Pokusit se najít nefunkční doplňky (nefunguje ve Windows 98)
+[Attempt to find unloadable plugins]
+
 [Suppress header information]
 Nevypisovat informace o doplňku a autorech
 [Enable debug messages]
@@ -89,6 +89,10 @@ Určit pomocí doplňku Folders
 [Show plugin UUIDs ?]
 
 ;file \plugins\VersionInfo\src\hooked_events.cpp
+[VersionInfo]
+
+[Output folder]
+Výstupní složka
 [Version Information]
 Informace o verzi
 [Services]

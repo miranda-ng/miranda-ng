@@ -1,0 +1,144 @@
+﻿#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
+;============================================================
+;  File: BuddyPounce.dll
+;  Plugin: Buddy pounce
+;  Version: 0.3.2.1
+;  Authors: Jonathan Gordon
+;============================================================
+[Allows you to send a message to contacts if they change status.]
+
+;file \plugins\BuddyPounce\res\resource.rc
+[Confirm Pounce send]
+Potvrzení odeslání
+[Send]
+Poslat
+[Cancel]
+Zrušit
+[Pounce being sent to]
+Příjemce zprávy offline:
+[Buddy Pounce]
+Komunikace offline
+[OK]
+OK
+[The Message:]
+Zpráva:
+[Delete Pounce]
+Smazat zprávu
+[Load default Settings]
+Výchozí nastavení
+[Setting Value]
+Hodnota
+[Setting text...........]
+Nastavení textu...
+[Settings]
+Nastavení
+[Contact To Send Pounce To]
+Příjemce zprávy offline
+[<< Simple]
+<< Prosté
+[Advanced >>]
+Extra >>
+[The Message]
+Zpráva
+[Dialog]
+Dialog
+[Status]
+Stavy
+[Check1]
+
+[Use Advanced Dialog]
+Zobrazit více možností
+[The Message:       (Characters:  )]
+Zpráva:       (Počet znaků:  )
+[Default Settings]
+
+[Show Delivery Messages]
+Informovat o doručení
+[These settings are also used when sending a "Simple" pounce]
+
+;file \plugins\BuddyPounce\src\dialog.cpp
+[Send If My Status Is...]
+Odesílání ve stavu...
+[Send If They Change Status to...]
+Odesílání po změně stavu...
+[Reuse Pounce]
+Použití napsané zprávy
+[Give Up delay]
+Zrušení odesílání po určité době
+[Confirmation Window]
+Potvrzení akce
+[Send If My Status Is]
+Odeslat ve stavu
+[Any]
+Jakýkoli
+[Online]
+Online
+[Away]
+Na chvíli pryč
+[NA]
+Nejsem tady
+[Occupied]
+Nemám čas
+[DND]
+Nerušit!
+[Free For Chat]
+Mám volno
+[Invisible]
+Neviditelný
+[On The Phone]
+Mám telefon
+[Out To Lunch]
+Jsem na obědě
+[Send If Their Status changes]
+Odeslat po změně stavu
+[From Offline]
+Z 'Offline'
+[To Online]
+Do 'Online'
+[To Away]
+Do 'Na chvíli pryč'
+[To NA]
+Do 'Nejsem tady'
+[To Occupied]
+Do 'Nemám čas'
+[To DND]
+Do 'Nerušit'
+[To Free For Chat]
+Do 'Mám volno'
+[To Invisible]
+Do 'Neviditelný'
+[To On The Phone]
+Do 'Mám telefon'
+[To Out To Lunch]
+Do 'Jsem na obědě'
+[The Message    (%d Characters)]
+Zpráva (počet znaků: %d)
+[Couldnt Allocate enough memory]
+
+[error......]
+
+[The Message    (0 Characters)]
+
+[Reuse this message? (0 to use it once)]
+
+[Times]
+Čas ve světě
+[Giveup after.. (0 to not giveup)]
+
+[Days]
+Dnů
+[Show confirmation window? (0 to not Show)]
+
+[Seconds to wait before sending]
+
+[Pounce being sent to %s in %d seconds]
+Zpráva (adresát: %s, bude odesláno za %d sek.)
+[Retry]
+Znovu
+[Message successfully sent to %s]
+Zpráva úspěšně odeslána (komu: %s)
+[Message failed to send to %s]
+Chyba při odesílání zprávy (komu: %s)
+;file \plugins\BuddyPounce\src\main.cpp
+[Message Sessions]
+Komunikace

@@ -1,7 +1,7 @@
 ﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
 ;============================================================
 ;  File: SendSS.dll
-;  Plugin: Send Screenshot+
+;  Plugin: Send screenshot+
 ;  Version: 0.8.0.0
 ;  Authors: Merlin
 ;============================================================
@@ -59,22 +59,6 @@ Velikost (v×š):
 [Target Tool]
 
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
-[Unable to initiate transfer.]
-Chyba při inicializaci přenosu.
-[Initialising...]
-Inicializace...
-[Connecting...]
-Navazování spojení...
-[Connecting to proxy...]
-Připojování k proxy...
-[Waiting for connection...]
-Čekání na spojení...
-[Connected]
-Spojení navázáno
-[Decision sent]
-Potvrzení odesláno
-[Moving to next file...]
-Další soubor...
 [GCHAT error]
 
 [An unknown error has occured.]
@@ -135,8 +119,8 @@ Znovu
 Ano
 [No]
 Ne
-[Abord]
-
+[Abort]
+Přerušit
 [Ignore]
 Filtrování
 ;file \plugins\SendScreenshotPlus\src\global.h
@@ -144,6 +128,10 @@ Filtrování
 
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Fatal error, image services not found. Send Screenshot will be disabled.]
+
+[SendSS]
+
+[Screenshots]
 
 [SendSS HTTP connections]
 
@@ -160,10 +148,49 @@ Odeslat obrázek
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
 
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
-[Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
-Upozornění: Váše současná verze knihovny ikon pro Detaily uživatele se liší od verze, pro kterou byl tento doplněk vytvořen.\n Některé ikony se nemusí zobrazit správně.
-[Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
-Upozornění: Nebyla nalezena žádná knihovna ikon v žádné z těchto složek: 'customize\\icons', 'icons' or 'plugins'!
+[Screenshot Icon1]
+
+[Screenshot Icon2]
+
+[Target Cursor]
+
+[Target Desktop]
+
+[Default]
+Výchozí
+[overlay on]
+
+[overlay off]
+
+[Help]
+Nápověda
+[Open Folder]
+Otevřít složku
+[description off]
+
+[description on]
+
+[delete off]
+
+[delete on]
+
+[Prev]
+Předchozí
+[Next]
+Další
+[Update]
+Aktualizovat
+[Ok]
+OK
+[Apply]
+Použít
+[Down arrow]
+Šipka dolů
+;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Buttons]
+Tlačítka
+[overlays]
+
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 
@@ -198,8 +225,6 @@ Soubory přes FTP
 
 [Information]
 Informace
-[Open Folder]
-Otevřít složku
 [Fill description textbox.]
 
 [Delete after send]

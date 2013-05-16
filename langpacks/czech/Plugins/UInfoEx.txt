@@ -1,11 +1,11 @@
 ﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
 ;============================================================
 ;  File: UInfoEx.dll
-;  Plugin: UInfoEx
+;  Plugin: User info ext
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
-[Gives extended ability to edit information about your contacts locally. ]
+[Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
 
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit Contact Information]
@@ -365,8 +365,6 @@ Kozoroh
 Vodnář
 [Pisces]
 Ryby
-[Unknown]
-neznámý
 [%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
 %s hlásí nové narozeniny přes protokol.\nJedná se o %s. Staré byly %s.\n\nPřejete si použít nový údaj jako narozeniny kontaktu?
 [Update custom birthday]
@@ -407,8 +405,6 @@ Upravit e-mail
 Upravit telefonní číslo
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 Telefonní číslo by mělo začínat znaménkem + a smí obsahovat\nčísla, mezery, závorky a pomlčky.
-[Syntax Error]
-Chyba syntaxe
 [Choose the item to display.]
 Vyberte požadovanou položku
 [Edit the currently displayed item.]
@@ -513,10 +509,111 @@ Vaše údaje nebyly úspěšně aktualizovány\nByly pouze zapsány do databáze
 [Fatal error, image services not found. Flags Module will be disabled.]
 
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[IM Naming]
+Ikona klienta
+[Password]
+Heslo
+[Timezone]
+Časové pásmo
+[Marital status]
+Rodinný stav
+[Address]
+Adresa
+[Export: Modules]
+Export: moduly
+[Export: Folder]
+Export: složka
+[Default]
+Výchozí
+[Details Infobar]
+Lišta detailu
+[Phone Infobar]
+Lišta telefonu
+[E-Mail Infobar]
+Lišta e-mailu
+[Export VCard]
+Export VCard
+[Import VCard]
+Importovat VCard
+[Anniversary Infobar]
+Lišta výročí
+[Update]
+Aktualizovat
+[Export]
+Exportovat
+[Goto]
+WWW
+[Fax]
+Fax
+[Cellular]
+Mobil
+[Custom Phone]
+Vlastní typ telefonu
+[e-mail]
+e-mail
+[Down arrow]
+Šipka dolů
+[Add]
+Přidat
+[Edit]
+Upravit
+[Search]
+Hledat
+[Ex-/Import]
+Export/Import
+[Backup Birthday]
+Zálohovat narozeniny
+[Birthday today]
+Narozeniny (dnes)
+[Birthday tomorrow]
+Narozeniny zítra
+[Birthday in 2 days]
+Narozeniny pozítří
+[Birthday in 3 days]
+Narozeniny za 3 dny
+[Birthday in 4 days]
+Narozeniny za 4 dny
+[Birthday in 5 days]
+Narozeniny za 5 dnů
+[Birthday in 6 days]
+Narozeniny za 6 dnů
+[Birthday in 7 days]
+Narozeniny za 7 dnů
+[Birthday in 8 days]
+Narozeniny za 8 dnů
+[Birthday in 9 days]
+Narozeniny za 9 dnů
+[Birthday later]
+Narozeniny později
+[Anniversary today]
+Výročí dnes
+[Anniversary tomorrow]
+Výročí zítra
+[Anniversary in 2 days]
+Výročí pozítří
+[Anniversary in 3 days]
+Výročí za 3 dny
+[Anniversary in 4 days]
+Výročí za 4 dny
+[Anniversary in 5 days]
+Výročí za 5 dnů
+[Anniversary in 6 days]
+Výročí za 6 dnů
+[Anniversary in 7 days]
+Výročí za 7 dnů
+[Anniversary in 8 days]
+Výročí za 8 dnů
+[Anniversary in 9 days]
+Výročí za 9 dnů
+[Anniversary later]
+Výročí později
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 Upozornění: Váše současná verze knihovny ikon pro Detaily uživatele se liší od verze, pro kterou byl tento doplněk vytvořen.\n Některé ikony se nemusí zobrazit správně.
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 Upozornění: Nebyla nalezena žádná knihovna ikon v žádné z těchto složek: 'customize\\icons', 'icons' or 'plugins'!
+;file \plugins\UserInfoEx\src\mir_icolib.h
+[UserInfoEx]
+Detaily uživatele
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 Export/Import kontaktů
@@ -538,14 +635,14 @@ Importovat všechny kontakty
 Zazálohovat narozeniny
 [Check anniversaries]
 Zkontrolovat výročí
+[Extended UserInfo]
+Detaily uživatele
 [Ex-/Import Group]
 
 [&Export Group]
 
 [&Import Group]
 
-[Ex-/Import]
-Export/Import
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 Poznámky:
@@ -559,8 +656,6 @@ Nebylo vybráno platné datum pro úpravy!
 [Do you really want to delete the %s?]
 Opravdu chcete smazat %s?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[Address]
-Adresa
 [Home]
 Domov
 [Open in Browser]
@@ -996,6 +1091,11 @@ ovdovělý/á
 Poslat e-mail
 [Memory allocation error!]
 Chyba při alokování paměti!
+[E-mail (uinfoex)]
+E-mail (uinfoex)
+;file \plugins\UserInfoEx\src\svc_gender.cpp
+[Gender (uinfoex)]
+
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 Uživatel nemá uvedenou platnou domácí stránku
@@ -1003,6 +1103,11 @@ Uživatel nemá uvedenou platnou domácí stránku
 Zobrazit domovskou stránku
 [&Homepage]
 &Domácí stránka
+[Homepage (uinfoex)]
+Domovská stránka (uinfoex)
+;file \plugins\UserInfoEx\src\svc_phone.cpp
+[(uinfoex)]
+(uinfoex)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
  [b]%s (%S)...[/b]\n%d kontaktů zbývá
@@ -1045,6 +1150,8 @@ Přezdívka: %s, zbývá dnů: %d
 Není co připomenout z výročí
 [Backing up and syncing all birthdays complete!]
 Zálohování a synchronizace všech narozenin hotova!
+[Reminder (uinfoex)]
+Připomínka (uinfoex)
 [Birthday reminder]
 Narozeniny
 [Birthday reminder: it's coming]
@@ -1138,4 +1245,7 @@ Import zabral %f msec
 přidané kontakty: %u / %u\npřidaná nastavení: %u / %u\npřidané události %u / %u\nzdvojené události: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 CHYBA: vznikla výjimka při importu kontaktů z XMLCard!
+;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
+[Flags (uinfoex)]
+
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

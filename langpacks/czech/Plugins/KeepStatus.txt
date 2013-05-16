@@ -101,7 +101,7 @@ Zpozdit o
 [Timeout]
 Doba zobrazení
 [s]
-s
+s
 [Set window location]
 Umístit na souřadnice
 [Set window size]
@@ -198,20 +198,6 @@ Zapnout kontrolu
 Vypnout kontrolu
 [Set status message]
 Nastavit stavové zprávy
-[Trigger when connection loss is detected]
-
-[Trigger when reconnection attempt is made]
-
-[Trigger when successfull reconnected]
-
-[Trigger when giving up reconnecting]
-
-[Trigger when reconnected from another location]
-
-[Pre-conditions]
-
-[Trigger when a login error occurs]
-
 [Status]
 Stavy
 [Add...]
@@ -274,15 +260,12 @@ Interval ověřování připojení (sek.)
 
 [Becoming active without status change]
 
+[Pre-conditions]
+
 [TriggerData]
 
 [Status: The status the account will change to\r\nAccount: The account changing state]
 
-;file \plugins\StatusPlugins\KeepStatus\action_keepstatus.cpp
-[Protocol]
-Protokol
-[<from trigger>]
-<ze spouštěče>
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 [KeepStatus]
 Udržování stavu
@@ -296,8 +279,6 @@ Chyba při přihlášení (%s), další pokus (č.%d) za %d sek.
 Chyba stavu (%s), další pokus (č.%d) za %d sek.
 [Status error (next retry (%d) in %ds)]
 Chyba stavu (další pokus (č.%d) za %d sek.)
-[%s\t(will be set to %s)\r\n]
-%s\t(stav bude změněn na '%s')\r\n
 [will be set to]
 
 [Resetting status... (last try (%d))%s]
@@ -313,6 +294,8 @@ Stav úspěšně obnoven
 [Giving up]
 Stav nelze obnovit
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
+[Protocol]
+Protokol
 [Basic]
 Obecné
 [Advanced]

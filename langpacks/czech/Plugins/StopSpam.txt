@@ -5,7 +5,7 @@
 ;  Version: 0.0.1.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
-[No more spam! Robots can't go! Only human beings invited!]
+[Antispam plugin for Miranda NG.]
 
 ;file \plugins\StopSpamPlus\res\stopspam.rc
 [Question: (Ctrl-Enter for carriage return)]

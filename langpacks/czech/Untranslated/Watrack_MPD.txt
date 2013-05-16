@@ -1,2 +1,4 @@
-﻿[MPD Host]
+﻿[Music Player Daemon support for Watrack.]
+[MPD Host]
+[Watrack MPD connection]
 [Watrack MPD]

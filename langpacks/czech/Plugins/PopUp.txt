@@ -1,10 +1,12 @@
 ﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
 ;  File: PopUp.dll
-;  Plugin: PopUp
-;  Version: 2.1.1.6
-;  Authors: 
+;  Plugin: PopUp plus
+;  Version: 2.1.1.7
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
+[Provides popup notification services for different plugins.]
+
 ;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Chování a vzhled
@@ -219,14 +221,11 @@ Zobrazit trvale
 Zkopírovat do schránky
 [Action]
 Akce
-;file \plugins\Popup\src\bitmap_funcs.cpp
-[You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
-Obrázky ve formátu PNG vyžadují doplněk png2dib 0.1.3.x nebo novější.
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 Žvahlav
 [`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
-Bylo smažno, lepě svihlí tlové\r\n se batoumali v dálnici,\r\n chrudošní byli borolové,\r\n na mamné krsy žárnící.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]
+Bylo smažno, lepě svihlí tlové\r\n se batoumali v dálnici,\r\n chrudošní byli borolové,\r\n na mamné krsy žárnící.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
 Testovací náhled doplňku oznámení. Tento text je snad dost dlouhý na to, aby se nevešel na jeden řádek...
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
@@ -237,11 +236,60 @@ Toto je oznámení :-)
 Toto je varovné hlášení :-o
 [This is an error message]
 Toto je chybové hlášení :-(
+;file \plugins\Popup\src\effects.cpp
+[Square fading]
+Přechod s kostičkováním
+;file \plugins\Popup\src\font.cpp
+[Hovered Action]
+Po najetí myši
+[Clock]
+Čas
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 
 [Popup History message]
 
+;file \plugins\Popup\src\icons.cpp
+[Popups are enabled]
+Oznámení jsou zapnuta
+[Popups are disabled]
+Oznámení jsou vypnuta
+[With "favourite" overlay]
+Překrytí pro oblíbené
+[With "fullscreen" overlay]
+Překrytí pro celoobraz. režim
+[Refresh skin list]
+Obnovit seznam skinů
+[Popup Placement]
+Umístění oznámení
+[OK]
+OK
+[Cancel]
+Zrušit
+[Popup Group]
+Skupina oznámení
+[Favorite Contact]
+Oblíbený kontakt
+[Show in Fullscreen]
+Celoobraz. režim
+[Blocked Contact]
+Blokovaný kontakt
+[Quick Reply]
+Rychlá odpověď
+[Pin Popup]
+Připíchnout oznámení
+[Pinned Popup]
+Připíchnuté oznámení
+[Send Message]
+Odeslat zprávu
+[User Details]
+Informace o uživateli
+[Contact Menu]
+Menu kontaktu
+[Add Contact Permanently]
+Přidat kontakt natrvalo
+[Dismiss Popup]
+Zavřít oznámení
 ;file \plugins\Popup\src\main.cpp
 [Classes]
 Třídy
@@ -261,6 +309,8 @@ Povolit oznámení
 Zapnout oznámení (&globálně)
 [Disable &popup module]
 Vypnout oznámení (&globálně)
+[Popup Plus]
+Oznámení plus
 [Error: I could not register the PopUp Window class.\r\nThe plugin will not operate.]
 
 ;file \plugins\Popup\src\opt_adv.cpp
@@ -269,6 +319,8 @@ Bez efektu
 [Fade in/out]
 Plynulé přechody
 ;file \plugins\Popup\src\opt_class.cpp
+[CLASS Plugins]
+Doplňky
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 
 ;file \plugins\Popup\src\opt_gen.cpp
@@ -306,6 +358,10 @@ Pravý horní roh
 vodorovné
 [vertical]
 svislé
+[Global Status]
+Globální stav
+[Protocol Status]
+Stav protokolu
 [You cannot specify a value lower than %d and higher than %d.]
 Nelze zadat hodnotu nižší než %d a vyšší než %d.
 ['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]

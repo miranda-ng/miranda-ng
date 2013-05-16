@@ -186,10 +186,10 @@ Oznámení
 [Spam bot contact deleted]
 
 ;file \protocols\MRA\src\MraAvatars.cpp
+[Avatars' plugin connections]
+
 [Avatars]
 Avatary
-[plugin connections]
-
 [Avatars: server return HTTP code: %lu]
 
 [Avatars: cant open file %s, error]
@@ -280,12 +280,39 @@ Nová pošta
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 [No description given]
 Bez popisu
+;file \protocols\MRA\src\MraIcons.cpp
+[Main Menu]
+Hlavní nabídka
+[Contact Menu]
+Menu kontaktu
+[Extra status]
+Rozšířený stav
+[Custom Status]
+Rozšířený stav
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+---
+[Debug]
+Debug
+[Information]
+Informace
+[Question]
+Otázka
+[Warning]
+Upozornění
+[Error]
+Chyba
+[NewMail]
+
 [PopUps]
 Oznámení
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 %s - spojení se serverem
+[Mail.ru Xstatus]
+
+[Mail.ru extra info]
+
 [E-mail address]
 E-mail
 ;file \protocols\MRA\src\Mra_functions.cpp
@@ -344,5 +371,103 @@ Soubory
 [Mail.ru System notify]
 
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[Sick]
+Není mi dobře
+[Home]
+Domov
+[Eating]
+jím
+[Compass]
+
+[On WC]
+jsem na WC
+[Cooking]
+vařím
+[Walking]
+
+[Alien]
+
+[Shrimp]
+
+[Got lost]
+
+[Crazy]
+
+[Duck]
+Koupání
+[Playing]
+Hraje
+[Smoking]
+kouřím
+[Office]
+
+[Meeting]
+na schůzce
+[Beer]
+Jsem na pivku
+[Coffee]
+dávám si kafe
+[Working]
+pracuju
+[Relaxing]
+odpočinek
+[On the phone]
+Mám telefon
+[In institute]
+
+[At school]
+
+[Wrong number]
+
+[Laughing]
+Smích
+[Malicious]
+
+[Imp]
+
+[Blind]
+
+[Disappointed]
+rozčarování
+[Almost crying]
+
+[Fearful]
+
+[Angry]
+zlost
+[Vampire]
+
+[Ass]
+
+[Love]
+láska
+[Sleeping]
+spím
+[Cool!]
+
+[Peace!]
+
+[Cock a snook]
+
+[Get out]
+
+[Death]
+
+[Rocket]
+
+[Devil-fish]
+
+[Heavy metal]
+
+[Things look bad]
+
+[Squirrel]
+
+[Star]
+
+[Music]
+Hudba
+[Dating]
+
 [Are you sure?]
 Opravdu chcete pokračovat?

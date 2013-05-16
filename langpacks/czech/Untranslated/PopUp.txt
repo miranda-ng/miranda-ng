@@ -1,4 +1,5 @@
-﻿[Go to Customize > Fonts && Colors for fonts and colors options]
+﻿[Provides popup notification services for different plugins.]
+[Go to Customize > Fonts && Colors for fonts and colors options]
 [Disable if message window is open]
 [Popup History is disabled]
 [Popup History message]

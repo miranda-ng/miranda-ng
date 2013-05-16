@@ -102,12 +102,18 @@ soubory typu XML
 Nastavit avatar
 [Set My Avatar for %s]
 Nastavit avatar pro %s
+[Global avatar]
+Globální avatar
 [Global avatar for %s accounts]
 Globální avatar pro účty na %s
-[Contacts]
-Kontakty
 [Avatars]
 Avatary
+[My Avatars]
+Osobní avatary
+[My Global Avatar Cache]
+Úložiště avatarů
+[Contacts]
+Kontakty
 [Protocols]
 Protokoly
 [Contact Avatars]

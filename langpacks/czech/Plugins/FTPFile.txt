@@ -142,6 +142,20 @@ Informace o uživateli
 [Do you really want to cancel all running jobs?]
 
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
+[FTP Server 1]
+
+[FTP Server 2]
+
+[FTP Server 3]
+
+[FTP Server 4]
+
+[FTP Server 5]
+
+[Send file]
+Poslat soubor
+[Resume]
+Navázat
 [FTP File]
 Soubory přes FTP
 [FTP Server %d]
@@ -170,8 +184,6 @@ Soubory přes FTP
 Upload souboru dokončen
 [Upload canceled]
 Upload přerušen
-[FTP File YM won't be loaded because libcurl.dll is missing or wrong version!]
-
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 [All Files (*.*)]
 Všechny soubory (*.*)
@@ -213,8 +225,6 @@ Soubory přes FTP - vyberte soubory
 [Status: %s\r\nFile: %s\r\nServer: %s]
 
 ;file \plugins\FTPFileYM\src\job_upload.cpp
-[Resume]
-Navázat
 [File exists - %s]
 
 [Error occurred when opening local file.\nAborting file upload...]

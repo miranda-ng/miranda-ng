@@ -1,7 +1,7 @@
 ﻿#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;============================================================
 ;  File: CSList.dll
-;  Plugin: Custom Status List mod
+;  Plugin: Custom status list
 ;  Version: 0.1.1.0
 ;  Authors: Mataes, jarvis
 ;============================================================

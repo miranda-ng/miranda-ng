@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StartupStatus.dll
 ;  Plugin: StartupStatus
-;  Version: 0.8.0.44
+;  Version: 0.8.0.45
 ;  Authors: P Boon
 ;============================================================
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -101,7 +101,7 @@ Zpozdit o
 [Timeout]
 Doba zobrazení
 [s]
-s
+s
 [Set window location]
 Umístit na souřadnice
 [Set window size]
@@ -198,20 +198,6 @@ Zapnout kontrolu
 Vypnout kontrolu
 [Set status message]
 Nastavit stavové zprávy
-[Trigger when connection loss is detected]
-
-[Trigger when reconnection attempt is made]
-
-[Trigger when successfull reconnected]
-
-[Trigger when giving up reconnecting]
-
-[Trigger when reconnected from another location]
-
-[Pre-conditions]
-
-[Trigger when a login error occurs]
-
 [Status]
 Stavy
 [Add...]
@@ -274,6 +260,8 @@ Interval ověřování připojení (sek.)
 
 [Becoming active without status change]
 
+[Pre-conditions]
+
 [TriggerData]
 
 [Status: The status the account will change to\r\nAccount: The account changing state]
@@ -312,6 +300,8 @@ Stav při spuštění
 [Your default profile will be changed]
 Výchozí profil bude změněn.
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
+[Status profiles]
+
 [There is a maximum of 6 menu items]
 Max. počet položek menu je 6.
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp

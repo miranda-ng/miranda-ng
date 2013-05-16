@@ -5,6 +5,8 @@
 ;  Versions: 1.4.0.4 - 1.4.0.18
 ;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=260
 ;============================================================
+[QuickSearch]
+Rychlé hledání
 [Global QuickSearch hotkey]
 
 [Local QuickSearch hotkey]
@@ -223,3 +225,5 @@ Předchozí položka
 Další položka
 [Open main window]
 Otevřít hlavní okno
+[Frame background]
+

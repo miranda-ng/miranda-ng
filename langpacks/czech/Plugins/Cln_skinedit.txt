@@ -71,5 +71,3 @@ Zanořený
 Vystouplý (s rámováním)
 [Etched]
 Zanořený (s rámováním)
-[Image items]
-Obrázky

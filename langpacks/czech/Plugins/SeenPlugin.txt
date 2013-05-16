@@ -1,8 +1,8 @@
 ﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;============================================================
 ;  File: SeenPlugin.dll
-;  Plugin: Last Seen Mod
-;  Version: 5.0.4.7
+;  Plugin: Last seen
+;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
@@ -34,8 +34,6 @@ Aktivovat funkci 'Zmeškané kontakty'
 Zaznamenat počet
 [Protocols to watch:]
 Sledovat protokoly:
-[Popup interoperability missing or disabled. You need Popups plugin]
-
 [Use popups]
 Použít oznámení
 [Title]
@@ -173,6 +171,8 @@ interní IP
 klient
 [Protocol]
 Protokol
+[Account]
+Účet
 [-- Format --]
 -- Formátování --
 [tabulator]

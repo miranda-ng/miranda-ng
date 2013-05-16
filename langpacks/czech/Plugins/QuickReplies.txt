@@ -1,14 +1,14 @@
 ﻿#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
 ;============================================================
-;  File: quickreplies.dll
-;  Plugin: Quick Replies
+;  File: QuickReplies.dll
+;  Plugin: Quick replies
 ;  Version: 0.8.1.0
 ;  Authors: Unsane
 ;============================================================
 [Plugin for quick insert (or sending) pre-defined messages in message input area.]
 
 ;file \plugins\QuickReplies\res\resources.rc
-[QuickReplies]
+[Quick Replies]
 
 [Send replies immediately]
 
@@ -30,5 +30,3 @@ Tlačítko
 ;file \plugins\QuickReplies\src\options.cpp
 [Message Sessions]
 Komunikace
-[Quick Replies]
-

@@ -113,18 +113,20 @@ Počkejte...
 
 [Contact deleting]
 
+[OPML files]
+
+[Not valid import file.]
+
 [Network]
 Sítě
 ;file \plugins\NewsAggregator\Src\Services.cpp
+[Avatars]
+Avatary
 [Enable/disable auto update]
 
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 
-[Cannot upload VersionInfo. Incorrect username or password]
-Informace o verzi: Nelze nahrát na server\nŠpatné uživatelské jméno, nebo heslo
-[Cannot upload VersionInfo. Unknown error]
-Informace o verzi: nelze nahrát na server\nNeznámá chyba
 [Feed]
 Zdroj
 [%s\nis a valid feed's address.]

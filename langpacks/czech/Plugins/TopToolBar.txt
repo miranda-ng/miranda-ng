@@ -1,8 +1,8 @@
 ﻿#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
 ;============================================================
-;  File: TopToolBar.dll
+;  File: TopToolbar.dll
 ;  Plugin: TopToolBar
-;  Version: 0.8.0.2
+;  Version: 0.8.0.3
 ;  Authors: Bethoven
 ;============================================================
 [ToptoolBar adds buttons in top frame for fast access.]

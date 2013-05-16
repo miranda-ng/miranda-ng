@@ -80,8 +80,8 @@ Roztáhnout vertikálně dle výšky řádku
 Použít barvy Windows
 [Available skins]
 Dostupné skiny
-[Browse]
-Procházet
+[Rescan]
+Obnovit
 [Apply]
 Použít
 [Info]
@@ -196,12 +196,14 @@ Nastavit pro každý účet zvlášť
 Povolit vlastní nastavení účtu
 [Hide account completely]
 Skýt účet úplně
-[Show xStatus Name]
-Zobrazit název rozš.stavu
+[Show status name]
+
+[Show xStatus name]
+
 [Show protocol icon]
 Zobrazit ikonu protokolu
-[Use connecting Icon]
-Zobrazit průběh připojování
+[Use connecting icon]
+
 [Show xStatus icon]
 Zobrazit ikonu rozš. stavu
 [Show both icons]
@@ -392,12 +394,12 @@ Další možnosti metakontaktů
 Další možnosti
 [For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
 
-[Allow internal requesting of away message text]
-Povolit interní žádosti o automatickou odpověď
+[Allow internal requesting of status message text]
+
 [Subcontacts indent:]
 Odsazení podkontaktů:
-[Remove away message if contact became offline]
-Po odchodu kontaktu odstranit autom. odpověď
+[Remove status message if contact became offline]
+
 [Use improved search method in contactlist]
 
 [Show time only if it is different from current time]
@@ -532,16 +534,16 @@ Text:
 Stavy
 [Nickname]
 Přezdívka
-[Away Message]
-Autom. odpověď
+[Status Message]
+Stavová zpráva
 [Listening to]
 Poslech hudby
 [Contact time]
 Čas
-[Show status if there isn't away message]
-Zobrazit stav, pokud není autom. odpověď
-[Show listening to if there isn't away message]
-Zobrazit informaci o hudbě, není-li nastavena zpráva nepřítomnosti
+[Show status if there is no status message]
+
+[Show listening to if there is no status message]
+
 [XStatus has priority]
 Preferovat rozšířený stav
 [Use 'XStatus: XMessage']
@@ -655,10 +657,14 @@ Př&ejmenovat skupinu
 [&Delete Group]
 &Smazat skupinu
 ;file \plugins\Clist_modern\src\modern_clc.cpp
-[Contact List/Avatar Overlay]
-Kontakty/Překrytí avataru
-[Contact List/Status Overlay]
-Kontakty/Překrytí stavu
+[Skins]
+Skiny
+[Modern contact list]
+
+[Avatar Overlay]
+Překrytí avataru
+[Status Overlay]
+Překrytí stavu
 [Contact List smileys]
 Smajlíky pro kontakty
 [Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
@@ -762,8 +768,6 @@ Obecné
 Seznam
 [Window]
 Okno
-[Skins]
-Skiny
 [List Background]
 Pozadí seznamu
 [Not focused]
@@ -949,6 +953,22 @@ Obnovit předchozí stav
 [ layered]
  moderní
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
+[- Empty - (do not draw this object)]
+- Prázdný - (nevykreslovat tento objekt)
+[Solid fill object]
+Vyplnit barvou
+[Image (draw image)]
+Obrázek (vykreslit obr.)
+[Fragment (draw portion of image)]
+Fragment (vykreslit část obrázku)
+[Stretch Both directions]
+Roztáhnout oběma směry
+[Stretch Vertical, Tile Horizontal]
+Roztáhnout svisle, opakovat vodorovně
+[Tile Vertical, Stretch Horizontal]
+Opakovat svisle, roztáhnout vodorovně
+[Tile Both directions]
+Opakovat oběma směry
 [Image size is]
 Rozměry obrázku jsou
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
@@ -983,8 +1003,6 @@ Editor obsahuje neuložené změny.\n\nVšechny změny budou ztraceny.\n\nNahrá
 Upozornění!
 [Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
 Současný skin nebyl uložen do souboru.\n\nVšechny změny budou ztraceny.\n\nNahrát nový skin?
-[Miranda skin file]
-Skin seznamu kontaktů pro Mirandu
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Náhled není k dispozici\n\n%s\n----------------------\n\n%s\n\nAUTOR:\n%s\n\nKONTAKT:\n%s\n\nWEB:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
@@ -1003,7 +1021,45 @@ Výchozí skin
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<Globální>>
+[Center]
+Na střed
+[Right]
+Vpravo
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Main Menu]
+Hlavní nabídka
+[Main menu]
+Hlavní nabídka
+[Status Menu]
+Nabídka stavů
+[Status menu]
+Nabídka stavů
+[Accounts]
+Účty
+[Accounts...]
+Účty...
+[Show/Hide offline contacts]
+Zobrazit/skrýt offline uživatele
+[Hide offline contacts]
+Skrýt uživatele offline
+[Show offline contacts]
+Zobrazit offline uživatele
+[Find User]
+Vyhledat kontakt
+[Use/Disable groups]
+Zobrazit/skrýt skupiny
+[Use groups]
+Zapnout skupiny
+[Disable Groups]
+Vypnout skupiny
+[Enable/Disable sounds]
+Povolit/zakázat zvuky
+[Enable sounds]
+Povolit zvuky
+[Disable sounds]
+
+[Minimize]
+Minimalizovat
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 
 [Toolbar upgrade]

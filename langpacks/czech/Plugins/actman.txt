@@ -269,3 +269,42 @@ typ
 
 [Descr]
 
+;other strings
+[Open contact window]
+
+[Call service]
+
+[Execute program]
+
+[Insert text]
+
+[Use Variables]
+
+[number value]
+číselná hodnota
+[ANSI string]
+ANSI řetězec
+[Unicode string]
+Unicode řetězec
+[current contact]
+současný kontakt
+[Choose Contact]
+
+[Miranda service help]
+
+[Return]
+
+[Effect]
+
+[Start]
+Začít
+[action group list was changed: some was added or deleted]
+
+[the context menu for a contact is about to be built]
+
+[double click on the CList]
+
+[New contact added to database]
+
+[Contact deleting]
+

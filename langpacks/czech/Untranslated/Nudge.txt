@@ -1,3 +1,1 @@
-﻿[Shake the contact list]
-[Nudge : Shake contact list/chat window]
-[Nudge : Send a nudge]
+﻿[Plugin to shake the clist and chat window.]

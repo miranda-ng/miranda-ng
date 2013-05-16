@@ -3,8 +3,10 @@
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
 ;  Version: 1.0.12.4
-;  Authors: 
+;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
+[SecureIM plugin for Miranda NG.]
+
 ;file \plugins\SecureIM\res\resource.rc
 [User List]
 Seznam uživatelů
@@ -147,8 +149,6 @@ Nativní SecureIM
 [GPG SecureIM]
 
 [RSA/AES SecureIM]
-
-[RSA SecureIM]
 
 [Status]
 Stavy
@@ -335,20 +335,57 @@ SecureIM přijal RSA veřejný klíčod "%s"\n\nSHA1: %s\n\nChcete přijmout ten
 
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 
+;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+Seznam kontaktů
+[Connection Disabled]
+Bez šifrování
+[Connection Established]
+
+[Contact Menu]
+Menu kontaktu
+[Disable Secure Connection]
+
+[Establishe Secure Connection]
+Šifrované spojení navázáno
+[Message Window]
+
+[Popups]
+Oznámení
+[Secure Connection Disabled]
+
+[Secure Connection Established]
+
+[Secure Connection In Process]
+
+[Recv Secured Message]
+
+[Sent Secured Message]
+
+[Menu State]
+
+[Always Try]
+
+[Overlays]
+
+[Native mode]
+
+[PGP mode]
+
+[GPG mode]
+
+[RSA/AES mode]
+
 ;file \plugins\SecureIM\src\main.cpp
+[SecureIM]
+
+[Icons]
+Ikony
 [Incoming Secure Message]
 
 [Outgoing Secure Message]
 
 [SecureIM status]
-
-[SecureIM [Native]]
-
-[SecureIM [PGP]]
-
-[SecureIM [GPG]]
-
-[SecureIM [RSA/AES]]
 
 ;file \plugins\SecureIM\src\options.cpp
 [Executable Files]
@@ -372,5 +409,20 @@ Soubory celkově
 [Services]
 Služby
 ;file \plugins\SecureIM\src\popupOptions.cpp
+[Key Popup]
+
+[Secure Popup]
+
+[Message Popup]
+
 [PopUps]
 Oznámení
+;file \plugins\SecureIM\src\svcs_srmm.cpp
+[SecureIM [Native]]
+
+[SecureIM [PGP]]
+
+[SecureIM [GPG]]
+
+[SecureIM [RSA/AES]]
+

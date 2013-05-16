@@ -1,2 +1,5 @@
-﻿[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
+﻿[Smiley support for Miranda NG.]
+[SmileyAdd]
+[Smiley Cache]
+[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 [Protocol specific]

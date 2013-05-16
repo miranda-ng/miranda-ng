@@ -10,7 +10,6 @@
 [Tlen Authentication]
 [These changes will take effect the next time you connect to the Tlen network.]
 [Tlen Protocol Option]
-[<Ask me>]
 [SOCKS4]
 [SOCKS5]
 [%s mail]

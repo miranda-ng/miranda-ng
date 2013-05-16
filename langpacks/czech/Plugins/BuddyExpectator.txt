@@ -107,6 +107,8 @@ je znovu online od %#x
 
 [Hide contact event]
 
+[Buddy Expectator]
+Tak ty žiješ, Karle
 [Hide contact]
 Skrýt kontakt
 ;file \plugins\BuddyExpectator\src\options.cpp
@@ -126,8 +128,6 @@ Odstranit kontakt
 
 [Contacts]
 Kontakty
-[Buddy Expectator]
-Tak ty žiješ, Karle
 [PopUps]
 Oznámení
 [not detected]

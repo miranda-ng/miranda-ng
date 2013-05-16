@@ -202,7 +202,7 @@ Zadali jste špatné heslo.
 [Please wait while closing the window...]
 Prosím počkejte, okno se zavírá...
 [Partial History [%s] - [%s]]
-Částečná historie [%s] - [%s]
+Částečná historie [%s] - [%s]
 [Delete &Bookmark]
 
 [Remove &Bookmark]
@@ -292,7 +292,7 @@ Uložit jako...
 [%.0n items in history]
 %.0n položek v historii
 [Full History [%s] - [%s]]
-Úplná historie [%s] - [%s]
+Úplná historie [%s] - [%s]
 [Phrase not found]
 Výraz nenalezen
 [Continued from the top]
@@ -755,3 +755,19 @@ N&ačíst...
 
 [&Reset to Default]
 &Výchozí stav
+[Contact history]
+Historie kontaktu
+[Incoming nick]
+Příchozí přezdívka
+[Outgoing nick]
+Odchozí přezdívka
+[Incoming contacts]
+Odchozí kontakty
+[Outgoing contacts]
+Odchozí kontakty
+[System message]
+Zpráva systému
+[Incoming timestamp]
+Příchozí časový údaj
+[Outgoing timestamp]
+Odchozí časový údaj

@@ -3,8 +3,10 @@
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
 ;  Version: 3.1.99.8
-;  Authors: 
+;  Authors: The Miranda developers team and contributors
 ;============================================================
+[IM and group chat module for Miranda NG.]
+
 ;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his id. Wildcards are allowed and recommended.]
 Můžete přidat uživatelské jméno nebo ID. Zástupné znaky jsou povoleny a doporučeny.
@@ -633,6 +635,68 @@ Resetovat nastavení
 Zde si můžete nastavit záznam rozhovoru pro konkrétní kontakt. Předvyplněné hodnoty jsou převzaty z globálního nastavení, které se nachází v Komunikace -> Záznam komunikace
 [Use normal templates (uncheck to use simple templates)]
 Použít normální šablony (odznačením se použijí jednoduché)
+[Queued send jobs]
+Fronta odesílání
+[Queued jobs]
+Fronta akcí
+[Filter by contact:]
+Filtrovat podle kontaktu:
+[Display popups for failed jobs]
+Zobrazit oznámení při neúspěšné akci
+[Display popups for completed jobs]
+Zobrazit oznámení pro dokončené úlohy
+[Do not show this message again]
+Tuto zprávu již nezobrazovat
+[Yes]
+Ano
+[No]
+Ne
+[Message sending:]
+Posílání zpráv
+[Window:]
+Okno
+[Esc closes sessions (minimizes window, if disabled)]
+Zavřít klávesou ESC (jinak minimalizuje okno)
+[Always pop up and activate new windows]
+Vždy vyvolat a aktivovat nové komunikační okno
+[Create new windows in minimized state]
+Vytvářet nová okna minimalizovaně
+[Check1]
+
+[Send on Shift+Enter]
+Odeslat zprávu pomocí SHIFT+ENTER
+[Send message on Enter]
+Odeslat zprávu klávesou ENTER
+[Send message on double Enter]
+Odeslat zprávu dvojitým ENTER
+[Minimize the message window on send]
+Minimalizovat okno kliknutím na 'Poslat'
+[Tabs:]
+Panely
+[Use tabbed interface]
+Použít systém panelů
+[Create new tabs without activating them]
+Otevřít nový panel jako neaktivní
+[Pop up minimized window when a new tab is created]
+Vyvolat minimal. okno při otevření nového panelu
+[Automatically switch tabs in minimized windows]
+Automaticky přepnout panely v minimal. oknech
+[History:]
+Historie
+[Notifications:]
+Upozornění
+[Don't announce when dialog is open]
+Neoznamovat, je-li konverzační okno otevřeno
+[Message events]
+Zprávy
+[File events]
+Přenos souborů
+[URL events]
+Příchozí odkazy
+[Other events]
+Jiné události
+[Send message on Ctrl+Enter (always enabled)]
+Odeslat zprávu pomocí CTRL+ENTER (interní)
 [&Copy]
 Z&kopírovat
 [&Quote]
@@ -881,68 +945,6 @@ Použít umístění okna jako výchozí
 Nápověda
 [About tabSRMM...]
 O tabSRMM...
-[Queued send jobs]
-Fronta odesílání
-[Queued jobs]
-Fronta akcí
-[Filter by contact:]
-Filtrovat podle kontaktu:
-[Display popups for failed jobs]
-Zobrazit oznámení při neúspěšné akci
-[Display popups for completed jobs]
-Zobrazit oznámení pro dokončené úlohy
-[Do not show this message again]
-Tuto zprávu již nezobrazovat
-[Yes]
-Ano
-[No]
-Ne
-[Message sending:]
-Posílání zpráv
-[Window:]
-Okno
-[Esc closes sessions (minimizes window, if disabled)]
-Zavřít klávesou ESC (jinak minimalizuje okno)
-[Always pop up and activate new windows]
-Vždy vyvolat a aktivovat nové komunikační okno
-[Create new windows in minimized state]
-Vytvářet nová okna minimalizovaně
-[Check1]
-
-[Send on Shift+Enter]
-Odeslat zprávu pomocí SHIFT+ENTER
-[Send message on Enter]
-Odeslat zprávu klávesou ENTER
-[Send message on double Enter]
-Odeslat zprávu dvojitým ENTER
-[Minimize the message window on send]
-Minimalizovat okno kliknutím na 'Poslat'
-[Tabs:]
-Panely
-[Use tabbed interface]
-Použít systém panelů
-[Create new tabs without activating them]
-Otevřít nový panel jako neaktivní
-[Pop up minimized window when a new tab is created]
-Vyvolat minimal. okno při otevření nového panelu
-[Automatically switch tabs in minimized windows]
-Automaticky přepnout panely v minimal. oknech
-[History:]
-Historie
-[Notifications:]
-Upozornění
-[Don't announce when dialog is open]
-Neoznamovat, je-li konverzační okno otevřeno
-[Message events]
-Zprávy
-[File events]
-Přenos souborů
-[URL events]
-Příchozí odkazy
-[Other events]
-Jiné události
-[Send message on Ctrl+Enter (always enabled)]
-Odeslat zprávu pomocí CTRL+ENTER (interní)
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol Button]
 Tlačítko protokolu
@@ -1054,9 +1056,7 @@ Globálně vypnuto
 Zapnuto, je-li uvedeno, vždy zobrazit dole
 [Don't show them]
 Nezobrazovat
-;file \plugins\TabSRMM\src\controls - Kopie.cpp
-[&Main]
-&Soubor
+;file \plugins\TabSRMM\src\controls.cpp
 [&User]
 &Uživatel
 [&Room]
@@ -1073,8 +1073,6 @@ Odesílání upozornění na psaní je %s.
 Seznam rozhovorů.\nKlikněte levým pro zobrazení seznamu otevřených rozhovorů.\nKlikněte pravým pro přístup k oblíbeným a rychlému nastavení chování komunikačního okna.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Počet zahájených odeslání: %d\nDélka zprávy: %d bytů\nLimit délky zprávy: %d bytů\nPočet zpráv zařazených k pozdějšímu doručení: %d
-;file \plugins\TabSRMM\src\controls working.cpp
-;file \plugins\TabSRMM\src\controls.cpp
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
 Jedna z akcí pro oznámení je nastavena na ZAVŘÍT UDÁLOST.\nToto nastavení může mít nechtěné vedlejší účinky, neboť odstraňuje nepřečtené události z fronty.\nDíky tomu se nemusí zobrazovat události jako \"nové\". Pokud chcete zamezit tomuto chování, zkontrolujte nastavení v hlavní nabídce -> Možnosti -> Komunikace -> Oznámení události.
@@ -1243,9 +1241,21 @@ Zobrazit vždy (je-li k dispozici)
 [Never show it at all]
 Nezobrazovat nikdy
 ;file \plugins\TabSRMM\src\mim.cpp
+[TabSRMM]
+
+[Data path]
+
+[Skins]
+Skiny
+[Avatars]
+Avatary
+[Saved TabSRMM avatars]
+
+[Group chat logs root]
+
 ;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
-Vložit značku [img] / uzavřít vybraný text do [img][/img]
+Vložit značku [img] / uzavřít vybraný text do [img][/img]
 ;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 Přidat tento kontakt do seznamu natrvalo
@@ -1438,8 +1448,6 @@ Oznámení události
 Komunikační okno
 [Load and apply]
 Použití
-[Skins]
-Skiny
 [Window layout tweaks]
 Rozvržení okna
 [Group Chats]
@@ -1529,6 +1537,13 @@ Symbol hodin (pro hodiny informačního panelu)
 Funkce zakázána (použito jako překrytí)
 [Feature enabled (used as overlay)]
 Funkce povolena (použito jako překrytí)
+;file \plugins\TabSRMM\src\msgs.h
+[Message windows - IM]
+
+[Message windows - all]
+
+[Message windows - groupchats]
+
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Vyberte kontejner pro %s
@@ -1588,6 +1603,15 @@ Zpráva úspěšně zařazena pro pozdější doručení.\nZpráva bude odeslán
 Tento protokol nepodporuje zpožděné odesílání.
 [\n(Sent delayed. Original timestamp %s)]
 \n(Odesláno opožděně. Původní čas %s)
+;file \plugins\TabSRMM\src\sidebar.cpp
+[Like tabs, vertical text orientation]
+Jako panely, vertikální orientace
+[Compact layout, horizontal buttons]
+Kompaktní rozvržení, horizontální orientace
+[Advanced layout with avatars]
+Rozšířené rozvržení s avatary, horizontální orientace
+[Advanced with avatars, vertical orientation]
+Rozšířené rozvržení s avatary, vertikální orientace
 ;file \plugins\TabSRMM\src\srmm.cpp
 [This version of tabSRMM requires Windows 2000 or later.]
 
@@ -1638,8 +1662,6 @@ Změnit skin
 Komunikační okno
 [Error feedback]
 Hlášení o chybách
-[Show client icon in status bar (fingerprint plugin required)]
-Zobrazit ikonu klienta ve stavové liště (vyžaduje plugin fingerprint)
 [Show skinnable tooltip in chat (tipper plugin required)]
 
 [Enable typing sounds]
@@ -1758,8 +1780,6 @@ Formátovat text pomocí BBCode
 Umístit oddělovač do záznamu jakmile okno přestane být v popředí
 [Only place a separator when an incoming event is announced with a popup]
 Umístit oddělovač pouze pokud je příchozí událost uvozena oznámením
-[Support Math Module plugin]
-Zapnout podporu matematických symbolů
 [Show events at the new line (IEView Compatibility Mode)]
 Zobrazit události na novém řádku (režim kompatibility s IEView)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
@@ -1871,8 +1891,8 @@ Změna přezdívky: %s -> %s
 Změna vlastní přezdívky: %s
 [%s kicked %s]
 Vykopnutí: %s -> %s
-[Notice from %s]
-Poznámka (napsal: %s)
+[Notice from %s: ]
+Poznámka od %s:
 [The topic is '%s%s']
 
 [ (set by %s on %s)]
@@ -1883,8 +1903,6 @@ Poznámka (napsal: %s)
 
 [%s disables '%s' status for %s]
 
-[Notice from %s: ]
-Poznámka od %s:
 [<invalid>]
 <neplatný>
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
@@ -2257,6 +2275,8 @@ Ode&jít
 %s odešel (z %s)
 [%s kicked %s from %s]
 %s vykopnul %s (z %s)
+[Notice from %s]
+Poznámka (napsal: %s)
 [Topic change in %s]
 Změna tématu na %s
 [Information in %s]
@@ -2322,10 +2342,3 @@ Minuta
 Filtr nelze povolit, neboť nejsou vybrány žádné typy událostí, ať už globální, nebo pro tuto místnost.
 [Event filter error]
 Chyba filtru událostí
-;file \plugins\TabSRMM\src\include\msgs.h
-[Message windows - IM]
-
-[Message windows - all]
-
-[Message windows - groupchats]
-

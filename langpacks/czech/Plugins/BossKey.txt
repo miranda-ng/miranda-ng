@@ -8,12 +8,6 @@
 [Anti-Boss plugin.]
 
 ;file \plugins\BossKeyPlus\res\BossKey.rc
-[Trigger when Miranda is hiding]
-
-[Trigger when Miranda is showing]
-
-[Pre-conditions]
-
 [BossKey]
 BossKey
 [Go to Customize -> Hotkeys to change the hotkey]

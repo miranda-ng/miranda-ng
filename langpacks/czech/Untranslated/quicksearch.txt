@@ -44,3 +44,4 @@
 [Hidden contact background]
 [Hidden contact foreground]
 [QuickSearch window hotkey]
+[Frame background]

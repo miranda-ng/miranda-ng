@@ -1,7 +1,7 @@
 ﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
-;  File: Svc_dbepp.dll
-;  Plugin: Database Editor++
+;  File: DbEditorPP.dll
+;  Plugin: Database editor++
 ;  Version: 3.2.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
@@ -284,10 +284,6 @@ Exportovat...
 
 [Couldn't open file for writing]
 Nelze otevřít soubor pro zápis
-[Do you want to overwrite it "%s"?]
-Opravdu chcete přepsat položku '%s'?
-[Contact already exists]
-Tento kontakt již existuje.
 [Import from files]
 Importovat ze souboru
 ;file \plugins\DbEditorPP\src\findwindow.cpp

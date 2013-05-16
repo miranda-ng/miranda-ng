@@ -1,7 +1,7 @@
 ﻿#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
 ;============================================================
-;  File: sms.dll
-;  Plugin: SMS plugin
+;  File: SMS.dll
+;  Plugin: SMS
 ;  Version: 0.2.5.3
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================

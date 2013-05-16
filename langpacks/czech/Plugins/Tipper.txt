@@ -3,8 +3,10 @@
 ;  File: Tipper.dll
 ;  Plugin: Tipper
 ;  Version: 2.1.0.4
-;  Authors: 
+;  Authors: Scott Ellis, yaho
 ;============================================================
+[Tool Tip notification windows.]
+
 ;file \plugins\TipperYM\res\resource.rc
 [Options]
 Možnosti
@@ -289,7 +291,7 @@ Klient
 [%s (locked)]
 %s (uzamčený)
 [ ago]
- 
+ 
 [Log on:]
 Přihlášení:
 [Log off:]
@@ -475,6 +477,8 @@ Popisky
 Hodnoty
 [Tray title]
 Titulek oznam.oblasti
+[Tipper]
+Tipy
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 žena

@@ -1,8 +1,17 @@
 ﻿#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
-;langpack template for Omegle
+;============================================================
+;  File: Omegle.dll
+;  Plugin: Omegle Protocol
+;  Version: 0.1.2.0
+;  Authors: Robert Pösel
+;============================================================
+[Omegle protocol support for Miranda NG.]
+
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]
 Server:
+[Language:]
+Jazyk:
 [Visible name:]
 
 [Meet strangers with common interests (separated by commas):]
@@ -15,9 +24,11 @@ Server:
 
 [I want Omegle to reuse my questions if they are good enough (Question mode)]
 
-[Don't clear chat before connecting to new stranger]
+[Automatically connect to stranger when protocol is turned online]
 
 [Automatically connect to another stranger when current disconnects]
+
+[Don't clear chat before connecting to new stranger]
 
 [Load count of users on actual server after connection]
 
@@ -53,13 +64,9 @@ Server
 ;file \protocols\Omegle\src\communication.cpp
 [Connection error.]
 
-[Chosing server: ]
-
 [Connected to server %s. There are %s users online now.]
 
 [Connected to server %s.]
-
-[On whole Omegle are %s strangers online now.]
 
 [Stranger 1]
 
@@ -68,6 +75,10 @@ Server
 [Stranger]
 Cizinec
 [You and the Stranger both like: ]
+
+[Stranger is typing.]
+
+[Stranger stopped typing.]
 
 [%s disconnected.]
 
@@ -88,7 +99,10 @@ Cizinec
 Navazování spojení...
 [Waiting for Stranger...]
 
-[We are disconnecting now, wait...]
+;file \protocols\Omegle\src\constants.h
+[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
+
+[You and stranger speak the same language.]
 
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]

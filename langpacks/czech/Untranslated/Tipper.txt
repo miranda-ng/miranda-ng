@@ -1,4 +1,5 @@
-﻿[Parse Tipper variables first]
+﻿[Tool Tip notification windows.]
+[Parse Tipper variables first]
 [Retrieve new status message]
 [Disable in invisible status]
 [Aero Glass (Vista+)]

@@ -12,5 +12,6 @@
 [un4seen's bass version: %d.%d.%d.%d]
 [--default device--]
 [Disable sounds]
+[Bass library]
 [Sounds enabled]
 [Sounds disabled]

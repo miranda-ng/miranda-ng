@@ -24,6 +24,7 @@
 [HTTP failed reading]
 [HTTP failed writing]
 [Unknown HTTP error]
+[Images]
 ['Unknown']
 [Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
 [Delete image from the list]

@@ -5,7 +5,6 @@
 [Host]
 [Invite Buddy To Chat Room]
 [Invitation reason]
-[Avatar upload failed!?!]
 [%s denied invitation with message: %s]
 [Join My Conference...]
 [No, thank you...]

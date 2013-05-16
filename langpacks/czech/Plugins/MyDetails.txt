@@ -1,5 +1,12 @@
 ﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
-;langpack template for MyDetails
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.11
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+[Shows and allows you to edit your details for all protocols.]
+
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Nastavit přezdívku
@@ -11,31 +18,25 @@ OK
 Zrušit
 [General]
 Obecné
-[Cycle through protocols every:]
-Měnit protokoly každých:
-[seconds]
-sek.
-[Global on avatar]
-Globální pro avatar
+[...avatar]
+
 [RTL]
 Psát zprava doleva
 [Align text to right]
 Zarovnat text doprava
-[Global on nickname]
-Globální pro přezdívku
+[...nickname]
+
 [Auto-resize frame]
 Měnit velikost okna
 [Use contact list smileys]
 Použít smajlíky pro kontakty
-[Global on status]
-Globální pro stav
+[...status]
+
 [Replace Smileys]
 Vykreslovat smajlíky
 [Resize Smileys]
 Měnit velikost smajlíků
-[Global on status message]
-Globální pro zprávu stavu
-[Frame Options]
+[...status message]
 
 [Top:]
 Nahoře:
@@ -53,20 +54,28 @@ Vlastní velikost:
 pix.
 [Allow it to grow]
 Povolit zvětšování
-[Draw border on avatar]
-Orámovat avatary
-[Round corners of avatars]
-Zaoblit rohy avatarů
+[Draw border]
+
+[Round corners]
+Zaoblit rohy
 [Custom corner size:]
 Velikost zakulacení:
 [Use free space (under avatar) to other texts]
 Využít místo pod avatarem pro další texty
-[Protocol]
-Protokol
-[Show protocol name]
-Zobrazit název protokolu
-[Show protocol cycle button]
-Umožnit přepnutí mezi protokoly
+[Global On...]
+
+[Frame Options]
+
+[Cycle through accounts every:]
+
+[seconds]
+sek.
+[Account]
+Účet
+[Show account name]
+
+[Show account cycle button]
+
 [Set My Status Message for All Status]
 Nastavit zprávu pro všechny stavy
 [Status Message:]
@@ -103,14 +112,14 @@ Nastavit přezdívku...
 Změnit stavovou zprávu...
 [Enable Listening To]
 Povolit doplněk Listening To
-[Show next protocol]
-Zobrazit další protokol
-[Show previous protocol]
-Zobrazit předchozí protokol
-[Cycle through protocols]
-Měnit pravidelně protokoly
-[Don't cycle through protocols]
-Neměnit protokoly
+[Show next account]
+
+[Show previous account]
+
+[Cycle through accounts]
+
+[Don't cycle through accounts]
+
 [Nick popup]
 Nabídka přezdívky
 [Status message popup]
@@ -160,6 +169,8 @@ Další protokol
 Nastavit přezdívku pro %s
 [Set My Status Message for %s]
 Zadat stavovou zprávu pro %s
+[Show next protocol]
+Zobrazit další protokol
 [Contact List]
 Seznam kontaktů
 ;file \plugins\MyDetails\src\options.cpp

@@ -3,8 +3,10 @@
 ;  File: NewXstatusNotify.dll
 ;  Plugin: NewXstatusNotify
 ;  Version: 1.4.0.9
-;  Authors: 
+;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
+[Notifies you when a contact changes his/her (X)status or status message.]
+
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Oznámení změny stavu ostatních kontaktů
@@ -48,7 +50,7 @@ Použít individuální zvuky
 Uložit záznam
 [Enable]
 Aktivovat
-[Go to Customize -> Sound to select the sounds]
+[Go to Sound to select the sounds]
 
 [Extra status]
 Rozšířený stav
@@ -292,6 +294,12 @@ Stav (mám telefon)
 [Enable status notification]
 
 [Disable status notification]
+
+[Notification enabled]
+
+[Notification disabled]
+
+[New Status Notify]
 
 [User: from offline (has priority!)]
 Uživatel: z offline (má prioritu!)
