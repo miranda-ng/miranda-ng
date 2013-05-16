@@ -3,7 +3,7 @@
 Omegle plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2011-12 Robert Pösel
+Copyright © 2011-13 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -172,11 +172,9 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 				break;
 			}
 
-		}
+		} else switch (facy.state_) {
+			// Outgoing message
 
-		// Outgoing message
-		switch (facy.state_)
-		{
 			case STATE_ACTIVE:
 				LOG("**Chat - Outgoing message: %s", text.c_str());
 				ForkThread(&OmegleProto::SendMsgWorker, this, (void*)new std::string(text));
@@ -402,4 +400,29 @@ void OmegleProto::ClearChat()
 	gce.pDest = &gcd;
 
 	CallServiceSync(MS_GC_EVENT,WINDOW_CLEARLOG,reinterpret_cast<LPARAM>(&gce));
+}
+
+// TODO: Could this be done better?
+HANDLE OmegleProto::GetChatHandle()
+{
+	/*if (facy.chatHandle_ != NULL)
+		return facy.chatHandle_;
+
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) > 0) {
+			ptrA id = db_get_sa(hContact, m_szModuleName, "ChatRoomId");
+			if (id != NULL && !strcmp(id, m_szModuleName))
+				return hContact;
+		}
+	}
+
+	return NULL;*/
+
+	GC_INFO gci = {0};
+	gci.Flags = HCONTACT;
+	gci.pszModule = m_szModuleName;
+	gci.pszID = const_cast<TCHAR*>(m_tszUserName);
+	CallService(MS_GC_GETINFO, 0, (LPARAM)(GC_INFO *) &gci);
+
+	return gci.hContact;
 }

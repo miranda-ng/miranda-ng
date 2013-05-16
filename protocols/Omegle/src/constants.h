@@ -3,7 +3,7 @@
 Omegle plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2011-12 Robert Pösel
+Copyright © 2011-13 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,10 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #pragma once
-
-// Version management
-#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(0,1,1,0)
-#define __VERSION_STRING            "0.1.1.0"
 
 // Product management
 #define OMEGLE_NAME               "Omegle"
@@ -52,4 +48,88 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Servers list
 //static const char *servers[] = {"Random", "bajor", "cardassia", "promenade", "odo-bucket", "ferengi", "quilt", "empok-nor", "quibbler"};
-static const char *servers[] = {"Random", "front1", "front2", "front3", "front4", "qfront1"};
+static const char *servers[] = {"Random", "front1", "front2", "front3", "front4", "front5", "front6", "front7", "front8", "front9"};
+
+static const struct {
+	const char *id;
+	const char *lang;
+} languages[] = {
+	{"en", "English"},
+	{"af", "Afrikaans"},
+	{"sq", "Albanian"},
+	{"ar", "Arabic"},
+	{"hy", "Armenian"},
+	{"az", "Azerbaijani"},
+	{"eu", "Basque"},
+	{"be", "Belarusian"},
+	{"bn", "Bengali"},
+	{"bs", "Bosnian"},
+	{"bg", "Bulgarian"},
+	{"ceb", "Cebuanese"},
+	{"cs", "Czech"},
+	{"zh-CN", "Chinese (simplified)"},
+	{"zh-TW", "Chinese (traditional)"},
+	{"da", "Danish"},
+	{"eo", "Esperanto"},
+	{"et", "Estonian"},
+	{"tl", "Philipino"},
+	{"fi", "Finnish"},
+	{"fr", "French"},
+	{"gl", "Galician"},
+	{"ka", "Georgian"},
+	{"gu", "Gujarati"},
+	{"ht", "Haitian Creole"},
+	{"iw", "Hebrew"},
+	{"hi", "Hindi"},
+	{"hmn", "Hmong"},
+	{"nl", "Dutch"},
+	{"hr", "Croat"},
+	{"id", "Indonesian"},
+	{"ga", "Irish"},
+	{"is", "Icelandic"},
+	{"it", "Italian"},
+	{"ja", "Japanese"},
+	{"jw", "Javanese"},
+	{"yi", "Yiddish"},
+	{"kn", "Kannada"},
+	{"ca", "Catalan"},
+	{"km", "Khmer"},
+	{"ko", "Korean"},
+	{"lo", "Lao"},
+	{"la", "Latina"},
+	{"lt", "Lithuanian"},
+	{"lv", "Latvian"},
+	{"hu", "Hungarian"},
+	{"mk", "Macedonian"},
+	{"ms", "Malay"},
+	{"mt", "Maltese"},
+	{"mr", "Marathi"},
+	{"de", "German"},
+	{"no", "Norwegian"},
+	{"fa", "Persian"},
+	{"pl", "Polish"},
+	{"pt", "Portugese"},
+	{"ro", "Romañian"},
+	{"ru", "Russian"},
+	{"el", "Greek"},
+	{"sk", "Slovak"},
+	{"sl", "Slovenian"},
+	{"sr", "Serbian"},
+	{"sw", "Swahili"},
+	{"es", "Spanish"},
+	{"sv", "Swedish"},
+	{"ta", "Tamil"},
+	{"te", "Telugu"},
+	{"th", "Thai"},
+	{"tr", "Turkish"},
+	{"uk", "Ukrainian"},
+	{"ur", "Urdu"},
+	{"cy", "Welsh"},
+	{"vi", "Vietnamese"}
+};
+
+// Known server messages, only to inform lpgen
+static const char *server_messages[] = {
+	LPGEN("Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)"),
+	LPGEN("You and stranger speak the same language.")
+};

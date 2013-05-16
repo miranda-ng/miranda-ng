@@ -3,7 +3,7 @@
 Omegle plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2011-12 Robert Pösel
+Copyright © 2011-13 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,13 +33,13 @@ DWORD g_mirandaVersion;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"Omegle Protocol",
-	__VERSION_DWORD,
-	"Omegle protocol support for Miranda NG.",
-	"Robert P\xf6" "sel",
-	"robyer@seznam.cz",
-	"(c) 2011-12 Robert P\xf6" "sel",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {9E1D9244-606C-4ef4-99A0-1D7D23CB7601}
 	{ 0x9e1d9244, 0x606c, 0x4ef4, { 0x99, 0xa0, 0x1d, 0x7d, 0x23, 0xcb, 0x76, 0x1 } }

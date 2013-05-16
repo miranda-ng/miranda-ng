@@ -3,7 +3,7 @@
 Omegle plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2011-12 Robert Pösel
+Copyright © 2011-13 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -61,7 +61,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_icolib.h>
 #include <m_utils.h>
 #include <m_hotkeys.h>
+#include <m_message.h>
 //#include <m_msg_buttonsbar.h>
+
+#include "version.h"
 
 class OmegleProto;
 

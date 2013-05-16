@@ -3,7 +3,7 @@
 Omegle plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2011-12 Robert Pösel
+Copyright © 2011-13 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -150,6 +150,15 @@ std::string Omegle_client::get_server( bool not_last )
 	return servers[server];
 }
 
+std::string Omegle_client::get_language()
+{
+	BYTE language = db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_LANGUAGE, 0);
+	if (language < 0 || language >= (SIZEOF(languages)))
+		language = 0;
+
+	return language > 0 ? languages[language].id : "en";
+}
+
 int Omegle_client::choose_method( int request_type )
 {
 	switch ( request_type )
@@ -198,7 +207,8 @@ std::string Omegle_client::choose_action( int request_type, std::string* data, s
 	{
 	case OMEGLE_REQUEST_START:
 		{
-			std::string action = "/start?rcs=1&spid=";
+			std::string action = "/start?rcs=1&spid=&lang=";
+			action += get_language();
 			if (get_data != NULL)
 				action += (*get_data);
 
@@ -319,8 +329,8 @@ bool Omegle_client::start()
 	std::string data;
 
 	if (this->spy_mode_) {
-		// get last server from list, which is for spy mode
-		this->server_ = servers[SIZEOF(servers)-1];
+		//// get last server from list, which is for spy mode
+		//this->server_ = servers[SIZEOF(servers)-1];
 
 		if (this->question_.empty()) {
 			data = "&wantsspy=1";
@@ -371,8 +381,8 @@ bool Omegle_client::start()
 				data = "&topics=" + utils::url::encode(data);
 			}
 
-			// get any server but last, which is for spy mode
-			this->server_ = get_server(true);
+			//// get any server but last, which is for spy mode
+			//this->server_ = get_server(true);
 		}
 	}
 
@@ -508,6 +518,16 @@ bool Omegle_client::events( )
 			mir_free(msg);
 		}*/
 
+		if ( (pos = resp.data.find( "[\"serverMessage\", \"" )) != std::string::npos ) {
+			// We got server message
+			pos += 19;
+
+			std::string message = utils::text::trim( resp.data.substr(pos, resp.data.find("\"]", pos) - pos));
+			TCHAR *tstr = Langpack_PcharToTchar(message.c_str());
+			parent->UpdateChat(NULL, tstr);
+			mir_free(tstr);
+		}
+
 		if ( resp.data.find( "[\"connected\"]" ) != std::string::npos ) {
 			// Stranger connected
 			if (this->spy_mode_ && !this->question_.empty()) {
@@ -555,6 +575,7 @@ bool Omegle_client::events( )
 		{
 			// Stranger is typing, not supported by chat module yet
 			SkinPlaySound( "StrangerTyp" );
+			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)TranslateT("Stranger is typing."));
 		}
 
 		if ( resp.data.find( "[\"stoppedTyping\"]" ) != std::string::npos
@@ -562,6 +583,7 @@ bool Omegle_client::events( )
 		{
 			// Stranger stopped typing, not supported by chat module yet
 			SkinPlaySound( "StrangerTypStop" );
+			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)TranslateT("Stranger stopped typing."));
 		}
 
 		pos = 0;
@@ -577,6 +599,8 @@ bool Omegle_client::events( )
 				TCHAR *msg = mir_a2t_cp(message.c_str(),CP_UTF8);
 				parent->UpdateChat(TranslateT("Stranger"), msg);
 				mir_free(msg);
+
+				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), 0);
 			}
 		}
 

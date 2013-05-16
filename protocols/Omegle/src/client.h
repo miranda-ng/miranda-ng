@@ -3,7 +3,7 @@
 Omegle plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2011-12 Robert Pösel
+Copyright © 2011-13 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -48,11 +48,13 @@ public:
 		hConnection = NULL;
 		hEventsConnection = NULL;
 		connection_lock_ = NULL;
+		chatHandle_ = NULL;
 	}
 
 	HANDLE hConnection;
 	HANDLE hEventsConnection;
 	HANDLE connection_lock_;
+	HANDLE chatHandle_;
 
 	// Parent handle
 	OmegleProto*  parent;
@@ -77,6 +79,7 @@ public:
 	void    store_headers( http::response* resp, NETLIBHTTPHEADER* headers, int headers_count );
 	
 	std::string get_server( bool not_last = false );
+	std::string get_language();
 
 	// Connection handling
 	unsigned int error_count_;

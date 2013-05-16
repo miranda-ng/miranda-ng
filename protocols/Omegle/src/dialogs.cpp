@@ -3,7 +3,7 @@
 Omegle plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2011-12 Robert Pösel
+Copyright © 2011-13 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -77,10 +77,13 @@ INT_PTR CALLBACK OmegleAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 		// Server
 		SendDlgItemMessageA(hwnd, IDC_SERVER, CB_INSERTSTRING, 0, reinterpret_cast<LPARAM>(Translate(servers[0])));
 		for(size_t i=1; i<SIZEOF(servers); i++)
-		{
 			SendDlgItemMessageA(hwnd, IDC_SERVER, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(servers[i]));
-		}
 		SendDlgItemMessage(hwnd, IDC_SERVER, CB_SETCURSEL, db_get_b(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, 0), 0);
+
+		// Language
+		for(size_t i=0; i<SIZEOF(languages); i++)
+			SendDlgItemMessageA(hwnd, IDC_LANGUAGE, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(Translate(languages[i].lang)));
+		SendDlgItemMessage(hwnd, IDC_LANGUAGE, CB_SETCURSEL, db_get_b(NULL, proto->m_szModuleName, OMEGLE_KEY_LANGUAGE, 0), 0);
 
 		LoadDBText(proto, hwnd, IDC_NAME, OMEGLE_KEY_NAME);
 		LoadDBText(proto, hwnd, IDC_INTERESTS, OMEGLE_KEY_INTERESTS);
@@ -91,6 +94,7 @@ INT_PTR CALLBACK OmegleAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 	case WM_COMMAND:
 		switch(LOWORD(wparam))
 		{
+			case IDC_LANGUAGE:
 			case IDC_SERVER:	
 				if (HIWORD(wparam) == CBN_SELCHANGE) {
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -115,6 +119,7 @@ INT_PTR CALLBACK OmegleAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 			proto = reinterpret_cast<OmegleProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
 			db_set_b(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, SendDlgItemMessage(hwnd, IDC_SERVER, CB_GETCURSEL, 0, 0));
+			db_set_b(NULL, proto->m_szModuleName, OMEGLE_KEY_LANGUAGE, SendDlgItemMessage(hwnd, IDC_LANGUAGE, CB_GETCURSEL, 0, 0));
 
 			StoreDBText(proto, hwnd, IDC_NAME, OMEGLE_KEY_NAME);
 			StoreDBText(proto, hwnd, IDC_INTERESTS, OMEGLE_KEY_INTERESTS);
@@ -149,10 +154,13 @@ INT_PTR CALLBACK OmegleOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 		// Server
 		SendDlgItemMessageA(hwnd, IDC_SERVER, CB_INSERTSTRING, 0, reinterpret_cast<LPARAM>(Translate(servers[0])));
 		for(size_t i=1; i<SIZEOF(servers); i++)
-		{
 			SendDlgItemMessageA(hwnd, IDC_SERVER, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(servers[i]));
-		}
 		SendDlgItemMessage(hwnd, IDC_SERVER, CB_SETCURSEL, db_get_b(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, 0), 0);
+
+		// Language
+		for(size_t i=0; i<SIZEOF(languages); i++)
+			SendDlgItemMessageA(hwnd, IDC_LANGUAGE, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(Translate(languages[i].lang)));
+		SendDlgItemMessage(hwnd, IDC_LANGUAGE, CB_SETCURSEL, db_get_b(NULL, proto->m_szModuleName, OMEGLE_KEY_LANGUAGE, 0), 0);
 
 		LoadDBText(proto, hwnd, IDC_NAME, OMEGLE_KEY_NAME);
 		LoadDBText(proto, hwnd, IDC_INTERESTS, OMEGLE_KEY_INTERESTS);
@@ -175,7 +183,8 @@ INT_PTR CALLBACK OmegleOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 
 		switch(LOWORD(wparam))
 		{
-			case IDC_SERVER:	
+			case IDC_SERVER:
+			case IDC_LANGUAGE:
 				if (HIWORD(wparam) == CBN_SELCHANGE) {
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				} break;
@@ -209,6 +218,7 @@ INT_PTR CALLBACK OmegleOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 			proto = reinterpret_cast<OmegleProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
 			db_set_b(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, SendDlgItemMessage(hwnd, IDC_SERVER, CB_GETCURSEL, 0, 0));
+			db_set_b(NULL, proto->m_szModuleName, OMEGLE_KEY_LANGUAGE, SendDlgItemMessage(hwnd, IDC_LANGUAGE, CB_GETCURSEL, 0, 0));
 
 			StoreDBText(proto, hwnd, IDC_NAME, OMEGLE_KEY_NAME);
 			StoreDBText(proto, hwnd, IDC_INTERESTS, OMEGLE_KEY_INTERESTS);
