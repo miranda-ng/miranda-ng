@@ -393,7 +393,7 @@ bool Omegle_client::start()
 			char str[255];
 			mir_snprintf(str, sizeof(str), Translate("Connected to server %s. There are %s users online now."), server_.c_str(), count.c_str());
 
-			TCHAR *msg = mir_a2t_cp(str,CP_UTF8);
+			TCHAR *msg = mir_a2t(str);
 			parent->UpdateChat(NULL, msg);
 			mir_free(msg);
 		}
@@ -401,7 +401,7 @@ bool Omegle_client::start()
 		char str[255];
 		mir_snprintf(str, sizeof(str), Translate("Connected to server %s."), server_.c_str());
 
-		TCHAR *msg = mir_a2t_cp(str,CP_UTF8);
+		TCHAR *msg = mir_a2t(str);
 		parent->UpdateChat(NULL, msg);
 		mir_free(msg);
 	}
@@ -552,7 +552,7 @@ bool Omegle_client::events( )
 
 			like = Translate("You and the Stranger both like: ") + like;
 
-			TCHAR *msg = mir_a2t_cp(like.c_str(),CP_UTF8);
+			TCHAR *msg = mir_a2t(like.c_str());
 			parent->SetTopic(msg);
 			mir_free(msg);
 		}
@@ -652,7 +652,7 @@ bool Omegle_client::events( )
 			char str[255];
 			mir_snprintf(str, sizeof(str), Translate("%s disconnected."), Translate(stranger.c_str()));
 			
-			TCHAR *msg = mir_a2t_cp(str, CP_UTF8);
+			TCHAR *msg = mir_a2t(str);
 			parent->UpdateChat(NULL, msg);
 			mir_free(msg);
 
@@ -687,7 +687,7 @@ bool Omegle_client::events( )
 
 			error = Translate("Error: ") + error;
 
-			TCHAR *msg = mir_a2t_cp(error.c_str(),CP_UTF8);
+			TCHAR *msg = mir_a2t(error.c_str());
 			parent->UpdateChat(NULL, msg);
 			mir_free(msg);
 		}
