@@ -10,6 +10,7 @@ Distributed under GNU's GPL 2 or later
 #define _WIN32_WINNT 0x0500
 #define _CRT_SECURE_NO_WARNINGS
 
+#include <windows.h>
 #include <shlwapi.h>
 #include <commctrl.h>
 
