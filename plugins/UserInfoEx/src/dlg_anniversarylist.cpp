@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "dlg_anniversarylist.h"
 
 #include "m_message.h"
-#include "m_email.h"
 
 #define IsLeap(wYear)	(!(((wYear) % 4 != 0) || (((wYear) % 100 == 0) && ((wYear) % 400 != 0))))
 

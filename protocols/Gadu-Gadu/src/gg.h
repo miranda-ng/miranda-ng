@@ -74,7 +74,6 @@
 #include <m_icolib.h>
 #include <m_imgsrvc.h>
 #include <m_genmenu.h>
-#include <m_file.h>
 #include <m_avatars.h>
 #include <m_xml.h>
 #include <m_chat.h>

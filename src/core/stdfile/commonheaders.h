@@ -74,8 +74,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_addcontact.h>
 #include <m_findadd.h>
 #include <m_file.h>
-#include <m_email.h>
-#include <m_idle.h>
 #include <m_ignore.h>
 #include <m_icolib.h>
 #include <m_modernopt.h>

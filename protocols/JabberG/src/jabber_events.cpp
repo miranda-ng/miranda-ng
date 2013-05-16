@@ -32,7 +32,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_list.h"
 #include "jabber_iq.h"
 #include "jabber_caps.h"
-#include "m_file.h"
 #include "jabber_disco.h"
 #include "m_proto_listeningto.h"
 

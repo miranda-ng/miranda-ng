@@ -15,7 +15,6 @@
 
 #include <win2k.h>
 
-#include <m_idle.h>
 #include <m_options.h>
 #include <m_skin.h>
 #include <m_userinfo.h>

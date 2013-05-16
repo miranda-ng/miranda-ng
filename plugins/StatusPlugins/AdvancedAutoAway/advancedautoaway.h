@@ -20,7 +20,6 @@
 #define __ADVANCED_AUTOAWAY_HEADER
 
 #include <m_options.h>
-#include <m_idle.h>
 #include "version.h"
 
 #define SETTING_IGNLOCK					"IgnoreLockKeys"

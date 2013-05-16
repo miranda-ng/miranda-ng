@@ -79,6 +79,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_button.h>
 #include <m_avatars.h>
 #include <m_idle.h>
+#include <m_file.h>
 #include <m_timezones.h>
 #include <m_jabber.h>
 #include <m_fingerprint.h>

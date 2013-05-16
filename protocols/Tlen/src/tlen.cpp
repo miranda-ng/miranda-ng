@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_iq.h"
 #include "resource.h"
 #include "tlen_picture.h"
-#include <m_file.h>
 #include <richedit.h>
 #include <ctype.h>
 #include <m_icolib.h>
