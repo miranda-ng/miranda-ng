@@ -13,114 +13,114 @@ Server:
 [Language:]
 Jazyk:
 [Visible name:]
-
+Zobrazované jméno:
 [Meet strangers with common interests (separated by commas):]
-
+Hledat cizince se společnými zájmy (oddělené čárkami):
 [Automatically send this message to stranger after connection:]
-
+Automaticky odeslat tuto zprávu po připojení k cizinci:
 [This text will be sent when you use "/asl" message:]
-
+Tento text bude odeslán když napíšete zprávu "/asl":
 [Last used question (Question mode):]
-
+Poslední použitá otázka (režim otázek):
 [I want Omegle to reuse my questions if they are good enough (Question mode)]
-
+Chci aby Omegle používalo mé otázky znovu, pokud budou dost dobré (režim otázek):
 [Automatically connect to stranger when protocol is turned online]
-
+Automaticky se připojit k cizinci při přepnutí protokolu do stavu online
 [Automatically connect to another stranger when current disconnects]
-
+Automaticky se připojit k dalšímu cizinci, pokud se aktuální odpojí
 [Don't clear chat before connecting to new stranger]
-
+Nemazat obsah chatu před připojením k dalšímu cizinci
 [Load count of users on actual server after connection]
-
+Po připojení zobrazit počet uživatelů na aktuálním serveru
 [Enable logging for debugging purposes]
 Povolit záznam pro účely ladění
 [Meet strangers with common interests]
-
+Hledat cizince se společnými zájmy
 [Your interests (separated by commas):]
-
+Vaše zájmy (oddělené čárkami):
 ;file \protocols\Omegle\src\chat.cpp
 [Server]
 Server
 [Last question is empty.]
-
+Poslední otázka je prázdná.
 [Your question is too short.]
-
+Vaše otázka je příliš krátká.
 [Your '/asl' setting is empty.]
-
+Nemáte nastavenou '/asl' zprávu.
 [There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
-
+Existují tři různé režimy použití:\n1) Klasický režim\t - Píšete si soukromě s náhodným cizincem\n2) Režim otázek\t - Zeptáte se dvou cizinců na otázku a sledujete jak o ní diskutují (nemůžete nic psát, pouze sledovat)\n3) Špiónský mód\t - Vy a cizinec dostanete otázku k diskuzi od dalšího cizince (nemůže nic psát, pouze sledovat)\n\nOdešlete zprávu '/commands' pro dostupné příkazy.
 [You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
-
+Můžete využít několik příkazů:\n/help\t - zobrazí informace o režimech komunikace\n/new\t - spustí klasický režim\n/ask <otázka> - spustí režim otázek s vaší otázkou\n/ask\t - spustí režim otázek s vaší poslední položenou otázkou\n/spy\t - spustí špiónský mód\n/quit\t - odpojí se od cizince nebo přeruší připojování\n/asl\t - odešle vaši předdefinovanou zprávu\n\nPozn.: Pro přepojení k jinému cizinci se nemusíte nejdříve odpojovat.
 [Unknown command. Send '/commands' for list.]
-
+Neznámý příkaz. Odešlete zprávu '/commands' pro dostupné příkazy.
 [You aren't connected to any stranger. Send '/help' or '/commands' for help.]
-
+Nejste připojeni k žádnému cizinci. Odešlete zprávu '/help' nebo '/commands' pro informace.
 [You can't send messages in question mode.]
-
+Nemůžete odesílat zprávy v režimu otázek.
 [Omegle is a great way of meeting new friends!]
-
+Omegle je skvělý způsob poznávání nových přátel!
 [You]
-
+Vy
 ;file \protocols\Omegle\src\communication.cpp
 [Connection error.]
-
+Chyba připojení.
 [Connected to server %s. There are %s users online now.]
-
+Připojeno k serveru %s. Nyní je zde %s uživatelů.
 [Connected to server %s.]
-
+Připojeno k serveru %s.
 [Stranger 1]
-
+Cizinec 1
 [Stranger 2]
-
+Cizinec 2
 [Stranger]
 Cizinec
 [You and the Stranger both like: ]
-
+Vy i cizinec máte rádi: 
 [Stranger is typing.]
-
+Cizinec píše zprávu.
 [Stranger stopped typing.]
-
+Cizinec přestal psát.
 [%s disconnected.]
-
+%s se odpojil.
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
-
+Je vyžadována Recaptcha.\nOtevřte http://omegle.com , vyřešte Recaptchu a zkuste znovu.
 [Error: ]
-
+Chyba: 
 [We are still waiting...]
-
+Stále čekáme...
 ;file \protocols\Omegle\src\connection.cpp
 [Connecting canceled.]
-
+Připojování zrušeno.
 [Disconnecting...]
-
+Odpojování...
 [We are already waiting for new stranger...]
-
+Již čekáme na nového cizince...
 [Connecting...]
-Navazování spojení...
+Připojování...
 [Waiting for Stranger...]
-
+Čekání na cizince...
 ;file \protocols\Omegle\src\constants.h
 [Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
-
+Cizinec používá mobilní stránky Omegle (omegle.com na telefonu nebo tabletu)
 [You and stranger speak the same language.]
-
+Vy i cizinec mluvíte stejnou řečí.
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 %s - spojení se serverem
 [Unable to get Netlib connection for Omegle]
 
 [Stranger typing]
-
+Cizinec píše zprávu
 [Stranger stopped typing]
-
+Cizinec přestal psát
 [Changing stranger]
-
+Změna cizince
 [Visible name]
-
+Zobrazované jméno
 [Network]
 Sítě
 [Account]
 Účet
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
-
+Ikona Omegle

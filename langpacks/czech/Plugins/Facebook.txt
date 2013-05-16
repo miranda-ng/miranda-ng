@@ -75,16 +75,16 @@ Po odpojení zároveň odejít i z diskuse
 [Map non-standard statuses to Invisible (instead of Online)]
 Pro nestandardní stavy použít Neviditelný (nikoli Online)
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
-
+Aktivovat podporu pro vlastní smajlíky (EXPERIMENTÁLNÍ + CHYBOVÉ!)
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: Some Facebook things are required.]
-
+Chyba připojení: Něco je vyžadováno.
 [Your account requires HTTPS connection. Activating.]
 Váš účet vyžaduje zabezpečené spojení. Aktivováno.
 [Login error: Captcha code is required. Bad login credentials?]
-
+Chyba připojení: Je vyžadována captcha. Špatné přihlašovací údaje?
 [Login error: %s]
-
+Chyba připojení: %s
 [Unknown error]
 Neznámá chyba
 [Login error, probably bad login credentials.]
@@ -92,9 +92,9 @@ Chyba při přihlašování, možná máte špatné přihlašovací údaje.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 Chyba při připojování k síti Facebook. Důvodem mohou být větší změny na straně serveru, což vyžaduje zároveň změny na straně Mirandy.
 [Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
-
+Vyžadováno potvrzení pro odesílání zpráv jiným klientům.\nOtevřte stránky Facebooku a odešlete znovu zprávu tomuto kontaktu!
 [Timeout when sending message.]
-
+Vypršel čas na odeslání zprávy.
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Zadejte uživatelské jméno.
@@ -104,7 +104,7 @@ Zadejte heslo.
 [Most Recent]
 Nejnovější
 [Wall Posts]
-
+Příspěvky ze zdi
 [Top News]
 Hlavní zprávy
 [Photos]
@@ -112,23 +112,23 @@ Fotografie
 [Links]
 Odkazy
 [Apps and Games]
-
+Aplikace a hry
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
-
+Kontakt byl odebrán z vašeho seznamu přátel.
 [Error occured when removing contact from server.]
-
+Nastala chyba při odebírání kontaktu z vašeho seznamu přátel.
 [Request for friendship was sent.]
-
+Požadavek o přátelství byl odeslán.
 [Error occured when requesting friendship.]
-
+Nastala chyba při žádání o přátelství.
 [Request for friendship was canceled.]
-
+Požadavek o přátelství byl zrušen.
 [Error occured when canceling friendship request.]
-
+Nastala chyba při rušení požadavku o přátelství.
 ;file \protocols\FacebookRM\src\dialogs.cpp
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
-
+Pozn.: Pro správnou funkčnost se ujistěte, že máte vypnutou volbu 'Ověřit platnost certifikátů' v nastavení sítě.
 [Sample event]
 Ukázková událost
 [Sample request]
@@ -139,19 +139,19 @@ Ukázková novinka
 Ukázkové upozornění
 ;file \protocols\FacebookRM\src\json.cpp
 [Message read: %s]
-
+Zpráva byla přečtena: %s
 [Multichat]
-
+Skupinový rozhovor
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Ve stavu offline nelze odesílat zprávy.
 ;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
-
+Kontakt je zpět mezi vašimi přáteli.
 [Contact is no longer on server-list.]
-
+Kontakt již není mezi vašimi přáteli.
 [Attachments:]
-
+Přílohy:
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s - spojení se serverem
@@ -176,30 +176,30 @@ Oznámení
 [Events]
 Události
 [Loading newsfeeds...]
-
+Načítání novinek...
 [Checking friend requests...]
-
+Kontrola žádostí o přátelství...
 [Refreshing buddy list...]
-
+Obnovování seznamu kontaktů...
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
-
+Ikona Facebooku
 [Mind]
 Stavová zpráva
 [Poke]
-
+Šťouchnout
 [Cancel friendship]
 Zrušit přátelství
 [Cancel friendship request]
-
+Zrušit požadavek o přátelství
 [Request friendship]
 Požádat o přátelství
 [Approve friendship]
 Potvrdit přátelství
 [Visit profile]
-
+Navštívít profil
 [Visit friendship details]
-
+Zobrazit podrobnosti o přátelství
 [Mind...]
 Stavová zpráva...
 [Visit Profile]
@@ -207,10 +207,10 @@ Zobrazit profil
 [Services...]
 Služby
 [Refresh Buddy List]
-
+Obnovit seznam kontaktů
 [Services]
 Služby
 [Check Friends Requests]
-
+Zkontrolovat požadavky o přátelství
 [Check Newsfeeds]
-
+Zkontrolovat novinky
