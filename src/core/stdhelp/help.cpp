@@ -51,15 +51,6 @@ static INT_PTR WebsiteCommand(WPARAM, LPARAM)
 	return 0;
 }
 
-static int BugCommandEvent(WPARAM wParam, LPARAM lParam)
-{
-	char *szUrl = (char*)lParam;
-	if (szUrl)
-		CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
-
-	return 0;
-}
-
 static INT_PTR BugCommand(WPARAM, LPARAM)
 {
 	NotifyEventHooks(hBugEvent, 0, (LPARAM)"http://bugs.miranda-ng.org");
@@ -81,9 +72,6 @@ int LoadHelpModule(void)
 	CreateServiceFunction("Help/IndexCommand", IndexCommand);
 	CreateServiceFunction("Help/WebsiteCommand", WebsiteCommand);
 	CreateServiceFunction("Help/BugCommand", BugCommand);
-
-	hBugEvent = CreateHookableEvent(ME_HELP_BUGREPORT);
-	SetHookDefaultForHookableEvent(hBugEvent, BugCommandEvent);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_MIRANDA);

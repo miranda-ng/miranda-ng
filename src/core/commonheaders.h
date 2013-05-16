@@ -92,7 +92,6 @@ using namespace std;
 #include <m_ignore.h>
 #include <m_icolib.h>
 #include <m_modernopt.h>
-#include <m_help.h>
 #include <m_timezones.h>
 #include <m_extraicons.h>
 #include <m_xstatus.h>
