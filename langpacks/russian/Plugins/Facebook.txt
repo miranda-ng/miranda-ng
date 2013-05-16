@@ -77,6 +77,8 @@
 Пример запроса
 [Visit Profile]
 Мой профиль
+[Friendship Details]
+Информация о дружбе
 [News Feed]
 Новости
 [News Feed types to notify:]
