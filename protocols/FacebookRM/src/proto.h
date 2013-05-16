@@ -106,6 +106,7 @@ public:
 	int  __cdecl GetAvatarInfo(WPARAM, LPARAM);
 	int  __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	int  __cdecl VisitProfile(WPARAM, LPARAM);
+	int  __cdecl VisitFriendship(WPARAM, LPARAM);
 	int  __cdecl CancelFriendship(WPARAM, LPARAM);
 	int  __cdecl RequestFriendship(WPARAM, LPARAM);
 	int  __cdecl ApproveFriendship(WPARAM, LPARAM);

@@ -30,9 +30,10 @@ void UninitContactMenus(void);
 
 /* Contact menu item indexes */
 #define CMI_VISIT_PROFILE 0
-#define CMI_AUTH_REVOKE 1
-#define CMI_AUTH_ASK 2
-#define CMI_AUTH_GRANT 3
-#define CMI_AUTH_CANCEL 4
+#define CMI_VISIT_FRIENDSHIP 1
+#define CMI_AUTH_REVOKE 2
+#define CMI_AUTH_ASK 3
+#define CMI_AUTH_GRANT 4
+#define CMI_AUTH_CANCEL 5
 
-#define CMITEMS_COUNT 5
+#define CMITEMS_COUNT 6
