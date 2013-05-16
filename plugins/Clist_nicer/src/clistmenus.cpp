@@ -188,7 +188,6 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		case IDC_IGN_ADDPERMANENTLY:
 			{
 				ADDCONTACTSTRUCT acs = {0};
-
 				acs.handle = hContact;
 				acs.handleType = HANDLE_CONTACT;
 				acs.szProto = 0;

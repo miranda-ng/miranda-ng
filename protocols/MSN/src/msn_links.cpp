@@ -102,17 +102,15 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 		/* does not yet check if email is current user */
 		if (hContact == NULL)
 		{
-			ADDCONTACTSTRUCT acs = {0};
-			PROTOSEARCHRESULT psr = {0};
-
-			acs.handleType = HANDLE_SEARCHRESULT;
-			acs.szProto = proto->m_szModuleName;
-			acs.psr = &psr;
-
-			psr.cbSize = sizeof(psr);
+			PROTOSEARCHRESULT psr = { sizeof(psr) };
 			psr.flags = PSR_TCHAR;
 			psr.nick = email;
 			psr.email = email;
+
+			ADDCONTACTSTRUCT acs = {0};
+			acs.handleType = HANDLE_SEARCHRESULT;
+			acs.szProto = proto->m_szModuleName;
+			acs.psr = &psr;
 			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
 		}
 		return 0;

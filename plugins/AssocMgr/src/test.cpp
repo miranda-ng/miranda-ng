@@ -77,7 +77,6 @@ static __inline HANDLE find_contact(const char *nick) { nick; return NULL; }
 static __inline HANDLE add_contact(const char *nick) { nick; return db_find_first(); }
 static __inline void aim_gchat_joinrequest(const char *room, int exchange) { room; exchange; MessageBoxA(NULL,"Join group chat!",room,MB_OK); return; }
 #include <m_protosvc.h>
-#include <m_addcontact.h>
 #include <m_message.h>
 
 #include "m_assocmgr.h"
@@ -212,7 +211,6 @@ static __inline void AddToCache(HANDLE hContact,DWORD dwUin) { hContact; dwUin; 
 static __inline DWORD ICQGetContactSettingUIN(HANDLE hContact) { hContact; return 0; }
 static __inline HANDLE HandleFromCacheByUin(DWORD dwUin) { dwUin; return NULL; }
 #include <m_protosvc.h>
-#include <m_addcontact.h>
 #include <m_message.h>
 typedef struct {
   PROTOSEARCHRESULT hdr;
@@ -404,7 +402,6 @@ void UninitIcqFiles(void)
 static __inline HANDLE getbuddyH(const char *yahoo_id) { yahoo_id; return NULL; }
 static __inline HANDLE add_buddy(const char *yahoo_id,const char *yahoo_name,DWORD flags) { yahoo_id; yahoo_name; flags; return db_find_first(); }
 #include <m_protosvc.h>
-#include <m_addcontact.h>
 #include <m_message.h>
 
 #include "m_assocmgr.h"
@@ -515,7 +512,6 @@ void YmsgrLinksUninit(void)
 static __inline HANDLE MSN_HContactFromEmailT(const char *msnEmail) { msnEmail; return NULL; }
 static __inline HANDLE MSN_HContactFromEmail(const char *msnEmail,const char *msnNick,int addIfNeeded,int temporary) { msnEmail; msnNick; addIfNeeded; temporary; return db_find_first(); }
 #include <m_protosvc.h>
-#include <m_addcontact.h>
 #include <m_message.h>
 
 #include "m_assocmgr.h"
@@ -624,7 +620,6 @@ void UnloadMsnLinks(void)
 typedef DWORD uin_t;
 static __inline HANDLE gg_getcontact(uin_t uin,int create,int inlist,char *szNick) { uin; create; inlist; szNick; return db_find_first(); }
 #include <m_protosvc.h>
-#include <m_addcontact.h>
 #include <m_message.h>
 
 #include "m_assocmgr.h"
@@ -689,7 +684,6 @@ void gg_unregisterlinks(void)
 static __inline HANDLE JabberHContactFromJID(const char *jid) { jid; return NULL; }
 static __inline HANDLE JabberDBCreateContact(char *jid,char *nick,BOOL temporary,BOOL stripResource) { jid; nick; temporary; stripResource; return db_find_first(); }
 #include <m_protosvc.h>
-#include <m_addcontact.h>
 #include <m_message.h>
 
 #include "m_assocmgr.h"
