@@ -80,7 +80,6 @@ using namespace std;
 #include <m_contacts.h>
 #include <m_message.h>
 #include <m_userinfo.h>
-#include <m_history.h>
 #include <m_addcontact.h>
 #include <m_findadd.h>
 #include <m_file.h>

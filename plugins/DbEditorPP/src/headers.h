@@ -39,7 +39,6 @@
 #include <m_protosvc.h>
 #include <m_ignore.h>
 #include <m_clc.h>
-#include <m_history.h>
 #include <m_popup.h>
 #include <m_icolib.h>
 #include <m_hotkeys.h>
