@@ -65,7 +65,6 @@
 #include <m_options.h>
 #include <m_utils.h>
 #include <m_ignore.h>
-#include <m_clc.h>
 #include <m_netlib.h>
 #include <m_avatars.h>
 #include <m_folders.h>

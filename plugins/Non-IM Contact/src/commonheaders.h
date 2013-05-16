@@ -46,7 +46,6 @@ struct DLGTEMPLATEEX
 #include <m_protosvc.h>
 #include <m_utils.h>
 #include <m_ignore.h>
-#include <m_clc.h>
 #include <m_netlib.h>
 #include <win2k.h>
 

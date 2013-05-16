@@ -69,7 +69,6 @@
 #include <m_userinfo.h>
 #include <m_clui.h>
 #include <m_button.h>
-#include <m_clc.h>
 #include <m_message.h>
 #include <m_icolib.h>
 #include <m_imgsrvc.h>

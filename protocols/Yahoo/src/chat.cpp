@@ -18,7 +18,6 @@
 #include <m_chat.h>
 #include <m_userinfo.h>
 #include <m_history.h>
-#include <m_clc.h>
 
 struct InviteChatParam
 {

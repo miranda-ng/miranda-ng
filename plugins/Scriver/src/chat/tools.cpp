@@ -889,7 +889,6 @@ TCHAR* GetChatLogsFilename (HANDLE  hContact, time_t tTime)
 {
 	REPLACEVARSARRAY rva[11];
 	TCHAR *p = {0}, *tszParsedName = {0};
-	int i;
 
 	if (g_Settings.pszLogDir[_tcslen(g_Settings.pszLogDir)-1] == '\\')
 		_tcscat(g_Settings.pszLogDir, _T("%userid%.log"));
