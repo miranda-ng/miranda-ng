@@ -355,7 +355,9 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 						break;
 
 					::SetDlgItemText(hwndDlg, IDC_SID, mir_ptr<wchar_t>(::db_get_wsa(hContact, ppro->m_szModuleName, SKYPE_SETTINGS_LOGIN)));
-					::SetDlgItemText(hwndDlg, IDC_STATUSTEXT, mir_ptr<wchar_t>(::db_get_wsa(hContact, ppro->m_szModuleName, "XStatusMsg")) ? mir_ptr<wchar_t>(::db_get_wsa(hContact, ppro->m_szModuleName, "XStatusMsg")) : TranslateT("<not specified>"));
+					
+					ptrT statusMsg(::db_get_wsa(hContact, ppro->m_szModuleName, "XStatusMsg"));
+					::SetDlgItemText(hwndDlg, IDC_STATUSTEXT, statusMsg != NULL ? statusMsg : TranslateT("<not specified>"));
 
 					if (::db_get_dw(hContact, ppro->m_szModuleName, "OnlineSinceTS", 0)) {
 						TCHAR date[64];
