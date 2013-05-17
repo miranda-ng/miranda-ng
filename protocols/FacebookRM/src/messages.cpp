@@ -47,7 +47,7 @@ void FacebookProto::SendMsgWorker(void *p)
 	}
 	else if (!db_get_s(data->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
 	{
-		//parseSmileys(data->msg, data->hContact);
+		//ParseSmileys(data->msg, data->hContact);
 
 		int retries = 5;
 		std::string error_text = "";
@@ -197,7 +197,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 	}
 }
 
-void FacebookProto::parseSmileys(std::string message, HANDLE hContact)
+void FacebookProto::ParseSmileys(std::string message, HANDLE hContact)
 {
 	if (!db_get_b(NULL,m_szModuleName,FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS))
 		return;

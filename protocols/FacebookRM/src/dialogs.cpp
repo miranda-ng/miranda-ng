@@ -38,7 +38,7 @@ static BOOL StoreDBCheckState(FacebookProto* ppro, HWND hwnd, int idCtrl, const 
 
 INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
-	FacebookProto *proto;
+	FacebookProto *proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
 	switch (message)
 	{
@@ -73,8 +73,7 @@ INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 	case WM_COMMAND:
 		if (LOWORD(wparam) == IDC_NEWACCOUNTLINK)
 		{
-			CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>
-				(FACEBOOK_URL_HOMEPAGE));
+			proto->OpenUrl(std::string(FACEBOOK_URL_HOMEPAGE));
 			return TRUE;
 		}
 
@@ -92,7 +91,6 @@ INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
 		{
-			proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 			char str[128];
 
 			GetDlgItemTextA(hwnd,IDC_UN,str,sizeof(str));
@@ -229,11 +227,11 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 
 	} return TRUE;
 
-	case WM_COMMAND: {
+	case WM_COMMAND:
+	{
 		if (LOWORD(wparam) == IDC_NEWACCOUNTLINK)
 		{
-			CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>
-				(FACEBOOK_URL_HOMEPAGE));
+			proto->OpenUrl(std::string(FACEBOOK_URL_HOMEPAGE));
 			return TRUE;
 		}
 

@@ -70,6 +70,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_LOCAL_TIMESTAMP		"UseLocalTimestamp" // [HIDDEN] - 0 = use facebook timestamps for messages, 1 = use local timestamps
 #define FACEBOOK_KEY_MARK_READ				"MarkRead" // [HIDDEN] - 0 = marking messages as read without "Seen" info, 1 = with "Seen" info
 #define	FACEBOOK_KEY_LOCALE					"Locale" // [HIDDEN] - en_US, cs_CZ, etc.
+#define FACEBOOK_KEY_SERVER					"Server" // [HIDDEN] - for rewrite links to open: m.facebook.com, touch.facebook.com, etc.
 
 #define FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE     "EventNotificationsEnable"
 #define FACEBOOK_KEY_EVENT_FEEDS_ENABLE             "EventFeedsEnable"

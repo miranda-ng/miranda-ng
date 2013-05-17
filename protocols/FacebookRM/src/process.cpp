@@ -125,10 +125,8 @@ void FacebookProto::ProcessBuddyList(void* data)
 				std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;					
 
 				TCHAR* szTitle = mir_utf8decodeT(fbu->real_name.c_str());
-				TCHAR* szUrl = mir_utf8decodeT(url.c_str());
-				NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, FACEBOOK_EVENT_OTHER, szUrl);
+				NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, FACEBOOK_EVENT_OTHER, url);
 				mir_free(szTitle);
-				// mir_free(szUrl); // url is free'd in popup procedure
 			}
 
 			// Check avatar change
@@ -216,10 +214,8 @@ void FacebookProto::ProcessFriendList(void* data)
 					std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;					
 
 					TCHAR* szTitle = mir_utf8decodeT(fbu->real_name.c_str());
-					TCHAR* szUrl = mir_utf8decodeT(url.c_str());
-					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_OTHER, szUrl);					
+					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_OTHER, url);
 					mir_free(szTitle);
-					// mir_free(szUrl); // url is free'd in popup procedure
 				}
 
 				// Check avatar change
@@ -247,10 +243,8 @@ void FacebookProto::ProcessFriendList(void* data)
 					std::string url = FACEBOOK_URL_PROFILE + id;
 
 					TCHAR* szTitle = mir_utf8decodeT(contactname.c_str());
-					TCHAR* szUrl = mir_utf8decodeT(url.c_str());
-					NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_OTHER, szUrl);
+					NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_OTHER, url);
 					mir_free(szTitle);
-					// mir_free(szUrl); // url is free'd in popup procedure
 				}
 			}
 		}
@@ -421,7 +415,7 @@ void FacebookProto::ProcessUnreadMessage(void *tid_data)
 
 			LOG("Got unread message: \"%s\"", message_text.c_str());
 
-			parseSmileys(message_text, hContact);
+			ParseSmileys(message_text, hContact);
 
 			if (!message_attachments.empty()) {
 				if (!message_text.empty())
@@ -482,7 +476,7 @@ void FacebookProto::ProcessMessages(void* data)
 			// TODO: if contact is newly added, get his user info
 			// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
 
-			parseSmileys(messages[i]->message_text, hContact);
+			ParseSmileys(messages[i]->message_text, hContact);
 
 			PROTORECVEVENT recv = {0};
 			recv.flags = PREF_UTF;
@@ -499,11 +493,9 @@ void FacebookProto::ProcessMessages(void* data)
 		LOG("      Got notification: %s", notifications[i]->text.c_str());
 		TCHAR* szTitle = mir_utf8decodeT(this->m_szModuleName);
 		TCHAR* szText = mir_utf8decodeT(notifications[i]->text.c_str());
-		TCHAR* szUrl = mir_utf8decodeT(notifications[i]->link.c_str());
-		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, szUrl);
+		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, notifications[i]->link);
 		mir_free(szTitle);
 		mir_free(szText);
-//		mir_free(szUrl); // URL is free'd in popup procedure
 
 		delete notifications[i];
 	}
@@ -559,11 +551,9 @@ void FacebookProto::ProcessNotifications(void*)
 		LOG("      Got notification: %s", notifications[i]->text.c_str());
 		TCHAR* szTitle = mir_utf8decodeT(this->m_szModuleName);
 		TCHAR* szText = mir_utf8decodeT(notifications[i]->text.c_str());
-		TCHAR* szUrl = mir_utf8decodeT(notifications[i]->link.c_str());
-		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, szUrl);
+		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, notifications[i]->link);
 		mir_free(szTitle);
 		mir_free(szText);
-//		mir_free(szUrl); // URL is free'd in popup procedure
 
 		delete notifications[i];
 	}
@@ -755,11 +745,9 @@ void FacebookProto::ProcessFeeds(void* data)
 		LOG("      Got newsfeed: %s %s", news[i]->title.c_str(), news[i]->text.c_str());
 		TCHAR* szTitle = mir_utf8decodeT(news[i]->title.c_str());
 		TCHAR* szText = mir_utf8decodeT(news[i]->text.c_str());
-		TCHAR* szUrl = mir_utf8decodeT(news[i]->link.c_str());
-		NotifyEvent(szTitle,szText,this->ContactIDToHContact(news[i]->user_id),FACEBOOK_EVENT_NEWSFEED, szUrl);
+		NotifyEvent(szTitle,szText,this->ContactIDToHContact(news[i]->user_id),FACEBOOK_EVENT_NEWSFEED, news[i]->link);
 		mir_free(szTitle);
 		mir_free(szText);
-//		mir_free(szUrl); // URL is free'd in popup procedure
 		delete news[i];
 	}
 	news.clear();

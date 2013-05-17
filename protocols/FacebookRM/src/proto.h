@@ -187,7 +187,8 @@ public:
 	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *url);
 	void CheckAvatarChange(HANDLE hContact, std::string image_url);
 	void ToggleStatusMenuItems(BOOL bEnable);
-	void parseSmileys(std::string message, HANDLE hContact);
+	void ParseSmileys(std::string message, HANDLE hContact);
+	void OpenUrl(std::string url);
 
 	// Handles, Locks
 	HGENMENU m_hMenuRoot, m_hMenuServicesRoot, m_hStatusMind;
@@ -208,5 +209,5 @@ public:
 
 	// Information providing
 	int Log(const char *fmt,...);
-	void NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, TCHAR* url=NULL);
+	void NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, std::string url = "");
 };

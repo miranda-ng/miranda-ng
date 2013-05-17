@@ -108,14 +108,12 @@ struct facebook_newsfeed
 	}
 };
 
-
 struct send_chat
 {
 	send_chat(const std::string &chat_id,const std::string &msg) : chat_id(chat_id), msg(msg) {}
 	std::string chat_id;
 	std::string msg;
 };
-
 
 struct send_direct
 {
@@ -132,9 +130,9 @@ struct send_typing
 	int status;
 };
 
-struct send_messaging
+struct popup_data
 {
-	send_messaging(const std::string &user_id, const int type) : user_id(user_id), type(type) {}
-	std::string user_id;
-	int type;
+	popup_data(FacebookProto *proto, std::string url) : proto(proto), url(url) {}
+	FacebookProto *proto;
+	std::string url;
 };

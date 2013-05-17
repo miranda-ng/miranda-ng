@@ -49,15 +49,9 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	case WM_COMMAND:
 	{
 		//Get the plugin data (we need the PopUp service to do it)
-		TCHAR* data = (TCHAR*)PUGetPluginData(hwnd);
+		popup_data *data = (popup_data *)PUGetPluginData(hwnd);
 		if (data != NULL)
-		{
-			std::string url = mir_t2a_cp(data,CP_UTF8);
-			if (url.substr(0,4) != "http")
-				url = FACEBOOK_URL_HOMEPAGE + url; // make absolute url
-
-			CallService(MS_UTILS_OPENURL, (WPARAM) 1, (LPARAM) url.c_str());
-		}
+			data->proto->OpenUrl(data->url);
 
 		// After a click, destroy popup
 		PUDeletePopUp(hwnd);
@@ -70,9 +64,9 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	case UM_FREEPLUGINDATA:
 	{
 		// After close, free
-		TCHAR* url = (TCHAR*)PUGetPluginData(hwnd);
-		if (url != NULL)
-			mir_free(url);
+		popup_data *data = (popup_data *)PUGetPluginData(hwnd);
+		if (data != NULL)
+			mir_free(data);
 	} return FALSE;
 
 	default:
@@ -82,7 +76,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	return DefWindowProc(hwnd, message, wParam, lParam);
 };
 
-void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, TCHAR* szUrl)
+void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, std::string szUrl)
 {
 	int ret; int timeout; COLORREF colorBack = 0; COLORREF colorText = 0;
 
@@ -90,7 +84,7 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 	{
 	case FACEBOOK_EVENT_CLIENT:
 		if (!getByte(FACEBOOK_KEY_EVENT_CLIENT_ENABLE, DEFAULT_EVENT_CLIENT_ENABLE))
-			goto exit;
+			return;
 		if (!getByte(FACEBOOK_KEY_EVENT_CLIENT_DEFAULT, 0))
 		{
 			colorBack = getDword(FACEBOOK_KEY_EVENT_CLIENT_COLBACK, DEFAULT_EVENT_COLBACK);
@@ -102,7 +96,7 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 
 	case FACEBOOK_EVENT_NEWSFEED:
 		if (!getByte(FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE))
-			goto exit;
+			return;
 		if (!getByte(FACEBOOK_KEY_EVENT_FEEDS_DEFAULT, 0))
 		{
 			colorBack = getDword(FACEBOOK_KEY_EVENT_FEEDS_COLBACK, DEFAULT_EVENT_COLBACK);
@@ -115,7 +109,7 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 
 	case FACEBOOK_EVENT_NOTIFICATION:
 		if (!getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
-			goto exit;
+			return;
 		if (!getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_DEFAULT, 0))
 		{
 			colorBack = getDword(FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLBACK, DEFAULT_EVENT_COLBACK);
@@ -128,7 +122,7 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 
 	case FACEBOOK_EVENT_OTHER:
 		if (!getByte(FACEBOOK_KEY_EVENT_OTHER_ENABLE, DEFAULT_EVENT_OTHER_ENABLE))
-			goto exit;
+			return;
 		if (!getByte(FACEBOOK_KEY_EVENT_OTHER_DEFAULT, 0))
 		{
 			colorBack = getDword(FACEBOOK_KEY_EVENT_OTHER_COLBACK, DEFAULT_EVENT_COLBACK);
@@ -150,7 +144,8 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 			pd.iSeconds = timeout;
 			pd.lchContact = contact;
 			pd.lchIcon = Skin_GetIconByHandle(m_hProtoIcon); // TODO: Icon test
-			pd.PluginData = szUrl;
+			if (!szUrl.empty())
+				pd.PluginData = new popup_data(this, szUrl);
 			pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 			lstrcpy(pd.lptzContactName, title);
 			lstrcpy(pd.lptzText, info);
@@ -177,14 +172,10 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 			ret = CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) & err);
 
 			if (ret == 0)
-				goto exit;
+				return;
 		}
 	}
 
 	if (FLAG_CONTAINS(flags, FACEBOOK_EVENT_CLIENT))
 		MessageBox(NULL, info, title, MB_OK | MB_ICONINFORMATION);
-
-exit:
-	if (szUrl != NULL)
-		mir_free(szUrl);
 }

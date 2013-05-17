@@ -454,7 +454,7 @@ int FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
 	// TODO: why isn't wParam == 0 when is status menu moved to main menu?
-	if (wParam == 0 || !IsMyContact(hContact))
+	if (wParam != 0 && !IsMyContact(hContact))
 		return 1;
 
 	std::string url = FACEBOOK_URL_PROFILE;
@@ -470,7 +470,7 @@ int FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 		db_set_s(hContact, m_szModuleName, "Homepage", url.c_str());
 	}
 
-	CallService(MS_UTILS_OPENURL, 1, reinterpret_cast<LPARAM>(url.c_str()));
+	OpenUrl(url);
 	return 0;
 }
 
@@ -487,7 +487,7 @@ int FacebookProto::VisitFriendship(WPARAM wParam,LPARAM lParam)
 	url += facy.self_.user_id;
 	url += "&and=" + std::string(id);
 
-	CallService(MS_UTILS_OPENURL, 1, reinterpret_cast<LPARAM>(url.c_str()));
+	OpenUrl(url);
 	return 0;
 }
 
@@ -599,4 +599,40 @@ HANDLE FacebookProto::HContactFromAuthEvent(HANDLE hEvent)
 		return INVALID_HANDLE_VALUE;
 
 	return DbGetAuthEventContact(&dbei);
+}
+
+void FacebookProto::OpenUrl(std::string url)
+{
+	std::string facebookDomain = "facebook.com";
+	std::string::size_type pos = url.find(facebookDomain);
+	bool isFacebookUrl = (pos != std::string::npos);
+	bool isRelativeUrl = (url.substr(0, 4) != "http");
+
+	if (isFacebookUrl || isRelativeUrl) {
+
+		// Make realtive url
+		if (!isRelativeUrl) {
+			url = url.substr(pos + facebookDomain.length());
+			
+			// Strip eventual port
+			pos = url.find("/");
+			if (pos != std::string::npos && pos != 0)
+				url = url.substr(pos);
+		}
+
+		// Make absolute url
+		bool useHttps = db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS, 1) > 0;
+		std::string newUrl = (useHttps ? HTTP_PROTO_SECURE : HTTP_PROTO_REGULAR);
+
+		ptrA server = db_get_sa(NULL, m_szModuleName, FACEBOOK_KEY_SERVER);
+		if (server != NULL)
+			newUrl += server; 
+		else
+			newUrl += FACEBOOK_SERVER_REGULAR;
+
+		url = newUrl + url;
+	}
+
+	ptrT data = mir_utf8decodeT(url.c_str());
+	CallService(MS_UTILS_OPENURL, (WPARAM)OUF_TCHAR, (LPARAM)data);
 }

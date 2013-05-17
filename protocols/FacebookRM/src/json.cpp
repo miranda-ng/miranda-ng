@@ -435,8 +435,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 		    
 				TCHAR* szTitle = mir_utf8decodeT(title.c_str());
 				TCHAR* szText = mir_utf8decodeT(popup_text.c_str());
-				TCHAR* szUrl = mir_utf8decodeT(url.c_str());
-				proto->NotifyEvent(szTitle,szText,NULL,FACEBOOK_EVENT_OTHER, szUrl);
+				proto->NotifyEvent(szTitle,szText,NULL,FACEBOOK_EVENT_OTHER, url);
 				mir_free(szTitle);
 				mir_free(szText);
 			}
