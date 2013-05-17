@@ -22,7 +22,6 @@ Boston, MA 02111-1307, USA.
 #include <stdio.h>
 #include <tchar.h>
 
-#define MIRANDA_VER 0x0A00
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_utils.h>
@@ -33,8 +32,6 @@ Boston, MA 02111-1307, USA.
 
 #include "mir_options.h"
 #include "mir_memory.h"
-
-#define SIZEOF(_A_) ( sizeof(_A_) / sizeof(_A_[0]))
 
 static TCHAR* MyDBGetContactSettingTString(HANDLE hContact, char* module, char* setting, TCHAR* out, size_t len, TCHAR *def)
 {
