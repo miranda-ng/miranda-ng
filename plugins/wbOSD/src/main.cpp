@@ -34,7 +34,7 @@ static PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {FC718BC7-ABC8-43CD-AAD9-761614617738}
-	{ 0xfc718bc7, 0xabc8, 0x43cd, { 0xaa, 0xd9, 0x76, 0x16, 0x14, 0x61, 0x77, 0x38 } }
+	{0xfc718bc7, 0xabc8, 0x43cd, {0xaa, 0xd9, 0x76, 0x16, 0x14, 0x61, 0x77, 0x38}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
@@ -92,7 +92,7 @@ extern "C" __declspec(dllexport) int Unload()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hinst,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hI = hinst;
 	return TRUE;

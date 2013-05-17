@@ -8,10 +8,6 @@ Distributed under GNU's GPL 2 or later
 */
 
 #include "wbOSD.h"
-#include <m_message.h>
-
-extern HWND hwnd;
-extern HANDLE hHookContactStatusChanged;
 
 void logmsg2(char *str)
 {

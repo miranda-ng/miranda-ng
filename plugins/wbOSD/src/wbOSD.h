@@ -14,8 +14,6 @@ Distributed under GNU's GPL 2 or later
 #include <shlwapi.h>
 #include <commctrl.h>
 
-#include "resource.h"
-#include "version.h"
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_database.h>
@@ -24,6 +22,10 @@ Distributed under GNU's GPL 2 or later
 #include <m_protosvc.h>
 #include <m_ignore.h>
 #include <win2k.h>
+#include <m_message.h>
+
+#include "resource.h"
+#include "version.h"
 
 #define THIS_MODULE "mirandaosd"
 
@@ -119,4 +121,3 @@ extern HWND hwnd;
 extern HANDLE hservosda;
 extern HANDLE hHookedNewEvent, hHookedInit, hProtoAck, hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged, hpluginShutDown;
 extern HINSTANCE hUser32;
-
