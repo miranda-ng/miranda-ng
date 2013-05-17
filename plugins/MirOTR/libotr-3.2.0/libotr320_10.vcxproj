@@ -79,6 +79,10 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalOptions>/D "WIN32_LEAN_AND_MEAN" %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
+    <Lib>
+      <TargetMachine>MachineX86</TargetMachine>
+      <SubSystem>Windows</SubSystem>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -90,6 +94,10 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
+    <Lib>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -101,6 +109,10 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
+    <Lib>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -112,6 +124,10 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
+    <Lib>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\auth.c" />

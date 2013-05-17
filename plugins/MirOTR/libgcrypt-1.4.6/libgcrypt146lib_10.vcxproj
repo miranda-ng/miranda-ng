@@ -77,6 +77,10 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
+    <Lib>
+      <TargetMachine>MachineX86</TargetMachine>
+      <SubSystem>Windows</SubSystem>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -87,6 +91,10 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
+    <Lib>
+      <TargetMachine>MachineX64</TargetMachine>
+      <SubSystem>Windows</SubSystem>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -98,6 +106,10 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
+    <Lib>
+      <TargetMachine>MachineX86</TargetMachine>
+      <SubSystem>Windows</SubSystem>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -108,6 +120,10 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
+    <Lib>
+      <TargetMachine>MachineX64</TargetMachine>
+      <SubSystem>Windows</SubSystem>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cipher\ac.c" />
