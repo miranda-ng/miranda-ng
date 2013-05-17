@@ -143,13 +143,15 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		list_remove(&chats, chat, 1);
 
 		// Remove contact from contact list (duh!) should be done by chat.dll !!
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (HANDLE hContact = db_find_first(); hContact; ) {
+			HANDLE hNext = db_find_next(hContact);
 			DBVARIANT dbv;
 			if (!db_get_s(hContact, m_szModuleName, "ChatRoomID", &dbv, DBVT_TCHAR)) {
 				if (dbv.ptszVal && !_tcscmp(gch->pDest->ptszID, dbv.ptszVal))
 					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 				db_free(&dbv);
 			}
+			hContact = hNext;
 		}
 		return 1;
 	}

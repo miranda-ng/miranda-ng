@@ -491,23 +491,21 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				ListView_GetItemText(hwndList, sel, 1, url, MAX_PATH);
 
 				for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-					DBVARIANT dbNick = {0};
-					if (db_get_ts(hContact, MODULE, "Nick", &dbNick))
+					ptrT dbNick( db_get_tsa(hContact, MODULE, "Nick"));
+					if (dbNick == NULL)
 						break;
-					else if (lstrcmp(dbNick.ptszVal, nick) == 0) {
-						db_free(&dbNick);
-						DBVARIANT dbURL = {0};
-						if (db_get_ts(hContact, MODULE, "URL", &dbURL))
-							break;
-						else if (lstrcmp(dbURL.ptszVal, url) == 0) {
-							db_free(&dbURL);
-							CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
-							ListView_DeleteItem(hwndList, sel);
-							break;
-						}
-						db_free(&dbURL);
-					}
-					db_free(&dbNick);
+					if ( lstrcmp(dbNick, nick))
+						continue;
+						
+					ptrT dbURL( db_get_tsa(hContact, MODULE, "URL"));
+					if (dbURL == NULL)
+						break;
+					if ( lstrcmp(dbURL, url))
+						continue;
+
+					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+					ListView_DeleteItem(hwndList, sel);
+					break;
 				}
 			}
 			return FALSE;

@@ -272,11 +272,9 @@ HANDLE TwitterProto::AddToClientList(const char *name,const char *status)
 				db_free(&dbv);
 			}
 
-
 			return hContact;
 		}
-		else
-			CallService(MS_DB_CONTACT_DELETE,(WPARAM)hContact,0);
+		CallService(MS_DB_CONTACT_DELETE,(WPARAM)hContact,0);
 	}
 
 	return 0;

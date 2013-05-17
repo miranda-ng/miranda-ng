@@ -994,8 +994,7 @@ void CAimProto::delete_ssi_list(SNAC &snac, int &offset)
 
 	HANDLE hContact = contact_from_sn(name);
 
-	switch (type)
-	{
+	switch (type) {
 	case 0x0000: //buddy record
 		for(i=1;;++i)
 		{

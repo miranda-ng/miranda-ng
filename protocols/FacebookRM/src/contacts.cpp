@@ -121,9 +121,9 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_
 				CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, (LPARAM)IGNOREEVENT_USERONLINE);
 
 			return hContact;
-		} else {
-			CallService(MS_DB_CONTACT_DELETE,(WPARAM)hContact,0);
 		}
+		
+		CallService(MS_DB_CONTACT_DELETE,(WPARAM)hContact,0);
 	}
 
 	return 0;

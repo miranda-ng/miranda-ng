@@ -143,10 +143,14 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 
 	if ((int)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
 		DWORD caps = (DWORD)CallProtoServiceInt(NULL,ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
-		if (caps & PF1_SERVERCLIST)
-			for (HANDLE hContact = db_find_first(ack->szModule); hContact; hContact = db_find_next(hContact, ack->szModule))
+		if (caps & PF1_SERVERCLIST) {
+			for (HANDLE hContact = db_find_first(ack->szModule); hContact; ) {
+				HANDLE hNext = db_find_next(hContact, ack->szModule);
 				if (db_get_b(hContact, "CList", "Delete", 0))
 					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+				hContact = hNext;
+			}
+		}
 	}
 
 	cli.pfnTrayIconUpdateBase(ack->szModule);
@@ -544,8 +548,7 @@ void UnloadContactListModule()
 		return;
 
 	//remove transitory contacts
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
+	for (HANDLE hContact = db_find_first(); hContact != NULL; ) {
 		HANDLE hNext = db_find_next(hContact);
 		if (db_get_b(hContact, "CList", "NotOnList", 0))
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);

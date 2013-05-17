@@ -1867,7 +1867,7 @@ void CList_MakeAllOffline()
 	}
 
 	//alle gefundenen handles lsöchen
-	for(uint i=0;i<fhandles.size();i++)
+	for(uint i=0; i < fhandles.size(); i++)
 		CallService( MS_DB_CONTACT_DELETE, (WPARAM) fhandles.at(i), 0);
 }
 
@@ -3499,7 +3499,7 @@ INT_PTR BlockFriend(WPARAM wParam,LPARAM lParam) {
 						}
 					}
 		}
-		CallService( MS_DB_CONTACT_DELETE, (WPARAM) wParam, 1 );
+		CallService(MS_DB_CONTACT_DELETE, (WPARAM) wParam, 1);
 		db_free(&dbv);
 	}
 	return 0;

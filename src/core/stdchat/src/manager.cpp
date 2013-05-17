@@ -134,8 +134,6 @@ int SM_RemoveSession(const TCHAR* pszID, const char* pszModule, BOOL removeConta
 			if (pTemp->hContact && db_get_b( pTemp->hContact, pTemp->pszModule, "ChatRoom", 0 ) != 0)
 			{
 				CList_SetOffline(pTemp->hContact, pTemp->iType == GCW_CHATROOM?TRUE:FALSE);
-/*				if (pTemp->iType != GCW_SERVER)
-					db_set_b(pTemp->hContact, "CList", "Hidden", 1);*/
 				db_set_s(pTemp->hContact, pTemp->pszModule, "Topic", "");
 				db_set_s(pTemp->hContact, pTemp->pszModule, "StatusBar", "");
 				db_unset(pTemp->hContact, "CList", "StatusMsg");

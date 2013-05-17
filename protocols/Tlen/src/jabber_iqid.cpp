@@ -159,11 +159,11 @@ void JabberIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 					else sub = SUB_NONE;
 					//if (str != NULL && (!strcmp(str, "to") || !strcmp(str, "both"))) {
 					if ((jid=JabberXmlGetAttrValue(itemNode, "jid")) != NULL) {
-						if ((name=JabberXmlGetAttrValue(itemNode, "name")) != NULL) {
+						if ((name=JabberXmlGetAttrValue(itemNode, "name")) != NULL)
 							nick = JabberTextDecode(name);
-						} else {
+						else
 							nick = JabberLocalNickFromJID(jid);
-						}
+						
 						if (nick != NULL) {
 							HANDLE hContact;
 							item = JabberListAdd(proto, LIST_ROSTER, jid);
@@ -186,8 +186,7 @@ void JabberIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 										db_set_s(hContact, "CList", "Group", item->group);
 									db_free(&dbv);
 								}
-								else
-									db_set_s(hContact, "CList", "Group", item->group);
+								else db_set_s(hContact, "CList", "Group", item->group);
 							}
 							else {
 								item->group = NULL;
@@ -204,54 +203,33 @@ void JabberIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 					}
 				}
 			}
+			
 			// Delete orphaned contacts (if roster sync is enabled)
 			if (db_get_b(NULL, proto->m_szModuleName, "RosterSync", FALSE) == TRUE) {
-				HANDLE *list;
-				int listSize, listAllocSize;
-
-				listSize = listAllocSize = 0;
-				list = NULL;
-
-				for (HANDLE hContact = db_find_first(proto->m_szModuleName); hContact; hContact = db_find_next(hContact, proto->m_szModuleName)) {
-					if ( db_get(hContact, proto->m_szModuleName, "jid", &dbv))
-						continue;
-
-					if (!JabberListExist(proto, LIST_ROSTER, dbv.pszVal)) {
-						JabberLog(proto, "Syncing roster: preparing to delete %s (hContact=0x%x)", dbv.pszVal, hContact);
-						if (listSize >= listAllocSize) {
-							listAllocSize = listSize + 100;
-							if ((list=(HANDLE *) mir_realloc(list, listAllocSize)) == NULL) {
-								listSize = 0;
-								break;
-							}
+				for (HANDLE hContact = db_find_first(proto->m_szModuleName); hContact; ) {
+					HANDLE hNext = hContact = db_find_next(hContact, proto->m_szModuleName);
+					ptrA jid( db_get_sa(hContact, proto->m_szModuleName, "jid"));
+					if (jid != NULL) {
+						if (!JabberListExist(proto, LIST_ROSTER, jid)) {
+							JabberLog(proto, "Syncing roster: deleting 0x%x", hContact);
+							CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 						}
-						list[listSize++] = hContact;
 					}
-					db_free(&dbv);
+					hContact = hNext;
 				}
+			}
 
-				for (i=0; i<listSize; i++) {
-					JabberLog(proto, "Syncing roster: deleting 0x%x", list[i]);
-					CallService(MS_DB_CONTACT_DELETE, (WPARAM) list[i], 0);
-				}
-				if (list != NULL)
-					mir_free(list);
-			}
-			///////////////////////////////////////
-			{
-				CLISTMENUITEM mi = { sizeof(mi) };
-				mi.flags = CMIM_FLAGS;
-				Menu_ModifyItem(proto->hMenuMUC, &mi);
-				if (proto->hMenuChats != NULL)
-					Menu_ModifyItem(proto->hMenuChats, &mi);
-			}
+			CLISTMENUITEM mi = { sizeof(mi) };
+			mi.flags = CMIM_FLAGS;
+			Menu_ModifyItem(proto->hMenuMUC, &mi);
+			if (proto->hMenuChats != NULL)
+				Menu_ModifyItem(proto->hMenuChats, &mi);
 
 			proto->isOnline = TRUE;
 			JabberLog(proto, "Status changed via THREADSTART");
 			oldStatus = proto->m_iStatus;
 			JabberSendPresence(proto, proto->m_iDesiredStatus);
 			ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, proto->m_iStatus);
-			//////////////////////////////////
 		}
 	}
 }

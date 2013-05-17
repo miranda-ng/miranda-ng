@@ -492,10 +492,8 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 
 			db_unset(hContact, "CList", "Hidden");
 			chatRooms.insert(hContact);
-		} else
-		{
-			UpdateSubscriptionInfo(hContact, item);
 		}
+		else UpdateSubscriptionInfo(hContact, item);
 
 		if ( !m_options.IgnoreRosterGroups) {
 			if (item->group != NULL) {
@@ -533,32 +531,15 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 
 	// Delete orphaned contacts (if roster sync is enabled)
 	if (m_options.RosterSync == TRUE) {
-		int listSize = 0, listAllocSize = 0;
-		HANDLE* list = NULL;
-		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-			DBVARIANT dbv;
-			if ( !JGetStringT(hContact, "jid", &dbv)) {
-				if ( !ListExist(LIST_ROSTER, dbv.ptszVal)) {
-					Log("Syncing roster: preparing to delete %S (hContact=0x%x)", dbv.ptszVal, hContact);
-					if (listSize >= listAllocSize) {
-						listAllocSize = listSize + 100;
-						if ((list=(HANDLE *) mir_realloc(list, listAllocSize * sizeof(HANDLE))) == NULL) {
-							listSize = 0;
-							break;
-					}	}
-
-					list[listSize++] = hContact;
-				}
-				db_free(&dbv);
+		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; ) {
+			HANDLE hNext = db_find_next(hContact, m_szModuleName);
+			ptrT jid( db_get_tsa(hContact, m_szModuleName, "jid"));
+			if (jid != NULL && !ListExist(LIST_ROSTER, jid)) {
+				Log("Syncing roster: preparing to delete %S (hContact=0x%x)", jid, hContact);
+				CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 			}
+			hContact = hNext;
 		}
-
-		for (i=0; i < listSize; i++) {
-			Log("Syncing roster: deleting 0x%x", list[i]);
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)list[i], 0);
-		}
-		if (list != NULL)
-			mir_free(list);
 	}
 
 	EnableMenuItems(TRUE);
@@ -567,10 +548,10 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 	m_bModeMsgStatusChangePending = FALSE;
 	SetServerStatus(m_iDesiredStatus);
 
-	if (m_options.AutoJoinConferences) {
+	if (m_options.AutoJoinConferences)
 		for (i=0; i < chatRooms.getCount(); i++)
 			GroupchatJoinByHContact((HANDLE)chatRooms[i], true);
-	}
+
 	chatRooms.destroy();
 
 	//UI_SAFE_NOTIFY(m_pDlgJabberJoinGroupchat, WM_JABBER_CHECK_ONLINE);

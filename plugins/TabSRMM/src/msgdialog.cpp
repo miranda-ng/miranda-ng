@@ -3763,11 +3763,10 @@ quote_from_last:
 			if (m_pContainer->dwFlags & CNT_SIDEBAR)
 				m_pContainer->SideBar->removeSession(dat);
 			dat->cache->setWindowData();
-			if (dat->cache->isValid() && !dat->fIsReattach && dat->hContact && M->GetByte("deletetemp", 0)) {
-				if (M->GetByte(dat->hContact, "CList", "NotOnList", 0)) {
+			if (dat->cache->isValid() && !dat->fIsReattach && dat->hContact && M->GetByte("deletetemp", 0))
+				if (M->GetByte(dat->hContact, "CList", "NotOnList", 0))
 					CallService(MS_DB_CONTACT_DELETE, (WPARAM)dat->hContact, 0);
-				}
-			}
+
 			delete dat->Panel;
 			free(dat);
 		}
