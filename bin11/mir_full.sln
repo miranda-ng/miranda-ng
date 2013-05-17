@@ -389,6 +389,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeStatusChange", "..\plu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wbOSD", "..\plugins\wbOSD\wbOSD_11.vcxproj", "{DA450122-7F0B-45DA-9EAA-421887AD8450}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "New_GPG", "..\plugins\New_GPG\new_gpg_11.vcxproj", "{F29D0C8D-141A-43CF-86B2-34A04653F8D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1743,6 +1745,14 @@ Global
 		{DA450122-7F0B-45DA-9EAA-421887AD8450}.Release|Win32.Build.0 = Release|Win32
 		{DA450122-7F0B-45DA-9EAA-421887AD8450}.Release|x64.ActiveCfg = Release|x64
 		{DA450122-7F0B-45DA-9EAA-421887AD8450}.Release|x64.Build.0 = Release|x64
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Debug|Win32.Build.0 = Debug|Win32
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Debug|x64.ActiveCfg = Debug|X64
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Debug|x64.Build.0 = Debug|X64
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Release|Win32.ActiveCfg = Release|Win32
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Release|Win32.Build.0 = Release|Win32
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Release|x64.ActiveCfg = Release|X64
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Release|x64.Build.0 = Release|X64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
