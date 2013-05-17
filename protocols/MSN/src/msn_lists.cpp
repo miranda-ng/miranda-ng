@@ -238,11 +238,12 @@ void  CMsnProto::Lists_Remove(int list, const char* email)
 
 void  CMsnProto::Lists_Populate(void)
 {
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		char szEmail[MSN_MAX_EMAIL_LEN] = "";;
+	HANDLE hContact = db_find_first(m_szModuleName);
+	while (hContact) {
+		HANDLE hNext = db_find_next(hContact, m_szModuleName);
+		char szEmail[MSN_MAX_EMAIL_LEN] = "";
 		if (getStaticString(hContact, "wlid", szEmail, sizeof(szEmail)))
 			getStaticString(hContact, "e-mail", szEmail, sizeof(szEmail));
-
 		if (szEmail[0]) {
 			bool localList = getByte(hContact, "LocalList", 0) != 0;
 			if (localList)
@@ -251,6 +252,7 @@ void  CMsnProto::Lists_Populate(void)
 				Lists_Add(0, NETID_UNKNOWN, szEmail, hContact);
 		}
 		else CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+		hContact = hNext;
 	}
 }
 
