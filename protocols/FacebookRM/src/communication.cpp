@@ -626,7 +626,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 	data += "&email=" + utils::url::encode(username);
 	data += "&pass=" + utils::url::encode(password);
 
-	ptrA locale( db_get_sa(NULL, parent->m_szModuleName, FACEBOOK_KEY_LOCALE));
+	ptrA locale(db_get_sa(NULL, parent->m_szModuleName, FACEBOOK_KEY_LOCALE));
 	if (locale != NULL)
 		data += "&locale=" + std::string(locale);
 

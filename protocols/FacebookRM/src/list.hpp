@@ -32,14 +32,14 @@ namespace List
 		Item< T >* prev;
 		Item< T >* next;
 		
-		Item( )
+		Item()
 		{
 			this->data = NULL;
 			this->prev = NULL;
 			this->next = NULL;
 		}
 
-		~Item( )
+		~Item()
 		{
 			delete this->data;
 		}
@@ -53,40 +53,40 @@ namespace List
 		unsigned int count;
 		
 	public:
-		List( )
+		List()
 		{
 			this->first = this->last = NULL;
 			this->count = 0;
 		}
 
-		~List( )
+		~List()
 		{
-			this->clear( );
+			this->clear();
 		}
 
-		Item< T >* begin( )
+		Item< T >* begin()
 		{
 			return first;
 		}
 
-		Item< T >* end( )
+		Item< T >* end()
 		{
 			return last;
 		}
 
-		unsigned int size( )
+		unsigned int size()
 		{
 			return count;
 		}
 
-		bool empty( )
+		bool empty()
 		{
-			return ( this->first == NULL );
+			return (this->first == NULL);
 		}
 
-		void insert( Item< T >* item )
+		void insert(Item< T >* item)
 		{
-			if ( this->empty( ))
+			if (this->empty())
 			{
 				this->first = this->last = item;
 				this->count = 1;
@@ -98,34 +98,34 @@ namespace List
 			}
 		}
 
-		void insert( std::pair< std::string, T* > item )
+		void insert(std::pair< std::string, T* > item)
 		{
 			Item<T>* ins = new Item<T>;
 			ins->key = item.first;
 			ins->data = item.second;
-			this->insert( ins );
+			this->insert(ins);
 		}
-		void erase( std::string key )
+		void erase(std::string key)
 		{
 			Item< T >* help = this->first;
-			while ( help != NULL )
+			while (help != NULL)
 			{
-				if ( help->key.compare( key ) != 0 )
+				if (help->key.compare(key) != 0)
 					help = help->next;
 				else
 				{
-					if ( help == this->first )
+					if (help == this->first)
 					{
 						this->first = help->next;
-						if ( this->first != NULL )
+						if (this->first != NULL)
 							this->first->prev = NULL;
 						else
 							this->last = NULL;
 					}
-					else if ( help == this->last )
+					else if (help == this->last)
 					{
 						this->last = help->prev;
-						if ( this->last != NULL )
+						if (this->last != NULL)
 							this->last->next = NULL;
 						else
 							this->first = NULL;
@@ -145,18 +145,18 @@ namespace List
 			}
 		}
 
-		void erase( Item< T >* item )
+		void erase(Item< T >* item)
 		{
 			if (item != NULL)
-				erase( item->key );
+				erase(item->key);
 		}
 
-		T* find( std::string key )
+		T* find(std::string key)
 		{
-			Item< T >* help = this->begin( );
-			while ( help != NULL )
+			Item< T >* help = this->begin();
+			while (help != NULL)
 			{
-				if ( help->key.compare( key ) != 0 )
+				if (help->key.compare(key) != 0)
 					help = help->next;
 				else
 					return help->data;
@@ -164,25 +164,25 @@ namespace List
 			return NULL;
 		}
 
-		T* at( const unsigned int item )
+		T* at(const unsigned int item)
 		{
 			if (item >= this->count)
 				return NULL;
-			Item< T >* help = this->begin( );
-			for ( unsigned int i = 0; i < item; i++ )
+			Item< T >* help = this->begin();
+			for (unsigned int i = 0; i < item; i++)
 				help = help->next;
 			return help->item;
 		}
 
-		T* operator[]( const unsigned int item )
+		T* operator[](const unsigned int item)
 		{
-			return at( item );
+			return at(item);
 		}
 
-		void clear( )
+		void clear()
 		{
 			Item< T >* help;
-			while ( this->first != NULL )
+			while (this->first != NULL)
 			{
 				help = this->first;
 				this->first = this->first->next;

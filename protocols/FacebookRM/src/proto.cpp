@@ -498,7 +498,7 @@ int FacebookProto::Poke(WPARAM wParam,LPARAM lParam)
 
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
-	ptrA id( db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID));
+	ptrA id(db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID));
 	if (id == NULL)
 		return 1;
 	
