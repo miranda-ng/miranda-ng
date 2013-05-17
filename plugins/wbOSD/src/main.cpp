@@ -8,7 +8,6 @@ Distributed under GNU's GPL 2 or later
 */
 
 #include "wbOSD.h"
-#include "version.h"
 
 HINSTANCE hI;
 

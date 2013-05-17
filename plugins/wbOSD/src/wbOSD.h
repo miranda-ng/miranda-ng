@@ -15,6 +15,7 @@ Distributed under GNU's GPL 2 or later
 #include <commctrl.h>
 
 #include "resource.h"
+#include "version.h"
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_database.h>
