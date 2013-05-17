@@ -168,23 +168,21 @@ void FacebookProto::ReadMessageWorker(void *p)
 	if (p == NULL)
 		return;
 
-	return;
-
 	HANDLE hContact = static_cast<HANDLE>(p);
 
-	// first mark message read
-	ptrA id( db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID));
-	if (id == NULL) return;
+	if (!db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_MARK_READ, 1)) {
+		// old variant - no seen info updated
+		ptrA id( db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID));
+		if (id == NULL) return;
 
-	std::string data = "action=chatMarkRead";
-	data += "&other_user=" + std::string(id);
-	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
-	data += "&lsd=&__user=" + facy.self_.user_id;
+		std::string data = "action=chatMarkRead";
+		data += "&other_user=" + std::string(id);
+		data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+		data += "&lsd=&__user=" + facy.self_.user_id;
 	
-	facy.flap(FACEBOOK_REQUEST_ASYNC, &data);
-
-	// then send seen info, if enabled
-	if (db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_MARK_READ, 1)) {
+		facy.flap(FACEBOOK_REQUEST_ASYNC, &data);
+	} else {
+		// new variant - with seen info
 		ptrA mid( db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_MESSAGE_ID));
 		if (mid == NULL) return;
 
