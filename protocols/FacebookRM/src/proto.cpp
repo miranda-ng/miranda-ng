@@ -622,15 +622,7 @@ void FacebookProto::OpenUrl(std::string url)
 
 		// Make absolute url
 		bool useHttps = db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS, 1) > 0;
-		std::string newUrl = (useHttps ? HTTP_PROTO_SECURE : HTTP_PROTO_REGULAR);
-
-		ptrA server = db_get_sa(NULL, m_szModuleName, FACEBOOK_KEY_SERVER);
-		if (server != NULL)
-			newUrl += server; 
-		else
-			newUrl += FACEBOOK_SERVER_REGULAR;
-
-		url = newUrl + url;
+		url = (useHttps ? HTTP_PROTO_SECURE : HTTP_PROTO_REGULAR) + facy.get_server_type() + url;
 	}
 
 	ptrT data = mir_utf8decodeT(url.c_str());

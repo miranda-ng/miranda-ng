@@ -547,6 +547,14 @@ std::string facebook_client::get_newsfeed_type()
 	return feed_types[feed_type].id;
 }
 
+std::string facebook_client::get_server_type()
+{
+	BYTE server_type = db_get_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_SERVER_TYPE, 0);
+	if (server_type < 0 || server_type >= SIZEOF(server_types))
+		server_type = 0;
+	return server_types[server_type].id;
+}
+
 char* facebook_client::load_cookies()
 {
 	ScopedLock s(cookies_lock_);

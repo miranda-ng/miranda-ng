@@ -29,6 +29,8 @@
 #define IDC_MAP_STATUSES                1032
 #define IDC_LOAD_MOBILE                 1033
 #define IDC_CUSTOM_SMILEYS              1034
+#define IDC_USE_LOCAL_TIME              1035
+#define IDC_SEND_SEEN                   1036
 #define IDC_NOTIFICATIONS_ENABLE        1041
 #define IDC_FEEDS_ENABLE                1042
 #define IDC_OTHER_ENABLE                1043
@@ -57,6 +59,7 @@
 #define IDC_PREVIEW                     1099
 #define IDC_SET_STATUS                  1126
 #define IDC_FEED_TYPE                   1201
+#define IDC_URL_SERVER                  1202
 
 // Next default values for new objects
 // 
@@ -64,7 +67,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        129
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1202
+#define _APS_NEXT_CONTROL_VALUE         1203
 #define _APS_NEXT_SYMED_VALUE           131
 #endif
 #endif

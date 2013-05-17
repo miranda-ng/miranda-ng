@@ -93,6 +93,7 @@ public:
 	std::map< std::string, std::string >    cookies;
 
 	std::string get_newsfeed_type();
+	std::string get_server_type();
 
 	char*   load_cookies();
 	void    store_headers(http::response* resp, NETLIBHTTPHEADER* headers, int headers_count);

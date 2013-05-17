@@ -121,8 +121,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_CONTACT_APPROVE	4 // contact that is asking us for approval of friendship
 
 // News Feed types
-static const struct
-{
+static const struct {
 	const char *name;
 	const char *id;
 } feed_types[] = {
@@ -132,4 +131,13 @@ static const struct
 	{ LPGEN("Photos"), "app_2305272732_2392950137" },
 	{ LPGEN("Links"), "app_2309869772" },
 	{ LPGEN("Apps and Games"), "appsandgames" },
+};
+
+static const struct {
+	const char *id;
+	const char *name;
+} server_types[] = {
+	{ "www.facebook.com", LPGEN("Classic website") },
+	{ "m.facebook.com", LPGEN("Mobile website") },
+	{ "touch.facebook.com", LPGEN("Smartphone website") },
 };
