@@ -150,7 +150,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 	const size_t len = sizeof(authPacket) + 2048;
 	char* szAuthInfo = (char*)alloca(len);
-	mir_snprintf(szAuthInfo, len, authPacket, time(NULL), MyOptions.szEmail, szEncPassword, szTs1A, szTs2A);
+	mir_snprintf(szAuthInfo, len, authPacket, int(ts), MyOptions.szEmail, szEncPassword, szTs1A, szTs2A);
 
 	mir_free(szTs2A);
 	mir_free(szTs1A);
