@@ -53,8 +53,6 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 
 // put stuff that's not apart of any SDKs but is used nonetheless
 
-#define SIZEOF(X) (sizeof(X)/sizeof(X[0]))
-
 #ifdef _WIN64
 #define MENUITEMINFO_V4_SIZE sizeof(MENUITEMINFO)
 #else
