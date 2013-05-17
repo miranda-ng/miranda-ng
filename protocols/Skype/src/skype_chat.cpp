@@ -1,5 +1,5 @@
 #include "skype_proto.h"
-#include <m_chat.h>
+#include "skype_chat.h"
 #include <m_message.h>
 #include <m_history.h>
 
@@ -19,6 +19,286 @@ wchar_t *CSkypeProto::Roles[] =
 #define SKYPE_CHAT_GROUP_WIRTER		3
 #define SKYPE_CHAT_GROUP_RETRIED	4
 #define SKYPE_CHAT_GROUP_OUTLAW		5
+
+static const COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+
+void CSkypeProto::InitChat()
+{
+	GCREGISTER gcr = {0};
+	gcr.cbSize = sizeof(gcr);
+	gcr.dwFlags = GC_TCHAR | GC_TYPNOTIF | GC_CHANMGR;
+	gcr.iMaxText = 0;
+	gcr.nColors = 16;
+	gcr.pColors = (COLORREF*)crCols;
+	gcr.ptszModuleDispName = this->m_tszUserName;
+	gcr.pszModule = this->m_szModuleName;
+	::CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
+
+	this->HookEvent(ME_GC_EVENT, &CSkypeProto::OnGCEventHook);
+	this->HookEvent(ME_GC_BUILDMENU, &CSkypeProto::OnGCMenuHook);
+}
+
+///
+
+wchar_t *ChatRoom::Roles[] = 
+{ 
+	L"",			// ---
+	L"Creator",		// CREATOR	= 1
+	L"Master",		// ADMIN	= 2
+	L"Helper",		// SPEAKER	= 3
+	L"User",		// WRITER	= 4
+	L"Listener",	// SPECTATOR= 5
+	L"Applicant",	// APPLICANT= 6
+	L"Retried",		// RETIRED	= 7
+	L"Outlaw",		// OUTLAW	= 8
+	//L"Ghost"		// ???
+};
+
+int ChatRoom::SortMembers(const ChatMember *p1, const ChatMember *p2)
+{
+	return ::lstrcmpi(p1->sid, p2->sid);
+}
+
+ChatRoom::ChatRoom(const wchar_t *cid) : members(1, SortMembers) 
+{
+	this->cid = ::mir_wstrdup(cid);
+}
+
+ChatRoom::ChatRoom(ChatMember *me) : members(1, SortMembers) 
+{
+	this->me = me;
+}
+
+void ChatRoom::Start(bool showWindow)
+{
+	SEString data;
+
+	//conversation->GetPropIdentity(data);
+	//mir_ptr<wchar_t> cid( ::mir_utf8decodeW(data));
+
+	/*conversation->GetPropDisplayname(data);
+	mir_ptr<wchar_t> chatName( ::mir_utf8decodeW(data));*/
+
+	// start chat session
+	GCSESSION gcw = {0};
+	gcw.cbSize = sizeof(gcw);
+	gcw.iType = GCW_CHATROOM;
+	gcw.dwFlags = GC_TCHAR;
+	gcw.pszModule = ppro->m_szModuleName;
+	//gcw.ptszName = this->topic;
+	gcw.ptszID = cid;
+	::CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+
+	GCDEST gcd = { ppro->m_szModuleName, { NULL }, GC_EVENT_ADDGROUP };
+	gcd.ptszID = this->cid;
+
+	// load chat roles
+	GCEVENT gce = {0};
+	gce.cbSize = sizeof(GCEVENT);
+	gce.dwFlags = GC_TCHAR;
+	gce.pDest = &gcd;
+	for (int i = 1; i < SIZEOF(ChatRoom::Roles); i++)
+	{
+		gce.ptszStatus = ::TranslateW(ChatRoom::Roles[i]);
+		::CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	}
+
+	// init [and show window]
+	gcd.iType = GC_EVENT_CONTROL;
+	::CallServiceSync(MS_GC_EVENT, showWindow ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce);
+	::CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
+}
+
+void ChatRoom::LeaveChat()
+{
+	GCDEST gcd = { ppro->m_szModuleName, { NULL }, GC_EVENT_CONTROL };
+	gcd.ptszID = this->cid;
+
+	GCEVENT gce = {0};
+	gce.cbSize = sizeof(GCEVENT);
+	gce.dwFlags = GC_TCHAR;
+	gce.pDest = &gcd;
+	::CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
+	::CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
+}
+
+void ChatRoom::SendChatEvent(const wchar_t *sid, int eventType, DWORD flags, DWORD itemData, const wchar_t *status, const wchar_t *message, DWORD timestamp)
+{
+	ChatMember search(sid);
+	ChatMember *member = this->members.find(&search);
+	if (member != NULL)
+	{
+		GCDEST gcd = { ppro->m_szModuleName, { NULL }, eventType };
+		gcd.ptszID = this->cid;
+
+		GCEVENT gce = {0};
+		gce.cbSize = sizeof(gce);
+		gce.dwFlags = GC_TCHAR | flags;
+		gce.pDest = &gcd;
+		gce.ptszUID = member->sid;
+		gce.ptszNick = member->nick;		
+		gce.bIsMe = member == this->me;
+		gce.dwItemData = itemData;
+		gce.ptszStatus = status;
+		gce.ptszText = message;
+		gce.time = timestamp;
+		::CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	}
+}
+
+void ChatRoom::Add(ChatMember *item)
+{
+	ChatMember *member = this->members.find(item);
+	if (member != NULL)
+	{
+		if (::lstrcmp(member->nick, item->nick) != 0)
+			this->SendChatEvent(member->sid, GC_EVENT_NICK, GCEF_ADDTOLOG, 0, 0, item->nick);
+		if (member->rank != item->rank)
+		{
+			// todo: real role instead "OWNER"
+			ptrW oldStatus = ::TranslateW(ChatRoom::Roles[member->rank]);
+			this->SendChatEvent(member->sid, GC_EVENT_REMOVESTATUS, GCEF_ADDTOLOG, 0, oldStatus, L"OWNER");
+			ptrW newStatus = ::TranslateW(ChatRoom::Roles[item->rank]);
+			this->SendChatEvent(member->sid, GC_EVENT_ADDSTATUS, GCEF_ADDTOLOG, 0, newStatus, L"OWNER");
+		}
+		if (member->status != item->status)
+			this->SendChatEvent(member->sid, GC_EVENT_SETCONTACTSTATUS, 0, item->status);
+		member = item;
+	}
+	else
+	{
+		this->members.insert(item);
+		
+		this->SendChatEvent(item->sid, GC_EVENT_JOIN, GCEF_ADDTOLOG, GCEF_ADDTOLOG, ChatRoom::Roles[item->rank]);
+		this->SendChatEvent(item->sid, GC_EVENT_SETCONTACTSTATUS, 0, item->status);
+	}
+}
+
+void ChatRoom::Add(const wchar_t *sid, int rank, WORD status)
+{
+	ChatMember *member = new ChatMember();
+	member->sid = ::mir_wstrdup(sid);
+	member->rank = rank;
+	member->status = status;
+	this->members.insert(member);
+}
+
+int __cdecl ChatRoom::OnGCEventHook(WPARAM, LPARAM lParam)
+{
+	GCHOOK *gch = (GCHOOK *)lParam;
+	if (!gch) return 1;
+
+	//if (::strcmp(gch->pDest->pszModule, this->m_szModuleName))
+		return 0;
+
+	mir_ptr<wchar_t> cid( ::mir_wstrdup(gch->pDest->ptszID));
+	mir_ptr<wchar_t> sid( ::mir_wstrdup(gch->ptszUID));
+
+	CConversation::Ref conversation;
+	switch (gch->pDest->iType) {
+	case GC_SESSION_TERMINATE:
+		/*if (this->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation, false))
+		{
+			Participant::Refs participants;
+			conversation->GetParticipants(participants, CConversation::MYSELF);
+			participants[0]->Retire();
+		}*/
+		break;
+
+	case GC_USER_MESSAGE:
+		if (gch->ptszText && gch->ptszText[0])
+		{
+			/*if (this->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation, false))
+			{
+				CMessage::Ref message;
+				mir_ptr<char> text(::mir_utf8encodeW(gch->ptszText));
+				conversation->PostText((char *)text, message);
+			}*/
+		}
+		break;
+
+	/*case GC_USER_CHANMGR:
+		if (this->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation, false))
+		{
+			StringList invitedContacts(this->GetChatUsers(cid));
+			this->InviteConactsToChat(conversation, invitedContacts); 
+		}
+		break;*/
+
+	case GC_USER_PRIVMESS:
+		//::CallService(MS_MSG_SENDMESSAGE, (WPARAM)this->GetContactBySid(sid), 0);
+		break;
+
+	case GC_USER_LOGMENU:
+		switch(gch->dwData) {
+		case 10:
+			/*if (this->GetConversationByIdentity(::mir_utf8encodeW(cid), conversation, false))
+			{
+				StringList invitedContacts(this->GetChatUsers(cid));
+				this->InviteConactsToChat(conversation, invitedContacts);
+			}*/
+			break;
+
+		case 20:
+			//this->LeaveChat(cid);
+			break;
+		}
+		break;
+
+	case GC_USER_NICKLISTMENU:
+		switch (gch->dwData) {
+		case 10:
+			//::CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)this->GetContactBySid(sid), 0);
+			break;
+
+		case 20:
+			//CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)this->GetContactBySid(sid), 0);
+			break;
+
+		case 110:
+			//this->LeaveChat(cid);
+			break;
+		}
+		break;
+
+	case GC_USER_TYPNOTIFY:
+		break;
+	}
+	return 0;
+}
+
+int __cdecl ChatRoom::OnGCMenuHook(WPARAM, LPARAM lParam)
+{
+	GCMENUITEMS *gcmi = (GCMENUITEMS*) lParam;
+
+	//if (gcmi == NULL || ::stricmp(gcmi->pszModule, this->m_szModuleName))
+		return 0;
+
+	if (gcmi->Type == MENU_ON_LOG)
+	{
+		static const struct gc_item Items[] = 
+		{
+			{ TranslateT("Invite to conference"), 10, MENU_ITEM, FALSE },
+			{ TranslateT("&Leave chat session"), 20, MENU_ITEM, FALSE }
+		};
+		gcmi->nItems = SIZEOF(Items);
+		gcmi->Item = (gc_item*)Items;
+	}
+	else if (gcmi->Type == MENU_ON_NICKLIST)
+	{
+		static const struct gc_item Items[] = 
+		{
+			{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
+			{ TranslateT("User &history"), 20, MENU_ITEM, FALSE },
+		};
+		gcmi->nItems = SIZEOF(Items);
+		gcmi->Item = (gc_item*)Items;
+	}
+
+	return 0;
+}
+
+///
 
 void CSkypeProto::ChatValidateContact(HANDLE hItem, HWND hwndList, const StringList &contacts)
 {
@@ -243,23 +523,6 @@ HANDLE CSkypeProto::AddChatRoom(CConversation::Ref conversation)
 	return hContact;
 }
 
-static const COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-
-void CSkypeProto::InitChat()
-{
-	GCREGISTER gcr = {0};
-	gcr.cbSize = sizeof(gcr);
-	gcr.dwFlags = GC_TCHAR | GC_TYPNOTIF | GC_CHANMGR;
-	gcr.iMaxText = 0;
-	gcr.nColors = 16;
-	gcr.pColors = (COLORREF*)crCols;
-	gcr.ptszModuleDispName = this->m_tszUserName;
-	gcr.pszModule = this->m_szModuleName;
-	::CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
-
-	this->HookEvent(ME_GC_EVENT, &CSkypeProto::OnGCEventHook);
-	this->HookEvent(ME_GC_BUILDMENU, &CSkypeProto::OnGCMenuHook);
-}
 
 void CSkypeProto::CreateChatWindow(CConversation::Ref conversation, bool showWindow)
 {
@@ -382,20 +645,20 @@ void CSkypeProto::JoinToChat(CConversation::Ref conversation, bool showWindow)
 	for (uint i = 0; i < participants.size(); i++)
 	{
 		participants[i]->GetPropIdentity(data);
-		std::wstring sid = ::mir_utf8decodeW(data);
+		ptrW sid = ::mir_utf8decodeW(data);
 
 		CParticipant::RANK rank;
 		participants[i]->GetPropRank(rank);
 
 		CContact::Ref contact;
-		this->GetContact(std::string(::mir_utf8encodeW(sid.c_str())).c_str(), contact);
+		this->GetContact((char *)ptrA(::mir_utf8encodeW(sid)), contact);
 
 		auto status = Contact::OFFLINE;
 		contact->GetPropAvailability(status);
 
 		this->AddChatContact(
 			cid,
-			sid.c_str(),
+			sid,
 			CSkypeProto::Roles[rank],
 			CSkypeProto::SkypeToMirandaStatus(status));
 	}
@@ -420,7 +683,7 @@ void CSkypeProto::AddConactsToChat(CConversation::Ref conversation, const String
 		if (invitedContacts.contains(sid) && !alreadyInChat.contains(sid))
 		{
 			CContact::Ref contact;
-			this->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(sid)), contact);
+			this->GetContact((char *)ptrA(::mir_utf8encodeW(sid)), contact);
 
 			CContact::AVAILABILITY status;
 			contact->GetPropAvailability(status);
@@ -467,7 +730,7 @@ void CSkypeProto::RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt
 
 	GCEVENT gce = {0};
 	gce.cbSize = sizeof(gce);
-	gce.dwFlags = flags | GC_TCHAR;
+	gce.dwFlags = GC_TCHAR | flags;
 	gce.pDest = &gcd;
 	gce.ptszNick = nick;
 	gce.ptszUID = sid;
@@ -687,6 +950,32 @@ void CSkypeProto::UpdateChatUserStatus(CContact::Ref contact)
 			CSkypeProto::SkypeToMirandaStatus(availability));
 	}
 }
+
+///
+
+void __cdecl CSkypeProto::LoadChatList(void*)
+{
+	this->Log(L"Updating group chats list");
+	CConversation::Refs conversations;
+	this->GetConversationList(conversations);
+
+	for (uint i = 0; i < conversations.size(); i++)
+	{
+		auto conversation = conversations[i];
+
+		uint convoType = conversation->GetUintProp(Conversation::P_TYPE);
+
+		CConversation::MY_STATUS status;
+		conversation->GetPropMyStatus(status);
+		if (convoType == CConversation::CONFERENCE && status == CConversation::CONSUMER)
+		{
+			this->AddChatRoom(conversation);
+			this->JoinToChat(conversation, false);
+		}
+	}
+}
+
+///
 
 void CSkypeProto::OnChatMessageReceived(const ConversationRef &conversation, const MessageRef &message, uint messageType)
 {

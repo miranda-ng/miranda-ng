@@ -289,29 +289,6 @@ void __cdecl CSkypeProto::LoadContactList(void* data)
 	}
 }
 
-void __cdecl CSkypeProto::LoadChatList(void*)
-{
-	this->Log(L"Updating group chats list");
-	CConversation::Refs conversations;
-	this->GetConversationList(conversations);
-
-	for (uint i = 0; i < conversations.size(); i++)
-	{
-		auto conversation = conversations[i];
-
-		CConversation::TYPE type;
-		conversation->GetPropType(type);
-
-		CConversation::MY_STATUS status;
-		conversation->GetPropMyStatus(status);
-		if (type == CConversation::CONFERENCE && status == CConversation::CONSUMER)
-		{
-			this->AddChatRoom(conversation);
-			this->JoinToChat(conversation, false);
-		}
-	}
-}
-
 void __cdecl CSkypeProto::LoadAuthWaitList(void*)
 {
 	CContact::Refs authContacts;

@@ -1,6 +1,5 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include <windows.h>
 #include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
@@ -39,6 +38,34 @@ BEGIN
     PUSHBUTTON      "Add",IDC_ADDSCR,133,136,49,14
 END
 
+IDD_CHATROOM_CREATE DIALOGEX 0, 0, 377, 229
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST
+CAPTION "Invite Contact To Chat"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "Skype name:",IDC_STATIC,6,201,43,9
+    PUSHBUTTON      "&Create",IDOK,273,209,46,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,323,209,45,14
+    CONTROL         "",IDC_CCLIST,"CListControl",WS_TABSTOP | 0x16f,7,4,174,192,WS_EX_CLIENTEDGE
+    EDITTEXT        IDC_EDITSCR,6,211,121,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Add",IDC_ADDSCR,132,209,49,14
+    LTEXT           "Topic:",IDC_STATIC,188,4,20,8
+    EDITTEXT        IDC_CHAT_TOPIC,188,14,180,14,ES_AUTOHSCROLL
+    LTEXT           "Guidline:",IDC_STATIC,188,31,28,8
+    EDITTEXT        IDC_CHAT_GUIDLINE,188,41,180,14,ES_AUTOHSCROLL
+    CONTROL         "Enable joining",IDC_CHAT_JOINING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,58,60,10
+    LTEXT           "User joining as:",IDC_STATIC,197,71,50,8
+    COMBOBOX        IDC_COMBO1,198,82,170,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Enter with password",IDC_CHAT_JOINING2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,97,81,10
+    LTEXT           "Password:",IDC_STATIC,197,110,34,8
+    EDITTEXT        IDC_EDIT1,198,121,170,14,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Confirmation:",IDC_STATIC,197,138,44,8
+    EDITTEXT        IDC_EDIT2,198,149,170,14,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Password hint:",IDC_STATIC,198,165,48,8
+    EDITTEXT        IDC_EDIT3,198,176,170,14,ES_AUTOHSCROLL
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -53,6 +80,18 @@ BEGIN
         RIGHTMARGIN, 188
         TOPMARGIN, 4
         BOTTOMMARGIN, 173
+    END
+
+    IDD_CHATROOM_CREATE, DIALOG
+    BEGIN
+        RIGHTMARGIN, 375
+        VERTGUIDE, 7
+        VERTGUIDE, 181
+        VERTGUIDE, 188
+        VERTGUIDE, 198
+        VERTGUIDE, 368
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 223
     END
 END
 #endif    // APSTUDIO_INVOKED

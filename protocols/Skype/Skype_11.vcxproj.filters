@@ -170,6 +170,9 @@
     <ClInclude Include="src\string_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\skype_chat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Resource.rc">
@@ -207,5 +210,8 @@
     <None Include="res\conf_spawn.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\send_contacts.ico" />
   </ItemGroup>
 </Project>

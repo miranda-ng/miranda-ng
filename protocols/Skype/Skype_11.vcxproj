@@ -199,6 +199,7 @@
     <ClInclude Include="src\skypekit\participant.h" />
     <ClInclude Include="src\skypekit\search.h" />
     <ClInclude Include="src\skypekit\transfer.h" />
+    <ClInclude Include="src\skype_chat.h" />
     <ClInclude Include="src\skype_proto.h" />
     <ClInclude Include="src\string_list.h" />
     <ClInclude Include="src\version.h" />
@@ -252,6 +253,9 @@
     <None Include="res\conf_invite.ico" />
     <None Include="res\conf_spawn.ico" />
     <None Include="res\main.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\send_contacts.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
