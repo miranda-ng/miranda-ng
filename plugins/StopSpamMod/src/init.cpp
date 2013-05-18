@@ -124,7 +124,7 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 		boost::thread *thr = new boost::thread(&CleanThread);
 	
 	// Folders plugin support
-	hStopSpamLogDirH = FoldersRegisterCustomPath(LPGEN("StopSpam"), LPGEN("StopSpam Logs"), PROFILE_PATH "\\" CURRENT_PROFILE "\\StopSpamLog");
+	hStopSpamLogDirH = FoldersRegisterCustomPathT(LPGEN("StopSpam"), LPGEN("StopSpam Logs"), FOLDER_LOGS);
 	return 0;
 }
 

@@ -1,7 +1,11 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <windows.h>
-#include<fstream>
+
+using namespace std;
+#include <fstream>
+#include <string>
+
 
 #include <newpluginapi.h>
 #include <m_database.h>
@@ -11,6 +15,7 @@
 #include <m_clistint.h>
 #include <m_skin.h>
 #include <m_contacts.h>
+#include <m_system_cpp.h>
 
 #include <m_variables.h>
 #include <m_folders.h>
@@ -31,3 +36,4 @@
 #include "utf8.h"
 
 extern HINSTANCE hInst;
+extern HANDLE hStopSpamLogDirH;

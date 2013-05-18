@@ -255,18 +255,17 @@ void LogSpamToFile(HANDLE hContact, tstring message)
 	if (!gbLogToFile) return;
 
 	tstring LogStrW, LogTime, LogProtocol, LogContactId, LogContactName;
-	std::string filename;
+	tstring filename;
 	std::fstream file;
+	TCHAR pszName[MAX_PATH];
 
-	UINT cbName=255;
-	char* pszName = (char *)mir_alloc(cbName);
-	extern HANDLE hStopSpamLogDirH;
+	if (hStopSpamLogDirH)
+		FoldersGetCustomPathT(hStopSpamLogDirH, pszName, MAX_PATH, _T(""));
+	else
+		lstrcpyn(pszName, VARST( _T("%miranda_logpath%")), SIZEOF(pszName));
 
-	if (FoldersGetCustomPath(hStopSpamLogDirH, pszName, cbName, ""))
-		CallService(MS_DB_GETPROFILEPATH,(WPARAM) cbName, (LPARAM)pszName);
-	filename=pszName;
-	filename=filename+"\\stopspam_mod.log";
-	mir_free(pszName);
+	filename = pszName;
+	filename = filename + _T("\\stopspam_mod.log");
 
 	file.open(filename.c_str(),std::ios::out |std::ios::app);
 
@@ -275,7 +274,7 @@ void LogSpamToFile(HANDLE hContact, tstring message)
 	tm   *TimeNow;
 	time(&time_now);
 	TimeNow = localtime(&time_now);
-    LogTime=_wasctime( TimeNow );
+	LogTime=_wasctime( TimeNow );
 	// Time Log line
 
 	// Name, UID and Protocol Log line
