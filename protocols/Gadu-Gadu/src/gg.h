@@ -32,6 +32,10 @@
 #define _WIN32_WINNT 0x0501
 #endif
 
+#ifndef _WIN64
+#define _USE_32BIT_TIME_T
+#endif
+
 // Windows headers
 // Visual C++ .NET tries to include winsock.h
 // which is very ver bad
