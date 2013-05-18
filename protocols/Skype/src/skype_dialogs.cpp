@@ -355,9 +355,16 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 						break;
 
 					::SetDlgItemText(hwndDlg, IDC_SID, mir_ptr<wchar_t>(::db_get_wsa(hContact, ppro->m_szModuleName, SKYPE_SETTINGS_LOGIN)));
-					
-					ptrT statusMsg(::db_get_wsa(hContact, ppro->m_szModuleName, "XStatusMsg"));
-					::SetDlgItemText(hwndDlg, IDC_STATUSTEXT, statusMsg != NULL ? statusMsg : TranslateT("<not specified>"));
+
+					DBVARIANT dbv;
+					if ( !::db_get_ts(hContact, ppro->m_szModuleName, "XStatusMsg", &dbv)) {
+						::SetDlgItemText(hwndDlg, IDC_STATUSTEXT, dbv.ptszVal);
+						::EnableWindow(::GetDlgItem(hwndDlg, IDC_STATUSTEXT), TRUE);
+						::db_free(&dbv);
+					} else {
+						::SetDlgItemText(hwndDlg, IDC_STATUSTEXT, TranslateT("<not specified>"));
+						::EnableWindow(::GetDlgItem(hwndDlg, IDC_STATUSTEXT), FALSE);
+					}
 
 					if (::db_get_dw(hContact, ppro->m_szModuleName, "OnlineSinceTS", 0)) {
 						TCHAR date[64];
@@ -367,8 +374,11 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 						tts.cbDest = sizeof(date);
 						CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)::db_get_dw(hContact, ppro->m_szModuleName, "OnlineSinceTS", 0), (LPARAM)&tts);
 						::SetDlgItemText(hwndDlg, IDC_ONLINESINCE, date);
-					} else
+						::EnableWindow(::GetDlgItem(hwndDlg, IDC_ONLINESINCE), TRUE);
+					} else {
 						::SetDlgItemText(hwndDlg, IDC_ONLINESINCE, TranslateT("<not specified>"));
+						::EnableWindow(::GetDlgItem(hwndDlg, IDC_ONLINESINCE), FALSE);
+					}
 
 					if (::db_get_dw(hContact, ppro->m_szModuleName, "LastEventDateTS", 0)) {
 						TCHAR date[64];
@@ -378,8 +388,11 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 						tts.cbDest = sizeof(date);
 						::CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)::db_get_dw(hContact, ppro->m_szModuleName, "LastEventDateTS", 0), (LPARAM)&tts);
 						::SetDlgItemText(hwndDlg, IDC_LASTEVENTDATE, date);
-					} else
-						::SetDlgItemText(hwndDlg, IDC_ONLINESINCE, TranslateT("<not specified>"));
+						::EnableWindow(::GetDlgItem(hwndDlg, IDC_LASTEVENTDATE), TRUE);
+					} else {
+						::SetDlgItemText(hwndDlg, IDC_LASTEVENTDATE, TranslateT("<not specified>"));
+						::EnableWindow(::GetDlgItem(hwndDlg, IDC_LASTEVENTDATE), FALSE);
+					}
 
 					if (::db_get_dw(hContact, ppro->m_szModuleName, "ProfileTS", 0)) {
 						TCHAR date[64];
@@ -389,8 +402,11 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 						tts.cbDest = sizeof(date);
 						::CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)::db_get_dw(hContact, ppro->m_szModuleName, "ProfileTS", 0), (LPARAM)&tts);
 						::SetDlgItemText(hwndDlg, IDC_LASTPROFILECHANGE, date);
-					} else
-						::SetDlgItemText(hwndDlg, IDC_ONLINESINCE, TranslateT("<not specified>"));
+						::EnableWindow(::GetDlgItem(hwndDlg, IDC_LASTPROFILECHANGE), TRUE);
+					} else {
+						::SetDlgItemText(hwndDlg, IDC_LASTPROFILECHANGE, TranslateT("<not specified>"));
+						::EnableWindow(::GetDlgItem(hwndDlg, IDC_LASTPROFILECHANGE), FALSE);
+					}
 				}
 				break;
 			}
@@ -537,7 +553,7 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 				::db_free(&dbv);
 			}
 			else
-				::SetDlgItemText(hwndDlg, IDC_ABOUT, _T(""));
+				::SetDlgItemText(hwndDlg, IDC_MOOD, _T(""));
 		}
 		break;
 
@@ -675,7 +691,7 @@ INT_PTR CALLBACK CSkypeProto::HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 				::db_free(&dbv);
 			}
 			else
-				::SetDlgItemText(hwndDlg, IDC_MOBPHONE, _T(""));
+				::SetDlgItemText(hwndDlg, IDC_CITY, _T(""));
 
 			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "State", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_STATE, dbv.ptszVal);
