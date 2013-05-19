@@ -737,7 +737,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			lvc.cx = 32 - GetSystemMetrics(SM_CXVSCROLL); // width of column in pixels
 			ListView_InsertColumn(hwndList, 1, &lvc);
 
-			lvc.pszText = L"State";
+			lvc.pszText = LPGENT("State");
 			lvc.cx = 100 - GetSystemMetrics(SM_CXVSCROLL); // width of column in pixels
 			ListView_InsertColumn(hwndList, 2, &lvc);
 
