@@ -1728,7 +1728,7 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Białek
+;  Authors: Bartosz 'Dezeath' Biaіek
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 ;file \plugins\AddContactPlus\res\resource.rc
@@ -5000,7 +5000,7 @@
 ;============================================================
 [Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations.]
 ;file \plugins\CyrTranslit\src\MirandaContact.cpp
-[&Transliterate (ÔŰÂŔ->FYVA)]
+[&Transliterate (ФЫВА->FYVA)]
 ﻿#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
 ;============================================================
 ;  File: DbChecker.dll
@@ -14873,7 +14873,7 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.4
-;  Authors: Bartosz 'Dezeath' Białek, Harven
+;  Authors: Bartosz 'Dezeath' Biaіek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
 ;file \plugins\SimpleStatusMsg\res\resource.rc
@@ -16415,7 +16415,7 @@
 [Globally OFF]
 [On, if present, always in bottom display]
 [Don't show them]
-;file \plugins\TabSRMM\src\controls - Kopie.cpp
+;file \plugins\TabSRMM\src\controls.cpp
 [&User]
 [&Room]
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
@@ -16424,8 +16424,6 @@
 [Sending typing notifications is %s.]
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
-;file \plugins\TabSRMM\src\controls working.cpp
-;file \plugins\TabSRMM\src\controls.cpp
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
 [Incoming file]
