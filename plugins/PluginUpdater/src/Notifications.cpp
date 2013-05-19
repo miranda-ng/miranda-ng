@@ -737,7 +737,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			lvc.cx = 32 - GetSystemMetrics(SM_CXVSCROLL); // width of column in pixels
 			ListView_InsertColumn(hwndList, 1, &lvc);
 
-			lvc.pszText = LPGENT("State");
+			lvc.pszText = TranslateT("State");
 			lvc.cx = 100 - GetSystemMetrics(SM_CXVSCROLL); // width of column in pixels
 			ListView_InsertColumn(hwndList, 2, &lvc);
 
@@ -746,15 +746,15 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			lvg.cbSize = sizeof(LVGROUP);
 			lvg.mask = LVGF_HEADER | LVGF_GROUPID;
 
-			lvg.pszHeader = LPGENT("Plugins");
+			lvg.pszHeader = TranslateT("Plugins");
 			lvg.iGroupId = 1;
 			ListView_InsertGroup(hwndList, 0, &lvg);
 
-			lvg.pszHeader = LPGENT("Icons");
+			lvg.pszHeader = TranslateT("Icons");
 			lvg.iGroupId = 2;
 			ListView_InsertGroup(hwndList, 0, &lvg);
 
-			lvg.pszHeader = LPGENT("Other");
+			lvg.pszHeader = TranslateT("Other");
 			lvg.iGroupId = 3;
 			ListView_InsertGroup(hwndList, 0, &lvg);
 
