@@ -36,19 +36,19 @@ void LoadOptions()
 	options.iAbsencePeriod2    = db_get_dw(NULL, MODULE_NAME, "iAbsencePeriod2", 30 * 3);
 	options.iSilencePeriod     = db_get_dw(NULL, MODULE_NAME, "iSilencePeriod", 30);
 
-	options.iShowPopup         = db_get_b(NULL, MODULE_NAME, "iShowPopup", 1);
+	options.iShowPopup         = db_get_b(NULL, MODULE_NAME, "iShowPopUp", 1);
 	options.iShowEvent         = db_get_b(NULL, MODULE_NAME, "iShowEvent", 0);
 	options.iShowUDetails      = db_get_b(NULL, MODULE_NAME, "iShowUDetails", 0);
 	options.iShowMessageWindow = db_get_b(NULL, MODULE_NAME, "iShowMessageWindow", 1);
 
-	options.iPopupColorBack    = db_get_dw(NULL, MODULE_NAME, "iPopupColorBack", DEF_COLOR_BACK);
-	options.iPopupColorFore    = db_get_dw(NULL, MODULE_NAME, "iPopupColorFore", DEF_COLOR_FORE);
+	options.iPopupColorBack    = db_get_dw(NULL, MODULE_NAME, "iPopUpColorBack", DEF_COLOR_BACK);
+	options.iPopupColorFore    = db_get_dw(NULL, MODULE_NAME, "iPopUpColorFore", DEF_COLOR_FORE);
 
 	options.iUsePopupColors    = db_get_b(NULL, MODULE_NAME, "iUsePopupColors", 0);
 	options.iUseWinColors      = db_get_b(NULL, MODULE_NAME, "iUseWinColors", 0);
-	options.iPopupDelay        = db_get_b(NULL, MODULE_NAME, "iPopupDelay", 0);
+	options.iPopupDelay        = db_get_b(NULL, MODULE_NAME, "iPopUpDelay", 0);
 
-	options.iShowPopup2        = db_get_b(NULL, MODULE_NAME, "iShowPopup2", 1);
+	options.iShowPopup2        = db_get_b(NULL, MODULE_NAME, "iShowPopUp2", 1);
 	options.iShowEvent2        = db_get_b(NULL, MODULE_NAME, "iShowEvent2", 0);
 	options.action2            = (GoneContactAction)db_get_b(NULL, MODULE_NAME, "Action2", (BYTE)GCA_NOACTION);
 	options.notifyFirstOnline  = db_get_b(NULL, MODULE_NAME, "bShowFirstSight", 0) ? true : false;
@@ -63,12 +63,12 @@ void SaveOptions()
 	db_set_dw(NULL, MODULE_NAME, "iAbsencePeriod2", options.iAbsencePeriod2);
 	db_set_dw(NULL, MODULE_NAME, "iSilencePeriod", options.iSilencePeriod);
 
-	db_set_b(NULL, MODULE_NAME, "iShowPopup", options.iShowPopup);
+	db_set_b(NULL, MODULE_NAME, "iShowPopUp", options.iShowPopup);
 	db_set_b(NULL, MODULE_NAME, "iShowEvent", options.iShowEvent);
 	db_set_b(NULL, MODULE_NAME, "iShowUDetails", options.iShowUDetails);
 	db_set_b(NULL, MODULE_NAME, "iShowMessageWindow", options.iShowMessageWindow);
 
-	db_set_b(NULL, MODULE_NAME, "iShowPopup2", options.iShowPopup2);
+	db_set_b(NULL, MODULE_NAME, "iShowPopUp2", options.iShowPopup2);
 	db_set_b(NULL, MODULE_NAME, "iShowEvent2", options.iShowEvent2);
 	db_set_b(NULL, MODULE_NAME, "Action2", (BYTE)options.action2);
 	db_set_b(NULL, MODULE_NAME, "bShowFirstSight", options.notifyFirstOnline ? 1 : 0);
@@ -78,12 +78,12 @@ void SaveOptions()
 
 void SavePopupOptions()
 {
-	db_set_dw(NULL, MODULE_NAME, "iPopupColorBack", options.iPopupColorBack);
-	db_set_dw(NULL, MODULE_NAME, "iPopupColorFore", options.iPopupColorFore);
+	db_set_dw(NULL, MODULE_NAME, "iPopUpColorBack", options.iPopupColorBack);
+	db_set_dw(NULL, MODULE_NAME, "iPopUpColorFore", options.iPopupColorFore);
 
 	db_set_b(NULL, MODULE_NAME, "iUsePopupColors", options.iUsePopupColors);
 	db_set_b(NULL, MODULE_NAME, "iUseWinColors", options.iUseWinColors);
-	db_set_b(NULL, MODULE_NAME, "iPopupDelay", options.iPopupDelay);
+	db_set_b(NULL, MODULE_NAME, "iPopUpDelay", options.iPopupDelay);
 }
 
 /**

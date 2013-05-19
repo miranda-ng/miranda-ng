@@ -221,7 +221,7 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	db_free(&dbv);
 	UnhookEvent(hModulesLoadedHook);
 
-	usePopups = db_get_b(NULL,modname,"UsePopups",0);
+	usePopups = db_get_b(NULL,modname,"UsePopUps",0);
 
 	// Load the name order
 	for(i=0; i < NAMEORDERCOUNT; i++)

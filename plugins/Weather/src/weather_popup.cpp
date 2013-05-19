@@ -36,7 +36,7 @@ int WeatherPopup(WPARAM wParam, LPARAM lParam)
 {
 	// determine if the popup should display or not
 	if (opt.UsePopup && opt.UpdatePopup && (!opt.PopupOnChange || (BOOL)lParam) &&
-	      !db_get_b((HANDLE)wParam, WEATHERPROTONAME, "DPopup", 0)) 
+	      !db_get_b((HANDLE)wParam, WEATHERPROTONAME, "DPopUp", 0)) 
 	{
 		POPUPDATAT ppd = {0};
 		WEATHERINFO winfo;

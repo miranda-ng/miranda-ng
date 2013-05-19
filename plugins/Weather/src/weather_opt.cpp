@@ -185,10 +185,10 @@ void LoadOptions(void)
 	// advanced
 	opt.DisCondIcon = db_get_b(NULL, WEATHERPROTONAME, "DisableConditionIcon", false);
 	// popup options
-	opt.UsePopup = db_get_b(NULL, WEATHERPROTONAME, "UsePopup", true);
+	opt.UsePopup = db_get_b(NULL, WEATHERPROTONAME, "UsePopUp", true);
 	opt.UpdatePopup = db_get_b(NULL, WEATHERPROTONAME, "UpdatePopup", true);
 	opt.AlertPopup = db_get_b(NULL, WEATHERPROTONAME, "AlertPopup", true);
-	opt.PopupOnChange = db_get_b(NULL, WEATHERPROTONAME, "PopupOnChange", true);
+	opt.PopupOnChange = db_get_b(NULL, WEATHERPROTONAME, "PopUpOnChange", true);
 	opt.ShowWarnings = db_get_b(NULL, WEATHERPROTONAME, "ShowWarnings", true);
 	// popup colors
 	opt.BGColour = db_get_dw(NULL, WEATHERPROTONAME, "BackgroundColour", GetSysColor(COLOR_BTNFACE));
@@ -254,10 +254,10 @@ void SaveOptions(void)
 	// advanced
 	db_set_b(NULL, WEATHERPROTONAME, "DisableConditionIcon", (BYTE)opt.DisCondIcon);
 	// popup options
-	db_set_b(NULL, WEATHERPROTONAME, "UsePopup", (BYTE)opt.UsePopup);
+	db_set_b(NULL, WEATHERPROTONAME, "UsePopUp", (BYTE)opt.UsePopup);
 	db_set_b(NULL, WEATHERPROTONAME, "UpdatePopup", (BYTE)opt.UpdatePopup);
 	db_set_b(NULL, WEATHERPROTONAME, "AlertPopup", (BYTE)opt.AlertPopup);
-	db_set_b(NULL, WEATHERPROTONAME, "PopupOnChange", (BYTE)opt.PopupOnChange);
+	db_set_b(NULL, WEATHERPROTONAME, "PopUpOnChange", (BYTE)opt.PopupOnChange);
 	db_set_b(NULL, WEATHERPROTONAME, "ShowWarnings", (BYTE)opt.ShowWarnings);
 	// popup colors
 	db_set_dw(NULL, WEATHERPROTONAME, "BackgroundColour", opt.BGColour);
