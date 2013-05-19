@@ -6812,31 +6812,31 @@ kB
 Информационни съобщения
 [Show icon in tray for status changes]
 Промяна на състояние
-[Show pop-ups only when the chat room is not active]
+[Show popups only when the chat room is not active]
 Показване на popups, когато чат стаята е активна
-[Show pop-up for topic changes]
+[Show popup for topic changes]
 Показване на popups при промяна на тема
-[Show pop-up for users joining]
+[Show popup for users joining]
 Показване на popups при влизане на потребител
-[Show pop-up for users disconnecting]
+[Show popup for users disconnecting]
 Показване на popups при излизане от мрежата на потребители
-[Show pop-up for messages]
+[Show popup for messages]
 Показване на popups за ново съобщение
-[Show pop-up for actions]
+[Show popup for actions]
 Показване на popups за действия
-[Show pop-up for highlights]
+[Show popup for highlights]
 Показване на popups при отличаване
-[Show pop-up for users leaving]
+[Show popup for users leaving]
 Показване на popups при излизане на потребител
-[Show pop-up for users kicking other user]
+[Show popup for users kicking other user]
 Показване на popups при изгонване на потребител
-[Show pop-up for notices ]
+[Show popup for notices ]
 Показване на popups за известие
-[Show pop-up for name changes]
+[Show popup for name changes]
 Показване на popups при промяна на име
-[Show pop-up for information messages]
+[Show popup for information messages]
 Показване на popups за информационни съобщения
-[Show pop-up for status changes]
+[Show popup for status changes]
 Показване на popups при промяна на състояние
 [Appearance and functionality of chat windows]
 Външен вид и функционалност на чат стаите
@@ -15788,7 +15788,7 @@ Popup за приставката Chat
 Настройки на интерфейса с табове
 [Icons to display in the message log]
 Икони за изобразяване в дневника за съобщения
-[Pop-ups to display]
+[Popups to display]
 Popups за изобразяване
 [Chat Log]
 Чат дневник

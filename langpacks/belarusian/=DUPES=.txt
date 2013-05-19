@@ -1008,29 +1008,29 @@ E-Mail
 Паведамленні
 [Show notices]
 Апавяшчэнні
-[Show pop-up for actions]
+[Show popup for actions]
 Дзеянні
-[Show pop-up for highlights]
+[Show popup for highlights]
 Падсветленыя паведамленні
-[Show pop-up for information messages]
+[Show popup for information messages]
 Інфармацыйныя паведамленні
-[Show pop-up for messages]
+[Show popup for messages]
 Паведамленні
-[Show pop-up for name changes]
+[Show popup for name changes]
 Змены псеўданімаў
-[Show pop-up for notices ]
+[Show popup for notices ]
 Апавяшчэнні
-[Show pop-up for status changes]
+[Show popup for status changes]
 Змены статусаў
-[Show pop-up for topic changes]
+[Show popup for topic changes]
 Змена тэмы
-[Show pop-up for users disconnecting]
+[Show popup for users disconnecting]
 Адключэнні ўдзельнікаў
-[Show pop-up for users joining]
+[Show popup for users joining]
 Далучэнні ўдзельнікаў
-[Show pop-up for users kicking other user]
+[Show popup for users kicking other user]
 Выспятак 
-[Show pop-up for users leaving]
+[Show popup for users leaving]
 Выйсці ўдзельнікаў
 [Show popup]
 Паказваць успл. акно
@@ -2128,7 +2128,7 @@ ID карыстача:
 Абразкі лога паведамленняў
 [Icons to display in the tray]
 Абразкі ў сістэмным латку
-[Pop-ups to display]
+[Popups to display]
 Усплывальныя вокны
 [User's status was changed]
 Статус карыстача змяніўся
@@ -2316,7 +2316,7 @@ ID карыстача:
 Інфармацыйныя паведамленні
 [Show icon for status changes]
 Змены статусаў
-[Show pop-ups only when the chat room is not active]
+[Show popups only when the chat room is not active]
 Паказваць успл. вокны толькі пры не актыўным вакне чат-пакоя
 [%s has left (%s)]
 %s выйшаў (%s)

@@ -2115,7 +2115,7 @@ Dodaj (:) na końcu automatycznie dopełnianych nicków
 Usuń kolory z wiadomości w dzienniku
 [Enable the \'event filter\' for new rooms]
 Włącz "filtr zdarzeń" dla nowych czatów
-[Show pop-ups only when the chat room is not active]
+[Show popups only when the chat room is not active]
 Wyświetlaj popupy tylko, gdy czat jest nieaktywny
 [Chat Module]
 Moduł czatu
