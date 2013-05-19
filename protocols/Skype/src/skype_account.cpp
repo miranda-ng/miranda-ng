@@ -57,9 +57,7 @@ bool CSkypeProto::PrepareLogin()
 	{
 		this->m_iStatus = ID_STATUS_OFFLINE;
 		this->SendBroadcast(ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
-		this->ShowNotification(
-			::TranslateT("You have not entered a Skype name.\n\
-						Configure this in Options->Network->Skype and try again."));
+		this->ShowNotification(::TranslateT("You have not entered a Skype name.\nConfigure this in Options->Network->Skype and try again."));
 		return false;
 	}
 
