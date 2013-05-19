@@ -6,7 +6,7 @@
 ;  Authors: Baloo
 ;============================================================
 [Crypto++ library for SecureIM plugin.]
-
+Knihovna Crypto++ pro doplněk SecureIM.
 ;file \plugins\CryptoPP\src\GPGw\resource.rc
 [GnuPG Plugin - Passphrase]
 Doplněk GnuPG - heslo
@@ -19,6 +19,6 @@ OK
 [Cancel]
 Zrušit
 [GnuPG Plugin - Select public key]
-
+GnuPG doplněk - zvolte veřejný klíč
 [Refresh]
 Aktualizovat

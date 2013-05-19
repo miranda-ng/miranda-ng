@@ -6,7 +6,7 @@
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, url, file or any other event by displaying a popup.]
-
+Zobrazí oznámení při přijetí zprávy, odkazu, souboru nebo při výskytu jiné události.
 ;file \plugins\NewEventNotify\res\resource.rc
 [General Options]
 Obecné možnosti
@@ -80,7 +80,7 @@ Neoznamovat přečtené zprávy
 [Message Session]
 Rozhovor
 [Message Received]
-
+Přijata zpráva
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Oznámení
@@ -108,7 +108,7 @@ Vypnout oznámení nové události
 Oznámení události
 ;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
-
+Přijato %d kontaktů
 [ added you to the contact list]
  si vás přidal do seznamu kontaktů
 [ requested authorization]

@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
-
+Služba pro zobrazení bublinového oznámení ostatními doplňky.
 ;file \plugins\YAPP\res\yapp.rc
 [Popup history]
 Historie oznámení
@@ -69,7 +69,7 @@ Oznámení jsou vypnuta
 Historie oznámení
 ;file \plugins\YAPP\src\notify_imp.cpp
 [YAPP Popups]
-
+YAPP Oznámení
 ;file \plugins\YAPP\src\options.cpp
 [Example]
 Příklad
@@ -112,13 +112,13 @@ Stavy
 [Full-screen app running]
 Celoobrazovkový režim
 [No animate]
-
+Bez animace
 [Horizontal animate]
-
+Horizontální animace
 [Vertical animate]
-
+Vertikální animace
 [You cannot set a default timeout of 0.\nValue has been reset.]
-
+Nemůžete nastavit výchozí dobu zobrazení na 0.\nHodnota byla obnovena.
 [Error]
 Chyba
 [Popups]
@@ -131,7 +131,7 @@ Třídy
 [Disable Popups]
 Vypnout oznámení
 [Enable Popups]
-
+Povolit oznámení
 ;file \plugins\YAPP\src\yapp.cpp
 [Toggle Popups]
 Zapnout/vypnout oznámení

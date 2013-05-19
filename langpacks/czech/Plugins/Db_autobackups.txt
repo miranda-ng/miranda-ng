@@ -6,7 +6,7 @@
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Db autobackuper plugin.]
-
+Doplněk pro zálohování databáze.
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Backup progress]
 Průběh zálohování
@@ -31,14 +31,14 @@ Složka pro zálohování profilů:
 [Browse...]
 Procházet...
 [Go to the "Customize -> Folders" to change settings]
-
+Přejděte do "Vlastní úpravy -> Složky" pro změnu nastavení
 [Disable progress bar]
 Vypnout ukazatel průběhu
 [Disable Popups]
 Vypnout oznámení
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda Databases]
-
+Databáze Mirandy
 [All Files]
 Všechny soubory
 [Backup in Progress]
@@ -53,7 +53,7 @@ Databáze zálohována
 [Backup Profile]
 Zazálohovat profil
 [Save Profile As...]
-
+Uložit profil jako...
 [Database Backups]
 Zálohování databáze
 [Backup Folder]
@@ -61,7 +61,7 @@ Složka pro zálohování profilů
 [Database]
 Databáze
 [Database/Database Backups]
-
+Databáze/Záloha databáze
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to root miranda folder]
 cesta ke kořenové složce Mirandy

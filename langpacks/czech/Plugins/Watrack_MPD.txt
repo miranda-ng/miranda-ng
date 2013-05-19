@@ -6,21 +6,21 @@
 ;  Authors: sss
 ;============================================================
 [Music Player Daemon support for Watrack.]
-
+Podpora Music Player Daemon pro Watrack.
 ;file \plugins\Watrack_MPD\res\watrack_mpd.rc
 [MPD Host]
-
+MPD hostitel
 [Port]
 Port
 [Password]
 Heslo
 ;file \plugins\Watrack_MPD\src\init.cpp
 [Watrack MPD connection]
-
+Watrack MPD připojení
 ;file \plugins\Watrack_MPD\src\options.cpp
 [Winamp Track]
 Sledování hudby
 [Plugins]
 Doplňky
 [Watrack MPD]
-
+Watrack MPD

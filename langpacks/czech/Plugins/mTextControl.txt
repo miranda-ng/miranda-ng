@@ -6,4 +6,4 @@
 ;  Authors: Merlin_de, Victor Pavlychko
 ;============================================================
 [Provides text render API for different plugins.]
-
+Poskytuje API pro vykreslování textu pro různé doplňky.

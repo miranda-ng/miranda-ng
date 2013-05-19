@@ -6,22 +6,22 @@
 ;  Authors: kva
 ;============================================================
 [E-mage LAN protocol support for Miranda NG.]
-
+E-mage LAN protokol pro Mirandu NG.
 ;file \protocols\EmLanProto\res\amdproto.rc
 [Select your IP address]
-
+Zvolte vaši IP adresu
 [LAN Settings]
-
+Nastavení LAN
 [Use computer name]
-
+Použít název počítače
 [Your name]
-Vl. jméno
+Vaše jméno
 [Select your name]
-
+Zvolit vaše jméno
 ;file \protocols\EmLanProto\src\amdproto.cpp
 [User name or '*']
-
+Jméno nebo '*'
 [E-mage LAN protocol]
-
+E-mage LAN protokol
 [Network]
 Sítě

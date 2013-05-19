@@ -77,11 +77,11 @@ Pro nestandardní stavy použít Neviditelný (nikoli Online)
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 Aktivovat podporu pro vlastní smajlíky (EXPERIMENTÁLNÍ + CHYBOVÉ!)
 [Use local time for received messages]
-
+Použít lokální čas počítače pro příchozí zprávy
 [Send "Seen" info when marking messages as read]
-
+Odesílat informaci o přečtení zprávy
 [Use this server for opening links:]
-
+Pro otevírání odkazů použít tento server:
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: Some Facebook things are required.]
 Chyba připojení: Něco je vyžadováno.
@@ -120,11 +120,11 @@ Odkazy
 [Apps and Games]
 Aplikace a hry
 [Classic website]
-
+Klasické stránky
 [Mobile website]
-
+Mobilní stránky
 [Smartphone website]
-
+Smartphone stránky
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt byl odebrán z vašeho seznamu přátel.

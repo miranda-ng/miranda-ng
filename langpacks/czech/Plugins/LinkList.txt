@@ -6,7 +6,7 @@
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
 [Generates a list of extracted URIs from the history.]
-
+Generuje seznam odkazů vyextrahovaných z historie.
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 Hledat
@@ -97,7 +97,7 @@ Pouze e-&mailové adresy
 [&Search]
 &Hledat
 [link]
-
+odkaz
 [Open]
 Otevřít
 [Open in new Window]
@@ -122,11 +122,11 @@ odchozí
 [Filter]
 Filtr
 [no filter]
-
+bez filtru
 [Search Filter]
-
+Vyhledávací filtr
 [no settings]
-
+bez nastavení
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
 [&Create Linklist]
 &Vytvořit seznam odkazů

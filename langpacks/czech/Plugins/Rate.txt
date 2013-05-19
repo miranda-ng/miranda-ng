@@ -6,15 +6,15 @@
 ;  Authors: Kildor, Thief
 ;============================================================
 [Shows rating of contact in contact list (if presents).]
-
+Zobrazuje prioritu kontaktu v seznamu kontaktů (pokud je zvolena).
 ;file \plugins\Rate\src\main.cpp
 [Rate high]
-
+Vysoká priorita
 [Rate medium]
-
+Střední priorita
 [Rate low]
-
+Nízká priorita
 [Contact Rate]
-
+Priorita kontaktu
 [Contact rate]
-
+Priorita kontaktu

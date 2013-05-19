@@ -6,7 +6,7 @@
 ;  Authors: 
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
-
+Zobrazuje kontakty, oznámení událostí a stavy protokolů s podporou rámečků.
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 Nastavení
@@ -269,7 +269,7 @@ Oznámení
 [&Hide/Show]
 Skrýt/Zo&brazit
 [Nowhere]
-
+Nikde
 [&New Group]
 &Nová skupina
 [&Hide Offline Users]

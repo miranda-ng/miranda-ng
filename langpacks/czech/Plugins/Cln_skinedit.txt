@@ -6,7 +6,7 @@
 ;  Authors: Nightwish, Pixel
 ;============================================================
 [Allows inline skin item editing for clist nicer.]
-
+Umožňuje úpravu skinu pro clist nicer.
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 Položky skinu
@@ -60,7 +60,7 @@ Dialog
 <zatím mimo provoz>
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
-
+Zkopírovat z
 [<None>]
 Není
 [Raised]

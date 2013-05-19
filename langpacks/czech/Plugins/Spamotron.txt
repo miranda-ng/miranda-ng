@@ -1,0 +1,160 @@
+﻿;#muuid for Spamotron not found, please specify manually!
+;langpack template for Spamotron
+;file \plugins\Spamotron\res\spamotron.rc
+[Do not send challenge request if message score above]
+Neodesílat výzvu pokud má zpráva index nad
+[Auto-learn messages from approved contacts as ham]
+Automaticky určovat zprávy od schválených kontaktů jako ham
+[Filtering options]
+Možnosti filtrování
+[Learning options]
+Nastavení učení
+[Auto-learn outgoing messages as ham]
+Automaticky určovat odchozí zprávy jako ham
+[Spam]
+Spam
+[Ham]
+
+[Learn message:]
+Learn message:
+[Auto approve contact if message score below]
+Schválit kontakt pokud má zpráva index pod
+[Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and 50 of spam messages.]
+Nezapínejte žádnou z těchto voleb dokud Spam-o-tron nepozná alespoň 20 zpráv jako ham a 50 zpráv jako spam.
+[Learned ham messages:]
+Naučených ham zpráv:
+[Learned spam messages:]
+Naučených spam zpráv:
+[Analyze]
+Analyzovat
+[Auto-learn messages from contacts if not approved in]
+Automaticky brát zprávy od kontaktů nepotvrzených do
+[days as spam]
+dnů jako spam
+[Enabled]
+Zapnuto
+[and learn as ham]
+a určit jako ham
+[Enabled accounts:]
+Povolené účty:
+[Do not reply to messages with words in this list:]
+Neodpovídat na zprávy obsahující slova z tohoto seznamu:
+[Do not reply to the same message more than]
+Neodpovídat na stejnou zprávu více než
+[Flood protection]
+Ochrana proti zahlcení
+[Do not send more than]
+Neposílat více než
+[messages to one contact per day]
+zpráv jednomu kontaktu za den
+[times a day]
+krát denně
+[Settings]
+Nastavení
+[Outgoing message]
+Odchozí zpráva
+[Incoming message with any word from list:]
+Příchozí zpráva obsahující slovo z tohoto seznamu:
+[Auto approve on:]
+Automaticky schválit při:
+[Hide contact until verified]
+Skrýt kontakt dokud není schválen
+[Add permanently to list on verified]
+Po schválení přidat do seznamu na trvalo
+[Log actions to system history]
+Zaznamenat události do historie systému
+[Mode:]
+Mód:
+[Responses: (saved in %response%, %response-n% variables)]
+
+[will be saved in %mathexpr%]
+bude uložen v %mathexpr%
+[Reset to defaults]
+Obnovit výchozí
+[Reply on success:]
+Odpověď při schválení:
+[Send challenge on authorization request:]
+Odeslat výzvu při požadavku o autorizaci:
+[Keep blocked messages in contact history]
+Ponechat blokované zprávy v historii kontaktu
+[Case-sensitive]
+Rozlišovat velikost písmen
+[Send challenge on incoming message:]
+Odeslat výzvu při příchozí zprávě:
+[and mark them unread after approval]
+a po schválení je označit jako nepřečtené
+[Enable popup notifications]
+Povolit oznámení
+[Contact blocked]
+Kontakt zablokován
+[Contact approved]
+Kontakt schválen
+[Appearance]
+Vzhled
+[Foreground]
+Popředí
+[Background]
+Pozadí
+[Timeout]
+Doba zobrazení
+[Default colors]
+Výchozí barvy
+[Default timeout]
+Výchozí doba zobrazení
+[Preview]
+Náhled
+[Windows colors]
+Barvy Windows
+[Challenge sent]
+Výzva odeslána
+;file \plugins\Spamotron\src\bayes.cpp
+[Bayes database path]
+
+;file \plugins\Spamotron\src\common.h
+[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
+
+[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
+
+[Verified.]
+Schválen.
+[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
+
+[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
+
+;file \plugins\Spamotron\src\options.cpp
+[Simple]
+Jednoduché
+[Math expression]
+Matematický výraz
+[Round-robin]
+
+[Random]
+Náhodný
+[Will be automatically evaluated from %mathexpr%]
+Bude automaticky vyhodnocen z %mathexpr%
+[Invalid regular expression.\nKeeping previous value.]
+
+[Message score]
+
+;file \plugins\Spamotron\src\spamotron.cpp
+[Contact %s approved.]
+
+[Message from %s rejected because it reached a maximum for challenge requests per day.]
+
+[Message from %s rejected because it reached a maximum for same responses per day.]
+
+[Message from %s dropped because it has a word from black list.]
+
+[Message from %s dropped because of high spam score.]
+
+[Sending plain challenge to %s.]
+Odesílám jednoduchou výzvu pro %s.
+[Sending round-robin challenge to %s.]
+
+[Sending random challenge to %s.]
+
+[Sending math expression challenge to %s.]
+Odesílám matematický výraz pro %s.
+;file \plugins\Spamotron\src\utils.cpp
+[Their message was]
+Příchozí zpráva byla

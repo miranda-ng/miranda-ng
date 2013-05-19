@@ -6,7 +6,7 @@
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
 [Change status when you send/receive an event.]
-
+Doplněk umožňuje změnu stavu při odeslání/přijetí zprávy, odkazu či souboru.
 ;file \plugins\StatusChange\res\resource.rc
 [Offline]
 Offline
@@ -29,11 +29,11 @@ Mám telefon
 [Out to lunch]
 Jsem na obědě
 [On events...]
-
+Pro události...
 [Send]
-Poslat
+Odeslání
 [Receive]
-
+Přijetí
 [Message]
 Zpráva
 [URL]
@@ -41,9 +41,9 @@ Odkaz
 [File transfer]
 Přenos souboru
 [...change status to...]
-
+...změnit stav na...
 [... if status is...]
-
+...pokud je aktuální stav...
 ;file \plugins\StatusChange\src\main.cpp
 [Status Change]
 Změna stavu

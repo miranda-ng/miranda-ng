@@ -6,7 +6,7 @@
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
-
+Kontrola databáze Mirandy NG.
 ;file \plugins\DbChecker\res\resource.rc
 [whiterect]
 
@@ -106,11 +106,11 @@ Zpracování ještě nebylo dokončeno. Pokud jej nyní zrušíte, změny, kter�
 Zpracování ještě nebylo dokončeno. Pokud se nyní vrátíte zpět, změny, které byly aktuálně provedeny, budou vráceny zpět a originální databáze bude obnovena. Opravdu si přejete vrátit se zpět?
 ;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
-
+Nelze nalézt vhodný doplněk databáze pro otevření '%s'.
 [Error]
 Chyba
 [Database driver '%s' doesn't support checking.]
-
+Doplněk databáze '%s' nepodporuje kontrolu.
 [Database]
 Databáze
 [Total size]

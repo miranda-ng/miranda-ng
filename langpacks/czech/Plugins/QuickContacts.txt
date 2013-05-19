@@ -6,10 +6,10 @@
 ;  Authors: Ricardo Pescuma Domenecci, Heiko Schillinger
 ;============================================================
 [Open contact-specific windows by hotkey.]
-
+Otevře okno se specifickými funkcemi pro kontakty.
 ;file \plugins\QuickContacts\res\resource.rc
 [Last Sent]
-
+Naposledy odesláno
 [Enable last-sent-to]
 Povolit funkci 'Poslední odeslané'
 [recognize all messages sent]
@@ -35,7 +35,7 @@ Je-li Meta skryto, ponechat podkontakty vybraných protokolů
 [Enter username:]
 Zadejte uživatele:
 [Show all contacts (Ctrl+A)]
-
+Zobrazit všechny kontakty (Ctrl+A)
 ;file \plugins\QuickContacts\src\options.cpp
 [Quick Contacts]
 Rychlé kontakty

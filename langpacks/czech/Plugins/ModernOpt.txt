@@ -6,12 +6,12 @@
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
 [Support for new options design.]
-
+Podpora nového stylu nastavení.
 ;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 Přejít na domovskou stránku projektu
 [Sample page]
-
+Ukázková stránka
 [Miranda NG Options]
 Miranda - možnosti nastavení
 [Use arrow keys to choose category]
@@ -30,7 +30,7 @@ Extra
 [Home]
 Domov
 [Miranda NG configuration center]
-
+Centrum nastavení Mirandy NG
 [Accounts]
 Účty
 [Setup your account information to start messaging.]

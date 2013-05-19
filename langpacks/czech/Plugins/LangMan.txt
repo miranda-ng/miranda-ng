@@ -21,17 +21,17 @@ Verze:
 [Locale:]
 Lokalizace:
 [Download more Language Packs]
-Stáhnout další překlady
+Stáhnout další jazykové balíčky
 [Please restart Miranda NG for your changes to take effect.]
 Poznámka: Tato změna vyžaduje restart programu Miranda NG.
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
-
+Znovu načíst jazyk
 ;file \plugins\LangMan\src\options.cpp
 [All installed plugins are included.]
 Všechny nainstalované doplňky jsou přeloženy.
 [(incompatible)]
-
+(nekompatibilní)
 [Unknown]
 neznámý
 [Current]

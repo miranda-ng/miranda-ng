@@ -6,4 +6,4 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 [Displays the Accounts window at the first start.]
-
+Zobrazí okno s účty při prvním spuštění.

@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Sets once-off, daily, weekly and weekday alarms.]
-
+Umožňuje nastavit alarm pro konkrétní čas, denní, týdenní a také pro konkrétní dny v týdnu.
 ;file \plugins\Alarms\res\resource.rc
 [New]
 Nový
@@ -109,7 +109,7 @@ Odložit
 [Static]
 Statický
 [Reminder Frame Context]
-
+Rámeček s uporozněním
 [&Suspend]
 &Odložit
 [&Edit...]
@@ -123,7 +123,7 @@ M&ožnosti...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 [Unknown command issued: "%s"]
-
+Neznámý příkaz: "%s"
 [Set Alarm]
 Nová připomínka
 ;file \plugins\Alarms\src\alarm_win.cpp
@@ -132,17 +132,17 @@ Ukázka připomínky
 [Some example text. Example, example, example.]
 Žluťoučký kůň úpěl ďábelské ódy.
 [5 mins]
-
+5 minut
 [15 mins]
-
+15 minut
 [30 mins]
-
+30 minut
 [1 hour]
-
+1 hodina
 [1 day]
-
+1 den
 [1 week]
-
+1 týden
 [Title]
 Název
 [Background]

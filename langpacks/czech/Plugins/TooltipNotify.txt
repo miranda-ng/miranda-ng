@@ -90,8 +90,8 @@ Oznámení
 [** Unknown contacts **]
 ** neznámé kontakty **
 [Not Idle]
-
+Není nečinný
 [Unknown]
 neznámý
 [is]
-
+je

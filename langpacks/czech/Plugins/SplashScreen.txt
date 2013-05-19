@@ -6,7 +6,7 @@
 ;  Authors: nullbie, Thief
 ;============================================================
 [Shows a splash at Miranda startup.]
-
+Zobrazí logo při spuštění Mirandy.
 ;file \plugins\SplashScreen\res\splash.rc
 [Splash Options]
 Logo při spuštění
@@ -42,14 +42,14 @@ Tento doplněk vyžaduje knihovnu advaimg.dll, potažmo program Miranda IM 0.7 n
 Náhled...
 ;file \plugins\SplashScreen\src\main.cpp
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-
+Knihovna advaimg.dll je buď zastaralá nebo porušená. Stáhněte si aktuální z distribuce Mirandy.
 [Error]
 Chyba
 [Call Splash Service]
-
+Zavolat službu pro 
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
-
+Grafické soubory
 [Sound Files]
 Zvukové soubory
 [Skins]

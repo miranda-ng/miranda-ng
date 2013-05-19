@@ -6,16 +6,16 @@
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 [Allows you to send and receive contacts.]
-
+Umožňuje odesílat a přijímat kontakty.
 ;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
 Poslat kontakty
 [&A]
-
+&A
 [&D]
-
+&D
 [&H]
-
+&H
 [Choose contacts to be send:]
 Vyberte kontakty k odeslání:
 [&Send]

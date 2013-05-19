@@ -6,9 +6,9 @@
 ;  Authors: eugene.nv
 ;============================================================
 [Adds Restart menu item.]
-
+Přidává položku Restart do hlavního menu.
 ;file \plugins\Restart\src\restart.cpp
 [Restart]
 Restart
 [Restart Plugin]
-
+Restart doplněk

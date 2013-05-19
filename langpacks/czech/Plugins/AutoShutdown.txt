@@ -49,7 +49,7 @@ Nastavit...
 [Shutdown when &prozessor usage drops below:]
 Ukončit pokud vytížení &procesoru klesne pod:
 [(current: 0%)]
-
+(aktuálně: 0 %)
 [Shutdown when all contacts are &offline]
 Ukončit po přechodu všech kontaktů &offline
 [Shutdown when all &file transfers are finished]
@@ -148,7 +148,7 @@ Všechna modemová připojení budou za %u sek. automaticky ukončena.
 [The computer will automatically be shut down in %u second(s).]
 Tento počítač bude za %u sek. automaticky vypnut.
 [Inititiating the shutdown process failed!\nReason: %s]
-
+Inicializace ukončovací procedury selhala!\nDůvod: %s
 [Close Miranda NG]
 Ukončit program Miranda NG
 [Set Miranda NG offline]
@@ -168,7 +168,7 @@ Zamknout počítač
 [Hang up dialup connections]
 Odpojit modem od sítě
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
-
+Přepne všechny protokoly do stavu offline a ukončí program Miranda NG.
 [Sets all Miranda NG protocols to offline.]
 Přepne všechny protokoly do stavu offline.
 [Logs the current Windows user off so that another user can log in.]

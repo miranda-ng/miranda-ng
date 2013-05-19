@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [A contact list for blind folks.]
-
+Seznam kontaktů pro nevidomé.
 ;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 Smazání kontaktu
@@ -27,7 +27,7 @@ Klávesové zkratky
 [Show/Hide:]
 Zobrazit/Skrýt:
 [HotKey1]
-
+Klávesa1
 [Read Message:]
 Přečíst zprávu:
 [Web Search:]
@@ -145,9 +145,9 @@ Kontakt:
 [Group:]
 Skupina:
 [Divider:]
-
+Oddělovač:
 [Info:]
-
+Informace:
 [Status Bar]
 Stavová lišta
 [Show status bar]
@@ -197,7 +197,7 @@ Oznámení
 [&Hide/Show]
 Skrýt/Zo&brazit
 [Nowhere]
-
+Nikde
 [&New Group]
 &Nová skupina
 [&Hide Offline Users]
@@ -244,11 +244,11 @@ Jsem na obědě
 [On the phone]
 Mám telefon
 [Group: %name% %count% [%mode%]]
-
+Skupina: %name% %count% [%mode%]
 [Divider: %s]
-
+Oddělovač: %s
 [Info: %s]
-
+Informace: %s
 [List]
 Seznam
 ;file \plugins\Clist_blind\src\clistopts.cpp
@@ -261,4 +261,4 @@ neznámý protokol
 [Expanded]
 Rozbalený
 [Colapsed]
-
+Sbalený

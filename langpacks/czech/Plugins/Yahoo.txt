@@ -17,7 +17,7 @@ Přezdívka:
 [Create a new Yahoo account using the Yahoo website]
 Zřídit nový účet prostřednictvím domovské stránky Yahoo
 [Expert]
-
+Pokročilé
 [Use Yahoo Address Book (YAB)]
 Použít adresář Yahoo (YAB)
 [Show Avatars]
@@ -63,19 +63,19 @@ Protokol:
 [Client:]
 Klient:
 [Chat Room Invitation Request]
-
+Pozvánka ke skupinovému rozhovoru
 [&Join]
 Při&jít
 [&Deny]
 O&dmítnout
 [Denial Message]
-
+Zpráva pro odmítnutí
 [Invitation Message]
-
+Zpráva pro pozvání
 [Host]
-
+Hostitel
 [Invite Buddy To Chat Room]
-
+Pozvat přítele 
 [Screen Name]
 Identifikátor
 [&Invite]
@@ -83,7 +83,7 @@ Identifikátor
 [&Cancel]
 &Zrušit
 [Invitation reason]
-
+Důvod pozvání
 [Add]
 Přidat
 ;file \protocols\Yahoo\src\avatar.cpp
@@ -93,7 +93,7 @@ Avatary
 [[miranda] Got conference invite to room: %s with msg: %s]
 Přišla pozvánka na konferenci v místnosti %s. Text: %s.
 [%s denied invitation with message: %s]
-
+%s odmítnul pozvánku s odpovědí: %s
 [Me]
 Já
 [Others]
@@ -107,9 +107,9 @@ Pozvat k d&iskusi...
 [User &history]
 Zobrazit &historii
 [Join My Conference...]
-
+Připojit ke konferenci...
 [No, thank you...]
-
+Ne, děkuji...
 ;file \protocols\Yahoo\src\icolib.cpp
 [Main]
 Hlavní
@@ -134,7 +134,7 @@ Překročen časový limit odeslání zprávy.
 Zpráva je příliš dlouhá. Protokol Yahoo umožňuje napsat max. 800 znaků (v kódování UTF8).
 ;file \protocols\Yahoo\src\links.cpp
 [YAHOO Link Protocol]
-
+Yahoo Link protokol
 ;file \protocols\Yahoo\src\main.cpp
 [YAHOO plugin HTTP connections]
 Yahoo - spojení pomocí protokolu HTTP
@@ -150,7 +150,7 @@ Yahoo :: Seznam filtrovaných
 [Please enter a valid buddy name to ignore.]
 Zadejte prosím platnou přezdívku.
 [The buddy is already on your ignore list. ]
-
+Tento uživatel je již ve vašem seznamu ignorovaných.
 [You need to be connected to Yahoo to remove from the Ignore List.]
 Položku ze seznamu lze odebrat až po připojení do sítě Yahoo.
 [Please select a buddy on the ignore list to remove.]
@@ -194,7 +194,7 @@ Sezn&am kontaktů
 [&Calendar]
 &Kalendář
 [Create Conference]
-
+Vytvořit konferenci
 [&Show Profile]
 &Zobrazit profil
 ;file \protocols\Yahoo\src\webcam.cpp
@@ -206,11 +206,11 @@ Připomínka
 [%s has rejected your request and sent the following message:]
 %s odmítl/odmítla žádost. Text zprávy:
 [Invalid Contact]
-
+Neplatný kontakt
 [The id you tried to add is invalid.]
-
+Zadané ID je neplatné.
 [Unknown Error??.]
-
+Neznámá chyba.
 [New Mail]
 Nová pošta
 [You Have %i unread msgs]
@@ -220,7 +220,7 @@ Nová pošta (zpráv: %i)
 [From: %s\nSubject: %s]
 Od: %s\nPředmět: %s
 [Yahoo System Message]
-
+Systémová zpráva Yahoo
 [Yahoo Ping Error]
 Chyba spojení s Yahoo
 [Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
