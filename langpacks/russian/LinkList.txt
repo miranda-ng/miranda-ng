@@ -19,6 +19,7 @@ http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/Bass_interface.tx
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/Boltun.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/BossKey.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/BuddyExpectator.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/BuddyPounce.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/ChangeKeyboardLayout.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/ClientChangeNotify.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/Clist_blind.txt
@@ -55,6 +56,7 @@ http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/GG.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/GTalkExt.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/HistoryPP.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/HistorySweeper.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/HTTPServer.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/ICQ.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/ICQ_Plus.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/IEView.txt
@@ -75,6 +77,7 @@ http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/MobileState.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/ModernOpt.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/MRA.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/mRadio.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/MsgPopup.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/Msg_Export.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/MSN.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/mTextControl.txt
@@ -83,16 +86,19 @@ http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/NewEventNotify.tx
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/NewsAggregator.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/NewXstatusNotify.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/New_GPG.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/NIMcontact.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/NoHistory.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/NotesReminders.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/NotifyAnything.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/Nudge.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/Omegle.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/OpenFolder.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/PackUpdater.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/PasteIt.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/Ping.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/PluginUpdater.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/PManagerEx.txt
-http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/Popup.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/PopUp.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/QuickContacts.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/QuickMessages.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/QuickReplies.txt
@@ -112,10 +118,12 @@ http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/SimpleStatusMsg.t
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/SMCN.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/SmileyAdd.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/SMS.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/Spamotron.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/SpellChecker.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/SplashScreen.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/StartPosition.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/StartupStatus.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/StatusChange.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/StopSpam.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/TabSRMM.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/Tipper.txt
@@ -135,6 +143,7 @@ http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/Weather.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/WhenWasIt.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/WUMF.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/XFire.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/XSoundNotify.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/Yahoo.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/YAMN.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/YAPP.txt
