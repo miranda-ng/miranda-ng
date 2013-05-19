@@ -233,7 +233,7 @@ function OutputFiles(TranslatedArray,UntranslatedArray,FileName) {
     //Write untranslated array into file, if /untranslated specified and there is something in array
     if (untranslated & UntranslatedArray.length>0) {
         //redefine Untranslated file path and name, if /untranslated:"/path/plugins" specified and this is not a =CORE=.txt file
-        if (UnTranslatedPath!="yes" && FileName!="=CORE=.txt") UnTranslatedFile=UnTranslatedPath+"\\"+FileName;
+        if (UnTranslatedPath!="yes"/* && FileName!="=CORE=.txt"*/) UnTranslatedFile=UnTranslatedPath+"\\"+FileName;
         if (log) WScript.Echo("Untranslated in: "+UnTranslatedFile);
         WriteToUnicodeFile(UntranslatedArray,UnTranslatedFile);
         }
