@@ -151,7 +151,7 @@
 [Contact Menu]
 [Extra status]
 [Custom Status]
-;file \protocols\MRA\src\MraPopup.cpp
+;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 [Debug]
 [Information]

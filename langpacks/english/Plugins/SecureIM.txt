@@ -213,7 +213,6 @@
 [Key Popup]
 [Secure Popup]
 [Message Popup]
-[Popups]
 ;file \plugins\SecureIM\src\svcs_srmm.cpp
 [SecureIM [Native]]
 [SecureIM [PGP]]

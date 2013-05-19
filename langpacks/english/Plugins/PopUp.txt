@@ -157,10 +157,8 @@
 [Contacts]
 [Advanced]
 [Toggle Popups]
-[Enable popups]
-[Disable popups]
-[Enable &popup module]
-[Disable &popup module]
+[Enable Popups]
+[Disable Popups]
 [Popup Plus]
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 ;file \plugins\Popup\src\opt_adv.cpp

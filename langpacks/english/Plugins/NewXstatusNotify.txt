@@ -170,7 +170,6 @@
 [Protocol]
 [Filtering]
 [Message log]
-[Popups]
 ;file \plugins\NewXstatusNotify\src\popup.h
 [Open message window]
 [Close popup]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: YAPP.dll
 ;  Plugin: YAPP
-;  Version: 0.5.0.10
+;  Version: 0.5.0.11
 ;  Authors: Scott Ellis
 ;============================================================
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
@@ -33,6 +33,10 @@
 [Background colour:]
 [Set timeout]
 [Timeout value (0 = default):]
+;file \plugins\YAPP\src\icons.cpp
+[Popups are enabled]
+[Popups are disabled]
+[Popup History]
 ;file \plugins\YAPP\src\notify_imp.cpp
 [YAPP Popups]
 ;file \plugins\YAPP\src\options.cpp
@@ -67,9 +71,8 @@
 ;file \plugins\YAPP\src\services.cpp
 [Disable Popups]
 [Enable Popups]
-[Popup History]
 ;file \plugins\YAPP\src\yapp.cpp
-[Popups]
+[Toggle Popups]
 [First line]
 [Second line]
 [Time]
