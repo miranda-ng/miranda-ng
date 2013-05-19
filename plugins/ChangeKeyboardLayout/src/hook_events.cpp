@@ -178,7 +178,7 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 
 	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPTION_FORM);
-		odp.pszGroup = LPGEN("PopUps");
+		odp.pszGroup = LPGEN("Popups");
 		odp.pfnDlgProc = DlgPopupsProcOptions;
 		Options_AddPage(wParam, &odp);
 	}
@@ -230,12 +230,12 @@ int CALLBACK CKLPopupDlgProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lP
 		if (HIWORD(wParam) == STN_CLICKED) {
 			if (!IsBadStringPtr(ptszPopupText, MaxTextSize))
 				CopyTextToClipboard(ptszPopupText);
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 		}
 		break;
 
 	case WM_CONTEXTMENU:
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 
 	case UM_POPUPACTION:

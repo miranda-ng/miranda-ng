@@ -183,7 +183,7 @@ void GetErrorMessage (DWORD dwLastError, CString &msg)
 
 static void PopupOrMessageBox (LPPOPUPDATAT ppdp)
 {
-	if (CALLSERVICE_NOTFOUND == PUAddPopUpT (ppdp))
+	if (CALLSERVICE_NOTFOUND == PUAddPopupT (ppdp))
 	{
 		MSGBOXPARAMS mbp = { 0 };
 		mbp.cbSize = sizeof (MSGBOXPARAMS);

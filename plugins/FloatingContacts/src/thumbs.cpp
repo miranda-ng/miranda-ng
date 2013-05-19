@@ -441,7 +441,7 @@ void ThumbInfo::OnLButtonUp()
 	RECT	rcOverlap;
 
 	if (!bMouseMoved && fcOpt.bUseSingleClick && bMouseIn){
-		PopUpMessageDialog();
+		PopupMessageDialog();
 	}
 
 	//ThumbDeselect( TRUE );
@@ -828,7 +828,7 @@ void ThumbInfo::UpdateContent()
 	}
 }
 
-void ThumbInfo::PopUpMessageDialog( )
+void ThumbInfo::PopupMessageDialog( )
 {
 	CallService( MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)hContact, 0 );
 }

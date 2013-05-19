@@ -82,7 +82,7 @@ Useful if you've missed a popup when it appeared.
 wParam - 0
 lParam - 0
 */
-#define MS_POPUP_SHOWHISTORY "PopUp/ShowHistory"
+#define MS_POPUP_SHOWHISTORY "Popup/ShowHistory"
 
 extern PopupHistoryList lstPopupHistory; //defined in main.cpp
 extern HWND hHistoryWindow; //the history window

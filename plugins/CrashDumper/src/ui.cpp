@@ -272,7 +272,7 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_CONTEXTMENU:
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 
 	case WM_COMMAND:
@@ -292,7 +292,7 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		}
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 
 	case UM_FREEPLUGINDATA:
@@ -321,7 +321,7 @@ void ShowMessage(int type, const TCHAR* format, ...)
 		pi.PluginWindowProc = DlgProcPopup;
 		pi.PluginData = (void*)type;
 
-		PUAddPopUpT(&pi);
+		PUAddPopupT(&pi);
 	}
 	else
 		MessageBox(NULL, pi.lptzText, TEXT(PluginName), MB_OK | MB_ICONINFORMATION);

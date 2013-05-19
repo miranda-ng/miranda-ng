@@ -298,7 +298,7 @@ int CTooltipNotify::InitializeOptions(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = m_hDllInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszTitle = LPGEN("Tooltip Notify");
-	odp.pszGroup = LPGEN("PopUps");
+	odp.pszGroup = LPGEN("Popups");
 	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = CTooltipNotify::OptionsDlgProcWrapper;

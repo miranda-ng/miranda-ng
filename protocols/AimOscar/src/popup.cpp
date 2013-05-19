@@ -43,13 +43,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 			if (p->url != NULL)
 				ShellExecuteA(NULL, "open", p->url, NULL, NULL, SW_SHOW);
 
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			return 0;
 		}
 		break;
 
 	case WM_CONTEXTMENU:
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 
 	case UM_FREEPLUGINDATA:

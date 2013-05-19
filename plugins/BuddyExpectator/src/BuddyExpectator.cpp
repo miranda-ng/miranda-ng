@@ -93,7 +93,7 @@ time_t getLastInputMsg(HANDLE hContact)
 }
 
 /**
- * PopUp window procedures
+ * Popup window procedures
  */
 
 LRESULT CALLBACK HidePopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -102,23 +102,23 @@ LRESULT CALLBACK HidePopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
 			db_set_b(PUGetContact(hWnd), "CList", "Hidden", 1);
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 		}
 		break;
 
 	case WM_CONTEXTMENU:
 		db_set_b(PUGetContact(hWnd), MODULE_NAME, "NeverHide", 1);
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 
 	case UM_POPUPACTION:
 		if (wParam == 2) {
 			db_set_b(PUGetContact(hWnd), "CList", "Hidden", 1);
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 		}
 		if (wParam == 3) {
 			db_set_b(PUGetContact(hWnd), MODULE_NAME, "NeverHide", 1);
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 		}
 		break;
 
@@ -139,12 +139,12 @@ LRESULT CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 				if (options.MissYouIcon)
 					ExtraIcon_Clear(hExtraIcon, PUGetContact(hWnd));
 			}
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 		}
 		break;
 
 	case WM_CONTEXTMENU:
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 
 	case UM_POPUPACTION:
@@ -152,7 +152,7 @@ LRESULT CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			db_set_b(PUGetContact(hWnd), MODULE_NAME, "MissYou", 0);
 			if (options.MissYouIcon)
 				ExtraIcon_Clear(hExtraIcon, PUGetContact(hWnd));
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 		}
 		break;
 
@@ -169,14 +169,14 @@ LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 		if (HIWORD(wParam) == STN_CLICKED) {
 			CallServiceSync(MS_CLIST_REMOVEEVENT, (WPARAM)PUGetContact(hWnd), 0);
 			CallServiceSync("BuddyExpectator/actionReturned", (WPARAM)PUGetContact(hWnd), 0);
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 		}
 		break;
 
 	case WM_CONTEXTMENU:
 		CallServiceSync(MS_CLIST_REMOVEEVENT, (WPARAM)PUGetContact(hWnd), 0);
 		setLastSeen(PUGetContact(hWnd));
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 
 	case UM_FREEPLUGINDATA:
@@ -194,13 +194,13 @@ LRESULT CALLBACK PopupDlgProcNoSet(HWND hWnd, UINT message, WPARAM wParam, LPARA
 		if (HIWORD(wParam) == STN_CLICKED) {
 			CallServiceSync(MS_CLIST_REMOVEEVENT, (WPARAM)PUGetContact(hWnd), 0);
 			CallServiceSync("BuddyExpectator/actionStillAbsent", (WPARAM)PUGetContact(hWnd), 0);
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 		}
 		break;
 
 	case WM_CONTEXTMENU:
 		CallServiceSync(MS_CLIST_REMOVEEVENT, (WPARAM)PUGetContact(hWnd), 0);
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 
 	case UM_FREEPLUGINDATA:
@@ -239,8 +239,8 @@ bool isContactGoneFor(HANDLE hContact, int days)
 		mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, TranslateT("%d days since last message"), daysSinceMessage);
 
 		if (!options.iUsePopupColors) {
-			ppd.colorBack = options.iPopUpColorBack;
-			ppd.colorText = options.iPopUpColorFore;
+			ppd.colorBack = options.iPopupColorBack;
+			ppd.colorText = options.iPopupColorFore;
 		}
 		ppd.PluginWindowProc = HidePopupDlgProc;
 		ppd.iSeconds = -1;
@@ -264,21 +264,21 @@ void ReturnNotify(HANDLE hContact, TCHAR *message)
 
 	SkinPlaySound("buddyExpectatorReturn");
 
-	if (options.iShowPopUp > 0) {
-		// Display PopUp
+	if (options.iShowPopup > 0) {
+		// Display Popup
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
 		_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
 		_tcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
 		if (!options.iUsePopupColors) {
-			ppd.colorBack = options.iPopUpColorBack;
-			ppd.colorText = options.iPopUpColorFore;
+			ppd.colorBack = options.iPopupColorBack;
+			ppd.colorText = options.iPopupColorFore;
 		}
 		ppd.PluginWindowProc = PopupDlgProc;
 		ppd.PluginData = NULL;
-		ppd.iSeconds = options.iPopUpDelay;
-		PUAddPopUpT(&ppd);
+		ppd.iSeconds = options.iPopupDelay;
+		PUAddPopupT(&ppd);
 	}
 
 	if (options.iShowEvent > 0) {
@@ -302,22 +302,22 @@ void GoneNotify(HANDLE hContact, TCHAR *message)
 	if (db_get_b(hContact, "CList", "NotOnList", 0) == 1 || db_get_b(hContact, "CList", "Hidden", 0) == 1)
 		return;
 
-	if (options.iShowPopUp2 > 0) {
-		// Display PopUp
+	if (options.iShowPopup2 > 0) {
+		// Display Popup
 		POPUPDATAT ppd = {0};
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
 		_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
 		_tcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
 		if (!options.iUsePopupColors) {
-			ppd.colorBack = options.iPopUpColorBack;
-			ppd.colorText = options.iPopUpColorFore;
+			ppd.colorBack = options.iPopupColorBack;
+			ppd.colorText = options.iPopupColorFore;
 		}
 		ppd.PluginWindowProc = PopupDlgProcNoSet;
 		ppd.PluginData = NULL;
-		ppd.iSeconds = options.iPopUpDelay;
+		ppd.iSeconds = options.iPopupDelay;
 
-		PUAddPopUpT(&ppd);
+		PUAddPopupT(&ppd);
 	}
 
 	if (options.iShowEvent2 > 0) {
@@ -499,7 +499,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 
 	if (prevStatus == ID_STATUS_OFFLINE) {
 		if (db_get_b(hContact, MODULE_NAME, "MissYou", 0)) {
-			// Display PopUp
+			// Display Popup
 			POPUPDATAT_V2 ppd = {0};
 			ppd.cbSize = sizeof(ppd);
 
@@ -508,8 +508,8 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 			_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
 			_tcsncpy(ppd.lptzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
 			if (!options.iUsePopupColors) {
-				ppd.colorBack = options.iPopUpColorBack;
-				ppd.colorText = options.iPopUpColorFore;
+				ppd.colorBack = options.iPopupColorBack;
+				ppd.colorText = options.iPopupColorFore;
 			}
 			ppd.PluginWindowProc = MissYouPopupDlgProc;
 			ppd.PluginData = NULL;
@@ -555,7 +555,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 
 		ReturnNotify(hContact, message);
 
-		if ((options.iShowMessageWindow == 0 && options.iShowUDetails == 0) || (options.iShowEvent == 0 && options.iShowPopUp == 0))
+		if ((options.iShowMessageWindow == 0 && options.iShowUDetails == 0) || (options.iShowEvent == 0 && options.iShowPopup == 0))
 			setLastSeen(hContact);
 	}
 	else setLastSeen(hContact);

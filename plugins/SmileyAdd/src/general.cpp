@@ -271,6 +271,6 @@ void ReportError(const TCHAR* errmsg)
 	_tcscpy(pd.lpwzContactName, title);
 	_tcscpy(pd.lpwzText, errmsg);
 	pd.iSeconds = -1;
-	if (PUAddPopUpT(&pd) == CALLSERVICE_NOTFOUND)
+	if (PUAddPopupT(&pd) == CALLSERVICE_NOTFOUND)
 		MessageBox(NULL, errmsg, title, MB_OK | MB_ICONWARNING | MB_TOPMOST);
 }

@@ -94,7 +94,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewXstatusNotify", "..\plug
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nudge", "..\plugins\Nudge\nudge_10.vcxproj", "{8190CFAA-3B73-43D8-9101-8368E21F1864}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PopUp", "..\plugins\Popup\PopUp_10.vcxproj", "{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Popup", "..\plugins\Popup\Popup_10.vcxproj", "{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickMessages", "..\plugins\QuickMessages\quickmessages_10.vcxproj", "{DD76B998-ED0D-4BFD-9660-3ADC3A334872}"
 EndProject
@@ -207,7 +207,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataBase Crypto Modules", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Message Windows and Dialogs", "Message Windows and Dialogs", "{87D96006-542C-4396-87EF-68E3C3D2797F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PopUp Modules", "PopUp Modules", "{31B8FE37-AC37-40AC-85AC-78B04C2CAC17}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Popup Modules", "Popup Modules", "{31B8FE37-AC37-40AC-85AC-78B04C2CAC17}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service Modules", "Service Modules", "{A93476F5-9C4C-48A6-A8A4-C79D804A3228}"
 EndProject

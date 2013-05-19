@@ -336,5 +336,5 @@ void popupWatchedVar(HANDLE hContact,const char* module,const char* setting)
 	ppd.colorBack = colorBack;
 	ppd.colorText = colorText;
 	ppd.iSeconds = timeout ? timeout : -1;
-	PUAddPopUp(&ppd);
+	PUAddPopup(&ppd);
 }

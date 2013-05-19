@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 WORD SETTING_MAXIMUMWIDTH_MAX = GetSystemMetrics(SM_CXSCREEN);
 
-#define MENUCOMMAND_HISTORY "PopUp/ShowHistory"
-#define MENUCOMMAND_SVC "PopUp/EnableDisableMenuCommand"
+#define MENUCOMMAND_HISTORY "Popup/ShowHistory"
+#define MENUCOMMAND_SVC "Popup/EnableDisableMenuCommand"
 
 
 //===== MessageBoxes =====
@@ -76,7 +76,7 @@ static int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.pszTitle      = MODULNAME_PLU;
 
 	odp.pszTab      = LPGEN("General");
-	odp.pfnDlgProc  = DlgProcPopUpGeneral;
+	odp.pfnDlgProc  = DlgProcPopupGeneral;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP_GENERAL);
 	Options_AddPage(wParam, &odp);
 
@@ -96,7 +96,7 @@ static int OptionsInitialize(WPARAM wParam, LPARAM)
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTab     = LPGEN("Advanced");
-	odp.pfnDlgProc  = DlgProcPopUpAdvOpts;
+	odp.pfnDlgProc  = DlgProcPopupAdvOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP_ADVANCED);
 	Options_AddPage(wParam, &odp);
 
@@ -119,7 +119,7 @@ static int IconsChanged(WPARAM, LPARAM)
 	LoadActions();
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	if (PopUpOptions.ModuleIsEnabled == TRUE) { //The module is enabled.
+	if (PopupOptions.ModuleIsEnabled == TRUE) { //The module is enabled.
 		//The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
 		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON, 0);
 	}
@@ -143,13 +143,13 @@ static int TTBLoaded(WPARAM, LPARAM)
 	ttb.pszService = MENUCOMMAND_SVC;
 	ttb.lParamUp = 1;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;
-	if (PopUpOptions.ModuleIsEnabled)
+	if (PopupOptions.ModuleIsEnabled)
 		ttb.dwFlags |= TTBBF_PUSHED;
 	ttb.name = LPGEN("Toggle Popups");
 	ttb.hIconHandleUp = Skin_GetIconHandle(ICO_TB_POPUP_OFF);
 	ttb.hIconHandleDn = Skin_GetIconHandle(ICO_TB_POPUP_ON);
-	ttb.pszTooltipUp = LPGEN("Enable popups");
-	ttb.pszTooltipDn = LPGEN("Disable popups");
+	ttb.pszTooltipUp = LPGEN("Enable Popups");
+	ttb.pszTooltipDn = LPGEN("Disable Popups");
 	hTTButton = TopToolbar_AddButton(&ttb);
 	return 0;
 }
@@ -158,20 +158,20 @@ static int TTBLoaded(WPARAM, LPARAM)
 INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	if (PopUpOptions.ModuleIsEnabled) {
+	if (PopupOptions.ModuleIsEnabled) {
 		//The module is enabled.
 		//The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
-		PopUpOptions.ModuleIsEnabled = FALSE;
+		PopupOptions.ModuleIsEnabled = FALSE;
 		db_set_b(NULL, MODULNAME, "ModuleIsEnabled", FALSE);
-		mi.ptszName = LPGENT("Enable &popup module");
+		mi.ptszName = LPGENT("Enable Popups");
 		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_OFF,0);
 	}
 	else {
 		//The module is disabled.
 		//The action to do is enable popups (show enabled), then write "disable popup" in the new item.
-		PopUpOptions.ModuleIsEnabled = TRUE;
+		PopupOptions.ModuleIsEnabled = TRUE;
 		db_set_b(NULL, MODULNAME, "ModuleIsEnabled", TRUE);
-		mi.ptszName = LPGENT("Disable &popup module");
+		mi.ptszName = LPGENT("Disable Popups");
 		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON,0);
 	}
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
@@ -180,7 +180,7 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 	Menu_ModifyItem(hMenuRoot, &mi);
 
 	if (hTTButton)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, (PopUpOptions.ModuleIsEnabled) ? TTBST_PUSHED : TTBST_RELEASED);
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, (PopupOptions.ModuleIsEnabled) ? TTBST_PUSHED : TTBST_RELEASED);
 
 	return 0;
 }
@@ -201,14 +201,14 @@ void InitMenuItems(void)
 	// Build main menu
 	mi.position		= -1000000000 /*1000001*/;
 	mi.ptszName		= LPGENT(MODULNAME_PLU);
-	mi.hIcon		= IcoLib_GetIcon(PopUpOptions.ModuleIsEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF ,0);
+	mi.hIcon		= IcoLib_GetIcon(PopupOptions.ModuleIsEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF ,0);
 	hMenuRoot		= Menu_AddMainMenuItem(&mi);
 
 	// Add item to main menu
 	mi.hParentMenu    = (HGENMENU)hMenuRoot;
 
 	CreateServiceFunction(MENUCOMMAND_SVC, svcEnableDisableMenuCommand);
-	mi.ptszName       = PopUpOptions.ModuleIsEnabled ? LPGENT("Disable &popup module") : LPGENT("Enable &popup module");
+	mi.ptszName       = PopupOptions.ModuleIsEnabled ? LPGENT("Disable Popups") : LPGENT("Enable Popups");
 	mi.pszService     = MENUCOMMAND_SVC;
 	hMenuItem         = Menu_AddMainMenuItem(&mi);
 
@@ -226,7 +226,7 @@ void InitMenuItems(void)
 //===== GetStatus =====
 INT_PTR GetStatus(WPARAM, LPARAM)
 {
-	return PopUpOptions.ModuleIsEnabled;
+	return PopupOptions.ModuleIsEnabled;
 }
 
 
@@ -257,8 +257,8 @@ static int ModulesLoaded(WPARAM,LPARAM)
 		(CallService(MS_HPP_GETVERSION, 0, 0) >= PLUGIN_MAKE_VERSION(1,5,0,112));
 	//check if MText plugin is installed
 	if (MText.Register) {
-		htuText		= MText.Register("PopUp Plus/Text", MTEXT_FANCY_DEFAULT);
-		htuTitle	= MText.Register("PopUp Plus/Title",MTEXT_FANCY_DEFAULT);
+		htuText		= MText.Register("Popup Plus/Text", MTEXT_FANCY_DEFAULT);
+		htuTitle	= MText.Register("Popup Plus/Title",MTEXT_FANCY_DEFAULT);
 	}
 	else htuTitle = htuText = NULL;
 
@@ -285,13 +285,13 @@ static int ModulesLoaded(WPARAM,LPARAM)
 	//hook TopToolBar
 	HookEvent(ME_TTB_MODULELOADED, TTBLoaded);
 	//Folder plugin support
-	folderId = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Popup Plus"), MIRANDA_PATHT _T("\\Skins\\PopUp"));
+	folderId = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Popup Plus"), MIRANDA_PATHT _T("\\Skins\\Popup"));
 	//load skin
 	skins.load(_T("dir"));
 	const PopupSkin *skin;
-	if (skin = skins.getSkin(PopUpOptions.SkinPack)) {
-		mir_free(PopUpOptions.SkinPack);
-		PopUpOptions.SkinPack = mir_tstrdup(skin->getName());
+	if (skin = skins.getSkin(PopupOptions.SkinPack)) {
+		mir_free(PopupOptions.SkinPack);
+		PopupOptions.SkinPack = mir_tstrdup(skin->getName());
 		skin->loadOpts();
 	}
 	//init PopupEfects
@@ -344,9 +344,9 @@ MIRAPI int Load(void)
 	CreateServiceFunction(MS_POPUP_GETSTATUS, GetStatus);
 
 	#if defined(_DEBUG)
-		PopUpOptions.debug = db_get_b(NULL, MODULNAME, "debug", FALSE);
+		PopupOptions.debug = db_get_b(NULL, MODULNAME, "debug", FALSE);
 	#else
-		PopUpOptions.debug = false;
+		PopupOptions.debug = false;
 	#endif
 	LoadGDIPlus();
 
@@ -359,7 +359,7 @@ MIRAPI int Load(void)
 	PopupHistoryLoad();
 	LoadPopupThread();
 	if (!LoadPopupWnd2()) {
-		MessageBox(0, TranslateT("Error: I could not register the PopUp Window class.\r\nThe plugin will not operate."), _T(MODULNAME_LONG), MB_ICONSTOP | MB_OK);
+		MessageBox(0, TranslateT("Error: I could not register the Popup Window class.\r\nThe plugin will not operate."), _T(MODULNAME_LONG), MB_ICONSTOP | MB_OK);
 		return 0; //We couldn't register our Window Class, don't hook any event: the plugin will act as if it was disabled.
 	}
 	RegisterOptPrevBox();
@@ -377,33 +377,33 @@ MIRAPI int Load(void)
 		LoadOptions();
 
 	//Service Functions
-	CreateServiceFunction(MS_POPUP_ADDPOPUP,             PopUp_AddPopUp);
-	CreateServiceFunction(MS_POPUP_ADDPOPUPW,            PopUp_AddPopUpW);
-	CreateServiceFunction(MS_POPUP_ADDPOPUP2,            PopUp_AddPopUp2);
+	CreateServiceFunction(MS_POPUP_ADDPOPUP,             Popup_AddPopup);
+	CreateServiceFunction(MS_POPUP_ADDPOPUPW,            Popup_AddPopupW);
+	CreateServiceFunction(MS_POPUP_ADDPOPUP2,            Popup_AddPopup2);
 
-	CreateServiceFunction(MS_POPUP_CHANGETEXTW,          PopUp_ChangeTextW);
+	CreateServiceFunction(MS_POPUP_CHANGETEXTW,          Popup_ChangeTextW);
 
-	CreateServiceFunction(MS_POPUP_CHANGEW,              PopUp_ChangeW);
-	CreateServiceFunction(MS_POPUP_CHANGEPOPUP2,         PopUp_Change2);
+	CreateServiceFunction(MS_POPUP_CHANGEW,              Popup_ChangeW);
+	CreateServiceFunction(MS_POPUP_CHANGEPOPUP2,         Popup_Change2);
 
-	CreateServiceFunction(MS_POPUP_GETCONTACT,           PopUp_GetContact);
-	CreateServiceFunction(MS_POPUP_GETPLUGINDATA,        PopUp_GetPluginData);
-	CreateServiceFunction(MS_POPUP_ISSECONDLINESHOWN,    PopUp_IsSecondLineShown);
+	CreateServiceFunction(MS_POPUP_GETCONTACT,           Popup_GetContact);
+	CreateServiceFunction(MS_POPUP_GETPLUGINDATA,        Popup_GetPluginData);
+	CreateServiceFunction(MS_POPUP_ISSECONDLINESHOWN,    Popup_IsSecondLineShown);
 
-	CreateServiceFunction(MS_POPUP_SHOWMESSAGE,          PopUp_ShowMessage);
-	CreateServiceFunction(MS_POPUP_SHOWMESSAGEW,         PopUp_ShowMessageW);
-	CreateServiceFunction(MS_POPUP_QUERY,                PopUp_Query);
+	CreateServiceFunction(MS_POPUP_SHOWMESSAGE,          Popup_ShowMessage);
+	CreateServiceFunction(MS_POPUP_SHOWMESSAGEW,         Popup_ShowMessageW);
+	CreateServiceFunction(MS_POPUP_QUERY,                Popup_Query);
 
-	CreateServiceFunction(MS_POPUP_REGISTERACTIONS,      PopUp_RegisterActions);
-	CreateServiceFunction(MS_POPUP_REGISTERNOTIFICATION, PopUp_RegisterNotification);
+	CreateServiceFunction(MS_POPUP_REGISTERACTIONS,      Popup_RegisterActions);
+	CreateServiceFunction(MS_POPUP_REGISTERNOTIFICATION, Popup_RegisterNotification);
 
-	CreateServiceFunction(MS_POPUP_UNHOOKEVENTASYNC,     PopUp_UnhookEventAsync);
+	CreateServiceFunction(MS_POPUP_UNHOOKEVENTASYNC,     Popup_UnhookEventAsync);
 
-	CreateServiceFunction(MS_POPUP_REGISTERVFX,          PopUp_RegisterVfx);
+	CreateServiceFunction(MS_POPUP_REGISTERVFX,          Popup_RegisterVfx);
 
-	CreateServiceFunction(MS_POPUP_REGISTERCLASS,        PopUp_RegisterPopupClass);
-	CreateServiceFunction(MS_POPUP_UNREGISTERCLASS,      PopUp_UnregisterPopupClass);
-	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS,        PopUp_CreateClassPopup);
+	CreateServiceFunction(MS_POPUP_REGISTERCLASS,        Popup_RegisterPopupClass);
+	CreateServiceFunction(MS_POPUP_UNREGISTERCLASS,      Popup_UnregisterPopupClass);
+	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS,        Popup_CreateClassPopup);
 
 	//load icons / create hook
 	InitIcons();
@@ -433,8 +433,8 @@ MIRAPI int Unload(void)
 	FreeLibrary(hMsimgDll);
 	FreeLibrary(hGdiDll);
 
-	if (PopUpOptions.SkinPack) mir_free(PopUpOptions.SkinPack);
-	mir_free(PopUpOptions.Effect);
+	if (PopupOptions.SkinPack) mir_free(PopupOptions.SkinPack);
+	mir_free(PopupOptions.Effect);
 
 	OptAdv_UnregisterVfx();
 	UnloadPopupThread();

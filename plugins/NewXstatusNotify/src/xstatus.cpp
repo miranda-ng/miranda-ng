@@ -207,7 +207,7 @@ void ShowPopup(XSTATUSCHANGE *xsc)
 
 	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 	ppd.iSeconds = opt.PopupTimeout; 
-	PUAddPopUpT(&ppd);
+	PUAddPopupT(&ppd);
 }
 
 void PlayXStatusSound(int action)

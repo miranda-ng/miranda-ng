@@ -14,7 +14,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			CheckDlgButton(hwnd,IDC_USEKNOWNMODS,db_get_b(NULL,modname,"UseKnownModList",0));
 			CheckDlgButton(hwnd,IDC_WARNONDEL,db_get_b(NULL,modname,"WarnOnDelete",1));
 			CheckDlgButton(hwnd,IDC_MENU,db_get_b(NULL,modname,"UserMenuItem",0));
-			CheckDlgButton(hwnd,IDC_POPUPS,usePopUps);
+			CheckDlgButton(hwnd,IDC_POPUPS,usePopups);
 			if (!db_get(NULL,modname,"CoreModules",&dbv) && dbv.type == DBVT_ASCIIZ)
 				SetDlgItemText(hwnd,IDC_MODULES,dbv.pszVal);
 			db_free(&dbv);
@@ -57,8 +57,8 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 								db_set_b(NULL,modname,"WarnOnDelete",(BYTE)IsDlgButtonChecked(hwnd,IDC_WARNONDEL));
 								db_set_b(NULL,modname,"UserMenuItem",(BYTE)IsDlgButtonChecked(hwnd,IDC_MENU));
 								db_set_b(NULL,modname,"UseKnownModList",(BYTE)IsDlgButtonChecked(hwnd,IDC_USEKNOWNMODS));
-								usePopUps = IsDlgButtonChecked(hwnd,IDC_POPUPS);
-								db_set_b(NULL,modname,"UsePopUps",(BYTE)usePopUps);
+								usePopups = IsDlgButtonChecked(hwnd,IDC_POPUPS);
+								db_set_b(NULL,modname,"UsePopups",(BYTE)usePopups);
 								if (GetDlgItemText(hwnd,IDC_MODULES,mods,4096))
 									db_set_s(NULL,modname,"CoreModules",mods);
 								db_set_w(NULL,modname,"PopupDelay",(WORD)GetDlgItemInt(hwnd,IDC_POPUPTIMEOUT,NULL,0));

@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HICON hIcons[30];
 extern HIMAGELIST	hImageList, hIconsList;
 extern BOOL       SmileyAddInstalled;
-extern BOOL       PopUpInstalled;
+extern BOOL       PopupInstalled;
 extern BOOL       IEviewInstalled;
 
 HANDLE            hSendEvent;
@@ -743,7 +743,7 @@ static INT_PTR Service_GetAddEventPtr(WPARAM wParam, LPARAM lParam)
 
 static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
-	PopUpInstalled = ServiceExists(MS_POPUP_ADDPOPUP);
+	PopupInstalled = ServiceExists(MS_POPUP_ADDPOPUP);
 	return 0;
 }
 

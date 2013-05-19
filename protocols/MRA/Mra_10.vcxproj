@@ -204,7 +204,7 @@
     <ClCompile Include="src\MraMPop.cpp" />
     <ClCompile Include="src\MraMRIMProxy.cpp" />
     <ClCompile Include="src\MraOfflineMsg.cpp" />
-    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraPopup.cpp" />
     <ClCompile Include="src\MraRTFMsg.cpp" />
     <ClCompile Include="src\MraSelectEMail.cpp" />
     <ClCompile Include="src\MraSendCommand.cpp" />
@@ -223,7 +223,7 @@
     <ClInclude Include="src\MraMRIMProxy.h" />
     <ClInclude Include="src\MraOfflineMsg.h" />
     <ClInclude Include="src\MraPlaces.h" />
-    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraPopup.h" />
     <ClInclude Include="src\MraProto.h" />
     <ClInclude Include="src\MraRTFMsg.h" />
     <ClInclude Include="src\MraSelectEMail.h" />

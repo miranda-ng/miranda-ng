@@ -206,14 +206,14 @@ static LRESULT CALLBACK PopupWindowProc( HWND hWnd, UINT message, WPARAM wParam,
 			if (szURL != NULL)
 				CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)szURL);
 
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			return 0;
 		}
 		break;
 
 	case WM_CONTEXTMENU:
 		DebugLog("[PopupWindowProc] WM_CONTEXTMENU");
-		PUDeletePopUp(hWnd); 
+		PUDeletePopup(hWnd); 
 		return TRUE;
 
 	case UM_FREEPLUGINDATA:
@@ -248,7 +248,7 @@ int CYahooProto::ShowPopup(const TCHAR* nickname, const TCHAR* msg, const char *
 	
 	DebugLog("[MS_POPUP_ADDPOPUP] Generating a popup for [%S] %S", nickname, msg);
 	
-	PUAddPopUpT(&ppd);
+	PUAddPopupT(&ppd);
 	return 1;
 }
 

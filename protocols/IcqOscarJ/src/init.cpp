@@ -35,7 +35,7 @@
 HINSTANCE hInst;
 int hLangpack;
 CLIST_INTERFACE *pcli;
-BOOL bPopUpService = FALSE;
+BOOL bPopupService = FALSE;
 
 HANDLE   hExtraXStatus;
 
@@ -91,7 +91,7 @@ IconItem g_IconsList[4] =
 
 int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
-	bPopUpService = ServiceExists(MS_POPUP_ADDPOPUP);
+	bPopupService = ServiceExists(MS_POPUP_ADDPOPUP);
 	return 0;
 }
 

@@ -222,7 +222,7 @@
 // options dialog
 #define OPT_TITLE LPGENT("Away System")
 #define OPT_MAINGROUP LPGEN("Status")
-#define OPT_POPUPGROUP LPGEN("PopUps")
+#define OPT_POPUPGROUP LPGEN("Popups")
 
 #define MRM_MAX_GENERATED_TITLE_LEN 35 // maximum length of automatically generated title for recent messages
 

@@ -36,7 +36,7 @@ int WeatherPopup(WPARAM wParam, LPARAM lParam)
 {
 	// determine if the popup should display or not
 	if (opt.UsePopup && opt.UpdatePopup && (!opt.PopupOnChange || (BOOL)lParam) &&
-	      !db_get_b((HANDLE)wParam, WEATHERPROTONAME, "DPopUp", 0)) 
+	      !db_get_b((HANDLE)wParam, WEATHERPROTONAME, "DPopup", 0)) 
 	{
 		POPUPDATAT ppd = {0};
 		WEATHERINFO winfo;
@@ -59,7 +59,7 @@ int WeatherPopup(WPARAM wParam, LPARAM lParam)
 		ppd.colorBack = (opt.UseWinColors)?GetSysColor(COLOR_BTNFACE):opt.BGColour;
 		ppd.colorText = (opt.UseWinColors)?GetSysColor(COLOR_WINDOWTEXT):opt.TextColour;
 		ppd.iSeconds = opt.pDelay;
-		PUAddPopUpT( &ppd );
+		PUAddPopupT( &ppd );
 	}
 	return 0;
 }
@@ -105,7 +105,7 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 		ppd.colorBack = (opt.UseWinColors)?GetSysColor(COLOR_BTNFACE):opt.BGColour;
 		ppd.colorText = (opt.UseWinColors)?GetSysColor(COLOR_WINDOWTEXT):opt.TextColour;
 		ppd.iSeconds = opt.pDelay;
-		PUAddPopUpT( &ppd );
+		PUAddPopupT( &ppd );
 	}
 	return 0;
 }
@@ -135,13 +135,13 @@ LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 	switch(message) {
 	case WM_COMMAND:
 		ID = opt.LeftClickAction;
-		if (ID != IDM_M7)  PUDeletePopUp(hWnd);
+		if (ID != IDM_M7)  PUDeletePopup(hWnd);
 		SendMessage(hPopupWindow, ID, (WPARAM)hContact, 0);
 		return TRUE;
 
 	case WM_CONTEXTMENU:
 		ID = opt.RightClickAction;
-		if (ID != IDM_M7)  PUDeletePopUp(hWnd);
+		if (ID != IDM_M7)  PUDeletePopup(hWnd);
 		SendMessage(hPopupWindow, ID, (WPARAM)hContact, 0);
 		return TRUE;
 
@@ -250,7 +250,7 @@ void ReadPopupOpt(HWND hdlg)
 }
 
 // copied and modified from NewStatusNotify
-INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
 	int ID;
 	TCHAR str[512];
@@ -375,7 +375,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case IDC_PD1:
-			// Popup delay setting from PopUp plugin
+			// Popup delay setting from Popup plugin
 			SetDlgItemText(hdlg, IDC_DELAY, _T("0"));
 			CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD1);
 			break;

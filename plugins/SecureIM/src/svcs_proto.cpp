@@ -121,7 +121,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			pccsd->szProtoService = PSS_MESSAGE;
 			CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 
-			showPopUp(sim003,pccsd->hContact,g_hPOP[POP_PU_DIS],0);
+			showPopup(sim003,pccsd->hContact,g_hPOP[POP_PU_DIS],0);
 		}
 		else {
 			createRSAcntx(ptr);
@@ -194,7 +194,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		ppre->szMessage = szMsgUtf;
 
 		// show decoded message
-		showPopUpRM(ptr->hContact);
+		showPopupRM(ptr->hContact);
 		SAFE_FREE(ptr->msgSplitted);
 		pccsd->wParam |= PREF_SIMNOMETA;
 		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
@@ -217,7 +217,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		createRSAcntx(ptr);
 		loadRSAkey(ptr);
 		if (exp->rsa_get_state(ptr->cntx) == 0 )
-		    showPopUpKR(ptr->hContact);
+		    showPopupKR(ptr->hContact);
 
 		{
 			LPSTR szOldMsg = exp->rsa_recv(ptr->cntx,szEncMsg);
@@ -229,7 +229,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			ppre->szMessage = szNewMsg;
 
 			// show decoded message
-			showPopUpRM(ptr->hContact);
+			showPopupRM(ptr->hContact);
 			SAFE_FREE(ptr->msgSplitted);
 			pccsd->wParam |= PREF_SIMNOMETA;
 			return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
@@ -265,8 +265,8 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			pccsd->lParam = (LPARAM)(char*)keyToSend;
 			CallService(MS_PROTO_CHAINSEND, wParam, lParam); // send new key
 
-			showPopUp(sim005,NULL,g_hPOP[POP_PU_DIS],0);
-			showPopUpKS(ptr->hContact);
+			showPopup(sim005,NULL,g_hPOP[POP_PU_DIS],0);
+			showPopupKS(ptr->hContact);
 			return 1;
 		}
 		break;
@@ -302,8 +302,8 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		if (cpp_keyx(ptr->cntx)) {
 			// decrypt sended back message and save message for future sending with a new secret key
 			addMsg2Queue(ptr, pccsd->wParam, ptrA(decodeMsg(ptr,(LPARAM)pccsd,szEncMsg)));
-			showPopUpRM(ptr->hContact);
-			showPopUp(sim004,NULL,g_hPOP[POP_PU_DIS],0);
+			showPopupRM(ptr->hContact);
+			showPopup(sim004,NULL,g_hPOP[POP_PU_DIS],0);
 		}
 		return 1; // don't display it ...
 
@@ -314,7 +314,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		// other user has disabled SecureIM with you
 		cpp_delete_context(ptr->cntx); ptr->cntx=0;
 
-		showPopUpDC(ptr->hContact);
+		showPopupDC(ptr->hContact);
 		ShowStatusIconNotify(ptr->hContact);
 
 		waitForExchange(ptr,3); // дослать нешифрованно
@@ -336,7 +336,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			Sent_NetLog("onRecvMsg: SiG_KEYR received");
 
 			// receive KeyB from user;
-			showPopUpKR(ptr->hContact);
+			showPopupKR(ptr->hContact);
 
 			if (ptr->cntx && cpp_keyb(ptr->cntx)) {
 				// reinit key exchange if an old key from user is found
@@ -347,7 +347,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				Sent_NetLog("onRecvMsg: SiG_KEYR InitKeyB error");
 
 				// tell to the other side that we have the plugin disabled with him
-				showPopUp(sim013,ptr->hContact,g_hPOP[POP_PU_DIS],0);
+				showPopup(sim013,ptr->hContact,g_hPOP[POP_PU_DIS],0);
 				ShowStatusIconNotify(ptr->hContact);
 
 				waitForExchange(ptr,3); // дослать нешифрованно
@@ -364,7 +364,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				loadRSAkey(ptr);
 				exp->rsa_connect(ptr->cntx);
 
-				showPopUpKS(pccsd->hContact);
+				showPopupKS(pccsd->hContact);
 				ShowStatusIconNotify(pccsd->hContact);
 				return 1;
 			}
@@ -381,7 +381,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				pccsd->szProtoService = PSS_MESSAGE;
 				CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 
-				showPopUpKS(ptr->hContact);
+				showPopupKS(ptr->hContact);
 				waitForExchange(ptr); // запустим ожидание
 				return 1;
 			}
@@ -396,7 +396,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				pccsd->szProtoService = PSS_MESSAGE;
 				CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 
-				showPopUpKS(ptr->hContact);
+				showPopupKS(ptr->hContact);
 			}
 			break;
 
@@ -404,14 +404,14 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			Sent_NetLog("onRecvMsg: SiG_KEYA received");
 
 			// receive KeyA from user;
-			showPopUpKR(ptr->hContact);
+			showPopupKR(ptr->hContact);
 
 			cpp_reset_context(ptr->cntx);
 			if (InitKeyB(ptr,szEncMsg) != CPP_ERROR_NONE) {
 				Sent_NetLog("onRecvMsg: SiG_KEYA InitKeyB error");
 
 				// tell to the other side that we have the plugin disabled with him
-				showPopUp(sim013,ptr->hContact,g_hPOP[POP_PU_DIS],0);
+				showPopup(sim013,ptr->hContact,g_hPOP[POP_PU_DIS],0);
 				ShowStatusIconNotify(ptr->hContact);
 
 				waitForExchange(ptr,3); // дослать нешифрованно
@@ -432,14 +432,14 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			Sent_NetLog("onRecvMsg: SiG_KEYB received");
 
 			// receive KeyB from user;
-			showPopUpKR(ptr->hContact);
+			showPopupKR(ptr->hContact);
 
 			// clear all and send DISA if received KeyB, and not exist KeyA or error on InitKeyB
 			if (!cpp_keya(ptr->cntx) || InitKeyB(ptr,szEncMsg) != CPP_ERROR_NONE) {
 				Sent_NetLog("onRecvMsg: SiG_KEYB InitKeyB error");
 
 				// tell to the other side that we have the plugin disabled with him
-				showPopUp(sim013,ptr->hContact,g_hPOP[POP_PU_DIS],0);
+				showPopup(sim013,ptr->hContact,g_hPOP[POP_PU_DIS],0);
 				ShowStatusIconNotify(ptr->hContact);
 
 				cpp_reset_context(ptr->cntx);
@@ -464,7 +464,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 	// receive message
 	if (cpp_keyx(ptr->cntx) && (ssig == SiG_ENON||ssig == SiG_ENOF)) {
 		Sent_NetLog("onRecvMsg: message received");
-		showPopUpRM(ptr->hContact);
+		showPopupRM(ptr->hContact);
 	}
 
 	Sent_NetLog("onRecvMsg: exit");
@@ -523,7 +523,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			// отправляем зашифрованное сообщение
 			splitMessageSend(ptr,szNewMsg);
 
-			showPopUpSM(ptr->hContact);
+			showPopupSM(ptr->hContact);
 
 			return returnNoError(pccsd->hContact);
 		}
@@ -560,7 +560,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 
 			// шлем шифрованное в оффлайн
 			exp->rsa_send(ptr->cntx, ptrA( miranda_to_utf8((LPCSTR)pccsd->lParam,pccsd->wParam)));
-			showPopUpSM(ptr->hContact);
+			showPopupSM(ptr->hContact);
 			return returnNoError(pccsd->hContact);
 		}
 
@@ -593,7 +593,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 		if (ptr->cntx && exp->rsa_get_state(ptr->cntx) == 7) {
 			exp->rsa_send(ptr->cntx, ptrA(miranda_to_utf8((LPCSTR)pccsd->lParam,pccsd->wParam)));
 			ShowStatusIconNotify(ptr->hContact);
-			showPopUpSM(ptr->hContact);
+			showPopupSM(ptr->hContact);
 			return returnNoError(pccsd->hContact);
 		}
 
@@ -612,7 +612,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			createRSAcntx(ptr);
 			loadRSAkey(ptr);
 			exp->rsa_connect(ptr->cntx);
-			showPopUpKS(pccsd->hContact);
+			showPopupKS(pccsd->hContact);
 			ShowStatusIconNotify(pccsd->hContact);
 			return returnNoError(pccsd->hContact);
 		}
@@ -645,7 +645,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			ccsd.szProtoService = PSS_MESSAGE;
 			CallService(MS_PROTO_CHAINSEND, wParam, (LPARAM)&ccsd);
 
-			showPopUpDC(pccsd->hContact);
+			showPopupDC(pccsd->hContact);
 			ShowStatusIconNotify(pccsd->hContact);
 		}
 		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
@@ -723,7 +723,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			pccsd->wParam |= PREF_METANODB;
 			CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 
-			showPopUpDC(pccsd->hContact);
+			showPopupDC(pccsd->hContact);
 			ShowStatusIconNotify(pccsd->hContact);
 		}
 		return returnNoError(pccsd->hContact);
@@ -746,7 +746,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 		pccsd->szProtoService = PSS_MESSAGE;
 		int ret = CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 
-		showPopUpSM(ptr->hContact);
+		showPopupSM(ptr->hContact);
 		return ret;
 	}
 
@@ -768,7 +768,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			pccsd->szProtoService = PSS_MESSAGE;
 			CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 
-			showPopUpKS(pccsd->hContact);
+			showPopupKS(pccsd->hContact);
 			ShowStatusIconNotify(pccsd->hContact);
 
 			waitForExchange(ptr); // запускаем ожидание
@@ -807,7 +807,7 @@ INT_PTR __cdecl onSendFile(WPARAM wParam, LPARAM lParam)
 
 			char buf[MAX_PATH];
 			sprintf(buf,"%s\n%s",Translate(sim011),file[i]);
-			showPopUp(buf,NULL,g_hPOP[POP_PU_MSS],2);
+			showPopup(buf,NULL,g_hPOP[POP_PU_MSS],2);
 
 			if (ptr->mode == MODE_RSAAES)
 				exp->rsa_encrypt_file(ptr->cntx,file[i],file_out);
@@ -902,7 +902,7 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam)
 					}
 
 					sprintf(buf,"%s\n%s",Translate(sim012),file_out);
-					showPopUp(buf,NULL,g_hPOP[POP_PU_MSR],2);
+					showPopup(buf,NULL,g_hPOP[POP_PU_MSR],2);
 
 					if (ptr->mode == MODE_RSAAES )
 						exp->rsa_decrypt_file(ptr->cntx,ptr->lastFileRecv,file_out);

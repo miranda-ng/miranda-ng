@@ -185,7 +185,7 @@ void ShowPopupMessage(TCHAR *title, TCHAR *message, HANDLE icon)
 	_tcscpy(pd.lptzText, message);
 	pd.colorText = commonData.foreground;
 	pd.colorBack = commonData.background;
-	PUAddPopUpT(&pd);
+	PUAddPopupT(&pd);
 }
 
 DWORD WINAPI RefreshUserDetailsWorkerThread(LPVOID param)

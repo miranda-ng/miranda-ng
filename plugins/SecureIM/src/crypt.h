@@ -133,15 +133,15 @@ void ShowStatusIconNotify(HANDLE);
 
 // crypt_popups.cpp
 //static int CALLBACK PopupDlgProc(HWND,UINT,WPARAM,LPARAM);
-void showPopUp(LPCSTR,HANDLE,HICON,UINT);
-void showPopUpEC(HANDLE);
-void showPopUpDCmsg(HANDLE,LPCSTR);
-void showPopUpDC(HANDLE);
-void showPopUpKS(HANDLE);
-void showPopUpKRmsg(HANDLE,LPCSTR);
-void showPopUpKR(HANDLE);
-void showPopUpSM(HANDLE);
-void showPopUpRM(HANDLE);
+void showPopup(LPCSTR,HANDLE,HICON,UINT);
+void showPopupEC(HANDLE);
+void showPopupDCmsg(HANDLE,LPCSTR);
+void showPopupDC(HANDLE);
+void showPopupKS(HANDLE);
+void showPopupKRmsg(HANDLE,LPCSTR);
+void showPopupKR(HANDLE);
+void showPopupSM(HANDLE);
+void showPopupRM(HANDLE);
 
 // crypt_meta.cpp
 BOOL isProtoMetaContacts(HANDLE);

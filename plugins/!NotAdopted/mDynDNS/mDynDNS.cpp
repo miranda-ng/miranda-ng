@@ -240,7 +240,7 @@ static int mdyndns_options_init(WPARAM wParam, LPARAM lParam)
 		odp.cbSize = sizeof(odp);
 		odp.position = 100000000;
 		odp.hInstance = hInst;
-		odp.pszGroup = Translate("PopUps");
+		odp.pszGroup = Translate("Popups");
 		odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_POPUPS);
 		odp.pszTitle = title; //PLUGNAME;
 		odp.pfnDlgProc = DnsPopupsDlgProc;

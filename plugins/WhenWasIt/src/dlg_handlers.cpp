@@ -962,7 +962,7 @@ int HandlePopupClick(HWND hWnd, int action)
 		}//fallthrough
 
 	case 1: //DISMISS
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 	}
 

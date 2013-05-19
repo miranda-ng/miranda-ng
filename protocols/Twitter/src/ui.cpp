@@ -406,7 +406,7 @@ namespace popup_options
 		popup.colorText  = get_text_color(hwndDlg,false);
 		popup.colorBack  = get_back_color(hwndDlg,false);
 
-		PUAddPopUpT(&popup);
+		PUAddPopupT(&popup);
 	}
 }
 

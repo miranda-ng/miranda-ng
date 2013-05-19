@@ -81,9 +81,9 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 		switch (LOWORD(wParam)) {
 		case IDC_PREV:
 			//preview popups...
-			showPopUp(LPGEN("Key Popup"),NULL,g_hPOP[POP_PU_PRC],0);
-			showPopUp(LPGEN("Secure Popup"),NULL,g_hPOP[POP_PU_EST],1);
-			showPopUp(LPGEN("Message Popup"),NULL,g_hPOP[POP_PU_MSR],2);
+			showPopup(LPGEN("Key Popup"),NULL,g_hPOP[POP_PU_PRC],0);
+			showPopup(LPGEN("Secure Popup"),NULL,g_hPOP[POP_PU_EST],1);
+			showPopup(LPGEN("Message Popup"),NULL,g_hPOP[POP_PU_MSR],2);
 			break;
 		case IDC_EC:
 			//set ec checkbox value
@@ -166,7 +166,7 @@ int onRegisterPopOptions(WPARAM wParam, LPARAM)
 		odp.hInstance = g_hInst;
 		odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUP);
 		odp.pszTitle = (char*)MODULENAME;
-		odp.pszGroup = LPGEN("PopUps");
+		odp.pszGroup = LPGEN("Popups");
 		odp.pfnDlgProc = PopOptionsDlgProc;
 		Options_AddPage(wParam, &odp);
 	}

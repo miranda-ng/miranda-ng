@@ -102,7 +102,7 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 			CallFunctionAsync(ShowRoomFromPopup, si);
 
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			return TRUE;
 		}
 		break;
@@ -116,7 +116,7 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			if (si->hWnd && KillTimer(si->hWnd, TIMERID_FLASHWND))
 				FlashWindow(si->hWnd, FALSE);
 
-			PUDeletePopUp( hWnd );
+			PUDeletePopup( hWnd );
 		}
 		break;
 	}
@@ -163,7 +163,7 @@ static int ShowPopup (HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* psz
 
 	pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 	pd.PluginData = si;
-	return PUAddPopUpT(&pd);
+	return PUAddPopupT(&pd);
 }
 
 static BOOL DoTrayIcon(SESSION_INFO* si, GCEVENT * gce)
@@ -305,7 +305,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 			db_unset(si->hContact, "CList", "Hidden");
 		if (bInactive)
 			DoTrayIcon(si, gce);
-		if (bInactive || !g_Settings.PopUpInactiveOnly)
+		if (bInactive || !g_Settings.PopupInactiveOnly)
 			DoPopup(si, gce);
 		if (g_Settings.TabsEnable && bInactive && g_TabSession.hWnd)
 			SendMessage(g_TabSession.hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM) si);
@@ -319,7 +319,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 	// stupid thing to not create multiple popups for a QUIT event for instance
 	if (bManyFix == 0) {
 		// do popups
-		if (bInactive || !g_Settings.PopUpInactiveOnly)
+		if (bInactive || !g_Settings.PopupInactiveOnly)
 			DoPopup(si, gce);
 
 		// do sounds and flashing

@@ -24,12 +24,12 @@
 // -----------------------------------------------------------------------------
 //  DESCRIPTION:
 //
-//  PopUp Plugin stuff
+//  Popup Plugin stuff
 //
 // -----------------------------------------------------------------------------
 #include "icqoscar.h"
 
-extern BOOL bPopUpService;
+extern BOOL bPopupService;
 
 static const UINT icqPopupsControls[] = {
 	IDC_POPUPS_LOG_ENABLED, IDC_POPUPS_SPAM_ENABLED, IDC_PREVIEW, IDC_USESYSICONS, IDC_POPUP_LOG0_TIMEOUT,
@@ -102,11 +102,11 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		switch (LOWORD(wParam)) {
 		case IDC_PREVIEW:
 			{
-				ppro->ShowPopUpMsg(NULL, LPGEN("Popup Title"), LPGEN("Sample Note"),    LOG_NOTE);
-				ppro->ShowPopUpMsg(NULL, LPGEN("Popup Title"), LPGEN("Sample Warning"), LOG_WARNING);
-				ppro->ShowPopUpMsg(NULL, LPGEN("Popup Title"), LPGEN("Sample Error"),   LOG_ERROR);
-				ppro->ShowPopUpMsg(NULL, LPGEN("Popup Title"), LPGEN("Sample Fatal"),   LOG_FATAL);
-				ppro->ShowPopUpMsg(NULL, LPGEN("Popup Title"), LPGEN("Sample Spambot"), POPTYPE_SPAM);
+				ppro->ShowPopupMsg(NULL, LPGEN("Popup Title"), LPGEN("Sample Note"),    LOG_NOTE);
+				ppro->ShowPopupMsg(NULL, LPGEN("Popup Title"), LPGEN("Sample Warning"), LOG_WARNING);
+				ppro->ShowPopupMsg(NULL, LPGEN("Popup Title"), LPGEN("Sample Error"),   LOG_ERROR);
+				ppro->ShowPopupMsg(NULL, LPGEN("Popup Title"), LPGEN("Sample Fatal"),   LOG_FATAL);
+				ppro->ShowPopupMsg(NULL, LPGEN("Popup Title"), LPGEN("Sample Spambot"), POPTYPE_SPAM);
 			}
 			return FALSE;
 
@@ -200,9 +200,9 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-int CIcqProto::ShowPopUpMsg(HANDLE hContact, const char *szTitle, const char *szMsg, BYTE bType)
+int CIcqProto::ShowPopupMsg(HANDLE hContact, const char *szTitle, const char *szMsg, BYTE bType)
 {
-	if (bPopUpService && getSettingByte(NULL, "PopupsEnabled", DEFAULT_POPUPS_ENABLED))
+	if (bPopupService && getSettingByte(NULL, "PopupsEnabled", DEFAULT_POPUPS_ENABLED))
 	{
 		POPUPDATAT ppd = { 0 };
 		LPCTSTR rsIcon;
@@ -284,7 +284,7 @@ int CIcqProto::ShowPopUpMsg(HANDLE hContact, const char *szTitle, const char *sz
 		ppd.PluginWindowProc = NULL;
 		ppd.PluginData = NULL;
 		ppd.iSeconds = ppd.iSeconds;
-		return PUAddPopUpT(&ppd);
+		return PUAddPopupT(&ppd);
 	}
 	return -1; // Failure
 }

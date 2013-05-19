@@ -71,7 +71,7 @@ void ShowPopup(const char *title, const char *description, int type)
 	}
 
 	ppd.PluginWindowProc = DumbPopupDlgProc;
-	PUAddPopUp(&ppd);
+	PUAddPopup(&ppd);
 }
 
 // Handle to popup events
@@ -79,11 +79,11 @@ static LRESULT CALLBACK DumbPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam,
 {
 	switch(message) {
 	case WM_COMMAND:
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		return TRUE;
 
 	case WM_CONTEXTMENU: 
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		return TRUE;
 
 	case UM_FREEPLUGINDATA: 

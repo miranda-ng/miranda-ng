@@ -144,7 +144,7 @@ static void __stdcall ShowRoomFromPopup(void * pi)
 static void TSAPI Chat_OpenPopup(SESSION_INFO* si, HWND hwndPopup)
 {
 	CallFunctionAsync(ShowRoomFromPopup, si);
-	PUDeletePopUp(hwndPopup);
+	PUDeletePopup(hwndPopup);
 }
 
 static void TSAPI Chat_DismissPopup(const SESSION_INFO* si, HWND hwndPopup)
@@ -156,7 +156,7 @@ static void TSAPI Chat_DismissPopup(const SESSION_INFO* si, HWND hwndPopup)
 	if (si->hWnd && KillTimer(si->hWnd, TIMERID_FLASHWND))
 		FlashWindow(si->hWnd, FALSE);
 
-	PUDeletePopUp(hwndPopup);
+	PUDeletePopup(hwndPopup);
 }
 
 static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -226,7 +226,7 @@ static int ShowPopup(HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* pszP
 
 	pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 	pd.PluginData = si;
-	return PUAddPopUpT(&pd);
+	return PUAddPopupT(&pd);
 }
 
 static BOOL DoTrayIcon(SESSION_INFO* si, GCEVENT * gce)

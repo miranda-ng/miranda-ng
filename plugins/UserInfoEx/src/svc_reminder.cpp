@@ -219,7 +219,7 @@ static LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 		{
 			if (HIWORD(wParam) == STN_CLICKED)
 			{
-				PUDeletePopUp(hWnd);
+				PUDeletePopup(hWnd);
 				return TRUE;
 			}
 			break;
@@ -227,7 +227,7 @@ static LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 
 	case WM_CONTEXTMENU:
 		{
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			return TRUE;
 		}
 	}
@@ -292,7 +292,7 @@ static int NotifyWithPopup(HANDLE hContact, CEvent::EType eventType, int DaysToA
 				break;
 			}
 		}
-		return PUAddPopUpT(&ppd);
+		return PUAddPopupT(&ppd);
 	}
 	return 1;
 }

@@ -129,7 +129,7 @@ void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA *pdata)
 		} break;
 		case PCA_CLOSEPOPUP: // close popup
 		{
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 		} break;
 		case PCA_DONOTHING: // do nothing
 			break;

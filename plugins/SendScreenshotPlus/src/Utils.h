@@ -65,7 +65,7 @@ INT_PTR SaveTIF(HBITMAP hBmp, LPTSTR szFilename);
 
 //---------------------------------------------------------------------------
 /* Old stuff from Borland C++
-//void			ShowPopUp(char *title, char *text);
+//void			ShowPopup(char *title, char *text);
 
 */
 #endif

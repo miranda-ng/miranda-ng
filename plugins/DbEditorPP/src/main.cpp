@@ -4,7 +4,7 @@ HINSTANCE hInst = NULL;
 
 HANDLE hTTBButt = NULL;
 BOOL bServiceMode = FALSE;
-BOOL usePopUps;
+BOOL usePopups;
 HWND hwnd2watchedVarsWindow;
 int hLangpack;
 BYTE nameOrder[NAMEORDERCOUNT];
@@ -85,7 +85,7 @@ int DBSettingChanged(WPARAM wParam,LPARAM lParam)
 		}
 	}
 	// watch list
-	if (!hwnd2watchedVarsWindow && !usePopUps) return 0;
+	if (!hwnd2watchedVarsWindow && !usePopups) return 0;
 
 	for (i=0; i<WatchListArray.count; i++)
 	{
@@ -95,7 +95,7 @@ int DBSettingChanged(WPARAM wParam,LPARAM lParam)
 			{
 				if (!WatchListArray.item[i].setting || !mir_strcmp(cws->szSetting, WatchListArray.item[i].setting))
 				{
-					if (usePopUps)
+					if (usePopups)
 						popupWatchedVar(hContact, cws->szModule, cws->szSetting);
 					if (hwnd2watchedVarsWindow)
 						PopulateWatchedWindow(GetDlgItem(hwnd2watchedVarsWindow, IDC_VARS));
@@ -221,7 +221,7 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	db_free(&dbv);
 	UnhookEvent(hModulesLoadedHook);
 
-	usePopUps = db_get_b(NULL,modname,"UsePopUps",0);
+	usePopups = db_get_b(NULL,modname,"UsePopups",0);
 
 	// Load the name order
 	for(i=0; i < NAMEORDERCOUNT; i++)

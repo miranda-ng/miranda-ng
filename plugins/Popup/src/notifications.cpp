@@ -191,15 +191,15 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	ptd->notification = *notification;
 	if (!ptd->notification.lpzLAction) ptd->notification.lpzLAction = POPUP_ACTION_NOTHING;
 	if (!ptd->notification.lpzRAction) ptd->notification.lpzRAction = POPUP_ACTION_DISMISS;
-	LoadNotificationSettings(ptd, "PopUpNotifications");
+	LoadNotificationSettings(ptd, "PopupNotifications");
 
 	// ugly hack to make reset always possible
-	SaveNotificationSettings(ptd,"PopUpNotifications");
+	SaveNotificationSettings(ptd,"PopupNotifications");
 
 	FontID fontid = {0};
 	fontid.cbSize = sizeof(fontid);
 	mir_snprintf(fontid.group, sizeof(fontid.group), "%s/%s", PU_FNT_AND_COLOR, notification->lpzGroup);
-	lstrcpyA(fontid.dbSettingsGroup, "PopUpNotifications");
+	lstrcpyA(fontid.dbSettingsGroup, "PopupNotifications");
 	fontid.flags = FIDF_DEFAULTVALID;
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
 	fontid.deffontsettings.colour = ptd->notification.colorText;
@@ -214,14 +214,14 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	ColourID colourid = {0};
 	colourid.cbSize = sizeof(colourid);
 	mir_snprintf(colourid.group, sizeof(colourid.group), "%s/%s", PU_FNT_AND_COLOR, notification->lpzGroup);
-	lstrcpyA(colourid.dbSettingsGroup, "PopUpNotifications");
+	lstrcpyA(colourid.dbSettingsGroup, "PopupNotifications");
 	mir_snprintf(colourid.name, SIZEOF(colourid.name), "%s (colors only)", notification->lpzName);
 	mir_snprintf(colourid.setting, SIZEOF(colourid.setting), "{%s/%s}backColor", notification->lpzGroup, notification->lpzName);
 	colourid.defcolour = ptd->notification.colorBack;
 	ColourRegister(&colourid);
 
 	char section[MAXMODULELABELLENGTH], setting[MAXMODULELABELLENGTH];
-	mir_snprintf(section, sizeof(section), "PopUps/%s", notification->lpzGroup);
+	mir_snprintf(section, sizeof(section), "Popups/%s", notification->lpzGroup);
 	mir_snprintf(setting, sizeof(setting), "%s_%s_%s", MODULNAME, notification->lpzGroup, notification->lpzName);
 
 	SKINICONDESC sid = { sizeof(sid) };
@@ -325,7 +325,7 @@ bool PerformAction(HANDLE hNotification, HWND hwnd, UINT message, WPARAM wparam,
 
 	if (!lstrcmpA(lpzAction, POPUP_ACTION_DISMISS))
 	{
-		PUDeletePopUp(hwnd);
+		PUDeletePopup(hwnd);
 		return true;
 	}
 

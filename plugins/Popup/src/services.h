@@ -26,31 +26,31 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern int num_classes;			//for core class api support
 
-INT_PTR PopUp_AddPopUpW(WPARAM, LPARAM);
+INT_PTR Popup_AddPopupW(WPARAM, LPARAM);
 
-INT_PTR PopUp_AddPopUp(WPARAM, LPARAM);
-INT_PTR PopUp_AddPopUp2(WPARAM, LPARAM);
+INT_PTR Popup_AddPopup(WPARAM, LPARAM);
+INT_PTR Popup_AddPopup2(WPARAM, LPARAM);
 
-INT_PTR PopUp_GetContact(WPARAM, LPARAM);
-INT_PTR PopUp_IsSecondLineShown(WPARAM, LPARAM);
+INT_PTR Popup_GetContact(WPARAM, LPARAM);
+INT_PTR Popup_IsSecondLineShown(WPARAM, LPARAM);
 
-INT_PTR PopUp_ChangeTextW(WPARAM, LPARAM);
+INT_PTR Popup_ChangeTextW(WPARAM, LPARAM);
 
-INT_PTR PopUp_ChangeW(WPARAM, LPARAM);
-INT_PTR PopUp_Change2(WPARAM, LPARAM);
+INT_PTR Popup_ChangeW(WPARAM, LPARAM);
+INT_PTR Popup_Change2(WPARAM, LPARAM);
 
-INT_PTR PopUp_ShowMessage(WPARAM, LPARAM);
-INT_PTR PopUp_ShowMessageW(WPARAM, LPARAM);
+INT_PTR Popup_ShowMessage(WPARAM, LPARAM);
+INT_PTR Popup_ShowMessageW(WPARAM, LPARAM);
 
-INT_PTR PopUp_Query(WPARAM, LPARAM);
-INT_PTR PopUp_GetPluginData(WPARAM, LPARAM);
-INT_PTR PopUp_RegisterActions(WPARAM wParam, LPARAM lParam);
-INT_PTR PopUp_RegisterNotification(WPARAM wParam, LPARAM lParam);
-INT_PTR PopUp_UnhookEventAsync(WPARAM wParam, LPARAM lParam);
-INT_PTR PopUp_RegisterVfx(WPARAM wParam, LPARAM lParam);
+INT_PTR Popup_Query(WPARAM, LPARAM);
+INT_PTR Popup_GetPluginData(WPARAM, LPARAM);
+INT_PTR Popup_RegisterActions(WPARAM wParam, LPARAM lParam);
+INT_PTR Popup_RegisterNotification(WPARAM wParam, LPARAM lParam);
+INT_PTR Popup_UnhookEventAsync(WPARAM wParam, LPARAM lParam);
+INT_PTR Popup_RegisterVfx(WPARAM wParam, LPARAM lParam);
 
-INT_PTR PopUp_RegisterPopupClass(WPARAM wParam, LPARAM lParam);
-INT_PTR PopUp_UnregisterPopupClass(WPARAM wParam, LPARAM lParam);
-INT_PTR PopUp_CreateClassPopup(WPARAM wParam, LPARAM lParam);
+INT_PTR Popup_RegisterPopupClass(WPARAM wParam, LPARAM lParam);
+INT_PTR Popup_UnregisterPopupClass(WPARAM wParam, LPARAM lParam);
+INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam);
 
 #endif // __services_h__

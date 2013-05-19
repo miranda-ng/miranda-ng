@@ -119,7 +119,7 @@ int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType,HICON hi
 			ppd.colorText = RGB(0,0,0);
 		}
 
-		PUAddPopUp(&ppd);
+		PUAddPopup(&ppd);
 	}
 
 	return IDOK;

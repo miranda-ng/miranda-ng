@@ -161,6 +161,7 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 			return 1;
 	}
 
+	SendMessage(pContainer->hwndStatus, SB_SETICON, 0, 0);
 	SendMessage(pContainer->hwndStatus, SB_SETTEXT, 0, lParam);
 	return 0;
 }

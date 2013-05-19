@@ -954,11 +954,11 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 					DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_MSGBOX, SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX);
 					DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_PROGRESS, "PopupProgress", FALSE);
 					// disable if popup plugin dos not sopport buttons inside popop
-					if (!myGlobals.PopUpActionsExist) {
+					if (!myGlobals.PopupActionsExist) {
 						EnableDlgItem(hDlg, CHECK_OPT_POPUP_MSGBOX, FALSE);
 						EnableDlgItem(hDlg, CHECK_OPT_POPUP_PROGRESS, FALSE);
 					}
-					else if (!(DB::Setting::GetDWord(0, "PopUp","Actions", 0) & 1)) {
+					else if (!(DB::Setting::GetDWord(0, "Popup","Actions", 0) & 1)) {
 						EnableDlgItem(hDlg, CHECK_OPT_POPUP_MSGBOX, FALSE);
 					}
 
@@ -1102,7 +1102,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 					ppd.colorBack = SendDlgItemMessage(hDlg, CLR_BBACK, CPM_GETCOLOUR, 0, 0);
 					ppd.colorText = SendDlgItemMessage(hDlg, CLR_BTEXT, CPM_GETCOLOUR, 0, 0);
 				}
-				PUAddPopUpT(&ppd);
+				PUAddPopupT(&ppd);
 
 				// Anniversary
 				mir_tcsncpy(ppd.lptzContactName, TranslateT("Anniversary"), SIZEOF(ppd.lptzContactName));
@@ -1119,7 +1119,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 					ppd.colorBack = SendDlgItemMessage(hDlg, CLR_ABACK, CPM_GETCOLOUR, 0, 0);
 					ppd.colorText = SendDlgItemMessage(hDlg, CLR_ATEXT, CPM_GETCOLOUR, 0, 0);
 				}
-				PUAddPopUpT(&ppd);
+				PUAddPopupT(&ppd);
 			}
 			break;
 
@@ -1272,7 +1272,7 @@ static int OnInitOptions(WPARAM wParam, LPARAM lParam)
 	// Popups page
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTitle = MODNAME;
-		odp.pszGroup = LPGEN("PopUps");
+		odp.pszGroup = LPGEN("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
 		odp.pfnDlgProc = DlgProc_Popups;
 		odp.flags = ODPF_BOLDGROUPS;

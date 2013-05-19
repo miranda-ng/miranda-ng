@@ -16,7 +16,7 @@
 BOOL CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-//BOOL CALLBACK DlgProcYahooPopUpOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+//BOOL CALLBACK DlgProcYahooPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 int YahooOptInit(WPARAM wParam,LPARAM lParam);
 
 #endif

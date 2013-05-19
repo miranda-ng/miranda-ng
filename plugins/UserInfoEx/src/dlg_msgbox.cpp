@@ -690,7 +690,7 @@ static LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 						EndDialog(pmpd->hDialog, IDCANCEL);
 				}
 			}
-			PUDeletePopUp(hDlg);
+			PUDeletePopup(hDlg);
 		}
 		break;
 
@@ -721,8 +721,8 @@ INT_PTR MsgBoxService(WPARAM wParam, LPARAM lParam)
 		// Shall the MessageBox displayed as popup?
 		if (!(pMsgBox->uType & (MB_INFOBAR|MB_NOPOPUP)) &&					// message box can be a popup?
 				ServiceExists(MS_POPUP_ADDPOPUPT) &&						// popups exist?
-				myGlobals.PopUpActionsExist == 1 &&							// popup support ext stuct?
-				(DB::Setting::GetDWord(NULL, "PopUp","Actions", 0) & 1) &&	// popup++ actions on?
+				myGlobals.PopupActionsExist == 1 &&							// popup support ext stuct?
+				(DB::Setting::GetDWord(NULL, "Popup","Actions", 0) & 1) &&	// popup++ actions on?
 				DB::Setting::GetByte(SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX))	// user likes popups?
 			return DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOXDUMMI), pMsgBox->hParent, MsgBoxPop, lParam);
 

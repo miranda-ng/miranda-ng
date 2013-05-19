@@ -88,43 +88,43 @@ int AddStatusModes(OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flags)
 void LoadOption_General()
 {
 	//Seconds
-	PopUpOptions.InfiniteDelay = db_get_b(NULL, MODULNAME, "InfiniteDelay", FALSE);
-	PopUpOptions.Seconds =
+	PopupOptions.InfiniteDelay = db_get_b(NULL, MODULNAME, "InfiniteDelay", FALSE);
+	PopupOptions.Seconds =
 		DBGetContactSettingRangedWord(NULL, MODULNAME, "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
-	PopUpOptions.LeaveHovered = db_get_b(NULL, MODULNAME, "LeaveHovered", TRUE);
+	PopupOptions.LeaveHovered = db_get_b(NULL, MODULNAME, "LeaveHovered", TRUE);
 
 	//Dynamic Resize
-	PopUpOptions.DynamicResize = db_get_b(NULL, MODULNAME, "DynamicResize", FALSE);
-	PopUpOptions.UseMinimumWidth = db_get_b(NULL, MODULNAME, "UseMinimumWidth", TRUE);
-	PopUpOptions.MinimumWidth = db_get_w(NULL, MODULNAME, "MinimumWidth", 160);
-	PopUpOptions.UseMaximumWidth = db_get_b(NULL, MODULNAME, "UseMaximumWidth", TRUE);
-	PopUpOptions.MaximumWidth = db_get_w(NULL, MODULNAME, "MaximumWidth", 300);
+	PopupOptions.DynamicResize = db_get_b(NULL, MODULNAME, "DynamicResize", FALSE);
+	PopupOptions.UseMinimumWidth = db_get_b(NULL, MODULNAME, "UseMinimumWidth", TRUE);
+	PopupOptions.MinimumWidth = db_get_w(NULL, MODULNAME, "MinimumWidth", 160);
+	PopupOptions.UseMaximumWidth = db_get_b(NULL, MODULNAME, "UseMaximumWidth", TRUE);
+	PopupOptions.MaximumWidth = db_get_w(NULL, MODULNAME, "MaximumWidth", 300);
 
 	//Position
-	PopUpOptions.Position
+	PopupOptions.Position
 		= DBGetContactSettingRangedByte(NULL, MODULNAME, "Position", POS_LOWERRIGHT, POS_MINVALUE, POS_MAXVALUE);
 
 	//Configure popup area
-	PopUpOptions.gapTop = db_get_w(NULL, MODULNAME, "gapTop", 5);
-	PopUpOptions.gapBottom = db_get_w(NULL, MODULNAME, "gapBottom", 5);
-	PopUpOptions.gapLeft = db_get_w(NULL, MODULNAME, "gapLeft", 5);
-	PopUpOptions.gapRight = db_get_w(NULL, MODULNAME, "gapRight", 5);
-	PopUpOptions.spacing = db_get_w(NULL, MODULNAME, "spacing", 5);
+	PopupOptions.gapTop = db_get_w(NULL, MODULNAME, "gapTop", 5);
+	PopupOptions.gapBottom = db_get_w(NULL, MODULNAME, "gapBottom", 5);
+	PopupOptions.gapLeft = db_get_w(NULL, MODULNAME, "gapLeft", 5);
+	PopupOptions.gapRight = db_get_w(NULL, MODULNAME, "gapRight", 5);
+	PopupOptions.spacing = db_get_w(NULL, MODULNAME, "spacing", 5);
 
 	//Spreading
-	PopUpOptions.Spreading
+	PopupOptions.Spreading
 		= DBGetContactSettingRangedByte(NULL, MODULNAME, "Spreading", SPREADING_VERTICAL, SPREADING_MINVALUE, SPREADING_MAXVALUE);
 
 	//miscellaneous
-	PopUpOptions.ReorderPopUps = db_get_b(NULL, MODULNAME, "ReorderPopUps", TRUE);
-	PopUpOptions.ReorderPopUpsWarning = db_get_b(NULL, MODULNAME, "ReorderPopUpsWarning", TRUE);
+	PopupOptions.ReorderPopups = db_get_b(NULL, MODULNAME, "ReorderPopups", TRUE);
+	PopupOptions.ReorderPopupsWarning = db_get_b(NULL, MODULNAME, "ReorderPopupsWarning", TRUE);
 
 	//disable When
-	PopUpOptions.ModuleIsEnabled = db_get_b(NULL, MODULNAME, "ModuleIsEnabled", TRUE);
-	PopUpOptions.DisableWhenFullscreen = db_get_b(NULL, MODULNAME, "DisableWhenFullscreen", TRUE);
+	PopupOptions.ModuleIsEnabled = db_get_b(NULL, MODULNAME, "ModuleIsEnabled", TRUE);
+	PopupOptions.DisableWhenFullscreen = db_get_b(NULL, MODULNAME, "DisableWhenFullscreen", TRUE);
 }
 
-INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static bool bDlgInit = false;	//some controls send WM_COMMAND before or during WM_INITDIALOG
 
@@ -139,37 +139,37 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	switch (msg) {
 	case WM_INITDIALOG:
 		//Seconds of delay
-		CheckDlgButton(hwnd, IDC_INFINITEDELAY, PopUpOptions.InfiniteDelay);
-		CheckDlgButton(hwnd, IDC_LEAVEHOVERED, PopUpOptions.LeaveHovered);
-		EnableWindow(GetDlgItem(hwnd, IDC_SECONDS), !PopUpOptions.InfiniteDelay);
-		EnableWindow(GetDlgItem(hwnd, IDC_SECONDS_STATIC1), !PopUpOptions.InfiniteDelay);
-		EnableWindow(GetDlgItem(hwnd, IDC_SECONDS_STATIC2), !PopUpOptions.InfiniteDelay);
-		EnableWindow(GetDlgItem(hwnd, IDC_LEAVEHOVERED), !PopUpOptions.InfiniteDelay);
-		SetDlgItemInt(hwnd, IDC_SECONDS, PopUpOptions.Seconds, FALSE);
+		CheckDlgButton(hwnd, IDC_INFINITEDELAY, PopupOptions.InfiniteDelay);
+		CheckDlgButton(hwnd, IDC_LEAVEHOVERED, PopupOptions.LeaveHovered);
+		EnableWindow(GetDlgItem(hwnd, IDC_SECONDS), !PopupOptions.InfiniteDelay);
+		EnableWindow(GetDlgItem(hwnd, IDC_SECONDS_STATIC1), !PopupOptions.InfiniteDelay);
+		EnableWindow(GetDlgItem(hwnd, IDC_SECONDS_STATIC2), !PopupOptions.InfiniteDelay);
+		EnableWindow(GetDlgItem(hwnd, IDC_LEAVEHOVERED), !PopupOptions.InfiniteDelay);
+		SetDlgItemInt(hwnd, IDC_SECONDS, PopupOptions.Seconds, FALSE);
 		SendDlgItemMessage(hwnd, IDC_SECONDS_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(SETTING_LIFETIME_MAX, SETTING_LIFETIME_MIN));
 
 		//Dynamic Resize
-		CheckDlgButton(hwnd, IDC_DYNAMICRESIZE, PopUpOptions.DynamicResize);
-		SetDlgItemText(hwnd, IDC_USEMAXIMUMWIDTH, PopUpOptions.DynamicResize ? LPGENT("Maximum width"): LPGENT("Width"));
+		CheckDlgButton(hwnd, IDC_DYNAMICRESIZE, PopupOptions.DynamicResize);
+		SetDlgItemText(hwnd, IDC_USEMAXIMUMWIDTH, PopupOptions.DynamicResize ? LPGENT("Maximum width"): LPGENT("Width"));
 		//Minimum Width
-		CheckDlgButton(hwnd, IDC_USEMINIMUMWIDTH, PopUpOptions.UseMinimumWidth);
+		CheckDlgButton(hwnd, IDC_USEMINIMUMWIDTH, PopupOptions.UseMinimumWidth);
 		SendDlgItemMessage(hwnd, IDC_MINIMUMWIDTH_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(
 			SETTING_MAXIMUMWIDTH_MAX,
 			SETTING_MINIMUMWIDTH_MIN));
-		SetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, PopUpOptions.MinimumWidth, FALSE);
+		SetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, PopupOptions.MinimumWidth, FALSE);
 		//Maximum Width
-		PopUpOptions.UseMaximumWidth = PopUpOptions.DynamicResize ? PopUpOptions.UseMaximumWidth : TRUE;
-		CheckDlgButton(hwnd, IDC_USEMAXIMUMWIDTH, PopUpOptions.UseMaximumWidth);
+		PopupOptions.UseMaximumWidth = PopupOptions.DynamicResize ? PopupOptions.UseMaximumWidth : TRUE;
+		CheckDlgButton(hwnd, IDC_USEMAXIMUMWIDTH, PopupOptions.UseMaximumWidth);
 		SendDlgItemMessage(hwnd, IDC_MAXIMUMWIDTH_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(
 			SETTING_MAXIMUMWIDTH_MAX,
 			SETTING_MINIMUMWIDTH_MIN));
-		SetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, PopUpOptions.MaximumWidth, FALSE);
+		SetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, PopupOptions.MaximumWidth, FALSE);
 		//And finally let's enable/disable them.
-		EnableWindow(GetDlgItem(hwnd, IDC_USEMINIMUMWIDTH),		PopUpOptions.DynamicResize);
-		EnableWindow(GetDlgItem(hwnd, IDC_MINIMUMWIDTH),		PopUpOptions.DynamicResize && PopUpOptions.UseMinimumWidth);
-		EnableWindow(GetDlgItem(hwnd, IDC_MINIMUMWIDTH_SPIN),	PopUpOptions.DynamicResize && PopUpOptions.UseMinimumWidth);
-		EnableWindow(GetDlgItem(hwnd, IDC_MAXIMUMWIDTH),		PopUpOptions.UseMaximumWidth);
-		EnableWindow(GetDlgItem(hwnd, IDC_MAXIMUMWIDTH_SPIN),	PopUpOptions.UseMaximumWidth);
+		EnableWindow(GetDlgItem(hwnd, IDC_USEMINIMUMWIDTH),		PopupOptions.DynamicResize);
+		EnableWindow(GetDlgItem(hwnd, IDC_MINIMUMWIDTH),		PopupOptions.DynamicResize && PopupOptions.UseMinimumWidth);
+		EnableWindow(GetDlgItem(hwnd, IDC_MINIMUMWIDTH_SPIN),	PopupOptions.DynamicResize && PopupOptions.UseMinimumWidth);
+		EnableWindow(GetDlgItem(hwnd, IDC_MAXIMUMWIDTH),		PopupOptions.UseMaximumWidth);
+		EnableWindow(GetDlgItem(hwnd, IDC_MAXIMUMWIDTH_SPIN),	PopupOptions.UseMaximumWidth);
 
 		//Position combobox.
 		{
@@ -178,7 +178,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("lower left corner"))	,POS_LOWERLEFT);
 			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("lower right corner"))	,POS_LOWERRIGHT);
 			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("upper right corner"))	,POS_UPPERRIGHT);
-			SendDlgItemMessage(hwnd, IDC_WHERE, CB_SETCURSEL, (PopUpOptions.Position) , 0);
+			SendDlgItemMessage(hwnd, IDC_WHERE, CB_SETCURSEL, (PopupOptions.Position) , 0);
 		}
 		//Configure popup area
 		{
@@ -192,16 +192,16 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			HWND hCtrl = GetDlgItem(hwnd, IDC_LAYOUT);
 			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("horizontal"))	,SPREADING_HORIZONTAL);
 			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("vertical"))	,SPREADING_VERTICAL);
-			SendDlgItemMessage(hwnd, IDC_LAYOUT, CB_SETCURSEL, (PopUpOptions.Spreading), 0);
+			SendDlgItemMessage(hwnd, IDC_LAYOUT, CB_SETCURSEL, (PopupOptions.Spreading), 0);
 		}
 		//miscellaneous
-		CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopUpOptions.ReorderPopUps);
+		CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopupOptions.ReorderPopups);
 
 		//Popup enabled
-		CheckDlgButton(hwnd, IDC_POPUPENABLED,		PopUpOptions.ModuleIsEnabled?BST_UNCHECKED:BST_CHECKED);
-		CheckDlgButton(hwnd, IDC_DISABLEINFS,			PopUpOptions.DisableWhenFullscreen);
-		EnableWindow(GetDlgItem(hwnd, IDC_DISABLEINFS),	PopUpOptions.ModuleIsEnabled);
-		EnableWindow(GetDlgItem(hwnd, IDC_STATUSES),	PopUpOptions.ModuleIsEnabled);
+		CheckDlgButton(hwnd, IDC_POPUPENABLED,		PopupOptions.ModuleIsEnabled?BST_UNCHECKED:BST_CHECKED);
+		CheckDlgButton(hwnd, IDC_DISABLEINFS,			PopupOptions.DisableWhenFullscreen);
+		EnableWindow(GetDlgItem(hwnd, IDC_DISABLEINFS),	PopupOptions.ModuleIsEnabled);
+		EnableWindow(GetDlgItem(hwnd, IDC_STATUSES),	PopupOptions.ModuleIsEnabled);
 
 		//new status options
 		{
@@ -256,27 +256,27 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		case BN_CLICKED:		//Button controls
 			switch( LOWORD(wParam)) {
 			case IDC_INFINITEDELAY:
-				PopUpOptions.InfiniteDelay = !PopUpOptions.InfiniteDelay;
-				EnableWindow(GetDlgItem(hwnd, IDC_SECONDS),!PopUpOptions.InfiniteDelay);
-				EnableWindow(GetDlgItem(hwnd, IDC_SECONDS_STATIC1),	!PopUpOptions.InfiniteDelay);
-				EnableWindow(GetDlgItem(hwnd, IDC_SECONDS_STATIC2),	!PopUpOptions.InfiniteDelay);
-				EnableWindow(GetDlgItem(hwnd, IDC_LEAVEHOVERED),	!PopUpOptions.InfiniteDelay);
+				PopupOptions.InfiniteDelay = !PopupOptions.InfiniteDelay;
+				EnableWindow(GetDlgItem(hwnd, IDC_SECONDS),!PopupOptions.InfiniteDelay);
+				EnableWindow(GetDlgItem(hwnd, IDC_SECONDS_STATIC1),	!PopupOptions.InfiniteDelay);
+				EnableWindow(GetDlgItem(hwnd, IDC_SECONDS_STATIC2),	!PopupOptions.InfiniteDelay);
+				EnableWindow(GetDlgItem(hwnd, IDC_LEAVEHOVERED),	!PopupOptions.InfiniteDelay);
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 
 			case IDC_LEAVEHOVERED:
-				PopUpOptions.LeaveHovered = !PopUpOptions.LeaveHovered;
+				PopupOptions.LeaveHovered = !PopupOptions.LeaveHovered;
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 
 			case IDC_DYNAMICRESIZE:
-				PopUpOptions.DynamicResize=!PopUpOptions.DynamicResize;
-				EnableWindow(GetDlgItem(hwnd, IDC_USEMINIMUMWIDTH),		PopUpOptions.DynamicResize);
-				EnableWindow(GetDlgItem(hwnd, IDC_MINIMUMWIDTH),		PopUpOptions.DynamicResize && PopUpOptions.UseMinimumWidth);
-				EnableWindow(GetDlgItem(hwnd, IDC_MINIMUMWIDTH_SPIN),	PopUpOptions.DynamicResize && PopUpOptions.UseMinimumWidth);
-				SetDlgItemText(hwnd, IDC_USEMAXIMUMWIDTH, PopUpOptions.DynamicResize ? TranslateT("Maximum width"): TranslateT("Width"));
-				if (!PopUpOptions.DynamicResize) {
-					PopUpOptions.UseMaximumWidth = TRUE;
+				PopupOptions.DynamicResize=!PopupOptions.DynamicResize;
+				EnableWindow(GetDlgItem(hwnd, IDC_USEMINIMUMWIDTH),		PopupOptions.DynamicResize);
+				EnableWindow(GetDlgItem(hwnd, IDC_MINIMUMWIDTH),		PopupOptions.DynamicResize && PopupOptions.UseMinimumWidth);
+				EnableWindow(GetDlgItem(hwnd, IDC_MINIMUMWIDTH_SPIN),	PopupOptions.DynamicResize && PopupOptions.UseMinimumWidth);
+				SetDlgItemText(hwnd, IDC_USEMAXIMUMWIDTH, PopupOptions.DynamicResize ? TranslateT("Maximum width"): TranslateT("Width"));
+				if (!PopupOptions.DynamicResize) {
+					PopupOptions.UseMaximumWidth = TRUE;
 					CheckDlgButton(hwnd, IDC_USEMAXIMUMWIDTH, BST_CHECKED);
 					EnableWindow(GetDlgItem(hwnd, IDC_USEMAXIMUMWIDTH),		TRUE);
 					EnableWindow(GetDlgItem(hwnd, IDC_MAXIMUMWIDTH),		TRUE);
@@ -286,20 +286,20 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			case IDC_USEMINIMUMWIDTH:
-				PopUpOptions.UseMinimumWidth= !PopUpOptions.UseMinimumWidth;
-				EnableWindow(GetDlgItem(hwnd, IDC_MINIMUMWIDTH),		PopUpOptions.UseMinimumWidth);
-				EnableWindow(GetDlgItem(hwnd, IDC_MINIMUMWIDTH_SPIN),	PopUpOptions.UseMinimumWidth);
+				PopupOptions.UseMinimumWidth= !PopupOptions.UseMinimumWidth;
+				EnableWindow(GetDlgItem(hwnd, IDC_MINIMUMWIDTH),		PopupOptions.UseMinimumWidth);
+				EnableWindow(GetDlgItem(hwnd, IDC_MINIMUMWIDTH_SPIN),	PopupOptions.UseMinimumWidth);
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 
 			case IDC_USEMAXIMUMWIDTH:
-				PopUpOptions.UseMaximumWidth= Button_GetCheck((HWND)lParam);
-				if (!PopUpOptions.DynamicResize) { //ugly - set always on if DynamicResize = off
+				PopupOptions.UseMaximumWidth= Button_GetCheck((HWND)lParam);
+				if (!PopupOptions.DynamicResize) { //ugly - set always on if DynamicResize = off
 					CheckDlgButton(hwnd, LOWORD(wParam), BST_CHECKED);
-					PopUpOptions.UseMaximumWidth = TRUE;
+					PopupOptions.UseMaximumWidth = TRUE;
 				}
-				EnableWindow(GetDlgItem(hwnd, IDC_MAXIMUMWIDTH), PopUpOptions.UseMaximumWidth);
-				EnableWindow(GetDlgItem(hwnd, IDC_MAXIMUMWIDTH_SPIN),	PopUpOptions.UseMaximumWidth);
+				EnableWindow(GetDlgItem(hwnd, IDC_MAXIMUMWIDTH), PopupOptions.UseMaximumWidth);
+				EnableWindow(GetDlgItem(hwnd, IDC_MAXIMUMWIDTH_SPIN),	PopupOptions.UseMaximumWidth);
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 
@@ -333,9 +333,9 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			case IDC_REORDERPOPUPS:
 				{
-					PopUpOptions.ReorderPopUps = !PopUpOptions.ReorderPopUps;
-					PopUpOptions.ReorderPopUpsWarning = PopUpOptions.ReorderPopUps ? 
-						db_get_b(NULL, MODULNAME, "ReorderPopUpsWarning", TRUE) : TRUE;
+					PopupOptions.ReorderPopups = !PopupOptions.ReorderPopups;
+					PopupOptions.ReorderPopupsWarning = PopupOptions.ReorderPopups ? 
+						db_get_b(NULL, MODULNAME, "ReorderPopupsWarning", TRUE) : TRUE;
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
 				break;
@@ -343,20 +343,20 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			case IDC_POPUPENABLED:
 				{
 					int chk = IsDlgButtonChecked(hwnd, IDC_POPUPENABLED);
-					if (PopUpOptions.ModuleIsEnabled&&chk || !PopUpOptions.ModuleIsEnabled&&!chk)
+					if (PopupOptions.ModuleIsEnabled&&chk || !PopupOptions.ModuleIsEnabled&&!chk)
 						svcEnableDisableMenuCommand(0,0);
-					EnableWindow(GetDlgItem(hwnd, IDC_STATUSES),	PopUpOptions.ModuleIsEnabled);
-					EnableWindow(GetDlgItem(hwnd, IDC_DISABLEINFS),	PopUpOptions.ModuleIsEnabled);
+					EnableWindow(GetDlgItem(hwnd, IDC_STATUSES),	PopupOptions.ModuleIsEnabled);
+					EnableWindow(GetDlgItem(hwnd, IDC_DISABLEINFS),	PopupOptions.ModuleIsEnabled);
 				}
 				break;
 
 			case IDC_DISABLEINFS:
-				PopUpOptions.DisableWhenFullscreen = !PopUpOptions.DisableWhenFullscreen;
+				PopupOptions.DisableWhenFullscreen = !PopupOptions.DisableWhenFullscreen;
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 
 			case IDC_PREVIEW:
-				PopUpPreview();
+				PopupPreview();
 				break;
 			}
 			break;
@@ -365,11 +365,11 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			switch( LOWORD(wParam)) {
 			//lParam = Handle to the control
 			case IDC_WHERE:
-				PopUpOptions.Position = ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
+				PopupOptions.Position = ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_LAYOUT:
-				PopUpOptions.Spreading = ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
+				PopupOptions.Spreading = ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 			}
@@ -384,8 +384,8 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					int seconds = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
 					if (	seconds >= SETTING_LIFETIME_MIN && 
 						seconds <= SETTING_LIFETIME_MAX &&
-						seconds != PopUpOptions.Seconds) {
-							PopUpOptions.Seconds = seconds;
+						seconds != PopupOptions.Seconds) {
+							PopupOptions.Seconds = seconds;
 							SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 					}
 				}
@@ -395,8 +395,8 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					int temp = GetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, NULL, FALSE);
 					if (	temp >= SETTING_MINIMUMWIDTH_MIN && 
 						temp <= SETTING_MAXIMUMWIDTH_MAX &&
-						temp != PopUpOptions.MinimumWidth) {
-							PopUpOptions.MinimumWidth = temp;
+						temp != PopupOptions.MinimumWidth) {
+							PopupOptions.MinimumWidth = temp;
 							SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 					}
 				}
@@ -406,8 +406,8 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					int temp = GetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, NULL, FALSE);
 					if (	temp >= SETTING_MINIMUMWIDTH_MIN && 
 						temp <= SETTING_MAXIMUMWIDTH_MAX &&
-						temp != PopUpOptions.MaximumWidth) {
-							PopUpOptions.MaximumWidth = temp;
+						temp != PopupOptions.MaximumWidth) {
+							PopupOptions.MaximumWidth = temp;
 							SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 					}
 				}
@@ -422,11 +422,11 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				{
 					int seconds = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
 					if (seconds > SETTING_LIFETIME_MAX)
-						PopUpOptions.Seconds = SETTING_LIFETIME_MAX;
+						PopupOptions.Seconds = SETTING_LIFETIME_MAX;
 					else if (seconds < SETTING_LIFETIME_MIN)
-						PopUpOptions.Seconds = SETTING_LIFETIME_MIN;
-					if (seconds != PopUpOptions.Seconds) {
-						SetDlgItemInt(hwnd, LOWORD(wParam), PopUpOptions.Seconds, FALSE);
+						PopupOptions.Seconds = SETTING_LIFETIME_MIN;
+					if (seconds != PopupOptions.Seconds) {
+						SetDlgItemInt(hwnd, LOWORD(wParam), PopupOptions.Seconds, FALSE);
 						ErrorMSG(SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
 						SetFocus((HWND)lParam);
 					}
@@ -436,18 +436,18 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				{
 					int temp = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
 					if (temp < SETTING_MINIMUMWIDTH_MIN)
-						PopUpOptions.MinimumWidth = SETTING_MINIMUMWIDTH_MIN;
+						PopupOptions.MinimumWidth = SETTING_MINIMUMWIDTH_MIN;
 					else if (temp > SETTING_MAXIMUMWIDTH_MAX)
-						PopUpOptions.MinimumWidth = SETTING_MAXIMUMWIDTH_MAX;
-					if (temp != PopUpOptions.MinimumWidth) {
-						SetDlgItemInt(hwnd, LOWORD(wParam), PopUpOptions.MinimumWidth, FALSE);
+						PopupOptions.MinimumWidth = SETTING_MAXIMUMWIDTH_MAX;
+					if (temp != PopupOptions.MinimumWidth) {
+						SetDlgItemInt(hwnd, LOWORD(wParam), PopupOptions.MinimumWidth, FALSE);
 						ErrorMSG(SETTING_MINIMUMWIDTH_MIN, SETTING_MAXIMUMWIDTH_MAX);
 						SetFocus((HWND)lParam);
 						break;
 					}
-					if (temp > PopUpOptions.MaximumWidth) {
-						PopUpOptions.MaximumWidth = min(temp, SETTING_MAXIMUMWIDTH_MAX);
-						SetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, PopUpOptions.MaximumWidth, FALSE);
+					if (temp > PopupOptions.MaximumWidth) {
+						PopupOptions.MaximumWidth = min(temp, SETTING_MAXIMUMWIDTH_MAX);
+						SetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, PopupOptions.MaximumWidth, FALSE);
 					}
 				}
 				break;
@@ -455,18 +455,18 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				{
 					int temp = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
 					if (temp >= SETTING_MAXIMUMWIDTH_MAX)
-						PopUpOptions.MaximumWidth = SETTING_MAXIMUMWIDTH_MAX;
+						PopupOptions.MaximumWidth = SETTING_MAXIMUMWIDTH_MAX;
 					else if (temp < SETTING_MINIMUMWIDTH_MIN)
-						PopUpOptions.MaximumWidth = SETTING_MINIMUMWIDTH_MIN;
-					if (temp != PopUpOptions.MaximumWidth) {
-						SetDlgItemInt(hwnd, LOWORD(wParam), PopUpOptions.MaximumWidth, FALSE);
+						PopupOptions.MaximumWidth = SETTING_MINIMUMWIDTH_MIN;
+					if (temp != PopupOptions.MaximumWidth) {
+						SetDlgItemInt(hwnd, LOWORD(wParam), PopupOptions.MaximumWidth, FALSE);
 						ErrorMSG(SETTING_MINIMUMWIDTH_MIN, SETTING_MAXIMUMWIDTH_MAX);
 						SetFocus((HWND)lParam);
 						break;
 					}
-					if (temp < PopUpOptions.MinimumWidth) {
-						PopUpOptions.MinimumWidth = max(temp, SETTING_MINIMUMWIDTH_MIN);
-						SetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, PopUpOptions.MinimumWidth, FALSE);
+					if (temp < PopupOptions.MinimumWidth) {
+						PopupOptions.MinimumWidth = max(temp, SETTING_MINIMUMWIDTH_MIN);
+						SetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, PopupOptions.MinimumWidth, FALSE);
 					}
 				}
 				break;
@@ -485,35 +485,35 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			case PSN_APPLY:
 				//Seconds
-				db_set_b(NULL, MODULNAME, "InfiniteDelay", PopUpOptions.InfiniteDelay);
-				db_set_w(NULL, MODULNAME, "Seconds", (WORD)PopUpOptions.Seconds);
-				db_set_b(NULL, MODULNAME, "LeaveHovered", PopUpOptions.LeaveHovered);
+				db_set_b(NULL, MODULNAME, "InfiniteDelay", PopupOptions.InfiniteDelay);
+				db_set_w(NULL, MODULNAME, "Seconds", (WORD)PopupOptions.Seconds);
+				db_set_b(NULL, MODULNAME, "LeaveHovered", PopupOptions.LeaveHovered);
 
 				//Dynamic Resize
-				db_set_b(NULL, MODULNAME, "DynamicResize", PopUpOptions.DynamicResize);
-				db_set_b(NULL, MODULNAME, "UseMinimumWidth", PopUpOptions.UseMinimumWidth);
-				db_set_w(NULL, MODULNAME, "MinimumWidth", PopUpOptions.MinimumWidth);
-				db_set_b(NULL, MODULNAME, "UseMaximumWidth", PopUpOptions.UseMaximumWidth);
-				db_set_w(NULL, MODULNAME, "MaximumWidth", PopUpOptions.MaximumWidth);
+				db_set_b(NULL, MODULNAME, "DynamicResize", PopupOptions.DynamicResize);
+				db_set_b(NULL, MODULNAME, "UseMinimumWidth", PopupOptions.UseMinimumWidth);
+				db_set_w(NULL, MODULNAME, "MinimumWidth", PopupOptions.MinimumWidth);
+				db_set_b(NULL, MODULNAME, "UseMaximumWidth", PopupOptions.UseMaximumWidth);
+				db_set_w(NULL, MODULNAME, "MaximumWidth", PopupOptions.MaximumWidth);
 
 				//Position
-				db_set_b(NULL, MODULNAME, "Position", (BYTE)PopUpOptions.Position);
+				db_set_b(NULL, MODULNAME, "Position", (BYTE)PopupOptions.Position);
 
 				//Configure popup area
-				db_set_w(NULL, MODULNAME, "gapTop",	(WORD)PopUpOptions.gapTop);
-				db_set_w(NULL, MODULNAME, "gapBottom",	(WORD)PopUpOptions.gapBottom);
-				db_set_w(NULL, MODULNAME, "gapLeft",	(WORD)PopUpOptions.gapLeft);
-				db_set_w(NULL, MODULNAME, "gapRight",	(WORD)PopUpOptions.gapRight);
-				db_set_w(NULL, MODULNAME, "spacing",	(WORD)PopUpOptions.spacing);
+				db_set_w(NULL, MODULNAME, "gapTop",	(WORD)PopupOptions.gapTop);
+				db_set_w(NULL, MODULNAME, "gapBottom",	(WORD)PopupOptions.gapBottom);
+				db_set_w(NULL, MODULNAME, "gapLeft",	(WORD)PopupOptions.gapLeft);
+				db_set_w(NULL, MODULNAME, "gapRight",	(WORD)PopupOptions.gapRight);
+				db_set_w(NULL, MODULNAME, "spacing",	(WORD)PopupOptions.spacing);
 
 				//Spreading
-				db_set_b(NULL, MODULNAME, "Spreading", (BYTE)PopUpOptions.Spreading);
+				db_set_b(NULL, MODULNAME, "Spreading", (BYTE)PopupOptions.Spreading);
 
 				//miscellaneous
-				Check_ReorderPopUps(hwnd);	//this save also PopUpOptions.ReorderPopUps
+				Check_ReorderPopups(hwnd);	//this save also PopupOptions.ReorderPopups
 
 				//disable When
-				db_set_b(NULL, MODULNAME, "DisableWhenFullscreen", PopUpOptions.DisableWhenFullscreen);
+				db_set_b(NULL, MODULNAME, "DisableWhenFullscreen", PopupOptions.DisableWhenFullscreen);
 
 				//new status options
 				{
@@ -539,9 +539,9 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			{
 				LPNMUPDOWN lpnmud = (LPNMUPDOWN) lParam;
 				int temp = lpnmud->iPos + lpnmud->iDelta;
-				if (temp > PopUpOptions.MaximumWidth) {
-					PopUpOptions.MaximumWidth = min(temp, SETTING_MAXIMUMWIDTH_MAX);
-					SetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, PopUpOptions.MaximumWidth, FALSE);
+				if (temp > PopupOptions.MaximumWidth) {
+					PopupOptions.MaximumWidth = min(temp, SETTING_MAXIMUMWIDTH_MAX);
+					SetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, PopupOptions.MaximumWidth, FALSE);
 				}
 			}
 			break;
@@ -550,9 +550,9 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			{
 				LPNMUPDOWN lpnmud = (LPNMUPDOWN) lParam;
 				int temp = lpnmud->iPos + lpnmud->iDelta;
-				if (temp < PopUpOptions.MinimumWidth) {
-					PopUpOptions.MinimumWidth = max(temp, SETTING_MINIMUMWIDTH_MIN);
-					SetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, PopUpOptions.MinimumWidth, FALSE);
+				if (temp < PopupOptions.MinimumWidth) {
+					PopupOptions.MinimumWidth = max(temp, SETTING_MINIMUMWIDTH_MIN);
+					SetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, PopupOptions.MinimumWidth, FALSE);
 				}
 			}
 		}
@@ -581,29 +581,29 @@ void ErrorMSG(int minValue, int maxValue)
 	MSGERROR(str);
 }
 
-void Check_ReorderPopUps(HWND hwnd) {
-	if (!PopUpOptions.ReorderPopUps && PopUpOptions.ReorderPopUpsWarning) {
+void Check_ReorderPopups(HWND hwnd) {
+	if (!PopupOptions.ReorderPopups && PopupOptions.ReorderPopupsWarning) {
 		int res = MessageBox(hwnd,
 			TranslateT("'Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n"),
 			TranslateT("Popup Plus Warning"), MB_ICONEXCLAMATION | MB_YESNOCANCEL);
 
 		switch (res) {
 		case IDYES:
-			PopUpOptions.ReorderPopUps = TRUE;
+			PopupOptions.ReorderPopups = TRUE;
 			//Reset warning for next option change !!!
-			PopUpOptions.ReorderPopUpsWarning = TRUE;
+			PopupOptions.ReorderPopupsWarning = TRUE;
 			break;
 		case IDNO:
-			PopUpOptions.ReorderPopUps = FALSE;
-			PopUpOptions.ReorderPopUpsWarning = FALSE;
+			PopupOptions.ReorderPopups = FALSE;
+			PopupOptions.ReorderPopupsWarning = FALSE;
 			break;
 		default:
 			return;
 		}
 	}
-	db_set_b(NULL, MODULNAME, "ReorderPopUps", PopUpOptions.ReorderPopUps);
-	db_set_b(NULL, MODULNAME, "ReorderPopUpsWarning", PopUpOptions.ReorderPopUpsWarning);
-	if (hwnd) CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopUpOptions.ReorderPopUps);
+	db_set_b(NULL, MODULNAME, "ReorderPopups", PopupOptions.ReorderPopups);
+	db_set_b(NULL, MODULNAME, "ReorderPopupsWarning", PopupOptions.ReorderPopupsWarning);
+	if (hwnd) CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopupOptions.ReorderPopups);
 }
 
 void ThemeDialogBackground(HWND hwnd)
@@ -642,22 +642,22 @@ INT_PTR CALLBACK PositionBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		SendMessage(GetDlgItem(hwndDlg, IDCANCEL), BUTTONADDTOOLTIP, (WPARAM)_T("Cancel"), BATF_TCHAR);
 		SendMessage(GetDlgItem(hwndDlg, IDCANCEL), BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_OPT_CANCEL,0));
 
-		SetDlgItemInt(hwndDlg, IDC_TXT_TOP, PopUpOptions.gapTop, FALSE);
-		SetDlgItemInt(hwndDlg, IDC_TXT_BOTTOM, PopUpOptions.gapBottom, FALSE);
-		SetDlgItemInt(hwndDlg, IDC_TXT_LEFT, PopUpOptions.gapLeft, FALSE);
-		SetDlgItemInt(hwndDlg, IDC_TXT_RIGHT, PopUpOptions.gapRight, FALSE);
-		SetDlgItemInt(hwndDlg, IDC_TXT_SPACING, PopUpOptions.spacing, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_TXT_TOP, PopupOptions.gapTop, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_TXT_BOTTOM, PopupOptions.gapBottom, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_TXT_LEFT, PopupOptions.gapLeft, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_TXT_RIGHT, PopupOptions.gapRight, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_TXT_SPACING, PopupOptions.spacing, FALSE);
 
 		TranslateDialogDefault(hwndDlg);
 		break;
 
 	case WM_COMMAND:
 		if ((LOWORD(wParam)) == IDOK) {
-			PopUpOptions.gapTop = GetDlgItemInt(hwndDlg, IDC_TXT_TOP, NULL, FALSE);
-			PopUpOptions.gapBottom = GetDlgItemInt(hwndDlg, IDC_TXT_BOTTOM, NULL, FALSE);
-			PopUpOptions.gapLeft = GetDlgItemInt(hwndDlg, IDC_TXT_LEFT, NULL, FALSE);
-			PopUpOptions.gapRight = GetDlgItemInt(hwndDlg, IDC_TXT_RIGHT, NULL, FALSE);
-			PopUpOptions.spacing = GetDlgItemInt(hwndDlg, IDC_TXT_SPACING, NULL, FALSE);
+			PopupOptions.gapTop = GetDlgItemInt(hwndDlg, IDC_TXT_TOP, NULL, FALSE);
+			PopupOptions.gapBottom = GetDlgItemInt(hwndDlg, IDC_TXT_BOTTOM, NULL, FALSE);
+			PopupOptions.gapLeft = GetDlgItemInt(hwndDlg, IDC_TXT_LEFT, NULL, FALSE);
+			PopupOptions.gapRight = GetDlgItemInt(hwndDlg, IDC_TXT_RIGHT, NULL, FALSE);
+			PopupOptions.spacing = GetDlgItemInt(hwndDlg, IDC_TXT_SPACING, NULL, FALSE);
 			PostMessage(hwndDlg, WM_CLOSE, 0, 0);
 		}
 		else if ((LOWORD(wParam)) == IDCANCEL)

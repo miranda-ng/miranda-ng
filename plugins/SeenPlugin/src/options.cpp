@@ -30,7 +30,7 @@ int ModeChange_mo(WPARAM,LPARAM);
 int CheckIfOnline(void);
 int ResetMissed(void);
 
-INT_PTR CALLBACK OptsPopUpsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
+INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 {
 	DBVARIANT dbv;
 	TCHAR szstamp[256];
@@ -105,7 +105,7 @@ INT_PTR CALLBACK OptsPopUpsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpara
 			GetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, szstamp, SIZEOF(szstamp));
 			_tcsncpy(ppd.lptzText, ParseString(szstamp,NULL,0), MAX_SECONDLINE);
 
-			PUAddPopUpT(&ppd);
+			PUAddPopupT(&ppd);
 			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 		} 
 
@@ -449,9 +449,9 @@ int OptionsInit(WPARAM wparam,LPARAM)
 
 	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
-		odp.ptszGroup = LPGENT("PopUps");
+		odp.ptszGroup = LPGENT("Popups");
 		odp.ptszTitle = LPGENT("Last seen");
-		odp.pfnDlgProc = OptsPopUpsDlgProc;
+		odp.pfnDlgProc = OptsPopupsDlgProc;
 		Options_AddPage(wparam, &odp);
 	}
 	return 0;

@@ -31,7 +31,7 @@ void PopupAction(HWND hWnd, BYTE action)
 	case PCA_DONOTHING:
 		return;
 	}
-	PUDeletePopUp(hWnd);
+	PUDeletePopup(hWnd);
 }
 
 static LRESULT CALLBACK PopupDlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -45,13 +45,13 @@ static LRESULT CALLBACK PopupDlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM
 				case IDYES:
 					if (IsWindow(pmpd->hDialog))
 						EndDialog(pmpd->hDialog, LOWORD(wParam));
-					PUDeletePopUp(hDlg);
+					PUDeletePopup(hDlg);
 					break;
 
 				case IDNO:
 					if (IsWindow(pmpd->hDialog))
 						EndDialog(pmpd->hDialog, LOWORD(wParam));
-					PUDeletePopUp(hDlg);
+					PUDeletePopup(hDlg);
 					break;
 				}
 			}
@@ -116,7 +116,7 @@ static void MakePopupAction(POPUPACTION &pa, int id)
 
 void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int ActType)
 {	
-	if ( !ServiceExists(MS_POPUP_ADDPOPUP) || !db_get_b(NULL, "PopUp", "ModuleIsEnabled", 1) ) {
+	if ( !ServiceExists(MS_POPUP_ADDPOPUP) || !db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) ) {
 		char setting[100];
 		mir_snprintf(setting, SIZEOF(setting), "Popups%dM", Number);
 		if (db_get_b(NULL, MODNAME, setting, DEFAULT_MESSAGE_ENABLED)) {

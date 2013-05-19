@@ -192,7 +192,7 @@ void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const HANDLE
 	ppd.PluginWindowProc = NULL;
 	ppd.PluginData = NULL;
 
-	PUAddPopUpT(&ppd);
+	PUAddPopupT(&ppd);
 
 }
 

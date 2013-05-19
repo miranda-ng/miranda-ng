@@ -36,12 +36,12 @@ struct CMailNumbersSub
 	int Display;		//uses YAMN_MSG_DISPLAY flag
 	int DisplayTC;		//uses YAMN_MSG_DISPLAY flag and YAMN_MSG_DISPLAYC flag
 	int DisplayUC;		//uses YAMN_MSG_DISPLAY flag and YAMN_MSG_DISPLAYC flag and YAMN_MSG_UNSEEN flag
-	int PopUp;			//uses YAMN_MSG_POPUP flag
-	int PopUpTC;		//uses YAMN_MSG_POPUPC flag
-	int PopUpNC;		//uses YAMN_MSG_POPUPC flag and YAMN_MSG_NEW flag
-	int PopUpRun;		//uses YAMN_MSG_POPUP flag and YAMN_MSG_NEW flag
-	int PopUpSL2NC;		//uses YAMN_MSG_SPAML2 flag and YAMN_MSG_NEW flag
-	int PopUpSL3NC;		//uses YAMN_MSG_SPAML3 flag and YAMN_MSG_NEW flag
+	int Popup;			//uses YAMN_MSG_POPUP flag
+	int PopupTC;		//uses YAMN_MSG_POPUPC flag
+	int PopupNC;		//uses YAMN_MSG_POPUPC flag and YAMN_MSG_NEW flag
+	int PopupRun;		//uses YAMN_MSG_POPUP flag and YAMN_MSG_NEW flag
+	int PopupSL2NC;		//uses YAMN_MSG_SPAML2 flag and YAMN_MSG_NEW flag
+	int PopupSL3NC;		//uses YAMN_MSG_SPAML3 flag and YAMN_MSG_NEW flag
 //	int SysTray;		//uses YAMN_MSG_SYSTRAY flag
 	int SysTrayUC;		//uses YAMN_MSG_SYSTRAY flag and YAMN_MSG_UNSEEN flag
 //	int Sound;		//uses YAMN_MSG_SOUND flag
@@ -127,17 +127,17 @@ int ChangeExistingMailStatus(HWND hListView,HACCOUNT ActualAccount,struct CMailN
 //Adds new mails to ListView and if any new, shows multi popup (every new message is new popup window created by popup plugin)
 // hListView- handle of listview window
 // ActualAccount- handle of account, whose mails are show
-// NewMailPopUp- pointer to prepared structure for popup plugin, can be NULL if no popup show
+// NewMailPopup- pointer to prepared structure for popup plugin, can be NULL if no popup show
 // MailNumbers- pointer to structure, in which function stores numbers of mails with some property
 // nflags- flags what to do when new mail arrives
 // returns one of UPDATE_XXX value (not implemented yet)
 int AddNewMailsToListView(HWND hListView,HACCOUNT ActualAccount,struct CMailNumbers *MailNumbers,DWORD nflags);
 
 //Window callback procedure for popup window (created by popup plugin)
-LRESULT CALLBACK NewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam);
+LRESULT CALLBACK NewMailPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam);
 
 //Window callback procedure for popup window (created by popup plugin)
-LRESULT CALLBACK NoNewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam);
+LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam);
 
 //Dialog callback procedure for mail browser
 INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam);
@@ -245,34 +245,34 @@ void IncrementMailCounters(HYAMNMAIL msgq,struct CMailNumbers *MN)
 			MN->Real.DisplayUC++;
 	if (msgq->Flags & YAMN_MSG_POPUP)
 		if (msgq->Flags & YAMN_MSG_VIRTUAL)
-			MN->Virtual.PopUp++;
+			MN->Virtual.Popup++;
 		else
-			MN->Real.PopUp++;
+			MN->Real.Popup++;
 	if ((msgq->Flags & YAMN_MSG_POPUPC) == YAMN_MSG_POPUPC)
 		if (msgq->Flags & YAMN_MSG_VIRTUAL)
-			MN->Virtual.PopUpTC++;
+			MN->Virtual.PopupTC++;
 		else
-			MN->Real.PopUpTC++;
+			MN->Real.PopupTC++;
 	if ((msgq->Flags & (YAMN_MSG_NEW | YAMN_MSG_POPUPC)) == (YAMN_MSG_NEW | YAMN_MSG_POPUPC))
 		if (msgq->Flags & YAMN_MSG_VIRTUAL)
-			MN->Virtual.PopUpNC++;
+			MN->Virtual.PopupNC++;
 		else
-			MN->Real.PopUpNC++;
+			MN->Real.PopupNC++;
 	if ((msgq->Flags & (YAMN_MSG_NEW | YAMN_MSG_POPUP)) == (YAMN_MSG_NEW | YAMN_MSG_POPUP))
 		if (msgq->Flags & YAMN_MSG_VIRTUAL)
-			MN->Virtual.PopUpRun++;
+			MN->Virtual.PopupRun++;
 		else
-			MN->Real.PopUpRun++;
+			MN->Real.PopupRun++;
 	if ((msgq->Flags & YAMN_MSG_NEW) && YAMN_MSG_SPAML(msgq->Flags,YAMN_MSG_SPAML2))
 		if (msgq->Flags & YAMN_MSG_VIRTUAL)
-			MN->Virtual.PopUpSL2NC++;
+			MN->Virtual.PopupSL2NC++;
 		else
-			MN->Real.PopUpSL2NC++;
+			MN->Real.PopupSL2NC++;
 	if ((msgq->Flags & YAMN_MSG_NEW) && YAMN_MSG_SPAML(msgq->Flags,YAMN_MSG_SPAML3))
 		if (msgq->Flags & YAMN_MSG_VIRTUAL)
-			MN->Virtual.PopUpSL3NC++;
+			MN->Virtual.PopupSL3NC++;
 		else
-			MN->Real.PopUpSL3NC++;
+			MN->Real.PopupSL3NC++;
 /*	if (msgq->MailData->Flags & YAMN_MSG_SYSTRAY)
 		if (msgq->Flags & YAMN_MSG_VIRTUAL)
 			MN->Virtual.SysTray++;
@@ -319,7 +319,7 @@ int UpdateMails(HWND hDlg,HACCOUNT ActualAccount,DWORD nflags,DWORD nnflags)
 
 	HYAMNMAIL msgq;
 	BOOL Loaded;
-	BOOL RunMailBrowser,RunPopUps;
+	BOOL RunMailBrowser,RunPopups;
 
 	mwui=(struct CMailWinUserInfo *)GetWindowLongPtr(hDlg,DWLP_USER);
 	//now we ensure read access for account and write access for its mails
@@ -396,13 +396,13 @@ int UpdateMails(HWND hDlg,HACCOUNT ActualAccount,DWORD nflags,DWORD nnflags)
 
 	if ( (nflags & YAMN_ACC_POP) && 
 		(ActualAccount->Flags & YAMN_ACC_POPN) &&
-		(MN.Real.PopUpNC+MN.Virtual.PopUpNC))		//if some popups with mails are needed to show
-			RunPopUps=TRUE;
-	else	RunPopUps=FALSE;
+		(MN.Real.PopupNC+MN.Virtual.PopupNC))		//if some popups with mails are needed to show
+			RunPopups=TRUE;
+	else	RunPopups=FALSE;
 
 	if (RunMailBrowser)
 		ChangeExistingMailStatus(GetDlgItem(hDlg,IDC_LISTMAILS),ActualAccount,&MN);
-	if (RunMailBrowser || RunPopUps)
+	if (RunMailBrowser || RunPopups)
 		AddNewMailsToListView(hDlg==NULL ? NULL : GetDlgItem(hDlg,IDC_LISTMAILS),ActualAccount,&MN,nflags);
 
 	if (RunMailBrowser)
@@ -485,7 +485,7 @@ void MimeDateToLocalizedDateTime(char *datein, WCHAR *dateout, int lendateout);
 int AddNewMailsToListView(HWND hListView,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWORD nflags)
 {
 	HYAMNMAIL msgq;
-	POPUPDATAT NewMailPopUp = {0};
+	POPUPDATAT NewMailPopup = {0};
 
 	WCHAR *FromStr;
 	WCHAR SizeStr[20];
@@ -510,14 +510,14 @@ int AddNewMailsToListView(HWND hListView,HACCOUNT ActualAccount,struct CMailNumb
 		lfoundi=0;
 	}
 
-	NewMailPopUp.lchContact=(ActualAccount->hContact != NULL) ? ActualAccount->hContact : ActualAccount;
-	NewMailPopUp.lchIcon=g_LoadIconEx(2);
-	NewMailPopUp.colorBack=nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopUpB : GetSysColor(COLOR_BTNFACE);
-	NewMailPopUp.colorText=nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopUpT : GetSysColor(COLOR_WINDOWTEXT);
-	NewMailPopUp.iSeconds=ActualAccount->NewMailN.PopUpTime;
+	NewMailPopup.lchContact=(ActualAccount->hContact != NULL) ? ActualAccount->hContact : ActualAccount;
+	NewMailPopup.lchIcon=g_LoadIconEx(2);
+	NewMailPopup.colorBack=nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopupB : GetSysColor(COLOR_BTNFACE);
+	NewMailPopup.colorText=nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
+	NewMailPopup.iSeconds=ActualAccount->NewMailN.PopupTime;
 
-	NewMailPopUp.PluginWindowProc=NewMailPopUpProc;
-	NewMailPopUp.PluginData=(void *)0;					//it's new mail popup
+	NewMailPopup.PluginWindowProc=NewMailPopupProc;
+	NewMailPopup.PluginData=(void *)0;					//it's new mail popup
 
 	for (msgq=(HYAMNMAIL)ActualAccount->Mails;msgq != NULL;msgq=msgq->Next,lfoundi++)
 	{
@@ -600,16 +600,16 @@ int AddNewMailsToListView(HWND hListView,HACCOUNT ActualAccount,struct CMailNumb
 		}
 
 		if ((nflags & YAMN_ACC_POP) && (ActualAccount->Flags & YAMN_ACC_POPN) && (msgq->Flags & YAMN_MSG_POPUP) && (msgq->Flags & YAMN_MSG_NEW)) {
-			lstrcpyn(NewMailPopUp.lptzContactName, FromStr, SIZEOF(NewMailPopUp.lptzContactName));
-			lstrcpyn(NewMailPopUp.lptzText, UnicodeHeader.Subject, SIZEOF(NewMailPopUp.lptzText));
+			lstrcpyn(NewMailPopup.lptzContactName, FromStr, SIZEOF(NewMailPopup.lptzContactName));
+			lstrcpyn(NewMailPopup.lptzText, UnicodeHeader.Subject, SIZEOF(NewMailPopup.lptzText));
 
 			PYAMN_MAILSHOWPARAM MailParam = (PYAMN_MAILSHOWPARAM)malloc(sizeof(YAMN_MAILSHOWPARAM));
 			if (MailParam) {
 				MailParam->account = ActualAccount;
 				MailParam->mail = msgq;
 				MailParam->ThreadRunningEV = 0;
-				NewMailPopUp.PluginData = MailParam;
-				PUAddPopUpT(&NewMailPopUp);
+				NewMailPopup.PluginData = MailParam;
+				PUAddPopupT(&NewMailPopup);
 			}
 		}
 
@@ -645,15 +645,15 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 	if (MN->Real.EventNC+MN->Virtual.EventNC)
 		NotifyEventHooks(hNewMailHook,0,0);
 
-	if ((nflags & YAMN_ACC_KBN) && (MN->Real.PopUpRun+MN->Virtual.PopUpRun))
+	if ((nflags & YAMN_ACC_KBN) && (MN->Real.PopupRun+MN->Virtual.PopupRun))
 	{
-		CallService(MS_KBDNOTIFY_STARTBLINK,(WPARAM)MN->Real.PopUpNC+MN->Virtual.PopUpNC,NULL);
+		CallService(MS_KBDNOTIFY_STARTBLINK,(WPARAM)MN->Real.PopupNC+MN->Virtual.PopupNC,NULL);
 	}
 
-	if ((nflags & YAMN_ACC_CONT) && (MN->Real.PopUpRun+MN->Virtual.PopUpRun))
+	if ((nflags & YAMN_ACC_CONT) && (MN->Real.PopupRun+MN->Virtual.PopupRun))
 	{
 		char sMsg[250];
-		_snprintf(sMsg,249,Translate("%s : %d new mail message(s), %d total"),ActualAccount->Name,MN->Real.PopUpNC+MN->Virtual.PopUpNC,MN->Real.PopUpTC+MN->Virtual.PopUpTC);
+		_snprintf(sMsg,249,Translate("%s : %d new mail message(s), %d total"),ActualAccount->Name,MN->Real.PopupNC+MN->Virtual.PopupNC,MN->Real.PopupTC+MN->Virtual.PopupTC);
 		if (!(nflags & YAMN_ACC_CONTNOEVENT)) {
 			CLISTEVENT cEvent;
 			cEvent.cbSize = sizeof(CLISTEVENT);
@@ -676,22 +676,22 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 
 	if ((nflags & YAMN_ACC_POP) && 
 		!(ActualAccount->Flags & YAMN_ACC_POPN) && 
-		(MN->Real.PopUpRun+MN->Virtual.PopUpRun))
+		(MN->Real.PopupRun+MN->Virtual.PopupRun))
 	{
-		POPUPDATAT NewMailPopUp ={0};
+		POPUPDATAT NewMailPopup ={0};
 
-		NewMailPopUp.lchContact=(ActualAccount->hContact != NULL) ? ActualAccount->hContact : ActualAccount;
-		NewMailPopUp.lchIcon=g_LoadIconEx(2);
-		NewMailPopUp.colorBack=nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopUpB : GetSysColor(COLOR_BTNFACE);
-		NewMailPopUp.colorText=nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopUpT : GetSysColor(COLOR_WINDOWTEXT);
-		NewMailPopUp.iSeconds=ActualAccount->NewMailN.PopUpTime;
+		NewMailPopup.lchContact=(ActualAccount->hContact != NULL) ? ActualAccount->hContact : ActualAccount;
+		NewMailPopup.lchIcon=g_LoadIconEx(2);
+		NewMailPopup.colorBack=nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopupB : GetSysColor(COLOR_BTNFACE);
+		NewMailPopup.colorText=nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
+		NewMailPopup.iSeconds=ActualAccount->NewMailN.PopupTime;
 
-		NewMailPopUp.PluginWindowProc = NewMailPopUpProc;
-		NewMailPopUp.PluginData = (void *)0;	//multiple popups
+		NewMailPopup.PluginWindowProc = NewMailPopupProc;
+		NewMailPopup.PluginData = (void *)0;	//multiple popups
 
-		lstrcpyn(NewMailPopUp.lptzContactName, _A2T(ActualAccount->Name),SIZEOF(NewMailPopUp.lptzContactName));
-		wsprintf(NewMailPopUp.lptzText,TranslateT("%d new mail message(s), %d total"),MN->Real.PopUpNC+MN->Virtual.PopUpNC,MN->Real.PopUpTC+MN->Virtual.PopUpTC);
-		PUAddPopUpT(&NewMailPopUp);
+		lstrcpyn(NewMailPopup.lptzContactName, _A2T(ActualAccount->Name),SIZEOF(NewMailPopup.lptzContactName));
+		wsprintf(NewMailPopup.lptzText,TranslateT("%d new mail message(s), %d total"),MN->Real.PopupNC+MN->Virtual.PopupNC,MN->Real.PopupTC+MN->Virtual.PopupTC);
+		PUAddPopupT(&NewMailPopup);
 	}
 
 	//destroy tray icon if no new mail
@@ -779,35 +779,35 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 		if (nflags & YAMN_ACC_SND)
 			CallService(MS_SKIN_PLAYSOUND,0,(LPARAM)YAMN_NEWMAILSOUND);
 
-	if ((nnflags & YAMN_ACC_POP) && (MN->Real.PopUpRun+MN->Virtual.PopUpRun==0))
+	if ((nnflags & YAMN_ACC_POP) && (MN->Real.PopupRun+MN->Virtual.PopupRun==0))
 	{
-		POPUPDATAT NoNewMailPopUp;
+		POPUPDATAT NoNewMailPopup;
 
-		NoNewMailPopUp.lchContact=(ActualAccount->hContact != NULL) ? ActualAccount->hContact : ActualAccount;
-		NoNewMailPopUp.lchIcon=g_LoadIconEx(1);
-		NoNewMailPopUp.colorBack=ActualAccount->NoNewMailN.Flags & YAMN_ACC_POPC ? ActualAccount->NoNewMailN.PopUpB : GetSysColor(COLOR_BTNFACE);
-		NoNewMailPopUp.colorText=ActualAccount->NoNewMailN.Flags & YAMN_ACC_POPC ? ActualAccount->NoNewMailN.PopUpT : GetSysColor(COLOR_WINDOWTEXT);
-		NoNewMailPopUp.iSeconds=ActualAccount->NoNewMailN.PopUpTime;
+		NoNewMailPopup.lchContact=(ActualAccount->hContact != NULL) ? ActualAccount->hContact : ActualAccount;
+		NoNewMailPopup.lchIcon=g_LoadIconEx(1);
+		NoNewMailPopup.colorBack=ActualAccount->NoNewMailN.Flags & YAMN_ACC_POPC ? ActualAccount->NoNewMailN.PopupB : GetSysColor(COLOR_BTNFACE);
+		NoNewMailPopup.colorText=ActualAccount->NoNewMailN.Flags & YAMN_ACC_POPC ? ActualAccount->NoNewMailN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
+		NoNewMailPopup.iSeconds=ActualAccount->NoNewMailN.PopupTime;
 
-		NoNewMailPopUp.PluginWindowProc=NoNewMailPopUpProc;
-		NoNewMailPopUp.PluginData=(void *)0;					//it's not new mail popup
+		NoNewMailPopup.PluginWindowProc=NoNewMailPopupProc;
+		NoNewMailPopup.PluginData=(void *)0;					//it's not new mail popup
 
-		lstrcpyn(NoNewMailPopUp.lptzContactName,_A2T(ActualAccount->Name),SIZEOF(NoNewMailPopUp.lptzContactName));
-		if (MN->Real.PopUpSL2NC+MN->Virtual.PopUpSL2NC)
-			wsprintf(NoNewMailPopUp.lptzText,TranslateT("No new mail message, %d spam(s)"),MN->Real.PopUpSL2NC+MN->Virtual.PopUpSL2NC);
+		lstrcpyn(NoNewMailPopup.lptzContactName,_A2T(ActualAccount->Name),SIZEOF(NoNewMailPopup.lptzContactName));
+		if (MN->Real.PopupSL2NC+MN->Virtual.PopupSL2NC)
+			wsprintf(NoNewMailPopup.lptzText,TranslateT("No new mail message, %d spam(s)"),MN->Real.PopupSL2NC+MN->Virtual.PopupSL2NC);
 		else
-			lstrcpyn(NoNewMailPopUp.lptzText,TranslateT("No new mail message"),SIZEOF(NoNewMailPopUp.lptzText));
-		PUAddPopUpT(&NoNewMailPopUp);
+			lstrcpyn(NoNewMailPopup.lptzText,TranslateT("No new mail message"),SIZEOF(NoNewMailPopup.lptzText));
+		PUAddPopupT(&NoNewMailPopup);
 	}
 
-	if ((nflags & YAMN_ACC_CONT) && (MN->Real.PopUpRun+MN->Virtual.PopUpRun==0))
+	if ((nflags & YAMN_ACC_CONT) && (MN->Real.PopupRun+MN->Virtual.PopupRun==0))
 	{
 		if (ActualAccount->hContact != NULL)
 		{
-			if (MN->Real.PopUpTC+MN->Virtual.PopUpTC)
+			if (MN->Real.PopupTC+MN->Virtual.PopupTC)
 			{
 				char tmp[255];
-				sprintf(tmp,Translate("%d new mail message(s), %d total"),MN->Real.PopUpNC+MN->Virtual.PopUpNC,MN->Real.PopUpTC+MN->Virtual.PopUpTC);
+				sprintf(tmp,Translate("%d new mail message(s), %d total"),MN->Real.PopupNC+MN->Virtual.PopupNC,MN->Real.PopupTC+MN->Virtual.PopupTC);
 				db_set_s(ActualAccount->hContact, "CList", "StatusMsg", tmp);
 			}
 			else db_set_s(ActualAccount->hContact, "CList", "StatusMsg", Translate("No new mail message"));
@@ -820,7 +820,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 }
 
 DWORD WINAPI ShowEmailThread(LPVOID Param);
-LRESULT CALLBACK NewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) 
+LRESULT CALLBACK NewMailPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) 
 {
 	INT_PTR PluginParam=0;
 	switch(msg)
@@ -860,12 +860,12 @@ LRESULT CALLBACK NewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 
 
 					#ifdef DEBUG_SYNCHRO
-					DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read wait\n");
+					DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read wait\n");
 					#endif
 					if (WAIT_OBJECT_0==WaitToReadFcn(Account->AccountAccessSO))
 					{
 						#ifdef DEBUG_SYNCHRO
-						DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read enter\n");
+						DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read enter\n");
 						#endif
 						switch(msg)
 						{
@@ -880,13 +880,13 @@ LRESULT CALLBACK NewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 							break;
 						}
 						#ifdef DEBUG_SYNCHRO
-						DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read done\n");
+						DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read done\n");
 						#endif
 						ReadDoneFcn(Account->AccountAccessSO);
 					}
 					#ifdef DEBUG_SYNCHRO
 					else
-						DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read enter failed\n");
+						DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read enter failed\n");
 					#endif
 				}
 				if ((Account->NewMailN.Flags & YAMN_ACC_CONT) && !(Account->NewMailN.Flags & YAMN_ACC_CONTNOEVENT)) {
@@ -938,7 +938,7 @@ LRESULT CALLBACK NewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 	return DefWindowProc(hWnd,msg,wParam,lParam);
 }
 
-LRESULT CALLBACK NoNewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) 
+LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) 
 {
 	switch(msg)
 	{
@@ -960,12 +960,12 @@ LRESULT CALLBACK NoNewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPar
 					ActualAccount = (HACCOUNT) hContact;
 
 				#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read wait\n");
+				DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read wait\n");
 				#endif
 				if (WAIT_OBJECT_0==WaitToReadFcn(ActualAccount->AccountAccessSO))
 				{
 					#ifdef DEBUG_SYNCHRO
-					DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read enter\n");
+					DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read enter\n");
 					#endif
 					switch(msg)
 					{
@@ -984,13 +984,13 @@ LRESULT CALLBACK NoNewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPar
 						break;
 					}
 					#ifdef DEBUG_SYNCHRO
-					DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read done\n");
+					DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read done\n");
 					#endif
 					ReadDoneFcn(ActualAccount->AccountAccessSO);
 				}
 				#ifdef DEBUG_SYNCHRO
 				else
-					DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read enter failed\n");
+					DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read enter failed\n");
 				#endif
 				SendMessageW(hWnd,UM_DESTROYPOPUP,0,0);
 			}

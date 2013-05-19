@@ -25,8 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __opt_gen_h__
 
 void LoadOption_General();
-void Check_ReorderPopUps(HWND hwnd = 0);
-INT_PTR CALLBACK DlgProcPopUpGeneral(HWND, UINT, WPARAM, LPARAM);
+void Check_ReorderPopups(HWND hwnd = 0);
+INT_PTR CALLBACK DlgProcPopupGeneral(HWND, UINT, WPARAM, LPARAM);
 
 void ErrorMSG(int minValue, int maxValue);
 

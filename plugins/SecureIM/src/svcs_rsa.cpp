@@ -52,7 +52,7 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 	if (bAAK) {
 		if (k )	mir_snprintf(msg,MSGSIZE,Translate(sim523),cnm,uin,sha,sha_old);
 		else	mir_snprintf(msg,MSGSIZE,Translate(sim521),cnm,uin,sha);
-		showPopUpKRmsg(ptr->hContact,msg);
+		showPopupKRmsg(ptr->hContact,msg);
 		HistoryLog(ptr->hContact,msg);
 		v = 1;
 #if defined(_DEBUG) || defined(NETLIB_LOG)
@@ -94,7 +94,7 @@ void __cdecl rsa_notify(HANDLE context, int state)
 
 	switch( state) {
 	case 1:
-		showPopUpEC(ptr->hContact);
+		showPopupEC(ptr->hContact);
 		ShowStatusIconNotify(ptr->hContact);
 		waitForExchange(ptr,2); // досылаем сообщения из очереди
 		return;
@@ -125,7 +125,7 @@ void __cdecl rsa_notify(HANDLE context, int state)
 		{
 			char buf[1024];
 			sprintf(buf,sim510,-state);
-			showPopUpDCmsg(ptr->hContact,buf);
+			showPopupDCmsg(ptr->hContact,buf);
 			ShowStatusIconNotify(ptr->hContact);
 			if (ptr->cntx) deleteRSAcntx(ptr);
 			waitForExchange(ptr,3); // досылаем нешифровано
@@ -134,7 +134,7 @@ void __cdecl rsa_notify(HANDLE context, int state)
 
 	case -3: // соединение разорвано вручную
 	case -4: // соединение разорвано вручную другой стороной
-		showPopUpDC(ptr->hContact);
+		showPopupDC(ptr->hContact);
 		ShowStatusIconNotify(ptr->hContact);
 		if (ptr->cntx) deleteRSAcntx(ptr);
 		waitForExchange(ptr,3); // досылаем нешифровано
@@ -143,7 +143,7 @@ void __cdecl rsa_notify(HANDLE context, int state)
 	default:
 		return;
 	}
-	showPopUpDCmsg(ptr->hContact,msg);
+	showPopupDCmsg(ptr->hContact,msg);
 	ShowStatusIconNotify(ptr->hContact);
 	if (ptr->cntx) deleteRSAcntx(ptr);
 	waitForExchange(ptr,3); // досылаем нешифровано

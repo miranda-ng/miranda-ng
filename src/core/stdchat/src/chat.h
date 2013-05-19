@@ -340,7 +340,7 @@ struct GlobalLogSettings_t {
 	BOOL        LogIndentEnabled;
 	BOOL        StripFormat;
 	BOOL        SoundsFocus;
-	BOOL        PopUpInactiveOnly;
+	BOOL        PopupInactiveOnly;
 	BOOL        TrayIconInactiveOnly;
 	BOOL        AddColonToAutoComplete;
 	BOOL        TabsEnable;

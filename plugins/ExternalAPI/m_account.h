@@ -44,7 +44,7 @@ enum
 typedef struct CNotification
 {
 //#define YAMN_NOTIFICATIONVERSION	is not implemented, use YAMN_ACCOUNTVERSION instead
-	CNotification(): PopUpB(0), PopUpT(0), PopUpTime(0), App(NULL), AppParam(NULL), Sound(NULL), TrayIcon1(NULL), TrayIcon2(NULL) {}
+	CNotification(): PopupB(0), PopupT(0), PopupTime(0), App(NULL), AppParam(NULL), Sound(NULL), TrayIcon1(NULL), TrayIcon2(NULL) {}
 
 #define	YAMN_ACC_SND	0x00000001	//Plays sound (1)
 #define	YAMN_ACC_MSG	0x00000002	//Shows dialog
@@ -61,9 +61,9 @@ typedef struct CNotification
 //(1) - usable only in newmail notification
 	DWORD Flags;
 
-	COLORREF PopUpB;
-	COLORREF PopUpT;
-	DWORD PopUpTime;
+	COLORREF PopupB;
+	COLORREF PopupT;
+	DWORD PopupTime;
 	WCHAR *App;
 	WCHAR *AppParam;
 

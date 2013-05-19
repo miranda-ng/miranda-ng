@@ -170,7 +170,7 @@ void ShowPopupEx(HANDLE hContact, const TCHAR *title, const TCHAR *description,
 		}
 
 		// Now that every field has been filled, we want to see the popup.
-		PUAddPopUpT(&ppd);
+		PUAddPopupT(&ppd);
 	}
 	else
 	{
@@ -210,7 +210,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			PostMessage(hPopupWindow, WMU_ACTION, (WPARAM)popup->plugin_data, opts.popup_left_click_action);
 
 			if (opts.popup_left_click_action != POPUP_ACTION_DONOTHING)
-				PUDeletePopUp(hWnd);
+				PUDeletePopup(hWnd);
 
 			return TRUE;
 		}
@@ -221,7 +221,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			PostMessage(hPopupWindow, WMU_ACTION, (WPARAM)popup->plugin_data, opts.popup_right_click_action);
 
 			if (opts.popup_right_click_action != POPUP_ACTION_DONOTHING)
-				PUDeletePopUp(hWnd);
+				PUDeletePopup(hWnd);
 
 			return TRUE;
 		}
@@ -248,13 +248,13 @@ static LRESULT CALLBACK DumbPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam,
 	switch(message) {
 		case WM_COMMAND:
 		{
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			return TRUE;
 		}
 
 		case WM_CONTEXTMENU:
 		{
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			return TRUE;
 		}
 

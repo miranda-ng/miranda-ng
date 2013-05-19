@@ -87,7 +87,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		case IDM_ABOUT:
 			break;
 		case IDM_EXIT:
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			break;	
 		case IDM_SHOW:
 			CallService(MS_WUMF_CONNECTIONSSHOW, (WPARAM)0, (LPARAM)0);
@@ -96,7 +96,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		
 		switch (HIWORD(wParam)) {
 		case STN_CLICKED:
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			return TRUE;
 		}
 		break;
@@ -111,17 +111,17 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-void ShowWumfPopUp(PWumf w)
+void ShowWumfPopup(PWumf w)
 {
 	TCHAR text[512], title[512];
 
 	if (!WumfOptions.AlertFolders && (w->dwAttr & FILE_ATTRIBUTE_DIRECTORY)) return;
 	mir_sntprintf(title, SIZEOF(title), _T("%s (%s)"), w->szComp, w->szUser);
 	mir_sntprintf(text, SIZEOF(text), _T("%s (%s)"), w->szPath, w->szPerm);
-	ShowThePopUp(w, title, text);
+	ShowThePopup(w, title, text);
 }
 
-void ShowThePopUp(PWumf w, LPTSTR title, LPTSTR text)
+void ShowThePopup(PWumf w, LPTSTR title, LPTSTR text)
 {
 	POPUPDATAT ppd = {0};
 	ppd.lchContact = NULL;
@@ -147,39 +147,39 @@ void ShowThePopUp(PWumf w, LPTSTR title, LPTSTR text)
 
 	ppd.PluginWindowProc = PopupDlgProc;
 	ppd.PluginData = w;
-	PUAddPopUpT(&ppd);
+	PUAddPopupT(&ppd);
 }
 
 void ShowThePreview()
 {
 	if ( !ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		MessageBox(NULL, TranslateT("PopUp plugin not found!"), TranslateT("WUMF plugin"), MB_OK|MB_ICONSTOP);
+		MessageBox(NULL, TranslateT("Popup plugin not found!"), TranslateT("WUMF plugin"), MB_OK|MB_ICONSTOP);
 		return;
 	}
 
 	if (WumfOptions.AlertFolders) {
-		ShowThePopUp(NULL, _T("Guest"), _T("C:\\My Share"));
+		ShowThePopup(NULL, _T("Guest"), _T("C:\\My Share"));
 		Sleep(300);
-		ShowThePopUp(NULL, _T("Guest"), _T("C:\\My Share\\Photos"));
+		ShowThePopup(NULL, _T("Guest"), _T("C:\\My Share\\Photos"));
 		Sleep(300);
 	}
-	ShowThePopUp(NULL, _T("Guest"), _T("C:\\Share\\My Photos\\photo.jpg"));
+	ShowThePopup(NULL, _T("Guest"), _T("C:\\Share\\My Photos\\photo.jpg"));
 	Sleep(300);
 	if (WumfOptions.AlertFolders) {
-		ShowThePopUp(NULL, _T("User"), _T("C:\\My Share"));
+		ShowThePopup(NULL, _T("User"), _T("C:\\My Share"));
 		Sleep(300);
-		ShowThePopUp(NULL, _T("User"), _T("C:\\My Share\\Movies"));
+		ShowThePopup(NULL, _T("User"), _T("C:\\My Share\\Movies"));
 		Sleep(300);
 	}
-	ShowThePopUp(NULL, _T("User"), _T("C:\\My Share\\Movies\\The Two Towers.avi"));
+	ShowThePopup(NULL, _T("User"), _T("C:\\My Share\\Movies\\The Two Towers.avi"));
 	Sleep(300);
 	if (WumfOptions.AlertFolders) {
-		ShowThePopUp(NULL, _T("Administrator"), _T("C:\\Distributives"));
+		ShowThePopup(NULL, _T("Administrator"), _T("C:\\Distributives"));
 		Sleep(300);
-		ShowThePopUp(NULL, _T("Administrator"), _T("C:\\Distributives\\Win2k"));
+		ShowThePopup(NULL, _T("Administrator"), _T("C:\\Distributives\\Win2k"));
 		Sleep(300);
 	}
-	ShowThePopUp(NULL, _T("Administrator"), _T("C:\\Distributives\\Win2k\\setup.exe"));
+	ShowThePopup(NULL, _T("Administrator"), _T("C:\\Distributives\\Win2k\\setup.exe"));
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -505,7 +505,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	}
 	mi.pszService = MS_WUMF_SWITCHPOPUP;
 	mi.popupPosition = 1999990000;
-	mi.pszPopupName = LPGEN("PopUps");
+	mi.pszPopupName = LPGEN("Popups");
 	hMenuItem =  Menu_AddMainMenuItem(&mi);
 
 	mi.pszName = LPGEN("WUMF: Show connections");

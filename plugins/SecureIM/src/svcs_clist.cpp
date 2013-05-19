@@ -14,12 +14,12 @@ int __cdecl onContactSettingChanged(WPARAM wParam,LPARAM lParam) {
 	if (stat == ID_STATUS_OFFLINE) { // go offline
 		if (ptr->mode == MODE_NATIVE && cpp_keyx(ptr->cntx)) { // have active context
 			cpp_delete_context(ptr->cntx); ptr->cntx=0; // reset context
-			showPopUpDC(hContact);	// show popup "Disabled"
+			showPopupDC(hContact);	// show popup "Disabled"
 			ShowStatusIconNotify(hContact); // change icon in CL
 		}
 		else if (ptr->mode == MODE_RSAAES && exp->rsa_get_state(ptr->cntx) == 7) {
 			deleteRSAcntx(ptr);
-			showPopUpDC(hContact);	// show popup "Disabled"
+			showPopupDC(hContact);	// show popup "Disabled"
 			ShowStatusIconNotify(hContact); // change icon in CL
 		}
 	}

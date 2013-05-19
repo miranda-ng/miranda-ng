@@ -90,19 +90,19 @@ static struct branch_t branch4[] = {
 };
 
 static struct branch_t branch6[] = {
-	{LPGENT("Show pop-ups only when the chat room is not active"), "PopUpInactiveOnly", 0, 1, NULL},
-	{LPGENT("Show pop-up for topic changes"), "PopupFlags", GC_EVENT_TOPIC, 0, NULL},
-	{LPGENT("Show pop-up for users joining"), "PopupFlags", GC_EVENT_JOIN, 0, NULL},
-	{LPGENT("Show pop-up for users disconnecting"), "PopupFlags", GC_EVENT_QUIT, 0, NULL},
-	{LPGENT("Show pop-up for messages"), "PopupFlags", GC_EVENT_MESSAGE, 0, NULL},
-	{LPGENT("Show pop-up for actions"), "PopupFlags", GC_EVENT_ACTION, 0, NULL},
-	{LPGENT("Show pop-up for highlights"), "PopupFlags", GC_EVENT_HIGHLIGHT, 0, NULL},
-	{LPGENT("Show pop-up for users leaving"), "PopupFlags", GC_EVENT_PART, 0, NULL},
-	{LPGENT("Show pop-up for users kicking other user"), "PopupFlags", GC_EVENT_KICK, 0, NULL},
-	{LPGENT("Show pop-up for notices "), "PopupFlags", GC_EVENT_NOTICE, 0, NULL},
-	{LPGENT("Show pop-up for name changes"), "PopupFlags", GC_EVENT_NICK, 0, NULL},
-	{LPGENT("Show pop-up for information messages"), "PopupFlags", GC_EVENT_INFORMATION, 0, NULL},
-	{LPGENT("Show pop-up for status changes"), "PopupFlags", GC_EVENT_ADDSTATUS, 0, NULL},
+	{LPGENT("Show Popups only when the chat room is not active"), "PopupInactiveOnly", 0, 1, NULL},
+	{LPGENT("Show Popup for topic changes"), "PopupFlags", GC_EVENT_TOPIC, 0, NULL},
+	{LPGENT("Show Popup for users joining"), "PopupFlags", GC_EVENT_JOIN, 0, NULL},
+	{LPGENT("Show Popup for users disconnecting"), "PopupFlags", GC_EVENT_QUIT, 0, NULL},
+	{LPGENT("Show Popup for messages"), "PopupFlags", GC_EVENT_MESSAGE, 0, NULL},
+	{LPGENT("Show Popup for actions"), "PopupFlags", GC_EVENT_ACTION, 0, NULL},
+	{LPGENT("Show Popup for highlights"), "PopupFlags", GC_EVENT_HIGHLIGHT, 0, NULL},
+	{LPGENT("Show Popup for users leaving"), "PopupFlags", GC_EVENT_PART, 0, NULL},
+	{LPGENT("Show Popup for users kicking other user"), "PopupFlags", GC_EVENT_KICK, 0, NULL},
+	{LPGENT("Show Popup for notices "), "PopupFlags", GC_EVENT_NOTICE, 0, NULL},
+	{LPGENT("Show Popup for name changes"), "PopupFlags", GC_EVENT_NICK, 0, NULL},
+	{LPGENT("Show Popup for information messages"), "PopupFlags", GC_EVENT_INFORMATION, 0, NULL},
+	{LPGENT("Show Popup for status changes"), "PopupFlags", GC_EVENT_ADDSTATUS, 0, NULL},
 };
 
 static HTREEITEM InsertBranch(HWND hwndTree, TCHAR* pszDescr, BOOL bExpanded)
@@ -618,7 +618,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 			g_Settings.dwPopupFlags = db_get_dw(NULL, "Chat", "PopupFlags", 0x0000);
 			g_Settings.StripFormat = (BOOL)db_get_b(NULL, "Chat", "TrimFormatting", 0);
 			g_Settings.TrayIconInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "TrayIconInactiveOnly", 1);
-			g_Settings.PopUpInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "PopUpInactiveOnly", 1);
+			g_Settings.PopupInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "PopupInactiveOnly", 1);
 
 			g_Settings.LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0)?TRUE:FALSE;
 			MM_FontsChanged();
@@ -759,7 +759,7 @@ static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 		odp.hInstance = g_hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);
 		odp.pszTitle = LPGEN("Messaging");
-		odp.pszGroup = LPGEN("PopUps");
+		odp.pszGroup = LPGEN("Popups");
 		odp.pfnDlgProc = DlgProcOptionsPopup;
 		odp.flags = ODPF_BOLDGROUPS;
 		odp.ptszTab = NULL;
@@ -793,7 +793,7 @@ void LoadGlobalSettings(void)
 	g_Settings.crLogBackground = db_get_dw(NULL, "Chat", "ColorLogBG", GetSysColor(COLOR_WINDOW));
 	g_Settings.StripFormat = (BOOL)db_get_b(NULL, "Chat", "StripFormatting", 0);
 	g_Settings.TrayIconInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "TrayIconInactiveOnly", 1);
-	g_Settings.PopUpInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "PopUpInactiveOnly", 1);
+	g_Settings.PopupInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "PopupInactiveOnly", 1);
 	g_Settings.AddColonToAutoComplete = (BOOL)db_get_b(NULL, "Chat", "AddColonToAutoComplete", 1);
 	g_Settings.iPopupStyle = db_get_b(NULL, "Chat", "PopupStyle", 1);
 	g_Settings.iPopupTimeout = db_get_w(NULL, "Chat", "PopupTimeout", 3);

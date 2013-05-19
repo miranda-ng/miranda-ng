@@ -1,12 +1,12 @@
 /*
 ===============================================================================
-                                PopUp plugin
-Plugin Name: PopUp
+                                Popup plugin
+Plugin Name: Popup
 Plugin authors: Luca Santarelli aka hrk (hrk@users.sourceforge.net)
                 Victor Pavlychko (nullbie@gmail.com)
 ===============================================================================
 The purpose of this plugin is to give developers a common "platform/interface"
-to show PopUps. It is born from the source code of NewStatusNotify, another
+to show Popups. It is born from the source code of NewStatusNotify, another
 plugin I've made.
 
 Remember that users *must* have this plugin enabled, or they won't get any
@@ -154,14 +154,14 @@ typedef struct
 	typedef LPPOPUPDATAW_V2	LPPOPUPDATAT_V2;
 #endif
 
-/* PopUp/AddPopup
+/* Popup/AddPopup
 Creates, adds and shows a popup, given a (valid) POPUPDATA structure pointer.
 
-wParam = (WPARAM)(*POPUPDATA)PopUpDataAddress
+wParam = (WPARAM)(*POPUPDATA)PopupDataAddress
 lParam = 0
 
-Returns: > 0 on success, 0 if creation went bad, -1 if the PopUpData contained unacceptable values.
-NOTE: it returns -1 if the PopUpData was not valid, if there were already too many popups, if the module was disabled.
+Returns: > 0 on success, 0 if creation went bad, -1 if the PopupData contained unacceptable values.
+NOTE: it returns -1 if the PopupData was not valid, if there were already too many popups, if the module was disabled.
 Otherwise, it can return anything else...
 
 Popup Plus 2.0.4.0+
@@ -175,13 +175,13 @@ additional APF_ flags */
 #define APF_NO_POPUP     0x08	//do not show popup. this is useful if you want popup yo be stored in history only
 #define APF_NEWDATA      0x10	//deprecatet!! only for use with old POPUPDATAEX_V2/POPUPDATAW_V2 structs
 
-static INT_PTR __inline PUAddPopUpW(POPUPDATAW_V2* ppdp) {
+static INT_PTR __inline PUAddPopupW(POPUPDATAW_V2* ppdp) {
 	return CallService(MS_POPUP_ADDPOPUPW, (WPARAM)ppdp,0);
 }
 
-#define MS_POPUP_CHANGEW "PopUp/ChangeW"
-static int __inline PUChangeW(HWND hWndPopUp, POPUPDATAW_V2 *newData) {
-	return (int)CallService(MS_POPUP_CHANGEW, (WPARAM)hWndPopUp, (LPARAM)newData);
+#define MS_POPUP_CHANGEW "Popup/ChangeW"
+static int __inline PUChangeW(HWND hWndPopup, POPUPDATAW_V2 *newData) {
+	return (int)CallService(MS_POPUP_CHANGEW, (WPARAM)hWndPopup, (LPARAM)newData);
 }
 
 /* UM_CHANGEPOPUP
@@ -225,9 +225,9 @@ typedef struct
 } POPUPACTIONID, *LPPOPUPACTIONID;
 
 #define UM_POPUPMODIFYACTIONICON  (WM_USER + 0x0205)
-static int __inline PUModifyActionIcon(HWND hWndPopUp, WPARAM wParam, LPARAM lParam, HICON hIcon) {
+static int __inline PUModifyActionIcon(HWND hWndPopup, WPARAM wParam, LPARAM lParam, HICON hIcon) {
 	POPUPACTIONID actionId = { wParam, lParam };
-	return (int)SendMessage(hWndPopUp, UM_POPUPMODIFYACTIONICON, (WPARAM)&actionId, (LPARAM)hIcon);
+	return (int)SendMessage(hWndPopup, UM_POPUPMODIFYACTIONICON, (WPARAM)&actionId, (LPARAM)hIcon);
 }
 
 /* UM_POPUPSHOW
@@ -238,7 +238,7 @@ lParam = y
 */
 #define UM_POPUPSHOW			 (WM_USER + 0x0206)
 
-/* PopUp/RegisterActions
+/* Popup/RegisterActions
 Registers your action in popup action list
 
 wParam = (WPARAM)(LPPOPUPACTION)actions
@@ -246,13 +246,13 @@ lParam = (LPARAM)actionCount
 
 Returns: 0 if the popup was shown, -1 in case of failure.
 */
-#define MS_POPUP_REGISTERACTIONS "PopUp/RegisterActions"
+#define MS_POPUP_REGISTERACTIONS "Popup/RegisterActions"
 
 static int __inline PURegisterActions(LPPOPUPACTION actions, int count) {
 	return (int)CallService(MS_POPUP_REGISTERACTIONS, (WPARAM)actions,(LPARAM)count);
 }
 
-/* PopUp/RegisterNotification
+/* Popup/RegisterNotification
 Registers your action in popup action list
 
 wParam = (WPARAM)(LPPOPUPNOTIFICATION)info
@@ -260,7 +260,7 @@ lParam = 0
 
 Returns: handle of registered notification or sero on failure
 */
-#define MS_POPUP_REGISTERNOTIFICATION "PopUp/RegisterNotification"
+#define MS_POPUP_REGISTERNOTIFICATION "Popup/RegisterNotification"
 
 #define PNAF_CALLBACK			0x01
 
@@ -314,7 +314,7 @@ static HANDLE __inline PURegisterNotification(LPPOPUPNOTIFICATION notification) 
 	return (HANDLE)CallService(MS_POPUP_REGISTERNOTIFICATION, (WPARAM)notification, 0);
 }
 
-/* PopUp/UnhookEventAsync
+/* Popup/UnhookEventAsync
 Using of "UnhookEvent" inside PluginWindowProc in conjunction with HookEventMessage
 may cause deadlocks. Use this service instead. It will queue event unhook into main
 thread and notify you when everything has finished.
@@ -335,7 +335,7 @@ lParam = (LPARAM)(HANDLE)hEvent
 Returns: 0 if everything gone ok. -1 if service was not found (and unsafe unhook was performed)
 */
 
-#define MS_POPUP_UNHOOKEVENTASYNC "PopUp/UnhookEventAsync"
+#define MS_POPUP_UNHOOKEVENTASYNC "Popup/UnhookEventAsync"
 
 /* UM_POPUPUNHOOKCOMPLETE
 Modify Popup Action Icon
@@ -355,30 +355,30 @@ static int __inline PUUnhookEventAsync(HWND hwndPopup, HANDLE hEvent) {
 	return 0;
 }
 
-/* PopUp/GetStatus
+/* Popup/GetStatus
 Returns 1 when popups are showen and 0 when not
 wParam = 0
 lParam = 0
 */
-#define MS_POPUP_GETSTATUS	"PopUp/GetStatus"
+#define MS_POPUP_GETSTATUS	"Popup/GetStatus"
 
 #ifdef __cplusplus
-/* PopUp/RegisterVfx
+/* Popup/RegisterVfx
 Register new animation (fade in/out) effect
 wParam = 0
 lParam = (LPARAM)(char *)vfx_name
 */
 
-#define MS_POPUP_REGISTERVFX	"PopUp/RegisterVfx"
+#define MS_POPUP_REGISTERVFX	"Popup/RegisterVfx"
 
-/* PopUp/Vfx/<vfx_name>
+/* Popup/Vfx/<vfx_name>
 Define this service to create vfx instance
 wParam = 0
 lParam = 0
 return = (int)(IPopupPlusEffect *)vfx
 */
 
-#define MS_POPUP_CREATEVFX		"PopUp/Vfx/"
+#define MS_POPUP_CREATEVFX		"Popup/Vfx/"
 
 class IPopupPlusEffect
 {
@@ -393,9 +393,9 @@ public:
 #endif // __cplusplus
 
 
-/* PopUp/ShowMessage
+/* Popup/ShowMessage
 This is mainly for developers.
-Shows a warning message in a PopUp. It's useful if you need a "MessageBox" like function, but you don't want a modal
+Shows a warning message in a Popup. It's useful if you need a "MessageBox" like function, but you don't want a modal
 window (which will interfere with a DialogProcedure. MessageBox steals focus and control, this one not.
 
 wParam = (char *)lpzMessage
@@ -409,8 +409,8 @@ Returns: 0 if the popup was shown, -1 in case of failure.
 additional SM_ flags */
 #define SM_ERROR	0x03	//Cross icon.
 #ifndef MS_POPUP_SHOWMESSAGE
-#define MS_POPUP_SHOWMESSAGE "PopUp/ShowMessage"
-#define MS_POPUP_SHOWMESSAGEW "PopUp/ShowMessageW"
+#define MS_POPUP_SHOWMESSAGE "Popup/ShowMessage"
+#define MS_POPUP_SHOWMESSAGEW "Popup/ShowMessageW"
 #endif
 
 #endif // __m_popup2_h__

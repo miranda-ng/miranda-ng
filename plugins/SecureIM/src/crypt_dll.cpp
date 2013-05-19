@@ -104,11 +104,11 @@ BOOL CalculateKeyX(pUinKey ptr,HANDLE hContact) {
 		CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
 
 		// key exchange is finished
-		showPopUpEC(ptr->hContact);
+		showPopupEC(ptr->hContact);
 	}
 	else {
 		// agree value problem
-		showPopUp(sim002,hContact,g_hPOP[POP_PU_DIS],0);
+		showPopup(sim002,hContact,g_hPOP[POP_PU_DIS],0);
 	}
 	return agr != 0;
 }

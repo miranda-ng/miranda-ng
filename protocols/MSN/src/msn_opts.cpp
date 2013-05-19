@@ -474,9 +474,9 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// PopUp Options Dialog: style, position, color, font...
+// Popup Options Dialog: style, position, color, font...
 
-static INT_PTR CALLBACK DlgProcHotmailPopUpOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcHotmailPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static bool bEnabled;
 
@@ -717,7 +717,7 @@ int CMsnProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 
 	odp.ptszTab     = LPGENT("Notifications");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOTIFY);
-	odp.pfnDlgProc  = DlgProcHotmailPopUpOpts;
+	odp.pfnDlgProc  = DlgProcHotmailPopupOpts;
 	Options_AddPage(wParam, &odp);
 
 	return 0;
@@ -737,7 +737,7 @@ void CMsnProto::LoadOptions(void)
 {
 	memset(&MyOptions, 0, sizeof(MyOptions));
 
-	//PopUp Options
+	//Popup Options
 	MyOptions.ManageServer = getByte("ManageServer", TRUE) != 0;
 	MyOptions.ShowErrorsAsPopups = getByte("ShowErrorsAsPopups", TRUE) != 0;
 	MyOptions.SlowSend = getByte("SlowSend", FALSE) != 0;

@@ -337,7 +337,7 @@ int TwitterProto::OnOptionsInit(WPARAM wParam,LPARAM)
 
 	if(ServiceExists(MS_POPUP_ADDPOPUPT))
 	{
-		odp.ptszTab     = LPGENT("PopUps");
+		odp.ptszTab     = LPGENT("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_POPUPS);
 		odp.pfnDlgProc  = popup_options_proc;
 		Options_AddPage(wParam, &odp);
@@ -433,7 +433,7 @@ void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 	}
 
 	if(ServiceExists(MS_POPUP_ADDPOPUPT))
-		PUAddPopUpT(&popup);
+		PUAddPopupT(&popup);
 	else
 		MessageBox(0,popup.lptzText,popup.lptzContactName,0);
 }
@@ -450,7 +450,7 @@ void TwitterProto::ShowPopup(const char *text, int Error)
 	}
 
 	if(ServiceExists(MS_POPUP_ADDPOPUPT))
-		PUAddPopUpT(&popup);
+		PUAddPopupT(&popup);
 	else
 		MessageBox(0,popup.lptzText,popup.lptzContactName,0);
 }

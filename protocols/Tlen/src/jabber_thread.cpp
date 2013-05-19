@@ -1140,7 +1140,7 @@ static void TlenMailPopup(TlenProtocol *proto, char *title, char *emailInfo)
 		ppd.iSeconds = db_get_dw(NULL, proto->m_szModuleName, "MailPopupDelay", 4);
 	else if (delayMode == 2)
 		ppd.iSeconds = -1;
-	PUAddPopUp(&ppd);
+	PUAddPopup(&ppd);
 }
 /*
  * Incoming e-mail notification

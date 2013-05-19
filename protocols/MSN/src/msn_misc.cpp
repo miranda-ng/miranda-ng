@@ -941,7 +941,7 @@ LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			else if (tData->url != NULL)
 				CallService(MS_UTILS_OPENURL, 1, (LPARAM)tData->url);
 		}
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 
 	case WM_CONTEXTMENU:
@@ -950,7 +950,7 @@ LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			if (hContact)
 				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM) 1);
 		}
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 
 	case UM_FREEPLUGINDATA:

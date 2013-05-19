@@ -160,7 +160,7 @@ CSendLaterJob::~CSendLaterJob()
 				ppd.lchIcon = fFailed ? PluginConfig.g_iconErr : PluginConfig.g_IconMsgEvent;
 				ppd.PluginData = (void*)hContact;
 				ppd.iSeconds = fFailed ? -1 : nen_options.iDelayMsg;
-				PUAddPopUpT(&ppd);
+				PUAddPopupT(&ppd);
 			}
 		}
 		if (fFailed && (bCode == JOB_AGE || bCode == JOB_REMOVABLE) && szId[0] == 'S')

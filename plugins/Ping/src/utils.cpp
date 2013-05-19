@@ -4,12 +4,12 @@ LRESULT CALLBACK NullWindowProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 {
 	switch( message ) {
 		case WM_COMMAND: {
-			PUDeletePopUp( hWnd );
+			PUDeletePopup( hWnd );
 			break;
 		}
 
 		case WM_CONTEXTMENU:
-			PUDeletePopUp( hWnd );
+			PUDeletePopup( hWnd );
 			break;
 	}
 
@@ -21,7 +21,7 @@ void CALLBACK sttMainThreadCallback( ULONG_PTR dwParam )
 	POPUPDATA* ppd = ( POPUPDATA* )dwParam;
 
 	if ( ServiceExists(MS_POPUP_ADDPOPUP))
-		PUAddPopUp(ppd);
+		PUAddPopup(ppd);
 
 	free( ppd );
 }

@@ -193,9 +193,9 @@ void InitMirOTRMenu(void)
 	WNDCLASS wc = {0};
 	wc.hInstance = hInst;
 	wc.lpfnWndProc = PopupMenuWndProc;
-	wc.lpszClassName = _T("MirOTRPopUpMenuProcessor");
+	wc.lpszClassName = _T("MirOTRPopupMenuProcessor");
 	RegisterClass(&wc);
-	hDummyPaintWin = CreateWindowEx(0, _T("MirOTRPopUpMenuProcessor"), NULL, 0, 0, 0, 1, 1, 0, 0, hInst, 0);
+	hDummyPaintWin = CreateWindowEx(0, _T("MirOTRPopupMenuProcessor"), NULL, 0, 0, 0, 1, 1, 0, 0, hInst, 0);
 
 	CreateServiceFunction("MirOTRMenuExecService",MirOTRMenuExecService);
 	CreateServiceFunction("MirOTRMenuCheckService",MirOTRMenuCheckService);
@@ -277,7 +277,7 @@ void UninitMirOTRMenu(void)
 {
 	DestroyWindow(hDummyPaintWin);
 	hDummyPaintWin = 0;
-	UnregisterClass(_T("MirOTRPopUpMenuProcessor"), hInst);
+	UnregisterClass(_T("MirOTRPopupMenuProcessor"), hInst);
 	if ( hMirOTRMenuObject   ) CallService( MO_REMOVEMENUOBJECT, (WPARAM)hMirOTRMenuObject, 0 );
 	hMirOTRMenuObject = 0;
 }

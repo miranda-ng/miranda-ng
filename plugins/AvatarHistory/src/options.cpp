@@ -156,7 +156,7 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		odp.ptszGroup = LPGENT("PopUps");
+		odp.ptszGroup = LPGENT("Popups");
 		odp.ptszTitle = LPGENT("Avatar Change");
 		odp.pfnDlgProc = PopupsDlgProc;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);

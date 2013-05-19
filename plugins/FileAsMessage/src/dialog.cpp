@@ -192,7 +192,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	switch(message) {
 		case WM_COMMAND:
 		{
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, 0);
 
 			if(IsWindow(hDlg))
@@ -205,7 +205,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 			break;
 		}
 		case WM_CONTEXTMENU:
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			break;
 		case UM_FREEPLUGINDATA:
 			return TRUE; //TRUE or FALSE is the same, it gets ignored.
@@ -235,7 +235,7 @@ void MakePopupMsg(HWND hDlg, HANDLE hContact, char *msg)
 	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 	ppd.PluginData = (void*)hDlg;
 	ppd.iSeconds = -1;
-	PUAddPopUp(&ppd);
+	PUAddPopup(&ppd);
 }
 //
 // Get ID of string message

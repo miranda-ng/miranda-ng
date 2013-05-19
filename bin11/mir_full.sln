@@ -94,7 +94,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewXstatusNotify", "..\plug
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nudge", "..\plugins\Nudge\nudge_11.vcxproj", "{8190CFAA-3B73-43D8-9101-8368E21F1864}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PopUp", "..\plugins\Popup\PopUp_11.vcxproj", "{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Popup", "..\plugins\Popup\Popup_11.vcxproj", "{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickMessages", "..\plugins\QuickMessages\quickmessages_11.vcxproj", "{DD76B998-ED0D-4BFD-9660-3ADC3A334872}"
 EndProject

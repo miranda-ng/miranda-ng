@@ -126,7 +126,7 @@ void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA *pdata)
 		break;
 	}
 	case PCA_CLOSEPOPUP: // close popup
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 
 	case PCA_DONOTHING: // do nothing
@@ -196,7 +196,7 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	pdata->PopupRClickAction = sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_RCLICK_ACTION);
 	ppd.iSeconds = sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_POPUPDELAY);
 	ppd.PluginData = pdata;
-	PUAddPopUpT(&ppd);
+	PUAddPopupT(&ppd);
 }
 
 int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
@@ -345,7 +345,7 @@ static int PrebuildMainMenu(WPARAM wParam, LPARAM lParam)
 			mi.ptszName = LPGENT("Enable c&lient change notification");
 			mi.hIcon = Skin_GetIcon("popup_disabled");
 		}
-		mi.ptszPopupName = LPGENT("PopUps");
+		mi.ptszPopupName = LPGENT("Popups");
 		Menu_ModifyItem(g_hTogglePopupsMenuItem, &mi);
 	}
 	return 0;
@@ -406,7 +406,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 			mi.ptszName = LPGENT("Enable c&lient change notification");
 
 		mi.pszService = MS_CCN_TOGGLEPOPUPS;
-		mi.ptszPopupName = LPGENT("PopUps");
+		mi.ptszPopupName = LPGENT("Popups");
 		g_hTogglePopupsMenuItem = Menu_AddMainMenuItem(&mi);
 	}
 

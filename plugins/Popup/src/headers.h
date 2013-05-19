@@ -23,9 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /*
 ===============================================================================
-                           PopUp plugin
+                           Popup plugin
 
-This plugin notifies you when a contact changes his/hers status with a PopUp.
+This plugin notifies you when a contact changes his/hers status with a Popup.
 You can customize its look (style of popup, font, text...) and behaviour (the
 position in the screen, the time to live, the action on a mouse click).
 
@@ -127,10 +127,10 @@ http://miranda-ng.org/distr/
 #include "avatars_gif.h"
 #include "popup_gdiplus.h"
 
-#define PU_MODULCLASS				"PopUpCLASS"		//temp DB modul for this plugin
-#define MODULNAME					"PopUp"
-#define MODULNAME_LONG				"Popup Plus"		//dont use "PopUp Plus" coz notify register use "Popup Plus"
-#define MODULNAME_PLU				"PopUps"
+#define PU_MODULCLASS				"PopupCLASS"		//temp DB modul for this plugin
+#define MODULNAME					"Popup"
+#define MODULNAME_LONG				"Popup Plus"
+#define MODULNAME_PLU				"Popups"
 
 INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM);
 

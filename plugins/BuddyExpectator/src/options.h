@@ -31,7 +31,7 @@ typedef enum GoneContactAction { GCA_NOACTION, GCA_DELETE, GCA_UDETAILS, GCA_MES
 
 typedef struct {
 	int iAbsencePeriod;		// notify period for returning contacts
-	int iShowPopUp;
+	int iShowPopup;
 	int iShowEvent;
 	int iShowUDetails;
 	int iShowMessageWindow;
@@ -42,15 +42,15 @@ typedef struct {
 	byte MissYouIcon;
 
 	int iAbsencePeriod2;	// notify period for contacts that have remained away
-	int iShowPopUp2;
+	int iShowPopup2;
 	int iShowEvent2;
 	GoneContactAction action2;
 
 	int iSilencePeriod;	    // notify period for contacts that didn't send messages
 
-	int iPopUpColorBack;
-	int iPopUpColorFore;
-	int iPopUpDelay;
+	int iPopupColorBack;
+	int iPopupColorFore;
+	int iPopupDelay;
 	int iUsePopupColors;
 	int iUseWinColors;
 

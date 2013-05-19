@@ -1,6 +1,6 @@
 #include "commonheaders.h"
 
-void showPopUp(LPCSTR lpzText,HANDLE hContact,HICON hIcon, UINT type)
+void showPopup(LPCSTR lpzText,HANDLE hContact,HICON hIcon, UINT type)
 {
 	//type=0 key colors
 	//type=1 session colors
@@ -49,56 +49,56 @@ void showPopUp(LPCSTR lpzText,HANDLE hContact,HICON hIcon, UINT type)
 	ppd.colorBack = colorBack;
 	ppd.colorText = colorText;
 	ppd.iSeconds = timeout;
-	PUAddPopUpW(&ppd);
+	PUAddPopupW(&ppd);
 }
 
-void showPopUpDCmsg(HANDLE hContact,LPCSTR msg)
+void showPopupDCmsg(HANDLE hContact,LPCSTR msg)
 {
 	if (db_get_b(0, MODULENAME, "dc", 1))
-		showPopUp(msg, hContact, g_hPOP[POP_PU_DIS], 1);
+		showPopup(msg, hContact, g_hPOP[POP_PU_DIS], 1);
 }
 
-void showPopUpDC(HANDLE hContact)
+void showPopupDC(HANDLE hContact)
 {
 	if (db_get_b(0, MODULENAME, "dc", 1))
-		showPopUp(sim006, hContact, g_hPOP[POP_PU_DIS], 1);
+		showPopup(sim006, hContact, g_hPOP[POP_PU_DIS], 1);
 }
 
-void showPopUpEC(HANDLE hContact)
+void showPopupEC(HANDLE hContact)
 {
 	if (db_get_b(0, MODULENAME, "ec", 1))
-		showPopUp(sim001, hContact, g_hPOP[POP_PU_EST], 1);
+		showPopup(sim001, hContact, g_hPOP[POP_PU_EST], 1);
 }
 
-void showPopUpKS(HANDLE hContact)
+void showPopupKS(HANDLE hContact)
 {
 	if (db_get_b(0, MODULENAME, "ks",1))
-		showPopUp(sim007, hContact, g_hPOP[POP_PU_PRC], 0);
+		showPopup(sim007, hContact, g_hPOP[POP_PU_PRC], 0);
 }
 
-void showPopUpKRmsg(HANDLE hContact,LPCSTR msg)
+void showPopupKRmsg(HANDLE hContact,LPCSTR msg)
 {
 	if (db_get_b(0, MODULENAME, "kr", 1))
-		showPopUp(msg, hContact, g_hPOP[POP_PU_PRC], 0);
+		showPopup(msg, hContact, g_hPOP[POP_PU_PRC], 0);
 }
 
-void showPopUpKR(HANDLE hContact)
+void showPopupKR(HANDLE hContact)
 {
 	if (db_get_b(0, MODULENAME, "kr", 1))
-		showPopUp(sim008, hContact, g_hPOP[POP_PU_PRC], 0);
+		showPopup(sim008, hContact, g_hPOP[POP_PU_PRC], 0);
 }
 
-void showPopUpSM(HANDLE hContact)
+void showPopupSM(HANDLE hContact)
 {
 	if (db_get_b(0, MODULENAME, "ss", 0))
-		showPopUp(sim009, hContact, g_hPOP[POP_PU_MSS], 2);
+		showPopup(sim009, hContact, g_hPOP[POP_PU_MSS], 2);
 	SkinPlaySound("OutgoingSecureMessage");
 }
 
-void showPopUpRM(HANDLE hContact)
+void showPopupRM(HANDLE hContact)
 {
 	if (db_get_b(0, MODULENAME, "sr", 0))
-		showPopUp(sim010, hContact, g_hPOP[POP_PU_MSR], 2);
+		showPopup(sim010, hContact, g_hPOP[POP_PU_MSR], 2);
 	SkinPlaySound("IncomingSecureMessage");
 }
 

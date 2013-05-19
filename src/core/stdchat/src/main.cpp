@@ -31,7 +31,7 @@ HICON       hIcons[30];
 BOOL        IEviewInstalled = FALSE;
 HBRUSH      hListBkgBrush = NULL;
 BOOL        SmileyAddInstalled = FALSE;
-BOOL        PopUpInstalled = FALSE;
+BOOL        PopupInstalled = FALSE;
 HBRUSH      hEditBkgBrush = NULL;
 HBRUSH      hListSelectedBkgBrush = NULL;
 

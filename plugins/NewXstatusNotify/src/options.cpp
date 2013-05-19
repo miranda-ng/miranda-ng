@@ -287,7 +287,7 @@ void EnablePopupTextControls(HWND hwndDlg, BOOL bEnable)
 	//EnableWindow(GetDlgItem(hwndDlg, IDC_READAWAYMSG), bEnable);
 }
 
-INT_PTR CALLBACK DlgProcPopUpOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
@@ -418,7 +418,7 @@ INT_PTR CALLBACK DlgProcPopUpOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 									break;
 							}
 
-							PUAddPopUpT(&ppd);
+							PUAddPopupT(&ppd);
 						}
 
 						return FALSE;
@@ -1049,10 +1049,10 @@ int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 
 	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTitle = LPGEN("Status Notify");
-		odp.pszGroup = LPGEN("PopUps");
+		odp.pszGroup = LPGEN("Popups");
 		odp.pszTab = LPGEN("General");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
-		odp.pfnDlgProc = DlgProcPopUpOpts;
+		odp.pfnDlgProc = DlgProcPopupOpts;
 		Options_AddPage(wParam, &odp);
 
 		odp.pszTab = LPGEN("Extra status");

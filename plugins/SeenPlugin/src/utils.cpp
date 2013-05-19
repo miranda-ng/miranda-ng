@@ -458,7 +458,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 				if (hContact > 0) CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,0);
 			}
 		case WM_CONTEXTMENU:
-			PUDeletePopUp(hwnd);
+			PUDeletePopup(hwnd);
 			break;
 		case UM_INITPOPUP: return 0;
 	}
@@ -499,7 +499,7 @@ void ShowPopup(HANDLE hcontact, const char * lpzProto, int newStatus)
 	}
 	else _tcsncpy(ppd.lptzText, ParseString(DEFAULT_POPUPSTAMPTEXT, hcontact, 0), MAX_SECONDLINE);
 	ppd.PluginWindowProc = PopupDlgProc;
-	PUAddPopUpT(&ppd);
+	PUAddPopupT(&ppd);
 }
 
 void myPlaySound(HANDLE hcontact, WORD newStatus, WORD oldStatus)

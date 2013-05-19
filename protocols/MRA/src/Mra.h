@@ -143,7 +143,7 @@ extern GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[];
 #include "MraMRIMProxy.h"
 #include "MraSendQueue.h"
 #include "MraFilesQueue.h"
-#include "MraPopUp.h"
+#include "MraPopup.h"
 #include "MraAvatars.h"
 #include "MraIcons.h"
 #include "MraSelectEMail.h"

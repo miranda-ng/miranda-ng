@@ -58,7 +58,7 @@ int MenuitemInit(BOOL bStatus)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
-	mi.ptszPopupName = TranslateT("PopUps");
+	mi.ptszPopupName = TranslateT("Popups");
 	mi.pszService = MS_NEN_MENUNOTIFY;
 	mi.flags = CMIF_KEEPUNTRANSLATED | CMIF_TCHAR;
 	hMenuitemNotify = Menu_AddMainMenuItem(&mi);

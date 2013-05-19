@@ -69,7 +69,7 @@ static int OnTopToolBarLoaded(WPARAM wParam, LPARAM lParam)
  **/
 static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	myGlobals.PopUpActionsExist = ServiceExists(MS_POPUP_REGISTERACTIONS);
+	myGlobals.PopupActionsExist = ServiceExists(MS_POPUP_REGISTERACTIONS);
 
 	// init meta contacts
 	INT_PTR ptr = CallService(MS_MC_GETPROTOCOLNAME, 0, 0);

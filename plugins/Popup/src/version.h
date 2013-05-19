@@ -5,8 +5,8 @@
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
-#define __PLUGIN_NAME				"PopUp plus"
-#define __FILENAME					"PopUp.dll"
+#define __PLUGIN_NAME				"Popup plus"
+#define __FILENAME					"Popup.dll"
 #define __DESCRIPTION 				"Provides popup notification services for different plugins."
 #define __AUTHOR					"MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)"
 #define __AUTHOREMAIL				"mp-king@web.de"

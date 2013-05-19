@@ -4,9 +4,9 @@ HANDLE hTypingNotify;
 
 static HGENMENU hDisableMenu = NULL;
 
-static HANDLE hPopUpsList = NULL;
+static HANDLE hPopupsList = NULL;
 
-static BYTE   OnePopUp;
+static BYTE   OnePopup;
 static BYTE   ShowMenu;
 static BYTE   StartDisabled;
 static BYTE   StopDisabled;
@@ -69,21 +69,21 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
 			CallService(MS_MSG_SENDMESSAGE "W", (WPARAM)PUGetContact(hWnd), 0);
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			return 1;
 		}
 		break;
 
 	case WM_CONTEXTMENU:
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		return 1;
 
 	case UM_INITPOPUP: 
-		WindowList_Add(hPopUpsList, hWnd, PUGetContact(hWnd));
+		WindowList_Add(hPopupsList, hWnd, PUGetContact(hWnd));
 		return 1;
 
 	case UM_FREEPLUGINDATA:
-		WindowList_Remove(hPopUpsList, hWnd);
+		WindowList_Remove(hPopupsList, hWnd);
 		return 1;
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
@@ -100,11 +100,11 @@ void TN_TypingMessage(HANDLE hContact, int iMode)
 
 	TCHAR *szContactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(hContact), GSMDF_TCHAR);
 
-	if (OnePopUp) {
-		HWND hPopUpWnd = WindowList_Find(hPopUpsList, hContact);
-		while (hPopUpWnd) {
-			PUDeletePopUp(hPopUpWnd);
-			hPopUpWnd = WindowList_Find(hPopUpsList, hContact);
+	if (OnePopup) {
+		HWND hPopupWnd = WindowList_Find(hPopupsList, hContact);
+		while (hPopupWnd) {
+			PUDeletePopup(hPopupWnd);
+			hPopupWnd = WindowList_Find(hPopupsList, hContact);
 		}
 	}
 
@@ -222,7 +222,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		CheckDlgButton(hwndDlg, IDC_START, (StartDisabled) ? BST_UNCHECKED : BST_CHECKED);
 		CheckDlgButton(hwndDlg, IDC_STOP, (StopDisabled) ? BST_UNCHECKED : BST_CHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_ONEPOPUP, (OnePopUp) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ONEPOPUP, (OnePopup) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWMENU, (ShowMenu) ? BST_CHECKED : BST_UNCHECKED);
 
 		Utils::enableDlgControl(hwndDlg, IDC_ONEPOPUP, PluginConfig.g_PopupAvail);
@@ -366,7 +366,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						ppd.lchContact = (HANDLE) wParam;
 						ppd.PluginWindowProc = NULL;
 						ppd.PluginData = NULL;
-						PUAddPopUpT(&ppd);
+						PUAddPopupT(&ppd);
 					}
 				}
 				break;
@@ -482,10 +482,10 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				StartDisabled = IsDlgButtonChecked(hwndDlg, IDC_START) ? 0 : 2;
 				StopDisabled = IsDlgButtonChecked(hwndDlg, IDC_STOP) ? 0 : 4;
-				OnePopUp = IsDlgButtonChecked(hwndDlg, IDC_ONEPOPUP);
+				OnePopup = IsDlgButtonChecked(hwndDlg, IDC_ONEPOPUP);
 				ShowMenu = IsDlgButtonChecked(hwndDlg, IDC_SHOWMENU);
 
-				M->WriteByte(Module, SET_ONEPOPUP, OnePopUp);
+				M->WriteByte(Module, SET_ONEPOPUP, OnePopup);
 				M->WriteByte(Module, SET_SHOWDISABLEMENU, ShowMenu);
 				M->WriteByte(Module, SET_DISABLED, (BYTE) (StartDisabled | StopDisabled));
 				M->WriteByte(Module, SET_COLOR_MODE, ColorMode);
@@ -509,7 +509,7 @@ int TN_OptionsInitialize(WPARAM wParam, LPARAM lParam)
 		odp.hInstance = g_hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TYPINGNOTIFYPOPUP);
 		odp.pszTitle = LPGEN("Typing Notify");
-		odp.pszGroup = LPGEN("PopUps");
+		odp.pszGroup = LPGEN("Popups");
 		odp.groupPosition = 910000000;
 		odp.flags = ODPF_BOLDGROUPS;
 		odp.pfnDlgProc = DlgProcOpts;
@@ -520,9 +520,9 @@ int TN_OptionsInitialize(WPARAM wParam, LPARAM lParam)
 
 int TN_ModuleInit()
 {
-	hPopUpsList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
+	hPopupsList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
 
-	OnePopUp = M->GetByte(Module,SET_ONEPOPUP,DEF_ONEPOPUP);
+	OnePopup = M->GetByte(Module,SET_ONEPOPUP,DEF_ONEPOPUP);
 	ShowMenu = M->GetByte(Module,SET_SHOWDISABLEMENU,DEF_SHOWDISABLEMENU);
 
 	int i = M->GetByte(Module,SET_DISABLED,DEF_DISABLED);
@@ -556,7 +556,7 @@ int TN_ModuleInit()
 			mi.hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED));
 		}
 		mi.pszService = "TypingNotify/EnableDisableMenuCommand";
-		mi.pszPopupName = LPGEN("PopUps");
+		mi.pszPopupName = LPGEN("Popups");
 		hDisableMenu = Menu_AddMainMenuItem(&mi);
 	}
 

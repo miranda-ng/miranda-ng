@@ -57,7 +57,7 @@
     <ClCompile Include="src\MraOfflineMsg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\MraPopUp.cpp">
+    <ClCompile Include="src\MraPopup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\MraRTFMsg.cpp">
@@ -113,7 +113,7 @@
     <ClInclude Include="src\MraPlaces.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\MraPopUp.h">
+    <ClInclude Include="src\MraPopup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\MraRTFMsg.h">

@@ -180,7 +180,7 @@ int OptionsDlgInit(WPARAM wParam, LPARAM lParam)
 		optDi.pfnDlgProc = PopupOptDlg;
 		optDi.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPOPTDLG);
 		optDi.hInstance = g_hInstance;
-		optDi.ptszGroup = LPGENT("PopUps");
+		optDi.ptszGroup = LPGENT("Popups");
 		optDi.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 		Options_AddPage(wParam, &optDi);
 	}

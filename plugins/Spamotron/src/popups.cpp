@@ -188,7 +188,7 @@ int ShowPopupPreview(HWND optDlg, BYTE popupType, TCHAR *line1, TCHAR *line2)
 	mir_sntprintf((WCHAR *)ppdp.lptzContactName, MAX_CONTACTNAME, _T("%s"), (line1)?line1:_T(PLUGIN_NAME));
 	if (line2)
 		mir_sntprintf((WCHAR *)ppdp.lptzText, MAX_SECONDLINE, _T("%s"), line2);
-	return PUAddPopUpW(&ppdp);
+	return PUAddPopupW(&ppdp);
 
 }
 
@@ -237,5 +237,5 @@ int ShowPopup(HANDLE hContact, BYTE popupType, TCHAR *line1, TCHAR *line2)
 	mir_sntprintf((WCHAR *)ppdp.lptzContactName, MAX_CONTACTNAME, _T("%s"), (line1)?line1:_T(PLUGIN_NAME));
 	if (line2)
 		mir_sntprintf((WCHAR *)ppdp.lptzText, MAX_SECONDLINE, _T("%s"), line2);
-	return PUAddPopUpW(&ppdp);
+	return PUAddPopupW(&ppdp);
 }

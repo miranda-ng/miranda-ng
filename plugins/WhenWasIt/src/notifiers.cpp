@@ -37,7 +37,7 @@ void PopupNotifyNoBirthdays()
 
 	_tcscpy(pd.lptzContactName, TranslateT("WhenWasIt"));
 	_tcscpy(pd.lptzText, TranslateT("No upcoming birthdays."));
-	PUAddPopUpT(&pd);
+	PUAddPopupT(&pd);
 }
 
 TCHAR *BuildDTBText(int dtb, TCHAR *name, TCHAR *text, int size)
@@ -105,7 +105,7 @@ int PopupNotifyBirthday(HANDLE hContact, int dtb, int age)
 	else
 		mir_sntprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
 
-	PUAddPopUpT(&pd);
+	PUAddPopupT(&pd);
 
 	free(name);
 	return 0;
@@ -149,7 +149,7 @@ int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 	else
 		mir_sntprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
 	
-	PUAddPopUpT(&pd);
+	PUAddPopupT(&pd);
 
 	free(name);
 	return 0;

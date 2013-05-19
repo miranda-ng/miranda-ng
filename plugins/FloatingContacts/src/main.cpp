@@ -468,7 +468,7 @@ static LRESULT __stdcall CommWndProc(	HWND	hwnd,
 		// Popup message dialog
 		//if (pThumb) pThumb->ThumbDeselect( TRUE );
 		if (!fcOpt.bUseSingleClick && pThumb)
-			pThumb->PopUpMessageDialog();
+			pThumb->PopupMessageDialog();
 		break;
 
 	case WM_RBUTTONDOWN:
@@ -491,7 +491,7 @@ static LRESULT __stdcall CommWndProc(	HWND	hwnd,
 		{
 			ThumbInfo *pThumb = thumbList.FindThumb( ( HWND )wParam );
 
-			if (pThumb)	pThumb->PopUpMessageDialog();
+			if (pThumb)	pThumb->PopupMessageDialog();
 		}
 
 	default:

@@ -55,7 +55,7 @@ int OptionsRead(void)
   options->iDelayUrl = (int)db_get_dw(NULL, MODULE, OPT_DELAY_URL, DEFAULT_DELAY);
   options->iDelayFile = (int)db_get_dw(NULL, MODULE, OPT_DELAY_FILE, DEFAULT_DELAY);
   options->iDelayOthers = (int)db_get_dw(NULL, MODULE, OPT_DELAY_OTHERS, DEFAULT_DELAY);
-  options->iDelayDefault = (int)DBGetContactSettingRangedWord(NULL, "PopUp", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
+  options->iDelayDefault = (int)DBGetContactSettingRangedWord(NULL, "Popup", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
   options->bShowDate = db_get_b(NULL, MODULE, OPT_SHOW_DATE, TRUE);
   options->bShowTime = db_get_b(NULL, MODULE, OPT_SHOW_TIME, TRUE);
   options->bShowHeaders = db_get_b(NULL, MODULE, OPT_SHOW_HEADERS, TRUE);
@@ -301,7 +301,7 @@ int OptionsAdd(HINSTANCE hInst, WPARAM addInfo)
 		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
 		odp.pszTitle = LPGEN("Event Notify");
-		odp.pszGroup = LPGEN("PopUps");
+		odp.pszGroup = LPGEN("Popups");
 		odp.flags = ODPF_BOLDGROUPS;
 		odp.pfnDlgProc = OptionsDlgProc;
 		Options_AddPage( addInfo, &odp);

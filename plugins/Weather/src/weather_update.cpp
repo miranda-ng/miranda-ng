@@ -102,7 +102,7 @@ int UpdateWeather(HANDLE hContact)
 	// have weather alert issued?
 	dbres = db_get_ts(hContact, WEATHERCONDITION, "Alert", &dbv);
 	if ( !dbres && dbv.ptszVal[0] != 0) {
-		if (opt.AlertPopup && !db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0) && Ch) {
+		if (opt.AlertPopup && !db_get_b(hContact, WEATHERPROTONAME, "DPopup", 0) && Ch) {
 			// display alert popup
 			wsprintf(str, _T("Alert for %s%c%s"), winfo.city, 255, dbv.ptszVal);
 			WPShowMessage(str, SM_WEATHERALERT);

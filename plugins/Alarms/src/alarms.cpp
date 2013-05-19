@@ -54,7 +54,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	switch(message) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) { //It was a click on the Popup.
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			return TRUE;
 		}
 		break;
@@ -81,7 +81,7 @@ void ShowPopup(HANDLE hContact, const TCHAR *msg)
 		ppd.iSeconds = 3;
 
 		//Now that every field has been filled, we want to see the popup.
-		PUAddPopUpT(&ppd);
+		PUAddPopupT(&ppd);
 	}
 }
 

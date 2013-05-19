@@ -11,7 +11,7 @@
 
 //--------------------------------------------------------------------------------------------------
 
-LRESULT CALLBACK BadConnectPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) 
+LRESULT CALLBACK BadConnectPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) 
 {
 	DWORD PluginParam;
 	switch(msg)
@@ -27,12 +27,12 @@ LRESULT CALLBACK BadConnectPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPa
 				si.cb=sizeof(si);
 				ActualAccount=(HACCOUNT)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
 #ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read wait\n");
+				DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read wait\n");
 #endif
 				if (WAIT_OBJECT_0==WaitToReadFcn(ActualAccount->AccountAccessSO))
 				{
 #ifdef DEBUG_SYNCHRO
-					DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read enter\n");
+					DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read enter\n");
 #endif
 					if (ActualAccount->BadConnectN.App != NULL)
 					{
@@ -54,13 +54,13 @@ LRESULT CALLBACK BadConnectPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPa
 						}
 					}
 #ifdef DEBUG_SYNCHRO
-					DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read done\n");
+					DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read done\n");
 #endif
 					ReadDoneFcn(ActualAccount->AccountAccessSO);
 				}
 #ifdef DEBUG_SYNCHRO
 				else
-					DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read enter failed\n");
+					DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read enter failed\n");
 #endif
 				SendMessage(hWnd,UM_DESTROYPOPUP,0,0);
 			}
@@ -94,13 +94,13 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 	{
 		case WM_INITDIALOG:
 		{
-			BOOL ShowPopUp,ShowMsg,ShowIco;
+			BOOL ShowPopup,ShowMsg,ShowIco;
 			HACCOUNT ActualAccount;
 			DWORD  ErrorCode;
 			char* TitleStrA;
 			char *Message1A=NULL;
 			TCHAR *Message1W=NULL;
-			POPUPDATAT BadConnectPopUp;
+			POPUPDATAT BadConnectPopup;
 
 			ActualAccount=((struct BadConnectionParam *)lParam)->account;
 			ErrorCode=((struct BadConnectionParam *)lParam)->errcode;
@@ -120,46 +120,46 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 			TitleStrA = new char[strlen(ActualAccount->Name)+strlen(Translate(BADCONNECTTITLE))];
 			wsprintfA(TitleStrA,Translate(BADCONNECTTITLE),ActualAccount->Name);
 
-			ShowPopUp=ActualAccount->BadConnectN.Flags & YAMN_ACC_POP;
+			ShowPopup=ActualAccount->BadConnectN.Flags & YAMN_ACC_POP;
 			ShowMsg=ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG;
 			ShowIco=ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO;
 
-			if (ShowPopUp)
+			if (ShowPopup)
 			{
-				BadConnectPopUp.lchContact=ActualAccount;
-				BadConnectPopUp.lchIcon=g_LoadIconEx(3);
-				BadConnectPopUp.colorBack=ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopUpB : GetSysColor(COLOR_BTNFACE);
-				BadConnectPopUp.colorText=ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopUpT : GetSysColor(COLOR_WINDOWTEXT);
-				BadConnectPopUp.iSeconds=ActualAccount->BadConnectN.PopUpTime;
+				BadConnectPopup.lchContact=ActualAccount;
+				BadConnectPopup.lchIcon=g_LoadIconEx(3);
+				BadConnectPopup.colorBack=ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopupB : GetSysColor(COLOR_BTNFACE);
+				BadConnectPopup.colorText=ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
+				BadConnectPopup.iSeconds=ActualAccount->BadConnectN.PopupTime;
 
-				BadConnectPopUp.PluginWindowProc=BadConnectPopUpProc;
-				BadConnectPopUp.PluginData=0;					//it's bad connect popup
-				lstrcpyn(BadConnectPopUp.lptzContactName,_A2T(ActualAccount->Name),SIZEOF(BadConnectPopUp.lptzContactName));
+				BadConnectPopup.PluginWindowProc=BadConnectPopupProc;
+				BadConnectPopup.PluginData=0;					//it's bad connect popup
+				lstrcpyn(BadConnectPopup.lptzContactName,_A2T(ActualAccount->Name),SIZEOF(BadConnectPopup.lptzContactName));
 			}
 
 			if (ActualAccount->Plugin->Fcn != NULL && ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr != NULL)
 			{
 				Message1W=ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
 				SetDlgItemText(hDlg,IDC_STATICMSG,Message1W);
-				lstrcpyn(BadConnectPopUp.lptzText,Message1W,sizeof(BadConnectPopUp.lptzText));
-				if (ShowPopUp)
-					PUAddPopUpT(&BadConnectPopUp);
+				lstrcpyn(BadConnectPopup.lptzText,Message1W,sizeof(BadConnectPopup.lptzText));
+				if (ShowPopup)
+					PUAddPopupT(&BadConnectPopup);
 			}
 			else if (ActualAccount->Plugin->Fcn != NULL && ActualAccount->Plugin->Fcn->GetErrorStringAFcnPtr != NULL)
 			{
 				Message1W=ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
 				SetDlgItemText(hDlg,IDC_STATICMSG,Message1W);
-				lstrcpyn(BadConnectPopUp.lptzText,Message1W,sizeof(BadConnectPopUp.lptzText));
-				if (ShowPopUp)
-					PUAddPopUpT(&BadConnectPopUp);
+				lstrcpyn(BadConnectPopup.lptzText,Message1W,sizeof(BadConnectPopup.lptzText));
+				if (ShowPopup)
+					PUAddPopupT(&BadConnectPopup);
 			}
 			else
 			{
 				Message1W=TranslateT("Unknown error");
 				SetDlgItemText(hDlg,IDC_STATICMSG,Message1W);
-				lstrcpyn(BadConnectPopUp.lptzText,Message1W,sizeof(BadConnectPopUp.lptzText));
-				if (ShowPopUp)
-					PUAddPopUpT(&BadConnectPopUp);
+				lstrcpyn(BadConnectPopup.lptzText,Message1W,sizeof(BadConnectPopup.lptzText));
+				if (ShowPopup)
+					PUAddPopupT(&BadConnectPopup);
 			}
 
 			if (!ShowMsg && !ShowIco)

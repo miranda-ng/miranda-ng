@@ -47,10 +47,10 @@ PopupSkin::~PopupSkin()
 SIZE PopupSkin::measureAction(HDC hdc, POPUPACTION *act) const
 {
 	SIZE sz = {0};
-	if (!(PopUpOptions.actions&ACT_ENABLE))
+	if (!(PopupOptions.actions&ACT_ENABLE))
 		return sz;
 
-	if (PopUpOptions.actions&ACT_LARGE)
+	if (PopupOptions.actions&ACT_LARGE)
 	{
 		sz.cx = sz.cy = 32;
 	} else
@@ -58,7 +58,7 @@ SIZE PopupSkin::measureAction(HDC hdc, POPUPACTION *act) const
 		sz.cx = sz.cy = 16;
 	}
 
-	if (PopUpOptions.actions&ACT_TEXT)
+	if (PopupOptions.actions&ACT_TEXT)
 	{
 		char *name = strchr(act->lpzTitle, '/');
 		if (!name) name = act->lpzTitle;
@@ -94,7 +94,7 @@ SIZE PopupSkin::measureActionBar(HDC hdc, PopupWnd2 *wnd) const
 	{
 		SIZE szAction = measureAction(hdc, &wnd->getActions()[i].actionA);
 
-		if (PopUpOptions.actions & ACT_TEXT)
+		if (PopupOptions.actions & ACT_TEXT)
 		{
 			sz.cx = max(sz.cx, szAction.cx);
 			sz.cy += szAction.cy;
@@ -110,16 +110,16 @@ SIZE PopupSkin::measureActionBar(HDC hdc, PopupWnd2 *wnd) const
 
 void PopupSkin::drawAction(MyBitmap *bmp, POPUPACTION *act, int x, int y, bool hover) const
 {
-	if (!(PopUpOptions.actions&ACT_ENABLE))
+	if (!(PopupOptions.actions&ACT_ENABLE))
 		return;
 
 	bmp->DrawIcon(act->lchIcon,
-		(PopUpOptions.actions&ACT_TEXT) ? x : (x+2),
+		(PopupOptions.actions&ACT_TEXT) ? x : (x+2),
 		y+2,
-		(PopUpOptions.actions&ACT_LARGE) ? 32 : 16,
-		(PopUpOptions.actions&ACT_LARGE) ? 32 : 16);
+		(PopupOptions.actions&ACT_LARGE) ? 32 : 16,
+		(PopupOptions.actions&ACT_LARGE) ? 32 : 16);
 
-	if (PopUpOptions.actions&ACT_TEXT)
+	if (PopupOptions.actions&ACT_TEXT)
 	{
 		char *name = strchr(act->lpzTitle, '/');
 		if (!name) name = act->lpzTitle;
@@ -138,10 +138,10 @@ void PopupSkin::drawAction(MyBitmap *bmp, POPUPACTION *act, int x, int y, bool h
 		WCHAR *str = TranslateW(wname);
 		GetTextExtentPoint32W(bmp->getDC(), str, lstrlenW(str), &szText);
 		bmp->Draw_TextW(str,
-			(PopUpOptions.actions&ACT_LARGE) ? (x+szSpace.cx+32) : (x+szSpace.cx+16),
+			(PopupOptions.actions&ACT_LARGE) ? (x+szSpace.cx+32) : (x+szSpace.cx+16),
 			max(
 				y+2,
-				y+2 + (((PopUpOptions.actions&ACT_LARGE) ? 32 : 16) - szText.cy)/2
+				y+2 + (((PopupOptions.actions&ACT_LARGE) ? 32 : 16) - szText.cy)/2
 			));
 		mir_free(wname);
 
@@ -153,8 +153,8 @@ void PopupSkin::drawAction(MyBitmap *bmp, POPUPACTION *act, int x, int y, bool h
 			RECT rc;
 			rc.left = x;
 			rc.top = y;
-			rc.right = x + ((PopUpOptions.actions&ACT_LARGE) ? 32 : 16) + 4;
-			rc.bottom = y + ((PopUpOptions.actions&ACT_LARGE) ? 32 : 16) + 4;
+			rc.right = x + ((PopupOptions.actions&ACT_LARGE) ? 32 : 16) + 4;
+			rc.bottom = y + ((PopupOptions.actions&ACT_LARGE) ? 32 : 16) + 4;
 			bmp->saveAlpha(rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top);
 			HBRUSH hbr = CreateSolidBrush(fonts.clActionHover);
 			FrameRect(bmp->getDC(), &rc, hbr);
@@ -176,7 +176,7 @@ void PopupSkin::drawActionBar(MyBitmap *bmp, PopupWnd2 *wnd, int x, int y) const
 		wnd->getActions()[i].rc.right = x + szAction.cx;
 		wnd->getActions()[i].rc.bottom = y + szAction.cy;
 
-		if (PopUpOptions.actions & ACT_TEXT)
+		if (PopupOptions.actions & ACT_TEXT)
 		{
 			y += szAction.cy;
 		} else
@@ -227,7 +227,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 	}
 
 	wnd->getArgs()->clear();
-	wnd->getArgs()->add("options.avatarsize", PopUpOptions.avatarSize);
+	wnd->getArgs()->add("options.avatarsize", PopupOptions.avatarSize);
 	wnd->getArgs()->add("window.width", maxw);
 	wnd->getArgs()->add("window.maxwidth", maxw);
 
@@ -627,7 +627,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 				drawActionBar(bmp, wnd,
 					db_get_b(NULL, MODULNAME, "CenterActions", 0) ?
 						(pos.x + (textAreaWidth - wnd->getRenderInfo()->actw)/2) :
-					(PopUpOptions.actions&ACT_RIGHTICONS) ?
+					(PopupOptions.actions&ACT_RIGHTICONS) ?
 						(pos.x + textAreaWidth - wnd->getRenderInfo()->actw) :
 					// else
 						pos.x,
@@ -1403,7 +1403,7 @@ const PopupSkin *Skins::getSkin(LPCTSTR name)
 void Skins::loadActiveSkin()
 {
 	for (SKINLIST *p = m_skins; p; p = p->next)
-		if (!lstrcmpi(p->name, PopUpOptions.SkinPack))
+		if (!lstrcmpi(p->name, PopupOptions.SkinPack))
 		{
 			if (p->skin)
 				break;
@@ -1417,7 +1417,7 @@ void Skins::loadActiveSkin()
 void Skins::freeAllButActive()
 {
 	for (SKINLIST *p = m_skins; p; p = p->next)
-		if (lstrcmpi(p->name, PopUpOptions.SkinPack))
+		if (lstrcmpi(p->name, PopupOptions.SkinPack))
 		{
 			delete p->skin;
 			p->skin = NULL;

@@ -395,7 +395,7 @@ int TrafficCounterOptInitialise(WPARAM wParam,LPARAM lParam)
 	if (bPopupExists) {
 		odp.groupPosition = 100;
 		odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_TRAFFIC_POPUPS);
-		odp.pszGroup=LPGEN("PopUps");
+		odp.pszGroup=LPGEN("Popups");
 		odp.pszTitle=LPGEN("Traffic counter");
 		odp.pfnDlgProc=DlgProcPopupsTraffic;
 		odp.flags=ODPF_BOLDGROUPS;

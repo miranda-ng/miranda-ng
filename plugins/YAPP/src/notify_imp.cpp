@@ -67,7 +67,7 @@ INT_PTR svcPopup2DefaultActions(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CALLBACK DlgProcPopUps(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcPopups(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 /* To change options use MNotifySet*(hNotify, ....) Apply/Cancel is implemented in notify.dll */
 	HANDLE hNotify = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA);
@@ -98,7 +98,7 @@ int NotifyOptionsInitialize(WPARAM wParam,LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOTIFY);
 	odp.pszTitle = LPGEN("YAPP Popups");
 	odp.flags=ODPF_BOLDGROUPS;
-	odp.pfnDlgProc = DlgProcPopUps;
+	odp.pfnDlgProc = DlgProcPopups;
 	CallService(MS_NOTIFY_OPT_ADDPAGE, wParam, (LPARAM)&odp);
 	return 0;
 }

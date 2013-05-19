@@ -130,7 +130,7 @@ void ShowPopup(TCHAR* text, TCHAR* header)
 	lstrcpy(ppd.lptzContactName, header);
 	ppd.lchIcon = Skin_GetIcon("backup");
 
-	PUAddPopUpT(&ppd);
+	PUAddPopupT(&ppd);
 }
 
 int CreateDirectoryTree(TCHAR *szDir)

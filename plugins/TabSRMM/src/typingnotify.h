@@ -30,5 +30,5 @@
 #define DEF_ICON_SETID       0
 #define SET_SHOWDISABLEMENU  "ShowDisableMenu"
 #define DEF_SHOWDISABLEMENU  1
-#define SET_ONEPOPUP         "OnePopUp"
+#define SET_ONEPOPUP         "OnePopup"
 #define DEF_ONEPOPUP         1

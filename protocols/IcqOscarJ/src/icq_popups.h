@@ -24,7 +24,7 @@
 // -----------------------------------------------------------------------------
 //  DESCRIPTION:
 //
-//  Headers for PopUp Plugin support
+//  Headers for Popup Plugin support
 //
 // -----------------------------------------------------------------------------
 #ifndef __ICQ_POPUPS_H

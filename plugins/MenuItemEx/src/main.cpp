@@ -21,7 +21,7 @@ HGENMENU hmenuVis,hmenuOff,hmenuHide,hmenuIgnore,hmenuProto,hmenuAdded,hmenuAuth
 HGENMENU hmenuCopyID,hmenuRecvFiles,hmenuStatusMsg,hmenuCopyIP,hmenuCopyMirVer;
 static HGENMENU hIgnoreItem[9], hProtoItem[MAX_PROTOS];
 HICON hIcon[5];
-BOOL bMetaContacts = FALSE, bPopUpService = FALSE;
+BOOL bMetaContacts = FALSE, bPopupService = FALSE;
 PROTOACCOUNT **accs;
 OPENOPTIONSDIALOG ood;
 int protoCount;
@@ -229,7 +229,7 @@ void ShowPopup(char* szText, TCHAR* tszText, HANDLE hContact)
 	_tcsncpy(ppd.lptzText, text, MAX_SECONDLINE - 1);
 	ppd.iSeconds = -1;
 
-	PUAddPopUpT(&ppd);
+	PUAddPopupT(&ppd);
 	mir_free(text);
 }
 
@@ -649,7 +649,7 @@ INT_PTR onCopyID(WPARAM wparam,LPARAM lparam)
 	else strcpy(buffer, szID);
 
 	CopyToClipboard((HWND)lparam, buffer, 0);
-	if (CTRL_IS_PRESSED && bPopUpService)
+	if (CTRL_IS_PRESSED && bPopupService)
 		ShowPopup(buffer, 0, hContact);
 
 	return 0;
@@ -689,7 +689,7 @@ INT_PTR onCopyStatusMsg(WPARAM wparam,LPARAM lparam)
 	}
 
 	CopyToClipboard((HWND)lparam, 0, buffer);
-	if (CTRL_IS_PRESSED && bPopUpService)
+	if (CTRL_IS_PRESSED && bPopupService)
 		ShowPopup(0, buffer, (HANDLE)wparam);
 
 	return 0;
@@ -703,7 +703,7 @@ INT_PTR onCopyIP(WPARAM wparam,LPARAM lparam)
 	getIP((HANDLE)wparam,szProto,(LPSTR)&szIP);
 
 	CopyToClipboard((HWND)lparam, szIP, 0);
-	if (CTRL_IS_PRESSED && bPopUpService)
+	if (CTRL_IS_PRESSED && bPopupService)
 		ShowPopup(szIP, 0, (HANDLE)wparam);
 
 	return 0;
@@ -714,7 +714,7 @@ INT_PTR onCopyMirVer(WPARAM wparam,LPARAM lparam)
 	LPSTR msg = getMirVer((HANDLE)wparam);
 	if (msg) {
 		CopyToClipboard((HWND)lparam, msg, 0);
-		if (CTRL_IS_PRESSED && bPopUpService)
+		if (CTRL_IS_PRESSED && bPopupService)
 			ShowPopup(msg, 0, (HANDLE)wparam);
 
 		mir_free(msg);
@@ -1056,7 +1056,7 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 
 static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
-	bPopUpService = ServiceExists(MS_POPUP_ADDPOPUP);
+	bPopupService = ServiceExists(MS_POPUP_ADDPOPUP);
 	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT);
 	return 0;
 }

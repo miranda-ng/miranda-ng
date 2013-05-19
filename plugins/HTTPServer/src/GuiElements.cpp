@@ -1379,7 +1379,7 @@ void CALLBACK MainThreadCallback(ULONG_PTR dwParam) {
 	if (db_get_b(NULL, MODULE, "WriteLogFile", 0) != 0) {
 		LogEvent(pclData->lpzContactName, pclData->lpzText);
 	}
-	PUAddPopUpT(pclData);
+	PUAddPopupT(pclData);
 	delete pclData;
 }
 
@@ -1417,11 +1417,11 @@ LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 			//QueueUserAPC(OpenStatisticViewFromPopupProc, hMainThread, 0);
 
 			QueueUserAPC(OpenStatisticViewFromPopupProc, hMainThread, 0);
-			PUDeletePopUp( hWnd );
+			PUDeletePopup( hWnd );
 			return 0;
 
 		case WM_CONTEXTMENU: {
-				PUDeletePopUp( hWnd );
+				PUDeletePopup( hWnd );
 				return 0;
 			}
 	}

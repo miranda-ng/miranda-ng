@@ -26,7 +26,7 @@
 
 int g_IsSrmmServiceAvail = 0;
 int g_IsSrmmWindowAPI = 0;
-extern PLUGIN_DATA* PopUpList[20];
+extern PLUGIN_DATA* PopupList[20];
 
 //---------------------------
 //---Some global variables for the plugin
@@ -100,7 +100,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 	{
 		if (pluginOptions.bHideSend && NumberPopupData(hContact, EVENTTYPE_MESSAGE) != -1)
 		{ // JK, only message event, do not influence others
-			pdata = PopUpList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
+			pdata = PopupList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
 			PopupAct(pdata->hWnd, MASK_DISMISS, pdata); // JK, only dismiss, i.e. do not kill event (e.g. file transfer)
 		}		
 		return 0; 

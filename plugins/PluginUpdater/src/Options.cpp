@@ -171,7 +171,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int i;
 	char str[20] = {0}, str2[20] = {0};
@@ -404,9 +404,9 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 
 	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-		odp.ptszGroup = LPGENT("PopUps");
+		odp.ptszGroup = LPGENT("Popups");
 		odp.ptszTitle = LPGENT("Plugin Updater");
-		odp.pfnDlgProc = DlgPopUpOpts;
+		odp.pfnDlgProc = DlgPopupOpts;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;

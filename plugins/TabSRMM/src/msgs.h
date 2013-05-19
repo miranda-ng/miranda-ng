@@ -262,6 +262,7 @@ struct TWindowData
    char   *szProto;
    TCHAR   szMyNickname[130];
    TCHAR   szStatusBar[100];
+   TCHAR   szStatusBarCustom[100];
    TCHAR   newtitle[130];        // tab title...
    TCHAR   szStatus[50];
    WORD    wStatus;

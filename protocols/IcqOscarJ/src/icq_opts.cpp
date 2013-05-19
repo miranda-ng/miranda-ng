@@ -31,7 +31,7 @@
 
 #include <win2k.h>
 
-extern BOOL bPopUpService;
+extern BOOL bPopupService;
 
 static const char* szLogLevelDescr[] = {
 	LPGEN("Display all problems"),
@@ -606,12 +606,12 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcIcqPrivacyOpts;
 	Options_AddPage(wParam, &odp);
 
-	if (bPopUpService) {
+	if (bPopupService) {
 		odp.position = 100000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUPS);
 		odp.groupPosition = 900000000;
 		odp.pfnDlgProc = DlgProcIcqPopupOpts;
-		odp.ptszGroup = LPGENT("PopUps");
+		odp.ptszGroup = LPGENT("Popups");
 		odp.ptszTab = NULL;
 		Options_AddPage(wParam, &odp);
 	}

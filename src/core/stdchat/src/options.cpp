@@ -28,7 +28,7 @@ extern HBRUSH       hListBkgBrush;
 extern HBRUSH       hListSelectedBkgBrush;
 extern HICON        hIcons[30];
 extern FONTINFO     aFonts[OPTIONS_FONTCOUNT];
-extern BOOL         PopUpInstalled;
+extern BOOL         PopupInstalled;
 extern SESSION_INFO g_TabSession;
 
 HANDLE g_hOptions = NULL;
@@ -166,19 +166,19 @@ static const struct branch_t branch5[] = {
 };
 
 static const struct branch_t branch6[] = {
-	{ LPGENT("Show pop-ups only when the chat room is not active"), "PopUpInactiveOnly", 0, 1},
-	{ LPGENT("Show pop-up for topic changes"), "PopupFlags", GC_EVENT_TOPIC, 0},
-	{ LPGENT("Show pop-up for users joining"), "PopupFlags", GC_EVENT_JOIN, 0},
-	{ LPGENT("Show pop-up for users disconnecting"), "PopupFlags", GC_EVENT_QUIT, 0},
-	{ LPGENT("Show pop-up for messages"), "PopupFlags", GC_EVENT_MESSAGE, 0},
-	{ LPGENT("Show pop-up for actions"), "PopupFlags", GC_EVENT_ACTION, 0},
-	{ LPGENT("Show pop-up for highlights"), "PopupFlags", GC_EVENT_HIGHLIGHT, 0},
-	{ LPGENT("Show pop-up for users leaving"), "PopupFlags", GC_EVENT_PART, 0},
-	{ LPGENT("Show pop-up for users kicking other user"), "PopupFlags", GC_EVENT_KICK, 0},
-	{ LPGENT("Show pop-up for notices "), "PopupFlags", GC_EVENT_NOTICE, 0},
-	{ LPGENT("Show pop-up for name changes"), "PopupFlags", GC_EVENT_NICK, 0},
-	{ LPGENT("Show pop-up for information messages"), "PopupFlags", GC_EVENT_INFORMATION, 0},
-	{ LPGENT("Show pop-up for status changes"), "PopupFlags", GC_EVENT_ADDSTATUS, 0},
+	{ LPGENT("Show Popups only when the chat room is not active"), "PopupInactiveOnly", 0, 1},
+	{ LPGENT("Show Popup for topic changes"), "PopupFlags", GC_EVENT_TOPIC, 0},
+	{ LPGENT("Show Popup for users joining"), "PopupFlags", GC_EVENT_JOIN, 0},
+	{ LPGENT("Show Popup for users disconnecting"), "PopupFlags", GC_EVENT_QUIT, 0},
+	{ LPGENT("Show Popup for messages"), "PopupFlags", GC_EVENT_MESSAGE, 0},
+	{ LPGENT("Show Popup for actions"), "PopupFlags", GC_EVENT_ACTION, 0},
+	{ LPGENT("Show Popup for highlights"), "PopupFlags", GC_EVENT_HIGHLIGHT, 0},
+	{ LPGENT("Show Popup for users leaving"), "PopupFlags", GC_EVENT_PART, 0},
+	{ LPGENT("Show Popup for users kicking other user"), "PopupFlags", GC_EVENT_KICK, 0},
+	{ LPGENT("Show Popup for notices "), "PopupFlags", GC_EVENT_NOTICE, 0},
+	{ LPGENT("Show Popup for name changes"), "PopupFlags", GC_EVENT_NICK, 0},
+	{ LPGENT("Show Popup for information messages"), "PopupFlags", GC_EVENT_INFORMATION, 0},
+	{ LPGENT("Show Popup for status changes"), "PopupFlags", GC_EVENT_ADDSTATUS, 0},
 };
 
 HTREEITEM hItemB0[SIZEOF(branch0)];
@@ -515,8 +515,8 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 		hListHeading3 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Default events to show in new chat rooms if the \'event filter\' is enabled"), db_get_b(NULL, "Chat", "Branch3Exp", 0)?TRUE:FALSE);
 		hListHeading4 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Icons to display in the message log"), db_get_b(NULL, "Chat", "Branch4Exp", 0)?TRUE:FALSE);
 		hListHeading5 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Icons to display in the tray"), db_get_b(NULL, "Chat", "Branch5Exp", 0)?TRUE:FALSE);
-		if (PopUpInstalled)
-			hListHeading6 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Pop-ups to display"), db_get_b(NULL, "Chat", "Branch6Exp", 0)?TRUE:FALSE);
+		if (PopupInstalled)
+			hListHeading6 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Popups to display"), db_get_b(NULL, "Chat", "Branch6Exp", 0)?TRUE:FALSE);
 		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading0, branch0, hItemB0, SIZEOF(branch0), 0);
 		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading1, branch1, hItemB1, SIZEOF(branch1), 0);
 		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading2, branch2, hItemB2, SIZEOF(branch2), 0);
@@ -592,14 +592,14 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 						SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch3, hItemB3, SIZEOF(branch3));
 						SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch4, hItemB4, SIZEOF(branch4));
 						SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch5, hItemB5, SIZEOF(branch5));
-						if (PopUpInstalled)
+						if (PopupInstalled)
 							SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch6, hItemB6, SIZEOF(branch6));
 						g_Settings.dwIconFlags = db_get_dw(NULL, "Chat", "IconFlags", 0x0000);
 						g_Settings.dwTrayIconFlags = db_get_dw(NULL, "Chat", "TrayIconFlags", 0x1000);
 						g_Settings.dwPopupFlags = db_get_dw(NULL, "Chat", "PopupFlags", 0x0000);
 						g_Settings.StripFormat = (BOOL)db_get_b(NULL, "Chat", "TrimFormatting", 0);
 						g_Settings.TrayIconInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "TrayIconInactiveOnly", 1);
-						g_Settings.PopUpInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "PopUpInactiveOnly", 1);
+						g_Settings.PopupInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "PopupInactiveOnly", 1);
 						g_Settings.LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0)?TRUE:FALSE;
 
 						if (b != db_get_b(NULL, "Chat", "Tabs", 1)) {
@@ -626,7 +626,7 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 			db_set_b(NULL, "Chat", "Branch5Exp", b);
 			b = TreeView_GetItemState(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading0, TVIS_EXPANDED)&TVIS_EXPANDED?1:0;
 			db_set_b(NULL, "Chat", "Branch0Exp", b);
-			if (PopUpInstalled) {
+			if (PopupInstalled) {
 				b = TreeView_GetItemState(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading6, TVIS_EXPANDED)&TVIS_EXPANDED?1:0;
 				db_set_b(NULL, "Chat", "Branch6Exp", b);
 		}	}
@@ -922,7 +922,7 @@ static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcOptions2;
 	Options_AddPage(wParam, &odp);
 
-	if (PopUpInstalled) {
+	if (PopupInstalled) {
 		odp.position = 910000002;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);
 		odp.pszTitle = LPGEN("Chat");
@@ -962,7 +962,7 @@ void LoadGlobalSettings(void)
 	g_Settings.crLogBackground = db_get_dw(NULL, "Chat", "ColorLogBG", GetSysColor(COLOR_WINDOW));
 	g_Settings.StripFormat = (BOOL)db_get_b(NULL, "Chat", "StripFormatting", 0);
 	g_Settings.TrayIconInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "TrayIconInactiveOnly", 1);
-	g_Settings.PopUpInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "PopUpInactiveOnly", 1);
+	g_Settings.PopupInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "PopupInactiveOnly", 1);
 	g_Settings.AddColonToAutoComplete = (BOOL)db_get_b(NULL, "Chat", "AddColonToAutoComplete", 1);
 	g_Settings.iPopupStyle = db_get_b(NULL, "Chat", "PopupStyle", 1);
 	g_Settings.iPopupTimeout = db_get_w(NULL, "Chat", "PopupTimeout", 3);

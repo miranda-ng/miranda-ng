@@ -57,7 +57,7 @@ enum
 	STYLE_SZ_BORDER_FLAT	= 2
 };
 
-//===== PopUp Positioning =====
+//===== Popup Positioning =====
 enum
 {
 	POS_UPPERLEFT,
@@ -81,7 +81,7 @@ enum
 	SPREADING_MAXVALUE	= SPREADING_VERTICAL
 };
 
-//===== PopUp Options flags
+//===== Popup Options flags
 enum
 {
 	SPK_NONE,

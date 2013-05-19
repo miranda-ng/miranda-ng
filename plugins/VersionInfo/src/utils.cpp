@@ -37,7 +37,7 @@ void Log(const TCHAR* message)
 		pu.lchIcon = hiVIIcon;
 		_tcsncpy(pu.lptzContactName, TranslateT("Version Information"), MAX_CONTACTNAME);
 		_tcsncpy(pu.lptzText, message, MAX_SECONDLINE);
-		PUAddPopUpT(&pu);
+		PUAddPopupT(&pu);
 	}
 	else MessageBox(NULL, message, _T("VersionInfo"), MB_OK | MB_ICONINFORMATION);
 }

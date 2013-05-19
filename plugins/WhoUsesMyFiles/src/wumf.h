@@ -122,8 +122,8 @@ void FreeAll();
 VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 INT_PTR CALLBACK ConnDlgProc(HWND, UINT, WPARAM, LPARAM);
 
-void ShowThePopUp(PWumf w, LPTSTR, LPTSTR);
-void ShowWumfPopUp(PWumf w);
+void ShowThePopup(PWumf w, LPTSTR, LPTSTR);
+void ShowWumfPopup(PWumf w);
 
 void process_session(SESSION_INFO_1 s_info);
 void process_file(SESSION_INFO_1 s_info, FILE_INFO_3 f_info);

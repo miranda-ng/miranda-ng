@@ -29,7 +29,7 @@
 // -----------------------------------------------------------------------------
 #include "icqoscar.h"
 
-extern BOOL bPopUpService;
+extern BOOL bPopupService;
 
 static const char *szLevelDescr[] = {LPGEN("ICQ Note"), LPGEN("ICQ Warning"), LPGEN("ICQ Error"), LPGEN("ICQ Fatal")};
 
@@ -46,9 +46,9 @@ void __cdecl CIcqProto::icq_LogMessageThread(void* arg)
 	if (!err)
 		return;
 
-	if (bPopUpService && getSettingByte(NULL, "PopupsLogEnabled", DEFAULT_LOG_POPUPS_ENABLED))
+	if (bPopupService && getSettingByte(NULL, "PopupsLogEnabled", DEFAULT_LOG_POPUPS_ENABLED))
 	{
-		ShowPopUpMsg(NULL, err->szTitle, err->szMsg, err->bLevel); 
+		ShowPopupMsg(NULL, err->szTitle, err->szMsg, err->bLevel); 
 
 		SAFE_FREE((void**)&err->szMsg);
 		SAFE_FREE((void**)&err);

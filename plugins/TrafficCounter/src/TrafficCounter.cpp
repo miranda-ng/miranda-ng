@@ -1149,7 +1149,7 @@ void NotifyOnSend(void)
 	ppd.colorText = Traffic_PopupFontColor;
 	ppd.PluginWindowProc = NULL;
 	ppd.iSeconds = (Traffic_PopupTimeoutDefault ? 0 : Traffic_PopupTimeoutValue);
-	PUAddPopUpT(&ppd);
+	PUAddPopupT(&ppd);
 }
 
 void NotifyOnRecv(void)
@@ -1168,7 +1168,7 @@ void NotifyOnRecv(void)
 	ppd.colorText = Traffic_PopupFontColor;
 	ppd.PluginWindowProc = NULL;
 	ppd.iSeconds = (Traffic_PopupTimeoutDefault ? 0 : Traffic_PopupTimeoutValue);
-	PUAddPopUpT(&ppd); 
+	PUAddPopupT(&ppd); 
 }
 
 void CreateProtocolList(void)

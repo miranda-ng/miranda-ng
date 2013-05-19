@@ -2537,13 +2537,13 @@ void gamedetectiont(LPVOID lparam)
 						if(disabledpopups)
 							if(db_get_b(NULL,protocolname,"nopopups",0))
 							{
-								if(ServiceExists("PopUp/EnableDisableMenuCommand"))
+								if(ServiceExists("Popup/EnableDisableMenuCommand"))
 								{
-									CallService("PopUp/EnableDisableMenuCommand",NULL,NULL);
+									CallService("Popup/EnableDisableMenuCommand",NULL,NULL);
 								}
-								else if(ServiceExists("PopUp/ToggleEnabled"))
+								else if(ServiceExists("Popup/ToggleEnabled"))
 								{
-									CallService("PopUp/ToggleEnabled",NULL,NULL);
+									CallService("Popup/ToggleEnabled",NULL,NULL);
 								}
 								disabledpopups=FALSE;
 							}
@@ -2677,15 +2677,15 @@ void gamedetectiont(LPVOID lparam)
 										//popup abschalten, menuservice funk aufrufen
 										if(db_get_b(NULL,protocolname,"nopopups",0))
 										{
-											if(ServiceExists("PopUp/EnableDisableMenuCommand")&&db_get_b(NULL,"PopUp","ModuleIsEnabled",0)==1) /**/
+											if(ServiceExists("Popup/EnableDisableMenuCommand")&&db_get_b(NULL,"Popup","ModuleIsEnabled",0)==1) /**/
 											{
 												disabledpopups=TRUE;
-												CallService("PopUp/EnableDisableMenuCommand",NULL,NULL);
+												CallService("Popup/EnableDisableMenuCommand",NULL,NULL);
 											}
-											else if(ServiceExists("PopUp/ToggleEnabled")&&db_get_b(NULL,"YAPP","Enabled",0)==1)
+											else if(ServiceExists("Popup/ToggleEnabled")&&db_get_b(NULL,"YAPP","Enabled",0)==1)
 											{
 												disabledpopups=TRUE;
-												CallService("PopUp/ToggleEnabled",NULL,NULL);
+												CallService("Popup/ToggleEnabled",NULL,NULL);
 											}
 										}
 										//sound abschalten

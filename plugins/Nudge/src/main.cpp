@@ -348,19 +348,19 @@ extern "C" int __declspec(dllexport) Unload(void)
 	return 0;
 }
 
-LRESULT CALLBACK NudgePopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
+LRESULT CALLBACK NudgePopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg) {
 	case WM_COMMAND:
 		{
 			HANDLE hContact = PUGetContact(hWnd);
 			CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			break;
 		}
 
 	case WM_CONTEXTMENU:
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 	case UM_FREEPLUGINDATA:
 		//Here we'd free our own data, if we had it.
@@ -385,7 +385,7 @@ void LoadPopupClass()
 	ppc.colorBack = NULL;
 	ppc.colorText = NULL;
 	ppc.iSeconds = 0;
-	ppc.PluginWindowProc = NudgePopUpProc;
+	ppc.PluginWindowProc = NudgePopupProc;
 	if (hPopupClass = Popup_RegisterClass(&ppc))
 		HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 }
@@ -440,31 +440,31 @@ void Nudge_ShowPopup(CNudgeElement n, HANDLE hContact, TCHAR * Message)
 
 	if(ServiceExists(MS_POPUP_ADDPOPUPCLASS))
 	{
-		POPUPDATACLASS NudgePopUp = {0};
-		NudgePopUp.cbSize = sizeof(NudgePopUp);
-		NudgePopUp.hContact = hContact;
-		NudgePopUp.ptszText = Message;
-		NudgePopUp.ptszTitle = lpzContactName;
-		NudgePopUp.pszClassName = "nudge";
-		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&NudgePopUp);
+		POPUPDATACLASS NudgePopup = {0};
+		NudgePopup.cbSize = sizeof(NudgePopup);
+		NudgePopup.hContact = hContact;
+		NudgePopup.ptszText = Message;
+		NudgePopup.ptszTitle = lpzContactName;
+		NudgePopup.pszClassName = "nudge";
+		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&NudgePopup);
 	}
 	else if(ServiceExists(MS_POPUP_ADDPOPUPT))
 	{
-		POPUPDATAT NudgePopUp = {0};
-		NudgePopUp.lchContact = hContact;
-		NudgePopUp.lchIcon = Skin_GetIconByHandle(n.hIcoLibItem);
-		NudgePopUp.colorBack = 0;
-		NudgePopUp.colorText = 0;
-		NudgePopUp.iSeconds = 0;
-		NudgePopUp.PluginWindowProc = NudgePopUpProc;
-		NudgePopUp.PluginData = (void *)1;
+		POPUPDATAT NudgePopup = {0};
+		NudgePopup.lchContact = hContact;
+		NudgePopup.lchIcon = Skin_GetIconByHandle(n.hIcoLibItem);
+		NudgePopup.colorBack = 0;
+		NudgePopup.colorText = 0;
+		NudgePopup.iSeconds = 0;
+		NudgePopup.PluginWindowProc = NudgePopupProc;
+		NudgePopup.PluginData = (void *)1;
 
-		//lstrcpy(NudgePopUp.lpzText, Translate(Message));
-		lstrcpy(NudgePopUp.lptzText, Message);
+		//lstrcpy(NudgePopup.lpzText, Translate(Message));
+		lstrcpy(NudgePopup.lptzText, Message);
 
-		lstrcpy(NudgePopUp.lptzContactName, lpzContactName);
+		lstrcpy(NudgePopup.lptzContactName, lpzContactName);
 
-		CallService(MS_POPUP_ADDPOPUPT,(WPARAM)&NudgePopUp,0);
+		CallService(MS_POPUP_ADDPOPUPT,(WPARAM)&NudgePopup,0);
 	}
 	else
 	{

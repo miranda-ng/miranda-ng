@@ -368,7 +368,7 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 {
 	if (::Miranda_Terminated()) return;
 
-	if ( !::ServiceExists(MS_POPUP_ADDPOPUPT) || !::db_get_b(NULL, "PopUp", "ModuleIsEnabled", 1))
+	if ( !::ServiceExists(MS_POPUP_ADDPOPUPT) || !::db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
 		::MessageBoxW(NULL, message, caption, MB_OK | flags);
 	else
 	{
@@ -381,7 +381,7 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 		::wcsncpy(ppd.lpwzText, message, MAX_SECONDLINE);
 		ppd.lchIcon = ::Skin_GetIcon("Skype_main");
 
-		PUAddPopUpW(&ppd);
+		PUAddPopupW(&ppd);
 	}
 }
 

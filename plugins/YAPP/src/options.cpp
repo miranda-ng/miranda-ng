@@ -472,7 +472,7 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -790000000;
 	odp.hInstance = hInst;
-	odp.pszTitle = LPGEN("PopUps");
+	odp.pszTitle = LPGEN("Popups");
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT1);
 	odp.pszTab = LPGEN("Settings");

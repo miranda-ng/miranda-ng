@@ -470,12 +470,12 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 			LeaveCS(&g_popups_cs);
 
 			if (left.empty())
-				PUDeletePopUp(hWnd);
+				PUDeletePopup(hWnd);
 			else {
 				bool closeflag = false;
 				processAction(left, closeflag);
 				if (closeflag)
-					PUDeletePopUp(hWnd);
+					PUDeletePopup(hWnd);
 			}
 		}
 		return TRUE;
@@ -489,12 +489,12 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 			LeaveCS(&g_popups_cs);
 
 			if (right.empty())
-				PUDeletePopUp(hWnd);
+				PUDeletePopup(hWnd);
 			else {
 				bool closeflag = false;
 				processAction(right, closeflag);
 				if (closeflag)
-					PUDeletePopUp(hWnd);
+					PUDeletePopup(hWnd);
 			}
 		}
 		return TRUE;
@@ -548,7 +548,7 @@ int showMessage(const popup_t &msg)
 
 	LeaveCS(&g_popups_cs);
 
-	return PUAddPopUp(&ppd);
+	return PUAddPopup(&ppd);
 }
 
 void replaceMessage(const popup_t &msg)
@@ -865,7 +865,7 @@ void initWinsock()
 	EnterCS(&g_wsocklock);
 	if (g_firstrun) {
 		// probably not needed, but just in case...
-		// give PopUp a second to sort itself out
+		// give Popup a second to sort itself out
 		Sleep(1000);
 		g_firstrun = false;
 

@@ -143,7 +143,7 @@ Condition_Changed is true; otherwise is false.
 #define ME_WEATHER_UPDATED	"Miranda/Weather/Updated"
 
 /*
-Shows a warning message for Weather PopUp.
+Shows a warning message for Weather Popup.
 wParam = (char*) lpzMessage
 lParam = Type
 Type can either be SM_WARNING, SM_NOTIFY, or SM_WEATHERALERT

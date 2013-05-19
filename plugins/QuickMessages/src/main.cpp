@@ -227,7 +227,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 		int menunum;
 		ButtonData * bd=NULL;
 		HMENU hMenu=NULL,hSubMenu=NULL;
-		BOOL bSetPopUpMark=FALSE;
+		BOOL bSetPopupMark=FALSE;
 
 		if(g_iButtonsCount){
 			hMenu = CreatePopupMenu();
@@ -239,22 +239,22 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 			if(bd->dwOPFlags&QMF_NEW)
 				continue;
 
-			bSetPopUpMark=FALSE;
+			bSetPopupMark=FALSE;
 			if(bd->pszValue==0&&bd->fEntryType==0)
 			{
 				hSubMenu = CreatePopupMenu();
-				bSetPopUpMark=TRUE;
+				bSetPopupMark=TRUE;
 			}
 
 			if(bd->pszValue&&bd->fEntryType==0)
 				hSubMenu=NULL;
 
 			if(bd->fEntryType&QMF_EX_SEPARATOR)
-				AppendMenu((HMENU)((hSubMenu&&!bSetPopUpMark)?hSubMenu:hMenu),MF_SEPARATOR,0,NULL);
+				AppendMenu((HMENU)((hSubMenu&&!bSetPopupMark)?hSubMenu:hMenu),MF_SEPARATOR,0,NULL);
 			else
-				AppendMenu((HMENU)((hSubMenu&&!bSetPopUpMark)?hSubMenu:hMenu),
-				MF_STRING|(bSetPopUpMark?MF_POPUP:0),
-				(bSetPopUpMark?(UINT_PTR)hSubMenu:(menunum+1)),	bd->pszName);
+				AppendMenu((HMENU)((hSubMenu&&!bSetPopupMark)?hSubMenu:hMenu),
+				MF_STRING|(bSetPopupMark?MF_POPUP:0),
+				(bSetPopupMark?(UINT_PTR)hSubMenu:(menunum+1)),	bd->pszName);
 		}
 
 		res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);

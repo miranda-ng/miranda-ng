@@ -43,12 +43,12 @@ LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 				if (puData->flags & GG_POPUP_MULTILOGON)
 					puData->gg->sessions_view(0, 0);
 			}
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			break;
 		}
 
 		case WM_CONTEXTMENU:
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			break;
 
 		case UM_FREEPLUGINDATA:

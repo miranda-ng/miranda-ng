@@ -30,7 +30,7 @@ int inline _DebugPopup(HANDLE hContact, TCHAR *fmt, ...)
 		_tcsncpy_s(ppd.lptzText, debug, MAX_SECONDLINE - 20);
 		ppd.colorText = RGB(255,255,255);
 		ppd.colorBack = RGB(255,0,0);
-		PUAddPopUpT(&ppd);
+		PUAddPopupT(&ppd);
 	}
 	return 0;
 }

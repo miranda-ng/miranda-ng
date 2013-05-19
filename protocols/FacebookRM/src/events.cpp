@@ -48,17 +48,17 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	{
 	case WM_COMMAND:
 	{
-		//Get the plugin data (we need the PopUp service to do it)
+		//Get the plugin data (we need the Popup service to do it)
 		popup_data *data = (popup_data *)PUGetPluginData(hwnd);
 		if (data != NULL)
 			data->proto->OpenUrl(data->url);
 
 		// After a click, destroy popup
-		PUDeletePopUp(hwnd);
+		PUDeletePopup(hwnd);
 		} break;
 
 	case WM_CONTEXTMENU:
-		PUDeletePopUp(hwnd);
+		PUDeletePopup(hwnd);
 		break;
 
 	case UM_FREEPLUGINDATA:
@@ -149,7 +149,7 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 			pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 			lstrcpy(pd.lptzContactName, title);
 			lstrcpy(pd.lptzText, info);
-			ret = PUAddPopUpT(&pd);
+			ret = PUAddPopupT(&pd);
 
 			if (ret == 0)
 				return;

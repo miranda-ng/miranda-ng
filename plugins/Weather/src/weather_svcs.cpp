@@ -250,7 +250,7 @@ void UpdatePopupMenu(BOOL State)
 {
 	// update option setting
 	opt.UsePopup = State;
-	db_set_b(NULL, WEATHERPROTONAME, "UsePopUp", (BYTE)opt.UsePopup);
+	db_set_b(NULL, WEATHERPROTONAME, "UsePopup", (BYTE)opt.UsePopup);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	if (State)
@@ -371,7 +371,7 @@ void AddMenuItems(void)
 		mi.pszName = LPGEN("Weather Notification");
 		mi.icolibItem = GetIconHandle("popup");
 		mi.position = 0;
-		mi.pszPopupName = LPGEN("PopUps");
+		mi.pszPopupName = LPGEN("Popups");
 		mi.pszService = WEATHERPROTONAME "/PopupMenu";
 		hEnableDisablePopupMenu = Menu_AddMainMenuItem(&mi);
 		UpdatePopupMenu(opt.UsePopup);

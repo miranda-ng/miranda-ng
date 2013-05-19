@@ -523,7 +523,7 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 				{
 					ppd.iSeconds = -1;
 				}
-				PUAddPopUpT(&ppd);
+				PUAddPopupT(&ppd);
 			}
 			break;
 		}
@@ -598,7 +598,7 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 		ZeroMemory(&odp,sizeof(odp));
 		odp.cbSize = sizeof(odp);
 		odp.position = 150000000;
-		odp.ptszGroup = LPGENT("PopUps");
+		odp.ptszGroup = LPGENT("Popups");
 		odp.groupPosition = 910000000;
 		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PUOPT_KEEPSTATUS);

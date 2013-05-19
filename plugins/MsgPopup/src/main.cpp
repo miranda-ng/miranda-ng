@@ -89,7 +89,7 @@ void popupMessage(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 	ppd.lchIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(iIcon), IMAGE_ICON, SM_CXSMICON, SM_CYSMICON, LR_SHARED);
 	lstrcpy(ppd.lptzContactName, lpCaption);
 	lstrcpy(ppd.lptzText, lpText);
-	PUAddPopUpT(&ppd);
+	PUAddPopupT(&ppd);
 	if(options.Sound)
 		MessageBeep(uType);
 }

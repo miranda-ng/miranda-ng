@@ -40,7 +40,7 @@ LPCSTR gszMetaProto = "";
 HBITMAP hbmNoAvatar;
 
 //===== Options =====
-POPUPOPTIONS PopUpOptions;
+POPUPOPTIONS PopupOptions;
 //SKINELEMENT *skin;
 //SKINELEMENT *w_skin;
 //SKINELEMENT *n_skin;
@@ -70,24 +70,24 @@ HRESULT		(WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurB
 
 // common funcs
 void LoadOptions() {
-	ZeroMemory(&PopUpOptions, sizeof(PopUpOptions));
+	ZeroMemory(&PopupOptions, sizeof(PopupOptions));
 	#if defined(_DEBUG)
-		PopUpOptions.debug = db_get_b(NULL, MODULNAME, "debug", FALSE);
+		PopupOptions.debug = db_get_b(NULL, MODULNAME, "debug", FALSE);
 	#endif
 
-	//Load PopUp Options
+	//Load Popup Options
 	if (!OptionLoaded){
 		LoadOption_General();
 		LoadOption_Skins();
 		LoadOption_Actions();
 		LoadOption_AdvOpts();
 	}
-	Check_ReorderPopUps();
+	Check_ReorderPopups();
 	OptionLoaded = true;
 	return;
 }
 
-void PopUpPreview()
+void PopupPreview()
 {
 	TCHAR *lptzTitle1Eng = TranslateT("The Jabberwocky");
 	TCHAR *lptzText1Eng  = TranslateT("`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]");
@@ -107,7 +107,7 @@ void PopUpPreview()
 	ppd.lptzText	= lptzText1Eng;
 	ppd.lchIcon		= LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
-	if (PopUpOptions.UseAnimations || PopUpOptions.UseEffect) Sleep((ANIM_TIME*2)/3); //Pause
+	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME*2)/3); //Pause
 
 	ZeroMemory(&ppd, sizeof(ppd));
 	ppd.cbSize		= sizeof(ppd);
@@ -118,13 +118,13 @@ void PopUpPreview()
 	ppd.hbmAvatar	= hbmNoAvatar;
 
 	CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
-	if (PopUpOptions.UseAnimations || PopUpOptions.UseEffect) Sleep((ANIM_TIME*2)/3); //Pause
+	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME*2)/3); //Pause
 
 	PUShowMessageT(TranslateT("This is a notification message"),	(DWORD)SM_NOTIFY|0x80000000);
-	if (PopUpOptions.UseAnimations || PopUpOptions.UseEffect) Sleep((ANIM_TIME*2)/3); //Pause
+	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME*2)/3); //Pause
 
 	PUShowMessageT(TranslateT("This is a warning message"),			(DWORD)SM_WARNING|0x80000000);
-	if (PopUpOptions.UseAnimations || PopUpOptions.UseEffect) Sleep((ANIM_TIME*2)/3); //Pause
+	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME*2)/3); //Pause
 
 	PUShowMessageT(TranslateT("This is an error message"),			(DWORD)SM_ERROR|0x80000000);
 }

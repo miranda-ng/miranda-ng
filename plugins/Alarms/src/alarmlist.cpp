@@ -482,11 +482,11 @@ static LRESULT CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam
 			append_to_list(mpd);
 		}
 
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		return TRUE;
 
 	case WM_CONTEXTMENU: 
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		return TRUE;
 
 	case UM_FREEPLUGINDATA: 
@@ -514,7 +514,7 @@ void ShowPopup(ALARM *alarm)
 		ppd.PluginWindowProc = PopupAlarmDlgProc;
 		ppd.PluginData = data;
 		ppd.iSeconds = -1;
-		PUAddPopUpT(&ppd);
+		PUAddPopupT(&ppd);
 	}
 }
 

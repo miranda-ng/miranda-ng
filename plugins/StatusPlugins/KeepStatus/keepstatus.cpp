@@ -1097,7 +1097,7 @@ static INT_PTR ShowPopup(char* msg, HICON hIcon)
 		ppd.iSeconds = 0;
 		break;
 	}
-	return PUAddPopUp(&ppd);
+	return PUAddPopup(&ppd);
 }
 
 LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -1111,12 +1111,12 @@ LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 		case POPUP_ACT_CANCEL:
 			// cancel timer
 			StopChecking();
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			break;
 
 		case POPUP_ACT_CLOSEPOPUP:
 			// close the popup
-			PUDeletePopUp(hWnd);
+			PUDeletePopup(hWnd);
 			break;
 		}
 		break;

@@ -554,7 +554,7 @@ void TwitterProto::ShowContactPopup(HANDLE hContact,const std::string &text)
 	}
 
 	mbcs_to_tcs(CP_UTF8,text.c_str(),popup.lptzText,MAX_SECONDLINE);
-	PUAddPopUpT(&popup);
+	PUAddPopupT(&popup);
 }
 
 void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)

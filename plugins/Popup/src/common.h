@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef COMMON_H
 #define COMMON_H
 
-void PopUpPreview();
+void PopupPreview();
 
 #define MAX_POPUPS 48
 
@@ -41,7 +41,7 @@ inline void GetBmpSize(HBITMAP hbm, SIZE *sz)
 }
 
 inline void DebugMsg(LPTSTR msg){
-	if (PopUpOptions.debug){
+	if (PopupOptions.debug){
 		MessageBox(NULL, msg, _T("debug"), MB_OK);
 	}
 }

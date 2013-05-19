@@ -587,7 +587,7 @@ static void MailPopupPreview(DWORD colorBack, DWORD colorText, char *title, char
 	ppd.colorText = colorText;
 	ppd.iSeconds = delay;
 	if ( ServiceExists(MS_POPUP_ADDPOPUP))
-		PUAddPopUp(&ppd);
+		PUAddPopup(&ppd);
 }
 
 static INT_PTR CALLBACK TlenPopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

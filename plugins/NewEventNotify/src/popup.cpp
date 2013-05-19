@@ -28,15 +28,15 @@ extern int g_IsServiceAvail;
 
 static int PopupCount = 0;
 
-PLUGIN_DATA* PopUpList[MAX_POPUPS];
+PLUGIN_DATA* PopupList[MAX_POPUPS];
 
 int NumberPopupData(HANDLE hContact, int eventType)
 {
 	for (int n=0; n < MAX_POPUPS; n++) {
-		if (!PopUpList[n] && !hContact && eventType == -1)
+		if (!PopupList[n] && !hContact && eventType == -1)
 			return n;
 
-		if (PopUpList[n] && (PopUpList[n]->hContact == hContact) && (PopUpList[n]->iLock == 0) && (eventType == -1 || PopUpList[n]->eventType == (UINT)eventType))
+		if (PopupList[n] && (PopupList[n]->hContact == hContact) && (PopupList[n]->iLock == 0) && (eventType == -1 || PopupList[n]->eventType == (UINT)eventType))
 			return n;
 	}
 	return -1;
@@ -45,7 +45,7 @@ int NumberPopupData(HANDLE hContact, int eventType)
 static int FindPopupData(PLUGIN_DATA* pdata)
 {
 	for (int n=0; n < MAX_POPUPS; n++)
-		if (PopUpList[n] == pdata) 
+		if (PopupList[n] == pdata) 
 			return n;
 
 	return -1;
@@ -69,7 +69,7 @@ static void FreePopupEventData(PLUGIN_DATA* pdata)
 	pdata->lastEventData = pdata->firstEventData = pdata->firstShowEventData = NULL;
 	// remove from popup list if present
 	if (FindPopupData(pdata) != -1)
-		PopUpList[FindPopupData(pdata)] = NULL;
+		PopupList[FindPopupData(pdata)] = NULL;
 }
 
 int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
@@ -119,7 +119,7 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 	if (mask & MASK_DISMISS) {
 		KillTimer(hWnd, TIMER_TO_ACTION);
 		FreePopupEventData(pdata);
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 	}
 
 	return 0;
@@ -488,7 +488,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
 
 	PopupCount++;
 
-	PopUpList[NumberPopupData(NULL, -1)] = pdata;
+	PopupList[NumberPopupData(NULL, -1)] = pdata;
 	// send data to popup plugin
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
@@ -516,7 +516,7 @@ int PopupUpdate(HANDLE hContact, HANDLE hEvent)
 	int doReverse = 0;
 
 	// merge only message popups
-	pdata = (PLUGIN_DATA*)PopUpList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
+	pdata = (PLUGIN_DATA*)PopupList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
 
 	if (hEvent) {
 		pdata->countEvent++;

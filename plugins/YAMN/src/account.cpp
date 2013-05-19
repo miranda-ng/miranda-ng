@@ -341,28 +341,28 @@ static DWORD ReadNotificationFromMemory(char **Parser,char *End,YAMN_NOTIFICATIO
 	MessageBox(NULL,Debug,_T("debug"),MB_OK);
 #endif
 
-	Which->PopUpB=*(COLORREF *)(*Parser);
+	Which->PopupB=*(COLORREF *)(*Parser);
 	(*Parser)+=sizeof(COLORREF);
 	if (*Parser>=End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	_stprintf(Debug,_T("PopUpB: %04x, remaining %d chars"),Which->PopUpB,End-*Parser);
+	_stprintf(Debug,_T("PopupB: %04x, remaining %d chars"),Which->PopupB,End-*Parser);
 	MessageBox(NULL,Debug,_T("debug"),MB_OK);
 #endif
-	Which->PopUpT=*(COLORREF *)(*Parser);
+	Which->PopupT=*(COLORREF *)(*Parser);
 	(*Parser)+=sizeof(COLORREF);
 	if (*Parser>=End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	_stprintf(Debug,_T("PopUpT: %04x, remaining %d chars"),Which->PopUpT,End-*Parser);
+	_stprintf(Debug,_T("PopupT: %04x, remaining %d chars"),Which->PopupT,End-*Parser);
 	MessageBox(NULL,Debug,_T("debug"),MB_OK);
 #endif
-	Which->PopUpTime=*(DWORD *)(*Parser);
+	Which->PopupTime=*(DWORD *)(*Parser);
 	(*Parser)+=sizeof(DWORD);
 	if (*Parser>=End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	_stprintf(Debug,_T("PopUpTime: %04x, remaining %d chars"),Which->PopUpTime,End-*Parser);
+	_stprintf(Debug,_T("PopupTime: %04x, remaining %d chars"),Which->PopupTime,End-*Parser);
 	MessageBox(NULL,Debug,_T("debug"),MB_OK);
 #endif
 
@@ -896,9 +896,9 @@ static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin,HANDLE File)
 				throw (DWORD)EACC_SYSTEM;
 
 			if ((!WriteFile(File,(char *)&ActualAccount->NewMailN.Flags,sizeof(DWORD),&WrittenBytes,NULL)) ||
-				(!WriteFile(File,(char *)&ActualAccount->NewMailN.PopUpB,sizeof(COLORREF),&WrittenBytes,NULL)) ||
-				(!WriteFile(File,(char *)&ActualAccount->NewMailN.PopUpT,sizeof(COLORREF),&WrittenBytes,NULL)) ||
-				(!WriteFile(File,(char *)&ActualAccount->NewMailN.PopUpTime,sizeof(DWORD),&WrittenBytes,NULL)))
+				(!WriteFile(File,(char *)&ActualAccount->NewMailN.PopupB,sizeof(COLORREF),&WrittenBytes,NULL)) ||
+				(!WriteFile(File,(char *)&ActualAccount->NewMailN.PopupT,sizeof(COLORREF),&WrittenBytes,NULL)) ||
+				(!WriteFile(File,(char *)&ActualAccount->NewMailN.PopupTime,sizeof(DWORD),&WrittenBytes,NULL)))
 				throw (DWORD)EACC_SYSTEM;
 
 			if ((Stat=WriteStringToFileW(File,ActualAccount->NewMailN.App)) ||
@@ -906,9 +906,9 @@ static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin,HANDLE File)
 				throw (DWORD)Stat;
 
 			if ((!WriteFile(File,(char *)&ActualAccount->NoNewMailN.Flags,sizeof(DWORD),&WrittenBytes,NULL)) ||
-				(!WriteFile(File,(char *)&ActualAccount->NoNewMailN.PopUpB,sizeof(COLORREF),&WrittenBytes,NULL)) ||
-				(!WriteFile(File,(char *)&ActualAccount->NoNewMailN.PopUpT,sizeof(COLORREF),&WrittenBytes,NULL)) ||
-				(!WriteFile(File,(char *)&ActualAccount->NoNewMailN.PopUpTime,sizeof(DWORD),&WrittenBytes,NULL)))
+				(!WriteFile(File,(char *)&ActualAccount->NoNewMailN.PopupB,sizeof(COLORREF),&WrittenBytes,NULL)) ||
+				(!WriteFile(File,(char *)&ActualAccount->NoNewMailN.PopupT,sizeof(COLORREF),&WrittenBytes,NULL)) ||
+				(!WriteFile(File,(char *)&ActualAccount->NoNewMailN.PopupTime,sizeof(DWORD),&WrittenBytes,NULL)))
 				throw (DWORD)EACC_SYSTEM;
 
 			if ((Stat=WriteStringToFileW(File,ActualAccount->NoNewMailN.App)) ||
@@ -916,9 +916,9 @@ static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin,HANDLE File)
 				throw (DWORD)Stat;
 
 			if ((!WriteFile(File,(char *)&ActualAccount->BadConnectN.Flags,sizeof(DWORD),&WrittenBytes,NULL)) ||
-				(!WriteFile(File,(char *)&ActualAccount->BadConnectN.PopUpB,sizeof(COLORREF),&WrittenBytes,NULL)) ||
-				(!WriteFile(File,(char *)&ActualAccount->BadConnectN.PopUpT,sizeof(COLORREF),&WrittenBytes,NULL)) ||
-				(!WriteFile(File,(char *)&ActualAccount->BadConnectN.PopUpTime,sizeof(DWORD),&WrittenBytes,NULL)))
+				(!WriteFile(File,(char *)&ActualAccount->BadConnectN.PopupB,sizeof(COLORREF),&WrittenBytes,NULL)) ||
+				(!WriteFile(File,(char *)&ActualAccount->BadConnectN.PopupT,sizeof(COLORREF),&WrittenBytes,NULL)) ||
+				(!WriteFile(File,(char *)&ActualAccount->BadConnectN.PopupTime,sizeof(DWORD),&WrittenBytes,NULL)))
 				throw (DWORD)EACC_SYSTEM;
 
 			if ((Stat=WriteStringToFileW(File,ActualAccount->BadConnectN.App)) ||

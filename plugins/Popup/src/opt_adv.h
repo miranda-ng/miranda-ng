@@ -30,7 +30,7 @@ void OptAdv_RegisterVfx(char *name);
 void OptAdv_UnregisterVfx();
 
 void LoadOption_AdvOpts();
-INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND, UINT, WPARAM, LPARAM);
 
 
 #endif // __opt_adv_h__

@@ -553,7 +553,7 @@ struct CIcqProto : public PROTO_INTERFACE
 	BOOL   unpackUID(BYTE **ppBuf, WORD *pwLen, DWORD *pdwUIN, uid_str *ppszUID);
 
 	//----| icq_popups.cpp |--------------------------------------------------------------
-	int    ShowPopUpMsg(HANDLE hContact, const char *szTitle, const char *szMsg, BYTE bType);
+	int    ShowPopupMsg(HANDLE hContact, const char *szTitle, const char *szMsg, BYTE bType);
 
 	//----| icq_proto.cpp |--------------------------------------------------------------
 	void   __cdecl CheekySearchThread( void* );

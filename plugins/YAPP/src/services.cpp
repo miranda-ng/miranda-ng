@@ -298,9 +298,9 @@ static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//=====PopUp/ShowHistory
+//=====Popup/ShowHistory
 
-INT_PTR PopUp_ShowHistory(WPARAM wParam, LPARAM lParam)
+INT_PTR Popup_ShowHistory(WPARAM wParam, LPARAM lParam)
 {
 	if (!hHistoryWindow)
 		hHistoryWindow = CreateDialog(hInst, MAKEINTRESOURCE(IDD_LST_HISTORY), NULL, DlgProcHistLst);
@@ -413,8 +413,8 @@ void InitServices()
 	CreateServiceFunction(MS_POPUP_SHOWMESSAGE, ShowMessage);
 	CreateServiceFunction(MS_POPUP_SHOWMESSAGE"W", ShowMessageW);
 
-	CreateServiceFunction(MS_POPUP_SHOWHISTORY, PopUp_ShowHistory);
-	CreateServiceFunction("PopUp/ToggleEnabled", TogglePopups);
+	CreateServiceFunction(MS_POPUP_SHOWHISTORY, Popup_ShowHistory);
+	CreateServiceFunction("Popup/ToggleEnabled", TogglePopups);
 }
 
 void DeinitServices()

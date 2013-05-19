@@ -778,7 +778,7 @@ void CMraProto::MraUpdateEmailStatus(LPSTR lpszFrom, size_t dwFromSize, LPSTR lp
 		if (mraGetByte(NULL, "IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY))
 		{
 			if (bTrayIconNewMailNotify) CallService(MS_CLIST_REMOVEEVENT, 0, (LPARAM)m_szModuleName);
-			PUDeletePopUp(hWndEMailPopupStatus);
+			PUDeletePopup(hWndEMailPopupStatus);
 			hWndEMailPopupStatus = NULL;
 		}else {
 			mir_sntprintf(szStatusText, SIZEOF(szStatusText), TranslateW(L"No unread mail is available\r\nTotal messages: %lu"), dwEmailMessagesTotal);

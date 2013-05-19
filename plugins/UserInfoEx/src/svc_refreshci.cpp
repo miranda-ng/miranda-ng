@@ -397,7 +397,7 @@ public:
 		: CUpdProgress(data)
 	{
 		_szText = NULL;
-		_bBBCode = DB::Setting::GetByte("PopUp", "UseMText", FALSE);
+		_bBBCode = DB::Setting::GetByte("Popup", "UseMText", FALSE);
 
 		_popupButtons[0].cbSize = sizeof(POPUPACTION);
 		_popupButtons[0].flags = PAF_ENABLED;
@@ -449,7 +449,7 @@ public:
 	{
 		if (_hWnd)
 		{
-			PUDeletePopUp(_hWnd);
+			PUDeletePopup(_hWnd);
 			_hWnd = NULL;
 		}
 		MIR_FREE(_szText);

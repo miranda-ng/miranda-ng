@@ -45,8 +45,8 @@ typedef struct tagPOPUPOPTIONS {
 	int gapRight;
 	int spacing;
 	//Miscellaneous
-	BYTE ReorderPopUps;
-	BYTE ReorderPopUpsWarning;
+	BYTE ReorderPopups;
+	BYTE ReorderPopupsWarning;
 	//Disable when
 	BOOL ModuleIsEnabled;
 	BYTE DisableWhenFullscreen;
@@ -145,7 +145,7 @@ extern LPCSTR gszMetaProto;
 extern HBITMAP hbmNoAvatar;
 
 //===== Options =====
-extern POPUPOPTIONS PopUpOptions;
+extern POPUPOPTIONS PopupOptions;
 extern bool OptionLoaded;
 //extern SKINELEMENT *skin;
 //extern SKINELEMENT *w_skin;

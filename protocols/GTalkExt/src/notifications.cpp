@@ -70,7 +70,7 @@ LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	LPCSTR acc;
 
 	if (MESSAGE_CLOSEPOPUP == msg)
-		PUDeletePopUp(wnd);
+		PUDeletePopup(wnd);
 
 	switch (msg) {
 	case UM_INITPOPUP:
@@ -115,7 +115,7 @@ static bool DoAddPopup(POPUPDATAT *data)
 			ShowWindow(handle, SW_RESTORE);
 		}
 	}
-	result = PUAddPopUpT(data) == 0;
+	result = PUAddPopupT(data) == 0;
 
 	if (handle) DestroyWindow(handle);
 

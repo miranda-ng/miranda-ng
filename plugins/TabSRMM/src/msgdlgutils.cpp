@@ -510,7 +510,10 @@ void TSAPI UpdateStatusBar(const TWindowData *dat)
 {
 	if (dat && dat->pContainer->hwndStatus && dat->pContainer->hwndActive == dat->hwnd) {
 		if (dat->bType == SESSIONTYPE_IM) {
-			if (dat->szStatusBar[0]) {
+			/*if (dat->szStatusBarCustom[0]) {
+				SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, 0);
+				SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)dat->szStatusBarCustom);
+			} else*/ if (dat->szStatusBar[0]) {
 				SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 				SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)dat->szStatusBar);
 			}

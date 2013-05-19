@@ -53,9 +53,9 @@ enum
 bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
 {
 	if (!wnd) return false;
-	if (!PopUpOptions.ReorderPopUps && wnd->isPositioned()) return false;
+	if (!PopupOptions.ReorderPopups && wnd->isPositioned()) return false;
 
-	int POPUP_SPACING = PopUpOptions.spacing;
+	int POPUP_SPACING = PopupOptions.spacing;
 
 	POINT pos;
 	SIZE prevSize = {0}, curSize = wnd->getSize();
@@ -68,9 +68,9 @@ bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
 		SystemParametersInfo(SPI_GETWORKAREA, 0, &rc, 0);
 	else { //Multimonitor stuff (we have more then 1)
 		HWND hWnd;
-		if (PopUpOptions.Monitor == MN_MIRANDA)
+		if (PopupOptions.Monitor == MN_MIRANDA)
 			hWnd = (HWND)CallService(MS_CLUI_GETHWND,0,0);
-		else // PopUpOptions.Monitor == MN_ACTIVE
+		else // PopupOptions.Monitor == MN_ACTIVE
 			hWnd = GetForegroundWindow();
 
 		HMONITOR hMonitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTOPRIMARY);
@@ -83,12 +83,12 @@ bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
 			SystemParametersInfo(SPI_GETWORKAREA,0,&rc,0);
 	}
 
-	rc.left += PopUpOptions.gapLeft - POPUP_SPACING;
-	rc.right -= PopUpOptions.gapRight - POPUP_SPACING;
-	rc.top += PopUpOptions.gapTop - POPUP_SPACING;
-	rc.bottom -= PopUpOptions.gapBottom - POPUP_SPACING;
-	if (PopUpOptions.Spreading == SPREADING_VERTICAL) {
-		switch (PopUpOptions.Position) {
+	rc.left += PopupOptions.gapLeft - POPUP_SPACING;
+	rc.right -= PopupOptions.gapRight - POPUP_SPACING;
+	rc.top += PopupOptions.gapTop - POPUP_SPACING;
+	rc.bottom -= PopupOptions.gapBottom - POPUP_SPACING;
+	if (PopupOptions.Spreading == SPREADING_VERTICAL) {
+		switch (PopupOptions.Position) {
 		case POS_UPPERLEFT:
 			pos.x = rc.left + POPUP_SPACING;
 			pos.y = (prev ? (prev->getPosition().y + prev->getSize().cy) : rc.top) + POPUP_SPACING;
@@ -108,7 +108,7 @@ bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
 		}
 	}
 	else {
-		switch (PopUpOptions.Position) {
+		switch (PopupOptions.Position) {
 		case POS_UPPERLEFT:
 			pos.x = (prev ? (prev->getPosition().x + prev->getSize().cx) : rc.left) + POPUP_SPACING;
 			pos.y = rc.top + POPUP_SPACING;
@@ -134,7 +134,7 @@ bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
 void RepositionPopups()
 {
 	PopupWnd2 *prev = 0;
-	if (PopUpOptions.ReorderPopUps) {
+	if (PopupOptions.ReorderPopups) {
 		for (int i=0; i < popupList.getCount(); ++i) {
 			UpdatePopupPosition(prev, popupList[i]);
 			prev = popupList[i];
@@ -154,7 +154,7 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 		gTerminating = true;
 		if (db_get_b(NULL, MODULNAME, "FastExit", 0))
 			for (int i=0; i < popupList.getCount(); ++i)
-				PUDeletePopUp(popupList[i]->getHwnd());
+				PUDeletePopup(popupList[i]->getHwnd());
 		PostQuitMessage(0);
 		break;
 
@@ -172,7 +172,7 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 		break;
 
 	case UTM_REQUEST_REMOVE:
-		if ((PopUpOptions.LeaveHovered && gLockCount) || (wnd && wnd->isLocked()))
+		if ((PopupOptions.LeaveHovered && gLockCount) || (wnd && wnd->isLocked()))
 			wnd->updateTimer();
 		else
 			PostMessage(wnd->getHwnd(), WM_CLOSE, 0, 0);
@@ -285,7 +285,7 @@ void PopupThreadUnlock()
 
 bool PopupThreadIsFull()
 {
-	return nPopups >= PopUpOptions.MaxPopups;
+	return nPopups >= PopupOptions.MaxPopups;
 }
 
 bool PopupThreadAddWindow(PopupWnd2 *wnd)

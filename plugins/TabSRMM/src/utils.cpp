@@ -695,11 +695,11 @@ INT_PTR CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam
 	switch (message) {
 	case WM_COMMAND:
 		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_HANDLECLISTEVENT, (WPARAM)hContact, 0);
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 	case WM_CONTEXTMENU:
 		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_HANDLECLISTEVENT, (WPARAM)hContact, 0);
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		break;
 	case WM_MOUSEWHEEL:
 		break;

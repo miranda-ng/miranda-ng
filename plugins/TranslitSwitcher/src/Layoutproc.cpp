@@ -487,7 +487,7 @@ VOID SwitchLayout(BOOL lastword)
 					pd.lchIcon = Skin_GetIcon("Switch Layout and Send");
 					lstrcpyn(pd.lptzText, buf, SIZEOF(pd.lptzText));
 					lstrcpyn(pd.lptzContactName, TranslateT("TranslitSwitcher"), SIZEOF(pd.lptzContactName));
-					PUAddPopUpT(&pd);
+					PUAddPopupT(&pd);
 				}
 			}
 			else if(lstrcmp(szClassName, _T("RichEdit20W")) == 0)

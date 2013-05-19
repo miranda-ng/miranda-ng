@@ -1305,7 +1305,7 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPT);
 		odp.pszTitle    = LPGEN("Event notifications");
-		odp.pszGroup    = LPGEN("PopUps");
+		odp.pszGroup    = LPGEN("Popups");
 		odp.pfnDlgProc  = DlgProcPopupOpts;
 		Options_AddPage(wParam, &odp);
 	}

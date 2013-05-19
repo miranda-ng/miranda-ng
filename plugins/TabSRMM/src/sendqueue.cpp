@@ -634,7 +634,7 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 	ppd.lchIcon = PluginConfig.g_iconErr;
 	ppd.PluginData = (void*)dat->hContact;
 	ppd.iSeconds = (int)M->GetDword(MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
-	PUAddPopUpT(&ppd);
+	PUAddPopupT(&ppd);
 }
 
 /*

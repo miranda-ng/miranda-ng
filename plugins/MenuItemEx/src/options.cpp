@@ -1,7 +1,7 @@
 #include "menuex.h"
 
 extern HINSTANCE hinstance;
-extern BOOL bPopUpService;
+extern BOOL bPopupService;
 
 struct {
 	int idc;
@@ -45,7 +45,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				CheckDlgButton(hdlg, checkboxes[i].idc, (flags & checkboxes[i].flag) ? BST_CHECKED : BST_UNCHECKED);
 			}
 
-			if (bPopUpService)
+			if (bPopupService)
 			{
 				for (i = 0; i < 4; i++)
 				{

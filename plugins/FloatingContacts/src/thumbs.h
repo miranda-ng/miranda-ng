@@ -48,7 +48,7 @@ public:
 	void SetThumbOpacity		(BYTE btAlpha);
 	void KillTip				();
 	void UpdateContent			();
-	void PopUpMessageDialog		();
+	void PopupMessageDialog		();
 	void OnTimer				(BYTE idTimer);
 };
 

@@ -89,7 +89,7 @@ int IconsChanged(WPARAM, LPARAM)
 int TTBLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = { sizeof(ttb) };
-	ttb.pszService = "PopUp/ToggleEnabled";
+	ttb.pszService = "Popup/ToggleEnabled";
 	ttb.lParamUp = 1;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;
 	if (db_get_b(0, MODULE, "Enabled", 1))
@@ -200,7 +200,7 @@ void InitMenuItems(void)
 	hMenuItemHistory = Menu_AddMainMenuItem(&mi);
 
 	mi.hIcon = IcoLib_GetIcon(isEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
-	mi.pszService = "PopUp/ToggleEnabled";
+	mi.pszService = "Popup/ToggleEnabled";
 	mi.ptszName = (isEnabled ? LPGENT("Disable Popups") : LPGENT("Enable Popups"));
 	hMenuItem = Menu_AddMainMenuItem(&mi);
 }

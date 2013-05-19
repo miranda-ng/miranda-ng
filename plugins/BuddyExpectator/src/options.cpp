@@ -36,19 +36,19 @@ void LoadOptions()
 	options.iAbsencePeriod2    = db_get_dw(NULL, MODULE_NAME, "iAbsencePeriod2", 30 * 3);
 	options.iSilencePeriod     = db_get_dw(NULL, MODULE_NAME, "iSilencePeriod", 30);
 
-	options.iShowPopUp         = db_get_b(NULL, MODULE_NAME, "iShowPopUp", 1);
+	options.iShowPopup         = db_get_b(NULL, MODULE_NAME, "iShowPopup", 1);
 	options.iShowEvent         = db_get_b(NULL, MODULE_NAME, "iShowEvent", 0);
 	options.iShowUDetails      = db_get_b(NULL, MODULE_NAME, "iShowUDetails", 0);
 	options.iShowMessageWindow = db_get_b(NULL, MODULE_NAME, "iShowMessageWindow", 1);
 
-	options.iPopUpColorBack    = db_get_dw(NULL, MODULE_NAME, "iPopUpColorBack", DEF_COLOR_BACK);
-	options.iPopUpColorFore    = db_get_dw(NULL, MODULE_NAME, "iPopUpColorFore", DEF_COLOR_FORE);
+	options.iPopupColorBack    = db_get_dw(NULL, MODULE_NAME, "iPopupColorBack", DEF_COLOR_BACK);
+	options.iPopupColorFore    = db_get_dw(NULL, MODULE_NAME, "iPopupColorFore", DEF_COLOR_FORE);
 
 	options.iUsePopupColors    = db_get_b(NULL, MODULE_NAME, "iUsePopupColors", 0);
 	options.iUseWinColors      = db_get_b(NULL, MODULE_NAME, "iUseWinColors", 0);
-	options.iPopUpDelay        = db_get_b(NULL, MODULE_NAME, "iPopUpDelay", 0);
+	options.iPopupDelay        = db_get_b(NULL, MODULE_NAME, "iPopupDelay", 0);
 
-	options.iShowPopUp2        = db_get_b(NULL, MODULE_NAME, "iShowPopUp2", 1);
+	options.iShowPopup2        = db_get_b(NULL, MODULE_NAME, "iShowPopup2", 1);
 	options.iShowEvent2        = db_get_b(NULL, MODULE_NAME, "iShowEvent2", 0);
 	options.action2            = (GoneContactAction)db_get_b(NULL, MODULE_NAME, "Action2", (BYTE)GCA_NOACTION);
 	options.notifyFirstOnline  = db_get_b(NULL, MODULE_NAME, "bShowFirstSight", 0) ? true : false;
@@ -63,12 +63,12 @@ void SaveOptions()
 	db_set_dw(NULL, MODULE_NAME, "iAbsencePeriod2", options.iAbsencePeriod2);
 	db_set_dw(NULL, MODULE_NAME, "iSilencePeriod", options.iSilencePeriod);
 
-	db_set_b(NULL, MODULE_NAME, "iShowPopUp", options.iShowPopUp);
+	db_set_b(NULL, MODULE_NAME, "iShowPopup", options.iShowPopup);
 	db_set_b(NULL, MODULE_NAME, "iShowEvent", options.iShowEvent);
 	db_set_b(NULL, MODULE_NAME, "iShowUDetails", options.iShowUDetails);
 	db_set_b(NULL, MODULE_NAME, "iShowMessageWindow", options.iShowMessageWindow);
 
-	db_set_b(NULL, MODULE_NAME, "iShowPopUp2", options.iShowPopUp2);
+	db_set_b(NULL, MODULE_NAME, "iShowPopup2", options.iShowPopup2);
 	db_set_b(NULL, MODULE_NAME, "iShowEvent2", options.iShowEvent2);
 	db_set_b(NULL, MODULE_NAME, "Action2", (BYTE)options.action2);
 	db_set_b(NULL, MODULE_NAME, "bShowFirstSight", options.notifyFirstOnline ? 1 : 0);
@@ -78,12 +78,12 @@ void SaveOptions()
 
 void SavePopupOptions()
 {
-	db_set_dw(NULL, MODULE_NAME, "iPopUpColorBack", options.iPopUpColorBack);
-	db_set_dw(NULL, MODULE_NAME, "iPopUpColorFore", options.iPopUpColorFore);
+	db_set_dw(NULL, MODULE_NAME, "iPopupColorBack", options.iPopupColorBack);
+	db_set_dw(NULL, MODULE_NAME, "iPopupColorFore", options.iPopupColorFore);
 
 	db_set_b(NULL, MODULE_NAME, "iUsePopupColors", options.iUsePopupColors);
 	db_set_b(NULL, MODULE_NAME, "iUseWinColors", options.iUseWinColors);
-	db_set_b(NULL, MODULE_NAME, "iPopUpDelay", options.iPopUpDelay);
+	db_set_b(NULL, MODULE_NAME, "iPopupDelay", options.iPopupDelay);
 }
 
 /**
@@ -169,7 +169,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_SETCURSEL, 0, 0);
 		}
 
-		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP), BM_SETCHECK, options.iShowPopUp > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP), BM_SETCHECK, options.iShowPopup > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
 		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_FLASHICON), BM_SETCHECK, options.iShowEvent > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
 		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_UDETAILS), BM_SETCHECK, (options.iShowUDetails > 0 ? BST_CHECKED : BST_UNCHECKED), 0);
 		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_MSGWINDOW), BM_SETCHECK, (options.iShowMessageWindow > 0 ? BST_CHECKED : BST_UNCHECKED), 0);
@@ -177,7 +177,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_NOMSGS), BM_SETCHECK, options.hideInactive ? BST_CHECKED : BST_UNCHECKED, 0);
 		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_MISSYOU), BM_SETCHECK, options.enableMissYou ? BST_CHECKED : BST_UNCHECKED, 0);
 
-		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP2), BM_SETCHECK, options.iShowPopUp2 > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP2), BM_SETCHECK, options.iShowPopup2 > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
 		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_FLASHICON2), BM_SETCHECK, options.iShowEvent2 > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
 
 		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_RESETCONTENT, 0, 0);
@@ -230,7 +230,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 					default: options.iSilencePeriod = num; break;
 				}
 
-				options.iShowPopUp = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
+				options.iShowPopup = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
 				options.iShowEvent = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_FLASHICON), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
 				options.iShowUDetails = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_UDETAILS), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
 				options.iShowMessageWindow = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_MSGWINDOW), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
@@ -238,7 +238,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 				options.hideInactive = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_NOMSGS), BM_GETCHECK, 0, 0) == BST_CHECKED ? true : false;
 				options.enableMissYou = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_MISSYOU), BM_GETCHECK, 0, 0) == BST_CHECKED ? true : false;
 
-				options.iShowPopUp2 = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP2), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
+				options.iShowPopup2 = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP2), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
 				options.iShowEvent2 = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_FLASHICON2), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
 
 				options.action2 = (GoneContactAction)SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_GETCURSEL, 0, 0);
@@ -264,9 +264,9 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 }
 
 /**
- * PopUp Options panel function
+ * Popup Options panel function
  */
-static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static int ChangeLock = 0;
 	switch (uMsg) {
@@ -274,11 +274,11 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 		ChangeLock++;
 		TranslateDialogDefault(hwndDlg);
 
-		//iPopUpColorBack
-		SendDlgItemMessage(hwndDlg, IDC_COLOR_BGR, CPM_SETCOLOUR, 0, options.iPopUpColorBack);
+		//iPopupColorBack
+		SendDlgItemMessage(hwndDlg, IDC_COLOR_BGR, CPM_SETCOLOUR, 0, options.iPopupColorBack);
 
-		//iPopUpColorFore
-		SendDlgItemMessage(hwndDlg, IDC_COLOR_FRG, CPM_SETCOLOUR, 0, options.iPopUpColorFore);
+		//iPopupColorFore
+		SendDlgItemMessage(hwndDlg, IDC_COLOR_FRG, CPM_SETCOLOUR, 0, options.iPopupColorFore);
 
 		if (options.iUsePopupColors) {
 			CheckDlgButton(hwndDlg, IDC_COLORS_POPUP, BST_CHECKED);
@@ -294,19 +294,19 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_COLORS_POPUP), false);
 		}
 
-		//iPopUpDelay
+		//iPopupDelay
 		SetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, 5, FALSE);
-		if (options.iPopUpDelay < 0) {
+		if (options.iPopupDelay < 0) {
 			SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_PERM), BM_SETCHECK, BST_CHECKED, 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_POPUPDELAY), false);
 		}
-		else if(options.iPopUpDelay == 0) {
+		else if(options.iPopupDelay == 0) {
 			SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_DEF), BM_SETCHECK, BST_CHECKED, 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_POPUPDELAY), false);
 		}
 		else {
 			SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_CUST), BM_SETCHECK, BST_CHECKED, 0);
-			SetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, options.iPopUpDelay, FALSE);
+			SetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, options.iPopupDelay, FALSE);
 		}
 
 		ChangeLock--;
@@ -317,12 +317,12 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 			POPUPDATAT ppd;
 			ZeroMemory(&ppd, sizeof(ppd));
 
-			//iPopUpDelay
-			options.iPopUpDelay = GetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, 0, FALSE);
+			//iPopupDelay
+			options.iPopupDelay = GetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, 0, FALSE);
 			if (SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_PERM), BM_GETCHECK, 0, 0) == BST_CHECKED)
-				options.iPopUpDelay = -1;
+				options.iPopupDelay = -1;
 			else if (SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_DEF), BM_GETCHECK, 0, 0) == BST_CHECKED)
-				options.iPopUpDelay = 0;
+				options.iPopupDelay = 0;
 
 			ppd.lchContact = NULL;
 			ppd.lchIcon = hIcon;
@@ -343,7 +343,7 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 				ppd.colorText = SendDlgItemMessage(hwndDlg, IDC_COLOR_FRG, CPM_GETCOLOUR, 0, 0);
 			}
 			ppd.PluginData = NULL;
-			ppd.iSeconds = options.iPopUpDelay;
+			ppd.iSeconds = options.iPopupDelay;
 
 			CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &ppd, APF_NO_HISTORY);
 
@@ -400,21 +400,21 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 				else if (IsDlgButtonChecked(hwndDlg, IDC_COLORS_WIN)) {
 					options.iUseWinColors = 1;
 					options.iUsePopupColors = 0;
-					options.iPopUpColorBack = GetSysColor(COLOR_BTNFACE);
-					options.iPopUpColorFore = GetSysColor(COLOR_WINDOWTEXT);
+					options.iPopupColorBack = GetSysColor(COLOR_BTNFACE);
+					options.iPopupColorFore = GetSysColor(COLOR_WINDOWTEXT);
 				}
 				else {
 					options.iUseWinColors = options.iUsePopupColors = 0;
-					options.iPopUpColorBack = SendDlgItemMessage(hwndDlg, IDC_COLOR_BGR, CPM_GETCOLOUR, 0, 0);
-					options.iPopUpColorFore = SendDlgItemMessage(hwndDlg, IDC_COLOR_FRG, CPM_GETCOLOUR, 0, 0);
+					options.iPopupColorBack = SendDlgItemMessage(hwndDlg, IDC_COLOR_BGR, CPM_GETCOLOUR, 0, 0);
+					options.iPopupColorFore = SendDlgItemMessage(hwndDlg, IDC_COLOR_FRG, CPM_GETCOLOUR, 0, 0);
 				}
 
-				//iPopUpDelay
-				options.iPopUpDelay = GetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, 0, FALSE);
+				//iPopupDelay
+				options.iPopupDelay = GetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, 0, FALSE);
 				if (SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_PERM), BM_GETCHECK, 0, 0) == BST_CHECKED)
-					options.iPopUpDelay = -1;
+					options.iPopupDelay = -1;
 				else if (SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_DEF), BM_GETCHECK, 0, 0) == BST_CHECKED)
-					options.iPopUpDelay = 0;
+					options.iPopupDelay = 0;
 
 				// save value to the DB
 				SavePopupOptions();
@@ -442,9 +442,9 @@ static int OptionsInit(WPARAM wParam, LPARAM lParam)
 	Options_AddPage(wParam, &odp);
 
 	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
-		odp.ptszGroup   = LPGENT("PopUps");
+		odp.ptszGroup   = LPGENT("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPPANEL);
-		odp.pfnDlgProc  = PopUpOptionsFrameProc;
+		odp.pfnDlgProc  = PopupOptionsFrameProc;
 		Options_AddPage(wParam, &odp);
 	}
 

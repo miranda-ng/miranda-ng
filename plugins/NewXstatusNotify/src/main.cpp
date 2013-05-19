@@ -534,7 +534,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 				ppd.PluginWindowProc = PopupDlgProc;
 				ppd.PluginData = NULL;
 				ppd.iSeconds = opt.PopupTimeout;
-				PUAddPopUpT(&ppd);
+				PUAddPopupT(&ppd);
 				mir_free(str);
 			}
 			mir_free(smi.newstatusmsg);
@@ -687,7 +687,7 @@ void ShowStatusChangePopup(HANDLE hContact, char *szProto, WORD oldStatus, WORD 
 	pdp->hAwayMsgProcess = NULL;
 	ppd.PluginData = pdp;
 	ppd.iSeconds = opt.PopupTimeout;
-	PUAddPopUpT(&ppd);
+	PUAddPopupT(&ppd);
 }
 
 void BlinkIcon(HANDLE hContact, char* szProto, WORD status)
@@ -1060,7 +1060,7 @@ void InitMainMenuItem()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR;
-	mi.ptszPopupName = ServiceExists(MS_POPUP_ADDPOPUP) ? _T("PopUps") : NULL;
+	mi.ptszPopupName = ServiceExists(MS_POPUP_ADDPOPUP) ? _T("Popups") : NULL;
 	mi.pszService = MS_STATUSCHANGE_MENUCOMMAND;
 	hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
 

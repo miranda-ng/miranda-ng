@@ -220,7 +220,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 	TCHAR tBuffer2[512];
 	int  UnreadMessages = mUnreadMessages;
 	int  UnreadJunkEmails = mUnreadJunkEmails;
-	bool ShowPopUp = isInitial;
+	bool ShowPopup = isInitial;
 
 	MimeHeaders tFileInfo;
 	tFileInfo.readFromBuffer(msgBody);
@@ -277,7 +277,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 		mir_sntprintf(tBuffer, SIZEOF(tBuffer), msgtxt, mimeFromW, Fromaddr);
 		mir_free(mimeFromW);
 		mir_free(mimeSubjectW);
-		ShowPopUp = true;
+		ShowPopup = true;
 	}
 	else
 	{
@@ -292,7 +292,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 	if (UnreadMessages == mUnreadMessages && UnreadJunkEmails == mUnreadJunkEmails  && !isInitial)
 		return;
 
-	ShowPopUp &= mUnreadMessages != 0 || (mUnreadJunkEmails != 0 && !getByte("DisableHotmailJunk", 0));
+	ShowPopup &= mUnreadMessages != 0 || (mUnreadJunkEmails != 0 && !getByte("DisableHotmailJunk", 0));
 
 	HANDLE hContact = MSN_HContactFromEmail(MyOptions.szEmail);
 	if (hContact)
@@ -300,7 +300,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 		CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM) 1);
 		displayEmailCount(hContact);
 
-		if (ShowPopUp && !getByte("DisableHotmailTray", 1))
+		if (ShowPopup && !getByte("DisableHotmailTray", 1))
 		{
 			CLISTEVENT cle = {0};
 
@@ -321,7 +321,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 	SendBroadcast(NULL, ACKTYPE_EMAIL, ACKRESULT_STATUS, NULL, 0);
 
 	// Disable to notify receiving hotmail
-	if (ShowPopUp && !getByte("DisableHotmail", 0))
+	if (ShowPopup && !getByte("DisableHotmail", 0))
 	{
 		SkinPlaySound(mailsoundname);
 
@@ -342,7 +342,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 			szUrl);
 	}
 
-	if (!getByte("RunMailerOnHotmail", 0) || !ShowPopUp || isInitial)
+	if (!getByte("RunMailerOnHotmail", 0) || !ShowPopup || isInitial)
 		return;
 
 	char mailerpath[MAX_PATH];

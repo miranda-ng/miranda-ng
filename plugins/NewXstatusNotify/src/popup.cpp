@@ -106,7 +106,7 @@ void PopupAction(HWND hWnd, BYTE action)
 			return;
 		}
 
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 	}
 }
 

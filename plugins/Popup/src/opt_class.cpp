@@ -453,7 +453,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				for(i=0; i < gTreeData.getCount(); ++i) {
 					switch (gTreeData[i]->typ) {
 					case 1:
-						LoadNotificationSettings(gTreeData[i], "PopUpNotifications");
+						LoadNotificationSettings(gTreeData[i], "PopupNotifications");
 						break;
 					case 2:			//not finish
 						LoadClassSettings(gTreeData[i], PU_MODULCLASS);
@@ -468,11 +468,11 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					switch (gTreeData[i]->typ) {
 					case 1:
 						gTreeData[i]->notification.iSeconds	= gTreeData[i]->timeoutValue;
-						SaveNotificationSettings(gTreeData[i],"PopUpNotifications");
+						SaveNotificationSettings(gTreeData[i],"PopupNotifications");
 						break;
 					case 2:			//not finish
 						gTreeData[i]->pupClass.iSeconds = gTreeData[i]->timeoutValue;
-						SaveClassSettings(gTreeData[i],"PopUpCLASS");
+						SaveClassSettings(gTreeData[i],"PopupCLASS");
 						break;
 					}
 				}
@@ -509,7 +509,7 @@ void LoadClassSettings(POPUPTREEDATA *ptd, char* szModul)
 	mir_snprintf(setting, sizeof(setting), "%s/TimeoutVal", ptd->pupClass.pszName);
 	ptd->timeoutValue =
 		(signed char)db_get_w(NULL, szModul, setting,
-			ptd->pupClass.iSeconds ? ptd->pupClass.iSeconds : PopUpOptions.Seconds);
+			ptd->pupClass.iSeconds ? ptd->pupClass.iSeconds : PopupOptions.Seconds);
 
 	mir_snprintf(setting, sizeof(setting), "%s/leftAction", ptd->pupClass.pszName);
 	szTmp = db_get_s(NULL, szModul, setting, POPUP_ACTION_NOTHING);	//standart ??

@@ -80,8 +80,8 @@ static bool isFullScreen()
 	return false;
 }
 
-//===== PopUp/AddPopUp
-INT_PTR PopUp_AddPopUp(WPARAM wParam, LPARAM lParam)
+//===== Popup/AddPopup
+INT_PTR Popup_AddPopup(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded) return -1;
 
@@ -99,11 +99,11 @@ INT_PTR PopUp_AddPopUp(WPARAM wParam, LPARAM lParam)
 	ppd2.PluginWindowProc = ppd->PluginWindowProc;
 	ppd2.PluginData = ppd->PluginData;
 	ppd2.iSeconds = ppd->iSeconds;
-	return PopUp_AddPopUp2((WPARAM)&ppd2, lParam);
+	return Popup_AddPopup2((WPARAM)&ppd2, lParam);
 }
 
-//===== PopUp/AddPopupW
-INT_PTR PopUp_AddPopUpW(WPARAM wParam, LPARAM lParam)
+//===== Popup/AddPopupW
+INT_PTR Popup_AddPopupW(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded) return -1;
 
@@ -129,10 +129,10 @@ INT_PTR PopUp_AddPopUpW(WPARAM wParam, LPARAM lParam)
 		ppd2.lpActions = ppd->lpActions;
 	}
 
-	return PopUp_AddPopUp2((WPARAM)&ppd2, lParam);
+	return Popup_AddPopup2((WPARAM)&ppd2, lParam);
 }
 
-//===== PopUp/AddPopup2
+//===== Popup/AddPopup2
 static __forceinline DWORD Proto_Status2Flag_My(DWORD status)
 {
 	if (DWORD res = Proto_Status2Flag(status))
@@ -140,7 +140,7 @@ static __forceinline DWORD Proto_Status2Flag_My(DWORD status)
 	return PF2_IDLE;
 }
 
-INT_PTR PopUp_AddPopUp2(WPARAM wParam, LPARAM lParam)
+INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 {
 	/* NOTE: we will return 0 instead of -1 since tabSRMM stops using popup after first failure :/ */
 
@@ -184,11 +184,11 @@ INT_PTR PopUp_AddPopUp2(WPARAM wParam, LPARAM lParam)
 
 	if (bShowMode != PU_SHOWMODE_FAVORITE)
 	{
-		if (!PopUpOptions.ModuleIsEnabled)
+		if (!PopupOptions.ModuleIsEnabled)
 			return -1;
 		#ifdef _DEBUG
-			_itoa(PopUpOptions.DisableWhenFullscreen,temp,10);
-			OutputDebugStringA("PopUpOptions.DisableWhenFullscreen: \t");
+			_itoa(PopupOptions.DisableWhenFullscreen,temp,10);
+			OutputDebugStringA("PopupOptions.DisableWhenFullscreen: \t");
 			OutputDebugStringA(temp);
 			OutputDebugStringA("\n");
 			_itoa(bShowMode,temp,10);
@@ -200,7 +200,7 @@ INT_PTR PopUp_AddPopUp2(WPARAM wParam, LPARAM lParam)
 			OutputDebugStringA("\n");
 		#endif
 
-		if (PopUpOptions.DisableWhenFullscreen && (bShowMode != PU_SHOWMODE_FULLSCREEN) && isFullScreen())
+		if (PopupOptions.DisableWhenFullscreen && (bShowMode != PU_SHOWMODE_FULLSCREEN) && isFullScreen())
 			return -1;
 
 		if (db_get_dw(NULL, MODULNAME, LPGEN("Global Status"), 0) &
@@ -235,8 +235,8 @@ INT_PTR PopUp_AddPopUp2(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//===== PopUp/GetContact
-INT_PTR PopUp_GetContact(WPARAM wParam, LPARAM lParam)
+//===== Popup/GetContact
+INT_PTR Popup_GetContact(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded) return -1;
 
@@ -246,8 +246,8 @@ INT_PTR PopUp_GetContact(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)(-1);
 }
 
-//===== PopUp/GetPluginData
-INT_PTR PopUp_GetPluginData(WPARAM wParam, LPARAM lParam)
+//===== Popup/GetPluginData
+INT_PTR Popup_GetPluginData(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded || !wParam)
 		return -1;
@@ -258,14 +258,14 @@ INT_PTR PopUp_GetPluginData(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)(-1);
 }
 
-//===== PopUp/IsSecondLineShown
-INT_PTR PopUp_IsSecondLineShown(WPARAM wParam, LPARAM lParam)
+//===== Popup/IsSecondLineShown
+INT_PTR Popup_IsSecondLineShown(WPARAM wParam, LPARAM lParam)
 {
 	return 1;
 }
 
-//===== PopUp/ChangeTextW
-INT_PTR PopUp_ChangeTextW(WPARAM wParam, LPARAM lParam)
+//===== Popup/ChangeTextW
+INT_PTR Popup_ChangeTextW(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded || !wParam)
 		return -1;
@@ -278,8 +278,8 @@ INT_PTR PopUp_ChangeTextW(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//===== PopUp/ChangeW
-INT_PTR PopUp_ChangeW(WPARAM wParam, LPARAM lParam)
+//===== Popup/ChangeW
+INT_PTR Popup_ChangeW(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded || !wParam)
 		return -1;
@@ -292,8 +292,8 @@ INT_PTR PopUp_ChangeW(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//===== PopUp/Change2
-INT_PTR PopUp_Change2(WPARAM wParam, LPARAM lParam)
+//===== Popup/Change2
+INT_PTR Popup_Change2(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded) return -1;
 
@@ -304,8 +304,8 @@ INT_PTR PopUp_Change2(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//===== PopUp/ShowMessage
-INT_PTR PopUp_ShowMessage(WPARAM wParam, LPARAM lParam) {
+//===== Popup/ShowMessage
+INT_PTR Popup_ShowMessage(WPARAM wParam, LPARAM lParam) {
 	if (!gbPopupLoaded || !wParam || !lParam) return -1;
 	if (closing) return 0;
 
@@ -338,10 +338,10 @@ INT_PTR PopUp_ShowMessage(WPARAM wParam, LPARAM lParam) {
 		default: //No no no... you must give me a good value.
 			return -1;
 	}
-	return PopUp_AddPopUp2((WPARAM)&ppd2, (LPARAM)((lParam&0x80000000)?APF_NO_HISTORY:0));
+	return Popup_AddPopup2((WPARAM)&ppd2, (LPARAM)((lParam&0x80000000)?APF_NO_HISTORY:0));
 }
 
-INT_PTR PopUp_ShowMessageW(WPARAM wParam, LPARAM lParam) {
+INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam) {
 	if (!gbPopupLoaded || !wParam || !lParam) return -1;
 	if (closing) return 0;
 
@@ -374,11 +374,11 @@ INT_PTR PopUp_ShowMessageW(WPARAM wParam, LPARAM lParam) {
 		default: //No no no... you must give me a good value.
 			return -1;
 	}
-	return PopUp_AddPopUp2((WPARAM)&ppd2, (LPARAM)((lParam&0x80000000)?APF_NO_HISTORY:0));
+	return Popup_AddPopup2((WPARAM)&ppd2, (LPARAM)((lParam&0x80000000)?APF_NO_HISTORY:0));
 }
 
-//===== PopUp/Query
-INT_PTR PopUp_Query(WPARAM wParam, LPARAM lParam)
+//===== Popup/Query
+INT_PTR Popup_Query(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded) return -1;
 
@@ -387,21 +387,21 @@ INT_PTR PopUp_Query(WPARAM wParam, LPARAM lParam)
 
 	switch (wParam) {
 		case PUQS_ENABLEPOPUPS: {
-			if (PopUpOptions.ModuleIsEnabled) return 1; //They're already ON!!!
+			if (PopupOptions.ModuleIsEnabled) return 1; //They're already ON!!!
 			else { //Module was disabled.
 				svcEnableDisableMenuCommand(0,0);
 				return 0;
 			}
 		}
 		case PUQS_DISABLEPOPUPS: {
-			if (!(PopUpOptions.ModuleIsEnabled)) return 1; //They're already OFF!!!
+			if (!(PopupOptions.ModuleIsEnabled)) return 1; //They're already OFF!!!
 			else {
 				svcEnableDisableMenuCommand(0,0);
 				return 0;
 			}
 		}
 		case PUQS_GETSTATUS:
-			return (PopUpOptions.ModuleIsEnabled);
+			return (PopupOptions.ModuleIsEnabled);
 		default:
 			return -1;
 	}
@@ -409,8 +409,8 @@ INT_PTR PopUp_Query(WPARAM wParam, LPARAM lParam)
 }
 
 
-//===== PopUp/RegisterActions
-INT_PTR PopUp_RegisterActions(WPARAM wParam, LPARAM lParam)
+//===== Popup/RegisterActions
+INT_PTR Popup_RegisterActions(WPARAM wParam, LPARAM lParam)
 {
 	LPPOPUPACTION actions = (LPPOPUPACTION)wParam;
 	for (int i=0; i < lParam; ++i)
@@ -419,13 +419,13 @@ INT_PTR PopUp_RegisterActions(WPARAM wParam, LPARAM lParam)
 }
 
 
-INT_PTR PopUp_RegisterNotification(WPARAM wParam, LPARAM lParam)
+INT_PTR Popup_RegisterNotification(WPARAM wParam, LPARAM lParam)
 {
 	return (INT_PTR)RegisterNotification((LPPOPUPNOTIFICATION)wParam);
 }
 
 
-//===== PopUp/UnhookEventAsync
+//===== Popup/UnhookEventAsync
 struct SafeUnhookEventParam
 {
 	HWND hwndPopup;
@@ -440,7 +440,7 @@ static void CALLBACK SafeUnhookEventFunc(ULONG_PTR dwParam)
 	delete (SafeUnhookEventParam *)dwParam;
 }
 
-INT_PTR PopUp_UnhookEventAsync(WPARAM wParam, LPARAM lParam)
+INT_PTR Popup_UnhookEventAsync(WPARAM wParam, LPARAM lParam)
 {
 	SafeUnhookEventParam *param = new SafeUnhookEventParam;
 	param->hwndPopup = (HWND)wParam;
@@ -449,15 +449,15 @@ INT_PTR PopUp_UnhookEventAsync(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//===== PopUp/RegisterVfx (effekt name for drop down box)
-INT_PTR PopUp_RegisterVfx(WPARAM wParam, LPARAM lParam)
+//===== Popup/RegisterVfx (effekt name for drop down box)
+INT_PTR Popup_RegisterVfx(WPARAM wParam, LPARAM lParam)
 {
 	OptAdv_RegisterVfx((char *)lParam);
 	return 0;
 }
 
-//===== PopUp/RegisterClass		(for core class api support)
-INT_PTR PopUp_RegisterPopupClass(WPARAM wParam, LPARAM lParam)
+//===== Popup/RegisterClass		(for core class api support)
+INT_PTR Popup_RegisterPopupClass(WPARAM wParam, LPARAM lParam)
 {
 	char setting[256];
 	POPUPCLASS *pc	= (POPUPCLASS *)lParam;
@@ -513,7 +513,7 @@ INT_PTR PopUp_RegisterPopupClass(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)ptd;
 }
 
-INT_PTR PopUp_UnregisterPopupClass(WPARAM wParam, LPARAM lParam)
+INT_PTR Popup_UnregisterPopupClass(WPARAM wParam, LPARAM lParam)
 {
 	POPUPTREEDATA *ptd = (POPUPTREEDATA*)lParam;
 	if (ptd == NULL)
@@ -529,8 +529,8 @@ INT_PTR PopUp_UnregisterPopupClass(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-//===== PopUp/AddPopupClass		(for core class api support)
-INT_PTR PopUp_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
+//===== Popup/AddPopupClass		(for core class api support)
+INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
 	int ret = 1;
 	POPUPDATACLASS *pdc = (POPUPDATACLASS *)lParam;
 	if (pdc->cbSize != sizeof(POPUPDATACLASS)) return ret;
@@ -564,7 +564,7 @@ INT_PTR PopUp_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
 		ppd2.lchContact = pdc->hContact;
 		ppd2.PluginData = pdc->PluginData;
 
-		ret = PopUp_AddPopUp2((WPARAM)&ppd2, 0);
+		ret = Popup_AddPopup2((WPARAM)&ppd2, 0);
 	}
 	return ret!=0 ? 1 : 0;
 }

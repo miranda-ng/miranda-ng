@@ -168,7 +168,7 @@ extern int Mode;
 extern int Hex;
 extern int Order;
 
-extern BOOL usePopUps;
+extern BOOL usePopups;
 
 #define NAMEORDERCOUNT 8
 

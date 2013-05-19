@@ -111,7 +111,7 @@ int TSAPI NEN_ReadOptions(NEN_OPTIONS *options)
 	options->iDelayMsg = (int)M->GetDword(MODULE, OPT_DELAY_MESSAGE, (DWORD)DEFAULT_DELAY);
 	options->iDelayOthers = (int)M->GetDword(MODULE, OPT_DELAY_OTHERS, (DWORD)DEFAULT_DELAY);
 	options->iDelayErr = (int)M->GetDword(MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
-	options->iDelayDefault = (int)DBGetContactSettingRangedWord(NULL, "PopUp", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
+	options->iDelayDefault = (int)DBGetContactSettingRangedWord(NULL, "Popup", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
 	options->bShowHeaders = (BYTE)M->GetByte(MODULE, OPT_SHOW_HEADERS, FALSE);
 	options->bNoRSS = (BOOL)M->GetByte(MODULE, OPT_NORSS, FALSE);
 	options->iDisable = (BYTE)M->GetByte(MODULE, OPT_DISABLE, 0);
@@ -438,7 +438,7 @@ static int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATAT* pdata)
 	}
 	if (mask & MASK_DISMISS)
 	{
-		PUDeletePopUp(hWnd);
+		PUDeletePopup(hWnd);
 		if (pdata->hContainer)
 		{
 			FLASHWINFO fwi;
@@ -724,7 +724,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 	pdata->nrMerged = 1;
 
 	// fix for broken popups -- process failures
-	if ( PUAddPopUpT(&pud) < 0) {
+	if ( PUAddPopupT(&pud) < 0) {
 		mir_free(pdata->eventData);
 		mir_free(pdata);
 	}
@@ -926,6 +926,6 @@ void TSAPI DeletePopupsForContact(HANDLE hContact, DWORD dwMask)
 	while ((_T = const_cast<PLUGIN_DATAT *>(PU_GetByContact(hContact))) != 0) {
 		_T->hContact = 0;									// make sure, it never "comes back"
 		if (_T->hWnd != 0 && IsWindow(_T->hWnd))
-			PUDeletePopUp(_T->hWnd);
+			PUDeletePopup(_T->hWnd);
 	}
 }

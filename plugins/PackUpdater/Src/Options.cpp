@@ -159,7 +159,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
 	WORD i = 0;
 	char str[20] = {0}, str2[20] = {0};
@@ -219,7 +219,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			else if (i > 0)
 				EnableWindow(GetDlgItem(hdlg, (i+1024)), TRUE);
 		}
-		if (!(db_get_dw(NULL, "PopUp", "Actions", 0) & 1)  || !ServiceExists(MS_POPUP_REGISTERACTIONS))
+		if (!(db_get_dw(NULL, "Popup", "Actions", 0) & 1)  || !ServiceExists(MS_POPUP_REGISTERACTIONS))
 			EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
 		else
 			EnableWindow(GetDlgItem(hdlg, (40071)), TRUE);
@@ -227,7 +227,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 	}
 	case WM_SHOWWINDOW:
-		if (!(db_get_dw(NULL, "PopUp", "Actions", 0) & 1)  || !ServiceExists(MS_POPUP_REGISTERACTIONS))
+		if (!(db_get_dw(NULL, "Popup", "Actions", 0) & 1)  || !ServiceExists(MS_POPUP_REGISTERACTIONS))
 			EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
 		else
 			EnableWindow(GetDlgItem(hdlg, (40071)), TRUE);
@@ -433,9 +433,9 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 
 	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-		odp.ptszGroup = LPGENT("PopUps");
+		odp.ptszGroup = LPGENT("Popups");
 		odp.ptszTitle = LPGENT("Pack Updater");
-		odp.pfnDlgProc = DlgPopUpOpts;
+		odp.pfnDlgProc = DlgPopupOpts;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;

@@ -1,5 +1,5 @@
 #include "Mra.h"
-#include "MraPopUp.h"
+#include "MraPopup.h"
 
 #define POPUPS_TYPES_COUNT	7
 static LPCWSTR lpcwszPopupsTypes[] =
@@ -134,7 +134,7 @@ int CMraProto::OnPopupOptInit(WPARAM wParam, LPARAM lParam)
 		odp.hInstance = masMraSettings.hInstance;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUPS);
 		odp.pszTitle = m_szModuleName;
-		odp.pszGroup = LPGEN("PopUps");
+		odp.pszGroup = LPGEN("Popups");
 		odp.groupPosition = 900000000;
 		odp.flags = ODPF_BOLDGROUPS;
 		odp.pfnDlgProc = MraPopupDlgProcOpts;
@@ -161,7 +161,7 @@ void CALLBACK MraPopupThreadMarandaCallback(ULONG_PTR dwParam)
 	if (dat->iPopupType == MRA_POPUP_TYPE_EMAIL_STATUS && dat->ppro->hWndEMailPopupStatus)
 		PUChangeTextW(dat->ppro->hWndEMailPopupStatus, ((POPUPDATAW*)dwParam)->lpwzText);
 	else
-		PUAddPopUpW((POPUPDATAW*)dwParam);
+		PUAddPopupW((POPUPDATAW*)dwParam);
 
 	mir_free((void*)dwParam);
 }
@@ -181,7 +181,7 @@ LRESULT CALLBACK MraPopupDlgProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			// delete old email popup
 			if (dat->ppro->hWndEMailPopupStatus)
-				PUDeletePopUp(dat->ppro->hWndEMailPopupStatus);
+				PUDeletePopup(dat->ppro->hWndEMailPopupStatus);
 
 			dat->ppro->hWndEMailPopupStatus = hWndDlg;
 		}
@@ -194,13 +194,13 @@ LRESULT CALLBACK MraPopupDlgProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM l
 				dat->ppro->hWndEMailPopupStatus = NULL;
 			}
 		}
-		PUDeletePopUp(hWndDlg);
+		PUDeletePopup(hWndDlg);
 		break;
 
 	case WM_CONTEXTMENU:
 		if (dat->iPopupType == MRA_POPUP_TYPE_EMAIL_STATUS)
 			dat->ppro->hWndEMailPopupStatus = NULL;
-		PUDeletePopUp(hWndDlg);
+		PUDeletePopup(hWndDlg);
 		break;
 
 	case UM_FREEPLUGINDATA:
@@ -239,7 +239,7 @@ void CMraProto::MraPopupShowW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWS
 		//if ( ServiceExists(MS_POPUP2_SHOW) == FALSE)// yapp used
 		if (dwType == MRA_POPUP_TYPE_EMAIL_STATUS && hWndEMailPopupStatus) {
 			// delete old email popup
-			PUDeletePopUp(hWndEMailPopupStatus);
+			PUDeletePopup(hWndEMailPopupStatus);
 			hWndEMailPopupStatus = NULL;
 		}
 
