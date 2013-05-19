@@ -29,6 +29,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 IDI_MENU                ICON                    "menu.ico"
 IDI_OK                  ICON                    "btnOk.ico"
 IDI_CANCEL              ICON                    "btnClose.ico"
+IDI_INFO                ICON                    "info.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -76,7 +77,7 @@ BEGIN
     CONTROL         "Stable version",IDC_STABLE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,106,236,10
     CONTROL         "Development version (less stable)",IDC_TRUNK,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,121,236,10
     CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,136,236,10
-    EDITTEXT        IDC_CUSTOMURL,11,150,234,16,ES_AUTOHSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_CUSTOMURL,11,150,234,16,ES_AUTOHSCROLL
 END
 
 IDD_POPUP DIALOGEX 0, 0, 316, 182
@@ -125,6 +126,20 @@ BEGIN
     CTEXT           "Popups",IDC_STATIC,7,9,79,8
 END
 
+IDD_LIST DIALOGEX 0, 0, 240, 236
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Component list"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CTEXT           "Here is the complete list of missing Miranda NG components. \nCheck components that you want to download.  \n\nClick on info icon to view component info page.",IDC_UPDATETEXT,9,9,223,44
+    DEFPUSHBUTTON   "Download",IDOK,185,218,50,14
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,58,236,1
+    CONTROL         "",IDC_LIST_UPDATES,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,6,64,229,149
+    PUSHBUTTON      "Select &all",IDC_SELALL,6,218,50,14,NOT WS_TABSTOP
+    PUSHBUTTON      "Select &none",IDC_SELNONE,59,218,50,14,NOT WS_TABSTOP
+END
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -168,6 +183,14 @@ BEGIN
     IDD_OPT_UPDATENOTIFY, DIALOG
     BEGIN
         BOTTOMMARGIN, 180
+    END
+
+    IDD_LIST, DIALOG
+    BEGIN
+        VERTGUIDE, 6
+        VERTGUIDE, 235
+        BOTTOMMARGIN, 234
+        HORZGUIDE, 232
     END
 END
 #endif    // APSTUDIO_INVOKED

@@ -29,7 +29,7 @@ Boston, MA 02111-1307, USA.
 	UTF8_INTERFACE utfi;
 #endif
 
-HANDLE hPluginUpdaterFolder = NULL, hCheckUpdates = NULL, hEmptyFolder = NULL;
+HANDLE hPluginUpdaterFolder = NULL, hEmptyFolder = NULL;
 HINSTANCE hInst = NULL;
 TCHAR tszRoot[MAX_PATH] = {0}, tszTempPath[MAX_PATH];
 int hLangpack;
@@ -101,18 +101,24 @@ extern "C" __declspec(dllexport) int Load(void)
 	IcoLibInit();
 
 	// Add cheking update menu item
-	hCheckUpdates = CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
+	CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
+	CreateServiceFunction(MODNAME"/ShowList", ShowListCommand);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.position = -0x7FFFFFFF;
+	mi.position = 400010000;
 	mi.icolibItem = Skin_GetIconHandle("check_update");
 	mi.pszName = LPGEN("Check for plugin updates");
 	mi.pszService = MODNAME"/CheckUpdates";
 	Menu_AddMainMenuItem(&mi);
 
+	mi.position++;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
+	mi.pszName = LPGEN("Show full plugin list");
+	mi.pszService = MODNAME"/ShowList";
+	Menu_AddMainMenuItem(&mi);
+
 	// Add hotkey
-	HOTKEYDESC hkd = {0};
-	hkd.cbSize = sizeof(hkd);
+	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.pszName = "Check for plugin updates";
 	hkd.pszDescription = "Check for plugin updates";
 	hkd.pszSection = "Plugin Updater";
@@ -133,7 +139,9 @@ extern "C" __declspec(dllexport) int Unload(void)
 	if (hCheckThread)
 		hCheckThread = NULL;
 
+	if (hListThread)
+		hListThread = NULL;
+
 	NetlibUnInit();
-	DestroyServiceFunction(hCheckUpdates);
 	return 0;
 }

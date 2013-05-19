@@ -58,6 +58,13 @@ INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
+INT_PTR ShowListCommand(WPARAM wParam,LPARAM lParam)
+{
+	opts.bSilent = false;
+	DoGetList(1);
+	return 0;
+}
+
 INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam)
 {
 	SHFILEOPSTRUCT file_op = {

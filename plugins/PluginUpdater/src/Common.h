@@ -114,7 +114,7 @@ extern HINSTANCE hInst;
 
 extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048], tszTempPath[MAX_PATH];
 extern FILEINFO *pFileInfo;
-extern HANDLE hCheckThread, hPluginUpdaterFolder;
+extern HANDLE hCheckThread, hListThread, hPluginUpdaterFolder;
 extern PlugOptions opts;
 extern POPUP_OPTIONS PopupOptions;
 extern aPopups PopupsList[POPUPS];
@@ -135,16 +135,20 @@ int  OptInit(WPARAM, LPARAM);
 void BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName);
 
 void DoCheck(int iFlag);
+void DoGetList(int iFlag);
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum);
 void ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType);
 void __stdcall RestartMe(void*);
+void __stdcall OpenPluginOptions(void*);
 BOOL AllowUpdateOnStartup();
 void InitTimer();
 
 INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam);
+INT_PTR ShowListCommand(WPARAM wParam,LPARAM lParam);
 INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam);
 
 INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath);

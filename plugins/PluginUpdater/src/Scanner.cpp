@@ -247,6 +247,7 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszBuf);
 			for (p = _tcschr(FileInfo->File.tszDownloadURL, '\\'); p != 0; p = _tcschr(p, '\\'))
 				*p++ = '/';
+
 			FileInfo->File.CRCsum = MyCRC;
 			UpdateFiles->insert(FileInfo);
 		} // end compare versions
@@ -256,9 +257,60 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 	FindClose(hFind);
 }
 
+static void GetFullComponent(const TCHAR *tszFolder, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles)
+{
+	// skip updater's own folder
+	if ( !_tcsicmp(tszFolder, tszRoot))
+		return;
+	
+	TCHAR tszPath[MAX_PATH];
+	for (int i = 0 ; i < hashes.getCount(); i++)
+	{
+		mir_sntprintf(tszPath, SIZEOF(tszPath), _T("%s\\%s"), tszFolder, hashes[i].m_name);
+		
+		// this file exist on disk
+		if (GetFileAttributes(tszPath) != DWORD(-1))
+			continue;
+
+		{
+			ServListEntry tmp(hashes[i].m_name);
+			ServListEntry *item = hashes.find(&tmp);
+
+			FILEINFO *FileInfo = new FILEINFO;
+			FileInfo->bDeleteOnly = FALSE;
+			_tcscpy(FileInfo->tszOldName, item->m_name); // copy the relative old name
+			_tcscpy(FileInfo->tszNewName, item->m_name);
+
+			TCHAR tszFileName[MAX_PATH];
+			_tcscpy(tszFileName, _tcsrchr(tszPath, L'\\') + 1);
+			TCHAR *p = _tcschr(tszFileName, L'.'); *p = 0;
+
+			TCHAR tszRelFileName[MAX_PATH];
+			_tcscpy(tszRelFileName, item->m_name);
+			p = _tcschr(tszRelFileName, L'.'); *p = 0;
+			p = _tcschr(tszRelFileName, L'\\');
+			p = (p) ? p+1 : tszRelFileName;
+			_tcslwr(p);
+
+
+			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, tszFileName);
+			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszRelFileName);
+			for (p = _tcschr(FileInfo->File.tszDownloadURL, '\\'); p != 0; p = _tcschr(p, '\\'))
+				*p++ = '/';
+			FileInfo->File.CRCsum = item->m_crc;
+			UpdateFiles->insert(FileInfo);
+		} // end compare versions
+	}
+}
+
 static void __stdcall LaunchDialog(void *param)
 {
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)param);
+}
+
+static void __stdcall LaunchListDialog(void *param)
+{
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_LIST), GetDesktopWindow(), DlgList, (LPARAM)param);
 }
 
 static void CheckUpdates(void *)
@@ -357,6 +409,131 @@ static void CheckUpdates(void *)
 	hCheckThread = NULL;
 }
 
+static void GetList(void *)
+{
+	char szKey[64] = {0};
+	DBVARIANT dbVar = {0};
+	
+	TCHAR tszTempPath[MAX_PATH];
+	DWORD dwLen = GetTempPath(SIZEOF(tszTempPath), tszTempPath);
+	if (tszTempPath[dwLen-1] == '\\')
+		tszTempPath[dwLen-1] = 0;
+
+	// Load files info
+	if (db_get_ts(NULL, MODNAME, "UpdateURL", &dbVar)) { // URL is not set
+		db_set_ts(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
+		db_get_ts(NULL, MODNAME, "UpdateURL", &dbVar);
+	}
+
+	REPLACEVARSARRAY vars[2];
+	vars[0].lptzKey = _T("platform");
+	#ifdef WIN64
+		vars[0].lptzValue = _T("64");
+	#else
+		vars[0].lptzValue = _T("32");
+	#endif
+	vars[1].lptzKey = vars[1].lptzValue = 0;
+
+	REPLACEVARSDATA dat = { sizeof(REPLACEVARSDATA) };
+	dat.dwFlags = RVF_TCHAR;
+	dat.variables = vars;
+	mir_ptr<TCHAR> tszBaseUrl((TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)dbVar.ptszVal, (LPARAM)&dat));
+	db_free(&dbVar);
+
+	// Download version info
+	ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Downloading version info..."), 4, 0);
+
+	FILEURL pFileUrl;
+	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), (TCHAR*)tszBaseUrl);
+	mir_sntprintf(pFileUrl.tszDiskPath, SIZEOF(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), tszTempPath);
+	if (!DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath, 0)) {
+		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);
+		hListThread = NULL;
+		return;
+	}
+
+	unzip(pFileUrl.tszDiskPath, tszTempPath, NULL);
+	DeleteFile(pFileUrl.tszDiskPath);
+
+	TCHAR tszTmpIni[MAX_PATH] = {0};
+	mir_sntprintf(tszTmpIni, SIZEOF(tszTmpIni), _T("%s\\hashes.txt"), tszTempPath);
+	FILE *fp = _tfopen(tszTmpIni, _T("r"));
+	if (!fp) {
+		hListThread = NULL;
+		return;
+	}
+
+	//SERVLIST hashes(50, CompareHashes);
+	FILELIST *UpdateFiles = new FILELIST(20);
+	char str[200];
+	TCHAR *dirname = Utils_ReplaceVarsT(_T("%miranda_path%"));
+	while(fgets(str, SIZEOF(str), fp) != NULL) {
+		rtrim(str);
+		char *p = strchr(str, ' ');
+		if (p == NULL)
+			continue;
+
+		*p++ = 0;
+		/*if ( !opts.bUpdateIcons && !_strnicmp(str, "icons\\", 6))
+			continue;*/
+
+		_strlwr(p);
+
+		int dwCrc32;
+		char *p1 = strchr(p, ' ');
+		if (p1 == NULL)
+			dwCrc32 = 0;
+		else {
+			*p1++ = 0;
+			sscanf(p1, "%08x", &dwCrc32);
+		}
+		ServListEntry hash(str, p, dwCrc32);
+
+		TCHAR tszPath[MAX_PATH];
+		mir_sntprintf(tszPath, SIZEOF(tszPath), _T("%s\\%s"), dirname, hash.m_name);
+		
+		if (GetFileAttributes(tszPath) != DWORD(-1))
+			continue;
+
+		FILEINFO *FileInfo = new FILEINFO;
+		FileInfo->bDeleteOnly = FALSE;
+		_tcscpy(FileInfo->tszOldName, hash.m_name); // copy the relative old name
+		_tcscpy(FileInfo->tszNewName, hash.m_name);
+
+		TCHAR tszFileName[MAX_PATH];
+		_tcscpy(tszFileName, _tcsrchr(tszPath, L'\\') + 1);
+		TCHAR *tp = _tcschr(tszFileName, L'.'); *tp = 0;
+
+		TCHAR tszRelFileName[MAX_PATH];
+		_tcscpy(tszRelFileName, hash.m_name);
+		tp = _tcschr(tszRelFileName, L'.'); *tp = 0;
+		tp = _tcschr(tszRelFileName, L'\\');
+		tp = (p) ? tp+1 : tszRelFileName;
+		_tcslwr(tp);
+
+
+		mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, tszFileName);
+		mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszRelFileName);
+		for (tp = _tcschr(FileInfo->File.tszDownloadURL, '\\'); tp != 0; tp = _tcschr(tp, '\\'))
+			*tp++ = '/';
+		FileInfo->File.CRCsum = hash.m_crc;
+		UpdateFiles->insert(FileInfo);
+	}
+	fclose(fp);
+	DeleteFile(tszTmpIni);
+
+	mir_free(dirname);
+
+	// Show dialog
+	if (UpdateFiles->getCount() == 0) {
+		if ( !opts.bSilent)
+			ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("List is emply."), 2, 0);
+	}
+	else CallFunctionAsync(LaunchListDialog, UpdateFiles);
+
+	hListThread = NULL;
+}
+
 void DoCheck(int iFlag)
 {
 	if (hCheckThread)
@@ -370,4 +547,17 @@ void DoCheck(int iFlag)
 		hCheckThread = mir_forkthread(CheckUpdates, 0);
 		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
 	}
+}
+
+void DoGetList(int iFlag)
+{
+	if (hListThread)
+		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("List loading already started!"), 2, 0);
+	else if (hwndDialog) {
+		ShowWindow(hwndDialog, SW_SHOW);
+		SetForegroundWindow(hwndDialog);
+		SetFocus(hwndDialog);
+	}
+	else if (iFlag)
+		hListThread = mir_forkthread(GetList, 0);
 }

@@ -377,12 +377,111 @@ LBL_Exit:
 	goto LBL_Exit;
 }
 
+static void ApplyDownloads(void *param)
+{
+	HWND hDlg = (HWND)param;
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// if we need to escalate priviledges, launch a atub
+
+	if ( !PrepareEscalation()) {
+		DestroyWindow(hDlg);
+		return;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// ok, let's unpack all zips
+
+	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
+	OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+	TCHAR tszBuff[2048], tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
+
+	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Backups"), tszRoot);
+	SafeCreateDirectory(tszFileBack);
+
+	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
+	SafeCreateDirectory(tszFileTemp);
+
+	for (int i=0; i < todo.getCount(); ++i) {
+		ListView_EnsureVisible(hwndList, i, FALSE);
+		if ( !todo[i].bEnabled) {
+			ListView_SetItemText(hwndList, i, 2, TranslateT("Skipped."));
+			continue;
+		}
+
+		// download update
+		ListView_SetItemText(hwndList, i, 2, TranslateT("Downloading..."));
+
+		FILEURL *pFileUrl = &todo[i].File;
+		if ( !DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum)){
+			ListView_SetItemText(hwndList, i, 2, TranslateT("Failed!"));
+		}
+		else
+			ListView_SetItemText(hwndList, i, 2, TranslateT("Succeeded."));
+	}
+
+	if (todo.getCount() > 0) {
+		ShowPopup(0, LPGENT("Plugin Updater"), TranslateT("Download complete"), 2, 0);
+
+		TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
+
+		for (int i = 0; i < todo.getCount(); i++) {
+			if ( !todo[i].bEnabled)
+				continue;
+
+			TCHAR tszBackFile[MAX_PATH];
+			FILEINFO& p = todo[i];
+			if (p.bDeleteOnly) { // we need only to backup the old file
+				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1;
+				mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
+				BackupFile(p.tszNewName, tszBackFile);
+				continue;
+			}
+		
+			// if file name differs, we also need to backup the old file here
+			// otherwise it would be replaced by unzip
+			if ( _tcsicmp(p.tszOldName, p.tszNewName)) {
+				TCHAR tszSrcPath[MAX_PATH];
+				mir_sntprintf(tszSrcPath, SIZEOF(tszSrcPath), _T("%s\\%s"), tszMirandaPath, p.tszOldName);
+				mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, p.tszOldName);
+				BackupFile(tszSrcPath, tszBackFile);
+			}
+
+			if ( unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack))
+				SafeDeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
+		}
+	}
+
+	PopupDataText temp;
+	temp.Title = TranslateT("Plugin Updater");
+	temp.Text = tszBuff;
+	lstrcpyn(tszBuff, TranslateT("Download complete. Do you want go to plugins option page?"), SIZEOF(tszBuff));
+	int rc = MessageBox(NULL, temp.Text, temp.Title, MB_YESNO | MB_ICONQUESTION);
+	if (rc == IDYES)
+		CallFunctionAsync(OpenPluginOptions, 0);
+
+	if (hPipe)
+		CloseHandle(hPipe);
+	CloseWindow(hDlg);
+	DestroyWindow(hDlg);
+	hwndDialog = NULL;
+	return;
+}
+
 static void ResizeVert(HWND hDlg, int yy)
 {
 	RECT r = { 0, 0, 244, yy };
 	MapDialogRect(hDlg, &r);
 	r.bottom += GetSystemMetrics(SM_CYSMCAPTION);
 	SetWindowPos(hDlg, 0, 0, 0, r.right, r.bottom, SWP_NOMOVE | SWP_NOZORDER);
+}
+
+int ImageList_AddIconFromIconLib(HIMAGELIST hIml, const char *name)
+{
+	HICON icon = Skin_GetIconByHandle(Skin_GetIconHandle(name));
+	int res = ImageList_AddIcon(hIml, icon);
+	Skin_ReleaseIcon(icon);
+	return res;
 }
 
 INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -536,6 +635,252 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 	case WM_DESTROY:
 		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ConfirmWindow");
+		hwndDialog = NULL;
+		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
+		break;
+	}
+
+	return FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (msg == WM_LBUTTONDOWN) {
+		LVHITTESTINFO hi;
+		hi.pt.x = LOWORD(lParam); hi.pt.y = HIWORD(lParam);
+		ListView_SubItemHitTest(hwnd, &hi);
+		if (hi.iSubItem == 1) {
+			LVITEM lvi = {0};
+			lvi.mask = LVIF_IMAGE | LVIF_PARAM | LVIF_GROUPID;
+			lvi.stateMask = -1;
+			lvi.iItem = hi.iItem;
+			if (ListView_GetItem(hwnd, &lvi) && lvi.iGroupId == 1) {
+				TCHAR link[MAX_PATH];
+				FILEINFO *info = (FILEINFO *)lvi.lParam;
+
+				TCHAR tszFileName[MAX_PATH];
+				_tcscpy(tszFileName, _tcsrchr(info->tszNewName, L'\\') + 1);
+				TCHAR *p = _tcschr(tszFileName, L'.'); *p = 0;
+
+				mir_sntprintf(link, MAX_PATH, L"http://wiki.miranda-ng.org/index.php?title=Plugin:%s", tszFileName);
+				CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM) link);
+			}
+		}
+	}
+
+	return mir_callNextSubclass(hwnd, PluginListWndProc, msg, wParam, lParam);
+}
+
+static int ListDlg_Resize(HWND, LPARAM, UTILRESIZECONTROL *urc)
+{
+	switch (urc->wId) {
+	case IDC_SELALL:
+	case IDC_SELNONE:
+		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
+
+	case IDOK:
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
+	}
+	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP | RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+}
+
+INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
+
+	switch (message) {
+	case WM_INITDIALOG:
+		hwndDialog = hDlg;
+		TranslateDialogDefault( hDlg );
+		mir_subclassWindow(hwndList, PluginListWndProc);
+
+		SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIconBig(SKINICON_OTHER_OPTIONS));
+		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_OPTIONS));
+		{
+			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 4, 0);
+			ImageList_AddIconFromIconLib(hIml, "info");
+			ListView_SetImageList(hwndList, hIml, LVSIL_SMALL);
+
+			OSVERSIONINFO osver = { sizeof(osver) };
+			if (GetVersionEx(&osver) && osver.dwMajorVersion >= 6) {
+				wchar_t szPath[MAX_PATH];
+				GetModuleFileName(NULL, szPath, SIZEOF(szPath));
+				TCHAR *ext = _tcsrchr(szPath, '.');
+				if (ext != NULL)
+					*ext = '\0';
+				_tcscat(szPath, _T(".test"));
+				HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+				if (hFile == INVALID_HANDLE_VALUE)
+					// Running Windows Vista or later (major version >= 6).
+					Button_SetElevationRequiredState(GetDlgItem(hDlg, IDOK), !IsProcessElevated());
+				else {
+					CloseHandle(hFile);
+					DeleteFile(szPath);
+				}
+			}
+			RECT r;
+			GetClientRect(hwndList, &r);
+
+			///
+			LVCOLUMN lvc = {0};
+			lvc.mask = LVCF_WIDTH | LVCF_TEXT;
+			//lvc.fmt = LVCFMT_LEFT;
+
+			lvc.pszText = TranslateT("Component Name");
+			lvc.cx = 220; // width of column in pixels
+			ListView_InsertColumn(hwndList, 0, &lvc);
+
+			lvc.pszText = L"";
+			lvc.cx = 32 - GetSystemMetrics(SM_CXVSCROLL); // width of column in pixels
+			ListView_InsertColumn(hwndList, 1, &lvc);
+
+			lvc.pszText = L"State";
+			lvc.cx = 100 - GetSystemMetrics(SM_CXVSCROLL); // width of column in pixels
+			ListView_InsertColumn(hwndList, 2, &lvc);
+
+			///
+			LVGROUP lvg;
+			lvg.cbSize = sizeof(LVGROUP);
+			lvg.mask = LVGF_HEADER | LVGF_GROUPID;
+
+			lvg.pszHeader = LPGENT("Plugins");
+			lvg.iGroupId = 1;
+			ListView_InsertGroup(hwndList, 0, &lvg);
+
+			lvg.pszHeader = LPGENT("Icons");
+			lvg.iGroupId = 2;
+			ListView_InsertGroup(hwndList, 0, &lvg);
+
+			lvg.pszHeader = LPGENT("Other");
+			lvg.iGroupId = 3;
+			ListView_InsertGroup(hwndList, 0, &lvg);
+
+			ListView_EnableGroupView(hwndList, TRUE);
+
+			///
+			SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_SUBITEMIMAGES | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP);
+			ListView_DeleteAllItems(hwndList);			
+
+			///
+			OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)lParam;
+			for (int i = 0; i < todo.getCount(); ++i) {
+				int groupId = 3;
+				LVITEM lvi = {0};				
+				lvi.mask = LVIF_PARAM | LVIF_GROUPID | LVIF_TEXT | LVIF_IMAGE;
+				
+				if (_tcschr(todo[i].tszOldName, L'\\') != NULL)
+					groupId = _tcsstr(todo[i].tszOldName, L"Plugins") != NULL ? 1 : 2;
+
+				lvi.iItem = i;
+				lvi.lParam = (LPARAM)&todo[i];
+				lvi.iGroupId = groupId;
+				lvi.iImage   = -1;
+				lvi.pszText = todo[i].tszOldName;
+				int iRow = ListView_InsertItem(hwndList, &lvi);
+
+
+				if (iRow != -1) {
+					lvi.iItem = iRow;
+					if (groupId == 1) {
+						lvi.mask = LVIF_IMAGE;
+						lvi.iSubItem = 1;
+						lvi.iImage = 0;
+						ListView_SetItem(hwndList, &lvi);
+					}
+				}
+				todo[i].bEnabled = false;
+			}
+			HWND hwOk = GetDlgItem(hDlg, IDOK);
+			EnableWindow(hwOk, false);
+		}
+
+		// do this after filling list - enables 'ITEMCHANGED' below
+		SetWindowLongPtr(hDlg, GWLP_USERDATA, lParam);
+		Utils_RestoreWindowPosition(hDlg, 0, MODNAME, "ListWindow");
+		return TRUE;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR) lParam)->hwndFrom == hwndList) {
+			switch (((LPNMHDR) lParam)->code) {
+			case LVN_ITEMCHANGED:
+				if (GetWindowLongPtr(hDlg, GWLP_USERDATA)) {
+					NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
+
+					LVITEM lvI = {0};
+					lvI.iItem = nmlv->iItem;
+					lvI.iSubItem = 0;
+					lvI.mask = LVIF_PARAM;
+					ListView_GetItem(hwndList, &lvI);
+
+					OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+					if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
+						todo[lvI.iItem].bEnabled = ListView_GetCheckState(hwndList, nmlv->iItem);
+
+						bool enableOk = false;
+						for (int i=0; i < todo.getCount(); ++i) {
+							if (todo[i].bEnabled) {
+								enableOk = true;
+								break;
+							}
+						}
+						HWND hwOk = GetDlgItem(hDlg, IDOK);
+						EnableWindow(hwOk, enableOk ? TRUE : FALSE);
+					}
+				}
+				break;
+			}
+		}
+		break;
+
+	case WM_COMMAND:
+		if (HIWORD( wParam ) == BN_CLICKED) {
+			switch(LOWORD(wParam)) {
+			case IDOK:
+				EnableWindow( GetDlgItem(hDlg, IDOK), FALSE);
+				EnableWindow( GetDlgItem(hDlg, IDC_SELALL), FALSE);
+				EnableWindow( GetDlgItem(hDlg, IDC_SELNONE), FALSE);
+
+				mir_forkthread(ApplyDownloads, hDlg);
+				return TRUE;
+
+			case IDC_DETAILS:
+				bShowDetails = !bShowDetails;
+				ResizeVert(hDlg, bShowDetails ? 242 : 60);
+				break;
+
+			case IDC_SELALL:
+				SelectAll(hDlg, true);
+				break;
+
+			case IDC_SELNONE:
+				SelectAll(hDlg, false);
+				break;
+
+			case IDCANCEL:
+				DestroyWindow(hDlg);
+				return TRUE;
+			}
+		}
+		break;
+
+	case WM_SIZE: // make the dlg resizeable
+		if ( !IsIconic(hDlg)) {
+			UTILRESIZEDIALOG urd = { sizeof(urd) };
+			urd.hInstance = hInst;
+			urd.hwndDlg = hDlg;
+			urd.lpTemplate = MAKEINTRESOURCEA(IDD_LIST);
+			urd.pfnResizer = ListDlg_Resize;
+			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+		}
+		break;
+
+	case WM_DESTROY:
+		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ListWindow");
+		Skin_ReleaseIcon((HICON)SendMessage(hDlg, WM_SETICON, ICON_BIG, 0));
+		Skin_ReleaseIcon((HICON)SendMessage(hDlg, WM_SETICON, ICON_SMALL, 0));
 		hwndDialog = NULL;
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);

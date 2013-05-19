@@ -1,14 +1,22 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by C:\Myranda\plugins\PluginUpdater\res\Resource.rc
+// Used by e:\Projects\C++\MirandaNG\plugins\PluginUpdater\res\Resource.rc
 //
 #define IDI_MENU                        101
 #define IDD_UPDATE                      102
 #define IDD_OPT_UPDATENOTIFY            104
 #define IDD_POPUP                       105
 #define IDD_POPUPDUMMI                  106
+#define IDD_LIST                        107
 #define IDI_OK                          108
 #define IDI_CANCEL                      109
+#define IDI_INFO                        111
+#define IDI_DOWN_DEL                    112
+#define IDI_DOWN_FAIL                   113
+#define IDI_DOWN_LOAD                   114
+#define IDI_DOWN_OK                     115
+#define IDI_ICON5                       116
+#define IDI_DOWN_SKIP                   116
 #define IDC_UPDATETEXT                  1001
 #define IDC_CURVER                      1002
 #define IDC_NEWVER                      1003
@@ -69,7 +77,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        110
+#define _APS_NEXT_RESOURCE_VALUE        117
 #define _APS_NEXT_COMMAND_VALUE         40075
 #define _APS_NEXT_CONTROL_VALUE         1044
 #define _APS_NEXT_SYMED_VALUE           101

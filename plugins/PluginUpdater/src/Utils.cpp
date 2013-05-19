@@ -23,7 +23,7 @@ BOOL DlgDld;
 int  Number = 0;
 TCHAR tszDialogMsg[2048] = {0};
 FILEINFO *pFileInfo = NULL;
-HANDLE hCheckThread = NULL, hNetlibUser = NULL;
+HANDLE hCheckThread = NULL, hListThread = NULL, hNetlibUser = NULL;
 POPUP_OPTIONS PopupOptions = {0};
 aPopups PopupsList[POPUPS];
 
@@ -39,8 +39,9 @@ struct
 static iconList[] =
 {
 	{ "check_update", LPGEN("Check for plugin updates"),    IDI_MENU },
-	{ "btn_ok",			LPGEN("'Yes' Button"),              IDI_OK },
-	{ "btn_cancel",   LPGEN("'No' Button"),               IDI_CANCEL }
+	{ "btn_ok",	      LPGEN("'Yes' Button"),                IDI_OK },
+	{ "btn_cancel",   LPGEN("'No' Button"),                 IDI_CANCEL },
+	{ "info",         LPGEN("Plugin info"),                 IDI_INFO },
 };
 
 void IcoLibInit()
@@ -359,6 +360,14 @@ void __stdcall RestartMe(void*)
 void __stdcall RestartMe(void*)
 {
 	CallService(MS_SYSTEM_RESTART, db_get_b(NULL,MODNAME,"RestartCurrentProfile",1) ? 1 : 0, 0);
+}
+
+void __stdcall OpenPluginOptions(void*)
+{
+	OPENOPTIONSDIALOG ood = {0};
+	ood.cbSize = sizeof(ood);
+	ood.pszPage = "Plugins";
+	Options_Open(&ood);
 }
 
 #endif

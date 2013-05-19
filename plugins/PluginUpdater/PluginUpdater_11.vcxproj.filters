@@ -98,4 +98,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\menu.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\btnOk.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\btnClose.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\info.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
