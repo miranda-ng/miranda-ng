@@ -166,19 +166,19 @@ static const struct branch_t branch5[] = {
 };
 
 static const struct branch_t branch6[] = {
-	{ LPGENT("Show Popups only when the chat room is not active"), "PopupInactiveOnly", 0, 1},
-	{ LPGENT("Show Popup for topic changes"), "PopupFlags", GC_EVENT_TOPIC, 0},
-	{ LPGENT("Show Popup for users joining"), "PopupFlags", GC_EVENT_JOIN, 0},
-	{ LPGENT("Show Popup for users disconnecting"), "PopupFlags", GC_EVENT_QUIT, 0},
-	{ LPGENT("Show Popup for messages"), "PopupFlags", GC_EVENT_MESSAGE, 0},
-	{ LPGENT("Show Popup for actions"), "PopupFlags", GC_EVENT_ACTION, 0},
-	{ LPGENT("Show Popup for highlights"), "PopupFlags", GC_EVENT_HIGHLIGHT, 0},
-	{ LPGENT("Show Popup for users leaving"), "PopupFlags", GC_EVENT_PART, 0},
-	{ LPGENT("Show Popup for users kicking other user"), "PopupFlags", GC_EVENT_KICK, 0},
-	{ LPGENT("Show Popup for notices "), "PopupFlags", GC_EVENT_NOTICE, 0},
-	{ LPGENT("Show Popup for name changes"), "PopupFlags", GC_EVENT_NICK, 0},
-	{ LPGENT("Show Popup for information messages"), "PopupFlags", GC_EVENT_INFORMATION, 0},
-	{ LPGENT("Show Popup for status changes"), "PopupFlags", GC_EVENT_ADDSTATUS, 0},
+	{ LPGENT("Show popups only when the chat room is not active"), "PopupInactiveOnly", 0, 1},
+	{ LPGENT("Show popup for topic changes"), "PopupFlags", GC_EVENT_TOPIC, 0},
+	{ LPGENT("Show popup for users joining"), "PopupFlags", GC_EVENT_JOIN, 0},
+	{ LPGENT("Show popup for users disconnecting"), "PopupFlags", GC_EVENT_QUIT, 0},
+	{ LPGENT("Show popup for messages"), "PopupFlags", GC_EVENT_MESSAGE, 0},
+	{ LPGENT("Show popup for actions"), "PopupFlags", GC_EVENT_ACTION, 0},
+	{ LPGENT("Show popup for highlights"), "PopupFlags", GC_EVENT_HIGHLIGHT, 0},
+	{ LPGENT("Show popup for users leaving"), "PopupFlags", GC_EVENT_PART, 0},
+	{ LPGENT("Show popup for users kicking other user"), "PopupFlags", GC_EVENT_KICK, 0},
+	{ LPGENT("Show popup for notices "), "PopupFlags", GC_EVENT_NOTICE, 0},
+	{ LPGENT("Show popup for name changes"), "PopupFlags", GC_EVENT_NICK, 0},
+	{ LPGENT("Show popup for information messages"), "PopupFlags", GC_EVENT_INFORMATION, 0},
+	{ LPGENT("Show popup for status changes"), "PopupFlags", GC_EVENT_ADDSTATUS, 0},
 };
 
 HTREEITEM hItemB0[SIZEOF(branch0)];
