@@ -58,7 +58,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 								db_set_b(NULL,modname,"UserMenuItem",(BYTE)IsDlgButtonChecked(hwnd,IDC_MENU));
 								db_set_b(NULL,modname,"UseKnownModList",(BYTE)IsDlgButtonChecked(hwnd,IDC_USEKNOWNMODS));
 								usePopups = IsDlgButtonChecked(hwnd,IDC_POPUPS);
-								db_set_b(NULL,modname,"UsePopUps",(BYTE)usePopUps);
+								db_set_b(NULL,modname,"UsePopUps",(BYTE)usePopups);
 								if (GetDlgItemText(hwnd,IDC_MODULES,mods,4096))
 									db_set_s(NULL,modname,"CoreModules",mods);
 								db_set_w(NULL,modname,"PopupDelay",(WORD)GetDlgItemInt(hwnd,IDC_POPUPTIMEOUT,NULL,0));
