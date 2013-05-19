@@ -20,7 +20,7 @@ Odeslat zprávu o zařazení
 [Send authorization request]
 Odeslat žádost o autorizaci
 [Open contact's chat window]
-
+Otevřít komunikační okno
 [Custom name:]
 Vlastní jméno:
 [Group:]
@@ -46,7 +46,7 @@ Tímto odstraníte celou historii a nastavení kontaktu!
 [Contact Display Options]
 Možnosti zobrazení seznamu
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
-
+Přetáhnutím změníte způsob zobrazení jména kontaktu:
 [Miranda NG Profile Manager]
 Miranda NG - správce profilů
 [&Run]
@@ -84,11 +84,11 @@ Vlastní
 [Find/Add Contacts\nHere you can add contacts to your contact list]
 Vyhledání kontaktů\nUmožní vyhledat a přidat nalezené do seznamu kontaktů
 [Options\nConfigure your Miranda NG options]
-
+Možnosti\nZměňte nastavení vaší Mirandy NG
 [Apply]
 Použít
 [Switch to simple options]
-
+Přepnout do zjednodušeného nastavení
 [Please select a subentry from the list]
 Vyberte prosím ze seznamu jednu z dalších položek.
 [Install Database Settings]
@@ -158,7 +158,7 @@ Funkce OutputDebugString()
 [File]
 Soubor
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
-
+Spustit program při startu Mirandy NG (např. tail -f, dbgview, atd.):
 [Run now]
 Spustit
 [Show this dialog box when Miranda NG starts]
@@ -288,7 +288,7 @@ pro databázi Mirandy
 [Driver]
 Ovladač
 [Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
-
+Problém: Nelze nalézt žádný ovladač databáze, nemůžete tedy vytvářet nové profily, musíte nejprve sehnat dbx_mmap.dll
 [Download more plugins]
 Stáhnout další doplňky
 [Description:]
@@ -342,7 +342,7 @@ Pod&tržené
 [Sample]
 Příkladový text
 [AaBbYyZz]
-
+AaBbYyZz
 [Sc&ript:]
 Sk&ript:
 [&Apply]
@@ -372,7 +372,7 @@ Nastavit
 [Disable icons]
 Vypnout ikony
 [Show accounts in the following order,\ndrag to choose another order:]
-
+Zobrazit účty v tomto pořadí,\npřetáhnutím zvolíte jiné pořadí:
 [Account Order && Visibility]
 Pořadí účtů a jejich viditelnost
 [Note: Miranda NG will have to be restarted for changes to take effect.]
@@ -436,7 +436,7 @@ Poznámky:
 [This font is used to display various addtional notes.]
 Používá se k zobrazení dodatkových textů a poznámek.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
-
+Vítejte ve správci účtů programu Miranda NG!\nZde si můžete založit nový účet ve vybrané síti, upravit stávající nebo naopak některý smazat.\n\nChcete-li založit nový účet, klikněte na tlačítko \"plus\" v levém dolním rohu okna. Pokud si přejete upravit stávající účet, vyberte požadovaný ze seznamu.
 [Event icon legend:]
 Legenda k vybraným ikonám:
 [Choose events you wish to ingonre:]
@@ -456,7 +456,7 @@ Zvolte doplňkové ikony které budou zobrazeny v seznamu kontaktů:
 [* only the first %d icons will be shown]
 * bude zobrazeno pouze prvních %d ikon
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
-
+Můžete vytvořit nebo zrušit skupinu ikon jejich vybráním (CTRL+levé tlačítko) a použitím kontextového menu (pravé tlačítko)
 [Tray]
 Oznámení
 [&Hide/Show]
@@ -464,7 +464,7 @@ Skrýt/Zo&brazit
 [E&xit]
 U&končit
 [Nowhere]
-
+Nikde
 [&New Group]
 &Nová skupina
 [&Hide Offline Users]
@@ -492,7 +492,7 @@ Př&ejmenovat skupinu
 [&Reset to default]
 O&bnovit výchozí
 [find/add]
-
+najít/přidat
 [&Add to List]
 Přid&at do seznamu
 [User &Details]
@@ -522,7 +522,7 @@ Z&kopírovat odkaz
 [&Reset To Default]
 O&bnovit výchozí
 [Ungroup]
-
+Zrušit skupinu
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Autorizovat
@@ -571,7 +571,7 @@ Zavře se za %d sek.
 [&Send]
 Po&slat
 [Show these events only:]
-
+Zobrazit pouze tyto události:
 [Actions]
 Akce
 [Nick changes]
@@ -635,7 +635,7 @@ Text
 [Background]
 Pozadí
 [(The timeout require at least Popup plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
-
+(Doba zobrazení vyžaduje aspoň Popup plugin v 1.0.1.9. Nastavení hodnoty 0 znamená výchozí nastavení a -1 znamená neomezený čas)
 [List]
 Seznam
 [&Message]
@@ -647,7 +647,7 @@ Zko&pírovat vše
 [Word lookup]
 Vyhledávání slova
 [Google]
-
+Google
 [Wikipedia]
 Wikipedie
 [Link]
@@ -756,7 +756,7 @@ Zvětšovat okno směrem nahoru
 [If window is partially covered, bring to front instead of hiding]
 Je-li okno částečně zakryto, zobrazit na popředí namísto skrytí
 [Enable docking]
-
+Povolit dokování
 [Translucency options (Windows 2000/XP only)]
 Průhlednost (pouze Windows 2000 a XP)
 [Fade contact list in/out]
@@ -1012,7 +1012,7 @@ Příjem souborů od lidí, kteří nejsou mezi kontakty, podléhá vždy dotazu
 [About Miranda NG]
 O programu Miranda NG
 [Miranda NG\n%s]
-
+Miranda NG\n%s
 [Credits >]
 Poděkování >
 ;file \src\core\stdidle\resource.rc
@@ -1043,7 +1043,7 @@ Možnosti při nečinnosti
 [Become idle if application full screen]
 Přejít do stavu nečinnosti v celoobrazovkovém režimu
 [Disable sounds on idle]
-
+Vypnout zvuky při nečinnosti
 [Become idle if computer is left unattended for:]
 Přejít do stavu nečinnosti pokud se nic neděje:
 [Idle (auto-away):]
@@ -1235,11 +1235,11 @@ WWW:
 [%s requests authorization]
 %s žádá o autorizaci
 [%u requests authorization]
-
+%u žádá o autorizaci
 [%s added you to their contact list]
 %s si vás přidal mezi své kontakty
 [%u added you to their contact list]
-
+%u si vás přidal mezi své kontakty
 [Alerts]
 Upozornění
 [Authorization request]
@@ -1327,15 +1327,15 @@ Vykopnutí: %s -> %s
 [Notice from %s: ]
 Poznámka od %s:
 [The topic is '%s%s']
-
+Aktuální téma: '%s%s'
 [ (set by %s on %s)]
  (nastavil %s na %s)
 [ (set by %s)]
  (nastavil %s)
 [%s enables '%s' status for %s]
-
+%s aktivuje stav '%s' pro %s
 [%s disables '%s' status for %s]
-
+%s deaktivuje stav '%s' pro %s
 [<invalid>]
 <neplatný>
 ;file \src\core\stdchat\src\options.cpp
@@ -1430,11 +1430,11 @@ Odsadit druhý řádek dlouhé zprávy
 [Limit user names in the message log to 20 characters]
 Omezit délku jmen v záznamu na 20 znaků
 [Add ':' to auto-completed user names]
-
+Přidávat ':' k automaticky doplněným jménům
 [Strip colors from messages in the log]
 Záznam ukládat bez kódů definující barvy
 [Enable the 'event filter' for new rooms]
-
+Aktivovat filtr událostí pro nové místnosti
 [Show topic changes]
 Zobrazit informaci o změně tématu
 [Show users joining]
@@ -1620,13 +1620,13 @@ Nastavení vzhledu a funkcí komunikačních oken
 [Appearance of the message log]
 Nastavení vzhledu záznamu komunikace
 [Default events to show in new chat rooms if the 'event filter' is enabled]
-
+Výchozí události, které se mají zobrazit, pokud je filtr událostí aktivní
 [Icons to display in the message log]
 Možnosti zobrazení ikon v záznamu komunikace
 [Icons to display in the tray]
 Možnosti zobrazení ikon v oznamovací oblasti
 [Popups to display]
-
+Zobrazit oznámení
 [Select Folder]
 Vyberte požadovanou složku
 [Message Sessions]
@@ -1676,9 +1676,9 @@ Změna tématu na %s
 [Information in %s]
 Informace (na %s)
 [%s enables '%s' status for %s in %s]
-
+%s aktivuje stav '%s' pro %s v %s
 [%s disables '%s' status for %s in %s]
-
+%s aktivuje stav '%s' pro %s v %s
 [%s says: %s]
 %s píše: %s
 [%s has left (%s)]
@@ -1690,11 +1690,11 @@ Informace (na %s)
 [Notice from %s: %s]
 Poznámka od %s: %s
 [The topic is '%s']
-
+Aktuální téma: %s
 [The topic is '%s' (set by %s)]
-
+Aktuální téma: %s (nastavil %s)
 [Look up '%s':]
-
+Vyhledat '%s':
 [No word to look up]
 Není co vyhledat
 ;file \src\core\stdchat\src\window.cpp
@@ -1884,7 +1884,7 @@ Přenos a kontrola antivirem dokončena
 Odchozí
 ;file \src\core\stdhelp\about.cpp
 [< Copyright]
-
+< Copyright
 ;file \src\core\stdhelp\help.cpp
 [&About...]
 O progr&amu...
@@ -2150,7 +2150,7 @@ Přesunout do s&kupiny
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
 
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
-
+Profil nemůže být umístěn v kořenové složce Mirandy.\nProsím přesuňte profil Mirandy na jiné místo.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
 Profil '%s' nelze otevřít. Není nainstalovaný odpovídající doplněk.\nPoužijte dbx_3x.dll (pro staré profily) nebo jiný.
 [No profile support installed!]
@@ -2206,7 +2206,7 @@ Změněno
 [Run]
 Spustit
 [Check database]
-
+Zkontrolovat databázi
 [Miranda Profiles from]
 Umístění profilů
 [Select or create your Miranda NG user profile]
@@ -2217,7 +2217,7 @@ Seznam profilů
 Nový profil
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
 [Chat activity]
-
+Aktivita v chatu
 ;file \src\modules\extraicons\extraicons.cpp
 [Chat Activity]
 Aktivita na chatu
@@ -2238,7 +2238,7 @@ Hledám
 [All Networks]
 Všechny sítě
 [Handle]
-
+Ukazatel
 [&Find/Add Contacts...]
 &Vyhledat kontakty...
 ;file \src\modules\findadd\searchresults.cpp
@@ -2342,11 +2342,11 @@ Miranda - možnosti nastavení
 M&ožnosti...
 ;file \src\modules\plugins\newplugins.cpp
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-
+Doplněk jádra '%s' nelze načíst nebo neexistuje. Miranda bude ukončena
 [Fatal error]
-
+Závažná chyba
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
-
+Není načten doplněk pro komunikační okno. Prosím nainstalujte/povolte jeden z komunikačních doplňků, například "srmm.dll"
 ['%s' is disabled, re-enable?]
 '%s' není aktivní. Chcete ho aktivovat?
 [Re-enable Miranda plugin?]
@@ -2356,16 +2356,16 @@ Nelze načíst doplněk v nouzovém režimu
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 
 [Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
-
+Nelze nalézt doplněk pro seznam kontaktů! Potřebujete clist_classic nebo jiný doplněk.
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Doplněk
 [Version]
 Verze
 [Miranda NG must be restarted to apply changes for these plugins:]
-
+Miranda NG bude restartována pro aplikování změn těchto pluginů:
 [Do you want to restart it now?]
-
+Přejete si ji nyní restartovat?
 [Plugins]
 Doplňky
 ;file \src\modules\protocols\protoopts.cpp
@@ -2408,7 +2408,7 @@ Přejmenovat
 [Configure]
 Nastavit...
 [Upgrade]
-
+Povýšit
 [Account is online. Disable account?]
 Účet je připojen. Deaktivovat účet?
 [Account %s is being deleted]
@@ -2496,15 +2496,15 @@ Zap
 [Off]
 Vyp
 [Running core plugin]
-
+Běžící doplněk jádra
 [Non-loadable plugin]
-
+Nenačitatelný doplněk
 [Frames]
 Rámečky
 [Always visible]
 Tento člověk mě vždy uvidí
 [Always invisible]
-
+Vždy neviditelný
 [Locked status]
 Zamknuto
 [Status Icons]
@@ -2517,7 +2517,7 @@ Hlavní ikony
 [Sound Files]
 Zvukové soubory
 [WAV Files]
-
+Soubory WAV
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Pro zpracování PNG obrázků je zapotřebí doplněk Image services
@@ -2542,7 +2542,7 @@ neznámý
 [Afghanistan]
 Afghánistán
 [Aland Islands]
-
+Alandské ostrovy
 [Albania]
 Albánie
 [Algeria]
@@ -2556,7 +2556,7 @@ Angola
 [Anguilla]
 Anguilla
 [Antarctica]
-
+Antarktida
 [Antigua and Barbuda]
 Antigua a Barbuda
 [Argentina]
@@ -2592,21 +2592,21 @@ Bermudy
 [Bhutan]
 Bhútán
 [Bolivia, Plurinational State of]
-
+Bolívie, plurinacionální stát
 [Bonaire, Sint Eustatius and Saba]
-
+Bonaire, Sint Eustatius a Saba
 [Bosnia and Herzegovina]
 Bosna a Hercegovina
 [Botswana]
 Botswana
 [Bouvet Island]
-
+Bouvetův ostrov
 [Brazil]
 Brazílie
 [British Indian Ocean Territory]
-
+Britské indickooceánské území
 [Brunei Darussalam]
-
+Brunej
 [Bulgaria]
 Bulharsko
 [Burkina Faso]
@@ -2620,7 +2620,7 @@ Kamerun
 [Canada]
 Kanada
 [Cape Verde]
-
+Kapverdy
 [Cayman Islands]
 Kajmanské ostrovy
 [Central African Republic]
@@ -2628,7 +2628,7 @@ Středoafrická republika
 [Chad]
 Čad
 [Chile]
-
+Chile
 [China]
 Čína
 [Christmas Island]
@@ -2640,21 +2640,21 @@ Kolumbie
 [Comoros]
 Komory
 [Congo]
-
+Kongo
 [Congo, the Democratic Republic of the]
-
+Kongo, demokratická republika
 [Cook Islands]
 Cookovy ostrovy
 [Costa Rica]
 Kostarika
 [Cote d'Ivoire]
-
+Pobřeží slonoviny
 [Croatia]
 Chorvatsko
 [Cuba]
 Kuba
 [Curacao]
-
+Curacao
 [Cyprus]
 Kypr
 [Czech Republic]
@@ -2696,7 +2696,7 @@ Francouzská Guyana
 [French Polynesia]
 Francouzská Polynésie
 [French Southern Territories]
-
+Francouzská jižní území
 [Gabon]
 Gabon
 [Gambia]
@@ -2718,11 +2718,11 @@ Grenada
 [Guadeloupe]
 Guadeloupe
 [Guam]
-
+Guam
 [Guatemala]
 Guatemala
 [Guernsey]
-
+Guernsey
 [Guinea]
 Guinea
 [Guinea-Bissau]
@@ -2732,9 +2732,9 @@ Guyana
 [Haiti]
 Haiti
 [Heard Island and McDonald Islands]
-
+Heardův ostrov a McDonaldovy ostrovy
 [Holy See (Vatican City State)]
-
+Svatý stolec (Vatikánský městský stát)
 [Honduras]
 Honduras
 [Hong Kong]
@@ -2748,13 +2748,13 @@ Indie
 [Indonesia]
 Indonésie
 [Iran, Islamic Republic of]
-
+Íránská islámská republika
 [Iraq]
 Irák
 [Ireland]
 Irsko
 [Isle of Man]
-
+Isle of Man
 [Israel]
 Izrael
 [Italy]
@@ -2764,7 +2764,7 @@ Jamajka
 [Japan]
 Japonsko
 [Jersey]
-
+Jersey
 [Jordan]
 Jordánsko
 [Kazakhstan]
@@ -2774,9 +2774,9 @@ Keňa
 [Kiribati]
 Kiribati
 [Korea, Democratic People's Republic of]
-
+Korea, demokratická lidová republika
 [Korea, Republic of]
-
+Korea, republika
 [Kuwait]
 Kuvajt
 [Kyrgyzstan]
@@ -3010,7 +3010,7 @@ Spojené arabské emiráty
 [United Kingdom]
 Spojené království
 [United States]
-
+Spojené státy
 [United States Minor Outlying Islands]
 
 [Uruguay]
