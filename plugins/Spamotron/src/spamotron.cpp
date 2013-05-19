@@ -11,7 +11,7 @@ PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(0,0,4,6),
-	"Anti-spam plugin with captcha and Bayes filtering",
+	"Anti-spam plugin with captcha and Bayes filtering.",
 	"vu1tur",
 	"to@vu1tur.eu.org",
 	"© 2010 vu1tur",
