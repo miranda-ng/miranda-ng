@@ -1,0 +1,160 @@
+﻿;#muuid for Spamotron not found, please specify manually!
+;langpack template for Spamotron
+;file \plugins\Spamotron\res\spamotron.rc
+[Do not send challenge request if message score above]
+Keine Abfrage, wenn Nachrichtenbewertung höher als
+[Auto-learn messages from approved contacts as ham]
+Trainiere Nachrichten von Kontakten autom. als Ham
+[Filtering options]
+Filtereinstellungen
+[Learning options]
+Trainingseinstellungen
+[Auto-learn outgoing messages as ham]
+Trainiere ausgehende Nachrichten automatisch als Ham
+[Spam]
+Spam
+[Ham]
+Ham
+[Learn message:]
+Lerne Nachricht:
+[Auto approve contact if message score below]
+Autom. verifizieren, wenn Wertung kleiner als
+[Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and 50 of spam messages.]
+Aktivieren Sie keine dieser Einstellungen, bis Spam-o-tron nicht mindestens 20 Ham- und 50 Spam-Nachrichten antrainiert wurden!
+[Learned ham messages:]
+Trainierte Hams:
+[Learned spam messages:]
+Trainierte Spams:
+[Analyze]
+Analysieren
+[Auto-learn messages from contacts if not approved in]
+Trainiere Nachrichten autom. als Spam, die nicht innerhalb von
+[days as spam]
+Tagen akzept. wurden.
+[Enabled]
+Aktiviert
+[and learn as ham]
+und als Ham anlernen
+[Enabled accounts:]
+Geschützte Konten:
+[Do not reply to messages with words in this list:]
+Antworte nicht auf Nachrichten mit diesen Schlüsselwörtern:
+[Do not reply to the same message more than]
+Antworte auf gleiche Nachricht nicht öfter als
+[Flood protection]
+Schutz vor "Flooding"
+[Do not send more than]
+Sende nicht mehr als
+[messages to one contact per day]
+Nachrichten an einen Kontakt pro Tag
+[times a day]
+Mal pro Tag
+[Settings]
+Einstellungen
+[Outgoing message]
+Ausgehende Nachricht
+[Incoming message with any word from list:]
+Eingehender Nachricht, die folgende Wörter enthält:
+[Auto approve on:]
+Automatisch Annehmen bei:
+[Hide contact until verified]
+Verstecke Kontakte bis zur Verifizierung
+[Add permanently to list on verified]
+Verifizierte Kontakte dauerhaft zur CList hinzufügen
+[Log actions to system history]
+Aktionen im Systemverlauf loggen
+[Mode:]
+Modus:
+[Responses: (saved in %response%, %response-n% variables)]
+Antwort: (Gespeichert in den Variablen "%response%" bzw. "%response-n%")
+[will be saved in %mathexpr%]
+Wird gespeichert in "%mathexpr%"-Variable
+[Reset to defaults]
+Zurücksetzen auf Standards
+[Reply on success:]
+Antwort bei Erfolg:
+[Send challenge on authorization request:]
+Sende folgende Abfrage bei Autorisierungsanfrage:
+[Keep blocked messages in contact history]
+Speichere blockierte Nachrichten im Kontaktverlauf
+[Case-sensitive]
+Groß- und Kleinschreibung
+[Send challenge on incoming message:]
+Sende folgende Abfrage bei eingehender Nachricht:
+[and mark them unread after approval]
+und markiere sie als ungelesen nach der Verifizierung
+[Enable popup notifications]
+Aktiviere Popup-Benachrichtigung
+[Contact blocked]
+Kontakt blockiert
+[Contact approved]
+Kontakt verifiziert
+[Appearance]
+Erscheinungsbild
+[Foreground]
+Vordergrund
+[Background]
+Hintergrund
+[Timeout]
+Timeout
+[Default colors]
+Standardfarben
+[Default timeout]
+Standard-Timeout
+[Preview]
+Vorschau
+[Windows colors]
+Windowsfarben
+[Challenge sent]
+Sicherheitsabfrage gesendet
+;file \plugins\Spamotron\src\bayes.cpp
+[Bayes database path]
+Bayes Datenbank Pfad
+;file \plugins\Spamotron\src\common.h
+[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
+Spam-o-tron muss verifizieren, dass Sie kein Bot sind. Bitte antworten Sie mit "%response%" (ohne Anführungszeichen).
+[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
+Spam-o-tron muss verifizieren, dass Sie kein Bot sind. Bitte antworten Sie mit dem Ergebnis der Rechenaufgabe %mathexpr%.
+[Verified.]
+Verifiziert.
+[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
+Spam-o-tron hat Ihre Autorisierungsanfrage zurückgestellt. Bitte antworten Sie zunächst mit "%response%" (ohne Anführungszeichen).
+[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
+Spam-o-tron hat Ihre Autorisierungsanfrage zurückgestellt. Bitte antworten Sie zunächst mit dem Ergebnis der Rechenaufgabe %mathexpr%.
+;file \plugins\Spamotron\src\options.cpp
+[Simple]
+Einfach
+[Math expression]
+Mathematisch
+[Round-robin]
+Rundlauf
+[Random]
+Zufällig
+[Will be automatically evaluated from %mathexpr%]
+Wird automatisch ausgewertet aus "%mathexpr%"-Variable
+[Invalid regular expression.\nKeeping previous value.]
+Ungültiger regulärer Ausdruck.\nBehalte vorherigen Wert.
+[Message score]
+Nachrichten-Bewertung
+;file \plugins\Spamotron\src\spamotron.cpp
+[Contact %s approved.]
+Kontakt %s wurde verifiziert.
+[Message from %s rejected because it reached a maximum for challenge requests per day.]
+Nachricht von %s wurde zurückgewiesen, da die maximale Anzahl an Abfragen pro Tag überschritten wurde.
+[Message from %s rejected because it reached a maximum for same responses per day.]
+Nachricht von %s wurde zurückgewiesen, da das Maximum gleicher Antworten pro Tag überschritten wurde.
+[Message from %s dropped because it has a word from black list.]
+Nachricht von %s wurde verworfen, da sie ein Wort aus Ihrer Blacklist enthielt.
+[Message from %s dropped because of high spam score.]
+Nachricht von %s wurde verworfen, da sie als Spam bewertet wurde.
+[Sending plain challenge to %s.]
+Sende einfache Sicherheitsabfrage an %s.
+[Sending round-robin challenge to %s.]
+Sende Rundlauf-Anfrage an %s.
+[Sending random challenge to %s.]
+Sende zufällige Anfrage an %s.
+[Sending math expression challenge to %s.]
+Sende mathematische Sicherheitsabfrage an %s.
+;file \plugins\Spamotron\src\utils.cpp
+[Their message was]
+Seine Nachricht war
