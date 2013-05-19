@@ -6,6 +6,8 @@
 ;  URL: http://vu1tur.eu.org/spamotron/
 ;  Authors: vu1tur
 ;============================================================
+[Anti-spam plugin with captcha and Bayes filtering.]
+Антиспам плагин с капчей и Байесовской фильтрацией.
 
 ; Settings tab
 [Settings]
