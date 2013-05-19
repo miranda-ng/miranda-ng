@@ -1,115 +1,3041 @@
-﻿[Open contact's chat window]
+﻿Miranda Language Pack Version 1
+;file \src\resource.rc
+[Enter account name (for example, My Google)]
+Zadejte název účtu (např. Google)
+[Choose the protocol type]
+Vyberte požadovaný protokol
+[Specify the internal account name (optional)]
+Zadejte interní název účtu (nepovinné)
+[OK]
+OK
+[Cancel]
+Zrušit
+[Add %s]
+Mezi kontakty přidat: %s
+[&Add]
+Přid&at
+[&Cancel]
+&Zrušit
+[Send "You were added"]
+Odeslat zprávu o zařazení
+[Send authorization request]
+Odeslat žádost o autorizaci
+[Open contact's chat window]
+
+[Custom name:]
+Vlastní jméno:
+[Group:]
+Skupina:
+[Options]
+Možnosti
+[Authorization Request]
+Žádost o autorizaci
+[Delete Contact]
+Smazání kontaktu
+[&Yes]
+&Ano
+[&No]
+&Ne
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
+[Use Options->Ignore (expert mode) to unhide contacts.]
+(Skrytí kontaktů zrušíte v nastavení programu.)
+[Are you sure you want to delete %s?]
+Opravdu chcete smazat kontakt %s?
+[This will erase all history and settings for this contact!]
+Tímto odstraníte celou historii a nastavení kontaktu!
+[Contact Display Options]
+Možnosti zobrazení seznamu
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
+
+[Miranda NG Profile Manager]
+Miranda NG - správce profilů
+[&Run]
+&Spustit
+[&Exit]
+U&končit
+[Start in Service Mode with]
+Nouzový režim s doplňkem
+[Find/Add Contacts]
+Vyhledání kontaktů
+[Search:]
+Prohledat:
+[E-mail address]
+E-mail
+[Name]
+Jméno
+[Nick:]
+Přezdívka:
+[First:]
+Jméno:
+[Last:]
+Příjmení:
+[Advanced]
+Extra
+[Advanced >>]
+Extra >>
+[&Search]
+&Hledat
+[More options]
+Další možnosti
+[Add to list]
+Přidat do seznamu
+[Custom]
+Vlastní
+[Find/Add Contacts\nHere you can add contacts to your contact list]
+Vyhledání kontaktů\nUmožní vyhledat a přidat nalezené do seznamu kontaktů
 [Options\nConfigure your Miranda NG options]
+
+[Apply]
+Použít
 [Switch to simple options]
+
+[Please select a subentry from the list]
+Vyberte prosím ze seznamu jednu z dalších položek.
+[Install Database Settings]
+Konfigurace databáze
+[Yes]
+Ano
+[No]
+Ne
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Do adresáře s programem Miranda byl umístěn soubor ke konfiguraci databáze uživatele.
+[Do you want to import the settings now?]
+Chcete naimportovat tento konfigurační soubor?
+[No to all]
+Ne všem
+[&View contents]
+Zobrazit o&bsah
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Upozornění: Potvrzením se předpokládá, že znáte rozsah úprav obsahu své databáze a jste si vědomi všech možných následků.
+[Database Setting Change]
+Změna konfigurace databáze
+[Database settings are being imported from]
+Importovaný konfigurační soubor
+[This file wishes to change the setting]
+Požadavek na změnu položky
+[to the value]
+na hodnotu
+[Do you want to allow this change?]
+Chcete povolit úpravu této položky?
+[&Allow all further changes to this section]
+&Povolit všechny další úpravy v této sekci
+[Cancel Import]
+Zrušit import
+[Database Import Complete]
+Import databáze dokončen
+[The import has completed from]
+Import nastavení dokončen; z
+[What do you want to do with the file now?]
+Co chcete udělat s tímto souborem?
+[&Recycle]
+Př&esunout do koše
+[&Delete]
+&Smazat
+[&Move/Rename]
+Přesunout/Přej&menovat
+[&Leave]
+Ode&jít
+[Netlib Log Options]
+Záznam síťové komunikace
+[Show]
+Zobrazit
+[Received bytes]
+Přijatá data
+[Sent bytes]
+Odeslaná data
+[Additional data due to proxy communication]
+Včetně komunikace s proxy
+[Text dumps where available]
+Přednostně textový výpis
+[Auto-detect text]
+Automatická detekce textu
+[Calling modules' names]
+Názvy volajících modulů
+[Log to]
+Soubor
+[OutputDebugString()]
+Funkce OutputDebugString()
+[File]
+Soubor
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
+
+[Run now]
+Spustit
+[Show this dialog box when Miranda NG starts]
+Zobrazit toto okno při spuštění Mirandy
+[Save as default]
+Uložit jako výchozí
+[Ok]
+OK
+[SSL Traffic]
+Včetně dat SSL
+[Sounds]
+Zvuky
+[&Change...]
+&Změnit...
+[&Preview]
+&Přehrát
+[Download more sounds]
+Stáhnout další zvuky
+[Sound Information]
+Informace o zvuku
+[Location:]
+Umístění:
+[Name:]
+Název:
+[Enable sound events]
+Povolit zvuky
+[Icons]
+Ikony
+[Show category:]
+Kategorie:
+[&Load icon set...]
+&Načíst sadu ikon...
+[&Import icons >>]
+&Importovat ikony >>
+[Download more icons]
+Stáhnout další ikony
+[The following events are being ignored:]
+Následující události budou ignorovány:
+[Messages]
+Zprávy
+[URLs]
+Odkazy
+[Files]
+Soubory
+[Online Notification]
+Oznámení online
+[Auth Requests]
+Žádosti o autorizaci
+[All Events]
+Všechny události
+[None]
+---
+[Only the ticked contacts will be shown on the main contact list]
+V seznamu kontaktů se objeví pouze ty skupiny nebo uživatelé, které zaškrtnete.
+[Ignore]
+Filtrování
+[Added Notification]
+Oznámení o přidání
+[Typing]
+Píšu
+[Visibility]
+Viditelnost
+[You are visible to this person even when in invisible mode]
+Vůči dané osobě viditelný i ve stavu 'Neviditelný'
+[You are never visible to this person]
+Vůči dané osobě neviditelný za všech okolností
+[Icon Index]
+Přehled ikon
+[Icon library:]
+Soubor s ikonami:
+[Drag icons to main list to assign them:]
+Ikony změníte uchopením a přetáhnutím do hlavního seznamu:
+[Import multiple]
+Importovat hromadně
+[To main icons]
+Do základní sady
+[To]
+Do
+[<< &Import]
+<< &Importovat
+[To default status icons]
+Do sady ikon k zobrazení stavů
+[Logging...]
+Záznam...
+[Outgoing Connections]
+Odchozí spojení
+[Use proxy server]
+Použít proxy server
+[Type:]
+Typ:
+[Host:]
+Hostitel:
+[Port:]
+Port:
+[(often %d)]
+(obvykle %d)
+[Use Custom Login (Domain login picked up automatically)]
+Použít vlastní přihlášení (doménové jméno doplněno automaticky)
+[Username:]
+Uživatel:
+[Password:]
+Heslo:
+[Resolve hostnames through proxy]
+Překládat jména hostitelů pomocí proxy
+[Port Range:]
+Rozsah portů:
+[Example: 1050-1070, 2000-2010, 2500]
+Příklad: 1050-1070, 2000-2010, 2500
+[Validate SSL certificates]
+Ověřit platnost certifikátů
+[Incoming Connections]
+Příchozí spojení
+[Enable UPnP port mapping]
+Povolit mapování portů dle UPnP
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Poznámka: Provedené změny se projeví až při dalším připojení do sítě.
+[Please complete the following form to create a new user profile]
+Po vyplnění následujících položek bude vytvořen nový profil
+[Profile]
+Profil
+[e.g. Workplace]
+např. Práce
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+Zde můžete vybrat i jiný ovladač databáze s větším množstvím funkcí a možností. Pokud si však nejste jisti, ponechte výchozí.
+[e.g. Miranda Database]
+pro databázi Mirandy
+[Driver]
+Ovladač
 [Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+
+[Download more plugins]
+Stáhnout další doplňky
+[Description:]
+Popis:
+[Author(s):]
+Autor:
+[E-mail:]
+E-mail:
+[Homepage:]
+WWW:
+[Unique ID:]
+ID:
+[Copyright:]
+Copyright:
+[Please restart Miranda NG for your changes to take effect.]
+Poznámka: Tato změna vyžaduje restart programu Miranda NG.
+[Fonts and Colors]
+Písma a barvy
+[Undo]
+Zpět
+[Reset]
+Reset
+[Export...]
+Exportovat...
+[Color/Background]
+Barva pozadí
+[Text Effect]
+Textový efekt
+[Text Color]
+Barva textu
+[Choose Font]
+Vybrat písmo
+[Font]
+Písmo
+[&Font:]
+&Písmo:
+[Font st&yle:]
+Ř&ez písma:
+[\nStyles and effects are disabled for this font.]
+\nStyly a efekty nejsou pro tento font dostupné.
+[&Size:]
+Veliko&st:
+[Effects]
+Efekty
+[Stri&keout]
+Přeš&krtnuté
+[&Underline]
+Pod&tržené
+[&Color:]
+&Barva:
+[Sample]
+Příkladový text
 [AaBbYyZz]
+
+[Sc&ript:]
+Sk&ript:
+[&Apply]
+&Použít
+[&Help]
+&Nápověda
+[Menu Objects]
+Nabídky
+[Menu Items]
+Položky nabídky
+[Protocol menus]
+Nabídky účtů
+[Move to the main menu]
+Přesunout do hlavní nabídky
+[Move to the status bar]
+Přesunout do nabídky stavu
+[Warning!\r\nThis MenuObject not support user defined options.]
+Upozornění!\r\nTento objekt menu nepodporuje změnu nastavení.
+[Insert separator]
+Vložit oddělovač
+[Service:]
+Služba:
+[Default]
+Výchozí
+[Set]
+Nastavit
+[Disable icons]
+Vypnout ikony
 [Show accounts in the following order,\ndrag to choose another order:]
+
+[Account Order && Visibility]
+Pořadí účtů a jejich viditelnost
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Pozn.: Je potřeba restartovat Mirandu pro uvedení změn v platnost.
+[Key Bindings]
+Klávesové zkratky
+[Shortcut:]
+Klávesová zkratka:
+[Add]
+Přidat
+[Remove]
+Odebrat
+[Undo Changes]
+Vrátit změny
+[Reset To Default]
+Obnovit výchozí
+[Hotkeys]
+Klávesové zkratky
+[Accounts]
+Účty
+[Accounts\nConfigure your IM accounts]
+Účty\nKonfigurace nebo založení účtu
+[Account information:]
+Informace o účtu:
+[Additional:]
+Další možnosti:
+[Configure network...]
+Konfigurovat sítě...
+[Get more protocols...]
+Stáhnout další protokoly...
+[&Add...]
+Přid&at...
+[&Edit]
+Up&ravit
+[&Options]
+M&ožnosti
+[&Upgrade]
+Aktualizovat
+[&Remove...]
+Odst&ranit...
+[Miranda NG]
+Miranda NG
+[Miranda NG is being restarted.\nPlease wait...]
+Restart programu Miranda.\nPočkejte prosím...
+[Close]
+Zavřít
+[Error Console]
+Chybová konzole
+[Error notifications]
+Chybové oznámení
+[Headers:]
+Záhlaví:
+[This font is used to display main section titles or text elements.]
+Používá se k zobrazení textu v záhlaví sekcí nebo odstavců.
+[Normal text:]
+Běžný text:
+[This font is used to display most text element or section bodies.]
+Používá se k zobrazení většiny textů v programu.
+[Minor notes:]
+Poznámky:
+[This font is used to display various addtional notes.]
+Používá se k zobrazení dodatkových textů a poznámek.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
+
+[Event icon legend:]
+Legenda k vybraným ikonám:
+[Choose events you wish to ingonre:]
+Vyberte události, které chcete filtrovat:
+[Font Effect]
+Efekt
+[Effect:]
+Efekt:
+[Base colour:]
+Základní barva:
+[opacity:]
+průhlednost:
+[Secondary colour:]
+Doplňková barva:
+[Select the extra icons to be shown in the contact list:]
+Zvolte doplňkové ikony které budou zobrazeny v seznamu kontaktů:
+[* only the first %d icons will be shown]
+* bude zobrazeno pouze prvních %d ikon
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+
+[Tray]
+Oznámení
+[&Hide/Show]
+Skrýt/Zo&brazit
+[E&xit]
+U&končit
 [Nowhere]
+
+[&New Group]
+&Nová skupina
+[&Hide Offline Users]
+&Skrýt uživatele offline
+[Hide &Offline Users out here]
+Skrýt uživatele &offline mimo skupiny
+[Hide &Empty Groups]
+S&krýt prázdné skupiny
+[Disable &Groups]
+Vypnout zobrazení s&kupin
+[Hide Miranda]
+Skrýt Mirandu
+[Group]
+Skupina
+[&New Subgroup]
+&Nová podskupina
+[&Hide Offline Users in here]
+Skrýt uživatele o&ffline
+[&Rename Group]
+Př&ejmenovat skupinu
+[&Delete Group]
+&Smazat skupinu
 [IconOptions]
+
+[&Reset to default]
+O&bnovit výchozí
 [find/add]
+
+[&Add to List]
+Přid&at do seznamu
+[User &Details]
+In&formace o kontaktu
+[Send &Message]
+Poslat zp&rávu
+[Log]
+Záznam
+[&Copy]
+Z&kopírovat
+[Co&py All]
+Zko&pírovat vše
+[Select &All]
+Vybr&at vše
+[C&lear Log]
+Vy&mazat záznam
 [LogLink]
+
+[Open in &new window]
+Otevřít v &novém okně
+[&Open in existing window]
+&Otevřít v aktuálním okně
+[&Copy link]
+Z&kopírovat odkaz
+[Cancel Change]
+&Obnovit předchozí
+[&Reset To Default]
+O&bnovit výchozí
 [Ungroup]
+
+;file \src\core\stdauth\resource.rc
+[&Authorize]
+&Autorizovat
+[&Deny]
+O&dmítnout
+[Decide &Later]
+&Později
 [&I]
+
+[Reason:]
+Důvod:
+[Denial Reason:]
+Důvod odmítnutí:
+[Add to contact list if authorized]
+Je-li autorizován, přidat mezi kontakty
+[You Were Added]
+Zpráva o zařazení mezi kontakty
+[&Close]
+&Zavřít
 [&U]
+
+;file \src\core\stdaway\resource.rc
+[%s Message for %s]
+Stav: '%s', uživatel: %s
+[Retrieving %s message...]
+Zjištění automatické odpovědi ve stavu '%s'...
+[Status Messages]
+Stavové zprávy
+[Do not reply to requests for this message]
+Neodpovídat na vybranou zprávu automaticky
+[Do not pop up dialog asking for new message]
+Nepožadovat zadání nové odpovědi
+[By default, use the same message as last time]
+Jako odpověď použít stejnou zprávu jako posledně
+[By default, use this message:]
+Jako odpověď použít následující zprávu:
+[Use %time% for the current time, %date% for the current date]
+%time% = aktuální čas, %date% = aktuální datum
+[Status messages:]
+Stavové zprávy:
+[Change %s Message]
+Odpověď pro stav '%s'
+[Closing in %d]
+Zavře se za %d sek.
+;file \src\core\stdchat\res\chat.rc
+[&Send]
+Po&slat
 [Show these events only:]
+
+[Actions]
+Akce
+[Nick changes]
+Změny přezdívky
+[Users joining]
+Příchody uživatelů
+[Users leaving]
+Odchody uživatelů
+[Topic changes]
+Změny tématu
+[Status changes]
+Změny stavu
+[Information]
+Informace
+[Disconnects]
+Odpojení
+[User kicks]
+Vykopnutí
+[Notices]
+Poznámky
+[Log Options]
+Možnosti záznamu
+[Log timestamp]
+Časový údaj v záznamu
+[Timestamp]
+Časový údaj
+[Other name]
+Ost. jména
+[Your name]
+Vl. jméno
+[Enable highlighting]
+Aktivovat zvýrazňování
+[Limit log text to (events):]
+Max. počet zazn. událostí:
+[Trim to (kB)]
+Max. (kB)
+[Words to highlight (wildcards allowed)]
+Zvýrazněná slova (masky jsou povoleny)
+[Enable logging to disk]
+Aktivovat záznam
+[Log directory]
+Složka pro záznam
+[Other]
+Ostatní
+[Add new rooms to group:]
+Nové místnosti do skupiny:
+[Userlist row distance (pixels):]
+Odstup uživatelů v seznamu (v pix.):
+[Use same style as in the message log]
+Použít nastavení pro záznam komunikace
+[Use default colours]
+Použít výchozí barvy
+[Use custom colours]
+Použít vlastní barvy
+[Popups for the Chat plugin]
+Oznamovací okna
+[Timeout (s)]
+Prodleva (s)
+[Text]
+Text
+[Background]
+Pozadí
+[(The timeout require at least Popup plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
+
+[List]
+Seznam
+[&Message]
+&Zpráva
+[Clear lo&g]
+Vy&mazat záznam
+[Co&py all]
+Zko&pírovat vše
+[Word lookup]
+Vyhledávání slova
 [Google]
+
+[Wikipedia]
+Wikipedie
+[Link]
+Adresa
+[Open a &new browser window]
+Otevřít v &novém okně
+[&Open in current browser window]
+&Otevřít v aktuálním okně
+[Message]
+Zpráva
+[Undo  ]
+Zpět 
+[Redo]
+Znovu
+[Copy]
+Zkopírovat
+[Cut]
+Vyjmout
+[Paste]
+Vložit
+[Select All]
+Vybrat vše
+[Clear]
+Vymazat
+[Tabs]
+Panely
+[&Close tab]
+&Zavřít záložku
+[C&lose other tabs]
+Zavřít ostatní zá&ložky
+[&Open at this position]
+&Otevřít na stejném místě
+;file \src\core\stdclist\res\resource.rc
+[Hide offline users]
+Skrýt uživatele offline
+[Hide empty groups]
+Skrýt prázdné skupiny
+[Disable groups]
+Vypnout skupiny
+[Ask before deleting contacts]
+Potvrdit smazání kontaktů
+[Sort contacts by name]
+Řadit kontakty dle jména
+[Sort contacts by status]
+Řadit kontakty dle stavu
+[Sort contacts by protocol]
+Řadit kontakty dle protokolu
+[Single click interface]
+Zařídit vše jedním kliknutím myši
+[Always show status in tooltip]
+Vždy zobrazit stav v tipu
+[Disable icon blinking]
+Vypnout blikání ikon
+[ms delay]
+ms (prodleva)
+[icon when statuses differ]
+(v případě, že se stavy liší)
+[Cycle icons every]
+Měnit ikony co
+[seconds, when statuses differ]
+sek. (v případě, že se stavy liší)
+[Show multiple icons]
+Zobrazit více ikon
+[Only when statuses differ]
+Pouze v případě, že se stavy liší
+[Contact List]
+Seznam kontaktů
+[System tray icon]
+Ikona v oznamovací oblasti
+[System tray icon when using multiple protocols]
+Ikona v oznamovací oblasti při použití více protokolů
+[Contact List Sorting]
+Řazení seznamu kontaktů
+[Window]
+Okno
+[Always on top]
+Vždy navrchu
+[Tool style main window]
+Zjednodušené záhlaví okna
+[Minimize to tray]
+Minimalizovat na panel
+[Show menu bar]
+Zobrazit menu
+[Easy move]
+Vylepšené přesouvání
+[Show title bar]
+Zobrazit záhlaví
+[Title bar text:]
+Text v záhlaví:
+[Show drop shadow (restart required)]
+Zobrazit stín (vyžaduje restart)
+[Pin to desktop]
+Připíchnout na plochu
+[Hide contact list after it has been idle for]
+Skrýt seznam kontaktů, byl-li neaktivní po dobu
+[seconds]
+sek.
+[Automatically resize window to height of list]
+Podle položek automaticky změnit výšku okna
+[maximum]
+max. však
+[% of screen]
+% obrazovky
+[Size upwards]
+Zvětšovat okno směrem nahoru
+[If window is partially covered, bring to front instead of hiding]
+Je-li okno částečně zakryto, zobrazit na popředí namísto skrytí
 [Enable docking]
+
+[Translucency options (Windows 2000/XP only)]
+Průhlednost (pouze Windows 2000 a XP)
+[Fade contact list in/out]
+Plynule přejít mezi zobrazením a skrytím
+[Transparent contact list]
+Povolit průhlednost seznamu kontaktů
+[Inactive opacity:]
+Neaktivní okno:
+[Active opacity:]
+Aktivní okno:
+[Items]
+Položky
+[Show divider between online and offline contacts]
+Zobrazit oddělovač mezi kontakty online a offline
+[Hot track items as mouse passes over]
+Zvýraznit položky, nad kterými se objeví šipka myši
+[Disable drag and drop of items]
+Zakázat uchopení a přetáhnutí položek
+[Disable rename of items by clicking twice]
+Zakázat přejmenování položek dvojím kliknutím
+[Show selection even when list is not focused]
+Zobrazit výběr i tehdy, není-li seznam aktivní
+[Make selection highlight translucent]
+Zobrazit vybrané položky průhledně
+[Dim idle contacts]
+Zešednout neaktivní kontakty
+['Hide Offline' means to hide:]
+'Skrýt offline' znamená skrytí:
+[Groups]
+Skupiny
+[Draw a line alongside group names]
+Zobrazit vedle názvu skupin čáru
+[Show counts of number of contacts in a group]
+Zobrazit počet kontaktů ve skupině
+[Hide group counts when there are none online]
+Skrýt počet kontaktů ve skupině, jsou-li všichni offline
+[Sort groups alphabetically]
+Seřadit skupiny podle abecedy
+[Quicksearch in open groups only]
+Rychle hledat jen v otevř. skupinách
+[Indent groups by:]
+Rozestup skupin:
+[pixels]
+pix.
+[Visual]
+Zobrazení
+[Scroll list smoothly]
+Rolovat seznam kontaktů plynule
+[Time:]
+Čas:
+[milliseconds]
+ms
+[Left margin:]
+Levý okraj:
+[Hide vertical scroll bar]
+Skrýt svislý posuvník
+[Row height:]
+Výška řádku:
+[Gamma correction]
+Gama korekce
+[Grey out entire list when:]
+Zešednout seznam v případě:
+[Contact List Background]
+Pozadí seznamu kontaktů
+[Background colour]
+Barva pozadí
+[Selection colour]
+Barva výběru
+[Use background image]
+Použít na pozadí obrázek
+[Stretch to width]
+Uzpůsobit na šířku
+[Stretch to height]
+Uzpůsobit na výšku
+[Tile horizontally]
+Vodorovně vedle sebe
+[Tile vertically]
+Svisle vedle sebe
+[Scroll with text]
+Rolovat s textem
+[Stretch proportionally]
+Uzpůsobit poměrně
+[Use Windows colours]
+Použít barvy Windows
+[Status Bar]
+Stavová lišta
+[Show status bar]
+Zobrazit stavovou lištu
+[Show icons]
+Zobrazit ikony
+[Show protocol names]
+Zobrazit názvy protokolů
+[Show status text]
+Zobrazit stav
+[Right click opens status menu]
+Pravým tlačítkem seznam stavů
+[Right click opens Miranda NG menu]
+Pravým tlačítkem nabídku Mirandy
+[Make sections equal width]
+Shodná šířka všech položek
+[Show bevels on panels]
+Zobrazit efekt zkosení panelů
+[Show resize grip indicator]
+Zobrazit tlač. změny velik.
+[Ordering:]
+Způsob řazení
+[Contact list:]
+Seznam kontaktů
+[If window is partially covered, bring iy to front]
+Je-li okno částečně zakryto, zobrazit na popředí
+[Window:]
+Okno
+[Contact list background:]
+Pozadí seznamu kontaktů
+[&Status]
+&Stav
+[&Offline\tCtrl+0]
+&Offline\tCtrl+0
+[On&line\tCtrl+1]
+On&line\tCtrl+1
+[&Away\tCtrl+2]
+N&a chvíli pryč\tCtrl+2
+[&NA\tCtrl+3]
+&Nejsem tady\tCtrl+3
+[Occ&upied\tCtrl+4]
+Nemám ča&s\tCtrl+4
+[&DND\tCtrl+5]
+Ner&ušit!\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Mám volno\tCtrl+6
+[&Invisible\tCtrl+7]
+Nev&iditelný\tCtrl+7
+[On the &Phone\tCtrl+8]
+Mám tele&fon\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Jsem na o&bědě\tCtrl+9
+;file \src\core\stdfile\resource.rc
+[Send File(s)]
+Poslat soubory
+[To:]
+Pro:
+[File(s):]
+Soubory:
+[&Choose Again...]
+Vyberte &další...
+[Total size:]
+Celková velikost:
 [&D]
+
 [&H]
+
+[Incoming File Transfer]
+Žádost o přenos souboru
+[A&ccept]
+&Přijmout
+[&Decline]
+O&dmítnout
+[From:]
+Od:
+[Date:]
+Datum:
+[Files:]
+Soubory:
+[Save to:]
+Uložit do:
 [&A]
+
+[Contact menu]
+Menu kontaktu
+[Open...]
+Otevřít...
+[Open folder]
+Otevřít složku
+[Transfer completed, open file(s).]
+Přenos dat dokončen, otevřít soubor(y).
+[No data transferred]
+Přenos ještě nezačal.
+[File Already Exists]
+Soubor již existuje
+[Resume]
+Navázat
+[Resume all]
+Navázat vše
+[Overwrite]
+Přepsat
+[Overwrite all]
+Přepsat vše
+[Save as...]
+Uložit jako...
+[Auto rename]
+Automaticky přejmenovat
+[Skip]
+Přeskočit
+[Cancel transfer]
+Přerušit přenos
+[You are about to receive the file]
+Příjem souboru:
+[Existing file]
+Existující soubor
+[Size:]
+Velikost:
+[Last modified:]
+Změněno:
+[Open file]
+Otevřít soubor
+[File properties]
+Vlastnosti souboru
+[File being received]
+Přijímaný soubor
+[File Transfers]
+Přenos souborů
+[Clear completed]
+Vymazat dokončené
+[Receiving files]
+Příjem souborů
+[Received files folder:]
+Složka pro soubory:
+[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+Proměnné: %userid%, %nick%, %proto%, %miranda_pach%, %userprofile%
+[Auto-accept incoming files from people on my contact list]
+Automaticky přijímat soubory od lidí v seznamu
+[Minimize the file transfer window]
+Minimalizovat okno s přenášeným souborem
+[Close window when transfer completes]
+Zavřít okno po dokončení přenosu
+[Clear completed transfers on window closing]
+Smazat dokončené přenosy po zavření okna
+[Virus scanner]
+Antivirová ochrana
+[Scan files:]
+Kontrolovat:
+[Never, do not use virus scanning]
+Žádný ze souborů
+[When all files have been downloaded]
+Po stáhnutí všech souborů
+[As each file finishes downloading]
+Jeden soubor po druhém
+[Command line:]
+Příkazový řádek:
+[%f will be replaced by the file or folder name to be scanned]
+Proměnná %f bude nahrazena souborem nebo složkou ke kontrole
+[Warn me before opening a file that has not been scanned]
+Upozornit před otevřením nezkontrolovaného souboru
+[If incoming files already exist]
+V případě, že příchozí soubor již existuje
+[Ask me]
+Zeptat se
+[Rename (append " (1)", etc.)]
+Přejmenovat (přidá " (1)" atd.)
+[You will always be asked about files from people not on your contact list]
+Příjem souborů od lidí, kteří nejsou mezi kontakty, podléhá vždy dotazu.
+;file \src\core\stdhelp\resource.rc
+[About Miranda NG]
+O programu Miranda NG
 [Miranda NG\n%s]
+
+[Credits >]
+Poděkování >
+;file \src\core\stdidle\resource.rc
+[Become idle if the following is left unattended:]
+Přejít do stavu nečinnosti pokud se nic neděje v:
+[Windows]
+Windows
+[Miranda]
+Miranda
+[Become idle if the screen saver is active]
+Přejít do stavu nečinnosti pokud běží spořič obrazovky
+[Become idle if the computer is locked (2000/XP+ only)]
+Přejít do stavu nečinnosti pokud je počítač zamčen (2000/XP+)
+[Become idle if a terminal session is disconnected]
+Přejít do stavu nečinnosti po odpojení vzdáleného uživatele
+[Do not let protocols report any idle information]
+Zakázat protokolům poskytovat informaci o nečinnosti
+[minute(s)]
+min.
+[for]
+po dobu
+[Change my status mode to:]
+Změnit stav na:
+[Do not set status back to online when returning from idle]
+Po příchodu zpět neměnit stav na 'Online'
+[Idle Options]
+Možnosti při nečinnosti
+[Become idle if application full screen]
+Přejít do stavu nečinnosti v celoobrazovkovém režimu
 [Disable sounds on idle]
+
+[Become idle if computer is left unattended for:]
+Přejít do stavu nečinnosti pokud se nic neděje:
+[Idle (auto-away):]
+Stav nečinnosti:
+;file \src\core\stdmsg\res\resource.rc
+[Automatically popup window when:]
+Automaticky vyvolat okno při:
+[In background]
+Na pozadí
+[Close the message window on send]
+Zavřít okno kliknutím na 'Poslat'
+[Minimize the message window on send]
+Minimalizovat okno kliknutím na 'Poslat'
+[Use the contact's status icon as the window icon]
+Použít v liště okna ikonu aktuálního stavu
+[Save the window size and location individually for each contact]
+Uložit velikost a umístění okna pro každý kontakt zvlášť
+[Cascade new windows]
+Skládat okna kaskádně
+[Show 'Send' button]
+Zobrazit tlačítko 'Poslat'
+[Show username on top row]
+Zobrazit nahoře přezdívku
+[Show toolbar buttons on top row]
+Zobrazit nahoře lištu s tlačítky
+[Send message on double 'Enter']
+Odeslat zprávu dvojitým ENTER
+[Send message on 'Enter']
+Odeslat zprávu klávesou ENTER
+[Show character count]
+Zobrazit počet napsaných znaků
+[Show warning when message has not been received after]
+Zobrazit upozornění v případě, že zpráva nebyla doručena do
+[seconds.]
+sek.
+[Support control up/down in message area to show previously sent messages]
+Použít kombinaci kláves CTRL+Nahoru/Dolů k zobrazení předešlých zpráv
+[Delete temporary contacts when closing message window]
+Smazat dočasné kontakty po zavření okna pro rozhovor
+[Enable avatar support in the message window]
+Aktivovat zobrazení avatarů v okně pro rozhovor
+[Limit avatar height to ]
+Max. výška obrázku avataru
+[pixels.]
+pixelů
+[Max Number of Flashes]
+Max. počet bliknutí
+[Send Error]
+Chyba při odesílání
+[An error has occured. The protocol reported the following error:]
+Došlo k chybě. Příslušný protokol zahlásil následující problém:
+[while sending the following message:]
+během odesílání následující zprávy:
+[Try again]
+Opakovat
+[Message Session]
+Rozhovor
+[Message Window Event Log]
+Záznam událostí
+[Show names]
+Zobrazit jména
+[Show timestamp]
+Zobrazit čas
+[Show dates]
+Zobrazit datum
+[Load unread events only]
+Pouze nepřečtené události
+[Load number of previous events]
+Konkrétní počet předchozích událostí
+[Load previous events less than]
+Předchozí události starší méně než
+[minutes old]
+min.
+[Show status changes]
+Zobrazit změny stavu
+[Show seconds]
+Zobrazit sek.
+[Load History Events]
+Načtení historie
+[Show Formatting]
+Zobrazit formátování
+[Send typing notifications to the following users when you are typing a message to them:]
+Poslat upozornění na psaní zprávy těmto vybraným kontaktům:
+[Show typing notifications when a user is typing a message]
+Zobrazit upozornění v případě, že protistrana píše zprávu
+[Update inactive message window icons when a user is typing]
+Aktualizovat ikony neaktivního okna, je-li otevřeno
+[Show typing notification when no message dialog is open]
+Zobrazit upozornění i v případě, že není otevřeno okno
+[Flash in the system tray and in the contact list]
+Blikat v oblasti oznámení a okně s kontakty
+[Show balloon popup]
+Oznámit pomocí bubliny
+[Save the window position for each contact]
+Uložit pozici okna pro každý kontakt zvlášť
+[Message window behaviour:]
+Chování komunikačního okna
+[Messaging:]
+Rozhovor
+[&Open link]
+&Otevřít odkaz
+[Paste && Send]
+Vložit a poslat
+[Delete]
+Smazat
+;file \src\core\stduihist\resource.rc
+[Find]
+Najít
+[&Find Next]
+&Najít další
+[Find What:]
+Najít:
+[Message History]
+Historie zpráv
+[&Find...]
+&Najít...
+;file \src\core\stduserinfo\resource.rc
+[Add Phone Number]
+Přidat telefonní číslo
+[Enter country, area code and phone number:]
+Zadejte kód země, oblasti a samotné číslo:
+[Or enter a full international number:]
+Nebo číslo zadejte v mezinárodním formátu:
+[Phone can receive SMS text messages]
+Telefon umožňuje příjem textovek (SMS)
+[Add E-Mail Address]
+Přidat e-mail
+[%s: User Details]
+%s: informace
+[%s\nView personal user details and more]
+%s\nPřehled informací o vybrané osobě
+[Update Now]
+Aktualizovat
+[Updating]
+Aktualizace
+[Nickname:]
+Přezdívka:
+[First name:]
+Jméno:
+[Gender:]
+Pohlaví:
+[Last name:]
+Příjmení:
+[Age:]
+Věk:
+[Date of birth:]
+Narozeniny:
+[Marital status:]
+Rodinný stav:
+[Phone:]
+Telefon:
+[Web page:]
+WWW:
+[Past background:]
+Minulost:
+[Interests:]
+Zájmy:
+[About:]
+Ostatní informace:
+[My notes:]
+Vzkazy:
+[Street:]
+Ulice:
+[City:]
+Město:
+[State:]
+Stát:
+[Postal code:]
+PSČ:
+[Country:]
+Země:
+[Spoken languages:]
+Ovládané jazyky:
+[Timezone:]
+Časové pásmo:
+[Local time:]
+Místní čas:
+[Set custom time zone]
+Nastavit vlastní časové pásmo
+[Company:]
+Společnost:
+[Department:]
+Oddělení:
+[Position:]
+Postavení:
+[Website:]
+WWW:
+;file \src\core\stdauth\auth.cpp
+[%s requests authorization]
+%s žádá o autorizaci
 [%u requests authorization]
+
+[%s added you to their contact list]
+%s si vás přidal mezi své kontakty
 [%u added you to their contact list]
+
+[Alerts]
+Upozornění
+[Authorization request]
+Žádost o autorizaci
+[Added event]
+Nová událost
+;file \src\core\stdauth\authdialogs.cpp
+[View User's Details]
+Zobrazit osobní údaje
+[Add Contact Permanently to List]
+Přidat do seznamu natrvalo
+[<Unknown>]
+<neznámý>
+[%s added you to the contact list\n%u (%s) on %s]
+%s si vás přidal mezi své kontakty\n%u (%s) v síti %s
+[%s added you to the contact list\n%u on %s]
+%s si vás přidal mezi své kontakty\n%u v síti %s
+[%s added you to the contact list\n%s on %s]
+%s si vás přidal mezi své kontakty\n%s v síti %s
+[(Unknown)]
+(neznámý)
+[View User Details]
+Zobrazit osobní údaje
+[%s requested authorization\n%u (%s) on %s]
+%s žádá o autorizaci\n%u (%s) v síti %s
+[%s requested authorization\n%u on %s]
+%s žádá o autorizaci\n%u v síti %s
+[%s requested authorization\n%s on %s]
+%s žádá o autorizaci\n%s v síti %s
+[Feature is not supported by protocol]
+Funkce není protokolem podporována
+;file \src\core\stdaway\awaymsg.cpp
+[Re&ad %s Message]
+Přečíst &automatickou odpověď
+[Re&ad Status Message]
+Přečíst stavovou zprávu
+;file \src\core\stdaway\sendmsg.cpp
+[I've been away since %time%.]
+Jsem pryč od %time%
+[Give it up, I'm not in!]
+Vzdejte to, nejsem tu!
+[Not right now.]
+Teď ne, prosím.
+[Give a guy some peace, would ya?]
+Nechte mě prosím chvíli o samotě, ano?
+[I'm a chatbot!]
+Kecám, až se mi od klávesnice práší!
+[Yep, I'm here.]
+Jasně, jsem tu.
+[Nope, not here.]
+Ne, nejsem tady
+[I'm hiding from the mafia.]
+Skrývám se před mafií.
+[That'll be the phone.]
+Právě telefonuji
+[Mmm...food.]
+Mňam... jídlo
+[idleeeeeeee]
+Chrrrrrrrrrrrr
+[Status]
+Stavy
+;file \src\core\stdchat\src\clist.cpp
+[Join chat]
+Přidat se do diskuse
+[Open chat window]
+Otevřít komunikační okno
+;file \src\core\stdchat\src\colorchooser.cpp
+[Text colour]
+Barva textu
+;file \src\core\stdchat\src\log.cpp
+[%s has joined]
+Příchod: %s
+[You have joined %s]
+Příchod na %s
+[%s has left]
+Odchod: %s
+[%s has disconnected]
+Odpojení: %s
+[%s is now known as %s]
+Změna přezdívky: %s -> %s
+[You are now known as %s]
+Změna vlastní přezdívky: %s
+[%s kicked %s]
+Vykopnutí: %s -> %s
+[Notice from %s: ]
+Poznámka od %s:
 [The topic is '%s%s']
+
+[ (set by %s on %s)]
+ (nastavil %s na %s)
+[ (set by %s)]
+ (nastavil %s)
 [%s enables '%s' status for %s]
+
 [%s disables '%s' status for %s]
+
+[<invalid>]
+<neplatný>
+;file \src\core\stdchat\src\options.cpp
+[Others nicknames]
+Ostatní přezdívky
+[Your nickname]
+Vaše přezdívka
+[User has joined]
+Příchod na kanál
+[User has left]
+Odchod z kanálu
+[User has disconnected]
+Odpojení uživatele
+[User kicked ...]
+Vykopnutí
+[User is now known as ...]
+Změna přezdívky
+[Notice from user]
+Poznámka
+[Incoming message]
+Příchozí zpráva
+[Outgoing message]
+Odchozí zpráva
+[The topic is ...]
+Zobrazení tématu
+[Information messages]
+Informace
+[User enables status for ...]
+Aktivace stavu pro ...
+[User disables status for ...]
+Deaktivace stavu pro ...
+[Action message]
+Upozornění
+[Highlighted message]
+Zvýrazněná zpráva
+[Message typing area]
+Oblast se zprávou
+[User list members (Online)]
+Seznam účastníků (online)
+[User list members (away)]
+Seznam účastníků (pryč)
+[Use a tabbed interface]
+Použít systém záložek
+[Close tab on doubleclick]
+Zavřít záložku dvojím kliknutím
+[Restore previously open tabs when showing the window]
+Obnovit všechny záložky z poslední relace
+[Show tabs at the bottom]
+Zobrazit záložky v dolní části okna
+[Send message by pressing the Enter key]
+Odeslat zprávu klávesou ENTER
+[Send message by pressing the Enter key twice]
+Odeslat zprávu dvojitým ENTER
+[Flash window when someone speaks]
+Zablikat oknem při napsání zprávy
+[Flash window when a word is highlighted]
+Zablikat oknem při zvýraznění slova
+[Show list of users in the chat room]
+Zobrazit seznam uživatelů v místnosti
+[Show button for sending messages]
+Zobrazit tlačítko pro odesílání zpráv
+[Show buttons for controlling the chat room]
+Zobrazit tlačítka řízení pravidel místnosti
+[Show buttons for formatting the text you are typing]
+Zobrazit tlačítka pro formátování textu při psaní
+[Show button menus when right clicking the buttons]
+Zobrazit kontextové menu u tlačítek
+[Show new windows cascaded]
+Skládat nová okna kaskádně nad sebe
+[Save the size and position of chat rooms]
+Uložit informaci o velikosti a umístění separátně pro každé okno
+[Show the topic of the room on your contact list (if supported)]
+Zadané téma zobrazit v seznamu kontaktů (je-li to podporováno)
+[Do not play sounds when the chat room is focused]
+Nepřehrávat zvuky, je-li okno místnosti aktivní
+[Do not pop up the window when joining a chat room]
+Neaktivovat okno po příchodu do místnosti
+[Toggle the visible state when double clicking in the contact list]
+Přepnout viditelnost při dvojím kliknutí na uživatele v seznamu
+[Show contact statuses if protocol supports them]
+Zobrazit stav kontaktu, pokud je protokol podporuje
+[Display contact status icon before user role icon]
+Zobrazit ikonu stavu kontaktu před ikonou jeho role
+[Prefix all events with a timestamp]
+Před každou událost přidat informaci o čase
+[Only prefix with timestamp if it has changed]
+Informaci o čase přidat pouze pokud se změní
+[Timestamp has same colour as the event]
+Pro informaci o čase použít stejnou barvu jakou má příslušná událost
+[Indent the second line of a message]
+Odsadit druhý řádek dlouhé zprávy
+[Limit user names in the message log to 20 characters]
+Omezit délku jmen v záznamu na 20 znaků
 [Add ':' to auto-completed user names]
+
+[Strip colors from messages in the log]
+Záznam ukládat bez kódů definující barvy
 [Enable the 'event filter' for new rooms]
+
+[Show topic changes]
+Zobrazit informaci o změně tématu
+[Show users joining]
+Zobrazit informaci o příchodu uživatelů
+[Show users disconnecting]
+Zobrazit informaci o odpojení uživatelů
+[Show messages]
+Zobrazit zprávy
+[Show actions]
+Zobrazit akce
+[Show users leaving]
+Zobrazit informaci o odchodu uživatelů
+[Show users being kicked]
+Zobrazit informaci o vykopnutí uživatelů
+[Show notices]
+Zobrazit poznámky
+[Show users changing name]
+Zobrazit informaci o změně jména
+[Show information messages]
+Zobrazit informativní zprávy
+[Show status changes of users]
+Zobrazit informaci o změně stavu uživatelů
+[Show icon for topic changes]
+Zobrazit ikonu k informaci o změně tématu
+[Show icon for users joining]
+Zobrazit ikonu k informaci o příchodu uživatelů
+[Show icon for users disconnecting]
+Zobrazit ikonu k informaci o odpojení uživatelů
+[Show icon for messages]
+Zobrazit ikonu k textu zprávy
+[Show icon for actions]
+Zobrazit ikonu k textu akce
+[Show icon for highlights]
+Zobrazit ikonu ke zvýraznění
+[Show icon for users leaving]
+Zobrazit ikonu k informaci o odchodu uživatelů
+[Show icon for users kicking other user]
+Zobrazit ikonu k informaci o vykopnutí
+[Show icon for notices ]
+Zobrazit ikonu k textu poznámky
+[Show icon for name changes]
+Zobrazit ikonu k informaci o změně jména
+[Show icon for information messages]
+Zobrazit ikonu k textu informativní zprávy
+[Show icon for status changes]
+Zobrazit ikonu k informaci o změně stavu
+[Show icons in tray only when the chat room is not active]
+Zobrazit ikonu v ozn. oblasti pouze při neaktivním okně s diskusí
+[Show icon in tray for topic changes]
+Zobrazit ikonu v ozn. oblasti při změně tématu
+[Show icon in tray for users joining]
+Zobrazit ikonu v ozn. oblasti při příchodu uživatelů
+[Show icon in tray for users disconnecting]
+Zobrazit ikonu v ozn. oblasti při odpojení uživatelů
+[Show icon in tray for messages]
+Zobrazit ikonu v ozn. oblasti při přijetí zprávy
+[Show icon in tray for actions]
+Zobrazit ikonu v ozn. oblasti při akci
+[Show icon in tray for highlights]
+Zobrazit ikonu v ozn. oblasti při zvýraznění
+[Show icon in tray for users leaving]
+Zobrazit ikonu v ozn. oblasti při odchodu uživatelů
+[Show icon in tray for users kicking other user]
+Zobrazit ikonu v ozn. oblasti při vykopnutí uživatelů
+[Show icon in tray for notices ]
+Zobrazit ikonu v ozn. oblasti u poznámky
+[Show icon in tray for name changes]
+Zobrazit ikonu v ozn. oblasti při změně jména
+[Show icon in tray for information messages]
+Zobrazit ikonu v ozn. oblasti při přijetí informativní zprávy
+[Show icon in tray for status changes]
+Zobrazit ikonu v ozn. oblasti při změně stavu
+[Show popups only when the chat room is not active]
+Zobrazit oznámení pouze při neaktivním okně s diskusí
+[Show popup for topic changes]
+Zobrazit oznámení při změně tématu
+[Show popup for users joining]
+Zobrazit oznámení při příchodu uživatelů
+[Show popup for users disconnecting]
+Zobrazit oznámení při odpojení uživatelů
+[Show popup for messages]
+Zobrazit oznámení při přijetí zprávy
+[Show popup for actions]
+Zobrazit oznámení při akci
+[Show popup for highlights]
+Zobrazit oznámení při zvýraznění
+[Show popup for users leaving]
+Zobrazit oznámení při odchodu uživatelů
+[Show popup for users kicking other user]
+Zobrazit oznámení při vykopnutí uživatelů
+[Show popup for notices ]
+Zobrazit oznámení u poznámky
+[Show popup for name changes]
+Zobrazit oznámení při změně jména
+[Show popup for information messages]
+Zobrazit oznámení při přijetí informativní zprávy
+[Show popup for status changes]
+Zobrazit oznámení při změně stavu
+[Chat Module]
+Skupinový rozhovor
+[Message Background]
+Pozadí konverzace
+[Userlist Background]
+Pozadí seznamu kontaktů
+[Userlist Lines]
+Linky v seznamu kontaktů
+[Userlist Background (selected)]
+Pozadí seznamu kontaktů (vybraný)
+[Window Icon]
+Ikona okna
+[Bold]
+Tučné
+[Italics]
+Kurzíva
+[Underlined]
+Podtržené
+[Smiley button]
+Smajlík
+[Room history]
+Historie místnosti
+[Room settings]
+Nastavení místnosti
+[Event filter disabled]
+Filtrování událostí deaktivováno
+[Event filter enabled]
+Filtrování událostí aktivováno
+[Hide userlist]
+Skrýt seznam účastníků 
+[Show userlist]
+Zobrazit seznam účastníků 
+[Icon overlay]
+Překryvná ikona
+[Status 1 (10x10)]
+Stav č.1 (10x10)
+[Status 2 (10x10)]
+Stav č.2 (10x10)
+[Status 3 (10x10)]
+Stav č.3 (10x10)
+[Status 4 (10x10)]
+Stav č.4 (10x10)
+[Status 5 (10x10)]
+Stav č.5 (10x10)
+[Status 6 (10x10)]
+Stav č.6 (10x10)
+[Message in (10x10)]
+Příchozí zpráva (10x10)
+[Message out (10x10)]
+Odchozí zpráva (10x10)
+[Action (10x10)]
+Akce (10x10)
+[Add Status (10x10)]
+Přidat stav (10x10)
+[Remove status (10x10)]
+Odebrat stav (10x10)
+[Join (10x10)]
+Přidat (10x10)
+[Leave (10x10)]
+Opustit (10x10)
+[Quit (10x10)]
+Ukončit (10x10)
+[Kick (10x10)]
+Vykopnout (10x10)
+[Nickchange (10x10)]
+Změna přezdívky (10x10)
+[Notice (10x10)]
+Poznámka (10x10)
+[Topic (10x10)]
+Téma (10x10)
+[Highlight (10x10)]
+Zvýraznění (10x10)
+[Information (10x10)]
+Informace (10x10)
+[Messaging]
+Rozhovor
+[Group Chats]
+Skupinové rozhovory
+[Group Chats Log]
+Záznam rozhovorů
+[Options for using a tabbed interface]
+Nastavení funkcí systému záložek
+[Appearance and functionality of chat room windows]
+Nastavení vzhledu a funkcí komunikačních oken
+[Appearance of the message log]
+Nastavení vzhledu záznamu komunikace
 [Default events to show in new chat rooms if the 'event filter' is enabled]
+
+[Icons to display in the message log]
+Možnosti zobrazení ikon v záznamu komunikace
+[Icons to display in the tray]
+Možnosti zobrazení ikon v oznamovací oblasti
+[Popups to display]
+
+[Select Folder]
+Vyberte požadovanou složku
+[Message Sessions]
+Komunikace
+[Group chats]
+Skupinové rozhovory
+[General]
+Obecné
+[Chat Log]
+Záznam diskuse
+[Chat]
+Diskuse
+[Popups]
+Oznámení
+[Message is highlighted]
+Zvýraznění zprávy
+[User has performed an action]
+Provedení akce
+[User has kicked some other user]
+Vykopnutí z kanálu
+[User's status was changed]
+Změna stavu uživatele
+[User has changed name]
+Změna přezdívky
+[User has sent a notice]
+Odeslání poznámky
+[The topic has been changed]
+Změna tématu diskuse
+;file \src\core\stdchat\src\services.cpp
+[&Join]
+Při&jít
+;file \src\core\stdchat\src\tools.cpp
+[%s wants your attention in %s]
+%s žádá o pozornost na kanále %s
+[%s speaks in %s]
+%s píše (na %s)
+[%s has joined %s]
+%s přišel (na %s)
+[%s has left %s]
+%s odešel (z %s)
+[%s kicked %s from %s]
+%s vykopnul %s (z %s)
+[Notice from %s]
+Poznámka (napsal: %s)
+[Topic change in %s]
+Změna tématu na %s
+[Information in %s]
+Informace (na %s)
 [%s enables '%s' status for %s in %s]
+
 [%s disables '%s' status for %s in %s]
+
+[%s says: %s]
+%s píše: %s
+[%s has left (%s)]
+%s odešel (%s)
+[%s has disconnected (%s)]
+%s se odpojil (%s)
+[%s kicked %s (%s)]
+%s vykopnul %s (%s)
+[Notice from %s: %s]
+Poznámka od %s: %s
 [The topic is '%s']
+
 [The topic is '%s' (set by %s)]
+
 [Look up '%s':]
+
+[No word to look up]
+Není co vyhledat
+;file \src\core\stdchat\src\window.cpp
+[Insert a smiley]
+Vloží vybraný smajlík
+[Make the text bold (CTRL+B)]
+Změní styl písma na tučné (CTRL+B)
+[Make the text italicized (CTRL+I)]
+Změní styl písma na kurzívu (CTRL+I)
+[Make the text underlined (CTRL+U)]
+Změní styl písma na podtržené (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Změní barvu pozadí textu (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Změní barvu textu (CTRL+K)
+[Show the history (CTRL+H)]
+Zobrazí historii (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+Zobrazí/skryje seznam účastníků (CTRL+N)
+[Control this room (CTRL+O)]
+Možnosti řízení kanálu (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+Aktivuje/deaktivuje filtrování událostí (CTRL+F)
+[Close current tab (CTRL+F4)]
+Zavře vybranou záložku (CTRL+F4)
+[%s: Chat Room (%u user)]
+%s: kanál (účastníků: %u)
+[%s: Chat Room (%u users)]
+%s: kanál (účastníků: %u)
+[%s: Message Session]
+%s: rozhovor
+[%s: Message Session (%u users)]
+%s: rozhovor (účastníků: %u)
+[Nick name]
+Přezdívka
+[Unique id]
+Identifikátor
+;file \src\core\stdclist\src\clcfonts.cpp
+[Standard contacts]
+Standardní kontakty
+[Online contacts to whom you have a different visibility]
+Kontakty online, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
+[Offline contacts]
+Kontakty offline
+[Contacts which are 'not on list']
+Kontakty, které "nejsou v seznamu"
+[Group member counts]
+Počet členů ve skupině
+[Dividers]
+Oddělovače
+[Offline contacts to whom you have a different visibility]
+Kontakty offline, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
+[Selected Text]
+Vybraný text
+[Hottrack Text]
+Zvýrazněný text
+[Quicksearch Text]
+Hledaný text
+;file \src\core\stdclist\src\clcopts.cpp
+[Not focused]
+Neaktivní
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Na chvíli pryč
+[NA]
+Nejsem tady
+[Occupied]
+Nemám čas
+[DND]
+Nerušit!
+[Free for chat]
+Mám volno
+[Invisible]
+Neviditelný
+[Out to lunch]
+Jsem na obědě
+[On the phone]
+Mám telefon
+[List Background]
+Pozadí seznamu
+;file \src\core\stdclist\src\clistopts.cpp
+[Global]
+Globální
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdemail\email.cpp
+[User has not registered an e-mail address]
+Uživatel nemá zaregistrovanou e-mailovou adresu
+[Send e-mail]
+Poslat e-mail
+[&E-mail]
+&E-mail
+;file \src\core\stdfile\file.cpp
+[File from %s]
+Soubor od: %s
+[bytes]
+bajtů
+[&File]
+&Soubor
+[File &Transfers...]
+Př&enos souborů...
+[Incoming]
+Příchozí
+[Complete]
+Dokončeno
+[Error]
+Chyba
+[Denied]
+Odmítnuto
+;file \src\core\stdfile\fileexistsdlg.cpp
+[%s File]
+Soubor %s
+[All Files]
+Všechny soubory
+;file \src\core\stdfile\fileopts.cpp
+[Executable Files]
+Spustitelné soubory
+[Events]
+Události
+;file \src\core\stdfile\filerecvdlg.cpp
+[My Received Files]
+Moje přijaté soubory
+[View User's History]
+Zobrazit historii
+[User Menu]
+Uživatelské menu
+[Cancelled]
+Přerušeno
+;file \src\core\stdfile\filesenddlg.cpp
+[%d files]
+%d souborů
+[%d directories]
+%d složek
+;file \src\core\stdfile\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Tento soubor ještě nebyl zkontrolován antivirovým programem. Opravdu ho chcete otevřít?
+[File Received]
+Soubor přijat
+[of]
+z
+[Request sent, waiting for acceptance...]
+Žádost odeslána, čekání na potvrzení...
+[Waiting for connection...]
+Čekání na spojení...
+[Unable to initiate transfer.]
+Chyba při inicializaci přenosu.
+[sec]
+sek.
+[remaining]
+zbývá
+[Decision sent]
+Potvrzení odesláno
+[Connecting...]
+Navazování spojení...
+[Connecting to proxy...]
+Připojování k proxy...
+[Connected]
+Spojení navázáno
+[Initialising...]
+Inicializace...
+[Moving to next file...]
+Další soubor...
+[File already exists]
+Soubor již existuje
+[Sending...]
+Posílání dat...
+[Receiving...]
+Příjem dat...
+[File transfer denied]
+Přenos souboru odmítnut
+[File transfer failed]
+Chyba při přenosu souboru
+[Transfer completed.]
+Přenos dat dokončen.
+[Transfer completed, open file.]
+Přenos dat dokončen, otevření souboru.
+[Transfer completed, open folder.]
+Přenos dat dokončen, otevření složky.
+[Scanning for viruses...]
+Kontrola antivirovým programem...
+[Transfer and virus scan complete]
+Přenos a kontrola antivirem dokončena
+;file \src\core\stdfile\ftmanager.cpp
+[Outgoing]
+Odchozí
+;file \src\core\stdhelp\about.cpp
 [< Copyright]
+
+;file \src\core\stdhelp\help.cpp
+[&About...]
+O progr&amu...
+[&Support]
+&Podpora
+[&Miranda NG Homepage]
+Do&movská stránka
+[&Report Bug]
+&Nahlásit chybu
+;file \src\core\stdidle\idle.cpp
+[Idle]
+Nečinnost
+;file \src\core\stdmsg\src\cmdlist.cpp
+[The message send timed out.]
+Překročen časový limit odeslání zprávy.
+;file \src\core\stdmsg\src\globals.cpp
+[Incoming message (10x10)]
+Příchozí zpráva (10x10)
+[Outgoing message (10x10)]
+Odchozí zpráva (10x10)
+;file \src\core\stdmsg\src\msgdialog.cpp
+[Last message received on %s at %s.]
+Poslední zpráva přijata %s v %s.
+[signed off (was %s)]
+(odhlášení, předchozí stav: %s)
+[signed on (%s)]
+(přihlášení, současný stav: %s)
+[is now %s (was %s)]
+(současný stav: %s, předchozí stav: %s)
+[%s is typing a message...]
+%s píše zprávu...
+;file \src\core\stdmsg\src\msglog.cpp
+[File sent]
+Odeslaný soubor
+[File received]
+Přijatý soubor
+;file \src\core\stdmsg\src\msgoptions.cpp
+[Outgoing messages]
+Odchozí zprávy
+[Incoming messages]
+Příchozí zprávy
+[Outgoing name]
+Odchozí jméno
+[Outgoing time]
+Odchozí čas
+[Outgoing colon]
+Odchozí dvojtečka
+[Incoming name]
+Příchozí jméno
+[Incoming time]
+Příchozí čas
+[Incoming colon]
+Příchozí dvojtečka
+[Message area]
+Oblast se zprávou
+[Message Log]
+Záznam komunikace
+[** New contacts **]
+** nové kontakty **
+[** Unknown contacts **]
+** neznámé kontakty **
+[Show balloon popup (unsupported system)]
+Zobrazit oznámení bublinami (nepodporováno)
+[Messaging Log]
+Záznam rozhovoru
+[Typing Notify]
+Psaní zprávy
+;file \src\core\stdmsg\src\msgs.cpp
+[Message from %s]
+Zpráva od: %s
+[%s is typing a message]
+%s píše zprávu
+[Typing Notification]
+Upozornění na psaní zprávy
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Chybí knihovna riched20.dll, což znemožňuje použití interního modulu pro zprávy. Pokud používáte Windows 95 nebo emulaci WINE, doinstalujte si tuto knihovnu.
+[Instant messages]
+Zprávy
+[Incoming (Focused Window)]
+Příchozí (aktivní okno)
+[Incoming (Unfocused Window)]
+Příchozí (neaktivní okno)
+[Incoming (New Session)]
+Příchozí (nová konverzace)
+[Message send error]
+Chyba při odesílání
+;file \src\core\stdmsg\src\msgtimedout.cpp
+[An unknown error has occured.]
+Neznámá chyba.
+;file \src\core\stduihist\history.cpp
+[Invalid Message]
+Neplatná zpráva
+[Outgoing Message]
+Odchozí zpráva
+[Incoming Message]
+Příchozí zpráva
+[Outgoing URL]
+Odchozí odkaz
+[Incoming URL]
+Příchozí odkaz
+[Outgoing File]
+Odchozí soubor
+[Incoming File]
+Příchozí soubor
+[History for %s]
+Historie pro %s
+[Are you sure you want to delete this history item?]
+Opravdu si přejete odstranit tento záznam z historie?
+[Delete History]
+Smazat historii
+[View &History]
+Zobrazit &historii
+;file \src\core\stdurl\url.cpp
+[URL from %s]
+Odkaz od: %s
+[Web Page Address (&URL)]
+Odkaz (&URL)
+[URL]
+Odkaz
+;file \src\core\stdurl\urldialogs.cpp
+[Send URL to]
+Odeslání odkazu:
+[Send timed out]
+Vypršel čas na odeslání
+;file \src\core\stduserinfo\contactinfo.cpp
+[Edit E-Mail Address]
+Upravit e-mail
+[Edit Phone Number]
+Upravit telefonní číslo
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Telefonní číslo by mělo začínat znakem + a obsahovat pouze čísla, mezery, závorky a pomlčky.
+[Invalid Phone Number]
+Neplatné tel. číslo
+[Primary]
+Primární
+[Custom %d]
+Vlastní č.%d
+[Fax]
+Fax
+[Mobile]
+Mobil
+[Work Phone]
+Telefon (práce)
+[Work Fax]
+Fax (práce)
+;file \src\core\stduserinfo\stdinfo.cpp
+[Male]
+muž
+[Female]
+žena
+[<not specified>]
+<neurčeno>
+[Summary]
+Souhrn
+[Contact]
+Kontakt
+[Location]
+Umístění
+[Work]
+Práce
+[Background info]
+Profil
+[Notes]
+Poznámky
+;file \src\core\stduserinfo\userinfo.cpp
+[Owner]
+Něco o sobě
+[View/Change My &Details...]
+In&formace o sobě...
+;file \src\core\stduseronline\useronline.cpp
+[%s is Online]
+%s je online
+;file \src\modules\addcontact\addcontact.cpp
+[Add Contact]
+Přidat kontakt
+[Please authorize my request and add me to your contact list.]
+Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clistmenus.cpp
+[Custom status]
+Rozšířený stav
+[%s (locked)]
+%s (uzamčený)
+;file \src\modules\clist\clistmod.cpp
+[This plugin requires db3x plugin version 0.5.1.0 or later]
+Tento doplněk vyžaduje doplněk db3x verze 0.5.1.0 nebo novější.
+;file \src\modules\clist\clistsettings.cpp
+[(Unknown Contact)]
+(neznámý kontakt)
+;file \src\modules\clist\clisttray.cpp
+[&Main Menu]
+Hlavní &menu
+;file \src\modules\clist\clui.cpp
+[This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
+Vybraný kontakt daného komunikačního systému je uložen na centrálním serveru. Při příštím připojení bude odstraněn jak ze serveru, tak z vašeho seznamu.
+[De&lete]
+&Smazat
+[&Rename]
+Př&ejmenovat
+[&Add permanently to list]
+Přid&at do seznamu natrvalo
+;file \src\modules\clist\contacts.cpp
+[My custom name (not moveable)]
+Upravené jméno (nelze přesunout)
+[Nick]
+Přezdívka
+[FirstName]
+Jméno
+[E-mail]
+E-mail
+[LastName]
+Příjmení
+[Username]
+Uživatel
+[FirstName LastName]
+Jméno Příjmení
+['(Unknown Contact)' (not moveable)]
+'(neznámý kontakt)' (nelze přesunout)
+['(Unknown Contact)']
+'(neznámý kontakt)'
+[Contact names]
+Jména kontaktů
+;file \src\modules\clist\genmenu.cpp
+[Menu Icons]
+Nabídky
+;file \src\modules\clist\genmenuopt.cpp
+[Menus]
+Nabídky
+[Customize]
+Vlastní úpravy
+;file \src\modules\clist\groups.cpp
+[New Group]
+nová skupina
+[Are you sure you want to delete group '%s'?  This operation can not be undone.]
+Opravdu chcete smazat skupinu '%s'? Tuto operaci nelze vrátit.
+[Delete Group]
+Smazat skupinu
+[You already have a group with that name. Please enter a unique name for the group.]
+Skupina téhož názvu už existuje. Zadejte prosím jiný název.
+[Rename Group]
+Přejmenovat skupinu
+[This group]
+Tato skupina
+;file \src\modules\clist\keyboard.cpp
+[Show Hide Contact List]
+Zobrazit nebo skrýt kontakty
+[Read Message]
+Přečíst zprávu
+[Open Options Page]
+Okno pro nastavení
+[Open Logging Options]
+Otevřít záznam
+[Open Find User Dialog]
+Okno pro vyhledávání
+;file \src\modules\clist\movetogroup.cpp
+[&Move to Group]
+Přesunout do s&kupiny
+[<Root Group>]
+<kořenová skupina>
+;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exist. Please resolve the issue manually.]
+
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
+
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
+Profil '%s' nelze otevřít. Není nainstalovaný odpovídající doplněk.\nPoužijte dbx_3x.dll (pro staré profily) nebo jiný.
+[No profile support installed!]
+Není nainstalovaná podpora pro profily!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DBChecker which should be installed.]
+
+[Miranda can't understand that profile]
+Tento profil není ve formátu Miranda-IM
+[Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
+Profil '%s' nelze otevřít. Zkontrolujte,\nzda máte oprávnění ke čtení dat z adresáře s profilem.
+[Miranda can't open that profile]
+Vybraný profil nelze otevřít
+;file \src\modules\database\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
+
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+
 [Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+
+[This change is known to be safe.]
+Tato úprava se obecně považuje za bezpečnou.
+[This change is known to be potentially hazardous.]
+Tato úprava se považuje za potenciálně nebezpečnou.
+[This change is not known to be safe.]
+Neznámý druh úpravy; nelze považovat za bezpečné.
+[Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
+Neplatný typ nastavení. První znak hodnoty musí být b, w, d, l, s, e, u, g, h nebo n.]
+;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
+
+[The profile already exists]
+Profil s tímto názvem již existuje
+[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+Profil '%s' nelze přesunout do koše. Vyberte prosím jiný.
+[Problem moving profile]
+Chyba při přesunu profilu
+[Unable to create the profile '%s', the error was %x]
+Profil '%s' nelze vytvořit. Chyba: %x
+[Problem creating profile]
+Chyba při vytváření profilu
+[&Create]
+&Vytvořit
+[<In Use>]
+<používáno>
+[Are you sure you want to remove profile "%s"?]
+Opravdu si přejete odstranit profil "%s"?
+[Size]
+Velikost
+[Created]
+Vytvořeno
+[Modified]
+Změněno
+[Run]
+Spustit
 [Check database]
+
+[Miranda Profiles from]
+Umístění profilů
+[Select or create your Miranda NG user profile]
+Výběr nebo vytvoření nového profilu
+[My Profiles]
+Seznam profilů
+[New Profile]
+Nový profil
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
 [Chat activity]
+
+;file \src\modules\extraicons\extraicons.cpp
+[Chat Activity]
+Aktivita na chatu
+;file \src\modules\extraicons\options_ei.cpp
+[Extra icons]
+Doplňkové ikony
+;file \src\modules\findadd\findadd.cpp
+[You haven't filled in the search field. Please enter a search term and try again.]
+Zadejte hledaný výraz a zkuste hledat znovu.
+[Search]
+Hledat
+[Results]
+Seznam vyhledaných osob
+[There are no results to display.]
+Zadejte kritéria hledání.
+[Searching]
+Hledám
+[All Networks]
+Všechny sítě
 [Handle]
+
+[&Find/Add Contacts...]
+&Vyhledat kontakty...
+;file \src\modules\findadd\searchresults.cpp
+[Could not start a search on '%s', there was a problem - is %s connected?]
+V rámci %s nelze vyhledávat. Jste připojeni k síti %s?
+[Could not search on any of the protocols, are you online?]
+Nelze vyhledávat ani v jednom z protokolů. Jste připojeni?
+[Problem with search]
+Chyba při hledání
+[1 %s user found]
+Počet nalezených: 1, síť %s
+[%d %s users found]
+Počet nalezených: %d, síť %s
+[%d users found (]
+Počet nalezených: %d (
+[No users found]
+Počet nalezených: 0
+;file \src\modules\fonts\FontOptions.cpp
+[Failed to create file]
+Chyba při vytváření souboru
+[<none>]
+<žádný>
+[Shadow at left]
+Stín nalevo
+[Shadow at right]
+Stín napravo
+[Outline]
+Orámovat
+[Outline smooth]
+Orámovat jemně
+[Smooth bump]
+Jemný úkos
+[Contour thin]
+Tenká kontura
+[Contour heavy]
+Silná kontura
+[Configuration Files]
+Konfigurační soubory
+[Text Files]
+Textové soubory
+[Error writing file]
+Chyba při zapisování do souboru
+[Fonts & Colors]
+Písma a barvy
+[Sample Text]
+Ukázka textu
+[Fonts]
+Písma
+;file \src\modules\fonts\FontService.cpp
+[Headers]
+Záhlaví
+[Generic text]
+Běžný text
+[Small text]
+Poznámky
+;file \src\modules\icolib\skin2opts.cpp
+[Icon Sets]
+Sada ikon
+;file \src\modules\ignore\ignore.cpp
+[** All contacts **]
+** všechny kontakty **
+[Contacts]
+Kontakty
+;file \src\modules\netlib\netliblog.cpp
+[No times]
+Bez časového údaje
+[Standard hh:mm:ss times]
+Standardní hh:mm:ss
+[Times in milliseconds]
+V milisekundách
+[Times in microseconds]
+V mikrosekundách
+[(Miranda Core Logging)]
+Záznam jádra Mirandy
+[Select where log file will be created]
+Zadejte požadovaný soubor pro záznam
+[Select program to be run]
+Vyberte požadovaný program
+;file \src\modules\netlib\netlibopts.cpp
+[<All connections>]
+<všechna spojení>
+[Network]
+Sítě
+;file \src\modules\netlib\netlibssl.cpp
+[Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
+Klient nemůže dekódovat zprávu hostitele. Možné příčiny: Hostitel nepodporuje SSL nebo vyžaduje neexistující soubor zabezpečení
+[Host we are connecting to is not the one certificate was issued for]
+Certifikát nebyl vydán pro hostitele, ke kterému se nyní připojujeme
+;file \src\modules\options\options.cpp
+[<all modules>]
+1) všechny moduly
+[<core modules>]
+2) jádro Mirandy
+[Loading... %d%%]
+Načítání... %d%%
+[%s options]
+%s nastavení
+[Miranda NG Options]
+Miranda - možnosti nastavení
+[&Options...]
+M&ožnosti...
+;file \src\modules\plugins\newplugins.cpp
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+
 [Fatal error]
+
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
+
+['%s' is disabled, re-enable?]
+'%s' není aktivní. Chcete ho aktivovat?
+[Re-enable Miranda plugin?]
+Chcete znovu aktivovat tento doplněk?
+[Unable to load plugin in Service Mode!]
+Nelze načíst doplněk v nouzovém režimu
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
+
 [Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
+
+;file \src\modules\plugins\pluginopts.cpp
+[Plugin]
+Doplněk
+[Version]
+Verze
 [Miranda NG must be restarted to apply changes for these plugins:]
+
 [Do you want to restart it now?]
+
+[Plugins]
+Doplňky
+;file \src\modules\protocols\protoopts.cpp
+[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
+POZOR!!! Vybraný účet bude smazán. V důsledku to znamená, že bude odstraněn seznam kontaktů daného protokolu, historie i nastavení.\n\nOpravdu chcete smazat vybraný účet?
+[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
+Vybraný účet byl úspěšně zaktualizován a nyní ho už zbývá jen aktivovat, což vyžaduje restart Mirandy.\n\nPomocí tlačítka 'Ano' provedete restart, kliknutím na tlačítko 'Ne' lze aktualizovat další účet.
+[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change it's preferences.]
+Tento účet používá starší generaci doplňku pro podporu daného protokolu. Konfigurovat ho můžete jen v okně s nastavením pro celou Mirandu.
+[Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Vítejte ve správci účtů programu Miranda NG!\nZde si můžete založit nový účet ve vybrané síti, upravit stávající nebo naopak některý smazat.\n\nChcete-li založit nový účet, klikněte na tlačítko \"plus\" v levém dolním rohu okna. Pokud si přejete upravit stávající účet, vyberte požadovaný ze seznamu.
+[Create new account]
+Zřídit nový účet
+[Editing account]
+Upravit účet
+[Upgrading account]
+Aktualizace účtu
+[Account is disabled. Please activate it to access options.]
+Vybraný účet je vypnutý. Nejdříve ho musíte aktivovat.
+[New account]
+Zřídit účet
+[Edit]
+Upravit
+[Remove account]
+Smazat účet
+[Configure...]
+Nastavit...
+[Upgrade account]
+Aktualizovat účet
+[Protocol]
+Protokol
+[Account ID]
+Identifikátor účtu
+[<unknown>]
+<neznámý>
+[Protocol is not loaded.]
+Protokol není načtený.
+[Rename]
+Přejmenovat
+[Configure]
+Nastavit...
 [Upgrade]
+
+[Account is online. Disable account?]
+Účet je připojen. Deaktivovat účet?
+[Account %s is being deleted]
+Odstranění účtu %s
+[You need to disable plugin to delete this account]
+Pro smazání tohoto účtu musíte deaktivovat doplněk
+[&Accounts...]
+Účt&y...
+;file \src\modules\skin\hotkey_opts.cpp
+[Remove shortcut]
+Odstranit zkratku
+[Add another shortcut]
+Přidat klávesovou zkratku
+[Scope:]
+Platí pro:
+[System]
+Systém
+[Actions:]
+Akce:
+[Add binding]
+Přidat
+[Modify]
+Upravit
+[System scope]
+Platnost v systému
+[Miranda scope]
+Platnost v Mirandě
+;file \src\modules\skin\skinicons.cpp
+[User Online]
+Uživatel online
+[Group (Open)]
+Skupina (otevřená)
+[Group (Closed)]
+Skupina (zavřená)
+[Connecting]
+Připojování
+[User Details]
+Informace o uživateli
+[History]
+Historie
+[Down Arrow]
+Šipka dolů
+[Find User]
+Vyhledat kontakt
+[Send E-mail]
+Poslat e-mail
+[SMS]
+SMS
+[Search All]
+Prohledat vše
+[Tick]
+Zaškrtnuto
+[No Tick]
+Nezaškrtnuto
+[Help]
+Nápověda
+[Miranda Website]
+Stránka o Mirandě
+[Small Dot]
+Tečka uprostřed
+[Filled Blob]
+Vyplněný slot
+[Empty Blob]
+Prázdný slot
+[Unicode plugin]
+Doplněk Unicode
+[ANSI plugin]
+Doplněk ANSI
+[Running plugin]
+Spuštěný doplněk
+[Unloaded plugin]
+Nespuštěný doplněk
+[ShowHide]
+Zobrazit nebo skrýt
+[Exit]
+Ukončit
+[Main Menu]
+Hlavní nabídka
+[Leave chat]
+Opustit diskusi
+[Move to Group]
+Přesunout do skupiny
+[On]
+Zap
+[Off]
+Vyp
 [Running core plugin]
+
 [Non-loadable plugin]
+
+[Frames]
+Rámečky
+[Always visible]
+Tento člověk mě vždy uvidí
 [Always invisible]
+
+[Locked status]
+Zamknuto
+[Status Icons]
+Stavové ikony
+[%s Icons]
+%s ikony
+[Main Icons]
+Hlavní ikony
+;file \src\modules\skin\sounds.cpp
+[Sound Files]
+Zvukové soubory
 [WAV Files]
+
+;file \src\modules\utils\bmpfilter.cpp
+[You need an image services plugin to process PNG images.]
+Pro zpracování PNG obrázků je zapotřebí doplněk Image services
+[All Bitmaps]
+Všechny bitmapy
+[Windows Bitmaps]
+obrázky typu BMP
+[JPEG Bitmaps]
+obrázky typu JPEG
+[GIF Bitmaps]
+obrázky typu GIF
+[PNG Bitmaps]
+obrázky typu PNG
+;file \src\modules\utils\timezones.cpp
+[<unspecified>]
+<neurčeno>
+;file \src\modules\utils\utils.cpp
+[Unspecified]
+<neuvedeno>
+[Unknown]
+neznámý
+[Afghanistan]
+Afghánistán
 [Aland Islands]
+
+[Albania]
+Albánie
+[Algeria]
+Alžír
+[American Samoa]
+Americká Samoa
+[Andorra]
+Andorra
+[Angola]
+Angola
+[Anguilla]
+Anguilla
 [Antarctica]
+
+[Antigua and Barbuda]
+Antigua a Barbuda
+[Argentina]
+Argentina
+[Armenia]
+Arménie
+[Aruba]
+Aruba
+[Australia]
+Austrálie
+[Austria]
+Rakousko
+[Azerbaijan]
+Ázerbajdžán
+[Bahamas]
+Bahamy
+[Bahrain]
+Bahrajn
+[Bangladesh]
+Bangladéš
+[Barbados]
+Barbados
+[Belarus]
+Bělorusko
+[Belgium]
+Belgie
+[Belize]
+Belize
+[Benin]
+Benin
+[Bermuda]
+Bermudy
+[Bhutan]
+Bhútán
 [Bolivia, Plurinational State of]
+
 [Bonaire, Sint Eustatius and Saba]
+
+[Bosnia and Herzegovina]
+Bosna a Hercegovina
+[Botswana]
+Botswana
 [Bouvet Island]
+
+[Brazil]
+Brazílie
 [British Indian Ocean Territory]
+
 [Brunei Darussalam]
+
+[Bulgaria]
+Bulharsko
+[Burkina Faso]
+Burkina Faso
+[Burundi]
+Burundi
+[Cambodia]
+Kambodža
+[Cameroon]
+Kamerun
+[Canada]
+Kanada
 [Cape Verde]
+
+[Cayman Islands]
+Kajmanské ostrovy
+[Central African Republic]
+Středoafrická republika
+[Chad]
+Čad
 [Chile]
+
+[China]
+Čína
+[Christmas Island]
+Vánoční ostrov
+[Cocos (Keeling) Islands]
+Kokosové ostrovy
+[Colombia]
+Kolumbie
+[Comoros]
+Komory
 [Congo]
+
 [Congo, the Democratic Republic of the]
+
+[Cook Islands]
+Cookovy ostrovy
+[Costa Rica]
+Kostarika
 [Cote d'Ivoire]
+
+[Croatia]
+Chorvatsko
+[Cuba]
+Kuba
 [Curacao]
+
+[Cyprus]
+Kypr
+[Czech Republic]
+Česká republika
+[Denmark]
+Dánsko
+[Djibouti]
+Džibuti
+[Dominica]
+Dominika
+[Dominican Republic]
+Dominikánská republika
+[Ecuador]
+Ekvádor
+[Egypt]
+Egypt
+[El Salvador]
+Salvador
+[Equatorial Guinea]
+Rovníková Guinea
+[Eritrea]
+Eritrea
+[Estonia]
+Estonsko
+[Ethiopia]
+Etiopie
+[Falkland Islands (Malvinas)]
+Falklandské ostrovy (Malvíny)
+[Faroe Islands]
+Faerské ostrovy
+[Fiji]
+Fidži
+[Finland]
+Finsko
+[France]
+Francie
+[French Guiana]
+Francouzská Guyana
+[French Polynesia]
+Francouzská Polynésie
 [French Southern Territories]
+
+[Gabon]
+Gabon
+[Gambia]
+Gambie
+[Georgia]
+Gruzie
+[Germany]
+Německo
+[Ghana]
+Ghana
+[Gibraltar]
+Gibraltar
+[Greece]
+Řecko
+[Greenland]
+Grónsko
+[Grenada]
+Grenada
+[Guadeloupe]
+Guadeloupe
 [Guam]
+
+[Guatemala]
+Guatemala
 [Guernsey]
+
+[Guinea]
+Guinea
+[Guinea-Bissau]
+Guinea-Bissau
+[Guyana]
+Guyana
+[Haiti]
+Haiti
 [Heard Island and McDonald Islands]
+
 [Holy See (Vatican City State)]
+
+[Honduras]
+Honduras
+[Hong Kong]
+Hong Kong
+[Hungary]
+Maďarsko
+[Iceland]
+Island
+[India]
+Indie
+[Indonesia]
+Indonésie
 [Iran, Islamic Republic of]
+
+[Iraq]
+Irák
+[Ireland]
+Irsko
 [Isle of Man]
+
+[Israel]
+Izrael
+[Italy]
+Italie
+[Jamaica]
+Jamajka
+[Japan]
+Japonsko
 [Jersey]
+
+[Jordan]
+Jordánsko
+[Kazakhstan]
+Kazachstán
+[Kenya]
+Keňa
+[Kiribati]
+Kiribati
 [Korea, Democratic People's Republic of]
+
 [Korea, Republic of]
+
+[Kuwait]
+Kuvajt
+[Kyrgyzstan]
+Kirgizstán
 [Lao People's Democratic Republic]
+
+[Latvia]
+Lotyšsko
+[Lebanon]
+Libanon
+[Lesotho]
+Lesotho
+[Liberia]
+Libérie
 [Libya]
+
+[Liechtenstein]
+Lichtenštejnsko
+[Lithuania]
+Litva
+[Luxembourg]
+Lucembursko
 [Macao]
+
 [Macedonia, The Former Yugoslav Republic of]
+
+[Madagascar]
+Madagaskar
+[Malawi]
+Malawi
+[Malaysia]
+Malajsie
+[Maldives]
+Maledivy
+[Mali]
+Mali
+[Malta]
+Malta
+[Marshall Islands]
+Marshallovy ostrovy
+[Martinique]
+Martinik
+[Mauritania]
+Mauretánie
+[Mauritius]
+Mauritius
 [Mayotte]
+
+[Mexico]
+Mexiko
+[Micronesia, Federated States of]
+Mikronésie
+[Moldova, Republic of]
+Moldávie
+[Monaco]
+Monako
+[Mongolia]
+Mongolsko
 [Montenegro]
+
+[Montserrat]
+Montserrat
+[Morocco]
+Maroko
+[Mozambique]
+Mozambik
+[Myanmar]
+Myanmar
+[Namibia]
+Namibie
+[Nauru]
+Nauru
+[Nepal]
+Nepál
+[Netherlands]
+Nizozemí
+[New Caledonia]
+Nová Kaledonie
+[New Zealand]
+Nový Zéland
+[Nicaragua]
+Nikaragua
+[Niger]
+Niger
+[Nigeria]
+Nigérie
+[Niue]
+Niue
+[Norfolk Island]
+Norfolk
 [Northern Mariana Islands]
+
+[Norway]
+Norsko
+[Oman]
+Omán
+[Pakistan]
+Pákistán
+[Palau]
+Palau
 [Palestinian Territory, Occupied]
+
+[Panama]
+Panama
+[Papua New Guinea]
+Papua - Nová Guinea
+[Paraguay]
+Paraguay
+[Peru]
+Peru
+[Philippines]
+Filipíny
 [Pitcairn]
+
+[Poland]
+Polsko
+[Portugal]
+Portugalsko
+[Puerto Rico]
+Portoriko
+[Qatar]
+Katar
 [Reunion]
+
+[Romania]
+Rumunsko
 [Russian Federation]
+
+[Rwanda]
+Rwanda
 [Saint Barthelemy]
+
 [Saint Helena, Ascension and Tristan da Cunha]
+
+[Saint Kitts and Nevis]
+Sv. Kryštof a Nevis
+[Saint Lucia]
+Sv. Lucie
 [Saint Martin (French part)]
+
+[Saint Pierre and Miquelon]
+Sv. Petr a Mikelon
+[Saint Vincent and the Grenadines]
+Sv. Vincenc a Grenadiny
+[Samoa]
+Samoa
+[San Marino]
+San Marino
+[Sao Tome and Principe]
+Sv. Tomáš
+[Saudi Arabia]
+Saudská Arábie
+[Senegal]
+Senegal
 [Serbia]
+
+[Seychelles]
+Seychely
+[Sierra Leone]
+Sierra Leone
+[Singapore]
+Singapur
 [Sint Maarten (Dutch part)]
+
+[Slovakia]
+Slovensko
+[Slovenia]
+Slovinsko
+[Solomon Islands]
+Šalamounovy ostrovy
+[Somalia]
+Somálsko
+[South Africa]
+Jižní Afrika
 [South Georgia and the South Sandwich Islands]
+
 [South Sudan]
+
+[Spain]
+Španělsko
+[Sri Lanka]
+Srí Lanka
+[Sudan]
+Súdán
+[Suriname]
+Surinam
 [Svalbard and Jan Mayen]
+
+[Swaziland]
+Swazijsko
+[Sweden]
+Švédsko
+[Switzerland]
+Švýcarsko
+[Syrian Arab Republic]
+Sýrie
 [Taiwan, Province of China]
+
+[Tajikistan]
+Tádžikistán
 [Tanzania, United Republic of]
+
+[Thailand]
+Thajsko
 [Timor-Leste]
+
+[Togo]
+Togo
+[Tokelau]
+Tokelau
+[Tonga]
+Tonga
+[Trinidad and Tobago]
+Trinidad a Tobago
+[Tunisia]
+Tunisko
+[Turkey]
+Turecko
+[Turkmenistan]
+Turkmenistán
+[Turks and Caicos Islands]
+Turks a Caicos
+[Tuvalu]
+Tuvalu
+[Uganda]
+Uganda
+[Ukraine]
+Ukrajina
+[United Arab Emirates]
+Spojené arabské emiráty
+[United Kingdom]
+Spojené království
 [United States]
+
 [United States Minor Outlying Islands]
+
+[Uruguay]
+Uruguay
+[Uzbekistan]
+Uzbekistán
+[Vanuatu]
+Vanuatu
 [Venezuela, Bolivarian Republic of]
+
 [Viet Nam]
+
 [Virgin Islands, British]
+
 [Virgin Islands, U.S.]
+
 [Wallis and Futuna]
+
 [Western Sahara]
+
+[Yemen]
+Jemen
+[Zambia]
+Zambie
+[Zimbabwe]
+Zimbabwe
+;file \src\modules\visibility\visibility.cpp

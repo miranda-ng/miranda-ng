@@ -281,7 +281,7 @@ S&krýt prázdné skupiny
 [Disable &Groups]
 Vypnout zobrazení s&kupin
 [Hide Miranda]
-Skrýt okno
+Skrýt Mirandu
 [Group]
 Skupina
 [&New Subgroup]
@@ -383,7 +383,7 @@ Seznam kontaktů
 &Nová podskupina
 ;file \plugins\Clist_mw\src\keyboard.cpp
 [Close Miranda]
-Zavřít Mirandu
+Ukončit program Miranda
 [Restore last status]
 Obnovit předchozí stav
 ;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp

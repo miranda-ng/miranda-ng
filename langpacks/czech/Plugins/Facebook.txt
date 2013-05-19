@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.0.9.6
+;  Version: 0.1.0.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -76,6 +76,12 @@ Po odpojení zároveň odejít i z diskuse
 Pro nestandardní stavy použít Neviditelný (nikoli Online)
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 Aktivovat podporu pro vlastní smajlíky (EXPERIMENTÁLNÍ + CHYBOVÉ!)
+[Use local time for received messages]
+
+[Send "Seen" info when marking messages as read]
+
+[Use this server for opening links:]
+
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: Some Facebook things are required.]
 Chyba připojení: Něco je vyžadováno.
@@ -113,6 +119,12 @@ Fotografie
 Odkazy
 [Apps and Games]
 Aplikace a hry
+[Classic website]
+
+[Mobile website]
+
+[Smartphone website]
+
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt byl odebrán z vašeho seznamu přátel.

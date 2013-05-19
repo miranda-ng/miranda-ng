@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: YAPP.dll
 ;  Plugin: YAPP
-;  Version: 0.5.0.10
+;  Version: 0.5.0.11
 ;  Authors: Scott Ellis
 ;============================================================
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
@@ -60,6 +60,13 @@ Barva pozadí:
 Nastavit dobu zobrazení
 [Timeout value (0 = default):]
 Prodleva (0 = výchozí):
+;file \plugins\YAPP\src\icons.cpp
+[Popups are enabled]
+Oznámení jsou zapnuta
+[Popups are disabled]
+Oznámení jsou vypnuta
+[Popup History]
+Historie oznámení
 ;file \plugins\YAPP\src\notify_imp.cpp
 [YAPP Popups]
 
@@ -125,11 +132,9 @@ Třídy
 Vypnout oznámení
 [Enable Popups]
 
-[Popup History]
-Historie oznámení
 ;file \plugins\YAPP\src\yapp.cpp
-[Popups]
-Oznámení
+[Toggle Popups]
+Zapnout/vypnout oznámení
 [First line]
 První řádek
 [Second line]

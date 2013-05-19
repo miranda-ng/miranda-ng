@@ -209,7 +209,7 @@ S&krýt prázdné skupiny
 [Disable &Groups]
 Vypnout zobrazení s&kupin
 [Hide Miranda]
-Skrýt okno
+Skrýt Mirandu
 [Group]
 Skupina
 [&New Subgroup]

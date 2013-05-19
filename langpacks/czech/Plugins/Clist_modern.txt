@@ -645,7 +645,7 @@ S&krýt prázdné skupiny
 [Disable &Groups]
 Vypnout zobrazení s&kupin
 [Hide Miranda]
-Skrýt okno
+Skrýt Mirandu
 [&New Subgroup]
 &Nová podskupina
 [&Hide Offline Users in here]
@@ -930,7 +930,7 @@ Nabídka podskupiny
 &Nová podskupina
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
 [Close Miranda]
-Zavřít Mirandu
+Ukončit program Miranda
 [Main]
 Hlavní
 [Restore last status]

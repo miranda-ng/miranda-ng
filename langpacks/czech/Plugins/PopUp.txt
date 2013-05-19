@@ -301,14 +301,10 @@ Kontakty
 Extra
 [Toggle Popups]
 Zapnout/vypnout oznámení
-[Enable popups]
-Povolit oznámení
-[Disable popups]
+[Enable Popups]
 
-[Enable &popup module]
-Zapnout oznámení (&globálně)
-[Disable &popup module]
-Vypnout oznámení (&globálně)
+[Disable Popups]
+Vypnout oznámení
 [Popup Plus]
 Oznámení plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]

@@ -415,8 +415,6 @@ Služby
 
 [Message Popup]
 
-[Popups]
-Oznámení
 ;file \plugins\SecureIM\src\svcs_srmm.cpp
 [SecureIM [Native]]
 

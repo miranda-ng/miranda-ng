@@ -483,7 +483,7 @@ S&krýt prázdné skupiny
 [Disable &Groups]
 Vypnout zobrazení s&kupin
 [Hide Miranda]
-Skrýt okno
+Skrýt Mirandu
 [&New Subgroup]
 &Nová podskupina
 [&Hide Offline Users in here]

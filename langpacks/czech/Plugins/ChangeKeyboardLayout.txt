@@ -47,7 +47,7 @@ Výchozí
 [Colours]
 Barvy
 [Popup colours]
-
+Barvy oznámení
 [Windows colours]
 
 [Custom colours]
