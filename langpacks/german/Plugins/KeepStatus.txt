@@ -154,7 +154,7 @@ Bei Versuch des Neuverbindens
 Wenn Wiederverbinden beendet
 [Show other messages]
 Andere Meldungen anzeigen
-[From PopUp plugin]
+[From Popup plugin]
 Vom Popup-Plugin
 [Custom]
 Benutzerdef.
@@ -317,7 +317,7 @@ Allgemein
 Erweitert
 [You broke the Internet!]
 Internetverbindung verloren
-[PopUps]
+[Popups]
 Popups
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]

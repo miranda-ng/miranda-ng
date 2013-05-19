@@ -114,7 +114,7 @@ Celoobrazovkový režim
 
 [Error]
 Chyba
-[PopUps]
+[Popups]
 Oznámení
 [Settings]
 Nastavení

@@ -124,13 +124,13 @@ Ostatní možnosti
 Nastavit jako výchozí stanici
 [Disable automatic update for this station]
 Vypnout automatickou aktualizaci
-[Disable PopUp for this station]
+[Disable Popup for this station]
 Vypnout oznámení pro tuto stanici
 [Change]
 Změnit
 [Cancel]
 Zrušit
-[PopUp Options]
+[Popup Options]
 Možnosti oznámení
 [Enable popups]
 Povolit oznámení
@@ -156,7 +156,7 @@ Doba zobrazení
 Prodleva
 [seconds]
 sek.
-[From PopUp plugin]
+[From Popup plugin]
 Globální nastavení
 [Permanent]
 Trvale
@@ -236,7 +236,7 @@ Přidat novou meteorologickou stanici a zavřít dialog
 Město:
 [Menu]
 Menu
-[Dismiss PopUp]
+[Dismiss Popup]
 Zavřít oznámení
 [Open brief information]
 Zobrazit stručnou předpověď
@@ -458,7 +458,7 @@ Sítě
 Obecné
 [Display]
 Zobrazení
-[PopUps]
+[Popups]
 Oznámení
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce

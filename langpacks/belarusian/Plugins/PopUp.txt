@@ -1,6 +1,6 @@
 ﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;  File: popup.dll
-;  Module: Popup Interoperability, PopUp Plus
+;  Module: Popup Interoperability, Popup Plus
 [Popup Mode: Auto]
 Рэжым усплывальных вокнаў: па змаўчанні
 [Popup Mode: Favourtite]
@@ -113,11 +113,11 @@ History++ для гісторыі вокнаў
 Адлюстроўваць час
 [Show s&econd line]
 Паказваць другі радок
-[En&large PopUps by]
+[En&large Popups by]
 &Павялічваць вокны на
 [&Dynamically resize the popups]
 Сапраўды &падбіраць памер вокнаў
-[A&nimate PopUps (98/ME/2000/XP)]
+[A&nimate Popups (98/ME/2000/XP)]
 Анімацыя вокнаў (98/ME/2000/XP)
 [Fade &in/out (2000/XP)]
 Плыўны паказ (2000/XP)
@@ -153,7 +153,7 @@ History++ для гісторыі вокнаў
 ... плоскі стыль
 [Miscellanea]
 Іншае
-[PopUp Delay (seconds)]
+[Popup Delay (seconds)]
 Акно бачнае (секунд)
 [Hey, this is a status message!]
 Прывітанне, гэта паведамленне пра змену статусу!
@@ -195,7 +195,7 @@ History++ для гісторыі вокнаў
 Заўсёды
 [Never show]
 Ніколі
-[Reorder PopUps]
+[Reorder Popups]
 Перамяшчаць вокны
 [&Minimum width]
 &Мінімальная шырыня
@@ -221,7 +221,7 @@ History++ для гісторыі вокнаў
 Выключыць усплывальныя вокны
 [Enable &popup module]
 Уключыць усплывальныя вокны
-[Concurrent PopUps]
+[Concurrent Popups]
 Некалькі вокнаў
 [Use multiple threads]
 Некалькі струменяў
@@ -237,13 +237,13 @@ History++ для гісторыі вокнаў
 Колер фону
 [Default text colour]
 Колер тэксту
-[A&nimate PopUps]
+[A&nimate Popups]
 Анімацыя вокнаў
 [Slide popups while rordering]
 Зрушваць пры перасартаванні
 [Infinite popup delay]
 Не зачыняць вокны
-[Disable PopUps when fullscreen]
+[Disable Popups when fullscreen]
 Выкл. у поўнаэкранным рэжыме
 [Do not close hovered popups]
 Не зачыняць вокны пад курсорам
@@ -273,7 +273,7 @@ History++ для гісторыі вокнаў
 BBCode ([b]..[/b] - тоўсты)
 [Truncate very long lines]
 Абразаць доўгія радкі
-[PopUps drop shadow (WinXP+)]
+[Popups drop shadow (WinXP+)]
 Цень ад вокнаў (WinXP)
 [Skin preferences]
 Налады скіна
@@ -486,16 +486,16 @@ BBCode ([b]..[/b] - тоўсты)
 [Show headerbar]
 Панэль загалоўка
 [...skin for old plugins]
-...скіны для старых версій PopUp
-[PopUp class:]
-Класы PopUp:
-[PopUp Interoperability]
+...скіны для старых версій Popup
+[Popup class:]
+Класы Popup:
+[Popup Interoperability]
 Сумяшчальныя ўсплывальныя вокны
-[Provides a common PopUp interface for different plugins. Development of famous PopUp seems to be stopped so this is an update for  Luca Santarelli`s PopUp. Now it supports wrapping and emoticons ;). But this is just alpha-version and so contains lots of bugs :(]
+[Provides a common Popup interface for different plugins. Development of famous Popup seems to be stopped so this is an update for  Luca Santarelli`s Popup. Now it supports wrapping and emoticons ;). But this is just alpha-version and so contains lots of bugs :(]
 Дапаўняе ўсплывальны інтэрфейс для розных модуляў да праграмы. Развіццё вядомага ўсплывальнага модуля будзе спынена. Гэта абнаўленне ад Luca Santarelli . Зараз яно падтрымлівае перанос і дадатковыя значкі. Гэта альфа версія і таму ўтрымоўвае ў сабе шмат памылак. Пераклад Homeric, Radion
 [Reload skins]
 Абнавіць спіс
-[Using SmileyAdd's settings is preferred due to bugs in internal MSL loading code. Also it allows you to select the same emoticons both for PopUp and message dialog.]
+[Using SmileyAdd's settings is preferred due to bugs in internal MSL loading code. Also it allows you to select the same emoticons both for Popup and message dialog.]
 SmileyAdd пераважней з-за дэфектаў ва ўнутраным MSL кодзе. Гэта дазваляе вам выбіраць тыя ж значкі для ўсплывальных вокнаў і дыялогу ў паведамленнях.
 [Show colours in text bloc]
 Паказваць колеры ў тэкставым блоку

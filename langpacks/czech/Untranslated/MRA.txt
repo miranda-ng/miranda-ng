@@ -31,7 +31,7 @@
 [Create a new Mail.ru account using the Mail.ru website]
 [Retrieve a lost password]
 [Leave empty if you dont want change password]
-[PopUp type]
+[Popup type]
 [Popup settings]
 [Enable Anti Spam]
 [Check temp contacts]

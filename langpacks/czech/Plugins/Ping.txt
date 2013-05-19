@@ -22,7 +22,7 @@ Do souboru
 Název souboru:
 [Network]
 Sítě
-[PopUps]
+[Popups]
 Oznámení
 [Reply]
 Odpovědět

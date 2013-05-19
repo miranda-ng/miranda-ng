@@ -31,7 +31,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     GROUPBOX        "General Options",IDC_STATIC,6,2,199,43
-    CONTROL         "Show entry in the PopUps menu",IDC_CHKMENUITEM,"Button",
+    CONTROL         "Show entry in the Popups menu",IDC_CHKMENUITEM,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,10,11,190,10
     CONTROL         "Temporarily disable Event Popups",IDC_CHKDISABLE,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,10,21,190,10

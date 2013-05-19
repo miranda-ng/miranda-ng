@@ -44,7 +44,7 @@ Pokaż popup kiedy kontakt zmieni swój awatar
 [ Delay ]
 Opóźnienie
 [From popup plugin]
-Z wtyczki PopUp
+Z wtyczki Popup
 [ Actions ]
 Akcje
 [On right click:]

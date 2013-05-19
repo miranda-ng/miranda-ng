@@ -80,7 +80,7 @@
 [Show when a connection attempt is made]
 [Show when reconnection has finished]
 [Show other messages]
-[From PopUp plugin]
+[From Popup plugin]
 [Custom]
 [Permanent]
 [Show additional information in popups]
@@ -155,7 +155,7 @@
 [Basic]
 [Advanced]
 [You broke the Internet!]
-[PopUps]
+[Popups]
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 [Give it up, I'm not in!]

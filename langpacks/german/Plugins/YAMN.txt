@@ -333,7 +333,7 @@ Konten
 Allgemein
 [Plugins]
 Plugins
-[PopUps]
+[Popups]
 Popups
 [No account selected]
 Kein Konto ausgewählt

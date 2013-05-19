@@ -14,9 +14,9 @@
 
 [List Contacts with Status Message]
 
-[Disable SMCN PopUps]
+[Disable SMCN Popups]
 
-[Enable SMCN PopUps]
+[Enable SMCN Popups]
 
 [Status Message Changed]
 

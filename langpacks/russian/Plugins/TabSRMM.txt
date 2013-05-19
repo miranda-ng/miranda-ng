@@ -1511,7 +1511,7 @@ ID пользователя в панели статуса
 [tabSRMM Information]
 Информация tabSRMM
 [U&se Popup colours]
-Цвета плагина PopUp
+Цвета плагина Popup
 ;Уведомления
 
 [Contact not on list. You may add it...]
@@ -1611,8 +1611,8 @@ ID пользователя в панели статуса
 ...набирает текст
 [...stopped typing]
 ...закончил набирать текст
-[PopUps timeout]
-Таймаут плагина PopUp
+[Popups timeout]
+Таймаут плагина Popup
 [About tabSRMM]
 о TabSRMM
 [No Message Sessions opened]

@@ -5,7 +5,7 @@
 ;  Versions: 0.1.0.2
 ;  URL: http://miranda-im.org/download/feed.php?dlfile=831
 ;============================================================
-[Scans for network users of your shared files and notify you with popups. Uses PopUps Interoperability by Luca Santarelli. PopUps plugin must be activated!]
+[Scans for network users of your shared files and notify you with popups. Uses Popups Interoperability by Luca Santarelli. Popups plugin must be activated!]
 Сканирует сеть в поисках пользователей, использующих ваши файлы, открытые для доступа по сети и уведомляет всплывающими окнами.
 [WUMF: Who Use My Files?]
 Кто использует мои файлы?
@@ -16,21 +16,21 @@ WUMF: Показать подключения
 [Enable WUMF popups]
 Включить WUMF окна
 [Popup color settings]
-Настройки цвета PopUp
+Настройки цвета Popup
 [Choose colors]
 Выбрать цвет
-[Use default PopUp colors]
-Цвета PopUp
+[Use default Popup colors]
+Цвета Popup
 [Popup delay settings]
-Настройки показа PopUp
+Настройки показа Popup
 [Choose delay time]
 Настроить самому
 [Show infinitely]
 Постоянно
-[Default PopUp delay]
-Как в PopUp
-[Please note that this settings has effect only with PopUps Interoperability plugin version 1.0.1.9 or higher]
-Примечание: настройки действуют с PopUp версии 1.0.1.9 или выше
+[Default Popup delay]
+Как в Popup
+[Please note that this settings has effect only with Popups Interoperability plugin version 1.0.1.9 or higher]
+Примечание: настройки действуют с Popup версии 1.0.1.9 или выше
 [File access filter && logging settings]
 Настройки фильтров журнала
 [Log into text file]

@@ -81,7 +81,7 @@ koniec linii
 Włącz wsparcie dla bezczynności
 [Use popups]
 Użyj popup
-[PopUp Colors]
+[Popup Colors]
 Kolory
 [Reset colors]
 Resetuj

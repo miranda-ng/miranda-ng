@@ -47,7 +47,7 @@ Přečíst poštu
 [You've received an e-mail\n%s unread threads]
 
 ;file \protocols\GTalkExt\src\options.cpp
-[PopUps]
+[Popups]
 Oznámení
 [Network]
 Sítě

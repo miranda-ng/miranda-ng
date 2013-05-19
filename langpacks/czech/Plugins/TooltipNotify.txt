@@ -83,7 +83,7 @@ Změna stavu (přechod offline)
 Změna stavu (ostatní)
 [Tooltip Notify: Typing]
 Změna stavu (psaní zprávy)
-[PopUps]
+[Popups]
 Oznámení
 [** New contacts **]
 ** nové kontakty **

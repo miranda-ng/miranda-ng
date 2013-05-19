@@ -23,7 +23,7 @@
 [Use popups]
 [Title]
 [Text]
-[PopUp Colors]
+[Popup Colors]
 [Online]
 [Away]
 [NA]
@@ -59,7 +59,7 @@
 ;file \plugins\SeenPlugin\src\options.cpp
 [Last Seen Variables]
 [Contacts]
-[PopUps]
+[Popups]
 ;file \plugins\SeenPlugin\src\seen.h
 [%n is %s (%u)]
 [%i(%r)%bWas %o]

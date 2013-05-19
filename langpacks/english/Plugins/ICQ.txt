@@ -692,7 +692,7 @@
 [Contacts]
 [Features]
 [Privacy]
-[PopUps]
+[Popups]
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Popup Title]
 [Sample Note]

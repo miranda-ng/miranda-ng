@@ -19,7 +19,7 @@
 [Text colour:]
 [Reset to default]
 [Popup timeout]
-[From PopUp plugin]
+[From Popup plugin]
 [Custom]
 [Test]
 [Show now]
@@ -51,7 +51,7 @@
 [Options]
 [Traffic counter]
 [Statistics]
-[PopUps]
+[Popups]
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 [KB]

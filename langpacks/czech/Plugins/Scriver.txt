@@ -896,7 +896,7 @@ Vzhled
 
 [Select Folder]
 Vyberte požadovanou složku
-[PopUps]
+[Popups]
 Oznámení
 [Group chats]
 Skupinové rozhovory

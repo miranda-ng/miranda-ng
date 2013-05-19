@@ -41,7 +41,7 @@
 [Background]
 [Text]
 [Delay]
-[&From PopUp plugin]
+[&From Popup plugin]
 [&Custom]
 [P&ermanent]
 [Preview]

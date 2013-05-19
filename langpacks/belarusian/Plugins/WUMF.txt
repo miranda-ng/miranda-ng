@@ -1,7 +1,7 @@
 ﻿#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;  File: wumf.dll
 ;  Module: Who Uses My Files
-[Scans for network users of your shared files and notify you with popups. Uses PopUps Interoperability by Luca Santarelli. PopUps plugin must be activated!]
+[Scans for network users of your shared files and notify you with popups. Uses Popups Interoperability by Luca Santarelli. Popups plugin must be activated!]
 Скануе сетку ў пошуках карыстачоў, якія выкарыстоўваюць вашы файлы, адкрытыя для доступу па сетцы і апавяшчае ўсплывальнымі вокнамі.
 [WUMF: Who Use My Files?]
 Хто выкарыстоўвае мае файлы?
@@ -12,19 +12,19 @@ WUMF: Паказаць падлучэнні
 [Enable WUMF popups]
 Уключыць WUMF вокны
 [Popup color settings]
-Налады колеру PopUp
+Налады колеру Popup
 [Choose colors]
 Абраць колер
-[Use default PopUp colors]
-Колеры PopUp
+[Use default Popup colors]
+Колеры Popup
 [Popup delay settings]
-Налады паказу PopUp
+Налады паказу Popup
 [Choose delay time]
 Наладзіць самому
 [Show infinitely]
 Увесь час
-[Default PopUp delay]
-Як у PopUp
+[Default Popup delay]
+Як у Popup
 [File access filter && logging settings]
 Налады фільтраў часопіса
 [Log into text file]

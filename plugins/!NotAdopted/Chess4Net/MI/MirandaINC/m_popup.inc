@@ -1,12 +1,12 @@
 (*
 ===============================================================================
-                                PopUp plugin
-Plugin Name: PopUp
+                                Popup plugin
+Plugin Name: Popup
 Plugin author: hrk, Luca Santarelli, hrk@users.sourceforge.net
 This file has been created by egodust, Sam, egodust@users.sourceforge.net
 ===============================================================================
 
-The purpose of this plugin is to give developers a common "platform/interface" to show PopUps. It is born from the source code of NewStatusNotify, another plugin I've made.
+The purpose of this plugin is to give developers a common "platform/interface" to show Popups. It is born from the source code of NewStatusNotify, another plugin I've made.
 
 Remember that users *must* have this plugin enabled, or they won't get any popup. Write this in the requirements, do whatever you wish ;-)... but tell them!
 ===============================================================================
@@ -70,36 +70,36 @@ const
 
 (*
     Creates, adds and shows a popup, given a (valid) POPUPDATA structure pointer.
-    wParam = (WPARAM)(*POPUPDATA)PopUpDataAddress
+    wParam = (WPARAM)(*POPUPDATA)PopupDataAddress
     lParam = 0
-    Returns: > 0 on success, 0 if creation went bad, -1 if the PopUpData contained unacceptable values.
-    NOTE: it returns -1 if the PopUpData was not valid, if there were already too many popups, if the module was disabled.
+    Returns: > 0 on success, 0 if creation went bad, -1 if the PopupData contained unacceptable values.
+    NOTE: it returns -1 if the PopupData was not valid, if there were already too many popups, if the module was disabled.
     Otherwise, it can return anything else...
 *)
 
-    MS_POPUP_ADDPOPUP = 'PopUp/AddPopUp';
+    MS_POPUP_ADDPOPUP = 'Popup/AddPopup';
 
 (*
     The same, but with a POPUPDATAEX structure pointer.
-    wParam = (WPARAM)(*POPUPDATAEX)PopUpDataExAddress
+    wParam = (WPARAM)(*POPUPDATAEX)PopupDataExAddress
     lParam = 0
 *)
 
-    MS_POPUP_ADDPOPUP = 'PopUp/AddPopUpEx';
+    MS_POPUP_ADDPOPUP = 'Popup/AddPopupEx';
 
 (*
-    Returns the handle to the contact associated to the specified PopUpWindow.
+    Returns the handle to the contact associated to the specified PopupWindow.
     You will probably need to know this handle inside your WNDPROC. Exampole: you want to open the MessageWindow. :-)
     Call MS_POPUP_GETCONTACT on the hWnd you were given in the WNDPROC.
-    wParam = (WPARAM)(HWND)hPopUpWindow
+    wParam = (WPARAM)(HWND)hPopupWindow
     lParam = 0;
     Returns: the HANDLE of the contact. Can return NULL, meaning it's the main contact. -1 means failure.
 *)  
 
-    MS_POPUP_GETCONTACT = 'PopUp/GetContact';
+    MS_POPUP_GETCONTACT = 'Popup/GetContact';
     
 (*
-    wParam = hPopUpWindow
+    wParam = hPopupWindow
     lParam = PluginDataAddress;
     Returns: the address of the PLUGINDATA structure. Can return NULL, meaning nothing was given. -1 means failure.
     IMPORTANT NOTE: it doesn't seem to work if you do:
@@ -107,16 +107,16 @@ const
     and then use that struct.
     Do this, instead:
     aPointerToStruct = CallService(..., (LPARAM)aPointerToAStruct);
-    and it will work. Just look at the example I've written above (PopUpDlgProc).
+    and it will work. Just look at the example I've written above (PopupDlgProc).
 *)
-    MS_POPUP_GETPLUGINDATA = 'PopUp/GetPluginData';
+    MS_POPUP_GETPLUGINDATA = 'Popup/GetPluginData';
     
 (*
     wParam = 0
     lParam = 0
     Returns: 0 if the user has chosen not to have the second line, 1 if he choose to have the second line.
 *)
-    MS_POPUP_ISSECONDLINESHOWN = 'PopUp/IsSecondLineShown';
+    MS_POPUP_ISSECONDLINESHOWN = 'Popup/IsSecondLineShown';
     
 (*
     UM_FREEPLUGINDATA
@@ -132,29 +132,29 @@ const
 
 (*
     UM_INITPOPUP
-    wParam = (WPARAM)(HWND)hPopUpWindow (but this is useless, since I'll directly send it to your hPopUpWindow
+    wParam = (WPARAM)(HWND)hPopupWindow (but this is useless, since I'll directly send it to your hPopupWindow
     lParam = 0.
-    This message is sent to the PopUp when its creation has been finished, so POPUPDATA (and thus your PluginData) is reachable.
+    This message is sent to the Popup when its creation has been finished, so POPUPDATA (and thus your PluginData) is reachable.
     Catch it if you needed to catch WM_CREATE or WM_INITDIALOG, which you'll never ever get in your entire popup-life.
     Return value: if you process this message, return 0. If you don't process it, return 0. Do whatever you like ;-)
 *)
     UM_INITPOPUP            = ($400(*WM_USER*) + $202);
 
 (*
-    wParam = hPopUpWindow
+    wParam = hPopupWindow
     lParam = lpzNewText
     returns: > 0 for success, -1 for failure, 0 if the failure is due to second line not being shown. (but you could call PUIsSecondLineShown() before changing the text...)
     Changes the text displayed in the second line of the popup.
 *)
-    MS_POPUP_CHANGETEXT         = 'PopUp/Changetext';
+    MS_POPUP_CHANGETEXT         = 'Popup/Changetext';
 
 (*
     This is mainly for developers.
-    Shows a warning message in a PopUp. It's useful if you need a "MessageBox" like function, but you don't want a modal window (which will interfere with a DialogProcedure. MessageBox steals focus and control, this one not.
+    Shows a warning message in a Popup. It's useful if you need a "MessageBox" like function, but you don't want a modal window (which will interfere with a DialogProcedure. MessageBox steals focus and control, this one not.
     wParam = lpzMessage
     lParam = 0;  Returns: 0 if the popup was shown, -1 in case of failure.
 *)
-    MS_POPUP_SHOWMESSAGE        = 'PopUp/ShowMessage';
+    MS_POPUP_SHOWMESSAGE        = 'Popup/ShowMessage';
     
 
     (* helper functions, will be inlined on FPC if you have the swithces enabled *)
@@ -167,15 +167,15 @@ const
         Result := CallService(MS_POPUP_ADDPOPUP, WPARAM(ppdp), 0);
     end;
     
-    function PUGetContact(hPopUpWindow: THandle): THandle;
+    function PUGetContact(hPopupWindow: THandle): THandle;
     {$ifdef FPC}
     inline;
     {$endif}
     begin
-        Result := CallService(MS_POPUP_GETCONTACT, WPARAM(hPopUpWindow), 0);
+        Result := CallService(MS_POPUP_GETCONTACT, WPARAM(hPopupWindow), 0);
     end;
 
-    function PUGetPluginData(hPopUpWindow: THandle): Pointer;
+    function PUGetPluginData(hPopupWindow: THandle): Pointer;
     {$ifdef FPC}
     inline;
     {$endif}
@@ -183,7 +183,7 @@ const
         dummy: pointer;
     begin
         dummy := nil;
-        Int(Result) := CallService(MS_POPUP_GETPLUGINDATA, WPARAM(hPopUpWindow), LPARAM(dummy));
+        Int(Result) := CallService(MS_POPUP_GETPLUGINDATA, WPARAM(hPopupWindow), LPARAM(dummy));
     end;
 
     function PUIsSecondLineShown: BOOL;
@@ -194,20 +194,20 @@ const
         Int(Result) := CallService(MS_POPUP_ISSECONDLINESHOWN, 0, 0);
     end;
 
-    function PUDeletePopUp(hWndPopUp: THandle): int;
+    function PUDeletePopup(hWndPopup: THandle): int;
     {$ifdef FPC}
     inline;
     {$endif}
     begin
-        Result := SendMessage(hWndPopUp, UM_DESTROYPOPUP, 0, 0);
+        Result := SendMessage(hWndPopup, UM_DESTROYPOPUP, 0, 0);
     end;
     
-    function PUChangeText(hWndPopUp: THandle; lpzNewText: PChar): int;
+    function PUChangeText(hWndPopup: THandle; lpzNewText: PChar): int;
     {$ifdef FPC}
     inline;
     {$endif}
     begin
-        Result := CallService(MS_POPUP_CHANGETEXT, WPARAM(hWndPopUp), LPARAM(lpzNewText));
+        Result := CallService(MS_POPUP_CHANGETEXT, WPARAM(hWndPopup), LPARAM(lpzNewText));
     end;
     
     function PUShowMessage(lpzText: PChar; kind: Byte): int;

@@ -26,7 +26,7 @@ Einstellungen
 Ergebnisbehandlung
 [Copy result to clipboard]
 Ergebnis in Zwischenablage kopieren
-[Show result in PopUp]
+[Show result in Popup]
 Ergebnis als Popup zeigen
 [Strings for keyboard layouts]
 Zeichenketten für Tastaturlayout
@@ -46,7 +46,7 @@ Caps Lock Status bei Umkehrung der Groß-/Kleinschreibung ändern:
 
 [Colours]
 Farben
-[PopUp colours]
+[Popup colours]
 Popupfarben
 [Windows colours]
 Windowsfarben
@@ -58,7 +58,7 @@ Hgrd.
 Text
 [Timeout]
 Timeout
-[From PopUp plugin]
+[From Popup plugin]
 Vom Popup-Plugin
 [Permanent]
 Dauerhaft
@@ -86,5 +86,5 @@ Popup
 
 [Message Sessions]
 Nachrichtensitzungen
-[PopUps]
+[Popups]
 Popups

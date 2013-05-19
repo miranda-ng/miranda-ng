@@ -18,7 +18,7 @@ Plugins-included: advaimg, aim, avs, clist_modern, clist_mw, clist_nicer, dbchec
 ; Домашна страница: http://polzvam.info/
 
 ; D:\Translation\MirandaNG\SVN\trunk\include\m_popup.h
-[PopUps]
+[Popups]
 РopUps
 
 ; D:\Translation\MirandaNG\SVN\trunk\plugins\!Deprecated\NewAwaySysMod\AwayOpt.cpp
@@ -320,8 +320,8 @@ Tahoma
 Предупреждение
 [Notify]
 Уведомяване
-[PopUp 1.0.1.x compatability]
-Съвместимост с PopUp 1.0.1.x
+[Popup 1.0.1.x compatability]
+Съвместимост с Popup 1.0.1.x
 
 ; D:\Translation\MirandaNG\SVN\trunk\plugins\!NotAdopted\Skype\Skript1.rc
 [Set]
@@ -584,8 +584,8 @@ AM/PM
 Приемане
 [Show]
 Показване
-[&From PopUp plugin]
-От приставката PopUp
+[&From Popup plugin]
+От приставката Popup
 [&Custom]
 Избор
 [P&ermanent]
@@ -1528,8 +1528,8 @@ Miranda NG е заключена.\nВъведете паролата за отключване.
 Двупосочна смяна (експериментално)
 [Copy result to clipboard]
 Копиране на резултата в клипборда
-[Show result in PopUp]
-Показване на резултата в PopUp
+[Show result in Popup]
+Показване на резултата в Popup
 [Strings for keyboard layouts]
 Низове за клавиатурните подредби
 [Invert current state]
@@ -1550,8 +1550,8 @@ Miranda NG е заключена.\nВъведете паролата за отключване.
 Назад
 [Timeout]
 Времетраене
-[From PopUp plugin]
-От PopUp приставката
+[From Popup plugin]
+От Popup приставката
 [Copy to clipboard]
 Запис в клипборда
 
@@ -3577,7 +3577,7 @@ Database Editor++ Търсене и заместване
 [Warn when deleting modules]
 Предупреждение при изтриване на модул
 [Use popups when watched settings change values]
-Уведомяване с PopUp при промяна на наблюдавана стойност
+Уведомяване с Popup при промяна на наблюдавана стойност
 [Modules to ALWAYS mark as known (e.g core modules)]
 Модули, които ВИНАГИ ще бъдат маркирани като познати
 [Put a space or comma between each module name]
@@ -5353,7 +5353,7 @@ OTR създаване на нов частен ключ
 [Show OTR system messages inline]
 Показване на OTR системните съобщения в прозореца за съобщения
 [Show OTR system messages as popup]
-Показване на OTR системните съобщения като PopUp
+Показване на OTR системните съобщения като Popup
 [Show verification dialog when receiving unverified fingerprint]
 Изискване на потвърждаване при получаване на непотвърден отпечатък
 [Set OTR policy per protocol]
@@ -5723,7 +5723,7 @@ popup с текст за състояние
 
 ; D:\Translation\MirandaNG\SVN\trunk\plugins\NewEventNotify\res\resource.rc
 [Popup Options]
-PopUp настройки
+Popup настройки
 [Dismiss Popup]
 Затваряне на Popup
 
@@ -5787,7 +5787,7 @@ PopUp настройки
 [Use custom colours]
 Зададени цветове
 [Use Popup colours]
-От PopUp приставката
+От Popup приставката
 [Popup text]
 Текст на Popup-а
 [Show previous status too]
@@ -6025,7 +6025,7 @@ PopUp настройки
 [Use &Windows colours]
 Цветове от Windows
 [Use Pop&up colours]
-От PopUp приставката
+От Popup приставката
 [Boxes]
 Кутии
 
@@ -7188,8 +7188,8 @@ Unicode е изключен
 Протоколи за наблюдаване:
 [Use popups]
 Ползване на popups
-[PopUp Colors]
-PopUp цветове
+[Popup Colors]
+Popup цветове
 [Reset colors]
 Анулиране
 [You missed following contacts:]
@@ -7933,7 +7933,7 @@ StopSpam: изпратете съобщение и отговорете на въпроса. /English: send a message 
 [Use the message log color theme for group chat popups]
 Ползване цветовете на дневника и за popups относно групови чатове
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
-Системата за уведомяване е неактивна, защото не е открита съвместима PopUp приставка.
+Системата за уведомяване е неактивна, защото не е открита съвместима Popup приставка.
 [All modes]
 Всички режими
 [Choose modes]
@@ -8159,19 +8159,19 @@ Windows Aero - настройки
 [...stopped t&yping]
 ... спря да пише
 [U&se Popup colours]
-Цветове от PopUp приставката
+Цветове от Popup приставката
 [&Use Windows colours]
 Цветове от Windows
 [Only &one popup for each contact]
 По един popup на контакт
 [Show &entry in the main menu]
 Добавяне на елемент в главното меню
-[PopUp timeout (is typing)]
-PopUp времетраене (пише)
+[Popup timeout (is typing)]
+Popup времетраене (пише)
 [From protocol]
 От протокола
-[PopUp timeout (stopped typing)]
-PopUp времетраене (спря да пише)
+[Popup timeout (stopped typing)]
+Popup времетраене (спря да пише)
 [Edit template]
 Редактиране на шаблона
 [Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
@@ -9279,9 +9279,9 @@ tabSRMM съобщение (%s)
 [Enable &typing notification]
 Включване на уведомяванията при писане
 [Warning: Popup plugin not found.]
-Внимание: Не е открита PopUp приставка.
+Внимание: Не е открита Popup приставка.
 [Warning: Current Popup plugin version is not supported.]
-Внимание: Версията на PopUp приставката не се поддържа.
+Внимание: Версията на Popup приставката не се поддържа.
 [...is typing a message.]
 ...пише съобщение.
 [...has stopped typing.]
@@ -15141,7 +15141,7 @@ Xml файлове (*.xml)
 
 ; D:\Translation\MirandaNG\SVN\trunk\protocols\Twitter\res\twitter.rc
 [Use Popup colors]
-Цветове от PopUp приставката
+Цветове от Popup приставката
 [Use custom colors]
 Избор на цветове
 [Timeouts]
@@ -15232,10 +15232,10 @@ URL за още инф.
 Задаване като стандартна станция
 [Disable automatic update for this station]
 Без автоматично обновяване за метеостанцията
-[Disable PopUp for this station]
-Без PopUp за станцията
-[PopUp Options]
-PopUp настройки
+[Disable Popup for this station]
+Без Popup за станцията
+[Popup Options]
+Popup настройки
 [Popup only when condition changes]
 Popup само при промяна на условията
 [Popup Actions]
@@ -15292,8 +15292,8 @@ Popup текст
 Общо използвана памет
 [Reload INI]
 Презареждане
-[Dismiss PopUp]
-Затваряне на PopUp
+[Dismiss Popup]
+Затваряне на Popup
 [Open brief information]
 Отваряне на кратка прогноза
 [Open complete forecast]
@@ -15715,7 +15715,7 @@ Copyright:
 [Userlist row distance (pixels):]
 Височина на ред в списъка с прякори (пиксела):
 [Popups for the Chat plugin]
-PopUp за приставката Chat
+Popup за приставката Chat
 
 ; D:\Translation\MirandaNG\SVN\trunk\src\core\stdchat\src\options.cpp
 [Use a tabbed interface]

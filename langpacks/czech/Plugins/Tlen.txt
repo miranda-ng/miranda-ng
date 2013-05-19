@@ -81,7 +81,7 @@ Pozadí
 Text
 [Delay]
 Prodleva
-[&From PopUp plugin]
+[&From Popup plugin]
 G&lobální nastavení
 [&Custom]
 &Vlastní

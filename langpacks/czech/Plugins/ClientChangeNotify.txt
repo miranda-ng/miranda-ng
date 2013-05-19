@@ -79,7 +79,7 @@ změnil klienta na %s
 Vypnout oznámení o změně klienta
 [Enable c&lient change notification]
 Zapnout oznámení o změně klienta
-[PopUps]
+[Popups]
 Oznámení
 [ClientChangeNotify: Client changed]
 Změna klienta

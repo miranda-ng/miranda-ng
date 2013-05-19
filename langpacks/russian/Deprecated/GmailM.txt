@@ -19,7 +19,7 @@
 Уведомлять:
 [System Tray]
 Трей
-[PopUp Plugin]
+[Popup Plugin]
 Вспл. окна
 [Duration:]
 Длит.:

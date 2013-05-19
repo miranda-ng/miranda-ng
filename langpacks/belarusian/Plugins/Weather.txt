@@ -35,7 +35,7 @@
 Вонкавы файл
 [Other Options]
 Іншыя налады
-[Disable PopUp for this station]
+[Disable Popup for this station]
 Не выводзіць усплывальнае акно
 [Brief Info]
 Коратка
@@ -369,7 +369,7 @@ HTTP падлучэнне Weather
 Налада спасылак
 [Do not display weather condition as protocol status]
 Не паказваць стан надвор'я як статут пратаколу
-[PopUp Text]
+[Popup Text]
 Усплывальны тэкст
 [Weather Protocol Text Options]
 Шаблоны дыялогаў надвор'я 

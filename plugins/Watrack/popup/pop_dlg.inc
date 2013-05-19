@@ -1,10 +1,10 @@
-{PopUp Option Dialog}
+{Popup Option Dialog}
 
-// PopUp options
+// Popup options
 const
   DLGPOPUP = 'POPUP';
 
-function DlgPopUpOpt(Dialog:HWnd;hMessage:Uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
+function DlgPopupOpt(Dialog:HWnd;hMessage:Uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 const
   dlginit:boolean=false;
 var
@@ -21,29 +21,29 @@ begin
       SetDlgItemTextW(Dialog,IDC_POPUP_TITLE,PopTitle);
       SetDlgItemTextW(Dialog,IDC_POPUP_TEXT ,PopText);
       
-      CheckDlgButton(Dialog,IDC_SHOWFILE ,PopUpFile);
+      CheckDlgButton(Dialog,IDC_SHOWFILE ,PopupFile);
       CheckDlgButton(Dialog,IDC_REQUEST  ,PopRequest);
 
-      CheckDlgButton(Dialog,IDC_ACTLEFTCLOSE  ,ord(LoByte(PopUpAction)=0));
-      CheckDlgButton(Dialog,IDC_ACTLEFTINFO   ,ord(LoByte(PopUpAction)=1));
-      CheckDlgButton(Dialog,IDC_ACTLEFTPLAYER ,ord(LoByte(PopUpAction)=2));
-      CheckDlgButton(Dialog,IDC_ACTLEFTNEXT   ,ord(LoByte(PopUpAction)=3));
-      CheckDlgButton(Dialog,IDC_ACTRIGHTCLOSE ,ord(HiByte(PopUpAction)=0));
-      CheckDlgButton(Dialog,IDC_ACTRIGHTINFO  ,ord(HiByte(PopUpAction)=1));
-      CheckDlgButton(Dialog,IDC_ACTRIGHTPLAYER,ord(HiByte(PopUpAction)=2));
-      CheckDlgButton(Dialog,IDC_ACTRIGHTNEXT  ,ord(HiByte(PopUpAction)=3));
+      CheckDlgButton(Dialog,IDC_ACTLEFTCLOSE  ,ord(LoByte(PopupAction)=0));
+      CheckDlgButton(Dialog,IDC_ACTLEFTINFO   ,ord(LoByte(PopupAction)=1));
+      CheckDlgButton(Dialog,IDC_ACTLEFTPLAYER ,ord(LoByte(PopupAction)=2));
+      CheckDlgButton(Dialog,IDC_ACTLEFTNEXT   ,ord(LoByte(PopupAction)=3));
+      CheckDlgButton(Dialog,IDC_ACTRIGHTCLOSE ,ord(HiByte(PopupAction)=0));
+      CheckDlgButton(Dialog,IDC_ACTRIGHTINFO  ,ord(HiByte(PopupAction)=1));
+      CheckDlgButton(Dialog,IDC_ACTRIGHTPLAYER,ord(HiByte(PopupAction)=2));
+      CheckDlgButton(Dialog,IDC_ACTRIGHTNEXT  ,ord(HiByte(PopupAction)=3));
 
-      CheckDlgButton(Dialog,IDC_USEBUTTONS,PopUpButtons);
+      CheckDlgButton(Dialog,IDC_USEBUTTONS,PopupButtons);
 
-      SetDlgItemInt (Dialog,IDC_DELAY,PopUpPause,false);
+      SetDlgItemInt (Dialog,IDC_DELAY,PopupPause,false);
 
-      if PopUpDelay<0 then
+      if PopupDelay<0 then
         CheckDlgButton(Dialog,IDC_DELAYPERM,BST_CHECKED)
-      else if PopUpDelay=0 then
+      else if PopupDelay=0 then
         CheckDlgButton(Dialog,IDC_DELAYDEF,BST_CHECKED)
       else
         CheckDlgButton(Dialog,IDC_DELAYCUST,BST_CHECKED);
-      if PopUpDelay<=0 then
+      if PopupDelay<=0 then
         EnableWindow(GetDlgItem(Dialog,IDC_DELAY),false);
 
       SendDlgItemMessage(Dialog,IDC_MACRO_HELP,BM_SETIMAGE,IMAGE_ICON,
@@ -51,18 +51,18 @@ begin
 
       fore:=GetDlgItem(Dialog,IDC_FORE);
       back:=GetDlgItem(Dialog,IDC_BACK);
-      SendMessage(fore,CPM_SETCOLOUR,0,PopUpFore);
+      SendMessage(fore,CPM_SETCOLOUR,0,PopupFore);
       SendMessage(fore,CPM_SETDEFAULTCOLOUR,0,GetSysColor(COLOR_BTNTEXT));
-      SendMessage(back,CPM_SETCOLOUR,0,PopUpBack);
+      SendMessage(back,CPM_SETCOLOUR,0,PopupBack);
       SendMessage(back,CPM_SETDEFAULTCOLOUR,0,GetSysColor(COLOR_BTNFACE));
-      SetDlgItemInt(Dialog,IDC_FORE,PopUpFore,false);
-      SetDlgItemInt(Dialog,IDC_BACK,PopUpBack,false);
-      if PopUpColor<2 then
+      SetDlgItemInt(Dialog,IDC_FORE,PopupFore,false);
+      SetDlgItemInt(Dialog,IDC_BACK,PopupBack,false);
+      if PopupColor<2 then
       begin
         EnableWindow(fore,false);
         EnableWindow(back,false);
       end;
-      case PopUpColor of
+      case PopupColor of
         0: CheckDlgButton(Dialog,IDC_COLORDEF ,BST_CHECKED);
         1: CheckDlgButton(Dialog,IDC_COLORWIN ,BST_CHECKED);
         2: CheckDlgButton(Dialog,IDC_COLORCUST,BST_CHECKED);
@@ -130,46 +130,46 @@ begin
           PopTitle:=GetDlgText(Dialog,IDC_POPUP_TITLE);
           PopText :=GetDlgText(Dialog,IDC_POPUP_TEXT);
           
-          PopUpButtons:=IsDlgButtonChecked(Dialog,IDC_USEBUTTONS);
+          PopupButtons:=IsDlgButtonChecked(Dialog,IDC_USEBUTTONS);
 
-          PopUpFile :=IsDlgButtonChecked(Dialog,IDC_SHOWFILE);
+          PopupFile :=IsDlgButtonChecked(Dialog,IDC_SHOWFILE);
           PopRequest:=IsDlgButtonChecked(Dialog,IDC_REQUEST);
 //color
           if IsDlgButtonChecked(Dialog,IDC_COLORDEF)=BST_CHECKED then
-            PopUpColor:=0
+            PopupColor:=0
           else if IsDlgButtonChecked(Dialog,IDC_COLORWIN)=BST_CHECKED then
-            PopUpColor:=1
+            PopupColor:=1
           else
           begin
-            PopUpColor:=2;
-            PopUpFore:=SendDlgItemMessage(Dialog,IDC_FORE,CPM_GETCOLOUR,0,0);
-            PopUpBack:=SendDlgItemMessage(Dialog,IDC_BACK,CPM_GETCOLOUR,0,0);
+            PopupColor:=2;
+            PopupFore:=SendDlgItemMessage(Dialog,IDC_FORE,CPM_GETCOLOUR,0,0);
+            PopupBack:=SendDlgItemMessage(Dialog,IDC_BACK,CPM_GETCOLOUR,0,0);
           end;
 //pause
           if IsDlgButtonChecked(Dialog,IDC_DELAYDEF)=BST_CHECKED then
-            PopUpDelay:=0
+            PopupDelay:=0
           else if IsDlgButtonChecked(Dialog,IDC_DELAYPERM)=BST_CHECKED then
-            PopUpDelay:=-1
+            PopupDelay:=-1
           else
           begin
-            PopUpDelay:=1;
-            PopUpPause:=GetDlgItemInt(Dialog,IDC_DELAY,tmp,false);
+            PopupDelay:=1;
+            PopupPause:=GetDlgItemInt(Dialog,IDC_DELAY,tmp,false);
           end;
 //action
           if IsDlgButtonChecked(Dialog,IDC_ACTLEFTINFO)=BST_CHECKED then
-            PopUpAction:=1
+            PopupAction:=1
           else if IsDlgButtonChecked(Dialog,IDC_ACTLEFTPLAYER)=BST_CHECKED then
-            PopUpAction:=2
+            PopupAction:=2
           else if IsDlgButtonChecked(Dialog,IDC_ACTLEFTNEXT)=BST_CHECKED then
-            PopUpAction:=3
+            PopupAction:=3
           else
-            PopUpAction:=0;
+            PopupAction:=0;
           if IsDlgButtonChecked(Dialog,IDC_ACTRIGHTINFO)=BST_CHECKED then
-            inc(PopUpAction,$100)
+            inc(PopupAction,$100)
           else if IsDlgButtonChecked(Dialog,IDC_ACTRIGHTPLAYER)=BST_CHECKED then
-            inc(PopUpAction,$200)
+            inc(PopupAction,$200)
           else if IsDlgButtonChecked(Dialog,IDC_ACTRIGHTNEXT)=BST_CHECKED then
-            inc(PopUpAction,$300);
+            inc(PopupAction,$300);
 
           savepopup;
         end;

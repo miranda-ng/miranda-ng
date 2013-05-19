@@ -78,7 +78,7 @@
 [Enable "Miss you" feature]
 Включить функцию "Жду тебя"
 [Use Popups colors]
-Цвета PopUp
+Цвета Popup
 [weeks]
 недель
 [months]

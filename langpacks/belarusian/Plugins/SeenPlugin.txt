@@ -97,7 +97,7 @@
 Апошняе з'яўленне
 [Reset colors]
 Скід кветак
-[PopUp Colors]
+[Popup Colors]
 Колеры вокнаў
 [Use popups]
 Успл. акна

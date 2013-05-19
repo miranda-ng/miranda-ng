@@ -163,7 +163,7 @@ Testovací kontakt
 Testovací popis
 [Avatar]
 Avatar
-[PopUps]
+[Popups]
 Oznámení
 [Avatar Change]
 Změna avataru

@@ -47,7 +47,7 @@ Mailbox öffnen
 [You've received an e-mail\n%s unread threads]
 Sie haben eine E-Mail erhalten \n%s ungelesene Themen
 ;file \protocols\GTalkExt\src\options.cpp
-[PopUps]
+[Popups]
 Popups
 [Network]
 Netzwerk

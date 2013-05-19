@@ -124,7 +124,7 @@ Ein neues Mail.ru-Konto über die Mail.ru Website erstellen
 Vergessenes Kennwort anfordern
 [Leave empty if you dont want change password]
 
-[PopUp type]
+[Popup type]
 Popup-Typ
 [Popup settings]
 Popup-Einstellungen
@@ -289,7 +289,7 @@ Kontaktmenü
 Extra Status
 [Custom Status]
 Custom Status
-;file \protocols\MRA\src\MraPopUp.cpp
+;file \protocols\MRA\src\MraPopup.cpp
 [None]
 Keine
 [Debug]
@@ -304,7 +304,7 @@ Warnung
 Fehler
 [NewMail]
 Neue E-Mail
-[PopUps]
+[Popups]
 Popups
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]

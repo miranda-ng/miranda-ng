@@ -68,7 +68,7 @@
 [Contact name]
 [has returned after being absent since %d days]
 [Contacts]
-[PopUps]
+[Popups]
 [not detected]
 [not found]
 [This contact has been absent for an extended period of time.]

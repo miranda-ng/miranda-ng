@@ -458,7 +458,7 @@
 [Appearance]
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 [Select Folder]
-[PopUps]
+[Popups]
 [Group chats]
 [Message is highlighted]
 [User has performed an action]

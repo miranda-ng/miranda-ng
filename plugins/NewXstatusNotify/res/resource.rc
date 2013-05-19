@@ -335,7 +335,7 @@ STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | DS_CENTER | WS_
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "General",IDC_STATIC,7,0,289,39
-    CONTROL         "Show PopUps when I connect",IDC_ONCONNECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,11,274,8
+    CONTROL         "Show Popups when I connect",IDC_ONCONNECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,11,274,8
     CONTROL         "Ignore empty status messages",IDC_PUIGNOREREMOVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,25,274,8
     GROUPBOX        "Protocols",IDC_STATIC,7,41,289,124
     CTEXT           "Enable/Disable protocols which you don't wish to be notified for:",IDC_STATIC,14,52,274,10

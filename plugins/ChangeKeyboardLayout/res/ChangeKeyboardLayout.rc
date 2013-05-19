@@ -138,7 +138,7 @@ BEGIN
     GROUPBOX        "Log operations",IDC_STATIC_GROUP_LOG,2,96,152,81
     CONTROL         "Copy result to clipboard",IDC_CHECK_CLIPBOARD,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,8,108,141,10
-    CONTROL         "Show result in PopUp",IDC_CHECK_POPUP,"Button",
+    CONTROL         "Show result in Popup",IDC_CHECK_POPUP,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,8,121,141,10
     GROUPBOX        "Strings for keyboard layouts",IDC_STATIC_GROUP_STRINGS,
                     2,180,308,65
@@ -182,7 +182,7 @@ STYLE DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Colours",IDC_GROUP_COLOURS,2,2,91,72,WS_GROUP
-    CONTROL         "PopUp colours",IDC_RADIO_COLOURS_POPUP,"Button",
+    CONTROL         "Popup colours",IDC_RADIO_COLOURS_POPUP,"Button",
                     BS_AUTORADIOBUTTON,6,12,82,10
     CONTROL         "Windows colours",IDC_RADIO_COLOURS_WINDOWS,"Button",
                     BS_AUTORADIOBUTTON,6,23,82,10
@@ -195,7 +195,7 @@ BEGIN
     CONTROL         "Custom1",IDC_CUSTOM_TEXT,"ColourPicker",WS_TABSTOP,56,
                     55,29,14
     GROUPBOX        "Timeout",IDC_GROUP_TIMEOUT,95,2,91,72,WS_GROUP
-    CONTROL         "From PopUp plugin",IDC_RADIO_TIMEOUT_POPUP,"Button",
+    CONTROL         "From Popup plugin",IDC_RADIO_TIMEOUT_POPUP,"Button",
                     BS_AUTORADIOBUTTON,99,12,82,10
     CONTROL         "Permanent",IDC_RADIO_TIMEOUT_PERMANENT,"Button",
                     BS_AUTORADIOBUTTON,99,23,82,10

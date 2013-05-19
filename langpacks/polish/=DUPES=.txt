@@ -27,8 +27,8 @@ Niedostępny
 Podgląd
 [Permanent]
 Stałe
-[From PopUp plugin]
-Z wtyczki PopUp
+[From Popup plugin]
+Z wtyczki Popup
 [seconds]
 sekund
 [Delay]
@@ -177,7 +177,7 @@ Nieznany
 Przychodzące wiadomości
 [Outgoing messages]
 Wychodzące wiadomości
-[Show PopUps when I connect]
+[Show Popups when I connect]
 Pokaż popupy podczas łączenia
 [Blink icon in the system tray]
 Migaj ikoną w zasobniku systemowym

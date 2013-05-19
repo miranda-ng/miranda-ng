@@ -896,7 +896,7 @@ Erscheinungsbild
 
 [Select Folder]
 Ordner wählen
-[PopUps]
+[Popups]
 Popups
 [Group chats]
 Gruppenchats

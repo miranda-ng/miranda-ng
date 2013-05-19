@@ -1,4 +1,4 @@
-{PopUp support}
+{Popup support}
 unit Popups;
 {$include compilers.inc}
 interface
@@ -59,7 +59,7 @@ begin
     lvars[13]:=uint_ptr(txtver);
   end;
   StrCopyW(Tmpl,TranslateW(MainTmpl));
-  if PopUpFile=BST_CHECKED then
+  if PopupFile=BST_CHECKED then
   begin
     lvars[14]:=uint_ptr(si^.mfile);
     lvars[15]:=si^.fsize;
@@ -79,9 +79,9 @@ begin
   case msg of
     WM_COMMAND,WM_CONTEXTMENU: begin
       if msg=WM_CONTEXTMENU then
-        wParam:=HiByte(PopUpAction)
+        wParam:=HiByte(PopupAction)
       else
-        wParam:=LoByte(PopUpAction);
+        wParam:=LoByte(PopupAction);
       si:=pointer(CallService(MS_WAT_RETURNGLOBAL,0,0));
       case wParam of
         1: ShowMusicInfo(si);
@@ -124,7 +124,7 @@ type
 var
   actions:^anacts;
 begin
-  if PopUpButtons<>BST_UNCHECKED then
+  if PopupButtons<>BST_UNCHECKED then
   begin
     mGetMem(actions,SizeOf(anacts));
     result:=PPOPUPACTION(actions);
@@ -167,13 +167,13 @@ begin
       Icon:=si^.icon
     else
       Icon:=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-    if PopUpDelay<0 then
+    if PopupDelay<0 then
       sec:=-1
-    else if PopUpDelay>0 then
-      sec:=PopUpPause
+    else if PopupDelay>0 then
+      sec:=PopupPause
     else
       sec:=0;
-    case PopUpColor of
+    case PopupColor of
       0: begin
         cb:=0;
         ct:=0;
@@ -183,8 +183,8 @@ begin
         ct:=GetSysColor(COLOR_BTNTEXT);
       end;
       2: begin
-        cb:=PopUpBack;
-        ct:=PopUpFore;
+        cb:=PopupBack;
+        ct:=PopupFore;
       end;
     else
       cb:=0;
@@ -287,14 +287,14 @@ begin
   end;
 end;
 
-procedure ShowPopUp(si:pSongInfo);
+procedure ShowPopup(si:pSongInfo);
 begin
   mir_forkthread(@ThShowPopup,si);
 end;
 
 // --------------- Services and Hooks ----------------
 
-function OpenPopUp(wParam:WPARAM;lParam:LPARAM):int;cdecl;
+function OpenPopup(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
   si:pSongInfo;
 begin
@@ -304,7 +304,7 @@ begin
   if CallService(MS_WAT_GETMUSICINFO,0,tlparam(@si))=WAT_PLS_NORMAL then
   begin
     if PopupPresent then
-      ShowPopUp(si)
+      ShowPopup(si)
     else
       ShowMusicInfo(si);
   end;
@@ -340,7 +340,7 @@ begin
   case wParam of
     WAT_EVENT_NEWTRACK: begin
       if PopupPresent and (PopRequest=BST_UNCHECKED) then
-        ShowPopUp(pSongInfo(lParam));
+        ShowPopup(pSongInfo(lParam));
     end;
     WAT_EVENT_PLUGINSTATUS: begin
       DisablePlugin:=lParam;
@@ -391,9 +391,9 @@ begin
   odp.hInstance  :=hInstance;
   odp.szTitle.a  :=PluginName;
 
-  odp.szGroup.a  :='PopUps';
+  odp.szGroup.a  :='Popups';
   odp.pszTemplate:=DLGPOPUP;
-  odp.pfnDlgProc :=@DlgPopUpOpt;
+  odp.pfnDlgProc :=@DlgPopupOpt;
   CallService(MS_OPT_ADDPAGE,wParam,tlparam(@odp));
   result:=0;
 end;
@@ -433,7 +433,7 @@ begin
     SetModStatus(1);
   result:=1;
 
-  CreateServiceFunction(MS_WAT_SHOWMUSICINFO,@OpenPopUp);
+  CreateServiceFunction(MS_WAT_SHOWMUSICINFO,@OpenPopup);
 
   FillChar(sid,SizeOf(TSKINICONDESC),0);
   sid.cbSize:=SizeOf(TSKINICONDESC);
@@ -515,7 +515,7 @@ begin
   Popup.Init      :=@InitProc;
   Popup.DeInit    :=@DeInitProc;
   Popup.AddOption :=nil;
-  Popup.ModuleName:='PopUps';
+  Popup.ModuleName:='Popups';
   ModuleLink      :=@Popup;
 end;
 

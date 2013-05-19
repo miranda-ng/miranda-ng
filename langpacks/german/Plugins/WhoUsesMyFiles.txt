@@ -14,7 +14,7 @@
 OK
 [Popup delay settings]
 Popup Verzögerung
-[PopUp Delay (seconds)]
+[Popup Delay (seconds)]
 
 [Background color]
 Hintergrundfarbe
@@ -24,7 +24,7 @@ Textfarbe
 Vorschau
 [Show infinitely]
 Ewig zeigen
-[Default PopUp delay]
+[Default Popup delay]
 Standard Popup Verzögerung
 [Choose delay time]
 Verzögerung wählen
@@ -32,13 +32,13 @@ Verzögerung wählen
 Popup Farben
 [Use windows colors]
 Windowsfarben verwenden
-[Use default PopUp colors]
+[Use default Popup colors]
 Standard Popup Farben
 [Choose colors]
 Farben wählen
 [File access filter && logging settings]
 
-[Please note that this settings has effect only with PopUps Interoperability plugin version 1.0.1.9 or higher]
+[Please note that this settings has effect only with Popups Interoperability plugin version 1.0.1.9 or higher]
 
 [Log into text file]
 Textdatei speichern
@@ -76,7 +76,7 @@ Datei
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error crerating menu]
 
-[PopUp plugin not found!]
+[Popup plugin not found!]
 
 [WUMF plugin]
 
@@ -96,7 +96,7 @@ WUMF Popups aktivieren
 WUMF
 [Services]
 Dienste
-[PopUps]
+[Popups]
 Popups
 [WUMF: Show connections]
 

@@ -87,7 +87,7 @@
 [Test Contact]
 [Test description]
 [Avatar]
-[PopUps]
+[Popups]
 [Avatar Change]
 ;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]

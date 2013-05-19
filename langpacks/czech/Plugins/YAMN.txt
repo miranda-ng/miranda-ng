@@ -333,7 +333,7 @@ Sítě
 Obecné
 [Plugins]
 Doplňky
-[PopUps]
+[Popups]
 Oznámení
 [No account selected]
 Není vybraný účet

@@ -26,7 +26,7 @@ Možnosti
 
 [Copy result to clipboard]
 
-[Show result in PopUp]
+[Show result in Popup]
 
 [Strings for keyboard layouts]
 
@@ -46,7 +46,7 @@ Výchozí
 
 [Colours]
 Barvy
-[PopUp colours]
+[Popup colours]
 
 [Windows colours]
 
@@ -58,7 +58,7 @@ Pozadí
 Text
 [Timeout]
 Doba zobrazení
-[From PopUp plugin]
+[From Popup plugin]
 Globální nastavení
 [Permanent]
 Trvale
@@ -86,5 +86,5 @@ Oznámení
 
 [Message Sessions]
 Komunikace
-[PopUps]
+[Popups]
 Oznámení

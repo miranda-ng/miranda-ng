@@ -171,7 +171,7 @@ Sítě
 Účet
 [Advanced]
 Extra
-[PopUps]
+[Popups]
 Oznámení
 [Events]
 Události

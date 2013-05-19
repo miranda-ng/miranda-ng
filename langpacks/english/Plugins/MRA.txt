@@ -65,7 +65,7 @@
 [Create a new Mail.ru account using the Mail.ru website]
 [Retrieve a lost password]
 [Leave empty if you dont want change password]
-[PopUp type]
+[Popup type]
 [Popup settings]
 [Enable]
 [&Use Windows colors]
@@ -151,7 +151,7 @@
 [Contact Menu]
 [Extra status]
 [Custom Status]
-;file \protocols\MRA\src\MraPopUp.cpp
+;file \protocols\MRA\src\MraPopup.cpp
 [None]
 [Debug]
 [Information]
@@ -159,7 +159,7 @@
 [Warning]
 [Error]
 [NewMail]
-[PopUps]
+[Popups]
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 [Mail.ru Xstatus]

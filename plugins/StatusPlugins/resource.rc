@@ -212,7 +212,7 @@ BEGIN
     CONTROL         "Show when reconnection has finished",IDC_PURESULT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,177,226,10
     CONTROL         "Show other messages",IDC_PUOTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,189,226,10
-    CONTROL         "From PopUp plugin",IDC_DELAYFROMPU,"Button",BS_AUTORADIOBUTTON | WS_GROUP,143,19,94,10
+    CONTROL         "From Popup plugin",IDC_DELAYFROMPU,"Button",BS_AUTORADIOBUTTON | WS_GROUP,143,19,94,10
     CONTROL         "Custom",IDC_DELAYCUSTOM,"Button",BS_AUTORADIOBUTTON,143,32,47,10
     CONTROL         "Permanent",IDC_DELAYPERMANENT,"Button",BS_AUTORADIOBUTTON,143,45,50,10
     CONTROL         "Show additional information in popups",IDC_PUSHOWEXTRA,

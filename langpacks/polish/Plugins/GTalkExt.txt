@@ -14,7 +14,7 @@ Nieprzeczytane:
 [GMail notifications]
 Powiadomienia GMail
 [Popup notifications (needs popup plugin)]
-Powiadomienia Popup (wymagany plugin PopUp)
+Powiadomienia Popup (wymagany plugin Popup)
 [Notify in contact list]
 Informuj na liście kontaktów
 [Clear pseudocontact history before adding new events]

@@ -96,7 +96,7 @@ http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/PasteIt.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/Ping.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/PluginUpdater.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/PManagerEx.txt
-http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/PopUp.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/Popup.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/QuickContacts.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/QuickMessages.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/QuickReplies.txt

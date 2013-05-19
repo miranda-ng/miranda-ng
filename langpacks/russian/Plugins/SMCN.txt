@@ -14,9 +14,9 @@
 История статусных сообщений
 [List Contacts with Status Message]
 Статусные сообщения контактов
-[Disable SMCN PopUps]
+[Disable SMCN Popups]
 Выкл. вспл. окна о смене статуса
-[Enable SMCN PopUps]
+[Enable SMCN Popups]
 Вкл. вспл. окна о смене статуса
 [Status Message Changed]
 Статусное сообщение изменилось

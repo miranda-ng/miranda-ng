@@ -92,7 +92,7 @@ http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/PackUpdater.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/PasteIt.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/PluginUpdater.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/PManagerEx.txt
-http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/PopUp.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/Popup.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/QuickContacts.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/QuickMessages.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/QuickReplies.txt

@@ -489,7 +489,7 @@ Windows Aero Einstellungen
 Aero UI Elemente verwenden (nur wenn kein eigener Skin verwendet wird)
 [Use Windows 7 task bar enhancements (restart required)]
 Windows 7 Taskleisten-Funktionen verwenden (Neustart nötig)
-[PopUps]
+[Popups]
 Popups
 [...is &typing]
 ...&tippt gerade
@@ -507,7 +507,7 @@ Nur ein P&opup pro Kontakt
 &Eintrag im Hauptmenü anzeigen
 [...is typing]
 ...tippt gerade
-[From PopUp plugin]
+[From Popup plugin]
 Vom Popup-Plugin
 [From protocol]
 Vom Protokoll
@@ -517,8 +517,8 @@ Dauerhaft
 Benutzerdef.
 [...stopped typing]
 ...tippt nicht mehr
-[PopUps timeout]
-PopUp-Zeitüberschreitung
+[Popups timeout]
+Popup-Zeitüberschreitung
 [Templates]
 Vorlagen
 [Edit template]

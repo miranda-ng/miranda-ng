@@ -92,7 +92,7 @@ http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/PackUpdater.tx
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/PasteIt.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/PluginUpdater.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/PManagerEx.txt
-http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/PopUp.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/Popup.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/QuickContacts.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/QuickMessages.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/QuickReplies.txt

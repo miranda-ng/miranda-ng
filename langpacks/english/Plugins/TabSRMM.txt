@@ -248,7 +248,7 @@
 [Windows Aero settings]
 [Use Aero UI elements(only when not using a custom skin)]
 [Use Windows 7 task bar enhancements (restart required)]
-[PopUps]
+[Popups]
 [...is &typing]
 [...stopped t&yping]
 [Back]
@@ -257,12 +257,12 @@
 [Only &one popup for each contact]
 [Show &entry in the main menu]
 [...is typing]
-[From PopUp plugin]
+[From Popup plugin]
 [From protocol]
 [Permanent]
 [Custom]
 [...stopped typing]
-[PopUps timeout]
+[Popups timeout]
 [Templates]
 [Edit template]
 [Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
@@ -533,7 +533,7 @@
 [Globally OFF]
 [On, if present, always in bottom display]
 [Don't show them]
-;file \plugins\TabSRMM\src\controls.cpp
+;file \plugins\TabSRMM\src\controls - Kopie.cpp
 [&User]
 [&Room]
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
@@ -542,6 +542,8 @@
 [Sending typing notifications is %s.]
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
+;file \plugins\TabSRMM\src\controls working.cpp
+;file \plugins\TabSRMM\src\controls.cpp
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
 [Incoming file]

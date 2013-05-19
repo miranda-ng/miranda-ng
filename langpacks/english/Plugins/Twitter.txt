@@ -48,7 +48,7 @@
 [Send Tweet...]
 [Network]
 [Basic]
-[PopUps]
+[Popups]
 [%s server connection]
 [Unable to get Netlib connection for Twitter]
 [Twitter]

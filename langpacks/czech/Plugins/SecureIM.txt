@@ -100,17 +100,17 @@ Potvrzení klíčů
 Šifrované spojení
 [Send/Receive encrypted colors]
 Šifrované odesílání a příjem
-[SecureIM PopUp Colors]
+[SecureIM Popup Colors]
 Nastavení barev
 [Preview]
 Náhled
 [Events]
 Události
-[PopUp Timeout]
+[Popup Timeout]
 Doba zobrazení
 [Time in Seconds]
 Čas v sekundách
-[0 = Default PopUp Timeout Value]
+[0 = Default Popup Timeout Value]
 0 = výchozí hodnota
 [Show a popup on established connection]
 Indikovat vytvoření spojení
@@ -415,7 +415,7 @@ Služby
 
 [Message Popup]
 
-[PopUps]
+[Popups]
 Oznámení
 ;file \plugins\SecureIM\src\svcs_srmm.cpp
 [SecureIM [Native]]

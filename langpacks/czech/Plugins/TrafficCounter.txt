@@ -32,7 +32,7 @@ Barva textu:
 Obnovit výchozí
 [Popup timeout]
 Doba zobrazení
-[From PopUp plugin]
+[From Popup plugin]
 Globální nastavení
 [Custom]
 Vlastní
@@ -95,7 +95,7 @@ Možnosti
 Počitadlo dat
 [Statistics]
 Statistika
-[PopUps]
+[Popups]
 Oznámení
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]

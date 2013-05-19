@@ -174,7 +174,7 @@
 [Accounts]
 [General]
 [Plugins]
-[PopUps]
+[Popups]
 [No account selected]
 [Time left to next check [s]: %d]
 [New Account]

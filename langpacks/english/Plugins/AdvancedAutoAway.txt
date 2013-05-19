@@ -80,7 +80,7 @@
 [Show when a connection attempt is made]
 [Show when reconnection has finished]
 [Show other messages]
-[From PopUp plugin]
+[From Popup plugin]
 [Custom]
 [Permanent]
 [Show additional information in popups]

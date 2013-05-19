@@ -32,7 +32,7 @@ Textfarbe:
 Zurücksetzen auf Standard
 [Popup timeout]
 Popup Anzeigedauer
-[From PopUp plugin]
+[From Popup plugin]
 Vom Popup-Plugin
 [Custom]
 Benutzerdef.
@@ -95,7 +95,7 @@ Einstellungen
 Traffic Counter
 [Statistics]
 Statistiken
-[PopUps]
+[Popups]
 Popups
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]

@@ -1,7 +1,7 @@
 ﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
 ;  File: popup.dll
-;  Module: Popup Interoperability, PopUp Plus
+;  Module: Popup Interoperability, Popup Plus
 ;  Versions: 1.0.2.1-2.1.1.6
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3400
 ;============================================================
@@ -119,11 +119,11 @@ History++ для истории окон
 Отображать в&ремя
 [Show s&econd line]
 Показывать в&торую строку
-[En&large PopUps by]
+[En&large Popups by]
 &Увеличивать окна на
 [&Dynamically resize the popups]
 Точно &подбирать размер окон
-[A&nimate PopUps (98/ME/2000/XP)]
+[A&nimate Popups (98/ME/2000/XP)]
 А&нимация окон (98/ME/2000/XP)
 [Fade &in/out (2000/XP)]
 Плавный показ (2000/XP)
@@ -159,7 +159,7 @@ History++ для истории окон
 ... плоский стиль
 [Miscellanea]
 Прочее
-[PopUp Delay (seconds)]
+[Popup Delay (seconds)]
 Окно видимо (секунд)
 [Hey, this is a status message!]
 Привет, это сообщение о смене статуса!
@@ -203,7 +203,7 @@ History++ для истории окон
 Игнор. полноэкр.
 [Never show]
 Никогда
-[Reorder PopUps]
+[Reorder Popups]
 Перемещать окна
 [&Minimum width]
 &Минимальная ширина
@@ -229,7 +229,7 @@ History++ для истории окон
 Выключить всплывающие окна
 [Enable &popup module]
 Включить всплывающие окна
-[Concurrent PopUps]
+[Concurrent Popups]
 Несколько окон
 [Use multiple threads]
 Несколько потоков
@@ -251,13 +251,13 @@ History++ для истории окон
 Откр. (мс)
 [Out (ms)]
 Закр. (мс)
-[A&nimate PopUps]
+[A&nimate Popups]
 А&нимация окон
 [Slide popups while rordering]
 Сдвигать при пересортировке
 [Infinite popup delay]
 Не закрывать окна
-[Disable PopUps when fullscreen]
+[Disable Popups when fullscreen]
 Выкл. в полноэкранном режиме
 [Do not close hovered popups]
 Не закрывать окна под курсором
@@ -289,7 +289,7 @@ History++ для истории окон
 BBCode ([b]..[/b] - жирный)
 [Truncate very long lines]
 Обрезать длинные строки
-[PopUps drop shadow (WinXP+)]
+[Popups drop shadow (WinXP+)]
 Тень от окон (WinXP)
 [Skin preferences]
 Настройки скина
@@ -522,16 +522,16 @@ BBCode ([b]..[/b] - жирный)
 [Show headerbar]
 Панель заголовка
 [...skin for old plugins]
-...скины для старых версий PopUp
-[PopUp class:]
-Классы PopUp:
-[PopUp Interoperability]
+...скины для старых версий Popup
+[Popup class:]
+Классы Popup:
+[Popup Interoperability]
 Совместимые всплывающие окна
-[Provides a common PopUp interface for different plugins. Development of famous PopUp seems to be stopped so this is an update for  Luca Santarelli`s PopUp. Now it supports wrapping and emoticons ;). But this is just alpha-version and so contains lots of bugs :(]
-Предоставляет интерфейс всплывающих окон для различных плагинов. Развитие известного плагина PopUp будет остановлено. Это обновление от Luca Santarelli . Теперь плагин поддерживает перенос и дополнительные значки. Это альфа версия и поэтому содержит в себе много ошибок.
+[Provides a common Popup interface for different plugins. Development of famous Popup seems to be stopped so this is an update for  Luca Santarelli`s Popup. Now it supports wrapping and emoticons ;). But this is just alpha-version and so contains lots of bugs :(]
+Предоставляет интерфейс всплывающих окон для различных плагинов. Развитие известного плагина Popup будет остановлено. Это обновление от Luca Santarelli . Теперь плагин поддерживает перенос и дополнительные значки. Это альфа версия и поэтому содержит в себе много ошибок.
 [Reload skins]
 Обновить список
-[Using SmileyAdd's settings is preferred due to bugs in internal MSL loading code. Also it allows you to select the same emoticons both for PopUp and message dialog.]
+[Using SmileyAdd's settings is preferred due to bugs in internal MSL loading code. Also it allows you to select the same emoticons both for Popup and message dialog.]
 SmileyAdd предпочтительней из-за дефектов во внутреннем MSL коде. Это позволяет вам выбирать те же значки для всплывающих окон и диалога в сообщениях.
 [Show colours in text bloc]
 Показывать цвета в текстовом блоке

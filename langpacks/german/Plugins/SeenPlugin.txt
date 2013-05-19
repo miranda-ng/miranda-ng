@@ -40,7 +40,7 @@ Popups nutzen
 Titel
 [Text]
 Text
-[PopUp Colors]
+[Popup Colors]
 Farben
 [Online]
 Online
@@ -108,7 +108,7 @@ Zuletzt gesehen
 
 [Contacts]
 Kontakte
-[PopUps]
+[Popups]
 Popups
 ;file \plugins\SeenPlugin\src\seen.h
 [%n is %s (%u)]

@@ -22,7 +22,7 @@ In Datei speichern
 Log Dateiname:
 [Network]
 Netzwerk
-[PopUps]
+[Popups]
 Popups
 [Reply]
 Antworten

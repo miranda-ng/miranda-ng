@@ -140,7 +140,7 @@ Použít barvy Windows
 Použít výchozí barvy
 [Delay]
 Prodleva
-[From PopUp plugin]
+[From Popup plugin]
 Globální nastavení
 [Custom]
 Vlastní
@@ -699,7 +699,7 @@ Kontakty
 Extra
 [Details Dialog]
 Detaily
-[PopUps]
+[Popups]
 Oznámení
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]

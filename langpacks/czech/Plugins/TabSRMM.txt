@@ -489,7 +489,7 @@ Nastavení Windows Aero
 Použít Aero UI elementy (pouze pokud není použito vlastní téma)
 [Use Windows 7 task bar enhancements (restart required)]
 Použít Windows 7 vylepšení lišty úloh (vyžadován restart)
-[PopUps]
+[Popups]
 Oznámení
 [...is &typing]
 ... píše zprá&vu
@@ -507,7 +507,7 @@ Pouze jedn&o oznámení na kontakt
 Zobrazit položku v hlavním m&enu
 [...is typing]
 
-[From PopUp plugin]
+[From Popup plugin]
 Globální nastavení
 [From protocol]
 Dle protokolu
@@ -517,7 +517,7 @@ Trvale
 Vlastní
 [...stopped typing]
 
-[PopUps timeout]
+[Popups timeout]
 
 [Templates]
 Šablony

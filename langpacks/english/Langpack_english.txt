@@ -319,7 +319,7 @@
 [Timeout (s)]
 [Text]
 [Background]
-[(The timeout require at least PopUp plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
+[(The timeout require at least Popup plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
 [List]
 [&Message]
 [Clear lo&g]
@@ -1846,7 +1846,7 @@
 [Show when a connection attempt is made]
 [Show when reconnection has finished]
 [Show other messages]
-[From PopUp plugin]
+[From Popup plugin]
 [Custom]
 [Permanent]
 [Show additional information in popups]
@@ -2532,7 +2532,7 @@
 [Test Contact]
 [Test description]
 [Avatar]
-[PopUps]
+[Popups]
 [Avatar Change]
 ;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]
@@ -3067,7 +3067,7 @@
 [Contact name]
 [has returned after being absent since %d days]
 [Contacts]
-[PopUps]
+[Popups]
 [not detected]
 [not found]
 [This contact has been absent for an extended period of time.]
@@ -3166,7 +3166,7 @@
 [Two-way changing layout (experimental)]
 [Log operations]
 [Copy result to clipboard]
-[Show result in PopUp]
+[Show result in Popup]
 [Strings for keyboard layouts]
 [EN]
 [Default]
@@ -3176,13 +3176,13 @@
 [Set Caps Lock state when inverting lettercase:]
 [Change active keyboard layout in system]
 [Colours]
-[PopUp colours]
+[Popup colours]
 [Windows colours]
 [Custom colours]
 [Back]
 [Text]
 [Timeout]
-[From PopUp plugin]
+[From Popup plugin]
 [Permanent]
 [Custom]
 [On left click]
@@ -3197,7 +3197,7 @@
 [Changing Layout]
 [Changing Case]
 [Message Sessions]
-[PopUps]
+[Popups]
 ﻿#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
 ;============================================================
 ;  File: ClientChangeNotify.dll
@@ -3243,7 +3243,7 @@
 [Use global settings (default)]
 [Disable c&lient change notification]
 [Enable c&lient change notification]
-[PopUps]
+[Popups]
 [ClientChangeNotify: Client changed]
 [ClientChangeNotify]
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
@@ -5000,7 +5000,7 @@
 ;============================================================
 [Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations.]
 ;file \plugins\CyrTranslit\src\MirandaContact.cpp
-[&Transliterate (ФЫВА->FYVA)]
+[&Transliterate (ÔŰÂŔ->FYVA)]
 ﻿#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
 ;============================================================
 ;  File: DbChecker.dll
@@ -5590,7 +5590,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.0.9.6
+;  Version: 0.1.0.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -5629,6 +5629,9 @@
 [Also disconnect chat when going to offline]
 [Map non-standard statuses to Invisible (instead of Online)]
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+[Use local time for received messages]
+[Send "Seen" info when marking messages as read]
+[Use this server for opening links:]
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: Some Facebook things are required.]
 [Your account requires HTTPS connection. Activating.]
@@ -5649,6 +5652,9 @@
 [Photos]
 [Links]
 [Apps and Games]
+[Classic website]
+[Mobile website]
+[Smartphone website]
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 [Error occured when removing contact from server.]
@@ -5681,7 +5687,7 @@
 [Network]
 [Account]
 [Advanced]
-[PopUps]
+[Popups]
 [Events]
 [Loading newsfeeds...]
 [Checking friend requests...]
@@ -6506,7 +6512,7 @@
 ;file \protocols\GTalkExt\src\notifications.cpp
 [You've received an e-mail\n%s unread threads]
 ;file \protocols\GTalkExt\src\options.cpp
-[PopUps]
+[Popups]
 [Network]
 [* Primitive type system\n]
 [* No overloading\n]
@@ -7735,7 +7741,7 @@
 [Contacts]
 [Features]
 [Privacy]
-[PopUps]
+[Popups]
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Popup Title]
 [Sample Note]
@@ -10080,7 +10086,7 @@
 [Show when a connection attempt is made]
 [Show when reconnection has finished]
 [Show other messages]
-[From PopUp plugin]
+[From Popup plugin]
 [Custom]
 [Permanent]
 [Show additional information in popups]
@@ -10155,7 +10161,7 @@
 [Basic]
 [Advanced]
 [You broke the Internet!]
-[PopUps]
+[Popups]
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 [Give it up, I'm not in!]
@@ -10949,7 +10955,7 @@
 [Create a new Mail.ru account using the Mail.ru website]
 [Retrieve a lost password]
 [Leave empty if you dont want change password]
-[PopUp type]
+[Popup type]
 [Popup settings]
 [Enable]
 [&Use Windows colors]
@@ -11035,7 +11041,7 @@
 [Contact Menu]
 [Extra status]
 [Custom Status]
-;file \protocols\MRA\src\MraPopUp.cpp
+;file \protocols\MRA\src\MraPopup.cpp
 [None]
 [Debug]
 [Information]
@@ -11043,7 +11049,7 @@
 [Warning]
 [Error]
 [NewMail]
-[PopUps]
+[Popups]
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 [Mail.ru Xstatus]
@@ -11675,7 +11681,7 @@
 [Notifies you when you receive a message, url, file or any other event by displaying a popup.]
 ;file \plugins\NewEventNotify\res\resource.rc
 [General Options]
-[Show entry in the PopUps menu]
+[Show entry in the Popups menu]
 [Temporarily disable Event Popups]
 [Show Preview of Event in Popup]
 [Popup Options]
@@ -11712,7 +11718,7 @@
 [Message Session]
 [Message Received]
 ;file \plugins\NewEventNotify\src\menuitem.cpp
-[PopUps]
+[Popups]
 ;file \plugins\NewEventNotify\src\neweventnotify.h
 [Contacts]
 [You were added!]
@@ -11814,7 +11820,7 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: NewXstatusNotify
+;  Plugin: xStatus Notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
@@ -11902,7 +11908,7 @@
 [Prevent identical logs]
 [On opening ML:]
 [General]
-[Show PopUps when I connect]
+[Show Popups when I connect]
 [Ignore empty status messages]
 [Protocols]
 [Enable/Disable protocols which you don't wish to be notified for:]
@@ -11983,7 +11989,7 @@
 [Protocol]
 [Filtering]
 [Message log]
-[PopUps]
+[Popups]
 ;file \plugins\NewXstatusNotify\src\popup.h
 [Open message window]
 [Close popup]
@@ -12692,6 +12698,7 @@
 [Connecting...]
 [Waiting for Stranger...]
 ;file \protocols\Omegle\src\constants.h
+[Random]
 [Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
 [You and stranger speak the same language.]
 ;file \protocols\Omegle\src\proto.cpp
@@ -12762,7 +12769,7 @@
 [* Needs popup actions to be enabled]
 [Not sets for "Message boxes"]
 [Boxes]
-[PopUps]
+[Popups]
 ;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]
 [Pack Updater]
@@ -12902,7 +12909,7 @@
 [Log to File]
 [Log Filename:]
 [Network]
-[PopUps]
+[Popups]
 [Reply]
 [Block Repetitions]
 [View Log]
@@ -13027,7 +13034,7 @@
 [* Needs popup actions to be enabled]
 [Not sets for "Message boxes"]
 [Boxes]
-[PopUps]
+[Popups]
 ;file \plugins\PluginUpdater\src\Notifications.cpp
 [Skipped.]
 [Will be deleted!]
@@ -13074,8 +13081,8 @@
 [Database]
 ﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
-;  File: PopUp.dll
-;  Plugin: PopUp plus
+;  File: Popup.dll
+;  Plugin: Popup plus
 ;  Version: 2.1.1.7
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
@@ -13236,7 +13243,7 @@
 [Enable &popup module]
 [Disable &popup module]
 [Popup Plus]
-[Error: I could not register the PopUp Window class.\r\nThe plugin will not operate.]
+[Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 [Fade in/out]
@@ -13571,7 +13578,7 @@
 [Background colour]
 [Text colour]
 [Delay]
-[From PopUp plugin]
+[From Popup plugin]
 [Custom]
 [Permanent]
 [Do not add to popup's history]
@@ -14190,7 +14197,7 @@
 [Appearance]
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 [Select Folder]
-[PopUps]
+[Popups]
 [Group chats]
 [Message is highlighted]
 [User has performed an action]
@@ -14298,12 +14305,12 @@
 [Key agreement colors]
 [Secure connection colors]
 [Send/Receive encrypted colors]
-[SecureIM PopUp Colors]
+[SecureIM Popup Colors]
 [Preview]
 [Events]
-[PopUp Timeout]
+[Popup Timeout]
 [Time in Seconds]
-[0 = Default PopUp Timeout Value]
+[0 = Default Popup Timeout Value]
 [Show a popup on established connection]
 [Show a popup on disabled connection]
 [Show a popup on key send]
@@ -14458,7 +14465,7 @@
 [Key Popup]
 [Secure Popup]
 [Message Popup]
-[PopUps]
+[Popups]
 ;file \plugins\SecureIM\src\svcs_srmm.cpp
 [SecureIM [Native]]
 [SecureIM [PGP]]
@@ -14489,7 +14496,7 @@
 [Use popups]
 [Title]
 [Text]
-[PopUp Colors]
+[Popup Colors]
 [Online]
 [Away]
 [NA]
@@ -14525,7 +14532,7 @@
 ;file \plugins\SeenPlugin\src\options.cpp
 [Last Seen Variables]
 [Contacts]
-[PopUps]
+[Popups]
 ;file \plugins\SeenPlugin\src\seen.h
 [%n is %s (%u)]
 [%i(%r)%bWas %o]
@@ -15189,8 +15196,8 @@
 [Disable &status message change notification]
 [View Status Message History]
 [List Contacts with Status Message]
-[Disable SMCN PopUps]
-[Enable SMCN PopUps]
+[Disable SMCN Popups]
+[Enable SMCN Popups]
 [Status Message Changed]
 [changes his/her status message to:]
 [cleares his/her status message]
@@ -15349,6 +15356,90 @@
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 [Incoming SMS Confirmation]
+﻿;#muuid for Spamotron not found, please specify manually!
+;langpack template for Spamotron
+;file \plugins\Spamotron\res\spamotron.rc
+[Do not send challenge request if message score above]
+[Auto-learn messages from approved contacts as ham]
+[Filtering options]
+[Learning options]
+[Auto-learn outgoing messages as ham]
+[Spam]
+[Ham]
+[Learn message:]
+[Auto approve contact if message score below]
+[Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and 50 of spam messages.]
+[Learned ham messages:]
+[Learned spam messages:]
+[Analyze]
+[Auto-learn messages from contacts if not approved in]
+[days as spam]
+[Enabled]
+[and learn as ham]
+[Enabled accounts:]
+[Do not reply to messages with words in this list:]
+[Do not reply to the same message more than]
+[Flood protection]
+[Do not send more than]
+[messages to one contact per day]
+[times a day]
+[Settings]
+[Outgoing message]
+[Incoming message with any word from list:]
+[Auto approve on:]
+[Hide contact until verified]
+[Add permanently to list on verified]
+[Log actions to system history]
+[Mode:]
+[Responses: (saved in %response%, %response-n% variables)]
+[will be saved in %mathexpr%]
+[Reset to defaults]
+[Reply on success:]
+[Send challenge on authorization request:]
+[Keep blocked messages in contact history]
+[Case-sensitive]
+[Send challenge on incoming message:]
+[and mark them unread after approval]
+[Enable popup notifications]
+[Contact blocked]
+[Contact approved]
+[Appearance]
+[Foreground]
+[Background]
+[Timeout]
+[Default colors]
+[Default timeout]
+[Preview]
+[Windows colors]
+[Challenge sent]
+;file \plugins\Spamotron\src\bayes.cpp
+[Bayes database path]
+;file \plugins\Spamotron\src\common.h
+[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
+[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
+[Verified.]
+[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
+[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
+;file \plugins\Spamotron\src\options.cpp
+[Simple]
+[Math expression]
+[Round-robin]
+[Random]
+[Will be automatically evaluated from %mathexpr%]
+[Invalid regular expression.\nKeeping previous value.]
+[Message score]
+;file \plugins\Spamotron\src\spamotron.cpp
+[Contact %s approved.]
+[Message from %s rejected because it reached a maximum for challenge requests per day.]
+[Message from %s rejected because it reached a maximum for same responses per day.]
+[Message from %s dropped because it has a word from black list.]
+[Message from %s dropped because of high spam score.]
+[Sending plain challenge to %s.]
+[Sending round-robin challenge to %s.]
+[Sending random challenge to %s.]
+[Sending math expression challenge to %s.]
+;file \plugins\Spamotron\src\utils.cpp
+[Their message was]
 ﻿#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
 ;============================================================
 ;  File: SpellChecker.dll
@@ -15567,7 +15658,7 @@
 [Show when a connection attempt is made]
 [Show when reconnection has finished]
 [Show other messages]
-[From PopUp plugin]
+[From Popup plugin]
 [Custom]
 [Permanent]
 [Show additional information in popups]
@@ -16043,7 +16134,7 @@
 [Windows Aero settings]
 [Use Aero UI elements(only when not using a custom skin)]
 [Use Windows 7 task bar enhancements (restart required)]
-[PopUps]
+[Popups]
 [...is &typing]
 [...stopped t&yping]
 [Back]
@@ -16052,12 +16143,12 @@
 [Only &one popup for each contact]
 [Show &entry in the main menu]
 [...is typing]
-[From PopUp plugin]
+[From Popup plugin]
 [From protocol]
 [Permanent]
 [Custom]
 [...stopped typing]
-[PopUps timeout]
+[Popups timeout]
 [Templates]
 [Edit template]
 [Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
@@ -16328,7 +16419,7 @@
 [Globally OFF]
 [On, if present, always in bottom display]
 [Don't show them]
-;file \plugins\TabSRMM\src\controls.cpp
+;file \plugins\TabSRMM\src\controls - Kopie.cpp
 [&User]
 [&Room]
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
@@ -16337,6 +16428,8 @@
 [Sending typing notifications is %s.]
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
+;file \plugins\TabSRMM\src\controls working.cpp
+;file \plugins\TabSRMM\src\controls.cpp
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
 [Incoming file]
@@ -17398,7 +17491,7 @@
 [Background]
 [Text]
 [Delay]
-[&From PopUp plugin]
+[&From Popup plugin]
 [&Custom]
 [P&ermanent]
 [Preview]
@@ -17593,7 +17686,7 @@
 [Tooltip Notify: Offline]
 [Tooltip Notify: Other]
 [Tooltip Notify: Typing]
-[PopUps]
+[Popups]
 [** New contacts **]
 [** Unknown contacts **]
 [Not Idle]
@@ -17650,7 +17743,7 @@
 [Text colour:]
 [Reset to default]
 [Popup timeout]
-[From PopUp plugin]
+[From Popup plugin]
 [Custom]
 [Test]
 [Show now]
@@ -17682,7 +17775,7 @@
 [Options]
 [Traffic counter]
 [Statistics]
-[PopUps]
+[Popups]
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 [KB]
@@ -17780,7 +17873,7 @@
 [Send Tweet...]
 [Network]
 [Basic]
-[PopUps]
+[Popups]
 [%s server connection]
 [Unable to get Netlib connection for Twitter]
 [Twitter]
@@ -17868,7 +17961,7 @@
 [Use Windows colours]
 [Use default colours]
 [Delay]
-[From PopUp plugin]
+[From Popup plugin]
 [Custom]
 [Permanent]
 [Show reminder messages as popups (if reminder is enabled)]
@@ -18156,7 +18249,7 @@
 [Contacts]
 [Advanced]
 [Details Dialog]
-[PopUps]
+[Popups]
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 [Affiliation]
@@ -19171,10 +19264,10 @@
 [Other Options]
 [Set as default station]
 [Disable automatic update for this station]
-[Disable PopUp for this station]
+[Disable Popup for this station]
 [Change]
 [Cancel]
-[PopUp Options]
+[Popup Options]
 [Enable popups]
 [Popup only when condition changes]
 [Colours]
@@ -19187,7 +19280,7 @@
 [Popup Delay]
 [Delay]
 [seconds]
-[From PopUp plugin]
+[From Popup plugin]
 [Permanent]
 [Popup Text]
 [Popup Title]
@@ -19227,7 +19320,7 @@
 [Reload INI]
 [City:]
 [Menu]
-[Dismiss PopUp]
+[Dismiss Popup]
 [Open brief information]
 [Open complete forecast]
 [Open weather map]
@@ -19344,7 +19437,7 @@
 [Network]
 [General]
 [Display]
-[PopUps]
+[Popups]
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 [Weather Protocol Text Preview]
 ;file \plugins\Weather\src\weather_popup.cpp
@@ -19516,19 +19609,19 @@
 [WUMF: Current connections]
 [OK]
 [Popup delay settings]
-[PopUp Delay (seconds)]
+[Popup Delay (seconds)]
 [Background color]
 [Text color]
 [Previe&w]
 [Show infinitely]
-[Default PopUp delay]
+[Default Popup delay]
 [Choose delay time]
 [Popup color settings]
 [Use windows colors]
-[Use default PopUp colors]
+[Use default Popup colors]
 [Choose colors]
 [File access filter && logging settings]
-[Please note that this settings has effect only with PopUps Interoperability plugin version 1.0.1.9 or higher]
+[Please note that this settings has effect only with Popups Interoperability plugin version 1.0.1.9 or higher]
 [Log into text file]
 [Log folders access]
 [Alerts on folders access]
@@ -19548,7 +19641,7 @@
 [Error memory allocation]
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error crerating menu]
-[PopUp plugin not found!]
+[Popup plugin not found!]
 [WUMF plugin]
 [Enable WUMF popups]
 [Disable WUMF popups]
@@ -19558,7 +19651,7 @@
 [Show connections list]
 [Wumf]
 [Services]
-[PopUps]
+[Popups]
 [WUMF: Show connections]
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
@@ -20146,7 +20239,7 @@
 [Accounts]
 [General]
 [Plugins]
-[PopUps]
+[Popups]
 [No account selected]
 [Time left to next check [s]: %d]
 [New Account]
@@ -20230,7 +20323,7 @@
 [Vertical animate]
 [You cannot set a default timeout of 0.\nValue has been reset.]
 [Error]
-[PopUps]
+[Popups]
 [Settings]
 [Classes]
 ;file \plugins\YAPP\src\services.cpp

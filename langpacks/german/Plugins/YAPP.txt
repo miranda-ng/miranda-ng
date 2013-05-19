@@ -114,7 +114,7 @@ Vertikale Animation
 Ein Timeout von 0 ist ungültig.\nWert wurde zurückgesetzt.
 [Error]
 Fehler
-[PopUps]
+[Popups]
 Popups
 [Settings]
 Einstellungen

@@ -37,7 +37,7 @@
 Змяняць пры:
 [Log operations]
 Дзеянні над часопісам
-[Show result in PopUp]
+[Show result in Popup]
 Паказаць вынік у акне
 [Layout of text is the current layout]
 Раскладка тэксту гэта бягучая раскладка
@@ -49,7 +49,7 @@
 Інвертаваць рэгістр
 [Changing Layout]
 Змена раскладкі
-[PopUp colours]
+[Popup colours]
 Колеры успл. вокнаў
 [Windows colours]
 Колеры Windows

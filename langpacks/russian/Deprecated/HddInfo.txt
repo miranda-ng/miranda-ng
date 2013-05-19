@@ -70,7 +70,7 @@ HDD Температура
 [Time-out (in seconds)]
 Таймаут (в секундах)
 [Enter 0 for default popup time-outs]
-Введите 0 для установок PopUp
+Введите 0 для установок Popup
 [Default text]
 Текст по умолч.
 [HDD Temperature Tracking]
@@ -82,7 +82,7 @@ HDD Слежение за температурой
 [Formatted popup variables]
 Стандартные переменные
 [Popup view]
-PopUp плагин
+Popup плагин
 [Restore custom]
 Сбросить изменения
 [Show custom formatted popup]

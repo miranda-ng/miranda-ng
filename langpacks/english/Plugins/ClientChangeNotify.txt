@@ -43,7 +43,7 @@
 [Use global settings (default)]
 [Disable c&lient change notification]
 [Enable c&lient change notification]
-[PopUps]
+[Popups]
 [ClientChangeNotify: Client changed]
 [ClientChangeNotify]
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]

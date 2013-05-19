@@ -2,8 +2,8 @@
 ;  File: NewEventNotify.dll
 ;  Module: NewEventNotify
 
-[Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the PopUp-Plugin by hrk. Original plugin was written by icebreaker, modified by Prezes and some bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale.]
-Апавяшчае пра атрыманне паведамлення, URL, файла ці іншай падзеі, адлюстроўваючы інфармацыю ва ўсплывальных вокнах. Для працы неабходзен PopUp ад Luca Santarelli ці аналагічны.
+[Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the Popup-Plugin by hrk. Original plugin was written by icebreaker, modified by Prezes and some bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale.]
+Апавяшчае пра атрыманне паведамлення, URL, файла ці іншай падзеі, адлюстроўваючы інфармацыю ва ўсплывальных вокнах. Для працы неабходзен Popup ад Luca Santarelli ці аналагічны.
 [You were added!]
 Вас дадалі
 [Requests your authorisation]
@@ -35,7 +35,7 @@
 [No popups for RSS contacts]
 Выключыць для RSS навін
 [Use OSD plugin instead of popups]
-Выкарыстоўваць модуль OSD замест PopUp
+Выкарыстоўваць модуль OSD замест Popup
 [Hide Popup when sending new message]
 Хаваць пры адпраўцы новага паведамлення
 [Last message display first]
@@ -48,7 +48,7 @@
 Выключыць для прачытаных
 [Number of begin shown messages]
 Колькасць паведамленняў для пачатку паказу
-[Show entry in the PopUps menu]
+[Show entry in the Popups menu]
 Пункт у меню "Ўсплывальныя вокны"
 [Show Headers]
 Загалоўкі

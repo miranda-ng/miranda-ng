@@ -1053,11 +1053,11 @@ Stwórz nowy
 Tylko jeden popup dla każdego kontaktu
 [Show &entry in the main menu]
 Pokaż wpis w menu głównym
-[PopUp timeout (is typing)]
+[Popup timeout (is typing)]
 Czas wyświetlania (pisze)
 [From protocol]
 Z protokołu
-[PopUp timeout (stopped typing)]
+[Popup timeout (stopped typing)]
 Czas wyświetlania (przestał pisać)
 [Templates]
 Szablony
@@ -1963,7 +1963,7 @@ Użyj takiego samego stylu, jak w dzienniku
 Popupy dla wtyczki Chat
 [Timeout (s)]
 Opóźnienie (s)
-[(The timeout require at least PopUp plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
+[(The timeout require at least Popup plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
 (Opóźnienie wymaga wtyczki Popup 1.0.1.9 lub nowszej. Wartość 0 - ustawienia domyślne, -1 - nieokreślony czas)
 [List]
 Lista

@@ -124,7 +124,7 @@ E-mail:
 
 [Leave empty if you dont want change password]
 
-[PopUp type]
+[Popup type]
 
 [Popup settings]
 
@@ -289,7 +289,7 @@ Menu kontaktu
 Rozšířený stav
 [Custom Status]
 Rozšířený stav
-;file \protocols\MRA\src\MraPopUp.cpp
+;file \protocols\MRA\src\MraPopup.cpp
 [None]
 ---
 [Debug]
@@ -304,7 +304,7 @@ Upozornění
 Chyba
 [NewMail]
 
-[PopUps]
+[Popups]
 Oznámení
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]

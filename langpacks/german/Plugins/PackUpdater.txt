@@ -82,7 +82,7 @@ Sek.
 Gilt nicht für "Message Boxes"
 [Boxes]
 Fenster
-[PopUps]
+[Popups]
 Popups
 ;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]

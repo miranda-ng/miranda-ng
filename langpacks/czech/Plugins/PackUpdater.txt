@@ -82,7 +82,7 @@ sek.
 
 [Boxes]
 
-[PopUps]
+[Popups]
 Oznámení
 ;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]

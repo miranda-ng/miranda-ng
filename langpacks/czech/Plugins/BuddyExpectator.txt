@@ -128,7 +128,7 @@ Odstranit kontakt
 
 [Contacts]
 Kontakty
-[PopUps]
+[Popups]
 Oznámení
 [not detected]
 

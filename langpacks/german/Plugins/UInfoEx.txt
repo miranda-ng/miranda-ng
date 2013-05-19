@@ -140,7 +140,7 @@ Windowsfarben verwenden
 Standardfarben verwenden
 [Delay]
 Verzögerung
-[From PopUp plugin]
+[From Popup plugin]
 Vom Popup-Plugin
 [Custom]
 Benutzerdef.
@@ -699,7 +699,7 @@ Kontakte
 Erweitert
 [Details Dialog]
 Kontaktinfo-Dialog
-[PopUps]
+[Popups]
 Popups
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]

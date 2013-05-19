@@ -169,7 +169,7 @@ Netzwerk
 Konto
 [Advanced]
 Erweitert
-[PopUps]
+[Popups]
 Popups
 [Events]
 Ereignisse

@@ -1364,7 +1364,7 @@ Kontakty
 Možnosti
 [Privacy]
 Soukromí
-[PopUps]
+[Popups]
 Oznámení
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Popup Title]

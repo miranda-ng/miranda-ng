@@ -100,17 +100,17 @@ Schlüsselaustausch
 Sichere Verbindung
 [Send/Receive encrypted colors]
 Sichere Nachrichten
-[SecureIM PopUp Colors]
+[SecureIM Popup Colors]
 Farben der Popups
 [Preview]
 Vorschau
 [Events]
 Ereignisse
-[PopUp Timeout]
+[Popup Timeout]
 Anzeigedauer
 [Time in Seconds]
 Zeit in Sekunden
-[0 = Default PopUp Timeout Value]
+[0 = Default Popup Timeout Value]
 0 = Standard
 [Show a popup on established connection]
 Popup beim Aufbau einer Verbindung zeigen
@@ -423,5 +423,5 @@ Schlüssel-Popup
 Sicherheits-Popup
 [Message Popup]
 Nachrichten-Popup
-[PopUps]
+[Popups]
 Popups

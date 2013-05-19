@@ -2239,8 +2239,8 @@ Miranda не может загрузить плагин Chat, потому чт�
 Закрыть остальные вкладки
 [User list members (Away)]
 Пользователи (отсутствуют)
-[(The timeout require at least PopUp plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
-(Необходим PopUp плагин версии 1.0.1.9 и выше.\nУстановка в 0 = значение по умолчанию, -1 = бесконечно)
+[(The timeout require at least Popup plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
+(Необходим Popup плагин версии 1.0.1.9 и выше.\nУстановка в 0 = значение по умолчанию, -1 = бесконечно)
 ;;;
 [User list members]
 Пользователи

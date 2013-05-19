@@ -33,13 +33,13 @@ Dziennik
 Szablon dziennika
 [You can use %c with log filename to append nicknames]
 Możesz użyć %c z nazwą pliku dziennika aby dołączyć nazwy
-[Show PopUps]
+[Show Popups]
 Pokaz popupy
 [Keep History]
 Zapisuj historię
 [Log To File]
 Zapisuj do pliku
-[Enable PopUps]
+[Enable Popups]
 Włącz popupy
 [Only if status message has changed]
 Tylko kiedy nastąpi zmiana opisu

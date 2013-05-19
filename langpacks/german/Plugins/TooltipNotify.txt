@@ -83,7 +83,7 @@ Andere Status
 
 [Tooltip Notify: Typing]
 
-[PopUps]
+[Popups]
 Popups
 [** New contacts **]
 ** Neue Kontakte **

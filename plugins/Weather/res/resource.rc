@@ -123,7 +123,7 @@ BEGIN
     CONTROL         "Set as default station",IDC_DEFA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,168,218,8
     CONTROL         "Disable automatic update for this station",IDC_DAutoUpdate,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,179,218,8
-    CONTROL         "Disable PopUp for this station",IDC_DPop,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,190,218,8
+    CONTROL         "Disable Popup for this station",IDC_DPop,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,190,218,8
     PUSHBUTTON      "Change",IDC_CHANGE,57,207,46,14
     DEFPUSHBUTTON   "Cancel",IDCANCEL,136,207,46,14
     CONTROL         "",IDC_SVCINFO,"MButtonClass",WS_TABSTOP,217,35,13,12,WS_EX_NOACTIVATE | 0x10000000L
@@ -135,7 +135,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "PopUp Options",IDC_STATIC,4,5,158,54
+    GROUPBOX        "Popup Options",IDC_STATIC,4,5,158,54
     CONTROL         "Enable popups",IDC_E,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,15,143,9
     CONTROL         "Popup only when condition changes",IDC_CH,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,44,140,10
     GROUPBOX        "Colours",IDC_STATIC,168,5,139,54
@@ -153,7 +153,7 @@ BEGIN
     CONTROL         "Delay",IDC_PD3,"Button",BS_AUTORADIOBUTTON,177,74,53,8
     EDITTEXT        IDC_DELAY,233,73,36,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_STATICEDGE
     LTEXT           "seconds",IDC_STATIC,272,73,34,10
-    CONTROL         "From PopUp plugin",IDC_PD1,"Button",BS_AUTORADIOBUTTON,177,85,110,8
+    CONTROL         "From Popup plugin",IDC_PD1,"Button",BS_AUTORADIOBUTTON,177,85,110,8
     CONTROL         "Permanent",IDC_PD2,"Button",BS_AUTORADIOBUTTON,177,96,110,8
     GROUPBOX        "Popup Text",IDC_STATIC,3,112,305,121
     LTEXT           "Popup Title",IDC_STATIC,15,124,56,9
@@ -336,7 +336,7 @@ IDR_PMENU MENU
 BEGIN
     POPUP "Menu"
     BEGIN
-        MENUITEM "Dismiss PopUp",               IDM_M1
+        MENUITEM "Dismiss Popup",               IDM_M1
         MENUITEM "Open brief information",      IDM_M2
         MENUITEM "Open complete forecast",      IDM_M3
         MENUITEM "Open weather map",            IDM_M4

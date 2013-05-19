@@ -73,7 +73,7 @@
 [Use Windows colours]
 [Use default colours]
 [Delay]
-[From PopUp plugin]
+[From Popup plugin]
 [Custom]
 [Permanent]
 [Show reminder messages as popups (if reminder is enabled)]
@@ -361,7 +361,7 @@
 [Contacts]
 [Advanced]
 [Details Dialog]
-[PopUps]
+[Popups]
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 [Affiliation]

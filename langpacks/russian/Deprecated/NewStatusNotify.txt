@@ -59,7 +59,7 @@
 NewStatusNotify - общие параметры
 [NewStatusNotify - Individual Sound Options]
 NewStatusNotify - индивидуальные звуки
-[NewStatusNotify - PopUp Options]
+[NewStatusNotify - Popup Options]
 NewStatusNotify - параметры окна
 [Notifies you when a contact changes his/hers status]
 Сообщает изменения статуса контактов.

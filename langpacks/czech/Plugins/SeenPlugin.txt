@@ -40,7 +40,7 @@ Použít oznámení
 Název
 [Text]
 Text
-[PopUp Colors]
+[Popup Colors]
 Barvy oznámení
 [Online]
 Online
@@ -108,7 +108,7 @@ Naposledy spatřen
 Last Seen - seznam proměnných
 [Contacts]
 Kontakty
-[PopUps]
+[Popups]
 Oznámení
 ;file \plugins\SeenPlugin\src\seen.h
 [%n is %s (%u)]

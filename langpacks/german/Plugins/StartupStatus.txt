@@ -154,7 +154,7 @@ Bei Versuch des Neuverbindens
 Wenn Wiederverbinden beendet
 [Show other messages]
 Andere Meldungen anzeigen
-[From PopUp plugin]
+[From Popup plugin]
 Vom Popup-Plugin
 [Custom]
 Benutzerdef.

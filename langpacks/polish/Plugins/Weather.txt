@@ -95,9 +95,9 @@ Inne opcje
 Ustaw jako domyślną stacje
 [Disable automatic update for this station]
 Wyłącz automatyczną aktualizację dla tej stacji
-[Disable PopUp for this station]
+[Disable Popup for this station]
 Wyłącz Popup dla tej stacji
-[PopUp Options]
+[Popup Options]
 Opcje Popup
 [Popup only when condition changes]
 Tylko przy zmianie warunków
@@ -167,7 +167,7 @@ Razem używanej pamięci
 Odśwież INI
 [Menu]
 Menu
-[Dismiss PopUp]
+[Dismiss Popup]
 Odrzuć Popup
 [Open brief information]
 Otwórz krótkie informacje

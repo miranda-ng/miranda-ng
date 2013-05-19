@@ -6,8 +6,8 @@
 ;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=341
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3637
 ;============================================================
-[Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the PopUp-Plugin by hrk. Original plugin was written by icebreaker, modified by Prezes and some bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale.]
-Уведомляет о получении сообщения, URL, файла или другого события, отображая информацию во всплывающих окнах. Для работы необходим PopUp от Luca Santarelli или аналогичный.
+[Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the Popup-Plugin by hrk. Original plugin was written by icebreaker, modified by Prezes and some bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale.]
+Уведомляет о получении сообщения, URL, файла или другого события, отображая информацию во всплывающих окнах. Для работы необходим Popup от Luca Santarelli или аналогичный.
 [You were added!]
 Вас добавили
 [Requests your authorisation]
@@ -39,7 +39,7 @@
 [No popups for RSS contacts]
 Выключить для RSS новостей
 [Use OSD plugin instead of popups]
-Использовать плагин OSD вместо PopUp
+Использовать плагин OSD вместо Popup
 [Hide Popup when sending new message]
 Скрывать при отправке нового сообщения
 [Last message display first]
@@ -52,7 +52,7 @@
 Выключить для прочтённых
 [Number of begin shown messages]
 Количество сообщений для начала показа
-[Show entry in the PopUps menu]
+[Show entry in the Popups menu]
 Пункт в меню "Вспл. окна"
 [Show Headers]
 Заголовки

@@ -87,7 +87,7 @@ UIN/E-mail/JID/Кампутар
 Індыкатар у імі
 [Indicator :]
 Індыкатар :
-[SecureIM PopUp Colors]
+[SecureIM Popup Colors]
 Колеры ўсплывальных паведамленняў SecureIM
 [Key agreement colors]
 Абмен ключамі
@@ -109,7 +109,7 @@ UIN/E-mail/JID/Кампутар
 Заўсёды спрабаваць
 [Key Exchange Timeout :]
 Час абмену ключамі :
-[PopUp Timeout]
+[Popup Timeout]
 Працягласць
 [Time in Seconds]
 Час (з)
@@ -131,7 +131,7 @@ UIN/E-mail/JID/Кампутар
 Стварыць SecureIM злучэнне
 [Enable Secure File Transfer]
 Уключыць шыфроўку файлаў
-[0 = Default PopUp Timeout Value]
+[0 = Default Popup Timeout Value]
 0 = Па змаўчанні 
 [SecureIM 1.0.4.4]
 Шыфраванне паведамленняў

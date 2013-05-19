@@ -82,7 +82,7 @@ Barva pozadí
 Barva textu
 [Delay]
 Prodleva
-[From PopUp plugin]
+[From Popup plugin]
 Globální nastavení
 [Custom]
 Vlastní

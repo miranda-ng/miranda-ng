@@ -72,7 +72,7 @@
 [Enable "Miss you" feature]
 Уключыць функцыю "Чакаю цябе"
 [Use Popups colors]
-Колеры PopUp
+Колеры Popup
 [weeks]
 тыдняў
 [months]

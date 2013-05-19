@@ -1,7 +1,7 @@
 ﻿#muuid CF25D645-4DAB-4B0A-B9F1-DE1E86231F9B}
 ;============================================================
 ;  File: MsgPopup.dll, messagepopup.dll
-;  Module: Message Popup. Replace a mesaage boxes to PopUps
+;  Module: Message Popup. Replace a mesaage boxes to Popups
 ;  Versions: 0.0.0.1
 ;  URL: http://miranda-im.org/download/feed.php?dlfile=1228
 ;============================================================
@@ -22,7 +22,7 @@
 [MessagePopup - demo]
 MessagePopup - Демо
 [This stuff will replace MessageBox'es [whose have only OK button] into Popups]
-Заменяет диалоговые окна с предупреждениями на всплывающие окна. Работает совместно с PopUp. Перевод: Wattman.
+Заменяет диалоговые окна с предупреждениями на всплывающие окна. Работает совместно с Popup. Перевод: Wattman.
 [Message with error]
 Предупреждение об ошибке
 [Message with exclamation]

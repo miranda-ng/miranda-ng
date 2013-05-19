@@ -43,7 +43,7 @@
 Менять при:
 [Log operations]
 Действия над журналом
-[Show result in PopUp]
+[Show result in Popup]
 Показать результат в окне
 [Layout of text is the current layout]
 Раскладка текста это текущая раскладка
@@ -55,7 +55,7 @@
 Инвертировать регистр
 [Changing Layout]
 Смена раскладки
-[PopUp colours]
+[Popup colours]
 Цвета вспл.окон
 [Windows colours]
 Цвета Windows

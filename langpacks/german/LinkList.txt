@@ -92,7 +92,7 @@ http://svn.miranda-ng.org/main/trunk/langpacks/german/Plugins/PasteIt.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/german/Plugins/Ping.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/german/Plugins/PluginUpdater.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/german/Plugins/PManagerEx.txt
-http://svn.miranda-ng.org/main/trunk/langpacks/german/Plugins/PopUp.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/german/Plugins/Popup.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/german/Plugins/QuickContacts.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/german/Plugins/QuickMessages.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/german/Plugins/QuickReplies.txt

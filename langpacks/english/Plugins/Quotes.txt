@@ -44,7 +44,7 @@
 [Background colour]
 [Text colour]
 [Delay]
-[From PopUp plugin]
+[From Popup plugin]
 [Custom]
 [Permanent]
 [Do not add to popup's history]

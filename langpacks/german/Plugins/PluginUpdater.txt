@@ -88,7 +88,7 @@ Sek.
 Gilt nicht für "Message Boxes"
 [Boxes]
 Fenster
-[PopUps]
+[Popups]
 Popups
 ;file \plugins\PluginUpdater\src\Notifications.cpp
 [Skipped.]

@@ -13,7 +13,7 @@ Server:
 [Language:]
 Jazyk:
 [Visible name:]
-Zobrazované jméno:
+Viditelné jméno:
 [Meet strangers with common interests (separated by commas):]
 Hledat cizince se společnými zájmy (oddělené čárkami):
 [Automatically send this message to stranger after connection:]
@@ -23,7 +23,7 @@ Tento text bude odeslán když napíšete zprávu "/asl":
 [Last used question (Question mode):]
 Poslední použitá otázka (režim otázek):
 [I want Omegle to reuse my questions if they are good enough (Question mode)]
-Chci aby Omegle používalo mé otázky znovu, pokud budou dost dobré (režim otázek):
+Omegle může použít mé otázky znovu, pokud budou dost dobré (režim otázek)
 [Automatically connect to stranger when protocol is turned online]
 Automaticky se připojit k cizinci při přepnutí protokolu do stavu online
 [Automatically connect to another stranger when current disconnects]

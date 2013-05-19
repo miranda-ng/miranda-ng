@@ -172,7 +172,7 @@ Zrušit
 
 [General]
 Obecné
-[Show PopUps when I connect]
+[Show Popups when I connect]
 Zobrazit oznámení při připojení
 [Ignore empty status messages]
 
@@ -330,7 +330,7 @@ Protokol
 Filtrování
 [Message log]
 Záznam komunikace
-[PopUps]
+[Popups]
 Oznámení
 ;file \plugins\NewXstatusNotify\src\popup.h
 [Open message window]

@@ -1,6 +1,6 @@
 ﻿;============================================================
 ;  File: popup.dll
-;  Module: Popup Interoperability, PopUp Plus
+;  Module: Popup Interoperability, Popup Plus
 ;  Versions: 2.1.1.5
 ;============================================================
 [Time]
@@ -31,7 +31,7 @@ Uproszczony zegar
 Pokaż czas
 [* Popup Classic]
 * Klasyczny popup
-[PopUp 1.0.1.x compatability]
+[Popup 1.0.1.x compatability]
 Kompatybilność z wersją 1.0.1.x
 [You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
 Potrzebujesz wtyczki png2dib 0.1.3.x lub nowszej żeby wyświetlać obrazki PNG
@@ -65,7 +65,7 @@ Przełącz Popupy
 Włącz Popupy
 [Disable &popup module]
 Wyłącz Popupy
-[Error: I could not register the PopUp Window class.\nThe plugin will not operate.]
+[Error: I could not register the Popup Window class.\nThe plugin will not operate.]
 Błąd: Nie można zarejestrować klasy okien popupów.\nWtyczka nie będzie działać.
 [<empty>]
  <pusty>

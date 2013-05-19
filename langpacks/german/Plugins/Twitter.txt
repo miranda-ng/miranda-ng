@@ -88,7 +88,7 @@ Tweet senden...
 Netzwerk
 [Basic]
 Allgemein
-[PopUps]
+[Popups]
 Popups
 [%s server connection]
 %s Serververbindung

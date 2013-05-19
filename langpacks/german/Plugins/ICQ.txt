@@ -1364,7 +1364,7 @@ Kontakte
 Funktionen
 [Privacy]
 Privatsphäre
-[PopUps]
+[Popups]
 Popups
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Popup Title]

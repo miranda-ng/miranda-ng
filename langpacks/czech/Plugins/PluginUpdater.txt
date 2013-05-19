@@ -88,7 +88,7 @@ sek.
 
 [Boxes]
 
-[PopUps]
+[Popups]
 Oznámení
 ;file \plugins\PluginUpdater\src\Notifications.cpp
 [Skipped.]

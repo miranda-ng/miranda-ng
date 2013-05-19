@@ -39,7 +39,7 @@
 Внешний файл
 [Other Options]
 Другие настройки
-[Disable PopUp for this station]
+[Disable Popup for this station]
 Не выводить всплывающее окно
 [Brief Info]
 Кратко
@@ -373,7 +373,7 @@ HTTP подключение Weather
 Настройка ссылок
 [Do not display weather condition as protocol status]
 Не показывать состояние погоды как статус протокола
-[PopUp Text]
+[Popup Text]
 Всплывающий текст
 [Weather Protocol Text Options]
 Шаблоны диалогов погоды 

@@ -1,12 +1,12 @@
 {
 ===============================================================================
-                                PopUp plugin
-Plugin Name: PopUp
+                                Popup plugin
+Plugin Name: Popup
 Plugin authors: Luca Santarelli aka hrk (hrk@users.sourceforge.net)
                 Victor Pavlychko (nullbie@gmail.com)
 ===============================================================================
 The purpose of this plugin is to give developers a common "platform/interface"
-to show PopUps. It is born from the source code of NewStatusNotify, another
+to show Popups. It is born from the source code of NewStatusNotify, another
 plugin I've made.
 
 Remember that users *must* have this plugin enabled, or they won't get any
@@ -19,10 +19,10 @@ them!
 {$DEFINE M_POPUP}
 
 {
-NOTE! Since Popup 1.0.1.2 there is a main meun group called "PopUps" where I
+NOTE! Since Popup 1.0.1.2 there is a main meun group called "Popups" where I
 have put a "Enable/Disable" item. You can add your own "enable/disable" items
 by adding these lines before you call MS_CLIST_ADDMAINMENUITEM:
-mi.pszPopUpName = Translate("PopUps");
+mi.pszPopupName = Translate("Popups");
 mi.position = 0; //You don't need it and it's better if you put it to zero.
 }
 
@@ -67,7 +67,7 @@ type
     iSeconds        : int;      // Custom delay time in seconds.
                                 // -1 means "forever", 0 means = 'default time".
 { Data prior $02010003 version
-    lpzClass        : PAnsiChar;    // PopUp class. Used with skinning. See PopUp/AddClass for details
+    lpzClass        : PAnsiChar;    // Popup class. Used with skinning. See Popup/AddClass for details
     skinBack        : COLORREF; // Background color for colorizable skins
     cZero: array [0..15-SizeOf(PAnsiChar)-SizeOf(COLORREF)] of byte;
 }
@@ -128,7 +128,7 @@ The default WNDPROC does nothing.
 - PluginData is a pointer to a void, which means a pointer to anything. You can
 make your own structure to store the data you need (example: a status
 information, a date, your name, whatever) and give me a pointer to that struct.
-You will need to destroy that structure and free the memory when the PopUp is
+You will need to destroy that structure and free the memory when the Popup is
 going to be destroyed. You'll know this when you receive a UM_FREEPLUGINDATA.
 The name tells it all: free your own plugin data.
 
@@ -141,10 +141,10 @@ WM_PAINT, WM_PRINT, WM_PRINTCLIENT
 const
 {
   Creates, adds and shows a popup, given a (valid) POPUPDATA structure pointer.
-  wParam = (WPARAM)(*POPUPDATA)PopUpDataAddress
+  wParam = (WPARAM)(*POPUPDATA)PopupDataAddress
   lParam = 0
-  Returns: > 0 on success, 0 if creation went bad, -1 if the PopUpData contained unacceptable values.
-  NOTE: it returns -1 if the PopUpData was not valid, if there were already too many popups, if the module was disabled.
+  Returns: > 0 on success, 0 if creation went bad, -1 if the PopupData contained unacceptable values.
+  NOTE: it returns -1 if the PopupData was not valid, if there were already too many popups, if the module was disabled.
   Otherwise, it can return anything else...
 
 Popup Plus 2.0.4.0+
@@ -162,21 +162,21 @@ You may pass additional creation flags via lParam:
   APF_NO_POPUP     = 8;
   APF_NEWDATA      = $10;
 
-  MS_POPUP_ADDPOPUPW:PAnsiChar = 'PopUp/AddPopUpW';
-  MS_POPUP_ADDPOPUP :PAnsiChar = 'PopUp/AddPopUpEx';
+  MS_POPUP_ADDPOPUPW:PAnsiChar = 'Popup/AddPopupW';
+  MS_POPUP_ADDPOPUP :PAnsiChar = 'Popup/AddPopupEx';
 
 {
-  Returns the handle to the contact associated to the specified PopUpWindow.
+  Returns the handle to the contact associated to the specified PopupWindow.
   You will probably need to know this handle inside your WNDPROC. Exampole: you want to open the MessageWindow. :-)
   Call MS_POPUP_GETCONTACT on the hWnd you were given in the WNDPROC.
-  wParam = (WPARAM)(HWND)hPopUpWindow
+  wParam = (WPARAM)(HWND)hPopupWindow
   lParam = 0;
   Returns: the HANDLE of the contact. Can return NULL, meaning it's the main contact. -1 means failure.
 }
-  MS_POPUP_GETCONTACT:PAnsiChar = 'PopUp/GetContact';
+  MS_POPUP_GETCONTACT:PAnsiChar = 'Popup/GetContact';
 
 {
-  wParam = hPopUpWindow
+  wParam = hPopupWindow
   lParam = PluginDataAddress;
   Returns: the address of the PLUGINDATA structure. Can return NULL, meaning nothing was given. -1 means failure.
   IMPORTANT NOTE: it doesn't seem to work if you do:
@@ -184,19 +184,19 @@ You may pass additional creation flags via lParam:
   and then use that struct.
   Do this, instead:
   aPointerToStruct = CallService(..., (LPARAM)aPointerToAStruct);
-  and it will work. Just look at the example I've written above (PopUpDlgProc).
+  and it will work. Just look at the example I've written above (PopupDlgProc).
 }
-  MS_POPUP_GETPLUGINDATA:PAnsiChar = 'PopUp/GetPluginData';
+  MS_POPUP_GETPLUGINDATA:PAnsiChar = 'Popup/GetPluginData';
 
 {
   wParam = 0
   lParam = 0
   Returns: 0 if the user has chosen not to have the second line, 1 if he choose to have the second line.
 }
-  MS_POPUP_ISSECONDLINESHOWN:PAnsiChar = 'PopUp/IsSecondLineShown';
+  MS_POPUP_ISSECONDLINESHOWN:PAnsiChar = 'Popup/IsSecondLineShown';
 
 {
-  Requests an action or an answer from PopUp module.
+  Requests an action or an answer from Popup module.
   wParam = (WPARAM)wpQuery
   returns 0 on success, -1 on error, 1 on stupid calls ;-)
 }
@@ -204,7 +204,7 @@ You may pass additional creation flags via lParam:
   PUQS_DISABLEPOPUPS = 2; // " "
   PUQS_GETSTATUS     = 3; // Returns 1 if popups are enabled, 0 if popups are disabled.
 
-  MS_POPUP_QUERY:PAnsiChar = 'PopUp/Query';
+  MS_POPUP_QUERY:PAnsiChar = 'Popup/Query';
 
 {
   UM_FREEPLUGINDATA
@@ -220,28 +220,28 @@ You may pass additional creation flags via lParam:
 
 {
   UM_INITPOPUP
-  wParam = (WPARAM)(HWND)hPopUpWindow (but this is useless, since I'll directly send it to your hPopUpWindow
+  wParam = (WPARAM)(HWND)hPopupWindow (but this is useless, since I'll directly send it to your hPopupWindow
   lParam = 0.
-  This message is sent to the PopUp when its creation has been finished, so POPUPDATA (and thus your PluginData) is reachable.
+  This message is sent to the Popup when its creation has been finished, so POPUPDATA (and thus your PluginData) is reachable.
   Catch it if you needed to catch WM_CREATE or WM_INITDIALOG, which you'll never ever get in your entire popup-life.
   Return value: if you process this message, return 0. If you don't process it, return 0. Do whatever you like ;-)
 }
   UM_INITPOPUP = (WM_USER + $202);
 
 {
-  wParam = hPopUpWindow
+  wParam = hPopupWindow
   lParam = lpzNewText
   returns: > 0 for success, -1 for failure, 0 if the failure is due to second line not being shown. (but you could call PUIsSecondLineShown() before changing the text...)
   Changes the text displayed in the second line of the popup.
 }
-  MS_POPUP_CHANGETEXTW:PAnsiChar = 'PopUp/ChangetextW';
+  MS_POPUP_CHANGETEXTW:PAnsiChar = 'Popup/ChangetextW';
 
 {
-  wParam = (WPARAM)(HWND)hPopUpWindow
+  wParam = (WPARAM)(HWND)hPopupWindow
   lParam = (LPARAM)(POPUPDATAEX*)newData
   Changes the entire popup
 }
-  MS_POPUP_CHANGEW:PAnsiChar = 'PopUp/ChangeW';
+  MS_POPUP_CHANGEW:PAnsiChar = 'Popup/ChangeW';
 
 {
  UM_CHANGEPOPUP
@@ -292,17 +292,17 @@ const
   SM_ERROR        = $03; //Cross icon.
 {
   This is mainly for developers.
-  Shows a warning message in a PopUp. It's useful if you need a = 'MessageBox" like function,
+  Shows a warning message in a Popup. It's useful if you need a = 'MessageBox" like function,
   but you don't want a modal window (which will interfere with a DialogProcedure. MessageBox
   steals focus and control, this one not.
   wParam = lpzMessage
   lParam = SM_* flag
   Returns: 0 if the popup was shown, -1 in case of failure.
 }
-  MS_POPUP_SHOWMESSAGE :PAnsiChar = 'PopUp/ShowMessage';
-  MS_POPUP_SHOWMESSAGEW:PAnsiChar = 'PopUp/ShowMessageW';
+  MS_POPUP_SHOWMESSAGE :PAnsiChar = 'Popup/ShowMessage';
+  MS_POPUP_SHOWMESSAGEW:PAnsiChar = 'Popup/ShowMessageW';
 
-{ PopUp/RegisterActions
+{ Popup/RegisterActions
 Registers your action in popup action list
 
 wParam = (WPARAM)(LPPOPUPACTION)actions
@@ -310,7 +310,7 @@ lParam = (LPARAM)actionCount
 
 Returns: 0 if the popup was shown, -1 in case of failure.
 }
-  MS_POPUP_REGISTERACTIONS:PAnsiChar = 'PopUp/RegisterActions';
+  MS_POPUP_REGISTERACTIONS:PAnsiChar = 'Popup/RegisterActions';
 
 //------------- Class API ----------------//
 
@@ -333,8 +333,8 @@ const
 
 // wParam = 0
 // lParam = (POPUPCLASS *)&pc
-  MS_POPUP_REGISTERCLASS = 'PopUp/RegisterClass';
-  MS_POPUP_UNREGISTERCLASS = 'PopUp/UnregisterClass';
+  MS_POPUP_REGISTERCLASS = 'Popup/RegisterClass';
+  MS_POPUP_UNREGISTERCLASS = 'Popup/UnregisterClass';
 
 type
   TPOPUPDATACLASS = record
@@ -350,7 +350,7 @@ type
 const
 // wParam = 0
 // lParam = (POPUPDATACLASS *)&pdc
-  MS_POPUP_ADDPOPUPCLASS = 'PopUp/AddPopupClass';
+  MS_POPUP_ADDPOPUPCLASS = 'Popup/AddPopupClass';
 
 (* OLD
 {
@@ -360,7 +360,7 @@ const
   would became able to choose skin for your popups independently from others)
 
   You have to register popup class before using it. To do so call
-  "PopUp/AddClass" with lParam = (LPARAM)(const AnsiChar * )popUpClassName.
+  "Popup/AddClass" with lParam = (LPARAM)(const AnsiChar * )popUpClassName.
 
   All class names are translated (via Translate()) before being added to list.
   You should use english names for them.
@@ -370,12 +370,12 @@ const
   Note that you can add clases after popup wal loaded, e.g. you shoul intercept
   ME_SYSTEM_MODULESLOADED event
 }
-  MS_POPUP_ADDCLASS = 'PopUp/AddClass';
+  MS_POPUP_ADDCLASS = 'Popup/AddClass';
 
   POPUP_CLASS_DEFAULT = 'Default';
   POPUP_CLASS_WARNING = 'Warning';
   POPUP_CLASS_NOTIFY  = 'Notify';
-  POPUP_CLASS_OLDAPI  = 'PopUp 1.0.1.x compatability'; // for internal purposes
+  POPUP_CLASS_OLDAPI  = 'Popup 1.0.1.x compatability'; // for internal purposes
 
 const
   NFOPT_POPUP2_BACKCOLOR    = 'Popup2/BackColor';

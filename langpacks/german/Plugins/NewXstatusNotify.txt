@@ -172,7 +172,7 @@ Identische Aufzeichnungen verhindern
 Bei Log-Öffnung:
 [General]
 Allgemein
-[Show PopUps when I connect]
+[Show Popups when I connect]
 Popups beim Verbinden
 [Ignore empty status messages]
 Leere Statusnachrichten ignorieren
@@ -330,7 +330,7 @@ Protokoll
 Filtern
 [Message log]
 Nachrichtenverlauf
-[PopUps]
+[Popups]
 Popups
 ;file \plugins\NewXstatusNotify\src\popup.h
 [Open message window]

@@ -1,7 +1,7 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: NewXstatusNotify
+;  Plugin: xStatus Notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
@@ -89,7 +89,7 @@
 [Prevent identical logs]
 [On opening ML:]
 [General]
-[Show PopUps when I connect]
+[Show Popups when I connect]
 [Ignore empty status messages]
 [Protocols]
 [Enable/Disable protocols which you don't wish to be notified for:]
@@ -170,7 +170,7 @@
 [Protocol]
 [Filtering]
 [Message log]
-[PopUps]
+[Popups]
 ;file \plugins\NewXstatusNotify\src\popup.h
 [Open message window]
 [Close popup]

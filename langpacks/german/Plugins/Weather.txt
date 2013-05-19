@@ -124,13 +124,13 @@ Andere Einstellungen
 Zur Standard-Station machen
 [Disable automatic update for this station]
 Automatische Aktualisierung für diese Station deaktivieren
-[Disable PopUp for this station]
+[Disable Popup for this station]
 Popups für diese Station deaktivieren
 [Change]
 Ändern
 [Cancel]
 Abbrechen
-[PopUp Options]
+[Popup Options]
 Popup-Einstellungen
 [Enable popups]
 Popups aktivieren
@@ -156,7 +156,7 @@ Popup-Verzögerung
 Verzögerung
 [seconds]
 Sekunden
-[From PopUp plugin]
+[From Popup plugin]
 Vom Popup-Plugin
 [Permanent]
 Dauerhaft
@@ -236,7 +236,7 @@ INI neu laden
 Stadt:
 [Menu]
 Menü
-[Dismiss PopUp]
+[Dismiss Popup]
 Popup schließen
 [Open brief information]
 Kurzinformationen öffnen
@@ -458,7 +458,7 @@ Netzwerk
 Allgemein
 [Display]
 Anzeige
-[PopUps]
+[Popups]
 Popups
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\tmomentane Lage\n%d\taktuelles Datum\n%e\tTaupunkt\n%f\tgefühlte Temperatur\n%h\tHöchsttemperatur\n%i\tWindrichtung\n%l\tgeringste Temp.\n%m\tLuftfeuchtigkeit\n%n\tStations-Name\n%p\tDruck\n%r\tSonnenaufgang\n%s\tStations-ID\n%t\tTemperatur\n%u\tAktualis.-Zeit\n%v\tSicht\n%w\tWind-Geschwind.\n%y\tSonnenuntergang

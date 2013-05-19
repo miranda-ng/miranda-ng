@@ -154,7 +154,7 @@ Zobrazit při pokusu o navázání spojení
 Zobrazit po úspěšném navázání spojení
 [Show other messages]
 Zobrazit ostatní zprávy
-[From PopUp plugin]
+[From Popup plugin]
 Globální nastavení
 [Custom]
 Vlastní

@@ -632,7 +632,7 @@ Zeitüberschreitung (s)
 Text
 [Background]
 Hintergrund
-[(The timeout require at least PopUp plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
+[(The timeout require at least Popup plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
  0 = Standardwert vom Popup-Plugin\n-1 = Dauerhafte Anzeige
 [List]
 Liste

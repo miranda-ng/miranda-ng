@@ -2,7 +2,7 @@
 [Google]
 [...is typing]
 [...stopped typing]
-[PopUps timeout]
+[Popups timeout]
 [Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 [Check1]
 [LogLink]

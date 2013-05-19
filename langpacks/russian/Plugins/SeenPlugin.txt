@@ -100,7 +100,7 @@
 Последнее появление
 [Reset colors]
 Сброс цветов
-[PopUp Colors]
+[Popup Colors]
 Цвета окон
 [Use popups]
 Вспл. окна

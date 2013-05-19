@@ -15,7 +15,7 @@
 Помечать знаком перед именем
 [Use MultiWindow icon]
 Значок MultiWindow
-[Use PopUp]
+[Use Popup]
 Использовать вспл. окна
 [day(s) before birthday.]
 суток до дня рождения.

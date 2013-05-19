@@ -165,7 +165,7 @@ Avataroverlay
 ;file \plugins\AvatarHistory\src\options.cpp
 [Avatar]
 Avatar
-[PopUps]
+[Popups]
 Popups
 [Avatar Change]
 Avataränderung

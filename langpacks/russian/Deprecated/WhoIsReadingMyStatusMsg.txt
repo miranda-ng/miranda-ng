@@ -34,7 +34,7 @@
 Щелчок
 [&Configure]
 &Настроить
-[PopUp click]
+[Popup click]
 Щелчок по окну
 [Open user details window]
 Инфо о контакте

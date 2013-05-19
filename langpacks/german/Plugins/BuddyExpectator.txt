@@ -128,7 +128,7 @@ Kontaktname:
 
 [Contacts]
 Kontakte
-[PopUps]
+[Popups]
 Popups
 [not detected]
 nicht ermittelt

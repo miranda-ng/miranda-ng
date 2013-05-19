@@ -354,7 +354,7 @@ xСтатус %s
 Выключаны
 [Disconnects]
 Адключэнні
-[Dismiss PopUp]
+[Dismiss Popup]
 Зачыніць
 [Dismiss]
 Прыбраць
@@ -462,7 +462,7 @@ E-Mail
 Сябры
 [From popup plugin]
 Па змаўчанні
-[From PopUp plugin]
+[From Popup plugin]
 Па змаўчанні
 [From]
 Ад
@@ -846,13 +846,13 @@ E-Mail
 Усплывальнае акно
 [Popup timeout:]
 Працягласць:
-[PopUp]
+[Popup]
 Усплывальнае акно
 [Popup]
 Усплывальныя вокны
 [Popups]
 Усплывальныя вокны
-[PopUps]
+[Popups]
 Усплывальныя вокны
 [Port]
 Порт
@@ -1034,7 +1034,7 @@ E-Mail
 Выйсці ўдзельнікаў
 [Show popup]
 Паказваць успл. акно
-[Show PopUps when I connect]
+[Show Popups when I connect]
 Вокны пры злучэнні
 [Show popups]
 Паказваць вокны
@@ -1346,7 +1346,7 @@ Web старонка
 Кнопкі мышы
 [Popup Delay]
 Затрымка акна
-[PopUp Options]
+[Popup Options]
 Усплывальныя вокны
 [Popup Title]
 Загаловак акна
@@ -2084,7 +2084,7 @@ ID карыстача:
 Паказаць запрашэнні да гульні
 [as events in the contact list]
 падзеямі ў спісе кантактаў
-[in PopUp windows]
+[in Popup windows]
 у ўсплывальных вокнах
 [Load &skin...]
 Загрузіць &скін...
@@ -3324,17 +3324,17 @@ Web Дызайн
 Вонкавая гісторыя
 [Internal History]
 Унутраная гісторыя
-[PopUp Notify]
+[Popup Notify]
 Апавяшчэнне успл. вокнамі
-[PopUp Enabled]
+[Popup Enabled]
 Успл. вокны ўключаны
-[PopUp Disabled]
+[Popup Disabled]
 Успл. вокны адключаны
 [Enable/Disable external logging for this contact]
 Уключыць/выключыць запіс у вонкавы лог для гэтага кантакту
 [Maximum entries]
 Запісаў
-[PopUp text]
+[Popup text]
 Тэкст акна
 [Enable/Disable internal logging for this contact]
 Уключыць/выключыць запіс у ўнутраны лог для гэтага кантакту
@@ -3348,7 +3348,7 @@ Web Дызайн
 Гісторыя
 [Log format]
 Фармат Журнала
-[PopUp display time]
+[Popup display time]
 Гадзіна адлюстравання акна
 [Temporarily disable Popups]
 Часова выключыць вокны
@@ -3512,7 +3512,7 @@ Web Дызайн
 Выключыць апавяшчэнні пра змену статусу
 [Enable status &notification]
 Уключыць апавяшчэнні пра змену статусу
-[Automatically turn off PopUps and Sounds on status change]
+[Automatically turn off Popups and Sounds on status change]
 Выключыць вокны і гукі пры змене статусу
 [Configure]
 Наладзіць
@@ -3528,8 +3528,8 @@ Web Дызайн
 &Паказваць папярэдні статус
 [&Log status changes to file]
 Запісваць змены статусу ў файл
-[&From PopUp plugin]
-Усталёўкі PopUp
+[&From Popup plugin]
+Усталёўкі Popup
 [&Custom]
 Наладзіць
 [P&ermanent]
@@ -3714,11 +3714,11 @@ xСтатусы
 Толькі адно вакно на кантакт
 [Show &entry in the main menu]
 Пункт у галоўным меню
-[PopUp timeout (is typing)]
+[Popup timeout (is typing)]
 Працягласць (набірае)
 [From protocol]
 З пратаколу
-[PopUp timeout (stopped typing)]
+[Popup timeout (stopped typing)]
 Працягласць (скончыў набіраць)
 [...is typing a message.]
 ... набірае тэкст.

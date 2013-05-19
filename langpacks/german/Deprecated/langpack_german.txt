@@ -649,7 +649,7 @@ Anzeigedauer
 Verwerfen
 [Dismiss popup]
 Popup schließen
-[Dismiss PopUp]
+[Dismiss Popup]
 Popup schließen
 [Dismiss Popup]
 Popup schließen
@@ -881,9 +881,9 @@ Frequenz
 von
 [From]
 Von
-[From PopUp plugin]
+[From Popup plugin]
 Vom Popup-Plugin
-[&From PopUp plugin]
+[&From Popup plugin]
 Vom Popup-Plugin
 [From popup plugin]
 Vom Popup-Plugin
@@ -1487,15 +1487,15 @@ Nachmittags
 Popup
 [Popup]
 Popup
-[PopUp]
+[Popup]
 Popup
 [popups]
 Popups
-[PopUps]
+[Popups]
 Popups
-[PopUp 1.0.1.x compatability]
+[Popup 1.0.1.x compatability]
 Popup-1.0.1.x-Kompatibilität
-[PopUp click]
+[Popup click]
 Popup-Klick
 [Popup colors]
 Popup-Farben
@@ -1785,7 +1785,7 @@ Avatare anzeigen
 [Show headers]
 Kopfzeilen anzeigen
 [Show/hide popups]
-PopUps anzeigen/verstecken
+Popups anzeigen/verstecken
 [Show history]
 Verlauf zeigen
 [Show History]
@@ -5640,7 +5640,7 @@ Selben Stil wie im Verlaufsfenster verwenden
 Benutzerdefinierte Farben
 [Timeout (s)]
 Zeitüberschreitung (s)
-[(The timeout require at least PopUp plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
+[(The timeout require at least Popup plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
  0 = Standardwert vom Popup-Plugin\n-1 = Dauerhafte Anzeige
 [Clear lo&g]
 Verlauf löschen
@@ -6014,13 +6014,13 @@ Warnung: Popup-Plugin nicht gefunden!
 Warnung: Installiertes Popup-Plugin wird nicht unterstützt! Bitte installieren Sie eine aktuellere Version!
 
 ;  Typing
-[PopUp timeout (is typing)]
+[Popup timeout (is typing)]
 Anzeigedauer (tippt gerade)
 [From protocol]
 Vom Protokoll
 
 ;  Stopped Typing
-[PopUp timeout (stopped typing)]
+[Popup timeout (stopped typing)]
 Anzeigedauer (tippt nicht mehr)
 
 ;  Contact List
@@ -8811,7 +8811,7 @@ Layout des Textes ist aktuelles Layout
 Ergebnisbehandlung
 [Copy result to clipboard]
 Ergebnis in Zwischenablage kopieren
-[Show result in PopUp]
+[Show result in Popup]
 Ergebnis als Popup zeigen
 [Strings for keyboard layouts]
 Zeichenketten für Tastaturlayout
@@ -8823,7 +8823,7 @@ Aktuellen Status umkehren
 Ausschalten
 [Leave as it is]
 Beibehalten
-[PopUp colours]
+[Popup colours]
 Popupfarben
 [Custom colours]
 Eigene Farben
@@ -11378,7 +11378,7 @@ Man kann unterschiedliche Einstellungen für jedes Protokoll setzen
 [The status of "pushed-down" protocols won't be changed]
 Der Status von "gedrückten" Protokollen wird nicht geändert werden.
 [Popups should ... while process is running]
-PopUps sollten bei laufendem Prozess...
+Popups sollten bei laufendem Prozess...
 [Sounds should ... while process is running]
 Klänge sollten bei laufendem Prozess...
 [be enabled]
@@ -11893,8 +11893,8 @@ Sende eine Meldung, wenn Du länger nachdenken willst
 Zeige eine Einladungsnachricht
 [as events in the contact list]
 als Ereignis in der Kontaktliste
-[in PopUp windows]
-in PopUp Fenster
+[in Popup windows]
+in Popup Fenster
 [Resend your move until the reply coming, every]
 Wiederhole Deinen Zug bis jede Antwort kommt
 [Query for continuation of the saved game]
@@ -17834,14 +17834,14 @@ Fehler unterdrücken
 keine Startüberprüfung
 [Silently]
 Unbemerkt
-[Use PopUps]
+[Use Popups]
 Popups zeigen
 [Show Result]
 Ergebnis zeigen
 [Don't re-request mail box Automatically]
 Posteingang nicht automatisch erneut abfragen
 
-[Visit GMail on E-Mail PopUp click]
+[Visit GMail on E-Mail Popup click]
 GMail bei Klick auf Popup besuchen
 
 [Check Now!]
@@ -18359,7 +18359,7 @@ Maximale Dateigröße
 Hinweis:
 [Old status]
 Alter Status
-[PopUp Colors]
+[Popup Colors]
 Farben
 [Popup interoperability missing or disabled. You need Popups plugin]
 Popupfunktionalität fehlt oder ist deaktiviert. Sie benötigen ein Popup-Plugin.
@@ -18746,7 +18746,7 @@ Mit Zeichen markieren
 Zeichen vor den Namen setzen
 [Use MultiWindow icon]
 MultiWindow-Icon verwenden
-[Use PopUp]
+[Use Popup]
 Popups zeigen
 [Timeout:]
 Dauer:
@@ -19425,7 +19425,7 @@ MRIM-Proxyverbindungen aktivieren
 Block-Größe der gesendeten Datei:
 [512 - 65536 bytes]
 512 - 65536 Bytes
-[PopUp type]
+[Popup type]
 Popup-Typ
 [Popup settings]
 Popup-Einstellungen
@@ -23141,7 +23141,7 @@ Status zu "Online" wechseln nach ersetzen des Profils
 
 [Event Notify]
 Ereignismeldungen
-[Show entry in the PopUps menu]
+[Show entry in the Popups menu]
 Eintrag in Hauptmenü -> Popups
 [Temporarily disable Event Popups]
 Ereignismeldungen deaktivieren
@@ -23297,7 +23297,7 @@ Kontakt telefoniert gerade.
 
 [Use default...]
 Benutze Standard...
-[Show PopUps when I connect]
+[Show Popups when I connect]
 Popups beim Verbinden
 [&Log status changes to file]
 Statusänderungen in &Logdatei speichern
@@ -24401,7 +24401,7 @@ Externen Verlauf
 Internen Verlauf
 [Maximum entries]
 Maximalen Eintrage
-[PopUp text]
+[Popup text]
 Popup Text
 
 [My Custom Name]
@@ -24427,7 +24427,7 @@ Log-Format.
 [Use contact's custom nickname to display popup]
 Eigenen Alias in Popup verwenden
 
-[PopUp display time]
+[Popup display time]
 Anzeigedauer
 [Maximun history entry]
 Maximale Verlaufseinträge
@@ -25094,8 +25094,8 @@ PING ZIELE
 
 
 
-[En&large PopUps by]
-Erweiterte PopUps von
+[En&large Popups by]
+Erweiterte Popups von
 [Content && Style]
 Inhalt && Stil
 [Display time]
@@ -25240,7 +25240,7 @@ Uhrzeit anzeigen
 Einfache Uhr (für konfigurierbare Fonts)
 [Avatar to the right(if enabled above)]
 Avatar auf der rechten Seite (falls oben aktiviert)
-[Customizable PopUp colors]
+[Customizable Popup colors]
 Anpassbare Popup-Farben
 [Customizable font colors]
 Anpassbare Schriftfarben
@@ -25469,8 +25469,8 @@ Popup-Fehler Benachrichtigung
 Fehler bei der Vorschau-Fenster-Klasse Registrierung.
 [Do you really want to reset Popup Plus settings?]
 Möchten Sie wirklich alle Popup-Plus-Optionen zurücksetzen?
-[Error: I could not register the PopUp Window class.\r\nThe plugin will not operate.]
-Fehler: Das PopUp-Fensterklassenelement konnte nicht registriert werden.\r\nDas Plugin wird nicht funktionieren.
+[Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
+Fehler: Das Popup-Fensterklassenelement konnte nicht registriert werden.\r\nDas Plugin wird nicht funktionieren.
 
 
 ; BlackStone Skin
@@ -27147,18 +27147,18 @@ Sichere Nachricht (eingehend)
 [Outgoing Secure Message]
 Sichere Nachricht (ausgehend)
 
-[SecureIM PopUp Colors]
+[SecureIM Popup Colors]
 Farben der Popups
 [Key agreement colors]
 Schlüsselaustausch
 [Secure connection colors]
 Sichere Verbindung
 
-[PopUp Timeout]
+[Popup Timeout]
 Anzeigedauer
 [Time in Seconds]
 Zeit in Sekunden
-[0 = Default PopUp Timeout Value]
+[0 = Default Popup Timeout Value]
 0 = Standard
 
 [Show a popup on each secure receive]
@@ -29471,7 +29471,7 @@ Empfangen
 ; Link: http://www.torun.mm.pl/~slotwin/smcn/smcnotifytest.zip
 ; Übersetzung: Foso am 28.3.07
 
-[Enable PopUps]
+[Enable Popups]
 Popups aktivieren
 [Only if status message has changed]
 Nur wenn sich die Statusnachricht geändert hat
@@ -29515,7 +29515,7 @@ Verlauf de-/aktivieren für diesen Kontakt
 Speichern in Datei für diesen Kontakt de-/aktivieren
 [Keep History]
 Verlauf behalten
-[Show PopUps]
+[Show Popups]
 Popups zeigen
 [Log To File]
 Loggen in Datei
@@ -33031,8 +33031,8 @@ Zum Gesprächsverlauf hinzufügen
 [Automatically split messages that are too long]
 Zu lange Nachrichten automatisch aufteilen
 
-[Show a PopUp]
-PopUp zeigen
+[Show a Popup]
+Popup zeigen
 [Use default text colour]
 Standard Textfarbe nutzen
 [Use default background colour]
@@ -35922,13 +35922,13 @@ Popup Verzögerung
 Verzögerung wählen
 [Show infinitely]
 Ewig zeigen
-[Default PopUp delay]
+[Default Popup delay]
 Standard Popup Verzögerung
 [Popup color settings]
 Popup Farben
 [Choose colors]
 Farben wählen
-[Use default PopUp colors]
+[Use default Popup colors]
 Standard Popup Farben
 [File access filter & logging settings ]
 Dateizugriffsfilter & Aufzeichnungseinstellungen
@@ -36371,10 +36371,10 @@ Andere Einstellungen
 Zur Standard-Station machen
 [Disable automatic update for this station]
 Automatische Aktualisierung für diese Station deaktivieren
-[Disable PopUp for this station]
+[Disable Popup for this station]
 Popups für diese Station deaktivieren
 
-[PopUp Options]
+[Popup Options]
 Popup-Einstellungen
 [Popup only when condition changes]
 Popups nur bei Wetteränderung
@@ -37308,7 +37308,7 @@ Unterdrücke Fehlermeldungen
 Deaktiviere Download-Schutz
 [(Not Recommended)]
 (Nicht empfehlenswert)
-[Display using PopUp or OSD plugin]
+[Display using Popup or OSD plugin]
 Via PopupPlus- oder OSD-Plugin
 [Open web page]
 Webseite öffnen
@@ -38343,10 +38343,10 @@ Lautstärke um 1% verringern
 'Jump to file'-Dialog öffnen
 [Add current track as a bookmark]
 Aktuellen Track als Bookmark einfügen
-[Close PopUp immediately after left click]
-PopUp nach Linksklick schließen
-[Close PopUp immediately after right click]
-PopUp nach Rechtsklick schließen
+[Close Popup immediately after left click]
+Popup nach Linksklick schließen
+[Close Popup immediately after right click]
+Popup nach Rechtsklick schließen
 
 ; ##############################################
 ; End of langpack: WinampNotify
@@ -39715,7 +39715,7 @@ Benachrichtige in Kontaktliste
 
 [Notify use:]
 Benachrichtigung über:
-[PopUp plugin:]
+[Popup plugin:]
 Popup-Plugin
 [Preview]
 Vorschau

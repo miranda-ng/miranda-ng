@@ -153,15 +153,15 @@ BEGIN
     CONTROL         "",IDC_BACKSR,"ColourPicker",WS_TABSTOP,14,79,28,14
     CONTROL         "",IDC_TEXTSR,"ColourPicker",WS_TABSTOP,50,79,28,14
     LTEXT           "Send/Receive encrypted colors",IDC_STATIC,82,84,104,8
-    GROUPBOX        "SecureIM PopUp Colors",IDC_STATIC,7,7,181,122
+    GROUPBOX        "SecureIM Popup Colors",IDC_STATIC,7,7,181,122
     PUSHBUTTON      "Preview",IDC_PREV,15,107,57,16
     GROUPBOX        "Events",IDC_STATIC,7,132,248,88
-    GROUPBOX        "PopUp Timeout",IDC_STATIC,196,7,59,122
+    GROUPBOX        "Popup Timeout",IDC_STATIC,196,7,59,122
     EDITTEXT        IDC_TIMEKEY,210,37,31,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_TIMESEC,210,59,31,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_TIMESR,210,81,31,14,ES_AUTOHSCROLL
     CTEXT           "Time in Seconds",IDC_STATIC,200,23,54,8
-    CTEXT           "0 = Default PopUp Timeout Value",IDC_STATIC,200,101,49,24
+    CTEXT           "0 = Default Popup Timeout Value",IDC_STATIC,200,101,49,24
     CONTROL         "Show a popup on established connection",IDC_EC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,144,168,10
     CONTROL         "Show a popup on disabled connection",IDC_DC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,156,168,10
     CONTROL         "Show a popup on key send",IDC_KS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,168,168,10

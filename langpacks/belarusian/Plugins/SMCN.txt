@@ -10,9 +10,9 @@
 Гісторыя статутных паведамленняў
 [List Contacts with Status Message]
 Статус.паведамленні кантактаў
-[Disable SMCN PopUps]
+[Disable SMCN Popups]
 Выкл. успл. акна пра змену статусу
-[Enable SMCN PopUps]
+[Enable SMCN Popups]
 Вкл. успл. акна пра змену статусу
 [Status Message Changed]
 Статутнае паведамленне змянілася
