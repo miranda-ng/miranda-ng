@@ -86,7 +86,6 @@ lParam - 0
 
 extern PopupHistoryList lstPopupHistory; //defined in main.cpp
 extern HWND hHistoryWindow; //the history window
-extern HICON hiPopupHistory;
 void RefreshPopupHistory(HWND hWnd, int renderer);
 
 INT_PTR CALLBACK DlgProcHistLst(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

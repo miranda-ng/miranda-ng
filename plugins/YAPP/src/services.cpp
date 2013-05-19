@@ -1,6 +1,7 @@
 #include "common.h"
 
-HGENMENU hMenuShowHistory, hMenuToggleOnOff;
+extern HANDLE hTTButton;
+extern HGENMENU hMenuRoot, hMenuItem, hMenuItemHistory;
 
 void StripBBCodesInPlace(wchar_t *text)
 {
@@ -187,10 +188,19 @@ static INT_PTR IsSecondLineShown(WPARAM wParam, LPARAM lParam)
 
 void UpdateMenu()
 {
+	bool isEnabled = db_get_b(0, MODULE, "Enabled", 1) == 1;
+
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.pszName = (char*)(db_get_b(0, MODULE, "Enabled", 1) == 1 ? LPGEN("Disable Popups") : LPGEN("Enable Popups"));
-	mi.flags = CMIM_NAME;// | CMIM_ICON;
-	Menu_ModifyItem(hMenuToggleOnOff, &mi);
+	mi.ptszName = (isEnabled ? LPGENT("Disable Popups") : LPGENT("Enable Popups"));
+	mi.hIcon = IcoLib_GetIcon(isEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
+	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
+	Menu_ModifyItem(hMenuItem, &mi);
+
+	mi.flags = CMIM_ICON;
+	Menu_ModifyItem(hMenuRoot, &mi);
+
+	if (hTTButton)
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, isEnabled ? TTBST_PUSHED : TTBST_RELEASED);
 }
 
 INT_PTR PopupQuery(WPARAM wParam, LPARAM lParam) {
@@ -405,25 +415,6 @@ void InitServices()
 
 	CreateServiceFunction(MS_POPUP_SHOWHISTORY, PopUp_ShowHistory);
 	CreateServiceFunction("PopUp/ToggleEnabled", TogglePopups);
-
-	////////////////////////////////////////////////////////////////////////////
-	// Menus
-
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_ALL;
-	mi.position = 500010000;
-	mi.pszPopupName = LPGEN("PopUps");
-
-	hiPopupHistory = LoadIcon(hInst, MAKEINTRESOURCE(IDI_POPUP_HISTORY));
-	mi.hIcon = hiPopupHistory;
-	mi.pszService= MS_POPUP_SHOWHISTORY;
-	mi.pszName = LPGEN("Popup History");
-	hMenuShowHistory = Menu_AddMainMenuItem(&mi);
-	
-	mi.hIcon = NULL;
-	mi.pszService = "PopUp/ToggleEnabled";
-	mi.pszName = (char*)(db_get_b(0, MODULE, "Enabled", 1) ? LPGEN("Disable Popups") : LPGEN("Enable Popups"));
-	hMenuToggleOnOff = Menu_AddMainMenuItem(&mi);
 }
 
 void DeinitServices()

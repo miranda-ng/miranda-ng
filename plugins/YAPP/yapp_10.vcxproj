@@ -180,6 +180,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\icons.cpp" />
     <ClCompile Include="src\message_pump.cpp" />
     <ClCompile Include="src\notify_imp.cpp" />
     <ClCompile Include="src\options.cpp" />
@@ -194,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h" />
+    <ClInclude Include="src\icons.h" />
     <ClInclude Include="src\message_pump.h" />
     <ClInclude Include="src\notify.h" />
     <ClInclude Include="src\options.h" />
@@ -206,6 +208,11 @@
   <ItemGroup>
     <ResourceCompile Include="res\yapp.rc" />
     <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\popup.ico" />
+    <None Include="res\popup_history.ico" />
+    <None Include="res\popup_no.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -14,7 +14,6 @@
 #define ANCHOR_ALL      ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM
 
 HWND hHistoryWindow = 0; //the history window
-HICON hiPopupHistory; //popup history icon
 PopupHistoryList lstPopupHistory; //defined in main.cpp
 
 const TCHAR *szHistoryColumns[] = {_T("Title"), _T("Message"), _T("Timestamp")}; //need to make sure that the string and size vectors have the same number of elements
@@ -583,7 +582,8 @@ INT_PTR CALLBACK DlgProcHistLst(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		{
 			int renderer = lstPopupHistory.GetRenderer();
 
-			SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM) hiPopupHistory);
+			SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(ICO_HISTORY,0));
+			SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(ICO_HISTORY,1));
 
 			LoadRenderer(hWnd, renderer);
 

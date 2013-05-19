@@ -44,6 +44,7 @@
 #include <m_avatars.h>
 #include <m_popup.h>
 #include <m_icolib.h>
+#include <m_toptoolbar.h>
 #include <win2k.h>
 
 #include <m_notify.h>
@@ -58,6 +59,7 @@
 #include "services.h"
 #include "resource.h"
 #include "yapp_history.h"
+#include "icons.h"
 
 #define MODULE			"YAPP"
 
@@ -81,7 +83,6 @@ typedef int (CALLBACK *PFNLVCOMPARE)(LPARAM, LPARAM, LPARAM);
 #define ListView_SortItemsEx(hwndLV, _pfnCompare, _lPrm) \
   (BOOL)SendMessage((hwndLV), LVM_SORTITEMSEX, (WPARAM)(LPARAM)(_lPrm), (LPARAM)(PFNLVCOMPARE)(_pfnCompare))
 #endif
-
 
 #define PDF_UNICODE  0x0001
 #define PDF_ICOLIB   0x0002
