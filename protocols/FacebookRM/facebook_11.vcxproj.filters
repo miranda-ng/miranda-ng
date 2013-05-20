@@ -151,4 +151,33 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\auth_ask.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\auth_grant.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\auth_revoke.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\facebook.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\feeds.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\friends.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\mind.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\notification.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\poke.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
