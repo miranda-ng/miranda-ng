@@ -628,3 +628,19 @@ void FacebookProto::OpenUrl(std::string url)
 	ptrT data = mir_utf8decodeT(url.c_str());
 	CallService(MS_UTILS_OPENURL, (WPARAM)OUF_TCHAR, (LPARAM)data);
 }
+
+void FacebookProto::ReadNotificationWorker(void *p)
+{
+	if (p == NULL)
+		return;
+
+	std::string *id = static_cast<std::string*>(p);
+
+	std::string data = "seen=0&asyncSignal=&__dyn=&__req=a&alert_ids%5B0%5D=" + *id;
+	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+	data += "&__user=" + facy.self_.user_id;
+
+	facy.flap(FACEBOOK_REQUEST_NOTIFICATIONS_READ, NULL, &data);
+	
+	delete p;
+}

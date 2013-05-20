@@ -152,7 +152,7 @@ void FacebookProto::SendTypingWorker(void *p)
 		std::string data = "&source=mercury-chat";
 		data += (typing->status == PROTOTYPE_SELFTYPING_ON ? "&typ=1" : "&typ=0"); // PROTOTYPE_SELFTYPING_OFF
 		data += "&to=" + std::string(dbv.pszVal);
-		data += "&fb_dtsg=" + facy.dtsg_;
+		data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
 		data += "&lsd=&phstamp=0&__user=" + facy.self_.user_id;
 		
 		http::response resp = facy.flap(FACEBOOK_REQUEST_TYPING_SEND, &data);

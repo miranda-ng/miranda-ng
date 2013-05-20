@@ -246,6 +246,7 @@ DWORD facebook_client::choose_security_level(int request_type)
 //	case FACEBOOK_REQUEST_POKE:
 //	case FACEBOOK_REQUEST_ASYNC:
 //	case FACEBOOK_REQUEST_MARK_READ:
+//	case FACEBOOK_REQUEST_NOTIFICATIONS_READ:
 //	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
 //	case FACEBOOK_REQUEST_TYPING_SEND:
 	default:
@@ -268,6 +269,7 @@ int facebook_client::choose_method(int request_type)
 	case FACEBOOK_REQUEST_POKE:
 	case FACEBOOK_REQUEST_ASYNC:
 	case FACEBOOK_REQUEST_MARK_READ:
+	case FACEBOOK_REQUEST_NOTIFICATIONS_READ:
 	case FACEBOOK_REQUEST_TYPING_SEND:
 	case FACEBOOK_REQUEST_LOGOUT:
 	case FACEBOOK_REQUEST_DELETE_FRIEND:
@@ -336,6 +338,7 @@ std::string facebook_client::choose_server(int request_type, std::string* data, 
 //	case FACEBOOK_REQUEST_POKE:
 //	case FACEBOOK_REQUEST_ASYNC:
 //	case FACEBOOK_REQUEST_MARK_READ:
+//	case FACEBOOK_REQUEST_NOTIFICATIONS_READ:
 //	case FACEBOOK_REQUEST_TYPING_SEND:
 //	case FACEBOOK_REQUEST_SETUP_MACHINE:
 //  case FACEBOOK_REQUEST_DELETE_FRIEND:
@@ -495,6 +498,15 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 
 	case FACEBOOK_REQUEST_MARK_READ:
 		return "/ajax/mercury/change_read_status.php?__a=1";
+
+	case FACEBOOK_REQUEST_NOTIFICATIONS_READ:
+	{
+		std::string action = "/ajax/notifications/mark_read.php?__a=1";
+		if (get_data != NULL) {
+			action += "&" + (*get_data);
+		}
+		return action;
+	}
 
 	case FACEBOOK_REQUEST_TYPING_SEND:
 		return "/ajax/messaging/typ.php?__a=1";
@@ -847,7 +859,7 @@ bool facebook_client::chat_state(bool online)
   
 	std::string data = (online ? "visibility=1" : "visibility=0");
 	data += "&window_id=0";
-	data += "&fb_dtsg=" + this->dtsg_;
+	data += "&fb_dtsg=" + (dtsg_.length() ? dtsg_ : "0");
 	data += "&phstamp=0&__user=" + self_.user_id;
 	http::response resp = flap(FACEBOOK_REQUEST_VISIBILITY, &data);
   

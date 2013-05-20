@@ -333,7 +333,7 @@ void FacebookProto::SendPokeWorker(void *p)
 
 	std::string data = "uid=" + id;
 	data += "&phstamp=0&pokeback=0&ask_for_confirm=0";
-	data += "&fb_dtsg=" + facy.dtsg_;
+	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
 	data += "&__user=" + facy.self_.user_id;
 
 	// Send poke

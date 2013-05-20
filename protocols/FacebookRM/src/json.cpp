@@ -237,7 +237,6 @@ int facebook_json_parser::parse_notifications(void *data, std::vector< facebook_
 			const Object::Member& member = *payload_item;
 			
 			const Object& objMember = member.element;
-
 			const String& content = objMember["markup"];
 			const Number& unread = objMember["unread"];
 			
@@ -251,6 +250,7 @@ int facebook_json_parser::parse_notifications(void *data, std::vector< facebook_
 			
 			notification->text = utils::text::remove_html(utils::text::source_get_value(&text, 1, "<abbr"));
 			notification->link = utils::text::source_get_value(&text, 3, "<a ", "href=\"", "\"");
+			notification->id = member.name;
 
 			notifications->push_back(notification);
 		}
@@ -453,15 +453,19 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					//const String& text = objNotification["title"]["text"];
 					const String& text = objNotification["unaggregatedTitle"]["text"];
 					const String& link = objNotification["url"];
+					const String& id = objNotification["alert_id"];
 
 					const Number& time_sent = objNotification["timestamp"]["time"];        
-					if (time_sent.Value() > proto->facy.last_notification_time_) // Check agains duplicit notifications
+					if (time_sent.Value() > proto->facy.last_notification_time_) // Check against duplicit notifications
 					{
 						proto->facy.last_notification_time_ = time_sent.Value();
 
 						facebook_notification* notification = new facebook_notification();
 						notification->text = utils::text::slashu_to_utf8(text.Value());
   						notification->link = utils::text::special_expressions_decode(link.Value());
+						
+						std::string::size_type pos = id.Value().find(":");
+						notification->id = (pos != std::string::npos) ? id.Value().substr(pos+1) : id.Value();
 
 						notifications->push_back(notification);
 					}

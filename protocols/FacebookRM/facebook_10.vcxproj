@@ -217,8 +217,6 @@
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="feeds.ico" />
-    <None Include="friends.ico" />
     <None Include="res\auth_ask.ico" />
     <None Include="res\auth_grant.ico" />
     <None Include="res\auth_revoke.ico" />

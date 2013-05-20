@@ -107,6 +107,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_REQUEST_MARK_READ				308 // marking messages read (new)
 #define FACEBOOK_REQUEST_THREAD_INFO			310 // getting thread info
 #define FACEBOOK_REQUEST_POKE					311 // sending pokes
+#define FACEBOOK_REQUEST_NOTIFICATIONS_READ		312 // marking notifications read
 
 // Send message types
 #define MESSAGE_INBOX	0

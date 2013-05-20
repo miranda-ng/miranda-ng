@@ -88,10 +88,11 @@ struct facebook_notification
 	std::string user_id;
 	std::string text;
 	std::string link;
+	std::string id;
 
 	facebook_notification()
 	{
-		this->user_id = this->text = this->link = "";
+		this->user_id = this->text = this->link = this->id = "";
 	}
 };
 
@@ -132,7 +133,9 @@ struct send_typing
 
 struct popup_data
 {
+	popup_data(FacebookProto *proto) : proto(proto) {}
 	popup_data(FacebookProto *proto, std::string url) : proto(proto), url(url) {}
 	FacebookProto *proto;
 	std::string url;
+	std::string notification_id;
 };

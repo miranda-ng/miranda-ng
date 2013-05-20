@@ -47,19 +47,21 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	switch(message)
 	{
 	case WM_COMMAND:
+	case WM_CONTEXTMENU:
 	{
-		//Get the plugin data (we need the Popup service to do it)
+		// Get the plugin data (we need the Popup service to do it)
 		popup_data *data = (popup_data *)PUGetPluginData(hwnd);
-		if (data != NULL)
-			data->proto->OpenUrl(data->url);
+		if (data != NULL) {
+			if (!data->notification_id.empty())
+				ForkThread(&FacebookProto::ReadNotificationWorker, data->proto, new std::string(data->notification_id));
+
+			if (message == WM_COMMAND && !data->url.empty())
+				data->proto->OpenUrl(data->url);
+		}
 
 		// After a click, destroy popup
 		PUDeletePopup(hwnd);
-		} break;
-
-	case WM_CONTEXTMENU:
-		PUDeletePopup(hwnd);
-		break;
+	} break;
 
 	case UM_FREEPLUGINDATA:
 	{
@@ -76,7 +78,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	return DefWindowProc(hwnd, message, wParam, lParam);
 };
 
-void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, std::string *url)
+void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, std::string *url, std::string *notification_id)
 {
 	int ret, timeout;
 	COLORREF colorBack = 0, colorText = 0;
@@ -148,8 +150,14 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 			pd.iSeconds = timeout;
 			pd.lchContact = contact;
 			pd.lchIcon = icon;
-			if (url != NULL)
-				pd.PluginData = new popup_data(this, *url);
+			if (url != NULL || notification_id != NULL) {
+				popup_data *data = new popup_data(this);
+				if (url != NULL)
+					data->url = *url;
+				if (notification_id != NULL)
+					data->notification_id = *notification_id;
+				pd.PluginData = data;
+			}
 			pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 			lstrcpy(pd.lptzContactName, title);
 			lstrcpy(pd.lptzText, info);

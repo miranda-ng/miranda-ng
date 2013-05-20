@@ -493,7 +493,7 @@ void FacebookProto::ProcessMessages(void* data)
 		LOG("      Got notification: %s", notifications[i]->text.c_str());
 		TCHAR* szTitle = mir_utf8decodeT(this->m_szModuleName);
 		TCHAR* szText = mir_utf8decodeT(notifications[i]->text.c_str());
-		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link);
+		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link, &notifications[i]->id);
 		mir_free(szTitle);
 		mir_free(szText);
 
@@ -551,7 +551,7 @@ void FacebookProto::ProcessNotifications(void*)
 		LOG("      Got notification: %s", notifications[i]->text.c_str());
 		TCHAR* szTitle = mir_utf8decodeT(this->m_szModuleName);
 		TCHAR* szText = mir_utf8decodeT(notifications[i]->text.c_str());
-		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link);
+		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link, &notifications[i]->id);
 		mir_free(szTitle);
 		mir_free(szText);
 

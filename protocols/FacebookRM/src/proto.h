@@ -156,6 +156,7 @@ public:
 	void __cdecl SendChatMsgWorker(void*);
 	void __cdecl SendTypingWorker(void*);
 	void __cdecl ReadMessageWorker(void*);
+	void __cdecl ReadNotificationWorker(void*);
 	void __cdecl DeleteContactFromServer(void*);
 	void __cdecl AddContactToServer(void*);
 	void __cdecl ApproveContactToServer(void*);
@@ -209,5 +210,5 @@ public:
 
 	// Information providing
 	int Log(const char *fmt,...);
-	void NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, std::string *url = NULL);
+	void NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, std::string *url = NULL, std::string *notification_id = NULL);
 };
