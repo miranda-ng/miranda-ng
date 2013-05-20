@@ -78,7 +78,9 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, std::string *url)
 {
-	int ret; int timeout; COLORREF colorBack = 0; COLORREF colorText = 0;
+	int ret, timeout;
+	COLORREF colorBack = 0, colorText = 0;
+	HICON icon = Skin_GetIconByHandle(m_hProtoIcon);
 
 	switch (flags)
 	{
@@ -103,6 +105,7 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 			colorText = getDword(FACEBOOK_KEY_EVENT_FEEDS_COLTEXT, DEFAULT_EVENT_COLTEXT);
 		}
 		timeout = getDword(FACEBOOK_KEY_EVENT_FEEDS_TIMEOUT, 0);
+		icon = Skin_GetIconByHandle(GetIconHandle("newsfeed"));
 		SkinPlaySound("NewsFeed");
 		flags |= NIIF_INFO;
 		break;
@@ -116,6 +119,7 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 			colorText = getDword(FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLTEXT, DEFAULT_EVENT_COLTEXT);
 		}
 		timeout = getDword(FACEBOOK_KEY_EVENT_NOTIFICATIONS_TIMEOUT, 0);
+		icon = Skin_GetIconByHandle(GetIconHandle("notification"));
 		SkinPlaySound("Notification");
 		flags |= NIIF_INFO;
 		break;
@@ -143,7 +147,7 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 			pd.colorText = colorText;
 			pd.iSeconds = timeout;
 			pd.lchContact = contact;
-			pd.lchIcon = Skin_GetIconByHandle(m_hProtoIcon); // TODO: Icon test
+			pd.lchIcon = icon;
 			if (url != NULL)
 				pd.PluginData = new popup_data(this, *url);
 			pd.PluginWindowProc = (WNDPROC)PopupDlgProc;

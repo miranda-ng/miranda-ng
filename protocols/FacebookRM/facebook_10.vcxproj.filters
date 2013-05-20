@@ -163,6 +163,18 @@
     <None Include="res\notification.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\feeds.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\friends.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="feeds.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="friends.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\facebook.rc">

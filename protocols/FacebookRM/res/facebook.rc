@@ -58,6 +58,8 @@ IDI_AUTH_ASK            ICON                    "auth_ask.ico"
 IDI_AUTH_REVOKE         ICON                    "auth_revoke.ico"
 IDI_POKE                ICON                    "poke.ico"
 IDI_NOTIFICATION        ICON                    "notification.ico"
+IDI_NEWSFEED            ICON                    "feeds.ico"
+IDI_FRIENDS             ICON                    "friends.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -267,8 +269,7 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
-
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

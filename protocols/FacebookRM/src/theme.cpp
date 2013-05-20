@@ -30,21 +30,21 @@ static IconItem icons[] =
 	{ LPGEN("Mind"),                      "mind",          IDI_MIND },
 	{ LPGEN("Poke"),                      "poke",          IDI_POKE },
 	{ LPGEN("Notification"),              "notification",  IDI_NOTIFICATION },
+	{ LPGEN("Newsfeed"),                  "newsfeed",      IDI_NEWSFEED },
 	
 	{ LPGEN("Cancel friendship"),         "authRevoke",    IDI_AUTH_REVOKE },
 	{ LPGEN("Cancel friendship request"), "authRevokeReq", IDI_AUTH_REVOKE },
 	{ LPGEN("Request friendship"),        "authAsk",       IDI_AUTH_ASK },
 	{ LPGEN("Approve friendship"),        "authGrant",     IDI_AUTH_GRANT },
 	
+	{ LPGEN("Visit friendship details"),  "friendship",    IDI_FRIENDS },
 	{ LPGEN("Visit profile"),             "homepage",      0 },
-	{ LPGEN("Visit friendship details"),  "friendship",    0 },
 };
 
 // TODO: uninit
 void InitIcons(void)
 {
 	Icon_Register(g_hInstance, "Protocols/Facebook", icons, SIZEOF(icons)-1, "Facebook");
-	icons[SIZEOF(icons)-2].hIcolib = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
 	icons[SIZEOF(icons)-1].hIcolib = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
 }
 

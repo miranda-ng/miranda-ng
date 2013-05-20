@@ -14,6 +14,8 @@
 #define IDD_OPTIONS_ADVANCED            115
 #define IDI_POKE                        127
 #define IDI_NOTIFICATION                128
+#define IDI_NEWSFEED                    129
+#define IDI_FRIENDS                     130
 #define IDC_UN                          1001
 #define IDC_PW                          1002
 #define IDC_NEWACCOUNTLINK              1003
@@ -65,7 +67,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        129
+#define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1203
 #define _APS_NEXT_SYMED_VALUE           131
