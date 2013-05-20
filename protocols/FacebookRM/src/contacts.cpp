@@ -202,7 +202,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 			db_set_dw(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, ::time(NULL));
 		}
 		
-		NotifyEvent(m_tszUserName, TranslateT("Contact was removed from your server list."), NULL, FACEBOOK_EVENT_OTHER, NULL);
+		NotifyEvent(m_tszUserName, TranslateT("Contact was removed from your server list."), NULL, FACEBOOK_EVENT_OTHER);
 	} else {
 		facy.client_notify(TranslateT("Error occured when removing contact from server."));
 	}
@@ -242,7 +242,7 @@ void FacebookProto::AddContactToServer(void *data)
 			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_REQUEST);
 		}
 				
-		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was sent."), NULL, FACEBOOK_EVENT_OTHER, NULL);
+		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was sent."), NULL, FACEBOOK_EVENT_OTHER);
 	} else {
 		facy.client_notify(TranslateT("Error occured when requesting friendship."));
 	}
@@ -312,7 +312,7 @@ void FacebookProto::CancelFriendsRequest(void *data)
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
 	{		
 		db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_NONE);
-		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was canceled."), NULL, FACEBOOK_EVENT_OTHER, NULL);
+		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was canceled."), NULL, FACEBOOK_EVENT_OTHER);
 	} else {
 		facy.client_notify(TranslateT("Error occured when canceling friendship request."));
 	}
@@ -350,7 +350,7 @@ void FacebookProto::SendPokeWorker(void *p)
 					utils::text::source_get_value(&resp.data, 3, "\"body\":", "__html\":\"", "\"}"))));
 
 		TCHAR* tmessage = mir_utf8decodeT(message.c_str());
-		NotifyEvent(m_tszUserName, tmessage, NULL, FACEBOOK_EVENT_OTHER, NULL);
+		NotifyEvent(m_tszUserName, tmessage, NULL, FACEBOOK_EVENT_OTHER);
 		mir_free(tmessage);
 	}
 

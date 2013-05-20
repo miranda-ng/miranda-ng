@@ -209,5 +209,5 @@ public:
 
 	// Information providing
 	int Log(const char *fmt,...);
-	void NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, std::string url = "");
+	void NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, std::string *url = NULL);
 };

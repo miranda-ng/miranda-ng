@@ -125,7 +125,7 @@ void FacebookProto::ProcessBuddyList(void* data)
 				std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;					
 
 				TCHAR* szTitle = mir_utf8decodeT(fbu->real_name.c_str());
-				NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, FACEBOOK_EVENT_OTHER, url);
+				NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, FACEBOOK_EVENT_OTHER, &url);
 				mir_free(szTitle);
 			}
 
@@ -214,7 +214,7 @@ void FacebookProto::ProcessFriendList(void* data)
 					std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;					
 
 					TCHAR* szTitle = mir_utf8decodeT(fbu->real_name.c_str());
-					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_OTHER, url);
+					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_OTHER, &url);
 					mir_free(szTitle);
 				}
 
@@ -243,7 +243,7 @@ void FacebookProto::ProcessFriendList(void* data)
 					std::string url = FACEBOOK_URL_PROFILE + id;
 
 					TCHAR* szTitle = mir_utf8decodeT(contactname.c_str());
-					NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_OTHER, url);
+					NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_OTHER, &url);
 					mir_free(szTitle);
 				}
 			}
@@ -493,7 +493,7 @@ void FacebookProto::ProcessMessages(void* data)
 		LOG("      Got notification: %s", notifications[i]->text.c_str());
 		TCHAR* szTitle = mir_utf8decodeT(this->m_szModuleName);
 		TCHAR* szText = mir_utf8decodeT(notifications[i]->text.c_str());
-		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, notifications[i]->link);
+		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link);
 		mir_free(szTitle);
 		mir_free(szText);
 
@@ -551,7 +551,7 @@ void FacebookProto::ProcessNotifications(void*)
 		LOG("      Got notification: %s", notifications[i]->text.c_str());
 		TCHAR* szTitle = mir_utf8decodeT(this->m_szModuleName);
 		TCHAR* szText = mir_utf8decodeT(notifications[i]->text.c_str());
-		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, notifications[i]->link);
+		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link);
 		mir_free(szTitle);
 		mir_free(szText);
 
@@ -745,7 +745,7 @@ void FacebookProto::ProcessFeeds(void* data)
 		LOG("      Got newsfeed: %s %s", news[i]->title.c_str(), news[i]->text.c_str());
 		TCHAR* szTitle = mir_utf8decodeT(news[i]->title.c_str());
 		TCHAR* szText = mir_utf8decodeT(news[i]->text.c_str());
-		NotifyEvent(szTitle,szText,this->ContactIDToHContact(news[i]->user_id),FACEBOOK_EVENT_NEWSFEED, news[i]->link);
+		NotifyEvent(szTitle,szText,this->ContactIDToHContact(news[i]->user_id),FACEBOOK_EVENT_NEWSFEED, &news[i]->link);
 		mir_free(szTitle);
 		mir_free(szText);
 		delete news[i];

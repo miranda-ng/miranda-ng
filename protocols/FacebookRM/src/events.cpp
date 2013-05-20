@@ -76,7 +76,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	return DefWindowProc(hwnd, message, wParam, lParam);
 };
 
-void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, std::string szUrl)
+void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, std::string *url)
 {
 	int ret; int timeout; COLORREF colorBack = 0; COLORREF colorText = 0;
 
@@ -144,8 +144,8 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 			pd.iSeconds = timeout;
 			pd.lchContact = contact;
 			pd.lchIcon = Skin_GetIconByHandle(m_hProtoIcon); // TODO: Icon test
-			if (!szUrl.empty())
-				pd.PluginData = new popup_data(this, szUrl);
+			if (url != NULL)
+				pd.PluginData = new popup_data(this, *url);
 			pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 			lstrcpy(pd.lptzContactName, title);
 			lstrcpy(pd.lptzText, info);
