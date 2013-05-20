@@ -525,7 +525,7 @@ static void GetList(void *)
 	// Show dialog
 	if (UpdateFiles->getCount() == 0) {
 		if ( !opts.bSilent)
-			ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("List is emply."), 2, 0);
+			ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("List is empty."), 2, 0);
 	}
 	else CallFunctionAsync(LaunchListDialog, UpdateFiles);
 
