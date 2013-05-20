@@ -157,7 +157,8 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 				if (notification_id != NULL)
 					data->notification_id = *notification_id;
 				pd.PluginData = data;
-			}
+			} else
+				pd.PluginData = NULL;
 			pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 			lstrcpy(pd.lptzContactName, title);
 			lstrcpy(pd.lptzText, info);

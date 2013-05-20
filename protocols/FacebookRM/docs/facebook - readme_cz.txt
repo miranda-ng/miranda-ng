@@ -1,7 +1,7 @@
 --------------------------------
-| Facebook Protocol RM 0.0.9.5 |
+| Facebook Protocol RM 0.1.0.1 |
 |        pro Miranda NG        |
-|          (2.3.2013)          |
+|          (20.5.2013)         |
 --------------------------------
 
 Autor: Robyer
@@ -27,12 +27,55 @@ Info:
 "TimeoutsLimit" (Byte) - Errors limit (default 3) after which fb disconnects
 "DisableLogout" (Byte) - Disables logout procedure, default 0
 "PollRate" (Byte) - Waiting time between buddy list and newsfeed parsing.
+"Locale" (String) - Get facebook errors in specific language, "en_US", "cs_CZ", etc.
 
 --------------------------------
        Historie verzí
 --------------------------------
+0.1.0.1 - 20.5.2013
+ ! Fixed showing notifications without url
+ + Added icons for notification and newsweed popups
+ + Marking notifications as read with right click on popup
 
-... TODO ...
+0.1.0.0 - 17.5.2013
+ ! Group messages are not received as single messages anymore 4661
+ + Showing info in statusbar when contact read your message
+ + Added contact menu item to open Friendship details
+ + Added contact menu item to Poke
+ ! Fixed loading newsfeeds
+ ! Fixed getting login error message
+ + Added option to open links on another server (mobile, etc.)
+ + Added option to use local time for received messages
+ + Added option to send "message read" info automatically
+ + Added hidden value for getting language specific errors (add in db key "Locale" (string) with locale value ("en_US", "cs_CZ" etc.))
+ ! Internal changes and cleanup 
+
+0.0.9.6
+ ! Fixed getting offline messages
+ + Loading some timestamp value of contacts (dword "LastActiveTS") for... I don't know.
+ ! Translation fixed (thanks Basil)
+ ! Fixed canceling friendship
+ ! Some internal changes (thanks ghazan)
+
+0.0.9.5 - 2.3.2013
+ ! Folders plugin related fixes (thanks ghazan)
+ ! Some internal changes (thanks ghazan)
+	
+0.0.9.4 - 28.8.2013;
+ ! Fixed showing correct login error
+ ! Some internal changes (thanks ghazan)
+	
+0.0.9.3 - 8.2.2013
+ ! Fixed getting friendship requests
+ ! Fixed getting notifications
+ ! Fixed posting status messages
+ + For posting status messages use city "Miranda NG"
+ + Experimental support for Custom smileys
+ ! Fixed Visit profile menu
+ + Logging also into network log (if enabled logging)
+ * Don't log cookies values
+ * Changed invisible icon (thanks Mataes)
+ ! Fixed phone icon
 
 === OLD CHANGES (MIRANDA IM) ===
 
