@@ -506,11 +506,9 @@ static void GetList(void *)
 
 		TCHAR tszRelFileName[MAX_PATH];
 		_tcscpy(tszRelFileName, hash.m_name);
-		tp = _tcschr(tszRelFileName, L'.'); *tp = 0;
-		tp = _tcschr(tszRelFileName, L'\\');
-		tp = (p) ? tp+1 : tszRelFileName;
+		tp = _tcsrchr(tszRelFileName, L'.'); if (tp) *tp = 0;
+		tp = _tcschr(tszRelFileName, L'\\'); if (tp) tp++; else tp = tszRelFileName;
 		_tcslwr(tp);
-
 
 		mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, tszFileName);
 		mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszRelFileName);
