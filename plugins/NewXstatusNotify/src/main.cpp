@@ -756,19 +756,24 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 	WORD oldStatus = LOWORD(lParam);
 	WORD newStatus = HIWORD(lParam);
 	HANDLE hContact = (HANDLE)wParam;
-	char buff[8], szProto[64], szSubProto[64];
 	bool bEnablePopup = true, bEnableSound = true;
 
 	char *hlpProto = GetContactProto(hContact);
 	if (hlpProto == NULL || opt.TempDisabled)
 		return 0;
 
+	char szProto[64];
 	strcpy(szProto, hlpProto);
 	WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 
 	if (strcmp(szProto, szMetaModuleName) == 0) { //this contact is Meta
 		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
-		strcpy(szSubProto, GetContactProto(hSubContact));
+		hlpProto = GetContactProto(hSubContact);
+		if (hlpProto == NULL)
+			return 0;
+
+		char szSubProto[64];
+		strcpy(szSubProto, hlpProto);
 
 		if (newStatus == ID_STATUS_OFFLINE) {
 			// read last online proto for metaconatct if exists,
@@ -792,6 +797,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (!opt.FromOffline || oldStatus != ID_STATUS_OFFLINE) { // Either it wasn't a change from Offline or we didn't enable that.
+		char buff[8];
 		wsprintfA(buff, "%d", newStatus);
 		if (db_get_b(0, MODULE, buff, 1) == 0)
 			return 0; // "Notify when a contact changes to one of..." is unchecked
@@ -805,8 +811,8 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	// check if that proto from which we received statuschange notification, isn't in autodisable list
-	char statusIDs[12], statusIDp[12];
 	if (opt.AutoDisable) {
+		char statusIDs[12], statusIDp[12];
 		wsprintfA(statusIDs, "s%d", myStatus);
 		wsprintfA(statusIDp, "p%d", myStatus);
 		bEnableSound = db_get_b(0, MODULE, statusIDs, 1) ? FALSE : TRUE;
