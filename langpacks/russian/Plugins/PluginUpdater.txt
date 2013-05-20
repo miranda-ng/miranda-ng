@@ -118,7 +118,7 @@ HTTP подключение Plugin Updater
 Загрузка завершена. Перейти на страницу настроек плагинов?
 [List loading already started!]
 Список загружается!
-[List is emply.]
+[List is empty.]
 Список пуст.
 [Plugin info]
 Информация о плагинах
