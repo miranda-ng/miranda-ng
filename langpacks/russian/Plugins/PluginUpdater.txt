@@ -110,3 +110,5 @@ HTTP подключение Plugin Updater
 Загрузка завершена
 [Download complete. Do you want go to plugins option page?]
 Загрузка завершена. Перейти на страницу настроек плагинов?
+[List loading already started!]
+Список загружается!
