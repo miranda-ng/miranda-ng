@@ -210,7 +210,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	mi.flags = CMIF_CHILDPOPUP | (this->isOnline() ? 0 : CMIF_GRAYED);
 	mi.position = 201001;
 
-	CreateProtoService(m_szModuleName,"/Mind",&FacebookProto::OnMind,this);
+	//CreateProtoService(m_szModuleName,"/Mind",&FacebookProto::OnMind,this);
 	strcpy(tDest,"/Mind");
 	mi.hParentMenu = hRoot;
 	mi.pszName = LPGEN("Mind...");

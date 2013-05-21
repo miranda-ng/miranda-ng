@@ -121,11 +121,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_CONTACT_REQUEST	3 // contact that we asked for friendship
 #define FACEBOOK_CONTACT_APPROVE	4 // contact that is asking us for approval of friendship
 
-// News Feed types
-static const struct {
+typedef struct {
 	const char *name;
 	const char *id;
-} feed_types[] = {
+} ttype;
+
+// News Feed types
+static const ttype feed_types[] = {
 	{ LPGEN("Most Recent"), "lf_" }, //h_chr?
 	{ LPGEN("Wall Posts"), "app_2915120374" },
 	{ LPGEN("Top News"), "h_nor" }, //h
@@ -134,11 +136,16 @@ static const struct {
 	{ LPGEN("Apps and Games"), "appsandgames" },
 };
 
-static const struct {
-	const char *id;
-	const char *name;
-} server_types[] = {
-	{ "www.facebook.com", LPGEN("Classic website") },
-	{ "m.facebook.com", LPGEN("Mobile website") },
-	{ "touch.facebook.com", LPGEN("Smartphone website") },
+// Server types
+static const ttype server_types[] = {
+	{ LPGEN("Classic website"), "www.facebook.com" },
+	{ LPGEN("Mobile website"), "m.facebook.com" },
+	{ LPGEN("Smartphone website"), "touch.facebook.com" },
+};
+
+// Status privacy types
+static const ttype privacy_types[] = {
+	{ LPGEN("For everyone"), "80" },
+	{ LPGEN("For friends"), "40" },
+	{ LPGEN("Only for me"), "10" },
 };

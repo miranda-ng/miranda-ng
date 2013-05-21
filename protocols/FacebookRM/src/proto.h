@@ -119,6 +119,7 @@ public:
 	// Events
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int  __cdecl OnToolbarInit(WPARAM, LPARAM);
 	int  __cdecl OnBuildStatusMenu(WPARAM,LPARAM);
 	int  __cdecl OnContactDeleted(WPARAM,LPARAM);
 	int  __cdecl OnMind(WPARAM,LPARAM);

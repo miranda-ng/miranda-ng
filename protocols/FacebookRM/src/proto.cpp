@@ -45,10 +45,13 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username)
 	CreateProtoService(m_szModuleName, PS_JOINCHAT,  &FacebookProto::OnJoinChat,  this);
 	CreateProtoService(m_szModuleName, PS_LEAVECHAT, &FacebookProto::OnLeaveChat, this);
 
+	CreateProtoService(m_szModuleName, "/Mind", &FacebookProto::OnMind, this);
+
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &FacebookProto::OnBuildStatusMenu, this);
 	HookProtoEvent(ME_OPT_INITIALISE,           &FacebookProto::OnOptionsInit,     this);
 	HookProtoEvent(ME_GC_EVENT,                 &FacebookProto::OnChatOutgoing,    this);
 	HookProtoEvent(ME_IDLE_CHANGED,             &FacebookProto::OnIdleChanged,     this);
+	HookProtoEvent(ME_TTB_MODULELOADED,         &FacebookProto::OnToolbarInit,     this);
 
 	// Create standard network connection
 	TCHAR descr[512];
@@ -331,7 +334,7 @@ int FacebookProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)
 
 //////////////////////////////////////////////////////////////////////////////
 
-int FacebookProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
+int FacebookProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 {
 	switch(event)
 	{
@@ -354,13 +357,13 @@ int FacebookProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
 //////////////////////////////////////////////////////////////////////////////
 // EVENTS
 
-int FacebookProto::SvcCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
+int FacebookProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 {
 	return (int)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_FACEBOOKACCOUNT),
 		 (HWND)lParam, FBAccountProc, (LPARAM)this);
 }
 
-int FacebookProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
+int FacebookProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	// Register group chat
 	GCREGISTER gcr = {sizeof(gcr)};
@@ -375,13 +378,13 @@ int FacebookProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int FacebookProto::OnPreShutdown(WPARAM wParam,LPARAM lParam)
+int FacebookProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	SetStatus(ID_STATUS_OFFLINE);
 	return 0;
 }
 
-int FacebookProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
+int FacebookProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = {sizeof(odp)};
 	odp.hInstance   = g_hInstance;
@@ -413,12 +416,30 @@ int FacebookProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int FacebookProto::OnMind(WPARAM,LPARAM)
+int FacebookProto::OnToolbarInit(WPARAM, LPARAM)
 {
-	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MIND),
-		 (HWND)0, FBMindProc, reinterpret_cast<LPARAM>(this));
-	ShowWindow(hDlg, SW_SHOW);
-	return FALSE;
+	TTBButton ttb = { sizeof(ttb) };
+	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
+
+	char service[100];
+	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, "/Mind");
+
+	ttb.pszService = service;
+	ttb.pszTooltipUp = ttb.name = LPGEN("What's on your mind?");
+	ttb.hIconHandleUp = Skin_GetIconByHandle(GetIconHandle("mind"));
+	TopToolbar_AddButton(&ttb);
+
+	return 0;
+}
+
+int FacebookProto::OnMind(WPARAM, LPARAM)
+{
+	if (isOnline()) {
+		HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MIND), (HWND)0, FBMindProc, reinterpret_cast<LPARAM>(this));
+		ShowWindow(hDlg, SW_SHOW);
+	}
+
+	return 0;
 }
 
 int FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)

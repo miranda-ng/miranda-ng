@@ -120,16 +120,29 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 	{
 		TranslateDialogDefault(hwnd);
 
+		SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(GetIconHandle("mind")));
+
 		proto = reinterpret_cast<FacebookProto*>(lparam);
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
 		SendDlgItemMessage(hwnd,IDC_MINDMSG,EM_LIMITTEXT,FACEBOOK_MIND_LIMIT,0);
 
-		DBVARIANT dbv = { DBVT_TCHAR };
+		ptrT place = db_get_tsa(NULL, proto->m_szModuleName, FACEBOOK_KEY_PLACE);
+		SetDlgItemText(hwnd, IDC_PLACE, place != NULL ? place : _T("Miranda NG"));
 
-		if (!db_get_ts(NULL,proto->m_szModuleName,FACEBOOK_KEY_NAME,&dbv))
-		{
-			SetWindowText(hwnd, dbv.ptszVal);
-			db_free(&dbv);
+		for(size_t i=0; i<SIZEOF(privacy_types); i++)
+			SendDlgItemMessageA(hwnd, IDC_PRIVACY, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(Translate(privacy_types[i].name)));
+		SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_SETCURSEL, db_get_b(NULL, proto->m_szModuleName, FACEBOOK_KEY_PRIVACY_TYPE, 0), 0);
+
+		ptrA name = db_get_sa(NULL, proto->m_szModuleName, FACEBOOK_KEY_NAME);
+		if (name != NULL) {
+			std::string firstname = name;
+			std::string::size_type pos = firstname.find(" ");
+			if (pos != std::string::npos)
+				firstname = firstname.substr(0, pos);
+
+			char title[100];
+			mir_snprintf(title, SIZEOF(title), Translate("What's on your mind, %s?"), firstname.c_str());
+			SetWindowTextA(hwnd, title);
 		}
 	}
 
@@ -150,13 +163,20 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		}
 		else if (LOWORD(wparam) == IDOK)
 		{
-			TCHAR mindMessage[FACEBOOK_MIND_LIMIT+1];
+			TCHAR mindMessageT[FACEBOOK_MIND_LIMIT+1];
+			TCHAR placeT[100];
 			proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
-			GetDlgItemText(hwnd,IDC_MINDMSG,mindMessage,SIZEOF(mindMessage));
+			GetDlgItemText(hwnd,IDC_MINDMSG, mindMessageT, SIZEOF(mindMessageT));
+			GetDlgItemText(hwnd,IDC_PLACE, placeT, SIZEOF(placeT));
 			ShowWindow(hwnd,SW_HIDE);
 
-			char *narrow = mir_utf8encodeT(mindMessage);
+			ptrA place = mir_utf8encodeT(placeT);
+			db_set_s(NULL, proto->m_szModuleName, FACEBOOK_KEY_PLACE, place);
+
+			db_set_b(NULL, proto->m_szModuleName, FACEBOOK_KEY_PRIVACY_TYPE, SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCURSEL, 0, 0));
+
+			char *narrow = mir_utf8encodeT(mindMessageT);
 			if (proto->last_status_msg_ != narrow)
 				proto->last_status_msg_ = narrow;
 			utils::mem::detract(narrow);

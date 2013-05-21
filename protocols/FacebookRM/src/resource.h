@@ -62,6 +62,8 @@
 #define IDC_SET_STATUS                  1126
 #define IDC_FEED_TYPE                   1201
 #define IDC_URL_SERVER                  1202
+#define IDC_PLACE                       1203
+#define IDC_PRIVACY                     1204
 
 // Next default values for new objects
 // 
@@ -69,7 +71,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1203
+#define _APS_NEXT_CONTROL_VALUE         1205
 #define _APS_NEXT_SYMED_VALUE           131
 #endif
 #endif

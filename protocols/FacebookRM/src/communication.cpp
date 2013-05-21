@@ -567,6 +567,15 @@ std::string facebook_client::get_server_type()
 	return server_types[server_type].id;
 }
 
+std::string facebook_client::get_privacy_type()
+{
+	BYTE privacy_type = db_get_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_PRIVACY_TYPE, 0);
+	if (privacy_type < 0 || privacy_type >= SIZEOF(privacy_types))
+		privacy_type = 0;
+	return privacy_types[privacy_type].id;
+}
+
+
 char* facebook_client::load_cookies()
 {
 	ScopedLock s(cookies_lock_);
@@ -1200,12 +1209,18 @@ bool facebook_client::set_status(const std::string &status_text)
 	if (status_text.empty())
 		return handle_success("set_status");
 
-	// TODO: use also privacy options
-	std::string data = "&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
+	std::string text = utils::url::encode(status_text);
+	ptrA place = db_get_sa(NULL, parent->m_szModuleName, FACEBOOK_KEY_PLACE);
+
+	std::string data = "fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
+	data += "&xhpc_context=home&xhpc_ismeta=1&xhpc_timeline=&xhpc_composerid=u_jsonp_2_0&is_explicit_place=&composertags_place=&composer_session_id=0&composertags_city=&disable_location_sharing=false&composer_predicted_city=&nctr[_mod]=pagelet_composer&__a=1&__dyn=&__req=1f&phstamp=0";
 	data += "&xhpc_targetid=" + this->self_.user_id;
 	data += "&__user=" + this->self_.user_id;
-	data += "nctr[_mod]=pagelet_composer&__a=1&__req=b&phstamp=&composertags_place_name=Miranda+NG";
-	data += "&xhpc_message=" + utils::url::encode(status_text);
+	data += "&xhpc_message=" + text;
+	data += "&xhpc_message_text=" + text;
+	data += "&audience[0][value]=" + get_privacy_type();
+	data += "&composertags_place_name=";
+	data += ptrA(mir_urlEncode(place));
 
 	http::response resp = flap(FACEBOOK_REQUEST_STATUS_SET, &data);
 
