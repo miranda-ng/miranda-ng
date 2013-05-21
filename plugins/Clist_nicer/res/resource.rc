@@ -278,7 +278,7 @@ BEGIN
     LTEXT           "Gap between frames",IDC_STATIC,173,151,87,11
     EDITTEXT        IDC_FRAMEGAP,264,149,31,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_FRAMEGAPSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,284,148,10,14
-    GROUPBOX        "Translucency options (Windows 2000/XP only)",IDC_STATIC,1,168,302,56
+    GROUPBOX        "Translucency options",IDC_STATIC,1,168,302,56
     CONTROL         "Transparent contact list",IDC_TRANSPARENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,181,149,9
     LTEXT           "Inactive opacity:",IDC_STATIC11,11,191,75,8
     CONTROL         "Slider2",IDC_TRANSINACTIVE,"msctls_trackbar32",TBS_TOP | TBS_NOTICKS | WS_TABSTOP,93,190,34,11

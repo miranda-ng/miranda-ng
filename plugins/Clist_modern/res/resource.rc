@@ -569,7 +569,7 @@ BEGIN
     EDITTEXT        IDC_TITLETEXT,23,97,92,12,ES_AUTOHSCROLL | WS_DISABLED
     CONTROL         "Tool style main window",IDC_TOOLWND,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,13,129,102,8
     CONTROL         "Minimize to tray",IDC_MIN2TRAY,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,13,117,102,8
-    GROUPBOX        "Translucency options (Windows 2000/XP+)",-1,124,114,179,88
+    GROUPBOX        "Translucency options",-1,124,114,179,88
     CONTROL         "Fade contact list in/out",IDC_FADEINOUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,128,167,10
     CONTROL         "Transparent contact list",IDC_TRANSPARENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,139,167,9
     LTEXT           "Inactive opacity:",IDC_STATIC11,130,152,67,8

@@ -128,7 +128,7 @@ BEGIN
     CONTROL         "Transparent input",IDC_TRANSP_INPUT,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,96,147,81,11
     PUSHBUTTON      "Preview",IDC_PREVIEW,201,162,46,14
-    GROUPBOX        "Translucency options (Windows 2000/XP only)",
+    GROUPBOX        "Translucency options",
                     IDC_GB_TRANSP,5,185,304,34
     CONTROL         "Transparent tooltip",IDC_TRANSPARENCY,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,15,200,73,9

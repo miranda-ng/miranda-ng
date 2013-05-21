@@ -71,7 +71,7 @@ BEGIN
     GROUPBOX        "Notify when",IDC_STATIC,160,6,147,68
     CONTROL         "Full Screen mode",IDC_FSCREEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,173,16,117,10
     CONTROL         "Screen Saver is running",IDC_SSAVER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,173,27,117,10
-    CONTROL         "Workstation is Locked (2000/XP)",IDC_LOCKED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,173,38,117,10
+    CONTROL         "Workstation is Locked",IDC_LOCKED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,173,38,117,10
     CONTROL         "Defined programs are running",IDC_PGMS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,173,49,111,10
     PUSHBUTTON      "...",IDC_ASSIGNPGMS,287,51,15,9
     CONTROL         "All other situations",IDC_ACTIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,173,60,117,10

@@ -187,7 +187,7 @@ BEGIN
     LTEXT           "% of screen",IDC_STATIC22,230,71,69,8
     CONTROL         "Size upwards",IDC_AUTOSIZEUPWARD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,86,147,10
     LTEXT           "Title bar text:",IDC_STATIC,12,106,51,8
-    GROUPBOX        "Translucency options (Windows 2000/XP only)",IDC_STATIC,4,130,191,80
+    GROUPBOX        "Translucency options",IDC_STATIC,4,130,191,80
     CONTROL         "Fade contact list in/out",IDC_FADEINOUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,140,163,10
     CONTROL         "Transparent contact list",IDC_TRANSPARENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,152,151,9
     LTEXT           "Inactive opacity:",IDC_STATIC11,23,165,67,8

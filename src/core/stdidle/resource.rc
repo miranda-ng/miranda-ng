@@ -38,7 +38,7 @@ BEGIN
     CONTROL         "Spin2",IDC_IDLESPIN,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,71,55,12,23
     CONTROL         "Become idle if the screen saver is active",IDC_SCREENSAVER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,83,265,9
-    CONTROL         "Become idle if the computer is locked (2000/XP+ only)",IDC_LOCKED,
+    CONTROL         "Become idle if the computer is locked",IDC_LOCKED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,105,265,9
     CONTROL         "Become idle if a terminal session is disconnected",IDC_IDLETERMINAL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,116,265,10
@@ -69,7 +69,7 @@ BEGIN
     CONTROL         "",IDC_IDLESPIN,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,193,7,11,23
     CONTROL         "Become idle if the screen saver is active",IDC_SCREENSAVER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,25,268,9
-    CONTROL         "Become idle if the computer is locked (2000/XP+ only)",IDC_LOCKED,
+    CONTROL         "Become idle if the computer is locked",IDC_LOCKED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,37,249,9
     CONTROL         "Become idle if a terminal session is disconnected",IDC_IDLETERMINAL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,49,265,10
