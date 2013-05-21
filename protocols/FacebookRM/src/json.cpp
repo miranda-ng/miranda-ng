@@ -288,6 +288,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 		const Array& messagesArray = objRoot["ms"];
 
 		std::string last_msg = "";
+		std::string thread_mid = "";
 
 		for (Array::const_iterator itMessage(messagesArray.Begin()); itMessage != messagesArray.End(); ++itMessage)
 		{
@@ -371,7 +372,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 						continue;
 
 					// Ignore group chat messages
-					if (tid.Value().substr(0, 3) == "id." && mid.Value().substr(0, 4) == "mid.")
+					if (thread_mid == mid.Value())
 						continue;
 
 					//proto->Log("????? Checking time %15.2f > %15.2f", time_sent.Value(), proto->facy.last_message_time_);
@@ -412,10 +413,11 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 				const Object& messageContent = objMember["msg"];
   				const String& text = messageContent["text"];
-
-				
 				last_msg = text.Value();
 
+				// remember this thread mid so we can ignore it in "messaging" section
+				const String& mid = messageContent["messageId"];
+				thread_mid = mid.Value();
 
 				std::string popup_text = utils::text::special_expressions_decode(
 						utils::text::slashu_to_utf8(from_name.Value()));
@@ -423,9 +425,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				popup_text += utils::text::special_expressions_decode(
 						utils::text::slashu_to_utf8(text.Value()));
 
-				std::string title = Translate("Multichat");
-				title += ": ";
-				title += utils::text::special_expressions_decode(
+				std::string title = utils::text::special_expressions_decode(
 						utils::text::slashu_to_utf8(to_name.Value()));
 				
 				std::string url = "/?action=read&sk=inbox&page&query&tid=";
