@@ -98,13 +98,13 @@ BEGIN
     CONTROL         "",IDC_AVT_SIZE_SLIDE,"msctls_trackbar32",WS_TABSTOP,53,116,72,12
     CTEXT           "32",IDC_AVT_SIZE,125,116,17,12,SS_CENTERIMAGE | NOT WS_GROUP
     CONTROL         "Enable avatar updates",IDC_AVT_REQUEST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,132,134,8
-    GROUPBOX        "Multimonitor (98/ME/2000/XP)",IDC_GRP_MULTIMONITOR,3,151,143,46
+    GROUPBOX        "Multimonitor",IDC_GRP_MULTIMONITOR,3,151,143,46
     LTEXT           "Start the popups in the monitor with",IDC_MULTIMONITOR_DESC,8,161,134,8,SS_NOPREFIX
     CONTROL         "Miranda's window",IDC_MIRANDAWND,"Button",BS_AUTORADIOBUTTON,21,172,115,10
     CONTROL         "the active window",IDC_ACTIVEWND,"Button",BS_AUTORADIOBUTTON,21,183,115,10
     GROUPBOX        "Transparency",IDC_STATIC,151,3,146,56
     CONTROL         "Enable Win 9x/Me transparency",IDC_TRANS_9X,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,15,136,8
-    CONTROL         "Use transparency (Windows 2000+)",IDC_TRANS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,157,15,136,8
+    CONTROL         "Use transparency",IDC_TRANS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,157,15,136,8
     RTEXT           "opacity:",IDC_TRANS_TXT1,157,25,59,12,SS_CENTERIMAGE
     CONTROL         "",IDC_TRANS_SLIDER,"msctls_trackbar32",WS_TABSTOP,218,25,56,12
     LTEXT           "100%",IDC_TRANS_PERCENT,274,25,20,12,SS_CENTERIMAGE | NOT WS_GROUP

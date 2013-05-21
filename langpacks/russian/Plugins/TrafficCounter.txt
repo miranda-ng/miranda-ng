@@ -141,8 +141,6 @@
 %d всего байт отправлено, %d всего байт принято%c%d сейчас байт отправлено, %d сейчас байт принято%cДата сброса: %s
 [Now traffic will be cleared.]
 Счётчик трафика будет сброшен.
-[Transparency options (Windows 2000/XP only)]
-Прозрачность (только в Windows 2000/XP)
 [Transparent time window]
 Прозрачное окно времени
 [Always on top (only if multiwindow is off)]

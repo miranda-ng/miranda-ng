@@ -204,8 +204,8 @@ int  SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos
 	BOOL bCheck;
 	LPTSTR mainOption [] = {
 		LPGENT("Show clock"),
-		LPGENT("Drop shadow effect (Windows XP+)"),
-		LPGENT("Drop shadow effect (Windows XP+)/non rectangular"),
+		LPGENT("Drop shadow effect"),
+		LPGENT("Drop shadow effect/non rectangular"),
 		LPGENT("Enable Aero Glass (Vista+)"),
 		LPGENT("Use Windows colours"),
 		LPGENT("Use advanced text render")};

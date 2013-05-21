@@ -51,8 +51,8 @@
 Минимум
 [Maximum width]
 Максимум
-[Use transparency (Windows 2000+)]
-Прозрачность (Windows 2000+)
+[Use transparency]
+Прозрачность
 [Default color]
 Цвет по умолчанию
 [Default text color]
@@ -65,8 +65,6 @@
 Предпросмотр
 [Window sliding]
 Скольжение
-[Window fading (Windows 2000+)]
-Затухание (Windows 2000+)
 [Vanish time:]
 Время исчезания:
 [upper left corner]
@@ -123,14 +121,8 @@ History++ для истории окон
 &Увеличивать окна на
 [&Dynamically resize the popups]
 Точно &подбирать размер окон
-[A&nimate Popups (98/ME/2000/XP)]
-А&нимация окон (98/ME/2000/XP)
-[Fade &in/out (2000/XP)]
-Плавный показ (2000/XP)
 [Use Tr&ansparency]
 &Прозрачность
-[Transparency options (2000/XP)]
-Прозрачность (2000/XP)
 [Opaque]
 Непрозрачно
 [Start windows in the...]
@@ -217,8 +209,8 @@ History++ для истории окон
 Что-то произошло с настройкой "%s". Сообщите автору следующие значения:\nFacility: %X\nКод ошибки: %X\nНомер строки: %d
 [Ma&ximum width]
 Ма&ксимальная ширина
-[Multimonitor (98/ME/2000/XP)]
-Мультимонитор (98/ME/2000/XP)
+[Multimonitor]
+Мультимонитор
 [Start the popups in the monitor that contains]
 Показывать окна на экране, содержащем
 [Miranda's window]
@@ -241,8 +233,6 @@ History++ для истории окон
 Это многострочное сообщение!\nКруто, не так ли? :)
 [opacity: %d%%]
 непрозрачность: %d%%
-[Use Tr&ansparency (2000/XP)]
-&Прозрачность (2000/XP)
 [Default colour]
 Цвет фона
 [Default text colour]
@@ -289,8 +279,6 @@ History++ для истории окон
 BBCode ([b]..[/b] - жирный)
 [Truncate very long lines]
 Обрезать длинные строки
-[Popups drop shadow (WinXP+)]
-Тень от окон (WinXP)
 [Skin preferences]
 Настройки скина
 [Choose preferred skin:]
@@ -409,8 +397,6 @@ BBCode ([b]..[/b] - жирный)
 Настройки шрифтов и цвета: Тонкая настройка>Шрифты и цвета
 [Make action icons customizable*]
 Настраиваемые значки действий*
-[Enable freeform shadows (XP+)]
-Свободные тени (XP+)
 [Icons aligned to the right]
 Значки справа
 [Icons on the left]
@@ -431,8 +417,8 @@ BBCode ([b]..[/b] - жирный)
 Выберите, в каких случаях добавлять общие действия:
 [Show Actions: (requires apply)]
 Действия: (требует "Применить")
-[Drop shadow effect (Windows XP+)]
-Тень (Windows XP+)
+[Drop shadow effect]
+Тень
 [Popup actions will be displayed as:]
 Отображение действий:
 [Make OK/Cancel icons customizable*]
