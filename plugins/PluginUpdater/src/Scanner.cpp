@@ -145,6 +145,18 @@ static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
 
 typedef OBJLIST<ServListEntry> SERVLIST;
 
+static bool isValidExtension(const TCHAR *ptszFileName)
+{
+	const TCHAR *pExt = _tcsrchr(ptszFileName, '.');
+	if (pExt == NULL)
+		return false;
+	
+	if ( !_tcsicmp(pExt, _T(".dll"))) return true;
+	if ( !_tcsicmp(pExt, _T(".exe"))) return true;
+	if ( !_tcsicmp(pExt, _T(".txt"))) return true;
+	return false;
+}
+
 static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles)
 {
 	// skip updater's own folder
@@ -174,9 +186,7 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 			continue;
 		}
 
-		TCHAR *pExt = _tcsrchr(ffd.cFileName, '.');
-		if (pExt == NULL) continue;
-		if ( _tcsicmp(pExt, _T(".dll")) && _tcsicmp(pExt, _T(".exe")))
+		if ( !isValidExtension(ffd.cFileName))
 			continue;
 
 		// calculate the current file's relative name and store it into tszNewName
