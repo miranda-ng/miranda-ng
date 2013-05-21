@@ -94,9 +94,6 @@ static void updatePreviewImage(HWND hwndBox)
 
 static void DrawPreview(HWND hwnd, HDC hdc)
 {
-	RECT rc;
-	HBRUSH hbr;
-
 	BITMAPINFO bi;
 	bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
 	bi.bmiHeader.biWidth = 8;
@@ -104,10 +101,12 @@ static void DrawPreview(HWND hwnd, HDC hdc)
 	bi.bmiHeader.biPlanes = 1;
 	bi.bmiHeader.biBitCount = 32;
 	bi.bmiHeader.biCompression = BI_RGB;
-	HBITMAP hBmpBrush = (HBITMAP)CreateDIBSection(0, &bi, DIB_RGB_COLORS, 0, 0, 0);
+	HBITMAP hBmpBrush = CreateDIBSection(0, &bi, DIB_RGB_COLORS, 0, 0, 0);
 	HDC dcBmp = CreateCompatibleDC(0);
 	HBITMAP hBmpSave = (HBITMAP)SelectObject(dcBmp, hBmpBrush);
-	hbr = CreateSolidBrush(RGB(0xcc, 0xcc, 0xcc));
+	HBRUSH hbr = CreateSolidBrush(RGB(0xcc, 0xcc, 0xcc));
+
+	RECT rc;
 	SetRect(&rc, 0, 0, 8, 8);
 	FillRect(dcBmp, &rc, hbr);
 	DeleteObject(hbr);
@@ -205,7 +204,7 @@ int  SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos
 	LPTSTR mainOption [] = {
 		LPGENT("Show clock"),
 		LPGENT("Drop shadow effect"),
-		LPGENT("Drop shadow effect/non rectangular"),
+		LPGENT("Drop shadow effect")_T("/")LPGENT("non rectangular"),
 		LPGENT("Enable Aero Glass (Vista+)"),
 		LPGENT("Use Windows colours"),
 		LPGENT("Use advanced text render")};
@@ -270,10 +269,9 @@ bool SkinOptionList_Update (OPTTREE_OPTION* &options, int *OptionsCount, HWND hw
 		options = NULL;
 		*OptionsCount = 0;
 	}
-	int pos = 0;
 	//add "Global options"
 	DWORD dwGlobalOptions = 0;
-	pos = SkinOptionList_AddMain(options, OptionsCount, pos, &dwGlobalOptions);
+	int pos = SkinOptionList_AddMain(options, OptionsCount, pos, &dwGlobalOptions);
 	//add "Skin options"
 	DWORD dwSkinOptions = 0;
 	pos = SkinOptionList_AddSkin(options, OptionsCount, pos, &dwSkinOptions);
