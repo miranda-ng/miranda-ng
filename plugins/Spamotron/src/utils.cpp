@@ -480,7 +480,7 @@ int LogToSystemHistory(char *message, char *origmessage)
 	dbei.cbBlob = (DWORD)strlen(msg)+1;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_READ;
-	CallService(MS_DB_EVENT_ADD, (WPARAM)NULL, (LPARAM)&dbei);
+	db_event_add(NULL, &dbei);
 	return 0;
 }
 
@@ -488,7 +488,6 @@ void MarkUnread(HANDLE hContact)
 {
 	// We're not actually marking anything. We just pushing saved events to the database from a temporary location
 	DBVARIANT _dbv = {0};
-	DBEVENTINFO _dbei;
 	PBYTE pos;
 	
 	if (hContact == NULL)
@@ -497,6 +496,7 @@ void MarkUnread(HANDLE hContact)
 	if (db_get(hContact, PLUGIN_NAME, "LastMsgEvents", &_dbv) == 0) {
 		pos = _dbv.pbVal;
 		while (pos - _dbv.pbVal < _dbv.cpbVal) {
+			DBEVENTINFO _dbei;
 			ZeroMemory(&_dbei, sizeof(_dbei));
 			_dbei.cbSize = sizeof(_dbei);
 
@@ -513,7 +513,7 @@ void MarkUnread(HANDLE hContact)
 			memcpy(_dbei.pBlob, pos, _dbei.cbBlob);
 			pos += _dbei.cbBlob;
 
-			CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&_dbei);
+			db_event_add(hContact,&_dbei);
 		}
 		db_free(&_dbv);
 		db_unset(hContact, PLUGIN_NAME, "LastMsgEvents");

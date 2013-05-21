@@ -89,7 +89,7 @@ BOOL _saveDlgItemScore(HWND hDialog, int controlID, char* option)
 
 extern HINSTANCE hInst;
 
-BOOL CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int bInitializing = 0, i, j, numProtocols;
 	PROTOCOLDESCRIPTOR** pd;
@@ -216,7 +216,7 @@ BOOL CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lP
 	return FALSE;
 }
 
-BOOL CALLBACK DlgProcOptionsQuestion(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcOptionsQuestion(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int bInitializing = 0;
 	int i, selectedMode;
@@ -419,7 +419,7 @@ void EnableControlsBayes(HWND hwnd, BOOL enable)
 	EnableWindow(GetDlgItem(hwnd, IDC_STATIC_HAMCOUNT_LABEL), enable);
 }
 
-BOOL CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int bInitializing = 0, len;
 	BOOL bEnabled;
@@ -555,7 +555,7 @@ BOOL CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARAM l
 	return FALSE;
 }
 
-extern BOOL CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+extern INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 int OnOptInitialize(WPARAM wParam, LPARAM lParam)
 {
@@ -563,29 +563,29 @@ int OnOptInitialize(WPARAM wParam, LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.position = 0;
 	odp.hInstance = hInst;
-	odp.ptszGroup = _T("Message Sessions");
+	odp.ptszGroup = LPGENT("Message Sessions");
 	odp.ptszTitle = _T(PLUGIN_NAME);
 	odp.flags = ODPF_TCHAR | ODPF_BOLDGROUPS;
 
-	odp.ptszTab = _T("Settings");
+	odp.ptszTab = LPGENT("Settings");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_MAIN);
-	odp.pfnDlgProc = (DLGPROC)DlgProcOptionsMain;
+	odp.pfnDlgProc = DlgProcOptionsMain;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = _T("Messages");
+	odp.ptszTab = LPGENT("Messages");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_Q);
-	odp.pfnDlgProc = (DLGPROC)DlgProcOptionsQuestion;
+	odp.pfnDlgProc = DlgProcOptionsQuestion;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = _T("Bayes");
+	odp.ptszTab = LPGENT("Bayes");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_BAYES);
-	odp.pfnDlgProc = (DLGPROC)DlgProcOptionsBayes;
+	odp.pfnDlgProc = DlgProcOptionsBayes;
 	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_POPUPS);
-		odp.pfnDlgProc = (DLGPROC)DlgProcOptionsPopups;
-		odp.ptszGroup = _T("Popups");
+		odp.pfnDlgProc = DlgProcOptionsPopups;
+		odp.ptszGroup = LPGENT("Popups");
 		odp.ptszTab = NULL;
 		Options_AddPage(wParam, &odp);
 	}

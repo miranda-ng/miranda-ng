@@ -30,14 +30,14 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+int OnModulesLoaded(WPARAM, LPARAM)
 {
 	hOptInitialize = HookEvent(ME_OPT_INITIALISE, OnOptInitialize);
 
 	return 0;
 }
 
-int OnDBContactAdded(WPARAM wParam, LPARAM lParam)
+int OnDBContactAdded(WPARAM, LPARAM)
 {
 	//MessageBox(NULL, _T("OnDBContactAdded"), _T("Event"), MB_OK);
 	return 0;
@@ -258,8 +258,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			TCHAR AuthEventModule[100];
 			char* szAuthEventModule;
 			if (db_get(hContact, PLUGIN_NAME, "AuthEvent", &_dbv) == 0) {
-				DBEVENTINFO *_dbei = NULL;
-				_dbei = (DBEVENTINFO *)malloc(sizeof(DBEVENTINFO));
+				DBEVENTINFO *_dbei = (DBEVENTINFO *)malloc(sizeof(DBEVENTINFO));
 				if (_dbei != NULL) {
 					memcpy(&_dbei->cbBlob, _dbv.pbVal, sizeof(DWORD));
 					_dbei->eventType = EVENTTYPE_AUTHREQUEST;
@@ -270,7 +269,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 					_dbei->flags = 0;
 					_dbei->cbSize = sizeof(DBEVENTINFO);
 					_dbei->pBlob = _dbv.pbVal + sizeof(DWORD);
-					CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)_dbei);
+					db_event_add(hContact,_dbei);
 					db_unset(hContact, PLUGIN_NAME, "AuthEvent");
 					db_unset(hContact, PLUGIN_NAME, "AuthEventPending");
 					db_unset(hContact, PLUGIN_NAME, "AuthEventModule");
@@ -514,7 +513,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 				
 			} else {
 				dbei->flags |= DBEF_READ;
-				CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)dbei);
+				db_event_add(hContact, dbei);
 			}
 		}
 	}
@@ -526,7 +525,7 @@ void RemoveNotOnListSettings()
 {
 	DBVARIANT dbv;
 	char protoName[256] = {0};
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	strcpy(protoName, "proto_");
 	while (hContact != NULL) {
 		if (db_get_s(hContact, "Protocol", "p", &dbv) == 0) {
@@ -539,7 +538,7 @@ void RemoveNotOnListSettings()
 			db_free(&dbv);
 		}
 		protoName[6] = 0;
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 
