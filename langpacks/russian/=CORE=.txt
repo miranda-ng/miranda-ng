@@ -315,8 +315,8 @@ ANSI плагин
 Режим ожидания, если удалённая сессия завершена
 [Become idle if computer is left unattended for:]
 Режим бездействия, если компьютер неактивен больше:
-[Become idle if the computer is locked (2000/XP+ only)]
-Режим ожидания, если компьютер заблокирован (2000/ХР+)
+[Become idle if the computer is locked]
+Режим ожидания, если компьютер заблокирован
 [Become idle if the following is left unattended:]
 Перейти в режим ожидания, если неактивны:
 [Become idle if the screen saver is active]

@@ -11,8 +11,8 @@
 Скрыть/Показать Miranda NG
 [Hide Miranda when:]
 Спрятать программу когда:
-[Workstation is Locked (2000/XP+)]
-Компьютер заблокирован (2000/XP+)
+[Workstation is Locked]
+Компьютер заблокирован
 [Windows is inactive]
 Windows не активен
 [Miranda is inactive]

@@ -89,7 +89,7 @@
 После заголовка
 [Client area margins]
 Границы списка контактов
-[Translucency options (Windows 2000/XP+)]
+[Translucency options]
 Настройки прозрачности списка контактов
 [Enable drop shadow (restart required)]
 Включить тень (нужен перезапуск)
