@@ -1,0 +1,184 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+#include "..\src\version.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+//#include "afxres.h"
+#include "windows.h"
+#define IDC_STATIC -1
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1250)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                    "icon1.ico"
+IDI_ICON2               ICON                    "icon2.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_DIALOG DIALOGEX 0, 0, 314, 239
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_DATABASE,75,39,115,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_INTERVAL,250,17,21,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_COMMAND,91,116,80,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PARAMETERS,91,128,80,12,ES_AUTOHSCROLL
+    CONTROL         "Show again if still unread",IDC_ONCEONLY,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFT | BS_PUSHLIKE | WS_TABSTOP,177,
+                    68,130,10
+    CONTROL         "Show error messages",IDC_SHOWERROR,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFT | BS_PUSHLIKE | WS_TABSTOP,177,
+                    92,130,10
+    EDITTEXT        IDC_SERVERSEC,75,28,115,12,ES_AUTOHSCROLL
+    CONTROL         "Set popup colours",IDC_SETCOLOURS,"Button",
+                    BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_GROUP | WS_TABSTOP,17,
+                    76,132,10
+    CONTROL         "Custom1",IDC_BGCOLOR,"ColourPicker",WS_GROUP | 
+                    WS_TABSTOP,15,87,10,10
+    CONTROL         "Custom1",IDC_FGCOLOR,"ColourPicker",WS_GROUP | 
+                    WS_TABSTOP,75,87,10,9
+    GROUPBOX        "Popup options",IDC_STATIC,7,66,167,80,WS_GROUP
+    LTEXT           "Background",IDC_STATIC,31,88,43,8
+    LTEXT           "Text",IDC_STATIC,91,89,41,8
+    EDITTEXT        IDC_INTERVAL1,57,97,21,12,ES_AUTOHSCROLL | WS_GROUP
+    RTEXT           "Close after: ",IDC_STATIC,9,99,47,9
+    LTEXT           "sek.(0 default,\n -1 disabled)",IDC_STATIC,81,99,66,17
+    CONTROL         "...but only if popup not clicked",IDC_NONCLICKEDONLY,
+                    "Button",BS_AUTOCHECKBOX | BS_LEFT | BS_PUSHLIKE | 
+                    WS_TABSTOP,177,80,130,10
+    LTEXT           "Left button click cmd: ",IDC_STATIC,7,117,83,9
+    LTEXT           "Command parameters: ",IDC_STATIC,7,130,83,9
+    CONTROL         "Remember newest message ID\n and don't show older",
+                    IDC_NEWEST,"Button",BS_AUTOCHECKBOX | BS_LEFT | 
+                    BS_PUSHLIKE | BS_MULTILINE | WS_TABSTOP,177,103,130,20
+    CTEXT           "",IDC_VERSION,39,222,52,9,0,WS_EX_STATICEDGE
+    RTEXT           "version:",IDC_VERSION2,7,223,31,9
+    PUSHBUTTON      "Clear popups history",IDC_BUTTON_CLEAR,7,204,197,14,
+                    BS_CENTER | BS_MULTILINE
+    GROUPBOX        "Filter messages contain below strings in:",IDC_STATIC,8,
+                    147,197,56
+    COMBOBOX        IDC_FILTER_SENDER,51,157,115,12,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Sender",IDC_STATIC,9,159,39,8
+    COMBOBOX        IDC_FILTER_SUBJECT,51,170,115,12,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Subject",IDC_STATIC,9,171,39,8
+    PUSHBUTTON      "+",IDC_BUTTON_ADD_SENDER_FILTER,169,158,16,11,BS_CENTER
+    PUSHBUTTON      "+",IDC_BUTTON_ADD_SUBJECT_FILTER,169,171,16,11,
+                    BS_CENTER
+    PUSHBUTTON      "-",IDC_BUTTON_REMOVE_SENDER_FILTER,185,158,16,11,
+                    BS_CENTER
+    PUSHBUTTON      "-",IDC_BUTTON_REMOVE_SUBJECT_FILTER,185,171,16,11,
+                    BS_CENTER
+    GROUPBOX        "Lotus connection settings",IDC_STATIC,7,7,237,57
+    LTEXT           "Primary server:",IDC_STATIC,8,18,65,9
+    COMBOBOX        IDC_SERVER,75,16,115,12,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    CBS_SORT | CBS_DISABLENOSCROLL | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Database: ",IDC_STATIC,8,40,65,9
+    PUSHBUTTON      "try detect",IDC_BUTTON_DETECT,191,14,51,36,BS_MULTILINE
+    LTEXT           "Secondary server: ",IDC_STATIC,8,29,65,9
+    GROUPBOX        "Check interval: ",IDC_STATIC,246,7,61,57
+    LTEXT           "(0-disabled)",IDC_STATIC,250,34,56,8
+    LTEXT           "min.",IDC_STATIC,273,19,19,8
+    EDITTEXT        IDC_PASSWORD,75,50,115,12,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,8,51,65,9
+    GROUPBOX        "Offline status mean: ",IDC_STATIC,206,123,101,110
+    CONTROL         "",IDC_STATUS,"SysListView32",LVS_REPORT | 
+                    LVS_NOLABELWRAP | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | 
+                    LVS_NOSORTHEADER | WS_TABSTOP,209,133,96,97,
+                    WS_EX_CLIENTEDGE
+    COMBOBOX        IDC_FILTER_TO,51,183,115,12,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "To / CopyTo",IDC_STATIC,9,184,39,8
+    PUSHBUTTON      "+",IDC_BUTTON_ADD_TO_FILTER,169,184,16,11,BS_CENTER
+    PUSHBUTTON      "-",IDC_BUTTON_REMOVE_TO_FILTER,185,184,16,11,BS_CENTER
+    CONTROL         "autoregister",IDC_BUTTON_CHECK,"Button",BS_AUTOCHECKBOX | 
+                    BS_PUSHLIKE | WS_TABSTOP,191,50,51,12
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_OPT_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 307
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 232
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", __FILECOMMENTS
+            VALUE "CompanyName", __AUTHOR
+            VALUE "FileDescription", __DESCRIPTION
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "LegalTrademarks", __LEGALTRADEMARKS
+            VALUE "OriginalFilename", __FILENAME
+            VALUE "ProductName", __FILENAME
+			VALUE "FileVersion", __VERSION_STRING
+			VALUE "ProductVersion", __VERSION_STRING
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
