@@ -46,7 +46,7 @@ void EnablePopupTimeouts(HWND hwnd, BOOL enable)
 	EnableWindow(GetDlgItem(hwnd, IDC_OPT_POPUPS_CHALLENGE_TIMEOUT), !enable && bEnabled);
 }
 
-BOOL CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL bEnabled;
 	static int bInitializing = 0;
