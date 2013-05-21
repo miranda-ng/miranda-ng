@@ -455,10 +455,16 @@ int CSendLater::sendIt(CSendLaterJob *job)
 			return 0;
 		}
 	}
-	if (wContactStatus == ID_STATUS_OFFLINE) {
-		job->bCode = CSendLaterJob::JOB_STATUS;
-		return 0;
-	}
+
+	// RM: use offline only for protocols which doesn't support offline sending
+	// - but no protocol except facebook supports PF4_IMSENDOFFLINE so disabled at all
+	/*if (wContactStatus == ID_STATUS_OFFLINE) {
+		int pcaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+		if (!(pcaps & PF4_IMSENDOFFLINE)) {
+			job->bCode = CSendLaterJob::JOB_STATUS;
+			return 0;
+		}
+	}*/
 
 	dwFlags = IsUtfSendAvailable(hContact) ? PREF_UTF : PREF_UNICODE;
 
