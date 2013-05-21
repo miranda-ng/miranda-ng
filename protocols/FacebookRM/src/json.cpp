@@ -371,7 +371,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 						continue;
 
 					// Ignore group chat messages
-					if (tid.Value().substr(0, 3) == "id.")
+					if (tid.Value().substr(0, 3) == "id." && mid.Value().substr(0, 4) == "mid.")
 						continue;
 
 					//proto->Log("????? Checking time %15.2f > %15.2f", time_sent.Value(), proto->facy.last_message_time_);
