@@ -97,7 +97,7 @@ HTTP подключение Plugin Updater
 [Icons]
 Значки
 [Other]
-другое
+Другое
 [Files source]
 Источник обновления
 [Stable version]
