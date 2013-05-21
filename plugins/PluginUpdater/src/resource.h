@@ -17,6 +17,7 @@
 #define IDI_DOWN_OK                     115
 #define IDI_ICON5                       116
 #define IDI_DOWN_SKIP                   116
+#define IDI_PLGLIST                     117
 #define IDC_UPDATETEXT                  1001
 #define IDC_CURVER                      1002
 #define IDC_NEWVER                      1003

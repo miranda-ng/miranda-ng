@@ -42,6 +42,7 @@ static iconList[] =
 	{ "btn_ok",	      LPGEN("'Yes' Button"),                IDI_OK },
 	{ "btn_cancel",   LPGEN("'No' Button"),                 IDI_CANCEL },
 	{ "info",         LPGEN("Plugin info"),                 IDI_INFO },
+	{ "plg_list",     LPGEN("Plugin list"),                 IDI_PLGLIST },
 };
 
 void IcoLibInit()

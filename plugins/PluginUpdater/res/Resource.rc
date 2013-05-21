@@ -30,6 +30,7 @@ IDI_MENU                ICON                    "menu.ico"
 IDI_OK                  ICON                    "btnOk.ico"
 IDI_CANCEL              ICON                    "btnClose.ico"
 IDI_INFO                ICON                    "info.ico"
+IDI_PLGLIST             ICON                    "PlgList.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -112,7 +112,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position++;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
+	mi.icolibItem = Skin_GetIconHandle("plg_list");
 	mi.pszName = LPGEN("Show full plugin list");
 	mi.pszService = MODNAME"/ShowList";
 	Menu_AddMainMenuItem(&mi);
