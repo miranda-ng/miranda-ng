@@ -393,6 +393,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "New_GPG", "..\plugins\New_G
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Spamotron", "..\plugins\Spamotron\Spamotron_11.vcxproj", "{DBB261B4-E433-4DFF-8A5D-6C3B5B5F4FF4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LotusNotify", "..\plugins\LotusNotify\LotusNotify_11.vcxproj", "{0E046380-14CA-4C23-A807-8C678519A605}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1761,6 +1763,14 @@ Global
 		{DBB261B4-E433-4DFF-8A5D-6C3B5B5F4FF4}.Release|Win32.Build.0 = Release|Win32
 		{DBB261B4-E433-4DFF-8A5D-6C3B5B5F4FF4}.Release|x64.ActiveCfg = Release|x64
 		{DBB261B4-E433-4DFF-8A5D-6C3B5B5F4FF4}.Release|x64.Build.0 = Release|x64
+		{0E046380-14CA-4C23-A807-8C678519A605}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0E046380-14CA-4C23-A807-8C678519A605}.Debug|Win32.Build.0 = Debug|Win32
+		{0E046380-14CA-4C23-A807-8C678519A605}.Debug|x64.ActiveCfg = Debug|x64
+		{0E046380-14CA-4C23-A807-8C678519A605}.Debug|x64.Build.0 = Debug|x64
+		{0E046380-14CA-4C23-A807-8C678519A605}.Release|Win32.ActiveCfg = Release|Win32
+		{0E046380-14CA-4C23-A807-8C678519A605}.Release|Win32.Build.0 = Release|Win32
+		{0E046380-14CA-4C23-A807-8C678519A605}.Release|x64.ActiveCfg = Release|x64
+		{0E046380-14CA-4C23-A807-8C678519A605}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
