@@ -55,10 +55,12 @@ void CSkypeProto::SaveOwnInfoToServer(HWND hwndPage, int iPage)
 			this->account->SetIntProperty(Account::P_BIRTHDAY, value);
 
 			int lang = ::SendMessage(GetDlgItem(hwndPage, IDC_LANGUAGE), CB_GETCURSEL, 0, 0);
-			std::wstring key = *(std::wstring *)SendMessage(GetDlgItem(hwndPage, IDC_LANGUAGE), CB_GETITEMDATA, lang, 0);
-			this->account->SetStrProperty(
-				Account::P_LANGUAGES, 
-				(char*)mir_ptr<char>(::mir_utf8encodeW(key.c_str())));
+			if (lang != -1) {
+				std::wstring key = *(std::wstring *)SendMessage(GetDlgItem(hwndPage, IDC_LANGUAGE), CB_GETITEMDATA, lang, 0);
+				this->account->SetStrProperty(
+					Account::P_LANGUAGES, 
+					(char *)mir_ptr<char>(::mir_utf8encodeW(key.c_str())));
+			}
 		}
 		break;
 
