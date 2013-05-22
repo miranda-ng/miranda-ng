@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.0.3
+;  Version: 0.1.1.0
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -79,11 +79,12 @@
 [Downloading version info...]
 [An error occured while downloading the update.]
 [No updates found.]
-[List is emply.]
+[List is empty.]
 [Update checking already started!]
 [List loading already started!]
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
 ['No' Button]
 [Plugin info]
+[Plugin list]
 [Plugin Updater HTTP connection]

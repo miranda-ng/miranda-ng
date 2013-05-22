@@ -71,7 +71,7 @@
 [% of screen]
 [Size upwards]
 [Title bar text:]
-[Translucency options (Windows 2000/XP only)]
+[Translucency options]
 [Fade contact list in/out]
 [Transparent contact list]
 [Inactive opacity:]

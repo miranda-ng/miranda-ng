@@ -117,7 +117,7 @@
 [Embedded frames border]
 [Clip border by]
 [Gap between frames]
-[Translucency options (Windows 2000/XP only)]
+[Translucency options]
 [Transparent contact list]
 [Inactive opacity:]
 [Active opacity:]

@@ -216,7 +216,7 @@
 [Title bar text:]
 [Tool style main window]
 [Minimize to tray]
-[Translucency options (Windows 2000/XP+)]
+[Translucency options]
 [Enable drop shadow (restart required)]
 [Frames]
 [Between frames:]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.0.0
+;  Version: 0.1.1.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -11,6 +11,9 @@
 [Password:]
 [Create a new Facebook account]
 [What's on your mind?]
+[Text:]
+[Place:]
+[Visibility:]
 [Share]
 [Cancel]
 [User Details]
@@ -67,6 +70,9 @@
 [Classic website]
 [Mobile website]
 [Smartphone website]
+[For everyone]
+[For friends]
+[Only for me]
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 [Error occured when removing contact from server.]
@@ -75,6 +81,7 @@
 [Request for friendship was canceled.]
 [Error occured when canceling friendship request.]
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[What's on your mind, %s?]
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
 [Sample event]
 [Sample request]
@@ -82,7 +89,6 @@
 [Sample notification]
 ;file \protocols\FacebookRM\src\json.cpp
 [Message read: %s]
-[Multichat]
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 ;file \protocols\FacebookRM\src\process.cpp
@@ -108,12 +114,13 @@
 [Facebook icon]
 [Mind]
 [Poke]
+[Newsfeed]
 [Cancel friendship]
 [Cancel friendship request]
 [Request friendship]
 [Approve friendship]
-[Visit profile]
 [Visit friendship details]
+[Visit profile]
 [Mind...]
 [Visit Profile]
 [Services...]

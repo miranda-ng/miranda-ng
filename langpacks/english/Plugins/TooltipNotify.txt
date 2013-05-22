@@ -34,7 +34,7 @@
 [Auto positioning]
 [Transparent input]
 [Preview]
-[Translucency options (Windows 2000/XP only)]
+[Translucency options]
 [Transparent tooltip]
 [Contacts]
 [Idle]

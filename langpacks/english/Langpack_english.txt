@@ -381,7 +381,7 @@
 [Size upwards]
 [If window is partially covered, bring to front instead of hiding]
 [Enable docking]
-[Translucency options (Windows 2000/XP only)]
+[Translucency options]
 [Fade contact list in/out]
 [Transparent contact list]
 [Inactive opacity:]
@@ -516,7 +516,7 @@
 [Windows]
 [Miranda]
 [Become idle if the screen saver is active]
-[Become idle if the computer is locked (2000/XP+ only)]
+[Become idle if the computer is locked]
 [Become idle if a terminal session is disconnected]
 [Do not let protocols report any idle information]
 [minute(s)]
@@ -2975,7 +2975,7 @@
 [OK]
 [Cancel]
 [EN]
-[Workstation is Locked (2000/XP+)]
+[Workstation is Locked]
 [Screen Saver is running]
 [Windows is inactive]
 [Hide Miranda when:]
@@ -3315,7 +3315,7 @@
 [% of screen]
 [Size upwards]
 [Title bar text:]
-[Translucency options (Windows 2000/XP only)]
+[Translucency options]
 [Fade contact list in/out]
 [Transparent contact list]
 [Inactive opacity:]
@@ -3615,7 +3615,7 @@
 [Title bar text:]
 [Tool style main window]
 [Minimize to tray]
-[Translucency options (Windows 2000/XP+)]
+[Translucency options]
 [Enable drop shadow (restart required)]
 [Frames]
 [Between frames:]
@@ -4042,7 +4042,7 @@
 [% of screen]
 [Size upwards]
 [Title bar text:]
-[Translucency options (Windows 2000/XP only)]
+[Translucency options]
 [Fade contact list in/out]
 [Transparent contact list]
 [Inactive opacity:]
@@ -4315,7 +4315,7 @@
 [Embedded frames border]
 [Clip border by]
 [Gap between frames]
-[Translucency options (Windows 2000/XP only)]
+[Translucency options]
 [Transparent contact list]
 [Inactive opacity:]
 [Active opacity:]
@@ -5590,7 +5590,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.0.0
+;  Version: 0.1.1.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -5599,6 +5599,9 @@
 [Password:]
 [Create a new Facebook account]
 [What's on your mind?]
+[Text:]
+[Place:]
+[Visibility:]
 [Share]
 [Cancel]
 [User Details]
@@ -5655,6 +5658,9 @@
 [Classic website]
 [Mobile website]
 [Smartphone website]
+[For everyone]
+[For friends]
+[Only for me]
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 [Error occured when removing contact from server.]
@@ -5663,6 +5669,7 @@
 [Request for friendship was canceled.]
 [Error occured when canceling friendship request.]
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[What's on your mind, %s?]
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
 [Sample event]
 [Sample request]
@@ -5670,7 +5677,6 @@
 [Sample notification]
 ;file \protocols\FacebookRM\src\json.cpp
 [Message read: %s]
-[Multichat]
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 ;file \protocols\FacebookRM\src\process.cpp
@@ -5696,12 +5702,13 @@
 [Facebook icon]
 [Mind]
 [Poke]
+[Newsfeed]
 [Cancel friendship]
 [Cancel friendship request]
 [Request friendship]
 [Approve friendship]
-[Visit profile]
 [Visit friendship details]
+[Visit profile]
 [Mind...]
 [Visit Profile]
 [Services...]
@@ -10208,7 +10215,7 @@
 [Notify when]
 [Full Screen mode]
 [Screen Saver is running]
-[Workstation is Locked (2000/XP)]
+[Workstation is Locked]
 [Defined programs are running]
 [All other situations]
 [Only notify if status is]
@@ -12988,7 +12995,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.0.3
+;  Version: 0.1.1.0
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -13065,13 +13072,14 @@
 [Downloading version info...]
 [An error occured while downloading the update.]
 [No updates found.]
-[List is emply.]
+[List is empty.]
 [Update checking already started!]
 [List loading already started!]
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
 ['No' Button]
 [Plugin info]
+[Plugin list]
 [Plugin Updater HTTP connection]
 ﻿#muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
 ;============================================================
@@ -13117,13 +13125,13 @@
 [pixels]
 [Avatar size:]
 [Enable avatar updates]
-[Multimonitor (98/ME/2000/XP)]
+[Multimonitor]
 [Start the popups in the monitor with]
 [Miranda's window]
 [the active window]
 [Transparency]
 [Enable Win 9x/Me transparency]
-[Use transparency (Windows 2000+)]
+[Use transparency]
 [opacity:]
 [Opaque popups under cursor]
 [Slide Popup]
@@ -13287,8 +13295,8 @@
 [Skin preview]
 [Just take a look at this skin... ;)]
 [Show clock]
-[Drop shadow effect (Windows XP+)]
-[Drop shadow effect (Windows XP+)/non rectangular]
+[Drop shadow effect]
+[non rectangular]
 [Enable Aero Glass (Vista+)]
 [Use Windows colours]
 [Use advanced text render]
@@ -15364,8 +15372,14 @@
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 [Incoming SMS Confirmation]
-﻿;#muuid for Spamotron not found, please specify manually!
-;langpack template for Spamotron
+﻿#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
+;============================================================
+;  File: Spamotron.dll
+;  Plugin: Spam-o-tron
+;  Version: 0.0.4.6
+;  Authors: vu1tur
+;============================================================
+[Anti-spam plugin with captcha and Bayes filtering.]
 ;file \plugins\Spamotron\res\spamotron.rc
 [Do not send challenge request if message score above]
 [Auto-learn messages from approved contacts as ham]
@@ -15436,6 +15450,10 @@
 [Will be automatically evaluated from %mathexpr%]
 [Invalid regular expression.\nKeeping previous value.]
 [Message score]
+[Message Sessions]
+[Messages]
+[Bayes]
+[Popups]
 ;file \plugins\Spamotron\src\spamotron.cpp
 [Contact %s approved.]
 [Message from %s rejected because it reached a maximum for challenge requests per day.]
@@ -17681,7 +17699,7 @@
 [Auto positioning]
 [Transparent input]
 [Preview]
-[Translucency options (Windows 2000/XP only)]
+[Translucency options]
 [Transparent tooltip]
 [Contacts]
 [Idle]
