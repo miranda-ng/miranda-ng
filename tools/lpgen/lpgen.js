@@ -159,7 +159,7 @@ function GenerateCore() {
  //if log parameter specified, output a log.
  if (log) WScript.Echo("Processing CORE...");
  //first string is necessary for Miranda-NG to load langpack
- corestrings.push("Miranda Language Pack Version 1");
+ //corestrings.push("Miranda Language Pack Version 1"); // TODO: this need to be placed into =HEAD=.txt file or similar
  //define core filename. File will be overwritten!
  corefile=FSO.BuildPath(langpack_en,"=CORE=.txt");
  //find all *.rc files and list files in array
