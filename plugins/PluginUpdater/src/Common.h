@@ -72,9 +72,9 @@ struct FILEURL
 
 struct FILEINFO
 {
-	TCHAR tszOldName[MAX_PATH], tszNewName[MAX_PATH];
+	TCHAR   tszOldName[MAX_PATH], tszNewName[MAX_PATH];
 	FILEURL File;
-	BOOL bEnabled, bDeleteOnly;
+	BOOL    bEnabled, bDeleteOnly;
 };
 
 typedef OBJLIST<FILEINFO> FILELIST;
@@ -147,17 +147,51 @@ INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam);
 INT_PTR ShowListCommand(WPARAM wParam,LPARAM lParam);
 INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam);
 
-INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+int  ImageList_AddIconFromIconLib(HIMAGELIST hIml, const char *name);
 
 bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath);
 void strdel(TCHAR *parBuffer, int len);
 
-//////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+struct ServListEntry
+{
+	ServListEntry(const char* _name, const char* _hash, int _crc) :
+		m_name( mir_a2t(_name)),
+		m_bNeedFree(true),
+		m_crc(_crc)
+	{
+		strncpy(m_szHash, _hash, sizeof(m_szHash));
+	}
+
+	ServListEntry(TCHAR* _name) :
+		m_name(_name),
+		m_bNeedFree(false)
+	{
+	}
+
+	~ServListEntry()
+	{
+		if (m_bNeedFree)
+			mir_free(m_name);
+	}
+
+	TCHAR *m_name;
+	char   m_szHash[32+1];
+	bool   m_bNeedFree;
+	int  m_crc;
+};
+
+typedef OBJLIST<ServListEntry> SERVLIST;
+
+///////////////////////////////////////////////////////////////////////////////
+int CalculateModuleHash(const TCHAR *tszFileName, char *dest);
 
 BOOL IsRunAsAdmin();
 BOOL IsProcessElevated();
+bool PrepareEscalation();
 
 int SafeCreateDirectory(const TCHAR *ptszDirName);
 int SafeCopyFile(const TCHAR *ptszSrc, const TCHAR *ptszDst);

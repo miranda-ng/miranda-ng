@@ -191,6 +191,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\checksum.cpp" />
+    <ClCompile Include="src\DlgListNew.cpp" />
+    <ClCompile Include="src\DlgUpdate.cpp" />
     <ClCompile Include="src\Events.cpp" />
     <ClCompile Include="src\Minizip\ioapi.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -215,7 +217,6 @@
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Scanner.cpp" />
     <ClCompile Include="src\PluginUpdater.cpp" />
     <ClCompile Include="src\unzipfile.cpp" />
     <ClCompile Include="src\Utils.cpp" />

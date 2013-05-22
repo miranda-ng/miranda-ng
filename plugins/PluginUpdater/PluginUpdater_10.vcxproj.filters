@@ -91,10 +91,13 @@
     <ClCompile Include="src\Minizip\unzip.c">
       <Filter>Source Files\Minizip</Filter>
     </ClCompile>
-    <ClCompile Include="src\Scanner.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
+    <ClCompile Include="src\DlgListNew.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DlgUpdate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
