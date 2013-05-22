@@ -1,2 +1,1 @@
 ﻿Miranda Language Pack Version 1
-Locale: 0409
