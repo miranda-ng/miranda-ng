@@ -6,7 +6,7 @@
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Anti-Boss plugin.]
-
+Anti-šéf doplněk. Umožňuje přepnout Mirandu NG jedinou klávesou do předem nastaveného módu.
 ;file \plugins\BossKeyPlus\res\BossKey.rc
 [BossKey]
 BossKey
@@ -39,7 +39,7 @@ OK
 [Cancel]
 Zrušit
 [EN]
-
+EN
 [Workstation is Locked]
 Pracovní stanice je uzamčena
 [Screen Saver is running]
@@ -51,7 +51,7 @@ Skrýt Mirandu při:
 [Miranda is inactive]
 Miranda je neaktivní
 [min]
-
+minut
 [Miranda is started]
 Spuštění Mirandy
 [Others]
@@ -62,15 +62,15 @@ Přidat položku do hlavní nabídky
 Obnovit skrývání při startu po chybě
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 [Miranda NG is locked.\nEnter password to unlock it.]
-
+Miranda NG je uzamčena.\nZadejte heslo pro její odemčení.
 [Password is not correct!\nPlease, enter correct password.]
-
+Heslo není správné!\nZadejte prosím správné heslo.
 [Hide Miranda NG]
 Skrýt Mirandu
 [Hide]
 Skrýt
 [Hide/Show Miranda]
-
+Skrýt/zobrazit Mirandu
 [BossKey\tget the BossKey name]
 
 ;file \plugins\BossKeyPlus\src\Options.cpp

@@ -37,7 +37,7 @@ Použít doménové jméno
 [Search service]
 Vyhledávací služba
 [Roster Editor]
-
+Správa seznamu na serveru
 [Roster editor\nView and modify your server-side contact list.]
 Seznamy na serveru\nZobrazení a úpravy seznamu kontaktů na serveru
 [Download]
@@ -69,7 +69,7 @@ Použít TLS
 [Unregister]
 Zrušit reg.
 [Expert]
-
+Pokročilé
 [Manually specify connection host]
 Určit hostitele pro připojení
 [Host:]
@@ -141,9 +141,9 @@ Dokončeno
 [Jabber Password]
 Jabber :: Heslo
 [Remember password for this session]
-
+Zapamatovat si heslo pro tuto relaci
 [Save password permanently]
-
+Uložit heslo permanentně
 [Data form test]
 
 [Address1:]
@@ -241,17 +241,17 @@ Nové heslo:
 [Confirm New Password:]
 Nové heslo znovu:
 [Jabber Multi-User Conference]
-
+Diskusní skupina
 [Conference server:]
 Diskusní server:
 [Create or Join Groupchat]
 Založit nebo se připojit do diskuse
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
-Diskusní skupina\nZaložení nebo připojení se do existující diskusní skupiny
+Diskusní skupina\nZaložit nebo se připojit do existující diskusní skupiny.
 [Room:]
 Místnost:
 [Recently visited chatrooms:]
-
+Nedávno navštívené místnosti:
 [Bookmarks]
 Záložky
 [JID List]
@@ -267,25 +267,25 @@ Identifikátor:
 [Register]
 Registrovat
 [Invite Users]
-
+Pozvat uživatele
 [<room jid>\nSend groupchat invitation.]
-
+<room jid>\nOdeslat pozvánku k diskusi.
 [Other JID:]
 Ostatní JID:
 [Add]
 Přidat
 [Invitation reason:]
-
+Důvod pozvánky:
 [&Invite]
 &Pozvat
 [Groupchat Invitation]
-
+Pozvánka k diskusi
 [<room jid>\nIncoming groupchat invitation.]
-
+<room jid>\nPříchozí pozvánka k diskusi.
 [You are invited to conference room by]
-
+Pozvánka do diskusní místnosti od
 [with following reason:]
-
+s následujícím zdůvodněním:
 [Nickname:]
 Přezdívka:
 [&Accept]
@@ -305,7 +305,7 @@ Druh záložky
 [Conference]
 Konference
 [Transport]
-
+Transport
 [URL]
 Odkaz
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
@@ -327,23 +327,23 @@ Základní režim
 [Advanced Mode]
 Pro pokročilé
 [Add list... (Ins)]
-
+Přidat seznam... (Ins)
 [Activate (Space)]
-
+Aktivovat (mezerník)
 [Set as default (Ctrl+Space)]
-
+Nastavit jako výchozí (Ctrl+mezerník)
 [Remove list (Del)]
-
+Odebrat seznam (Del)
 [Add rule (Ins)]
-
+Přidat podmínku (Ins)
 [Edit rule... (F2)]
-
+Upravit podmínku... (F2)
 [Move rule up (Alt+Up)]
-
+Přesunout podmínku výše (Alt+nahoru)
 [Move rule down (Alt+Down)]
-
+Přesunout posmínku níže (Alt+dolů)
 [Remove rule (Del)]
-
+Odebrat podmínku (Del)
 [Privacy rule]
 Pravidlo filtrování
 [If:]
@@ -381,31 +381,31 @@ Odpověď pro stav '%s'
 [Closing in %d]
 Zavře se za %d sek.
 [Account type:]
-
+Typ účtu:
 [Login server:]
 Server:
 [Register account now]
-
+Zřídit účet nyní
 [Jabber Account Information:]
-
+Informace o Jabber účtu:
 [Member Information]
-
+Členské informace
 [Member Information\n<user id>]
-
+Členské informace\n<user id>
 [Role:]
-
+Role:
 [Set role]
-
+Nastavit roli
 [Affiliation:]
-
+Vztah:
 [Set affiliation]
-
+Nastavit vztah
 [Status message:]
 Zpráva stavu:
 [Chat options]
 Možnosti diskuse
 [Alternate nick:]
-
+Náhradní přezdívka:
 [Custom messages]
 Vlastní zprávy
 [Quit:]
@@ -427,7 +427,7 @@ Pohlavek:
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
 
 [Authorize]
-
+Autorizovat
 [Deny]
 Zamítnout
 [Dialog]
@@ -437,11 +437,11 @@ Dialog
 [Jabber notebook\nStore notes on server and access them from anywhere.]
 Poznámky\nUložené poznámky budete mít pořád při ruce
 [Bots Challenge Test]
-
+Kontrola robotů
 [XML Console]
 Konzola XML
 [Reset log]
-
+Vyčistit
 [Send]
 Poslat
 ;file \protocols\JabberG\src\jabber.cpp
@@ -457,7 +457,7 @@ Jabber aktivita
 Jabber nálada
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-
+Jsem šťastný uživatel Mirandy NG. Stáhněte si ji z http://miranda-ng.org/.
 [/me slaps %s around a bit with a large trout]
 
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
@@ -497,7 +497,7 @@ Diskusní skupiny
 Odkazy
 ;file \protocols\JabberG\src\jabber_byte.cpp
 [Bytestream Proxy not available]
-
+Bytestream proxy není dostupná
 ;file \protocols\JabberG\src\jabber_caps.cpp
 [Supports Service Discovery info]
 Podporuje vyhledání služeb
@@ -556,9 +556,9 @@ Přijímá informace o náladě
 [Supports SecureIM plugin for Miranda NG]
 Podporuje doplněk SecureIM pro Mirandu
 [Supports MirOTR plugin for Miranda NG]
-
+Podporuje doplněk MirOTR pro Mirandu
 [Supports New_GPG plugin for Miranda NG]
-
+Podporuje doplněk New_GPG pro Mirandu
 [Can block communications from particular other users using Privacy lists]
 Umožňuje blokovat komunikaci na základě definovaných filtrů
 [Supports Message Receipts]
@@ -572,9 +572,9 @@ Podporuje ukládání soukromých dat (pro záložky aj.)
 [Supports attention requests ('nudge')]
 Podporuje zpracování žádosti o pozornost (tzv. drcnutí)
 [Supports chat history retrieving]
-
+Podporuje načítání historie
 [Supports chat history management]
-
+Podporuje správu historie
 [Can report information about user activity]
 Umožňuje odesílat informace o aktivitě uživatele
 [Receives information about user activity]
@@ -589,7 +589,7 @@ Podporuje výměnu seznamů na serveru
 Podporuje důvěrný režim
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
-
+Zadejte text, který vidíte
 ;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 ---
@@ -614,23 +614,23 @@ Moderátoři
 [Owners]
 Vlastníci
 [User %s in now banned.]
-
+Uživatel %d je nyní zablokován.
 [User %s changed status to %s with message: %s]
-
+Uživatel %s změnil status na %s se zprávou: %s
 [User %s changed status to %s]
-
+Uživatel %s změnil stav na %s
 [Room configuration was changed.]
-
+Nastavení místnosti bylo změněno.
 [Outcast]
 
 [Affiliation of %s was changed to '%s'.]
-
+Vztah uživatele %s byl změněn na '%s'.
 [Role of %s was changed to '%s'.]
-
+Role uživatele %s byla změněna na '%s'.
 [because room is now members-only]
-
+protože místnost je nyní pouze pro členy
 [user banned]
-
+uživatel zablokován
 [Change &nickname]
 Změ&nit přezdívku
 [&Invite a user]
@@ -668,7 +668,7 @@ Zkopírovat &JID místnosti
 [Copy room topic]
 Zkopírovat téma místnosti
 [&Send presence]
-
+&Odeslat stav
 [Online]
 Online
 [Away]
@@ -694,7 +694,7 @@ Přid&at do seznamu
 [&Copy to clipboard]
 Z&kopírovat
 [Invite to room]
-
+Pozvat do místnosti
 [Set &role]
 Určit &roli
 [&Visitor]
@@ -722,25 +722,25 @@ Zkopírovat &přezdívku
 [Copy real &JID]
 Zkopírovat &JID
 [Copy in-room JID]
-
+Zkopírovat JID z místnosti
 [Real &JID: %s]
-Skut. &JID: %s
+Skutečné &JID: %s
 [Send groupchat invitation.]
-
+Odeslat pozvánku k diskusi.
 [not on roster]
-
+není v seznamu
 [Member Info:]
-
+Členské informace:
 [from]
 od
 [Real JID not available]
-
+Skutečné JID není dostupné
 [Reason to kick]
 Důvod k vykopnutí
 [Reason to ban]
 Důvod k zákazu
 [Invite %s to %s]
-
+Pozvat %s do %s
 [Set topic for]
 Stanovit téma pro
 [Change nickname in]
@@ -749,9 +749,9 @@ Změnit přezdívku na
 Důvod k uzavření
 ;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
-
+Nelze odesílat data když jste offline.
 [Jabber Error]
-
+Jabber chyba
 [Outgoing XML parsing error]
 
 ;file \protocols\JabberG\src\jabber_disco.cpp
@@ -764,9 +764,9 @@ Uzel
 [Navigate]
 
 [Browse all favorites]
-
+Procházet všechny oblíbené
 [Remove all favorites]
-
+Odebrat všechny oblíbené
 [Registered transports]
 Registrované služby
 [Browse local transports]
@@ -792,13 +792,13 @@ Přidat mezi záložky...
 [Add search directory]
 
 [Use this proxy]
-
+Použít tuto proxy
 [Commands...]
 Příkazy...
 [Logon]
-
+Přihlásit
 [Logoff]
-
+Odhlásit
 [Copy JID]
 Zkopírovat JID
 [Copy node name]
@@ -813,7 +813,7 @@ kategorie
 [type]
 typ
 [Category]
-
+Kategorie
 [Type]
 Typ
 [Supported features]
@@ -898,11 +898,11 @@ Jméno
 [Last Name]
 Příjmení
 [Desired Nickname]
-
+Požadovaná přezdívka
 [Your URL]
-
+Vaše URL
 [Email Address]
-
+E-mailová adresa
 [FAQ Entry]
 
 [Whether to Allow Occupants to Invite Others]
@@ -1107,7 +1107,7 @@ Příjmení
 [Room list request timed out.]
 
 [<no nick>]
-
+<bez přezdívky>
 [Loading...]
 Načítání...
 [Please wait for room list to download.]
@@ -1117,12 +1117,12 @@ Načítání...
 [Bookmarks...]
 Záložky...
 [has set the subject to:]
-
+nastavil téma na:
 [Incoming groupchat invitation.]
-
+Příchozí pozvánka k diskusi.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
-
+transport
 [Notes]
 Poznámky
 [Multi-User Conference]
@@ -1224,7 +1224,7 @@ Heslo nelze změnit.
 
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
-
+%s, %d položek (%s)
 [Voice List]
 Seznam lidí s uděleným hlasem
 [Member List]
@@ -1317,15 +1317,15 @@ Příchozí poznámka: %s
 [Send note to %s]
 Poslat poznámku: %s
 [From: %s]
-
+Od: %s
 [All tags]
 Všechny štítky
 [Notes are not saved, close this window without uploading data to server?]
-
+Poznámky nejsou uloženy, přejete si zavřít okno bez nahrání dat na server?
 [Are you sure?]
 Opravdu chcete pokračovat?
 [Incoming note]
-
+Příchozí poznámka
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 
@@ -1702,17 +1702,17 @@ Změny se projeví až při příštím připojení do sítě Jabber.
 [Jabber Protocol Option]
 Možnost protokolu Jabber
 [Confirm password]
-
+Potvrzení hesla
 [Passwords do not match.]
-
+Hesla se neshodují.
 [This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
 Opravdu chcete odstranit vybraný účet, tj. seznam kontaktů umístěný na serveru a všechny ostatní související informace?
 [Account removal warning]
 Upozornění: Odstranění účtu
 [You can change your password only when you are online]
-
+Změnu hesla lze provést pouze pokud jste připojen
 [You must be online]
-
+Musíte být přípojen
 [Messaging]
 Rozhovor
 [Send messages slower, but with full acknowledgement]
@@ -1736,7 +1736,7 @@ Přijímat poznámky
 [Automatically save received notes]
 Automaticky uložit obdržené poznámky
 [Enable server-side history]
-
+Povolit historii na serveru
 [Server options]
 Možnosti serveru
 [Disable SASL authentication (for old servers)]
@@ -1796,7 +1796,7 @@ Změny funkce
 [Status changes]
 Změny stavu
 [Filter history messages]
-
+Filtrovat staré zprávy
 [JID]
 Identifikátor
 [Nick Name]
@@ -1902,33 +1902,33 @@ Odebrat
 [<none>]
 <žádný>
 [allow ]
-
+povolit 
 [deny ]
-
+zakázat 
 [all.]
-
+vše
 [messages]
 zpráv
 [ and ]
-
+ a 
 [incoming presences]
-
+příchozí stavy
 [outgoing presences]
-
+odchozí stavy
 [queries]
 
 [Else ]
-
+Jinak 
 [If jabber id is ']
-
+Pokud je jabber id '
 [ (nickname: ]
-
+ (přezdívka: 
 [If group is ']
-
+Pokud je skupina '
 [If subscription is ']
-
+Pokud je autorizace '
 [then ]
-
+potom 
 [ (act., def.)]
  (akt., vých.)
 [ (active)]
@@ -1980,17 +1980,17 @@ Stavy
 [Extended Away (N/A)]
 
 [Do Not Disturb]
-
+Nerušit
 [Invisible]
 Neviditelný
 [Offline]
 Offline
 [Priority]
-
+Priorita
 [Status message]
 Zpráva stavu
 [Change global status]
-
+Změnit globální statu
 [Set Options]
 
 [Set the desired options]
@@ -2074,7 +2074,7 @@ Zpráva
 [<not specified>]
 <neurčeno>
 [Software]
-
+Software
 [Version]
 Verze
 [System]
@@ -2086,25 +2086,25 @@ Nečinnost od
 [Client capabilities]
 Možnosti klientského softwaru
 [Software information]
-
+Informace o softwaru
 [Operating system]
-
+Operační systém
 [Operating system version]
-
+Verze operačního systému
 [Software version]
-
+Verze softwaru
 [Miranda NG core version]
-
+Verze jádra Mirandy NG
 [Unicode build]
-
+Unicode sestavení
 [Yes]
 Ano
 [No]
 Ne
 [Alpha build]
-
+Alpha sestavení
 [Debug build]
-
+Vývojové sestavení
 [Mood]
 Nálada
 [Activity]
@@ -2183,7 +2183,7 @@ Chyba
 [Unknown error message]
 Neznámé chybové hlášení
 [Advanced Status]
-
+Pokročilý stav
 [Set mood...]
 Zadat náladu...
 [Set activity...]
@@ -2214,7 +2214,7 @@ obavy
 [Amazed]
 úžas
 [Amorous]
-
+láskyplnost
 [Angry]
 zlost
 [Annoyed]
@@ -2232,27 +2232,27 @@ odvaha
 [Calm]
 v klidu
 [Cautious]
-
+obezřetnost
 [Cold]
 zima
 [Confident]
-
+sebevědomí
 [Confused]
 zmatek
 [Contemplative]
-
+rozjímání
 [Contented]
 spokojenost
 [Cranky]
 marod
 [Crazy]
-
+šílenství
 [Creative]
-
+kreativita
 [Curious]
 zvědavost
 [Dejected]
-
+sklíčenost
 [Depressed]
 deprese
 [Disappointed]
@@ -2260,7 +2260,7 @@ rozčarování
 [Disgusted]
 znechucení
 [Dismayed]
-
+zdrcenost
 [Distracted]
 roztržitost
 [Embarrassed]
@@ -2274,9 +2274,9 @@ flirt
 [Frustrated]
 frustrace
 [Grateful]
-
+vděčnost
 [Grieving]
-
+truchlení
 [Grumpy]
 nevrlost
 [Guilty]
@@ -2284,7 +2284,7 @@ vina
 [Happy]
 štěstí
 [Hopeful]
-
+naděje
 [Hot]
 horko
 [Humbled]
@@ -2298,11 +2298,11 @@ bolest
 [Impressed]
 valím oči
 [In awe]
-
+strach
 [In love]
 láska
 [Indignant]
-Rozhořčení
+rozhořčení
 [Interested]
 zájem
 [Intoxicated]
@@ -2314,11 +2314,11 @@ závist
 [Lonely]
 osamělost
 [Lost]
-
+zbloudilost
 [Lucky]
-
+štěstí
 [Mean]
-
+protivnost
 [Moody]
 rozladěnost
 [Nervous]
@@ -2328,53 +2328,53 @@ neutrální
 [Offended]
 uraženost
 [Outraged]
-
+pobouřenost
 [Playful]
 hravost
 [Proud]
 hrdost
 [Relaxed]
-
+relaxace
 [Relieved]
 úleva
 [Remorseful]
 lítost
 [Restless]
-
+netrpělivost
 [Sad]
 smutek
 [Sarcastic]
 sarkasmus
 [Satisfied]
-
+spokojenost
 [Serious]
-
+vážnost
 [Shocked]
 šok
 [Shy]
 nesmělost
 [Sick]
-Není mi dobře
+není mi dobře
 [Sleepy]
 ospalost
 [Spontaneous]
-
+spontánnost
 [Stressed]
 stres
 [Strong]
-
+síla
 [Surprised]
 překvapení
 [Thankful]
-
+vděčnost
 [Thirsty]
 žízeň
 [Tired]
 únava
 [Undefined]
-
+nedefinováno
 [Weak]
-
+oslabenost
 [Worried]
 obavy
 [Mood: %s]

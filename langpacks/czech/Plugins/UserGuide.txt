@@ -9,4 +9,4 @@
 Tento doplněk přidá položku do hlavního menu pro zobrazní uživatelské příručky.
 ;file \plugins\UserGuide\src\main.cpp
 [User Guide]
-
+Uživatelská příručka
