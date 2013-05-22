@@ -167,6 +167,8 @@
 Всем
 [For friends]
 Друзьям
+[For friends of friends]
+Друзьям друзей
 [Only for me]
 Только мне
 [Visibility:]
