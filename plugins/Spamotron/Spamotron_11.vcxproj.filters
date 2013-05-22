@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Header Files\Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Source Files\sqlite3">
       <UniqueIdentifier>{219d5f59-e7c3-415c-a3af-539b7222082f}</UniqueIdentifier>
     </Filter>
@@ -22,9 +18,13 @@
     <Filter Include="Header Files\pcre">
       <UniqueIdentifier>{5c4a0315-c2e2-4685-97e1-4131819b7dbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sqlite3\sqlite3.c">
+    <ClCompile Include="src\sqlite3\sqlite3.c">
       <Filter>Source Files\sqlite3</Filter>
     </ClCompile>
     <ClCompile Include="src\options.cpp">
@@ -42,6 +42,9 @@
     <ClCompile Include="src\bayes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h">
@@ -50,16 +53,22 @@
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sqlite3\sqlite3.h">
+    <ClInclude Include="src\sqlite3\sqlite3.h">
       <Filter>Header Files\sqlite3</Filter>
     </ClInclude>
-    <ClInclude Include="pcre\pcre.h">
+    <ClInclude Include="src\pcre\pcre.h">
       <Filter>Header Files\pcre</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Version.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\spamotron.rc">
-      <Filter>Header Files\Resource Files</Filter>
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\Version.rc">
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
 </Project>

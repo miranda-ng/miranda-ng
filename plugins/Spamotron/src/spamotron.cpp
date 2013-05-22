@@ -5,19 +5,18 @@ HANDLE hOptInitialize, hModulesLoaded, hDBContactAdded, hDBEventAdded, hDBEventF
 time_t last_queue_check = 0;
 int hLangpack;
 
-#define MIID_SPAMOTRON {0x14331048,0x5a73,0x4fdb,{0xb9,0x09,0x2d,0x7e,0x18,0x25,0xa0,0x12}} /* 14331048-5a73-4fdb-b909-2d7e1825a012 */
-
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(0,0,4,6),
-	"Anti-spam plugin with captcha and Bayes filtering.",
-	"vu1tur",
-	"to@vu1tur.eu.org",
-	"© 2010 vu1tur",
-	"http://vu1tur.eu.org/spamotron",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	MIID_SPAMOTRON
+	// 14331048-5a73-4fdb-b909-2d7e1825a012
+	{0x14331048, 0x5a73, 0x4fdb, {0xb9, 0x09, 0x2d, 0x7e, 0x18, 0x25, 0xa0, 0x12}}
 };
 
 
@@ -545,12 +544,6 @@ void RemoveNotOnListSettings()
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
-}
-
-static const MUUID interfaces[] = {MIID_SPAMOTRON, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
 }
 
 extern "C" __declspec(dllexport) int Load()

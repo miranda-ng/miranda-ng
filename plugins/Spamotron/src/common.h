@@ -4,7 +4,6 @@
 #include <commctrl.h>
 #include <stdlib.h>
 #include <time.h>
-#define MIRANDA_VER 0x0A00
 
 #include <newpluginapi.h>
 #include <m_database.h>
@@ -18,11 +17,12 @@
 #include <m_langpack.h>
 #include <m_protosvc.h>
 
-//#include "m_updater.h"
 #include "m_folders.h"
-#include "../pcre/pcre.h"
+
+#include "pcre/pcre.h"
 
 #include "resource.h"
+#include "version.h"
 
 #define PLUGIN_NAME "Spam-o-tron"
 
@@ -125,7 +125,7 @@ int LogToSystemHistory(char *message, char *origmessage);
 
 /* bayes.c */
 
-#include "../sqlite3/sqlite3.h"
+#include "sqlite3\sqlite3.h"
 extern sqlite3 *bayesdb;
 #define BAYESDB_PATH "spamotron"
 #define BAYESDB_FILENAME "bayes.db"
