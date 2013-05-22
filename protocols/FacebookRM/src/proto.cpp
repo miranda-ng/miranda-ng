@@ -53,12 +53,23 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username)
 	HookProtoEvent(ME_IDLE_CHANGED,             &FacebookProto::OnIdleChanged,     this);
 	HookProtoEvent(ME_TTB_MODULELOADED,         &FacebookProto::OnToolbarInit,     this);
 
+	char module[512];
+	mir_snprintf(module, sizeof(module), "%s/Mind", m_szModuleName);
+
+	HOTKEYDESC hkd = { sizeof(hkd) };
+	hkd.dwFlags = HKD_TCHAR;
+	hkd.ptszDescription = LPGENT("Show Mind Window");
+	hkd.pszName = "ShowMindWnd";
+	hkd.ptszSection = m_tszUserName;
+	hkd.pszService = module;
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT|HOTKEYF_EXT, 'F');
+	Hotkey_Register(&hkd);
+
 	// Create standard network connection
 	TCHAR descr[512];
 	NETLIBUSER nlu = {sizeof(nlu)};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
-	char module[512];
 	mir_snprintf(module, SIZEOF(module), "%s", m_szModuleName);
 	nlu.szSettingsModule = module;
 	mir_sntprintf(descr, SIZEOF(descr), TranslateT("%s server connection"), m_tszUserName);
