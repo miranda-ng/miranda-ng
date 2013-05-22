@@ -1,7 +1,7 @@
 --------------------------------
-| Facebook Protocol RM 0.1.0.1 |
+| Facebook Protocol RM 0.1.1.0 |
 |        for Miranda NG        |
-|          (20.5.2013)         |
+|          (21.5.2013)         |
 --------------------------------
 
 Autor: Robyer
@@ -32,6 +32,11 @@ Info:
 --------------------------------
        Version history
 --------------------------------
+0.1.1.0 - 21.5.2013
+ * Mind dialog improvements
+ + Added privacy and place options into Mind dialog
+ + Toolbar button for setting Mind
+ 
 0.1.0.1 - 20.5.2013
  ! Fixed showing notifications without url
  + Added icons for notification and newsweed popups

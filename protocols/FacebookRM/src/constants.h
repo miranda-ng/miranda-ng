@@ -146,6 +146,7 @@ static const ttype server_types[] = {
 // Status privacy types
 static const ttype privacy_types[] = {
 	{ LPGEN("For everyone"), "80" },
+	{ LPGEN("For friends of friends"), "111&audience[0][custom_value]=50" },
 	{ LPGEN("For friends"), "40" },
 	{ LPGEN("Only for me"), "10" },
 };

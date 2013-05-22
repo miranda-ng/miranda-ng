@@ -1,7 +1,7 @@
 --------------------------------
-| Facebook Protocol RM 0.1.0.1 |
+| Facebook Protocol RM 0.1.1.0 |
 |        pro Miranda NG        |
-|          (20.5.2013)         |
+|          (21.5.2013)         |
 --------------------------------
 
 Autor: Robyer
@@ -32,6 +32,11 @@ Info:
 --------------------------------
        Historie verzí
 --------------------------------
+0.1.1.0 - 21.5.2013
+ * Vylepšení dialogu pro sdílení stavu
+ + Pro sdílení stavu pøidány volby pro soukromí a umístìní
+ + Pøidána ikona do tlaèítkové lišty pro sdílení stavu
+
 0.1.0.1 - 20.5.2013
  ! Fixed showing notifications without url
  + Added icons for notification and newsweed popups
