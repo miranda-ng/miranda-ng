@@ -1,0 +1,506 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<strings>
+  <MainFormCaption>HistoryToDB</MainFormCaption>
+  <ShowSearchButton>Поиск в окне сообщений</ShowSearchButton>
+  <ClearListButton>Очистить окно сообщений</ClearListButton>
+  <SyncButton>Синхронизировать историю</SyncButton>
+  <ImportButton>Импорт истории</ImportButton>
+  <ImportPM_ICQ>Из истории ICQ 7 и выше</ImportPM_ICQ>
+  <ImportPM_RnQ>Из истории RnQ</ImportPM_RnQ>
+  <ImportPM_QIP2005>Из истории QIP 2005</ImportPM_QIP2005>
+  <ImportPM_QIPInfium>Из истории QIP 2010/Infium/2012</ImportPM_QIPInfium>
+  <ImportPM_Miranda>Из истории Miranda</ImportPM_Miranda>
+  <ImportPM_qutIM>Из истории qutIM</ImportPM_qutIM>
+  <SettingsButton>Настройки</SettingsButton>
+  <LTitleIM>Переписка с %s (%s)</LTitleIM>
+  <LTitleCHAT>Переписка чата "%s" (%s)</LTitleCHAT>
+  <LTitleIMSmall>Переписка с %s</LTitleIMSmall>
+  <LHistory1>История переписки с </LHistory1>
+  <LHistory2>по</LHistory2>
+  <SearchHistoryButton>Показать</SearchHistoryButton>
+  <SearchButton>Поиск</SearchButton>
+  <SearchCaption>Поиск</SearchCaption>
+  <SearchMessage>Поиск закончен. Совпадений не найдено.</SearchMessage>
+  <IMButtonCaption>История сообщений в %s</IMButtonCaption>
+  <CHATButtonCaption>История чат-сообщений в %s</CHATButtonCaption>
+  <InfoCaption>Информация</InfoCaption>
+  <IMNoTab>Нет ни одной открытой вкладки сообщений.</IMNoTab>
+  <CHATNoTab>Нет ни одной открытой вкладки чата.</CHATNoTab>
+  <IMCaption>История сообщений</IMCaption>
+  <CHATCaption>История чатов</CHATCaption>
+  <SearchContact>Найти контакт</SearchContact>
+  <ButtonRefreshHistory>Перечитать историю контакта</ButtonRefreshHistory>
+  <ButtonSaveHistory>Сохранить историю контакта</ButtonSaveHistory>
+  <ButtonDeleteHistory>Удалить историю контакта</ButtonDeleteHistory>
+  <ButtonDeleteCurrentHistory>Удалить историю текущего контакта</ButtonDeleteCurrentHistory>
+  <ButtonDeleteAllHistory>Удалить всю историю</ButtonDeleteAllHistory>
+  <NoDeleteSelectHistory>Не выбран контакт для удаления истории</NoDeleteSelectHistory>
+  <NoSelectContactHistory>Выберите контакт для поиска истории</NoSelectContactHistory>
+  <NoSelectContactRefreshHistory>Выберите контакт для перезагрузки истории</NoSelectContactRefreshHistory>
+  <DeleteHistoryCaption>Удалить</DeleteHistoryCaption>
+  <DeleteHistory>История выбранного контакта будет полностью удалена из базы. Вы уверены?</DeleteHistory>
+  <DeleteAllHistory>История всех контактов и чатов будет полностью удалена из базы. Вы уверены?</DeleteAllHistory>
+  <Copy>Копировать</Copy>
+  <SelectAll>Выбрать все</SelectAll>
+  <DeSelectAll>Снять выбор со всех</DeSelectAll>
+  <SendSyncQuery>[%s] HistoryToDBSync отправлен запрос на синхронизацию истории</SendSyncQuery>
+  <ShowHistoryDay>Показать за день</ShowHistoryDay>
+  <ShowHistoryMonth>Показать за месяц</ShowHistoryMonth>
+  <ShowHistoryYear>Показать за год</ShowHistoryYear>
+  <ShowHistoryAll>Показать за весь период</ShowHistoryAll>
+  <GIFStaticText>Подождите, идет загрузка...</GIFStaticText>
+  <Settings>Настройки</Settings>
+  <SettingsPageControlMainTab>База данных</SettingsPageControlMainTab>
+  <SettingsPageControlSyncTab>Синхронизация</SettingsPageControlSyncTab>
+  <SettingsPageControlInterfaceTab>Интерфейс</SettingsPageControlInterfaceTab>
+  <SettingsPageControlEventsTab>События</SettingsPageControlEventsTab>
+  <SettingsPageControlFontsTab>Шрифты и пр.</SettingsPageControlFontsTab>
+  <SettingsPageControlHotKeyTab>Горячие клавиши</SettingsPageControlHotKeyTab>
+  <SettingsPageControlEncryptionTab>Шифрование истории</SettingsPageControlEncryptionTab>
+  <SettingsPageControlAboutTab>О программе</SettingsPageControlAboutTab>
+  <DBGroupBox> База данных </DBGroupBox>
+  <SyncGroupBox> Синхронизация истории </SyncGroupBox>
+  <EventsGroupBox> События </EventsGroupBox>
+  <LDBConnectMethod>Метод подкл-я к БД:</LDBConnectMethod>
+  <LDBType>Тип БД:</LDBType>
+  <LDBAddress>Адрес сервера БД:</LDBAddress>
+  <LDBSchema>Схема:</LDBSchema>
+  <LDBPort>Порт сервера БД:</LDBPort>
+  <LDBName>Имя БД:</LDBName>
+  <LDBNameOracle>TNS:</LDBNameOracle>
+  <LDBLogin>Логин:</LDBLogin>
+  <LDBPasswd>Пароль:</LDBPasswd>
+  <TestConnectionButton>Проверить соединение с БД</TestConnectionButton>
+  <CBDBConnectMethodDirect>Напрямую</CBDBConnectMethodDirect>
+  <LSyncMethod>Метод синхронизации:</LSyncMethod>
+  <LSyncInterval>Интервал синхронизации:</LSyncInterval>
+  <CBSyncMethodAuto>Автоматический</CBSyncMethodAuto>
+  <CBSyncMethodManual>Вручную</CBSyncMethodManual>
+  <CBSyncMethodOnSchedule>По расписанию</CBSyncMethodOnSchedule>
+  <CBSyncInterval5Min>Каждые 5 минут</CBSyncInterval5Min>
+  <CBSyncInterval10Min>Каждые 10 минут</CBSyncInterval10Min>
+  <CBSyncInterval20Min>Каждые 20 минут</CBSyncInterval20Min>
+  <CBSyncInterval30Min>Каждые 30 минут</CBSyncInterval30Min>
+  <CBSyncIntervalExitProgram>При выходе из программы</CBSyncIntervalExitProgram>
+  <CBSyncInterval10Mes>После кажд. 10-го сооб-я</CBSyncInterval10Mes>
+  <CBSyncInterval20Mes>После кажд. 20-го сооб-я</CBSyncInterval20Mes>
+  <CBSyncInterval30Mes>После кажд. 30-го сооб-я</CBSyncInterval30Mes>
+  <CBSyncIntervalNMin>Каждые N минут</CBSyncIntervalNMin>
+  <CBSyncIntervalNMes>После кажд. N сооб-я</CBSyncIntervalNMes>
+  <GBSyncCustomInterval> Интервалы пользователя </GBSyncCustomInterval>
+  <LTimeInterval>Интервал по времени (мин.):</LTimeInterval>
+  <LMsgCountInterval>Интервал по кол. сообщений:</LMsgCountInterval>
+  <CBEnableEncryption>Включить шифрование истории сообщений</CBEnableEncryption>
+  <CBAni>Показывать всплывающие сообщения</CBAni>
+  <CBWriteErrLog>Писать ошибки в лог-файл</CBWriteErrLog>
+  <CBHideSyncIcon>Скрыть иконку HistoryToDBSync из трея</CBHideSyncIcon>
+  <LNumLastHistoryMsg>Количество последних сообщений для показа в окне истории переписки</LNumLastHistoryMsg>
+  <CBShowPluginButton>Добавить кнопку плагина в панель модулей (только для IM-клиента QIP 2012 и RnQ)</CBShowPluginButton>
+  <SaveButton>Сохранить настройки</SaveButton>
+  <CloseButton>Закрыть</CloseButton>
+  <GBKeys> Ключи шифрования на сервере </GBKeys>
+  <DBGridKeysColumnID>Номер ключа</DBGridKeysColumnID>
+  <DBGridKeysColumnSTATUS>Статус ключа</DBGridKeysColumnSTATUS>
+  <DBGridKeysColumnMETHOD>Метод шифрования</DBGridKeysColumnMETHOD>
+  <ButtonGetEncryptionKey>Получить ключи из БД</ButtonGetEncryptionKey>
+  <ButtonCreateEncryptionKey>Создать новый ключ</ButtonCreateEncryptionKey>
+  <UpdateCaption>Обновление</UpdateCaption>
+  <UpdateMessage1>Внимание!</UpdateMessage1>
+  <UpdateMessage2>Вышла новая версия программы.</UpdateMessage2>
+  <UpdateMessage3>Пожалуйста, посетите официальный сайт для обновления.</UpdateMessage3>
+  <UpdateMessage4>Структура Вашей БД устарела.</UpdateMessage4>
+  <UpdateMessage5>Версия программы: %s</UpdateMessage5>
+  <UpdateMessage6>Версия БД: %s</UpdateMessage6>
+  <UpdateMessage7>Новая версия программы: %s</UpdateMessage7>
+  <GoodDBConnect1>Таблица конфигурации успешно прочитана.</GoodDBConnect1>
+  <GoodDBConnect2>Подключение к БД успешно установлено.</GoodDBConnect2>
+  <ErrCaption>Ошибка</ErrCaption>
+  <ErrVersionCheck>Не удается проверить версию плагина.</ErrVersionCheck>
+  <ErrDBConnect>Не удается установить подключение к БД.</ErrDBConnect>
+  <ErrSQLQuery>Ошибка выполнения SQL запроса.</ErrSQLQuery>
+  <ErrSQLExecQuery>Ошибка выполнения SQLExec запроса.</ErrSQLExecQuery>
+  <ErrDBParamCheck1>Не заполнено поле "Адрес сервера БД"</ErrDBParamCheck1>
+  <ErrDBParamCheck2>Не заполнено поле "Порт сервера БД"</ErrDBParamCheck2>
+  <ErrDBParamCheck3>Не заполнено поле "Пароль"</ErrDBParamCheck3>
+  <ErrDBParamCheck4>Не заполнено поле "Логин"</ErrDBParamCheck4>
+  <ErrDBParamCheck5>Не заполнено поле "Имя БД"</ErrDBParamCheck5>
+  <ErrDBParamCheck6>Не заполнено поле "Схема"</ErrDBParamCheck6>
+  <ErrDBParamCheck7>Не заполнено поле "TNS"</ErrDBParamCheck7>
+  <SettingsSave>Настройки сохранены.</SettingsSave>
+  <SettingsErrSave>Невозможно сохранить настройки.</SettingsErrSave>
+  <SettingsErrRead>Невозможно прочитать настройки.</SettingsErrRead>
+  <SendCheckMD5HashQuery>[%s] HistoryToDBSync отправлен запрос на перерасчет MD5-хешей</SendCheckMD5HashQuery>
+  <SendCheckAndDeleteMD5HashQuery>[%s] HistoryToDBSync отправлен запрос на перерасчет MD5-хешей и удаление дубликатов сообщений</SendCheckAndDeleteMD5HashQuery>
+  <DBServiceButton>Обслуживание БД</DBServiceButton>
+  <CheckMD5Hash>Пересчитать все MD5-хэши в БД</CheckMD5Hash>
+  <CheckAndDeleteMD5Hash>Пересчитать все MD5-хэши в БД и удалить дубликаты</CheckAndDeleteMD5Hash>
+  <CBAddSpecialContact>Добавить спец-контакт (только для IM-клиента QIP 2012)</CBAddSpecialContact>
+  <GBMessageFonts> Шрифты </GBMessageFonts>
+  <TitleSpacingBox> Расстояние для заголовка </TitleSpacingBox>
+  <MessagesSpacingBox> Расстояние для текста </MessagesSpacingBox>
+  <LIncommingMesTitle>Шрифт заголовка для входящих:</LIncommingMesTitle>
+  <LOutgoingMesTitle>Шрифт заголовка для исходящих:</LOutgoingMesTitle>
+  <LIncommingMes>Шрифт для входящих сообщений:</LIncommingMes>
+  <LOutgoingMes>Шрифт для исходящих сообщений:</LOutgoingMes>
+  <LServiceMes>Шрифт для сервисных сообщений:</LServiceMes>
+  <LSpacingBefore>Расстояние перед:</LSpacingBefore>
+  <LSpacingAfter>Расстояние после:</LSpacingAfter>
+  <ExSearch>Найти</ExSearch>
+  <ExSearchNext>Найти далее...</ExSearchNext>
+  <CBHotKey>Включить поддержку глобальных горячих клавиш</CBHotKey>
+  <SetHotKeyButton>Назначить</SetHotKeyButton>
+  <DeleteHotKeyButton>Удалить</DeleteHotKeyButton>
+  <GBHotKey> Горячие клавиши </GBHotKey>
+  <OpenLogFileCaption>Ошибка открытия файла</OpenLogFileCaption>
+  <OpenLogFile>Ошибка открытия файла %s</OpenLogFile>
+  <OpenLogFileRepeat>Возможно файл занять программой. Повторить попытку?</OpenLogFileRepeat>
+  <OpenLogFileLock>Возможно файл занять программой.</OpenLogFileLock>
+  <MessageEncrypted>ВНИМАНИЕ! Это сообщение зашифровано. Возможно Вы ввели неправильный пароль ключа шифрования или в БД не найдено нужного ключа для расшифровки сообщения.</MessageEncrypted>
+  <LErrLogSize>Максимальный размер лог-файла ошибок (Кбайт)</LErrLogSize>
+  <Rename>Переименовать</Rename>
+  <Merge>Объединить</Merge>
+  <Delete>Удалить</Delete>
+  <GetContactListButton>Сохранить список контактов</GetContactListButton>
+  <UpdateContactListButton>Обновить данные контактов в БД</UpdateContactListButton>
+  <CheckUpdateButton>Проверить наличие обновлений</CheckUpdateButton>
+  <SaveContactListCompleted>Список контактов и протоколов сохранен.</SaveContactListCompleted>
+  <SaveContactListErr>Ошибка! Список контактов и протоколов не сохранен или сохранен частично.</SaveContactListErr>
+  <SendUpdateContactListCompleted>Отправлен запрос на обновление списка контактов в БД.</SendUpdateContactListCompleted>
+  <SendUpdateContactListErr>Файл %s для обновления списка контактов не найден. Запрос на обновление не отправлен.</SendUpdateContactListErr>
+  <ContactNotInTheList>Не в списке</ContactNotInTheList>
+  <UpdateContactListInDB>Обновить данные контактов в БД (Nickname и UserID)</UpdateContactListInDB>
+  <GIFStaticTextDelete>Подождите, идет удаление истории...</GIFStaticTextDelete>
+  <SendUpdateContactListInDB>[%s] HistoryToDBSync отправлен запрос на обновление списка контактов из файла %s</SendUpdateContactListInDB>
+  <SendUpdateContactListInDBErrQIP>[%s] Файл %s для обновления списка контактов не найден. Выберите пункт 'Сохранить список контактов' в контекстном меню спец-контакта QIPHistoryToDB.</SendUpdateContactListInDBErrQIP>
+  <SendUpdateContactListInDBErrRnQ>[%s] Файл %s для обновления списка контактов не найден. Выберите пункт 'Сохранить список контактов' в контекстном меню RnQHistoryToDB в окне чата.</SendUpdateContactListInDBErrRnQ>
+  <SendUpdateContactListInDBErrUnknown>[%s] Файл %s для обновления списка контактов не найден. Выберите пункт 'Сохранить список контактов' в контекстном меню плагина.</SendUpdateContactListInDBErrUnknown>
+  <SendStopSync>[%s] HistoryToDBSync отправлен запрос на запрет синхронизации истории из файла %s.</SendStopSync>
+  <SendStartSync>[%s] HistoryToDBSync отправлен запрос на разрешение синхронизации истории из файла %s.</SendStartSync>
+  <ShowContactHistory>История сообщений %s (%s) в HistoryToDBViewer</ShowContactHistory>
+  <ShowOneContactHistory>История в HistoryToDBViewer</ShowOneContactHistory>
+  <CBBlockSpamMsg>Не записывать в БД сообщения помеченые как спам (только для IM-клиента QIP 2012)</CBBlockSpamMsg>
+  <ErrKeyPassword>Ошибка: Неверный пароль ключа шифрования. Введите правильный пароль или чтение зашифрованных сообщений будет невозможно.</ErrKeyPassword>
+  <Transparency> Прозрачность окон </Transparency>
+  <TransparencyEnable>Включить прозрачность окон</TransparencyEnable>
+  <LThankYou>Благодарности</LThankYou>
+  <CBExPrivateChatName>Использовать расширенное имя для приватных чатов (Имя чата / Ник собеседника)</CBExPrivateChatName>
+  <TotalString>Всего строк:</TotalString>
+  <LoadingTime>Время загрузки:</LoadingTime>
+  <MSec>мс</MSec>
+  <DeleteLogFileCaption>Ошибка удаления файла</DeleteLogFileCaption>
+  <DeleteLogFile>Ошибка удаления файла %s</DeleteLogFile>
+  <DeleteLogFileRepeat>Возможно файл занят другой программой. Повторить попытку?</DeleteLogFileRepeat>
+  <Additionally> Дополнительно </Additionally>
+  <SyncWhenExit>Дополнительная синхронизация истории при выходе из IM-клиента</SyncWhenExit>
+  <EnableSkypeSupport>Включить поддержку Skype</EnableSkypeSupport>
+  <LangButton>Язык программы</LangButton>
+  <Language>Язык программы:</Language>
+  <CBWriteDebugLog>Вести расширенный лог работы программы (Debug-режим)</CBWriteDebugLog>
+  <ExportAllHistoryButton>Экспортировать историю</ExportAllHistoryButton>
+  <ExortFormCaption>Экспорт истории</ExortFormCaption>
+  <ButtonBack>Назад</ButtonBack>
+  <ButtonNext>Далее</ButtonNext>
+  <ButtonFinish>Выйти</ButtonFinish>
+  <ButtonCancel>Отмена</ButtonCancel>
+  <IMExportWizardPage0Title>Добро пожаловать в мастер экспорта истории</IMExportWizardPage0Title>
+  <IMExportWizardPage0SubTitle>Данный мастер поможет Вам экспортировать историю %s во внешнюю базу данных. Экспорт будет произведен в файл формата sql-insert. При синхронизации эти данные будут переданы в базу данных.</IMExportWizardPage0SubTitle>
+  <IMExportWizardPage1Title>Мастер экспорта истории</IMExportWizardPage1Title>
+  <IMExportWizardPage1SubTitle>Выберите контакты, историю которых Вы хотите экспортировать.</IMExportWizardPage1SubTitle>
+  <IMExportWizardPage2Title>Мастер экспорта истории</IMExportWizardPage2Title>
+  <IMExportWizardPage2SubTitle>Идет экспорт истории, подождите...</IMExportWizardPage2SubTitle>
+  <IMExportWizardPage3Title>Мастер экспорта истории</IMExportWizardPage3Title>
+  <IMExportWizardPage3SubTitle>Экспорт истории завершен.</IMExportWizardPage3SubTitle>
+  <NickName>Ник</NickName>
+  <Protocol>Протокол</Protocol>
+  <Number>Номер</Number>
+  <TotalSelect>Всего выбрано %s контактов из %s</TotalSelect>
+  <ContactExport>Экспорт истории контакта %s (%s) ...</ContactExport>
+  <ExportDone>Экспорт истории завершен.</ExportDone>
+  <ExportAbort>Вы действительно хотите прервать экспорт и выйти из мастера?</ExportAbort>
+  <ExportAbortCaption>Выход из мастера экспорта</ExportAbortCaption>
+  <ExportDoneDesc>Экспорт истории завершен. Теперь Вы можете отправить запрос на синхронизацию экспортированной истории с базой данных. При большом объёме экспортированной истории процедура синхронизации может выполняться значительное время.</ExportDoneDesc>
+  <SendSyncRequest>Отправить запрос на синхронизацию</SendSyncRequest>
+  <MirandaImportInfo>Импорт сообщений из базы Miranda осуществляется непосредственно из самого IM-клиента.</MirandaImportInfo>
+  <HistoryToDBSyncCLUpdateErr>Во время обновления списка контактов произошла ошибка.</HistoryToDBSyncCLUpdateErr>
+  <HistoryToDBSyncMD5Err>Во время перерасчета MD5-хэшей произошла ошибка.</HistoryToDBSyncMD5Err>
+  <SeeErrLog>Для получения доп. информации смотрите лог-файлы.</SeeErrLog>
+  <HistoryToDBSyncStartTrayMsg>Запущена синхронизация сообщений...</HistoryToDBSyncStartTrayMsg>
+  <DBReConnectNum>[%s] Выполняем %s попытку переподключения к БД.</DBReConnectNum>
+  <DBReConnectErr>[%s] Ошибка переподключения к БД.</DBReConnectErr>
+  <DBReconnectCount>Кол. попыток переподключения:</DBReconnectCount>
+  <DBReconnectInterval>Интервал переподключения (мсек):</DBReconnectInterval>
+  <AutoScrollText>Автоскроллинг сообщений</AutoScrollText>
+  <AutoRunHistoryToDBSync>Запускать HistoryToDBSync при загрузке Windows</AutoRunHistoryToDBSync>
+  <RunningSkypeOnStartup>Запускать Skype при запуске HistoryToDBSync</RunningSkypeOnStartup>
+  <ExitSkypeOnEnd>Выходить из Skype при закрытии HistoryToDBSync</ExitSkypeOnEnd>
+  <UpdateServerInServiceMode>Сервер обновлений находится на сервисном обслуживании.%sПопробуйте запустить процедуру проверки обновлений позже.</UpdateServerInServiceMode>
+
+  <AboutButton>О плагине</AboutButton>
+  <AboutFormCaption>О плагине</AboutFormCaption>
+  <Version>Версия: </Version>
+  <License>Лицензия: </License>
+
+  <ERR_SAVE_TO_DB_CONNECT_ERR>[%s] Ошибка: Не удаётся подключиться к БД. Ошибка: %s</ERR_SAVE_TO_DB_CONNECT_ERR>
+  <ERR_SAVE_TO_DB_SERVICE_MODE>[%s] Ошибка: БД на сервисном обслуживании. Сохранение сообщений в БД невозможно.</ERR_SAVE_TO_DB_SERVICE_MODE>
+  <ERR_TEMP_SAVE_TO_DB_SERVICE_MODE>[%s] Ошибка: БД на сервисном обслуживании. Сохранение отложенных сообщений в БД невозможно.</ERR_TEMP_SAVE_TO_DB_SERVICE_MODE>
+  <ERR_READ_DB_CONNECT_ERR>[%s] Ошибка: Не удаётся подключиться к БД. Ошибка: %s</ERR_READ_DB_CONNECT_ERR>
+  <ERR_READ_DB_SERVICE_MODE>[%s] Ошибка: Невозможно выполнить операцию. БД на сервисном обслуживании.</ERR_READ_DB_SERVICE_MODE>
+  <ERR_LOAD_MSG_TO_DB>[%s] Ошибка записи сообщений из лог-файла в БД: %s</ERR_LOAD_MSG_TO_DB>
+  <ERR_SEND_UPDATE>[%s] Ошибка при запросе обновления: %s</ERR_SEND_UPDATE>
+  <LOAD_TEMP_MSG>[%s] В файле %s найдено %s сообщений; Добавлено в базу %s; Всего отбраковано %s; Найдено дубликатов %s; Зашифровано %s</LOAD_TEMP_MSG>
+  <LOAD_TEMP_MSG_SCREEN>Всего сообщений %s; Добавлено в базу %s; Всего отбраковано %s; Найдено дубликатов %s; Зашифровано %s</LOAD_TEMP_MSG_SCREEN>
+  <LOAD_TEMP_MSG_NOLOGFILE>[%s] Файл отложенных сообщений %s не найден.</LOAD_TEMP_MSG_NOLOGFILE>
+  <LOAD_TEMP_MSG_NOMSGFILE>Файл сообщений %s не найден.</LOAD_TEMP_MSG_NOMSGFILE>
+  <ERR_NO_DB_CONNECTED>[%s] Соединение с БД не установлено.</ERR_NO_DB_CONNECTED>
+  <ERR_NO_FOUND_VIEWER>Просмотрщик истории %s не найден.</ERR_NO_FOUND_VIEWER>
+  <ERR_NO_FOUND_SYNC>Программа синхронизации истории %s не найден.</ERR_NO_FOUND_SYNC>
+  <ERR_NO_FOUND_UPDATER>Программа проверки обновлений %s не найдена.</ERR_NO_FOUND_UPDATER>
+  <ERR_OLD_SDK_VER>Неверная версия SDK. Для работы необходим QIP 2012 и выше.</ERR_OLD_SDK_VER>
+  <ERR_NO_FOUND_IMPORT>Программа импорта истории %s не найдена.</ERR_NO_FOUND_IMPORT>
+  <ERR_DB_SERVICE_MODE>Невозможно выполнить операцию. База данных на сервисном обслуживании.</ERR_DB_SERVICE_MODE>
+
+  <HistoryToDBSyncPopupMenuShow>Показать</HistoryToDBSyncPopupMenuShow>
+  <HistoryToDBSyncPopupMenuHide>Скрыть</HistoryToDBSyncPopupMenuHide>
+  <HistoryToDBSyncPopupMenuSync>Синхронизировать историю</HistoryToDBSyncPopupMenuSync>
+  <HistoryToDBSyncPopupMenuSettings>Настройки</HistoryToDBSyncPopupMenuSettings>
+  <HistoryToDBSyncPopupMenuShowAbout>О программе</HistoryToDBSyncPopupMenuShowAbout>
+  <HistoryToDBSyncPopupMenuShowExit>Выйти</HistoryToDBSyncPopupMenuShowExit>
+  <HistoryToDBSyncGroupBox> Синхронизация истории </HistoryToDBSyncGroupBox>
+  <HistoryToDBSyncStatus>Состояние синхронизации:</HistoryToDBSyncStatus>
+  <HistoryToDBSyncDone>Синхронизация выполнена</HistoryToDBSyncDone>
+  <HistoryToDBSyncStart>Запустить синхронизацию</HistoryToDBSyncStart>
+  <HistoryToDBSyncStop>Остановить синхронизацию</HistoryToDBSyncStop>
+  <HistoryToDBSyncStarted>Идет синхронизация...</HistoryToDBSyncStarted>
+  <HistoryToDBSyncStoped>Cинхронизация остановлена</HistoryToDBSyncStoped>
+  <HistoryToDBSyncFileNotFound>Файл для синхронизации не найден</HistoryToDBSyncFileNotFound>
+  <HistoryToDBSyncStartCount>Запущен отчет времени... (%s сек.)</HistoryToDBSyncStartCount>
+  <HistoryToDBSyncWaitReq>Ожидание запроса на синхронизацию</HistoryToDBSyncWaitReq>
+  <HistoryToDBSyncNotSpecified>Не задан</HistoryToDBSyncNotSpecified>
+  <HistoryToDBSyncUnknownIMClient>Неизвестный тип IM-клиента. Обновление БД невозможно.</HistoryToDBSyncUnknownIMClient>
+  <HistoryToDBSyncUpdateDone>Произведено успешное обновление БД.</HistoryToDBSyncUpdateDone>
+  <HistoryToDBSyncUpdateErr>Произошла ошибка при обновлений БД. Смотрите в лог-файл.</HistoryToDBSyncUpdateErr>
+  <HistoryToDBSyncLTotalMesCountDesc>Всего сообщений:</HistoryToDBSyncLTotalMesCountDesc>
+  <HistoryToDBSyncLMesCurrentCountDesc>Добавлено в базу:</HistoryToDBSyncLMesCurrentCountDesc>
+  <HistoryToDBSyncLBadMesCountDesc>Всего отбраковано:</HistoryToDBSyncLBadMesCountDesc>
+  <HistoryToDBSyncLStartTimeDesc>С начала имп-а прошло:</HistoryToDBSyncLStartTimeDesc>
+  <HistoryToDBSyncLEndTimeDesc>До окончания осталось:</HistoryToDBSyncLEndTimeDesc>
+  <HistoryToDBSyncLDublicateMesCountDesc>Найдено дубликатов:</HistoryToDBSyncLDublicateMesCountDesc>
+  <HistoryToDBSyncLogViewButton>Лог-файл</HistoryToDBSyncLogViewButton>
+  <HistoryToDBSyncLogFormCaption>Просмотр лог-файла</HistoryToDBSyncLogFormCaption>
+  <HistoryToDBSyncLogFormFileName>Имя лог-файла:</HistoryToDBSyncLogFormFileName>
+  <HistoryToDBSyncLogFormDeleteLogButton>Удалить лог-файл</HistoryToDBSyncLogFormDeleteLogButton>
+  <HistoryToDBSyncLogFormReloadLogButton>Обновить</HistoryToDBSyncLogFormReloadLogButton>
+  <HistoryToDBSyncLTotalHashMsgСountDesc>Всего сообщений для анализа:</HistoryToDBSyncLTotalHashMsgСountDesc>
+  <HistoryToDBSyncLTotalBrokenMD5HashСountDesc>Ошибочных MD5-хэшей:</HistoryToDBSyncLTotalBrokenMD5HashСountDesc>
+  <HistoryToDBSyncLTotalChangeMD5HashСountDesc>Исправлено MD5-хэшей:</HistoryToDBSyncLTotalChangeMD5HashСountDesc>
+  <HistoryToDBSyncLMD5DublicateMesCountDesc>Найдено дубликатов:</HistoryToDBSyncLMD5DublicateMesCountDesc>
+  <HistoryToDBSyncLDeletedMD5DublicateMesCountDesc>Удалено дубликатов:</HistoryToDBSyncLDeletedMD5DublicateMesCountDesc>
+  <HistoryToDBSyncKeyPasswdCaption>Ввод пароля</HistoryToDBSyncKeyPasswdCaption>
+  <HistoryToDBSyncGBPasswd> Ввод пароля ключа шифрования </HistoryToDBSyncGBPasswd>
+  <HistoryToDBSyncKeyPasswordCaption>Ввод пароля ключа шифрования</HistoryToDBSyncKeyPasswordCaption>
+  <HistoryToDBSyncErrKeyPassword>Ошибка: Неверный пароль ключа шифрования. Введите правильный пароль или шифрование сообщений будет недоступно.</HistoryToDBSyncErrKeyPassword>
+  <HistoryToDBSyncErrActiveKey>Ошибка: Не найден активный ключ.</HistoryToDBSyncErrActiveKey>
+  <HistoryToDBSyncMultiActiveKey>Ошибка: Найдено более 1 активного ключа.</HistoryToDBSyncMultiActiveKey>
+  <HistoryToDBSyncLKeyNumTitle>Номер ключа:</HistoryToDBSyncLKeyNumTitle>
+  <HistoryToDBSyncLKeyPasswdTitle>Пароль ключа:</HistoryToDBSyncLKeyPasswdTitle>
+  <HistoryToDBSyncButtonGo>Ввод</HistoryToDBSyncButtonGo>
+  <HistoryToDBSyncButtonExit>Отмена</HistoryToDBSyncButtonExit>
+  <HistoryToDBSyncCBSaveOnly>Запомнить пароль до выхода из программы</HistoryToDBSyncCBSaveOnly>
+  <HistoryToDBSyncCBSave>Сохранить все пароли</HistoryToDBSyncCBSave>
+  <HistoryToDBSyncErrDecryptKey>Неизвестная ошибка расшифровки ключа шифрования.</HistoryToDBSyncErrDecryptKey>
+  <HistoryToDBSyncCheckEncKey>Проверка ключа шифрования</HistoryToDBSyncCheckEncKey>
+  <HistoryToDBSyncLEncryptMesCountDesc>Зашифровано сооб-й:</HistoryToDBSyncLEncryptMesCountDesc>
+  <HistoryToDBSyncNoKey>Ошибка: В БД не найдено нужного ключа шифрования.</HistoryToDBSyncNoKey>
+  <HistoryToDBSyncStartUpdateCL>Запущено обновление списка контактов...</HistoryToDBSyncStartUpdateCL>
+  <HistoryToDBSyncCLFileNotFound>Не найдены файл со списком протоколов и контактов.</HistoryToDBSyncCLFileNotFound>
+  <HistoryToDBSyncCLUpdateDone>Cписк контактов обновлен.</HistoryToDBSyncCLUpdateDone>
+  <HistoryToDBSyncStartMD5>Запущен перерасчет MD5-хэшей...</HistoryToDBSyncStartMD5>
+  <HistoryToDBSyncMD5Done>Перерасчет MD5-хэшей завершен.</HistoryToDBSyncMD5Done>
+  <HistoryToDBSyncShowLogFile>Посмотреть лог-файлы</HistoryToDBSyncShowLogFile>
+  <HistoryToDBSyncLSkypeStatusDesc>Статус Skype:</HistoryToDBSyncLSkypeStatusDesc>
+  <HistoryToDBSyncSkypeOff>Отключено</HistoryToDBSyncSkypeOff>
+  <HistoryToDBSyncSkypeAttachPendingAuthorization>Запрос авторизации...</HistoryToDBSyncSkypeAttachPendingAuthorization>
+  <HistoryToDBSyncSkypeAttachSuccess>Подключение разрешено</HistoryToDBSyncSkypeAttachSuccess>
+  <HistoryToDBSyncSkypeAttachRefused>Подключение отклонено</HistoryToDBSyncSkypeAttachRefused>
+  <HistoryToDBSyncSkypeAttachNotAvailable>Подключение отключено</HistoryToDBSyncSkypeAttachNotAvailable>
+  <HistoryToDBSyncSkypeAttachAvailable>Skype API доступно</HistoryToDBSyncSkypeAttachAvailable>
+  <HistoryToDBSyncSkypeErrCreate>Ошибка создания экземпляра Skype</HistoryToDBSyncSkypeErrCreate>
+  <HistoryToDBSyncSkypeErrDelete>Ошибка при удалении экземпляра Skype</HistoryToDBSyncSkypeErrDelete>
+  <HistoryToDBSyncSkypeErrAttach>Ошибка при подключении к экземпляру Skype</HistoryToDBSyncSkypeErrAttach>
+  <HistoryToDBSyncSkypeRun>Пытаемся запустить Skype...</HistoryToDBSyncSkypeRun>
+  <HistoryToDBSyncSkypeRunErr>Ошибка при запуске Skype</HistoryToDBSyncSkypeRunErr>
+  <HistoryToDBSyncSkypeInitErr>Ошибка при создании интерфейса Skype</HistoryToDBSyncSkypeInitErr>
+  <HistoryToDBSyncSkypeNotFound>Возможно на компьютере не установлен Skype или его версия ниже 5.0</HistoryToDBSyncSkypeNotFound>
+
+  <ImportQHFHistory>Импорт истории из QIP 2010/Infium/2012</ImportQHFHistory>
+  <ImportTXTHistory>Импорт истории из QIP 2005</ImportTXTHistory>
+  <ImportGBMain> Параметры импорта истории </ImportGBMain>
+  <ImportRButtonSelectDir>Загрузить из директории</ImportRButtonSelectDir>
+  <ImportRButtonSelectFile>Загрузить из одного файла</ImportRButtonSelectFile>
+  <ImportOpenHistoryFile>Открыть файл истории</ImportOpenHistoryFile>
+  <ImportLSelect>Выберите:</ImportLSelect>
+  <ImportLSelectSelectDir>Выберите директорию:</ImportLSelectSelectDir>
+  <ImportLSelectSelectFile>Выберите файл:</ImportLSelectSelectFile>
+  <ImportLStatusUnknown>Неизвестно</ImportLStatusUnknown>
+  <ImportButtonSelectSource>Выбрать</ImportButtonSelectSource>
+  <ImportButtonSelectSourceDir>Выбрать директорию</ImportButtonSelectSourceDir>
+  <ImportButtonSelectSourceFile>Выбрать файл</ImportButtonSelectSourceFile>
+  <ImportButtonToSQL>Сформировать SQL-файл</ImportButtonToSQL>
+  <ImportCBPreview>Предпросмотр истории</ImportCBPreview>
+  <ImportLReciver>Получатель:</ImportLReciver>
+  <ImportLMessage>Всего сообщений:</ImportLMessage>
+  <ImportLMyNick>Мои Nickname:</ImportLMyNick>
+  <ImportLMyUIN>Мой UserID:</ImportLMyUIN>
+  <ImportLStatusTitle>Статус:</ImportLStatusTitle>
+  <ImportLAddedInSQLFile>Обработано сообщений:</ImportLAddedInSQLFile>
+  <ImportAdvSelectDirectory>Выберите каталог</ImportAdvSelectDirectory>
+  <ImportQIPHistoryAllQHFFile>Все файлы истории QIP 2010/Infium/2012 (*.qhf;*.ahf)</ImportQIPHistoryAllQHFFile>
+  <ImportQIPHistoryQHFFile>Файлы истории QIP 2010/Infium/2012 (*.qhf)</ImportQIPHistoryQHFFile>
+  <ImportQIPHistoryQHFArcFile>Архивные файлы истории QIP 2010/Infium/2012 (*.ahf)</ImportQIPHistoryQHFArcFile>
+  <ImportQIPHistoryTXTFile>Файлы истории QIP 2005 (*.txt)</ImportQIPHistoryTXTFile>
+  <ImportSelectHistoryFile>Выбран файл %s</ImportSelectHistoryFile>
+  <ImportHistoryFile>Файл истории</ImportHistoryFile>
+  <ImportHistoryFileReadError>Ошибка чтения файла</ImportHistoryFileReadError>
+  <ImportStop>Остановить</ImportStop>
+  <ImportStoped>Остановлено (%s)</ImportStoped>
+  <ImportDone>Готово!</ImportDone>
+  <ImportSelectFile>Выберите файл(ы) для импорта</ImportSelectFile>
+  <ImportProceed>Продолжить</ImportProceed>
+  <ImportWait>Ждите...</ImportWait>
+  <ImportRecordStart>Идет запись в SQL-файл...</ImportRecordStart>
+  <ImportDoneSyncWait>Импорт закончен. После очередного сеанса синхронизации вся информация будет добавлена в БД.</ImportDoneSyncWait>
+  <ImportRnQHistoryFile>Файлы истории RnQ (*.*)</ImportRnQHistoryFile>
+  <ImportRnQHistory>Импорт истории из RnQ</ImportRnQHistory>
+  <ImportRnQStart>Запущен импорт истории из RnQ</ImportRnQStart>
+  <ImportTXTStart>Запущен импорт истории из QIP 2005</ImportTXTStart>
+  <ImportQHFStart>Запущен импорт истории из QIP 2010/Infium/2012</ImportQHFStart>
+  <ImportSelectCnt>Всего выбрано %s файлов истории.</ImportSelectCnt>
+  <ImportProcessing>Идет обработка файла %s</ImportProcessing>
+  <ImportDoneCnt>Импортировано %s записей.</ImportDoneCnt>
+  <ImportProcessingDone>Файл %s обработан.</ImportProcessingDone>
+  <ImportFoundCnt>Всего найдено %s записей.</ImportFoundCnt>
+  <ImportICQHistory>Импорт истории из ICQ 7</ImportICQHistory>
+  <ImportICQHistoryFile>Файлы истории ICQ 7 (Messages.qdb)</ImportICQHistoryFile>
+  <ImportICQStart>Запущен импорт истории из ICQ 7</ImportICQStart>
+  <ImportICQDBConnected>Вы подключены к БД %s</ImportICQDBConnected>
+  <ImportICQDBLocked>База данных заблокирована. Закройте клиента ICQ 7 и повторите попытку.</ImportICQDBLocked>
+  <ImportICQFoundHistory>Найдена история переписки с пользователем %s</ImportICQFoundHistory>
+  <ImportICQDoneCnt>Импортировано %s записей.</ImportICQDoneCnt>
+
+  <EncryptKey>Создание ключа шифрования</EncryptKey>
+  <GBKeyProp> Создание ключа шифрования </GBKeyProp>
+  <LKeyStatusTitle>Статус ключа:</LKeyStatusTitle>
+  <LCBEncryptionMethod>Алгоритм шифрования:</LCBEncryptionMethod>
+  <LKeyLength>Длина ключа (символов):</LKeyLength>
+  <LKeyPassword>Пароль ключа:</LKeyPassword>
+  <LEncryptionKey>Ключ шифрования:</LEncryptionKey>
+  <LEncryptionKeyDesc>(Закодирован в BASE64)</LEncryptionKeyDesc>
+  <LLocation>Место хранения ключа:</LLocation>
+  <ButtonCreateKey>Сгенерировать и сохранить</ButtonCreateKey>
+  <GetEncryptPassword>Введите пароль для защиты ключа шифрования.</GetEncryptPassword>
+  <CheckActiveEncryptKey>У Вас уже есть один активный ключ, поменяйте статус старого ключа и повторите операцию генерации нового ключа.</CheckActiveEncryptKey>
+  <SaveEncryptKeyDone>Ваш новый ключ сгенерирован и сохранен под номером %s</SaveEncryptKeyDone>
+  <SaveDBEncryptKeyDone>Ваш новый ключ сгенерирован и сохранен в БД под номером %s</SaveDBEncryptKeyDone>
+  <SaveEncryptKeyDoneHelp>Пожалуйста, запомните введенный пароль и номер ключа.</SaveEncryptKeyDoneHelp>
+  <SaveEncryptKeyErr>Произошла ошибка при сохранении ключа в БД. Проверьте настройки БД и попробуйте еще раз.</SaveEncryptKeyErr>
+  <KeyStatusActive>Активный</KeyStatusActive>
+  <KeyStatusInactive>Неактивный</KeyStatusInactive>
+  <KeyLocationLocal>Локально</KeyLocationLocal>
+  <KeyLocationServer>На сервере в БД</KeyLocationServer>
+  <StatusChangeKey>Изменить статус ключа</StatusChangeKey>
+  <PasswordChangeKey>Изменить пароль ключа</PasswordChangeKey>
+  <DeleteKey>Удалить ключ</DeleteKey>
+  <CheckNumActiveEncryptKey>В базе данных уже есть один активный ключ. Измените статус активного ключа, а потом вернитесь к этой операции.</CheckNumActiveEncryptKey>
+  <EncryptKeyStatusChanged>Статус ключа изменен.</EncryptKeyStatusChanged>
+  <DeleteEncryptKeyCaption>Удаление ключа шифрования</DeleteEncryptKeyCaption>
+  <DeleteEncryptKey>В базе данных найдены сообщения зашифрованные этим ключом. Вы действительно хотите удалить этот ключ?</DeleteEncryptKey>
+  <EncryptKeyDeleted>Ключ шифрования удален.</EncryptKeyDeleted>
+  <DeleteActiveEncryptKey>ВНИМАНИЕ! Вы собираетесь удалить активный ключ. Без активного ключа шифрование сообщений будет невозможно.</DeleteActiveEncryptKey>
+  <KeyPasswordChangeCaption>Смена пароля ключа шифрования</KeyPasswordChangeCaption>
+  <ErrKeyPasswordChange>Введен неправильный текущий пароль ключа шифрования.</ErrKeyPasswordChange>
+  <ErrKeyPasswordChangeNotRenew>Введенные новые пароли и подтверждение не совпадают или пустые. Повторите попытку.</ErrKeyPasswordChangeNotRenew>
+  <KeyPasswordChanged>Пароль на ключ шифрования изменен.</KeyPasswordChanged>
+  <GBKeyPasswordChange> Смена пароля ключа шифрования </GBKeyPasswordChange>
+  <LCurrentPassword>Текущий пароль:</LCurrentPassword>
+  <LNewPassword>Новый пароль:</LNewPassword>
+  <LReNewPassword>Повторите новый пароль:</LReNewPassword>
+  <ButtonNewKeyPassword>Сменить пароль</ButtonNewKeyPassword>
+  <FontCustomColorCaption>Другой цвет...</FontCustomColorCaption>
+  <FontDefaultColorCaption>Авто</FontDefaultColorCaption>
+  <GeneralSettings>Общие настройки</GeneralSettings>
+  <ConnectionSettings>Настройки соединения</ConnectionSettings>
+  <Logs>Лог работы</Logs>
+  <SelectDBTypeAndIMClient>Вначале выберите "Тип БД" и "IM-клиент".</SelectDBTypeAndIMClient>
+  <UpdateButton>Обновить</UpdateButton>
+  <StopButton>Остановить</StopButton>
+  <SettingsButton>Настройки</SettingsButton>
+  <IMClientType>IM-клиент:</IMClientType>
+  <UseProxy>Использовать прокси-сервер</UseProxy>
+  <ProxyAddress>Адрес прокси-сервера:</ProxyAddress>
+  <ProxyPort>Порт:</ProxyPort>
+  <ProxyAuth>Прокси-сервер требует авторизацию</ProxyAuth>
+  <ProxyUser>Пользователь:</ProxyUser>
+  <ProxyUserPasswd>Пароль:</ProxyUserPasswd>
+  <Update> Обновление </Update>
+  <UpdateStatus>Нажмите кнопку "Обновить" для начала процесса обновления.</UpdateStatus>
+  <Amount>Объем:</Amount>
+  <Speed>Скорость:</Speed>
+  <FileName>Имя файла:</FileName>
+  <FileDesc>Описание:</FileDesc>
+  <FileSize>Размер файла:</FileSize>
+  <Unknown>Не известно</Unknown>
+  <NotFoundLangFile>Не найден файл локализации</NotFoundLangFile>
+  <InitDownload>Инициализация скачивания...</InitDownload>
+  <Kb>Кбайт</Kb>
+  <KbSec>Кбайт/сек</KbSec>
+  <InitDownloadFromURL>Инициализация скачивания c URL</InitDownloadFromURL>
+  <InvalidResponseHeader>Неправильный заголовок ответа с сервера.</InvalidResponseHeader>
+  <InvalidResponseHeaderDesc>Проверьте настройки подключения к Интернет. Возможно Ваш прокси-сервер блокирует доступ к сайту обновления.</InvalidResponseHeaderDesc>
+  <HeaderData>Данные заголовка:</HeaderData>
+  <ParseHeader>Парсим заголовок...</ParseHeader>
+  <ErrInternetOpen>Ошибка при открытии сессии.</ErrInternetOpen>
+  <ErrInternetOpenURL>Ошибка при запрашивании файла.</ErrInternetOpenURL>
+  <ErrDownloadingFile>Ошибка при чтении файла.</ErrDownloadingFile>
+  <ErrRequest>Ошибка при запросе данных через прокси-сервер.</ErrRequest>
+  <Loading>Идет загрузка...</Loading>
+  <DownloadStopped>Скачивание остановлено.</DownloadStopped>
+  <ManualUpdate>Завершите работу всех компонентов плагина вручную и попробуйте повторить обновление.</ManualUpdate>
+  <DownloadSuccessful>Скачивание успешно завершено.</DownloadSuccessful>
+  <IsChecksum>Идет подсчёт контрольной суммы файла...</IsChecksum>
+  <MD5FileInMemory>MD5 файла в памяти:</MD5FileInMemory>
+  <FileSizeInMemory>Размер файла в памяти:</FileSizeInMemory>
+  <ChecksumConfirmed>Контрольная сумма и размер файла подтверждены.</ChecksumConfirmed>
+  <ChecksumFileEqServer>Контрольная сумма файла на диске и на сервере совпадают.</ChecksumFileEqServer>
+  <ChecksumNotConfirmed>Не сходится контрольная сумма принятых данных.</ChecksumNotConfirmed>
+  <FileSavedAs>Файл сохранен под именем</FileSavedAs>
+  <ErrFileSavedAs>Ошибка сохранения файла</ErrFileSavedAs>
+  <SizeNotConfirmed>Не сходится размер принятых данных.</SizeNotConfirmed>
+  <AllUpdatesDownloaded>Все обновления успешно загружены.</AllUpdatesDownloaded>
+  <AllUpdatesInstalled>Все обновления успешно установлены.</AllUpdatesInstalled>
+  <Step>Шаг</Step>
+  <NumberFilesUpdate>Число файлов для обновления</NumberFilesUpdate>
+  <FileToUpdate>Очередной файл для обновления</FileToUpdate>
+  <UpdateSettingsFileNotFound>Не найден файл настроек обновления</UpdateSettingsFileNotFound>
+  <UpdateLangFile>Начинаем обновление файла локализации %s...</UpdateLangFile>
+  <UpdateLangFileDone>Обновление файла локализации %s выполнено.</UpdateLangFileDone>
+  <UpdateSQLFile>Начинаем обновление sql-файла %s...</UpdateSQLFile>
+  <UpdateSQLFileDone>Обновление sql-файла %s выполнено.</UpdateSQLFileDone>
+  <UpdateFile>Начинаем обновление файла %s...</UpdateFile>
+  <UpdateFileDone>Обновление файла %s выполнено.</UpdateFileDone>
+  <UpdateFileErr>Файл %s не обновлен.</UpdateFileErr>
+  <InMemoryFoundProcess>В памяти найден процесс %s (PID: %s)</InMemoryFoundProcess>
+  <SendExitCommand>Отправляем команду завершения...</SendExitCommand>
+  <SearchProcessInMemory>Повторно ищем процесс %s в памяти...</SearchProcessInMemory>
+  <KillProcess>Пытаемся принудительно завершить процесс %s</KillProcess>
+  <KillProcessDone>Процесс %s принудительно завершен.</KillProcessDone>
+  <NotKillProcess>Процесс %s не может быть принудительно завершен.</NotKillProcess>
+  <SeDebugPrivilege>Повышаем свои привилегии до SeDebugPrivilege и пробуем еще раз завершить процесс %s</SeDebugPrivilege>
+  <SeDebugPrivilegeDone>Процесс %s принудительно завершен при SeDebugPrivilege.</SeDebugPrivilegeDone>
+  <NotKillSeDebugPrivilege>Процесс %s не может быть принудительно завершен даже при SeDebugPrivilege.</NotKillSeDebugPrivilege>
+  <InMemoryNotFoundProcess>Процесс %s не найден в памяти.</InMemoryNotFoundProcess>
+  <EndProcess>Пытаемся завершить процесс %s</EndProcess>
+  <StartProgram>Запускаем программу %s</StartProgram>
+  <StartProgramDone>Программа %s запущена.</StartProgramDone>
+  <StartProgramFail>Программа %s не запущена.</StartProgramFail>
+
+</strings>
