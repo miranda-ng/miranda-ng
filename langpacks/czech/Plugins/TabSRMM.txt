@@ -119,7 +119,7 @@ Zko&pírovat vše
 [Word lookup]
 Vyhledávání slova
 [Google]
-
+Google
 [Wikipedia]
 Wikipedie
 [Link]
@@ -1894,15 +1894,15 @@ Vykopnutí: %s -> %s
 [Notice from %s: ]
 Poznámka od %s:
 [The topic is '%s%s']
-
+Aktuální téma: '%s%s'
 [ (set by %s on %s)]
  (nastavil %s na %s)
 [ (set by %s)]
  (nastavil %s)
 [%s enables '%s' status for %s]
-
+%s aktivuje stav '%s' pro %s
 [%s disables '%s' status for %s]
-
+%s deaktivuje stav '%s' pro %s
 [<invalid>]
 <neplatný>
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
@@ -2106,7 +2106,7 @@ Zahájit soukromý rozhovor dvojklikem v seznamu uživatelů (jinak vložit pře
 [Strip colors from messages in the log]
 Záznam ukládat bez kódů definující barvy
 [Enable the 'event filter' for new rooms]
-
+Aktivovat filtr událostí pro nové místnosti
 [Use IRC style status indicators in the log]
 Použít IRC indikátory stavu v záznamu
 [Allow clickable user names in the message log]
@@ -2282,9 +2282,9 @@ Změna tématu na %s
 [Information in %s]
 Informace (na %s)
 [%s enables '%s' status for %s in %s]
-
+%s aktivuje stav '%s' pro %s v %s
 [%s disables '%s' status for %s in %s]
-
+%s aktivuje stav '%s' pro %s v %s
 [%s%s says:%s %s]
 %s%s říká:%s %s
 [%s has left (%s)]
@@ -2296,11 +2296,11 @@ Informace (na %s)
 [Notice from %s: %s]
 Poznámka od %s: %s
 [The topic is '%s']
-
+Aktuální téma: %s
 [The topic is '%s' (set by %s)]
-
+Aktuální téma: %s (nastavil %s)
 [Look up '%s':]
-
+Vyhledat '%s':
 [No word to look up]
 Není co vyhledat
 [Highlight User...]

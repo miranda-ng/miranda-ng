@@ -44,8 +44,8 @@ pix.
 Velikost avataru:
 [Enable avatar updates]
 Povolit aktualizaci avatarů
-[Multimonitor (98/ME/2000/XP)]
-Více monitorů (98/ME/2000/XP)
+[Multimonitor]
+Více monitorů
 [Start the popups in the monitor with]
 Zobrazovat oznámení na monitoru, kde je
 [Miranda's window]
@@ -56,8 +56,8 @@ aktivní okno
 Průhlednost
 [Enable Win 9x/Me transparency]
 Povolit průhlednost ve Win 9x/Me
-[Use transparency (Windows 2000+)]
-Průhlednost (pouze 2000/XP)
+[Use transparency]
+Průhlednost
 [opacity:]
 průhlednost:
 [Opaque popups under cursor]
@@ -373,10 +373,10 @@ Náhled skinu
 Račte se na tento skin podívat
 [Show clock]
 Zobrazit čas
-[Drop shadow effect (Windows XP+)]
-Zobrazit stín (XP+)
-[Drop shadow effect (Windows XP+)/non rectangular]
-
+[Drop shadow effect]
+Zobrazit stín
+[non rectangular]
+realističtější
 [Enable Aero Glass (Vista+)]
 Povolit Aero Glass (Vista+)
 [Use Windows colours]

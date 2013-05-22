@@ -228,8 +228,8 @@ Okraj vsazených rámečků
 Oříznout okraj o
 [Gap between frames]
 Mezera mezi rámečky
-[Translucency options (Windows 2000/XP only)]
-Průhlednost (pouze Windows 2000 a XP)
+[Translucency options]
+Průhlednost
 [Transparent contact list]
 Povolit průhlednost seznamu kontaktů
 [Inactive opacity:]
@@ -471,7 +471,7 @@ Oznámení
 [&Hide/Show]
 Skrýt/Zo&brazit
 [Nowhere]
-
+Nikde
 [&New Group]
 &Nová skupina
 [&Hide Offline Users]

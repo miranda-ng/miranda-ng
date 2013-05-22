@@ -1,5 +1,2 @@
-﻿[Miranda NG Database Checker.]
-[whiterect]
+﻿[whiterect]
 [Progress1]
-[Database Checker cannot find a suitable database plugin to open '%s'.]
-[Database driver '%s' doesn't support checking.]

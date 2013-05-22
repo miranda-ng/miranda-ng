@@ -28,7 +28,6 @@
 [Europe]
 [Macedonia, Republic of]
 [St. Maarten]
-[Curacao]
 [Netherlands (Bonaire Island)]
 [Netherlands (Saba Island)]
 [Netherlands (St. Eustatius Island)]

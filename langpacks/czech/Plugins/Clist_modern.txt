@@ -426,8 +426,8 @@ Text v záhlaví:
 Zjednodušené záhlaví okna
 [Minimize to tray]
 Minimalizovat na panel
-[Translucency options (Windows 2000/XP+)]
-
+[Translucency options]
+Průhlednost
 [Enable drop shadow (restart required)]
 Zobrazit stín (vyžaduje restart)
 [Frames]
@@ -633,7 +633,7 @@ Oznámení
 [&Hide/Show]
 Skrýt/Zo&brazit
 [Nowhere]
-
+Nikde
 [&New Group]
 &Nová skupina
 [&Hide Offline Users]

@@ -62,8 +62,8 @@ Autom. umístění
 Průhledný vstup
 [Preview]
 Náhled
-[Translucency options (Windows 2000/XP only)]
-Průhlednost (pouze Windows 2000 a XP)
+[Translucency options]
+Průhlednost
 [Transparent tooltip]
 Míra průhlednosti
 [Contacts]

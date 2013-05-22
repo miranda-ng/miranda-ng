@@ -195,7 +195,7 @@ Tlačítka
 [Credits]
 
 [< Copyright]
-
+< Copyright
 [Copyright]
 
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp

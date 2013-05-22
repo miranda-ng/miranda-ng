@@ -102,8 +102,8 @@ max. však
 Zvětšovat okno směrem nahoru
 [Title bar text:]
 Text v záhlaví:
-[Translucency options (Windows 2000/XP only)]
-Průhlednost (pouze Windows 2000 a XP)
+[Translucency options]
+Průhlednost
 [Fade contact list in/out]
 Plynule přejít mezi zobrazením a skrytím
 [Transparent contact list]

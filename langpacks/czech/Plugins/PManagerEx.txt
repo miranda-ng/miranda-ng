@@ -11,16 +11,16 @@
 [Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
 
 [Check Database]
-
+Zkontrolovat databázi
 [Load profile]
-
+Načíst profil
 [Change profile]
-
+Změnit profil
 [Check database]
-
+Zkontrolovat databázi
 [Restart]
 Restart
 [Profile manager]
-
+Správce profilů
 [Database]
 Databáze

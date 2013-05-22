@@ -40,8 +40,8 @@ OK
 Zrušit
 [EN]
 
-[Workstation is Locked (2000/XP+)]
-Pracovní stanice je uzamčena (2000/XP+)
+[Workstation is Locked]
+Pracovní stanice je uzamčena
 [Screen Saver is running]
 Běžící spořič obrazovky
 [Windows is inactive]

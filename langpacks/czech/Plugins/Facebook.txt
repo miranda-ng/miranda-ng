@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.0.0
+;  Version: 0.1.1.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -16,6 +16,12 @@ Heslo:
 Zřídit nový účet na Facebooku
 [What's on your mind?]
 Co se vám honí hlavou?
+[Text:]
+Text:
+[Place:]
+Místo:
+[Visibility:]
+Viditelnost:
 [Share]
 Sdílet
 [Cancel]
@@ -125,6 +131,12 @@ Klasické stránky
 Mobilní stránky
 [Smartphone website]
 Smartphone stránky
+[For everyone]
+Pro všechny 
+[For friends]
+Pro přátele
+[Only for me]
+Pouze pro mě
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt byl odebrán z vašeho seznamu přátel.
@@ -139,6 +151,8 @@ Požadavek o přátelství byl zrušen.
 [Error occured when canceling friendship request.]
 Nastala chyba při rušení požadavku o přátelství.
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[What's on your mind, %s?]
+Co se vám honí hlavou, %s?
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
 Pozn.: Pro správnou funkčnost se ujistěte, že máte vypnutou volbu 'Ověřit platnost certifikátů' v nastavení sítě.
 [Sample event]
@@ -152,8 +166,6 @@ Ukázkové upozornění
 ;file \protocols\FacebookRM\src\json.cpp
 [Message read: %s]
 Zpráva byla přečtena: %s
-[Multichat]
-Skupinový rozhovor
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Ve stavu offline nelze odesílat zprávy.
@@ -200,6 +212,8 @@ Ikona Facebooku
 Stavová zpráva
 [Poke]
 Šťouchnout
+[Newsfeed]
+Novinka
 [Cancel friendship]
 Zrušit přátelství
 [Cancel friendship request]
@@ -208,10 +222,10 @@ Zrušit požadavek o přátelství
 Požádat o přátelství
 [Approve friendship]
 Potvrdit přátelství
-[Visit profile]
-Navštívít profil
 [Visit friendship details]
 Zobrazit podrobnosti o přátelství
+[Visit profile]
+Navštívít profil
 [Mind...]
 Stavová zpráva...
 [Visit Profile]

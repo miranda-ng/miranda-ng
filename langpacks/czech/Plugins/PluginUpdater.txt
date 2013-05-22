@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.0.2
+;  Version: 0.1.1.0
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -90,6 +90,12 @@ sek.
 
 [Popups]
 Oznámení
+[Component list]
+
+[Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
+
+[Download]
+Stáhnout
 ;file \plugins\PluginUpdater\src\Notifications.cpp
 [Skipped.]
 
@@ -107,10 +113,20 @@ Stahování...
 
 [You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
 
+[Download complete]
+
+[Download complete. Do you want go to plugins option page?]
+
 [Component Name]
 Název doplňku
 [State]
 Stát
+[Plugins]
+Doplňky
+[Icons]
+Ikony
+[Other]
+Ostatní
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 hod.
@@ -123,6 +139,8 @@ Služby
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for plugin updates]
 
+[Show full plugin list]
+
 ;file \plugins\PluginUpdater\src\Scanner.cpp
 [Downloading version info...]
 
@@ -130,12 +148,20 @@ Služby
 
 [No updates found.]
 
+[List is empty.]
+
 [Update checking already started!]
+
+[List loading already started!]
 
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
 
 ['No' Button]
+
+[Plugin info]
+
+[Plugin list]
 
 [Plugin Updater HTTP connection]
 

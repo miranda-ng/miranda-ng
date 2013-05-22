@@ -1,7 +1,4 @@
-﻿[Open contact-specific windows by hotkey.]
-[Last Sent]
-[Show all contacts (Ctrl+A)]
-[Ctrl+A]
+﻿[Ctrl+A]
 [Ctrl+V]
 [Ctrl+F]
 [Ctrl+U]

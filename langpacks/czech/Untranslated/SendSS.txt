@@ -46,7 +46,6 @@
 [delete on]
 [overlays]
 [Credits]
-[< Copyright]
 [Copyright]
 [Send screenshot to\n]
 [<entire desktop>]

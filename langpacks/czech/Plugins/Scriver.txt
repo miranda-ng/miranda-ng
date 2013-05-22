@@ -175,7 +175,7 @@ Ano
 [No]
 Ne
 [Show these events only:]
-
+Zobrazit pouze tyto události:
 [Actions]
 Akce
 [Messages]
@@ -261,7 +261,7 @@ Vybr&at vše
 [Word lookup]
 Vyhledávání slova
 [Google]
-
+Google
 [Bing]
 
 [Yandex]
@@ -488,7 +488,7 @@ Historie
 [Send]
 Poslat
 [Look up '%s':]
-
+Vyhledat '%s':
 [No word to look up]
 Není co vyhledat
 [Add Contact Permanently to List]
@@ -713,15 +713,15 @@ Vykopnutí: %s -> %s
 [Notice from %s]
 Poznámka (napsal: %s)
 [The topic is '%s%s']
-
+Aktuální téma: '%s%s'
 [ (set by %s on %s)]
  (nastavil %s na %s)
 [ (set by %s)]
  (nastavil %s)
 [%s enables '%s' status for %s]
-
+%s aktivuje stav '%s' pro %s
 [%s disables '%s' status for %s]
-
+%s deaktivuje stav '%s' pro %s
 [<invalid>]
 <neplatný>
 ;file \plugins\Scriver\src\chat\main.cpp
@@ -893,7 +893,7 @@ Proměnné
 [Appearance]
 Vzhled
 [Default events to show in new chat rooms if the 'event filter' is enabled]
-
+Výchozí události, které se mají zobrazit, pokud je filtr událostí aktivní
 [Select Folder]
 Vyberte požadovanou složku
 [Popups]
@@ -933,9 +933,9 @@ Změna tématu na %s
 [Information in %s]
 Informace (na %s)
 [%s enables '%s' status for %s in %s]
-
+%s aktivuje stav '%s' pro %s v %s
 [%s disables '%s' status for %s in %s]
-
+%s aktivuje stav '%s' pro %s v %s
 [%s says: %s]
 %s píše: %s
 [%s has left (%s)]
@@ -947,9 +947,9 @@ Informace (na %s)
 [Notice from %s: %s]
 Poznámka od %s: %s
 [The topic is '%s']
-
+Aktuální téma: %s
 [The topic is '%s' (set by %s)]
-
+Aktuální téma: %s (nastavil %s)
 ;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
 Kurzíva

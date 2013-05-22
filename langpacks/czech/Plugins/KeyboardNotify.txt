@@ -46,8 +46,8 @@ Okolnosti pro oznámení
 Celoobrazovkový režim
 [Screen Saver is running]
 Běžící spořič obrazovky
-[Workstation is Locked (2000/XP)]
-Uzamčená stanice (2000/XP)
+[Workstation is Locked]
+Uzamčená stanice
 [Defined programs are running]
 Běží vybrané programy
 [All other situations]

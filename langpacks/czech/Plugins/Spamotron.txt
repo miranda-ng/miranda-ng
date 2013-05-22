@@ -1,5 +1,12 @@
-﻿;#muuid for Spamotron not found, please specify manually!
-;langpack template for Spamotron
+﻿#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
+;============================================================
+;  File: Spamotron.dll
+;  Plugin: Spam-o-tron
+;  Version: 0.0.4.6
+;  Authors: vu1tur
+;============================================================
+[Anti-spam plugin with captcha and Bayes filtering.]
+
 ;file \plugins\Spamotron\res\spamotron.rc
 [Do not send challenge request if message score above]
 Neodesílat výzvu pokud má zpráva index nad
@@ -136,6 +143,14 @@ Bude automaticky vyhodnocen z %mathexpr%
 
 [Message score]
 
+[Message Sessions]
+Komunikace
+[Messages]
+Zprávy
+[Bayes]
+
+[Popups]
+Oznámení
 ;file \plugins\Spamotron\src\spamotron.cpp
 [Contact %s approved.]
 

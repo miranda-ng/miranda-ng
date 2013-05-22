@@ -757,8 +757,8 @@ Zvětšovat okno směrem nahoru
 Je-li okno částečně zakryto, zobrazit na popředí namísto skrytí
 [Enable docking]
 Povolit dokování
-[Translucency options (Windows 2000/XP only)]
-Průhlednost (pouze Windows 2000 a XP)
+[Translucency options]
+Průhlednost
 [Fade contact list in/out]
 Plynule přejít mezi zobrazením a skrytím
 [Transparent contact list]
@@ -1024,8 +1024,8 @@ Windows
 Miranda
 [Become idle if the screen saver is active]
 Přejít do stavu nečinnosti pokud běží spořič obrazovky
-[Become idle if the computer is locked (2000/XP+ only)]
-Přejít do stavu nečinnosti pokud je počítač zamčen (2000/XP+)
+[Become idle if the computer is locked]
+Přejít do stavu nečinnosti pokud je počítač zamčen
 [Become idle if a terminal session is disconnected]
 Přejít do stavu nečinnosti po odpojení vzdáleného uživatele
 [Do not let protocols report any idle information]
