@@ -1,7 +1,0 @@
-﻿[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
-[YAPP Popups]
-[No animate]
-[Horizontal animate]
-[Vertical animate]
-[You cannot set a default timeout of 0.\nValue has been reset.]
-[Enable Popups]

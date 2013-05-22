@@ -133,6 +133,8 @@ Mobilní stránky
 Smartphone stránky
 [For everyone]
 Pro všechny 
+[For friends of friends]
+Pro přátele přátel
 [For friends]
 Pro přátele
 [Only for me]

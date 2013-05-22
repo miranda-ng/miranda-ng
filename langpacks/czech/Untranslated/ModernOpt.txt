@@ -1,3 +1,0 @@
-﻿[Support for new options design.]
-[Sample page]
-[Miranda NG configuration center]

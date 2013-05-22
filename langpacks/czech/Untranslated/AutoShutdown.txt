@@ -1,3 +1,0 @@
-﻿[(current: 0%)]
-[Inititiating the shutdown process failed!\nReason: %s]
-[Sets all Miranda NG protocols to offline and closes Miranda NG.]

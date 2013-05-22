@@ -1,2 +1,0 @@
-﻿[Crypto++ library for SecureIM plugin.]
-[GnuPG Plugin - Select public key]
