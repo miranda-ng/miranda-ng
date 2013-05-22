@@ -199,18 +199,20 @@ int  SkinOptionList_AddSkin(OPTTREE_OPTION* &options, int *OptionsCount, int pos
 	return pos;
 }
 
-int  SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos, DWORD *dwGlobalOptions) {
-	BOOL bCheck;
-	LPTSTR mainOption [] = {
-		LPGENT("Show clock"),
-		LPGENT("Drop shadow effect"),
-		LPGENT("Drop shadow effect")_T("/")LPGENT("non rectangular"),
-		LPGENT("Enable Aero Glass (Vista+)"),
-		LPGENT("Use Windows colours"),
-		LPGENT("Use advanced text render")};
+/////////////////////////////////////////////////////////////////////////////////////////
 
+static LPTSTR mainOption [] = {
+	LPGENT("Show clock"),
+	LPGENT("Drop shadow effect"),
+	LPGENT("Drop shadow effect")_T("/")LPGENT("non rectangular"),
+	LPGENT("Enable Aero Glass (Vista+)"),
+	LPGENT("Use Windows colours"),
+	LPGENT("Use advanced text render")};
+
+int SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos, DWORD *dwGlobalOptions)
+{
 	for (int i=0; i < SIZEOF(mainOption); i++) {
-		bCheck = 0;
+		BOOL bCheck = 0;
 		switch (i) {
 		case 0:
 			*dwGlobalOptions |= PopupOptions.DisplayTime ? (1 << i) : 0;
@@ -271,7 +273,7 @@ bool SkinOptionList_Update (OPTTREE_OPTION* &options, int *OptionsCount, HWND hw
 	}
 	//add "Global options"
 	DWORD dwGlobalOptions = 0;
-	int pos = SkinOptionList_AddMain(options, OptionsCount, pos, &dwGlobalOptions);
+	int pos = SkinOptionList_AddMain(options, OptionsCount, 0, &dwGlobalOptions);
 	//add "Skin options"
 	DWORD dwSkinOptions = 0;
 	pos = SkinOptionList_AddSkin(options, OptionsCount, pos, &dwSkinOptions);
