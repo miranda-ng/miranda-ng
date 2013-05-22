@@ -163,3 +163,15 @@
 Подмигнуть
 [What's on your mind, %s?]
 О чём Вы думаете, %s?
+[For everyone]
+всем
+[For friends]
+друзьям
+[For friends]
+только мне
+[Visibility:]
+Видно:
+[Text:]
+Текст:
+[Place]
+место:
