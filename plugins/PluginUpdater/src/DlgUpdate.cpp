@@ -201,6 +201,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			LVITEM lvI = {0};
 			lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_NORECOMPUTE;// | LVIF_IMAGE;
 
+			bool enableOk = false;
 			OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)lParam;
 			for (int i = 0; i < todo.getCount(); ++i) {
 				lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_IMAGE;
@@ -213,9 +214,11 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 				// remember whether the user has decided not to update this component with this particular new version
 				todo[i].bEnabled = db_get_b(NULL, MODNAME "Files", _T2A(todo[i].tszOldName), true);
 				ListView_SetCheckState(hwndList, lvI.iItem, todo[i].bEnabled);
+				if (todo[i].bEnabled)
+					enableOk = true;
 			}
 			HWND hwOk = GetDlgItem(hDlg, IDOK);
-			EnableWindow(hwOk, true);
+			EnableWindow(hwOk, enableOk);
 		}
 
 		bShowDetails = false;
