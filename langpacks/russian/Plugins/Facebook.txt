@@ -183,3 +183,5 @@
 Отмена
 [Share]
 Отправить
+[Show Mind Window]
+Сообщение статуса Facebook 
