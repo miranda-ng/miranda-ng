@@ -27,7 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef struct tagProtocolData
 {
 	char *RealName;
-	int protopos;
 	int show, enabled;
 }
 	ProtocolData;
@@ -104,7 +103,16 @@ bool CheckProtocolOrder(void)
 	return changed;
 }
 
-int FillTree(HWND hwnd)
+static bool ProtoToInclude(PROTOACCOUNT *pa)
+{
+	if ( !Proto_IsAccountEnabled(pa))
+		return false;
+
+	PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(pa->szProtoName);
+	return (pd != NULL && pd->type == PROTOTYPE_PROTOCOL);
+}
+
+static int FillTree(HWND hwnd)
 {
 	TVINSERTSTRUCT tvis;
 	tvis.hParent = NULL;
@@ -121,16 +129,11 @@ int FillTree(HWND hwnd)
 			continue;
 
 		PROTOACCOUNT *pa = accounts[idx];
-		if ( !Proto_IsAccountEnabled(pa))
-			continue;
-
-		PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(pa->szProtoName);
-		if (pd == NULL || pd->type != PROTOTYPE_PROTOCOL)
+		if ( !ProtoToInclude(pa))
 			continue;
 
 		ProtocolData *PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
 		PD->RealName = pa->szModuleName;
-		PD->protopos = pa->iOrder;
 		PD->enabled = Proto_IsAccountEnabled(pa) && isProtoSuitable(pa->ppro);
 		PD->show = PD->enabled ? pa->bIsVisible : 100;
 
@@ -180,7 +183,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		switch(((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-				int count = 0;
+				int idx = 0;
 
 				TVITEM tvi;
 				tvi.hItem = TreeView_GetRoot(hwndProtoOrder);
@@ -194,7 +197,8 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						ProtocolData* ppd = (ProtocolData*)tvi.lParam;
 						PROTOACCOUNT* pa = Proto_GetAccount(ppd->RealName);
 						if (pa != NULL) {
-							pa->iOrder = count++;
+							while (idx < accounts.getCount() && !ProtoToInclude(accounts[idx])) idx++;
+							pa->iOrder = idx++;
 							if (ppd->enabled)
 								pa->bIsVisible = ppd->show;
 						}
