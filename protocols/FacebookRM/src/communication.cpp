@@ -1164,7 +1164,11 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 	switch (resp.error_number)
 	{
   	case 0: // Everything is OK
-		break;
+	{
+		// Remember this message id
+		std::string mid = utils::text::source_get_value(&resp.data, 2, "\"message_id\":\"", "\"");
+		messages_sent.insert(mid);
+	} break;
 
     //case 1356002: // You are offline - wtf??
 

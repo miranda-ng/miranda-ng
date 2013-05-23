@@ -310,6 +310,41 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				const Number& time_sent = messageContent["time"];
 //				proto->Log("????? Checking time %15.2f > %15.2f", time_sent.Value(), proto->facy.last_message_time_);
 
+
+				if (was_id == proto->facy.self_.user_id) {
+					// ignore messages sent from Miranda
+					std::set<std::string>::iterator it = proto->facy.messages_sent.find(message_id.Value());
+					if (it != proto->facy.messages_sent.end()) {
+						proto->facy.messages_sent.erase(it);
+						continue;
+					}
+
+					std::string message_text = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value()));
+					
+					const Number& to = objMember["to"];
+					char to_id[32];
+					lltoa(to.Value(), to_id, 10);
+
+					HANDLE hContact = proto->ContactIDToHContact(to_id);
+					if (!hContact)
+						continue;
+
+					DBEVENTINFO dbei = {0};
+					dbei.cbSize = sizeof(dbei);
+					dbei.eventType = EVENTTYPE_MESSAGE;
+					dbei.flags = DBEF_SENT | DBEF_UTF;
+					dbei.szModule = proto->m_szModuleName;
+
+					bool local_time = db_get_b(NULL, proto->m_szModuleName, FACEBOOK_KEY_LOCAL_TIMESTAMP, 0) != 0;
+					dbei.timestamp = local_time ? ::time(NULL) : utils::time::fix_timestamp(time_sent.Value());
+
+					dbei.cbBlob = (DWORD)message_text.length() + 1;
+					dbei.pBlob = (PBYTE)message_text.c_str();
+					db_event_add(hContact, &dbei);
+
+					continue;
+				}
+
 				if ((messageContent.Find("truncated") != messageContent.End())
 					&& (((const Number &)messageContent["truncated"]).Value() == 1)) {
 					// If we got truncated message, we can ignore it, because we should get it again as "messaging" type

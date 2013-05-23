@@ -36,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <list>
 #include <map>
 #include <vector>
+#include <set>
 #include <algorithm>
 
 #include <stdarg.h>

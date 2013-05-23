@@ -90,7 +90,7 @@ public:
 
 	HANDLE cookies_lock_;
 
-	std::map< std::string, std::string >    cookies;
+	std::map<std::string, std::string> cookies;
 
 	std::string get_newsfeed_type();
 	std::string get_server_type();
@@ -137,7 +137,7 @@ public:
 
 	// Updates handling
 
-	List::List< facebook_user > buddies;
+	List::List<facebook_user> buddies;
 	HANDLE  buddies_lock_;
 	HANDLE  send_message_lock_;
 
@@ -148,6 +148,8 @@ public:
 	////////////////////////////////////////////////////////////
 
 	// Messages handling
+
+	std::set<std::string> messages_sent;
 
 	bool    channel();
 	bool    send_message(std::string message_recipient, std::string message_text, std::string *error_text, int method);
