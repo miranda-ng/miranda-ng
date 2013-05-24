@@ -55,6 +55,12 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath)
 	if (!opts.bUpdateIcons && !_strnicmp(filename, "Icons/", 6))
 		return true;
 
+	for (char *p = strchr(filename, '/'); p; p = strchr(p+1, '/'))
+		*p = '\\';
+
+	if (!db_get_b(NULL, MODNAME "Files", filename, true))
+		return true;
+
 	TCHAR tszDestFile[MAX_PATH], tszBackFile[MAX_PATH];
 	TCHAR *ptszNewName = mir_utf8decodeT(filename);
 	if (ptszNewName == NULL)
