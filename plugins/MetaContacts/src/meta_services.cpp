@@ -583,7 +583,6 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dcws = (DBCONTACTWRITESETTING *)lParam;
 	char buffer[512], szId[40];
-	TCHAR buffer2[512];
 	int contact_number;
 	HANDLE hMeta, most_online;
 
@@ -740,8 +739,8 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 
 			strcpy(buffer, "StatusString");
 			strcat(buffer, _itoa(contact_number, szId, 10));
-			Meta_GetStatusString(dcws->value.wVal, buffer2, 512);
-			db_set_ts(hMeta, META_PROTO, buffer, buffer2);
+			TCHAR *szStatus = (TCHAR*) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)dcws->value.wVal, GSMDF_TCHAR);
+			db_set_ts(hMeta, META_PROTO, buffer, szStatus);
 
 			// if the contact was forced, unforce it (which updates status)
 			if ((HANDLE)db_get_dw(hMeta, META_PROTO, "ForceSend", 0) == (HANDLE)wParam) {

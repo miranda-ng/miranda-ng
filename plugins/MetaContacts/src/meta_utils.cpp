@@ -230,7 +230,6 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	DBCONTACTWRITESETTING cws;
 	DWORD metaID, num_contacts;
 	char buffer[512], szId[40];
-	TCHAR buffer2[512];
 	WORD status;
 	HANDLE most_online;
 		
@@ -337,8 +336,9 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	// write status string
 	strcpy(buffer, "StatusString");
 	strcat(buffer, szId);
-	Meta_GetStatusString(status, buffer2, 512);
-	db_set_ts(dest, META_PROTO, buffer, buffer2);
+
+	TCHAR *szStatus = (TCHAR*) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_TCHAR);
+	db_set_ts(dest, META_PROTO, buffer, szStatus);
 
 	// Write the link in the contact
 	db_set_dw(src, META_PROTO, META_LINK, metaID);
@@ -1145,48 +1145,6 @@ void Meta_SetGroup(HANDLE hContact) {
 			db_unset(hContact, META_PROTO, "OldCListGroup");
 
 		db_set_s(hContact, "CList", "Group", META_HIDDEN_GROUP);
-	}
-}
-
-void Meta_GetStatusString(int status, TCHAR *buf, size_t size)
-{
-	switch(status) {
-	case ID_STATUS_OFFLINE:
-		_tcsncpy(buf, TranslateT("Offline"), size);
-		break;
-	case ID_STATUS_ONLINE:
-		_tcsncpy(buf, TranslateT("Online"), size);
-		break;
-	case ID_STATUS_AWAY:
-		_tcsncpy(buf, TranslateT("Away"), size);
-		break;
-	case ID_STATUS_DND:
-		_tcsncpy(buf, TranslateT("DND"), size);
-		break;
-	case ID_STATUS_NA:
-		_tcsncpy(buf, TranslateT("N/A"), size);
-		break;
-	case ID_STATUS_OCCUPIED:
-		_tcsncpy(buf, TranslateT("Occupied"), size);
-		break;
-	case ID_STATUS_FREECHAT:
-		_tcsncpy(buf, TranslateT("Free to Chat"), size);
-		break;
-	case ID_STATUS_INVISIBLE:
-		_tcsncpy(buf, TranslateT("Invisible"), size);
-		break;
-	case ID_STATUS_ONTHEPHONE:
-		_tcsncpy(buf, TranslateT("On the Phone"), size);
-		break;
-	case ID_STATUS_OUTTOLUNCH:
-		_tcsncpy(buf, TranslateT("Out to Lunch"), size);
-		break;
-	case ID_STATUS_IDLE:
-		_tcsncpy(buf, TranslateT("IDLE"), size);
-		break;
-	default:
-		_tcsncpy(buf, TranslateT("Unknown"), size);
-		break;
 	}
 }
 

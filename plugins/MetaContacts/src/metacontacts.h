@@ -96,7 +96,6 @@ int Meta_SetHandles(void);
 int Meta_UnhideLinkedContacts(void);
 int Meta_GetContactNumber(HANDLE hContact);
 HANDLE Meta_GetContactHandle(HANDLE hMeta, int contact_number);
-void Meta_GetStatusString(int status, TCHAR *buf, size_t size);
 void Meta_RestoreGroup(HANDLE hContact);
 void Meta_SetGroup(HANDLE hContact);
 int Meta_HideMetaContacts(int hide);
