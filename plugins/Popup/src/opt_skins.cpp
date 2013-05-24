@@ -248,7 +248,7 @@ int SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos,
 		options[pos].dwFlag		= (1 << i);
 		options[pos].groupId	= OPTTREE_CHECK;
 		options[pos].iconIndex	= 0;
-		options[pos].pszSettingName = mir_tstrdup(_T("Global settings"));
+		options[pos].pszSettingName = mir_tstrdup(TranslateT("Global settings"));
 		options[pos].pszOptionName	= (LPTSTR)mir_alloc(sizeof(TCHAR)*(
 			lstrlen(options[pos].pszSettingName)+
 			lstrlen(mainOption[i]) + 10));
