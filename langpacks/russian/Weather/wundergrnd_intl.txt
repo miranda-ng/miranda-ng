@@ -526,3 +526,5 @@
 Возможны грозы, 70% вероятность осадков
 [T-Storms 30% Chance Of Precipitation]
 Гроза, 30% вероятность осадков
+[Chance Of T-Storms 90% Chance Of Precipitation]
+Возможны грозы, 90% вероятность осадков
