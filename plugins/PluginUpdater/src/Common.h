@@ -122,27 +122,59 @@ extern aPopups PopupsList[POPUPS];
 extern HANDLE Timer, hPipe;
 extern HWND hwndDialog;
 
-void InitPopupList();
-void LoadOptions();
-BOOL NetlibInit();
-void IcoLibInit();
-void NetlibUnInit();
-int  ModulesLoaded(WPARAM wParam, LPARAM lParam);
-
-int  OnFoldersChanged(WPARAM, LPARAM);
-int  OnPreShutdown(WPARAM, LPARAM);
-int  OptInit(WPARAM, LPARAM);
-
-void BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName);
-
 void DoCheck(int iFlag);
 void DoGetList(int iFlag);
-BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum);
-void ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType);
-void __stdcall RestartMe(void*);
-void __stdcall OpenPluginOptions(void*);
-BOOL AllowUpdateOnStartup();
-void InitTimer();
+
+///////////////////////////////////////////////////////////////////////////////
+
+struct ServListEntry
+{
+	ServListEntry(const char* _name, const char* _hash, int _crc) :
+		m_name( mir_a2t(_name)),
+		m_crc(_crc)
+	{
+		strncpy(m_szHash, _hash, sizeof(m_szHash));
+	}
+
+	~ServListEntry()
+	{
+		mir_free(m_name);
+	}
+
+	TCHAR *m_name;
+	int    m_crc;
+	char   m_szHash[32+1];
+};
+
+typedef OBJLIST<ServListEntry> SERVLIST;
+
+///////////////////////////////////////////////////////////////////////////////
+
+void  InitPopupList();
+void  LoadOptions();
+BOOL  NetlibInit();
+void  IcoLibInit();
+void  ServiceInit();
+void  NetlibUnInit();
+int   ModulesLoaded(WPARAM wParam, LPARAM lParam);
+
+int   OnFoldersChanged(WPARAM, LPARAM);
+int   OnPreShutdown(WPARAM, LPARAM);
+int   OptInit(WPARAM, LPARAM);
+
+void  BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName);
+
+bool  ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes);
+int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
+
+TCHAR* GetDefaultUrl();
+BOOL   DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum);
+
+void  ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType);
+void  __stdcall RestartMe(void*);
+void  __stdcall OpenPluginOptions(void*);
+BOOL  AllowUpdateOnStartup();
+void  InitTimer();
 
 INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam);
 INT_PTR ShowListCommand(WPARAM wParam,LPARAM lParam);
@@ -157,37 +189,6 @@ void strdel(TCHAR *parBuffer, int len);
 
 ///////////////////////////////////////////////////////////////////////////////
 
-struct ServListEntry
-{
-	ServListEntry(const char* _name, const char* _hash, int _crc) :
-		m_name( mir_a2t(_name)),
-		m_bNeedFree(true),
-		m_crc(_crc)
-	{
-		strncpy(m_szHash, _hash, sizeof(m_szHash));
-	}
-
-	ServListEntry(TCHAR* _name) :
-		m_name(_name),
-		m_bNeedFree(false)
-	{
-	}
-
-	~ServListEntry()
-	{
-		if (m_bNeedFree)
-			mir_free(m_name);
-	}
-
-	TCHAR *m_name;
-	char   m_szHash[32+1];
-	bool   m_bNeedFree;
-	int  m_crc;
-};
-
-typedef OBJLIST<ServListEntry> SERVLIST;
-
-///////////////////////////////////////////////////////////////////////////////
 int CalculateModuleHash(const TCHAR *tszFileName, char *dest);
 
 BOOL IsRunAsAdmin();

@@ -54,14 +54,14 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 {
 	opts.bSilent = false;
-	DoCheck(1);
+	DoCheck(true);
 	return 0;
 }
 
 INT_PTR ShowListCommand(WPARAM wParam,LPARAM lParam)
 {
 	opts.bSilent = false;
-	DoGetList(1);
+	DoGetList(true);
 	return 0;
 }
 

@@ -177,6 +177,86 @@ int Get_CRC(unsigned char* buffer, ULONG bufsize)
 	return crc^0xffffffff;
 }
 
+TCHAR* GetDefaultUrl()
+{
+	TCHAR *result = db_get_tsa(NULL, MODNAME, "UpdateURL");
+	if (result == NULL) { // URL is not set
+		db_set_ts(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
+		result = mir_tstrdup( _T(DEFAULT_UPDATE_URL));
+	}
+	return result;
+}
+
+int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
+{
+	return _tcsicmp(p1->m_name, p2->m_name);
+}
+
+bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
+{
+	REPLACEVARSARRAY vars[2];
+	vars[0].lptzKey = _T("platform");
+	#ifdef WIN64
+		vars[0].lptzValue = _T("64");
+	#else
+		vars[0].lptzValue = _T("32");
+	#endif
+	vars[1].lptzKey = vars[1].lptzValue = 0;
+
+	REPLACEVARSDATA dat = { sizeof(REPLACEVARSDATA) };
+	dat.dwFlags = RVF_TCHAR;
+	dat.variables = vars;
+	baseUrl = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)ptszUrl, (LPARAM)&dat);
+
+	// Download version info
+	ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Downloading version info..."), 4, 0);
+
+	FILEURL pFileUrl;
+	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), baseUrl);
+	mir_sntprintf(pFileUrl.tszDiskPath, SIZEOF(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), tszTempPath);
+	if (!DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath, 0)) {
+		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);
+		return false;
+	}
+
+	unzip(pFileUrl.tszDiskPath, tszTempPath, NULL);
+	DeleteFile(pFileUrl.tszDiskPath);
+
+	TCHAR tszTmpIni[MAX_PATH] = {0};
+	mir_sntprintf(tszTmpIni, SIZEOF(tszTmpIni), _T("%s\\hashes.txt"), tszTempPath);
+	FILE *fp = _tfopen(tszTmpIni, _T("r"));
+	if (!fp)
+		return false;
+
+	char str[200];
+	while(fgets(str, SIZEOF(str), fp) != NULL) {
+		rtrim(str);
+		char *p = strchr(str, ' ');
+		if (p == NULL)
+			continue;
+
+		*p++ = 0;
+		if ( !opts.bUpdateIcons && !_strnicmp(str, "icons\\", 6))
+			continue;
+
+		_strlwr(p);
+
+		int dwCrc32;
+		char *p1 = strchr(p, ' ');
+		if (p1 == NULL)
+			dwCrc32 = 0;
+		else {
+			*p1++ = 0;
+			sscanf(p1, "%08x", &dwCrc32);
+		}
+		arHashes.insert(new ServListEntry(str, p, dwCrc32));
+	}
+	fclose(fp);
+	DeleteFile(tszTmpIni);
+	return true;
+}
+
+
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum)
 {
 	DWORD dwBytes;

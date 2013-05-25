@@ -373,78 +373,24 @@ static void __stdcall LaunchListDialog(void *param)
 static void GetList(void *)
 {
 	char szKey[64] = {0};
-	DBVARIANT dbVar = {0};
 	
 	TCHAR tszTempPath[MAX_PATH];
 	DWORD dwLen = GetTempPath(SIZEOF(tszTempPath), tszTempPath);
 	if (tszTempPath[dwLen-1] == '\\')
 		tszTempPath[dwLen-1] = 0;
 
-	// Load files info
-	if (db_get_ts(NULL, MODNAME, "UpdateURL", &dbVar)) { // URL is not set
-		db_set_ts(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
-		db_get_ts(NULL, MODNAME, "UpdateURL", &dbVar);
-	}
-
-	REPLACEVARSARRAY vars[2];
-	vars[0].lptzKey = _T("platform");
-	#ifdef WIN64
-		vars[0].lptzValue = _T("64");
-	#else
-		vars[0].lptzValue = _T("32");
-	#endif
-	vars[1].lptzKey = vars[1].lptzValue = 0;
-
-	REPLACEVARSDATA dat = { sizeof(REPLACEVARSDATA) };
-	dat.dwFlags = RVF_TCHAR;
-	dat.variables = vars;
-	mir_ptr<TCHAR> tszBaseUrl((TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)dbVar.ptszVal, (LPARAM)&dat));
-	db_free(&dbVar);
-
-	// Download version info
-	ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Downloading version info..."), 4, 0);
-
-	FILEURL pFileUrl;
-	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), (TCHAR*)tszBaseUrl);
-	mir_sntprintf(pFileUrl.tszDiskPath, SIZEOF(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), tszTempPath);
-	if (!DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath, 0)) {
-		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);
-		hListThread = NULL;
-		return;
-	}
-
-	unzip(pFileUrl.tszDiskPath, tszTempPath, NULL);
-	DeleteFile(pFileUrl.tszDiskPath);
-
-	TCHAR tszTmpIni[MAX_PATH] = {0};
-	mir_sntprintf(tszTmpIni, SIZEOF(tszTmpIni), _T("%s\\hashes.txt"), tszTempPath);
-	FILE *fp = _tfopen(tszTmpIni, _T("r"));
-	if (!fp) {
+	ptrT updateUrl( GetDefaultUrl()), baseUrl;
+	SERVLIST hashes(50, CompareHashes);
+	if ( !ParseHashes(updateUrl, baseUrl, hashes)) {
 		hListThread = NULL;
 		return;
 	}
 
 	FILELIST *UpdateFiles = new FILELIST(20);
-	char str[200];
 	TCHAR *dirname = Utils_ReplaceVarsT(_T("%miranda_path%"));
-	while(fgets(str, SIZEOF(str), fp) != NULL) {
-		rtrim(str);
-		char *p = strchr(str, ' ');
-		if (p == NULL)
-			continue;
 
-		*p++ = 0;
-		_strlwr(p);
-
-		int dwCrc32;
-		char *p1 = strchr(p, ' ');
-		if (p1 == NULL)
-			dwCrc32 = 0;
-		else {
-			*p1++ = 0;
-			sscanf(p1, "%08x", &dwCrc32);
-		}
-		ServListEntry hash(str, p, dwCrc32);
+	for (int i=0; i < hashes.getCount(); i++) {
+		ServListEntry &hash = hashes[i];
 
 		TCHAR tszPath[MAX_PATH];
 		mir_sntprintf(tszPath, SIZEOF(tszPath), _T("%s\\%s"), dirname, hash.m_name);
@@ -468,14 +414,12 @@ static void GetList(void *)
 		_tcslwr(tp);
 
 		mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, tszFileName);
-		mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszRelFileName);
+		mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), baseUrl, tszRelFileName);
 		for (tp = _tcschr(FileInfo->File.tszDownloadURL, '\\'); tp != 0; tp = _tcschr(tp, '\\'))
 			*tp++ = '/';
 		FileInfo->File.CRCsum = hash.m_crc;
 		UpdateFiles->insert(FileInfo);
 	}
-	fclose(fp);
-	DeleteFile(tszTmpIni);
 
 	mir_free(dirname);
 
@@ -483,6 +427,7 @@ static void GetList(void *)
 	if (UpdateFiles->getCount() == 0) {
 		if ( !opts.bSilent)
 			ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("List is empty."), 2, 0);
+		delete UpdateFiles;
 	}
 	else CallFunctionAsync(LaunchListDialog, UpdateFiles);
 

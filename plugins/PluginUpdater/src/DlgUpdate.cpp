@@ -391,11 +391,6 @@ static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
-{
-	return _tcsicmp(p1->m_name, p2->m_name);
-}
-
 static bool isValidExtension(const TCHAR *ptszFileName)
 {
 	const TCHAR *pExt = _tcsrchr(ptszFileName, '.');
@@ -456,8 +451,8 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 
 		// this file is not marked for deletion
 		if (tszNewName[0]) {
-			ServListEntry tmp(tszNewName);
-			ServListEntry *item = hashes.find(&tmp);
+			TCHAR *pName = tszNewName;
+			ServListEntry *item = hashes.find((ServListEntry*)&pName);
 			if (item == NULL) {
 				TCHAR *p = _tcsrchr(tszNewName, '.');
 				if (p[-1] != 'w' && p[-1] != 'W')
@@ -465,7 +460,7 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 
 				int iPos = int(p - tszNewName)-1;
 				strdel(p-1, 1);
-				if ((item = hashes.find(&tmp)) == NULL)
+				if ((item = hashes.find((ServListEntry*)&pName)) == NULL)
 					continue;
 
 				strdel(tszNewName+iPos, 1);
@@ -521,96 +516,30 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 static void CheckUpdates(void *)
 {
 	char szKey[64] = {0};
-	DBVARIANT dbVar = {0};
 	
 	TCHAR tszTempPath[MAX_PATH];
 	DWORD dwLen = GetTempPath(SIZEOF(tszTempPath), tszTempPath);
 	if (tszTempPath[dwLen-1] == '\\')
 		tszTempPath[dwLen-1] = 0;
 
-	// Load files info
-	if (db_get_ts(NULL, MODNAME, "UpdateURL", &dbVar)) { // URL is not set
-		db_set_ts(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
-		db_get_ts(NULL, MODNAME, "UpdateURL", &dbVar);
-	}
-
-	REPLACEVARSARRAY vars[2];
-	vars[0].lptzKey = _T("platform");
-	#ifdef WIN64
-		vars[0].lptzValue = _T("64");
-	#else
-		vars[0].lptzValue = _T("32");
-	#endif
-	vars[1].lptzKey = vars[1].lptzValue = 0;
-
-	REPLACEVARSDATA dat = { sizeof(REPLACEVARSDATA) };
-	dat.dwFlags = RVF_TCHAR;
-	dat.variables = vars;
-	ptrT tszBaseUrl((TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)dbVar.ptszVal, (LPARAM)&dat));
-	db_free(&dbVar);
-
-	// Download version info
-	ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Downloading version info..."), 4, 0);
-
-	FILEURL pFileUrl;
-	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), (TCHAR*)tszBaseUrl);
-	mir_sntprintf(pFileUrl.tszDiskPath, SIZEOF(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), tszTempPath);
-	if (!DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath, 0)) {
-		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);
-		hCheckThread = NULL;
-		return;
-	}
-
-	unzip(pFileUrl.tszDiskPath, tszTempPath, NULL);
-	DeleteFile(pFileUrl.tszDiskPath);
-
-	TCHAR tszTmpIni[MAX_PATH] = {0};
-	mir_sntprintf(tszTmpIni, SIZEOF(tszTmpIni), _T("%s\\hashes.txt"), tszTempPath);
-	FILE *fp = _tfopen(tszTmpIni, _T("r"));
-	if (!fp) {
-		hCheckThread = NULL;
-		return;
-	}
+	ptrT updateUrl( GetDefaultUrl()), baseUrl;
 
 	SERVLIST hashes(50, CompareHashes);
-	char str[200];
-	while(fgets(str, SIZEOF(str), fp) != NULL) {
-		rtrim(str);
-		char *p = strchr(str, ' ');
-		if (p == NULL)
-			continue;
+	if ( ParseHashes(updateUrl, baseUrl, hashes)) {
+		FILELIST *UpdateFiles = new FILELIST(20);
+		TCHAR *dirname = Utils_ReplaceVarsT(_T("%miranda_path%"));
+		ScanFolder(dirname, lstrlen(dirname)+1, 0, baseUrl, hashes, UpdateFiles);
+		mir_free(dirname);
 
-		*p++ = 0;
-		if ( !opts.bUpdateIcons && !_strnicmp(str, "icons\\", 6))
-			continue;
-
-		_strlwr(p);
-
-		int dwCrc32;
-		char *p1 = strchr(p, ' ');
-		if (p1 == NULL)
-			dwCrc32 = 0;
-		else {
-			*p1++ = 0;
-			sscanf(p1, "%08x", &dwCrc32);
+		// Show dialog
+		if (UpdateFiles->getCount() == 0) {
+			if ( !opts.bSilent)
+				ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("No updates found."), 2, 0);
 		}
-		hashes.insert(new ServListEntry(str, p, dwCrc32));
+		else CallFunctionAsync(LaunchDialog, UpdateFiles);
 	}
-	fclose(fp);
-	DeleteFile(tszTmpIni);
 
-	FILELIST *UpdateFiles = new FILELIST(20);
-	TCHAR *dirname = Utils_ReplaceVarsT(_T("%miranda_path%"));
-	ScanFolder(dirname, lstrlen(dirname)+1, 0, tszBaseUrl, hashes, UpdateFiles);
-	mir_free(dirname);
-
-	// Show dialog
-	if (UpdateFiles->getCount() == 0) {
-		if ( !opts.bSilent)
-			ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("No updates found."), 2, 0);
-	}
-	else CallFunctionAsync(LaunchDialog, UpdateFiles);
-
+	hashes.destroy();
 	hCheckThread = NULL;
 }
 

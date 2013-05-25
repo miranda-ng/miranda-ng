@@ -76,16 +76,11 @@ static INT_PTR hkAllOffline(WPARAM, LPARAM)
 */
 int InitClistHotKeys(void)
 {
-	HOTKEYDESC shk = {0};
-
 	CreateServiceFunction("CLIST/HK/SHOWHIDE", hkHideShow);
 	CreateServiceFunction("CLIST/HK/Opts", hkOpts);
 	CreateServiceFunction("CLIST/HK/Read", hkRead);
-//	CreateServiceFunction("CLIST/HK/CloseMiranda", hkCloseMiranda);
-//	CreateServiceFunction("CLIST/HK/RestoreStatus", hkRestoreStatus);
-//	CreateServiceFunction("CLIST/HK/AllOffline", hkAllOffline);
 
-	shk.cbSize = sizeof(shk);
+	HOTKEYDESC shk = { sizeof(shk) };
 	shk.dwFlags = HKD_TCHAR;
 	shk.ptszDescription = LPGENT("Show Hide Contact List");
 	shk.pszName = "ShowHide";

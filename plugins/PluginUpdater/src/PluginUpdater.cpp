@@ -84,6 +84,8 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
+
+	ServiceInit();
 #endif
 	hPluginUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, LPGEN("Plugin Updater"), MIRANDA_PATHT _T("\\")DEFAULT_UPDATES_FOLDER);
 	if (hPluginUpdaterFolder)
