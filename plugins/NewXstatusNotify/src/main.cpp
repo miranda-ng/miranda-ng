@@ -766,7 +766,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 	strcpy(szProto, hlpProto);
 	WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 
-	if ( !ServiceExists("LastSeenUserDetails") && newStatus == ID_STATUS_OFFLINE && oldStatus > ID_STATUS_OFFLINE ) { // if SeenPlugin not installed write Last Seen info
+	if (newStatus == ID_STATUS_OFFLINE && oldStatus > ID_STATUS_OFFLINE && !ServiceExists("LastSeenUserDetails")) { // if SeenPlugin not installed write Last Seen info
 		SYSTEMTIME systime;
 		GetLocalTime(&systime);
 
