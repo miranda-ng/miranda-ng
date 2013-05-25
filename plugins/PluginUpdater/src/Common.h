@@ -142,8 +142,9 @@ struct ServListEntry
 	}
 
 	TCHAR *m_name;
-	int    m_crc;
+	DWORD  m_crc;
 	char   m_szHash[32+1];
+	BYTE   m_selected;
 };
 
 typedef OBJLIST<ServListEntry> SERVLIST;

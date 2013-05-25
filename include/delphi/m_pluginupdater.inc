@@ -28,8 +28,9 @@ type
   pPUHashItem = ^TPUHashItem;
   TPUHashItem = record
     fileName :PWideChar;             // file name
-    fileCrc  :int;                   // zip's crc
+    fileCrc  :DWORD;                 // zip's crc
     hash     :array [0..32] of char; // file's md5 hash
+    selected :byte;
   end;
 
 const

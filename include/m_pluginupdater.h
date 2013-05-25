@@ -28,7 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef struct {
 	TCHAR *m_fileName;
 	DWORD  m_zipCrc;
-	char   m_hash;
+	char   m_hash[32+1];
+	BYTE   m_selected;
 }
 	PU_HASH_ITEM;
 
