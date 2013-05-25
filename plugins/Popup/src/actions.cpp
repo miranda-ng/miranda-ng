@@ -370,14 +370,13 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				db_set_dw(NULL, MODULNAME, "OverrideMiddle", PopupOptions.overrideMiddle);
 				db_set_dw(NULL, MODULNAME, "OverrideRight", PopupOptions.overrideRight);
 			}
-		}
 		break;
 
-	case IDC_ACTIONS:
-		NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-		if (windowInitialized && nmlv && nmlv->hdr.code == LVN_ITEMCHANGED && nmlv->uOldState != 0 && (nmlv->uNewState == 0x1000 || nmlv->uNewState == 0x2000))
-			SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
-		break;
+		case IDC_ACTIONS:
+			NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
+			if (windowInitialized && nmlv && nmlv->hdr.code == LVN_ITEMCHANGED && nmlv->uOldState != 0 && (nmlv->uNewState == 0x1000 || nmlv->uNewState == 0x2000))
+				SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
+		}
 	}
 	return FALSE;
 }
