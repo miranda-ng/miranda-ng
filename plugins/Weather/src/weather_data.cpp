@@ -309,7 +309,16 @@ void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szData)
 			else if (szInfo[startloc] == '&' &&
 				(szInfo[startloc+1] == ';' || szInfo[startloc+2] == ';' || szInfo[startloc+3] == ';' || 
 				szInfo[startloc+4] == ';' || szInfo[startloc+5] == ';' || szInfo[startloc+6] == ';'))
+			{
+				// ...but do NOT strip &minus;
+				if ((endloc - startloc) > 7 &&_tcsncmp(szInfo + startloc, _T("&minus;"), 7) == 0)
+				{
+					Data[respos++] = '-';
+					startloc += 7;
+					continue;
+				}
 				symb = TRUE;
+			}
 			else if (szInfo[startloc] == '>')	tag = FALSE;
 			else if (szInfo[startloc] == ';')	symb = FALSE;
 			else {
