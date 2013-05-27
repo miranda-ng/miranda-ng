@@ -1,0 +1,85 @@
+﻿#muuid {cb5d6b27-b8e0-484c-87b0-4d4691a94dee}
+;============================================================
+;  File: MirFox.dll
+;  Plugin: MirFox
+;  Version: 0.5.0.0
+;  Authors: Szymon Tokarz
+;  Authors-email: wsx22@o2.pl
+;  Language: English
+;============================================================
+[MirFox (Miranda) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
+MirFox (Miranda) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com
+;file \plugins\MirFox\src\MirandaInterface.cpp
+[mirfox.popup.notify.description]
+MirFox/Notification
+[mirfox.popup.error.description]
+MirFox/Error
+;file \plugins\MirFox\src\MirandaOptions.cpp
+[mirfox.options.tab1.sendtocontacts]
+Send to contact action
+[mirfox.options.tab1.left]
+on left mouse button click
+[mirfox.options.onlysend]
+just send message
+[mirfox.options.sendandshow]
+send message and open message window
+[mirfox.options.onlyshow]
+show message window with pasted message
+[mirfox.options.tab1.right]
+on right mouse button click
+[mirfox.options.tab1.middle]
+on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)
+[mirfox.options.tab1.profiles]
+Show Miranda menu only in this firefox profiles (comma delimeted)
+[mirfox.options.tab2.contacts]
+Show this contacts in 'Send ... to' option in Firefox
+[mirfox.options.tab2.allcontacts]
+** All contacts **
+[mirfox.options.tab3.accounts]
+Show this accounts in 'Set status message' option in Firefox
+[mirfox.options.tab1]
+Options
+[mirfox.options.tab2]
+Contacts
+[mirfox.options.tab3]
+Accounts
+;file \plugins\MirFox\src\MirandaUtils.cpp
+[mirfox.netlib.name]
+MirFox log
+[mirfox.message.sent]
+Message sent to %s (%s)
+[mirfox.message.sent.unknown]
+Message sent
+[mirfox.popup.notify.title]
+MirFox
+[mirfox.message.badack.errordesc]
+Can not send message to %s (%s) - %S
+[mirfox.message.badack.errordesc.unknown]
+Can not send message - %S
+[mirfox.message.badack]
+Can not send message to %s (%s)
+[mirfox.message.badack.unknown]
+Can not send message
+[mirfox.message.noack]
+Can not send message to %s (%s)
+[mirfox.message.noack.unknown]
+Can not send message
+[mirfox.popup.error.title]
+MirFox error
+[mirfox.statusmsg.set]
+Status message set on %s
+[mirfox.statusmsg.set.unknown]
+Status message set
+[mirfox.statusmsg.error]
+Can not set status message on %s
+[mirfox.statusmsg.error.unknown]
+Can not set status message
+;file \plugins\MirFox\src\MirfoxMiranda.cpp
+[mirfox.msgbox.csmtooold.message]
+This MirFox (Miranda) plugin is too old. Please update it.
+[mirfox.msgbox.csmtooold.title]
+MirFox (Miranda) - Error
+[mirfox.msgbox.csmtoonew.message]
+This MirFox (Miranda) plugin can not start beacouse some other MirFox component is too old. Please, check and update your MirFox components.
+[mirfox.msgbox.csmtoonew.title]
+MirFox (Miranda) - Error
