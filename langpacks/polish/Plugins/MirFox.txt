@@ -1,0 +1,85 @@
+﻿#muuid {cb5d6b27-b8e0-484c-87b0-4d4691a94dee}
+;============================================================
+;  File: MirFox.dll
+;  Plugin: MirFox
+;  Version: 0.5.0.0
+;  Authors: Szymon Tokarz
+;  Authors-email: wsx22@o2.pl
+;  Language: Polish
+;============================================================
+[MirFox (Miranda) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
+MirFox (Miranda) - plugin integrujący Miranda-Firefox - http://wsx22.3.xpdev-hosted.com
+;file \plugins\MirFox\src\MirandaInterface.cpp
+[mirfox.popup.notify.description]
+MirFox/Informacja
+[mirfox.popup.error.description]
+MirFox/Błąd
+;file \plugins\MirFox\src\MirandaOptions.cpp
+[mirfox.options.tab1.sendtocontacts]
+Wyślij do kontaktu
+[mirfox.options.tab1.left]
+po kliknięciu lewym przyciskiem myszy
+[mirfox.options.onlysend]
+tylko wyślij wiadomość
+[mirfox.options.sendandshow]
+wyślij wiadomość i otwórz okno wiadomości
+[mirfox.options.onlyshow]
+otwórz okno wiadomości i wklej wiadomość
+[mirfox.options.tab1.right]
+po kliknięciu prawym przyciskiem myszy
+[mirfox.options.tab1.middle]
+po kliknięciu środkowym przyciskiem myszy\n(używając środkowego przycisku można wysłać wiadomość wielokrotnie)
+[mirfox.options.tab1.profiles]
+Aktywuj MirFox tylko dla następujących profili Firefox (rozdzielone przecinkiem)
+[mirfox.options.tab2.contacts]
+Pokazuj następujące kontakty w menu 'wyślij do' w Firefox
+[mirfox.options.tab2.allcontacts]
+** Wszystkie **
+[mirfox.options.tab3.accounts]
+Pokazuj następujące konta w menu 'ustaw opis' w Firefox
+[mirfox.options.tab1]
+Opcje
+[mirfox.options.tab2]
+Kontakty
+[mirfox.options.tab3]
+Konta
+;file \plugins\MirFox\src\MirandaUtils.cpp
+[mirfox.netlib.name]
+MirFox log
+[mirfox.message.sent]
+Wiadomość wysłana do %s (%s)
+[mirfox.message.sent.unknown]
+Wiadomość wysłana
+[mirfox.popup.notify.title]
+MirFox
+[mirfox.message.badack.errordesc]
+Błąd przy wysyłaniu wiadomości do %s (%s) - %S
+[mirfox.message.badack.errordesc.unknown]
+Błąd przy wysyłaniu wiadomości - %S
+[mirfox.message.badack]
+Błąd przy wysyłaniu wiadomości do %s (%s)
+[mirfox.message.badack.unknown]
+Błąd przy wysyłaniu wiadomości
+[mirfox.message.noack]
+Błąd przy wysyłaniu wiadomości do %s (%s)
+[mirfox.message.noack.unknown]
+Błąd przy wysyłaniu wiadomości
+[mirfox.popup.error.title]
+MirFox - błąd
+[mirfox.statusmsg.set]
+Ustawiono opis dla %s
+[mirfox.statusmsg.set.unknown]
+Ustawiono opis
+[mirfox.statusmsg.error]
+Błąd przy próbie ustawienia opisu dla %s
+[mirfox.statusmsg.error.unknown]
+Błąd przy próbie ustawienia opisu
+;file \plugins\MirFox\src\MirfoxMiranda.cpp
+[mirfox.msgbox.csmtooold.message]
+Ten plugin MirFox (Miranda) jest nieaktualny. Zaktualizuj go.
+[mirfox.msgbox.csmtooold.title]
+MirFox (Miranda) - Błąd
+[mirfox.msgbox.csmtoonew.message]
+Nie można uruchomić pluginu MirFox (Miranda), inny komponent MirFox jest nieaktualny. Sprawdź i zaktualizuj komponenty MirFox.
+[mirfox.msgbox.csmtoonew.title]
+MirFox (Miranda) - Błąd

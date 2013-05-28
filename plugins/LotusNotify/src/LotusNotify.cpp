@@ -344,7 +344,7 @@ void Click(HWND hWnd,BOOL execute)
 
 
 //popup plugin callback function
-static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message) {
 		case WM_COMMAND:
@@ -483,7 +483,7 @@ void showMsg(TCHAR* sender,TCHAR* text, DWORD id, char *strUID)
 		ppd.colorBack = settingBgColor; 
 		ppd.colorText = settingFgColor;
 	}
-	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	ppd.PluginWindowProc = PopupDlgProc;
 
 	ppd.iSeconds=settingInterval1;
 	//Now the "additional" data.
@@ -495,7 +495,7 @@ void showMsg(TCHAR* sender,TCHAR* text, DWORD id, char *strUID)
 	ppd.PluginData = mpd;
 
 	//Now that every field has been filled, we want to see the popup.
-	CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
+	PUAddPopupT(&ppd);
 }
 
 
@@ -1029,23 +1029,17 @@ void LoadSettings()
 
 
 //callback function to speak with user interactions in options page
-BOOL CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList;
 	switch(msg)
 		{
 			case WM_INITDIALOG://initialize dialog, so set properties from db.
 				{
-				
-				LVCOLUMN lvc={0};
-				LVITEM lvI={0};
-				int i=0;
-				char* strptra;
-				char buffa[256];
-
 				TranslateDialogDefault(hwndDlg);//translate miranda function
-				mir_snprintf(buffa, sizeof(buffa), "%d.%d.%d.%d", HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
-				SetDlgItemTextA(hwndDlg, IDC_VERSION, buffa);
+				TCHAR buffa[256];
+				mir_sntprintf(buffa, SIZEOF(buffa), _T("%d.%d.%d.%d"), HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
+				SetDlgItemText(hwndDlg, IDC_VERSION, buffa);
 				LoadSettings();
 				SetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase);
 				SetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer);
@@ -1088,6 +1082,7 @@ BOOL CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				// Initialize the LVCOLUMN structure.
 				// The mask specifies that the format, width, text, and
 				// subitem members of the structure are valid. 
+				LVCOLUMN lvc={0};
 				lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM; 
 				lvc.fmt = LVCFMT_LEFT;
 	  
@@ -1098,10 +1093,10 @@ BOOL CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 				// Some code to create the list-view control.
 				// Initialize LVITEM members that are common to all items. 
+				LVITEM lvI={0};
 				lvI.mask = LVIF_TEXT;
-				for(i = 0; i < STATUS_COUNT; i++) {
-					strptra = (char*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(ID_STATUS_ONLINE + i), (LPARAM)0);
-					lvI.pszText = _A2T(strptra);
+				for(int i = 0; i < STATUS_COUNT; i++) {
+					lvI.pszText =  (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, ID_STATUS_ONLINE + i, GSMDF_TCHAR);
 					lvI.iItem = i;
 					ListView_InsertItem(hwndList, &lvI);
 					ListView_SetCheckState(hwndList, i, settingStatus[i]);
@@ -1373,9 +1368,9 @@ int LotusNotifyOptInit(WPARAM wParam,LPARAM lParam)
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DIALOG);
 	odp.ptszTitle = _A2T(PLUGINNAME);
-	odp.ptszGroup = TranslateT("Plugins");
+	odp.ptszGroup = LPGENT("Plugins");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.pfnDlgProc = (DLGPROC)DlgProcLotusNotifyOpts; //callback function name
+	odp.pfnDlgProc = DlgProcLotusNotifyOpts; //callback function name
 	Options_AddPage(wParam, &odp); //add page to options menu pages
 	return 0;
 }
@@ -1591,14 +1586,13 @@ static int preshutdown(WPARAM wParam,LPARAM lParam)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
+	mir_getLP(&pluginInfo);
 	Plugin_Terminated = false;
 	InitializeCriticalSection(&checkthreadCS);
 
 	//if(pluginLink)//strange, but this function is called by Lotus API Extension Manager (instead of MainEntryPoint) probably always with parameter poiter =1
 	if(bMirandaCall){
-		STATUS rc;
-		rc = EMRegister1 (EM_GETPASSWORD, EM_REG_BEFORE | EM_REG_AFTER, EMCallBack, 0, &hLotusRegister); //Extension Manager must know that we are here
+		STATUS rc = EMRegister1 (EM_GETPASSWORD, EM_REG_BEFORE | EM_REG_AFTER, EMCallBack, 0, &hLotusRegister); //Extension Manager must know that we are here
 		if(rc){
 			//Extension magager don't know who we are :(
 			startuperror+=8;
@@ -1631,7 +1625,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		mi.position = -0x7FFFFFFF; //on top menu position
 		mi.flags = CMIF_TCHAR;
 		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
-		mi.ptszName = TranslateT("&Check Lotus");
+		mi.ptszName = LPGENT("&Check Lotus");
 		mi.pszService = "LotusNotify/MenuCommand"; //service name thet listning for menu call
 		hMenuHandle = Menu_AddMainMenuItem(&mi); //create menu pos.
 		
@@ -1663,7 +1657,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	LoadSettings(); //read from db to variables
 
-	SkinAddNewSound("LotusNotify", Translate("LotusNotify: New Lotus document detected"), NULL);
+	SkinAddNewSoundExT("LotusNotify", LPGENT("Lotus Notify") , LPGENT("New Lotus document detected"));
 
 	hOptInit = HookEvent(ME_OPT_INITIALISE, LotusNotifyOptInit); //register service to hook option call
 	assert(hOptInit);
@@ -1704,12 +1698,11 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 {
 #ifdef WIN64
 	MessageBox(NULL
-		, (LPCWSTR)L"LotusNotify.dll can not work with 64bit Miranda. (Lotus client is 32bit only)"
-		, (LPCWSTR)L"LotusNotify"
+		, TranslateT("LotusNotify.dll can not work with 64bit Miranda. (Lotus client is 32bit only)")
+		, TranslateT("LotusNotify")
 		, MB_OK | MB_ICONWARNING );
 	return NULL;
 #else
-	pluginInfo.cbSize=sizeof(PLUGININFOEX);
 	return &pluginInfo;
 #endif
 }

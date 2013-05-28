@@ -1,0 +1,85 @@
+﻿#muuid {cb5d6b27-b8e0-484c-87b0-4d4691a94dee}
+;============================================================
+;  File: MirFox.dll
+;  Plugin: MirFox
+;  Version: 0.5.0.0
+;  Authors: Jerbifor
+;  Authors-email: jerbifor@tut.by
+;  Language: Belarussian
+;============================================================
+[MirFox (Miranda) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
+MirFox (Міранда) - частка Міранда-Firefox інтэграцыі - http://wsx22.3.xpdev-hosted.com
+;file \plugins\MirFox\src\MirandaInterface.cpp
+[mirfox.popup.notify.description]
+MirFox/Notification
+[mirfox.popup.error.description]
+MirFox/Error
+;file \plugins\MirFox\src\MirandaOptions.cpp
+[mirfox.options.tab1.sendtocontacts]
+Для таго каб адправіць
+[mirfox.options.tab1.left]
+пры націску левай кнопкі мышы
+[mirfox.options.onlysend]
+проста адправіць паведамленне
+[mirfox.options.sendandshow]
+адправіць і адчыніць акно гутаркі
+[mirfox.options.onlyshow]
+паказаць акно гутаркі з устаўленым паведамленнем
+[mirfox.options.tab1.right]
+пры націску правай кнопкі мышы
+[mirfox.options.tab1.middle]
+пры націску сярэдняй кнопкі мышы\n(нататка: выкарыстоўвайце, каб адправіць некалькі паведамленняў з Firefox)
+[mirfox.options.tab1.profiles]
+Паказаць Міранда меню толькі для гэтых профіляў (падзельнік коска)
+[mirfox.options.tab2.contacts]
+Паказаць гэтыя кантакты ў меню Firefox "Адправіць ... "
+[mirfox.options.tab2.allcontacts]
+** Усе кантакты **
+[mirfox.options.tab3.accounts]
+Паказаць аккуант у опцыі Firefox 'Статус паведамленне'
+[mirfox.options.tab1]
+Опцыі
+[mirfox.options.tab2]
+Кантакты
+[mirfox.options.tab3]
+Аккуанты
+;file \plugins\MirFox\src\MirandaUtils.cpp
+[mirfox.netlib.name]
+MirFox log
+[mirfox.message.sent]
+паведамленне адпраўлена для %s (%s)
+[mirfox.message.sent.unknown]
+паведамленне адпраўлена
+[mirfox.popup.notify.title]
+MirFox
+[mirfox.message.badack.errordesc]
+не магу адправіць паведамленне для %s (%s) - %S
+[mirfox.message.badack.errordesc.unknown]
+не магу адправіць паведамленне - %S
+[mirfox.message.badack]
+не магу адправіць паведамленне для %s (%s)
+[mirfox.message.badack.unknown]
+не магу адправіць паведамленне
+[mirfox.message.noack]
+не магу адправіць паведамленне для %s (%s)
+[mirfox.message.noack.unknown]
+не магу адправіць паведамленне
+[mirfox.popup.error.title]
+MirFox Памылка
+[mirfox.statusmsg.set]
+Усталёўка статусу на %s
+[mirfox.statusmsg.set.unknown]
+Усталёўка статусу
+[mirfox.statusmsg.error]
+не магу ўсталяваць статус на %s
+[mirfox.statusmsg.error.unknown]
+не магу ўсталяваць статус
+;file \plugins\MirFox\src\MirfoxMiranda.cpp
+[mirfox.msgbox.csmtooold.message]
+Гэта старая версія MirFox убудовы. Калі ласка, абновіце яго.
+[mirfox.msgbox.csmtooold.title]
+MirFox (Міранда) - Памылка
+[mirfox.msgbox.csmtoonew.message]
+Гэты MirFox (Міранда) плагін не можа працаваць - іншыя кампаненты MirFox  састарэлі. Калі ласка, праверце і абнавіце ваша MirFox дапаўненне.
+[mirfox.msgbox.csmtoonew.title]
+MirFox (Міранда) - Памылка

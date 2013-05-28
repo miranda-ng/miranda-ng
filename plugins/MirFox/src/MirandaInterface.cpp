@@ -37,11 +37,7 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-#ifdef _X64
-	{ 0xcb5d6b27, 0xb8e0, 0x484c, { 0x87, 0xb0, 0x4d, 0x46, 0x91, 0xa9, 0x4d, 0xee } }
-#else
 	{ 0xe99a09b2, 0xe05b, 0x4633, { 0xaa, 0x3a, 0x5c, 0x83, 0xef, 0x1c, 0xba, 0xb6 } }
-#endif
 };
 
 
@@ -118,7 +114,7 @@ static int OnShutdown(WPARAM wParam, LPARAM lParam)
 
 
 extern "C" int __declspec(dllexport) Load(void){
-
+	mir_getLP(&pluginInfo);
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 

@@ -1,0 +1,84 @@
+﻿#muuid {cb5d6b27-b8e0-484c-87b0-4d4691a94dee}
+;============================================================
+;  File: MirFox.dll
+;  Plugin: MirFox
+;  Version: 0.5.0.0
+;  Authors: CHEF-KOCH
+;  Language: Deutsch
+;============================================================
+[MirFox (Miranda) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
+MirFox (Miranda IM) - ein Stück Miranda IM - Firefox Integration - http://wsx22.3.xpdev-hosted.com
+;file \plugins\MirFox\src\MirandaInterface.cpp
+[mirfox.popup.notify.description]
+MirFox/Notification
+[mirfox.popup.error.description]
+MirFox/Error
+;file \plugins\MirFox\src\MirandaOptions.cpp
+[mirfox.options.tab1.sendtocontacts]
+Send to contact action
+[mirfox.options.tab1.left]
+on left mouse button click
+[mirfox.options.onlysend]
+just send message
+[mirfox.options.sendandshow]
+send message and open message window
+[mirfox.options.onlyshow]
+show message window with pasted message
+[mirfox.options.tab1.right]
+on right mouse button click
+[mirfox.options.tab1.middle]
+on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)
+[mirfox.options.tab1.profiles]
+Zeige Miranda IM Menü nur in diesen Firefox Profilen (Komma als Trennzeichen)
+[mirfox.options.tab2.contacts]
+Zeige diese Kontakte in der 'Sende ... zu' Option aus Firefox heraus
+[mirfox.options.tab2.allcontacts]
+** Alle Kontakte **
+[mirfox.options.tab3.accounts]
+Zeige diesen Account in 'Setze Statusnachricht' Option in Firefox
+[mirfox.options.tab1]
+Optionen
+[mirfox.options.tab2]
+Kontakte
+[mirfox.options.tab3]
+Accounts
+;file \plugins\MirFox\src\MirandaUtils.cpp
+[mirfox.netlib.name]
+MirFox log
+[mirfox.message.sent]
+Message sent to %s (%s)
+[mirfox.message.sent.unknown]
+Message sent
+[mirfox.popup.notify.title]
+MirFox
+[mirfox.message.badack.errordesc]
+Konnte Nachricht nicht senden zu %s (%s) - %S
+[mirfox.message.badack.errordesc.unknown]
+Konnte Nachricht nicht senden - %S
+[mirfox.message.badack]
+Konnte Nachricht nicht senden zu %s (%s)
+[mirfox.message.badack.unknown]
+Konnte Nachricht nicht senden
+[mirfox.message.noack]
+Konnte Nachricht nicht senden zu %s (%s)
+[mirfox.message.noack.unknown]
+Konnte Nachricht nicht senden
+[mirfox.popup.error.title]
+MirFox Fehler
+[mirfox.statusmsg.set]
+Statusnachricht erfolgreich gesetzt auf %s
+[mirfox.statusmsg.set.unknown]
+Statusnachricht erfolgreich gesetzt
+[mirfox.statusmsg.error]
+Konnte Statusnachricht nicht setzen auf %s
+[mirfox.statusmsg.error.unknown]
+Konnte Statusnachricht nicht setzen
+;file \plugins\MirFox\src\MirfoxMiranda.cpp
+[mirfox.msgbox.csmtooold.message]
+Dieses MirFox (Miranda IM) Plugin ist zu alt. Bitte updaten.
+[mirfox.msgbox.csmtooold.title]
+MirFox (Miranda IM) - Fehler
+[mirfox.msgbox.csmtoonew.message]
+Dieses MirFox (Miranda IM) Plugin konnte nicht gestartet werden, da andere MirFox Komponenten veraltet sind. Bitte auf MirFox Updates prüfen.
+[mirfox.msgbox.csmtoonew.title]
+MirFox (Miranda IM) - Fehler
