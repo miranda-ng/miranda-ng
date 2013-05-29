@@ -395,6 +395,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Spamotron", "..\plugins\Spa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LotusNotify", "..\plugins\LotusNotify\LotusNotify_10.vcxproj", "{0E046380-14CA-4C23-A807-8C678519A605}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirFox", "..\plugins\MirFox\MirFoxNG_10.vcxproj", "{3E9DA555-4C7B-463C-AD5C-214073DE29D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1771,6 +1773,14 @@ Global
 		{0E046380-14CA-4C23-A807-8C678519A605}.Release|Win32.Build.0 = Release|Win32
 		{0E046380-14CA-4C23-A807-8C678519A605}.Release|x64.ActiveCfg = Release|x64
 		{0E046380-14CA-4C23-A807-8C678519A605}.Release|x64.Build.0 = Release|x64
+		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Debug|Win32.Build.0 = Debug|Win32
+		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Debug|x64.ActiveCfg = Debug|x64
+		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Debug|x64.Build.0 = Debug|x64
+		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Release|Win32.ActiveCfg = Release|Win32
+		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Release|Win32.Build.0 = Release|Win32
+		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Release|x64.ActiveCfg = Release|x64
+		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
