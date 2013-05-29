@@ -38,11 +38,11 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			// Создаём ListBox c перечнем аккаунтов.
 			hListAccs = CreateWindowEx(WS_EX_CLIENTEDGE,
 								_T("ListBox"),
-								NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_TABSTOP | LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | LBS_NOTIFY,
+								NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_TABSTOP | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | LBS_NOTIFY,
 								2, 20, 246, 112,
 								hwndDlg, NULL, NULL, NULL);
 			SendMessage(hListAccs, WM_SETFONT, (WPARAM)(HFONT)GetStockObject(DEFAULT_GUI_FONT), 0);
-			for (i = NumberOfAccounts; i--; )
+			for (i = 0 ; i < NumberOfAccounts; i++)
 			{
 				// Готовим список аккаунтов
 				if (ProtoList[i].tszAccountName)
