@@ -242,7 +242,7 @@ char* GetLaunchPath(char*launch)
 //roll bits, vllt ein tickschneller als die funktionen von winsock
 unsigned short r(unsigned short data)
 {
-	#if defined(WIN64)
+	#if defined(_WIN64)
 		return ((data & 0xFF) << 8) + (data >> 8);
 	#else
 		_asm {

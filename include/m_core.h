@@ -179,7 +179,7 @@ typedef INT_PTR (*MIRANDASERVICEPARAM)(WPARAM, LPARAM, LPARAM);
 typedef INT_PTR (*MIRANDASERVICEOBJ)(void*, LPARAM, LPARAM);
 typedef INT_PTR (*MIRANDASERVICEOBJPARAM)(void*, WPARAM, LPARAM, LPARAM);
 
-#ifdef WIN64
+#ifdef _WIN64
 	#define CALLSERVICE_NOTFOUND      ((INT_PTR)0x8000000000000000)
 #else
 	#define CALLSERVICE_NOTFOUND      ((int)0x80000000)
@@ -517,7 +517,7 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 	#define mir_tstrdup  mir_strdup
 	#define mir_tstrndup mir_strndup
 	#define replaceStrT  replaceStr
-	
+
 	#define rtrimt rtrim
 	#define ltrimt ltrim
 	#define ltrimpt ltrimp
@@ -658,7 +658,7 @@ MIR_CORE_DLL(void) UnloadCoreModule(void);
 #endif
 
 #ifndef MIR_CORE_EXPORTS
-	#if !defined( WIN64 )
+	#if !defined( _WIN64 )
 		#pragma comment(lib, "mir_core.lib")
 	#else
 		#pragma comment(lib, "mir_core64.lib")

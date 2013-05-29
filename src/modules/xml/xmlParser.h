@@ -66,7 +66,7 @@
  * 	problem, during all the debugging session, I am now using a very fast DLL version of the
  * 	XMLParser Library (the DLL is compiled in release mode). Using the DLL version of
  * 	the XMLParser Library allows me to have lightening XML parsing speed even in debug!
- * 	Other than that, the DLL version is useless: In the release version of my tool, 
+ * 	Other than that, the DLL version is useless: In the release version of my tool,
  * 	I always use the normal, ".cpp"-based, XMLParser Library (I simply include the
  * <a href = "../../xmlParser.cpp">xmlParser.cpp</a> and
  * <a href = "../../xmlParser.h">xmlParser.h</a> files into the project).
@@ -95,7 +95,7 @@
 // must be defined) or utf8-mode(the pre-processor variable must be undefined).
 #define _XMLWIDECHAR
 
-#if defined(WIN32) || defined(UNDER_CE) || defined(_WIN32) || defined(WIN64) || defined(__BORLANDC__)
+#if defined(WIN32) || defined(UNDER_CE) || defined(_WIN32) || defined(_WIN64) || defined(__BORLANDC__)
 // comment the next line if you are under windows and the compiler is not Microsoft Visual Studio (6.0 or .NET) or Borland
 #define _XMLWINDOWS
 #endif
@@ -153,10 +153,10 @@
 /// Enumeration used to manage type of data. Use in conjunction with structure XMLNodeContents
 typedef enum XMLElementType
 {
-	eNodeChild = 0, 
-	eNodeAttribute = 1, 
-	eNodeText = 2, 
-	eNodeClear = 3, 
+	eNodeChild = 0,
+	eNodeAttribute = 1,
+	eNodeText = 2,
+	eNodeClear = 3,
 	eNodeNULL = 4
 } XMLElementType;
 
@@ -267,8 +267,8 @@ public:
 	*   with appropriate white spaces and carriage returns. if pnSize is given it returns the size in character of the string. */
 
 	/// Save the content of an xmlNode inside a file
-	XMLError writeToFile(XMLCSTR filename, 
-		const char *encoding = NULL, 
+	XMLError writeToFile(XMLCSTR filename,
+		const char *encoding = NULL,
 		char nFormat = 1) const;
 	/**< If nFormat == 0, no formatting is required otherwise this returns an user friendly XML string from a given element with appropriate white spaces and carriage returns.
 	* If the global parameter "characterEncoding == encoding_UTF8", then the "encoding" parameter is ignored and always set to "utf-8".
@@ -288,9 +288,9 @@ public:
 	XMLNode getChildNode(int i=0) const;                           ///< return ith child node
 	XMLNode getChildNode(XMLCSTR name, int i)  const;              ///< return ith child node with specific name (return an empty node if failing). If i == -1, this returns the last XMLNode with the given name.
 	XMLNode getChildNode(XMLCSTR name, int *i = NULL) const;         ///< return next child node with specific name (return an empty node if failing)
-	XMLNode getChildNodeWithAttribute(XMLCSTR tagName, 
-		XMLCSTR attributeName, 
-		XMLCSTR attributeValue = NULL, 
+	XMLNode getChildNodeWithAttribute(XMLCSTR tagName,
+		XMLCSTR attributeName,
+		XMLCSTR attributeValue = NULL,
 		int *i = NULL)  const;         ///< return child node with specific name/attribute (return an empty node if failing)
 	XMLNode getChildNodeByPath(XMLSTR  path, char createNodeIfMissing = 0, XMLCHAR sep = '/');
 	///< return the first child node with specific path. WARNING: the value of the parameter "path" is destroyed!
@@ -458,12 +458,12 @@ public:
 	/// Enumeration for XML character encoding.
 	typedef enum XMLCharEncoding
 	{
-		char_encoding_error = 0, 
-		char_encoding_UTF8 = 1, 
-		char_encoding_legacy = 2, 
-		char_encoding_ShiftJIS = 3, 
-		char_encoding_GB2312 = 4, 
-		char_encoding_Big5 = 5, 
+		char_encoding_error = 0,
+		char_encoding_UTF8 = 1,
+		char_encoding_legacy = 2,
+		char_encoding_ShiftJIS = 3,
+		char_encoding_GB2312 = 4,
+		char_encoding_Big5 = 5,
 		char_encoding_GBK = 6     // this is actually the same as Big5
 	} XMLCharEncoding;
 
@@ -471,7 +471,7 @@ public:
 	* @{ */
 
 	/// Sets the global options for the conversions
-	static char setGlobalOptions(XMLCharEncoding characterEncoding = XMLNode::char_encoding_UTF8, char guessWideCharChars = 1, 
+	static char setGlobalOptions(XMLCharEncoding characterEncoding = XMLNode::char_encoding_UTF8, char guessWideCharChars = 1,
 		char dropWhiteSpace = 1, char removeCommentsInMiddleOfText = 1);
 	/**< The "setGlobalOptions" function allows you to change four global parameters that affect string & file
 	* parsing. First of all, you most-probably will never have to change these 3 global parameters.
@@ -488,7 +488,7 @@ public:
 	*
 	* @param characterEncoding This parameter is only meaningful when compiling in char* mode (multibyte character mode).
 	*     In wchar_t* (wide char mode), this parameter is ignored. This parameter should be one of the
-	*     three currently recognized encodings: XMLNode::encoding_UTF8, XMLNode::encoding_ascii, 
+	*     three currently recognized encodings: XMLNode::encoding_UTF8, XMLNode::encoding_ascii,
 	*     XMLNode::encoding_ShiftJIS.
 	*
 	* @param dropWhiteSpace In most situations, text fields containing only white spaces (and carriage returns)

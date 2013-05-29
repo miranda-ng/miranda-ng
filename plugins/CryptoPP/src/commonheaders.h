@@ -9,7 +9,7 @@
 	#define _CRT_SECURE_NO_WARNINGS
 	#define _SCL_SECURE_NO_WARNINGS
 	#define NOMINMAX
-	#ifndef WIN64
+	#ifndef _WIN64
 		#define _USE_32BIT_TIME_T
 	#endif
 #endif

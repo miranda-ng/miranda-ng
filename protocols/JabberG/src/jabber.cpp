@@ -120,7 +120,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	bSecureIM = (ServiceExists("SecureIM/IsContactSecured"));
 	bMirOTR = (int)GetModuleHandle(_T("mirotr.dll"));
 	bNewGPG = (int)GetModuleHandle(_T("new_gpg.dll"));
-	#ifdef WIN64
+	#ifdef _WIN64
 		bPlatform = 1;
 	#else
 		bPlatform = 0;

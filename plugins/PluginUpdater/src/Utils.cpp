@@ -115,7 +115,7 @@ void LoadOptions()
 	PopupOptions.LeftClickAction= db_get_b(NULL, MODNAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
 	PopupOptions.RightClickAction = db_get_b(NULL, MODNAME, "RightClickAction", DEFAULT_POPUP_RCLICK);
 	PopupOptions.Timeout = db_get_dw(NULL, MODNAME, "Timeout", DEFAULT_TIMEOUT_VALUE);
-	
+
 	opts.bUpdateOnStartup = db_get_b(NULL, MODNAME, "UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
 	opts.bOnlyOnceADay = db_get_b(NULL, MODNAME, "OnlyOnceADay", DEFAULT_ONLYONCEADAY);
 	opts.bUpdateOnPeriod = db_get_b(NULL, MODNAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
@@ -172,7 +172,7 @@ int Get_CRC(unsigned char* buffer, ULONG bufsize)
 
 	for(int i = 0; i < len; i++)
 		crc = (crc >> 8) ^ crc32_table[(crc & 0xFF) ^ buffer[i]];
-    
+
 	// Exclusive OR the result with the beginning value.
 	return crc^0xffffffff;
 }
@@ -196,7 +196,7 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 {
 	REPLACEVARSARRAY vars[2];
 	vars[0].lptzKey = _T("platform");
-	#ifdef WIN64
+	#ifdef _WIN64
 		vars[0].lptzValue = _T("64");
 	#else
 		vars[0].lptzValue = _T("32");
@@ -455,20 +455,20 @@ void __stdcall OpenPluginOptions(void*)
 
 //   FUNCTION: IsRunAsAdmin()
 //
-//   PURPOSE: The function checks whether the current process is run as 
-//   administrator. In other words, it dictates whether the primary access 
-//   token of the process belongs to user account that is a member of the 
+//   PURPOSE: The function checks whether the current process is run as
+//   administrator. In other words, it dictates whether the primary access
+//   token of the process belongs to user account that is a member of the
 //   local Administrators group and it is elevated.
 //
-//   RETURN VALUE: Returns TRUE if the primary access token of the process 
-//   belongs to user account that is a member of the local Administrators 
+//   RETURN VALUE: Returns TRUE if the primary access token of the process
+//   belongs to user account that is a member of the local Administrators
 //   group and it is elevated. Returns FALSE if the token does not.
 //
-//   EXCEPTION: If this function fails, it throws a C++ DWORD exception which 
+//   EXCEPTION: If this function fails, it throws a C++ DWORD exception which
 //   contains the Win32 error code of the failure.
 //
 //   EXAMPLE CALL:
-//     try 
+//     try
 //     {
 //         if (IsRunAsAdmin())
 //             wprintf (L"Process is run as administrator\n");
@@ -489,18 +489,18 @@ BOOL IsRunAsAdmin()
 	// Allocate and initialize a SID of the administrators group.
 	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
 	if (!AllocateAndInitializeSid(
-		&NtAuthority, 
-		2, 
-		SECURITY_BUILTIN_DOMAIN_RID, 
-		DOMAIN_ALIAS_RID_ADMINS, 
-		0, 0, 0, 0, 0, 0, 
+		&NtAuthority,
+		2,
+		SECURITY_BUILTIN_DOMAIN_RID,
+		DOMAIN_ALIAS_RID_ADMINS,
+		0, 0, 0, 0, 0, 0,
 		&pAdministratorsGroup))
 	{
 		dwError = GetLastError();
 		goto Cleanup;
 	}
 
-	// Determine whether the SID of administrators group is bEnabled in 
+	// Determine whether the SID of administrators group is bEnabled in
 	// the primary access token of the process.
 	if (!CheckTokenMembership(NULL, pAdministratorsGroup, &fIsRunAsAdmin))
 	{
@@ -528,32 +528,32 @@ Cleanup:
 //
 //   FUNCTION: IsProcessElevated()
 //
-//   PURPOSE: The function gets the elevation information of the current 
-//   process. It dictates whether the process is elevated or not. Token 
-//   elevation is only available on Windows Vista and newer operating 
-//   systems, thus IsProcessElevated throws a C++ exception if it is called 
-//   on systems prior to Windows Vista. It is not appropriate to use this 
+//   PURPOSE: The function gets the elevation information of the current
+//   process. It dictates whether the process is elevated or not. Token
+//   elevation is only available on Windows Vista and newer operating
+//   systems, thus IsProcessElevated throws a C++ exception if it is called
+//   on systems prior to Windows Vista. It is not appropriate to use this
 //   function to determine whether a process is run as administartor.
 //
-//   RETURN VALUE: Returns TRUE if the process is elevated. Returns FALSE if 
+//   RETURN VALUE: Returns TRUE if the process is elevated. Returns FALSE if
 //   it is not.
 //
-//   EXCEPTION: If this function fails, it throws a C++ DWORD exception 
-//   which contains the Win32 error code of the failure. For example, if 
-//   IsProcessElevated is called on systems prior to Windows Vista, the error 
+//   EXCEPTION: If this function fails, it throws a C++ DWORD exception
+//   which contains the Win32 error code of the failure. For example, if
+//   IsProcessElevated is called on systems prior to Windows Vista, the error
 //   code will be ERROR_INVALID_PARAMETER.
 //
-//   NOTE: TOKEN_INFORMATION_CLASS provides TokenElevationType to check the 
+//   NOTE: TOKEN_INFORMATION_CLASS provides TokenElevationType to check the
 //   elevation type (TokenElevationTypeDefault / TokenElevationTypeLimited /
-//   TokenElevationTypeFull) of the process. It is different from 
-//   TokenElevation in that, when UAC is turned off, elevation type always 
-//   returns TokenElevationTypeDefault even though the process is elevated 
-//   (Integrity Level == High). In other words, it is not safe to say if the 
-//   process is elevated based on elevation type. Instead, we should use 
+//   TokenElevationTypeFull) of the process. It is different from
+//   TokenElevation in that, when UAC is turned off, elevation type always
+//   returns TokenElevationTypeDefault even though the process is elevated
+//   (Integrity Level == High). In other words, it is not safe to say if the
+//   process is elevated based on elevation type. Instead, we should use
 //   TokenElevation.
 //
 //   EXAMPLE CALL:
-//     try 
+//     try
 //     {
 //         if (IsProcessElevated())
 //             wprintf (L"Process is elevated\n");
@@ -583,9 +583,9 @@ BOOL IsProcessElevated()
 	DWORD dwSize;
 	if (!GetTokenInformation(hToken, TokenElevation, &elevation, sizeof(elevation), &dwSize))
 	{
-		// When the process is run on operating systems prior to Windows 
-		// Vista, GetTokenInformation returns FALSE with the 
-		// ERROR_INVALID_PARAMETER error code because TokenElevation is 
+		// When the process is run on operating systems prior to Windows
+		// Vista, GetTokenInformation returns FALSE with the
+		// ERROR_INVALID_PARAMETER error code because TokenElevation is
 		// not supported on those operating systems.
 		dwError = GetLastError();
 		goto Cleanup;
@@ -630,7 +630,7 @@ int TransactPipe(int opcode, const TCHAR *p1, const TCHAR *p2)
 	else *dst++ = 0;
 
 	DWORD dwBytes = 0, dwError;
-	if ( WriteFile(hPipe, buf, (DWORD)((BYTE*)dst - buf), &dwBytes, NULL) == 0) 
+	if ( WriteFile(hPipe, buf, (DWORD)((BYTE*)dst - buf), &dwBytes, NULL) == 0)
 		return 0;
 
 	dwError = 0;

@@ -261,7 +261,7 @@ NAMESPACE_END
 #define CRYPTOPP_DISABLE_SSE2
 #endif
 
-#ifdef WIN64
+#ifdef _WIN64
 #define CRYPTOPP_DISABLE_ASM
 #endif
 
@@ -317,7 +317,7 @@ NAMESPACE_END
 #	define CRYPTOPP_NOINLINE __attribute__((noinline))
 #else
 #	define CRYPTOPP_NOINLINE_DOTDOTDOT ...
-#	define CRYPTOPP_NOINLINE 
+#	define CRYPTOPP_NOINLINE
 #endif
 
 // how to declare class constants
