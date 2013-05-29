@@ -25,7 +25,7 @@
 
 #define WIN32_LEAN_AND_MEAN											// Exclude rarely-used stuff from Windows headers
 #include <stdint.h>													//for	[u]intNN_t types
-#ifdef WIN64 // [
+#ifdef _WIN64 // [
 #  define SCNoPTR     L"%I64o"
 #  define SCNuPTR     L"%I64u"
 #  define SCNxPTR     L"%I64x"
