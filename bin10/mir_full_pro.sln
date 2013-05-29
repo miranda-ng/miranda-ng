@@ -1814,9 +1814,7 @@ Global
 		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Debug|x64.ActiveCfg = Debug|x64
 		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Debug|x64.Build.0 = Debug|x64
 		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Release|Win32.ActiveCfg = Release|Win32
-		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Release|Win32.Build.0 = Release|Win32
 		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Release|x64.ActiveCfg = Release|x64
-		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
