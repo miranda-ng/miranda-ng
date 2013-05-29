@@ -25,17 +25,17 @@
 
 #define WIN32_LEAN_AND_MEAN											// Exclude rarely-used stuff from Windows headers
 #include <stdint.h>													//for	[u]intNN_t types
-#ifdef _X64 // [
+#ifdef WIN64 // [
 #  define SCNoPTR     L"%I64o"
 #  define SCNuPTR     L"%I64u"
 #  define SCNxPTR     L"%I64x"
 #  define SCNXPTR     L"%I64X"
-#else  // _X64 ][
+#else  // WIN64 ][
 #  define SCNoPTR     L"%lo"
 #  define SCNuPTR     L"%lu"
 #  define SCNxPTR     L"%lx"
 #  define SCNXPTR     L"%lX"
-#endif  // _X64 ]
+#endif  // WIN64 ]
 #include <windows.h>												//for	NULL
 #include <string>													//for	std::string, std::wstring, TEXT and _T macros, operator<<
 

@@ -26,7 +26,7 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-#ifdef _X64
+#ifdef WIN64
             VALUE "FileDescription", __DESCRIPTION " (x64)"
             VALUE "ProductName", __PLUGIN_NAME " (x64)"
             VALUE "FileVersion", __VERSION_STRING " (x64)"
