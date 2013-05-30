@@ -71,6 +71,7 @@
 [Mobile website]
 [Smartphone website]
 [For everyone]
+[For friends of friends]
 [For friends]
 [Only for me]
 ;file \protocols\FacebookRM\src\contacts.cpp
@@ -96,6 +97,7 @@
 [Contact is no longer on server-list.]
 [Attachments:]
 ;file \protocols\FacebookRM\src\proto.cpp
+[Show Mind Window]
 [%s server connection]
 [Unable to get Netlib connection for Facebook]
 [Notification]

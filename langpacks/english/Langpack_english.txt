@@ -1233,6 +1233,8 @@
 [Create new account]
 [Editing account]
 [Upgrading account]
+[Account name has to be unique. Please enter unique name.]
+[Account Error]
 [Account is disabled. Please activate it to access options.]
 [New account]
 [Edit]
@@ -5659,6 +5661,7 @@
 [Mobile website]
 [Smartphone website]
 [For everyone]
+[For friends of friends]
 [For friends]
 [Only for me]
 ;file \protocols\FacebookRM\src\contacts.cpp
@@ -5684,6 +5687,7 @@
 [Contact is no longer on server-list.]
 [Attachments:]
 ;file \protocols\FacebookRM\src\proto.cpp
+[Show Mind Window]
 [%s server connection]
 [Unable to get Netlib connection for Facebook]
 [Notification]
@@ -10502,6 +10506,64 @@
 [Miranda ListeningTo receiver]
 ;file \plugins\ListeningTo\src\players\wmp.cpp
 [Miranda ListeningTo WMP receiver]
+﻿#muuid {23eacc0d-bab0-49c0-8f37-5e259ece527f}
+;============================================================
+;  File: LotusNotify.dll
+;  Plugin: LotusNotify
+;  Version: 0.1.21.0
+;  Version: 0.1.21.0
+;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
+;============================================================
+[Notify about new mail in Lotus Database]
+;file \plugins\LotusNotify\res\LotusNotify.rc
+[Show again if still unread]
+[Show error messages]
+[Set popup colours]
+[Popup options]
+[Background]
+[Text]
+[Close after: ]
+[sek.(0 default,\n -1 disabled)]
+[...but only if popup not clicked]
+[Left button click cmd: ]
+[Command parameters: ]
+[Remember newest message ID\n and don't show older]
+[version:]
+[Clear popups history]
+[Filter messages contain below strings in:]
+[Sender]
+[Subject]
+[Lotus connection settings]
+[Primary server:]
+[Database: ]
+[try detect]
+[Secondary server: ]
+[Check interval: ]
+[(0-disabled)]
+[min.]
+[Password:]
+[Offline status mean: ]
+[To / CopyTo]
+[autoregister]
+;file \plugins\LotusNotify\src\LotusNotify.cpp
+[Unable to load all required Lotus API functions]
+[Lotus Notes Client not detected. Check plugin configuration descripted on install.txt]
+[Unable to initialize Notes.]
+[Lotus Notes Extension Manager was not registered. Authentication function will not work propertly]
+[In notes.ini file there is no required entry EXTMGR_ADDINS=plugindllnamewithout".dll"]
+[This utility check your notes.ini file if it's set to autenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin buildin authentication will not work propertly. Do you want to add Plugin as Lotus Extension (modify notes.ini by adding "EXTMGR_ADDINS=PLUGINNAME\]
+[LotusNotify plugin configuration]
+[notes.ini modified correctly. Miranda restart required.]
+[notes.ini seem to be set correctly.]
+[Now checking Lotus, try again later]
+[Attachments: %d bytes]
+[Status]
+[Plugins]
+[&Check Lotus]
+[Lotus Notify]
+[New Lotus document detected]
+[LotusNotify.dll can not work with 64bit Miranda. (Lotus client is 32bit only)]
+[LotusNotify]
 ﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
 ;============================================================
 ;  File: MenuEx.dll
@@ -10703,18 +10765,17 @@
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
 [The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
 [MetaContacts Warning]
-[Offline]
-[Online]
-[Away]
-[DND]
-[N/A]
-[Occupied]
-[Free to Chat]
-[Invisible]
-[On the Phone]
-[Out to Lunch]
-[IDLE]
-[Unknown]
+﻿#muuid {e99a09b2-e05b-4633-aa3a-5c83ef1cbab6}
+;============================================================
+;  File: MirFox.dll
+;  Plugin: MirFox
+;  Version: 0.5.0.0
+;  Version: 0.5.0.0
+;  Authors: Szymon Tokarz
+;============================================================
+[MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
+;file \plugins\MirFox\src\MirandaOptions.cpp
+[Services]
 ﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;============================================================
 ;  File: MirOTR.dll
@@ -12995,7 +13056,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.0
+;  Version: 0.1.1.1
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -13044,15 +13105,12 @@
 [Component list]
 [Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
 [Download]
-;file \plugins\PluginUpdater\src\Notifications.cpp
+;file \plugins\PluginUpdater\src\DlgListNew.cpp
 [Skipped.]
-[Will be deleted!]
 [Downloading...]
 [Failed!]
 [Succeeded.]
 [Plugin Updater]
-[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
 [Download complete]
 [Download complete. Do you want go to plugins option page?]
 [Component Name]
@@ -13060,6 +13118,14 @@
 [Plugins]
 [Icons]
 [Other]
+[List is empty.]
+[List loading already started!]
+;file \plugins\PluginUpdater\src\DlgUpdate.cpp
+[Will be deleted!]
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
+[No updates found.]
+[Update checking already started!]
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 [days]
@@ -13068,19 +13134,14 @@
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for plugin updates]
 [Show full plugin list]
-;file \plugins\PluginUpdater\src\Scanner.cpp
-[Downloading version info...]
-[An error occured while downloading the update.]
-[No updates found.]
-[List is empty.]
-[Update checking already started!]
-[List loading already started!]
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
 ['No' Button]
 [Plugin info]
 [Plugin list]
 [Plugin Updater HTTP connection]
+[Downloading version info...]
+[An error occured while downloading the update.]
 ﻿#muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
 ;============================================================
 ;  File: PManagerEx.dll
@@ -13300,6 +13361,7 @@
 [Enable Aero Glass (Vista+)]
 [Use Windows colours]
 [Use advanced text render]
+[Global settings]
 [Refresh List]
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp

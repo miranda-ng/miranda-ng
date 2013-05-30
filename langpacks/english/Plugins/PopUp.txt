@@ -200,6 +200,7 @@
 [Enable Aero Glass (Vista+)]
 [Use Windows colours]
 [Use advanced text render]
+[Global settings]
 [Refresh List]
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
