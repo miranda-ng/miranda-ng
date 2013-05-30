@@ -58,7 +58,8 @@ KN_FP_MASK def_kn_fp_mask[] =
                                 _T("|Miranda*NG*0.93.5.3007*")
                                 _T("|Miranda*NG*0.94.1.3800*")
                                 _T("|Miranda*NG*0.94.2.4228*")
-                                _T("|Miranda*NG*stable*"),                  LPGENT("MirandaNG stable"),             IDI_MIRANDA_NG_STABLE,   MIRANDA_CASE                },
+								_T("|Miranda*NG*0.94.3.4844*")
+								_T("|Miranda*NG*stable*"),                  LPGENT("MirandaNG stable"),             IDI_MIRANDA_NG_STABLE,   MIRANDA_CASE                },
 
 	{"client_Miranda_NG",       _T("|*nightly.miranda.im*")
                                 _T("|*Miranda*NG*"),                            _T("MirandaNG"),                    IDI_MIRANDA_NG,          MIRANDA_CASE                },
