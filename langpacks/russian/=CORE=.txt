@@ -2163,6 +2163,10 @@ Cвернуть
 Перезапустить программу сейчас?
 [Open contact's chat window]
 Открыть окно с контактом
+[Account Error]
+Ошибка учетной записи
+[Account name has to be unique. Please enter unique name.]
+Имя учетной записи должно быть уникально. Введите уникальное имя.
 
 
 ;ПЛАГИН КЛИСТА
