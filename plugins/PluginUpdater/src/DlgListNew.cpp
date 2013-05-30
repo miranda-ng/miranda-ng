@@ -90,7 +90,7 @@ static void ApplyDownloads(void *param)
 				BackupFile(p.tszNewName, tszBackFile);
 				continue;
 			}
-		
+
 			// if file name differs, we also need to backup the old file here
 			// otherwise it would be replaced by unzip
 			if ( _tcsicmp(p.tszOldName, p.tszNewName)) {
@@ -239,13 +239,13 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 			///
 			SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_SUBITEMIMAGES | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP);
-			ListView_DeleteAllItems(hwndList);			
+			ListView_DeleteAllItems(hwndList);
 
 			///
 			OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)lParam;
 			for (int i = 0; i < todo.getCount(); ++i) {
 				int groupId = 3;
-				LVITEM lvi = {0};				
+				LVITEM lvi = {0};
 				lvi.mask = LVIF_PARAM | LVIF_GROUPID | LVIF_TEXT | LVIF_IMAGE;
 				
 				if (_tcschr(todo[i].tszOldName, L'\\') != NULL)
@@ -254,10 +254,9 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 				lvi.iItem = i;
 				lvi.lParam = (LPARAM)&todo[i];
 				lvi.iGroupId = groupId;
-				lvi.iImage   = -1;
+				lvi.iImage = -1;
 				lvi.pszText = todo[i].tszOldName;
 				int iRow = ListView_InsertItem(hwndList, &lvi);
-
 
 				if (iRow != -1) {
 					lvi.iItem = iRow;
@@ -394,7 +393,7 @@ static void GetList(void *)
 
 		TCHAR tszPath[MAX_PATH];
 		mir_sntprintf(tszPath, SIZEOF(tszPath), _T("%s\\%s"), dirname, hash.m_name);
-		
+
 		if (GetFileAttributes(tszPath) != DWORD(-1))
 			continue;
 

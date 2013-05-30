@@ -116,7 +116,7 @@ LBL_Exit:
 			BackupFile(p.tszNewName, tszBackFile);
 			continue;
 		}
-		
+
 		// if file name differs, we also need to backup the old file here
 		// otherwise it would be replaced by unzip
 		if ( _tcsicmp(p.tszOldName, p.tszNewName)) {
@@ -150,8 +150,9 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 	switch (message) {
 	case WM_INITDIALOG:
 		hwndDialog = hDlg;
-		TranslateDialogDefault( hDlg );
+		TranslateDialogDefault(hDlg);
 		SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
+		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon("check_update"));
 		{
 			OSVERSIONINFO osver = { sizeof(osver) };
 			if (GetVersionEx(&osver) && osver.dwMajorVersion >= 6)
@@ -296,6 +297,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 		break;
 
 	case WM_DESTROY:
+		Skin_ReleaseIcon((HICON)SendMessage(hDlg, WM_SETICON, ICON_SMALL, 0));
 		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ConfirmWindow");
 		hwndDialog = NULL;
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
@@ -396,7 +398,7 @@ static bool isValidExtension(const TCHAR *ptszFileName)
 	const TCHAR *pExt = _tcsrchr(ptszFileName, '.');
 	if (pExt == NULL)
 		return false;
-	
+
 	if ( !_tcsicmp(pExt, _T(".dll"))) return true;
 	if ( !_tcsicmp(pExt, _T(".exe"))) return true;
 	if ( !_tcsicmp(pExt, _T(".txt"))) return true;
@@ -516,7 +518,7 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 static void CheckUpdates(void *)
 {
 	char szKey[64] = {0};
-	
+
 	TCHAR tszTempPath[MAX_PATH];
 	DWORD dwLen = GetTempPath(SIZEOF(tszTempPath), tszTempPath);
 	if (tszTempPath[dwLen-1] == '\\')
