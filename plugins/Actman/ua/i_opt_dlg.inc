@@ -499,7 +499,7 @@ begin
               IDC_UA_VARNAMESH: ShowVarHelp(Dialog,IDC_UA_VARNAMESV);
               IDC_UA_SHOWVARH : ShowVarHelp(Dialog,IDC_UA_SHOWVARV);
 
-//???              IDC_UA_SAVSTATE,
+              IDC_UA_SAVSTATE,
               IDC_UA_GLOBAL: SendMessage(GetParent(Dialog),PSM_CHANGED,0,0);
 
               IDC_UA_SEPARATE: begin
