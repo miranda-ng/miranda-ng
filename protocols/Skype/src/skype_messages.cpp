@@ -165,6 +165,10 @@ void CSkypeProto::OnMessageEvent(const ConversationRef &conversation, const Mess
 				DBEF_UTF,
 				(DWORD)::strlen(message) + 1,
 				(PBYTE)message);
+			//temp popup
+			TCHAR popuptext[MAX_PATH];
+			mir_sntprintf(popuptext, SIZEOF(popuptext), TranslateT("Incoming call from %s. Use offical skype for calling."), mir_ptr<wchar_t>(::mir_utf8decodeW(identity)));
+			this->ShowNotification(popuptext);
 		}
 		break;
 
