@@ -132,7 +132,7 @@ void CSkypeProto::LogOut()
 	{
 		this->account->SetAvailability(CContact::OFFLINE);
 		this->Log(L"Logout from account");
-		this->account->Logout(true);
+		//this->account->Logout(true);
 
 		this->SetAllContactStatus(ID_STATUS_OFFLINE);
 	}

@@ -14,17 +14,21 @@ public:
 	ChatMember()
 	{
 		this->sid = NULL;
+		this->nick = NULL;
 	}
 
 	ChatMember(const wchar_t *sid)
 	{
 		this->sid = ::mir_wstrdup(sid);
+		this->nick = NULL;
 	}
 
 	~ChatMember()
 	{
 		if (this->sid != NULL)
 			::mir_free(this->sid);
+		if (this->nick != NULL)
+			::mir_free(this->nick);
 	}
 
 	bool operator==(const ChatMember &other) const
@@ -37,24 +41,33 @@ public:
 		return !(*this == other);
 	}
 
-	/*ChatMember& operator=(const ChatMember& right)
+	ChatMember& operator=(const ChatMember& right)
 	{
         if (this == &right)
             return *this;
 
 		::mir_free(this->sid);
+		::mir_free(this->nick);
 		this->sid = ::mir_wstrdup(right.sid);
+		this->nick = ::mir_wstrdup(right.nick);
+		this->rank = right.rank;
+		this->status = right.status;
         return *this;
-	}*/
+	}
 };
 
 class ChatRoom
 {
-public:
+	friend class ChatList;
+
+private:
 	wchar_t *cid;
-	wchar_t *topic;
+	wchar_t *name;
+
+	HANDLE hContact;
 
 	ChatMember *me;
+
 	LIST<ChatMember> members;
 
 	CSkypeProto *ppro;
@@ -62,19 +75,62 @@ public:
 	static wchar_t *Roles[];
 
 	ChatRoom(const wchar_t *cid);
-	ChatRoom(ChatMember *me);
+
+	HANDLE AddChatRoom();
+
+	inline static int CompareMembers(const ChatMember *p1, const ChatMember *p2) { return ::lstrcmpi(p1->sid, p2->sid); }
+
+	static int __cdecl OnGCEventHook(WPARAM, LPARAM lParam);
+	static int __cdecl OnGCMenuHook(WPARAM, LPARAM lParam);
+
+	void AddMember(ChatMember *member, DWORD timestamp, int flag);
+
+public:
+	ChatRoom(const wchar_t *cid, const wchar_t *name, CSkypeProto *ppro);
+	~ChatRoom();	
 
 	void Start(bool showWindow = false);
+	void Start(const ParticipantRefs &participants, bool showWindow = false);
+
 	void LeaveChat();
 
-	void SendChatEvent(const wchar_t *sid, int eventType, DWORD flags = GCEF_ADDTOLOG, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL, DWORD timestamp = time(NULL));
+	void SendEvent(ChatMember *member, int eventType, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
+	//void SendEvent(const wchar_t *sid, int eventType, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
 
-	void Add(ChatMember *member);
-	void Add(const wchar_t *sid, int rank = 0, WORD status = ID_STATUS_OFFLINE);
+	void AppendMessage(const wchar_t *sid, const wchar_t *message, DWORD timestamp = time(NULL), int eventType = GC_EVENT_MESSAGE);
 
+	bool IsMe(const wchar_t *sid) const;
+	bool IsMe(ChatMember *member) const;
+
+	ChatMember *FindChatMember(ChatMember *item);
+	ChatMember *FindChatMember(const wchar_t *sid);
+
+	void AddMember(ChatMember *member, DWORD timestamp);
+	void AddMember(ChatMember *member);
+
+	void UpdateMember(const wchar_t *sid, const wchar_t *nick, int rank, int status, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG);
+
+	void KickMember(ChatMember *member, const ChatMember *kicker, DWORD timestamp = time(NULL));
+	void KickMember(const wchar_t *sid, const wchar_t *kicker, DWORD timestamp = time(NULL));
+
+	void RemoveMember(ChatMember *member, DWORD timestamp = time(NULL));
+	void RemoveMember(const wchar_t *sid, DWORD timestamp = time(NULL));
+};
+
+class  ChatList
+{
 private:
-	static int SortMembers(const ChatMember *p1, const ChatMember *p2);
+	CSkypeProto *ppro;
+	LIST<ChatRoom> chatRooms;
 
-	int __cdecl OnGCEventHook(WPARAM, LPARAM lParam);
-	int __cdecl OnGCMenuHook(WPARAM, LPARAM lParam);
+	inline static int CompareChatRooms(const ChatRoom* p1, const ChatRoom* p2) { return ::lstrcmpi(p1->cid, p2->cid); }
+
+public:
+	ChatList(CSkypeProto *ppro);
+	~ChatList();
+
+	ChatRoom *FindChatRoom(ChatRoom *item);
+	ChatRoom *FindChatRoom(const wchar_t *cid);
+
+	HANDLE AddChatRoom(ChatRoom *item);
 };

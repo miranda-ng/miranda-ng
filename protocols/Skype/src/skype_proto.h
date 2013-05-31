@@ -82,8 +82,15 @@ struct PasswordChangeBoxParam
 	}
 };
 
+class ChatMember;
+class ChatRoom;
+class ChatList;
+
 struct CSkypeProto : public PROTO_INTERFACE, private Skype
 {
+	friend class ChatRoom;
+	friend class ChatList;
+
 public:
 	// PROTO_INTERFACE
 	CSkypeProto(const char *protoName, const wchar_t *userName);
@@ -179,6 +186,11 @@ private:
 		const MessageRef & supersedesHistoryMessage,
 		const ConversationRef & conversation);
 
+	void OnConversationListChange(
+		const ConversationRef& conversation,
+		const Conversation::LIST_TYPE& type,
+		const bool& added);
+
 	int skypeKitPort;
 	PROCESS_INFORMATION skypeKitProcessInfo;
 
@@ -254,6 +266,7 @@ protected:
 	void	OnTransferChanged(CTransfer::Ref transfer, int prop);
 
 	// chat
+	ChatList *chatList;
 	static wchar_t* Roles[];
 
 	bool IsChatRoom(HANDLE hContact);

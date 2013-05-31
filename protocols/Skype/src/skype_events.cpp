@@ -60,7 +60,7 @@ int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 	{
 		if (this->IsChatRoom(hContact))
 		{
-			mir_ptr<wchar_t> chatID(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
+			ptrW chatID(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
 			this->LeaveChat(chatID);
 
 			CConversation::Ref conversation;

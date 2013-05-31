@@ -1,6 +1,8 @@
 ﻿#include "skype_proto.h"
 
-CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) : Skype(1), skypeKitPort(8963)
+CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) : 
+	Skype(1), 
+	skypeKitPort(8963)
 {
 	::ProtoConstructor(this, protoName, userName);
 
@@ -533,12 +535,12 @@ int __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 	case EV_PROTO_ONEXIT:
 		return this->OnPreShutdown(wParam, lParam);
 
+	case EV_PROTO_ONCONTACTDELETED:
+		return this->OnContactDeleted(wParam, lParam);
+
 	case EV_PROTO_ONMENU:
 		this->OnInitStatusMenu();
 		break;
-
-	case EV_PROTO_ONCONTACTDELETED:
-		return this->OnContactDeleted(wParam, lParam);
 	}
 
 	return 1;
