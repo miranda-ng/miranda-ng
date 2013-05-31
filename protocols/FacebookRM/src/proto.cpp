@@ -557,6 +557,7 @@ int FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 		tname = db_get_tsa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
 
 	TCHAR tstr[256];
+	mir_sntprintf(tstr,SIZEOF(tstr),TranslateT("Do you want to cancel your friendship with '%s'?"), tname);
 	if (MessageBox(0, tstr, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
 
 		ptrA id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
