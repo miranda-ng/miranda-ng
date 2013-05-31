@@ -131,6 +131,8 @@
 Подтвердить добавление в друзья
 [Cancel friendship]
 Удалить из друзей
+[Do you want to cancel your friendship with '%s'?]
+Вы уверены, что хотите удалить '%s' из друзей?
 [Cancel friendship request]
 Отозвать запрос дружбы
 [Check Friends Requests]
