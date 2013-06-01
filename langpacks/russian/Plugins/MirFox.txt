@@ -1,0 +1,85 @@
+﻿#muuid {cb5d6b27-b8e0-484c-87b0-4d4691a94dee}
+;============================================================
+;  File: MirFox.dll
+;  Plugin: MirFox
+;  Version: 0.5.0.0
+;  Authors: Jerbifor
+;  Authors-email: jerbifor@tut.by
+;  Language: Russian
+;============================================================
+[MirFox (Miranda) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
+MirFox (Миранда) - часть интеграции Миранда-Firefox - http://wsx22.3.xpdev-hosted.com
+;file \plugins\MirFox\src\MirandaInterface.cpp
+[mirfox.popup.notify.description]
+MirFox/Уведомление
+[mirfox.popup.error.description]
+MirFox/Ошибка
+;file \plugins\MirFox\src\MirandaOptions.cpp
+[mirfox.options.tab1.sendtocontacts]
+Действие при отправке контакту
+[mirfox.options.tab1.left]
+при нажатии левой кнопки мыши
+[mirfox.options.onlysend]
+просто отправить сообщение
+[mirfox.options.sendandshow]
+отправить и открыть окно сообщений
+[mirfox.options.onlyshow]
+показать окно сообщения с вставленным сообщением
+[mirfox.options.tab1.right]
+при нажатии правой кнопки мыши
+[mirfox.options.tab1.middle]
+при нажатии средней кнопки мыши\n(примечание: используйте среднюю кнопку мыши, чтобы отправить несколько сообщений из Firefox)
+[mirfox.options.tab1.profiles]
+Отображать меню Миранды только для указанных профилей (разделение запятой)
+[mirfox.options.tab2.contacts]
+Эти контакты будут отображаться в меню Firefox "Отправить..."
+[mirfox.options.tab2.allcontacts]
+** Все контакты **
+[mirfox.options.tab3.accounts]
+Отображать эти учетные записи в опции Firefox 'Установить сообщение статуса'
+[mirfox.options.tab1]
+Настройки
+[mirfox.options.tab2]
+Контакты
+[mirfox.options.tab3]
+Учетные записи
+;file \plugins\MirFox\src\MirandaUtils.cpp
+[mirfox.netlib.name]
+Лог MirFox
+[mirfox.message.sent]
+Сообщение для %s (%s) отправлено
+[mirfox.message.sent.unknown]
+Сообщение отправлено
+[mirfox.popup.notify.title]
+MirFox
+[mirfox.message.badack.errordesc]
+Не удалось отправить сообщение для %s (%s) - %S
+[mirfox.message.badack.errordesc.unknown]
+Не удалось отправить сообщение - %S
+[mirfox.message.badack]
+Не удалось отправить сообщение для %s (%s)
+[mirfox.message.badack.unknown]
+Не удалось отправить сообщение
+[mirfox.message.noack]
+Не удалось отправить сообщение для %s (%s)
+[mirfox.message.noack.unknown]
+Не удалось отправить сообщение
+[mirfox.popup.error.title]
+Ошибка MirFox
+[mirfox.statusmsg.set]
+Сообщение статуса установлено для %s
+[mirfox.statusmsg.set.unknown]
+Сообщение статуса установлено
+[mirfox.statusmsg.error]
+Не удалось установить сообщение статуса для %s
+[mirfox.statusmsg.error.unknown]
+Не удалось установить сообщение статуса
+;file \plugins\MirFox\src\MirfoxMiranda.cpp
+[mirfox.msgbox.csmtooold.message]
+Дополнение MirFox (Firefox) устарело. Пожалуйста, обновите его.
+[mirfox.msgbox.csmtooold.title]
+MirFox (Миранда) - Ошибка
+[mirfox.msgbox.csmtoonew.message]
+Плагин MirFox (Миранда) не работает - устарели другие компоненты MirFox. Пожалуйста, проверьте и обновите ваше дополнение MirFox.
+[mirfox.msgbox.csmtoonew.title]
+MirFox (Миранда) - Ошибка
