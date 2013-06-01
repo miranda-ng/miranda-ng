@@ -32,21 +32,21 @@ STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION |
 CAPTION "View/Edit Files"
 FONT 8, "MS Sans Serif"
 BEGIN
-    COMBOBOX        IDC_FILE_LIST,49,4,227,99,CBS_DROPDOWNLIST | 
+    COMBOBOX        IDC_FILE_LIST,54,4,222,99,CBS_DROPDOWNLIST | 
                     CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_URL,26,20,250,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_WWW_TIMER,69,37,30,12,ES_NUMBER
-    PUSHBUTTON      "Add File",IDC_ADD_FILE,201,37,34,12
-    PUSHBUTTON      "Add URL",IDC_ADD_URL,237,37,39,12
-    PUSHBUTTON      "Remove Selected File",IDC_DEL_FILE,202,52,74,12
+    EDITTEXT        IDC_URL,54,20,222,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_WWW_TIMER,82,37,30,12,ES_NUMBER
+    PUSHBUTTON      "Add File",IDC_ADD_FILE,202,37,34,12
+    PUSHBUTTON      "Add URL",IDC_ADD_URL,238,37,38,12
+    PUSHBUTTON      "Remove Selected File",IDC_DEL_FILE,202,52,73,12
     LISTBOX         IDC_FILE_CONTENTS,4,70,272,113,LBS_NOINTEGRALHEIGHT | 
                     LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | 
                     WS_TABSTOP
-    LTEXT           "file(#)",IDC_STATIC,4,6,18,8
+    LTEXT           "file(#)",IDC_STATIC,4,6,28,8
     EDITTEXT        IDC_FN,26,4,16,12,ES_READONLY | ES_NUMBER
-    LTEXT           "URL",IDC_STATIC,4,22,16,8
-    LTEXT           "Update URL every",IDC_STATIC,4,39,60,8
-    LTEXT           "Intervals",IDC_STATIC,105,39,28,8
+    LTEXT           "URL",IDC_STATIC,4,22,41,8
+    LTEXT           "Update URL every",IDC_STATIC,4,39,75,8
+    LTEXT           "Intervals",IDC_STATIC,117,39,33,8
     LTEXT           "If the protocol timer is disabled web pages wont be updated",
                     IDC_STATIC,4,52,188,8
 END
@@ -68,40 +68,40 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "other settings"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Link",IDC_STATIC,12,18,14,8
-    EDITTEXT        IDC_LINK,39,16,233,12,ES_AUTOHSCROLL
-    LTEXT           "Program parameters:",IDC_STATIC,12,33,66,8
-    EDITTEXT        IDC_PARAMS,91,31,181,12,ES_AUTOHSCROLL
-    PUSHBUTTON      "O&pen File",IDC_OPEN_FILE,161,47,50,14
-    PUSHBUTTON      "O&pen Folder",IDC_OPEN_FOLDER,222,47,50,14
+    LTEXT           "Link",IDC_STATIC,12,18,27,8
+    EDITTEXT        IDC_LINK,42,16,230,12,ES_AUTOHSCROLL
+    LTEXT           "Program parameters:",IDC_STATIC,12,33,83,8
+    EDITTEXT        IDC_PARAMS,97,31,175,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "O&pen File",IDC_OPEN_FILE,149,47,56,14
+    PUSHBUTTON      "O&pen Folder",IDC_OPEN_FOLDER,216,47,56,14
     GROUPBOX        "Link Settings",IDC_STATIC,7,4,269,60
     GROUPBOX        "CList Settings",IDC_STATIC,7,68,269,64
-    COMBOBOX        IDC_GROUP,39,79,161,74,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+    COMBOBOX        IDC_GROUP,43,79,158,74,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
                     CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "",CHK_ONLINE,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE | 
-                    WS_TABSTOP,58,95,16,16
+                    WS_TABSTOP,71,95,16,16
     CONTROL         "",CHK_AWAY,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
-                    BS_PUSHLIKE | WS_TABSTOP,77,95,16,16
+                    BS_PUSHLIKE | WS_TABSTOP,90,95,16,16
     CONTROL         "",CHK_NA,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
-                    BS_PUSHLIKE | WS_TABSTOP,96,95,16,16
+                    BS_PUSHLIKE | WS_TABSTOP,109,95,16,16
     CONTROL         "",CHK_OCC,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
-                    BS_PUSHLIKE | WS_TABSTOP,115,95,16,16
+                    BS_PUSHLIKE | WS_TABSTOP,128,95,16,16
     CONTROL         "",CHK_DND,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
-                    BS_PUSHLIKE | WS_TABSTOP,134,95,16,16
+                    BS_PUSHLIKE | WS_TABSTOP,147,95,16,16
     CONTROL         "",CHK_FFC,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
-                    BS_PUSHLIKE | WS_TABSTOP,153,95,16,16
+                    BS_PUSHLIKE | WS_TABSTOP,166,95,16,16
     CONTROL         "",CHK_INVISIBLE,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
-                    BS_PUSHLIKE | WS_TABSTOP,172,95,16,16
+                    BS_PUSHLIKE | WS_TABSTOP,185,95,16,16
     CONTROL         "",CHK_PHONE,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
-                    BS_PUSHLIKE | WS_TABSTOP,191,95,16,16
+                    BS_PUSHLIKE | WS_TABSTOP,204,95,16,16
     CONTROL         "",CHK_LUNCH,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
-                    BS_PUSHLIKE | WS_TABSTOP,210,95,16,16
-    LTEXT           "Group:",IDC_STATIC,12,81,22,8
-    LTEXT           "Status Icon",IDC_STATIC,12,99,37,8
-    LTEXT           "Group\\Sub-Group",IDC_STATIC,211,81,61,8
+                    BS_PUSHLIKE | WS_TABSTOP,223,95,16,16
+    LTEXT           "Group:",IDC_STATIC,12,81,29,8
+    LTEXT           "Status Icon",IDC_STATIC,12,99,54,8
+    LTEXT           "Group\\Sub-Group",IDC_STATIC,205,81,67,8
     GROUPBOX        "Timer Settings",IDC_STATIC,7,139,269,44
     CONTROL         "Use Timer",CHK_USE_TIMER,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,12,148,48,10
+                    WS_TABSTOP,12,148,108,10
     EDITTEXT        IDC_TIMER,22,162,35,12,ES_NUMBER | WS_DISABLED
     CONTROL         "Contact is always visible",IDC_ALWAYS_VISIBLE,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,12,115,92,10
@@ -123,7 +123,7 @@ BEGIN
     LTEXT           "Timer interval (in seconds)",IDC_TIMER_TEXT,13,111,83,8
     EDITTEXT        IDC_TIMER_INT,102,109,20,12,ES_NUMBER
     LTEXT           "This will take affect after Non-IM Contacts' status is changed",
-                    IDC_TIMER_MSG,13,123,192,8
+                    IDC_TIMER_MSG,13,123,215,8
     GROUPBOX        "Timer Options",IDC_STATIC,7,87,277,49
 END
 

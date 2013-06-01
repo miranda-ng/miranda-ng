@@ -5,7 +5,7 @@
 ;  Versions: 0.5.0.1
 ;============================================================
 [&String Maker]
-Созд. строку
+Создать строку
 [Contact is always visible]
 Контакт всегда видим
 [Returns....]
@@ -13,15 +13,15 @@
 [Away as another status]
 Отсутствую, как другой статус
 [Contacts Tooltip]
-Подсказки контактов
+Подсказка
 [E&dit Contact Settings]
 Изменить настройки контакта
 [Co&py Non-IM Contact]
 Копировать не-IM контакт
 [View/Edit Files]
-Просм./Изм. файлы
+Просмотр/Изменение файлов
 [Remove Selected File]
-Удалить выбранный файл
+Удалить выбранный
 [Timer Options]
 Опции таймера
 [Program parameters:]
@@ -29,11 +29,11 @@
 [New Non-IM Contact]
 Новый не-IM контакт
 [Disable timer]
-Откл. таймер
+Отключить таймер
 [Use Timer]
-Исп. таймер
+Использовать таймер
 [Update URL every]
-Обновлять URL каждые
+Обновлять URL через
 [Group\\Sub-Group]
 Группа\\Подгруппа
 [Timer Settings]
@@ -45,13 +45,13 @@
 [String to test]
 Строка для просмотра
 [Type one replace string per line in the format "origional text,new text"]
-Введите одну строку замены на каждую строчку в формате "оригинал,новый"
+Одна строка замены на каждую строчку в формате "оригинал,новый"
 [Ignore global status change]
 Игнорировать глобальную смену статуса
 [String Maker]
-Созд. строку
+Создать строку
 [Contacts display name]
-Отобр. имя контактов
+Отображаемое имя
 [EXAMPLE: %fn1,%fn2]
 ПРИМЕР: %fn1,%fn2
 [O&pen Folder]
@@ -67,13 +67,13 @@
 [&Non-IM Contact]
 Не-IM контакт
 [&Test String]
-Тестовая строка
+Проверка
 [&View/Edit Files]
-Просмотр/изменение
+Просмотр/изменение файлов
 [Add File]
-Добавить файл
++ файл
 [Add URL]
-Добавить URL
++ URL
 [Non-IM Contacts]
 Не-IM контакты
 [Non-IM Contact]
@@ -81,22 +81,24 @@
 [Timer interval (in seconds)]
 Интервал (в секундах)
 [This will take affect after Non-IM Contacts' status is changed]
-Изменения вступят после смены статуса.
+Изменения вступят в силу после смены статуса контактов
 [Link and CList Settings]
 Ссылки и настройки списка
 [Status Icon]
 Значок статуса
 [Unless Non-IM Contacts protocol is OFFLINE]
-Если протокол не-IM контактов не в сети
+скрыть, если не-IM протокол не в сети
 [Non-IM Contact protocol timer is Disabled]
 Выключать протокол по таймеру
 [&Files]
 Файлы
 [file(#)]
-файл
+файл(#)
 [Intervals]
-период
+периодов
 [If the protocol timer is disabled web pages wont be updated]
 С выключенным таймером, ссылки не обновляются
 [NIM_Contact]
 Не-IM контакт
+[Help!!!]
+Помощь!!!
