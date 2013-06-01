@@ -1176,7 +1176,7 @@ Cлужба:
 [Status Icons]
 Статус
 [Status messages:]
-Статусные сообщения:
+Сообщения статуса:
 [Status Messages]
 Сообщения статуса
 [Status]
