@@ -1,4 +1,3 @@
-﻿[Db autobackuper plugin.]
-[Go to the "Customize -> Folders" to change settings]
+﻿[Go to the "Customize -> Folders" to change settings]
 [Database/Database Backups]
 [Error Creating Backup Folder]

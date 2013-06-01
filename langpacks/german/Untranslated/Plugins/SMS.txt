@@ -1,5 +1,4 @@
-﻿[Send SMS text messages to mobile phones through the IM networks.]
-[&H]
+﻿[&H]
 [%d/160]
 [SMS Plugin]
 [SMS Message Sent]

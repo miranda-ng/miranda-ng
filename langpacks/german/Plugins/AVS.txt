@@ -6,7 +6,7 @@
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
-
+Läd und verwaltet Kontaktbilder für andere Plugins.
 ;file \plugins\AVS\res\avs.rc
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
 Die hier eingestellten Bilder werden als Standard-Avatare für Kontakte genutzt, die keinen eigenen Avatar gesetzt haben. Mit den entsprechenden Auswahlfeldern können diese für einzelne Protokolle ein- und ausgeschaltet werden.
@@ -39,9 +39,9 @@ Bild vor dem Überschreiben durch automatische Avatare schützen.
 [Make the avatar square]
 Avatar quadrieren
 [Resize the avatar to fit max allowed protocol size]
-
+Avatar an die maximale Protokollgröße anpassen
 [Dialog]
-
+Dialog
 [Contact picture]
 Kontaktbild
 [Change]
@@ -69,7 +69,7 @@ Einstellungen
 [Background]
 Hintergrund
 [Transparent]
-
+Transparent
 [Points:]
 Punkte:
 [Color diff:]
@@ -93,11 +93,11 @@ JPEG-/JPG-Bilder
 [GIF Bitmaps]
 GIF-Bilder
 [PNG Bitmaps]
-
+PNG-Bilder
 [Flash Animations]
-
+Flash-Animationen
 [XML Files]
-
+XML-Dateien
 [Set My Avatar]
 Meinen Avatar setzen
 [Set My Avatar for %s]
@@ -125,7 +125,7 @@ Avatar
 [Fatal error, image services not found. Avatar services will be disabled.]
 Schwerwiegender Fehler, Image-Services-Plugin wurde nicht gefunden. Der Dienst wird nun deaktiviert.
 [Avatar Service]
-
+Avatar Service
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 Avatar-Einstellungen für %s

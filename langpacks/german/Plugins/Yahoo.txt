@@ -7,9 +7,9 @@
 ;============================================================
 ;file \protocols\Yahoo\res\Yahoo.rc
 [Yahoo]
-
+Yahoo
 [ID:]
-
+ID:
 [Password:]
 Passwort:
 [Nick:]
@@ -29,7 +29,7 @@ Yahoo-Benachrichtigungen zeigen
 [Show Errors]
 Fehler anzeigen
 [Yahoo Japan]
-
+Yahoo Japan
 [Create a new Yahoo account]
 Ein neues Yahoo-Konto erstellen ...
 [Connection Settings]
@@ -61,7 +61,7 @@ Abbrechen
 [Protocol:]
 Protokoll:
 [Client:]
-
+Client:
 [Chat Room Invitation Request]
 Einladung in einen Chatraum
 [&Join]
@@ -107,9 +107,9 @@ Kontaktprofil
 [User &history]
 Verlauf des Kontakts
 [Join My Conference...]
-
+Meine Koinferenz betreten...
 [No, thank you...]
-
+Nein, danke...
 ;file \protocols\Yahoo\src\icolib.cpp
 [Main]
 Allgemein
@@ -134,7 +134,7 @@ Timeout beim Nachrichtenversand
 Nachricht zu lang: Bitte auf max. 800 Zeichen (UTF8) kürzen
 ;file \protocols\Yahoo\src\links.cpp
 [YAHOO Link Protocol]
-
+YAHOO Link Protokoll
 ;file \protocols\Yahoo\src\main.cpp
 [YAHOO plugin HTTP connections]
 Yahoo-Plugin HTTP-Verbindungen
@@ -169,7 +169,7 @@ Neue E-Mail im Posteingang
 [%s plugin connections]
 %s Pluginverbindungen
 [ID]
-
+ID
 [Please enter your yahoo id in Options/Network/Yahoo]
 Bitte die Yahoo-ID unter 'Einstellungen -> Protokolle -> Yahoo' eintragen!
 [Please enter your yahoo password in Options/Network/Yahoo]
@@ -188,7 +188,7 @@ Mein Profil b&earbeiten
 [&My Profile]
 &Mein Profil
 [&Yahoo Mail]
-
+&Yahoo Mail
 [&Address Book]
 &Adressbuch
 [&Calendar]

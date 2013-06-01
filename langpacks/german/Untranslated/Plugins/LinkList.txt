@@ -1,5 +1,4 @@
-﻿[Generates a list of extracted URIs from the history.]
-[link]
+﻿[link]
 [History Linklist]
 [Filter]
 [no filter]

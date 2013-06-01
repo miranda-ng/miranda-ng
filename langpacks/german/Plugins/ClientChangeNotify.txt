@@ -6,7 +6,7 @@
 ;  Authors: Deathdemon
 ;============================================================
 [Shows a notification when someone in your contact list changes his client.]
-
+Zeigt eine Benachrichtigung, wenn ein Kontakt aus Ihrer Kontaktliste seinen Client ändert.
 ;file \plugins\ClientChangeNotify\res\Resources.rc
 [ClientChangeNotify error]
 ClientChangeNotify Fehler

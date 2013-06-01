@@ -1,8 +1,17 @@
 ﻿#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
-;langpack template for Omegle
+;============================================================
+;  File: Omegle.dll
+;  Plugin: Omegle Protocol
+;  Version: 0.1.2.0
+;  Authors: Robert Pösel
+;============================================================
+[Omegle protocol support for Miranda NG.]
+Omegle-Protokollunterstützung für Miranda NG.
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]
 Server:
+[Language:]
+Sprache:
 [Visible name:]
 Sichtbarer Name:
 [Meet strangers with common interests (separated by commas):]
@@ -67,30 +76,41 @@ Fremder 2
 Unbekannter
 [You and the Stranger both like: ]
 Sie und der Fremde mögen beide:
+[Stranger is typing.]
+Fremder tippt
+[Stranger stopped typing.]
+Fremder tippt nicht mehr
 [%s disconnected.]
 %d wurde getrennt
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
-
+Recaptcha benötigt.\nÖffnen Sie http://omegle.com, lösen Sie das Recaptcha, und versuchen Sie es nochmal
 [Error: ]
-
+Fehler:
 [We are still waiting...]
 Wir warten immer noch...
 ;file \protocols\Omegle\src\connection.cpp
 [Connecting canceled.]
-Verbindung abgebrochen
+Verbindung abgebrochen.
 [Disconnecting...]
 Trennen...
 [We are already waiting for new stranger...]
-Wir warten schon auf einen neuen Fremden
+Wir warten schon auf einen neuen Fremden...
 [Connecting...]
 Verbinden...
 [Waiting for Stranger...]
 Warte auf Fremden...
+;file \protocols\Omegle\src\constants.h
+[Random]
+Zufall
+[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
+Der Fremde verwendet die mobile Webseite von Omegle (omegle.com auf Phone oder Tablet)
+[You and stranger speak the same language.]
+Sie und der Fremde sprechen die selbe Sprache.
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 %s Serververbindung
 [Unable to get Netlib connection for Omegle]
-
+Kann nicht Netlib-Verbingung für Omegle herstellen
 [Stranger typing]
 Fremder tippt
 [Stranger stopped typing]
@@ -105,4 +125,4 @@ Netzwerk
 Konto
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
-
+Omegle-Icon

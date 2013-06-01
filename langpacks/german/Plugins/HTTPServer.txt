@@ -6,7 +6,7 @@
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
-
+HTTP Web Server plugin für Miranda.
 ;file \plugins\HTTPServer\res\resource.rc
 [IPAddress1]
 

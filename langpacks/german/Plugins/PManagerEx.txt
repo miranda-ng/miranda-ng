@@ -6,14 +6,12 @@
 ;  Authors: Roman Gemini
 ;============================================================
 [Adds a menu item to change or load a different profile of Miranda NG, restart or run a dbchecker.]
-
+Fügt einen Hauptmenueintrag hinzu um ein neues Profil zu laden, neuzustarten oder DBChecker auszuführen.
 ;file \plugins\ProfileManager\src\pmanagerEx.cpp
 [Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
 Miranda NG wird beendet und DatabaseChecker wird gestartet\n\nSind Sie sicher, dass Sie dies wollen?
 [Check Database]
 Datenbank prüfen
-[Database]
-Datenbank
 [Load profile]
 Profil laden
 [Change profile]
@@ -22,3 +20,7 @@ Profil ändern
 Datenbank überprüfen
 [Restart]
 Neustart
+[Profile manager]
+Profilmanager
+[Database]
+Datenbank

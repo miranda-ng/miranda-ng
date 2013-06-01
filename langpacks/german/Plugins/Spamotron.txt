@@ -1,5 +1,12 @@
-﻿;#muuid for Spamotron not found, please specify manually!
-;langpack template for Spamotron
+﻿#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
+;============================================================
+;  File: Spamotron.dll
+;  Plugin: Spam-o-tron
+;  Version: 0.0.4.6
+;  Authors: vu1tur
+;============================================================
+[Anti-spam plugin with captcha and Bayes filtering.]
+Anti-Spam-Plugin mit Captcha und Bayes-Filterung
 ;file \plugins\Spamotron\res\spamotron.rc
 [Do not send challenge request if message score above]
 Keine Abfrage, wenn Nachrichtenbewertung höher als
@@ -52,7 +59,7 @@ Mal pro Tag
 [Settings]
 Einstellungen
 [Outgoing message]
-Ausgehende Nachricht
+Ausgehender Nachricht
 [Incoming message with any word from list:]
 Eingehender Nachricht, die folgende Wörter enthält:
 [Auto approve on:]
@@ -136,6 +143,14 @@ Wird automatisch ausgewertet aus "%mathexpr%"-Variable
 Ungültiger regulärer Ausdruck.\nBehalte vorherigen Wert.
 [Message score]
 Nachrichten-Bewertung
+[Message Sessions]
+Nachrichtensitzungen
+[Messages]
+Nachrichten
+[Bayes]
+Bayes
+[Popups]
+Popups
 ;file \plugins\Spamotron\src\spamotron.cpp
 [Contact %s approved.]
 Kontakt %s wurde verifiziert.

@@ -6,7 +6,7 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
-
+Plugin zum Ändern des Tastaturlayouts des Textes (mehrsprachig).
 ;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 Hotkeys
@@ -31,7 +31,7 @@ Ergebnis als Popup zeigen
 [Strings for keyboard layouts]
 Zeichenketten für Tastaturlayout
 [EN]
-
+EN
 [Default]
 Standard
 [Invert current state]
@@ -43,7 +43,7 @@ Beibehalten
 [Set Caps Lock state when inverting lettercase:]
 Caps Lock Status bei Umkehrung der Groß-/Kleinschreibung ändern:
 [Change active keyboard layout in system]
-
+Aktives Tastaturlayout im System ändern
 [Colours]
 Farben
 [Popup colours]
@@ -76,12 +76,12 @@ Bei Rechtsklick
 Vorschau
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 [ChangeKeyboardLayout]
-
+ChangeKeyboardLayout
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Popup]
 Popup
 [Changing Layout]
-
+Layout ändern
 [Changing Case]
 
 [Message Sessions]

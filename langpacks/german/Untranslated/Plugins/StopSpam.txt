@@ -1,7 +1,4 @@
-﻿[Antispam plugin for Miranda NG.]
-[Vars]
-[Disable protection for following accounts:]
-[StopSpam]
+﻿[Vars]
 [StopSpam automatic message:\r\n]
 [Not In List]
 [nospam]

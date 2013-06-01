@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.0.9.5
+;  Version: 0.1.1.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -13,11 +13,17 @@ E-Mail:
 [Password:]
 Passwort:
 [Create a new Facebook account]
-Ein neues Facebook-Konto erstellen...
+Ein neues Facebook-Konto erstellen
 [What's on your mind?]
 Was machst du gerade?
+[Text:]
+Text:
+[Place:]
+Ort:
+[Visibility:]
+Sichtbarkeit:
 [Share]
-Mitteilen
+Teilen
 [Cancel]
 Abbrechen
 [User Details]
@@ -75,18 +81,24 @@ Chatverbindung im 'Offline' Status trennen
 [Map non-standard statuses to Invisible (instead of Online)]
 Nicht-Standard Status auf 'Unsichtbar' setzen (anstatt 'Online')
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
-Unterstützung für Custom Smileys aktivieren  (EXPERIMENTELL + BUGGY!)
+Unterstützung für Custom Smileys aktivieren (EXPERIMENTELL + BUGGY!)
+[Use local time for received messages]
+Lokale Zeit für empfangene Nachrichten verwenden
+[Send "Seen" info when marking messages as read]
+"Gesehen" Info senden wenn Nachrichten als gelesen markiert werden
+[Use this server for opening links:]
+Öffne Links auf diesem Server:
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: Some Facebook things are required.]
-
+Login-Fehler: Einige Facebook-Dinge werden benötigt.
 [Your account requires HTTPS connection. Activating.]
 Ihr Account benötigt eine HTTPS-Verbindung. Aktivierung.
 [Login error: Captcha code is required. Bad login credentials?]
 Login-Fehler: Ein Captcha-Code wird benötigt. Falsche Zugangsdaten?
-[Unknown login error]
-Unbekannter Login-Fehler
-[Login error: ]
-Loginfehler:
+[Login error: %s]
+Loginfehler: %s
+[Unknown error]
+Unbekannter Fehler
 [Login error, probably bad login credentials.]
 Loginfehler, wahrscheinlich falsche Anmeldeinformationen.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
@@ -94,7 +106,7 @@ Irgendwas geschah mit Facebook. Vielleicht gab es ein großes Update, warten Sie
 [Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
 Eine Konfiguration zum Nachrichtenversand zu anderen Clients wird benötigt.\nÖffnen Sie die Facebook-Seite und senden Sie die Nachricht zu den Kontakt erneut!
 [Timeout when sending message.]
-
+Zeitüberschreitung beim Senden der Nachricht.
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Bitte geben Sie einen Benutzernamen ein.
@@ -113,6 +125,20 @@ Fotos
 Links
 [Apps and Games]
 Apps und Spiele
+[Classic website]
+Klassische Webseite
+[Mobile website]
+Mobile Webseite
+[Smartphone website]
+Smartphone Webseite
+[For everyone]
+Für Jeden
+[For friends of friends]
+Für Freunde von Freunden
+[For friends]
+Für Freunde
+[Only for me]
+Nur für Mich
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt wurde aus Ihrer Server-Liste entfernt.
@@ -127,6 +153,8 @@ Freundschaftsanfrage wurde zurückgezogen.
 [Error occured when canceling friendship request.]
 Fehler beim Zurückziehen der Freundschaftsanfrage
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[What's on your mind, %s?]
+Was machen Sie gerade, %s?
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
 Hinweis: Stellen Sie sicher, dass "SSL-Zertifikate überprüfen" in den Netzwerk-Einstellungen deaktiviert ist.
 [Sample event]
@@ -138,8 +166,8 @@ Beispiel Newsfeed
 [Sample notification]
 Beispiel Benachrichtigung
 ;file \protocols\FacebookRM\src\json.cpp
-[Multichat]
-
+[Message read: %s]
+Nachricht gelesen: %s
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Nachrichten senden ist nicht möglich, wenn Sie offline sind.
@@ -149,8 +177,10 @@ Kontakt ist wieder in Ihrer Server-Liste.
 [Contact is no longer on server-list.]
 Kontakt ist nicht mehr in Ihrer Server-Liste.
 [Attachments:]
-
+Anhänge:
 ;file \protocols\FacebookRM\src\proto.cpp
+[Show Mind Window]
+Mind-Fenster anzeigen
 [%s server connection]
 %s Serververbindung
 [Unable to get Netlib connection for Facebook]
@@ -158,7 +188,7 @@ Es konnte keine Netlib-Verbindung zu Facebook hergestellt werden
 [Notification]
 Benachrichtigung
 [News Feed]
-
+News-Feed
 [Other Event]
 Andere Ereignisse
 [Avatars]
@@ -176,16 +206,20 @@ Ereignisse
 [Loading newsfeeds...]
 Newsfeeds laden...
 [Checking friend requests...]
-Freundschaftsanfragen überprüfen
+Freundschaftsanfragen überprüfen...
 [Refreshing buddy list...]
-Freundesliste aktuallisieren
+Freundesliste aktuallisieren...
 [Do you want to cancel your friendship with '%s'?]
 Möchten Sie Ihre Freundschaft mit "%s" abbrechen?
 ;file \protocols\FacebookRM\src\theme.cpp
-[Facebook Icon]
-
+[Facebook icon]
+Facebook-Icon
 [Mind]
 Pinnwand
+[Poke]
+Anstupsen
+[Newsfeed]
+Newsfeed
 [Cancel friendship]
 Freundschaft beenden
 [Cancel friendship request]
@@ -194,14 +228,18 @@ Freundschaftsanfrage abbrechen
 Freundschaftsanfrage
 [Approve friendship]
 Freundschaft genehmigen
-[Visit Profile]
-Profil ansehen
+[Visit friendship details]
+Freundschaft-Details besuchen
+[Visit profile]
+Profil besuchen
 [Mind...]
 Was machst du gerade?
+[Visit Profile]
+Profil besuchen
 [Services...]
-Spezielle Funktionen...
+Dienste...
 [Refresh Buddy List]
-
+Freundesliste aktualisieren
 [Services]
 Dienste
 [Check Friends Requests]

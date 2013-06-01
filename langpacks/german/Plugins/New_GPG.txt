@@ -6,10 +6,10 @@
 ;  Authors: sss
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
-
+Unterstützung für GPG, basierend auf Ideen aus dem alten GPG Plugin und SecureIM.
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Load Public GPG key]
-
+Öffentlichen GPG-Schlüssel laden
 [OK]
 OK
 [Load from file]
@@ -37,7 +37,7 @@ Generiere zufälligen Schlüssel
 [Account:]
 Konto:
 [key id: ]
-
+SAchlüssel-ID:
 [Copy public key]
 Öffentlichen Schlüssen kopieren
 [Export private key]
@@ -157,30 +157,30 @@ Offen:
 [Close:]
 Zu:
 [Strip all tags in outgoing messages]
-
+Alle Tags aus ausgehenden Nachrichten entfernen
 [Turn on presence signing (Jabber) (required by xep 0-27)]
-
+Presence signing aktivieren (Jabber) (erfordert durch XEP 0-27)
 [Export keys]
-Schlüssel  exportieren
+Schlüssel exportieren
 [Import keys]
-Schlüssel  importieren
+Schlüssel importieren
 ;file \plugins\New_GPG\src\init.cpp
 [GPG Turn off encryption]
-
+GPG-Verschlüsselung ausschalten
 [GPG Turn on encryption]
-
+GPG-Verschlüsselung einschalten
 [GPG encryption status]
 GPG-Verschlüsselungsstatus
 [Load GPG public key]
-
+Öffentlichen GPG-Schlüssel laden
 [Toggle GPG encryption]
 GPG-Verschlüsselung umschalten
 [Send public key]
 Sende öffentl. Schlüssel
 [Export GPG Public keys]
-
+Öffentliche GPG-Schlüssel exportieren
 [Import GPG Public keys]
-
+Öffentliche GPG-Schlüssel importieren
 ;file \plugins\New_GPG\src\main.cpp
 [Email]
 E-Mail
@@ -363,7 +363,7 @@ Der Schlüssel ist bereits im geheimen Hauptverzeichnis.
 [Set file containing GPG public key]
 Setzen Sie die Datei, die den GPG-Schlüssel enthält
 [GPG public key file]
-
+GPG öffentliche Schlüsseldatei
 [Where is no public or private key.]
 Wo ist der öffentliche oder private Schlüssel?
 ;file \plugins\New_GPG\src\utilities.cpp

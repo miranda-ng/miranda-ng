@@ -6,16 +6,10 @@
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Anti-Boss plugin.]
-
+Anti-Boss plugin.
 ;file \plugins\BossKeyPlus\res\BossKey.rc
-[Trigger when Miranda is hiding]
-
-[Trigger when Miranda is showing]
-
-[Pre-conditions]
-Vorbedingungen
 [BossKey]
-
+BossKey
 [Go to Customize -> Hotkeys to change the hotkey]
 Unter 'Customize -> Hotkeys' können Sie den Hotkey ändern
 [When I press the hotkey:]
@@ -37,7 +31,7 @@ Passwort abfragen:
 [Change status back]
 Ändere Status zurück
 [Hotkey]
-
+Hotkey
 [Password:]
 Passwort:
 [OK]
@@ -45,32 +39,32 @@ OK
 [Cancel]
 Abbrechen
 [EN]
-
-[Workstation is Locked (2000/XP+)]
-Arbeitsstation gesperrt ist (Win 2000/XP+)
+EN
+[Workstation is Locked]
+Arbeitsstation gesperrt ist
 [Screen Saver is running]
 Bildschirmschoner läuft
 [Windows is inactive]
 Windows inaktiv ist, für
 [Hide Miranda when:]
-Verstecke Miranda NG, wenn:
+Verstecke Miranda wenn:
 [Miranda is inactive]
-Miranda NG inaktiv ist, für
+Miranda inaktiv ist
 [min]
 Min
 [Miranda is started]
-Miranda NG gestartet ist
+Miranda gestartet ist
 [Others]
 Sonstiges
 [Create a main menu item]
 Erzeuge einen Hauptmenüeintrag
 [Restore hiding on startup after failure]
-Verstecke Miranda NG bei Neustart nach einem Fehler
+Verstecke Miranda bei Neustart nach einem Fehler
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 [Miranda NG is locked.\nEnter password to unlock it.]
-
+Miranda NG ist gesperrt.\Geben Sie das Passwort ein, um es zu entsperren
 [Password is not correct!\nPlease, enter correct password.]
-
+Passwort ist nicht korrekt.\nBitte geben Sie das korrekte Passwort an.
 [Hide Miranda NG]
 Miranda NG verbergen
 [Hide]
@@ -78,7 +72,7 @@ Verstecken
 [Hide/Show Miranda]
 Verstecke/zeige Miranda
 [BossKey\tget the BossKey name]
-
+BossKey\nBoss-Key Name
 ;file \plugins\BossKeyPlus\src\Options.cpp
 [Open String Formatting Help]
 Stringformatierungshilfe öffnen

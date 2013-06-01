@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent miranda from storing any history.]
-
+Verhindert, dass Miranda Verlauf speichert.
 ;file \plugins\NoHistory\res\NoHistory.rc
 [Keep history for this contact]
 Behalte Verlauf für diesen Kontakt
@@ -33,7 +33,7 @@ Aktivieren
 [Clear]
 Löschen
 [No History]
-
+No History
 ;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
 ** Alle Kontakte **

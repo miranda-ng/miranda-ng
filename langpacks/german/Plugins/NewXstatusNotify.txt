@@ -50,8 +50,8 @@ Individuelle Klänge verwenden
 In Datei speichern
 [Enable]
 Aktivieren
-[Go to Customize -> Sound to select the sounds]
-Gehen Sie zu Customize -> Klänge und wählen Sie die Klänge aus
+[Go to Sound to select the sounds]
+Gehen Sie zu Klänge und wählen Sie die Klänge aus
 [Extra status]
 XStatus
 [Open]
@@ -330,8 +330,6 @@ Protokoll
 Filtern
 [Message log]
 Nachrichtenverlauf
-[Popups]
-Popups
 ;file \plugins\NewXstatusNotify\src\popup.h
 [Open message window]
 Nachrichtenfenster öffnen

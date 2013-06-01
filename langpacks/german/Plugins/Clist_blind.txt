@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [A contact list for blind folks.]
-
+Kontaktliste für blinde oder sehbehinderte Menschen.
 ;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 Kontakt löschen
@@ -27,11 +27,11 @@ Hotkeys
 [Show/Hide:]
 Zeigen/Verstecken:
 [HotKey1]
-
+HotKey1
 [Read Message:]
-
+Nachricht lesen:
 [Web Search:]
-
+Web-Suche:
 [URL:]
 URL:
 [Open in new browser window]
@@ -102,8 +102,8 @@ Maximal
 Größenanpassung nach oben
 [Title bar text:]
 Titelleistentext:
-[Translucency options (Windows 2000/XP only)]
-Transparenz (ab Windows 2000)
+[Translucency options]
+Transparenz-Einstellungen
 [Fade contact list in/out]
 Ein-/Ausblenden animieren
 [Transparent contact list]
@@ -244,11 +244,11 @@ Zum Essen
 [On the phone]
 Am Telefon
 [Group: %name% %count% [%mode%]]
-
+Gruppe: %name% %count% [%mode%]
 [Divider: %s]
-
+Trennlinie: %s
 [Info: %s]
-
+Info: %s
 [List]
 Liste
 ;file \plugins\Clist_blind\src\clistopts.cpp
@@ -257,8 +257,8 @@ Global
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
 [Unknown Protocol]
-
+Unbekanntes Protokoll
 [Expanded]
 Ausgeklappt
 [Colapsed]
-
+Eingeklappt

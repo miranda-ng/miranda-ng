@@ -1,5 +1,4 @@
-﻿[Handles listening information to/for contacts.]
-[Listening to information]
+﻿[Listening to information]
 [XStatus]
 [ListeningTo]
 [Track number]

@@ -6,7 +6,7 @@
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
-
+Sitzungsmanager für Miranda NG.
 ;file \plugins\Sessions\res\Sessions.rc
 [Action on Startup]
 Aktion beim Start
@@ -21,7 +21,7 @@ Nur, wenn letzte Sitzung existiert
 [Startup delay]
 Verzögerung
 [ms]
-
+ms
 [User Sessions Management]
 Eigene Sitzungen verwalten
 [Edit]
@@ -88,19 +88,19 @@ Lade Sitzung
 [Load last Session]
 Lade letzte Sitzung
 [Current session is empty!]
-
+Aktuelle Sitzung ist leer.
 [Session name is empty, enter the name and try again]
-
+Sitzungsname ist leer, geben Sie einen Namen ein und versuchen Sie es erneut.
 [No sessions to open]
-
+Keine Sitzungen zu öffnen.
 [Last Sessions is empty]
-
+Letzte Sitzungen sind leer.
 [No contacts to open]
-
+Keine Kontakte zu öffnen.
 [This Session already opened]
-
+Diese Sitzung ist bereits geöffnet.
 [This Session already opened(but probably hidden)\nDo you want to show hidden contacts?]
-
+Diese Sitzung ist bereits geöffnet (aber vermutlich versteckt).\nWollen Sie versteckte Kontakte anzeigen?
 [Open Sessions Manager]
 Öffne Sitzungsmanager
 [Show Favorite Sessions Menu]

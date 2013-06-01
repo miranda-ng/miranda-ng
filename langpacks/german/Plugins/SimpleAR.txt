@@ -6,7 +6,7 @@
 ;  Authors: Stark Wong, Mataes, Mikel-Ard-Ri
 ;============================================================
 [Simple Auto Replier.]
-
+Einfache automatische Antworten
 ;file \plugins\SimpleAR\res\Resource.rc
 [Enable Auto Replier]
 Aktiviere Autoantworten
@@ -45,6 +45,6 @@ Autom. Antwort einschalten
 Hallo, %user%, der Besitzer hat dir folgende Nachricht hinterlassen:
 ;file \plugins\SimpleAR\src\Options.cpp
 [Simple Auto Replier]
-
+Simple Auto Replier
 [Plugins]
 Plugins

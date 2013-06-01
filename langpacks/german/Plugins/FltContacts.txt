@@ -53,9 +53,9 @@ Rand
 [Draw border]
 Umrandung
 [Left-top edge's color:]
-
+Farbe der Ecke links oben:
 [Right-bottom edge's color:]
-
+Farbe der Ecke rechts unten:
 [Background]
 Hintergrund
 [Background colour:]

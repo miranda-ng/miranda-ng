@@ -1,5 +1,4 @@
-﻿[MSN]
-[Mobile Device (used for SMS)]
+﻿[Mobile Device (used for SMS)]
 [Spouse/Partner]
 [Middle Name]
 [Invite Contact To Chat]

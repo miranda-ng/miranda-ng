@@ -1,5 +1,4 @@
-﻿[Scans for network users of your shared files and notify you with popups.]
-[WUMF: Current connections]
+﻿[WUMF: Current connections]
 [Popup Delay (seconds)]
 [File access filter && logging settings]
 [Please note that this settings has effect only with Popups Interoperability plugin version 1.0.1.9 or higher]

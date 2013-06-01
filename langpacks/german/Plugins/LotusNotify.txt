@@ -1,0 +1,106 @@
+﻿#muuid {23eacc0d-bab0-49c0-8f37-5e259ece527f}
+;============================================================
+;  File: LotusNotify.dll
+;  Plugin: LotusNotify
+;  Version: 0.1.21.0
+;  Version: 0.1.21.0
+;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
+;============================================================
+[Notify about new mail in Lotus Database]
+Benachrichtigung über Mails in Lotus Datenbank
+;file \plugins\LotusNotify\res\LotusNotify.rc
+[Show again if still unread]
+Zeige erneut falls ungelesen
+[Show error messages]
+Fehlermeldungen anzeigen
+[Set popup colours]
+Popupfarben bestimmen
+[Popup options]
+Popup-Einstellungen
+[Background]
+Hintergrund
+[Text]
+Text
+[Close after: ]
+Schließe nach:
+[sek.(0 default,\n -1 disabled)]
+Sek. (0 Standard\n-1 deaktiviert)
+[...but only if popup not clicked]
+... nur falls Popup nicht angeklickt
+[Left button click cmd: ]
+Linker Button Klick Befehl:
+[Command parameters: ]
+Kommando Parameter: 
+[Remember newest message ID\n and don't show older]
+Neuste Nachricht-ID merken\nund keine älteren anzeigen
+[version:]
+Version:
+[Clear popups history]
+Lösche Popup-Verlauf
+[Filter messages contain below strings in:]
+Gefilterte Nachrichten enthalten untere W�rter:
+[Sender]
+Sender
+[Subject]
+Betreff
+[Lotus connection settings]
+Lotus Verbindungseinstellungen
+[Primary server:]
+Hauptserver:
+[Database: ]
+Datenbank: 
+[try detect]
+Erkennen
+[Secondary server: ]
+Zweiter Server:
+[Check interval: ]
+Prüfintervall: 
+[(0-disabled)]
+(0-deaktiviert)
+[min.]
+Min.
+[Password:]
+Passwort:
+[Offline status mean: ]
+Offline-Status bedeutet: 
+[To / CopyTo]
+
+[autoregister]
+Registrierung
+;file \plugins\LotusNotify\src\LotusNotify.cpp
+[Unable to load all required Lotus API functions]
+
+[Lotus Notes Client not detected. Check plugin configuration descripted on install.txt]
+
+[Unable to initialize Notes.]
+
+[Lotus Notes Extension Manager was not registered. Authentication function will not work propertly]
+
+[In notes.ini file there is no required entry EXTMGR_ADDINS=plugindllnamewithout".dll"]
+
+[This utility check your notes.ini file if it's set to autenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin buildin authentication will not work propertly. Do you want to add Plugin as Lotus Extension (modify notes.ini by adding "EXTMGR_ADDINS=PLUGINNAME\]
+
+[LotusNotify plugin configuration]
+LotusNotify Plugin-Einstellungen
+[notes.ini modified correctly. Miranda restart required.]
+notes.ini erfolgreich angepasst, Miranda Neustart notwendig.
+[notes.ini seem to be set correctly.]
+notes.ini scheint in Ordnung zu sein.
+[Now checking Lotus, try again later]
+
+[Attachments: %d bytes]
+Anhänge: %d Bytes
+[Status]
+Status
+[Plugins]
+Plugins
+[&Check Lotus]
+Lotus prüfen
+[Lotus Notify]
+Lotus Benachrichtigungen
+[New Lotus document detected]
+Neues Lotus-Dokument erkannt
+[LotusNotify.dll can not work with 64bit Miranda. (Lotus client is 32bit only)]
+LotusNotify.dll funktioniert nicht mit 64bit Miranda (Lotus Client ist nur 32bit).
+[LotusNotify]
+LotusNotify

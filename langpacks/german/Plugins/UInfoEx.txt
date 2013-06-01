@@ -6,12 +6,12 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
-
+Erweitertes UserInfo Modul für Miranda NG. Bietet ein Interface, um alle Informationen zu einem Kontakt zu bearbeiten.
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit Contact Information]
-Kontakt bearbeiten
+Kontakt-Informationen bearbeiten
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-
+Kontakt-Informationen bearbeiten\nDiese Liste gibt Ihnen einen Überblick über alle Jahrestage Ihrer Kontakte.
 [Origin]
 Herkunft
 [&Update]
@@ -45,7 +45,7 @@ männlich
 [Marital status:]
 Familienstand:
 [Partner:]
-
+Partner:
 [Language skills]
 Sprachkenntnisse
 [Street:]
@@ -129,7 +129,7 @@ Ignorierliste verwenden
 [Birthday popup colours]
 Farben für Erinnerung
 [r]
-
+r
 [Background colour]
 Hintergrundfarbe
 [Text colour]
@@ -175,7 +175,7 @@ Geben Sie hier den Namen des Jahrestages ein:
 [Anniversary list]
 Liste der Jahrestage
 [Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
-
+Kommende Jahrestage\nDiese Liste gibt Ihnen einen Überblick über alle Jahrestage Ihrer Kontakte.
 [Statistics:]
 Statistik:
 [with birthday:]
@@ -191,7 +191,7 @@ Durchschnittsalter:
 [View]
 Anzeigen
 [Show &during the next]
-
+Zeige während der nächsten
 [day(s)]
 Tag(e)
 [Reminder]
@@ -285,7 +285,7 @@ Extraicons
 [Gender:]
 Geschlecht:
 [Replace the following default icons:]
-
+Folgende Standard-Icons ersetzen:
 [Homepage]
 Homepage
 [Phone]
@@ -303,7 +303,7 @@ Benutze Tierkreiszeichen als Standard-Avatar
 [Country Flags]
 Länderflaggen
 [Use &unknown flag if country can not be determined]
-
+&Unbekannte flagge verwenden wenn Land nicht bestimmt werden kann.
 [Show country flag as &status icon on message window]
 Länderflagge als &Statusicon im Nachrichtenfenster anzeigen
 [Birthday]
@@ -428,7 +428,7 @@ Ausstehende Tage
 [Contact]
 Kontakt
 [Proto]
-
+Proto
 [Age/Nr.]
 Alter/Nr.
 [Anniversary]
@@ -453,7 +453,7 @@ Ja
 [No]
 Nein
 [Abord]
-
+Abbrechen
 [Ignore]
 Ignorieren
 [Error]
@@ -638,7 +638,7 @@ Suche nach Jahrestagen
 [Extended UserInfo]
 Erweiterte Benutzerinformationen
 [Ex-/Import Group]
-
+Gruppe ex-/importieren
 [&Export Group]
 Exportiere Gruppe
 [&Import Group]
@@ -667,7 +667,7 @@ Zweite E-Mail
 [Tertiary e-mail]
 Dritte E-Mail
 [Address & Contact]
-
+Adresse & Kontakt
 [Company]
 Unternehmen
 ;file \plugins\UserInfoEx\src\psp_options.cpp
@@ -678,7 +678,7 @@ Dies löscht alle von Ihnen gemachte Einstellungen!\nAlle Baumansichtseinstellun
 [Ready]
 Bereit
 [Everything is done!]
-
+Alles ist erledigt
 [All settings are reset to default values now!]
 Alle Einstellungen wurden zurückgesetzt
 [Reminder disabled]
@@ -688,7 +688,7 @@ Nur Geburtstage
 [everything]
 alles
 [mBirthday]
-
+mBirthday
 [UserInfo (default)]
 UserInfo (Standard)
 [This is the reminder message]
@@ -736,7 +736,7 @@ Aserbaidschanisch
 [Belorussian]
 Weissrussisch
 [Bhojpuri]
-
+Bhojpuri
 [Bosnian]
 Bosnisch
 [Bulgarian]
@@ -748,7 +748,7 @@ Kantonesisch
 [Catalan]
 Katalanisch
 [Chamorro]
-
+Chamorro
 [Chinese]
 Chinesisch
 [Croatian]
@@ -766,7 +766,7 @@ Esperanto
 [Estonian]
 Estnisch
 [Farsi]
-
+Farsi
 [Finnish]
 Finnisch
 [French]
@@ -778,11 +778,11 @@ Deutsch
 [Greek]
 Griechisch
 [Gujarati]
-
+Gujarati
 [Hebrew]
 Hebräisch
 [Hindi]
-
+Hindi
 [Hungarian]
 Ungarisch
 [Icelandic]
@@ -794,7 +794,7 @@ Italienisch
 [Japanese]
 Japanisch
 [Khmer]
-
+Khmer
 [Korean]
 Koreanisch
 [Kurdish]
@@ -830,7 +830,7 @@ Russisch
 [Serbo-Croatian]
 Serbokroatisch
 [Sindhi]
-
+Sindhi
 [Slovak]
 Slowakisch
 [Slovenian]
@@ -844,7 +844,7 @@ Suaheli
 [Swedish]
 Schwedisch
 [Tagalog]
-
+Tagalog
 [Taiwanese]
 Taiwanesisch
 [Tamil]
@@ -858,7 +858,7 @@ Türkisch
 [Ukrainian]
 Ukrainisch
 [Urdu]
-
+Urdu
 [Vietnamese]
 Vietnamesisch
 [Welsh]
@@ -866,7 +866,7 @@ Walisisch
 [Yiddish]
 Jiddisch
 [Yoruba]
-
+Yoruba
 [Academic]
 Akademisch
 [Administrative]
@@ -918,9 +918,9 @@ technisch
 [University Student]
 Student (Universitär)
 [Web Building]
-
+Web Building
 [Other Services]
-
+Andere Dienste
 [Art]
 Kunst
 [Cars]
@@ -932,13 +932,13 @@ Sammlungen
 [Culture & Literature]
 Kultur & Literatur
 [Fitness]
-
+Fitness
 [Games]
 Spiele
 [Hobbies]
 Hobbys
 [Internet]
-
+Internet
 [Lifestyle]
 Lebensart
 [Movies/TV]
@@ -952,7 +952,7 @@ Elternschaft
 [Pets/Animals]
 Haustiere/Tiere
 [Religion]
-
+Religion
 [Science/Technology]
 Wissen/Technik
 [Skills]

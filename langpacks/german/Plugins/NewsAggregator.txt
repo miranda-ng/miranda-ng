@@ -6,7 +6,7 @@
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
-
+RSS/Atom Neuigkeiten abrufen.
 ;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 Hinzufügen
@@ -70,7 +70,7 @@ Autom. Aktualisierung aktiviert
 [Auto Update Disabled]
 Autom. Aktualisierung deaktiviert
 [News Aggregator]
-
+News Aggregator
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Feed prüfen
@@ -113,16 +113,20 @@ Warten...
 Feed ändern
 [Contact deleting]
 
+[OPML files]
+OPML-Dateien
+[Not valid import file.]
+Keine gültige Import-Datei.
 [Network]
 Netzwerk
 ;file \plugins\NewsAggregator\Src\Services.cpp
 [Avatars]
 Avatare
 [Enable/disable auto update]
-
+Auto-Update de-/aktivieren
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
-
+NewsAggregator HTTP Verbindung
 [Feed]
 
 [%s\nis a valid feed's address.]

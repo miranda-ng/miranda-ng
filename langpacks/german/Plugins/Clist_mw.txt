@@ -6,7 +6,7 @@
 ;  Authors: 
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
-
+Zeigt Kontakte, Ereignisse und Protokollstatus mit erweiterten visuellen Änderungen an.
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 Einstellungen
@@ -37,7 +37,7 @@ Menüobjekte
 [MenuItems]
 Menüeinträge
 [InsertSeparator]
-
+Trennlinie einfügen
 [Service:]
 Dienst:
 [Name:]
@@ -136,8 +136,8 @@ Maximal
 Größenanpassung nach oben
 [Title bar text:]
 Titelleistentext:
-[Translucency options (Windows 2000/XP only)]
-Transparenz (ab Windows 2000)
+[Translucency options]
+Transparenz-Einstellungen
 [Fade contact list in/out]
 Ein-/Ausblenden animieren
 [Transparent contact list]

@@ -27,20 +27,36 @@ Klassische Ansicht der Einstellungen
 [Advanced]
 Erweitert
 ;file \plugins\ModernOpt\src\modernopt.cpp
+[Home]
+Home
 [Miranda NG configuration center]
 Miranda NG Einstellungen
+[Accounts]
+Konten
 [Setup your account information to start messaging.]
 Stellen Sie hier ihre Kontendaten ein, um mit anderen Kontakt aufzunehmen.
+[Style]
+Stil
 [Change the look of Miranda NG according to your taste.]
 Passen Sie hier das Aussehen von Miranda NG Ihren Wünschen an.
+[Contacts]
+Kontakte
 [Configure behaviour of your contact list.]
 Ändern Sie hier das Verhalten der Kontaktliste.
+[Chats]
+Chats
 [Customize look&&feel of your chat windows here.]
 Andern Sie hier die Eigenschaften des Nachrichtenfensters.
+[Ignore]
+Ignorieren
 [Ban those users and events, you are annoyed with.]
 Ignorieren Sie hier unerwünschte Personen und Ereignisse.
+[Status]
+Status
 [Set your status messages and idle reporting.]
 Stellen Sie hier Ihre Statusnachrichten und Inaktivität ein.
+[Addons]
+Plugins
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 Hier können Sie einzelne Plugins ein- oder ausschalten.
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]

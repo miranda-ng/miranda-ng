@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: Flags.dll
 ;  Plugin: Country flags
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: H. Herkenrath
 ;============================================================
 [Service offering misc country utilities as flag icons and a IP-to-Country database.]
-
+Dienst strellt verschiedene Länderdienste, wie Flaggen und eine IP-Zu-Land-Datenbank, zur Verfügung.
 ;file \plugins\CountryFlags\res\resource.rc
 [Country Flags]
 Länderflaggen
@@ -19,7 +19,8 @@ Länderflagge als &Extra Icon in &Kontaktliste anzeigen
 [Use &unknown flag if the country can not be determined]
 "&Unbekannt" anzeigen, wenn Land nicht bestimmbar
 ;file \plugins\CountryFlags\src\extraimg.cpp
-[Icons]
-Icons
 [Country flag]
 Länderflagge
+;file \plugins\CountryFlags\src\options.cpp
+[Icons]
+Icons

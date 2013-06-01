@@ -6,7 +6,7 @@
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 [SecureIM plugin for Miranda NG.]
-
+SecureIM plugin für Miranda NG.
 ;file \plugins\SecureIM\res\resource.rc
 [User List]
 Benutzerliste
@@ -39,9 +39,9 @@ Offlineschl.-Timeout:
 [days]
 Tage
 [PGP]
-
+PGP
 [GPG]
-
+GPG
 [Reset All]
 Alle rückg.
 [Protocols]
@@ -49,19 +49,19 @@ Protokolle
 [Split Messages]
 Trenne Nachrichten
 [Online:]
-
+Online:
 [Offline:]
-
+Offline:
 [RSA Key]
 RSA-Schlüssel
 [SHA1:]
-
+SHA1:
 [Public]
 Öffentlich
 [&Copy SHA1]
 SHA1 &kopieren
 [E&xport]
-
+E&xport
 [Private]
 Privat
 [&Export]
@@ -69,11 +69,11 @@ Privat
 [&Import]
 &Importieren
 [Set &keyrings...]
-
+Set &keyrings...
 [Disable keyrings use]
 Schlüsselringe deakt.
 [Load &Private key]
-
+&Privaten Schlüssel laden
 [Basic]
 Allgemein
 [Executable:]
@@ -81,15 +81,15 @@ GnuPG-Programm:
 [Home Directory:]
 Benutzerverzeichnis:
 [Temp Dir:]
-
+Temp. Verzeichnis:
 [Key Assignment]
 Schlüsselzuordnung
 [Debug]
-
+Debug
 [Log to File]
 In Datei speichern
 [Save Pass]
-
+Passwort speichern
 [Back]
 Hgrd.
 [Text]
@@ -145,11 +145,11 @@ Modus
 [Native SecureIM]
 AES SecureIM (Nativ)
 [PGP SecureIM]
-
+PGP SecureIM
 [GPG SecureIM]
-
+GPG SecureIM
 [RSA/AES SecureIM]
-
+RSA/AES SecureIM
 [Status]
 Status
 [Always Try to Establish Secure IM]
@@ -290,7 +290,7 @@ GPG-Schlüssel laden
 [Unload GPG Key]
 GPG-Schlüssel entladen
 [Delete RSA Key]
-
+RSA-Schlüssel löschen
 [SecureIM mode (Native)]
 SecureIM-Modus (Nativ)
 [SecureIM mode (PGP)]
@@ -300,7 +300,7 @@ SecureIM-Modus (GPG)
 [SecureIM mode (RSA/AES)]
 SecureIM-Modus (RSA/AES)
 [SecureIM mode (RSA)]
-
+SecureIM-Modus (RSA)
 [SecureIM status (disabled)]
 SecureIM-Status (deaktiviert)
 [SecureIM status (enabled)]
@@ -387,25 +387,17 @@ Sichere Nachricht (eingehend)
 Sichere Nachricht (ausgehend)
 [SecureIM status]
 SecureIM-Status
-[SecureIM [Native]]
-
-[SecureIM [PGP]]
-
-[SecureIM [GPG]]
-
-[SecureIM [RSA/AES]]
-
 ;file \plugins\SecureIM\src\options.cpp
 [Executable Files]
 Ausführbare Dateien
 [Select GnuPG Executable]
 GnuPG-Programm wählen
 [ASC files]
-
+ASC-Dateien
 [All files]
 Alle Dateien
 [Open Key File]
-
+Schlüsseldatei öffnen
 [Save Private Key File]
 Privaten Schlüssel in Datei speichern
 [Save Public Key File]
@@ -413,7 +405,7 @@ Privaten Schlüssel in Datei speichern
 [Load Private Key File]
 Privaten Schlüssel aus Datei laden
 [Load Public Key File]
-
+Öffentlichen Schlüssel aus Datei laden
 [Services]
 Dienste
 ;file \plugins\SecureIM\src\popupOptions.cpp
@@ -423,5 +415,12 @@ Schlüssel-Popup
 Sicherheits-Popup
 [Message Popup]
 Nachrichten-Popup
-[Popups]
-Popups
+;file \plugins\SecureIM\src\svcs_srmm.cpp
+[SecureIM [Native]]
+SecureIM [Nativ]
+[SecureIM [PGP]]
+SecureIM [PGP]
+[SecureIM [GPG]]
+SecureIM [GPG]
+[SecureIM [RSA/AES]]
+SecureIM [RSA/AES]

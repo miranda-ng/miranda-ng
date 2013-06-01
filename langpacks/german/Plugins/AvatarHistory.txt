@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AvatarHistory.dll
 ;  Plugin: Avatar history
-;  Version: 0.0.3.3
+;  Version: 0.1.0.1
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
@@ -111,32 +111,18 @@ Soll dieses Avatar wirklich gelöscht werden?\nDies löscht den Verlaufseintrag 
 Avatar löschen?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Soll dieses Avatar wirklich gelöscht werden?\nDies löscht die Verknüpfung und die Bilddatei.\nWARNUNG: Dies kann sich auf mehr als einen Verlaufseintrag auswirken!
+[Avatar History is empty!]
+Avatar Verlauf ist leer!
 [avatar path is null.]
 
 [View Avatar History]
-Avatarverlauf
+Avatarverlauf ansehen
 [Save Avatar for %s]
 
 [Save Avatar]
 
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-[Contact changed avatar]
-
-[Contact removed avatar]
-
-[Avatars]
-Avatare
-[Avatar History: Unable to create shortcut]
-
-[AVH Debug: Shortcut created successfully]
-
 [AVH Debug]
-
-[Invalid contact/avatar... skipping]
-
-[Invalid protocol... skipping]
-
-[Ignoring metacontacts notification]
 
 [Removed avatar, no avatar before...skipping]
 
@@ -146,12 +132,12 @@ Avatare
 
 [AVH Debug: File copied successfully]
 
-[Unknown UIN]
-
-[Unknown Protocol]
-
-[AVH Debug: GetOldStyleAvatarName]
-
+[Avatars]
+Avatare
+[Contact changed avatar]
+Kontakt ändert Avatar
+[Contact removed avatar]
+Kontakt entfernt Avatar.
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]
 entfernt sein/ihr Avatar
@@ -163,12 +149,6 @@ Verlauf
 [Avatar Overlay]
 Avataroverlay
 ;file \plugins\AvatarHistory\src\options.cpp
-[Avatar]
-Avatar
-[Popups]
-Popups
-[Avatar Change]
-Avataränderung
 [Do nothing]
 Nichts tun
 [Close popup]
@@ -181,3 +161,20 @@ Gesprächsverlauf zeigen
 Test-Kontakt
 [Test description]
 Test-Beschreibung
+[Avatar]
+Avatar
+[Popups]
+Popups
+[Avatar Change]
+Avataränderung
+;file \plugins\AvatarHistory\src\utils.cpp
+[Unknown UIN]
+
+[Unknown Protocol]
+
+[AVH Debug: GetOldStyleAvatarName]
+
+[Avatar History: Unable to create shortcut]
+
+[AVH Debug: Shortcut created successfully]
+

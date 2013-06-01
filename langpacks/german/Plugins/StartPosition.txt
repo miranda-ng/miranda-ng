@@ -6,7 +6,7 @@
 ;  Authors: Felipe Brahm - souFrag
 ;============================================================
 [Plugin supports starting position of Contact List relative to the the taskbar and screen side.]
-
+Plugin setzt die Startposition der Kontaktliste relativ zur Taskleiste und dem Bildschirmrand.
 ;file \plugins\StartPosition\res\resource.rc
 [Contact List Window Start Position]
 Kontaktlistenfenster Startposition
@@ -15,21 +15,21 @@ Links
 [Right]
 Rechts
 [Pixels from Top]
-Pixel von oben :
+Pixel von Oben
 [Pixels from Bottom]
-Pixel von unten
+Pixel von Unten
 [Pixels from Side]
-Pixel von der Seite :
+Pixel von der Seite
 [Width]
 Breite
 [Always start...]
 Starte immer...
 [Minimized to System Tray]
-Minimiere zum Systemtray
+Minimiert in Systemtray
 [Opened]
 Geöffnet
 ;file \plugins\StartPosition\src\main.cpp
 [Contact List]
 Kontaktliste
 [Start position]
-
+Start-Position

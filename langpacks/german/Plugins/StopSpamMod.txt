@@ -6,7 +6,7 @@
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
 [Antispam plugin for Miranda NG.]
-
+Antispam-Plugin für Miranda NG.
 ;file \plugins\StopSpamMod\res\stopspam.rc
 [Question: (Ctrl-Enter for carriage return)]
 Frage: (Strg+Eingabe für Zeilenvorschub)
@@ -19,7 +19,7 @@ Gratulation:
 [Auth. request reply:]
 Rückmeldung bei Authorisierungsanfragen:
 [Vars]
-
+Vars
 [Available accounts:]
 Installierte Protokolle:
 [Filtered accounts:]
@@ -45,7 +45,7 @@ Groß-/Kleinschreibung bei Antwort überprüfen
 [Disable question in invisible mode]
 Frage in Unsichtbar-Modus deaktivieren
 [Enable integration with DOS plugin]
-Integration mit DOS-Plugin
+Integration mit DOS-Plugin aktivieren
 [Exclude contacts which we sending something from spam check]
 Kontakte, denen wir etwas senden, von Spamprüfung ausnehmen
 [Remove Excluded contacts after restart]

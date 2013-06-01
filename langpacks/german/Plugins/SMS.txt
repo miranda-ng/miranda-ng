@@ -6,7 +6,7 @@
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
 [Send SMS text messages to mobile phones through the IM networks.]
-
+Sendet SMS-Textnachrichten an Mobiltelefone über die IM-Netzwerke.
 ;file \plugins\SMS\res\resource.rc
 [Received SMS]
 Erhaltene SMS

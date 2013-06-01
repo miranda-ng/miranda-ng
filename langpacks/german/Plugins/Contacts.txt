@@ -11,11 +11,11 @@
 [Send contacts]
 Kontakte senden
 [&A]
-
+&A
 [&D]
-
+&D
 [&H]
-
+&H
 [Choose contacts to be send:]
 Kontakte zum Senden auswählen:
 [&Send]
@@ -25,17 +25,17 @@ Abbrechen
 [&Select All]
 Alles au&swählen
 [Received contacts]
-
+Empfangene Kontakte
 [Add to &group:]
 Zur &Gruppe hinzufü&gen
 [&Add]
 Hinzufügen
 [&Details]
-
+&Details
 [Close]
 Schließen
 [Contacts send error]
-
+Fehler beim Senden von Kontakten
 [An error has occured. The protocol reported the following error:]
 Es ist ein Fehler aufgetreten. Das Protokoll meldete folgenden Fehler:
 [Try again]
@@ -43,14 +43,14 @@ Erneut versuchen
 [Popup]
 Popup
 [Add to List]
-
+Zur Liste hinzufügen
 [User Details]
 Kontaktprofil
 [Send Message]
 Nachricht senden
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]
-
+Kontakte empfangen von
 [Contacts]
 Kontakte
 [Incoming Contacts]

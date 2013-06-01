@@ -52,7 +52,7 @@ Link öffnen
 [Imitate IEView API]
 IEView API imitieren
 [Text formatting options]
-
+Textformatierungs-Einstellungen
 [Enable raw RTF support]
 RTF-Textformatierungen aktivieren
 [Display changed avatars]
@@ -504,7 +504,7 @@ Ausgehende URL
 [Selected background]
 Markierter Hintergrund
 [SMTP Simple]
-
+SMTP Simple
 [Show sender information]
 Senderinformationen anzeigen
 [Show receiver information]
@@ -518,7 +518,7 @@ Eingehende SMS-Nachricht
 [Link URLs]
 URLs
 [History++]
-
+History++
 [Unicode text file]
 Unicode Textdatei
 [RTF file]
@@ -576,7 +576,7 @@ Keine "%s"-Einträge
 [Speak Message]
 Nachricht vorlesen
 [Next message]
-
+Nächste Nachricht
 [History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
 
 [&Empty System History]
@@ -592,7 +592,7 @@ Auch Verlauf aller Unterkontakte löschen
 [History of this contact is password protected]
 Verlauf dieses Kontaktes ist passwortgeschützt
 [Prevous message]
-
+Vorherige Nachricht
 [Running version of AniSmiley is not supported]
 
 [Running version of SmileyAdd is not supported]
@@ -658,7 +658,7 @@ Einfacher, schneller und funktionsreicher Verlaufsbetrachter
 [Make shure you have CAPS LOCK turned off.]
 Achten Sie darauf, Caps Lock ausgeschaltet zu haben.
 [Make sure you have CAPS LOCK turned off.]
-
+Achten Sie darauf, Caps Lock ausgeschaltet zu haben.
 [Miranda's settings used]
 
 [Nick Font Color]

@@ -1,5 +1,4 @@
-﻿[Favourite contacts menu.]
-[recent contacts]
+﻿[recent contacts]
 [<no group>]
 [Favourite Contact]
 [Regular Contact]

@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Ping labelled IP addresses or domain names.]
-
+Pingt IP-Addressen und Domain-Namen an.
 ;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
 Verzögerung zwischen den Pings (Sek):
@@ -37,7 +37,7 @@ Durchsuchen...
 [Do not change icon when testing]
 
 [Use the Customize/Fonts options to change text size and colour.]
-
+Verwenden Sie Customize/Schriften, um Textgröße und -farbe zu ändern.
 [Indent:]
 Einzug:
 [Row height:]
@@ -45,9 +45,9 @@ Zeilenhöhe:
 [Repeats for success/failure:]
 Wiederholung bis Erfolg/Fehler:
 [Attach to contact list]
-
+An Kontaktliste anheften
 [Use CSV format]
-
+CSV-Format verwenden
 [Add]
 Hinzufügen
 [Remove]
@@ -59,7 +59,7 @@ Auf
 [Down]
 Ab
 [Edit Host]
-
+Host bearbeiten
 [OK]
 OK
 [Cancel]
@@ -93,13 +93,13 @@ Graph
 [Enable]
 Aktivieren
 [Disable all pings]
-
+Alle Pings deaktivieren
 [Enable all pings]
-
+Alle Pings aktivieren
 [Options...]
 Einstellungen...
 [Hosts...]
-
+Hosts...
 ;file \plugins\Ping\src\menu.cpp
 [PING]
 
@@ -113,14 +113,14 @@ Alle Pings deaktivieren
 [<none>]
 <keine>
 [<all>]
-
+<alle>
 [Settings]
 Einstellungen
 [Hosts]
-
+Hosts
 ;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
-
+Ping-Plugin
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 

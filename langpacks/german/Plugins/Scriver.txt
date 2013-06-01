@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
-
+Scriver - Sofortnachrichten senden und empfangen.
 ;file \plugins\Scriver\res\resource.rc
 [Behaviour]
 Verhalten
@@ -169,7 +169,7 @@ An alle Tabs senden
 [You are about to send a message to all open tabs.\nAre you sure ?]
 Sie sind dabei, eine Nachricht an alle offenen Tabs zu senden.\nSind Sie sich sicher?
 [Remember my choice for this container]
-
+Meine Entscheidung für diesen Container merken.
 [Yes]
 Ja
 [No]
@@ -231,7 +231,7 @@ Ort
 [Trim to]
 bis max.
 [kB]
-
+kB
 [Group Chat]
 Gruppenchat
 [Use same style as in the message log]
@@ -263,19 +263,19 @@ Wort nachschlagen
 [Google]
 Google
 [Bing]
-
+Bing
 [Yandex]
-
+Yandex
 [Wikipedia (en)]
-
+Wikipedia (en)
 [Google Maps]
-
+Google Maps
 [Google Translate]
-
+Google Translate
 [Yahoo]
-
+Yahoo
 [Foodnetwork]
-
+Foodnetwork
 [C&lear Log]
 Verlauf &leeren
 [LogLink]
@@ -474,9 +474,9 @@ Aktion: Sende an alle
 Aktion: Einfügen und senden
 ;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
-
+Zitat
 [Smiley]
-
+Smiley
 [Add Contact]
 Kontakt hinzufügen
 [User Menu]
@@ -494,11 +494,11 @@ Kein Wort zum Nachschlagen
 [Add Contact Permanently to List]
 Kontakt dauerhaft zur Liste hinzufügen
 [View User's Details]
-Kontaktprofil anzeigen
+Benutzerdetails anzeigen
 [View User's History]
 Verlauf anzeigen
 [Quote Text]
-Zitat
+Text zitieren
 [Insert Emoticon]
 Emoticon einfügen
 [Send Message]
@@ -554,11 +554,11 @@ Gruppenchatverlauf
 [Outgoing messages]
 Ausgehende Nachrichten
 [Outgoing background]
-
+Ausgehender Hintergrund
 [Incoming messages]
 Eingehende Nachrichten
 [Incoming background]
-
+Eingehender Hintergrund
 [Outgoing name]
 Ausgehender Name
 [Outgoing time]
@@ -574,7 +574,7 @@ Eingehender Doppelpunkt
 [Message area]
 Nachrichtenbereich
 [Input area background]
-
+Nachrichteneingabefeld Hintergrund
 [Outgoing URL]
 Ausgehende URL
 [Incoming URL]
@@ -582,9 +582,9 @@ Eingehende URL
 [Infobar contact name]
 Statusleisten Kontaktname
 [Infobar background]
-
+Infoleiste Hintergrund
 [Infobar status message]
-Statusleisten Statusnachricht
+Infoleiste Statusnachricht
 [Others nicknames]
 Andere Nicks
 [Your nickname]
@@ -620,17 +620,17 @@ Hervorgehobene Nachricht
 [Message typing area]
 Eingabefeld Nachrichten
 [Message background]
-
+Nachricht Hintergrund
 [User list members (online)]
 Benutzerliste (online)
 [User list background]
-
+Benutzerliste Hintergrund
 [User list members (away)]
 Benutzerliste (abwesend)
 [User list lines]
 Benutzerliste, Linie
 [User list background (selected)]
-Benutzerliste, ausgewählter Benutzer
+Benutzerliste Hintergrund (ausgewählt)
 [Offline]
 Offline
 [Online]
@@ -893,7 +893,7 @@ Variablen
 [Appearance]
 Erscheinungsbild
 [Default events to show in new chat rooms if the 'event filter' is enabled]
-
+Standard-Ereignisse in neuen Chaträumen wenn Ereignisfilter aktiviert ist
 [Select Folder]
 Ordner wählen
 [Popups]
@@ -916,7 +916,7 @@ Benutzer hat eine private Nachricht geschickt
 Das Thema wurde geändert
 ;file \plugins\Scriver\src\chat\services.cpp
 [Server: %s]
-
+Server: %s
 ;file \plugins\Scriver\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s benötigt Ihre Aufmerksamkeit in %s

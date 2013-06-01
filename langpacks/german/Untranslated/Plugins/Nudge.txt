@@ -1,3 +1,2 @@
-﻿[Plugin to shake the clist and chat window.]
-[Nudge]
+﻿[Nudge]
 [Default Nudge]

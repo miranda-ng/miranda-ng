@@ -1,6 +1,4 @@
 ﻿[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
-[Info]
-[Text:]
 [Top/Left]
 [Bottom/Right]
 [Position (vertical)]

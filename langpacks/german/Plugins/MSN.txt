@@ -7,7 +7,7 @@
 ;============================================================
 ;file \protocols\MSN\res\msn.rc
 [MSN]
-
+MSN
 [Live ID:]
 Live ID:
 [Password:]
@@ -81,11 +81,11 @@ OK
 [Cancel]
 Abbrechen
 [Mobile Device (used for SMS)]
-
+Mobiles Gerät (für SMS verwendet)
 [Spouse/Partner]
-
+Ehegatte/Partner
 [Middle Name]
-
+Zweiter Name
 [First Name]
 Vorname
 [Last Name]
@@ -95,7 +95,7 @@ Jahrestag
 [Birthday]
 Geburtstag
 [Nickname]
-Nick
+Nickname
 [Place:]
 Ort:
 [MSN Delete Contact]
@@ -105,9 +105,9 @@ Aus Hotmail-Adressbuch entfernen
 [Block Contact]
 Kontakt blockieren
 [Invite Contact To Chat]
-
+Kontakt zu Chat einladen
 [Live ID]
-
+Live ID
 [&Invite]
 E&inladen
 [&Cancel]
@@ -116,7 +116,7 @@ Abbre&chen
 Hinzufügen
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
-
+Chat #
 [Me]
 Ich
 [Others]
@@ -133,13 +133,13 @@ Verlauf des Kontakts
 [Contact tried to open an audio conference (currently not supported)]
 Kontakt versucht eine Audiokonferenz zu starten (zzt. nicht unterstützt)
 [%I64u bytes]
-
+%I64u Bytes
 [Accept NetMeeting request from %s?]
-
+NetMeeting Anfrage von %s akzeptieren?
 [MSN Protocol]
 MSN-Protokoll
 [MSN Alert]
-
+MSN Alert
 [Chat session established by my request]
 Die Chatsitzung wurde durch mich eingeleitet
 [Chat session established by contact request]
@@ -153,15 +153,15 @@ Um die Konversation fortzusetzen, beenden Sie diese Sitzung und starten Sie eine
 [There is only 1 person left in the chat, do you want to switch back to standard message window?]
 Es befindet sich nur noch eine Person im Multi-Chat, wollen Sie wieder zum normalen Nachrichtenfenster wechseln?
 [MSN Chat]
-
+MSN Chat
 [Message delivery failed]
-
+Nachrichtenübertragung fehlgeschlagen
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
-
+Benutzer nicht online
 ;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
-
+MSN Link Protokoll
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Kontakt %s wurde vom Server entfernt.\nWollen Sie den Kontakt lokal behalten, um den Verlauf zu erhalten?
@@ -275,7 +275,7 @@ Live Alert
 [Contact already in your contact list]
 Der Kontakt ist bereits in Ihrer Kontaktliste
 [Protocol is offline]
-
+Protokoll ist offline
 [You cannot send message to yourself]
 Sie können keine Nachricht zu sich selbst schicken!
 [Message is too long: SMS page limited to 133 UTF8 chars]
@@ -286,9 +286,9 @@ Nachricht ist zu lang: MSN-Nachrichten dürfen maximal 1202 UTF8-Zeichen lang se
 Offline-Nachrichten sind nicht für LCS-Kontakte erlaubt!
 ;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-
+MSN benötigt ein Timeout von weniger als 60 Sekunden in Ihrem Nachrichtenfensterplugin. Bitte korrigieren Sie das Timeout.
 [Convert to Chat]
-
+In Chat umwandeln
 ;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
 Die Chatsitzung wurde wegen Inaktivität beendet

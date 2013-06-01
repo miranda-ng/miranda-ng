@@ -6,26 +6,26 @@
 ;  Authors: Mataes, tico-tico, Tim
 ;============================================================
 [Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
-
+Ändert das aktuelle Tastaturlayout oder kehrt Groß/Kleinschreibung im Eingabebereichs des Nachrichtenfensters um. Unterstützt SmileyAdd.
 ;file \plugins\TranslitSwitcher\src\Layoutproc.cpp
 [TranslitSwitcher]
-
+TranslitSwitcher
 ;file \plugins\TranslitSwitcher\src\TranslitSwitcher.cpp
 [Switch Layout and Send]
-
+Layout wechseln und senden
 [Translit and Send]
-
+Umschreiben und senden
 [Invert Case and Send]
-
+Groß/Kleinschreibung umkehren und senden
 [Convert All / Selected]
 Konvertiere alle / ausgewählte
 [Convert Last / Selected]
 Konvertiere letzte / ausgewählte
 [Translit All / Selected]
-Alle umschreiben / ausgewählte
+Alle / ausgewählten umschreiben
 [Translit Last / Selected]
-Letzten umschreiben / ausgewählte
+Letzten / ausgewählten umschreiben
 [Invert Case All / Selected]
-Kehre um alle / ausgewählte
+Alle / ausgewählte umkehren
 [Invert Case Last / Selected]
-Kehre um letzte / ausgewählte
+Letzte / ausgewählte umkehren

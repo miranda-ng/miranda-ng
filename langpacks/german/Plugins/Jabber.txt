@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: 
 ;============================================================
 ;file \protocols\JabberG\res\jabber.rc
@@ -159,13 +159,13 @@ PLZ:
 [Country:]
 Land:
 [Full name:]
-vollst. Name:
+Voller Name:
 [Nick name:]
 Nick:
 [First name:]
 Vorname:
 [Middle:]
-Weitere Vorn.
+Mittlerer:
 [Last name:]
 Nachname:
 [Date of birth:]
@@ -209,21 +209,21 @@ Stimme
 [Fax]
 Fax
 [Pager]
-
+Pager
 [Text/Messaging]
-
+Text/Nachrichten
 [Cellular]
 Mobiltelefon
 [Video]
-
+Video
 [BBS]
-
+BBS
 [Modem]
-
+Modem
 [ISDN]
-
+ISDN
 [PCS]
-
+PCS
 [Load]
 Laden
 [Save]
@@ -409,9 +409,9 @@ Alternativer Nick:
 [Custom messages]
 Benutzerdefinierte Nachrichten
 [Quit:]
-
+Verlassen:
 [Slap:]
-
+Schlagen:
 [Authorization Request]
 Autorisierungsanfrage
 [HTTP Authorization\nAccept or reject incoming request]
@@ -478,7 +478,7 @@ Liste der verfügbaren Befehle wird abgefragt. Bitte warten Sie...
 [Jabber Ad-Hoc commands at]
 Jabber-Ad-Hoc-Befehl an
 [Sending Ad-Hoc command to]
-
+Sende Jabber-Ad-Hoc-Befehl an
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Keine Nachr.
@@ -497,6 +497,95 @@ Konferenzen
 Links
 ;file \protocols\JabberG\src\jabber_byte.cpp
 [Bytestream Proxy not available]
+Bytestream-Proxy nicht verfügbar
+;file \protocols\JabberG\src\jabber_caps.cpp
+[Supports Service Discovery info]
+
+[Supports Service Discovery items list]
+
+[Can inform about its Jabber capabilities]
+
+[Supports stream initiation (for filetransfers for ex.)]
+
+[Supports stream initiation for file transfers]
+
+[Supports file transfers via SOCKS5 Bytestreams]
+
+[Supports file transfers via In-Band Bytestreams]
+
+[Supports file transfers via Out-of-Band Bytestreams]
+
+[Supports execution of Ad-Hoc commands]
+
+[Supports in-band registration]
+
+[Supports multi-user chat]
+
+[Can report chat state in a chat session]
+
+[Can report information about the last activity of the user]
+
+[Can report own version information]
+
+[Can report local time of the user]
+
+[Can send and receive ping requests]
+
+[Supports data forms]
+
+[Can request and respond to events relating to the delivery, display, and composition of messages]
+
+[Supports vCard]
+
+[Supports iq-based avatars]
+
+[Supports XHTML formatting of chat messages]
+
+[Supports Jabber Browsing]
+
+[Can negotiate options for specific features]
+
+[Can request advanced processing of message stanzas]
+
+[Can report information about user moods]
+
+[Receives information about user moods]
+
+[Supports generic publish-subscribe functionality]
+
+[Supports SecureIM plugin for Miranda NG]
+
+[Supports MirOTR plugin for Miranda NG]
+
+[Supports New_GPG plugin for Miranda NG]
+
+[Can block communications from particular other users using Privacy lists]
+
+[Supports Message Receipts]
+
+[Can report information about the music to which a user is listening]
+
+[Receives information about the music to which a user is listening]
+
+[Supports private XML Storage (for bookmakrs and other)]
+
+[Supports attention requests ('nudge')]
+
+[Supports chat history retrieving]
+
+[Supports chat history management]
+
+[Can report information about user activity]
+
+[Receives information about user activity]
+
+[Supports Miranda NG notes extension]
+
+[Supports Jingle]
+
+[Supports Roster Exchange]
+
+[Supports GTalk private multi-user chat]
 
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
@@ -516,6 +605,14 @@ Besucher
 Teilnehmer
 [Moderator]
 Moderator
+[Visitors]
+Besucher
+[Participants]
+Teilnehmer
+[Moderators]
+Moderatoren
+[Owners]
+Besitzer
 [User %s in now banned.]
 Nutzer %s wurde verbannt.
 [User %s changed status to %s with message: %s]
@@ -525,7 +622,7 @@ Benutzer %s änderte den Status zu '%s'
 [Room configuration was changed.]
 Raumeinstellungen wurden geändert.]
 [Outcast]
-
+Ausgestoßener
 [Affiliation of %s was changed to '%s'.]
 Mitgliedschaft von %s wurde geändert in '%s'.
 [Role of %s was changed to '%s'.]
@@ -553,7 +650,7 @@ Mitgliedsch&aft
 [&Owner list]
 Besitzerliste
 [Outcast list (&ban)]
-Außenseiter-Liste (&Bann)
+Außgestoßene-Liste (&Bann)
 [&Room options]
 &Raumeinstellungen
 [View/change &topic]
@@ -585,9 +682,9 @@ Für Chat bereit
 [&Leave chat session]
 Chat ver&lassen
 [&Slap]
-
+&Schlagen
 [&User details]
-Ben&utzer&etails
+Ben&utzerdetails
 [Member &info]
 Mitglieder&infos
 [User &details]
@@ -676,6 +773,38 @@ Registrierte Transporte
 Transporte des Anmeldeservers
 [Browse chatrooms]
 Konferenzräume durchsuchen
+[Contact Menu...]
+Kontaktmenü...
+[View vCard]
+vCard zeigen
+[Join chatroom]
+Konferenzraum betreten
+[Refresh Info]
+Info aktualisieren
+[Refresh Children]
+Kindelemente aktualisieren
+[Add to favorites]
+Zu Favoriten hinzufügen
+[Add to roster]
+Zur Server-Kontaktliste hinzufügen
+[Bookmark chatroom]
+Zu Lesezeichen hinzufügen
+[Add search directory]
+Suchverzeichnis hinzufügen
+[Use this proxy]
+Diesen Proxyserver benutzen
+[Commands...]
+Befehle ausführen...
+[Logon]
+Anmelden
+[Logoff]
+Abmelden
+[Copy JID]
+JID kopieren
+[Copy node name]
+Nodenamen kopieren
+[Copy node information]
+Nodeinformationen kopieren
 ;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 
@@ -692,6 +821,283 @@ Typ
 [Info request error]
 
 [Items request error]
+
+;file \protocols\JabberG\src\jabber_form2.cpp
+[One or more addresses for communication related to abusive traffic]
+
+[One or more addresses for customer feedback]
+
+[One or more addresses for communication related to sales and marketing]
+
+[One or more addresses for communication related to security concerns]
+
+[One or more addresses for customer support]
+
+[The Jabber ID of a single entity to which an operation applies]
+
+[The Jabber ID of one or more entities to which an operation applies]
+
+[The Jabber IDs associated with active sessions]
+
+[The number of online entities that are active]
+
+[A list of entities with administrative privileges]
+
+[The text of an announcement to be sent to active users or all users]
+
+[A list of entities with whom communication is blocked]
+
+[The number of seconds to delay before applying a change]
+
+[The Jabber IDs that have been disabled]
+
+[The number of disabled entities]
+
+[The email address for a user]
+
+[The given (first) name of a user]
+
+[The number of online entities that are idle]
+
+[The IP addresses of an account's online sessions]
+
+[The last login time (per XEP-0082) of a user]
+
+[The number of logins per minute for an account]
+
+[The maximum number of items associated with a search or list]
+
+[The text of a message of the day]
+
+[The names of an account's online sessions]
+
+[The Jabber IDs associated with online users]
+
+[The number of online entities]
+
+[The password for an account]
+
+[Password verification]
+
+[A list of registered entities]
+
+[The number of registered entities]
+
+[Number of roster items for an account]
+
+[The number of stanzas being sent per second by an account]
+
+[The family (last) name of a user]
+
+[The text of a welcome message]
+
+[A list of entities with whom communication is allowed]
+
+[First Name]
+Vorname
+[Last Name]
+Nachname
+[Desired Nickname]
+
+[Your URL]
+Ihre URL
+[Email Address]
+E-Mail-Adresse
+[FAQ Entry]
+FAQ-Eintrag
+[Whether to Allow Occupants to Invite Others]
+
+[Whether to Allow Occupants to Change Subject]
+
+[Whether to Enable Logging of Room Conversations]
+
+[Natural Language for Room Discussions]
+
+[Maximum Number of Room Occupants]
+
+[Whether an Make Room Members-Only]
+
+[Whether to Make Room Moderated]
+
+[Whether a Password is Required to Enter]
+
+[Whether to Make Room Persistent]
+
+[Roles for which Presence is Broadcast]
+
+[Whether to Allow Public Searching for Room]
+
+[Full List of Room Admins]
+
+[Short Description of Room]
+
+[Natural-Language Room Name]
+
+[Full List of Room Owners]
+
+[The Room Password]
+
+[Affiliations that May Discover Real JIDs of Occupants]
+
+[Precondition: node configuration with the specified access model]
+
+[Whether to allow the subscription]
+
+[The SubID of the subscription]
+
+[The NodeID of the relevant node]
+
+[The address (JID) of the subscriber]
+
+[Whether an entity wants to receive or disable notifications]
+
+[Whether an entity wants to receive digests (aggregations) of notifications or all notifications individually]
+
+[The minimum number of milliseconds between sending any two notification digests]
+
+[The DateTime at which a leased subscription will end or has ended]
+
+[Whether an entity wants to receive an XMPP message body in addition to the payload format]
+
+[The presence states for which an entity wants to receive notifications]
+
+[Who may subscribe and retrieve items]
+
+[The URL of an XSL transformation which can be applied to payloads in order to generate an appropriate message body element.]
+
+[The collection with which a node is affiliated]
+
+[The URL of an XSL transformation which can be applied to the payload format in order to generate a valid Data Forms result that the client could display using a generic Data Forms rendering engine]
+
+[Whether to deliver payloads with event notifications]
+
+[Whether owners or publisher should receive replies to items]
+
+[Who may associate leaf nodes with a collection]
+
+[The list of JIDs that may associated leaf nodes with a collection]
+
+[The child nodes (leaf or collection) associated with a collection]
+
+[The maximum number of child nodes that can be associated with a collection]
+
+[The maximum number of items to persist]
+
+[The maximum payload size in bytes]
+
+[Whether the node is a leaf (default) or a collection]
+
+[Whether to notify subscribers when the node configuration changes]
+
+[Whether to notify subscribers when the node is deleted]
+
+[Whether to notify subscribers when items are removed from the node]
+
+[Whether to persist items to storage]
+
+[Whether to deliver notifications to available users only]
+
+[The publisher model]
+
+[The specific multi-user chat rooms to specify for replyroom]
+
+[The specific JID(s) to specify for replyto]
+
+[The roster group(s) allowed to subscribe and retrieve items]
+
+[Whether to send items to new subscribers]
+
+[Whether to allow subscriptions]
+
+[A friendly name for the node]
+
+[The type of node data, usually specified by the namespace of the payload (if any); MAY be list-single rather than text-single]
+
+[The JIDs of those to contact with questions]
+
+[The datetime when the node was created]
+
+[The JID of the node creator]
+
+[A description of the node]
+
+[The default language of the node]
+
+[The number of subscribers to the node]
+
+[The JIDs of those with an affiliation of owner]
+
+[The JIDs of those with an affiliation of publisher]
+
+[The name of the node]
+
+[Payload type]
+
+[Whether to automatically authorize subscription requests]
+
+[Whether to automatically accept file transfers]
+
+[Whether to automatically open new messages]
+
+[Whether to automatically go offline when idle]
+
+[Whether to play sounds]
+
+[A list of pending file transfers]
+
+[A list of joined groupchat rooms]
+
+[A presence or availability status]
+
+[The status message text]
+
+[The new priority for the client]
+
+[Account name associated with the user]
+
+[Familiar name of the user]
+
+[Password or secret for the user]
+
+[Full name of the user]
+
+[First name or given name of the user]
+
+[Last name, surname, or family name of the user]
+
+[Email address of the user]
+
+[Street portion of a physical or mailing address]
+
+[Locality portion of a physical or mailing address]
+
+[Region portion of a physical or mailing address]
+
+[Postal code portion of a physical or mailing address]
+
+[Family Name]
+
+[Whether to accept the invitation]
+
+[Another resource with which to continue the session]
+
+[Disclosure of content, decryption keys or identities]
+
+[Whether may send Chat State Notifications per XEP-0085]
+
+[Whether allowed to use XHTML-IM formatting per XEP-0071]
+
+[Primary written language of the chat (each value appears in order of preference and conforms to RFC 4646 and the IANA registry)]
+
+[Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
+
+[Whether to renegotiate the session]
+
+[Minimum security level]
+
+[Whether to terminate the session]
+
+[Whether to enable Message Receipts per XEP-0184]
 
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
@@ -735,8 +1141,6 @@ Autorisierung gewähren
 Autorisierung widerrufen
 [Convert to room]
 in Konferenzraum umwandeln
-[Add to roster]
-Zur Server-Kontaktliste hinzufügen
 [Login/logout]
 Anmelden/Abmelden
 [Resolve nicks]
@@ -930,7 +1334,7 @@ Abchasisch
 [Afrikaans]
 Afrikaans
 [Akan]
-
+Akan
 [Albanian]
 Albanisch
 [Amharic]
@@ -944,17 +1348,17 @@ Armenisch
 [Assamese]
 Assamesisch
 [Avaric]
-
+Avaric
 [Avestan]
-
+Avestan
 [Aymara]
-
+Aymara
 [Azerbaijani]
 Aserbaidschanisch
 [Bashkir]
 Baschkirisch
 [Bambara]
-
+Bambara
 [Basque]
 Baskisch
 [Belarusian]
@@ -962,9 +1366,9 @@ Weißrussisch
 [Bengali]
 Bengalisch
 [Bihari]
-
+Bihari
 [Bislama]
-
+Bislama
 [Bosnian]
 Bosnisch
 [Breton]
@@ -976,7 +1380,7 @@ Birmanisch
 [Catalan; Valencian]
 Katalanisch, Valencianisch
 [Chamorro]
-
+Chamorro
 [Chechen]
 Tschetschenisch
 [Chinese]
@@ -990,7 +1394,7 @@ Kornisch
 [Corsican]
 Korsisch
 [Cree]
-
+Cree
 [Czech]
 Tschechisch
 [Danish]
@@ -1000,7 +1404,7 @@ Dhivehi, Malediven
 [Dutch; Flemish]
 Niederländisch, Flämisch
 [Dzongkha]
-
+Dzongkha
 [English]
 Englisch
 [Esperanto]
@@ -1008,7 +1412,7 @@ Esperanto
 [Estonian]
 Estnisch
 [Ewe]
-
+Ewe
 [Faroese]
 Färöisch
 [Fijian]
@@ -1032,37 +1436,37 @@ Irisch
 [Galician]
 Galicisch
 [Manx]
-
+Manx
 [Greek, Modern (1453-)]
 Griechisch, Modern (1453-)
 [Guarani]
-
+Guarani
 [Gujarati]
-
+Gujarati
 [Haitian; Haitian Creole]
 Haitianisch
 [Hausa]
-
+Hausa
 [Hebrew]
 Hebräisch
 [Herero]
 Otjiherero
 [Hindi]
-
+Hindi
 [Hiri Motu]
-
+Hiri Motu
 [Hungarian]
 Ungarisch
 [Igbo]
-
+Igbo
 [Icelandic]
 Isländisch
 [Ido]
-
+Ido
 [Sichuan Yi]
 Sichuan, Yi
 [Inuktitut]
-
+Inuktitut
 [Interlingue]
 Interlingue
 [Interlingua (International Auxiliary Language Association)]
@@ -1070,7 +1474,7 @@ Interlingua (Internationale Hilfssprachengesellschaft)
 [Indonesian]
 Indonesisch
 [Inupiaq]
-
+Inupiaq
 [Italian]
 Italienisch
 [Javanese]
@@ -1080,11 +1484,11 @@ Japanisch
 [Kalaallisut; Greenlandic]
 Kalaallisut, Grönländisch
 [Kannada]
-
+Kannada
 [Kashmiri]
 Kashmiri
 [Kanuri]
-
+Kanuri
 [Kazakh]
 Kasachisch
 [Central Khmer]
@@ -1092,13 +1496,13 @@ Zentral-Khmer
 [Kikuyu; Gikuyu]
 Kikuyu, Gikuyu
 [Kinyarwanda]
-
+Kinyarwanda
 [Kirghiz; Kyrgyz]
 Kirgisisch
 [Komi]
-
+Komi
 [Kongo]
-
+Kongo
 [Korean]
 Koreanisch
 [Kuanyama; Kwanyama]
@@ -1114,7 +1518,7 @@ Lettisch
 [Limburgan; Limburger; Limburgish]
 Limburgisch
 [Lingala]
-
+Lingala
 [Lithuanian]
 Litauisch
 [Luxembourgish; Letzeburgesch]
@@ -1122,21 +1526,21 @@ Luxemburgisch
 [Luba-Katanga]
 Kiluba
 [Ganda]
-
+Ganda
 [Macedonian]
 Mazedonisch
 [Marshallese]
 Marshallesisch
 [Malayalam]
-
+Malayalam
 [Maori]
-
+Maori
 [Marathi]
-
+Marathi
 [Malay]
 Malayisch
 [Malagasy]
-
+Malagasy
 [Maltese]
 Maltesisch
 [Moldavian]
@@ -1158,19 +1562,19 @@ Nepalesisch
 [Norwegian Nynorsk; Nynorsk, Norwegian]
 Norwegisch Nynorsk, Neunorwegisch
 [Bokmaal, Norwegian; Norwegian Bokmaal]
-
+Norwegisch Bokmål
 [Norwegian]
 Norwegisch
 [Chichewa; Chewa; Nyanja]
 Chichewa
 [Occitan (post 1500); Provencal]
-
+Okzitan (nach 1500); Provencal
 [Ojibwa]
 Anishinabe
 [Oriya]
-
+Oriya
 [Oromo]
-
+Oromo
 [Ossetian; Ossetic]
 Ossetisch
 [Panjabi; Punjabi]
@@ -1178,7 +1582,7 @@ Panjabi, Punjabi
 [Persian]
 Persisch
 [Pali]
-
+Pali
 [Polish]
 Polnisch
 [Portuguese]
@@ -1186,7 +1590,7 @@ Portugiesisch
 [Pushto]
 Paschtunisch
 [Quechua]
-
+Quechua
 [Romansh]
 Rätoromanisch
 [Romanian]
@@ -1196,7 +1600,7 @@ Kirundi
 [Russian]
 Russisch
 [Sango]
-
+Sango
 [Sanskrit]
 Sanskrit
 [Serbian]
@@ -1214,9 +1618,9 @@ Sami, Nördlich
 [Samoan]
 Samoanisch
 [Shona]
-
+Shona
 [Sindhi]
-
+Sindhi
 [Somali]
 Somalisch
 [Sotho, Southern]
@@ -1240,11 +1644,11 @@ Tamilisch
 [Tatar]
 Tatarisch
 [Telugu]
-
+Telugu
 [Tajik]
 Tadschikisch
 [Tagalog]
-
+Tagalog
 [Thai]
 Thailändisch
 [Tibetan]
@@ -1256,19 +1660,19 @@ Tongaisch (Tonga Inseln)
 [Tswana]
 Setswana
 [Tsonga]
-
+Tsonga
 [Turkmen]
 Turkmenisch
 [Turkish]
 Türkisch
 [Twi]
-
+Twi
 [Uighur; Uyghur]
 Uighurisch
 [Ukrainian]
 Ukrainisch
 [Urdu]
-
+Urdu
 [Uzbek]
 Usbekisch
 [Venda]
@@ -1276,23 +1680,23 @@ Tshivenda
 [Vietnamese]
 Vietnamesisch
 [Volapuk]
-
+Volapuk
 [Welsh]
 Walisisch
 [Walloon]
 Wallonisch
 [Wolof]
-
+Wolof
 [Xhosa]
 isiXhosa
 [Yiddish]
 Jiddisch
 [Yoruba]
-
+Yoruba
 [Zhuang; Chuang]
 Zhuang, Guangxi
 [Zulu]
-
+Zulu
 [These changes will take effect the next time you connect to the Jabber network.]
 Die Änderungen werden erst nach einer Neueinwahl ins Jabbernetzwerk aktiv.
 [Jabber Protocol Option]
@@ -1422,13 +1826,15 @@ Sicheres XMPP-Netzwerk
 [Secure XMPP Network (old style)]
 Sicheres XMPP-Netzwerk (veraltet)
 [Google Talk!]
-
+Google Talk!
 [LiveJournal Talk]
-
+LiveJournal Talk
 [Facebook Chat]
-
+Facebook Chat
 [Vkontakte]
-
+Vkontakte
+[Odnoklassniki]
+Odnoklassniki
 [Some changes will take effect the next time you connect to the Jabber network.]
 
 ;file \protocols\JabberG\src\jabber_password.cpp
@@ -1672,7 +2078,7 @@ Software
 [Version]
 Version
 [System]
-
+System
 [unknown]
 Unbekannt
 [Idle since]
@@ -1690,15 +2096,15 @@ Software-Version
 [Miranda NG core version]
 Miranda NG Core-Version
 [Unicode build]
-
+Unicode Build
 [Yes]
 Ja
 [No]
 Nein
 [Alpha build]
-
+Alpha Build
 [Debug build]
-
+Debug Build
 [Mood]
 Stimmung
 [Activity]
@@ -1738,6 +2144,40 @@ Nur diesen Wert kopieren
 [Photo]
 Foto
 ;file \protocols\JabberG\src\jabber_util.cpp
+[Redirect]
+Umgeleitet
+[Bad request]
+Fehlerhafte Anfrage
+[Unauthorized]
+nicht autorisiert
+[Payment required]
+Bezahlung erforderlich
+[Forbidden]
+verboten
+[Not found]
+nicht gefunden
+[Not allowed]
+nicht erlaubt
+[Not acceptable]
+nicht akzeptiert
+[Registration required]
+Registrierung erforderlich
+[Request timeout]
+Zeitüberschreitung der Anfrage
+[Conflict]
+Konflikt
+[Internal server error]
+Interner Serverfehler
+[Not implemented]
+Nicht unterstützt
+[Remote server error]
+Fehler beim Remoteserver
+[Service unavailable]
+Service nicht unterstützt
+[Remote server timeout]
+Zeitüberschreitung beim Remoteserver
+[Unknown error]
+Unbekannter Fehler
 [Error]
 Fehler
 [Unknown error message]
@@ -1767,7 +2207,7 @@ Kontakte
 Anmerkung
 ;file \protocols\JabberG\src\jabber_ws.cpp
 [%s connection]
-
+%s Verbindung
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]
 Ängstlich

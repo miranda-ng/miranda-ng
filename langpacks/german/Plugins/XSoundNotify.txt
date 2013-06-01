@@ -8,12 +8,12 @@
 [Provides extended options for sound notifications.]
 Erweiterte Einstellungen für Sound-Benachrichtigungen.
 ;file \plugins\XSoundNotify\res\XSoundNotify.rc
-[Protocol :]
-Protokoll :
-[Nick :]
-Benutzer :
-[Sound :]
-Sound :
+[Account:]
+Konto:
+[Nick:]
+Nick:
+[Sound:]
+Ton:
 [Not set]
 Nicht ausgewählt
 [Choose]
@@ -24,6 +24,8 @@ Sound Test
 Standard
 [Ignore sound for this contact]
 Sound für diesen Kontakt ignorieren
+[XSoundNotify]
+
 [OK]
 OK
 [Cancel]

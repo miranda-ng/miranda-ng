@@ -6,7 +6,7 @@
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
-
+OTR (Off-the-Record) Plugin für Miranda NG (verwendet einigen Code und Ideen aus SecureIM, Pidgin-OTR und dem alten Miranda OTR (von SJE)).
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
 [OTR Generating Private Key]
 OTR generiert privaten Schlüssel
@@ -65,15 +65,15 @@ Socialist Millionaire Protocol\r\nVerifizierung läuft
 [&Cancel]
 Abbre&chen
 [&OK]
-
+&OK
 [Socialist Millionaires Protocol\r\nVerification]
 Socialist Millionaire Protocol\r\nVerifizierung
 [&No]
 &Nein
 [&Yes]
-Ja
+&Ja
 [MirOTR]
-
+MirOTR
 [OTR status]
 OTR-Status
 [&Start OTR session]
@@ -84,11 +84,6 @@ E&rneuere OTR-Sitzung
 Sto&ppe OTR-Sitzung
 [&Verify Fingerprint]
 &Verifiziere Fingerabdruck
-;file \plugins\MirOTR\MirOTR\src\dllmain.cpp
-[OTR Info]
-
-[Your SRMM plugin does not support status icons. Not all OTR-functions are available!]
-
 ;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
 OTR aktivieren
@@ -145,9 +140,9 @@ Authentifiziere %s
 [Unknown]
 Unbekannt
 [OTR: %s (%s)]
-
+OTR: %s (%s)
 [OTR %s (%s)]
-
+OTR %s (%s)
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 OTR-verschlüsselte Sitzung mit '%s' ist nun mit einem Fingerabdruck verifiziert worden.
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
@@ -171,7 +166,7 @@ Protokolle
 [Contacts]
 Kontakte
 [Fingerprints]
-
+Fingerprints
 [Contact]
 Kontakt
 [Protocol]
@@ -183,7 +178,7 @@ Verifiziert!
 [Active]
 Aktiv
 [Fingerprint]
-
+Fingerprint
 [Conv. HTML]
 Konv. HTML
 [Default]
@@ -254,7 +249,7 @@ OTR: SecureIM ist installiert
 Sie benutzen SecureIM. MirOTR funktioniert nur mit deaktiviertem SecureIM.
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 [OTR Status]
-
+OTR Status
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
 [Private Data]
 Private Daten

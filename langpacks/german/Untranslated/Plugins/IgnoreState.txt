@@ -1,2 +1,1 @@
-﻿[Shows ignore state of contact in contacts list.]
-[Ignore State]
+﻿[Ignore State]

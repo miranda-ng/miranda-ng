@@ -1,6 +1,4 @@
-﻿[Allows inline skin item editing for clist nicer.]
-[Transparent]
-[Dialog]
+﻿[Dialog]
 [Not yet supported]
 [Copy from]
 [Raised]

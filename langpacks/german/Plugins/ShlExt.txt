@@ -6,7 +6,7 @@
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=534
 ;============================================================
 [Click 'n' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to.]
-
+Klicken und Senden Unterstützung für Dateien im Explorer, Rechtsklick auf einen Kontakt, um die Miranda-Kontaktliste angezeigt zu bekommen, und dann das Profil/den Kontakt auswählen, dem Sie die Datei senden wollen.
 [Problem, registration missing/deleted.]
 Fehler, Registrierung fehlgeschlagen/gelöscht.
 [Successfully created shell registration.]

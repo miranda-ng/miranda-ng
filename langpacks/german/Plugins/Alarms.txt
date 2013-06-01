@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Sets once-off, daily, weekly and weekday alarms.]
-
+Tägliche, wöchentliche und werktägliche Alarme einstellen.
 ;file \plugins\Alarms\res\resource.rc
 [New]
 Neu
@@ -49,7 +49,7 @@ Fokus nur stehlen, wenn IDLE
 [Preview]
 Vorschau
 [Alarm]
-
+Alarm
 [OK]
 OK
 [Cancel]
@@ -119,7 +119,7 @@ Löschen
 [&Options...]
 Einstellungen...
 [&New Alarm...]
-
+&Neuer Alarm...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 [Unknown command issued: "%s"]
@@ -132,17 +132,17 @@ Beispielalarm
 [Some example text. Example, example, example.]
 Ein Beispieltext. Beispiel, Beispiel, Beispiel.
 [5 mins]
-
+5 Min
 [15 mins]
-
+15 Min
 [30 mins]
-
+30 Min
 [1 hour]
 1 Stunde
 [1 day]
 1 Tag
 [1 week]
-
+1 Woche
 [Title]
 Titel
 [Background]
@@ -157,7 +157,7 @@ Termine zeigen
 [Frames]
 Frames
 [Alarm Reminders]
-Alarm
+Alarm-Erinnerungen
 ;file \plugins\Alarms\src\icons.cpp
 [Menu: Set Alarm]
 Menü: Alarm setzen
@@ -192,4 +192,3 @@ Fehler
 
 [Events]
 Ereignisse
-;file \plugins\Alarms\src\trigger.cpp

@@ -58,6 +58,8 @@ Multi-Protokoll Clients
 Andere (seltene) Protokolle
 [Other icons]
 Andere Icons
+[Show client icon in message window status bar]
+Client-Icon in Statusleiste des Nachrichtenfensters anzeigen
 ;file \plugins\FingerprintNG\src\fingerprint.cpp
 [Fingerprint]
 Fingerprint

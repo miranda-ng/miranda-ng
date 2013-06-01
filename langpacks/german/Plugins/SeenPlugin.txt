@@ -6,7 +6,7 @@
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
-
+Speichert, wann ein Benutzer zuletzt online gesehen wurde, und welche Nutzer online waren während Sie weg waren.
 ;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Einstellungen
@@ -142,7 +142,7 @@ Stunden (24)
 [hours (12)]
 Stunden (12)
 [AM/PM]
-
+AM/PM
 [minutes]
 Minuten
 [seconds]
@@ -171,6 +171,8 @@ Interne IP
 Client
 [Protocol]
 Protokoll
+[Account]
+Konto
 [-- Format --]
 -- Formatierung --
 [tabulator]
@@ -248,9 +250,9 @@ Mär.
 [Apr.]
 Apr.
 [Jun.]
-
+Jun.
 [Jul.]
-
+Jul.
 [Aug.]
 Aug.
 [Sep.]

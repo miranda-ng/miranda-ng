@@ -6,7 +6,7 @@
 ;  Authors: perf
 ;============================================================
 [Shows a small tooltip above system tray area when a contact status is changed.]
-
+Zeigt einen kleinen Tooltip über dem Systemtray wenn ein Kontakt seinen Status ändert.
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 Protokoll Auswahl
@@ -15,7 +15,7 @@ OK
 [Choose contacts...]
 Wähle Kontakte...
 [Allow tooltip notifications for the following users:]
-Erlaube Tooltip-Benachrichtigungen für die folgenden Kontakte:
+Tooltip-Benachrichtigungen für die folgenden Kontakte erlauben:
 [Cancel]
 Abbrechen
 [Notify upon the following events]
@@ -35,11 +35,11 @@ Unterdrücke Benachrichtigungen beim Verbinden für
 [sec]
 Sek.
 [Prefix proto name]
-Protok.-Namenspräfix
+Proto-Namenspräfix
 [Duration]
 Dauer
 [Show tooltip for]
-Tooltip zeigen
+Tooltip zeigen für
 [ms]
 ms
 [Duration x2 upon online event]
@@ -59,11 +59,11 @@ Erzwinge die Einhaltung des Unterdrückens von Online-Benachrichtigungen
 [Auto positioning]
 Autom. Positionieren
 [Transparent input]
-Transparente Vorgabe
+Transparente Eingabe
 [Preview]
 Vorschau
-[Translucency options (Windows 2000/XP only)]
-Transparenz (ab Windows 2000)
+[Translucency options]
+Transparenz-Einstellungen
 [Transparent tooltip]
 Transparenter Tooltip
 [Contacts]
@@ -76,13 +76,13 @@ Tooltip-Benachrichtigung
 [Other Status]
 Andere Status
 [Tooltip Notify: Online]
-
+Tooltip Notify: Online
 [Tooltip Notify: Offline]
-
+Tooltip Notify: Offline
 [Tooltip Notify: Other]
-
+Tooltip Notify: Andere
 [Tooltip Notify: Typing]
-
+Tooltip Notify: Tippen
 [Popups]
 Popups
 [** New contacts **]
@@ -90,7 +90,7 @@ Popups
 [** Unknown contacts **]
 ** Unbekannte Kontakte **
 [Not Idle]
-
+Nicht Untätig
 [Unknown]
 Unbekannt
 [is]

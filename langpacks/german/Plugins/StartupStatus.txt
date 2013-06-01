@@ -198,20 +198,6 @@ Prüfung aktivieren
 Prüfung deaktivieren
 [Set status message]
 Statusnachricht setzen
-[Trigger when connection loss is detected]
-
-[Trigger when reconnection attempt is made]
-
-[Trigger when successfull reconnected]
-
-[Trigger when giving up reconnecting]
-
-[Trigger when reconnected from another location]
-
-[Pre-conditions]
-Vorbedingungen
-[Trigger when a login error occurs]
-
 [Status]
 Status
 [Add...]
@@ -274,6 +260,8 @@ Prüfintervall(e) (in Sek.)
 
 [Becoming active without status change]
 
+[Pre-conditions]
+Vorbedingungen
 [TriggerData]
 
 [Status: The status the account will change to\r\nAccount: The account changing state]
@@ -313,14 +301,14 @@ Mindestens ein Profil muss angelegt sein
 Ihre Profile wurden geändert
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
 [Status profiles]
-
+Statusprofile
 [There is a maximum of 6 menu items]
 Das Maximum an Menüeinträge beträgt 6
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 [Pressed toolbar icon]
 Gedrücktes ToolBar Icon
 [Released toolbar icon]
-Veröffentlichtes ToolBar Icon
+Losgelassenes ToolBar Icon
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Ich bin nicht da seit %time%.

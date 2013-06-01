@@ -1,8 +1,6 @@
 ﻿[Found field]
 [Text:]
 [In:]
-[DBEditor++]
-[Finished. %d items were found, %d items were replaced.]
 [Module tree not found]
 [HANDLE]
 [Decoded string..]

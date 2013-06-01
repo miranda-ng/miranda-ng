@@ -1,6 +1,1 @@
-﻿[Plugin for changing keyboard layout of text (multilayout).]
-[EN]
-[Change active keyboard layout in system]
-[ChangeKeyboardLayout]
-[Changing Layout]
-[Changing Case]
+﻿[Changing Case]

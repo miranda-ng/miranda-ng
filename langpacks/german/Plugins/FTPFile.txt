@@ -6,7 +6,7 @@
 ;  Authors: yaho
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
-
+Laden Sie eine Datei auf einen Server und senden Sie die URL an Ihren Freund. Unterstützt automatisches Zippen vor dem Hochladen und Verschlüsselung mit SFTP und FTPS.
 ;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP account]
 FTP-Konten
@@ -51,13 +51,13 @@ Sonstige
 [Automatically delete file from FTP server after (experimental):]
 Datei automatisch vom FTP-Server löschen nach: (experimentell)
 [ZIP support]
-
+ZIP Unterstützung
 [Enter archive name manually]
 Archivnamen manuell setzen
 [Compression level:]
 Kompressionsstufe:
 [Upload File Manager]
-
+Dateimanager Hochladen
 [File:]
 Datei:
 [Completed:]
@@ -65,7 +65,7 @@ Abgeschlossen:
 [Speed:]
 Geschw.:
 [Remaining:]
-
+Verbleibend:
 [Summary]
 Zusammenfassung
 [To:]
@@ -81,91 +81,91 @@ Einstellungen
 [Pause]
 Pause
 [File Manager]
-
+Dateimanager
 [Server:]
-
+Server:
 [User info]
-
+Benutzerinfo
 [UPLOADING...]
-
+HOCHLADEN...
 [Open in Browser]
 Im Web-Browser öffnen
 [FTP File Manager]
-
+FTP-Dateimanager
 [Select All]
 Alles markieren
 [Deselect All]
-
+Alle abwählen
 [Delete from list]
 Aus Liste löschen
 [Delete from FTP]
 Vom FTP löschen
 [Enter file name]
-
+Dateinamen eingeben
 [OK]
 OK
 [Cancel]
 Abbrechen
 [File exists]
-
+Datei existiert
 [Rename]
 Umbenennen
 [Overwrite]
 Überschreiben
 [File with the same name already exists on the server.]
-
+Datei mit dem selben Namen existiert auf dem Server.
 [How to proceed?]
-
+Wie fortfahren?
 [Copy URL]
-
+URL kopieren
 [Close dialog after upload finishes]
 Schließe Dialog, wenn Dateiupload fertig ist
 [Automatically delete file after...]
-
+Datei automatisch löschen nach...
 [Disabled]
 Deaktiviert
 [Delete from List]
-
+Aus Liste löschen
 [Copy Link]
 Link kopieren
 ;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
-
+Benutzerinfo
 [Copy Link to Clipboard]
-
+Link in Zwischenablage kopieren
 [%d minutes]
 %d Minuten
 [%d hours]
 %d Stunden
 [%d days]
-
+%d Tage
 [Do you really want to cancel all running jobs?]
 
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
 [FTP Server 1]
-
+FTP Server 1
 [FTP Server 2]
-
+FTP Server 2
 [FTP Server 3]
-
+FTP Server 3
 [FTP Server 4]
-
+FTP Server 4
 [FTP Server 5]
-
+FTP Server 5
 [Send file]
 Datei senden
 [Resume]
 Fortsetzen
 [FTP File]
-
+FTP Datei
 [FTP Server %d]
 FTP-Server %d
 [Upload file(s)]
-
+Datei(en) hochladen
 [Zip and upload file(s)]
-
+Datei(en) zippen und hochladen
 [Zip and upload folder]
-
+Verzeichnis zippen und hochladen
 [FTP File manager]
 FTP-Dateimanager
 [Show FTPFile manager]
@@ -173,9 +173,9 @@ Zeige FTP-File-Dialog
 [FTP_ShowManager]
 
 [Upload file]
-
+Datei hochladen
 [Zip and upload file]
-
+Datei zippen und hochladen
 [You have to fill FTP server setting before upload a file.]
 Sie müssen erst die FTP-Server einstellungen vornehmen, bevor Sie eine Datei uploaden können.
 [Error has occurred while trying to create a dialog!]
@@ -188,9 +188,9 @@ Upload abgebrochen
 [All Files (*.*)]
 Alle Dateien (*.*)
 [FTP File - Select files]
-
+FTP File - Dateien auswählen
 [FTP File - Select a folder]
-
+FTP File - Verzeichnis auswählen
 [Folder not found!]
 
 [The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
@@ -213,20 +213,20 @@ Alle Dateien (*.*)
 
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 [Error occured when zipping the file(s).]
-
+Fehler beim Zippen der Dateien aufgetreten.
 [%0.1f kB/s]
-
+%0.1f kB/s
 [%0.1f%% (%d kB/%d kB)]
-
+%0.1f%% (%d kB/%d kB)
 [%s (%d kB/%d kB)]
-
+%s (%d kB/%d kB)
 [Do you really want to cancel this upload?]
-
+Möchten Sie diesen Upload wirklich abbrechen?
 [Status: %s\r\nFile: %s\r\nServer: %s]
-
+Status: %s\r\nDatei: %s\r\nServer: %s
 ;file \plugins\FTPFileYM\src\job_upload.cpp
 [File exists - %s]
-
+Datei existiert - %s
 [Error occurred when opening local file.\nAborting file upload...]
 Es ist ein Fehler beim Öffnen der lokalen Datei aufgetreten.\nDateiupload wird abgebrochen...
 [Error occurred when initializing libcurl.\nAborting file upload...]
@@ -240,7 +240,7 @@ Es ist ein Fehler beim Öffnen der lokalen Datei aufgetreten.\nDateiupload wird 
 [Do you really want to cancel running upload?]
 
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
-
+%s\r\nGeschwindigkeit: %s\r\nKomplett: %s\r\nVerblöeibend: %s
 ;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
 Sie müssen erst die FTP-Server Einstellungen ausfüllen und aktivieren.
@@ -248,13 +248,13 @@ Sie müssen erst die FTP-Server Einstellungen ausfüllen und aktivieren.
 Alles löschen
 ;file \plugins\FTPFileYM\src\options.cpp
 [FTP (Standard)]
-
+FTP (Standard)
 [FTP+SSL (Explicit)]
-
+FTP+SSL (Explizit)
 [FTP+SSL (Implicit)]
-
+FTP+SSL (Implizit)
 [SFTP (Secure FTP over SSH)]
-
+SFTP (Sicheres FTP über SSH)
 [minutes]
 Minuten
 [hours]

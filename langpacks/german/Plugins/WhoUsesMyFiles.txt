@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: WhoUsesMyFiles.dll
 ;  Plugin: Who Use My Files
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
-
+Sucht nach Netzwerknutzern Ihrer freigegebenen Dateien und benachrichtigt Sie mit Popups.
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
 

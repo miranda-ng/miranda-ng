@@ -6,7 +6,7 @@
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
-
+Blinkt Ihre Tastatur wenn eine neue Nachricht empfangen wird.
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Accounts to check]
 Folgende Konten prüfen
@@ -46,8 +46,8 @@ Blinken wenn
 Vollbildmodus
 [Screen Saver is running]
 Bildschirmschoner läuft
-[Workstation is Locked (2000/XP)]
-Arbeitsplatz blockiert wird (2000/XP)
+[Workstation is Locked]
+Arbeitsstation gesperrt ist
 [Defined programs are running]
 Bestimmte Programme laufen
 [All other situations]

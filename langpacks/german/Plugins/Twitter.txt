@@ -6,10 +6,10 @@
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
-
+Twitter-Unterstützung für Miranda NG.
 ;file \protocols\Twitter\res\twitter.rc
 [Server:]
-
+Server:
 [Create a new Twitter account]
 Erstelle ein neues Twitter-Konto
 [Default group:]
@@ -17,7 +17,7 @@ Standardgruppe:
 [Username:]
 Benutzername:
 [[Sign in to link your twitter account]]
-
+(Anmelden um Ihren Twitter-Account zu verbinden)
 [Send Tweet]
 Tweet senden
 [Send]

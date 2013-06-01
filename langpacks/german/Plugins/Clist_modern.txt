@@ -80,12 +80,12 @@ Titel vertikal nach Zeilenhöhe anpassen
 Windowsfarben verwenden
 [Available skins]
 Verfügbare Skins
-[Browse]
-Durchsuchen
+[Rescan]
+Neu Scannen
 [Apply]
 Übernehmen
 [Info]
-
+Info
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\nBitte eines der verfügbaren Skins auswählen. \n\nOder nach Skins außerhalb der Liste suchen.
 [Skin Preview]
@@ -93,7 +93,7 @@ Skinvorschau
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
 WARNUNG: Skins können Ihre Einstellungen überschreiben. Es ist nicht möglich, dies rückgängig zu machen. Sichern Sie Ihre Datenbank vor dem Übernehmen des Skins!
 [* Restart may be required for all changes to take effect]
-* Evtl. Neustart erforderl. um alle Änderungen zu übernehmen
+* Evtl. Neustart erforderlich um alle Änderungen zu übernehmen
 [Available objects]
 Verfügbare Objekte
 [Copy]
@@ -394,12 +394,12 @@ Einstellungen für Metakontakte
 Zusatzliche Einstellungen
 [For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
 Für weitere Einstellungen benötigen Sie das MetaContacts-Plugin:\n\nhttp://miranda-ng.org
-[Allow internal requesting of away message text]
-Interne Abfrage der Texte der Abwesenheitsnachrichten
+[Allow internal requesting of status message text]
+Interne Abfrage der Texte der Statusnachrichten
 [Subcontacts indent:]
 Unterkontakte einrücken um Pixel:
-[Remove away message if contact became offline]
-Abwesenheitsnachricht entfernen, wenn Kontakt offline
+[Remove status message if contact became offline]
+Statusnachricht entfernen, wenn Kontakt offline
 [Use improved search method in contactlist]
 Verbesserte Suchmethode in Kontaktliste verwenden
 [Show time only if it is different from current time]
@@ -426,8 +426,8 @@ Titelleistentext:
 Schmale Titelleiste
 [Minimize to tray]
 In Systemtray minimieren
-[Translucency options (Windows 2000/XP+)]
-Transparenz (Windows 2000/XP+)
+[Translucency options]
+Transparenz-Einstellungen
 [Enable drop shadow (restart required)]
 Schatten aktivieren (Neustart nötig)
 [Frames]
@@ -529,21 +529,21 @@ Abstand oben:
 [Draw smileys on second line]
 Grafiksmileys in der zweiten Zeile
 [Text:]
-
+Text:
 [Status]
 Status
 [Nickname]
 Nick
-[Away Message]
-Abwesenheitsnachricht
+[Status Message]
+Statusnachricht
 [Listening to]
 Höre gerade
 [Contact time]
 Kontaktzeit
-[Show status if there isn't away message]
-Statusanzeige, falls keine Abwesenheitsnachricht
-[Show listening to if there isn't away message]
-"Hört gerade", falls keine Abwesenheitsnachricht
+[Show status if there is no status message]
+Status anzeigen, falls keine Statusnachricht
+[Show listening to if there is no status message]
+"Hört gerade", falls keine Statusnachricht
 [XStatus has priority]
 XStatus hat Priorität
 [Use 'XStatus: XMessage']
@@ -657,6 +657,10 @@ G&ruppe umbenennen
 [&Delete Group]
 Gruppe löschen
 ;file \plugins\Clist_modern\src\modern_clc.cpp
+[Skins]
+Skins
+[Modern contact list]
+Modern contact list
 [Avatar Overlay]
 Avatar-Overlay
 [Status Overlay]
@@ -764,8 +768,6 @@ Allgemein
 Liste
 [Window]
 Fenster
-[Skins]
-Skins
 [List Background]
 Hintergrund Liste
 [Not focused]
@@ -951,6 +953,22 @@ Linien
 [ layered]
 
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
+[- Empty - (do not draw this object)]
+- Leer - (dieses Objekt nicht zeichnen)
+[Solid fill object]
+Objekt mit Farbe füllen
+[Image (draw image)]
+Bild (Bild zeichnen)
+[Fragment (draw portion of image)]
+Fragment (Teil des Bildes zeichnen)
+[Stretch Both directions]
+Beide Richtungen strecken
+[Stretch Vertical, Tile Horizontal]
+Vertikal strecken, horizontal kacheln
+[Tile Vertical, Stretch Horizontal]
+Vertikal kacheln, horizontal strecken
+[Tile Both directions]
+Beide Richtungen kacheln
 [Image size is]
 Bildgröße ist
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
@@ -985,8 +1003,6 @@ Skineditor enthält keine gespeicherten Änderungen.\n\nAlle Änderungen gehen v
 Warnung!
 [Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
 Aktueller Skin wurde nicht als Datei gespeichert.\n\Alle Änderungen gehen verloren.\n\n Soll der neue Skin geladen werden?
-[Miranda skin file]
-Miranda-Skindatei
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Vorschau nicht verfügbar\n\n%s\n----------------------\n\n%s\n\nAUTOR(EN):\n%s\n\nKONTAKT:\n%s\n\nHOMEPAGE:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]

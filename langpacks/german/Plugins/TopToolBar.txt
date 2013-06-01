@@ -6,7 +6,7 @@
 ;  Authors: Bethoven
 ;============================================================
 [ToptoolBar adds buttons in top frame for fast access.]
-
+Fügt eine Toolbar der Kontaktliste hinzu.
 ;file \plugins\TopToolBar\res\main.rc
 [Buttons Order && Visibility]
 Button Reihenfolge && Anzeige

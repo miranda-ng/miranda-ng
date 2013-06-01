@@ -1,5 +1,4 @@
-﻿[AOL Instant Messenger (AIM) protocol support for Miranda NG.]
-[Original]
+﻿[Original]
 [*Passwords don't match.]
 [Invalid Screen Name or password.]
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]

@@ -56,8 +56,8 @@ Vorschau
 Un4seen's Bass Version: %d.%d.%d.%d
 [--default device--]
 Standard-Ausgabegerät
-[Customize]
-Customize
+[Sounds]
+Klänge
 [Disable sounds]
 Klänge deaktivieren
 [Enable sounds]

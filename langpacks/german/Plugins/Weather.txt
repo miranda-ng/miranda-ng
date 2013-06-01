@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
-
+Ruft Wetter-Informationen ab und zeigt diese in Ihrer Kontaktliste an.
 ;file \plugins\Weather\res\resource.rc
 [Update]
 Aktualisieren
@@ -41,37 +41,37 @@ Einheiten
 [Temperature]
 Temperatur
 [Celsius]
-
+Celsius
 [Fahrenheit]
-
+Fahrenheit
 [Degree sign:]
 Gradzeichen:
 [Wind]
-
+Wind
 [km/h]
-
+km/h
 [m/s]
-
+m/s
 [mph]
-
+mph
 [knots]
 Knoten
 [Visibility]
 Sichtbarkeit
 [km]
-
+km
 [miles]
 Meilen
 [Pressure]
 Druck
 [kPa]
-
+kPa
 [mb (hPa)]
-
+mb (hPa)
 [inches]
 Zoll
 [mm Hg (torr)]
-
+mm Hg (torr)
 [Day/Month]
 Tag/Monat
 [No change]
@@ -81,11 +81,11 @@ Keine Änder.
 [3 chars]
 3 Zeichen
 [Elevation]
-
+Elevation
 [ft]
 Fuß
 [m]
-
+m
 [Do not append units to values]
 Keine Einheiten an Werte anhängen
 [Do not display fractional values]
@@ -171,7 +171,7 @@ Standard
 [Preview]
 Vorschau
 [Updates]
-
+Updates
 [Alerts]
 Hinweis
 [Errors]
@@ -258,7 +258,7 @@ Auf alte Einstellungen
 Auf Standard
 ;file \plugins\Weather\src\weather.cpp
 [Enable/disable auto update]
-
+Automatische Aktualisierung (de-)aktivieren
 [Auto Update Enabled]
 Autom. Aktualisierung aktiviert
 [Auto Update Disabled]
@@ -269,7 +269,7 @@ Wetterlage hat sich geändert
 Wetteralarm zugeteilt
 ;file \plugins\Weather\src\weather.h
 [N/A]
-
+N/A
 [Invalid ID format, missing "/" (10)]
 Ungültiges ID-Format, fehlendes "/" (10)
 [Invalid service (11)]

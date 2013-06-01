@@ -6,7 +6,7 @@
 ;  Authors: Ghost, Mironych
 ;============================================================
 [Adding traffic and time counters.]
-
+Zeigt Statistiken über den ein- und ausgehenden Verkehr an.
 ;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 Ausgewä. Summen

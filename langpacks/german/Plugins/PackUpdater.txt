@@ -6,7 +6,7 @@
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
 [Simple updater for Miranda NG premodified packs.]
-
+Einfacher Updater für vorkonfugurierte Miranda-NG-Pakete.
 ;file \plugins\PackUpdater\Res\Resource.rc
 [Updates found!]
 Updates gefunden!
@@ -17,25 +17,25 @@ Zeige Informationen
 [Cancel]
 Abbrechen
 [PackUpdater has detected updated versions\nof the following Miranda components:]
-
+PackUpdater hat aktuallisierte Versionen folgender Miranda-\nKomponenten gefunden.
 [Description]
 Übersicht
 [Downloading...]
 Laden...
 [Pack update options]
-
+Pack Update Einstellungen
 [On startup]
 Beim Start
 [Remind about not installed pack update]
-
+Erinnere mich an nicht-installierte Pack-Updates
 [Hotkey]
-
+Hotkey
 [Go to Customize -> Hotkeys to change the hotkey]
 Unter 'Customize -> Hotkeys' können Sie den Hotkey ändern
 [Notifications]
-Benachrichtigung
+Benachrichtigungen
 [Message boxes]
-
+Nachrichtenboxen
 [Errors]
 Fehler
 [Info messages]
@@ -86,12 +86,12 @@ Fenster
 Popups
 ;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]
-
+Auf Pack-Updates prüfen
 [Pack Updater]
 Paket-Updater
 ;file \plugins\PackUpdater\Src\Notifications.cpp
 [An error occured while downloading the update.]
-
+Ein Fehler trat beim runterladen des Plugins auf.
 [Component Name]
 Komponentenname
 [Current Version]
@@ -101,9 +101,9 @@ Neue Version
 [Downloading pack updates...]
 Lade nun Paket-Updates ...
 [Downloading update...]
-
+Update herunterladen...
 [Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-
+Downloads vollständig, Update beginnen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
 Download vollständig, Update beginnen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
@@ -124,14 +124,14 @@ Testen
 Dienste
 ;file \plugins\PackUpdater\Src\PackUpdater.cpp
 [Clear pack updates folder]
-
+Pack Update Verzeichnis löschen
 ;file \plugins\PackUpdater\Src\Utils.cpp
 ['Yes' Button]
-
+'Ja' Button
 ['No' Button]
-
+'Nein' Button
 [Pack Updater HTTP connection]
-
+Pack Updater HTTP Verbindung
 [URL for checking updates not found.]
 URL für die zu prüfenden Updates wurden nicht gefunden.
 [Downloading version info...]
@@ -143,6 +143,6 @@ Das Update ist nicht möglich!\nSie haben keine Administratorrechte.\Bitte start
 [No updates found.]
 Keine Updates gefunden.
 [No files for update.]
-
+Keine Datei zum Update.
 [Update checking already started!]
 Die Prüfung auf Aktualisierungen wurde bereits gestartet!

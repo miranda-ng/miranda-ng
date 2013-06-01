@@ -26,8 +26,6 @@ Beim Start folgenden String umwandeln
 Automatisch umwandeln
 [Parse]
 Umwandeln
-[Trigger when the following string changes]
-Aktion, wenn die folgende Zeichenkette sich ändert
 [Please enter your input below]
 Bitte geben Sie ihre Eingabe unten ein
 [Don't set a contact]

@@ -44,8 +44,8 @@ Pixel
 Avatargröße:
 [Enable avatar updates]
 Avatar-Updates aktivieren
-[Multimonitor (98/ME/2000/XP)]
-
+[Multimonitor]
+Multimonitor
 [Start the popups in the monitor with]
 Popup auf dem Monitor zeigen, der
 [Miranda's window]
@@ -55,9 +55,9 @@ das aktive Fenster enthält
 [Transparency]
 Transparenz
 [Enable Win 9x/Me transparency]
-
-[Use transparency (Windows 2000+)]
-Transparenz verwenden (Win2k+)
+Win 9x/Me Transparenz aktivieren
+[Use transparency]
+Transparenz verwenden
 [opacity:]
 Deckkraft:
 [Opaque popups under cursor]
@@ -301,14 +301,10 @@ Kontakte
 Erweitert
 [Toggle Popups]
 Popups ein-/ausschalten
-[Enable popups]
+[Enable Popups]
 Popups aktivieren
-[Disable popups]
+[Disable Popups]
 Popups deaktivieren
-[Enable &popup module]
-&Popup-Modul aktivieren
-[Disable &popup module]
-&Popup-Modul deaktivieren
 [Popup Plus]
 Popup Plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
@@ -377,16 +373,18 @@ Skinvorschau
 Werfen Sie einen Blick auf diesen Skin.
 [Show clock]
 Uhrzeit anzeigen
-[Drop shadow effect (Windows XP+)]
-Schatten werfen (WinXP+)
-[Drop shadow effect (Windows XP+)/non rectangular]
-
+[Drop shadow effect]
+Schatten werfen
+[non rectangular]
+nicht rechteckig
 [Enable Aero Glass (Vista+)]
 Aero Glass aktivieren (Vista+)
 [Use Windows colours]
 Windowsfarben verwenden
 [Use advanced text render]
 Erweitertes Text-Rendern
+[Global settings]
+Globale Einstellungen
 [Refresh List]
 Liste aktualisieren
 ;file \plugins\Popup\src\popup_thread.cpp

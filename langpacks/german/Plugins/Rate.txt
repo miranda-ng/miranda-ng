@@ -6,7 +6,7 @@
 ;  Authors: Kildor, Thief
 ;============================================================
 [Shows rating of contact in contact list (if presents).]
-
+Zeigt die Bewertung der Kontakte in der Kontaktlsite (falls vorhanden).
 ;file \plugins\Rate\src\main.cpp
 [Rate high]
 Kontaktpriorität: Hoch
@@ -15,6 +15,6 @@ Kontaktpriorität: Mittel
 [Rate low]
 Kontaktpriorität: Gering
 [Contact Rate]
-
+Kontakt Bewertung
 [Contact rate]
-
+Kontakt Bewertung

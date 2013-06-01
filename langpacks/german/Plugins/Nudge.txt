@@ -6,7 +6,7 @@
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
 [Plugin to shake the clist and chat window.]
-
+Plugin schüttelt die Kontaktliste und das Nachrichtenfenster.
 ;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 Protokolleinstellungen
@@ -78,10 +78,6 @@ Bewegungsstärke
 Statisch
 [Shaking Message Window Options]
 Schütteln des Nachrichtenfensters
-[Shake the contact list]
-Kontaktliste schütteln
-[Shake the chat window]
-Nachrichtenfenster schütteln
 ;file \plugins\Nudge\src\main.cpp
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
 Sie dürfen nur 1 Nudge in %d Sekunden senden, warten Sie noch %d Sekunden.
@@ -89,10 +85,6 @@ Sie dürfen nur 1 Nudge in %d Sekunden senden, warten Sie noch %d Sekunden.
 
 [Default Nudge]
 
-[Nudge : Shake contact list/chat window]
-Nudge: Kontaktliste/Nachrichtenfenster schütteln
-[Nudge : Send a nudge]
-Nudge: Nudge senden
 [Nudge as Default]
 Standard Nudge
 [Send Nudge]

@@ -6,7 +6,7 @@
 ;  Authors: P Boon
 ;============================================================
 [An Auto Away module with some more options than the original.]
-
+Auto-Abwesenheitsmodul mit mehr Funktionen als das Original
 ;file \Plugins\StatusPlugins\resource.rc
 [Check connection]
 Verbindung prüfen
@@ -198,20 +198,6 @@ Prüfung aktivieren
 Prüfung deaktivieren
 [Set status message]
 Statusnachricht setzen
-[Trigger when connection loss is detected]
-
-[Trigger when reconnection attempt is made]
-
-[Trigger when successfull reconnected]
-
-[Trigger when giving up reconnecting]
-
-[Trigger when reconnected from another location]
-
-[Pre-conditions]
-Vorbedingungen
-[Trigger when a login error occurs]
-
 [Status]
 Status
 [Add...]
@@ -274,6 +260,8 @@ Prüfintervall(e) (in Sek.)
 
 [Becoming active without status change]
 
+[Pre-conditions]
+Vorbedingungen
 [TriggerData]
 
 [Status: The status the account will change to\r\nAccount: The account changing state]

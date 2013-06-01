@@ -6,7 +6,7 @@ Passwort:
 [Loginname:]
 Benutzername:
 [XFire]
-
+XFire
 [Nick:]
 Nick:
 [Current Protocolversion:]
@@ -56,9 +56,9 @@ Hauptgruppe für Freunde von Freunden:
 [Files]
 Dateien
 [xfire_games.ini]
-
+xfire_games.ini
 [icons.dll]
-
+icons.dll
 [Blocked User List]
 Gesperrte Benutzer
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
@@ -118,19 +118,19 @@ Sprachkonferenzsoftware
 [Name:]
 Name:
 [Unreal Tournament 2004]
-
+Unreal Tournament 2004
 [IP:]
-
+IP:
 [Port:]
 Port:
 [Userdetails]
-
+Benutzerdetails
 [dufte]
-
+dufte
 [Copy]
 Kopieren
 [Enter Password]
-
+Passwort eingeben
 [Join]
 Betreten
 [Set Nickname]
@@ -226,7 +226,7 @@ Fehler während der xfire_games-Aktualisierung.
 [There is a new Icons.dll online, do you want to update now?]
 Es ist eine neue Version der icons.dll verfügbar, möchten Sie jetzt aktualisieren?
 [The Icons.dll was updated.]
-
+Icons.dll wurde aktuallisiert.
 [Error during Icons.dll Update.]
 Fehler bei der Icons.dll-Aktualisierung.
 ;file \protocols\Xfire\src\main.cpp
@@ -270,12 +270,12 @@ Stimme
 XFire-Link-Protokoll
 [Buddy start a game]
 Ein Freund startet ein Spiel
-[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini und icons.dll?\r\nWithout the ini xfire cant detect any games on your computer.]
-
+[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer.]
+Es scheint, dass Sie das XFire Plugin zum ersten Mal nutzen. Wollen Sie automatisch due neuste xfire_games.ini herunterladen?\r\nOhne diese ini kann XFire keine Spiele auf Ihrem Computer erkennen.
 [&XFire Online Profile]
-
+&XFire Online Profile
 [XFire &Clan Site]
-
+XFire &Clan Seite
 [C&opy Server Address and Port]
 Spielserver-IP und -Port k&opieren
 [Cop&y Voice Server Address and Port]
@@ -299,9 +299,9 @@ E&rneute Suche nach Spielen
 [Protocols/XFire]
 
 [XFire game icon]
-
+XFire Spiel Icon
 [XFire voice icon]
-
+XFire Vioce Icon
 [XFire does not support offline messaging!]
 
 [Username]

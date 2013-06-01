@@ -1,5 +1,4 @@
-﻿[Shows currency rates and economic quotes.]
-[Use contact specific settings]
+﻿[Use contact specific settings]
 [&Format:]
 [&Browse...]
 [F&ormat:]

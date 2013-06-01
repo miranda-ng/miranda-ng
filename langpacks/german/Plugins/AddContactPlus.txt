@@ -6,7 +6,7 @@
 ;  Authors: Bartosz 'Dezeath' Biaіek
 ;============================================================
 [Provides the ability to quickly add new contacts.]
-
+Möglichkeit, neue Kontakte schnell hinzuzufügen.
 ;file \plugins\AddContactPlus\res\resource.rc
 [Add Contact]
 Kontakt hinzufügen
@@ -40,17 +40,17 @@ Bitte autorisieren Sie mich und fügen Sie mich Ihrer Kontaktliste hinzu.
 [None]
 Keine
 [The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
-
+Der Kontakt kann nicht zur Kontaktliste hinzugefügt werden. Bitte stellen Sie sicher, dass Sie die korrekte ID angegeben haben.
 [Add contact]
 Kontakt hinzufügen
 [The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
-
+Der Kontakt kann nicht zur Kontaktliste hinzugefügt werden. Wenn Sie mit dem betreffenden Account nicht angemeldet sind, dann machen Sie dies bitte. Bitte stellen Sie außerdem sicher, dass Sie die korrekte ID angegeben haben.
 ;file \plugins\AddContactPlus\src\main.cpp
 [&Add contact...]
 &Kontakt hinzufügen...
 [Open add contact dialog]
-
+Kontakt Hinzufügen Dialog öffnen
 [Main]
 Allgemein
 [AddContact+]
-
+AddContact+

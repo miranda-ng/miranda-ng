@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
-
+Dieses Plugin lässt Sie Miranda von der Kommandozeile aus kontrollieren.
 ;file \plugins\CmdLine\MimCmd\src\commands.cpp
 [No help for '%s'.]
 

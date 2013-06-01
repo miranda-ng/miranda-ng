@@ -19,8 +19,10 @@ Abbre&chen
 Kontakt benachrichtigen
 [Send authorization request]
 Autorisierungsanfrage senden
+[Open contact's chat window]
+Chatfenster des Kontaktes öffnen
 [Custom name:]
-Name:
+Eigener Name:
 [Group:]
 Gruppe:
 [Options]
@@ -236,7 +238,7 @@ in allg. Icon
 [To]
 An
 [<< &Import]
-
+<< &Import
 [To default status icons]
 Als Standard-Statusicon
 [Logging...]
@@ -286,7 +288,7 @@ z. B. Miranda Datenbank
 [Driver]
 Treiber
 [Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
-
+Problem: Kann keinen Datenbank-Treiber finden, das heißt, dass Sie kein neues profil erstellen können, Sie benötigen dbx_mmap.dll
 [Download more plugins]
 Weitere Plugins herunterladen
 [Description:]
@@ -326,7 +328,7 @@ Schri&ftart:
 [Font st&yle:]
 Schriftstil:
 [\nStyles and effects are disabled for this font.]
-
+\nStile und Effekte sind für diese Schrift deaktiviert.
 [&Size:]
 Größe:
 [Effects]
@@ -408,7 +410,7 @@ B&earbeiten
 [&Options]
 Einstellungen
 [&Upgrade]
-
+&Upgrade
 [&Remove...]
 &Entfernen...
 [Miranda NG]
@@ -671,7 +673,7 @@ Alles markieren
 [Clear]
 Löschen
 [Tabs]
-
+Tabs
 [&Close tab]
 Tab s&chließen
 [C&lose other tabs]
@@ -755,8 +757,8 @@ Größenanpassung nach oben
 Teilweise verdeckte Fenster in Vordergrund bringen, anstatt sie zu verstecken
 [Enable docking]
 Andocken aktivieren
-[Translucency options (Windows 2000/XP only)]
-Transparenz (ab Windows 2000)
+[Translucency options]
+Transparenz-Einstellungen
 [Fade contact list in/out]
 Ein-/Ausblenden animieren
 [Transparent contact list]
@@ -1010,7 +1012,7 @@ Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
 [About Miranda NG]
 Über Miranda NG
 [Miranda NG\n%s]
-
+Miranda NG\n%s
 [Credits >]
 Dank an >
 ;file \src\core\stdidle\resource.rc
@@ -1022,8 +1024,8 @@ Windows
 Miranda
 [Become idle if the screen saver is active]
 Untätig werden, wenn Bildschirmschoner aktiviert wird
-[Become idle if the computer is locked (2000/XP+ only)]
-Untätig werden, wenn Computer gesperrt wird (ab Windows 2000)
+[Become idle if the computer is locked]
+Untätig werden, wenn Computer gesperrt wird
 [Become idle if a terminal session is disconnected]
 Untätig werden, wenn Terminalsitzung getrennt wurde
 [Do not let protocols report any idle information]
@@ -1254,7 +1256,7 @@ Kontakt dauerhaft zur Liste hinzufügen
 [%s added you to the contact list\n%u (%s) on %s]
 %s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%u (%s) in %s
 [%s added you to the contact list\n%u on %s]
-%s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%u %s
+%s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%u in %s
 [%s added you to the contact list\n%s on %s]
 %s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%s in %s
 [(Unknown)]
@@ -1618,7 +1620,7 @@ Aussehen und Funktionen des Chatfensters
 [Appearance of the message log]
 Aussehen des Verlaufsfensters
 [Default events to show in new chat rooms if the 'event filter' is enabled]
-
+Ereignisse, die standardmäßig angezeigt werden, wenn Ereignisfilter aktiv.
 [Icons to display in the message log]
 Folgende Icons im Verlaufsfenster anzeigen
 [Icons to display in the tray]
@@ -2342,9 +2344,9 @@ Einstellungen...
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Core Plugin '%s' kann nicht geladen werden oder fehlt. Miranda wird nun beendet.
 [Fatal error]
-
+Fataler Fehler
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
-
+Kein Nachrichtenfenster-Plugin gefunden. Bitte installieren/aktivieren Sie eines der Nachrichtenfenster-Plugins, z.B. srmm.dll.
 ['%s' is disabled, re-enable?]
 '%s' ist deaktiviert, erneut aktivieren?
 [Re-enable Miranda plugin?]
@@ -2381,6 +2383,10 @@ Neues Konto erstellen...
 Bearbeite Konto
 [Upgrading account]
 Aktualisiere Konto
+[Account name has to be unique. Please enter unique name.]
+Kontenname muss einmalig sein. Bitte geben Sie einen einmaligen Namen ein.
+[Account Error]
+Konto-Fehler
 [Account is disabled. Please activate it to access options.]
 Konto ist deaktiviert. Bitte aktivieren Sie es, um auf die Kontoeinstellungen zugreifen zu können.
 [New account]
@@ -2423,7 +2429,7 @@ Konten
 [Scope:]
 Bereich:
 [System]
-
+System
 [Actions:]
 Aktionen:
 [Add binding]
@@ -2508,12 +2514,14 @@ Gesperrter Status
 [Status Icons]
 Statusicons
 [%s Icons]
-
+%s Icons
 [Main Icons]
 Allgemeine Icons
 ;file \src\modules\skin\sounds.cpp
 [Sound Files]
 Klangdateien
+[WAV Files]
+WAV-Dateien
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 
@@ -2526,10 +2534,10 @@ JPEG-/JPG-Bilder
 [GIF Bitmaps]
 GIF-Bilder
 [PNG Bitmaps]
-
+PNG-Bilder
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
-unspezifiziert
+<unspezifiziert>
 ;file \src\modules\utils\utils.cpp
 [Unspecified]
 unspezifiziert

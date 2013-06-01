@@ -1,5 +1,4 @@
-﻿[Plugin for quick insert pre-defined messages in message input area.]
-[You have changed the plugin settings via database.\nThis requires restart!]
+﻿[You have changed the plugin settings via database.\nThis requires restart!]
 [%t]
 [%c]
 [%P]

@@ -59,13 +59,13 @@ Geschlecht:
 [Age:]
 Alter:
 [from:]
-
+von:
 [to:]
 bis:
 [Birthday:]
 Geburtstag:
 [Zodiak:]
-
+Sternzeichen;
 [Location]
 Ort
 [Country:]
@@ -79,7 +79,7 @@ Stadt:
 [Remember]
 
 [Enable avatars support (loading)]
-Avatar-Unterstützung aktivieren (lädt)
+Avatar-Unterstützung aktivieren (laden)
 [Server:]
 Server:
 [Updates check interval, min]
@@ -89,7 +89,7 @@ Absoluten Pfad eingeben
 [Delete avatar file with contact]
 Benutzerbild-Datei mit Kontakt löschen
 [Use keep-alive connections]
-Keep-Alive-Verbindungen verwenden (keep-alive)
+Keep-Alive-Verbindungen verwenden
 [Files exchange]
 Dateien austauschen
 [No out connection on send]
@@ -186,10 +186,10 @@ Spambot blockiert
 [Spam bot contact deleted]
 Spambotkontakt gelöscht
 ;file \protocols\MRA\src\MraAvatars.cpp
+[Avatars' plugin connections]
+Avatar Plugin-Verbindungen
 [Avatars]
 Avatare
-[plugin connections]
-Plugin-Verbindungen
 [Avatars: server return HTTP code: %lu]
 Avatare: Server gibt HTTP-Code %lu zurück.
 [Avatars: cant open file %s, error]
@@ -247,7 +247,7 @@ Blog lesen
 [View Video]
 Video ansehen
 [Answers]
-
+Antworten
 [World]
 Welt
 [Send &Nudge]
@@ -289,7 +289,7 @@ Kontaktmenü
 Extra Status
 [Custom Status]
 Custom Status
-;file \protocols\MRA\src\MraPopup.cpp
+;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 Keine
 [Debug]
@@ -458,7 +458,7 @@ Rakete
 [Devil-fish]
 Teufelsfisch
 [Heavy metal]
-
+Heavy Metal
 [Things look bad]
 Dinge sehen schlecht aus
 [Squirrel]
@@ -468,6 +468,6 @@ Star
 [Music]
 Musik
 [Dating]
-
+Dating
 [Are you sure?]
 Sind Sie sich sicher?

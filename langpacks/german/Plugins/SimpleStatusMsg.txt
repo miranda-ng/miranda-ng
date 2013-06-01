@@ -6,7 +6,7 @@
 ;  Authors: Bartosz 'Dezeath' Biaіek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
-
+Einfacher Weg um Statusnachrichten einzustellen.
 ;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
 '%s'-Nachricht von %s

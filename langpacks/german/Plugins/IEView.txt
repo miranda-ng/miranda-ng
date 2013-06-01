@@ -39,7 +39,7 @@ Smileys im Nick ersetzen
 [Hide window border]
 Fensterrand verstecken
 [Embed YouTube videos]
-Eingebettete YouTube Videos aktivieren
+YouTube Videos einbetten
 [Size:]
 Größe:
 [Mode]

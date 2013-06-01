@@ -6,7 +6,7 @@
 ;  Authors: bems
 ;============================================================
 [GTalk extensions for Jabber protocol]
-
+GTalk-Erweiterungen für das Jabber-Protokoll.
 ;file \protocols\GTalkExt\res\settings.rc
 [Popup notifications (needs popup plugin)]
 Popup-Benachrichtigungen (benötigt Popup-Plugin)

@@ -6,7 +6,7 @@
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
-
+Importiert Kontakte und Nachrichten aus einem anderen Miranda-Profil oder aus einem externen Programm.
 ;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
 Art des Imports auswählen

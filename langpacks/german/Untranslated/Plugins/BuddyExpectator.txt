@@ -1,5 +1,4 @@
-﻿[Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
-[Tray/popup icon]
+﻿[Tray/popup icon]
 [NeverHide]
 [Hiding %s (%S)]
 [%d days since last message]

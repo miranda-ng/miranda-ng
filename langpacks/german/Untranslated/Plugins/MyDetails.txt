@@ -1,3 +1,2 @@
-﻿[Shows and allows you to edit your details for all protocols.]
-[ListeningTo popup]
+﻿[ListeningTo popup]
 [Listening To]

@@ -6,7 +6,7 @@
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Antispam plugin for Miranda NG.]
-
+Antispam-Plugin für Miranda NG.
 ;file \plugins\StopSpamPlus\res\stopspam.rc
 [Question: (Ctrl-Enter for carriage return)]
 Frage: (Strg+Eingabe für Zeilenvorschub)
@@ -21,9 +21,9 @@ Rückmeldung bei Authorisierungsanfragen:
 [Divider:]
 Trennung:
 [Vars]
-
+Vars
 [Disable protection for following accounts:]
-
+Schutz für folgende Konten deaktivieren:
 [Do not send more than ]
 Sende nicht mehr als
 [ questions to one contact (0 - for no limit)]
@@ -51,7 +51,7 @@ Nachrichten
 Konten
 ;file \plugins\StopSpamPlus\src\headers.h
 [StopSpam]
-
+StopSpam
 ;file \plugins\StopSpamPlus\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
 Nie wieder Spam! Spambots haben keine Chance! Nur Menschen sind eingeladen!\r\n\r\nDieses Plugin arbeitet sehr einfach:\r\nNachrichten von Ihren Kontakten werden behandelt, als gäbe es kein Anti-Spam-System. Auf der anderen Seite werden Nachrichten von unbekannten Kontakten nicht direkt an Sie weitergeleitet. Sie werden aber auch nicht ignoriert, sondern dieses Plugin stellt eine einfache Frage. Wird diese richtig beantwortet, wird der Kontakt ihrer Kontaktliste hinzugefügt und kann Sie nun kontaktieren.

@@ -1,2 +1,1 @@
-﻿[Hotkey]
-[An error occured while downloading the update.]
+﻿[Plugin list]

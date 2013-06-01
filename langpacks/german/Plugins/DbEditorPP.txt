@@ -99,7 +99,7 @@ Zeilenumbru&ch
 [Paste the Settings to import here.]
 Zu importierende Einstellungen hier einfügen.
 [DBEditor++]
-
+DBEditor++
 [&Main]
 Allge&mein
 [&Refresh Modules]
@@ -159,7 +159,7 @@ Eintragkontext
 [&Edit / Rename]
 B&earbeiten/Umbenennen
 [NEW]
-Neu
+NEU
 [&Byte]
 &Byte
 [&Word]
@@ -236,25 +236,25 @@ Beobachtungsliste aktualisieren
 [Cannot Convert!]
 Kann nicht konvertieren!
 [New BYTE value]
-Neuer Byte-Wert
+Neuer BYTE-Wert
 [Edit BYTE value]
-Byte-Wert bearbeiten
+BYTE-Wert bearbeiten
 [New WORD value]
-Neuer Word-Wert
+Neuer WORD-Wert
 [Edit WORD value]
-Word-Wert bearbeiten
+WORD-Wert bearbeiten
 [New DWORD value]
-Neuer DWord-Wert
+Neuer DWORD-Wert
 [Edit DWORD value]
-DWord-Wert bearbeiten
+DWORD-Wert bearbeiten
 [New STRING value]
-Neuer String-Wert
+Neuer STRING-Wert
 [Edit STRING value]
-String-Wert bearbeiten
+STRING-Wert bearbeiten
 [New UNICODE value]
-Neuer Unicode-Wert
+Neuer UNICODE-Wert
 [Edit UNICODE value]
-Unicode-Wert bearbeiten
+UNICODE-Wert bearbeiten
 [New BLOB value]
 Neuer BLOB-Wert
 [Edit BLOB value]
@@ -312,7 +312,7 @@ Fehler beim Laden der Einstellungsliste
 [Finished. %d items were found, %d items were deleted.]
 Beendet. %d Einträge wurden gefunden, %d Einträge wurden gelöscht.
 [Finished. %d items were found, %d items were replaced.]
-
+Beendet. %d Einträge wurden gefunden, %d Einträge wurden ersetzt.
 [Finished. %d items were found.]
 Beendet. %d Einträge wurden gefunden.
 ;file \plugins\DbEditorPP\src\icons.cpp
@@ -369,17 +369,17 @@ Typ
 [Size]
 Größe
 [BLOB]
-Blob
+BLOB
 [BYTE]
-Byte
+BYTE
 [WORD]
-Word
+WORD
 [DWORD]
-DWord
+DWORD
 [STRING]
-String
+STRING
 [UNICODE]
-Unicode
+UNICODE
 [<unsupported>]
 <nicht unterstützt>
 [<unknown>]
@@ -396,11 +396,11 @@ Modul
 [Setting]
 Einstellung
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
-Datenbankeinstellung geändert:\nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (Byte) %d
+Datenbankeinstellung geändert:\nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (BYTE) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
-Datenbankeinstellung geändert:\nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (Word) %d
+Datenbankeinstellung geändert:\nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (WORD) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
-Datenbankeinstellung geändert: \nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (DWord) 0x%X
+Datenbankeinstellung geändert: \nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (DWORD) 0x%X
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
 Datenbankeinstellung geändert: \nModul: "%s" , Einstellung: "%s"\nNeuer Wert: "%s"
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]

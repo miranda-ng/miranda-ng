@@ -6,7 +6,7 @@
 ;  Authors: StDenis
 ;============================================================
 [Plugin replaces MessageBoxes [whose have only OK button] into Popups.]
-
+Ersetzt Nachrichtenfenster (die mit nur OK Buttons) durch Popups.
 ;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
 Information-Stil

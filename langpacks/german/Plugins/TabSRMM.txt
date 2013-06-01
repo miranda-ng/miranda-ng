@@ -41,13 +41,13 @@ Hinweise
 [Popup]
 Popup
 [Tray]
-
+Tray
 [Options]
 Einstellungen
 [Add new rooms to group:]
 Gruppe für neue Channel:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-Unterstützung für Gruppenchats ist deaktiviert. Nachdem es aktiviert wurde, muss Miranda neu gestartet werden!\n\nDas Standard-Chat-Plugin (chat.dll) muss deaktiviert werden, anderenfalls funktioniert keinerlei Gruppenchat!
+Unterstützung für Gruppenchats ist deaktiviert. Nachdem es aktiviert wurde, muss Miranda neu gestartet werden!\n\nDas Standard-Chat-Plugin muss deaktiviert werden, anderenfalls funktioniert keinerlei Gruppenchat!
 [Log files]
 Logdateien
 [Enable logging to disk]
@@ -180,7 +180,7 @@ Normal (2 Zeilen)
 [Large]
 Groß
 [Tip: To use a custom size you can always drag the bottom edge of the panel]
-Tipp: Zur Größenanpassung können Sie die untere Kante mit der Maus verschieben.
+Tipp: Zur Größenanpassung können Sie die untere Kante verschieben.
 [Other options]
 Andere Einstellungen
 [Note: All settings are applied immediately]
@@ -346,7 +346,7 @@ Einzeilige Tab-Anordnung (*)
 [Close button on tabs]
 Schließen-Schaltflache auf den Tabs
 [Use button tabs (*)]
-Benutze Tab-Schaltflächen (*)
+Tab-Schaltflächen verwenden (*)
 [You have chosen to disable all event notifications for open message windows.]
 Sie haben sich entschieden, alle Ereignisbenachrichtigungen für geöffnete Nachrichtenfenster zu deaktivieren.
 [Show contact avatars]
@@ -354,13 +354,13 @@ Avatar des Kontaktes anzeigen
 [Show my own avatars]
 Meine eigenen Avatare anzeigen
 [Show avatars on task bar (Win 7, large task bar required)]
-Zeige Avatare in Taskleiste (Win 7, große Taskleisten-Icons erford.)
+Avatare in Taskleiste anzeigen (Win 7, große Taskleisten-Icons erford.)
 [Enable sound effects]
-Aktiviere Klangeffekte
+Klangeffekte aktivieren
 [Play sounds when minimized]
-Spiele Klänge wenn minimiert
+Klänge spielen wenn minimiert
 [Play sounds when not focused]
-Spiele Klänge wenn nicht fokusiert
+Klänge spielen wenn nicht fokusiert
 [Play sounds for inactive tabs in active containers]
 Klänge für inaktive Tabs in aktiven Containern spielen
 [Play sounds for the active tab / window]
@@ -614,7 +614,7 @@ Datum im Zeitstempel anzeigen
 [Use contacts local time]
 lokale Kontaktzeit verwenden
 [Format]
-
+Format
 [Indent message body]
 Nachricht einrücken
 [Display grid lines]
@@ -1183,11 +1183,11 @@ Wechsel Filter
 Zeige Serverfenster
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
-
+%s    Untätig: %dh,%02dm
 [  Client: %s]
-
+  Client: %s
 [  Client not cached yet]
-
+  Client noch nicht bekannt
 [Topic is: %s]
 Thema ist: %s
 [no topic set.]
@@ -1195,7 +1195,7 @@ Kein Thema gesetzt.
 [Open User Details...]
 Benutzerdetails öffnen...
 [Open History...]
-Verlauf offnen...
+Verlauf öffnen...
 [Messaging Settings...]
 Nachrichteneinstellungen...
 [Room Settings...]
@@ -1211,11 +1211,11 @@ In Zwischenablage kopieren
 [\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
 \\par\\par\\tab \\ul\\b Hört gerade:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
-
+\\par\\par\\ul\\b Client:\\ul0\\b0  %s
 [tabSRMM Information]
 TabSRMM-Informationen
 [Set panel visibility for this %s]
-Setze Sichtbarkeit der Schaltfläche für diesen %s
+Panel-Sichtbark. für diesen %s
 [chat room]
 Chatraum
 [contact]
@@ -1245,8 +1245,8 @@ Niemals anzeigen
 TabSRMM
 [Data path]
 Daten-Pfad
-[Skins root]
-Skin-Verzeichnis
+[Skins]
+Skins
 [Avatars]
 Avatare
 [Saved TabSRMM avatars]
@@ -1448,8 +1448,6 @@ Ereignisbenachrichtigungen
 Nachrichtenfenster
 [Load and apply]
 Skin laden
-[Skins]
-Skins
 [Window layout tweaks]
 Fenster-Anordnung
 [Group Chats]
@@ -1664,8 +1662,6 @@ Skin ändern
 Nachrichtenfenster-Tweaks
 [Error feedback]
 Fehlermeldung
-[Show client icon in status bar (fingerprint plugin required)]
-Client-Icon in Statusleiste anzeigen (benötigt Fingerprint-Plugin)
 [Show skinnable tooltip in chat (tipper plugin required)]
 Skinbare Tooltips in Chat anzeigen (benötigt Tipper-Plugin)
 [Enable typing sounds]
@@ -1713,7 +1709,7 @@ Entferne Popups für einen Kontakt, wenn ich anfange, eine Nachricht zu tippen
 [Remove popups for a contact when I send a reply]
 Entferne Popups für einen Kontakt, wenn ich eine Antwort sende
 [Disable notifications]
-Deaktiviere Benachrichtigungen
+Benachrichtigungen deaktivieren
 [System tray icon]
 Systemtray-Icon
 [Left click actions (popups only)]

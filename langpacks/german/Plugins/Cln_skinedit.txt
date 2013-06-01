@@ -6,7 +6,7 @@
 ;  Authors: Nightwish, Pixel
 ;============================================================
 [Allows inline skin item editing for clist nicer.]
-
+Erlaubt das Bearbeiten der Skinelemente für Clist_Nicer
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 Skinelemente
@@ -41,7 +41,7 @@ Textfarbe
 [Second color]
 2. Farbe
 [Transparent]
-
+Transparent
 [Alpha (percent)]
 Alpha (Prozent)
 [Item margins]

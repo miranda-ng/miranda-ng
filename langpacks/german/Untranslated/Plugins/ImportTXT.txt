@@ -1,5 +1,4 @@
-﻿[Imports history saved in TXT files from other clients.]
-[Choose a pattern...]
+﻿[Choose a pattern...]
 [Choose a file for import...]
 [Text files (*.txt)]
 [Error in cfg file: ]

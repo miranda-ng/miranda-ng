@@ -1,3 +1,2 @@
-﻿[Crypto++ library for SecureIM plugin.]
-[GnuPG Plugin - Passphrase]
+﻿[GnuPG Plugin - Passphrase]
 [GnuPG Plugin - Select public key]

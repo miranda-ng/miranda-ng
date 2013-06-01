@@ -1,1 +1,1 @@
-﻿[Adds a menu item to change or load a different profile of Miranda NG, restart or run a dbchecker.]
+﻿[Profile manager]

@@ -6,20 +6,20 @@
 ;  Authors: Daniel Wesslen, Korney San
 ;============================================================
 [Displays popups for custom events, triggered by UDP packages.]
-
+Zeigt Popups für eigene Ereignisse, ausgelöst durch UDP-Pakete.
 ;file \plugins\NotifyAnything\res\NotifyAnything.rc
 [Property Page]
 
 [Security]
 Sicherheit
 [Only listen to localhost]
-
+Nur auf localhost hören
 [Sound]
 Klanghinweis
 [Play sounds]
 Klänge abspielen
 [Use internal speaker]
-
+Internen Lautsprecher verwenden
 [Debug]
 
 [Log to file]
@@ -29,7 +29,7 @@ In Datei speichern
 [Port:]
 Port:
 [(Default is 12001)]
-
+(Standard ist 12001)
 [Allow actions to execute programs]
 
 [Password:]

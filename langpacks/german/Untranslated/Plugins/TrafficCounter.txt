@@ -1,5 +1,4 @@
-﻿[Adding traffic and time counters.]
-[Bytes]
+﻿[Bytes]
 [KB]
 [MB]
 [Adaptive]
