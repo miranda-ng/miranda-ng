@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "common.h"
-#include "version.h" 
 
 // TODO: Make following as "globals" structure?
 
@@ -43,7 +42,7 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {8432B009-FF32-4727-AAE6-A9035038FD58}
-	{ 0x8432b009, 0xff32, 0x4727, { 0xaa, 0xe6, 0xa9, 0x3, 0x50, 0x38, 0xfd, 0x58 } }
+	{0x8432b009, 0xff32, 0x4727, {0xaa, 0xe6, 0xa9, 0x3, 0x50, 0x38, 0xfd, 0x58}}
 };
 
 /////////////////////////////////////////////////////////////////////////////

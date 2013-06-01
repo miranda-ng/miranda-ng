@@ -4,14 +4,10 @@
 #define __BUILD_NUM					0
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
-#define __FILEVERSION_DOTS			__MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
-
-#define __STRINGIFY_IMPL(x)			#x
-#define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
-#define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
+#define __TOSTRING(x)			#x
+#define __VERSION_STRING		__TOSTRING(__FILEVERSION_STRING)
 
 #define __PLUGIN_NAME				"Facebook RM"
-#define __INTERNAL_NAME				"Facebook RM"
 #define __FILENAME					"Facebook.dll"
 #define __DESCRIPTION 				"Facebook protocol support for Miranda NG."
 #define __AUTHOR					"Michal Zelinka, Robert P\xf6" "sel"
