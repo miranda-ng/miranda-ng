@@ -72,6 +72,7 @@ http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/LinkList.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/ListeningTo.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/MenuEx.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/MetaContacts.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/MirFox.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/MirOTR.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/MobileState.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/russian/Plugins/ModernOpt.txt
