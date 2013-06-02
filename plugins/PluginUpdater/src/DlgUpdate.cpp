@@ -529,14 +529,14 @@ static void CheckUpdates(void *)
 	SERVLIST hashes(50, CompareHashes);
 	if ( ParseHashes(updateUrl, baseUrl, hashes)) {
 		FILELIST *UpdateFiles = new FILELIST(20);
-		TCHAR *dirname = Utils_ReplaceVarsT(_T("%miranda_path%"));
+		VARST dirname( _T("%miranda_path%"));
 		ScanFolder(dirname, lstrlen(dirname)+1, 0, baseUrl, hashes, UpdateFiles);
-		mir_free(dirname);
 
 		// Show dialog
 		if (UpdateFiles->getCount() == 0) {
 			if ( !opts.bSilent)
 				ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("No updates found."), 2, 0);
+			delete UpdateFiles;
 		}
 		else CallFunctionAsync(LaunchDialog, UpdateFiles);
 	}
