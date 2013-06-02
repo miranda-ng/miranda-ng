@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 HWND hAboutDlg = NULL;
-static HANDLE hBugEvent = NULL;
 
 static INT_PTR AboutCommand(WPARAM wParam, LPARAM)
 {
@@ -41,19 +40,19 @@ static INT_PTR AboutCommand(WPARAM wParam, LPARAM)
 
 static INT_PTR IndexCommand(WPARAM, LPARAM)
 {
-	CallService(MS_UTILS_OPENURL, 1, (LPARAM)Translate("http://wiki.miranda-im.org/"));
+	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)_T("http://wiki.miranda-ng.org"));
 	return 0;
 }
 
 static INT_PTR WebsiteCommand(WPARAM, LPARAM)
 {
-	CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-ng.org/");
+	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)_T("http://miranda-ng.org"));
 	return 0;
 }
 
 static INT_PTR BugCommand(WPARAM, LPARAM)
 {
-	NotifyEventHooks(hBugEvent, 0, (LPARAM)"http://bugs.miranda-ng.org");
+	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)_T("http://trac.miranda-ng.org"));
 	return 0;
 }
 
