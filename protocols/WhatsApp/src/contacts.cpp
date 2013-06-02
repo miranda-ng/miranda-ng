@@ -125,11 +125,8 @@ HANDLE WhatsAppProto::ContactIDToHContact(const std::string& phoneNumber)
    // Cache
    std::map<string, HANDLE>::iterator it = this->hContactByJid.find(phoneNumber);
    if (it != this->hContactByJid.end())
-   {
       return it->second;
-   }
 
-   const char* id;
    const char* idForContact = "ID";
    const char* idForChat = "ChatRoomID";
 
@@ -140,7 +137,7 @@ HANDLE WhatsAppProto::ContactIDToHContact(const std::string& phoneNumber)
 		if(!IsMyContact(hContact, true))
 			continue;
 
-      id = db_get_b(hContact, m_szModuleName, "ChatRoom", 0) > 0 ? idForChat : idForContact;
+      const char* id = db_get_b(hContact, m_szModuleName, "ChatRoom", 0) > 0 ? idForChat : idForContact;
 
 		DBVARIANT dbv;
 		if( !db_get_s(hContact,m_szModuleName, id,&dbv, DBVT_ASCIIZ))
@@ -151,10 +148,8 @@ HANDLE WhatsAppProto::ContactIDToHContact(const std::string& phoneNumber)
             this->hContactByJid[phoneNumber] = hContact;
 				return hContact;
 			}
-         else
-         {
-				db_free(&dbv);
-			}
+
+			db_free(&dbv);
 		}
 	}
 

@@ -129,13 +129,13 @@ void BinTreeNodeWriter::writeAttributes(std::map<string, string>* attributes) {
 
 void BinTreeNodeWriter::writeString(const std::string& tag) {
 	std::map<string, int>::iterator it = this->tokenMap.find(tag);
-	if (it != this->tokenMap.end()) {
+	if (it != this->tokenMap.end())
 		writeToken(it->second);
-	} else {
-		unsigned int atIndex = tag.find('@');
-		if (atIndex == 0 || atIndex == string::npos) {
+	else {
+		size_t atIndex = tag.find('@');
+		if (atIndex == 0 || atIndex == string::npos)
 			writeBytes((unsigned char*) tag.data(), tag.length());
-		} else {
+		else {
 			std::string server = tag.substr(atIndex + 1);
 			std::string user = tag.substr(0, atIndex);
 			writeJid(&user, server);
