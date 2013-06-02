@@ -1,0 +1,216 @@
+#if !defined(PROTO_H)
+#define PROTO_H
+
+class WASocketConnection;
+
+class WhatsAppProto : public PROTO_INTERFACE, public MZeroedObject, public WAListener, public WAGroupListener
+{
+public:
+	WhatsAppProto( const char *proto_name, const TCHAR *username );
+	~WhatsAppProto( );
+
+	inline const char* ModuleName( ) const
+	{
+		return m_szModuleName;
+	}
+
+	inline bool isOnline( )
+	{
+		return ( m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING && 
+         connection != NULL );
+	}
+
+	inline bool isOffline( )
+	{
+		return ( m_iStatus == ID_STATUS_OFFLINE );
+	}
+
+	inline bool isInvisible( )
+	{
+		return ( m_iStatus == ID_STATUS_INVISIBLE );
+	}
+
+	//PROTO_INTERFACE
+
+	virtual	HANDLE   __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
+   virtual	HANDLE   __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent ) { return NULL; }
+
+   virtual	int      __cdecl Authorize( HANDLE hDbEvent );
+   virtual	int      __cdecl AuthDeny( HANDLE hDbEvent, const PROTOCHAR* szReason )       { return 1; }
+   virtual	int      __cdecl AuthRecv( HANDLE hContact, PROTORECVEVENT* )                 { return 1; }
+   virtual	int      __cdecl AuthRequest( HANDLE hContact, const PROTOCHAR* szMessage );
+
+   virtual	HANDLE   __cdecl ChangeInfo( int iInfoType, void* pInfoData ) { return NULL; }
+
+   virtual	HANDLE   __cdecl FileAllow( HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szPath )     { return NULL; }
+   virtual	int      __cdecl FileCancel( HANDLE hContact, HANDLE hTransfer )                             { return 1; }             
+   virtual	int      __cdecl FileDeny( HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szReason )    { return 1; }
+   virtual	int      __cdecl FileResume( HANDLE hTransfer, int* action, const PROTOCHAR** szFilename )   { return 1; }
+
+   virtual	DWORD_PTR __cdecl GetCaps( int type, HANDLE hContact = NULL );
+   virtual	int       __cdecl GetInfo( HANDLE hContact, int infoType )     { return 1; }
+
+   virtual	HANDLE    __cdecl SearchBasic( const PROTOCHAR* id );
+   virtual	HANDLE    __cdecl SearchByEmail( const PROTOCHAR* email )                                                      { return NULL; }
+   virtual	HANDLE    __cdecl SearchByName( const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName ) { return NULL; }
+	virtual	HWND      __cdecl SearchAdvanced( HWND owner )                                                                 { return NULL; }
+	virtual	HWND      __cdecl CreateExtendedSearchUI( HWND owner )                                                         { return NULL; }
+
+	virtual	int       __cdecl RecvContacts( HANDLE hContact, PROTORECVEVENT* )   { return 1; }
+	virtual	int       __cdecl RecvFile( HANDLE hContact, PROTOFILEEVENT* )       { return 1; }
+	virtual	int       __cdecl RecvMsg( HANDLE hContact, PROTORECVEVENT* );
+	virtual	int       __cdecl RecvUrl( HANDLE hContact, PROTORECVEVENT* )        { return 1; }
+
+   virtual	int       __cdecl SendContacts( HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList ) { return 1; }
+   virtual	HANDLE    __cdecl SendFile( HANDLE hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles ) { return NULL; }
+   virtual	int       __cdecl SendMsg( HANDLE hContact, int flags, const char* msg );
+   virtual	int       __cdecl SendUrl( HANDLE hContact, int flags, const char* url ) { return 1; }
+
+   virtual	int       __cdecl SetApparentMode( HANDLE hContact, int mode ) { return 1; }
+   virtual	int       __cdecl SetStatus( int iNewStatus );
+
+   virtual	HANDLE    __cdecl GetAwayMsg( HANDLE hContact )                                        { return NULL; }
+   virtual	int       __cdecl RecvAwayMsg( HANDLE hContact, int mode, PROTORECVEVENT* evt )        { return 1; }
+	virtual	int       __cdecl SendAwayMsg( HANDLE hContact, HANDLE hProcess, const char* msg )     { return 1; }
+	virtual	int       __cdecl SetAwayMsg( int iStatus, const PROTOCHAR* msg )                      { return 1; }
+
+	virtual	int       __cdecl UserIsTyping( HANDLE hContact, int type );
+
+   virtual	int       __cdecl OnEvent( PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam ) { return 1; }
+
+	////////////////////////
+
+   // Services
+   int __cdecl SvcCreateAccMgrUI( WPARAM, LPARAM);
+   int __cdecl RefreshBuddyList(WPARAM, LPARAM);
+   int __cdecl RequestFriendship(WPARAM, LPARAM);
+	int __cdecl OnJoinChat(WPARAM, LPARAM);
+	int __cdecl OnLeaveChat(WPARAM, LPARAM);
+
+   // Events
+   int __cdecl OnBuildStatusMenu(WPARAM,LPARAM);
+   int __cdecl OnChatOutgoing(WPARAM,LPARAM);
+   int __cdecl OnCreateGroup(WPARAM,LPARAM);
+   int __cdecl OnPrebuildContactMenu(WPARAM,LPARAM);
+
+   INT_PTR __cdecl OnAddContactToGroup(WPARAM, LPARAM, LPARAM);
+   INT_PTR __cdecl OnRemoveContactFromGroup(WPARAM, LPARAM, LPARAM);
+   int __cdecl OnChangeGroupSubject(WPARAM, LPARAM);
+   int __cdecl OnLeaveGroup(WPARAM, LPARAM);
+
+   // Loops
+   bool NegotiateConnection();
+   void __cdecl stayConnectedLoop(void*);
+   void __cdecl sentinelLoop(void*);
+
+   // Processing Threads
+   void __cdecl ProcessBuddyList(void*);
+   void __cdecl SearchAckThread(void*);
+
+   // Worker Threads
+   void __cdecl ChangeStatus(void*);
+   void __cdecl SendMsgWorker(void*);
+   void __cdecl RecvMsgWorker(void*);
+   void __cdecl SendTypingWorker(void*);
+   void __cdecl SendGetGroupInfoWorker(void*);
+   void __cdecl SendSetGroupNameWorker(void*);
+   void __cdecl SendCreateGroupWorker(void*);
+
+   // Contacts handling
+   HANDLE AddToContactList(const std::string& jid, BYTE type = 0, bool dont_check = false,
+                           const char *new_name = NULL, bool isChatRoom = false, bool isHidden = false);
+	bool     IsMyContact(HANDLE, bool include_chat = false);
+	HANDLE   ContactIDToHContact(const std::string&);
+   void     SetAllContactStatuses(int status, bool reset_client = false);
+   void     UpdateStatusMsg(HANDLE hContact);
+   string   GetContactDisplayName(HANDLE hContact);
+   string   GetContactDisplayName(const string& jid);
+   void     InitContactMenus();
+   void     HandleReceiveGroups(const std::vector<string>& groups, bool isOwned);
+   
+   bool IsGroupChat(HANDLE hC, bool checkIsAdmin = false)
+   {
+      return db_get_b(hC, m_szModuleName, "SimpleChatRoom", 0) > (checkIsAdmin ? 1 : 0);
+   }
+
+   // Registration
+   void RequestCode();
+   void RegisterCode(const std::string& code);
+
+   // Helpers
+   std::tstring GetAvatarFolder();
+   void ToggleStatusMenuItems( BOOL bEnable );
+   string TranslateStr(const char* str, ...);
+
+   // Handles, Locks
+	HGENMENU m_hMenuRoot;
+	HANDLE  m_hMenuCreateGroup;
+
+   HANDLE  signon_lock_;
+   HANDLE  log_lock_;
+   HANDLE  update_loop_lock_;
+
+   std::tstring def_avatar_folder_;
+   HANDLE  hAvatarFolder_;
+
+   HANDLE m_hNetlibUser;
+   WASocketConnection* conn;
+   WAConnection* connection;
+   Mutex connMutex;
+   int lastPongTime;
+
+   std::vector<unsigned char>* challenge;
+   int msgId;
+   int msgIdHeader;
+   string phoneNumber;
+   string jid;
+   string nick;
+   std::map<string, HANDLE> hContactByJid;
+   //std::map<HANDLE, std::vector<HANDLE>> membersByGroupContact;
+   map<HANDLE, map<HANDLE, bool>> isMemberByGroupContact;
+
+   // WhatsApp Events
+   virtual void onMessageForMe(FMessage* paramFMessage, bool paramBoolean);
+   virtual void onMessageStatusUpdate(FMessage* paramFMessage);
+   virtual void onMessageError(FMessage* message, int paramInt)  { LOG(""); }
+   virtual void onPing(const std::string& id) throw (WAException);
+   virtual void onPingResponseReceived()  { LOG(""); }
+   virtual void onAvailable(const std::string& paramString, bool paramBoolean);
+   virtual void onClientConfigReceived(const std::string& paramString)  { LOG(""); }
+   virtual void onLastSeen(const std::string& paramString1, int paramInt, std::string* paramString2);
+   virtual void onIsTyping(const std::string& paramString, bool paramBoolean);
+   virtual void onAccountChange(int paramInt, long paramLong)  { LOG(""); }
+   virtual void onPrivacyBlockListAdd(const std::string& paramString)  { LOG(""); }
+   virtual void onPrivacyBlockListClear()  { LOG(""); }
+   virtual void onDirty(const std::map<string,string>& paramHashtable)  { LOG(""); }
+   virtual void onDirtyResponse(int paramHashtable)  { LOG(""); }
+   virtual void onRelayRequest(const std::string& paramString1, int paramInt, const std::string& paramString2)  { LOG(""); }
+   virtual void onSendGetPictureIds(std::map<string,string>* ids);
+   virtual void onSendGetPicture(const std::string& jid, const std::vector<unsigned char>& data, const std::string& oldId, const std::string& newId);
+   virtual void onPictureChanged(const std::string& from, const std::string& author, bool set);
+   virtual void onDeleteAccount(bool result)  { LOG(""); }
+
+	virtual void onGroupAddUser(const std::string& paramString1, const std::string& paramString2);
+	virtual void onGroupRemoveUser(const std::string& paramString1, const std::string& paramString2);
+	virtual void onGroupNewSubject(const std::string& from, const std::string& author, const std::string& newSubject, int paramInt);
+	virtual void onServerProperties(std::map<std::string, std::string>* nameValueMap) { LOG(""); }
+	virtual void onGroupCreated(const std::string& paramString1, const std::string& paramString2);
+	virtual void onGroupInfo(const std::string& paramString1, const std::string& paramString2, const std::string& paramString3, const std::string& paramString4, int paramInt1, int paramInt2);
+	virtual void onGroupInfoFromList(const std::string& paramString1, const std::string& paramString2, const std::string& paramString3, const std::string& paramString4, int paramInt1, int paramInt2);
+	virtual void onOwningGroups(const std::vector<string>& paramVector);
+	virtual void onSetSubject(const std::string& paramString) { LOG(""); }
+	virtual void onAddGroupParticipants(const std::string& paramString, const std::vector<string>& paramVector, int paramHashtable) { LOG(""); }
+	virtual void onRemoveGroupParticipants(const std::string& paramString, const std::vector<string>& paramVector, int paramHashtable) { LOG(""); }
+	virtual void onGetParticipants(const std::string& gjid, const std::vector<string>& participants);
+	virtual void onParticipatingGroups(const std::vector<string>& paramVector);
+	virtual void onLeaveGroup(const std::string& paramString);
+
+	// Information providing
+	int Log(const char* fn, const char *fmt,...);
+   void NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, TCHAR* url=NULL);
+   void NotifyEvent(const string& title, const string& info, HANDLE contact, DWORD flags, TCHAR* url=NULL);
+
+
+};
+
+#endif
