@@ -1,7 +1,7 @@
 #define __MAJOR_VERSION				0
 #define __MINOR_VERSION				0
 #define __RELEASE_NUM				1
-#define __BUILD_NUM					1
+#define __BUILD_NUM					2
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
@@ -11,4 +11,4 @@
 #define __AUTHOR					"Robert P\xf6" "sel"
 #define __AUTHOREMAIL				"robyer@seznam.cz"
 #define __AUTHORWEB					"http://miranda-ng.org/"
-#define __COPYRIGHT					"© 2012 Robert P\xf6" "sel"
+#define __COPYRIGHT					"© 2012-13 Robert P\xf6" "sel"

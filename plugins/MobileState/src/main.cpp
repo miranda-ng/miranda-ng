@@ -1,6 +1,6 @@
 /*
    Mobile State plugin for Miranda NG (www.miranda-ng.org)
-   (c) 2012 by Robert Pösel
+   (c) 2012-13 by Robert Pösel
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -96,7 +96,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	// IcoLib support
 	Icon_Register(g_hInst, "Mobile State", &icon, 1);
 
-	// extra icons
+	// Extra icons
 	hExtraIcon = ExtraIcon_Register("mobilestate", LPGEN("Mobile State"), "mobile_icon");
 
 	// Set initial value for all contacts
