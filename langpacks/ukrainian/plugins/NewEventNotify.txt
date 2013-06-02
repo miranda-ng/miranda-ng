@@ -1,0 +1,74 @@
+﻿#muuid {3503d584-6234-4bef-a553-6c1b9cd471f2}
+;============================================================
+;  File: NewEventNotify.dll
+;  Module: NewEventNotify
+;  Versions: 0.1.9.2 - 0.2.1.0
+;============================================================
+[Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the PopUp-Plugin by hrk. Original plugin was written by icebreaker, modified by Prezes and some bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale.]
+Повідомляє про отримання повідомлення, URL, файлу або іншої події, відображаючи інформацію в спливаючих вікнах. Для роботи необхідний PopUp від Luca Santarelli або аналогічний.
+[You were added!]
+Вас додали
+[Requests your authorisation]
+Запит вашої авторизації
+[Unknown Event]
+Невідома подія
+[Notify of new events]
+Сповіщати про нові події
+[Event Notify]	
+Події
+[Popup Colors]
+Колір вікна
+[Notify me of ...]
+Сповіщати мене...
+[Show entry in the main menu]
+Пункт у головному меню
+[Temporarily disable Event Popups]
+Тимчасово заборонити повідомлення
+[Show Preview of Event in Popup]
+Перегляд події у вікні
+[Open Event]
+Відкрити подію
+[Dismiss Event]
+Приховати подію
+[Don't show Popup when Message-Dialog is already open]
+Не показувати, якщо відкрито вікно
+[Open Reply-Dialog instead of reading the Message]
+Діалог відповіді замість читання повідомлення
+[No popups for RSS contacts]
+Вимкнути для RSS новин
+[Use OSD plugin instead of popups]
+Використовувати плагін OSD замість PopUp
+[Hide Popup when sending new message]
+Приховувати при отриманні нового повідомлення
+[Last message display first]
+Останнє першим
+[Last message display last]
+Останнє останнім
+[Merge popups from one user]
+Об'єднувати від одного користувача
+[No popups for readed messages]
+Вимкнути для прочитаних
+[Number of begin shown messages]
+Кількість повідомлень для початку показу
+[Show entry in the PopUps menu]
+Пункт у меню "Спл. вікна"
+[Show Headers]
+Заголовки
+[Show newer messeges]
+Нові повідомлення
+[Show older messeges]
+Старі повідомлення
+[Show Time]
+Час
+[Time Expires Actions]
+По закінченню часу
+[Time to expires]
+Час затримки
+[Disable new event notification]
+Вимк. повідомлення про події
+[Enable new event notification]
+Увім. сповіщення про події
+[No popups for read messages]
+Не показувати для прочитаних повідомлень
+[NewEventNotify]
+Повідомлення

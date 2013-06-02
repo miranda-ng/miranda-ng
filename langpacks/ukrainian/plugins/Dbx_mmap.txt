@@ -1,0 +1,13 @@
+﻿#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
+;============================================================
+;  File: db3x_mmap.dll
+;  Module: Miranda mmap database driver
+;  Versions: 0.10.0.2
+;  Authors: Miranda-IM project
+;============================================================
+[db3x_mmap Plugin]
+Плагін db3x_mmap
+[Disk is full. Miranda will now shutdown.]
+Диск сповнений. Miranda завершує роботу.
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Підтримка бази Miranda NG: глобальні налаштування, контакти, історія, установки контактів і т.і.

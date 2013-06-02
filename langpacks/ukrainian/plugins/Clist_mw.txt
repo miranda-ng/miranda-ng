@@ -1,0 +1,39 @@
+﻿#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
+;============================================================
+;  File: clist_mw.dll
+;  Module:  MultiWindow Contact List
+;  Versions: 0.9.0.0
+;  Authors: Bethoven
+;============================================================
+[Displays contacts, event notifications, protocol status with MW modifications.]
+Показує контакти, події, статуси протоколів. Мультивіконна модифікація.
+[Backgrounds]
+Фони
+[TitleBarFont]
+Назва вікна
+[Group Closed]
+Закрита група
+[Hover Contacts]
+Контакти під вказівником
+[List MetaContacts]
+Список метаконтактів
+[Status messages]
+Статусні повідомлення
+[_NoProtocol_]
+_БезПротоколу_
+[!!! Note: all client icons are made by Angeli-ka, and I have her permission to use them in clist_mw plugin.]
+!!! Всі значки клієнтів зроблені Angeli-ka, і у мене є її дозвіл на їх використання.
+[MetaContacts supporting]
+Підтримка метаконтактів
+[Show bevel effect on panels]
+Ефект бордюру на панелях
+[Use New Drawer for StatusBar]
+Новий стиль панелі статусу
+[Group Menu]
+Меню груп
+[MenuOrder]
+Порядок меню
+[SubGroup Menu]
+Меню підгруп
+[Tray Menu]
+Меню в треї

@@ -1,0 +1,51 @@
+﻿#muuid {0324785e-74ce-4600-b781-851773b3efc5}
+;============================================================
+;  File: contacts.dll
+;  Module: Contacts
+;  Versions: 1.5.2.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+[&Details]
+Деталі
+[Incoming Contacts]
+Вхідні контакти
+[Outgoing Contacts]
+Вихідні контакти
+[Contacts received from %s]
+Контакти отримані від %s
+[Send contacts to %s]
+Надіслати контакти до %s
+[Send contacts...]
+Надіслати контакти...
+[Mailformed Receive Contacts Packet.]
+Некоректний пакет отримання контактів.
+[Add to &group:]
+Додати в групу:
+[&Add selected]
+&Додати
+[Choose contacts to be send:]
+Вибрати контакти для відправки:
+[Allows you to send and receive contacts.]
+Дозволяє надсилати та отримувати контакти.
+[Send Contacts to]
+Надіслати контакти
+[Contacts from]
+Контакти від
+[Add to List]
+Додати
+[The contacts send timed out.]
+Тайм-аут відправлення.
+[Contacts received from]
+Отримані контакти від
+[Contacts transfer failed!]
+Помилка передачі контактів
+[The selected contact does not support receiving contacts.]
+Вибраний контакт не підтримує прийом контактів.
+[Contacts send error]
+Помилка відправлення контактів
+[Received contacts]
+Прийняті контакти
+[Send contacts]
+Відправити контакти
+[Send/Receive Contacts+]
+Відправлення/Отримання контактів+

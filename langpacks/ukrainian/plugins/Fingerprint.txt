@@ -1,0 +1,139 @@
+﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
+;============================================================
+;  File: Fingerprint.dll
+;  Module: Display client icons, Fingerprint, Fingerprint Plus, Fingerprint Mod+, FingerprintNG
+;  Versions: 0.1.0.0
+;  Authors: Artem Shpynov aka FYR, Bio, Faith Healer, HierOS, Mataes
+;============================================================
+[Show Miranda version]
+Показувати версію Miranda
+[Pack overlays]
+Оверлеї зборок
+[Fingerprint]
+Значки клієнтів
+[Undetected client]
+Невизначений клієнт
+[Unknown client]
+Невідомий клієнт
+[Platform]
+Операційна система
+[Fingerprint NG (client version) icons module for Miranda NG.]
+Fingerprint NG відображаються значки клієнтів, використовуваних вашими співрозмовниками.
+[Fingerprint overlays icons]
+Оверлеї значків клієнтів
+[Client icons]
+Клієнти
+[Miranda clients]
+Клієнти Miranda
+[Miranda packs overlays]
+Оверлеї зборок Miranda
+[Show Miranda version at Overlay#2]
+Значок версії на оверлее #2
+[Resource overlays]
+Оверлеї ресурсів
+[Platform overlays]
+Оверлеї платформи
+[Protocols overlays]
+Оверлеї протоколів
+[Secure overlays]
+Оверлеї шифрування
+[AIM clients]
+Клієнти AIM
+[Gadu-Gadu clients]
+Клієнти Gadu-Gadu
+[ICQ clients]
+Клієнти ICQ
+[IRC clients]
+Клієнти IRC
+[Jabber clients]
+Клієнти Jabber
+[MRA clients]
+Клієнти MRA
+[MSN clients]
+Клієнти MSN
+[QQ clients]
+Клієнти QQ
+[RSS clients]
+Клієнти RSS
+[Tlen clients]
+Клієнти Tlen
+[Weather clients]
+Клієнти погоды
+[Yahoo clients]
+Клієнти Yahoo
+[Multi-protocol clients]
+Мульти-протокольні клієнти
+[Multi-proto clients]
+Мульти-протокол
+[Other (rare) protocols]
+Клієнти рідкісних протоколів
+[Other icons]
+Інші значки
+[Other protocols]
+Інші протоколи
+[Overlays]
+Оверлеї
+[Windows overlay]
+Оверлей Windows
+[iOS overlay (iPhone/iPad)]
+Оверлей iOS (iPhone/iPad)
+[MacOS overlay]
+Оверлей MacOS
+[Linux overlay]
+Оверлей Linux
+[Flash overlay]
+Оверлей Flash
+[Java overlay]
+Оверлей Java
+[Symbian overlay]
+Оверлей Symbian
+[Amiga overlay]
+Оверлей Amiga
+[Android overlay]
+Оверлей Android
+[SecureIM overlay]
+Оверлей SecureIM
+[x64 overlay]
+Оверлей x64
+[x32 overlay]
+Оверлей x32
+[Unicode overlay]
+Оверлей Unicode
+[AIM overlay]
+Оверлей AIM
+[ICQJ Plus Mod overlay]
+Оверлей ICQJ Plus Mod
+[ICQJ overlay]
+Оверлей ICQJ
+[IRC overlay]
+Оверлей IRC
+[JGmail overlay]
+Оверлей JGmail
+[JGTalk overlay]
+Оверлей JGTalk
+[Jabber overlay]
+Оверлей Jabber
+[MSN overlay]
+Оверлей MSN
+[QQ overlay]
+Оверлей QQ
+[Tlen.pl overlay]
+Оверлей Tlen.pl
+[Yahoo overlay]
+Оверлей Yahoo
+[Mail.Ru Agent overlay]
+Оверлей Mail.Ru Agent
+[debug overlay]
+Оверлей debug
+[office overlay]
+Оверлей office
+[mobile overlay]
+Оверлей mobile
+[home overlay]
+Оверлей home
+[work overlay]
+Оверлей work
+[notebook overlay]
+Оверлей notebook
+[Client not found]
+Незнайдений клієнт

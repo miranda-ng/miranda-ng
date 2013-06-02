@@ -1,0 +1,98 @@
+﻿#muuid {da0b09f5-9c66-488c-ae37-8a5f191c9079}
+;============================================================
+;  File: linklist.dll
+;  Module: History Linklist Plugin for Miranda NG
+;  Versions: 0.1.1.1-0.1.1.2
+;============================================================
+[Generates a list of extracted URIs from the history.]
+Створює і показує список посилань з історії контакту.
+[&Clear Search Results]
+&Очистити результати пошуку
+[&Incoming Messages Only]
+Тільки вхідні повідомлення
+[&Mail-Addresses Only]
+Тільки е-mail адреси
+[&Outgoing Messages Only]
+Тільки вихідні повідомлення
+[&Webaddresses Only]
+Тільки веб-адреси
+[All directions]
+Всі напрямки
+[All types]
+Всі види
+[Backgroundcolour]
+Фон
+[Colour Select]
+Вибір кольору
+[Deep search]
+Глибокий пошук
+[Incoming only]
+Тільки вхідні
+[Linklist Plugin]
+Linklist плагін
+[Mail addresses only]
+Тільки e-mail адреси
+[Message &Direction]
+Напрямок &повідомлень
+[Message &Type]
+Тип &повідомлень
+[Message types]
+Типи повідомлень
+[Open in new Window]
+Відкрити у новому вікні
+[Open links always in a new window]
+Завжди відкривати посилання в новому вікні
+[Outgoing only]
+Тільки вихідні
+[Parting line]
+Розділ. лінію
+[Plugin Default]	
+За замовчуванням
+[Save window position individually for each contact]
+Зберігати позицію вікна окремо для кожного контакту
+[Show Message]
+Показати повідомлення
+[Show whole Message on 'mouse over' event]
+Показувати повне повідомлення при наведенні миші
+[Show...]
+Показати...
+[Textcolour]
+Колір тексту
+[Update list on new events]
+Автоматичне оновлення списку нових події
+[Use Miranda Settings]
+Використовувати налаштування програми
+[Web addresses only]
+Тільки веб-адреси
+[History Linklist]
+Історія посилань
+[&Create Linklist]
+&Створити Лінк-лист
+[No Miranda Settings specified!]
+Налаштування програми не визначені!
+[incoming]
+вхідні
+[mailaddresses]
+e-mail адреси
+[Matches for searchtext]
+Виявлення відповідностей при пошуку 
+[Miranda Linklist]
+Журнал посилань Miranda NG
+[outgoing]
+вихідні
+[Processing history...]
+Обробка історії...
+[Processing list...]
+Обробка списку...
+[search options]
+параметри пошуку
+[History is empty!]
+Історія порожня!
+[Could not create window!]
+Неможливо створити вікно!
+[No messages found!\nPlease change current filter options.]
+Повідомлень не знайдено!\nБудь ласка, змініть поточні параметри фільтру.
+[There are no links in history!]
+Посилань в історії не знайдено!
+[Unable to load the Rich Edit control!]
+Засоби редагування не завантажені!

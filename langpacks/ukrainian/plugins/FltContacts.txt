@@ -1,0 +1,65 @@
+﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
+;============================================================
+;  File: fltcontacts.dll
+;  Module: Floating Сontacts
+;  Versions: 1.0.2.2
+;  Authors: iavorv
+;============================================================
+[Floating Contacts plugin for Miranda.]
+Плагін плаваючих контактів для Miranda NG.
+[Floating Contacts]
+Плаваючі контакти
+[Remove thumb]
+Прибрати плаваючий контакт
+[Hide all thumbs]
+Приховати плаваючі контакти
+[Show all thumbs]
+Показати плаваючі контакти
+[Show/Hide all thumbs]
+Показати/Приховати всі контакти
+[Hiding contacts]
+Приховування контактів
+[Hide all contacts]
+Сховати всі контакти
+[Hide when a fulscreen app is active]
+Сховати коли програму розгорнуто
+[Hide when contact list is shown]
+Ховати коли список контактів видно
+[Stick together]
+Склеювати контакти
+[Use fixed width]
+Ширина
+[requires mToolTip or Tipper plugin]
+Потрібен плагін mToolTip або Tipper
+[Bring to front]
+На передній план
+[Bring to front every]
+Перемістити вгору на кожні
+[<Contact List Text>]
+Шрифт у списку контактів
+[Opacity:]
+Непрозорість:
+[Floating Contacts Background]
+Плаваючі контакти: фон
+[Draw border]
+Показувати рамку
+[Left-top edges color:]
+Колір зліва-зверху:
+[Right-bottom eges color:]
+Колір справа-знизу:
+[Hide if offline]
+Ховати, якщо відключений
+[Show thumbs]
+Показати плаваючі контакти
+[Hide thumbs/Remove thumb]
+Сховати/Прибрати плаваючі контакти
+[Show offline]
+Показувати відключених
+[Hide when a fullscreen app is active]
+Ховати в повноекранному режимі
+[same]
+ті ж
+[as:]
+Як:
+[Typeface]
+Гарнітура

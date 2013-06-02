@@ -1,0 +1,43 @@
+﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
+;============================================================
+;  File: favcontacts.dll
+;  Module: Favourite Contacts
+;  Versions: v.0.0.0.6
+;  Authors: nullbie
+;============================================================
+[Favourite contacts menu.]
+Меню обраних контактів.
+[px.]
+пікс.
+[Hotkey shows menu centered on screen]
+Меню по гарячій кл. в центрі екрану 
+[Hide for transparent avatars]
+Приховати для прозорих аватар
+[Favourite Contacts]
+Обрані контакти
+[Draw avatar border]
+Границя на аватарах
+[Use system colors and fonts]
+Системні кольори і шрифти
+[Menu item preview:]
+Перегляд меню:
+[Multicolumn menu]
+Декілька стовпців
+[Set up menu hotkey...]
+Налаштувати гор. клавіші...
+[Enable groups]
+Увимкнути групи
+[Configure fonts and colors...]
+Налаштувати шрифти і кольори...
+[Selected contact name (color)]
+Ім'я контакту під курсором
+[Selected second line (color)]
+Відображення другого рядка під курсором
+[Align to the right]
+Вирівнювання по правому краю
+[recent contacts]
+недавніх контактів
+[Regular Contact]
+Звичайний контакт
+[Dim idle contact icons]
+Затемнити контакти в очікуванні

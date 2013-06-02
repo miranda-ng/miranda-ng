@@ -1,0 +1,115 @@
+﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;============================================================
+;  File: mydetails.dll
+;  Module: My Details 
+;  Versions: 0.0.0.40-0.0.1.10
+;============================================================;
+[<no status name>]
+<немає імені статусу>
+[Hide My Details]
+Приховати мої деталі
+[Main Window/Backgrnd]
+Головне вікно/Фон
+;[MyDetails/Backgrnd]
+[Set My Avatar for %s...]
+Змінити мій аватар для %s...
+[Set My Nickname for %s...]
+Змінити мій нік для %s...
+[Set My Status Message for %s...]
+Змінити статусне повідомлення для %s...
+[Show My Details]
+Показати мої деталі
+[Set My Nickname for %s]
+Змінити мій нік для %s
+[Set My Status Message for %s]
+Встановити статус для %s
+[Avatar]
+Аватар
+[Frame Options]
+Опції вікна
+[General]
+Загальні
+[Protocol]
+Протокол
+[&Offline]
+Відключений
+[Align text to right]
+Вирівняти праворуч
+[Allow it to grow]
+Розтягнути аватар
+[Auto-resize frame]
+Вирівнювати фрейм
+[Avatar popup]
+Аватар
+[Background Color:]
+Колір заливки:
+[Bottom:]
+Низ:
+[Context popup]
+Контекст
+[Custom size:]
+Розмір аватара:
+[Cycle through protocols]
+Зміна протоколів
+[Cycle through protocols every:]
+Змінювати протоколи кожні:
+[Don't cycle through protocols]
+Не змінювати протоколи
+[Global on avatar]
+Глобальний аватар
+[Global on nickname]
+Глобальний нік
+[Global on status]
+Глобальний статус
+[Global on status message]
+Глобальне статусне повідомлення
+[Left:]
+Ліво:
+[Nick popup]
+Нік
+[Replace Smileys]
+Замінювати смайли
+[Right:]
+Право:
+[Set My Nickname]
+Мій нік
+[Set My Status Message for All Status]
+Статусне повідомлення для ycix статусiв
+[Show previous protocol]
+Показати попередній протокол
+[Status message popup]
+Статусне повідомлення
+[Status popup]
+Статус
+[Top:]
+Верх:
+[Use contact list smileys]
+Смайлики списку контактів
+[Use free space (under avatar) to other texts]
+Викор. вільне місце (під аватарами) для тексту
+[Set My Avatar...]
+Змінити мій аватар...
+[Set My Nickname...]
+Змінити мій нік...
+[Set My Status Message...]
+Змінити статусне повідомлення...
+[Show next protocol]
+Показати наступний протокол
+[Enable Listening To]
+Увімкнути "Зараз слухаю"
+[Enable Listening To for %s]
+Увімкнути "Зараз слухаю" для %s
+[Shows and allows you to edit your details for all protocols.]
+Плагін дозволяє показувати і редагувати ваші деталі для всіх протоколів.
+[Show protocol cycle button]
+Кнопка перемикання протоколу
+[Previous protocol]
+Попередній протокол
+[Next protocol]
+Наступний протокол
+[Unread Email Count]
+Індикатор непрочитаної пошти
+[MyDetails]
+Мої деталі
+[My Details]
+Мої деталі

@@ -1,0 +1,74 @@
+﻿;============================================================
+;  File: smcn.dll, smcnotify.dll (???)
+;  Module: StatusMessageChangeNotify
+;  Versions: 0.0.1.6-0.0.3.19
+;  URL: http://www.torun.mm.pl/~slotwin/smcn/smcnotifytest.zip
+;============================================================
+[Status Message Change Notify]
+Повідомлення про зміну статусного повідомлення
+[Enable &status message change notification]
+Увім. сповіщення про зміну статусного повідомлення
+[Disable &status message change notification]
+Вимк. сповіщення про зміну статусного повідомлення
+[View Status Message History]
+Історія статусних повідомлень
+[List Contacts with Status Message]
+Статусні повідомлення контактів
+[Disable SMCN PopUps]
+Вимк. спл. вікна про зміну статусу
+[Enable SMCN PopUps]
+Увім. спл. вікна про зміну статусу
+[Status Message Changed]
+Статусне повідомлення змінилося
+[changes his/her status message to:]
+змінив(-ла) статусне повідомлення на:
+[cleares his/her status message]
+видалив(-ла) статусне повідомлення
+[changes his/her status message:]
+змінив(-ла) статусне повідомлення:
+[<empty status message>]
+<порожнє статусне повідомлення>
+[Old status message]
+Старе статусне повідомлення
+[New status message]
+Нове статусне повідомлення
+[List Status Messages]
+Показати статусні повідомлення
+[Go To URL in Status Message]
+URL в статусному повідомленні
+[Status Message History]
+Історія статусних повідомлень
+[Use OSD]
+Використовувати OSD
+[Do not notify and log when status message is empty]
+Не повідомляти і не записувати порожні статусні повідомлення
+[Show status message changes in message window]
+Показувати зміни статусних повідомлень у вікні повідомлень
+[Message cleared]
+Повідомлення видалено
+[Message changed]
+Повідомлення змінилося
+[%n New Status Message]
+%n Нове статусне повідомлення
+[%o Old Status Message]
+%o Старе статусне повідомлення
+[%D/%M/%Y day/month/year]
+%D/%M/%Y день/місяць/рік
+[%c Custom nickname]
+%c Свій нік
+[%H:%m Time (in 24h format)]
+%H:%m Час (формат 24г)
+[%h:%m %a (in 12h format)]
+%h:%m %a (формат 12г)
+[\\n line break]
+\\n нова лінія
+[\\t tab stop]
+\\t табуляція
+[View status message history]
+Історія статусних повідомлень
+[Clear history]
+Очистити
+[Do not log empty status messages]
+Не записувати порожні статусні повідомлення
+[Only if status message has changed]
+Тільки якщо статусне повідомлення змінилося

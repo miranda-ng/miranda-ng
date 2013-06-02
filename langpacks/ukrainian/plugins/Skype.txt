@@ -1,0 +1,32 @@
+﻿#muuid {9c448c61-fc3f-42f9-b9f0-4a30e1cf8671}
+;============================================================
+;  File: Skype.dll
+;  Module: Skype Protocol
+;  Versions: 0.0.0.1
+;============================================================
+[Skype login:]
+Ім'я у Skype:
+[Invite to conference]
+Запросити в конференцію…
+[sid]
+Імя:
+[Invite Contact To Chat]
+Запросити до чату
+[Use port]
+Порт
+[for incoming connections]
+для вхідніх з'єднань
+[Use ports 80 and 443 as alternative incoming]
+Використовувати порты 80 и 443 в якості входних альтернативних
+[Register new account]
+Зареїструвати новий аккаунт
+[Chande password]
+Змінити пароль
+[Contact already in your contact list]
+Контакт вже у вашому списку контактів
+[You have not entered a Skype name.\n\ Configure this in Options->Network->Skype and try again.]
+Ви не ввели ім'я Skype. \n\ Настройте Налаштування->Мережа->Skype і спробуйте знов.
+[Enter a password for Skype Name %s:]
+Введіть пароль від Skype %s:
+[Skype protocol support for Miranda NG.] 
+Підтримка протоколу Skype для Miranda NG.

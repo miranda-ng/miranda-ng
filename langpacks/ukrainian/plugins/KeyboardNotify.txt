@@ -1,0 +1,99 @@
+﻿#muuid {119d7288-2050-448d-9900-d86ac70426bf}
+;============================================================
+;  File: KeyboardNotify.dll
+;  Module: Keyboard Notify
+;  Versions: 1.5.7.7
+;  Authors: TioDuke
+;============================================================
+[Flashes your keyboard LEDs when a message has arrived.]
+Додає мигання світлодіодів клавіатури при отриманих повідомленнях.
+[Keyboard Notify]
+Повідомлення клавіатурою
+[Incomming messages]
+Вхідні повідомлення
+[Keys to flash]
+Чим моргати
+[Seconds to wait before starting flash]
+Чекати перед миготінням (секунд)
+[Incoming files]
+Вхідні файли
+[Incoming URLs]
+Вхідні URL
+[xStatuses]
+хСтатуси
+[Flashing effects]
+Мерехтіти
+[All at the same time]
+Всі одночасно
+[In turn]
+По черзі
+[In sequence]
+По порядку
+[left->right]
+ліво->право
+[right->left]
+право->лево
+[left<->right]
+ліво<->право
+[Custom theme]
+Своя тема
+[Accordingly to events' count]
+За кількістю подій
+[Emulate keypresses (Use this option if you are using an USB keyboard)]
+Емулювати натискання клавіш (Тільки для USB клавіатур)
+[Create/Edit Themes]
+Створити/Редагувати тему
+[Theme]
+Тема
+[Import/Export]
+Імпорт/Експорт
+[Import...]
+Імпорт...
+[Override existing]
+Замінити існ.
+[Set xStatus list]
+Список хСтатусов
+[Set program list]
+Список програм
+[Consider event opened after]
+Діяти через
+[Set LEDs for events]
+Встановити для події
+[Use custom theme]
+Вик. свою тему
+[Hz]
+Гц
+[Beep]
+Сигнал
+[Workstation is locked ]
+Комп'ютер заблокований
+[Beep the PC Speaker]
+Сигнал у PC Speaker
+[sequence]
+послідовність
+[Turn on without blinking]
+Увімк. без мигання
+[Flashing time]
+Час мигання
+[LEDs to flash]
+Блимати світлодіодами
+[reversed]
+зворотний
+[Screensaver is running]
+Запущена заставка
+[seconds (0 = unlimited)]
+секунд (0 = завжди)
+[ Notify when]
+ Повідомляти коли
+[simple]
+простий
+[Ignore others]
+Інші події
+[Keyboard Notify Ext.]
+Повідомлення клавіатури
+[Ignore messages]
+Повідомлення
+[Ignore URLs]
+Адреса (URL)
+[Ignore files]
+Передачі файлів

@@ -1,0 +1,69 @@
+﻿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: avs.dll
+;  Plugin: Avatar service
+;  Versions: 0.10.0.2
+;  Authors: Nightwish, Pescuma
+;============================================================
+[Loads and manages contact pictures for other plugins.]
+Завантажує і керує аватарами для інших модулів.
+[The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
+Встановлені тут зображення є аватарами для контактів, у яких немає свого аватара. Галочка вмикає/вимикає відображення стандартного аватара для протоколів.
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
+ПОПЕРЕДЖЕННЯ: Ці зображення НЕ ВАШІ аватари. Встановити свій аватар Ви можете через "Головне меню -> Особисті дані -> Аватари".
+[Set default picture]
+Встановити стандартне
+[Delete default picture]
+Видалити стандартне
+[Set avatar options for %s]
+Налаштування аватара для %s
+[Contact Avatars]
+Аватари контактів
+[Try to draw avatar background transparent (for images without transparency)]
+Виводити фон аватара прозорим (для аватарів без прозорості)
+[Draw avatars grayscale]
+Малювати аватари чорно-білими
+[Own Avatars]
+Свої аватари
+[When setting avatars, always make them square]
+Робити аватари квадратними при встановленні
+[Try to draw own avatar background transparent (for images without transparency)]
+Виводити фон аватара прозорим (для аватарів без прозорості)
+[This uses the same additional options as in "Contact Avatars" tab]
+Додаткові параметри на вкладці "Аватари контактів"
+[Grow avatar to fit max allowed protocol size]
+Збільшувати аватар до максимального розміру
+[Use per protocol avatars]
+Різні аватари протоколів
+[Flash Animations]
+Flash анімація
+[XML Files]
+XML файли
+[Are you sure you want to remove your avatar?]
+Ви хочете видалити ваш аватар?
+[Global avatar]
+Глобальний аватар
+[Global avatar for %s accounts]
+Аватар для всіх облікових записів %s
+[Make the avatar square]
+Зробити аватар квадратним
+[Resize the avatar to fit max allowed protocol size]
+Змінити розмір аватара до максимально можливого розміру
+[ Background ]
+Фон
+[Transparent]
+Прозоро
+[My Global Avatar Cache]
+Мій глобальний кеш аватарів
+[My Avatars]
+Мої аватари
+[Fatal error, image services not found. Avatar services will be disabled.]
+Фатальна помилка, служба зображень не знайдено. Служба аватарів буде вимкнена.
+[Avatar Service]
+Служба аватарів
+[Set My Avatar]
+Встановити мій аватар
+[Set My Avatar for %s]
+Змінити мій аватар для %s
+[Protocols have different avatars]
+У всіх протоколів різні аватари

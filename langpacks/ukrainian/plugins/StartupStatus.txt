@@ -1,0 +1,100 @@
+﻿#muuid {4b733944-5a70-4b52-ab2d-68b1ef38ffe8}
+;============================================================
+;  File: startupstatus.dll
+;  Module: StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.
+;  Versions: 0.0.0.36
+;============================================================
+[<last>]
+<останній>
+[<n/a>]
+<невідомо>
+[Minimized]
+Згорнуто
+[Create a status menu item]
+Створити пункт в меню
+[At least one profile must exist]
+Мінімум один профіль повинен існувати
+[StartupStatus]
+Початковий статус
+[Your default profile will be changed]
+Профіль за промовчанням буде змінено
+[Status Profiles]
+Профілі статусів
+[StatusProfiles]
+Профілі статусів
+[There is a maximum of 6 menu items]
+Максимум 6 пунктів меню
+[Set window state]
+Стан вікна
+[Show dialog]
+Показувати діалог
+[Set status to offline before exit]
+"Вимкнено" при виході
+[Activate status profile]
+Статус-профіль
+[Set docked]
+Паркувати
+[Set window location]
+Позиція вікна
+[Set window size]
+Розмір вікна
+[Allow override]
+Змінювати
+[Automatically dial on startup]
+Підключатися при старті
+[Automatically hang up on exit]
+Роз'єднати при виході
+[Create a TopToolBar button]
+Створити кнопку у Панелі кнопок
+[Show confirm dialog when loading]
+Підтверджувати при завантаженні
+[In submenu]
+У підменю
+[Create Shortcut]
+Створити ярлик
+[Show CMDL]
+Ком. рядок
+[Profile name]
+Ім'я профілю
+[Set after]
+через
+[Note: status profiles can be created in the 'Status Profiles' options screen]
+Статус-профіль можна створити у вкладці "Профілі статусів".
+[Dial-up (experimental)]
+Від. доступ (експериментально)
+[Command Line]
+Ком. рядок
+[Add new profile]
+Додати профіль
+[Default profile]
+За замовчуванням
+[Create a TopToolBar button for this profile]
+Створити кнопку TopToolBar для профілю
+[Change status on startup]
+Змінювати статус при запуску
+[Show dialog on startup]
+Показувати діалог при запуску
+[Change window state]
+Змінити стан вікна
+[Minimized Window]
+Згорнуто
+[Hidden Window]
+Приховане вікно
+[Normal Window]
+Звичайне
+[Status on startup]
+Статус при запуску
+[Window on startup]
+Вікно при запуску
+[Set %s message for %s.]
+Вст. %s повідомлення для %s.
+[Use Miranda's message setting]
+Використовувати налаштування Miranda
+[StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
+Початковий статус, дозволяє вам встановлювати, який статус буде виставлений при запуску Miranda у кожного протоколу.
+[Confirm Status]
+Підтвердіть статус
+[Pressed toolbar icon]
+Затиснута іконка панелі
+[Released toolbar icon]
+Відпущена іконка панелі

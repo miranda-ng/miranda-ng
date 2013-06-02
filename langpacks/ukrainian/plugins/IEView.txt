@@ -1,0 +1,91 @@
+﻿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+;============================================================
+;  File: ieview.dll
+;  Module: IEview provides IE engine to display message log.
+;  Versions: 1.3.0.3
+;  Authors: the_leech
+;============================================================
+[IEView]
+Журнал IEView
+[IE Based Chat Log.]
+Журнал на движці IE.
+[Currently the following BBCodes are supported: [b][i][u][img][size][color]]
+Підтримуються [b][i][u][img][size][color] ВВкоды
+[Currently the following BBCodes are supported: [b][i][u][s][img][size][color]]
+Підтримуються [b][i][u][s][img][size][color] ВВкоды
+[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
+Підтримуються [b][i][u][s][img][size][color][url] ВВкоды
+[Enable support for Flash files in smileys and BBCodes]
+Підтримка flash (*.swf) файлів у смайлах і ВВкодах
+[Enable workaround for PNG transparency]
+Включити прозорість для PNG
+[Replace smileys in user names]
+Смайли в іменах
+[Hide window border]
+Приховати межі вікна
+[Compatibility Mode]
+Режим сумісності
+[Use External CSS]
+Зовнішній файл CSS
+[Use Templates]
+Шаблон
+[Template Options]
+Налаштування шаблону
+[Grouping]
+Групування
+[Show nicknames]
+Показувати ніки
+[RTL]
+RTL
+[Copy Link]
+Копіювати посилання
+[Save Image As...]
+Зберегти зображення...
+[Print]
+Друк
+[Show source]
+Исходник шаблону
+[External CSS file]
+Зовнішній файл CSS
+[Events To Show]
+Відображаються події
+[Animated Smiley Libraries]
+Бібліотеки анімованих смайлів
+[Enable smiley replacement]
+Включити заміну смайлів
+[Specify library for each protocol]
+Протоколи з різними смайлами
+[Only replace isolated smileys]
+Заміна тільки ізольованих
+[Surround smileys with spaces]
+Вставляти смайли з пробілами
+[Emotikons]
+Смайлики
+[%s has joined.]
+%s увійшов.
+[%s has left.]
+%s вийшов.
+[Message Log Background]
+Фон журналу повідомлень
+[RTL CSS file]
+RTL CSS файл
+[RTL templates]
+RTL шаблони
+[Template Library]
+Бібліотека шаблонів
+[The topic is %s.]
+Тема %s
+[Use external CSS file]
+Використовувати зовнішній файл CSS
+[Use template-based HTML builder]
+Використовувати компонування по HTML шаблону
+[HTML Log Options]
+Настройка журналу HTML
+[RTL template file]
+RTL шаблон
+[All Images]
+Всі зображення
+[Style Sheet]
+Таблиця стилів
+[Embed YouTube videos]
+Вбудувати відео з YouTube

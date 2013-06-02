@@ -1,0 +1,52 @@
+﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+;============================================================
+;  File: menuex.dll
+;  Module: MenuItemEx
+;  Versions: 1.2.1.11-1.3.0.1
+;============================================================
+[Adds some useful options to a contacts menu.]
+Додає додаткові пункти меню контактів.
+[Shown menu items]
+Відображені пункти меню
+[Show alpha icons]
+Альфа-значки
+[Show alpha icon]
+Альфа-значок
+[Copy Status Message (SMR needed)]
+Копіювати статус (потрібен SMR)
+[MenuItemEx]
+Дод. пункти меню
+[Set user properties by contact menu]
+Встановлює параметри видимості для користувачів у списку контактів
+[Adds contact specific options: Browse Files, View Website, Last Online, and Copy IP Address]
+Додає контекстні меню: "Прийняті файли", "Сайт", "Останній раз в мережі" і "Копіювати адресу IP".
+[Hide menu item if directory does not exist]
+Сховати меню, якщо каталог не існує
+[Last Status]
+Останній статус
+[Copy to Account]
+Копіювати в обліковий запис
+[Copy to Account (Ctrl+click for move to Account)]
+Копіювати в обл. запис (Ctrl+клік переміщення)
+[* Use Ctrl+click to see popup with the copied text]
+* Ctrl+клік для відображення спливаючого вікна з текстом
+[Hide contact on 'Ignore all']
+Приховувати при 'Ignore all'
+[Show in list]
+Показувати у списку 
+[Add message name]
+Заголовок повідомлення
+[Add item name]
+Додати назву елемента
+[Do you want to send authorization request\nto new contact?]
+Чи хочете ви надіслати запит авторизації\nновому контакту?
+[Open ignore settings]
+Відкрити налаштування ігнорування
+[Copy xStatus Message]
+Копіювати повідомлення xStatus
+[Show ID in menu item]
+Показати ID у контекстному меню
+[Trim too long ID]
+Обрізати довгий ID
+[Automatically refresh contact's details after they come online]
+Автоматично оновлювати деталі контактів при появі в мережі

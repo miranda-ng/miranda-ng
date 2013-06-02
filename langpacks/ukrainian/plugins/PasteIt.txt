@@ -1,0 +1,84 @@
+﻿#muuid {1AAC15E8-DCEC-4050-B66F-2AA0E6120C22}
+;============================================================
+;  File: PasteIt.dll
+;  Module: Paste It
+;  Versions: 1.0.0.0
+;============================================================
+
+;Main
+[Paste It]
+Розміщення на сайті
+[Uploads the text to web page and sends the URL to your friends.]
+Завантажує текст на веб-сторінку і відправляє URL друзям.
+[Paste It - Select file]
+Розміщення на сайті - Вибрати файл
+[Paste It HTTP connections]
+HTTP підключення Paste It
+
+;Error messages
+[You can only paste 1 file]
+Ви можете розмістити тільки 1 файл
+[Cannot get data from clipboard]
+Неможливо отримати дані з буфера обміну
+[File size is %dKB, do you realy want to paste such large file?]
+Розмір файлу %dKB, ви дійсно хочете розмістити такий великий файл?
+[Cannot read file '%s']
+Неможливо прочитати файл '%s'
+[File size is larger then 10MB, cannot be send]
+Файл розміром більше 10MB, не може бути відправленим
+[Cannot open file '%s']
+Неможливо відкрити файл '%s'
+[File '%s' is empty]
+Файл '%s' порожній
+[Error during sending text to web page: %s]
+Помилка при надсиланні тексту на web-сторінку: %s
+[Error during sending text to web page]
+Помилка при надсиланні тексту на web-сторінку
+[Error during getting user key from web page: %s]
+Помилка при отриманні ключа користувача від web-сторінки: %s
+
+;Options and Menus
+[Paste from clipboard]
+Розмістити з буфера обміну
+[Paste from file]
+Розмістити з файлу
+[Default web page]
+Стандартна web-сторінка
+[Default file encoding]
+Стандартне кодування файлу
+[Auto-detect UTF-8]
+Автовизначення UTF-8
+[Show confirmation dialog box]
+Показати діалогове вікно підтвердження
+[Web page settings]
+Налаштування веб сторінки
+[Web page to configure]
+Web-сторінка для налаштування
+[Default formatting]
+Форматування за замовчуванням
+[Auto-detect format from file extension]
+Автоматичне визначення формату з розширення файлу
+[Public paste]
+Розмістити публічно
+[Paste expire date]
+розмістити на строк
+[Login as guest]
+Увійти як гість
+[User key]
+Ключ користувача
+[Get user key]
+Отримати ключ користувача
+[Configure formatting]
+Налаштувати форматування
+[Download more]
+Завантажити більше
+[Login to pastebin.com]
+Увійти на pastebin.com
+[Encoding]
+Кодування
+[Recode]
+Запис
+[10 minutes]
+10 хвилин
+[1 month]
+1 місяць

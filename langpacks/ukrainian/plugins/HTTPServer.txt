@@ -1,0 +1,103 @@
+﻿#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
+;============================================================
+;  File: HTTPServer.dll
+;  Module: HTTP Web Server plugin for Miranda
+;  Versions: 0.1.2.2
+;  Authors: Kennet Nielsen, modified by Vampik, Houdini
+;============================================================
+[%ExternalIP% variable]
+%ExternalIP% змінна
+[&Edit share]
+Зм. загальне
+[&New share]
+Нове загальне
+[&Remove share]
+Видалити загальне
+[Agent]
+Агент
+[Allowed IP]
+Дозволені IP
+[Allowed Mask]
+Дозволена маска
+[Completed]
+Завершено
+[Disable HTTP server]
+Вимкнути HTTP сервер
+[Enable / Disable HTTP server]
+Уімк/Вимк HTTP Сервер
+[Enable HTTP server]
+Увім. HTTP Сервер
+[External server name]
+Зовнішнє ім'я сервера
+[HTTP Server statistics view]
+Статистика переглядів HTTP сервера
+[HTTP Server]
+HTTP Сервер
+[HTTP Share new file]
+HTTP Новий загальний файл
+[IPAddress1]
+IP адрес 1
+[IPAddress2]
+IP адрес 2
+[Main menu items]
+Елементи головного меню
+[Max ( bytes / sec )]
+Макс (байт/сек)
+[Max downloads]
+Макс. завантаження
+[Max Downloads]
+Макс. завантаження
+[No control when Away/NA]
+Вимк. якщо недоступний/зайнятий
+[No share selected]
+Папка не вибрана
+[Open log]
+Відкрити журнал
+[Page keyword]
+Ключові слова
+[Real path]
+Реальний шлях
+[Set to default]
+За замовчуванням
+[Share name]
+Ім'я шари
+[Share removed]
+Загальне видалено
+[Show HTTP server statistics]
+Статистика сервера НТТР
+[Specify a file to share]
+Файл для доступу
+[Speed control]
+Контроль швидкості
+[Speed]
+Швидкість
+[This is the link pasted to the message window]
+Це посилання, вставлена у вікно повідомлень
+[URL address]
+Адрес URL
+[Write log file]
+Записувати журнал
+[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
+Ваш зовнішній IP ідентифіковано як %d.%d.%d.%d\r\пс: %s
+[You need to restart miranda to change the main menu]
+Зміни в меню набудуть чинності після перезапуску програми.
+[&Open in Browser]
+Відкрити в браузері
+[Connection control]
+Контроль з'єднань
+[Default download limit]
+Ліміт завантажень за замов.
+[Transfer limit (kb/sec)]
+Ліміт швидкості (kb/sec)
+[Total connection limit]
+Максимально з'єднань
+[Connections per user limit]
+Ліміт на користувача
+[Index creation]
+Створення індексу
+[Create HTML (compatibility)]
+Створити HTML (сумісно)
+[Create XML]
+Створити XML
+[HTTPServer]
+HTTP Сервер

@@ -1,0 +1,14 @@
+﻿#muuid {e92874ec-594a-4a2f-bded-c0be8b5a45d1}
+;============================================================
+;  File: NotifyAnything.dll 
+;  Module: NotifyAnything
+;  Versions:  0.0.2.7
+;============================================================
+[Allow actions to execute programs]
+Разрешить выполнение программ
+[Message debugging]
+Отладка сообщений
+[Only listen to localhost]
+Только от этого компьютера
+[Use internal speaker]
+Использовать динамик

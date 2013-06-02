@@ -1,0 +1,84 @@
+﻿#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
+;============================================================
+;  File: fileAsMessage.dll
+;  Module: Send files as a message between two Miranda NG on top of any IM protocol
+;  Versions: 0.0.2.4
+;============================================================
+[File As Message]
+Файл через повідомлення
+[File tranfer by using the messaging services - as plain text.]
+Передача файлів на основі сервісу повідомлень - через звичайний текст.
+[fileAsMessage]
+Файл через повідомлення
+[File As Message...]
+Файл через повідомлення...
+[file As Message]
+Файл через повідомлення
+[Chunk size]
+Розмір порції
+[Delays between sends]
+Пауза між передачами
+[Transfer settings]
+Налаштування передачі
+[Unsent]
+Не передано
+[Sent]
+Передано
+[To send]
+До передачі
+[Received]
+Прийнято
+[Use only alphanumeric encoding on transfer]
+Тільки літерами-цифрова кодування для передачі
+[Extra options: Events > File Transfers, "Receiving files" group]
+Дод. налаштування: Події > Передача файлів, "Прийом файлів"
+[Revive]
+Пожвавити
+[File already exists. Overwrite?]
+Файл вже існує. Перезаписати?
+[Request sent. Awaiting of acceptance..]
+Запит надіслано. Чекаємо відповіді...
+[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-im.org/download/details.php?action=viewfile&id=1811 for more information and download.]
+Якщо ви бачите цей "сміття", значить у вас немає модуля "fileAsMessage". Відвідайте http://miranda-im.org/download/details.php?action=viewfile&id=1811
+[Size: %d bytes]
+Розмір: %d байт
+[Couldn't open a file]
+Не вийшло відкрити файл
+[Received successfully]
+Прийнято успішно
+[Requesting of missing chunks]
+Запит відсутніх частин
+[Sent successfully]
+Написано успішно
+[Paused, 'coz connection dropped]
+Припинено з-за роз'єднання
+[Transfer is in progress. Do you really want to close?]
+Йде передача файлу. Перервати?
+[Cancelled by user]
+Скасовано користувачем
+[Cancelled by remote user]
+Скасовано віддаленим користувачем
+[Recv file]
+Прийом файлу
+[Select a file]
+Вибір файлу
+[Incoming file...]
+Вхідний файл...
+[Synchronizing...]
+Синхронізація...
+[Paused...]
+Пауза...
+[New incoming file request. Do you want proceed?]
+Новий вхідний файл. Хочете продовжити?
+[Incoming file request. Do you want proceed?]
+Вхідний файл. Хочете продовжити?
+[Unknown command for "file As Message" was received]
+Прийнята невідома команда "file As Message"
+[Failed on file initialization]
+Помилка при ініціалізації файлу
+[Can't get a file size]
+Не можу отримати розмір файлу
+[Save as]
+Зберегти як
+[Revive a transfer]
+Пожвавити передачу

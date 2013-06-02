@@ -1,0 +1,47 @@
+﻿#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
+;============================================================
+;  File: dbx_mmap_sa.dll
+;  Module: Miranda SecuredMMAP database driver
+;  Versions: 0.7.5.4
+;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
+;============================================================
+[Disk is full. Miranda will now shutdown.]
+Диск переповнений. Miranda буде закрита.
+[Database Features]
+Можливості БД
+[Set password]
+Встановити пароль
+[Too many errors!]
+Занадто багато помилок!
+[Login to Miranda NG]
+Вхід в Miranda NG
+[Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
+Підтримка бази даних Miranda NG: глобальні налаштування, контакти, історія, установки контактів. Розширена модифікація з підтримкою шифрування.
+[DB is already secured!]
+Профіль вже зашифрований!
+[Please enter password for]
+Введіть пароль для
+[Database encryption]
+Шифрування профілю
+[Info:]
+Інфо:
+[Old password]
+Старий пароль
+[New password]
+Новий пароль
+[Crypto module hasn't been chosen, using first one found]
+Плагін шифрування не вибрано, використовується перший знайдений
+[Secure alghoritm developed in russian universities]
+Алгоритм шифрування даних, розроблений у російському універсітетах
+[Dll]
+Алгоритм
+[Notice]
+Повідомлення
+[Miranda MMAP Secured Database]
+Драйвер БД Miranda MMAP з шифруванням
+[Crypto modules not found]
+Плагіни шифрування не знайдено
+[Secure alghoritm developed in russian universities.]
+Алгоритм шифрування, розроблений в російському університетах
+[Old, very easy to crack stream cipher]
+Застарілий, легко взламуемий шифр
