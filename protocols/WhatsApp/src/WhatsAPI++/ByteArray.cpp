@@ -4,7 +4,8 @@
  *  Created on: 26/06/2012
  *      Author: Antonio
  */
-#include "stdafx.h"
+
+#include "../common.h"
 #include "ByteArray.h"
 #include "WAException.h"
 #include <iostream>
@@ -79,7 +80,7 @@ ByteArrayOutputStream::~ByteArrayOutputStream() {
 ByteArrayInputStream::ByteArrayInputStream(std::vector<unsigned char>* buf,  size_t off, size_t length ) {
 	this->buf = buf;
 	this->pos = off;
-	this->count = std::min(off + length, buf->size());
+	this->count = min(off + length, buf->size());
 }
 
 ByteArrayInputStream::ByteArrayInputStream(std::vector<unsigned char>* buf)  {
@@ -114,7 +115,7 @@ int ByteArrayInputStream::read(std::vector<unsigned char>& b, size_t  off, size_
 			}
 			b[off + i] = (unsigned char) c;
 		}
-	} catch (std::exception& ee) {
+	} catch (std::exception& ) {
 	}
 	return i;
 }

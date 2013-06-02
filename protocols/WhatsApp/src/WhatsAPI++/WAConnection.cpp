@@ -4,13 +4,13 @@
  *  Created on: 26/06/2012
  *      Author: Antonio
  */
-#include "stdafx.h"
+
+#include "../common.h"
 #include "WAConnection.h"
 #include "ProtocolTreeNode.h"
 #include <map>
 #include <vector>
 #include "utilities.h"
-#include "base64.h"
 
 const char* WAConnection::dictionary[] = {
 		"",

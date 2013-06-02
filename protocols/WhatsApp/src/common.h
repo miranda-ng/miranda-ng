@@ -36,7 +36,6 @@ Copyright © 2013 Uli Hecht
 #include <commctrl.h>
 
 #include <newpluginapi.h>
-//#include <m_version.h>
 #include <m_system.h>
 #include <m_system_cpp.h>
 #include <m_avatars.h>
@@ -67,7 +66,6 @@ Copyright © 2013 Uli Hecht
 #include <m_utils.h>
 #include <m_xml.h>
 #include <m_hotkeys.h>
-//#include <m_updater.h>
 #include <m_folders.h>
 #include "WhatsAPI++/WAConnection.h"
 

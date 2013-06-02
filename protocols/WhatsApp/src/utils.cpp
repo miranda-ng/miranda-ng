@@ -55,7 +55,6 @@ std::string getLastErrorMsg()
     // Retrieve the system error message for the last-error code
 
     LPVOID lpMsgBuf;
-    LPVOID lpDisplayBuf;
     DWORD dw = WSAGetLastError(); 
 
     FormatMessageA(
@@ -103,4 +102,13 @@ int utils::debug::log(std::string file_name, std::string text)
 	out.close();
 
 	return EXIT_SUCCESS;
+}
+
+BYTE* utils::md5string(const BYTE *data, int size, BYTE *digest)
+{
+	mir_md5_state_t md5_state;
+	mir_md5_init(&md5_state);
+	mir_md5_append(&md5_state, data, size);
+	mir_md5_finish(&md5_state, digest);
+	return digest;
 }

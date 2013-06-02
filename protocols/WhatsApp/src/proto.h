@@ -3,7 +3,7 @@
 
 class WASocketConnection;
 
-class WhatsAppProto : public PROTO_INTERFACE, public MZeroedObject, public WAListener, public WAGroupListener
+class WhatsAppProto : public PROTO_INTERFACE, public WAListener, public WAGroupListener
 {
 public:
 	WhatsAppProto( const char *proto_name, const TCHAR *username );

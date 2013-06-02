@@ -1,9 +1,8 @@
-#include "stdafx.h"
+#include "../common.h"
 #include "utilities.h"
 //#include "ApplicationData.h"
 #include <iostream>
 #include <cstdio>
-#include <openssl/md5.h>
 #include <stdlib.h>
 #include <cstdlib>
 #include <sstream>
@@ -14,8 +13,6 @@
 #include <iomanip>
 
 namespace Utilities{
-
-const int MD5_DIGEST_SIZE = MD5_DIGEST_LENGTH;
 
 const static char digits[] = {
 		'0' , '1' , '2' , '3' , '4' , '5' ,
@@ -81,24 +78,18 @@ std::string itoa(int value, unsigned int base) {
 }
 
 
-unsigned char* md5digest(unsigned char *bytes, int length, unsigned char* buffer) {
-	MD5(bytes, length, buffer);
-	return buffer;
-}
-
-
 std::string processIdentity(const std::string& id){
 	std::string buffer_str = reverseString(id);
-	unsigned char buffer[MD5_DIGEST_LENGTH];
 
-	MD5((unsigned char*) buffer_str.data(), buffer_str.length(), buffer);
+   BYTE digest[16];
+	utils::md5string(buffer_str, digest); 
 	buffer_str.clear();
 
-	for(int i =0; i< MD5_DIGEST_LENGTH; i++){
-		int tmp = buffer[i]+128;
+	for(int i =0; i < SIZEOF(digest); i++){
+		int tmp = digest[i]+128;
 		int f = tmp & 0xff;
 
-		buffer_str=buffer_str.append(itoa(f,16));
+		buffer_str = buffer_str.append(itoa(f,16));
 	}
 
 	return buffer_str;
@@ -226,10 +217,10 @@ unsigned char forDigit(int b) {
 }
 
 string md5String(const string& data) {
-	unsigned char md5_buffer[Utilities::MD5_DIGEST_SIZE + 1];
-	md5_buffer[Utilities::MD5_DIGEST_SIZE] = '\0';
-	md5digest((unsigned char*) data.c_str(), data.length(), md5_buffer);
-	std::string result((char*) Utilities::bytesToHex(md5_buffer, Utilities::MD5_DIGEST_SIZE), Utilities::MD5_DIGEST_SIZE*2);
+	unsigned char md5_buffer[16+1];
+	md5_buffer[16] = '\0';
+	utils::md5string(data, md5_buffer);
+	std::string result((char*) Utilities::bytesToHex(md5_buffer, 16), 16*2);
 
 	return result;
 }
@@ -284,14 +275,14 @@ vector<unsigned char>* loadFileToBytes(const string& path) {
 
 bool fileExists(const std::string& path) {
 	std::ifstream in(path.c_str());
-	return in;
+	return in != NULL;
 }
 
 
 string removeWaDomainFromJid(const string& jid) {
 	string result = jid;
 
-	int index = jid.find("@s.whatsapp.net");
+	size_t index = jid.find("@s.whatsapp.net");
 	if (index != string::npos) {
 		result.replace(index, 15, "");
 		return result;
@@ -307,7 +298,7 @@ string removeWaDomainFromJid(const string& jid) {
 }
 
 string getNameFromPath(const std::string& path) {
-	int i = path.rfind('/');
+	size_t i = path.rfind('/');
 	if (i == string::npos)
 		i = 0;
 	else

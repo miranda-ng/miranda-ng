@@ -11,9 +11,10 @@
 #include "BinTreeNodeReader.h"
 #include "BinTreeNodeWriter.h"
 #include "WAConnection.h"
-#include <openssl/rc4.h>
-#include <openssl/hmac.h>
 #include <string>
+
+#include "../OpenSSL/rc4.h"
+#include "../OpenSSL/hmac.h"
 
 class WAConnection;
 class BinTreeNodeReader;

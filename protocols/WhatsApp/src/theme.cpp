@@ -63,7 +63,7 @@ INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
 	return proto ? (proto->*Fcn)(wParam,lParam) : 0;
 }
 
-template<int (__cdecl WhatsAppProto::*Fcn)(WPARAM,LPARAM,LPARAM)>
+template<INT_PTR (__cdecl WhatsAppProto::*Fcn)(WPARAM,LPARAM,LPARAM)>
 INT_PTR GlobalServiceParam(WPARAM wParam,LPARAM lParam, LPARAM lParam2)
 {
 	WhatsAppProto *proto = GetInstanceByHContact(reinterpret_cast<HANDLE>(wParam));

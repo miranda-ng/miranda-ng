@@ -169,7 +169,6 @@ HANDLE WhatsAppProto::SearchBasic( const PROTOCHAR* id )
 void WhatsAppProto::RequestCode()
 {
    std::string cc, number, idx;
-   bool error;
    DBVARIANT dbv;
 
    if ( WASocketConnection::hNetlibUser == NULL)
@@ -185,11 +184,10 @@ void WhatsAppProto::RequestCode()
       {
          std::stringstream tm;
          tm << time(NULL);
-         unsigned char* idxBuf = new unsigned char[16];
-         MD5((unsigned char*) tm.str().c_str(), tm.str().length(), idxBuf);
+         BYTE idxBuf[16];
+			utils::md5string(tm.str(), idxBuf);
          idx = std::string((const char*) idxBuf, 16);
          db_set_s(0, m_szModuleName,WHATSAPP_KEY_IDX, idx.c_str());
-         delete idxBuf;
       }
    }
 	if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_CC,&dbv, DBVT_ASCIIZ))

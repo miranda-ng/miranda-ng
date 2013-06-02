@@ -4,7 +4,8 @@
  *  Created on: 02/07/2012
  *      Author: Antonio
  */
-#include "stdafx.h"
+
+#include "../common.h"
 #include <ctime>
 #include <stdlib.h>
 #include <algorithm>

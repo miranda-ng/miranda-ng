@@ -26,7 +26,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string>
-#include <openssl/md5.h>
 #include <time.h>
 #include <vector>
 
@@ -47,12 +46,10 @@ using namespace std;
 namespace Utilities{
 	extern void configureLogging(const char* ident);
 	extern void closeLog();
-	extern const int MD5_DIGEST_SIZE;
     extern string getCountryCode();
     extern string getMcc();
     extern string getMnc();
     extern string reverseString(const string& str);
-    extern unsigned char* md5digest(unsigned char *bytes, int length, unsigned char* buffer);
     extern string processIdentity(const std::string& password);
     extern int64_t randLong();
     extern int64_t absLong(int64_t num);

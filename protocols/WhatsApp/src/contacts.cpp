@@ -334,7 +334,7 @@ void WhatsAppProto::onSendGetPicture(const std::string& jid, const std::vector<u
          CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)filename.c_str());
       filename = filename + _T("\\") + (TCHAR*) _A2T(jid.c_str()) + _T("-") + (TCHAR*) _A2T(newId.c_str()) +_T(".jpg");
       FILE *f = _tfopen(filename.c_str(), _T("wb"));
-      int r = fwrite(std::string(data.begin(), data.end()).c_str(), 1, data.size(), f);
+      int r = (int)fwrite(std::string(data.begin(), data.end()).c_str(), 1, data.size(), f);
       fclose(f);
 
       PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai)};

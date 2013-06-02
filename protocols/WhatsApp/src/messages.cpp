@@ -178,7 +178,7 @@ void WhatsAppProto::onMessageStatusUpdate(FMessage* fmsg)
 
    int header;
    int id;
-   int delimPos = fmsg->key->id.find("-");
+   size_t delimPos = fmsg->key->id.find("-");
    
    std::stringstream ss;
    ss << fmsg->key->id.substr(0, delimPos);

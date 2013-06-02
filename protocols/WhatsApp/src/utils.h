@@ -105,6 +105,11 @@ namespace utils
    {
       std::string source_get_value(std::string* data, unsigned int argument_count, ...);
    };
+
+	BYTE* md5string(const BYTE*, int, BYTE* digest);
+	__forceinline BYTE* md5string(const std::string& str, BYTE* digest) {
+		return md5string((BYTE*)str.data(), (int)str.length(), digest);
+	}
 };
 
 

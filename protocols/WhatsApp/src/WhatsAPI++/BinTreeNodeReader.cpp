@@ -4,14 +4,12 @@
  *  Created on: 26/06/2012
  *      Author: Antonio
  */
-#include "stdafx.h"
+#include "../common.h"
 #include "BinTreeNodeReader.h"
 #include "WAException.h"
 #include "ProtocolTreeNode.h"
 #include "utilities.h"
 #include <string>
-
-
 
 BinTreeNodeReader::BinTreeNodeReader(WAConnection* conn, ISocketConnection* connection, const char** dictionary, const int dictionarysize) {
 	this->conn = conn;
@@ -276,7 +274,7 @@ void BinTreeNodeReader::getTopLevelStream() {
 	stanzaSize = (size0 << 16) + (size1 << 8) + size2;
 
 	if (this->buf->size() < (size_t) stanzaSize) {
-		int newsize = std::max((int) (this->buf->size() * 3 / 2), stanzaSize);
+		int newsize = max((int) (this->buf->size() * 3 / 2), stanzaSize);
 		delete this->buf;
 		this->buf = new std::vector<unsigned char>(newsize);
 	}

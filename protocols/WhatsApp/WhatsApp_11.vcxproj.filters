@@ -27,6 +27,9 @@
       <UniqueIdentifier>{294e7046-0757-4b99-8855-c8d2864c6303}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="WhatsAPI++\OpenSSL">
+      <UniqueIdentifier>{eaedb8f8-8e43-4360-9007-b1a3448d2d16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\chat.cpp">
@@ -80,9 +83,6 @@
     <ClCompile Include="src\WhatsAPI++\ProtocolTreeNode.cpp">
       <Filter>WhatsAPI++\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\WhatsAPI++\stdafx.cpp">
-      <Filter>WhatsAPI++\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\WhatsAPI++\utilities.cpp">
       <Filter>WhatsAPI++\Source Files</Filter>
     </ClCompile>
@@ -91,6 +91,30 @@
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\WALogin.cpp">
       <Filter>WhatsAPI++\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Miranda Plugin\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenSSL\rc4_enc.c">
+      <Filter>WhatsAPI++\OpenSSL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenSSL\rc4_skey.c">
+      <Filter>WhatsAPI++\OpenSSL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenSSL\hmac.c">
+      <Filter>WhatsAPI++\OpenSSL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenSSL\evp_lib.c">
+      <Filter>WhatsAPI++\OpenSSL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenSSL\digest.c">
+      <Filter>WhatsAPI++\OpenSSL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenSSL\p5_crpt2.c">
+      <Filter>WhatsAPI++\OpenSSL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenSSL\m_sha1.c">
+      <Filter>WhatsAPI++\OpenSSL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -154,9 +178,6 @@
     <ClInclude Include="src\WhatsAPI++\ProtocolTreeNode.h">
       <Filter>WhatsAPI++\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\WhatsAPI++\stdafx.h">
-      <Filter>WhatsAPI++\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\WhatsAPI++\targetver.h">
       <Filter>WhatsAPI++\Header Files</Filter>
     </ClInclude>
@@ -171,6 +192,15 @@
     </ClInclude>
     <ClInclude Include="src\WhatsAPI++\WALogin.h">
       <Filter>WhatsAPI++\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Miranda Plugin\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OpenSSL\hmac.h">
+      <Filter>WhatsAPI++\OpenSSL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OpenSSL\rc4.h">
+      <Filter>WhatsAPI++\OpenSSL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

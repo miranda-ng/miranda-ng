@@ -5,20 +5,16 @@
  *      Author: Antonio
  */
 
-#include "stdafx.h"
+#include "../common.h"
 #include "WALogin.h"
 #include "ByteArray.h"
 //#include "ApplicationData.h"
 #include "ProtocolTreeNode.h"
 #include "WAException.h"
-#include "base64.h"
 #include <iostream>
 #include <vector>
 #include <map>
 #include <stdlib.h>
-#include <openssl/evp.h>
-#include <openssl/hmac.h>
-
 
 using namespace Utilities;
 
@@ -68,7 +64,7 @@ BinTreeNodeWriter* WALogin::getTreeNodeWriter() {
 }
 
 std::string WALogin::getResponse(const std::string& challenge) {
-	unsigned char md5_buffer[/*MD5_DIGEST_SIZE*/ MD5_DIGEST_LENGTH /*#WORKAROUND*/];
+	unsigned char md5_buffer[16];
 
 	size_t i = challenge.find(WALogin::NONCE_KEY);
 	i += WALogin::NONCE_KEY.length();
@@ -84,8 +80,7 @@ std::string WALogin::getResponse(const std::string& challenge) {
 	_LOGDATA("cinfo = %s", cinfo.c_str());
 
 	ByteArrayOutputStream bos;
-	_LOGDATA((char*) md5digest((unsigned char*) cinfo.data(), cinfo.length(), md5_buffer), MD5_DIGEST_SIZE);
-	bos.write(md5digest((unsigned char*) cinfo.data(), cinfo.length(), md5_buffer), MD5_DIGEST_SIZE);
+	bos.write(utils::md5string(cinfo, md5_buffer), SIZEOF(md5_buffer));
 	bos.write(58);
 	bos.write(nonce);
 	bos.write(58);
@@ -95,12 +90,12 @@ std::string WALogin::getResponse(const std::string& challenge) {
 	std::string digest_uri = "xmpp/" + this->domain;
 	std::vector<unsigned char>* A1 = bos.toByteArray();
 	std::string A2 = "AUTHENTICATE:" + digest_uri;
-	std::string KD((char*) bytesToHex(md5digest(&A1->front(), A1->size(), md5_buffer), MD5_DIGEST_SIZE), MD5_DIGEST_SIZE * 2);
-	KD += + ":" + nonce + ":" + nc + ":" + cnonce + ":auth:" + std::string((char*) bytesToHex(md5digest((unsigned char*) A2.data(), A2.size(), md5_buffer), MD5_DIGEST_SIZE), MD5_DIGEST_SIZE*2);
+	std::string KD((char*) bytesToHex(utils::md5string(&A1->front(), (int)A1->size(), md5_buffer), SIZEOF(md5_buffer)), SIZEOF(md5_buffer) * 2);
+	KD += + ":" + nonce + ":" + nc + ":" + cnonce + ":auth:" + std::string((char*) bytesToHex(utils::md5string(A2, md5_buffer), SIZEOF(md5_buffer)), SIZEOF(md5_buffer)*2);
 
 	_LOGDATA("KD = %s", KD.c_str());
 
-	std::string response((char*) bytesToHex(md5digest((unsigned char*) KD.data(), KD.size(), md5_buffer), MD5_DIGEST_SIZE), MD5_DIGEST_SIZE*2);
+	std::string response((char*) bytesToHex(utils::md5string(KD, md5_buffer), SIZEOF(md5_buffer)), SIZEOF(md5_buffer)*2);
 
 	_LOGDATA("response = %s", response.c_str());
 
@@ -329,14 +324,6 @@ void KeyStream::encodeMessage(unsigned char* buffer, int macOffset, int offset, 
 }
 
 void KeyStream::hmacsha1(unsigned char* text, int textLength, unsigned char *out) {
-	// CHMAC_SHA1 hmac;
-
-	// hmac.HMAC_SHA1(text, textLength, this->key, this->keyLength, out);
-
 	unsigned int mdLength;
 	HMAC(EVP_sha1(), this->key, this->keyLength, text, textLength, out, &mdLength);
 }
-
-
-
-
