@@ -116,6 +116,9 @@
     <ClCompile Include="src\OpenSSL\m_sha1.c">
       <Filter>WhatsAPI++\OpenSSL</Filter>
     </ClCompile>
+    <ClCompile Include="src\OpenSSL\rsa_sign.c">
+      <Filter>WhatsAPI++\OpenSSL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\cJSON.h">

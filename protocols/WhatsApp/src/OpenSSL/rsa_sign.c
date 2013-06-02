@@ -1,4 +1,4 @@
-/* crypto/evp/m_sha1.c */
+/* crypto/rsa/rsa_sign.c */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
@@ -58,71 +58,18 @@
 
 #include <stdio.h>
 
-#define SHA_1
+/* Size of an SSL signature: MD5+SHA1 */
+#define SSL_SIG_LENGTH	36
 
-#include "evp.h"
-
-#define SHA_LONG unsigned long
-
-#define SHA_LBLOCK	16
-#define SHA_CBLOCK	(SHA_LBLOCK*4)	/* SHA treats input data as a
-					 * contiguous array of 32 bit
-					 * wide big-endian values. */
-#define SHA_LAST_BLOCK  (SHA_CBLOCK-8)
-#define SHA_DIGEST_LENGTH 20
-
-#define NID_rsaEncryption		6
-#define NID_rsa				19
-#define NID_sha1			64
-#define NID_sha1WithRSAEncryption	65
-
-typedef struct SHAstate_st
-	{
-	SHA_LONG h0,h1,h2,h3,h4;
-	SHA_LONG Nl,Nh;
-	SHA_LONG data[SHA_LBLOCK];
-	unsigned int num;
-	} SHA_CTX;
-
-#include "sha_locl.h"
-
-/* The following 2 functions sign and verify a X509_SIG ASN1 object
- * inside PKCS#1 padded RSA encryption */
-int RSA_sign(int type, const unsigned char *m, unsigned int m_length,
-	unsigned char *sigret, unsigned int *siglen, void *rsa);
-int RSA_verify(int type, const unsigned char *m, unsigned int m_length,
-	unsigned char *sigbuf, unsigned int siglen, void *rsa);
-
-#define EVP_PKEY_RSA_method	(evp_sign_method *)RSA_sign, \
-				(evp_verify_method *)RSA_verify, \
-				{EVP_PKEY_RSA,EVP_PKEY_RSA2,0,0}
-
-static int init(EVP_MD_CTX *ctx)
-	{ return SHA1_Init(ctx->md_data); }
-
-static int update(EVP_MD_CTX *ctx,const void *data,size_t count)
-	{ return SHA1_Update(ctx->md_data,data,count); }
-
-static int final(EVP_MD_CTX *ctx,unsigned char *md)
-	{ return SHA1_Final(md,ctx->md_data); }
-
-static const EVP_MD sha1_md =
-	{
-	NID_sha1,
-	NID_sha1WithRSAEncryption,
-	SHA_DIGEST_LENGTH,
-	0,
-	init,
-	update,
-	final,
-	NULL,
-	NULL,
-	EVP_PKEY_RSA_method,
-	SHA_CBLOCK,
-	sizeof(EVP_MD *)+sizeof(SHA_CTX),
-	};
-
-const EVP_MD *EVP_sha1(void)
+int RSA_sign(int type, const unsigned char *m, unsigned int m_len,
+	     unsigned char *sigret, unsigned int *siglen, void *rsa)
 {
-	return(&sha1_md);
+	return(0);
 }
+
+int RSA_verify(int dtype, const unsigned char *m, unsigned int m_len,
+	     unsigned char *sigbuf, unsigned int siglen, void *rsa)
+{
+	return(0);
+}
+

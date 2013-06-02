@@ -193,6 +193,12 @@ struct env_md_st
 	int ctx_size; /* how big does the ctx->md_data need to be */
 } /* EVP_MD */;
 
+typedef int evp_sign_method(int type,const unsigned char *m,
+			    unsigned int m_length,unsigned char *sigret,
+			    unsigned int *siglen, void *key);
+typedef int evp_verify_method(int type,const unsigned char *m,
+			    unsigned int m_length,const unsigned char *sigbuf,
+			    unsigned int siglen, void *key);
 
 int EVP_MD_block_size(const EVP_MD *md);
 int EVP_DigestInit_ex(EVP_MD_CTX *ctx, const EVP_MD *type, void *impl);
