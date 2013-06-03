@@ -95,7 +95,7 @@ public:
 	void LeaveChat();
 
 	void SendEvent(ChatMember *member, int eventType, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
-	//void SendEvent(const wchar_t *sid, int eventType, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
+	void SendEvent(const wchar_t *sid, int eventType, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
 
 	void AppendMessage(const wchar_t *sid, const wchar_t *message, DWORD timestamp = time(NULL), int eventType = GC_EVENT_MESSAGE);
 
@@ -115,6 +115,8 @@ public:
 
 	void RemoveMember(ChatMember *member, DWORD timestamp = time(NULL));
 	void RemoveMember(const wchar_t *sid, DWORD timestamp = time(NULL));
+
+	void OnEvent(const ConversationRef &conversation, const MessageRef &message);
 };
 
 class  ChatList

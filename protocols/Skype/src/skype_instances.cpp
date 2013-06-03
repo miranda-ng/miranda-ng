@@ -41,7 +41,7 @@ CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* u
 		return NULL;
 	}
 
-	free(keyPair);
+	::mir_free(keyPair);
 
 	if ( !ppro->start())
 	{

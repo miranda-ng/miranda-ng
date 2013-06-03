@@ -69,9 +69,6 @@
     <ClCompile Include="src\skype_chat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\base64\base64.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\skypekit\account.cpp">
       <Filter>Source Files\skypekit</Filter>
     </ClCompile>
@@ -132,9 +129,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\skype_proto.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\base64\base64.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\skypekit\account.h">

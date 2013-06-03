@@ -141,7 +141,10 @@ void ChatRoom::Start(const ParticipantRefs &participants, bool showWindow)
 		member->status = CSkypeProto::SkypeToMirandaStatus(status);
 
 		contact->GetPropFullname(data);
-		member->nick = ::mir_utf8decodeW(data);
+		if (data.length() != 0)
+			member->nick = ::mir_utf8decodeW(data);
+		else
+			member->nick = ::mir_wstrdup(sid);
 
 		this->AddMember(member);
 	}
@@ -181,24 +184,18 @@ void ChatRoom::SendEvent(ChatMember *member, int eventType, DWORD timestamp, DWO
 	::CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 }
 
-//void ChatRoom::SendEvent(const wchar_t *sid, int eventType, DWORD timestamp, DWORD flags, DWORD itemData, const wchar_t *status, const wchar_t *message)
-//{
-//	if ( !this->IsMe(sid))
-//	{
-//		ChatMember search(sid);
-//		ChatMember *member = this->members.find(&search);
-//		if (member != NULL)
-//		{
-//			this->SendEvent(member, eventType, timestamp, flags, itemData, status, message);
-//		}
-//	}
-//	else
-//	{
-//		ChatMember self(this->me);
-//
-//		this->SendEvent(&self, eventType, timestamp, flags, itemData, status, message);
-//	}
-//}
+void ChatRoom::SendEvent(const wchar_t *sid, int eventType, DWORD timestamp, DWORD flags, DWORD itemData, const wchar_t *status, const wchar_t *message)
+{
+	if ( !this->IsMe(sid))
+	{
+		ChatMember search(sid);
+		ChatMember *member = this->members.find(&search);
+		if (member != NULL)
+			this->SendEvent(member, eventType, timestamp, flags, itemData, status, message);
+	}
+	else
+		this->SendEvent(this->me, eventType, timestamp, flags, itemData, status, message);
+}
 
 void ChatRoom::AppendMessage(const wchar_t *sid, const wchar_t *message, DWORD timestamp, int eventType)
 {
@@ -326,6 +323,203 @@ void ChatRoom::RemoveMember(const wchar_t *sid, DWORD timestamp)
 	this->RemoveMember(&member, timestamp);
 }
 
+void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &message)
+{
+	uint messageType;
+	messageType = message->GetUintProp(Message::P_TYPE);
+
+	switch (messageType)
+	{
+	case CMessage::POSTED_EMOTE:
+	case CMessage::POSTED_TEXT:
+		{
+			SEString data;
+
+			message->GetPropAuthor(data);
+			ptrW sid = ::mir_utf8decodeW(data);
+
+			message->GetPropBodyXml(data);
+			ptrW text =::mir_a2u(CSkypeProto::RemoveHtml(data));
+
+			uint timestamp;
+			message->GetPropTimestamp(timestamp);
+			
+			this->AppendMessage(sid, text, timestamp, messageType == CMessage::POSTED_TEXT ? GC_EVENT_MESSAGE : GC_EVENT_ACTION);
+		}
+		break;
+
+	case Message::ADDED_CONSUMERS:
+	case Message::ADDED_APPLICANTS:
+		{
+			SEString data;
+
+			{
+				uint timestamp;
+				message->GetPropTimestamp(timestamp);
+
+				message->GetPropIdentities(data);
+				char *identities = ::mir_strdup(data);
+				if (identities)
+				{
+					char *identity = ::strtok(identities, " ");
+					if (identity != NULL)
+					{
+						do
+						{
+							Contact::Ref contact;
+							this->ppro->GetContact(identity, contact);
+
+							contact->GetIdentity(data);
+							ptrW sid = ::mir_utf8decodeW(data);
+
+							ChatMember *member = new ChatMember(sid);
+							//todo: fix rank
+							
+							member->rank = 
+								messageType == Message::ADDED_APPLICANTS ? 
+								Participant::APPLICANT : 
+								Participant::SPEAKER;
+								//conversation->GetUintProp(Conversation::P_OPT_ENTRY_LEVEL_RANK);
+								//participants[i]->GetUintProp(Participant::P_RANK);
+
+							Contact::AVAILABILITY status;
+							contact->GetPropAvailability(status);
+							member->status = CSkypeProto::SkypeToMirandaStatus(status);
+
+							contact->GetPropFullname(data);
+							member->nick = ::mir_utf8decodeW(data);
+
+							this->AddMember(member, timestamp);
+
+							identity = ::strtok(NULL, " ");
+						}
+						while (identity != NULL);
+					}
+					::mir_free(identities);
+				}
+			}
+		}
+		break;
+
+	case Message::RETIRED_OTHERS:
+		{
+			SEString data;
+
+			{
+				uint timestamp;
+				message->GetPropTimestamp(timestamp);
+
+				message->GetPropAuthor(data);
+				ptrW sid = ::mir_utf8decodeW(data);
+
+				message->GetPropIdentities(data);
+				char *identities = ::mir_strdup(data);
+				if (identities)
+				{
+					char *identity = ::strtok(identities, " ");
+					if (identity != NULL)
+					{
+						do
+						{
+							this->KickMember(ptrW(::mir_utf8decodeW(identity)), sid, timestamp);
+
+							identity = ::strtok(NULL, " ");
+						}
+						while (identity != NULL);
+					}
+					::mir_free(identities);
+				}
+			}
+		}
+		break;
+
+	case Message::RETIRED:
+		{
+			SEString data;
+
+			{
+				uint timestamp;
+				message->GetPropTimestamp(timestamp);
+
+				message->GetPropAuthor(data);
+				ptrW sid = ::mir_utf8decodeW(data);
+
+				this->RemoveMember(sid, timestamp);
+			}
+		}
+		break;
+
+	case Message::SET_RANK:
+		{
+			SEString data;
+			message->GetPropBodyXml(data);
+			ptrA text = ::mir_strdup(data);
+			int i = 0;
+
+			{
+				message->GetPropAuthor(data);	
+				ptrW sid = ::mir_utf8decodeW(data);
+
+				ChatMember search(sid);
+				ChatMember *member = this->FindChatMember(sid);
+				if (member != NULL)
+				{
+					uint timestamp;
+					message->GetPropTimestamp(timestamp);
+
+					message->GetPropBodyXml(data);	
+					ptrW rank = ::mir_utf8decodeW(data);
+
+					member->rank = 0;
+				}
+			}
+		}
+		break;
+
+	case CMessage::STARTED_LIVESESSION:
+		{
+			SEString data;
+
+			message->GetPropAuthor(data);	
+			ptrW sid = ::mir_utf8decodeW(data);
+
+			uint timestamp;
+			message->GetPropTimestamp(timestamp);
+			
+			this->SendEvent(
+				sid, 
+				GC_EVENT_INFORMATION, 
+				timestamp,
+				GCEF_ADDTOLOG, 
+				0, 
+				NULL, 
+				::TranslateT("Incoming group call received"));
+		}
+		break;
+
+	case CMessage::ENDED_LIVESESSION:
+		{
+			SEString data;
+
+			message->GetPropAuthor(data);	
+			ptrW sid = ::mir_utf8decodeW(data);
+
+			uint timestamp;
+			message->GetPropTimestamp(timestamp);
+			
+			this->SendEvent(
+				sid, 
+				GC_EVENT_INFORMATION, 
+				timestamp,
+				GCEF_ADDTOLOG, 
+				0, 
+				NULL, 
+				::TranslateT("Incoming group call finished"));
+		}
+		break;
+	}
+}
+
 int __cdecl ChatRoom::OnGCEventHook(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK *)lParam;
@@ -414,7 +608,15 @@ int __cdecl ChatRoom::OnGCMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS *gcmi = (GCMENUITEMS*) lParam;
 
-	//if (gcmi == NULL || ::stricmp(gcmi->pszModule, this->m_szModuleName))
+	GC_INFO gci = {0};
+	gci.Flags = BYID | DATA;
+	gci.pszModule = gcmi->pszModule;
+
+	::CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci);
+
+	ChatRoom *room = (ChatRoom *)gci.dwItemData;
+
+	if (room == NULL || ::stricmp(gcmi->pszModule, room->ppro->m_szModuleName))
 		return 0;
 
 	if (gcmi->Type == MENU_ON_LOG)
@@ -1255,239 +1457,32 @@ void CSkypeProto::OnChatEvent(const ConversationRef &conversation, const Message
 	uint messageType;
 	messageType = message->GetUintProp(Message::P_TYPE);
 
-	switch (messageType)
+	GC_INFO gci = {0};
+	gci.Flags = BYID | DATA;
+	gci.pszModule = this->m_szModuleName;
+
+	if ( !::CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci))
 	{
-	case CMessage::POSTED_EMOTE:
-	case CMessage::POSTED_TEXT:
-		{
-			SEString author;
-			message->GetPropAuthor(author);
-			
-			if (::wcsicmp(ptrW(::mir_utf8decodeW(author)), this->login) == 0)
-				this->OnChatMessageSent(conversation, message, messageType);
-			else
-				this->OnChatMessageReceived(conversation, message, messageType);
-		}
-		break;
+		ChatRoom *room = (ChatRoom *)gci.dwItemData;
+		room->OnEvent(conversation, message);
+	}
+	else
+	{
+		SEString data;
 
-	case Message::ADDED_CONSUMERS:
-	case Message::ADDED_APPLICANTS:
-		{
-			SEString data;
+		conversation->GetPropIdentity(data);
+		ptrW cid = ::mir_utf8decodeW(data);
 
-			conversation->GetPropIdentity(data);
-			ptrW cid = ::mir_utf8decodeW(data);
+		conversation->GetPropDisplayname(data);
+		ptrW name = ::mir_utf8decodeW(data);
 
-			ChatRoom *room = this->chatList->FindChatRoom(cid);
-			if (room == NULL)
-			{
-				conversation->GetPropDisplayname(data);
-				ptrW name = ::mir_utf8decodeW(data);
+		ChatRoom *room = new ChatRoom(cid, name, this);
+		this->chatList->AddChatRoom(room);
 
-				ChatRoom *room = new ChatRoom(cid, name, this);
-				this->chatList->AddChatRoom(room);
-
-				Participant::Refs participants;
-				conversation->GetParticipants(participants, Conversation::ALL);
+		Participant::Refs participants;
+		conversation->GetParticipants(participants, Conversation::ALL);
 				
-				room->Start(participants, true);
-			}
-			else
-			{
-				uint timestamp;
-				message->GetPropTimestamp(timestamp);
-
-				message->GetPropIdentities(data);
-				char *identities = ::mir_strdup(data);
-				if (identities)
-				{
-					char *identity = ::strtok(identities, " ");
-					if (identity != NULL)
-					{
-						do
-						{
-							Contact::Ref contact;
-							this->GetContact(identity, contact);
-
-							contact->GetIdentity(data);
-							ptrW sid = ::mir_utf8decodeW(data);
-
-							ChatMember *member = new ChatMember(sid);
-							//todo: fix rank
-							
-							member->rank = 
-								messageType == Message::ADDED_APPLICANTS ? 
-								Participant::APPLICANT : 
-								Participant::SPEAKER;
-								//conversation->GetUintProp(Conversation::P_OPT_ENTRY_LEVEL_RANK);
-								//participants[i]->GetUintProp(Participant::P_RANK);
-
-							Contact::AVAILABILITY status;
-							contact->GetPropAvailability(status);
-							member->status = CSkypeProto::SkypeToMirandaStatus(status);
-
-							contact->GetPropFullname(data);
-							member->nick = ::mir_utf8decodeW(data);
-
-							room->AddMember(member, timestamp);
-
-							identity = ::strtok(NULL, " ");
-						}
-						while (identity != NULL);
-					}
-					::mir_free(identities);
-				}
-			}
-		}
-		break;
-
-	case Message::RETIRED_OTHERS:
-		{
-			SEString data;
-
-			conversation->GetPropIdentity(data);
-			ptrW cid = ::mir_utf8decodeW(data);
-
-			ChatRoom *room = this->chatList->FindChatRoom(cid);
-			if (room != NULL)
-			{
-				uint timestamp;
-				message->GetPropTimestamp(timestamp);
-
-				message->GetPropAuthor(data);
-				ptrW sid = ::mir_utf8decodeW(data);
-
-				message->GetPropIdentities(data);
-				char *identities = ::mir_strdup(data);
-				if (identities)
-				{
-					char *identity = ::strtok(identities, " ");
-					if (identity != NULL)
-					{
-						do
-						{
-							room->KickMember(ptrW(::mir_utf8decodeW(identity)), sid, timestamp);
-
-							identity = ::strtok(NULL, " ");
-						}
-						while (identity != NULL);
-					}
-					::mir_free(identities);
-				}
-			}
-		}
-		break;
-
-	case Message::RETIRED:
-		{
-			SEString data;
-
-			conversation->GetPropIdentity(data);
-			ptrW cid = ::mir_utf8decodeW(data);
-
-			ChatRoom *room = this->chatList->FindChatRoom(cid);
-			if (room != NULL)
-			{
-				uint timestamp;
-				message->GetPropTimestamp(timestamp);
-
-				message->GetPropAuthor(data);
-				ptrW sid = ::mir_utf8decodeW(data);
-
-				room->RemoveMember(sid, timestamp);
-			}
-		}
-		break;
-
-	case CMessage::SPAWNED_CONFERENCE:
-		{
-			SEString data;
-
-			conversation->GetPropIdentity(data);
-			ptrW cid = ::mir_utf8decodeW(data);
-
-			conversation->GetPropDisplayname(data);
-			ptrW name = ::mir_utf8decodeW(data);
-
-			ChatRoom *room = new ChatRoom(cid, name, this);
-			this->chatList->AddChatRoom(room);
-			
-			CParticipant::Refs participants;
-			conversation->GetParticipants(participants, CConversation::ALL);
-
-			room->Start(participants, true);
-		}
-		break;
-
-	case Message::SET_RANK:
-		{
-			SEString data;
-			message->GetPropBodyXml(data);
-			ptrA text = ::mir_strdup(data);
-			int i = 0;
-
-			conversation->GetPropIdentity(data);
-			ptrW cid = ::mir_utf8decodeW(data);
-
-			ChatRoom *room = this->chatList->FindChatRoom(cid);
-			if (room != NULL)
-			{
-				message->GetPropAuthor(data);	
-				ptrW sid = ::mir_utf8decodeW(data);
-
-				ChatMember search(sid);
-				ChatMember *member = room->FindChatMember(sid);
-				if (member != NULL)
-				{
-					uint timestamp;
-					message->GetPropTimestamp(timestamp);
-
-					message->GetPropBodyXml(data);	
-					ptrW rank = ::mir_utf8decodeW(data);
-
-					member->rank = 0;
-				}
-			}
-		}
-		break;
-
-	case CMessage::STARTED_LIVESESSION:
-		{
-			SEString data;
-
-			conversation->GetPropIdentity(data);
-			ptrW cid( ::mir_utf8decodeW(data));
-			HANDLE hContact = this->GetChatRoomByCid(cid);
-			
-			this->RaiseChatEvent(
-				cid, 
-				this->login, 
-				GC_EVENT_INFORMATION, 
-				GCEF_ADDTOLOG, 
-				0, 
-				NULL, 
-				::TranslateT("Incoming group call received"));
-		}
-		break;
-
-	case CMessage::ENDED_LIVESESSION:
-		{
-			SEString data;
-
-			conversation->GetPropIdentity(data);
-			ptrW cid( ::mir_utf8decodeW(data));
-			HANDLE hContact = this->GetChatRoomByCid(cid);
-			
-			this->RaiseChatEvent(
-				cid, 
-				this->login, 
-				GC_EVENT_INFORMATION, 
-				GCEF_ADDTOLOG, 
-				0, 
-				NULL, 
-				::TranslateT("Incoming group call finished"));
-		}
-		break;
+		room->Start(participants, true);
 	}
 }
 
@@ -1499,5 +1494,20 @@ void CSkypeProto::OnConversationListChange(
 	uint convoType = conversation->GetUintProp(Conversation::P_TYPE);
 	if (convoType == Conversation::CONFERENCE && type == Conversation::INBOX_CONVERSATIONS  && added)
 	{
+		SEString data;
+
+		conversation->GetPropIdentity(data);
+		ptrW cid = ::mir_utf8decodeW(data);
+
+		conversation->GetPropDisplayname(data);
+		ptrW name = ::mir_utf8decodeW(data);
+
+		ChatRoom *room = new ChatRoom(cid, name, this);
+		this->chatList->AddChatRoom(room);
+
+		Participant::Refs participants;
+		conversation->GetParticipants(participants, Conversation::ALL);
+				
+		room->Start(participants, true);
 	}
 }

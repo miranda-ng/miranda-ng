@@ -1,43 +1,50 @@
 #include "skype_proto.h"
 
 #include "aes\aes.h" 
-#include "base64\base64.h"
 
 #include "..\..\..\skypekit\key.h"
 
 char *CSkypeProto::LoadKeyPair()
 {
-	HRSRC hRes = FindResource(g_hInstance, MAKEINTRESOURCE(IDR_KEY), L"BIN");
-	if (hRes)
+	HRSRC hResource = FindResource(g_hInstance, MAKEINTRESOURCE(IDR_KEY), L"BIN");
+	if (hResource)
 	{
-		HGLOBAL hResource = LoadResource(g_hInstance, hRes);
-		if (hResource)
+		HGLOBAL hLoadedResource = LoadResource(g_hInstance, hResource);
+		if (hLoadedResource)
 		{
-			aes_context ctx;
-			unsigned char key[128];
+			LPVOID pLockedResource = LockResource(hLoadedResource);
 
-			int basedecoded = Base64::Decode(MY_KEY, (char *)key, MAX_PATH);
-			::aes_set_key(&ctx, key, 128);
-			memset(key, 0, sizeof(key));
+			if (pLockedResource)
+			{
+				aes_context ctx;
+				char *key = (char *)::CallService(MS_UTILS_DECODEBASE64, 0, (LPARAM)MY_KEY);
 
-			basedecoded = ::SizeofResource(g_hInstance, hRes);
-			char *pData = (char *)hResource;
-			if (!pData)
-				return NULL;
+				::aes_set_key(&ctx, (unsigned char *)key, 128);
+				::mir_free(key);
 
-			unsigned char *bufD = (unsigned char *)::malloc(basedecoded + 1);
-			unsigned char *tmpD = (unsigned char *)::malloc(basedecoded + 1);
-			basedecoded = Base64::Decode(pData, (char *)tmpD, basedecoded);
+				int length = ::SizeofResource(g_hInstance, hResource);
+				if (length != 0)
+				{
+					char *pData = (char *)pLockedResource;
+					if (!pData)
+						return NULL;
 
-			for (int i = 0; i < basedecoded; i += 16)
-				aes_decrypt(&ctx, tmpD+i, bufD+i);
+					pData[length] = 0;
 
-			::free(tmpD);
-			bufD[basedecoded] = 0; //cert should be null terminated
-			return (char *)bufD;
+					unsigned char *bufD = (unsigned char *)::mir_alloc(length * 2);
+					unsigned char *tmpD = (unsigned char *)::CallService(MS_UTILS_DECODEBASE64, 0, (LPARAM)pData);
+
+					for (int i = 0; i < length; i += 16)
+						aes_decrypt(&ctx, tmpD + i, bufD + i);
+
+					::mir_free(tmpD);
+					//bufD[length] = 0; //cert should be null terminated
+					return (char *)bufD;
+				}
+			}
 		}
-		return NULL;
 	}
+
 	return NULL;
 }
 

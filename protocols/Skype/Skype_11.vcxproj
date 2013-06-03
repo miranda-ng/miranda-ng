@@ -188,7 +188,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\aes\aes.h" />
-    <ClInclude Include="src\base64\base64.h" />
     <ClInclude Include="src\skype.h" />
     <ClInclude Include="src\skypekit\account.h" />
     <ClInclude Include="src\skypekit\common.h" />
@@ -207,7 +206,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\aes\aes.cpp" />
-    <ClCompile Include="src\base64\base64.cpp" />
     <ClCompile Include="src\skype.cpp" />
     <ClCompile Include="src\skypekit\account.cpp" />
     <ClCompile Include="src\skypekit\contact.cpp" />

@@ -1,5 +1,4 @@
 #include "skype_proto.h"
-#include "base64/base64.h"
 
 wchar_t *CSkypeProto::LogoutReasons[] =
 {
@@ -181,11 +180,12 @@ void CSkypeProto::InitProxy()
 				this->SetStr(SETUPKEY_HTTPS_PROXY_ADDR, address);
 				if (nlus.useProxyAuth)
 				{
-					char encodedPass[MAX_PATH];
-					Base64::Encode(nlus.szProxyAuthPassword, encodedPass, MAX_PATH);
+					char *encodedPass = (char *)::CallService(MS_UTILS_ENCODEBASE64, 0, (LPARAM)nlus.szProxyAuthPassword);
 
 					this->SetStr(SETUPKEY_HTTPS_PROXY_USER,	nlus.szProxyAuthUser);
 					this->SetStr(SETUPKEY_HTTPS_PROXY_PWD,	encodedPass);
+
+					::mir_free(encodedPass);
 				}
 				break;
 
@@ -197,8 +197,12 @@ void CSkypeProto::InitProxy()
 				this->SetStr(SETUPKEY_SOCKS_PROXY_ADDR, address);
 				if (nlus.useProxyAuth)
 				{
+					char *encodedPass = (char *)::CallService(MS_UTILS_ENCODEBASE64, 0, (LPARAM)nlus.szProxyAuthPassword);
+
 					this->SetStr(SETUPKEY_SOCKS_PROXY_USER,	nlus.szProxyAuthUser);
 					this->SetStr(SETUPKEY_SOCKS_PROXY_PWD,	nlus.szProxyAuthPassword);
+
+					::mir_free(encodedPass);
 				}
 				break;
 
