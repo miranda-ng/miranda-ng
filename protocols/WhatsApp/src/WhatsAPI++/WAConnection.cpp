@@ -5,12 +5,12 @@
  *      Author: Antonio
  */
 
-#include "../common.h"
 #include "WAConnection.h"
 #include "ProtocolTreeNode.h"
 #include <map>
 #include <vector>
 #include "utilities.h"
+#include "base64.h"
 
 const char* WAConnection::dictionary[] = {
 		"",

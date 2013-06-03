@@ -217,30 +217,39 @@
     <ClCompile Include="src\WASocketConnection.cpp" />
     <ClCompile Include="src\WhatsAPI++\base64.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\BinTreeNodeReader.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\BinTreeNodeWriter.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\ByteArray.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\FMessage.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\ProtocolTreeNode.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\utilities.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\WAConnection.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\WALogin.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

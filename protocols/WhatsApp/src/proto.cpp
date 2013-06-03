@@ -180,15 +180,15 @@ void WhatsAppProto::RequestCode()
    if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_IDX,&dbv,DBVT_ASCIIZ))
    {
       idx = dbv.pszVal;
-      if (idx.empty())
-      {
-         std::stringstream tm;
-         tm << time(NULL);
-         BYTE idxBuf[16];
-			utils::md5string(tm.str(), idxBuf);
-         idx = std::string((const char*) idxBuf, 16);
-         db_set_s(0, m_szModuleName,WHATSAPP_KEY_IDX, idx.c_str());
-      }
+   }
+   if (idx.empty())
+   {
+      std::stringstream tm;
+      tm << time(NULL);
+      BYTE idxBuf[16];
+		utils::md5string(tm.str(), idxBuf);
+      idx = std::string((const char*) idxBuf, 16);
+      db_set_s(0, m_szModuleName,WHATSAPP_KEY_IDX, idx.c_str());
    }
 	if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_CC,&dbv, DBVT_ASCIIZ))
 	{
@@ -229,16 +229,18 @@ void WhatsAppProto::RequestCode()
 
    NETLIBHTTPREQUEST nlhr = {sizeof(NETLIBHTTPREQUEST)};
    nlhr.requestType = REQUEST_POST;
-   nlhr.szUrl = (char*) (std::string(ACCOUNT_URL_CODEREQUESTV2) + "?cc="+ cc + "&in="+ number +
-      "lc=US&lg=en&mcc=000&mnc=000&method=sms&id=" + idx + "&token="+ token).c_str();
+   string url = std::string(ACCOUNT_URL_CODEREQUESTV2);
+   url += "?cc="+ cc + "&in="+ number +
+      "&lc=US&lg=en&mcc=000&mnc=000&method=sms&id=" + idx + "&token="+ token;
+   nlhr.szUrl = (char*) url.c_str();
    nlhr.headers = &headers[0];
    nlhr.headersCount = 3;
-   nlhr.flags = NLHRF_HTTP11 | NLHRF_GENERATEHOST | NLHRF_REMOVEHOST;
-
-   return;
+   nlhr.flags = NLHRF_HTTP11 | NLHRF_GENERATEHOST | NLHRF_REMOVEHOST | NLHRF_SSL;
 
    NETLIBHTTPREQUEST* pnlhr = (NETLIBHTTPREQUEST*) CallService(MS_NETLIB_HTTPTRANSACTION,
       (WPARAM) WASocketConnection::hNetlibUser, (LPARAM)&nlhr);
+
+   MessageBoxA(NULL, pnlhr->pData, "Debug", MB_OK);
 
    // #TODO
 }

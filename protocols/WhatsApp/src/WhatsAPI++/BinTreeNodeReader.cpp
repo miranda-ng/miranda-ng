@@ -4,7 +4,6 @@
  *  Created on: 26/06/2012
  *      Author: Antonio
  */
-#include "../common.h"
 #include "BinTreeNodeReader.h"
 #include "WAException.h"
 #include "ProtocolTreeNode.h"

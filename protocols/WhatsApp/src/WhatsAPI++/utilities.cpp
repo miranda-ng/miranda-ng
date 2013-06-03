@@ -1,4 +1,3 @@
-#include "../common.h"
 #include "utilities.h"
 //#include "ApplicationData.h"
 #include <iostream>
@@ -11,6 +10,9 @@
 #include <time.h>
 #include <fstream>
 #include <iomanip>
+
+// #TODO Remove Miranda dependency
+#include "../common.h"
 
 namespace Utilities{
 
@@ -81,11 +83,11 @@ std::string itoa(int value, unsigned int base) {
 std::string processIdentity(const std::string& id){
 	std::string buffer_str = reverseString(id);
 
-   BYTE digest[16];
+   unsigned char digest[16];
 	utils::md5string(buffer_str, digest); 
 	buffer_str.clear();
 
-	for(int i =0; i < SIZEOF(digest); i++){
+	for(int i =0; i < 16; i++){
 		int tmp = digest[i]+128;
 		int f = tmp & 0xff;
 

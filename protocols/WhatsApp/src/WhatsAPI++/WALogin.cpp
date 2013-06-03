@@ -5,7 +5,6 @@
  *      Author: Antonio
  */
 
-#include "../common.h"
 #include "WALogin.h"
 #include "ByteArray.h"
 //#include "ApplicationData.h"
@@ -15,6 +14,8 @@
 #include <vector>
 #include <map>
 #include <stdlib.h>
+
+#include "../common.h" // #TODO Remove Miranda-dependency
 
 using namespace Utilities;
 
