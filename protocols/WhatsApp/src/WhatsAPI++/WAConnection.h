@@ -21,6 +21,8 @@
 #include "BinTreeNodeReader.h"
 #include "BinTreeNodeWriter.h"
 
+#pragma warning(disable : 4290)
+
 class WALogin;
 class KeyStream;
 class BinTreeNodeReader;
