@@ -159,3 +159,5 @@ ltrimpw                       @156
 wildcmpw                      @157
 wildcmpi                      @158
 wildcmpiw                     @159
+mir_base64_encode             @160
+mir_base64_decode             @161

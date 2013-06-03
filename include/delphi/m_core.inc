@@ -553,6 +553,11 @@ procedure mir_sha1_hash(dataIn:pmir_sha1_byte_t; len:int;hashout:SHA1Hash); stdc
 ///////////////////////////////////////////////////////////////////////////////
 // strings
 
+function mir_base64_decode(str:pAnsiChar):pAnsiChar; stdcall;
+               external CoreDLL name 'mir_base64_decode';
+function mir_base64_encode(str:pAnsiChar):pAnsiChar; stdcall;
+               external CoreDLL name 'mir_base64_encode';
+
 function rtrim(str:pAnsiChar):pAnsiChar; stdcall;
                external CoreDLL name 'rtrim';
 function rtrimw(str:pWideChar):pWideChar; stdcall;

@@ -453,6 +453,9 @@ MIR_CORE_DLL(void) mir_sha1_hash(mir_sha1_byte_t *dataIn, int len, mir_sha1_byte
 ///////////////////////////////////////////////////////////////////////////////
 // strings
 
+MIR_CORE_DLL(void*) mir_base64_decode(const char *input, unsigned *outputLen);
+MIR_CORE_DLL(char*) mir_base64_encode(const BYTE *input, unsigned inputLen);
+
 MIR_CORE_DLL(char*)  rtrim(char *str);
 MIR_CORE_DLL(WCHAR*) rtrimw(WCHAR *str);
 
