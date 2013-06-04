@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2012 for Windows Desktop
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\Toolbar_icons_11.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MetaContacts", "..\plugins\MetaContacts\proto_metacontacts\Proto_MetaContacts_11.vcxproj", "{793B6174-89B0-4682-A957-A32BE7F61502}"
@@ -65,6 +65,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_YAMN", "..\plugins\YAMN\proto_yamn\proto_YAMN_11.vcxproj", "{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fp_icons", "..\plugins\FingerprintNG\iconpacks\fp_icons_11.vcxproj", "{7F854B13-37EA-4956-BAEE-9715AE9F4579}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Skype", "..\protocols\Skype\proto_skype\Proto_Skype_11.vcxproj", "{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_conn_Skype", "..\protocols\Skype\proto_conn_skype\Proto_conn_Skype_11.vcxproj", "{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -338,6 +342,22 @@ Global
 		{7F854B13-37EA-4956-BAEE-9715AE9F4579}.Release|Win32.Build.0 = Release|Win32
 		{7F854B13-37EA-4956-BAEE-9715AE9F4579}.Release|x64.ActiveCfg = Release|x64
 		{7F854B13-37EA-4956-BAEE-9715AE9F4579}.Release|x64.Build.0 = Release|x64
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|Win32.Build.0 = Debug|Win32
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|x64.ActiveCfg = Debug|x64
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|x64.Build.0 = Debug|x64
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|Win32.ActiveCfg = Release|Win32
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|Win32.Build.0 = Release|Win32
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|x64.ActiveCfg = Release|x64
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|x64.Build.0 = Release|x64
+		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Debug|Win32.Build.0 = Debug|Win32
+		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Debug|x64.ActiveCfg = Debug|x64
+		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Debug|x64.Build.0 = Debug|x64
+		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Release|Win32.ActiveCfg = Release|Win32
+		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Release|Win32.Build.0 = Release|Win32
+		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Release|x64.ActiveCfg = Release|x64
+		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
