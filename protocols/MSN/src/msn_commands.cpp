@@ -302,15 +302,11 @@ void CMsnProto::sttCustomSmiley(const char* msgBody, char* email, char* nick, in
 			ft->p2p_object[sz] = 0;
 
 			size_t slen = strlen(lastsml);
-			size_t rlen = Netlib_GetBase64EncodedBufferSize(slen);
-			char* buf = (char*)mir_alloc(rlen);
-
-			NETLIBBASE64 nlb = { buf, (int)rlen, (PBYTE)lastsml, (int)slen };
-			CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
+			ptrA buf( mir_base64_encode((PBYTE)lastsml, (unsigned)slen));
+			int rlen = lstrlenA(buf);
 
 			char* smileyName = (char*)mir_alloc(rlen*3);
 			UrlEncode(buf, smileyName, rlen*3);
-			mir_free(buf);
 
 			TCHAR path[MAX_PATH];
 			MSN_GetCustomSmileyFileName(hContact, path, SIZEOF(path), smileyName, iSmileyType);

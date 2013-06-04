@@ -389,40 +389,8 @@ typedef struct {
 //Errors: ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY
 #define MS_NETLIB_URLENCODE     "Netlib/UrlEncode"
 
-//Base64 decode a string. See rfc1421.
-//wParam = 0
-//lParam = (LPARAM)(NETLIBBASE64*)&nlb64
-//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
-//nlb64.pszEncoded and nlb64.cchEncoded contain the input string and its length
-//(excluding terminating zero).
-//nlb64.pbDecoded and nlb64.cbDecoded contain the buffer in which to put the
-//output and the length of this buffer. The maximum output size for a given
-//input is available from the macro Netlib_GetBase64DecodedBufferSize() below.
-//On return nlb64.cbDecoded is set to the actual length of the decoded data.
-//Errors: ERROR_INVALID_PARAMETER, ERROR_INVALID_DATA, ERROR_BUFFER_OVERFLOW
-typedef struct {
-	char *pszEncoded;
-	int cchEncoded;
-	PBYTE pbDecoded;
-	int cbDecoded;
-} NETLIBBASE64;
 #define Netlib_GetBase64DecodedBufferSize(cchEncoded)  (((cchEncoded)>>2)*3)
-#define MS_NETLIB_BASE64DECODE   "Netlib/Base64Decode"
-
-//Base64 encode a string. See rfc1421.
-//wParam = 0
-//lParam = (LPARAM)(NETLIBBASE64*)&nlb64
-//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
-//nlb64.pbDecoded and nlb64.cbDecoded contain the input buffer and its length
-//nlb64.pszEncoded and nlb64.cchEncoded contain the buffer in which to put the
-//output and the length of this buffer. The maximum output size for a given
-//input is available from the macro Netlib_GetBase64EncodedBufferSize() below.
-//nlb64.pszEncoded is terminated with a 0.
-//On return nlb64.cchEncoded is set to the actual length of the decoded data,
-//excluding the terminating 0.
-//Errors: ERROR_INVALID_PARAMETER, ERROR_BUFFER_OVERFLOW
 #define Netlib_GetBase64EncodedBufferSize(cbDecoded)  (((cbDecoded)*4+11)/12*4+1)
-#define MS_NETLIB_BASE64ENCODE   "Netlib/Base64Encode"
 
 // Converts string representation of IP and port into numerical SOCKADDR_INET
 // IPv4 could supplied in formats address:port or address

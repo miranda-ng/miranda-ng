@@ -252,14 +252,7 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 		p += outBuffersDesc.pBuffers[i].cbBuffer;
 	}
 
-	NETLIBBASE64 nlb64;
-	nlb64.cbDecoded = ressz;
-	nlb64.pbDecoded = response;
-	nlb64.cchEncoded = Netlib_GetBase64EncodedBufferSize(nlb64.cbDecoded);
-	nlb64.pszEncoded = (char*)alloca(nlb64.cchEncoded);
-	if ( !NetlibBase64Encode(0, (LPARAM)&nlb64)) return NULL;
-
-	return mir_strdup(nlb64.pszEncoded);
+	return mir_base64_encode(response, ressz);
 }
 
 char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const TCHAR* login, const TCHAR* psw, bool http, unsigned& complete)
@@ -269,7 +262,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 	SecBuffer outputSecurityToken, inputSecurityToken;
 	TimeStamp tokenExpiration;
 	ULONG contextAttributes;
-	NETLIBBASE64 nlb64 = { 0 };
+	char *szOutputToken;
 
 	NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
 
@@ -282,30 +275,29 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		bool hasChallenge = szChallenge != NULL && szChallenge[0] != '\0';
 		if (hasChallenge)
 		{
-			nlb64.cchEncoded = lstrlenA(szChallenge);
-			nlb64.pszEncoded = (char*)szChallenge;
-			nlb64.cbDecoded = Netlib_GetBase64DecodedBufferSize(nlb64.cchEncoded);
-			nlb64.pbDecoded = (PBYTE)alloca(nlb64.cbDecoded);
-			if ( !NetlibBase64Decode(0, (LPARAM)&nlb64)) return NULL;
+			unsigned tokenLen;
+			BYTE *token = (BYTE*)mir_base64_decode(szChallenge, &tokenLen);
+			if (token == NULL)
+				return NULL;
 
 			if (isGSSAPI && complete)
-				return CompleteGssapi(hSecurity, nlb64.pbDecoded, nlb64.cbDecoded);
+				return CompleteGssapi(hSecurity, token, tokenLen);
 
 			inputBufferDescriptor.cBuffers = 1;
 			inputBufferDescriptor.pBuffers = &inputSecurityToken;
 			inputBufferDescriptor.ulVersion = SECBUFFER_VERSION;
 			inputSecurityToken.BufferType = SECBUFFER_TOKEN;
-			inputSecurityToken.cbBuffer = nlb64.cbDecoded;
-			inputSecurityToken.pvBuffer = nlb64.pbDecoded;
+			inputSecurityToken.cbBuffer = tokenLen;
+			inputSecurityToken.pvBuffer = token;
 
 			// try to decode the domain name from the NTLM challenge
 			if (login != NULL && login[0] != '\0' && !hNtlm->hasDomain)
 			{
-				NtlmType2packet* pkt = (NtlmType2packet*)nlb64.pbDecoded;
+				NtlmType2packet* pkt = (NtlmType2packet*)token;
 				if ( !strncmp(pkt->sign, "NTLMSSP", 8) && pkt->type == 2)
 				{
 
-					wchar_t* domainName = (wchar_t*)&nlb64.pbDecoded[pkt->targetName.offset];
+					wchar_t* domainName = (wchar_t*)&token[pkt->targetName.offset];
 					int domainLen = pkt->targetName.len;
 
 					// Negotiate ANSI? if yes, convert the ANSI name to unicode
@@ -412,8 +404,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 			return NULL;
 		}
 
-		nlb64.cbDecoded = outputSecurityToken.cbBuffer;
-		nlb64.pbDecoded = (PBYTE)outputSecurityToken.pvBuffer;
+		szOutputToken = mir_base64_encode((PBYTE)outputSecurityToken.pvBuffer, outputSecurityToken.cbBuffer);
 	}
 	else
 	{
@@ -425,30 +416,25 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		size_t authLen = strlen(szLogin) + strlen(szPassw) + 5;
 		char *szAuth = (char*)alloca(authLen);
 
-		nlb64.cbDecoded = mir_snprintf(szAuth, authLen, "%s:%s", szLogin, szPassw);
-		nlb64.pbDecoded = (PBYTE)szAuth;
+		mir_snprintf(szAuth, authLen, "%s:%s", szLogin, szPassw);
+		szOutputToken = mir_strdup(szAuth);
 		complete = true;
 
 		mir_free(szPassw);
 		mir_free(szLogin);
 	}
 
-	nlb64.cchEncoded = Netlib_GetBase64EncodedBufferSize(nlb64.cbDecoded);
-	nlb64.pszEncoded = (char*)alloca(nlb64.cchEncoded);
-	if ( !NetlibBase64Encode(0, (LPARAM)&nlb64)) return NULL;
+	if (szOutputToken == NULL)
+		return NULL;
 
-	char* result;
-	if (http)
-	{
-		char* szProvider = mir_t2a(hNtlm->szProvider);
-		nlb64.cchEncoded += (int)strlen(szProvider) + 10;
-		result = (char*)mir_alloc(nlb64.cchEncoded);
-		mir_snprintf(result, nlb64.cchEncoded, "%s %s", szProvider, nlb64.pszEncoded);
-		mir_free(szProvider);
-	}
-	else
-		result = mir_strdup(nlb64.pszEncoded);
+	if (!http)
+		return mir_strdup(szOutputToken);
 
+	ptrA szProvider( mir_t2a(hNtlm->szProvider));
+	size_t resLen = strlen(szOutputToken) + strlen(szProvider) + 10;
+	char *result = (char*)mir_alloc(resLen);
+	mir_snprintf(result, resLen, "%s %s", szProvider, szOutputToken);
+	mir_free(szOutputToken);
 	return result;
 }
 

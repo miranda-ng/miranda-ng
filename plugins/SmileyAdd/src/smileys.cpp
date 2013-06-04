@@ -511,26 +511,24 @@ static void DecodeHTML(bkstring& str)
 }
 
 
-static IStream* DecodeBase64Data(const char* data)
+static IStream* DecodeBase64Data(const char* pData)
 {
-	NETLIBBASE64 nlb64; 
-	nlb64.pszEncoded = (char*)data;
-	nlb64.cchEncoded = (int)strlen(data);
-	nlb64.cbDecoded = Netlib_GetBase64DecodedBufferSize(nlb64.cchEncoded);
-
-	IStream* pStream = NULL;
+	unsigned dataLen;
+	ptrA data((char*)mir_base64_decode(pData, &dataLen));
+	if (data == NULL)
+		return NULL;
 
 	// Read image list
-	HGLOBAL hBuffer = GlobalAlloc(GMEM_MOVEABLE, nlb64.cbDecoded);
-	if (hBuffer)
-	{
-		nlb64.pbDecoded = (PBYTE)GlobalLock(hBuffer);
-		CallService(MS_NETLIB_BASE64DECODE, 0, (LPARAM)&nlb64);
-		GlobalUnlock(hBuffer);
+	HGLOBAL hBuffer = GlobalAlloc(GMEM_MOVEABLE, dataLen);
+	if (!hBuffer)
+		return NULL;
 
-		CreateStreamOnHGlobal(hBuffer, TRUE, &pStream);
-	}
+	void *dst = GlobalLock(hBuffer);
+	memcpy(dst, data, dataLen);
+	GlobalUnlock(hBuffer);
 
+	IStream *pStream = NULL;
+	CreateStreamOnHGlobal(hBuffer, TRUE, &pStream);
 	return pStream;
 }
 

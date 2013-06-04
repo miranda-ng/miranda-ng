@@ -220,8 +220,7 @@ MIR_CORE_DLL(char*) mir_base64_encode(const BYTE *input, unsigned inputLen)
 	if (input == NULL)
 		return NULL;
 
-	size_t i = 0;
-	char chr[3], enc[4];
+	BYTE chr[3];
 	static char cb64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 	size_t length = inputLen;
@@ -230,22 +229,20 @@ MIR_CORE_DLL(char*) mir_base64_encode(const BYTE *input, unsigned inputLen)
 	char *output = (char *)mir_alloc(nLength);
 	char *p = output;
 
-	while (i < length)
+	for (size_t i=0; i < length; )
 	{
 		chr[0] = input[i++];
 		chr[1] = input[i++];
 		chr[2] = input[i++];
 
-		enc[0] = chr[0] >> 2;
-		enc[1] = ((chr[0] & 0x03) << 4) | (chr[1] >> 4);
-		enc[2] = ((chr[1] & 0x0F) << 2) | (chr[2] >> 6);
-		enc[3] = chr[2] & 0x3F;
-
-		*p++ = cb64[enc[0]]; *p++ = cb64[enc[1]];
+		*p++ = cb64[ chr[0] >> 2 ];
+		*p++ = cb64[ ((chr[0] & 0x03) << 4) | (chr[1] >> 4) ];
+		BYTE b2 = ((chr[1] & 0x0F) << 2) | (chr[2] >> 6),
+		     b3 = chr[2] & 0x3F;
 
 		if (i - 2 >= length) { *p++ = '='; *p++ = '='; }
-		else if (i - 1 >= length) { *p++ = cb64[enc[2]]; *p++ = '='; }
-		else { *p++ = cb64[enc[2]]; *p++ = cb64[enc[3]]; }
+		else if (i - 1 >= length) { *p++ = cb64[b2]; *p++ = '='; }
+		else { *p++ = cb64[b2]; *p++ = cb64[b3]; }
 	}
 
 	*p = 0;
@@ -281,12 +278,12 @@ MIR_CORE_DLL(void*) mir_base64_decode(const char *input, unsigned *outputLen)
 		return NULL;
 
 	size_t i = 0;
-	char chr[3], enc[4];
+	BYTE chr[3], enc[4];
 
 	size_t length = strlen(input);
-	size_t nLength = (length / 4) * 3 + 1;
+	size_t nLength = (length / 4) * 3;
 
-	char *output = (char *)mir_alloc(nLength);
+	char *output = (char *)mir_alloc(nLength+1);
 	char *p = output;
 
 	while (i < length)

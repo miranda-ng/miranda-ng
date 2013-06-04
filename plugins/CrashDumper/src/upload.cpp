@@ -88,10 +88,7 @@ void CreateAuthString(char* auth)
 
 	char str[110];
 	int len = mir_snprintf(str, sizeof(str), "%s:%s", user, pass);
-
-	strcpy(auth, "Basic ");
-	NETLIBBASE64 nlb = { auth+6, 250, (PBYTE)str, len };
-	CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
+	mir_snprintf(auth, 250, "Basic %s", ptrA( mir_base64_encode((PBYTE)str, len)));
 }
 
 

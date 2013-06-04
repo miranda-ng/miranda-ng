@@ -341,33 +341,23 @@ void  CMsnProto::MSN_SetNicknameUtf(const char* nickname)
 void CMsnProto::msn_storeAvatarThread(void* arg)
 {
 	StoreAvatarData* dat = (StoreAvatarData*)arg;
-	char *szEncBuf = NULL;
+	ptrA szEncBuf;
 
 	if (dat)
-	{
-		size_t szEncPngSize = Netlib_GetBase64EncodedBufferSize(dat->dataSize);
-		szEncBuf = (char*)mir_alloc(szEncPngSize);
-		NETLIBBASE64 nlb = { szEncBuf, (int)szEncPngSize, dat->data, (int)dat->dataSize };
-		CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
-	}
+		szEncBuf = mir_base64_encode(dat->data, (unsigned)dat->dataSize);
 
 	if (photoid[0] && dat)
-	{
 		MSN_StoreUpdateDocument(dat->szName, dat->szMimeType, szEncBuf);
-	}
-	else
-	{
+	else {
 		MSN_StoreUpdateProfile(NULL, NULL, 1);
 
-		if (photoid[0])
-		{
+		if (photoid[0]) {
 			MSN_StoreDeleteRelationships(true);
 			MSN_StoreDeleteRelationships(false);
 			photoid[0] = 0;
 		}
 
-		if (dat)
-		{
+		if (dat) {
 			MSN_StoreCreateDocument(dat->szName, dat->szMimeType, szEncBuf);
 			MSN_StoreCreateRelationships();
 		}
@@ -379,7 +369,6 @@ void CMsnProto::msn_storeAvatarThread(void* arg)
 
 	if (dat)
 	{
-		mir_free(szEncBuf);
 		mir_free(dat->szName);
 		mir_free(dat->data);
 		mir_free(dat);

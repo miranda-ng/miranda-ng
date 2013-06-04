@@ -348,18 +348,6 @@ __forceinline INT_PTR Utils_AssertInsideScreen(RECT *rc) {
 //Always returns 0
 #define MS_UTILS_GETRANDOM "Utils/GetRandom"
 
-//Generates Base64 encoded string
-//wParam = 0 (unused)
-//lParam = (LPARAM)(char*)pointer to source string
-//Returns (char*)pointer to encoded string
-#define MS_UTILS_ENCODEBASE64 "Utils/EncodeBase64"
-
-//Generates Base64 decoded string
-//wParam = 0 (unused)
-//lParam = (LPARAM)(char*)pointer to encoded string
-//Returns (char*)pointer to decoded string
-#define MS_UTILS_DECODEBASE64 "Utils/DecodeBase64"
-
 //Replace variables in text
 //wParam = (char*/TCHAR*/WCHAR*)string (depends on RVF_UNICODE/RVF_TCHAR flag)
 //lParam = (REPLACEVARSDATA *) data about variables, item with key = 0 terminates the list

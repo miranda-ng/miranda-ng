@@ -282,14 +282,6 @@ type
     combinePackets   : int; // MIRANDA_VER >= 0x0900
   end;
 
-  PNETLIBBASE64 = ^TNETLIBBASE64;
-  TNETLIBBASE64 = record
-    pszEncoded: PAnsiChar;
-    cchEncoded: int;
-    pbDecoded : PByte;
-    cbDecoded : int;
-  end;
-
 type
   PNETLIBBUFFER = ^TNETLIBBUFFER;
   TNETLIBBUFFER = record
@@ -505,43 +497,6 @@ const
     Errors : ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY
   }
   MS_NETLIB_URLENCODE:PAnsiChar = 'Netlib/UrlEncode';
-
-  {
-    wParam : 0
-    lParam : Pointer to a TNETLIBBASE64 initialised structure
-    Affects: Decodes a Base64 null terminated string, see notes
-    Returns: [non zero] on success, NULL(0) on failure
-    Notes  : TNETLIBBASE64.pszEncoded and cchEncoded must contain a pointer to
-             a buffer to use as input, and it's length, the length
-             should not include space taken for null termination --
-             -
-             Output is placed in ..pbDecoded and ..cbDecoded for buffer and
-             length of buffer -- the maxiumum output for a given input can
-             be worked out with Netlib_GetBase64DecodedBufferSize() function
-             see below.
-             -
-             For more information on Base64 see rfc-1421.
-    Errors : ERROR_INVALID_PARAMETER, ERROR_INVALID_DATA, ERROR_BUFFER_OVERFLOW
-  }
-  MS_NETLIB_BASE64DECODE:PAnsiChar = 'Netlib/Base64Decode';
-
-  {
-    wParam : 0
-    lParam : Pointer to an initialised TNETLIBBASE64 structure
-    Affect : Base64 encode a string, see notes
-    Returns: [non zero] on success, NULL(0) on failure
-    Notes  : TNETLIBBASE64.pbDecode and TNETLIBBASE64.cbDecoded contain
-             the input buffer and it's length --
-             TNETLIBBASE64.pszEncoded and TNETLIBBASE64.cchEncoded contain the
-             buffer in which to put the output and it's length.
-             -
-             The maximum output size for a given input can be worked
-             out with the function Netlib_GetBase64EncodedBufferSize() below
-             .pszEncoded is null terminated, on return TNETLIBBASE64.cchEncoded
-             is set to the actual length excluding 0.
-    Errors : ERROR_INVALID_PARAMETER, ERROR_BUFFER_OVERFLOW
-  }
-  MS_NETLIB_BASE64ENCODE:PAnsiChar = 'Netlib/Base64Encode';
 
 {
   Converts string representation of IP and port into numerical SOCKADDR_INET

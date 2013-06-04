@@ -972,15 +972,8 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 			if (!msnLoggedIn && msnNsThread)
 			{
 				char *szCircleTicket = ezxml_txt(ezxml_get(body, "CircleResult", 0, "CircleTicket", -1));
-				int cbCircleTicket = (int)strlen(szCircleTicket);
-
-				int cbCircleTicketEnc = Netlib_GetBase64EncodedBufferSize(cbCircleTicket);
-				char* szCircleTicketEnc = (char*)alloca(cbCircleTicketEnc);
-
-				NETLIBBASE64 nlb = { szCircleTicketEnc, cbCircleTicketEnc, (PBYTE)szCircleTicket, cbCircleTicket };
-				CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
-
-				if (szCircleTicketEnc[0])
+				ptrA szCircleTicketEnc( mir_base64_encode((PBYTE)szCircleTicket, (unsigned)strlen(szCircleTicket)));
+				if (szCircleTicketEnc)
 					msnNsThread->sendPacket("USR", "SHA A %s", szCircleTicketEnc);
 			}
 

@@ -433,13 +433,8 @@ static unsigned char* PKCS5_Padding(char* in, size_t &len)
 
 char* CMsnProto::GenerateLoginBlob(char* challenge)
 {
-	const size_t keylen = strlen(authSecretToken);
-	size_t key1len = Netlib_GetBase64DecodedBufferSize(keylen);
-	unsigned char* key1 = (unsigned char*)alloca(key1len);
-
-	NETLIBBASE64 nlb = { authSecretToken, (int)keylen, key1, (int)key1len };
-	CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb));
-	key1len = nlb.cbDecoded;
+	unsigned key1len;
+	BYTE *key1 = (BYTE*)mir_base64_decode(authSecretToken, &key1len);
 
 	mir_sha1_byte_t key2[MIR_SHA1_HASH_SIZE+4];
 	mir_sha1_byte_t key3[MIR_SHA1_HASH_SIZE+4];
@@ -481,13 +476,7 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 
 	mir_free(newchl);
 
-	const size_t rlen = Netlib_GetBase64EncodedBufferSize(pktsz);
-	char* buf = (char*)mir_alloc(rlen);
-
-	NETLIBBASE64 nlb1 = { buf, (int)rlen, userKey, (int)pktsz };
-	CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb1));
-
-	return buf;
+	return mir_base64_encode(userKey, (unsigned)pktsz);
 }
 
 
@@ -497,12 +486,8 @@ char* CMsnProto::HotmailLogin(const char* url)
 	CallService(MS_UTILS_GETRANDOM, sizeof(nonce), (LPARAM)nonce);
 
 	const size_t hotSecretlen = strlen(hotSecretToken);
-	size_t key1len = Netlib_GetBase64DecodedBufferSize(hotSecretlen);
-	unsigned char* key1 = (unsigned char*)alloca(key1len);
-
-	NETLIBBASE64 nlb = { hotSecretToken, (int)hotSecretlen, key1, (int)key1len };
-	CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb));
-	key1len = nlb.cbDecoded;
+	unsigned key1len;
+	BYTE *key1 = (BYTE*)mir_base64_decode(hotSecretToken, &key1len);
 
 	static const unsigned char encdata[] = "WS-SecureConversation";
 	const size_t data1len = sizeof(nonce) + sizeof(encdata) - 1;
@@ -518,11 +503,8 @@ char* CMsnProto::HotmailLogin(const char* url)
 	char* xmlenc = (char*)alloca(xmlenclen);
 	UrlEncode(hotAuthToken, xmlenc, xmlenclen);
 
-	size_t noncenclen = Netlib_GetBase64EncodedBufferSize(sizeof(nonce));
-	char* noncenc = (char*)alloca(noncenclen);
-	NETLIBBASE64 nlb1 = { noncenc, (int)noncenclen, nonce, sizeof(nonce) };
-	CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb1));
-	noncenclen = nlb1.cchEncoded - 1;
+	ptrA noncenc( mir_base64_encode(nonce, sizeof(nonce)));
+	size_t noncenclen = lstrlenA(noncenc);
 
 	const size_t fnpstlen = strlen(xmlenc) + strlen(url) + 3*noncenclen + 100;
 	char* fnpst = (char*)mir_alloc(fnpstlen);
@@ -535,13 +517,10 @@ char* CMsnProto::HotmailLogin(const char* url)
 	mir_sha1_byte_t hash[MIR_SHA1_HASH_SIZE];
 	hmac_sha1(hash, key2, sizeof(key2), (mir_sha1_byte_t*)fnpst, sz);
 
-	NETLIBBASE64 nlb2 = { noncenc, (int)noncenclen, hash, sizeof(hash) };
-	CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb2));
+	noncenc = mir_base64_encode(hash, sizeof(hash));
 
 	sz += mir_snprintf(fnpst + sz, fnpstlen - sz, "&hash=");
-
 	UrlEncode(noncenc, fnpst + sz, fnpstlen - sz);
-
 	return fnpst;
 }
 

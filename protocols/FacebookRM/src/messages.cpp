@@ -214,15 +214,7 @@ void FacebookProto::ParseSmileys(std::string message, HANDLE hContact)
 		std::string url = "http://graph.facebook.com/%s/picture";
 		utils::text::replace_first(&url, "%s", smiley.substr(2, smiley.length()-4));
 
-
-		size_t slen = smiley.length();
-		size_t rlen = Netlib_GetBase64EncodedBufferSize(slen);
-		char* buf = (char*)mir_alloc(rlen);
-
-		NETLIBBASE64 nlb = { buf, (int)rlen, (PBYTE)smiley.c_str(), (int)slen };
-		CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
-
-		std::string b64 = buf;
+		std::string b64 = ptrA( mir_base64_encode((PBYTE)smiley.c_str(), (unsigned)smiley.length()));
 		b64 = utils::url::encode(b64);
 
 		std::tstring filename = GetAvatarFolder() + L"\\smileys\\" + (TCHAR*)_A2T(b64.c_str()) + _T(".jpg");
@@ -232,16 +224,15 @@ void FacebookProto::ParseSmileys(std::string message, HANDLE hContact)
 		} else {
 			facy.save_url(url, filename, nlc);
 		}
-			TCHAR *path = _tcsdup(filename.c_str());
+		TCHAR *path = _tcsdup(filename.c_str());
 
-			SMADD_CONT cont;
-			cont.cbSize = sizeof(SMADD_CONT);
-			cont.hContact = hContact;
-			cont.type = 1;
-			cont.path = path;
+		SMADD_CONT cont;
+		cont.cbSize = sizeof(SMADD_CONT);
+		cont.hContact = hContact;
+		cont.type = 1;
+		cont.path = path;
 
-			CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
-			mir_free(path);
-		//}
+		CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
+		mir_free(path);
 	}
 }

@@ -232,29 +232,19 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 
 	if (!strcmp(signmethod, "HMAC-SHA1")) {
 		char *text = oauth_generate_signature(params, httpmethod, url);
-		char *key;
 		char *csenc = oauth_uri_escape(consumer_secret);
 		char *tsenc = oauth_uri_escape(token_secret);
-		mir_sha1_byte_t digest[MIR_SHA1_HASH_SIZE];
-		NETLIBBASE64 nlb64 = {0};
-		int signlen;
-
-		key = (char *)mir_alloc(strlen(csenc) + strlen(tsenc) + 2);
+		char *key = (char *)mir_alloc(strlen(csenc) + strlen(tsenc) + 2);
 		strcpy(key, csenc);
 		strcat(key, "&");
 		strcat(key, tsenc);
 		mir_free(csenc);
 		mir_free(tsenc);
 
+		mir_sha1_byte_t digest[MIR_SHA1_HASH_SIZE];
 		hmacsha1_hash((BYTE*)text, (int)strlen(text), (BYTE*)key, (int)strlen(key), digest);
 
-		signlen = Netlib_GetBase64EncodedBufferSize(MIR_SHA1_HASH_SIZE);
-		sign = (char *)mir_alloc(signlen);
-		nlb64.pszEncoded = sign;
-		nlb64.cchEncoded = signlen;
-		nlb64.pbDecoded = digest;
-		nlb64.cbDecoded = MIR_SHA1_HASH_SIZE;
-		CallService(MS_NETLIB_BASE64ENCODE, 0, (LPARAM)&nlb64);
+		sign = mir_base64_encode(digest, MIR_SHA1_HASH_SIZE);
 
 		mir_free(text);
 		mir_free(key);

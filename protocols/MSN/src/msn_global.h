@@ -164,7 +164,6 @@ void		stripBBCode(char* src);
 void		stripColorCode(char* src);
 void		parseWLID(char* wlid, char** net, char** email, char** inst);
 
-char*		MSN_Base64Decode(const char* str);
 char*		GetGlobalIp(void);
 
 template <class chartype> void UrlDecode(chartype* str);

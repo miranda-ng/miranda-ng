@@ -180,12 +180,10 @@ void CSkypeProto::InitProxy()
 				this->SetStr(SETUPKEY_HTTPS_PROXY_ADDR, address);
 				if (nlus.useProxyAuth)
 				{
-					char *encodedPass = (char *)::CallService(MS_UTILS_ENCODEBASE64, 0, (LPARAM)nlus.szProxyAuthPassword);
+					ptrA encodedPass( mir_base64_encode((BYTE*)nlus.szProxyAuthPassword, lstrlenA(nlus.szProxyAuthPassword)));
 
-					this->SetStr(SETUPKEY_HTTPS_PROXY_USER,	nlus.szProxyAuthUser);
-					this->SetStr(SETUPKEY_HTTPS_PROXY_PWD,	encodedPass);
-
-					::mir_free(encodedPass);
+					this->SetStr(SETUPKEY_HTTPS_PROXY_USER, nlus.szProxyAuthUser);
+					this->SetStr(SETUPKEY_HTTPS_PROXY_PWD,	(char*)encodedPass);
 				}
 				break;
 
@@ -197,12 +195,8 @@ void CSkypeProto::InitProxy()
 				this->SetStr(SETUPKEY_SOCKS_PROXY_ADDR, address);
 				if (nlus.useProxyAuth)
 				{
-					char *encodedPass = (char *)::CallService(MS_UTILS_ENCODEBASE64, 0, (LPARAM)nlus.szProxyAuthPassword);
-
-					this->SetStr(SETUPKEY_SOCKS_PROXY_USER,	nlus.szProxyAuthUser);
+					this->SetStr(SETUPKEY_SOCKS_PROXY_USER, nlus.szProxyAuthUser);
 					this->SetStr(SETUPKEY_SOCKS_PROXY_PWD,	nlus.szProxyAuthPassword);
-
-					::mir_free(encodedPass);
 				}
 				break;
 

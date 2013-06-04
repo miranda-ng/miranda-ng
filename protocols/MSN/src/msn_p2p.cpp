@@ -1215,7 +1215,7 @@ void CMsnProto::p2p_InitFileTransfer(
 	if (p2p_getSessionByID(dwSessionId))
 		return;
 
-	szContext = MSN_Base64Decode(szContext);
+	szContext = (char*)mir_base64_decode(szContext, 0);
 
 	filetransfer* ft = new filetransfer(this);
 	ft->p2p_acksessid = MSN_GenRandom();
@@ -2311,10 +2311,8 @@ void  CMsnProto::p2p_invite(unsigned iAppID, filetransfer* ft, const char *wlid)
 	if (!ft->bAccepted)
 		ft->p2p_sessionid = MSN_GenRandom();
 
-	int cbContextEnc = Netlib_GetBase64EncodedBufferSize((int)cbContext);
-	char* szContextEnc = (char*)alloca(cbContextEnc);
-	NETLIBBASE64 nlb = { szContextEnc, cbContextEnc, (PBYTE)pContext, (int)cbContext };
-	CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
+	ptrA szContextEnc( mir_base64_encode((PBYTE)pContext, (unsigned)cbContext));
+	int cbContextEnc = lstrlenA(szContextEnc);
 
 	MimeHeaders chdrs(10);
 	chdrs.addString("EUF-GUID", szAppID);

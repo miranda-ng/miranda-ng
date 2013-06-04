@@ -213,7 +213,9 @@ var
   ccs:PCCSDATA;
   s:pWideChar;
   buf:PWideChar;
-  base64:TNETLIBBASE64;
+  data:PByte;
+  dataSize:int;
+  encodedStr:PAnsiChar;
 //  pos_artist,pos_title,pos_album:PwideChar;
   pos_template:pWideChar;
   curpos:pWideChar;
@@ -290,22 +292,22 @@ begin
         begin
           if curpos<>nil then
           begin
-            base64.pbDecoded:=PByte(buf);
-            base64.cbDecoded:=PAnsiChar(curpos)-PAnsiChar(buf);
+            data:=PByte(buf);
+            dataSize:=PAnsiChar(curpos)-PAnsiChar(buf);
           end
           else
           begin
-            base64.pbDecoded:=PByte(s);
-            base64.cbDecoded:=(StrLenW(textpos)+3+1)*SizeOf(PWideChar);
+            data:=PByte(s);
+            dataSize:=(StrLenW(textpos)+3+1)*SizeOf(PWideChar);
           end;
-          base64.cchEncoded:=Netlib_GetBase64EncodedBufferSize(base64.cbDecoded);
-          mGetMem(encbuf,base64.cchEncoded+1+Length(wpAnswer));
-          base64.pszEncoded:=PAnsiChar(encbuf)+Length(wpAnswer);
+          encodedStr:=mir_base64_encode(data,dataSize);
+          mGetMem(encbuf,Length(encodedStr)+1+Length(wpAnswer));
           StrCopy(PAnsiChar(encbuf),wpAnswer);
-          CallService(MS_NETLIB_BASE64ENCODE,0,tlparam(@base64));
+          StrCopy(PAnsiChar(encbuf)+Length(wpAnswer),encodedStr);
+          mFreeMem(encodedStr);
+
           if (HistMask and hmOutInfo)<>0 then
-            AddEvent(ccs^.hContact,EVENTTYPE_WAT_ANSWER,DBEF_SENT,
-                     base64.pbDecoded,base64.cbDecoded);
+            AddEvent(ccs^.hContact,EVENTTYPE_WAT_ANSWER,DBEF_SENT,data,dataSize);
           CallContactService(ccs^.hContact,PSS_MESSAGE,0,tlparam(encbuf));
         end
         else
@@ -348,14 +350,9 @@ begin
   else if StrCmp(PPROTORECVEVENT(ccs^.lParam)^.szMessage.a,wpAnswer,Length(wpAnswer))=0 then
   begin
 // decode
-    base64.pszEncoded:=PPROTORECVEVENT(ccs^.lParam)^.szMessage.a+Length(wpAnswer);
-    base64.cchEncoded:=StrLen(base64.pszEncoded);
-    base64.cbDecoded :=Netlib_GetBase64DecodedBufferSize(base64.cchEncoded);
-    mGetMem(base64.pbDecoded,base64.cbDecoded);
+    data:=mir_base64_decode(PPROTORECVEVENT(ccs^.lParam)^.szMessage.a+Length(wpAnswer),dataSize);
 
-    CallService(MS_NETLIB_BASE64DECODE,0,tlparam(@base64));
-
-    curpos:=pWideChar(base64.pbDecoded);           // pos_artist:=curpos;
+    curpos:=pWideChar(data);           // pos_artist:=curpos;
     while curpos^<>#0 do inc(curpos); inc(curpos); // pos_title :=curpos;
     while curpos^<>#0 do inc(curpos); inc(curpos); // pos_album :=curpos;
     while curpos^<>#0 do inc(curpos); inc(curpos);
@@ -363,7 +360,7 @@ begin
 
     if (HistMask and hmInInfo)<>0 then
       AddEvent(ccs^.hContact,EVENTTYPE_WAT_ANSWER,DBEF_READ,
-          base64.pbDecoded,base64.cbDecoded,
+          data,dataSize,
           PPROTORECVEVENT(ccs^.lParam)^.Timestamp);
 //  Action
 
@@ -372,7 +369,7 @@ begin
 
     MessageBoxW(0,TranslateW(pos_template),buf,MB_ICONINFORMATION);
 
-    mFreeMem(base64.pbDecoded);
+    mFreeMem(data);
   end
   else if StrCmp(PPROTORECVEVENT(ccs^.lParam)^.szMessage.a,wpError,Length(wpError))=0 then
   begin

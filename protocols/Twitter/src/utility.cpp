@@ -22,16 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 std::string b64encode(const std::string &s)
 {
-	NETLIBBASE64 encode;
-	encode.cbDecoded = (int)s.length();
-	encode.pbDecoded = (BYTE*)s.c_str();
-	encode.cchEncoded = Netlib_GetBase64EncodedBufferSize(encode.cbDecoded);
-	encode.pszEncoded = new char[encode.cchEncoded+1];
-	CallService(MS_NETLIB_BASE64ENCODE,0,(LPARAM)&encode);
-	std::string ret = encode.pszEncoded;
-	delete[] encode.pszEncoded;
-
-	return ret;
+	return std::string( ptrA( mir_base64_encode((BYTE*)s.c_str(), (unsigned)s.length())));
 }
 
 http::response mir_twitter::slurp(const std::string &url,http::method meth,

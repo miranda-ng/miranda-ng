@@ -455,7 +455,7 @@ wchar_t* MimeHeaders::decode(const char* val)
 			case 'b':
 			case 'B':
 			{
-				char* dec = MSN_Base64Decode(fld);
+				char* dec = (char*)mir_base64_decode(fld, 0);
 				strcpy(fld, dec);
 				mir_free(dec);
 				break;
@@ -501,7 +501,7 @@ char* MimeHeaders::decodeMailBody(char* msgBody)
 			else *(dst++) = *(src++);
 		}
 		*dst = 0;
-		res = MSN_Base64Decode(msgBody);
+		res = (char*)mir_base64_decode(msgBody, 0);
 	}
 	else
 	{

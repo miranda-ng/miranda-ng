@@ -165,13 +165,10 @@ char* MSN_GetAvatarHash(char* szContext, char** pszUrl)
 	ezxml_t xmli = ezxml_parse_str(NEWSTR_ALLOCA(szContext), strlen(szContext));
 	const char *szAvatarHash = ezxml_attr(xmli, "SHA1D");
 	if (szAvatarHash != NULL) {
-		BYTE szActHash[MIR_SHA1_HASH_SIZE+2]  = {0};
-		const size_t len = strlen(szAvatarHash);
-
-		NETLIBBASE64 nlb = { (char*)szAvatarHash, (int)len, szActHash, sizeof(szActHash) };
-		int decod = CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb));
-		if (decod != 0 && nlb.cbDecoded > 0)
-			res = arrayToHex(szActHash, nlb.cbDecoded);
+		unsigned hashLen;
+		mir_ptr<BYTE> hash((BYTE*)mir_base64_decode(szAvatarHash, &hashLen));
+		if (hash)
+			res = arrayToHex(hash, hashLen);
 
 		if (pszUrl) {
 			const char *pszUrlAttr;
@@ -313,7 +310,6 @@ int  CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen
 {
 	mir_sha1_ctx sha1ctx;
 	BYTE sha1c[MIR_SHA1_HASH_SIZE], sha1d[MIR_SHA1_HASH_SIZE];
-	char szSha1c[41], szSha1d[41];
 
 	char *szFname = mir_utf8encodeT(sztFname);
 
@@ -321,10 +317,7 @@ int  CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen
 	mir_sha1_append(&sha1ctx, (mir_sha1_byte_t*)pData, (int)cbLen);
 	mir_sha1_finish(&sha1ctx, sha1d);
 
-	{
-		NETLIBBASE64 nlb = { szSha1d, sizeof(szSha1d), (PBYTE)sha1d, sizeof(sha1d) };
-		CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
-	}
+	ptrA szSha1d( mir_base64_encode((PBYTE)sha1d, sizeof(sha1d)));
 
 	mir_sha1_init(&sha1ctx);
 	ezxml_t xmlp = ezxml_new("msnobj");
@@ -352,15 +345,12 @@ int  CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen
 	ezxml_set_attr(xmlp, "Friendly", "AAA=");
 
 	mir_sha1_append(&sha1ctx, (PBYTE)"SHA1D", 5);
-	mir_sha1_append(&sha1ctx, (PBYTE)szSha1d, (int)strlen(szSha1d));
+	mir_sha1_append(&sha1ctx, (PBYTE)(char*)szSha1d, (int)strlen(szSha1d));
 	ezxml_set_attr(xmlp, "SHA1D", szSha1d);
 
 	mir_sha1_finish(&sha1ctx, sha1c);
 
-	{
-		NETLIBBASE64 nlb = { szSha1c, sizeof(szSha1c), (PBYTE)sha1c, sizeof(sha1c) };
-		CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
-	}
+	ptrA szSha1c( mir_base64_encode((PBYTE)sha1c, sizeof(sha1c)));
 
 	//	ezxml_set_attr(xmlp, "SHA1C", szSha1c);
 
@@ -1291,32 +1281,6 @@ char* TWinErrorCode::getText()
 		mErrorText[tBytes-1] = 0;
 
 	return mErrorText;
-}
-
-char* MSN_Base64Decode(const char* str)
-{
-	if (str == NULL) return NULL;
-
-	size_t len = strlen(str);
-	size_t reslen = Netlib_GetBase64DecodedBufferSize(len) + 4;
-	char* res = (char*)mir_alloc(reslen);
-
-	char* p = const_cast< char* >(str);
-	if (len & 3) { // fix for stupid Kopete's base64 encoder
-		char* p1 = (char*)alloca(len+5);
-		memcpy(p1, p, len);
-		p = p1;
-		p1 += len;
-		for (int i = 4 - (len & 3); i > 0; i--, p1++, len++)
-			*p1 = '=';
-		*p1 = 0;
-	}
-
-	NETLIBBASE64 nlb = { p, (int)len, (PBYTE)res, (int)reslen };
-	if (!CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb))) nlb.cbDecoded = 0;
-	res[nlb.cbDecoded] = 0;
-
-	return res;
 }
 
 bool CMsnProto::MSN_IsMyContact(HANDLE hContact)
