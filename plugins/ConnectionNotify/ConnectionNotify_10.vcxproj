@@ -47,7 +47,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>ConnectionNotify</ProjectName>
-    <ProjectGuid>{B6FC188B-8E54-4197-9444-8BADE9AA75E2}</ProjectGuid>
+    <ProjectGuid>{3C83B0AB-9739-41C1-A127-ED7DB9551F76}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

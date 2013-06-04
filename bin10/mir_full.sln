@@ -397,6 +397,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LotusNotify", "..\plugins\L
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirFox", "..\plugins\MirFox\MirFoxNG_10.vcxproj", "{3E9DA555-4C7B-463C-AD5C-214073DE29D6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConnectionNotify", "..\plugins\ConnectionNotify\ConnectionNotify_10.vcxproj", "{3C83B0AB-9739-41C1-A127-ED7DB9551F76}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exchange", "..\plugins\Exchange\Exchange_10.vcxproj", "{F462FDA1-BDCD-49B2-B996-D7DE71D07393}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1779,6 +1783,22 @@ Global
 		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Debug|x64.Build.0 = Debug|x64
 		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Release|Win32.ActiveCfg = Release|Win32
 		{3E9DA555-4C7B-463C-AD5C-214073DE29D6}.Release|x64.ActiveCfg = Release|x64
+		{3C83B0AB-9739-41C1-A127-ED7DB9551F76}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3C83B0AB-9739-41C1-A127-ED7DB9551F76}.Debug|Win32.Build.0 = Debug|Win32
+		{3C83B0AB-9739-41C1-A127-ED7DB9551F76}.Debug|x64.ActiveCfg = Debug|x64
+		{3C83B0AB-9739-41C1-A127-ED7DB9551F76}.Debug|x64.Build.0 = Debug|x64
+		{3C83B0AB-9739-41C1-A127-ED7DB9551F76}.Release|Win32.ActiveCfg = Release|Win32
+		{3C83B0AB-9739-41C1-A127-ED7DB9551F76}.Release|Win32.Build.0 = Release|Win32
+		{3C83B0AB-9739-41C1-A127-ED7DB9551F76}.Release|x64.ActiveCfg = Release|x64
+		{3C83B0AB-9739-41C1-A127-ED7DB9551F76}.Release|x64.Build.0 = Release|x64
+		{F462FDA1-BDCD-49B2-B996-D7DE71D07393}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F462FDA1-BDCD-49B2-B996-D7DE71D07393}.Debug|Win32.Build.0 = Debug|Win32
+		{F462FDA1-BDCD-49B2-B996-D7DE71D07393}.Debug|x64.ActiveCfg = Debug|x64
+		{F462FDA1-BDCD-49B2-B996-D7DE71D07393}.Debug|x64.Build.0 = Debug|x64
+		{F462FDA1-BDCD-49B2-B996-D7DE71D07393}.Release|Win32.ActiveCfg = Release|Win32
+		{F462FDA1-BDCD-49B2-B996-D7DE71D07393}.Release|Win32.Build.0 = Release|Win32
+		{F462FDA1-BDCD-49B2-B996-D7DE71D07393}.Release|x64.ActiveCfg = Release|x64
+		{F462FDA1-BDCD-49B2-B996-D7DE71D07393}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
