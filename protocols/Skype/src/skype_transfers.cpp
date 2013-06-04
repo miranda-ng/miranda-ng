@@ -124,7 +124,7 @@ void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const Message
 
 				SEString data;
 				transfer->GetPropPartnerHandle(data);
-				HANDLE hContact = this->GetContactBySid(mir_ptr<wchar_t>(::mir_utf8decodeW(data)));
+				HANDLE hContact = this->GetContactBySid(ptrW(::mir_utf8decodeW(data)));
 
 				transfer->GetPropFilename(data);
 				wchar_t *path = ::mir_utf8decodeW(data);

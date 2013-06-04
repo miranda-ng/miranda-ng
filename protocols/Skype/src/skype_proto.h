@@ -266,7 +266,6 @@ protected:
 	void	OnTransferChanged(CTransfer::Ref transfer, int prop);
 
 	// chat
-	ChatList *chatList;
 	static wchar_t* Roles[];
 
 	bool IsChatRoom(HANDLE hContact);
@@ -282,30 +281,18 @@ protected:
 	void GetInvitedContacts(HANDLE hItem, HWND hwndList, StringList &invitedContacts);
 
 	void InitChat();
-	CConversation::Ref StartChat();
-	CConversation::Ref StartChat(StringList &invitedContacts);
+	
+	void StartChat();
+	void StartChat(StringList &invitedContacts);
+
 	void LeaveChat(const wchar_t *cid);
-
-	void CreateChatWindow(CConversation::Ref conversation, bool showWindow = true);
-
-	void JoinToChat(CConversation::Ref conversation, bool showWindow = true);
-	void InviteConactsToChat(CConversation::Ref conversation, const StringList &invitedContacts);
-	void AddConactsToChat(CConversation::Ref conversation, const StringList &invitedContacts);
-
-	void RaiseChatEvent(const wchar_t *cid, const wchar_t *sid, int evt, DWORD flags = 0x0001, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL, DWORD timestamp = time(NULL));
-	void SendChatMessage(const wchar_t *cid, const wchar_t *sid, const wchar_t *message);
-	void AddChatContact(const wchar_t *cid, const wchar_t *sid, const wchar_t *group, const WORD status = ID_STATUS_ONLINE);
-	void KickChatContact(const wchar_t *cid, const wchar_t *sid);
-	void RemoveChatContact(const wchar_t *cid, const wchar_t *sid);	
 
 	INT_PTR __cdecl OnJoinChat(WPARAM wParam, LPARAM);
 	INT_PTR __cdecl OnLeaveChat(WPARAM wParam, LPARAM);
 
-	int __cdecl OnGCMenuHook(WPARAM, LPARAM lParam);
 	int __cdecl OnGCEventHook(WPARAM, LPARAM lParam);
-	
-	void	OnChatMessageSent(const ConversationRef &conversation, const MessageRef &message, uint messageType);
-	void	OnChatMessageReceived(const ConversationRef &conversation, const MessageRef &message, uint messageType);
+	int __cdecl OnGCMenuHook(WPARAM, LPARAM lParam);
+
 	void	OnChatEvent(const ConversationRef &conversation, const MessageRef &message);
 
 	// contacts

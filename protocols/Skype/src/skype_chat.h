@@ -80,9 +80,6 @@ private:
 
 	inline static int CompareMembers(const ChatMember *p1, const ChatMember *p2) { return ::lstrcmpi(p1->sid, p2->sid); }
 
-	static int __cdecl OnGCEventHook(WPARAM, LPARAM lParam);
-	static int __cdecl OnGCMenuHook(WPARAM, LPARAM lParam);
-
 	void AddMember(ChatMember *member, DWORD timestamp, int flag);
 
 public:
@@ -96,8 +93,6 @@ public:
 
 	void SendEvent(ChatMember *member, int eventType, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
 	void SendEvent(const wchar_t *sid, int eventType, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
-
-	void AppendMessage(const wchar_t *sid, const wchar_t *message, DWORD timestamp = time(NULL), int eventType = GC_EVENT_MESSAGE);
 
 	bool IsMe(const wchar_t *sid) const;
 	bool IsMe(ChatMember *member) const;
@@ -117,22 +112,7 @@ public:
 	void RemoveMember(const wchar_t *sid, DWORD timestamp = time(NULL));
 
 	void OnEvent(const ConversationRef &conversation, const MessageRef &message);
-};
 
-class  ChatList
-{
-private:
-	CSkypeProto *ppro;
-	LIST<ChatRoom> chatRooms;
-
-	inline static int CompareChatRooms(const ChatRoom* p1, const ChatRoom* p2) { return ::lstrcmpi(p1->cid, p2->cid); }
-
-public:
-	ChatList(CSkypeProto *ppro);
-	~ChatList();
-
-	ChatRoom *FindChatRoom(ChatRoom *item);
-	ChatRoom *FindChatRoom(const wchar_t *cid);
-
-	HANDLE AddChatRoom(ChatRoom *item);
+	static int __cdecl OnGCEventHook(WPARAM, LPARAM lParam);
+	static int __cdecl OnGCMenuHook(WPARAM, LPARAM lParam);
 };

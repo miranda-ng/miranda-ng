@@ -15,6 +15,7 @@
 #include <m_clist.h>
 #include <m_clistint.h>
 #include <m_clui.h>
+#include <m_core.h>
 #include <m_database.h>
 #include <m_langpack.h>
 #include <m_message.h>

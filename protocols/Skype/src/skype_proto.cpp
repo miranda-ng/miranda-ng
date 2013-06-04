@@ -149,7 +149,7 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 { 
 	uint oid = (uint)hTransfer;
 
-	CMessage *message = this->newMessage(oid);
+	MessageRef message(oid);
 
 	this->Log(L"Incoming file transfer is accepted");
 	CTransfer::Refs transfers;
@@ -157,18 +157,17 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 	for (uint i = 0; i < transfers.size(); i++)
 	{
 		bool success;
-		SEString name;
 		wchar_t fullPath[MAX_PATH] = {0};
-		transfers[i]->GetPropFilename(name);
-		::mir_sntprintf(fullPath, MAX_PATH, L"%s%s", szPath, ::mir_utf8decodeW(name));
+
+		SEString data;
+		transfers[i]->GetPropFilename(data);
+		ptrW name(::mir_utf8decodeW(data));
+		::mir_sntprintf(fullPath, MAX_PATH, L"%s%s", szPath, name);
 		if (!transfers[i]->Accept(::mir_u2a(fullPath), success) || !success)
 		{
-			delete message;
 			return 0;
 		}
 	}
-	
-	delete message;
 
 	return hTransfer; 
 }

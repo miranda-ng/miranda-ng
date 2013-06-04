@@ -200,7 +200,7 @@ HANDLE CSkypeProto::GetContactFromAuthEvent(HANDLE hEvent)
 
 HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 {
-	mir_ptr<wchar_t> sid( ::mir_utf8decodeW(contact->GetSid()));
+	ptrW sid(::mir_utf8decodeW(contact->GetSid()));
 
 	CContact::AVAILABILITY availability;
 	contact->GetPropAvailability(availability);
@@ -211,7 +211,7 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 		hContact = (HANDLE)::CallService(MS_DB_CONTACT_ADD, 0, 0);
 		::CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
 
-		mir_ptr<wchar_t> nick(::mir_utf8decodeW(contact->GetNick()));
+		ptrW nick(::mir_utf8decodeW(contact->GetNick()));
 
 		switch(availability) 
 		{
