@@ -481,7 +481,7 @@ int CSkypeProto::SkypeToMirandaStatus(CContact::AVAILABILITY availability)
 		break;
 
 	case CContact::SKYPEOUT:
-		status = ID_STATUS_OUTTOLUNCH;
+		status = ID_STATUS_ONTHEPHONE;
 		break;
 
 	case CContact::CONNECTING:

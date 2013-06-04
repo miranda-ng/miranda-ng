@@ -193,8 +193,8 @@ int    __cdecl CSkypeProto::FileCancel( HANDLE hContact, HANDLE hTransfer )
 	return 1; 
 }
 
-int    __cdecl CSkypeProto::FileDeny( HANDLE hContact, HANDLE hTransfer, const TCHAR* szReason ) 
-{ 
+int    __cdecl CSkypeProto::FileDeny( HANDLE hContact, HANDLE hTransfer, const TCHAR* szReason )
+{
 	uint oid = (uint)hTransfer;
 
 	MessageRef message(oid);
@@ -209,12 +209,12 @@ int    __cdecl CSkypeProto::FileDeny( HANDLE hContact, HANDLE hTransfer, const T
 		}
 	}
 
-	return 1; 
+	return 1;
 }
 
-int    __cdecl CSkypeProto::FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename ) 
-{ 
-	return 0; 
+int    __cdecl CSkypeProto::FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename )
+{
+	return 0;
 }
 
 DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
@@ -226,12 +226,12 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 			PF1_AUTHREQ | PF1_CHAT | PF1_SERVERCLIST | PF1_CONTACT/* | PF1_ADDSEARCHRES*/;
 	case PFLAGNUM_2:
 	case PFLAGNUM_3:
-		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_INVISIBLE | PF2_OUTTOLUNCH;
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_INVISIBLE | PF2_ONTHEPHONE;
 	case PFLAGNUM_4:
 		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS |
 			/*PF4_OFFLINEFILES | */PF4_IMSENDUTF | PF4_IMSENDOFFLINE | PF4_NOAUTHDENYREASON;
 	case PFLAGNUM_5:
-		return PF2_OUTTOLUNCH;
+		return PF2_ONTHEPHONE;
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)::Translate("Skype Name");
 	case PFLAG_MAXCONTACTSPERPACKET:

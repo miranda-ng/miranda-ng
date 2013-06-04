@@ -33,7 +33,7 @@ void CSkypeProto::UpdateContactStatus(HANDLE hContact, CContact::Ref contact)
 
 	if (availability == CContact::SKYPEOUT)
 	{
-		::db_set_w(hContact, this->m_szModuleName, SKYPE_SETTINGS_STATUS, ID_STATUS_OUTTOLUNCH);
+		::db_set_w(hContact, this->m_szModuleName, SKYPE_SETTINGS_STATUS, ID_STATUS_ONTHEPHONE);
 	}
 	else
 	{
