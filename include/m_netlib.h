@@ -380,15 +380,6 @@ typedef struct {
 //Errors: ERROR_INVALID_PARAMETER
 #define MS_NETLIB_GETSOCKET    "Netlib/GetSocket"
 
-//URL-encode a string for x-www-form-urlencoded (and other) transmission
-//wParam = 0
-//lParam = (LPARAM)(const char *)pszString
-//Returns a char* containing the new string. This must be freed with
-//mir_free() when you're done with it.
-//Returns NULL on error.
-//Errors: ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY
-#define MS_NETLIB_URLENCODE     "Netlib/UrlEncode"
-
 #define Netlib_GetBase64DecodedBufferSize(cchEncoded)  (((cchEncoded)>>2)*3)
 #define Netlib_GetBase64EncodedBufferSize(cbDecoded)  (((cbDecoded)*4+11)/12*4+1)
 

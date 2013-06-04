@@ -488,16 +488,6 @@ const
   }
   MS_NETLIB_GETSOCKET:PAnsiChar = 'Netlib/GetSocket';
 
-  {
-    wParam : 0
-    lParam : Pointer to a null terminated string
-    Affects: URL-encodes a string for x-www-form-urlencoded (and other uses) -- see notes
-    Returns: A pointer to a null terminated string, NULL(0) on failure
-    Notes  : The returned string must be freed after it's no longer needed using mir_free
-    Errors : ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY
-  }
-  MS_NETLIB_URLENCODE:PAnsiChar = 'Netlib/UrlEncode';
-
 {
   Converts string representation of IP and port into numerical SOCKADDR_INET
   IPv4 could supplied in formats address:port or address

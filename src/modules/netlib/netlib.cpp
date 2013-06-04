@@ -409,21 +409,6 @@ INT_PTR NetlibShutdown(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-INT_PTR NetlibHttpUrlEncode(WPARAM, LPARAM lParam)
-{
-	if (lParam == NULL) {
-		SetLastError(ERROR_INVALID_PARAMETER);
-		return NULL;
-	}
-
-	char *p = mir_urlEncode((LPCSTR)lParam);
-	if (p == NULL) {
-		SetLastError(ERROR_OUTOFMEMORY);
-		return NULL;
-	}
-	return (INT_PTR)p;
-}
-
 void UnloadNetlibModule(void)
 {
 	if ( !bModuleInitialized) return;
@@ -528,7 +513,6 @@ int LoadNetlibModule(void)
 	CreateServiceFunction(MS_NETLIB_SETHTTPPROXYINFO, NetlibHttpGatewaySetInfo);
 	CreateServiceFunction(MS_NETLIB_SETSTICKYHEADERS, NetlibHttpSetSticky);
 	CreateServiceFunction(MS_NETLIB_GETSOCKET, NetlibGetSocket);
-	CreateServiceFunction(MS_NETLIB_URLENCODE, NetlibHttpUrlEncode);
 	CreateServiceFunction(MS_NETLIB_SENDHTTPREQUEST, NetlibHttpSendRequest);
 	CreateServiceFunction(MS_NETLIB_RECVHTTPHEADERS, NetlibHttpRecvHeaders);
 	CreateServiceFunction(MS_NETLIB_FREEHTTPREQUESTSTRUCT, NetlibHttpFreeRequestStruct);
