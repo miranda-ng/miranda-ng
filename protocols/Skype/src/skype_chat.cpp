@@ -3,22 +3,37 @@
 #include <m_message.h>
 #include <m_history.h>
 
-wchar_t *CSkypeProto::Roles[] = 
-{ 
-	L"Creator",
-	L"Admin",
-	L"Speaker",
-	L"Writer",
-	L"Retried",
-	L"Outlaw"
+enum NICK_LIST_MENU 
+{
+	ICM_CANCEL,
+
+	ICM_DETAILS,
+	ICM_AUTH_REQUEST,
+	ICM_CONF_INVITE,
+	ICM_ROLE, ICM_ROLE_ADMIN, ICM_ROLE_SPEAKER, ICM_ROLE_WRITER, ICM_ROLE_SPECTATOR,
+	ICM_KICK, ICM_BAN,
+	ICM_COPY_SID, ICM_COPY_URI
 };
 
-#define SKYPE_CHAT_GROUP_OWNER		0
-#define SKYPE_CHAT_GROUP_ADMIN		1
-#define SKYPE_CHAT_GROUP_SPEAKER	2
-#define SKYPE_CHAT_GROUP_WIRTER		3
-#define SKYPE_CHAT_GROUP_RETRIED	4
-#define SKYPE_CHAT_GROUP_OUTLAW		5
+static struct gc_item crListItems[] =
+{
+	{ LPGENT("&User details"),        ICM_DETAILS,            MENU_ITEM,           FALSE }, 
+//	{ LPGENT("&Request auth"),        ICM_AUTH_REQUEST,       MENU_ITEM,           TRUE  },
+	{ NULL,                           0,                      MENU_SEPARATOR,      FALSE },
+//	{ LPGENT("Invite to conferance"), ICM_CONF_INVITE,        MENU_ITEM,           TRUE  },
+//	{ NULL,                           0,                      MENU_SEPARATOR,      FALSE },
+	{ LPGENT("Set &role"),            ICM_ROLE,               MENU_NEWPOPUP,       TRUE  },
+	{ LPGENT("&Administrator"),       ICM_ROLE_ADMIN,         MENU_POPUPITEM,      TRUE  },
+	{ LPGENT("&Speaker"),             ICM_ROLE_SPEAKER,       MENU_POPUPITEM,      TRUE  },
+	{ LPGENT("&Writer"),              ICM_ROLE_WRITER,        MENU_POPUPITEM,      TRUE  },
+	{ LPGENT("&Listener"),            ICM_ROLE_SPECTATOR,     MENU_POPUPITEM,      TRUE  },
+	{ NULL,                           0,                      MENU_SEPARATOR,      FALSE },
+	{ LPGENT("&Kick"),                ICM_KICK,               MENU_ITEM,           TRUE  },
+	{ LPGENT("Outlaw (&ban)"),        ICM_BAN,                MENU_ITEM,           TRUE  },	
+	{ NULL,                           0,                      MENU_SEPARATOR,      FALSE },
+	{ LPGENT("Copy &skypename"),      ICM_COPY_SID,           MENU_ITEM,           FALSE },
+	{ LPGENT("Copy room &uri"),       ICM_COPY_URI,           MENU_ITEM,           FALSE }
+};
 
 static const COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 
@@ -331,7 +346,7 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 			ptrW sid = ::mir_utf8decodeW(data);
 
 			message->GetPropBodyXml(data);
-			ptrW text =::mir_a2u(CSkypeProto::RemoveHtml(data));
+			ptrW text =::mir_utf8decodeW(CSkypeProto::RemoveHtml(data));
 
 			uint timestamp;
 			message->GetPropTimestamp(timestamp);
@@ -923,12 +938,8 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 	case GC_USER_NICKLISTMENU:
 		switch (gch->dwData)
 		{
-		case 10:
+		case NICK_LIST_MENU::ICM_DETAILS:
 			::CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)this->GetContactBySid(gch->ptszUID), 0);
-			break;
-
-		case 20:
-			::CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)this->GetContactBySid(gch->ptszUID), 0);
 			break;
 
 		case 110:
@@ -950,12 +961,13 @@ int __cdecl CSkypeProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 	GC_INFO gci = {0};
 	gci.Flags = BYID | DATA;
 	gci.pszModule = gcmi->pszModule;
+	gci.pszID = gcmi->pszID;
 
 	::CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci);
 
 	ChatRoom *room = (ChatRoom *)gci.dwItemData;
 
-	if (room == NULL)// || ::stricmp(gcmi->pszModule, room->ppro->m_szModuleName))
+	if (room == NULL || ::stricmp(gcmi->pszModule, this->m_szModuleName))
 		return 0;
 
 	if (gcmi->Type == MENU_ON_LOG)
@@ -970,13 +982,15 @@ int __cdecl CSkypeProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST)
 	{
-		static const struct gc_item Items[] = 
+		/*static const struct gc_item Items[] = 
 		{
 			{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
 			{ TranslateT("User &history"), 20, MENU_ITEM, FALSE },
 		};
 		gcmi->nItems = SIZEOF(Items);
-		gcmi->Item = (gc_item*)Items;
+		gcmi->Item = (gc_item*)Items;*/
+		gcmi->nItems = SIZEOF(crListItems);
+		gcmi->Item = crListItems;
 	}
 
 	return 0;
