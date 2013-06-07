@@ -145,9 +145,6 @@
     <ClInclude Include="src\proto.h">
       <Filter>Miranda Plugin\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\resource.h">
-      <Filter>Miranda Plugin\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\theme.h">
       <Filter>Miranda Plugin\Header Files</Filter>
     </ClInclude>
@@ -205,6 +202,9 @@
     <ClInclude Include="src\OpenSSL\rc4.h">
       <Filter>WhatsAPI++\OpenSSL</Filter>
     </ClInclude>
+    <ClInclude Include="res\resource.h">
+      <Filter>Miranda Plugin\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\whatsapp.rc">
@@ -213,5 +213,25 @@
     <ResourceCompile Include="res\version.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\whatsapp.ico">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="res\add-group.ico">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="res\add-user-to-group.ico">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="res\change-group-subject.ico">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="res\leave-group.ico">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="res\remove-user-from-group.ico">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
 </Project>

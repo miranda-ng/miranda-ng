@@ -253,6 +253,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="res\resource.h" />
     <ClInclude Include="src\cJSON.h" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\constants.h" />
@@ -263,7 +264,6 @@
     <ClInclude Include="src\OpenSSL\hmac.h" />
     <ClInclude Include="src\OpenSSL\rc4.h" />
     <ClInclude Include="src\proto.h" />
-    <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\theme.h" />
     <ClInclude Include="src\utils.h" />
@@ -285,6 +285,14 @@
   <ItemGroup>
     <ResourceCompile Include="res\version.rc" />
     <ResourceCompile Include="res\whatsapp.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\add-group.ico" />
+    <None Include="res\add-user-to-group.ico" />
+    <None Include="res\change-group-subject.ico" />
+    <None Include="res\leave-group.ico" />
+    <None Include="res\remove-user-from-group.ico" />
+    <None Include="res\whatsapp.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -74,13 +74,14 @@ class WhatsAppProto;
 #include "constants.h"
 #include "utils.h"
 #include "db.h"
-#include "resource.h"
+#include "../res/resource.h"
 #include "dialogs.h"
 #include "theme.h"
 #include "definitions.h"
 #include "WASocketConnection.h"
 #include "proto.h"
 #include "entities.h"
+#include "cJSON.h"
 
 #if defined _DEBUG
 #include <stdlib.h>

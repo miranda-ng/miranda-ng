@@ -64,4 +64,7 @@
 
 #define IS_CHAT 1
 
+#define REG_STATE_REQ_CODE 1
+#define REG_STATE_REG_CODE 2
+
 #endif

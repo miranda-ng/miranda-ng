@@ -166,17 +166,40 @@ HANDLE WhatsAppProto::SearchBasic( const PROTOCHAR* id )
 	return email;
 }
 
-void WhatsAppProto::RequestCode()
+string WhatsAppProto::Register(int state, string cc, string number, string code)
 {
-   std::string cc, number, idx;
+   string idx;
+   string ret;
    DBVARIANT dbv;
 
    if ( WASocketConnection::hNetlibUser == NULL)
    {
-      NotifyEvent(m_tszUserName,TranslateT("Network-connection error."),NULL,WHATSAPP_EVENT_CLIENT);
-      return;
+      NotifyEvent(m_tszUserName, TranslateT("Network-connection error."), NULL, WHATSAPP_EVENT_CLIENT);
+      return ret;
    }
 
+   /*
+	if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_CC,&dbv, DBVT_ASCIIZ))
+	{
+		cc = dbv.pszVal;
+		db_free(&dbv);
+		if (cc.empty())
+      {
+         NotifyEvent(m_tszUserName,TranslateT("Please enter a country-code."),NULL,WHATSAPP_EVENT_CLIENT);
+         return;
+      }
+	}
+   if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_LOGIN,&dbv, DBVT_ASCIIZ))
+	{
+		number = dbv.pszVal;
+		db_free(&dbv);
+		if (number.empty())
+      {
+         NotifyEvent(m_tszUserName,TranslateT("Please enter a phone-number without country-code."),NULL,WHATSAPP_EVENT_CLIENT);
+         return;
+      }
+	}
+   */
    if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_IDX,&dbv,DBVT_ASCIIZ))
    {
       idx = dbv.pszVal;
@@ -191,28 +214,20 @@ void WhatsAppProto::RequestCode()
       idx = std::string((const char*) idxBuf, 16);
       db_set_s(0, m_szModuleName,WHATSAPP_KEY_IDX, idx.c_str());
    }
-	if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_CC,&dbv, DBVT_ASCIIZ))
-	{
-		cc = dbv.pszVal;
-		db_free(&dbv);
-		if (cc.empty())
-      {
-         NotifyEvent(m_tszUserName,TranslateT("Please enter a country-code."),NULL,WHATSAPP_EVENT_CLIENT);
-         return;
-      }
-	}
-	if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_LOGIN,&dbv, DBVT_ASCIIZ))
-	{
-		number = dbv.pszVal;
-		db_free(&dbv);
-		if (number.empty())
-      {
-         NotifyEvent(m_tszUserName,TranslateT("Please enter a phone-number without country-code."),NULL,WHATSAPP_EVENT_CLIENT);
-         return;
-      }
-	}
 
-	std::string token(Utilities::md5String(std::string(ACCOUNT_TOKEN_PREFIX1) + ACCOUNT_TOKEN_PREFIX2 + number));
+   string url;
+   if (state == REG_STATE_REQ_CODE)
+   {
+      string token(Utilities::md5String(std::string(ACCOUNT_TOKEN_PREFIX1) + ACCOUNT_TOKEN_PREFIX2 + number));
+      url = string(ACCOUNT_URL_CODEREQUESTV2);
+      url += "?lc=US&lg=en&mcc=000&mnc=000&method=sms&token="+ token;
+   }
+   else if (state == REG_STATE_REG_CODE)
+   {
+      url = string(ACCOUNT_URL_REGISTERREQUESTV2);
+      url += "?code="+ code;
+   }
+   url += "&cc="+ cc +"&in="+ number +"&id="+ idx;
 
    NETLIBHTTPHEADER agentHdr;
    agentHdr.szName = "User-Agent";
@@ -230,9 +245,6 @@ void WhatsAppProto::RequestCode()
 
    NETLIBHTTPREQUEST nlhr = {sizeof(NETLIBHTTPREQUEST)};
    nlhr.requestType = REQUEST_POST;
-   string url = std::string(ACCOUNT_URL_CODEREQUESTV2);
-   url += "?cc="+ cc + "&in="+ number +
-      "&lc=US&lg=en&mcc=000&mnc=000&method=sms&id=" + idx + "&token="+ token;
    nlhr.szUrl = (char*) url.c_str();
    nlhr.headers = &headers[0];
    nlhr.headersCount = 3;
@@ -241,13 +253,67 @@ void WhatsAppProto::RequestCode()
    NETLIBHTTPREQUEST* pnlhr = (NETLIBHTTPREQUEST*) CallService(MS_NETLIB_HTTPTRANSACTION,
       (WPARAM) WASocketConnection::hNetlibUser, (LPARAM)&nlhr);
 
+   LOG("Server response: %s", pnlhr->pData);
    MessageBoxA(NULL, pnlhr->pData, "Debug", MB_OK);
 
-   // #TODO
-}
+   cJSON* resp = cJSON_Parse(pnlhr->pData);
+   cJSON* val;
+   string title = this->TranslateStr("Registration");
 
-void WhatsAppProto::RegisterCode(const std::string& code)
-{
+   // Invalid
+   if (resp == NULL)
+   {
+      this->NotifyEvent(title, this->TranslateStr("Registration failed. Invalid server response."), NULL, WHATSAPP_EVENT_CLIENT);
+      return ret;
+   }
+   
+   // Status = fail
+   val = cJSON_GetObjectItem(resp, "status");
+   if (strcmp(val->valuestring, "fail") == 0)
+   {
+      cJSON* tmpVal = cJSON_GetObjectItem(resp, "reason");
+      if (strcmp(tmpVal->valuestring, "stale") == 0)
+      {
+         this->NotifyEvent(title, this->TranslateStr("Registration failed due to stale code. Please request a new code"), NULL, WHATSAPP_EVENT_CLIENT);
+      }
+      else
+      {
+         this->NotifyEvent(title, this->TranslateStr("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
+      }
+      
+      tmpVal = cJSON_GetObjectItem(resp, "retry_after");
+      if (tmpVal != NULL)
+      {
+         this->NotifyEvent(title, this->TranslateStr("Please try again in %i seconds", tmpVal->valueint), NULL, WHATSAPP_EVENT_OTHER);
+      }
+   }
+   
+   //  Request code
+   else if (state == REG_STATE_REQ_CODE)
+   {
+      if (strcmp(val->valuestring, "sent") == 0)
+      {
+         this->NotifyEvent(title, this->TranslateStr("Registration code has been sent to your phone."), NULL, WHATSAPP_EVENT_OTHER);
+      }
+   }
+
+   // Register
+   else if (state == REG_STATE_REG_CODE)
+   {
+      val = cJSON_GetObjectItem(resp, "pw");
+      if (val == NULL)
+      {
+         this->NotifyEvent(title, this->TranslateStr("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
+      }
+      if (strcmp(val->valuestring, "ok") == 0)
+      {
+         ret = val->valuestring;
+      }
+   }
+
+   cJSON_Delete(resp);
+
+   return ret;
 }
 
 //////////////////////////////////////////////////////////////////////////////

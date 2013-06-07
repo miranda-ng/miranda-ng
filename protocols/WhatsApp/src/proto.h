@@ -134,8 +134,7 @@ public:
    }
 
    // Registration
-   void RequestCode();
-   void RegisterCode(const std::string& code);
+   string Register(int state, string cc, string number, string code);
 
    // Helpers
    std::tstring GetAvatarFolder();
