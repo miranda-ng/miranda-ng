@@ -263,7 +263,6 @@
     <ClInclude Include="src\OpenSSL\rc4.h" />
     <ClInclude Include="src\proto.h" />
     <ClInclude Include="src\resource.h" />
-    <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\theme.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\WASocketConnection.h" />

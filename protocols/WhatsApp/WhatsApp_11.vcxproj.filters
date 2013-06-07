@@ -196,9 +196,6 @@
     <ClInclude Include="src\WhatsAPI++\WALogin.h">
       <Filter>WhatsAPI++\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\stdafx.h">
-      <Filter>Miranda Plugin\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\OpenSSL\hmac.h">
       <Filter>WhatsAPI++\OpenSSL</Filter>
     </ClInclude>
