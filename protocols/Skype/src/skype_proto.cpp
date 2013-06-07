@@ -163,7 +163,7 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 		transfers[i]->GetPropFilename(data);
 		ptrW name(::mir_utf8decodeW(data));
 		::mir_sntprintf(fullPath, MAX_PATH, L"%s%s", szPath, name);
-		if (!transfers[i]->Accept(::mir_u2a(fullPath), success) || !success)
+		if (!transfers[i]->Accept((char *)ptrA(::mir_utf8encodeW(fullPath)), success) || !success)
 		{
 			return 0;
 		}

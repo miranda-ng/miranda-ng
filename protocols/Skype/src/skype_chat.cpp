@@ -139,11 +139,13 @@ void ChatRoom::Start(const ParticipantRefs &participants, bool showWindow)
 
 	for (uint i = 0; i < participants.size(); i++)
 	{
-		participants[i]->GetPropIdentity(data);
+		auto participant = participants[i];
+
+		participant->GetPropIdentity(data);
 		ptrW sid = ::mir_utf8decodeW(data);
 
 		ChatMember *member = new ChatMember(sid);
-		member->rank = participants[i]->GetUintProp(Participant::P_RANK);
+		member->rank = participant->GetUintProp(Participant::P_RANK);
 				
 		Contact::Ref contact;
 		this->ppro->GetContact(data, contact);
@@ -158,6 +160,8 @@ void ChatRoom::Start(const ParticipantRefs &participants, bool showWindow)
 		else
 			member->nick = ::mir_wstrdup(sid);
 
+		member->participant = participant;
+		member->participant.fetch();
 		this->AddMember(member);
 	}
 }
@@ -371,46 +375,73 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 				uint timestamp;
 				message->GetPropTimestamp(timestamp);
 
-				message->GetPropIdentities(data);
-				char *identities = ::mir_strdup(data);
-				if (identities)
-				{
-					char *identity = ::strtok(identities, " ");
-					if (identity != NULL)
+				ParticipantRefs participants;
+				conversation->GetParticipants(participants);
+
+				for (size_t i = 0; i < participants.size(); i++)
+				{					
+					participants[i]->GetPropIdentity(data);
+					ptrW sid(::mir_utf8decodeW(data));
+					if (this->FindChatMember(sid) == NULL)
 					{
-						do
-						{
-							Contact::Ref contact;
-							this->ppro->GetContact(identity, contact);
+						ChatMember *member = new ChatMember(sid);
+						member->rank = participants[i]->GetUintProp(Participant::P_RANK);
 
-							contact->GetIdentity(data);
-							ptrW sid = ::mir_utf8decodeW(data);
+						Contact::Ref contact;
+						this->ppro->GetContact(data, contact);
 
-							ChatMember *member = new ChatMember(sid);
-							//todo: fix rank
-							
-							member->rank = 
-								messageType == Message::ADDED_APPLICANTS ? 
-								Participant::APPLICANT : 
-								Participant::SPEAKER;
-								//conversation->GetUintProp(Conversation::P_OPT_ENTRY_LEVEL_RANK);
-								//participants[i]->GetUintProp(Participant::P_RANK);
+						Contact::AVAILABILITY status;
+						contact->GetPropAvailability(status);
+						member->status = CSkypeProto::SkypeToMirandaStatus(status);
 
-							Contact::AVAILABILITY status;
-							contact->GetPropAvailability(status);
-							member->status = CSkypeProto::SkypeToMirandaStatus(status);
+						contact->GetPropFullname(data);
+						member->nick = ::mir_utf8decodeW(data);
 
-							contact->GetPropFullname(data);
-							member->nick = ::mir_utf8decodeW(data);
-
-							this->AddMember(member, timestamp);
-
-							identity = ::strtok(NULL, " ");
-						}
-						while (identity != NULL);
+						this->AddMember(member);
 					}
-					::mir_free(identities);
 				}
+
+				// do not remove
+				//message->GetPropIdentities(data);
+				//char *identities = ::mir_strdup(data);
+				//if (identities)
+				//{
+				//	char *identity = ::strtok(identities, " ");
+				//	if (identity != NULL)
+				//	{
+				//		do
+				//		{
+				//			Contact::Ref contact;
+				//			this->ppro->GetContact(identity, contact);
+
+				//			contact->GetIdentity(data);
+				//			ptrW sid = ::mir_utf8decodeW(data);
+
+				//			ChatMember *member = new ChatMember(sid);
+				//			//todo: fix rank
+				//			
+				//			member->rank = 
+				//				messageType == Message::ADDED_APPLICANTS ? 
+				//				Participant::APPLICANT : 
+				//				Participant::SPEAKER;
+				//				//conversation->GetUintProp(Conversation::P_OPT_ENTRY_LEVEL_RANK);
+				//				//participants[i]->GetUintProp(Participant::P_RANK);
+
+				//			Contact::AVAILABILITY status;
+				//			contact->GetPropAvailability(status);
+				//			member->status = CSkypeProto::SkypeToMirandaStatus(status);
+
+				//			contact->GetPropFullname(data);
+				//			member->nick = ::mir_utf8decodeW(data);
+
+				//			this->AddMember(member, timestamp);
+
+				//			identity = ::strtok(NULL, " ");
+				//		}
+				//		while (identity != NULL);
+				//	}
+				//	::mir_free(identities);
+				//}
 			}
 		}
 		break;
@@ -825,6 +856,7 @@ INT_PTR __cdecl CSkypeProto::OnJoinChat(WPARAM wParam, LPARAM)
 		ptrW name = ::mir_utf8decodeW(data);
 
 		ChatRoom *room = new ChatRoom(cid, name, this);
+		room->conversation = conversation;
 
 		Participant::Refs participants;
 		conversation->GetParticipants(participants, Conversation::ALL);
@@ -1072,6 +1104,8 @@ void __cdecl CSkypeProto::LoadChatList(void*)
 				ptrW name = ::mir_utf8decodeW(data);
 
 				ChatRoom *room = new ChatRoom(cid, name, this);
+				room->conversation = conversation;
+				//room->conversation.fetch();
 				this->AddChatRoom(conversation);
 
 				Participant::Refs participants;
@@ -1115,13 +1149,14 @@ void CSkypeProto::OnChatEvent(const ConversationRef &conversation, const Message
 		ptrW name = ::mir_utf8decodeW(data);
 
 		ChatRoom *room = new ChatRoom(cid, name, this);
+		room->conversation = conversation;
+		//room->conversation.fetch();
 		this->AddChatRoom(conversation);
 
 		Participant::Refs participants;
 		conversation->GetParticipants(participants, Conversation::ALL);
 				
 		room->Start(participants, true);
-		conversation.fetch();
 	}
 }
 
@@ -1142,6 +1177,8 @@ void CSkypeProto::OnConversationListChange(
 		ptrW name = ::mir_utf8decodeW(data);
 
 		ChatRoom *room = new ChatRoom(cid, name, this);
+		room->conversation = conversation;
+		//room->conversation.fetch();
 		this->AddChatRoom(conversation);
 
 		Participant::Refs participants;

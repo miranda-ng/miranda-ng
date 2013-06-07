@@ -84,12 +84,10 @@ struct PasswordChangeBoxParam
 
 class ChatMember;
 class ChatRoom;
-class ChatList;
 
 struct CSkypeProto : public PROTO_INTERFACE, private Skype
 {
 	friend class ChatRoom;
-	friend class ChatList;
 
 public:
 	// PROTO_INTERFACE

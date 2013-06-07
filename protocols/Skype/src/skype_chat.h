@@ -11,6 +11,8 @@ public:
 	int rank;
 	WORD status;
 
+	CParticipant::Ref participant;
+
 	ChatMember()
 	{
 		this->sid = NULL;
@@ -58,8 +60,6 @@ public:
 
 class ChatRoom
 {
-	friend class ChatList;
-
 private:
 	wchar_t *cid;
 	wchar_t *name;
@@ -83,6 +83,8 @@ private:
 	void AddMember(ChatMember *member, DWORD timestamp, int flag);
 
 public:
+	CConversation::Ref conversation;
+
 	ChatRoom(const wchar_t *cid, const wchar_t *name, CSkypeProto *ppro);
 	~ChatRoom();	
 
