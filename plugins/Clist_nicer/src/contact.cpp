@@ -287,13 +287,6 @@ int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 
 #undef SAFESTRING
 
-static int resortTimerId = 0;
-static VOID CALLBACK SortContactsTimer(HWND hwnd, UINT message, UINT idEvent, DWORD dwTime)
-{
-	KillTimer(NULL, resortTimerId);
-	resortTimerId = 0;
-}
-
 int SetHideOffline(WPARAM wParam, LPARAM lParam)
 {
 	switch ((int)wParam) {

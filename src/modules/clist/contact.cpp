@@ -132,22 +132,11 @@ int fnCompareContacts(const ClcContact* c1, const ClcContact* c2)
 	return _tcsicmp(namea, nameb);
 }
 
-static UINT_PTR resortTimerId = 0;
-static VOID CALLBACK SortContactsTimer(HWND, UINT, UINT_PTR, DWORD)
-{
-	KillTimer(NULL, resortTimerId);
-	resortTimerId = 0;
-}
-
 void fnSortContacts(void)
 {
 	//avoid doing lots of resorts in quick succession
 	sortByStatus = db_get_b(NULL, "CList", "SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
 	sortByProto = db_get_b(NULL, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);
-	if (resortTimerId)
-		KillTimer(NULL, resortTimerId);
-	// setting this to a higher delay causes shutdown waits.
-	resortTimerId = SetTimer(NULL, 0, 500, SortContactsTimer);
 }
 
 INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)
