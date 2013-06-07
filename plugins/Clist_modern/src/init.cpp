@@ -83,7 +83,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) int CListInitialise()
 {
 	mir_getLP( &pluginInfo );
-	mir_getCLI();
 	mir_getTMI(&tmi);
 
 	HMODULE hKernel = GetModuleHandleA("kernel32.dll");
@@ -151,6 +150,7 @@ static HRESULT SubclassClistInterface()
 	//  'save*' - pointer to stored default parent handle
 	//	'cli_*'	- new handler with default core service calling
 
+	mir_getCLI();
 	corecli = *pcli;
 
 	pcli->hInst = g_hInst;
