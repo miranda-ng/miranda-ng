@@ -180,6 +180,7 @@ void WhatsAppProto::RequestCode()
    if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_IDX,&dbv,DBVT_ASCIIZ))
    {
       idx = dbv.pszVal;
+      db_free(&dbv);
    }
    if (idx.empty())
    {
