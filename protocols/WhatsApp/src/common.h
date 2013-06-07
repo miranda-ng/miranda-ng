@@ -74,7 +74,7 @@ class WhatsAppProto;
 #include "constants.h"
 #include "utils.h"
 #include "db.h"
-#include "../res/resource.h"
+#include "resource.h"
 #include "dialogs.h"
 #include "theme.h"
 #include "definitions.h"
