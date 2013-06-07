@@ -1505,7 +1505,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 	BOOL needRepaint = FALSE;
 	WORD status;
 	RECT iconRect = {0};
-	int contacticon = CallService(MS_CLIST_GETCONTACTICON, wParam, 1);
+	int contacticon = corecli.pfnGetContactIcon((HANDLE)wParam);
 	HANDLE hSelItem = NULL;
 	ClcContact *selcontact = NULL;
 
@@ -1522,7 +1522,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 	bool isVisiblebyFilter  = (( ( style & CLS_SHOWHIDDEN ) && nHiddenStatus != -1 ) || !nHiddenStatus );
 	bool ifVisibleByClui    = !pcli->pfnIsHiddenMode( dat, status );
 	bool isVisible          = g_CluiData.bFilterEffective&CLVM_FILTER_STATUS ? TRUE : ifVisibleByClui;
-	bool isIconChanged      = CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != LOWORD(lParam);
+	bool isIconChanged      = cli_GetContactIcon((HANDLE)wParam) != LOWORD(lParam);
 
 	shouldShow              = isVisiblebyFilter	 &&   ( isVisible || isIconChanged ) ;
 
@@ -1706,13 +1706,13 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 			pdnce___SetStatus( pdnce, GetStatusForContact(pdnce->hContact,pdnce->m_cache_cszProto));
 			if ( !dat->force_in_dialog && (dat->second_line_show || dat->third_line_show))
 				gtaRenewText(pdnce->hContact);
-			SendMessage(hwnd,INTM_ICONCHANGED, wParam, (LPARAM) CallService(MS_CLIST_GETCONTACTICON, wParam, 1));
+			SendMessage(hwnd,INTM_ICONCHANGED, wParam, corecli.pfnGetContactIcon((HANDLE)wParam));
 
 			ClcContact *contact;
 			if ( FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,TRUE)) {
 				if (contact && contact->type == CLCIT_CONTACT) {
 					if ( !contact->image_is_special && pdnce___GetStatus( pdnce ) > ID_STATUS_OFFLINE)
-						contact->iImage = CallService(MS_CLIST_GETCONTACTICON, wParam, 1);
+						contact->iImage = corecli.pfnGetContactIcon((HANDLE)wParam);
 					if (contact->isSubcontact && contact->subcontacts && contact->subcontacts->type == CLCIT_CONTACT)
 						pcli->pfnClcBroadcast( INTM_STATUSCHANGED,(WPARAM)contact->subcontacts->hContact,0); //forward status changing to host meta contact
 				}

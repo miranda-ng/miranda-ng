@@ -181,13 +181,16 @@ int fnIconFromStatusMode(const char *szProto, int status, HANDLE)
 	return 1;
 }
 
-static INT_PTR GetContactIcon(WPARAM wParam, LPARAM)
+int fnGetContactIcon(HANDLE hContact)
 {
-	char *szProto = GetContactProto((HANDLE)wParam);
-	HANDLE hContact = (HANDLE)wParam;
-
+	char *szProto = GetContactProto(hContact);
 	return cli.pfnIconFromStatusMode(szProto,
 		szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact);
+}
+
+static INT_PTR GetContactIcon(WPARAM wParam, LPARAM)
+{
+	return cli.pfnGetContactIcon((HANDLE)wParam);
 }
 
 static void AddProtoIconIndex(PROTOACCOUNT* pa)

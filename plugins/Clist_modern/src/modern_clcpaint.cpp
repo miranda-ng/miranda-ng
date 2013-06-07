@@ -1515,24 +1515,19 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact
 								}
 							case SETTING_AVATAR_OVERLAY_TYPE_PROTOCOL:
 								{
-									int item;
-
-									item = ExtIconFromStatusMode( Drawing->hContact, Drawing->proto, 
-										Drawing->proto == NULL ? ID_STATUS_OFFLINE : GetContactCachedStatus( Drawing->hContact ));
-									if ( item != -1 )
-										_DrawStatusIcon( Drawing, dat, item, hdcMem, 
-										p_rect.left,  p_rect.top, ICON_HEIGHT, ICON_HEIGHT, 
-										CLR_NONE, CLR_NONE, ( blendmode == 255 )?ILD_NORMAL:( blendmode == 128 )?ILD_BLEND50:ILD_BLEND25 );
-									break;
+									int item = pcli->pfnIconFromStatusMode(Drawing->proto, Drawing->proto == NULL ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
+									if (item != -1)
+										_DrawStatusIcon(Drawing, dat, item, hdcMem, 
+											p_rect.left,  p_rect.top, ICON_HEIGHT, ICON_HEIGHT, 
+											CLR_NONE, CLR_NONE, ( blendmode == 255 )?ILD_NORMAL:( blendmode == 128 )?ILD_BLEND50:ILD_BLEND25 );
 								}
+								break;
 							case SETTING_AVATAR_OVERLAY_TYPE_CONTACT:
-								{
-									if ( Drawing->iImage != -1 )
-										_DrawStatusIcon( Drawing, dat, Drawing->iImage, hdcMem, 
+								if ( Drawing->iImage != -1 )
+									_DrawStatusIcon( Drawing, dat, Drawing->iImage, hdcMem, 
 										p_rect.left,  p_rect.top, ICON_HEIGHT, ICON_HEIGHT, 
 										CLR_NONE, CLR_NONE, ( blendmode == 255 )?ILD_NORMAL:( blendmode == 128 )?ILD_BLEND50:ILD_BLEND25 );
-									break;
-								}
+								break;
 							}
 						}
 					}
@@ -2956,20 +2951,18 @@ void CLCPaint::_DrawContactAvatar( HDC hdcMem, ClcData *dat, ClcContact *Drawing
 		if (dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
 			&&  GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons))
 		{
-			switch( dat->avatars_overlay_type )
-			{
+			switch(dat->avatars_overlay_type) {
 			case SETTING_AVATAR_OVERLAY_TYPE_NORMAL:
 				overlayIdx = g_pAvatarOverlayIcons[GetContactCachedStatus( Drawing->hContact ) - ID_STATUS_OFFLINE].listID;
 				break;
 			case SETTING_AVATAR_OVERLAY_TYPE_PROTOCOL:
-				overlayIdx = ExtIconFromStatusMode( Drawing->hContact, Drawing->proto, 
-					Drawing->proto == NULL ? ID_STATUS_OFFLINE : GetContactCachedStatus( Drawing->hContact ));
+				overlayIdx = pcli->pfnIconFromStatusMode(Drawing->proto, Drawing->proto == NULL ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
 				break;
 			case SETTING_AVATAR_OVERLAY_TYPE_CONTACT:
 				overlayIdx = Drawing->iImage;
 				break;
 			}
-		}                                   
+		}
 		_GetBlendMode( dat, Drawing, selected, hottrack, GIM_AVATAR_AFFECT, NULL, &blendmode );
 		AniAva_SetAvatarPos( Drawing->hContact, prcItem, overlayIdx, blendmode );
 		AniAva_RenderAvatar( Drawing->hContact, hdcMem, prcItem );
@@ -3029,42 +3022,33 @@ void CLCPaint::_DrawContactAvatar( HDC hdcMem, ClcData *dat, ClcContact *Drawing
 			&&  GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons))
 		{
 			POINT ptOverlay = { prcItem->right-ICON_HEIGHT, prcItem->bottom-ICON_HEIGHT };
-			if ( dat->avatars_draw_border )
-			{
+			if ( dat->avatars_draw_border ) {
 				ptOverlay.x--;
 				ptOverlay.y--;
 			}
-			switch( dat->avatars_overlay_type )
-			{
+			switch( dat->avatars_overlay_type ) {
 			case SETTING_AVATAR_OVERLAY_TYPE_NORMAL:
-				{
-					ske_ImageList_DrawEx( hAvatarOverlays, g_pAvatarOverlayIcons[GetContactCachedStatus( Drawing->hContact ) - ID_STATUS_OFFLINE].listID, 
-						hdcMem, 
-						ptOverlay.x, ptOverlay.y, ICON_HEIGHT, ICON_HEIGHT, 
-						CLR_NONE, CLR_NONE, 
-						( blendmode == 255 )?ILD_NORMAL:( blendmode == 128 )?ILD_BLEND50:ILD_BLEND25 );
-					break;
-				}
+				ske_ImageList_DrawEx( hAvatarOverlays, g_pAvatarOverlayIcons[GetContactCachedStatus( Drawing->hContact ) - ID_STATUS_OFFLINE].listID, 
+					hdcMem, 
+					ptOverlay.x, ptOverlay.y, ICON_HEIGHT, ICON_HEIGHT, 
+					CLR_NONE, CLR_NONE, 
+					( blendmode == 255 )?ILD_NORMAL:( blendmode == 128 )?ILD_BLEND50:ILD_BLEND25 );
+				break;
 			case SETTING_AVATAR_OVERLAY_TYPE_PROTOCOL:
 				{
-					int item;
-
-					item = ExtIconFromStatusMode( Drawing->hContact, Drawing->proto, 
-						Drawing->proto == NULL ? ID_STATUS_OFFLINE : GetContactCachedStatus( Drawing->hContact ));
+					int item = pcli->pfnIconFromStatusMode(Drawing->proto, Drawing->proto == NULL ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
 					if ( item != -1 )
 						_DrawStatusIcon( Drawing, dat, item, hdcMem, 
-						ptOverlay.x, ptOverlay.y, ICON_HEIGHT, ICON_HEIGHT, 
-						CLR_NONE, CLR_NONE, ( blendmode == 255 )?ILD_NORMAL:( blendmode == 128 )?ILD_BLEND50:ILD_BLEND25 );
-					break;
+							ptOverlay.x, ptOverlay.y, ICON_HEIGHT, ICON_HEIGHT, 
+							CLR_NONE, CLR_NONE, ( blendmode == 255 )?ILD_NORMAL:( blendmode == 128 )?ILD_BLEND50:ILD_BLEND25 );
 				}
+				break;
 			case SETTING_AVATAR_OVERLAY_TYPE_CONTACT:
-				{
-					if ( Drawing->iImage != -1 )
-						_DrawStatusIcon( Drawing, dat, Drawing->iImage, hdcMem, 
+				if ( Drawing->iImage != -1 )
+					_DrawStatusIcon( Drawing, dat, Drawing->iImage, hdcMem, 
 						ptOverlay.x, ptOverlay.y, ICON_HEIGHT, ICON_HEIGHT, 
 						CLR_NONE, CLR_NONE, ( blendmode == 255 )?ILD_NORMAL:( blendmode == 128 )?ILD_BLEND50:ILD_BLEND25 );
-					break;
-				}
+				break;
 			}
 		}
 	}

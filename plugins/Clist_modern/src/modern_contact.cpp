@@ -174,7 +174,7 @@ INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam)
 		db_unset((HANDLE)wParam,"CList","Group");
 	else
 		db_set_ws((HANDLE)wParam,"CList","Group",pcli->pfnGetGroupName(lParam, NULL));
-	CallService(MS_CLUI_CONTACTADDED,wParam,ExtIconFromStatusMode((HANDLE)wParam,GetContactProto((HANDLE)wParam),GetContactStatus((HANDLE)wParam)));
+	CallService(MS_CLUI_CONTACTADDED, wParam, pcli->pfnIconFromStatusMode(GetContactProto((HANDLE)wParam),GetContactStatus((HANDLE)wParam),(HANDLE)wParam));
 	return 0;
 }
 

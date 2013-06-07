@@ -191,6 +191,7 @@ static HRESULT SubclassClistInterface()
 	pcli->pfnFindRowByText         = cliFindRowByText;
 
 	//partialy overloaded - call default handlers from inside
+	pcli->pfnGetContactIcon        = cli_GetContactIcon;
 	pcli->pfnIconFromStatusMode    = cli_IconFromStatusMode;
 	pcli->pfnLoadCluiGlobalOpts    = CLUI_cli_LoadCluiGlobalOpts;
 	pcli->pfnSortCLC               = cli_SortCLC;

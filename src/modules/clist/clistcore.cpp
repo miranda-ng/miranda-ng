@@ -211,6 +211,8 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 		cli.pfnReloadExtraIcons                = fnReloadExtraIcons;
 		cli.pfnSetAllExtraIcons                = fnSetAllExtraIcons;
 
+		cli.pfnGetContactIcon                  = fnGetContactIcon;
+
 		rc = LoadContactListModule2();
 		if (rc == 0)
 			rc = LoadCLCModule();

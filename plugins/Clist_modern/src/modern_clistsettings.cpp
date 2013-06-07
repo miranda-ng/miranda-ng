@@ -418,7 +418,7 @@ int ContactAdded(WPARAM wParam,LPARAM lParam)
 {
 	if ( !MirandaExiting()) {
 		HANDLE hContact = (HANDLE)wParam;
-		cli_ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact,(char*)GetContactCachedProtocol(hContact),ID_STATUS_OFFLINE),1); ///by FYR
+		cli_ChangeContactIcon(hContact,pcli->pfnIconFromStatusMode((char*)GetContactCachedProtocol(hContact),ID_STATUS_OFFLINE,hContact),1); ///by FYR
 		pcli->pfnSortContacts();
 	}
 	return 0;
@@ -468,7 +468,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 					amRequestAwayMsg(hContact);  
 
 				pcli->pfnClcBroadcast(INTM_STATUSCHANGED, wParam, 0);
-				cli_ChangeContactIcon(hContact, ExtIconFromStatusMode(hContact,cws->szModule, cws->value.wVal), 0); //by FYR
+				cli_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0); //by FYR
 				pcli->pfnSortContacts();
 			}
 			else {
@@ -495,7 +495,8 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 			InvalidateDNCEbyPointer(hContact,pdnce,cws->value.type);		
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
 				char *szProto = GetContactProto((HANDLE)wParam);
-				cli_ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact,szProto,szProto == NULL?ID_STATUS_OFFLINE:db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE)),1);  //by FYR
+				cli_ChangeContactIcon(hContact,pcli->pfnIconFromStatusMode(szProto, 
+					szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE), hContact),1);  //by FYR
 			}
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
@@ -508,7 +509,8 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 		if ( !strcmp(cws->szSetting,"p")) {
 			InvalidateDNCEbyPointer(hContact,pdnce,cws->value.type);	
 			char *szProto = (cws->value.type == DBVT_DELETED) ? NULL : cws->value.pszVal;
-			cli_ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact,szProto,szProto == NULL?ID_STATUS_OFFLINE:db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE)),0); //by FYR
+			cli_ChangeContactIcon(hContact,pcli->pfnIconFromStatusMode(szProto, 
+				szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE), hContact), 0);
 		}
 	}
 

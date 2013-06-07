@@ -470,6 +470,11 @@ typedef struct
 	 *************************************************************************************/
 	void   (*pfnReloadExtraIcons)(void);
 	void   (*pfnSetAllExtraIcons)(HWND hwndList,HANDLE hContact);
+
+	/*************************************************************************************
+	 * Miranda NG additions
+	 *************************************************************************************/
+	int    (*pfnGetContactIcon)(HANDLE hContact);
 }
 	CLIST_INTERFACE;
 

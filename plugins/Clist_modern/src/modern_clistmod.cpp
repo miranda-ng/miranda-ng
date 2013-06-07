@@ -87,12 +87,7 @@ HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 		}
 	}
 
-	return ske_ImageList_GetIcon(g_himlCListClc,ExtIconFromStatusMode(hContact,szProto,status),ILD_NORMAL);
-}
-
-int ExtIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
-{
-	return pcli->pfnIconFromStatusMode(szProto,status,hContact);
+	return ske_ImageList_GetIcon(g_himlCListClc,pcli->pfnIconFromStatusMode(szProto,status,hContact),ILD_NORMAL);
 }
 
 int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
@@ -134,28 +129,21 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 	return corecli.pfnIconFromStatusMode(szProto,nStatus,NULL);
 }
 
-int GetContactIconC(ClcCacheEntry *cacheEntry)
+int cli_GetContactIcon(HANDLE hContact)
 {
-	return ExtIconFromStatusMode(cacheEntry->hContact,cacheEntry->m_cache_cszProto,cacheEntry->m_cache_cszProto == NULL ? ID_STATUS_OFFLINE : pdnce___GetStatus( cacheEntry ));
+	int res = corecli.pfnGetContactIcon(hContact);
+	if (res != -1)
+		res &= 0xFFFF;
+	return res;
+}
+
+int GetContactIconC(ClcCacheEntry *p)
+{
+	return pcli->pfnIconFromStatusMode(p->m_cache_cszProto,p->m_cache_cszProto == NULL ? ID_STATUS_OFFLINE : pdnce___GetStatus(p), p->hContact);
 }
 
 //lParam
 // 0 - default - return icon id in order: transport status icon, protostatus icon, meta is affected
-
-
-INT_PTR GetContactIcon(WPARAM wParam,LPARAM lParam)
-{
-	int status;
-	char *szProto = GetContactProto((HANDLE)wParam);
-	if (szProto == NULL)
-		status = ID_STATUS_OFFLINE;
-	else
-		status = db_get_w((HANDLE) wParam, szProto, "Status", ID_STATUS_OFFLINE);
-	int res = ExtIconFromStatusMode((HANDLE)wParam,szProto,szProto == NULL?ID_STATUS_OFFLINE:status); //by FYR
-	if (lParam == 0 && res != -1)
-		res &= 0xFFFF;
-	return res;
-}
 
 void UnLoadContactListModule()  //unhooks noncritical events
 {
@@ -203,7 +191,6 @@ HRESULT PreLoadContactListModule()
 
 	//initialize firstly hooks
 	//clist interface is empty yet so handles should check
-	CreateServiceFunction(MS_CLIST_GETCONTACTICON, GetContactIcon);
 	CreateServiceFunction(MS_CLUI_GETCAPS, GetCapsService);
 
 	// catch langpack events
@@ -236,8 +223,6 @@ HRESULT  CluiLoadModule()
 	CreateServiceFunction(MS_CLIST_TOGGLEGROUPS,ToggleGroups);
 	CreateServiceFunction(MS_CLIST_TOGGLESOUNDS,ToggleSounds);
 	CreateServiceFunction(MS_CLIST_SETUSEGROUPS,SetUseGroups);
-
-	CreateServiceFunction(MS_CLIST_GETCONTACTICON,GetContactIcon);
 
 	MySetProcessWorkingSetSize = (BOOL (WINAPI*)(HANDLE,SIZE_T,SIZE_T))GetProcAddress(GetModuleHandle(_T("kernel32")),"SetProcessWorkingSetSize");
 	hCListImages = ImageList_Create(16, 16, ILC_MASK|ILC_COLOR32, 32, 0);

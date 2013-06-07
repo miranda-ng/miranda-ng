@@ -220,7 +220,6 @@ int     ClcDoProtoAck(HANDLE wParam,ACKDATA * ack);                             
 int     ModernSkinButtonDeleteAll();                                                   //modernbutton.c
 int     GetAverageMode( void );                                                   //clisttray.c
 int     GetContactCachedStatus(HANDLE hContact);                                 //clistsettings.c
-INT_PTR GetContactIcon(WPARAM wParam,LPARAM lParam);                              //clistmod.c
 int     GetContactIconC(ClcCacheEntry *cacheEntry);                           //clistmod.c
 int     GetContactIndex(ClcGroup *group,ClcContact *contact);               //clcidents.c
 int     GetStatusForContact(HANDLE hContact,char *szProto);                           //clistsettings.c
@@ -287,6 +286,7 @@ int     cliGetGroupContentsCount(ClcGroup *group, int visibleOnly);
 int     cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk);
 int     cliGetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex);
 int     cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact);
+int     cli_GetContactIcon(HANDLE hContact);
 int     cli_RemoveEvent(HANDLE hContact, HANDLE hDbEvent);
 void    cli_AddContactToTree(HWND hwnd,ClcData *dat,HANDLE hContact,int updateTotalCount,int checkHideOffline);
 void    cli_DeleteItemFromTree(HWND hwnd, HANDLE hItem);
