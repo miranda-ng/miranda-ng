@@ -97,7 +97,6 @@ void LoadContactTree(void)
 	sortByProto = db_get_b(NULL,"CList","SortByProto",SETTING_SORTBYPROTO_DEFAULT);
 	sortNoOfflineBottom = db_get_b(NULL,"CList","NoOfflineBottom",SETTING_NOOFFLINEBOTTOM_DEFAULT);
 
-	CallService(MS_CLUI_SORTLIST,0,0);
 	CallService(MS_CLUI_LISTENDREBUILD,0,0);
 	
 	tick = GetTickCount()-tick;
@@ -160,7 +159,6 @@ static VOID CALLBACK SortContactsTimer(HWND hwnd,UINT message,UINT_PTR idEvent,D
 {
 	KillTimer(NULL,resortTimerId);
 	resortTimerId = 0;
-	CallService(MS_CLUI_SORTLIST,0,0);
 }
 
 void SortContacts(void)

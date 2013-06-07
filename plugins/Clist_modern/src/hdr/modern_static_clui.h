@@ -67,7 +67,6 @@ int CListSettings_SetToCache(ClcCacheEntry *pSrc, DWORD flag);
 
 int CLUIServices_LoadModule(void);
 INT_PTR CLUIServices_SortList(WPARAM wParam,LPARAM lParam);
-INT_PTR CLUIServices_ProtocolStatusChanged(WPARAM wParam,LPARAM lParam);
 
 void Docking_GetMonitorRectFromWindow(HWND hWnd,RECT *rc);
 

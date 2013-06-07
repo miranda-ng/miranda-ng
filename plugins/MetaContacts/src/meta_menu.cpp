@@ -72,9 +72,6 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 			db_set_b(hMetaContact, "CList", "Hidden", 1);
 	}
 
-	//	Update the graphics
-	CallService(MS_CLUI_SORTLIST, 0, 0);
-
 	free(group);
 	return (INT_PTR)hMetaContact;
 }

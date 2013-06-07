@@ -524,7 +524,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				db_set_b(NULL,"CLUI","ShowSBar",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR));
 
 				LoadStatusBarData();
-				CLUIServices_ProtocolStatusChanged(0, 0);	
+				cliCluiProtocolStatusChanged(0, 0);	
 				return TRUE;
 			}
 		}

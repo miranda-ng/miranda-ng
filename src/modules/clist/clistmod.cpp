@@ -139,7 +139,7 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 	if (ack->type != ACKTYPE_STATUS)
 		return 0;
 
-	CallService(MS_CLUI_PROTOCOLSTATUSCHANGED, ack->lParam, (LPARAM) ack->szModule);
+	cli.pfnCluiProtocolStatusChanged(lParam, ack->szModule);
 
 	if ((int)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
 		DWORD caps = (DWORD)CallProtoServiceInt(NULL,ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
@@ -485,8 +485,6 @@ static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 
 /***************************************************************************************/
 
-static INT_PTR TrayIconProcessMessageStub(WPARAM wParam, LPARAM lParam) {	return cli.pfnTrayIconProcessMessage(wParam, lParam); }
-static INT_PTR TrayIconPauseAutoHideStub(WPARAM wParam, LPARAM lParam) { return cli.pfnTrayIconPauseAutoHide(wParam, lParam); }
 static INT_PTR ShowHideStub(WPARAM wParam, LPARAM lParam) { return cli.pfnShowHide(wParam, lParam); }
 static INT_PTR SetHideOfflineStub(WPARAM wParam, LPARAM lParam) { return cli.pfnSetHideOffline(wParam, lParam); }
 static INT_PTR Docking_ProcessWindowMessageStub(WPARAM wParam, LPARAM lParam) { return cli.pfnDocking_ProcessWindowMessage(wParam, lParam); }
@@ -511,8 +509,6 @@ int LoadContactListModule2(void)
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODEDESCRIPTION, GetStatusModeDescription);
 	CreateServiceFunction(MS_CLIST_GETCONTACTDISPLAYNAME, GetContactDisplayName);
 	CreateServiceFunction(MS_CLIST_INVALIDATEDISPLAYNAME, InvalidateDisplayName);
-	CreateServiceFunction(MS_CLIST_TRAYICONPROCESSMESSAGE, TrayIconProcessMessageStub);
-	CreateServiceFunction(MS_CLIST_PAUSEAUTOHIDE, TrayIconPauseAutoHideStub);
 	CreateServiceFunction(MS_CLIST_CONTACTSCOMPARE, CompareContacts);
 	CreateServiceFunction(MS_CLIST_CONTACTCHANGEGROUP, ContactChangeGroup);
 	CreateServiceFunction(MS_CLIST_SHOWHIDE, ShowHideStub);

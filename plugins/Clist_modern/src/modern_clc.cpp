@@ -211,7 +211,7 @@ static int clcHookSettingChanged(WPARAM wParam,LPARAM lParam)
 		}
 		else if ( !strcmp(cws->szSetting,"XStatusId") || !strcmp(cws->szSetting,"XStatusName"))
 		{
-			CLUIServices_ProtocolStatusChanged(0, (LPARAM)cws->szModule);
+			cliCluiProtocolStatusChanged(0, cws->szModule);
 		}
 	}
 	else // (HANDLE)wParam != NULL

@@ -71,7 +71,7 @@ int CLUI::OnEvent_ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	if ( ServiceExists(MS_MC_GETPROTOCOLNAME))
 		g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 
-	CLUIServices_ProtocolStatusChanged(0, 0);
+	cliCluiProtocolStatusChanged(0, 0);
 	SleepEx(0, TRUE);
 	g_flag_bOnModulesLoadedCalled = TRUE;
 	///pcli->pfnInvalidateDisplayNameCacheEntry(INVALID_HANDLE_VALUE);
@@ -1980,7 +1980,7 @@ LRESULT CLUI::OnCreate(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TranslateMenu(GetMenu(m_hWnd));
 	DrawMenuBar(m_hWnd);
-	CLUIServices_ProtocolStatusChanged(0, 0);
+	cliCluiProtocolStatusChanged(0, 0);
 
 	MENUITEMINFO mii;
 	ZeroMemory(&mii,sizeof(mii));

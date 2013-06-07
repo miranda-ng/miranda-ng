@@ -994,7 +994,6 @@ int Meta_HideLinkedContacts(void) {
 		hContact = db_find_next(hContact);
 	}	
 
-	CallService(MS_CLUI_SORTLIST, 0, 0);
 	return 0;
 }
 
@@ -1011,8 +1010,6 @@ int Meta_UnhideLinkedContacts(void)
 		}
 	}	
 
-	if ( !CallService(MS_SYSTEM_TERMINATED, 0, 0))
-		CallService(MS_CLUI_SORTLIST, 0, 0);
 	return 0;
 }
 
@@ -1039,8 +1036,6 @@ int Meta_HideMetaContacts(int hide)
 		}
 	}	
 
-	if ( !CallService(MS_SYSTEM_TERMINATED, 0, 0))
-		CallService(MS_CLUI_SORTLIST, 0, 0);
 	return 0;
 }
 

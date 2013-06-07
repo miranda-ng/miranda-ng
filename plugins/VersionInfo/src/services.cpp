@@ -35,8 +35,6 @@ INT_PTR PluginMenuCommand(WPARAM wParam, LPARAM lParam)
 	int debugTo = db_get_b(NULL, ModuleName, "DebugTo", TO_DIALOGBOX);
 	DoDebugTo(debugTo);
 	if (verbose) PUShowMessage("I have printed the information.", SM_NOTIFY);
-/*	char *data;
-	CallService(MS_VERSIONINFO_GETINFO, 1, (LPARAM) &data); */
 	return 0;
 }
 

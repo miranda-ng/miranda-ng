@@ -34,18 +34,6 @@ static INT_PTR GetHwndTree(WPARAM, LPARAM)
 	return (INT_PTR)cli.hwndContactTree;
 }
 
-static INT_PTR CluiProtocolStatusChanged(WPARAM wParam, LPARAM lParam)
-{
-	cli.pfnCluiProtocolStatusChanged(wParam, (const char*)lParam);
-	return 0;
-}
-
-INT_PTR SortList(WPARAM, LPARAM)
-{
-	//unnecessary: CLC does this automatically
-	return 0;
-}
-
 static INT_PTR GroupAdded(WPARAM wParam, LPARAM lParam)
 {
 	//CLC does this automatically unless it's a new group
@@ -139,7 +127,6 @@ void LoadCluiServices(void)
 {
 	CreateServiceFunction(MS_CLUI_GETHWND, GetHwnd);
 	CreateServiceFunction(MS_CLUI_GETHWNDTREE, GetHwndTree);
-	CreateServiceFunction(MS_CLUI_PROTOCOLSTATUSCHANGED, CluiProtocolStatusChanged);
 	CreateServiceFunction(MS_CLUI_GROUPADDED, GroupAdded);
 	CreateServiceFunction(MS_CLUI_CONTACTSETICON, ContactSetIcon);
 	CreateServiceFunction(MS_CLUI_CONTACTADDED, ContactAdded);
@@ -147,7 +134,6 @@ void LoadCluiServices(void)
 	CreateServiceFunction(MS_CLUI_CONTACTRENAMED, ContactRenamed);
 	CreateServiceFunction(MS_CLUI_LISTBEGINREBUILD, ListBeginRebuild);
 	CreateServiceFunction(MS_CLUI_LISTENDREBUILD, ListEndRebuild);
-	CreateServiceFunction(MS_CLUI_SORTLIST, SortList);
 	CreateServiceFunction(MS_CLUI_GETCAPS, GetCaps);
 }
 

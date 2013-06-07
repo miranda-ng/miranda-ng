@@ -983,7 +983,7 @@ HWND StatusBar_Create(HWND parent)
 	CallService(MS_SKINENG_REGISTERPAINTSUB,(WPARAM)Frame.hWnd,(LPARAM)NewStatusPaintCallbackProc); //$$$$$ register sub for frame
 
 	LoadStatusBarData();
-	CLUIServices_ProtocolStatusChanged(0, 0);
+	cliCluiProtocolStatusChanged(0, 0);
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME,-1,0);
 	return hModernStatusBar;
 }

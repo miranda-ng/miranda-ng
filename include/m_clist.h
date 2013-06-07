@@ -443,14 +443,6 @@ typedef struct {
 //returns nonzero if the contact list is docked, of 0 if it is not
 #define MS_CLIST_DOCKINGISDOCKED        "CList/DockingIsDocked"
 
-//process all the messages required for the tray icon       v0.1.1.0+
-//wParam = (WPARAM)(MSG*)&msg
-//lParam = (LPARAM)(LRESULT*)&lResult
-//returns TRUE if the message should not be processed further, FALSE otherwise
-//only msg.hwnd, msg.message, msg.wParam and msg.lParam are used
-//your wndproc should return lResult if and only if TRUE is returned
-#define MS_CLIST_TRAYICONPROCESSMESSAGE  "CList/TrayIconProcessMessage"
-
 //process all the messages required for hotkeys             v0.1.1.0+
 //wParam = (WPARAM)(MSG*)&msg
 //lParam = (LPARAM)(LRESULT*)&lResult
@@ -463,14 +455,6 @@ typedef struct {
 //wParam = lParam = 0
 //returns 0 on success, nonzero on failure
 #define MS_CLIST_SHOWHIDE     "CList/ShowHide"
-
-//temporarily disable the autohide feature         v0.1.2.1+
-//wParam = lParam = 0
-//returns 0 on success, nonzero on failure
-//This service will restart the autohide timer, so if you need to keep the
-//window visible you'll have to be getting user input regularly and calling
-//this function each time
-#define MS_CLIST_PAUSEAUTOHIDE        "CList/PauseAutoHide"
 
 //sent when the group get modified (created, renamed or deleted)
 //or contact is moving from group to group

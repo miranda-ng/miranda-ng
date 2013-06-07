@@ -500,7 +500,6 @@ INT_PTR onSetVis(WPARAM wparam,LPARAM lparam)
 INT_PTR onHide(WPARAM wparam,LPARAM lparam)
 {
 	db_set_b((HANDLE)wparam,"CList","Hidden",(byte)!db_get_b((HANDLE)wparam,"CList","Hidden",0));
-	CallService(MS_CLUI_SORTLIST,0,0);
 	return 0;
 }
 
@@ -776,10 +775,8 @@ int isIgnored(HANDLE  hContact, int type)
 
 INT_PTR onIgnore(WPARAM wparam,LPARAM lparam)
 {
-	if (db_get_b(NULL, MODULENAME, "ignorehide", 0) && (lparam == IGNOREEVENT_ALL)) {
+	if (db_get_b(NULL, MODULENAME, "ignorehide", 0) && (lparam == IGNOREEVENT_ALL))
 		db_set_b((HANDLE)wparam, "CList", "Hidden", (isIgnored((HANDLE)wparam, lparam) ? (byte)0 : (byte)1));
-		CallService(MS_CLUI_SORTLIST, 0, 0);
-	}
 
 	CallService(isIgnored((HANDLE)wparam, lparam) ? MS_IGNORE_UNIGNORE : MS_IGNORE_IGNORE, wparam, lparam); 
 	return 0;

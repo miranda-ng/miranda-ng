@@ -84,7 +84,6 @@ void fnLoadContactTree(void)
 	}
 	sortByStatus = db_get_b(NULL, "CList", "SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
 	sortByProto = db_get_b(NULL, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);
-	CallService(MS_CLUI_SORTLIST, 0, 0);
 	CallService(MS_CLUI_LISTENDREBUILD, 0, 0);
 }
 
@@ -138,7 +137,6 @@ static VOID CALLBACK SortContactsTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	KillTimer(NULL, resortTimerId);
 	resortTimerId = 0;
-	CallService(MS_CLUI_SORTLIST, 0, 0);
 }
 
 void fnSortContacts(void)

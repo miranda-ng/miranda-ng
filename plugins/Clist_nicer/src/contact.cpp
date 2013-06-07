@@ -167,7 +167,6 @@ void LoadContactTree(void)
 	}
 	cfg::writeByte("CList", "fhistdata", 1);
 	mc_hgh_removed = TRUE;
-	CallService(MS_CLUI_SORTLIST, 0, 0);
 	CallService(MS_CLUI_LISTENDREBUILD, 0, 0);
 }
 
@@ -293,7 +292,6 @@ static VOID CALLBACK SortContactsTimer(HWND hwnd, UINT message, UINT idEvent, DW
 {
 	KillTimer(NULL, resortTimerId);
 	resortTimerId = 0;
-	CallService(MS_CLUI_SORTLIST, 0, 0);
 }
 
 int SetHideOffline(WPARAM wParam, LPARAM lParam)

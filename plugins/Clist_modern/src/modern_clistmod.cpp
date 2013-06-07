@@ -47,7 +47,6 @@ int ModernSkinOptInit(WPARAM wParam,LPARAM lParam);
 int EventsProcessContactDoubleClick(HANDLE hContact);
 
 INT_PTR TrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam);
-INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam);
 
 void InitTrayMenus(void);
 void UninitTrayMenu();
@@ -157,41 +156,12 @@ int CListMod_ContactListShutdownProc(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR GetCapsService(WPARAM wParam,LPARAM lParam)
-{
-	if (lParam) {
-		switch (lParam) {
-		case 0:
-			return 0;
-		case CLUIF2_PLUGININFO:
-			return (INT_PTR)&pluginInfo;
-		case CLUIF2_CLISTTYPE:
-			return 0x0107;
-		case CLUIF2_EXTRACOLUMNCOUNT:
-			return EXTRA_ICON_COUNT;
-		}
-	}
-	else {
-		switch (wParam) {
-		case CLUICAPS_FLAGS1:
-			return CLUIF_HIDEEMPTYGROUPS|CLUIF_DISABLEGROUPS|CLUIF_HASONTOPOPTION|CLUIF_HASAUTOHIDEOPTION;
-		case CLUICAPS_FLAGS2:
-			return MAKELONG(EXTRA_ICON_COUNT,1);
-		}
-	}
-	return 0;
-}
-
 HRESULT PreLoadContactListModule()
 {
 	/* Global data initialization */
 	g_CluiData.fOnDesktop = FALSE;
 	g_CluiData.dwKeyColor = RGB(255, 0, 255);
 	g_CluiData.bCurrentAlpha = 255;
-
-	//initialize firstly hooks
-	//clist interface is empty yet so handles should check
-	CreateServiceFunction(MS_CLUI_GETCAPS, GetCapsService);
 
 	// catch langpack events
 	HookEvent(ME_LANGPACK_CHANGED, OnLoadLangpack);
@@ -215,9 +185,7 @@ HRESULT  CluiLoadModule()
 	CreateServiceFunction("ModernSkinSel/Apply", SvcApplySkin);
 	
 	HookEvent(ME_DB_CONTACT_ADDED,ContactAdded);	
-	CreateServiceFunction(MS_CLIST_TRAYICONPROCESSMESSAGE,cli_TrayIconProcessMessage);
-	CreateServiceFunction(MS_CLIST_PAUSEAUTOHIDE,TrayIconPauseAutoHide);
-	CreateServiceFunction(MS_CLIST_CONTACTCHANGEGROUP,ContactChangeGroup);
+
 	CreateServiceFunction(MS_CLIST_TOGGLEHIDEOFFLINE,ToggleHideOffline);
 
 	CreateServiceFunction(MS_CLIST_TOGGLEGROUPS,ToggleGroups);

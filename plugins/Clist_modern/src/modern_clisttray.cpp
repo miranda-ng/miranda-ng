@@ -360,7 +360,7 @@ static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd,UINT message,UINT_PTR idEve
 		MySetProcessWorkingSetSize(GetCurrentProcess(),-1,-1);
 }
 
-INT_PTR TrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam)
+int cliTrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam)
 {
 	if ( db_get_b(NULL,"CList","AutoHide",SETTING_AUTOHIDE_DEFAULT))
 	{

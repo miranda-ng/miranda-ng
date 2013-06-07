@@ -39,14 +39,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //get ContactTree hwnd
 #define MS_CLUI_GETHWNDTREE     "CLUI/GetHwndTree"
 
-//change protocol-specific status indicators
-//wParam = new status
-//lParam = (LPARAM)(const char*)szProtocolID
-//returns 0 on success, nonzero on failure
-//protocol modules don't want to call this. They want
-//clist/protocolstatuschanged instead
-#define MS_CLUI_PROTOCOLSTATUSCHANGED       "CLUI/ProtocolStatusChanged"
-
 //a new group was created. Add it to the list
 //wParam = (WPARAM)(HANDLE)hGroup
 //lParam = newGroup
@@ -113,13 +105,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //you do not need to explicitly sort the list
 #define MS_CLUI_LISTENDREBUILD  "CLUI/ListEndRebuild"
 
-//sort the contact list now
-//wParam = lParam = 0
-//returns 0 on success, nonzero on failure
-//sorts are buffered so you won't get this message lots of times if the list
-//needs to be re-sorted many times rapidly.
-#define MS_CLUI_SORTLIST        "CLUI/SortList"
-
 //Gets a load of capabilities for the loaded CLUI    v0.1.2.1+
 //wParam = capability, CLUICAPS_*
 //lParam = 0
@@ -145,13 +130,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define CLUICAPS_FLAGS2   1			//Returns info about extra icons
 												//HIWORD is the first extra icon number, LOWORD is the extra icons count
-
-//LPARAMS for CLUICAPS_FLAGS2
-#define CLUIF2_PLUGININFO			1	//returns pointer to plugininfo
-#define CLUIF2_CLISTTYPE			2	// the genaration of list in chronologic
-// modern layered return 0x07 (assuming classic, mw, meta, nicer1, modern1, nicer++, modernLayered)
-// +0x0100 for unicode
-#define CLUIF2_EXTRACOLUMNCOUNT		3   // return max number of extra icon available to be set in main window
 
 #define MS_CLUI_GETCAPS         "CLUI/GetCaps"
 

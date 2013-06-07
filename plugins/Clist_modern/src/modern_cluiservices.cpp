@@ -31,24 +31,11 @@ int CLUIUnreadEmailCountChanged(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CLUIServices_ProtocolStatusChanged(WPARAM wParam,LPARAM lParam)
-{
-	CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE,(WPARAM)pcli->hwndStatus,0);
-	if (lParam) cliTrayIconUpdateBase((char*)lParam);
-	return 0;
-}
-
 void cliCluiProtocolStatusChanged(int status,const char * proto)
 {
-	CLUIServices_ProtocolStatusChanged((WPARAM)status,(LPARAM)proto);
-}
-
-INT_PTR SortList(WPARAM wParam,LPARAM lParam)
-{
-    pcli->pfnClcBroadcast( WM_TIMER,TIMERID_DELAYEDRESORTCLC,0);
-    pcli->pfnClcBroadcast( INTM_SCROLLBARCHANGED, 0, 0);
-
-	return 0;
+	CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE,(WPARAM)pcli->hwndStatus,0);
+	if (proto)
+		cliTrayIconUpdateBase(proto);
 }
 
 static INT_PTR MetaSupportCheck(WPARAM wParam,LPARAM lParam)
@@ -56,110 +43,10 @@ static INT_PTR MetaSupportCheck(WPARAM wParam,LPARAM lParam)
 	return 1;
 }
 
-static INT_PTR GetHwnd(WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)pcli->hwndContactList;
-}
-
-static INT_PTR GetHwndTree(WPARAM wParam,LPARAM lParam)
-{
-	return (INT_PTR)pcli->hwndContactTree;
-}
-
-static INT_PTR GroupAdded(WPARAM wParam, LPARAM lParam)
-{
-	//CLC does this automatically unless it's a new group
-	if (lParam) {
-		HANDLE hItem;
-		TCHAR szFocusClass[64];
-		HWND hwndFocus = GetFocus();
-
-		GetClassName(hwndFocus, szFocusClass, SIZEOF(szFocusClass));
-		if ( !lstrcmp(szFocusClass, _T(CLISTCONTROL_CLASS))) {
-			hItem = (HANDLE) SendMessage(hwndFocus, CLM_FINDGROUP, wParam, 0);
-			if (hItem)
-				SendMessage(hwndFocus, CLM_EDITLABEL, (WPARAM) hItem, 0);
-		}
-	}
-	return 0;
-}
-
-static INT_PTR ContactSetIcon(WPARAM wParam, LPARAM lParam)
-{
-	//unnecessary: CLC does this automatically
-	return 0;
-}
-
-static INT_PTR ContactDeleted(WPARAM wParam, LPARAM lParam)
-{
-	//unnecessary: CLC does this automatically
-	return 0;
-}
-
-static INT_PTR ContactAdded(WPARAM wParam, LPARAM lParam)
-{
-	//unnecessary: CLC does this automatically
-	return 0;
-}
-
-static INT_PTR ListBeginRebuild(WPARAM wParam, LPARAM lParam)
-{
-	//unnecessary: CLC does this automatically
-	return 0;
-}
-
-static INT_PTR ContactRenamed(WPARAM wParam, LPARAM lParam)
-{
-	//unnecessary: CLC does this automatically
-	return 0;
-}
-
-static INT_PTR ListEndRebuild(WPARAM wParam, LPARAM lParam)
-{
-	int rebuild = 0;
-	//CLC does this automatically, but we need to force it if hideoffline or hideempty has changed
-	if (( db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) == 0) != ((GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEOFFLINE) == 0)) {
-		if ( db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
-			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) | CLS_HIDEOFFLINE);
-		else
-			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & ~CLS_HIDEOFFLINE);
-		rebuild = 1;
-	}
-	if (( db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) == 0) != ((GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) == 0)) {
-		if ( db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT))
-			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
-		else
-			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
-		rebuild = 1;
-	}
-	if (( db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) == 0) != ((GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS) == 0)) {
-		if ( db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
-			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) | CLS_USEGROUPS);
-		else
-			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & ~CLS_USEGROUPS);
-		rebuild = 1;
-	}
-	if (rebuild)
-		SendMessage(pcli->hwndContactTree, CLM_AUTOREBUILD, 0, 0);
-	return 0;
-}
-
 int CLUIServices_LoadModule(void)
 {
 	CreateServiceFunction(MS_CLUI_METASUPPORT,MetaSupportCheck);
-	CreateServiceFunction(MS_CLUI_PROTOCOLSTATUSCHANGED,CLUIServices_ProtocolStatusChanged);
-	CreateServiceFunction(MS_CLUI_SORTLIST,SortList);
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE,CListTray_GetGlobalStatus);
-
-	CreateServiceFunction(MS_CLUI_GETHWND, GetHwnd);
-	CreateServiceFunction(MS_CLUI_GETHWNDTREE,GetHwndTree);
-	CreateServiceFunction(MS_CLUI_GROUPADDED, GroupAdded);
-	CreateServiceFunction(MS_CLUI_CONTACTSETICON, ContactSetIcon);
-	CreateServiceFunction(MS_CLUI_CONTACTADDED, ContactAdded);
-	CreateServiceFunction(MS_CLUI_CONTACTDELETED, ContactDeleted);
-	CreateServiceFunction(MS_CLUI_CONTACTRENAMED, ContactRenamed);
-	CreateServiceFunction(MS_CLUI_LISTBEGINREBUILD, ListBeginRebuild);
-	CreateServiceFunction(MS_CLUI_LISTENDREBUILD, ListEndRebuild);
 	return 0;
 }
 

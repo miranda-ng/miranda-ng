@@ -118,8 +118,6 @@ void    CLUI_UpdateLayeredMode();
 UINT_PTR CLUI_SafeSetTimer(HWND hwnd, int ID, int Timeout, TIMERPROC proc);
 
 /* CLUIServices */
-INT_PTR CLUIServices_ProtocolStatusChanged(WPARAM wParam,LPARAM lParam);
-
 int     CLUIUnreadEmailCountChanged(WPARAM wParam,LPARAM lParam);
 
 /* GDIPlus */
@@ -303,6 +301,7 @@ BOOL    CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect,BOOL bErase );
 int     cliCompareContacts(const ClcContact *contact1,const ClcContact *contact2);
 int     cliFindItem(HWND hwnd,ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible);
 void    cliTrayIconUpdateBase(const char *szChangedProto);
+int     cliTrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam);
 void    cliCluiProtocolStatusChanged(int status,const char * proto);
 HMENU   cliBuildGroupPopupMenu(ClcGroup *group);
 void    cliInvalidateDisplayNameCacheEntry(HANDLE hContact);

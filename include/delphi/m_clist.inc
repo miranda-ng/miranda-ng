@@ -432,17 +432,6 @@ const
   MS_CLIST_DOCKINGISDOCKED:PAnsiChar = 'CList/DockingIsDocked';
 
   {
-    wParam : Pointer to a TMSG
-    lParam : Pointer to an LRESULT
-    Affect : Process all the messages required for the tray icon, see notes
-    Returns: TRUE if the message should not be processed anymore, False otherwise
-    Notes  : Only msg.hwnd, msg.message, msg.wparam and msg.lParam are used
-             your WndProc should return LRESULT if and ONLY if TRUE is returned
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_TRAYICONPROCESSMESSAGE:PAnsiChar = 'CList/TrayIconProcessMessage';
-
-  {
     wParam : Pointer to TMSG
     lParam : Pointer to an LRESULT
     Affect : Process all the messages required for hotkeys, see notes
@@ -460,17 +449,6 @@ const
     Version: v0.1.1.0+
   }
   MS_CLIST_SHOWHIDE:PAnsiChar = 'CList/ShowHide';
-
-  {
-    wParam : 0
-    lParam : 0
-    Affect : temporarily disable the autohide feature, see notes
-    Notes  : this service will restart the auto hide timer, so if you need
-             to keep the window visible you'll have to bee getting user input
-             or calling this service each time
-    Version: v0.1.2.1+
-  }
-  MS_CLIST_PAUSEAUTOHIDE:PAnsiChar = 'CList/PauseAutoHide';
 
 {
   sent when the group get modified (created, renamed or deleted)

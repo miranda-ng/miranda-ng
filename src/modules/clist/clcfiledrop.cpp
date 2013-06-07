@@ -107,7 +107,7 @@ HRESULT CDropTarget::DragOver(DWORD /*grfKeyState*/, POINTL pt, DWORD * pdwEffec
 		*pdwEffect = DROPEFFECT_NONE;
 		return S_OK;
 	}
-	CallService(MS_CLIST_PAUSEAUTOHIDE, 0, 0);
+	cli.pfnTrayIconPauseAutoHide(0, 0);
 	dat = (struct ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
 	shortPt.x = pt.x;
 	shortPt.y = pt.y;

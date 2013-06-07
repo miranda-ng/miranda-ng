@@ -167,17 +167,6 @@ int cliCompareContacts(const ClcContact *contact1,const ClcContact *contact2)
 
 #undef SAFESTRING
 
-INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam)
-{
-	CallService(MS_CLUI_CONTACTDELETED,wParam,0);
-	if ((HANDLE)lParam == NULL)
-		db_unset((HANDLE)wParam,"CList","Group");
-	else
-		db_set_ws((HANDLE)wParam,"CList","Group",pcli->pfnGetGroupName(lParam, NULL));
-	CallService(MS_CLUI_CONTACTADDED, wParam, pcli->pfnIconFromStatusMode(GetContactProto((HANDLE)wParam),GetContactStatus((HANDLE)wParam),(HANDLE)wParam));
-	return 0;
-}
-
 INT_PTR ToggleHideOffline(WPARAM wParam,LPARAM lParam)
 {
 	return pcli->pfnSetHideOffline((WPARAM)-1,0);
