@@ -72,7 +72,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 
 	pcli = reinterpret_cast<CLIST_INTERFACE*>( CallService(
-	    MS_CLIST_RETRIEVE_INTERFACE,0,reinterpret_cast<LPARAM>(g_hInstance)));
+		 MS_CLIST_RETRIEVE_INTERFACE,0,reinterpret_cast<LPARAM>(g_hInstance)));
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "WhatsApp";
@@ -95,7 +95,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		agent << ".";
 		agent << (( g_mirandaVersion >>  8) & 0xFF);
 		agent << ".";
-		agent << (( g_mirandaVersion      ) & 0xFF);
+		agent << (( g_mirandaVersion		) & 0xFF);
 	#ifdef _WIN64
 		agent << " WhatsApp Protocol x64/";
 	#else
@@ -119,8 +119,8 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 	g_Instances.destroy();
 
-   delete FMessage::generating_lock;
-   WASocketConnection::quitNetwork();
+	delete FMessage::generating_lock;
+	WASocketConnection::quitNetwork();
 
 	return 0;
 }

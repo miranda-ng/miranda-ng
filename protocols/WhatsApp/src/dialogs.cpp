@@ -2,8 +2,8 @@
 
 INT_PTR CALLBACK WhatsAppAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam )
 {
-   WhatsAppProto *proto;
-   
+	WhatsAppProto *proto;
+
 	switch ( message )
 	{
 
@@ -20,7 +20,7 @@ INT_PTR CALLBACK WhatsAppAccountProc( HWND hwnd, UINT message, WPARAM wparam, LP
 			SetDlgItemTextA(hwnd,IDC_CC,dbv.pszVal);
 			db_free(&dbv);
 		}
-      
+
 		if ( !db_get_s(0,proto->ModuleName(),WHATSAPP_KEY_LOGIN,&dbv,DBVT_ASCIIZ))
 		{
 			SetDlgItemTextA(hwnd,IDC_LOGIN,dbv.pszVal);
@@ -40,68 +40,67 @@ INT_PTR CALLBACK WhatsAppAccountProc( HWND hwnd, UINT message, WPARAM wparam, LP
 			SetDlgItemTextA(hwnd,IDC_PW,dbv.pszVal);
 			db_free(&dbv);
 		}
-      
 
 		if (!proto->isOffline()) {
-         SendMessage(GetDlgItem(hwnd,IDC_CC),EM_SETREADONLY,1,0);
+			SendMessage(GetDlgItem(hwnd,IDC_CC),EM_SETREADONLY,1,0);
 			SendMessage(GetDlgItem(hwnd,IDC_LOGIN),EM_SETREADONLY,1,0);
 			SendMessage(GetDlgItem(hwnd,IDC_NICK),EM_SETREADONLY,1,0);
-         SendMessage(GetDlgItem(hwnd,IDC_PW),EM_SETREADONLY,1,0);
-      }
+			SendMessage(GetDlgItem(hwnd,IDC_PW),EM_SETREADONLY,1,0);
+		}
 
 		return TRUE;
 
 	case WM_COMMAND:
-      if (LOWORD(wparam) == IDC_BUTTON_REQUEST_CODE || LOWORD(wparam) == IDC_BUTTON_REGISTER)
-      {
-         proto = reinterpret_cast<WhatsAppProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
+		if (LOWORD(wparam) == IDC_BUTTON_REQUEST_CODE || LOWORD(wparam) == IDC_BUTTON_REGISTER)
+		{
+			proto = reinterpret_cast<WhatsAppProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
-         char cc[5];
-         GetDlgItemTextA(hwnd, IDC_CC, cc, sizeof(cc));
-         char number[128];
-         GetDlgItemTextA(hwnd, IDC_LOGIN, number, sizeof(number));
+			char cc[5];
+			GetDlgItemTextA(hwnd, IDC_CC, cc, sizeof(cc));
+			char number[128];
+			GetDlgItemTextA(hwnd, IDC_LOGIN, number, sizeof(number));
 
-         if (LOWORD(wparam) == IDC_BUTTON_REQUEST_CODE)
-         {
-            if (MessageBox(NULL, TranslateT("An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneousley!\nContinue?"),
-               PRODUCT_NAME, MB_YESNO) == IDYES)
-            {
-               proto->Register(REG_STATE_REQ_CODE, string(cc), string(number), string());
-            }
-         }
-         else if (LOWORD(wparam) == IDC_BUTTON_REGISTER)
-         {
-            char code[7];
-            if (SendDlgItemMessage(hwnd, IDC_REG_CODE_1, WM_GETTEXTLENGTH, 0, 0) == 3 &&
-               SendDlgItemMessage(hwnd, IDC_REG_CODE_2, WM_GETTEXTLENGTH, 0, 0) == 3)
-            {
-               GetDlgItemTextA(hwnd, IDC_REG_CODE_1, code, 4);
-               GetDlgItemTextA(hwnd, IDC_REG_CODE_2, &(code[3]), 4);
-            }
-            else
-            {
-               MessageBox(NULL, TranslateT("Please correctly specify your registration code received by SMS"), 
-                  PRODUCT_NAME, MB_ICONEXCLAMATION);
-               return TRUE;
-            }
-            string pw = proto->Register(REG_STATE_REG_CODE, string(cc), string(number), string(code));
-            if (!pw.empty())
+			if (LOWORD(wparam) == IDC_BUTTON_REQUEST_CODE)
 			{
-				SetDlgItemTextA(hwnd, IDC_PW, pw.c_str());
-				CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(pw.c_str()), (LPARAM)pw.c_str());
-				db_set_s(NULL, proto->ModuleName(), WHATSAPP_KEY_PASS, pw.c_str());
-				MessageBox(NULL, TranslateT("Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!"), PRODUCT_NAME, MB_ICONWARNING);
-            }
-         }
-      }
+				if (MessageBox(NULL, TranslateT("An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneousley!\nContinue?"),
+					PRODUCT_NAME, MB_YESNO) == IDYES)
+				{
+					proto->Register(REG_STATE_REQ_CODE, string(cc), string(number), string());
+				}
+			}
+			else if (LOWORD(wparam) == IDC_BUTTON_REGISTER)
+			{
+				char code[7];
+				if (SendDlgItemMessage(hwnd, IDC_REG_CODE_1, WM_GETTEXTLENGTH, 0, 0) == 3 &&
+					SendDlgItemMessage(hwnd, IDC_REG_CODE_2, WM_GETTEXTLENGTH, 0, 0) == 3)
+				{
+					GetDlgItemTextA(hwnd, IDC_REG_CODE_1, code, 4);
+					GetDlgItemTextA(hwnd, IDC_REG_CODE_2, &(code[3]), 4);
+				}
+				else
+				{
+					MessageBox(NULL, TranslateT("Please correctly specify your registration code received by SMS"), 
+						PRODUCT_NAME, MB_ICONEXCLAMATION);
+					return TRUE;
+				}
+				string pw = proto->Register(REG_STATE_REG_CODE, string(cc), string(number), string(code));
+				if (!pw.empty())
+				{
+					SetDlgItemTextA(hwnd, IDC_PW, pw.c_str());
+					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(pw.c_str()), (LPARAM)pw.c_str());
+					db_set_s(NULL, proto->ModuleName(), WHATSAPP_KEY_PASS, pw.c_str());
+					MessageBox(NULL, TranslateT("Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!"), PRODUCT_NAME, MB_ICONWARNING);
+				}
+			}
+		}
 
 		if ( HIWORD( wparam ) == EN_CHANGE && reinterpret_cast<HWND>(lparam) == GetFocus())
 		{
 			switch(LOWORD(wparam))
 			{
-         case IDC_CC:
+			case IDC_CC:
 			case IDC_LOGIN:
-         case IDC_NICK:
+			case IDC_NICK:
 			case IDC_PW:
 				SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
 			}
@@ -134,7 +133,6 @@ INT_PTR CALLBACK WhatsAppAccountProc( HWND hwnd, UINT message, WPARAM wparam, LP
 	}
 
 	return FALSE;
-
 }
 
 INT_PTR CALLBACK WhatsAppInputBoxProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam )
@@ -151,18 +149,18 @@ INT_PTR CALLBACK WhatsAppInputBoxProc( HWND hwnd, UINT message, WPARAM wparam, L
 		ib = reinterpret_cast<input_box*>(lparam);
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
 		SendDlgItemMessage(hwnd,IDC_VALUE,EM_LIMITTEXT,ib->limit,0);
-      SetDlgItemText(hwnd, IDC_VALUE, ib->defaultValue.c_str());
-      SetDlgItemText(hwnd, IDC_TEXT, ib->text.c_str());
+		SetDlgItemText(hwnd, IDC_VALUE, ib->defaultValue.c_str());
+		SetDlgItemText(hwnd, IDC_TEXT, ib->text.c_str());
 
-      /*
-      DBVARIANT dbv = { DBVT_TCHAR };
+		/*
+		DBVARIANT dbv = { DBVT_TCHAR };
 		if (!DBGetContactSettingTString(NULL,ib->proto->m_szModuleName,WHATSAPP_KEY_PUSH_NAME,&dbv))
 		{
 			SetWindowText( hwnd, dbv.ptszVal );
 			db_free( &dbv );
 		}
-      */
-      SetWindowText(hwnd, ib->title.c_str());
+		*/
+		SetWindowText(hwnd, ib->title.c_str());
 	}
 
 	EnableWindow(GetDlgItem( hwnd, IDC_OK ), FALSE);
@@ -171,7 +169,7 @@ INT_PTR CALLBACK WhatsAppInputBoxProc( HWND hwnd, UINT message, WPARAM wparam, L
 	case WM_COMMAND:
 		if ( LOWORD( wparam ) == IDC_VALUE && HIWORD( wparam ) == EN_CHANGE )
 		{
-         ib = reinterpret_cast<input_box*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
+			ib = reinterpret_cast<input_box*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 			size_t len = SendDlgItemMessage(hwnd,IDC_VALUE,WM_GETTEXTLENGTH,0,0);
 			TCHAR str[4];
 			_sntprintf( str, 4, TEXT( "%d" ), ib->limit - len );
@@ -182,26 +180,26 @@ INT_PTR CALLBACK WhatsAppInputBoxProc( HWND hwnd, UINT message, WPARAM wparam, L
 		}
 		else if ( LOWORD( wparam ) == IDC_OK )
 		{
-         ib = reinterpret_cast<input_box*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
+			ib = reinterpret_cast<input_box*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 			TCHAR* value = new TCHAR[ib->limit+1];
 
 			GetDlgItemText(hwnd,IDC_VALUE,value, ib->limit + 1);
 			ShowWindow(hwnd,SW_HIDE);
 
-         input_box_ret* ret = new input_box_ret;
-         ret->userData = ib->userData;
-         ret->value = mir_utf8encodeT(value);
-         delete value;
+			input_box_ret* ret = new input_box_ret;
+			ret->userData = ib->userData;
+			ret->value = mir_utf8encodeT(value);
+			delete value;
 			ForkThread(ib->thread, ib->proto, ret);
 			EndDialog(hwnd, wparam);
-         delete ib;
+			delete ib;
 			return TRUE;
 		}
 		else if ( LOWORD( wparam ) == IDC_CANCEL )
 		{
 			EndDialog(hwnd, wparam);
-         ib = reinterpret_cast<input_box*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
-         delete ib;
+			ib = reinterpret_cast<input_box*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
+			delete ib;
 			return TRUE;
 		}
 		break;

@@ -2,22 +2,22 @@
 
 void UnixTimeToFileTime(time_t t, LPFILETIME pft)
 {
-   // Note that LONGLONG is a 64-bit value
-   LONGLONG ll;
+	// Note that LONGLONG is a 64-bit value
+	LONGLONG ll;
 
-   ll = Int32x32To64(t, 10000000) + 116444736000000000;
-   pft->dwLowDateTime = (DWORD)ll;
-   pft->dwHighDateTime = ll >> 32;
+	ll = Int32x32To64(t, 10000000) + 116444736000000000;
+	pft->dwLowDateTime = (DWORD)ll;
+	pft->dwHighDateTime = ll >> 32;
 }
 
 DWORD utils::conversion::to_timestamp(std::string data)
 {
 	DWORD timestamp = NULL;
-   /*
+	/*
 	if (!utils::conversion::from_string<DWORD>(timestamp, data, std::dec)) {
 		timestamp = static_cast<DWORD>(::time(NULL));
 	}
-   */
+	*/
 	return timestamp;
 }
 
@@ -52,37 +52,37 @@ std::string utils::text::source_get_value(std::string* data, unsigned int argume
 
 std::string getLastErrorMsg()
 { 
-    // Retrieve the system error message for the last-error code
+	 // Retrieve the system error message for the last-error code
 
-    LPVOID lpMsgBuf;
-    DWORD dw = WSAGetLastError(); 
+	 LPVOID lpMsgBuf;
+	 DWORD dw = WSAGetLastError(); 
 
-    FormatMessageA(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER | 
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_IGNORE_INSERTS,
-        NULL,
-        dw,
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        (LPSTR) &lpMsgBuf,
-        0, NULL );
+	 FormatMessageA(
+		  FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+		  FORMAT_MESSAGE_FROM_SYSTEM |
+		  FORMAT_MESSAGE_IGNORE_INSERTS,
+		  NULL,
+		  dw,
+		  MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		  (LPSTR) &lpMsgBuf,
+		  0, NULL );
 
-    // Display the error message and exit the process
-    /*
-    lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, 
-        (lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR)); 
-    StringCchPrintf((LPTSTR)lpDisplayBuf, 
-        LocalSize(lpDisplayBuf) / sizeof(TCHAR),
-        TEXT("%s"), 
-        lpMsgBuf); 
-        */
+	 // Display the error message and exit the process
+	 /*
+	 lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, 
+		  (lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR)); 
+	 StringCchPrintf((LPTSTR)lpDisplayBuf, 
+		  LocalSize(lpDisplayBuf) / sizeof(TCHAR),
+		  TEXT("%s"), 
+		  lpMsgBuf); 
+		  */
 
-    std::string ret((LPSTR) lpMsgBuf);
-    LocalFree(lpMsgBuf);
-    //LocalFree(lpDisplayBuf);
+	 std::string ret((LPSTR) lpMsgBuf);
+	 LocalFree(lpMsgBuf);
+	 //LocalFree(lpDisplayBuf);
 
-    //return std::string((LPCTSTR)lpDisplayBuf);
-    return ret;
+	 //return std::string((LPCTSTR)lpDisplayBuf);
+	 return ret;
 }
 
 int utils::debug::log(std::string file_name, std::string text)

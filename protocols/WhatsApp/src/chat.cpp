@@ -4,12 +4,12 @@
 
 int WhatsAppProto::OnJoinChat(WPARAM,LPARAM)
 {
-   return 0;
+	return 0;
 }
 
 int WhatsAppProto::OnLeaveChat(WPARAM,LPARAM)
 {
-   return 0;
+	return 0;
 }
 
 int WhatsAppProto::OnChatOutgoing(WPARAM wParam, LPARAM lParam)
@@ -35,13 +35,13 @@ int WhatsAppProto::OnChatOutgoing(WPARAM wParam, LPARAM lParam)
 		mir_free(id);
 	
 		if (isOnline()) {
-         HANDLE hContact = this->ContactIDToHContact(chat_id);
-         if (hContact)
-         {
-            LOG("**Chat - Outgoing message: %s", text);
-            this->SendMsg(hContact, IS_CHAT, msg.c_str());
-            
-            // #TODO Move to SendMsgWorker, otherwise all messages are "acknowledged" by Miranda
+			HANDLE hContact = this->ContactIDToHContact(chat_id);
+			if (hContact)
+			{
+				LOG("**Chat - Outgoing message: %s", text);
+				this->SendMsg(hContact, IS_CHAT, msg.c_str());
+				
+				// #TODO Move to SendMsgWorker, otherwise all messages are "acknowledged" by Miranda
 
 				GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_MESSAGE };
 				gcd.ptszID = hook->pDest->ptszID;
@@ -58,8 +58,8 @@ int WhatsAppProto::OnChatOutgoing(WPARAM wParam, LPARAM lParam)
 				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 
 				mir_free((void*)gce.ptszUID);
-            mir_free((void*)gce.ptszNick);
-         }
+				mir_free((void*)gce.ptszNick);
+			}
 		}
 	
 		break;
