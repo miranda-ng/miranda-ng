@@ -1,17 +1,18 @@
 #include "common.h"
 
-INT_PTR CALLBACK WhatsAppAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam )
+INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	WhatsAppProto *proto;
 
-	switch ( message )
+	switch (message)
 	{
-
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 
 		proto = reinterpret_cast<WhatsAppProto*>(lparam);
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
+		SendDlgItemMessage(hwnd, IDC_REG_CODE_1, EM_LIMITTEXT, 3, 0);
+		SendDlgItemMessage(hwnd, IDC_REG_CODE_2, EM_LIMITTEXT, 3, 0);
 
 		DBVARIANT dbv;
 
