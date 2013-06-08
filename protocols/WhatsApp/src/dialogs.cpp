@@ -86,11 +86,11 @@ INT_PTR CALLBACK WhatsAppAccountProc( HWND hwnd, UINT message, WPARAM wparam, LP
             }
             string pw = proto->Register(REG_STATE_REG_CODE, string(cc), string(number), string(code));
             if (!pw.empty())
-            {
-			      CallService(MS_DB_CRYPT_ENCODESTRING,sizeof(pw.c_str()),reinterpret_cast<LPARAM>(pw.c_str()));
-			      db_set_s(0, proto->ModuleName(), WHATSAPP_KEY_PASS, pw.c_str());
-               MessageBox(NULL, TranslateT("Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!"),
-                  PRODUCT_NAME, MB_ICONWARNING);
+			{
+				SetDlgItemTextA(hwnd, IDC_PW, pw.c_str());
+				CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(pw.c_str()), (LPARAM)pw.c_str());
+				db_set_s(NULL, proto->ModuleName(), WHATSAPP_KEY_PASS, pw.c_str());
+				MessageBox(NULL, TranslateT("Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!"), PRODUCT_NAME, MB_ICONWARNING);
             }
          }
       }

@@ -253,12 +253,17 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
    NETLIBHTTPREQUEST* pnlhr = (NETLIBHTTPREQUEST*) CallService(MS_NETLIB_HTTPTRANSACTION,
       (WPARAM) WASocketConnection::hNetlibUser, (LPARAM)&nlhr);
 
+	string title = this->TranslateStr("Registration");
+	if (pnlhr == NULL) {
+		this->NotifyEvent(title, this->TranslateStr("Registration failed. Invalid server response."), NULL, WHATSAPP_EVENT_CLIENT);
+		return ret;
+	}
+
    LOG("Server response: %s", pnlhr->pData);
    MessageBoxA(NULL, pnlhr->pData, "Debug", MB_OK);
 
    cJSON* resp = cJSON_Parse(pnlhr->pData);
    cJSON* val;
-   string title = this->TranslateStr("Registration");
 
    // Invalid
    if (resp == NULL)
@@ -304,11 +309,8 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
       if (val == NULL)
       {
          this->NotifyEvent(title, this->TranslateStr("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
-      }
-      if (strcmp(val->valuestring, "ok") == 0)
-      {
+      } else
          ret = val->valuestring;
-      }
    }
 
    cJSON_Delete(resp);
