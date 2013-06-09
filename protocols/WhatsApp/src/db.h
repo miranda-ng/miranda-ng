@@ -17,7 +17,7 @@
 #define WHATSAPP_KEY_ID                      "ID"
 #define WHATSAPP_KEY_LOGIN                   "Login"
 #define WHATSAPP_KEY_CC                      "CountryCode"
-#define WHATSAPP_KEY_NICK                    "Nickname"
+#define WHATSAPP_KEY_NICK                    "Nick"
 #define WHATSAPP_KEY_PASS                    "Password"
 #define WHATSAPP_KEY_IDX                     "DeviceID"
 #define WHATSAPP_KEY_MAP_STATUSES			   "MapStatuses"
