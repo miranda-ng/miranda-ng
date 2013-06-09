@@ -44,10 +44,18 @@ void CSkypeProto::UpdateContactStatus(HANDLE hContact, CContact::Ref contact)
 	}
 }
 
+void CSkypeProto::UpdateContactClient(SEObject *obj, HANDLE hContact)
+{
+	bool isMobile = false;
+	((CContact *)obj)->HasCapability(Contact::CAPABILITY_MOBILE_DEVICE, isMobile/*, true*/);
+
+	::db_set_ws(hContact, this->m_szModuleName, "MirVer", isMobile ? L"SkypeMobile" : L"Skype");
+}
+
 void CSkypeProto::UpdateContactNickName(SEObject *obj, HANDLE hContact)
 {
 	// todo: P_DISPLAYNAME = 21 is unworked
-	mir_ptr<wchar_t> nick( ::mir_utf8decodeW(obj->GetStrProp(/* *::P_FULLNAME */ 5)));
+	ptrW nick( ::mir_utf8decodeW(obj->GetStrProp(/* *::P_FULLNAME */ 5)));
 	if ( !::wcslen(nick))
 		::db_unset(hContact, this->m_szModuleName, "Nick");
 	else
@@ -167,7 +175,7 @@ HANDLE CSkypeProto::GetContactBySid(const wchar_t *sid)
 	{
 		if ( !this->IsChatRoom(hContact))
 		{
-			mir_ptr<wchar_t> contactSid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+			ptrW contactSid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
 			if (::lstrcmpi(contactSid, sid) == 0)
 				break;
 		}
@@ -276,8 +284,8 @@ void __cdecl CSkypeProto::LoadContactList(void* data)
 			// todo: move to AddContact?
 			this->UpdateContactAuthState(hContact, contact);
 			this->UpdateContactStatus(hContact, contact);
-			
-			mir_ptr<wchar_t> nick( ::db_get_wsa(hContact, "CList", "MyHandle"));
+
+			ptrW nick( ::db_get_wsa(hContact, "CList", "MyHandle"));
 			if ( !nick || !::wcslen(nick))
 			{
 				nick = ::mir_utf8decodeW(contact->GetNick());

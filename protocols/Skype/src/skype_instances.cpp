@@ -41,13 +41,13 @@ CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* u
 		return NULL;
 	}
 
-	::mir_free(keyPair);
-
 	if ( !ppro->start())
 	{
 		::MessageBox(NULL, TranslateT("SkypeKit did not start."), _T(MODULE), MB_OK | MB_ICONERROR);
 		return NULL;
 	}
+
+	::mir_free(keyPair);
 
 	CSkypeProto::instanceList.insert(ppro);
 

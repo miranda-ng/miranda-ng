@@ -297,6 +297,8 @@ protected:
 	void	UpdateContactAuthState(HANDLE hContact, CContact::Ref contact);
 	void	UpdateContactAvatar(HANDLE hContact, CContact::Ref contact);
 	void	UpdateContactStatus(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactClient(SEObject *obj, HANDLE hContact);
+
 	void	UpdateContactNickName(SEObject *obj, HANDLE hContact);
 	void	UpdateContactOnlineSinceTime(SEObject *obj, HANDLE hContact);
 	void	UpdateContactLastEventDate(SEObject *obj, HANDLE hContact);
@@ -370,6 +372,8 @@ protected:
 
 	static void ShowNotification(const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
 	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
+
+	static void CopyToClipboard(const wchar_t *text);
 
 	// languages
 	static std::map<std::wstring, std::wstring> languages;
@@ -459,7 +463,8 @@ protected:
 	// skype runtime
 	char *LoadKeyPair();
 	int StartSkypeRuntime(const wchar_t *profileName);
-	void CSkypeProto::StopSkypeRuntime();
+	BOOL SafeTerminateProcess(HANDLE hProcess, UINT uExitCode);
+	void StopSkypeRuntime();
 
 	// events
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);

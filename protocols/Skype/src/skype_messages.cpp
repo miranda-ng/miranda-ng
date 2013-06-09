@@ -136,7 +136,7 @@ void CSkypeProto::OnMessageEvent(const ConversationRef &conversation, const Mess
 			SEString author;
 			message->GetPropAuthor(author);
 			
-			if (::wcsicmp(mir_ptr<wchar_t>(::mir_utf8decodeW(author)), this->login) == 0)
+			if (::wcsicmp(ptrW(::mir_utf8decodeW(author)), this->login) == 0)
 				this->OnMessageSent(conversation, message);
 			else
 				this->OnMessageReceived(conversation, message);
@@ -145,6 +145,11 @@ void CSkypeProto::OnMessageEvent(const ConversationRef &conversation, const Mess
 
 	case CMessage::STARTED_LIVESESSION:
 		{
+			Message::CONSUMPTION_STATUS status;
+			message->GetPropConsumptionStatus(status);
+			if (status != Message::UNCONSUMED_NORMAL)
+				break;
+
 			uint timestamp;
 			message->GetPropTimestamp(timestamp);
 
@@ -174,6 +179,11 @@ void CSkypeProto::OnMessageEvent(const ConversationRef &conversation, const Mess
 
 	case CMessage::ENDED_LIVESESSION:
 		{
+			Message::CONSUMPTION_STATUS status;
+			message->GetPropConsumptionStatus(status);
+			if (status != Message::UNCONSUMED_NORMAL)
+				break;
+
 			uint timestamp;
 			message->GetPropTimestamp(timestamp);
 

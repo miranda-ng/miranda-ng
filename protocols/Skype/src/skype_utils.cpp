@@ -531,3 +531,15 @@ bool CSkypeProto::FileExists(wchar_t *path)
 	return false;
 }
 
+void CSkypeProto::CopyToClipboard(const wchar_t *text)
+{
+	HWND hwnd = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+	::OpenClipboard(hwnd);
+	::EmptyClipboard();
+	HGLOBAL hMem = ::GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(::lstrlen(text)+1));
+	TCHAR *s = (TCHAR *)::GlobalLock(hMem);
+	::lstrcpy(s, text);
+	::GlobalUnlock(hMem);
+	::SetClipboardData(CF_UNICODETEXT, hMem);
+	::CloseClipboard();
+}

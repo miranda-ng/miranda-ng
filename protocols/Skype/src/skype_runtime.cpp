@@ -88,15 +88,75 @@ int CSkypeProto::StartSkypeRuntime(const wchar_t *profileName)
 	return startingrt;
 }
 
+BOOL CSkypeProto::SafeTerminateProcess(HANDLE hProcess, UINT uExitCode)
+{
+    DWORD dwTID, dwCode, dwErr = 0;
+    HANDLE hProcessDup = INVALID_HANDLE_VALUE;
+    HANDLE hRT = NULL;
+    HINSTANCE hKernel = ::GetModuleHandle(L"Kernel32");
+    BOOL bSuccess = FALSE;
+
+    BOOL bDup = ::DuplicateHandle(
+		::GetCurrentProcess(), 
+		hProcess, 
+		GetCurrentProcess(), 
+		&hProcessDup, 
+		PROCESS_ALL_ACCESS, 
+		FALSE, 
+		0);
+
+    // Detect the special case where the process is 
+    // already dead...
+    if (::GetExitCodeProcess((bDup) ? hProcessDup : hProcess, &dwCode) && (dwCode == STILL_ACTIVE))
+    {
+        FARPROC pfnExitProc;
+           
+        pfnExitProc = GetProcAddress(hKernel, "ExitProcess");
+
+        hRT = ::CreateRemoteThread(
+			(bDup) ? hProcessDup : hProcess, 
+			NULL, 
+			0, 
+			(LPTHREAD_START_ROUTINE)pfnExitProc,
+			(PVOID)uExitCode, 0, &dwTID);
+
+        if ( hRT == NULL )
+            dwErr = GetLastError();
+    }
+    else
+        dwErr = ERROR_PROCESS_ABORTED;
+
+    if (hRT)
+    {
+        // Must wait process to terminate to 
+        // guarantee that it has exited...
+        ::WaitForSingleObject((bDup) ? hProcessDup : hProcess, INFINITE);
+
+        ::CloseHandle(hRT);
+        bSuccess = TRUE;
+    }
+
+    if ( bDup )
+        ::CloseHandle(hProcessDup);
+
+    if ( !bSuccess )
+        ::SetLastError(dwErr);
+
+    return bSuccess;
+}
+
 void CSkypeProto::StopSkypeRuntime()
 {
-	::PostThreadMessage(this->skypeKitProcessInfo.dwThreadId, WM_CLOSE, 0, 0);
-	::WaitForSingleObject(this->skypeKitProcessInfo.hProcess, 1500);
+	//DWORD dwExitCode = 0;
+	//this->SafeTerminateProcess(this->skypeKitProcessInfo.hProcess, 0);
+	//::PostThreadMessage(this->skypeKitProcessInfo.dwThreadId, WM_CLOSE, 0, 0);
+	//::WaitForSingleObject(this->skypeKitProcessInfo.hProcess, 1500);
 
 	DWORD dwExitCode = 0;
 	::GetExitCodeProcess(this->skypeKitProcessInfo.hProcess, &dwExitCode);
 	if (dwExitCode == STILL_ACTIVE)
-		::TerminateProcess(this->skypeKitProcessInfo.hProcess, 0); // Zero is the exit code
+		//::TerminateProcess(this->skypeKitProcessInfo.hProcess, 0); // Zero is the exit code
+		this->SafeTerminateProcess(this->skypeKitProcessInfo.hProcess, 0);
 
 	::CloseHandle(this->skypeKitProcessInfo.hThread);
 	::CloseHandle(this->skypeKitProcessInfo.hProcess);

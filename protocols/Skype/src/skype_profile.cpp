@@ -298,7 +298,8 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 			this->UpdateContactOnlineSinceTime(obj, hContact);
 			this->UpdateContactLastEventDate(obj, hContact);
 
-			::db_set_ws(hContact, this->m_szModuleName, "MirVer", L"Skype");
+			this->UpdateContactClient(obj, hContact);
+			//::db_set_ws(hContact, this->m_szModuleName, "MirVer", L"Skype");
 		}
 
 		::db_set_dw(hContact, this->m_szModuleName, "ProfileTS", newTS);

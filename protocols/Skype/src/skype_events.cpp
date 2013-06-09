@@ -60,13 +60,16 @@ int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 	{
 		if (this->IsChatRoom(hContact))
 		{
-			ptrW chatID(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
+			ptrW chatID(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
 			this->LeaveChat(chatID);
 
-			CConversation::Ref conversation;
+			ConversationRef conversation;
 			this->GetConversationByIdentity(::mir_utf8encodeW(chatID), conversation);
-			conversation->RetireFrom();
-			conversation->Delete();
+			if (conversation)
+			{
+				conversation->RetireFrom();
+				conversation->Delete();
+			}
 		}
 		else
 			this->RevokeAuth(wParam, lParam);
@@ -178,7 +181,7 @@ int __cdecl CSkypeProto::OnTabSRMMButtonPressed(WPARAM wParam, LPARAM lParam)
 	case BBB_ID_CONF_INVITE:
 		if (this->IsOnline() && this->IsChatRoom(hContact))
 		{
-			StringList targets = this->GetChatUsers(mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID")));
+			StringList targets = this->GetChatUsers(ptrW(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN)));
 
 			this->StartChat(targets);
 		}
@@ -188,7 +191,7 @@ int __cdecl CSkypeProto::OnTabSRMMButtonPressed(WPARAM wParam, LPARAM lParam)
 		if (this->IsOnline() && !this->IsChatRoom(hContact))
 		{
 			StringList targets;
-			targets.insert( mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN)));
+			targets.insert(ptrW(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN)));
 
 			this->StartChat(targets);
 		}

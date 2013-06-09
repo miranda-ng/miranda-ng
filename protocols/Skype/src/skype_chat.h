@@ -5,12 +5,13 @@
 
 class ChatMember
 {
-public:
+private:
 	wchar_t *sid;
 	wchar_t *nick;
 	int rank;
 	WORD status;
 
+public:
 	CParticipant::Ref participant;
 
 	ChatMember()
@@ -25,12 +26,70 @@ public:
 		this->nick = NULL;
 	}
 
+	ChatMember(const ChatMember &other)
+	{
+		this->sid = NULL;
+		this->nick = NULL;
+		this->operator=(other);
+	}
+
 	~ChatMember()
 	{
 		if (this->sid != NULL)
 			::mir_free(this->sid);
 		if (this->nick != NULL)
 			::mir_free(this->nick);
+	}
+
+	void SetNick(const wchar_t *nick)
+	{
+		if (this->nick != NULL)
+			::mir_free(this->nick);
+		this->nick = ::mir_wstrdup(nick);
+	}
+
+	wchar_t *GetSid() const
+	{
+		return this->sid;
+	}
+
+	wchar_t *GetNick() const
+	{
+		if (this->nick == NULL)
+			return this->sid;
+
+		return this->nick;
+	}
+
+	void SetRank(int rank)
+	{
+		this->rank = rank;
+	}
+
+	int GetRank() const
+	{
+		return this->rank;
+	}
+
+	void SetStatus(int status)
+	{
+		this->status = status;
+	}
+
+	int GetStatus() const
+	{
+		return this->status;
+	}
+
+	void SetPaticipant(const ParticipantRef &participant)
+	{
+		this->participant = participant;
+		//this->participant.fetch();
+	}
+
+	static int Compare(const ChatMember *p1, const ChatMember *p2)
+	{
+		return ::lstrcmpi(p1->sid, p2->sid);
 	}
 
 	bool operator==(const ChatMember &other) const
@@ -43,17 +102,22 @@ public:
 		return !(*this == other);
 	}
 
-	ChatMember& operator=(const ChatMember& right)
+	ChatMember& operator=(const ChatMember &other)
 	{
-        if (this == &right)
+        if (this == &other)
             return *this;
 
-		::mir_free(this->sid);
-		::mir_free(this->nick);
-		this->sid = ::mir_wstrdup(right.sid);
-		this->nick = ::mir_wstrdup(right.nick);
-		this->rank = right.rank;
-		this->status = right.status;
+		if (this->sid != NULL)
+			::mir_free(this->sid);
+		this->sid = ::mir_wstrdup(other.sid);
+
+		if (this->nick != NULL)
+			::mir_free(this->nick);
+		this->nick = ::mir_wstrdup(other.nick);
+
+		this->rank = other.rank;
+		this->status = other.status;
+		this->participant = other.participant;
         return *this;
 	}
 };
@@ -66,7 +130,7 @@ private:
 
 	HANDLE hContact;
 
-	ChatMember *me;
+	
 
 	LIST<ChatMember> members;
 
@@ -78,11 +142,17 @@ private:
 
 	HANDLE AddChatRoom();
 
-	inline static int CompareMembers(const ChatMember *p1, const ChatMember *p2) { return ::lstrcmpi(p1->sid, p2->sid); }
+	inline static int CompareMembers(const ChatMember *p1, const ChatMember *p2) { return ChatMember::Compare(p1, p2); }
 
-	void AddMember(ChatMember *member, DWORD timestamp, int flag);
+	bool IsMe(const ChatMember &item) const;
+	void SendEvent(const ChatMember &item, int eventType, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
+	
+	void UpdateMember(const ChatMember &item, DWORD timestamp = time(NULL));
+	void KickMember(const ChatMember &item, const ChatMember *author, DWORD timestamp = time(NULL));
+	void RemoveMember(const ChatMember &item, DWORD timestamp = time(NULL));
 
 public:
+	ChatMember *me;
 	CConversation::Ref conversation;
 
 	ChatRoom(const wchar_t *cid, const wchar_t *name, CSkypeProto *ppro);
@@ -93,24 +163,17 @@ public:
 
 	void LeaveChat();
 
-	void SendEvent(ChatMember *member, int eventType, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
 	void SendEvent(const wchar_t *sid, int eventType, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
 
 	bool IsMe(const wchar_t *sid) const;
-	bool IsMe(ChatMember *member) const;
 
-	ChatMember *FindChatMember(ChatMember *item);
+	//
 	ChatMember *FindChatMember(const wchar_t *sid);
 
-	void AddMember(ChatMember *member, DWORD timestamp);
-	void AddMember(ChatMember *member);
+	void AddMember(const ChatMember &item, const ChatMember *author, DWORD timestamp = time(NULL));
 
-	void UpdateMember(const wchar_t *sid, const wchar_t *nick, int rank, int status, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG);
-
-	void KickMember(ChatMember *member, const ChatMember *kicker, DWORD timestamp = time(NULL));
-	void KickMember(const wchar_t *sid, const wchar_t *kicker, DWORD timestamp = time(NULL));
-
-	void RemoveMember(ChatMember *member, DWORD timestamp = time(NULL));
+	void UpdateMember(const wchar_t *sid, const wchar_t *nick, int rank, int status, DWORD timestamp = time(NULL));
+	void KickMember(const wchar_t *sid, const wchar_t *author, DWORD timestamp = time(NULL));
 	void RemoveMember(const wchar_t *sid, DWORD timestamp = time(NULL));
 
 	void OnEvent(const ConversationRef &conversation, const MessageRef &message);
