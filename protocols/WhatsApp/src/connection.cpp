@@ -143,13 +143,23 @@ void WhatsAppProto::stayConnectedLoop(void*)
 
 		CODE_BLOCK_TRY
 
-			this->conn = new WASocketConnection("c.whatsapp.net", 5222);
+			BYTE UseSSL = db_get_b(NULL, this->ModuleName(), WHATSAPP_KEY_SSL, 0);
+			if (UseSSL) {
+				this->conn = new WASocketConnection("c.whatsapp.net", 443);
 
-			connection = new WAConnection(&this->connMutex, this, this);
-			login = new WALogin(connection, new BinTreeNodeReader(connection, conn, WAConnection::dictionary, WAConnection::DICTIONARY_LEN),
-					new BinTreeNodeWriter(connection, conn, WAConnection::dictionary, WAConnection::DICTIONARY_LEN, &writerMutex),
-					"s.whatsapp.net", this->phoneNumber, std::string(ACCOUNT_RESOURCE) +"-5222", base64_decode(pass), nick);
-			
+				connection = new WAConnection(&this->connMutex, this, this);
+				login = new WALogin(connection, new BinTreeNodeReader(connection, conn, WAConnection::dictionary, WAConnection::DICTIONARY_LEN),
+						new BinTreeNodeWriter(connection, conn, WAConnection::dictionary, WAConnection::DICTIONARY_LEN, &writerMutex),
+						"s.whatsapp.net", this->phoneNumber, std::string(ACCOUNT_RESOURCE) +"-443", base64_decode(pass), nick);
+			} else {
+				this->conn = new WASocketConnection("c.whatsapp.net", 5222);
+
+				connection = new WAConnection(&this->connMutex, this, this);
+				login = new WALogin(connection, new BinTreeNodeReader(connection, conn, WAConnection::dictionary, WAConnection::DICTIONARY_LEN),
+						new BinTreeNodeWriter(connection, conn, WAConnection::dictionary, WAConnection::DICTIONARY_LEN, &writerMutex),
+						"s.whatsapp.net", this->phoneNumber, std::string(ACCOUNT_RESOURCE) +"-5222", base64_decode(pass), nick);
+			}
+
 			std::vector<unsigned char>* nextChallenge = login->login(*this->challenge);
 			delete this->challenge;
 			this->challenge = nextChallenge;

@@ -13,7 +13,7 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
 		SendDlgItemMessage(hwnd, IDC_REG_CODE_1, EM_LIMITTEXT, 3, 0);
 		SendDlgItemMessage(hwnd, IDC_REG_CODE_2, EM_LIMITTEXT, 3, 0);
-
+		CheckDlgButton(hwnd, IDC_SSL, db_get_b(NULL, proto->ModuleName(), WHATSAPP_KEY_SSL, 0));
 		DBVARIANT dbv;
 
 		if ( !db_get_s(0,proto->ModuleName(),WHATSAPP_KEY_CC,&dbv,DBVT_ASCIIZ))
@@ -34,19 +34,11 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 			db_free(&dbv);
 		}
 
-		if ( !db_get_s(0,proto->ModuleName(),WHATSAPP_KEY_PASS,&dbv,DBVT_ASCIIZ))
-		{
-			CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
-				reinterpret_cast<LPARAM>(dbv.pszVal));
-			SetDlgItemTextA(hwnd,IDC_PW,dbv.pszVal);
-			db_free(&dbv);
-		}
-
 		if (!proto->isOffline()) {
 			SendMessage(GetDlgItem(hwnd,IDC_CC),EM_SETREADONLY,1,0);
 			SendMessage(GetDlgItem(hwnd,IDC_LOGIN),EM_SETREADONLY,1,0);
 			SendMessage(GetDlgItem(hwnd,IDC_NICK),EM_SETREADONLY,1,0);
-			SendMessage(GetDlgItem(hwnd,IDC_PW),EM_SETREADONLY,1,0);
+			EnableWindow(GetDlgItem(hwnd, IDC_SSL), FALSE);
 		}
 
 		return TRUE;
@@ -87,7 +79,6 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 				string pw = proto->Register(REG_STATE_REG_CODE, string(cc), string(number), string(code));
 				if (!pw.empty())
 				{
-					SetDlgItemTextA(hwnd, IDC_PW, pw.c_str());
 					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(pw.c_str()), (LPARAM)pw.c_str());
 					db_set_s(NULL, proto->ModuleName(), WHATSAPP_KEY_PASS, pw.c_str());
 					MessageBox(NULL, TranslateT("Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!"), PRODUCT_NAME, MB_ICONWARNING);
@@ -102,30 +93,28 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 			case IDC_CC:
 			case IDC_LOGIN:
 			case IDC_NICK:
-			case IDC_PW:
-				SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
+			case IDC_SSL:
+				SendMessage(GetParent(hwnd) ,PSM_CHANGED, 0, 0);
 			}
 		}
 		break;
 
 	case WM_NOTIFY:
-		if ( reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY )
+		if (reinterpret_cast<NMHDR *>(lparam)->code == PSN_APPLY)
 		{
-			proto = reinterpret_cast<WhatsAppProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
+			proto = reinterpret_cast<WhatsAppProto *>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 			char str[128];
 
 			GetDlgItemTextA(hwnd, IDC_CC, str, sizeof(str));
-			db_set_s(0,proto->ModuleName(),WHATSAPP_KEY_CC,str);
+			db_set_s(0, proto->ModuleName(), WHATSAPP_KEY_CC, str);
 
 			GetDlgItemTextA(hwnd, IDC_LOGIN, str, sizeof(str));
-			db_set_s(0,proto->ModuleName(),WHATSAPP_KEY_LOGIN,str);
+			db_set_s(0, proto->ModuleName(), WHATSAPP_KEY_LOGIN, str);
 
 			GetDlgItemTextA(hwnd, IDC_NICK, str, sizeof(str));
-			db_set_s(0,proto->ModuleName(),WHATSAPP_KEY_NICK,str);
+			db_set_s(0, proto->ModuleName(), WHATSAPP_KEY_NICK, str);
 
-			GetDlgItemTextA(hwnd,IDC_PW,str,sizeof(str));
-			CallService(MS_DB_CRYPT_ENCODESTRING,sizeof(str),reinterpret_cast<LPARAM>(str));
-			db_set_s(0,proto->ModuleName(),WHATSAPP_KEY_PASS,str);
+			db_set_b(0, proto->ModuleName(), WHATSAPP_KEY_SSL, IsDlgButtonChecked(hwnd, IDC_SSL));
 
 			return TRUE;
 		}
