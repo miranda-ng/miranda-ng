@@ -20,7 +20,7 @@ static struct gc_item crListItems[] =
 	{ LPGENT("&User details"),        ICM_DETAILS,            MENU_ITEM      }, 
 	{ LPGENT("&Request auth"),        ICM_AUTH_REQUEST,       MENU_ITEM      },
 	{ NULL,                           0,                      MENU_SEPARATOR },
-	{ LPGENT("Invite to conferance"), ICM_CONF_INVITE,        MENU_ITEM      },
+	{ LPGENT("Invite to conference"), ICM_CONF_INVITE,        MENU_ITEM      },
 	{ NULL,                           0,                      MENU_SEPARATOR },
 	{ LPGENT("Set &role"),            ICM_ROLE,               MENU_NEWPOPUP  },
 	{ LPGENT("&Master"),              ICM_ROLE_ADMIN,         MENU_POPUPITEM },
