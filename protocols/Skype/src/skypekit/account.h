@@ -15,11 +15,11 @@ public:
 	bool IsOnline();
 	bool SetAvatar(SEBinary avatar, Skype::VALIDATERESULT &result);
 	
-	void SetOnAccountChangedCallback(OnAccountChanged callback, CSkypeProto* proto);
+	void SetOnAccountChangedCallback(OnAccountChanged callback, CSkypeProto *ppro);
 
 private:
-	Skype *skype;
-	CSkypeProto* proto;
+	CSkypeProto* ppro;
 	OnAccountChanged callback;
+
 	void OnChange(int prop);
 };

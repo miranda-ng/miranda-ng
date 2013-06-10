@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by e:\Projects\C++\MirandaNG\protocols\Skype\res\Resource.rc
+// Used by E:\Projects\C++\MirandaNG\protocols\Skype\res\Resource.rc
 //
 #define IDD_ACCMGR                      9
 #define IDD_OPT_MAIN                    10
@@ -69,13 +69,15 @@
 #define IDC_CHAT_GUIDLINE               1045
 #define IDC_CHAT_JOINING                1046
 #define IDC_COMBO1                      1047
+#define IDC_ROLES                       1047
 #define IDC_CHAT_JOINING2               1048
+#define IDC_CHAT_SECURED                1048
 #define IDC_EDIT1                       1049
 #define IDC_EDIT2                       1050
 #define IDC_EDIT3                       1051
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        111

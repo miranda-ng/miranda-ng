@@ -84,7 +84,6 @@ public:
 	void SetPaticipant(const ParticipantRef &participant)
 	{
 		this->participant = participant;
-		//this->participant.fetch();
 	}
 
 	static int Compare(const ChatMember *p1, const ChatMember *p2)
@@ -128,9 +127,7 @@ private:
 	wchar_t *cid;
 	wchar_t *name;
 
-	HANDLE hContact;
-
-	
+	HANDLE hContact;	
 
 	LIST<ChatMember> members;
 
@@ -145,6 +142,7 @@ private:
 	inline static int CompareMembers(const ChatMember *p1, const ChatMember *p2) { return ChatMember::Compare(p1, p2); }
 
 	bool IsMe(const ChatMember &item) const;
+	bool IsSys(const ChatMember &item) const;
 	void SendEvent(const ChatMember &item, int eventType, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
 	
 	void UpdateMember(const ChatMember &item, DWORD timestamp = time(NULL));
@@ -153,6 +151,7 @@ private:
 
 public:
 	ChatMember *me;
+	ChatMember *sys;
 	CConversation::Ref conversation;
 
 	ChatRoom(const wchar_t *cid, const wchar_t *name, CSkypeProto *ppro);
@@ -166,17 +165,25 @@ public:
 	void SendEvent(const wchar_t *sid, int eventType, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
 
 	bool IsMe(const wchar_t *sid) const;
+	bool IsSys(const wchar_t *sid) const;
 
 	//
 	ChatMember *FindChatMember(const wchar_t *sid);
 
-	void AddMember(const ChatMember &item, const ChatMember *author, DWORD timestamp = time(NULL));
+	void AddMember(const ChatMember &item, const ChatMember &author, DWORD timestamp = time(NULL));
 
-	void UpdateMember(const wchar_t *sid, const wchar_t *nick, int rank, int status, DWORD timestamp = time(NULL));
+	void UpdateMemberNick(ChatMember *member, const wchar_t *nick, DWORD timestamp = time(NULL));
+	void UpdateMemberRole(ChatMember *member, int role, const ChatMember &author = NULL, DWORD timestamp = time(NULL));
+	void UpdateMemberStatus(ChatMember *member, int status, DWORD timestamp = time(NULL));
+	
+	void UpdateMember(const wchar_t *sid, const wchar_t *nick, int role, int status, DWORD timestamp = time(NULL));
+
 	void KickMember(const wchar_t *sid, const wchar_t *author, DWORD timestamp = time(NULL));
 	void RemoveMember(const wchar_t *sid, DWORD timestamp = time(NULL));
 
 	void OnEvent(const ConversationRef &conversation, const MessageRef &message);
+
+	void OnParticipantChanged(const ParticipantRef &participant, int prop);
 
 	static int __cdecl OnGCEventHook(WPARAM, LPARAM lParam);
 	static int __cdecl OnGCMenuHook(WPARAM, LPARAM lParam);

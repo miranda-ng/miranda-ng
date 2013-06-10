@@ -251,3 +251,45 @@ void CSkypeProto::OnMessage (
 	//	break;
 	}
 }
+
+void CSkypeProto::OnConversationChanged(const ConversationRef &conversation, int prop)
+{
+	if (prop == Conversation::P_LOCAL_LIVESTATUS)
+	{
+		Conversation::LOCAL_LIVESTATUS liveStatus;
+		conversation->GetPropLocalLivestatus(liveStatus);
+		if (liveStatus == Conversation::RINGING_FOR_ME)
+		{
+			SEString data;
+
+			CConversation::TYPE type;
+			conversation->GetPropType(type);
+			if (type == 0 || type == CConversation::DIALOG)
+			{
+				ParticipantRefs participants;
+				conversation->GetParticipants(participants, Conversation::OTHER_CONSUMERS);
+
+				participants[0]->GetPropIdentity(data);
+
+				ContactRef author;
+				this->GetContact(data, author);
+
+				HANDLE hContact = this->AddContact(author);
+		
+				char *message = ::mir_utf8encode(::Translate("Incoming call received"));
+		
+				this->AddDBEvent(
+					hContact,
+					SKYPE_DB_EVENT_TYPE_CALL,
+					time(NULL),
+					DBEF_UTF,
+					(DWORD)::strlen(message) + 1,
+					(PBYTE)message);
+			}
+			//temp popup
+				TCHAR popuptext[MAX_PATH];
+				mir_sntprintf(popuptext, SIZEOF(popuptext), TranslateT("Incoming call from %s. Use offical skype for calling."), ptrW(::mir_utf8decodeW(data)));
+				this->ShowNotification(popuptext);
+		}
+	}
+}

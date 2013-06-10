@@ -270,8 +270,9 @@ protected:
 	HANDLE GetChatRoomByCid(const wchar_t *cid);
 	HANDLE AddChatRoom(CConversation::Ref conversation);
 
-	wchar_t *CSkypeProto::GetChatUsers(const wchar_t *cid);
-	void CSkypeProto::UpdateChatUserStatus(CContact::Ref contact);
+	wchar_t *GetChatUsers(const wchar_t *cid);
+	void UpdateChatUserStatus(CContact::Ref contact);
+	void UpdateChatUserNick(CContact::Ref contact);
 
 	void ChatValidateContact(HANDLE hItem, HWND hwndList, const StringList &contacts);
 	void ChatPrepare(HANDLE hItem, HWND hwndList, const StringList &contacts);
@@ -477,4 +478,6 @@ protected:
 
 	int __cdecl OnMessagePreCreate(WPARAM, LPARAM);
 	int __cdecl OnTabSRMMButtonPressed(WPARAM, LPARAM);
+
+	void OnConversationChanged(const ConversationRef &conversation, int prop);
 };

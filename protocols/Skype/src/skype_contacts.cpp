@@ -123,6 +123,10 @@ void CSkypeProto::OnContactChanged(CContact::Ref contact, int prop)
 			this->UpdateProfileStatusMessage(contactObj, hContact);
 			break;
 
+		case CContact::P_FULLNAME:
+			this->UpdateChatUserNick(contact);
+			break;
+
 		case CContact::P_PROFILE_TIMESTAMP:
 			this->UpdateProfile(contactObj, hContact);
 			break;

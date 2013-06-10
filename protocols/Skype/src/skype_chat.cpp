@@ -11,7 +11,7 @@ enum CHAT_LIST_MENU
 	ICM_AUTH_REQUEST,
 	ICM_CONF_INVITE,
 	ICM_ROLE, ICM_ROLE_ADMIN, ICM_ROLE_SPEAKER, ICM_ROLE_WRITER, ICM_ROLE_SPECTATOR,
-	ICM_KICK, ICM_BAN,
+	ICM_ADD, ICM_KICK, ICM_BAN,
 	ICM_COPY_SID, ICM_COPY_URI
 };
 
@@ -23,11 +23,12 @@ static struct gc_item crListItems[] =
 	{ LPGENT("Invite to conferance"), ICM_CONF_INVITE,        MENU_ITEM      },
 	{ NULL,                           0,                      MENU_SEPARATOR },
 	{ LPGENT("Set &role"),            ICM_ROLE,               MENU_NEWPOPUP  },
-	{ LPGENT("&Administrator"),       ICM_ROLE_ADMIN,         MENU_POPUPITEM },
-	{ LPGENT("&Speaker"),             ICM_ROLE_SPEAKER,       MENU_POPUPITEM },
-	{ LPGENT("&Writer"),              ICM_ROLE_WRITER,        MENU_POPUPITEM },
+	{ LPGENT("&Master"),              ICM_ROLE_ADMIN,         MENU_POPUPITEM },
+	{ LPGENT("&Helper"),              ICM_ROLE_SPEAKER,       MENU_POPUPITEM },
+	{ LPGENT("&User"),                ICM_ROLE_WRITER,        MENU_POPUPITEM },
 	{ LPGENT("&Listener"),            ICM_ROLE_SPECTATOR,     MENU_POPUPITEM },
 	{ NULL,                           0,                      MENU_SEPARATOR },
+	{ LPGENT("&Add"),                 ICM_ADD,               MENU_ITEM       },
 	{ LPGENT("&Kick"),                ICM_KICK,               MENU_ITEM      },
 	{ LPGENT("Outlaw (&ban)"),        ICM_BAN,                MENU_ITEM      },	
 	{ NULL,                           0,                      MENU_SEPARATOR },
@@ -56,16 +57,12 @@ static void ResetChatMenuItem()
 		crListItems[i].bDisabled = FALSE;
 }
 
-static const COLORREF crCols[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-
 void CSkypeProto::InitChat()
 {
 	GCREGISTER gcr = {0};
 	gcr.cbSize = sizeof(gcr);
-	gcr.dwFlags = GC_TCHAR | GC_TYPNOTIF | GC_CHANMGR;
+	gcr.dwFlags = GC_TCHAR;
 	gcr.iMaxText = 0;
-	gcr.nColors = 16;
-	gcr.pColors = (COLORREF*)crCols;
 	gcr.ptszModuleDispName = this->m_tszUserName;
 	gcr.pszModule = this->m_szModuleName;
 	::CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
@@ -81,9 +78,9 @@ wchar_t *ChatRoom::Roles[] =
 	L"",			// ---
 	L"Creator",		// CREATOR	= 1
 	L"Master",		// ADMIN	= 2
-	L"Speaker",		// SPEAKER	= 3
-	L"Writer",		// WRITER	= 4
-	L"Spectator",	// SPECTATOR= 5
+	L"Helper",		// SPEAKER	= 3
+	L"User",		// WRITER	= 4
+	L"Listener",	// SPECTATOR= 5
 	L"Applicant",	// APPLICANT= 6
 	L"Retried",		// RETIRED	= 7
 	L"Outlaw",		// OUTLAW	= 8
@@ -106,6 +103,11 @@ ChatRoom::ChatRoom(const wchar_t *cid, const wchar_t *name, CSkypeProto *ppro) :
 	this->me->SetNick(::TranslateT("me"));
 	this->me->SetRank(0);
 	this->me->SetStatus(ID_STATUS_OFFLINE);
+	//
+	this->sys = new ChatMember(L"sys");
+	this->sys->SetNick(L"System");
+	this->sys->SetRank(0);
+	this->sys->SetStatus(ID_STATUS_OFFLINE);
 }
 
 ChatRoom::~ChatRoom()
@@ -144,14 +146,19 @@ void ChatRoom::Start(bool showWindow)
 	gce.cbSize = sizeof(GCEVENT);
 	gce.dwFlags = GC_TCHAR;
 	gce.pDest = &gcd;
-	for (int i = 1; i < SIZEOF(ChatRoom::Roles); i++)
+	
+	for (int i = 1; i < SIZEOF(ChatRoom::Roles) - 2; i++)
 	{
 		gce.ptszStatus = ::TranslateW(ChatRoom::Roles[i]);
-		::CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+		::CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	}
+	
+	/*gce.ptszStatus = ::TranslateT("Other");
+	::CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);*/
 
 	// init [and show window]
 	gcd.iType = GC_EVENT_CONTROL;
+	gce.ptszStatus = NULL;
 	::CallServiceSync(MS_GC_EVENT, showWindow ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce);
 	::CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 }
@@ -187,7 +194,8 @@ void ChatRoom::Start(const ParticipantRefs &participants, bool showWindow)
 		}
 
 		member.SetPaticipant(participant);
-		member.participant.fetch();
+		/*member.participant.fetch();
+		member.participant->SetOnChangedCallback(&ChatRoom::OnParticipantChanged, this);*/
 
 		this->AddMember(member, NULL, NULL);
 	}
@@ -224,20 +232,23 @@ void ChatRoom::SendEvent(const ChatMember &item, int eventType, DWORD timestamp,
 	gce.ptszStatus = status;
 	gce.ptszText = message;
 	gce.time = timestamp;
+
 	::CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 }
 
 void ChatRoom::SendEvent(const wchar_t *sid, int eventType, DWORD timestamp, DWORD flags, DWORD itemData, const wchar_t *status, const wchar_t *message)
 {
-	if ( !this->IsMe(sid))
+	if (this->IsMe(sid))
+		this->SendEvent(*this->me, eventType, timestamp, flags, itemData, status, message);
+	else if (this->IsSys(sid))
+		this->SendEvent(*this->sys, eventType, timestamp, flags, itemData, status, message);
+	else
 	{
 		ChatMember search(sid);
 		ChatMember *member = this->members.find(&search);
 		if (member != NULL)
 			this->SendEvent(*member, eventType, timestamp, flags, itemData, status, message);
 	}
-	else
-		this->SendEvent(*this->me, eventType, timestamp, flags, itemData, status, message);
 }
 
 bool ChatRoom::IsMe(const wchar_t *sid) const
@@ -248,6 +259,16 @@ bool ChatRoom::IsMe(const wchar_t *sid) const
 bool ChatRoom::IsMe(const ChatMember &item) const
 {
 	return ::lstrcmpi(this->ppro->login, item.GetSid()) == 0;
+}
+
+bool ChatRoom::IsSys(const wchar_t *sid) const
+{
+	return ::lstrcmpi(L"sys", sid) == 0;
+}
+
+bool ChatRoom::IsSys(const ChatMember &item) const
+{
+	return ::lstrcmpi(L"sys", item.GetSid()) == 0;
 }
 
 ChatMember *ChatRoom::FindChatMember(const wchar_t *sid)
@@ -261,7 +282,7 @@ ChatMember *ChatRoom::FindChatMember(const wchar_t *sid)
 		return this->me;
 }
 
-void ChatRoom::AddMember(const ChatMember &item, const ChatMember *author, DWORD timestamp)
+void ChatRoom::AddMember(const ChatMember &item, const ChatMember &author, DWORD timestamp)
 {
 	if ( !this->IsMe(item))
 	{
@@ -272,7 +293,10 @@ void ChatRoom::AddMember(const ChatMember &item, const ChatMember *author, DWORD
 		}
 		else
 		{
-			this->members.insert(new ChatMember(item));
+			ChatMember *newMember = new ChatMember(item);
+			newMember->participant.fetch();
+			newMember->participant->SetOnChangedCallback(&ChatRoom::OnParticipantChanged, this);
+			this->members.insert(newMember);
 
 			this->SendEvent(item, GC_EVENT_JOIN, timestamp, GCEF_ADDTOLOG, 0, ::TranslateW(ChatRoom::Roles[item.GetRank()]));
 			this->SendEvent(item, GC_EVENT_SETCONTACTSTATUS, timestamp, 0, item.GetStatus());
@@ -280,37 +304,58 @@ void ChatRoom::AddMember(const ChatMember &item, const ChatMember *author, DWORD
 	}
 	else
 	{
+		if (!this->me->participant)
+		{
+			this->me->participant = item.participant;
+			this->me->participant.fetch();
+			this->me->participant->SetOnChangedCallback(&ChatRoom::OnParticipantChanged, this);
+		}
 		if (this->me->GetRank() != item.GetRank())
 		{
 			this->SendEvent(*this->me, GC_EVENT_REMOVESTATUS, timestamp, 0, 0, ::TranslateW(ChatRoom::Roles[this->me->GetRank()]));
-			this->SendEvent(*this->me, GC_EVENT_ADDSTATUS, timestamp, !this->me->GetRank() ? 0 : GCEF_ADDTOLOG, 0, ::TranslateW(ChatRoom::Roles[item.GetRank()]), author == NULL ? NULL : author->GetNick());
+			this->SendEvent(*this->me, GC_EVENT_ADDSTATUS, timestamp, !this->me->GetRank() ? 0 : GCEF_ADDTOLOG, 0, ::TranslateW(ChatRoom::Roles[item.GetRank()]), author == NULL ? this->sys->GetNick() : author.GetNick());
 			this->me->SetRank(item.GetRank());
 		}
 	}
 }
 
-void ChatRoom::UpdateMember(const wchar_t *sid, const wchar_t *nick, int rank, int status, DWORD timestamp)
+void ChatRoom::UpdateMemberNick(ChatMember *member, const wchar_t *nick, DWORD timestamp)
+{
+	if (::lstrcmp(member->GetNick(), nick) != 0)
+	{
+		this->SendEvent(*member, GC_EVENT_NICK, timestamp, GCEF_ADDTOLOG, 0, nick);
+		member->SetNick(nick);
+	}
+}
+
+void ChatRoom::UpdateMemberRole(ChatMember *member, int role, const ChatMember &author, DWORD timestamp)
+{
+	if (member->GetRank() != role)
+	{
+		this->SendEvent(*member, GC_EVENT_REMOVESTATUS, timestamp, 0, 0, ::TranslateW(ChatRoom::Roles[member->GetRank()]));
+		this->SendEvent(*member, GC_EVENT_ADDSTATUS, timestamp, GCEF_ADDTOLOG, 0, ::TranslateW(ChatRoom::Roles[role]), author == NULL ? this->sys->GetNick() : author.GetNick());
+		member->SetRank(role);
+	}
+}
+
+void ChatRoom::UpdateMemberStatus(ChatMember *member, int status, DWORD timestamp)
+{
+	if (member->GetStatus() != status)
+	{
+		this->SendEvent(*member, GC_EVENT_SETCONTACTSTATUS, timestamp, 0, status);
+		member->SetStatus(status);
+	}
+}
+
+void ChatRoom::UpdateMember(const wchar_t *sid, const wchar_t *nick, int role, int status, DWORD timestamp)
 {
 	ChatMember search(sid);
 	ChatMember *member = this->members.find(&search);
 	if (member != NULL)
 	{
-		if (::lstrcmp(member->GetNick(), nick) != 0)
-		{
-			this->SendEvent(*member, GC_EVENT_NICK, timestamp, GCEF_ADDTOLOG, 0, nick);
-			member->SetNick(nick);
-		}
-		if (member->GetRank() != rank)
-		{
-			this->SendEvent(*member, GC_EVENT_REMOVESTATUS, timestamp, 0, 0, ::TranslateW(ChatRoom::Roles[member->GetRank()]));
-			this->SendEvent(*member, GC_EVENT_ADDSTATUS, timestamp, GCEF_ADDTOLOG, 0, ::TranslateW(ChatRoom::Roles[rank]));
-			member->SetRank(rank);
-		}
-		if (member->GetStatus() != status)
-		{
-			this->SendEvent(*member, GC_EVENT_SETCONTACTSTATUS, timestamp, 0, status);
-			member->SetStatus(status);
-		}
+		this->UpdateMemberNick(member, nick, timestamp);
+		this->UpdateMemberRole(member, role, NULL, timestamp);
+		this->UpdateMemberStatus(member, status, timestamp);
 	}
 }
 
@@ -354,7 +399,7 @@ void ChatRoom::KickMember(const ChatMember &item, const ChatMember *author, DWOR
 	else
 	{
 		this->SendEvent(*this->me, GC_EVENT_KICK, timestamp, GCEF_ADDTOLOG, 0, author->GetNick());
-		this->me->SetRank(/*APPLICANT= */6);
+		this->me->SetRank(/*RETIRED= */7);
 	}
 }
 
@@ -460,9 +505,10 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 						}
 						
 						member.participant = participants[i];
-						member.participant.fetch();
+						/*member.participant.fetch();
+						member.participant->SetOnChangedCallback(&ChatRoom::OnParticipantChanged, this);*/
 
-						this->AddMember(member, author, timestamp);
+						this->AddMember(member, *author, timestamp);
 					}
 				}
 
@@ -566,35 +612,35 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 		}
 		break;
 
-	case Message::SET_RANK:
-		{
-			SEString data;
-			message->GetPropBodyXml(data);
-			ptrA text = ::mir_strdup(data);
-			int i = 0;
+	//case Message::SET_RANK:
+	//	{
+	//		SEString data;
+	//		message->GetPropBodyXml(data);
+	//		ptrA text = ::mir_strdup(data);
+	//		int i = 0;
 
-			/*Message::CONSUMPTION_STATUS status;
-			message->GetPropConsumptionStatus(status);
-			if (status == Message::UNCONSUMED_NORMAL)*/
-			{
-				message->GetPropAuthor(data);	
-				ptrW sid = ::mir_utf8decodeW(data);
+	//		/*Message::CONSUMPTION_STATUS status;
+	//		message->GetPropConsumptionStatus(status);
+	//		if (status == Message::UNCONSUMED_NORMAL)*/
+	//		{
+	//			message->GetPropAuthor(data);	
+	//			ptrW sid = ::mir_utf8decodeW(data);
 
-				ChatMember search(sid);
-				ChatMember *member = this->FindChatMember(sid);
-				if (member != NULL)
-				{
-					uint timestamp;
-					message->GetPropTimestamp(timestamp);
+	//			ChatMember search(sid);
+	//			ChatMember *member = this->FindChatMember(sid);
+	//			if (member != NULL)
+	//			{
+	//				uint timestamp;
+	//				message->GetPropTimestamp(timestamp);
 
-					message->GetPropBodyXml(data);	
-					ptrW rank = ::mir_utf8decodeW(data);
+	//				message->GetPropBodyXml(data);	
+	//				ptrW rank = ::mir_utf8decodeW(data);
 
-					member->SetRank(0);
-				}
-			}
-		}
-		break;
+	//				member->SetRank(0);
+	//			}
+	//		}
+	//	}
+	//	break;
 
 	case CMessage::STARTED_LIVESESSION:
 		{
@@ -647,6 +693,23 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 				::TranslateT("Incoming group call finished"));
 		}
 		break;
+	}
+}
+
+void ChatRoom::OnParticipantChanged(const ParticipantRef &participant, int prop)
+{
+	if (prop == Participant::P_RANK)
+	{
+		Participant::RANK rank;
+		participant->GetPropRank(rank);
+	
+		SEString identity;
+		participant->GetPropIdentity(identity);
+
+		ptrW sid(::mir_utf8decodeW(identity));
+		ChatMember *member = this->FindChatMember(sid);
+		if (member != NULL)
+			this->UpdateMemberRole(member, rank);
 	}
 }
 
@@ -949,18 +1012,6 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 
 	switch (gch->pDest->iType)
 	{
-	/*case GC_SESSION_TERMINATE:
-		{
-			ptrA cid = ::mir_utf8encodeW(gch->pDest->ptszID);
-			if (this->GetConversationByIdentity((char *)cid, conversation, false))
-			{
-				Participant::Refs participants;
-				conversation->GetParticipants(participants, CConversation::MYSELF);
-				participants[0]->Retire();
-			}
-		}
-		break;*/
-
 	case GC_USER_MESSAGE:
 		if (gch->ptszText && gch->ptszText[0])
 		{
@@ -1017,9 +1068,21 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 					}
 					if (member->participant && member->participant->SetRankTo(rank))
 					{
-						member->SetRank(rank);
-						room->UpdateMember(member->GetSid(), member->GetNick(), rank, member->GetStatus());
+						//member->SetRank(rank);
+						room->UpdateMemberRole(member, rank, *room->me);
 					}
+				}
+			}
+			break;
+
+		case CHAT_LIST_MENU::ICM_ADD:
+			{
+				ChatMember *member = room->FindChatMember(gch->ptszUID);
+				if (member != NULL)
+				{
+					SEStringList consumers;
+					consumers.append((char *)ptrA(::mir_utf8encodeW(gch->ptszUID)));
+					room->conversation->AddConsumers(consumers);
 				}
 			}
 			break;
@@ -1137,14 +1200,21 @@ int __cdecl CSkypeProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 		DisableChatMenuItem(ICM_COPY_SID);
 	}
 
-	if (room->me->GetRank() > Participant::ADMIN && room->me->GetRank() == 0)
+	if (room->me->GetRank() > Participant::ADMIN || room->me->GetRank() == 0)
 	{
 		//CHAT_LIST_MENU adminItems[] = { ICM_ROLE, ICM_ROLE_ADMIN, ICM_ROLE_SPEAKER, ICM_ROLE_WRITER, ICM_ROLE_SPECTATOR };
 		//DisableChatMenuItems(adminItems);
 
 		DisableChatMenuItem(ICM_ROLE);
+		DisableChatMenuItem(ICM_ADD);
 		DisableChatMenuItem(ICM_KICK);
 		DisableChatMenuItem(ICM_BAN);
+	}
+
+	ChatMember *member = room->FindChatMember(gcmi->pszUID);
+	if (member != NULL && member->GetRank() > Participant::SPECTATOR)
+	{
+		DisableChatMenuItem(ICM_ROLE);
 	}
 
 	gcmi->nItems = SIZEOF(crListItems);
@@ -1189,12 +1259,39 @@ void CSkypeProto::UpdateChatUserStatus(CContact::Ref contact)
 		ChatRoom *room = (ChatRoom *)gci.dwItemData;
 		if (room != NULL)
 		{
-			room->SendEvent(
-				sid,
-				GC_EVENT_SETCONTACTSTATUS,
-				0,
-				0,
-				CSkypeProto::SkypeToMirandaStatus(availability));
+			ChatMember *member = room->FindChatMember(sid);
+			if (member != NULL)
+				room->UpdateMemberStatus(member, CSkypeProto::SkypeToMirandaStatus(availability));
+		}
+	}
+}
+
+void CSkypeProto:: UpdateChatUserNick(CContact::Ref contact)
+{
+	SEString data;
+
+	contact->GetIdentity(data);
+	ptrW sid(::mir_utf8decodeW(data));
+
+	contact->GetPropFullname(data);
+	ptrW nick(::mir_utf8decodeW(data));
+
+	GC_INFO gci = {0};
+	gci.Flags = BYINDEX | DATA;
+	gci.pszModule = this->m_szModuleName;
+
+	int count = ::CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)this->m_szModuleName);
+	for (int i = 0; i < count ; i++)
+	{
+		gci.iItem = i;
+		::CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci);
+
+		ChatRoom *room = (ChatRoom *)gci.dwItemData;
+		if (room != NULL)
+		{
+			ChatMember *member = room->FindChatMember(sid);
+			if (member != NULL)
+				room->UpdateMemberNick(member, nick);
 		}
 	}
 }
@@ -1224,10 +1321,11 @@ INT_PTR __cdecl CSkypeProto::OnJoinChat(WPARAM wParam, LPARAM)
 			
 			ChatRoom *room = new ChatRoom(cid, name, this);
 			room->conversation = conversation;
-			//room->conversation.fetch();
+			room->conversation.fetch();
+			//room->conversation->SetOnConvoChangedCallback(this->OnConversationChanged);
 
 			Participant::Refs participants;
-			conversation->GetParticipants(participants, Conversation::ALL);		
+			conversation->GetParticipants(participants, Conversation::CONSUMERS_AND_APPLICANTS);		
 
 			room->Start(participants, true);
 		}
@@ -1290,11 +1388,13 @@ void __cdecl CSkypeProto::LoadChatList(void*)
 
 				ChatRoom *room = new ChatRoom(cid, name, this);
 				room->conversation = conversation;
-				//room->conversation.fetch();
+				room->conversation.fetch();
+				//room->conversation->SetOnConvoChangedCallback(&CSkypeProto::OnConversationChanged);
+
 				this->AddChatRoom(conversation);
 
 				Participant::Refs participants;
-				conversation->GetParticipants(participants, Conversation::ALL);
+				conversation->GetParticipants(participants, Conversation::CONSUMERS_AND_APPLICANTS);
 				
 				room->Start(participants);
 			}
@@ -1335,11 +1435,11 @@ void CSkypeProto::OnChatEvent(const ConversationRef &conversation, const Message
 
 		ChatRoom *room = new ChatRoom(cid, name, this);
 		room->conversation = conversation;
-		//room->conversation.fetch();
+		room->conversation.fetch();
 		this->AddChatRoom(conversation);
 
 		Participant::Refs participants;
-		conversation->GetParticipants(participants, Conversation::ALL);
+		conversation->GetParticipants(participants, Conversation::CONSUMERS_AND_APPLICANTS);
 				
 		room->Start(participants, true);
 	}
@@ -1368,11 +1468,11 @@ void CSkypeProto::OnConversationListChange(
 
 			ChatRoom *room = new ChatRoom(cid, name, this);
 			room->conversation = conversation;
-			//room->conversation.fetch();
+			room->conversation.fetch();
 			this->AddChatRoom(conversation);
 
 			Participant::Refs participants;
-			conversation->GetParticipants(participants, Conversation::ALL);
+			conversation->GetParticipants(participants, Conversation::CONSUMERS_AND_APPLICANTS);
 				
 			room->Start(participants, true);
 		}

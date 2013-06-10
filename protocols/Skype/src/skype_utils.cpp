@@ -414,6 +414,9 @@ char *CSkypeProto::RemoveHtml(const char *text)
 	std::string new_string = "";
 	std::string data = text;
 
+	if (data.find("\x1b\xe3\xac\x8d\x1d") != -1)
+		data = "CONVERSATION MEMBERS:" + data.substr(5, data.length() - 5);
+
 	for (std::string::size_type i = 0; i < data.length(); i++)
 	{
 		if (data.at(i) == '<' && data.at(i+1) != ' ')
