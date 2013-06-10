@@ -462,31 +462,35 @@ int CSkypeProto::SkypeToMirandaStatus(CContact::AVAILABILITY availability)
 
 	switch (availability)
 	{
-	case CContact::ONLINE:
-	case CContact::SKYPE_ME:
+	case Contact::ONLINE:
+	case Contact::SKYPE_ME:
 		status = ID_STATUS_ONLINE;
 		break;
 
-	case CContact::ONLINE_FROM_MOBILE:
-	case CContact::SKYPE_ME_FROM_MOBILE:
+	case Contact::ONLINE_FROM_MOBILE:
+	case Contact::SKYPE_ME_FROM_MOBILE:
 		status = ID_STATUS_ONTHEPHONE;
 		break;
 
-	case CContact::AWAY:
-	case CContact::AWAY_FROM_MOBILE:
+	case Contact::AWAY:
+	case Contact::AWAY_FROM_MOBILE:
 		status = ID_STATUS_AWAY;
 		break;
 
-	case CContact::DO_NOT_DISTURB:
-	case CContact::DO_NOT_DISTURB_FROM_MOBILE:
+	case Contact::DO_NOT_DISTURB:
+	case Contact::DO_NOT_DISTURB_FROM_MOBILE:
 		status = ID_STATUS_DND;
 		break;
 
-	case CContact::SKYPEOUT:
+	case Contact::INVISIBLE:
+		status = ID_STATUS_INVISIBLE;
+		break;
+
+	case Contact::SKYPEOUT:
 		status = ID_STATUS_ONTHEPHONE;
 		break;
 
-	case CContact::CONNECTING:
+	case Contact::CONNECTING:
 		status = ID_STATUS_CONNECTING;
 		break;
 	}
