@@ -134,29 +134,6 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((TCHAR *) ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == NULL ? NULL : TranslateTS(ctrl->tszDefValue));
 		break;
 
-	case CONTROL_PASSWORD:
-		{
-			char tmp[1024];
-			tmp[0]=0;
-
-			DBVARIANT dbv = {0};
-			if ( !db_get_s(NULL, module, ctrl->setting, &dbv))
-			{
-				lstrcpynA(tmp, dbv.pszVal, SIZEOF(tmp));
-				db_free(&dbv);
-			}
-
-			if (tmp[0] != 0)
-				CallService(MS_DB_CRYPT_DECODESTRING, SIZEOF(tmp), (LPARAM) tmp);
-			else if (ctrl->szDefValue != NULL)
-				lstrcpynA(tmp, ctrl->szDefValue, SIZEOF(tmp));
-
-			char *var = (char *) ctrl->var;
-			int size = min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024);
-			lstrcpynA(var, tmp, size);
-		}
-		break;
-
 	case CONTROL_INT:
 		*((int *) ctrl->var) = (int) db_get_dw(NULL, module, ctrl->setting, ctrl->dwDefValue);
 		break;
@@ -270,26 +247,6 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 						SendDlgItemMessage(hwndDlg, ctrl->nID, EM_LIMITTEXT, min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), 0);
 					}
 					break;
-				case CONTROL_PASSWORD:
-					{
-						char tmp[1024];
-						tmp[0]=0;
-
-						DBVARIANT dbv = {0};
-						if ( !db_get_s(NULL, module, ctrl->setting, &dbv)) {
-							lstrcpynA(tmp, dbv.pszVal, SIZEOF(tmp));
-							db_free(&dbv);
-						}
-
-						if (tmp[0] != 0)
-							CallService(MS_DB_CRYPT_DECODESTRING, SIZEOF(tmp), (LPARAM) tmp);
-						else if (ctrl->szDefValue != NULL)
-							lstrcpynA(tmp, ctrl->szDefValue, SIZEOF(tmp));
-
-						SetDlgItemTextA(hwndDlg, ctrl->nID, tmp);
-						SendDlgItemMessage(hwndDlg, ctrl->nID, EM_LIMITTEXT, min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), 0);
-					}
-					break;
 				case CONTROL_INT:
 					{
 						DWORD var = db_get_dw(NULL, module, ctrl->setting, ctrl->dwDefValue);
@@ -345,7 +302,6 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 					case CONTROL_TEXT:
 					case CONTROL_SPIN:
 					case CONTROL_INT:
-					case CONTROL_PASSWORD:
 						// Don't make apply enabled during buddy set
 						if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
 							return 0;
@@ -425,28 +381,6 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 						}
 						break;
 
-					case CONTROL_PASSWORD:
-						{
-							char tmp[1024];
-							GetDlgItemTextA(hwndDlg, ctrl->nID, tmp, SIZEOF(tmp));
-
-							if (ctrl->var != NULL) {
-								char *var = (char *) ctrl->var;
-								int size = min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024);
-								lstrcpynA(var, tmp, size);
-							}
-
-							if (ctrl->checkboxID != 0 && !IsDlgButtonChecked(hwndDlg, ctrl->checkboxID)) {
-								db_unset(NULL, module, ctrl->setting);
-								continue;
-							}
-
-							CallService(MS_DB_CRYPT_ENCODESTRING, SIZEOF(tmp), (LPARAM) tmp);
-							db_set_s(NULL, module, ctrl->setting, tmp);
-
-							// Don't load from DB
-							continue;
-						}
 					case CONTROL_INT:
 						{
 							BOOL trans;
