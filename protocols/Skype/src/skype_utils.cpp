@@ -368,9 +368,7 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 {
 	if (::Miranda_Terminated()) return;
 
-	if ( !::ServiceExists(MS_POPUP_ADDPOPUPT) || !::db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
-		::MessageBoxW(NULL, message, caption, MB_OK | flags);
-	else
+	if ( ::ServiceExists(MS_POPUP_ADDPOPUPT) && ::db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
 	{
 		POPUPDATAW ppd = {0};
 		ppd.lchContact = hContact;
@@ -381,8 +379,12 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 		::wcsncpy(ppd.lpwzText, message, MAX_SECONDLINE);
 		ppd.lchIcon = ::Skin_GetIcon("Skype_main");
 
-		PUAddPopupW(&ppd);
+		if ( !PUAddPopupW(&ppd))
+			return;
+			
 	}
+	
+	::MessageBoxW(NULL, message, caption, MB_OK | flags);
 }
 
 void CSkypeProto::ShowNotification(const wchar_t *message, int flags, HANDLE hContact)

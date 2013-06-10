@@ -9,11 +9,11 @@ int CSkypeProto::CompareProtos(const CSkypeProto *p1, const CSkypeProto *p2)
 
 CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* userName)
 {
-	if (CSkypeProto::instanceList.getCount() > 0)
+	if (CSkypeProto::instanceList.getCount() > 0) 
 	{
 		CSkypeProto::ShowNotification(
 			::TranslateT("SkypeKit will only permit you to login to one account at a time.\nAdding multiple instances of SkypeKit is prohibited in the licence agreement and standard distribution terms."),
-			MB_ICONWARNING);
+			MB_ICONERROR);
 		return NULL;
 	}
 
@@ -23,30 +23,27 @@ CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* u
 
 	if ( !ppro->StartSkypeRuntime((TCHAR *)profilename))
 	{
-		CSkypeProto::ShowNotification(::TranslateT("Did not unpack SkypeKit.exe."));
+		CSkypeProto::ShowNotification(::TranslateT("Did not unpack SkypeKit.exe."), MB_ICONERROR);
 		return NULL;
 	}
 
 	char *keyPair = ppro->LoadKeyPair();
 	if ( !keyPair)
 	{
-		CSkypeProto::ShowNotification(::TranslateT("Initialization key corrupted or not valid."));
-		ppro->StopSkypeRuntime();
+		CSkypeProto::ShowNotification(::TranslateT("Initialization key corrupted or not valid."), MB_ICONERROR);
 		return NULL;
 	}
 
 	TransportInterface::Status status = ppro->init(keyPair, "127.0.0.1", ppro->skypeKitPort, 0, 1);
 	if (status != TransportInterface::OK)
 	{
-		CSkypeProto::ShowNotification(::TranslateT("SkypeKit did not initialize."));
-		ppro->StopSkypeRuntime();
+		CSkypeProto::ShowNotification(::TranslateT("SkypeKit did not initialize."), MB_ICONERROR);
 		return NULL;
 	}
 
 	if ( !ppro->start())
 	{
-		::MessageBox(NULL, TranslateT("SkypeKit did not start."), _T(MODULE), MB_OK | MB_ICONERROR);
-		ppro->StopSkypeRuntime();
+		CSkypeProto::ShowNotification(TranslateT("SkypeKit did not start."), MB_ICONERROR);
 		return NULL;
 	}
 
