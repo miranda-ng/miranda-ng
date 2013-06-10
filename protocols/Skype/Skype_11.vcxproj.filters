@@ -60,9 +60,6 @@
     <ClCompile Include="src\skype_database.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skype_profile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\skype_account.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -102,19 +99,22 @@
     <ClCompile Include="src\skype_hooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skype_own_info.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\skype_messages.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\skype_transfers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skype_runtime.cpp">
+    <ClCompile Include="src\skype_own_info.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_profile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\skype_skype.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_runtime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -206,6 +206,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\send_contacts.ico" />
+    <Image Include="res\send_contacts.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
   </ItemGroup>
 </Project>

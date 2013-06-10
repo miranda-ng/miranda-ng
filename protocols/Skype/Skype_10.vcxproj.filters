@@ -205,4 +205,9 @@
       <Filter>Resource Files\Icons</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\send_contacts.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
