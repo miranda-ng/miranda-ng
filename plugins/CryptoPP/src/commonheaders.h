@@ -38,9 +38,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#pragma comment(lib,"kernel32.lib")
-#pragma comment(lib,"user32.lib")
-
 #ifndef M_API_H__
 #define M_API_H__
 

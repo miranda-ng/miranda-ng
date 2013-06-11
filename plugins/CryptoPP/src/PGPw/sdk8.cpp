@@ -12,10 +12,6 @@
 
 #include "pgpw.h"
 
-#pragma comment(lib, "pgpsdk.lib")
-#pragma comment(lib, "pgpsdknl.lib")
-#pragma comment(lib, "pgpsdkui.lib")
-
 PGPContextRef pgpContext;
 PGPKeyDBRef pgpKeyDB = 0;
 LPSTR pszPassphrase = 0;
@@ -23,6 +19,11 @@ LPSTR pgpErrMsg = 0;
 #define pgpErrMsgLen 512
 extern UINT pgpVer;
 
+#if !defined(_WIN64)
+
+#pragma comment(lib, "pgpsdk.lib")
+#pragma comment(lib, "pgpsdknl.lib")
+#pragma comment(lib, "pgpsdkui.lib")
 
 void ClearPGPError()
 {
@@ -43,6 +44,8 @@ bool CheckPGPError(PGPError err)
 	}
 }
 
+#endif
+
 #define _pgp_memcpy memmove
 
 int __cdecl _pgp_init()
@@ -51,69 +54,82 @@ int __cdecl _pgp_init()
 		pgpErrMsg = (LPSTR) LocalAlloc(LPTR,pgpErrMsgLen);
 
 	pgpVer = 0;
-
-	__try {
-		if (CheckPGPError(PGPsdkInit(0)) || CheckPGPError(PGPsdkUILibInit(0))) return 0;
-		PGPNewContext(kPGPsdk20APIVersion, &pgpContext);
-	}
-	__except ( EXCEPTION_EXECUTE_HANDLER ) {
+	#if defined(_WIN64)
 		return 0;
-	}
+	#else
+		__try {
+			if (CheckPGPError(PGPsdkInit(0)) || CheckPGPError(PGPsdkUILibInit(0))) return 0;
+			PGPNewContext(kPGPsdk20APIVersion, &pgpContext);
+		}
+		__except ( EXCEPTION_EXECUTE_HANDLER ) {
+			return 0;
+		}
 
-	pgpVer = PGPGetPGPsdkVersion();
-	return 1;
+		pgpVer = PGPGetPGPsdkVersion();
+		return 1;
+	#endif
 }
 
 
 int __cdecl _pgp_done()
 {
 	pgpVer = 0;
-	__try {
-		if(pgpErrMsg) LocalFree(pgpErrMsg);
-		if (pszPassphrase) PGPFreeData(pszPassphrase);
-		if (pgpKeyDB) PGPFreeKeyDB(pgpKeyDB);
-		PGPFreeContext(pgpContext);
-		PGPsdkUILibCleanup();
-		PGPsdkCleanup();
-		pszPassphrase = pgpErrMsg = 0;
-		pgpKeyDB = 0;
-		pgpContext = 0;
-	}
-	__except ( EXCEPTION_EXECUTE_HANDLER ) {
+	#if defined(_WIN64)
 		return 0;
-	}
-	return 1;
+	#else
+		__try {
+			if(pgpErrMsg) LocalFree(pgpErrMsg);
+			if (pszPassphrase) PGPFreeData(pszPassphrase);
+			if (pgpKeyDB) PGPFreeKeyDB(pgpKeyDB);
+			PGPFreeContext(pgpContext);
+			PGPsdkUILibCleanup();
+			PGPsdkCleanup();
+			pszPassphrase = pgpErrMsg = 0;
+			pgpKeyDB = 0;
+			pgpContext = 0;
+		}
+		__except ( EXCEPTION_EXECUTE_HANDLER ) {
+			return 0;
+		}
+		return 1;
+	#endif
 }
 
 
 int __cdecl _pgp_open_keyrings(LPSTR PubRingPath, LPSTR SecRingPath)
 {
-	_pgp_close_keyrings();
-
-	if ((!PubRingPath || !*PubRingPath) && !ShowSelectKeyringsDlg(0,PubRingPath,SecRingPath))
+	#if defined(_WIN64)
 		return 0;
+	#else
+		_pgp_close_keyrings();
 
-	PGPFileSpecRef PubKeyRing, SecKeyRing;
-	PGPNewFileSpecFromFullPath(pgpContext, PubRingPath, &PubKeyRing);
-	PGPNewFileSpecFromFullPath(pgpContext, SecRingPath, &SecKeyRing);
+		if ((!PubRingPath || !*PubRingPath) && !ShowSelectKeyringsDlg(0,PubRingPath,SecRingPath))
+			return 0;
 
-	PGPError err = PGPOpenKeyDBFile(pgpContext, kPGPOpenKeyDBFileOptions_None, PubKeyRing, SecKeyRing, &pgpKeyDB);
-	PGPFreeFileSpec(SecKeyRing);
-	PGPFreeFileSpec(PubKeyRing);
+		PGPFileSpecRef PubKeyRing, SecKeyRing;
+		PGPNewFileSpecFromFullPath(pgpContext, PubRingPath, &PubKeyRing);
+		PGPNewFileSpecFromFullPath(pgpContext, SecRingPath, &SecKeyRing);
 
-	if (CheckPGPError(err))
-		return 0;
+		PGPError err = PGPOpenKeyDBFile(pgpContext, kPGPOpenKeyDBFileOptions_None, PubKeyRing, SecKeyRing, &pgpKeyDB);
+		PGPFreeFileSpec(SecKeyRing);
+		PGPFreeFileSpec(PubKeyRing);
 
-	return 1;
+		if (CheckPGPError(err))
+			return 0;
+
+		return 1;
+	#endif
 }
 
 
 int __cdecl _pgp_close_keyrings()
 {
-	if (pgpKeyDB) {
-		PGPFreeKeyDB(pgpKeyDB);
-		pgpKeyDB = 0;
-	}
+	#if !defined(_WIN64)
+		if (pgpKeyDB) {
+			PGPFreeKeyDB(pgpKeyDB);
+			pgpKeyDB = 0;
+		}
+	#endif
 	return 1;
 }
 
@@ -132,198 +148,218 @@ LPSTR __cdecl _pgp_get_error()
 
 LPSTR __cdecl _pgp_encrypt_keydb(LPCSTR szPlainMsg, PVOID pgpKeyID)
 {
-	PGPKeyID *RemoteKeyID = (PGPKeyID *) pgpKeyID;
-	LPSTR szEncMsg = 0;
-	PGPSize dwEncMsgLen;
-
-	ClearPGPError();
-	if (!pgpKeyDB)
+	#if defined(_WIN64)
 		return 0;
+	#else
+		PGPKeyID *RemoteKeyID = (PGPKeyID *) pgpKeyID;
+		LPSTR szEncMsg = 0;
+		PGPSize dwEncMsgLen;
 
-	PGPKeyDBObjRef PublicKey;
-	PGPFindKeyByKeyID(pgpKeyDB, RemoteKeyID, &PublicKey);
+		ClearPGPError();
+		if (!pgpKeyDB)
+			return 0;
 
-	PGPError err = PGPEncode(pgpContext,
-		PGPOInputBuffer(pgpContext, szPlainMsg, lstrlen(szPlainMsg)),
-		PGPOArmorOutput(pgpContext, TRUE),
-		PGPOAllocatedOutputBuffer(pgpContext, (LPVOID *)&szEncMsg, 16384, &dwEncMsgLen),
-		PGPOEncryptToKeyDBObj(pgpContext, PublicKey),
-		PGPOVersionString(pgpContext, szVersionStr),
-		PGPOLastOption(pgpContext));
+		PGPKeyDBObjRef PublicKey;
+		PGPFindKeyByKeyID(pgpKeyDB, RemoteKeyID, &PublicKey);
 
-	if (CheckPGPError(err))
-		return 0;
+		PGPError err = PGPEncode(pgpContext,
+			PGPOInputBuffer(pgpContext, szPlainMsg, lstrlen(szPlainMsg)),
+			PGPOArmorOutput(pgpContext, TRUE),
+			PGPOAllocatedOutputBuffer(pgpContext, (LPVOID *)&szEncMsg, 16384, &dwEncMsgLen),
+			PGPOEncryptToKeyDBObj(pgpContext, PublicKey),
+			PGPOVersionString(pgpContext, szVersionStr),
+			PGPOLastOption(pgpContext));
 
-	LPSTR szMsg = (LPSTR) LocalAlloc(LPTR,dwEncMsgLen+1);
-	_pgp_memcpy(szMsg, szEncMsg, dwEncMsgLen);
-	szMsg[dwEncMsgLen] = 0;
-	PGPFreeData((LPVOID)szEncMsg);
+		if (CheckPGPError(err))
+			return 0;
 
-	return szMsg;
+		LPSTR szMsg = (LPSTR) LocalAlloc(LPTR,dwEncMsgLen+1);
+		_pgp_memcpy(szMsg, szEncMsg, dwEncMsgLen);
+		szMsg[dwEncMsgLen] = 0;
+		PGPFreeData((LPVOID)szEncMsg);
+
+		return szMsg;
+	#endif
 }
 
 LPSTR __cdecl _pgp_decrypt_keydb(LPCSTR szEncMsg)
 {
-	LPSTR szPlainMsg = 0;
-	PGPSize dwPlainMsgLen;
-
-	ClearPGPError();
-	if (!pgpKeyDB)
+	#if defined(_WIN64)
 		return 0;
+	#else
+		LPSTR szPlainMsg = 0;
+		PGPSize dwPlainMsgLen;
 
-	int iTry = 0;
+		ClearPGPError();
+		if (!pgpKeyDB)
+			return 0;
 
-	do {
-		if (!pszPassphrase &&
-			PGPPassphraseDialog(pgpContext,
-			PGPOUIOutputPassphrase(pgpContext, &pszPassphrase),
-			PGPOLastOption(pgpContext)) == kPGPError_UserAbort) {
-				iTry = 3;
-				break;
-		}
+		int iTry = 0;
 
-		PGPError err = PGPDecode(pgpContext,
-			PGPOInputBuffer(pgpContext, szEncMsg, lstrlen(szEncMsg)),
-			PGPOAllocatedOutputBuffer(pgpContext, (LPVOID *)&szPlainMsg, 16384, &dwPlainMsgLen),
-			PGPOKeyDBRef(pgpContext, pgpKeyDB),
-			PGPOPassphrase(pgpContext, pszPassphrase),
-			PGPOLastOption(pgpContext));
-
-		if (CheckPGPError(err))
-			iTry = 3;
-		else
-			if (!dwPlainMsgLen) {
-				PGPFreeData(pszPassphrase);
-				pszPassphrase = 0;
-				iTry++;
+		do {
+			if (!pszPassphrase &&
+				PGPPassphraseDialog(pgpContext,
+				PGPOUIOutputPassphrase(pgpContext, &pszPassphrase),
+				PGPOLastOption(pgpContext)) == kPGPError_UserAbort) {
+					iTry = 3;
+					break;
 			}
 
-	} while(!dwPlainMsgLen && iTry<3);
+			PGPError err = PGPDecode(pgpContext,
+				PGPOInputBuffer(pgpContext, szEncMsg, lstrlen(szEncMsg)),
+				PGPOAllocatedOutputBuffer(pgpContext, (LPVOID *)&szPlainMsg, 16384, &dwPlainMsgLen),
+				PGPOKeyDBRef(pgpContext, pgpKeyDB),
+				PGPOPassphrase(pgpContext, pszPassphrase),
+				PGPOLastOption(pgpContext));
 
-	if(iTry == 3) return 0;
+			if (CheckPGPError(err))
+				iTry = 3;
+			else
+				if (!dwPlainMsgLen) {
+					PGPFreeData(pszPassphrase);
+					pszPassphrase = 0;
+					iTry++;
+				}
 
-	LPSTR szMsg = (LPSTR) LocalAlloc(LPTR,dwPlainMsgLen+1);
-	_pgp_memcpy(szMsg, szPlainMsg, dwPlainMsgLen);
-	szMsg[dwPlainMsgLen] = 0;
-	PGPFreeData((LPVOID)szPlainMsg);
+		} while(!dwPlainMsgLen && iTry<3);
 
-	return szMsg;
+		if(iTry == 3) return 0;
+
+		LPSTR szMsg = (LPSTR) LocalAlloc(LPTR,dwPlainMsgLen+1);
+		_pgp_memcpy(szMsg, szPlainMsg, dwPlainMsgLen);
+		szMsg[dwPlainMsgLen] = 0;
+		PGPFreeData((LPVOID)szPlainMsg);
+
+		return szMsg;
+	#endif
 }
 
 
 PGPError _pgp_import_key(PGPKeyDBRef *keyDB, LPCSTR pgpKey)
 {
-	return PGPImport( pgpContext,
-		keyDB,
-		PGPOInputBuffer( pgpContext,
-		pgpKey,
-		lstrlen(pgpKey) ),
-		PGPOLastOption(pgpContext ));
+	#if defined(_WIN64)
+		return 0;
+	#else
+		return PGPImport( pgpContext,
+			keyDB,
+			PGPOInputBuffer( pgpContext,
+			pgpKey,
+			lstrlen(pgpKey) ),
+			PGPOLastOption(pgpContext ));
+	#endif
 }
 
 
 LPSTR __cdecl _pgp_encrypt_key(LPCSTR szPlainMsg, LPCSTR pgpKey)
 {
-	LPSTR szEncMsg = 0;
-	PGPSize dwEncMsgLen;
-
-	PGPUInt32 dwKeys;
-	PGPKeyDBRef PublicKeyDB;
-	if (CheckPGPError(_pgp_import_key(&PublicKeyDB,pgpKey)))
+	#if defined(_WIN64)
 		return 0;
+	#else
+		LPSTR szEncMsg = 0;
+		PGPSize dwEncMsgLen;
 
-	PGPKeyIterRef KeyIterRef;
-	PGPNewKeyIterFromKeyDB(PublicKeyDB, &KeyIterRef);
+		PGPUInt32 dwKeys;
+		PGPKeyDBRef PublicKeyDB;
+		if (CheckPGPError(_pgp_import_key(&PublicKeyDB,pgpKey)))
+			return 0;
 
-	PGPKeyDBObjRef PublicKey;
-	PGPKeyIterNextKeyDBObj(KeyIterRef, kPGPKeyDBObjType_Key, &PublicKey);
+		PGPKeyIterRef KeyIterRef;
+		PGPNewKeyIterFromKeyDB(PublicKeyDB, &KeyIterRef);
 
-	PGPCountKeysInKeyDB(PublicKeyDB, &dwKeys);
+		PGPKeyDBObjRef PublicKey;
+		PGPKeyIterNextKeyDBObj(KeyIterRef, kPGPKeyDBObjType_Key, &PublicKey);
 
-	if(dwKeys==0) {
+		PGPCountKeysInKeyDB(PublicKeyDB, &dwKeys);
+
+		if(dwKeys==0) {
+			PGPFreeKeyIter(KeyIterRef);
+			PGPFreeKeyDB(PublicKeyDB);
+			return 0;
+		}
+
+		PGPError err = PGPEncode(pgpContext,
+			PGPOInputBuffer(pgpContext, szPlainMsg, lstrlen(szPlainMsg)),
+			PGPOArmorOutput(pgpContext, TRUE),
+			PGPOAllocatedOutputBuffer(pgpContext, (LPVOID *)&szEncMsg, 16384, &dwEncMsgLen),
+			PGPOEncryptToKeyDBObj(pgpContext, PublicKey),
+			PGPOVersionString(pgpContext, szVersionStr),
+			PGPOLastOption(pgpContext));
+
 		PGPFreeKeyIter(KeyIterRef);
 		PGPFreeKeyDB(PublicKeyDB);
-		return 0;
-	}
 
-	PGPError err = PGPEncode(pgpContext,
-		PGPOInputBuffer(pgpContext, szPlainMsg, lstrlen(szPlainMsg)),
-		PGPOArmorOutput(pgpContext, TRUE),
-		PGPOAllocatedOutputBuffer(pgpContext, (LPVOID *)&szEncMsg, 16384, &dwEncMsgLen),
-		PGPOEncryptToKeyDBObj(pgpContext, PublicKey),
-		PGPOVersionString(pgpContext, szVersionStr),
-		PGPOLastOption(pgpContext));
+		if (CheckPGPError(err))
+			return 0;
 
-	PGPFreeKeyIter(KeyIterRef);
-	PGPFreeKeyDB(PublicKeyDB);
+		LPSTR szMsg = (LPSTR) LocalAlloc(LPTR,dwEncMsgLen+1);
+		_pgp_memcpy(szMsg, szEncMsg, dwEncMsgLen);
+		szMsg[dwEncMsgLen] = 0;
+		PGPFreeData((LPVOID)szEncMsg);
 
-	if (CheckPGPError(err))
-		return 0;
-
-	LPSTR szMsg = (LPSTR) LocalAlloc(LPTR,dwEncMsgLen+1);
-	_pgp_memcpy(szMsg, szEncMsg, dwEncMsgLen);
-	szMsg[dwEncMsgLen] = 0;
-	PGPFreeData((LPVOID)szEncMsg);
-
-	return szMsg;
+		return szMsg;
+	#endif
 }
 
 
 LPSTR __cdecl _pgp_decrypt_key(LPCSTR szEncMsg, LPCSTR pgpKey)
 {
-	LPSTR szPlainMsg = 0;
-	PGPSize dwPlainMsgLen;
-
-	PGPUInt32 dwKeys;
-	PGPKeyDBRef PrivateKeyDB;
-	if (CheckPGPError(_pgp_import_key(&PrivateKeyDB,pgpKey)))
+	#if defined(_WIN64)
 		return 0;
-	PGPCountKeysInKeyDB(PrivateKeyDB, &dwKeys);
+	#else
+		LPSTR szPlainMsg = 0;
+		PGPSize dwPlainMsgLen;
 
-	if(dwKeys==0) {
-		PGPFreeKeyDB(PrivateKeyDB);
-		return 0;
-	}
+		PGPUInt32 dwKeys;
+		PGPKeyDBRef PrivateKeyDB;
+		if (CheckPGPError(_pgp_import_key(&PrivateKeyDB,pgpKey)))
+			return 0;
+		PGPCountKeysInKeyDB(PrivateKeyDB, &dwKeys);
 
-	int iTry = 0;
-
-	do {
-		if (!pszPassphrase &&
-			PGPPassphraseDialog(pgpContext,
-			PGPOUIOutputPassphrase(pgpContext, &pszPassphrase),
-			PGPOLastOption(pgpContext)) == kPGPError_UserAbort) {
-				iTry = 3;
-				break;
+		if(dwKeys==0) {
+			PGPFreeKeyDB(PrivateKeyDB);
+			return 0;
 		}
 
-		PGPError err = PGPDecode(pgpContext,
-			PGPOInputBuffer(pgpContext, szEncMsg, lstrlen(szEncMsg)),
-			PGPOAllocatedOutputBuffer(pgpContext, (LPVOID *)&szPlainMsg, 16384, &dwPlainMsgLen),
-			PGPOKeyDBRef(pgpContext, PrivateKeyDB),
-			PGPOPassphrase(pgpContext, pszPassphrase),
-			PGPOLastOption(pgpContext));
+		int iTry = 0;
 
-		if (CheckPGPError(err))
-			iTry = 3;
-		else
-			if (!dwPlainMsgLen) {
-				PGPFreeData(pszPassphrase);
-				pszPassphrase = 0;
-				iTry++;
+		do {
+			if (!pszPassphrase &&
+				PGPPassphraseDialog(pgpContext,
+				PGPOUIOutputPassphrase(pgpContext, &pszPassphrase),
+				PGPOLastOption(pgpContext)) == kPGPError_UserAbort) {
+					iTry = 3;
+					break;
 			}
 
-	} while(!dwPlainMsgLen && iTry<3);
+			PGPError err = PGPDecode(pgpContext,
+				PGPOInputBuffer(pgpContext, szEncMsg, lstrlen(szEncMsg)),
+				PGPOAllocatedOutputBuffer(pgpContext, (LPVOID *)&szPlainMsg, 16384, &dwPlainMsgLen),
+				PGPOKeyDBRef(pgpContext, PrivateKeyDB),
+				PGPOPassphrase(pgpContext, pszPassphrase),
+				PGPOLastOption(pgpContext));
 
-	PGPFreeKeyDB(PrivateKeyDB);
+			if (CheckPGPError(err))
+				iTry = 3;
+			else
+				if (!dwPlainMsgLen) {
+					PGPFreeData(pszPassphrase);
+					pszPassphrase = 0;
+					iTry++;
+				}
 
-	if(iTry == 3) return 0;
+		} while(!dwPlainMsgLen && iTry<3);
 
-	LPSTR szMsg = (LPSTR) LocalAlloc(LPTR,dwPlainMsgLen+1);
-	_pgp_memcpy(szMsg, szPlainMsg, dwPlainMsgLen);
-	szMsg[dwPlainMsgLen] = 0;
-	PGPFreeData((LPVOID)szPlainMsg);
+		PGPFreeKeyDB(PrivateKeyDB);
 
-	return szMsg;
+		if(iTry == 3) return 0;
+
+		LPSTR szMsg = (LPSTR) LocalAlloc(LPTR,dwPlainMsgLen+1);
+		_pgp_memcpy(szMsg, szPlainMsg, dwPlainMsgLen);
+		szMsg[dwPlainMsgLen] = 0;
+		PGPFreeData((LPVOID)szPlainMsg);
+
+		return szMsg;
+	#endif
 }
 
 int __cdecl _pgp_size_keyid()
@@ -334,37 +370,41 @@ int __cdecl _pgp_size_keyid()
 
 PVOID __cdecl _pgp_select_keyid(HWND hDlg,LPSTR szKeyID)
 {
-	PGPKeyDBRef ContactKeyDB;
-	PGPError err;
-	err = PGPRecipientDialog(pgpContext, pgpKeyDB, TRUE, &ContactKeyDB,
-		PGPOUIParentWindowHandle(pgpContext, hDlg),
-		PGPOUIWindowTitle(pgpContext, "Select Contact's Key"),
-		PGPOLastOption(pgpContext));
-	if (err == kPGPError_UserAbort)
+	#if defined(_WIN64)
 		return 0;
+	#else
+		PGPKeyDBRef ContactKeyDB;
+		PGPError err;
+		err = PGPRecipientDialog(pgpContext, pgpKeyDB, TRUE, &ContactKeyDB,
+			PGPOUIParentWindowHandle(pgpContext, hDlg),
+			PGPOUIWindowTitle(pgpContext, "Select Contact's Key"),
+			PGPOLastOption(pgpContext));
+		if (err == kPGPError_UserAbort)
+			return 0;
 
-	PGPUInt32 dwKeys;
-	PGPCountKeysInKeyDB(ContactKeyDB, &dwKeys);
-	if (!dwKeys)
-		return 0;
-	if (dwKeys > 1)
-		MessageBox(hDlg, "You selected more than one key. Only the first key will be used.", szModuleName, MB_ICONINFORMATION);
+		PGPUInt32 dwKeys;
+		PGPCountKeysInKeyDB(ContactKeyDB, &dwKeys);
+		if (!dwKeys)
+			return 0;
+		if (dwKeys > 1)
+			MessageBox(hDlg, "You selected more than one key. Only the first key will be used.", szModuleName, MB_ICONINFORMATION);
 
-	static PGPKeyID KeyID;
+		static PGPKeyID KeyID;
 
-	PGPKeyIterRef KeyIterRef;
-	PGPNewKeyIterFromKeyDB(ContactKeyDB, &KeyIterRef);
+		PGPKeyIterRef KeyIterRef;
+		PGPNewKeyIterFromKeyDB(ContactKeyDB, &KeyIterRef);
 
-	PGPKeyDBObjRef KeyDBObjRef;
-	PGPKeyIterNextKeyDBObj(KeyIterRef, kPGPKeyDBObjType_Key, &KeyDBObjRef);
+		PGPKeyDBObjRef KeyDBObjRef;
+		PGPKeyIterNextKeyDBObj(KeyIterRef, kPGPKeyDBObjType_Key, &KeyDBObjRef);
 
-	PGPSize dwFilled;
-	PGPGetKeyDBObjDataProperty(KeyDBObjRef, kPGPKeyProperty_KeyID, &KeyID, sizeof(PGPKeyID), &dwFilled);
-	PGPGetKeyIDString(&KeyID, kPGPKeyIDString_Abbreviated, szKeyID);
+		PGPSize dwFilled;
+		PGPGetKeyDBObjDataProperty(KeyDBObjRef, kPGPKeyProperty_KeyID, &KeyID, sizeof(PGPKeyID), &dwFilled);
+		PGPGetKeyIDString(&KeyID, kPGPKeyIDString_Abbreviated, szKeyID);
 
-	PGPFreeKeyIter(KeyIterRef);
-	PGPFreeKeyDB(ContactKeyDB);
-	return (PVOID)&KeyID;
+		PGPFreeKeyIter(KeyIterRef);
+		PGPFreeKeyDB(ContactKeyDB);
+		return (PVOID)&KeyID;
+	#endif
 }
 
 
