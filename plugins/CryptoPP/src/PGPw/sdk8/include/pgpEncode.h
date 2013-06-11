@@ -283,12 +283,12 @@ PGP_BEGIN_C_DECLARATIONS
 **	PGPOptionListRef's which describe the inputs, outputs, and options.
 */
 
-PGPError 		PGPEncode(PGPContextRef context,
+PGPError  PGPEncode(PGPContextRef context,
 							PGPOptionListRef firstOption, ...);
-PGPError 		PGPDecode(PGPContextRef context,
+PGPError  PGPDecode(PGPContextRef context,
 							PGPOptionListRef firstOption, ...);
 
-PGPError 		PGPAddJobOptions(PGPJobRef job,
+PGPError  PGPAddJobOptions(PGPJobRef job,
 							PGPOptionListRef firstOption, ...);
 
 PGP_END_C_DECLARATIONS

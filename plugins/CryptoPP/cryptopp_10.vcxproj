@@ -27,7 +27,6 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -38,7 +37,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -265,7 +263,7 @@
     <ResourceCompile Include="src\GPGw\gpg.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="crypto\cryptlib_11.vcxproj">
+    <ProjectReference Include="crypto\cryptlib_10.vcxproj">
       <Project>{290c5ed4-71a7-4040-ad26-4820cf7a9e60}</Project>
     </ProjectReference>
   </ItemGroup>
