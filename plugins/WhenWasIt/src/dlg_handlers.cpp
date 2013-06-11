@@ -572,10 +572,7 @@ INT_PTR CALLBACK BirthdaysCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam
 //only updates the birthday part of the list view entry. Won't update the szProto and the contact name (those shouldn't change anyway :))
 int UpdateBirthdayEntry(HWND hList, HANDLE hContact, int entry, int bShowAll, int bShowCurrentAge, int bAdd)
 {
-	int currentYear;
-	int currentMonth;
-	int currentDay;
-
+	int currentMonth, currentDay;
 	int res = entry;
 
 	if (bShowCurrentAge) {
@@ -583,7 +580,6 @@ int UpdateBirthdayEntry(HWND hList, HANDLE hContact, int entry, int bShowAll, in
 		struct tm *today = gmtime(&now);
 		currentDay = today->tm_mday + 1;
 		currentMonth = today->tm_mon + 1;
-		currentYear = today->tm_year;
 	}
 
 	int year, month, day;
@@ -598,21 +594,21 @@ int UpdateBirthdayEntry(HWND hList, HANDLE hContact, int entry, int bShowAll, in
 
 		char *szProto = GetContactProto(hContact);
 		PROTOACCOUNT *pAcc = ProtoGetAccount(szProto);
+		TCHAR *ptszAccName = (pAcc == NULL) ? TranslateT("Unknown") : pAcc->tszAccountName;
 
 		LVITEM item = {0};
 		item.mask = LVIF_TEXT | LVIF_PARAM;
 		item.iItem = entry;
 		item.lParam = (LPARAM) hContact;
-		item.pszText = pAcc->tszAccountName;
+		item.pszText = ptszAccName;
 
 		if (bAdd)
 			ListView_InsertItem(hList, &item);
 		else
-			ListView_SetItemText(hList, entry, 0, pAcc->tszAccountName);
+			ListView_SetItemText(hList, entry, 0, ptszAccName);
 
-		TCHAR *name = GetContactName(hContact, szProto);
+		ptrT name( GetContactName(hContact, szProto));
 		ListView_SetItemText(hList, entry, 1, name);
-		free(name);
 
 		TCHAR buffer[2048];
 		if ((dtb <= 366) && (dtb >= 0))
