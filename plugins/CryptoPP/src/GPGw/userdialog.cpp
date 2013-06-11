@@ -1,8 +1,7 @@
-#include "commonheaders.h"
-
+#include "../commonheaders.h"
+#include "gpgw.h"
 
 void RefreshListView(HWND hLV);
-
 
 BOOL CALLBACK UserIdDialogProcedure(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {

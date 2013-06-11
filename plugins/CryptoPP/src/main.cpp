@@ -11,10 +11,6 @@ HANDLE hRSA4096 = NULL;
 CRITICAL_SECTION localQueueMutex;
 CRITICAL_SECTION localContextMutex;
 
-char TEMP[MAX_PATH];
-int  TEMP_SIZE = 0;
-BOOL isVista = 0;
-
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -33,11 +29,6 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID)
 {
 	if (dwReason == DLL_PROCESS_ATTACH) {
 		g_hInst = hInst;
-		#ifdef _DEBUG
-			isVista = 1;
-		#else
-			isVista = ( (DWORD)(LOBYTE(LOWORD(GetVersion()))) == 6 );
-		#endif
 		InitializeCriticalSection(&localQueueMutex);
 		InitializeCriticalSection(&localContextMutex);
 	}

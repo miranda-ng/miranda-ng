@@ -1,5 +1,5 @@
-#include "commonheaders.h"
-#include <stdio.h>
+#include "../commonheaders.h"
+#include "gpgw.h"
 
 char *txtgpgargslistpublickeys=
   "--homedir \"%home%\""
@@ -363,4 +363,3 @@ gpgResult gpgDecrypt(char *aresult, const char *aciphertext, const char *apassph
   remove(plainfile);
   return gpgSuccess;
 }
-

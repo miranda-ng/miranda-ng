@@ -13,6 +13,12 @@
       <UniqueIdentifier>{2fbb24e7-698d-4277-9329-3e500a878dbe}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="Source Files\GPGw">
+      <UniqueIdentifier>{c590377d-f943-46bf-a7db-444e4752c633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PGPw">
+      <UniqueIdentifier>{fb417c70-fe70-4812-a2b9-0a499348e6e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\cpp_cntx.cpp">
@@ -66,6 +72,36 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\GPGw\gpg.cpp">
+      <Filter>Source Files\GPGw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\gpg_main.cpp">
+      <Filter>Source Files\GPGw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\keys.cpp">
+      <Filter>Source Files\GPGw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\language.cpp">
+      <Filter>Source Files\GPGw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\passdialog.cpp">
+      <Filter>Source Files\GPGw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\passphrases.cpp">
+      <Filter>Source Files\GPGw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\pipeexec.cpp">
+      <Filter>Source Files\GPGw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\tools.cpp">
+      <Filter>Source Files\GPGw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\userdialog.cpp">
+      <Filter>Source Files\GPGw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PGPw\sdk8.cpp">
+      <Filter>Source Files\PGPw</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\base16.h">
@@ -104,12 +140,45 @@
     <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\GPGw\gpg.h">
+      <Filter>Source Files\GPGw</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GPGw\keys.h">
+      <Filter>Source Files\GPGw</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GPGw\language.h">
+      <Filter>Source Files\GPGw</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GPGw\passdialog.h">
+      <Filter>Source Files\GPGw</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GPGw\passphrases.h">
+      <Filter>Source Files\GPGw</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GPGw\pipeexec.h">
+      <Filter>Source Files\GPGw</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GPGw\size.h">
+      <Filter>Source Files\GPGw</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GPGw\tools.h">
+      <Filter>Source Files\GPGw</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GPGw\userdialog.h">
+      <Filter>Source Files\GPGw</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GPGw\gpgw.h">
+      <Filter>Source Files\GPGw</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PGPw\commonheaders.h">
+      <Filter>Source Files\PGPw</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\resource.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="res\version.rc">
+    <ResourceCompile Include="src\GPGw\gpg.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

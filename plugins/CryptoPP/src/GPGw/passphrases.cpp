@@ -1,7 +1,8 @@
-#include "commonheaders.h"
+#include "../commonheaders.h"
+#include "gpgw.h"
 
 // globale variablen
-struct passphrase *passphrases;
+struct passphrase_t *passphrases;
 int passphrasecount;
 
 
@@ -26,7 +27,7 @@ void releasePassphrases(void)
 void addPassphrase(const char *akeyuserid, const char *apassphrase)
 {
   passphrasecount++;
-  passphrases=realloc(passphrases, sizeof(struct passphrase)*passphrasecount);
+  passphrases = (passphrase_t*)realloc(passphrases, sizeof(struct passphrase_t)*passphrasecount);
 
   strcpy(passphrases[passphrasecount-1].keyuserid, akeyuserid);
   strcpy(passphrases[passphrasecount-1].passphrase, apassphrase);

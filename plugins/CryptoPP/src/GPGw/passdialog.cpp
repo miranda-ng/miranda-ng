@@ -1,7 +1,7 @@
-#include "commonheaders.h"
+#include "../commonheaders.h"
+#include "gpgw.h"
 
 char dlgpassphrase[passphrasesize];
-
 
 BOOL CALLBACK PassphraseDialogProcedure(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {

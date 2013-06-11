@@ -29,6 +29,8 @@
 #include <windows.h>
 #include <wincrypt.h>
 #include <winsock2.h>
+#include <CommCtrl.h>
+#include <CommDlg.h>
 
 #include <malloc.h>
 #include <process.h>
@@ -70,9 +72,6 @@
 
 extern LPCSTR szModuleName;
 extern LPCSTR szVersionStr;
-extern TCHAR TEMP[MAX_PATH];
-extern int  TEMP_SIZE;
-extern BOOL isVista;
 
 // shared vars
 extern HINSTANCE g_hInst;

@@ -1,9 +1,44 @@
-#include "commonheaders.h"
-
+#include "../commonheaders.h"
+#include "gpgw.h"
 
 BOOL ShowSelectExecDlg(LPSTR);
 BOOL ShowSelectHomeDlg(LPSTR);
 
+char temporarydirectory[fullfilenamesize];
+char logfile[fullfilenamesize];
+/*
+char *txtbeginpgppublickeyblock="-----BEGIN PGP PUBLIC KEY BLOCK-----";
+char *txtendpgppublickeyblock="-----END PGP PUBLIC KEY BLOCK-----";
+*/
+char *txtbeginpgpmessage="-----BEGIN PGP MESSAGE-----";
+char *txtendpgpmessage="-----END PGP MESSAGE-----";
+
+void __cdecl ErrorMessage(const char *alevel, const char *atext, const char *ahint)
+{
+  char buffer[errormessagesize];
+
+  strcpy(buffer, atext);
+  strcat(buffer, " ");
+  strcat(buffer, ahint);
+  MessageBox(NULL, buffer, alevel, MB_OK);
+}
+
+
+void __cdecl LogMessage(const char *astart, const char *atext, const char *aend)
+{
+  FILE *log;
+
+  if(logfile[0]=='\0') return;
+
+  log=fopen(logfile, "a");
+  if(log!=NULL)
+  {
+	fputs(astart, log);
+	fputs(atext, log);
+	fputs(aend, log);
+    fclose(log);
+  }
+}
 
 int __cdecl _gpg_init()
 {
@@ -74,7 +109,7 @@ void __cdecl _gpg_set_tmp(LPCSTR TmpPath)
 LPSTR __cdecl _gpg_get_passphrases()
 {
     size_t i; char *b, x;
-    
+
     b = (char *) LocalAlloc(LPTR,(keyuseridsize+passphrasesize)*passphrasecount+1); *b = '\0';
 
 	for(i=0; i<(size_t)passphrasecount; i++) {
@@ -155,7 +190,6 @@ LPSTR __cdecl _gpg_decrypt(LPCSTR message)
     char buffer[ciphertextsize];
     char plaintext[plaintextsize];
     char keyuserid[keyuseridsize];
-    char *begin, *end;
     int dlgresult;
     BOOL useridvalid;
     char *storedpassphrase;
@@ -164,8 +198,8 @@ LPSTR __cdecl _gpg_decrypt(LPCSTR message)
     int decmessagelen;
     gpgResult gpgresult;
 
-    begin=strstr(message, txtbeginpgpmessage);
-    end=strstr(message, txtendpgpmessage);
+    const char *begin = strstr(message, txtbeginpgpmessage);
+    const char *end = strstr(message, txtendpgpmessage);
 
     if ((begin!=NULL)&&(end!=NULL))
     {
@@ -353,17 +387,9 @@ BOOL ShowSelectHomeDlg(LPSTR path)
    ofn.lpstrFilter = "Public key rings (pubring.gpg)\0pubring.gpg\0All files (*.*)\0*.*\0";
    ofn.lpstrTitle = "Open Public Keyring";
    if (!GetOpenFileName(&ofn)) return FALSE;
-   
+
    for(i=strlen(path);i && path[i]!='\\';i--);
    path[i] = 0;
 
    return TRUE;
 }
-
-
-// dllmain
-BOOL WINAPI dllmain(HINSTANCE hInst, DWORD dwReason, LPVOID lpVoid) {
-	g_hInst = hInst;
-	return TRUE;
-}
-

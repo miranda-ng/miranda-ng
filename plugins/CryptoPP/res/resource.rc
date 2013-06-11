@@ -11,12 +11,6 @@
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 #pragma code_page(1251)
 
-#ifdef DLL_FROM_RESOURCE
-1 666 "..\\src\\gpgw\\release\\gnupgw.dll"
-6 666 "..\\src\\pgpw\\release6\\pgpsdkw6.dll"
-8 666 "..\\src\\pgpw\\release8\\pgpsdkw8.dll"
-#endif
-
 #endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED

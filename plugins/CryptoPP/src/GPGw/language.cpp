@@ -1,4 +1,5 @@
-#include "commonheaders.h"
+#include "../commonheaders.h"
+#include "gpgw.h"
 
 //char *txtverifyoptions="Please verify your settings in M->Options->Plugins->GnuPG and GnuPG Advanced."; /*lang*/
 //char *txtinvalidexecutable="The GnuPG Plugin requires the GnuPG executable \"gpg.exe\"."; /*lang*/

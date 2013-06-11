@@ -5,20 +5,6 @@ HMODULE hgpg;
 HRSRC	hRS_gpg;
 PBYTE	pRS_gpg;
 
-extern DLLEXPORT int   __cdecl _gpg_init(void);
-extern DLLEXPORT int   __cdecl _gpg_done(void);
-extern DLLEXPORT int   __cdecl _gpg_open_keyrings(LPSTR,LPSTR);
-extern DLLEXPORT int   __cdecl _gpg_close_keyrings(void);
-extern DLLEXPORT void  __cdecl _gpg_set_log(LPCSTR);
-extern DLLEXPORT void  __cdecl _gpg_set_tmp(LPCSTR);
-extern DLLEXPORT LPSTR __cdecl _gpg_get_error(void);
-extern DLLEXPORT int   __cdecl _gpg_size_keyid(void);
-extern DLLEXPORT int   __cdecl _gpg_select_keyid(HWND,LPSTR);
-extern DLLEXPORT LPSTR __cdecl _gpg_encrypt(LPCSTR,LPCSTR);
-extern DLLEXPORT LPSTR __cdecl _gpg_decrypt(LPCSTR);
-extern DLLEXPORT LPSTR __cdecl _gpg_get_passphrases();
-extern DLLEXPORT void  __cdecl _gpg_set_passphrases(LPCSTR);
-
 int   __cdecl _gpg_init(void);
 int   __cdecl _gpg_done(void);
 int   __cdecl _gpg_open_keyrings(LPSTR,LPSTR);
@@ -33,130 +19,17 @@ LPSTR __cdecl _gpg_decrypt(LPCSTR);
 LPSTR __cdecl _gpg_get_passphrases();
 void  __cdecl _gpg_set_passphrases(LPCSTR);
 
-int   (__cdecl *p_gpg_init)(void);
-int   (__cdecl *p_gpg_done)(void);
-int   (__cdecl *p_gpg_open_keyrings)(LPSTR,LPSTR);
-int   (__cdecl *p_gpg_close_keyrings)(void);
-void  (__cdecl *p_gpg_set_log)(LPCSTR);
-void  (__cdecl *p_gpg_set_tmp)(LPCSTR);
-LPSTR (__cdecl *p_gpg_get_error)(void);
-int   (__cdecl *p_gpg_size_keyid)(void);
-int   (__cdecl *p_gpg_select_keyid)(HWND,LPSTR);
-LPSTR (__cdecl *p_gpg_encrypt)(LPCSTR,LPCSTR);
-LPSTR (__cdecl *p_gpg_decrypt)(LPCSTR);
-LPSTR (__cdecl *p_gpg_get_passphrases)();
-void  (__cdecl *p_gpg_set_passphrases)(LPCSTR);
-
-
-#define GPA(x)                                              \
-  {                                                         \
-    *((PVOID*)&p##x) = (PVOID)GetProcAddress(mod, TEXT(#x)); \
-    if (!p##x) {                                            \
-      return 0;                                             \
-    }                                                       \
-  }
-
-int load_gpg_dll(HMODULE mod) {
-
-	GPA(_gpg_init);
-	GPA(_gpg_done);
-	GPA(_gpg_open_keyrings);
-	GPA(_gpg_close_keyrings);
-	GPA(_gpg_set_log);
-	GPA(_gpg_set_tmp);
-	GPA(_gpg_get_error);
-	GPA(_gpg_size_keyid);
-	GPA(_gpg_select_keyid);
-	GPA(_gpg_encrypt);
-	GPA(_gpg_decrypt);
-	GPA(_gpg_get_passphrases);
-	GPA(_gpg_set_passphrases);
-
-	return 1;
-}
-
-#undef GPA
-
-
-#define GPA(x)                                              \
-  {                                                         \
-    *((PVOID*)&p##x) = (PVOID)MemGetProcAddress(mod, TEXT(#x)); \
-    if (!p##x) {                                            \
-      return 0;                                             \
-    }                                                       \
-  }
-
-int load_gpg_mem(HMODULE mod) {
-
-	GPA(_gpg_init);
-	GPA(_gpg_done);
-	GPA(_gpg_open_keyrings);
-	GPA(_gpg_close_keyrings);
-	GPA(_gpg_set_log);
-	GPA(_gpg_set_tmp);
-	GPA(_gpg_get_error);
-	GPA(_gpg_size_keyid);
-	GPA(_gpg_select_keyid);
-	GPA(_gpg_encrypt);
-	GPA(_gpg_decrypt);
-	GPA(_gpg_get_passphrases);
-	GPA(_gpg_set_passphrases);
-
-	return 1;
-}
-
-#undef GPA
-
-
 int __cdecl gpg_init()
 {
-	int r; char t[MAX_PATH];
-	if ( isVista ) {
-		sprintf(t,"%s\\gnupgw.dll",TEMP);
-		ExtractFile(t,666,1);
-		hgpg = LoadLibraryA(t);
-	}
-	else {
-		hRS_gpg = FindResource( g_hInst, MAKEINTRESOURCE(1), MAKEINTRESOURCE(666) );
-		pRS_gpg = (PBYTE) LoadResource( g_hInst, hRS_gpg ); LockResource( pRS_gpg );
-		hgpg = MemLoadLibrary( pRS_gpg );
-	}
-	if (hgpg) {
-		if ( isVista )	load_gpg_dll(hgpg);
-		else			load_gpg_mem(hgpg);
-		r = p_gpg_init();
-		if (r) {
-			return r;
-		}
-		if ( isVista ) {
-			FreeLibrary(hgpg);
-		}
-		else {
-			MemFreeLibrary(hgpg);
-	    	UnlockResource( pRS_gpg );
-			FreeResource( pRS_gpg );
-		}
-	}
-
-    hgpg = 0;
-
-	return 0;
+	hgpg = g_hInst;
+	return _gpg_init();
 }
-
 
 int __cdecl gpg_done()
 {
     int r = 0;
     if (hgpg) {
-    	r = p_gpg_done();
-		if ( isVista ) {
-			FreeLibrary(hgpg);
-		}
-		else {
-			MemFreeLibrary(hgpg);
-		    UnlockResource( pRS_gpg );
-			FreeResource( pRS_gpg );
-		}
+    	r = _gpg_done();
 		hgpg = 0;
     }
 	return r;
@@ -165,31 +38,31 @@ int __cdecl gpg_done()
 
 int __cdecl gpg_open_keyrings(LPSTR ExecPath, LPSTR HomePath)
 {
-	return p_gpg_open_keyrings(ExecPath, HomePath);
+	return _gpg_open_keyrings(ExecPath, HomePath);
 }
 
 
 int __cdecl gpg_close_keyrings()
 {
-	return p_gpg_close_keyrings();
+	return _gpg_close_keyrings();
 }
 
 
 void __cdecl gpg_set_log(LPCSTR LogPath)
 {
-	p_gpg_set_log(LogPath);
+	_gpg_set_log(LogPath);
 }
 
 
 void __cdecl gpg_set_tmp(LPCSTR TmpPath)
 {
-	p_gpg_set_tmp(TmpPath);
+	_gpg_set_tmp(TmpPath);
 }
 
 
 LPSTR __cdecl gpg_get_error()
 {
-	return p_gpg_get_error();
+	return _gpg_get_error();
 }
 
 
@@ -200,7 +73,7 @@ LPSTR __cdecl gpg_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 	SAFE_FREE(ptr->tmp);
 
 	LPSTR szEncMsg;
-	szEncMsg = p_gpg_encrypt(szPlainMsg,(LPCSTR)p->gpgKeyID);
+	szEncMsg = _gpg_encrypt(szPlainMsg,(LPCSTR)p->gpgKeyID);
 	if (!szEncMsg) return 0;
 
 	ptr->tmp = (LPSTR)_strdup(szEncMsg);
@@ -215,11 +88,11 @@ LPSTR __cdecl gpg_decrypt(pCNTX ptr, LPCSTR szEncMsg)
     ptr->error = ERROR_NONE;
     SAFE_FREE(ptr->tmp);
 
-    LPSTR szPlainMsg = p_gpg_decrypt(szEncMsg);
+    LPSTR szPlainMsg = _gpg_decrypt(szEncMsg);
 /*	if (!szPlainMsg) {
 	    ptr = get_context_on_id(hPGPPRIV); // find private pgp keys
     	if (ptr && ptr->pgpKey)
-			szPlainMsg = p_gpg_decrypt_key(szEncMsg,(LPCSTR)ptr->pgpKey);
+			szPlainMsg = _gpg_decrypt_key(szEncMsg,(LPCSTR)ptr->pgpKey);
 		if (!szPlainMsg) return NULL;
     }*/
 
@@ -282,7 +155,7 @@ int __cdecl gpg_set_key(HANDLE context, LPCSTR RemoteKey)
     if (!ptr) return 0;
    	ptr->error = ERROR_NONE;
 
-//   	if (!p_gpg_check_key(RemoteKey)) return 0;
+//   	if (!_gpg_check_key(RemoteKey)) return 0;
 
    	SAFE_FREE(ptr->pgpKey);
 	ptr->pgpKey = (BYTE *) malloc(strlen(RemoteKey)+1);
@@ -309,25 +182,25 @@ int __cdecl gpg_set_keyid(HANDLE context, LPCSTR RemoteKeyID)
 
 int __cdecl gpg_size_keyid()
 {
-	return p_gpg_size_keyid();
+	return _gpg_size_keyid();
 }
 
 
 int __cdecl gpg_select_keyid(HWND hDlg,LPSTR szKeyID)
 {
-	return p_gpg_select_keyid(hDlg,szKeyID);
+	return _gpg_select_keyid(hDlg,szKeyID);
 }
 
 
 LPSTR __cdecl gpg_get_passphrases()
 {
-	return p_gpg_get_passphrases();
+	return _gpg_get_passphrases();
 }
 
 
 void __cdecl gpg_set_passphrases(LPCSTR buffer)
 {
-	p_gpg_set_passphrases(buffer);
+	_gpg_set_passphrases(buffer);
 }
 
 

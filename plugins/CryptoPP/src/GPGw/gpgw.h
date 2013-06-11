@@ -1,19 +1,11 @@
 // Windows API
 
 #pragma once
-#define _WIN32_IE 0x0500
-//#define WIN32_LEAN_AND_MEAN
-//#pragma warning(disable: 4078)
 
-#include <windows.h>
-//#include <afxwin.h>
-#include <commdlg.h>
-#include <commctrl.h>
-#include <stdio.h>
 #include "..\version.h"
 
 // gnupg plugin
-#include "resource.h"
+#include "gpg_res.h"
 #include "size.h"
 #include "language.h"
 #include "pipeexec.h"
@@ -24,17 +16,14 @@
 #include "userdialog.h"
 #include "keys.h"
 
-// debug makro
-#define debugout(mtext) MessageBox(NULL, (mtext), "GnuPG Plugin - Debug", MB_OK)
-
 // passphrase typ
-struct passphrase
+struct passphrase_t
 {
-  char keyuserid[keyuseridsize];
-  char passphrase[passphrasesize];
+	char keyuserid[keyuseridsize];
+	char passphrase[passphrasesize];
 };
 
-extern struct passphrase *passphrases;
+extern struct passphrase_t *passphrases;
 extern int passphrasecount;
 
 extern char temporarydirectory[fullfilenamesize];
@@ -45,14 +34,7 @@ extern char *txtendpgppublickeyblock;
 extern char *txtbeginpgpmessage;
 extern char *txtendpgpmessage;
 
-#ifdef _MSC_VER
-//#pragma comment(linker,"/merge:.rdata=.text")
-#pragma comment(linker,"/entry:dllmain")
-#pragma comment(linker,"/nodefaultlib")
-#pragma comment(linker,"/subsystem:windows")
-#pragma optimize("gsy", on)
-#endif
-
+#undef  MODULENAME
 #define MODULENAME "GnuPG"
 
 extern LPCSTR szModuleName;

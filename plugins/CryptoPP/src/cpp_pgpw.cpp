@@ -92,46 +92,8 @@ int load_pgpsdk_mem(HMODULE mod) {
 #undef GPA
 
 
-BOOL load_pgp_sdk(int type, int id) 
-{
-	int r; char t[MAX_PATH];
-	pgpVer = 0;
-
-	if ( isVista ) {
-		sprintf(t,"%s\\pgpsdkw.dll",TEMP);
-		ExtractFile(t,type,id);
-		hpgpsdk = LoadLibraryA(t);
-	}
-	else {
-		hRS_pgp = FindResource( g_hInst, MAKEINTRESOURCE(id), MAKEINTRESOURCE(type) );
-		pRS_pgp = (PBYTE) LoadResource( g_hInst, hRS_pgp ); LockResource( pRS_pgp );
-		hpgpsdk = MemLoadLibrary( pRS_pgp );
-	}
-	if (hpgpsdk) {
-		if ( isVista )	load_pgpsdk_dll(hpgpsdk);
-		else			load_pgpsdk_mem(hpgpsdk);
-		r = p_pgp_init();
-		if (r) {
-			pgpVer = p_pgp_get_version();
-			return r;
-		}
-		if ( isVista ) {
-			FreeLibrary(hpgpsdk);
-		}
-		else {
-			MemFreeLibrary(hpgpsdk);
-			UnlockResource( pRS_pgp );
-			FreeResource( pRS_pgp );
-		}
-	}
-	return 0;
-}
-
-
 int __cdecl pgp_init()
 {
-	int r;
-
 	if ( !hPGPPRIV ) {
 		// create context for private pgp keys
 		hPGPPRIV = (HANDLE) cpp_create_context(MODE_PGP|MODE_PRIV_KEY);
@@ -140,11 +102,7 @@ int __cdecl pgp_init()
 		memset(tmp->pdata,0,sizeof(PGPDATA));
 	}
 
-	if ( r = load_pgp_sdk(666,6) ) return r;
-	if ( r = load_pgp_sdk(666,8) ) return r;
-
-	hpgpsdk = 0;
-
+	hpgpsdk = g_hInst;
 	return 0;
 }
 
@@ -155,14 +113,6 @@ int __cdecl pgp_done()
 	pgpVer = 0;
 	if (hpgpsdk) {
 		r = p_pgp_done();
-		if ( isVista ) {
-			FreeLibrary(hpgpsdk);
-		}
-		else {
-			MemFreeLibrary(hpgpsdk);
-			UnlockResource( pRS_pgp );
-			FreeResource( pRS_pgp );
-		}
 		hpgpsdk = 0;
 	}
 	return r;

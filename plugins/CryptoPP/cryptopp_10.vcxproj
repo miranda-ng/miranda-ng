@@ -27,19 +27,23 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -89,10 +93,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <BaseAddress>0x46000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib;.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>ws2_32.lib;$(SolutionDir)$(Configuration)\Obj\cryptlib\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <DelayLoadDLLs>pgpsdk.dll;pgpsdknl.dll;pgpsdkui.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -113,10 +119,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <BaseAddress>0x46000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib;.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>ws2_32.lib;$(SolutionDir)$(Configuration)64\Obj\cryptlib\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
+      <DelayLoadDLLs>pgpsdk.dll;pgpsdknl.dll;pgpsdkui.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -138,14 +145,14 @@
     <Link>
       <BaseAddress>0x46000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib;.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>ws2_32.lib;$(SolutionDir)$(Configuration)\Obj\cryptlib\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
+      <DelayLoadDLLs>pgpsdk.dll;pgpsdknl.dll;pgpsdkui.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -167,19 +174,49 @@
     <Link>
       <BaseAddress>0x46000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib;.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>ws2_32.lib;$(SolutionDir)$(Configuration)64\Obj\cryptlib\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
+      <DelayLoadDLLs>pgpsdk.dll;pgpsdknl.dll;pgpsdkui.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\base16.cpp" />
     <ClCompile Include="src\base64.cpp" />
+    <ClCompile Include="src\GPGw\gpg.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\gpg_main.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\keys.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\language.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\passdialog.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\passphrases.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\pipeexec.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\tools.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\GPGw\userdialog.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\PGPw\sdk8.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -207,17 +244,28 @@
     <ClInclude Include="src\cryptopp.h" />
     <ClInclude Include="src\dllloader.h" />
     <ClInclude Include="src\gettime.h" />
+    <ClInclude Include="src\GPGw\gpg.h" />
+    <ClInclude Include="src\GPGw\gpgw.h" />
+    <ClInclude Include="src\GPGw\keys.h" />
+    <ClInclude Include="src\GPGw\language.h" />
+    <ClInclude Include="src\GPGw\passdialog.h" />
+    <ClInclude Include="src\GPGw\passphrases.h" />
+    <ClInclude Include="src\GPGw\pipeexec.h" />
+    <ClInclude Include="src\GPGw\size.h" />
+    <ClInclude Include="src\GPGw\tools.h" />
+    <ClInclude Include="src\GPGw\userdialog.h" />
     <ClInclude Include="src\mmi.h" />
+    <ClInclude Include="src\PGPw\commonheaders.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\utf8.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
+    <ResourceCompile Include="src\GPGw\gpg.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="crypto\cryptlib_10.vcxproj">
+    <ProjectReference Include="crypto\cryptlib_11.vcxproj">
       <Project>{290c5ed4-71a7-4040-ad26-4820cf7a9e60}</Project>
     </ProjectReference>
   </ItemGroup>

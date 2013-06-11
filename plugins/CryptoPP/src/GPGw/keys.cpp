@@ -1,4 +1,5 @@
-#include "commonheaders.h"
+#include "../commonheaders.h"
+#include "gpgw.h"
 
 typedef char tkeyuserid[keyuseridsize];
 
@@ -41,7 +42,7 @@ void updateKeyUserIDs(const int atype)
     if(pos!=NULL)
     {
       keyuseridcount[atype]++;
-      keyuserids[atype]=realloc(keyuserids[atype], sizeof(tkeyuserid)*keyuseridcount[atype]);
+      keyuserids[atype] = (tkeyuserid*)realloc(keyuserids[atype], sizeof(tkeyuserid)*keyuseridcount[atype]);
       strcpy(keyuserids[atype][keyuseridcount[atype]-1], keyuserid);
     }
   }

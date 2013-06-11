@@ -1,5 +1,5 @@
-#include "commonheaders.h"
-
+#include "../commonheaders.h"
+#include "gpgw.h"
 
 BOOL isWindowsNT(void)
 {
