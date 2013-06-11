@@ -93,7 +93,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <BaseAddress>0x46000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib;.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>ws2_32.lib;$(SolutionDir)$(Configuration)\Obj\cryptlib\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
@@ -119,7 +119,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <BaseAddress>0x46000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib;.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>ws2_32.lib;$(SolutionDir)$(Configuration)64\Obj\cryptlib\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
@@ -145,7 +145,7 @@
     <Link>
       <BaseAddress>0x46000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib;.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>ws2_32.lib;$(SolutionDir)$(Configuration)\Obj\cryptlib\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -174,7 +174,7 @@
     <Link>
       <BaseAddress>0x46000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib;.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>ws2_32.lib;$(SolutionDir)$(Configuration)64\Obj\cryptlib\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
