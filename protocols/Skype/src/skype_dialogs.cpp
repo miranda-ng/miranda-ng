@@ -34,15 +34,16 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 			if (proto->IsOnline())
 			{
 				SendMessage(GetDlgItem(hwnd, IDC_SL), EM_SETREADONLY, 1, 0);
-				SendMessage(GetDlgItem(hwnd, IDC_PW), EM_SETREADONLY, 1, 0); 
-				SendMessage(GetDlgItem(hwnd, IDC_PORT), EM_SETREADONLY, 1, 0); 
+				SendMessage(GetDlgItem(hwnd, IDC_PW), EM_SETREADONLY, 1, 0);
+				SendMessage(GetDlgItem(hwnd, IDC_PORT), EM_SETREADONLY, 1, 0);
 				EnableWindow(GetDlgItem(hwnd, IDC_USE_ALT_PORTS), FALSE);
-				EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), FALSE); 
+				EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), FALSE);
 				EnableWindow(GetDlgItem(hwnd, IDC_CHANGE_PWD), TRUE);
+				EnableWindow(GetDlgItem(hwnd, IDC_GROUP), FALSE);
 			}
 			else if (::db_get_w(NULL, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) > ID_STATUS_OFFLINE)
 			{
-				EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), FALSE); 
+				EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), FALSE);
 			}
 
 			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, SKYPE_GROUP_NAME_LIMIT, 0);
