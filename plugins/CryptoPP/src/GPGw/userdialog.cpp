@@ -3,7 +3,7 @@
 
 void RefreshListView(HWND hLV);
 
-BOOL CALLBACK UserIdDialogProcedure(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
+INT_PTR CALLBACK UserIdDialogProcedure(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
   static char *keyid;
   HWND hLV = GetDlgItem(hdlg,IDC_KEYLIST);

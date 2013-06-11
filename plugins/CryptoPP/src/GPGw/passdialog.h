@@ -3,6 +3,6 @@
 
 extern char dlgpassphrase[];
 
-BOOL CALLBACK PassphraseDialogProcedure(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam);
+INT_PTR CALLBACK PassphraseDialogProcedure(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam);
 
 #endif // __PASSDIALOG_H__

@@ -221,9 +221,6 @@ typedef unsigned int	PGPUInt;
 
 #if PGP_WIN32
 	#if defined(_WIN64)
-	#if PGP_HAVE_64_HARDWARE==0
-	#error "Configuration error: PGP_HAVE_64_HARDWARE must be 1 for WIN64"
-	#endif
 	typedef __int64			PGPLong;
 	typedef unsigned __int64 PGPULong;
 	#else
