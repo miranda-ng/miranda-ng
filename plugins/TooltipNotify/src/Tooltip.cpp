@@ -20,7 +20,7 @@ CTooltip::CTooltip(CTooltipNotify *pTooltipNotify)
 
 	m_hWnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, s_szTooltipClass, 0, 
 							WS_POPUP|WS_BORDER, 100, 100, 50, 50, 0, 0, 
-							m_pTooltipNotify->GetDllInstance(), NULL);
+							g_hInstDLL, NULL);
 
 	SetWindowLongPtr(m_hWnd, GWLP_USERDATA, reinterpret_cast<LONG>(this));
 }
@@ -34,27 +34,20 @@ CTooltip::~CTooltip()
 	if (m_szText) free(m_szText);
 }
 
-/*static*/ void CTooltip::Initialize(HMODULE hInstance)
+/*static*/ void CTooltip::Initialize()
 {
-	WNDCLASSEX wcexWndClass;
-	wcexWndClass.cbSize			= sizeof(WNDCLASSEX); 
-	wcexWndClass.style			= CS_SAVEBITS;
-	wcexWndClass.lpfnWndProc	= (WNDPROC)CTooltip::WindowProcWrapper;
-	wcexWndClass.cbClsExtra		= 0;
-	wcexWndClass.cbWndExtra		= 0;
-	wcexWndClass.hInstance		= hInstance;
-	wcexWndClass.hIcon			= 0;
-	wcexWndClass.hCursor		= 0;
-	wcexWndClass.hbrBackground	= 0;
-	wcexWndClass.lpszMenuName	= 0;
+	WNDCLASSEX wcexWndClass = { 0 };
+	wcexWndClass.cbSize = sizeof(WNDCLASSEX); 
+	wcexWndClass.style = CS_SAVEBITS;
+	wcexWndClass.lpfnWndProc = (WNDPROC)CTooltip::WindowProcWrapper;
+	wcexWndClass.hInstance = g_hInstDLL;
 	wcexWndClass.lpszClassName	= s_szTooltipClass;
-	wcexWndClass.hIconSm		= 0;
 	RegisterClassEx(&wcexWndClass);
 }
 
-/*static*/ void CTooltip::Deinitialize(HMODULE hInstance)
+/*static*/ void CTooltip::Deinitialize()
 {
-	UnregisterClass(s_szTooltipClass, hInstance);
+	UnregisterClass(s_szTooltipClass, g_hInstDLL);
 }
 
 LRESULT CALLBACK CTooltip::WindowProcWrapper(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -148,7 +141,7 @@ LRESULT CALLBACK CTooltip::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LP
 }
 
 
-VOID CTooltip::Validate()
+void CTooltip::Validate()
 {
 	m_hFont = CreateFontIndirect(&m_lfFont);
 	SIZE Size;
@@ -161,20 +154,20 @@ VOID CTooltip::Validate()
 }
 
 
-VOID CTooltip::Show()
+void CTooltip::Show()
 {
 	ShowWindow(m_hWnd, SW_SHOWNOACTIVATE);
 }
 
 
-VOID CTooltip::Hide()
+void CTooltip::Hide()
 {
 	ShowWindow(m_hWnd, SW_HIDE);
 }
 
 
 
-VOID CTooltip::set_Translucency(BYTE bAlpha)
+void CTooltip::set_Translucency(BYTE bAlpha)
 {
 	typedef BOOL (WINAPI *pfnSetLayeredWindowAttributes_t)(HWND, COLORREF, BYTE, DWORD);
 	pfnSetLayeredWindowAttributes_t pfnSetLayeredWindowAttributes;
@@ -189,7 +182,7 @@ VOID CTooltip::set_Translucency(BYTE bAlpha)
 	}
 }
 
-VOID CTooltip::set_TransparentInput(BOOL bOnOff)
+void CTooltip::set_TransparentInput(BOOL bOnOff)
 {
 	if (bOnOff)
 		SetWindowLongPtr(m_hWnd, GWL_EXSTYLE, GetWindowLongPtr(m_hWnd, GWL_EXSTYLE) | WS_EX_TRANSPARENT);
@@ -198,17 +191,17 @@ VOID CTooltip::set_TransparentInput(BOOL bOnOff)
 }
 
 
-VOID CTooltip::get_Rect(RECT *Rect) const
+void CTooltip::get_Rect(RECT *Rect) const
 {
 	GetWindowRect(m_hWnd, Rect);
 }
 
-VOID CTooltip::set_Position(INT x, INT y)
+void CTooltip::set_Position(INT x, INT y)
 {
 	SetWindowPos(m_hWnd, 0, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
 }
 
-VOID CTooltip::set_Text(const TCHAR* szText)
+void CTooltip::set_Text(const TCHAR* szText)
 {
 	if (m_szText) free(m_szText);
 	m_szText = _tcsdup(szText);

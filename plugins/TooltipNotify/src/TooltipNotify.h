@@ -10,18 +10,18 @@ private:
 	struct STooltipData;
 
 public:
-	CTooltipNotify(HINSTANCE hinstDLL);
+	CTooltipNotify();
 	virtual ~CTooltipNotify();
 
 	// exceptions
 	class EAlreadyExists {};
 
 	BOOL EndNotify(STooltipData* pTooltipData);
-	VOID EndNotifyAll();
+	void EndNotifyAll();
 	CTooltip *BeginNotify(STooltipData *pTooltipData);
-	VOID OnTooltipDblClicked(CTooltip *pTooltip);
+	void OnTooltipDblClicked(CTooltip *pTooltip);
 	BOOL OnTooltipBeginMove(CTooltip *pTooltip);
-	VOID OnTooltipEndMove(CTooltip *pTooltip);
+	void OnTooltipEndMove(CTooltip *pTooltip);
 	int InitializeOptions(WPARAM wParam, LPARAM lParam);
 	int ContactSettingChanged(WPARAM wParam, LPARAM lParam);
 	int ProtoAck(WPARAM wParam, LPARAM lParam);
@@ -29,7 +29,6 @@ public:
 	int ProtoContactIsTyping(WPARAM wParam, LPARAM lParam);
 	
 	static CTooltipNotify *GetObjInstance() { return s_pInstance; }
-	HINSTANCE GetDllInstance() const { return m_hDllInstance; }
 
 private:
 	// prohibit copying
@@ -39,9 +38,7 @@ private:
 private:
 	static CTooltipNotify *s_pInstance;
 	static const char *s_szModuleNameOld;
-	static const char *s_szModuleName;
 	
-	const HINSTANCE m_hDllInstance;
 	const BOOL m_bNt50;
 
 	struct SOptions {
@@ -61,8 +58,6 @@ private:
 		BYTE  bLDblClick;
 		BYTE  bPrefixProto;
 		WORD  wDuration;
-		WORD  wXPos;
-		WORD  wYPos;
 		WORD  wStartupDelay;
 		BYTE  bIgnoreNew;
 		BYTE  bIgnoreUnknown;
@@ -94,33 +89,33 @@ private:
 	template<typename T> TooltipsListIter FindBy(T STooltipData::* m, const T& value);
 	TCHAR *StatusToString(int iStatus, TCHAR *szStatus, int iBufSize);
 	TCHAR *MakeTooltipString(HANDLE hContact, int iStatus, TCHAR *szString, int iBufSize);
-	VOID MigrateSettings();
+	void MigrateSettings();
 	void RegisterFonts();
 	void GetFont(int iStatus, LOGFONT* lf, COLORREF* text, COLORREF* bg);
 	void ResetCList(HWND hwndDlg);
 	void LoadList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown);
 	void SaveList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown);
-	VOID LoadSettings();
-	VOID SaveSettings();
-	VOID ValidateSettings();
-	VOID ReadSettingsFromDlg(HWND hDlg);
-	VOID WriteSettingsToDlg(HWND hDlg);
+	void LoadSettings();
+	void SaveSettings();
+	void ValidateSettings();
+	void ReadSettingsFromDlg(HWND hDlg);
+	void WriteSettingsToDlg(HWND hDlg);
 	
-	VOID SuspendTimer(CTooltip *pTooltip);
-	VOID ResumeTimer(CTooltip *pTooltip);
-	VOID OnConnectionTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
-	VOID OnTooltipTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
+	void SuspendTimer(CTooltip *pTooltip);
+	void ResumeTimer(CTooltip *pTooltip);
+	void OnConnectionTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
+	void OnTooltipTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
 	// Dialog procedures
 	BOOL OptionsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	BOOL ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	BOOL ContactsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	static VOID CALLBACK ConnectionTimerProcWrapper(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+	static void CALLBACK ConnectionTimerProcWrapper(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	{
 		CTooltipNotify::GetObjInstance()->OnConnectionTimer(hwnd, uMsg, idEvent, dwTime);
 	}
-	static VOID CALLBACK TooltipTimerProcWrapper(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+	static void CALLBACK TooltipTimerProcWrapper(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	{
 		CTooltipNotify::GetObjInstance()->OnTooltipTimer(hwnd, uMsg, idEvent, dwTime);
 	}

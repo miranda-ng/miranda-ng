@@ -26,6 +26,8 @@
 #include <m_fontservice.h>
 #include <win2k.h>
 
+#define MODULENAME "TooltipNotify"
+
 #include "version.h"
 #include "TooltipNotify.h"
 #include "DbHelpers.h"
@@ -33,3 +35,5 @@
 #include "Settings.h"
 #include "resource.h"
 #include "Utils.h"
+
+extern HINSTANCE g_hInstDLL;

@@ -4,16 +4,6 @@
 
 #include "stdafx.h"
 
-#define ReadSettingByte(c, d)		db_get_b(NULL, s_szModuleName, c, d)
-#define ReadSettingWord(c, d)		db_get_w(NULL, s_szModuleName, c, d)
-#define ReadSettingDword(c, d)		db_get_dw(NULL, s_szModuleName, c, d)
-#define ReadSettingString(c, d)		db_get_ts(NULL, s_szModuleName, c, d)
-
-#define WriteSettingByte(c, d)		db_set_b(NULL, s_szModuleName, c, d)
-#define WriteSettingWord(c, d)		db_set_w(NULL, s_szModuleName, c, d)
-#define WriteSettingDword(c, d)		db_set_dw(NULL, s_szModuleName, c, d)
-#define WriteSettingString(c, d)	db_set_ts(NULL, s_szModuleName, c, d)
-
 enum
 {
 	ProtoIntBit = 0x01,
@@ -30,12 +20,12 @@ static const int ID_TTNTF_STATUS_TYPING = ID_STATUS_INVISIBLE+10;
 static const int ID_TTNTF_STATUS_IDLE = ID_STATUS_INVISIBLE+11;
 static const int ID_TTNTF_STATUS_NOT_IDLE = ID_STATUS_INVISIBLE+12;
 
-#define FONTSERV_GROUP         LPGENT("Tooltip Notify")
-#define FONTSERV_ONLINE        LPGENT("Online")
-#define FONTSERV_OFFLINE       LPGENT("Offline")
-#define FONTSERV_OTHER         LPGENT("Other Status")
-#define FONTSERV_TYPING        LPGENT("Typing")
-#define FONTSERV_IDLE          LPGENT("Idle")
+#define FONTSERV_GROUP   LPGENT("Tooltip Notify")
+#define FONTSERV_ONLINE  LPGENT("Online")
+#define FONTSERV_OFFLINE LPGENT("Offline")
+#define FONTSERV_OTHER   LPGENT("Other Status")
+#define FONTSERV_TYPING  LPGENT("Typing")
+#define FONTSERV_IDLE    LPGENT("Idle")
 
 struct FontEntry
 {
@@ -55,39 +45,36 @@ static FontEntry s_fontTable[] =
 	0,                        FONTSERV_OTHER,   "OtherFont",   "OtherBgColor",
 };
 
-/*static*/ CTooltipNotify *CTooltipNotify::s_pInstance = 0;
-/*static*/ const char *CTooltipNotify::s_szModuleNameOld = "ttntfmod";
-/*static*/ const char *CTooltipNotify::s_szModuleName = "TooltipNotify";
-
+CTooltipNotify *CTooltipNotify::s_pInstance = 0;
+const char *CTooltipNotify::s_szModuleNameOld = "ttntfmod";
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CTooltipNotify::CTooltipNotify(HINSTANCE hinstDLL) :
-	m_hDllInstance(hinstDLL), m_bNt50(IsNt50())
+CTooltipNotify::CTooltipNotify() :
+	m_bNt50( IsNt50())
 {
 	if (s_pInstance!=0)
 		throw EAlreadyExists();
 
 	s_pInstance = this;
 
-	CTooltip::Initialize(m_hDllInstance);
+	CTooltip::Initialize();
 }
 
 CTooltipNotify::~CTooltipNotify()
 {
 	EndNotifyAll();
-	CTooltip::Deinitialize(m_hDllInstance);
+	CTooltip::Deinitialize();
 	s_pInstance=0;
 }
 
 void CTooltipNotify::RegisterFonts()
 {
-	FontIDT fontId = {0};
-	fontId.cbSize = sizeof(fontId);
+	FontIDT fontId = { sizeof(fontId) };
 	_tcscpy(fontId.group, FONTSERV_GROUP);
-	strcpy(fontId.dbSettingsGroup, s_szModuleName);
+	strcpy(fontId.dbSettingsGroup, MODULENAME);
 	fontId.flags = FIDF_DEFAULTVALID;
 	fontId.deffontsettings.colour = DEF_SETTING_TXTCOLOR;
 	fontId.deffontsettings.size = -MulDiv(DEF_SETTING_FONT_SIZE, DEF_LOGPIXELSY, 72);
@@ -97,16 +84,14 @@ void CTooltipNotify::RegisterFonts()
 	fontId.order = 0;
 	_tcscpy(fontId.backgroundGroup, FONTSERV_GROUP);
 
-	ColourIDT colorId = {0};
-	colorId.cbSize = sizeof(colorId);
+	ColourIDT colorId = { sizeof(colorId) };
 	_tcscpy(colorId.group, FONTSERV_GROUP);
-	strcpy(colorId.dbSettingsGroup, s_szModuleName);
+	strcpy(colorId.dbSettingsGroup, MODULENAME);
 	colorId.flags = 0;
 	colorId.defcolour = DEF_SETTING_BGCOLOR;
 	colorId.order = 0;
 
-	for (int i=0; i<SIZEOF(s_fontTable); i++)
-	{
+	for (int i=0; i<SIZEOF(s_fontTable); i++) {
 		_tcscpy(fontId.name, s_fontTable[i].name);
 		strcpy(fontId.prefix, s_fontTable[i].fontPrefix);
 		_tcscpy(fontId.backgroundName, s_fontTable[i].name);
@@ -154,7 +139,7 @@ int CTooltipNotify::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		db_set_b(NULL, "SkinSoundsOff", SND_OFFLINE, 1);
 		db_set_b(NULL, "SkinSoundsOff", SND_OTHER, 1);
 		db_set_b(NULL, "SkinSoundsOff", SND_TYPING, 1);
-		WriteSettingByte("firstrun", 0);
+		db_set_b(NULL, MODULENAME, "firstrun", 0);
 	}
 	
 	// register fonts
@@ -206,9 +191,9 @@ int CTooltipNotify::ProtoAck(WPARAM wParam, LPARAM lParam)
 	
 	if (wNewStatus == ID_STATUS_OFFLINE)
 	{
-		BYTE bProtoActive = ReadSettingByte(szProtocol, ProtoUserBit|ProtoIntBit);
+		BYTE bProtoActive = db_get_b(NULL, MODULENAME, szProtocol, ProtoUserBit|ProtoIntBit);
 		bProtoActive &= ~ProtoIntBit;
-		WriteSettingByte(szProtocol, bProtoActive);
+		db_set_b(NULL, MODULENAME, szProtocol, bProtoActive);
 	}
 	else
 	{			
@@ -239,7 +224,7 @@ int CTooltipNotify::ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 	if(db_get_b(hContact, "CList", "Hidden", 0)) return 0;
 	
 	const char *pszProto = cws->szModule;
-	if (ReadSettingByte(pszProto, ProtoUserBit|ProtoIntBit) != (ProtoUserBit|ProtoIntBit))
+	if (db_get_b(NULL, MODULENAME, pszProto, ProtoUserBit|ProtoIntBit) != (ProtoUserBit|ProtoIntBit))
 	{
 		return 0;
 	}
@@ -249,7 +234,7 @@ int CTooltipNotify::ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	if (db_get_b(hContact, s_szModuleName, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
+	if (db_get_b(hContact, MODULENAME, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
 	{
 		return 0;
 	}
@@ -292,10 +277,9 @@ int CTooltipNotify::ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 
 int CTooltipNotify::InitializeOptions(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;
-	odp.hInstance = m_hDllInstance;
+	odp.hInstance = g_hInstDLL;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszTitle = LPGEN("Tooltip Notify");
 	odp.pszGroup = LPGEN("Popups");
@@ -331,22 +315,10 @@ CTooltip *CTooltipNotify::BeginNotify(STooltipData *pTooltipData)
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &WorkAreaRect, 0);
 	pTooltip->get_Rect(&TooltipRect);
 
-	int tt_width = TooltipRect.right-TooltipRect.left;
-	int tt_height = TooltipRect.bottom-TooltipRect.top;
-
-	if (m_sOptions.bAutoPos || 
-		m_sOptions.wXPos > WorkAreaRect.right-tt_width ||
-		m_sOptions.wYPos > WorkAreaRect.bottom-tt_height)
-	{
+	if (m_sOptions.bAutoPos || Utils_RestoreWindowPositionNoSize(pTooltip->GetHandle(), NULL, MODULENAME, "toolwindow"))
 		pTooltip->set_Position(
-			WorkAreaRect.right - 10 - tt_width, 
-			WorkAreaRect.bottom - 2 - tt_height);
-	}
-	else
-	{
-		pTooltip->set_Position(m_sOptions.wXPos, m_sOptions.wYPos);
-	}
-	
+			WorkAreaRect.right - 10 - (TooltipRect.right-TooltipRect.left), 
+			WorkAreaRect.bottom - 2 - (TooltipRect.bottom-TooltipRect.top));
 
 	UINT_PTR idTimer = SetTimer(0, 0, pTooltipData->uiTimeout, TooltipTimerProcWrapper);
 	pTooltipData->idTimer = idTimer;
@@ -378,7 +350,7 @@ BOOL CTooltipNotify::EndNotify(STooltipData* pTooltipData)
 	return TRUE;
 }
 
-VOID CTooltipNotify::EndNotifyAll()
+void CTooltipNotify::EndNotifyAll()
 {
 	// iterate through active tooltips and
 	// remove one which do not have its timer suspended
@@ -413,7 +385,7 @@ CTooltipNotify::MapTimerIdProtoIter CTooltipNotify::FindProtoByTimer(UINT idTime
 	return m_mapTimerIdProto.end();
 }
 
-VOID CTooltipNotify::OnConnectionTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+void CTooltipNotify::OnConnectionTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	BOOL bSuccess = KillTimer(0, idEvent);
 	assert(bSuccess);
@@ -421,16 +393,16 @@ VOID CTooltipNotify::OnConnectionTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, D
 	MapTimerIdProtoIter iter = FindProtoByTimer(idEvent);
 	assert(iter!=m_mapTimerIdProto.end());
 	
-	BYTE bProtoActive = ReadSettingByte(iter->proto, ProtoUserBit|ProtoIntBit);
+	BYTE bProtoActive = db_get_b(NULL, MODULENAME, iter->proto, ProtoUserBit|ProtoIntBit);
 	bProtoActive |= ProtoIntBit;
-	WriteSettingByte(iter->proto, bProtoActive);
+	db_set_b(NULL, MODULENAME, iter->proto, bProtoActive);
 
 	free((char*)iter->proto);
 	m_mapTimerIdProto.erase(iter);
 }
 
 
-VOID CTooltipNotify::OnTooltipTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+void CTooltipNotify::OnTooltipTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	TooltipsList::iterator iter = FindBy(&STooltipData::idTimer, idEvent);
 	assert(iter!=m_TooltipsList.end());
@@ -439,63 +411,78 @@ VOID CTooltipNotify::OnTooltipTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWOR
 	EndNotify(pTooltipData);
 }
 
-VOID CTooltipNotify::MigrateSettings()
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct
 {
-	if (ModuleSettingsExists(NULL, s_szModuleNameOld) && !ModuleSettingsExists(NULL, s_szModuleName))
-	{
-		RenameModule(NULL, s_szModuleNameOld, s_szModuleName);
+	const char *szOldSetting, *szNewSetting;
+}
+static arSettings[] = 
+{
+	{ "xpos", "toolwindowx" },
+	{ "ypos", "toolwindowy" }
+};
+
+void CTooltipNotify::MigrateSettings()
+{
+	for (int i=0; i < SIZEOF(arSettings); i++) {
+		int val = db_get_w(NULL, MODULENAME, arSettings[i].szOldSetting, -1);
+		if (val != -1) {
+			db_set_w(NULL, MODULENAME, arSettings[i].szNewSetting, val);
+			db_unset(NULL, MODULENAME, arSettings[i].szOldSetting);
+		}
 	}
 }
 
-VOID CTooltipNotify::LoadSettings()
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTooltipNotify::LoadSettings()
 { 
-	m_sOptions.bFirstRun = ReadSettingByte("firstrun", DEF_SETTING_FIRSTRUN);
-	m_sOptions.bOffline = ReadSettingByte("offline", DEF_SETTING_OFFLINE);
-	m_sOptions.bOnline = ReadSettingByte("online", DEF_SETTING_ONLINE);
-	m_sOptions.bOther = ReadSettingByte("other", DEF_SETTING_OTHER);
-	m_sOptions.bTyping = ReadSettingByte("typing", DEF_SETTING_TYPING);
-	m_sOptions.bIdle = ReadSettingByte("idle", DEF_SETTING_TYPING);
-	m_sOptions.bX2 = ReadSettingByte("x2", DEF_SETTING_X2);
-	m_sOptions.bConjSOLN = ReadSettingByte("conjsoln", DEF_SETTING_CONJSOLN);
-	m_sOptions.bAutoPos = ReadSettingByte("autopos", DEF_SETTING_DEF_POS);
-	m_sOptions.bBallonTip = ReadSettingByte("balloontip", DEF_SETTING_BALLONTIP);
-	m_sOptions.bTransp = ReadSettingByte("transp", DEF_SETTING_TRANSP);
-	m_sOptions.bAlpha = ReadSettingByte("alpha", DEF_SETTING_ALPHA);
-	m_sOptions.bTranspInput = ReadSettingByte("transpinput", DEF_SETTING_TRANSP_INPUT);
-	m_sOptions.bPrefixProto = ReadSettingByte("prfxproto", DEF_SETTING_PREFIX_PROTO);
-	m_sOptions.bLDblClick = ReadSettingByte("ldblclick", DEF_SETTING_LDBLCLICK);
-	m_sOptions.wDuration = ReadSettingWord("duration", DEF_SETTING_DURATION);
-	m_sOptions.wXPos = ReadSettingWord("xpos", DEF_SETTING_DEF_XPOS);
-	m_sOptions.wYPos = ReadSettingWord("ypos", DEF_SETTING_DEF_YPOS);
-	m_sOptions.wStartupDelay = ReadSettingWord("suprconndelay", DEF_SETTING_STARTUP_DELAY);	
-	m_sOptions.bIgnoreUnknown = ReadSettingByte("ignoreunknown", DEF_SETTING_IGNORE_UNKNOWN);	
-	m_sOptions.bIgnoreNew = ReadSettingByte("ignorenew", DEF_SETTING_IGNORE_NEW);	
+	m_sOptions.bFirstRun = db_get_b(NULL, MODULENAME, "firstrun", DEF_SETTING_FIRSTRUN);
+	m_sOptions.bOffline = db_get_b(NULL, MODULENAME, "offline", DEF_SETTING_OFFLINE);
+	m_sOptions.bOnline = db_get_b(NULL, MODULENAME, "online", DEF_SETTING_ONLINE);
+	m_sOptions.bOther = db_get_b(NULL, MODULENAME, "other", DEF_SETTING_OTHER);
+	m_sOptions.bTyping = db_get_b(NULL, MODULENAME, "typing", DEF_SETTING_TYPING);
+	m_sOptions.bIdle = db_get_b(NULL, MODULENAME, "idle", DEF_SETTING_TYPING);
+	m_sOptions.bX2 = db_get_b(NULL, MODULENAME, "x2", DEF_SETTING_X2);
+	m_sOptions.bConjSOLN = db_get_b(NULL, MODULENAME, "conjsoln", DEF_SETTING_CONJSOLN);
+	m_sOptions.bAutoPos = db_get_b(NULL, MODULENAME, "autopos", DEF_SETTING_DEF_POS);
+	m_sOptions.bBallonTip = db_get_b(NULL, MODULENAME, "balloontip", DEF_SETTING_BALLONTIP);
+	m_sOptions.bTransp = db_get_b(NULL, MODULENAME, "transp", DEF_SETTING_TRANSP);
+	m_sOptions.bAlpha = db_get_b(NULL, MODULENAME, "alpha", DEF_SETTING_ALPHA);
+	m_sOptions.bTranspInput = db_get_b(NULL, MODULENAME, "transpinput", DEF_SETTING_TRANSP_INPUT);
+	m_sOptions.bPrefixProto = db_get_b(NULL, MODULENAME, "prfxproto", DEF_SETTING_PREFIX_PROTO);
+	m_sOptions.bLDblClick = db_get_b(NULL, MODULENAME, "ldblclick", DEF_SETTING_LDBLCLICK);
+	m_sOptions.wDuration = db_get_w(NULL, MODULENAME, "duration", DEF_SETTING_DURATION);
+	m_sOptions.wStartupDelay = db_get_w(NULL, MODULENAME, "suprconndelay", DEF_SETTING_STARTUP_DELAY);	
+	m_sOptions.bIgnoreUnknown = db_get_b(NULL, MODULENAME, "ignoreunknown", DEF_SETTING_IGNORE_UNKNOWN);	
+	m_sOptions.bIgnoreNew = db_get_b(NULL, MODULENAME, "ignorenew", DEF_SETTING_IGNORE_NEW);	
 }
 
-VOID CTooltipNotify::SaveSettings()
+void CTooltipNotify::SaveSettings()
 {
-	WriteSettingWord("duration", m_sOptions.wDuration);
-	WriteSettingWord("suprconndelay", m_sOptions.wStartupDelay);
-	WriteSettingByte("offline", m_sOptions.bOffline);
-	WriteSettingByte("online", m_sOptions.bOnline);
-	WriteSettingByte("other", m_sOptions.bOther);
-	WriteSettingByte("typing", m_sOptions.bTyping);
-	WriteSettingByte("idle", m_sOptions.bIdle);
-	WriteSettingByte("prfxproto", m_sOptions.bPrefixProto);
-	WriteSettingByte("x2", m_sOptions.bX2);
-	WriteSettingByte("conjsoln", m_sOptions.bConjSOLN);
-	WriteSettingByte("autopos", m_sOptions.bAutoPos);
-	WriteSettingByte("balloontip", m_sOptions.bBallonTip);
-	WriteSettingByte("transp", m_sOptions.bTransp);
-	WriteSettingByte("alpha", m_sOptions.bAlpha);
-	WriteSettingByte("transpinput", m_sOptions.bTranspInput);
-	WriteSettingByte("ldblclick", m_sOptions.bLDblClick);
-	WriteSettingByte("ignoreunknown", m_sOptions.bIgnoreUnknown);
-	WriteSettingByte("ignorenew", m_sOptions.bIgnoreNew);
+	db_set_w(NULL, MODULENAME, "duration", m_sOptions.wDuration);
+	db_set_w(NULL, MODULENAME, "suprconndelay", m_sOptions.wStartupDelay);
+	db_set_b(NULL, MODULENAME, "offline", m_sOptions.bOffline);
+	db_set_b(NULL, MODULENAME, "online", m_sOptions.bOnline);
+	db_set_b(NULL, MODULENAME, "other", m_sOptions.bOther);
+	db_set_b(NULL, MODULENAME, "typing", m_sOptions.bTyping);
+	db_set_b(NULL, MODULENAME, "idle", m_sOptions.bIdle);
+	db_set_b(NULL, MODULENAME, "prfxproto", m_sOptions.bPrefixProto);
+	db_set_b(NULL, MODULENAME, "x2", m_sOptions.bX2);
+	db_set_b(NULL, MODULENAME, "conjsoln", m_sOptions.bConjSOLN);
+	db_set_b(NULL, MODULENAME, "autopos", m_sOptions.bAutoPos);
+	db_set_b(NULL, MODULENAME, "balloontip", m_sOptions.bBallonTip);
+	db_set_b(NULL, MODULENAME, "transp", m_sOptions.bTransp);
+	db_set_b(NULL, MODULENAME, "alpha", m_sOptions.bAlpha);
+	db_set_b(NULL, MODULENAME, "transpinput", m_sOptions.bTranspInput);
+	db_set_b(NULL, MODULENAME, "ldblclick", m_sOptions.bLDblClick);
+	db_set_b(NULL, MODULENAME, "ignoreunknown", m_sOptions.bIgnoreUnknown);
+	db_set_b(NULL, MODULENAME, "ignorenew", m_sOptions.bIgnoreNew);
 }
 
 
-VOID CTooltipNotify::ReadSettingsFromDlg(HWND hDlg)
+void CTooltipNotify::ReadSettingsFromDlg(HWND hDlg)
 {
 	m_sOptions.bOffline = (BYTE)(IsDlgButtonChecked(hDlg, IDC_OFFLINE) == BST_CHECKED ? 1:0);
 	m_sOptions.bOnline = (BYTE)(IsDlgButtonChecked(hDlg, IDC_ONLINE) == BST_CHECKED ? 1:0);
@@ -515,7 +502,7 @@ VOID CTooltipNotify::ReadSettingsFromDlg(HWND hDlg)
 	m_sOptions.wStartupDelay = LOWORD(SendDlgItemMessage(hDlg, IDC_DELAYONCONNSPIN, UDM_GETPOS, 0, 0));	
 }
 
-VOID CTooltipNotify::WriteSettingsToDlg(HWND hDlg)
+void CTooltipNotify::WriteSettingsToDlg(HWND hDlg)
 {
 	SendDlgItemMessage(hDlg, IDC_DURATIONSPIN, UDM_SETRANGE, 0, MAKELONG(550*36, 550));
 	SendDlgItemMessage(hDlg, IDC_DURATIONSPIN, UDM_SETPOS, 0, MAKELONG(m_sOptions.wDuration, 0));
@@ -556,7 +543,7 @@ VOID CTooltipNotify::WriteSettingsToDlg(HWND hDlg)
 }
 
 
-VOID CTooltipNotify::ValidateSettings()
+void CTooltipNotify::ValidateSettings()
 {
 	if (m_sOptions.wStartupDelay>30) m_sOptions.wStartupDelay=30;
 	if (m_sOptions.wDuration>550*36) m_sOptions.wDuration=550*36;
@@ -642,11 +629,11 @@ BOOL CTooltipNotify::OptionsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 				}
 
 				case IDC_SEL_PROTO:
-					DialogBox(m_hDllInstance, MAKEINTRESOURCE(IDD_PROTOS), hDlg, CTooltipNotify::ProtosDlgProcWrapper);
+					DialogBox(g_hInstDLL, MAKEINTRESOURCE(IDD_PROTOS), hDlg, CTooltipNotify::ProtosDlgProcWrapper);
 					break;
 
 				case IDC_IGNORE:
-					DialogBox(m_hDllInstance, MAKEINTRESOURCE(IDD_CONTACTS), hDlg, CTooltipNotify::ContactsDlgProcWrapper);
+					DialogBox(g_hInstDLL, MAKEINTRESOURCE(IDD_CONTACTS), hDlg, CTooltipNotify::ContactsDlgProcWrapper);
 					break;
 
 				default:
@@ -725,7 +712,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 					int new_item = ListView_InsertItem(GetDlgItem(hDlg,IDC_PROTOS),&lvi);
 
-					BYTE bProtoState = ReadSettingByte(ppProtos[i]->szModuleName, ProtoUserBit|ProtoIntBit);
+					BYTE bProtoState = db_get_b(NULL, MODULENAME, ppProtos[i]->szModuleName, ProtoUserBit|ProtoIntBit);
 					BOOL bProtoEnabled = (bProtoState & ProtoUserBit) != 0;
 					ListView_SetCheckState(GetDlgItem(hDlg,IDC_PROTOS), i, bProtoEnabled);
 				}
@@ -751,13 +738,13 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 							szMultiByteProto, sizeof(szMultiByteProto), NULL, NULL);
 						szMultiByteProto[lLen] = '\0';
 
-						BYTE bProtoState = ReadSettingByte(szMultiByteProto, ProtoUserBit|ProtoIntBit);
+						BYTE bProtoState = db_get_b(NULL, MODULENAME, szMultiByteProto, ProtoUserBit|ProtoIntBit);
 
 
 						BOOL bProtoEnabled = ListView_GetCheckState(GetDlgItem(hDlg,IDC_PROTOS), i);
 						bProtoState = bProtoEnabled ? bProtoState|ProtoUserBit : bProtoState&~ProtoUserBit;
 
-						WriteSettingByte(szMultiByteProto, bProtoState);		
+						db_set_b(NULL, MODULENAME, szMultiByteProto, bProtoState);		
  
 					}
 
@@ -814,7 +801,7 @@ void CTooltipNotify::LoadList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown
 
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM) hContact, 0);
-		if (hItem && !db_get_b(hContact, s_szModuleName, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
+		if (hItem && !db_get_b(hContact, MODULENAME, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM) hItem, 1);
 	}
 }
@@ -831,7 +818,7 @@ void CTooltipNotify::SaveList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown
 		HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM) hContact, 0);
 		if (hItem) {
 			BYTE bChecked = (BYTE) (SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItem, 0));
-			db_set_b(hContact, s_szModuleName, CONTACT_IGNORE_TTNOTIFY, bChecked ? 0 : 1);
+			db_set_b(hContact, MODULENAME, CONTACT_IGNORE_TTNOTIFY, bChecked ? 0 : 1);
 		}
 	}
 }
@@ -957,7 +944,7 @@ TCHAR *CTooltipNotify::MakeTooltipString(HANDLE hContact, int iStatus, TCHAR *sz
 }
 
 
-VOID CTooltipNotify::OnTooltipDblClicked(CTooltip *pTooltip)
+void CTooltipNotify::OnTooltipDblClicked(CTooltip *pTooltip)
 {
 	switch(m_sOptions.bLDblClick)
 	{
@@ -990,21 +977,14 @@ BOOL CTooltipNotify::OnTooltipBeginMove(CTooltip *pTooltip)
 }
 
 
-VOID CTooltipNotify::OnTooltipEndMove(CTooltip *pTooltip)
+void CTooltipNotify::OnTooltipEndMove(CTooltip *pTooltip)
 {
-	RECT TooltipRect;
-
-	pTooltip->get_Rect(&TooltipRect);
-	m_sOptions.wXPos = (WORD)TooltipRect.left;
-	m_sOptions.wYPos = (WORD)TooltipRect.top;
-	WriteSettingWord("xpos", m_sOptions.wXPos);
-	WriteSettingWord("ypos", m_sOptions.wYPos);
-
+	Utils_SaveWindowPosition(pTooltip->GetHandle(), NULL, MODULENAME, "toolwindow");
 	ResumeTimer(pTooltip);
 }
 
 
-VOID CTooltipNotify::SuspendTimer(CTooltip *pTooltip)
+void CTooltipNotify::SuspendTimer(CTooltip *pTooltip)
 {
 	TooltipsList::iterator iter = FindBy(&STooltipData::pTooltip, pTooltip);
 	assert(iter!=m_TooltipsList.end());
@@ -1017,7 +997,7 @@ VOID CTooltipNotify::SuspendTimer(CTooltip *pTooltip)
 }
 
 
-VOID CTooltipNotify::ResumeTimer(CTooltip *pTooltip)
+void CTooltipNotify::ResumeTimer(CTooltip *pTooltip)
 {
 	TooltipsList::iterator iter = FindBy(&STooltipData::pTooltip, pTooltip);
 	assert(iter!=m_TooltipsList.end());

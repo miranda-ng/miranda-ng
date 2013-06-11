@@ -12,20 +12,20 @@ public:
 	virtual ~CTooltip();
 
 	HWND GetHandle() const { return m_hWnd; }
-	VOID Hide();
-	VOID Show();	
-	VOID Validate();
-	VOID set_Position(INT x, INT y);
-	VOID get_Rect(RECT *Rect) const;
-	VOID set_TransparentInput(BOOL bOnOff);
-	VOID set_Translucency(BYTE bAlpha);
-	VOID set_Text(const TCHAR* szText);
-	VOID set_Font(const LOGFONT& Font) { m_lfFont = Font; }
-	VOID set_TextColor(DWORD TextColor) { m_dwTextColor = TextColor; }
-	VOID set_BgColor(DWORD BgColor) { m_dwBgColor = BgColor; }
+	void Hide();
+	void Show();	
+	void Validate();
+	void set_Position(INT x, INT y);
+	void get_Rect(RECT *Rect) const;
+	void set_TransparentInput(BOOL bOnOff);
+	void set_Translucency(BYTE bAlpha);
+	void set_Text(const TCHAR* szText);
+	void set_Font(const LOGFONT& Font) { m_lfFont = Font; }
+	void set_TextColor(DWORD TextColor) { m_dwTextColor = TextColor; }
+	void set_BgColor(DWORD BgColor) { m_dwBgColor = BgColor; }
 
-	static void Initialize(HMODULE hInstance);
-	static void Deinitialize(HMODULE hInstance);
+	static void Initialize();
+	static void Deinitialize();
 
 private:
 	// prohibit copying

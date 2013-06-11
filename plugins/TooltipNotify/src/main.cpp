@@ -15,7 +15,8 @@ static HANDLE g_hOptionsInitialize = 0;
 static HANDLE g_hModulesLoaded = 0;
 static HANDLE g_hProtoAck = 0;
 static HANDLE g_hProtoContactIsTyping = 0;
-static HINSTANCE g_hInstDLL = 0;
+
+HINSTANCE g_hInstDLL = 0;
 
 // Main global object
 static CTooltipNotify *g_pTooltipNotify = 0;
@@ -56,7 +57,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&sPluginInfo);
 
-	g_pTooltipNotify = new CTooltipNotify(g_hInstDLL);
+	g_pTooltipNotify = new CTooltipNotify();
 	assert(g_pTooltipNotify!=0);
 	
 	g_hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
