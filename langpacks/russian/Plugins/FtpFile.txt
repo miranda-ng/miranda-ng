@@ -211,3 +211,15 @@ FTP сервер 5
 Неизвестно
 [Zip and upload folder]
 Запаковать и отправить папку
+[Upload file]
+Отправить файл
+[Zip and upload file]
+Запаковать и отправить файл
+[Clear All]
+Снять все
+[Delete from List]
+Удалить из списка
+[Upload file(s)]
+Отправить файл(ы)
+[Zip and upload file(s)]
+Запаковать и отправить файл(ы)
