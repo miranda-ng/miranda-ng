@@ -1121,7 +1121,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 										mir_free(tmp2);
 										s+=3;
 										s2 = output.find(">", s);
-										tmp2 = new char [output.substr(s,s2-s).length()+1];
+										tmp2 = (char*)mir_alloc((output.substr(s,s2-s).length()+1) * sizeof(char));
 										strcpy(tmp2, output.substr(s,s2-s).c_str());
 										mir_utf8decode(tmp2, 0);
 										if(hContact)
