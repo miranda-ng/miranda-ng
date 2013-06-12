@@ -65,7 +65,7 @@ void CSkypeProto::UpdateProfileBirthday(SEObject *obj, HANDLE hContact)
 	uint data = hContact ? obj->GetUintProp(Contact::P_BIRTHDAY) : obj->GetUintProp(Account::P_BIRTHDAY);
 	if (data > 0)
 	{
-		TCHAR date[9];
+		TCHAR date[20];
 		_itot_s(data, date, 10);
 
 		INT day, month, year;
