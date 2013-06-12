@@ -273,6 +273,21 @@ int facebook_json_parser::parse_notifications(void *data, std::vector< facebook_
 	return EXIT_SUCCESS;
 }
 
+bool ignore_duplicits(FacebookProto *proto, std::string mid, std::string text) {
+	std::map<std::string, bool>::iterator it = proto->facy.messages_ignore.find(mid);
+	if (it != proto->facy.messages_ignore.end()) {
+		std::string msg = "????? Ignoring duplicit/sent message\n" + text;
+		proto->Log(msg.c_str());
+
+		it->second = true; // mark to delete it at the end
+		return true;
+	}
+					
+	// remember this id to ignore duplicits
+	proto->facy.messages_ignore.insert(std::make_pair(mid, true));
+	return false;
+}
+
 int facebook_json_parser::parse_messages(void* data, std::vector< facebook_message* >* messages, std::vector< facebook_notification* >* notifications)
 {
 	using namespace json;
@@ -286,9 +301,6 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 		const Object& objRoot = objDocument;
 		const Array& messagesArray = objRoot["ms"];
-
-		std::string last_msg = "";
-		std::string thread_mid = "";
 
 		for (Array::const_iterator itMessage(messagesArray.Begin()); itMessage != messagesArray.End(); ++itMessage)
 		{
@@ -309,18 +321,15 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
         
 				const Number& time_sent = messageContent["time"];
 
+				// ignore duplicits or messages sent from miranda
+				if (ignore_duplicits(proto, message_id.Value(), text.Value()))
+					continue;
+
 				std::string message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value())), true);
 				if (message_text.empty())
 					continue;
 
 				if (was_id == proto->facy.self_.user_id) {
-					// ignore messages sent from Miranda
-					std::set<std::string>::iterator it = proto->facy.messages_sent.find(message_id.Value());
-					if (it != proto->facy.messages_sent.end()) {
-						proto->facy.messages_sent.erase(it);
-						continue;
-					}
-
 					const Number& to = objMember["to"];
 					char to_id[32];
 					lltoa(to.Value(), to_id, 10);
@@ -351,9 +360,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					std::string msg = "????? We got truncated message so we ignore it\n";
 					msg += utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value()));
 					proto->Log(msg.c_str());
-				} else if (last_msg != text.Value()) {
-					last_msg = text.Value();
-
+				} else {
   					facebook_message* message = new facebook_message();
 					message->message_text = message_text;
 					message->time = utils::time::fix_timestamp(time_sent.Value());
@@ -361,9 +368,6 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					message->message_id = message_id;
 
 					messages->push_back(message);
-				} else {
-					std::string msg = "????? Got duplicit message?\n" + message_text;
-					proto->Log(msg.c_str());
 				}
 			}
 			else if (type.Value() == "messaging") 
@@ -402,33 +406,26 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					char was_id[32];
 					lltoa(sender_fbid.Value(), was_id, 10);
 
-					// Ignore messages from myself
-					if (was_id == proto->facy.self_.user_id)
+					// ignore duplicits or messages sent from miranda
+					if (ignore_duplicits(proto, mid.Value(), text.Value()))
 						continue;
 
-					// Ignore group chat messages
-					if (thread_mid == mid.Value())
+					// Ignore messages from myself
+					if (was_id == proto->facy.self_.user_id)
 						continue;
 
 					std::string message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value())), true);
 					if (message_text.empty())
 						continue;
 
-					if (last_msg != text.Value()) {
-						last_msg = text.Value();
+					facebook_message* message = new facebook_message();
+					message->message_text = message_text;
+					message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(sender_name.Value()));
+					message->time = utils::time::fix_timestamp(time_sent.Value());
+					message->user_id = was_id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
+					message->message_id = mid.Value();
 
-  						facebook_message* message = new facebook_message();
-						message->message_text = message_text;
-						message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(sender_name.Value()));
-						message->time = utils::time::fix_timestamp(time_sent.Value());
-						message->user_id = was_id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
-						message->message_id = mid.Value();
-
-						messages->push_back(message);
-					} else {
-						std::string msg = "????? Got duplicit inbox message?\n" + message_text;
-						proto->Log(msg.c_str());
-					}
+					messages->push_back(message);
 				}
 			}
 			else if (type.Value() == "thread_msg") // multiuser message
@@ -441,31 +438,32 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				char was_id[32];
 				lltoa(from.Value(), was_id, 10);
 
+				const Object& messageContent = objMember["msg"];
+  				const String& text = messageContent["text"];
+				const String& mid = messageContent["messageId"];
+
+				// ignore duplicits or messages sent from miranda
+				if (ignore_duplicits(proto, mid.Value(), text.Value()))
+					continue;
+
 				// Ignore messages from myself
 				if (was_id == proto->facy.self_.user_id)
 					continue;
 
-				const Object& messageContent = objMember["msg"];
-  				const String& text = messageContent["text"];
-				last_msg = text.Value();
-
-				// remember this thread mid so we can ignore it in "messaging" section
-				const String& mid = messageContent["messageId"];
-				thread_mid = mid.Value();
-
-				std::string popup_text = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(from_name.Value()));
-				popup_text += ": ";
-				popup_text += utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value()));
+				std::string message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value())), true);
+				if (message_text.empty())
+					continue;
 
 				std::string title = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(to_name.Value()));
-
 				std::string url = "/?action=read&sk=inbox&page&query&tid=" + to_id.Value();
+				std::string popup_text = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(from_name.Value()));
+				popup_text += ": " + message_text;
 
 				proto->Log("      Got multichat message");
 		    
 				TCHAR* szTitle = mir_utf8decodeT(title.c_str());
 				TCHAR* szText = mir_utf8decodeT(popup_text.c_str());
-				proto->NotifyEvent(szTitle,szText,NULL,FACEBOOK_EVENT_OTHER, &url);
+				proto->NotifyEvent(szTitle, szText, NULL, FACEBOOK_EVENT_OTHER, &url);
 				mir_free(szTitle);
 				mir_free(szText);
 			}
@@ -535,6 +533,12 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			}
 			else
 				continue;
+		}
+
+		// remove received messages from map
+		for (std::map<std::string, bool>::iterator it = proto->facy.messages_ignore.begin(); it != proto->facy.messages_ignore.end(); ++it) {
+			if (it->second)
+				proto->facy.messages_ignore.erase(it);
 		}
 	}
 	catch (Reader::ParseException& e)

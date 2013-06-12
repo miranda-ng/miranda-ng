@@ -1167,7 +1167,7 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 	{
 		// Remember this message id
 		std::string mid = utils::text::source_get_value(&resp.data, 2, "\"message_id\":\"", "\"");
-		messages_sent.insert(mid);
+		messages_ignore.insert(std::make_pair(mid, false));
 	} break;
 
     //case 1356002: // You are offline - wtf??

@@ -149,7 +149,7 @@ public:
 
 	// Messages handling
 
-	std::set<std::string> messages_sent;
+	std::map<std::string, bool> messages_ignore;
 
 	bool    channel();
 	bool    send_message(std::string message_recipient, std::string message_text, std::string *error_text, int method);
