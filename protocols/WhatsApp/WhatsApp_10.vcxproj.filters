@@ -202,6 +202,9 @@
     <ClInclude Include="res\resource.h">
       <Filter>Miranda Plugin\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Miranda Plugin\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\whatsapp.rc">

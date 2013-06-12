@@ -266,6 +266,7 @@
     <ClInclude Include="src\proto.h" />
     <ClInclude Include="src\theme.h" />
     <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\version.h" />
     <ClInclude Include="src\WASocketConnection.h" />
     <ClInclude Include="src\WhatsAPI++\base64.h" />
     <ClInclude Include="src\WhatsAPI++\BinTreeNodeReader.h" />
