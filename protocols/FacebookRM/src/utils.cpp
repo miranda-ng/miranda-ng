@@ -351,13 +351,13 @@ std::string utils::text::slashu_to_utf8(std::string data)
 	return new_string;
 }
 
-std::string utils::text::trim(std::string data)
+std::string utils::text::trim(std::string data, bool rtrim)
 {
 	std::string spaces = " \t\r\n"; // TODO: include "nbsp"?
-	std::string::size_type begin = data.find_first_not_of(spaces);
+	std::string::size_type begin = rtrim ? 0 : data.find_first_not_of(spaces);
 	std::string::size_type end = data.find_last_not_of(spaces) + 1;
 
-	return (begin != std::string::npos) ? data.substr(begin, end - begin) : "";
+	return (end != std::string::npos) ? data.substr(begin, end - begin) : "";
 }
 
 void utils::text::explode(std::string str, std::string separator, std::vector<std::string>* results)

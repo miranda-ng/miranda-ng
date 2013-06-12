@@ -369,13 +369,11 @@ void FacebookProto::ProcessUnreadMessage(void *tid_data)
 		std::string::size_type pos3 = messageslist.find("class=\\\"MessagingMessage ", pos2);
 		std::string messagesgroup = messageslist.substr(pos2, pos3 - pos2);
 
-		DWORD timestamp = utils::conversion::to_timestamp(
-							utils::text::source_get_value(&messagesgroup, 2, "data-utime=\\\"", "\\\""));
+		DWORD timestamp = utils::conversion::to_timestamp(utils::text::source_get_value(&messagesgroup, 2, "data-utime=\\\"", "\\\""));
 
 		pos3 = 0;
 		while ((pos3 = messagesgroup.find("class=\\\"content noh", pos3)) != std::string::npos)
 		{
-
 			std::string message_attachments = "";
 			std::string::size_type pos4 = 0;
 			if ((pos4 = messagesgroup.find("class=\\\"attachments\\\"", pos4)) != std::string::npos) {
@@ -409,9 +407,11 @@ void FacebookProto::ProcessUnreadMessage(void *tid_data)
 
 			std::string message_text = messagesgroup.substr(pos3, messagesgroup.find("<\\/div", pos3) + 6 - pos3);
 			message_text = utils::text::source_get_value(&message_text, 2, "\\\">", "<\\/div");
-			message_text = utils::text::trim(
-							utils::text::special_expressions_decode(
-								utils::text::remove_html(message_text)));
+			message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::remove_html(message_text)), true);
+			pos3++;
+
+			if (message_text.empty())
+				continue;
 
 			LOG("Got unread message: \"%s\"", message_text.c_str());
 
@@ -430,8 +430,6 @@ void FacebookProto::ProcessUnreadMessage(void *tid_data)
 			recv.szMessage = const_cast<char*>(message_text.c_str());
 			recv.timestamp = timestamp;
 			ProtoChainRecvMsg(hContact, &recv);
-
-			pos3++;
 		}
 
 	}
