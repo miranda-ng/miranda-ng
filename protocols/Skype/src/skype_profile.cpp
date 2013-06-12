@@ -112,7 +112,7 @@ void CSkypeProto::UpdateProfileCountry(SEObject *obj, HANDLE hContact)
 	else
 	{
 		country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode, 0);
-		::db_set_ws(hContact, this->m_szModuleName, "Country", ::mir_a2t(country));
+		::db_set_ws(hContact, this->m_szModuleName, "Country", _A2T(country));
 	}
 }
 

@@ -208,9 +208,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	CSkypeProto::UninitIcons();
 	CSkypeProto::UninitMenus();
-
-	//this->stop();
-	//delete this->skypeKit;
-
+	CSkypeProto::UninitInstances();
 	return 0;
 }

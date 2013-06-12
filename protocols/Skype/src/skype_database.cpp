@@ -92,7 +92,7 @@ void CSkypeProto::RaiseMessageSentEvent(HANDLE hContact, DWORD timestamp, SEBina
 	int guidLen = (int)guid.size();
 
 	int  msgLen = (int)::strlen(message) + 1;
-	char *msg = (char *)::mir_alloc(msgLen + guidLen);
+	ptrA msg((char *)::mir_alloc(msgLen + guidLen));
 
 	::strcpy(msg, message);
 	msg[msgLen - 1] = 0;
@@ -108,5 +108,5 @@ void CSkypeProto::RaiseMessageSentEvent(HANDLE hContact, DWORD timestamp, SEBina
 		timestamp, 
 		flags, 
 		msgLen + guidLen, 
-		(PBYTE)msg);
+		(PBYTE)(char*)msg);
 }

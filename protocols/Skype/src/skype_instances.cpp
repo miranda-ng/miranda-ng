@@ -65,3 +65,8 @@ int CSkypeProto::UninitSkypeProto(CSkypeProto* ppro)
 
 	return 0;
 }
+
+void CSkypeProto::UninitInstances()
+{
+	instanceList.destroy();
+}

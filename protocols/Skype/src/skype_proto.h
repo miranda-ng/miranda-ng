@@ -146,6 +146,7 @@ public:
 	static int UninitSkypeProto(CSkypeProto* ppro);
 
 	static CSkypeProto* GetInstanceByHContact(HANDLE hContact);
+	static void UninitInstances();
 
 	// icons
 	static void InitIcons();

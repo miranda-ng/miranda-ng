@@ -705,7 +705,7 @@ INT_PTR CALLBACK CSkypeProto::HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 			{
 				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0)
 				{
-					wchar_t *country = mir_a2t(g_countries[i].szName);
+					ptrT country( mir_a2t(g_countries[i].szName));
 					int nItem = ::SendMessage(
 						::GetDlgItem(hwndDlg, IDC_COUNTRY), 
 						CB_ADDSTRING, 
@@ -720,8 +720,6 @@ INT_PTR CALLBACK CSkypeProto::HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 
 					if (countr && ::wcscmp(country, countr) == 0)
 						::SendMessage(GetDlgItem(hwndDlg, IDC_COUNTRY), CB_SETCURSEL, nItem, 0);
-
-					::mir_free(country);
 				}
 			}
 

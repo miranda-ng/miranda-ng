@@ -96,7 +96,7 @@ void CSkypeProto::OnMessageSent(const ConversationRef &conversation, const Messa
 	message->GetPropConsumptionStatus(status);
 
 	message->GetPropBodyXml(data);
-	char *text = CSkypeProto::RemoveHtml(data);
+	ptrA text( CSkypeProto::RemoveHtml(data));
 
 	CParticipant::Refs participants;
 	conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);

@@ -18,10 +18,10 @@ public:
 			wchar_t *p = ::wcstok(data, delimeters);
 			if (p)
 			{
-				this->strings.push_back(::mir_wstrdup(p));
+				this->strings.push_back(p);
 				while (p = wcstok(NULL, delimeters))
 				{
-					this->strings.push_back(::mir_wstrdup(p));
+					this->strings.push_back(p);
 				}
 			}
 			::mir_free(data);
