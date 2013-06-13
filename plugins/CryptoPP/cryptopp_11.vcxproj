@@ -255,7 +255,6 @@
     <ClInclude Include="src\GPGw\tools.h" />
     <ClInclude Include="src\GPGw\userdialog.h" />
     <ClInclude Include="src\mmi.h" />
-    <ClInclude Include="src\PGPw\commonheaders.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\utf8.h" />
     <ClInclude Include="src\version.h" />

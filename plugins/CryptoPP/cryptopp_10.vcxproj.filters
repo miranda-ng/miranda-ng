@@ -170,9 +170,6 @@
     <ClInclude Include="src\GPGw\gpgw.h">
       <Filter>Source Files\GPGw</Filter>
     </ClInclude>
-    <ClInclude Include="src\PGPw\commonheaders.h">
-      <Filter>Source Files\PGPw</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\version.rc">
