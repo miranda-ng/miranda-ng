@@ -255,7 +255,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	DBVARIANT dbv;
 
 	if (GroupNameExists(szName, groupId)) {
-		MessageBox(NULL, TranslateT("You already have a group with that name. Please enter a unique name for the group."), TranslateT("Rename Group"), MB_OK);
+		MessageBox(NULL, TranslateT("You already have a group with that name. Please enter a unique name for the group."), TranslateT("Rename Group"), MB_ICONERROR | MB_OK);
 		return 1;
 	}
 

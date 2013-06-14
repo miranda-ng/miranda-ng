@@ -386,7 +386,9 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 			}
 			break;
 		default:
-			MessageBox(NULL, TranslateT("Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n."), TranslateT("Install Database Settings"), MB_OK);
+			TCHAR buf[ 100 ];
+			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n."), _A2T(szName));
+			MessageBox(NULL, buf, TranslateT("Install Database Settings"), MB_ICONWARNING | MB_OK);
 			break;
 		}
 	}

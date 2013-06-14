@@ -150,7 +150,7 @@ int LoadStdPlugins()
 	}
 
 	if (pluginDefault[13].pImpl == NULL)
-		MessageBox(NULL, TranslateT("No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, \"srmm.dll\""), _T("Miranda NG"), MB_OK | MB_ICONINFORMATION);
+		MessageBox(NULL, TranslateT("No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, \"srmm.dll\""), _T("Miranda NG"), MB_OK | MB_ICONWARNING);
 
 	return 0;
 }
@@ -681,7 +681,7 @@ static int LaunchServicePlugin(pluginEntry* p)
 	if (res != CALLSERVICE_NOTFOUND)
 		return res;
 
-	MessageBox(NULL, TranslateT("Unable to load plugin in Service Mode!"), p->pluginname, 0);
+	MessageBox(NULL, TranslateT("Unable to load plugin in Service Mode!"), p->pluginname, MB_ICONSTOP);
 	Plugin_Uninit(p);
 	return SERVICE_FAILED;
 }
@@ -787,9 +787,9 @@ int LoadNewPluginsModule(void)
 	if (clist == NULL) {
 		// result = 0, no clist_* can be found
 		if (clistPlugins.getCount())
-			MessageBox(NULL, TranslateT("Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any."), _T("Miranda NG"), MB_OK | MB_ICONINFORMATION);
+			MessageBox(NULL, TranslateT("Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any."), _T("Miranda NG"), MB_OK | MB_ICONERROR);
 		else
-			MessageBox(NULL, TranslateT("Can't find a contact list plugin! you need clist_classic or any other clist plugin.") , _T("Miranda NG"), MB_OK | MB_ICONINFORMATION);
+			MessageBox(NULL, TranslateT("Can't find a contact list plugin! you need clist_classic or any other clist plugin.") , _T("Miranda NG"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
 

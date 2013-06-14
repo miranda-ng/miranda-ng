@@ -783,9 +783,11 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 							else {
 								DWORD dwStatus = CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0);
 								if (dwStatus >= ID_STATUS_ONLINE) {
-									if (IDCANCEL == ::MessageBox(hwndDlg, 
+									TCHAR buf[ 200 ];
+									mir_sntprintf(buf, SIZEOF(buf), TranslateT("Account %s is being disabled"), pa->tszAccountName);
+									if (IDNO == ::MessageBox(hwndDlg, 
 																TranslateT("Account is online. Disable account?"),
-																TranslateT("Accounts"), MB_OKCANCEL)) {
+																buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO)) {
 										pa->bIsEnabled = 1; //stay enabled
 									}
 								}
@@ -858,7 +860,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 							MB_ICONERROR | MB_OK);
 						break;
 					}
-					if (IDYES == MessageBox(NULL, errMsg, buf, MB_ICONSTOP | MB_DEFBUTTON2 | MB_YESNO)) {
+					if (IDYES == MessageBox(NULL, errMsg, buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO)) {
 						// lock controls to avoid changes during remove process
 						ListBox_SetCurSel(hList, -1);
 						sttUpdateAccountInfo(hwndDlg, dat);
