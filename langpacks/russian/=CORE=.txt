@@ -229,6 +229,8 @@
 Информация:
 [Account %s is being deleted]
 Удаление учётной записи %s
+[Account %s is being disabled]
+Отключение учётной записи %s
 [Account ID]
 ID учётной записи
 [Account information:]
@@ -735,8 +737,8 @@ URL:
 Сообщение повреждено
 [Invalid Phone Number]
 Неверный номер телефона
-[Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-Неверный тип настройки. Первая буква любого значения должна быть b, w, d, l, s, e, u, g, h или n.
+[Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
+Неверный тип настройки для '%s'. Первая буква любого значения должна быть b, w, d, l, s, e, u, g, h или n.
 [Invisible]
 Невидимый
 [Join chat]
@@ -2167,7 +2169,12 @@ Cвернуть
 Ошибка учетной записи
 [Account name has to be unique. Please enter unique name.]
 Имя учетной записи должно быть уникально. Введите уникальное имя.
-
+[Request authorization]
+Запросить авторизацию
+[Grant authorization]
+Авторизовать
+[Revoke authorization]
+Отозвать авторизацию
 
 ;ПЛАГИН КЛИСТА
 [ms delay]

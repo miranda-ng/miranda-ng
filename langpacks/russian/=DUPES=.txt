@@ -489,8 +489,6 @@ E-Mail
 Грузинский
 [German]
 Немецкий
-[Grant authorization]
-Авторизовать
 [Greek, Modern (1453-)]
 Греческий
 [Greek]
@@ -885,8 +883,6 @@ E-Mail
 Вопрос
 [Refresh]
 Обновить
-[Request authorization]
-Запросить авторизацию
 [Reserved #1]
 Доп. слот #1
 [Reserved #2]
@@ -1819,8 +1815,6 @@ GMT-09:00 Аляска
 закрыл окно чата
 [Privacy]
 Приватность
-[Revoke authorization]
-Отозвать авторизацию
 [client]
 клиент
 [Other...]

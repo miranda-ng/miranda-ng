@@ -203,7 +203,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	CreateProtoService(m_szModuleName,"/VisitProfile",&FacebookProto::VisitProfile,this);
 	strcpy(tDest,"/VisitProfile");
 	mi.flags = CMIF_CHILDPOPUP;
-	mi.pszName = LPGEN("Visit Profile");
+	mi.pszName = LPGEN("Visit profile");
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
 	// TODO RM: remember and properly free in destructor?
 	/*m_hStatusMind = */Menu_AddProtoMenuItem(&mi);
