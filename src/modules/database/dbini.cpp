@@ -386,7 +386,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 			}
 			break;
 		default:
-			TCHAR buf[ 100 ];
+			TCHAR buf[ 250 ];
 			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n."), _A2T(szName));
 			MessageBox(NULL, buf, TranslateT("Install Database Settings"), MB_ICONWARNING | MB_OK);
 			break;
