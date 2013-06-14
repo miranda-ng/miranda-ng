@@ -1,4 +1,4 @@
-#include "skype_proto.h"
+#include "skype.h"
 
 void CSkypeProto::OnTransferChanged(CTransfer::Ref transfer, int prop)
 {

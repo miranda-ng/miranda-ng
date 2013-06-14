@@ -1,4 +1,4 @@
-#include "skype_proto.h"
+#include "skype.h"
 
 HANDLE CSkypeProto::hChooserMenu;
 HANDLE CSkypeProto::contactMenuItems[CMI_TEMS_COUNT];

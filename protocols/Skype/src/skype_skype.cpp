@@ -1,4 +1,4 @@
-#include "skype_proto.h"
+#include "skype.h"
 
 CAccount* CSkypeProto::newAccount(int oid) 
 { 

@@ -1,4 +1,4 @@
-#include "skype_proto.h"
+#include "skype.h"
 
 bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid, int flag)
 {

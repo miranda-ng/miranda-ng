@@ -1,7 +1,5 @@
-#include "skype_proto.h"
+#include "skype.h"
 #include "skype_chat.h"
-#include <m_message.h>
-#include <m_history.h>
 
 enum CHAT_LIST_MENU 
 {

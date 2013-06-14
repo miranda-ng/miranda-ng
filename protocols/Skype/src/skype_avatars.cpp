@@ -1,4 +1,4 @@
-#include "skype_proto.h"
+#include "skype.h"
 
 bool CSkypeProto::IsAvatarChanged(const SEBinary &avatar, HANDLE hContact)
 {

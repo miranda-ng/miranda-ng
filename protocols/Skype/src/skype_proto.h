@@ -1,21 +1,5 @@
 #pragma once
 
-#include "skype.h"
-#include "string_list.h"
-
-#include "skypekit\common.h"
-#include "skypekit\group.h"
-#include "skypekit\search.h"
-#include "skypekit\account.h"
-#include "skypekit\contact.h"
-#include "skypekit\message.h"
-#include "skypekit\transfer.h"
-#include "skypekit\participant.h"
-#include "skypekit\conversation.h"
-
-#include <map>
-#include <string>
-
 typedef void    (__cdecl CSkypeProto::* SkypeThreadFunc) (void*);
 typedef int     (__cdecl CSkypeProto::* SkypeEventFunc)(WPARAM, LPARAM);
 typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFunc)(WPARAM, LPARAM);

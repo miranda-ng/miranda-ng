@@ -1,4 +1,4 @@
-#include "skype_proto.h"
+#include "skype.h"
 
 _tag_iconList CSkypeProto::IconList[] =
 {

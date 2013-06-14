@@ -1,4 +1,4 @@
-#include "skype_proto.h"
+#include "skype.h"
 
 wchar_t *CSkypeProto::ValidationReasons[] =
 {

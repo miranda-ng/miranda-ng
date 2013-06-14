@@ -1,4 +1,4 @@
-#include "skype_proto.h"
+#include "skype.h"
 
 void __cdecl CSkypeProto::LoadOwnInfo(void *)
 {

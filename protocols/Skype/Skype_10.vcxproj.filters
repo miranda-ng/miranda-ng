@@ -117,6 +117,9 @@
     <ClCompile Include="src\skype_runtime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -204,10 +207,5 @@
     <None Include="res\conf_spawn.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\send_contacts.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
   </ItemGroup>
 </Project>

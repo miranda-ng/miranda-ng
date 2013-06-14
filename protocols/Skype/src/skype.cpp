@@ -1,4 +1,4 @@
-#include "skype_proto.h"
+#include "skype.h"
 
 int hLangpack;
 HINSTANCE g_hInstance;

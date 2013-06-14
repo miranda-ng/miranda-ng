@@ -10,7 +10,11 @@
 #include <fcntl.h>
 #include <time.h>
 
+#include <map>
+#include <string>
+
 #include <newpluginapi.h>
+#include <m_system_cpp.h>
 #include <m_avatars.h>
 #include <m_clist.h>
 #include <m_clistint.h>
@@ -30,12 +34,11 @@
 #include <m_userinfo.h>
 #include <m_icolib.h>
 #include <m_utils.h>
-#include <m_system_cpp.h>
+#include <m_history.h>
 #include <m_xml.h>
 #include <win2k.h>
 #include <m_timezones.h>
 #include <m_msg_buttonsbar.h>
-
 #include <m_folders.h>
 
 #include "resource.h"
@@ -69,6 +72,20 @@
 #define CMI_TEMS_COUNT 4
 
 #define SMI_CHAT_INVITE 1
+
+#include "string_list.h"
+
+#include "skypekit\common.h"
+#include "skypekit\group.h"
+#include "skypekit\search.h"
+#include "skypekit\account.h"
+#include "skypekit\contact.h"
+#include "skypekit\message.h"
+#include "skypekit\transfer.h"
+#include "skypekit\participant.h"
+#include "skypekit\conversation.h"
+
+#include "skype_proto.h"
 
 extern HINSTANCE g_hInstance;
 

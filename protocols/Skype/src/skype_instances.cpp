@@ -1,4 +1,4 @@
-#include "skype_proto.h"
+#include "skype.h"
 
 LIST<CSkypeProto> CSkypeProto::instanceList(1, CSkypeProto::CompareProtos);
 
