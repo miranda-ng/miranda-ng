@@ -209,7 +209,6 @@
 [&Remove...]
 [Miranda NG]
 [Miranda NG is being restarted.\nPlease wait...]
-[Close]
 [Error Console]
 [Error notifications]
 [Headers:]
@@ -488,6 +487,7 @@
 [File being received]
 [File Transfers]
 [Clear completed]
+[Close]
 [Receiving files]
 [Received files folder:]
 [Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
@@ -1121,7 +1121,7 @@
 [This change is known to be safe.]
 [This change is known to be potentially hazardous.]
 [This change is not known to be safe.]
-[Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
+[Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 [The profile already exists]
@@ -1248,6 +1248,7 @@
 [Rename]
 [Configure]
 [Upgrade]
+[Account %s is being disabled]
 [Account is online. Disable account?]
 [Account %s is being deleted]
 [You need to disable plugin to delete this account]
@@ -1295,6 +1296,9 @@
 [Running core plugin]
 [Non-loadable plugin]
 [Frames]
+[Request authorization]
+[Grant authorization]
+[Revoke authorization]
 [Always visible]
 [Always invisible]
 [Locked status]
@@ -2306,7 +2310,7 @@
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.0
+;  Version: 0.0.2.1
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If contact didn't authorized you this plugin puts an icon in front of contacts name.]
@@ -4781,6 +4785,51 @@
 ;file \plugins\CmdLine\src\utils.cpp
 [Notify]
 [Warning]
+﻿#muuid {4bb5b4aa-c364-4f23-9746-d5b708a286a5}
+;============================================================
+;  File: ConnectionNotify.dll
+;  Plugin: ConnectionNotify
+;  Version: 0.1.0.5
+;  Authors: MaKaR
+;============================================================
+[Notify with popup if some connection established]
+;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
+[Set popup colours]
+[Popup options]
+[Background]
+[Text]
+[Close after: ]
+[sec.(0 default, -1 disabled)]
+[Settings]
+[try resolve addresses]
+[Version:]
+[Show notification if no filter defined]
+[Attempt interval (ms.)]
+[X]
+[Online mean]
+[Filters]
+[DN]
+[UP]
+[Rule editor]
+[Application name]
+[Local IP:Port]
+[Action:]
+[OK]
+[Cancel]
+[* and ? wildcard characters also available (for port enter number or *)]
+[Remote IP:Port]
+;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Always show popup]
+[Never show popup]
+[Status]
+[Application]
+[Internal socket]
+[External socket]
+[Action]
+[Plugins]
+[ConnectionNotify: New Connection Notification]
+;file \plugins\ConnectionNotify\src\filter.cpp
+[First close options window]
 ﻿#muuid {23d4f302-d513-45b7-9027-445f29557311}
 ;============================================================
 ;  File: Console.dll
@@ -4933,7 +4982,7 @@
 ;  Authors: Baloo
 ;============================================================
 [Crypto++ library for SecureIM plugin.]
-;file \plugins\CryptoPP\src\GPGw\resource.rc
+;file \plugins\CryptoPP\src\GPGw\gpg.rc
 [GnuPG Plugin - Passphrase]
 [Enter passphrase for the secret key of user:]
 [User ID]
@@ -5588,11 +5637,50 @@
 [User name or '*']
 [E-mage LAN protocol]
 [Network]
+﻿#muuid {2fd0df15-7098-41ce-aa92-ff621806e38b}
+;============================================================
+;  File: Exchange.dll
+;  Plugin: Exchange
+;  Version: 0.1.3.4
+;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
+;============================================================
+[Notifies you if you have unread email on an exchange server.]
+;file \plugins\Exchange\res\exchange.rc
+[Unread emails]
+[Close]
+[Mark as read]
+[Dialog]
+[Connection]
+[Username :]
+[Password :]
+[Server :]
+[Preferences]
+[Check every]
+[seconds.]
+[Force reconnect every]
+[minutes.]
+[Check server before trying to connect]
+[Try to connect]
+[times before giving up.]
+[Show email notifications using popup module]
+;file \plugins\Exchange\src\dlg_handlers.cpp
+[Entry ID]
+[Subject]
+[Sender]
+;file \plugins\Exchange\src\emails.cpp
+[You have %d unread emails ...]
+[You have one unread email ...]
+[Exchange email]
+[Do you want to see the email headers ?]
+;file \plugins\Exchange\src\hooked_events.cpp
+[Check exchange mailbox]
+[Exchange notify]
+[Plugins]
 ﻿#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.0
+;  Version: 0.1.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -5702,17 +5790,19 @@
 [Loading newsfeeds...]
 [Checking friend requests...]
 [Refreshing buddy list...]
+[Do you want to cancel your friendship with '%s'?]
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 [Mind]
 [Poke]
 [Newsfeed]
+[Friendship details]
+[Visit profile]
+[Visit friendship details]
 [Cancel friendship]
 [Cancel friendship request]
 [Request friendship]
 [Approve friendship]
-[Visit friendship details]
-[Visit profile]
 [Mind...]
 [Visit Profile]
 [Services...]
@@ -9297,9 +9387,6 @@
 [Agents list]
 [Transports]
 [Personal vCard]
-[Request authorization]
-[Grant authorization]
-[Revoke authorization]
 [Convert to room]
 [Login/logout]
 [Resolve nicks]
@@ -9354,6 +9441,9 @@
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+[Grant authorization]
+[Revoke authorization]
 [Convert]
 [Add to Bookmarks]
 [Commands]
@@ -10607,7 +10697,6 @@
 [Show in list]
 [Always visible]
 [Never visible]
-[Request authorization]
 [Copy to Account]
 [Copy xStatus Message]
 [All]
@@ -10623,6 +10712,7 @@
 [Miranda NG]
 [MenuItemEx]
 [Open ignore settings]
+[Request authorization]
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 ﻿#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
@@ -10914,7 +11004,7 @@
 ;============================================================
 ;  File: MobileState.dll
 ;  Plugin: Mobile state
-;  Version: 0.0.1.1
+;  Version: 0.0.1.2
 ;  Authors: Robert Pösel
 ;============================================================
 [Plugin shows mobile icon in contact list next to contacts which are using mobile client.]
@@ -17675,8 +17765,6 @@
 [Tlen inbox]
 [Group chats]
 [Tlen chats]
-[Grant authorization]
-[Request authorization]
 [Voice chat]
 [Microphone]
 [Speaker]
@@ -17688,6 +17776,8 @@
 [Tlen Mail]
 [Send picture]
 [Voice Chat]
+[Request authorization]
+[Grant authorization]
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
 [%d Files]
@@ -17729,7 +17819,7 @@
 ;============================================================
 ;  File: TooltipNotify.dll
 ;  Plugin: Tooltip notify
-;  Version: 0.6.0.47
+;  Version: 0.7.0.1
 ;  Authors: perf
 ;============================================================
 [Shows a small tooltip above system tray area when a contact status is changed.]
@@ -19619,6 +19709,7 @@
 [Set birthday for %s:]
 [%S protocol]
 [N/A]
+[Unknown]
 [Birthday list (%d)]
 [Protocol]
 [Contact]

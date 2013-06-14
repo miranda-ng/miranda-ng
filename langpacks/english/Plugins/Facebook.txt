@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.0
+;  Version: 0.1.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -112,17 +112,19 @@
 [Loading newsfeeds...]
 [Checking friend requests...]
 [Refreshing buddy list...]
+[Do you want to cancel your friendship with '%s'?]
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 [Mind]
 [Poke]
 [Newsfeed]
+[Friendship details]
+[Visit profile]
+[Visit friendship details]
 [Cancel friendship]
 [Cancel friendship request]
 [Request friendship]
 [Approve friendship]
-[Visit friendship details]
-[Visit profile]
 [Mind...]
 [Visit Profile]
 [Services...]

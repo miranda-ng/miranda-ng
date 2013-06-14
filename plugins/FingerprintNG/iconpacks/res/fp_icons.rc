@@ -619,7 +619,9 @@
 	IDI_FACEBOOK			ICON	"others\\Facebook.ico"
 	IDI_SKYPE				ICON	"others\\Skype.ico"
 	IDI_TWITTER				ICON	"others\\Twitter.ico"
-	IDI_XFIRE				ICON	"others\\xfire.ico"
+	IDI_XFIRE				ICON	"others\\xFire.ico"
+	IDI_HANGOUTS			ICON	"others\\Google+ Hangouts.ico"
+	IDI_WHATSAPP			ICON	"others\\WhatsApp.ico"
 
 //##############################################################################################################
 //##################################### Miranda client overlays ################################################

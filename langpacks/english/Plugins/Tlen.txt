@@ -139,8 +139,6 @@
 [Tlen inbox]
 [Group chats]
 [Tlen chats]
-[Grant authorization]
-[Request authorization]
 [Voice chat]
 [Microphone]
 [Speaker]
@@ -152,6 +150,8 @@
 [Tlen Mail]
 [Send picture]
 [Voice Chat]
+[Request authorization]
+[Grant authorization]
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
 [%d Files]

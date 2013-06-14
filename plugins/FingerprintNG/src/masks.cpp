@@ -600,12 +600,16 @@ KN_FP_MASK def_kn_fp_mask[] =
 
 	{"client_Pidgin",           _T("|*Pidgin*|*libpurple*|Purple*"),            _T("Pidgin (libpurple)"),           IDI_PIDGIN,              MULTI_CASE                  },
 
-	{"client_Python",           _T("|*Python*|Py*|*ταλιςμαη*"),              LPGENT("Python-based clients"),        IDI_PYTHON,              MULTI_CASE                  },
+	{"client_Python",           _T("|*Python*|Py*|*ταλιςμαη*"),             LPGENT("Python-based clients"),         IDI_PYTHON,              MULTI_CASE                  },
 
-	{"client_Jabber",           _T("*Jabber*client*"),                       LPGENT("Jabber client"),               IDI_JABBER,              JABBER_CASE,        TRUE    },
+	{"client_Jabber",           _T("*Jabber*client*"),                      LPGENT("Jabber client"),                IDI_JABBER,              JABBER_CASE,        TRUE    },
 
-	{"client_XMPP",             _T("|*XMPP*|Mrim*|*DRQZ00fz5WPn1gH+*"),      LPGENT("XMPP client"),                 IDI_XMPP,                JABBER_CASE                 },
+	{"client_XMPP",             _T("|*XMPP*|Mrim*|*DRQZ00fz5WPn1gH+*"),     LPGENT("XMPP client"),                  IDI_XMPP,                JABBER_CASE                 },
 
+	{"client_Hangouts",         _T("*messaging-AChromeExtension*"),             _T("Google+ Hangouts"),             IDI_HANGOUTS,            OTHER_PROTOS_CASE,  TRUE    },
+	
+	{"client_WhatsApp",         _T("*WhatsApp*"),                               _T("WhatsApp"),                     IDI_WHATSAPP,            OTHER_PROTOS_CASE,  TRUE    },
+	
 	{"client_Twitter",          _T("*Twitter*"),                                _T("Twitter"),                      IDI_TWITTER,             OTHER_PROTOS_CASE,  TRUE    },
 
 	{"client_Skype",            _T("*Skype**"),                                 _T("Skype"),                        IDI_SKYPE,               OTHER_PROTOS_CASE,  TRUE    },

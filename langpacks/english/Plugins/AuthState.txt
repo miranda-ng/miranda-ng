@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.0
+;  Version: 0.0.2.1
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If contact didn't authorized you this plugin puts an icon in front of contacts name.]

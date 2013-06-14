@@ -64,6 +64,7 @@
 [Set birthday for %s:]
 [%S protocol]
 [N/A]
+[Unknown]
 [Birthday list (%d)]
 [Protocol]
 [Contact]

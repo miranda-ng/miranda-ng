@@ -6,7 +6,7 @@
 ;  Authors: Baloo
 ;============================================================
 [Crypto++ library for SecureIM plugin.]
-;file \plugins\CryptoPP\src\GPGw\resource.rc
+;file \plugins\CryptoPP\src\GPGw\gpg.rc
 [GnuPG Plugin - Passphrase]
 [Enter passphrase for the secret key of user:]
 [User ID]

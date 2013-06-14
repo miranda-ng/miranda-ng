@@ -577,9 +577,6 @@
 [Agents list]
 [Transports]
 [Personal vCard]
-[Request authorization]
-[Grant authorization]
-[Revoke authorization]
 [Convert to room]
 [Login/logout]
 [Resolve nicks]
@@ -634,6 +631,9 @@
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+[Grant authorization]
+[Revoke authorization]
 [Convert]
 [Add to Bookmarks]
 [Commands]

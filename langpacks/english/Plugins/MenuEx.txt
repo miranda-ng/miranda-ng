@@ -41,7 +41,6 @@
 [Show in list]
 [Always visible]
 [Never visible]
-[Request authorization]
 [Copy to Account]
 [Copy xStatus Message]
 [All]
@@ -57,5 +56,6 @@
 [Miranda NG]
 [MenuItemEx]
 [Open ignore settings]
+[Request authorization]
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
