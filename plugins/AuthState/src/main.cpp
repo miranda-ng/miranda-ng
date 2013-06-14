@@ -71,17 +71,21 @@ INT_PTR getIconToUse(HANDLE hContact, LPARAM lParam)
 		if (db_get_dw(hContact,proto,"ServerId",1) == 0)
 			return icon_both;
 
+	// Facebook contact type
+	int type = db_get_b(hContact, proto, "ContactType", 0);
+
 	if (bUseAuthIcon & bUseGrantIcon)
-		if (db_get_b(hContact,proto,"Auth",0) && db_get_b(hContact,proto,"Grant",0))
+		if ((db_get_b(hContact,proto,"Auth",0) && db_get_b(hContact,proto,"Grant",0)) || type == 2)
 			return icon_both;
 
 	if (bUseAuthIcon)
-		if (db_get_b(hContact,proto,"Auth",0))
+		if (db_get_b(hContact,proto,"Auth",0) || type == 3)
 			return icon_auth;
 
 	if (bUseGrantIcon)
-		if (db_get_b(hContact,proto,"Grant",0))
+		if (db_get_b(hContact,proto,"Grant",0) || type == 4)
 			return icon_grant;
+
 	return icon_none;
 }
 
