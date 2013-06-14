@@ -53,9 +53,6 @@ END
 // remains consistent on all systems.
 IDI_FACEBOOK            ICON                    "facebook.ico"
 IDI_MIND                ICON                    "mind.ico"
-IDI_AUTH_GRANT          ICON                    "auth_grant.ico"
-IDI_AUTH_ASK            ICON                    "auth_ask.ico"
-IDI_AUTH_REVOKE         ICON                    "auth_revoke.ico"
 IDI_POKE                ICON                    "poke.ico"
 IDI_NOTIFICATION        ICON                    "notification.ico"
 IDI_NEWSFEED            ICON                    "feeds.ico"

@@ -31,21 +31,13 @@ static IconItem icons[] =
 	{ LPGEN("Poke"),                      "poke",          IDI_POKE },
 	{ LPGEN("Notification"),              "notification",  IDI_NOTIFICATION },
 	{ LPGEN("Newsfeed"),                  "newsfeed",      IDI_NEWSFEED },
-	
-	{ LPGEN("Cancel friendship"),         "authRevoke",    IDI_AUTH_REVOKE },
-	{ LPGEN("Cancel friendship request"), "authRevokeReq", IDI_AUTH_REVOKE },
-	{ LPGEN("Request friendship"),        "authAsk",       IDI_AUTH_ASK },
-	{ LPGEN("Approve friendship"),        "authGrant",     IDI_AUTH_GRANT },
-	
-	{ LPGEN("Visit friendship details"),  "friendship",    IDI_FRIENDS },
-	{ LPGEN("Visit profile"),             "homepage",      0 },
+	{ LPGEN("Friendship details"),        "friendship",    IDI_FRIENDS },
 };
 
 // TODO: uninit
 void InitIcons(void)
 {
-	Icon_Register(g_hInstance, "Protocols/Facebook", icons, SIZEOF(icons)-1, "Facebook");
-	icons[SIZEOF(icons)-1].hIcolib = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
+	Icon_Register(g_hInstance, "Protocols/Facebook", icons, SIZEOF(icons), "Facebook");
 }
 
 HANDLE GetIconHandle(const char* name)
@@ -55,15 +47,6 @@ HANDLE GetIconHandle(const char* name)
 			return icons[i].hIcolib;
 
 	return 0;
-}
-
-char *GetIconDescription(const char* name)
-{
-	for(size_t i=0; i<SIZEOF(icons); i++)
-		if(strcmp(icons[i].szName, name) == 0)
-			return icons[i].szDescr;
-
-	return "";
 }
 
 // Contact List menu stuff
@@ -105,50 +88,50 @@ void InitContactMenus()
 
 	CLISTMENUITEM mi = {sizeof(mi)};
 	mi.position=-2000006000;
-	mi.icolibItem = GetIconHandle("homepage");
-	mi.pszName = GetIconDescription("homepage");
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
+	mi.pszName = LPGEN("Visit profile");
 	mi.pszService = "FacebookProto/VisitProfile";
 	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::VisitProfile>);
 	g_hContactMenuItems[CMI_VISIT_PROFILE] = Menu_AddContactMenuItem(&mi);
 
 	mi.position=-2000006001;
 	mi.icolibItem = GetIconHandle("friendship");
-	mi.pszName = GetIconDescription("friendship");
+	mi.pszName = LPGEN("Visit friendship details");
 	mi.pszService = "FacebookProto/VisitFriendship";
 	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::VisitFriendship>);
 	g_hContactMenuItems[CMI_VISIT_FRIENDSHIP] = Menu_AddContactMenuItem(&mi);
 
 	mi.position=-2000006002;
 	mi.icolibItem = GetIconHandle("poke");
-	mi.pszName = GetIconDescription("poke");
+	mi.pszName = LPGEN("Poke");
 	mi.pszService = "FacebookProto/Poke";
 	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::Poke>);
 	g_hContactMenuItems[CMI_POKE] = Menu_AddContactMenuItem(&mi);
 
 	mi.position=-2000006010;
-	mi.icolibItem = GetIconHandle("authRevoke");
-	mi.pszName = GetIconDescription("authRevoke");
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REVOKE);
+	mi.pszName = LPGEN("Cancel friendship");
 	mi.pszService = "FacebookProto/CancelFriendship";
 	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::CancelFriendship>);
 	g_hContactMenuItems[CMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
 
 	mi.position=-2000006011;
-	mi.icolibItem = GetIconHandle("authRevokeReq");
-	mi.pszName = GetIconDescription("authRevokeReq");
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REVOKE);
+	mi.pszName = LPGEN("Cancel friendship request");
 	mi.pszService = "FacebookProto/CancelFriendshipRequest";
 	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::OnCancelFriendshipRequest>);
 	g_hContactMenuItems[CMI_AUTH_CANCEL] = Menu_AddContactMenuItem(&mi);
 
 	mi.position=-2000006012;
-	mi.icolibItem = GetIconHandle("authAsk");
-	mi.pszName = GetIconDescription("authAsk");
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
+	mi.pszName = LPGEN("Request friendship");
 	mi.pszService = "FacebookProto/RequestFriendship";
 	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::RequestFriendship>);
 	g_hContactMenuItems[CMI_AUTH_ASK] = Menu_AddContactMenuItem(&mi);
 
 	mi.position=-2000006013;
-	mi.icolibItem = GetIconHandle("authGrant");
-	mi.pszName = GetIconDescription("authGrant");
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_GRANT);
+	mi.pszName = LPGEN("Approve friendship");
 	mi.pszService = "FacebookProto/ApproveFriendship";
 	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::ApproveFriendship>);
 	g_hContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
@@ -221,7 +204,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	strcpy(tDest,"/VisitProfile");
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszName = LPGEN("Visit Profile");
-	mi.icolibItem = GetIconHandle("homepage");
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
 	// TODO RM: remember and properly free in destructor?
 	/*m_hStatusMind = */Menu_AddProtoMenuItem(&mi);
 

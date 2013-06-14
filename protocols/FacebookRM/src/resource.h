@@ -4,9 +4,6 @@
 //
 #define IDI_FACEBOOK                    101
 #define IDI_MIND                        102
-#define IDI_AUTH_GRANT                  103
-#define IDI_AUTH_ASK                    104
-#define IDI_AUTH_REVOKE                 105
 #define IDD_FACEBOOKACCOUNT             111
 #define IDD_MIND                        112
 #define IDD_OPTIONS                     113
