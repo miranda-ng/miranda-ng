@@ -11,10 +11,6 @@
 #define IDD_OPT_ICQCONTACTS             109
 #define IDD_OPT_ICQFEATURES             110
 #define IDD_OPT_ICQPRIVACY              111
-#define IDI_AUTH_ASK                    150
-#define IDI_AUTH_GRANT                  151
-#define IDI_AUTH_REVOKE                 152
-#define IDI_SERVLIST_ADD                160
 #define IDD_INFO_ICQ                    240
 #define IDD_ICQADVANCEDSEARCH           242
 #define IDD_ICQUPLOADLIST               253

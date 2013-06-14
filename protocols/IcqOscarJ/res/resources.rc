@@ -27,10 +27,6 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_ICQ                 ICON                    "icq.ico"
-IDI_AUTH_ASK            ICON                    "auth_ask.ico"
-IDI_AUTH_GRANT          ICON                    "auth_grant.ico"
-IDI_AUTH_REVOKE         ICON                    "auth_revoke.ico"
-IDI_SERVLIST_ADD        ICON                    "srvlist_add.ico"
 IDI_EXPANDSTRINGEDIT    ICON                    "expandst.ico"
 
 /////////////////////////////////////////////////////////////////////////////

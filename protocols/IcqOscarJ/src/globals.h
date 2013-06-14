@@ -39,7 +39,6 @@ extern HINSTANCE hInst;
 extern DWORD MIRANDA_VERSION;
 
 extern HANDLE   hExtraXStatus;
-extern IconItem g_IconsList[];
 
 extern const int moodXStatus[];
 

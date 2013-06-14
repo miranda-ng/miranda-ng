@@ -81,14 +81,6 @@ static int icqProtoUninit( PROTO_INTERFACE* ppro )
 	return 0;
 }
 
-IconItem g_IconsList[4] =
-{
-	{ LPGEN("Request authorization"), "req_auth",      IDI_AUTH_ASK     },
-	{ LPGEN("Grant authorization"),   "grant_auth",    IDI_AUTH_GRANT   },
-	{ LPGEN("Revoke authorization"),  "revoke_auth",   IDI_AUTH_REVOKE  },
-	{ LPGEN("Add to server list"),    "add_to_server", IDI_SERVLIST_ADD }
-};
-
 int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
 	bPopupService = ServiceExists(MS_POPUP_ADDPOPUP);
@@ -116,9 +108,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// Register static services
 	CreateServiceFunction(ICQ_DB_GETEVENTTEXT_MISSEDMESSAGE, icq_getEventTextMissedMessage);
-
-	// Define global icons
-	Icon_Register(hInst, "Protocols", g_IconsList, SIZEOF(g_IconsList), ICQ_PROTOCOL_NAME);
 
 	// Init extra statuses
 	InitXStatusIcons();
