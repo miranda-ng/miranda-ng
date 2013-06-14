@@ -52,7 +52,7 @@ BEGIN
     COMBOBOX        IDC_GROUP,112,16,110,60,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Send ""You were added""",IDC_ADDED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,44,204,10
     CONTROL         "Send authorization request",IDC_AUTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,56,204,10
-	CONTROL         "Open contact's chat window",IDC_OPEN_WINDOW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,68,204,10
+    CONTROL         "Open contact's chat window",IDC_OPEN_WINDOW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,68,204,10
     LTEXT           "Custom name:",IDC_STATIC,6,4,70,10
     LTEXT           "Group:",IDC_STATIC,112,4,70,10
     GROUPBOX        "Options",IDC_STATIC,7,33,216,48
@@ -604,7 +604,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "Miranda NG is being restarted.\nPlease wait...",IDC_STATIC,7,7,153,18
     CONTROL         "",IDC_PROGRESSBAR,"msctls_progress32",WS_BORDER,7,30,153,14
-    PUSHBUTTON      "Close",IDCANCEL,110,49,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,110,49,50,14
 END
 
 IDD_ERROR_LIST DIALOGEX 0, 0, 312, 209

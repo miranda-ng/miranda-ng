@@ -187,25 +187,27 @@ static INT_PTR CALLBACK WaitForProcessDlgProc(HWND hwnd, UINT msg, WPARAM wParam
 		break;
 
 	case WM_COMMAND:
-		if ( HIWORD(wParam) == IDCANCEL) {
+		if ( LOWORD(wParam) == IDCANCEL) {
 			SendDlgItemMessage(hwnd, IDC_PROGRESSBAR, PBM_SETPOS, MIRANDA_PROCESS_WAIT_STEPS, 0);
-			EndDialog(hwnd, 0);
+			EndDialog(hwnd, 1);
 		}
 		break;
 	}
 	return FALSE;
 }
 
-void CheckRestart()
+int CheckRestart()
 {
+	int result = 0;
 	LPCTSTR tszPID = CmdLine_GetOption( _T("restart"));
 	if (tszPID) {
 		HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, _ttol(tszPID));
 		if (hProcess) {
-			DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_WAITRESTART), NULL, WaitForProcessDlgProc, (LPARAM)hProcess);
+			result = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_WAITRESTART), NULL, WaitForProcessDlgProc, (LPARAM)hProcess);
 			CloseHandle(hProcess);
 		}
 	}
+	return result;
 }
 
 static void crtErrorHandler(const wchar_t*, const wchar_t*, const wchar_t*, unsigned, uintptr_t)
