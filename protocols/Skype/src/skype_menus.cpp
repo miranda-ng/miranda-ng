@@ -12,12 +12,12 @@ INT_PTR CSkypeProto::MenuChooseService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void CSkypeProto::EnableMenuItem(HANDLE hMenuItem, BOOL bEnable)
+void CSkypeProto::ShowMenuItem(HANDLE hMenuItem, BOOL show)
 {
 	CLISTMENUITEM clmi = {0};
 	clmi.cbSize = sizeof(CLISTMENUITEM);
 	clmi.flags = CMIM_FLAGS;
-	if (!bEnable)
+	if (!show)
 		clmi.flags |= CMIF_HIDDEN;
 
 	::CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&clmi);
@@ -37,9 +37,9 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 		bool authNeed = ::db_get_b(hContact, this->m_szModuleName, "Auth", 0) > 0;
 		bool grantNeed = ::db_get_b(hContact, this->m_szModuleName, "Grant", 0) > 0;
 
-		CSkypeProto::EnableMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_REQUEST], ctrlPressed || authNeed);
-		CSkypeProto::EnableMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_GRANT], ctrlPressed || grantNeed);
-		CSkypeProto::EnableMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_REVOKE], ctrlPressed || (!grantNeed && !authNeed));
+		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_REQUEST], ctrlPressed || authNeed);
+		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_GRANT], ctrlPressed || grantNeed);
+		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_REVOKE], ctrlPressed || (!grantNeed && !authNeed));
 	}
 
 	return 0;
@@ -75,7 +75,7 @@ int CSkypeProto::GrantAuth(WPARAM wParam, LPARAM lParam)
 {
 	CContact::Ref contact;
 	HANDLE hContact = (HANDLE)wParam;
-	SEString sid(::mir_u2a(mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN))));
+	SEString sid(::mir_u2a(mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID))));
 	if (this->GetContact(sid, contact))
 	{
 		if (contact->SetBuddyStatus(true))
@@ -92,7 +92,7 @@ int CSkypeProto::RevokeAuth(WPARAM wParam, LPARAM lParam)
 {
 	CContact::Ref contact;
 	HANDLE hContact = (HANDLE)wParam;
-	SEString sid(::mir_u2a(mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN))));
+	SEString sid(::mir_u2a(mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID))));
 	if (this->GetContact(sid, contact))
 	{
 		if (contact->SetBuddyStatus(false))
@@ -115,7 +115,7 @@ INT_PTR CSkypeProto::InviteCommand(WPARAM, LPARAM)
 int CSkypeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	for (size_t i = 0; i < SIZEOF(CSkypeProto::contactMenuItems); i++)
-		CSkypeProto::EnableMenuItem(CSkypeProto::contactMenuItems[i], false);
+		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[i], false);
 
 	CSkypeProto* ppro = CSkypeProto::GetInstanceByHContact((HANDLE)wParam);
 	return (ppro) ? ppro->OnPrebuildContactMenu(wParam, lParam) : 0;

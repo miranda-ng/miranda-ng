@@ -47,7 +47,7 @@
 #define SKYPE_GROUP_NAME_LIMIT 100
 
 #define SKYPE_SETTINGS_STATUS "Status"
-#define SKYPE_SETTINGS_LOGIN "sid"
+#define SKYPE_SETTINGS_SID "sid"
 #define SKYPE_SETTINGS_PASSWORD "Password"
 #define SKYPE_SETTINGS_DEF_GROUP "DefaultGroup"
 

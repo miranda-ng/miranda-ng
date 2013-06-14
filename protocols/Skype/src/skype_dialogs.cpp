@@ -13,7 +13,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 			proto = (CSkypeProto *)lParam;
 			::SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 			{
-				mir_ptr<wchar_t> sid( ::db_get_wsa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+				mir_ptr<wchar_t> sid( ::db_get_wsa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_SID));
 				SetDlgItemText(hwnd, IDC_SL, sid);
 			}
 			{
@@ -150,7 +150,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 		{
 			wchar_t sid[128];
 			GetDlgItemText(hwnd, IDC_SL, sid, SIZEOF(sid));
-			::db_set_ws(NULL, proto->m_szModuleName, SKYPE_SETTINGS_LOGIN, sid);
+			::db_set_ws(NULL, proto->m_szModuleName, SKYPE_SETTINGS_SID, sid);
 			::mir_free(proto->login);
 			proto->login = ::mir_wstrdup(sid);
 
@@ -354,7 +354,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 					if (!szProto)
 						break;
 
-					::SetDlgItemText(hwndDlg, IDC_SID, mir_ptr<wchar_t>(::db_get_wsa(hContact, ppro->m_szModuleName, SKYPE_SETTINGS_LOGIN)));
+					::SetDlgItemText(hwndDlg, IDC_SID, mir_ptr<wchar_t>(::db_get_wsa(hContact, ppro->m_szModuleName, SKYPE_SETTINGS_SID)));
 
 					DBVARIANT dbv;
 					if ( !::db_get_ts(hContact, ppro->m_szModuleName, "XStatusMsg", &dbv)) {

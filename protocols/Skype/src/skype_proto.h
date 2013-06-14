@@ -177,8 +177,6 @@ private:
 	CMessage		*newMessage(int oid);
 	CTransfer		*newTransfer(int oid);
 
-	bool CreateConferenceWithConsumers(ConversationRef &conference, const SEStringList &identities);
-
 	void OnMessage(
 		const MessageRef & message,
 		const bool & changesInboxTimestamp,
@@ -265,13 +263,10 @@ protected:
 	void	OnTransferChanged(CTransfer::Ref transfer, int prop);
 
 	// chat
-	static wchar_t* Roles[];
-
 	bool IsChatRoom(HANDLE hContact);
 	HANDLE GetChatRoomByCid(const wchar_t *cid);
 	HANDLE AddChatRoom(CConversation::Ref conversation);
 
-	wchar_t *GetChatUsers(const wchar_t *cid);
 	void UpdateChatUserStatus(CContact::Ref contact);
 	void UpdateChatUserNick(CContact::Ref contact);
 
@@ -284,8 +279,10 @@ protected:
 	
 	void StartChat();
 	void StartChat(StringList &invitedContacts);
+	void InviteToChatRoom(HANDLE hContact);
 
-	void LeaveChat(const wchar_t *cid);
+	ChatRoom *FindChatRoom(const wchar_t *cid);
+	void DeleteChatRoom(HANDLE hContact);
 
 	INT_PTR __cdecl OnJoinChat(WPARAM wParam, LPARAM);
 	INT_PTR __cdecl OnLeaveChat(WPARAM wParam, LPARAM);
@@ -377,6 +374,8 @@ protected:
 
 	static void CopyToClipboard(const wchar_t *text);
 
+	static void ReplaceSpecialChars(wchar_t *text, wchar_t replaceWith = L'_');
+
 	// languages
 	static std::map<std::wstring, std::wstring> languages;
 
@@ -428,7 +427,7 @@ protected:
 	virtual	int __cdecl GrantAuth(WPARAM, LPARAM);
 	virtual	int __cdecl RevokeAuth(WPARAM, LPARAM);
 	
-	static void EnableMenuItem(HANDLE hMenuItem, BOOL bEnable);
+	static void ShowMenuItem(HANDLE hMenuItem, BOOL show);
 
 	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
 

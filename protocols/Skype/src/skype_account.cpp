@@ -51,7 +51,7 @@ bool CSkypeProto::IsOnline()
 
 bool CSkypeProto::PrepareLogin()
 {
-	this->login = ::db_get_wsa(NULL, this->m_szModuleName, SKYPE_SETTINGS_LOGIN);
+	this->login = ::db_get_wsa(NULL, this->m_szModuleName, SKYPE_SETTINGS_SID);
 	if ( !this->login || !::wcslen(this->login))
 	{
 		this->m_iStatus = ID_STATUS_OFFLINE;

@@ -552,3 +552,14 @@ void CSkypeProto::CopyToClipboard(const wchar_t *text)
 	::SetClipboardData(CF_UNICODETEXT, hMem);
 	::CloseClipboard();
 }
+
+void CSkypeProto::ReplaceSpecialChars(wchar_t *text, wchar_t replaceWith)
+{
+	if (text == NULL)
+		return;
+
+	wchar_t *special = L"\\/:*?\"<>|";
+	for (size_t i = 0; i < ::wcslen(text); i++)
+	if (::wcschr(special, text[i]) != NULL)
+		text[i] = replaceWith;
+}

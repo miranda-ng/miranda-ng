@@ -130,7 +130,7 @@ int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 	if (this->IsOnline() && hContact)
 	{
 		CContact::Ref contact;
-		SEString sid( mir_ptr<char>(::mir_u2a( mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN)))));
+		SEString sid( mir_ptr<char>(::mir_u2a( mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)))));
 		if (this->GetContact(sid, contact))
 		{
 			contact->SetBuddyStatus(Contact::AUTHORIZED_BY_ME);
@@ -236,7 +236,7 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 	case PFLAG_MAXCONTACTSPERPACKET:
 		return 1024;
 	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR)SKYPE_SETTINGS_LOGIN;
+		return (DWORD_PTR)SKYPE_SETTINGS_SID;
 	default:
 		return 0;
 	}
@@ -333,7 +333,7 @@ int __cdecl CSkypeProto::SendContacts(HANDLE hContact, int flags, int nContacts,
 	{
 		this->Log(L"Outcoming contacts");
 		SEStringList targets;
-		mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+		mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
 		targets.append((char *)mir_ptr<char>(::mir_utf8encodeW(sid)));
 
 		CConversation::Ref conversation;
@@ -344,7 +344,7 @@ int __cdecl CSkypeProto::SendContacts(HANDLE hContact, int flags, int nContacts,
 		{
 			CContact::Ref contact;
 			
-			mir_ptr<wchar_t> csid(::db_get_wsa(hContactsList[i], this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+			mir_ptr<wchar_t> csid(::db_get_wsa(hContactsList[i], this->m_szModuleName, SKYPE_SETTINGS_SID));
 			this->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(csid)), contact);
 			contacts.append(contact);
 		}
@@ -375,7 +375,7 @@ HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription
 	{
 		this->Log(L"Outcoming file transfer");
 		SEStringList targets;
-		mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+		mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
 		targets.append((char *)mir_ptr<char>(::mir_utf8encodeW(sid)));
 
 		CConversation::Ref conversation;
@@ -413,7 +413,7 @@ int __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 {
 	this->Log(L"Outcoming message");
 	SEStringList targets;
-	mir_ptr<wchar_t> sid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+	mir_ptr<wchar_t> sid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
 	SEString identity = ::mir_u2a(sid);
 	targets.append(identity);
 
@@ -496,7 +496,7 @@ int __cdecl CSkypeProto::UserIsTyping(HANDLE hContact, int type)
 {
 	if (hContact && this->IsOnline() && this->m_iStatus != ID_STATUS_INVISIBLE)
 	{
-		mir_ptr<wchar_t> sid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+		mir_ptr<wchar_t> sid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
 		if (::wcsicmp(sid, this->login) != 0)
 		{
 			SEStringList targets;

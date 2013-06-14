@@ -177,9 +177,9 @@ HANDLE CSkypeProto::GetContactBySid(const wchar_t *sid)
 
 	for (hContact = ::db_find_first(this->m_szModuleName); hContact; hContact = ::db_find_next(hContact, this->m_szModuleName))
 	{
-		if ( !this->IsChatRoom(hContact))
+		//if ( !this->IsChatRoom(hContact))
 		{
-			ptrW contactSid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN));
+			ptrW contactSid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
 			if (::lstrcmpi(contactSid, sid) == 0)
 				break;
 		}
@@ -246,7 +246,7 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact)
 			::db_unset(hContact, "CList", "NotOnList");
 		}
 
-		::db_set_ws(hContact, this->m_szModuleName, SKYPE_SETTINGS_LOGIN, sid);
+		::db_set_ws(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID, sid);
 		::db_set_ws(hContact, this->m_szModuleName, "Nick", nick);
 
 		DBVARIANT dbv;

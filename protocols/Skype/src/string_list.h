@@ -27,7 +27,7 @@ public:
 			::mir_free(data);
 		}
 	}
-	virtual ~StringList() {}
+	virtual ~StringList() { }
 
 	__inline const wchar_t *operator[](size_t idx) const 
 	{ 

@@ -39,18 +39,3 @@ CContactSearch* CSkypeProto::newContactSearch(int oid)
 {
 	return new CContactSearch(oid, this);
 }
-
-bool CSkypeProto::CreateConferenceWithConsumers(ConversationRef &conference, const SEStringList &identities)
-{
-	if (this->CreateConference(conference))
-	{
-		conference->SetOption(CConversation::P_OPT_JOINING_ENABLED, true);
-		conference->SetOption(CConversation::P_OPT_ENTRY_LEVEL_RANK, CParticipant::WRITER);
-		conference->SetOption(CConversation::P_OPT_DISCLOSE_HISTORY, 1);
-		conference->AddConsumers(identities);
-
-		return true;
-	}
-
-	return false;
-}

@@ -137,9 +137,9 @@ private:
 
 	ChatRoom(const wchar_t *cid);
 
-	HANDLE AddChatRoom();
-
 	inline static int CompareMembers(const ChatMember *p1, const ChatMember *p2) { return ChatMember::Compare(p1, p2); }
+
+	void CreateChatSession(bool showWindow = false);
 
 	bool IsMe(const ChatMember &item) const;
 	bool IsSys(const ChatMember &item) const;
@@ -157,8 +157,9 @@ public:
 	ChatRoom(const wchar_t *cid, const wchar_t *name, CSkypeProto *ppro);
 	~ChatRoom();	
 
-	void Start(bool showWindow = false);
-	void Start(const ParticipantRefs &participants, bool showWindow = false);
+	static void Create(const StringList &invitedMembers, CSkypeProto *ppro, bool showWindow = false);
+
+	void Start(const ConversationRef &conversation, bool showWindow = false);
 
 	void LeaveChat();
 
@@ -185,6 +186,5 @@ public:
 
 	void OnParticipantChanged(const ParticipantRef &participant, int prop);
 
-	static int __cdecl OnGCEventHook(WPARAM, LPARAM lParam);
-	static int __cdecl OnGCMenuHook(WPARAM, LPARAM lParam);
+	static ChatRoom *FindChatRoom(const wchar_t *cid);
 };
