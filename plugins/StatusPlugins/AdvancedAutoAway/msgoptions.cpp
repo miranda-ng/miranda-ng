@@ -22,11 +22,19 @@
 
 extern char *StatusModeToDbSetting(int status,const char *suffix);
 
+void DisableDialog(HWND hwndDlg)
+{
+	EnableWindow(GetDlgItem(hwndDlg, IDC_STATUS), FALSE);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_STATUSMSG), FALSE);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), FALSE);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_RADUSECUSTOM), FALSE);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_RADUSEMIRANDA), FALSE);
+}
+
 INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static AAMSGSETTING** settings;
 	static int last, count;
-	int i;
 
 	switch( msg ) {
 	case WM_INITDIALOG:
@@ -37,19 +45,28 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			last = -1;
 		
 			PROTOACCOUNT** proto;
-			int protoCount;
+			int protoCount = 0;
 			ProtoEnumAccounts(&protoCount, &proto);
+			if (protoCount <= 0)
+			{
+				DisableDialog(hwndDlg);
+				break;
+			}
 
 			DWORD protoModeMsgFlags = 0;
-			for ( i=0; i < protoCount; i++ ) {
-				if ( (!(CallProtoService(proto[i]->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG)))
-					continue;
+			for (int i=0; i < protoCount; i++)
+				if (CallProtoService(proto[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG)
+					protoModeMsgFlags |= CallProtoService( proto[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0 );
 
-				protoModeMsgFlags |= CallProtoService( proto[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0 );
+			if (protoModeMsgFlags == 0)
+			{
+				DisableDialog(hwndDlg);
+				break;
 			}
+
 			settings = ( AAMSGSETTING** )malloc(sizeof(AAMSGSETTING*));
 			count = 0;
-			for ( i=0; i < SIZEOF(statusModeList); i++ ) {
+			for (int i=0; i < SIZEOF(statusModeList); i++ ) {
 				if ( !( protoModeMsgFlags & Proto_Status2Flag( statusModeList[i] )))
 					continue;
 
@@ -96,7 +113,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		case IDC_STATUS:
 			if ( HIWORD( wParam ) == CBN_SELCHANGE ) {
-				i = SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_GETCURSEL,0,0);
+				int i = SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_GETCURSEL,0,0);
 				int len = SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXTLENGTH, 0, 0);
 				if ( last != -1 ) {
 					if (settings[last]->msg == NULL)
@@ -108,8 +125,15 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				if (i != -1) {
 					if (settings[i]->msg != NULL)
 						SetDlgItemTextA(hwndDlg, IDC_STATUSMSG, settings[i]->msg);
+					else if (ServiceExists(MS_AWAYMSG_GETSTATUSMSGT)) {
+						TCHAR *msg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)settings[i]->status, 0);
+						if (msg != NULL) {
+							SetDlgItemText(hwndDlg, IDC_STATUSMSG, msg);
+							mir_free(msg);
+						}
+					}
 					else if (ServiceExists(MS_AWAYMSG_GETSTATUSMSG)) {
-						char* msg = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM)settings[i]->status, 0);
+						char *msg = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM)settings[i]->status, 0);
 						if (msg != NULL) {
 							SetDlgItemTextA(hwndDlg, IDC_STATUSMSG, msg);
 							mir_free(msg);
@@ -141,7 +165,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			SendMessage(hwndDlg,WM_COMMAND,MAKEWPARAM(IDC_STATUS,CBN_SELCHANGE),0);
-			for ( i=0; i < count; i++ ) {
+			for (int i=0; i < count; i++ ) {
 				db_set_b(NULL, MODULENAME, StatusModeToDbSetting(settings[i]->status,SETTING_MSGCUSTOM), (BYTE)settings[i]->useCustom);
 				if ( (settings[i]->useCustom) && (settings[i]->msg != NULL) && (strlen(settings[i]->msg) > 0))
 					db_set_s(NULL, MODULENAME, StatusModeToDbSetting(settings[i]->status,SETTING_STATUSMSG), settings[i]->msg);
@@ -151,7 +175,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		break;
 	
 	case WM_DESTROY:
-		for ( i=0; i < count; i++ ) {
+		for (int i=0; i < count; i++ ) {
 			if (settings[i]->msg != NULL)
 				free(settings[i]->msg);
 			free(settings[i]);
