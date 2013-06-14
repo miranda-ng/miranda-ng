@@ -47,6 +47,7 @@ void FacebookProto::ChangeStatus(void*)
 
 		facy.clear_cookies();
 		facy.buddies.clear();
+		facy.messages_ignore.clear();
 
 		ProtoBroadcastAck(m_szModuleName, 0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
