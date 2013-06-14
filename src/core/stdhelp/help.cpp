@@ -52,7 +52,7 @@ static INT_PTR WebsiteCommand(WPARAM, LPARAM)
 
 static INT_PTR BugCommand(WPARAM, LPARAM)
 {
-	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)_T("http://trac.miranda-ng.org"));
+	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)_T("http://trac.miranda-ng.org/newticket"));
 	return 0;
 }
 
