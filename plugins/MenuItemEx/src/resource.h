@@ -8,8 +8,6 @@
 #define IDI_ICON1                       111
 #define IDI_ICON2                       112
 #define IDI_ICON3                       113
-#define IDI_ICON4                       114
-#define IDI_ICON5                       115
 #define IDI_ICON6                       116
 #define IDI_ICON7                       117
 #define IDI_ICON8                       118

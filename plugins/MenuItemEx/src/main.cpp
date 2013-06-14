@@ -47,9 +47,7 @@ static IconItem iconList[] = {
 	{ LPGEN("Show in list"),          "miex_showil",        IDI_ICON8 },
 	{ LPGEN("Always visible"),        "miex_vis",           IDI_ICON1 },
 	{ LPGEN("Never visible"),         "miex_invis",         IDI_ICON2 },
-	{ LPGEN("Send 'You were added'"), "miex_added",         IDI_ICON4 },
-	{ LPGEN("Request authorization"), "miex_authorization", IDI_ICON5 },
-	{ LPGEN("Copy to Account"),       "miex_protocol",      IDI_ICON6	},
+	{ LPGEN("Copy to Account"),       "miex_protocol",      IDI_ICON6 },
 	{ LPGEN("Ignore"),                "miex_ignore",        IDI_ICON7 },
 	{ LPGEN("Browse Received Files"), "miex_recfiles",      IDI_ICON12 },
 	{ LPGEN("Copy MirVer"),           "miex_copymver",      IDI_ICON13 }
@@ -73,8 +71,8 @@ static const ii[] = {
 	{ LPGENT("URL"),			IGNOREEVENT_URL,			SKINICON_EVENT_URL			},
 	{ LPGENT("Files"),			IGNOREEVENT_FILE,			SKINICON_EVENT_FILE			},
 	{ LPGENT("User Online"),	IGNOREEVENT_USERONLINE,		SKINICON_OTHER_USERONLINE	},
-	{ LPGENT("Authorization"),	IGNOREEVENT_AUTHORIZATION,	SKINICON_OTHER_MIRANDA		},
-	{ LPGENT("You Were Added"),	IGNOREEVENT_YOUWEREADDED,	SKINICON_OTHER_ADDCONTACT	},
+	{ LPGENT("Authorization"),	IGNOREEVENT_AUTHORIZATION,	SKINICON_AUTH_REQUEST		},
+	{ LPGENT("You Were Added"),	IGNOREEVENT_YOUWEREADDED,	SKINICON_AUTH_ADD			},
 	{ LPGENT("Typing Notify"),	IGNOREEVENT_TYPINGNOTIFY,	SKINICON_OTHER_TYPING		}
 };
 
@@ -1134,13 +1132,13 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	mi.position++;
 	mi.ptszName = LPGENT("Send 'You were added'");
 	mi.pszService = MS_ADDED;
-	mi.hIcon = Skin_GetIcon("miex_added");
+	mi.hIcon = LoadSkinnedIcon(SKINICON_AUTH_ADD);
 	hmenuAdded = Menu_AddContactMenuItem(&mi);
 
 	mi.position++;
 	mi.ptszName = LPGENT("Request authorization");
 	mi.pszService = MS_AUTHREQ;
-	mi.hIcon = Skin_GetIcon("miex_authorization");
+	mi.hIcon = LoadSkinnedIcon(SKINICON_AUTH_REQUEST);
 	hmenuAuthReq = Menu_AddContactMenuItem(&mi);
 	
 	mi.position++;
