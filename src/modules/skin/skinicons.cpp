@@ -35,56 +35,60 @@ struct StandardIconDescription
 
 static struct StandardIconDescription mainIcons[] = 
 {
-	{ SKINICON_OTHER_MIRANDA,         LPGEN("Miranda NG"),          -IDI_MIRANDA        }, //  0
-	{ SKINICON_EVENT_MESSAGE,         LPGEN("Message"),             -IDI_RECVMSG        }, //  1
-	{ SKINICON_EVENT_URL,             LPGEN("URL"),                 -IDI_URL            }, //  2
-	{ SKINICON_EVENT_FILE,            LPGEN("File"),                -IDI_FILE           }, //  3
-	{ SKINICON_OTHER_USERONLINE,      LPGEN("User Online"),         -IDI_USERONLINE     }, //  4
-	{ SKINICON_OTHER_GROUPOPEN,       LPGEN("Group (Open)"),        -IDI_GROUPOPEN      }, //  5
-	{ SKINICON_OTHER_GROUPSHUT,       LPGEN("Group (Closed)"),      -IDI_GROUPSHUT      }, //  6
-	{ SKINICON_OTHER_CONNECTING,      LPGEN("Connecting"),          -IDI_LOAD           }, //  7
-	{ SKINICON_OTHER_ADDCONTACT,      LPGEN("Add Contact"),         -IDI_ADDCONTACT     }, //  8
-	{ SKINICON_OTHER_USERDETAILS,     LPGEN("User Details"),        -IDI_USERDETAILS    }, //  9
-	{ SKINICON_OTHER_HISTORY,         LPGEN("History"),             -IDI_HISTORY        }, // 10
-	{ SKINICON_OTHER_DOWNARROW,       LPGEN("Down Arrow"),          -IDI_DOWNARROW      }, // 11
-	{ SKINICON_OTHER_FINDUSER,        LPGEN("Find User"),           -IDI_FINDUSER       }, // 12
-	{ SKINICON_OTHER_OPTIONS,         LPGEN("Options"),             -IDI_OPTIONS        }, // 13
-	{ SKINICON_OTHER_SENDEMAIL,       LPGEN("Send E-mail"),         -IDI_SENDEMAIL      }, // 14
-	{ SKINICON_OTHER_DELETE,          LPGEN("Delete"),              -IDI_DELETE         }, // 15
-	{ SKINICON_OTHER_RENAME,          LPGEN("Rename"),              -IDI_RENAME         }, // 16
-	{ SKINICON_OTHER_SMS,             LPGEN("SMS"),                 -IDI_SMS            }, // 17
-	{ SKINICON_OTHER_SEARCHALL,       LPGEN("Search All"),          -IDI_SEARCHALL      }, // 18
-	{ SKINICON_OTHER_TICK,            LPGEN("Tick"),                -IDI_TICK           }, // 19
-	{ SKINICON_OTHER_NOTICK,          LPGEN("No Tick"),             -IDI_NOTICK         }, // 20
-	{ SKINICON_OTHER_HELP,            LPGEN("Help"),                -IDI_HELP           }, // 21
-	{ SKINICON_OTHER_MIRANDAWEB,      LPGEN("Miranda Website"),     -IDI_MIRANDAWEBSITE }, // 22
-	{ SKINICON_OTHER_TYPING,          LPGEN("Typing"),              -IDI_TYPING         }, // 23
-	{ SKINICON_OTHER_SMALLDOT,        LPGEN("Small Dot"),           -IDI_SMALLDOT       }, // 24
-	{ SKINICON_OTHER_FILLEDBLOB,      LPGEN("Filled Blob"),         -IDI_FILLEDBLOB     }, // 25
-	{ SKINICON_OTHER_EMPTYBLOB,       LPGEN("Empty Blob"),          -IDI_EMPTYBLOB      }, // 26
-	{ SKINICON_OTHER_UNICODE,         LPGEN("Unicode plugin"),      -IDI_UNICODE        }, // 27
-	{ SKINICON_OTHER_ANSI,            LPGEN("ANSI plugin"),         -IDI_ANSI           }, // 28
-	{ SKINICON_OTHER_LOADED,          LPGEN("Running plugin"),      -IDI_LOADED         }, // 29
-	{ SKINICON_OTHER_NOTLOADED,       LPGEN("Unloaded plugin"),     -IDI_NOTLOADED      }, // 30
-	{ SKINICON_OTHER_UNDO, 	          LPGEN("Undo"),                -IDI_UNDO           }, // 31
-	{ SKINICON_OTHER_WINDOW,          LPGEN("Window"),              -IDI_WINDOW         }, // 32
-	{ SKINICON_OTHER_WINDOWS,         LPGEN("System"),              -IDI_WINDOWS        }, // 33
-	{ SKINICON_OTHER_ACCMGR,          LPGEN("Accounts"),            -IDI_ACCMGR         }, // 34
-	{ SKINICON_OTHER_SHOWHIDE,        LPGEN("ShowHide"),            -IDI_SHOWHIDE       }, // 35
-	{ SKINICON_OTHER_EXIT,            LPGEN("Exit"),                -IDI_EXIT           }, // 36
-	{ SKINICON_OTHER_MAINMENU,        LPGEN("Main Menu"),           -IDI_MAINMENU       }, // 37
-	{ SKINICON_OTHER_STATUS,          LPGEN("Status"),              -IDI_ONLINE         }, // 38
-	{ SKINICON_CHAT_JOIN,             LPGEN("Join chat"),           -IDI_JOINCHAT       }, // 39
-	{ SKINICON_CHAT_LEAVE,            LPGEN("Leave chat"),          -IDI_LEAVECHAT      }, // 40
-	{ SKINICON_OTHER_GROUP,           LPGEN("Move to Group"),       -IDI_MOVETOGROUP    },	// 41
-	{ SKINICON_OTHER_ON,              LPGEN("On"),                  -IDI_ON             }, // 42
-	{ SKINICON_OTHER_OFF,             LPGEN("Off"),                 -IDI_OFF            },	// 43
-	{ SKINICON_OTHER_LOADEDGRAY,      LPGEN("Running core plugin"), -IDI_LOADED_GRAY    }, // 44
-	{ SKINICON_OTHER_NOTLOADEDGRAY,   LPGEN("Non-loadable plugin"), -IDI_NOTLOADED_GRAY },	// 45
-	{ SKINICON_OTHER_FRAME,           LPGEN("Frames"),              -IDI_FRAME          },	// 46
-	{ SKINICON_OTHER_VISIBLE_ALL,     LPGEN("Always visible"),      -IDI_ALWAYSVIS,     0, LPGEN("Contact List") },
-	{ SKINICON_OTHER_INVISIBLE_ALL,   LPGEN("Always invisible"),    -IDI_NEVERVIS,      0, LPGEN("Contact List") },
-	{ SKINICON_OTHER_STATUS_LOCKED,   LPGEN("Locked status"),       -IDI_STATUS_LOCKED, 0, LPGEN("Status Icons") }, 
+	{ SKINICON_OTHER_MIRANDA,         LPGEN("Miranda NG"),            -IDI_MIRANDA        }, //  0
+	{ SKINICON_EVENT_MESSAGE,         LPGEN("Message"),               -IDI_RECVMSG        }, //  1
+	{ SKINICON_EVENT_URL,             LPGEN("URL"),                   -IDI_URL            }, //  2
+	{ SKINICON_EVENT_FILE,            LPGEN("File"),                  -IDI_FILE           }, //  3
+	{ SKINICON_OTHER_USERONLINE,      LPGEN("User Online"),           -IDI_USERONLINE     }, //  4
+	{ SKINICON_OTHER_GROUPOPEN,       LPGEN("Group (Open)"),          -IDI_GROUPOPEN      }, //  5
+	{ SKINICON_OTHER_GROUPSHUT,       LPGEN("Group (Closed)"),        -IDI_GROUPSHUT      }, //  6
+	{ SKINICON_OTHER_CONNECTING,      LPGEN("Connecting"),            -IDI_LOAD           }, //  7
+	{ SKINICON_OTHER_ADDCONTACT,      LPGEN("Add Contact"),           -IDI_ADDCONTACT     }, //  8
+	{ SKINICON_OTHER_USERDETAILS,     LPGEN("User Details"),          -IDI_USERDETAILS    }, //  9
+	{ SKINICON_OTHER_HISTORY,         LPGEN("History"),               -IDI_HISTORY        }, // 10
+	{ SKINICON_OTHER_DOWNARROW,       LPGEN("Down Arrow"),            -IDI_DOWNARROW      }, // 11
+	{ SKINICON_OTHER_FINDUSER,        LPGEN("Find User"),             -IDI_FINDUSER       }, // 12
+	{ SKINICON_OTHER_OPTIONS,         LPGEN("Options"),               -IDI_OPTIONS        }, // 13
+	{ SKINICON_OTHER_SENDEMAIL,       LPGEN("Send E-mail"),           -IDI_SENDEMAIL      }, // 14
+	{ SKINICON_OTHER_DELETE,          LPGEN("Delete"),                -IDI_DELETE         }, // 15
+	{ SKINICON_OTHER_RENAME,          LPGEN("Rename"),                -IDI_RENAME         }, // 16
+	{ SKINICON_OTHER_SMS,             LPGEN("SMS"),                   -IDI_SMS            }, // 17
+	{ SKINICON_OTHER_SEARCHALL,       LPGEN("Search All"),            -IDI_SEARCHALL      }, // 18
+	{ SKINICON_OTHER_TICK,            LPGEN("Tick"),                  -IDI_TICK           }, // 19
+	{ SKINICON_OTHER_NOTICK,          LPGEN("No Tick"),               -IDI_NOTICK         }, // 20
+	{ SKINICON_OTHER_HELP,            LPGEN("Help"),                  -IDI_HELP           }, // 21
+	{ SKINICON_OTHER_MIRANDAWEB,      LPGEN("Miranda Website"),       -IDI_MIRANDAWEBSITE }, // 22
+	{ SKINICON_OTHER_TYPING,          LPGEN("Typing"),                -IDI_TYPING         }, // 23
+	{ SKINICON_OTHER_SMALLDOT,        LPGEN("Small Dot"),             -IDI_SMALLDOT       }, // 24
+	{ SKINICON_OTHER_FILLEDBLOB,      LPGEN("Filled Blob"),           -IDI_FILLEDBLOB     }, // 25
+	{ SKINICON_OTHER_EMPTYBLOB,       LPGEN("Empty Blob"),            -IDI_EMPTYBLOB      }, // 26
+	{ SKINICON_OTHER_UNICODE,         LPGEN("Unicode plugin"),        -IDI_UNICODE        }, // 27
+	{ SKINICON_OTHER_ANSI,            LPGEN("ANSI plugin"),           -IDI_ANSI           }, // 28
+	{ SKINICON_OTHER_LOADED,          LPGEN("Running plugin"),        -IDI_LOADED         }, // 29
+	{ SKINICON_OTHER_NOTLOADED,       LPGEN("Unloaded plugin"),       -IDI_NOTLOADED      }, // 30
+	{ SKINICON_OTHER_UNDO, 	          LPGEN("Undo"),                  -IDI_UNDO           }, // 31
+	{ SKINICON_OTHER_WINDOW,          LPGEN("Window"),                -IDI_WINDOW         }, // 32
+	{ SKINICON_OTHER_WINDOWS,         LPGEN("System"),                -IDI_WINDOWS        }, // 33
+	{ SKINICON_OTHER_ACCMGR,          LPGEN("Accounts"),              -IDI_ACCMGR         }, // 34
+	{ SKINICON_OTHER_SHOWHIDE,        LPGEN("ShowHide"),              -IDI_SHOWHIDE       }, // 35
+	{ SKINICON_OTHER_EXIT,            LPGEN("Exit"),                  -IDI_EXIT           }, // 36
+	{ SKINICON_OTHER_MAINMENU,        LPGEN("Main Menu"),             -IDI_MAINMENU       }, // 37
+	{ SKINICON_OTHER_STATUS,          LPGEN("Status"),                -IDI_ONLINE         }, // 38
+	{ SKINICON_CHAT_JOIN,             LPGEN("Join chat"),             -IDI_JOINCHAT       }, // 39
+	{ SKINICON_CHAT_LEAVE,            LPGEN("Leave chat"),            -IDI_LEAVECHAT      }, // 40
+	{ SKINICON_OTHER_GROUP,           LPGEN("Move to Group"),         -IDI_MOVETOGROUP    }, // 41
+	{ SKINICON_OTHER_ON,              LPGEN("On"),                    -IDI_ON             }, // 42
+	{ SKINICON_OTHER_OFF,             LPGEN("Off"),                   -IDI_OFF            }, // 43
+	{ SKINICON_OTHER_LOADEDGRAY,      LPGEN("Running core plugin"),   -IDI_LOADED_GRAY    }, // 44
+	{ SKINICON_OTHER_NOTLOADEDGRAY,   LPGEN("Non-loadable plugin"),   -IDI_NOTLOADED_GRAY }, // 45
+	{ SKINICON_OTHER_FRAME,           LPGEN("Frames"),                -IDI_FRAME          }, // 46
+	{ SKINICON_AUTH_ADD,              LPGEN("Add to list"),           -IDI_AUTH_ADD       }, // 47
+	{ SKINICON_AUTH_REQUEST,          LPGEN("Request authorization"), -IDI_AUTH_REQUEST   }, // 48
+	{ SKINICON_AUTH_GRANT,            LPGEN("Grant authorization"),   -IDI_AUTH_GRANT     }, // 49
+	{ SKINICON_AUTH_REVOKE,           LPGEN("Revoke authorization"),  -IDI_AUTH_REVOKE    }, // 50
+	{ SKINICON_OTHER_VISIBLE_ALL,     LPGEN("Always visible"),        -IDI_ALWAYSVIS,     0, LPGEN("Contact List") },
+	{ SKINICON_OTHER_INVISIBLE_ALL,   LPGEN("Always invisible"),      -IDI_NEVERVIS,      0, LPGEN("Contact List") },
+	{ SKINICON_OTHER_STATUS_LOCKED,   LPGEN("Locked status"),         -IDI_STATUS_LOCKED, 0, LPGEN("Status Icons") }, 
 };
 
 static struct StandardIconDescription statusIcons[] = 

@@ -1081,6 +1081,10 @@ IDI_NEVERVIS            ICON                    "res/never_visible.ico"
 IDI_CHAT                ICON                    "res/chat_channel.ico"
 IDI_MALE                ICON                    "res/male.ico"
 IDI_FEMALE              ICON                    "res/female.ico"
+IDI_AUTH_ADD            ICON                    "res/auth_add.ico"
+IDI_AUTH_GRANT          ICON                    "res/auth_grant.ico"
+IDI_AUTH_REQUEST        ICON                    "res/auth_request.ico"
+IDI_AUTH_REVOKE         ICON                    "res/auth_revoke.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

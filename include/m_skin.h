@@ -91,6 +91,10 @@ __forceinline LPCSTR LoadSkinnedIconName(int id)   { return (LPCSTR)CallService(
 #define SKINICON_OTHER_VISIBLE_ALL   244     // v.0.93.4+
 #define SKINICON_OTHER_INVISIBLE_ALL 245     // v.0.93.4+
 #define SKINICON_OTHER_FRAME         246     // v.0.94.1+
+#define SKINICON_AUTH_ADD            247     // v.0.94.4+
+#define SKINICON_AUTH_REQUEST        248     // v.0.94.4+
+#define SKINICON_AUTH_GRANT          249     // v.0.94.4+
+#define SKINICON_AUTH_REVOKE         250     // v.0.94.4+
 
 //menu icons are owned by the module that uses them so are not and should not
 //be skinnable. Except exit and show/hide

@@ -147,6 +147,10 @@
 #define IDI_ON                          320
 #define IDI_OFF                         322
 #define IDI_FRAME                       323
+#define IDI_AUTH_ADD                    324
+#define IDI_AUTH_GRANT                  325
+#define IDI_AUTH_REQUEST                326
+#define IDI_AUTH_REVOKE                 327
 #define IDC_SAVE                        1001
 #define IDI_ONTHEPHONE                  1002
 #define IDC_MESSAGE                     1002
@@ -538,7 +542,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        323
+#define _APS_NEXT_RESOURCE_VALUE        328
 #define _APS_NEXT_COMMAND_VALUE         40018
 #define _APS_NEXT_CONTROL_VALUE         1746
 #define _APS_NEXT_SYMED_VALUE           101

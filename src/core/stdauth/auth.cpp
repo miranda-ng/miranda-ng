@@ -91,7 +91,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 		else
 			mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("%u requests authorization"), *(PDWORD)dbei.pBlob);
 
-		cli.hIcon = LoadSkinIcon(SKINICON_OTHER_MIRANDA);
+		cli.hIcon = LoadSkinIcon(SKINICON_AUTH_REQUEST);
 		cli.pszService = MS_AUTH_SHOWREQUEST;
 		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cli);
 	}
@@ -102,7 +102,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 		else
 			mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("%u added you to their contact list"), *(PDWORD)dbei.pBlob);
 
-		cli.hIcon = LoadSkinIcon(SKINICON_OTHER_MIRANDA);
+		cli.hIcon = LoadSkinIcon(SKINICON_AUTH_ADD);
 		cli.pszService = MS_AUTH_SHOWADDED;
 		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cli);
 	}

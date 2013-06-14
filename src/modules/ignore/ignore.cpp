@@ -202,7 +202,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_EVENT_URL);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_EVENT_FILE);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_USERONLINE);
-			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_MIRANDA);
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_AUTH_REQUEST);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_ADDCONTACT);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_TYPING);
 
