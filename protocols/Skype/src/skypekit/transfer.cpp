@@ -1,19 +1,13 @@
+#include "..\skype.h"
 #include "transfer.h"
 
-CTransfer::CTransfer(unsigned int oid, SERootObject* root) : Transfer(oid, root) 
+CTransfer::CTransfer(CSkypeProto* _ppro, unsigned int oid, SERootObject* root) :
+	Transfer(oid, root),
+	proto(_ppro)
 {
-	this->proto = NULL;
-	this->transferCallback = NULL;
-}
-
-void CTransfer::SetOnTransferCallback(OnTransfer callback, CSkypeProto* proto)
-{
-	this->proto = proto;
-	this->transferCallback = callback;
 }
 
 void CTransfer::OnChange(int prop)
 {
-	if (this->proto)
-		(proto->*transferCallback)(this->ref(), prop);
+	proto->OnTransferChanged(this->ref(), prop);
 }

@@ -398,7 +398,6 @@ HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription
 			{
 				auto transfer = transfers[i];
 				transfer.fetch();
-				transfer->SetOnTransferCallback((CTransfer::OnTransfer)&CSkypeProto::OnTransferChanged, this);
 				this->transferList.append(transfer);
 			}
 		}

@@ -1,9 +1,10 @@
+#include "..\skype.h"
 #include "contact.h"
 
-CContact::CContact(unsigned int oid, SERootObject* root) : Contact(oid, root) 
+CContact::CContact(CSkypeProto* _ppro, unsigned int oid, SERootObject* root) :
+	Contact(oid, root),
+	proto(_ppro)
 {
-	this->proto = NULL;
-	this->callback == NULL;
 }
 
 SEString CContact::GetSid()
@@ -38,21 +39,14 @@ bool CContact::GetFullname(SEString &firstName, SEString &lastName)
 	if (pos != -1)
 	{
 		firstName = fullname.substr(0, pos - 1);
-		lastName = fullname.right(fullname.size() - pos - 1);
+		lastName = fullname.right((int)fullname.size() - pos - 1);
 	} else
 		firstName = fullname;
 	
 	return true;
 }
 
-void CContact::SetOnContactChangedCallback(OnContactChanged callback, CSkypeProto* proto)
-{
-	this->proto = proto;
-	this->callback = callback;
-}
-
 void CContact::OnChange(int prop)
 {
-	if (this->proto)
-		(proto->*callback)(this->ref(), prop);
+	proto->OnContactChanged(this->ref(), prop);
 }

@@ -1,14 +1,10 @@
+#include "..\skype.h"
 #include "account.h"
 
-CAccount::CAccount(unsigned int oid, SERootObject* root) : Account(oid, root) 
+CAccount::CAccount(CSkypeProto *_ppro, unsigned int oid, SERootObject* root) :
+	Account(oid, root),
+	ppro(_ppro)
 {
-	this->ppro = NULL;
-}
-
-void CAccount::SetOnAccountChangedCallback(OnAccountChanged callback, CSkypeProto *ppro)
-{
-	this->ppro = ppro;
-	this->callback = callback;
 }
 
 bool CAccount::IsOnline()
@@ -32,6 +28,5 @@ bool CAccount::SetAvatar(SEBinary avatar, Skype::VALIDATERESULT &result)
 
 void CAccount::OnChange(int prop)
 {
-	if (this->ppro != NULL)
-		(ppro->*callback)(prop);
+	ppro->OnAccountChanged(prop);
 }

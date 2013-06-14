@@ -10,13 +10,10 @@ public:
 
 	typedef DRef<CContactGroup, ContactGroup> Ref;
 	typedef DRefs<CContactGroup, ContactGroup> Refs;
-	CContactGroup(unsigned int oid, SERootObject* root);
-
-	void SetOnContactListChangedCallback(OnContactListChanged callback, CSkypeProto* proto);
+	CContactGroup(CSkypeProto*, unsigned int oid, SERootObject* root);
 
 private:
 	CSkypeProto* proto;
-	OnContactListChanged callback;
 
 	void OnChange(const ContactRef &contact);
 };

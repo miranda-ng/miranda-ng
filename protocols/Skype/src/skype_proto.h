@@ -72,6 +72,12 @@ class ChatRoom;
 struct CSkypeProto : public PROTO_INTERFACE, private Skype
 {
 	friend class ChatRoom;
+	friend class CAccount;
+	friend class CContact;
+	friend class CConversation;
+	friend class CContactGroup;
+	friend class CContactSearch;
+	friend class CTransfer;
 
 public:
 	// PROTO_INTERFACE

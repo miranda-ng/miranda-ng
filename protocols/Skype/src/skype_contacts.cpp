@@ -146,9 +146,6 @@ void CSkypeProto::OnContactListChanged(CContact::Ref contact)
 			CContact::Ref newContact(contact);
 			this->contactList.append(newContact);
 			newContact.fetch();
-			newContact->SetOnContactChangedCallback(
-				(CContact::OnContactChanged)&CSkypeProto::OnContactChanged, 
-				this);
 		}
 	}
 
@@ -268,18 +265,12 @@ void __cdecl CSkypeProto::LoadContactList(void* data)
 
 	this->GetHardwiredContactGroup(CContactGroup::ALL_BUDDIES, this->commonList);
 	this->commonList.fetch();
-	this->commonList->SetOnContactListChangedCallback(
-		(CContactGroup::OnContactListChanged)&CSkypeProto::OnContactListChanged, 
-		this);
 
 	this->commonList->GetContacts(this->contactList);
 	fetch(this->contactList);
 	for (uint i = 0; i < this->contactList.size(); i++)
 	{
 		CContact::Ref contact = this->contactList[i];
-		contact->SetOnContactChangedCallback(
-			(CContact::OnContactChanged)&CSkypeProto::OnContactChanged, 
-			this);
 
 		HANDLE hContact = this->AddContact(contact);
 
@@ -306,9 +297,6 @@ void __cdecl CSkypeProto::LoadAuthWaitList(void*)
 	CContact::Refs authContacts;
 	this->GetHardwiredContactGroup(CContactGroup::CONTACTS_WAITING_MY_AUTHORIZATION, this->authWaitList);
 	this->authWaitList.fetch();
-	this->authWaitList->SetOnContactListChangedCallback(
-		(CContactGroup::OnContactListChanged)&CSkypeProto::OnContactListChanged, 
-		this);
 
 	this->authWaitList->GetContacts(authContacts);
 	for (uint i = 0; i < authContacts.size(); i++)
@@ -396,10 +384,6 @@ void __cdecl CSkypeProto::SearchBySidAsync(void* arg)
 	this->CreateIdentitySearch(::mir_u2a(sid), search);
 	search.fetch();
 	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYSID);
-	search->SetOnContactFindedCallback(
-		(CContactSearch::OnContactFinded)&CSkypeProto::OnContactFinded);
-	search->SetOnSearchCompleatedCallback(
-		(CContactSearch::OnSearchCompleted)&CSkypeProto::OnSearchCompleted);
 
 	bool valid;
 	if (!search->IsValid(valid) || !valid || !search->Submit())
@@ -417,10 +401,6 @@ void __cdecl CSkypeProto::SearchByEmailAsync(void* arg)
 	this->CreateContactSearch(search);
 	search.fetch();
 	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYEMAIL);
-	search->SetOnContactFindedCallback(
-		(CContactSearch::OnContactFinded)&CSkypeProto::OnContactFinded);
-	search->SetOnSearchCompleatedCallback(
-		(CContactSearch::OnSearchCompleted)&CSkypeProto::OnSearchCompleted);
 
 	bool valid;
 	if (!search->AddEmailTerm(::mir_u2a(email), valid) || !valid || !search->Submit())
@@ -443,10 +423,6 @@ void __cdecl CSkypeProto::SearchByNamesAsync(void* arg)
 	this->CreateContactSearch(search);
 	search.fetch();
 	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYNAMES);
-	search->SetOnContactFindedCallback(
-		(CContactSearch::OnContactFinded)&CSkypeProto::OnContactFinded);
-	search->SetOnSearchCompleatedCallback(
-		(CContactSearch::OnSearchCompleted)&CSkypeProto::OnSearchCompleted);
 
 	bool valid;
 	if (nick.length() != 0)

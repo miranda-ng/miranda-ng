@@ -1,10 +1,9 @@
+#include "..\skype.h"
 #include "search.h"
 
 CContactSearch::CContactSearch(unsigned int oid, SERootObject* root) : ContactSearch(oid, root)
 {
 	this->proto = NULL;
-	this->SearchCompletedCallback == NULL;
-	this->ContactFindedCallback == NULL;
 }
 
 void CContactSearch::OnChange(int prop)
@@ -17,7 +16,7 @@ void CContactSearch::OnChange(int prop)
 		{
 			this->isSeachFinished = true;
 			if (this->proto)
-				(proto->*SearchCompletedCallback)(this->hSearch);
+				proto->OnSearchCompleted(this->hSearch);
 		}
 	}
 }
@@ -25,7 +24,7 @@ void CContactSearch::OnChange(int prop)
 void CContactSearch::OnNewResult(const ContactRef &contact, const uint &rankValue)
 {
 	if (this->proto)
-		(proto->*ContactFindedCallback)(contact, this->hSearch);
+		proto->OnContactFinded(contact, this->hSearch);
 }
 
 void CContactSearch::BlockWhileSearch()
@@ -40,14 +39,4 @@ void CContactSearch::SetProtoInfo(CSkypeProto* proto, HANDLE hSearch)
 {
 	this->proto = proto;
 	this->hSearch = hSearch;
-}
-
-void CContactSearch::SetOnSearchCompleatedCallback(OnSearchCompleted callback)
-{
-	this->SearchCompletedCallback = callback;
-}
-
-void CContactSearch::SetOnContactFindedCallback(OnContactFinded callback)
-{
-	this->ContactFindedCallback = callback;
 }

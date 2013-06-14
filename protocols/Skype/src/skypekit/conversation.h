@@ -11,11 +11,4 @@ public:
 	typedef DRefs<CConversation, Conversation> Refs;
 
 	CConversation(unsigned int oid, SERootObject* root);
-
-	void SetOnConvoChangedCallback(OnConvoChanged callback);
-
-private:
-	OnConvoChanged callback;
-
-	void OnChange(int prop);
 };

@@ -118,7 +118,6 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 						CAccount::Ref account;
 						proto->GetAccount(sid, proto->account);
 						proto->account->SetStrProperty(CAccount::P_FULLNAME, sid);
-						proto->account->SetOnAccountChangedCallback(&CSkypeProto::OnAccountChanged, proto);
 						proto->account->Register(pwd, false, false);
 					}
 					else

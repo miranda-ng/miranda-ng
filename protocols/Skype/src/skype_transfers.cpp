@@ -114,9 +114,6 @@ void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const Message
 			if (transferType == Transfer::INCOMING)
 			{
 				transfer.fetch();
-				transfer->SetOnTransferCallback(
-					(CTransfer::OnTransfer)&CSkypeProto::OnTransferChanged,
-					this);
 				this->transferList.append(transfer);
 
 				uint timestamp;

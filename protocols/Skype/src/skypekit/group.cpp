@@ -1,19 +1,13 @@
+#include "..\skype.h"
 #include "group.h"
 
-CContactGroup::CContactGroup(unsigned int oid, SERootObject* root) : ContactGroup(oid, root) 
+CContactGroup::CContactGroup(CSkypeProto* _ppro, unsigned int oid, SERootObject* root) :
+	ContactGroup(oid, root),
+	proto(_ppro)
 {
-	this->proto = NULL;
-	this->callback == NULL;
-}
-
-void CContactGroup::SetOnContactListChangedCallback(OnContactListChanged callback, CSkypeProto* proto)
-{
-	this->proto = proto;
-	this->callback = callback;
 }
 
 void CContactGroup::OnChange(const ContactRef &contact)
 {
-	if (this->proto)
-		(proto->*callback)(contact);
+	proto->OnContactListChanged(contact);
 }

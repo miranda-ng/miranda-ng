@@ -110,7 +110,6 @@ bool CSkypeProto::LogIn()
 			return false;
 
 		this->account.fetch();
-		this->account->SetOnAccountChangedCallback(&CSkypeProto::OnAccountChanged, this);
 
 		this->InitProxy();
 
