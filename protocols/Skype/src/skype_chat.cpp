@@ -218,7 +218,7 @@ void ChatRoom::Start(const ConversationRef &conversation, bool showWindow)
 
 	if ( !::CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci))
 	{
-		ptrW joinBlob = ::db_get_wsa(gci.hContact, ppro->m_szModuleName, SKYPE_SETTINGS_SID);
+		ptrW joinBlob = ::db_get_wsa(gci.hContact, ppro->m_szModuleName, "JoinBlob");
 		if ( joinBlob == NULL)
 		{
 			this->conversation->GetPropIdentity(data);
@@ -1172,6 +1172,32 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 			}
 			break;
 
+		case CHAT_LIST_MENU::ICM_CONF_INVITE:
+			{
+				GC_INFO gci = {0};
+				gci.Flags = BYID | USERS;
+				gci.pszModule = this->m_szModuleName;
+				gci.pszID = gch->pDest->ptszID;
+				if ( !::CallService(MS_GC_GETINFO, 0, (LPARAM)(GC_INFO *) &gci) && gci.pszUsers != NULL)
+				{
+					StringList invitedContacts(_A2T(gci.pszUsers));
+					InviteChatParam *param = new InviteChatParam(NULL, invitedContacts, this);
+
+					if (::DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, CSkypeProto::InviteToChatProc, (LPARAM)param) == IDOK && param->invitedContacts.size() > 0)
+					{
+						SEStringList needToAdd;
+						for (size_t i = 0; i < param->invitedContacts.size(); i++)
+						{
+							if (!invitedContacts.contains(param->invitedContacts[i]))
+								needToAdd.append((char *)_T2A(param->invitedContacts[i]));
+						}
+						room->conversation->AddConsumers(needToAdd);
+					}
+					delete param;
+				}
+			}
+			break;
+
 		case CHAT_LIST_MENU::ICM_AUTH_REQUEST:
 			{
 				CContact::Ref contact;
@@ -1376,7 +1402,7 @@ INT_PTR __cdecl CSkypeProto::OnJoinChat(WPARAM wParam, LPARAM)
 			joinBlob = ::mir_utf8decodeW(data);
 			::db_set_ws(hContact, this->m_szModuleName, "JoinBlob", joinBlob);
 			
-			ptrW cid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
+			ptrW cid(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
 			ChatRoom *room = new ChatRoom(cid, name, this);
 			room->Start(conversation, true);
 		}

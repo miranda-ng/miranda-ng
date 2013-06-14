@@ -8,7 +8,7 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 
 	DWORD oldTS = ::db_get_dw(hContact, this->m_szModuleName, "AvatarTS", 0);
 
-	mir_ptr<wchar_t> path( this->GetContactAvatarFilePath(hContact));
+	ptrW path( this->GetContactAvatarFilePath(hContact));
 	bool isAvatarFileExists = CSkypeProto::FileExists(path);
 	if (newTS > oldTS || !isAvatarFileExists)
 	{
@@ -53,7 +53,7 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfileAboutText(SEObject *obj, HANDLE hContact)
 {
-	mir_ptr<wchar_t> aboutText(hContact ? ::mir_utf8decodeW(obj->GetStrProp(Contact::P_ABOUT)) : ::mir_utf8decodeW(obj->GetStrProp(Account::P_ABOUT)));
+	ptrW aboutText(hContact ? ::mir_utf8decodeW(obj->GetStrProp(Contact::P_ABOUT)) : ::mir_utf8decodeW(obj->GetStrProp(Account::P_ABOUT)));
 	if ( !::wcslen(aboutText))
 		::db_unset(hContact, this->m_szModuleName, "About");
 	else

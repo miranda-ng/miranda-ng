@@ -18,29 +18,29 @@ char *CSkypeProto::LoadKeyPair()
 	if (pLockedResource == NULL)
 		return NULL;
 
-	aes_context ctx;
-	char *key = (char*)mir_base64_decode(MY_KEY, NULL);
-
-	::aes_set_key(&ctx, (unsigned char *)key, 128);
-	::mir_free(key);
-
 	int length = ::SizeofResource(g_hInstance, hResource);
 	if (length == 0)
 		return NULL;
 
-	char *pData = (char *)alloca(length+1);
-	memcpy(pData, pLockedResource, length);
-	pData[length] = 0;
+	char* pData = new char[length + 1];
+    ::memcpy(pData, pLockedResource, length);
+    pData[length] = 0;
 
-	unsigned char *bufD = (unsigned char *)::mir_alloc(length * 2);
-	unsigned char *tmpD = (unsigned char *)mir_base64_decode(pData, NULL);
+	unsigned char *tmpD = (unsigned char *)::mir_base64_decode(pData, NULL);
+	unsigned char *result = (unsigned char *)::mir_alloc(length*2);
+	delete [] pData;
+
+	aes_context ctx;
+	char *key = (char*)::mir_base64_decode(MY_KEY, NULL);
+	::aes_set_key(&ctx, (unsigned char *)key, 128);
+	::mir_free(key);
 
 	for (int i = 0; i < length; i += 16)
-		aes_decrypt(&ctx, tmpD + i, bufD + i);
+		aes_decrypt(&ctx, tmpD + i, result + i);
 
 	::mir_free(tmpD);
-	//bufD[length] = 0; //cert should be null terminated
-	return (char *)bufD;
+	result[length] = 0;
+	return (char *)result;
 }
 
 int CSkypeProto::StartSkypeRuntime(const wchar_t *profileName)
