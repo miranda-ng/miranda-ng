@@ -12,9 +12,6 @@
 #define IDD_CHATROOM_INVITE             40
 #define IDI_ICON                        101
 #define IDR_RUNTIME                     102
-#define IDI_AUTH_GRANT                  103
-#define IDI_AUTH_REQUEST                104
-#define IDI_AUTH_REVOKE                 105
 #define IDD_PASSWORD_REQUEST            106
 #define IDR_KEY                         107
 #define IDI_CALL                        108

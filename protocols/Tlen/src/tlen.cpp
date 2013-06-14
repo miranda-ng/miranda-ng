@@ -81,8 +81,6 @@ static IconItem iconList[] =
 	{ LPGEN("Tlen inbox"),             "MAIL",         IDI_MAIL       },
 	{ LPGEN("Group chats"),            "MUC",          IDI_MUC        },
 	{ LPGEN("Tlen chats"),             "CHATS",        IDI_CHATS      },
-	{ LPGEN("Grant authorization"),    "GRANT",        IDI_GRANT      },
-	{ LPGEN("Request authorization"),  "REQUEST",      IDI_REQUEST    },
 	{ LPGEN("Voice chat"),             "VOICE",        IDI_VOICE      },
 	{ LPGEN("Microphone"),             "MICROPHONE",   IDI_MICROPHONE },
 	{ LPGEN("Speaker"),                "SPEAKER",      IDI_SPEAKER    },
@@ -369,7 +367,7 @@ static void initMenuItems(TlenProtocol *proto)
 	CreateServiceFunction_Ex(text, proto, TlenContactMenuHandleRequestAuth);
 	mi.pszName = LPGEN("Request authorization");
 	mi.position = -2000001001;
-	mi.icolibItem = GetIconHandle(IDI_REQUEST);
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
 	mi.pszService = text;
 	proto->hMenuContactRequestAuth = Menu_AddContactMenuItem(&mi);
 
@@ -378,7 +376,7 @@ static void initMenuItems(TlenProtocol *proto)
 	CreateServiceFunction_Ex(text, proto, TlenContactMenuHandleGrantAuth);
 	mi.pszName = LPGEN("Grant authorization");
 	mi.position = -2000001000;
-	mi.icolibItem = GetIconHandle(IDI_GRANT);
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_GRANT);
 	mi.pszService = text;
 	proto->hMenuContactGrantAuth = Menu_AddContactMenuItem(&mi);
 }

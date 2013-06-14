@@ -8,7 +8,6 @@
 #define IDD_OPT_REGISTER                105
 #define IDD_AGENTS                      106
 #define IDD_FORM                        107
-#define IDI_ADDROSTER                   108
 #define IDI_USER2ROOM                   109
 #define IDI_REFRESH                     110
 #define IDD_PASSWORD                    111
@@ -28,9 +27,7 @@
 #define IDD_CHANGEPASSWORD              136
 #define IDD_SEARCHUSER                  138
 #define IDD_OPT_JABBER2                 140
-#define IDI_REQUEST                     141
 #define IDD_GROUPCHAT                   141
-#define IDI_GRANT                       142
 #define IDI_KEYS                        144
 #define IDI_GROUP                       147
 #define IDD_GROUPCHAT_JOIN              148
@@ -44,7 +41,6 @@
 #define IDD_GROUPCHAT_INVITE_ACCEPT     184
 #define IDD_OPT_JABBER3                 185
 #define IDI_LOGIN                       186
-#define IDI_AUTHREVOKE                  187
 #define IDI_COMMAND                     188
 #define IDI_DISCO_OK                    190
 #define IDI_DISCO_FAIL                  191

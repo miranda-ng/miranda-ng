@@ -140,7 +140,7 @@ void  CSkypeProto::InitMenus()
 	mi.pszService = "Skype/RevokeAuth";
 	mi.ptszName = LPGENT("Revoke authorization");
 	mi.position = -2000001000 - CMI_AUTH_REVOKE;
-	mi.icolibItem = CSkypeProto::GetIconHandle("authRevoke");
+	mi.icolibItem = ::LoadSkinnedIconHandle(SKINICON_AUTH_REVOKE);
 	CSkypeProto::contactMenuItems[CMI_AUTH_REVOKE] = ::Menu_AddContactMenuItem(&mi);
 	CSkypeProto::contactMenuServices[CMI_AUTH_REVOKE] = ::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::RevokeAuth>);
 
@@ -148,7 +148,7 @@ void  CSkypeProto::InitMenus()
 	mi.pszService = "Skype/RequestAuth";
 	mi.ptszName = LPGENT("Request authorization");
 	mi.position = -2000001000 - CMI_AUTH_REQUEST;
-	mi.icolibItem = CSkypeProto::GetIconHandle("authRequest");
+	mi.icolibItem = ::LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
 	CSkypeProto::contactMenuItems[CMI_AUTH_REQUEST] = ::Menu_AddContactMenuItem(&mi);
 	CSkypeProto::contactMenuServices[CMI_AUTH_REQUEST] = ::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::RequestAuth>);
 
@@ -156,7 +156,7 @@ void  CSkypeProto::InitMenus()
 	mi.pszService = "Skype/GrantAuth";
 	mi.ptszName = LPGENT("Grant authorization");
 	mi.position = -2000001000 - CMI_AUTH_GRANT;
-	mi.icolibItem = CSkypeProto::GetIconHandle("authGrant");
+	mi.icolibItem = ::LoadSkinnedIconHandle(SKINICON_AUTH_GRANT);
 	CSkypeProto::contactMenuItems[CMI_AUTH_GRANT] = ::Menu_AddContactMenuItem(&mi);
 	CSkypeProto::contactMenuServices[CMI_AUTH_GRANT] = ::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::GrantAuth>);
 }

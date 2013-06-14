@@ -206,7 +206,7 @@ void g_MenuInit(void)
 	// "Request authorization"
 	mi.pszName = LPGEN("Request authorization");
 	mi.position = -2000001000;
-	mi.icolibItem = g_GetIconHandle(IDI_REQUEST);
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
 	mi.pszService = "Jabber/ReqAuth";
 	g_hMenuRequestAuth = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuHandleRequestAuth);
@@ -215,7 +215,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/GrantAuth";
 	mi.pszName = LPGEN("Grant authorization");
 	mi.position = -2000001001;
-	mi.icolibItem = g_GetIconHandle(IDI_GRANT);
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_GRANT);
 	g_hMenuGrantAuth = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuHandleGrantAuth);
 
@@ -223,7 +223,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/RevokeAuth";
 	mi.pszName = LPGEN("Revoke authorization");
 	mi.position = -2000001002;
-	mi.icolibItem = g_GetIconHandle(IDI_AUTHREVOKE);
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REVOKE);
 	g_hMenuRevokeAuth = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuRevokeAuth);
 
@@ -239,7 +239,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/AddToRoster";
 	mi.pszName = LPGEN("Add to roster");
 	mi.position = -1999901005;
-	mi.icolibItem = g_GetIconHandle(IDI_ADDROSTER);
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_ADD);
 	g_hMenuRosterAdd = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuRosterAdd);
 
