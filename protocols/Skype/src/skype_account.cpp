@@ -346,14 +346,14 @@ void CSkypeProto::OnAccountChanged(int prop)
 		this->UpdateProfile(this->account.fetch());
 		break;
 
-	case Account::P_AVAILABILITY:
+/*	case Account::P_AVAILABILITY:
 		{
 			Contact::AVAILABILITY status;
 			this->account->GetPropAvailability(status);
 			int mir_status = this->SkypeToMirandaStatus(status);
-			if (mir_status != this->m_iStatus)
+			if (mir_status != this->m_iStatus && mir_status >= ID_STATUS_OFFLINE)
 				this->SetStatus(mir_status);
 		}
-		break;
+		break;*/
 	}
 }
