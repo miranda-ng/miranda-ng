@@ -19,16 +19,37 @@ struct ReadMessageParam
 	CMessage::TYPE msgType;
 };
 
-struct InviteChatParam
+struct ChatRoomParam
 {
 	wchar_t		*id;
 	StringList	invitedContacts;
 	CSkypeProto *ppro;
 
-	InviteChatParam(const wchar_t *id, const StringList &contacts, CSkypeProto *ppro)
-		: id(::mir_wstrdup(id)), invitedContacts(contacts), ppro(ppro) { /*this->invitedContacts = contacts;*/ }
+	wchar_t		topic[256];
+	wchar_t		guidline[256];
 
-	~InviteChatParam()
+	bool		enableJoining;
+	int			joinRank;
+
+	bool		passwordProtection;
+	wchar_t		password[32];
+	wchar_t		confirmation[32];
+	wchar_t		hint[32];
+
+	ChatRoomParam(const wchar_t *id, const StringList &contacts, CSkypeProto *ppro)
+		: id(::mir_wstrdup(id)), invitedContacts(contacts), ppro(ppro) 
+	{
+		this->topic[0] = 0;
+		this->guidline[0] = 0;
+		this->password[0] = 0;
+		this->confirmation[0] = 0;
+		this->hint[0] = 0;
+		this->enableJoining = true;
+		this->joinRank = Participant::WRITER;
+		this->passwordProtection = false;
+	}
+
+	~ChatRoomParam()
 	{ ::mir_free(id); }
 };
 
@@ -444,7 +465,7 @@ protected:
 	static INT_PTR CALLBACK SkypeMainOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 	static INT_PTR CALLBACK SkypePasswordRequestProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK SkypePasswordChangeProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK ChatRoomProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	static INT_PTR CALLBACK SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

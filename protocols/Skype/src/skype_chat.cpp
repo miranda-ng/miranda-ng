@@ -180,7 +180,7 @@ void ChatRoom::CreateChatSession(bool showWindow)
 	::CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 }
 
-void ChatRoom::Create(const StringList &invitedMembers, CSkypeProto *ppro, bool showWindow)
+void ChatRoom::Create(const StringList &invitedMembers, CSkypeProto *ppro, ChatRoomParam *param)
 {
 	SEString data;
 	ChatRoom *room = NULL;
@@ -188,9 +188,19 @@ void ChatRoom::Create(const StringList &invitedMembers, CSkypeProto *ppro, bool 
 	ConversationRef conversation;
 	if (ppro->CreateConference(conversation))
 	{
-		conversation->SetOption(CConversation::P_OPT_JOINING_ENABLED, true);
-		conversation->SetOption(CConversation::P_OPT_ENTRY_LEVEL_RANK, CParticipant::WRITER);
-		conversation->SetOption(CConversation::P_OPT_DISCLOSE_HISTORY, true);
+		conversation->SetOption(Conversation::P_OPT_JOINING_ENABLED, param->enableJoining);
+		conversation->SetOption(Conversation::P_OPT_ENTRY_LEVEL_RANK, (Participant::RANK)param->joinRank);
+		conversation->SetOption(Conversation::P_OPT_DISCLOSE_HISTORY, true);
+		if (::wcslen(param->topic) > 0)
+			conversation->SetTopic((char *)ptrA(::mir_utf8encodeW(param->topic)));
+		if (::wcslen(param->guidline) > 0)
+			conversation->SetGuidelines((char *)ptrA(::mir_utf8encodeW(param->guidline)));
+		if (param->passwordProtection && ::wcslen(param->password) > 0)
+		{
+			conversation->SetPassword(
+				(char *)ptrA(::mir_utf8encodeW(param->password)),
+				(char *)ptrA(::mir_utf8encodeW(param->hint)));
+		}
 		
 		SEStringList consumers;
 		for (size_t i = 0; i < invitedMembers.size(); i++)
@@ -852,9 +862,9 @@ void CSkypeProto::GetInvitedContacts(HANDLE hItem, HWND hwndList, StringList &ch
 	}
 }
 
-INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK CSkypeProto::ChatRoomProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	InviteChatParam *param = (InviteChatParam *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	ChatRoomParam *param = (ChatRoomParam *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg)
 	{
@@ -862,7 +872,7 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 		TranslateDialogDefault(hwndDlg);
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		param = (InviteChatParam *)lParam;
+		param = (ChatRoomParam *)lParam;
 		{
 			HWND hwndClist = GetDlgItem(hwndDlg, IDC_CCLIST);
 			SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) & ~CLS_HIDEOFFLINE);
@@ -873,6 +883,17 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 				::EnableWindow(GetDlgItem(hwndDlg, IDC_ADDSCR), FALSE);
 				::EnableWindow(GetDlgItem(hwndDlg, IDC_CCLIST), FALSE);
 			}
+
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_JOINING, BM_SETCHECK, param->enableJoining, 0);
+			for (int i = 1; i < SIZEOF(ChatRoom::Roles) - 4; i++)
+			{
+				int nItem = ::SendMessage(::GetDlgItem(hwndDlg, IDC_CHAT_ROLES), CB_ADDSTRING, 0, (LPARAM)::TranslateW(ChatRoom::Roles[i]));
+
+				if (i == Participant::WRITER)
+					::SendMessage(::GetDlgItem(hwndDlg, IDC_CHAT_ROLES), CB_SETCURSEL, nItem, 0);
+			}
+
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_SECURED, BM_SETCHECK, param->passwordProtection, 0);
 		}
 		break;
 
@@ -928,6 +949,28 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 			}
 			break;
 
+		case IDC_CHAT_SECURED:
+			{
+				BOOL enable = (BOOL)::IsDlgButtonChecked(hwndDlg, IDC_CHAT_SECURED);
+				::EnableWindow(::GetDlgItem(hwndDlg, IDC_CHAT_PASSWORD), enable);
+				::EnableWindow(::GetDlgItem(hwndDlg, IDC_CHAT_CONFIRMATION), enable);
+				::EnableWindow(::GetDlgItem(hwndDlg, IDC_CHAT_HINT), enable);
+			}
+			break;
+
+		case IDC_CHAT_PASSWORD:
+		case IDC_CHAT_CONFIRMATION:
+			{
+				wchar_t pwd[32], cfn[32];
+				GetDlgItemText(hwndDlg, IDC_CHAT_PASSWORD, pwd, SIZEOF(pwd));
+				GetDlgItemText(hwndDlg, IDC_CHAT_CONFIRMATION, cfn, SIZEOF(cfn));
+
+				bool secured = (bool)::IsDlgButtonChecked(hwndDlg, IDC_CHAT_SECURED);
+
+				::EnableWindow(::GetDlgItem(hwndDlg, IDOK), secured && ::wcscmp(pwd, cfn) == 0);
+			}
+			break;
+
 		case IDOK:
 			{
 				HWND hwndList = ::GetDlgItem(hwndDlg, IDC_CCLIST);
@@ -942,6 +985,20 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 				}
 				else
 					param->ppro->ShowNotification(::TranslateT("You did not select any contact"));
+
+				GetDlgItemText(hwndDlg, IDC_CHAT_TOPIC, param->topic, SIZEOF(param->topic));
+				GetDlgItemText(hwndDlg, IDC_CHAT_GUIDLINE, param->guidline, SIZEOF(param->guidline));
+
+				param->enableJoining = (bool)::IsDlgButtonChecked(hwndDlg, IDC_CHAT_JOINING);
+				param->joinRank = ::SendMessage(::GetDlgItem(hwndDlg, IDC_CHAT_ROLES), CB_GETCURSEL, 0, 0) + 1;
+
+				param->passwordProtection = (bool)::IsDlgButtonChecked(hwndDlg, IDC_CHAT_SECURED);
+				if (param->passwordProtection)
+				{
+					GetDlgItemText(hwndDlg, IDC_CHAT_PASSWORD, param->password, SIZEOF(param->password));
+					GetDlgItemText(hwndDlg, IDC_CHAT_CONFIRMATION, param->confirmation, SIZEOF(param->confirmation));
+					GetDlgItemText(hwndDlg, IDC_CHAT_HINT, param->hint, SIZEOF(param->hint));
+				}
 			}
 			break;
 
@@ -982,10 +1039,10 @@ HANDLE CSkypeProto::GetChatRoomByCid(const wchar_t *cid)
 
 void CSkypeProto::StartChat(StringList &invitedContacts)
 {
-	InviteChatParam *param = new InviteChatParam(NULL, invitedContacts, this);
+	ChatRoomParam *param = new ChatRoomParam(NULL, invitedContacts, this);
 
-	if (::DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, CSkypeProto::InviteToChatProc, (LPARAM)param) == IDOK && param->invitedContacts.size() > 0)
-		ChatRoom::Create(param->invitedContacts, this, true);
+	if (::DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CHATROOM_CREATE), NULL, CSkypeProto::ChatRoomProc, (LPARAM)param) == IDOK && param->invitedContacts.size() > 0)
+		ChatRoom::Create(param->invitedContacts, this, param);
 
 	delete param;
 }
@@ -1008,9 +1065,9 @@ void CSkypeProto::InviteToChatRoom(HANDLE hContact)
 		if (room != NULL && gci.pszUsers != NULL)
 		{
 			StringList invitedContacts(_A2T(gci.pszUsers));
-			InviteChatParam *param = new InviteChatParam(NULL, invitedContacts, this);
+			ChatRoomParam *param = new ChatRoomParam(NULL, invitedContacts, this);
 
-			if (::DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, CSkypeProto::InviteToChatProc, (LPARAM)param) == IDOK && param->invitedContacts.size() > 0)
+			if (::DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, CSkypeProto::ChatRoomProc, (LPARAM)param) == IDOK && param->invitedContacts.size() > 0)
 			{
 				SEStringList needToAdd;
 				for (size_t i = 0; i < param->invitedContacts.size(); i++)
@@ -1181,9 +1238,9 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 				if ( !::CallService(MS_GC_GETINFO, 0, (LPARAM)(GC_INFO *) &gci) && gci.pszUsers != NULL)
 				{
 					StringList invitedContacts(_A2T(gci.pszUsers));
-					InviteChatParam *param = new InviteChatParam(NULL, invitedContacts, this);
+					ChatRoomParam *param = new ChatRoomParam(NULL, invitedContacts, this);
 
-					if (::DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, CSkypeProto::InviteToChatProc, (LPARAM)param) == IDOK && param->invitedContacts.size() > 0)
+					if (::DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, CSkypeProto::ChatRoomProc, (LPARAM)param) == IDOK && param->invitedContacts.size() > 0)
 					{
 						SEStringList needToAdd;
 						for (size_t i = 0; i < param->invitedContacts.size(); i++)

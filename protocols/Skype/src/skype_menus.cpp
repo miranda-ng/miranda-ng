@@ -197,7 +197,7 @@ void CSkypeProto::OnInitStatusMenu()
 	// Invite Command
 	::strcpy(tDest, "/InviteCommand");
 	this->CreateServiceObj(tDest, &CSkypeProto::InviteCommand);
-	mi.ptszName = LPGENT("Invite to conference");
+	mi.ptszName = LPGENT("Create conference");
 	mi.position = 200000 + SMI_CHAT_INVITE;
 	mi.icolibItem = CSkypeProto::GetIconHandle("confInvite");
 	::Menu_AddProtoMenuItem(&mi);

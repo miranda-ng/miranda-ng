@@ -133,8 +133,6 @@ private:
 
 	CSkypeProto *ppro;
 
-	static wchar_t *Roles[];
-
 	ChatRoom(const wchar_t *cid);
 
 	inline static int CompareMembers(const ChatMember *p1, const ChatMember *p2) { return ChatMember::Compare(p1, p2); }
@@ -154,10 +152,12 @@ public:
 	ChatMember *sys;
 	CConversation::Ref conversation;
 
+	static wchar_t *Roles[];
+
 	ChatRoom(const wchar_t *cid, const wchar_t *name, CSkypeProto *ppro);
 	~ChatRoom();	
 
-	static void Create(const StringList &invitedMembers, CSkypeProto *ppro, bool showWindow = false);
+	static void Create(const StringList &invitedMembers, CSkypeProto *ppro, ChatRoomParam *param);
 
 	void Start(const ConversationRef &conversation, bool showWindow = false);
 

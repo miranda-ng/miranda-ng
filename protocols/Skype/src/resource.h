@@ -18,6 +18,7 @@
 #define IDI_CONF_INVITE                 109
 #define IDI_CONF_SPAWN                  110
 #define IDI_SEND_CONTACTS               111
+#define IDD_CHATROOM_CREATE             111
 #define IDC_CCLIST                      173
 #define IDC_EDITSCR                     174
 #define IDC_ADDSCR                      175
@@ -67,17 +68,21 @@
 #define IDC_CHAT_JOINING                1046
 #define IDC_COMBO1                      1047
 #define IDC_ROLES                       1047
+#define IDC_CHAT_ROLES                  1047
 #define IDC_CHAT_JOINING2               1048
 #define IDC_CHAT_SECURED                1048
 #define IDC_EDIT1                       1049
+#define IDC_CHAT_PASSWORD               1049
 #define IDC_EDIT2                       1050
+#define IDC_CHAT_CONFIRMATION           1050
 #define IDC_EDIT3                       1051
+#define IDC_CHAT_HINT                   1051
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        111
+#define _APS_NEXT_RESOURCE_VALUE        112
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1052
 #define _APS_NEXT_SYMED_VALUE           101
