@@ -205,3 +205,5 @@ int SafeCopyFile(const TCHAR *ptszSrc, const TCHAR *ptszDst);
 int SafeMoveFile(const TCHAR *ptszSrc, const TCHAR *ptszDst);
 int SafeDeleteFile(const TCHAR *ptszSrc);
 int SafeCreateFilePath(TCHAR *pFolder);
+
+char *StrToLower(char *str);

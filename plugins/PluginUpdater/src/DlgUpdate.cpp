@@ -28,7 +28,7 @@ static void SelectAll(HWND hDlg, bool bEnable)
 
 	for (int i=0; i < todo.getCount(); i++) {
 		ListView_SetCheckState(hwndList, i, bEnable);
-		db_set_b(NULL, MODNAME "Files", _T2A(todo[i].tszOldName), todo[i].bEnabled = bEnable);
+		db_set_b(NULL, MODNAME "Files", StrToLower(_T2A(todo[i].tszOldName)), todo[i].bEnabled = bEnable);
 	}
 }
 
@@ -213,7 +213,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 				ListView_InsertItem(hwndList, &lvI);
 
 				// remember whether the user has decided not to update this component with this particular new version
-				todo[i].bEnabled = db_get_b(NULL, MODNAME "Files", _T2A(todo[i].tszOldName), true);
+				todo[i].bEnabled = db_get_b(NULL, MODNAME "Files", StrToLower(_T2A(todo[i].tszOldName)), true);
 				ListView_SetCheckState(hwndList, lvI.iItem, todo[i].bEnabled);
 				if (todo[i].bEnabled)
 					enableOk = true;
@@ -246,7 +246,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 					OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 					if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
 						todo[lvI.iItem].bEnabled = ListView_GetCheckState(hwndList, nmlv->iItem);
-						db_set_b(NULL, MODNAME "Files", _T2A(todo[lvI.iItem].tszOldName), todo[lvI.iItem].bEnabled);
+						db_set_b(NULL, MODNAME "Files", StrToLower(_T2A(todo[lvI.iItem].tszOldName)), todo[lvI.iItem].bEnabled);
 
 						bool enableOk = false;
 						for (int i=0; i < todo.getCount(); ++i) {
