@@ -443,6 +443,8 @@ void __stdcall RestartMe(void*)
 	CallService(MS_SYSTEM_RESTART, db_get_b(NULL,MODNAME,"RestartCurrentProfile",1) ? 1 : 0, 0);
 }
 
+#endif
+
 void __stdcall OpenPluginOptions(void*)
 {
 	OPENOPTIONSDIALOG ood = {0};
@@ -450,8 +452,6 @@ void __stdcall OpenPluginOptions(void*)
 	ood.pszPage = "Plugins";
 	Options_Open(&ood);
 }
-
-#endif
 
 //   FUNCTION: IsRunAsAdmin()
 //

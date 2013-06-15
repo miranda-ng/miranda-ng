@@ -123,6 +123,8 @@ static void ApplyDownloads(void *param)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static WNDPROC oldWndProc = NULL;
+
 static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_LBUTTONDOWN) {
@@ -135,20 +137,20 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			lvi.stateMask = -1;
 			lvi.iItem = hi.iItem;
 			if (ListView_GetItem(hwnd, &lvi) && lvi.iGroupId == 1) {
-				TCHAR link[MAX_PATH];
 				FILEINFO *info = (FILEINFO *)lvi.lParam;
 
 				TCHAR tszFileName[MAX_PATH];
 				_tcscpy(tszFileName, _tcsrchr(info->tszNewName, L'\\') + 1);
 				TCHAR *p = _tcschr(tszFileName, L'.'); *p = 0;
 
-				mir_sntprintf(link, MAX_PATH, L"http://wiki.miranda-ng.org/index.php?title=Plugin:%s", tszFileName);
-				CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM) link);
+				char link[MAX_PATH];
+				mir_snprintf(link, MAX_PATH, "http://wiki.miranda-ng.org/index.php?title=Plugin:%s", _T2A(tszFileName));
+				CallService(MS_UTILS_OPENURL, 0, (LPARAM) link);
 			}
 		}
 	}
 
-	return mir_callNextSubclass(hwnd, PluginListWndProc, msg, wParam, lParam);
+	return CallWindowProc(oldWndProc, hwnd, msg, wParam, lParam);
 }
 
 static int ListDlg_Resize(HWND, LPARAM, UTILRESIZECONTROL *urc)
@@ -172,7 +174,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_INITDIALOG:
 		hwndDialog = hDlg;
 		TranslateDialogDefault( hDlg );
-		mir_subclassWindow(hwndList, PluginListWndProc);
+		oldWndProc = (WNDPROC)SetWindowLongPtr(hwndList, GWLP_WNDPROC, (LONG_PTR)PluginListWndProc);
 
 		SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon("plg_list", 1));
 		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon("plg_list"));
