@@ -1081,19 +1081,17 @@ static void FakeThread(void* param)
 	mir_free(param);
 }
 
-DWORD CMraProto::ProtoBroadcastAckAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam, size_t paramSize)
+int CMraProto::ProtoBroadcastAckAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
 {
-	ACKDATA* ack = (ACKDATA*)mir_calloc(sizeof(ACKDATA) + paramSize);
-	ack->cbSize = sizeof(ACKDATA);
-	ack->szModule = m_szModuleName; ack->hContact = hContact;
-	ack->type = type; ack->result = hResult;
-	ack->hProcess = hProcess;
-	if (paramSize) {
-		ack->lParam = (LPARAM)(ack+1);
-		memcpy((void*)ack->lParam, (void*)lParam, paramSize);
-	}
-	mir_forkthread(FakeThread, ack);
-	return 0;
+	ACKDATA ack = {0};
+	ack.cbSize = sizeof(ACKDATA);
+	ack.szModule = m_szModuleName;
+	ack.hContact = hContact;
+	ack.type = type;
+	ack.result = hResult;  
+	ack.hProcess = hProcess;
+	ack.lParam = lParam;
+	return CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
 }
 
 DWORD CMraProto::CreateBlobFromContact(HANDLE hContact, LPWSTR lpwszRequestReason, size_t dwRequestReasonSize, LPBYTE lpbBuff, size_t dwBuffSize, size_t *pdwBuffSizeRet)
