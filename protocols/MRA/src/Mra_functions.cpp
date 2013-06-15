@@ -1081,19 +1081,16 @@ static void FakeThread(void* param)
 	mir_free(param);
 }
 
-DWORD CMraProto::ProtoBroadcastAckAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam, size_t paramSize)
+DWORD CMraProto::ProtoBroadcastAckAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
 {
-	ACKDATA *ack = (ACKDATA*)::mir_calloc(sizeof(ACKDATA) + paramSize);
+	ACKDATA *ack = (ACKDATA*)::mir_calloc(sizeof(ACKDATA));
 	ack->cbSize = sizeof(ACKDATA);
 	ack->szModule = m_szModuleName;
 	ack->hContact = hContact;
 	ack->type = type;
 	ack->result = hResult;
 	ack->hProcess = hProcess;
-	if (paramSize) {
-		ack->lParam = (LPARAM)(ack+1);
-		memcpy((void*)ack->lParam, (void*)lParam, paramSize);
-	}
+	ack->lParam = lParam;
 	mir_forkthread(FakeThread, ack);
 	return 0;
 }

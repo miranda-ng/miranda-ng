@@ -466,12 +466,12 @@ int CMraProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* h
 				bSlowSend = mraGetByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
 				iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_CONTACTS, MESSAGE_FLAG_CONTACT, szEMail, dwEMailSize, lpwszData, (lpwszDataCurrent-lpwszData), NULL, 0);
 				if (bSlowSend == FALSE)
-					ProtoBroadcastAckAsync(hContact, ACKTYPE_CONTACTS, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
+					ProtoBroadcastAck(hContact, ACKTYPE_CONTACTS, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
 			}
 			mir_free(lpwszData);
 		}
 	}
-	else ProtoBroadcastAckAsync(hContact, ACKTYPE_CONTACTS, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.");
+	else ProtoBroadcastAck(hContact, ACKTYPE_CONTACTS, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.");
 
 	return iRet;
 }
@@ -491,7 +491,7 @@ HANDLE CMraProto::SendFile(HANDLE hContact, const TCHAR* szDescription, TCHAR** 
 int CMraProto::SendMsg(HANDLE hContact, int flags, const char *lpszMessage)
 {
 	if (!m_bLoggedIn) {
-		ProtoBroadcastAckAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.");
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.");
 		return 0;
 	}
 
@@ -508,7 +508,7 @@ int CMraProto::SendMsg(HANDLE hContact, int flags, const char *lpszMessage)
 		lpwszMessage = mir_a2t(lpszMessage);
 
 	if ( !lpwszMessage) {
-		ProtoBroadcastAckAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"Cant allocate buffer for convert to unicode.");
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"Cant allocate buffer for convert to unicode.");
 		return 0;
 	}
 
@@ -640,7 +640,6 @@ HANDLE CMraProto::GetAwayMsg(HANDLE hContact)
 
 	TCHAR szStatusDesc[MICBLOG_STATUS_MAX+MICBLOG_STATUS_MAX+MAX_PATH], szBlogStatus[MICBLOG_STATUS_MAX+4], szTime[64];
 	DWORD dwTime;
-	size_t dwStatusDescSize;
 	int iRet = 0;
 
 	if ( mraGetStaticStringW(hContact, DBSETTING_BLOGSTATUS, szBlogStatus, SIZEOF(szBlogStatus), NULL)) {
@@ -651,9 +650,9 @@ HANDLE CMraProto::GetAwayMsg(HANDLE hContact)
 		else
 			szTime[0] = 0;
 
-		dwStatusDescSize = mir_sntprintf(szStatusDesc, SIZEOF(szStatusDesc), _T("%s%s"), szTime, szBlogStatus);
+		mir_sntprintf(szStatusDesc, SIZEOF(szStatusDesc), _T("%s%s"), szTime, szBlogStatus);
 		iRet = GetTickCount();
-		ProtoBroadcastAckAsync(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)szStatusDesc, (dwStatusDescSize+1)*sizeof(TCHAR));
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)szStatusDesc);
 	}
 	return (HANDLE)iRet;
 }
