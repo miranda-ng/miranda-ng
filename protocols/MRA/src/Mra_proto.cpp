@@ -511,8 +511,8 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"User does not accept offline flash animation");
 				break;
 			default:
-				mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), "Undefined message delivery error, code: %lu", dwTemp);
-				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)szBuff);
+				dwTemp = mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), "Undefined message delivery error, code: %lu", dwTemp);
+				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)szBuff, dwTemp+1);
 				break;
 			}
 			MraSendQueueFree(hSendQueueHandle, pmaHeader->seq);
@@ -1562,6 +1562,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 		break;
 
 	case MRIM_CS_SMS_ACK:
+		dwTemp = GetUL(&lpbDataCurrent);
 		if ( MraSendQueueFind(hSendQueueHandle, pmaHeader->seq, NULL, &hContact, &dwAckType, (LPBYTE*)&lpsString.lpszData, &lpsString.dwSize) == NO_ERROR) {
 			char szEMail[MAX_EMAIL_LEN];
 			LPSTR lpszPhone;
@@ -1574,8 +1575,8 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 				lpszPhone = (lpsString.lpszData+sizeof(DWORD));
 				lpwszMessage = (LPWSTR)(lpszPhone+dwPhoneSize+1);
 
-				mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), "<sms_response><source>Mail.ru</source><deliverable>Yes</deliverable><network>Mail.ru, Russia</network><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><messages_left>0</messages_left></sms_response>\r\n", szEMail, lpszPhone, lpszPhone);
-				ProtoBroadcastAckAsync(NULL, dwAckType, ACKRESULT_SENTREQUEST, (HANDLE)pmaHeader->seq, (LPARAM)szBuff);
+				dwTemp = mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), "<sms_response><source>Mail.ru</source><deliverable>Yes</deliverable><network>Mail.ru, Russia</network><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><messages_left>0</messages_left></sms_response>\r\n", szEMail, lpszPhone, lpszPhone);
+				ProtoBroadcastAckAsync(NULL, dwAckType, ACKRESULT_SENTREQUEST, (HANDLE)pmaHeader->seq, (LPARAM)szBuff, dwTemp+1);
 			}
 
 			mir_free(lpsString.lpszData);
@@ -1897,12 +1898,12 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 				lpszBuff = (LPSTR)lpwszMessageXMLEncoded;
 
 				if (dwFlags & MESSAGE_SMS_DELIVERY_REPORT) {
-					mir_snprintf(lpszBuff, (dwBuffLen*sizeof(WCHAR)), "<sms_delivery_receipt><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><delivered>No</delivered><submition_time>%s</submition_time><error_code>0</error_code><error><id>15</id><params><param>%s</param></params></error></sms_delivery_receipt>", szEMail, szPhone, szPhone, szTime, lpszMessageUTF);
-					ProtoBroadcastAckAsync(NULL, ICQACKTYPE_SMS, ACKRESULT_FAILED, (HANDLE)0, (LPARAM)lpszBuff);
+					dwBuffLen = mir_snprintf(lpszBuff, (dwBuffLen*sizeof(WCHAR)), "<sms_delivery_receipt><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><delivered>No</delivered><submition_time>%s</submition_time><error_code>0</error_code><error><id>15</id><params><param>%s</param></params></error></sms_delivery_receipt>", szEMail, szPhone, szPhone, szTime, lpszMessageUTF);
+					ProtoBroadcastAckAsync(NULL, ICQACKTYPE_SMS, ACKRESULT_FAILED, (HANDLE)0, (LPARAM)lpszBuff, dwBuffLen+1);
 				}
 				else { // new sms
-					mir_snprintf(lpszBuff, (dwBuffLen*sizeof(WCHAR)), "<sms_message><source>Mail.ru</source><destination_UIN>%s</destination_UIN><sender>%s</sender><senders_network>Mail.ru</senders_network><text>%s</text><time>%s</time></sms_message>", szEMail, szPhone, lpszMessageUTF, szTime);
-					ProtoBroadcastAckAsync(NULL, ICQACKTYPE_SMS, ACKRESULT_SUCCESS, (HANDLE)0, (LPARAM)lpszBuff);
+					dwBuffLen = mir_snprintf(lpszBuff, (dwBuffLen*sizeof(WCHAR)), "<sms_message><source>Mail.ru</source><destination_UIN>%s</destination_UIN><sender>%s</sender><senders_network>Mail.ru</senders_network><text>%s</text><time>%s</time></sms_message>", szEMail, szPhone, lpszMessageUTF, szTime);
+					ProtoBroadcastAckAsync(NULL, ICQACKTYPE_SMS, ACKRESULT_SUCCESS, (HANDLE)0, (LPARAM)lpszBuff, dwBuffLen+1);
 				}
 			}
 			else dwRetErrorCode = GetLastError();
