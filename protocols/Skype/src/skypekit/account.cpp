@@ -1,8 +1,8 @@
 #include "..\skype.h"
 #include "account.h"
 
-CAccount::CAccount(CSkypeProto *_ppro, unsigned int oid, SERootObject* root) :
-	Account(oid, root),
+CAccount::CAccount(unsigned int oid, CSkypeProto* _ppro) :
+	Account(oid, _ppro),
 	ppro(_ppro)
 {
 }

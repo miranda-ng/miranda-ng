@@ -1,8 +1,8 @@
 #include "..\skype.h"
 #include "transfer.h"
 
-CTransfer::CTransfer(CSkypeProto* _ppro, unsigned int oid, SERootObject* root) :
-	Transfer(oid, root),
+CTransfer::CTransfer(unsigned int oid, CSkypeProto* _ppro) :
+	Transfer(oid, _ppro),
 	proto(_ppro)
 {
 }

@@ -10,7 +10,7 @@ public:
 
 	typedef DRef<CContactGroup, ContactGroup> Ref;
 	typedef DRefs<CContactGroup, ContactGroup> Refs;
-	CContactGroup(CSkypeProto*, unsigned int oid, SERootObject* root);
+	CContactGroup(unsigned int oid, CSkypeProto*);
 
 private:
 	CSkypeProto* proto;

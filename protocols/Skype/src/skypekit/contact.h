@@ -8,7 +8,7 @@ public:
 	typedef DRef<CContact, Contact> Ref;
 	typedef DRefs<CContact, Contact> Refs;
 
-	CContact(CSkypeProto*, unsigned int oid, SERootObject* root);
+	CContact(unsigned int oid, CSkypeProto*);
 
 	SEString GetSid();
 	SEString GetNick();

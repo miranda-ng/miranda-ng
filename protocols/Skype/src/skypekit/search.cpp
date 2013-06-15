@@ -1,9 +1,10 @@
 #include "..\skype.h"
 #include "search.h"
 
-CContactSearch::CContactSearch(unsigned int oid, SERootObject* root) : ContactSearch(oid, root)
+CContactSearch::CContactSearch(unsigned int oid, CSkypeProto* _ppro) :
+	ContactSearch(oid, _ppro),
+	proto(_ppro)
 {
-	this->proto = NULL;
 }
 
 void CContactSearch::OnChange(int prop)
@@ -23,8 +24,7 @@ void CContactSearch::OnChange(int prop)
 
 void CContactSearch::OnNewResult(const ContactRef &contact, const uint &rankValue)
 {
-	if (this->proto)
-		proto->OnContactFinded(contact, this->hSearch);
+	proto->OnContactFinded(contact, this->hSearch);
 }
 
 void CContactSearch::BlockWhileSearch()
@@ -33,10 +33,4 @@ void CContactSearch::BlockWhileSearch()
 	this->isSeachFailed = false;
 	while (!this->isSeachFinished && !this->isSeachFailed) 
 		Sleep(1); 
-}
-
-void CContactSearch::SetProtoInfo(CSkypeProto* proto, HANDLE hSearch)
-{
-	this->proto = proto;
-	this->hSearch = hSearch;
 }

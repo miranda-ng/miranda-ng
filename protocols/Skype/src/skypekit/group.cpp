@@ -1,8 +1,8 @@
 #include "..\skype.h"
 #include "group.h"
 
-CContactGroup::CContactGroup(CSkypeProto* _ppro, unsigned int oid, SERootObject* root) :
-	ContactGroup(oid, root),
+CContactGroup::CContactGroup(unsigned int oid, CSkypeProto* _ppro) :
+	ContactGroup(oid, _ppro),
 	proto(_ppro)
 {
 }

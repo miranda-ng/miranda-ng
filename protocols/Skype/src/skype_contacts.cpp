@@ -383,7 +383,7 @@ void __cdecl CSkypeProto::SearchBySidAsync(void* arg)
 	CContactSearch::Ref search;
 	this->CreateIdentitySearch(::mir_u2a(sid), search);
 	search.fetch();
-	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYSID);
+	search->SetProtoInfo((HANDLE)SKYPE_SEARCH_BYSID);
 
 	bool valid;
 	if (!search->IsValid(valid) || !valid || !search->Submit())
@@ -400,7 +400,7 @@ void __cdecl CSkypeProto::SearchByEmailAsync(void* arg)
 	CContactSearch::Ref search;
 	this->CreateContactSearch(search);
 	search.fetch();
-	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYEMAIL);
+	search->SetProtoInfo((HANDLE)SKYPE_SEARCH_BYEMAIL);
 
 	bool valid;
 	if (!search->AddEmailTerm(::mir_u2a(email), valid) || !valid || !search->Submit())
@@ -422,7 +422,7 @@ void __cdecl CSkypeProto::SearchByNamesAsync(void* arg)
 	CContactSearch::Ref search;
 	this->CreateContactSearch(search);
 	search.fetch();
-	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYNAMES);
+	search->SetProtoInfo((HANDLE)SKYPE_SEARCH_BYNAMES);
 
 	bool valid;
 	if (nick.length() != 0)

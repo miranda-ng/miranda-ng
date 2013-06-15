@@ -1,8 +1,8 @@
 #include "..\skype.h"
 #include "contact.h"
 
-CContact::CContact(CSkypeProto* _ppro, unsigned int oid, SERootObject* root) :
-	Contact(oid, root),
+CContact::CContact(unsigned int oid, CSkypeProto* _ppro) :
+	Contact(oid, _ppro),
 	proto(_ppro)
 {
 }

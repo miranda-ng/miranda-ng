@@ -2,17 +2,17 @@
 
 CAccount* CSkypeProto::newAccount(int oid) 
 { 
-	return new CAccount(this, oid, this); 
+	return new CAccount(oid, this); 
 }
 
 CContactGroup* CSkypeProto::newContactGroup(int oid)
 { 
-	return new CContactGroup(this, oid, this); 
+	return new CContactGroup(oid, this); 
 }
 
 CContact* CSkypeProto::newContact(int oid) 
 { 
-	return new CContact(this, oid, this); 
+	return new CContact(oid, this); 
 }
 
 CConversation* CSkypeProto::newConversation(int oid) 
@@ -32,7 +32,7 @@ CMessage* CSkypeProto::newMessage(int oid)
 
 CTransfer* CSkypeProto::newTransfer(int oid) 
 { 
-	return new CTransfer(this, oid, this); 
+	return new CTransfer(oid, this); 
 }
 
 CContactSearch* CSkypeProto::newContactSearch(int oid)

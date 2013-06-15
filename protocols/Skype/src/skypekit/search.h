@@ -12,12 +12,14 @@ public:
 	bool isSeachFinished;
 	bool isSeachFailed;
 
-	CContactSearch(unsigned int oid, SERootObject* root);
+	CContactSearch(unsigned int oid, CSkypeProto* _ppro);
 
 	void OnChange(int prop);
 	void OnNewResult(const ContactRef &contact, const uint &rankValue);
 
-	void SetProtoInfo(CSkypeProto* proto, HANDLE hSearch);
+	__forceinline void SetProtoInfo(HANDLE _hSearch) {
+		hSearch = _hSearch;
+	}
 
 	void BlockWhileSearch();
 

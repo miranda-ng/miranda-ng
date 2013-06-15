@@ -965,8 +965,7 @@ INT_PTR CALLBACK CSkypeProto::ChatRoomProc(HWND hwndDlg, UINT msg, WPARAM wParam
 				GetDlgItemText(hwndDlg, IDC_CHAT_PASSWORD, pwd, SIZEOF(pwd));
 				GetDlgItemText(hwndDlg, IDC_CHAT_CONFIRMATION, cfn, SIZEOF(cfn));
 
-				bool secured = (bool)::IsDlgButtonChecked(hwndDlg, IDC_CHAT_SECURED);
-
+				BOOL secured = ::IsDlgButtonChecked(hwndDlg, IDC_CHAT_SECURED);
 				::EnableWindow(::GetDlgItem(hwndDlg, IDOK), secured && ::wcscmp(pwd, cfn) == 0);
 			}
 			break;
@@ -989,10 +988,10 @@ INT_PTR CALLBACK CSkypeProto::ChatRoomProc(HWND hwndDlg, UINT msg, WPARAM wParam
 				GetDlgItemText(hwndDlg, IDC_CHAT_TOPIC, param->topic, SIZEOF(param->topic));
 				GetDlgItemText(hwndDlg, IDC_CHAT_GUIDLINE, param->guidline, SIZEOF(param->guidline));
 
-				param->enableJoining = (bool)::IsDlgButtonChecked(hwndDlg, IDC_CHAT_JOINING);
+				param->enableJoining = ::IsDlgButtonChecked(hwndDlg, IDC_CHAT_JOINING) != 0;
 				param->joinRank = ::SendMessage(::GetDlgItem(hwndDlg, IDC_CHAT_ROLES), CB_GETCURSEL, 0, 0) + 1;
 
-				param->passwordProtection = (bool)::IsDlgButtonChecked(hwndDlg, IDC_CHAT_SECURED);
+				param->passwordProtection = ::IsDlgButtonChecked(hwndDlg, IDC_CHAT_SECURED) != 0;
 				if (param->passwordProtection)
 				{
 					GetDlgItemText(hwndDlg, IDC_CHAT_PASSWORD, param->password, SIZEOF(param->password));

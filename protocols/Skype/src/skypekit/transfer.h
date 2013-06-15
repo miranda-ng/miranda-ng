@@ -8,7 +8,7 @@ public:
 	typedef DRef<CTransfer, Transfer> Ref;
 	typedef DRefs<CTransfer, Transfer> Refs;
   
-	CTransfer(CSkypeProto*, unsigned int oid, SERootObject* p_root);
+	CTransfer(unsigned int oid, CSkypeProto*);
 
 private:
 	CSkypeProto* proto;
