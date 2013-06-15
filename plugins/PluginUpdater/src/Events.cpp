@@ -58,12 +58,14 @@ INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
+#if MIRANDA_VER >= 0x0A00
 INT_PTR ShowListCommand(WPARAM wParam,LPARAM lParam)
 {
 	opts.bSilent = false;
 	DoGetList(true);
 	return 0;
 }
+#endif
 
 INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam)
 {

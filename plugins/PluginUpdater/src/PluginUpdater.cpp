@@ -104,8 +104,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	// Add cheking update menu item
 	CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
-	CreateServiceFunction(MODNAME"/ShowList", ShowListCommand);
-
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 400010000;
 	mi.icolibItem = Skin_GetIconHandle("check_update");
@@ -113,11 +111,15 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.pszService = MODNAME"/CheckUpdates";
 	Menu_AddMainMenuItem(&mi);
 
-	mi.position++;
-	mi.icolibItem = Skin_GetIconHandle("plg_list");
-	mi.pszName = LPGEN("Show full plugin list");
-	mi.pszService = MODNAME"/ShowList";
-	Menu_AddMainMenuItem(&mi);
+	#if MIRANDA_VER >= 0x0A00
+		CreateServiceFunction(MODNAME"/ShowList", ShowListCommand);
+
+		mi.position++;
+		mi.icolibItem = Skin_GetIconHandle("plg_list");
+		mi.pszName = LPGEN("Show full plugin list");
+		mi.pszService = MODNAME"/ShowList";
+		Menu_AddMainMenuItem(&mi);
+	#endif
 
 	// Add hotkey
 	HOTKEYDESC hkd = { sizeof(hkd) };
