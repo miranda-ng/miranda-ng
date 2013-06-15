@@ -36,7 +36,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HCURSOR hCurSplitNS, hCurSplitWE, hCurHyperlinkHand, hDragCursor;
 extern HANDLE hHookWinEvt;
 extern HANDLE hHookWinPopup;
-extern CREOleCallback reOleCallback, reOleCallback2;
+extern CREOleCallback reOleCallback;
+extern CREOleCallback2 reOleCallback2;
 
 static void UpdateReadChars(HWND hwndDlg, struct SrmmWindowData * dat);
 
@@ -418,6 +419,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 	case EM_SUBCLASSED:
 		dat = (struct MsgEditSubclassData *) mir_alloc(sizeof(struct MsgEditSubclassData));
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR) dat);
+		DragAcceptFiles(hwnd, TRUE);
 		dat->lastEnterTime = 0;
 		return 0;
 
@@ -494,6 +496,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 }
 
 static void SubclassMessageEdit(HWND hwnd) {
+	RichUtil_SubClass(hwnd);
 	mir_subclassWindow(hwnd, MessageEditSubclassProc);
 	SendMessage(hwnd, EM_SUBCLASSED, 0, 0);
 }
@@ -503,6 +506,7 @@ static void UnsubclassMessageEdit(HWND hwnd) {
 }
 
 static void SubclassLogEdit(HWND hwnd) {
+	RichUtil_SubClass(hwnd);
 	mir_subclassWindow(hwnd, LogEditSubclassProc);
 	SendMessage(hwnd, EM_SUBCLASSED, 0, 0);
 }
@@ -858,8 +862,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			/* get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF */
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_LIMITTEXT, (WPARAM) sizeof(TCHAR) * 0x7FFFFFFF, 0);
-			RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_MESSAGE));
-			RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_LOG));
 			SubclassLogEdit(GetDlgItem(hwndDlg, IDC_LOG));
 			SubclassMessageEdit(GetDlgItem(hwndDlg, IDC_MESSAGE));
 			dat->infobarData = CreateInfobar(hwndDlg, dat);

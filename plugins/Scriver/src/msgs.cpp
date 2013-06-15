@@ -572,7 +572,8 @@ int OnLoadModule(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////// 
 
-CREOleCallback reOleCallback, reOleCallback2;
+CREOleCallback  reOleCallback;
+CREOleCallback2 reOleCallback2;
 
 STDMETHODIMP CREOleCallback::QueryInterface(REFIID riid, LPVOID * ppvObj) 
 { 
@@ -659,3 +660,10 @@ STDMETHODIMP CREOleCallback::ShowContainerUI(BOOL fShow)
 {
 	return S_OK;
 }
+
+STDMETHODIMP CREOleCallback2::QueryAcceptData(LPDATAOBJECT lpdataobj, CLIPFORMAT * lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict)
+{
+	*lpcfFormat = CF_TEXT;
+	return S_OK;
+}
+
