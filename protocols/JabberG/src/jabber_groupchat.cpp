@@ -1250,7 +1250,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	if (m_options.GcLogChatHistory) {
 		char setting[JABBER_MAX_JID_LEN + 14 + 1];
 		mir_snprintf(setting, sizeof(setting), "muc_%s_lastevent", _T2A(gcd.ptszID));
-		this->JSetDword(NULL, setting, msgTime);
+		this->JSetDword(NULL, setting, msgTime + _timezone);
 	}
 
 	if (resource != NULL) {
