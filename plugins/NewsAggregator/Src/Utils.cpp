@@ -953,8 +953,10 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									olddbei.pBlob = (PBYTE)mir_alloc(olddbei.cbBlob);
 									db_event_get(hDbEvent, &olddbei);
 									char *pszTemp = mir_utf8encodeT(message);
-									if (olddbei.cbBlob == lstrlenA(pszTemp) + 1 && !lstrcmpA((char *)olddbei.pBlob, pszTemp))
+									if (olddbei.cbBlob == lstrlenA(pszTemp) + 1 && !lstrcmpA((char *)olddbei.pBlob, pszTemp)) {
 										MesExist = TRUE;
+										break;
+									}
 									hDbEvent = db_event_next(hDbEvent);
 									mir_free(olddbei.pBlob);
 									mir_free(pszTemp);
