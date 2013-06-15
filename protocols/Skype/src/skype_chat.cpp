@@ -492,7 +492,7 @@ void ChatRoom::RemoveMember(const ChatMember &item, DWORD timestamp)
 		ChatMember *member = this->FindChatMember(item.GetSid());
 		if (member != NULL)
 		{
-			this->SendEvent(*member, GC_EVENT_QUIT, timestamp);
+			this->SendEvent(*member, GC_EVENT_PART, timestamp);
 			this->members.remove(member);
 			delete member;
 		}
@@ -675,7 +675,7 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 
 			Message::CONSUMPTION_STATUS status;
 			message->GetPropConsumptionStatus(status);
-			if (status == Message::UNCONSUMED_NORMAL)
+			if (status != Message::CONSUMED)
 			{
 				uint timestamp;
 				message->GetPropTimestamp(timestamp);
