@@ -28,6 +28,7 @@ public:
 	__inline operator INT_PTR() const { return (INT_PTR)data; }
 };
 
+typedef mir_ptr<char>  ptrA;
 typedef mir_ptr<TCHAR> ptrT;
 
 struct VARST : public ptrT
