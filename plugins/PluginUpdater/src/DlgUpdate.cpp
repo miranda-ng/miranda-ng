@@ -130,6 +130,13 @@ LBL_Exit:
 			SafeDeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
 	}
 
+	// Change title of clist
+	#if MIRANDA_VER < 0x0A00
+		ptrT title = db_get_tsa(NULL, "CList", "TitleText");
+		if (!_tcsicmp(title, _T("Miranda IM")))
+			db_set_ts(NULL, "CList", "TitleText", _T("Miranda NG"));
+	#endif
+
 	db_set_b(NULL, MODNAME, "RestartCount", 2);
 	CallFunctionAsync(RestartMe, 0);
 	goto LBL_Exit;
