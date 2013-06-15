@@ -411,7 +411,7 @@ BOOL CMraProto::MraFilesQueueHandCheck(HANDLE hConnection, MRA_FILES_QUEUE_ITEM 
 			dwBuffSize = mir_snprintf((LPSTR)btBuff, SIZEOF(btBuff), "%s %s", MRA_FT_HELLO, szEMailMy)+1;
 			if (dwBuffSize == Netlib_Send(hConnection, (LPSTR)btBuff, (int)dwBuffSize, 0))
 			{// my email sended
-				ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)dat->dwIDRequest, 0);
+				ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)dat->dwIDRequest, 0);
 				dwBuffSize = Netlib_Recv(hConnection, (LPSTR)btBuff, sizeof(btBuff), 0);
 				if ((dwEMailSize+sizeof(MRA_FT_HELLO)+1) == dwBuffSize)
 				{// email received
@@ -424,7 +424,7 @@ BOOL CMraProto::MraFilesQueueHandCheck(HANDLE hConnection, MRA_FILES_QUEUE_ITEM 
 			dwBuffSize = Netlib_Recv(hConnection, (LPSTR)btBuff, sizeof(btBuff), 0);
 			if ((dwEMailSize+sizeof(MRA_FT_HELLO)+1) == dwBuffSize)
 			{// email received
-				ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)dat->dwIDRequest, 0);
+				ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)dat->dwIDRequest, 0);
 				mir_snprintf(((LPSTR)btBuff+dwBuffSize), (SIZEOF(btBuff)-dwBuffSize), "%s %s", MRA_FT_HELLO, szEMail);
 				if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, (LPSTR)btBuff, dwBuffSize, ((LPSTR)btBuff+dwBuffSize), dwBuffSize) == CSTR_EQUAL)
 				{// email verified
@@ -482,7 +482,7 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 			// Set up the sockaddr structure
 			for (size_t i = 0;i<dat->malAddrList.dwAddrCount;i++) {
 				if (dwLocalPort == dat->malAddrList.pmaliAddress[i].dwPort || bFiltering == FALSE) {
-					ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)dat->dwIDRequest, 0);
+					ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)dat->dwIDRequest, 0);
 
 					nloc.szHost = inet_ntoa((*((in_addr*)&dat->malAddrList.pmaliAddress[i].dwAddr)));
 					nloc.wPort = (WORD)dat->malAddrList.pmaliAddress[i].dwPort;
@@ -494,7 +494,7 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 						while (--dwCurConnectReTryCount && dat->hConnection == NULL);
 
 					if (dat->hConnection) {
-						ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
+						ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 						if (MraFilesQueueHandCheck(dat->hConnection, dat)) {
 							// связь установленная с тем кем нужно
 							mraSetDword(dat->hContact, "OldIP", mraGetDword(dat->hContact, "IP", 0));
@@ -553,7 +553,7 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 
 			dat->hListen = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlibUser, (LPARAM)&nlbBind);
 			if (dat->hListen) {
-				ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_LISTENING, (HANDLE)dat->dwIDRequest, 0);
+				ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_LISTENING, (HANDLE)dat->dwIDRequest, 0);
 				dwAddrListSize = MraFilesQueueGetLocalAddressesList(szAddrList, sizeof(szAddrList), nlbBind.wPort);
 			}
 			// не смогли слушать порт, хз почему.
@@ -786,12 +786,12 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 			}else {
 				if (InterlockedExchangeAdd((volatile LONG*)&dat->bIsWorking, 0))
 				{
-					ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKRESULT_CONNECTPROXY, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
+					ProtoBroadcastAck(dat->hContact, ACKRESULT_CONNECTPROXY, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 					if (MraMrimProxyConnect(dat->hMraMrimProxyData, &dat->hConnection) == NO_ERROR)
 					{// подключились к прокси, проверяем та ли сессия (ещё раз, на этот раз сами)
 						if (MraFilesQueueHandCheck(dat->hConnection, dat))
 						{// связь установленная с тем кем нужно// dat->bSending
-							ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
+							ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 							bConnected = TRUE;
 						}
 					}
@@ -823,9 +823,9 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 				}
 
 				//***deb add
-				//dwBuffSizeUsed = ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
+				//dwBuffSizeUsed = ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
 
-				ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)dat->dwIDRequest, 0);
+				ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)dat->dwIDRequest, 0);
 
 				//dwBuffSizeUsed = (mir_snprintf((LPSTR)btBuff, SIZEOF(btBuff), "%s %S", MRA_FT_GET_FILE, dat->pmfqfFiles[i].lpwszName)+1);
 				memmove(btBuff, MRA_FT_GET_FILE, sizeof(MRA_FT_GET_FILE));
@@ -856,7 +856,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 							dwUpdateTimeNext = GetTickCount();
 							nls.dwTimeout = (1000*mraGetDword(NULL, "TimeOutReceiveFileData", MRA_DEF_FS_TIMEOUT_RECV));
 							nls.hReadConns[0] = dat->hConnection;
-							ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
+							ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
 
 							while (bContinue)
 							{
@@ -885,7 +885,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 											if (dwUpdateTimeNext <= dwUpdateTimeCur || pfts.currentFileProgress >= dat->pmfqfFiles[i].dwSize)
 											{// we update it
 												dwUpdateTimeNext = dwUpdateTimeCur+MRA_FILES_QUEUE_PROGRESS_INTERVAL;
-												ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
+												ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
 
 												if (pfts.currentFileProgress >= dat->pmfqfFiles[i].dwSize)
 												{// file received
@@ -942,9 +942,9 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 			if (mraGetStaticStringA(dat->hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize))
 				MraFileTransferAck(FILE_TRANSFER_STATUS_ERROR, szEMail, dwEMailSize, dat->dwIDRequest, NULL, 0);
 
-			ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)dat->dwIDRequest, 0);
+			ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)dat->dwIDRequest, 0);
 		}
-		else ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)dat->dwIDRequest, 0);
+		else ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)dat->dwIDRequest, 0);
 
 		mt_lock l(pmrafqFilesQueue);
 		MraFilesQueueItemFree(dat);
@@ -1044,12 +1044,12 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 		bConnected = TRUE;
 	else {
 		if (InterlockedExchangeAdd((volatile LONG*)&dat->bIsWorking, 0)) {
-			ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKRESULT_CONNECTPROXY, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
+			ProtoBroadcastAck(dat->hContact, ACKRESULT_CONNECTPROXY, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 			if (MraMrimProxyConnect(dat->hMraMrimProxyData, &dat->hConnection) == NO_ERROR) {
 				// подключились к прокси, проверяем та ли сессия (ещё раз, на этот раз сами)
 				if (MraFilesQueueHandCheck(dat->hConnection, dat)) {
 					// связь установленная с тем кем нужно// dat->bSending
-					ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
+					ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 					bConnected = TRUE;
 				}
 			}
@@ -1059,7 +1059,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 	if (bConnected) { // email verified
 		bFailed = FALSE;
 		for (i = 0; i < dat->dwFilesCount; i++) { // sending files
-			ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)dat->dwIDRequest, 0);
+			ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)dat->dwIDRequest, 0);
 
 			dwBuffSizeUsed = 0;
 			while (TRUE) {
@@ -1107,7 +1107,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 							//pfts.currentFileTime;  //as seconds since 1970
 
 							WideCharToMultiByte(MRA_CODE_PAGE, 0, dat->pmfqfFiles[j].lpwszName, dat->pmfqfFiles[j].dwNameLen, szFileName, SIZEOF(szFileName), NULL, NULL);
-							ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
+							ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
 
 							while (TRUE) { // read and sending
 								if (ReadFile(hFile, btBuff, dwSendBlockSize, (DWORD*)&dwBuffSizeUsed, NULL)) {
@@ -1121,7 +1121,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 										if (dwUpdateTimeNext <= dwUpdateTimeCur || pfts.currentFileProgress >= dat->pmfqfFiles[j].dwSize) { // we update it
 											dwUpdateTimeNext = dwUpdateTimeCur+MRA_FILES_QUEUE_PROGRESS_INTERVAL;
 
-											ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
+											ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
 
 											if (pfts.currentFileProgress >= dat->pmfqfFiles[j].dwSize) { // file received
 												bOK = TRUE;
@@ -1187,9 +1187,9 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 		if (mraGetStaticStringA(dat->hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize))
 			MraFileTransferAck(FILE_TRANSFER_STATUS_ERROR, szEMail, dwEMailSize, dat->dwIDRequest, NULL, 0);
 
-		ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)dat->dwIDRequest, 0);
+		ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)dat->dwIDRequest, 0);
 	}
-	else ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)dat->dwIDRequest, 0);
+	else ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)dat->dwIDRequest, 0);
 
 	mt_lock l(pmrafqFilesQueue);
 	MraFilesQueueItemFree(dat);

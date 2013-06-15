@@ -168,7 +168,7 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 		return;
 	}
 
-	//    ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	//    ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 
 	LOG(("yahoo_recv_avatarthread who:%s url:%s checksum: %d", avt->who, avt->pic_url, avt->cksum));
 
@@ -254,7 +254,7 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 	if (error)
 		SetDword(hContact, "PictCK", 0);
 
-	ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, !error ? ACKRESULT_SUCCESS:ACKRESULT_FAILED,(HANDLE) &AI, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, !error ? ACKRESULT_SUCCESS:ACKRESULT_FAILED,(HANDLE) &AI, 0);
 }
 
 void CYahooProto::ext_got_picture(const char *me, const char *who, const char *pic_url, int cksum, int type)
@@ -577,7 +577,7 @@ void CYahooProto::reset_avatar(HANDLE hContact)
 {
 	LOG(("[YAHOO_RESET_AVATAR]"));
 
-	ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 }
 
 void CYahooProto::request_avatar(const char* who)

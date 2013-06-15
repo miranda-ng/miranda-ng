@@ -1106,7 +1106,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 										szLastName[dwStringSize] = 0;
 									}
 								}// end for
-								ProtoBroadcastAck(m_szModuleName, hContact, dwAckType, ACKRESULT_DATA, (HANDLE)pmaHeader->seq, (LPARAM)&psr);
+								ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_DATA, (HANDLE)pmaHeader->seq, (LPARAM)&psr);
 							}
 						}// end while
 

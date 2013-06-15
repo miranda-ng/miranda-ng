@@ -82,7 +82,7 @@ void CAimProto::broadcast_status(int status)
 		admin_seqno = 0;
 
 	}
-	sendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);	
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);	
 }
 
 void CAimProto::start_connection(void *arg)
@@ -803,11 +803,6 @@ void CAimProto::setWord(const char* name, WORD value)
 
 void CAimProto::setWord(HANDLE hContact, const char* name, WORD value)
 {	db_set_w(hContact, m_szModuleName, name, value);
-}
-
-int  CAimProto::sendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
-{
-	return ProtoBroadcastAck(m_szModuleName, hContact, type, result, hProcess, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

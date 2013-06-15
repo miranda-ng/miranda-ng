@@ -629,7 +629,7 @@ int CMraProto::SetStatus(int iNewStatus)
 		}
 	}
 	MraSetContactStatus(NULL, m_iStatus);
-	ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)dwOldStatusMode, m_iStatus);
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)dwOldStatusMode, m_iStatus);
 	return 0;
 }
 

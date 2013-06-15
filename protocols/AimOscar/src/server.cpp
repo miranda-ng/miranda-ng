@@ -548,7 +548,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 									db_set_utf(hContact, MOD_KEY_CL, OTH_KEY_SM, msg_s);
 
 									TCHAR* tszMsg = mir_utf8decodeT(msg_s);
-									sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)tszMsg);
+									ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)tszMsg);
 									mir_free(tszMsg);
 									mir_free(msg);
 									mir_free(msg_s);
@@ -1447,7 +1447,7 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 				LOG("File transfer cancelled or denied.");
 
 				file_transfer* ft = ft_list.find_by_cookie(icbm_cookie, hContact);
-				sendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_DENIED, ft, 0);
+				ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_DENIED, ft, 0);
 				ft_list.remove_by_ft(ft);
 			}
 			else if (rdz_msg_type == 2)//buddy accepts our file transfer request
@@ -1511,7 +1511,7 @@ void CAimProto::snac_file_decline(SNAC &snac)//family 0x0004
 					file_transfer *ft = ft_list.find_by_cookie(icbm_cookie, hContact);
 					if (ft)
 					{
-						sendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_DENIED, ft, 0);
+						ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_DENIED, ft, 0);
 						if (ft->hConn) Netlib_Shutdown(ft->hConn);
 						else ft_list.remove_by_ft(ft);
 					}
@@ -1944,13 +1944,13 @@ void CAimProto::snac_email_search_results(SNAC &snac)//family 0x000A
 			offset+=TLV_HEADER_SIZE;
 			psr.id = (TCHAR*)tlv.dup();
 			offset+=tlv.len();
-			sendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
 			mir_free(psr.nick);
 		}
-		sendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 	}
 	else // If no match, stop the search.
-		CAimProto::sendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+		CAimProto::ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 }
 
 void CAimProto::snac_chatnav_info_response(SNAC &snac,HANDLE hServerConn,unsigned short &seqno)//family 0x000D
@@ -2256,7 +2256,7 @@ void CAimProto::snac_admin_account_infomod(SNAC &snac)//family 0x0007
 				setString(AIM_KEY_EM,email); // Save our email for future reference.
 			if (sn)
 				setString(AIM_KEY_SN,sn); // Update the database to reflect the formatted name.
-			sendBroadcast( NULL, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0 );
+			ProtoBroadcastAck( NULL, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0 );
 			
 		}
 		else if (snac.subcmp(0x0005) && !err) // Changed info

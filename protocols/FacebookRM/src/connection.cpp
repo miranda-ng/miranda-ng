@@ -49,7 +49,7 @@ void FacebookProto::ChangeStatus(void*)
 		facy.buddies.clear();
 		facy.messages_ignore.clear();
 
-		ProtoBroadcastAck(m_szModuleName, 0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 		OnLeaveChat(NULL, NULL);
 
@@ -74,7 +74,7 @@ void FacebookProto::ChangeStatus(void*)
 		LOG("***** Beginning SignOn process");
 
 		m_iStatus = facy.self_.status_id = ID_STATUS_CONNECTING;
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 		ResetEvent(update_loop_lock_);
 
@@ -101,12 +101,11 @@ void FacebookProto::ChangeStatus(void*)
 				ForkThread(&FacebookProto::SetAwayMsgWorker, this, NULL);
 			}
 		} else {
-			ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_FAILED,
-				(HANDLE)old_status,m_iStatus);
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)old_status, m_iStatus);
 
 			// Set to offline
 			m_iStatus = m_iDesiredStatus = facy.self_.status_id = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(m_szModuleName, 0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 			LOG("***** SignOn failed");
 
@@ -126,7 +125,7 @@ void FacebookProto::ChangeStatus(void*)
 	facy.buddy_list();
 
 	m_iStatus = facy.self_.status_id = m_iDesiredStatus;
-	ProtoBroadcastAck(m_szModuleName, 0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 	LOG("***** ChangeStatus complete");
 }

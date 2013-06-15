@@ -231,12 +231,12 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 				pai.hContact = hContact;
 				INT_PTR res = getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
 				if (res == GAIR_NOAVATAR){
-					ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
+					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
 				} else if (res == GAIR_SUCCESS) {
-					ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
 				} //if GAIR_WAITFOR -> ignore
 			} else {
-				ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0, 0);
+				ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0, 0);
 			}
 		} else {
 			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 3, 2, "avatar_mutex", 1);
@@ -300,7 +300,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			}
 			else netlog("avatarrequestthread(): No response from HTTP request");
 
-			ProtoBroadcastAck(m_szModuleName, pai.hContact, ACKTYPE_AVATAR,
+			ProtoBroadcastAck(pai.hContact, ACKTYPE_AVATAR,
 				result ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&pai, 0);
 
 			if (!pai.hContact)

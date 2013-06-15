@@ -84,7 +84,7 @@ void FacebookProto::CheckAvatarChange(HANDLE hContact, std::string image_url)
 		if (hContact)
 		{
 			db_set_b(hContact, "ContactPhoto", "NeedUpdate", 1);
-			ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 		}
 		else
 		{
@@ -119,7 +119,7 @@ void FacebookProto::UpdateAvatarWorker(void *)
 			bool success = facy.save_url(url, ai.filename, nlc);
 
 			if (ai.hContact)
-				ProtoBroadcastAck(m_szModuleName, ai.hContact, ACKTYPE_AVATAR, success ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&ai, 0);
+				ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, success ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&ai, 0);
 			else if (success)
 				CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 		}

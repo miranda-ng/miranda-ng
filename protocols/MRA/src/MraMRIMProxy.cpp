@@ -123,7 +123,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 				// через https прокси только 443 порт
 				if ((pmmpd->malAddrList.pmaliAddress[i].dwPort == MRA_SERVER_PORT_HTTPS && bIsHTTPSProxyUsed) || bIsHTTPSProxyUsed == FALSE) {
 					if (pmmpd->dwDataType == MRIM_PROXY_TYPE_FILES)
-						ProtoBroadcastAck(m_szModuleName, MraHContactFromEmail(pmmpd->lpszEMail, pmmpd->dwEMailSize, FALSE, TRUE, NULL), ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)pmmpd->dwIDRequest, 0);
+						ProtoBroadcastAck(MraHContactFromEmail(pmmpd->lpszEMail, pmmpd->dwEMailSize, FALSE, TRUE, NULL), ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)pmmpd->dwIDRequest, 0);
 
 					nloc.szHost = inet_ntoa((*((in_addr*)&pmmpd->malAddrList.pmaliAddress[i].dwAddr)));
 					nloc.wPort = (WORD)pmmpd->malAddrList.pmaliAddress[i].dwPort;
@@ -142,7 +142,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 						dwRcvBuffSizeUsed = 0;
 
 						if (pmmpd->dwDataType == MRIM_PROXY_TYPE_FILES)
-							ProtoBroadcastAck(m_szModuleName, MraHContactFromEmail(pmmpd->lpszEMail, pmmpd->dwEMailSize, FALSE, TRUE, NULL), ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)pmmpd->dwIDRequest, 0);
+							ProtoBroadcastAck(MraHContactFromEmail(pmmpd->lpszEMail, pmmpd->dwEMailSize, FALSE, TRUE, NULL), ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)pmmpd->dwIDRequest, 0);
 						MraSendPacket(nls.hReadConns[0], 0, MRIM_CS_PROXY_HELLO, &pmmpd->mguidSessionID, sizeof(MRA_GUID));
 
 						while (bContinue) {

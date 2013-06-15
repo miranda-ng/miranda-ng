@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_PROTOINT_H__ 1
 
 #include <m_system_cpp.h>
+#include <m_protomod.h>
 
 typedef enum
 {
@@ -52,6 +53,11 @@ struct  PROTO_INTERFACE : public MZeroedObject
 	TCHAR* m_tszUserName;
 	char*  m_szModuleName;
 	HANDLE m_hProtoIcon;
+
+	DWORD  __forceinline ProtoBroadcastAck(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
+	{
+		return ::ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam);
+	}
 
 	virtual	HANDLE   __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr) = 0;
 	virtual	HANDLE   __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) = 0;

@@ -340,7 +340,7 @@ DWORD_PTR __cdecl CYahooProto::GetCaps( int type, HANDLE /*hContact*/ )
 void __cdecl CYahooProto::get_info_thread(HANDLE hContact)
 {
 	SleepEx(500, TRUE);
-	ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 }
 
 int __cdecl CYahooProto::GetInfo( HANDLE hContact, int /*infoType*/ )
@@ -452,7 +452,7 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 				err++;
 			db_free(&dbv);
 		} else {
-			ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 			err++;
 		}
 
@@ -468,7 +468,7 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 
 				db_free(&dbv);
 			}  else  {
-				ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 				err++;
 			}
 

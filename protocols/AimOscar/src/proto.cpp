@@ -365,15 +365,15 @@ void __cdecl CAimProto::basic_search_ack_success(void* p)
 	{
 		if (strlen(sn) > 32)
 		{
-			sendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 		}
 		else
 		{
 			PROTOSEARCHRESULT psr = {0};
 			psr.cbSize = sizeof(psr);
 			psr.id = (TCHAR*)sn;
-			sendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
-			sendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 		}
 	}
 	mir_free(sn);
@@ -554,7 +554,7 @@ void __cdecl CAimProto::msg_ack_success(void* param)
 	msg_ack_param *msg_ack = (msg_ack_param*)param;
 
 	Sleep(150);
-	sendBroadcast(msg_ack->hContact, ACKTYPE_MESSAGE,
+	ProtoBroadcastAck(msg_ack->hContact, ACKTYPE_MESSAGE,
 		msg_ack->success ? ACKRESULT_SUCCESS : ACKRESULT_FAILED,
 		(HANDLE)msg_ack->id, (LPARAM)msg_ack->msg);
 
@@ -723,10 +723,10 @@ void __cdecl CAimProto::get_online_msg_thread(void* arg)
 	const HANDLE hContact = arg;
 	DBVARIANT dbv;
 	if (!db_get_ts(hContact, MOD_KEY_CL, OTH_KEY_SM, &dbv)) {
-		sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	else ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
 HANDLE __cdecl CAimProto::GetAwayMsg(HANDLE hContact)
@@ -753,7 +753,7 @@ HANDLE __cdecl CAimProto::GetAwayMsg(HANDLE hContact)
 
 int __cdecl CAimProto::RecvAwayMsg(HANDLE hContact, int statusMode, PROTORECVEVENT* pre)
 {
-	sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)pre->szMessage);
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)pre->szMessage);
 	return 0;
 }
 

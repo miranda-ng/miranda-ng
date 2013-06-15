@@ -74,7 +74,7 @@ void TwitterProto::UpdateInfoWorker(void *hContact)
 	}
 
 	UpdateAvatar(hContact,user.profile_image_url,true);
-	ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_GETINFO,ACKRESULT_SUCCESS,0,0);
+	ProtoBroadcastAck(hContact,ACKTYPE_GETINFO,ACKRESULT_SUCCESS,0,0);
 }
 
 int TwitterProto::GetInfo(HANDLE hContact,int info_type)
@@ -136,15 +136,15 @@ void TwitterProto::DoSearch(void *p)
 		psr.nick = mir_a2t(info.username. c_str());
 		psr.firstName = mir_a2t(info.real_name.c_str());
 
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_SEARCH,ACKRESULT_DATA,(HANDLE)1, (LPARAM)&psr);
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_SEARCH,ACKRESULT_SUCCESS,(HANDLE)1,0);
+		ProtoBroadcastAck(0,ACKTYPE_SEARCH,ACKRESULT_DATA,(HANDLE)1, (LPARAM)&psr);
+		ProtoBroadcastAck(0,ACKTYPE_SEARCH,ACKRESULT_SUCCESS,(HANDLE)1,0);
 
 		mir_free(psr.nick);
 		mir_free(psr.firstName);
 	}
 	else
 	{
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_SEARCH,ACKRESULT_SUCCESS,(HANDLE)1,0);
+		ProtoBroadcastAck(0,ACKTYPE_SEARCH,ACKRESULT_SUCCESS,(HANDLE)1,0);
 	}
 
 	delete query;
@@ -171,10 +171,10 @@ void TwitterProto::GetAwayMsgWorker(void *hContact)
 
 	DBVARIANT dbv;
 	if( !db_get_ts(hContact,"CList","StatusMsg",&dbv)) {
-		ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AWAYMSG,ACKRESULT_SUCCESS, (HANDLE)1,(LPARAM)dbv.ptszVal);
+		ProtoBroadcastAck(hContact,ACKTYPE_AWAYMSG,ACKRESULT_SUCCESS, (HANDLE)1,(LPARAM)dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AWAYMSG,ACKRESULT_FAILED, (HANDLE)1,0);
+	else ProtoBroadcastAck(hContact,ACKTYPE_AWAYMSG,ACKRESULT_FAILED, (HANDLE)1,0);
 }
 
 HANDLE TwitterProto::GetAwayMsg(HANDLE hContact)

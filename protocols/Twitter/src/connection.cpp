@@ -234,12 +234,12 @@ bool TwitterProto::NegotiateConnection()
 			LOG( _T("**NegotiateConnection - We don't have a PIN?  this doesn't make sense.  Resetting OAuth keys and setting offline."));
 			resetOAuthKeys();
 
-			ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_FAILED,(HANDLE)old_status,m_iStatus);
+			ProtoBroadcastAck(0,ACKTYPE_STATUS,ACKRESULT_FAILED,(HANDLE)old_status,m_iStatus);
 
 			// Set to offline
 			old_status = m_iStatus;
 			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
+			ProtoBroadcastAck(0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 
 			return false;
 		}
@@ -261,12 +261,12 @@ bool TwitterProto::NegotiateConnection()
 
 			resetOAuthKeys();
 
-			ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_FAILED,(HANDLE)old_status,m_iStatus);
+			ProtoBroadcastAck(0,ACKTYPE_STATUS,ACKRESULT_FAILED,(HANDLE)old_status,m_iStatus);
 
 			// Set to offline
 			old_status = m_iStatus;
 			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
+			ProtoBroadcastAck(0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 
 			return false;
 		}
@@ -337,19 +337,19 @@ bool TwitterProto::NegotiateConnection()
 		LOG( _T("**NegotiateConnection - Verifying credentials failed!  No internet maybe?"));
 
 		//resetOAuthKeys();
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_FAILED,(HANDLE)old_status,m_iStatus);
+		ProtoBroadcastAck(0,ACKTYPE_STATUS,ACKRESULT_FAILED,(HANDLE)old_status,m_iStatus);
 
 		// Set to offline
 		old_status = m_iStatus;
 		m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
+		ProtoBroadcastAck(0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 
 		return false;
 	}
 	else {
 		m_iStatus = m_iDesiredStatus;
 
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
+		ProtoBroadcastAck(0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 		return true;
 	}
 }
@@ -458,10 +458,10 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 	if(save_url(hAvatarNetlib_,data->url,filename))
 	{
 		db_set_s(data->hContact,m_szModuleName,TWITTER_KEY_AV_URL,data->url.c_str());
-		ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_AVATAR,ACKRESULT_SUCCESS,&ai,0);
+		ProtoBroadcastAck(data->hContact,ACKTYPE_AVATAR,ACKRESULT_SUCCESS,&ai,0);
 	}
 	else
-		ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_AVATAR,ACKRESULT_FAILED, &ai,0);
+		ProtoBroadcastAck(data->hContact,ACKTYPE_AVATAR,ACKRESULT_FAILED, &ai,0);
 	ReleaseMutex(avatar_lock_);
 	LOG( _T("***** Done avatar: %s"),data->url.c_str());
 }
@@ -482,7 +482,7 @@ void TwitterProto::UpdateAvatar(HANDLE hContact,const std::string &url,bool forc
 			PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai),hContact};
 			
 			db_set_s(hContact,m_szModuleName,TWITTER_KEY_AV_URL,url.c_str());
-			ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AVATAR,ACKRESULT_SUCCESS,&ai,0);
+			ProtoBroadcastAck(hContact,ACKTYPE_AVATAR,ACKRESULT_SUCCESS,&ai,0);
 		}
 		else
 		{

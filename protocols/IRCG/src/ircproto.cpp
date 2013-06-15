@@ -565,13 +565,12 @@ struct AckBasicSearchParam
 
 void __cdecl CIrcProto::AckBasicSearch( void* param )
 {
-	PROTOSEARCHRESULT psr = { 0 };
-	psr.cbSize = sizeof(psr);
+	PROTOSEARCHRESULT psr = { sizeof(psr) };
 	psr.flags = PSR_TCHAR;
 	psr.id = (( AckBasicSearchParam* )param )->buf;
 	psr.nick = (( AckBasicSearchParam* )param )->buf;
-	ProtoBroadcastAck( m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
-	ProtoBroadcastAck( m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 	delete param;
 }
 
@@ -808,18 +807,18 @@ struct TFakeAckParam
 
 void __cdecl CIrcProto::AckMessageFail(void *info)
 {
-	ProtoBroadcastAck(m_szModuleName, info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The protocol is not online"));
+	ProtoBroadcastAck( info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The protocol is not online"));
 }
 
 void __cdecl CIrcProto::AckMessageFailDcc(void *info)
 {
-	ProtoBroadcastAck(m_szModuleName, info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The dcc chat connection is not active"));
+	ProtoBroadcastAck( info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The dcc chat connection is not active"));
 }
 
 void __cdecl CIrcProto::AckMessageSuccess(void *info)
 {
 	TFakeAckParam *param = (TFakeAckParam*)info;
-	ProtoBroadcastAck(m_szModuleName, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)param->msgid, 0);
+	ProtoBroadcastAck( param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)param->msgid, 0);
 	delete param;
 }
 

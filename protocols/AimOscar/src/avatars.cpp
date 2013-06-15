@@ -75,7 +75,7 @@ void CAimProto::avatar_request_handler(HANDLE hContact, char* hash, unsigned cha
 			setByte(hContact, AIM_KEY_AHT, type);
 			setString(hContact, AIM_KEY_AH, hash);
 
-			sendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 		}
 	}
 	else
@@ -85,7 +85,7 @@ void CAimProto::avatar_request_handler(HANDLE hContact, char* hash, unsigned cha
 			deleteSetting(hContact, AIM_KEY_AHT);
 			deleteSetting(hContact, AIM_KEY_AH);
 
-			sendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 		}
 	}
 	mir_free(saved_hash);
@@ -123,7 +123,7 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* hash, const
 	else
 		LOG("AIM sent avatar of zero length for %s.(Usually caused by repeated request for the same icon)", sn);
 
-	sendBroadcast(AI.hContact, ACKTYPE_AVATAR, res ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &AI, 0);
+	ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, res ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &AI, 0);
 }
 
 int detect_image_type(const char* stream, const TCHAR* &type_ret)

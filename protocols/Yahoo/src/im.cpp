@@ -156,20 +156,20 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 
 void __cdecl CYahooProto::im_sendacksuccess(HANDLE hContact)
 {
-	ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 }
 
 void __cdecl CYahooProto::im_sendackfail(HANDLE hContact)
 {
 	SleepEx(1000, TRUE);
-	ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE) 1, 
+	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE) 1, 
 						(LPARAM) Translate("The message send timed out."));
 }
 
 void __cdecl CYahooProto::im_sendackfail_longmsg(HANDLE hContact)
 {
 	SleepEx(1000, TRUE);
-	ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE) 1, 
+	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE) 1, 
 						(LPARAM)Translate("Message is too long: Yahoo messages are limited by 800 UTF8 chars"));
 }
 

@@ -560,7 +560,7 @@ retry:
 			case GG_EVENT_ACK:
 				if (e->event.ack.seq && e->event.ack.recipient)
 				{
-					ProtoBroadcastAck(m_szModuleName, getcontact((DWORD)e->event.ack.recipient, 0, 0, NULL),
+					ProtoBroadcastAck(getcontact((DWORD)e->event.ack.recipient, 0, 0, NULL),
 						ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) e->event.ack.seq, 0);
 				}
 				break;
@@ -677,7 +677,7 @@ retry:
 							sr.email = strFmt2;
 							sr.id = _ultot(uin, strFmt1, 10);
 							sr.uin = uin;
-							ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM)&sr);
+							ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM)&sr);
 						}
 
 						if (((res->seq == GG_SEQ_INFO || res->seq == GG_SEQ_GETNICK) && hContact != NULL)
@@ -755,7 +755,7 @@ retry:
 							}
 
 							netlog("mainthread() (%x): Setting user info for uin %d.", this, uin);
-							ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+							ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 						}
 
 						if (__nickname) mir_free(__nickname);
@@ -768,7 +768,7 @@ retry:
 					}
 				}
 				if (res->seq == GG_SEQ_SEARCH)
-					ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+					ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 				break;
 			}
 
@@ -1101,7 +1101,7 @@ retry:
 					if (dcc7->type == GG_SESSION_DCC7_SEND)
 					{
 						netlog("mainthread() (%x): File transfer denied by client %d (reason = %d).", this, dcc7->peer_uin, e->event.dcc7_reject.reason);
-						ProtoBroadcastAck(m_szModuleName, dcc7->contact, ACKTYPE_FILE, ACKRESULT_DENIED, dcc7, 0);
+						ProtoBroadcastAck(dcc7->contact, ACKTYPE_FILE, ACKRESULT_DENIED, dcc7, 0);
 
 						// Remove from watches and free
 						gg_EnterCriticalSection(&ft_mutex, "mainthread", 21, "ft_mutex", 1);
@@ -1162,7 +1162,7 @@ retry:
 					}
 
 					if (dcc7->contact)
-						ProtoBroadcastAck(m_szModuleName, dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
+						ProtoBroadcastAck(dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
 
 					// Free dcc
 					gg_dcc7_free(dcc7);
@@ -1286,7 +1286,7 @@ void GGPROTO::broadcastnewstatus(int newStatus)
 	m_iStatus = newStatus;
 	gg_LeaveCriticalSection(&modemsg_mutex, "broadcastnewstatus", 24, 2, "modemsg_mutex", 1);
 
-	ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, newStatus);
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, newStatus);
 
 	netlog("broadcastnewstatus(): Broadcast new status: %d.", newStatus);
 }

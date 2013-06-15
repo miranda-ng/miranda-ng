@@ -98,7 +98,7 @@ void __cdecl GGPROTO::ftfailthread(void *param)
 	struct ftfaildata *ft = (struct ftfaildata *)param;
 	netlog("ftfailthread(): started. Sending failed file transfer.");
 	gg_sleep(100, FALSE, "ftfailthread", 102, 1);
-	ProtoBroadcastAck(m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft->hProcess, 0);
+	ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft->hProcess, 0);
 	free(ft);
 	netlog("ftfailthread(): end.");
 }
@@ -286,7 +286,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								pfts.currentFileProgress = local_dcc->offset;
 								pfts.currentFileTime = 0;
 								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 3, "ft_mutex", 1);
-								ProtoBroadcastAck(m_szModuleName, local_dcc->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc, (LPARAM)&pfts);
+								ProtoBroadcastAck(local_dcc->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc, (LPARAM)&pfts);
 								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 							}
 							break;
@@ -317,11 +317,11 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								pfts.currentFileProgress = local_dcc->file_info.size;
 								pfts.currentFileTime = 0;
 								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 4, "ft_mutex", 1);
-								ProtoBroadcastAck(m_szModuleName, local_dcc->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc, (LPARAM)&pfts);
+								ProtoBroadcastAck(local_dcc->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc, (LPARAM)&pfts);
 								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 								_close(local_dcc->file_fd); local_dcc->file_fd = -1;
 								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 5, "ft_mutex", 1);
-								ProtoBroadcastAck(m_szModuleName, local_dcc->contact, ACKTYPE_FILE, ACKRESULT_SUCCESS, local_dcc, 0);
+								ProtoBroadcastAck(local_dcc->contact, ACKTYPE_FILE, ACKRESULT_SUCCESS, local_dcc, 0);
 								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 							}
 							// Free dcc
@@ -361,7 +361,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							{
 								_close(local_dcc->file_fd); local_dcc->file_fd = -1;
 								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 6, "ft_mutex", 1);
-								ProtoBroadcastAck(m_szModuleName, local_dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, local_dcc, 0);
+								ProtoBroadcastAck(local_dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, local_dcc, 0);
 								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 							}
 							// Free dcc
@@ -516,7 +516,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								pfts.currentFileProgress = local_dcc7->offset;
 								pfts.currentFileTime = 0;
 								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 9, "ft_mutex", 1);
-								ProtoBroadcastAck(m_szModuleName, local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc7, (LPARAM)&pfts);
+								ProtoBroadcastAck(local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc7, (LPARAM)&pfts);
 								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 							}
 							break;
@@ -547,11 +547,11 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								pfts.currentFileProgress = local_dcc7->size;
 								pfts.currentFileTime = 0;
 								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 10, "ft_mutex", 1);
-								ProtoBroadcastAck(m_szModuleName, local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc7, (LPARAM)&pfts);
+								ProtoBroadcastAck(local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc7, (LPARAM)&pfts);
 								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 								_close(local_dcc7->file_fd); local_dcc7->file_fd = -1;
 								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 11, "ft_mutex", 1);
-								ProtoBroadcastAck(m_szModuleName, local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_SUCCESS, local_dcc7, 0);
+								ProtoBroadcastAck(local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_SUCCESS, local_dcc7, 0);
 								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 							}
 							// Free dcc
@@ -595,7 +595,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 
 							if (local_dcc7->contact) {
 								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 12, "ft_mutex", 1);
-								ProtoBroadcastAck(m_szModuleName, local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, local_dcc7, 0);
+								ProtoBroadcastAck(local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, local_dcc7, 0);
 								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 							}
 
@@ -684,7 +684,7 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 		TCHAR error[512];
 		mir_sntprintf(error, SIZEOF(error), TranslateT("Can not create transfer file. ERROR: %d: %s (dcc)\n%s"), errno, _tcserror(errno), szPath);
 		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
-		ProtoBroadcastAck(m_szModuleName, dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc, 0);
+		ProtoBroadcastAck(dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc, 0);
 		// Free transfer
 		gg_free_dcc(dcc);
 		return 0;
@@ -722,7 +722,7 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 	if (iFtRemoveRes == -1)
 	{
 		netlog("dcc7fileallow(): File transfer denied.");
-		ProtoBroadcastAck(m_szModuleName, dcc7->contact, ACKTYPE_FILE, ACKRESULT_DENIED, dcc7, 0);
+		ProtoBroadcastAck(dcc7->contact, ACKTYPE_FILE, ACKRESULT_DENIED, dcc7, 0);
 		// Free transfer
 		gg_dcc7_free(dcc7);
 		return 0;
@@ -736,7 +736,7 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 		mir_sntprintf(error, SIZEOF(error), TranslateT("Can not create transfer file. ERROR: %d: %s (dcc7)\n%s"), errno, _tcserror(errno), szPath);
 		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 		gg_dcc7_reject(dcc7, GG_DCC7_REJECT_USER);
-		ProtoBroadcastAck(m_szModuleName, dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
+		ProtoBroadcastAck(dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
 		// Free transfer
 		gg_dcc7_free(dcc7);
 		return 0;
@@ -807,7 +807,7 @@ int GGPROTO::dccfilecancel(HANDLE hTransfer)
 	gg_LeaveCriticalSection(&ft_mutex, "dccfilecancel", 44, 1, "ft_mutex", 1);
 
 	// Send failed info
-	ProtoBroadcastAck(m_szModuleName, dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc, 0);
+	ProtoBroadcastAck(dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc, 0);
 	// Close file
 	if (dcc->file_fd != -1)
 	{
@@ -837,7 +837,7 @@ int GGPROTO::dcc7filecancel(HANDLE hTransfer)
 	gg_LeaveCriticalSection(&ft_mutex, "dcc7filecancel", 45, 1, "ft_mutex", 1);
 
 	// Send failed info
-	ProtoBroadcastAck(m_szModuleName, dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
+	ProtoBroadcastAck(dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
 	// Close file
 	if (dcc7->file_fd != -1)
 	{

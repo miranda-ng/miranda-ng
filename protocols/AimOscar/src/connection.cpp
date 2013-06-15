@@ -147,11 +147,11 @@ void CAimProto::aim_connection_authorization(void)
 							return;
 
 						case 2:
-							sendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+							ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 							goto exit;
 
 						case 3:
-							sendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
+							ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
 							goto exit;
 						}
 					}
@@ -271,7 +271,7 @@ void __cdecl CAimProto::aim_protocol_negotiation( void* )
 				}
 				else if (flap.cmp(0x04))
 				{
-					sendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
+					ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
 					LOG("Connection Negotiation Thread Ending: Flap 0x04");
 					goto exit;
 				}

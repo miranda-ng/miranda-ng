@@ -44,12 +44,12 @@ void __cdecl CAimProto::aim_proxy_helper(void* param)
 		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)&packetRecv);
 		if (recvResult == 0) 
 		{
-			sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+			ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 			break;
 		}
 		if (recvResult == SOCKET_ERROR) 
 		{
-			sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+			ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 			break;
 		}
 		if (recvResult > 0) 
@@ -100,7 +100,7 @@ void __cdecl CAimProto::aim_proxy_helper(void* param)
 					ft->accepted = true;
 				}
 
-				sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, ft, 0);
+				ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, ft, 0);
 
 				int i;
 				for (i = 21; --i; )
@@ -111,7 +111,7 @@ void __cdecl CAimProto::aim_proxy_helper(void* param)
 				}
 				if (i == 0) 
 				{
-					sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+					ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 					break;
 				}
 
@@ -123,7 +123,7 @@ void __cdecl CAimProto::aim_proxy_helper(void* param)
 				else 
 					result = receiving_file(ft, hServerPacketRecver, packetRecv);
 
-				sendBroadcast(ft->hContact, ACKTYPE_FILE, result ? ACKRESULT_FAILED : ACKRESULT_SUCCESS, ft, 0);
+				ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, result ? ACKRESULT_FAILED : ACKRESULT_SUCCESS, ft, 0);
 				break;
 			}
 		}

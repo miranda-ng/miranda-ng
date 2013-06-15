@@ -1124,22 +1124,22 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 	
 	if (succ == YAHOO_LOGIN_UNAME) {
 		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed."));
-		ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 	}
 	else if (succ == YAHOO_LOGIN_PASSWD) {
 		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed."));
-		ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 	}
 	else if (succ == YAHOO_LOGIN_LOCK) {
 		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it."), url);
 	}
 	else if (succ == YAHOO_LOGIN_DUPL) {
 		mir_sntprintf(buff, SIZEOF(buff), TranslateT("You have been logged out of the yahoo service, possibly due to a duplicate login."));
-		ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
 	}
 	else if (succ == YAHOO_LOGIN_LOGOFF) {
 		//mir_sntprintf(buff, SIZEOF(buff), TranslateT("You have been logged out of the yahoo service."));
-		//ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
+		//ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
 		return; // we logged out.. so just sign-off..
 	}
 	else if (succ == -1) {

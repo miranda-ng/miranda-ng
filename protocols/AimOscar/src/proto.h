@@ -492,8 +492,6 @@ struct CAimProto : public PROTO_INTERFACE
 	void   setTString(HANDLE hContact, const char* name, const TCHAR* value);
 	void   setWord(const char* name, WORD value);
 	void   setWord(HANDLE hContact, const char* name, WORD value);
-
-	int    sendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 };
 
 #endif

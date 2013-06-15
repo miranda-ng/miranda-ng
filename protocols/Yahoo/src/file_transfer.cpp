@@ -177,11 +177,11 @@ static void upload_file(int id, int fd, int error, void *data)
 			LOG(("proto: %s, hContact: %p", sf->ppro->m_szModuleName, sf->hContact));
 
 			LOG(("Sending file: %s", fi->filename));
-			//ProtoBroadcastAck(m_szModuleName, sf->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, sf, 0);
-			//ProtoBroadcastAck(m_szModuleName, sf->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, sf, 0);
+			//ProtoBroadcastAck(sf->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, sf, 0);
+			//ProtoBroadcastAck(sf->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, sf, 0);
 			ProtoBroadcastAck(sf->ppro->m_szModuleName, sf->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, sf, 0);
-			//ProtoBroadcastAck(m_szModuleName, sf->hContact, ACKTYPE_FILE, ACKRESULT_SENTREQUEST, sf, 0);
-			//ProtoBroadcastAck(m_szModuleName, sf->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, sf, 0);
+			//ProtoBroadcastAck(sf->hContact, ACKTYPE_FILE, ACKRESULT_SENTREQUEST, sf, 0);
+			//ProtoBroadcastAck(sf->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, sf, 0);
 
 			do {
 				ReadFile(myhFile, buf, sizeof(buf), &dw, NULL);
@@ -465,7 +465,7 @@ void __cdecl CYahooProto::recv_filethread(void *psf)
 	y_filetransfer *sf = ( y_filetransfer* )psf;
 	struct yahoo_file_info *fi = (struct yahoo_file_info *)sf->files->data;
 	
-	ProtoBroadcastAck(m_szModuleName, sf->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, sf, 0);
+	ProtoBroadcastAck(sf->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, sf, 0);
 	
 	DebugLog("[yahoo_recv_filethread] who: %s, msg: %s, filename: %s ", sf->who, sf->msg, fi->filename);
 	
@@ -597,7 +597,7 @@ void CYahooProto::ext_got_file7info(const char *me, const char *who, const char 
 		return;
 	}
 	
-	ProtoBroadcastAck(m_szModuleName, ft->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	ProtoBroadcastAck(ft->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 	
 	FREE(ft->url);
 	
@@ -681,7 +681,7 @@ void __cdecl CYahooProto::send_filethread(void *psf)
 	y_filetransfer *sf = s->sf;
 	struct yahoo_file_info *fi = (struct yahoo_file_info *)sf->files->data;
 	
-	ProtoBroadcastAck(m_szModuleName, sf->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, sf, 0);
+	ProtoBroadcastAck(sf->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, sf, 0);
 	
 	LOG(("who %s, msg: %s, filename: %s filesize: %ld", sf->who, sf->msg, fi->filename, fi->filesize));
 	

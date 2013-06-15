@@ -152,7 +152,7 @@ void TwitterProto::SendSuccess(void *p)
 		ScopedLock s(twitter_lock_);
 		twit_.send_direct(dbv.pszVal,data->msg);
 
-		ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_SUCCESS,(HANDLE)data->msgid,0);
+		ProtoBroadcastAck(data->hContact,ACKTYPE_MESSAGE,ACKRESULT_SUCCESS,(HANDLE)data->msgid,0);
 		db_free(&dbv);
 	}
 
@@ -203,7 +203,7 @@ int TwitterProto::SetStatus(int new_status)
 		// i think here we tell the proto interface struct that we're connecting, just so it knows
 		m_iStatus = ID_STATUS_CONNECTING;
 		// ok.. here i think we're telling the core that this protocol something.. but why?
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
+		ProtoBroadcastAck(0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 
 		ForkThread(&TwitterProto::SignOn,this);
 	}
@@ -213,7 +213,7 @@ int TwitterProto::SetStatus(int new_status)
 		m_iStatus = m_iDesiredStatus;
 		SetAllContactStatuses(ID_STATUS_OFFLINE);
 
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
+		ProtoBroadcastAck(0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 	}
 
 	return 0;

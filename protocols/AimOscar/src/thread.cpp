@@ -86,7 +86,7 @@ void __cdecl CAimProto::accept_file_thread(void* param)//buddy sending file
 		{
 			aim_file_ad(hServerConn, seqno, ft->sn, ft->icbm_cookie, true, 0);
 		}
-		sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 		ft_list.remove_by_ft(ft);
 	}
 }

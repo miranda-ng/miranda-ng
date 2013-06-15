@@ -834,7 +834,7 @@ void FacebookProto::SearchAckThread(void *targ)
 				isr.lastName = tsurname;
 				isr.email = tcommon;
 
-				ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&isr);
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&isr);
 
 				mir_free(tid);
 				mir_free(tnick);
@@ -849,7 +849,7 @@ void FacebookProto::SearchAckThread(void *targ)
 		}
 	}
 
-	ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, targ, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, targ, 0);
 
 	facy.handle_success("searchAckThread");
 

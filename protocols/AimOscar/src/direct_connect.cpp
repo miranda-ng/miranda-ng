@@ -22,7 +22,7 @@ void __cdecl CAimProto::aim_dc_helper(void* param) //only called when we are ini
 {
 	file_transfer *ft = (file_transfer*)param;	
 
-	sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, ft, 0);
+	ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, ft, 0);
 
 	NETLIBPACKETRECVER packetRecv = {0};
 	packetRecv.cbSize = sizeof(packetRecv);
@@ -42,7 +42,7 @@ void __cdecl CAimProto::aim_dc_helper(void* param) //only called when we are ini
 
 	if (result == 0)
 	{
-		sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
+		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
 	}
 	else
 	{
@@ -60,7 +60,7 @@ void __cdecl CAimProto::aim_dc_helper(void* param) //only called when we are ini
 			}
 		}
 		aim_file_ad(hServerConn, seqno, ft->sn, ft->icbm_cookie, true, 0);
-		sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 	}
 
 	ft_list.remove_by_ft(ft);

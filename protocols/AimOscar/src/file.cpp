@@ -197,7 +197,7 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 				tSelect.cbSize = sizeof(tSelect);
 				tSelect.hReadConns[0] = ft->hConn;
 
-				sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
+				ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
 
 				clock_t lNotify = clock();
 				for (;;)
@@ -212,13 +212,13 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 					
 					if (clock() >= lNotify)
 					{
-						sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
+						ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
 						if (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&tSelect)) break;
 
 						lNotify = clock() + 500;
 					}
 				}
-				sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
+				ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
 				LOG("P2P: Finished sending file bytes.");
 				_close(fid);
 			}
@@ -233,7 +233,7 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 				LOG("P2P: Buddy says they got the file successfully");
 				if ((ft->pfts.currentFileNumber + 1) < ft->pfts.totalFiles)
 				{
-					sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
+					ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 					++ft->pfts.currentFileNumber; ++ft->cf;
 
 					if (!setup_next_file_send(ft))
@@ -264,7 +264,7 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 				if (Netlib_Send(ft->hConn, (char*)recv_ft, _htons(recv_ft->length), 0) <= 0) break;
 
 				ft->pfts.totalProgress += ft->pfts.currentFileProgress;
-				sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
+				ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
 			}
 		}
 	}
@@ -355,7 +355,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 					ft->pfts.tszCurrentFile = mir_tstrdup(fname);
 
 					ResetEvent(ft->hResumeEvent);
-					if (sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, ft, (LPARAM)&ft->pfts))
+					if (ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, ft, (LPARAM)&ft->pfts))
 						WaitForSingleObject(ft->hResumeEvent, INFINITE);
 
 					if (ft->pfts.tszCurrentFile)
@@ -389,7 +389,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 								oft->type = _htons(0x0204);
 								_close(fid);
 
-								sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
+								ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 								++ft->pfts.currentFileNumber;
 								ft->pfts.currentFileProgress = 0;
 							}
@@ -399,7 +399,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 					{
 						oft->type = _htons(0x0204);
 
-						sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
+						ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 						++ft->pfts.currentFileNumber;
 						ft->pfts.currentFileProgress = 0;
 					}
@@ -437,7 +437,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 				_write(fid, packetRecv.buffer, packetRecv.bytesAvailable);
 				ft->pfts.currentFileProgress += packetRecv.bytesAvailable;
 				ft->pfts.totalProgress       += packetRecv.bytesAvailable;
-				sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
+				ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
 				if (ft->pfts.currentFileSize == ft->pfts.currentFileProgress)
 				{
 					oft->type = _htons(0x0204);
@@ -456,7 +456,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 						accepted_file = false;
 						_close(fid);
 
-						sendBroadcast(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
+						ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 						++ft->pfts.currentFileNumber;
 						ft->pfts.currentFileProgress = 0;
 					}

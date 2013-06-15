@@ -123,7 +123,7 @@ void CMraProto::MraAvatarsQueueClear(HANDLE hAvatarsQueueHandle)
 
 	while (FifoMTItemPop(pmraaqAvatarsQueue, NULL, (LPVOID*)&pmraaqiAvatarsQueueItem) == NO_ERROR) {
 		pai.hContact = pmraaqiAvatarsQueueItem->hContact;
-		ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&pai, 0);
+		ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&pai, 0);
 		mir_free(pmraaqiAvatarsQueueItem);
 	}
 }
@@ -220,12 +220,12 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 					*lpszDomain = 0;
 					lpszDomain++;
 
-					ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_CONNECTING, NULL, 0);
+					ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_CONNECTING, NULL, 0);
 					if (hConnection == NULL)
 						hConnection = MraAvatarsHttpConnect(pmraaqAvatarsQueue->hNetlibUser, szServer, dwServerPort);
 					if (hConnection) {
-						ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_CONNECTED, NULL, 0);
-						ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_SENTREQUEST, NULL, 0);
+						ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_CONNECTED, NULL, 0);
+						ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_SENTREQUEST, NULL, 0);
 						if ( !MraAvatarsHttpTransaction(hConnection, REQUEST_HEAD, lpszUser, lpszDomain, szServer, MAHTRO_AVTMRIM, bUseKeepAliveConn, &dwResultCode, &bKeepAlive, &dwAvatarFormat, &dwAvatarSizeServer, &itAvatarLastModifiedTimeServer)) {
 							switch (dwResultCode) {
 							case 200:
@@ -236,7 +236,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 									if ((*((DWORDLONG*)&ftLastModifiedTimeServer)) != (*((DWORDLONG*)&ftLastModifiedTimeLocal)))
 									{// need check for update
 										bDownloadNew = TRUE;
-										//ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0, 0);
+										//ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0, 0);
 									}
 									else {// avatar is valid
 										if (MraAvatarsGetFileName(pmraaqAvatarsQueue, pmraaqiAvatarsQueueItem->hContact, dwAvatarFormat, wszFileName, SIZEOF(wszFileName), NULL) == NO_ERROR) {
@@ -278,7 +278,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 							hConnection = MraAvatarsHttpConnect(pmraaqAvatarsQueue->hNetlibUser, szServer, dwServerPort);
 
 						if (hConnection) {
-							ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_DATA, NULL, 0);
+							ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_DATA, NULL, 0);
 							if (MraAvatarsHttpTransaction(hConnection, REQUEST_GET, lpszUser, lpszDomain, szServer, MAHTRO_AVT, bUseKeepAliveConn, &dwResultCode, &bKeepAlive, &dwAvatarFormat, &dwAvatarSizeServer, &itAvatarLastModifiedTimeServer) == NO_ERROR && dwResultCode == 200) {
 								if (bDefaultAvt)
 									dwAvatarFormat = PA_FORMAT_DEFAULT;
@@ -344,7 +344,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 				pai.hContact = pmraaqiAvatarsQueueItem->hContact;
 				pai.format = PA_FORMAT_UNKNOWN;
 				pai.filename[0] = 0;
-				ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&pai, 0);
+				ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&pai, 0);
 			}
 			else {
 				pai.hContact = pmraaqiAvatarsQueueItem->hContact;
@@ -361,7 +361,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 				if ( pmraaqiAvatarsQueueItem->hContact == NULL) // proto avatar
 					CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 
-				ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+				ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
 			}
 			mir_free(pmraaqiAvatarsQueueItem);
 		}
@@ -642,7 +642,7 @@ DWORD CMraProto::MraAvatarsQueueGetAvatarSimple(HANDLE hAvatarsQueueHandle, DWOR
 		if (hContact == NULL)
 			CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 
-		ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
 	}
 	return dwRetCode;
 }

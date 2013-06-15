@@ -43,7 +43,7 @@ void FacebookProto::SendMsgWorker(void *p)
 
 	if (!isOnline())
 	{
-		ProtoBroadcastAck(m_szModuleName, data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, (LPARAM)Translate("You cannot send messages when you are offline."));
+		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, (LPARAM)Translate("You cannot send messages when you are offline."));
 	}
 	else if (!db_get_s(data->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
 	{
@@ -57,11 +57,11 @@ void FacebookProto::SendMsgWorker(void *p)
 			retries--;
 		}
 		if (result) {
-			ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_SUCCESS, data->msgid,0);
+			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, data->msgid, 0);
 			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)data->hContact, NULL);
 		} else {
 			char *err = mir_utf8decodeA(error_text.c_str());
-			ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED, data->msgid,(LPARAM)err);
+			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, (LPARAM)err);
 		}
 		db_free(&dbv);
 	}

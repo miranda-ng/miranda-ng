@@ -194,7 +194,7 @@ void __cdecl GGPROTO::cmdgetinfothread(void *hContact)
 {
 	netlog("cmdgetinfothread(): started. Failed info retreival.");
 	gg_sleep(100, FALSE, "cmdgetinfothread", 103, 1);
-	ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE) 1, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE) 1, 0);
 	netlog("cmdgetinfothread(): end.");
 }
 
@@ -278,7 +278,7 @@ void __cdecl GGPROTO::searchthread(void *)
 {
 	netlog("searchthread(): started. Failed search.");
 	gg_sleep(100, FALSE, "searchthread", 104, 1);
-	ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
 #ifdef DEBUGMODE
 	netlog("searchthread(): end.");
 #endif
@@ -599,7 +599,7 @@ typedef struct
 void __cdecl GGPROTO::sendackthread(void *ack)
 {
 	gg_sleep(100, FALSE, "sendackthread", 105, 1);
-	ProtoBroadcastAck(m_szModuleName, ((GG_SEQ_ACK *)ack)->hContact,
+	ProtoBroadcastAck(((GG_SEQ_ACK *)ack)->hContact,
 		ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) ((GG_SEQ_ACK *)ack)->seq, 0);
 	mir_free(ack);
 }
@@ -684,11 +684,11 @@ void __cdecl GGPROTO::getawaymsgthread(void *hContact)
 	gg_sleep(100, FALSE, "getawaymsgthread", 106, 1);
 	if (!db_get_s(hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_TCHAR))
 	{
-		ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) dbv.ptszVal);
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) dbv.ptszVal);
 		netlog("getawaymsgthread(): Reading away msg <%S>.", dbv.ptszVal);
 		db_free(&dbv);
 	} else {
-		ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) NULL);
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) NULL);
 	}
 	netlog("getawaymsgthread(): end");
 }

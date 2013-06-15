@@ -157,7 +157,7 @@ void CWhoisDlg::OnVersion( CCtrlButton* )
 	m_proto->PostIrcMessage( _T("/PRIVMSG %s \001VERSION\001"), szTemp);
 }
 
-void CWhoisDlg::ShowMessage( const CIrcMessage* pmsg )
+void CWhoisDlg::ShowMessage(const CIrcMessage* pmsg)
 {
 	if ( m_InfoNick.SendMsg( CB_FINDSTRINGEXACT, -1, (LPARAM) pmsg->parameters[1].c_str()) == CB_ERR)	
 		m_InfoNick.SendMsg( CB_ADDSTRING, 0, (LPARAM) pmsg->parameters[1].c_str());	
@@ -182,7 +182,7 @@ void CWhoisDlg::ShowMessage( const CIrcMessage* pmsg )
 	InvalidateRect( m_hwnd, NULL, TRUE);
 }
 
-void CWhoisDlg::ShowMessageNoUser( const CIrcMessage* pmsg )
+void CWhoisDlg::ShowMessageNoUser(const CIrcMessage* pmsg)
 {
 	m_InfoNick.SetText( pmsg->parameters[2].c_str());
 	m_InfoNick.SendMsg( CB_SETEDITSEL, 0,MAKELPARAM(0,-1));

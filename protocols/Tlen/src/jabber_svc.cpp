@@ -400,7 +400,7 @@ int __cdecl TlenProtocol::SetStatus(int iNewStatus)
 			if (m_iStatus != ID_STATUS_OFFLINE) {
 				oldStatus = m_iStatus;
 				m_iStatus = ID_STATUS_OFFLINE;
-				ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, m_iStatus);
+				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 			}
 		}
 	}
@@ -412,7 +412,7 @@ int __cdecl TlenProtocol::SetStatus(int iNewStatus)
 			oldStatus = m_iStatus;
 			// send presence update
 			JabberSendPresence(this, iNewStatus);
-			ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, m_iStatus);
+			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, m_iStatus);
 		}
 	}
 	return 0;

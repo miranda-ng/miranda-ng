@@ -32,7 +32,7 @@ void OmegleProto::SignOn(void*)
 
 	int old_status = m_iStatus;
 	m_iStatus = m_iDesiredStatus;
-	ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 	setDword( "LogonTS", (DWORD)time(NULL));
 	ClearChat();
@@ -57,7 +57,7 @@ void OmegleProto::SignOff(void*)
 
 	deleteSetting( "LogonTS" );	
 
-	ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
+	ProtoBroadcastAck(0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 
 	//SetAllContactStatuses( ID_STATUS_OFFLINE );
 	//ToggleStatusMenuItems(false);
