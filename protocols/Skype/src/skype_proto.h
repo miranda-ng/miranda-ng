@@ -365,7 +365,6 @@ protected:
 	// utils
 	static wchar_t* ValidationReasons[];
 
-	static void FakeAsync(void*);
 	void InitCustomFolders();
 
 	HANDLE m_hAvatarsFolder;
@@ -403,8 +402,6 @@ protected:
 
 	HANDLE	CreateEvent(const char* szService);
 	
-	DWORD	SendBroadcastAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam, size_t paramSize = 0);
-
 	void	ForkThread(SkypeThreadFunc, void*);
 	HANDLE	ForkThreadEx(SkypeThreadFunc, void*, UINT* threadID = NULL);
 
