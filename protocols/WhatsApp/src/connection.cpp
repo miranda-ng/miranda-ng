@@ -14,7 +14,7 @@ void WhatsAppProto::ChangeStatus(void*)
 		{
 			this->connection->sendAvailableForChat();
 			m_iStatus = ID_STATUS_ONLINE;
-			ProtoBroadcastAck(m_szModuleName, 0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) m_iStatus, ID_STATUS_INVISIBLE);
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) m_iStatus, ID_STATUS_INVISIBLE);
 		}
 	}
 	else if (m_iStatus == ID_STATUS_ONLINE && m_iDesiredStatus == ID_STATUS_INVISIBLE)
@@ -24,7 +24,7 @@ void WhatsAppProto::ChangeStatus(void*)
 			this->connection->sendClose();
 			m_iStatus = ID_STATUS_INVISIBLE;
 			SetAllContactStatuses( ID_STATUS_OFFLINE, true );
-			ProtoBroadcastAck(m_szModuleName, 0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) m_iStatus, ID_STATUS_ONLINE);
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) m_iStatus, ID_STATUS_ONLINE);
 		}
 	}
 	else if (m_iDesiredStatus == ID_STATUS_OFFLINE)
@@ -133,13 +133,13 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			this->ToggleStatusMenuItems(false);
 			int prevStatus = this->m_iStatus;
 			this->m_iStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(m_szModuleName, 0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) m_iStatus, prevStatus);
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) m_iStatus, prevStatus);
 			break;
 		}
 
 		LOG("Connecting...");
 		this->m_iStatus = ID_STATUS_CONNECTING;
-		ProtoBroadcastAck(m_szModuleName, 0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) ID_STATUS_OFFLINE, m_iStatus);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) ID_STATUS_OFFLINE, m_iStatus);
 
 		CODE_BLOCK_TRY
 
@@ -171,7 +171,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 
 			LOG("Set status to online");
 			this->m_iStatus = desiredStatus;
-			ProtoBroadcastAck(m_szModuleName, 0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE )m_iStatus, ID_STATUS_CONNECTING);
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE )m_iStatus, ID_STATUS_CONNECTING);
 			this->ToggleStatusMenuItems(true);
 
 			ForkThread(&WhatsAppProto::ProcessBuddyList, this);

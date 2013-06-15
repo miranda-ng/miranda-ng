@@ -62,7 +62,7 @@ void WhatsAppProto::SendMsgWorker(void* p)
 		db_get_b(data->hContact, m_szModuleName, "IsGroupMember", 0) == 0)
 	{
 		LOG("not a group member");
-		ProtoBroadcastAck(m_szModuleName,data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
+		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
 			(HANDLE) (this->msgIdHeader + this->msgId), (LPARAM) "You cannot send messages to groups if you are not a member.");
 	}
 	else if (!db_get_s(data->hContact, m_szModuleName,"ID", &dbv, DBVT_ASCIIZ) &&
@@ -88,20 +88,20 @@ void WhatsAppProto::SendMsgWorker(void* p)
 		catch (exception &e)
 		{
 			LOG("exception: %s", e.what());
-			ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED,
+			ProtoBroadcastAck(data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED,
 				(HANDLE) (this->msgIdHeader + this->msgId), (LPARAM) e.what());
 		}
 		catch (...)
 		{
 			LOG("unknown exception");
-			ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED,
+			ProtoBroadcastAck(data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED,
 			  (HANDLE) (this->msgIdHeader + this->msgId), (LPARAM) "Failed sending message");
 		}
 	}
 	else
 	{
 		LOG("No connection");
-		ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED,
+		ProtoBroadcastAck(data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED,
 			(HANDLE) (this->msgIdHeader + this->msgId), (LPARAM) "You cannot send messages when you are offline.");
 	}
 
@@ -189,7 +189,7 @@ void WhatsAppProto::onMessageStatusUpdate(FMessage* fmsg)
 	ss >> id;
 
 	if (state == 1)
-		ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) (header + id),0);
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) (header + id),0);
 
 	if (db_get_dw(hContact, m_szModuleName, WHATSAPP_KEY_LAST_MSG_ID_HEADER, 0) == header &&
 		db_get_dw(hContact, m_szModuleName, WHATSAPP_KEY_LAST_MSG_ID, -1) == id)

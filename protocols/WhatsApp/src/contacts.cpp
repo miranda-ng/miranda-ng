@@ -272,7 +272,7 @@ void WhatsAppProto::onLastSeen(const std::string& paramString1, int paramInt, st
 		isr.firstName = "";
 		isr.lastName = "";
 		isr.email = "";
-		ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&isr);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&isr);
 		// #TODO
 	}
 	*/
@@ -348,7 +348,7 @@ void WhatsAppProto::onSendGetPicture(const std::string& jid, const std::vector<u
 		{
 			ackResult = ACKRESULT_FAILED;
 		}
-		ProtoBroadcastAck(m_szModuleName, ai.hContact, ACKTYPE_AVATAR, ackResult, (HANDLE)&ai, 0);
+		ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ackResult, (HANDLE)&ai, 0);
 	}
 }
 
