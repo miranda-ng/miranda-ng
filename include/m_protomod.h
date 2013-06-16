@@ -129,21 +129,6 @@ __forceinline INT_PTR ProtoBroadcastAck(const char *szModule, HANDLE hContact, i
 	return CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
 }
 
-/* -- Added during 0.3.4 (2004/09/27) development! -----
-*/
-
-/*
-	wParam: (HANDLE)hContact
-	lParam: 0
-	Affect: Given a hContact, return the protocol that is registered for it, or NULL if no such protocol exists,
-			the returned string does not have to be freed and is valid even for multiple threads.
-	Note:	Prior to 2004/09/28 this service WAS NOT THREAD SAFE and was slower
-	Note:	Prior to 2004/09/28 this service would return NULL for a hContact if the protocol module
-			associated with the hContact was not currently loaded, no such check is performed now.
-	Version: 0.3.4 (2004/09/28)
-*/
-#define MS_PROTODIR_PROTOFROMCONTACT MS_PROTO_GETCONTACTBASEPROTO
-
 #endif // M_PROTOMOD_H__
 
 
