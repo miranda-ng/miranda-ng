@@ -60,7 +60,6 @@
 #include "mmi.h"
 #include "utf8.h"
 #include "base16.h"
-#include "base64.h"
 #include "gettime.h"
 #include "cpp_rsam.h"
 #include "cpp_rsau.h"
@@ -81,6 +80,10 @@ extern CRITICAL_SECTION localQueueMutex;
 
 void ExtractFile(char*,int,int);
 size_t rtrim(LPCSTR);
+
+std::string base64encode(const std::string&);
+std::string base64decode(const std::string&);
+std::string base64decode(const char *);
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 extern HANDLE hNetlibUser;

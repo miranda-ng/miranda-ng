@@ -59,7 +59,7 @@ LPSTR __cdecl cpp_init_keya(HANDLE context, int features) {
 
 	SAFE_FREE(ptr->tmp);
 	if (ptr->mode & MODE_BASE64 || features & FEATURES_NEWPG)
-		ptr->tmp = base64encode((LPSTR)&publ1,KEYSIZE+2);
+		ptr->tmp = mir_base64_encode(publ1,KEYSIZE+2);
 	else
 		ptr->tmp = base16encode((LPSTR)&publ1,KEYSIZE+2);
 
@@ -73,14 +73,14 @@ int __cdecl cpp_init_keyb(HANDLE context, LPCSTR key) {
 	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	pSIMDATA p = (pSIMDATA) cpp_alloc_pdata(ptr);
 
-	size_t clen = rtrim(key);
+	unsigned clen = (unsigned)rtrim(key);
 	ptr->features = 0;
 
 	LPSTR pub_binary;
 	if ((clen==KEYSIZE*2) || (clen==(KEYSIZE+2)*2))
 		pub_binary = base16decode(key,&clen);
 	else 
-		pub_binary = base64decode(key,&clen);
+		pub_binary = (LPSTR)mir_base64_decode(key,&clen);
 
 	if ( !pub_binary || (clen!=KEYSIZE && clen!=KEYSIZE+2) ) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)

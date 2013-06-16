@@ -10,10 +10,11 @@ LPSTR __cdecl cpp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 	pSIMDATA p = (pSIMDATA) ptr->pdata;
 
 	BYTE dataflag = 0;
-	size_t clen, slen = strlen(szPlainMsg);
+	size_t slen = strlen(szPlainMsg);
 
 	LPSTR szMsg;
 	if (ptr->features & FEATURES_GZIP) {
+		size_t clen;
 		szMsg = (LPSTR) cpp_gzip((BYTE*)szPlainMsg,slen,clen);
 		if (clen>=slen) {
 			free(szMsg);
@@ -36,7 +37,7 @@ LPSTR __cdecl cpp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 
 	free(szMsg);
 
-	clen = (int) ciphered.length();
+	unsigned clen = (unsigned)ciphered.length();
 	if (ptr->features & FEATURES_CRC32) {
 		BYTE crc32[CRC32::DIGESTSIZE];
 		memset(crc32,0,sizeof(crc32));
@@ -46,14 +47,13 @@ LPSTR __cdecl cpp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 	}
 	if (ptr->features & FEATURES_GZIP)
 		ciphered.insert(0,(LPSTR)&dataflag,1);
-
-	clen = (int) ciphered.length();
-
 	SAFE_FREE(ptr->tmp);
+
+	clen = (unsigned)ciphered.length();
 	if (ptr->features & FEATURES_BASE64)
-		ptr->tmp = base64encode(ciphered.data(),clen);
+		ptr->tmp = mir_base64_encode((PBYTE)ciphered.data(), clen);
 	else
-		ptr->tmp = base16encode(ciphered.data(),clen);
+		ptr->tmp = base16encode(ciphered.data(), clen);
 
 	return ptr->tmp;
 }
@@ -68,10 +68,10 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 		ptr->error = ERROR_SEH;
 		pSIMDATA p = (pSIMDATA) ptr->pdata;
 
-		size_t clen = strlen(szEncMsg);
+		unsigned clen = (unsigned)strlen(szEncMsg);
 
 		if (ptr->features & FEATURES_BASE64)
-			ciphered = base64decode(szEncMsg,&clen);
+			ciphered = (LPSTR)mir_base64_decode(szEncMsg,&clen);
 		else
 			ciphered = base16decode(szEncMsg,&clen);
 
@@ -86,7 +86,7 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 			int len = *( WORD* )bciphered;
 			bciphered+=2; clen-=2; // cut CRC32 length
 
-			if (clen-CRC32::DIGESTSIZE<len) { // mesage not full
+			if (clen - CRC32::DIGESTSIZE < len) { // mesage not full
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 				Sent_NetLog("cpp_decrypt: error bad_len");
 #endif
@@ -124,8 +124,9 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 		SAFE_FREE(ptr->tmp);
 
 		if (dataflag & DATA_GZIP) {
-			ptr->tmp = (LPSTR) cpp_gunzip((PBYTE)unciphered.data(),unciphered.length(),clen);
-			ptr->tmp[clen] = 0;
+			size_t clen2 = clen;
+			ptr->tmp = (LPSTR) cpp_gunzip((PBYTE)unciphered.data(),unciphered.length(),clen2);
+			ptr->tmp[clen2] = 0;
 		}
 		else ptr->tmp = (LPSTR) _strdup(unciphered.c_str());
 
