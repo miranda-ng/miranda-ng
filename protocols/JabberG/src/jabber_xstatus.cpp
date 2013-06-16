@@ -1322,12 +1322,12 @@ INT_PTR __cdecl CJabberProto::OnSetListeningTo(WPARAM, LPARAM lParam)
 
 void CJabberProto::InfoFrame_OnUserMood(CJabberInfoFrame_Event*)
 {
-	m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD))->LaunchSetGui();
+	((CPepGuiService *)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD)))->LaunchSetGui(0);
 }
 
 void CJabberProto::InfoFrame_OnUserActivity(CJabberInfoFrame_Event*)
 {
-	m_pepServices.Find(_T(JABBER_FEAT_USER_ACTIVITY))->LaunchSetGui();
+	((CPepGuiService *)m_pepServices.Find(_T(JABBER_FEAT_USER_ACTIVITY)))->LaunchSetGui(0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
