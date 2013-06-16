@@ -150,8 +150,8 @@ TLS
 Изменение принадлежности
 [Role changes]
 Изменение роли
-[Filter history messages]
-Не подгружать прочитанные сообщения в истории
+[Don't notify history messages]
+Не подсвечивать сообщения из истории
 [Custom messages]
 Свои сообщения
 [Quit:]
