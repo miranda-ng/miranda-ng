@@ -1,0 +1,49 @@
+﻿#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+;============================================================
+;  File: Twitter.dll
+;  Plugin: Twitter
+;  Version: 1.1.0.1
+;  Authors: dentist, omniwolf, Thief
+;============================================================
+;file \protocols\Twitter\res\twitter.rc
+[Create a new Twitter account]
+新建 Twitter 账号
+[Send Tweet]
+发送 Tweet
+[Misc. Options]
+杂项
+[Use group chat for Twitter feed]
+Twitter 订阅使用群聊
+[Base URL:]
+基本 URL:
+[Polling rate:]
+轮询速率:
+[Once every]
+一次
+[Please cycle your connection for these changes to take effect]
+请重连以使这些变更生效
+[Enable popup notifications for Tweets]
+启用 Tweets 弹出窗口提示
+[Use Popup colors]
+使用弹出窗口插件颜色
+[Use custom colors]
+使用自定义颜色
+[Timeouts]
+超时
+[But not during sign-on]
+但不在登录时
+;file \protocols\Twitter\src\connection.cpp
+;file \protocols\Twitter\src\proto.cpp
+[Send Tweet...]
+发送 Tweet...
+[%s avatar connection]
+%s 头像连接
+;file \protocols\Twitter\src\theme.cpp
+[Twitter Icon]
+Twitter 图标
+[Reply to Tweet]
+回复至 Tweet
+[Visit Homepage]
+访问主页
+[Reply...]
+回复...

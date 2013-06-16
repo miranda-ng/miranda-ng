@@ -1,0 +1,400 @@
+﻿#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
+;============================================================
+;  File: watrack.dll
+;  Module: Winamp Track |Unicode aware|
+;  Versions: 0.0.2.4 - 0.0.6.12
+;  Url: http://addons.miranda-im.org/details.php?action=viewfile&id=2345
+;============================================================
+[Clear xStatus before set new one]
+设置新扩展状态前先清除
+[Emulate Multimedia keys]
+模拟多媒体键
+[Paste played music info into message window or status text]
+粘贴正在播放音乐信息至聊天窗口或状态文本
+[Use XStatus]
+使用扩展状态
+[Text insertion to other Apps]
+插入文本至其它应用程序
+[Share music list]
+分享音乐列表
+[Save events in database]
+保存事件至数据库
+[Music Info Request]
+音乐信息请求
+[Request Error]
+请求错误
+[Save ignored requests]
+保存已忽略请求
+[Answer to ignored requests]
+答复已忽略请求
+[Use frame]
+使用框架
+[Show info in the frame]
+在框架显示信息
+[Show controls in the frame]
+在框架显示控制
+[Show volume controls]
+显示音量控制
+[Use Picture]
+使用图片
+[Use cover instead of picture]
+使用封面代替图片
+[Show trackbar]
+显示跟踪条
+[Cover padding]
+封面补位
+[Frame refresh time]
+框架刷新时间
+[Hide frame when no music played]
+无音乐播放时隐藏框架
+[Center horizontally]
+水平居中
+[Center vertically]
+垂直居中
+[Use styled trackbar]
+使用风格化跟踪条
+[Use buttons gap]
+使用按钮间隔
+[Frame template]
+框架模板
+[Text effect]
+文本效果
+[Text movement]
+文本移动
+[Text rotation speed (1-20)]
+文本滚动速度 (1-20)
+[Scroll step]
+滚动步幅
+[Scroll gap]
+滚动间隔
+[Minimum scroll tail]
+最小滚动踪迹
+[Wrap]
+换行
+[Roll]
+滚动
+[PingPong]
+往复
+[Hide frame when player not found]
+无播放程序时隐藏框架
+[Pause Hovered]
+暂停悬停
+[Prev Hovered]
+上一个悬停
+[Play Hovered]
+播放悬停
+[Stop Hovered]
+停止悬停
+[Next Hovered]
+下一个悬停
+[Prev Pushed]
+上一个忙碌
+[Play Pushed]
+播放忙碌
+[Stop Pushed]
+停止忙碌
+[Next Pushed]
+下一个忙碌
+[Volume Down Hovered]
+降低音量悬停
+[Volume Up Hovered]
+提高音量悬停
+[Volume Down Pushed]
+降低音量忙碌
+[Volume Up Pushed]
+提高音量忙碌
+[song year (date)]
+歌曲年份 (日期)
+[player window title]
+播放器窗口标题
+[width, video only]
+宽度, 仅视频
+[player version]
+播放器版本
+[VBR or not (empty)]
+VBR 或无 (空)
+[player version in text format]
+文本格式播放器版本
+[player status (stopped,playing,paused)]
+播放器状态 (停止, 播放, 暂停)
+[player name]
+播放器名称
+[time/length * 100%]
+时间/长度 * 100%
+["mono"/"stereo"]
+"单声道"/"立体声"
+[height, video only]
+高度, 仅视频
+[FPS (frames per second), video only]
+FPS (每秒祯率), 仅视频
+[media file name]
+多媒体文件名称
+[codec, video only]
+编码, 仅视频
+[Color codes]
+颜色代码
+[File size]
+文件大小
+[FileSize text format]
+文件大小文本格式
+[Formats]
+格式
+[Player name letters]
+播放程序名称字母
+[Players list]
+播放程序列表
+[Popup Title / Text]
+弹出窗口标题 / 文本
+[Frame Text]
+框架文本
+[Export Text]
+导出文本
+[Postfix]
+后缀
+[Refresh time, sec]
+刷新时间 (秒)
+[Report]
+报告
+[Report Items]
+报告项目
+[Report file]
+报告文件
+[Report format]
+报告格式
+[Show in report]
+显示于报告内
+[Sort]
+排序
+[Sort log file]
+排序日志文件
+[Statistic log file]
+统计日志文件
+[Autosort period, days]
+自动排序时间, 天
+[Template file]
+模板文件
+[Export default]
+导出默认
+[Freq. album]
+Freq. 专辑
+[by Length]
+按长度
+[Unicode to Ansi translation codepage:]
+Unicode 至 Ansi 转换代码页: 
+[VBR macro]
+VBR 宏
+[Insert in messages]
+在消息中插入
+[Use status messages]
+使用状态消息
+[Independed XStatus]
+独立的扩展状态
+[Use process implantation]
+使用进程植入
+[Simple Template mode]
+简单模板模式
+[Use existing XStatus]
+使用已存在扩展状态
+[Only if 'Music' status was set]
+仅在 '音乐' 状态已设置时
+[Replace underlines with spaces]
+以空格替换下划线
+[Check file time]
+检查文件时间
+[Other thread handle check]
+其它线程处理检查
+[Keep old file]
+保存旧文件
+[No Music]
+无音乐
+[User message]
+用户消息
+[Channel message]
+频道消息
+[Keep 'Music' XStatus]
+保持 '音乐' 扩展状态
+[Text+Graph]
+文本+图表
+[Use external style]
+使用外部样式
+[Add report file ext.]
+添加报告文件扩展
+[Freq. artists]
+演唱者频率
+[Freq. paths]
+路径频率
+[Freq. songs]
+歌曲频率
+[Last played songs]
+最后播放歌曲
+[Song time]
+歌曲时间
+[VBR or CBR]
+VBR 或 CBR
+[VBR or empty]
+VBR 或 空
+[Show file name in info]
+在信息中显示文件名称
+[Global hotkey]
+全局热键
+[Only if messages not used]
+仅未使用消息时
+[Don't use]
+不使用
+[All uppercase]
+全部大写
+[Do not change]
+不变更
+[All lowercase]
+全部小写
+[lowercase %type%]
+小写化 %type%
+[Use "Variables" plugin]
+使用 "变量" 插件
+[Next track]
+下一音轨
+[Show player]
+显示播放程序
+[bitrate]
+比特率
+[by Count]
+按数量
+[by Date]
+按日期
+[by Path]
+按路径
+[by Title]
+按标题
+[comment from tag]
+标签注释
+[current song position (sec)]
+当前歌曲位置 (秒)
+[Disable Log]
+禁用记录
+[Error report]
+错误报告
+[Get Info from player]
+从播放程序获取信息
+[media file size]
+多媒体文件大小
+[media file type]
+多媒体文件类型
+[No Player]
+无播放程序
+[number of channels]
+频道数量
+[Open report]
+打开报告
+[Reverse order]
+反向排序
+[samplerate]
+采样率
+[song title]
+歌曲标题
+[total song length (sec)]
+歌曲累计时长 (秒)
+[track number]
+音轨号
+[Try to use OLE interface]
+尝试使用 OLE 界面
+[Show by request only]
+仅按需显示
+[Cover filenames]
+封面文件名
+[Music Info]
+音乐信息
+[Align text to center]
+文本居中
+[Create WATrack report]
+建立 WATrack 报告
+[Get user's Music Info]
+获取用户音乐信息
+[WATrack Macro Info]
+WATrack 宏信息
+[Lyric from ID3v2 tag]
+ID3v2 标签歌词
+[Cover file path]
+封面文件路径
+[Player volume (0-15)]
+播放器音量 (0-15)
+[Player homepage URL]
+播放器主页链接
+[player status (not translated)]
+播放器状态 (未翻译)
+[Format text Info]
+格式文本信息
+[Controls]
+控制
+[Frame Controls]
+框架控件
+[Plugin Enabled]
+插件启用
+[Plugin Disabled]
+插件禁用
+[Create Report]
+创建报告
+[Pause Pushed]
+暂停忙碌
+[Global WATrack hotkey]
+全局 WATrack 热键
+[WATrack data insert hotkey]
+WATrack 插入数据热键
+[WATrack popup hotkey]
+WATrack 弹出提示热键
+[Modules]
+模块
+[Statistic]
+统计
+[Disable Plugin]
+禁用插件
+[Enable Plugin]
+启用插件
+[Attempts]
+尝试
+[Artist]
+演唱者
+[Album]
+专辑
+[Music Statistic]
+音乐统计
+[Chat Template]
+聊天模板
+[This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
+这是简化的模板编辑器. 这些模板将用于所有协议, 协议及播放器(媒体)状态
+[Left click]
+按左键
+[Right click]
+按右键
+[Custom colors]
+自定义颜色
+[artist]
+演唱者
+[album]
+专辑
+[genre]
+流派
+[Kilobytes]
+Kb
+[Megabytes]
+Mb
+[Precision]
+精确率
+[Color]
+颜色
+[Output]
+输出
+[Check]
+检查
+[Choose font...]
+选择字体...
+[[X]Status Title / Text]
+ [X]Status 标题 / 文本
+;file \plugins\Watrack\myshows\myshows.rc
+[Timeout, ms]
+超时, 毫秒
+;file \plugins\Watrack\lastfm\i_last_api.inc
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
+;file \plugins\Watrack\proto\proto.pas
+;other strings
+[Slider]
+滑块

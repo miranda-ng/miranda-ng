@@ -1,0 +1,73 @@
+﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+;============================================================
+;  File: Yahoo.dll
+;  Plugin: Yahoo
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\Yahoo\res\Yahoo.rc
+[ID:]
+ID :
+[Create a new Yahoo account using the Yahoo website]
+Créer un nouveau compte depuis le site de Yahoo
+[Use Yahoo Address Book (YAB)]
+Utiliser le Livre d'Adresses Yahoo (YAB)
+[Show Errors]
+Voir les erreurs
+[Yahoo Ignore List]
+Liste de contacts à ignorer
+[Set Custom Status]
+Personnaliser le motif d'absence
+[Show as busy]
+Signaler comme occupé
+;file \protocols\Yahoo\src\avatar.cpp
+;file \protocols\Yahoo\src\chat.cpp
+;file \protocols\Yahoo\src\icolib.cpp
+;file \protocols\Yahoo\src\im.cpp
+[Yahoo Error]
+Erreur Yahoo
+[Message is too long: Yahoo messages are limited by 800 UTF8 chars]
+Message trop grand : Les messages de Yahoo sont limités à 800 caractères de type UTF8
+;file \protocols\Yahoo\src\links.cpp
+;file \protocols\Yahoo\src\main.cpp
+;file \protocols\Yahoo\src\options.cpp
+[The changes you have made require you to reconnect to the Yahoo network before they take effect]
+Les changements que vous avez faits exigent une reconnexion à Yahoo! pour entrer en vigueur
+[YAHOO Options]
+Options YAHOO
+;file \protocols\Yahoo\src\proto.cpp
+[Please enter your yahoo id in Options/Network/Yahoo]
+Veuillez entrer votre ID Yahoo dans Options/Réseaux/Yahoo
+[Please enter your yahoo password in Options/Network/Yahoo]
+Veuillez entrer votre passe Yahoo dans Options/Réseaux/Yahoo
+[Yahoo Login Error]
+Erreur de login Yahoo
+;file \protocols\Yahoo\src\services.cpp
+[You need to be connected to set the custom message]
+Vous devez vous connecter pour pouvoir définir un message personalisé
+[You need to be connected to refresh your buddy list]
+Vous devez vous connecté afin de mettre à jour votre liste de contacts
+[Set &Custom Status]
+&Personnaliser le motif d'absence
+[&Yahoo Mail]
+&Yahoo Mail
+;file \protocols\Yahoo\src\webcam.cpp
+;file \protocols\Yahoo\src\yahoo.cpp
+[%s has rejected your request and sent the following message:]
+%s a rejété votre requète et vous envoie le message suivant :
+[You Have %i unread msgs]
+Vous avez %i msg non lus
+[New Mail (%i msgs)]
+Nouveau e-mail (%i msgs)
+[From: %s\nSubject: %s]
+De : %s\nsujet : %s
+[Yahoo Ping Error]
+Erreur Ping Yahoo
+[%s is not available for the conference]
+%s est indisponible pour une conférence
+[%s is already ignored]
+%s a déjà été ignoré
+[%s is not in the ignore list]
+%s ne figure pas dans la liste des ignorés
+[%s is in buddy list - cannot ignore ]
+%s est dans votre liste - il ne peut être ignoré 

@@ -1,0 +1,18 @@
+﻿#muuid {23eacc0d-bab0-49c0-8f37-5e259ece527f}
+;============================================================
+;  File: LotusNotify.dll
+;  Plugin: LotusNotify
+;  Version: 0.1.21.0
+;  Version: 0.1.21.0
+;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
+;============================================================
+;file \plugins\LotusNotify\res\LotusNotify.rc
+[Show error messages]
+显示错误信息
+[Set popup colours]
+设置弹出提示颜色
+[Popup options]
+弹出窗口选项
+[min.]
+分钟
+;file \plugins\LotusNotify\src\LotusNotify.cpp

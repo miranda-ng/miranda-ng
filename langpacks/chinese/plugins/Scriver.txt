@@ -1,0 +1,229 @@
+﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
+;  File: Scriver.dll
+;  Plugin: Scriver
+;  Version: 2.10.0.2
+;  Authors: Miranda NG Development Team
+;============================================================
+;file \plugins\Scriver\res\resource.rc
+[Automatically pop up the window when]
+自动弹出窗口当
+[and stay minimized]
+并保持最小化
+[Save size and location for each contact]
+为每位联系人保存大小及位置
+[Minimize on send]
+发送时最小化
+[Hide windows on close]
+关闭时隐藏窗口
+[Remember unsent messages]
+记住未发送信息
+[Delete temporary contacts on closing]
+关闭时删除临时联系人
+[Enable tabs]
+启用标签
+[Always show tab bar]
+永远显示标签栏
+[Tabs at bottom]
+标签放在底部
+[Limit names on tabs to]
+限制标签名称为
+[Show close button on each tab]
+每标签皆显示关闭按钮
+[Switch to active tab]
+切换激活标签
+[Limit number of tabs per window to]
+每窗口限制标签数量为
+[Use separate windows for group chats]
+群组聊天使用独立窗口
+[Limit number of group chats tabs per window to]
+群组聊天每窗口限制标签数量为
+[Show titlebar]
+显示标题栏
+[Show toolbar]
+显示工具栏
+[Show infobar]
+显示信息栏
+[Show progress indicator]
+显示进度指示器
+[Enable IEView]
+启用 IEView
+[Long date format]
+长日期格式
+[Relative date]
+相对日期
+[Enable message grouping]
+启用消息分组
+[Mark follow-up msgs with timestamp]
+以时间戳标记跟进消息
+[Start message text on a new line]
+在新行开始消息文本
+[Show lines between messages]
+消息间显示间隔线
+[Indent text]
+缩排文本
+[Customize fonts and colors]
+自定义字体及颜色
+[Preload]
+预加载
+[Unread events only]
+仅未读事件
+[Last]
+最后
+[Events in the last]
+最后事件
+[Typing Notification Options]
+键入通知选项
+[Show typing notification switch in the status bar]
+在状态栏显示键入通知开关
+[Update message window icons when a user is typing]
+用户键入时更新消息窗口图标
+[Send To All Tabs]
+发送到所有标签
+[You are about to send a message to all open tabs.\nAre you sure ?]
+您正准备发送消息至所有已打开标签. \n您确定吗? 
+[Remember my choice for this container]
+记住针对此容器的决定
+[User list row height]
+用户列表行高
+[Save logs]
+保存记录
+[Trim to]
+截断为
+[Group Chat]
+群组聊天
+[(0 means default setting, -1 means indefinite time)]
+(0 默认设置, -1 无时间限制)
+[Wikipedia (en)]
+维基百科(en)
+;file \plugins\Scriver\src\globals.cpp
+[User's details]
+用户详细资料
+[User's history]
+用户历史
+[User is typing]
+用户键入中
+[Typing notification off]
+键入提示已关闭
+[Unicode is on]
+Unicode 已打开
+[Unicode is off]
+Unicode 已关闭
+[Sending]
+发送中
+[Quote button]
+引用按钮
+[Close button]
+关闭按钮
+[Status 2 (10x10]
+状态 2 (10x10
+;file \plugins\Scriver\src\input.cpp
+[Navigate: Previous Tab]
+导航: 上一个标签
+[Navigate: Next Tab]
+导航: 下一个标签
+[Navigate: Tab %d]
+浏览: Tab %d
+[Window: Toggle Statusbar]
+窗口: 切换状态栏
+[Window: Toggle Titlebar]
+窗口: 切换标题栏
+[Window: Toggle Toolbar]
+窗口: 切换工具栏
+[Window: Toggle Infobar]
+窗口: 切换信息栏
+[Window: Clear Log]
+窗口: 清除记录
+[Window: Minimize]
+窗口: 最小化
+[Window: Close Tab]
+窗口: 关闭标签
+[Action: Quote]
+操作: 报价
+[Action: Send to All]
+活动: 发送至所有
+[Action: Paste & Send]
+操作: 粘贴并发送
+;file \plugins\Scriver\src\msgdialog.cpp
+[Smiley]
+表情
+[Quote Text]
+引用文本
+[User Menu - %s]
+用户菜单 - %s
+[Sending in progress: %d message(s) left...]
+发送中: 尚余 %d 个消息
+;file \plugins\Scriver\src\msglog.cpp
+;file \plugins\Scriver\src\msgoptions.cpp
+[Event Log]
+事件记录
+[Group Chat Log]
+群组聊天记录
+[Infobar contact name]
+信息栏 联系人名称
+[Infobar background]
+信息栏背景
+[Infobar status message]
+信息栏 状态消息
+[Message background]
+消息背景
+[User list members (online)]
+用户列表成员 (在线)
+[User list background]
+用户列表背景
+[User list lines]
+用户列表线条
+[User list background (selected)]
+用户列表背景 (已选择)
+;file \plugins\Scriver\src\msgs.cpp
+;file \plugins\Scriver\src\msgtimedout.cpp
+;file \plugins\Scriver\src\msgwindow.cpp
+[Always On Top]
+永远置顶
+;file \plugins\Scriver\src\sendqueue.cpp
+;file \plugins\Scriver\src\chat\clist.cpp
+;file \plugins\Scriver\src\chat\colorchooser.cpp
+;file \plugins\Scriver\src\chat\log.cpp
+;file \plugins\Scriver\src\chat\main.cpp
+;file \plugins\Scriver\src\chat\options.cpp
+[Flash when someone speaks]
+有人发言时闪动
+[Flash when a word is highlighted]
+出现突出显示词汇时闪动
+[Show chat user list]
+显示群组聊天用户列表
+[Enable button context menus]
+启用按钮环境菜单
+[Show topic on your contact list (if supported)]
+在您的联系人列表显示主题 (如支持)
+[Do not play sounds when focused]
+获取焦点时不要播放提示音
+[Do not pop up when joining]
+加入时不要弹出提示
+[Show and hide by double clicking in the contact list]
+双击联系人列表时隐藏或显示
+[Show contact statuses (if supported)]
+显示联系人状态 (如支持)
+[Display contact status icon before role icon]
+在角色图标前显示联系人状态图标
+[Add ':' to auto-completed names]
+添加 ':' 至自动完成名称
+[Timestamp has same colour as event]
+时间戳与事件相同颜色
+[Limit user names to 20 characters]
+用户名限制在 20 字符内
+[Strip colors from messages]
+消息有彩色条纹
+[Enable 'event filter' for new rooms]
+新房间启用 '事件过滤'
+[Appearance and functionality of chat windows]
+群组窗口外观及功能
+[year without century, 01-  99]
+2 位年份, 01-  99
+;file \plugins\Scriver\src\chat\services.cpp
+[Server: %s]
+服务器: %s
+;file \plugins\Scriver\src\chat\tools.cpp
+;file \plugins\Scriver\src\chat\window.cpp
+[Manager]
+经理

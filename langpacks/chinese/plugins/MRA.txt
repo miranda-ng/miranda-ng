@@ -1,0 +1,97 @@
+﻿#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+;============================================================
+;  File: MRA.dll
+;  Plugin: MRA
+;  Version: 2.0.0.1
+;  Authors: 
+;============================================================
+;file \protocols\MRA\res\resource.rc
+[Configuration]
+设置
+[Disable spam check]
+禁用垃圾信息检查
+[Notify about new mail if increment]
+如递增则显示新邮件通知
+[Notify about new mail tray icon]
+新邮件托盘图标
+[Click to Inbox]
+点击打开收信箱
+[from:]
+从:
+[Enable avatars support (loading)]
+启用头像支持(加载中)
+[Updates check interval, min]
+检查更新间隔, 最小
+[Return absolute path]
+返回绝对路径
+[Delete avatar file with contact]
+删除联系人头像
+[Use keep-alive connections]
+使用保持连接
+[Files exchange]
+文件交换
+[No out connection on send]
+发送时无可用连接
+[No out connection on receive]
+接收时无可用连接
+[Out connections: ignory additional ports (443, 2041)]
+输出连接: 忽略附加端口(443, 2041)
+[Hide my IP addresses]
+隐藏我的 IP 地址
+[Add extra address]
+添加扩展地址
+[File send block size:]
+文件发送块大小:
+[512 - 65536 bytes]
+512 - 65536 字节
+[Enable direct connections]
+启用直接连接
+[Enable MRIM proxy connections]
+启用 MRIM 代理连接
+[Full e-mail:]
+完整 e-mail:
+[Example: Petrov_Ivan@mail.ru]
+例如: Petrov_Ivan@mail.ru
+[Create a new Mail.ru account using the Mail.ru website]
+使用 Mail.ru 网站新建 Mail.ru 帐号
+[Retrieve a lost password]
+找回丢失的密码
+[Popup settings]
+弹出设置
+[Enable Anti Spam]
+启用垃圾信息检查
+[Check temp contacts]
+检查临时联系人
+[Delete spam bot contacts]
+删除垃圾邮件机器人联系人
+[Max. language changes in message (0 - disabled)]
+消息最大语言更改次数 (0 - 禁用)
+[Show pop up]
+显示弹出
+[Write to system history]
+写入系统历史
+[Send spam report to server]
+向服务器发送垃圾邮件报告
+[Bad words list]
+不良词汇列表
+[Select e-mail]
+选择邮箱
+;file \protocols\MRA\src\MraAntiSpam.cpp
+;file \protocols\MRA\src\MraAvatars.cpp
+;file \protocols\MRA\src\MraChat.cpp
+;file \protocols\MRA\src\MraConstans.h
+;file \protocols\MRA\src\MraFilesQueue.cpp
+;file \protocols\MRA\src\MraFilesQueue_mod.cpp
+;file \protocols\MRA\src\MraIcons.cpp
+;file \protocols\MRA\src\MraPopUp.cpp
+;file \protocols\MRA\src\MraProto.cpp
+;file \protocols\MRA\src\Mra_functions.cpp
+;file \protocols\MRA\src\Mra_options.cpp
+;file \protocols\MRA\src\Mra_proto.cpp
+;file \protocols\MRA\src\Mra_svcs.cpp
+[Duck]
+鸭子
+[Office]
+办公室
+[Beer]
+啤酒

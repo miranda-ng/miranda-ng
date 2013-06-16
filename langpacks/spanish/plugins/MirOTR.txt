@@ -1,0 +1,13 @@
+﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
+;============================================================
+;  File: MirOTR.dll
+;  Plugin: Miranda OTR
+;  Version: 0.11.0.4
+;  Authors: ProgAndy & CHEF-KOCH
+;============================================================
+;file \plugins\MirOTR\MirOTR\res\resource.rc
+[Manual]
+Manual de
+;file \plugins\MirOTR\MirOTR\src\language.h
+;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
+;file \plugins\MirOTR\MirOTR\src\options.cpp

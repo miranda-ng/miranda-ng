@@ -1,0 +1,50 @@
+﻿#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
+;============================================================
+;  File: Clist_mw.dll
+;  Plugin: MultiWindow contact list
+;  Version: 0.9.0.0
+;  Authors: 
+;============================================================
+;file \plugins\Clist_mw\res\resource.rc
+[MenuObjects]
+菜单对象
+[MenuItems]
+菜单项目
+[InsertSeparator]
+插入分隔器
+[Rows]
+列数
+[MetaContacts supporting]
+支持中继联系人
+[Show size grip]
+显示调整大小把手
+[Show bevel effect on panels]
+显示面板斜角
+[Use connecting Icon]
+使用连接图标
+[Use New Drawer for StatusBar]
+状态栏使用新绘制方法
+;file \plugins\Clist_mw\src\BkgrCfg.cpp
+[Backgrounds]
+背景
+;file \plugins\Clist_mw\src\clcfonts.cpp
+[Status messages]
+状态消息
+[Group Closed]
+群组已关闭
+[Hover Contacts]
+联系人悬停
+;file \plugins\Clist_mw\src\clcopts.cpp
+[List MetaContacts]
+列出中继联系人
+[StatusBar Background]
+状态栏背景
+;file \plugins\Clist_mw\src\clistopts.cpp
+;file \plugins\Clist_mw\src\clistsettings.cpp
+;file \plugins\Clist_mw\src\clisttray.cpp
+;file \plugins\Clist_mw\src\clui.cpp
+;file \plugins\Clist_mw\src\cluiopts.cpp
+;file \plugins\Clist_mw\src\groupmenu.cpp
+;file \plugins\Clist_mw\src\keyboard.cpp
+;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

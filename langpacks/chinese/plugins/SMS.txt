@@ -1,0 +1,89 @@
+﻿#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
+;============================================================
+;  File: SMS.dll
+;  Plugin: SMS
+;  Version: 0.2.5.3
+;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
+;============================================================
+;file \plugins\SMS\res\resource.rc
+[Received SMS]
+已传入 SMS
+[&Reply]
+回复(&R)
+[Read Next]
+读下一个
+[Message received:]
+已接收消息: 
+[Send SMS]
+发送 SMS
+[Add number to list]
+将号码加至列表
+[Save number]
+保存号码
+[Multiple >>]
+多重 >>
+[Enter message:]
+请输入消息: 
+[Chars:]
+字数: 
+[SMS Message Didn't Send]
+SMS 消息尚未发出
+[&Try again]
+重试(&T)
+[The SMS message send timed out]
+SMS 消息发送已超时
+[SMS Plugin]
+SMS 插件
+[Begining]
+开始
+[End]
+结束
+[Put signature at the:]
+将签名放于: 
+[Use Signature]
+使用签名
+[SMS Message Sent]
+SMS 消息已发出
+[Message ID:]
+消息 ID: 
+[Source:]
+来源: 
+[Network:]
+网络: 
+;file \plugins\SMS\src\options.cpp
+[From %s:\r\n\r\n]
+从 %s:\r\n\r\n
+;file \plugins\SMS\src\receive.cpp
+[SMS Message from %s]
+从 %s 发出 SMS 消息
+[SMS Confirmation from %s]
+从 %s 发出 SMS 确认
+;file \plugins\SMS\src\recvdlg.cpp
+[Received SMS Confirmation]
+已传入 SMS 确认
+;file \plugins\SMS\src\senddlg.cpp
+[Add Number To The Multiple List]
+将号码加至多重列表
+[Save Number To The User's Details Phonebook]
+将号码保存至用户详细信息电话簿中
+[Show/Hide Multiple List]
+显示/隐藏多重列表
+[Shows How Much Chars You've Typed]
+显示您键入字符数量
+[The SMS message send to %s timed out.]
+发送给 %s 的 SMS 消息已经超时. 
+[Message is too long, press OK to continue.]
+消息过长, 请按 "确定" 继续. 
+[Error - Message too long]
+错误 - 消息过长
+[There must be numbers in the list first.]
+列表中必须以数字开始. 
+[No Numbers]
+无号码
+[Invalid phone number]
+无效电话号码
+[<< Single]
+<< 单一
+;file \plugins\SMS\src\SMS_svc.cpp
+[Incoming SMS Confirmation]
+传入 SMS 确认

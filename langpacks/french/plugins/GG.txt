@@ -1,0 +1,165 @@
+﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+;============================================================
+;  File: GG.dll
+;  Plugin: GG
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\Gadu-Gadu\res\resource.rc
+[Gadu-Gadu User Details]
+Identifiants Gadu-Gadu
+[Gadu-Gadu Number:]
+Numéro Gadu-Gadu :
+[Retrieve password]
+Retrouver un mot de passe
+[Friends only]
+Seulement les amis
+[Show offline users with status message as invisible in contact list]
+Voir les contacts Hors Ligne avec le motif d'invisibilité dans la liste
+[After disconnection leave away message of status:]
+Après déconnexion, se remettre dans l'état :
+[if total participant count greater than:]
+s'y il la plus de participants que :
+[if unknown participant count greater than:]
+s'y il la plus de participants inconnus que :
+[Advanced Configuration]
+Configuration avancée
+[Show connection errors]
+Voir les erreurs de connexion
+[Use SSL secure connection]
+Utiliser une connexion sécurisée SSL
+[Use direct connections]
+Utiliser une connexion directe
+[Use forwarding]
+Utiliser le \'forwarding\'
+[Family name:]
+Nom de Famille :
+[Origin city:]
+Ville d'origine :
+[Birth year:]
+Né en :
+[Create Gadu-Gadu account]
+Créer un compte Gadu-Gadu.
+[New password:]
+Nouveau mot de passe :
+[Confirm password:]
+Confirmer le passe :
+[New e-mail:]
+Nouvel e-mail :
+[Remove Gadu-Gadu account]
+Effacer le compte Gadu-Gadu
+[Yes, I want to remove my account]
+Oui, je veux effacer mon compte
+[Change Gadu-Gadu password]
+Changer le mot de passe Gadu-Gadu
+[Change Gadu-Gadu e-mail]
+Changer l'e-mail Gadu-Gadu
+[Age from:]
+Agé de :
+[Open new conference]
+Ouvrir un chat
+;file \protocols\Gadu-Gadu\src\avatar.cpp
+;file \protocols\Gadu-Gadu\src\core.cpp
+[Server hostname %s is invalid. Using default hostname provided by the network.]
+Nom d'Hôte du serveur %s invalide. Utilisez celui par défaut par le réseau.
+[List import successful.]
+Liste importée avec succès.
+[List remove successful.]
+Liste effacée avec succès.
+[List export successful.]
+Liste exportée avec succès.
+;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[<Last Status>]
+<Dernier État>
+[You need to specify your registration e-mail first.]
+Vous devez spécifier votre e-mail primaire d'enregistrement
+[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+Votre mot de passe sera envoyé dans votre mail d'enregistrement.\nVoulez-vous continuer ?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+Vous devez vous déconnecter avant de perdre définitivement les modifications de votre compte.\nVoulez-vous vous déconnecter maintenant ?
+;file \protocols\Gadu-Gadu\src\filetransfer.cpp
+;file \protocols\Gadu-Gadu\src\gg.cpp
+[Unknown HTTP error]
+Erreur HTTP inconnue
+;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Gadu-Gadu Number]
+Numéro Gadu-Gadu :
+;file \protocols\Gadu-Gadu\src\groupchat.cpp
+[Open &conference...]
+Ouvrir un &chat...
+[&Clear ignored conferences]
+&Effacer les conférences ignorées
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+%s a lancé une conférence avec %d participants (%d inconnus).\nVoulez-vous participez-vous ?
+[%s initiated the conference.]
+%s a lancé(e) le chat.
+[This is my own conference.]
+C'est mon propre chat.
+['Unknown']
+'Inconnu'
+[You have to be connected to open new conference.]
+Vous avez été connecté pour ouvrir un nouveau chat.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Toutes les conférences ignorées sont maintenant désignorées et la politique de conférence agira encore.
+[There are no ignored conferences.]
+Il n'y a pas de conférence ignorée.
+;file \protocols\Gadu-Gadu\src\icolib.cpp
+;file \protocols\Gadu-Gadu\src\image.cpp
+[&Image]
+&Image
+[Image cannot be written to disk.]
+L'image n'a pu être copié sur le disque.
+[Image from %s]
+Image from %s
+[Image for %s]
+Image for %s
+[Select picture to send]
+Sélectionnez l'image à envoyer
+;file \protocols\Gadu-Gadu\src\import.cpp
+[You have to be connected before you can import/export contacts from/to server.]
+Vous devez vous connecter afin d'importer/exporter vos contact sur le serveur.
+[Text files]
+Fichiers Texte
+[contacts]
+contacts
+[Import List From &Server]
+Importer depuis un &Serveur
+[Import List From &Text File...]
+Importer depuis un fichier &Texte
+[&Remove List From Server]
+&Retirer la liste du Serveur
+[Export List To &Server]
+Exporter la liste vers le &server
+[Export List To &Text File...]
+Exporter la liste vers un fichier &Texte
+;file \protocols\Gadu-Gadu\src\links.cpp
+;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
+[Password was sent to your e-mail.]
+Votre mot de passe a été envoyé par mail.
+;file \protocols\Gadu-Gadu\src\popups.cpp
+;file \protocols\Gadu-Gadu\src\services.cpp
+;file \protocols\Gadu-Gadu\src\sessions.cpp
+;file \protocols\Gadu-Gadu\src\token.cpp
+;file \protocols\Gadu-Gadu\src\userutils.cpp
+[Cannot register new account because of error:\n\t%s]
+Enregistrement du nouveau compte impossible Erreur :\n\t%s
+[Registration rejected]
+Enregistrement refusé
+[Your account cannot be removed because of error:\n\t%s]
+Votre compte n'a pu être effacé. Erreur :\n\t%s
+[Bad number or password]
+Numéro ou mot de passe erroné
+[Your account has been removed.]
+Votre compte a bien été effacé.
+[Your password cannot be changed because of error:\n\t%s]
+Votre mot de passe n'a pu être changé. Erreur :\n\t%s
+[Invalid data entered]
+Données entrées invalides
+[Your password has been changed.]
+Votre mot de passe a bien été changé.
+[Your e-mail cannot be changed because of error:\n\t%s]
+Votre e-mail n'a pu être changé. Erreur :\n\t%s
+[Bad old e-mail or password]
+Ancien mail ou mot de passe erroné
+[Your e-mail has been changed.]
+Votre e-mail a bien été changé.

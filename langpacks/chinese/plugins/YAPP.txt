@@ -1,0 +1,68 @@
+﻿#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
+;============================================================
+;  File: YAPP.dll
+;  Plugin: YAPP
+;  Version: 0.5.0.11
+;  Authors: Scott Ellis
+;============================================================
+;file \plugins\YAPP\res\yapp.rc
+[Popup history]
+弹出窗口历史
+[Case sensitive]
+区分大小写
+[Never timeout]
+永不超时
+[Set timeout:]
+设置超时: 
+[Width:]
+宽度: 
+[Maximum height:]
+最大高度: 
+[Transparent background]
+透明背景
+[Disable when]
+禁用当
+[Global hover]
+全域局鼠标指向
+[Padding:]
+补位: 
+[Set timeout]
+设置超时
+[Timeout value (0 = default):]
+超时值 (0 = 默认值): 
+;file \plugins\YAPP\src\icons.cpp
+;file \plugins\YAPP\src\notify_imp.cpp
+[YAPP Popups]
+YAPP 弹出窗口
+;file \plugins\YAPP\src\options.cpp
+[Example]
+范例
+[Example With a Long Title]
+长标题范例
+[An avatar.]
+一个头像. 
+[No time]
+无时间
+[Time on left]
+时间在左方
+[Time on right]
+时间在右方
+[Time above avatar]
+时间在头像上面
+[Full-screen app running]
+全屏应用程序运行中
+[You cannot set a default timeout of 0.\nValue has been reset.]
+您无法设置 0 为默认超时. \n此值已被重置. 
+;file \plugins\YAPP\src\services.cpp
+;file \plugins\YAPP\src\yapp.cpp
+[First line]
+第一行
+[Title underline]
+标题加下划线
+;file \plugins\YAPP\src\yapp_history_dlg.cpp
+[Copy title to clipboard]
+复制标题到剪贴板
+[Copy message to clipboard]
+复制消息到剪贴板
+[Copy timestamp to clipboard]
+复制时间戳到剪贴板

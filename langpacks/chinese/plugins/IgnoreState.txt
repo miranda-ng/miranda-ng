@@ -1,0 +1,20 @@
+﻿#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
+;============================================================
+;  File: IgnoreState.dll
+;  Plugin: Ignore state
+;  Version: 0.0.3.0
+;  Authors: Kildor
+;============================================================
+;file \plugins\IgnoreState\res\ignore.rc
+[Filtered events:]
+过滤事件:
+[Use Miranda ignore settings for All Contacts]
+所有联系人使用 Miranda 忽略设置
+;file \plugins\IgnoreState\src\main.cpp
+[Full Ignore]
+全部忽略
+[Partial Ignore]
+部分忽略
+[Message Ignore]
+忽略消息
+;file \plugins\IgnoreState\src\options.cpp

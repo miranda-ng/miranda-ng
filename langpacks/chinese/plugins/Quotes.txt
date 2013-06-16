@@ -1,0 +1,143 @@
+﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: Quotes.dll
+;  Plugin: Quotes
+;  Version: 0.0.24.0
+;  Authors: Dioksin
+;============================================================
+;file \plugins\Quotes\res\Forex.rc
+[Use contact specific settings]
+使用联系人私有设置
+[Use &Internal History]
+使用网络历史(&I)
+[&Format:]
+格式(&F):
+[&Variables...]
+变量(&V)...
+[&Add to History only if Value Changed]
+仅数值变更添加至历史(&A)
+[Use &External File]
+使用外部文件(&E)
+[&Select File:]
+选择文件(&S):
+[&Browse...]
+浏览(&B)...
+[Variables Allowed: %miranda_userdata%,%quotename%]
+允许变量: %miranda_userdata%,%quotename%
+[F&ormat:]
+格式(&O):
+[V&ariables...]
+变量(&A)...
+[Add to &Log only if Value Changed]
+仅数值变更添加至记录(&L)
+[Show &Popup Window]
+显示弹出窗口(&P)
+[Show Popup Window Only if Value &Changed]
+仅数值变化时显示弹出窗口(&C)
+[Popup settings...]
+弹出设置...
+[Currency Converter]
+货币换算
+[&to:]
+至(&T):
+[&Swap]
+交换(&S)
+[&Choose Quotes to watch in contact list:]
+选择显示于联系人列表中的监视报价(&C):
+[&Refresh Quotes Every:]
+刷新报价每(&R):
+[&Display in Contact List as:]
+显示于联系列表为(&D):
+[&Status Message:]
+状态消息(&S):
+[&Advanced Settings...]
+高级设置(&A)...
+[Current Rate:]
+当前汇率:
+[Rate Fetch Time:]
+费率采集时间:
+[Previous Rate:]
+先前汇率:
+[&Convert:]
+兑换(&C):
+[&Watched currency rates:]
+监视汇率(&W):
+[&Refresh Rates Every:]
+刷新率(&R):
+[Quote\\Rate Info]
+报价\\汇率信息
+[&Watched Quotes:]
+观看报价(&W):
+;file \plugins\Quotes\src\Chart.h
+;file \plugins\Quotes\src\CommonOptionDlg.cpp
+;file \plugins\Quotes\src\CurrencyConverter.cpp
+[Info provided by]
+提供信息
+;file \plugins\Quotes\src\Forex.cpp
+[Quotes]
+报价
+[Refresh All Quotes\\Rates]
+刷新所有报价\\汇率
+[Currency Converter...]
+货币换算...
+[Export All Quotes]
+导出所有报价
+[Import All Quotes]
+导入所有报价
+[Open Log File...]
+打开日志文件...
+[Chart...]
+图表...
+;file \plugins\Quotes\src\HTTPSession.cpp
+[Quotes HTTP connections]
+报价 HTTP 连接
+;file \plugins\Quotes\src\IconLib.cpp
+[Quote/Rate up]
+报价/汇率上升
+[Quote/Rate down]
+报价/汇率下降
+[Quote/Rate not changed]
+报价/汇率无变化
+[Quote Section]
+报价区
+;file \plugins\Quotes\src\ImportExport.cpp
+;file \plugins\Quotes\src\ModuleInfo.cpp
+;file \plugins\Quotes\src\QuoteChart.cpp
+[Log File]
+日志文件
+;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
+;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
+[Quote Symbol]
+报价符号
+[Quote Name]
+报价名称
+[From Currency Full Name]
+从货币全名
+[From Currency Short Name]
+从货币缩写
+[Into Currency Full Name]
+至货币全名
+[Into Currency Short Name]
+至货币缩写
+[Short notation for "%f/%i"]
+简化符号 "%f/%i"
+[Source of Information]
+信息来源
+[Rate Value]
+汇率值
+[Previous Rate Value]
+先前汇率数值
+[Fetch Time]
+提取时间
+[Fetch Date]
+提取日期
+[Fetch Time and Date]
+提取日期时间
+[Percentage Character (%)]
+百分比字符 (%)
+[Tabulation]
+表格
+[Left slash (\\)]
+左斜线 (\\)
+;file \plugins\Quotes\src\SettingsDlg.cpp

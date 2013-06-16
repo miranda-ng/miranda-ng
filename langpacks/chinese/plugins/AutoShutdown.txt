@@ -1,0 +1,168 @@
+﻿#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
+;============================================================
+;  File: AutoShutdown.dll
+;  Plugin: Auto shutdown
+;  Version: 1.4.0.2
+;  Authors: H. Herkenrath
+;============================================================
+[Adds the possibility to shutdown the computer when a specified event occurs.]
+指定事件发生时增加关机可能性.
+;file \plugins\AutoShutdown\res\resource.rc
+[Shutdown]
+关机
+[&Show confirmation dialog before shutdown]
+关闭前显示确认对话框
+[&Countdown starts at:]
+倒计时开始于(&C): 
+[Shutdown Events]
+关机事件
+[&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
+如果 Miranda NG 关闭时启用了自动关机, 则以相同设置重新启用自动关机(&A)
+[&Ignore hidden or temporary contacts when watching for all contacts being offline]
+当所有监视联系人离线时, 忽略隐藏和临时联系人(&I)
+[Critical Shutdown Events]
+严重关机事件
+[Automatically shutdown the computer and turn the power off when one of the following occurs:]
+发生下列事件时自动关机并截断电源: 
+[&Thunderstorm warning is issued  (Weather)]
+闪速警告已发出 (天气) (&T)
+[&Harddrive overheats (HDD Info)]
+硬盘过热 (HDD Info) (&H)
+[Automatic Shutdown]
+自动关闭
+[Select the automatic shutdown event]
+选择自动关闭事件
+[Shutdown at &specific time]
+于指定时间关闭(&S)
+[Shutdown a&t:]
+关闭于(&T): 
+[Shutdown i&n:]
+关闭在(&N): 
+[Shutdown when a &message is received containing the following text:]
+当接收到含此文本消息时关闭(&M)
+[Shutdown when Miranda NG becomes &idle]
+当 Miranda NG 变为闲置时关闭(&I)
+[Shutdown when &prozessor usage drops below:]
+当处理器使用率下降至(&P): 
+[(current: 0%)]
+(当前: 0%)
+[Shutdown when all contacts are &offline]
+当所有联系人都离线时关闭(&O)
+[Shutdown when all &file transfers are finished]
+当所有文件传输都已完成时关闭(&F)
+[&Action:]
+操作(&A): 
+[Unsaved data in open applications except Miranda NG might get lost.]
+除 Miranda NG 外已打开应用程序中未保存资料可能会丢失. 
+[Please click "Cancel" if you would like to abort the process.]
+如果您想中止进程请按 "取消". 
+[&Now!]
+立即(&N)! 
+;file \plugins\AutoShutdown\src\frame.cpp
+[Shutdown at:]
+关闭于: 
+[Time left:]
+剩余时间: 
+[&Unpause Countdown]
+解除暂停倒计时(&U)
+[&Pause Countdown]
+暂停倒计时(&P)
+[&Cancel Countdown]
+取消倒计时(&C)
+[AutoShutdown]
+自动关机
+[Countdown on Frame]
+在框架中倒计时
+[Progress Bar]
+进度条
+;file \plugins\AutoShutdown\src\main.cpp
+;file \plugins\AutoShutdown\src\options.cpp
+;file \plugins\AutoShutdown\src\settingsdlg.cpp
+[(current: %u%%)]
+(当前: %u%%)
+[Second(s)]
+秒
+[Minute(s)]
+分钟
+[Hour(s)]
+小时
+[Day(s)]
+天
+[Week(s)]
+星期
+[Month(s)]
+月
+[Start/Stop automatic shutdown]
+开始/停止自动关闭
+[Stop automatic shutdown]
+停止自动关闭
+[Start automatic shutdown]
+开始自动关闭
+[Stop automatic &shutdown]
+停止自动关闭(&S)
+[Automatic &shutdown...]
+自动关闭(&S)...
+;file \plugins\AutoShutdown\src\shutdownsvc.cpp
+[Automatic Shutdown Error]
+自动关闭错误
+[The shutdown process failed!\nReason: %s]
+关机程序已失败! \n原因: %s
+[Miranda NG is going to be automatically closed in %u second(s).]
+Miranda NG 将于 %u 秒自动关闭. 
+[All Miranda NG protocols are going to be set to offline in %u second(s).]
+所有 Miranda NG 协议将于 %u 秒后自动设为离线. 
+[You will be logged off automatically in %u second(s).]
+您将于 %u 秒被自动注销. 
+[The computer will automatically be restarted in %u second(s).]
+此电脑将于 %u 秒自动重启. 
+[The computer will automatically be set to standby mode in %u second(s).]
+此电脑将于 %u 秒自动进入待命模式. 
+[The computer will automatically be set to hibernate mode in %u second(s).]
+此电脑将于 %u 秒自动进入休眠模式. 
+[The workstation will automatically get locked in %u second(s).]
+此工作站将于 %u 秒被自动锁定. 
+[All dialup connections will be closed in %u second(s).]
+所有拨号连接将于 %u 秒关闭. 
+[The computer will automatically be shut down in %u second(s).]
+此电脑将于 %u 秒自动关机. 
+[Inititiating the shutdown process failed!\nReason: %s]
+初始化关机程序失败! \n原因: %s
+[Close Miranda NG]
+关闭 Miranda NG
+[Set Miranda NG offline]
+设定 Miranda NG 离线
+[Log off user]
+注销用户
+[Restart computer]
+重启电脑
+[Shutdown computer]
+关闭电脑
+[Standby mode]
+待命模式
+[Hibernate mode]
+休眠模式
+[Hang up dialup connections]
+挂断拨号连接
+[Sets all Miranda NG protocols to offline and closes Miranda NG.]
+设置所有 Miranda NG 协议离线并关闭 Miranda NG. 
+[Sets all Miranda NG protocols to offline.]
+设置所有 Miranda NG 协议离线. 
+[Logs the current Windows user off so that another user can log in.]
+将当前 Windows 用户注销使其他用户可登录. 
+[Shuts down Windows and then restarts Windows.]
+关闭 Windows 并重启. 
+[Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]
+关闭所有正在运行的程序并关闭 Windows 直到可以安全关闭电源. 
+[Saves the current Windows session in memory and sets the system to suspend mode.]
+保存当前 Windows 会话至内存并使系统进入待命模式. 
+[Saves the current Windows session on harddisc, so that the power can be turned off.]
+保存当前 Windows 会话至硬盘, 使电源可以被关闭. 
+[Locks the computer. To unlock the computer, you must log in.]
+锁定电脑. 要解除锁定, 您必须登录. 
+[Sets all protocols to offline and closes all RAS connections.]
+设定所有协议离线并关闭所有 RAS 连接. 
+[Automatic Shutdown Countdown]
+自动关闭倒计时
+;file \plugins\AutoShutdown\src\utils.cpp
+[Toggle Automatic Shutdown]
+切换自动关闭

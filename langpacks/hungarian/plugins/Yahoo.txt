@@ -1,0 +1,133 @@
+﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+;============================================================
+;  File: Yahoo.dll
+;  Plugin: Yahoo
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\Yahoo\res\Yahoo.rc
+[ID:]
+Azonosító:
+[Create a new Yahoo account using the Yahoo website]
+Új Yahoo fiók létrehozása Yahoo weboldal használatával
+[Use Yahoo Address Book (YAB)]
+Yahoo címtár használata (YAB)
+[Display Yahoo notifications]
+Yahoo értesítések megjelenítése
+[Show Errors]
+Hibák mutatása
+[Yahoo Japan]
+Yahoo Japán
+[Yahoo Ignore List]
+Yahoo Elvetési Lista
+[Set Custom Status]
+Egyéni Állapot beállítása
+[Show as busy]
+Elfoglaltnak mutatás
+;file \protocols\Yahoo\src\avatar.cpp
+;file \protocols\Yahoo\src\chat.cpp
+[[miranda] Got conference invite to room: %s with msg: %s]
+Konferenciameghívást kaptál ebbe a szobába: %s ezzel az üzenettel: %s
+;file \protocols\Yahoo\src\icolib.cpp
+[Mail]
+E-mail
+[Address Book]
+Címtár
+[Set Status]
+Állapot beállítása
+[Calendar]
+Naptár
+;file \protocols\Yahoo\src\im.cpp
+[Yahoo Error]
+Yahoo hiba
+[Message is too long: Yahoo messages are limited by 800 UTF8 chars]
+Túl hosszú az üzenet: Yahho üzenetek korlátozva vannak 800 UTF8 karakterre
+;file \protocols\Yahoo\src\links.cpp
+;file \protocols\Yahoo\src\main.cpp
+;file \protocols\Yahoo\src\options.cpp
+[The changes you have made require you to reconnect to the Yahoo network before they take effect]
+A változtatások életbe lépéséhez szükség van a Yahoo Hláózathoz történõ újracsatlakozásra
+[YAHOO Options]
+YAHOO Beállítások
+[You need to be connected to Yahoo to add to Ignore List.]
+Kapcsolódva kell lenned a Yahoo-hoz elvetési listához történõ hozzáadáshoz.
+[Yahoo Ignore]
+Yahoo Elvetés
+[Please enter a valid buddy name to ignore.]
+Kérlek adj meg érvényes haver nevet az elvetéshez.
+[The buddy is already on your ignore list. ]
+A haver már az elvetési listádon van.
+[You need to be connected to Yahoo to remove from the Ignore List.]
+Kapcsolódva kell lenned a Yahoo-hoz elvetési listáról történõ eltávolításhoz.
+[Please select a buddy on the ignore list to remove.]
+Válassz egy havert az elvetési listán az eltávolításhoz.
+;file \protocols\Yahoo\src\proto.cpp
+[Please enter your yahoo id in Options/Network/Yahoo]
+Kérlek add meg a yahoo azonosítód a Beállítások/Hálózat/Yahoo menüben
+[Please enter your yahoo password in Options/Network/Yahoo]
+Kérlek add meg a yahoo jelszavad a Beállítások/Hálózat/Yahoo menüben
+[Yahoo Login Error]
+Yahoo belépési hiba
+;file \protocols\Yahoo\src\services.cpp
+[You need to be connected to set the custom message]
+kapcsolódva kell lenned az egyéni üzenet beállításához
+[You need to be connected to refresh your buddy list]
+Kapcsolódva kell lenned a haverlistád frissítéséhez
+[Set &Custom Status]
+&Egyéni állapot beállítása
+[&My Profile]
+&Saját profil
+[&Yahoo Mail]
+&Yahoo Mail
+[&Address Book]
+&Címtár
+[&Calendar]
+&Naptár
+[&Show Profile]
+Profil &mutatása
+;file \protocols\Yahoo\src\webcam.cpp
+[[miranda] Got webcam invite. (not currently supported)]
+Webkamerameghívásod érkezett. (jelenleg nem támogatott)
+;file \protocols\Yahoo\src\yahoo.cpp
+[Calendar Reminder]
+Naptár Emlékeztetõ
+[%s has rejected your request and sent the following message:]
+%s visszautasította a kérelmedet és a következõ üzenetet küldte:
+[You Have %i unread msgs]
+%i olvasatlan leveled van
+[New Mail (%i msgs)]
+Új levél (%i üzenet)
+[From: %s\nSubject: %s]
+Ettõl:%s\nTárgy: %s
+[Yahoo Ping Error]
+Yahoo Ping hiba
+[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+Bejelentkezés Yahoo szolgáltatásba sikertelen - ismeretlen felhasználónév. Kérlek ellenõrizd, hogy a felhasználóneved helyes-e.
+[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+Bejelentkezés Yahoo szolgáltatásba sikertelen - helytelen jelszó. Kérlek ellenõrizd, hogy a felhasználóneved és jelszavad helyes-e.
+[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+Bejelentkezés Yahoo szolgáltatásba sikertelen. A fiókod lezárva.\nLátogasd meg %s-t újra aktiváláshoz.
+[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+Ki lettél jelentkeztetve a yahoo szolgáltatásból, valószínüleg dupla belépés miatt.
+[Could not connect to the Yahoo service. Check your server/port and proxy settings.]
+Csatlakozás Yahoo szerverhez sikertelen. Ellenõrizd a szerver/port és proxybeállításaidat.
+[Could not log in, unknown reason: %d.]
+Bejelentkezés sikertelen, ismeretlen okból: %d.
+[Unknown error %s]
+Ismeretlen hiba %s
+[Custom error %s]
+Egyéni hiba %s
+[%s is not available for the conference]
+%s nem elérhetõ konferenciához
+[%s is already ignored]
+%s már el van vetve
+[%s is not in the ignore list]
+%s nincs az elvetési listán
+[%s is in buddy list - cannot ignore ]
+%s a haverlistán van - nem lehet elvetni
+[System Error: %s]
+Rendszerhiba: %s
+[Server Connection Error: %s]
+Szerver kapcsolódási Hiba: %s
+[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+Csatlakozás Yahoo szerverhez sikertelen. Kérlek ellenõrizd, hogy csatlakozva vagy-e az internethez, és helyesen adtad-e meg a gépet és portot.

@@ -1,0 +1,95 @@
+﻿#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+;============================================================
+;  File: NewEventNotify.dll
+;  Plugin: NewEventNotify
+;  Version: 0.2.2.3
+;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
+;============================================================
+;file \plugins\NewEventNotify\res\resource.rc
+[General Options]
+常规选项
+[Temporarily disable Event Popups]
+暂时禁用事件弹出窗口
+[Show Preview of Event in Popup]
+在弹出窗口中显示事件预览
+[Time to expires]
+截止时间
+[Notify me of ...]
+通知我关于...
+[Left Click Actions]
+点击左键操作
+[Open Event]
+打开事件
+[Dismiss Event]
+关闭事件
+[Right Click Actions]
+点击右键操作
+[Time Expires Actions]
+到期操作
+[Don't show Popup when Message-Dialog is already open]
+当消息对话框已打开时不要显示弹出窗口
+[Hide Popup when sending new message]
+发送新消息时隐藏弹出窗口
+[Open Reply-Dialog instead of reading the Message]
+用打开回复对话框代替读取消息
+[Merge popups from one user]
+相同联系人合并弹出窗口
+[Show Date]
+显示日期
+[Show Time]
+显示时间
+[Show Headers]
+显示标题
+[Number of begin shown messages]
+开始显示信息数量
+[Last message display first]
+最新消息显示在最前
+[Last message display last]
+最新消息显示在最后
+[No popups for RSS contacts]
+RSS 联系人不使用弹出窗口
+[No popups for read messages]
+读取消息时无弹出窗口
+;file \plugins\NewEventNotify\src\main.cpp
+[Message Received]
+已收到消息
+;file \plugins\NewEventNotify\src\menuitem.cpp
+;file \plugins\NewEventNotify\src\neweventnotify.h
+[You were added!]
+您已被添加! 
+[Requests your authorisation]
+请求您的授权
+[ICQ Web pager]
+ICQ 网上传呼
+[ICQ Email express]
+ICQ 邮件快递
+[Unknown Event]
+未知事件
+[Notify of new events]
+通知新事件
+[Enable new event notification]
+启用新事件通知
+[Disable new event notification]
+禁用新事件通知
+;file \plugins\NewEventNotify\src\options.cpp
+[Event Notify]
+事件通知
+;file \plugins\NewEventNotify\src\popup.cpp
+[Received %d contacts.]
+收到 %d 联系人.
+[ added you to the contact list]
+ 已添加您至联系人列表
+[ requested authorization]
+ 请求授权
+[This is a sample message event :-)]
+这是范例消息事件 :-)
+[This is a sample URL event ;-)]
+这是范例网址事件 ;-)
+[This is a sample file event :-D]
+这是范例文件事件 :-D
+[This is a sample other event ;-D]
+这是范例其它事件 ;-D
+[Plugin Test]
+插件测试
+[Number of new message: ]
+新消息数量: 

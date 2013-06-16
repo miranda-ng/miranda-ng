@@ -1,0 +1,629 @@
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+;file \protocols\IRCG\res\IRC.rc
+[&Del]
+削除 (&D)
+[only while connecting]
+接続中のみ
+[Force visible (-i)]
+強制可視 ( - i )
+[Rejoin channel if kicked]
+排除されたらチャンネルに再参加
+[Rejoin channels on reconnect]
+再接続時にチャンネルに再参加
+[Disable tray balloon on error]
+エラー時のトレイバルーンを無効
+[Show addresses]
+アドレス表示
+[Use server window]
+サーバーウィンドウを使用
+[Show server window on startup]
+起動時にサーバーウィンドウを表示
+[Automatically join on invite]
+招待に自動的に参加
+['Old style' mode changes]
+' 旧スタイル 'モードを変更
+[Update online statuses for users]
+ユーザーのオンラインステータスを更新
+[Update statuses in channel nicklist]
+チャンネルニックリストステータス更新
+[Internet address]
+インターネットアドレス
+[Port range]
+ポートの範囲
+[User ID (Ident)]
+ユーザーID ( 識別 )
+[Full name (e-mail)]
+氏名 ( 電子メール )
+[Server name]
+サーバー名
+[Alternative nick]
+代替ニック
+[Ident]
+識別
+[Default network]
+デフォルトネットワーク
+[User info - Required]
+ユーザー情報 - 必須
+[Reconnect]
+再接続
+[Wait (s)]
+待機 ( 秒 )
+[Retry count]
+再試行回数
+[Fear the monkeys!!!]
+サルを怖がれ !!!
+[Check every (s):]
+必ずチェック (s):
+[Don't check if more than (users):]
+ユーザー数の超過をチェックしない :
+[User information]
+ユーザー情報
+[Userinfo]
+ユーザー情報
+[&Refresh]
+リフレッシュ (&R)
+[&Query]
+クエリー (&Q)
+[Channels]
+チャンネル
+[Away Info]
+離席情報
+[The server returned the following information. Please note that this information might be misleading and/or falsified]
+サーバーは次の情報を返しました。この情報に , 虚偽及び ( もしくは ) 偽造がある場合があります
+[CTCP information]
+CTCP 情報
+[Perform]
+実行
+[&Set]
+設定 (&S)
+[Perform on event:]
+イベントで実行 :
+[Scripting support]
+スクリプト作成サポート
+[Quit message:]
+終了メッセージ :
+[Server code page:]
+サーバーコードページ :
+[Enable UTF8 autodetection]
+UTF8 自動検知を有効
+[Add server]
+サーバーを追加
+[Host address]
+ホストアドレス
+[Server description]
+サーバーの説明
+[Channels on server]
+サーバー上のチャンネル
+[Filter by]
+以下でフィルター :
+[C&onnect]
+接続 (&o)
+[Hostmask]
+ホストマスク
+[&Clear all]
+全てクリア (&C)
+[Online detection mode]
+オンライン検知モード
+[Wildcard enabled network search]
+ネットワーク検索にワイルドカードを有効
+[Bans]
+禁止
+[Invites]
+招待
+[Excepts]
+省略
+[Only Ops set topic]
+Op のみがトピックを設定
+[No external messages]
+外部メッセージはありません
+[Invite only]
+招待のみ
+[Moderated]
+管理
+[Key:]
+キー :
+[User limit:]
+ユーザー制限 :
+[Secret]
+秘密
+[Topic]
+トピック
+[User modes]
+ユーザーモード
+[Channel modes]
+チャンネルモード
+[Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
+このチャンネルにモードを設定するオプションを使用してください。あなたは通常 op もしくは変更のためのより高度な権限を要求されます
+[Strip colors]
+単色にする
+[Send-ahead]
+送信ヘッダー
+[Attempt reverse DCC (good if firewalled)]
+逆向き DCC を試みる ( ファイアウォール使用時に有効 )
+[everyone on the contact list]
+コンタクトリストにある全員
+[everyone]
+全員
+[Disconnect DCC chats when disconnecting from server]
+サーバーから切断したら DDC チャットを切断
+[Manually set external IP:]
+手動で外部 IP を設定
+[Client-to-Client File Transfers]
+クライアント対クライアントファイル転送
+[Client-to-Client Protocol]
+クライアント対クライアントプロトコル
+[Client-to-Client Chats]
+クライアント対クライアントチャット
+[Send mode:]
+送信モード :
+[Packet size (b):]
+パケットサイズ (b):
+[Get IP address from server]
+サーバーから IP アドレスを取得
+[Auto-accept from:]
+自動受信 差出人 :
+[Send notice]
+通知を送信
+[CTCP Chat Request]
+CTCP チャットリクエスト
+[Enable (*)]
+有効 (*)
+[Ignore channel messages by default]
+デフォルトのチャンネルメッセージを無視
+[Ignore filetransfer requests]
+ファイル転送リクエストを無視
+[Ignore DCC Chat requests]
+DDC チャットリクエストを無視
+[Ignore DCC Chat requests from unknown contacts]
+不明なコンタクトからの DDC チャットリクエストを無視
+[Ignore users]
+ユーザーを無視
+[(*) Queries from users on your contactlist are never ignored]
+(*) あなたのコンタクトリストにあるユーザーからのクエリーは決して無視しない
+[CTCP]
+CTCP
+[DCC]
+DCC
+[Ignore mask ( nick!user@host )]
+マスク ( nick!user@host ) を無視
+[Network (*)]
+ネットワーク (*)
+[Ignore events]
+イベントを無視
+[(*) blank to set this mask for all networks]
+(*) このマスクに空白を設定すると全ネットワークが対象
+[Alternate nick]
+代替ニック
+;file \protocols\IRCG\src\clist.cpp
+[CTCP chat request from %s]
+%s からの CTCP チャットリクエスト
+;file \protocols\IRCG\src\commandmonitor.cpp
+[%s sets mode %s]
+%s は %s モードを設定
+[%s sets mode %s%s]
+%s は %s%s モードを設定
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+CTCP エラー : %s!%s@%s から悪意のある CTCP コマンドを受信しました。登録済みの IRC クライアントのコントロールを制御されないよう , 可能な限り注意してください
+[CTCP FINGER requested by %s]
+CTCP FINGER %s のリクエスト
+[CTCP VERSION requested by %s]
+CTCP VERSION %s のリクエスト
+[CTCP SOURCE requested by %s]
+CTCP SOURCE %s のリクエスト
+[CTCP USERINFO requested by %s]
+CTCP USERINFO %s のリクエスト
+[CTCP PING requested by %s]
+CTCP PING %s のリクエスト
+[CTCP TIME requested by %s]
+CTCP TIME %s のリクエスト
+[DCC: Chat request from %s denied]
+DCC : %s からのチャットリクエストを拒否
+[DCC: File transfer request from %s denied]
+DCC : %s からのファイル転送リクエストを拒否
+[DCC: Reverse file transfer request from %s denied [No local IP]]
+DCC : %s からの逆向きファイル転送リクエストを拒否 [ ローカル IP なし ]
+[DCC ERROR: Malformed CTCP request from %s [%s]]
+DCC エラー : %s [ %s ] からの悪意のある CTCP リクエスト
+[DCC: File transfer resume request from %s denied]
+DCC : %s からのファイル転送再開リクエストを拒否
+[CTCP %s requested by %s]
+CTCP %s %s からのリクエスト
+[CTCP PING reply from %s: %u sec(s)]
+CTCP PING %s からのリプライ : %u 秒
+[CTCP %s reply from %s: %s]
+CTCP %s %s からの返信 : %s
+[Downloading list (%u%%) - %u channels]
+ダウンロード中のリスト(%u%%) - %u チャンネル
+[Downloading list - %u channels]
+ダウンロード中のリスト - %u チャンネル
+[Done: %u channels]
+終了 : %u チャンネル
+[(probably truncated by server)]
+( 恐らくサーバーにより省略 )
+[Change nickname]
+ニックネームの変更
+[IRC error]
+IRC エラー
+[Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
+ホストマスク (nick!user@host) を入力してください\n注意 ! コンタクトリストにあるコンタクトは絶対無視されません
+[Please enter the reason]
+理由を入力してください
+[Ban'n Kick]
+排除を禁止
+[Jerk]
+ひっぱる
+[*Disconnected*]
+* 切断 *
+[The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
+実行バッファー内での /AWAY の使用は制限されています\n IRC はこのコマンドを自動的に送信します
+[IRC Error]
+IRC エラー
+;file \protocols\IRCG\src\input.cpp
+[The buddy check function is enabled]
+メンバーチェック機能を有効
+[The buddy check function is disabled]
+メンバーチェック機能を無効
+[Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
+不正なパラメーターです。使用法 : /sleep [ms], ms は 0 以上 4000 未満
+[Ignore system is enabled]
+無視システムを有効
+[Ignore system is disabled]
+無視システムは無効
+[%s on %s is now ignored (+%s)]
+%s : %s は現在無視しています (+%s)
+[%s is not ignored now]
+%s は現在無視されていません
+[%s was not ignored]
+%s は無視されていませんでした
+[Outgoing commands are shown]
+発信コマンドを表示
+[Outgoing commands are not shown]
+発信コマンドを表示しない
+[The time interval for the buddy check function is now at default setting]
+メンバーチェック機能の時間間隔は現在デフォルト設定です
+[The time interval for the buddy check function is now %u seconds]
+メンバーチェック機能の時間間隔は , 現在 %u 秒です
+[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
+この大きさのネットワーク上では , このコマンドは推奨されません !\r\n CPU の高負荷使用 , 及び ( もしくは ) 帯域の大幅使用につながります\r\n%u から %u 分程度かかる見込みです\r\n\r\n本当に実行しますか ?
+[IRC warning]
+IRC 警告
+[Aborted]
+中断
+[CTCP %s request sent to %s]
+CTCP %s リクエストを %s に送信
+[DCC ERROR: Unable to automatically resolve external IP]
+DCC エラー : 外部 IP の自動解決ができませんでした
+[DCC CHAT request sent to %s]
+DCC CHAT リクエストを %s に送信
+[DCC ERROR: Unable to bind port]
+DCC エラー : ポートをバインドできませんでした
+[Input command]
+コマンド入力
+[Please enter the reply]
+返信を入力してください
+;file \protocols\IRCG\src\irclib.cpp
+[Failed to connect to]
+接続に失敗しました :
+[DCC ERROR: Unable to bind local port for passive filetransfer]
+DCC エラー : パッシブモードファイル転送用ローカルポートをバインドできませんでした
+;file \protocols\IRCG\src\ircproto.cpp
+[DCC ERROR: No valid files specified]
+DCC エラー : 有効なファイルが指定されていません
+[DCC reversed file transfer request sent to %s [%s]]
+DCC 逆向きファイル転送リクエストを%s [%s]に送信
+[DCC file transfer request sent to %s [%s]]
+DCC ファイル転送リクエストを%s [%s]に送信
+[DCC ERROR: Unable to bind local port]
+DCC エラー : ローカルポートをバインドできませんでした
+[The protocol is not online]
+プロトコルはオンラインではありません
+[The dcc chat connection is not active]
+DCC チャット接続はアクティブではありません
+[Please choose an IRC-network to go online. This network will be the default.]
+オンラインにする IRC ネットワークを選択してください。このネットワークはデフォルトになります
+[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+接続を確立できませんでした ! 全ての必要なフィールドが入力完了していません ( ニックネーム , ユーザー ID 及び m_name )
+;file \protocols\IRCG\src\options.cpp
+[Channel list]
+チャンネルリスト
+[Quick connect]
+クイック接続
+[Show channel]
+チャンネルを表示
+[WhoIs]
+WhoIs
+[Incoming DCC Chat]
+着信 DCC チャット
+[Logo (48x48)]
+ロゴ (48x48)
+[Cyrillic (Windows)]
+キリル文字 (Windows)
+[Cyrillic (KOI8R)]
+キリル文字 (KOI8R)
+[Please complete all fields]
+全てのフィールドを入力してください
+[Add a new network]
+新規ネットワークを追加
+[Edit this network]
+このネットワークを編集
+[Delete this network]
+このネットワークを削除
+[Do you want to delete\r\n%s]
+削除しますか\r\n%s
+[Delete server]
+サーバーを削除
+[Edit server]
+サーバーを編集
+[<Resolved IP: ]
+< 解決済み IP:
+[<Automatic>]
+< 自動 >
+[<Local IP: ]
+< ローカル IP:
+[Click to set commands that will be performed for this event]
+クリックして , このイベントに対して実行されるコマンドを設定してください
+[Click to delete the commands for this event]
+クリックして , このイベントに対するコマンドを削除をして下さい
+[Default ANSI codepage]
+デフォルト ANSI コードページ
+[Add new ignore]
+新規無視を追加
+[Edit this ignore]
+この無視を編集
+[Delete this ignore]
+この無視を削除
+[Ignore mask]
+マスクを無視
+[Flags]
+フラグ
+[Add ignore]
+無視を追加
+[Edit ignore]
+無視を編集
+[DCC'n CTCP]
+DCC と CTCP
+;file \protocols\IRCG\src\output.cpp
+[WallOps from %s: ]
+%s からの WallOps :
+[%s invites you to %s]
+%s があなたを %s に招待しています
+[%s is away]
+%s は離席中です
+[These are online: ]
+オンライン :
+[CTCP %s reply sent to %s]
+CTCP %s は &s に返信を送信
+[CTCP %s reply sent to %s: %s]
+CTCP %s は &s に返信を送信 : %s
+[Notice to %s: ]
+%s に通知 :
+;file \protocols\IRCG\src\services.cpp
+[&Quick connect]
+クイック接続 (&Q)
+[&Join channel]
+チャンネルに参加 (&J)
+[&Change your nickname]
+ニックネーム変更 (&C)
+[Show the &list of available channels]
+利用可能なチャンネルをリスト表示 (&l)
+[&Show the server window]
+サーバーウィンドウを表示 (&S)
+[Channel &settings]
+チャンネル設定 (&s)
+[&WhoIs info]
+WhoIs 情報 (&W)
+[Di&sconnect]
+切断 (&s)
+[&Add to ignore list]
+無視リストに追加 (&A)
+[%s (%s) is requesting a client-to-client chat connection.]
+%s (%s) はクライアント対クライアントチャット接続をリクエスト中
+[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
+ホストマスク (nick!user@host) を入力してください\n注意 ! あなたのコンタクトリストにあるコンタクトは絶対無視されません
+[Join channel]
+チャンネルに参加
+[Please enter a channel to join]
+参加するチャンネルを入力してください
+[Please select IRC network and enter the password if needed]
+IRC ネットワークを選択して , 必要であればパスワードを入力してください
+[Change nick name]
+ニックネームの変更
+[Please enter a unique nickname]
+重複しないニックネームを入力してください
+[Please enter your authentification code]
+認証コードを入力してください
+[Authentificate nick]
+ニック認証
+[Are you sure you want to unregister your current nick?]
+本当に現在のニックの登録解除をしますか ?
+[Delete nick]
+ニックを削除
+[Identify nick]
+ニックの識別
+[Please enter your password]
+パスワードを入力してください
+[Set new password]
+新規パスワードを設定
+[Please enter desired languageID (numeric value, depends on server)]
+要求される言語 ID を入力してください ( 数値 , サーバーに依存 )
+[Change language of NickServ messages]
+NickServ メッセージの言語を変更
+[Please enter URL that will be linked to your nick]
+ニックにリンクさせる URL を入力してください
+[Set URL, linked to nick]
+ニックにリンクする URL を設定
+[Please enter your e-mail, that will be linked to your nick]
+あなたのニックにリンクする電子メールを入力してください
+[Set e-mail, linked to nick]
+ニックにリンクする電子メールを設定
+[Please enter some information about your nick]
+ニックについての情報を入力してください
+[Set information for nick]
+ニックの情報を設定
+[Please enter nick you want to link to your current nick]
+現在のニックにリンクしたいニックを入力してください
+[Link another nick to current nick]
+現在のニックと他のニックをリンク
+[Please enter nick you want to unlink from your current nick]
+現在のニックからリンクを外したいニックを入力してください
+[Unlink another nick from current nick]
+現在のニックから別のニックのリンクを解除
+[Please enter nick you want to set as your main nick]
+メインニックとして設定するニックを入力してください
+[Set main nick]
+メインニックを設定
+[Kick]
+排除
+[Please enter the notice text]
+通知するテキストを入力してください
+[Please enter the channel name to invite to]
+招待するチャンネル名を入力してください
+[Invite to channel]
+チャンネルに招待
+[NickServ]
+NickServ
+[Register nick]
+ニックの再登録
+[Auth nick]
+ニック認証
+[Remind password ]
+パスワードを思い出す
+[Set language]
+言語を設定
+[Set homepage]
+ホームページを設定
+[Set e-mail]
+電子メールを設定
+[Set info]
+情報を設定
+[Hide e-mail from info]
+情報から電子メールを隠す
+[Show e-mail in info]
+情報に電子メールを表示
+[Set security for nick]
+ニックのセキュリティを設定
+[Remove security for nick]
+ニックのセキュリティを削除
+[Link nick to current]
+ニックを現在にリンク
+[Unlink nick from current]
+現在からニックのリンクを解除
+[List all your nicks]
+全ての自分のニックをリスト
+[List your channels]
+自分のチャンネルをリスト
+[Kill unauthorized: off]
+未認証者を消す : オフ
+[Kill unauthorized: on]
+未認証者を消す : オン
+[Kill unauthorized: quick]
+未認証者を消す : クイック
+[Hide nick from list]
+リストからニックを隠す
+[Show nick to list]
+ニックをリストに表示
+[Show the server &window]
+サーバーウィンドウを表示 (&w)
+[&Leave the channel]
+チャンネルを離席 (&L)
+[&Invite to channel]
+チャンネルに招待 (&I)
+[Send &notice]
+通知を送信 (&n)
+[Nickserv info]
+Nickserv 情報
+[Nickserv kill ghost]
+Nickserv はゴーストを消した
+[&Control]
+コントロール (&C)
+[Give Owner]
+所有者権限の付与
+[Take Owner]
+所有者権限を取得
+[Give Admin]
+管理者権限の付与
+[Take Admin]
+管理者権限を取得
+[Give &Op]
+Op の付与 (&O)
+[Take O&p]
+Op を取得 (&p)
+[Give &Halfop]
+Halfop の付与 (&H)
+[Take H&alfop]
+Halfop を取得 (&a)
+[Give &Voice]
+Voice の付与 (&V)
+[Take V&oice]
+Voice を取得 (&o)
+[Ki&ck (reason)]
+排除 ( 理由 )(&c)
+[&Ban]
+入室禁止 (&B)
+[Ban'&n kick]
+入室禁止と排除
+[Ban'n kick (&reason)]
+入室禁止と排除 ( 理由 )(&r)
+[&Direct Connection]
+直接接続 (&D)
+[Request &Chat]
+チャットリクエスト (&C)
+[Send &File]
+ファイルを送信 (&F)
+[Add to &ignore list]
+無視リストに追加 (&i)
+[&Add User]
+ユーザーを追加 (&A)
+[Connecting to]
+接続中 :
+[Reconnecting to]
+再接続中 :
+;file \protocols\IRCG\src\tools.cpp
+;file \protocols\IRCG\src\userinfo.cpp
+;file \protocols\IRCG\src\windows.cpp
+[Channel]
+チャンネル
+[%s - Filtered - %d items]
+%s - フィルター済 - %d アイテム
+[---- Not listed server ----]
+---- リストにないサーバー ----
+[Type new server address here]
+新規サーバーアドレスをここに入力してください
+[Add ban/invite/exception]
+入室禁止 / 招待 / 例外を追加
+[Edit selected ban/invite/exception]
+選択された入室禁止 / 招待 / 例外を編集
+[Delete selected ban/invite/exception]
+選択された入室禁止 / 招待 / 例外を削除
+[Set these modes for the channel]
+チャンネルにこれらのモードを設定
+[Set this topic for the channel]
+チャンネルにこのトピックを設定
+[You have not applied all changes!\n\nApply before exiting?]
+全ての変更はまだ適用されていません !\n\n終了前に適用しますか ?
+[Add ban]
+入室禁止を追加
+[Add invite]
+招待を追加
+[Add exception]
+例外を追加
+[Please enter the hostmask (nick!user@host)]
+ホストマスク (nick!user@host) を入力してください
+[Edit ban]
+入室禁止を編集
+[Edit invite?]
+招待を編集しますか ?
+[Edit exception?]
+例外を編集しますか ?
+[Remove ban?]
+入室禁止を削除しますか ?
+[Remove invite?]
+招待を削除しますか ?
+[Remove exception?]
+例外を削除しますか ?

@@ -1,0 +1,44 @@
+﻿#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
+;============================================================
+;  File: StopSpamMod.dll
+;  Plugin: StopSpam mod
+;  Version: 0.0.2.0
+;  Authors: Roman Miklashevsky, sss, Elzor
+;============================================================
+;file \plugins\StopSpamMod\res\stopspam.rc
+[Answer:]
+回答:
+[Available accounts:]
+可用账户:
+[Filtered accounts:]
+筛选帐号:
+[Hide unanswered contacts and spammers from contact list]
+于联系人列表中隐藏无答复联系人及垃圾发送者
+[Ignore spammers (do not write messages to history)]
+忽略垃圾发送者 (不要记录消息至历史)
+[Log spam to file]
+记录垃圾信息至文件
+[Case insensitive answer checking]
+答案检查时忽略大小写
+[Disable question in invisible mode]
+隐身模式禁用问题
+[Enable integration with DOS plugin]
+启用集成 DOS 插件
+[Remove Excluded contacts after restart]
+重启后移除排除联系人
+[Add contacts to specified group:]
+添加联系人至指定群组:
+[Ignore URL in messages and auth requests]
+忽略含链接消息及授权请求
+[Add contact to server list]
+添加联系人至服务器列表
+[After congratulation (ICQ only)]
+祝贺后 (仅 ICQ)
+[Automatically grant authorization]
+自动授权
+[Use regex for answers checking]
+使用正则表达式检查答案
+;file \plugins\StopSpamMod\src\init.cpp
+;file \plugins\StopSpamMod\src\options.cpp
+[Congratulations! You just passed human/robot test. Now you can write me a message.]
+恭喜! 您刚通过了 人/机 测试. 现在您可以给我发消息了.

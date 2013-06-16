@@ -1,0 +1,21 @@
+﻿#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+;============================================================
+;  File: NewEventNotify.dll
+;  Plugin: NewEventNotify
+;  Version: 0.2.2.3
+;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
+;============================================================
+;file \plugins\NewEventNotify\res\resource.rc
+;file \plugins\NewEventNotify\src\main.cpp
+;file \plugins\NewEventNotify\src\menuitem.cpp
+;file \plugins\NewEventNotify\src\neweventnotify.h
+;file \plugins\NewEventNotify\src\options.cpp
+;file \plugins\NewEventNotify\src\popup.cpp
+[This is a sample message event :-)]
+Ez egy üzenet esemény minta :-)
+[This is a sample URL event ;-)]
+Ez egy URL esemény minta ;-)
+[This is a sample file event :-D]
+Ez egy fájl esemény minta :-D
+[This is a sample other event ;-D]
+Egy egy egyéb esemény minta ;-D

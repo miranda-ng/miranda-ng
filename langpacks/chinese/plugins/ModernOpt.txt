@@ -1,0 +1,43 @@
+﻿#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+;============================================================
+;  File: ModernOpt.dll
+;  Plugin: ModernOpt
+;  Version: 0.1.0.0
+;  Authors: Victor Pavlychko, George Hazan
+;============================================================
+[Support for new options design.]
+新选项界面支持.
+;file \plugins\ModernOpt\res\resource.rc
+[Visit official Miranda NG website]
+访问 Miranda NG 官方主页
+[Sample page]
+示例页面
+[Use arrow keys to choose category]
+使用方向键选择分类
+[Switch to classic options]
+切换至经典选项
+;file \plugins\ModernOpt\src\modernopt.cpp
+[Miranda NG configuration center]
+Miranda NG 配置中心
+[Setup your account information to start messaging.]
+设置您的账号信息以便开始聊天.
+[Style]
+样式
+[Change the look of Miranda NG according to your taste.]
+更改 Miranda NG 外观以适合您的口味.
+[Configure behaviour of your contact list.]
+配置您的联系人列表行为.
+[Chats]
+聊天
+[Customize look&&feel of your chat windows here.]
+自定义您的聊天窗口外观及体验.
+[Ban those users and events, you are annoyed with.]
+您可在此封锁那些另人恼火的用户及事件.
+[Set your status messages and idle reporting.]
+设置您的状态信息及闲置报告.
+[Addons]
+插件
+[Miranda NG is all about plugins. Manage all the plugins you have here.]
+Miranda NG 所有插件相关. 您可在此管理所有插件.
+[You have some unsaved changes here.\n Do you wish to apply settings before switching?]
+您有一些未保存变更.\n 切换前您是否想套用设置?

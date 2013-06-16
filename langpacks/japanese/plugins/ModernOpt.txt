@@ -1,0 +1,21 @@
+﻿#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+;============================================================
+;  File: ModernOpt.dll
+;  Plugin: ModernOpt
+;  Version: 0.1.0.0
+;  Authors: Victor Pavlychko, George Hazan
+;============================================================
+;file \plugins\ModernOpt\res\resource.rc
+[Visit official Miranda NG website]
+Miranda NG 公式ウェブサイトにアクセス
+[Sample page]
+サンプルページ
+[Use arrow keys to choose category]
+カテゴリーの選択にカーソルキーを使用
+[Switch to classic options]
+クラシックオプションに切り替え
+;file \plugins\ModernOpt\src\modernopt.cpp
+[Style]
+スタイル
+[You have some unsaved changes here.\n Do you wish to apply settings before switching?]
+ここで保存されていない変更があります\n切り替える前に設定を適用しますか ?

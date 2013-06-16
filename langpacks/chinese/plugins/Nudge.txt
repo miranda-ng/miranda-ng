@@ -1,0 +1,55 @@
+﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+;============================================================
+;  File: Nudge.dll
+;  Plugin: Nudge
+;  Version: 0.0.2.0
+;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
+;============================================================
+;file \plugins\Nudge\res\resource.rc
+[Protocol options]
+协议选项
+[Specify options for each protocol]
+为每个协议指定选项
+[Enable message window shaking]
+启用消息窗口震动
+[Show as status change]
+以状态变更显示
+[Auto resend nudge after]
+自动重新发送闪屏于
+[Enable popup notification]
+启用弹出通知
+[Sending text]
+发送文本
+[Receiving text]
+接收文本
+[Allow sending* one nudge to the same contact every :]
+允许发送* 一次闪屏到相同联系人于每: 
+[Allow receiving one nudge from the same contact every :]
+允许从相同联系人接收一次闪屏于每: 
+[* Nudge sending delay is hardcoded and cannot be changed.]
+* 闪屏发送延时为固定数值不能修改. 
+[Allow nudges when you're:]
+当您在下列状态时允许闪屏: 
+[Shaking Clist Options]
+震动联系人列表选项
+[Number of moves]
+移动数量
+[Width of move]
+移动宽度
+[Shaking Message Window Options]
+震动消息窗口选项
+;file \plugins\Nudge\src\main.cpp
+[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
+不允许您发送过多闪屏 (每 %d 秒仅可一个, 尚余 %d 秒)
+[Nudge]
+闪屏
+[Nudge as Default]
+默认闪屏
+;file \plugins\Nudge\src\nudge.cpp
+[You received a nudge]
+您已收到一次闪屏
+[You sent a nudge]
+您已发送一次闪屏
+;file \plugins\Nudge\src\options.cpp
+[Window Shaking]
+窗口震动

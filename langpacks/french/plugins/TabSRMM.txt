@@ -1,0 +1,470 @@
+﻿#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+;============================================================
+;  File: TabSRMM.dll
+;  Plugin: TabSRMM
+;  Version: 3.1.99.8
+;  Authors: The Miranda developers team and contributors
+;============================================================
+;file \plugins\TabSRMM\res\chat.rc
+;file \plugins\TabSRMM\res\resource.rc
+[Message send timeout]
+Délai d'envoi des messages
+[Input history size]
+Nombre d'entrée dans l'historique
+[entries]
+entrées
+[Event notify options]
+Options de notification d'évènement
+[Limit message preview to]
+Aperçu des messages limité à
+[All modes]
+Tous les modes
+[Send text formatting method]
+Méthode d'envoi du texte formaté
+[You can override the global setting for text formatting here. Use "Force Off" to never send formatting info for this contact.]
+Vous pouvez forcer ici les paramètres globaux de formatage. Utilisez "Force Off" pour ne jamais envoyer d'info de formatage à ce contact.
+[ANSI codepage]
+Page de code ANSI
+[Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.]
+Page de code ANSI pour encoder/décoder les messages reçus ou envoyés au format non-unicode.
+[Use private splitter position]
+Position personnalisée du diviseur
+[Contact is a favorite contact]
+Ce contact est un favori
+[Force ANSI send / receive]
+Forcer l'envoi / réception ANSI
+[Only show tab bar when it's needed]
+Voir la barre d'onglet si nécessaire
+[Container stays on top]
+Conteneur toujours visible
+[Use default setting]
+Par défaut
+[Flash until focused]
+Jusqu'à fenêtre visible
+[Disable flashing]
+Sans clignotement
+[Enable popups if minimized]
+Activer les popups si minimisé
+[Enable popups if unfocused]
+Popups si conteneur inactif
+[Hide the status bar]
+Cacher la barre d'état
+[Hide the menu bar]
+Cacher le menu
+[Hide the tool bar]
+Cacher la barre d'outils
+[Show the info panel]
+Afficher le panneau des infos
+[Hide title bar]
+Cacher la barre de titre
+[Save current as global]
+Sauver le courant comme global
+[Message window options]
+Options de la fenêtre de message
+[Indent values]
+Décalage
+[Template sets]
+Modèle
+[Standard templates...]
+Modèles standard...
+[RTL templates...]
+Modèles DàG...
+[Send typing notifications to the following users when you are typing a message to the them:]
+Envoyez la notification de frappe aux contacts suivants quand vous leur écrivez un message :
+[Flash window once on typing events (only if flashing enabled)]
+La fenêtre clignote une fois (seulement si clignotement activé)
+[Tab options]
+Options des onglets
+[Miscellaneous options]
+Autres options
+[Setup status modes for automatic tab creation...]
+Régler les états lors de la création auto. d'un onglet...
+[Limit nicknames on tabs to]
+Limiter pseudo dans l'onglet à
+[Select container]
+Sélection d'un Conteneur
+[Available containers]
+Conteneurs disponibles
+[Create a new container]
+Création d'un nouveau conteneur
+[Create new]
+Créer un nouveau
+[To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
+Pour régler les options d'un conteneur, veuillez faire comme suit :\n1. Choisissez "Options du Conteneur" depuis le menu du conteneur.\n2. En cliquant droit sur l'onglet ou barre d'outils d'une fenêtre de message.
+[Container flashing]
+Clignotement du conteneur
+[Flash containers]
+Clignotement des conteneurs
+[times]
+fois
+[Flash interval]
+Intervalle de clignotement
+[&Use Windows colours]
+&Utiliser couleurs Windows
+[Edit template]
+Éditer le modèle
+[Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
+Double-cliquer sur un modèle pour l'éditer. Sélectionner un modèle dans la liste et cliquer sur "Mise à jour de l'aperçu" pour voir un message d'aperçu.
+[Get more help on variables]
+Plus d'aide sur les variables
+[Define up to 5 colors which you can use with some variables]
+Définir jusqu'à 5 couleurs à utiliser avec les variables
+[Update Preview]
+Mise à jour de l'aperçu
+[Save Template]
+Sauvegarder le modèle
+[Revert to Default]
+Modèle par défaut
+[NOTE: some settings will not affect open containers.]
+Note : certains paramètres n'affecteront pas les conteneurs ouverts.
+[About tabSRMM]
+A propos de TabSRMM
+[Indent message body]
+Décaler le corps du message
+[RTL is default text direction]
+Lecture inversée par défaut
+[&Quote]
+&Citer
+[Freeze Log]
+Figer les messages
+[Editor]
+Éditeur
+[Paste formatted Text]
+Coller texte formaté
+[Paste and Send immediately]
+Coller et envoyer immédiatement
+[Copy all]
+Tout copier
+[Select all]
+Tout sélectionner
+[Attach to Container...]
+Rattacher à un conteneur...
+[Container Options...]
+Options du conteneur...
+[Close Container]
+Fermer le conteneur
+[Always keep the button bar at full width]
+Largeur maximum pour la barre de boutons
+[Sendmenu]
+Menu envoi
+[Send &Default]
+Envoi &normal
+[Send to &multiple Users]
+Envoyer à &plusieurs contacts
+[Send to &Container]
+Envoyer aux contacts du &conteneur
+[Send &Later]
+&Différer l'envoi
+[Force &ANSI]
+Envoyer en &ANSI
+[Send Text Formatting]
+Formatage du texte
+[This Contact]
+Pour ce contact
+[Global Setting]
+Paramètres généraux
+[Force Off]
+Désactiver
+[Unread Menu]
+Menu des non lus
+[Recent Sessions]
+Sessions récentes
+[Favorites]
+Favoris
+[Disable All Event Notifications]
+Désactiver toutes les notifications d'évènement
+[Don't create Windows automatically]
+Ne pas créer de fenêtre automatiquement
+[Hide all Message Containers]
+Cacher tous les conteneurs
+[Restore all Message Containers]
+Restaurer tous les conteneurs
+[Don't play Sounds]
+Aucun sons
+[Be "Super Quiet"]
+Être "super silencieux"
+[Default Color]
+Couleur par défaut
+[Magenta]
+Magenta
+[Clear all Formatting]
+Effacer le formatage
+[Dummy]
+Factice
+[No Message Sessions opened]
+Pas de session ouverte
+[Add Contact to Favorites]
+Ajouter aux favoris
+[Remove Contact from Favorites]
+Enlever des favoris
+[Save Message Log As...]
+Enregistrer sous...
+[Close Message Session\tCtrl-W]
+Fermer la session\tCtrl-W
+[Close Container\tAlt-F4]
+Fermer le conteneur\tAlt-F4
+[&View]
+&Aperçu
+[Show Menu Bar]
+Voir barre de menu
+[Show Status Bar]
+Voir barre d'état
+[Show Tool Bar]
+Voir barre d'outils
+[Title Bar]
+Barre de titre
+[Tabs at Bottom]
+Onglets en bas
+[Window Flashing]
+Clignotement de la fenêtre
+[Use default Value]
+Valeur par défaut
+[Disable Flashing]
+Sans Clignotement
+[Show Multisend Contact List]
+Voir la liste pour un envoi multiple
+[Stay on Top]
+Toujours visible
+[Message &Log]
+Zone de &Message
+[&Container]
+&Conteneur
+[Event Popups]
+Popups d'évènement
+[Disable all Event Popups]
+Désactiver tous les popups d'évènement
+[Show Popups if Window is minimized]
+Voir Popups si fenêtre minimisée
+[Show Popups if Window is unfocused]
+Voir Popups si fenêtre cachée
+[Show Popups for all inactive sessions]
+Voir les popups des sessions inactives
+[Save current Window Position as Default]
+Sauver la position actuelle de la fenêtre
+[About tabSRMM...]
+A propos de TabSRMM
+;file \plugins\TabSRMM\src\buttonsbar.cpp
+[Bold text]
+Gras
+[Italic text]
+Italique
+[Underlined text]
+Souligné
+[Select font color]
+Couleur
+[Quote last message OR selected text]
+Citer le dernier message OU le texte sélectionné
+[Message Log Options]
+Options
+;file \plugins\TabSRMM\src\container.cpp
+[Hide titlebar]
+Cacher la barre de titre
+[Container options...]
+Options conteneur...
+[Attach to]
+Attache à
+[Meta Contact]
+Meta Contact
+[(Forced)]
+(Forcé)
+[Autoselect]
+Auto-sélection
+[Use Protocol]
+Utiliser le protocole
+[Set Default Protocol]
+Protocole par défaut
+;file \plugins\TabSRMM\src\containeroptions.cpp
+[Tabs at the bottom]
+Onglets en bas
+[Globally on]
+Oui, dans tous les protocoles
+[On, if present]
+Oui, s'il y en a un.
+[Globally OFF]
+Non
+;file \plugins\TabSRMM\src\controls.cpp
+[&User]
+&Contact
+[disabled]
+désactivé
+;file \plugins\TabSRMM\src\eventpopups.cpp
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
+Une des actions de popup a été DÉSACTIVÉE.\nNotez que ces options peuvent avoir un effet non désiré, cela ENLÈVE l'évènement de la liste non-lue.\nDu coup, l'évènement peut être montré comme "nouveau". Si cela ne vous convient pas, vérifiez la page des paramètres de Notification d'Évènement.
+[New messages: ]
+Nouveaux messages : 
+;file \plugins\TabSRMM\src\generic_msghandlers.cpp
+[Last received: %s at %s]
+Dernière réception : le %s à %s
+;file \plugins\TabSRMM\src\globals.cpp
+;file \plugins\TabSRMM\src\hotkeyhandler.cpp
+;file \plugins\TabSRMM\src\infopanel.cpp
+[tabSRMM Information]
+Information de tabSRMM
+[Use Global Setting]
+Paramètres généraux
+;file \plugins\TabSRMM\src\mim.cpp
+;file \plugins\TabSRMM\src\modplus.cpp
+;file \plugins\TabSRMM\src\msgdialog.cpp
+[Add this contact permanently to your contact list]
+Ajouter définitivement ce contact à votre liste
+[Do not add this contact permanently]
+Ne pas ajouter définitivement ce contact
+[A message failed to send successfully.]
+Un message n'a pas été envoyé avec succès.
+[Save and close session]
+Sauvegarde puis ferme la session
+[Send later]
+Différer l'envoi
+[Delivery failure: %s]
+Échec d'envoi : %s
+[The message send timed out]
+Délai d'envoi du message expiré
+[Unforce failed]
+Échec non-forcé
+[The selected protocol cannot be forced at this time]
+Le protocole sélectionné ne peut pas être forcé pour le moment
+;file \plugins\TabSRMM\src\msgdlgutils.cpp
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
+La fonction "coller et envoyer" est désactivée. Vous pouvez l'activer dans les options générales, section 'Envoi de messages'
+;file \plugins\TabSRMM\src\msglog.cpp
+;file \plugins\TabSRMM\src\msgoptions.cpp
+[Tabs and layout]
+Onglets
+[Containers]
+Conteneurs
+[Choose status modes]
+Choisir les modes d'état...
+;file \plugins\TabSRMM\src\msgs.cpp
+[Session List]
+Liste de session
+;file \plugins\TabSRMM\src\msgs.h
+;file \plugins\TabSRMM\src\selectcontainer.cpp
+[Select container for %s]
+Choisir le conteneur de %s
+[You cannot delete the default container]
+Vous ne pouvez pas effacer le conteneur par défaut
+[You cannot rename the default container]
+Vous ne pouvez pas renommer le conteneur par défaut
+[This name is already in use]
+Ce nom est déjà utilisé
+;file \plugins\TabSRMM\src\sendlater.cpp
+;file \plugins\TabSRMM\src\sendqueue.cpp
+[A message delivery has failed.\nClick to open the message window.]
+Erreur d'envoi du message.\nCliquer pour ouvrir la fenêtre de message.
+;file \plugins\TabSRMM\src\sidebar.cpp
+;file \plugins\TabSRMM\src\srmm.cpp
+[tabSRMM Message (%s)]
+Message tabSRMM (%s)
+;file \plugins\TabSRMM\src\taskbar.cpp
+;file \plugins\TabSRMM\src\templates.cpp
+[Template Set Editor]
+Éditeur de modèles
+;file \plugins\TabSRMM\src\themeio.cpp
+;file \plugins\TabSRMM\src\themes.cpp
+;file \plugins\TabSRMM\src\translator.cpp
+[Show a preview of the event]
+Afficher un aperçu de l'évènement
+[Don't announce event when message dialog is open]
+Ne pas montrer l'évènement quand la boite de message est ouverte
+[Don't announce events from RSS protocols]
+Ne pas annoncer les évènements des protocoles RSS
+[Enable the system tray icon]
+Activer l'icône Systray
+[Show headers]
+Voir les en-têtes
+[Open event]
+Ouvrir l'évènement
+[Dismiss event]
+Désactiver l'évènement
+[Left click actions (popups only)]
+Actions du clic gauche (popups uniquement)
+[Right click actions (popups only)]
+Actions du clic droit (popups uniquement)
+[Timeout actions (popups only)]
+Actions du timeout (popups uniquement)
+[Remove popups under following conditions]
+Enlever les popups aux conditions suivantes
+[Message window behaviour]
+Comportement de la fenêtre de messages
+[Sending messages]
+Envoi de messages
+[Send on SHIFT - Enter]
+Shift + Entrée pour envoyer
+[Delete temporary contacts on close]
+Effacer les contacts temporaires en fermant
+[Automatically copy selected text]
+Copier le texte sélectionné
+[Message log appearance]
+Apparence de l'historique récent
+[Support for external plugins]
+Support des plugins externes
+[Show file events]
+Voir les fichiers
+[Draw grid lines]
+Afficher les lignes horizontales
+[Use Incoming/Outgoing Icons]
+Utiliser icônes entrantes/sortantes
+[Use Message Grouping]
+Grouper les messages
+[Simple text formatting (*bold* etc.)]
+Formatage simple des textes (*bold* etc.)
+[Support BBCode formatting]
+Support du formatage BBCode
+[Show status text on tabs]
+Afficher le texte d'état dans l'onglet
+;file \plugins\TabSRMM\src\trayicon.cpp
+;file \plugins\TabSRMM\src\typingnotify.cpp
+;file \plugins\TabSRMM\src\userprefs.cpp
+[Always On]
+Toujours activer
+[Always Off]
+Toujours désactiver
+[Force IEView]
+Utiliser IEView
+;file \plugins\TabSRMM\src\utils.cpp
+;file \plugins\TabSRMM\src\chat\clist.cpp
+;file \plugins\TabSRMM\src\chat\colorchooser.cpp
+;file \plugins\TabSRMM\src\chat\log.cpp
+;file \plugins\TabSRMM\src\chat\muchighlight.cpp
+;file \plugins\TabSRMM\src\chat\options.cpp
+[Log background]
+Fond du journal
+[>> Outgoing misc events]
+>> Évènements divers sortants
+[<< Incoming misc events]
+<< Évènements divers entrants
+[>> Outgoing messages (old)]
+>> Messages envoyés (anciens)
+[>> Outgoing misc events (old)]
+>> Évènements divers sortants (anciens)
+[<< Incoming messages (old)]
+<< Messages reçus (anciens)
+[<< Incoming misc events (old)]
+<< Évènements divers entrants (anciens)
+[>> Outgoing name (old)]
+>> Nom sortant (ancien)
+[<< Incoming name (old)]
+<< Nom entrant (ancien)
+[* Message Input Area]
+* Zone des messages
+[* Status changes]
+* Changements d'état
+[* Dividers]
+* Séparateurs
+[* Error and warning Messages]
+* Messages d'erreur et avertissements
+[* Symbols (incoming)]
+* Symboles (entrants)
+[* Symbols (outgoing)]
+* Symboles (sortants)
+[Contacts local time]
+Heure locale du contact
+[Userlist background]
+Fond de la liste
+;file \plugins\TabSRMM\src\chat\services.cpp
+;file \plugins\TabSRMM\src\chat\tools.cpp
+;file \plugins\TabSRMM\src\chat\window.cpp
+[hour]
+heure
+[minute]
+minute

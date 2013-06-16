@@ -1,0 +1,46 @@
+﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+;============================================================
+;  File: ChangeKeyboardLayout.dll
+;  Plugin: Change keyboard layout
+;  Version: 0.0.1.5
+;  Authors: Yasnovidyashii
+;============================================================
+;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
+[Changing layout:]
+更改布局:
+["Current word" mode]
+"当前字词" 模式
+[Changing layout (alternative):]
+更改布局 (可选):
+[Inverting lettercase:]
+反转大小写:
+[Two-way changing layout (experimental)]
+双向修改布局 (实验性)
+[Log operations]
+记录操作
+[Copy result to clipboard]
+复制结果至剪贴板
+[Strings for keyboard layouts]
+键盘布局字串
+[Invert current state]
+反转当前状态
+[Switch off]
+关闭
+[Set Caps Lock state when inverting lettercase:]
+反转大小写时设置 Caps Lock 状态:
+[Change active keyboard layout in system]
+改变当前系统键盘布局
+[Popup colours]
+弹出颜色
+[Windows colours]
+窗口颜色
+[Custom colours]
+自定义颜色
+;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
+[ChangeKeyboardLayout]
+更改键盘布局
+;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
+[Changing Layout]
+更改布局
+[Changing Case]
+更改服务案例

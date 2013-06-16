@@ -1,0 +1,149 @@
+﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+;============================================================
+;  File: Yahoo.dll
+;  Plugin: Yahoo
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\Yahoo\res\Yahoo.rc
+[Create a new Yahoo account using the Yahoo website]
+使用 Yahoo 网站建立新 Yahoo 帐号
+[Use Yahoo Address Book (YAB)]
+使用 Yahoo 地址本 (YAB)
+[AutoLogin to Yahoo Website(s)]
+自动登录至 Yahoo 网站
+[Display Yahoo notifications]
+显示 Yahoo 通知
+[Show Errors]
+显示错误
+[Yahoo Japan]
+Yahoo 日本
+[Create a new Yahoo account]
+新建 Yahoo 账号
+[Connection Settings]
+连接设置
+[Yahoo Ignore List]
+Yahoo 忽略列表
+[Ignore anyone who is not on my Yahoo buddy list ]
+忽略所有非 Yahoo 好友列表成员者
+[Ignore only the people below: ]
+仅忽略以下人: 
+[Set Custom Status]
+设置自定义状态
+[Show as busy]
+显示为忙碌
+[Host]
+主机
+;file \protocols\Yahoo\src\avatar.cpp
+;file \protocols\Yahoo\src\chat.cpp
+[[miranda] Got conference invite to room: %s with msg: %s]
+ [miranda] 已获取房间会议邀请: %s, 消息是: %s
+;file \protocols\Yahoo\src\icolib.cpp
+[Mail]
+邮箱
+[Address Book]
+地址本
+[Set Status]
+设置状态
+[Calendar]
+日历
+;file \protocols\Yahoo\src\im.cpp
+[Yahoo Error]
+Yahoo 错误
+[Message is too long: Yahoo messages are limited by 800 UTF8 chars]
+消息过长: Yahoo 消息仅限 800 个 UTF8 字符
+;file \protocols\Yahoo\src\links.cpp
+;file \protocols\Yahoo\src\main.cpp
+[YAHOO plugin HTTP connections]
+YAHOO 插件 HTTP 连接
+;file \protocols\Yahoo\src\options.cpp
+[The changes you have made require you to reconnect to the Yahoo network before they take effect]
+您所作出的变更需重连 Yahoo 网络才能生效
+[YAHOO Options]
+YAHOO 选项
+[You need to be connected to Yahoo to add to Ignore List.]
+您需要连接至 Yahoo 才能添加忽略列表. 
+[Yahoo Ignore]
+Yahoo 忽略
+[Please enter a valid buddy name to ignore.]
+请输入有效好友名称以忽略. 
+[The buddy is already on your ignore list. ]
+此好友已在您的忽略列表中. 
+[You need to be connected to Yahoo to remove from the Ignore List.]
+您需要连接至 Yahoo 才能从忽略列表中移除. 
+[Please select a buddy on the ignore list to remove.]
+请在忽略列表中选择要移除的好友. 
+[Ignore List]
+忽略列表
+;file \protocols\Yahoo\src\proto.cpp
+[Please enter your yahoo id in Options/Network/Yahoo]
+请到 "选项 - 网络 - Yahoo" 输入您的 Yahoo ID
+[Please enter your yahoo password in Options/Network/Yahoo]
+请到 "选项 - 网络 - Yahoo" 输入您的 Yahoo 密码
+[Yahoo Login Error]
+Yahoo 登录错误
+;file \protocols\Yahoo\src\services.cpp
+[You need to be connected to set the custom message]
+您需要先连接才能设置自定义消息
+[You need to be connected to refresh your buddy list]
+您需要先连接才能刷新您的好友列表
+[Set &Custom Status]
+设置自定义状态(&C)
+[&Edit My Profile]
+编辑我的简介(&E)
+[&My Profile]
+我的配置文件(&M)
+[&Yahoo Mail]
+Yahoo 邮箱(&Y)
+[&Address Book]
+地址本(&A)
+[&Calendar]
+日历(&C)
+[&Show Profile]
+显示配置文件(&S)
+;file \protocols\Yahoo\src\webcam.cpp
+[[miranda] Got webcam invite. (not currently supported)]
+ [miranda] 收到视频邀请. (暂不支持)
+;file \protocols\Yahoo\src\yahoo.cpp
+[Calendar Reminder]
+日历提醒
+[%s has rejected your request and sent the following message:]
+%s 已拒绝您的请求, 并发送了以下消息: 
+[You Have %i unread msgs]
+您有 %i 个未读消息
+[New Mail (%i msgs)]
+新邮件 (%i 个消息)
+[From: %s\nSubject: %s]
+从: %s\n主题: %s
+[Yahoo Ping Error]
+Yahoo Ping 错误
+[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+无法登录到 Yahoo 服务 - 用户名无效. 请确认您的用户名填写正确. 
+[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+无法登录到 Yahoo 服务 - 密码错误. 请确认您的用户名和密码填写正确. 
+[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+无法登录到 Yahoo 服务. 您的帐号已被锁定. \n请访问 %s 激活. 
+[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+您的 Yahoo 服务已登出, 可能是因为重复登录. 
+[Could not connect to the Yahoo service. Check your server/port and proxy settings.]
+无法连接至 Yahoo 服务器. 请检查您的服务器/端口和代理服务器设置. 
+[Could not log in, unknown reason: %d.]
+无法登录, 未知原因: %d. 
+[Unknown error %s]
+未知错误 %s
+[Custom error %s]
+自定义错误 %s
+[%s is not available for the conference]
+%s 当前无法进行会议
+[%s is already ignored]
+%s 已被忽略
+[%s is not in the ignore list]
+%s 不在忽略列表中
+[%s is in buddy list - cannot ignore ]
+%s 在好友列表中 - 无法忽略
+[System Error: %s]
+系统错误: %s
+[Server Connection Error: %s]
+服务器连接错误: %s
+[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+无法连接至 Yahoo 服务器. 请确认您已联网, 且传呼主机和端口正确设置. 

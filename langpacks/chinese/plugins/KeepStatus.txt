@@ -1,0 +1,40 @@
+﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
+;============================================================
+;  File: KeepStatus.dll
+;  Plugin: Keep Status
+;  Version: 0.8.0.97
+;  Authors: P Boon
+;============================================================
+[KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
+KeepStatus, 一个连接检查插件, 可与 (或不与) StartupStatus 及/或 AdvancedAutoAway 一起使用. 
+;file \Plugins\StatusPlugins\resource.rc
+;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
+[KeepStatus]
+保持状态
+[%s Connected from another location]
+%s 已从其它位置登录
+[%s Login error, cancel reconnecting]
+%s 登录错误, 取消重新连接
+[%s Login error (next retry (%d) in %ds)]
+%s 登录错误 (下次重试 (%d) 于 %ds)
+[%s Status error (next retry (%d) in %ds)]
+%s 状态错误 (下次重试 (%d) 于 %ds)
+[Status error (next retry (%d) in %ds)]
+状态错误 (下次重试 (%d) 于 %ds)
+[will be set to]
+将设置为
+[Resetting status... (last try (%d))%s]
+正在复位状态... (上次尝试 (%d))%s
+[Resetting status... (next retry (%d) in %ds)%s]
+正在复位状态... (下次尝试 (%d) 于 %ds)%s
+[No internet connection seems available... (last try (%d))]
+似乎无可用网络连接... (上次尝试 (%d))
+[No internet connection seems available... (next retry (%d) in %ds)]
+似乎无可用网络连接... (下次尝试 (%d) 于 %ds)
+[Status was set ok]
+状态已正常设置
+[Giving up]
+正在放弃
+;file \plugins\StatusPlugins\KeepStatus\options.cpp
+;file \Plugins\StatusPlugins\commonstatus.cpp
+;file \Plugins\StatusPlugins\confirmdialog.cpp

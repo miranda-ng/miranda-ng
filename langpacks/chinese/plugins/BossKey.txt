@@ -1,0 +1,50 @@
+﻿#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
+;============================================================
+;  File: BossKey.dll
+;  Plugin: BossKey+
+;  Version: 0.5.0.3
+;  Authors: Goblineye Entertainment, Billy_Bons
+;============================================================
+;file \plugins\BossKeyPlus\res\BossKey.rc
+[BossKey]
+老板键
+[When I press the hotkey:]
+当我按下快捷键:
+[Change status to]
+更改状态为
+[Change only if current status is Online]
+仅当前状态为离线时更改
+[Use default status message]
+使用默认状态信息
+[Disable Sounds]
+禁用音效
+[When I return:]
+当我返回时:
+[Request password:]
+需要密码:
+[Change status back]
+恢复状态为
+[Windows is inactive]
+窗口激活
+[Hide Miranda when:]
+隐藏 Miranda 当:
+[Miranda is inactive]
+Miranda 激活
+[min]
+小
+[Miranda is started]
+Miranda 运行中
+[Restore hiding on startup after failure]
+启动失败后还原隐藏
+;file \plugins\BossKeyPlus\src\BossKey.cpp
+[Miranda NG is locked.\nEnter password to unlock it.]
+Miranda NG 已锁定.\n输入密码解锁.
+[Password is not correct!\nPlease, enter correct password.]
+密码不正确!\n请输入正确密码.
+[Hide Miranda NG]
+隐藏 Miranda NG
+[Hide/Show Miranda]
+隐藏/显示 Miranda
+[BossKey\tget the BossKey name]
+BossKey\tget 老板键名称
+;file \plugins\BossKeyPlus\src\Options.cpp

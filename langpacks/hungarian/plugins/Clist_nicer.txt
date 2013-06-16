@@ -1,0 +1,324 @@
+﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.1
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+;file \plugins\Clist_nicer\res\resource.rc
+[About CList Nicer+]
+A CList Nicer+ névjegye
+[Clist Nicer+]
+Clist Nicer+
+[Apply last active view mode ]
+Utolsó aktív nézet mód alkalmazása
+[Contact list layout]
+Partnerlista felosztás
+[Show menu and status buttons]
+Menü és állapotgombok mutatása
+[Draw sunken edge]
+Besüllyesztett sarok rajzolása
+[Event area]
+Esemény terület
+[Set base visiblity on the frames menu]
+Alap láthatóság megadása a keretek menühöz
+[Auto mode]
+Auto mód
+[Do not show system tray icon tooltips on mouse over]
+Ne legyen buborékinfó a tálcaikonhoz
+[Show number of contacts in a group]
+Partnerek számának mutása a csoportokban
+[Hide numbers when all offline]
+Számok elrejtése, ha mind kilépett
+[No expand/collapse icon]
+Nincs kibont/becsuk ikon
+[Center groupnames horizontally]
+Csoportnevek vízszintesen középre
+[Margins (left/right)]
+Margók (bal/jobb)
+[Row gap]
+Sorköz
+[Minimum row height:]
+Minimális sormagasság:
+[Group row height]
+Csoport sor magasság
+[Inner Row vertical padding]
+Belsõ sor függõleges térköz
+[Margins and spacing]
+Margók és térközök
+[First by]
+Elsõ
+[Then by]
+Akkor ennyivel
+[Finally by]
+Végül
+[Do not separate offline contacts]
+Ne legyenek elkülönítve a kilépetek
+[Hide as offline]
+Elrejtés, mint kilépett
+[Right align contacts]
+Partnerek igazítása jobbra
+[Draw a border around avatars]
+Legyen keret az avatár körül
+[Rounded avatars]
+Kerekített avatárok
+[Radius]
+Sugár
+[Always align icons and text for missing avatars]
+Mindig igazítsa az ikonokat és szövegeket a hiányzó avatárokhoz
+[Avatar alignment]
+Avatar igazítás
+[Don't request avatars for offline contacts]
+Ne kérje le az avatárt a kilépettekhez
+[Second text line]
+Második szövegsor
+[Display status message when available]
+Állapot üzenet megjelenítése ha elérhetõ
+[Show second text line:]
+Második szövegsor mutatása:
+[Show contacts local time]
+Partner helyi idõ mutatása
+[Only when timezone differs]
+Csak ha eltérõ az idõzóna
+[Show status icons]
+Állapot ikonok mutatása
+[Centered when possible]
+Középen ha lehet
+[When possible, draw status icons in avatar space]
+Ha lehetséges, állapot ikon rajzolása az avatár helyére
+[Use metacontact protocol icons instead of subcontacts]
+Metakapcsolat protokoll ikonok a részkapcsolatok helyett
+[Use Overlay icons on avatars]
+Felület ikonok az avatárokon
+[Replace status icons with xStatus]
+Állapot ikonok lecserélése XStatus-ra
+[Rounded border]
+Kerekített keret
+[Client margins]
+Kliens margók
+[Embedded frames border]
+Beágyazott keretek körvonal
+[Clip border by]
+Keret levágás ennyivel
+[Gap between frames]
+Hézag a keretek között
+[Fully transparent (like TweakUI)]
+Teljesen átlátszó (mint a TweakUI)
+[Use full row for selection and hottracking]
+Teljes sor a kijelöléshez és gyorskövetéshez
+[Double click on avatar opens userinfo]
+Duplakatt az avatáron mutatja a felhasználó infóit
+[Use these settings to skin the entire background]
+Alábbi beállítások használata a teljes háttér bõrözéséhez
+[If you enable this, the background settings will affect the entire contact list frame.]
+Ha ezt bekapcsolod, a háttér beállítás az egész partnerlista keretre érvényes lesz
+[Draw background skin]
+Háttér bõr rajzolása
+[Show ICQ extended status icons]
+Kiterjesztett ICQ állapot ikonok
+[Mark protocols locked from global status changes]
+Globális állapotváltozást nem követõ protokollok
+[Per contact skins:]
+Partenkénti bõrök:
+[< Reload]
+< újratölt
+[Contact list skin]
+Kapcsolati lista bõr
+[Apply skin now]
+Bõr használata most
+[Unload skin]
+Bõr feltöltése
+[Make selection shape equal to selected item]
+Kijelölés alakja egyezzen a kijelölt elemmel
+[Blend selection with background]
+Kijelölés kielemése háttérszínnel
+[Automatically fill background with wallpaper (tiled wallpaper only)]
+Háttér automatikus kitöltése az asztal hátterével (csak ismételt háttérnél)
+[Apply group indent values to background drawing]
+Csoport behúzás értékek alkalmazása a hátterekhez
+[Use per protocol/contact skinning]
+Bõrözés a protokoll/partner függvényében
+[Protocol skins override status text colors]
+A protokol bõr felülírhatja az állapot szöveg színét
+[Set all buttons to skinned mode]
+Legyen minden gomb bõrözött
+[Use fast gradient drawing]
+Gyors átmenet rajzolás használata
+[Corner radius]
+Sarok átmérõ
+[Group top padding]
+Csoport felsõ térköz
+[Frame titlebar height]
+Keret címsor magasság
+[Ignore selection for groups]
+Csoportok egy listáját mellõzi
+[Load from skin file]
+Betöltés bõr fájlból
+[Export to skin file]
+Exportálás bõr fájlba
+[Ignore these events]
+Alábbi események mellõzése
+[Suppress auth requests]
+Felhatalmazásai kérések elnyomása
+[Suppress added notifications]
+Hozzáadva üzenetek elnyomása
+[Suppress online notifications]
+Elérhetõ üzenetek elnyomása
+[Appear always online]
+Tûnjön mindig elérhetõnek
+[Appear always offline (block contact)]
+Tûnjön mindig kilépettnek (partner blokkolása)
+[Hide this contact from the list]
+E partner elrejtése a listáról
+[To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
+Korábban látható partner újbóli megjelenítéséhez használja a Beállítások->Események->Hanyagol fülett, ott válassza ki a listából a partnert, majd kattintson a neve elõtti jelölõnégyzetre.
+[Display options]
+Megjelenítési beállítások
+[Show contact with priority]
+Partner mutatása prioritással
+[Show Avatar:]
+Avatár mutatása:
+[Show 2nd line:]
+Második sor:
+[Draw overlay icon on avatar]
+Ikon az avatár fölé
+[Show local time]
+Helyi idõ mutatása
+[Move marked Contacts to this Group]
+Kijelölt partnerek mozgatása ebbe a csoportba
+[Show Status Icons]
+Állapot ikon mutatása
+[Show Metacontact proto Icons]
+Metakapcsolat proto ikonok
+[Show additional Buttons]
+További gombok mutatása
+[Draw sunken Frame]
+Besüllyesztett keret rajzolása
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
+;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Show menu]
+Menü mutatása
+[Show / hide offline contacts]
+Kilépett partnerek mutatása/elrejtése
+[Toggle group mode]
+Csoport mód váltogatása
+[Find and add contacts]
+Partner keresése és felvétele
+[Open preferences]
+Beállítások megnyitása
+[Toggle sounds]
+Hang ki/bekapcsolása
+[Minimize contact list]
+Partnerlista lekicsinyítése
+[tabSRMM session list]
+tabSRMM munkamenet lista
+[tabSRMM Menu]
+tabSRMM menü
+[Select view mode]
+Nézet mód kiválasztása
+[Clear view mode]
+Nézet mód ürítése
+;file \plugins\Clist_nicer\src\clcopts.cpp
+[Always Left]
+Mindig balra
+[Always Right]
+Mindig jobbra
+[Automatic (RTL)]
+Automatikus (RTL)
+[Last Message]
+Utolsó üzenet
+[Message Frequency]
+Üzenet gyakoriság
+[For RTL only]
+Csak RTL esetén
+[RTL TEXT only]
+Csak RTL szöveg
+[When space allows it]
+Ha a hely megengedi
+[When needed]
+Ha szükséges
+[With Nickname - left]
+Becenévvel - bal
+[Far left]
+Messze balra
+[Far right]
+Messze jobbra
+[With Nickname - right]
+Becenévvel - jobb
+[List layout]
+Lista nézet
+[Groups and layout]
+Csoportok és nézet
+;file \plugins\Clist_nicer\src\clistmenus.cpp
+[Add permanently]
+Végleges hozzáadás
+[Revert to default]
+Visszaállítás alapra
+[Default (global setting)]
+Alap (globális beállítás)
+[Show always when available]
+Mindig mutat, ha lehet
+[Hide always]
+Mindig elrejti
+[When space is available]
+Ha van hozzá hely
+[When needed by status message]
+Ha szükséges az állapot üzenethez
+[Contact list display and ignore options for %s]
+Partnerlista nézet és hanyagolás beállítások %s
+[&Contact list settings...]
+Partnerlista beállítások
+;file \plugins\Clist_nicer\src\clistopts.cpp
+;file \plugins\Clist_nicer\src\clui.cpp
+[Toggle show online/offline]
+Elérhetõ/kilépett mutatás váltogatása
+[Toggle groups]
+Csoportok váltogatása
+[Find contacts]
+Partnerek keresése
+[Show tabSRMM session list]
+tabSRMM munkamenetek mutatása
+[Show tabSRMM menu]
+tabSRMM menü mutatása
+[Sounds are off]
+Hangok kikapcsolva
+[Setup accounts]
+Fiókok beállítása
+[Open main menu]
+Fõmenü megnyitása
+[Set status modes]
+Állapot módok megadása
+[Frame titles]
+Keret címek
+[Contact list local time]
+Partnerlista helyi idõ
+;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Tool Window]
+Eszköz ablak
+[Thin border]
+Vékony keret
+[No border]
+Nincs keret
+;file \plugins\Clist_nicer\src\Docking.cpp
+[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+A CList nem dokkolható alap címsorral és kerettel. Használja az eszközablak vagy keretnélküli stílust.
+[Clist docking]
+CList dokkolás
+;file \plugins\Clist_nicer\src\extBackg.cpp
+;file \plugins\Clist_nicer\src\init.cpp
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Current view mode: %s]
+Aktuális nézet mód: %s
+[No view mode]
+Nincs nézet mód
+[Clear current View Mode]
+Aktuális nézet mód ürítése
+;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+[&Skinned frame]
+Bõrözött keret
+[Skinned frame]
+Bõrözött keret
+;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[&About the contact list...]
+A partnerlista &névjegye...

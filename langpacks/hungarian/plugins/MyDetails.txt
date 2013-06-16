@@ -1,0 +1,100 @@
+﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.11
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+;file \plugins\MyDetails\res\resource.rc
+[Set My Nickname]
+Becenevem bállítása
+[RTL]
+RTL
+[Align text to right]
+Szöveg igazítása jobbra
+[Auto-resize frame]
+Keret auto-méretezése
+[Use contact list smileys]
+Partnerlista emotikonok
+[Replace Smileys]
+Emotikonok lecserélése
+[Resize Smileys]
+Emotikinok átméretezése
+[Top:]
+Felül:
+[Bottom:]
+Alja:
+[Left:]
+Bal:
+[Right:]
+Jobb:
+[Custom size:]
+Egyedi méret:
+[Allow it to grow]
+Növekedhet
+[Use free space (under avatar) to other texts]
+Hely az avatár alatt a többi szöveg elõtt
+[Set My Status Message for All Status]
+Állapot üzenet beállítása minden állapothoz
+[Status Message:]
+Állapot üzenet:
+[Status popup]
+Állapot felugró
+[&Offline]
+&Kilépett
+[On&line]
+&Elérhetõ
+[&Away]
+&Távol
+[&NA]
+Nem érhetõ el
+[Occ&upied]
+El&foglalt
+[&DND]
+&Ne zavarjanak
+[&Free for chat]
+&Chatre kész
+[&Invisible]
+&Láthatatlan
+[On the &Phone]
+&Telefonál
+[Out to &Lunch]
+Ebé&del
+[Context popup]
+Helyi menü
+[Set My Avatar...]
+Avatarom beállítása...
+[Set My Nickname...]
+Becenevem beállítása
+[Set My Status Message...]
+Állapot üzenetem beállítása...
+[Nick popup]
+Becenév felugró
+[Status message popup]
+Állapot üzenet felugró
+[Avatar popup]
+Avatár felugró
+;file \plugins\MyDetails\src\data.cpp
+[<no status name>]
+<nincs állapot név>
+;file \plugins\MyDetails\src\frame.cpp
+[My Details]
+Adataim
+[Show My Details]
+Részleteim megjelenítése
+[Set My Avatar for %s...]
+Avatárom beállítása %s részére...
+[Set My Nickname for %s...]
+Becenevem beállítása %s részére...
+[Set My Status Message for %s...]
+Állapot üzenetem bállítása %s részére...
+[Hide My Details]
+Részleteim elrejtése
+;file \plugins\MyDetails\src\mydetails.cpp
+[Set My Nickname for %s]
+Becenevem beállítása %s részére
+[Set My Status Message for %s]
+Állapot üzenetem beállítása %s részére
+[Show next protocol]
+Következõ protokoll mutatása
+;file \plugins\MyDetails\src\options.cpp

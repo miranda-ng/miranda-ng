@@ -1,0 +1,62 @@
+﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+;============================================================
+;  File: MenuEx.dll
+;  Plugin: Menu item ext
+;  Version: 1.3.0.9
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
+;============================================================
+;file \plugins\MenuItemEx\res\resource.rc
+[Shown menu items]
+显示菜单项
+[Show alpha icons]
+显示 Alpha 图标
+[Hide from list]
+从列表中隐藏
+[Copy to Account (Ctrl+click for move to Account)]
+复制到账号 (Ctrl+点击移动至账号)
+[Send 'You were added']
+发送 '您已被添加'
+[Request Authorization]
+请求授权
+[Browse Received Files]
+浏览收到文件
+[Copy IP]
+复制 IP
+[Copy MirVer]
+复制 MirVer
+[Copy Status Message]
+复制状态信息
+[Add item name]
+添加项名称
+[Copy ID]
+复制 ID
+[Add protocol name]
+添加协议名称
+[Show ID in menu item]
+在菜单项中显示 ID
+[Trim too long ID]
+截短过长 ID
+[* Use Ctrl+click to see popup with the copied text]
+* 使用 Ctrl+点击在弹出窗口提示中复制文本
+;file \plugins\MenuItemEx\src\main.cpp
+[XStatus message]
+扩展状态信息
+[Activity title]
+活动标题
+[Activity text]
+活动文本
+[Show in list]
+在列表中显示
+[Never visible]
+永不可见
+[Copy to Account]
+复制到账号
+[Copy xStatus Message]
+复制扩展状态消息
+[Do you want to send authorization request\nto new contact?]
+您是否想发送授权请求\n至新联系人?
+[MenuItemEx]
+扩展菜单
+[Open ignore settings]
+打开忽略设置
+;file \plugins\MenuItemEx\src\options.cpp

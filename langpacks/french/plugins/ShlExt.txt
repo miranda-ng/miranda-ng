@@ -1,0 +1,37 @@
+﻿#muuid {72013a26-a94c-11d6-8540-a5e62932711d}
+;============================================================
+;  File: shlext.dll
+;  Module: shlext - Shell context menus for transfers
+;  Versions: 1.0.0.6-1.0.6.6
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=534
+;============================================================
+[Problem, registration missing/deleted.]
+Problème, enregistrement manquant/supprimé
+[Successfully created shell registration.]
+Création réussie de l'enregistrement du menu contextuel
+[Not Approved]
+Non approuvé
+[Approved]
+Approuvé
+[Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
+Êtes-vous sûr ? ceci supprimera tous les paramètres sauvegardés dans votre base de données et les entrées dans le registre créé pour que Shlext puisse fonctionner avec l'Explorateur Windows
+[Disable/Remove shlext]
+Désactiver/Supprimer shlext
+[Shell context menus]
+Menus contextuels
+[Display contacts in their assigned groups (if any)]
+Afficher les contacts dans leur groupe s'il y en a
+[Only if/when the contact list is using them]
+seulement si/quand la liste de contact l'utilise
+[Display hidden, ignored or temporary contacts]
+Voir contacts cachés, ignorés ou temporaires
+[Shell Status]
+État du menu contextuel
+[Do not display the profile name in use]
+Ne pas afficher le nom de profil en utilisation
+[Show contacts that you have set privacy rules for]
+Afficher les contacts dont vous avez paramétré les règles de vie privée
+[Do not show status icons in menus]
+Pas d'icônes d'état dans les menus
+[Do not show contacts that are offline, even if my contact list does]
+Ne pas afficher les contacts déconnectés, même si ma liste le fait

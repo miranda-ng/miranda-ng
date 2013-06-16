@@ -1,0 +1,127 @@
+﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last seen
+;  Version: 5.0.4.8
+;  Authors: Heiko Schillinger, YB
+;============================================================
+;file \plugins\SeenPlugin\res\resource.rc
+[Last seen options]
+最后看见选项
+[Last seen menuitem]
+最后看见菜单项
+[Show icon]
+显示图标
+[Userinfo tab]
+用户信息标签
+[Log to history]
+记录至历史
+[Maximum size]
+最大大小
+[Variable list]
+变量列表
+[Enable Idle support]
+启用闲置支持
+[Ignore contacts going offline]
+忽略变为离线联系人
+[Enable 'Missed Ones' feature]
+启用 '错过的人' 功能
+[Count times]
+计数
+[Protocols to watch:]
+要监视协议: 
+[Use popups]
+使用弹出窗口
+[Popup Colors]
+弹出窗口颜色
+[Reset colors]
+重置颜色
+[Last seen plugin]
+最后看见插件
+[You missed following contacts:]
+您错过了这些联系人: 
+[Test\nTest]
+测试\n测试
+[Alert when user status changes]
+当用户状态变更时发出提醒
+;file \plugins\SeenPlugin\src\history.cpp
+[last seen history]
+最后看见历史
+[Send Instant Message]
+发送立即消息
+;file \plugins\SeenPlugin\src\main.cpp
+[LastSeen]
+最后看见
+[User status change]
+用户状态改变
+[Changed to Online]
+变为在线
+[User Logged Off]
+用户注销
+[User Logged In]
+用户登录
+[Last seen]
+最后看见
+;file \plugins\SeenPlugin\src\menu.cpp
+;file \plugins\SeenPlugin\src\options.cpp
+;file \plugins\SeenPlugin\src\seen.h
+[-- Date --]
+-- 日期 --
+[year (4 digits)]
+年 (4 个数字)
+[year (2 digits)]
+年 (2 个数字)
+[month]
+月
+[name of month]
+月份名称
+[short name of month]
+月份缩写
+[day]
+天
+[weekday (full)]
+周日 (完整)
+[weekday (abbreviated)]
+周日 (缩写)
+[-- Time --]
+-- 时间 --
+[hours (24)]
+时 (24)
+[hours (12)]
+时 (12)
+[AM/PM]
+上/下午
+[-- User --]
+-- 用户 --
+[username]
+用户名
+[nick]
+呢称
+[UIN/handle]
+UIN/处理
+[Old status]
+旧状态
+[external IP]
+外部 IP
+[internal IP]
+内部 IP
+[Client info]
+客户端信息
+[-- Format --]
+-- 格式 --
+[tabulator]
+制表位
+[line break]
+断行
+[Note:]
+注意:
+[Use]
+使用
+[for empty string]
+为空字符串
+[instead of]
+替换为
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp
+[<never seen>]
+<从未见过>

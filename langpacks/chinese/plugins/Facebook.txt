@@ -1,0 +1,68 @@
+﻿#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook RM
+;  Version: 0.1.1.0
+;  Authors: Michal Zelinka, Robert Pösel
+;============================================================
+;file \protocols\FacebookRM\res\facebook.rc
+[Create a new Facebook account]
+新建 Facebook 账号
+[What's on your mind?]
+您的想法?
+[Share]
+分享
+[News feeds]
+新闻订阅
+[Client notifications]
+客户端通知
+[Timeout (sec.)]
+超时(秒)
+[(0 = default, -1 = infinite)]
+(0 = 默认, -1 = 无限)
+[Use balloon notifications in system tray instead of popups]
+在系统托盘中使用气泡弹出通知
+[Advanced Settings]
+高级设置
+[Force secure (HTTPS) connection]
+强制安全 (HTTPS) 连接
+[Post Miranda statuses to Wall]
+发送 Miranda 状态至涂鸦墙
+;file \protocols\FacebookRM\src\communication.cpp
+[Login error, probably bad login credentials.]
+登录错误, 可能登录凭据有问题.
+[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
+Facebook 发生一些问题. 可能有一些重大更新, 请等待更新.
+;file \protocols\FacebookRM\src\connection.cpp
+[Please enter a username.]
+请输入用户名.
+[Please enter a password.]
+请输入密码.
+;file \protocols\FacebookRM\src\constants.h
+;file \protocols\FacebookRM\src\contacts.cpp
+;file \protocols\FacebookRM\src\dialogs.cpp
+[Sample event]
+示例事件
+[Sample request]
+示例请求
+[Sample newsfeed]
+示例新闻
+[Sample notification]
+示例通知
+;file \protocols\FacebookRM\src\json.cpp
+;file \protocols\FacebookRM\src\messages.cpp
+[You cannot send messages when you are offline.]
+当您离线时无法发送消息.
+;file \protocols\FacebookRM\src\process.cpp
+;file \protocols\FacebookRM\src\proto.cpp
+[Unable to get Netlib connection for Facebook]
+无法获取 Facebook Netlib 连接
+[News Feed]
+新闻订阅
+[Other Event]
+其它事件
+;file \protocols\FacebookRM\src\theme.cpp
+[Mind]
+想法
+[Mind...]
+想法...

@@ -1,0 +1,32 @@
+﻿#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
+;============================================================
+;  File: BASS_interface.dll
+;  Plugin: BASS interface
+;  Version: 0.0.0.14
+;  Authors: tico-tico
+;============================================================
+;file \plugins\BASS_interface\res\Bass.rc
+[un4seen's bass interface]
+un4seen's bass 接口
+[bass.dll loading error]
+bass.dll 加载错误
+[Current bass.dll path:]
+当前 bass.dll 路径:
+[Maximum number of bass internal channels:]
+bass 内部频道最大数量:
+[Volume:]
+音量:
+[Quiet time:]
+休息时间:
+[download bass library]
+下载 Bass 库
+[Play only if]
+播放仅当
+;file \plugins\BASS_interface\src\Bass_interface.h
+[Bass Interface]
+Bass 接口
+;file \plugins\BASS_interface\src\Main.cpp
+[un4seen's bass version: %d.%d.%d.%d]
+un4seen's bass 版本: %d.%d.%d.%d
+[--default device--]
+--默认设备--

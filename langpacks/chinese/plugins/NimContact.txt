@@ -1,0 +1,148 @@
+﻿#muuid {2e0d2ae3-e123-4607-8539-d4448d675ddb}
+;============================================================
+;  File: NimContact.dll
+;  Plugin: Non-IM Contact
+;  Version: 0.6.0.1
+;  Authors: Jonathan Gordon
+;============================================================
+;file \plugins\Non-IM Contact\res\resource.rc
+[View/Edit Files]
+查看/编辑文件
+[Add File]
+添加文件
+[Add URL]
+添加网址
+[Remove Selected File]
+移除选定文件
+[file(#)]
+文件(#)
+[Update URL every]
+更新网址于每
+[Intervals]
+间隔
+[If the protocol timer is disabled web pages wont be updated]
+如协议计时禁用, 网页将不会被更新
+[contact display info]
+联系人显示信息
+[Contacts display name]
+联系人显示名称
+[Contacts Tooltip]
+联系人工具提示
+[other settings]
+其它设置
+[Program parameters:]
+程序参数: 
+[O&pen File]
+打开文件(&P)
+[O&pen Folder]
+打开文件夹(&P)
+[CList Settings]
+联系人列表设置
+[Status Icon]
+状态图标
+[Group\\Sub-Group]
+群组\\子群组
+[Timer Settings]
+计时器设置
+[Use Timer]
+使用计时器
+[Contact is always visible]
+联系人永远可见
+[Unless Non-IM Contacts protocol is OFFLINE]
+除非非即时通信联系人协议离线
+[Timer Intervals.  ]
+计时器间隔. 
+[Away as another status]
+外出当其它状态
+[Disable timer]
+禁用计时器
+[Timer interval (in seconds)]
+计时器间隔 (秒)
+[This will take affect after Non-IM Contacts' status is changed]
+这将会在非即时通信联系人状态变更时生效
+[Timer Options]
+计时器选项
+[String Maker]
+字符串制作器
+[&Test String]
+测试字符串(&T)
+[String to test]
+测试的字符串
+[Returns....]
+返回...
+[Help!!!]
+救我!!!
+[Copy / Export contact]
+复制 / 导出联系人
+[&Export Non-IM Contact]
+导出非即时通信联系人(&E)
+[Co&py Non-IM Contact]
+复制非即时通信联系人(&P)
+[Type one replace string per line in the format "origional text,new text"]
+在每一行依照格式 "原文本,新文本" 键入一个替换字符串
+[EXAMPLE: %fn1,%fn2]
+例如: %fn1,%fn2
+;file \plugins\Non-IM Contact\src\contactinfo.cpp
+[New Non-IM Contact]
+新增非即时通信联系人
+;file \plugins\Non-IM Contact\src\dialog.cpp
+[String replacing variables....\r\nThe following are all the valid variables that can be used. Refer to the readme for a proper explanation.\r\n\r\n]
+字符串替换变量...\r\n以下列所有可以使用的变量. 请参阅帮助获取适当说明. \r\n\r\n
+[file(X)\t\t<- specifies the file to read from\r\nMUST be followed by either start() or end() or wholeline()\r\n]
+file(X)\t\t<- 指定读入文件\r\n "必须" 跟着 start() 或 end() 或 wholeline()\r\n
+[filename(X)\t\t<- copyies the filename of file X.\r\n]
+filename(X)\t\t<- 复制文件 X 文件名. \r\n
+[start(...)\t\t<-specifies where to start copying from.\r\n]
+start(...)\t\t<-指定要开始复制位置. \r\n
+[end(...)\t\t<-specifies where to stop copying.\r\n]
+end(...)\t\t<-指定要停止复制位置. \r\n
+[wholeline(line(...))\t<-specifies a whole line to copy\r\n\r\n]
+wholeline(line(...))\t<-指定要复制整列\r\n\r\n
+[start() and end() explained\r\n.........................\r\n]
+关于 start() 及 end() 说明\r\n.........................\r\n
+[MUST start with line() followed by a number or a string inside " marks, OR csv(seperatorX) variable\r\n]
+必须以 line() 开始紧跟数字或以 " 标记字符串, 或 csv(分隔符X) 变量\r\n
+[The number specifies which character in the line to start/end copying.\r\nThe string specifies a string in the line to start/end copying.\r\n]
+该数字指定在句子中要 开始/结束 复制的字符. \r\n字符串则指定在句子中要 开始/结束 复制的文本. \r\n
+[csv(seperatorX) explained...\r\nseperator is either "tab" or "space" or any SINGLE character.\r\nX is the Xth seperator to pass before copying, (or to stop before)\r\n\r\n]
+csv(分隔符X) 说明...\r\n分隔符可是 "tab" 或 "space" 或任何单一字符. \r\nX 即复制前先跳过 X 个分隔符 (或在停止前)\r\n\r\n
+[Lastly the line(...) variable...\r\n]
+最后是 line(...) 变量...\r\n
+[Inside the brackets must be either a number (to specify the line number), or a string inside " marks (to use the line with that string), or lastline(X).\r\nthe X in lastline is the Xth line above the last line. i.e lastline(1) will use the 2nd last line of the file.\r\n]
+在括号内必须是数字 (指定行号), 或在以 " 标记字符串 (使用字符串中句子), 或 lastline(X). \r\nlastline X 是最后一行上方第 X 行. 例如 lastline(1) 将使用文件最后第 2 行. \r\n
+[Some Expamples...\r\n\r\n]
+一些例子...\r\n\r\n
+;file \plugins\Non-IM Contact\src\files.cpp
+[File couldn't be opened]
+无法打开文件
+[File couldn't be opened,2]
+无法打开文件,2
+[line(%-3d) = | %s]
+行号(%-3d) = | %s
+;file \plugins\Non-IM Contact\src\http.cpp
+[Non-IM Contacts]
+非即时通信联系人
+;file \plugins\Non-IM Contact\src\main.cpp
+[Non-IM Contact]
+非即时通讯联系人
+[&Non-IM Contact]
+非即时通信联系人(&N)
+[&Add Non-IM Contact]
+添加非即时通信联系人(&A)
+[&View/Edit Files]
+查看/编辑文件(&V)
+[&Export all Non-IM Contacts]
+导出所有非即时通信联系人(&E)
+[&Import Non-IM Contacts]
+导入非即时通信联系人(&E)
+[&String Maker]
+字符串制作器(&S)
+[E&dit Contact Settings]
+编辑联系人设置(&D)
+;file \plugins\Non-IM Contact\src\namereplacing.cpp
+[%s - ERROR: no line specified or line not found (in %s)]
+%s - 错误: 未指定行数或找不到该行 (在 %s)
+[%s - ERROR: file couldnt be opened (in %s)]
+%s - 错误: 无法打开文件 (在 %s)
+[%s - ERROR: no file specified in settings (in %s)]
+%s - 错误: 设置中未指定文件 (在 %s)

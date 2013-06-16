@@ -1,0 +1,7 @@
+﻿#muuid {72013a26-a94c-11d6-8540-a5e62932711d}
+;============================================================
+;  File: shlext.dll
+;  Module: shlext - Shell context menus for transfers
+;  Versions: 1.0.0.6-1.0.6.6
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=534
+;============================================================

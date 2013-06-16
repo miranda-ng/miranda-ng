@@ -1,0 +1,51 @@
+﻿#muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
+;============================================================
+;  File: Db_autobackups.dll
+;  Plugin: Db autobackuper
+;  Version: 0.0.0.8
+;  Authors: chaos.persei, sje, Kildor, Billy_Bons
+;============================================================
+;file \plugins\Db_autobackups\res\db_autobackups.rc
+[Backup progress]
+进行备份
+[Automatic Backups]
+自动备份
+[Number of backups to keep:]
+保留备份数量:
+[Backup NOW]
+现在备份
+[When Miranda starts]
+当 Miranda 启动
+[When Miranda exits]
+当 Miranda 退出
+[Every:]
+每:
+[Backup to folder:]
+备份至目录:
+[Disable progress bar]
+禁用进度条
+;file \plugins\Db_autobackups\src\backup.cpp
+[Miranda Databases]
+Miranda 数据库
+[Backup in Progress]
+备份进行中
+[Rotating backup files...]
+轮流备份文件...
+[Copying database file...]
+复制数据库文件中...
+[Database backuped]
+数据库已备份
+;file \plugins\Db_autobackups\src\main.cpp
+[Backup Profile]
+备份配置文件
+[Save Profile As...]
+配置文件另存为...
+[Database Backups]
+数据库备份
+;file \plugins\Db_autobackups\src\options.cpp
+[Select Backup Folder]
+选定备份目录
+[Error Creating Backup Folder]
+创建备份目录错误
+[Database AutoBackups]
+数据库自动备份

@@ -1,0 +1,75 @@
+﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
+;============================================================
+;  File: SendSS.dll
+;  Plugin: Send screenshot+
+;  Version: 0.8.0.0
+;  Authors: Merlin
+;============================================================
+[Take a screenshot and send it to a contact.]
+制作屏幕截图并发送至联系人
+;file \plugins\SendScreenshotPlus\res\resource.rc
+[Send screenshot]
+发送屏幕截图
+[Ti&med capture]
+定时抓取(&M)
+[Time (secs) :]
+时间 (秒): 
+[&Format :]
+格式(&F): 
+[Send B&y :]
+发送方法(&Y): 
+[E&xplore]
+探索(&X)
+[&Fill description textbox.]
+填写描述文本框(&F). 
+[Delete &after send]
+发送后删除(&A)
+[Open again]
+重新打开
+[&Capture]
+捕捉(&C)
+[C&lient Area]
+客户端区域(&L)
+[Caption :]
+标题: 
+[Size (HxW) :]
+大小 (HxW): 
+;file \plugins\SendScreenshotPlus\src\CSend.cpp
+;file \plugins\SendScreenshotPlus\src\CSend.h
+;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+[Could not start the HTTP Server plugin.]
+无法启动 HTTP 服务器插件. 
+;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
+;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
+[Abort]
+放弃
+;file \plugins\SendScreenshotPlus\src\global.h
+;file \plugins\SendScreenshotPlus\src\Main.cpp
+[Screenshots]
+屏幕截图
+[Could not create main dialog.]
+无法建立主对话框. 
+[Send Screenshot]
+发送屏幕截图
+[Send desktop screenshot]
+发送桌面截图
+[Take a screenshot]
+进行截图
+[Could not register miranda service.]
+无法注册 Miranda 服务. 
+;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Prev]
+上一个
+;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[overlays]
+覆盖
+;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
+;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
+[Drag&&Drop the target on the desired window.]
+请拖放目标至您所期望窗口. 
+[Capture]
+截图
+[Select a target window.]
+选择目标窗口

@@ -1,0 +1,34 @@
+﻿#muuid {53e095a3-2695-490a-9dad-d20479093831}
+;============================================================
+;  File: Clist_blind.dll
+;  Plugin: BClist
+;  Version: 0.8.0.1
+;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
+;============================================================
+;file \plugins\Clist_blind\res\resource.rc
+[Show/Hide:]
+显示/隐藏: 
+[Read Message:]
+阅读消息: 
+[Web Search:]
+网上搜索: 
+[URL:]
+链接:
+[Open in new browser window]
+在新浏览器窗口中打开
+[Show Options]
+显示选项
+;file \plugins\Clist_blind\src\clcopts.cpp
+[Group: %name% %count% [%mode%]]
+群组: %name% %count% [%mode%]
+[Divider: %s]
+分隔物: %s
+[Info: %s]
+信息: %s
+;file \plugins\Clist_blind\src\clistopts.cpp
+;file \plugins\Clist_blind\src\cluiopts.cpp
+;file \plugins\Clist_blind\src\init.cpp
+[Expanded]
+展开
+[Colapsed]
+关闭

@@ -1,0 +1,70 @@
+﻿#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
+;============================================================
+;  File: CrashDumper.dll
+;  Plugin: Crash dumper
+;  Version: 0.0.4.22
+;  Authors: borkra
+;============================================================
+;file \plugins\CrashDumper\res\crshdmp.rc
+[To File]
+至文件
+[Support for miranda-vi.org]
+miranda-vi.org 支持
+[Upload automatically when changed]
+变更自动上传
+[Use classic dates]
+使用标准日期
+;file \plugins\CrashDumper\src\crshdmp.cpp
+[VersionInfo stored into file %s]
+版本信息保存至文件 %s
+[VersionInfo file %s is inaccessible]
+版本信息文件 %s 不可用
+[Version Information To Clipboard]
+版本信息至剪贴板
+[Version Information To File]
+版本信息至文件
+[Show Version Information]
+显示版本信息
+[Upload Version Information]
+上传版本信息
+[Crash Reports]
+崩溃报告
+[Store to file]
+保存至文件
+[Show with DLLs]
+显示链接库
+[Open crash report directory]
+打开崩溃报告目录
+[Open miranda-vi.org]
+打开 miranda-vi.org
+[Copy Version Info to clipboard]
+复制版本信息至剪贴板
+[Show Version Info]
+显示版本信息
+;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Crash Dumper]
+崩溃转储
+;file \plugins\CrashDumper\src\exhndlr.cpp
+[Crash Report write location is inaccesible]
+崩溃报告不可能写至本地
+[Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
+Miranda 崩溃. 崩溃报告保存于文件夹:\n %s\n\n 您是否需要复制到剪贴板?
+;file \plugins\CrashDumper\src\ui.cpp
+;file \plugins\CrashDumper\src\upload.cpp
+[VersionInfo upload successful,\n %d old plugins]
+版本信息上传成功,\n %d 旧插件
+[Cannot upload VersionInfo. Incorrect username or password]
+不能上传版本信息. 用户名或密码错误
+[Cannot upload VersionInfo. User is banned]
+不能上传版本信息. 用户被封
+[Cannot upload VersionInfo. Daily upload limit exceeded]
+不能上传版本信息. 超出每日上传限制
+[Cannot upload VersionInfo. Unknown error]
+不能上传版本信息. 未知错误
+[Cannot upload VersionInfo. Host unreachable.]
+不能上传版本信息. 无法访问主机.
+[Crash Dumper HTTP connections]
+Crash Dumper HTTP 连接
+;file \plugins\CrashDumper\src\utils.cpp
+[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
+安装了多个崩溃报告插件. 这将导致无法创建崩溃报告

@@ -1,0 +1,337 @@
+﻿#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
+;============================================================
+;  File: AIM.dll
+;  Plugin: AIM protocol
+;  Version: 0.11.0.1
+;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
+;============================================================
+;file \protocols\AimOscar\res\aim.rc
+[AIM User Details]
+AIM ユーザー詳細
+[Screen Name:]
+スクリーン名 :
+[AIM Options]
+AIM オプション
+[Message Delivery Confirmation]
+メッセージ配信確認
+[Do Not Autoreply When Away]
+離席中に自動返信しない
+[Convert Incoming Messages to BBCode]
+着信メッセージを BBCode にコンバート
+[Convert Outgoing Messages to HTML]
+発信メッセージを HTML にコンバート
+[Disable Avatars]
+アバターを無効
+[Disable Account Type Icons]
+アカウントタイプアイコンを無効
+[Disable Extended Status Icons]
+拡張ステータスアイコンを無効
+[Notify about new mail]
+新規メールを通知
+[Advanced Options]
+詳細オプション
+[Instant Idle on Login]
+ログイン時インスタントアイドル
+[Force Proxy File Transfers]
+プロキシファイル転送を強制
+[Masquerade as a Sidekick/Hiptop User]
+Sidekick / Hiptop ユーザーを装う
+[*Aim must be reconnected  for some option to take effect.]
+* Aim にいくつかのオプションを反映させるには再接続が必要です
+[Disable SSL]
+SSL を無効
+[Manage Server Groups]
+メッセージサーバーグループ
+[Force Single Client]
+シングルクライアントを強制
+[Save Profile]
+プロファイルを保存
+[Create a new AIM account]
+新規 AIM アカウントを作成
+[AIM Instant Idler]
+AIM インスタントアイドラー
+[Number of Hours:]
+時間数 :
+[Number of Minutes:]
+分数 :
+[Set Idle]
+アイドルを設定
+[Unset Idle]
+アイドルを解除
+[Users who can contact me:]
+自分にコンタクト可能なユーザー :
+[Allow all users]
+全てのユーザーを許可
+[Allow only users on contact list]
+コンタクトリストにあるユーザーのみ許可
+[Allow only users below]
+以下のユーザーのみ許可
+[Block all users]
+全てのユーザーをブロック
+[Block only users below]
+以下のユーザーのみブロック
+[Allow contacts to be notified of:]
+以下で通知されるコンタクトを許可 :
+[Join Chat Room]
+チャットルームに参加
+[Chat Room]
+チャットルーム
+[This allows access to user defined chat rooms. To access predefined chat rooms use web links]
+定義されたチャットルームにユーザーのアクセスを許可します。定義済のチャットルームにアクセスするにはウェブリンクを使用してください
+[Original]
+オリジナル
+[Repeat]
+繰り返し
+[*Passwords don't match.]
+* パスワードが一致しません
+[Confirm Account]
+アカウントの確認
+[*Applied upon reconnect]
+* 再接続時に適用されます
+[Save Changes]
+変更を保存
+[Room]
+ルーム
+;file \protocols\AimOscar\src\avatars.cpp
+;file \protocols\AimOscar\src\chat.cpp
+;file \protocols\AimOscar\src\error.cpp
+[Invalid Screen Name or password.]
+無効なスクリーン名かパスワードです
+[Mismatched Screen Name or password.]
+スクリーン名かパスワードが不一致です
+[You are connecting too frequently. Try waiting 10 minutes to reconnect.]
+あなたは非常に頻繁に接続し続けています。10 分待ってから再接続を試みてください
+[Unknown error occured when attempting to connect.]
+接続の試行中に不明なエラーが発生しました
+[Invalid SNAC header.]
+無効な SNAC ヘッダー
+[Server rate limit exceeded.]
+サーバーレートが制限を超えました
+[Client rate limit exceeded]
+クライアントレートが制限を超えました
+[Recipient is not logged in.]
+受信者はログインしていません
+[Requested service is unavailable.]
+リクエストされたサービスは利用できません
+[Requested service is not defined.]
+リクエストされたサービスは定義されていません
+[You sent obsolete SNAC.]
+あなたは古い形式のSNACを送信しました
+[Not supported by server.]
+サーバーにサポートされていません
+[Not supported by the client.]
+クライアントにサポートされていません
+[Refused by client.]
+クライアントに拒否されました
+[Reply too big.]
+返信が大きすぎます
+[Response lost.]
+応答は失われました
+[Request denied.]
+リクエストは拒否されました
+[Incorrect SNAC format.]
+不正な SNAC フォーマットです
+[Insufficient rights.]
+権限が不十分です
+[Recipient blocked.]
+受信者はブロックされています
+[Sender too evil.]
+送信者は非常に有害です
+[Receiver too evil.]
+受信者は非常に有害です
+[User temporarily unavailable.]
+ユーザーは一時的に利用できません
+[No Match.]
+一致しません
+[List overflow.]
+リストがオーバーフローしました
+[Request ambiguous.]
+リクエストがあいまいです
+[Server queue full.]
+サーバーのキューが一杯です
+[Not while on AOL.]
+AOL 中ではありません
+[Check your Screen Name.]
+スクリーン名を確認してください
+[Check your Password.]
+パスワードを確認してください
+[Check your Email Address.]
+電子メールアドレスを確認してください
+[Service temporarily unavailable.]
+サービスは一時的に利用不可です
+[Field change temporarily unavailable.]
+フィールド変更は一時的に利用できません
+[Invalid Screen Name.]
+無効なスクリーン名です
+[Invalid Password.]
+無効なパスワードです
+[Invalid Email.]
+無効な電子メールです
+[Invalid Registration Preference.]
+無効な優先登録です
+[Invalid Old Password.]
+無効な旧パスワードです
+[Invalid Screen Name Length.]
+無効な長さのスクリーン名です
+[Invalid Password Length.]
+無効なパスワード長です
+[Invalid Email Length.]
+無効な電子メール長です
+[Invalid Old Password Length.]
+無効な旧パスワード長です
+[Need Old Password.]
+旧パスワードが必要です
+[Read Only Field.]
+読み取り専用限定フィールドです
+[Write Only Field.]
+書込み専用フィールドです
+[Unsupported Type.]
+未サポートのタイプです
+[An Error has occured.]
+エラーが発生しました
+[Invalid Account.]
+無効なアカウントです
+[Delete Account.]
+削除アカウントです
+[Expired Account.]
+期限切れアカウントです
+[No Database access.]
+データベースアクセスがありません
+[Invalid Database fields.]
+無効なデータベースフィールドです
+[Bad Database status.]
+データベースのステータスに問題があります
+[Migration Cancel.]
+移行はキャンセルされました
+[Internal Error.]
+内部エラー
+[There is already a Pending Request for this Screen Name.]
+このスクリーン名に対する保留中のリクエストが既に存在します
+[Not DT status.]
+DT ステータスではありません
+[Outstanding Confirmation.]
+未処理の確認です
+[No Email Address.]
+電子メールアドレスがありません
+[Over Limit.]
+制限を超えています
+[Email Host Fail.]
+電子メールホストエラー
+[DNS Fail.]
+DNS エラー
+;file \protocols\AimOscar\src\file.cpp
+[Failed to open file: %s : %s]
+ファイルを開けませんでした : %s : %s
+;file \protocols\AimOscar\src\links.cpp
+;file \protocols\AimOscar\src\popup.cpp
+[Open mail account?]
+メールアカウントを開きますか ?
+;file \protocols\AimOscar\src\proto.cpp
+[%s Client-to-client connection]
+%s クライアント対クライアント接続
+;file \protocols\AimOscar\src\server.cpp
+[Contact tried to open an audio/video conference (currently not supported)]
+コンタクトは オーディオ / ビデオ 会議を開こうとしています ( 現在未サポート )
+[No information has been provided by the server.]
+サーバーから情報が提供されていません
+[Item you want to delete not found in list.]
+あなたが削除したい項目がリストにありません
+[Failed to add buddy to list: Item already exist.]
+メンバーをリストに追加することに失敗 : 項目は既に存在します
+[Error adding buddy(invalid id?, already in list?)]
+メンバー追加エラー( 不正な ID ?, 既に追加済み ? ) 
+[Cannot add buddy. Limit for this type of item exceeded.]
+メンバーを追加できません。この項目タイプの上限を超えました
+[Error? Attempting to add ICQ contact to an AIM list.]
+エラー ? AIM リストに ICQ コンタクトの追加を試みています
+[Cannot add this buddy because it requires authorization.]
+認証が必要なため , このメンバーを追加できません
+[Unknown error when adding buddy to list. Error code %#x]
+メンバーをリストに追加時の不明なエラー : エラーコード %#x
+[Item you want to modify not found in list.]
+あなたが変更したい項目がリストにありません
+[Unknown error when attempting to modify a group. Error code %#x]
+グループの変更を試行中の不明なエラー : Error code %#x
+[You've got mail! Checked at]
+メールが届きました ! 確認してください
+[Error uploading avatar. (Too small)]
+アバターアップロードエラー ( 小さすぎます )
+[Error uploading avatar. (Too big)]
+アバターアップロードエラー ( 大きすぎます )
+[Error uploading avatar. (Wrong type)]
+アバターアップロードエラー ( 不適切なタイプ )
+[Error uploading avatar. (Is banned)]
+アバターアップロードエラー ( 入室禁止されました )
+[Error uploading avatar. (Unknown error)]
+アバターアップロードエラー ( 不明なエラー )
+[A confirmation message has been sent to the new email address. Please follow its instructions.]
+確認メッセージが新しい電子メールアドレスに送信されました。それの手順に従ってください
+[A confirmation message has been sent to your email address. Please follow its instructions.]
+確認メッセージがあなたの電子メールアドレスに送信されました。それの手順に従ってください
+[Unable to confirm at this time. Please try again later.]
+現時点では確認できません。後でやり直してください
+[Your account has already been confirmed.]
+あなたのアカウントは既に確認済です
+[Can't start the confirmation procedure.]
+確認プロシージャを開始できません
+;file \protocols\AimOscar\src\theme.cpp
+[AOL Mail]
+AOL メール
+[AIM Icon]
+AIM アイコン
+[Hiptop]
+Hiptop
+[AOL Bot]
+AOL ボット
+[Confirmed]
+確認済
+[Not Confirmed]
+未確認
+[AOL]
+AOL
+[Foreground Color]
+前景色
+[Not Bold]
+太字なし
+[Not Italic]
+イタリック体なし
+[Not Underline]
+下線なし
+[Subscript]
+下付き文字
+[Not Subscript]
+下付き文字なし
+[Superscript]
+上付き文字
+[Not Superscript]
+上付き文字なし
+[Normal Script]
+標準スクリプト
+[Not Normal Script]
+標準スクリプトなし
+[Profile Editor]
+プロファイルエディタ
+[AIM Account Type]
+AIM アカウントタイプ
+[AIM Extended Status]
+AIM 拡張ステータス
+[Manage Account]
+アカウント管理
+[Instant Idle]
+インスタントアイドル
+[Read &HTML Away Message]
+HTML を削除してメッセージを読む (&H)
+[Read Profile]
+プロファイルを読む
+[Add To Server List]
+サーバーリストに追加
+;file \protocols\AimOscar\src\ui.cpp
+[Join me in this buddy chat!]
+メンバーチャットに参加させてください !
+;file \protocols\AimOscar\src\utility.cpp
+[Please, enter a username in the options dialog.]
+オプションダイアログにユーザー名を入力してください
+[Please, enter a password in the options dialog.]
+オプションダイアログにパスワードを入力してください
+[Failed to open file: %s %s]
+ファイルを開けませんでした : %s %s

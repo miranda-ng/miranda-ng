@@ -1,0 +1,766 @@
+﻿;file \src\resource.rc
+[Enter account name (for example, My Google)]
+Add meg a fiók nevét (pl. Saját Google)
+[Choose the protocol type]
+Protokolltípus választása
+[Specify the internal account name (optional)]
+Belsõ fióknév megadása (tetszõleges)
+[Add %s]
+Új %s
+[Contact Display Options]
+Partner Megjelenítési Beállítások
+[&Run]
+Futtatás
+[Start in Service Mode with]
+Szolgáltatás Módban kezdés ezzel:
+[Find/Add Contacts]
+Partnerek Keresése/Hozzáadása
+[First:]
+Elsõ:
+[Last:]
+Utolsó:
+[Add to list]
+Hozzáadás listához
+[Please select a subentry from the list]
+Kérlek válassz egy almenüt a listából
+[Netlib Log Options]
+Netlib napló beállítások
+[Received bytes]
+Fogadott bájtok
+[Sent bytes]
+Küldött bájtok
+[Additional data due to proxy communication]
+További adatok proxykommunikáció miatt
+[Text dumps where available]
+Szöveg kiírások ahol lehetséges
+[Auto-detect text]
+Szöveg auto-felismerése
+[Calling modules' names]
+Modulok nevének hívása
+[Log to]
+Belépés ide:
+[OutputDebugString()]
+OutputDebugString()
+[Run now]
+Futtatás most
+[Save as default]
+Mentés alapért.-ként
+[&Change...]
+&Módosítás...
+[Download more sounds]
+Több hang letöltése
+[Sound Information]
+Hang Információ
+[Location:]
+Elhelyezkedés:
+[Enable sound events]
+Hangesemények bekapcsolása
+[Show category:]
+Kategória mutatása:
+[&Load icon set...]
+Ikonkészlet &betöltése...
+[&Import icons >>]
+&Ikonok importálása >>
+[Download more icons]
+Több ikon letöltése
+[Online Notification]
+Online Értesítések
+[Auth Requests]
+Meghat. Kérelmek
+[All Events]
+Összes Esemény
+[Only the ticked contacts will be shown on the main contact list]
+Csak a kipipált partnerek láthatóak a fõ kapcsolati listán
+[Added Notification]
+Hozzáadott értesítés
+[You are visible to this person even when in invisible mode]
+Ennek a személynek még láthatatlan módban is látható vagy
+[You are never visible to this person]
+Ennek a személynek sosem vagy látható
+[Icon Index]
+Ikon Index
+[Icon library:]
+Ikon könyvtár:
+[Drag icons to main list to assign them:]
+Ikonok áthelyezése a fõ listába kiosztáshoz:
+[Import multiple]
+Több importálása
+[To main icons]
+Fõ ikonokhoz
+[<< &Import]
+<< &Importálás
+[To default status icons]
+Alapért. állapotikonokhoz
+[Logging...]
+Belépés...
+[Outgoing Connections]
+Kimenõ Kapcsolatok
+[Use proxy server]
+Proxyszerver használata
+[(often %d)]
+(gyakran %s)
+[Resolve hostnames through proxy]
+Gépnevek meghatározása proxyn keresztül
+[Port Range:]
+Port Hatáskör:
+[Example: 1050-1070, 2000-2010, 2500]
+Példa: 1050-1070, 2000-2010, 2500
+[Incoming Connections]
+Bejövõ Kapcsolatok
+[Enable UPnP port mapping]
+UPnP port térképezés bekapcsolása
+[Please complete the following form to create a new user profile]
+Kérlek töltsd ki a következõ nyomtatványt új felhasználói prpfil létrehozásához
+[e.g. Workplace]
+pl. Munkahely
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+Választhatsz az alapért.-tõl eltérõ profilmeghajtót is, ez több jellemzõt vagy képességet ajánl, ha kétséged van, használd az alapért.-tet.
+[e.g. Miranda Database]
+pl. Miranda Adatbázis
+[Driver]
+Meghajtó
+[Fonts and Colors]
+Betûtípusok és Színek
+[Color/Background]
+Szín/Háttér
+[Choose Font]
+Betûtípus választása
+[&Font:]
+&Betûtípus:
+[Font st&yle:]
+Betûtípus s&tílus:
+[&Size:]
+&Méret:
+[Stri&keout]
+Áthú&zott
+[&Underline]
+&Aláhúzott
+[&Color:]
+Szín:
+[Sample]
+Minta
+[AaBbYyZz]
+AaBbYyZz
+[Sc&ript:]
+Szk&ript:
+[Insert separator]
+Elválasztó beszúrása
+[Key Bindings]
+Billentyû társítások
+[Shortcut:]
+Parancsikon:
+[Undo Changes]
+Változások visszavonása
+[Reset To Default]
+Visszaállítás Alapért.-re
+[Account information:]
+Fiók információ:
+[Additional:]
+További:
+[Configure network...]
+Hálózat beállítása...
+[Get more protocols...]
+Több protokoll...
+[&Add...]
+&Hozzáadás...
+[&Upgrade]
+&Feljavítás
+[IconOptions]
+IkonBeállítások
+[&Reset to default]
+&Visszaállítás alapért.-re
+[find/add]
+keresés/hozzáadás
+[&Add to List]
+&Hozzáadás Listához
+[Send &Message]
+&Üzenet küldése
+[Cancel Change]
+Változtatás Elvetése
+[&Reset To Default]
+&Visszaállítás Alapért.-re
+;file \src\core\stdauth\resource.rc
+[&Authorize]
+&Meghatalmazás
+[&I]
+&I
+[Reason:]
+Indok:
+;file \src\core\stdaway\resource.rc
+[Do not reply to requests for this message]
+Ne válaszoljon kérelmekre ehhez az üzenethez
+[Do not pop up dialog asking for new message]
+Ne legyen felugró párbeszéd új üzenet kérésére
+[By default, use the same message as last time]
+Alapért. szerint használd ua. üzenetet, mint legutóbb
+[By default, use this message:]
+Alapért. szerint használd ezt az üzenetet:
+;file \src\core\stdchat\res\chat.rc
+[Trim to (kB)]
+Max (kB)
+[Userlist row distance (pixels):]
+Felhasználó-lista sor távolság (képpont):
+[Popups for the Chat plugin]
+Felugrók a csevegés beépülõhöz
+;file \src\core\stdclist\res\resource.rc
+[Selection colour]
+Kijelölés színe
+;file \src\core\stdfile\resource.rc
+[Send File(s)]
+Fájl(ok) Küldése
+[File(s):]
+Fájl(ok):
+[&Choose Again...]
+&Válassz Újra...
+[Total size:]
+Teljes méret:
+[A&ccept]
+El&fogadás
+[&Decline]
+Elutasít
+[Files:]
+Fájlok:
+[Save to:]
+Mentés ide:
+[Open...]
+Megnyitás...
+[Open folder]
+Mappa megnyitása
+[Transfer completed, open file(s).]
+Átvitel befejezõdött, fájl(ok) megnyitása.
+[No data transferred]
+Nincs átvitt adat
+[File Already Exists]
+A Fájl Már Létezik
+[Resume all]
+Összes visszaállítása
+[Overwrite all]
+Összes felülírása
+[Save as...]
+Mentés másként...
+[Skip]
+Átugrás
+[Cancel transfer]
+Átvitel elvetése
+[You are about to receive the file]
+A fájl érkezik
+[Existing file]
+Létezõ fájl
+[Last modified:]
+Utoljára módosítva:
+[Open file]
+Fájl megnyitása
+[File properties]
+Fájl tulajdonságok
+[File being received]
+Fájl érkezik
+[Clear completed]
+Törlés befejezõdött
+[Receiving files]
+Fájlok fogadása
+[Received files folder:]
+Fogadott fájlok mappa:
+[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+Engedélyezett változók: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
+[Auto-accept incoming files from people on my contact list]
+Kapcsolati listámon szereplõktõl fájlok elfogadása automatikusan
+[Minimize the file transfer window]
+Fájlátviteli ablak minimalizálása
+[Close window when transfer completes]
+Ablak bezárása átvitel befejezésekor
+[Virus scanner]
+Víruskeresõ
+[Scan files:]
+Fájlok szkennelése:
+[Never, do not use virus scanning]
+Soha, ne használj víruskeresést
+[When all files have been downloaded]
+Amint minden fájl letöltõdött
+[As each file finishes downloading]
+Amint minden fájl befejezte a letöltést
+[Command line:]
+Parancssor:
+[%f will be replaced by the file or folder name to be scanned]
+%f átírásra kerül a szkennelendõ fájl- vagy mappanévre
+[Warn me before opening a file that has not been scanned]
+Figyelmeztess nem átvizsgált fájl megnyitása elõtt
+[If incoming files already exist]
+Ha a bejövõ fájl már létezik
+[Ask me]
+Kérdezz engem
+[You will always be asked about files from people not on your contact list]
+A kapcsolati listádon nem szereplõktõl érkezõ fájlokról mindig megkérdezünk
+;file \src\core\stdhelp\resource.rc
+;file \src\core\stdidle\resource.rc
+[Become idle if the following is left unattended:]
+Inaktívvá válás ha a következõ gazdátlan marad:
+[Miranda]
+Miranda
+[Become idle if the screen saver is active]
+Inaktívvá válás képernyõvédõ bekapcsolódásakor
+[Become idle if a terminal session is disconnected]
+Inaktívvá válás ha egy végsõ munkamenet megszakad
+[Do not let protocols report any idle information]
+A protokollok nem jelenthetnek inaktivitási információt
+[minute(s)]
+perc(ek)
+[for]
+ennek
+[Change my status mode to:]
+Állapotmódom módosítása erre:
+[Do not set status back to online when returning from idle]
+Ne állítsa vissza online módra az állapotot ha visszatérek inaktív módból
+[Idle Options]
+Inaktív Beállítások
+;file \src\core\stdmsg\res\resource.rc
+[Automatically popup window when:]
+Automatikus felugrás ekkor:
+[Save the window size and location individually for each contact]
+Minden partnerhez külön mentse az ablak méretét és helyét
+[Show 'Send' button]
+Mutassa az 'Elküldés' gombot
+[Show username on top row]
+Felhasználónév mutatása a felsõ sorban
+[Show toolbar buttons on top row]
+Eszköztár gombok mutatása a felsõ sorban
+[Show character count]
+Karakterszám mutatása
+[Support control up/down in message area to show previously sent messages]
+Control fel/le támogatása az elõzõleg elküldött üzenetek mutatásához
+[Delete temporary contacts when closing message window]
+Átmeneti partnerek törlése a csevegõ ablak bezárásakor
+[Enable avatar support in the message window]
+Avatarok az üzenet ablakokban
+[Limit avatar height to ]
+Avatár maximális magassága 
+[pixels.]
+képpont
+[Show timestamp]
+Idõbélyeg mutatása
+[Show dates]
+Dátumok megjelenítése
+[Show status changes]
+Állapotváltozások mutatása
+[Update inactive message window icons when a user is typing]
+Inaktív üzenet alblak ikonon frissítése, ha a felhasználó gépel
+;file \src\core\stduihist\resource.rc
+[&Find Next]
+Következõ &Keresése
+[Find What:]
+Keresés Erre:
+;file \src\core\stduserinfo\resource.rc
+[Add E-Mail Address]
+E-mail cím hozzáadása
+[%s: User Details]
+%s: Felhasználó Részletek
+[Update Now]
+Frissítés Most
+[Web page:]
+Weblap:
+[Past background:]
+Elõzõ háttér:
+[Interests:]
+Érdeklõdési körök:
+[My notes:]
+Jegyzeteim:
+[Spoken languages:]
+Beszélt nyelvek:
+[Local time:]
+Helyi idõ:
+[Website:]
+Weboldal:
+;file \src\core\stdauth\auth.cpp
+[%s requests authorization]
+%s meghatalmazást kér
+[%u requests authorization]
+%u meghatalmazást kér
+[%u added you to their contact list]
+%u hozzáadott a kapcsolati listájához
+;file \src\core\stdauth\authdialogs.cpp
+[(Unknown)]
+(Ismeretlen)
+;file \src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdchat\src\clist.cpp
+;file \src\core\stdchat\src\colorchooser.cpp
+;file \src\core\stdchat\src\log.cpp
+;file \src\core\stdchat\src\options.cpp
+[Use a tabbed interface]
+Füles kezelõfelület használata
+[Close tab on doubleclick]
+Fülek bezárása duplaklikkre
+[Restore previously open tabs when showing the window]
+Elõzõleg látható fülek visszaállítása az ablak mutatásakor
+[Show tabs at the bottom]
+Fülek mutatása alul
+[Send message by pressing the Enter key]
+Üzenet küldése az Enter billentyû megnyomásakor
+[Send message by pressing the Enter key twice]
+Üzenet küldése az Enter billentyû kétszeri megnyomásakor
+[Show button for sending messages]
+Elküld gomb megjelenítése
+[Show buttons for controlling the chat room]
+Csevegõ szobákon vezérlõgombok megjelenítése
+[Show buttons for formatting the text you are typing]
+Szöveg formázó gombok megjelnítése
+[Show new windows cascaded]
+Új ablakok megjelenítése lépcsõzetesen
+[Save the size and position of chat rooms]
+Csevegõ szobák helyének és méretének megjegyzése
+[Show the topic of the room on your contact list (if supported)]
+Csevegõ szoba témájának mutatása a kapcsolati listán (ha támogatott)
+[Do not play sounds when the chat room is focused]
+Ne legyenek hangok, ha a csevegõ ablak elõtérben van
+[Toggle the visible state when double clicking in the contact list]
+Láthatósági állapot váltogatása a partnerlistán kettõskaatintáskor
+[Show contact statuses if protocol supports them]
+Partner állapotainak megjelenítése, ha a protokoll támogatja
+[Display contact status icon before user role icon]
+Állapot ikon megjelenítése a felhasználónév elõtt
+[Timestamp has same colour as the event]
+Az idõbélyegnak és az eseménynek azonos a színe
+[Show icon for topic changes]
+Témaváltozások ikon megjelenítése
+[Show icon for users joining]
+Csatlakozó felhasználók ikon megjelenítése
+[Show icon for users disconnecting]
+Kilépõ felhasználók ikon megjelenítése
+[Show icon for messages]
+Üzenetek ikon megjelenítése
+[Show icon for actions]
+Akciók ikon megjelenítése
+[Show icon for highlights]
+Kiemelések ikon megjelenítése
+[Show icon for users leaving]
+Kilépõ felhasználók ikon megjelenítése
+[Show icon for users kicking other user]
+Más felhasználókat kirúgók ikon megjelenítése
+[Show icon for notices ]
+Megjegyzések ikon megjelenítése
+[Show icon for name changes]
+Névváltozások ikon megjelenítése
+[Show icon for information messages]
+Információs üzenetek ikon megjelenítése
+[Show icon for status changes]
+Állapotváltozások ikon megjelenítése
+[Chat Module]
+Csevegés modul
+[Message Background]
+Üzenet háttér
+[Userlist Background]
+Partnerlista hátér
+[Userlist Lines]
+Partnerlist vonalak
+[Userlist Background (selected)]
+Partnerlista hátér (kijelölt)
+[Options for using a tabbed interface]
+Füles felület beállításai
+[Icons to display in the message log]
+Üzenet-naplóban megjelenítendõ ikonok
+[Chat Log]
+Csevegés napló
+[Chat]
+Csevegés
+;file \src\core\stdchat\src\services.cpp
+;file \src\core\stdchat\src\tools.cpp
+;file \src\core\stdchat\src\window.cpp
+[Close current tab (CTRL+F4)]
+Aktuális fül bezárása (CTRL+F4)
+;file \src\core\stdclist\src\clcfonts.cpp
+;file \src\core\stdclist\src\clcopts.cpp
+;file \src\core\stdclist\src\clistopts.cpp
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdemail\email.cpp
+[User has not registered an e-mail address]
+A felhasználónak nincs regisztrált e-mailcíme
+[&E-mail]
+&e-mail
+;file \src\core\stdfile\file.cpp
+[File from %s]
+Fájl innen: %s
+[Denied]
+Megtagadva
+;file \src\core\stdfile\fileexistsdlg.cpp
+[%s File]
+%s fájl
+;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\filerecvdlg.cpp
+[Cancelled]
+Törölve
+;file \src\core\stdfile\filesenddlg.cpp
+[%d files]
+%d fájlok
+[%d directories]
+%d könyvtárak
+;file \src\core\stdfile\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Ezen a fájlon még nem lett víruskeresés lefuttatva. Biztosan meg akarod nyitni?
+[File Received]
+Érkezett fájl
+[of]
+/
+[remaining]
+hátralévõ
+;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\help.cpp
+[&About...]
+&Bõvebben...
+[&Report Bug]
+Rovar &jelentése
+;file \src\core\stdidle\idle.cpp
+;file \src\core\stdmsg\src\cmdlist.cpp
+;file \src\core\stdmsg\src\globals.cpp
+;file \src\core\stdmsg\src\msgdialog.cpp
+;file \src\core\stdmsg\src\msglog.cpp
+;file \src\core\stdmsg\src\msgoptions.cpp
+[Messaging Log]
+Üzenet napló
+;file \src\core\stdmsg\src\msgs.cpp
+;file \src\core\stdmsg\src\msgtimedout.cpp
+;file \src\core\stduihist\history.cpp
+[Outgoing Message]
+Kimenõ üzenet
+[Incoming Message]
+Bejövõ üzenet
+[Outgoing File]
+Kimenõ fájl
+[Incoming File]
+Bejövõ fájl
+[Are you sure you want to delete this history item?]
+Biztosan el kívánod távolítani ezt az elõzményelemet?
+[Delete History]
+Elõzmény törlése
+;file \src\core\stdurl\url.cpp
+[URL from %s]
+URl innen: %s
+[Web Page Address (&URL)]
+Weboldal cím (&URL)
+;file \src\core\stdurl\urldialogs.cpp
+[Send URL to]
+URL küldése ide:
+[Send timed out]
+Küldés elévült
+;file \src\core\stduserinfo\contactinfo.cpp
+[Edit E-Mail Address]
+E-mail cím szerkesztése
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+A telefonszámnak +-szal kell kezdõdnie és számokból, szóközökbõl, kötõjelekbõl és zárójelekbõl állhat.
+[Primary]
+Elsõdleges
+[Custom %d]
+Egyéni &d
+[Mobile]
+Mobil
+[Work Phone]
+Munakhelyi telefon
+[Work Fax]
+Munkahelyi fax
+;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduseronline\useronline.cpp
+[%s is Online]
+%s online
+;file \src\modules\addcontact\addcontact.cpp
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clistmenus.cpp
+[Custom status]
+Egyéni állapot
+;file \src\modules\clist\clistmod.cpp
+[This plugin requires db3x plugin version 0.5.1.0 or later]
+Ennek a beépülõnek szüksége van a db3x 0.5.1.0 vagy újabb beépülõre
+;file \src\modules\clist\clistsettings.cpp
+;file \src\modules\clist\clisttray.cpp
+;file \src\modules\clist\clui.cpp
+[This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
+Ez a felhasználó olyan üzenetküldõ rendszeren van, ami egy központi szerveren tárolja a kapcsolati listáját. A partner eltávolításra kerül a szerverrõl és a kapcsolati listádról a következõ csatlakozásodkor.
+[De&lete]
+Tör&lés
+[&Add permanently to list]
+Végleges &hozzáadás listához
+;file \src\modules\clist\contacts.cpp
+;file \src\modules\clist\genmenu.cpp
+;file \src\modules\clist\genmenuopt.cpp
+[Menus]
+Menük
+;file \src\modules\clist\groups.cpp
+[New Group]
+Új csoport
+[You already have a group with that name. Please enter a unique name for the group.]
+Már van ilyen néven csoport. Kérem adjon meg egy edefi nevet a csoportnak.
+[Rename Group]
+Csoport átnevezése
+[This group]
+Ez a csoport
+;file \src\modules\clist\keyboard.cpp
+;file \src\modules\clist\movetogroup.cpp
+[&Move to Group]
+Csoporthoz &adás
+;file \src\modules\database\database.cpp
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
+Miranda nem tudja megnyitni '%s'-t, mert nincs telepítve profil beépülõ.\nTelepítsd a dbx_3x.dll-t, vagy ennek megfelelõt.
+[No profile support installed!]
+Nincs profiltámogatás telepítve!
+[Miranda can't understand that profile]
+Miranda nem érti ezt a profilt
+;file \src\modules\database\dbini.cpp
+;file \src\modules\database\profilemanager.cpp
+[The profile already exists]
+A profil már létezik
+[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+'%s' áthelyezése a Lomtárba sikertelen, kérlek válassz másik profilnevet.
+[Problem moving profile]
+probléma profil mozgatása során
+[Unable to create the profile '%s', the error was %x]
+'%s' profil létrehozása sikertelen, a hiba %x
+[Problem creating profile]
+Probléma profil létrehozása során
+[<In Use>]
+<Használatban>
+[Created]
+Létrehozva
+[My Profiles]
+Profiljaim
+[New Profile]
+Új Profil
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
+;file \src\modules\extraicons\extraicons.cpp
+[Chat Activity]
+Cset elérhetõség
+;file \src\modules\extraicons\options_ei.cpp
+;file \src\modules\findadd\findadd.cpp
+[You haven't filled in the search field. Please enter a search term and try again.]
+Nem töltötted ki a keresési mezõt. Kérlek adj meg egy keresési kifejezést és próbáld újra.
+[Results]
+Eredmények
+[There are no results to display.]
+Nincs megjeleníthetõ eredmény.
+[All Networks]
+Összes Hálózat
+[Handle]
+Kezelés
+;file \src\modules\findadd\searchresults.cpp
+[Could not start a search on '%s', there was a problem - is %s connected?]
+'%s' átkutatása sikertelen, hiba lépett fel - %s csatlakozva van? 
+[Could not search on any of the protocols, are you online?]
+Keresés a protokollokon sikertelen, online módban vagy?
+[Problem with search]
+Hiba a keresés során
+[1 %s user found]
+1 %s felhasználó találva
+[%d %s users found]
+%d %s felhasználó találva
+[%d users found (]
+%s felhasználó találva (
+[No users found]
+Nincs talált felhasználó
+;file \src\modules\fonts\FontOptions.cpp
+[Fonts]
+Betûtípusok
+;file \src\modules\fonts\FontService.cpp
+;file \src\modules\icolib\skin2opts.cpp
+[Icon Sets]
+Ikon beállítások
+;file \src\modules\ignore\ignore.cpp
+;file \src\modules\netlib\netliblog.cpp
+[Select where log file will be created]
+Válaszd ki a naplófájl létrehozási helyét
+[Select program to be run]
+Válaszd ki a futtatni kívánt programot
+;file \src\modules\netlib\netlibopts.cpp
+[<All connections>]
+<Összes kapcsolat>
+;file \src\modules\netlib\netlibssl.cpp
+;file \src\modules\options\options.cpp
+[<all modules>]
+<összes modul>
+[%s options]
+%s beállítások
+;file \src\modules\plugins\newplugins.cpp
+['%s' is disabled, re-enable?]
+'%s' kikapcsolva, bekapcsolod?
+[Re-enable Miranda plugin?]
+Újra bekapcsolod Miranda beépülõt?
+[Unable to load plugin in Service Mode!]
+Beépülõ betöltése Szolgáltatás Módban nem lehetséges!
+[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
+A telepített kapcsolati lista beépülõk indítása sikertelen, a kedvezményezett kapcsolati lista elvetésével sem tölthetõk be.
+;file \src\modules\plugins\pluginopts.cpp
+[Plugin]
+Beépülõ
+;file \src\modules\protocols\protoopts.cpp
+[Editing account]
+Hozzáférés szerkesztése
+[Upgrading account]
+Fiók feljavítása
+[Account is disabled. Please activate it to access options.]
+Fiók kikapcsolva. Kérlek aktiváld a beállítások eléréséhez.
+[Account ID]
+Fiók azonosító
+[Account %s is being deleted]
+%s fiók törlése
+[&Accounts...]
+&Fiókok...
+;file \src\modules\skin\hotkey_opts.cpp
+[Remove shortcut]
+Parancsikon eltávolítása
+[Add another shortcut]
+Új rövidítés hozzáadása
+;file \src\modules\skin\skinicons.cpp
+[Group (Open)]
+Csoport (Nyitott)
+[Group (Closed)]
+Csoport (Zárt)
+[Connecting]
+Csatlakozás
+[Down Arrow]
+Le Nyíl
+[Send E-mail]
+E-mail küldése
+[SMS]
+SMS
+[Search All]
+Összes keresése
+[Tick]
+Pipa
+[No Tick]
+Nincs Pipa
+[Miranda Website]
+Miranda Weboldal
+[Small Dot]
+Kis Pont
+[Filled Blob]
+Kitöltött Blob
+[Empty Blob]
+Üres Blob
+[Unicode plugin]
+Unicode beépülõ
+[ANSI plugin]
+ANSI beépülõ
+[Running plugin]
+Futó beépülõ
+[Unloaded plugin]
+Üres beépülõ
+[ShowHide]
+MutatRejt
+[Exit]
+Kilépés
+[%s Icons]
+%s Ikonok
+;file \src\modules\skin\sounds.cpp
+;file \src\modules\utils\bmpfilter.cpp
+[All Bitmaps]
+összes bitkép
+;file \src\modules\utils\timezones.cpp
+;file \src\modules\utils\utils.cpp
+[American Samoa]
+Szamoa
+[Christmas Island]
+Karácsony-sziget
+[Cocos (Keeling) Islands]
+Kókusz-szigetek
+[Cyprus]
+Ciprus
+[Norfolk Island]
+Norfolk szigetek
+;file \src\modules\visibility\visibility.cpp

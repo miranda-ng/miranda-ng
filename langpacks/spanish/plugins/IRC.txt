@@ -1,0 +1,49 @@
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+;file \protocols\IRCG\res\IRC.rc
+[&Del]
+&Eliminar
+[Full name (e-mail)]
+Nombre completo (correo electrónico)
+[Alternative nick]
+Suplente nick
+[Ident]
+Ident
+[Reconnect]
+Vuelva a conectar
+[Userinfo]
+UserInfo
+[&Refresh]
+&Actualizar
+[&Clear all]
+&Borrar todos
+[Invites]
+Invita
+[Alternate nick]
+Suplente nick
+;file \protocols\IRCG\src\clist.cpp
+;file \protocols\IRCG\src\commandmonitor.cpp
+[%s sets mode %s]
+%s establece el modo de %s
+[Change nickname]
+Cambiar apodo
+;file \protocols\IRCG\src\input.cpp
+;file \protocols\IRCG\src\irclib.cpp
+;file \protocols\IRCG\src\ircproto.cpp
+;file \protocols\IRCG\src\options.cpp
+[Flags]
+Banderas
+;file \protocols\IRCG\src\output.cpp
+;file \protocols\IRCG\src\services.cpp
+[Change nick name]
+Cambiar apodo
+[Please enter a unique nickname]
+Por favor, introduzca un apodo único
+;file \protocols\IRCG\src\tools.cpp
+;file \protocols\IRCG\src\userinfo.cpp
+;file \protocols\IRCG\src\windows.cpp

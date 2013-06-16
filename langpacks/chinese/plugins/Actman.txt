@@ -1,0 +1,190 @@
+﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
+;============================================================
+;  File: actman.dll
+;  Plugin: Action Manager
+;  Versions: 0.2.0.1
+;  URL: 
+;  Source: http://delphi-miranda-plugins.googlecode.com/svn/trunk/actman/
+;  Authors: Awkward
+;============================================================
+[Contact window]
+联系人窗口
+[Text insert]
+文本插入
+[vars]
+变量
+[DWord]
+双字
+[wParam type]
+wParam 类型
+[lParam type]
+lParam 类型
+[Service name]
+服务名称
+[Result action]
+行动结果
+[Window option]
+窗口选项
+[Show in popup]
+显示弹出窗口
+[Start hidden]
+隐藏启动
+[Show in messagebox]
+显示对话框
+[Start maximized]
+最大化启动
+[Continued]
+继续
+[Parallel]
+并行
+[Condition]
+情况
+[Insert into message]
+插入消息
+[parameter]
+参数
+[Process time, ms]
+处理时间, 毫秒
+[No Description]
+无说明
+[Signed value]
+符号值
+[Process options]
+进程选项
+[Do not show]
+不要显示
+[Current path]
+当前路径
+[Start normal]
+正常启动
+[last result]
+最后结果
+[structure]
+结构
+[Link to action]
+链接至操作
+[Plugin for manage hotkeys to open contact window, insert text, run program and call services]
+热键管理插件可打开联系人窗口, 插入文本, 运行程序及呼叫服务
+[Action manager]
+操作管理
+[Copy to]
+复制到
+[Paste from as]
+粘贴作为
+[Variables (below)]
+变量 (低)
+[Variables script]
+变量脚本
+[Other Action groups]
+其它操作组
+[Operation]
+操作
+[Last result]
+最后结果
+[Own settings]
+自有设定
+[Array]
+数组
+[Message title]
+消息标题
+[OK, Cancel]
+确定, 取消
+[Abort, Retry, Ignore]
+中止, 重试, 忽略
+[Yes, No, Cancel]
+是, 否, 取消
+[Yes, No]
+是, 否
+[Retry, Cancel]
+重试, 取消
+[not defined]
+未定义
+[Result as integer]
+整数结果
+[Keep Last Result]
+保持最后结果
+[Keep handle only]
+仅保持处理
+[Variables mark]
+变量标记
+[C&ancel]
+取消(&A)
+[Structure Editor]
+结构编辑器
+[Result as structure]
+结果为结构
+[Byte Array]
+字节数组
+[Word Array]
+字数组
+[Pointer to bytes]
+字节指针
+[Pointer to words]
+字指针
+[Data length]
+数据长度
+['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
+服务名称中含有 '<proto>' 联系人参数处理时将被替换为协议名称
+[Paste from]
+粘贴从
+[Service result]
+服务结果
+[Free memory]
+释放内存
+[Integer]
+整数
+[Append]
+附加
+[Append data to file]
+附加数据至文件
+[Choose action]
+选择操作
+[A&ppend]
+附加(&P)
+[Action "$" exists, do you want to rewrite it?]
+操作 "$" 已存在, 您是否想覆盖它?
+[Don't use Variables]
+不要使用变量
+[Contact list format]
+联系人列表格式
+[Active accounts only]
+仅激活帐号
+[Dropdown list format]
+下拉列表格式
+[Apply format]
+套用格式
+[Event]
+事件
+[Core Hotkey]
+核心热键
+[Root popup:]
+根弹出窗口:
+[Registered actions]
+注册操作
+[Menu icons]
+菜单图标
+;other strings
+[Open contact window]
+打开联系人窗口
+[Call service]
+呼叫服务
+[Execute program]
+执行程序
+[Insert text]
+插入文本
+[Use Variables]
+使用变量
+[number value]
+数字值
+[ANSI string]
+ANSI 字符串
+[Unicode string]
+Unicode 字符串
+[current contact]
+当前联系人
+[Choose Contact]
+选择联系人
+[Return]
+返回
+[Start]
+开始

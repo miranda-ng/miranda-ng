@@ -1,0 +1,33 @@
+﻿#muuid {e92874ec-594a-4a2f-bded-c0be8b5a45d1}
+;============================================================
+;  File: NotifyAnything.dll
+;  Plugin: NotifyAnything
+;  Version: 0.0.2.8
+;  Authors: Daniel Wesslen, Korney San
+;============================================================
+[Displays popups for custom events, triggered by UDP packages.]
+自定义事件弹出窗口显示, 由 UDP 封包触发.
+;file \plugins\NotifyAnything\res\NotifyAnything.rc
+[Property Page]
+属性页
+[Only listen to localhost]
+仅监听本地
+[Use internal speaker]
+使用内置喇叭
+[Message debugging]
+消息调试
+[(Default is 12001)]
+(默认为 12001)
+[Allow actions to execute programs]
+允许执行程序操作
+;file \plugins\NotifyAnything\src\common.h
+[NotifyAnything]
+通知所有
+;file \plugins\NotifyAnything\src\main.cpp
+;file \plugins\NotifyAnything\src\options.cpp
+[LogService]
+日志服务
+[Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
+日志 (*.log)\0*.log\0文本 (*.txt)\0*.txt\0所有文件 (*.*)\0*.*\0
+[Invalid port number]
+无效端口号

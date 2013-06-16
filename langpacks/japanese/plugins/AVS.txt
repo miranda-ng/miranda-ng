@@ -1,0 +1,93 @@
+﻿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.11.0.1
+;  Authors: Nightwish, Pescuma
+;============================================================
+;file \plugins\AVS\res\avs.rc
+[The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
+ここで設定可能な画像はアバターが設定されていない\nコンタクト用のデフォルトアバターとして使用されているものです\nチェックボックスを使用してプロトコルにアバター表示の有効 / 無効を設定できます
+[Set default picture]
+デフォルト画像を設定
+[Delete default picture]
+デフォルトの画像を削除
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
+注意 : この画像はあなた自身のアバターではありません\nメインメニュー | 詳細情報の表示 / 変更 | アバターで , 自分のアバターを設定してください
+[Try to draw avatar background transparent (for images without transparency)]
+アバターの背景を透明にする（非透過画像用）
+[Num of points to define bkg:]
+背景を定義するポイント数 :
+[Color difference allowed:]
+色差を許可 :
+[Make transparency proportional to color diff]
+色差に比例して透明度を作成
+[Draw avatars grayscale]
+アバターをモノクロで描画
+[Show warning messages]
+警告メッセージを表示
+[When setting avatars, always make them square]
+アバターを設定する時は , 常に四角にする
+[Try to draw own avatar background transparent (for images without transparency)]
+自分のアバターの背景を透明にする（非透過画像用）
+[Protect the picture and prevent automatic avatars from overwriting it]
+画像の保護及びアバターの上書きを自動的に禁止
+[Make the avatar square]
+アバターを四角形にする
+[Resize the avatar to fit max allowed protocol size]
+アバターの大きさをプロトコルが許容する最大サイズにする
+[Contact picture]
+コンタクト画像
+[Picture options]
+画像オプション
+[Protect the picture]
+画像の保護
+[Set as hidden]
+非表示に設定
+[Try to make picture background transparent]
+画像の背景を透明にする
+[Use defaults]
+デフォルトを使用
+[Points:]
+ポイント :
+[Color diff:]
+色差 :
+[Use per protocol avatars]
+プロトコル毎にアバターを使用
+;file \plugins\AVS\src\acc.cpp
+[Protocols have different avatars]
+プロトコル毎にアバターは異なる
+;file \plugins\AVS\src\main.cpp
+[Grow avatar to fit max allowed protocol size]
+アバターをプロトコルが許可する最大サイズにあわせる
+[Flash Animations]
+Flash アニメーション
+[XML Files]
+XML ファイル
+[Set My Avatar]
+マイアバターを設定
+[Set My Avatar for %s]
+%s にマイアバターを設定
+[Global avatar for %s accounts]
+%s アカウントのグローバルアバター
+[Contact Avatars]
+コンタクトアバター
+[Own Avatars]
+マイアバター
+[Fatal error, image services not found. Avatar services will be disabled.]
+致命的なエラー 画像サービスが見つかりません。アバターサービスは無効になります
+[Avatar Service]
+アバターサービス
+;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+%s にアバターオプションを設定
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+画像ファイルをディスクから削除しますか ( 強制再読み込みが必要となりますが , ローカルの画像を削除します )?
+[Reset contact picture]
+コンタクトの画像をリセット
+[Contact has no avatar]
+コンタクトにアバターがありません
+[Are you sure you want to remove your avatar?]
+本当にアバターを削除しますか？
+[Global Avatar]
+グローバルアバター

@@ -1,0 +1,49 @@
+﻿#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
+;============================================================
+;  File: BasicHistory.dll
+;  Plugin: Basic history
+;  Version: 1.0.1.9
+;  Authors: Krzysztof Kral
+;============================================================
+;file \plugins\BasicHistory\res\BasicHistory.rc
+[Default Event Filter]
+默认事件过滤器
+[Show event icons]
+显示事件图标
+[External CSS file]
+外部 CSS 文件
+;file \plugins\BasicHistory\src\BasicHistory.cpp
+[Open History]
+打开历史
+[Status change]
+状态变更
+;file \plugins\BasicHistory\src\EventList.cpp
+[All events]
+所有事件
+;file \plugins\BasicHistory\src\ExportManager.cpp
+;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Reply &Quoted]
+引用回复
+[Filters]
+过滤器
+;file \plugins\BasicHistory\src\Options.cpp
+[You were added]
+您已被添加
+[SMTP Simple Email]
+SMTP 简单邮件
+[SMS message]
+SMS 消息
+[Incoming events]
+传入事件
+[Outgoing events]
+发送事件
+[Minute]
+分钟
+;file \plugins\BasicHistory\src\Options.h
+;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
+;file \plugins\BasicHistory\src\RichHtmlExport.cpp
+;file \plugins\BasicHistory\src\Scheduler.cpp
+;file \plugins\BasicHistory\src\Searcher.cpp
+["%s" not found]
+找不到 "%s"
+;file \plugins\BasicHistory\src\TxtExport.cpp

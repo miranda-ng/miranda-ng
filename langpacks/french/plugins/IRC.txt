@@ -1,0 +1,463 @@
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+;file \protocols\IRCG\res\IRC.rc
+[&Del]
+&Effacer
+[only while connecting]
+seulement à la connexion
+[Force visible (-i)]
+Forcer visibilité (-i)
+[Rejoin channel if kicked]
+Rejoindre le canal si exclu
+[Rejoin channels on reconnect]
+Rejoindre les canaux à la reconnexion
+[Disable tray balloon on error]
+Désactiver la bulle d'erreur
+[Show addresses]
+Afficher les adresses
+[Use server window]
+Utiliser la fenêtre du serveur
+[Show server window on startup]
+Afficher la fenêtre au démarrage
+[Automatically join on invite]
+Rejoindre auto. si invité
+['Old style' mode changes]
+Changer mode "à l'ancienne"
+[Update online statuses for users]
+Mise à jour de l'état des contacts
+[Update statuses in channel nicklist]
+Mise à jour de l'état dans la nicklist
+[Internet address]
+Adresse Internet
+[Port range]
+Ports
+[User ID (Ident)]
+Identifiant
+[Full name (e-mail)]
+Nom (e-mail)
+[Server name]
+Nom du Serveur
+[Alternative nick]
+Pseudo alternatif
+[Ident]
+Ident.
+[Default network]
+Réseau par défaut
+[User info - Required]
+Info usager - Obligatoire
+[Reconnect]
+Reconnexion
+[Wait (s)]
+Attente (s)
+[Retry count]
+Nb d'essais
+[Fear the monkeys!!!]
+Attention aux singes !
+[Check every (s):]
+Vérifier toutes les (secondes) :
+[Don't check if more than (users):]
+Ne pas vérifier si plus de (usagers) :
+[User information]
+Information usager
+[Userinfo]
+Info usager
+[&Refresh]
+&Rafraîchir
+[&Query]
+&Demande
+[Channels]
+Canaux
+[Away Info]
+Info d'inactivité
+[The server returned the following information. Please note that this information might be misleading and/or falsified]
+Le serveur a retourné l'information suivante. Veuillez noter que cette information peut être trompeuse ou falsifiée
+[CTCP information]
+Information CTCP
+[Perform]
+Action
+[&Set]
+&Régler
+[Perform on event:]
+Action sur l'évènement :
+[Scripting support]
+Support des scripts
+[Add server]
+Ajouter serveur
+[Channels on server]
+Canaux sur le serveur
+[C&onnect]
+&Connecter
+[Hostmask]
+Masque d'hôte
+[&Clear all]
+&Tout effacer
+[Online detection mode]
+Détection en ligne
+[Wildcard enabled network search]
+Recherche réseau de la Wildcard
+[Bans]
+Exclusions
+[Invites]
+Invitations
+[Excepts]
+Exceptions
+[Only Ops set topic]
+Sujet par les Ops seulement
+[No external messages]
+Pas de mess. externes
+[Invite only]
+N'inviter que
+[Moderated]
+Modéré
+[Key:]
+Code :
+[User limit:]
+Limite usager :
+[Secret]
+Secret
+[Topic]
+Sujet
+[User modes]
+Modes d'usager
+[Channel modes]
+Modes de canal
+[Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
+Utilisez les préférences pour régler les modes pour ce canal. Vous devez normalement être op. ou plus pour modifier
+[Send-ahead]
+Prévenir
+[Attempt reverse DCC (good if firewalled)]
+Essayer DCC inversé (bon avec pare-feu)
+[everyone on the contact list]
+toute la liste
+[everyone]
+tous
+[Disconnect DCC chats when disconnecting from server]
+Déconnecter les chats DCC en quittant le serveur
+[Manually set external IP:]
+Saisir IP externe manuellement
+[Client-to-Client File Transfers]
+Transfert de Fichiers client à client
+[Client-to-Client Protocol]
+Protocole client-à-client (CTCP)
+[Client-to-Client Chats]
+Chats client à client
+[Send mode:]
+Mode d'envoi :
+[Packet size (b):]
+Taille du paquet :
+[Get IP address from server]
+Adresse IP du serveur
+[Auto-accept from:]
+Accepter automatiq. de :
+[CTCP Chat Request]
+Requêtes CTCP
+[Enable (*)]
+Activer (*)
+[Ignore channel messages by default]
+Ignorer les messages du canal par défaut
+[Ignore filetransfer requests]
+Ignorer les requêtes de transferts de fichiers
+[Ignore DCC Chat requests]
+Ignorer les requêtes de DCC Chat
+[Ignore DCC Chat requests from unknown contacts]
+Ignorer les requêtes de DCC Chat venant de contacts inconnus
+[Ignore users]
+Ignorer les usagers
+[(*) Queries from users on your contactlist are never ignored]
+(*) Ne jamais ignorer les messages privés d'utilisateurs de la liste de contacts
+[Ignore mask ( nick!user@host )]
+Ignorer masque ( nick!user@host )
+[Network (*)]
+Réseau (*)
+[Ignore events]
+Ignorer les évènements
+[(*) blank to set this mask for all networks]
+(*) laisser vide pour couvrir tous les réseaux
+;file \protocols\IRCG\src\clist.cpp
+[CTCP chat request from %s]
+Requête de chat CTCP de %s
+;file \protocols\IRCG\src\commandmonitor.cpp
+[%s sets mode %s]
+%s règle le mode %s
+[%s sets mode %s%s]
+%s règle le mode %s%s
+[CTCP FINGER requested by %s]
+FINGER CTCP requis par %s
+[CTCP VERSION requested by %s]
+VERSION CTCP requis par %s
+[CTCP SOURCE requested by %s]
+SOURCE CTCP requis par %s
+[CTCP USERINFO requested by %s]
+INFO USAGER CTCP requis par %s
+[CTCP PING requested by %s]
+PING CTCP requis par %s
+[CTCP TIME requested by %s]
+HEURE CTCP requis par %s
+[DCC: Chat request from %s denied]
+DCC : Rejet de la requête de chat de %s
+[DCC: File transfer request from %s denied]
+DCC : Rejet de la requête de transfert de fichier DCC de %s
+[DCC: Reverse file transfer request from %s denied [No local IP]]
+DCC : Rejet de la requête de transfert inversé de fichier de %s [pas d'IP locale]
+[DCC ERROR: Malformed CTCP request from %s [%s]]
+Erreur DCC : Requête CTCP de s% mal formulée
+[DCC: File transfer resume request from %s denied]
+DCC : Rejet de la requête de reprise de transfert de s%
+[CTCP %s requested by %s]
+%s CTCP requis par %s
+[CTCP PING reply from %s: %u sec(s)]
+Réponse PING CTCP de %s : %u sec (s)
+[CTCP %s reply from %s: %s]
+Réponse %s CTCP de %s : %s
+[Downloading list (%u%%) - %u channels]
+Chargement de la liste (%u%%) - %u canaux
+[Downloading list - %u channels]
+Chargement de la liste - u canaux
+[Done: %u channels]
+Terminé : %u canaux
+[(probably truncated by server)]
+(probablement tronqué par le serveur)
+[Change nickname]
+Changer le pseudo
+[IRC error]
+Erreur IRC
+[Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
+Entrer le masque d'hôte nick!user@host)\nNote : les contacts de votre liste ne seront jamais ignorés
+[Please enter the reason]
+Indiquer le motif
+[Ban'n Kick]
+Ban && Kick
+[Jerk]
+Idiot
+[*Disconnected*]
+*Déconnecté*
+[The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
+L'usage de /AWAY est restreint dans votre perform buffer\n vu qu'IRC envoie cette commande automatiquement.
+[IRC Error]
+Erreur IRC
+;file \protocols\IRCG\src\input.cpp
+[The buddy check function is enabled]
+La fonction de vérification des amis est activée
+[The buddy check function is disabled]
+La fonction de vérification des amis est désactivée
+[Ignore system is enabled]
+Filtre usagers activé
+[Ignore system is disabled]
+Filtre usagers désactivé
+[%s on %s is now ignored (+%s)]
+%s sur %s est maintenant ignoré (+%s)
+[%s is not ignored now]
+%s n'est pas ignoré
+[%s was not ignored]
+%s a été ignoré
+[Outgoing commands are shown]
+Les commandes sortantes sont visibles
+[Outgoing commands are not shown]
+Les commandes sortantes sont invisibles
+[The time interval for the buddy check function is now at default setting]
+La fréquence de vérification des amis est au réglage par défaut
+[The time interval for the buddy check function is now %u seconds]
+La fréquence de vérification des amis est de %u secondes
+[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
+Cette commande n'est pas recommandée sur un réseau de cette taille !\r\nL'utiliser causera sûrement une hausse de l'utilisation du CPU et/ou de la bande passante pendant environ %u à %u minute(s).\r\n\r\nVoulez-vous continuer ?
+[IRC warning]
+Alerte IRC
+[Aborted]
+Abandon
+[CTCP %s request sent to %s]
+Requête CTCP %s envoyée à %s
+[DCC ERROR: Unable to automatically resolve external IP]
+Erreur DCC : Impossible de déterminer automatiquement l'IP externe
+[DCC CHAT request sent to %s]
+Requête de chat DCC envoyée à %s
+[DCC ERROR: Unable to bind port]
+Erreur DCC : Impossible de joindre le port
+[Input command]
+Saisir commande
+[Please enter the reply]
+Veuillez saisir la réponse
+;file \protocols\IRCG\src\irclib.cpp
+;file \protocols\IRCG\src\ircproto.cpp
+[DCC ERROR: No valid files specified]
+Erreur DCC : Fichiers spécifiés invalide
+[DCC reversed file transfer request sent to %s [%s]]
+Requête de transfert de fichier DCC inversé à %s [%s]
+[DCC file transfer request sent to %s [%s]]
+Requête de transfert DCC envoyée à %s [%s]
+[DCC ERROR: Unable to bind local port]
+Erreur DCC : Impossible de joindre le port local
+[The protocol is not online]
+Le protocole n'est pas en ligne
+[The dcc chat connection is not active]
+La connexion de chat DCC est inactive
+[Please choose an IRC-network to go online. This network will be the default.]
+Veuillez choisir un réseau IRC pour vous connecter. Il deviendra celui par défaut.
+;file \protocols\IRCG\src\options.cpp
+[Channel list]
+Liste des salons
+[Quick connect]
+Connexion rapide
+[Show channel]
+Afficher le salon
+[Incoming DCC Chat]
+Requête de discussion directe DCC
+[Please complete all fields]
+Veuillez renseigner tous les champs
+[Add a new network]
+Ajouter un nouveau réseau
+[Edit this network]
+Éditer ce réseau
+[Delete this network]
+Effacer ce réseau
+[Do you want to delete\r\n%s]
+Voulez-vous vraiment effacer\r\n%s
+[Delete server]
+Effacer le serveur
+[Edit server]
+Éditer le serveur
+[<Resolved IP: ]
+<IP trouvé : 
+[<Automatic>]
+<Automatique>
+[<Local IP: ]
+<IP Local :
+[Click to set commands that will be performed for this event]
+Cliquez pour définir la commande pour cet évènement
+[Click to delete the commands for this event]
+Cliquez pour effacer la commande de cet évènement
+[Add new ignore]
+Ajouter un nouvel ignoré
+[Edit this ignore]
+Éditer cet ignoré
+[Delete this ignore]
+Effacer cet ignoré
+[Ignore mask]
+Ignorer le masque
+;file \protocols\IRCG\src\output.cpp
+[WallOps from %s: ]
+WallOps de %stify
+[%s invites you to %s]
+%s vous invite à %s
+[%s is away]
+%s est sorti
+[These are online: ]
+Ils sont en ligne :
+[CTCP %s reply sent to %s]
+Réponse CTCP %s envoyée à %s
+[CTCP %s reply sent to %s: %s]
+Réponse CTCP %s envoyée à %s : %s
+[Notice to %s: ]
+Notice à %s : 
+;file \protocols\IRCG\src\services.cpp
+[&Quick connect]
+Connexion &rapide
+[&Change your nickname]
+&Changer de pseudo
+[Show the &list of available channels]
+Voir la &liste des canaux disponibles
+[&Show the server window]
+&Voir la fenêtre du serveur
+[Channel &settings]
+&Réglages du canal
+[Di&sconnect]
+&Déconnecter
+[&Add to ignore list]
+&Ajouter à la liste des ignorés
+[%s (%s) is requesting a client-to-client chat connection.]
+%s (%s) demande un chat client-à-client
+[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
+Veuillez entrer le masque d'hôte (pseudo@hôte) nNote ! Les contacts de votre liste ne sont jamais ignorés
+[Join channel]
+Rejoindre canal
+[Please enter a channel to join]
+Veuillez entrer un canal
+[Please select IRC network and enter the password if needed]
+Veuillez sélectionner un réseau IRC et entrer le mot de passe si nécessaire.
+[Change nick name]
+Changer le pseudo
+[Please enter a unique nickname]
+Veuillez entrer un seul pseudo
+[Kick]
+Kick
+[Show the server &window]
+Voir &fenêtre du serveur
+[&Leave the channel]
+&Quitter le canal
+[&Control]
+&Control
+[Give &Op]
+Rendre &Op
+[Take O&p]
+Enlever O&p
+[Give &Halfop]
+Rendre &Halfop
+[Take H&alfop]
+Enlever H&alfop
+[Give &Voice]
+Rendre &Voice
+[Take V&oice]
+Enlever V&oice
+[Ki&ck (reason)]
+Ki&ck (Motif)
+[&Ban]
+&Ban
+[Ban'&n kick]
+Ban &et kick
+[Ban'n kick (&reason)]
+Ban et kick (&Motif)
+[&Direct Connection]
+Connexion &directe
+[Request &Chat]
+Proposer &Chat
+[Send &File]
+Envoyer &fichier
+[Add to &ignore list]
+Ajouter à la liste des &ignorés
+[&Add User]
+&Ajouter usager
+[Connecting to]
+Se connecte à
+[Reconnecting to]
+Connexion à
+;file \protocols\IRCG\src\tools.cpp
+;file \protocols\IRCG\src\userinfo.cpp
+;file \protocols\IRCG\src\windows.cpp
+[Channel]
+Canal
+[Add ban/invite/exception]
+Ajouter ban/invite/exception
+[Edit selected ban/invite/exception]
+Modifier ban/invite/exception sélectionné(e)
+[Delete selected ban/invite/exception]
+Effacer ban/invite/exception sélectionné(e)
+[Set these modes for the channel]
+Choisir ces modes pour le canal
+[Set this topic for the channel]
+Choisir ce sujet pour le canal
+[You have not applied all changes!\n\nApply before exiting?]
+Vous n'avez pas appliqué tous les changements !\n\nAppliquer avant de sortir ?
+[Add ban]
+Ajouter un ban
+[Add invite]
+Ajouter une invit.
+[Add exception]
+Ajouter une exception
+[Please enter the hostmask (nick!user@host)]
+Veuillez entre le masque d'hôte (pseudo@hôte)
+[Edit ban]
+Modifier le ban
+[Edit invite?]
+Modifier l'invitation ?
+[Edit exception?]
+Modifier l'exception ?
+[Remove ban?]
+Retirer le ban ?
+[Remove invite?]
+Retirer l'invitation ?
+[Remove exception?]
+Retirer l'exception ?

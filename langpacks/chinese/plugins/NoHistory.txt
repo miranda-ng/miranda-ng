@@ -1,0 +1,23 @@
+﻿#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+;============================================================
+;  File: NoHistory.dll
+;  Plugin: NoHistory
+;  Version: 0.2.3.0
+;  Authors: Scott Ellis, NightFox
+;============================================================
+;file \plugins\NoHistory\res\NoHistory.rc
+[Keep history for this contact]
+保留此联系人历史
+[Disable history for this contact]
+禁用此联系人历史
+;file \plugins\NoHistory\src\dllmain.cpp
+[Enable History]
+启用历史
+[Disable History]
+禁用历史
+[History Enabled]
+已启用历史
+[History Disabled]
+禁用历史
+;file \plugins\NoHistory\src\icons.cpp
+;file \plugins\NoHistory\src\options.cpp

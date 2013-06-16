@@ -1,0 +1,11 @@
+﻿#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
+;============================================================
+;  File: QuickMessages.dll
+;  Plugin: Quick messages
+;  Version: 0.0.4.2
+;  Authors: MaD_CLuSTeR
+;============================================================
+;file \plugins\QuickMessages\res\quickmessages.rc
+;file \plugins\QuickMessages\src\main.cpp
+;file \plugins\QuickMessages\src\options.cpp
+;file \plugins\QuickMessages\src\Utils.cpp

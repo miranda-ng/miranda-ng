@@ -1,0 +1,66 @@
+﻿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.4.0.0
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
+;file \plugins\IEView\res\ieview.rc
+[Save Image As...]
+另存图片为...
+[Print]
+打印
+[Show source]
+显示源码
+[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
+当前支持 BBCode: [b][i][u][s][img][size][color][url]
+[Enable support for Flash files in smileys and BBCodes]
+启用表情及 BBCode Flash 文件支持
+[Enable workaround for PNG transparency]
+启用 PNG 透明方案
+[Enable MathModule support]
+启用 MathModule 支持
+[Replace smileys in user names]
+替换用户名表情
+[Hide window border]
+隐藏窗口框线
+[Compatibility Mode]
+兼容模式
+[Use External CSS]
+使用外部 CSS
+[Use Templates]
+使用模板
+[Background image]
+背景图片
+[Template Options]
+模板选项
+[Use message grouping]
+使用消息群组功能
+[Show nicknames]
+显示昵称
+[Use long date format]
+使用长日期格式
+[Use relative timestamp]
+使用相对时间戳
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Outgoing File Transfer]
+发送文件传输
+;file \plugins\IEView\src\HTMLBuilder.cpp
+[ requested authorisation]
+ 已请求授权
+[ was added.]
+ 已被添加. 
+;file \plugins\IEView\src\IEView.cpp
+[ERROR]
+错误
+;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[%s has joined.]
+%s 已加入.
+[%s has left.]
+%s 已离开.
+[The topic is %s.]
+主题为 %s.
+;file \plugins\IEView\src\Options.cpp
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

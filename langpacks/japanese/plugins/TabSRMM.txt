@@ -1,0 +1,1436 @@
+﻿#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+;============================================================
+;  File: TabSRMM.dll
+;  Plugin: TabSRMM
+;  Version: 3.1.99.8
+;  Authors: The Miranda developers team and contributors
+;============================================================
+;file \plugins\TabSRMM\res\chat.rc
+[You can add the user by user name or his id. Wildcards are allowed and recommended.]
+ユーザー名もしくはユーザー ID でユーザーの追加が可能です。ワイルドカードは許可及び推奨されています
+[  Show these events]
+これらのイベントを表示
+[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
+チャット統合は無効です。ここで有効にできます。変更後にMirandaを「再起動する必要があります」\n\nここでグループチャットサポートを有効にする場合は , 標準チャットプラグインは「必ず」無効にしてください。そうしなければ全てのグループチャットは機能しません
+[Log files]
+ログファイル
+[Maximum size for log files (in kB)]
+ログファイルの最大サイズ (kB)
+[Group chat log formatting]
+グループチャットのログを初期化する
+[Timestamp (window)]
+タイムスタンプ(ウィンドウ)
+[Timestamp (logfile)]
+タイムスタンプ(ログファイル)
+[Maximum number of events in the message window]
+メッセージウィンドウ内のイベントの最大値
+[Groupchat userlist row height (pixels)]
+グループチャットユーザーリストの行の高さ(ピクセル)
+[Open log file base folder]
+ログファイルベースフォルダーを開く
+[Default settings for known event types]
+既知のイベントタイプ用デフォルト設定
+[Show when filter is active]
+フィルターがアクティブな時に表示
+[Show Popup]
+ポップアップを表示
+[Notify in tray]
+トレイにある通知
+[Suppress tray notifications for focused channel windows]
+フォーカスされているチャンネルウィンドウ宛てのトレイ通知を表示しない
+[Do not show popups when the channel window is not open]
+チャンネルウィンドウが開いていない時ポップアップを表示しない
+[Highlight event]
+イベントを強調表示
+[Line markers in the message log]
+メッセージログに線でマーカー
+[Highlight user names]
+ユーザー名を強調表示
+[Enable highlighting for user names]
+ユーザー名の強調表示を有効
+[Also look in user ids]
+ユーザー ID も検索
+[Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
+名前に強調表示と , * や ? のようなワイルドカードが許可されている時 , 複数のエントリーは空白で分割します
+[Highlight message text]
+メッセージテキストを強調表示
+[Enable highlighting for message text]
+メッセージテキストの強調表示を有効
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
+単語に強調表示と , * や ? のようなワイルドカードが許可されている時 , 複数のエントリーは空白で分割します。もし自分のニックネームに強調表示のみを使用したい場合は空白のままにしてください
+[Highlight messages containing my own nick name]
+自分自身のニックネームを含むメッセージを強調表示
+;file \plugins\TabSRMM\res\resource.rc
+[TabSRMM exception]
+TabSRMM の例外
+[Customize the panel]
+パネルのカスタマイズ
+[Scope of settings]
+設定の範囲
+[Use global or private panel height]
+グローバルもしくはプライベートパネルの高さを使用
+[Set size to]
+大きさを以下に設定 :
+[Compact (1 Line)]
+コンパクト ( 1 行 )
+[Normal (2 Lines)]
+標準 ( 2 行 )
+[Large]
+大
+[Tip: To use a custom size you can always drag the bottom edge of the panel]
+ヒント : カスタムサイズを使うと , 常にパネルの一番下の端にドラッグできます
+[Note: All settings are applied immediately]
+注意 : 全ての設定はすぐに適用されます
+[The container is using private settings. The panel  height  will not be shared with other containers.]
+コンテナはプライベート設定を使用しています。パネルの高さはその他のコンテナと共有されません
+[Show picture for this contact]
+このコンタクトに画像を表示
+[Advanced tweaks]
+詳細設定
+[Message send timeout]
+メッセージ送信タイムアウト
+[Input history size]
+履歴サイズを入力
+[entries]
+エントリー
+[Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
+アスタリスク (*) でチェックされたオプションは Miranda の再起動後に適用されます
+[More about advanced tweaks]
+詳細設定についてもっと
+[Revert to (safe) defaults]
+( 安全な ) デフォルトに戻す
+[Event notify options]
+イベント通知オプション
+[Limit message preview to]
+メッセージのプレビューを以下に限定 :
+[Only show event notifications when my status is...]
+自分のステータスが以下の時のみイベント通知を表示...
+[Timeout (seconds, 0 = default, -1 = no timeout)]
+タイムアウト(秒, 0 = デフォルト, -1 = タイムアウトなし)
+[Use the message log color theme for group chat popups]
+グループチャットポップアップでメッセージログカラーテーマを使用
+[No compatible popup plugin was found. The event notification\nsystem is not available.]
+互換性のあるポップアッププラグインが見つかりません。イベント通知\nシステムは利用できません
+[All modes]
+全モード
+[Message log view mode (does not affect open windows)]
+メッセージログ表示モード ( 開いたウィンドウに影響しない )
+[Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
+メッセージログの表示方法を選択してください。この設定はリストにあるプラグインのいずれかがインストールされていない場合は無視されます
+[Send text formatting method]
+送信テキスト書式設定メソッド
+[ANSI codepage]
+ANSI コードページ
+[Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.]
+unicodeではないメッセージの送受信時にエンコード / デコードする ANSI コードページ
+[Info panel mode]
+情報パネルモード
+[Show avatar in message window]
+メッセージウィンドウにアバターを表示
+[Use private splitter position]
+個々の分割位置を使用
+[Contact is a favorite contact]
+コンタクトはお気に入りのコンタクトです
+[Force ANSI send / receive]
+ANSI に強制して送信 / 受信
+[Ignore sending timeouts]
+送信時のタイムアウトを無視
+[Load only actual history]
+現在の履歴のみ読み込む
+[Always trim message log to]
+常にメッセージログを以下に切り詰める :
+[Only show tab bar when it's needed]
+必要時のみタブバーを表示
+[Container stays on top]
+コンテナを一番上にする
+[Vertical maximize]
+垂直方向に最大化
+[Close or hide inactive container after]
+非アクティブのコンテナを次の後に閉じるか非表示 :
+[sec. (0=never)]
+秒 ( 0 = 実行しない )
+[Automatically size input area (*)]
+入力エリアのサイズを自動化する (*)
+[Use default setting]
+デフォルト設定を使用
+[Flash until focused]
+フォーカスされるまでフラッシュ
+[Disable flashing]
+フラッシュを無効
+[Enable popups if minimized]
+最小化されているときポップアップを有効
+[Enable popups if unfocused]
+未選択の時ポップアップを有効
+[Enable popups if focused]
+フォーカスされている時ポップアップを有効
+[Show popups for inactive tabs in active containers]
+アクティブコンテナにある非アクティブなタブをポップアップ表示
+[Hide the status bar]
+ステータスバーを隠す
+[Hide the menu bar]
+メニューバーを隠す
+[User ID in status bar]
+ステータスバーのユーザー ID
+[Hide the tool bar]
+ツールバーを隠す
+[Place the tool bar at the bottom (*)]
+ツールバーを一番下に表示 (*)
+[Show the info panel]
+情報パネルを表示
+[Hide title bar]
+タイトルバーを隠す
+[Title bar format]
+タイトルバー書式設定
+[Available formats]
+フォーマットを利用可
+[Use this to specify a private message log theme for this container. This will have no effect when using IEView or another message log viewer and should NOT be confused with skins.]
+これはこのコンテナに対してプライベートメッセージログテーマを指定するのに使用します。IEViewやその他のメッセージログビューアの使用時には効果がありません。スキンと混同しないでください
+[Use global container size and position]
+グローバルコンテナの大きさと位置を使用
+[Save current as global]
+現在値をグローバル設定として保存
+[When checked, this container will use private settings, otherwise settings are shared among containers.]
+チェックした時 , このコンテナにはプライベート設定が使用されます。さもなくば , 設定はコンテナ間で共有されます
+[Tab location]
+タブの位置
+[When using the switch bar, use the following layout]
+スイッチバーの使用時 , 以下のレイアウトを使用する
+[Flash event icon on tab]
+タブのイベントアイコンをフラッシュ
+[Flash text label on tabs]
+タブのテキストラベルをフラッシュ
+[Single row tab control (*)]
+単一行タブコントロール (*)
+[Close button on tabs]
+タブのボタンを閉じる
+[Use button tabs (*)]
+ボタンタブを使用 (*)
+[You have chosen to disable all event notifications for open message windows.]
+あなたは開いているメッセージウィンドウに対して全てのイベント通知を無効にすることを選択しています
+[Show contact avatars]
+コンタクトアバターを表示
+[Show my own avatars]
+自分のアバターを表示
+[Show avatars on task bar (Win 7, large task bar required)]
+タスクバーにアバターを表示 ( Win 7, 要大きいタスクバー )
+[Enable sound effects]
+効果音を有効
+[Play sounds when minimized]
+最小化している時音声を鳴らす
+[Play sounds when not focused]
+フォーカスされていない時音声を鳴らす
+[Play sounds for inactive tabs in active containers]
+アクティブコンテナの非アクティブなタブに対して音声を鳴らす
+[Play sounds for the active tab / window]
+アクティブなタブ / ウィンドウに対して音声を鳴らす
+[Options marked with an asterisk (*) do not affect open message windows.]
+アスタリスク (*) でチェックされたオプションは開いたメッセージウィンドウには影響しません
+[Message window options]
+メッセージウィンドウオプション
+[Size and scaling options for the bottom avatar display]
+一番下にアバターを表示する場合のサイズと拡大縮小オプション
+[Maximum display height (pixels)]
+ディスプレイの高さの最大値 ( ピクセル )
+[(0 = no limit)]
+( 0 = 無制限 )
+[Try to keep original size]
+元のサイズを維持する
+[Help on this]
+これについてのヘルプ
+[Reset all hidden warnings]
+非表示の警告を全てリセット
+[Indent values]
+インデント値
+[Left/Right]
+左 / 右
+[px]
+px
+[Template sets]
+テンプレートセット
+[Standard templates...]
+標準テンプレート...
+[RTL templates...]
+RTL テンプレート...
+[Global message log display]
+グローバルメッセージログ表示
+[Send typing notifications to the following users when you are typing a message to the them:]
+以下のユーザーに対するメッセージを入力中の時 , 入力中通知を送信 :
+[          Show typing notifications in the message window]
+          メッセージウィンドウに入力中通知を表示
+[Flash window once on typing events (only if flashing enabled)]
+入力イベント時にウィンドウを一回フラッシュ ( フラッシュ有効時のみ )
+[          Show typing notifications in the contact list and tray]
+          コンタクトリストとトレイに入力中通知を表示
+[Show typing notification when message dialog is open]
+メッセージダイアログが開いている時入力中通知を表示
+[Show balloon tooltip in the system tray]
+バルーンツールチップをシステムトレイに表示
+[          Show popups when a user is typing]
+          ユーザーが入力中にポップアップを表示
+[More about typing notifications]
+入力中通知についてもっと
+[Tab options]
+タブオプション
+[Miscellaneous options]
+その他のオプション
+[Setup status modes for automatic tab creation...]
+自動タブ生成のステータスモードセットアップ...
+[Limit nicknames on tabs to]
+タブのニックネームをいかに限定 :
+[ESC key behavior]
+ESC キーの動作
+[Select container]
+コンテナを選択
+[Available containers]
+コンテナを利用可
+[Create a new container]
+新規コンテナを作成
+[Create new]
+新規作成
+[Show in IM chats]
+IM チャットに表示
+[Show in chat rooms]
+チャットルームに表示
+[Gap between buttons:]
+ボタン間隔 :
+[Hide if there isn't enough space]
+十分な空間がない場合隠す
+[Insert Separator]
+セパレーターを挿入
+[Tabs should be used in the following way]
+タブは以下の方法で使用しなければならない
+[Use contact list groups for organizing tabs (one window per group)]
+整理タブ用コンタクトリストグループを使用 ( グループ毎に1つのウィンドウ ) 
+[Tabbed interface, limit the maximum number of tabs per window to:]
+タブインターフェース , ウィンドウ毎のタブの数の最大数を次の数に制限 :
+[No tabs at all, each session has its own top level window]
+タブが全くない場合 , 全てのセッションにトップレベルウインドウがあります
+[Default mode (tabbed interface, manual assignments)]
+デフォルトモード ( タブインターフェース , 手動割り当て ) 
+[Container flashing]
+コンテナをフラッシュ
+[Flash containers]
+コンテナをフラッシュ
+[times]
+回
+[Flash interval]
+フラッシュ間隔
+[Help on containers]
+コンテナについてのヘルプ
+[Windows Aero settings]
+Windows Aero 設定
+[Use Aero UI elements(only when not using a custom skin)]
+Aero UI 要素を使用 ( カスタムスキンを使用していないときのみ )
+[Use Windows 7 task bar enhancements (restart required)]
+Windows 7 タスクバー拡張機能を使用 ( 要再起動 )
+[...is &typing]
+...は入力中 (&t)
+[...stopped t&yping]
+...入力を中止 (&y)
+[U&se Popup colours]
+ポップアップ色を使用 (&s)
+[&Use Windows colours]
+ウィンドウ色を使用 (&U)
+[Only &one popup for each contact]
+コンタクト毎にポップアップは1つのみ (&o)
+[Show &entry in the main menu]
+メインメニューにエントリーを表示 (&e)
+[From protocol]
+プロトコルから
+[Edit template]
+テンプレートを編集
+[Get more help on variables]
+変数についてもっとヘルプを入手
+[Define up to 5 colors which you can use with some variables]
+いくつかの変数で使用可能な色を 5 つまで指定する
+[Update Preview]
+プレビューを更新
+[Save Template]
+テンプレートを保存
+[Revert to Default]
+デフォルトに戻す
+[Reset all templates...]
+全てのテンプレートをリセット
+[Default width for fixed (single row) tabs]
+固定 ( 単一行 ) タブ用デフォルト幅
+[Tab text label padding vertical]
+タブテキストラベルの垂直間隔
+[Tab page padding:]
+タブページの間隔 :
+[inner]
+内側
+[outer]
+外側
+[Bottom tabs vertical adjustment:]
+一番下のタブの垂直調整 :
+[NOTE: some settings will not affect open containers.]
+注意 : いくつかの設定は開いたコンテナでは機能しません
+[Tab layout tweaks]
+タブレイアウトの調整
+[About tabSRMM]
+tabSRMM バージョン情報
+[Selected skin]
+選択済スキン
+[Reload active skin]
+アクティブスキンの再読込
+[Load fonts and colors provided by skin]
+スキンに規定されたフォントと色を読み込む
+[Load templates provided by skin (use with care, will overwrite your templates)]
+スキンに規定されたテンプレートを読み込む ( 注意して使用。テンプレートを上書きします)
+[Skin root folder]
+スキンルートフォルダー
+[Before you can load or unload a skin, you must close all message windows.]
+スキンを読み込むもしくは読み込みの解除を行うには , 全てのメッセージウィンドウを閉じる必要があります
+[Close open message windows now]
+開いているメッセージウィンドウを閉じる
+[Theme support]
+テーマサポート
+[You can export and import all your color and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.]
+ここで全ての色とフォントの設定をインポートできます。また異なるプロファイル間やフレンドと共有できるテーマファイルを作成することができます
+[Export to a file...]
+ファイルにエクスポート...
+[Import from a file...]
+ファイルからインポート...
+[Event type icons in the message log]
+メッセージログのイベントタイプアイコン
+[Text symbols as event markers]
+テキストの記号をイベントマーカーとして使用
+[Use different icons to mark incoming and outgoing messages]
+着信と発信メッセージのマークに異なるアイコンを使用
+[Date and time]
+日付と時間
+[Show seconds in timestamp]
+タイムスタンプに秒を表示
+[Use contacts local time]
+コンタクトの現地時間を使用
+[Indent message body]
+メッセージ本文をインデント
+[Display grid lines]
+格子線を表示
+[Message grouping]
+メッセージをグループ化
+[Support BBCODE]
+BBCODE をサポート
+[RTL is default text direction]
+デフォルトのテキスト方向は RTL
+[Log status changes (in open message windows only)]
+ステータス変更をログに記録(開いているメッセージウィンドウのみ)
+[Revert to global options]
+グローバルオプションに戻す
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message Sessions->Message Log]
+ここでこのコンタクトに対するプライベートメッセージログオプションを設定できます。塗りつぶしボックスは , メッセージセッション -> メッセージログにあるグローバル設定が継承されます
+[Use normal templates (uncheck to use simple templates)]
+標準テンプレートを使用 ( シンプルテンプレートを使用する場合はチェックしない )
+[Queued send jobs]
+キューにある送信ジョブ
+[Queued jobs]
+キューにあるジョブ
+[Filter by contact:]
+コンタクトによるフィルター :
+[Display popups for failed jobs]
+ジョブに失敗したらポップアップを表示
+[Display popups for completed jobs]
+ジョブの完了時にポップアップを表示
+[Do not show this message again]
+このメッセージを 2 度と表示しない
+[Message sending:]
+メッセージ送信 :
+[Esc closes sessions (minimizes window, if disabled)]
+Esc キーでセッションを終了 ( 無効な場合はウィンドウを最小化 )
+[Always pop up and activate new windows]
+常に新規ウィンドウをポップアップとアクティブ化する
+[Create new windows in minimized state]
+新規ウインドウを最小化した状態で作成
+[Send on Shift+Enter]
+Shift + Enter で送信
+[Send message on Enter]
+Enter でメッセージを送信
+[Send message on double Enter]
+Enter 2 回でメッセージを送信
+[Tabs:]
+タブ :
+[Use tabbed interface]
+タブインターフェースを使用
+[Create new tabs without activating them]
+それらをアクティブ化しないで新規タブを作成
+[Pop up minimized window when a new tab is created]
+新規タブが作成された時最小化ウィンドウをポップアップ
+[Automatically switch tabs in minimized windows]
+ウィンドウ最小化で自動的にタブを切り替える
+[History:]
+履歴 :
+[Notifications:]
+通知 :
+[Don't announce when dialog is open]
+ダイアログが開いている時アナウンスしない
+[Send message on Ctrl+Enter (always enabled)]
+Ctrl + Enter でメッセージを送信 ( 常に有効 )
+[&Quote]
+引用 (&Q)
+[Freeze Log]
+ログを停止
+[Editor]
+エディター
+[Paste formatted Text]
+定型文をペースト
+[Paste and Send immediately]
+ペーストして直接送信
+[Copy all]
+全てコピー
+[Select all]
+全てを選択
+[Show Message Length Indicator]
+メッセージ長表記を表示
+[Tabmenu]
+タブメニュー
+[Leave Chat Room]
+チャットルームを離れる
+[Save Tab Position]
+タブ位置を保存
+[Clear saved Tab Position]
+保存されたタブ位置をクリア
+[Attach to Container...]
+コンテナに添付...
+[Container Options...]
+コンテナオプション...
+[Close Container]
+コンテナを閉じる
+[Picmenu]
+ピックメニュー
+[Show Contact Picture]
+コンタクト画像を表示
+[Hidden for this Contact]
+このコンタクトを隠す
+[Visible for this Contact]
+このコンタクトを可視化する
+[Contact Picture Settings...]
+コンタクト画像設定...
+[Always keep the button bar at full width]
+常にボタンバーを最大幅にする
+[Save this Picture As...]
+この画像に名前を付けて保存...
+[Logmenu]
+ログメニュー
+[&Message Log Settings]
+メッセージログ設定 (&M)
+[&Global...]
+グローバル (&G)...
+[&For this Contact...]
+このコンタクトについて (&F)...
+[Sendmenu]
+送信メニュー
+[Send &Default]
+デフォルトで送信 (&D)
+[Send to &multiple Users]
+複数ユーザーに送信 (&m)
+[Send to &Container]
+コンテナに送る (&C)
+[Send &Later]
+後で送信 (&L)
+[Force &ANSI]
+ANSI に強制 (&A)
+[Send unsafe (ignore Timeouts)]
+安全ではない送信 ( タイムアウトを無視 )
+[Protomenu]
+プロトメニュー
+[Splitter Position]
+分割位置
+[Send Text Formatting]
+送信用テキストフォーマット
+[BBCode]
+BBCode
+[This Contact]
+このコンタクト
+[Global Setting]
+グローバル設定
+[Force Off]
+強制オフ
+[Unread Menu]
+未読メニュー
+[Traycontext]
+トレイコンテキスト
+[Recent Sessions]
+最近のセッション
+[Favorites]
+お気に入り
+[Disable All Event Notifications]
+全てのイベント通知を無効
+[Don't create Windows automatically]
+ウィンドウを自動生成しない
+[Hide all Message Containers]
+全てのメッセージコンテナを隠す
+[Restore all Message Containers]
+全てのメッセージコンテナをリストア
+[Don't play Sounds]
+音声を鳴らさない
+[Default Color]
+デフォルト色
+[Magenta]
+マゼンタ
+[Cyan]
+シアン
+[Clear all Formatting]
+全ての書式をクリア
+[Dummy]
+Dummy
+[No Message Sessions opened]
+メッセージセッションが開いていません
+[Add Contact to Favorites]
+コンタクトをお気に入りに追加
+[Remove Contact from Favorites]
+お気に入りからコンタクトを削除
+[Apparentmenu]
+ビジュアルメニュー
+[dummy]
+dummy
+[Panelpicmenu]
+パネルピックメニュー
+[Splitter context]
+コンテキストの分割
+[Set Position for this Session]
+このセッションの位置を設定
+[Set and Save for all Sessions]
+全てのセッションを設定して保存
+[Set and Save for this Contact only]
+このコンタクトにのみ設定して保存
+[Revert to old Position]
+前の位置に戻す
+[Queue manager]
+キューマネージャー
+[Mark Selected for Removal]
+削除するものを選択
+[Reset Selected]
+選択をリセット
+[Hold Selected]
+選択を保留
+[Resume Selected]
+再開を選択済
+[Cancel all Multisend Jobs]
+全ての複数送信ジョブをキャンセル
+[Copy Message to Clipboard]
+メッセージをクリップボードにコピー
+[Save Message Log As...]
+名前を付けてメッセージログを保存...
+[Close Message Session\tCtrl-W]
+メッセージセッションを閉じる\tCtrl-W
+[Close Container\tAlt-F4]
+コンテナを閉じる\tAlt-F4
+[&View]
+表示 (&V)
+[Show Menu Bar]
+メニューバーを表示
+[Show Status Bar]
+ステータスバーを表示
+[Info Panel...]
+情報パネル...]
+[Tool Bar]
+ツールバー
+[Show Tool Bar]
+ツールバーを表示
+[Place ToolBar at bottom]
+ツールバーを一番下に表示
+[Title Bar]
+タイトルバー
+[Tabs at Bottom]
+タブは一番下
+[Window Flashing]
+ウィンドウのフラッシュ
+[Use default Value]
+デフォルト値を使用
+[Disable Flashing]
+フラッシュを無効
+[Show Multisend Contact List]
+複数送信コンタクトリストを表示
+[Stay on Top]
+常に一番上
+[Message &Log]
+メッセージログ (&L)
+[&Container]
+コンテナ (&C)
+[Event Popups]
+イベントポップアップ
+[Disable all Event Popups]
+全てのイベントポップアップを無効
+[Show Popups if Window is minimized]
+ウィンドウ最小化の時ポップアップを表示
+[Show Popups if Window is unfocused]
+ウィンドウが選択されていない時ポップアップを表示
+[Show Popups if Window is focused]
+ウィンドウがフォーカスされている時ポップアップを表示
+[Show Popups for all inactive sessions]
+全ての非アクティブセッション用ポップアップを表示
+[Save current Window Position as Default]
+現在のウィンドウ位置をデフォルトとして保存
+[About tabSRMM...]
+tabSRMM バージョン情報...
+;file \plugins\TabSRMM\src\buttonsbar.cpp
+[Message Log Options]
+メッセージログオプション
+[Edit user notes]
+ユーザーメモを編集
+;file \plugins\TabSRMM\src\container.cpp
+[Hide titlebar]
+タイトルバーを非表示
+[Container options...]
+コンテナオプション...
+[Message Session...]
+メッセージセッション...
+[Default container]
+デフォルトコンテナ
+[Attach to]
+添付
+[Meta Contact]
+メタコンタクト
+[(Forced)]
+( 強制 )
+[Autoselect]
+自動選択
+[Use Protocol]
+プロトコルを使用
+[Set Default Protocol]
+デフォルトプロトコルの設定
+;file \plugins\TabSRMM\src\containeroptions.cpp
+[Window layout]
+ウィンドウレイアウト
+[Tabs and switch bar]
+タブとバーの切り替え
+[Choose your options for the tabbed user interface. Not all options can be applied to open windows. You may need to close and re-open them.]
+タブユーザーインターフェース用のオプションを選んでください。全てのオプションが開いているウィンドウに適用可能とは限りません。閉じてから再度ウィンドウを開く必要があります
+[Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window.]
+このウィンドウに対するイベント通知 ( ポップアップ ) を見たい場合は選択してください。このウィンドウにある全てのタブに対して設定が適用されます
+[Window size and theme]
+ウインドウサイズとテーマ
+[You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
+あなたはこのコンテナにプライベートテーマ ( .tabsrmm ファイル ) を選択して , デフォルトメッセージログテーマを上書きできます。このオプションを変更後 , 全てのメッセージウィンドウを閉じて再度開く必要があります
+[This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
+この機能には Windows 2000 以降が必要です。また , コンテナスキンを使用している時は利用できません
+[Contact avatars]
+コンタクトアバター
+[Sound notifications]
+音声通知
+[Container options]
+コンテナオプション
+[Configure container options for\n%s]
+以下のコンテナオプションを設定\n%s
+[Tabs at the top]
+タブを一番上
+[Tabs at the bottom]
+タブを一番下
+[Switch bar on the left side]
+バーを左側に切り替え
+[Switch bar on the right side]
+バーを右側に切り替え
+[Globally on]
+グローバル　オン
+[On, if present]
+存在する時 , オン
+[Globally OFF]
+グローバル　オフ
+[On, if present, always in bottom display]
+常に一番下に表示が存在する場合 , オン
+[Don't show them]
+それらを表示しない
+;file \plugins\TabSRMM\src\controls.cpp
+[&User]
+ユーザー (&U)
+[&Room]
+ルーム (&R)
+[Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
+音声は %s です。ステータスの切り替えはクリック , 全ての開いたコンテナに設定するには SHIFT を押しながらクリック
+[disabled]
+無効
+[Sending typing notifications is %s.]
+送信中の入力中通知は %s です
+[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
+セッションリスト\nオープンセッションのリストは左クリック\nお気に入りへのアクセスとメッセージウィンドウの動作の簡易設定をするには右クリック
+[There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
+保留中の送信ジョブ : %d　個　メッセージ長 : %d バイト　メッセージ長制限 : %d バイト\n\n後で配信キューにあるメッセージ : %d 個
+;file \plugins\TabSRMM\src\eventpopups.cpp
+[Incoming file]
+着信ファイル
+[Incoming file (invalid format]
+着信ファイル ( 不正なフォーマット )
+[Unknown event]
+不明なイベント
+[New messages: ]
+新規メッセージ :
+[Unknown module or contact]
+不明なモジュールもしくはコンタクトです
+;file \plugins\TabSRMM\src\generic_msghandlers.cpp
+[Rich Edit file]
+リッチ編集ファイル
+[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
+設定の問題 | 無人送信機能は無効になっています \\b1 後で送信 \\b0 と \\b1 複数コンタクトに送信 \\b0 機能はその機能に依存しています\n\nそのため \\b1 オプション -> メッセージセッション -> 高度な調整 で有効に設定してください\\b0 このオプションの変更には再起動が必要です
+[You cannot edit user notes when there are unsent messages]
+未送信メッセージに対してユーザーメモの編集はできません
+[%s is typing a message.]
+%s はメッセージを入力中です
+[Last received: %s at %s]
+最終受信 :  %s %s
+[%s has entered text.]
+%s はテキストを入力しました
+[Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
+自動スクロールは無効です。%d メッセージがキューにあります ( 有効にするには F12 を押してください )
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s ( SHIFT click -> クリップボードにコピー )\nユーザーの詳細情報はクリック\nメタコンタクトコントロールは右クリック\nユーザーをお気に入りに追加もしくは削除するにはドロップダウンをクリック
+[No UID]
+UID なし
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
+UID: %s ( SHIFT click -> クリップボードにコピー )\nユーザーの詳細情報はクリック\nこのコンタクトのお気に入りステータスを変更するにはドロップダウンをクリック
+;file \plugins\TabSRMM\src\globals.cpp
+[No status message]
+ステータスメッセージなし
+[&Messaging settings...]
+メッセージングの設定 (&M)...
+[&Send later job list...]
+ジョブリストを後で送信 (&S)...
+[signed off.]
+サインオフしました
+[signed on and is now %s.]
+サインオンしました。現在 %s です
+[changed status from %s to %s.]
+%s から %s にステータスを変更しました
+;file \plugins\TabSRMM\src\hotkeyhandler.cpp
+;file \plugins\TabSRMM\src\infopanel.cpp
+[%s    Idle: %dh,%02dm]
+%s    アイドル : %d 時間 ,%02d 分
+[Topic is: %s]
+トピック : %s
+[no topic set.]
+トピックの設定なし
+[Open User Details...]
+ユーザーの詳細情報を開く...
+[Open History...]
+履歴を開く...
+[Messaging Settings...]
+メッセージングの設定...
+[Room Settings...]
+ルーム設定...
+[\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
+\\tab \\ul\\b ステータスメッセージ :\\ul0\\b0 \\par %s
+[\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
+\\par\\par\\tab \\ul\\b 拡張ステータス情報 :\\ul0\\b0 \\par 
+[\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
+\\par\\par\\tab \\ul\\b リッスン中 :\\ul0\\b0 \\par %s
+[\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
+\\par\\par\\ul\\b クライアント :\\ul0\\b0  %s
+[tabSRMM Information]
+tabSRMM 情報
+[Set panel visibility for this %s]
+この %s 用パネルの可視状態を設定
+[chat room]
+チャットルーム
+[contact]
+コンタクト
+[Do not synchronize the panel height with IM windows]
+IM ウィンドウとパネルの高さを同期しない
+[Do not synchronize the panel height with group chat windows]
+グループチャットウィンドウとパネルの高さを同期しない
+[Inherit from container setting]
+コンテナ設定からの継承
+[Always off]
+常にオフ
+[Always on]
+常にオン
+[Use default size]
+デフォルトサイズを使用
+[Use private size]
+プライベートサイズを使用
+[Use Global Setting]
+グローバル設定を使用
+[Show always (if present)]
+常に表示 ( 存在するなら )
+[Never show it at all]
+二度と表示しない
+;file \plugins\TabSRMM\src\mim.cpp
+[TabSRMM]
+TabSRMM
+;file \plugins\TabSRMM\src\modplus.cpp
+;file \plugins\TabSRMM\src\msgdialog.cpp
+[Add this contact permanently to your contact list]
+このコンタクトを完全にあなたのコンタクトリストに追加
+[Do not add this contact permanently]
+このコンタクトを完全に追加しない
+[Expand or collapse the side bar]
+サイドバーを展開するもしくは折りたたむ
+[Character Encoding]
+文字のエンコード
+[Contact not on list. You may add it...]
+コンタクトはリストにありません。追加できます...
+[A message failed to send successfully.]
+メッセージの正常な送信に失敗しました
+[WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
+警告 : あなたがペーストしようとしているメッセージはアクティブプロトコルのメッセージサイズの上限を超えました。最大 %d 文字のチャンクが送信されます
+[The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent.]
+あなたがペーストしようとしているメッセージはアクティブプロトコルのメッセージサイズの制限を超えています。初めの %d 文字のみが送信されます
+[Save and close session]
+セッションを保存して終了
+[Autoscrolling is disabled (press F12 to enable it)]
+自動スクロールを無効 ( F12 を押すと有効 )
+[Click for contact menu\nClick dropdown for window settings]
+クリックでコンタクトメニュー\nドロップダウンをクリックでウインドウ設定
+[Send later]
+後で送信
+[Selection copied to clipboard]
+選択してクリップボードにコピー
+[Delivery failure: %s]
+配信に失敗しました : %s
+[The message send timed out]
+メッセージ送信はタイムアウトしました
+[You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
+あなたはユーザーメモの編集中です。もう一度ボタンをクリックするかホットキー ( デフォルト : Alt-N ) を使用すると , メモを保存して通常メッセージングモードに戻ります
+[Unforce failed]
+強制解除に失敗しました
+[The selected protocol cannot be forced at this time]
+選択されたプロトコルは現時点では強制できません
+[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
+警告 : あなたはメッセージの送信用に現在オフラインのサブプロトコルを選択しました
+[Contact is offline and this protocol does not support sending files to offline users.]
+コンタクトはオフラインです。このプロトコルはオフラインユーザーへのファイル送信はサポートされていません
+;file \plugins\TabSRMM\src\msgdlgutils.cpp
+[Error creating destination directory]
+宛先ディレクトリの作成エラー
+[Save contact picture]
+コンタクト画像を保存
+[Image files]
+画像ファイル
+[The file exists. Do you want to overwrite it?]
+ファイルは存在しています。上書きしますか ?
+[Set Your Avatar...]
+あなたのアバターを設定...
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
+'ペーストして送信 ' 機能は無効です。' 全般 ' オプションのページにある ' メッセージの送信 ' セクションで有効にできます
+[Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
+nudge プラグインがインストールされていないか , もしくは微調整イベントをサポートしていないコンタクトのプロトコル
+[JPEG-compressed images]
+JPEG 圧縮画像
+;file \plugins\TabSRMM\src\msglog.cpp
+;file \plugins\TabSRMM\src\msgoptions.cpp
+[<no skin>]
+< スキンなし >
+[Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
+テーマからメッセージテンプレートも読み込みしますか ?\n警告 : この操作は保存されているテンプレートセットを上書きし , メッセージウィンドウの外観に著しく影響を与えます\n読み込みしない場合はキャンセルを選択してください
+[Load theme]
+テーマの読み込み
+[IEView plugin]
+IEView プラグイン
+[History++ plugin]
+History++ プラグイン
+[You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
+あなたはチャットウィンドウでのメッセージ履歴の表示用に外部プラグインの使用を選択しました。このページの設定のほとんどは標準メッセージログビューアー向けのみで効果がありません。メッセージログの外観を変更するには IEView もしくは History++ のいずれかで設定する必要があります
+[Always, but no popup when window is focused]
+ウィンドウがフォーカスされている時 , 常にポップアップしない
+[Only when no message window is open]
+メッセージウィンドウが開いていない場合のみ
+[Normal - close tab, if last tab is closed also close the window]
+通常 - タブを閉じる , 最終タブを閉じる場合はウィンドウも閉じる
+[Minimize the window to the task bar]
+ウィンドウをタスクバーで最小化
+[Close or hide window, depends on the close button setting above]
+ウィンドウを閉じるもしくは非表示は , 上記の閉じるボタンの設定に依存します
+[Tabs and layout]
+タブとレイアウト
+[Containers]
+コンテナ
+[Tool bar]
+ツールバー
+[Window layout tweaks]
+ウィンドウレイアウト調整
+[Log formatting]
+ログ書式設定
+[Events and filters]
+イベントとフィルター
+[Highlighting]
+強調表示
+[Choose status modes]
+ステータスモードを選択
+;file \plugins\TabSRMM\src\msgs.cpp
+[Image tag]
+イメージタグ
+[Quote text]
+引用テキスト
+[Save and close]
+保存して閉じる
+[Format bold]
+太字形式
+[Format italic]
+斜体形式
+[Format underline]
+下線形式
+[Font face]
+フォント フェイス
+[Font color]
+フォント色
+[Format strike-through]
+取り消し線形式
+[Event filter]
+イベントフィルター
+[Message delivery error]
+メッセージ配信エラー
+[Statuschange]
+ステータス変更
+[Static container icon]
+静的コンテナアイコン
+[Sounds (status bar)]
+音声 ( ステータスバー )
+[Pulldown Arrow]
+下矢印
+[Left Arrow]
+左矢印
+[Right Arrow]
+右矢印
+[Up Arrow]
+上矢印
+[Session List]
+セッションリスト
+[Frame 1]
+フレーム 1
+[Frame 2]
+フレーム 2
+[Frame 3]
+フレーム 3
+[Frame 4]
+フレーム 4
+;file \plugins\TabSRMM\src\msgs.h
+;file \plugins\TabSRMM\src\selectcontainer.cpp
+[Select container for %s]
+%s 用コンテナを選択
+[You cannot delete the default container]
+デフォルトコンテナは削除できません
+[You cannot rename the default container]
+デフォルトコンテナの名前変更はできません
+[This name is already in use]
+この名前は既に使用中です
+;file \plugins\TabSRMM\src\sendlater.cpp
+[A send later job completed successfully.\nThe original message: %s]
+後で送信ジョブは正常に完了しました\nオリジナルメッセージ : %s
+[A send later job failed to complete.\nThe original message: %s]
+後で送信ジョブは完了に失敗しました\nオリジナルメッセージ : %s
+[<All contacts>]
+< 全てのコンタクト >
+[Removed]
+削除済
+[Sent OK]
+送信 OK
+[Deferred]
+保留
+[Suspended]
+中断
+[Pending]
+保留中
+[Original timestamp]
+オリジナルタイムスタンプ
+[Message text]
+メッセージテキスト
+[Last send info]
+最終送信情報
+[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
+あなたは無人送信キューにある 1 つもしくは複数項目の状態を変更しようとしています\nリクエストされた操作は次にスケジュールされたキュー処理時に実行されます\n\nこの操作は元に戻せません
+;file \plugins\TabSRMM\src\sendqueue.cpp
+[The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
+メッセージが %d バイトの最大許容メッセージ長を超過しているため , 遅延させて , もしくは複数のコンタクトに対して送信できません
+[A message delivery has failed.\nClick to open the message window.]
+メッセージ配信に失敗しました\nクリックしてメッセージウィンドウを開く
+[A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
+コンタクトチャットウィンドウが閉じた後のメッセージ配信に失敗しました。最終メッセージの再送信をする
+[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+確認待ちの未送信メッセージがあります。\n今ウィンドウを閉じると , Miranda はそれらの送信を試みますが , 発生しうる配信エラーについての通知ができない可能性があります。本当にウィンドウを閉じますか ?
+[Message window warning]
+メッセージウィンドウの警告
+[Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
+メッセージは正常に後で配信キューに格納されました\nなるべく早く送信され , 結果がポップアップで知らされます
+[The send later feature is not available on this protocol.]
+後で送信機能はこのプロトコルでは利用できません
+[\n(Sent delayed. Original timestamp %s)]
+\n( 送信遅延 オリジナルタイムスタンプ %s )
+;file \plugins\TabSRMM\src\sidebar.cpp
+;file \plugins\TabSRMM\src\srmm.cpp
+[tabSRMM Message (%s)]
+tabSRMM メッセージ ( %s )
+;file \plugins\TabSRMM\src\taskbar.cpp
+[Previews not availble when using History++ plugin for message log display.]
+メッセージログの表示に History++ プラグインを使用している時はプレビューが利用できません
+[%d Unread]
+%d 未読
+[Chat room %s]
+チャットルーム %s
+[%d User(s)]
+%d ユーザー
+[%s on %s%s]
+%s ( %s%s )
+;file \plugins\TabSRMM\src\templates.cpp
+[Template Set Editor]
+テンプレート設定エディター
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+この操作はテンプレートをデフォルトで内蔵しているテンプレートにリセットします。本当に実行しますか？
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+テンプレート設定はリセットに成功しました。すべてのメッセージウィンドウを閉じて再度開いてください。このテンプレートエディターのウィンドウは一旦閉じます
+;file \plugins\TabSRMM\src\themeio.cpp
+[tabSRMM themes]
+tabSRMM テーマ
+;file \plugins\TabSRMM\src\themes.cpp
+[All message containers need to close before the skin can be changed\nProceed?]
+スキンを変更可能にする前に , 全てのメッセージコンテナを閉じる必要があります\n続行しますか ?
+[Change skin]
+スキンの変更
+;file \plugins\TabSRMM\src\translator.cpp
+[Message window tweaks]
+メッセージウィンドウの調整
+[Error feedback]
+エラーフィードバック
+[Enable typing sounds]
+入力音を有効
+[Disable animated GIF avatars (will not affect already open message windows)]
+アニメーション GIF アバターを無効 ( 既に開いているメッセージウィンドウには影響しない )
+[Close current tab on send]
+送信時にカレントタブを閉じる
+[Disable error popups on sending failures]
+送信失敗のエラーポップアップを無効
+[Automatic keyboard layout: Do not load the system default for new contacts]
+自動キーボードレイアウト : 新規コンタクト用にシステムの既定値を読み込まない
+[Enable unattended send (experimental feature, required for multisend and send later) (*)]
+無人送信を有効 ( 実験的機能 , 複数送信と後で送信が必要です ) (*)
+[Show a preview of the event]
+イベントのプレビューを表示
+[Don't announce event when message dialog is open]
+メッセージダイアログが開いたときのイベントを通知しない
+[Don't announce events from RSS protocols]
+RSS プロトコルからのイベントを通知しない
+[Enable the system tray icon]
+システムトレイアイコンを有効
+[Merge new events for the same contact into existing popup]
+同じコンタクトに対する新規イベントは既存のポップアップにマージする
+[Show headers]
+ヘッダーを表示
+[Open event]
+イベントを開く
+[Dismiss event]
+イベントの消去
+[Disable event notifications for instant messages]
+インスタントメッセージ用イベント通知を無効
+[Disable event notifications for group chats]
+グループチャットに対するイベント通知を無効
+[Disable notifications for non-message events]
+メッセージのないイベントに対する通知を無効
+[Remove popups for a contact when the message window is focused]
+メッセージウィンドウがフォーカスされている時コンタクトへのポップアップを削除
+[Remove popups for a contact when I start typing a reply]
+返信を入力し始めたらコンタクト用ポップアップを削除
+[Remove popups for a contact when I send a reply]
+返信を送信したらコンタクト用ポップアップを削除
+[Left click actions (popups only)]
+左クリック操作 ( ポップアップのみ )
+[Right click actions (popups only)]
+右クリックの動作 ( ポップアップのみ )
+[Timeout actions (popups only)]
+タイムアウトアクション ( ポップアップのみ )
+[Combine notifications for the same contact]
+同じコンタクトに対する通知をまとめる
+[Remove popups under following conditions]
+以下の条件の時ポップアップを削除
+[Message window behaviour]
+メッセージウィンドウの動作
+[Sending messages]
+メッセージの送信中
+[Send on SHIFT - Enter]
+SHIFT - Enter で送信
+[Always flash contact list and tray icon for new messages]
+新規メッセージ用トレイアイコンとコンタクトリストを常にフラッシュ
+[Delete temporary contacts on close]
+終了時に一時的なコンタクトを削除
+[Allow BBCode formatting in outgoing messages]
+発信メッセージに BBCode フォーマットを許可
+[Automatically split long messages (experimental, use with care)]
+自動的に長いメッセージを分割 ( 実験的 , 注意して使用 )
+[Automatically copy selected text]
+選択済みのテキストを自動的にコピー
+[Message log appearance]
+メッセージログの外観
+[Support for external plugins]
+外部プラグインをサポート
+[Additional events to show]
+表示する追加イベント
+[Timestamp settings (note: timstamps also depend on your templates)]
+タイムスタンプ設定 ( 注意 : タイムスタンプもあなたのテンプレートに依存 )
+[Message log icons]
+メッセージログアイコン
+[Show file events]
+ファイルイベントを表示
+[Show dates in timestamps]
+タイムスタンプに日付を表示
+[Use contacts local time (if timezone info available)]
+コンタクトの現地時間を使用 ( タイムゾーン情報が利用可能な時 )
+[Draw grid lines]
+グリッド線を描画
+[Use Incoming/Outgoing Icons]
+着信 / 発信 アイコンを使用
+[Use Message Grouping]
+メッセージグループを使用
+[Simple text formatting (*bold* etc.)]
+シンプルテキスト書式設定 ( *bold* 等 )
+[Support BBCode formatting]
+BBCode 書式設定をサポート
+[Place a separator in the log after a window lost its foreground status]
+ウィンドウが前面表示状態ではなくなったら , ログに区切り線を表示
+[Only place a separator when an incoming event is announced with a popup]
+着信イベントがポップアップでアナウンスされた時区切り線のみ表示
+[Show events at the new line (IEView Compatibility Mode)]
+新規行でイベントを表示 ( IEView 互換モード )
+[Underline timestamp/nickname (IEView Compatibility Mode)]
+タイムスタンプ / ニックネームに下線 ( IEView 互換モード )
+[Show timestamp after nickname (IEView Compatibility Mode)]
+ニックネームの後にタイムスタンプを表示 ( IEView 互換モード )
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+通常テンプレートを使用 ( 未チェックの場合 , あなたのテンプレートセットがサポートしていればシンプルテンプレートを使用 )
+[How to create tabs and windows for incoming messages]
+着信メッセージ用タブとウィンドウの作り方
+[Show status text on tabs]
+タブにステータステキストを表示
+[Prefer xStatus icons when available]
+利用可能な時は xStatus アイコンを優先
+[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
+タブ上のツールチップの詳細 ( mToolTip もしくは Tipper プラグインが必要)
+[ALWAYS activate new message sessions (has PRIORITY over the options below)]
+「常に」新規メッセージセッションをアクティブ化する ( 優先度は下のオプションよりも高い )
+[Automatically create new message sessions without activating them]
+アクティブ化しないで , 自動的に新規メッセージセッションを作成
+[New windows are minimized (the option above MUST be active)]
+新規ウィンドウは最小化する( 上のオプションのアクティブ必須 )
+[Activate a minimized window when a new tab is created inside it]
+内部に新規タブが作成されたら , 最小化されたウィンドウをアクティブ化
+[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
+着信メッセージで最小化ウィンドウ内にあるタブを自動的に切り替え ( Aero プレビュータスクバー機能を無視 )
+[Remember and set keyboard layout per contact]
+コンタクト毎のキーボードレイアウトの保存と設定
+[Close button only hides message windows]
+閉じるボタンでメッセージウィンドウのみを非表示
+[Allow TAB key in typing area (this will disable focus selection by TAB key)]
+入力エリアでタブキーを許可 ( タブキーによるフォーカス選択を無効 )
+[Add offline contacts to multisend list]
+複数送信リストにオフラインコンタクトを追加
+;file \plugins\TabSRMM\src\trayicon.cpp
+;file \plugins\TabSRMM\src\typingnotify.cpp
+[Disable &typing notification]
+入力中通知を無効 (&t)
+[Enable &typing notification]
+入力中通知を有効 (&t)
+[...is typing a message.]
+...はメッセージを入力中
+[...has stopped typing.]
+...は入力を中断
+;file \plugins\TabSRMM\src\userprefs.cpp
+[Always On]
+常にオン
+[Always Off]
+常にオフ
+[Force Default Message Log]
+デフォルトメッセージログを強制
+[Force History++]
+History++ を強制
+[Force IEView]
+IEView を強制
+[Set messaging options for %s]
+%s 用メッセージオプションを設定
+;file \plugins\TabSRMM\src\utils.cpp
+[Important release notes|A test warning message]
+重要なリリースノート | テスト警告メッセージ
+[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
+ユーザーメモの編集 | あなたはユーザーメモを編集しています。メモを保存して通常メッセージングモードに戻るには , もう一度ボタンをクリックするかホットキー ( デフォルト : Alt-N ) を使用して下さい
+[Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
+Aero プレビュー警告 | あなたは Aero プレビュー機能が有効な状態でカスタムコンテナウインドウスキンを読み込んでいます\n\nそのため live プレビュー機能とは多少視覚的に異なる結果になります
+[Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
+設定の問題 | オプション \\b1 履歴 -> IEView API の再現 \\b0 が有効であり , かつ History++ プラグインがアクティブです。これはメッセージログビューアとして IEView を使用する際に問題を引き起こします\n\nオプションを修正してもよろしいですか ( 要再起動 ) ?
+[Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
+ウィンドウを閉じています | あなたは複数のタブが開いたウィンドウを閉じようとしています\\n\n続行しますか ?
+[Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?]
+閉じるオプションダイアログ | オプションダイアログにインポート中のテーマによる変更を反映させるにはテーマの読み込み後にダイアログを閉じなければいけません \\b1 保存されていない変更は失われます\\b0 \n\n継続しますか ?
+[Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
+テーマの読み込み中 | 読み込み中の色とフォントテーマはあなたのスキンで定義されている設定を上書きします\n\n続行しますか ?
+[TabSRMM warning message]
+TabSRMM 警告メッセージ
+;file \plugins\TabSRMM\src\chat\clist.cpp
+;file \plugins\TabSRMM\src\chat\colorchooser.cpp
+;file \plugins\TabSRMM\src\chat\log.cpp
+;file \plugins\TabSRMM\src\chat\muchighlight.cpp
+[Add user to highlight list]
+強調表示リストにユーザーを追加
+[Edit user highlight list]
+ユーザー強調表示リストを編集
+;file \plugins\TabSRMM\src\chat\options.cpp
+[Group chat log background]
+グループチャットログの背景
+[Log background]
+ログの背景
+[Status background]
+ステータスの背景
+[Incoming background(old)]
+着信背景 ( 旧 )
+[Outgoing background(old)]
+発信背景 ( 旧 )
+[Horizontal Grid Lines]
+水平グリッド線
+[Panel background low]
+パネル背景 低
+[Panel background high]
+パネル背景 高
+[Toolbar background high]
+ツールバーの背景 高
+[Toolbar background low]
+ツールバーの背景 低
+[Window fill color]
+ウィンドウ塗りつぶし色
+[Text area borders]
+テキストエリアの枠線
+[Aero glow effect]
+Aero 光彩効果
+[Generic text color (only when fill color is set)]
+汎用テキスト色 ( 塗りつぶし色が設定されている時のみ )
+[Normal text]
+通常テキスト
+[Active text]
+アクティブテキスト
+[Hovered text]
+ホバーテキスト
+[Unread text]
+未読テキスト
+[Normal background]
+通常背景
+[Active background]
+アクティブ背景
+[Hovered background]
+ホバー背景
+[Unread background]
+未読背景
+[Chat log symbols (Webdings)]
+チャットログの記号 ( Webdings )
+[>> Outgoing misc events]
+>> 発信したその他のイベント
+[<< Incoming misc events]
+<< 着信したその他のイベント
+[>> Outgoing messages (old)]
+>> 発信メッセージ ( 旧 )
+[>> Outgoing misc events (old)]
+>> 発信したその他のイベント ( 旧 )
+[<< Incoming messages (old)]
+<< 着信メッセージ ( 旧 )
+[<< Incoming misc events (old)]
+<< 着信したその他のイベント ( 旧 )
+[>> Outgoing name (old)]
+>> 発信名 ( 旧 )
+[>> Outgoing timestamp (old)]
+>> 発信タイムスタンプ ( 旧 )
+[<< Incoming name (old)]
+<< 着信名 ( 旧 )
+[<< Incoming timestamp (old)]
+<< 着信タイムスタンプ ( 旧 )
+[* Message Input Area]
+* メッセージ入力エリア
+[* Status changes]
+* ステータス変更
+[* Dividers]
+* 境界線
+[* Error and warning Messages]
+* メッセージのエラーと警告
+[* Symbols (incoming)]
+* 記号 ( 着信 )
+[* Symbols (outgoing)]
+* 記号 ( 発信 )
+[Contacts local time]
+コンタクトの現地時間
+[Window caption (skinned mode)]
+ウィンドウの見出し ( スキンモード )
+[Open new chat rooms in the default container]
+デフォルトコンテナ内に新規チャットルームを開く
+[Create tabs or windows for highlight events]
+強調表示イベント用のタブもしくはウィンドウを作成
+[Activate chat window on highlight]
+アクティブなチャットウィンドウを強調表示
+[Colorize nicknames in member list]
+メンバーリストのニックネームをカラー表示
+[Show topic as status message on the contact list]
+コンタクトリストのステータスメッセージとしてトピックを表示
+[Hide or show the window by double click in the contact list]
+コンタクトリストのダブルクリックでウィンドウの非表示もしくは表示
+[Sync splitter position with standard IM sessions]
+スプリッタポジションを標準 IM セッションと同期する
+[Show contact's status modes if supported by the protocol]
+プロトコルにサポートされている時コンタクトのステータスモードを表示
+[Display contact's status icon before user role icon]
+ユーザー役割アイコンの前にコンタクトステータスアイコンを表示
+[Use IRC style status indicators in the user list]
+IRC スタイルのステータス表記をユーザーリストに使用
+[Use alternative sorting method in member list]
+メンバーリストで代替的なソート方式を使用
+[Timestamp only when event time differs]
+イベント時間と異なるときのみタイムスタンプ
+[Timestamp has same color as the event]
+タイムスタンプはイベントと同色
+[Add a colon (:) to auto-completed user names]
+自動補完されたユーザー名にコロン (:) を追加
+[Start private conversation on doubleclick in nick list (insert nick if unchecked)]
+ニックリストのダブルクリックでプライベートな会話を開始 ( 未チェック時はニックの挿入 )
+[Use IRC style status indicators in the log]
+IRC スタイルのステータス表記をログに使用
+[Allow clickable user names in the message log]
+メッセージログにクリック可能なユーザー名を許可
+[Colorize user names in message log]
+メッセージログのユーザー名をカラー表示
+[Scale down icons to 10x10 pixels in the chat log]
+チャットログにあるアイコンを10x10ピクセルに縮尺する
+[Support the math module plugin]
+数学モジュールプラグインをサポート
+[Remove Status (10x10)]
+ステータス削除 (10x10)
+[Channel operators]
+チャンネルオペレーター
+[Half operators]
+制限付オペレーター
+[Voiced]
+Voiced
+[Extended mode 1]
+拡張モード 1
+[Extended mode 2]
+拡張モード 2
+[Selection background]
+背景の選択
+[Incremental search highlight]
+逐次検索を強調表示
+[Userlist background]
+ユーザーリストの背景
+[year without century, 01-99]
+年 , 01-99
+[No markers]
+マーカーなし
+[Show as icons]
+アイコンとして表示
+[Show as text symbols]
+テキスト記号として表示
+;file \plugins\TabSRMM\src\chat\services.cpp
+;file \plugins\TabSRMM\src\chat\tools.cpp
+[%s%s says:%s %s]
+%s%s の発言 : %s %s
+[Highlight User...]
+ユーザーを強調表示...
+[Edit Highlight List...]
+強調表示リストを編集...
+;file \plugins\TabSRMM\src\chat\window.cpp
+[Unique Id]
+固有 ID
+[%s: Chat Room (%u user%s)]
+%s : チャットルーム (%u ユーザー %s )
+[%s: Chat Room (%u users%s)]
+%s : チャットルーム (%u ユーザー %s )
+[, event filter active]
+, イベントフィルターはアクティブ
+[, %d %s, %d %s idle]
+, %d %s, %d %s アイドル
+[hour]
+時間
+[minute]
+分
+[, %d %s idle]
+, %d %s アイドル
+[The filter canoot be enabled, because there are no event types selected either global or for this chat room]
+グローバルもしくはこのチャットルームのいずれにもイベントタイプが選択されていないため , フィルターは有効にできません。
+[Event filter error]
+イベントフィルターエラー

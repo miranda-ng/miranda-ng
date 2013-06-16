@@ -1,0 +1,50 @@
+﻿#muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
+;============================================================
+;  File: QuickContacts.dll
+;  Plugin: Quick contacts
+;  Version: 1.0.0.0
+;  Authors: Ricardo Pescuma Domenecci, Heiko Schillinger
+;============================================================
+;file \plugins\QuickContacts\res\resource.rc
+[Last Sent]
+最后发送
+[Enable last-sent-to]
+启用最后发送到
+[recognize all messages sent]
+确认所有发出信息
+[recognize messages sent with hotkey only]
+仅用热键发出确认信息
+[Show offline contacts on these protocols:]
+这些协议显示离线联系人:
+[But hide them if protocol is offline]
+如协议离线则隐藏
+[Append group name to contact name]
+附加群组名称至联系人名称
+[But show it as a column ...]
+但显示为列 ...
+[... on left side of name]
+... 名称左对齐
+[Hide subcontacts]
+隐藏子联系人
+[But keep subcontacts of protocols in above list if meta is hidden]
+如隐藏则在上述名单中保留协议子联系人
+[Enter username:]
+输入用户名:
+[Show all contacts (Ctrl+A)]
+显示所有联系人 (Ctrl+A)
+;file \plugins\QuickContacts\src\options.cpp
+[Quick Contacts]
+快速联系人
+;file \plugins\QuickContacts\src\quickcontacts.cpp
+[Open dialog]
+打开对话框
+[Make a voice call]
+拨打语音呼叫
+[Send URL]
+发送链接
+[Open userinfo]
+打开用户信息
+[Open history]
+打开历史
+[Quick Contacts...]
+快速联系人...

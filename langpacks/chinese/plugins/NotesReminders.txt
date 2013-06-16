@@ -1,0 +1,76 @@
+﻿#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
+;============================================================
+;  File: NotesReminders.dll
+;  Plugin: Sticky Notes & Reminders
+;  Version: 0.0.5.1
+;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
+;============================================================
+;file \plugins\NotesAndReminders\res\resource.rc
+[Sticky Notes Options]
+便签选项
+[Default Note Size]
+默认笔记大小
+[Width (Pixels)]
+宽度 (像素)
+[Height (Pixels)]
+高度 (像素)
+[Show Scrollbars]
+显示滚动条
+[Startup options]
+启动选项
+[Add Contact list menu items]
+添加联系人列表菜单项目
+[Send Reminders through E-mail / SMS :]
+使用邮件/SMS 发送提醒: 
+[Add Reminder]
+添加提醒
+[Trigger On Time && Date:]
+触发时间及日期: 
+[Reminder Note:]
+提醒笔记: 
+[&Add Reminder]
+添加提醒(&A)
+[&View Reminders]
+查看提醒(&V)
+[&Dismiss]
+关闭
+[Add New]
+添加新项目
+[Context Menu Reminder ListView]
+环境菜单提醒列表查看
+[Context Menu Note Popup]
+环境菜单笔记弹出窗口
+[&New Note]
+新增笔记(&N)
+[&Paste]
+粘贴(&P)
+[C&ut]
+剪切(&U)
+[C&lear]
+清除(&L)
+[&Show / Hide Notes]
+显示/隐藏笔记(&S)
+;file \plugins\NotesAndReminders\src\globals.h
+[Notes & Reminders]
+笔记及提醒
+;file \plugins\NotesAndReminders\src\hotkeys.cpp
+;file \plugins\NotesAndReminders\src\main.cpp
+[Delete All Reminders]
+删除所有提醒
+[Sticky Notes]
+便签
+[Add New Note]
+添加新笔记
+[Add New Reminder]
+添加新提醒
+[Notes && Reminders]
+笔记及提醒
+[&Delete All Notes]
+删除所有笔记(&D)
+;file \plugins\NotesAndReminders\src\notes.cpp
+;file \plugins\NotesAndReminders\src\options.cpp
+;file \plugins\NotesAndReminders\src\reminders.cpp
+[Reminder text]
+提醒文本
+[Date of activation]
+启用日期

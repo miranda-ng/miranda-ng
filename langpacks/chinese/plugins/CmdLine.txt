@@ -1,0 +1,94 @@
+﻿#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
+;============================================================
+;  File: CmdLine.dll
+;  Plugin: Command line
+;  Version: 0.0.4.1
+;  Authors: Cristian Libotean
+;============================================================
+[This plugin lets you control Miranda from the command line.]
+此插件可让您由命令行控制 Miranda.
+;file \plugins\CmdLine\MimCmd\src\commands.cpp
+[No help for '%s'.]
+无 '%s' 相关帮助.
+[Available commands: ]
+可用命令: 
+[Miranda has been closed or an error has occured while waiting for the result, could not process request.]
+Miranda 已被关闭或发生错误正在等待结果, 无法处理请求.
+;file \plugins\CmdLine\MimCmd\src\MimCmd.cpp
+[%s usage:\n]
+%s 用法:\n
+[%s <command> [<param> [, <param> ..]]\n]
+%s <命令> [<参数> [, <参数> ..]]\n
+[This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
+此操作将告诉 Miranda 运行指定命令. 命令可以有0, 1 或更多个参数. 使用 '%s help' 可获取可用命令列表.\n
+[No command can have more than %d parameters\n]
+无命令超过 %d 个参数\n
+[%s version %s]
+%s 版本 %s
+[Unknown command '%s'.\n]
+未知命令 '%s'.\n
+;file \plugins\CmdLine\src\CmdLine.cpp
+;file \plugins\CmdLine\src\mimcmd_data.h
+;file \plugins\CmdLine\src\mimcmd_handlers.cpp
+[Command '%s' is not currently supported.]
+命令 '%s' 当前不支持.
+[Wrong number of parameters for command '%s'.]
+命令参数数量错误 '%s'.
+[Unknown parameter '%s' for command '%s'.]
+未知参数 '%s' 于命令 '%s'.
+[Changed global status to '%s' (previous status was '%s').]
+更改全局状态为 '%s' (之前状态为 '%s').
+[Changed '%s' status to '%s' (previous status was '%s').]
+更改 '%s' 状态为 '%s' (之前状态为 '%s').
+[Changed '%s' status message to '%s' (status is '%s').]
+更改 '%s' 状态信息为 '%s' (状态为 '%s').
+[Issued check email command to Exchange plugin.]
+发出检查邮件命令至 Exchange 插件.
+[Exchange plugin is not running.]
+Exchange 插件未运行.
+[Issued check email command to YAMN plugin.]
+发出检查邮件命令至 YAMN 插件.
+[YAMN plugin is not running.]
+YAMN 插件未运行.
+[Invalid parameter '%s' passed to CallService command.]
+无效参数 '%s' 被传递给呼叫服务命令.
+[Service '%s' does not exist.]
+服务 '%s' 不存在.
+[Message sent to '%s'.]
+消息发送至 '%s'.
+[Could not send message to '%s'.]
+无法发送消息至 '%s'.
+[Timed out while waiting for acknowledgement for contact '%s'.]
+等待联系人 '%s' 确认直至超时.
+[Could not find contact handle for contact '%s'.]
+无法找到并处理联系人 '%s'.
+[Setting '%s/%s' deleted.]
+设置 '%s/%s' 删除.
+[Wrote '%s:%s' to database entry '%s/%s'.]
+已写 '%s:%s' 至数据库条目 '%s/%s'.
+[Could not retrieve setting '%s/%s': %s.]
+无法检索设置 '%s/%s': %s.
+[Setting '%s/%s' was not found.]
+设置 '%s/%s' 未找到.
+['%s' proxy was disabled.]
+'%s' 代理被禁用.
+['%s' proxy was enabled.]
+'%s' 代理已启用.
+[%s proxy server: %s %s:%d.]
+%s 代理服务器: %s %s:%d.
+[%s proxy set to %s %s:%d.]
+%s 代理设置为 %s %s:%d.
+[%s The port or the proxy type parameter is invalid.]
+%s 代理端口参数类型无效.
+[No unread messages found.]
+无未读消息.
+[%s:%s - %d unread events.]
+%s:%s - %d 未读事件.
+[Contact '%s' has '%d' events in history.]
+联系人 '%s' 有 '%d' 个事件在历史中.
+;file \plugins\CmdLine\src\services.cpp
+[Could not create CommandLine listening server!]
+无法创建命令行监听服务器!
+[You can only run one instance of CmdLine plugin.]
+您只能运行一个命令行插件实例.
+;file \plugins\CmdLine\src\utils.cpp

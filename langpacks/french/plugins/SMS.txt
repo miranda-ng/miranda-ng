@@ -1,0 +1,17 @@
+﻿#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
+;============================================================
+;  File: SMS.dll
+;  Plugin: SMS
+;  Version: 0.2.5.3
+;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
+;============================================================
+;file \plugins\SMS\res\resource.rc
+[&Reply]
+&Répondre
+[Enter message:]
+Tapez un message :
+;file \plugins\SMS\src\options.cpp
+;file \plugins\SMS\src\receive.cpp
+;file \plugins\SMS\src\recvdlg.cpp
+;file \plugins\SMS\src\senddlg.cpp
+;file \plugins\SMS\src\SMS_svc.cpp

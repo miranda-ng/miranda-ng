@@ -1,0 +1,40 @@
+﻿#muuid {fc718bc7-abc8-43cd-aad9-761614617738}
+;============================================================
+;  File: wbOSD.dll
+;  Plugin: WannaBe OSD
+;  Version: 0.2.1.0
+;  Authors: Andrej Krutak
+;============================================================
+;file \plugins\wbOSD\res\wbOSD.rc
+[Select font]
+选择字体
+[Shadow color]
+阴影颜色
+[Alternative shadow]
+互换阴影
+[Shadow align]
+阴影对齐
+[Shadow distance:]
+阴影距离: 
+[Alpha:]
+亮度: 
+[Announce]
+宣布
+[Timeout (ms):]
+超时 (毫秒): 
+[Show events]
+显示事件
+[Show testing OSD]
+显示测试 OSD
+[Show my status changes]
+显示我的状态变更
+[Show message window after click]
+点击后显示消息窗口
+[Format:]
+格式: 
+[Show when my status is:]
+显示当我的状态为: 
+;file \plugins\wbOSD\src\events.cpp
+[%s is %s]
+%s 现为 %s
+;file \plugins\wbOSD\src\options.cpp

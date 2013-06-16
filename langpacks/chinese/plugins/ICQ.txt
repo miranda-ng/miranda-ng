@@ -1,0 +1,856 @@
+﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
+;============================================================
+;  File: ICQ.dll
+;  Plugin: ICQ
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\IcqOscarJ\res\resources.rc
+[ICQ Number:]
+ICQ 号码:
+[Create a new ICQ account]
+新建 ICQ 账号
+[Enter ICQ Password]
+输入 ICQ 密码
+[Enter a password for UIN %d:]
+请输入 UIN %d 的密码: 
+[ICQ number:]
+ICQ 号: 
+[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+提示: 如果您不在此输入密码, Miranda 将在每次上线时询问密码. 
+[Retrieve a lost password or ICQ number]
+取回丢失密码或 ICQ 号
+[Create a new ICQ account using the ICQ website]
+使用 ICQ 网站建立新 ICQ 帐号
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+提示: 使用端口 0 将连接至随机端口. 如果您的 HTTP 代理服务器连接有问题, 请尝试连接端口 80 或 443. 
+[Secure Connection (SSL)]
+安全连接 (SSL)
+[Secure (MD5) login]
+安全 (MD5) 登录
+[Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
+发送 '保持连接' (如果您使用代理服务器并频繁断线请启用)
+[Ignore concurrent error messages]
+忽略同时发生的错误消息
+[Show connection error messages:]
+显示连接错误消息: 
+[ICQ contacts stored on server]
+ICQ 联系人存储在服务器中
+[Manage server's list...]
+管理服务器的列表...
+[Enable server-side contact lists *]
+启用服务器端联系人列表 *
+[Add contacts to the server's list when I add them to mine]
+添加联系人时, 也添加至服务器列表中
+[Update my contacts' details from the server *]
+从服务器更新联系人详细资料
+[Update contacts' details on the server's list when I change them in mine]
+变更联系人详细资料时, 也更新服务器列表资料
+[ICQ avatars]
+ICQ 头像
+[Enable avatar support]
+启用头像支持
+[Check avatar validity before saving *]
+保存头像前先检查有效性 *
+[Load avatars automatically (like ICQ Lite)]
+自动加载头像 (类似 ICQ Lite)
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+您需要重新连接至 ICQ 网络才能让本页所作变更生效. 
+[You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
+当您连接至 ICQ 网络时, 无法启用/禁用服务器端联系人列表. 
+[Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
+注意: 以星号标记选项具有严重的副作用, 可能最初在帮助中未明确说明.
+[Enable unicode messaging support]
+启用 Unicode 通信支持
+[Send all messages in unicode if possible]
+如果可能的话以 Unicode 发送所有消息
+[Use this codepage for Ansi <-> Unicode translation :]
+使用此代码页做 Ansi <-> Unicode 转换: 
+[Make me temporarily visible to contacts I send message to]
+让我暂时可见发送消息联系人
+[Notify me when a message delivery has failed (recommended)]
+消息递送失败时通知我 (推荐)
+[Peer-to-peer Messaging]
+P2P 通信
+[Enable peer-to-peer message connections]
+启用 P2P 消息连接
+[Passive mode, i.e. do not initiate new connections]
+被动模式, 即不发起新连接
+[Extra Features]
+额外功能
+[Enable Custom status support for xtraz]
+启用 xtraz 自定义状态支持
+[Enable Custom status support for moods]
+启用自定义情绪状态支持
+[Reset Custom status on status change]
+状态变更时重置自定义状态
+[Auto-retrieve Custom status details]
+自动获取自定义状态详细信息
+[Block known Spam Bots]
+封锁已知的滥发机器
+[Enable AIM contacts support]
+启用 AIM 联系人支持
+[Direct connections]
+直接连接
+[Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
+允许直接连接将暴露您的 IP 地址, 但要使某些 ICQ 功能正常, 必须如此. 
+[Allow direct connections with any user]
+允许与任何用户直接连接
+[Allow direct connections with users on my contact list]
+允许与我方联系人清单中用户直接连接
+[Allow direct connections only when I authorize or initiate them]
+仅由我授权或发起时才允许直接连接
+[Contact List Authorization]
+联系人列表授权
+[All users may add me to their Contact List]
+所有用户都可将我加至他们的联系人列表中
+[I want to be asked when someone wants to add me to their Contact List]
+任何人想将我加至他们的联系人列表时询问我
+[Misc Settings]
+杂项设置
+[Allow others to view my Online / Offline status from the web (Web Aware)]
+允许其他人查看我的在线/离线状态 (网上意识)
+[Allow others to view my primary e-mail address]
+允许其他人查看我的主邮箱地址
+[Only reply to status message requests from users on my contact list]
+仅答复我方联系人列表中用户状态消息请求
+[Only reply to status message request from visible contacts]
+仅答复可见联系人的状态消息请求
+[Some options are greyed out because they can only be changed when you are online.]
+一些选项已被禁用, 因为它们只能在您在线时才能变更. 
+[Enable popup support]
+启用弹出窗口支持
+[Display popup when spambot is detected]
+检测出滥发机器时显示弹出窗口
+[Look && Feel]
+外观及感觉
+[Fatal]
+严重错误
+[Spam detected]
+检测出滥发机器
+[Use system &icons]
+使用系统图标(&I)
+[External IP:]
+外部 IP: 
+[Protocol Version:]
+协议版本: 
+[User Client:]
+用户客户端: 
+[System up since:]
+开机时间: 
+[Idle since:]
+闲置时间: 
+[Keywords:]
+关键字: 
+[Organisation:]
+组织: 
+[Interests]
+兴趣
+[Category:]
+分类: 
+[Manage ICQ Server Contacts]
+管理 ICQ 服务器联系人
+[Select contacts to store:]
+请选择要保存的联系人
+[Synchronize]
+同步
+[Retrieving custom status details...]
+正在获取自定义状态详细资料...
+[Confirm Password Change]
+确认密码变更
+[Please re-type your new password:]
+请重新输入您的新密码: 
+[Enter your current password:]
+请输入您的当前密码: 
+;file \protocols\IcqOscarJ\src\chan_04close.cpp
+[Unable to connect to migrated ICQ communication server]
+无法连接至迁移 ICQ 通讯服务器
+[Unable to connect to ICQ communication server]
+无法连接至 ICQ 通讯服务器
+[You could not sign on because the server returned invalid data. Try again.]
+您无法登录, 因为服务器返回无效. 请重试. 
+[You have been disconnected from the ICQ network because the current server shut down.]
+您已从 ICQ 网络中离线, 因为当前服务器关机. 
+[Connection failed.\nYour ICQ number or password was rejected (%d).]
+连接失败. \n您的 ICQ 号码或密码被拒绝 (%d). 
+[Connection failed.\nThe server is temporarily unavailable (%d).]
+连接失败. \n服务器暂时无法使用 (%d). 
+[Connection failed.\nServer has too many connections from your IP (%d).]
+连接失败. \n服务器已有过多您的 IP 连接 (%d). 
+[Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
+连接失败. \n您的连接过于频繁, \n请稍候, 10 至 20 分钟后再重试 (%d). 
+[Connection failed.\nThe server did not accept this client version.]
+连接失败. \n服务器不接受此客户端版本. 
+[The server sent warning, this version is getting old.\nTry to look for a new one.]
+服务器已发送警告, 此版本过旧. \n请尝试更新. 
+[Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
+连接失败. \n您由于未知原因被服务器拒绝. 这可能在 UIN 已连接情况下发生. 
+[Connection failed.\nSecure (MD5) login is not supported on this account.]
+连接失败. \n此帐号不支持安全 (MD5) 登录. 
+[Connection failed.\nUnknown error during sign on: 0x%02x]
+连接失败. \n登录时发生未知错误: 0x%02x
+[You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
+您已从 ICQ 网络上断开连接, 因为您已从其它位置使用相同 ICQ 号码登录. 
+[Unknown runtime error: 0x%02x]
+未知运行时间错误: 0x%02x
+;file \protocols\IcqOscarJ\src\fam_01service.cpp
+[A server migration has failed because the server returned invalid data. You must reconnect manually.]
+一项服务器迁移已失败, 因为服务器返回无效. 您必须手动重连. 
+[Failed to request offline messages. They may be received next time you log in.]
+无法请求离线消息. 他们可能在您下次登录时会接收. 
+;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
+[Spambot Detected]
+检测出滥发机器
+[Contact deleted & further events blocked.]
+联系人已被清除, 相关事件封锁. 
+;file \protocols\IcqOscarJ\src\fam_04message.cpp
+[Incoming URL:]
+传入网址: 
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
+您的发送速度过快. 请稍后继续. \r\nSNAC(4.1) 错误 x02
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
+您的发送速度过快. 请稍后继续. \r\nSNAC(4.1) 错误 x03
+[The contact does not support receiving offline messages.]
+该联系人不支持接收离线消息. 
+[The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
+用户已注销. 请选择 '重试' 发送离线消息. \r\nSNAC(4.1) 错误 x04
+[The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
+通信服务暂时无法使用. 请稍后重试. \r\nSNAC(4.1) 错误 x05
+[The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
+接收客户端不支持此类型消息. \r\nSNAC(4.1) 错误 x09
+[You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
+您的发送消息过长. 接收客户端不支持. \r\nSNAC(4.1) 错误 x0A
+[The SNAC format was rejected by the server.\nSNAC(4.1) Error x0E]
+SNAC 格式已被服务器拒绝. \nSNAC(4.1) 错误 x0E
+[The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
+用户暂时无法使用. 请稍后重试. \r\nSNAC(4.1) 错误 x13
+[SNAC(4.1) SENDMSG Error (x%02x)]
+SNAC(4.1) SENDMSG 错误 (x%02x)
+[Contact "%s" has closed the message window.]
+联系人 "%s" 已关闭消息窗口. 
+[ICQ Note]
+ICQ 提示
+;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
+[Server contact list is unavailable, Miranda will use local contact list.]
+无法使用服务器联系人列表, Miranda 将使用本地联系人列表. 
+[Updating of server contact failed.]
+更新服务器联系人失败. 
+[Adding of privacy item to server list failed.]
+添加私有项目至服务器列表失败. 
+[Removing of privacy item from server list failed.]
+从服务器列表移除私有项目失败. 
+[Adding of contact to server list failed.]
+添加联系人至服务器列表失败. 
+[Adding of group to server list failed.]
+添加群组至服务器列表失败. 
+[Removing of contact from server list failed.]
+从服务器列表移除联系人失败. 
+[Updating of group on server list failed.]
+更新服务器列表联系人失败. 
+[Removing of group from server list failed.]
+从服务器列表移除群组失败. 
+[Moving of user to another group on server list failed.]
+移动用户至服务器列表其它群组失败. 
+[Renaming of server group failed.]
+重命名服务器群组失败. 
+[Contact "%s" was authorized in the server list.]
+联系人 "%s" 已被授权加入服务器列表. 
+[Contact "%s" lost its authorization in the server list.]
+联系人 "%s" 已丢失服务器列表授权. 
+[User "%s" was removed from server list.]
+用户 "%s" 已从服务器列表移除
+;file \protocols\IcqOscarJ\src\fam_17signon.cpp
+[Secure login failed.\nInvalid server response.]
+安全登录失败. \n服务器响应无效. 
+[Secure login failed.\nInvalid key length.]
+安全登录失败. \n密钥长度无效. 
+;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
+[Are you sure you want to revoke user's authorization (this will remove you from his/her list on some clients) ?]
+您确定要撤销用户的授权 (某些客户端会将您从他/她的列表中移除)? 
+[** This message was blocked by the ICQ server ** The message was invalid.]
+** 此消息已被 ICQ 服务器封锁 ** 消息无效. 
+[** This message was blocked by the ICQ server ** The message was too long.]
+** 此消息已被 ICQ 服务器封锁 ** 消息过长. 
+[** This message was blocked by the ICQ server ** The sender has flooded the server.]
+** 此消息已被 ICQ 服务器封锁 ** 发送人阻塞服务器. 
+[** This message was blocked by the ICQ server ** You are too evil.]
+** 此消息已被 ICQ 服务器封锁 ** 你也太恶毒了. 
+[** Unknown missed message event.]
+** 未知失误消息事件.
+;file \protocols\IcqOscarJ\src\icq_avatar.cpp
+[Error uploading avatar to server, server temporarily unavailable.]
+上传头像至服务器发生错误, 服务器暂时无效使用. 
+[Error uploading avatar to server, server refused to accept the image.]
+上传头像至服务器发生错误, 服务器拒绝接受图片. 
+;file \protocols\IcqOscarJ\src\icq_constants.h
+;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Ascension Island]
+亚森松岛
+[Australia, Antarctic Territory]
+澳大利亚, 南极领地
+[Australia, Christmas Island]
+澳大利亚, 圣诞岛
+[Australia, Cocos (Keeling) Islands]
+澳大利亚, 科科斯 (基林) 群岛
+[Australia, Norfolk Island]
+澳大利亚, 诺福克岛
+[Bolivia]
+玻利维亚
+[British Virgin Islands]
+英属维京群岛
+[Brunei]
+文莱
+[Canary Islands]
+加那利群岛
+[Cape Verde Islands]
+佛得角群岛
+[Chile, Republic of]
+智利共和国
+[Congo, Democratic Republic of (Zaire)]
+刚果民主共和国 (扎伊尔)
+[Congo, Republic of the]
+刚果共和国
+[Cote d'Ivoire (Ivory Coast)]
+科特迪瓦(象牙海岸)
+[Greek, Republic of South Cyprus]
+希腊, 南塞浦路斯共和国
+[Diego Garcia]
+迪戈加西亚岛
+[Europe]
+欧洲
+[Faeroe Islands]
+法罗群岛
+[Falkland Islands]
+福克兰群岛
+[French Antilles]
+法属安的列斯群岛
+[Guam, US Territory of]
+美国领土关岛
+[Iran (Islamic Republic of)]
+伊朗 (伊斯兰共和国)
+[Korea, North]
+北韩
+[Korea, South]
+南韩
+[Laos]
+老挝
+[Libyan Arab Jamahiriya]
+阿拉伯利比亚
+[Macau]
+澳门
+[Macedonia, Republic of]
+马其顿共和国
+[Mayotte Island]
+马约特岛
+[Netherlands Antilles]
+荷兰安的列斯群岛
+[St. Maarten]
+圣马丁
+[Netherlands (Bonaire Island)]
+荷兰 (博内尔岛)
+[Netherlands (Saba Island)]
+荷兰 (萨巴岛)
+[Netherlands (St. Eustatius Island)]
+荷兰 (圣尤斯特歇斯岛)
+[Northern Mariana Islands, US Territory of]
+北马里亚纳群岛, 美属
+[Reunion Island]
+留尼旺岛
+[Russia]
+俄罗斯
+[Samoa (USA)]
+萨摩亚 (美国)
+[Samoa, Western]
+萨摩亚, 西部
+[Saint Helena]
+圣赫勒拿岛
+[Scotland]
+苏格兰
+[Spain, Canary Islands]
+西班牙, 加那利群岛
+[Taiwan]
+台湾
+[Tanzania]
+ 坦桑尼亚 
+[Timor, East]
+东帝汶, 东
+[Turkey, Republic of Northern Cyprus]
+土耳其, 北塞浦路斯共和国
+[USA]
+美国
+[Vatican City]
+梵蒂冈城
+[Venezuela]
+委内瑞拉
+[Vietnam]
+越南
+[Virgin Islands (UK)]
+维尔京群岛 (英国)
+[Virgin Islands (USA)]
+维尔京群岛 (美国)
+[Wales]
+威尔士
+[Wallis and Futuna Islands]
+瓦利斯群岛和富图纳群岛
+[Yugoslavia]
+南斯拉夫
+[Serbia, Republic of]
+塞尔维亚共和国
+[Kosovo, Republic of]
+科索沃共和国
+[Montenegro, Republic of]
+黑山共和国
+[Audio and Visual]
+音频和视频
+[Business]
+商业
+[Business Services]
+商业服务
+[Culture]
+文化
+[Ecology]
+生态学
+[Finance and Corporate]
+金融与企业
+[Health and Beauty]
+健康及美容
+[Home Automation]
+家庭自动化
+[Household Products]
+家居用品
+[ICQ - Help]
+ICQ - 帮助
+[Mail Order Catalog]
+邮购目录
+[Movies and TV]
+电影和电视
+[News and Media]
+新闻和媒体
+[Outdoors]
+户外活动
+[Pets and Animals]
+宠物和动物
+[Retail Stores]
+零售商店
+[Science]
+科技
+[Sporting and Athletic]
+体育与竞技
+[Past Work Place]
+以往工作地点
+[Past Organization]
+以往机构
+[Associated degree]
+相关程度
+[Bachelor's degree]
+学士学位
+[Elementary]
+小学
+[High-school]
+高中
+[Master's degree]
+硕士学位
+[PhD]
+博士
+[Postdoctoral]
+博士后
+[University / College]
+大学 / 学院
+[Agriculture]
+农业
+[Arts]
+艺术
+[Construction]
+建设
+[Consumer Goods]
+消费品
+[Corporate Services]
+企业服务
+[Finance]
+财经
+[High Tech]
+高科技
+[Legal]
+法律
+[Medical & Health Care]
+医疗及健康护理
+[Non-Profit Organization Management]
+非营利组织
+[Recreation, Travel & Entertainment]
+休闲, 旅游及娱乐
+[Service Industry]
+服务产业
+[Transportation]
+运输
+[60-above]
+60 岁以上
+[Open relationship]
+开放关系
+;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
+;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+您的文件传输被中断, 因为选定文件之一无法从磁盘读取. 可能已被删除或移走. 
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+您的文件接收被中断, 因为 Miranda 无法写入目标文件. 您可能正尝试保存至只读文件夹. 
+;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Add to server list]
+加至服务器列表
+[Show custom status details]
+显示自定义状态详细资料
+;file \protocols\IcqOscarJ\src\icq_opts.cpp
+[Display all problems]
+显示所有问题
+[Display problems causing possible loss of data]
+显示可能导致丢失资料的问题
+[Display explanations for disconnection]
+显示断线原因
+[Display problems requiring user intervention]
+显示需要用户介入的问题
+[Do not display any problems (not recommended)]
+不要显示任何问题 (不推荐)
+[System default codepage]
+系统默认代码页
+;file \protocols\IcqOscarJ\src\icq_popups.cpp
+[Sample Note]
+范例通告
+[Sample Warning]
+范例警告
+[Sample Error]
+范例错误
+[Sample Fatal]
+范例严重错误
+[Sample Spambot]
+范例滥发机器
+;file \protocols\IcqOscarJ\src\icq_proto.cpp
+[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+您尚未输入 ICQ 号码. \n请在选项->网络->ICQ 中配置并重试. 
+;file \protocols\IcqOscarJ\src\icq_server.cpp
+[Unable to connect to ICQ login server, SSL could not be negotiated]
+无法连接至 ICQ 登录服务器, SSL 无法通过
+[Unable to connect to ICQ login server]
+无法连接至 ICQ 登录服务器
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
+Miranda 无法分配端口以监听客户端之间直接 P2P 连接. 您可使用大部分 ICQ 网络功能, 但可能无法发送或接收文件. \n\n如果您装有防火墙, 可能会封锁 Miranda, 在此情况下您应该设置防火墙保持某些端口开放, 并在 菜单->选项->ICQ->网络里设定 Miranda 使用端口. 
+[Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
+连接失败. \n登录顺序未知原因失败. \n请稍后再试. 
+[Your connection with the ICQ server was abortively closed]
+您与 ICQ 服务器连接已被放弃性关闭
+;file \protocols\IcqOscarJ\src\icq_servlist.cpp
+[The contact's information was too big and was truncated.]
+联系人信息过大, 已被截短. 
+;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
+[NOT FOUND]
+找不到
+[ALREADY EXISTS]
+已存在
+[INVALID DATA]
+资料无效
+[LIST FULL]
+列表已满
+[FAILED]
+已失败
+[Select contacts you want to store on server.]
+请选择您想保存至服务器的联系人. 
+[Ready...]
+准备就绪...
+[Server rate warning -> slowing down the process.]
+服务器速率警告 -> 正在减慢处理. 
+[Adding group "%s"...]
+正在加入群组 "%s"...
+[Uploading %s...]
+正在上传 %s...
+[No upload group available]
+无可用上传群组
+[Deleting %s...]
+正在删除 %s...
+[Moving %s to group "%s"...]
+正在移动 %s 至 "%s" 群组...
+[Adding %s to visible list...]
+正在添加 %s 至可见列表...
+[Adding %s to invisible list...]
+正在添加 %s 至隐身列表...
+[Deleting %s from visible list...]
+正从可见列表删除 %s...
+[Deleting %s from invisible list...]
+正从隐身列表删除 %s...
+[Cleaning groups]
+正在清理群组
+[Updating group "%s"...]
+正在更新群组 "%s"...
+[Deleting group "%s"...]
+正在删除群组 "%s"...
+[All operations complete]
+所有操作已完成
+[You have to be online to sychronize the server-list !]
+您需要在线才能同步服务器列表! 
+;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[Taking a bath]
+正在洗澡
+[Drinking beer]
+正在喝啤酒
+[Thinking]
+思考中
+[Watching TV]
+正在看电视
+[Shooting]
+拍摄中
+[Having fun]
+玩乐中
+[Gaming]
+正在游乐
+[Studying]
+正在学习
+[Shopping]
+购物中
+[Feeling sick]
+身体不适
+[Surfing]
+沖浪中
+[Picnic]
+野餐
+[I'm high]
+情绪高涨
+[To be or not to be]
+生存还是毁灭
+[Watching pro7 on TV]
+正在看电视 pro7
+[Monkey]
+猴
+[Dog]
+狗
+[Writing]
+写入
+[%s Custom Status]
+%s 自定义状态
+;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
+[Greeting card:]
+贺年卡: 
+;file \protocols\IcqOscarJ\src\init.cpp
+[ICQ XStatus]
+ICQ 扩展状态
+;file \protocols\IcqOscarJ\src\log.cpp
+[ICQ Warning]
+ICQ 警告
+[ICQ Error]
+ICQ 错误
+[ICQ Fatal]
+ICQ 严重错误
+[The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
+服务器在规定时间内无应答, 可能暂时停机. 请稍后再试. 
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
+Miranda 无法解析服务器名为数字地址. 通常可能是由于突然丢失网络连接导致 (例如, 您的调制解调器已断线), 如果您使用代理服务器, 您可能需要使用 "菜单->选项->网络->通过代理服务器解析主机名" 选项. 
+[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
+代理服务器已拒绝您所提供的用户名和密码. 请在 "菜单->选项->网络" 中检查设置. 
+[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
+您尝试连接的服务器不存在. 请在 "菜单->选项->网络->ICQ" 中检查您的拼写. 
+[error]
+错误
+;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+[The file transfer was aborted by the other user.]
+文件传输已被其他用户取消. 
+[The file transfer failed: Proxy error]
+文件传输已失败: 代理服务器错误
+[The file transfer failed: Invalid request]
+文件传输已失败: 请求无效
+[The file transfer failed: Proxy unavailable]
+文件传输已失败: 代理服务器无法使用
+[Failed to Initialize File Transfer. No valid files were specified.]
+无法初始化文件传输. 尚未指定有效的文件. 
+[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
+单次传送文件过大. 大于 4GB 文件必须分别发送. 
+[Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
+无法初始化文件传输. 无法对应本地端口且文件代理服务器也无法使用. 
+[Connection lost during file transfer.]
+文件传输时丢失连接. 
+[File transfer negotiation failed for unknown reason.]
+文件传输交涉失败, 原因未知. 
+[The checksum of file "%s" does not match, the file is probably damaged.]
+文件 "%s" 校验值不符, 文件可能已损坏. 
+;file \protocols\IcqOscarJ\src\utilities.cpp
+;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+[GMT-12:00 Eniwetok; Kwajalein]
+GMT-12:00 埃尼威托克; 夸贾林环礁
+[GMT-11:00 Midway Island; Samoa]
+GMT-11:00 中途岛; 萨摩亚
+[GMT-10:00 Hawaii]
+GMT-10:00 夏威夷
+[GMT-9:00 Alaska]
+GMT-9:00 阿拉斯加
+[GMT-8:00 Pacific Time; Tijuana]
+GMT-8:00 美国西部标准时间; 提华纳
+[GMT-7:00 Arizona; Mountain Time]
+GMT-7:00 亚利桑那; 山地标准时间
+[GMT-6:00 Central Time; Central America; Saskatchewan]
+GMT-6:00 中部时间; 中美洲; 萨斯喀彻温
+[GMT-5:00 Eastern Time; Bogota; Lima; Quito]
+GMT-5:00 东部时间; 波哥大; 利马; 基多
+[GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
+GMT-4:00 大西洋时间; 圣地亚哥; 加拉加斯; 拉巴斯
+[GMT-3:30 Newfoundland]
+GMT-3:30 纽芬兰
+[GMT-3:00 Greenland; Buenos Aires; Georgetown]
+GMT-3:00 格林兰岛; 布宜诺斯艾利斯; 乔治敦
+[GMT-2:00 Mid-Atlantic]
+GMT-2:00 大西洋中部
+[GMT-1:00 Cape Verde Islands; Azores]
+GMT-1:00 佛得角群岛; 亚速尔群岛
+[GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
+GMT+0:00 伦敦; 都柏林; 爱丁堡; 里斯本; 卡萨布兰卡
+[GMT+1:00 Central European Time; West Central Africa; Warsaw]
+GMT+1:00  中央标准时间; 中西非; 华沙
+[GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
+GMT+2:00 耶路撒冷; 赫尔辛基; 哈拉雷; 开罗; 布加勒斯特; 雅典
+[GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
+GMT+3:00 莫斯科; 圣彼德堡; 奈洛比; 科威特; 巴格达
+[GMT+3:30 Tehran]
+GMT+3:00 德黑兰
+[GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat]
+GMT+4:00 巴库; 第比利斯; 埃里温; 阿布扎比; 马斯咯特
+[GMT+4:30 Kabul]
+GMT+4:30 喀布尔
+[GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
+GMT+5:00 加尔各答; 森奈; 孟买; 新德里; 叶卡捷林堡
+[GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
+GMT+6:00  阿斯塔纳; 达卡; 阿拉木图; 新西伯利亚; 斯里加亚渥登普拉
+[GMT+6:30 Rangoon]
+GMT+6:30 仰光
+[GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
+GMT+7:00 曼谷; 河内; 雅加达; 克拉斯诺亚尔斯克
+[GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing]
+GMT+8:00 佩斯; 台北; 新加坡; 香港; 北京
+[GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk]
+GMT+9:00 东京; 大阪; 汉城; 札幌; 雅库茨克
+[GMT+9:30 Darwin; Adelaide]
+GMT+9:30 达尔文; 阿德莱德
+[GMT+10:00 East Australia; Guam; Vladivostok]
+GMT+10:00 澳大利亚东部; 关岛; 符拉迪沃斯托克
+[GMT+11:00 Magadan; Solomon Is.; New Caledonia]
+GMT+11:00 马加丹; 所罗门群岛; 新喀里多尼亚
+[GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
+GMT+12:00 奥克兰; 惠灵顿; 斐济; 堪察加半岛; 马绍尔群岛
+[Personal]
+个人
+[First name]
+名字
+[Last name]
+姓氏
+[Street]
+街道
+[City]
+城市
+[ZIP/postcode]
+ZIP/邮政编码
+[Country]
+国家
+[Phone number]
+电话号码
+[Fax number]
+传真号码
+[Cellular number]
+手机号码
+[Personal Detail]
+个人资料
+[Year of birth]
+出生年份
+[Month of birth]
+出生月份
+[Day of birth]
+出生日期
+[Marital Status]
+婚姻状况
+[Spoken language 1]
+口语 1
+[Spoken language 2]
+口语 2
+[Spoken language 3]
+口语 3
+[Originally from]
+原籍
+[Level]
+等级
+[Institute]
+学院
+[Degree]
+学位
+[Graduation Year]
+毕业年份
+[Company name]
+公司名称
+[Company homepage]
+公司主页
+[Company street]
+公司街道
+[Company city]
+公司城市
+[Company state]
+公司州/县
+[Company phone]
+公司电话
+[Company fax]
+公司传真
+[Company ZIP/postcode]
+公司 ZIP/邮政编码
+[Company country]
+公司国家
+[Company department]
+公司部门
+[Company position]
+公司职位
+[Company industry]
+公司企业
+[Personal Interests]
+个人兴趣
+[Interest category 1]
+兴趣种类 1
+[Interest areas 1]
+兴趣领域1
+[Interest category 2]
+兴趣种类 2
+[Interest areas 2]
+兴趣领域 2
+[Interest category 3]
+兴趣种类 3
+[Interest areas 3]
+兴趣领域 3
+[Interest category 4]
+兴趣种类 4
+[Interest areas 4]
+兴趣领域 4
+;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
+[The password does not match your current password. Check Caps Lock and try again.]
+您所输入的密码与当前密码不符. 请检查 Caps Lock, 再试一次. 
+[Change ICQ Details]
+变更 ICQ 详细资料
+[The password does not match the password you originally entered. Check Caps Lock and try again.]
+您所输入的密码与原密码不符. 请检查 Caps Lock, 再试一次. 
+[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
+ICQ 服务器不支持大于 8 个字符密码. 请使用较短的密码. 
+;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
+[<unremovable once applied>]
+<应用后无法移除>
+[Unknown value]
+未知值
+[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
+您已在 ICQ 详细资料中做出一些改动, 但尚未保存至服务器. 您确定要关闭此对话框? 
+[Upload in progress...]
+上传进行中...
+[Upload complete]
+上传完成
+[Upload FAILED]
+上传失败
+;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
+[You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
+您尚未连接至 ICQ 网络. 必须上线后才能更新您在服务器上的资料
+;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
+;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
+[Enter a password for UIN %u:]
+请输入 UIN %u 密码: 
+;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+[ (DC Established)]
+ (已建立 DC)
+[ScreenName:]
+显示名: 
+[Member since:]
+会员加入日期: 
+[%s Details]
+%s 详细资料

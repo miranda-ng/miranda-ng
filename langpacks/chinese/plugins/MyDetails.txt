@@ -1,0 +1,114 @@
+﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.11
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+;file \plugins\MyDetails\res\resource.rc
+[Set My Nickname]
+设置我的昵称
+[RTL]
+由右至左
+[Align text to right]
+向右对齐文本
+[Auto-resize frame]
+重新设置外框大小
+[Use contact list smileys]
+使用联系人列表表情
+[Replace Smileys]
+替换表情
+[Resize Smileys]
+重置表情大小
+[Top:]
+顶端: 
+[Bottom:]
+底部: 
+[Left:]
+左: 
+[Right:]
+右: 
+[Custom size:]
+自定义大小: 
+[Allow it to grow]
+允许扩张
+[Use free space (under avatar) to other texts]
+使用空闲空间 (头像下方) 给其它文本
+[Show account name]
+显示账号名称
+[Set My Status Message for All Status]
+为所有状态设置我的状态消息
+[Status Message:]
+状态消息: 
+[Status popup]
+状态弹出窗口
+[&Offline]
+离线(&O)
+[On&line]
+在线(&L)
+[&Away]
+外出(&A)
+[&NA]
+没空(&N)
+[Occ&upied]
+忙碌(&U)
+[&DND]
+勿扰(&D)
+[&Free for chat]
+有空聊天(&F)
+[&Invisible]
+隐身(&I)
+[On the &Phone]
+接听电话(&P)
+[Out to &Lunch]
+外出用餐(&L)
+[Context popup]
+环境弹出窗口
+[Set My Avatar...]
+设置我的头像...
+[Set My Nickname...]
+设置我的昵称...
+[Set My Status Message...]
+设置我的状态消息...
+[Enable Listening To]
+启用正在聆听功能
+[Nick popup]
+昵称弹出窗口
+[Status message popup]
+状态消息弹出窗口
+[Avatar popup]
+头像弹出窗口
+[ListeningTo popup]
+正在聆听弹出窗口
+;file \plugins\MyDetails\src\data.cpp
+[<no status name>]
+<无状态名称>
+;file \plugins\MyDetails\src\frame.cpp
+[My Details]
+我的详细资料
+[Avatar Border]
+头像边框
+[Show My Details]
+显示我的详细资料
+[Enable Listening To for %s]
+启用 %s 正在聆听功能
+[Set My Avatar for %s...]
+设置我的 %s 头像...
+[Set My Nickname for %s...]
+设置我的 %s 昵称...
+[Set My Status Message for %s...]
+设置我的 %s 状态消息...
+[Hide My Details]
+隐藏我的详细资料
+;file \plugins\MyDetails\src\mydetails.cpp
+[Previous protocol]
+上一个协议
+[Next protocol]
+下一个协议
+[Set My Nickname for %s]
+设置我的 %s 昵称
+[Set My Status Message for %s]
+设置我的 %s 状态消息
+[Show next protocol]
+显示下一个协议
+;file \plugins\MyDetails\src\options.cpp

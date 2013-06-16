@@ -1,0 +1,155 @@
+﻿#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
+;============================================================
+;  File: Tipper.dll
+;  Plugin: Tipper
+;  Version: 2.1.0.4
+;  Authors: Scott Ellis, yaho
+;============================================================
+;file \plugins\TipperYM\res\resource.rc
+[Max width:]
+最大宽度: 
+[Max height:]
+最大高度: 
+[Show if list not focused]
+列表非焦点时显示
+[General padding:]
+常规补位: 
+[Hover time:]
+悬停时间: 
+[Status bar tips]
+状态栏提示
+[Labels:]
+标签: 
+[Values:]
+数值: 
+[Min width:]
+最小宽度: 
+[Min height:]
+最小高度: 
+[Text padding:]
+文本补位: 
+[Keep original avatar size]
+保持原头像大小
+[Substitution]
+替换
+[Contact protocol module]
+联系人协议模块
+[Module:]
+模块: 
+[Setting or prefix:]
+设置或前缀
+[Translation:]
+翻译: 
+[Item]
+项目
+[Value:]
+值: 
+[Draw a line above]
+在上面绘制横线
+[Value on a new line]
+数值放于新行
+[Substitutions]
+替换
+[Separator]
+分隔器
+[Enable SmileyAdd support]
+启用 SmileyAdd 支持
+[Status bar and tray tooltip]
+状态栏及托盘提示
+[Limit status messages in status bar and tray tooltips to:]
+限制状态栏状态信息及托盘提示为:
+[Hide offline protocols]
+隐藏离线协议
+;file \plugins\TipperYM\src\mir_smileys.cpp
+;file \plugins\TipperYM\src\options.cpp
+[You must enter a label]
+您必须输入标签
+[Invalid Substitution]
+替换无效
+[<No Label>]
+<无标签>
+[No icon]
+无图标
+[No title]
+无标题
+[Centre]
+中间
+[Max avatar size:]
+最大头像大小: 
+[Content]
+内容
+;file \plugins\TipperYM\src\options.h
+[Number of contacts]
+联系人数量
+[Protocol lock status]
+协议锁状态
+[Logon time]
+登录时间
+[Unread emails]
+未读邮件
+[Miranda uptime]
+运行时间
+[Clist event]
+联系人列表事件
+[Jabber activity]
+Jabber 活动
+[Client]
+客户端
+;file \plugins\TipperYM\src\popwin.cpp
+;file \plugins\TipperYM\src\preset_items.cpp
+[Sunrise:]
+日出: 
+[Sunset:]
+日落: 
+;file \plugins\TipperYM\src\skin_parser.cpp
+;file \plugins\TipperYM\src\tipper.cpp
+[Labels]
+标签
+[Values]
+数值
+;file \plugins\TipperYM\src\translations.cpp
+[WORD to status description]
+字至状态描述
+[DWORD timestamp to time]
+双字时间戳至时间
+[DWORD timestamp to time difference]
+双字时间戳至时间差
+[BYTE to Yes/No]
+字节至是/否
+[BYTE to Male/Female (ICQ)]
+字节至男/女 (ICQ)
+[WORD to country name]
+字至国家名
+[DWORD to ip address]
+双字至 IP 地址
+[<prefix>Day|Month|Year to date]
+<前缀>天|月|年至日期
+[<prefix>Day|Month|Year to age]
+<前缀>天|月|年至年龄
+[<prefix>Hours|Minutes|Seconds to time]
+<前缀>小时|分钟|秒至时间
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+<前缀>天|月|年|小时|分钟|秒至时间差
+[<prefix>Day|Month to days to next birthday]
+<前缀>天|月至下次生日天数
+[DWORD timestamp to time (no seconds)]
+双字时间戳至时间 (无秒)
+[<prefix>Hours|Minutes to time]
+<前缀>小时|分钟至时间
+[DWORD timestamp to date (short)]
+双字时间戳至日期 (短)
+[DWORD timestamp to date (long)]
+双字时间戳至日期 (长)
+[xStatus: empty xStatus name to default name]
+扩展状态: 空扩展状态名使用默认名称
+[DWORD seconds to time difference]
+双字秒至时间差
+[BYTE timezone to time]
+字节时间戳至时间
+[WORD to name of a day (0..6, 0 is Sunday)]
+字至星期名 (0..6, 0 为星期天)
+[WORD to name of a month (1..12, 1 is January)]
+字至月名 (1..12, 1 为一月)
+[BYTE to language (ICQ)]
+字节至语言 (ICQ)
+;file \plugins\TipperYM\src\translations.h

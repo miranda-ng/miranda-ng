@@ -1,0 +1,18 @@
+﻿#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
+;============================================================
+;  File: AutoRun.dll
+;  Plugin: AutoRun
+;  Version: 0.1.0.1
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)
+;============================================================
+[This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]
+此插件提供简便方法 启用/禁用 系统启动时执行 Miranda NG.
+;file \plugins\AutoRun\res\autorun.rc
+[Autorun]
+自动运行
+[Launch Miranda NG at system startup]
+系统启动时执行 Miranda NG
+[Note: At startup Miranda NG will use current profile]
+注意: 启动 Miranda NG 时将使用当前配置文件
+;file \plugins\AutoRun\src\main.cpp
+;file \plugins\AutoRun\src\stdafx.h

@@ -1,0 +1,615 @@
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+;file \protocols\IRCG\res\IRC.rc
+[&Del]
+&Törlés
+[only while connecting]
+csak csatlakozás közben
+[Force visible (-i)]
+Látható (-i) kényszerítése
+[Rejoin channel if kicked]
+Újracsatlakozás csatornához kirúgáskor
+[Rejoin channels on reconnect]
+Újracsatlakozás csatornákhoz újracsatlakozáskor
+[Disable tray balloon on error]
+Tálcabuborék kikapcsolása hibakor
+[Show addresses]
+Címek mutatása
+[Use server window]
+Szerverablak használata
+[Show server window on startup]
+Szerverablak mutatása indításkor
+[Automatically join on invite]
+Automatikus részvétel meghíváskor
+['Old style' mode changes]
+'Régi stílusú' mód váltás
+[Update online statuses for users]
+Elérhetõ állapotok frissítése felhasználóknak
+[Update statuses in channel nicklist]
+Állapotok frissítése csatorna becenévlistában
+[Internet address]
+Internet cím
+[Port range]
+Port terület
+[User ID (Ident)]
+Felhasználó ID (azonosító)
+[Full name (e-mail)]
+Teljes név (e-mail)
+[Server name]
+Szervernév
+[Alternative nick]
+Alternatív becenév
+[Ident]
+Behúzás
+[Default network]
+Alap hálózat
+[User info - Required]
+Felhasználó infók - Szükséges
+[Reconnect]
+Újracsatlakozás
+[Wait (s)]
+Várj (mp)
+[Retry count]
+Szám újrapróbálása
+[Fear the monkeys!!!]
+Rettegj a majmoktól!!!
+[Check every (s):]
+Összes ellenõrzése (s):
+[Don't check if more than (users):]
+Ne ellenõrizze ha (felhasználó) több, mint:
+[User information]
+Felhasználói információ
+[Userinfo]
+Felhasználó infók
+[&Refresh]
+&Frissítés
+[&Query]
+&Kérdõív
+[Channels]
+Csatornák
+[Away Info]
+Távol infó
+[The server returned the following information. Please note that this information might be misleading and/or falsified]
+A szerver az alábbi információt küldte. Ez az információ azonban félrevezetõ és/vagy téves lehet
+[CTCP information]
+CTCP információ
+[Perform]
+Elõadás
+[&Set]
+&Beállítás
+[Perform on event:]
+Elõadás eseménykor:
+[Scripting support]
+Szkript támogatás
+[Quit message:]
+Üzenet bezárása:
+[Server code page:]
+Szerver kódoldal:
+[Enable UTF8 autodetection]
+UTF-8 auto-felismerés bekapcsolása
+[Add server]
+Szerver hozzáadása
+[Channels on server]
+Csatornák szerveren
+[C&onnect]
+Cs&atlakozás
+[Hostmask]
+Gép álarc
+[&Clear all]
+Összes &ürítése
+[Online detection mode]
+Online találati mód
+[Wildcard enabled network search]
+Helyettesítõk használhatók hálózatkeresésnél
+[Bans]
+Tiltások
+[Invites]
+Meghívások
+[Excepts]
+Kivételek
+[Only Ops set topic]
+Csak az opok állíthatják a témát
+[No external messages]
+Nincs külsõ üzenet
+[Invite only]
+Meghívás csak
+[Moderated]
+Moderálva
+[Key:]
+Kulcs:
+[User limit:]
+Felhasználó korlát:
+[Secret]
+Titkos
+[Topic]
+Téma
+[User modes]
+Felhasználó módok
+[Channel modes]
+Csatorna módok
+[Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
+Használd a beállításokat a csatornamódok beállításához. Módosításhoz általában operátor vagy magasabb szükséges.
+[Strip colors]
+Színmentesítés
+[Send-ahead]
+Elõre küldés
+[Attempt reverse DCC (good if firewalled)]
+Fordított DCC megkísérlése (tûzfalnál jó)
+[everyone on the contact list]
+mindenki a partnerlistán
+[everyone]
+mindenki
+[Disconnect DCC chats when disconnecting from server]
+DCC csevegések megszakítása szerverrõl lecsatlakozáskor
+[Manually set external IP:]
+Külsõ IP beállítása kézzel:
+[Client-to-Client File Transfers]
+Kliens-kliens fájlátvitelek
+[Client-to-Client Protocol]
+Kliens-kliens protokoll
+[Client-to-Client Chats]
+Kliens-kliens csevegések
+[Send mode:]
+Küldési mód:
+[Packet size (b):]
+Csomag méret (b):
+[Get IP address from server]
+IP cím szervertõl
+[Auto-accept from:]
+Auto-elfogadás innen:
+[Send notice]
+Megjegyzés küldése
+[CTCP Chat Request]
+CTCP csevegés felkérés
+[Enable (*)]
+Bekapcsolás (*)
+[Ignore channel messages by default]
+Csatorna üzenetek alapért. elvetése
+[Ignore filetransfer requests]
+Fájlátviteli kérések elvetése
+[Ignore DCC Chat requests]
+DCC csevegés felkérések elvetése
+[Ignore DCC Chat requests from unknown contacts]
+DCC csevegés felkérések elvetés ismeretlen partnerektõl
+[Ignore users]
+Felhasználók elvetése
+[(*) Queries from users on your contactlist are never ignored]
+(*) Partnerlistán szereplõ felhasználók kérdõívei soha nincsenek elvetve
+[CTCP]
+CTCP
+[DCC]
+DCC
+[Ignore mask ( nick!user@host )]
+Álarc elvetése (becenév!felhasználó@gép )
+[Network (*)]
+Hálózat (*)
+[Ignore events]
+Események elvetése
+[(*) blank to set this mask for all networks]
+(*) ha üres, akkor minden hálózathoz ezt a maszkot állítja be
+[Alternate nick]
+Becenév váltakozása
+;file \protocols\IRCG\src\clist.cpp
+[CTCP chat request from %s]
+CTCP csevegési felkérés ettõl: %s
+;file \protocols\IRCG\src\commandmonitor.cpp
+[%s sets mode %s]
+%s %s módot állítja be
+[%s sets mode %s%s]
+%s %s%s módot állítja be
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+CTCP hiba: SÉrült CTCP parancs a következõtõl: %s!%s@%s. Lehetséges, hogy az irc kliensed irányításának átvételét kísérelte meg.
+[CTCP FINGER requested by %s]
+CTCP Mutató kérés általa: %s
+[CTCP VERSION requested by %s]
+CTCP Verzió kérés általa: %s
+[CTCP SOURCE requested by %s]
+CTCP Forrás kérés általa: %s
+[CTCP USERINFO requested by %s]
+CTCP Felhasználói infó kérés általa: %s 
+[CTCP PING requested by %s]
+CTCP Ping kérés általa: %s
+[CTCP TIME requested by %s]
+CTCP Idõ kérés általa: %s
+[DCC: Chat request from %s denied]
+DCC: Csevegési felkérés ettõl: %s megtagadva
+[DCC: File transfer request from %s denied]
+DCC: Fájlátviteli kérés ettõl: %s megtagadva
+[DCC: Reverse file transfer request from %s denied [No local IP]]
+DCC: Fordított fájlátviteli kérés ettõl: %s megtagadva [Nem helyi IP]
+[DCC ERROR: Malformed CTCP request from %s [%s]]
+DCC hiba: Sérült CTCP kérés általa: %s [%s]
+[DCC: File transfer resume request from %s denied]
+DCC: Fájlátvitel folytatási kérés ettõl: %s megtagadva 
+[CTCP %s requested by %s]
+CTCP %s kérés általa: %s
+[CTCP PING reply from %s: %u sec(s)]
+CTCP Ping válasz ettõl: %s: %u másodp.(mp)
+[CTCP %s reply from %s: %s]
+CTCP %s válasza erre: % ez: %s
+[Downloading list (%u%%) - %u channels]
+Lista letöltése (%u%%) - %s csatorna
+[Downloading list - %u channels]
+Lista letöltése - %u csatorna
+[Done: %u channels]
+Kész: %u csatorna
+[(probably truncated by server)]
+(valószínüleg a szerver által kerekítve)
+[Change nickname]
+Becenév módosítása
+[IRC error]
+IRC hiba
+[Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
+Kérlek add meg a gépálarcot (becenév!felhasználó@gép)\nMegjegyzés! Partnerlistán szereplõ partnerek soha nincsenek elvetve
+[Please enter the reason]
+Kérem adjon meg egy okot
+[Ban'n Kick]
+Kitiltás és kirúgás
+[Jerk]
+Tökfej
+[*Disconnected*]
+*Lecsatlakozva*
+[The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
+Az /AWAY használata a végrehajtás tárolóban korlátozva van\n mivel az IRC automatikusan elküldi ezt a parancsot.
+[IRC Error]
+IRC hiba
+;file \protocols\IRCG\src\input.cpp
+[The buddy check function is enabled]
+Barát ellenõrzési funkció bekapcsolva
+[The buddy check function is disabled]
+Barát ellenõrzési funkció kikapcsolva
+[Ignore system is enabled]
+Rendszer elvetése bekapcsolva
+[Ignore system is disabled]
+Rendszer elvetése kikapcsolva
+[%s on %s is now ignored (+%s)]
+%s itt:%s mostantól elvetve (+%s)
+[%s is not ignored now]
+%s most nincs elvetve
+[%s was not ignored]
+%s nem volt elvetve
+[Outgoing commands are shown]
+Kimenõ parancsok látszanak
+[Outgoing commands are not shown]
+Kimenõ parancsok nem látszanak
+[The time interval for the buddy check function is now at default setting]
+A barát ellenõrzési funkció mostantól alapértelmezett beállításon
+[The time interval for the buddy check function is now %u seconds]
+A barát ellenõrzési funkció idõintervalluma most %s másodperc
+[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
+Ez a parancs nem javasolt egy ekkora méretû hálózaton!\r\nValószínüleg magas CPU használatot fog eredményezni és/vagy magas sávszélességet\r\nnagyjából %u és %u közötti percet.\r\n\r\Folytatod?
+[IRC warning]
+IRC figyelmeztetés
+[Aborted]
+Megszakítva
+[CTCP %s request sent to %s]
+CTCP %s kérés küldése ennek:%s
+[DCC ERROR: Unable to automatically resolve external IP]
+DCC hiba: nem lehet automatikusan feloldani a külsõ IP-t
+[DCC CHAT request sent to %s]
+DCC Csevegési felkérés elküldve ennek: %s
+[DCC ERROR: Unable to bind port]
+DCC hiba: Porthoz csatlakozás sikertelen
+[Input command]
+Beviteli parancs
+[Please enter the reply]
+Kérlek add meg a választ
+;file \protocols\IRCG\src\irclib.cpp
+[DCC ERROR: Unable to bind local port for passive filetransfer]
+DCC hiba: Passzív fájlátvitelhez helyi porthoz csatlakozás sikertelen
+;file \protocols\IRCG\src\ircproto.cpp
+[DCC ERROR: No valid files specified]
+DCC hiba: Nincs érvényes fájl megadva
+[DCC reversed file transfer request sent to %s [%s]]
+DCC fordított fájlátviteli kérelem elküldve ennek: %s [%s]
+[DCC file transfer request sent to %s [%s]]
+DCC fájlátviteli kérés elküldve ennek: %s [%s]
+[DCC ERROR: Unable to bind local port]
+DCC hiba: Helyi porthoz csatlakozás sikertelen
+[The protocol is not online]
+Ez a protokoll nem elérhetõ
+[The dcc chat connection is not active]
+A dcc csevegési kapcsolat nem aktív
+[Please choose an IRC-network to go online. This network will be the default.]
+Kérlek válassz egy IRC-hálózatot a csatlakozáshoz. Ez lesz az alapért. hálózat.
+[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+Csatlakozás sikertelen! Nem töltöttél ki minden szükséges mezõt (Becenév, Felhasználó azonosító és m_név).
+;file \protocols\IRCG\src\options.cpp
+[Channel list]
+Csatorna lista
+[Quick connect]
+Gyors csatlakozás
+[Show channel]
+Csatorna megjelenítése
+[Incoming DCC Chat]
+Bejövõ DCC Csevegés
+[Logo (48x48)]
+Logó (48x48)
+[Cyrillic (Windows)]
+Cirill (Windows)
+[Cyrillic (KOI8R)]
+Cirill (KOI8R)
+[Please complete all fields]
+Kérlek tölts ki minden mezõt
+[Add a new network]
+Új hálózat hozzáadása
+[Edit this network]
+Aktuális hálózat szerkesztése
+[Delete this network]
+Aktuális hálózat törlése
+[Do you want to delete\r\n%s]
+Biztosan törlöd ezt:\r\n%s
+[Delete server]
+Szerver törlése
+[Edit server]
+Szerver szerkesztése
+[<Resolved IP: ]
+<Feloldott IP:
+[<Automatic>]
+<Automatikus>
+[<Local IP: ]
+<Helyi IP:
+[Click to set commands that will be performed for this event]
+Aktuális esemény parancsainak beállításához kattints
+[Click to delete the commands for this event]
+Aktuális esemény parancsainak törléséshez kattints
+[Default ANSI codepage]
+Alapért. ANSI kódlap
+[Add new ignore]
+Új elvetés hozzáadása
+[Edit this ignore]
+Aktuális elvetés szerkesztése
+[Delete this ignore]
+Aktuális elvetés törlése
+[Ignore mask]
+Álarc elvetése
+[Flags]
+Zászlók
+[Add ignore]
+Elvetés hozzáadása
+[Edit ignore]
+Elvetés szerkesztése
+[DCC'n CTCP]
+DCC'n CTCP
+;file \protocols\IRCG\src\output.cpp
+[WallOps from %s: ]
+Opok innen %s:
+[%s invites you to %s]
+%s meghív ide: %s
+[%s is away]
+%s állapota: távol
+[These are online: ]
+Ezek elérhetõek:
+[CTCP %s reply sent to %s]
+CTCP %s válasz küldve ennek: %s
+[CTCP %s reply sent to %s: %s]
+CTCP %s válasz: %s, küldve ennek: %s
+[Notice to %s: ]
+Jegyzet ennek: %s:
+;file \protocols\IRCG\src\services.cpp
+[&Quick connect]
+&Gyorscsatlakozás
+[&Join channel]
+&Csatlakozás csatornához
+[&Change your nickname]
+Becenév &váltása
+[Show the &list of available channels]
+Elérhetõ csatornák &listájának mutatása
+[&Show the server window]
+Szerverablak &mutatása
+[Channel &settings]
+Csatorna &beállítások
+[&WhoIs info]
+&WhoIs infó
+[Di&sconnect]
+Le&csatlakozás
+[&Add to ignore list]
+&Hozzáadás elvetési listához
+[%s (%s) is requesting a client-to-client chat connection.]
+%s (%s) kliens-kliens csevegési kapcsolatot kér.
+[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
+Kérlek add meg a gépálarcot (becenév!felhasználó@gép) \n MEGJEGYZÉS! A kapcsolati listádon szereplõ partnerek soha nincsenek elvetve
+[Join channel]
+Csatlakozás csatornához
+[Please enter a channel to join]
+Kérlek adj meg egy csatornát a csatlakozáshoz
+[Please select IRC network and enter the password if needed]
+Kérlek válassz IRC hálózatot és add meg a jelszót ha szükséges
+[Change nick name]
+Becenév váltása
+[Please enter a unique nickname]
+Kérlek adj meg egy egyedi becenevet
+[Please enter your authentification code]
+Kérlek add meg a hitelesítõ kódod
+[Authentificate nick]
+Hitelesített becenév
+[Are you sure you want to unregister your current nick?]
+Biztosan törölni akarod az aktuális beceneved?
+[Delete nick]
+Becenév törlése
+[Identify nick]
+Becenév azonosítása
+[Please enter your password]
+Kérlek add meg a jelszavad
+[Set new password]
+Új jelszó beállítása
+[Please enter desired languageID (numeric value, depends on server)]
+Kérlek add meg a kívánt nyelv azonosítóját (számérték, szervertõl függ)
+[Change language of NickServ messages]
+Becenév-szerver üzenetek nyelvének váltása
+[Please enter URL that will be linked to your nick]
+Kérlek add meg a becenevedhez kapcsolt URL-t
+[Set URL, linked to nick]
+Becenév URL-jének beállítása
+[Please enter your e-mail, that will be linked to your nick]
+Kérlek add meg a becenevedhez csatolni kívánt e-mail címet
+[Set e-mail, linked to nick]
+Becenév e-mailjének beállítása
+[Please enter some information about your nick]
+Kérlek adj némi információt a becenevedrõl
+[Set information for nick]
+Becenév infóinak beállítása
+[Please enter nick you want to link to your current nick]
+Kérlek add meg az aktuális becenevedhez kapcsolni kívánt becenevet
+[Link another nick to current nick]
+Aktuális becenévhez másik becenév kapcsolása
+[Please enter nick you want to unlink from your current nick]
+Kérlek add meg az aktuális becenevedrõl leválasztandó becenevet
+[Unlink another nick from current nick]
+Újabb becenév leválasztása jelenlegi becenévrõl
+[Please enter nick you want to set as your main nick]
+Kérlek add meg a fõ becenevedként használni kívánt becenevet
+[Set main nick]
+Fõ becenév beállítása
+[Kick]
+Kirúgás
+[Please enter the notice text]
+Kérlek add meg a jegyzetszöveget
+[Please enter the channel name to invite to]
+Kérlek add meg a csatornanevet a meghíváshoz
+[Invite to channel]
+Meghívás csatornába
+[NickServ]
+BecenévSzerver
+[Register nick]
+Becenév regisztrálása
+[Auth nick]
+Hiteles becenév
+[Remind password ]
+Jelszóemlékeztetõ
+[Set language]
+Nyelv beállítása
+[Set homepage]
+Honlap beállítása
+[Set e-mail]
+E-mail beállítása
+[Set info]
+Infó beállítása
+[Hide e-mail from info]
+E-mail elrejtése infóból
+[Show e-mail in info]
+E-mail mutatása infóban
+[Set security for nick]
+Biztonság beállítása becenévhez
+[Remove security for nick]
+Biztonság eltávolítása becenévrõl
+[Link nick to current]
+Becenév kapcsolása aktuálishoz
+[Unlink nick from current]
+Becenév leválasztása jelenlegirõl
+[List all your nicks]
+Összes beceneved listázása
+[List your channels]
+Csatornáid listázása
+[Kill unauthorized: off]
+Jogosulatlanok kirúgása: ki
+[Kill unauthorized: on]
+Jogosulatlanok kirúgása: be
+[Kill unauthorized: quick]
+Jogosulatlanok kirúgása: gyorsan
+[Hide nick from list]
+Becenév elrejtése a listából
+[Show nick to list]
+Becenév látható a listán
+[Show the server &window]
+&Szerverablak mutatása
+[&Leave the channel]
+A csatorna &elhagyása
+[&Invite to channel]
+&Meghívás csatornába
+[Send &notice]
+&Jegyzet küldése
+[Nickserv info]
+BecenévSzerver infó
+[Nickserv kill ghost]
+Becenév-kiszolgáló szellem kilövése
+[&Control]
+&Irányítás
+[Give Owner]
+Tulajdonos megadása
+[Take Owner]
+Tulajdonos felvétele
+[Give Admin]
+Admin megadása
+[Take Admin]
+Admin felvétele
+[Give &Op]
+&Mûvelet megadása
+[Take O&p]
+O&p felvétele
+[Give &Halfop]
+&Félmûvelet megadása
+[Take H&alfop]
+&Félop felvétele
+[Give &Voice]
+&Hang megadása
+[Take V&oice]
+&Hang felvétele
+[Ki&ck (reason)]
+Ki&rúgás (ok)
+[&Ban]
+&Tiltás
+[Ban'&n kick]
+Tiltás és &kirúgás
+[Ban'n kick (&reason)]
+Tiltás és kirúgás (&ok)
+[&Direct Connection]
+&Közvetlen kapcsolat
+[Request &Chat]
+&Csevegés kérése
+[Send &File]
+&Fájl küldése
+[Add to &ignore list]
+Hozzáadás elvetési &listához
+[&Add User]
+Felhasználó &hozzáadása
+[Connecting to]
+Csatlakozás ehhez:
+[Reconnecting to]
+Újracsatlakozás ehhez:
+;file \protocols\IRCG\src\tools.cpp
+;file \protocols\IRCG\src\userinfo.cpp
+;file \protocols\IRCG\src\windows.cpp
+[Channel]
+Csatorna
+[---- Not listed server ----]
+---- Nincs listázva a kiszolgáló ----
+[Type new server address here]
+Gépeld be az új szervercímet ide
+[Add ban/invite/exception]
+Tiltás/meghívás/kivétel hozzáadása
+[Edit selected ban/invite/exception]
+Kijelölt tiltás/meghívás/kivétel szerkesztése
+[Delete selected ban/invite/exception]
+Kijelölt tiltás/meghívás/kivétel törlése
+[Set these modes for the channel]
+Aktuális módok beállítása a csatornához
+[Set this topic for the channel]
+Aktuális téma beállítása csatornához
+[You have not applied all changes!\n\nApply before exiting?]
+Nincs minden változás alkalmazva!\n\nAlkalmazás kilépés elõtt?
+[Add ban]
+Tiltás hozzáadása
+[Add invite]
+Meghívás hozzáadása
+[Add exception]
+Kivétel hozzáadása
+[Please enter the hostmask (nick!user@host)]
+Kérlek add meg a gépálarcot (becenév!felhasználó@gép)
+[Edit ban]
+Tiltás szerkesztése
+[Edit invite?]
+Meghívás szerkesztése?
+[Edit exception?]
+Kivétel szerkesztése?
+[Remove ban?]
+Tiltás eltávolítása?
+[Remove invite?]
+Meghívás eltávolítása?
+[Remove exception?]
+Kivétel eltávolítása?

@@ -1,0 +1,1508 @@
+﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\JabberG\res\jabber.rc
+[Edit Note]
+编辑笔记
+[Tags:]
+标签:
+[User:]
+用户: 
+[Resource:]
+资源
+[Register new user]
+注册新用户
+[Use custom connection host and port:]
+使用自定义主机及端口: 
+[Go]
+前进
+[Search service]
+搜索服务
+[Roster Editor]
+名册编辑器
+[Roster editor\nView and modify your server-side contact list.]
+名册编辑\n查看及修改您的服务器端联系人列表.
+[Priority:]
+优先级
+[Use hostname as resource]
+使用主机名称作为资源
+[List of public servers]
+公共服务器列表
+[Use SSL]
+使用 SSL
+[Use TLS]
+使用 TLS
+[Unregister]
+解除注册
+[Manually specify connection host]
+自行指定连接主机
+[User directory:]
+用户目录: 
+[Language for human-readable resources:]
+供人阅读资源语言:  
+[Allow file sending through direct peer-to-peer connection]
+允许使用直接 P2P 连接发送文件
+[Specify external address:]
+指定外部地址: 
+[Allow file sending through bytestream proxy server:]
+允许使用代理服务器字节流发送文件: 
+[Hint:]
+提示: 
+[Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
+如果您发送文件时遇到麻烦, 请尝试取消选定以上所有选项. 但发送大型文件时可能出现问题. 
+[Jabber Account Registration]
+Jabber 帐号注册
+[Jabber Agents]
+Jabber 代理
+[Register/Search Jabber Agents]
+注册/搜索 Jabber 代理
+[Jabber server:]
+Jabber 服务器: 
+[Register...]
+注册...
+[Browse/Join chat room...]
+浏览/加入聊天室...
+[Search...]
+搜索...
+[Registered Jabber Transports]
+已注册的 Jabber 传输
+[Log on]
+登录
+[Log off]
+注销
+[Register with a new service...]
+注册新服务...
+[Command]
+命令
+[Jabber Form]
+Jabber 表单
+[Instruction:]
+操作指南: 
+[Submit]
+提交
+[Data form test]
+资料表单测试
+[Address1:]
+地址 1: 
+[Address2:]
+地址 2: 
+[ZIP:]
+邮政编码: 
+[Middle:]
+中间名: 
+[Jabber vCard: Add Email Address]
+Jabber vCard: 添加邮箱地址
+[Email address:]
+邮箱地址: 
+[Jabber vCard: Add Phone Number]
+Jabber vCard: 添加电话号码
+[Phone number:]
+电话号码: 
+[Pager]
+寻呼机
+[Text/Messaging]
+文本/通信
+[Modem]
+调制解调器
+[Load]
+加载
+[Current Password:]
+当前密码: 
+[New Password:]
+新密码: 
+[Confirm New Password:]
+确认新密码: 
+[Jabber Multi-User Conference]
+Jabber 多用户会议
+[Conference server:]
+会议服务器: 
+[Create or Join Groupchat]
+建立或加入群组聊天
+[Jabber Multi-User Conference\nCreate or join existing conference room.]
+Jabber 多用户会议\n建立或加入已存在的会议室.
+[Room:]
+房间: 
+[Recently visited chatrooms:]
+最近访问过的聊天室: 
+[Bookmarks]
+书签
+[JID List]
+JID 列表
+[Apply Filter]
+应用过滤器
+[Reset Filter]
+重置过滤器
+[Jabber Agent Registration]
+Jabber 代理注册
+[Register]
+注册
+[Invite Users]
+邀请用户
+[<room jid>\nSend groupchat invitation.]
+<房间 JID>\n发送群聊邀请.
+[Other JID:]
+其它 JID: 
+[Invitation reason:]
+邀请原因:
+[Groupchat Invitation]
+群组聊天邀请
+[<room jid>\nIncoming groupchat invitation.]
+<房间 JID>\n收到群聊邀请.
+[You are invited to conference room by]
+邀请您的会议室
+[with following reason:]
+以下原因:
+[Jabber Bookmarks]
+Jabber 书签
+[Server side bookmarks\nStore conference rooms and web links on server.]
+服务器端书签\n保存会议室及网络链接至服务器.
+[Bookmark Details]
+书签详细资料
+[Bookmark Type]
+书签类型
+[Transport]
+传输
+[Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
+自动加入 (必须启用 "Miranda 选项 - 自动加入书签" )
+[Room JID/ URL:]
+房间 JID/ URL: 
+[Bookmark Name:]
+书签名称: 
+[Privacy Lists]
+隐私列表
+[Privacy Lists\nFlexible way to configure visibility and more.]
+隐私列表\n灵活配置可见性及其它.
+[Lists:]
+列表: 
+[Rules:]
+规则: 
+[Simple Mode]
+简单模式
+[Advanced Mode]
+高级模式
+[Add list... (Ins)]
+加入列表...(Ins)
+[Activate (Space)]
+激活 (空格键)
+[Set as default (Ctrl+Space)]
+设为默认值 (Ctrl+空格键)
+[Remove list (Del)]
+移除列表 (Del)
+[Add rule (Ins)]
+添加规则 (Ins)
+[Edit rule... (F2)]
+编辑规则... (F2)
+[Move rule up (Alt+Up)]
+规则上移 (Alt+Up)
+[Move rule down (Alt+Down)]
+规则下移 (Alt+Down)
+[Remove rule (Del)]
+移除规则 (Del)
+[Privacy rule]
+隐私规则
+[If:]
+如果: 
+[Then:]
+那么: 
+[following stanza types:]
+以下节类型: 
+[Incoming presence]
+传入知会
+[Outgoing presence]
+发送知会
+[New privacy list name:]
+新增隐私列表名称: 
+[Enter the name of the new list:]
+输入新列表名称: 
+[Service Discovery]
+服务探索
+[View as tree]
+目录树方式查看
+[View as list]
+列表方式查看
+[Node:]
+节点: 
+[Account type:]
+帐号类型: 
+[Register account now]
+立即注册帐号
+[Jabber Account Information:]
+Jabber 帐号信息: 
+[Member Information]
+会员信息
+[Member Information\n<user id>]
+成员信息\n<用户 ID>
+[Role:]
+角色: 
+[Set role]
+设置角色: 
+[Affiliation:]
+联盟: 
+[Set affiliation]
+设置联盟
+[Chat options]
+聊天选项
+[Custom messages]
+自定义消息
+[Quit:]
+离开: 
+[Slap:]
+掌击: 
+[HTTP Authorization\nAccept or reject incoming request]
+HTTP 授权\n同意或拒绝收到的请求
+[Someone (maybe you) has requested the following file:]
+某人 (可能是您) 已请求此文件: 
+[Request was sent from JID:]
+请求由此 JID 发送: 
+[The transaction identifier is:]
+交易识别: 
+[Request method is:]
+请求方法: 
+[If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
+如果您希望确认此请求, 请点击授权. 否则请击拒绝. 
+[Authorize]
+授权
+[Deny]
+拒绝
+[Jabber Notebook]
+Jabber 笔记本
+[Jabber notebook\nStore notes on server and access them from anywhere.]
+Jabber 笔记本\n保存笔记至服务器以便随时随地访问.
+[XML Console]
+XML 控制台
+[Reset log]
+重置记录
+;file \protocols\JabberG\src\jabber.cpp
+[Frame title]
+框架标题
+[Frame text]
+框架文本
+[Jabber Activity]
+Jabber 活动
+[Jabber Mood]
+Jabber 心情
+;file \protocols\JabberG\src\jabber.h
+[/me slaps %s around a bit with a large trout]
+/me 用鳟鱼向 %s 打了一下
+;file \protocols\JabberG\src\jabber_adhoc.cpp
+[Error %s %s]
+错误 %s %s
+[Select Command]
+选择命令
+[Done]
+完成
+[In progress. Please Wait...]
+进行中. 请稍候...
+[Execute]
+运行
+[Requesting command list. Please wait...]
+正在请求命令列表. 请稍候...
+[Jabber Ad-Hoc commands at]
+Jabber 特别命令于
+[Sending Ad-Hoc command to]
+发送特别命令到
+;file \protocols\JabberG\src\jabber_agent.cpp
+[No message]
+无消息
+;file \protocols\JabberG\src\jabber_bookmarks.cpp
+[Bookmark Name]
+书签名称
+[Address (JID or URL)]
+地址 (JID 或 URL)
+[Conferences]
+会议
+;file \protocols\JabberG\src\jabber_byte.cpp
+;file \protocols\JabberG\src\jabber_caps.cpp
+;file \protocols\JabberG\src\jabber_captcha.cpp
+;file \protocols\JabberG\src\jabber_chat.cpp
+[Member]
+会员
+[Visitor]
+访客
+[Participant]
+参与者
+[Moderator]
+主持人
+[Moderators]
+管理员
+[User %s in now banned.]
+用户 %s 当前已被封锁. 
+[User %s changed status to %s with message: %s]
+用户 %s 已变更状态至 %s 并附消息: %s
+[User %s changed status to %s]
+用户 %s 已变更状态至 %s
+[Room configuration was changed.]
+房间设置已变更. 
+[Outcast]
+外部广播
+[Affiliation of %s was changed to '%s'.]
+%s 关联性已变更为 '%s'. 
+[Role of %s was changed to '%s'.]
+%s 角色已变更为 '%s'. 
+[because room is now members-only]
+因为房间现在仅限会员
+[user banned]
+用户已被封锁
+[Change &nickname]
+变更昵称(&N)
+[&Invite a user]
+邀请用户(&I)
+[&Roles]
+角色(&R)
+[&Participant list]
+参与者列表(&P)
+[&Moderator list]
+主持者列表(&M)
+[&Affiliations]
+联盟(&P)
+[&Member list]
+会员列表(&P)
+[&Admin list]
+管理员列表(&A)
+[&Owner list]
+所有者列表(&A)
+[Outcast list (&ban)]
+逐出者列表 (封锁)(&B)
+[&Room options]
+房间选项(&R)
+[View/change &topic]
+查看/变更主题(&T)
+[Add to &bookmarks]
+加至书签(&B)
+[&Configure...]
+设置(&C)...
+[&Destroy room]
+破坏房间(&D)
+[Lin&ks]
+链接(&K)
+[Copy room &JID]
+复制房间 JID (&J)
+[Copy room topic]
+复制房间主题
+[&Send presence]
+发送状态(&S)
+[&User details]
+用户详细资料(&U)
+[Member &info]
+会员资料(&I)
+[&Add to roster]
+添加至名册(&A)
+[&Copy to clipboard]
+复制到剪贴板(&C)
+[Invite to room]
+邀请至房间
+[Set &role]
+设置角色(&R)
+[&Visitor]
+访客(&V)
+[&Participant]
+参与者(&P)
+[&Moderator]
+管理员(&M)
+[Set &affiliation]
+设置联盟(&A)
+[&None]
+无(&N)
+[&Member]
+会员(&M)
+[&Admin]
+管理员(&A)
+[&Owner]
+所有者(&O)
+[Outcast (&ban)]
+逐出 (封锁)(&B)
+[Copy &nickname]
+复制昵称(&N)
+[Copy real &JID]
+复制真实 JID(&J)
+[Copy in-room JID]
+复制室内 JID
+[Real &JID: %s]
+真实 JID(&J): %s
+[Send groupchat invitation.]
+发送群聊邀请.
+[Member Info:]
+会员信息: 
+[Real JID not available]
+真实 JID 无法使用
+[Reason to kick]
+踢走原因
+[Reason to ban]
+封锁原因
+[Invite %s to %s]
+邀请 %s 至 %s
+[Set topic for]
+设置主题为
+[Change nickname in]
+变更昵称在
+[Reason to destroy]
+破坏原因
+;file \protocols\JabberG\src\jabber_console.cpp
+[Can't send data while you are offline.]
+当您离线时无法发送资料
+[Jabber Error]
+Jabber 错误
+[Outgoing XML parsing error]
+发送 XML 解析错误
+;file \protocols\JabberG\src\jabber_disco.cpp
+[request timeout.]
+请示超时.
+[Node hierarchy]
+节点等级制度
+[Node]
+节点
+[Navigate]
+导航
+[Browse all favorites]
+浏览所有我的最爱
+[Remove all favorites]
+移除所有我的最爱
+[Registered transports]
+已注册传输
+[Browse local transports]
+浏览本地传输
+[Browse chatrooms]
+浏览聊天室
+[Add to roster]
+添加至名册
+[Logon]
+登录
+[Logoff]
+注销
+;file \protocols\JabberG\src\jabber_disco.h
+[Identities]
+身份
+[category]
+分类
+[Category]
+分类
+[Supported features]
+支持功能
+[Info request error]
+请求信息错误
+[Items request error]
+请求项目错误
+;file \protocols\JabberG\src\jabber_form2.cpp
+;file \protocols\JabberG\src\jabber_groupchat.cpp
+[Failed to retrieve room list from server.]
+无法从服务器获取房间列表. 
+[No rooms available on server.]
+服务器无可用房间. 
+[Room list request timed out.]
+房间列表请求已超时. 
+[<no nick>]
+<无昵称>
+[Loading...]
+加载中...
+[Please wait for room list to download.]
+下载房间列表中, 请稍候. 
+[Please specify groupchat directory first.]
+请先指定群组聊天目录. 
+[Bookmarks...]
+书签...
+[has set the subject to:]
+已设置主题为:
+[Incoming groupchat invitation.]
+收到群聊邀请.
+;file \protocols\JabberG\src\jabber_icolib.cpp
+[transport]
+传输
+[Agents list]
+代理列表
+[Transports]
+传输
+[Personal vCard]
+个人 vCard
+[Convert to room]
+转换为房间
+[Login/logout]
+登录/注销
+[Resolve nicks]
+解析昵称
+[Send note]
+发送笔记
+[AdHoc Command]
+特别命令
+[OpenID Request]
+OpenID 请求
+[Discovery succeeded]
+探索成功
+[Discovery failed]
+探索失败
+[Discovery in progress]
+探索进行中
+[Apply filter]
+应用过滤器
+[Reset filter]
+重置过滤器
+[Navigate home]
+导航位置
+[Refresh node]
+刷新节点
+[Browse node]
+浏览节点
+[RSS service]
+RSS 服务
+[Storage service]
+贮存服务
+[Weather service]
+气象服务
+[Generic privacy list]
+一般隐私列表
+[Active privacy list]
+活动隐私列表
+[Default privacy list]
+默认隐私列表
+[Allow Messages]
+允许消息
+[Allow Presences (in)]
+允许存在信息 (进)
+[Allow Presences (out)]
+允许存在信息 (出)
+[Allow Queries]
+允许查询
+[Deny Messages]
+拒绝消息
+[Deny Presences (in)]
+拒绝存在信息 (进)
+[Deny Presences (out)]
+拒绝存在信息 (出)
+[Deny Queries]
+拒绝查询
+[Dialogs]
+对话框
+[Discovery]
+探索
+;file \protocols\JabberG\src\jabber_iqid.cpp
+[Jabber Authentication]
+Jabber 认证
+[Registration successful]
+注册成功
+[Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
+密码已成功变更. 请不要忘记在 Jabber 协议选项中更新您的密码. 
+[Password cannot be changed.]
+密码无法变更. 
+[Jabber Bookmarks Error]
+Jabber 书签错误
+;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[%s, %d items (%s)]
+%s, %d 项 (%s)
+[Voice List]
+语音列表
+[Member List]
+会员列表
+[Moderator List]
+维护者列表
+[Ban List]
+封锁列表
+[Admin List]
+管理员列表
+[Owner List]
+所有者列表
+[Removing]
+正在移除
+;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+[Http authentication request received]
+已接收 Http 认证请求
+;file \protocols\JabberG\src\jabber_menu.cpp
+[Add to Bookmarks]
+加至书签
+[Commands]
+命令
+[Send Note]
+发送笔记
+[Send Presence]
+发送状态
+[Jabber Resource]
+Jabber 资源
+[Last Active]
+最后活动的
+[Server's Choice]
+服务器的选择
+[&Convert to Contact]
+转换为联系人(&C)
+[&Convert to Chat Room]
+转换为聊天室(&C)
+[Registered Transports]
+已注册传输
+[Local Server Transports]
+本地服务器传输
+[Browse Chatrooms]
+浏览聊天室
+[Create/Join groupchat]
+建立/加入群组聊天
+[Roster editor]
+名册编辑器
+[Resource priority]
+资源优先级
+[Resource priority [%d]]
+资源优先级 [%d]
+[Join conference]
+加入会议
+[Open bookmarks]
+打开地址薄
+[Privacy lists]
+隐私名单
+[Service discovery]
+服务探索
+[Last active]
+最后活动的
+[No activity yet, use server's choice]
+尚无操作, 使用服务器的选择
+[Highest priority (server's choice)]
+最高优先级 (服务器的选择)
+;file \protocols\JabberG\src\jabber_message_handlers.cpp
+;file \protocols\JabberG\src\jabber_misc.cpp
+[Both]
+两者
+;file \protocols\JabberG\src\jabber_notes.cpp
+[Incoming note from %s]
+传入笔记从 %s
+[Send note to %s]
+发送笔记至 %s
+[From: %s]
+从: %s
+[All tags]
+所有标签
+[Notes are not saved, close this window without uploading data to server?]
+笔记尚未保存, 关闭此窗口将不再上传数据至服务器?
+[Incoming note]
+传入笔记
+;file \protocols\JabberG\src\jabber_opt.cpp
+[Afar]
+阿发尔
+[Abkhazian]
+阿布哈西亚语
+[Akan]
+库阿语
+[Amharic]
+阿姆哈拉语
+[Aragonese]
+阿拉贡语
+[Assamese]
+阿萨姆语
+[Avaric]
+阿法语
+[Avestan]
+阿维斯陀语
+[Aymara]
+艾马拉语
+[Bashkir]
+巴什基尔语
+[Bambara]
+班巴拉语
+[Basque]
+巴斯克语
+[Belarusian]
+白俄罗斯语
+[Bengali]
+孟加拉语
+[Bihari]
+比哈尔语
+[Bislama]
+比斯拉马语
+[Breton]
+布列塔尼语
+[Catalan; Valencian]
+加泰隆尼亚语; 巴伦西亚语
+[Chechen]
+车臣语
+[Church Slavic; Old Slavonic]
+古教会斯拉夫语; 古斯拉夫语
+[Chuvash]
+楚瓦什语
+[Cornish]
+康沃尔语
+[Corsican]
+科西嘉方言
+[Cree]
+克里语
+[Divehi; Dhivehi; Maldivian]
+迪维希语; 马尔代夫语
+[Dutch; Flemish]
+荷兰语; 佛兰芒语
+[Dzongkha]
+宗卡语
+[Ewe]
+埃维语
+[Faroese]
+法罗语
+[Fijian]
+斐济语
+[Western Frisian]
+弗里西亚语
+[Fulah]
+富拉语
+[Georgian]
+格鲁吉亚语
+[Gaelic; Scottish Gaelic]
+戈伊德尔语族; 苏格兰语
+[Irish]
+爱尔兰语
+[Galician]
+加利西亚语
+[Manx]
+马恩岛语
+[Greek, Modern (1453-)]
+希腊语, 近代 (1453-)
+[Guarani]
+瓜拉尼语
+[Haitian; Haitian Creole]
+海地语; 海地克里奥尔语
+[Hausa]
+豪萨语
+[Herero]
+赫雷罗语
+[Hiri Motu]
+希里莫图语
+[Igbo]
+伊博语
+[Ido]
+伊多语
+[Sichuan Yi]
+四川彝语
+[Inuktitut]
+因纽特语
+[Interlingue]
+国际语
+[Interlingua (International Auxiliary Language Association)]
+国际语 (国际辅助语言协会)
+[Inupiaq]
+印努皮耶喀语
+[Javanese]
+爪哇语
+[Kalaallisut; Greenlandic]
+格陵兰语
+[Kannada]
+坎纳达语
+[Kashmiri]
+克什米尔语
+[Kanuri]
+卡努里语
+[Kazakh]
+哈萨克语
+[Central Khmer]
+中高棉语
+[Kikuyu; Gikuyu]
+基库尤语
+[Kinyarwanda]
+基尼阿万达语
+[Kirghiz; Kyrgyz]
+吉尔吉斯语
+[Komi]
+科米语
+[Kongo]
+刚果语
+[Kuanyama; Kwanyama]
+宽亚玛语
+[Latin]
+拉丁语
+[Limburgan; Limburger; Limburgish]
+林堡语
+[Lingala]
+林格拉语
+[Luxembourgish; Letzeburgesch]
+卢森堡语
+[Luba-Katanga]
+卢巴-加丹加语
+[Ganda]
+干达语
+[Marshallese]
+马绍尔语
+[Malayalam]
+马拉雅拉姆语
+[Maori]
+毛利语
+[Marathi]
+马拉地语
+[Malagasy]
+马达加斯加语
+[Maltese]
+马耳他语
+[Moldavian]
+摩尔多瓦语
+[Navajo; Navaho]
+纳瓦霍语
+[Ndebele, South; South Ndebele]
+恩德贝勒语, 南; 南恩德贝勒语
+[Ndebele, North; North Ndebele]
+恩德贝勒语, 北; 北恩德贝勒语
+[Ndonga]
+恩东加语
+[Nepali]
+尼泊尔语
+[Norwegian Nynorsk; Nynorsk, Norwegian]
+新挪威语; 挪威语
+[Chichewa; Chewa; Nyanja]
+齐切瓦语; 切瓦语; 尼昂加语
+[Ojibwa]
+奥吉布瓦语
+[Oriya]
+奥里亚语
+[Oromo]
+奥罗莫语
+[Ossetian; Ossetic]
+奥塞提语
+[Panjabi; Punjabi]
+旁遮普语
+[Pali]
+巴利语
+[Pushto]
+普什图语
+[Quechua]
+克丘亚语
+[Romansh]
+罗曼什语
+[Rundi]
+克伦地语
+[Sango]
+桑戈语
+[Sanskrit]
+梵文
+[Sinhala; Sinhalese]
+僧伽罗语
+[Northern Sami]
+北萨莫斯语
+[Samoan]
+萨摩亚语
+[Shona]
+绍纳语
+[Sotho, Southern]
+索托语, 南索托语
+[Spanish; Castilian]
+西班牙语; 卡斯提尔语
+[Sardinian]
+萨丁尼亚语
+[Swati]
+斯瓦特语
+[Sundanese]
+巽他语
+[Tahitian]
+塔希提语
+[Telugu]
+泰卢固语
+[Tajik]
+塔吉克语
+[Tibetan]
+藏语
+[Tigrinya]
+提格里尼亚语
+[Tonga (Tonga Islands)]
+汤加语 (汤加群岛)
+[Tswana]
+茨瓦纳语
+[Tsonga]
+宗加语
+[Turkmen]
+土库曼语
+[Twi]
+契维语
+[Uighur; Uyghur]
+维吾尔语
+[Uzbek]
+乌兹别克语
+[Venda]
+文达语
+[Walloon]
+瓦隆语
+[Wolof]
+沃洛夫语
+[Xhosa]
+科萨语
+[Zhuang; Chuang]
+壮语
+[Zulu]
+祖鲁语
+[These changes will take effect the next time you connect to the Jabber network.]
+这些设置将于您下次连接至 Jabber 网络时生效. 
+[Jabber Protocol Option]
+Jabber 协议选项
+[Confirm password]
+确认密码
+[Passwords do not match.]
+密码不匹配.
+[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
+此项操作将删除您的帐号, 名册及其它保存于服务器的信息. 您准备好要这样做吗? 
+[Account removal warning]
+帐号移除警告
+[You can change your password only when you are online]
+当您在线时可修改您的密码
+[You must be online]
+您必须在线
+[Log chat state changes]
+记录聊天状态变更
+[Log presence subscription state changes]
+记录出现订阅状态变更
+[Log presence errors]
+记录出现错误
+[Enable user moods receiving]
+启用接收用户心情
+[Enable user tunes receiving]
+启用接收用户歌曲
+[Enable user activity receiving]
+启用用户活动接受
+[Receive notes]
+收到笔记
+[Automatically save received notes]
+自动保存收到笔记
+[Server options]
+服务器选项
+[Disable SASL authentication (for old servers)]
+禁用 SASL 认证 (针对旧服务器)
+[Enable stream compression (if possible)]
+启用流压缩 (如可用)
+[Enable remote controlling (from another resource of same JID only)]
+启用远程控制 (仅从相同 JID 其它资源)
+[Show transport agents on contact list]
+联系人列表中显示传输代理
+[Automatically add contact when accept authorization]
+接受授权时自动添加联系人
+[Automatically accept authorization requests]
+自动接受授权请求
+[Fix incorrect timestamps in incoming messages]
+修正传入消息不正确的时间戳
+[Disable frame]
+禁用框架
+[Enable XMPP link processing (requires Association Manager)]
+启用 XMPP 链接处理 (需关联管理插件)
+[Allow servers to request version (XEP-0092)]
+允许服务器请求版本 (XEP-0092)
+[Show information about operating system in version replies]
+在版本回复中显示操作系统信息
+[Accept only in band incoming filetransfers (don't disclose own IP)]
+仅接收内送的文件传输 (不透露己方 IP)
+[Accept HTTP Authentication requests (XEP-0070)]
+接收 HTTP 认证请求 (XEP-0070)
+[Autoaccept multiuser chat invitations]
+自动接受多用户聊天邀请
+[Automatically join bookmarks on login]
+登录时自动添加书签
+[Automatically join conferences on login]
+在登录时自动加入会议
+[Hide conference windows at startup]
+在启动时隐藏会议窗口
+[Do not show multiuser chat invitations]
+请勿显示多用户聊天邀请
+[Log events]
+记录事件
+[Ban notifications]
+封锁通知
+[Room configuration changes]
+房间设置变更
+[Affiliation changes]
+关联性变更
+[Role changes]
+角色变更
+[Nick Name]
+呢称
+[Subscription]
+订阅
+[Uploading...]
+上传中...
+[Public XMPP Network]
+公共 XMPP 网络
+[Secure XMPP Network]
+安全 XMPP 网络
+[Secure XMPP Network (old style)]
+安全 XMPP 网络 (旧式)
+[Facebook Chat]
+Facebook 聊天
+[Some changes will take effect the next time you connect to the Jabber network.]
+某些变更将于您下次连接至 Jabber 网络时生效. 
+;file \protocols\JabberG\src\jabber_password.cpp
+[Set New Password for]
+设置新密码给
+[New password does not match.]
+新密码不匹配. 
+[Current password is incorrect.]
+当前密码不正确. 
+;file \protocols\JabberG\src\jabber_privacy.cpp
+[Warning: privacy lists were changed on server.]
+警告: 私密列表已在服务器变更. 
+[Error occurred while applying changes]
+应用变更时发生错误
+[Privacy lists successfully saved]
+隐私列表保存为功
+[Privacy list %s set as active]
+隐私列表 %s 已激活
+[Active privacy list successfully declined]
+活动隐私列表已成功拒绝
+[Error occurred while setting active list]
+设置活动列表时发生错误
+[Privacy list %s set as default]
+隐私列表 %s 已设为默认值
+[Default privacy list successfully declined]
+默认隐私列表已成功拒绝
+[Error occurred while setting default list]
+设置默认列表时发生错误
+[Simple mode]
+精简模式
+[Advanced mode]
+高级模式
+[Add JID]
+添加 JID
+[Activate]
+激活
+[Set default]
+设为默认值
+[Edit rule]
+编辑规则
+[Add rule]
+添加规则
+[Delete rule]
+删除规则
+[Move rule up]
+规则上移
+[Move rule down]
+规则下移
+[Add list...]
+添加列表...
+[Remove list]
+移除列表
+[** Default **]
+** 默认值 **
+[** Subsription: both **]
+** 订阅: 两者 **
+[** Subsription: to **]
+** 订阅: 到 **
+[** Subsription: from **]
+** 订阅: 从 **
+[** Subsription: none **]
+** 订阅: 无 **
+[allow ]
+允许
+[deny ]
+拒绝
+[all.]
+全部. 
+[messages]
+消息
+[ and ]
+ 及
+[incoming presences]
+传入存在信息
+[outgoing presences]
+发出存在信息
+[queries]
+查询
+[Else ]
+否则
+[If jabber id is ']
+如果 jabber id 为 '
+[ (nickname: ]
+ (昵称: 
+[If group is ']
+如果群组为 '
+[If subscription is ']
+如果订阅状态为 '
+[then ]
+时, 
+[ (act., def.)]
+ (使用, 默认)
+[ (active)]
+ (使用中)
+[ (default)]
+ (默认值)
+[Ready.]
+就绪. 
+[Privacy lists are not saved, discard any changes and exit?]
+隐私列表尚未保存, 放弃所有变更并离开? 
+[Please save list before activating]
+激活前请先保存列表
+[First, save the list]
+首先, 保存列表
+[Please save list before you make it the default list]
+在您将其标示为默认列表前请先保存此列表
+[Unable to save list because you are currently offline.]
+因为您现在离线所以无法保存列表. 
+[List Editor...]
+列表编辑器...
+;file \protocols\JabberG\src\jabber_proto.cpp
+;file \protocols\JabberG\src\jabber_rc.cpp
+[Command completed successfully]
+命令已成功完成
+[Error occured during processing command]
+处理命令期间发生错误
+[Set status]
+设置状态
+[Set options]
+设置选项
+[Forward unread messages]
+转发未读消息
+[Leave groupchats]
+离开群聊
+[Quit Miranda NG]
+退出 Miranda NG
+[Change Status]
+变更状态
+[Choose the status and status message]
+选择状态及状态信息
+[Extended Away (N/A)]
+扩展离开 (不适用)
+[Do Not Disturb]
+请勿打扰
+[Priority]
+优先级
+[Change global status]
+改变全局状态
+[Set Options]
+设置选项
+[Set the desired options]
+设置为理想选项
+[Automatically Accept File Transfers]
+自动接受文件传输
+[Disable remote controlling (check twice what you are doing)]
+禁用远程控制 (请复查您在做什么)
+[There is no messages to forward]
+此处无消息需转发
+[Forward options]
+转发选项
+[%d message(s) to be forwarded]
+%d 消息被转发
+[Mark messages as read]
+标记消息已读
+[%d message(s) forwarded]
+%d 消息转发
+[Workstation successfully locked]
+工作站成功锁定
+[Error %d occured during workstation lock]
+工作站锁定后发生错误 %d
+[Confirmation needed]
+确认需要
+[Please confirm Miranda NG shutdown]
+请确认 Miranda NG 关闭
+[There is no groupchats to leave]
+无群聊可退出
+[Choose the groupchats you want to leave]
+选择您想离开的群聊
+;file \protocols\JabberG\src\jabber_search.cpp
+[Error %s %s\r\nPlease select other server]
+错误 %s %s\r\n请选择其它服务器
+[Error Unknown reply recieved\r\nPlease select other server]
+错误收到未知回复\r\n请选择其它服务器
+[Error %s %s\r\nTry to specify more detailed]
+错误 %s %s\r\n尝试指定更多详细资料
+[Search error]
+搜索错误
+[Select/type search service URL above and press <Go>]
+在上面选择/输入搜索服务 URL 然后按 <前进>
+[Please wait...\r\nConnecting search server...]
+请稍候...\r\n正在连接搜索服务器...
+[You have to be connected to server]
+您需要连接至服务器
+;file \protocols\JabberG\src\jabber_svc.cpp
+[closed chat session]
+关闭聊天会话
+[sent subscription request]
+已发送订阅请求
+[approved subscription request]
+已核准订阅请求
+[declined subscription]
+已被拒订阅请求
+[sent error presence]
+已发送出现错误
+[sent unknown presence type]
+已发送未知出现类型
+;file \protocols\JabberG\src\jabber_thread.cpp
+[Error: Not enough memory]
+错误: 内存不足
+[Error: Cannot connect to the server]
+错误: 无法连接至服务器
+[Error: Connection lost]
+错误: 连接丢失
+[Requesting registration instruction...]
+正在请求注册指导...
+[Message redirected from: %s\r\n%s]
+消息已重定向: %s\r\n%s
+[Sending registration information...]
+正在发送注册信息...
+;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Software]
+软件
+[Idle since]
+闲置于
+[Client capabilities]
+客户端能力
+[Software information]
+软件信息
+[Operating system]
+操作系统
+[Operating system version]
+操作系统版本
+[Software version]
+软件版本
+[Miranda NG core version]
+Miranda NG 核心版本
+[Unicode build]
+Unicode 版本
+[Alpha build]
+Alpha 版本
+[Debug build]
+Debug 版本
+[Tune]
+曲调
+[Last logoff time]
+上次注销时间
+[Uptime]
+运行时间
+[Logoff message]
+注销消息
+[<no information available>]
+<无可用信息>
+[Last active resource]
+最后活动资源
+[Please switch online to see more details.]
+请切换为在线以查看更多详细资料. 
+[Copy only this value]
+仅复制此值
+[format]
+格式
+[Unknown format]
+未知格式
+[<Photo not available while offline>]
+<离线时无法使用照片>
+[<No photo>]
+<无照片>
+[Photo]
+照片
+;file \protocols\JabberG\src\jabber_util.cpp
+[Redirect]
+重定向
+[Bad request]
+错误请求
+[Unauthorized]
+未经授权
+[Payment required]
+支付要求
+[Forbidden]
+被禁止的
+[Not found]
+未找到
+[Not allowed]
+不允许
+[Not acceptable]
+不能接受
+[Registration required]
+注册所需
+[Request timeout]
+请求超时
+[Conflict]
+冲突
+[Internal server error]
+内部服务器错误
+[Not implemented]
+未实现
+[Remote server error]
+远程服务器错误
+[Service unavailable]
+服务不可用
+[Remote server timeout]
+远程服务器超时
+[Unknown error message]
+未知错误消息
+[Advanced Status]
+高级状态
+[Set mood...]
+设置心情...
+[Set activity...]
+设为活动...
+;file \protocols\JabberG\src\jabber_vcard.cpp
+[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
+仅支持发送小于 40KB 的 JPG, GIF, 和 BMP 图片文件. 
+[Jabber vCard: Edit Email Address]
+Jabber vCard: 编辑邮箱地址
+[Jabber vCard: Edit Phone Number]
+Jabber vCard: 编辑电话号码
+;file \protocols\JabberG\src\jabber_ws.cpp
+;file \protocols\JabberG\src\jabber_xstatus.cpp
+[Afraid]
+恐惧
+[Amazed]
+吃惊
+[Amorous]
+易怒
+[Annoyed]
+烦闷
+[Anxious]
+焦虑
+[Aroused]
+鼓励
+[Ashamed]
+惭愧
+[Bored]
+无聊
+[Brave]
+勇敢
+[Calm]
+平静
+[Cautious]
+谨慎
+[Cold]
+冷酷
+[Confident]
+自信
+[Confused]
+混乱
+[Contemplative]
+沉思
+[Contented]
+满足
+[Cranky]
+怪癖
+[Creative]
+创作
+[Curious]
+好奇
+[Dejected]
+气馁
+[Disgusted]
+厌恶
+[Dismayed]
+惊恐
+[Distracted]
+分神
+[Embarrassed]
+窘迫
+[Envious]
+妒忌
+[Excited]
+兴奋
+[Flirtatious]
+调情
+[Frustrated]
+失望
+[Grateful]
+感激
+[Grieving]
+伤心
+[Grumpy]
+暴躁
+[Guilty]
+内疚
+[Happy]
+开心
+[Hopeful]
+希望
+[Hot]
+热情
+[Humbled]
+谦逊
+[Humiliated]
+丢脸
+[Hungry]
+饥饿
+[Hurt]
+受伤
+[Impressed]
+影响
+[In awe]
+敬畏
+[In love]
+恋爱
+[Indignant]
+愤慨
+[Interested]
+关注
+[Intoxicated]
+兴奋
+[Invincible]
+坚强
+[Jealous]
+妒忌
+[Lonely]
+寂寞
+[Lost]
+迷失
+[Lucky]
+幸运
+[Mean]
+卑贱
+[Moody]
+情绪化
+[Nervous]
+紧张
+[Neutral]
+中立
+[Offended]
+冒犯
+[Outraged]
+愤慨
+[Playful]
+戏谑
+[Proud]
+自豪
+[Relaxed]
+放松
+[Relieved]
+放心
+[Remorseful]
+悔恨
+[Restless]
+焦虑
+[Sad]
+伤心
+[Sarcastic]
+讽刺
+[Satisfied]
+满意
+[Serious]
+认真
+[Shocked]
+震憾
+[Shy]
+害羞
+[Sleepy]
+欲睡
+[Spontaneous]
+本能
+[Stressed]
+紧张
+[Strong]
+坚强
+[Surprised]
+惊喜
+[Thankful]
+欣慰
+[Thirsty]
+口渴
+[Undefined]
+未定义
+[Weak]
+虚弱
+[Worried]
+担心
+[Mood: %s]
+心情: %s
+[Set Mood]
+设置心情
+[Doing chores]
+做家务
+[Drinking]
+饮茶
+[Exercising]
+锻炼
+[Grooming]
+梳洗
+[Having appointment]
+有约会
+[Talking]
+谈论
+[on the phone]
+接听电话
+[Traveling]
+旅行
+[Activity: %s]
+活动: %s
+[Set Activity]
+设置活动
+[Moods]
+心情
+[Activities]
+活动
+;file \protocols\JabberG\src\ui_utils.cpp
+[Set filter...]
+设置过滤器...

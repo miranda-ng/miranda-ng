@@ -1,0 +1,287 @@
+﻿#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
+;============================================================
+;  File: Variables.dll
+;  Plugin: Variables
+;  Version: 0.2.3.9
+;  Authors: P Boon
+;============================================================
+;file \plugins\Variables\res\Variables.rc
+[Parse options]
+解析选项
+[Automatically strip "end of line" characters]
+自动去除 "换行" 符
+[Automatically strip white space]
+自动去除空白
+[Automatically strip all non-parsing characters]
+自动去除所有非解析字符
+[Test area]
+测试区域
+[Click on the help button to get more information]
+点击帮助按钮以获得更多信息
+[Parse the following string at startup]
+启动时解析以下字符串
+[Auto parse]
+自动分析
+[Parse]
+解析
+[Please enter your input below]
+请您于下方输入
+[Don't set a contact]
+不要设置联系人
+[Set to the following contact]
+设为以下联系人
+[The token %subject% is translated into a special contact, which depends on the situation in which the string is parsed. Use this dialog to simulate the contact to which %subject% translates. An example for using this token is: !cinfo(%subject%,display).]
+标记 %subject% 转化为一个特殊联系人, 视该字符串解析情况而定. 使用此对话框将 %subject% 转化为模拟联系人. 一个使用此标记示例: !cinfo(%subject%,display).
+[The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
+标记 %extratext% 根据字符解析情况转化为字符串. 使用此对话框将 %extratext% 转化为模拟字符串.
+[The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
+变量插件转化不同标记至某一数值. 一个示例: 我正在运行 Miranda %mirandaversion%. 子串 %mirandaversion% 被转化为正确的版本号. 下方列表显示了所有可用标记.
+;file \plugins\Variables\src\help.cpp
+[Token]
+标记
+[Tokens]
+标记
+[Input]
+输入
+[Variables Help]
+变量帮助
+;file \plugins\Variables\src\options.cpp
+;file \plugins\Variables\src\parse_alias.cpp
+[stores y as alias named x]
+存储 y 别名为 x
+;file \plugins\Variables\src\parse_external.cpp
+[Stopped]
+停止
+[External Applications]
+外部应用
+[retrieves song name of the song currently playing in Winamp]
+获取 Winamp 当前播放曲名
+[retrieves current Winamp state (Playing/Paused/Stopped)]
+获取 Winamp 当前状态 (播放/暂停/停止)
+;file \plugins\Variables\src\parse_inet.cpp
+[Internet Related]
+网络相关
+[converts each non-html character into hex format]
+转换每个非 Html 字符至十六进制格式
+[converts each hex value into non-html character]
+转换每个十六进制值至非 Html 字符
+[converts a 32-bit number to IPv4 dotted notation]
+转换 32-bit 数字至 IPv4 点分表示法
+[converts a 32-bit number (in host byte order) to IPv4 dotted notation]
+转换 32-bit 数字 (本机字节顺序) 至 IPv4 点分表示法
+;file \plugins\Variables\src\parse_logic.cpp
+[Logical Expressions]
+逻辑表达式
+[performs logical AND (x && y && ...)]
+执行逻辑 AND (x && y && ...)
+[performs w, then shows z and performs y while x is TRUE]
+执行 w 直到 x 为 TRUE, 然后显示 z 并执行 y
+[shows y if x is TRUE, otherwise it shows z]
+如 x 为 TRUE 则显示 y, 否则显示 z
+[shows x if x is TRUE, otherwise it shows y (if(x,x,y))]
+如 x 为 TRUE 则显示 x, 否则显示 y (if(x,x,y))
+[the first argument parsed successfully]
+首参数解析成功
+[y if w > x, else z]
+如 w > x 则 y, 否则 z
+[y if string length of w > x, else z]
+如 w 字符串长度 > x 则 y, 否则 z
+[TRUE if x > y]
+如 x > y 返回 TRUE
+[TRUE if x is longer than y]
+如 x 长于 y 则返回 TRUE
+[performs logical NOT (!x)]
+执行逻辑 NOT (!x)
+[performs logical OR (x || y || ...)]
+执行逻辑 OR (x || y || ...)
+[performs logical XOR (x ^ y)]
+执行逻辑 XOR (x ^ y)
+;file \plugins\Variables\src\parse_math.cpp
+[Mathematical Functions]
+数学函数
+[x divided by y]
+x 除 y
+[converts decimal value x to hex value and padds to length y]
+转换十进制值 x 至十六进位值并以 y 填充
+[x modulo y (remainder of x divided by y)]
+x 模 y (x 除以 y 余数)
+[x times y]
+x 乘 y
+[x times y divided by z]
+x 乘 y 余 z
+[minimum value of (decimal) arguments]
+参数最小值 (十进制)
+[maximum value of (decimal) arguments]
+参数最大值 (十进制)
+[pads decimal value x to length y with zeros]
+以 0 填充十进制值 x 至长度 y
+[random number]
+随机数
+;file \plugins\Variables\src\parse_metacontacts.cpp
+;file \plugins\Variables\src\parse_miranda.cpp
+[Miranda Related]
+Miranda 相关
+[translates status code x into a status description]
+转换状态代码 x 为状态描述
+[zth contact with property y described by x, example: (unregistered,nick) (z is optional)]
+属性 y 描述 x zth 联系人, 示例: (unregistered,nick) (z 可选)
+[number of contacts with property y described by x, example: (unregistered,nick)]
+属性 y 描述 x 联系人数量, 示例: (unregistered,nick)
+[info property y of contact x]
+联系人 x 信息属性 y
+[db profile name]
+数据库配置文件名称
+[db profile path]
+数据库配置文件路径
+[get event for contact x (optional), according to y,z,w, see documentation]
+根据 y,z,w 获取联系人 x 事件 (x 可选), 详见文档
+[get last seen time of contact x in format y (y is optional)]
+获取联系人 x 最后看到时间 格式 y (y 可选)
+[get last seen date of contact x in format y (y is optional)]
+获取联系人 x 最后看到日期 格式 y (y 可选)
+[get last seen status of contact x]
+获取联系人 x 最后看到状态
+[current status description of protocol x (without x, the global status is retrieved)]
+协议 x 当前状态描述 (无 x, 则获取公共状态)
+[info property y of protocol id x]
+协议 id x 信息属性 y 
+[retrieves the subject, depending on situation]
+检索主题, 视环境而定
+[translates x]
+翻译 x
+[get the version of Miranda]
+获取 Miranda 版本
+[get the contact display name]
+获得联系人显示名称
+[get the date and time (using Miranda format)]
+获得日期及时间 (使用 Miranda 格式)
+;file \plugins\Variables\src\parse_regexp.cpp
+;file \plugins\Variables\src\parse_str.cpp
+[String Functions]
+字符串函数
+[converts each first letter of a word to uppercase, all others to lowercase]
+转换每个首字母大写, 其它小写
+[converts each first letter of a word to uppercase]
+转换每个首字母大写
+[inserts 'end of line' character]
+插入 '行尾' 符
+[depends on calling plugin]
+视呼叫插件而定
+[cuts x after the first line and appends y (y is optional)]
+去除 x 首行后内容并附加 y (y 可选)
+[replaces all end of line characters by y (y is optional)]
+替换所有行尾字符为 y (y 可选)
+[inserts string y at position z in string x]
+字符串 x 中由位置 z 插入字符串 y
+[trims x to length y, keeping first y characters]
+由 x 开始截取长度 y, 保留首个 y 字符
+[length of x]
+x 长度
+[the number of lines in string x]
+字符串 x 行数
+[the longest string of the arguments]
+参数中最长字符串
+[converts x to lowercase]
+转换 x 至小写
+[no operation, x as given]
+无操作, x 举出
+[pads x to length y prepending character z (z is optional)]
+填充 x 至长度 y 使用字符 z 由开始处填充 (z 可选)
+[pads x to length y appending character z (z is optional)]
+填充 x 至长度 y 使用字符 z 由尾部附加 (z 可选)
+[pads x to length y prepending character z, or cut if x is longer (z is optional)]
+填充 x 至长度 y 使用字符 z 由开始处填充, 如 x 较长则去除 (z 可选)
+[pads x to length y appending character z, or cut if x is longer (z is optional)]
+填充 x 至长度 y 使用字符 z 由尾部附加, 如 x 较长则去除 (z 可选)
+[repeats x y times]
+重复 x y 次
+[replace all occurrences of y in x with z, multiple y and z arguments allowed]
+替换所有 x 中 y 为 z, 允许多个 y 及 z 参数
+[trims x to length y, keeping last y characters]
+修剪 x 至长度 y, 保留最后 y 字符
+[moves string x, z characters to the left and trims it to y characters]
+移动字符串 x, z 字符去除空格加至 y 字符左侧
+[TRUE if x equals y]
+如 x 等于 y 则 TRUE
+[TRUE if x equals any of the following arguments]
+如 x 等于任意随后参数则 TRUE
+[TRUE if the first z characters of x equal y]
+如 x 中每一个 z 字符等于 y 则 TRUE
+[TRUE if x equals y, ignoring case]
+如 x 等于 y 则 TRUE, 忽略大写
+[TRUE if the first z characters of x equal y, ignoring case]
+如 x 中每一个 z 字符等于 y 则 TRUE, 忽略大写
+[the shortest string of the arguments]
+参数中最短字符串
+[location of first occurrence of character y in string x]
+字符串 x 中 y 字符每一次出现的位置
+[location of last occurrence of character y in string x]
+字符串 x 中最后出现字符串 y 的位置
+[location of first occurrence of string y in x]
+字符串 x 中最先出现字符串 y 的位置
+[substring of x starting from position y to z]
+x 中由 y 开始至 z 的子串
+[the xth string of the arguments]
+参数中 xth 字符串
+[z if y equals x, multiple y and z arguments allowed]
+y 等于 x 则 z, 允许多个 y 及 z 参数
+[removes white spaces in before and after x]
+移除 x 前后的空格
+[inserts x tab characters (x is optional)]
+插入 x 个 tab 字符 (x 可选)
+[converts x to upper case]
+转换 x 为大写
+[words (separated by white spaces) number y to z from string x (z is optional)]
+字符串 x 中由 y 至 z 字词 (以空格间隔) 数量 (z 可选)
+;file \plugins\Variables\src\parse_system.cpp
+[System Functions]
+系统函数
+[computer name]
+计算机名称
+[cpu load of process x (without extension) (x is optional)]
+进程 x cpu 负载 (无扩展名) (x 可选)
+[current date in format y (y is optional)]
+当前日期 y 格式 (y 可选)
+[current time in format y (y is optional)]
+当前时间 y 格式 (y 可选)
+[the directory y directories above x]
+x 上 y 目录
+[strips y directories from x]
+从 x 中剥离 y 目录
+[number of seconds between date x and y (x and y in format: M/d/yy H:m:s)]
+日期 x 与 y 间隔秒数(x 及 y 格式: M/d/yy H:m:s)
+[TRUE if directory x exists]
+如目录 x 存在则 TRUE
+[TRUE if file x exists]
+如文件 x 存在则 TRUE
+[window title of first window of class x]
+类别 x 首窗口标题
+[shows files and directories of directory z, with filter y, separated by z (y and z optional)]
+显示文件及目录 z 列表, 使用过滤器 y, 分隔器 z (y 及 z 可选)
+[TRUE if process x is running]
+如进程 x 运行中则返回 TRUE
+[value y from registry key x (REG_SZ (string) values only)]
+y 值于注册表键 x (REG_SZ 仅 (字符串) 变量)
+[formats timestamp x (seconds since 1/1/1970) in date format y]
+格式化时间戳 x (自 1/1/1970 秒数) 于日期格式 y
+[formats timestamp x (seconds since 1/1/1970) in time format y]
+格式化时间戳 x (自 1/1/1970 秒数) 于时间格式 y
+[y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
+y > 0: 文件 x 行号 y, y = 0: 整个文件, y < 0: 行号 y 到文件尾, y = r: 随机行
+[uptime in seconds]
+运行时间(秒)
+[expand environment variable x]
+扩充环境变量 x
+[user name]
+用户名
+[text from clipboard]
+从剪贴板取得文本
+;file \plugins\Variables\src\parse_variables.cpp
+[variable set by put(s) with name x]
+获取使用 put(s) 设置的变量 x 数值
+[x, and stores y as variable named x]
+x, 存储 y 为变量且命名为 x
+[only stores y as variables x]
+仅存储 y 至变量 x
+;file \plugins\Variables\src\parse_xml.cpp
+;file \plugins\Variables\src\variables.cpp

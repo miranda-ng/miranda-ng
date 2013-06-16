@@ -1,0 +1,87 @@
+﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
+;============================================================
+;  File: TrafficCounter.dll
+;  Plugin: Traffic counter
+;  Version: 0.1.1.8
+;  Authors: Ghost, Mironych
+;============================================================
+;file \plugins\TrafficCounter\res\resource.rc
+[Selected totals]
+选定总数
+[Clear statistics]
+清除统计
+[Notify me on every]
+通知我每
+[kilobytes]
+KB
+[Popup timeout]
+弹出窗口超时
+[Show now]
+马上显示
+[Space between lines:]
+行间距:
+[Tooltip format string:]
+工具提示格式字符串:
+[Display traffic for current]
+显示当前流量
+;file \plugins\TrafficCounter\src\options.cpp
+[Current traffic]
+当前流量
+[Total traffic]
+流量总计
+[Current online]
+当前在线
+[Total online]
+在线总计
+[Draw frame as skin element]
+绘制框架类皮肤元素
+[Show tooltip in traffic window]
+流量窗口显示工具提示
+["Toggle traffic counter" in main menu]
+主菜单中显示 "切换流量统计"
+[Summary traffic for visible accounts]
+可用帐号流量统计
+[Overall traffic]
+总流量
+[Hide now]
+马上隐藏
+[Month]
+月
+[Year]
+年
+[Traffic counter]
+流量统计
+[Statistics]
+统计
+;file \plugins\TrafficCounter\src\statistics.cpp
+[Bytes]
+字节
+[Adaptive]
+自适应
+[Hourly]
+每小时
+[Period]
+时期
+[Sum]
+总计
+[Now traffic statistics for selected accounts will be cleared.\nContinue?]
+现在选定帐号流量统计将被清除.\n继续?
+[Couldn't read statistics file]
+无法读取统计文件
+[Traffic Counter]
+流量统计
+;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Show/Hide frame]
+显示/隐藏框架
+[Hide traffic window]
+隐藏流量窗口
+[Clear the current (Now:) value]
+清除当前 (现在:) 数值
+[Toggle traffic counter]
+切换流量统计
+[Traffic counter notification]
+流量统计提示
+[%d kilobytes sent]
+发送 %d KB
+[%d kilobytes received]
+收到 %d KB

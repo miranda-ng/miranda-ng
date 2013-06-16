@@ -1,0 +1,11 @@
+﻿#muuid {1acb2ed1-c1ed-43ee-89bd-086686f6ebb5}
+;============================================================
+;  File: StatusChange.dll
+;  Plugin: Status change
+;  Version: 1.3.0.0
+;  Authors: Angelo Luiz Tartari
+;============================================================
+;file \plugins\StatusChange\res\resource.rc
+;file \plugins\StatusChange\src\main.cpp
+[Status Change]
+Cambiar estado

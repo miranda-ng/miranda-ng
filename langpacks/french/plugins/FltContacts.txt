@@ -1,0 +1,10 @@
+﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
+;============================================================
+;  File: FltContacts.dll
+;  Plugin: Floating contacts
+;  Version: 0.7.0.0
+;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
+;============================================================
+;file \plugins\FloatingContacts\res\fltcnt.rc
+;file \plugins\FloatingContacts\src\main.cpp
+;file \plugins\FloatingContacts\src\options.cpp

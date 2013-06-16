@@ -1,0 +1,504 @@
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+;file \plugins\Clist_modern\res\resource.rc
+[Transparency:]
+透明:
+[Window behaviour:]
+窗口特性:
+[List sorting:]
+清单排序:
+[Status bar:]
+状态栏:
+[List content:]
+列表联系人:
+[1st:]
+一:
+[2nd:]
+二:
+[3rd:]
+三:
+[Hide contact list after ]
+隐藏联系人列表于
+[Animate Avatars]
+动态头像
+[Show contact time in list]
+在列表中显示联系人时间
+[Compact mode]
+精简模式
+[Use Windows Colors]
+使用 Windows 颜色
+[Available skins]
+可用皮肤
+[\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
+\n\n\n请选择一个可用皮肤. \n\n或浏览未在列表中的皮肤. 
+[Skin Preview]
+预览皮肤
+[WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
+警告: \t皮肤将会修改您当前配置文件, 且不可恢复. \n\t\t请在应用皮肤前先备份您的数据库. 
+[* Restart may be required for all changes to take effect]
+* 可能需要重启才能让所有变更生效
+[Available objects]
+可使用对象
+[Object properties]
+对象属性
+[Colour]
+颜色
+[Image file and fitting mode]
+图片文件及适合模式
+[Borders]
+框线
+[Fit mode]
+适合模式
+[Fragment location]
+片段位置
+[W x H: 0 x 0 pixels]
+W x H: 0 x 0 像素
+[Show contacts in groups]
+在群组中显示联系人
+[Space between]
+间距
+[Vertical Align]
+垂直对齐
+[Horizontal Align]
+水平对齐
+[Multiline status bar:]
+多行状态栏: 
+[Accounts per line]
+在每一行显示帐号
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+* 增加状态栏高度: \n由主菜单: 框架->状态栏->显示标题栏, 然后将状态栏标题向上或向下拉. 
+[Hold [Shift] to inverse [Right Click] behaviour]
+按下 [Shift] 键反向 [右击] 行为
+[Set options per account]
+设定每个帐号的选项
+[Enable custom account settings]
+启用自定义帐号设置
+[Hide account completely]
+完全隐藏帐号
+[Show protocol icon]
+显示协议图标
+[Show xStatus icon]
+显示扩展状态图标
+[Show both icons]
+显示双方图标
+[Show normal status as overlay]
+以层叠方式显示标准状态
+[Status overlay opacity is 75% ]
+状态层叠不透明度为 75%
+[Show unread emails (if supported)]
+显示未读邮件 (仅支持时)
+[Space on Left]
+空白在左侧
+[Space on right]
+空白在右侧
+[Place offline users out of groups]
+将离线用户置于群组外
+[Full selection]
+整行选择
+[Less selection]
+较少选择
+[No selection]
+不选择
+[Selection Mode]
+选择模式
+[Bring to front if covered]
+被遮盖时置顶
+[Lock manual resize]
+锁定手动变更大小
+[Drag to ]
+拖放到
+[Easy Scroll]
+容易滚动
+[x100 msec]
+x100 毫秒
+[show delay]
+显示延时
+[hide delay]
+隐藏延时
+[Hide method]
+隐藏方法
+[keep on screen]
+保持在屏幕上
+[Snap to edges]
+贴近边缘
+[Event notify area]
+事件通知区域
+[Show automaticaly]
+自动显示
+[Always Visible]
+永远可见
+[Dock to sides]
+吸附边缘
+[and minimum]
+最少
+[Fade out entire list when:]
+将整个列表淡出当: 
+[System tray icon mode]
+系统托盘图标模式
+[Use xStatus icon]
+使用扩展状态图标
+[only when statuses differ]
+仅状态不同时
+[Expand metacontacts]
+扩展中继联系人
+[MetaContacts stuff]
+中继联系人项目
+[Additional stuff]
+附加项目
+[Subcontacts indent:]
+子联系人缩排: 
+[Show time only if it is different from current time]
+仅与当前时间不同时才显示时间
+[Show contact time as row item]
+以列项目显示联系人时间
+[Client area margins]
+客户端区域边界
+[Thin border main window]
+主窗口细框线
+[Borderless main window]
+主窗口无框线
+[Between frames:]
+框架间: 
+[After captions:]
+标题后: 
+[Gaps]
+间隔
+[Use Non-Layered mode]
+使用非层次模式
+[Non-layered mode]
+非层次模式
+[Disable Skin Engine]
+禁用皮肤引擎
+[Enable Aero Glass (Vista)]
+启用 Aero Glass (Vista)
+[Order of items:]
+项目顺序: 
+[Min row height:]
+最小列高: 
+[Row border:]
+列框线: 
+[Variable row height]
+可变列高
+[Align left items to left]
+左对齐左侧项目
+[Align right items to right]
+右对齐右侧项目
+[Right margin:]
+右边界: 
+[Draw border on avatar]
+头像绘制框线
+[Draw overlay icons]
+绘制层叠图标
+[Round corners of avatars]
+头像圆边
+[Ignore size for row height calcs]
+忽略计算列高
+[Border Color:]
+背景颜色: 
+[Normal overlay icon]
+标准层叠图标
+[Protocol status icon]
+协议状态图标
+[Contact icon]
+联系人图标
+[height]
+高度
+[Max width]
+最大宽度
+[Use old render method (Fast, but has artefacts)]
+使用旧式绘制方法 (速度快, 但有缺陷)
+[Hide icon when showing avatar]
+显示头像时隐藏图标
+[Draw icon in avatar space]
+在头像位置绘制图标
+[Hide groups icon]
+隐藏群组图标
+[Always show "Always visibile" icon]
+永远显示 "永远可见" 图标
+[Use extra status icon instead protocol]
+使用额外状态图标代替协议状态图标
+[Draw normal status as overlay]
+以层叠方式显示标准状态
+[Right-To-Left reading mode (mirror template)]
+由右至左阅读模式 (镜像模板)
+[Replace smileys in clist]
+替换联系人列表中的表情符号
+[Draw smileys on first line]
+在第一行绘制表情符号
+[Resize smileys and 'Listining to' icon]
+自动调整表情及 "正在聆听" 图标大小
+[Align to right]
+向右对齐
+[Append nick if different from custom name]
+当昵称与自定义名称不同时附加
+[Trim long text with ellipsis]
+以省略号截短长文本
+[Top space:]
+顶部空间: 
+[Draw smileys on second line]
+在第二行绘制表情
+[XStatus has priority]
+扩展状态优先
+[Use 'XStatus: XMessage']
+使用 '扩展状态: XMessage'
+[(Variables will be replaced)]
+(变量将被替换)
+[Show third line]
+显示第三行
+[Draw smileys on third line]
+绘制表情于第三行
+[Top/Left]
+上/左
+[Bottom/Right]
+下/右
+[Position (vertical)]
+位置 (垂直)
+[Show Title]
+显示标题
+[Locked]
+已锁定
+[Frames Order]
+框架顺序
+[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
+开发中!!!                        尚不提供使用
+[Row template]
+行模板
+[Add container]
+添加容器
+[Remove container]
+移除容器
+[Vertical align:]
+垂直对齐: 
+[Horizontal align:]
+水平对齐: 
+[Container type:]
+容器类型: 
+[Container width:]
+容器宽度: 
+[Container height:]
+容器高度: 
+[Layered]
+层叠
+[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
+此选项页尚在开发中, 请忽视此处的任何问题. \n仅适用于高层次设计意见. 
+[&Show Offline Users in here]
+在此显示离线用户(&S)
+;file \plugins\Clist_modern\src\modern_clc.cpp
+[Contact List smileys]
+联系人列表表情
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+您想将联系人 '%s' 转换为中继联系人并将 '%s' 加至该中继联系人? 
+[Converting to MetaContact]
+转换为中继联系人
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+您想将联系人 '%s' 转换为中继联系人并将 '%s' 加至该中继联系人 (从 %s 移除)? 
+[Converting to MetaContact (Moving)]
+转换为中继联系人 (正在移动)
+[Do you want to contact '%s' be added to metacontact '%s'?]
+您想将联系人 '%s' 加至中继联系人 '%s'? 
+[Adding contact to MetaContact]
+添加联系人至中继联系人
+[Do You want contact '%s' to be default ?]
+您想将联系人 '%s' 设为默认值? 
+[Set default contact]
+设置默认联系人
+[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+您想将联系人 '%s' 从中继联系人 '%s' 移除, 并加至 '%s'? 
+[Changing MetaContacts (Moving)]
+变更中继联系人 (正在移动)
+[Do You want contact '%s' to be added to MetaContact '%s'?]
+您想将联系人 '%s' 加至中继联系人 '%s' 移除 '%s'? 
+;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Away contacts]
+外出的联系人
+[DND contacts]
+勿扰的联系人
+[NA contacts]
+没空的联系人
+[Occupied contacts]
+忙碌的联系人
+[Free for chat contacts]
+有空聊天的联系人
+[Invisible contacts]
+隐身的联系人
+[On the phone contacts]
+接听电话的联系人
+[Out to lunch contacts]
+外出用餐的联系人
+[Contacts who are 'not on list']
+'不在列表中' 的联系人
+[Open groups]
+已打开群组
+[Open group member counts]
+已打开群组成员数量
+[Closed groups]
+已关闭群组
+[Closed group member counts]
+已关闭群组成员数量
+[Third line]
+第三行
+[Status bar text]
+状态栏文本
+[Event area text]
+事件区域文本
+[Current view mode text]
+当前查看模式文本
+[Hot text]
+热文
+[Quick search text]
+快速搜索文本
+[Menu text]
+菜单文本
+[Selected menu text]
+选定菜单文本
+[Frame title text]
+框架标题文本
+[Statusbar text]
+状态栏文本
+[3rd party frames transparent back colour]
+第三方框架使用透明背景色
+[Name (use locale settings)]
+名称 (使用语系设置)
+[Last message time]
+最后消息时间
+[Account Name]
+帐号名称
+[Rate]
+等级
+[-Nothing-]
+-无-
+[Hide to tray]
+隐藏至托盘
+[Behind left edge]
+左方边缘后
+[Behind right edge]
+右方边缘后
+;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
+没有事件
+;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[Low]
+最低
+[Medium]
+中等
+[High]
+最高
+[Contact rate None]
+联系人等级 无
+[Contact rate Low]
+联系人等级 低
+[Contact rate Medium]
+联系人等级 中
+[Contact rate High]
+联系人等级 高
+;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
+动态头像 (需要 GDI+ 和头像服务模块 avs.dll)
+[Left align group names]
+群组名称左对齐
+[Center group names]
+群组名称居中
+[Right align group names]
+群组名称右对齐
+[Row]
+行
+[Row design]
+行设计
+[Second Line]
+第二行
+[Third Line]
+第三行
+[Row items]
+行内对象
+;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+;file \plugins\Clist_modern\src\modern_clisttray.cpp
+;file \plugins\Clist_modern\src\modern_clui.cpp
+[Show Contact &Avatar]
+显示联系人头像(&A)
+[Hide Contact &Avatar]
+隐藏联系人头像(&A)
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+[&Show title]
+显示标题(&S)
+[&Expanded]
+扩展(&E)
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\modern_keyboard.cpp
+;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+[Empty %s cell]
+清空 %s 单元
+[column]
+栏
+[line]
+行
+[columns]
+栏
+[%s, contain %s]
+%s, 包含 %s
+[ layered]
+分层的
+;file \plugins\Clist_modern\src\modern_skineditor.cpp
+[Image size is]
+图片大小为
+;file \plugins\Clist_modern\src\modern_skinengine.cpp
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[Load/Save]
+加载/保存
+[Object Editor]
+对象编辑器
+[( unknown )]
+( 未知 )
+[%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\n作者: \t %s\n联络: \t %s\n网站: \t %s\n\n文件: \t %s
+[%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\n作者: %s\n联络: \t %s\n网站: \t %s\n\n文件: \t %s
+[This is second default Modern Contact list skin in Vista Aero style]
+此为 Vista Aero 样式的第二个默认 Modern Contact List 皮肤
+[Angeli-Ka (graphics), FYR (template)]
+Angeli-Ka (图形), FYR (模板)
+[Inside library]
+皮肤库内
+[Skin Information]
+皮肤信息
+[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+皮肤编辑器变更尚未保存. \n\n所有变更将会丢失. \n\n继续加载新皮肤吗? 
+[Warning!]
+警告! 
+[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+当前皮肤尚未保存至文件. \n\n所有变更将会丢失. \n\n继续加载新皮肤吗? 
+[Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
+预览无法使用\n\n%s\n----------------------\n\n%s\n\n作者: \n%s\n\n联络: \n%s\n\n主页: \n%s
+[%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
+%s\n\n%s\n\n作者: \n%s\n\n联络: \n%s\n\n网站: \n%s\n\n\n
+[graphics by Angeli-Ka\ntemplate by FYR]
+图形 by Angeli-Ka\n模板 by FYR
+[Select skin from list]
+从列表选择皮肤
+[Please select skin to apply]
+请选择要应用皮肤
+[Default Skin]
+默认皮肤
+[%Default Skin%]
+%默认皮肤%
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+[<<Global>>]
+<<全局>>
+[Center]
+中间
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Show offline contacts]
+显示离线联系人
+[Use groups]
+使用群组
+[Minimize]
+最小化
+;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Configuring view mode: %s]
+正在设置查看模式: %s
+;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

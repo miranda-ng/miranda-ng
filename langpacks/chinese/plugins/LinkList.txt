@@ -1,0 +1,102 @@
+﻿#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+;============================================================
+;  File: LinkList.dll
+;  Plugin: History linklist plus
+;  Version: 0.0.0.2
+;  Authors: Thomas Wendel, gureedo
+;============================================================
+;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search for:]
+搜索: 
+[Message direction]
+消息方向
+[Message types]
+消息类型
+[All directions]
+所有方向
+[Incoming only]
+仅传入
+[Outgoing only]
+仅发送
+[All types]
+所有类型
+[Mail addresses only]
+仅邮箱地址
+[Web addresses only]
+仅网页地址
+[Deep search]
+深度搜索
+[Colour Select]
+选择颜色
+[Plugin Default]
+插件默认值
+[Backgroundcolour]
+背景颜色
+[Use Miranda Settings]
+使用 Miranda 设置
+[Textcolour]
+文本颜色
+[Open links always in a new window]
+永远在新窗口打开链接
+[Update list on new events]
+新事件时更新列表
+[Show whole Message on 'mouse over' event]
+'鼠标经过' 事件时显示整个消息
+[Save window position individually for each contact]
+为每名联系人分别保存窗口位置
+[Show...]
+显示...
+[Parting line]
+分界线
+[Direction]
+方向
+[Message &Direction]
+消息方向(&D)
+[&Outgoing Messages Only]
+仅发送消息(&O)
+[&Incoming Messages Only]
+仅传入消息(&I)
+[Message &Type]
+消息类型(&T)
+[&Webaddresses Only]
+仅网页地址(&W)
+[&Mail-Addresses Only]
+仅邮箱地址(&M)
+[&Clear Search Results]
+清除搜索结果(&C)
+[link]
+链接
+[Open in new Window]
+在新窗口中打开
+[Show Message]
+显示消息
+;file \plugins\HistoryLinkListPlus\src\language.h
+[History Linklist]
+历史链接列表
+[History is empty!]
+历史为空!
+[There are no links in history!]
+历史中无链接!
+[incoming]
+传入
+[outgoing]
+发送
+;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[&Create Linklist]
+创建链接列表(&C)
+[Processing history...]
+处理历史中...
+[Could not create window!]
+无法创建窗口!
+[Could not allocate memory!]
+无法分配内存!
+;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
+[Linklist Plugin]
+链接列表插件
+;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[Matches for searchtext]
+匹配搜索文本
+[Processing list...]
+处理列表中...
+[No messages found!\nPlease change current filter options.]
+未找到信息!\n请更改当前过滤选项.

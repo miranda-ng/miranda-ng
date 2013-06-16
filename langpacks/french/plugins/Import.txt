@@ -1,0 +1,53 @@
+﻿#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+;============================================================
+;  File: Import.dll
+;  Plugin: Import contacts and messages
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+;file \plugins\Import\res\resource.rc
+[Choose how you would like to import:]
+Choisissez comment vous aimeriez importer :
+[Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
+Cliquez "Suivant" pour choisir l'information que vous désirez importer, ou cliquez "Annuler" pour sortir de l'assistant et continuer avec Miranda.
+[It is recommended that you create a backup of your current Miranda profile before importing.]
+Il est recommandé de créer une sauvegarde de votre profil Miranda actuel avant l'importation.
+[If you wish to import more information, click "Next" to return to the start of the wizard, otherwise click "Finish" to start using Miranda.]
+Si vous désirez importer d'autres informations, cliquez "Suivant" pour retourner au début de l'assistant, sinon cliquez "Terminer" pour démarrer Miranda.
+[You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
+Vous n'aurez probablement plus besoin d'utiliser cet assistant, vous pouvez donc sauver de la mémoire en ne le chargeant pas au démarrage de Miranda. (Plus disponible dans le menu de Miranda).
+[Do not load the import plugin at startup again]
+Ne plus charger le plugin d'importation au démarrage
+[Import completed]
+Importation terminée
+[If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
+Si à une future date vous désirez utiliser à nouveau cet assistant, vous pouvez le faire charger en allant dans les Options, puis dans la section des Plugins.
+[Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
+Miranda a trouvé les profils Miranda avec les noms suivants. Veuillez sélectionner celui que vous désirez importer, ou cliquez "Autre profil" si le vôtre n'est pas listé, ou si la liste est vide.
+[&Other Profile...]
+&Autre profil...
+[&Filename:]
+&Fichier:
+[Now importing...]
+Importation...
+[Import Information Wizard]
+Assistant d'importation d'informations
+[Import all contacts and all messages]
+Importer tous les contacts et messages
+[Only import contacts]
+Importer les contacts seulement
+[Select this if you want to import as much data as possible. This is the recommended option.]
+Sélectionnez ceci si vous voulez importer le plus de données possible (Recommandé).
+[Select this if you want to import contacts but don't want to import any message history.]
+Sélectionnez ceci si vous voulez importer les contacts, mais aucun historique de messages.
+;file \plugins\Import\src\import.cpp
+;file \plugins\Import\src\main.cpp
+[&Import...]
+&Importer...
+;file \plugins\Import\src\miranda.cpp
+[The given file does not exist. Please check that you have entered the name correctly.]
+Le fichier donné n'existe pas. Veuillez vérifier que vous avez entré correctement le nom.
+[Miranda Import]
+Importation Miranda
+;file \plugins\Import\src\utils.cpp
+;file \plugins\Import\src\wizard.cpp

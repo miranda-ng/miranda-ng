@@ -1,0 +1,545 @@
+﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
+;============================================================
+;  File: UInfoEx.dll
+;  Plugin: User info ext
+;  Version: 0.8.4.2
+;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+;============================================================
+;file \plugins\UserInfoEx\res\resource.rc
+[Edit Contact Information]
+编辑联系人信息
+[Origin]
+来源
+[&Update]
+更新(&U)
+[Second name:]
+中名: 
+[Partner:]
+伙伴: 
+[Language skills]
+语言技巧
+[County/State:]
+国家/县: 
+[Contact added to ContactList:]
+联系人已加至联系人列表: 
+[Your contact's local time is:]
+您的联系人本地时间为: 
+[Office:]
+办工室: 
+[Superior:]
+上级: 
+[Assistant:]
+助理: 
+[Enter a category for this number:]
+请输入此号码分类: 
+[Add E-Mail]
+添加邮箱
+[Enter a representitive name for the e-mail address here.]
+在此为邮箱地址输入代表名称. 
+[Enter the e-mail address here.]
+在此输入邮箱地址. 
+[Show menu items]
+显示菜单项目
+[Remind me]
+提醒我
+[days before.]
+天之前. 
+[Icon flashing on event]
+有事件时闪动图标
+[Perform check on each startup]
+在每次启动时检查
+[Time of last check:]
+上次检查时间: 
+[Birthday compatibility mode:]
+生日兼容模式: 
+[Automatically backup and keep protocol based birthdays up to date]
+自动备份及保持基于协议生日资料最新
+[Use ignore list]
+使用忽略列表
+[Birthday popup colours]
+生日弹出窗口颜色
+[Show reminder messages as popups (if reminder is enabled)]
+弹出窗口显示提醒消息 (如提醒已启用)
+[Anniversary popup colours]
+周年弹出窗口颜色
+[Add Affiliation]
+添加从属关系
+[Add Past]
+添加过去
+[Add Interest]
+添加兴趣
+[Enter a name for the anniversary here please:]
+请在此输入周年纪念名称: 
+[Anniversary list]
+周年纪念列表
+[Statistics:]
+统计: 
+[with birthday:]
+按生日: 
+[female:]
+女性: 
+[male:]
+男性: 
+[number of contacts:]
+联系人数量: 
+[average age:]
+平均年龄: 
+[Show &during the next]
+显示持续
+[day(s)]
+天(&D)
+[Popup this dialog on a contact's anniversary]
+联系人周年纪念时弹出此对话框
+[Check file version of default IconPack to prevent wrong icon display]
+检查默认图标包文件版本以防止显示错误图标
+[Display icons on each dialog button]
+在每个对话框按钮显示图标
+[Scan SubContacts for missing information]
+扫描子联系人查找遗漏信息
+[Enable extended 'send/receive email' service (*)]
+启用扩展 '发送/接收邮件' 服务 (*)
+[Use Windows Timezone]
+使用 Windows 时区
+[(*) Requires Miranda to be restarted.]
+(*) 需要重启 Miranda. 
+[Reset factory defaults]
+重置为出厂设置
+[Protocol's information]
+协议信息
+[Custom information]
+自定义信息
+[Overwritten information]
+被覆盖信息
+[Changed information]
+已变更信息
+[Enable colours to give information about information's status.]
+启用颜色以提供信息状态资料. 
+[Make protocol based contact information readonly.]
+使基于协议联系人信息只读. 
+[Enable groups in details dialog's treeview.]
+在详细信息对话框树状查看中启用群组. 
+[Sort all tree items alphabetically.]
+按字母顺序排列所有树项目. 
+[Info of a MetaContact's SubContact]
+中继联系人子联系人信息
+[Common]
+一般
+[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
+使用 UserInfoEx 变更我的 ICQ 详细资料. (如 ICQ 不支持时请禁用)
+[Setting/Event (20/100)]
+设置/事件 (20/100)
+[MainMenu]
+主菜单
+[Ex-/Import items]
+导出/导入项目
+[ContactMenu]
+联系人菜单
+[Extra Icons]
+额外图标
+[Replace the following default icons:]
+替换这些默认图标: 
+[Phone]
+电话
+[E-Mail]
+邮箱
+[Show 'Restart' menu item]
+显示 '重启' 菜单项目
+[Use &unknown flag if country can not be determined]
+如不能确定国籍则使用未知标志(&U)
+[Zodiac:]
+生肖: 
+[Refresh Contact Details]
+刷新联系人详细信息
+[Preparing...]
+准备...
+[What do you want to export?]
+您想导出什么? 
+[Contact Information]
+联系人信息
+[Contact History]
+联系人历史
+[Select Modules]
+选择模块
+[Check all]
+全部选定
+[Uncheck all]
+全部不选
+;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
+[Aries]
+牡羊座
+[Taurus]
+金牛座
+[Gemini]
+双子座
+[Cancer]
+巨蟹座
+[Leo]
+狮子座
+[Virgo]
+处女座
+[Libra]
+天秤座
+[Scorpio]
+天蝎座
+[Sagittarius]
+射手座
+[Capricorn]
+魔蝎座
+[Aquarius]
+水瓶座
+[Pisces]
+双鱼座
+[%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
+%s 通过协议提供新生日. \n现在是 %s, 旧有为 %s. \n\n您想使用它作为此联系人新生日吗? 
+[Update custom birthday]
+更新自定义生日
+[Keeps your custom birthday up to date.]
+保持您的自定义生日最新
+;file \plugins\UserInfoEx\src\classPsTree.cpp
+[Due to a parameter error, one of the treeitems can't be added!]
+由于参数错误, 其中一个树项目不能添加!
+[An fatal error occured on adding a property sheet page!\nDialog creation aborted!]
+添加属性表页时发生一个致命的错误!\n对话框创建中止!
+[Rename Item]
+重命名项目
+[Hide Item]
+隐藏项目
+[Show Items:]
+显示项目: 
+;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
+[Creating unique name for a page failed with %d and error code %d]
+创建唯一名称页面失败 %d 错误代码 %d
+[Creating the label for a page failed with %d and error code %d]
+创建标签页失败 %d 错误代码 %d
+[The dialog template type is no longer supported]
+对话框模板类型已不再支持
+;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[Add a new anniversary]
+添加新周年纪念
+[Delete an existing anniversary]
+删除已存在周年纪念
+;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Edit E-Mail]
+编辑 E-Mail
+[The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
+电话号码应该由 + 开始, 由数字, 空格, 括号及连字符号组成. 
+[Choose the item to display.]
+请选择要显示项目. 
+[Edit the currently displayed item.]
+编辑当前显示项目. 
+[Add a new custom item.]
+添加新自定义项目: 
+[Delete the selected item.]
+删除已选定项目. 
+[CRITICAL: Unable to edit current entry!\nThis should not happen!]
+关键: 无法修改记录!\n这是本不该发生的!
+[Do you really want to delete the current selected item?\n\t%s\n\t%s]
+您真的要删除当前所选定项目? \n\t%s\n\t%s
+;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
+;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[Birthdays only]
+仅生日
+[Anniversaries only]
+仅周年纪念时
+[Disabled reminder]
+禁用提醒器
+;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[Upload Details]
+上传详细资料
+[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
+您当前尚未连接至 ICQ 网络. \n您必须先上线才能更新服务器信息. \n\n您的变更将仅保存至数据库中. 
+[Uploading]
+上传中
+[Anniversaries]
+周年
+;file \plugins\UserInfoEx\src\init.cpp
+;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[IM Naming]
+IM 命名
+[Marital status]
+婚姻状况: 
+[Export: Modules]
+导出: 模块
+[Export: Folder]
+导出: 文件夹
+[Details Infobar]
+详细资料信息栏
+[Phone Infobar]
+电话信息栏
+[E-Mail Infobar]
+邮件信息栏
+[Export VCard]
+导出 VCard
+[Import VCard]
+导入 vCard
+[Anniversary Infobar]
+周年纪念信息栏
+[Goto]
+转到
+[Custom Phone]
+自定义电话
+[e-mail]
+邮箱
+[Ex-/Import]
+导出/导入
+[Backup Birthday]
+备份生日
+[Birthday tomorrow]
+明天生日
+[Birthday in 2 days]
+2 天后生日
+[Birthday in 3 days]
+3 天后生日
+[Birthday in 4 days]
+4 天后生日
+[Birthday in 5 days]
+5 天后生日
+[Birthday in 6 days]
+6 天后生日
+[Birthday in 7 days]
+7 天后生日
+[Birthday in 8 days]
+8 天后生日
+[Birthday in 9 days]
+9 天后生日
+[Birthday later]
+稍后生日
+[Anniversary today]
+今天周年纪念
+[Anniversary tomorrow]
+明今天周年纪念
+[Anniversary in 2 days]
+2 天后周年纪念
+[Anniversary in 3 days]
+3 天后周年纪念
+[Anniversary in 4 days]
+4 天后周年纪念
+[Anniversary in 5 days]
+5 天后周年纪念
+[Anniversary in 6 days]
+6 天后周年纪念
+[Anniversary in 7 days]
+7 天后周年纪念
+[Anniversary in 8 days]
+8 天后周年纪念
+[Anniversary in 9 days]
+9 天后周年纪念
+[Anniversary later]
+稍后周年纪念
+[Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
+警告: 您现在所使用的图标包版本并非为 UserInfoEx 而定制.\n一些图标可能无法正确显示
+[Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
+警告: 图标包无法在下列目录中找到: 'customize\\icons', 'icons' or 'plugins'!
+;file \plugins\UserInfoEx\src\mir_icolib.h
+[UserInfoEx]
+用户信息扩展
+;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[Ex-/Import contact]
+导出/入联系人
+[Export all contacts]
+导出所有联系人
+[Import all contacts]
+导入所有联系人
+[Backup birthdays]
+备份生日
+[Check anniversaries]
+检查周年纪念
+[Extended UserInfo]
+扩展用户信息
+;file \plugins\UserInfoEx\src\psp_about.cpp
+[My Notes:]
+我的便笺: 
+;file \plugins\UserInfoEx\src\psp_anniversary.cpp
+[Please enter a valid Description first!]
+请先输入有效描述!
+[No valid date selected for editing!]
+编辑时未选定有效日期
+[Do you really want to delete the %s?]
+您真的要删除 %s? 
+;file \plugins\UserInfoEx\src\psp_contact.cpp
+[Address & Contact]
+地址 & 联系人
+[Company]
+公司
+;file \plugins\UserInfoEx\src\psp_options.cpp
+[Ready]
+就绪
+[Reminder disabled]
+提醒器已禁用
+[Bithdays only]
+仅生日时
+[everything]
+任何项目
+[Details Dialog]
+详细资料对话框
+;file \plugins\UserInfoEx\src\psp_profile.cpp
+[Affiliation]
+联系
+[Interest]
+兴趣
+[Sorry, but there is a problem with adding a new item of type "%s"]
+抱歉, 添加 "%s" 类型新项时出现问题
+[Add Affliation]
+添加从属关系
+[Edit Category]
+编辑分类
+[Edit Value]
+编辑数值
+[Delete an entry]
+删除条目
+[Do you really want to delete this entry?]
+您真的想删除此条目?
+;file \plugins\UserInfoEx\src\svc_constants.cpp
+[Culture & Literature]
+文化与文学
+[Movies/TV]
+电影/电视
+[Outdoor Activities]
+户外活动
+[Pets/Animals]
+宠物/动物
+[Science/Technology]
+科学/科技
+[Nature and Environment]
+自然及环境
+[News & Media]
+新闻及传媒
+[Business & Economy]
+商业及经济
+[Finance and corporate]
+金融与企业
+[Consumer electronics]
+消费电子
+[Retail stores]
+零售商店
+[Health and beauty]
+健康及美容
+[Household products]
+家庭产品
+[Mail order catalog]
+邮购目录
+[Business services]
+商业服务
+[Audio and visual]
+视听
+[Sporting and athletic]
+体育及运动员
+[Home automation]
+家居自动化
+[TmplPast Work Place]
+TmplPast 工作地点
+[TmplPast Organization]
+TmplPast 组织
+;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+;file \plugins\UserInfoEx\src\svc_email.cpp
+[Memory allocation error!]
+内存分配错误! 
+;file \plugins\UserInfoEx\src\svc_gender.cpp
+[Gender (uinfoex)]
+性别 (uinfoex)
+;file \plugins\UserInfoEx\src\svc_homepage.cpp
+[User has no valid homepage]
+用户无有效主页
+[View Homepage]
+查看主页
+[&Homepage]
+主页(&H)
+[Homepage (uinfoex)]
+主页 (uinfoex)
+;file \plugins\UserInfoEx\src\svc_phone.cpp
+;file \plugins\UserInfoEx\src\svc_refreshci.cpp
+[Abort Refreshing Contact Details]
+中止刷新联系人详细信息
+[Do you want to cancel the current refresh procedure?]
+您是否想取消当前刷新程序?
+[Miranda must be online for refreshing contact information!]
+Miranda 必须在线才能刷新联系人信息!
+[The function caused an exception!]
+此功能导致一个例外!
+;file \plugins\UserInfoEx\src\svc_reminder.cpp
+[%s has %s today.]
+%s 今天 %s. 
+[an anniversary]
+周年
+[%s has the following anniversaries:\0]
+%s 有以下纪念日:\0
+[%d. %s today\0]
+%d. %s 今天\0
+[%d. %s tomorrow\0]
+%d. %s 明天\0
+[%d. %s in %d days\0]
+%d. %s 于 %d 天\0
+[\n%s becomes %d years old.]
+\n%s 变为 %d 岁. 
+[No anniversaries to remind of]
+无周年纪念需提醒
+[Backing up and syncing all birthdays complete!]
+备份并同步所有生日完成!
+[Reminder (uinfoex)]
+提醒 (uinfoex)
+[Birthday reminder]
+生日提醒器
+[Birthday reminder: it's coming]
+生日提醒器: 即将到来
+[Anniversary Reminder]
+周年纪念提醒
+;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
+;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
+[Required modules]
+必需模块
+[Optional modules]
+可选模块
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+[Shows Miranda's installation directory.]
+显示 Miranda 安装目录. 
+[Shows the directory with all your Miranda's profiles.]
+显示所有 Miranda 配置文件目录. 
+[The OpenFileDialog returned an error: %d!]
+打开文件对话框返回错误: %d!
+[The SaveFileDialog returned an error: %d!]
+保存文件对话框返回错误: %d!
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
+[Import complete]
+导入完成
+[Some basic statistics]
+一些基本统计
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
+[all Contacts]
+所有联系人
+[Select a destination file...]
+选择目标文件...
+[Import User Details from VCard]
+从 VCard 导入用户详细资料
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[Can't create xml file!\n%S]
+不能创建 XML 文件!\n%S
+[Export took %f msec]
+输出花费 %f msec
+[Contact: %s (%S)]
+联系人: %s (%S)
+[Importing %s caused error %d]
+导入 %s 导致错误 %d
+[Loading contact %s from xml failed with error %d]
+从 XML 加载联系人 %s 失败 错误 %d
+[Importing Owner caused error %d]
+导入所有人导致错误 %d
+[Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
+语法分析器无法加载 XMLCard "%s"\n错误: %d\n描述: %s
+[The selected file is no valid XMLCard]
+选定文件为无效 XMLCard
+[The version of the XMLCard is not supported by UserInfoEx]
+UserInfoEx 不支持此版本 XMLCard
+[Owner contact successfully imported.]
+所有联系人成功导入.
+[Selected XMLCard does not contain an owner contact!]
+选定 XMLCard 未包含所有联系人!
+[Import took %f msec]
+导入花费 %f msec
+[added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
+添加联系人: %u / %u\n添加设置: %u / %u\n添加事件 %u / %u\n重复事件: %u
+[FATAL: An exception was thrown while importing contacts from xmlCard!]
+重要: 从 xmlCard 导入联系人时抛出一个例外!
+;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
+;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

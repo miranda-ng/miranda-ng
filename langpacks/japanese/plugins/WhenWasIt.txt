@@ -1,0 +1,18 @@
+﻿#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+;============================================================
+;  File: WhenWasIt.dll
+;  Plugin: Birthday reminder
+;  Version: 0.3.3.4
+;  Authors: Cristian Libotean
+;============================================================
+;file \plugins\WhenWasIt\res\WhenWasIt.rc
+[Timeout:]
+タイムアウト :
+;file \plugins\WhenWasIt\src\dlg_handlers.cpp
+[Age]
+年齢
+;file \plugins\WhenWasIt\src\hooked_events.cpp
+;file \plugins\WhenWasIt\src\icons.cpp
+;file \plugins\WhenWasIt\src\notifiers.cpp
+;file \plugins\WhenWasIt\src\services.cpp
+;file \plugins\WhenWasIt\src\services.h

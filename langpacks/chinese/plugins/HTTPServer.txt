@@ -1,0 +1,116 @@
+﻿#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
+;============================================================
+;  File: HTTPServer.dll
+;  Plugin: HTTPServer
+;  Version: 0.1.2.2
+;  Authors: Kennet Nielsen, modified by Vampik, Houdini
+;============================================================
+;file \plugins\HTTPServer\res\resource.rc
+[IPAddress1]
+IP 地址 1
+[IPAddress2]
+IP 地址 2
+[Max downloads]
+最大下载数
+[Share name]
+共享名称
+[Allowed IP]
+允许 IP
+[HTTP Server statistics view]
+HTTP 服务器统计查看
+[Display hidden shares]
+显示隐藏共享
+[New share]
+新分享
+[Show HTTP server statistics]
+显示 HTTP 服务器统计
+[Set to default]
+设为默认值
+[External server name]
+外部服务器名称
+[This is the link pasted to the message window]
+这是已粘贴至消息窗口链接
+[Write log file]
+写入日志文件
+[Enable / Disable HTTP server]
+启用 / 禁用 HTTP 服务器
+[Main menu items]
+主菜单项目
+[Open log]
+打开记录
+[Page keyword]
+页面关键字
+[URL address]
+URL 地址
+[%ExternalIP% variable]
+%ExternalIP% 变量
+[Transfer limit (kb/sec)]
+传输限制 (kb/秒)
+[No control when Away/NA]
+外出/没空时不控制
+[Connection control]
+连接控制
+[Index creation]
+建立索引
+[Create HTML (compatibility)]
+建立 HTML (兼容性)
+[Create XML]
+建立 XML
+[Total connection limit]
+总连接限制
+[Connections per user limit]
+限制每用户连接数
+[Default download limit]
+默认下载限制
+[&Edit share]
+编辑共享(&E)
+[&Remove share]
+移除共享(&R)
+[&Open in Browser]
+在浏览器中打开(&O)
+;file \plugins\HTTPServer\src\Glob.h
+;file \plugins\HTTPServer\src\GuiElements.cpp
+[Share Current Directory]
+共享当前目录
+[Specify a file to share]
+指定要共享文件
+[Max Downloads]
+最大下载数
+[Allowed Mask]
+允许掩码
+[Real path]
+真实路径
+[Agent]
+代理
+[Completed]
+已完成
+[Speed]
+速度
+[No share selected]
+无已选定共享
+[Current IP Address: ]
+当前 IP 地址: 
+[Current Address: ]
+当前地址: 
+[IP Adress: ]
+IP 地址: 
+[You are browsing from]
+您正浏览从
+[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
+您的外部 IP 被检测出是 %d.%d.%d.%d\r\n来源: %s
+[You need to restart miranda to change the main menu]
+您需要重启 Miranda 以改变主菜单
+[HTTP Server]
+HTTP 服务器
+[HTTP Share new file]
+HTTP 分享新文件
+;file \plugins\HTTPServer\src\HttpUser.cpp
+[Share removed]
+共享已移除
+;file \plugins\HTTPServer\src\main.cpp
+[Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
+绑定端口失败于 %s\r\n可能因为另一程序或服务正在使用此端口
+[Disable HTTP server]
+禁用 HTTP 服务器
+[Enable HTTP server]
+启用 HTTP 服务器

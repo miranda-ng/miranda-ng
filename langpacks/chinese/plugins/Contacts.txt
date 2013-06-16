@@ -1,0 +1,31 @@
+﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.5.2.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+;file \plugins\ContactsPlus\res\contacts.rc
+[Send contacts]
+发送联系人
+[Choose contacts to be send:]
+选择要发送的联系人:
+[Received contacts]
+接收联系人
+[Add to &group:]
+加至群组(&G):
+[&Details]
+详细资料(&D)
+[Contacts send error]
+联系人发送错误
+[Add to List]
+加至列表
+;file \plugins\ContactsPlus\src\main.cpp
+[Contacts received from]
+联系人接收于
+[Incoming Contacts]
+传入联系人
+[Outgoing Contacts]
+发出联系人
+;file \plugins\ContactsPlus\src\receive.cpp
+;file \plugins\ContactsPlus\src\send.cpp

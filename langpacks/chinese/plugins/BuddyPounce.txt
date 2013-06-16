@@ -1,0 +1,98 @@
+﻿#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
+;============================================================
+;  File: BuddyPounce.dll
+;  Plugin: Buddy pounce
+;  Version: 0.3.2.1
+;  Authors: Jonathan Gordon
+;============================================================
+;file \plugins\BuddyPounce\res\resource.rc
+[Confirm Pounce send]
+确认发送突袭
+[Pounce being sent to]
+突袭将发送至
+[Buddy Pounce]
+好友突袭
+[The Message:]
+消息: 
+[Delete Pounce]
+删除突袭
+[Load default Settings]
+加载默认设置
+[Setting text...........]
+设置文本...........
+[Contact To Send Pounce To]
+联系人发送突袭给
+[<< Simple]
+<< 简单
+[The Message]
+消息
+[Use Advanced Dialog]
+使用高级对话框
+[The Message:       (Characters:  )]
+消息: (字数:   )
+[Show Delivery Messages]
+显示递送消息
+;file \plugins\BuddyPounce\src\dialog.cpp
+[Send If My Status Is...]
+发送当我的状态是...
+[Send If They Change Status to...]
+发送当他们的状态变为...
+[Reuse Pounce]
+重新使用突袭
+[Give Up delay]
+放弃延时
+[Confirmation Window]
+确认窗口
+[Send If My Status Is]
+发送当我的状态是
+[Any]
+任何
+[Free For Chat]
+有空聊天
+[On The Phone]
+接听电话
+[Out To Lunch]
+外出用餐
+[Send If Their Status changes]
+发送当他们的状态变更为
+[From Offline]
+从离线
+[To Online]
+在线
+[To Away]
+外出
+[To NA]
+没空
+[To Occupied]
+忙碌
+[To DND]
+勿扰
+[To Free For Chat]
+有空聊天
+[To Invisible]
+隐身
+[To On The Phone]
+接听电话
+[To Out To Lunch]
+外出用餐
+[The Message    (%d Characters)]
+消息 (%d 个字符)
+[The Message    (0 Characters)]
+消息 (0 个字符)
+[Reuse this message? (0 to use it once)]
+重新使用此消息? (0 使用一次)
+[Times]
+时间
+[Giveup after.. (0 to not giveup)]
+放弃于... (0 不放弃)
+[Show confirmation window? (0 to not Show)]
+显示确认窗口? (0 不显示)
+[Seconds to wait before sending]
+发送前需等待时间 (秒)
+[Pounce being sent to %s in %d seconds]
+突袭将发送给 %s 于 %d 秒
+[Message successfully sent to %s]
+消息已成功发送给 %s
+[Message failed to send to %s]
+发送给 %s 消息已失败
+;file \plugins\BuddyPounce\src\main.cpp

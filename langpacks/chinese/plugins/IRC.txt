@@ -1,0 +1,621 @@
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+;file \protocols\IRCG\res\IRC.rc
+[&Del]
+删除(&D)
+[only while connecting]
+仅连接时
+[Force visible (-i)]
+强制可见 (-i)
+[Rejoin channel if kicked]
+被踢出时重新加入频道
+[Rejoin channels on reconnect]
+重连时重新加入频道
+[Disable tray balloon on error]
+出现错误时禁用托盘气球提示
+[Show addresses]
+显示地址
+[Use server window]
+使用服务器窗口
+[Show server window on startup]
+启动时显示服务器窗口
+[Automatically join on invite]
+被邀请时自动加入
+['Old style' mode changes]
+'旧式' 模式变更
+[Update online statuses for users]
+更新用户在线状态
+[Update statuses in channel nicklist]
+更新频道昵称列表的状态
+[Internet address]
+互联网地址
+[Port range]
+端口范围
+[User ID (Ident)]
+用户 ID (识别)
+[Full name (e-mail)]
+完整名称 (邮箱)
+[Server name]
+服务器名称
+[Alternative nick]
+替换昵称
+[Ident]
+识别
+[Default network]
+默认网络
+[User info - Required]
+用户信息 - 必需
+[Reconnect]
+重新连接
+[Wait (s)]
+等待 (秒)
+[Retry count]
+重试次数
+[Fear the monkeys!!!]
+恐惧猴子! ! ! 
+[Check every (s):]
+检查每 (秒): 
+[Don't check if more than (users):]
+不检查如多于 (用户): 
+[User information]
+用户信息
+[Userinfo]
+用户信息
+[&Refresh]
+刷新(&R)
+[&Query]
+查询(&Q)
+[Channels]
+频道
+[Away Info]
+外出信息
+[The server returned the following information. Please note that this information might be misleading and/or falsified]
+服务器已返回此信息. 请注意这些信息可能有误导或虚假成份. 
+[CTCP information]
+CTCP 信息
+[Perform]
+执行
+[&Set]
+设置(&S)
+[Perform on event:]
+执行事件: 
+[Scripting support]
+脚本支持
+[Quit message:]
+退出消息: 
+[Server code page:]
+服务器代码页: 
+[Enable UTF8 autodetection]
+启用自动检测 UTF8
+[Add server]
+添加服务器
+[Host address]
+主机地址
+[Server description]
+服务器介绍
+[Channels on server]
+服务器频道
+[Filter by]
+过滤于
+[C&onnect]
+连接(&O)
+[Hostmask]
+主机掩码
+[&Clear all]
+全部清除(&C)
+[Online detection mode]
+在线检测模式
+[Wildcard enabled network search]
+网络搜索启用通配符支持
+[Bans]
+踢走
+[Invites]
+邀请
+[Excepts]
+例外
+[Only Ops set topic]
+仅操作员设置主题
+[No external messages]
+无外部消息
+[Invite only]
+仅邀请
+[Moderated]
+已主持
+[Key:]
+键值: 
+[User limit:]
+用户限制: 
+[Secret]
+秘密
+[Topic]
+主题
+[User modes]
+用户模式
+[Channel modes]
+频道模式
+[Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
+请使用选项设置此频道模式. 通常需要操作员或更高权限才能修改. 
+[Strip colors]
+条列颜色
+[Send-ahead]
+预先发送
+[Attempt reverse DCC (good if firewalled)]
+尝试反向 DCC (有防火墙时较好)
+[everyone on the contact list]
+联系人列表中所有人
+[everyone]
+所有人
+[Disconnect DCC chats when disconnecting from server]
+当从服务器断线时中断 DCC 聊天
+[Manually set external IP:]
+手动设置外部 IP: 
+[Client-to-Client File Transfers]
+C2C 文件传输
+[Client-to-Client Protocol]
+C2C 协议
+[Client-to-Client Chats]
+C2C 聊天
+[Send mode:]
+发送模式: 
+[Packet size (b):]
+封包大小 (b): 
+[Get IP address from server]
+从服务器获取 IP 地址
+[Auto-accept from:]
+自动接受从: 
+[Send notice]
+发送公告
+[CTCP Chat Request]
+CTCP 聊天请求
+[Enable (*)]
+启用 (*)
+[Ignore channel messages by default]
+默认忽略频道消息
+[Ignore filetransfer requests]
+忽略文件传输请求
+[Ignore DCC Chat requests]
+忽略 DCC 聊天请求
+[Ignore DCC Chat requests from unknown contacts]
+忽略未知联系人 DCC 聊天请求
+[Ignore users]
+忽略用户
+[(*) Queries from users on your contactlist are never ignored]
+(*) 联系人列表中用户所发查询永不忽略
+[Ignore mask ( nick!user@host )]
+忽略掩码 ( 昵称!用户@主机 )
+[Network (*)]
+网络 (*)
+[Ignore events]
+忽略事件
+[(*) blank to set this mask for all networks]
+(*) 留空将此掩码应用至所有网络
+[Alternate nick]
+互换昵称
+;file \protocols\IRCG\src\clist.cpp
+[CTCP chat request from %s]
+CTCP 聊天请求自 %s
+;file \protocols\IRCG\src\commandmonitor.cpp
+[%s sets mode %s]
+%s 设置模式 %s
+[%s sets mode %s%s]
+%s 设置模式 %s%s
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+CTCP 错误: 从 %s!%s@%s 收到错误格式的 CTCP 命令. 可能试图控制您所登记的 IRC 客户端
+[CTCP FINGER requested by %s]
+%s 请求 CTCP FINGER
+[CTCP VERSION requested by %s]
+%s 请求 CTCP VERSION
+[CTCP SOURCE requested by %s]
+%s 请求 CTCP SOURCE
+[CTCP USERINFO requested by %s]
+%s 请求 CTCP USERINFO
+[CTCP PING requested by %s]
+%s 请求 CTCP PING
+[CTCP TIME requested by %s]
+%s 请求 CTCP TIME
+[DCC: Chat request from %s denied]
+DCC: %s 聊天请求已被拒绝
+[DCC: File transfer request from %s denied]
+DCC: %s 文件传输请求已被拒绝
+[DCC: Reverse file transfer request from %s denied [No local IP]]
+DCC: %s 反向文件传输请求已被拒绝 [无本地 IP]
+[DCC ERROR: Malformed CTCP request from %s [%s]]
+DCC 错误: %s [%s] CTCP 请求格式错误
+[DCC: File transfer resume request from %s denied]
+DCC: %s 文件续传请求已被拒绝
+[CTCP %s requested by %s]
+CTCP %s 由 %s 请求
+[CTCP PING reply from %s: %u sec(s)]
+%s CTCP PING 回复: %u 秒
+[CTCP %s reply from %s: %s]
+CTCP %s 回复由 %s: %s
+[Downloading list (%u%%) - %u channels]
+正在下载列表 (%u%%) - %u 个频道
+[Downloading list - %u channels]
+正在下载列表 - %u 个频道
+[Done: %u channels]
+完成: %u 个频道
+[(probably truncated by server)]
+(可能已被服务器截短)
+[Change nickname]
+变更昵称
+[IRC error]
+IRC 错误
+[Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
+请输入主机掩码 (昵称!用户@主机)\n注意! 联系人列表中的用户是永不忽略的
+[Please enter the reason]
+请输入原因
+[Ban'n Kick]
+封锁并踢走
+[Jerk]
+发言
+[*Disconnected*]
+*已断开连接*
+[The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
+在执行缓冲区使用 /AWAY 是受限制的, \n因为 IRC 会自动发送此命令. 
+[IRC Error]
+IRC 错误
+;file \protocols\IRCG\src\input.cpp
+[The buddy check function is enabled]
+好友检查功能已启用
+[The buddy check function is disabled]
+好友检查功能已禁用
+[Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
+非法参数. 用法: /sleep [毫秒], 毫秒数应大于 0 且小于 4000.
+[Ignore system is enabled]
+忽略系统已启用
+[Ignore system is disabled]
+忽略系统已禁用
+[%s on %s is now ignored (+%s)]
+%s 在 %s 现已被忽略 (+%s)
+[%s is not ignored now]
+%s 现已解除忽略
+[%s was not ignored]
+%s 尚未被忽略
+[Outgoing commands are shown]
+显示发送命令
+[Outgoing commands are not shown]
+不显示发送命令
+[The time interval for the buddy check function is now at default setting]
+好友检查功能间隔时间现已设为默认值
+[The time interval for the buddy check function is now %u seconds]
+好友检查功能间隔时间现已设为 %u 秒
+[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
+此命令不建议用于这种大小的网络中! \r\n这样可能导致高 CPU 使用率 及/或 高带宽占用\r\n约 %u 至 %u 分钟. \r\n\r\n您真的想继续? 
+[IRC warning]
+IRC 警告
+[Aborted]
+已放弃
+[CTCP %s request sent to %s]
+CTCP %s 请求已发送至 %s
+[DCC ERROR: Unable to automatically resolve external IP]
+DCC 错误: 无法自动解析外部 IP
+[DCC CHAT request sent to %s]
+DCC CHAT 请求已发送至 %s
+[DCC ERROR: Unable to bind port]
+DCC 错误: 无法监听端口
+[Input command]
+输入命令
+[Please enter the reply]
+请输入回复
+;file \protocols\IRCG\src\irclib.cpp
+[Failed to connect to]
+无法连接到
+[DCC ERROR: Unable to bind local port for passive filetransfer]
+DOC 错误: 无法绑定本地端口进行被动文件传输
+;file \protocols\IRCG\src\ircproto.cpp
+[DCC ERROR: No valid files specified]
+DCC 错误: 未指定有效文件
+[DCC reversed file transfer request sent to %s [%s]]
+DCC 反向文件发送请求已送达 %s [%s]
+[DCC file transfer request sent to %s [%s]]
+DCC 文件发送请求已送达 %s [%s]
+[DCC ERROR: Unable to bind local port]
+DCC 错误: 无法监听本地端口
+[The protocol is not online]
+协议尚未上线
+[The dcc chat connection is not active]
+DCC 聊天连接尚未使用
+[Please choose an IRC-network to go online. This network will be the default.]
+请选择要上线的 IRC 网络. 此网络将设为默认值. 
+[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+无法建立连接! 您尚未完成所有必需项 (昵称, 用户 ID 及 m_name). 
+;file \protocols\IRCG\src\options.cpp
+[Channel list]
+频道列表
+[Quick connect]
+快速连接
+[Show channel]
+显示频道
+[Incoming DCC Chat]
+传入 DCC 聊天
+[Logo (48x48)]
+标志 (48x48)
+[Cyrillic (Windows)]
+西里尔 (Windows)
+[Cyrillic (KOI8R)]
+西里尔 (KOI8R)
+[Please complete all fields]
+请填完所有资料
+[Add a new network]
+添加新网络
+[Edit this network]
+编辑此网络
+[Delete this network]
+删除此网络
+[Do you want to delete\r\n%s]
+您确定要删除\r\n%s
+[Delete server]
+删除服务器
+[Edit server]
+编辑服务器
+[<Resolved IP: ]
+<已解析 IP: 
+[<Automatic>]
+<自动>
+[<Local IP: ]
+<本地 IP: 
+[Click to set commands that will be performed for this event]
+点击此处设定事件执行命令
+[Click to delete the commands for this event]
+点击此处删除事件命令
+[Default ANSI codepage]
+默认 ANSI 代码页
+[Add new ignore]
+添加新忽略项目
+[Edit this ignore]
+编辑此忽略项目
+[Delete this ignore]
+删除此忽略项目
+[Ignore mask]
+忽略掩码
+[Flags]
+旗帜
+[Add ignore]
+添加忽略
+[Edit ignore]
+编辑忽略
+[DCC'n CTCP]
+DCC 及 CTCP
+;file \protocols\IRCG\src\output.cpp
+[WallOps from %s: ]
+%s 发出 WallOps: 
+[%s invites you to %s]
+%s 邀请您到 %s
+[%s is away]
+%s 已外出
+[These are online: ]
+这些人在线: 
+[CTCP %s reply sent to %s]
+CTCP %s 回复已送达 %s
+[CTCP %s reply sent to %s: %s]
+CTCP %s 回复已送达 %s: %s
+[Notice to %s: ]
+给 %s 的公告: 
+;file \protocols\IRCG\src\services.cpp
+[&Quick connect]
+快速连接(&Q)
+[&Join channel]
+添加频道(&J)
+[&Change your nickname]
+变更您的昵称(&C)
+[Show the &list of available channels]
+显示可用频道列表(&L)
+[&Show the server window]
+显示服务器窗口(&S)
+[Channel &settings]
+频道设置(&S)
+[&WhoIs info]
+WhoIs 信息(&W)
+[Di&sconnect]
+断开连接(&C)
+[&Add to ignore list]
+添加至忽略列表(&A)
+[%s (%s) is requesting a client-to-client chat connection.]
+%s (%s) 正在请求 C2C 聊天连接. 
+[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
+请输入主机掩码 (昵称!用户@主机)\n注意! 您列表中的联系人永远不忽略
+[Join channel]
+加入频道
+[Please enter a channel to join]
+请输入要加入频道
+[Please select IRC network and enter the password if needed]
+请选择 IRC 网络并在需要时输入密码
+[Change nick name]
+变更昵称
+[Please enter a unique nickname]
+请输入独有的昵称
+[Please enter your authentification code]
+请输入您的认证码
+[Authentificate nick]
+认证昵称
+[Are you sure you want to unregister your current nick?]
+您确定要解除注册当前昵称? 
+[Delete nick]
+删除昵称
+[Identify nick]
+识别昵称
+[Please enter your password]
+请输入您的密码
+[Set new password]
+设置新密码
+[Please enter desired languageID (numeric value, depends on server)]
+请输入您想用的 languageID (数值, 视乎服务器而定)
+[Change language of NickServ messages]
+变更 NickServ 消息语言
+[Please enter URL that will be linked to your nick]
+请输入将被链接至昵称的 URL
+[Set URL, linked to nick]
+设置 URL, 已链接至昵称
+[Please enter your e-mail, that will be linked to your nick]
+请输入将被链接至昵称的邮件
+[Set e-mail, linked to nick]
+设置邮件, 已链接至昵称
+[Please enter some information about your nick]
+请输入您的昵称相关信息
+[Set information for nick]
+为昵称设置信息
+[Please enter nick you want to link to your current nick]
+请输入您想与当前昵称链接的昵称
+[Link another nick to current nick]
+链接其它昵称到当前昵称
+[Please enter nick you want to unlink from your current nick]
+请输入您想与当前昵称解除链接的昵称
+[Unlink another nick from current nick]
+从当前昵称解除链接其它昵称
+[Please enter nick you want to set as your main nick]
+请输入您想设为主昵称的昵称
+[Set main nick]
+设置主昵称
+[Kick]
+踢走
+[Please enter the notice text]
+请输入公告文本
+[Please enter the channel name to invite to]
+请输入要邀请的频道名称
+[Invite to channel]
+邀请至频道
+[Register nick]
+注册昵称
+[Auth nick]
+认证昵称
+[Remind password ]
+提醒密码
+[Set language]
+设置语言
+[Set homepage]
+设置主页
+[Set e-mail]
+设置邮箱
+[Set info]
+设置信息
+[Hide e-mail from info]
+从信息隐藏邮箱
+[Show e-mail in info]
+在信息中显示邮箱
+[Set security for nick]
+昵称设置安防
+[Remove security for nick]
+昵称移除安防
+[Link nick to current]
+链接昵称至当前
+[Unlink nick from current]
+从当前移除昵称
+[List all your nicks]
+列出您的所有昵称
+[List your channels]
+列出您的频道
+[Kill unauthorized: off]
+杀掉未经授权: 关闭
+[Kill unauthorized: on]
+杀掉未经授权: 打开
+[Kill unauthorized: quick]
+杀掉未经授权: 快速
+[Hide nick from list]
+从列表隐藏昵称
+[Show nick to list]
+显示昵称至列表
+[Show the server &window]
+显示服务器窗口(&W)
+[&Leave the channel]
+离开频道(&L)
+[&Invite to channel]
+邀请至频道(&I)
+[Send &notice]
+发送公告(&N)
+[Nickserv info]
+昵称服务信息
+[Nickserv kill ghost]
+昵称服务杀掉幽灵
+[&Control]
+控制(&C)
+[Give Owner]
+指定所有者
+[Take Owner]
+取回所有者
+[Give Admin]
+指定管理员
+[Take Admin]
+取回管理员
+[Give &Op]
+指定操作(&O)
+[Take O&p]
+获取操作(&O)
+[Give &Halfop]
+指定半操作(&H)
+[Take H&alfop]
+获取半操作(&A)
+[Give &Voice]
+指定语音(&V)
+[Take V&oice]
+获取语音(&O)
+[Ki&ck (reason)]
+踢走 (原因)(&C)
+[&Ban]
+封锁(&B)
+[Ban'&n kick]
+封锁并踢走(&N)
+[Ban'n kick (&reason)]
+封锁并踢走 (原因)(&N)
+[&Direct Connection]
+直接连接(&D)
+[Request &Chat]
+要求聊天(&C)
+[Send &File]
+发送文件(&F)
+[Add to &ignore list]
+添加至忽略列表(&I)
+[&Add User]
+添加用户(&A)
+[Connecting to]
+正在连接至
+[Reconnecting to]
+正在重新连接至
+;file \protocols\IRCG\src\tools.cpp
+;file \protocols\IRCG\src\userinfo.cpp
+;file \protocols\IRCG\src\windows.cpp
+[Channel]
+频道
+[%s - Filtered - %d items]
+%s - 已过滤 - %d 项
+[---- Not listed server ----]
+---- 未列出服务器 ----
+[Type new server address here]
+在此键入新服务器地址
+[Add ban/invite/exception]
+添加封锁/邀请/例外
+[Edit selected ban/invite/exception]
+编辑封锁/邀请/例外
+[Delete selected ban/invite/exception]
+删除封锁/邀请/例外
+[Set these modes for the channel]
+为频道设定这些模式
+[Set this topic for the channel]
+为频道设定此主题
+[You have not applied all changes!\n\nApply before exiting?]
+您尚未应用所有变更! \n\n在离开前应用? 
+[Add ban]
+添加踢走
+[Add invite]
+添加邀请
+[Add exception]
+添加例外
+[Please enter the hostmask (nick!user@host)]
+请输入主机掩码 (昵称!用户@主机)
+[Edit ban]
+编辑踢走
+[Edit invite?]
+编辑邀请? 
+[Edit exception?]
+编辑例外? 
+[Remove ban?]
+移除踢走? 
+[Remove invite?]
+移除邀请? 
+[Remove exception?]
+移除例外? 

@@ -1,0 +1,172 @@
+﻿#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
+;============================================================
+;  File: SecureIM.dll
+;  Plugin: SecureIM
+;  Version: 1.0.12.4
+;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
+;============================================================
+;file \plugins\SecureIM\res\resource.rc
+[User List]
+用户列表
+[Enable Secure Offline messages]
+启用安全离线消息
+[Enable Secure File Transfer]
+启用安全文件传输
+[Always show status icons in contact list]
+永远在联系人列表显示状态图标
+[Context Menu only for "Miranda" clients]
+仅 "Miranda" 客户端显示环境菜单
+[Status in Context Menu]
+环境菜单中显示状态
+[Disable encryption for game plugins]
+禁用游戏插件加密
+[Always secured if possible]
+如可能则永远使用安全连接
+[Not secured for NotOnList]
+非好友则非安全
+[Auto accept RSA key (NOT SECURED)]
+自动接受 RSA 密钥 (非安全)
+[Mode in Context Menu]
+在环境菜单中显示模式
+[Key Exchange Timeout :]
+密钥交换超时: 
+[Offline Key Timeout :]
+离线密钥超时: 
+[Split Messages]
+拆分信息
+[Online:]
+上线时长: 
+[Offline:]
+离线:
+[RSA Key]
+RSA 密钥
+[Public]
+公共
+[&Copy SHA1]
+复制 SHA1(&C)
+[E&xport]
+导出(&X)
+[Set &keyrings...]
+设置密钥链(&K)...
+[Disable keyrings use]
+禁用密钥链
+[Load &Private key]
+读取私钥(&P)
+[Executable:]
+执行:
+[Home Directory:]
+主目录:
+[Temp Dir:]
+临时目录:
+[Key Assignment]
+密钥分配
+[Save Pass]
+保存密码
+[Key agreement colors]
+密钥呼应颜色
+[Secure connection colors]
+安全连接颜色
+[Send/Receive encrypted colors]
+发送/接收已加密内容颜色
+[Time in Seconds]
+时间以秒单位
+[Show a popup on established connection]
+建立连接后显示弹出窗口
+[Show a popup on disabled connection]
+禁用连接后显示弹出窗口
+[Show a popup on key send]
+发送密钥时显示弹出窗口
+[Show a popup on key received]
+接收密钥时显示弹出窗口
+[Show a popup on each secure send]
+每次安全发送时显示弹出窗口
+[Show a popup on each secure receive]
+每次安全接收时显示弹出窗口
+[Please type in your password]
+请输入您的密码
+[SecureIM plugin Passphrase of private key]
+SecureIM 插件私钥通行码
+[Enter passphrase for the secret key:]
+输入私匙通行码:
+[Native SecureIM]
+内置的 SecureIM
+[Always Try to Establish Secure IM]
+永远尝试建立 Secure IM
+[Secure IM Enabled]
+Secure IM 已启用
+[Secure IM Disabled]
+Secure IM 已禁用
+[Pre-shared key]
+预先分享密钥
+[Set key]
+设置密钥
+[Set pre-shared key]
+设置预共享密钥
+[Delete pre-shared key]
+删除预共享密钥
+[Public key]
+公匙
+[Export key]
+导出密钥
+[Import public key]
+导入公匙
+[Delete public key]
+删除公匙
+;file \plugins\SecureIM\src\language.cpp
+[Always try]
+永远尝试
+[Create SecureIM connection]
+建立安全连接
+[Disable SecureIM connection]
+禁用 SecureIM 连接
+[SecureIM mode (Native)]
+SecureIM 模式 (原始)
+[SecureIM status (disabled)]
+SecureIM 状态 (禁用)
+;file \plugins\SecureIM\src\loadicons.cpp
+[Connection Disabled]
+连接禁用
+[Connection Established]
+连接已创建
+[Disable Secure Connection]
+显示安全连接
+[Establishe Secure Connection]
+建立安全连接
+[Message Window]
+消息窗口
+[Secure Connection Disabled]
+安全连接已禁用
+[Secure Connection Established]
+安全连接已创建
+[Secure Connection In Process]
+安全连接创建中
+[Recv Secured Message]
+接收安全消息
+[Sent Secured Message]
+发送安全消息
+[Menu State]
+菜单状态
+[Always Try]
+始终尝试
+[Native mode]
+原始模式
+[PGP mode]
+PGP 模式
+[GPG mode]
+GPG 模式
+[RSA/AES mode]
+RSA/AES 模式
+;file \plugins\SecureIM\src\main.cpp
+[Incoming Secure Message]
+传入安全消息
+[Outgoing Secure Message]
+发出安全消息
+[SecureIM status]
+SecureIM 状态
+;file \plugins\SecureIM\src\options.cpp
+[Select GnuPG Executable]
+选择 GnuPG 可执行文件
+;file \plugins\SecureIM\src\popupOptions.cpp
+;file \plugins\SecureIM\src\svcs_srmm.cpp
+[SecureIM [Native]]
+SecureIM [原始]

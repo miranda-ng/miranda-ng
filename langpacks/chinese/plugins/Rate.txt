@@ -1,0 +1,18 @@
+﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
+;============================================================
+;  File: Rate.dll
+;  Plugin: Contact`s rate
+;  Version: 0.0.2.1
+;  Authors: Kildor, Thief
+;============================================================
+;file \plugins\Rate\src\main.cpp
+[Rate high]
+高级
+[Rate medium]
+中级
+[Rate low]
+低级
+[Contact Rate]
+联系人等级
+[Contact rate]
+联系人等级

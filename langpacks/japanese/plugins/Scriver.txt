@@ -1,0 +1,207 @@
+﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
+;  File: Scriver.dll
+;  Plugin: Scriver
+;  Version: 2.10.0.2
+;  Authors: Miranda NG Development Team
+;============================================================
+;file \plugins\Scriver\res\resource.rc
+[Automatically pop up the window when]
+次の場合自動的にウィンドウをポップアップ
+[and stay minimized]
+その時最小化する
+[Save size and location for each contact]
+コンタクト毎に大きさと位置を保存
+[Minimize on send]
+送信時に最小化
+[Hide windows on close]
+閉じる時ウィンドウを非表示
+[Remember unsent messages]
+未送信メッセージを記憶
+[Delete temporary contacts on closing]
+閉じる時一時的なコンタクトを削除
+[Enable tabs]
+タブを有効
+[Tabs at bottom]
+タブは一番下
+[Limit names on tabs to]
+タブの名前を以下に制限
+[Show close button on each tab]
+タブ毎に閉じるボタンを表示
+[Switch to active tab]
+アクティブタブの切り替え
+[Limit number of tabs per window to]
+ウィンドウ毎のタブの数を以下に制限 :
+[Use separate windows for group chats]
+グループチャットに個別のウィンドウを使用
+[Limit number of group chats tabs per window to]
+ウィンドウ毎のグループチャットタブの数を以下に制限 :
+[Show titlebar]
+タイトルバーを表示
+[Show toolbar]
+ツールバーを表示
+[Show infobar]
+情報バーを表示
+[Show progress indicator]
+進行状況インジケータを表示
+[Min input area size]
+入力エリアのサイズを最小化
+[Enable IEView]
+IEView を有効
+[Long date format]
+詳細日付形式
+[Relative date]
+相対日付
+[Enable message grouping]
+メッセージのグループ化を有効
+[Mark follow-up msgs with timestamp]
+タイムスタンプ付フォローアップメッセージに印をつける
+[Start message text on a new line]
+メッセージのテキストを新規行から始める
+[Show lines between messages]
+メッセージ間に線を表示
+[Indent text]
+テキストインデント
+[Customize fonts and colors]
+フォントと色をカスタマイズ
+[Preload]
+プリロード
+[Unread events only]
+未読イベントのみ
+[Last]
+最終
+[Events in the last]
+過去のイベント
+[Typing Notification Options]
+入力中通知オプション
+[Show typing notification switch in the status bar]
+ステータスバーに入力中通知の切り替えを表示
+[Update message window icons when a user is typing]
+ユーザーが入力中の時メッセージウィンドウのアイコンを更新する
+[&E]
+&E
+[&Q]
+&Q
+[Send To All Tabs]
+全てのタブに送る
+[You are about to send a message to all open tabs.\nAre you sure ?]
+あなたは全ての開いているタブにメッセージを送信しようとしています。\n実行してよろしいですか ?
+[Remember my choice for this container]
+このコンテナに関する自分の選択を記憶する
+[User list row height]
+ユーザーリストの行の高さ
+[Save logs]
+ログを保存
+[Trim to]
+トリムする
+[kB]
+kB
+[Group Chat]
+グループチャット
+[(0 means default setting, -1 means indefinite time)]
+( 0 はデフォルト設定 , -1 は無制限 )
+[Bing]
+Bing
+[Wikipedia (en)]
+Wikipedia ( 英 )
+[Google Maps]
+Google マップ
+[Google Translate]
+Google 翻訳
+[Foodnetwork]
+Foodnetwork
+;file \plugins\Scriver\src\globals.cpp
+[User's details]
+ユーザーの詳細情報
+[User's history]
+ユーザーの履歴
+[User is typing]
+ユーザーは入力中です
+[Typing notification off]
+入力中通知 オフ
+[Unicode is on]
+Unicode オン
+[Unicode is off]
+Unicode オフ
+[Sending]
+送信中
+[Quote button]
+引用ボタン
+[Close button]
+閉じるボタン
+[Status 2 (10x10]
+ステータス 2 (10x10)
+;file \plugins\Scriver\src\input.cpp
+;file \plugins\Scriver\src\msgdialog.cpp
+[Quote Text]
+テキストを引用
+[User Menu - %s]
+ユーザーメニュー - %s
+[Sending in progress: %d message(s) left...]
+送信の進捗状況: 残り %dメッセージ...
+;file \plugins\Scriver\src\msglog.cpp
+;file \plugins\Scriver\src\msgoptions.cpp
+[Event Log]
+イベントログ
+[Group Chat Log]
+グループチャットログ
+[Infobar contact name]
+情報バーのコンタクト名
+[Infobar background]
+情報バーの背景
+[Infobar status message]
+情報バーのステータスメッセージ
+[Message background]
+メッセージの背景
+[User list members (online)]
+ユーザーリストのメンバー ( オンライン )
+[User list background]
+ユーザーリストの背景
+[User list lines]
+ユーザーリストの線
+[User list background (selected)]
+ユーザーリストの背景 ( 選択済 )
+;file \plugins\Scriver\src\msgs.cpp
+;file \plugins\Scriver\src\msgtimedout.cpp
+;file \plugins\Scriver\src\msgwindow.cpp
+[Always On Top]
+常に前面
+;file \plugins\Scriver\src\sendqueue.cpp
+;file \plugins\Scriver\src\chat\clist.cpp
+;file \plugins\Scriver\src\chat\colorchooser.cpp
+;file \plugins\Scriver\src\chat\log.cpp
+;file \plugins\Scriver\src\chat\main.cpp
+;file \plugins\Scriver\src\chat\options.cpp
+[Flash when someone speaks]
+誰かが話したらフラッシュ
+[Flash when a word is highlighted]
+単語が強調表示されたらフラッシュ
+[Show chat user list]
+チャットユーザーリストを表示
+[Enable button context menus]
+コンテキストメニューにボタンを有効
+[Show topic on your contact list (if supported)]
+あなたのコンタクトリストにトピックを表示 ( サポート時 )
+[Do not play sounds when focused]
+フォーカスされている時音声を鳴らさない
+[Do not pop up when joining]
+参加中はポップアップしない
+[Show and hide by double clicking in the contact list]
+コンタクトリスト内でのダブルクリックで表示と非表示
+[Show contact statuses (if supported)]
+コンタクトステータスを表示 ( サポート時 )
+[Display contact status icon before role icon]
+役割アイコンの前にコンタクトステータスアイコンを表示
+[Timestamp has same colour as event]
+タイムスタンプをイベントと同じ色にする
+[Limit user names to 20 characters]
+ユーザー名を 20 文字に制限
+[Strip colors from messages]
+メッセージを単色表示にする
+[Appearance and functionality of chat windows]
+チャットウィンドウの外観と機能
+[year without century, 01-  99]
+年 , 01-  99
+;file \plugins\Scriver\src\chat\services.cpp
+;file \plugins\Scriver\src\chat\tools.cpp
+;file \plugins\Scriver\src\chat\window.cpp

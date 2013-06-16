@@ -1,0 +1,36 @@
+﻿#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook RM
+;  Version: 0.1.1.0
+;  Authors: Michal Zelinka, Robert Pösel
+;============================================================
+;file \protocols\FacebookRM\res\facebook.rc
+[Create a new Facebook account]
+新規 Facebook アカウントを作成
+[What's on your mind?]
+今なにしてる ?
+[Share]
+シェア
+[Advanced Settings]
+詳細設定
+;file \protocols\FacebookRM\src\communication.cpp
+;file \protocols\FacebookRM\src\connection.cpp
+[Please enter a username.]
+ユーザー名を入力してください
+[Please enter a password.]
+パスワードを入力してください
+;file \protocols\FacebookRM\src\constants.h
+;file \protocols\FacebookRM\src\contacts.cpp
+;file \protocols\FacebookRM\src\dialogs.cpp
+;file \protocols\FacebookRM\src\json.cpp
+;file \protocols\FacebookRM\src\messages.cpp
+[You cannot send messages when you are offline.]
+オフライン時はメッセージを送信できません
+;file \protocols\FacebookRM\src\process.cpp
+;file \protocols\FacebookRM\src\proto.cpp
+;file \protocols\FacebookRM\src\theme.cpp
+[Mind]
+投稿
+[Mind...]
+投稿...

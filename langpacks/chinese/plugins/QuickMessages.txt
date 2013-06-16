@@ -1,0 +1,61 @@
+﻿#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
+;============================================================
+;  File: QuickMessages.dll
+;  Plugin: Quick messages
+;  Version: 0.0.4.2
+;  Authors: MaD_CLuSTeR
+;============================================================
+[Plugin for quick insert pre-defined messages in message input area.]
+插件可在信息输入区快速插入预定义信息.
+;file \plugins\QuickMessages\res\quickmessages.rc
+[Button Right-Click value]
+右键值
+[Button Left-Click menu]
+右键菜单
+[Menu entry value:]
+菜单项值:
+[Misc.]
+杂项.
+[Auto-send on Left-Click]
+左键点击自动发送
+[Auto-send on Right-Click]
+右键点击自动发送
+[Add to QuickMenu]
+添加至快速菜单
+[Enable QuickMenu]
+启用快速菜单
+[Consider as ServiceName]
+考虑作为服务名称
+[You have changed the plugin settings via database.\nThis requires restart!]
+您已更改此插件数据库设置.\n需重启生效!
+[Quick Messages Help]
+快速消息帮助
+[- Selected text]
+- 选定文本
+[List of variables:]
+变量列表:
+[- Text from Clipboard]
+- 剪贴板文本
+[- Contacts Protocol name (upper case)]
+- 联系人协议名称 (大写)
+[- Contact display name]
+- 联系人显示名称
+[Tips:]
+提示:
+[*Rename menu item into "---" to insert separator]
+*菜单项改名为 "---" 添加分隔条
+[*Use drag'n'drop for arranging menu items]
+*使用拖放可调整菜单项
+[- Contact first name]
+- 联系人名字
+[- Contact last name]
+- 联系人姓氏
+;file \plugins\QuickMessages\src\main.cpp
+[Quick Messages]
+快速消息
+;file \plugins\QuickMessages\src\options.cpp
+[Enter Value]
+输入数值
+[You win!]
+您胜利了! 
+;file \plugins\QuickMessages\src\Utils.cpp

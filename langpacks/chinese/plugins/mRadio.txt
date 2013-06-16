@@ -1,0 +1,159 @@
+﻿#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
+;============================================================
+;  File: mradio.dll
+;  Module: mRadio, mRadio Mod
+;  Versions: 0.0.2.1
+;  URL:http://awkward.mirandaim.ru
+;============================================================
+[This plugin plays and records Internet radio streams. Also local media files can be played.]
+此插件可播放或记录网络广播流. 同样也可播放本地媒体文件.
+[mRadio Mod]
+mRadio 修改版
+[REC]
+记录
+[Cave]
+洞穴
+[Arena]
+舞台
+[Genre]
+流派
+[Plain]
+草原
+[Alley]
+胡同
+[Dizzy]
+晕眩
+[Generic]
+种类
+[Bathroom]
+浴室
+[Parking Lot]
+停车场
+[Stone Corridor]
+石材走廊
+[Sewer Pipe]
+下水道
+[Auditorium]
+大礼堂
+[Carpeted Hallway]
+地毯走廊
+[Play from first]
+从头播放
+[Shuffle playlist]
+乱序播放列表
+[Loop single media]
+单曲循环
+[Station Name]
+站点名称
+[Timeout, ms (5000)]
+超时, 毫秒(5000)
+[Hallway]
+走廊
+[Mountains]
+山脉
+[Use EAX]
+使用 EAX
+[Under Water]
+水下
+[Station URL (required)]
+站点链接(必需)
+[To INI]
+至 INI
+[Buffer, ms (5000)]
+缓冲, 毫秒(5000)
+[Add station]
+添加站点
+[Add Station]
+添加站点
+[Bitrate]
+比特率
+[Stone Room]
+石头房间
+[Living Room]
+起居室
+[Drugged]
+迷幻
+[Record path]
+记录路径
+[Padded Cell]
+软壁小室
+[Autoconnect last station]
+自动连接最后站点
+[Concert Hall]
+音乐厅
+[Psychotic]
+疯狂
+[To list]
+至列表
+[Hangar]
+棚厂
+[Offline station as Offline]
+离线站点显示为离线
+[Continuous record]
+连续记录
+[Quarry]
+采石场
+[Sorry!]
+抱歉!
+[BASS.DLL not found!]
+BASS.DLL 未找到!
+[Station]
+站点
+[Custom INI file]
+自定义 INI 文件
+[Start record]
+开始记录
+[Stop record]
+停止记录
+[Currently played URL]
+当前播放链接
+[Current stream title]
+当前流标题
+[Station/playlist URL]
+站点/播放列表链接
+[Currently used decoder]
+当前使用解码器
+[Can't initialize device]
+无法初始化设备
+[Can't connect to net. Please, clear 'Work offline' option in Internet settings]
+无法连接至网络. 请取消网络设置中 '脱机' 选项
+[Start broadcasting]
+开始广播
+[Stop broadcasting]
+停止广播
+[Start/Stop broadcasting]
+开始/停止广播
+[Start/Stop Record]
+开始/停止记录
+[Record]
+记录
+[Status message template]
+状态消息模板
+[Equalizer presets]
+预置均衡器
+[Export All]
+导出所有
+[Current status]
+当前状态
+[Broadcast ON]
+广播打开
+[Broadcast OFF]
+广播关闭
+[Add EQ preset]
+添加 EQ 均衡器
+[Delete EQ preset]
+删除 EQ 均衡器
+[BASS library path (empty for default)]
+BASS 库路径 (默认为空)
+[Tries to connect]
+尝试连接
+[Mute]
+静音
+[mRadio volume control]
+mRadio 音量控制
+[OFF]
+关闭
+[Volume]
+音量
+[Equalizer]
+均衡器

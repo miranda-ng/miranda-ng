@@ -1,0 +1,73 @@
+﻿#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
+;============================================================
+;  File: AIM.dll
+;  Plugin: AIM protocol
+;  Version: 0.11.0.1
+;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
+;============================================================
+;file \protocols\AimOscar\res\aim.rc
+[AIM User Details]
+AIM felhasználó részletek
+[AIM Options]
+AIM beállítások
+[Message Delivery Confirmation]
+Üzenetküldés megerõsítése
+[Do Not Autoreply When Away]
+Nincs autoválasz Távol módban 
+[Convert Incoming Messages to BBCode]
+Bejövõ üzenetek konvertálása BBkódba
+[Convert Outgoing Messages to HTML]
+Kimenõ üzenetek konvertálása HTML-be
+[Disable Avatars]
+Avatárok kikapcsolása
+[Disable Account Type Icons]
+Fiók típusikonok kikapcsolása
+[Disable Extended Status Icons]
+Kiterjesztett állapotikonok kikapcsolása
+[Advanced Options]
+Haladó beállítások
+[Instant Idle on Login]
+Azonnali idle bejelentkezéskor
+[Force Proxy File Transfers]
+Proxy fájlátvitelek kényszerítése
+[Masquerade as a Sidekick/Hiptop User]
+Álcázás oldal-csúszkás/kinyitható felhasználóként
+[*Aim must be reconnected  for some option to take effect.]
+*Aim újracsatlakoztatása szükséges néhány beállítás életbelépéséhez.
+[Save Profile]
+Profil mentése
+[AIM Instant Idler]
+AIM azonnali szállító
+[Number of Hours:]
+Órák száma:
+[Number of Minutes:]
+Percek száma:
+[Set Idle]
+Idle beállítása
+[Unset Idle]
+Idle kikapcsolása
+;file \protocols\AimOscar\src\avatars.cpp
+;file \protocols\AimOscar\src\chat.cpp
+;file \protocols\AimOscar\src\error.cpp
+;file \protocols\AimOscar\src\file.cpp
+;file \protocols\AimOscar\src\links.cpp
+;file \protocols\AimOscar\src\popup.cpp
+;file \protocols\AimOscar\src\proto.cpp
+;file \protocols\AimOscar\src\server.cpp
+[[Auto-Response]:]
+Auto-válasz:
+[No information has been provided by the server.]
+Nincs információ a szervertõl.
+;file \protocols\AimOscar\src\theme.cpp
+[Manage Account]
+Fiók kezelése
+[Instant Idle]
+Azonnali idle
+[Read &HTML Away Message]
+&HTML Távol üzenet megtekintése
+[Read Profile]
+Profil megtekintése
+[Add To Server List]
+Szerverlistához adás
+;file \protocols\AimOscar\src\ui.cpp
+;file \protocols\AimOscar\src\utility.cpp

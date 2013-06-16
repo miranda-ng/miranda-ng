@@ -1,0 +1,14 @@
+﻿#muuid {3613F2D9-C040-4361-A44F-DF7B5AAACF6E}
+;============================================================
+;  File: CryptoPP.dll
+;  Plugin: Crypto++
+;  Version: 1.0.4.5
+;  Authors: Baloo
+;============================================================
+;file \plugins\CryptoPP\src\GPGw\resource.rc
+[GnuPG Plugin - Passphrase]
+GnuPG 插件 - 口令短语
+[Enter passphrase for the secret key of user:]
+为用户安全密钥输入口令短语:
+[GnuPG Plugin - Select public key]
+GnuPG 插件 - 选定公匙

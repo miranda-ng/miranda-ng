@@ -1,0 +1,202 @@
+﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
+;langpack template for Tlen
+;file \protocols\Tlen\res\tlen.rc
+[Leave status message after disconnection]
+断开后留下状态信息
+[Ignore advertisements]
+忽略广告
+[Show offline users with status messages as invisible in contact list]
+显示联系人列表中离线用户状态信息为隐身
+[Send and receive client version information]
+发送和接收客户端版本信息
+[Alert policy]
+警告策略
+[Use Nudge plugin]
+使用闪屏插件
+[Log alerts as messages]
+记录警告为信息
+[Group chat policy]
+群组聊天策略
+[Voice Chats]
+语音聊天
+[Voice chat policy]
+语音聊天策略
+[Recording device:]
+录音设备:
+[Playback device:]
+播放设备:
+[Expert Options]
+专家选项
+[Connection Host:]
+连接主机:
+[Enable encryption]
+启用加密
+[Enable Always Visible and Never Visible]
+启用永远可见及永不可见
+[P2P Connections]
+P2P 连接
+[Use proxy for incoming connections]
+传入连接使用代理服务器
+[Proxy type:]
+代理服务器类型: 
+[Proxy server:]
+代理服务器: 
+[Proxy requires authorization]
+代理服务器需要授权
+[Mail Notification]
+邮件通知
+[Enable incoming mail notification]
+启用传入邮件通知
+[&Custom]
+自定义(&C)
+[P&ermanent]
+永久(&E)
+[Year of birth:]
+出生年份:
+[School:]
+学校:
+[Looking for:]
+寻找:
+[Voice chats]
+语音聊天
+[Publicly visible status]
+公开状态
+[Save changes]
+保存变更
+[Avatar Options]
+头像选项
+[Public avatar]
+公共头像
+[Tlen login:]
+Tlen 登录:
+[Subscription:]
+订阅:
+[Software:]
+软件: 
+[System:]
+系统: 
+[Personal Information]
+个人信息
+[Extra Search Criterias]
+附加搜索条件
+[Plan:]
+计划:
+[Tlen Voice Chat]
+Tlen 语音聊天
+[Quality]
+质量
+[In]
+入
+[Out]
+出
+[Tlen Voice Chat Invitation]
+Tlen 语音聊天聊天邀请
+[The following invitation to join a voice chat is received.]
+收到以下邀请, 邀请您加入语音聊天.
+;file \protocols\Tlen\src\jabber_iqid.cpp
+[Tlen Authentication]
+Tlen 验证
+;file \protocols\Tlen\src\jabber_opt.cpp
+[These changes will take effect the next time you connect to the Tlen network.]
+这些变化将在您下次连接至 Tlen 网络时生效.
+[Tlen Protocol Option]
+Tlen 协议选项
+[Accept all alerts]
+接受所有警报
+[Ignore alerts from unauthorized contacts]
+未授权联系人忽略警报
+[Ignore all alerts]
+忽略所有警报
+[Always ask me]
+总是问我
+[Accept invitations from authorized contacts]
+已授权联系人接受邀请
+[Accept all invitations]
+接受所有邀请
+[Ignore invitations from unauthorized contacts]
+忽略已授权联系人邀请
+[Ignore all invitation]
+忽略所有邀请
+[<Last message>]
+<最后消息>
+[Forwarding]
+转发
+[%s mail]
+%s 邮件
+;file \protocols\Tlen\src\jabber_svc.cpp
+[Tlen login]
+Tlen 登录
+;file \protocols\Tlen\src\jabber_thread.cpp
+[Jabber Connection Error]
+Jabber 连接错误
+[%s Web Messages]
+%s 网络信息
+[Web message]
+网络信息
+[An alert has been received.]
+警报已收到
+[Private conference]
+私人会议
+;file \protocols\Tlen\src\jabber_ws.cpp
+;file \protocols\Tlen\src\tlen.cpp
+[Tlen chats]
+Tlen 聊天
+[Voice chat]
+语音聊天
+[Microphone]
+麦克风
+[Speaker]
+喇叭
+[Incoming mail]
+传入邮件
+[Alert]
+警报
+[Tlen Chats]
+Tlen 聊天
+[Send picture]
+发送图片
+[Voice Chat]
+语音聊天
+;file \protocols\Tlen\src\tlen_file.cpp
+[1 File]
+1 文件
+;file \protocols\Tlen\src\tlen_muc.cpp
+[You have been kicked. Reason: %s ]
+您已被踢. 理由: %s 
+[You cannot join this chat room, because you are banned.]
+您已被封锁, 无法加入此聊天室.
+[Chat room not found.]
+聊天室无法找到.
+[This is a private chat room and you are not one of the members.]
+这是一个私人聊天室您非其成员.
+[You cannot send any message unless you join this chat room.]
+除非您加入此聊天室否则不能发送任何信息.
+[Chat room with already created.]
+聊天室已建立.
+[Nickname '%s' is already registered.]
+呢称 '%s' 已被注册.
+[Nickname already in use, please try another one. Hint: '%s' is free.]
+呢称已被使用, 请尝试其它. 提示: '%s' 未使用.
+[You cannot register more than %s nicknames.]
+您无法注册超过 %s 个呢称.
+[You cannot create more than %s chat rooms.]
+您无法创建超过 %s 个聊天室.
+[You cannot join more than %s chat rooms.]
+您无法加入超过 %s 个聊天室.
+[Anonymous nicknames are not allowed in this chat room.]
+聊天室中不允许匿名.
+[Unknown error code : %d]
+未知错误代码 : %d
+;file \protocols\Tlen\src\tlen_picture.cpp
+;file \protocols\Tlen\src\tlen_userinfo.cpp
+;file \protocols\Tlen\src\tlen_voice.cpp
+[...Connecting...]
+...连接...
+[...Waiting for connection...]
+...等待连接...
+[...Finished...]
+...完成...
+[...Error...]
+...错误...
+[...Denied...]
+...拒绝...

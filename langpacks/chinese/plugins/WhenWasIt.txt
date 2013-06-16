@@ -1,0 +1,144 @@
+﻿#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+;============================================================
+;  File: WhenWasIt.dll
+;  Plugin: Birthday reminder
+;  Version: 0.3.3.4
+;  Authors: Cristian Libotean
+;============================================================
+[Notifies you of upcoming birthdays.]
+通知您即将到来的生日.
+;file \plugins\WhenWasIt\res\WhenWasIt.rc
+[Don't show popups for subcontacts]
+子联系人不要显示弹出窗口
+[Show popup when no birthdays are near]
+生日临近时显示弹出窗口
+[Popup mouse click]
+弹出窗口鼠标点击
+[Play sounds when there are]
+播放声音当
+[days or less to birthday.]
+天或更短至生日.
+[Start notifying ]
+开始通知 
+[days in advance and]
+天之前且
+[hours.]
+小时.
+[Only notify once per day.]
+一天仅通知一次.
+[By default use]
+默认使用
+[to save birthday data.]
+保存至生日数据.
+[in birthday list window]
+在生日列表窗口中
+[Timeout:]
+超时: 
+[Notify for]
+通知为
+[afterwards]
+然后
+[Birthday list]
+生日列表
+[Set birthday:]
+设置生日:
+[Manage anniversaries]
+管理周年纪念
+[Upcoming birthdays]
+即将到来生日
+;file \plugins\WhenWasIt\src\dlg_handlers.cpp
+[Upcoming age]
+虚岁
+[Current age]
+实际年龄
+[UserInfo module]
+用户信息模块
+[Protocol module]
+协议模块
+[mBirthday module]
+mBirthday 模块
+[All contacts except hidden ones]
+除隐藏外所有联系人
+[All contacts except ignored ones]
+除忽略外所有联系人
+[All contacts except hidden and ignored ones]
+除隐藏及忽略外所有联系人
+[Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occuring today]]
+通知即将到来生日时设置弹出窗口延时.\n格式: 默认延时 [ | 今日生日延时]
+[Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
+您想挽救生日数据时请选择模块.\r\n"用户信息" 于默认位置.\r\n使用 "协议模块" 使数据显示在用户详细资料中.\n"mBirthday 模块" 为 mBirthday 插件使用相同模块.
+[Set birthday for %s:]
+为 %s 设置生日:
+[%S protocol]
+%S 协议
+[Birthday list (%d)]
+生日列表 (%d)
+[Age]
+年龄
+[Closing in %d seconds]
+%d 秒关闭
+[Closing in %d second]
+%d 秒关闭
+;file \plugins\WhenWasIt\src\hooked_events.cpp
+[Check for birthdays]
+检查生日
+[Birthday near]
+生日临近
+[Birthdays (When Was It)]
+生日 (When Was It)
+[Refresh user details]
+刷新用户详细资料
+[Import birthdays]
+导入生日
+[Export birthdays]
+导出生日
+[Add/change user &birthday]
+添加/更改用户生日(&B)
+;file \plugins\WhenWasIt\src\icons.cpp
+[Check birthdays menu item]
+检查生日菜单项
+[List birthdays menu item]
+生日列表菜单项
+[Add/change birthday]
+添加/更改生日
+[1 day to birthday]
+1 天后生日
+[%d days to birthday]
+%d 天生日
+[More than %d days to birthday]
+超过 %d 天生日
+[WhenWasIt birthday reminder]
+WhenWasIt 生日提醒
+;file \plugins\WhenWasIt\src\notifiers.cpp
+[No upcoming birthdays.]
+无即将到来生日.
+[%s had birthday %d days ago.]
+%s 生日于 %d 天前.
+[%s had birthday yesterday.]
+%s 昨天生日.
+[%s has birthday today (Should not happen, please report).]
+%s 今天生日 (不应该发生, 请报告).
+[Birthday - %s]
+生日 - %s
+[%s\n%s will be %d years old.]
+%s\n%s 将满 %d 岁.
+[%s\n%s just turned %d.]
+%s\n%s 刚满 %d.
+;file \plugins\WhenWasIt\src\services.cpp
+[Starting to refresh user details]
+开始刷新用户详细资料
+[Done refreshing user details]
+刷新用户详细资料完成
+[Please select a file to import birthdays from ...]
+请选择从何文件导入生日 ...
+[Importing birthdays from file: %s]
+导入生日于文件: %s
+[Done importing birthdays]
+导入生日完成
+[Please select a file to export birthdays to ...]
+请选择导出生日至何文件 ...
+[Exporting birthdays to file: %s]
+导出生日至文件: %s
+[Done exporting birthdays]
+生日导出完成
+;file \plugins\WhenWasIt\src\services.h

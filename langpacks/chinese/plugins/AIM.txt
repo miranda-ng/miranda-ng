@@ -1,0 +1,333 @@
+﻿#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
+;============================================================
+;  File: AIM.dll
+;  Plugin: AIM protocol
+;  Version: 0.11.0.1
+;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
+;============================================================
+;file \protocols\AimOscar\res\aim.rc
+[AIM User Details]
+AIM 用户详细资料
+[Screen Name:]
+显示名:
+[AIM Options]
+AIM 选项
+[Message Delivery Confirmation]
+消息递送确认
+[Do Not Autoreply When Away]
+当外出时不要自动回复
+[Convert Incoming Messages to BBCode]
+把传入消息转换为 BBCode
+[Convert Outgoing Messages to HTML]
+把发送消息转换为 HTML
+[Disable Avatars]
+禁用头像
+[Disable Account Type Icons]
+禁用帐号类型图标
+[Disable Extended Status Icons]
+禁用扩展状态图标
+[Notify about new mail]
+新邮件通知
+[Advanced Options]
+高级选项
+[Instant Idle on Login]
+登录立即闲置
+[Force Proxy File Transfers]
+强制使用代理服务器进行文件传输
+[Masquerade as a Sidekick/Hiptop User]
+伪装成 Sidekick/Hiptop 用户
+[*Aim must be reconnected  for some option to take effect.]
+*Aim 必须重新连接才能使某些选项生效. 
+[Disable SSL]
+禁用 SSL
+[Manage Server Groups]
+管理服务器群组
+[Force Single Client]
+强制单一客户端
+[Save Profile]
+保存配置文件
+[Create a new AIM account]
+新建 AIM 账号
+[AIM Instant Idler]
+AIM 立即闲置
+[Number of Hours:]
+小时: 
+[Number of Minutes:]
+分钟: 
+[Set Idle]
+设置闲置
+[Unset Idle]
+解除闲置
+[Users who can contact me:]
+哪些用户可以与我联络:
+[Allow all users]
+允许所有用户
+[Allow only users on contact list]
+仅允许联系人列表中用户
+[Allow only users below]
+仅允许以下用户
+[Block all users]
+阻止所有用户
+[Block only users below]
+仅阻止以下用户
+[Allow contacts to be notified of:]
+允许联系人通知于:
+[Join Chat Room]
+加入聊天室
+[Chat Room]
+聊天室
+[This allows access to user defined chat rooms. To access predefined chat rooms use web links]
+此操作将允许访问用户定义聊天室. 要访问预定义聊天室可使用网络链接
+[Original]
+原件
+[Repeat]
+重复
+[*Passwords don't match.]
+*密码不匹配.
+[Confirm Account]
+确认帐户
+[*Applied upon reconnect]
+*重连后生效
+[Save Changes]
+保存变更
+[Room]
+房间
+;file \protocols\AimOscar\src\avatars.cpp
+;file \protocols\AimOscar\src\chat.cpp
+;file \protocols\AimOscar\src\error.cpp
+[Invalid Screen Name or password.]
+无效的显示名称或密码.
+[Mismatched Screen Name or password.]
+不匹配的显示名称或密码.
+[You are connecting too frequently. Try waiting 10 minutes to reconnect.]
+您连接过于频繁. 请 10 分钟后再试.
+[Unknown error occured when attempting to connect.]
+尝试连接时发生未知错误.
+[Invalid SNAC header.]
+无效 SNAC 头.
+[Server rate limit exceeded.]
+服务器率上限.
+[Client rate limit exceeded]
+客户率上限
+[Recipient is not logged in.]
+收件人未登录.
+[Requested service is unavailable.]
+要求的服务器不可用.
+[Requested service is not defined.]
+要求的服务器未定义.
+[You sent obsolete SNAC.]
+您发送 SNAC 作废.
+[Not supported by server.]
+不支持此服务器.
+[Not supported by the client.]
+不支持此客户端.
+[Refused by client.]
+被客户端拒绝.
+[Reply too big.]
+回复过大.
+[Response lost.]
+无响应.
+[Request denied.]
+要求被拒绝.
+[Incorrect SNAC format.]
+SNAC 格式不正确.
+[Insufficient rights.]
+权限不足.
+[Recipient blocked.]
+收件人被封锁.
+[Sender too evil.]
+发件人太邪恶了.
+[Receiver too evil.]
+接收机太邪恶了.
+[User temporarily unavailable.]
+用户暂不可用.
+[No Match.]
+不匹配.
+[List overflow.]
+列表溢出.
+[Request ambiguous.]
+需求模糊.
+[Server queue full.]
+服务队列满.
+[Not while on AOL.]
+不能同时在 AOL.
+[Check your Screen Name.]
+检查您的显示名.
+[Check your Password.]
+检查您的密码.
+[Check your Email Address.]
+检查您的电邮地址.
+[Service temporarily unavailable.]
+服务暂不可用.
+[Field change temporarily unavailable.]
+字段变更暂时不可用.
+[Invalid Screen Name.]
+无效显示名.
+[Invalid Password.]
+无效密码.
+[Invalid Email.]
+无效电邮.
+[Invalid Registration Preference.]
+无效注册项.
+[Invalid Old Password.]
+无效旧密码.
+[Invalid Screen Name Length.]
+无效显示名长度.
+[Invalid Password Length.]
+无效密码长度.
+[Invalid Email Length.]
+无效电邮长度.
+[Invalid Old Password Length.]
+无效旧密码长度.
+[Need Old Password.]
+需要旧密码.
+[Read Only Field.]
+只读字段.
+[Write Only Field.]
+可写字段.
+[Unsupported Type.]
+尚未支持类型.
+[An Error has occured.]
+发生错误.
+[Invalid Account.]
+账户无效.
+[Delete Account.]
+账户删除.
+[Expired Account.]
+账户期满.
+[No Database access.]
+无数据库访问.
+[Invalid Database fields.]
+无效数据库字段.
+[Bad Database status.]
+数据库损坏状态.
+[Migration Cancel.]
+迁移取消.
+[Internal Error.]
+内部错误.
+[There is already a Pending Request for this Screen Name.]
+已有此显示名称待定请求.
+[Not DT status.]
+无 DT 状态.
+[Outstanding Confirmation.]
+未完成确认.
+[No Email Address.]
+无电邮地址.
+[Over Limit.]
+超限.
+[Email Host Fail.]
+电邮主机故障.
+[DNS Fail.]
+DNS 故障.
+;file \protocols\AimOscar\src\file.cpp
+[Failed to open file: %s : %s]
+无法打开文件: %s : %s
+;file \protocols\AimOscar\src\links.cpp
+;file \protocols\AimOscar\src\popup.cpp
+[Open mail account?]
+打开邮件账号?
+;file \protocols\AimOscar\src\proto.cpp
+[%s Client-to-client connection]
+%s C2C 连接
+;file \protocols\AimOscar\src\server.cpp
+[[Auto-Response]:]
+ [自动响应]: 
+[Contact tried to open an audio/video conference (currently not supported)]
+联系人试图开启一个音频/视频会议 (尚不支持)
+[No information has been provided by the server.]
+服务器尚未提供任何资料. 
+[Item you want to delete not found in list.]
+您想要删除项目不在列表中.
+[Failed to add buddy to list: Item already exist.]
+添加好友至列表失败: 项目已经存在.
+[Error adding buddy(invalid id?, already in list?)]
+添加好友错误(无效 id?, 已在列表?)
+[Cannot add buddy. Limit for this type of item exceeded.]
+无法添加好友. 限制此类项通过.
+[Error? Attempting to add ICQ contact to an AIM list.]
+错误? 尝试添加 ICQ 联系人至 AIM 列表.
+[Cannot add this buddy because it requires authorization.]
+因需要授权而无法添加好友.
+[Unknown error when adding buddy to list. Error code %#x]
+添加至好友名单时出现未知错误. 错误代码 %#x
+[Item you want to modify not found in list.]
+列表中未找到您要修改项.
+[Unknown error when attempting to modify a group. Error code %#x]
+试图修改群组时出现未知错误. 错误代码 %#x
+[You've got mail! Checked at]
+您有新邮件! 检查于
+[Error uploading avatar. (Too small)]
+上传头像错误. (过小)
+[Error uploading avatar. (Too big)]
+上传头像错误. (过大)
+[Error uploading avatar. (Wrong type)]
+上传头像错误. (错误类型)
+[Error uploading avatar. (Is banned)]
+上传头像错误. (被禁止)
+[Error uploading avatar. (Unknown error)]
+上传头像错误. (未知错误)
+[A confirmation message has been sent to the new email address. Please follow its instructions.]
+确认邮件已发至新邮箱. 请依其指示.
+[A confirmation message has been sent to your email address. Please follow its instructions.]
+确认邮件已发至您的邮箱. 请依其指示.
+[Unable to confirm at this time. Please try again later.]
+现在无法确认. 请稍后再试.
+[Your account has already been confirmed.]
+您的帐户已被确认.
+[Can't start the confirmation procedure.]
+无法启动确认程序.
+;file \protocols\AimOscar\src\theme.cpp
+[AOL Mail]
+AOL 邮箱
+[AIM Icon]
+AIM 图标
+[AOL Bot]
+AOL 机器人
+[Confirmed]
+确认
+[Not Confirmed]
+未确认
+[Foreground Color]
+前景颜色
+[Not Bold]
+非粗体
+[Not Italic]
+非斜体
+[Not Underline]
+非下划线
+[Subscript]
+下标
+[Not Subscript]
+非下标
+[Superscript]
+上标
+[Not Superscript]
+非上标
+[Normal Script]
+普通文本
+[Not Normal Script]
+非普通文本
+[Profile Editor]
+简单编辑器
+[AIM Account Type]
+AIM 账号类型
+[AIM Extended Status]
+AIM 扩展状态
+[Manage Account]
+管理帐号
+[Instant Idle]
+立即闲置
+[Read &HTML Away Message]
+阅读 &HTML 外出消息
+[Read Profile]
+阅读配置文件
+[Add To Server List]
+加至服务器列表
+;file \protocols\AimOscar\src\ui.cpp
+[Join me in this buddy chat!]
+和我一起私聊!
+;file \protocols\AimOscar\src\utility.cpp
+[Please, enter a username in the options dialog.]
+请于选项对话框输入用户名.
+[Please, enter a password in the options dialog.]
+请于选项对话框输入密码.

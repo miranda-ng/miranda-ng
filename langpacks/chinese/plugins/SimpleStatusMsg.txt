@@ -1,0 +1,129 @@
+﻿#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+;============================================================
+;  File: SimpleStatusMsg.dll
+;  Plugin: Simple status message
+;  Version: 1.9.0.4
+;  Authors: Bartosz 'Dezeath' Biaіek, Harven
+;============================================================
+;file \plugins\SimpleStatusMsg\res\resource.rc
+[Co&py to Clipboard]
+复制到剪贴板(&P)
+[%s Message (%s)]
+%s 消息 (%s)
+[Retrieving status message for %s...]
+检索状态信息 %s...
+[Apply to all]
+应用至所有
+[Max length:]
+最大长度:
+[Pop up dialog box]
+弹出对话框
+[Do not change status message]
+不改变状态信息
+[Always set the same message]
+永远设置相同信息
+[Do not set status message]
+不设置状态信息
+[Pop up dialog asking for new message]
+弹出对话框询问新信息
+[Set an empty message]
+设置空信息
+[Use default message]
+使用默认信息
+[Use last message]
+使用最后信息
+[Use last message set for this status]
+此状态使用最后信息设置
+[Set the following message:]
+设置以下信息:
+[Put default message in message list]
+默认信息放于信息列表中
+[Leave last played track's title after exiting the player]
+退出播放器后取消最后播放音轨标题
+[Show status list]
+显示状态列表
+[Show status profiles in status list]
+状态列表中显示状态配置文件
+[Show icons in status list]
+状态列表中显示图标
+[Buttons:]
+按钮:
+[Show icons in message list]
+信息列表中显示图标
+[Store up to]
+最多保存
+[recent messages (0 = disable)]
+最近信息 (0 = 禁用)
+[Automatically close dialog window after]
+自动关闭对话框窗口于
+[Remember last dialog window position]
+记住对话框最后位置
+[Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
+从状态信息中移除换行符(CR = '\\r' = #0D)
+[Show 'Copy Away Message' item in contact menu]
+显示 '复制离开信息' 联系菜单项
+[Show 'Status Message...' item in status menu]
+在状态菜单中显示 '状态信息...'
+[Clear Predefined]
+清除预定义
+[Status on Startup]
+启动状态
+[Set status after]
+设置状态于
+[miliseconds]
+毫秒
+[Independent setting for each protocol]
+每个协议独立设置
+[Pop up dialog asking for status message]
+弹出对话框询问状态信息
+[Fortune]
+财富
+[More variables...]
+更多变量...
+;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[Failed to retrieve %s message.]
+检索 %s 消息失败.
+[Copy %s Message]
+复制 %s 信息
+[Re&ad Away Message]
+阅读外出消息(&A)
+[Copy Away Message]
+复制离开信息
+;file \plugins\SimpleStatusMsg\src\main.cpp
+[Change Status Message]
+变更状态信息
+[Status Message...]
+状态信息...
+[External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
+外部应用程序\t检索当前在 Winamp 中播放的歌曲名称(兼容简单状态消息)
+;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[<startup>]
+<启动>
+[Add to Predefined]
+添加至预定义
+[OK (%d)]
+是 (%d)
+[Are you sure you want to clear status message history?]
+您确定想清除状态信息历史?
+[Confirm clearing history]
+确认清除历史
+;file \plugins\SimpleStatusMsg\src\options.cpp
+[Show next to cancel button]
+显示于取消按钮旁
+[Flat, next to cancel button]
+平面, 取消按钮旁
+[Show in message list]
+显示于信息列表中
+[Are you sure you want to clear predefined status messages?]
+您确定想清除预定义状态信息?
+[Confirm clearing predefined]
+确认清除预定义
+[<Last status>]
+<最后状态>
+;file \plugins\SimpleStatusMsg\src\utils.cpp
+[Recent Message]
+最近信息
+[Predefined Message]
+预定义信息
+[Go to URL in Away Message]
+至离开信息 URL

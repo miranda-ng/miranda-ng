@@ -1,0 +1,1260 @@
+﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\JabberG\res\jabber.rc
+[Edit Note]
+メモの編集
+[Tags:]
+タグ :
+[User:]
+ユーザー :
+[Domain/Server:]
+ドメイン / サーバー :
+[Resource:]
+リソース :
+[Register new user]
+新規ユーザーを登録
+[Use custom connection host and port:]
+ホストとカスタム接続を次のポートで使用 :
+[Use Domain Login]
+ドメインログインを使用
+[Go]
+実行
+[Search service]
+サービスの検索
+[Roster Editor]
+リストエディター
+[Roster editor\nView and modify your server-side contact list.]
+リストエディター\nサーバー側のコンタクトリストの表示と変更
+[Jabber]
+Jabber
+[Priority:]
+優先度 :
+[Use hostname as resource]
+リソースとしてホスト名を使用
+[List of public servers]
+パブリックサーバーのリスト
+[Use SSL]
+SSL を使用
+[Use TLS]
+TLS を使用
+[Unregister]
+登録解除
+[Manually specify connection host]
+手動で接続ホストを指定
+[User directory:]
+ユーザーディレクトリー :
+[Language for human-readable resources:]
+読むことが可能な言語 :
+[Allow file sending through direct peer-to-peer connection]
+直接 P2P 接続でのファイル送信を許可
+[Specify external address:]
+外部アドレスを指定 :
+[Allow file sending through bytestream proxy server:]
+バイトストリームプロキシサーバー経由ファイル送信許可
+[Hint:]
+ヒント :
+[Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
+ファイル送信のトラブルに悩んだら上のチェックマークを全て外してみてください\nただし大きいファイルの転送に問題が発生する原因になります
+[Jabber Account Registration]
+Jabber アカウント登録
+[Jabber Agents]
+Jabber エージェント
+[Register/Search Jabber Agents]
+Jabber エージェントの登録 / 検索
+[Jabber server:]
+Jabber サーバー :
+[Register...]
+登録...
+[Browse/Join chat room...]
+チャットルームの参照 / 参加...
+[Search...]
+検索...
+[Registered Jabber Transports]
+Jabber 転送の登録
+[Log on]
+ログオン
+[Log off]
+ログオフ
+[Register with a new service...]
+新規サービスを登録...
+[Command]
+コマンド
+[Jabber Form]
+Jabber フォーム
+[Instruction:]
+インストラクション :
+[Submit]
+送信
+[Data form test]
+データフォームのテスト
+[Address1:]
+アドレス 1:
+[Address2:]
+アドレス 2:
+[ZIP:]
+郵便番号 :
+[Middle:]
+中 :
+[YYYY-MM-DD]
+YYYY-MM-DD
+[Jabber vCard: Add Email Address]
+Jabber vCard: 電子メールアドレスを追加
+[Email address:]
+電子メールアドレス
+[X400]
+X400
+[Jabber vCard: Add Phone Number]
+Jabber vCard: 電話番号を追加
+[Phone number:]
+電話番号 :
+[Pager]
+ポケットベル
+[Text/Messaging]
+テキスト / メッセージング
+[BBS]
+BBS
+[Modem]
+モデム
+[ISDN]
+ISDN
+[PCS]
+PCS
+[Load]
+読み込み
+[Current Password:]
+現在のパスワード :
+[New Password:]
+新規パスワード :
+[Confirm New Password:]
+新規パスワードの確認 :
+[Jabber Multi-User Conference]
+Jabber マルチユーザー会議
+[Conference server:]
+会議サーバー :
+[Create or Join Groupchat]
+グループチャットの作成もしくは参加
+[Jabber Multi-User Conference\nCreate or join existing conference room.]
+Jabber マルチユーザー会議\n新規作成もしくは既存の会議室に参加します
+[Room:]
+ルーム :
+[Recently visited chatrooms:]
+最近訪問したチャットルーム :
+[Bookmarks]
+ブックマーク
+[JID List]
+JID リスト
+[Apply Filter]
+フィルター適用
+[Reset Filter]
+フィルターのリセット
+[Jabber Agent Registration]
+Jabber エージェント登録
+[JID:]
+JID:
+[Register]
+登録
+[Invite Users]
+ユーザーを招待
+[<room jid>\nSend groupchat invitation.]
+< ルーム JID >\n送信グループチャット招待
+[Other JID:]
+その他の JID:
+[Invitation reason:]
+招待の理由 :
+[Groupchat Invitation]
+グループチャットの招待
+[<room jid>\nIncoming groupchat invitation.]
+< ルーム JID >\n着信グループチャット招待
+[You are invited to conference room by]
+あなたは以下から会議室に招待されました :
+[with following reason:]
+次の理由により :
+[Jabber Bookmarks]
+Jabber ブックマーク
+[Server side bookmarks\nStore conference rooms and web links on server.]
+サーバー側ブックマーク\nサーバー上に会議室とウェブリンクを保存
+[Bookmark Details]
+ブックマークの詳細
+[Bookmark Type]
+ブックマーク型
+[Transport]
+転送
+[Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
+自動的に参加 ( Miranda のオプションにある自動的にブックマークに参加を要有効 )
+[Room JID/ URL:]
+ルーム JID / URL:
+[Bookmark Name:]
+ブックマーク名 :
+[Privacy Lists]
+プライバシーリスト
+[Privacy Lists\nFlexible way to configure visibility and more.]
+プライバシーリスト\n可視状態などの設定をフレキシブルに行う
+[Lists:]
+リスト :
+[Rules:]
+ルール :
+[Simple Mode]
+シンプルモード
+[Advanced Mode]
+詳細モード
+[Add list... (Ins)]
+リストに追加...(Ins)
+[Activate (Space)]
+選択する (Space)
+[Set as default (Ctrl+Space)]
+デフォルトとして設定 (Ctrl+Space)
+[Remove list (Del)]
+リストの削除 (Del)
+[Add rule (Ins)]
+ルールを追加 (Ins)
+[Edit rule... (F2)]
+ルールの編集... (F2)
+[Move rule up (Alt+Up)]
+ルールを上に移動 (Alt+Up)
+[Move rule down (Alt+Down)]
+ルールを下に移動 (Alt+Down)
+[Remove rule (Del)]
+ルールの削除 (Del)
+[Privacy rule]
+プライバシールール
+[If:]
+もし :
+[Then:]
+それなら :
+[following stanza types:]
+次の区切り型 :
+[Incoming presence]
+着信出席通知
+[Outgoing presence]
+発信出席通知
+[New privacy list name:]
+新規プライバシーリスト名 :
+[Enter the name of the new list:]
+新規リストの名前を入力 :
+[Service Discovery]
+サービス検出
+[View as tree]
+ツリー表示
+[View as list]
+リスト表示
+[Node:]
+ノード :
+[Account type:]
+アカウント型 :
+[Register account now]
+今すぐアカウントを登録
+[Jabber Account Information:]
+Jabber アカウント情報 :
+[Member Information]
+メンバー情報
+[Member Information\n<user id>]
+メンバー情報\n< ユーザー ID>
+[Role:]
+役割 :
+[Set role]
+役割を設定
+[Affiliation:]
+所属 :
+[Set affiliation]
+所属の設定
+[Chat options]
+チャットオプション
+[Alternate nick:]
+代替ニック :
+[Custom messages]
+カスタムメッセージ
+[Quit:]
+終了 :
+[Slap:]
+叩く :
+[HTTP Authorization\nAccept or reject incoming request]
+HTTP 認証\n着信リクエストの承諾もしくは拒否
+[Someone (maybe you) has requested the following file:]
+誰か ( 多分あなたが ) 次のファイルをリクエスト :
+[Request was sent from JID:]
+リクエスト送信元 JID:
+[The transaction identifier is:]
+トランザクション識別子 :
+[Request method is:]
+リクエストメソッド :
+[If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
+このリクエストを確認したい場合は , 認証をクリックしてください。拒否を押せば拒絶します
+[Authorize]
+許可
+[Deny]
+拒否
+[Jabber Notebook]
+Jabber ノートブック
+[Jabber notebook\nStore notes on server and access them from anywhere.]
+Jabber ノートブック\nサーバー上にノートを保存してどこからでもアクセスできます
+[Bots Challenge Test]
+ボットチャレンジテスト
+[XML Console]
+XML コンソール
+[Reset log]
+ログをリセット
+;file \protocols\JabberG\src\jabber.cpp
+;file \protocols\JabberG\src\jabber.h
+[/me slaps %s around a bit with a large trout]
+/me は %s を大きな鱒でピシャピシャたたいた
+;file \protocols\JabberG\src\jabber_adhoc.cpp
+[Error %s %s]
+エラー %s %s
+[Select Command]
+コマンド選択
+[Done]
+完了
+[In progress. Please Wait...]
+実行中です。お待ちください...
+[Execute]
+実行
+[Requesting command list. Please wait...]
+コマンドリストのリクエスト中です。お待ちください...
+[Jabber Ad-Hoc commands at]
+Jabber アドホックコマンド :
+[Sending Ad-Hoc command to]
+アドホックコマンドを送信 :
+;file \protocols\JabberG\src\jabber_agent.cpp
+[No message]
+メッセージなし
+;file \protocols\JabberG\src\jabber_bookmarks.cpp
+[Bookmark Name]
+ブックマーク名
+[Address (JID or URL)]
+アドレス ( JID もしくは URL )
+[Conferences]
+会議
+;file \protocols\JabberG\src\jabber_byte.cpp
+[Bytestream Proxy not available]
+バイトストリームプロキシは利用できません
+;file \protocols\JabberG\src\jabber_caps.cpp
+;file \protocols\JabberG\src\jabber_captcha.cpp
+[Enter the text you see]
+見えるテキストを入力してください
+;file \protocols\JabberG\src\jabber_chat.cpp
+[Member]
+メンバー
+[Visitor]
+訪問者
+[Participant]
+参加者
+[Moderator]
+司会者
+[User %s in now banned.]
+ユーザー %s は現在排除されています
+[User %s changed status to %s with message: %s]
+ユーザー %s はステータスを %s に変更 メッセージ : %s
+[User %s changed status to %s]
+ユーザー %s はステータスを %s に変更
+[Room configuration was changed.]
+ルーム設定は変更されました
+[Outcast]
+追放
+[Affiliation of %s was changed to '%s'.]
+%s の所属は ' %s ' に変更された
+[Role of %s was changed to '%s'.]
+%s の役割は ' %s ' に変更されました
+[because room is now members-only]
+ルームは現在メンバー限定です
+[user banned]
+排除済みユーザー
+[Change &nickname]
+ニックネームの変更 (&n)
+[&Invite a user]
+ユーザーを招待 (&I)
+[&Roles]
+役割 (&R)
+[&Participant list]
+参加者リスト (&P)
+[&Moderator list]
+司会者リスト (&M)
+[&Affiliations]
+所属 (&A)
+[&Member list]
+メンバーリスト (&M)
+[&Admin list]
+管理者リスト (&A)
+[&Owner list]
+所有者リスト (&O)
+[Outcast list (&ban)]
+追放リスト ( 入室禁止 )(&b)
+[&Room options]
+ルームオプション (&R)
+[View/change &topic]
+トピックの表示 / 変更 (&t)
+[Add to &bookmarks]
+ブックマークに追加 (&b)
+[&Configure...]
+設定 (&C)...
+[&Destroy room]
+ルームを破壊 (&D)
+[Lin&ks]
+リンク (&k)
+[Copy room &JID]
+ルーム JID をコピー (&J)
+[Copy room topic]
+ルームトピックをコピー
+[&Send presence]
+プレゼンスを送信 (&S)
+[&User details]
+ユーザーの詳細情報 (&U)
+[Member &info]
+メンバー情報 (&i)
+[&Add to roster]
+リストに追加 (&A)
+[&Copy to clipboard]
+クリップボードにコピー (&C)
+[Invite to room]
+ルームに招待
+[Set &role]
+役割の設定 (&r)
+[&Visitor]
+訪問者 (&V)
+[&Participant]
+参加者 (&P)
+[&Moderator]
+司会者 (&M)
+[Set &affiliation]
+所属の設定 (&a)
+[&None]
+なし (&N)
+[&Member]
+メンバー (&M)
+[&Admin]
+管理者 (&A)
+[&Owner]
+所有者 (&O)
+[Outcast (&ban)]
+追放 ( 入室禁止 )(&b)
+[Copy &nickname]
+ニックネームをコピー (&n)
+[Copy real &JID]
+実 JID をコピー (&J)
+[Copy in-room JID]
+入室中ルームの JID コピー
+[Real &JID: %s]
+実 JID(&J) : %s
+[Send groupchat invitation.]
+グループチャットの招待を送信
+[Member Info:]
+メンバー情報 :
+[Real JID not available]
+実 JID は利用できません
+[Reason to kick]
+排除の理由
+[Reason to ban]
+入室禁止の理由
+[Invite %s to %s]
+%s を %s に招待
+[Set topic for]
+トピックを設定 :
+[Change nickname in]
+ニックネームを変更 :
+[Reason to destroy]
+破壊の理由
+;file \protocols\JabberG\src\jabber_console.cpp
+[Can't send data while you are offline.]
+オフラインの間はデータを送信できません
+[Jabber Error]
+Jabber エラー
+[Outgoing XML parsing error]
+発信 XML 解析エラー 
+;file \protocols\JabberG\src\jabber_disco.cpp
+[request timeout.]
+リクエストはタイムアウトしました
+[Node hierarchy]
+ノードの階層
+[Node]
+ノード
+[Navigate]
+指示
+[Browse all favorites]
+全てのお気に入りを参照
+[Remove all favorites]
+全てのお気に入りを削除
+[Registered transports]
+登録済みの転送
+[Browse local transports]
+ローカルトランスポートを参照
+[Browse chatrooms]
+チャットルームを参照
+[Add to roster]
+リストに追加
+;file \protocols\JabberG\src\jabber_disco.h
+[Identities]
+アイデンティティー
+[category]
+カテゴリー
+[Category]
+カテゴリー
+[Supported features]
+サポート機能
+[Info request error]
+情報リクエストエラー
+[Items request error]
+アイテムリクエストエラー
+;file \protocols\JabberG\src\jabber_form2.cpp
+;file \protocols\JabberG\src\jabber_groupchat.cpp
+[Failed to retrieve room list from server.]
+サーバーからルームリストの読み出しに失敗しました
+[No rooms available on server.]
+サーバーに利用可能なルームがありません
+[Room list request timed out.]
+ルームリストのリクエストがタイムアウトしました
+[<no nick>]
+< ニックなし >
+[Loading...]
+ロード中...
+[Please wait for room list to download.]
+ルームリストのダウンロード中。お待ちください
+[Please specify groupchat directory first.]
+最初にグループチャットディレクトリーを指定
+[Bookmarks...]
+ブックマーク...
+[has set the subject to:]
+は目的を以下に設定 :
+[Incoming groupchat invitation.]
+グループチャットの招待を着信しています
+;file \protocols\JabberG\src\jabber_icolib.cpp
+[Agents list]
+エージェントリスト
+[Transports]
+転送
+[Personal vCard]
+Personal vCard
+[Convert to room]
+ルーム変換
+[Login/logout]
+ログイン / ログアウト
+[Resolve nicks]
+ニックを解決する
+[Send note]
+メモを送信
+[AdHoc Command]
+アドホックコマンド
+[OpenID Request]
+OpenID リクエスト
+[Discovery succeeded]
+検出成功
+[Discovery failed]
+検出失敗
+[Discovery in progress]
+検出実行中
+[Apply filter]
+フィルターを適用
+[Reset filter]
+フィルターリセット
+[Navigate home]
+ホームに移動
+[Refresh node]
+ノードをリフレッシュ
+[Browse node]
+ノードを参照
+[RSS service]
+RSS サービス
+[Storage service]
+ストレージサービス
+[Weather service]
+Weather サービス
+[Generic privacy list]
+一般的なプライバシーリスト
+[Active privacy list]
+アクティブなプライバシーリスト
+[Default privacy list]
+デフォルトプライバシーリスト
+[Allow Messages]
+メッセージを許可
+[Allow Presences (in)]
+プレゼンスを許可 ( 着信 )
+[Allow Presences (out)]
+プレゼンスを許可 ( 発信 )
+[Allow Queries]
+クエリーを許可
+[Deny Messages]
+メッセージを拒否
+[Deny Presences (in)]
+プレゼンスを拒否 ( 着信 )
+[Deny Presences (out)]
+プレゼンスを拒否 ( 発信 )
+[Deny Queries]
+クエリーを拒否
+[Dialogs]
+ダイアログ
+;file \protocols\JabberG\src\jabber_iqid.cpp
+[Jabber Authentication]
+Jabber 認証
+[Registration successful]
+登録に成功
+[Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
+パスワードの変更に成功しました。Jabber プロトコルオプションのパスワードの更新を忘れないでください
+[Password cannot be changed.]
+パスワードは変更できませんでした
+[Jabber Bookmarks Error]
+Jabber ブックマークエラー
+;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[%s, %d items (%s)]
+%s, %d 項目 (%s)
+[Voice List]
+Voice リスト
+[Member List]
+メンバーリスト
+[Moderator List]
+司会者リスト
+[Ban List]
+入室禁止リスト
+[Admin List]
+管理者リスト
+[Owner List]
+所有者リスト
+[Removing]
+削除
+;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+[Http authentication request received]
+HTTP 認証リクエストを受信しました
+;file \protocols\JabberG\src\jabber_menu.cpp
+[Add to Bookmarks]
+ブックマークに追加
+[Commands]
+コマンド
+[Send Note]
+メモを送信
+[Send Presence]
+プレゼンスを送信
+[Jabber Resource]
+Jabber リソース
+[Last Active]
+最終アクティブ
+[Server's Choice]
+サーバーの選択
+[&Convert to Contact]
+コンタクトの変換 (&C)
+[&Convert to Chat Room]
+チャットルームの変換 (&C)
+[Registered Transports]
+登録済みトランスポート
+[Local Server Transports]
+ローカルサーバートランスポート
+[Browse Chatrooms]
+チャットルームの参照
+[Create/Join groupchat]
+グループチャットの作成 / 参加
+[Roster editor]
+リストエディター
+[Resource priority]
+リソースの優先順位
+[Resource priority [%d]]
+リソースの優先度 [%d]
+[Last active]
+最終アクティブ
+[No activity yet, use server's choice]
+まだアクティブではありません。使用するサーバーを選択してください
+[Highest priority (server's choice)]
+高優先度 ( サーバーの選択 )
+;file \protocols\JabberG\src\jabber_message_handlers.cpp
+;file \protocols\JabberG\src\jabber_misc.cpp
+[Both]
+両方
+;file \protocols\JabberG\src\jabber_notes.cpp
+[Incoming note from %s]
+%s からの着信メモ
+[Send note to %s]
+%s にメモを送信
+[From: %s]
+送信人 : %s
+[All tags]
+全てのタグ
+[Notes are not saved, close this window without uploading data to server?]
+メモは保存されていません。サーバーにデータをアップロードしないでこのウィンドウを閉じますか ?
+[Incoming note]
+着信メモ
+;file \protocols\JabberG\src\jabber_opt.cpp
+[These changes will take effect the next time you connect to the Jabber network.]
+これらの変更は , 次回 Jabber ネットワークに接続した際に適用されます
+[Jabber Protocol Option]
+Jabber プロトコルオプション
+[Confirm password]
+パスワードを確認
+[Passwords do not match.]
+パスワードが違います
+[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
+この操作はあなたのアカウント , リスト , その他の全てのサーバー上に保存されている情報を削除します。本当に実行しますか?
+[Account removal warning]
+アカウント削除警告
+[You can change your password only when you are online]
+パスワードの変更はオンラインの時のみ可能です
+[You must be online]
+オンラインになる必要があります
+[Log chat state changes]
+チャットステータスの変更を記録
+[Log presence subscription state changes]
+プレゼンス予約状況の変更を記録
+[Log presence errors]
+プレゼンスエラーを記録
+[Enable user moods receiving]
+ユーザーの気分の受信を有効
+[Enable user tunes receiving]
+ユーザーの音楽の受信を有効
+[Enable user activity receiving]
+ユーザーのアクティビティ受信を有効
+[Receive notes]
+メモを受信
+[Automatically save received notes]
+受信したメモを自動的に保存
+[Server options]
+サーバーオプション
+[Disable SASL authentication (for old servers)]
+SASL 認証を無効 ( 古いサーバー用 )
+[Enable stream compression (if possible)]
+ストリーム圧縮を有効 ( 可能な場合 )
+[Enable remote controlling (from another resource of same JID only)]
+リモートコントロールを有効 ( 同じ JID の別のリソースからのみ )
+[Show transport agents on contact list]
+コンタクトリストにトランスポートエージェントを表示
+[Automatically add contact when accept authorization]
+認証を受信した際に自動的にコンタクトを追加
+[Automatically accept authorization requests]
+認証リクエストを自動的に受信
+[Fix incorrect timestamps in incoming messages]
+着信メッセージのタイムスタンプの誤りを修正
+[Disable frame]
+フレームを無効
+[Enable XMPP link processing (requires Association Manager)]
+XMPP リンク処理を有効 ( 要アソシエーションマネージャー )
+[Keep contacts assigned to local groups (ignore roster group)]
+コンタクトのローカルグループへの割り当てを維持する ( リストのグループを無視 )
+[Allow servers to request version (XEP-0092)]
+サーバーにバージョンのリクエストを許可 (XEP-0092)
+[Show information about operating system in version replies]
+オペレーションシステムのバージョン応答についての情報を表示
+[Accept only in band incoming filetransfers (don't disclose own IP)]
+着信ファイル転送帯でのみ受信 ( 自分の IP を公開しない )
+[Accept HTTP Authentication requests (XEP-0070)]
+HTTP 認証リクエストを受信 (XEP-0070)
+[Autoaccept multiuser chat invitations]
+マルチユーザーチャットの招待を自動受信
+[Automatically join bookmarks on login]
+ログイン時に自動的にブックマークに参加
+[Automatically join conferences on login]
+ログイン時に自動的に会議に参加
+[Hide conference windows at startup]
+起動時に会議ウィンドウを隠す
+[Do not show multiuser chat invitations]
+マルチユーザーチャットの招待を表示しない
+[Log events]
+イベントを記録
+[Ban notifications]
+入室禁止通知
+[Room configuration changes]
+ルーム設定の変更
+[Affiliation changes]
+所属変更
+[Role changes]
+役割変更
+[JID]
+JID
+[Nick Name]
+ニックネーム
+[Subscription]
+予約
+[Uploading...]
+アップロード中...
+[XML for MS Excel (UTF-8 encoded)]
+MS Excel 用 XML ( UTF-8 エンコード )
+[Public XMPP Network]
+公共 XMPP ネットワーク
+[Secure XMPP Network]
+セキュア XMPP ネットワーク
+[Secure XMPP Network (old style)]
+セキュア XMPP ネットワーク ( 旧スタイル )
+[Google Talk!]
+Google トーク
+[LiveJournal Talk]
+LiveJournal Talk
+[Facebook Chat]
+Facebook チャット
+[Some changes will take effect the next time you connect to the Jabber network.]
+いくつかの変更は , 次回 Jabber ネットワークに接続した際に適用されます
+;file \protocols\JabberG\src\jabber_password.cpp
+[Set New Password for]
+新規パスワードの設定:
+[New password does not match.]
+新規パスワードが一致しません
+[Current password is incorrect.]
+現在のパスワードは不正です
+;file \protocols\JabberG\src\jabber_privacy.cpp
+[Warning: privacy lists were changed on server.]
+警告 : サーバー上のプライバシーリストは変更されました
+[Error occurred while applying changes]
+変更の適用中にエラーが発生
+[Privacy lists successfully saved]
+プライバシーリストの保存に成功
+[Privacy list %s set as active]
+プライバシーリスト %s はアクティブに設定
+[Active privacy list successfully declined]
+アクティブプライバシーリストの拒否に成功
+[Error occurred while setting active list]
+アクティブリストの設定中にエラーが発生
+[Privacy list %s set as default]
+プライバシーリスト %s はデフォルトに設定
+[Default privacy list successfully declined]
+デフォルトプライバシーリストの拒否に成功
+[Error occurred while setting default list]
+デフォルトリストの設定中にエラーが発生
+[Simple mode]
+シンプルモード
+[Advanced mode]
+詳細モード
+[Add JID]
+JID の追加
+[Activate]
+アクティブ化
+[Set default]
+デフォルトに設定
+[Edit rule]
+ルールの編集
+[Add rule]
+ルールを追加
+[Delete rule]
+ルールの削除
+[Move rule up]
+ルールを上に移動
+[Move rule down]
+ルールを下に移動
+[Add list...]
+リストに追加...
+[Remove list]
+リストの削除
+[** Default **]
+** デフォルト **
+[** Subsription: both **]
+** 予約 : 両方 **
+[** Subsription: to **]
+** 予約 : 送信 **
+[** Subsription: from **]
+** 予約 : 受信 **
+[** Subsription: none **]
+** 予約: なし **
+[allow ]
+許可 
+[deny ]
+否認 
+[all.]
+all.
+[messages]
+メッセージ
+[ and ]
+ と 
+[incoming presences]
+着信プレゼンス
+[outgoing presences]
+発信プレゼンス
+[queries]
+クエリー
+[Else ]
+もしくは
+[If jabber id is ']
+Jabber ID が次の時 '
+[ (nickname: ]
+ ( ニックネーム : 
+[If group is ']
+グループが次の時 '
+[If subscription is ']
+予約が次の時 '
+[then ]
+であるなら 
+[ (act., def.)]
+ (act., def.)
+[ (active)]
+ ( アクティブ )
+[ (default)]
+ ( デフォルト )
+[Ready.]
+Ready.
+[Privacy lists are not saved, discard any changes and exit?]
+プライバシーリストは保存されていません。全ての変更を廃棄して終了しますか?
+[Please save list before activating]
+アクティブ化する前にリストを保存してください
+[First, save the list]
+初めにリストを保存してください
+[Please save list before you make it the default list]
+デフォルトリストに設定する前にリストを保存してください
+[Unable to save list because you are currently offline.]
+現在オフラインのため , リストの保存ができません
+[List Editor...]
+リストエディター...
+;file \protocols\JabberG\src\jabber_proto.cpp
+[No compatible file transfer machanism exist]
+互換性のあるファイル転送メカニズムが存在しません
+[Protocol is offline or no jid]
+プロトコルはオフラインか JID がありません
+;file \protocols\JabberG\src\jabber_rc.cpp
+[Command completed successfully]
+コマンドは正常に完了しました
+[Error occured during processing command]
+コマンドの処理中にエラーが発生しました
+[Set status]
+ステータスを設定
+[Set options]
+オプションを設定
+[Forward unread messages]
+未読メッセージの転送
+[Leave groupchats]
+グループチャットを離席
+[Quit Miranda NG]
+Miranda NG を終了
+[Change Status]
+ステータス変更
+[Choose the status and status message]
+ステータスとステータスメッセージを選択
+[Extended Away (N/A)]
+離席中の拡張 ( 応答不可 )
+[Do Not Disturb]
+応答しない
+[Priority]
+優先度
+[Change global status]
+グローバルステータスを使用
+[Set Options]
+オプションを設定
+[Set the desired options]
+指定オプションの設定
+[Automatically Accept File Transfers]
+ファイル転送を自動的に受信
+[Disable remote controlling (check twice what you are doing)]
+リモートコントロールを無効 ( 実行中のものは 2 回チェック )
+[There is no messages to forward]
+転送したメッセージはありません
+[Forward options]
+転送オプション
+[%d message(s) to be forwarded]
+%d メッセージが転送されます
+[Mark messages as read]
+メッセージを開封済みにする
+[%d message(s) forwarded]
+%d メッセージが転送されました
+[Workstation successfully locked]
+ワークステーションは正常にロックされました
+[Error %d occured during workstation lock]
+ワークステーションをロック中にエラー %d が発生しました
+[Confirmation needed]
+確認が必要です
+[Please confirm Miranda NG shutdown]
+Miranda NG のシャットダウンを確認してください
+[There is no groupchats to leave]
+離席するグループチャットはありません
+[Choose the groupchats you want to leave]
+離席したいグループチャットを選択
+;file \protocols\JabberG\src\jabber_search.cpp
+[Error %s %s\r\nPlease select other server]
+エラー %s %s\r\n他のサーバーを選択してください
+[Error Unknown reply recieved\r\nPlease select other server]
+エラー 不明な応答を受信\r\n他のサーバーを選択してください
+[Error %s %s\r\nTry to specify more detailed]
+エラー %s %s\r\nより詳しく指定してください
+[Search error]
+検索エラー
+[Select/type search service URL above and press <Go>]
+上に検索サービスのURLを選択もしくは入力して , <実行>を押してください
+[Please wait...\r\nConnecting search server...]
+お待ちください...\r\n検索サーバーに接続中...
+[You have to be connected to server]
+サーバーに接続する必要があります
+;file \protocols\JabberG\src\jabber_svc.cpp
+[closed chat session]
+終了したチャットセッション
+[sent subscription request]
+予約リクエストを送信
+[approved subscription request]
+承認された予約リクエスト
+[declined subscription]
+拒否された予約
+[sent error presence]
+出席通知の送信エラー
+[sent unknown presence type]
+不明な出席通知形式を送信
+;file \protocols\JabberG\src\jabber_thread.cpp
+[Error: Not enough memory]
+エラー : メモリー不足
+[Error: Cannot connect to the server]
+エラー : サーバーに接続できません
+[Error: Connection lost]
+エラー : 接続が切断
+[Requesting registration instruction...]
+登録方法指示のリクエスト中...
+[Message redirected from: %s\r\n%s]
+メッセージが以下からリダイレクトされました :%s\r\n%s
+[Sending registration information...]
+登録情報を送信...
+;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Software]
+ソフトウェア
+[Idle since]
+アイドルの時期
+[Client capabilities]
+クライアントの機能
+[Software information]
+ソフトウェア情報
+[Operating system]
+オペレーティングシステム
+[Operating system version]
+オペレーティングシステムバージョン
+[Software version]
+ソフトウェアバージョン
+[Miranda NG core version]
+Miranda NG コアバージョン
+[Unicode build]
+Unicode ビルド
+[Alpha build]
+アルファビルド
+[Debug build]
+デバッグビルド
+[Tune]
+手動選局
+[Last logoff time]
+最終ログオフ時間
+[Uptime]
+起動時間
+[Logoff message]
+ログオフメッセージ
+[<no information available>]
+< 利用可能な情報がありません >
+[Last active resource]
+最終アクティブリソース
+[Please switch online to see more details.]
+より詳細を見るにはオンラインに切り替えてください
+[Copy only this value]
+この値のみコピー
+[format]
+フォーマット
+[Unknown format]
+不明なフォーマット
+[<Photo not available while offline>]
+< オフライン中は写真は利用できません >
+[<No photo>]
+< 写真なし >
+[Photo]
+写真
+;file \protocols\JabberG\src\jabber_util.cpp
+[Redirect]
+リダイレクト
+[Bad request]
+不正なリクエスト
+[Unauthorized]
+権限がありません
+[Payment required]
+支払いが必要です
+[Forbidden]
+許可されていません
+[Not found]
+見つかりません
+[Not allowed]
+許可されていません
+[Not acceptable]
+承諾できません
+[Registration required]
+登録が必要です
+[Request timeout]
+リクエストタイムアウト
+[Conflict]
+競合しています
+[Internal server error]
+内部サーバーエラー
+[Not implemented]
+実装されていません
+[Remote server error]
+リモートサーバーエラー
+[Service unavailable]
+サービスは利用できません
+[Remote server timeout]
+リモートサーバータイムアウト
+[Unknown error message]
+不明なエラーメッセージ
+[Advanced Status]
+詳細ステータス
+[Set mood...]
+気分の設定...
+[Set activity...]
+アクティビティの設定...
+;file \protocols\JabberG\src\jabber_vcard.cpp
+[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
+40KB 以下で JPG , GIF , BMP の画像ファイルのみサポート
+[Jabber vCard]
+Jabber vCard
+[Jabber vCard: Edit Email Address]
+Jabber vCard : 電子メールアドレスの編集
+[Jabber vCard: Edit Phone Number]
+Jabber vCard : 電話番号の編集
+;file \protocols\JabberG\src\jabber_ws.cpp
+;file \protocols\JabberG\src\jabber_xstatus.cpp
+[Afraid]
+怖い
+[Amazed]
+びっくり
+[Amorous]
+色っぽい
+[Annoyed]
+イライラ
+[Anxious]
+心配
+[Aroused]
+興奮
+[Ashamed]
+恥ずかしい
+[Bored]
+退屈
+[Brave]
+勇敢
+[Calm]
+穏やか
+[Cautious]
+慎重
+[Cold]
+風邪
+[Confident]
+自信ある
+[Confused]
+混乱
+[Contemplative]
+熟考
+[Contented]
+満足
+[Cranky]
+不機嫌
+[Creative]
+創造中
+[Curious]
+面白そう
+[Dejected]
+しょんぼり
+[Disgusted]
+うんざり
+[Dismayed]
+動揺
+[Distracted]
+注意散漫
+[Embarrassed]
+困惑
+[Envious]
+うらやましい
+[Excited]
+興奮
+[Flirtatious]
+ふざける
+[Frustrated]
+不満
+[Grateful]
+恐縮
+[Grieving]
+悲しすぎ
+[Grumpy]
+むっつり
+[Guilty]
+後ろめたい
+[Happy]
+しあわせ
+[Hopeful]
+希望でいっぱい
+[Hot]
+暑い
+[Humbled]
+恐縮
+[Humiliated]
+屈辱
+[Hungry]
+空腹
+[Hurt]
+けが
+[Impressed]
+感動
+[In awe]
+畏怖中
+[In love]
+恋愛中
+[Indignant]
+憤慨
+[Interested]
+興味津々
+[Intoxicated]
+酔ってる
+[Invincible]
+無敵
+[Jealous]
+嫉妬
+[Lonely]
+寂しい
+[Lost]
+ぼろぼろ
+[Lucky]
+ラッキー
+[Mean]
+意地悪
+[Moody]
+憂鬱
+[Nervous]
+緊張
+[Neutral]
+中立
+[Offended]
+立腹
+[Outraged]
+激怒
+[Playful]
+はしゃぐ
+[Proud]
+満足
+[Relaxed]
+リラックス
+[Relieved]
+安堵
+[Remorseful]
+悔恨
+[Restless]
+そわそわ
+[Sad]
+悲しい
+[Sarcastic]
+皮肉
+[Satisfied]
+満足
+[Serious]
+真面目
+[Shocked]
+ショック
+[Shy]
+気弱
+[Sleepy]
+眠い
+[Spontaneous]
+のびのび
+[Stressed]
+ストレス
+[Strong]
+強気
+[Surprised]
+驚き
+[Thankful]
+感謝
+[Thirsty]
+喉が渇いた
+[Undefined]
+未設定
+[Weak]
+元気ない
+[Worried]
+悩み
+[Mood: %s]
+気分 : %s
+[Set Mood]
+気分を設定
+[Activity: %s]
+アクティビティ : %s
+[Set Activity]
+アクティビティを設定
+;file \protocols\JabberG\src\ui_utils.cpp
+[Set filter...]
+フィルターを設定...

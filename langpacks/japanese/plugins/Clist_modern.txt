@@ -1,0 +1,472 @@
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+;file \plugins\Clist_modern\res\resource.rc
+[Transparency:]
+透明度 :
+[Window behaviour:]
+ウィンドウの動作 :
+[List sorting:]
+リストの並べ替え :
+[Status bar:]
+ステータスバー :
+[List content:]
+リストの内容 :
+[1st:]
+1 番目 :
+[2nd:]
+2 番目 :
+[3rd:]
+3 番目 :
+[Hide contact list after ]
+以下の後でコンタクトリストを非表示
+[Animate Avatars]
+アニメーションアバター
+[Show contact time in list]
+リストにコンタクト時間を表示
+[Compact mode]
+コンパクトモード
+[Use Windows Colors]
+ウィンドウ色を使用
+[Available skins]
+利用可能なスキン
+[\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
+\n\n\n利用可能なスキンを選択してください。\n\nもしくはリストにないスキンの場合は参照して下さい
+[Skin Preview]
+スキンのプレビュー
+[WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
+警告: \tスキンはあなたの現在のプロファイルで変更可能です。ロールバックは使用できません \n\t\tスキン適用前にデータベースを「バックアップ」してください
+[* Restart may be required for all changes to take effect]
+* 全ての変更を反映するには再起動が必要です
+[Available objects]
+利用可能なオブジェクト
+[Object properties]
+オブジェクトプロパティー
+[Colour]
+色
+[Image file and fitting mode]
+画像ファイルと調和モード
+[Borders]
+枠線
+[Fit mode]
+調和モード
+[Fragment location]
+フラグメントの位置
+[W x H: 0 x 0 pixels]
+幅 × 高さ : 0 x 0 ピクセル
+[Show contacts in groups]
+グループのコンタクトを表示
+[Space between]
+間の空間
+[Vertical Align]
+垂直配置
+[Horizontal Align]
+水平配置
+[Multiline status bar:]
+多重線ステータスバー :
+[Accounts per line]
+アカウント毎に線を引く
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+* ステータスバーの高さを増やすには :\nメインメニューの設定 : フレーム ->  ステータスバー -> タイトルバーの表示 , でステータスバーのタイトルを引きあげたり引き下げたりする
+[Set options per account]
+アカウントごとにオプションを設定
+[Enable custom account settings]
+カスタムアカウント設定を有効
+[Hide account completely]
+アカウントを完全に非表示
+[Show protocol icon]
+プロトコルアイコンを表示
+[Show xStatus icon]
+xStatus アイコンを表示
+[Show both icons]
+両方のアイコンを表示
+[Show normal status as overlay]
+オーバーレイで通常ステータスを表示
+[Status overlay opacity is 75% ]
+ステータスオーバーレイの不透明度は 75%
+[Show unread emails (if supported)]
+未読の電子メールを表示 ( サポート時のみ )
+[Space on Left]
+左側の空間
+[Space on right]
+右側の空間
+[Place offline users out of groups]
+オフラインユーザーをグループの外に配置
+[Full selection]
+全選択
+[Less selection]
+少なめに選択
+[No selection]
+選択なし
+[Selection Mode]
+モード選択
+[Bring to front if covered]
+重なったら前面に移動
+[Lock manual resize]
+手動リサイズをロック
+[Drag to ]
+ドラッグする
+[Easy Scroll]
+簡易スクロール
+[x100 msec]
+x100 ミリ秒
+[show delay]
+遅延を表示
+[hide delay]
+遅延を非表示
+[Hide method]
+非表示方法
+[keep on screen]
+スクリーン上に維持
+[Snap to edges]
+エッジでスナップ
+[Event notify area]
+イベント通知エリア
+[Show automaticaly]
+自動的に表示
+[Always Visible]
+常に可視
+[Dock to sides]
+サイドにドック
+[and minimum]
+あわせて最小化
+[Fade out entire list when:]
+以下の場合リスト全体をフェードアウト :
+[System tray icon mode]
+システムトレイアイコンモード
+[Use xStatus icon]
+xStatus アイコンを使用
+[only when statuses differ]
+ステータスが異なるときのみ
+[Expand metacontacts]
+メタコンタクトを拡張
+[MetaContacts stuff]
+メタコンタクトの内容
+[Additional stuff]
+追加要素
+[Subcontacts indent:]
+サブコンタクトインデント :
+[Show time only if it is different from current time]
+現在の時刻と異なる場合のみ時刻を表示
+[Show contact time as row item]
+行項目にコンタクト時間を表示
+[Client area margins]
+クライアントエリアのマージン
+[Thin border main window]
+メインウィンドウの細い枠線
+[Borderless main window]
+無枠線のメインウィンドウ
+[Between frames:]
+フレーム間 :
+[After captions:]
+表題の後 :
+[Gaps]
+間隔
+[Use Non-Layered mode]
+レイヤーなしモードを使用
+[Non-layered mode]
+レイヤーなしモード
+[Disable Skin Engine]
+スキンエンジンを無効
+[Enable Aero Glass (Vista)]
+Aero Glass (Vista) を有効
+[Order of items:]
+項目の並び順 :
+[Min row height:]
+行の高さの最小値 :
+[Row border:]
+行の枠線 :
+[Variable row height]
+行の高さを可変にする
+[Align left items to left]
+左項目を左揃え
+[Align right items to right]
+右項目を右揃え
+[Right margin:]
+右マージン :
+[Draw border on avatar]
+アバターに枠線を描画
+[Draw overlay icons]
+オーバーレイアイコンを描画
+[Round corners of avatars]
+アバターの角を丸める
+[Ignore size for row height calcs]
+行の高さの演算結果を無視する
+[Border Color:]
+枠線の色 :
+[Normal overlay icon]
+標準オーバーレイアイコン
+[Protocol status icon]
+プロトコルステータスアイコン
+[Contact icon]
+コンタクトアイコン
+[height]
+高さ
+[Max width]
+最大幅
+[Use old render method (Fast, but has artefacts)]
+古いレンダリング方式を使用 ( 高速だがノイズが発生する )
+[Hide icon when showing avatar]
+アバター表示中はアイコンを非表示
+[Draw icon in avatar space]
+アバター空間にアイコンを描画
+[Hide groups icon]
+グループアイコンを非表示
+[Use extra status icon instead protocol]
+以下のプロトコルの代わりに追加ステータスアイコンを使用 :
+[Draw normal status as overlay]
+オーバーレイでノーマルステータスを描画
+[Right-To-Left reading mode (mirror template)]
+RTL 読み取りモード ( ミラーテンプレート )
+[Replace smileys in clist]
+コンタクトリストの顔文字を置き換える
+[Draw smileys on first line]
+1 行目に顔文字を描画
+[Resize smileys and 'Listining to' icon]
+顔文字と ' リストに載せる ' アイコンのサイズ変更
+[Align to right]
+右揃え
+[Append nick if different from custom name]
+カスタム名と異なるときニックを表示
+[Trim long text with ellipsis]
+長いテキストを省略して表示
+[Top space:]
+一番上の空間 :
+[Draw smileys on second line]
+2 行目に顔文字を描画
+[XStatus has priority]
+XStatus が優先
+[Use 'XStatus: XMessage']
+'XStatus: XMessage' を使用
+[(Variables will be replaced)]
+( 変数は置き換えられました )
+[Show third line]
+3 行目を表示
+[Draw smileys on third line]
+3 行目に顔文字を描画
+[Top/Left]
+一番上 / 左
+[Bottom/Right]
+一番下 / 右
+[Position (vertical)]
+位置 ( 垂直 )
+[Show Title]
+タイトルを表示
+[Locked]
+ロック
+[Frames Order]
+フレームの並び順
+[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
+工事中 !!!           機能しません
+[Row template]
+行のテンプレート
+[Add container]
+コンテナを追加
+[Remove container]
+コンテナの削除
+[Vertical align:]
+垂直配置:
+[Horizontal align:]
+水平配置 :
+[Container type:]
+コンテナの種類 :
+[Container width:]
+コンテナの幅 :
+[Container height:]
+コンテナの高さ :
+[Layered]
+レイヤー
+[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
+「オプションページは工事中につき , 告知用には一切使用しないでください」\n高レベルのデザインコメントにのみ適用可能です
+[&Show Offline Users in here]
+この場所のオフラインユーザーを表示する (&S)
+;file \plugins\Clist_modern\src\modern_clc.cpp
+[Contact List smileys]
+コンタクトリストの顔文字
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+コンタクト '%s' をメタコンタクトに変換して , '%s' を追加しますか ?
+[Converting to MetaContact]
+メタコンタクトへの変換
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+コンタクト '%s' をメタコンタクトに変換して , '%s' を追加しますか ('%s' からは削除 )?
+[Converting to MetaContact (Moving)]
+メタコンタクトへの変換 ( 移動 )
+[Do you want to contact '%s' be added to metacontact '%s'?]
+コンタクト '%s' をメタコンタクト '%s' に追加しますか ?
+[Adding contact to MetaContact]
+コンタクトをメタコンタクトに追加
+[Do You want contact '%s' to be default ?]
+コンタクト '%s' をデフォルトにしますか ?
+[Set default contact]
+デフォルトコンタクトを設定
+[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+コンタクト '%s' をメタコンタクト '%s' から削除して , '%s' に追加しますか ?
+[Changing MetaContacts (Moving)]
+メタコンタクトを変更 ( 移動 )
+[Do You want contact '%s' to be added to MetaContact '%s'?]
+コンタクト '%s' をメタコンタクト '%s' に追加しますか ?
+;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Away contacts]
+離席中コンタクト
+[DND contacts]
+邪魔しないでコンタクト
+[NA contacts]
+応答不可コンタクト
+[Occupied contacts]
+取り込み中コンタクト
+[Free for chat contacts]
+チャット ok! コンタクト
+[Invisible contacts]
+非可視コンタクト
+[On the phone contacts]
+電話中コンタクト
+[Out to lunch contacts]
+昼食中コンタクト
+[Contacts who are 'not on list']
+' リストにない ' コンタクト
+[Open groups]
+グループを開く
+[Open group member counts]
+グループメンバー数を開く
+[Closed groups]
+グループを閉じる
+[Closed group member counts]
+グループメンバーの数を閉じる
+[Third line]
+3 行目
+[Status bar text]
+ステータスバーテキスト
+[Event area text]
+イベントエリアテキスト
+[Current view mode text]
+現在の表示モードテキスト
+[Hot text]
+ホットテキスト
+[Quick search text]
+クイック検索テキスト
+[Menu text]
+メニューテキスト
+[Selected menu text]
+選択済メニューテキスト
+[Frame title text]
+フレーム表示文
+[Statusbar text]
+ステータスバーテキスト
+[3rd party frames transparent back colour]
+サードパーティフレーム 透明背景色
+[Hide to tray]
+トレイを非表示
+[Behind left edge]
+左端の背後
+[Behind right edge]
+右端の背後
+;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
+イベントなし
+;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[Low]
+低
+[High]
+高
+[Contact rate None]
+コンタクト割合 無
+[Contact rate Low]
+コンタクト割合 低
+[Contact rate Medium]
+コンタクト割合 中
+[Contact rate High]
+コンタクト割合 高
+;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
+アニメーションアバター ( GDI+ とアバターサービスモジュール (avs.dll) が必要 )
+[Second Line]
+2 行目
+[Third Line]
+3 行目
+[Row items]
+行項目
+;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+;file \plugins\Clist_modern\src\modern_clisttray.cpp
+;file \plugins\Clist_modern\src\modern_clui.cpp
+[Show Contact &Avatar]
+コンタクトアバターを表示 (&A)
+[Hide Contact &Avatar]
+コンタクトアバターを非表示 (&A)
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+[&Show title]
+タイトルを表示 (&S)
+[&Expanded]
+展開済み (&E)
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\modern_keyboard.cpp
+;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+[Empty %s cell]
+空の %s セル
+[column]
+コラム
+[line]
+行
+[columns]
+コラム
+[%s, contain %s]
+%s %s を含む
+[ layered]
+レイヤー
+;file \plugins\Clist_modern\src\modern_skineditor.cpp
+[Image size is]
+画像のサイズは
+;file \plugins\Clist_modern\src\modern_skinengine.cpp
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[Load/Save]
+読込 / 保存
+[Object Editor]
+オブジェクトエディター
+[( unknown )]
+( 不明 )
+[%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\n作成者 :\t %s\nコンタクト :\t %s\nWeb:\t %s\n\nファイル :\t %s
+[%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\n作成者 : %s\nコンタクト :\t %s\nWeb:\t %s\n\nファイル :\t %s
+[reVista for Modern v0.5]
+reVista for Modern v0.5
+[This is second default Modern Contact list skin in Vista Aero style]
+これは Vista Aero スタイルの , 二番目のデフォルトモダンコンタクトリストスキンです
+[Angeli-Ka (graphics), FYR (template)]
+Angeli-Ka ( グラフィック ), FYR ( テンプレート )
+[Inside library]
+内部ライブラリ
+[Skin Information]
+スキン情報
+[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+スキンエディターには変更の保存は含まれていません。\n\n全ての変更は失われます。\n\n新しいスキンの読み込みを続行しますか ?
+[Warning!]
+警告 !
+[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+現在のスキンはファイルに保存されていません。\n\n全ての変更は失われます。\n\n新しいスキンの読み込みを続行しますか?
+[Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
+プレビューは利用できません\n\n%s\n----------------------\n\n%s\n\n作成者 :\n%s\n\nコンタクト:\n%s\n\nホームページ:\n%s
+[%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
+%s\n\n%s\n\n作成者 :\n%s\n\nコンタクト :\n%s\n\nWEB:\n%s\n\n\n
+[graphics by Angeli-Ka\ntemplate by FYR]
+グラフィック Angeli-Ka\nテンプレート FYR
+[Select skin from list]
+リストからスキンを選択
+[Please select skin to apply]
+適用するスキンを選択してください
+[Default Skin]
+デフォルトスキン
+[%Default Skin%]
+%Default Skin%
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+[<<Global>>]
+<< グローバル >>
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
+;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Configuring view mode: %s]
+表示モードの設定 : %s
+;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

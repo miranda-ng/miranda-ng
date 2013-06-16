@@ -1,0 +1,23 @@
+﻿#muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}
+;============================================================
+;  File: StartPosition.dll
+;  Plugin: Start position
+;  Version: 0.2.0.3
+;  Authors: Felipe Brahm - souFrag
+;============================================================
+;file \plugins\StartPosition\res\resource.rc
+[Contact List Window Start Position]
+联系人列表窗口启动位置
+[Pixels from Top]
+顶端像素
+[Pixels from Bottom]
+底部像素
+[Pixels from Side]
+侧边像素
+[Always start...]
+永远从...
+[Minimized to System Tray]
+最小化至系统托盘
+[Opened]
+已打开
+;file \plugins\StartPosition\src\main.cpp

@@ -1,0 +1,974 @@
+﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
+;============================================================
+;  File: ICQ.dll
+;  Plugin: ICQ
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\IcqOscarJ\res\resources.rc
+[ICQ Number:]
+ICQ 番号 :
+[Create a new ICQ account]
+新規 ICQ アカウントを作成
+[Enter ICQ Password]
+ICQ パスワードを入力
+[Enter a password for UIN %d:]
+UIN %d のパスワードを入力 :
+[ICQ number:]
+ICQ 番号 :
+[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+ヒント : ここでパスワードを入力しない場合 , Miranda はあなたがオンラインになろうとする際に毎回パスワードを確認します
+[Retrieve a lost password or ICQ number]
+忘れたパスワードもしくは ICQ 番号を回復する
+[Create a new ICQ account using the ICQ website]
+ICQ のウェブサイトを使用して新規 ICQ アカウントを作成
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+ヒント : ポート 0 を使用するとランダムなポートに接続します。もし http プロキシサーバーを経由して接続する際に問題が生じる場合は , ポート 80 もしくはポート 443 で試してみてください
+[Secure Connection (SSL)]
+セキュア接続 ( SSL )
+[Secure (MD5) login]
+セキュア ( MD5 ) ログイン
+[Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
+' キープアライブ ' を送信 ( プロキシサーバーを使用している場合で頻繁に接続が切れる場合に有効 )
+[Ignore concurrent error messages]
+同時に発生するエラーメッセージを無視
+[Show connection error messages:]
+接続エラーメッセージを表示 :
+[ICQ contacts stored on server]
+ICQ コンタクトをサーバーに保存
+[Manage server's list...]
+サーバーのリストを管理...
+[Enable server-side contact lists *]
+サーバーサイドコンタクトリストを有効 *
+[Add contacts to the server's list when I add them to mine]
+自分自身のリストに追加している場合 , サーバーリストにコンタクトを追加
+[Update my contacts' details from the server *]
+サーバーから自分のコンタクトの詳細を更新 *
+[Update contacts' details on the server's list when I change them in mine]
+自分自身のコンタクトの詳細を変更したとき , サーバー上にあるコンタクトの詳細を更新
+[ICQ avatars]
+ICQ アバター
+[Enable avatar support]
+アバターサポートを有効
+[Check avatar validity before saving *]
+保存する前にアバターの有効性を確認 *
+[Load avatars automatically (like ICQ Lite)]
+自動的にアバターを読み込み ( ICQ Lite 風 )
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+このページで行った変更を反映させるには , ICQ ネットワークに再接続する必要があります
+[You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
+ICQ ネットワークに接続している間はサーバー側のコンタクトリストの有効 / 無効の切り替えができません
+[Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
+注意 : アスタリスクで印がついているオプションには , 重要な副作用もしくはヘルプの最初に明記されていない注意事項があります
+[Enable unicode messaging support]
+unicodeメッセージサポートを有効
+[Send all messages in unicode if possible]
+可能であれば全てのメッセージを unicode で送信
+[Use this codepage for Ansi <-> Unicode translation :]
+Ansi <-> Unicode 変換に使用するコードページ :
+[Make me temporarily visible to contacts I send message to]
+メッセージを送るときは一時的に可視になる
+[Notify me when a message delivery has failed (recommended)]
+メッセージ配信に失敗したら自分に通知する ( 推奨 )
+[Never use legacy messaging (server acknowledgements)]
+レガシーメッセージングの使用を禁止 ( サーバーの受信確認 )
+[Peer-to-peer Messaging]
+P2P メッセージ
+[Enable peer-to-peer message connections]
+P2P メッセージ接続を有効
+[Passive mode, i.e. do not initiate new connections]
+パッシブモード 新規接続は開始しません
+[Extra Features]
+追加機能
+[Enable Custom status support for xtraz]
+エクストラをサポートしたカスタムステータスを有効
+[Enable Custom status support for moods]
+気分をサポートしたカスタムステータスを有効
+[Reset Custom status on status change]
+ステータス変更時にカスタムステータスをリセット
+[Auto-retrieve Custom status details]
+自動検索カスタムステータスの詳細
+[Block known Spam Bots]
+知られたスパムボットをブロック
+[Enable AIM contacts support]
+AIM コンタクトサポートを有効
+[Direct connections]
+直接接続
+[Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
+直接接続を許可中はあなたの IP アドレスはむき出しになりますが , いくつかの ICQ の機能が適切に働くために必要となります
+[Allow direct connections with any user]
+全てのユーザーに対して直接接続を許可
+[Allow direct connections with users on my contact list]
+自分のコンタクトリストにあるユーザーのみ直接接続を許可
+[Allow direct connections only when I authorize or initiate them]
+自分が認証もしくは招待した場合のみ直接接続を許可
+[Contact List Authorization]
+コンタクトリスト認証
+[All users may add me to their Contact List]
+全ユーザーが自分をコンタクトリストに追加を許可
+[I want to be asked when someone wants to add me to their Contact List]
+他の人が自分をコンタクトリストに追加しようとした時に確認する
+[Misc Settings]
+その他の設定
+[Allow others to view my Online / Offline status from the web (Web Aware)]
+他の人が自分のオンライン/オフラインステータスをウェブで見ることを許可する(ウェブアプリ)
+[Allow others to view my primary e-mail address]
+他の人が自分の第1電子メールアドレスを見ることを許可
+[Only reply to status message requests from users on my contact list]
+自分のコンタクトリストにあるユーザーからのステータスメッセージリクエストにのみ返信
+[Only reply to status message request from visible contacts]
+可視コンタクトからのステータスメッセージリクエストにのみ返信
+[Some options are greyed out because they can only be changed when you are online.]
+オンライン時にのみ変更可能なオプション類は灰色表示されています
+[Enable popup support]
+ポップアップサポートを有効
+[Display popup when spambot is detected]
+スパムボットを検出したときポップアップを表示
+[Look && Feel]
+外観
+[Fatal]
+致命的エラー
+[Spam detected]
+スパムを検出
+[Use system &icons]
+システムアイコンを使用 (&i)
+[UIN:]
+UIN :
+[External IP:]
+外部 IP:
+[Protocol Version:]
+プロトコルバージョン :
+[User Client:]
+クライアント :
+[System up since:]
+システム起動時期 :
+[Idle since:]
+アイドル時期 :
+[Keywords:]
+キーワード :
+[Organisation:]
+組織 :
+[Interests]
+興味
+[Category:]
+カテゴリー :
+[Manage ICQ Server Contacts]
+ICQ サーバーのコンタクトを管理
+[Select contacts to store:]
+保存するコンタクトを選択 :
+[Synchronize]
+同期
+[Retrieving custom status details...]
+カスタムステータスの詳細を回復する...
+[Confirm Password Change]
+パスワードの変更を確認
+[Please re-type your new password:]
+新規パスワードをもう一度入力してください :
+[Enter your current password:]
+現在のパスワードを入力 :
+;file \protocols\IcqOscarJ\src\chan_04close.cpp
+[Unable to connect to migrated ICQ communication server]
+移行後の ICQ コミュニケーションサーバーに接続できません
+[Unable to connect to ICQ communication server]
+ICQ コミュニケーションサーバーに接続できません
+[You could not sign on because the server returned invalid data. Try again.]
+サーバーが無効なデータを返したため , サインオンできませんでした。再試行してください
+[You have been disconnected from the ICQ network because the current server shut down.]
+接続中のサーバーがシャットダウンしたため , ICQ ネットワークから切断されました
+[Connection failed.\nYour ICQ number or password was rejected (%d).]
+接続に失敗しました\n ICQ 番号もしくはパスワードが拒否されました ( %d )
+[Connection failed.\nThe server is temporarily unavailable (%d).]
+接続に失敗しました\nサーバーは現在利用できません (%d)
+[Connection failed.\nServer has too many connections from your IP (%d).]
+接続に失敗しました\nあなたの IP(%d) からのサーバーへの接続が多すぎます
+[Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
+接続に失敗しました\n接続が速すぎます\n 10 ～ 20 分後にもう一度試みてください ( %d )
+[Connection failed.\nThe server did not accept this client version.]
+接続に失敗しました\nサーバーはこのクライアントのバージョンに対応できません
+[The server sent warning, this version is getting old.\nTry to look for a new one.]
+サーバーがバージョンが古いとの警告を発しています\n新しいバージョンを探してください
+[Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
+接続に失敗しました\n不明な理由でサーバーから拒否されました\n UIN が既に接続済であることが考えられます
+[Connection failed.\nSecure (MD5) login is not supported on this account.]
+接続に失敗しました\nセキュア (MD5) ログインはこのアカウントではサポートされていません
+[Connection failed.\nUnknown error during sign on: 0x%02x]
+接続に失敗しました\nサインオン中の不明なエラー : 0x%02x
+[You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
+同じICQ 番号を使用して別の場所からログオンしたため , ICQ ネットワークから切断されました
+[Unknown runtime error: 0x%02x]
+不明なランタイムエラー : 0x%02x
+;file \protocols\IcqOscarJ\src\fam_01service.cpp
+[A server migration has failed because the server returned invalid data. You must reconnect manually.]
+サーバーが不正なデータを返したため , サーバーの移行に失敗しました。再接続は手動で行って下さい
+[Failed to request offline messages. They may be received next time you log in.]
+オフラインメッセージのリクエストに失敗しました。次回ログイン時に受信されます
+;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
+[Spambot Detected]
+スパムボットが検出されました
+[Contact deleted & further events blocked.]
+コンタクトは削除されその他のイベントはブロックされました
+;file \protocols\IcqOscarJ\src\fam_04message.cpp
+[Incoming URL:]
+着信 URL:
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
+送信が非常に速すぎます。しばらく待ってから再試行してください\r\nSNAC(4.1) エラー x02
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
+送信が非常に速すぎます。しばらく待ってから再試行してください\r\nSNAC(4.1) エラー x03
+[The contact does not support receiving offline messages.]
+コンタクトはオフラインメッセージの受信をサポートしていません
+[The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
+そのユーザーはログオフしています。オフラインメッセージを送るには , ' 再試行 ' を選択してください\r\nSNAC(4.1) エラー x04
+[The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
+メッセージングサービスは一時的に利用できません。しばらく待ってから再試行してください\r\nSNAC(4.1) エラー x05
+[The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
+受信クライアントがこのタイプのメッセージをサポートしていません\r\nSNAC(4.1) エラー x09
+[You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
+送信メッセージが非常に長すぎます。受信クライアントがサポートしていません\r\nSNAC(4.1) エラー x0A
+[The SNAC format was rejected by the server.\nSNAC(4.1) Error x0E]
+SNAC フォーマットはサーバーに拒否されました\nSNAC(4.1) エラー x0E
+[The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
+そのユーザーは一時的に利用できません。しばらく待ってから再試行してください\r\nSNAC(4.1) エラー x13
+[SNAC(4.1) SENDMSG Error (x%02x)]
+SNAC(4.1) SENDMSG エラー (x%02x)
+[ICQ Note]
+ICQ 注記
+;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
+[Server contact list is unavailable, Miranda will use local contact list.]
+サーバーコンタクトリストは利用できません。Miranda はローカルコンタクトリストを使用します
+[Updating of server contact failed.]
+サーバーコンタクトの更新に失敗しました
+[Adding of privacy item to server list failed.]
+サーバーリストへのプライバシー項目の追加に失敗しました
+[Removing of privacy item from server list failed.]
+サーバーリストからプライバシー項目を削除することに失敗しました
+[Adding of contact to server list failed.]
+サーバーリストへのコンタクトの追加に失敗しました
+[Adding of group to server list failed.]
+サーバーリストへのグループの追加に失敗しました
+[Removing of contact from server list failed.]
+サーバーリストからコンタクトを削除することに失敗しました
+[Updating of group on server list failed.]
+サーバーリストのグループを更新することに失敗しました
+[Removing of group from server list failed.]
+サーバーリストからグループを削除することに失敗しました
+[Moving of user to another group on server list failed.]
+サーバーリストでユーザーを別のグループに移動することに失敗しました
+[Renaming of server group failed.]
+サーバーグループの名前変更に失敗しました
+;file \protocols\IcqOscarJ\src\fam_17signon.cpp
+[Secure login failed.\nInvalid server response.]
+セキュアログインに失敗しました\nサーバーの応答が不正です
+[Secure login failed.\nInvalid key length.]
+セキュアログインに失敗しました\n鍵の長さが不正です
+;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
+[Are you sure you want to revoke user's authorization (this will remove you from his/her list on some clients) ?]
+ユーザーの認証を本当に取り消しますか ( クライアント上にある彼 / 彼女のリストからあなたが削除されます )?
+[** This message was blocked by the ICQ server ** The message was invalid.]
+** このメッセージは ICQ サーバーにブロックされました ** メッセージが不正です
+[** This message was blocked by the ICQ server ** The message was too long.]
+** このメッセージは ICQ サーバーにブロックされました ** メッセージが長すぎます
+[** This message was blocked by the ICQ server ** The sender has flooded the server.]
+** このメッセージは ICQ サーバーにブロックされました ** 送信者がサーバーに大量のリクエストを送信しました
+[** This message was blocked by the ICQ server ** You are too evil.]
+** このメッセージは ICQ サーバーにブロックされました ** あなたは非常に有害です
+[** Unknown missed message event.]
+** 不明な不在着信メッセージイベントです
+;file \protocols\IcqOscarJ\src\icq_avatar.cpp
+[Error uploading avatar to server, server temporarily unavailable.]
+エラー サーバーにアバターをアップロードしましたが , サーバーは一時的に利用できません
+[Error uploading avatar to server, server refused to accept the image.]
+エラー サーバーにアバターをアップロードしましたが , サーバーは画像の受信を拒否しました
+;file \protocols\IcqOscarJ\src\icq_constants.h
+;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Ascension Island]
+アセンション島
+[Australia, Antarctic Territory]
+オーストラリア南極領土
+[Australia, Christmas Island]
+オーストラリア , クリスマス島
+[Australia, Cocos (Keeling) Islands]
+オーストラリア , ココス(キーリング)諸島
+[Australia, Norfolk Island]
+オーストラリア , ノーフォーク島
+[Bolivia]
+ボリビア
+[British Virgin Islands]
+英領ヴァージン諸島
+[Brunei]
+ブルネイ
+[Canary Islands]
+カナリア諸島
+[Cape Verde Islands]
+カーボベルデ諸島
+[Chile, Republic of]
+チリ共和国
+[Congo, Democratic Republic of (Zaire)]
+コンゴ民主共和国(ザイール)
+[Congo, Republic of the]
+コンゴ共和国
+[Cote d'Ivoire (Ivory Coast)]
+コートジボワール(アイボリー・コースト)
+[Greek, Republic of South Cyprus]
+ギリシャ , 南キプロス共和国
+[Diego Garcia]
+ジエゴ・ガルシア島
+[Europe]
+ヨーロッパ
+[Faeroe Islands]
+フェロー諸島
+[Falkland Islands]
+フォークランド諸島
+[French Antilles]
+仏領アンティル諸島
+[Guam, US Territory of]
+米領グアム
+[Iran (Islamic Republic of)]
+イラン ( イスラム共和国 )
+[Korea, North]
+北朝鮮
+[Korea, South]
+韓国
+[Laos]
+ラオス
+[Libyan Arab Jamahiriya]
+リビア・アラブ国
+[Macau]
+マカオ
+[Macedonia, Republic of]
+マケドニア
+[Mayotte Island]
+マヨット島
+[Netherlands Antilles]
+オランダ領アンティル
+[St. Maarten]
+シントマールテン島
+[Netherlands (Bonaire Island)]
+オランダ ( ボネール島 )
+[Netherlands (Saba Island)]
+オランダ ( サバ島 )
+[Netherlands (St. Eustatius Island)]
+オランダ ( シントユースタティウス島 )
+[Northern Mariana Islands, US Territory of]
+米領北マリアナ諸島連邦
+[Reunion Island]
+レユニオン島
+[Russia]
+ロシア
+[Samoa (USA)]
+米サモア
+[Samoa, Western]
+西サモア
+[Saint Helena]
+セント・ヘレナ島
+[Scotland]
+スコットランド
+[Spain, Canary Islands]
+スペイン , カナリア諸島
+[Taiwan]
+台湾
+[Tanzania]
+タンザニア
+[Timor, East]
+東ティモール
+[Turkey, Republic of Northern Cyprus]
+北キプロス・トルコ共和国
+[USA]
+アメリカ
+[Vatican City]
+バチカン市国
+[Venezuela]
+ベネズエラ
+[Vietnam]
+ベトナム
+[Virgin Islands (UK)]
+英領ヴァージン諸島
+[Virgin Islands (USA)]
+米領ヴァージン諸島
+[Wales]
+ウェールズ
+[Wallis and Futuna Islands]
+ウォリス・フトゥーナ諸島
+[Yugoslavia]
+ユーゴスラビア
+[Serbia, Republic of]
+セルビア共和国
+[Kosovo, Republic of]
+コソボ共和国
+[Montenegro, Republic of]
+モンテネグロ共和国
+[Audio and Visual]
+オーディオとビジュアル
+[Business]
+ビジネス
+[Business Services]
+ビジネスサービス
+[Culture]
+文化
+[Ecology]
+生態学
+[Finance and Corporate]
+金融と会社
+[Health and Beauty]
+健康と美容
+[Home Automation]
+ホーム・オートメーション
+[Household Products]
+家庭用品
+[ICQ - Help]
+ICQ - ヘルプ
+[Mail Order Catalog]
+通信販売カタログ
+[Movies and TV]
+映画とテレビ
+[News and Media]
+ニュースとメディア
+[Outdoors]
+アウトドア
+[Pets and Animals]
+ペットと動物
+[Retail Stores]
+小売店舗
+[Science]
+科学
+[Sporting and Athletic]
+スポーツと運動
+[Past Work Place]
+過去の職場
+[Past Organization]
+過去の組織
+[Associated degree]
+準学士号
+[Bachelor's degree]
+学士号
+[Elementary]
+小学校
+[High-school]
+高等学校
+[Master's degree]
+修士号
+[PhD]
+博士号
+[Postdoctoral]
+ポスドク
+[University / College]
+総合大学 / 単科大学
+[Agriculture]
+農業
+[Arts]
+芸術
+[Construction]
+建築
+[Consumer Goods]
+消費財
+[Corporate Services]
+法人向けサービス
+[Finance]
+会計
+[High Tech]
+ハイテク
+[Legal]
+法律家
+[Medical & Health Care]
+医療と健康管理
+[Non-Profit Organization Management]
+非営利組織 ( NPO ) 代表
+[Recreation, Travel & Entertainment]
+レクリエーションと旅行と娯楽
+[Service Industry]
+サービス業
+[Transportation]
+運送
+[60-above]
+60 以上
+[Open relationship]
+オープンな関係
+;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
+;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+送信用として選択されたファイルの一つがディスクから読み取りできなかったため , ファイルに転送失敗しました。削除もしくは移動された可能性があります。
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Miranda が保存ファイルを書込みモードで開くことができなかったため , ファイル受信に失敗しました。読み取り専用フォルダーに保存しようとした可能性があります。
+;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Add to server list]
+サーバーリストに追加
+[Show custom status details]
+カスタムステータスの詳細を表示
+[Open ICQ profile]
+ICQ プロファイルを開く
+;file \protocols\IcqOscarJ\src\icq_opts.cpp
+[Display all problems]
+全ての問題を表示
+[Display problems causing possible loss of data]
+データロスにつながる可能性が高い問題を表示
+[Display explanations for disconnection]
+通信切断に関する説明を表示
+[Display problems requiring user intervention]
+ユーザーの介入を要求される問題を表示
+[Do not display any problems (not recommended)]
+問題を一切表示しない ( 非推奨 )
+[System default codepage]
+システムデフォルトコードページ
+;file \protocols\IcqOscarJ\src\icq_popups.cpp
+[Sample Note]
+サンプル 通知
+[Sample Warning]
+サンプル 警告
+[Sample Error]
+サンプル エラー
+[Sample Fatal]
+サンプル 致命的エラー
+[Sample Spambot]
+サンプル スパムボット
+;file \protocols\IcqOscarJ\src\icq_proto.cpp
+[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+ICQ 番号が入力されていません\nオプション -> ネットワーク -> ICQ で設定してから再試行してください
+;file \protocols\IcqOscarJ\src\icq_server.cpp
+[Unable to connect to ICQ login server, SSL could not be negotiated]
+ICQ ログインサーバーへの接続ができませんでした。SSL はネゴシエートできませんでした
+[Unable to connect to ICQ login server]
+ICQ ログインサーバーへの接続ができませんでした
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
+Miranda はクライアント間ダイレクト P2P 接続用リスニングポートの割り当てができませんでした。あなたは ICQ ネットワークの大部分を問題なく使用可能ですが , ファイルの送受信ができない可能性があります\n\nファイアーウォールを使用している場合は , Miranda をブロックしている可能性がありますので , ファイアーウォールにいくつかのポートを開ける設定を行い , Miranda にどのポートを使用するかを メニュー -> オプション -> ICQ -> ネットワークで設定する必要があります
+[Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
+接続が失敗しました\nログインシーケンスは不明な理由で失敗しました\n後ほど再試行してください
+[Your connection with the ICQ server was abortively closed]
+ICQ サーバーへの接続が失敗したため終了しました
+;file \protocols\IcqOscarJ\src\icq_servlist.cpp
+[The contact's information was too big and was truncated.]
+コンタクトの情報は大きすぎるため , 切り捨てられました
+[Failed to create the correct sub-group, the using closest parent group.]
+正しいサブグループの作成に失敗しました。直近の親グループを使用します
+;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
+[NOT FOUND]
+みつかりません
+[ALREADY EXISTS]
+既に存在します
+[INVALID DATA]
+不正なデータです
+[LIST FULL]
+リストがいっぱいです
+[FAILED]
+失敗しました
+[Select contacts you want to store on server.]
+サーバー上に保存したいコンタクトを選択してください
+[Ready...]
+準備中...
+[Server rate warning -> slowing down the process.]
+サーバーの転送速度 警告 -> 処理速度低下
+[Uploading %s...]
+%s をアップロード...
+[No upload group available]
+利用可能なグループがアップロードされていません
+[Deleting %s...]
+%s を削除...
+[Adding %s to visible list...]
+%s を可視リストに追加...
+[Adding %s to invisible list...]
+%s を不可視リストに追加...
+[Deleting %s from visible list...]
+可視リストから %s を削除...
+[Deleting %s from invisible list...]
+不可視リストから %s を削除...
+[Cleaning groups]
+グループを空にする
+[All operations complete]
+全ての作業は完了しました
+[You have to be online to sychronize the server-list !]
+サーバーリストを同期するにはオンラインになる必要があります
+;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[Taking a bath]
+入浴
+[Drinking beer]
+ビール飲んでる
+[Thinking]
+考え中
+[Watching TV]
+テレビみてる
+[Shooting]
+撮影中
+[Having fun]
+楽しいね
+[Gaming]
+ゲーム
+[Studying]
+勉強
+[Shopping]
+お買いもの
+[Feeling sick]
+具合悪い
+[Surfing]
+サーフィン
+[Picnic]
+ピクニック
+[I'm high]
+ハイだよ !
+[To be or not to be]
+生きるべきか死ぬべきか
+[Watching pro7 on TV]
+テレビでpro7をみてる
+[Hot Dog]
+ホットドッグ
+[Rough]
+乱暴
+[Rock On]
+最高だぜ !
+[Baby]
+赤ちゃん
+[Soccer]
+サッカー
+[Pirate]
+海賊
+[Cyclop]
+ひとつ目
+[Monkey]
+サル
+[Birdie]
+小鳥さん
+[Cool]
+クール
+[Evil]
+邪悪
+[Scooter]
+スクーター
+[Money]
+お金
+[Pilot]
+パイロット
+[Afro]
+アフロ
+[St. Patrick]
+聖パトリック
+[Headmaster]
+校長
+[Lips]
+くちびる
+[Ice-Cream]
+アイスクリーム
+[Pink Lady]
+ピンクレディー
+[Up yours]
+くそったれ !
+[Dog]
+犬
+[Candy]
+キャンディー
+[Crazy Professor]
+キチガイ博士
+[Ninja]
+忍者
+[Cocktail]
+カクテル
+[Punch]
+パンチ
+[Donut]
+ドーナッツ
+[Feeling Good]
+いいね !
+[Lollypop]
+アイスキャンディー
+[Oink Oink]
+ブーブー
+[Kitty]
+猫
+[Sumo]
+相撲
+[Broken hearted]
+失恋中
+[Free for Chat]
+チャット OK!
+[@home]
+＠自宅
+[@work]
+＠職場
+[Strawberry]
+苺
+[Angel]
+天使
+[Pizza]
+ピザ
+[Snoring]
+いびき
+[On my mobile]
+モバイル
+[Beetle]
+ムシ
+[Double Rainbow]
+二重の虹
+[Basketball]
+バスケットボール
+[Cupid shot me]
+キューピッドに射られた
+[Celebrating]
+お祝い
+[Sushi]
+寿司
+[Writing]
+書いてる
+[%s Custom Status]
+%s カスタムステータス
+;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
+[Greeting card:]
+グリーティングカード :
+;file \protocols\IcqOscarJ\src\init.cpp
+;file \protocols\IcqOscarJ\src\log.cpp
+[ICQ Warning]
+ICQ 警告
+[ICQ Error]
+ICQ エラー
+[ICQ Fatal]
+ICQ 致命的なエラー
+[The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
+サーバーは接続の試行に対する反応が妥当な待ち時間内にありませんでした。現在ダウン中の可能性があります。後ほど再試行してください
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
+Miranda はサーバー名から IP アドレスへの解決ができませんでした。この場合あなたのネットワーク接続の壊滅的なロスから生じていることがほとんどです(例えばモデムが接続切断しているなど)。ただし , プロキシを使用している場合 , メニュー -> オプション -> ネットワークで ' プロキシを経由してホスト名を解決 ' を指定する必要があります
+[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
+プロキシはあなたが設定したユーザー名とパスワードを拒否しました。メニュー -> オプション -> ネットワークでユーザー名とパスワードを確認してください
+[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
+あなたが接続しようとしているサーバーは存在しません。メニュー -> オプション -> ネットワーク -> ICQ でつづりを確認してください
+[error]
+エラー
+;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+[The file transfer was aborted by the other user.]
+ファイル転送は他のユーザーによって中断されました
+[The file transfer failed: Proxy error]
+ファイル転送に失敗 : プロキシエラー
+[The file transfer failed: Invalid request]
+ファイル転送に失敗 : 無効なリクエスト
+[The file transfer failed: Proxy unavailable]
+ファイル転送に失敗 : プロキシが利用できません
+[Failed to Initialize File Transfer. No valid files were specified.]
+ファイル転送の初期化に失敗しました。有効なファイルが特定されませんでした
+[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
+そのファイルは一回に送信するには大きすぎます。4GB を超える大きさのファイルは分割でのみ送信可能です
+[Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
+ファイル転送の初期化に失敗しました。ローカルポートと利用できないファイルプロキシはバインドできません
+[Connection lost during file transfer.]
+ファイル転送中に接続が切れました
+[File transfer negotiation failed for unknown reason.]
+ファイル転送ネゴシエーションは不明な理由で失敗しました
+;file \protocols\IcqOscarJ\src\utilities.cpp
+;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+[GMT-12:00 Eniwetok; Kwajalein]
+GMT-12:00 エニウェトク ; クワゼリン
+[GMT-11:30]
+GMT-11:30
+[GMT-11:00 Midway Island; Samoa]
+GMT-11:00 ミッドウェー諸島 ; サモア
+[GMT-10:30]
+GMT-10:30
+[GMT-10:00 Hawaii]
+GMT-10:00 ハワイ
+[GMT-9:30]
+GMT-9:30
+[GMT-9:00 Alaska]
+GMT-9:00 アラスカ州
+[GMT-8:30]
+GMT-8:30
+[GMT-8:00 Pacific Time; Tijuana]
+GMT-8:00 太平洋標準時 ; ティフアナ
+[GMT-7:30]
+GMT-7:30
+[GMT-7:00 Arizona; Mountain Time]
+GMT-7:00 アリゾナ州 ; 山岳部標準時
+[GMT-6:30]
+GMT-6:30
+[GMT-6:00 Central Time; Central America; Saskatchewan]
+GMT-6:00 中央標準時 ; 中央アメリカ ; サスカチュワン州
+[GMT-5:30]
+GMT-5:30
+[GMT-5:00 Eastern Time; Bogota; Lima; Quito]
+GMT-5:00 東部標準時 ; ボゴタ ; リマ ; キト
+[GMT-4:30]
+GMT-4:30
+[GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
+GMT-4:00 大西洋標準時 ; サンティエゴ ; カラカス ; ラパス
+[GMT-3:30 Newfoundland]
+GMT-3:30 ニューファンドランド島
+[GMT-3:00 Greenland; Buenos Aires; Georgetown]
+GMT-3:00 グリーンランド ; ブエノスアイレス ; ジョージタウン
+[GMT-2:30]
+GMT-2:30
+[GMT-2:00 Mid-Atlantic]
+GMT-2:00 中部大西洋
+[GMT-1:30]
+GMT-1:30
+[GMT-1:00 Cape Verde Islands; Azores]
+GMT-1:00 カーボベルデ諸島 ; アゾレス諸島
+[GMT-0:30]
+GMT-0:30
+[GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
+GMT+0:00 ロンドン ; ダブリン ; エジンバラ ; リスボン ; カサブランカ
+[GMT+0:30]
+GMT+0:30
+[GMT+1:00 Central European Time; West Central Africa; Warsaw]
+GMT+1:00 中央ヨーロッパ標準時 ; 西中央アフリカ ; ワルシャワ
+[GMT+1:30]
+GMT+1:30
+[GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
+GMT+2:00 エルサレム ; ヘルシンキ ; ハラレ ; カイロ ; ブカレスト ; アテネ
+[GMT+2:30]
+GMT+2:30
+[GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
+GMT+3:00 モスクワ ; サンクト・ペテルブルグ ; ナイロビ ; クウェート ; バグダッド
+[GMT+3:30 Tehran]
+GMT+3:30 テヘラン
+[GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat]
+GMT+4:00 バクー ; トビリシ ; エレバン ; アブダビ ; マスカット
+[GMT+4:30 Kabul]
+GMT+4:30 カブール
+[GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
+GMT+5:00 カルカッタ ; チェンナイ ; ムンバイ ; ニューデリー ; エカチェリンブルグ
+[GMT+5:30]
+GMT+5:30
+[GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
+GMT+6:00 アスタナ ; ダッカ ; アルマトイ ; ノボシビルスク ; スリ・ジャヤワルダナプラ・コッテ
+[GMT+6:30 Rangoon]
+GMT+6:30 ラングーン
+[GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
+GMT+7:00 バンコク ; ハノイ ; ジャカルタ ; クラスノヤルスク
+[GMT+7:30]
+GMT+7:30
+[GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing]
+GMT+8:00 パース ; 台北 ; シンガポール ; 香港 ; 北京
+[GMT+8:30]
+GMT+8:30
+[GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk]
+GMT+9:00 東京 ; 大阪 ; ソウル ; 札幌 ; ヤクーツク
+[GMT+9:30 Darwin; Adelaide]
+GMT+9:30 ダーウィン ; アデレード
+[GMT+10:00 East Australia; Guam; Vladivostok]
+GMT+10:00 東オーストラリア ; グアム ; ウラジオストク
+[GMT+10:30]
+GMT+10:30
+[GMT+11:00 Magadan; Solomon Is.; New Caledonia]
+GMT+11:00 マガダン ; ソロモン諸島 ; ニューカレドニア
+[GMT+11:30]
+GMT+11:30
+[GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
+GMT+12:00 オークランド ; ウェリントン ; フィジー ; カムチャッカ半島 ; マーシャル諸島
+[Personal]
+パーソナル
+[First name]
+名前
+[Last name]
+名字
+[Street]
+通り
+[City]
+市
+[ZIP/postcode]
+ZIP / 郵便番号
+[Country]
+国
+[Phone number]
+電話番号
+[Fax number]
+Fax 番号
+[Cellular number]
+携帯電話番号
+[Personal Detail]
+個人的な詳細情報
+[Year of birth]
+誕生年
+[Month of birth]
+誕生月
+[Day of birth]
+誕生日
+[Marital Status]
+婚姻区分
+[Spoken language 1]
+話す言語 1
+[Spoken language 2]
+話す言語 2
+[Spoken language 3]
+話す言語 3
+[Originally from]
+出身地
+[Level]
+レベル
+[Institute]
+学会
+[Degree]
+学位
+[Graduation Year]
+卒業年
+[Company name]
+会社 名前
+[Company homepage]
+会社 ホームページ
+[Company street]
+会社 通り
+[Company city]
+会社 市
+[Company state]
+会社 州
+[Company phone]
+会社 電話番号
+[Company fax]
+会社 fax
+[Company ZIP/postcode]
+会社 郵便番号
+[Company country]
+会社 国
+[Company department]
+会社 部門
+[Company position]
+会社 地位
+[Company industry]
+会社 産業
+[Personal Interests]
+個人的な興味
+[Interest category 1]
+好きなカテゴリー 1
+[Interest areas 1]
+好きな地域 1
+[Interest category 2]
+好きなカテゴリー 2
+[Interest areas 2]
+好きな地域 2
+[Interest category 3]
+好きなカテゴリー 3
+[Interest areas 3]
+好きな地域 3
+[Interest category 4]
+好きなカテゴリー 4
+[Interest areas 4]
+好きな地域 4
+;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
+[The password does not match your current password. Check Caps Lock and try again.]
+現在のパスワードと一致しません。Caps Lock を確認してもう一度入力してください
+[Change ICQ Details]
+ICQ の詳細情報を変更する
+[The password does not match the password you originally entered. Check Caps Lock and try again.]
+あなたがはじめに入力したパスワードと一致しません。Caps Lock を確認してもう一度入力してください
+[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
+ICQ サーバーは 8 文字以上の長さのパスワードをサポートしていません。もっと短いパスワードを使用してください
+;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
+[<unremovable once applied>]
+< 一度適用すると削除不可 >
+[Unknown value]
+不明な値
+[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
+あなたは ICQ 詳細情報を変更しましたが , まだサーバーに保存されていません。本当にこのダイアログを閉じますか ?
+[Upload in progress...]
+アップロード中です...
+[Upload complete]
+アップロードが完了しました
+[Upload FAILED]
+アップロードに失敗しました
+;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
+[You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
+あなたは ICQ ネットワークに現在接続していません。サーバーの情報を更新するにはオンラインになる必要があります
+;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
+;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
+[Enter a password for UIN %u:]
+UIN %u のパスワードを入力 :
+;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+[ (DC Established)]
+( DC 接続確立 )
+[ScreenName:]
+スクリーン名 :
+[Member since:]
+加入時期 :
+[%s Details]
+%s の詳細情報

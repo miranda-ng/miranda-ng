@@ -1,0 +1,68 @@
+﻿;============================================================
+;  File: smcn.dll, smcnotify.dll (???)
+;  Module: StatusMessageChangeNotify
+;  Versions: 0.0.1.6-0.0.3.19
+;  URL: http://www.torun.mm.pl/~slotwin/smcn/smcnotifytest.zip
+;============================================================
+[Status Message Change Notify]
+状态消息变更通知
+[Enable &status message change notification]
+启用状态消息变更通知(&S)
+[Disable &status message change notification]
+禁用状态消息变更通知(&S)
+[View Status Message History]
+查看状态消息历史
+[List Contacts with Status Message]
+列出含状态消息联系人
+[Status Message Changed]
+状态消息已变更
+[changes his/her status message to:]
+变更他/她的状态消息至: 
+[cleares his/her status message]
+清除他/她的状态消息
+[changes his/her status message:]
+变更他/她的状态消息: 
+[<empty status message>]
+<空白状态消息>
+[Old status message]
+旧状态消息
+[New status message]
+新状态消息
+[List Status Messages]
+列出状态消息
+[Go To URL in Status Message]
+转到状态消息网址
+[Status Message History]
+状态消息历史
+[Do not notify and log when status message is empty]
+当状态消息为空时不通知及记录
+[Show status message changes in message window]
+在消息窗口显示状态消息
+[Message cleared]
+消息已清除
+[Message changed]
+消息已变更
+[%n New Status Message]
+%n 新状态消息
+[%o Old Status Message]
+%o 旧状态消息
+[%D/%M/%Y day/month/year]
+%D/%M/%Y 日/月/年
+[%c Custom nickname]
+%c 自定义昵称
+[%H:%m Time (in 24h format)]
+%H:%m Time (24 小时制)
+[%h:%m %a (in 12h format)]
+%h:%m %a (12 小时制)
+[\\n line break]
+\\n 断行
+[\\t tab stop]
+\\t 跳栏
+[View status message history]
+查看状态消息历史
+[Clear history]
+清除历史
+[Do not log empty status messages]
+不要记录空状态信息
+[Only if status message has changed]
+仅状态信息更改

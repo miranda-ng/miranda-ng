@@ -1,0 +1,37 @@
+﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
+;============================================================
+;  File: MirOTR.dll
+;  Plugin: Miranda OTR
+;  Version: 0.11.0.4
+;  Authors: ProgAndy & CHEF-KOCH
+;============================================================
+;file \plugins\MirOTR\MirOTR\res\resource.rc
+[OTR Generating Private Key]
+OTR 正在生成私人密钥
+[Generating new private key - please wait.]
+生成新私人密钥 - 请稍候.
+[Default Policy]
+默认策略
+[Opportunistic]
+如可用
+[Manual]
+手动
+[End sessions when contacts go offline]
+联系人离线时结束会话
+[Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
+超时则结束会话恢复明文(小心!)
+;file \plugins\MirOTR\MirOTR\src\language.h
+[Start OTR]
+开始 OTR
+[Stop OTR]
+停止 OTR
+[Beginning OTR encrypted session with '%s']
+'%s' 开始 OTR 加密会话
+[Beginning OTR encrypted session with '%s' (NOT VERIFIED)]
+'%s' 开始 OTR 加密会话(未核实)
+[OTR Information]
+OTR 信息
+[Policy]
+策略
+;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
+;file \plugins\MirOTR\MirOTR\src\options.cpp

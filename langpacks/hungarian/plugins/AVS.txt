@@ -1,0 +1,85 @@
+﻿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.11.0.1
+;  Authors: Nightwish, Pescuma
+;============================================================
+;file \plugins\AVS\res\avs.rc
+[Set default picture]
+Alap kép beállítása
+[Delete default picture]
+Alap kép törlése
+[Try to draw avatar background transparent (for images without transparency)]
+Próbálja átlátszó háttérrel mutatni az avatárt (a nem átlátszó képeknél)
+[Num of points to define bkg:]
+Meghatározandó pontok száma:
+[Color difference allowed:]
+Megengedett színkülönbség:
+[Make transparency proportional to color diff]
+Az átlátszóság legyen arányos a színkülönbséggel
+[Draw avatars grayscale]
+Szürkeskálás avatárok
+[Show warning messages]
+Figyelmeztetõ üzenetek mutatása
+[When setting avatars, always make them square]
+Avatárok beállításánál mindig legyenek négyzetesek
+[Try to draw own avatar background transparent (for images without transparency)]
+Próbálja a saját avatárt átlátszó háttérrel mutatni (a nem átlátszó képeknél)
+[Protect the picture and prevent automatic avatars from overwriting it]
+Kép védelme és nem engedi, hogy az automatikus avatarok felülírják
+[Make the avatar square]
+Legyen az avatar négyzetes
+[Resize the avatar to fit max allowed protocol size]
+Avatar átméretezése, hogy passzoljon a protokol max mérethez
+[Contact picture]
+Kapcsolat képe
+[Picture options]
+Kép beállítások
+[Protect the picture]
+Kép védelme
+[Set as hidden]
+Beállítás rejtettnek
+[Try to make picture background transparent]
+Próbálja átlátszóvá tenni a kép hátterét
+[Use defaults]
+Alapértékek használata
+[Points:]
+Pontok:
+[Color diff:]
+Színkülönbség:
+[Use per protocol avatars]
+Protokollonként eltérõ avatár
+;file \plugins\AVS\src\acc.cpp
+[Protocols have different avatars]
+A protokolloknal eltérõ avatarjai vannak
+;file \plugins\AVS\src\main.cpp
+[Flash Animations]
+Flash animációk
+[XML Files]
+XML fájlok
+[Set My Avatar]
+Avatarom beállítása
+[Set My Avatar for %s]
+Avatarom beállítása %s részére
+[My Avatars]
+Avatarjaim
+[My Global Avatar Cache]
+Globális avatár táram
+[Contact Avatars]
+Partner avatárok
+[Own Avatars]
+Saját avatárok
+;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+Avatar opciók megadása neki: %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Kép törlése a helyi lemezrõl? (szükséges lehet az újratöltés kikényszerítéséhez)
+[Reset contact picture]
+Kapcsolat képe alapra
+[Contact has no avatar]
+A partnernek nincs avatarja
+[Are you sure you want to remove your avatar?]
+Biztosan eltávolítja az avatárját?
+[Global Avatar]
+Globális avatár

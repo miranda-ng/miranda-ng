@@ -1,0 +1,49 @@
+﻿#muuid {488c5c84-56da-434f-96f1-b18900def760}
+;============================================================
+;  File: Boltun.dll
+;  Plugin: Boltun
+;  Version: 0.0.3.0
+;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
+;============================================================
+[Boltun, the chat bot in the russian language.]
+Boltun, 俄语聊天机器人.
+;file \plugins\Boltun\res\Boltun.rc
+[Boltun Autochat everybody]
+Boltun 与所有人自动聊天
+[Boltun Autochat everybody not in contact list]
+Boltun 与所有非好友列表联系人自动聊天
+[Boltun Autochat everybody while away]
+Boltun 离开时与所有人自动聊天
+[Warn contacts Boltun is chatting]
+警告联系人 Boltun 开始聊天
+[Mark replied messages as read]
+标记回复消息为已读
+[Warning text]
+警告文本
+[Time before the answer]
+回答时间
+[Typing time depends on message length (in chars)]
+输入时间取决于消息长度 (字符)
+[Typing and thinking time can be much longer]
+输入及思考时间可更长
+[Typing time (for a message of 4 words):]
+输入时间 (一则消息 4 个字):
+[Thinking time:]
+思考时间:
+[Base of remarks]
+基本对话
+[Reload]
+重载
+[Stay silent, if have no good aswers]
+如回答不正确则保持沉默
+[Start answers with a lowercase letter]
+回答以小写字母开头
+[Don't use "I don't understand"-like answers]
+不要使用 "我不清楚"-为答案
+;file \plugins\Boltun\src\boltun.h
+[Boltun/Auto Chat]
+Boltun/自动聊天
+[Boltun/Not to Chat]
+Boltun/不聊天
+[Boltun Error]
+Boltun 错误

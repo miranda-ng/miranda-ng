@@ -1,0 +1,11 @@
+﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.5.2.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+;file \plugins\ContactsPlus\res\contacts.rc
+;file \plugins\ContactsPlus\src\main.cpp
+;file \plugins\ContactsPlus\src\receive.cpp
+;file \plugins\ContactsPlus\src\send.cpp

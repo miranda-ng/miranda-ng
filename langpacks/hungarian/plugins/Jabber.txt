@@ -1,0 +1,974 @@
+﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\JabberG\res\jabber.rc
+[User:]
+Felhasználó:
+[Resource:]
+Forrás:
+[Register new user]
+Új felhasználó regisztrálása
+[Use custom connection host and port:]
+Egyéni kapcsolati gép és port használata:
+[Go]
+Ugrás
+[Search service]
+Keresési szolgáltatás
+[Roster Editor]
+Névjegyzék Szerkesztõ
+[Jabber]
+Jabber
+[Priority:]
+Elsõbbség:
+[Use hostname as resource]
+Gépnév használata forrásként
+[List of public servers]
+Publikus szerverek listája
+[Use SSL]
+SSL használata
+[Use TLS]
+TLS használata
+[Unregister]
+Regisztráció megszüntetése
+[Manually specify connection host]
+Kapcsolati gép beállítása manuálisan
+[User directory:]
+Felhasználói könyvtár:
+[Language for human-readable resources:]
+Emberek által olvasható források nyelve:
+[Allow file sending through direct peer-to-peer connection]
+Fájlküldés engedélyezése direkt kapcsolaton keresztül
+[Specify external address:]
+Külsõ cím megadása:
+[Allow file sending through bytestream proxy server:]
+Fájlküldés engedélyezése byte-folyam proxy szerveren keresztül:
+[Hint:]
+Tipp:
+[Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
+Próbáld kivenni az összes bejelölést, ha gondod van a fájlküldéssel. Ez gondot okozhat nagy fájlok küldésénél.
+[Jabber Account Registration]
+Jabber fiók regisztráció
+[Jabber Agents]
+Jabber ügynökök
+[Register/Search Jabber Agents]
+Jabber ügynökök regisztrálása/keresése
+[Jabber server:]
+Jabber szerver:
+[Register...]
+Regisztrálás...
+[Browse/Join chat room...]
+Böngész/Csatlakozás csevegésszobához...
+[Search...]
+Keresés...
+[Registered Jabber Transports]
+Regisztrált Jabber átvitelek
+[Log on]
+Bejelentkezés
+[Log off]
+Kijelentkezés
+[Register with a new service...]
+Regisztrálás új szolgáltatással...
+[Command]
+Parancs
+[Jabber Form]
+Jabber ûrlap
+[Instruction:]
+Utasítás:
+[Submit]
+Engedélyezés
+[Data form test]
+Adatok a tesztrõl
+[Address1:]
+Cím1:
+[Address2:]
+Cím2:
+[ZIP:]
+IRSZ:
+[Middle:]
+Közép:
+[YYYY-MM-DD]
+ÉÉÉÉ-HH-NN
+[Jabber vCard: Add Email Address]
+Jabber vCard: E-mail cím megadása
+[Email address:]
+E-mail cím:
+[X400]
+X400
+[Jabber vCard: Add Phone Number]
+Jabber vCard: Telefonszám megadása
+[Phone number:]
+Telefonszám:
+[Pager]
+Csipogó
+[Text/Messaging]
+Szöveg/Üzenet
+[BBS]
+BBS
+[Modem]
+Modem
+[ISDN]
+ISDN
+[PCS]
+PCS
+[Load]
+Betöltés
+[Current Password:]
+Jelenlegi jelszó:
+[New Password:]
+Új jelszó:
+[Confirm New Password:]
+Új jelszó megerõsítése:
+[Jabber Multi-User Conference]
+Jabber Több-felhasználós konferencia
+[Conference server:]
+Konferencia szerver:
+[Create or Join Groupchat]
+Csoportos csevegés létrehozása vagy csatlakozása
+[Room:]
+Szoba:
+[Recently visited chatrooms:]
+Nemrég látogatott csevegésszobák:
+[Bookmarks]
+Könyvjelzõk
+[JID List]
+JID lista
+[Apply Filter]
+Szûrõ alkalmazása
+[Reset Filter]
+Szûrõ visszaállítása
+[Jabber Agent Registration]
+Jabber ügynök bejegyzése
+[JID:]
+JID:
+[Register]
+Regisztrálás
+[Other JID:]
+Másik JID:
+[Jabber Bookmarks]
+Jabber könyvjelzõk
+[Bookmark Details]
+Könyvjelzõ részletek
+[Bookmark Type]
+Könyvjelzõ típus
+[Transport]
+Átvitel
+[Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
+Auto-csatlakozás (könyvjelzõk auto-csatolását a Miranda beállításokban engedélyezni kell)
+[Room JID/ URL:]
+Szoba JID/URL:
+[Bookmark Name:]
+Könyvjelzõ név:
+[Privacy Lists]
+Adatvédelmi listák
+[Lists:]
+Listák:
+[Rules:]
+Szabályok:
+[Simple Mode]
+Egyszerû mód
+[Advanced Mode]
+Haladó mód
+[Add list... (Ins)]
+Lista hozzáadása...(Ins)
+[Activate (Space)]
+Aktiválás (Szóköz)
+[Set as default (Ctrl+Space)]
+Beállítás alapért.-ként (Ctrl+Szóköz)
+[Remove list (Del)]
+Lista eltávolítása (Del)
+[Add rule (Ins)]
+Szabály hozzáadása (Ins)
+[Edit rule... (F2)]
+Szabály szerkesztése...(F2)
+[Move rule up (Alt+Up)]
+Szabály mozgatása fel (Alt+Fel)
+[Move rule down (Alt+Down)]
+Szabály mozgatása le (Alt+Le)
+[Remove rule (Del)]
+Szabály eltávolítása (Del)
+[Privacy rule]
+Adatvédelmi szabályzat
+[If:]
+Ha:
+[Then:]
+Akkor:
+[following stanza types:]
+következõ strófa típusok:
+[Incoming presence]
+Bejövõ jelenlét
+[Outgoing presence]
+Kimenõ jelenlét
+[New privacy list name:]
+Új privát listanév:
+[Enter the name of the new list:]
+Új lista nevének megadása:
+[Service Discovery]
+Szolgáltatás felfedezés
+[View as tree]
+Megtekintés faként
+[View as list]
+Megtekintés listaként
+[Node:]
+Csomópont:
+[Account type:]
+Fiók típus:
+[Register account now]
+Fiók regisztrálása most
+[Jabber Account Information:]
+Csevegés Fiók információ:
+[Member Information]
+Tag információ
+[Role:]
+Feladat:
+[Set role]
+Feladat beállítása
+[Affiliation:]
+Csatlakozás:
+[Set affiliation]
+Csatlakozás beállítása
+[Chat options]
+Csevegés beállítások
+[Custom messages]
+Egyéni üzenetek
+[Quit:]
+Kilépés:
+[Slap:]
+Csapás:
+[Someone (maybe you) has requested the following file:]
+Valaki (talán te) a következõ fájlt kérte:
+[Request was sent from JID:]
+Kérelem elküldve JID-rõl:
+[The transaction identifier is:]
+A tranzakció azonosítója:
+[Request method is:]
+Kérelem módja:
+[If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
+Ha meg kívánod erõsíteni ezt a kérelmet, kérlek kattints a meghatalmazásra. Egyéb esetben kattints a megtagadásra.
+[Authorize]
+Meghatalmazás
+[Deny]
+Megtagadás
+[XML Console]
+XML konzol
+[Reset log]
+Napló visszaállítása
+;file \protocols\JabberG\src\jabber.cpp
+;file \protocols\JabberG\src\jabber.h
+[/me slaps %s around a bit with a large trout]
+/me megcsapkodja %s-t egy kicsit egy nagy pisztránggal
+;file \protocols\JabberG\src\jabber_adhoc.cpp
+[Error %s %s]
+Hiba %s %s
+[Select Command]
+Parancs kiválasztása
+[Done]
+Kész
+[In progress. Please Wait...]
+Folyamatban. Kérlek várj...
+[Execute]
+Végrehajtás
+[Requesting command list. Please wait...]
+Parancslista lekérése. Kérlek várj...
+[Jabber Ad-Hoc commands at]
+Jabber alkalmi parancsok itt:
+[Sending Ad-Hoc command to]
+Alkalmi parancs küldése ide:
+;file \protocols\JabberG\src\jabber_agent.cpp
+[No message]
+Nincs üzenet
+;file \protocols\JabberG\src\jabber_bookmarks.cpp
+[Bookmark Name]
+Könyvjelzõ név
+[Address (JID or URL)]
+Cím (JID vagy URL)
+[Conferences]
+Konferenciák
+;file \protocols\JabberG\src\jabber_byte.cpp
+;file \protocols\JabberG\src\jabber_caps.cpp
+;file \protocols\JabberG\src\jabber_captcha.cpp
+;file \protocols\JabberG\src\jabber_chat.cpp
+[Member]
+Tag
+[Visitor]
+Látogató
+[Participant]
+Résztvevõ
+[Moderator]
+Moderátor
+[User %s in now banned.]
+%s felhasználó nincs tiltva.
+[User %s changed status to %s with message: %s]
+%s felhasználó módosította állapotát erre: %s ezzel az üzenettel: %s
+[User %s changed status to %s]
+%s felhasználó módosította állapotát erre: %s
+[Room configuration was changed.]
+Szoba szerkezete módosítva.
+[Outcast]
+Kizárt
+[Affiliation of %s was changed to '%s'.]
+%s csatlakozása módosult erre: '%s'.
+[Role of %s was changed to '%s'.]
+%s szerepe módosítva erre: '%s'.
+[because room is now members-only]
+mert a szoba mostantól csak tagoké
+[user banned]
+felhasználó tiltva
+[Change &nickname]
+&Becenév váltása
+[&Invite a user]
+Felhasználó &meghívása
+[&Roles]
+&Feladatok
+[&Participant list]
+&Résztvevõ lista
+[&Moderator list]
+&Moderátor lista
+[&Affiliations]
+&Csatlkozások
+[&Member list]
+&Tag lista
+[&Admin list]
+&Admin lista
+[&Owner list]
+&Tulajdonos lista
+[Outcast list (&ban)]
+Kizártak listája (&tilt)
+[&Room options]
+&Szoba beállítások
+[View/change &topic]
+&Téma megtekintése/módosítása
+[Add to &bookmarks]
+&Könyvjelzõkhöz adás
+[&Configure...]
+&Beállítás...
+[&Destroy room]
+Szoba &megsemmisítése
+[Lin&ks]
+Lin&kek
+[Copy room &JID]
+Csevegés &JID másolása
+[Copy room topic]
+Szoba téma másolása
+[&User details]
+&Felhasználó részletek
+[Member &info]
+Tag &infó
+[&Add to roster]
+Névjegyzékhez &adás
+[&Copy to clipboard]
+&Másolás vágólapra
+[Set &role]
+&Feladat beállítása
+[&Visitor]
+&Látogató
+[&Participant]
+&Résztvevõ
+[&Moderator]
+&Moderátor
+[Set &affiliation]
+&Kapcsolódás beállítása
+[&None]
+&Senki
+[&Member]
+&Tag
+[&Admin]
+&Admin
+[&Owner]
+&Tulajdonos
+[Outcast (&ban)]
+Kizárt (&tilt)
+[Copy &nickname]
+&Becenév másolása
+[Copy real &JID]
+Valós &JID másolása
+[Real &JID: %s]
+Valós &JID: %s
+[Member Info:]
+Tag infó:
+[Real JID not available]
+Valós JID nem elérhetõ
+[Reason to kick]
+Kirúgás oka
+[Reason to ban]
+Kizárás oka
+[Set topic for]
+Téma beállítása ehhez:
+[Change nickname in]
+Becenév váltása itt:
+[Reason to destroy]
+Megsemmisítés oka
+;file \protocols\JabberG\src\jabber_console.cpp
+[Can't send data while you are offline.]
+Nem küldhetsz adatot offline módban.
+[Jabber Error]
+Jabber hiba
+;file \protocols\JabberG\src\jabber_disco.cpp
+[Node hierarchy]
+Csomópont rangsor
+[Node]
+Csomópont
+[Navigate]
+Navigálás
+[Browse all favorites]
+Összes kedvenc böngészése
+[Remove all favorites]
+összes kedvenc eltávolítása
+[Registered transports]
+Regisztrált átvitelek
+[Browse local transports]
+Helyi átvitelek böngészése
+[Browse chatrooms]
+Csevegésszobák böngészése
+[Add to roster]
+Névsorba vétel
+;file \protocols\JabberG\src\jabber_disco.h
+[Identities]
+Személyazonosságok
+[category]
+Kategória
+[Category]
+Kategória
+[Supported features]
+Támogatott jellemzõk
+[Info request error]
+Info kérelem hiba
+[Items request error]
+Elem kérelem hiba
+;file \protocols\JabberG\src\jabber_form2.cpp
+;file \protocols\JabberG\src\jabber_groupchat.cpp
+[Failed to retrieve room list from server.]
+Szobalista lekérése szoerverrõl sikertelen.
+[No rooms available on server.]
+Nincs elérhetõ szoba a szerveren.
+[Room list request timed out.]
+Szobalista kérelem túllépte az idõkorlátot.
+[<no nick>]
+<nincs becenév>
+[Loading...]
+Betölés...
+[Please wait for room list to download.]
+Kérlek várd meg, míg letöltõdik a szobalista.
+[Please specify groupchat directory first.]
+Kérlek add meg elõbb a csoportos csevegés könyvtárát.
+[Bookmarks...]
+Könyvjelzõk...
+;file \protocols\JabberG\src\jabber_icolib.cpp
+[Agents list]
+Ügynök lista
+[Transports]
+Átvitelek
+[Personal vCard]
+Személyes vCard
+[Convert to room]
+Szobává alakítás
+[Login/logout]
+Belépés/kilépés
+[Resolve nicks]
+Becenevek feloldása
+[AdHoc Command]
+Alkalmi parancs
+[OpenID Request]
+OpenID kérelem
+[Discovery succeeded]
+Felfedezés sikeres
+[Discovery failed]
+Felfedezés sikertelen
+[Discovery in progress]
+Felfedezés folyamatban
+[Apply filter]
+Szûrõ alkalmazása
+[Reset filter]
+Szûrõ visszaállítása
+[Navigate home]
+Navigálás haza
+[Refresh node]
+Csomópont frissítése
+[Browse node]
+Csomópont böngészése
+[RSS service]
+RSS szolgálat
+[Storage service]
+Tárolási szolgáltatás
+[Weather service]
+Idõjárás szolgáltatás
+[Generic privacy list]
+Generikus privát lista
+[Active privacy list]
+Aktív privát lista
+[Default privacy list]
+Alapért. privát lista
+[Allow Messages]
+Üzenetek engedélyezése
+[Allow Presences (in)]
+Jelenlétek engedélyezése (be)
+[Allow Presences (out)]
+Jelenlétek engedélyezése (ki)
+[Allow Queries]
+Kérdõívek engedélyezése
+[Deny Messages]
+Üzenetek megtagadása
+[Deny Presences (in)]
+Állapotok megtagadása (be)
+[Deny Presences (out)]
+Állapotok megtagadása (ki)
+[Deny Queries]
+Kérdõívek megtagadása
+[Dialogs]
+Párbeszédek
+;file \protocols\JabberG\src\jabber_iqid.cpp
+[Jabber Authentication]
+Jabber hitelesítés
+[Registration successful]
+Regisztrálás sikeres
+[Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
+A jelszó sikeresen módosítva. Ne felejtsd el frissíteni a jelszavad a Jabber Protokoll beállításnál.
+[Password cannot be changed.]
+A jelszó módosítása nem lehetséges.
+[Jabber Bookmarks Error]
+Jabber Könyvjelzõk Hiba
+;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[Voice List]
+Hang lista
+[Member List]
+Tag lista
+[Moderator List]
+Moderátor lista
+[Ban List]
+Tiltó lista
+[Admin List]
+Admin lista
+[Owner List]
+Tulajdonos lista
+[Removing]
+Eltávolítás
+;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+[Http authentication request received]
+Http meghatalmazási kérelem fogadva
+;file \protocols\JabberG\src\jabber_menu.cpp
+[Add to Bookmarks]
+Hozzáadás könyvjelzõkhöz
+[Commands]
+Parancsok
+[Jabber Resource]
+Jabber forrás
+[Last Active]
+Legutóbb Aktív
+[Server's Choice]
+Szerver választása
+[&Convert to Contact]
+Partnerré &alakítás
+[&Convert to Chat Room]
+Csevegés szobává &alakítás
+[Registered Transports]
+Regisztrált átvitelek
+[Local Server Transports]
+Helyi szerver átvitelek
+[Browse Chatrooms]
+Csevegésszobák böngészése
+[Create/Join groupchat]
+Csoportos csevegés létrehozása/csatlakozása
+[Roster editor]
+Névsor szerkesztõ
+[Resource priority]
+Forrás priortás
+[Resource priority [%d]]
+Forrás prioritás [%d]
+[Last active]
+Legutóbb aktív
+[No activity yet, use server's choice]
+Nincs aktivitás még, használd a szerver választását
+[Highest priority (server's choice)]
+Legmagasabb prioritás (szerver választása)
+;file \protocols\JabberG\src\jabber_message_handlers.cpp
+;file \protocols\JabberG\src\jabber_misc.cpp
+;file \protocols\JabberG\src\jabber_notes.cpp
+;file \protocols\JabberG\src\jabber_opt.cpp
+[These changes will take effect the next time you connect to the Jabber network.]
+Ezek a módosítások a következõ Jabber hálózathoz történõ csatlakozáskor lépnek életbe.
+[Jabber Protocol Option]
+Jabber Protokoll Beállítások
+[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
+Ez a mûvelet megsemmisíti a fiókod, a névjegyzéked és minden más a szerveren tárolt információt. Biztosan ezt akarod?
+[Account removal warning]
+Fiók eltávolítási figyelmeztetés
+[Log chat state changes]
+Csevegés állapotváltozások naplózása
+[Log presence subscription state changes]
+Jelenlét hozzájárulás állapotváltozások naplózása
+[Log presence errors]
+Jelenlét hibák naplózása
+[Enable user moods receiving]
+Felhasználó-hangulat fogadásának bekapcsolása
+[Enable user tunes receiving]
+Felhasználó-hangok fogadásának bekapcsolása
+[Server options]
+Szervek beállítások
+[Disable SASL authentication (for old servers)]
+SASL meghatalmazás tiltása (régi szerverekhez)
+[Enable stream compression (if possible)]
+Folyam-tömörítés bekapcsolása (ha lehetséges)
+[Enable remote controlling (from another resource of same JID only)]
+Távoli irányítás bekapcsolása (csak más forrás megegyezõ JID-jérõl)
+[Show transport agents on contact list]
+Átviteli ügynökök mutatása a kapcsolati listán
+[Automatically add contact when accept authorization]
+Meghatalmazás elfogadásakor automatikusan add hozzá a partnert
+[Automatically accept authorization requests]
+Meghatalmazási kérelmek auto-elfogadása
+[Fix incorrect timestamps in incoming messages]
+Helytelen idõbélyegzõk javítása bejövõ üzeneteknél
+[Show information about operating system in version replies]
+Operációs rendszer információnak mutatása a verzióválaszokban
+[Accept only in band incoming filetransfers (don't disclose own IP)]
+Csak csoportban jövõ fájlátvitelek elfogadása (ne fedd fel az IP-m)
+[Accept HTTP Authentication requests (XEP-0070)]
+HTTP Meghatalmazás kérelmek elfogadása (XEP-0070)
+[Autoaccept multiuser chat invitations]
+Több-felhasználós csevegés meghívások auto-elfogadása
+[Automatically join bookmarks on login]
+Bejelentkezéskor automatikus csatlakozás a könyvjelzõkhöz
+[Automatically join conferences on login]
+Bejelentkezéskor automatikus csatlakozás konferenciákhoz
+[Hide conference windows at startup]
+Konferenciaablakok elrejtése indításkor
+[Do not show multiuser chat invitations]
+Ne mutasd a több-felhasználós csevegés meghívásokat
+[Log events]
+Események naplózása
+[Ban notifications]
+Tiltás emlékeztetõk
+[Room configuration changes]
+Szoba szerkezet változások
+[Affiliation changes]
+Kapcsolódási módosítások
+[Role changes]
+Feladat változások
+[JID]
+JID
+[Subscription]
+Hozzájárulás
+[Uploading...]
+Betöltés...
+[Public XMPP Network]
+Nyilvános XMPP Hálózat
+[Secure XMPP Network]
+Biztonságos XMPP Hálózat
+[Secure XMPP Network (old style)]
+Biztonságos XMPP Hálózat (régi stílus)
+[Google Talk!]
+Google Talk!
+[LiveJournal Talk]
+LiveJournal Talk
+[Some changes will take effect the next time you connect to the Jabber network.]
+Néhány módosítás a következõ Jabber hálózathoz történõ csatlakozáskor lép életbe.
+;file \protocols\JabberG\src\jabber_password.cpp
+[Set New Password for]
+Új Jelszó beállítása ehhez:
+[New password does not match.]
+Az új jelszó nem egyezik.
+[Current password is incorrect.]
+A jelenlegi jelszó helytelen.
+;file \protocols\JabberG\src\jabber_privacy.cpp
+[Warning: privacy lists were changed on server.]
+Figyelmeztetés: a privát listák mentve a szerveren.
+[Error occurred while applying changes]
+Hiba változások alkalmazásakor
+[Privacy lists successfully saved]
+Privát listák sikeresen mentve
+[Privacy list %s set as active]
+%s privát lista aktív
+[Active privacy list successfully declined]
+Aktív privát lista sikeresen visszautasítva
+[Error occurred while setting active list]
+Hiba aktív lista beállításakor
+[Privacy list %s set as default]
+%s privát lista az alapért.
+[Default privacy list successfully declined]
+Alapért. privát lista sikeresen visszautasítva
+[Error occurred while setting default list]
+Hiba alapért. lista beállításakor
+[Simple mode]
+Egyszerû mód
+[Advanced mode]
+Haladó mód
+[Add JID]
+JID hozzáadása
+[Activate]
+Aktív
+[Set default]
+Alapért. beállítása
+[Edit rule]
+Szabály szerkesztése
+[Add rule]
+Szabály hozzáadása
+[Delete rule]
+Szabály törlése
+[Move rule up]
+Szabály mozgatása fel
+[Move rule down]
+Szabály mozgatása le
+[Add list...]
+Lista hozzáadása...
+[Remove list]
+Lista eltávolítása
+[** Default **]
+** Alapért. **
+[** Subsription: both **]
+** Hozzájárulás: mindkettõ **
+[** Subsription: to **]
+** Hozzájárulás: eddig: **
+[** Subsription: from **]
+** Hozzájárulás: ettõl: **
+[** Subsription: none **]
+** Hozzájárulás: egyik sem **
+[allow ]
+engedélyezés 
+[deny ]
+megtagadás 
+[all.]
+összes.
+[messages]
+üzenetek
+[ and ]
+ és 
+[incoming presences]
+bejövõ jelenlétek
+[outgoing presences]
+kimenõ jelenlétek
+[queries]
+kérdõívek
+[Else ]
+Más 
+[If jabber id is ']
+Ha a Jabber azonosító '
+[ (nickname: ]
+ (becenév: )
+[If group is ']
+Ha a csoport '
+[If subscription is ']
+Ha a hozzájárulás '
+[then ]
+akkor 
+[ (act., def.)]
+ (akt., alapért.)
+[ (active)]
+ (aktív)
+[ (default)]
+ (alapért.)
+[Ready.]
+Kész.
+[Privacy lists are not saved, discard any changes and exit?]
+Privát listák nincsenek mentve, kilépés változtatások mentése nélkül?
+[Unable to save list because you are currently offline.]
+Lista mentése nem lehetséges, mert jelenleg offline módban vagy.
+[List Editor...]
+Lista Szerkesztõ...
+;file \protocols\JabberG\src\jabber_proto.cpp
+;file \protocols\JabberG\src\jabber_rc.cpp
+;file \protocols\JabberG\src\jabber_search.cpp
+[Error %s %s\r\nPlease select other server]
+%s %s hiba\r\nKérlek válassz másik szervert
+[Error Unknown reply recieved\r\nPlease select other server]
+Hiba Ismeretlen válasz érkezett\r\nKérlek válassz másik szervert
+[Error %s %s\r\nTry to specify more detailed]
+%s %s hiba\r\nPróbálj részletesebben meghatározni
+[Search error]
+Keresési hiba
+[Select/type search service URL above and press <Go>]
+Válaszd ki/gépeld be a keresési szolgáltatás URL-jét és kattints az <Ugrás>-ra
+[Please wait...\r\nConnecting search server...]
+Kérlek várj...\r\nCsatlakozás keresési szerverhez...
+[You have to be connected to server]
+Csatlakozva kell lenned a szerverhez
+;file \protocols\JabberG\src\jabber_svc.cpp
+[closed chat session]
+befejezett csevegés munkamenet
+[sent subscription request]
+elküldött hozzájárulási kérelem
+[approved subscription request]
+engedélyezett hozzájárulási kérelem
+[declined subscription]
+megtagadott hozzájárulás
+[sent error presence]
+elküldött jelenléti hiba
+[sent unknown presence type]
+elküldött ismeretlen jelenléti típus
+;file \protocols\JabberG\src\jabber_thread.cpp
+[Error: Not enough memory]
+Hiba: Nincs elég memória
+[Error: Cannot connect to the server]
+Hiba: Kapcsolódás a szerverhez sikertelen
+[Error: Connection lost]
+Hiba: Kapcsolat megszakadt
+[Requesting registration instruction...]
+Regisztrációs utasítás kérése...
+[Message redirected from: %s\r\n%s]
+üzenet átirányítva innen: %s\r\n%s
+[Sending registration information...]
+Regisztrációs információ küldése...
+;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Software]
+Szoftver
+[Idle since]
+Inaktív ekkortól:
+[Client capabilities]
+Kliens adottságok
+[Last logoff time]
+Utolsó kijelentkezési idõ
+[Uptime]
+Futási idõ
+[Logoff message]
+Kijelentkezési üzenet
+[<no information available>]
+<nincs elérhetõ információ>
+[Last active resource]
+Utolsó aktív forrás
+[Please switch online to see more details.]
+Kérlek lépj be több részlet megtekintéséhez.
+[Copy only this value]
+Csak ezt az értéket másolja
+[format]
+formátum
+[Unknown format]
+Ismeretlen formátum
+[<Photo not available while offline>]
+<Fotó nem elérhetõ offline módban>
+[<No photo>]
+<Nincs fotó>
+[Photo]
+Kép
+;file \protocols\JabberG\src\jabber_util.cpp
+[Unknown error message]
+Ismeretlen hiba üzenet
+[Advanced Status]
+Haladó Állapot
+;file \protocols\JabberG\src\jabber_vcard.cpp
+[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
+Csak a 40 KB-nál kisebb JPG, GIF, és BMP képfájlok támogatottak.
+[Jabber vCard]
+Jabber VCard
+[Jabber vCard: Edit Email Address]
+Jabber vCard: E-mailcím szerkesztése
+[Jabber vCard: Edit Phone Number]
+Jabber vCard: Telefonszám szerkesztése
+;file \protocols\JabberG\src\jabber_ws.cpp
+;file \protocols\JabberG\src\jabber_xstatus.cpp
+[Afraid]
+Fél
+[Amazed]
+Meghökkent
+[Annoyed]
+Mérges
+[Anxious]
+Aggódik
+[Aroused]
+Izgatott
+[Ashamed]
+Szégyenli
+[Bored]
+Unatkozik
+[Brave]
+Bátor
+[Calm]
+Nyugodt
+[Cold]
+Hûvös
+[Confused]
+Zavarodott
+[Contented]
+Elégedett
+[Cranky]
+Bizonytalan
+[Curious]
+Kíváncsi
+[Disgusted]
+Undorodik
+[Distracted]
+Zavart
+[Embarrassed]
+Zavarban
+[Excited]
+Izgatott
+[Flirtatious]
+Flörtölõs
+[Frustrated]
+Frusztrált
+[Grumpy]
+Zsémbes
+[Guilty]
+Bûnös
+[Happy]
+Boldog
+[Hot]
+Szexi
+[Humbled]
+Megbántott
+[Humiliated]
+Megalázott
+[Hungry]
+Éhes
+[Hurt]
+Megsértett
+[Impressed]
+Lenyûgözve
+[In awe]
+Ámul
+[In love]
+Szerelmes
+[Indignant]
+Dühös
+[Interested]
+Érdekelt
+[Intoxicated]
+Részeg
+[Invincible]
+Legyõzhetetlen
+[Jealous]
+Féltékeny
+[Lonely]
+Magányos
+[Mean]
+Gonosz
+[Moody]
+Kedvetlen
+[Nervous]
+Ideges
+[Neutral]
+Semleges
+[Offended]
+Sértett
+[Playful]
+Játékos
+[Proud]
+Büszke
+[Relieved]
+Megkönnyebbült
+[Remorseful]
+Bûnbánó
+[Restless]
+Nyughatatlan
+[Sad]
+Szomorú
+[Sarcastic]
+Szarkasztikus
+[Serious]
+Komoly
+[Shocked]
+Sokkolt
+[Shy]
+Félénk
+[Sleepy]
+Álmos
+[Stressed]
+Stresszes
+[Surprised]
+Meglepett
+[Thirsty]
+Szomjas
+[Worried]
+Aggódó
+;file \protocols\JabberG\src\ui_utils.cpp

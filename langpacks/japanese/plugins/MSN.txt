@@ -1,0 +1,194 @@
+﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\MSN\res\msn.rc
+[MSN]
+MSN
+[Live ID:]
+Live ID:
+[Create a new Windows Live account]
+新規 Windows Live アカウントを作成
+[Send message font color/size info inside messages]
+メッセージにメッセージフォントの色 / サイズ情報を埋め込んで送信
+[Disable all contacts not included into my contact list]
+自分のコンタクトリストに含まれない全てのコンタクトを無効
+[Manage server groups]
+サーバーグループ管理
+[Run the following application when new Hotmail arrives]
+新規 Hotmail が届いたら次のアプリケーションを実行
+[Allow people on my contact list send messages to mobile device]
+コンタクトリストに登録済の人にはモバイルデバイスを使用したメッセージ送信を許可
+[Direct:]
+直接 :
+[Gateway:]
+ゲートウェイ :
+[Server List Manager]
+サーバーリスト管理
+[Contact is on your local list]
+ローカルリストにあるコンタクト
+[Contact is included into your server list]
+サーバーリストに含まれているコンタクト
+[Allowed (active) contact]
+(アクティブ)コンタクト許可
+[Blocked contact]
+ブロックされたコンタクト
+[Somebody included you in his/her server list]
+あなたをサーバーリストに追加した人
+[Hotmail]
+Hotmail
+[Disable Popup notifications]
+ポップアップ通知を無効
+[Disable Tray notifications]
+トレイ通知を無効
+[Ignore new messages not in Inbox folder]
+受信トレイフォルダーにない新規メッセージを無視
+[Enable 'Chat Session Established' popup]
+' チャットセッションの接続確立 ' ポップアップを有効
+[Enable 'Contact left channel' popup]
+' チャンネルに残っているコンタクト ' ポップアップを有効
+[Disable Contact List notifications]
+コンタクトリスト通知を無効
+[Mobile Device (used for SMS)]
+モバイルデバイス ( SMS 用に使用 )
+[Spouse/Partner]
+配偶者 / パートナー
+[Middle Name]
+ミドルネーム
+[MSN Delete Contact]
+MSN コンタクト削除
+[Remove from Hotmail Address book]
+Hotmail アドレスブックから削除
+[Block Contact]
+コンタクトをブロック
+[Live ID]
+Live ID
+;file \protocols\MSN\src\msn_chat.cpp
+[Chat #]
+チャット #
+;file \protocols\MSN\src\msn_commands.cpp
+[Contact tried to open an audio conference (currently not supported)]
+コンタクトはオーディオ会議を開こうとしています ( 現在未サポート )
+[%I64u bytes]
+%I64u バイト
+[Accept NetMeeting request from %s?]
+%s からの NetMeeting リクエストを了承しますか ?
+[MSN Protocol]
+MSN プロトコル
+[MSN Alert]
+MSN アラート
+[Chat session established by my request]
+自分のリクエストでチャットセッションが確立しました
+[Chat session established by contact request]
+コンタクトリクエストによりチャットセッションが確立しました
+[Contact left channel]
+コンタクト左チャンネル
+[This conversation has been inactive, participants will be removed.]
+この会話はアクティブではありません。参加者は削除されました
+[To resume the conversation, please quit this session and start a new chat session.]
+中断したところから会話を再開するには , このセッションを終了して新規チャットセッションを始めてください
+[There is only 1 person left in the chat, do you want to switch back to standard message window?]
+チャットには残っているのは最後の1人です。通常のメッセージウィンドウに切り替えますか ?
+[MSN Chat]
+MSN チャット
+[Message delivery failed]
+メッセージ配信に失敗
+;file \protocols\MSN\src\msn_errors.cpp
+[User not online]
+ユーザーはオンラインではありません
+;file \protocols\MSN\src\msn_links.cpp
+;file \protocols\MSN\src\msn_lists.cpp
+[%s protocol]
+%s プロトコル
+;file \protocols\MSN\src\msn_mail.cpp
+[Subject: %s]
+件名 : %s
+[Hotmail from %s (%S)]
+Hotmai 送信者 %s(%S)
+[Hotmail from %s]
+Hotmai 送信者 %s
+[Unread mail is available: %d in Inbox and %d in other folders).]
+未読メールがあります : 受信トレイ %d 通 ( その他のフォルダー %d 通 )
+;file \protocols\MSN\src\msn_menu.cpp
+[Open &Hotmail Inbox]
+Hotmail の受信箱を開く (&H)
+[Send &Hotmail E-mail]
+Hotmail で電子メールを送信 (&H)
+[You must be talking to start Netmeeting]
+Netmeeting を開始するには会話をする必要があります
+[Create &Chat]
+チャットの作成 (&C)
+[Display &Hotmail Inbox]
+Hotmail の受信箱を表示 (&H)
+[View &Profile]
+プロファイルを表示 (&P)
+[Setup Live &Alerts]
+Live アラートのセットアップ (&A)
+[&Start Netmeeting]
+Netmeeting の開始 (&S)
+;file \protocols\MSN\src\msn_misc.cpp
+;file \protocols\MSN\src\msn_msgqueue.cpp
+;file \protocols\MSN\src\msn_opts.cpp
+[Hotmail Inbox]
+Hotmail 受信箱
+[MSN Services]
+MSN サービス
+[Invite to chat]
+チャットに招待
+[Start Netmeeting]
+Netmeeting の開始
+[Allowed list]
+許可リスト
+[Relative list]
+相対リスト
+[Local list]
+ローカルリスト
+[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
+サーバーグループインポートはあなたのコンタクトリストのレイアウトを次回のログイン後に変更します。グループをサーバーにアップロードしますか ?
+[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+あなたが行った変更を反映させるには , MSN メッセンジャーネットワークに再接続をする必要があります
+[MSN Options]
+MSN オプション
+[Automatically obtain host/port]
+自動的にホスト / ポートを取得
+[Manually specify host/port]
+手動でホスト / ポートを指定
+[IP info available only after login]
+IP 情報はログイン後のみ利用可能です
+[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
+MSN プロトコルはメッセージタイムアウトに 60 秒以上を必要とします。タイムアウトの値を修正してください
+[Server list]
+サーバーリスト
+;file \protocols\MSN\src\msn_p2p.cpp
+[Contact tried to send its webcam data (currently not supported)]
+コンタクトはウェブカメラのデータを送信しようとしています ( 現在未サポート )
+[Contact tried to view our webcam data (currently not supported)]
+コンタクトはウェブカメラのデータを表示しようとしています ( 現在未サポート )
+;file \protocols\MSN\src\msn_proto.cpp
+[Live Mail]
+Live メール
+[Live Alert]
+Live アラート
+[%s plugin HTTPS connections]
+%s プラグイン HTTPS 接続
+[Protocol is offline]
+プロトコルはオフラインです
+[You cannot send message to yourself]
+自分自身にはメッセージを送信できません
+[Message is too long: SMS page limited to 133 UTF8 chars]
+メッセージが長すぎます : SMS ページは UTF8 で 133 文字までに制限されています
+[Message is too long: MSN messages are limited by 1202 UTF8 chars]
+メッセージが長すぎます : MSN メッセンジャーは UTF8 で 1202 文字までに制限されています
+[Offline messaging is not allowed for LCS contacts]
+オフラインメッセージは LCS コンタクトには許可されていません
+;file \protocols\MSN\src\msn_svcs.cpp
+[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
+MSN はメッセージウィンドウプラグインでのメッセージ送信タイムアウトに 60 秒以上を必要とします。タイムアウトの値を修正してください
+[Convert to Chat]
+チャットに変換
+;file \protocols\MSN\src\msn_ws.cpp
+[Chat session dropped due to inactivity]
+チャットセッションは非アクティブのため落ちました

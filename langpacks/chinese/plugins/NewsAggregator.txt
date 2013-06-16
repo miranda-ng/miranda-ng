@@ -1,0 +1,31 @@
+﻿#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
+;============================================================
+;  File: NewsAggregator.dll
+;  Plugin: News aggregator
+;  Version: 0.0.0.1
+;  Authors: Mataes, FREAK_THEMIGHTY
+;============================================================
+;file \plugins\NewsAggregator\Res\Resource.rc
+[Authentication]
+认证
+[Use &authentication]
+使用认证(&A)
+[Login]
+登录
+[Visualization]
+视觉
+[Display news using the following format:]
+使用下列格式显示新闻: 
+[All item's tags are valid. Put them between #. Example: #<author>#]
+所有项目标签都是有效的. 请将他们放于 # 之间. 例如: #<author>#
+;file \plugins\NewsAggregator\Src\Icons.cpp
+;file \plugins\NewsAggregator\Src\Menus.cpp
+;file \plugins\NewsAggregator\Src\Options.cpp
+[Wait...]
+稍候...
+;file \plugins\NewsAggregator\Src\Services.cpp
+;file \plugins\NewsAggregator\Src\Utils.cpp
+[Feed]
+订阅
+[%s\nis a valid feed's address.]
+%s\n是有效订阅地址. 

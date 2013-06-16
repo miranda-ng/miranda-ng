@@ -1,0 +1,1010 @@
+﻿;file \src\resource.rc
+[Enter account name (for example, My Google)]
+アカウント名を入力 ( 例 : My Google )
+[Choose the protocol type]
+プロトコルタイプを選択
+[Specify the internal account name (optional)]
+内部アカウント名を指定 ( 任意 )
+[Add %s]
+%s を追加
+[Contact Display Options]
+コンタクト表示用オプション
+[Miranda NG Profile Manager]
+Miranda NG プロファイルマネージャー
+[&Run]
+実行 (&R)
+[Start in Service Mode with]
+サービスモードで起動
+[Find/Add Contacts]
+コンタクトを検索 / 追加
+[First:]
+名前 :
+[Last:]
+名字 :
+[Add to list]
+リストに追加
+[Find/Add Contacts\nHere you can add contacts to your contact list]
+コンタクトを検索 / 追加\nコンタクトリストにコンタクトを追加できます
+[Please select a subentry from the list]
+リストからサブエントリーを選択してください
+[Netlib Log Options]
+Netlib ログオプション
+[Received bytes]
+受信バイト数
+[Sent bytes]
+送信バイト数
+[Additional data due to proxy communication]
+プロキシ通信用の追加データ
+[Text dumps where available]
+利用可能な場所にテキストを書き出し
+[Auto-detect text]
+自動検知テキスト
+[Calling modules' names]
+モジュール名を呼出中
+[Log to]
+ログをとる
+[OutputDebugString()]
+OutputDebugString()
+[Run now]
+すぐに実行
+[Show this dialog box when Miranda NG starts]
+Miranda NG の起動時にこのダイアログボックスを表示
+[Save as default]
+デフォルトとして保存
+[SSL Traffic]
+SSL トラフィック
+[&Change...]
+変更 (&C)...
+[Download more sounds]
+追加音声をダウンロード
+[Sound Information]
+音声情報
+[Location:]
+場所 :
+[Enable sound events]
+音声イベントを有効
+[Show category:]
+カテゴリーを表示 :
+[&Load icon set...]
+アイコンセット読込 (&L)...
+[&Import icons >>]
+アイコンをインポート (&I) >>
+[Download more icons]
+追加アイコンをダウンロード
+[Online Notification]
+オンライン通知
+[Auth Requests]
+認証リクエスト
+[All Events]
+全てのイベント
+[Only the ticked contacts will be shown on the main contact list]
+チェックしたコンタクトのみをメインコンタクトリストに表示
+[Added Notification]
+通知を追加
+[You are visible to this person even when in invisible mode]
+不可視モードでも , この人に対しては可視になる
+[You are never visible to this person]
+この人に対して決して可視にならない
+[Icon Index]
+アイコンインデックス
+[Icon library:]
+アイコンライブラリー :
+[Drag icons to main list to assign them:]
+メインリストに割り当てるアイコンをドラッグ :
+[Import multiple]
+並列インポート
+[To main icons]
+メインアイコンへ
+[<< &Import]
+<< インポート (&I)
+[To default status icons]
+デフォルトステータスアイコンへ
+[Logging...]
+ログを記録...
+[Outgoing Connections]
+発信接続
+[Use proxy server]
+プロキシサーバーを使用
+[(often %d)]
+( 通常 %d)
+[Use Custom Login (Domain login picked up automatically)]
+カスタムログインを使用 ( ドメインログインが自動的に選択 )
+[Resolve hostnames through proxy]
+プロキシを経由してホスト名を解決
+[Port Range:]
+ポートの範囲 :
+[Example: 1050-1070, 2000-2010, 2500]
+記入例 : 1050-1070, 2000-2010, 2500
+[Validate SSL certificates]
+SSL 証明書を有効
+[Incoming Connections]
+着信接続
+[Enable UPnP port mapping]
+UPnP ポートマッピングを有効
+[Please complete the following form to create a new user profile]
+新規ユーザープロファイルの作成用に以下のフォームを入力してください
+[e.g. Workplace]
+例 ワークスペース
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+デフォルトのプロファイルドライバー以外に , 追加機能等が提供されるプロファイルドライバーを選択できます
+[e.g. Miranda Database]
+例 Miranda データベース
+[Driver]
+ドライバー
+[Download more plugins]
+追加プラグインをダウンロード
+[Fonts and Colors]
+フォントと色
+[Color/Background]
+色 / 背景
+[Text Effect]
+テキスト効果
+[Choose Font]
+フォントを選択
+[&Font:]
+フォント (&F):
+[Font st&yle:]
+フォント型 (&y):
+[\nStyles and effects are disabled for this font.]
+\nこのフォントに対するスタイルと効果は無効です
+[&Size:]
+サイズ (&S):
+[Stri&keout]
+取り消し線 (&k)
+[&Underline]
+下線 (&U)
+[&Color:]
+色 (&C):
+[Sample]
+サンプル
+[AaBbYyZz]
+AaBbYyZz
+[Sc&ript:]
+スクリプト (&r):
+[Menu Objects]
+メニューオブジェクト
+[Menu Items]
+メニュー項目
+[Protocol menus]
+プロトコルメニュー
+[Move to the main menu]
+メインメニューに移動
+[Move to the status bar]
+ステータスバーに移動
+[Insert separator]
+セパレーターを挿入
+[Disable icons]
+アイコンを無効
+[Account Order && Visibility]
+アカウントの並び順と可視状態
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+注意 : Miranda NG に変更を反映するには再起動が必要です
+[Key Bindings]
+キーバインディング
+[Shortcut:]
+ショートカット :
+[Undo Changes]
+変更を元に戻す
+[Reset To Default]
+デフォルトにリセット
+[Accounts\nConfigure your IM accounts]
+アカウント\nIM アカウントの設定
+[Account information:]
+アカウント情報 :
+[Additional:]
+追加 :
+[Configure network...]
+ネットワークの設定...
+[Get more protocols...]
+追加プロトコルを入手...
+[&Add...]
+追加 (&A)...
+[&Upgrade]
+アップグレード (&U)
+[Miranda NG is being restarted.\nPlease wait...]
+Miranda NG は再起動中です\nお待ちください...
+[Error Console]
+エラーコンソール
+[Error notifications]
+エラー通知
+[Headers:]
+ヘッダー :
+[This font is used to display main section titles or text elements.]
+このフォントはメインセクションのタイトルやテキスト要素の表示に使用されています
+[Normal text:]
+標準テキスト :
+[This font is used to display most text element or section bodies.]
+このフォントは大部分のテキスト要素や本文のセクションの本文に使用されています
+[Minor notes:]
+マイナーメモ :
+[This font is used to display various addtional notes.]
+このフォントは各種の追加メモの表示に使用されています
+[Event icon legend:]
+イベントアイコン凡例 :
+[Choose events you wish to ingonre:]
+無視するイベントを選択 :
+[Font Effect]
+フォント効果
+[Base colour:]
+基本色 :
+[Secondary colour:]
+第 2 色 :
+[IconOptions]
+アイコンオプション
+[&Reset to default]
+デフォルトに戻す (&R)
+[find/add]
+検索 / 追加
+[&Add to List]
+リストに追加 (&A)
+[Send &Message]
+メッセージを送信 (&M)
+[Cancel Change]
+変更をキャンセル
+[&Reset To Default]
+デフォルトに戻す (&R)
+;file \src\core\stdauth\resource.rc
+[&Authorize]
+許可 (&A)
+[Decide &Later]
+後で決定 (&L)
+[&I]
+&I
+[Reason:]
+理由 :
+[Denial Reason:]
+拒否の理由 :
+[Add to contact list if authorized]
+認証済みならコンタクトリストに追加
+;file \src\core\stdaway\resource.rc
+[Do not reply to requests for this message]
+このメッセージ向けのリクエストに返信しない
+[Do not pop up dialog asking for new message]
+新規メッセージ確認用ダイアログをポップアップしない
+[By default, use the same message as last time]
+デフォルトで , 終了時に同じメッセージを使用
+[By default, use this message:]
+デフォルトで , このメッセージを使用 :
+[Status messages:]
+ステータスメッセージ :
+;file \src\core\stdchat\res\chat.rc
+[Trim to (kB)]
+トリムする (kB):
+[Userlist row distance (pixels):]
+ユーザーリストの行間隔 ( ピクセル ):
+[Popups for the Chat plugin]
+チャットプラグイン用ポップアップ
+;file \src\core\stdclist\res\resource.rc
+[Enable docking]
+ドッキングを有効
+[Selection colour]
+選択色
+[Ordering:]
+並び順 :
+[Contact list:]
+コンタクトリスト :
+[If window is partially covered, bring iy to front]
+ウィンドウが一部隠れている場合 , 後方から前面に移動する
+[Contact list background:]
+コンタクトリストの背景 :
+;file \src\core\stdfile\resource.rc
+[Send File(s)]
+送信ファイル
+[File(s):]
+ファイル :
+[&Choose Again...]
+再選択 (&C)...
+[Total size:]
+合計サイズ :
+[A&ccept]
+受信 (&c)
+[&Decline]
+減少 (&D)
+[Files:]
+ファイル :
+[Save to:]
+以下として保存 :
+[Open...]
+開く...
+[Open folder]
+フォルダーを開く
+[Transfer completed, open file(s).]
+転送完了しました。ファイルを開きます
+[No data transferred]
+転送データはありません
+[File Already Exists]
+ファイルは既に存在しています
+[Resume all]
+全て再開
+[Overwrite all]
+全て上書き
+[Save as...]
+以下として保存...
+[Auto rename]
+自動名前変更
+[Skip]
+スキップ
+[Cancel transfer]
+転送をキャンセル
+[You are about to receive the file]
+ファイルを受信したようです
+[Existing file]
+存在するファイル
+[Last modified:]
+最終変更 :
+[Open file]
+ファイルを開く
+[File properties]
+ファイルのプロパティ
+[File being received]
+ファイルを受信しました
+[Clear completed]
+完了分をクリア
+[Receiving files]
+受信ファイル
+[Received files folder:]
+受信ファイルフォルダー :
+[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+許可する変数 : %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
+[Auto-accept incoming files from people on my contact list]
+コンタクトリストに登録済の人からの着信ファイルを自動受信
+[Minimize the file transfer window]
+ファイル転送ウィンドウを最小化
+[Close window when transfer completes]
+転送が完了したらウィンドウを閉じる
+[Clear completed transfers on window closing]
+閉じているウィンドウの転送が完了したらクリア
+[Virus scanner]
+ウイルス検知
+[Scan files:]
+スキャン実行
+[Never, do not use virus scanning]
+ウイルススキャンを一切使用しない
+[When all files have been downloaded]
+全ファイルのダウンロードが完了した時
+[As each file finishes downloading]
+ダウンロードが終了したファイル毎
+[Command line:]
+コマンドライン :
+[%f will be replaced by the file or folder name to be scanned]
+%f はスキャン済のファイル名もしくはフォルダー名で置き換えられます
+[Warn me before opening a file that has not been scanned]
+ウイルス検知が行われていないファイルを開く前に警告する
+[If incoming files already exist]
+着信ファイルが既に存在する場合
+[Ask me]
+確認する
+[You will always be asked about files from people not on your contact list]
+あなたのコンタクトリストにない人からのファイルは毎回確認
+;file \src\core\stdhelp\resource.rc
+[About Miranda NG]
+Miranda NG のバージョン情報
+[Miranda NG\n%s]
+Miranda NG\n%s
+;file \src\core\stdidle\resource.rc
+[Become idle if the following is left unattended:]
+以下が無人状態になったらアイドルになる :
+[Miranda]
+Miranda
+[Become idle if the screen saver is active]
+スクリーンセーバーがアクティブになったらアイドルになる
+[Become idle if a terminal session is disconnected]
+端末のセッションが切断したらアイドルになる
+[Do not let protocols report any idle information]
+アイドル情報は一切プロトコルに報告しない
+[minute(s)]
+分
+[for]
+連続
+[Change my status mode to:]
+自分のステータスモードを変更する :
+[Do not set status back to online when returning from idle]
+アイドル状態から戻った際に , ステータスをオンラインに戻さない
+[Idle Options]
+アイドルオプション
+[Become idle if application full screen]
+アプリケーションがフルスクリーンになったらアイドルになる
+[Become idle if computer is left unattended for:]
+コンピューターが以下に対して無人状態になったらアイドルになる :
+[Idle (auto-away):]
+アイドル ( 自動離席中 )
+;file \src\core\stdmsg\res\resource.rc
+[Automatically popup window when:]
+自動的にポップアップウィンドウを開く場合 :
+[Save the window size and location individually for each contact]
+コンタクト毎にウィンドウサイズと位置を個別に保存
+[Show 'Send' button]
+' 送信 ' ボタンを表示
+[Show username on top row]
+ユーザー名を一番上の行に表示
+[Show toolbar buttons on top row]
+ツールバーのボタンを一番上の行に表示
+[Show character count]
+文字数を表示
+[Support control up/down in message area to show previously sent messages]
+以前送信したメッセージを表示する為にメッセージエリアの上下移動をサポート
+[Delete temporary contacts when closing message window]
+メッセージウィンドウを閉じる時に一時的なコンタクトを削除
+[Enable avatar support in the message window]
+メッセージウィンドウ内でのアバターサポートを有効
+[Limit avatar height to ]
+アバターの高さを以下に制限 :
+[pixels.]
+ピクセル
+[Max Number of Flashes]
+フラッシュの最大数
+[Show timestamp]
+タイムスタンプを表示
+[Show dates]
+日付を表示
+[Show status changes]
+ステータス変更を表示
+[Show Formatting]
+書式設定を表示
+[Update inactive message window icons when a user is typing]
+ユーザーが入力中に非アクティブのメッセージウィンドウを更新する
+[Save the window position for each contact]
+コンタクト毎にウィンドウ位置を保存
+[Message window behaviour:]
+メッセージウィンドウの動作 :
+[Messaging:]
+メッセージング :
+;file \src\core\stduihist\resource.rc
+[&Find Next]
+次を検索 (&F)
+[Find What:]
+検索項目 :
+;file \src\core\stduserinfo\resource.rc
+[Add E-Mail Address]
+電子メールアドレスを追加
+[%s: User Details]
+%s : ユーザーの詳細情報
+[%s\nView personal user details and more]
+%s\nユーザーの個人詳細情報等を表示
+[Update Now]
+今すぐ更新
+[Web page:]
+ウェブページ :
+[Past background:]
+過去の経緯 :
+[Interests:]
+興味あるもの :
+[My notes:]
+マイメモ :
+[Spoken languages:]
+話す言語 :
+[Local time:]
+現地時間 :
+[Set custom time zone]
+カスタムタイムゾーンを設定
+[Website:]
+ウェブサイト :
+;file \src\core\stdauth\auth.cpp
+[%s requests authorization]
+%s は認証をリクエストしました
+[%u requests authorization]
+%u は認証をリクエストしました
+[%s added you to their contact list]
+%s はあなたをコンタクトリストに追加しました
+[%u added you to their contact list]
+%u はあなたをコンタクトリストに追加しました
+;file \src\core\stdauth\authdialogs.cpp
+[%s added you to the contact list\n%u (%s) on %s]
+%sはあなたをコンタクトリストに追加しました\n%u ( %s ) : %s
+[%s added you to the contact list\n%u on %s]
+%sはあなたをコンタクトリストに追加しました\n%u : %s
+[%s added you to the contact list\n%s on %s]
+%sはあなたをコンタクトリストに追加しました\n%s : %s
+[(Unknown)]
+( 不明 )
+[View User Details]
+ユーザーの詳細情報を表示
+[%s requested authorization\n%u (%s) on %s]
+%s は認証リクエストしました\n%u (%s) : %s
+[%s requested authorization\n%u on %s]
+%s は認証リクエストしました\n%u : %s
+[%s requested authorization\n%s on %s]
+%s は認証リクエストしました\n%s : %s
+[Feature is not supported by protocol]
+機能はプロトコルにサポートされていません
+;file \src\core\stdaway\awaymsg.cpp
+[Re&ad Status Message]
+ステータスメッセージを読む (&a)
+;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdchat\src\clist.cpp
+;file \src\core\stdchat\src\colorchooser.cpp
+;file \src\core\stdchat\src\log.cpp
+;file \src\core\stdchat\src\options.cpp
+[Use a tabbed interface]
+タブインターフェースを使用
+[Close tab on doubleclick]
+ダブルクリックでタブを閉じる
+[Restore previously open tabs when showing the window]
+前回ウィンドウを表示時に開いていたタブを復元
+[Show tabs at the bottom]
+タブを一番下に表示
+[Send message by pressing the Enter key]
+エンターキーでメッセージを送信
+[Send message by pressing the Enter key twice]
+エンターキー 2 回でメッセージ送信
+[Show button for sending messages]
+メッセージ送信用ボタンを表示
+[Show buttons for controlling the chat room]
+チャットルームコントロール用ボタンを表示
+[Show buttons for formatting the text you are typing]
+入力しているテキストの書式設定ボタンを表示
+[Show new windows cascaded]
+新しいウィンドウをカスケード表示
+[Save the size and position of chat rooms]
+チャットルームのサイズと位置を保存
+[Show the topic of the room on your contact list (if supported)]
+コンタクトリストにあるルームのトピックを表示する（ サポート時のみ ）
+[Do not play sounds when the chat room is focused]
+チャットルームがフォーカスされている時音声を鳴らさない
+[Toggle the visible state when double clicking in the contact list]
+コンタクトリストをダブルクリックする毎に可視状態を切り替える
+[Show contact statuses if protocol supports them]
+プロトコルがサポートしている場合 , コンタクトステータスを表示
+[Display contact status icon before user role icon]
+ユーザー役割アイコンの前にコンタクトステータスアイコンを表示
+[Timestamp has same colour as the event]
+タイムスタンプをイベントと同じ色にする
+[Show icon for topic changes]
+トピック変更アイコンを表示
+[Show icon for users joining]
+ユーザー参加アイコンを表示
+[Show icon for users disconnecting]
+ユーザー切断アイコンを表示
+[Show icon for messages]
+メッセージ用アイコンを表示
+[Show icon for actions]
+操作用アイコンを表示
+[Show icon for highlights]
+強調表示アイコンを表示
+[Show icon for users leaving]
+離席アイコンを表示
+[Show icon for users kicking other user]
+ユーザー排除アイコンを表示
+[Show icon for notices ]
+通知用アイコンを表示
+[Show icon for name changes]
+名前変更アイコンを表示
+[Show icon for information messages]
+情報メッセージ用アイコンを表示
+[Show icon for status changes]
+ステータス変更アイコンを表示
+[Chat Module]
+チャットモジュール
+[Message Background]
+メッセージ背景
+[Userlist Background]
+ユーザーリストの背景
+[Userlist Lines]
+ユーザーリストの線
+[Userlist Background (selected)]
+ユーザーリストの背景（ 選択済 ）
+[Group Chats Log]
+グループチャットログ
+[Options for using a tabbed interface]
+タブインターフェース使用時のオプション
+[Icons to display in the message log]
+メッセージログに表示するアイコン
+[Chat Log]
+チャットログ
+[Chat]
+チャット
+;file \src\core\stdchat\src\services.cpp
+;file \src\core\stdchat\src\tools.cpp
+;file \src\core\stdchat\src\window.cpp
+[Close current tab (CTRL+F4)]
+現在のタブを閉じる (CTRL+F4)
+;file \src\core\stdclist\src\clcfonts.cpp
+;file \src\core\stdclist\src\clcopts.cpp
+;file \src\core\stdclist\src\clistopts.cpp
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdemail\email.cpp
+[User has not registered an e-mail address]
+ユーザーは電子メールアドレスを登録していません
+[&E-mail]
+電子メール (&E)
+;file \src\core\stdfile\file.cpp
+[File from %s]
+送信者 %s のファイル
+[File &Transfers...]
+ファイル転送 (&T)...
+;file \src\core\stdfile\fileexistsdlg.cpp
+[%s File]
+%s ファイル
+;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\filerecvdlg.cpp
+[My Received Files]
+受信ファイル
+[Cancelled]
+キャンセルしました
+;file \src\core\stdfile\filesenddlg.cpp
+[%d files]
+%d 個のファイル
+[%d directories]
+%d 個のディレクトリ
+;file \src\core\stdfile\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+このファイルはウイルス検知を未実行です。本当に開きますか?
+[File Received]
+ファイルを受信
+[of]
+の
+[Request sent, waiting for acceptance...]
+リクエストを送信 , 承認待ち中...
+[Waiting for connection...]
+接続待ち中です...
+[Unable to initiate transfer.]
+転送開始ができません
+[remaining]
+残り
+[Decision sent]
+判断を送信
+[Connecting to proxy...]
+プロキシに接続中...
+[Connected]
+接続済
+[Initialising...]
+初期化中...
+[Moving to next file...]
+次のファイルに移動中...
+[File already exists]
+ファイルは既に存在します
+[File transfer denied]
+ファイル転送は拒否されました
+[File transfer failed]
+ファイル転送は失敗しました
+[Transfer completed.]
+転送が完了しました
+[Transfer completed, open file.]
+転送が完了しました , ファイルを開きます
+[Transfer completed, open folder.]
+転送が完了しました , フォルダーを開きます
+[Scanning for viruses...]
+ウイルス検知中...
+[Transfer and virus scan complete]
+転送とウイルス検知が完了しました
+;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\help.cpp
+[&About...]
+バージョン情報 (&A)...
+[&Support]
+サポート (&S)
+[&Miranda NG Homepage]
+Miranda NG ホームページ
+[&Report Bug]
+バグ報告 (&R)
+;file \src\core\stdidle\idle.cpp
+;file \src\core\stdmsg\src\cmdlist.cpp
+;file \src\core\stdmsg\src\globals.cpp
+;file \src\core\stdmsg\src\msgdialog.cpp
+;file \src\core\stdmsg\src\msglog.cpp
+;file \src\core\stdmsg\src\msgoptions.cpp
+[Messaging Log]
+メッセージングログ
+;file \src\core\stdmsg\src\msgs.cpp
+;file \src\core\stdmsg\src\msgtimedout.cpp
+;file \src\core\stduihist\history.cpp
+[Outgoing Message]
+発信メッセージ
+[Incoming Message]
+着信メッセージ
+[Outgoing File]
+発信ファイル
+[Incoming File]
+着信ファイル
+[Are you sure you want to delete this history item?]
+この履歴項目を本当に削除しますか ?
+[Delete History]
+履歴を削除
+;file \src\core\stdurl\url.cpp
+[URL from %s]
+%sからの URL
+[Web Page Address (&URL)]
+ウェブページアドレス (URL)(&U)
+;file \src\core\stdurl\urldialogs.cpp
+[Send URL to]
+URL を送信 :
+[Send timed out]
+タイムアウトを送信
+;file \src\core\stduserinfo\contactinfo.cpp
+[Edit E-Mail Address]
+電子メールアドレスを編集
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+電話番号は , 先頭は + で , 数字 , 空白 , []  , ハイフンのみで構成されていなければなりません
+[Primary]
+第 1
+[Custom %d]
+カスタム %d
+[Mobile]
+モバイル
+[Work Phone]
+仕事用電話
+[Work Fax]
+仕事用ファックス
+;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduseronline\useronline.cpp
+[%s is Online]
+%s はオンラインです
+;file \src\modules\addcontact\addcontact.cpp
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clistmenus.cpp
+[Custom status]
+カスタムステータス
+;file \src\modules\clist\clistmod.cpp
+[This plugin requires db3x plugin version 0.5.1.0 or later]
+このプラグインには db3x プラグインバージョン 0.5.1.0 以降が必要です
+;file \src\modules\clist\clistsettings.cpp
+;file \src\modules\clist\clisttray.cpp
+;file \src\modules\clist\clui.cpp
+[This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
+このコンタクトは , サーバー上のコンタクトリストに保存されているインスタントメッセージシステム上にあります。そのため , あなたが次回該当するネットワークに接続した際に , サーバーとあなたのコンタクトリストから削除されます
+[De&lete]
+削除 (&l)
+[&Add permanently to list]
+完全にリストに追加 (&A)
+;file \src\modules\clist\contacts.cpp
+;file \src\modules\clist\genmenu.cpp
+;file \src\modules\clist\genmenuopt.cpp
+[Menus]
+メニュー
+;file \src\modules\clist\groups.cpp
+[New Group]
+新規グループ
+[Are you sure you want to delete group '%s'?  This operation can not be undone.]
+本当にグループ ' %s ' を削除しますか ? この操作は元に戻せません
+[You already have a group with that name. Please enter a unique name for the group.]
+その名前のグループは既に存在しています。重複しないグループ名を入力してください
+[Rename Group]
+グループ名の変更
+[This group]
+このグループ
+;file \src\modules\clist\keyboard.cpp
+;file \src\modules\clist\movetogroup.cpp
+[&Move to Group]
+グループに移動 (&M)
+;file \src\modules\database\database.cpp
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
+Miranda は ' %s ' を開けませんでした。プロファイルプラグインがインストールされていません\ndbx_3x.dllもしくは , それに相当するものをインストールしてください
+[No profile support installed!]
+プロファイルサポートがインストールされていません!
+[Miranda can't understand that profile]
+Miranda はプロファイルを解釈できませんでした
+[Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
+Mirandaは ' %s ' を開けませんでした\nアクセスができないか , もしくは他のアプリケーションか Miranda インスタンスによって使用中です
+[Miranda can't open that profile]
+Miranda はプロファイルを開けませんでした
+;file \src\modules\database\dbini.cpp
+[Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
+悪意のある変更を防ぐためにセキュリティシステムが内蔵されており , 変更が行なわれる際に毎回警告します
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+悪意のある変更を防ぐためにセキュリティシステムが内蔵されており , 安全が保証されていない変更が行なわれる際に警告します
+[Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+悪意のある変更を防ぐためのセキュリティシステムは無効です。さらに警告されることはありません
+[This change is known to be safe.]
+既知の安全な変更です
+[This change is known to be potentially hazardous.]
+既知の望ましくない危険のある変更です
+[This change is not known to be safe.]
+既知の安全ではない変更です
+[Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
+設定の型が不正です。全ての値の最初の文字は b, w, d, l, s, e, u, g, h, n でなければいけません
+;file \src\modules\database\profilemanager.cpp
+[The profile already exists]
+プロファイルは既に存在します
+[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+%s を Recycle Bin に移動できませんでした。別のプロファイル名を選択してください
+[Problem moving profile]
+プロファイル移動時の不具合
+[Unable to create the profile '%s', the error was %x]
+プロファイル ' %s ' は作成できません。エラー : %x
+[Problem creating profile]
+プロファイル作成時の不具合
+[<In Use>]
+< 使用中 >
+[Created]
+作成済
+[Modified]
+変更済
+[Run]
+実行
+[Miranda Profiles from]
+以下からの Miranda プロファイル :
+[Select or create your Miranda NG user profile]
+Miranda NG ユーザープロファイルを選択もしくは新規作成する
+[My Profiles]
+マイプロファイル
+[New Profile]
+新規プロファイル
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
+;file \src\modules\extraicons\extraicons.cpp
+[Chat Activity]
+チャットのアクティビティ
+;file \src\modules\extraicons\options_ei.cpp
+;file \src\modules\findadd\findadd.cpp
+[You haven't filled in the search field. Please enter a search term and try again.]
+検索フィールドが未入力です。検索条件を入力して再試行してください
+[Results]
+結果
+[There are no results to display.]
+表示する結果がありません
+[All Networks]
+全ネットワーク
+[Handle]
+ハンドル
+;file \src\modules\findadd\searchresults.cpp
+[Could not start a search on '%s', there was a problem - is %s connected?]
+'%s' について検索開始できません。問題が発生しました - %s は接続していますか ?
+[Could not search on any of the protocols, are you online?]
+どのプロトコルでも検索できません。オンラインですか ?
+[Problem with search]
+検索の不具合
+[1 %s user found]
+1 %s ユーザーが見つかりました
+[%d %s users found]
+%d %s ユーザーが見つかりました
+[%d users found (]
+%d ユーザーが見つかりました (
+[No users found]
+ユーザーは発見できませんでした
+;file \src\modules\fonts\FontOptions.cpp
+[Configuration Files]
+ファイル設定
+[Error writing file]
+ファイル書き込みエラー
+[Sample Text]
+サンプルテキスト
+[Fonts]
+フォント
+;file \src\modules\fonts\FontService.cpp
+;file \src\modules\icolib\skin2opts.cpp
+[Icon Sets]
+アイコン設定
+;file \src\modules\ignore\ignore.cpp
+;file \src\modules\netlib\netliblog.cpp
+[(Miranda Core Logging)]
+( Miranda コアログ )
+[Select where log file will be created]
+ログファイルを作成する場所を選択してください
+[Select program to be run]
+実行するプログラムを選択してください
+;file \src\modules\netlib\netlibopts.cpp
+[<All connections>]
+< 全ての接続 >
+;file \src\modules\netlib\netlibssl.cpp
+[Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
+クライアントはホストメッセージをでコードできませんでした。考えられる原因 : ホストは SSL をサポートしていない , もしくは存在していないセキュリティパッケージを要求している
+[Host we are connecting to is not the one certificate was issued for]
+接続中のホストには発行済み証明書がありません :
+;file \src\modules\options\options.cpp
+[Loading... %d%%]
+読み込み中... %d%%
+[%s options]
+%s オプション
+;file \src\modules\plugins\newplugins.cpp
+['%s' is disabled, re-enable?]
+'%s' は無効です。有効にしますか ?
+[Re-enable Miranda plugin?]
+Miranda プラグインを有効にしますか ?
+[Unable to load plugin in Service Mode!]
+サービスモードではプラグインの読み込みができません !
+[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
+インストールされているコンタクトリストプラグインがいずれも起動できません。読み込みできないコンタクトリストの選択は無視されます
+[Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
+コンタクトリストプラグインが見つかりませんでした ! clist_classic もしくはその他の clist プラグインが必要です
+;file \src\modules\plugins\pluginopts.cpp
+[Plugin]
+プラグイン
+;file \src\modules\protocols\protoopts.cpp
+[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
+警告 ! アカウントは削除されようとしています。全ての設定 , コンタクト , 履歴も削除されます\n\n本当によろしいですか ?
+[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
+あなたのアカウントは正常にアップグレードされました。アクティブ化するには Miranda の再起動が必要です\n\n今すぐ Miranda を再起動するなら「はい」を押してください。他のアカウントもアップグレードしたい場合は「いいえ」を押してください
+[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change it's preferences.]
+このアカウントはレガシプロトコルプラグインを使用しています。基本設定を変更するには Miranda NG のオプションダイアログを使用して下さい
+[Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Miranda NG のアカウントマネージャーにようこそ !\nここで IM アカウントのセットアップができます\n\n利用可能なオプションを見るには , 左にあるリストの中からアカウントを選択してください。もしくは , リストの下にある + 印をクリックして新規 IM アカウントをセットアップしてください
+[Editing account]
+アカウントの編集中
+[Upgrading account]
+アカウントのアップグレード中
+[Account is disabled. Please activate it to access options.]
+アカウントは無効です。オプションにアクセスするにはアクティブにしてください
+[New account]
+新規アカウント
+[Configure...]
+設定...
+[Upgrade account]
+アカウントのアップグレード
+[Account ID]
+アカウントID
+[Protocol is not loaded.]
+プロトコルは読み込まれていません !
+[Upgrade]
+アップグレード
+[Account is online. Disable account?]
+アカウントはオンラインです。アカウントを無効にしますか ?
+[Account %s is being deleted]
+アカウント %s は削除されています
+[You need to disable plugin to delete this account]
+このアカウントを削除するにはプラグインを無効にする必要があります
+[&Accounts...]
+アカウント (&A)...
+;file \src\modules\skin\hotkey_opts.cpp
+[Remove shortcut]
+ショートカットを削除
+[Add another shortcut]
+他のショートカットを追加
+[Scope:]
+適用範囲 :
+[Actions:]
+操作 :
+[Add binding]
+バインドを追加
+[System scope]
+システムの適用範囲
+[Miranda scope]
+Miranda の適用範囲
+;file \src\modules\skin\skinicons.cpp
+[Group (Open)]
+グループ ( オープン )
+[Group (Closed)]
+グループ ( クローズ )
+[Connecting]
+接続中
+[Down Arrow]
+下向き矢印
+[Send E-mail]
+電子メールを送信
+[SMS]
+SMS
+[Search All]
+全て検索
+[Tick]
+チェック
+[No Tick]
+チェックなし
+[Miranda Website]
+Miranda ウェブサイト
+[Small Dot]
+小さいドット
+[Filled Blob]
+塗りつぶし Blob
+[Empty Blob]
+空 Blob
+[Unicode plugin]
+Unicode プラグイン
+[ANSI plugin]
+ANSI プラグイン
+[Running plugin]
+プラグインの実行中
+[Unloaded plugin]
+未読み込みのプラグイン
+[ShowHide]
+ハイド表示
+[Exit]
+終了
+[Leave chat]
+チャットから離席
+[Move to Group]
+グループに移動
+[Locked status]
+ロック済ステータス
+[%s Icons]
+%s アイコン
+;file \src\modules\skin\sounds.cpp
+;file \src\modules\utils\bmpfilter.cpp
+[All Bitmaps]
+全てのビットマップ
+;file \src\modules\utils\timezones.cpp
+[<unspecified>]
+< 指定なし >
+;file \src\modules\utils\utils.cpp
+[Cocos (Keeling) Islands]
+ココス(キーリング)諸島
+;file \src\modules\visibility\visibility.cpp

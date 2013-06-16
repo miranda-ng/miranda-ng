@@ -1,0 +1,372 @@
+﻿#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.1
+;  Authors: Miranda NG Team
+;============================================================
+;file \plugins\Weather\res\resource.rc
+[Brief Info]
+概要信息
+[Webpage]
+网页
+[Update weather information on startup]
+启动时更新天气信息
+[Update weather information every]
+更新天气信息于每
+[Consider weather info updated only when condition and temperature are changed]
+仅天气情况及气温全部变更时才认为天气信息已更新
+[Remove old data when updating]
+更新时移除旧资料
+[Make the contact italic when weather alert is issued]
+发出天气警报时使联系人斜体
+[Modes]
+模式
+[Use weather condition as protocol status]
+使用天气状况作为协议状态
+[Avatar only mode]
+仅头像模式
+[Temperature]
+气温
+[Celsius]
+摄氏
+[Fahrenheit]
+华氏
+[Degree sign:]
+温度符号: 
+[Wind]
+风力
+[km/h]
+公里/时
+[m/s]
+米/秒
+[mph]
+英里/时
+[knots]
+节
+[km]
+公里
+[miles]
+英里
+[Pressure]
+气压
+[kPa]
+千帕
+[mb (hPa)]
+毫巴 (百帕)
+[inches]
+英寸
+[mm Hg (torr)]
+毫米汞柱 (托)
+[Day/Month]
+日/月
+[2 chars]
+2 个字符
+[3 chars]
+3 个字符
+[Do not append units to values]
+不要附加单位至数值
+[Do not display fractional values]
+不要显示小数值
+[Frame]
+框架
+[Avatar size]
+头像大小
+[Edit Weather Station]
+编辑气象站
+[Weather Station]
+气象站
+[City name]
+城市名称
+[Log Information]
+记录信息
+[Use internal history]
+使用内部历史
+[Use external file]
+使用外部文件
+[Overwrite file upon update]
+更新时覆盖文件
+[More Info URL]
+更多信息网址
+[Weather Map]
+气象图
+[Other Options]
+其它选项
+[Set as default station]
+设为默认站点
+[Disable automatic update for this station]
+对此站点禁用自动更新
+[Popup only when condition changes]
+仅状况变更时弹出窗口
+[Popup Actions]
+弹出窗口操作
+[Left Click]
+点击左键
+[Right Click]
+点击右键
+[Popup Delay]
+弹出窗口延时
+[Popup Text]
+弹出窗口文本
+[Updates]
+更新
+[Brief Info Title]
+概要信息标题
+[Note Text]
+便笺文本
+[Extra Text]
+额外文本
+[External Log]
+外部记录
+[More Variables]
+更多变量
+[Sunset]
+日落
+[Feel-like]
+感觉像
+[Today's Low]
+今天最低
+[Today's High]
+今天最高
+[Sunrise]
+日出
+[Dewpoint]
+结露点
+[Humidity]
+湿度
+[Weather Protocol INI Setup]
+天气协议 INI 设置
+[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+天气协议无法找到任何保存于您电脑中的天气 INI 文件. 安装天气 INI 并添加气象站, 请按照下列步骤: 
+[Click here to download a weather ini file from Miranda file listing]
+点此从 Miranda 文件列表中下载天气 ini 文件
+[Extract the weather ini file from archive to this directory]
+从压缩文件解压天气 ini 文件至此目录
+[Click here to load the data from the new ini file into memory]
+点此将新 ini 文件资料加载至内存
+[Add new weather station and close this dialog]
+添加新气象站并关闭此对话框
+[Total INI files]
+INI 文件累计
+[Total memory used]
+内存使用统计
+[Reload INI]
+重新加载 INI
+[Open brief information]
+打开概要信息
+[Open complete forecast]
+打开完整预报
+[Open weather map]
+打开气象图
+[View history]
+查看历史
+[Show user detail]
+显示用户信息
+[To old setting]
+为旧设定
+[To default]
+为默认值
+;file \plugins\Weather\src\weather.cpp
+[Weather Condition Changed]
+天气情况已变更
+[Weather Alert Issued]
+已发出天气警告
+;file \plugins\Weather\src\weather.h
+[Invalid ID format, missing "/" (10)]
+无效 ID 格式, 遗漏 "/" (10)
+[Invalid service (11)]
+无效服务 (11)
+[Invalid station (12)]
+无效站点 (12)
+[Weather service ini for this station is not found (20)]
+找不到此站点天气服务 ini (20)
+[Netlib error - check your internet connection (30)]
+Netlib 错误 - 请检查您的互联网络连接 (30)
+[Empty data is retrieved (40)]
+接收到空白资料 (40)
+[Document not found (42)]
+找不到文件 (42)
+[Document too short to contain any weather data (43)]
+文件过小, 不可能含有任何天气资料 (43)
+[Unknown error (99)]
+未知错误 (99)
+[HTTP Error: No content (204)]
+HTTP 错误: 没有内容 (204)
+[HTTP Error: Data moved (301)]
+HTTP 错误: 资料已移动 (301)
+[HTTP Error: Use proxy (305)]
+HTTP 错误: 使用代理服务器 (305)
+[HTTP Error: Temporary redirect (307)]
+HTTP 错误: 临时重新指向 (307)
+[HTTP Error: Bad request (400)]
+HTTP 错误: 请求不正确 (400)
+[HTTP Error: Unauthorized (401)]
+HTTP 错误: 未经授权 (401)
+[HTTP Error: Payment required (402)]
+HTTP 错误: 需要支付 (402)
+[HTTP Error: Forbidden (403)]
+HTTP 错误: 拒绝存取 (403)
+[HTTP Error: Not found (404)]
+HTTP 错误: 找不到 (404)
+[HTTP Error: Method not allowed (405)]
+HTTP 错误: 方法不允许 (405)
+[HTTP Error: Proxy authentication required (407)]
+HTTP 错误: 需要代理服务器认证 (407)
+[HTTP Error: Gone (410)]
+HTTP 错误: 已离去 (410)
+[HTTP Error: Internal server error (500)]
+HTTP 错误: 内部服务器错误 (500)
+[HTTP Error: Bad gateway (502)]
+HTTP 错误: 网关不正确 (502)
+[HTTP Error: Service unavailable (503)]
+HTTP 错误: 服务无法使用 (503)
+[HTTP Error: Gateway timeout (504)]
+HTTP 错误: 网关已超时 (504)
+[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+%c\n气温: %t\n感觉像: %f\n气压: %p\n风力: %i  %w\n湿度: %m\n结露点: %e\n能见度: %v\n\n日出: %r\n日落: %y\n\n5 天预报: \n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+感觉像: %f\n气压: %p\n风力: %i  %w\n湿度: %m\n结露点: %e\n能见度: %v\n\n日出: %r\n日落: %y\n\n5 天预报: \n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+[Weather Condition for %n as of %u]
+%n 在 %u 天气情况
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (感觉像 %f)	风力: %i %w	湿度: %m
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n 于 %u: 	%c, %t (感觉像 %f)	风力: %i %w	湿度: %m
+[%c, %t\nToday:  High %h, Low %l]
+%c, %t\n今天:   最高 %h, 最低 %l
+;file \plugins\Weather\src\weather_addstn.cpp
+[Current weather information for %s.]
+%s 当前天气信息. 
+[%s is now the default weather station]
+%s 现在成为默认气象站
+[Weather Protocol]
+天气协议
+[Please try again after weather update is completed.]
+请在天气更新完成后重试. 
+[<Enter station name here>]
+<在此输入站点名称>
+[<Enter station ID here>]
+<在此输入站点 ID>
+;file \plugins\Weather\src\weather_contacts.cpp
+[Weather condition was not logged.]
+天气情况尚未记录. 
+[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
+完整预报网址尚未设置. 您可在编辑设置对话框中设定. 
+[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+尚未设置气象图网址. 您可在编辑设置对话框中设定. 
+[Get city name from ID]
+从 ID 获取城市名称
+[Weather INI information]
+天气 INI 信息
+[View webpage]
+查看网页
+;file \plugins\Weather\src\weather_conv.cpp
+[in]
+入
+[<unknown time>]
+<未知时间>
+[<Error>]
+<错误>
+[HTTP Error %i]
+HTTP 错误 %1
+;file \plugins\Weather\src\weather_data.cpp
+[<Enter city name here>]
+<在此输入城市名称>
+[Error when obtaining data: %s]
+获取信息时发生错误: %s
+;file \plugins\Weather\src\weather_http.cpp
+[Weather HTTP connections]
+天气 HTTP 连接
+;file \plugins\Weather\src\weather_icons.cpp
+[Update Disabled]
+更新已禁用
+[Update with Clear]
+清除并更新
+[View Brief]
+概要查看
+[View Complete]
+完整查看
+[Weather Update]
+天气更新
+[No Popup]
+无弹出窗口
+;file \plugins\Weather\src\weather_info.cpp
+[The corresponding INI file for "%s" is not found.]
+找不到 "%s" 对应 INI 文件. 
+[Weather INI information for "%s":]
+"%s" 天气 INI 信息: 
+[Internal Name:]
+内部名称: 
+[INI Version:]
+INI 版本: 
+[File Name:]
+文件名称: 
+[Item Count:]
+项目总数: 
+[Memory Used:]
+使用内存: 
+[Here is a list of custom variables that are currently available]
+这里是当前可用自定义变量列表
+;file \plugins\Weather\src\weather_ini.cpp
+[No update data file is found.  Please check your Plugins\\Weather directory.]
+找不到任何更新资料文件. 请检查您的 Plugins\\Weather 目录. 
+[Invalid ini format for: %s]
+无效 ini 格式: %s
+[All update data has been reloaded.]
+所有更新资料已重新读取. 
+;file \plugins\Weather\src\weather_mwin.cpp
+[Frame Font]
+框架字体
+[Frame Title Font]
+框架标题字体
+;file \plugins\Weather\src\weather_opt.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\t当前情况\n%d\t当前日期\n%e\t结露点\n%f\t感觉像气温\n%h\t今天最高\n%i\t风向\n%l\t今天最低\n%m\t湿度\n%n\t站点名称\n%p\t气压\n%r\t日出时间\n%s\t站点 ID\n%t\t气温\n%u\t更新时间\n%v\t能见度\n%w\t风速\n%y\t日落
+[Weather Protocol Text Preview]
+天气协议文本预览
+;file \plugins\Weather\src\weather_popup.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\t当前天气情况\n%d\t当前时间\n%e\t结露点\n%f\t感觉像气温\n%h\t今天最高\n%i\t风向\n%l\t今天最低\n%m\t湿度\n%n\t站点名称\n%p\t气压\n%r\t日出时间\n%s\t站点 ID\n%t\t气温\n%u\t更新时间\n%v\t能见度\n%w\t风速\n%y\t日落
+[%[..]\tcustom variables]
+%[..]\t自定义变量
+;file \plugins\Weather\src\weather_svcs.cpp
+[Station ID]
+站点 ID
+[Disable &weather notification]
+禁用天气通知(&W)
+[Enable &weather notification]
+启用天气通知(&W)
+[Update Weather]
+更新天气
+[Remove Old Data then Update]
+移除旧数据后更新
+[Brief Information]
+概要信息
+[Read Complete Forecast]
+立刻完整预报
+[Weather]
+天气
+[Enable/Disable Weather Update]
+启用/禁用天气更新
+[Update All Weather]
+更新所有天气
+[Remove Old Data then Update All]
+移除旧数据后更新所有
+[Weather Notification]
+天气通知
+[Display in a frame]
+在框架中显示
+;file \plugins\Weather\src\weather_update.cpp
+[Unable to retrieve weather information for %s]
+无法为 %s 获取天气信息
+;file \plugins\Weather\src\weather_userinfo.cpp
+[Current condition for %n]
+%s 当前天气情况
+[Last update on:   %u]
+最后更新于:    %u
+[Variable]
+变量
+[Retrieving new data, please wait...]
+正在获取新资料, 请稍候...
+[More Info]
+更多信息

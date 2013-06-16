@@ -1,0 +1,200 @@
+﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
+;============================================================
+;  File: Popup.dll
+;  Plugin: Popup plus
+;  Version: 2.1.1.7
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+;file \plugins\Popup\res\resource.rc
+[Content && Style]
+コンテンツとスタイル
+[Go to Customize > Fonts && Colors for fonts and colors options]
+フォントと色のオプション設定で カスタマイズ > フォントと色 に移動
+[Live Preview]
+リアルタイムプレビュー
+[Size && Position]
+大きさと位置
+[Enable popup history]
+ポップアップ履歴を有効
+[Store last]
+保存は最新
+[Use History++ to render log]
+ログの表示に History++ を使用
+[Draw avatar borders]
+アバターの枠線を描画
+[Draw borders for semitransparent avatars too]
+半透明アバターに対する枠線も描画
+[Enable avatar updates]
+アバター更新を有効
+[Start the popups in the monitor with]
+モニターに次の表示でポップアップ開始
+[Miranda's window]
+Miranda のウィンドウ
+[the active window]
+アクティブウィンドウ
+[Enable Win 9x/Me transparency]
+Win 9x/Me で透明度を有効
+[Opaque popups under cursor]
+カーソル下のポップアップを不透明
+[Slide Popup]
+スライドポップアップ
+[Time (out):]
+時間(アウト)
+[Limit window amount to:]
+ウィンドウの値を制限 :
+[* - built-in skins]
+* - 組み込みスキン
+[Popup Area]
+ポップアップエリア
+[pixel(s)]
+ピクセル
+[Distance between popups]
+ポップアップ間の距離
+[Configure popup area]
+ポップアップエリアの設定
+[Enable popup actions]
+ポップアップ操作を有効
+[Popup Actions are those tiny buttons below notification text.]
+ポップアップ操作は通知テキストの下にあるかなり小さいボタンです
+[Common Actions]
+一般的な操作
+[Please choose in what cases default actions should be added:]
+どのような場合にデフォルト操作を追加するのか選択して下さい :
+[Add info && menu for IM contacts only]
+IM コンタクトのみに情報とメニューを追加
+[Add default actions for contacts only]
+コンタクトのみにデフォルト操作を追加
+[Don't close popups on default actions]
+デフォルト操作のポップアップを閉じない
+[Use large icons]
+大きいアイコンを使用
+[Popup actions will be displayed as:]
+ポップアップ操作を次のように表示 :
+[Icons and labels below text]
+アイコンとラベルをテキストの下
+[Icons on the left]
+アイコンを左側
+[Icons aligned to the right]
+アイコンを右に配置
+[Show Actions: (requires apply)]
+操作を表示 : (要適用)
+[Mouse Actions Overwrite]
+マウス操作を上書き
+[LeftButton]
+左ボタン
+[MiddleButton]
+中ボタン
+[RightButton]
+右ボタン
+[Enable this notification]
+この通知を有効
+[Left click action:]
+左クリック操作 :
+[Right click action:]
+右クリック操作 :
+[Disable when global status is...]
+グローバルステータスが以下の時無効...
+[Disable when relevant protocol's status is...]
+関連プロトコルのステータスが以下の時無効...
+[Colors can be configured in\r\nCustomize > Fonts && Colors]
+色の設定をするには\r\nカスタマイズ > フォントと色
+[Disable if message window is open]
+メッセージウィンドウが開いているなら無効
+[Per-contact settings]
+コンタクト毎の設定
+[Show always]
+常に表示
+[Ignore fullscreen]
+全画面表示無視
+[Never show]
+表示しない
+[Show default]
+デフォルト表示
+[Infinite popup delay]
+ポップアップ遅延を無制限
+[Popup delay:]
+ポップアップ遅延 :
+[Do not close hovered popups]
+ホバーポップアップを閉じない
+[Dynamically resize the popups]
+ポップアップを動的にサイズ変更
+[Minimum width]
+最小幅
+[Maximum width]
+最大幅
+[Layout:]
+レイアウト :
+[Reorder Popups]
+ポップアップの並び替え
+[Disable when:]
+無効な場合 :
+[Always (has priority)]
+常に ( 優先度あり )
+[Fullscreen mode]
+全画面モード
+;file \plugins\Popup\src\actions.cpp
+[no overwrite]
+上書きしない
+[Quick reply]
+クイック返信
+[User details]
+ユーザーの詳細情報
+[Pin popup]
+固定ポップアップ
+;file \plugins\Popup\src\config.cpp
+[The Jabberwocky]
+ジャバウォックの詩
+[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
+ポップアッププラグイン設定用テストプレビュー
+[This is a notification message]
+これは通知メッセージです
+[This is a warning message]
+これは警告メッセージです
+[This is an error message]
+これはエラーメッセージです
+;file \plugins\Popup\src\effects.cpp
+;file \plugins\Popup\src\font.cpp
+;file \plugins\Popup\src\history.cpp
+[Popup History message]
+履歴メッセージをポップアップ
+;file \plugins\Popup\src\icons.cpp
+;file \plugins\Popup\src\main.cpp
+[Popup Plus]
+Popup Plus
+;file \plugins\Popup\src\opt_adv.cpp
+[Fade in/out]
+フェードイン / アウト
+;file \plugins\Popup\src\opt_class.cpp
+[Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
+ふんぐるい むぐるうなふ くとぅるう るるいえ うがふなぐる ふたぐん !
+;file \plugins\Popup\src\opt_gen.cpp
+[upper left corner]
+左上の角
+[lower left corner]
+左下の角
+[lower right corner]
+右下の角
+[upper right corner]
+右上の角
+[vertical]
+垂直方向
+[Popup Plus Warning]
+Popup Plus 警告
+;file \plugins\Popup\src\opt_skins.cpp
+[Skin preview]
+スキンプレビュー
+[Just take a look at this skin... ;)]
+このスキンで見てみる... ;)
+[Refresh List]
+更新リスト
+;file \plugins\Popup\src\popup_thread.cpp
+;file \plugins\Popup\src\popup_wnd2.cpp
+;file \plugins\Popup\src\services.cpp
+;file \plugins\Popup\src\skin.cpp
+;file \plugins\Popup\src\srmm_menu.cpp
+[Popup Mode: Auto]
+ポップアップモード : 自動
+[Popup Mode: Ignore fullscreen]
+ポップアップモード : 全画面表示を無視
+[Popup Mode: Block contact]
+ポップアップモード : コンタクトをブロック

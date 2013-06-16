@@ -1,0 +1,70 @@
+﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\MSN\res\msn.rc
+[MSN]
+MSN
+[Send message font color/size info inside messages]
+Envoyer les infos de couleur/taille dans les messages
+[Disable all contacts not included into my contact list]
+Désactiver tous les contacts non inclus dans ma liste
+[Manage server groups]
+Gestion des groupes sur le serveur
+[Server List Manager]
+Gestion de la liste du serveur
+[Contact is included into your server list]
+Contact inclus dans ma liste du serveur
+[Allowed (active) contact]
+Contact autorisé
+[Blocked contact]
+Contact bloqué
+[Somebody included you in his/her server list]
+Vous êtes dans la liste de ce contact
+;file \protocols\MSN\src\msn_chat.cpp
+;file \protocols\MSN\src\msn_commands.cpp
+[Contact tried to open an audio conference (currently not supported)]
+Le contact vous a envoyé une invitation à une conférence audio (actuellement non supportée) 
+[MSN Protocol]
+Protocole MSN
+[Contact left channel]
+Le contact a quitté le chat
+[This conversation has been inactive, participants will be removed.]
+Cette conversation est inactive, des participants l'on quitté.
+[To resume the conversation, please quit this session and start a new chat session.]
+Pour reprendre la conversation, fermer cette session et commencer un nouveau chat.
+[There is only 1 person left in the chat, do you want to switch back to standard message window?]
+Il n'y a plus qu'une personne dans le chat, voulez-vous revenir à la fenêtre de message standard ?
+;file \protocols\MSN\src\msn_errors.cpp
+;file \protocols\MSN\src\msn_links.cpp
+;file \protocols\MSN\src\msn_lists.cpp
+;file \protocols\MSN\src\msn_mail.cpp
+[Subject: %s]
+Sujet : %s
+[Hotmail from %s]
+Hotmail de %s
+;file \protocols\MSN\src\msn_menu.cpp
+[You must be talking to start Netmeeting]
+Vous devez parler pour lancer Netmeeting
+[&Start Netmeeting]
+Lancer &Netmeeting
+;file \protocols\MSN\src\msn_misc.cpp
+;file \protocols\MSN\src\msn_msgqueue.cpp
+;file \protocols\MSN\src\msn_opts.cpp
+[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+Les changements requièrent une reconnexion au réseau MSN Messenger avant qu'ils soient effectifs
+[MSN Options]
+Options MSN
+;file \protocols\MSN\src\msn_p2p.cpp
+[Contact tried to send its webcam data (currently not supported)]
+Le contact vous à envoyer une invitation webcam (actuellement non supporter) 
+[Contact tried to view our webcam data (currently not supported)]
+Le contact a essayé de connecter à votre webcam (actuellement non supporter) 
+;file \protocols\MSN\src\msn_proto.cpp
+[Message is too long: MSN messages are limited by 1202 UTF8 chars]
+Message trop long : MSN les limite à 1202 caractères en UTF8
+;file \protocols\MSN\src\msn_svcs.cpp
+;file \protocols\MSN\src\msn_ws.cpp

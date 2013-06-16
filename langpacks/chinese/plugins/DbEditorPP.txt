@@ -1,0 +1,333 @@
+﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
+;============================================================
+;  File: DbEditorPP.dll
+;  Plugin: Database editor++
+;  Version: 3.2.0.0
+;  Authors: Bio, Jonathan Gordon
+;============================================================
+;file \plugins\DbEditorPP\res\resource.rc
+[Database Editor++ Search and Replace]
+数据库编辑器搜索替换
+[Case Sensitive]
+区分大小写
+[Module Name]
+模块名称
+[Exact Match]
+完全符合
+[Setting Name]
+设置名称
+[Found field]
+查找范围
+[&Replace]
+替换(&R)
+[Search For]
+搜索项目
+[In:]
+于: 
+[Replace With]
+替换为
+[Entirely]
+完全匹配
+[Restore last opened position]
+还原最后打开位置
+[Automatically expand "settings" when Database Editor ++ starts]
+数据库编辑器启动时自动扩展 "设置"
+[Use known modules list]
+使用已知模块列表
+[Warn when deleting modules]
+删除模块时警告
+["Open user tree in DBE++" menu item]
+"在数据库编辑器中打开用户树" 菜单项
+[Use popups when watched settings change values]
+当被监视设置值变更时使用弹出窗口提示
+[Modules to ALWAYS mark as known (e.g core modules)]
+永远标记为已知模块 (例如核心模块)
+[Put a space or comma between each module name]
+模块名称间以空格或逗号间隔
+[Changes to this list will take effect next time miranda starts]
+对此列表变更将于下次 Miranda 启动时生效
+[Popup timeout (0 for infinite)]
+弹出窗口超时 (0 代表无限)
+[Background Colour]
+背景颜色
+[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
+如模块名称含空格, 请在空格前放置 \\. 例如 "aaa\\ bbb"
+[Add a module to contact]
+添加模块至联系人
+[Add a module named]
+添加模块名称
+[Add to all contacts (Includes Settings)]
+加至所有联系人 (包括设置)
+[Edit Setting]
+编辑设置
+[Value Name:]
+数值名称: 
+[Value Data:]
+数值资料: 
+[Base]
+基数
+[Save Value as:]
+数值另存为: 
+[Watched Database Variables]
+监视数据库变量
+[Copy module to contact]
+拷贝模块至联系人
+[Copy to all contacts (Includes Settings)]
+拷贝至所有联系人(包括设置)
+[Contact to copy module and settings to]
+要复制模块及设置的目标联系人
+[Import Module/Settings]
+导入模块/设置
+[Insert &CR/LF]
+插入 CR/LF(&C)
+[Paste the Settings to import here.]
+在此粘贴要导入设置. 
+[DBEditor++]
+数据库编辑器
+[&Main]
+主要(&M)
+[&Refresh Modules]
+刷新模块(&R)
+[Refresh &Settings]
+刷新设置(&S)
+[&Actions]
+操作(&A)
+[&Search and Replace]
+搜索和替换(&S)
+[&Delete Module]
+删除模块(&D)
+[&Watches]
+监视(&W)
+[&View all]
+全部查看(&V)
+[&Delete all]
+全部删除(&D)
+[Entire &Database]
+整个数据库(&D)
+[All &Settings]
+所有设置(&S)
+[All &Contacts]
+所有联系人(&C)
+[From a &file]
+从文件(&F)
+[From pasted &text]
+粘贴文本从(&T)
+[&Sort by protocol]
+按协议排序(&S)
+[Show &All]
+显示所有联系人(&A)
+[Show only &Loaded]
+仅显示已加载(&L)
+[Show only &Unloaded]
+仅显示未加载(&U)
+[Edit &Bytes in Hex]
+以十六进制编辑 &Bytes
+[Edit &Words in Hex]
+以十六进制编辑 &Words
+[Edit &Dwords in Hex]
+以十六进制编辑 &Dwords
+[&Restore position]
+还原位置(&R)
+[Item context]
+项目环境
+[&Edit / Rename]
+编辑/重命名(&E)
+[NEW]
+新增
+[&Byte]
+字节(&B)
+[&Word]
+字(&W)
+[&Dword]
+双字(&D)
+[&String]
+字符串(&S)
+[&Convert to]
+转换至(&C)
+[Encyption]
+加密
+[View Decrypted String]
+显示已解密字符串
+[View Encrypted String]
+显示已加密字符串
+[Decrypt String]
+解密字符串
+[Encrypt String]
+加密字符串
+[&Watch]
+监视(&W)
+[Null Mod context]
+空模块环境
+[Copy To Contact]
+复制到联系人
+[Export Module]
+导出模块
+[Add To Known Modules]
+加至已知模块
+[&Clone]
+复制(&C)
+[Export Contact]
+导出联系人
+[Import Settings]
+导入设置
+[From a file]
+从文件
+[From pasted text]
+粘贴文本从
+[&Add Module]
+添加模块(&A)
+[NULL contact menu]
+空联系菜单
+[Export Settings]
+导出设置
+[Contacts menu]
+联系人菜单
+[Export Contacts]
+导出联系人
+[Import Contacts]
+导入联系人
+[Contact Mod context]
+联系人模块环境
+[Export Module from all contacts]
+从所有联系人导出模块
+[new item]
+新增项目
+[Watch Window]
+监视窗口
+[Reload Watch List]
+重新加载监视列表
+;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
+[Cannot Convert!]
+无法转换! 
+[New BYTE value]
+新增 BYTE 值
+[Edit BYTE value]
+编辑 BYTE 值
+[New WORD value]
+新增 WORD 值
+[Edit WORD value]
+编辑 WORD 值
+[New DWORD value]
+新增 DWORD 值
+[Edit DWORD value]
+编辑 DWORD 值
+[New STRING value]
+新增 STRING 值
+[Edit STRING value]
+编辑 STRING 值
+[New UNICODE value]
+新增 UNICODE 值
+[Edit UNICODE value]
+编辑 UNICODE 值
+[New BLOB value]
+新 BLOB 值
+[Edit BLOB value]
+编辑 BLOB 值
+[Couldnt allocate enough memory!]
+无法分配足够内存! 
+;file \plugins\DbEditorPP\src\copymodule.cpp
+;file \plugins\DbEditorPP\src\deletemodule.cpp
+[Are you sure you want to delete module "%s"?]
+您确定要删除模块 "%s"? 
+[Confirm Module Deletion]
+确认删除模块
+[Delete module from Database]
+从数据库删除模块
+[Delete module from Database... Loading]
+从数据库删除模块... 加载中
+;file \plugins\DbEditorPP\src\exportimport.cpp
+[INI Files]
+INI 文件
+[Error Loading Module List]
+加载模块列表发生错误
+[Couldn't open file for writing]
+无法写入打开文件
+[Import from files]
+从文件导入
+;file \plugins\DbEditorPP\src\findwindow.cpp
+[Enter a string to search the DB for]
+请输入要在数据库中搜索的字符串
+[Replaced with]
+替换为
+[Deleted]
+已删除
+[Found]
+找到
+[%s Module "%s" in contact "%s"]
+%s 模块 "%s" 在联系人 "%s"
+[%s Setting "%s" in module "%s" in contact "%s" - "%s"]
+%s 设置 "%s" 在模块 "%s" 在联系人 "%s" - "%s"
+[%s Setting "%s" in module "%s" in contact "%s"]
+%s 设置 "%s" 在模块 "%s" 在联系人 "%s"
+[%s "%s" in Setting "%s" in module "%s" in contact "%s"]
+%s "%s" 在设置 "%s" 在模块 "%s" 在联系人 "%s"
+[Error Loading Setting List]
+加载设置列表错误
+[Finished. %d items were found, %d items were deleted.]
+完成. 找到 %d 项, 删除 %d 项.
+[Finished. %d items were found, %d items were replaced.]
+完成. 找到 %d 项, 替换 %d 项.
+[Finished. %d items were found.]
+完成. 找到 %d 项.
+;file \plugins\DbEditorPP\src\icons.cpp
+[Closed Known Module]
+关闭的已知模块
+[Open Known Module]
+打开的已知模块
+[Closed Unknown Module]
+关闭的未知模块
+[Open Unknown Module]
+打开的未知模块
+[Contacts Group]
+联系人群组
+[Known Contact]
+已知联系人
+;file \plugins\DbEditorPP\src\main.cpp
+[Database Editor++]
+数据库编辑器
+[Open Database Editor]
+打开数据库编辑器
+[Open user tree in DBE++]
+在数据库编辑器中打开用户树
+;file \plugins\DbEditorPP\src\main_window.cpp
+[Are you sure you want to delete contact "%s"?]
+您确定要删除联系人 "%s"? 
+[Confirm Contact Delete]
+确认删除联系人
+;file \plugins\DbEditorPP\src\modules.cpp
+;file \plugins\DbEditorPP\src\moduletree.cpp
+[Loading contacts...]
+加载联系人...
+[Loading modules...]
+加载模块...
+[Module tree not found]
+模块树未找到
+[HANDLE]
+处理
+[Add module to contact "%s"]
+添加模块至联系人 "%s"
+;file \plugins\DbEditorPP\src\options.cpp
+;file \plugins\DbEditorPP\src\settinglist.cpp
+[Data]
+资料
+[BYTE]
+字节
+[WORD]
+字
+[DWORD]
+双字
+[STRING]
+字符串
+[<unsupported>]
+<不支持>
+;file \plugins\DbEditorPP\src\watchedvars.cpp
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
+数据库设置已变更: \n模块: "%s", 设置: "%s"\n新值: (BYTE) %d
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
+数据库设置已变更: \n模块: "%s", 设置: "%s"\n新值: (WORD) %d
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
+数据库设置已变更: \n模块: "%s", 设置: "%s"\n新值: (DWORD) 0x%X
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
+数据库设置已变更: \n模块: "%s", 设置: "%s"\n新值: "%s"
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
+数据库设置已变更: \n模块: "%s", 设置: "%s"\n新值 (UTF8): "%s"

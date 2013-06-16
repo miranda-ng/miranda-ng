@@ -1,0 +1,77 @@
+﻿#muuid {60558872-2aab-45aa-888d-097691c9b683}
+;============================================================
+;  File: Sessions.dll
+;  Plugin: Sessions
+;  Version: 0.1.3.0
+;  Authors: MaD_CLuSTeR
+;============================================================
+;file \plugins\Sessions\res\Sessions.rc
+[Action on Startup]
+启动操作
+[Open Sessions Manager dialog]
+打开会话管理对话框
+[Restore Last Session]
+还原最后会话
+[Only if last session present]
+仅存在最后会话时
+[Startup delay]
+启动延时
+[User Sessions Management]
+使用会话管理
+[Action on Exit]
+退出操作
+[Save Current Session]
+保存当前会话
+[Save only last]
+仅保存最后
+[Sessions]
+会话
+[Exclude hidden contacts from session on exit]
+退出时从会话中排除隐藏联系人
+[Warn, when some of LastSession contacts are hidden]
+警告, 当最后会话中一些联系人隐藏时
+[Crash Recovery mode]
+崩溃恢复模式
+[Restore Session]
+还原会话
+[&Restore Session]
+还原会话(&R)
+[Choose session to restore from the list:]
+从列表中选择要还原的会话:
+[Del]
+删除
+[Save Session]
+保存会话
+[&Save Session]
+保存会话(&S)
+[Enter session name:]
+输入会话名称:
+[Save and Close]
+保存并关闭
+[Sessions Manager]
+会话管理
+[Save your current session?]
+保存您的当前会话?
+;file \plugins\Sessions\Src\Main.cpp
+[Favorite Session]
+最爱会话
+[Not favorite Session]
+非最爱会话
+[Load Session]
+加载会话
+[Load last Session]
+加载最后会话
+[Open Sessions Manager]
+打开会话管理
+[Show Favorite Sessions Menu]
+显示最爱会话菜单
+[Restore last Session]
+还原最后会话
+[Save session...]
+保存会话...
+[Load session...]
+加载会话...
+[Load last session]
+加载最后会话
+;file \plugins\Sessions\Src\Options.cpp
+;file \plugins\Sessions\Src\Utils.cpp

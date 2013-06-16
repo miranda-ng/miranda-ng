@@ -1,0 +1,161 @@
+﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+;============================================================
+;  File: Yahoo.dll
+;  Plugin: Yahoo
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\Yahoo\res\Yahoo.rc
+[ID:]
+ID:
+[Create a new Yahoo account using the Yahoo website]
+Yahoo ウェブサイトを使用して新規 Yahoo アカウントを作成
+[Use Yahoo Address Book (YAB)]
+Yahoo アドレスブック ( YAB ) を使用
+[AutoLogin to Yahoo Website(s)]
+Yahoo ウェブサイトに自動ログイン
+[Display Yahoo notifications]
+Yahoo 通知を表示
+[Show Errors]
+エラーを表示
+[Yahoo Japan]
+Yahoo Japan
+[Create a new Yahoo account]
+新規 Yahoo アカウントを作成
+[Connection Settings]
+接続設定
+[Yahoo Ignore List]
+Yahoo 無視リスト
+[Ignore anyone who is not on my Yahoo buddy list ]
+自分の Yahoo メンバーリストにない人は全て無視する
+[Ignore only the people below: ]
+以下の人々のみ無視 :
+[Set Custom Status]
+カスタムステータスを設定
+[Show as busy]
+多忙と表示
+[Denial Message]
+メッセージを拒否
+[Invitation Message]
+招待メッセージ
+[Host]
+ホスト
+;file \protocols\Yahoo\src\avatar.cpp
+;file \protocols\Yahoo\src\chat.cpp
+[%s denied invitation with message: %s]
+%s はメッセージによる招待を拒否しました : %s
+[Join My Conference...]
+自分の会議に参加...
+[No, thank you...]
+いいえ , 結構です...
+;file \protocols\Yahoo\src\icolib.cpp
+[Mail]
+メール
+[Address Book]
+アドレスブック
+[Set Status]
+ステータス設定
+[Calendar]
+カレンダー
+;file \protocols\Yahoo\src\im.cpp
+[Yahoo Error]
+Yahoo エラー
+[Message is too long: Yahoo messages are limited by 800 UTF8 chars]
+メッセージが長すぎます : Yahoo メッセージは UTF8 で 800 文字に制限されています
+;file \protocols\Yahoo\src\links.cpp
+[YAHOO Link Protocol]
+Yahoo リンクプロトコル
+;file \protocols\Yahoo\src\main.cpp
+[YAHOO plugin HTTP connections]
+Yahoo プラグイン HTTP 接続
+;file \protocols\Yahoo\src\options.cpp
+[The changes you have made require you to reconnect to the Yahoo network before they take effect]
+この変更を有効にするには Yahoo ネットワークに再接続する必要があります
+[YAHOO Options]
+Yahoo オプション
+[You need to be connected to Yahoo to add to Ignore List.]
+無視リストに追加するには , Yahoo に接続する必要があります
+[Yahoo Ignore]
+Yahoo 無視
+[Please enter a valid buddy name to ignore.]
+無視するメンバーの有効な名前を入力してください
+[The buddy is already on your ignore list. ]
+そのメンバーはすでに無視リストにあります
+[You need to be connected to Yahoo to remove from the Ignore List.]
+無視リストから削除するには , Yahoo に接続する必要があります
+[Please select a buddy on the ignore list to remove.]
+無視リストから削除するメンバーを選択してください
+[Ignore List]
+無視リスト
+;file \protocols\Yahoo\src\proto.cpp
+[Please enter your yahoo id in Options/Network/Yahoo]
+Yahoo IDをオプション / ネットワーク / Yahoo に入力してください
+[Please enter your yahoo password in Options/Network/Yahoo]
+オプション / ネットワーク / Yahoo であなたの Yahoo パスワードを入力して下さい
+[Yahoo Login Error]
+Yahoo ログインエラー
+;file \protocols\Yahoo\src\services.cpp
+[You need to be connected to set the custom message]
+カスタムメッセージを設定するには接続済である必要があります
+[You need to be connected to refresh your buddy list]
+メンバーリストをリフレッシュするには接続済である必要があります
+[Set &Custom Status]
+カスタムステータスの設定 (&C)
+[&Edit My Profile]
+マイプロファイルを編集 (&E)
+[&My Profile]
+マイプロファイル (&M)
+[&Yahoo Mail]
+Yahoo メール (&Y)
+[&Address Book]
+アドレスブック (&A)
+[&Calendar]
+カレンダー (&C)
+[Create Conference]
+会議を作成
+[&Show Profile]
+プロファイルを表示 (&S)
+;file \protocols\Yahoo\src\webcam.cpp
+;file \protocols\Yahoo\src\yahoo.cpp
+[Calendar Reminder]
+カレンダーリマインダー
+[%s has rejected your request and sent the following message:]
+%s はあなたのリクエストを拒否し , 次のメッセージを送信 :
+[You Have %i unread msgs]
+%i 通の未読メッセージ
+[New Mail (%i msgs)]
+新着メール ( %i 通 )
+[From: %s\nSubject: %s]
+差出人 : %s\n件名 : %s
+[Yahoo Ping Error]
+Yahoo Ping エラー
+[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+Yahoo サービスにログインできません - ユーザー名が認識できません。ユーザー名が正しく入力されているか確認してください
+[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+Yahoo サービスにログインできません - パスワードが違います。ユーザー名とパスワードが正しく入力されているか確認してください
+[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+Yahoo サービスにログインできません。あなたのアカウントはロックされています\n再開するには %s にアクセスしてください
+[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+Yahoo サービスからログアウト済です。重複ログインの可能性があります
+[Could not connect to the Yahoo service. Check your server/port and proxy settings.]
+Yahoo サービスに接続できません。サーバー / ポートとプロキシの設定を確認してください
+[Could not log in, unknown reason: %d.]
+不明な理由でログインできません : %d
+[Unknown error %s]
+不明なエラー %s
+[Custom error %s]
+カスタムエラー %s
+[%s is not available for the conference]
+%s は会議の利用ができません
+[%s is already ignored]
+%s は現在無視しています
+[%s is not in the ignore list]
+%s は無視リストにはいません
+[%s is in buddy list - cannot ignore ]
+%s はメンバーリストにあります - 無視不可
+[System Error: %s]
+システムエラー: %s
+[Server Connection Error: %s]
+サーバー接続エラー : %s
+[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+Yahoo サーバーに接続できません。ネットに接続してページャホストとポートが正しく入力されているか確認してください

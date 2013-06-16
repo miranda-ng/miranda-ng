@@ -1,0 +1,110 @@
+﻿#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
+;============================================================
+;  File: ListeningTo.dll
+;  Plugin: ListeningTo
+;  Version: 0.3.0.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+;file \plugins\ListeningTo\res\resource.rc
+[Enable sending listening information to contacts:]
+启用发送聆听信息给联系人: 
+[Radio]
+收音机
+[You also have to enable it per protocol in the main menu]
+您也可在主菜单中为每个协议启用
+[XStatus]
+扩展状态
+[For protocols that don't support listening to but support XStatus:]
+为不支持聆听但支持扩展状态协议: 
+[Set XStatus to Music and show listening info]
+设置扩展状态为音乐并显示聆听信息
+[If other XStatus is not set, set XStatus to Music and show listening info]
+当没有设置其它扩展状态时, 设置扩展状态为音乐并显示聆听信息
+[If XStatus is Music, show listening info]
+当扩展状态是音乐时, 显示聆听信息
+[Apply template for info from contacts (overrides contacts template)]
+应用模板至联系人信息 (覆盖联系人模板)
+[Get info from WATrack plugin]
+从 WATrack 插件获取信息
+[Get info from these players:]
+从以下播放程序获取信息
+[Windows Media Player]
+Windows 媒体播放器
+[foobar2000 (need to install the plugin manually)]
+foobar2000 (需要手动安装插件)
+[Other players]
+其它播放程序
+[Ask for new info every]
+询问新信息于每
+[Allow auto-loading plugins into players (affect players with *)]
+允许自动加载插件至播放程序中 (影响有 * 标记播放程序)
+[Template:]
+模板:
+[Variables:]
+变量: 
+[%artist% - Artist name]
+%artist% - 演唱者姓名
+[%album% - Album name]
+%album% - 专辑名称
+[%title% - Song title]
+%title% - 歌曲标题
+[%track% - Track number]
+%track% - 音轨号
+[%year% - Song year]
+%year% - 歌曲年份
+[%genre% - Song genre]
+%genre% - 歌曲流派
+[%length% - Song length]
+%length% - 歌曲长度
+[%player% - Player name]
+%player% - 播放程序名称
+[%type% - Media type (Music, Radio, Video, etc)]
+%type% - 媒体类型 (音乐, 广播, 视频等)
+[When variable not found, use:]
+找不到变量时, 使用: 
+[Other Variables:]
+其它变量: 
+[%listening% - Listening to info (as set above)]
+%listening% - 聆听信息 (设置如上)
+[When nothing is playing, replace %listening% with:]
+未播放时, 把 %listening% 替换为: 
+;file \plugins\ListeningTo\src\listeningto.cpp
+[Send to %s]
+发送给 %s
+[ListeningTo]
+聆听
+[Send to all protocols]
+发送给所有协议
+[Listening info]
+聆听信息
+[Listening info as set in the options]
+选项中设定的聆听信息
+[Media type: Music, Video, etc]
+媒体类型: 音乐, 视频, 其它
+[Artist name]
+演唱者姓名
+[Album name]
+专辑名称
+[Song name]
+曲名
+[Track number]
+音轨号
+[Song year]
+歌曲年份
+[Song genre]
+歌曲流派
+[Song length]
+歌曲长度
+[Player name]
+播放器名称
+[Don't send to any protocols]
+不要发送给任何协议
+[Toggle send to all protocols]
+切换发送给所有协议
+[Enable/Disable sending Listening To info (to all protocols)]
+启用/禁用发送聆听信息 (到所有协议)
+;file \plugins\ListeningTo\src\options.cpp
+[Players]
+播放器
+;file \plugins\ListeningTo\src\players\generic.cpp
+;file \plugins\ListeningTo\src\players\wmp.cpp

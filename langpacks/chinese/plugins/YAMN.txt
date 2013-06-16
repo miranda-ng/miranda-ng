@@ -1,0 +1,249 @@
+﻿#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+;============================================================
+;  File: YAMN.dll
+;  Plugin: Mail Notifier
+;  Version: 0.1.2.6
+;  Authors: y_b, tweety, majvan
+;============================================================
+;file \plugins\YAMN\res\YAMN.rc
+[Installed plugins]
+已安装插件
+[Check this account]
+检查此帐号
+[Check interval [min]:]
+检查间隔 [分钟]: 
+[Tray Icon]
+托盘图标
+[Execute Application]
+执行应用程序
+[Use contact notification for this account]
+为此帐号使用联系人通知
+[Replace nick name]
+替换昵称
+[Disable Events]
+禁用事件
+[User Name:]
+用户名:
+[Codepage:]
+代码页:
+[Disable STLS]
+禁用 STLS
+[Startup check]
+启动时检查
+[Auto retrieve body]
+自动检索正文
+[Check from menu]
+从菜单检查
+[Only check when ...]
+仅检查当 ...
+[Sound notification if failed]
+失败时发出声音通知
+[Message notification if failed]
+失败时发出消息通知
+[Tray icon notification if failed]
+失败时发出系统托盘通知
+[Reset counter]
+重置计数器
+[Check while ...]
+检查当...
+[YAMN General Options]
+YAMN 常规选项
+[TopToolBar button "Check mail"]
+TopToolBar "检查邮件" 按钮
+[Show YAMN as a Protocol  (Require Restart)]
+显示 YAMN 类似协议 (需要重启)
+[MailBrowser Options]
+邮件浏览选项
+[Enable Close on Delete Button]
+启用删除并关闭按钮
+[Show long localised date]
+显示长局部日期
+[Don't show today's date]
+不要显示今天的日期
+[Date/Time Representation]
+日期/时间 表示
+[Don't show seconds]
+不要显示秒
+[Mail Notifications]
+邮件通知
+[Single popup]
+单一弹出窗口
+[Multi popup]
+多重弹出窗口
+[Use custom colour]
+使用自定义颜色
+[No new mail notifications]
+无新邮件通知
+[Popup if no mail]
+无邮件时弹出窗口
+[Persistant message]
+持续消息
+[Connection failure notifications]
+连接失败通知
+[Popup notification if failed]
+失败时发出弹出窗口通知
+[..s Popup duration]
+..s 弹出窗口持续
+;file \plugins\YAMN\src\main.cpp
+[Check &mail (All Account)]
+检查邮件(&M 所有帐号)
+[Check &mail (This Account)]
+检查邮件(&M 当前帐号)
+[Launch application]
+运行应用程序
+[YAMN Account Folder]
+YAMN 帐号目录
+[Check mail]
+检查邮件
+[Connect Fail]
+连接失败
+;file \plugins\YAMN\src\main.h
+[YAMN: new mail message]
+YAMN: 新邮件
+[YAMN: connect failed]
+YAMN: 连接已失败
+;file \plugins\YAMN\src\services.cpp
+[No new mail message]
+无新邮件
+;file \plugins\YAMN\src\browser\badconnect.cpp
+[ - connection error]
+ - 连接错误
+;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[%s - %d new mail messages, %d total]
+%s - %d 新邮件, %d 总计
+[- new mail message(s)]
+- 新邮件
+[%s : %d new mail message(s), %d total]
+%s : %d 新邮件, %d 总计
+[%d new mail message(s), %d total]
+%d 新邮件, %d 总计
+[No new mail message, %d spam(s)]
+无新邮件, %d 垃圾邮件(s)
+[Invalid]
+无效
+[Value]
+值
+[Copy Selected]
+复制选定
+[Run application]
+运行应用程序
+[Delete selected]
+删除已选项目
+[Do you really want to delete %d selected mails?]
+您真的想删除 %d 个已选定邮件? 
+[Delete confirmation]
+确认删除
+;file \plugins\YAMN\src\mails\mime.cpp
+[Part]
+端口
+;file \plugins\YAMN\src\proto\netlib.cpp
+;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
+[Disconnected]
+断开连接
+[POP3 protocol (internal)]
+POP3 协议 (内置)
+[Found new version of account book, not compatible with this version of YAMN.]
+找到新版本帐户簿, 与此版本 YAMN 不兼容. 
+[YAMN (internal POP3) read error]
+YAMN (内置 POP3) 读取错误
+[Error reading account file. Account file corrupted.]
+无法读取帐号文件. 帐号文件已损坏. 
+[Memory allocation error while data reading]
+读取资料时发生内存分配错误
+[Reading file error. File already in use?]
+文件读取时发生错误. 文件已在使用中? 
+[Error while copying data to disk occured. File in use?]
+复制资料至磁盘时发生错误. 文件正在使用中? 
+[POP3 plugin- write file error]
+POP3 插件- 读取文件错误
+[Connecting to server]
+正在连接至服务器
+[Entering POP3 account]
+正在进入 POP3 帐号
+[Searching for new mail message]
+搜索新邮件
+[Reading body %s]
+阅读正文 %s
+[Reading new mail messages (%d%% done)]
+阅读新邮件 (%d%% 完成)
+[Deleting requested mails]
+正在删除已请求邮件
+[Deleting spam]
+正在删除垃圾邮件
+[Memory allocation error.]
+内存分配错误. 
+[Account is about to be stopped.]
+帐号正准备停止. 
+[Cannot connect to POP3 server.]
+无法连接至 POP3 服务器. 
+[Cannot allocate memory for received data.]
+无法为接收资料分配内存. 
+[Cannot login to POP3 server.]
+无法登录 POP3 服务器. 
+[Bad user or password.]
+用户名或密码不正确. 
+[Server does not support APOP authorization.]
+服务器不支持 APOP 认证. 
+[Error while executing POP3 command.]
+当运行 POP3 命令时出错. 
+[Cannot connect to server with NetLib.]
+无法以 NetLib 连接至服务器. 
+[Cannot send data.]
+无法发送资料. 
+[Cannot receive data.]
+无法接收资料. 
+[OpenSSL not loaded.]
+未加载 OpenSSL. 
+[Windows socket 2.0 init failed.]
+Windows socket 2.0 初始化失败. 
+[DNS lookup error.]
+DNS 查找出错. 
+[Error while creating base socket.]
+建立底层套接字时出错. 
+[Error connecting to server with socket.]
+以套接字连接至服务器时出错. 
+[Error while creating SSL structure.]
+建立 SSL 结构时出错
+[Error connecting socket with SSL.]
+以 SSL 连接套接字时出错
+[Server rejected connection with SSL.]
+服务器已拒绝 SSL 连接. 
+[Cannot write SSL data.]
+无法写入 SSL 资料. 
+[Cannot read SSL data.]
+无法读取 SSL 资料. 
+[Error %d-%d-%d-%d:]
+错误 %d-%d-%d-%d: 
+;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[No account selected]
+尚未选定帐号
+[Time left to next check [s]: %d]
+下次检查剩余时间 [秒]: %d
+[New Account]
+新帐号
+[Select executable used for notification]
+选择通知时使用的可执行文件
+[Do you really want to delete this account?]
+您真的要删除此帐号? 
+[Delete account confirmation]
+确认删除帐号
+[Please wait while no account is in use.]
+请稍后直至无帐号使用中. 
+[This is not a valid number value]
+非有效数值
+[Input error]
+输入错误
+[Please select application to run]
+请选择要运行应用程序
+[Cannot allocate memory space for new account]
+无法为新帐号分配内存空间
+[Memory error]
+内存错误
+[Account Test]
+帐号测试
+[Account Test (failed)]
+帐号测试 (已测试)
+[You have N new mail messages]
+您有 N 封新邮件
+[Connection failed message]
+连接失败消息

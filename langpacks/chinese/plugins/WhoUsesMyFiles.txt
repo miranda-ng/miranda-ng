@@ -1,0 +1,50 @@
+﻿#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+;============================================================
+;  File: WhoUsesMyFiles.dll
+;  Plugin: Who Use My Files
+;  Version: 0.1.0.2
+;  Authors: Nikolay Redko
+;============================================================
+;file \plugins\WhoUsesMyFiles\res\resource.rc
+[WUMF: Current connections]
+WUMF: 当前连接
+[Popup delay settings]
+弹出窗口超时设定
+[Show infinitely]
+一直显示
+[Choose delay time]
+选择超时时间
+[Popup color settings]
+弹出窗口颜色设置
+[Use windows colors]
+使用 Windows 颜色
+[Choose colors]
+选择颜色
+[File access filter && logging settings]
+文件访问过滤和日志记录设定
+[Log into text file]
+记录到文本文件
+[Log folders access]
+记录文件夹访问
+[Alerts on folders access]
+发生文件夹访问时发出警告
+[Log files and folders in UNC format]
+记录文件和文件夹(通用命名规则)
+[Alert files && folders in UNC format]
+警告文件和文件夹(通用命名规则)
+[Log computer name with username]
+记录计算机名和用户名
+[Alert computer name with username]
+警告计算机名和用户名
+[Disabled options will be available in the next version]
+禁用选项将会在下个版本中实现
+[Show current connections]
+显示当前连接
+;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Enable WUMF popups]
+启用 WUMF 弹出提示
+[Disable WUMF popups]
+禁用 WUMF 弹出提示
+[WUMF: Show connections]
+WUMF: 显示连接

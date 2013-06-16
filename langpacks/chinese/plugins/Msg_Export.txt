@@ -1,0 +1,131 @@
+﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+;============================================================
+;  File: Msg_Export.dll
+;  Plugin: Message export
+;  Version: 3.1.0.3
+;  Authors: Kennet Nielsen, mod by ring0
+;============================================================
+;file \plugins\Msg_Export\res\resource.rc
+[Use internal viewer]
+使用内置浏览器
+[Replace miranda history]
+替换 Miranda 历史
+[Use UTF8 in new files]
+新文件中使用 UTF8
+[Append extra new line]
+附加额外新行
+[Use << and >>]
+使用 << 和 >>
+[Auto filename]
+自动文件名
+[Export all history]
+导出所有历史
+[Export directory]
+导出目录
+[Max column width]
+最大列宽
+[Time format]
+时间格式
+[Export format]
+导出格式
+[Default file]
+默认文件
+[File viewer]
+文件浏览器
+[Exporting old messages]
+导出旧信息
+[History file for %s (%s format %s)]
+%s 历史文件 (%s 格式 %s)
+[&External]
+外部(&E)
+[When filename changes]
+当文件名更改时
+[Prompt for action]
+立即行动
+[Rename file]
+变更文件名
+[When user is deleted]
+当用户删除时
+[Delete file]
+删除文件
+[UserList]
+用户列表
+[Export selected]
+导出选定
+[Set to default filename]
+设置为默认文件名
+;file \plugins\Msg_Export\src\FileViewer.cpp
+[Search string was not found !]
+搜索字符串未找到 !
+[Color...]
+颜色...
+[Font...]
+字体...
+[Syntax highlight]
+语法突出显示
+;file \plugins\Msg_Export\src\Glob.h
+;file \plugins\Msg_Export\src\main.cpp
+[Open E&xported History]
+打开导出历史(&X)
+;file \plugins\Msg_Export\src\options.cpp
+[No contacts found to export]
+未找到导出联系人
+[Failed to export at least one contact]
+导出失败, 至少要有一个联系人
+[Sorting and writing database information ( Phase 2 of 2 )]
+排序并写入数据库信息 ( 阶段 2 of 2 )
+[Max line width must be at least %d]
+最大行宽必须至少 %d
+[You need to restart miranda to change the history function]
+您需要重启 Miranda 以改变历史功能
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+无法取得 Msg_Export.dll 路径\n请您自行定位 Msg_Export.txt
+[You have unapplyed changes do you wish to apply these first ?]
+您已取消变更套用, 是否想首先套用这些 ?
+[Select Destination Directory]
+选择目标目录
+[Export Protocols]
+导出协议
+[Message export]
+消息导出
+;file \plugins\Msg_Export\src\utils.cpp
+[Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
+修改文件名失败\n\n从:\t%s\n至:\t%s\n\n导致失败错误: %s
+[Failed to open or create file :\n]
+打开或建立文件失败 :\n
+[Failed to move to the end of the file :\n]
+移至文件尾失败 :\n
+[Failed to write message to the file :\n]
+消息写入文件失败 :\n
+[File: ]
+文件: 
+[Description: ]
+描述: 
+[Failed to write URL/File to the file :\n]
+URL/文件写入文件失败 :\n
+[Nick      :]
+呢称:
+[FirstName :]
+名字:
+[LastName  :]
+姓氏:
+[e-mail    :]
+邮箱:
+[Reason    :]
+原因:
+[The following user made an authorization request:]
+下列用户作出授权要求:
+[The following user added you to their contact list:]
+下列用户已加您至联系人列表:
+[EmailExpress from:]
+EmailExpress 从:
+[WebPager from:]
+WebPager 从:
+[No from address]
+无源地址
+[Failed to write EmailExpress to the file :\n]
+写 EmailExpress 至文件失败 :\n
+[Failed to write SMS to the file :\n]
+写 SMS 至文件失败 :\n
+[Failed to delete the file]
+无法删除文件

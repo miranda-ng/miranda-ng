@@ -1,0 +1,61 @@
+﻿#muuid {23d4f302-d513-45b7-9027-445f29557311}
+;============================================================
+;  File: Console.dll
+;  Plugin: Console
+;  Version: 0.0.7.3
+;  Authors: Bio
+;============================================================
+;file \plugins\Console\res\resource.rc
+[Console                                    ]
+控制台                                    
+[Single window mode*]
+单窗口模式*
+[Show icons in log*]
+日志中显示图标*
+[New lines between events*]
+事件显示于新行*
+[Always show at start]
+总是启动显示
+[Lines wrap length [25-255]]
+行包长度 [25-255]
+[Log size limit [1 000 - 1 000 000 lines]]
+日志大小限制 [1 000 - 1 000 000 行]
+[* Restart needed]
+* 需重启
+[Save settings and restart console]
+保存设置并重启控制台
+;file \plugins\Console\src\Console.cpp
+[Show/Hide Console]
+显示/隐藏控制台
+[Hide Console]
+隐藏控制台
+[Show Console]
+显示控制台
+[Scrolling (Ctrl+Q)]
+滚动 (Ctrl+Q)
+[Pause logging(Ctrl+P)]
+停止记录(Ctrl+P)
+[Save log to file (Ctrl+S)]
+保存日志至文件 (Ctrl+S)
+[Copy selected log (Ctrl+C)]
+复制选定日志 (Ctrl+C)
+[Delete selected (Del)]
+删除选定 (Del)
+[Log options (Ctrl+O)]
+日志选项 (Ctrl+O)
+[Start logging in all tabs]
+所有标签开始记录
+[Pause logging in all tabs]
+所有标签停止记录
+[Close tab (Ctrl+W)]
+关闭标签 (Ctrl+W)
+[Miranda Console]
+Miranda 控制台
+[Console]
+控制台
+[Text Files (*.txt)]
+文本文件 (*.txt)
+[Save selection to file]
+保存选定至文件
+[Save log to file]
+保存日志至文件

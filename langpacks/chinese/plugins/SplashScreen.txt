@@ -1,0 +1,35 @@
+﻿#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
+;============================================================
+;  File: SplashScreen.dll
+;  Plugin: Splash screen
+;  Version: 0.1.2.3
+;  Authors: nullbie, Thief
+;============================================================
+;file \plugins\SplashScreen\res\splash.rc
+[Splash Options]
+启动画面选项
+[Show splash]
+显示启动画面
+[Show random splash]
+显示随机启动画面
+[Show Miranda Version]
+显示 Miranda 版本
+[Display time:]
+显示时间:
+[msec]
+毫秒
+[Fade in:]
+淡入:
+[steps]
+步
+[Fade out:]
+淡出:
+[Advaimg library not found. Please get it from nigtlies to be able to use images.]
+Advaimg 支持库无法找到. 请从 nigtlies 获取以便能使用图像.
+[Preview...]
+预览...
+;file \plugins\SplashScreen\src\main.cpp
+;file \plugins\SplashScreen\src\options.cpp
+[Splash Screen]
+启动画面
+;file \plugins\SplashScreen\src\services.cpp

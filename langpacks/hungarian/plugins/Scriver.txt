@@ -1,0 +1,95 @@
+﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
+;  File: Scriver.dll
+;  Plugin: Scriver
+;  Version: 2.10.0.2
+;  Authors: Miranda NG Development Team
+;============================================================
+;file \plugins\Scriver\res\resource.rc
+[Automatically pop up the window when]
+Ablak automatikusan felugrik, ha
+[and stay minimized]
+és a tálcára kicsinyít
+[Save size and location for each contact]
+Minden partnerhez mentse a méretet és helyet
+[Tabs at bottom]
+Fülek alul
+[Limit names on tabs to]
+Névhoz behatárolása füleken
+[Enable IEView]
+IEnézet bekapcsolása
+[Mark follow-up msgs with timestamp]
+Követõ üzenetek megjelölése idõbélyeggel
+[Start message text on a new line]
+Üzenet szövegének kezdése új sorban
+[Indent text]
+Szöveg behúzása
+[Typing Notification Options]
+Gépelés értesítés beállítások
+[Show typing notification switch in the status bar]
+Gépelési értesítés váltó mutatása az állapotsávban
+[Update message window icons when a user is typing]
+Csevegõ ablak ikon frissítése a partner gépelésekor
+[&E]
+&E
+[&Q]
+&Q
+[Send To All Tabs]
+Küldés minden fülön
+[You are about to send a message to all open tabs.\nAre you sure ?]
+Miden nyitott fülre megy az aktuális üzenet.\nBiztosan ezt akarja?
+[Remember my choice for this container]
+Választás megjegyzése ehhez a befoglalóhoz
+;file \plugins\Scriver\src\globals.cpp
+[User's details]
+Felhasználó részletei
+[User's history]
+Felhasználó elõzményei
+[User is typing]
+A partner gépel
+[Typing notification off]
+Gépelésértesítés kikapcsolva
+[Unicode is on]
+Unicode bekapcsolva
+[Unicode is off]
+Unicode kikapcsolva
+[Sending]
+Küldés
+[Quote button]
+Idézés gomb
+[Close button]
+Bezárás gomb
+;file \plugins\Scriver\src\input.cpp
+;file \plugins\Scriver\src\msgdialog.cpp
+[Quote Text]
+Szöveg idézése
+[User Menu - %s]
+Felhasználómenü - %s
+[Sending in progress: %d message(s) left...]
+Küldés folyamatban: %s üzenet van hátra...
+;file \plugins\Scriver\src\msglog.cpp
+;file \plugins\Scriver\src\msgoptions.cpp
+[Message background]
+Üzenet háttér
+[User list members (online)]
+Felhasználó lista tagok (elérhetõ)
+[User list background]
+Felhasználólista háttér
+[User list lines]
+Felhasználó lista vonalak
+[User list background (selected)]
+Felhasználólista háttér (kijelölt)
+;file \plugins\Scriver\src\msgs.cpp
+;file \plugins\Scriver\src\msgtimedout.cpp
+;file \plugins\Scriver\src\msgwindow.cpp
+[Always On Top]
+Mindig felül
+;file \plugins\Scriver\src\sendqueue.cpp
+;file \plugins\Scriver\src\chat\clist.cpp
+;file \plugins\Scriver\src\chat\colorchooser.cpp
+;file \plugins\Scriver\src\chat\log.cpp
+;file \plugins\Scriver\src\chat\main.cpp
+;file \plugins\Scriver\src\chat\options.cpp
+;file \plugins\Scriver\src\chat\services.cpp
+;file \plugins\Scriver\src\chat\tools.cpp
+;file \plugins\Scriver\src\chat\window.cpp

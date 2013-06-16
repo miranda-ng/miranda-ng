@@ -1,0 +1,105 @@
+﻿#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+;============================================================
+;  File: Ping.dll
+;  Plugin: Ping
+;  Version: 0.9.1.1
+;  Authors: Scott Ellis
+;============================================================
+[Ping labelled IP addresses or domain names.]
+Ping IP 地址或域名.
+;file \plugins\Ping\res\ping.rc
+[Delay between pings (secs):]
+Ping 间延时 (秒):
+[Ping timeout (secs):]
+Ping 超时 (秒):
+[Log Filename:]
+日志文件名:
+[Reply]
+回复
+[Block Repetitions]
+块重复
+[Interface]
+界面
+[Do not change icon when testing]
+测试时不改变图标
+[Use the Customize/Fonts options to change text size and colour.]
+使用自定义/字体选项改变文本大小及颜色.
+[Repeats for success/failure:]
+重复成功/失败:
+[Attach to contact list]
+附加至联系人列表
+[Use CSV format]
+使用 CSV 格式
+[Edit Host]
+编辑 Host
+[Address:]
+地址:
+[TCP Connect]
+TCP 连接
+[Control Protocol:]
+控制协议:
+[Set my status to:]
+设置我的状态为:
+[On success, if my status is:]
+成功且我的状态为:
+[Execute the following command on double-click:]
+双击执行下列命令:
+[(Optional) Command Parameters:]
+(可选) 命令参数:
+[Graph]
+图形
+[Disable all pings]
+禁用所有 pings
+[Enable all pings]
+启用所有 pings
+[Hosts...]
+主机...
+;file \plugins\Ping\src\menu.cpp
+[Enable All Pings]
+启用所有 Pings
+[Disable All Pings]
+禁用所有 Pings
+;file \plugins\Ping\src\options.cpp
+[<all>]
+<所有>
+[Hosts]
+主机
+;file \plugins\Ping\src\ping.cpp
+[Ping Plugin]
+Ping 插件
+;file \plugins\Ping\src\pinggraph.cpp
+[Show grid lines]
+显示网格
+[Show stats]
+显示统计
+[%d ms]
+%d 毫秒
+[AVG %.1lf ms]
+平均 %.1lf 毫秒
+[MAX %hd ms]
+最大 %hd 毫秒
+[MIN %hd ms]
+最小 %hd 毫秒
+;file \plugins\Ping\src\pingthread.cpp
+[%s - setting status of protocol '%s' (%d)]
+%s - 设置协议状态 '%s' (%d)
+[%s - reply, %d]
+%s - 答复, %d
+[%s - timeout]
+%s - 超时
+[double clicked]
+双击
+[Show/Hide &Ping Window]
+显示/隐藏 &Ping 窗口
+;file \plugins\Ping\src\rawping.cpp
+[Host %s requests that you reduce the amount of traffic you are sending.]
+主机 %s 要求您减少发送通信量.
+;file \plugins\Ping\src\utils.cpp
+[Unknown Address]
+未知地址
+[Responding]
+响应
+[Not Responding]
+无响应
+[Testing]
+测试

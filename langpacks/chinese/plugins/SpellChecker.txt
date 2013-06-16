@@ -1,0 +1,111 @@
+﻿#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
+;============================================================
+;  File: SpellChecker.dll
+;  Plugin: Spell checker
+;  Version: 0.2.6.0
+;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
+;============================================================
+[Spell checker for the message windows. Uses Hunspell to do the checking.]
+消息窗口拼写检查. 使用 Hunspell 检查.
+;file \plugins\SpellChecker\res\resource.rc
+[Enable auto-replacements]
+启用自动替换
+[Edit...]
+编辑: 
+[Add auto-replace word]
+添加自动替换单词
+[Wrong word:]
+错误拼写:
+[No separators and all lowercase chars]
+无分隔符且所有字符小写
+[Correction:]
+修正:
+[Use variables in correction]
+校正使用变量
+[Spell Checker]
+拼写检查
+[Default language:]
+默认语言:
+[Auto-replace words with dictionary suggestions]
+依据字典建议自动替换错误拼写
+[Ignore words with numbers]
+忽略含数字单词
+[Ignore words in UPPER CASE]
+不对大写字母进行错误拼写检查
+[Ask before sending a message with spelling errors]
+发送消息前提示拼写错误
+[Download more dictionaries]
+下载更多辞典
+[Underline type:]
+下划线类型:
+[Show corrections in submenu]
+在子菜单中显示备选单词
+[Show all corrections in context menu (takes more time to show)]
+分组显示全部备选单词 (相对耗时)
+[Show wrong word]
+显示错误拼写
+[Use flags]
+使用错误标记
+[Use input language to select dictionary]
+使用输入语言选择辞典
+[Use dictionaries from other programs]
+使用其他程序辞典
+[Avoid removing underscores (slows down checking of long texts)]
+避免移除下划线 (长文本时会减慢检查速度)
+;file \plugins\SpellChecker\src\ardialog.cpp
+[The wrong word can't be empty!]
+错字不能为空!
+[Wrong Correction]
+备选单词错误
+[The correction can't be empty!]
+校正不能为空!
+[The correction can't be equal to the wrong word!]
+更正不等于错字!
+;file \plugins\SpellChecker\src\dictionary.cpp
+;file \plugins\SpellChecker\src\options.cpp
+[Auto-replacements]
+自动替换
+[Line]
+线
+[Dotted]
+点
+[Dash]
+短线
+[Dash dot]
+线点
+[Dash dot dot]
+线点点
+[Wave]
+波浪线
+[Thick]
+粗线
+[Wrong word]
+错字
+[Correction]
+校正
+;file \plugins\SpellChecker\src\spellchecker.cpp
+[Dictionaries]
+字典
+[Custom Dictionaries]
+用户字典
+[Flags DLL]
+标记链接库
+[Enable/disable spell checker]
+启用/禁用拼写检查
+;file \plugins\SpellChecker\src\utils.cpp
+[Other...]
+其它...
+[Always replace with]
+总替换成
+[Add to dictionary]
+加入辞典
+[Corrections]
+备选单词
+[Wrong word: %s]
+错误拼写: %s
+[Language]
+语言
+[Enable spell checking]
+启用拼写检查
+[Wrong words]
+错字

@@ -1,0 +1,33 @@
+﻿#muuid {4b733944-5a70-4b52-ab2d-68b1ef38ffe8}
+;============================================================
+;  File: StartupStatus.dll
+;  Plugin: StartupStatus
+;  Version: 0.8.0.45
+;  Authors: P Boon
+;============================================================
+[StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
+StartupStatus, 允许您定义 Miranda 启动时应设置状态, 可为每个协议设置. 
+;file \Plugins\StatusPlugins\resource.rc
+;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[size: %d x %d]
+大小: %d x %d
+[loc: %d x %d]
+位置: %d x %d
+[Minimized]
+最小化
+[Create a status menu item]
+建立状态菜单项目
+[default]
+默认值
+[At least one profile must exist]
+必须存在至少一个配置文件
+[StartupStatus]
+启动状态
+[Your default profile will be changed]
+您的默认配置文件将会改变
+;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
+[There is a maximum of 6 menu items]
+限制最多 6 个菜单项目
+;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
+;file \Plugins\StatusPlugins\commonstatus.cpp
+;file \Plugins\StatusPlugins\confirmdialog.cpp

@@ -1,0 +1,53 @@
+﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
+;============================================================
+;  File: TooltipNotify.dll
+;  Plugin: Tooltip notify
+;  Version: 0.6.0.47
+;  Authors: perf
+;============================================================
+[Shows a small tooltip above system tray area when a contact status is changed.]
+当联系人状态改变时显示一个小工具提示于系统托盘区域.
+;file \plugins\TooltipNotify\res\main.rc
+[Notify upon the following events]
+以下事件显示通知
+[All other]
+所有其它
+[Suppress notifications upon connection for]
+禁止通知当连接于
+[Prefix proto name]
+前缀名称
+[Duration]
+持续时间
+[Show tooltip for]
+显示工具提示于
+[Duration x2 upon online event]
+在线事件持续时间 x2
+[Double click on tooltip]
+双击工具提示
+[Shows/Hides CList]
+显示/隐藏联系人列表
+[Opens message dialog]
+打开消息对话框
+[Behavior]
+行为
+[Obey 'Suppress online notification' settings]
+服从 '禁止在线通知' 设置
+[Auto positioning]
+自动定位
+[Transparent input]
+透明输入
+[Transparent tooltip]
+透明工具提示
+;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Tooltip Notify]
+工具提示通知
+[Other Status]
+其它状态
+[Tooltip Notify: Online]
+工具提示通知: 在线
+[Tooltip Notify: Offline]
+工具提示通知: 离线
+[Tooltip Notify: Other]
+工具提示通知: 其它
+[Tooltip Notify: Typing]
+工具提示通知: 输入中

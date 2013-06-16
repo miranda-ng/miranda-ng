@@ -1,0 +1,418 @@
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+;file \plugins\Clist_modern\res\resource.rc
+[1st:]
+elsõ:
+[2nd:]
+második:
+[3rd:]
+harmadik:
+[Hide contact list after ]
+Partnerlista elrejtése 
+[Animate Avatars]
+Avatárok animálása
+[Use Windows Colors]
+Windows színek használata
+[Available skins]
+Elérhetõ bõrök
+[\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
+\n\n\nKérem válasszon az elérhetõ bõrök közül. \n\nVagy tallózon be egy másik bõrt.
+[Skin Preview]
+Bõr rlõnézet
+[WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
+FIGYELEM: \tA bõrök módosíthatják a jelenlegi profilt. A visszaállítás nem lehetséges. \n\t\tKérem mentse adatait a bõr alkalmazása elõtt.
+[* Restart may be required for all changes to take effect]
+* Az összes változás életbe lépéséhez talán újra kell indítani a programot
+[Available objects]
+Elérhetõ objektumok
+[Object properties]
+Objektum tulajdonságok
+[Colour]
+Szín:
+[Image file and fitting mode]
+Képfájl és illeszkedés mójda
+[Borders]
+Keretek
+[Fit mode]
+Fit mód
+[Fragment location]
+Töredékek helye
+[W x H: 0 x 0 pixels]
+Sz x M: 0 x 0 pixel
+[Show contacts in groups]
+Partnerek csoportokban
+[Space between]
+Helyköz
+[Vertical Align]
+Föggõleges igazítás
+[Horizontal Align]
+Vízszintes igazítás
+[Multiline status bar:]
+Többsoros állapotsor:
+[Accounts per line]
+Hozzáférések soronként
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+* Az állapotsor növeléséhez:\na fõ menüben: Keretek->Állaposor->Állapotsor mutatása, majd az állapotsor megjelenõ címét húzza le vagy fel.
+[Set options per account]
+Beállítások hozzáférésenként
+[Enable custom account settings]
+Egyedi hozzáférés beállítások be
+[Hide account completely]
+Hozzáférés teljes elrejtése
+[Show xStatus icon]
+XÁllapot ikon mutatása
+[Show both icons]
+Mindkét ikon mutatása
+[Show normal status as overlay]
+Normál állapot mutatása felsõ lapon
+[Status overlay opacity is 75% ]
+Állapot felsõ lap átlátszatlansága 75%
+[Show unread emails (if supported)]
+Olvasatlan e-levelek mutatása (ha támogatott)
+[Space on Left]
+Helyköz balra
+[Space on right]
+Helyköz jobbra
+[Place offline users out of groups]
+Kilépett partnerek legyenek a listákon kívül
+[Full selection]
+Teljes szekció
+[Less selection]
+Kevesebb kijelölés
+[No selection]
+Nincs kijelölés
+[Selection Mode]
+Kijelölés módja
+[Bring to front if covered]
+Hozza elõtérbe, ha eltakarva
+[Lock manual resize]
+Kézi átméretezés zárolása
+[Drag to ]
+Húzás 
+[Easy Scroll]
+Könnyû görgetés
+[x100 msec]
+x100 mp
+[show delay]
+mutatás késleltetése
+[hide delay]
+eltüntetés késleltetése
+[Hide method]
+Elrejtés módja
+[keep on screen]
+képenyõn tartás
+[Snap to edges]
+Ugrás a sarkokhoz
+[Event notify area]
+Esemény értesítés terület
+[Show automaticaly]
+Mutatás automatikusan
+[Always Visible]
+Mindig látható
+[Dock to sides]
+Dokkolás az oldalakhoz
+[Fade out entire list when:]
+Teljes lista kihalványítása, ha:
+[System tray icon mode]
+Rendszertálca ikon mód
+[Use xStatus icon]
+XÁllapot ikon használata
+[only when statuses differ]
+csak eltérõ állapotoknál
+[Expand metacontacts]
+Metapartnerek kibontása
+[MetaContacts stuff]
+MetaPartnerek cucc
+[Additional stuff]
+További cucc
+[Subcontacts indent:]
+Alpartnerek behúzása:
+[Show time only if it is different from current time]
+Csak akkor mutassa az idõt, ha eltér a jelenlegitõl
+[Show contact time as row item]
+Kapcsolat idõ, mint sor elem
+[Client area margins]
+Felhasználói terület margók
+[Thin border main window]
+Vékony keretes fõablak
+[Borderless main window]
+Keret nélküli fõablak
+[Between frames:]
+Keretek között:
+[After captions:]
+Feliratok után:
+[Gaps]
+Közök
+[Use Non-Layered mode]
+Nem-lapozott mód
+[Non-layered mode]
+Nem-réteges mód
+[Disable Skin Engine]
+Bõr motor kikapcsolása
+[Enable Aero Glass (Vista)]
+Aero Glass be (Vista)
+[Order of items:]
+Elemek sorrendje:
+[Min row height:]
+Minimális sormagasság:
+[Row border:]
+Sor keret:
+[Variable row height]
+Vártozó sormagasság
+[Align left items to left]
+Bal elemek igazítás balra
+[Align right items to right]
+Jobb elemek igazítása jobbra
+[Right margin:]
+Jobb margó:
+[Draw border on avatar]
+Legyen keret az avatarhoz
+[Draw overlay icons]
+Ikonok felugró buborékban
+[Round corners of avatars]
+Avatarok sarkainak lekerekítése
+[Ignore size for row height calcs]
+Sormagasság számítások mérete nem számít
+[Border Color:]
+Keretszín:
+[Normal overlay icon]
+Sima felsõlap ikon
+[Protocol status icon]
+Protokoll állapot ikon
+[Contact icon]
+Partner ikon
+[height]
+magasság
+[Max width]
+Max szélesség
+[Use old render method (Fast, but has artefacts)]
+Régi renderelési módszer (gyors, de kezdetleges)
+[Hide icon when showing avatar]
+Ikon elrejtése az avatár mutatásakor
+[Draw icon in avatar space]
+Ikont mutatása az avatár helyen
+[Hide groups icon]
+Csoportok ikon elrejtése
+[Use extra status icon instead protocol]
+Extra állapot ikon a protokoll helyett
+[Draw normal status as overlay]
+Normál állapot rajzlása buborékban
+[Right-To-Left reading mode (mirror template)]
+Jobbról-balra olvasás mód (tükör sablon)
+[Replace smileys in clist]
+Emotikonok lecserélése a cListában
+[Draw smileys on first line]
+Emotikonok az elsõ sorban
+[Resize smileys and 'Listining to' icon]
+Emotikonok és 'ezt hallgatom' ikon átméretezése
+[Align to right]
+Igazítás jobbra
+[Append nick if different from custom name]
+Becenév hozzáfûzése, ha eltér az egyedi névtõl
+[Trim long text with ellipsis]
+Hosszú szövegek vágása 3 ponttal
+[Top space:]
+Felsõ hely:
+[Draw smileys on second line]
+Emotikonok a második sorban
+[XStatus has priority]
+XÁllapotnak prioritása van
+[Use 'XStatus: XMessage']
+'XÁllapot: XÜzenet' használata
+[(Variables will be replaced)]
+(A változók le lesznek cserélve)
+[Show third line]
+Harmadis sor mutatása
+[Draw smileys on third line]
+Emotikonok a harmadik sorban
+[Top/Left]
+Felsõ/bal
+[Bottom/Right]
+Alsó/Jobb
+[Position (vertical)]
+Pozíció (függõleges)
+[Show Title]
+Cím mutatása
+[Locked]
+Zárolva
+[Frames Order]
+Keret sorrend
+[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
+FEJLESZTÉS ALATT!!! NEM MÛKÖDIK
+[Row template]
+Sor sablon
+[Add container]
+Tartó hozzáadása
+[Remove container]
+Tartalmazó eltávolítása
+[Vertical align:]
+Föggõleges igazítás:
+[Horizontal align:]
+Vízszintes igazítás:
+[Container type:]
+Tartalmazó típus:
+[Container width:]
+Tartalmazó szélesség:
+[Container height:]
+Tartalmazó magasság:
+[Layered]
+Sokszintû
+[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
+A Beállítások lap felújítás alat áll. Kérem ne foglalkozzon az itt látott hibákkal.\nCsak felsõ-szintû megjegyzések alkalmazhatóak.
+[&Show Offline Users in here]
+Kilépett partnerek mutatása itt
+;file \plugins\Clist_modern\src\modern_clc.cpp
+[Contact List smileys]
+Kapcsolati lista emotikonok
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+Átalakítja '%s' partnert Metapartnerré, és hozzáadja '%s'-t ehhez?
+[Converting to MetaContact]
+Konvertálás meta-partnerré
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+Átalakítja '%s' partnert Metapartnerré, és hozzáadja '%s'-t ehhez (eltávolítás '%s' helyrõl)?
+[Converting to MetaContact (Moving)]
+Konvertálás meta-partnerré (mozgatás)
+[Do you want to contact '%s' be added to metacontact '%s'?]
+Hozzáadja '%s' partnert '%s' MetaPartnerhez?
+[Adding contact to MetaContact]
+Partner hozzáadása a MetaContact-hoz
+[Do You want contact '%s' to be default ?]
+Legyen '%s' az alapértelmezett?
+[Set default contact]
+Alapértelmezett kapcsolat megadása
+[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+Eltávolítja '%s' partnert '%s' MetaParnerekbõl és hozzáadja ide: '%s'?
+[Changing MetaContacts (Moving)]
+MetaContact módosítása (mozgatás)
+[Do You want contact '%s' to be added to MetaContact '%s'?]
+Hozzáadja '%s' partnert '%s' Metapartnerekhez?
+;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Away contacts]
+Távol lévõ partnerek
+[DND contacts]
+Ne zavarj állapotú partnerek
+[NA contacts]
+Nem elérhetõ partnerek
+[Occupied contacts]
+Elfoglalt partnerek
+[Free for chat contacts]
+Csetre kész partnerek
+[Invisible contacts]
+Láthatatlan partnerek
+[On the phone contacts]
+Telefonáló partnerek
+[Out to lunch contacts]
+Ebédelõ partnerek
+[Contacts who are 'not on list']
+A listán nem szereplõ partnerek
+[Open groups]
+Nyitott csoportok
+[Open group member counts]
+Nyitott csoport tagszámok
+[Closed groups]
+Zárt csoportok
+[Closed group member counts]
+Zárt csoport tagszámok
+[Third line]
+Harmadik sor
+[Status bar text]
+Állapotsor szöveg
+[Event area text]
+Esemény terület szöveg
+[Current view mode text]
+Aktuális nézet mód szöveg
+[Hide to tray]
+Elrejtés a tálcára
+[Behind left edge]
+Bal sarok mögött
+[Behind right edge]
+Jobb sarok mögött
+;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
+Nincsenek események
+;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[Contact rate None]
+Partner arány Nincs
+[Contact rate Low]
+Partner arány Alacsony
+[Contact rate Medium]
+Partner arány Átlagos
+[Contact rate High]
+Partner arány Magas
+;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
+Avatárok animálása (GDI+ és Avatár kiszolgáló modul - avs.dll - szükséges)
+[Row items]
+Sor elemek
+;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+;file \plugins\Clist_modern\src\modern_clisttray.cpp
+;file \plugins\Clist_modern\src\modern_clui.cpp
+[Show Contact &Avatar]
+Partner Avatár mutatása
+[Hide Contact &Avatar]
+Partner Avatár elrejtése
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\modern_keyboard.cpp
+;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+[Empty %s cell]
+Üres %s cella
+[column]
+oszlop
+[line]
+sor
+[columns]
+oszlop
+[%s, contain %s]
+%s, tartalma %s
+[ layered]
+ rétegelt
+;file \plugins\Clist_modern\src\modern_skineditor.cpp
+[Image size is]
+A kép mérete
+;file \plugins\Clist_modern\src\modern_skinengine.cpp
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[Load/Save]
+Betöltés/Mentés
+[Object Editor]
+Objektum szerkesztõ
+[%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\nSzerzõ(k):\t %s\nPartner:\t %s\nWeb:\t %s\n\nFájl:\t %s
+[%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\nSzerzõ(k): %s\nKapcsolat:\t %s\nWeb:\t %s\n\nFájl:\t %s
+[This is second default Modern Contact list skin in Vista Aero style]
+Ez a második alap Modern Partnerlsta bõr Vista Aero stílusban
+[Inside library]
+Belsõ könytár
+[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+A bõr szerkesztõben nem mentett változások vannak.\n\nMinden mdosítás elveszik.\n\nBiztosan betölti az új bõrt?
+[Warning!]
+Figyelem!
+[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+Az aktuális bõr nincs mentve.\n\nMinden módosítás elveszik.\n\nBiztosan betöltsük az új bõrt?
+[Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
+Nincs elõnézet\n\n%s\n----------------------\n\n%s\n\nSZERZÕ(K):\n%s\n\nKAPCSOLAT:\n%s\n\nHONLAP:\n%s
+[%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
+%s\n\n%s\n\nSZERZÕK:\n%s\n\nKAPCSOLAT:\n%s\n\nWEB:\n%s\n\n\n
+[Select skin from list]
+Válasszon bõr a listából
+[Please select skin to apply]
+Válassza ki az felhúzandó bõrt
+[Default Skin]
+Alap bõr
+[%Default Skin%]
+%Default Skin%
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+[<<Global>>]
+<<Globális>>
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
+;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Configuring view mode: %s]
+Nézet mód beállítása: %s
+;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

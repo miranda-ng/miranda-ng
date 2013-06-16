@@ -1,0 +1,207 @@
+﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
+;langpack template for Xfire
+;file \protocols\Xfire\res\Kopie von resource.rc
+[Loginname:]
+登录名:
+[Current Protocolversion:]
+当前协议版本:
+[Note: You can only change these settings, if you are connected to Xfire.]
+提示: 如果您想连接至 Xfire, 仅能修改以下设置.
+[Create a new Xfire account on website]
+在网站中新建 Xfire 账号
+[Lost Password?]
+密码丢失?
+[Account options]
+账号选项
+[Show my friends]
+显示我的好友
+[Game Status]
+游戏状态
+[Show on my profile and miniprofile]
+显示我的个人资料及简介
+[Show my game server data]
+显示我的游戏服务器数据
+[Other Activity]
+其它活动
+[Show my voice chat server to my friends]
+显示我的语音聊天服务器给好友
+[Show people when I type to them]
+显示我的键入消息给别人
+[Show nicknames when available]
+显示呢称当可用时
+[Show friends of my friends]
+显示我的好友的好友
+[Gameicon:]
+游戏图标:
+[Voiceicon:]
+语音图标:
+[Display Error and Infomessage:]
+显示错误及相关信息:
+[Main group for clan groups:]
+氏族群组的主群组:
+[Automatically scan for games:]
+自动扫描游戏:
+[Main group for Friends of Friends:]
+好友之好友的主群组:
+[Blocked User List]
+封锁用户列表
+[This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
+此列表包含您的所有 Xfire 封锁用户. 如果您想允许其发送好友邀请可于此移除.
+[You can simply block someone, if you right click on his friend request in clist and choose Block User ...]
+如您右键好友列表中的联系人并选择封锁用户, 可非常简单的封锁某人 ...
+[This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
+此文件用于游戏搜索, 游戏检测及游戏解析. 它包含所有 Xfire 支持的游戏.
+[This file contains all original game icons. You can also activate the option for icon downloading, if you dont have it.]
+此文件包含所有原版游戏图标. 如您没有此文件, 可启用选项下载图标.
+[Be sure you put these files in following folder:]
+请确认您已把这些文件放至以下目录:
+[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.]
+有了此功能, 如您在游戏中, 下列状态消息将设置于您的其它协议插件. 所以您的好友可以看到您在玩什么. 如启用此选项, 将更改状态为忙碌.
+[Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
+支持以下变量: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
+[Change the status to occupied or dnd]
+更改状态为忙碌或请勿打扰
+[The status message and status will be reset, if you close the game.]
+如您退出游戏, 状态消息及状态将被重置.
+[Game:]
+游戏:
+[Dont detect this game as running]
+不要检测此游戏是否运行
+[Dont set status message for other protocols]
+其它协议不要设置状态信息
+[Game]
+游戏
+[Voicechat]
+语音聊天
+[Userdetails]
+用户详细资料
+[Enter Password]
+输入密码
+[Join]
+加入
+[Add Game]
+添加游戏
+[Game exe:]
+游戏 exe:
+[Browse ...]
+浏览 ...
+[Add a new game]
+添加一个新游戏
+[Searching games ...]
+搜索游戏 ...
+;file \protocols\Xfire\res\resource.rc
+;file \protocols\Xfire\src\addgamedialog.cpp
+[XFire Options]
+XFire 选项
+[Please choose one game in the list!]
+请于列表选择一个游戏!
+;file \protocols\Xfire\src\all_statusmsg.cpp
+;file \protocols\Xfire\src\iniupdater.cpp
+;file \protocols\Xfire\src\main.cpp
+[Login failed.]
+登录失败.
+[The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
+协议版本过旧. 更改当前版本从 %d 至 %d. 您可立即重连.
+[Someone loged in with your account.disconnect.]
+有人使用您的账号登录.已断开连接.
+[Add me to your friends list.]
+请加我至您的好友列表.
+[Buddy start a game]
+好友已开始游戏
+[&XFire Online Profile]
+&XFire 在线配置文件
+[XFire &Clan Site]
+XFire 官方网站(&C)
+[C&opy Server Address and Port]
+复制服务器地址及端口(&O)
+[Cop&y Voice Server Address and Port]
+复制语音服务器地址及端口(&Y)
+[Join &Game ...]
+加入游戏(&G) ...
+[Play this Game ...]
+玩此游戏 ...
+[Remove F&riend ...]
+移除好友(&R) ...
+[Block U&ser ...]
+封锁用户(&S) ...
+[&My XFire Online Profile]
+我的 XFire 在线配置文件(&M)
+[&Rescan my Games ...]
+重新扫描我的游戏(&R) ...
+[XFire does not support offline messaging!]
+XFire 不支持离线消息!
+[Unable to connect to XFire.]
+无法连接至 XFire.
+[No Loginname is set!]
+未设置登录名!
+[No Password is set!]
+未设置密码!
+[Do you really want delete your friend %s?]
+您真的想删除好友 %s?
+[Confirm Delete]
+确认删除
+;file \protocols\Xfire\src\options.cpp
+[Disable avatars]
+禁用头像
+[Use alternate way for Avatar download]
+头像下载使用替换路径
+[Automatically reconnect on protocol version changes]
+协议版本改变时自动重连
+[No Ip/Port in StatusMsg]
+状态信息中无 IP/端口
+[Use Online status for unsupported global statuses]
+不支持的全局状态默认使用在线状态
+[GameServerQuery support]
+游戏服务器查询支持
+[No custom away message]
+未定义离开信息
+[Remove friend of friend buddies from database]
+从数据库中将自身从对方好友列表中移除
+[Hide yourself in buddylist]
+在好友列表中隐藏自身
+[Dont display game search results]
+不要显示游戏搜索结果
+[Dont display game search status window]
+不要显示游戏搜索状态窗口
+[Display popup, if someone start a game]
+如某人开始游戏, 则显示弹出窗口
+[Gamedetection]
+游戏检测
+[Disable game detection]
+禁用游戏检测
+[Use TSRemote.dll to get teamspeak server info]
+使用 TSRemote.dll 获取 Teamspeak 服务器信息
+[Disable popups when ingame]
+游戏中禁用弹出窗口提示
+[Disable sound events when ingame]
+游戏中禁用声音提示
+[Automatically update xfire_games.ini (pro-laming.de)]
+自动更新 xfire_games.ini (pro-laming.de)
+[Automatically update icons.dll (pro-laming.de)]
+自动更新 icons.dll (pro-laming.de)
+[Download missing game icons from Xfire website]
+从 Xfire 网站下载缺失游戏图标
+[No backup on update]
+更新时不进行备份
+[Background updating]
+后台更新
+[The changes you have made require you to reconnect to the XFire network before they take effect]
+这些变更需重连 XFire 网络才能生效
+[Messagebox]
+消息盒
+[On every start]
+每次开始
+[Blocklist / Games]
+黑名单 / 游戏
+[StatusMsg]
+状态信息
+;file \protocols\Xfire\src\searching4games.cpp
+[Games found:%s%s]
+游戏已找到:%s%s
+;file \protocols\Xfire\src\userdetails.cpp
+;file \protocols\Xfire\src\Xfire_game.cpp
+[Start game]
+开始游戏
+;file \protocols\Xfire\src\Xfire_gamelist.cpp
+[Please wait ...]
+请稍等 ...

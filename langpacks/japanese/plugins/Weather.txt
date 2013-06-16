@@ -1,0 +1,364 @@
+﻿#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.1
+;  Authors: Miranda NG Team
+;============================================================
+;file \plugins\Weather\res\resource.rc
+[Brief Info]
+概要情報
+[Webpage]
+ウェブページ
+[Update weather information on startup]
+起動時に天気情報を更新
+[Update weather information every]
+次の時間毎に天気情報を更新
+[Consider weather info updated only when condition and temperature are changed]
+天気と気温に変化があった時のみ天気情報を更新
+[Remove old data when updating]
+更新時に古いデータを削除
+[Make the contact italic when weather alert is issued]
+警報が発令されたらコンタクトを斜体にする
+[Modes]
+モード
+[Use weather condition as protocol status]
+プロトコルステータスとして天気を使用
+[Avatar only mode]
+アバターのみモード
+[Temperature]
+気温
+[Celsius]
+摂氏
+[Fahrenheit]
+華氏
+[Degree sign:]
+度記号 :
+[Wind]
+風
+[km/h]
+km/h
+[m/s]
+m/s
+[mph]
+mph
+[knots]
+ノット
+[km]
+km
+[miles]
+マイル
+[Pressure]
+気圧
+[kPa]
+kPa
+[mb (hPa)]
+mb (hPa)
+[inches]
+インチ
+[mm Hg (torr)]
+mm Hg (トール)
+[Day/Month]
+日 / 月
+[2 chars]
+2 文字
+[3 chars]
+3 文字
+[Do not append units to values]
+値に単位を付加しない
+[Do not display fractional values]
+小数値を表示しない
+[Frame]
+フレーム
+[Avatar size]
+アバターサイズ
+[Edit Weather Station]
+気象台を編集
+[Weather Station]
+気象台
+[City name]
+都市名
+[Log Information]
+ログ情報
+[Use internal history]
+内部履歴を使用
+[Use external file]
+外部ファイルを使用
+[Overwrite file upon update]
+更新時にファイルを上書き
+[More Info URL]
+URL の詳細情報
+[Weather Map]
+天気図
+[Other Options]
+その他のオプション
+[Set as default station]
+デフォルトの気象台として設定
+[Disable automatic update for this station]
+この気象台に対する自動更新を無効
+[Popup only when condition changes]
+天気に変化があった時のみポップアップ
+[Popup Actions]
+ポップアップ操作
+[Left Click]
+左クリック
+[Right Click]
+右クリック
+[Popup Delay]
+ポップアップ遅延
+[Popup Text]
+ポップアップ文字
+[Updates]
+更新
+[Brief Info Title]
+概要情報タイトル
+[Note Text]
+メモテキスト
+[Extra Text]
+その他テキスト
+[External Log]
+外部ログ
+[More Variables]
+追加変数
+[Sunset]
+日の入り
+[Feel-like]
+体感気温
+[Today's Low]
+最低気温
+[Today's High]
+最高気温
+[Sunrise]
+日の出
+[Dewpoint]
+露点
+[Humidity]
+湿度
+[Weather Protocol INI Setup]
+Weather プロトコル INI セットアップ
+[Weather Protocol INI Setup\nInstall and load your weather ini file here]
+Weather プロトコル INI セットアップ\nWeather INI ファイルのインストールと読み込み
+[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+Weather プロトコルはあなたのコンピュータ上に保存されている Weather INI ファイルを見つけられませんでした。Weather INI のセットアップと気象台の追加をするには以下の手順に従ってください :
+[Click here to download a weather ini file from Miranda file listing]
+クリックして Miranda ファイルリストから Weather INI ファイルをダウンロード
+[Extract the weather ini file from archive to this directory]
+アーカイブからこのフォルダーへ Weather INI ファイルを展開する
+[Click here to load the data from the new ini file into memory]
+クリックして新規 INI ファイル からメモリにデータを読み込み
+[Add new weather station and close this dialog]
+新規気象台を追加してこのダイアログを閉じる
+[Total INI files]
+全ての INI ファイル
+[Total memory used]
+使用済みメモリの総容量
+[Reload INI]
+INI を再読み込み
+[Open brief information]
+概要情報を開く
+[Open complete forecast]
+全体予報を開く
+[Open weather map]
+天気図を開く
+[View history]
+履歴を表示
+[Show user detail]
+ユーザーの詳細を表示
+[To old setting]
+旧設定にする
+[To default]
+デフォルトにする
+;file \plugins\Weather\src\weather.cpp
+[Weather Condition Changed]
+天気が変更されました
+[Weather Alert Issued]
+警報が発令されました
+;file \plugins\Weather\src\weather.h
+[Invalid service (11)]
+不正なサービスです (11)
+[Invalid station (12)]
+不正な気象台です (12)
+[Weather service ini for this station is not found (20)]
+この気象台に対するWeather サービス INI が見つかりません (20)
+[Netlib error - check your internet connection (30)]
+Netlib エラー - インターネット接続を確認してください (30)
+[Empty data is retrieved (40)]
+空のデータが参照されました (40)
+[Document not found (42)]
+ドキュメントが見つかりません (42)
+[Document too short to contain any weather data (43)]
+天気データを含むにはドキュメントがあまりにも短すぎます (43)
+[Unknown error (99)]
+不明なエラー (99)
+[HTTP Error: No content (204)]
+HTTPエラー : コンテンツがありません (204)
+[HTTP Error: Data moved (301)]
+HTTP エラー : データは移動しました (301)
+[HTTP Error: Use proxy (305)]
+HTTPエラー : プロキシを使用してください (305)
+[HTTP Error: Temporary redirect (307)]
+HTTPエラー : 一時リダイレクト (307)
+[HTTP Error: Bad request (400)]
+HTTP エラー : 不正なリクエストです (400)
+[HTTP Error: Unauthorized (401)]
+HTTPエラー : 権限がありません (401)
+[HTTP Error: Payment required (402)]
+HTTPエラー : 支払いが必要です (402)
+[HTTP Error: Forbidden (403)]
+HTTPエラー : 許可されていません (403)
+[HTTP Error: Not found (404)]
+HTTPエラー : 見つかりませんでした (404)
+[HTTP Error: Method not allowed (405)]
+HTTPエラー : 許可されていないメソッドです (405)
+[HTTP Error: Proxy authentication required (407)]
+HTTPエラー : プロキシの認証が必要です (407)
+[HTTP Error: Gone (410)]
+HTTPエラー : 削除されました (410)
+[HTTP Error: Internal server error (500)]
+HTTPエラー : 内部サーバーエラー (500)
+[HTTP Error: Bad gateway (502)]
+HTTP エラー : 不正なゲートウェイです (502)
+[HTTP Error: Service unavailable (503)]
+HTTPエラー : サービスは利用できません (503)
+[HTTP Error: Gateway timeout (504)]
+HTTPエラー : ゲートウェイはタイムアウトしました (504)
+[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+%c\n気温 : %t\n体感気温 : %f\n気圧 : %p\n風 : %i  %w\n湿度 : %m\n露点 : %e\n視界 : %v\n\n日の出 : %r\n日の入り : %y\n\n5 日分の天気予報 :\n%[ 予報 1 日目 ]\n%[ 予報 2 日目 ]\n%[ 予報 3 日目 ]\n%[ 予報 4 日目 ]\n%[ 予報 5 日目 ]
+[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+体感気温 : %f\n気圧 : %p\n風 : %i  %w\n湿度 : %m\n露点 : %e\n視界 : %v\n\n日の出 : %r\n日の入り : %y\n\n5 日分の天気予報 :\n%[ 予報 1 日目 ]\n%[予報 2 日目 ]\n%[ 予報 3 日目 ]\n%[ 予報 4 日目 ]\n%[ 予報 5 日目 ]
+[Weather Condition for %n as of %u]
+%u 現在の %n の天気
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t ( 体感気温 %f)	風 : %i %w	湿度 : %m
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n %u :	%c, %t ( 体感気温 %f)	風 : %i %w	湿度 : %m
+[%c, %t\nToday:  High %h, Low %l]
+%c, %t\n今日 :  最高 %h, 最低 %l
+;file \plugins\Weather\src\weather_addstn.cpp
+[Current weather information for %s.]
+%s の現在の天気情報
+[%s is now the default weather station]
+%s は現在デフォルトの気象台です
+[Weather Protocol]
+Weather プロトコル
+[Please try again after weather update is completed.]
+天気の更新が完了してから再試行してください
+[<Enter station name here>]
+< ここに気象台名を入力してください >
+[<Enter station ID here>]
+< ここに気象台 ID を入力してください >
+;file \plugins\Weather\src\weather_contacts.cpp
+[Weather condition was not logged.]
+天気は記録されていません
+[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
+全部予報の URL は設定されていません。設定編集ダイアログから設定可能です
+[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+天気図の URL は設定されていません。設定編集ダイアログから設定可能です
+[Get city name from ID]
+ID から都市名を取得
+[Weather INI information]
+Weather INI 情報
+[View webpage]
+ウェブページを表示
+;file \plugins\Weather\src\weather_conv.cpp
+[mb]
+mb
+[in]
+in
+[mm]
+mm
+[<unknown time>]
+< 不明な時間 >
+[<Error>]
+< エラー >
+[HTTP Error %i]
+HTTP エラー %i
+;file \plugins\Weather\src\weather_data.cpp
+[<Enter city name here>]
+< ここに都市名を入力してください >
+[Error when obtaining data: %s]
+データ取得時のエラー: %s
+;file \plugins\Weather\src\weather_http.cpp
+[Weather HTTP connections]
+Weather HTTP 接続
+;file \plugins\Weather\src\weather_icons.cpp
+[Update with Clear]
+クリアして更新
+[View Brief]
+概要を表示
+[View Complete]
+全体を表示
+[Weather Update]
+Weather 更新
+[No Popup]
+ポップアップしない
+;file \plugins\Weather\src\weather_info.cpp
+[Internal Name:]
+内部名 :
+[INI Version:]
+INI バージョン :
+[File Name:]
+ファイル名 :
+[Item Count:]
+項目数 :
+[Memory Used:]
+使用済みメモリ :
+[Here is a list of custom variables that are currently available]
+現在利用可能なカスタム変数のリスト
+;file \plugins\Weather\src\weather_ini.cpp
+[No update data file is found.  Please check your Plugins\\Weather directory.]
+更新データファイルが見つかりませんでした。Plugins\\Weather フォルダーを確認して下さい
+[Invalid ini format for: %s]
+以下に対する不正な ini 形式です : %s
+[All update data has been reloaded.]
+全ての更新データは再読み込みされました
+;file \plugins\Weather\src\weather_mwin.cpp
+;file \plugins\Weather\src\weather_opt.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\t現在の状況\n%d\t現在の日付\n%e\t露点\n%f\t体感気温\n%h\t今日の最高気温\n%i\t風向\n%l\t今日の最低気温\n%m\t湿度\n%n\t気象台名\n%p\t気圧\n%r\t日の出時間\n%s\t気象台 ID\n%t\t気温\n%u\t更新時間\n%v\t視界\n%w\t風速\n%y\t日の入り
+[Weather Protocol Text Preview]
+Weather プロトコルテキストプレビュー
+;file \plugins\Weather\src\weather_popup.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\t現在の天気\n%d\t現在の日付\n%e\t露点\n%f\t体感気温\n%h\t今日の最高気温\n%i\t風向\n%l\t今日の最低気温\n%m\t湿度\n%n\t気象台名\n%p\t気圧\n%r\t日の出時間\n%s\t気象台 ID\n%t\t気温\n%u\t更新時間\n%v\t視界\n%w\t風速\n%y\t日の入り
+[%[..]\tcustom variables]
+%[..]\tカスタム変数
+;file \plugins\Weather\src\weather_svcs.cpp
+[Station ID]
+気象台 ID
+[Disable &weather notification]
+Weather 通知を無効 (&w)
+[Enable &weather notification]
+天気通知を有効 (&w)
+[Update Weather]
+天気を更新
+[Remove Old Data then Update]
+更新したら古いデータを削除
+[Brief Information]
+概要情報
+[Read Complete Forecast]
+全体予報を読む
+[Weather]
+Weather
+[Update All Weather]
+全ての天気を更新
+[Remove Old Data then Update All]
+全て更新したら古いデータを削除
+[Weather Notification]
+Weather 通知
+[Display in a frame]
+フレーム内に表示
+;file \plugins\Weather\src\weather_update.cpp
+[Unable to retrieve weather information for %s]
+%s に対する天気情報は取得できませんでした
+;file \plugins\Weather\src\weather_userinfo.cpp
+[Current condition for %n]
+%n の現在の天気
+[Last update on:   %u]
+最終更新 :   %u
+[Variable]
+変数
+[Retrieving new data, please wait...]
+新規データを取得中です。お待ちください...
+[More Info]
+詳細情報

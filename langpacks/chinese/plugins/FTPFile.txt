@@ -1,0 +1,183 @@
+﻿#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
+;============================================================
+;  File: FTPFile.dll
+;  Plugin: FTP File YM
+;  Version: 0.5.0.0
+;  Authors: yaho
+;============================================================
+;file \plugins\FTPFileYM\res\ftpfile.rc
+[FTP account]
+FTP 帐户
+[Host name]
+主机名
+[Directory on server]
+服务器目录
+[Command after upload]
+上传后执行命令
+[Use passive mode]
+使用被动模式
+[Default FTP server]
+默认 FTP 服务器
+[File download link]
+文件下载链接
+[Close dialog after upload is completed]
+上传完毕后关闭对话框
+[Copy download link to message log]
+复制下载链接至信息记录
+[Menu items]
+菜单项
+[Use submenu (restart required)]
+使用子菜单 (重启生效)
+[Hide inactive accounts]
+隐藏非活动帐号
+[Automatically delete file from FTP server after (experimental):]
+完成后自动从 FTP 服务器删除文件 (实验):
+[ZIP support]
+ZIP 支持
+[Enter archive name manually]
+手动输入档案名称
+[Compression level:]
+压缩等级:
+[Upload File Manager]
+上传文件管理
+[File:]
+文件:
+[Completed:]
+完成:
+[Speed:]
+速度: 
+[Remaining:]
+剩余:
+[File Manager]
+文件管理器
+[User info]
+用户信息
+[UPLOADING...]
+上传...
+[FTP File Manager]
+FTP 文件管理
+[Deselect All]
+取消所有
+[Delete from list]
+从列表中删除
+[Delete from FTP]
+从 FTP 删除
+[Enter file name]
+输入文件名
+[File exists]
+文件已存在
+[File with the same name already exists on the server.]
+同名文件已存在于服务器上.
+[How to proceed?]
+如何进行?
+[Copy URL]
+复制链接
+[Close dialog after upload finishes]
+上传完毕后关闭对话框
+[Automatically delete file after...]
+完成后自动删除文件...
+[Delete from List]
+从列表删除
+;file \plugins\FTPFileYM\src\dialog.cpp
+[User Info]
+用户信息
+[Copy Link to Clipboard]
+复制链接至剪贴板
+[%d minutes]
+%d 分钟
+[%d hours]
+%d 小时
+[%d days]
+%d 天
+[Do you really want to cancel all running jobs?]
+您真的想取消所有正在运行任务?
+;file \plugins\FTPFileYM\src\ftpfile.cpp
+[FTP Server %d]
+FTP 服务器 %d
+[Upload file(s)]
+上传文件
+[Zip and upload file(s)]
+压缩并上传文件
+[Zip and upload folder]
+压缩并上传目录
+[FTP File manager]
+FTP 文件管理器
+[Show FTPFile manager]
+显示 FTP 文件管理器
+[Upload file]
+上传文件
+[Zip and upload file]
+压缩并上传文件
+[You have to fill FTP server setting before upload a file.]
+上传文件前您必须填写 FTP 服务器设置.
+[Error has occurred while trying to create a dialog!]
+尝试建立对话框时发生错误!
+[File upload complete]
+文件上传完毕
+[Upload canceled]
+上传中止
+;file \plugins\FTPFileYM\src\job_generic.cpp
+[FTP File - Select files]
+FTP 文件 - 选择文件
+[FTP File - Select a folder]
+FTP 文件 - 选择一个目录
+[Folder not found!]
+目录未找到!
+[The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
+选定文件夹不包含任何文件.\nFTP 文件只能从选定文件夹发送文件, 而非子文件夹.
+[CANCELED]
+已取消
+[COMPLETED]
+已完成
+[CONNECTING...]
+连接中...
+[CREATED]
+已创建
+[PACKING...]
+打包中...
+[PAUSED]
+暂停
+[WAITING...]
+等待中...
+[UNKNOWN]
+未知
+;file \plugins\FTPFileYM\src\job_packer.cpp
+[Error occured when zipping the file(s).]
+压缩文件时发生错误.
+[Do you really want to cancel this upload?]
+您真的想取消此上传?
+[Status: %s\r\nFile: %s\r\nServer: %s]
+状态: %s\r\n文件: %s\r\n服务器: %s
+;file \plugins\FTPFileYM\src\job_upload.cpp
+[File exists - %s]
+文件已存在 - %s
+[Error occurred when opening local file.\nAborting file upload...]
+打开本地文件时发生错误.\n中止文件上传...
+[Error occurred when initializing libcurl.\nAborting file upload...]
+初始化 libcurl 时发生错误.\n文件上传中止...
+[FTP error occurred.\n%s]
+FTP 发生错误.\n%s
+[WAITTING...]
+等待中...
+[Download link:]
+下载地址:
+[Do you really want to cancel running upload?]
+您确定要中止上传?
+[%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
+%s\r\n速度: %s\r\n已完成: %s\r\n剩余: %s
+;file \plugins\FTPFileYM\src\manager.cpp
+[You have to fill and enable at least one FTP server in setting.]
+您必须在设置中至少填写一个可用 FTP 服务器.
+[Clear All]
+全部清除
+;file \plugins\FTPFileYM\src\options.cpp
+[FTP (Standard)]
+FTP (标准)
+[FTP+SSL (Explicit)]
+FTP+SSL (显式)
+[FTP+SSL (Implicit)]
+FTP+SSL (隐式)
+[SFTP (Secure FTP over SSH)]
+SFTP (安全 FTP 使用 SSH)
+;file \plugins\FTPFileYM\src\serverlist.cpp
+;file \plugins\FTPFileYM\src\utils.cpp

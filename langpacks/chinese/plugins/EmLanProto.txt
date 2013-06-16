@@ -1,0 +1,19 @@
+﻿#muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
+;============================================================
+;  File: EmLanProto.dll
+;  Plugin: E-mage LAN protocol
+;  Version: 0.0.1.1
+;  Authors: kva
+;============================================================
+;file \protocols\EmLanProto\res\amdproto.rc
+[Select your IP address]
+选择您的 IP 地址
+[LAN Settings]
+局域网设置
+[Use computer name]
+使用计算机名称
+[Select your name]
+选择您的名字
+;file \protocols\EmLanProto\src\amdproto.cpp
+[E-mage LAN protocol]
+E-mage 局域网协议

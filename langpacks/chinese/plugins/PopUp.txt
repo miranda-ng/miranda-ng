@@ -1,0 +1,238 @@
+﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
+;============================================================
+;  File: Popup.dll
+;  Plugin: Popup plus
+;  Version: 2.1.1.7
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+[Provides popup notification services for different plugins.]
+为各种插件提供弹出窗口通知服务.
+;file \plugins\Popup\res\resource.rc
+[Content && Style]
+内容及样式
+[Go to Customize > Fonts && Colors for fonts and colors options]
+至自定义 > 字体及颜色选项
+[Live Preview]
+实况预览
+[Size && Position]
+大小及位置
+[Enable popup history]
+启用弹出窗口历史
+[Store last]
+保存最后
+[Use History++ to render log]
+使用 History++ 渲染记录
+[Draw avatar borders]
+绘制头像边框
+[Draw borders for semitransparent avatars too]
+半透明头像也绘制边框
+[Enable avatar updates]
+启用头像更新
+[Start the popups in the monitor with]
+显示弹出提示于显示器
+[Miranda's window]
+Miranda 窗口屏幕
+[the active window]
+当前窗口屏幕
+[Enable Win 9x/Me transparency]
+启用 Win 9x/Me 透明
+[Opaque popups under cursor]
+光标指向时不透明化
+[Slide Popup]
+幻灯片式弹出提示
+[Time (out):]
+时间 (出):
+[Limit window amount to:]
+限制窗口数量为:
+[* - built-in skins]
+* - 内置皮肤
+[Popup Area]
+弹出窗口区域
+[pixel(s)]
+像素
+[Distance between popups]
+弹出窗口间隔
+[Configure popup area]
+配置弹出窗口区域
+[Enable popup actions]
+启用弹出窗口操作
+[Popup Actions are those tiny buttons below notification text.]
+弹出窗口操作即通知文本下方那些小按钮
+[Common Actions]
+普通操作
+[Please choose in what cases default actions should be added:]
+请选择什么情况下应添加默认事件:
+[Add info && menu for IM contacts only]
+仅为 IM 联系人添加信息 && 菜单
+[Add default actions for contacts only]
+仅为联系人添加默认操作
+[Don't close popups on default actions]
+默认操作不要关闭弹出窗口
+[Use large icons]
+使用大图标
+[Popup actions will be displayed as:]
+弹出窗口操作将显示为:
+[Icons and labels below text]
+在文本下方显示图标及标签
+[Icons on the left]
+图标在左侧
+[Icons aligned to the right]
+图标右对齐
+[Show Actions: (requires apply)]
+显示操作: (需要应用)
+[Mouse Actions Overwrite]
+鼠标操作覆盖
+[LeftButton]
+左键
+[MiddleButton]
+中键
+[RightButton]
+右键
+[Enable this notification]
+启用此通知
+[Left click action:]
+左击操作:
+[Right click action:]
+右击操作:
+[Disable when global status is...]
+禁用当公共状态为...
+[Disable when relevant protocol's status is...]
+禁用当相关协议状态为...
+[Colors can be configured in\r\nCustomize > Fonts && Colors]
+颜色可配置于\r\n自定义 > 字体及颜色
+[Disable if message window is open]
+如消息窗口已打开则禁用
+[Per-contact settings]
+每联系人设置
+[Show always]
+永远显示
+[Ignore fullscreen]
+全屏忽略
+[Never show]
+永不显示
+[Show default]
+默认显示
+[Infinite popup delay]
+无限弹出窗口延时
+[Popup delay:]
+弹出窗口延时:
+[Do not close hovered popups]
+不要关闭鼠标下弹出窗口
+[Dynamically resize the popups]
+动态改变弹出窗口大小
+[Minimum width]
+最小宽度
+[Maximum width]
+最大宽度
+[Layout:]
+布局:
+[Reorder Popups]
+排序弹出窗口
+[Disable when:]
+禁用于: 
+[Always (has priority)]
+永远 (高优先级)
+[Fullscreen mode]
+全屏模式
+;file \plugins\Popup\src\actions.cpp
+[no overwrite]
+不覆盖
+[Quick reply]
+快速回复
+[User details]
+用户详细资料
+[Pin popup]
+弹出窗口别针
+;file \plugins\Popup\src\config.cpp
+[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
+测试预览弹出窗口设置. 这应该可容纳于一列的长度...
+[This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
+这是一个弹出插件专用预览测试. 文本及标题很长, 您可调整皮肤及插件设置以适合您的需求 :)
+[This is a notification message]
+这是通知消息
+[This is a warning message]
+这是警告消息
+[This is an error message]
+这是错误消息
+;file \plugins\Popup\src\effects.cpp
+;file \plugins\Popup\src\font.cpp
+[Hovered Action]
+悬停操作
+[Clock]
+时钟
+;file \plugins\Popup\src\history.cpp
+[Popup History is disabled]
+弹出历史已禁用
+[Popup History message]
+弹出历史信息
+;file \plugins\Popup\src\icons.cpp
+[With "favourite" overlay]
+"我的最爱" 覆盖图标
+[With "fullscreen" overlay]
+"全屏" 覆盖图标
+[Refresh skin list]
+刷新皮肤列表
+[Popup Placement]
+弹出窗口方位
+[Popup Group]
+弹出窗口群组
+[Favorite Contact]
+我的最爱联系人
+[Show in Fullscreen]
+全屏显示
+[Blocked Contact]
+封锁联系人
+[Quick Reply]
+快速回复
+[Pin Popup]
+弹出窗口别针
+[Pinned Popup]
+固定弹出窗口
+[Add Contact Permanently]
+永久添加联系人
+;file \plugins\Popup\src\main.cpp
+;file \plugins\Popup\src\opt_adv.cpp
+[Fade in/out]
+淡入/淡出
+;file \plugins\Popup\src\opt_class.cpp
+;file \plugins\Popup\src\opt_gen.cpp
+[upper left corner]
+左上角
+[lower left corner]
+左下角
+[lower right corner]
+右下角
+[upper right corner]
+右上角
+[vertical]
+垂直
+[Global Status]
+公共状态
+[Popup Plus Warning]
+Popup Plus 警告
+;file \plugins\Popup\src\opt_skins.cpp
+[Skin preview]
+预览皮肤
+[Just take a look at this skin... ;)]
+仅看看这个皮肤... ;)
+[Show clock]
+显示时钟
+[Drop shadow effect]
+下拉阴影效果
+[non rectangular]
+非矩形
+[Global settings]
+全局设置
+[Refresh List]
+刷新列表
+;file \plugins\Popup\src\popup_thread.cpp
+;file \plugins\Popup\src\popup_wnd2.cpp
+;file \plugins\Popup\src\services.cpp
+;file \plugins\Popup\src\skin.cpp
+;file \plugins\Popup\src\srmm_menu.cpp
+[Popup Mode: Auto]
+弹出模式: 自动
+[Popup Mode: Ignore fullscreen]
+弹出模式: 忽略全屏
+[Popup Mode: Block contact]
+弹出模式: 封锁联系人

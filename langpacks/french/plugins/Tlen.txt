@@ -1,0 +1,110 @@
+﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
+;langpack template for Tlen
+;file \protocols\Tlen\res\tlen.rc
+[Tlen]
+Tlen
+[Leave status message after disconnection]
+Garder message d'état après déconnexion
+[Ignore advertisements]
+Ignorer les avertissements
+[Show offline users with status messages as invisible in contact list]
+Afficher contacts hors ligne avec le motif d'invisibilité dans la liste
+[Voice Chats]
+Chats vocaux
+[Recording device:]
+Enregistreur : 
+[Playback device:]
+Lecteur :
+[Expert Options]
+Options expert
+[Connection Host:]
+Connexion sur l'hôte :
+[Enable Always Visible and Never Visible]
+Activer 'Toujours visible' et 'Jamais visible'
+[Use proxy for incoming connections]
+Utiliser un Proxy pour les connexions entrantes
+[Proxy type:]
+Type de proxy :
+[Proxy server:]
+Serveur Proxy :
+[Proxy requires authorization]
+Proxy demandant une identification
+[Enable incoming mail notification]
+Activer la notification de mail
+[&Custom]
+&Défini
+[P&ermanent]
+P&ermanent
+[Year of birth:]
+Année de naiss. :
+[School:]
+École :
+[Looking for:]
+Recherche :
+[Voice chats]
+Chats vocaux
+[Save changes]
+Sauver les modifs
+[Avatar Options]
+Avatar
+[Tlen login:]
+Login Tlen :
+[Subscription:]
+Inscription :
+[Software:]
+Client :
+[System:]
+Système :
+[Personal Information]
+Infos personnelles
+[Extra Search Criterias]
+Recherche Supplémentaire
+[Plan:]
+Plan :
+[Tlen Voice Chat]
+Chat Vocal Tlen
+[Quality]
+Qualité
+[In]
+Entrée
+[Out]
+Sortie
+[Tlen Voice Chat Invitation]
+Invitation à un chat vocal Tlen
+[The following invitation to join a voice chat is received.]
+L'invitation suivante à un chat vocal, a été reçue.
+;file \protocols\Tlen\src\jabber_iqid.cpp
+[Tlen Authentication]
+Authentification Tlen
+;file \protocols\Tlen\src\jabber_opt.cpp
+[<Last message>]
+<Dernier message>
+[Forwarding]
+Envoi en cours
+;file \protocols\Tlen\src\jabber_svc.cpp
+[Tlen login]
+login Tlen
+;file \protocols\Tlen\src\jabber_thread.cpp
+[Jabber Connection Error]
+Erreur lors de la connexion à Jabber
+[Web message]
+message Web
+[Private conference]
+Chat privé
+;file \protocols\Tlen\src\jabber_ws.cpp
+;file \protocols\Tlen\src\tlen.cpp
+[Incoming mail]
+mail entrant
+[Alert]
+Alerte
+[Voice Chat]
+Chat Vocal
+;file \protocols\Tlen\src\tlen_file.cpp
+;file \protocols\Tlen\src\tlen_muc.cpp
+[You have been kicked. Reason: %s ]
+Vous avez été kické. Motif : %s 
+[You cannot join this chat room, because you are banned.]
+Vous ne pouvez rssi efface
+;file \protocols\Tlen\src\tlen_picture.cpp
+;file \protocols\Tlen\src\tlen_userinfo.cpp
+;file \protocols\Tlen\src\tlen_voice.cpp

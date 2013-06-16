@@ -1,0 +1,289 @@
+﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+;============================================================
+;  File: GG.dll
+;  Plugin: GG
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\Gadu-Gadu\res\resource.rc
+[Gadu-Gadu User Details]
+Gadu-Gadu のユーザー詳細
+[Gadu-Gadu Number:]
+Gadu-Gadu 番号 :
+[Retrieve password]
+パスワードの回復
+[Friends only]
+フレンド限定
+[Show offline users with status message as invisible in contact list]
+コンタクトリストに不可視のステータスメッセージのあるオフラインユーザーを表示
+[After disconnection leave away message of status:]
+切断後に離席ステータスメッセージを残す :
+[Receive image and after image is received use:]
+受信画像と受信後の画像を使用 :
+[Show links from unknown contacts]
+不明なコンタクトからのリンクを表示
+[Conference policy]
+会議のポリシー
+[if total participant count greater than:]
+全参加者の数が次よりも多い場合 :
+[if unknown participant count greater than:]
+不明な参加者の数が次よりも多い場合 :
+[in other case]
+以外の場合
+[Advanced Configuration]
+詳細設定
+[Show connection errors]
+接続エラーを表示
+[Manually specify connection servers' hosts]
+手動指定してサ－バーのホストと接続する
+[* new line is separator\n** hostname:port format]
+* 新しい線はセパレーターです\n** ホスト名 : ポートの初期化
+[Use SSL secure connection]
+SSL セキュア接続を使用
+[Use direct connections]
+直接接続を使用
+[Use forwarding]
+転送を使用
+[Family name:]
+名字 :
+[Origin city:]
+出生地 :
+[Birth year:]
+誕生年 :
+[Enter token to continue]
+継続するにはトークンを入力してください
+[Create Gadu-Gadu account]
+Gadu-Gadu アカウントの作成
+[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
+Gadu-Gadu アカウントの作成\n新規Gadu-Gadu アカウントを作成します
+[New password:]
+新規パスワード :
+[Confirm password:]
+パスワードの確認 :
+[New e-mail:]
+新規電子メール :
+[Remove Gadu-Gadu account]
+Gadu-Gadu アカウントを削除
+[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
+Gadu-Gadu アカウントを削除\nあなたの Gadu-Gadu アカウントを削除します
+[Yes, I want to remove my account]
+はい。アカウントを削除します
+[Change Gadu-Gadu password]
+Gadu-Gadu パスワードを変更
+[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
+Gadu-Gadu パスワードを変更\n現在のGadu-Gadu ユーザーのパスワードを変更します
+[Change Gadu-Gadu e-mail]
+Gadu-Gadu 電子メールを変更
+[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
+Gadu-Gadu 電子メールを変更\n現在のGadu-Gadu ユーザーの電子メールを変更します
+[Age from:]
+次の年齢から :
+[Open new conference]
+新規会議を開く
+[Open new conference\nSelect conference participants]
+新規会議を開く\n会議の参加者を選択してください
+[Concurrent Sessions]
+同時セッション
+[Concurrent %s Login Sessions\nView information on active concurrent sessions]
+同時 %s ログインセッション\nアクティブ同時セッションの情報を表示します
+[Sign out all sessions]
+全てのセッションをサインアウト
+;file \protocols\Gadu-Gadu\src\avatar.cpp
+;file \protocols\Gadu-Gadu\src\core.cpp
+[Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
+Miranda は Gadu-Gadu サーバー名を数値アドレスへ解決できませんでした
+[Received invalid server response.]
+不正なサーバーの応答を受信しました
+[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
+あなたの Gadu-Gadu 番号とパスワードの組み合わせは Gadu-Gadu サーバーにより拒否されました。メニュー -> オプション -> ネットワーク -> Gadu-Gadu のログイン詳細情報を確認して再試行してください
+[Connecting to Gadu-Gadu hub failed.]
+Gadu-Gadu ハブへの接続に失敗しました
+[Cannot establish secure connection.]
+セキュア接続が確立できませんでした
+[Server disconnected asking you for changing your e-mail.]
+サーバーはあなたの電子メール変更について確認中に切断しました
+[Too many login attempts with invalid password.]
+不正なパスワードでのログイン試行が多すぎます
+[Gadu-Gadu servers are now down. Try again later.]
+Gadu-Gadu サーバーは現在ダウンしています。後ほど再試行してください
+[External direct connections hostname %s is invalid. Disabling external host forwarding.]
+外部ダイレクト接続のホスト名 %s は不正です。外部ホストへの転送は無効です
+[Server hostname %s is invalid. Using default hostname provided by the network.]
+サーバーのホスト名%sは不正です。ネットワークから提供されるデフォルトホスト名を使用します
+[List import successful.]
+リストのインポートに成功
+[List remove successful.]
+リストの削除に成功しました
+[List export successful.]
+リストのエクスポートに成功
+[You have logged in at another location]
+あなたは他の場所でログインしています
+[You are logged in at another location]
+あなたは他の場所でログインしています
+[Incoming image]
+着信画像
+;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[<Last Status>]
+<最終ステータス>
+[You need to specify your registration e-mail first.]
+あなたはまず登録用電子メールを指定する必要があります
+[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+あなたのパスワードは登録用電子メールに送信されます\n続行しますか?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+あなたのアカウントについて永続的な変更を行う場合一旦切断する必要があります\n今すぐ切断しますか?
+[Allow]
+許可
+[Your details has been uploaded to the public directory.]
+あなたの詳細情報は公共のディレクトリーにアップロードされました
+[You have to be logged in before you can change your details.]
+詳細情報を変更できるようにする前にログインする必要があります
+;file \protocols\Gadu-Gadu\src\filetransfer.cpp
+;file \protocols\Gadu-Gadu\src\gg.cpp
+[HTTP failed connecting]
+HTTP 接続に失敗
+[HTTP failed resolving]
+HTTP 解決に失敗
+[HTTP failed reading]
+HTTP 読み込みに失敗
+[HTTP failed writing]
+HTTP 書き込みに失敗
+[Unknown HTTP error]
+不明な HTTP エラー
+;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Gadu-Gadu Number]
+Gadu-Gadu 番号
+;file \protocols\Gadu-Gadu\src\groupchat.cpp
+[Open &conference...]
+会議を開く (&c)...
+[&Clear ignored conferences]
+無視する会議をクリア (&C)
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+%s は参加者 &d 人 ( 不明 %d 人 ) の会議に参加しました\nあなたも参加しますか ?
+[%s initiated the conference.]
+%s は会議に参加した
+[This is my own conference.]
+これは自分の会議です
+['Unknown']
+' 不明 '
+[You have to be connected to open new conference.]
+新規会議を開くには接続する必要があります
+[All ignored conferences are now unignored and the conference policy will act again.]
+全ての無視する会議の無視を解除し , 会議のポリシーを再び動作させる
+[There are no ignored conferences.]
+無視する会議はありません
+;file \protocols\Gadu-Gadu\src\icolib.cpp
+[Import list from server]
+サーバーからリストをインポート
+[Import list from text file]
+テキストファイルからリストをインポート
+[Remove list from server]
+サーバーからリストを削除
+[Export list to server]
+リストをサーバーにエクスポート
+[Export list to text file]
+リストをテキストファイルにエクスポート
+[Account settings]
+アカウント設定
+[Previous image]
+前の画像
+[Next image]
+次の画像
+[Save image]
+画像を保存
+[Delete image]
+画像を削除
+[Clear ignored conferences]
+無視した会議をクリア
+[Concurrent sessions]
+同時セッション
+;file \protocols\Gadu-Gadu\src\image.cpp
+[&Image]
+画像 (&I)
+[Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
+画像ファイル (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
+[Image cannot be written to disk.]
+画像はディスクに書き込みできません
+[Delete image from the list]
+リストから画像を削除
+[Save image to disk]
+画像をディスクに保存
+[Image from %s]
+%s からの画像
+[Image for %s]
+%s 用画像
+[Select picture to send]
+送信する画像の選択
+[Image exceeds maximum allowed size of 255 KB.]
+画像は許可される最大サイズの 255KB を超えています
+;file \protocols\Gadu-Gadu\src\import.cpp
+[You have to be connected before you can import/export contacts from/to server.]
+サーバーに対してコンタクトをインポート / エクスポートする前に , 接続する必要があります
+[Text files]
+テキストファイル
+[contacts]
+コンタクト
+[Import List From &Server]
+サーバーからリストをインポート (&S)
+[Import List From &Text File...]
+テキストファイルからリストをインポート (&T)...
+[&Remove List From Server]
+サーバーからリストを削除 (&R)
+[Export List To &Server]
+サーバーにリストをエクスポート (&S)
+[Export List To &Text File...]
+リストをテキストファイルにエクスポート (&T)...
+;file \protocols\Gadu-Gadu\src\links.cpp
+;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
+[Password was sent to your e-mail.]
+パスワードをあなたの電子メールに送信しました
+;file \protocols\Gadu-Gadu\src\popups.cpp
+;file \protocols\Gadu-Gadu\src\services.cpp
+;file \protocols\Gadu-Gadu\src\sessions.cpp
+[Client Name]
+クライアント名
+[IP Address]
+IP アドレス
+[Login Time]
+ログイン時間
+[sign out]
+サインアウト
+[There are no active concurrent sessions for this account.]
+このアカウントに対するアクティブ同時セッションはありません
+[You have to be logged in to view concurrent sessions.]
+同時セッションを表示するにはログインする必要があります
+[Copy Text]
+テキストをコピー
+[Whois]
+Whois
+[Concurrent &sessions]
+同時セッション (&s)
+;file \protocols\Gadu-Gadu\src\token.cpp
+[Token retrieval failed because of error:\n\t%s]
+エラーによりトークンの復旧に失敗しました :\n\t%s
+[Could not load token image.]
+トークン画像が読み込みできません
+;file \protocols\Gadu-Gadu\src\userutils.cpp
+[Cannot register new account because of error:\n\t%s]
+新規アカウントの登録が次のエラーのためできませんでした :\n\t%s
+[Registration rejected]
+登録が拒否されました
+[You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
+新規アカウントの登録が完了しました\n" メニュー -> 詳細情報の表示 / 変更..." で個人詳細情報を入力してください
+[Your account cannot be removed because of error:\n\t%s]
+アカウントは次のエラーのため削除できませんでした :\n\t%s
+[Bad number or password]
+番号もしくはパスワードが不正
+[Your account has been removed.]
+アカウントは削除されました
+[Your password cannot be changed because of error:\n\t%s]
+パスワードは次のエラーのため変更できませんでした :\n\t%s
+[Invalid data entered]
+入力データが正しくありません
+[Your password has been changed.]
+パスワードは変更されました
+[Your e-mail cannot be changed because of error:\n\t%s]
+電子メールは次のエラーのため変更できませんでした :\n\t%s
+[Bad old e-mail or password]
+旧電子メールもしくはパスワードが不正
+[Your e-mail has been changed.]
+電子メールは変更されました

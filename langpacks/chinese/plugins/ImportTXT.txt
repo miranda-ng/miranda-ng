@@ -1,0 +1,93 @@
+﻿#muuid {6f376b33-d3f4-4c4f-a96b-77da08043b06}
+;============================================================
+;  File: importtxt.dll
+;  Module: Imports history saved in TXT files from other clients
+;  Versions: 0.0.1.10
+;  URL: 
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/importtxt/
+;  Authors: Abyss
+;============================================================
+[Import history to ]
+导入历史记录至 
+[Import history]
+导入历史记录
+[Choose a file...]
+选择文件...
+[Choose a pattern...]
+选择模式...
+[Choose a file for import...]
+选择文件导入...
+[Text files (*.txt)]
+文本文件 (*.txt)
+[Error in cfg file: ]
+CFG 文件错误: 
+[No Files Patterns Found]
+文件模式未找到
+[No messages in this file]
+此文件中未找到记录
+[Import started...]
+导入已开始...
+[Added: %d messages]
+新增: %d 消息
+[Duplicates: %d messages]
+重复: %d 消息
+[In: %d:%d:%d]
+入: %d:%d:%d
+[Import not finished. Do you realy want close?]
+导入尚未完成. 您真的要关闭?
+[Error adding message to DB]
+新增消息至数据库错误
+[Error mapping file]
+映象文件错误
+[Error mapping]
+映象错误
+[Header not found]
+标题未找到
+[Import Text Files Wizard]
+导入文本文件向导
+[This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
+此向导将帮助您从某些客户端及 Miranda 插件导入存储于文本文件中的历史记录.
+[Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.]
+点击 ""下一步"" 选择您希望导入哪些信息, 或点击 ""取消"" 退出向导, 继续使用 Miranda.
+[Choose type of imported files:]
+选择导入文件类型:
+[Select files or the whole directory for import:]
+选择导入文件或整个目录:
+[Files...]
+文件...
+[Directory...]
+目录...
+[All previous chosen files will try to import to this protocol.]
+所有之前选择的文件将尝试导入此协议.
+[Select protocol or account:]
+选择协议或账号:
+[Click "Next" to start Import or "Cancel" to Abort.]
+点击 "下一步" 开始导入或点击 "取消" 中止.
+[Select folder for import...]
+选择目录导入...
+[File: %s]
+文件: %s
+[To: %s]
+至: %s
+[Can''t determine destination contact]
+目标联系人无法找到
+[Default extension]
+默认扩展
+[Its not %s file]
+它不是一个 %s 文件
+[Duplicate:]
+重复:
+[Your version of Miranda don't support XML parsing]
+您的 Miranda 版本不支持 XML 解析器
+[Check for duplicates]
+检查重复
+[Check messages for duplicates]
+检查重复信息
+[Show duplicates]
+显示重复
+[Error at initialization XML parser]
+初始化 XML 解析器时发生错误
+[Import history to %s (%s)]
+导入历史至 %s (%s)
+[Can't determine destination contact]
+不确定目标联系人
