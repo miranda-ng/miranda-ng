@@ -6,7 +6,7 @@
 ;  URL: http://code.google.com/p/tcounter/
 ;============================================================
 [Adding traffic and time counters.]
-Счётчик трафика.
+Счётчики трафика и времени.
 [Traffic Counter]
 Счётчик трафика
 [Show/Hide frame]
@@ -26,7 +26,7 @@
 [Draw frame as skin element]
 Отрисовывать фрейм как элемент скина
 ["Toggle traffic counter" in main menu]
-"Переключатель счётчика трафика" в главном меню
+"Переключить счётчик трафика" в главном меню
 [Visible protocols]
 Отображаемые протоколы
 [Show ICQ x-status icon]
@@ -164,7 +164,7 @@
 [Line height:]
 Высота строки:
 [Space between lines:]
-Расстояние между строками:
+Между строками:
 [Last clear date alignment:]
 Выравнивание даты последнего сброса:
 [Draw line above last clear date]
@@ -198,19 +198,19 @@
 [Traffic counter]
 Счётчик трафика
 [Visible accounts]
-Отображаемые аккаунты
+Отображаемые учетные записи
 [Summary traffic for active accounts]
-Суммарный трафик активных аккаунтов
+Суммарный трафик активных учетных записей
 [Summary traffic for visible accounts]
-Суммарный трафик для видимых аккаунтов
+Суммарный трафик для видимых учетных записей
 [Adaptive]
 Плавающий
 [Display traffic for current]
 Трафик за текущий
 [Account counters format string:]
-Формат строки счётчиков аккаунтов:
+Формат строки счётчиков учетных записей:
 [Active accounts]
-Активные аккаунты
+Активные учетные записи
 [Clear statistics]
 Очистить
 [Hourly]
@@ -228,7 +228,7 @@
 [%d kilobytes received]
 %d Кб получено
 [Counters format string:]
-Формат строки счётчиков
+Формат строки счётчиков:
 [Current traffic]
 Текущий трафик
 [Total traffic]
