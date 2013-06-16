@@ -818,8 +818,8 @@ void CIcqProto::CheekySearchThread( void* )
 	}
 	isr.uin = cheekySearchUin;
 
-	BroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)cheekySearchId, (LPARAM)&isr);
-	BroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)cheekySearchId, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)cheekySearchId, (LPARAM)&isr);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)cheekySearchId, 0);
 	cheekySearchId = -1;
 }
 
@@ -1942,7 +1942,7 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 				if (m_dwLocalUIN == 0)
 				{
 					SetCurrentStatus(ID_STATUS_OFFLINE);
-					BroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
+					ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 					icq_LogMessage(LOG_FATAL, LPGEN("You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again."));
 					return 0;
 				}
@@ -2029,7 +2029,7 @@ void __cdecl CIcqProto::GetAwayMsgThread( void *pStatusData )
 		setStatusMsgVar(pThreadData->hContact, pThreadData->szMessage, false);
 
 		TCHAR *tszMsg = mir_utf8decodeT(pThreadData->szMessage);
-		BroadcastAck(pThreadData->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, pThreadData->hProcess, (LPARAM)tszMsg);
+		ProtoBroadcastAck(pThreadData->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, pThreadData->hProcess, (LPARAM)tszMsg);
 		mir_free(tszMsg);
 
 		SAFE_FREE(&pThreadData->szMessage);
@@ -2140,12 +2140,12 @@ int __cdecl CIcqProto::RecvAwayMsg( HANDLE hContact, int statusMode, PROTORECVEV
 		setStatusMsgVar(hContact, evt->szMessage, false);
 
 		TCHAR* pszMsg = mir_utf8decodeT(evt->szMessage);
-		BroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)pszMsg);
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)pszMsg);
 		mir_free(pszMsg);
 	}
 	else {
 		setStatusMsgVar(hContact, evt->szMessage, true);
-		BroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)(TCHAR*)_A2T(evt->szMessage));
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)(TCHAR*)_A2T(evt->szMessage));
 	}
 	return 0;
 }

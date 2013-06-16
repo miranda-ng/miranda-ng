@@ -58,7 +58,7 @@ void CIcqProto::handleFileAck(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCookie,
 	if (wStatus != 0)
 	{
 		NetLog_Direct("File transfer denied by %u.", dwUin);
-		BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)ft, 0);
+		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)ft, 0);
 
 		FreeCookie(dwCookie);
 
@@ -102,7 +102,7 @@ void CIcqProto::handleFileAck(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCookie,
 
 	NetLog_Direct("File transfer ack from %u, port %u, name %s, size %u", dwUin, ft->dwRemotePort, pszFileName, dwFileSize);
 
-	BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)ft, 0);
+	ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)ft, 0);
 
 	OpenDirectConnection(ft->hContact, DIRECTCONN_FILE, ft);
 }
@@ -202,7 +202,7 @@ void CIcqProto::icq_CancelFileTransfer(HANDLE hContact, filetransfer* ft)
 	{ // Transfer still out there, end it
 		NetLib_CloseConnection(&ft->hConnection, FALSE);
 
-		BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 
 		if (!FindFileTransferDC(ft))
 		{ // Release orphan structure only

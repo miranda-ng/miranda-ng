@@ -1238,7 +1238,7 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 			if (hCookieContact != hContact)
 				NetLog_Server("Warning: Ack Contact does not match Cookie Contact(0x%x != 0x%x)", hContact, hCookieContact);
 
-			BroadcastAck(hContact, ACKTYPE_CONTACTS, ACKRESULT_SUCCESS, (HANDLE)dwCookie, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_CONTACTS, ACKRESULT_SUCCESS, (HANDLE)dwCookie, 0);
 
 			ReleaseCookie(dwCookie);
 		}
@@ -2011,7 +2011,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 		}
 		NetLog_Server("Received SMS Mobile message");
 
-		BroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_SUCCESS, NULL, (LPARAM)szMsg);
+		ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_SUCCESS, NULL, (LPARAM)szMsg);
 		break;
 
 	case MTYPE_STATUSMSGEXT:
@@ -2520,7 +2520,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 				{
 					filetransfer *ft = (filetransfer*)pReverse->ft;
 
-					BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+					ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 				}
 				NetLog_Server("Reverse Connect request failed");
 				// Set DC status to failed
@@ -2538,7 +2538,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 
 		if ((ackType == MTYPE_PLAIN && pCookieData && (pCookieData->nAckType == ACKTYPE_CLIENT)) || ackType != MTYPE_PLAIN)
 		{
-			BroadcastAck(hContact, ackType, ACKRESULT_SUCCESS, (HANDLE)(WORD)dwCookie, 0);
+			ProtoBroadcastAck(hContact, ackType, ACKRESULT_SUCCESS, (HANDLE)(WORD)dwCookie, 0);
 		}
 	}
 
@@ -2684,7 +2684,7 @@ void CIcqProto::handleRecvServMsgError(BYTE *buf, WORD wLen, WORD wFlags, DWORD 
 
 		if (nMessageType != -1)
 		{
-			BroadcastAck(hContact, nMessageType, ACKRESULT_FAILED, (HANDLE)(WORD)dwSequence, (LPARAM)pszErrorMessage);
+			ProtoBroadcastAck(hContact, nMessageType, ACKRESULT_FAILED, (HANDLE)(WORD)dwSequence, (LPARAM)pszErrorMessage);
 		}
 		else
 		{
@@ -2770,7 +2770,7 @@ void CIcqProto::handleServerAck(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwSeque
 					break;
 				}
 				if (ackType != -1)
-					BroadcastAck(hContact, ackType, ackRes, (HANDLE)(WORD)dwSequence, 0);
+					ProtoBroadcastAck(hContact, ackType, ackRes, (HANDLE)(WORD)dwSequence, 0);
 
 				if (pCookieData->bMessageType != MTYPE_FILEREQ)
 					SAFE_FREE((void**)&pCookieData); // this could be a bad idea, but I think it is safe

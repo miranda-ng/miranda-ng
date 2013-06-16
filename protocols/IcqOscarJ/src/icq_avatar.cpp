@@ -605,7 +605,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 				NetLog_Server("%s has removed Avatar.", strUID(dwUIN, szUID));
 
 				deleteSetting(hContact, "AvatarHash");
-				BroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+				ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 			}
 #ifdef _DEBUG
 			else
@@ -631,7 +631,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 					NetLog_Hash(this, "new", pAvatarHash, cbAvatarHash);
 #endif
 					setSettingBlob(hContact, "AvatarHash", pAvatarHash, cbAvatarHash);
-					BroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 				}
 				else
 				{ // the file was lost, request avatar again
@@ -734,7 +734,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 
 			setSettingBlob(hContact, "AvatarHash", pAvatarHash, cbAvatarHash);
 
-			BroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 
 			if (bAutoLoad)
 			{ // auto-load is on, so request the avatar now, otherwise we are done
@@ -756,7 +756,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 			NetLog_Server("%s has removed Avatar.", strUID(dwUIN, szUID));
 
 			deleteSetting(hContact, "AvatarHash");
-			BroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 		}
 #ifdef _DEBUG
 		else
@@ -1611,7 +1611,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 				{
 					NetLog_Server("Received invalid avatar reply.");
 
-					ppro->BroadcastAck(pCookieData->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, 0);
+					ppro->ProtoBroadcastAck(pCookieData->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, 0);
 
 					SAFE_FREE(&pCookieData->szFile);
 					SAFE_FREE((void**)&pCookieData->hash);
@@ -1698,7 +1698,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 								}
 							}
 
-							ppro->BroadcastAck(pCookieData->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
+							ppro->ProtoBroadcastAck(pCookieData->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
 						}
 					}
 					else
@@ -1726,14 +1726,14 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 									ppro->m_avatarsQueue = ar;
 							}
 						}
-						ppro->BroadcastAck(pCookieData->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, 0);
+						ppro->ProtoBroadcastAck(pCookieData->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, 0);
 					}
 				}
 				else
 				{ // the avatar is empty
 					NetLog_Server("Received empty avatar, nothing written (error 0x%x).", bResult);
 
-					ppro->BroadcastAck(pCookieData->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, 0);
+					ppro->ProtoBroadcastAck(pCookieData->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, 0);
 				}
 				SAFE_FREE(&pCookieData->szFile);
 				SAFE_FREE((void**)&pCookieData->hash);

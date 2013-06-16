@@ -608,7 +608,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 					}
 					else
 					{ // Just sanity
-						BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ft, 0);
+						ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ft, 0);
 						// Release transfer
 						SafeReleaseFileTransfer((void**)&ft);
 					}
@@ -683,7 +683,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 		{
 			NetLog_Server("OFT: File transfer cancelled by %s", strUID(dwUin, szUID));
 
-			BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ft, 0);
+			ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ft, 0);
 			// Notify user, that the FT was cancelled // TODO: new ACKRESULT_?
 			icq_LogMessage(LOG_ERROR, LPGEN("The file transfer was aborted by the other user."));
 			// Release transfer
@@ -747,7 +747,7 @@ void CIcqProto::handleRecvServResponseOFT(BYTE *buf, WORD wLen, DWORD dwUin, cha
 			{ // FT denied (icq5)
 				NetLog_Server("OFT: File transfer denied by %s", strUID(dwUin, szUID));
 
-				BroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)oft, 0);
+				ProtoBroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)oft, 0);
 				// Release transfer
 				SafeReleaseFileTransfer((void**)&oft);
 			}
@@ -757,7 +757,7 @@ void CIcqProto::handleRecvServResponseOFT(BYTE *buf, WORD wLen, DWORD dwUin, cha
 			{
 				icq_LogMessage(LOG_ERROR, LPGEN("The file transfer failed: Proxy error"));
 
-				BroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oft, 0);
+				ProtoBroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oft, 0);
 				// Release transfer
 				SafeReleaseFileTransfer((void**)&oft);
 			}
@@ -767,7 +767,7 @@ void CIcqProto::handleRecvServResponseOFT(BYTE *buf, WORD wLen, DWORD dwUin, cha
 			{
 				icq_LogMessage(LOG_ERROR, LPGEN("The file transfer failed: Invalid request"));
 
-				BroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oft, 0);
+				ProtoBroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oft, 0);
 				// Release transfer
 				SafeReleaseFileTransfer((void**)&oft);
 			}
@@ -777,7 +777,7 @@ void CIcqProto::handleRecvServResponseOFT(BYTE *buf, WORD wLen, DWORD dwUin, cha
 			{
 				icq_LogMessage(LOG_ERROR, LPGEN("The file transfer failed: Proxy unavailable"));
 
-				BroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oft, 0);
+				ProtoBroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oft, 0);
 				// Release transfer
 				SafeReleaseFileTransfer((void**)&oft);
 			}
@@ -787,7 +787,7 @@ void CIcqProto::handleRecvServResponseOFT(BYTE *buf, WORD wLen, DWORD dwUin, cha
 			{
 				NetLog_Server("OFT: Uknown request response code 0x%x", wStatus);
 
-				BroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oft, 0);
+				ProtoBroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oft, 0);
 				// Release transfer
 				SafeReleaseFileTransfer((void**)&oft);
 			}
@@ -887,7 +887,7 @@ HANDLE CIcqProto::oftInitTransfer(HANDLE hContact, DWORD dwUin, char* szUid, con
 	{ // found no valid files to send
 		icq_LogMessage(LOG_ERROR, LPGEN("Failed to Initialize File Transfer. No valid files were specified."));
 		// Notify UI
-		BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ft, 0);
+		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ft, 0);
 		// Release transfer
 		SafeReleaseFileTransfer((void**)&ft);
 
@@ -902,7 +902,7 @@ HANDLE CIcqProto::oftInitTransfer(HANDLE hContact, DWORD dwUin, char* szUid, con
 	{ // file larger than 4GB can be send only as single
 		icq_LogMessage(LOG_ERROR, LPGEN("The files are too big to be sent at once. Files bigger than 4GB can be sent only separately."));
 		// Notify UI
-		BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ft, 0);
+		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ft, 0);
 		// Release transfer
 		SafeReleaseFileTransfer((void**)&ft);
 
@@ -1076,7 +1076,7 @@ DWORD CIcqProto::oftFileCancel(HANDLE hContact, HANDLE hTransfer)
 
 		oft_sendFileCancel(dwUin, szUid, ft);
 
-		BroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 
 		// Release structure
 		SafeReleaseFileTransfer((void**)&ft);
@@ -1145,7 +1145,7 @@ void CIcqProto::oftFileResume(oscar_filetransfer *ft, int action, const TCHAR *s
 #endif
 		icq_LogMessage(LOG_ERROR, LPGEN("Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder."));
 
-		BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 		// Release transfer
 		SafeReleaseFileTransfer((void**)&oc->ft);
 		return;
@@ -1183,7 +1183,7 @@ void CIcqProto::oftFileResume(oscar_filetransfer *ft, int action, const TCHAR *s
 
 		sendOFT2FramePacket(oc, OFT_TYPE_READY);
 	}
-	BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
+	ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 
 	if (!ft->qwThisFileSize || action == FILERESUME_SKIP)
 	{ // if the file is empty we will not receive any data
@@ -1250,7 +1250,7 @@ int CIcqProto::CreateOscarProxyConnection(oscar_connection *oc)
 	NETLIBOPENCONNECTION nloc = {0};
 
 	// inform UI
-	BroadcastAck(oc->ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTPROXY, oc->ft, 0);
+	ProtoBroadcastAck(oc->ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTPROXY, oc->ft, 0);
 
 	nloc.szHost = OSCAR_PROXY_HOST;
 	nloc.wPort = getSettingWord(NULL, "OscarPort", m_bSecureConnection ? DEFAULT_SERVER_PORT_SSL : DEFAULT_SERVER_PORT);
@@ -1339,7 +1339,7 @@ void __cdecl CIcqProto::oft_connectionThread( oscarthreadstartinfo *otsi )
 				addr.S_un.S_addr = htonl(oc.ft->dwRemoteInternalIP);
 
 			// Inform UI that we will attempt to connect
-			BroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, oc.ft, 0);
+			ProtoBroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, oc.ft, 0);
 
 			if (!addr.S_un.S_addr && oc.type == OCT_NORMAL)
 			{ // IP to connect to is empty, request reverse
@@ -1349,7 +1349,7 @@ void __cdecl CIcqProto::oft_connectionThread( oscarthreadstartinfo *otsi )
 				{ // we got listening port, fine send request
 					oc.ft->listener = listener;
 					// notify UI
-					BroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_LISTENING, oc.ft, 0);
+					ProtoBroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_LISTENING, oc.ft, 0);
 
 					oft_sendFileRedirect(oc.dwUin, oc.szUid, oc.ft, oc.dwLocalInternalIP, listener->wPort, FALSE);
 					return;
@@ -1382,7 +1382,7 @@ void __cdecl CIcqProto::oft_connectionThread( oscarthreadstartinfo *otsi )
 						{ // we got listening port, fine send request
 							oc.ft->listener = listener;
 							// notify UI that we await connection
-							BroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_LISTENING, oc.ft, 0);
+							ProtoBroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_LISTENING, oc.ft, 0);
 
 							oft_sendFileRedirect(oc.dwUin, oc.szUid, oc.ft, oc.dwLocalInternalIP, listener->wPort, FALSE);
 							return;
@@ -1403,7 +1403,7 @@ void __cdecl CIcqProto::oft_connectionThread( oscarthreadstartinfo *otsi )
 					// acknowledge OFT - connection is ready
 					oft_sendFileAccept(oc.dwUin, oc.szUid, oc.ft);
 					// signal UI
-					BroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, oc.ft, 0);
+					ProtoBroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, oc.ft, 0);
 				}
 			}
 			else
@@ -1424,7 +1424,7 @@ void __cdecl CIcqProto::oft_connectionThread( oscarthreadstartinfo *otsi )
 				IN_ADDR addr = {0};
 
 				// inform UI that we will connect to file proxy
-				BroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTPROXY, oc.ft, 0);
+				ProtoBroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTPROXY, oc.ft, 0);
 
 				addr.S_un.S_addr = htonl(oc.ft->dwProxyIP);
 				nloc.szHost = inet_ntoa(addr);
@@ -1436,7 +1436,7 @@ void __cdecl CIcqProto::oft_connectionThread( oscarthreadstartinfo *otsi )
 				oc.hConnection = NetLib_OpenConnection(m_hServerNetlibUser, "Proxy ", &nloc);
 				if (!oc.hConnection)
 				{ // proxy connection failed, we are out of possibilities
-					BroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc.ft, 0);
+					ProtoBroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc.ft, 0);
 					// notify the other side, that we failed
 					oft_sendFileResponse(oc.dwUin, oc.szUid, oc.ft, 0x04);
 					// Release structure
@@ -1454,7 +1454,7 @@ void __cdecl CIcqProto::oft_connectionThread( oscarthreadstartinfo *otsi )
 				{
 					oft_sendFileResponse(oc.dwUin, oc.szUid, oc.ft, 0x06);
 					// notify UI
-					BroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc.ft, 0);
+					ProtoBroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc.ft, 0);
 					// Release structure
 					SafeReleaseFileTransfer((void**)&oc.ft);
 					return;
@@ -1465,7 +1465,7 @@ void __cdecl CIcqProto::oft_connectionThread( oscarthreadstartinfo *otsi )
 		{ // stage 4
 			if (!CreateOscarProxyConnection(&oc))
 			{ // proxy connection failed, we are out of possibilities
-				BroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc.ft, 0);
+				ProtoBroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc.ft, 0);
 				// notify the other side, that we failed
 				oft_sendFileResponse(oc.dwUin, oc.szUid, oc.ft, 0x06);
 				// Release structure
@@ -1493,7 +1493,7 @@ void __cdecl CIcqProto::oft_connectionThread( oscarthreadstartinfo *otsi )
 	}
 	if (oc.status != OCS_PROXY)
 	{ // Connected, notify FT UI
-		BroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, oc.ft, 0);
+		ProtoBroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, oc.ft, 0);
 
 		// send init OFT frame - just for different order of packets (just like Trillian)
 		if (oc.status == OCS_CONNECTED && (oc.ft->flags & OFTF_SENDING) && ((oc.ft->flags & OFTF_INITIALIZED) || oc.type == OCT_REVERSE) && !(oc.ft->flags & OFTF_FILE_REQUEST_SENT))
@@ -1567,7 +1567,7 @@ void __cdecl CIcqProto::oft_connectionThread( oscarthreadstartinfo *otsi )
 	{
 		if (oc.status == OCS_DATA)
 		{
-			BroadcastAck(oc.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc.ft, 0);
+			ProtoBroadcastAck(oc.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc.ft, 0);
 
 			icq_LogMessage(LOG_ERROR, LPGEN("Connection lost during file transfer."));
 			// Release structure
@@ -1575,7 +1575,7 @@ void __cdecl CIcqProto::oft_connectionThread( oscarthreadstartinfo *otsi )
 		}
 		else if (oc.status == OCS_NEGOTIATION)
 		{
-			BroadcastAck(oc.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc.ft, 0);
+			ProtoBroadcastAck(oc.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc.ft, 0);
 
 			icq_LogMessage(LOG_ERROR, LPGEN("File transfer negotiation failed for unknown reason."));
 			// Release structure
@@ -1717,7 +1717,7 @@ int CIcqProto::oft_handleProxyData(oscar_connection *oc, BYTE *buf, int len)
 
 				NetLog_Server("Proxy Error: %s (0x%x)", szError, wError);
 				// Notify UI
-				BroadcastAck(oc->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc->ft, 0);
+				ProtoBroadcastAck(oc->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc->ft, 0);
 				// Release structure
 				SafeReleaseFileTransfer((void**)&oc->ft);
 			}
@@ -1739,7 +1739,7 @@ int CIcqProto::oft_handleProxyData(oscar_connection *oc, BYTE *buf, int len)
 					oft_sendFileRequest(oc->dwUin, oc->szUid, ft, ft->szThisFile, 0);
 					SAFE_FREE(&ft->szThisFile);
 					// Notify UI
-					BroadcastAck(oc->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, oc->ft, 0);
+					ProtoBroadcastAck(oc->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, oc->ft, 0);
 				}
 				else
 				{
@@ -1752,7 +1752,7 @@ int CIcqProto::oft_handleProxyData(oscar_connection *oc, BYTE *buf, int len)
 		case 0x05: // Connection ready
 			oc->status = OCS_CONNECTED; // connection ready to send packets
 			// Notify UI
-			BroadcastAck(oc->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, oc->ft, 0);
+			ProtoBroadcastAck(oc->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, oc->ft, 0);
 			// signal we are ready
 			if (oc->type == OCT_PROXY_RECV)
 			{
@@ -1814,7 +1814,7 @@ int CIcqProto::oft_handleFileData(oscar_connection *oc, BYTE *buf, int len)
 		PROTOFILETRANSFERSTATUS pfts;
 
 		oft_buildProtoFileTransferStatus(ft, &pfts);
-		BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&pfts);
+		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&pfts);
 		ft->dwLastNotify = GetTickCount();
 	}
 	if (ft->qwFileBytesDone == ft->qwThisFileSize)
@@ -1853,7 +1853,7 @@ int CIcqProto::oft_handleFileData(oscar_connection *oc, BYTE *buf, int len)
 			sendOFT2FramePacket(oc, OFT_TYPE_DONE);
 			oc->type = OCT_CLOSING;
 			NetLog_Direct("File Transfer completed successfully.");
-			BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
+			ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
 			// Release transfer
 			SafeReleaseFileTransfer((void**)&ft);
 		}
@@ -2048,7 +2048,7 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 				PROTOFILETRANSFERSTATUS pfts;
 
 				oft_buildProtoFileTransferStatus(ft, &pfts);
-				if (BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, ft, (LPARAM)&pfts))
+				if (ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, ft, (LPARAM)&pfts))
 				{
 					oc->status = OCS_WAITING;
 					break; /* UI supports resume: it will call PS_FILERESUME */
@@ -2065,7 +2065,7 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 #endif
 					icq_LogMessage(LOG_ERROR, LPGEN("Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder."));
 
-					BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+					ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 					// Release transfer
 					SafeReleaseFileTransfer((void**)&oc->ft);
 					return;
@@ -2076,7 +2076,7 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 			ft->flags |= OFTF_FILE_RECEIVING;
 
 			sendOFT2FramePacket(oc, OFT_TYPE_READY);
-			BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
+			ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 			if (!ft->qwThisFileSize)
 			{ // if the file is empty we will not receive any data
 				BYTE buf;
@@ -2163,7 +2163,7 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 			// Prepare to receive data
 			oc->status = OCS_DATA;
 
-			BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
+			ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 
 			// Ready for receive
 			sendOFT2FramePacket(oc, OFT_TYPE_RESUMEACK);
@@ -2298,7 +2298,7 @@ void CIcqProto::oft_sendFileData(oscar_connection *oc)
 		PROTOFILETRANSFERSTATUS pfts;
 
 		oft_buildProtoFileTransferStatus(ft, &pfts);
-		BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&pfts);
+		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&pfts);
 		ft->dwLastNotify = GetTickCount();
 	}
 }
@@ -2314,7 +2314,7 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 	// prepare init frame
 	if (ft->iCurrentFile >= (int)ft->wFilesCount)
 	{ // All files done, great!
-		BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
+		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
 		// Release transfer
 		SafeReleaseFileTransfer((void**)&oc->ft);
 		return;
@@ -2326,7 +2326,7 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 	{
 		icq_LogMessage(LOG_ERROR, LPGEN("Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it."));
 
-		BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 		// Release transfer
 		SafeReleaseFileTransfer((void**)&oc->ft);
 		return;
@@ -2347,7 +2347,7 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 				pszThisFileName[i] = 0x01;
 	}
 
-	BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
+	ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 
 	ft->fileId = OpenFileUtf(ft->szThisFile, _O_BINARY | _O_RDONLY, 0);
 #ifdef _DEBUG
@@ -2361,7 +2361,7 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 		SAFE_FREE((void**)&pszThisFileName);
 		icq_LogMessage(LOG_ERROR, LPGEN("Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it."));
 		//
-		BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 		// Release transfer
 		SafeReleaseFileTransfer((void**)&oc->ft);
 		return;

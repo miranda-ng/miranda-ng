@@ -758,7 +758,7 @@ void CIcqProto::parseStatusNote(DWORD dwUin, char *szUid, HANDLE hContact, oscar
 				setStatusMsgVar(hContact, szStatusNote, false);
 
 				TCHAR* tszNote = mir_utf8decodeT(szStatusNote);
-				BroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)tszNote);
+				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)tszNote);
 				mir_free(tszNote);
 			}
 		}

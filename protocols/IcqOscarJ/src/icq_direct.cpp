@@ -347,7 +347,7 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 			NetLog_Direct("connect() failed (%d)", GetLastError());
 			if (dc.type == DIRECTCONN_FILE)
 			{
-				BroadcastAck(dc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, dc.ft, 0);
+				ProtoBroadcastAck(dc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, dc.ft, 0);
 				// Release transfer
 				SafeReleaseFileTransfer((void**)&dc.ft);
 			}
@@ -490,10 +490,10 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 		if (dc.ft->fileId != -1)
 		{
 			_close(dc.ft->fileId);
-			BroadcastAck(dc.ft->hContact, ACKTYPE_FILE, dc.ft->dwBytesDone==dc.ft->dwTotalSize ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, dc.ft, 0);
+			ProtoBroadcastAck(dc.ft->hContact, ACKTYPE_FILE, dc.ft->dwBytesDone==dc.ft->dwTotalSize ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, dc.ft, 0);
 		}
 		else if (dc.ft->hConnection)
-			BroadcastAck(dc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, dc.ft, 0);
+			ProtoBroadcastAck(dc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, dc.ft, 0);
 
 		SafeReleaseFileTransfer((void**)&dc.ft);
 		_chdir("\\");    /* so we don't leave a subdir handle open so it can't be deleted */

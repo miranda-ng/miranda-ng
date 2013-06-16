@@ -1067,7 +1067,7 @@ void __cdecl CIcqProto::ProtocolAckThread(icq_ack_args* pArguments)
 	else if (pArguments->nAckResult == ACKRESULT_FAILED)
 		NetLog_Server("Message delivery failed");
 
-	BroadcastAck(pArguments->hContact, pArguments->nAckType, pArguments->nAckResult, pArguments->hSequence, pArguments->pszMessage);
+	ProtoBroadcastAck(pArguments->hContact, pArguments->nAckType, pArguments->nAckResult, pArguments->hSequence, pArguments->pszMessage);
 
 	SAFE_FREE((void**)(char **)&pArguments->pszMessage);
 	SAFE_FREE((void**)&pArguments);
@@ -1090,7 +1090,7 @@ void CIcqProto::SetCurrentStatus(int nStatus)
 	int nOldStatus = m_iStatus;
 
 	m_iStatus = nStatus;
-	BroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)nOldStatus, nStatus);
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)nOldStatus, nStatus);
 }
 
 
@@ -1792,20 +1792,6 @@ int CIcqProto::NetLog_Uni(BOOL bDC, const char *fmt,...)
 		hNetlib = m_hServerNetlibUser;
 
 	return CallService(MS_NETLIB_LOG,(WPARAM)hNetlib,(LPARAM)szText);
-}
-
-int CIcqProto::BroadcastAck(HANDLE hContact,int type,int result,HANDLE hProcess,LPARAM lParam)
-{
-	ACKDATA ack={0};
-
-	ack.cbSize = sizeof(ACKDATA);
-	ack.szModule = m_szModuleName;
-	ack.hContact = hContact;
-	ack.type = type;
-	ack.result = result;
-	ack.hProcess = hProcess;
-	ack.lParam = lParam;
-	return CallService(MS_PROTO_BROADCASTACK,0,(LPARAM)&ack);
 }
 
 char* __fastcall ICQTranslateUtf(const char *src)

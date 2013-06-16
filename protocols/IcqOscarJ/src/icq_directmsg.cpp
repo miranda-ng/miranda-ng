@@ -207,7 +207,7 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, WORD wLen)
 				}
 				if (ackType != -1)
 				{ // was a good ack to broadcast ?
-					BroadcastAck(dc->hContact, ackType, ACKRESULT_SUCCESS, (HANDLE)wCookie, 0);
+					ProtoBroadcastAck(dc->hContact, ackType, ACKRESULT_SUCCESS, (HANDLE)wCookie, 0);
 					ReleaseCookie(wCookie);
 				}
 			}
@@ -350,7 +350,7 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, WORD w
 
 			if (ackType != -1)
 			{ // was a good ack to broadcast ?
-				BroadcastAck(dc->hContact, ackType, ACKRESULT_SUCCESS, (HANDLE)wCookie, 0);
+				ProtoBroadcastAck(dc->hContact, ackType, ACKRESULT_SUCCESS, (HANDLE)wCookie, 0);
 			}
 			// Release cookie
 			ReleaseCookie(wCookie);

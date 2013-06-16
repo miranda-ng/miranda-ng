@@ -95,7 +95,7 @@ static void file_sendNextFile(CIcqProto* ppro, directconnect* dc)
 
 	if (dc->ft->iCurrentFile >= (int)dc->ft->dwFileCount)
 	{
-		ppro->BroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, dc->ft, 0);
+		ppro->ProtoBroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, dc->ft, 0);
 		ppro->CloseDirectConnection(dc);
 		dc->ft->hConnection = NULL;
 		return;
@@ -155,7 +155,7 @@ static void file_sendNextFile(CIcqProto* ppro, directconnect* dc)
 	SAFE_FREE(&szThisSubDirAnsi);
 	ppro->sendDirectPacket(dc, &packet);
 
-	ppro->BroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, dc->ft, 0);
+	ppro->ProtoBroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, dc->ft, 0);
 }
 
 
@@ -202,7 +202,7 @@ static void file_sendData(CIcqProto* ppro, directconnect* dc)
 		PROTOFILETRANSFERSTATUS pfts;
 
 		file_buildProtoFileTransferStatus(dc->ft, &pfts);
-		ppro->BroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, dc->ft, (LPARAM)&pfts);
+		ppro->ProtoBroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, dc->ft, (LPARAM)&pfts);
 
 		dc->ft->dwLastNotify = GetTickCount();
 	}
@@ -275,7 +275,7 @@ void CIcqProto::icq_sendFileResume(filetransfer *ft, int action, const char *szF
 
 	file_sendResume(this, dc);
 
-	BroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
+	ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 }
 
 
@@ -346,7 +346,7 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, WORD wLen
 			file_sendTransferSpeed(this, dc);
 			file_sendNick(this, dc);
 		}
-		BroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, dc->ft, 0);
+		ProtoBroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, dc->ft, 0);
 		break;
 
 	case PEER_FILE_INIT_ACK:
@@ -424,7 +424,7 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, WORD wLen
 				PROTOFILETRANSFERSTATUS pfts = {0};
 
 				file_buildProtoFileTransferStatus(dc->ft, &pfts);
-				if (BroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, dc->ft, (LPARAM)&pfts))
+				if (ProtoBroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, dc->ft, (LPARAM)&pfts))
 					break;   /* UI supports resume: it will call PS_FILERESUME */
 
 				dc->ft->fileId = OpenFileUtf(dc->ft->szThisFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
@@ -438,7 +438,7 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, WORD wLen
 			}
 		}
 		file_sendResume(this, dc);
-		BroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, dc->ft, 0);
+		ProtoBroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, dc->ft, 0);
 		break;
 
 	case PEER_FILE_RESUME:
@@ -491,7 +491,7 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, WORD wLen
 			PROTOFILETRANSFERSTATUS pfts;
 
 			file_buildProtoFileTransferStatus(dc->ft, &pfts);
-			BroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, dc->ft, (LPARAM)&pfts);
+			ProtoBroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, dc->ft, (LPARAM)&pfts);
 			dc->ft->dwLastNotify = GetTickCount();
 		}
 		if (wLen < 2048)
@@ -503,7 +503,7 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, WORD wLen
 			if ((DWORD)dc->ft->iCurrentFile == dc->ft->dwFileCount - 1)
 			{
 				dc->type = DIRECTCONN_CLOSING;     /* this guarantees that we won't accept any more data but that the sender is still free to closesocket() neatly */
-				BroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, dc->ft, 0);
+				ProtoBroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, dc->ft, 0);
 			}
 		}
 		break;

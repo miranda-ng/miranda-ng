@@ -219,7 +219,7 @@ void CIcqProto::handleSignonError(WORD wError)
 	case 0x05: // Mismatch uin or password
 	case 0x06: // Internal Client error (bad input to authorizer)
 	case 0x07: // Invalid account
-		BroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 		ZeroMemory(m_szPassword, sizeof(m_szPassword));
 		icq_LogFatalParam(LPGEN("Connection failed.\nYour ICQ number or password was rejected (%d)."), wError);
 		break;
@@ -231,7 +231,7 @@ void CIcqProto::handleSignonError(WORD wError)
 	case 0x14: // Reservation map error
 	case 0x15: // Reservation link error
 	case 0x1A: // Reservation timeout
-		BroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
 		icq_LogFatalParam(LPGEN("Connection failed.\nThe server is temporarily unavailable (%d)."), wError);
 		break;
 
@@ -242,12 +242,12 @@ void CIcqProto::handleSignonError(WORD wError)
 
 	case 0x18: // Reservation rate limit exceeded
 	case 0x1D: // Rate limit exceeded
-		BroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
 		icq_LogFatalParam(LPGEN("Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d)."), wError);
 		break;
 
 	case 0x1B: // You are using an older version of ICQ. Upgrade required
-		BroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPROTOCOL);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPROTOCOL);
 		icq_LogMessage(LOG_FATAL, LPGEN("Connection failed.\nThe server did not accept this client version."));
 		break;
 
@@ -302,7 +302,7 @@ void CIcqProto::handleRuntimeError(WORD wError)
 
 	case 0x01:
 		{
-			BroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
 			icq_LogMessage(LOG_FATAL, LPGEN("You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number."));
 			break;
 		}

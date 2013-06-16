@@ -892,7 +892,6 @@ struct CIcqProto : public PROTO_INTERFACE
 	int    StringToListItemId(const char *szSetting,int def);
 
 	//----| utilities.cpp |---------------------------------------------------------------
-	int    BroadcastAck(HANDLE hContact,int type,int result,HANDLE hProcess,LPARAM lParam);
 	char*  ConvertMsgToUserSpecificAnsi(HANDLE hContact, const char* szMsg);
 
 	char*  GetUserStoredPassword(char *szBuffer, int cbSize);

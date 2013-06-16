@@ -203,7 +203,7 @@ void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, HANDLE hContact, WORD wCo
 		NetLog_Server("Response: %s", szRes);
 #endif
 
-		BroadcastAck(hContact, ICQACKTYPE_XTRAZNOTIFY_RESPONSE, ACKRESULT_SUCCESS, (HANDLE)wCookie, (LPARAM)szRes);
+		ProtoBroadcastAck(hContact, ICQACKTYPE_XTRAZNOTIFY_RESPONSE, ACKRESULT_SUCCESS, (HANDLE)wCookie, (LPARAM)szRes);
 
 NextVal:
 		szNode = strstrnull(szRes, "<val srv_id=");
@@ -265,7 +265,7 @@ NextVal:
 					setSettingStringUtf(hContact, DBSETTING_XSTATUS_MSG, szXMsg);
 					SAFE_FREE(&szXMsg);
 				}
-				BroadcastAck(hContact, ICQACKTYPE_XSTATUS_RESPONSE, ACKRESULT_SUCCESS, (HANDLE)wCookie, 0);
+				ProtoBroadcastAck(hContact, ICQACKTYPE_XSTATUS_RESPONSE, ACKRESULT_SUCCESS, (HANDLE)wCookie, 0);
 			}
 			else
 			{

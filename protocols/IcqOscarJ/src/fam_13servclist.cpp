@@ -749,7 +749,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 		}
 	case SSA_SERVLIST_ACK:
 		{
-			BroadcastAck(sc->hContact, ICQACKTYPE_SERVERCLIST, wError?ACKRESULT_FAILED:ACKRESULT_SUCCESS, (HANDLE)sc->lParam, wError);
+			ProtoBroadcastAck(sc->hContact, ICQACKTYPE_SERVERCLIST, wError?ACKRESULT_FAILED:ACKRESULT_SUCCESS, (HANDLE)sc->lParam, wError);
 			break;
 		}
 	case SSA_IMPORT:

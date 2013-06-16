@@ -337,7 +337,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 
 			if (wStatus == 2 || wStatus == 3)
 			{ // this is only the simplest solution, needs rate management to every section
-				BroadcastAck(NULL, ICQACKTYPE_RATEWARNING, ACKRESULT_STATUS, (HANDLE)wClass, wStatus);
+				ProtoBroadcastAck(NULL, ICQACKTYPE_RATEWARNING, ACKRESULT_STATUS, (HANDLE)wClass, wStatus);
 				if (wStatus == 2)
 					NetLog_Server("Rates #%u: Alert", wClass);
 				else
@@ -345,7 +345,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 			}
 			else if (wStatus == 4)
 			{
-				BroadcastAck(NULL, ICQACKTYPE_RATEWARNING, ACKRESULT_STATUS, (HANDLE)wClass, wStatus);
+				ProtoBroadcastAck(NULL, ICQACKTYPE_RATEWARNING, ACKRESULT_STATUS, (HANDLE)wClass, wStatus);
 				NetLog_Server("Rates #%u: Clear", wClass);
 			}
 		}
