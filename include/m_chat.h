@@ -511,6 +511,8 @@ typedef struct {
 
 #define GCEF_ADDTOLOG       0x0001
 #define GCEF_REMOVECONTACT  0x0002
+// Added in Miranda NG 0.94.4+
+#define GCEF_NOTNOTIFY      0x0004
 
 // OK! That was about everything that you need to know about for operating Chat in a basic way.
 // There are however some more things you will need to know about. Some you may use and some you may not need,

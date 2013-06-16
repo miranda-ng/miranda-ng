@@ -317,19 +317,6 @@ void CJabberProto::GroupchatJoinRoom(const TCHAR *server, const TCHAR *room, con
 	if (info.password && info.password[0])
 		x << XCHILD(_T("password"), info.password);
 
-	if (m_options.GcLogChatHistory) {
-		char setting[JABBER_MAX_JID_LEN + 14 + 1];
-		mir_snprintf(setting, SIZEOF(setting), "muc_%s@%s_lastevent", _T2A(room), _T2A(server));
-		time_t lasteventtime = this->JGetDword(NULL, setting, 0);
-		if (lasteventtime > 0) {
-			_tzset();
-			lasteventtime += _timezone + 1;
-
-			TCHAR lasteventdate[20 + 1];
-			x << XCHILD(_T("history")) << XATTR(_T("since"), time2str(lasteventtime, lasteventdate, SIZEOF(lasteventdate)));
-		}
-	}
-
 	SendPresenceTo(status, text, x);
 }
 
@@ -1243,15 +1230,10 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 			msgTime = JabberIsoToUnixTime(p);
 	}
 
+	bool isHistory = msgTime != 0;
 	time_t now = time(NULL);
 	if (!msgTime || msgTime > now)
 		msgTime = now;
-
-	if (m_options.GcLogChatHistory) {
-		char setting[JABBER_MAX_JID_LEN + 14 + 1];
-		mir_snprintf(setting, sizeof(setting), "muc_%s_lastevent", _T2A(gcd.ptszID));
-		this->JSetDword(NULL, setting, msgTime + _timezone);
-	}
 
 	if (resource != NULL) {
 		JABBER_RESOURCE_STATUS* r = GcFindResource(item, resource);
@@ -1268,8 +1250,14 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	gce.time = msgTime;
 	gce.ptszText = EscapeChatTags((TCHAR*)msgText);
 	gce.bIsMe = nick == NULL ? FALSE : (lstrcmp(resource, item->nick) == 0);
-	gce.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
+	gce.dwFlags = GC_TCHAR;
 	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+
+	if (!isHistory)
+		gce.dwFlags |= GCEF_ADDTOLOG;
+
+	if (m_options.GcLogChatHistory && isHistory)
+		gce.dwFlags |= GCEF_NOTNOTIFY;
 
 	item->bChatActive = 2;
 

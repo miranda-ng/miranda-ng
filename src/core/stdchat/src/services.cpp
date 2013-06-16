@@ -700,7 +700,8 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 				g_TabSession.pLogEnd = si->pLogEnd;
 				SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
 			}
-			DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
+			if (!gce->dwFlags & GCEF_NOTNOTIFY)
+				DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
 			if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings.LoggingEnabled)
 				LogToFile(si, gce);
 		}
