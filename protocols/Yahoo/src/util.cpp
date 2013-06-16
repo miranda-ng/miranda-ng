@@ -153,18 +153,6 @@ DWORD CYahooProto::Set_Protocol( HANDLE hContact, int protocol )
 	return 0;
 }
 
-int CYahooProto::SendBroadcast( HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam )
-{
-	ACKDATA ack = { sizeof( ACKDATA ) };
-	ack.szModule = m_szModuleName; 
-	ack.hContact = hContact;
-	ack.type = type; 
-	ack.result = result;
-	ack.hProcess = hProcess; 
-	ack.lParam = lParam;
-	return CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
-}
-
 int CYahooProto::GetString(const char* name, DBVARIANT* result)
 {	return db_get_s(NULL, m_szModuleName, name, result);
 }

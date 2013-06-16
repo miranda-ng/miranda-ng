@@ -50,7 +50,7 @@ void CJabberProto::FtCancel(filetransfer *ft)
 		if (item->ft == ft) {
 			Log("Canceling file receiving session while in si negotiation");
 			ListRemoveByIndex(i);
-			JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 			delete ft;
 			return;
 		}
@@ -87,7 +87,7 @@ void CJabberProto::FtInitiate(TCHAR* jid, filetransfer *ft)
 
 	if (jid==NULL || ft==NULL || !m_bJabberOnline || (rs=ListGetBestClientResourceNamePtr(jid))==NULL) {
 		if (ft) {
-			JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 			delete ft;
 		}
 		return;
@@ -171,7 +171,7 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo* pInfo)
 	}	}	}	}	}	}	}
 	else {
 		Log("File transfer stream initiation request denied or failed");
-		JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, pInfo->GetIqType() == JABBER_IQ_TYPE_ERROR ? ACKRESULT_DENIED : ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, pInfo->GetIqType() == JABBER_IQ_TYPE_ERROR ? ACKRESULT_DENIED : ACKRESULT_FAILED, ft, 0);
 		delete ft;
 	}
 }
@@ -203,7 +203,7 @@ BOOL CJabberProto::FtSend(HANDLE hConn, filetransfer *ft)
 			}
 			ft->std.currentFileProgress += numRead;
 			ft->std.totalProgress += numRead;
-			JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 		}
 		mir_free(buffer);
 	}
@@ -264,7 +264,7 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 
 			ft->std.currentFileProgress += numRead;
 			ft->std.totalProgress += numRead;
-			JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 		}
 		mir_free(buffer);
 	}
@@ -276,18 +276,18 @@ void CJabberProto::FtSendFinal(BOOL success, filetransfer *ft)
 {
 	if ( !success) {
 		Log("File transfer complete with error");
-		JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ft->state == FT_DENIED ? ACKRESULT_DENIED : ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ft->state == FT_DENIED ? ACKRESULT_DENIED : ACKRESULT_FAILED, ft, 0);
 	}
 	else {
 		if (ft->std.currentFileNumber < ft->std.totalFiles-1) {
 			ft->std.currentFileNumber++;
 			replaceStrT(ft->std.tszCurrentFile, ft->std.ptszFiles[ ft->std.currentFileNumber ]);
-			JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 			FtInitiate(ft->jid, ft);
 			return;
 		}
 
-		JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
 	}
 
 	delete ft;
@@ -532,7 +532,7 @@ int CJabberProto::FtReceive(HANDLE, filetransfer *ft, char* buffer, int datalen)
 
 		ft->std.currentFileProgress += writeSize;
 		ft->std.totalProgress += writeSize;
-		JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 		return (ft->std.currentFileSize == ft->std.currentFileProgress) ? 0 : writeSize;
 	}
 

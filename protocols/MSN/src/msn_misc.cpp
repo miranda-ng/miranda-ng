@@ -474,7 +474,7 @@ void CMsnProto::MSN_GoOffline(void)
 
 	if (!Miranda_Terminated()) {
 		int msnOldStatus = m_iStatus; m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-		SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)msnOldStatus, ID_STATUS_OFFLINE);
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)msnOldStatus, ID_STATUS_OFFLINE);
 		isIdle = false;
 
 		int count = -1;
@@ -1090,7 +1090,7 @@ filetransfer::~filetransfer(void)
 	{
 		std.ptszFiles = NULL;
 		std.totalFiles = 0;
-		proto->SendBroadcast(std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, this, 0);
+		proto->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, this, 0);
 	}
 
 	mir_free(p2p_branch);
@@ -1121,7 +1121,7 @@ void filetransfer::complete(void)
 	close();
 
 	bCompleted = true;
-	proto->SendBroadcast(std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, this, 0);
+	proto->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, this, 0);
 }
 
 int filetransfer::create(void)

@@ -279,7 +279,7 @@ LBL_Exit:
 			}
 
 			if (info->s == NULL)
-				SendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
+				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
 			else
 			{
 				p2p_cancelAllSessions();

@@ -319,7 +319,7 @@ static void dl_file(int id, int fd, int error,	const char *filename, unsigned lo
 		
 		ResetEvent(sf->hWaitEvent);
 		
-		if ( sf->ppro->SendBroadcast( sf->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, sf, (LPARAM)&sf->pfts )) {
+		if ( sf->ppro->ProtoBroadcastAck( sf->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, sf, (LPARAM)&sf->pfts )) {
 			WaitForSingleObject( sf->hWaitEvent, INFINITE );
 			
 			LOG(("[dl_file] Got action: %ld", sf->action));

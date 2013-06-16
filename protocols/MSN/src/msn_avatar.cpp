@@ -37,7 +37,7 @@ void CMsnProto::AvatarQueue_Uninit()
 
 void CMsnProto::pushAvatarRequest(HANDLE hContact, LPCSTR pszUrl)
 {
-	SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 
 	if (pszUrl != NULL && *pszUrl != 0) {
 		mir_cslock lck(csAvatarQueue);
@@ -92,7 +92,7 @@ LBL_Error:
 	_write(fileId, nlhrReply->pData, (unsigned)nlhrReply->dataLength);
 	_close(fileId);
 
-	SendBroadcast(p->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
+	ProtoBroadcastAck(p->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	return true;
 }
@@ -119,7 +119,7 @@ void __cdecl CMsnProto::MSN_AvatarsThread(void*)
 			continue;
 
 		if ( !loadHttpAvatar(p))
-			SendBroadcast(p->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, 0, 0);
+			ProtoBroadcastAck(p->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, 0, 0);
 		delete p;
 	}
 }

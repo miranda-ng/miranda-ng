@@ -1801,10 +1801,10 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 							fwrite(res->pData, res->dataLength, 1, out);
 							fclose(out);
 							JSetString(AI.hContact, "AvatarSaved", buffer);
-							JSendBroadcast(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
+							ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
 							Log("Broadcast new avatar: %s",AI.filename);
 						}
-						else JSendBroadcast(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
+						else ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
 					}
 				}
 			}

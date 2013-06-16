@@ -267,7 +267,7 @@ void CJabberProto::OnIqResultGetAuth(HXML iqNode)
 		TCHAR text[128];
 		mir_sntprintf(text, SIZEOF(text), _T("%s %s."), TranslateT("Authentication failed for"), m_ThreadInfo->username);
 		MsgPopup(NULL, text, TranslateT("Jabber Authentication"));
-		JSendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		m_ThreadInfo = NULL;	// To disallow auto reconnect
 }	}
 
@@ -296,7 +296,7 @@ void CJabberProto::OnIqResultSetAuth(HXML iqNode)
 		m_ThreadInfo->send("</stream:stream>");
 		mir_sntprintf(text, SIZEOF(text), _T("%s %s."), TranslateT("Authentication failed for"), m_ThreadInfo->username);
 		MsgPopup(NULL, text, TranslateT("Jabber Authentication"));
-		JSendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		m_ThreadInfo = NULL;	// To disallow auto reconnect
 }	}
 
@@ -745,13 +745,13 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 				jsr.hdr.email = sttGetText(vCardNode, "EMAIL");
 				_tcsncpy(jsr.jid, jid, SIZEOF(jsr.jid));
 				jsr.jid[ SIZEOF(jsr.jid)-1 ] = '\0';
-				JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&jsr);
-				JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&jsr);
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 			}
 			else if ( !lstrcmp(type, _T("error")))
-				JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 		}
-		else JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		else ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 		return;
 	}
 
@@ -1187,13 +1187,13 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 		}
 		else {
 			if ((hContact = HContactFromJID(jid)) != NULL)
-				JSendBroadcast(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+				ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 			WindowNotify(WM_JABBER_REFRESH_VCARD);
 		}
 	}
 	else if ( !lstrcmp(type, _T("error"))) {
 		if ((hContact = HContactFromJID(jid)) != NULL)
-			JSendBroadcast(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)1, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)1, 0);
 	}
 }
 
@@ -1248,13 +1248,13 @@ void CJabberProto::OnIqResultSetSearch(HXML iqNode)
 					else
 						jsr.hdr.email = _T("");
 					jsr.hdr.flags = PSR_TCHAR;
-					JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&jsr);
+					ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&jsr);
 		}	}	}
 
-		JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 	}
 	else if ( !lstrcmp(type, _T("error")))
-		JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 }
 
 void CJabberProto::OnIqResultExtSearch(HXML iqNode)
@@ -1315,13 +1315,13 @@ void CJabberProto::OnIqResultExtSearch(HXML iqNode)
 					jsr.hdr.email = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
 			}
 
-			JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&jsr);
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&jsr);
 		}
 
-		JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 	}
 	else if ( !lstrcmp(type, _T("error")))
-		JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 }
 
 void CJabberProto::OnIqResultSetPassword(HXML iqNode)
@@ -1373,7 +1373,7 @@ void CJabberProto::OnIqResultGetVCardAvatar(HXML iqNode)
 		if ( !JGetStringT(hContact, "AvatarSaved", &dbv)) {
 			db_free(&dbv);
 			JDeleteSetting(hContact, "AvatarSaved");
-			JSendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, NULL);
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, NULL);
 		}
 
 		return;
@@ -1537,10 +1537,10 @@ LBL_ErrFormat:
 		fwrite(body, resultLen, 1, out);
 		fclose(out);
 		JSetString(hContact, "AvatarSaved", buffer);
-		JSendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&AI), NULL);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&AI), NULL);
 		Log("Broadcast new avatar: %s",AI.filename);
 	}
-	else JSendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&AI), NULL);
+	else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&AI), NULL);
 
 	mir_free(body);
 }

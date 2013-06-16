@@ -806,7 +806,7 @@ struct CJabberProto : public PROTO_INTERFACE
 	TCHAR *JGetStringT(HANDLE hContact, char* valueName, TCHAR *buf, int size);
 	WORD   JGetWord(HANDLE hContact, const char* valueName, int parDefltValue);
 	void   JHookEvent(const char*, JEventFunc);
-	int    JSendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
+	void   JLoginFailed(int errorCode);
 	DWORD  JSetByte(HANDLE hContact, const char* valueName, int parValue);
 	DWORD  JSetDword(HANDLE hContact, const char* valueName, DWORD parValue);
 	DWORD  JSetString(HANDLE hContact, const char* valueName, const char* parValue);

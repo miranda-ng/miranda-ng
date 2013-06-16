@@ -308,7 +308,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 			{
 			case 3:
 				MSN_ShowError("Your username or password is incorrect");
-				SendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 				break;
 
 			case 5:
@@ -316,7 +316,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 			default:
 				MSN_ShowError("Unable to contact MS Passport servers check proxy/firewall settings");
-				SendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
+				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
 				break;
 			}
 		}

@@ -746,40 +746,35 @@ int CJabberDlgDiscovery::Resizer(UTILRESIZECONTROL *urc)
 	RECT rc;
 
 	switch (urc->wId) {
-		case IDC_COMBO_JID:
-		{
-			GetWindowRect(GetDlgItem(m_hwnd, urc->wId), &rc);
-			urc->rcItem.right += (urc->dlgNewSize.cx - urc->dlgOriginalSize.cx) / 2;
-			urc->rcItem.bottom = urc->rcItem.top + rc.bottom - rc.top;
-			return 0;
-		}
-		case IDC_TXT_NODELABEL:
-		{
-			urc->rcItem.left += (urc->dlgNewSize.cx - urc->dlgOriginalSize.cx) / 2;
-			urc->rcItem.right += (urc->dlgNewSize.cx - urc->dlgOriginalSize.cx) / 2;
-			return 0;
-		}
-		case IDC_COMBO_NODE:
-		{
-			GetWindowRect(GetDlgItem(m_hwnd, urc->wId), &rc);
-			urc->rcItem.left += (urc->dlgNewSize.cx - urc->dlgOriginalSize.cx) / 2;
-			urc->rcItem.right += urc->dlgNewSize.cx - urc->dlgOriginalSize.cx;
-			urc->rcItem.bottom = urc->rcItem.top + rc.bottom - rc.top;
-			return 0;
-		}
-		case IDC_BUTTON_BROWSE:
-			return RD_ANCHORX_RIGHT|RD_ANCHORY_TOP;
+	case IDC_COMBO_JID:
+		GetWindowRect(GetDlgItem(m_hwnd, urc->wId), &rc);
+		urc->rcItem.right += (urc->dlgNewSize.cx - urc->dlgOriginalSize.cx) / 2;
+		urc->rcItem.bottom = urc->rcItem.top + rc.bottom - rc.top;
+		return 0;
 
-		case IDC_TREE_DISCO:
-			return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
+	case IDC_TXT_NODELABEL:
+		urc->rcItem.left += (urc->dlgNewSize.cx - urc->dlgOriginalSize.cx) / 2;
+		urc->rcItem.right += (urc->dlgNewSize.cx - urc->dlgOriginalSize.cx) / 2;
+		return 0;
 
-		case IDC_TXT_FILTER:
-			return RD_ANCHORX_LEFT|RD_ANCHORY_BOTTOM;
-		case IDC_TXT_FILTERTEXT:
-			return RD_ANCHORX_WIDTH|RD_ANCHORY_BOTTOM;
-		case IDC_BTN_FILTERAPPLY:
-		case IDC_BTN_FILTERRESET:
-			return RD_ANCHORX_RIGHT|RD_ANCHORY_BOTTOM;
+	case IDC_COMBO_NODE:
+		GetWindowRect(GetDlgItem(m_hwnd, urc->wId), &rc);
+		urc->rcItem.left += (urc->dlgNewSize.cx - urc->dlgOriginalSize.cx) / 2;
+		urc->rcItem.right += urc->dlgNewSize.cx - urc->dlgOriginalSize.cx;
+		urc->rcItem.bottom = urc->rcItem.top + rc.bottom - rc.top;
+		return 0;
+
+	case IDC_BUTTON_BROWSE:
+		return RD_ANCHORX_RIGHT|RD_ANCHORY_TOP;
+	case IDC_TREE_DISCO:
+		return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
+	case IDC_TXT_FILTER:
+		return RD_ANCHORX_LEFT|RD_ANCHORY_BOTTOM;
+	case IDC_TXT_FILTERTEXT:
+		return RD_ANCHORX_WIDTH|RD_ANCHORY_BOTTOM;
+	case IDC_BTN_FILTERAPPLY:
+	case IDC_BTN_FILTERRESET:
+		return RD_ANCHORX_RIGHT|RD_ANCHORY_BOTTOM;
 	}
 	return CSuper::Resizer(urc);
 }

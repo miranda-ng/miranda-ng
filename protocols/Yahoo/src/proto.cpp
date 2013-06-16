@@ -583,7 +583,7 @@ void __cdecl CYahooProto::get_status_thread(HANDLE hContact)
 
 	FREE(sm);
 
-	SendBroadcast( hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, ( HANDLE )1, (LPARAM)( TCHAR* )_A2T(fm));
+	ProtoBroadcastAck( hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, ( HANDLE )1, (LPARAM)( TCHAR* )_A2T(fm));
 }
 
 HANDLE __cdecl CYahooProto::GetAwayMsg( HANDLE hContact )

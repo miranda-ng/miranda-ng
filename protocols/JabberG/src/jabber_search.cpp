@@ -244,7 +244,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 	}
 
 	Results.jsr.hdr.cbSize = 0; // sending column names
-	JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM) &Results);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM) &Results);
 
 	/* Sending Users Data */
 	Results.jsr.hdr.cbSize = sizeof(Results.jsr); // sending user data
@@ -275,7 +275,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 		   Results.jsr.hdr.nick = nick ? buff : NULL;
 		   Results.jsr.hdr.flags = PSR_TCHAR;
 	   }
-	   JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM) &Results);
+	   ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM) &Results);
 	   Results.jsr.hdr.nick=NULL;
 
 	}
@@ -304,7 +304,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode)
 	LIST<void>  SearchResults(2);
 
 	if (((id = JabberGetPacketID(iqNode)) == -1) || ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL)) {
-		JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 		return;
 	}
 
@@ -378,7 +378,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode)
 		}
 
 		_sntprintf(buff,SIZEOF(buff),TranslateT("Error %s %s\r\nTry to specify more detailed"),code ? code : _T(""),description?description:_T(""));
-		JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 		if (searchHandleDlg)
 			SetDlgItemText(searchHandleDlg,IDC_INSTRUCTIONS,buff);
 		else
@@ -392,7 +392,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode)
 		delete ((U_TCHAR_MAP *)SearchResults[i]);
 
 	//send success to finish searching
-	JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 }
 
 static BOOL CALLBACK DeleteChildWindowsProc(HWND hwnd, LPARAM)

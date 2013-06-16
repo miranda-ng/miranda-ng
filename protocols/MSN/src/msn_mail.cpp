@@ -318,7 +318,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 		}
 	}
 
-	SendBroadcast(NULL, ACKTYPE_EMAIL, ACKRESULT_STATUS, NULL, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_EMAIL, ACKRESULT_STATUS, NULL, 0);
 
 	// Disable to notify receiving hotmail
 	if (ShowPopup && !getByte("DisableHotmail", 0))

@@ -532,7 +532,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 		if (!MSN_RefreshContactList())
 		{
-			SendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
 			info->sendTerminate();
 		}
 		else
@@ -661,10 +661,10 @@ void CMsnProto::sttProcessYFind(char* buf, size_t len)
 			isr.nick = szEmailT;
 			isr.email = szEmailT;
 
-			SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, msnSearchId, (LPARAM)&isr);
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, msnSearchId, (LPARAM)&isr);
 			mir_free(szEmailT);
 		}
-		SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, msnSearchId, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, msnSearchId, 0);
 
 		msnSearchId = NULL;
 	}
@@ -824,7 +824,7 @@ void CMsnProto::sttProcessStatusMessage(char* buf, unsigned len, const char* wli
 
 	{
 		ptrT tszStatus( mir_utf8decodeT(szStatMsg));
-		SendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, tszStatus);
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, tszStatus);
 	}
 
 	// Process current media info
@@ -1040,7 +1040,7 @@ void CMsnProto::MSN_InitSB(ThreadData* info, const char* szEmail)
 			else if (E.msgSize == 0)
 			{
 				info->sendMessage(E.msgType, NULL, 1, E.message, E.flags);
-				SendBroadcast(cont->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)E.seq, 0);
+				ProtoBroadcastAck(cont->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)E.seq, 0);
 			}
 			else
 			{
@@ -1110,7 +1110,7 @@ int CMsnProto::MSN_HandleCommands(ThreadData* info, char* cmdString)
 			ReleaseSemaphore(info->hWaitEvent, 1, NULL);
 
 			if (info->mJoinedContactsWLID.getCount() > 0 && MyOptions.SlowSend)
-				SendBroadcast(info->getContactHandle(), ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)trid, 0);
+				ProtoBroadcastAck(info->getContactHandle(), ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)trid, 0);
 			break;
 
 		case ' YQF':	//********* FQY: Find Yahoo User
@@ -1269,7 +1269,7 @@ LBL_InvalidCommand:
 			if (newStatus != ID_STATUS_IDLE)
 			{
 				m_iStatus = newStatus;
-				SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, newStatus);
+				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, newStatus);
 				MSN_DebugLog("Status change acknowledged: %s", params);
 				MSN_RemoveEmptyGroups();
 			}
@@ -1340,7 +1340,7 @@ LBL_InvalidCommand:
 				{
 					int oldMode = m_iStatus;
 					m_iDesiredStatus = m_iStatus = newStatus;
-					SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldMode, m_iStatus);
+					ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldMode, m_iStatus);
 				}
 			}
 
@@ -1417,7 +1417,7 @@ remove:
 					deleteSetting(hContact, "PictContext");
 					deleteSetting(hContact, "PictSavedContext");
 
-					SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 				}
 			}
 			else if (lastStatus == ID_STATUS_OFFLINE)
@@ -1600,7 +1600,7 @@ remove:
 
 		case ' KAN':   //********* NAK: section 8.7 Instant Messages
 			if (info->mJoinedContactsWLID.getCount() > 0 && MyOptions.SlowSend)
-				SendBroadcast(info->getContactHandle(),
+				ProtoBroadcastAck(info->getContactHandle(),
 					ACKTYPE_MESSAGE, ACKRESULT_FAILED,
 					(HANDLE)trid, (LPARAM)MSN_Translate("Message delivery failed"));
 			MSN_DebugLog("Message send failed (trid=%d)", trid);
@@ -1621,7 +1621,7 @@ remove:
 		case ' TUO':   //********* OUT: sections 7.10 Connection Close, 8.6 Leaving a Switchboard Session
 			if (!_stricmp(params, "OTH"))
 			{
-				SendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
+				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
 				MSN_DebugLog("You have been disconnected from the MSN server because you logged on from another location using the same MSN passport.");
 			}
 
@@ -1745,7 +1745,7 @@ remove:
 
 				case 4:
 				case 8:
-					SendBroadcast( NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION );
+					ProtoBroadcastAck( NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION );
 					MSN_DebugLog( "You have been disconnected from the MSN server because you logged on from another location using the same MSN passport." );
 					break;
 
@@ -1821,7 +1821,7 @@ remove:
 
 					if (info->mType == SERVER_NOTIFICATION)
 					{
-						SendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPROTOCOL);
+						ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPROTOCOL);
 					}
 					return 1;
 				}
@@ -1868,7 +1868,7 @@ remove:
 
 				if (info->mType == SERVER_NOTIFICATION)
 				{
-					SendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPROTOCOL);
+					ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPROTOCOL);
 				}
 				return 1;
 			}

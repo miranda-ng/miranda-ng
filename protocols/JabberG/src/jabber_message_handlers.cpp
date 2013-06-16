@@ -37,7 +37,7 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData *pThreadData, CJabberMes
 		TCHAR *szErrText = JabberErrorMsg(pInfo->GetChildNode());
 		if (id != -1) {
 			char *errText = mir_t2a(szErrText);
-			JSendBroadcast(pInfo->GetHContact(), ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id, (LPARAM)errText);
+			ProtoBroadcastAck(pInfo->GetHContact(), ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id, (LPARAM)errText);
 			mir_free(errText);
 		} else {
 			TCHAR buf[512];

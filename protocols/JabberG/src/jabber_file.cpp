@@ -42,7 +42,7 @@ void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 
 	if ((buffer=(char*)mir_alloc(JABBER_NETWORK_BUFFER_SIZE)) == NULL) {
 		Log("Cannot allocate network buffer, thread ended");
-		JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 		delete ft;
 		return;
 	}
@@ -55,7 +55,7 @@ void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 	info.s = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 	if (info.s == NULL) {
 		Log("Connection failed (%d), thread ended", WSAGetLastError());
-		JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 		mir_free(buffer);
 		delete ft;
 		return;
@@ -118,7 +118,7 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 							ft->state = FT_INITIALIZING;
 							ft->std.currentFileSize = -1;
 							Log("Change to FT_INITIALIZING");
-							JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
+							ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
 						}
 					}
 					else {	// FT_INITIALIZING
@@ -176,7 +176,7 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 				else {
 					ft->std.currentFileProgress += writeSize;
 					ft->std.totalProgress += writeSize;
-					JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+					ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 					if (ft->std.currentFileProgress == ft->std.currentFileSize)
 						ft->state = FT_DONE;
 				}
@@ -266,7 +266,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	info.s = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)m_hNetlibUser, (LPARAM)&nlb);
 	if (info.s == NULL) {
 		Log("Cannot allocate port to bind for file server thread, thread ended.");
-		JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 		delete ft;
 		return;
 	}
@@ -334,7 +334,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				WaitForSingleObject(hEvent, INFINITE);
 			}
 			Log("File sent, advancing to the next file...");
-			JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 		}
 		CloseHandle(hEvent);
 		ft->hFileEvent = NULL;
@@ -349,14 +349,14 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	switch (ft->state) {
 	case FT_DONE:
 		Log("Finish successfully");
-		JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
 		break;
 	case FT_DENIED:
-		JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, ft, 0);
 		break;
 	default: // FT_ERROR:
 		Log("Finish with errors");
-		JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 		break;
 	}
 
@@ -446,7 +446,7 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 					}
 					ft->std.currentFileProgress += numRead;
 					ft->std.totalProgress += numRead;
-					JSendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+					ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 				}
 				_close(fileId);
 				if (ft->state != FT_ERROR)
@@ -483,7 +483,7 @@ filetransfer::~filetransfer()
 	ppro->Log("Destroying file transfer session %08p", this);
 
 	if ( !bCompleted)
-		ppro->JSendBroadcast(std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, this, 0);
+		ppro->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, this, 0);
 
 	close();
 
@@ -520,7 +520,7 @@ void filetransfer::complete()
 	close();
 
 	bCompleted = true;
-	ppro->JSendBroadcast(std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, this, 0);
+	ppro->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, this, 0);
 }
 
 int filetransfer::create()
@@ -536,7 +536,7 @@ int filetransfer::create()
 		CloseHandle(hWaitEvent);
 	hWaitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
-	if (ppro->JSendBroadcast(std.hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, this, (LPARAM)&std))
+	if (ppro->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, this, (LPARAM)&std))
 		WaitForSingleObject(hWaitEvent, INFINITE);
 
 	if (fileId == -1) {

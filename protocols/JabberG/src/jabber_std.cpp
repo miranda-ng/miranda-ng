@@ -140,22 +140,12 @@ WORD CJabberProto::JGetWord(HANDLE hContact, const char* valueName, int parDeflt
 	return db_get_w(hContact, m_szModuleName, valueName, parDefltValue);
 }
 
-int CJabberProto::JSendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
+void CJabberProto::JLoginFailed(int errorCode)
 {
-	// clear saved passowrd on login error. ugly hack, but at least this is centralized
-	if (type == ACKTYPE_LOGIN && (lParam == LOGINERR_WRONGPASSWORD || lParam == LOGINERR_BADUSERID))
-		*m_savedPassword = 0;
-
-	ACKDATA ack = {0};
-	ack.cbSize = sizeof(ACKDATA);
-	ack.szModule = m_szModuleName;
-	ack.hContact = hContact;
-	ack.type = type;
-	ack.result = result;
-	ack.hProcess = hProcess;
-	ack.lParam = lParam;
-	return CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
+	*m_savedPassword = 0;
+	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, errorCode);
 }
+
 /*
 DWORD CJabberProto::JSetByte(const char* valueName, int parValue)
 {

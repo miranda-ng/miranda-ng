@@ -1002,7 +1002,7 @@ void CYahooProto::ext_mail_notify(const char *from, const char *subj, int cnt)
 	}
 	
 	m_unreadMessages = cnt;
-	SendBroadcast( NULL, ACKTYPE_EMAIL, ACKRESULT_STATUS, NULL, 0);
+	ProtoBroadcastAck( NULL, ACKTYPE_EMAIL, ACKRESULT_STATUS, NULL, 0);
 }    
     
 void CYahooProto::ext_system_message(const char *me, const char *who, const char *msg)

@@ -383,7 +383,7 @@ void CJabberProto::SetServerStatus(int iNewStatus)
 
 	// send presence update
 	SendPresence(m_iStatus, true);
-	JSendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 }
 
 // Process a string, and double all % characters, according to chat.dll's restrictions

@@ -265,8 +265,6 @@ struct CYahooProto : public PROTO_INTERFACE
 
 	DWORD  Set_Protocol( HANDLE hContact, int protocol );
 
-	int    SendBroadcast( HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam );
-
 	int    ShowNotification(const TCHAR *title, const TCHAR *info, DWORD flags);
 	void   ShowError(const TCHAR *title, const TCHAR *buff);
 	int    ShowPopup( const TCHAR* nickname, const TCHAR* msg, const char *szURL );

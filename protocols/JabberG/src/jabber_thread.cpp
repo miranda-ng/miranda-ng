@@ -306,12 +306,12 @@ LBL_Exit:
 
 		if (*rtrimt(info->username) == '\0') {
 			Log("Thread ended, login name is not configured");
-			JSendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
+			JLoginFailed(LOGINERR_BADUSERID);
 LBL_FatalError:
 			m_ThreadInfo = NULL;
 			oldStatus = m_iStatus;
 			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-			JSendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 			goto LBL_Exit;
 		}
 
@@ -320,7 +320,7 @@ LBL_FatalError:
 			db_free(&dbv);
 		}
 		else {
-			JSendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
 			Log("Thread ended, login server is not configured");
 			goto LBL_FatalError;
 		}
@@ -359,7 +359,7 @@ LBL_FatalError:
 				CloseHandle(param.hEventPasswdDlg);
 
 				if (param.dlgResult == IDCANCEL) {
-					JSendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
+					JLoginFailed(LOGINERR_BADUSERID);
 					Log("Thread ended, password request dialog was canceled");
 					goto LBL_FatalError;
 				}
@@ -374,7 +374,7 @@ LBL_FatalError:
 		else {
 			TCHAR *passw = JGetStringCrypt(NULL, "LoginPassword");
 			if (passw == NULL) {
-				JSendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
+				JLoginFailed(LOGINERR_BADUSERID);
 				Log("Thread ended, password is not configured");
 				goto LBL_FatalError;
 			}
@@ -402,7 +402,7 @@ LBL_FatalError:
 	if ((buffer=(char*)mir_alloc(jabberNetworkBufferSize + 1)) == NULL) {	// +1 is for '\0' when debug logging this buffer
 		Log("Cannot allocate network buffer, thread ended");
 		if (info->type == JABBER_SESSION_NORMAL) {
-			JSendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
 		}
 		else if (info->type == JABBER_SESSION_REGISTER) {
 			SendMessage(info->reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Error: Not enough memory"));
@@ -426,7 +426,7 @@ LBL_FatalError:
 		Log("Connection failed (%d)", WSAGetLastError());
 		if (info->type == JABBER_SESSION_NORMAL) {
 			if (m_ThreadInfo == info) {
-				JSendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
+				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
 		}	}
 		else if (info->type == JABBER_SESSION_REGISTER)
 			SendMessage(info->reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Error: Cannot connect to the server"));
@@ -442,7 +442,7 @@ LBL_FatalError:
 		if ( !CallService(MS_NETLIB_STARTSSL, (WPARAM)info->s, 0)) {
 			Log("SSL intialization failed");
 			if (info->type == JABBER_SESSION_NORMAL) {
-				JSendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
+				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
 			}
 			else if (info->type == JABBER_SESSION_REGISTER) {
 				SendMessage(info->reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Error: Cannot connect to the server"));
@@ -590,7 +590,7 @@ recvRest:
 			// Set status to offline
 			oldStatus = m_iStatus;
 			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-			JSendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 			// Set all contacts to offline
 			for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
@@ -609,7 +609,7 @@ recvRest:
 	else if (info->type == JABBER_SESSION_NORMAL) {
 		oldStatus = m_iStatus;
 		m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-		JSendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
 
 	Log("Thread ended: type=%d server='%s'", info->type, info->server);
@@ -737,7 +737,7 @@ void CJabberProto::PerformAuthentication(ThreadData* info)
 		TCHAR text[1024];
 		mir_sntprintf(text, SIZEOF(text), _T("%s %s@%S."), TranslateT("Authentication failed for"), info->username, info->server);
 		MsgPopup(NULL, text, TranslateT("Jabber Authentication"));
-		JSendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		info->send("</stream:stream>");
 		m_ThreadInfo = NULL;
 		return;
@@ -885,7 +885,7 @@ void CJabberProto::OnProcessError(HXML node, ThreadData* info)
 			pos += mir_sntprintf(buff+pos, 1024-pos, _T("%s\r\n"), name);
 
 		if ( !_tcscmp(name, _T("conflict")))
-			JSendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
 		else if ( !_tcscmp(name, _T("see-other-host"))) {
 			skipMsg = true;
 		}
@@ -1221,7 +1221,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 		if (nPacketId == -1)
 			nPacketId = JabberGetPacketID(node);
 		if (nPacketId != -1)
-			JSendBroadcast(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)nPacketId, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)nPacketId, 0);
 	}
 
 	JabberReadXep203delay(node, msgTime);
@@ -1327,7 +1327,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 							id = _ttoi((xmlGetText(idNode))+strlen(JABBER_IQID));
 
 					if (id != -1)
-						JSendBroadcast(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+						ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 				}
 
 				if (hContact && xmlGetChild(xNode , "composing") != NULL)
@@ -1686,7 +1686,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 						int result = JGetStringT(hContact, "AvatarSaved", &dbv);
 						if (result || lstrcmp(dbv.ptszVal, xmlGetText(xNode))) {
 							Log("Avatar was changed");
-							JSendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
+							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
 						} else Log("Not broadcasting avatar changed");
 						if ( !result) db_free(&dbv);
 					} else {
@@ -1708,7 +1708,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 								int result = JGetStringT(hContact, "AvatarSaved", &dbv);
 								if (result || lstrcmp(dbv.ptszVal, txt)) {
 									Log("Avatar was changed. Using vcard-temp:x:update");
-									JSendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
+									ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
 								}
 								else Log("Not broadcasting avatar changed");
 								if ( !result) db_free(&dbv);
@@ -1723,7 +1723,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 				if ( !JGetStringT(hContact, "AvatarSaved", &dbv)) {
 					db_free(&dbv);
 					JDeleteSetting(hContact, "AvatarSaved");
-					JSendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, NULL);
+					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, NULL);
 		}	}	}
 		return;
 	}

@@ -173,20 +173,6 @@ void CMsnProto::ForkThread(MsnThreadFunc pFunc, void* param)
 	CloseHandle((HANDLE)mir_forkthreadowner((pThreadFuncOwner)*(void**)&pFunc, this, param, &threadID));
 }
 
-int CMsnProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
-{
-	ACKDATA ack = {0};
-	ack.cbSize = sizeof(ACKDATA);
-	ack.szModule = m_szModuleName;
-	ack.hContact = hContact;
-	ack.type = type;
-	ack.result = result;
-	ack.hProcess = hProcess;
-	ack.lParam = lParam;
-	return CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
-}
-
-
 TCHAR* CMsnProto::GetContactNameT(HANDLE hContact)
 {
 	if (hContact)

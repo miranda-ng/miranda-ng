@@ -25,7 +25,7 @@ void __cdecl CYahooProto::search_simplethread(void *snsearch)
 	TCHAR *id = (TCHAR *) snsearch;
 
 	if (lstrlen(id) < 4) {
-		SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 		MessageBoxA(NULL, "Please enter a valid ID to search for.", "Search", MB_OK);
 		return;
 	}
@@ -39,11 +39,11 @@ void __cdecl CYahooProto::search_simplethread(void *snsearch)
 	psr.id = (TCHAR*)_tcslwr(id);
 	psr.reserved[0] = YAHOO_IM_YAHOO;
 
-	SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
 
 	//yahoo_search(m_id, YAHOO_SEARCH_YID, m, YAHOO_GENDER_NONE, YAHOO_AGERANGE_NONE, 0, 1);
 
-	SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 }
 
 HANDLE __cdecl CYahooProto::SearchBasic( const TCHAR* nick )
@@ -107,7 +107,7 @@ void CYahooProto::ext_got_search_result(int found, int start, int total, YList *
 			//void yahoo_search(int id, enum yahoo_search_type t, const char *text, enum yahoo_search_gender g, enum yahoo_search_agerange ar, 
 			//	int photo, int yahoo_only)
 
-			SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
 
 			mir_free(psr.id);
 			mir_free(psr.firstName);
@@ -115,7 +115,7 @@ void CYahooProto::ext_got_search_result(int found, int start, int total, YList *
 		}
 		en = y_list_next(en);
 	}
-	SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 }
 
 /*
@@ -158,7 +158,7 @@ void __cdecl CYahooProto::searchadv_thread(void *pHWND)
 	GetDlgItemText(hwndDlg, IDC_SEARCH_ID, searchid, 128);
 
 	if (lstrlen(searchid) == 0) {
-		SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 		MessageBoxA(NULL, "Please enter a valid ID to search for.", "Search", MB_OK);
 		return;
 	} 
@@ -181,12 +181,12 @@ void __cdecl CYahooProto::searchadv_thread(void *pHWND)
 	/*
 	* Show this in results
 	*/
-	SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
 
 	/*
 	* Done searching.
 	*/
-	SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 }
 
 /*

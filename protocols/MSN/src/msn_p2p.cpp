@@ -205,7 +205,7 @@ void CMsnProto::p2p_pictureTransferFailed(filetransfer* ft)
 			AI.cbSize = sizeof(AI);
 			AI.hContact = ft->std.hContact;
 			deleteSetting(ft->std.hContact, "AvatarHash");
-			SendBroadcast(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
+			ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
 		}
 		break;
 	}
@@ -258,7 +258,7 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 				mir_free(szAvatarHash);
 
 				setString(ft->std.hContact, "PictSavedContext", ft->p2p_object);
-				SendBroadcast(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
+				ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
 
 				char *filename = mir_utf8encodeT(AI.filename);
 				MSN_DebugLog("Avatar for contact %08x saved to file '%s'", AI.hContact, filename);
@@ -961,7 +961,7 @@ LONG  CMsnProto::p2p_sendPortion(filetransfer* ft, ThreadData* T, bool isV2)
 		ft->std.currentFileProgress += portion;
 		if (ft->p2p_appID == MSN_APPID_FILE && clock() >= ft->nNotify)
 		{
-			SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 			ft->nNotify = clock() + 500;
 		}
 	}
@@ -1052,7 +1052,7 @@ void __cdecl CMsnProto::p2p_sendFeedThread(void* arg)
 	ReleaseMutex(hLockHandle);
 
 	if (ft->p2p_appID == MSN_APPID_FILE)
-		SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 
 	if (isV2)
 	{
@@ -1419,7 +1419,7 @@ void CMsnProto::p2p_InitDirectTransfer(MimeHeaders& tFileInfo, MimeHeaders& tFil
 			return;
 		}
 		else
-			SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
 */
 	}
 
@@ -1943,7 +1943,7 @@ void  CMsnProto::p2p_processMsgV2(ThreadData* info,  char* msgbody, const char* 
 
 		if (ft->p2p_appID == MSN_APPID_FILE && clock() >= ft->nNotify)
 		{
-			SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 			ft->nNotify = clock() + 500;
 
 			//---- send an ack: body was transferred correctly
@@ -1954,7 +1954,7 @@ void  CMsnProto::p2p_processMsgV2(ThreadData* info,  char* msgbody, const char* 
 		{
 			if (ft->p2p_appID == MSN_APPID_FILE)
 			{
-				SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+				ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 				ft->complete();
 			}
 			else
@@ -2115,7 +2115,7 @@ void  CMsnProto::p2p_processMsg(ThreadData* info,  char* msgbody, const char* wl
 
 					if (ft->p2p_appID == MSN_APPID_FILE && clock() >= ft->nNotify)
 					{
-						SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+						ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 						ft->nNotify = clock() + 500;
 					}
 				}
@@ -2126,7 +2126,7 @@ void  CMsnProto::p2p_processMsg(ThreadData* info,  char* msgbody, const char* wl
 
 			if (ft->std.currentFileProgress >= hdrdata.mTotalSize)
 			{
-				SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+				ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 				p2p_sendAck(ft->p2p_dest, &hdrdata);
 				if (ft->p2p_appID == MSN_APPID_FILE)
 				{
@@ -2403,17 +2403,17 @@ void  CMsnProto::p2p_sessionComplete(filetransfer* ft)
 		if (ft->openNext() == -1)
 		{
 			bool success = ft->std.currentFileNumber >= ft->std.totalFiles && ft->bCompleted;
-			SendBroadcast(ft->std.hContact, ACKTYPE_FILE, success ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, ft, 0);
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, success ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, ft, 0);
 		}
 		else
 		{
-			SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 			p2p_invite(ft->p2p_appID, ft, NULL);
 		}
 	}
 	else
 	{
-		SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ft->bCompleted ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ft->bCompleted ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, ft, 0);
 		p2p_unregisterSession(ft);
 	}
 }

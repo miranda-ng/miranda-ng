@@ -431,7 +431,7 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 	if (Lists_IsInList(LIST_FL, email))
 	{
 		MSN_ShowPopup(emailT, TranslateT("Contact already in your contact list"), MSN_ALLOW_MSGBOX, NULL);
-		SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
 		mir_free(arg);
 		return;
 	}
@@ -450,14 +450,14 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 			isr.nick  = (TCHAR*)emailT;
 			isr.email = (TCHAR*)emailT;
 
-			SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, arg, (LPARAM)&isr);
-			SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, arg, (LPARAM)&isr);
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
 		}
 		break;
 
 	case 1:
 		if (strstr(email, "@yahoo.com") == NULL)
-			SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
 		else
 		{
 			msnSearchId = arg;
@@ -466,7 +466,7 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 		break;
 
 	default:
-		SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
 		break;
 	}
 	mir_free(email);
@@ -516,7 +516,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 	mir_sntprintf(filefull, SIZEOF(filefull), _T("%s\\%s"), ft->std.tszWorkingDir, ft->std.tszCurrentFile);
 	replaceStrT(ft->std.tszCurrentFile, filefull);
 
-	if (SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, ft, (LPARAM)&ft->std))
+	if (ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, ft, (LPARAM)&ft->std))
 		return;
 
 	bool fcrt = ft->create() != -1;
@@ -530,7 +530,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 	else
 		msnftp_sendAcceptReject (ft, fcrt);
 
-	SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
+	ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
 }
 
 HANDLE __cdecl CMsnProto::FileAllow(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
@@ -652,7 +652,7 @@ int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 		else
 			msnftp_sendAcceptReject (ft, fcrt);
 
-		SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
 		break;
 	}
 
@@ -675,10 +675,10 @@ void __cdecl CMsnProto::MsnGetAwayMsgThread(void* arg)
 	AwayMsgInfo *inf = (AwayMsgInfo*)arg;
 	DBVARIANT dbv;
 	if (!db_get_ts(inf->hContact, "CList", "StatusMsg", &dbv)) {
-		SendBroadcast(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, (LPARAM)dbv.ptszVal);
+		ProtoBroadcastAck(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, (LPARAM)dbv.ptszVal);
 		MSN_FreeVariant(&dbv);
 	}
-	else SendBroadcast(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, 0);
+	else ProtoBroadcastAck(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, 0);
 
 	mir_free(inf);
 }
@@ -832,7 +832,7 @@ HANDLE __cdecl CMsnProto::SendFile(HANDLE hContact, const PROTOCHAR* szDescripti
 		msnftp_invite(sft);
 	}
 
-	SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_SENTREQUEST, sft, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_SENTREQUEST, sft, 0);
 	return sft;
 }
 
@@ -859,7 +859,7 @@ void CMsnProto::MsnFakeAck(void* arg)
 	TFakeAckParams* tParam = (TFakeAckParams*)arg;
 
 	Sleep(150);
-	tParam->proto->SendBroadcast(tParam->hContact, ACKTYPE_MESSAGE,
+	tParam->proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_MESSAGE,
 		tParam->msg ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
 		(HANDLE)tParam->id, LPARAM(tParam->msg));
 
@@ -1051,14 +1051,14 @@ int __cdecl CMsnProto::SetStatus(int iNewStatus)
 		int ps = getStaticString(NULL, "Password", szPassword, sizeof(szPassword));
 		if (ps != 0  || *szPassword == 0)
 		{
-			SendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 			return 0;
 		}
 
 		if (*MyOptions.szEmail == 0)
 		{
-			SendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 			return 0;
 		}
@@ -1070,7 +1070,7 @@ int __cdecl CMsnProto::SetStatus(int iNewStatus)
 
 		int oldMode = m_iStatus;
 		m_iStatus = ID_STATUS_CONNECTING;
-		SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldMode, m_iStatus);
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldMode, m_iStatus);
 
 		ThreadData* newThread = new ThreadData;
 

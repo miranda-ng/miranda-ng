@@ -838,8 +838,8 @@ void __cdecl CJabberProto::BasicSearchThread(JABBER_SEARCH_BASIC *jsb)
 	_tcsncpy(jsr.jid, jsb->jid, SIZEOF(jsr.jid));
 
 	jsr.jid[SIZEOF(jsr.jid)-1] = '\0';
-	JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)jsb->hSearch, (LPARAM)&jsr);
-	JSendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)jsb->hSearch, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)jsb->hSearch, (LPARAM)&jsr);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)jsb->hSearch, 0);
 	mir_free(jsb);
 }
 
@@ -1138,7 +1138,7 @@ void __cdecl CJabberProto::SendMessageAckThread(void* param)
 	TFakeAckParams *par = (TFakeAckParams*)param;
 	Sleep(100);
 	Log("Broadcast ACK");
-	JSendBroadcast(par->hContact, ACKTYPE_MESSAGE,
+	ProtoBroadcastAck(par->hContact, ACKTYPE_MESSAGE,
 		par->msg ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
 		(HANDLE)par->msgid, (LPARAM) par->msg);
 	Log("Returning from thread");
@@ -1327,12 +1327,12 @@ int __cdecl CJabberProto::SetStatus(int iNewStatus)
 		}
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-		JSendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
 	else if (!m_ThreadInfo && !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ThreadData* thread = new ThreadData(this, JABBER_SESSION_NORMAL);
-		JSendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 		thread->hThread = JForkThreadEx((JThreadFunc)&CJabberProto::ServerThread, thread);
 
 		RebuildInfoFrame();
@@ -1340,7 +1340,7 @@ int __cdecl CJabberProto::SetStatus(int iNewStatus)
 	else if (m_bJabberOnline)
 		SetServerStatus(iNewStatus);
 	else
-		JSendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 	return 0;
 }
@@ -1382,19 +1382,19 @@ void __cdecl CJabberProto::GetAwayMsgThread(void* hContact)
 						_tcscat(str, r[i].statusMessage);
 					}
 
-				JSendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str);
+				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str);
 				return;
 			}
 
 			if (item->itemResource.statusMessage != NULL) {
-				JSendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)item->itemResource.statusMessage);
+				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)item->itemResource.statusMessage);
 				return;
 			}
 		}
 		else db_free(&dbv);
 	}
 
-	JSendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)0);
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)0);
 }
 
 HANDLE __cdecl CJabberProto::GetAwayMsg(HANDLE hContact)

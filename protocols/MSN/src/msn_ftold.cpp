@@ -143,7 +143,7 @@ int CMsnProto::MSN_HandleMSNFTP(ThreadData *info, char *cmdString)
 				ft->std.totalProgress += packetLen;
 				ft->std.currentFileProgress += packetLen;
 
-				SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+				ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 			}
 
 			ft->complete();
@@ -238,7 +238,7 @@ LBL_Success:
 				ft->std.totalProgress += dataLen;
 				ft->std.currentFileProgress += dataLen;
 
-				SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+				ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 
 				if (ft->std.currentFileProgress == ft->std.totalBytes)
                 {

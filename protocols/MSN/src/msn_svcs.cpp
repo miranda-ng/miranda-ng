@@ -58,7 +58,7 @@ INT_PTR CMsnProto::GetAvatar(WPARAM wParam, LPARAM lParam)
 void CMsnProto::sttFakeAvatarAck(void* arg)
 {
 	Sleep(100);
-	SendBroadcast(((PROTO_AVATAR_INFORMATIONT*)arg)->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, arg, 0);
+	ProtoBroadcastAck(((PROTO_AVATAR_INFORMATIONT*)arg)->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, arg, 0);
 }
 
 INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)

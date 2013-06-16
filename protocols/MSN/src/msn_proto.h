@@ -576,7 +576,6 @@ struct CMsnProto : public PROTO_INTERFACE
 	void   HookProtoEvent(const char* szEvent, MsnEventFunc pFunc);
 	void   ForkThread(MsnThreadFunc pFunc, void* param);
 
-	int    SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 	TCHAR* GetContactNameT(HANDLE hContact);
 	void   deleteSetting(HANDLE hContact, const char* valueName);
 
