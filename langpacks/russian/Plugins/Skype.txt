@@ -92,11 +92,7 @@ Skype протокол для Miranda NG.
 [Use ports 80 and 443 as alternative incoming]
 Использовать порты 80 и 443 как входящие
 [Default group:]
-<<<<<<< .mine
-Група по умолчанию:
-=======
 Группа по умолчанию:
->>>>>>> .r4979
 [Proccess SkypeKit.exe did not start.]
 Процесс SkypeKit.exe не запустился.
 [Initialization key corrupted or not valid.]
@@ -144,24 +140,14 @@ SkypeKit не запустился.
 [Failed to verify password. No connection to server]
 Невозможно проверить пароль. Нет подключения к серверу
 [Password was set but server didn't like it much]
-<<<<<<< .mine
-Пароль был отвергнут сервером
-=======
->>>>>>> .r4979
+Пароль был отвергнут сервером 
 [New password was exactly the same as old one]
-<<<<<<< .mine
-Введенный пароль точно такой же как старый
-=======
->>>>>>> .r4979
+Введенный пароль точно такой же как старый 
 [The new password was unacceptable]
-<<<<<<< .mine
-Новый пароль неприемлем
+Новый пароль неприемлем 
 [Account was currently not logged in]
-
-=======
->>>>>>> .r4979
 [You have not entered a Skype name.\nConfigure this in Options->Network->Skype and try again.]
-Вы не ввели Skype ID.\n						Настройте это в Настройки->Сеть->Skype и попробуйте снова.
+Вы не ввели Skype ID.\nНастройте это в Настройки->Сеть->Skype и попробуйте снова. 
 ;file \protocols\Skype\src\skype_chat.cpp
 [&Invite user...]
 &Пригласить пользователя...
@@ -182,11 +168,7 @@ SkypeKit не запустился.
 [Female]
 Женский
 [You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
-<<<<<<< .mine
 Вы не подключены в настоящее время. Вы должны быть онлайн, чтобы обновить Вашу информацию на сервере.
-=======
-Вы не в сети в настоящее время. Вы должны быть онлайн, чтобы обновить Вашу информацию на сервере.
->>>>>>> .r4979
 [Contacts]
 Контакт
 [Home]
@@ -241,7 +223,6 @@ SkypeKit не запустился.
 [Password is too simple]
 Пароль слишком простой
 [Value starts with an invalid character]
-
 [Avatars]
 Аватары
 [Skype Protocol]
