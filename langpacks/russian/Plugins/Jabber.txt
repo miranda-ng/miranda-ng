@@ -151,7 +151,7 @@ TLS
 [Role changes]
 Изменение роли
 [Don't notify history messages]
-Не подсвечивать сообщения из истории
+Не показывать уведомлений из истории
 [Custom messages]
 Свои сообщения
 [Quit:]
