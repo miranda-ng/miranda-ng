@@ -532,10 +532,100 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
-
 /*
  * subclassing for the message input control (a richedit text control)
  */
+
+static bool TabAutoComplete(HWND hwnd, MESSAGESUBDATA *dat, SESSION_INFO *si)
+{
+	LRESULT lResult = (LRESULT)SendMessage(hwnd, EM_GETSEL, 0, 0);
+	int start = LOWORD(lResult), end = HIWORD(lResult);
+	SendMessage(hwnd, EM_SETSEL, end, end);
+
+	GETTEXTEX gt = {0};
+	gt.codepage = 1200;
+	gt.flags = GTL_DEFAULT | GTL_PRECISE;
+	int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gt, 0);
+	if (iLen <= 0)
+		return false;
+
+	bool isTopic = false, isRoom = false;
+	TCHAR *pszName = NULL;
+	TCHAR *pszText = (TCHAR*)Utils::safeMirCalloc((iLen + 10) * sizeof(TCHAR));
+
+	gt.flags = GT_DEFAULT;
+	gt.cb = (iLen + 9) * sizeof(TCHAR);
+	SendMessage(hwnd, EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)pszText);
+
+	if (start > 1 && pszText[start-1] == ' ' && pszText[start-2] == ':')
+		start -= 2;
+
+	if (dat->szSearchResult != NULL) {
+		int cbResult = (int)_tcslen(dat->szSearchResult);
+		if (start >= cbResult && !_tcsncicmp(dat->szSearchResult, pszText+start-cbResult, cbResult)) {
+			start -= cbResult;
+			goto LBL_SkipEnd;
+		}
+	}
+
+	while(start > 0 && pszText[start-1] != ' ' && pszText[start-1] != 13 && pszText[start-1] != VK_TAB)
+		start--;
+
+LBL_SkipEnd:
+	while (end < iLen && pszText[end] != ' ' && pszText[end] != 13 && pszText[end-1] != VK_TAB)
+		end++;
+
+	if (pszText[start] == '#')
+		isRoom = TRUE;
+	else {
+		int topicStart = start;
+		while (topicStart > 0 && (pszText[topicStart-1] == ' ' || pszText[topicStart-1] == 13 || pszText[topicStart-1] == VK_TAB))
+			topicStart--;
+		if (topicStart > 5 && _tcsstr(&pszText[topicStart-6], _T("/topic")) == &pszText[topicStart-6])
+			isTopic = TRUE;
+	}
+	if (dat->szSearchQuery == NULL) {
+		size_t len = (end - start) + 1;
+		dat->szSearchQuery = (TCHAR*)Utils::safeMirAlloc(sizeof(TCHAR) * len);
+		wcsncpy(dat->szSearchQuery, pszText + start, len);
+		dat->szSearchQuery[len - 1] = 0;
+		dat->szSearchResult = mir_tstrdup(dat->szSearchQuery);
+		dat->lastSession = NULL;
+	}
+	if (isTopic)
+		pszName = si->ptszTopic;
+	else if (isRoom) {
+		dat->lastSession = SM_FindSessionAutoComplete(si->pszModule, si, dat->lastSession, dat->szSearchQuery, dat->szSearchResult);
+		if (dat->lastSession != NULL)
+			pszName = dat->lastSession->ptszName;
+	}
+	else pszName = UM_FindUserAutoComplete(si->pUsers, dat->szSearchQuery, dat->szSearchResult);
+
+	replaceStrT(dat->szSearchResult, NULL);
+
+	if (pszName != NULL) {
+		dat->szSearchResult = mir_tstrdup(pszName);
+		if (end != start) {
+			ptrT szReplace;
+			if (!isRoom && !isTopic && g_Settings.AddColonToAutoComplete && start == 0) {
+				szReplace = (TCHAR*)Utils::safeMirAlloc((wcslen(pszName) + 4) * sizeof(TCHAR));
+				wcscpy(szReplace, pszName);
+				wcscat(szReplace, L": ");
+				pszName = szReplace;
+			}
+			SendMessage(hwnd, EM_SETSEL, start, end);
+			SendMessage(hwnd, EM_REPLACESEL, TRUE, (LPARAM)pszName);
+		}
+		return true;
+	}
+
+	if (end != start) {
+		SendMessage(hwnd, EM_SETSEL, start, end);
+		SendMessage(hwnd, EM_REPLACESEL, TRUE, (LPARAM)dat->szSearchQuery);
+	}
+	replaceStrT(dat->szSearchQuery, NULL);
+	return false;
+}
 
 static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -775,7 +865,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				case VK_PRIOR:
 				case VK_NEXT:
 				case VK_HOME:
-				case VK_END: {
+				case VK_END:
 					WPARAM wp = 0;
 
 					if (wParam == VK_UP)
@@ -794,7 +884,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 					SendMessage(GetDlgItem(hwndParent, IDC_CHAT_LOG), WM_VSCROLL, wp, 0);
 					return 0;
-								 }
 				}
 			}
 
@@ -843,95 +932,8 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				return TRUE;
 			}
 			if (wParam == VK_TAB && !isCtrl && !isShift) {    //tab-autocomplete
-				int 		iLen, end, topicStart;
-				BOOL 		isTopic = FALSE;
-				BOOL 		isRoom = FALSE;
-				wchar_t*	pszText = NULL;
-				GETTEXTEX	gt = {0};
-				LRESULT		lResult = (LRESULT)SendMessage(hwnd, EM_GETSEL, 0, 0);
-				bool		fCompleted = false;
-
 				SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
-				start = LOWORD(lResult);
-				end = HIWORD(lResult);
-				SendMessage(hwnd, EM_SETSEL, end, end);
-
-				gt.codepage = 1200;
-				gt.flags = GTL_DEFAULT | GTL_PRECISE;
-
-				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gt, 0);
-				if (iLen > 0) {
-					wchar_t*	pszName = NULL;
-					pszText = reinterpret_cast<wchar_t*>(Utils::safeMirCalloc((iLen + 10) * sizeof(wchar_t)));
-					gt.flags = GT_DEFAULT;
-					gt.cb = (iLen + 9) * sizeof(wchar_t);
-
-					SendMessage(hwnd, EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)pszText);
-
-					if (start > 1 && pszText[start-1] == ' ' && pszText[start-2] == ':')
-						start--;
-
-					while( start > 0 && pszText[start-1] != ' ' && pszText[start-1] != 13 && pszText[start-1] != VK_TAB)
-						start--;
-
-					while (end < iLen && pszText[end] != ' ' && pszText[end] != 13 && pszText[end-1] != VK_TAB)
-						end ++;
-
-					if (pszText[start] == '#')
-						isRoom = TRUE;
-					else {
-						topicStart = (int)start;
-						while ( topicStart >0 && (pszText[topicStart-1] == ' ' || pszText[topicStart-1] == 13 || pszText[topicStart-1] == VK_TAB))
-							topicStart--;
-						if (topicStart > 5 && _tcsstr(&pszText[topicStart-6], _T("/topic")) == &pszText[topicStart-6])
-							isTopic = TRUE;
-					}
-					if (dat->szSearchQuery == NULL) {
-						size_t len = (end - start) + 1;
-						dat->szSearchQuery = reinterpret_cast<wchar_t*>(Utils::safeMirAlloc(sizeof(wchar_t) * len));
-						wcsncpy( dat->szSearchQuery, pszText + start, len);
-						dat->szSearchQuery[len - 1] = 0;
-						dat->szSearchResult = mir_tstrdup(dat->szSearchQuery);
-						dat->lastSession = NULL;
-					}
-					if (isTopic) {
-						pszName = Parentsi->ptszTopic;
-					} else if (isRoom) {
-						dat->lastSession = SM_FindSessionAutoComplete(Parentsi->pszModule, Parentsi, dat->lastSession, dat->szSearchQuery, dat->szSearchResult);
-						if (dat->lastSession != NULL)
-							pszName = dat->lastSession->ptszName;
-					} else
-						pszName = UM_FindUserAutoComplete(Parentsi->pUsers, dat->szSearchQuery, dat->szSearchResult);
-
-					mir_free(pszText);
-					pszText = NULL;
-					mir_free(dat->szSearchResult);
-					dat->szSearchResult = 0;
-					if (pszName == 0) {
-						if ((int)end != (int)start) {
-							SendMessage(hwnd, EM_SETSEL, start, end);
-							SendMessage(hwnd, EM_REPLACESEL, TRUE, (LPARAM)dat->szSearchQuery);
-						}
-						mir_free(dat->szSearchQuery);
-						dat->szSearchQuery = NULL;
-					} else {
-						pszText = 0;
-						dat->szSearchResult = mir_tstrdup(pszName);
-						if ((int)end != (int)start) {
-							if (!isRoom && !isTopic && g_Settings.AddColonToAutoComplete && start == 0) {
-								pszText = reinterpret_cast<wchar_t*>(Utils::safeMirAlloc((wcslen(pszName) + 4) * sizeof(wchar_t)));
-								wcscpy(pszText, pszName);
-								wcscat(pszText, L": ");
-								pszName = pszText;
-							}
-							SendMessage(hwnd, EM_SETSEL, start, end);
-							SendMessage(hwnd, EM_REPLACESEL, TRUE, (LPARAM)pszName);
-						}
-						if (pszText)
-							mir_free(pszText);
-						fCompleted = true;
-					}
-				}
+				bool fCompleted = TabAutoComplete(hwnd, dat, Parentsi);
 				SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
 				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
 				if (!fCompleted && !PluginConfig.m_AllowTab) {
@@ -941,7 +943,8 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 						SetFocus(GetDlgItem(mwdat->hwnd, IDC_CHAT_LOG));
 				}
 				return 0;
-			} else if (wParam != VK_RIGHT && wParam != VK_LEFT) {
+			}
+			if (wParam != VK_RIGHT && wParam != VK_LEFT) {
 				mir_free(dat->szSearchQuery);
 				dat->szSearchQuery = NULL;
 				mir_free(dat->szSearchResult);
