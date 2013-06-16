@@ -1,0 +1,54 @@
+﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+;============================================================
+;  File: MenuEx.dll
+;  Plugin: Menu item ext
+;  Version: 1.3.0.9
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
+;============================================================
+;file \plugins\MenuItemEx\res\resource.rc
+[Shown menu items]
+Показвани елементи в менюто
+[Show alpha icons]
+Показване на алфа икони
+[Hide from list]
+Скриване от списъка
+[Copy to Account (Ctrl+click for move to Account)]
+Копиране на акаунта (Ctrl+ляв бутон за преместване в Акаунт)
+[Send 'You were added']
+Изпрати "Вие бяхте добавен"
+[Request Authorization]
+Молба за упълномощаване
+[Browse Received Files]
+Разглеждане на получените файлове
+[Copy IP]
+Копиране на IP
+[Copy MirVer]
+Копиране на MirVer стойност
+[Copy Status Message]
+Копиране на текста за състояние
+[Add item name]
+Добавяне името на елемента
+[Copy ID]
+Копиране на ID
+[Add protocol name]
+Добавяне името на протокола
+[* Use Ctrl+click to see popup with the copied text]
+* Използвайте Ctrl+ляв бутон за показване на popup с копирания текст
+;file \plugins\MenuItemEx\src\main.cpp
+[XStatus message]
+Текст на хСъстояние
+[Activity title]
+Етикет на дейността
+[Activity text]
+Текст на дейността
+[Show in list]
+Показване в списъка
+[Never visible]
+Никога видимо
+[Copy to Account]
+Копиране в Акаунт
+[Do you want to send authorization request\nto new contact?]
+Желаете ли да бъде изпратена молба за упълномощаване до\nновия контакт?
+[Open ignore settings]
+Отваряне настройките за игнориране
+;file \plugins\MenuItemEx\src\options.cpp

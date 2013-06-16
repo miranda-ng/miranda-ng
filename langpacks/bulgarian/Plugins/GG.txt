@@ -1,0 +1,239 @@
+﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+;============================================================
+;  File: GG.dll
+;  Plugin: GG
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\Gadu-Gadu\res\resource.rc
+[Gadu-Gadu User Details]
+Gadu-Gadu подробности за потребителя
+[Gadu-Gadu Number:]
+Gadu-Gadu номер:
+[Retrieve password]
+Забравена парола
+[Friends only]
+Само приятели
+[Show offline users with status message as invisible in contact list]
+Показване на контакт "Извън линия" с текст за състояние, като "Невидим"
+[Receive image and after image is received use:]
+След получаване на изображение:
+[Show links from unknown contacts]
+Показване на хипервръзки от непознати контакти
+[Conference policy]
+Правила за конференции
+[if total participant count greater than:]
+ако участниците са повече от:
+[if unknown participant count greater than:]
+ако непознатите участници са повече от:
+[in other case]
+в друг случай
+[Advanced Configuration]
+Допълнителни настройки
+[Show connection errors]
+Показване на проблеми с връзката
+[Use SSL secure connection]
+Защитаване на връзка с SSL
+[Use direct connections]
+Ползване на директна връзка
+[Use forwarding]
+Ползване на препращане
+[Family name:]
+Фамилно име:
+[Origin city:]
+Роден град:
+[Birth year:]
+Година на раждане:
+[Create Gadu-Gadu account]
+Създаване на Gadu-Gadu акаунт
+[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
+Създай Gadu-Gadu акаунт\nСъздаване на нов акаунт за Gadu-Gadu
+[New password:]
+Нова парола:
+[Confirm password:]
+Потвърдете паролата:
+[New e-mail:]
+Нов имейл:
+[Remove Gadu-Gadu account]
+Премахване на Gadu-Gadu акаунт
+[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
+Премахни Gadu-Gaduакаунт\nИзтриване на акаунт от Gadu-Gadu
+[Yes, I want to remove my account]
+Да желая акаунта да бъде премахнат.
+[Change Gadu-Gadu password]
+Промяна на Gadu-Gadu парола
+[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
+Промени Gadu-Gadu парола\nПроменяне на текущата ви парола за Gadu-Gadu
+[Change Gadu-Gadu e-mail]
+Промяна на Gadu-Gadu имейла
+[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
+Промени Gadu-Gadu имейл\nПроменяне на текущата ел. поща, която ползвате в Gadu-Gadu
+[Age from:]
+Възраст от:
+[Open new conference]
+Отваряне на нова конференция
+[Open new conference\nSelect conference participants]
+Отваряне на нова конференция\nИзберете участници
+[Concurrent Sessions]
+Едновременни сесии
+[Concurrent %s Login Sessions\nView information on active concurrent sessions]
+Едновременни %s сесии\nПреглед на информацията за едновременните сесии
+[Sign out all sessions]
+Отписване от всички сесии
+;file \protocols\Gadu-Gadu\src\avatar.cpp
+;file \protocols\Gadu-Gadu\src\core.cpp
+[List import successful.]
+Внасянето на списъка приключи успешно.
+[List remove successful.]
+Списъка е успешно премахнат.
+[List export successful.]
+Изнасянето на списъка приключи успешно.
+[Incoming image]
+Входящо изображение
+;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[<Last Status>]
+<Последно състояние>
+[Message with [img] BBCode]
+Съобщение съдържащо "[img]" BBCode
+[You need to specify your registration e-mail first.]
+Необходимо е първо да зададете имейл за регистрацията.
+[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+Паролата ще бъде изпратена на имейла посочен в регистрацията.\nНаистина ли желаете това?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+Необходимо е да излезете от мрежата преди да промените акаунта за постоянно.\nЖелаете ли да излезете сега?
+[Allow]
+Позволи
+[Your details has been uploaded to the public directory.]
+Вашите подробности са качени в публичната директория.
+[You have to be logged in before you can change your details.]
+Трябва да се впишете преда да промените подробностите за себе си.
+;file \protocols\Gadu-Gadu\src\filetransfer.cpp
+;file \protocols\Gadu-Gadu\src\gg.cpp
+[Unknown HTTP error]
+Неизвестна HTTP грешка
+;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Gadu-Gadu Number]
+Gadu-Gadu номер
+;file \protocols\Gadu-Gadu\src\groupchat.cpp
+[Open &conference...]
+Отваряне на конференция...
+[&Clear ignored conferences]
+Изчистване на игнорираните конференции
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+%s стартира конференция с %d участника (%d непознати).\nЖелаете ли да участвате?
+[%s initiated the conference.]
+Конференцията е стартирана от %s.
+[This is my own conference.]
+Това е моята конференция.
+['Unknown']
+"Неизвестно"
+[You have to be connected to open new conference.]
+Необходимо е да сте свързани, за да отворите нова конференция.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Конференциите вече няма да бъдат игнорирани - за тях ще се прилагат общите правила.
+[There are no ignored conferences.]
+Няма игнорирани конференции
+;file \protocols\Gadu-Gadu\src\icolib.cpp
+[Import list from server]
+Внасяне на списъка от сървъра
+[Import list from text file]
+Внасяне на списъка от текстови файл
+[Remove list from server]
+Премахване на списъка от сървъра
+[Export list to server]
+Изнасяне на списъка в сървъра
+[Export list to text file]
+Изнасяне на списъка в текстови файл
+[Account settings]
+Настройки на акаунта
+[Previous image]
+Предишно изображение
+[Next image]
+Следващо изображение
+[Save image]
+Запазване на изображението
+[Delete image]
+Изтриване на изображението
+[Clear ignored conferences]
+Изчистване на игнорираните конференции
+[Concurrent sessions]
+Едновременни сесии
+;file \protocols\Gadu-Gadu\src\image.cpp
+[&Image]
+Изображение
+[Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
+Изображения (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
+[Image cannot be written to disk.]
+Изображението не може да бъде записано на диска.
+[Delete image from the list]
+Изтриване на изображението от списъка
+[Save image to disk]
+Запиши изображението
+[Image from %s]
+Изображение от %s
+[Image for %s]
+Изображение за %s
+[Select picture to send]
+Изберете изображение за изпращане
+[Image exceeds maximum allowed size of 255 KB.]
+Изображението надвишава максималния размер от 255kB.
+;file \protocols\Gadu-Gadu\src\import.cpp
+[You have to be connected before you can import/export contacts from/to server.]
+Трябва да сте свързани преди да можете да внасяте/изнасяте контакти към/от сървъра.
+[Text files]
+Текстови файлове
+[contacts]
+контакти
+[Import List From &Server]
+Внасяне на списъка от сървъра
+[Import List From &Text File...]
+Внасяне на списъка от текстови файл...
+[&Remove List From Server]
+Премахване на списъка от сървъра
+[Export List To &Server]
+Изнасяне на списъка в сървъра
+[Export List To &Text File...]
+Изнасяне на списъка в текстови файл...
+;file \protocols\Gadu-Gadu\src\links.cpp
+;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
+[Password was sent to your e-mail.]
+Паролата е изпратена на вашия имейл.
+;file \protocols\Gadu-Gadu\src\popups.cpp
+;file \protocols\Gadu-Gadu\src\services.cpp
+;file \protocols\Gadu-Gadu\src\sessions.cpp
+[Client Name]
+Клиент (Име)
+[IP Address]
+IP адрес
+[Login Time]
+Час на вписване
+[sign out]
+отписване
+[There are no active concurrent sessions for this account.]
+Няма активни едновременни сесии за акаунта.
+[You have to be logged in to view concurrent sessions.]
+Трябва да се впишете, за да прегледате едновременните сесии.
+[Copy Text]
+Копиране на текста
+[Concurrent &sessions]
+Едновременни сесии
+;file \protocols\Gadu-Gadu\src\token.cpp
+;file \protocols\Gadu-Gadu\src\userutils.cpp
+[Registration rejected]
+Регистрацията е отхвърлена
+[You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
+Регистрирахте нов акаунт.\nМоля, попълнете подробностите в "Главно меню > Преглед/Промяна на личните данни..."
+[Bad number or password]
+Неправилен номер или парола
+[Your account has been removed.]
+Вашият акаунт е премахнат.
+[Invalid data entered]
+Въведени са невалидни данни
+[Your password has been changed.]
+Вашата парола e променена.
+[Your e-mail cannot be changed because of error:\n\t%s]
+Вашият имейл не може да бъде сменена поради грешка:\n\t%s
+[Bad old e-mail or password]
+Неправилен стар имейл или парола
+[Your e-mail has been changed.]
+Вашият имейл е променен.

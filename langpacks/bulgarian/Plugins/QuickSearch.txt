@@ -1,0 +1,55 @@
+﻿#muuid  {e4058506-6494-4d60-9cf4-40bf545f78bd}
+;============================================================
+;  File: QuickSearch.dll
+;  Module: Quick Search, Quick Search Mod
+;  Versions: 1.4.0.4 - 1.4.0.18
+;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=260
+;============================================================
+[Show Offline contacts]
+Показвай контактите "Извън линия"
+[Sort by Status]
+Сортиране по състояние
+[integer value]
+целочислена стойност
+[Save Item]
+Запис на елемента
+[Setting:]
+Настройка:
+[Additional Options]
+Допълнителни настройки
+[Auto Close mode]
+Режим автозатваряне
+[Only Users in List]
+Само потребители от списъка
+[Show Client Icons]
+Показване икона на клиента
+[Item in Main Menu]
+Елемент в главното меню
+[CSV with headers]
+CSV с горни колонтитули
+[Skip minimized columns]
+Без минимизираните колони
+[Script]
+Скрипт
+[Script Editor]
+Редактор на скриптове
+[C&onvert to Meta]
+Превръщане в Мета
+[Some of selected contacts in different metacontacts already]
+Някои от избраните контакти са част от различни метаконтакти.
+[Do you really want to delete selected contacts?]
+Желаете ли избраните контакти да бъдат изтрити?
+[ users found (]
+ открити потребители (
+[) Online: ]
+) На линия:
+[Colorize]
+Оцветяване
+[Metacontact]
+Метаконтакт
+[Previous item]
+Предишен елемент
+[Next item]
+Следващ елемент
+[Open main window]
+Отваряне на главния прозорец

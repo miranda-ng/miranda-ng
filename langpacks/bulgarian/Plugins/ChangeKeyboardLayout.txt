@@ -1,0 +1,42 @@
+﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+;============================================================
+;  File: ChangeKeyboardLayout.dll
+;  Plugin: Change keyboard layout
+;  Version: 0.0.1.5
+;  Authors: Yasnovidyashii
+;============================================================
+;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
+[Changing layout:]
+Смяна на клавиатурната подредба:
+[Changing layout (alternative):]
+Смяна на клавиатурната подредба (алтернативна комбинация):
+[Inverting lettercase:]
+Смяна на буквите (главни/малки):
+[Two-way changing layout (experimental)]
+Двупосочна смяна (експериментално)
+[Copy result to clipboard]
+Копиране на резултата в клипборда
+[Show result in Popup]
+Показване на резултата в Popup
+[Strings for keyboard layouts]
+Низове за клавиатурните подредби
+[Invert current state]
+Смяна на текущото състояние
+[Switch off]
+Изключване
+[Leave as it is]
+Без промяна
+[Set Caps Lock state when inverting lettercase:]
+Задаване на състояние за Caps Lock при смяна на буквите:
+[Change active keyboard layout in system]
+Сменяване на клавиатурната подредба на ОС
+[Windows colours]
+Цветове от Windows
+[Custom colours]
+Избор на цветове
+;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
+;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
+[Changing Layout]
+Смяна на клавиатурната подредба
+[Changing Case]
+Смяна на буквите (главни/малки)

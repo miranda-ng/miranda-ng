@@ -1,0 +1,24 @@
+﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
+;langpack template for Tlen
+;file \protocols\Tlen\res\tlen.rc
+[Enable encryption]
+Шифроване на базата от данни
+[&From Popup plugin]
+От приставката Popup
+[&Custom]
+Избор
+[P&ermanent]
+Постоянно
+[Avatar Options]
+Настройки на аватара
+;file \protocols\Tlen\src\jabber_iqid.cpp
+;file \protocols\Tlen\src\jabber_opt.cpp
+;file \protocols\Tlen\src\jabber_svc.cpp
+;file \protocols\Tlen\src\jabber_thread.cpp
+;file \protocols\Tlen\src\jabber_ws.cpp
+;file \protocols\Tlen\src\tlen.cpp
+;file \protocols\Tlen\src\tlen_file.cpp
+;file \protocols\Tlen\src\tlen_muc.cpp
+;file \protocols\Tlen\src\tlen_picture.cpp
+;file \protocols\Tlen\src\tlen_userinfo.cpp
+;file \protocols\Tlen\src\tlen_voice.cpp

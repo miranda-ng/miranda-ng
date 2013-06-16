@@ -1,0 +1,242 @@
+﻿#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
+;============================================================
+;  File: watrack.dll
+;  Module: Winamp Track |Unicode aware|
+;  Versions: 0.0.2.4 - 0.0.6.12
+;  Url: http://addons.miranda-im.org/details.php?action=viewfile&id=2345
+;============================================================
+[Clear xStatus before set new one]
+Изчистване на старото xСъстояние преди задаване на ново
+[Emulate Multimedia keys]
+Емулиране на мултимедийни клавиши
+[Use XStatus]
+Ползване на хСъстояние
+[Save events in database]
+Събития за запазване в базата от данни
+[Music Info Request]
+Заявка за музикална информация
+[Save ignored requests]
+Запазване на игнорираните заявки
+[Answer to ignored requests]
+Отговор на игнорираните заявки
+[Show info in the frame]
+Информация в рамката
+[Show controls in the frame]
+Бутони за управление
+[Show volume controls]
+Управление на звука
+[Use Picture]
+Ползване на картина
+[Use cover instead of picture]
+Ползване на обложка вместо картина
+[Frame refresh time]
+Време за обновяване на рамката
+[Center horizontally]
+Центриране по хоризонтала
+[Center vertically]
+Центриране по вертикала
+[Use buttons gap]
+Пролука между бутоните
+[Text effect]
+Ефекти
+[Text movement]
+Движение на текста
+[Text rotation speed (1-20)]
+Скорост на движение (1-20)
+[Scroll step]
+Стъпка на придвижване
+[Scroll gap]
+Пролука между края и началото
+[Wrap]
+Пренасяне
+[Roll]
+Преминаване
+[PingPong]
+Напред назад
+[Color codes]
+Кодове на цветовете
+[File size]
+Размер на файла
+[Formats]
+Формати
+[Player name letters]
+Име на плейъра
+[Popup Title / Text]
+Popup етикет / Текст
+[Frame Text]
+Текст на рамката
+[Postfix]
+Наставка
+[Refresh time, sec]
+Обновяване през Х сек
+[Report]
+Създай доклад
+[Report Items]
+Елемента във всеки раздел
+[Report file]
+Доклад
+[Show in report]
+Раздели на доклада
+[Sort]
+Сортиране
+[Sort log file]
+Сортиране на дневника
+[Statistic log file]
+Дневник на статистиката
+[Autosort period, days]
+Автосортиране всеки (дни)
+[Template file]
+Файл за шаблон
+[Export default]
+Износ на станд.
+[Freq. album]
+Често възпроизвеждани албуми
+[by Length]
+по продължителност
+[Unicode to Ansi translation codepage:]
+Кодова таблица при Unicode<->Ansi превод:
+[Insert in messages]
+Вмъкване в съобщения
+[Use status messages]
+Ползване на текст за състояние
+[Independed XStatus]
+Независимо хСъстояние
+[Use process implantation]
+Внедряване в процеса
+[Replace underlines with spaces]
+Замяна на долна черта с интервал
+[Check file time]
+Следене часа на файла
+[Keep old file]
+Запазване на стария файл
+[User message]
+Съобщение до потребител
+[Channel message]
+Съобщение за канал
+[Keep 'Music' XStatus]
+Запазване на хСъстояние "Слуша музика"
+[Add report file ext.]
+Добавяне на разширение към файла
+[Freq. artists]
+Чести изпълнители
+[Freq. paths]
+Чести пътища
+[Freq. songs]
+Често възпроизвеждани песни
+[Last played songs]
+Последно възпроизведени песни
+[Song time]
+Най-продължителни песни
+[VBR or CBR]
+VBR или CBR
+[VBR or empty]
+VBR или празно
+[Show file name in info]
+Име на файла в информацията
+[All uppercase]
+Всичките главни
+[Do not change]
+Без промяна
+[All lowercase]
+Всичките малки
+[lowercase %type%]
+малки букви %type%
+[Next track]
+Следваща песен
+[Show player]
+Показва плейъра
+[by Count]
+по брой
+[by Date]
+по дата
+[by Path]
+по път
+[by Title]
+по заглавие
+[Open report]
+Отваряне на доклада след създаването му
+[Reverse order]
+Обратен ред
+[Show by request only]
+Показване само при заявка
+[Cover filenames]
+Име на обложката
+[Music Info]
+Музикална информация
+[Align text to center]
+Подреждане на текста в центъра
+[Switch ON these modules]
+Включване на следните модули
+[Export text template]
+Шаблон за експорт на текста
+[Use listening info]
+Ползване на "Слуша"
+[Enable Status message]
+Ползване на текст за състояние
+[Enable XStatus message]
+Ползване на хСъстояние
+[Check all players]
+Отметване на всички
+[(%artist%, %title%, %album% and %year% macros can be used only)]
+Можете да използвате само %artist%, %title%, %album% и %year%
+[Attempts]
+Опита
+[Content language]
+Език на съдържанието
+[Artist]
+Изпълнител
+[Album]
+Албум
+[Get Artist Info]
+Инф. за изпълнителя
+[Get Track Info]
+Инф. за песента
+[Get Album Info]
+Инф. за албума
+[Music Statistic]
+Статистика за музиката
+[Set XStatus when...]
+Задаване на хСъстояние, когато..
+[Players list\n(F1 for note)]
+Списък с плейъри - натиснете\nF1 за повече информация
+[Chat Template]
+Чат шаблон
+[This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
+Това е опростената версия на редактора на шаблони. Следните шаблони ще бъдат използвани за всеки протокол и всяко състояние (на протоколите и плейъра).
+[Manual element placement]
+Ръчно позициониране
+[Left click]
+Ляв бутон
+[Right click]
+Десен бутон
+[Custom colors]
+Избор на цветове
+[Kilobytes]
+Килобайта
+[Megabytes]
+Мегабайта
+[Precision]
+Точност
+[Color]
+Цвят
+[Output]
+Извеждане
+[Check]
+Проверка
+[Choose font...]
+Избор на шрифт...
+[[X]Status Title / Text]
+хСъстояние / Съобщение
+;file \plugins\Watrack\myshows\myshows.rc
+[Timeout, ms]
+Закъснение, мс
+[Get Series Info]
+Инф. за поредицата
+[Episode]
+Епизод
+;file \plugins\Watrack\lastfm\i_last_api.inc
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
+;file \plugins\Watrack\proto\proto.pas
+[Music Info from ]
+Музикална информация от
+;other strings

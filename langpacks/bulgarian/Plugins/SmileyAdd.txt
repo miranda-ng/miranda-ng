@@ -1,0 +1,61 @@
+﻿#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+;============================================================
+;  File: SmileyAdd.dll
+;  Plugin: SmileyAdd
+;  Version: 0.2.3.17
+;  Authors: Peacow, nightwish, bid, borkra
+;============================================================
+;file \plugins\SmileyAdd\res\resource.rc
+[Smiley Categories]
+Категории усмивки
+[Specify Smiley Pack for each category]
+Различен пакет усмивки за всяка категория
+[Replace only smileys surrounded by spaces]
+Замяна само на усмивки оградени от интервал
+[Scale smiley to textheight]
+Мащабиране до големината на текста
+[Disable custom smileys]
+Без персонални усмивки
+[High Quality smiley scaling]
+Висококачествено мащабиране
+[Animate]
+Анимиране
+[Min smiley height]
+Мин. височина на усмивките
+[Smiley Selector]
+Избор на усмивка
+[Surround inserted smiley with spaces]
+Ограждане на вмъкнатите усмивки с интервал
+[Use first smiley for selection size]
+Задаване на размер от първата усмивка
+[Input Area]
+Поле за въвеждане
+[Don't replace at cursor]
+Без замяна при посочване
+[Built-In Message Dialog Support]
+Прозорец за съобщения
+[Smiley Button]
+Бутон "Усмивки"
+;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
+[Show Smiley Selection Window]
+Показване на прозореца за избор на усмивка
+;file \plugins\SmileyAdd\src\download.cpp
+[SmileyAdd HTTP connections]
+HTTP връзки на SmileyAdd
+;file \plugins\SmileyAdd\src\main.cpp
+[Button Smiley]
+Бутон "Усмивки"
+[Assign Smiley Category]
+Задаване на категория усмивки
+;file \plugins\SmileyAdd\src\options.cpp
+[Smileys]
+Усмивки
+[Smiley Packs]
+Пакети усмивки
+;file \plugins\SmileyAdd\src\services.cpp
+;file \plugins\SmileyAdd\src\smileys.cpp
+[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+Проблем при зареждането на пакет усмивки (би трябвало да е отстранен).\nПрегледайте мрежовия дневник за подробности.
+[Standard]
+Стандарт
+;file \plugins\SmileyAdd\src\smltool.cpp

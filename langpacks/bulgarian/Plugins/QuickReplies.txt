@@ -1,0 +1,22 @@
+﻿#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
+;============================================================
+;  File: QuickReplies.dll
+;  Plugin: Quick replies
+;  Version: 0.8.1.0
+;  Authors: Unsane
+;============================================================
+;file \plugins\QuickReplies\res\resources.rc
+[Send replies immediately]
+Незабавно изпращане на отговорите
+[- Add your replies, one per line.]
+- добавете вашите отговори, по един на всеки ред
+[Hints:]
+Съвети:
+[- Add "---" for separator.]
+- добавете "---" за разделител
+[- Press [v] button for variable's help.]
+- натиснете бутон "V" за помощ, относно променливите
+;file \plugins\QuickReplies\src\events.cpp
+[Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
+Quick Replies\r\nЛяв бутон отваря менюто\r\nДесен бутон отваря настройките
+;file \plugins\QuickReplies\src\options.cpp

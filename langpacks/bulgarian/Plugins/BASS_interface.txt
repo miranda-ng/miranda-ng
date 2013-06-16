@@ -1,0 +1,30 @@
+﻿#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
+;============================================================
+;  File: BASS_interface.dll
+;  Plugin: BASS interface
+;  Version: 0.0.0.14
+;  Authors: tico-tico
+;============================================================
+;file \plugins\BASS_interface\res\Bass.rc
+[un4seen's bass interface]
+Интерфейс за библиотеката BASS на un4seen
+[bass.dll loading error]
+Грешка при зареждането на bass.dll
+[Current bass.dll path:]
+Път до bass.dll:
+[Maximum number of bass internal channels:]
+Максимален брой вътрешни канали
+[Volume:]
+Сила на звука:
+[Quiet time:]
+Тишина:
+[download bass library]
+сваляне на библиотеката BASS
+[Play only if]
+При състояние
+;file \plugins\BASS_interface\src\Bass_interface.h
+;file \plugins\BASS_interface\src\Main.cpp
+[un4seen's bass version: %d.%d.%d.%d]
+Версия на библиотеката BASS: %d.%d.%d.%d
+[--default device--]
+--стандартно устройство--

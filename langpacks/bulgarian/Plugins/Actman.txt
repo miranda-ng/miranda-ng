@@ -1,0 +1,128 @@
+﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
+;============================================================
+;  File: actman.dll
+;  Plugin: Action Manager
+;  Versions: 0.2.0.1
+;  URL: 
+;  Source: http://delphi-miranda-plugins.googlecode.com/svn/trunk/actman/
+;  Authors: Awkward
+;============================================================
+[Service name]
+Име на услугата
+[Window option]
+Настройки на прозореца
+[Show in popup]
+Показване в popup
+[Start hidden]
+Скриване при стартиране
+[Show in messagebox]
+Показване в текстова кутия
+[Start maximized]
+Максимизиране при стартиране
+[Condition]
+Условия
+[Insert into message]
+Вмъкване в съобщение
+[Process options]
+Настройки на процеса
+[Current path]
+Текущ път
+[Start normal]
+Нормално стартиране
+[Copy to]
+Копиране в
+[Other Action groups]
+Друга група действия
+[Operation]
+Операция
+[Last result]
+Последен резултат
+[Own settings]
+Собствени настройки
+[Message title]
+Заглавие на съобщението
+[OK, Cancel]
+ОК, Отказ
+[Abort, Retry, Ignore]
+Прекратяване, Повтаряне, Игнориране
+[Yes, No, Cancel]
+Да, Не, Отказ
+[Yes, No]
+Да, Не
+[Retry, Cancel]
+Повтаряне, Отказ
+[Keep Last Result]
+Запазване на последния резултат
+[C&ancel]
+Отказ
+[Structure Editor]
+Редактор на структурата
+[Data length]
+Дължина на данните
+['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
+'<proto>' в името на услугата ще бъде заменено с името на протокола за съответния контакт
+[Paste from]
+Поставяне от
+[Free memory]
+Свободна памет
+[Append]
+Добавяне
+[Choose action]
+Изберете действие
+[A&ppend]
+Добавяне
+[Active accounts only]
+Изброяване само на активни акаунти
+[Dropdown list format]
+Падащ списък
+[Event]
+Събитие
+[Repeat, times]
+Повторение (пъти)
+[Interval]
+Интервал
+[Break on non-zero result]
+Прекъсни при резултат различен от 0
+[Send event on start time]
+Изпрати събитието при стартиране
+[Send event just once]
+Изпрати събитието само веднъж
+[Action list]
+Списък с действия
+[Where to use]
+Къде да се ползва
+[2 state button/item]
+Елемент/бутон с 2 състояния
+[Save button/item state]
+Запис на състоянието на елемента/бутона
+[Normal button tooltip]
+Подсказка
+[Pressed button tooltip]
+Подсказка при натиснат бутон
+[Root popup:]
+Основен popup:
+[Menu item name:]
+Име на елемента в гл. меню:
+[Show only if variables return 1]
+Покажи само ако променливата върне "1"
+[Contact related]
+Свързани с контакт
+;other strings
+[Use Variables]
+Ползване на променливи
+[number value]
+числова стойност
+[ANSI string]
+ANSI низ
+[Unicode string]
+Unicode низ
+[current contact]
+текущ контакт
+[Choose Contact]
+Изберете контакт
+[Return]
+Връща
+[Effect]
+Ефект
+[Start]
+Начало

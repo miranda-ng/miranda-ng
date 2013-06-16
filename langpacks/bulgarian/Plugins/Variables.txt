@@ -1,0 +1,39 @@
+﻿#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
+;============================================================
+;  File: Variables.dll
+;  Plugin: Variables
+;  Version: 0.2.3.9
+;  Authors: P Boon
+;============================================================
+;file \plugins\Variables\res\Variables.rc
+[Automatically strip "end of line" characters]
+Автоматично премахване на символите за "край на реда"
+[Automatically strip white space]
+Автоматично премахване на празни пространства
+[Test area]
+Зона за тестване
+[Click on the help button to get more information]
+Натиснете бутона за помощ, за да получите повече информация
+[Don't set a contact]
+Без задаване на контакт
+[Set to the following contact]
+Задаване за следния контакт
+;file \plugins\Variables\src\help.cpp
+[Input]
+Въвеждане
+[Variables Help]
+За променливите
+;file \plugins\Variables\src\options.cpp
+;file \plugins\Variables\src\parse_alias.cpp
+;file \plugins\Variables\src\parse_external.cpp
+;file \plugins\Variables\src\parse_inet.cpp
+;file \plugins\Variables\src\parse_logic.cpp
+;file \plugins\Variables\src\parse_math.cpp
+;file \plugins\Variables\src\parse_metacontacts.cpp
+;file \plugins\Variables\src\parse_miranda.cpp
+;file \plugins\Variables\src\parse_regexp.cpp
+;file \plugins\Variables\src\parse_str.cpp
+;file \plugins\Variables\src\parse_system.cpp
+;file \plugins\Variables\src\parse_variables.cpp
+;file \plugins\Variables\src\parse_xml.cpp
+;file \plugins\Variables\src\variables.cpp

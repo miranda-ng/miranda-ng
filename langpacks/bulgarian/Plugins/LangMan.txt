@@ -1,0 +1,28 @@
+﻿#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
+;============================================================
+;  File: LangMan.dll
+;  Plugin: Language pack manager
+;  Version: 1.0.2.3
+;  Authors: H. Herkenrath
+;============================================================
+;file \plugins\LangMan\res\resource.rc
+[Last modified using:]
+Посл. промяна с:
+[Locale:]
+Език:
+[Download more Language Packs]
+Сваляне на още езикови пакети
+;file \plugins\LangMan\src\main.cpp
+;file \plugins\LangMan\src\options.cpp
+[All installed plugins are included.]
+Всички инсталирани приставки са включени.
+[(incompatible)]
+(несъвместимо)
+[Current]
+Текущ
+[Installed Languages]
+Инсталирани езикови пакети
+[built-in]
+Вграден
+[Languages]
+Езици

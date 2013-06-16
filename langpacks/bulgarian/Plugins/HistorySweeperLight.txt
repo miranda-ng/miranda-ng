@@ -1,0 +1,18 @@
+﻿#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
+;============================================================
+;  File: HistorySweeperLight.dll
+;  Plugin: History sweeper light
+;  Version: 0.0.0.7
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
+;============================================================
+;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
+[Sweep history for this contacts:]
+Изчистване на историята за следните контакти:
+[Sweep on closing message window]
+Изчистване при затваряне на прозореца за съобщения
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
+Ползване на НЕСИГУРЕН режим (опасен е за БД, но изчиства по-бързо)
+;file \plugins\HistorySweeperLight\src\main.cpp
+;file \plugins\HistorySweeperLight\src\options.cpp
+[*** System History ***]
+*** История на системата ***

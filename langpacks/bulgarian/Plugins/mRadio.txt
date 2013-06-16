@@ -1,0 +1,65 @@
+﻿#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
+;============================================================
+;  File: mradio.dll
+;  Module: mRadio, mRadio Mod
+;  Versions: 0.0.2.1
+;  URL:http://awkward.mirandaim.ru
+;============================================================
+[Genre]
+Жанр
+[Play from first]
+Възпроизвеждане от началото
+[Shuffle playlist]
+Разбъркване на плейлиста
+[Loop single media]
+Повтаряне на една и съща медиа (файл)
+[Station Name]
+Име на станцията
+[Timeout, ms (5000)]
+Времетраене, мс (500)
+[Use EAX]
+Ползване на EAX
+[Station URL (required)]
+Адрес на станцията (необходимо)
+[To INI]
+.INI файла
+[Buffer, ms (5000)]
+Буфер, мс (5000)
+[Add station]
+Добавяне на станцията в:
+[Add Station]
+Добавяне на нова станция
+[Bitrate]
+Честота
+[Record path]
+Записване в
+[Autoconnect last station]
+Автоматично свързване към последната активна станция
+[To list]
+списъка
+[Continuous record]
+Запис без прекъсване
+[Station]
+Станция
+[Custom INI file]
+Зададен .INI файл
+[Record]
+Запис
+[Status message template]
+Шаблон за текста за състоянието
+[Export All]
+Износ на всичко
+[BASS library path (empty for default)]
+Път до библиотеката BASS (празно=стандартния)
+[Tries to connect]
+Опита за свързване
+[Import File]
+Внос от файл
+[Forced Mono]
+Направи моно
+[OFF]
+Изкл.
+[Volume]
+Звук
+[Equalizer]
+Еквалайзер

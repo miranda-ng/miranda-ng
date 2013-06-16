@@ -1,0 +1,29 @@
+﻿#muuid {4b733944-5a70-4b52-ab2d-68b1ef38ffe8}
+;============================================================
+;  File: StartupStatus.dll
+;  Plugin: StartupStatus
+;  Version: 0.8.0.45
+;  Authors: P Boon
+;============================================================
+;file \Plugins\StatusPlugins\resource.rc
+;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[size: %d x %d]
+размер: %d x %d
+[loc: %d x %d]
+положение: %d x %d
+[Minimized]
+Минимизирано
+[Create a status menu item]
+Елемент за състояние в менюто
+[default]
+стандарт
+[At least one profile must exist]
+Необходимо е да има поне един профил
+[Your default profile will be changed]
+Стандартният ви профил ще бъде сменен
+;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
+[There is a maximum of 6 menu items]
+6 е максималният брой елементи в менюто
+;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
+;file \Plugins\StatusPlugins\commonstatus.cpp
+;file \Plugins\StatusPlugins\confirmdialog.cpp

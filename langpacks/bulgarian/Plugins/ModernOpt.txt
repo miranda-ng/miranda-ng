@@ -1,0 +1,25 @@
+﻿#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+;============================================================
+;  File: ModernOpt.dll
+;  Plugin: ModernOpt
+;  Version: 0.1.0.0
+;  Authors: Victor Pavlychko, George Hazan
+;============================================================
+[Support for new options design.]
+Поддръжка на новия дизайн на настройките.
+;file \plugins\ModernOpt\res\resource.rc
+[Visit official Miranda NG website]
+Посетете официалната страница на Miranda NG
+[Sample page]
+Примерна страница
+[Use arrow keys to choose category]
+Използвайте стрелките, за да изберете категория
+[Switch to classic options]
+Класически вид на настройките
+;file \plugins\ModernOpt\src\modernopt.cpp
+[Style]
+Стил
+[Chats]
+Разговори
+[You have some unsaved changes here.\n Do you wish to apply settings before switching?]
+Направените промени не бяха запаметени.\nЖелаете ли да бъдат приложени преди да продължите?

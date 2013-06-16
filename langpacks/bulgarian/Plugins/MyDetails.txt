@@ -1,0 +1,104 @@
+﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.11
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+;file \plugins\MyDetails\res\resource.rc
+[Set My Nickname]
+Задаване на прякор
+[RTL]
+Л<Д
+[Align text to right]
+Текста вдясно
+[Auto-resize frame]
+Авторазмер на рамката
+[Use contact list smileys]
+Ползване на усмивки в списъка с контакти
+[Replace Smileys]
+Замяна на усмивките
+[Resize Smileys]
+Оразмеряване на усмивките
+[Top:]
+Горе:
+[Bottom:]
+Долу:
+[Left:]
+Ляво:
+[Right:]
+Дясно:
+[Custom size:]
+Задаване на размер:
+[Allow it to grow]
+Възможност за увеличаване
+[Use free space (under avatar) to other texts]
+Ползване на мястото под аватара за друг текст
+[Set My Status Message for All Status]
+Текст за състояние за всички състояния
+[Status Message:]
+Текст за състояние:
+[Status popup]
+popup за състояние
+[&Offline]
+Извън линия
+[On&line]
+На линия
+[&Away]
+Отсъстващ
+[&NA]
+Недостъпен
+[Occ&upied]
+Зает
+[&DND]
+Не безпокойте
+[&Free for chat]
+Готов за чат
+[&Invisible]
+Невидим
+[On the &Phone]
+На телефона
+[Out to &Lunch]
+На обяд
+[Set My Avatar...]
+Задаване на аватар...
+[Set My Nickname...]
+Задаване на прякор...
+[Set My Status Message...]
+Задаване на текст за състояние...
+[Enable Listening To]
+Включване на "Слуша"
+[Nick popup]
+popup за прякор
+[Status message popup]
+popup с текст за състояние
+[Avatar popup]
+Аватар popup
+;file \plugins\MyDetails\src\data.cpp
+;file \plugins\MyDetails\src\frame.cpp
+[My Details]
+Моите детайли
+[Show My Details]
+Показване на моите детайли
+[Enable Listening To for %s]
+Включване на "Слуша" за %s
+[Set My Avatar for %s...]
+Задаване на аватар за %s...
+[Set My Nickname for %s...]
+Задаване на прякор за %s...
+[Set My Status Message for %s...]
+Задаване на текст за състояние "%s"...
+[Hide My Details]
+Скриване на моите детайли
+;file \plugins\MyDetails\src\mydetails.cpp
+[Previous protocol]
+Предишен протокол
+[Next protocol]
+Следващ протокол
+[Set My Nickname for %s]
+Задаване на прякор за %s
+[Set My Status Message for %s]
+Текст за състояние "%s"
+[Show next protocol]
+Показване на следващия протокол
+;file \plugins\MyDetails\src\options.cpp

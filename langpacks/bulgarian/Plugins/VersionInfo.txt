@@ -1,0 +1,61 @@
+﻿#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
+;============================================================
+;  File: VersionInfo.dll
+;  Plugin: Version information
+;  Version: 1.5.0.3
+;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
+;============================================================
+;file \plugins\VersionInfo\res\resource.rc
+[Output to:]
+Извеждане в:
+[Text file]
+Текстови файл
+[Select output:]
+Изберете извеждане:
+[Upload to site]
+Качване на сайта
+[Forum style formatting]
+Форматиране като за форум
+[Aditional options:]
+Допълнителни настройки:
+[Do it now]
+Изпълнение
+[Show window in taskbar]
+Показване на прозореца в лентата за задачи
+[Ask every time]
+Запитване всеки път
+[Also copy info to clipboard]
+Копиране на информацията и в клипборда
+[Upload site settings]
+Настройки за качване
+[Highlight version number using]
+Отличаване на версията чрез
+[Show disabled plugins too]
+Показване и на изключените приставки
+[Suppress header information]
+Подтискане на информацията от горните колонтитули
+[Show plugin UUIDs]
+Показване на UUIDs на приставките
+[Show installed languages]
+Показване на инсталираните езици
+[&Copy text]
+Копиране на текста
+[&Save to file]
+Запис като файл
+;file \plugins\VersionInfo\src\CVersionInfo.cpp
+[Information successfully written to file: "%s".]
+Информацията бе успешно записана във файла "%s".
+[Error during the creation of file "%s". Disk may be full or write protected.]
+Грешка при създаване на файла "%s". Вероятно дискът е пълен или защитен.
+[The clipboard is not available, retry.]
+Клипборда не е наличен. Нов опит?
+[Information successfully copied into clipboard.]
+Информацията бе успешно копирана в клипборда.
+;file \plugins\VersionInfo\src\dlgHandlers.cpp
+[Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
+Желаете ли опцията да бъде включена?\nЖелателно е да бъде включена само при условие, че знаете какво правите и какво е предназначението й.
+[Show plugin UUIDs ?]
+Показване на UUIDs на приставките ?
+;file \plugins\VersionInfo\src\hooked_events.cpp
+;file \plugins\VersionInfo\src\main.cpp
+;file \plugins\VersionInfo\src\utils.cpp

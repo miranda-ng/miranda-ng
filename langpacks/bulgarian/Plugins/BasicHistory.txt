@@ -1,0 +1,39 @@
+﻿#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
+;============================================================
+;  File: BasicHistory.dll
+;  Plugin: Basic history
+;  Version: 1.0.1.9
+;  Authors: Krzysztof Kral
+;============================================================
+;file \plugins\BasicHistory\res\BasicHistory.rc
+[Show event icons]
+Показване на икони за събитията
+;file \plugins\BasicHistory\src\BasicHistory.cpp
+[Status change]
+Промяна на състояние
+;file \plugins\BasicHistory\src\EventList.cpp
+[All events]
+Всички събития
+;file \plugins\BasicHistory\src\ExportManager.cpp
+;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Reply &Quoted]
+Цитиране
+[Filters]
+Филтри
+;file \plugins\BasicHistory\src\Options.cpp
+[SMS message]
+SMS съобщение
+[Show/Hide Contacts]
+Показване/Скриване на контактите
+[Incoming events]
+Входящи събития
+[Outgoing events]
+Изходящи събития
+;file \plugins\BasicHistory\src\Options.h
+;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
+;file \plugins\BasicHistory\src\RichHtmlExport.cpp
+;file \plugins\BasicHistory\src\Scheduler.cpp
+;file \plugins\BasicHistory\src\Searcher.cpp
+["%s" not found]
+"%s" не е открито
+;file \plugins\BasicHistory\src\TxtExport.cpp

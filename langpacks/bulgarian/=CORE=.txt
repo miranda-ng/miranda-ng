@@ -1,0 +1,984 @@
+﻿;file \src\resource.rc
+[Enter account name (for example, My Google)]
+Въведете име на акаунта
+[Choose the protocol type]
+Изберете тип на протокола
+[Specify the internal account name (optional)]
+Въведете вътрешно име (не е задължително)
+[Add %s]
+Добавяне на %s
+[Contact Display Options]
+Изобразяване на контактите
+[Miranda NG Profile Manager]
+Miranda NG диспечер на профили
+[&Run]
+Изпълнение
+[Start in Service Mode with]
+Стартиране в сервизен режим с:
+[Find/Add Contacts]
+Търсене/Добавяне на контакти
+[First:]
+Първо:
+[Last:]
+Последно:
+[Add to list]
+Добавяне в списъка
+[Find/Add Contacts\nHere you can add contacts to your contact list]
+Търсене/Добавяне на контакти\nОт тук можете да добавите нови контакти в списъка
+[Options\nConfigure your Miranda NG options]
+Настройки\nКонфигурирайте настройките на Miranda NG
+[Please select a subentry from the list]
+Моля, изберете подраздел от списъка вляво
+[Netlib Log Options]
+Настройки на дневника на мрежовите връзки
+[Received bytes]
+Получени байтове
+[Sent bytes]
+Изпратени байтове
+[Additional data due to proxy communication]
+Допълнителни данни поради прокси комуникация
+[Auto-detect text]
+Автооткриване на текст
+[Log to]
+Запис в
+[Run now]
+Стартиране
+[Show this dialog box when Miranda NG starts]
+Показване на този прозорец, когато Miranda NG стартира
+[Save as default]
+Запис като стандарт
+[SSL Traffic]
+SSL трафик
+[&Change...]
+Промяна...
+[Download more sounds]
+Сваляне на още звуци
+[Sound Information]
+Информация за звука
+[Location:]
+Местоположение:
+[Enable sound events]
+Включване на звука
+[Show category:]
+Показване на категория:
+[&Load icon set...]
+Зареди комплект икони...
+[&Import icons >>]
+Внос на икони >>
+[Download more icons]
+Сваляне на още икони
+[Online Notification]
+Уведомяване "На линия"
+[Auth Requests]
+Молби за упълномощаване
+[All Events]
+Всички събития
+[Only the ticked contacts will be shown on the main contact list]
+Само отметнатите контакти ще бъдат видими в списъка с контакти
+[Added Notification]
+Уведомяване за добавяне
+[You are visible to this person even when in invisible mode]
+Винаги сте видим за този човек, дори и при състояние Невидим
+[You are never visible to this person]
+Винаги сте невидим за този човек
+[Icon Index]
+Индекс на иконите
+[Icon library:]
+Библиотека на иконите:
+[Drag icons to main list to assign them:]
+За да назначите икона я влачете към главния списък:
+[Import multiple]
+Внос на няколко
+[<< &Import]
+<< Внос
+[To default status icons]
+Стандартни икони за състоянието
+[Logging...]
+Записване...
+[Outgoing Connections]
+Изходящи връзки
+[Use proxy server]
+Ползване на прокси сървър
+[(often %d)]
+(често %d)
+[Resolve hostnames through proxy]
+Откриване имената на хостовете чрез прокси сървъра
+[Port Range:]
+Портов обхват:
+[Example: 1050-1070, 2000-2010, 2500]
+Пример: 1050-1070, 2000-2010, 2500
+[Validate SSL certificates]
+Потвърждаване на SSL сертификатите
+[Incoming Connections]
+Входящи връзки
+[Please complete the following form to create a new user profile]
+Попълнете следния формуляр, за да създадете нов потребителски профил.
+[e.g. Workplace]
+напр. raboten
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+Можете да изберете драйвер за профила, който да предлага повече функции. Ако имате съмнения използвайте стандартния.
+[e.g. Miranda Database]
+напр. db3x mmap driver
+[Driver]
+Драйвер
+[Download more plugins]
+Сваляне на още приставки
+[Fonts and Colors]
+Шрифтове и цветове
+[Color/Background]
+Цвят на фона
+[Text Effect]
+Ефекти
+[Choose Font]
+Избор на шрифт
+[&Font:]
+Шрифт:
+[Font st&yle:]
+Стил на шрифта:
+[\nStyles and effects are disabled for this font.]
+\nСтиловете и ефектите са изключени за шрифта.
+[&Size:]
+Размер:
+[Stri&keout]
+Зачертан
+[&Underline]
+Подчертан
+[&Color:]
+Цвят:
+[Sample]
+Пример
+[Sc&ript:]
+Скрипт:
+[Menu Objects]
+Менюта
+[Menu Items]
+Елементи
+[Protocol menus]
+Менюта на протоколите
+[Move to the main menu]
+в главното меню
+[Move to the status bar]
+в лентата за състояние
+[Insert separator]
+Вмъкване на разделител
+[Disable icons]
+Изключи иконите
+[Account Order && Visibility]
+Ред и видимост на акаунтите
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Бележка: За осъществяване на промени е необходимо да рестартирате Miranda.
+[Shortcut:]
+Препратка:
+[Undo Changes]
+Отменяна на промените
+[Reset To Default]
+Стандарт
+[Accounts\nConfigure your IM accounts]
+Акаунти\nНастройте вашите акаунти
+[Account information:]
+Информация за акаунта:
+[Additional:]
+Допълнително:
+[Configure network...]
+Мрежови настройки...
+[Get more protocols...]
+Сваляне на още протоколи...
+[&Add...]
+Добавяне...
+[&Upgrade]
+Надграждане
+[Miranda NG is being restarted.\nPlease wait...]
+Miranda NG се рестартира.\nМоля, изчакайте...
+[Error notifications]
+Уведомяване за грешки
+[Headers:]
+Горни колонтитули:
+[This font is used to display main section titles or text elements.]
+Шрифт за изобразяване етикети на секции или текстови елементи.
+[Normal text:]
+Нормален текст:
+[This font is used to display most text element or section bodies.]
+Шрифт за повечето текстови елементи или съдържанието на секциите.
+[Minor notes:]
+Малки бележки:
+[This font is used to display various addtional notes.]
+Шрифта за изобразяване на различни допълнителни бележки.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
+Добре дошли в диспечера на акаунти в  Miranda NG!\nОт тук можете да настроите вашите акаунти.\n\nЗа да видите наличните опции, изберете акаунт от списъка вляво. Ако желаете да създадете нов акаунт, натиснете знака "плюс" под списъка.
+[Event icon legend:]
+Легенда на иконите за събития:
+[Choose events you wish to ingonre:]
+Събития, които желаете да бъдат игнорирани:
+[Font Effect]
+Ефекти на шрифта
+[Base colour:]
+Основен цвят:
+[Secondary colour:]
+Втори цвят:
+[Select the extra icons to be shown in the contact list:]
+Изберете допълнителни икони за показване в списъка с контакти:
+[* only the first %d icons will be shown]
+* ще бъдат показани само първите %d икони
+[&Reset to default]
+Стандарт
+[&Add to List]
+Добавяне в списъка
+[Send &Message]
+Изпращане на съобщение
+[Cancel Change]
+Отказ на промяната
+[&Reset To Default]
+Стандарт
+[Ungroup]
+Дегрупиране
+;file \src\core\stdauth\resource.rc
+[&Authorize]
+Приемане
+[Decide &Later]
+Попитай по-късно
+[Reason:]
+Причина:
+[Denial Reason:]
+Причина за отказ:
+[Add to contact list if authorized]
+Добавяне в списъка с контакти при приемане
+;file \src\core\stdaway\resource.rc
+[Do not reply to requests for this message]
+Без отговор на запитвания за това съобщение
+[By default, use the same message as last time]
+Ползване на последното съобщение като стандартно
+[By default, use this message:]
+Ползване на следното съобщение като стандартно:
+[Status messages:]
+Текст за състояние:
+;file \src\core\stdchat\res\chat.rc
+[Trim to (kB)]
+Макс. (kB)
+[Userlist row distance (pixels):]
+Височина на ред в списъка с прякори (пиксела):
+[Popups for the Chat plugin]
+Popup за приставката Chat
+;file \src\core\stdclist\res\resource.rc
+[Enable docking]
+Загнездване
+[Selection colour]
+Цвят за маркиране
+[Ordering:]
+Подреждане:
+[Contact list:]
+Списък с контакти:
+[If window is partially covered, bring iy to front]
+Извеждане на прозореца отпред, ако е частично покрит
+[Contact list background:]
+Фон на списъка с контакти:
+;file \src\core\stdfile\resource.rc
+[Send File(s)]
+Изпрати файл(ове)
+[File(s):]
+Файлове:
+[&Choose Again...]
+Изберете отново...
+[Total size:]
+Общ размер:
+[A&ccept]
+Приемане
+[&Decline]
+Отказ
+[Files:]
+Файлове:
+[Save to:]
+Запис в:
+[Open...]
+Отваряне...
+[Open folder]
+Отвари папката
+[Transfer completed, open file(s).]
+Прехвърлянето е завършено, отваряне на файла.
+[No data transferred]
+Няма прехвърлена информация
+[File Already Exists]
+Файлът вече съществува
+[Resume all]
+Продължи всички
+[Overwrite all]
+Презапиши всички
+[Save as...]
+Запис като...
+[Auto rename]
+Автопреименуване
+[Skip]
+Пропускане
+[Cancel transfer]
+Отказване
+[You are about to receive the file]
+Получавате файл
+[Existing file]
+Съществуваш файл
+[Last modified:]
+Последна промяна:
+[Open file]
+Отвари файла
+[File properties]
+Инф. за файла
+[File being received]
+Получаване на файл
+[Clear completed]
+Изчистване на завършените
+[Receiving files]
+Получаване на файлове
+[Received files folder:]
+Папка на файловете:
+[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+Позволени променливи: %userid% %nick% %proto% %miranda_path% %userprofile%
+[Auto-accept incoming files from people on my contact list]
+Автоматично приемане на файлове, изпратени от хора в списъка с контакти
+[Minimize the file transfer window]
+Минимизиране на прозореца за прехвърляне
+[Close window when transfer completes]
+Затваряне на прозореца след завършване на прехвърлянето
+[Clear completed transfers on window closing]
+Изчистване на завършилите прехвърляния след затваряне на прозореца
+[Virus scanner]
+Сканиране за вируси
+[Scan files:]
+Сканиране:
+[Never, do not use virus scanning]
+Без сканиране за вируси
+[When all files have been downloaded]
+След свалянето на всички файлове
+[As each file finishes downloading]
+След всеки свален файл
+[Command line:]
+Команден ред:
+[%f will be replaced by the file or folder name to be scanned]
+%f ще бъде заменено от името на файла или папката
+[Warn me before opening a file that has not been scanned]
+Предупреждение преди отваряне на файл, който не е бил сканиран
+[If incoming files already exist]
+Ако входящият файл вече съществува
+[Ask me]
+Запитване
+[Rename (append " (1)", etc.)]
+Преименуване (Добавяне на "(1)" и т.тн.)
+[You will always be asked about files from people not on your contact list]
+Винаги ще бъдете питани за файлове, пратени от хора извън списъка ви с контакти
+;file \src\core\stdhelp\resource.rc
+[About Miranda NG]
+Относно Miranda NG
+;file \src\core\stdidle\resource.rc
+[Become idle if the following is left unattended:]
+Бездействащ при липса на активност в:
+[Become idle if the screen saver is active]
+Бездействащ при активен screen saver
+[Do not let protocols report any idle information]
+Без изпращане на информация за бездействие
+[minute(s)]
+минута (и)
+[for]
+за
+[Change my status mode to:]
+Промяна на състоянието ми на:
+[Do not set status back to online when returning from idle]
+Без задаване на старото състояние след излизане от бездействие
+[Idle Options]
+Настройки
+[Disable sounds on idle]
+Изключване на звука при бездействие
+[Become idle if computer is left unattended for:]
+Бездействащ при липса на активност на компютъра за:
+[Idle (auto-away):]
+Бездействащ (автоотсъстващ):
+;file \src\core\stdmsg\res\resource.rc
+[Automatically popup window when:]
+Изскачане на прозореца при състояние:
+[Save the window size and location individually for each contact]
+Индивидуален размер и позиция на прозореца за всеки контакт
+[Show 'Send' button]
+Показване на бутон "Изпращане"
+[Show username on top row]
+Потребителско име на горния ред
+[Show toolbar buttons on top row]
+Лента с инструменти на горния ред
+[Show character count]
+Показване броя на знаците
+[Support control up/down in message area to show previously sent messages]
+Показване на вече изпратените съобщения чрез Ctrl + стрелка нагоре/надолу
+[Delete temporary contacts when closing message window]
+Изтриване на временните контакти след затваряне на прозореца
+[Enable avatar support in the message window]
+Поддръжка на аватари в прозореца за съобщения
+[Limit avatar height to ]
+Височина на аватара до
+[pixels.]
+пиксела.
+[Max Number of Flashes]
+Максимален брой мигания
+[Show timestamp]
+Показване на времева марка
+[Show dates]
+Показване на дати
+[Show status changes]
+Промяна на състояние
+[Update inactive message window icons when a user is typing]
+Обновяване иконата на неактивни прозорци, когато потребител пише
+[Save the window position for each contact]
+Запис на позицията на прозореца поотделно за всеки контакт
+[Message window behaviour:]
+Поведение на прозореца за съобщения:
+;file \src\core\stduihist\resource.rc
+[&Find Next]
+Намери >>
+[Find What:]
+Намери какво:
+;file \src\core\stduserinfo\resource.rc
+[Add E-Mail Address]
+Добавяне на имейл
+[%s: User Details]
+%s: Подробности за потребителя
+[%s\nView personal user details and more]
+%s\nПреглед на потребителските данни
+[Update Now]
+Обновяване
+[Web page:]
+уебстраница:
+[Past background:]
+Минало:
+[Interests:]
+Интереси:
+[My notes:]
+Бележки:
+[Spoken languages:]
+Говорими езици:
+[Local time:]
+Местно време:
+[Set custom time zone]
+Задаване на часови пояс
+[Website:]
+Сайт:
+;file \src\core\stdauth\auth.cpp
+[%s requests authorization]
+%s желае да бъде упълномощен
+[%u requests authorization]
+%u желае да бъде упълномощен
+[%s added you to their contact list]
+%s ви добави в списъка си с контакти
+[%u added you to their contact list]
+%u ви добави в списъка си с контакти
+[Added event]
+Добавяне на събитие
+;file \src\core\stdauth\authdialogs.cpp
+[%s added you to the contact list\n%u (%s) on %s]
+%s ви добави в списъка си с контакти\n%u (%s) (Акаунт: %s)
+[%s added you to the contact list\n%u on %s]
+%s ви добави в списъка си с контакти\n%u (Акаунт: %s)
+[%s added you to the contact list\n%s on %s]
+%s ви добави в списъка си с контакти\n%s (Акаунт: %s)
+[(Unknown)]
+(Неизвестен)
+[View User Details]
+Подробности за потребителя
+[%s requested authorization\n%u (%s) on %s]
+%s изпрати молба за упълномощаване%u (%s) (Акаунт: %s)
+[%s requested authorization\n%u on %s]
+%s изпрати молба за упълномощаване%u (Акаунт: %s)
+[%s requested authorization\n%s on %s]
+%s изпрати молба за упълномощаване\n%s (Акаунт: %s)
+[Feature is not supported by protocol]
+Не се поддържа от протокола
+;file \src\core\stdaway\awaymsg.cpp
+[Re&ad Status Message]
+Показване на текста за състояние
+;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdchat\src\clist.cpp
+;file \src\core\stdchat\src\colorchooser.cpp
+;file \src\core\stdchat\src\log.cpp
+;file \src\core\stdchat\src\options.cpp
+[Use a tabbed interface]
+Ползване на табове
+[Close tab on doubleclick]
+Затваряне на таб при двукратно натискане
+[Restore previously open tabs when showing the window]
+Възстановяване на последно отворените табове при показване на прозореца
+[Show tabs at the bottom]
+Табове на дъното
+[Send message by pressing the Enter key]
+Изпращане на съобщение с натискане на бутона "Enter"
+[Send message by pressing the Enter key twice]
+Изпращане на съобщение с двукратно натискане на бутона "Enter"
+[Show button for sending messages]
+Показване на бутона за изпращане на съобщение
+[Show buttons for controlling the chat room]
+Показване на бутон за контрол на чат стаята
+[Show buttons for formatting the text you are typing]
+Показване на бутони за форматиране на текста, който въвеждате
+[Show new windows cascaded]
+Каскадно подреждане на новите прозорци
+[Save the size and position of chat rooms]
+Запис на размера и позицията на чат стаите
+[Show the topic of the room on your contact list (if supported)]
+Показване на темата на стаята в списъка с контакти (ако се поддържа)
+[Do not play sounds when the chat room is focused]
+Без звук, когато чат стаята е на фокус
+[Show contact statuses if protocol supports them]
+Показване състоянието на потребителите (ако се поддържа от протокола)
+[Display contact status icon before user role icon]
+Иконата за състояние на потребителя пред иконата на протокола
+[Timestamp has same colour as the event]
+Еднакъв цвят на времевата марка и събитието
+[Show icon for topic changes]
+Смяна на темата (topic)
+[Show icon for users joining]
+Влизане на потребител
+[Show icon for users disconnecting]
+Излизане от мрежата на потребители
+[Show icon for messages]
+Съобщение
+[Show icon for actions]
+Действия
+[Show icon for highlights]
+Отличаване
+[Show icon for users leaving]
+Излизане на потребител
+[Show icon for users kicking other user]
+Потребител изгонва друг потребител
+[Show icon for notices ]
+Известие
+[Show icon for name changes]
+Промяна на прякор
+[Show icon for information messages]
+Информационни съобщения
+[Show icon for status changes]
+Промяна на състояние
+[Chat Module]
+Чат модул
+[Message Background]
+Фон на съобщенията
+[Userlist Background]
+Фон на списъка с прякори
+[Userlist Background (selected)]
+Фон на списъка с прякори (маркирано)
+[Group Chats Log]
+Дневник за груповите чатове
+[Options for using a tabbed interface]
+Настройки на интерфейса с табове
+[Icons to display in the message log]
+Икони за изобразяване в дневника за съобщения
+[Popups to display]
+Popups за изобразяване
+[Chat Log]
+Чат дневник
+;file \src\core\stdchat\src\services.cpp
+;file \src\core\stdchat\src\tools.cpp
+;file \src\core\stdchat\src\window.cpp
+[Close current tab (CTRL+F4)]
+Затваряне на текущия таб (CTRL+F4)
+;file \src\core\stdclist\src\clcfonts.cpp
+;file \src\core\stdclist\src\clcopts.cpp
+;file \src\core\stdclist\src\clistopts.cpp
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdemail\email.cpp
+[User has not registered an e-mail address]
+Потребителят не е задал имейл
+[&E-mail]
+Имейл
+;file \src\core\stdfile\file.cpp
+[File from %s]
+Файл от %s
+[File &Transfers...]
+Обмен на файлове...
+[Denied]
+Отхвърлен
+;file \src\core\stdfile\fileexistsdlg.cpp
+[%s File]
+%s файл
+;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\filerecvdlg.cpp
+[My Received Files]
+Получени файлове
+[Cancelled]
+Отказано
+;file \src\core\stdfile\filesenddlg.cpp
+[%d files]
+%d файла
+[%d directories]
+%d директории
+;file \src\core\stdfile\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Файлът не е сканиран за вируси. Сигурни ли сте, че желаете да бъде отворен?
+[File Received]
+Файлът е получен
+[of]
+от
+[Request sent, waiting for acceptance...]
+Молбата е изпратена. Изчакване на одобрение...
+[Waiting for connection...]
+Изчакване за връзка...
+[Unable to initiate transfer.]
+Стартирането на прехвърляне е невъзможно.
+[remaining]
+оставащи
+[Decision sent]
+Решението бе изпратено
+[Connecting to proxy...]
+Свързване с прокси...
+[Connected]
+Свързано
+[File already exists]
+Файлът вече съществува.
+[File transfer denied]
+Прехвърлянето на файла е отхвърлено
+[File transfer failed]
+Прехвърлянето на файла не е успешно
+[Transfer completed.]
+Прехвърлянето завърши.
+[Transfer completed, open file.]
+Прехвърлянето завърши - отваряне на файла.
+[Transfer completed, open folder.]
+Прехвърлянето завърши - отваряне на папката
+[Scanning for viruses...]
+Сканиране за вируси...
+[Transfer and virus scan complete]
+Прехвърлянето и сканирането за вируси завърши.
+;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\help.cpp
+[&About...]
+Относно...
+[&Miranda NG Homepage]
+Страницата на Miranda NG
+[&Report Bug]
+Съобщи за програмна грешка
+;file \src\core\stdidle\idle.cpp
+;file \src\core\stdmsg\src\cmdlist.cpp
+;file \src\core\stdmsg\src\globals.cpp
+;file \src\core\stdmsg\src\msgdialog.cpp
+;file \src\core\stdmsg\src\msglog.cpp
+;file \src\core\stdmsg\src\msgoptions.cpp
+[Messaging Log]
+Дневник за съобщения
+;file \src\core\stdmsg\src\msgs.cpp
+;file \src\core\stdmsg\src\msgtimedout.cpp
+;file \src\core\stduihist\history.cpp
+[Outgoing Message]
+Изходящи съобщения
+[Incoming Message]
+Входящи съобщения
+[Outgoing File]
+Изходящи файлове
+[Incoming File]
+Входящи файлове
+[Are you sure you want to delete this history item?]
+Сигурен ли сте, че желаете елементът на историята да бъде изтрит?
+[Delete History]
+Изтриване на историята
+;file \src\core\stdurl\url.cpp
+[URL from %s]
+URL адрес от %s
+[Web Page Address (&URL)]
+уебстраница (URL)
+;file \src\core\stdurl\urldialogs.cpp
+[Send URL to]
+Изпращане на URL до
+;file \src\core\stduserinfo\contactinfo.cpp
+[Edit E-Mail Address]
+Редактиране на имейла
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Номера трябва да започва с "+" и да съдържа само цифри, интервали и тирета.
+[Primary]
+Основен
+[Mobile]
+Мобилен тел.
+[Work Phone]
+Работен телефон
+[Work Fax]
+Работен факс
+;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduseronline\useronline.cpp
+[%s is Online]
+%s е на линия
+;file \src\modules\addcontact\addcontact.cpp
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clistmenus.cpp
+[Custom status]
+Персонално състояние
+;file \src\modules\clist\clistmod.cpp
+[This plugin requires db3x plugin version 0.5.1.0 or later]
+Приставката изисква приставка db3x версия 0.5.1.0 или по-нова
+;file \src\modules\clist\clistsettings.cpp
+;file \src\modules\clist\clisttray.cpp
+;file \src\modules\clist\clui.cpp
+[This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
+Контактът е от система за съобщения, която съхранява списъка с контакти на централен сървър. Контактът ще бъде премахнат от сървъра и вашия списък с контакти следващия път, когато се свържете към мрежата.
+[De&lete]
+Изтриване
+[&Add permanently to list]
+Добавяне за постоянно в списъка
+;file \src\modules\clist\contacts.cpp
+[My custom name (not moveable)]
+Зададено име (неподвижно)
+[FirstName]
+Име
+[LastName]
+Фамилия
+[FirstName LastName]
+Име Фамилия
+['(Unknown Contact)' (not moveable)]
+"Непознат контакт" (неподвижно)
+;file \src\modules\clist\genmenu.cpp
+[Menu Icons]
+Икони в менютата
+;file \src\modules\clist\genmenuopt.cpp
+[Menus]
+Менюта
+;file \src\modules\clist\groups.cpp
+[New Group]
+Нова група
+[Are you sure you want to delete group '%s'?  This operation can not be undone.]
+Сигурни ли сте, че желаете групата '%s' да бъде изтрита? Това действие не може да бъде отменено.
+[You already have a group with that name. Please enter a unique name for the group.]
+Вече съществува група с въведеното име. Моля, въведете уникално име.
+[Rename Group]
+Преименуване на групата
+[This group]
+Тази група
+;file \src\modules\clist\keyboard.cpp
+[Show Hide Contact List]
+Показва/Скрива списъка с контакти
+[Read Message]
+Прочитане на съобщение
+[Open Options Page]
+Отваря "Настройки"
+[Open Logging Options]
+Отваря "Настройки на дневника на мрежовите връзки"
+[Open Find User Dialog]
+Отваря "Търсене/Добавяне на контакти"
+;file \src\modules\clist\movetogroup.cpp
+[&Move to Group]
+Преместване в друга група
+;file \src\modules\database\database.cpp
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
+Отварянето на '%s' е невъзможно, защото липсва приставка за профили.\nНеобходимо е да инсталирате dbx_3x.dll или еквивалентна приставка.
+[No profile support installed!]
+Не е инсталирана поддръжка на профила!
+[Miranda can't understand that profile]
+Анализирането на профила е невъзможно
+[Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
+Профилът "%s" не може да бъде отворен.\nФайлът е недостъпен или се използва от друго приложение или инстанция на Miranda.
+[Miranda can't open that profile]
+Отварянето на профила е невъзможно.
+;file \src\modules\database\dbini.cpp
+[Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
+Налични са системи за предотвратяване на злонамерени промени. Ще бъдете уведомени преди всяка промяна.
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+Налични са системи за предотвратяване на злонамерени промени. Ще бъдете уведомени преди промени, за които е известно че са опасни.
+[Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+Системите за предотвратяване на злонамерени промени са изключени. Няма да бъдете уведомявани за предстоящи промени.
+[This change is known to be safe.]
+Тази промяна е сигурна.
+[This change is known to be potentially hazardous.]
+Тази промяна е известна като потенциален риск.
+[This change is not known to be safe.]
+Тази команда не е известна като сигурна.
+;file \src\modules\database\profilemanager.cpp
+[The profile already exists]
+Профила вече съществува
+[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+Не е възможно '%s' да бъде преместен в кошчето. Моля, изберете друго име.
+[Problem moving profile]
+Проблем с преместването на профила
+[Unable to create the profile '%s', the error was %x]
+Създаването на профила '%s' е невъзможно поради следната грешка - %x
+[Problem creating profile]
+Проблем със създаването на профил
+[<In Use>]
+<В употреба>
+[Are you sure you want to remove profile "%s"?]
+Наистина ли желаете профилът "%s" да бъде изтрит?
+[Created]
+Създаден
+[Modified]
+Променен
+[Miranda Profiles from]
+Профили за Miranda в
+[Select or create your Miranda NG user profile]
+Изберете или създайте вашият потребителски профил за Miranda NG
+[My Profiles]
+Моите профили
+[New Profile]
+Нов профил
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
+;file \src\modules\extraicons\extraicons.cpp
+[Chat Activity]
+Чат активност
+;file \src\modules\extraicons\options_ei.cpp
+;file \src\modules\findadd\findadd.cpp
+[You haven't filled in the search field. Please enter a search term and try again.]
+Не сте попълнили полето за търсене. Моля, въведете израз и опитайте отново.
+[Results]
+Резултати
+[There are no results to display.]
+Няма резултати за изобразяване.
+[All Networks]
+Всички мрежи
+;file \src\modules\findadd\searchresults.cpp
+[Could not start a search on '%s', there was a problem - is %s connected?]
+Търсенето в "%s" не може да бъде започнато. Свързан ли сте към %s?
+[Could not search on any of the protocols, are you online?]
+Не е възможно търсене в никой от протоколите. На линия ли сте?
+[Problem with search]
+Проблем с търсенето
+[1 %s user found]
+1 %s намерен потребител
+[%d %s users found]
+Намерени са %d потребителя от мрежата %s
+[%d users found (]
+%d намерени потребителя (
+[No users found]
+Няма намерени потребители
+;file \src\modules\fonts\FontOptions.cpp
+[Configuration Files]
+Файлове съдържащи настройки
+[Error writing file]
+Грешка при записването на файла
+[Sample Text]
+Примерен текст
+[Fonts]
+Шрифтове
+;file \src\modules\fonts\FontService.cpp
+[Headers]
+Горни колонтитули
+[Generic text]
+Основен текст
+[Small text]
+Малък текст
+;file \src\modules\icolib\skin2opts.cpp
+[Icon Sets]
+Комплект икони
+;file \src\modules\ignore\ignore.cpp
+;file \src\modules\netlib\netliblog.cpp
+[Select where log file will be created]
+Изберете къде да бъде създаден дневника
+[Select program to be run]
+Изберете програма за изпълнение
+;file \src\modules\netlib\netlibopts.cpp
+[<All connections>]
+<Всички връзки>
+;file \src\modules\netlib\netlibssl.cpp
+[Host we are connecting to is not the one certificate was issued for]
+Хоста към който се свързвате не е този, за който е издаден сертификата
+;file \src\modules\options\options.cpp
+[Loading... %d%%]
+Зареждане... %d%%
+[%s options]
+%s настройки
+;file \src\modules\plugins\newplugins.cpp
+[Fatal error]
+Фатална грешка
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
+Не е заредена приставка за съобщенията. Трябва да инсталирате/включите една, например "srmm.dll".
+['%s' is disabled, re-enable?]
+"%s" е изключена, желаете да бъде включена?
+[Unable to load plugin in Service Mode!]
+Зареждането на приставката в сервизен режим е невъзможно!
+[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
+Нито една от инсталираните приставки за списъка с контакти не може да бъде заредена.
+[Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
+Не е намерена приставка за списъка с контакти! Необходима е clist_classic или всяка друга clist приставка.
+;file \src\modules\plugins\pluginopts.cpp
+[Plugin]
+Приставка
+;file \src\modules\protocols\protoopts.cpp
+[Editing account]
+Редактиране на акаунта
+[Account is disabled. Please activate it to access options.]
+Акаунтът е изключен. За достъп до настройките е необходимо да бъде включен.
+[New account]
+Нов акаунт
+[Configure...]
+Настройване...
+[Account ID]
+ID на акаунта
+[Protocol is not loaded.]
+Протоколът не е зареден.
+[Account is online. Disable account?]
+Акаунтът е "На линия". Желаете ли да бъде изключен?
+[Account %s is being deleted]
+Акаунтът %s ще бъде изтрит
+[You need to disable plugin to delete this account]
+Необходимо е да изключите приставка, за да бъде изтрит акаунта.
+[&Accounts...]
+Акаунти...
+;file \src\modules\skin\hotkey_opts.cpp
+[Remove shortcut]
+Премахване на препратката
+[Add another shortcut]
+Добавяне на препратка
+[Scope:]
+Обхват:
+[Actions:]
+Действия:
+[Add binding]
+Дублиране
+[System scope]
+За Windows
+[Miranda scope]
+Само за Miranda
+;file \src\modules\skin\skinicons.cpp
+[Group (Open)]
+Група (отворена)
+[Group (Closed)]
+Група (затворена)
+[Connecting]
+Свързване
+[Down Arrow]
+Стрелка надолу
+[Send E-mail]
+Изпращане на е-писмо
+[Search All]
+Търсене на всичко
+[Tick]
+Отметка
+[No Tick]
+Без отметка
+[Miranda Website]
+Сайта на Miranda
+[Small Dot]
+Малка точица
+[Empty Blob]
+Без отметка
+[Unicode plugin]
+Unicode приставка
+[ANSI plugin]
+ANSI приставка
+[Running plugin]
+Стартирана приставка
+[Unloaded plugin]
+Незаредена приставка
+[Exit]
+Изход
+[Leave chat]
+Излизане от чата
+[Move to Group]
+Преместване в друга група
+[Running core plugin]
+Стартирана приставка от ядрото
+[Non-loadable plugin]
+Приставка, която не може да се зареди
+[Locked status]
+Заключено състояние
+[Status Icons]
+Икони на състоянията
+[%s Icons]
+%s икони
+[Main Icons]
+Главни икони
+;file \src\modules\skin\sounds.cpp
+;file \src\modules\utils\bmpfilter.cpp
+[All Bitmaps]
+Всички изображения
+;file \src\modules\utils\timezones.cpp
+;file \src\modules\utils\utils.cpp
+[Cocos (Keeling) Islands]
+Кокосови строви (Кийлинг)
+;file \src\modules\visibility\visibility.cpp

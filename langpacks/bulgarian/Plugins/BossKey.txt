@@ -1,0 +1,44 @@
+﻿#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
+;============================================================
+;  File: BossKey.dll
+;  Plugin: BossKey+
+;  Version: 0.5.0.3
+;  Authors: Goblineye Entertainment, Billy_Bons
+;============================================================
+;file \plugins\BossKeyPlus\res\BossKey.rc
+[When I press the hotkey:]
+При натискане на клавишната комбинация:
+[Change status to]
+Задаване на състояние
+[Change only if current status is Online]
+Само, когато текущото състояние е "На линия"
+[Use default status message]
+Ползване на стандартния текст за състояние
+[Disable Sounds]
+Изключване на звука
+[When I return:]
+Когато се върна:
+[Request password:]
+Питане за парола:
+[Change status back]
+Задаване на старото състояние
+[Windows is inactive]
+Няма активност в Windows от
+[Hide Miranda when:]
+Скриване на Miranda, когато:
+[Miranda is inactive]
+Няма активност в Miranda от
+[min]
+мин.
+[Miranda is started]
+Miranda бъде включена
+;file \plugins\BossKeyPlus\src\BossKey.cpp
+[Miranda NG is locked.\nEnter password to unlock it.]
+Miranda NG е заключена.\nВъведете паролата за отключване.
+[Password is not correct!\nPlease, enter correct password.]
+Грешна парола!\nВъведете правилната парола.
+[Hide Miranda NG]
+Скриване на Miranda NG
+[Hide/Show Miranda]
+Скриване/Показване на Miranda
+;file \plugins\BossKeyPlus\src\Options.cpp

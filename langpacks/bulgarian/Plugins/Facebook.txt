@@ -1,0 +1,98 @@
+﻿#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook RM
+;  Version: 0.1.1.0
+;  Authors: Michal Zelinka, Robert Pösel
+;============================================================
+;file \protocols\FacebookRM\res\facebook.rc
+[Create a new Facebook account]
+Създаване на Facebook акаунт
+[What's on your mind?]
+Какво мислите?
+[Share]
+Сподели
+[Automatically set 'Ignore status change' flag]
+Автозадаване на флаг "Игнориране промените на състояния"
+[Contacts Settings]
+Настройки за контактите
+[Use bigger avatars]
+Ползване на по-големи аватари
+[Load contacts with 'On the Mobile' status]
+Зареждай и контакти със състояние "На мобилния"
+[News feeds]
+Новини
+[Client notifications]
+Уведомявания
+[Timeout (sec.)]
+Времетраене (сек)
+[(0 = default, -1 = infinite)]
+(0=стандарт, -1=безкрайно)
+[Use balloon notifications in system tray instead of popups]
+Ползване на балонни известия в трея вместо popup
+[News Feed types to notify:]
+Уведомяване за следните новини:
+[Advanced Settings]
+Допълнителни настройки
+[Force secure (HTTPS) connection]
+Задължително ползване на сигурна (HTTPS) връзка
+[Post Miranda statuses to Wall]
+Публикуване на състоянията от Miranda на стената
+[Also disconnect chat when going to offline]
+Изключване на чат функционалността при "Извън линия"
+[Map non-standard statuses to Invisible (instead of Online)]
+Ползване на състояние Невидим вместо "На линия" при нестандартно за Facebook състояние
+;file \protocols\FacebookRM\src\communication.cpp
+[Login error: Some Facebook things are required.]
+Грешка при вписване: Необходими са някой неща за Facebook.
+[Your account requires HTTPS connection. Activating.]
+Акаунтът изисква HTTPS връзка. Активиране.
+[Login error: Captcha code is required. Bad login credentials?]
+Грешка при вписване: Необходим е Captcha код. Сгрешени данни за вписване?
+[Login error, probably bad login credentials.]
+Грешка при вписване вероятно поради сгрешени данни за вписване.
+[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
+Проблем с Facebook - вероятно уебсайта е обновен. Очаквайте актуализация на протокола Facebook.
+[Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
+За изпращането на съобщения до дуги клиенти е необходимо потвърждение.\nОтворете уебстраницата на Facebook и опитайте да изпратите съобщението до контакта отново!
+;file \protocols\FacebookRM\src\connection.cpp
+[Please enter a username.]
+Моля, въведете потребителско име.
+[Please enter a password.]
+Моля, въведете парола.
+;file \protocols\FacebookRM\src\constants.h
+;file \protocols\FacebookRM\src\contacts.cpp
+;file \protocols\FacebookRM\src\dialogs.cpp
+[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
+Бележка: Уверете се,че сте изключили "Потвърждаване на SSL сертификатите" (в мрежовите настройки).
+[Sample event]
+Примерно събитие
+[Sample request]
+Пример за молба
+[Sample newsfeed]
+Пример за новина
+[Sample notification]
+Пример за уведомяване
+;file \protocols\FacebookRM\src\json.cpp
+;file \protocols\FacebookRM\src\messages.cpp
+[You cannot send messages when you are offline.]
+Не можете да изпращате съобщения, когато сте "Извън линия"
+;file \protocols\FacebookRM\src\process.cpp
+[Contact is back on server-list.]
+Контактът е отново в списъка на сървъра.
+[Contact is no longer on server-list.]
+Контактът вече не е в списъка на сървъра.
+;file \protocols\FacebookRM\src\proto.cpp
+[News Feed]
+Новина
+[Other Event]
+Друго събитие
+;file \protocols\FacebookRM\src\theme.cpp
+[Mind]
+Мисли си
+[Request friendship]
+Молба за приятелство
+[Mind...]
+Мисля...
+[Visit Profile]
+Отваряне на профила

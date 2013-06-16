@@ -1,0 +1,21 @@
+﻿#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+;============================================================
+;  File: Twitter.dll
+;  Plugin: Twitter
+;  Version: 1.1.0.1
+;  Authors: dentist, omniwolf, Thief
+;============================================================
+;file \protocols\Twitter\res\twitter.rc
+[Use Popup colors]
+Цветове от Popup приставката
+[Use custom colors]
+Избор на цветове
+[Timeouts]
+Времетраене
+;file \protocols\Twitter\src\connection.cpp
+;file \protocols\Twitter\src\proto.cpp
+;file \protocols\Twitter\src\theme.cpp
+[Visit Homepage]
+Отваряне на страницата
+[Reply...]
+Отговор...

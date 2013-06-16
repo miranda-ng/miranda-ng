@@ -1,0 +1,45 @@
+﻿#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
+;============================================================
+;  File: Dbx_mmap_SA.dll
+;  Plugin: Miranda NG mmap secure database driver
+;  Version: 0.7.5.4
+;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
+;============================================================
+;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
+[Login to Miranda NG]
+Вписване в Miranda NG
+[Database encryption]
+Шифроване на базата от данни
+[Site:]
+Сайт:
+;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
+[Database is Secured MMAP database]
+Сигурна MMAP база от данни на Miranda
+[You are not authorized for access to Database]
+Нямате пълномощия за достъп до базата от данни
+[Secured MMAP: authorization successful]
+Secured MMAP: успешно упълномощаване
+;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
+[Database Features]
+Функции на базата от данни
+[Set password]
+Задаване на парола
+[Please type in your password for]
+Моля, въведете паролата за
+[Too many errors!]
+Твърде много грешки!
+[Password is not correct!]
+Паролата е грешна!
+[Passwords do not match!]
+Паролите не са еднакви!
+[Wrong password!]
+Грешна парола!
+;file \plugins\Dbx_mmap_SA\src\security.cpp
+[Crypto modules not found]
+Модулът за шифроване не е открит
+[DB is already secured!]
+Базата от данни е защитена!
+[current database]
+текуща база от данни
+[Set Password]
+Задаване на парола

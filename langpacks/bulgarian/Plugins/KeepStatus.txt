@@ -1,0 +1,34 @@
+﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
+;============================================================
+;  File: KeepStatus.dll
+;  Plugin: Keep Status
+;  Version: 0.8.0.97
+;  Authors: P Boon
+;============================================================
+;file \Plugins\StatusPlugins\resource.rc
+;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
+[%s Connected from another location]
+%s е свързан от друго място
+[%s Login error, cancel reconnecting]
+%s грешка при вписването, отказ от свързване
+[%s Login error (next retry (%d) in %ds)]
+%s грешка при вписването (нов опит (%d) след %dсек)
+[%s Status error (next retry (%d) in %ds)]
+%s грешка на състоянието (нов опит (%d) след %dсек)
+[Status error (next retry (%d) in %ds)]
+Грешка на състоянието (нов опит (%d) след %dсек)
+[will be set to]
+ще бъде зададено
+[Resetting status... (last try (%d))%s]
+Задаване на състояние... (последен опит (%d))%s
+[Resetting status... (next retry (%d) in %ds)%s]
+Задаване на състояние... (нов опит (%d) след %dсек)%s
+[No internet connection seems available... (last try (%d))]
+Няма налична връзка с интернет... (нов опит (%d))
+[No internet connection seems available... (next retry (%d) in %ds)]
+Няма налична връзка с интернет... (нов опит (%d) след %dсек)
+[Status was set ok]
+Зададено е състояние
+;file \plugins\StatusPlugins\KeepStatus\options.cpp
+;file \Plugins\StatusPlugins\commonstatus.cpp
+;file \Plugins\StatusPlugins\confirmdialog.cpp

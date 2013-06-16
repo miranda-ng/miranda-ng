@@ -1,0 +1,85 @@
+﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
+;============================================================
+;  File: TrafficCounter.dll
+;  Plugin: Traffic counter
+;  Version: 0.1.1.8
+;  Authors: Ghost, Mironych
+;============================================================
+;file \plugins\TrafficCounter\res\resource.rc
+[Selected totals]
+Общо за избраните
+[Clear statistics]
+Изчистване
+[Notify me on every]
+Уведомяване всеки
+[kilobytes]
+килобайта
+[Popup timeout]
+Popup времетраене
+[Show now]
+Покажи сега
+[Space between lines:]
+Отстъп м/у редове:
+[Counters format string:]
+Формат на брояча:
+[Tooltip format string:]
+Формат (подсказка):
+[Display traffic for current]
+Стойности от посл.
+;file \plugins\TrafficCounter\src\options.cpp
+[Current traffic]
+Текущ трафик
+[Total traffic]
+Общ трафик
+[Current online]
+Текущо време "На линия"
+[Total online]
+Общо време "На линия"
+[Draw frame as skin element]
+Добавяне на рамката като елемент на облика
+[Show tooltip in traffic window]
+Подсказка в прозореца на брояча
+["Toggle traffic counter" in main menu]
+Вкл./Изкл. на брояча от гл. меню
+[Summary traffic for visible accounts]
+Обобщение на статистика за видимите акаунти
+[Overall traffic]
+Трафик общо
+[Hide now]
+Скрий сега
+[Month]
+Месец
+[Year]
+Година
+[Traffic counter]
+Брояч на трафика
+[Statistics]
+Статистика
+;file \plugins\TrafficCounter\src\statistics.cpp
+[Bytes]
+Байта
+[MB]
+МБ
+[Hourly]
+Почасово
+[Period]
+Период
+[Sum]
+Сума
+[Now traffic statistics for selected accounts will be cleared.\nContinue?]
+Трафик статистиката за всички протоколи ще бъде изчистена.\nСъгласни ли сте?
+[Couldn't read statistics file]
+Статистиката не може да бъде прочетена
+;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Hide traffic window]
+Скриване на трафик прозореца
+[Clear the current (Now:) value]
+Изчистване на текущата стойност
+[Toggle traffic counter]
+Вкл./Изкл. на брояча за трафик
+[Traffic counter notification]
+Брояч на трафика - уведомявания
+[%d kilobytes sent]
+%d изпратени килобайта
+[%d kilobytes received]
+%d получени килобайта

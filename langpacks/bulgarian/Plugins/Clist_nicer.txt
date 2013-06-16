@@ -1,0 +1,294 @@
+﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.1
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+;file \plugins\Clist_nicer\res\resource.rc
+[About CList Nicer+]
+Относно CList Nicer+
+[Apply last active view mode ]
+Ползвай последния режим за преглед
+[Contact list layout]
+Изглед на списъка с контакти
+[Show menu and status buttons]
+Бутони "Меню" и "Състояние"
+[Draw sunken edge]
+Изобразяване на вграден ръб
+[Event area]
+Зона за събития
+[Auto mode]
+Авторежим
+[Do not show system tray icon tooltips on mouse over]
+Без подсказка при посочване на трей иконата с курсора
+[Show number of contacts in a group]
+Показване на броя контакти в група
+[Hide numbers when all offline]
+Скриване на броя, когато всички са "Извън линия"
+[No expand/collapse icon]
+Без икона за разгръщане/сгъване
+[Center groupnames horizontally]
+Хоризонтално центриране имената на групите
+[Margins (left/right)]
+Ръбове (ляво/дясно)
+[Row gap]
+Пролука между редовете
+[Minimum row height:]
+Мин. височина на реда:
+[Group row height]
+Височина на реда на групите
+[Margins and spacing]
+Ръбове и разстояние
+[First by]
+Първо по
+[Then by]
+След това според
+[Finally by]
+Накрая по
+[Move events to the top of list\nor group]
+Премествай събитията на върха\nна списъка (или групата)
+[Do not separate offline contacts]
+Без отделяне на контактите "Извън линия"
+[Right align contacts]
+Подреждане на контактите отдясно
+[Draw a border around avatars]
+Добавяне на рамка около аватарите
+[Rounded avatars]
+Закръглени аватари
+[Radius]
+Радиус
+[Always align icons and text for missing avatars]
+Икони и текст на мястото на липсващ аватар
+[Avatar alignment]
+Подравняване на аватарите
+[Don't request avatars for offline contacts]
+Без заявки за аватари на контактите "Извън линия"
+[Second text line]
+Втори текстови ред
+[Display status message when available]
+Изобразяване на текст за състояние, когато е наличен
+[Show second text line:]
+Показване на втори ред:
+[Show contacts local time]
+Показване местно време на контактите
+[Only when timezone differs]
+Само при различен часови пояс
+[Show status icons]
+Икони за състояние
+[Centered when possible]
+Центриране (ако е възможно)
+[When possible, draw status icons in avatar space]
+Насложено състояние върху аватара, ако е възможно
+[Use metacontact protocol icons instead of subcontacts]
+Замяна на иконите за подконтакт с тези на метапротокола
+[Use Overlay icons on avatars]
+Наслагване на икони върху аватара
+[Replace status icons with xStatus]
+Замяна на иконата за състояние с икона за хСъстояние
+[Rounded border]
+Обла рамка
+[Always Hide On Taskbar]
+Скриване от лентата със задачи
+[Embedded frames border]
+Граница на рамките
+[Gap between frames]
+Пролука между рамките
+[Fully transparent (like TweakUI)]
+Пълна прозрачност (като TweakUI)
+[Use full row for selection and hottracking]
+Цялостно маркиране на ред и изтъкване
+[Double click on avatar opens userinfo]
+Две натискания в/у аватар = подробности за потребителя
+[Use these settings to skin the entire background]
+Ползване на настройките за целия фон
+[If you enable this, the background settings will affect the entire contact list frame.]
+Ако включите опцията, ще бъдат засегнати настройките за фон и цялата рамка на списъка с контакти.
+[Show ICQ extended status icons]
+Показване на ICQ икони за разширено състояние
+[Mark protocols locked from global status changes]
+Маркиране на протоколите, чието състояние не се променя с общото
+[< Reload]
+< Презареждане
+[Contact list skin]
+Облик на списъка с контакти
+[Apply skin now]
+Прилагане на облика
+[Automatically fill background with wallpaper (tiled wallpaper only)]
+Автозапълване на фона с изображение (само при мозаична настройка)
+[Set all buttons to skinned mode]
+Облицоване на всички бутони
+[Use fast gradient drawing]
+Бързо поставяне на градиента
+[Corner radius]
+Радиус на ъгъла
+[Frame titlebar height]
+Височина на имената на рамките
+[Load from skin file]
+Зареждане от файл
+[Export to skin file]
+Износ като облик
+[Ignore these events]
+Игнориране на следните събития
+[Suppress added notifications]
+Без уведомявания за добавяне
+[Suppress online notifications]
+Без уведомявания "На линия"
+[Appear always online]
+Винаги "На линия" за контакта
+[Appear always offline (block contact)]
+Винаги "Извън линия" за контакта (блокиране)
+[Hide this contact from the list]
+Скриване на контакта от списъка
+[To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
+За да покажете скрит контакт отидете в Настройки>Събития>Игнориране. Потърсете контакта в списъка и отметнете полето за отметка до него.
+[Display options]
+Настройки за изобразяване
+[Show contact with priority]
+Показвай контакта с предимство
+[Show Avatar:]
+Показване на аватар:
+[Show 2nd line:]
+Показване на 2ри ред:
+[Draw overlay icon on avatar]
+Наслагване на икона върху аватара
+[Show local time]
+Показване на местно време
+[Move marked Contacts to this Group]
+Преместване на маркираните контакти в групата
+[Show Status Icons]
+Показване на икони за състояние
+[Show additional Buttons]
+Показване на допълнителни бутони
+[Draw sunken Frame]
+Вградена рамка
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
+;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Show menu]
+Главно меню
+[Show / hide offline contacts]
+Показване/Скриване на контактите "Извън линия"
+[Toggle group mode]
+Включване/Изключване на групите
+[Find and add contacts]
+Търсене и добавяне на контакти
+[Open preferences]
+Настройване
+[Toggle sounds]
+Включване/Изключване на звука
+[Minimize contact list]
+Минимизиране на списъка с контакти
+[tabSRMM session list]
+tabSRMM списък на разговорите
+[tabSRMM Menu]
+tabSRMM Меню
+[Select view mode]
+Изберете режим за преглед
+[Clear view mode]
+Изчистване на режима за преглед
+;file \plugins\Clist_nicer\src\clcopts.cpp
+[Always Left]
+Винаги отляво
+[Always Right]
+Винаги отдясно
+[Automatic (RTL)]
+Автоматично Л<Д
+[Last Message]
+Последно съобщение
+[Message Frequency]
+Честота на съобщенията
+[For RTL only]
+Само при Л<Д
+[RTL TEXT only]
+Само за текст Л<Д
+[When space allows it]
+Когато мястото позволява
+[When needed]
+Ако е необходимо
+[With Nickname - left]
+С прякора вляво
+[Far left]
+Далеч вляво
+[Far right]
+Далеч вдясно
+[With Nickname - right]
+С прякора вдясно
+[List layout]
+Изглед на списъка
+[Contact rows]
+Редове на контакти
+[Groups and layout]
+Групи и изглед
+;file \plugins\Clist_nicer\src\clistmenus.cpp
+[Add permanently]
+Добавяне за постоянно
+[Revert to default]
+Стандартни настройки
+[Default (global setting)]
+Стандарт (общи настройки)
+[Show always when available]
+Показвай винаги, ако е наличен
+[Hide always]
+Винаги скрит
+[When space is available]
+Ако има налично място
+[When needed by status message]
+При необходимост от текст за състояние
+[Contact list display and ignore options for %s]
+Настройки за списъка с контакти и игнориране за %s
+[&Contact list settings...]
+Настройки за списъка с контакти
+;file \plugins\Clist_nicer\src\clistopts.cpp
+;file \plugins\Clist_nicer\src\clui.cpp
+[Toggle show online/offline]
+Показване/Скриване на контактите "Извън линия"
+[Toggle groups]
+Включване/Изключване на групите
+[Find contacts]
+Намери контакти
+[Show tabSRMM session list]
+Показване списък на разговорите
+[Show tabSRMM menu]
+Показване на tabSRMM меню
+[Sounds are off]
+Звука е изключен
+[Setup accounts]
+Настройване на акаунтите
+[%s Connecting]
+%s свързване
+[Open main menu]
+Отваря главното меню
+[Set status modes]
+Задаване режим на състояние
+[Frame titles]
+Заглавие на рамките
+[Contact list local time]
+Местно време в списъка с контакти
+;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Thin border]
+Тънка рамка
+[No border]
+Без рамка
+;file \plugins\Clist_nicer\src\Docking.cpp
+[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+Загнездването на списъка е невъзможно, когато се използва стандартната заглавна лента и рамка. Използвайте рамка Tool Window или стил без рамка.
+[Clist docking]
+Загнездване на списъка
+;file \plugins\Clist_nicer\src\extBackg.cpp
+;file \plugins\Clist_nicer\src\init.cpp
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Current view mode: %s]
+Текущ режим за преглед: %s
+[No view mode]
+Няма зададен режим за преглед
+[Clear current View Mode]
+Изчистване на текущия режим за преглед
+;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+[&Skinned frame]
+Облицована рамка
+[Skinned frame]
+Облицована рамка
+;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[&About the contact list...]
+Относно списъка с контакти...

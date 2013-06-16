@@ -1,0 +1,14 @@
+﻿#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+;============================================================
+;  File: LinkList.dll
+;  Plugin: History linklist plus
+;  Version: 0.0.0.2
+;  Authors: Thomas Wendel, gureedo
+;============================================================
+;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Message direction]
+Посока на текста
+;file \plugins\HistoryLinkListPlus\src\language.h
+;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
+;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp

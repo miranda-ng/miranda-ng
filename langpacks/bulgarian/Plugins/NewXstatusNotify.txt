@@ -1,0 +1,208 @@
+﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: xStatus Notify
+;  Version: 1.4.0.9
+;  Authors: Luca Santarelli, Vasilich, yaho
+;============================================================
+;file \plugins\NewXstatusNotify\res\resource.rc
+[Notify when a contact changes to one of these statuses]
+Уведомяване, ако контакт промени състоянието си на:
+[Always when changing from offline]
+Винаги при промяна от "Извън линия"
+[Plugin activation]
+Активиране на приставката
+[Automatically turn off Popups and Sounds on status change]
+Изключване на Popups и звука при промяна на състоянието
+[Blink icon in the system tray]
+Мигане на иконата в трея
+[Use status icon]
+Показване на икона за състоянието
+[Use individual sounds]
+Ползване на индивидуални звуци
+[Status Notify]
+Уведомяване за състояния
+[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
+Индивидуалните звукове са изключени.\n\nЗа да да ги включите отидете в Настройки>Състояние>Уведомяване и включете \n"Ползване на индивидуален звук", след което отворете наново прозореца.
+[Disable all]
+Изкл. на всички
+[Enable all]
+Вкл. на всички
+[Use Popup colours]
+От Popup приставката
+[Popup text]
+Текст на Popup-а
+[Read status message]
+Показване на текста за състояние
+[Show previous status too]
+Показване и на предишното състояние
+[Popups on contact status change to:]
+При променено състояние на:
+[Show contact group name]
+Показване на групата (в която е контакта)
+[Use alternative descriptions]
+Алтернативни описания
+[Show status description]
+Описание на състоянието
+[Disable for extra status 'Music']
+Изключване за допълнително състояние "Слуша музика"
+[Title - text delimiter:]
+Разделител (заглавие-текст):
+[Remove:]
+Премахване:
+[New message:]
+Нов текст:
+[New status:]
+Ново състояние:
+[Disable globally]
+Изключване за всички
+[Disable only if I change global status]
+Изключване само при промяна на общото състояние
+[Disable when my status is:]
+Изключване, при състояние:
+[Extra status log]
+Допълнителен дневник за състояния
+[Enable logging extra status to message window]
+Водене на на допълнителен дневник за състоянието в прозореца за съобщения
+[Keep events in history]
+Запазване на събитията в историята
+[Prevent identical logs]
+Предотвратяване на идентичните дневници
+;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Sound for the status]
+Звук за състоянието
+[From offline]
+От "Извън линия"
+;file \plugins\NewXstatusNotify\src\indsnd.h
+;file \plugins\NewXstatusNotify\src\main.cpp
+[%s is now %s]
+%s сега е %s
+[%s, %s. %s changed to: %s (was: %s).\r\n]
+%s, %s. %s промени състоянието си на "%s" (беше: "%s").\r\n
+[(M) is back online!]
+(M) е пак на линия!
+[(F) is back online!]
+(F) е пак на линия!
+[(U) is back online!]
+(U) е пак на линия!
+[User: Online]
+Потребител: "На линия"
+[(M) went offline! :(]
+(M) е извън линия ! :(]
+[(F) went offline! :(]
+(F) е извън линия ! :(]
+[(U) went offline! :(]
+(U) е извън линия ! :(]
+[User: Offline]
+Потребител: "Извън линия"
+[(M) hides in shadows...]
+(M) се крие в сенките...
+[(F) hides in shadows...]
+(F) се крие в сенките...
+[(U) hides in shadows...]
+(U) се крие в сенките...
+[User: Invisible]
+Потребител: "Невидим"
+[(M) feels talkative!]
+(M) се чувства приказлив!
+[(F) feels talkative!]
+(F) се чувства приказлива!
+[(U) feels talkative!]
+(U) се чувства приказлив!
+[User: Free For Chat]
+Потребител: "Готов за чат"
+[(M) went Away]
+(M) отсъства
+[(F) went Away]
+(F) отсъства
+[(U) went Away]
+(U) отсъства
+[User: Away]
+Потребител: "Отсъстващ"
+[(M) isn't there anymore!]
+(M) не е там!
+[(F) isn't there anymore!]
+(F) не е там!
+[(U) isn't there anymore!]
+(U) не е там!
+[User: Not Available]
+Потребител: "Недостъпен"
+[(M) has something else to do.]
+(M) има нещо друго за вършене.
+[(F) has something else to do.]
+(F) има нещо друго за вършене.
+[(U) has something else to do.]
+(U) има нещо друго за вършене.
+[User: Occupied]
+Потребител: "Зает"
+[(M) doesn't want to be disturbed!]
+(M) не желае да бъде обезпокояван!
+[(F) doesn't want to be disturbed!]
+(F) не желае да бъде обезпокоявана!
+[(U) doesn't want to be disturbed!]
+(U) не желае да бъде обезпокояван!
+[User: Do Not Disturb]
+Потребител: "Не безпокойте"
+[(M) is eating something]
+(M) в момента яде нещо
+[(F) is eating something]
+(F)  в момента яде нещо
+[(U) is eating something]
+(U)  в момента яде нещо
+[User: Out To Lunch]
+Потребител: "На обяд"
+[(M) had to answer the phone]
+(M) говори по телефона
+[(F) had to answer the phone]
+(F) говори по телефона
+[(U) had to answer the phone]
+(U) говори по телефона
+[User: On The Phone]
+Потребител: "На телефона"
+[Enable status notification]
+Включване уведомяването за състояния
+[Disable status notification]
+Изключване уведомяването за състояния
+[User: from offline (has priority!)]
+Потребител: от "Извън линия" (с предимство!)
+[Extra status changed]
+Промяна на допълнително състояние
+[Extra status message changed]
+Промяна на текст на допълнително състояние
+[Extra status removed]
+Премахване на допълнително състояние
+;file \plugins\NewXstatusNotify\src\options.cpp
+[This is status message]
+Това е текст за състояние
+[Do you want to reset all templates to default?]
+Желаете ли да бъдат възстановени стандартните шаблони?
+[Reset templates]
+Анулиране на шаблоните
+[Show available variables]
+Показване на наличните променливи
+[Reset all templates to default]
+Анулиране на всички шаблони
+;file \plugins\NewXstatusNotify\src\popup.h
+;file \plugins\NewXstatusNotify\src\utils.cpp
+[Can't open the log file!]
+Дневникът не може да бъде отворен!
+;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[Xstatus]
+хСъстояние
+[%s, %s. %s removed %s.\r\n]
+%s, %s. %s премахна състоянието си "%s".\r\n
+[%s, %s. %s changed %s to: %s.\r\n]
+%s, %s. %s промени състоянието си "%s" на: %s.\r\n
+;file \plugins\NewXstatusNotify\src\xstatus.h
+[changed %N to: %T%D%I]
+промени състоянието си "%N" на: %T%D%I
+[changed %N message to:%D%I]
+промени текста за състояние "%N" на:%D%I
+[removed %N]
+премахна състоянието си "%N"
+[changed %N @ %T%D%I]
+промени състоянието си "%N" @ %T%D%I
+[changed %N message @ %I]
+промени текста за състояние "%N" @ %I
+[has %N @ %T%D%I]
+има зададено състояние "%N" @ %T%D%I

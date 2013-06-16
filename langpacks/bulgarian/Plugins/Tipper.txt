@@ -1,0 +1,247 @@
+﻿#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
+;============================================================
+;  File: Tipper.dll
+;  Plugin: Tipper
+;  Version: 2.1.0.4
+;  Authors: Scott Ellis, yaho
+;============================================================
+;file \plugins\TipperYM\res\resource.rc
+[Max width:]
+Макс. ширина:
+[Max height:]
+Макс. височина:
+[Show if list not focused]
+Показване при дефокусиран списък
+[General padding:]
+Основен отстъп:
+[Labels:]
+Етикети:
+[Values:]
+Стойности:
+[Min width:]
+Мин. ширина:
+[Min height:]
+Мин. височина:
+[Text padding:]
+Отстъп между редовете:
+[Outer avatar padding:]
+Външен отстъп (аватар):
+[Keep original avatar size]
+Запазване на началния размер
+[Avatar border]
+Рамка на аватара
+[Title indent:]
+Отстъп на заглавието:
+[Value indent:]
+Отстъп на стойността:
+[Inner avatar padding:]
+Вътрешен отстъп (аватар):
+[Substitution]
+Заместване
+[Module:]
+Модул:
+[Setting or prefix:]
+Настройка (представка):
+[Translation:]
+Превод:
+[Item]
+Елемент
+[Value:]
+Стойност:
+[Draw a line above]
+Добавяне на линия отгоре
+[Value on a new line]
+Стойността на нов ред
+[Substitutions]
+Замествания
+[Separator]
+Разделител
+[Advanced options]
+Разширени настройки
+[Retrieve XStatus details if auto-retrieve is disabled]
+Извличане на подробности за хСъстояние при изключено автоизвличане
+[Smileys support]
+Поддръжка на Smileys
+[Enable SmileyAdd support]
+Поддръжка на приставката SmileyAdd
+[Resize smileys]
+Оразмеряване на усмивките
+[Replace only isolated smileys]
+Замяна само на изолирани усмивки
+[Show tooltip after all content is ready (avatar && status message)]
+Показване след зареждане на цялото съдържание (аватар и текст за състояние)
+[Status bar and tray tooltip]
+Подсказки в лентата за състояние и трея
+[Limit status messages in status bar and tray tooltips to:]
+Ограничаване на текста за състояние в подсказките до:
+[Animation speed:]
+Скорост на анимирането:
+[No preview]
+Няма образец
+[Skin option]
+Настройки на облика
+[Load fonts and colors]
+Зареждане на шрифтове и цветове
+[Enable skin coloring]
+Оцветяване на облика
+[Reload skin list]
+Презареждане на списъка с облици
+[Apply skin]
+Прилагане на облика
+[Get more skins]
+Сваляне на още облици
+[Enable tray tooltips]
+Подсказки в трея
+[Favourite contacts]
+Любими контакти
+[Expand to second level after:]
+Подсказка второ ниво след:
+[First level tooltip]
+Подсказка първо ниво
+[Second level tooltip]
+Подсказка второ ниво
+[Hide offline protocols]
+Без протоколите "Извън линия"
+[Append protocol name]
+Добавяне името на протокола
+;file \plugins\TipperYM\src\mir_smileys.cpp
+[Tipper smileys]
+Tipper усмивки
+;file \plugins\TipperYM\src\options.cpp
+[You must enter a label]
+Трябва да въведете етикет
+[Invalid Substitution]
+Невалидно заместване
+[<No Label>]
+<Няма етикет>
+[Add item]
+Добавяне на елемент
+[Add separator]
+Добавяне на разделител
+[No icon]
+Без икона
+[No title]
+Без заглавие
+[Centre]
+Център
+[Max avatar size:]
+Аватар (макс. р-р):
+[Animation]
+Анимиране
+[Fade]
+Избледняване
+[Content]
+Съдържание
+[Tray tooltip]
+Подсказка в трея
+[Extra]
+Допълнителни
+;file \plugins\TipperYM\src\options.h
+[Number of contacts]
+Брой контакти
+[Logon time]
+Време на вписване
+[Unread emails]
+Непрочетени имейли
+[Miranda uptime]
+Miranda работи от
+[Jabber activity]
+Jabber дейност
+[Client]
+Клиент
+;file \plugins\TipperYM\src\popwin.cpp
+[ ago]
+ преди
+[Unread emails:]
+Непрочетени имейли:
+[XStatus:]
+хСъстояние:
+[Activity:]
+Дейност:
+[Listening to:]
+Слуша:
+[Copy all items with labels]
+Копиране на всички елементи с етикет
+[Copy all items]
+Копиране на всички елементи
+[Copy avatar]
+Копиране на аватара
+[<No Label>: ]
+<Няма етикет>:
+[<No Value>]
+<Няма стойност>
+[Fav. contacts]
+Любими контакти
+[Miranda uptime:]
+Miranda работи от:
+;file \plugins\TipperYM\src\preset_items.cpp
+[Identifier]
+Идентификатор
+[Idle:]
+Бездействие:
+[IP internal]
+Вътрешно IP
+[IP internal:]
+Вътрешно IP:
+[Last message]
+Последно съобщение
+[Last message: (%sys:last_msg_reltime% ago)]
+Последно съобщение: (преди %sys:last_msg_reltime%)
+[Number of received messages]
+Брой получени съобщения
+[Number of msg [IN]:]
+Брой съобщения (входящи):
+[Number of sended messages]
+Брой изпратени съобщения
+[Number of msg [OUT]:]
+Брой съобщения (изходящи):
+[XStatus title:]
+хСъстояние:
+[XStatus text]
+хСъстояние текст
+[XStatus text:]
+хСъстояние текст:
+[Activity title:]
+Дейност:
+[Activity text:]
+Съобщение:
+[Logon time:]
+Време на вписване:
+[Last seen time:]
+Последно видян на:
+[Last seen status:]
+Последно състояние:
+[Condition:]
+Условия:
+[Humidity:]
+Влажност:
+[Max/Min:]
+Макс./Мин.:
+[Moon:]
+Луна:
+[Pressure:]
+Атм. налягане:
+[Sunrise:]
+Изгрев:
+[Sunset:]
+Залез:
+[Temperature:]
+Температура:
+[Update time:]
+Обновено в:
+[UV Index:]
+УВ индекс:
+[Wind:]
+Вятър:
+;file \plugins\TipperYM\src\skin_parser.cpp
+[# Solid color fill]
+# запълване с плътен цвят
+;file \plugins\TipperYM\src\tipper.cpp
+[Labels]
+Етикети
+[Values]
+Стойности
+[Tray title]
+Имена на протоколите в трея
+;file \plugins\TipperYM\src\translations.cpp
+;file \plugins\TipperYM\src\translations.h

@@ -1,0 +1,15 @@
+﻿#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+;============================================================
+;  File: NoHistory.dll
+;  Plugin: NoHistory
+;  Version: 0.2.3.0
+;  Authors: Scott Ellis, NightFox
+;============================================================
+;file \plugins\NoHistory\res\NoHistory.rc
+;file \plugins\NoHistory\src\dllmain.cpp
+[History Enabled]
+Съхраняване на историята
+[History Disabled]
+Без съхраняване на история
+;file \plugins\NoHistory\src\icons.cpp
+;file \plugins\NoHistory\src\options.cpp

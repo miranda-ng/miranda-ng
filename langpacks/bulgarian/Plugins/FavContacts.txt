@@ -1,0 +1,26 @@
+﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
+;============================================================
+;  File: FavContacts.dll
+;  Plugin: Favourite contacts
+;  Version: 0.0.0.6
+;  Authors: Victor Pavlychko
+;============================================================
+;file \plugins\FavContacts\res\resource.rc
+[Draw avatar border]
+Рамка на аватарите
+[px.]
+пиксела
+[Hide for transparent avatars]
+Скриване при прозрачен аватар
+[Use system colors and fonts]
+Ползване на системните цветове и шрифтове
+[Menu item preview:]
+Образец на меню елемента:
+[Favourite Contacts]
+Любими контакти
+[Multicolumn menu]
+Многоколонно меню
+[Configure fonts and colors...]
+Настройване на цвят и шрифт...
+;file \plugins\FavContacts\src\favlist.h
+;file \plugins\FavContacts\src\main.cpp

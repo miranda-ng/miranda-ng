@@ -1,0 +1,58 @@
+﻿#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
+;============================================================
+;  File: YAPP.dll
+;  Plugin: YAPP
+;  Version: 0.5.0.11
+;  Authors: Scott Ellis
+;============================================================
+;file \plugins\YAPP\res\yapp.rc
+[Popup history]
+Рopup история
+[Never timeout]
+Безкрайно
+[Set timeout:]
+Задаване (сек):
+[Width:]
+Ширина:
+[Maximum height:]
+Макс. височина:
+[Transparent background]
+Прозрачен фон
+[Disable when]
+Изключване, когато
+[Padding:]
+Отстъп:
+[Set timeout]
+Задаване на времетраене
+[Timeout value (0 = default):]
+Времетраене (0=стандарт):
+;file \plugins\YAPP\src\icons.cpp
+;file \plugins\YAPP\src\notify_imp.cpp
+;file \plugins\YAPP\src\options.cpp
+[Example]
+Пример
+[An avatar.]
+Аватар.
+[No time]
+Без час
+[Time on left]
+Час вляво
+[Time on right]
+Час вдясно
+[Time above avatar]
+Час над аватара
+[Full-screen app running]
+Приложение на цял екран
+;file \plugins\YAPP\src\services.cpp
+;file \plugins\YAPP\src\yapp.cpp
+[First line]
+Първи ред
+[Title underline]
+Подчертаване на заглавието
+;file \plugins\YAPP\src\yapp_history_dlg.cpp
+[Copy title to clipboard]
+Копиране на заглавието в клипборда
+[Copy message to clipboard]
+Копиране на съобщението в клипборда
+[Copy timestamp to clipboard]
+Копиране на времевата марка в клипборда

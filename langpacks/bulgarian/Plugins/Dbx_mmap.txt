@@ -1,0 +1,44 @@
+﻿#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
+;============================================================
+;  File: Dbx_mmap.dll
+;  Plugin: Miranda NG mmap database driver
+;  Version: 0.11.0.1
+;  Authors: Miranda-NG project
+;============================================================
+;file \plugins\Db3x_mmap\res\db3x_mmap.rc
+;file \plugins\Db3x_mmap\src\database.cpp
+[Disk is full. Miranda will now shutdown.]
+Дискът е пълен. Miranda ще бъде изключена сега.
+[Database failure. Miranda will now shutdown.]
+Повреда в базата от данни. Miranda ще бъде изключена сега.
+[Database Error]
+Грешка в базата от данни
+;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
+;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
+;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
+[Can't write to output file - disk full? (%u)]
+Файлът не може да бъде записан - пълен диск? (%u)
+;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
+[Event count marked wrongly: correcting]
+Грешно маркиран брой на събитията: поправяне
+[First event not marked as such: correcting]
+Първо събитие не е маркирано като такова: поправяне
+[Event marked as first which is not: correcting]
+Събитие е маркирано като първо, но не е: поправяне
+[First unread event marked wrong: fixing]
+Грешно маркирано първо непрочетено събитие: поправяне
+[Duplicate event was found: skipping]
+Открито е повтарящо се събитие: пропускане
+;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
+[Processing final tasks]
+Изпълнение на последните задачи
+;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
+[Database is newly created and has no data to process]
+Базата от данни е нова и не съдържа данни за обработване
+[Processing completed successfully]
+Обработването завърши успешно
+;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
+;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
+;file \plugins\Db3x_mmap\src\dbtool\user.cpp
+[Processing user data]
+Обработване на потребителските данни

@@ -1,0 +1,47 @@
+﻿#muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
+;============================================================
+;  File: Db_autobackups.dll
+;  Plugin: Db autobackuper
+;  Version: 0.0.0.8
+;  Authors: chaos.persei, sje, Kildor, Billy_Bons
+;============================================================
+;file \plugins\Db_autobackups\res\db_autobackups.rc
+[Backup progress]
+Създаване на резервно копие
+[Automatic Backups]
+Автоматично създаване на резервни копия
+[Number of backups to keep:]
+Брой резервни копия за съхраняване:
+[Backup NOW]
+Резервно копие сега
+[When Miranda starts]
+При стартиране на Miranda
+[When Miranda exits]
+При изключване на Miranda
+[Every:]
+Всеки:
+[Backup to folder:]
+Папка за резервните копия:
+[Go to the "Customize -> Folders" to change settings]
+Можете да промените настройките от Персонализиране>Папки
+[Disable progress bar]
+Изключване на лентата за напредък
+;file \plugins\Db_autobackups\src\backup.cpp
+[Backup in Progress]
+Създава се резервно копие
+[Copying database file...]
+Копира се файла на базата от данни...
+[Database backuped]
+Създадено е резервно копие на базата от данни
+;file \plugins\Db_autobackups\src\main.cpp
+[Backup Profile]
+Създаване резервно копие на профила
+[Save Profile As...]
+Запис на профила като...
+;file \plugins\Db_autobackups\src\options.cpp
+[Select Backup Folder]
+Избор на папка за резервните копия
+[Error Creating Backup Folder]
+Грешка при създаването на папка за резервните копия
+[Database AutoBackups]
+Резервни копия на БД

@@ -1,0 +1,322 @@
+﻿#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.1
+;  Authors: Miranda NG Team
+;============================================================
+;file \plugins\Weather\res\resource.rc
+[Brief Info]
+Кратка инф.
+[Webpage]
+уебстраница
+[Update weather information on startup]
+Обновяване на атмосферната информацията при стартиране
+[Update weather information every]
+Обновяване на атмосферната информацията всеки
+[Consider weather info updated only when condition and temperature are changed]
+Обновяване при промяна на условията и температурата
+[Remove old data when updating]
+Премахване на старите данни при обновяване
+[Make the contact italic when weather alert is issued]
+Курсивен шрифт за контакт при промяна на метеоусловията
+[Modes]
+Режими
+[Use weather condition as protocol status]
+Ползване на атмосферните условия като състояние на протокола
+[Avatar only mode]
+Режим само с аватар
+[Temperature]
+Температура
+[Celsius]
+Целзий
+[Fahrenheit]
+Фаренхайт
+[Degree sign:]
+Символ градус:
+[Wind]
+Вятър
+[km]
+км
+[miles]
+мили
+[Pressure]
+Атм. налягане
+[Day/Month]
+Ден/Месец
+[2 chars]
+2 знака
+[3 chars]
+3 знака
+[Do not append units to values]
+Без добавяне на мерна единица
+[Do not display fractional values]
+Без изобразяване на дробни стойности
+[Frame]
+Рамка
+[Avatar size]
+Размер на аватара
+[Edit Weather Station]
+Редактиране на метеостанцията
+[Weather Station]
+Метеостанция
+[City name]
+Име на града
+[Log Information]
+Информация за дневника
+[Use internal history]
+Ползване на историята
+[Use external file]
+Ползване на файл
+[Overwrite file upon update]
+Презаписване при обновяване
+[More Info URL]
+URL за още инф.
+[Weather Map]
+Метеокарта
+[Other Options]
+Други настройки
+[Set as default station]
+Задаване като стандартна станция
+[Disable automatic update for this station]
+Без автоматично обновяване за метеостанцията
+[Disable Popup for this station]
+Без Popup за станцията
+[Popup only when condition changes]
+Popup само при промяна на условията
+[Popup Actions]
+Popup Действия
+[Left Click]
+Ляв бутон
+[Right Click]
+Десен бутон
+[Popup Delay]
+Popup времетраене
+[Popup Text]
+Popup текст
+[Updates]
+Обновления
+[Brief Info Title]
+Заглавие
+[Note Text]
+Бележки (текст)
+[Extra Text]
+Доп. текст
+[External Log]
+Външен дневник
+[More Variables]
+Още променливи
+[Sunset]
+Залез
+[Feel-like]
+Усеща се като
+[Today's Low]
+Минимална
+[Today's High]
+Максимална
+[Sunrise]
+Изгрев
+[Dewpoint]
+Точка на оросяване
+[Humidity]
+Влажност
+[Weather Protocol INI Setup\nInstall and load your weather ini file here]
+Настройване на протокола Weather\nИнсталирайте и заредете .ini файловете тук
+[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+Не са намерени .INI файлове на компютъра. За настройване на INI файловете и метеостанциите следвайте следните стъпки:
+[Click here to download a weather ini file from Miranda file listing]
+Натиснете тук, за сваляне на .INI файл от сайта на Miranda
+[Extract the weather ini file from archive to this directory]
+Извличане на .INI файл от архив в тази директория
+[Click here to load the data from the new ini file into memory]
+Натиснете тук, за да бъде заредена информацията от новият .INI файл в паметта
+[Add new weather station and close this dialog]
+Добавяне на станцията и затваряне на прозореца
+[Total INI files]
+.INI файлове:
+[Total memory used]
+Общо използвана памет
+[Reload INI]
+Презареждане
+[Open brief information]
+Отваряне на кратка прогноза
+[Open complete forecast]
+Отваряне на пълната прогноза
+[Open weather map]
+Отваряне на метеокарта
+[View history]
+Преглед на историята
+[Show user detail]
+Показване на подробности за потребителя
+[To old setting]
+Към старите настройки
+[To default]
+Стандарт
+;file \plugins\Weather\src\weather.cpp
+[Weather Condition Changed]
+Промяна на метеорологичните условия
+;file \plugins\Weather\src\weather.h
+[Invalid service (11)]
+Невалидна услуга (11)
+[Invalid station (12)]
+Невалидна станция (12)
+[Weather service ini for this station is not found (20)]
+Не е открит .INI файла за метеостанцията (20)
+[Netlib error - check your internet connection (30)]
+Netlib грешка: проверете връзката си с Интернет (30)
+[Empty data is retrieved (40)]
+Не са извлечени данни (40)
+[Document not found (42)]
+Документа не е открит (42)
+[Document too short to contain any weather data (43)]
+Документа е твърде кратък, за да съдържа атмосферни данни (43)
+[Unknown error (99)]
+Неизвестна грешка (99)
+[HTTP Error: No content (204)]
+HTTP грешка: Няма съдържание(204)
+[HTTP Error: Data moved (301)]
+HTTP грешка: Данните са преместени (301)
+[HTTP Error: Use proxy (305)]
+HTTP грешка: Ползване на прокси (305)
+[HTTP Error: Temporary redirect (307)]
+HTTP грешка: Временно пренасочване (307)
+[HTTP Error: Bad request (400)]
+HTTP грешка: Лоша заявка (400)
+[HTTP Error: Forbidden (403)]
+HTTP грешка: Необходимо е прокси удостоверяване (407)
+[HTTP Error: Bad gateway (502)]
+HTTP грешка: Лош шлюз
+[HTTP Error: Service unavailable (503)]
+HTTP грешка: Услугата не е налична (503)
+[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+%c\nТемпература: %t\nУсеща се като: %f\nАтм. налягане: %p\nВятър: %i  %w\nВлажност: %m\nТочка на оросяване: %e\nВидимост: %v\n\nИзгрев: %r\nЗалез: %y\n\n5-дневна прогноза:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+Усеща се като: %f\nАтм. налягане: %p\nВятър: %i  %w\nВлажност: %m\nТочка на оросяване: %e\nВидимост: %v\n\nИзгрев: %r\nЗалез: %y\n\n5-дневна прогноза:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+[Weather Condition for %n as of %u]
+Атмосферни условия за %n от %u
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (усеща се като %f)	Вятър: %i %w	Влажност: %m
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n at %u:	%c, %t (усеща се като %f)	Вятър: %i %w	Влажност: %m
+[%c, %t\nToday:  High %h, Low %l]
+%c, %t\nДнес:	Максимална %h, Минимална %l
+;file \plugins\Weather\src\weather_addstn.cpp
+[Current weather information for %s.]
+Текуща атмосферна информация за %s.
+[%s is now the default weather station]
+%s е новата стандартна метеостанция
+[Please try again after weather update is completed.]
+Моля, опитайте отново след като приключи обновяването.
+[<Enter station name here>]
+<Въведете име на станцията>
+[<Enter station ID here>]
+<Въведете ID на станцията тук>
+;file \plugins\Weather\src\weather_contacts.cpp
+[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
+Не е зададен адрес за пълната прогноза. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
+[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+Не е зададен URL адрес за метеокартата. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
+[Get city name from ID]
+Извличане името на града от ID
+[Weather INI information]
+Метео-INI информация
+[View webpage]
+Преглед на уебстраницата
+;file \plugins\Weather\src\weather_conv.cpp
+[<unknown time>]
+<неизвестно време>
+[<Error>]
+<Грешка>
+[HTTP Error %i]
+HTTP грешка: %i
+;file \plugins\Weather\src\weather_data.cpp
+[<Enter city name here>]
+<Въведете името на града тук>
+[Error when obtaining data: %s]
+Грешка при добиването на информация: %s
+;file \plugins\Weather\src\weather_http.cpp
+[Weather HTTP connections]
+HTTP връзки на метео протокола
+;file \plugins\Weather\src\weather_icons.cpp
+[Update Disabled]
+Обновяването е изключено
+[View Brief]
+Кратка инф.
+[View Complete]
+Пълна прогноза
+[No Popup]
+Без Popup
+;file \plugins\Weather\src\weather_info.cpp
+[The corresponding INI file for "%s" is not found.]
+Не е открит съответният .INI файл за "%s".
+[Weather INI information for "%s":]
+Метео-INI информация за "%s":
+[Internal Name:]
+Вътрешно име:
+[INI Version:]
+.INI версия:
+[File Name:]
+Име на файла:
+[Item Count:]
+Брой елементи:
+[Memory Used:]
+Използвана памет:
+[Here is a list of custom variables that are currently available]
+Списък на наличните променливи
+;file \plugins\Weather\src\weather_ini.cpp
+[No update data file is found.  Please check your Plugins\\Weather directory.]
+Не е открит файл с данни. Моля, проверете директорията Plugins\\Weather
+[Invalid ini format for: %s]
+Невалиден .INI формат за: %s
+[All update data has been reloaded.]
+Всички обновени данни са заредени.
+;file \plugins\Weather\src\weather_mwin.cpp
+[Frame Font]
+Шрифт за рамката
+[Frame Title Font]
+Шрифт за заглавие на рамките
+;file \plugins\Weather\src\weather_opt.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tтекущи условия\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tвятър (посока)\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tвятър (скорост)\n%y\tзалез
+;file \plugins\Weather\src\weather_popup.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tусловия в момента\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tскорост на вятъра\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tскорост на вятъра\n%y\tзалез
+;file \plugins\Weather\src\weather_svcs.cpp
+[Station ID]
+ID на станцията
+[Disable &weather notification]
+Изключване на метеоуведомяването
+[Enable &weather notification]
+Включване на метеоуведомяване
+[Update Weather]
+Обновяване на атм. условия
+[Remove Old Data then Update]
+Обновяване след премахване на старите данни
+[Brief Information]
+Кратка информация
+[Read Complete Forecast]
+Цялата прогноза
+[Enable/Disable Weather Update]
+Вкл./Изкл. обновяването на времето
+[Update All Weather]
+Обновяване на всички станции
+[Remove Old Data then Update All]
+Премахване на старата информация и обновяване на всичко
+[Weather Notification]
+Метеоуведомяване
+[Display in a frame]
+Изобразяване в рамка
+;file \plugins\Weather\src\weather_update.cpp
+[Unable to retrieve weather information for %s]
+Извличането на атмосферни данни за %s е невъзможно
+;file \plugins\Weather\src\weather_userinfo.cpp
+[Current condition for %n]
+Текущи условия за %n
+[Last update on:   %u]
+Обновено в:   %u
+[Variable]
+Променливо
+[Retrieving new data, please wait...]
+Извличане на нови данни, моля изчакайте...
+[More Info]
+Още

@@ -1,0 +1,17 @@
+﻿#muuid {23d4f302-d513-45b7-9027-445f29557311}
+;============================================================
+;  File: Console.dll
+;  Plugin: Console
+;  Version: 0.0.7.3
+;  Authors: Bio
+;============================================================
+;file \plugins\Console\res\resource.rc
+;file \plugins\Console\src\Console.cpp
+[Show/Hide Console]
+Показване/Скриване на конзолата
+[Hide Console]
+Скриване на конзолата
+[Show Console]
+Показване на конзолата
+[Console]
+Конзола

@@ -1,0 +1,107 @@
+﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last seen
+;  Version: 5.0.4.8
+;  Authors: Heiko Schillinger, YB
+;============================================================
+;file \plugins\SeenPlugin\res\resource.rc
+[Last seen options]
+Настройки
+[Last seen menuitem]
+Елемент в менюто
+[Show icon]
+Показване на икона
+[Userinfo tab]
+Таб в Userinfo
+[Log to history]
+Запис в историята
+[Maximum size]
+Макс. размер
+[Variable list]
+Променливи
+[Enable Idle support]
+Поддръжка на "Бездействие"
+[Ignore contacts going offline]
+Игнориране на контактите излизащи от линия
+[Protocols to watch:]
+Протоколи за наблюдаване:
+[Use popups]
+Ползване на popups
+[Popup Colors]
+Popup цветове
+[Reset colors]
+Анулиране
+[You missed following contacts:]
+Изпуснахте следните контакти:
+[Test\nTest]
+Проба\nПроба
+[Alert when user status changes]
+Уведомяване, ако контакта смени състоянието си
+;file \plugins\SeenPlugin\src\history.cpp
+;file \plugins\SeenPlugin\src\main.cpp
+[User status change]
+Потребител промени състоянието си
+[Changed to Online]
+Сега е на линия
+[User Logged Off]
+Отписване на потребител
+[User Logged In]
+Вписване на потребител
+[Last seen]
+Последно видян
+;file \plugins\SeenPlugin\src\menu.cpp
+;file \plugins\SeenPlugin\src\options.cpp
+;file \plugins\SeenPlugin\src\seen.h
+[-- Date --]
+-- Дата --
+[year (4 digits)]
+година(4 знака)
+[year (2 digits)]
+година (2 знака)
+[month]
+месец
+[name of month]
+име на месеца
+[short name of month]
+кратко име на месеца
+[day]
+ден
+[weekday (full)]
+ден от седмицата
+[weekday (abbreviated)]
+ден от седмицата (кратко име)
+[-- Time --]
+-- Час --
+[hours (24)]
+часове (24)
+[hours (12)]
+часове (12)
+[AM/PM]
+AM/PM
+[-- User --]
+-- Потребител --
+[username]
+потребителско име
+[nick]
+прякор
+[Old status]
+Старо състояние
+[external IP]
+външно IP
+[internal IP]
+вътрешно IP
+[Client info]
+Информация за клиента
+[-- Format --]
+-- Формат --
+[Note:]
+Бележка:
+[Use]
+Използване на
+[for empty string]
+за празен низ
+[instead of]
+вместо
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp

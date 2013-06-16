@@ -1,0 +1,40 @@
+﻿#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+;============================================================
+;  File: PackUpdater.dll
+;  Plugin: Pack updater
+;  Version: 0.0.1.1
+;  Authors: Mataes, ZERO_BiT
+;============================================================
+;file \plugins\PackUpdater\Res\Resource.rc
+[View info]
+Повече инф.
+[PackUpdater has detected updated versions\nof the following Miranda components:]
+През PackUpdater са налични актуализации \nза следните компоненти на Miranda NG:
+[Pack update options]
+Настройки за актуализиране на пакета за Miranda NG
+[Remind about not installed pack update]
+Напомняне за неинсталирани актуализации
+[Message boxes]
+Текстови кутии
+;file \plugins\PackUpdater\Src\Events.cpp
+;file \plugins\PackUpdater\Src\Notifications.cpp
+[Current Version]
+Текуща версия
+[New Version]
+Нова версия
+[Downloading pack updates...]
+Сваляне на актуализации за пакета....
+[Downloading update...]
+Сваляне на актуализации...
+[You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
+Избрахте наличните актуализации да бъдат инсталирани по-късно.\nМожете да го сторите ръчно от:\n\n%s
+;file \plugins\PackUpdater\Src\Notifications.h
+;file \plugins\PackUpdater\Src\Options.cpp
+;file \plugins\PackUpdater\Src\PackUpdater.cpp
+;file \plugins\PackUpdater\Src\Utils.cpp
+[Pack Updater HTTP connection]
+HTTP връзки на Pack Updater
+[URL for checking updates not found.]
+Не е  открит URL за актуализиране.
+[No files for update.]
+Няма файлове за актуализиране.

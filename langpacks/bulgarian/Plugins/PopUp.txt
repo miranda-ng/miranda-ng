@@ -1,0 +1,200 @@
+﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
+;============================================================
+;  File: Popup.dll
+;  Plugin: Popup plus
+;  Version: 2.1.1.7
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+;file \plugins\Popup\res\resource.rc
+[Content && Style]
+Съдържание и стил
+[Go to Customize > Fonts && Colors for fonts and colors options]
+Персонализиране>Шрифтове за избор на шрифтове и цветове
+[Live Preview]
+Образец
+[Size && Position]
+Размер и позиция
+[Enable popup history]
+Включване на popup историята
+[Store last]
+Запис на посл.
+[Draw avatar borders]
+Рамка на аватарите
+[Draw borders for semitransparent avatars too]
+Рамка и за полупрозрачните аватари
+[Enable avatar updates]
+Актуализиране на аватарите
+[Start the popups in the monitor with]
+Показване на popups в монитора с
+[Miranda's window]
+прозорецът на Miranda
+[the active window]
+активният прозорец
+[Enable Win 9x/Me transparency]
+Включване на Win 9x/Me прозрачност
+[Opaque popups under cursor]
+Уплътняване при посочване
+[Slide Popup]
+Плъзгане на popup-овете
+[Time (out):]
+Избледняване:
+[Limit window amount to:]
+Максимален брой прозорци:
+[* - built-in skins]
+* - вграден
+[Popup Area]
+Площ на Popup-а
+[pixel(s)]
+пиксел(а)
+[Distance between popups]
+Разстояние между popup-овете
+[Configure popup area]
+Настройване на popup полето
+[Enable popup actions]
+Включване на popup действията
+[Popup Actions are those tiny buttons below notification text.]
+Popup действията са малките бутони под текста.
+[Common Actions]
+Общи действия
+[Please choose in what cases default actions should be added:]
+Изберете кога да бъдат добавяни стандартни действия:
+[Add info && menu for IM contacts only]
+Информация+меню само IM контактите
+[Add default actions for contacts only]
+Стандартни д-я само за контакти
+[Don't close popups on default actions]
+Без затваряне на popup-a след д-е
+[Use large icons]
+Ползване на големи икони
+[Popup actions will be displayed as:]
+Показване на Popup действията като:
+[Icons and labels below text]
+Икони и етикети под текста
+[Icons on the left]
+Икони вляво
+[Icons aligned to the right]
+Икони вдясно
+[Show Actions: (requires apply)]
+Действия:(натиснете "Прилагане")
+[LeftButton]
+Ляв бутон
+[MiddleButton]
+Среден бутон
+[RightButton]
+Десен бутон
+[Enable this notification]
+Включване на уведомяването
+[Left click action:]
+Ляв бутон:
+[Right click action:]
+Десен бутон:
+[Disable when global status is...]
+Изключване, когато общото състояние е...
+[Colors can be configured in\r\nCustomize > Fonts && Colors]
+Цветовете се настройват от Персонализиране>\r\nШрифтове и цветове
+[Disable if message window is open]
+Изключване при отворен прозорец за съобщения
+[Per-contact settings]
+Настройване на визуализирането по отделно за контактите
+[Show always]
+Винаги
+[Never show]
+Никога
+[Show default]
+Стандартно
+[Infinite popup delay]
+Безкрайна продължителност
+[Popup delay:]
+Времетраене:
+[Do not close hovered popups]
+Без затваряне при посочване
+[Dynamically resize the popups]
+Динамично оразмеряване
+[Minimum width]
+Мин. ширина
+[Maximum width]
+Макс. ширина
+[Layout:]
+Изглед:
+[Reorder Popups]
+Пренареждане на Popups
+[Disable when:]
+Без Popups, когато:
+[Always (has priority)]
+Винаги (приоритетно)
+[Fullscreen mode]
+Режим на цял екран
+;file \plugins\Popup\src\actions.cpp
+[Quick reply]
+Бърз отговор
+[User details]
+Подробности за потребителя
+[Pin popup]
+Прилепване на popup-а
+;file \plugins\Popup\src\config.cpp
+[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
+Тестови образец за настройките на popup приставката. Би трябвало да е достатъчно дълъг, за да не се събере на един ред...
+[This is a notification message]
+Това е уведомяване
+[This is a warning message]
+Това е предупреждение
+[This is an error message]
+Това е съобщение за грешка
+;file \plugins\Popup\src\effects.cpp
+;file \plugins\Popup\src\font.cpp
+;file \plugins\Popup\src\history.cpp
+;file \plugins\Popup\src\icons.cpp
+[Refresh skin list]
+Обновяване на списъка с облици
+[Popup Placement]
+Popup позиция
+[Popup Group]
+Popup група
+[Favorite Contact]
+Любим контакт
+[Blocked Contact]
+Блокиран контакт
+[Quick Reply]
+Бърз отговор
+[Pin Popup]
+Прилепване на popup-а
+[Pinned Popup]
+Прилепен popup
+[Add Contact Permanently]
+Добавяне на контакта за постоянно
+;file \plugins\Popup\src\main.cpp
+;file \plugins\Popup\src\opt_adv.cpp
+[Fade in/out]
+Избледняване/Изсветляване
+;file \plugins\Popup\src\opt_class.cpp
+;file \plugins\Popup\src\opt_gen.cpp
+[upper left corner]
+горен ляв ъгъл
+[lower left corner]
+долен ляв ъгъл
+[lower right corner]
+долен десен ъгъл
+[upper right corner]
+горен десен ъгъл
+[vertical]
+вертикално
+[Popup Plus Warning]
+Popup Plus Предупреждение
+;file \plugins\Popup\src\opt_skins.cpp
+[Skin preview]
+Образец на облика
+[Just take a look at this skin... ;)]
+Просто погледнете този облик... ;)
+[Show clock]
+Показване на часа
+[Refresh List]
+Обновяване на списъка
+;file \plugins\Popup\src\popup_thread.cpp
+;file \plugins\Popup\src\popup_wnd2.cpp
+;file \plugins\Popup\src\services.cpp
+;file \plugins\Popup\src\skin.cpp
+;file \plugins\Popup\src\srmm_menu.cpp
+[Popup Mode: Auto]
+Popup режим: Автоматичен
+[Popup Mode: Block contact]
+Popup режим: Блокиране на контакта

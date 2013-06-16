@@ -1,0 +1,10 @@
+﻿#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
+;============================================================
+;  File: BuddyPounce.dll
+;  Plugin: Buddy pounce
+;  Version: 0.3.2.1
+;  Authors: Jonathan Gordon
+;============================================================
+;file \plugins\BuddyPounce\res\resource.rc
+;file \plugins\BuddyPounce\src\dialog.cpp
+;file \plugins\BuddyPounce\src\main.cpp

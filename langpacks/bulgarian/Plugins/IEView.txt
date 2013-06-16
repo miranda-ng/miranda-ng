@@ -1,0 +1,56 @@
+﻿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.4.0.0
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
+;file \plugins\IEView\res\ieview.rc
+[Save Image As...]
+Запис на изображението като...
+[Print]
+Отпечатване
+[Show source]
+Показване на кода
+[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
+Поддържат се следните BBCodes: [b][i][u][s][img][size][color][url]
+[Enable support for Flash files in smileys and BBCodes]
+Включване поддръжката на Flash файлове, за усмивките и BBCodes
+[Enable MathModule support]
+Поддръжка на приставката MathModule
+[Replace smileys in user names]
+Замяна на усмивките в потребителските имена
+[Hide window border]
+Без рамка на прозореца
+[Compatibility Mode]
+Режим на съвместимост
+[Use External CSS]
+Външен CSS файл
+[Use Templates]
+Ползване на шаблон
+[Background image]
+Фоново изображение
+[Template Options]
+Настройки на шаблоните
+[Use message grouping]
+Групиране на съобщенията
+[Show nicknames]
+Показване на прякори
+[Use long date format]
+Дълг формат за датата
+[Use relative timestamp]
+Кратка времева марка
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Outgoing File Transfer]
+Изходящо прехвърляне на файл
+;file \plugins\IEView\src\HTMLBuilder.cpp
+[ requested authorisation]
+ заявено упълномощаване
+[ was added.]
+ беше добавен.
+;file \plugins\IEView\src\IEView.cpp
+;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+;file \plugins\IEView\src\Options.cpp
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

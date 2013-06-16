@@ -1,0 +1,1160 @@
+﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\JabberG\res\jabber.rc
+[Edit Note]
+Редактиране на бележка
+[Tags:]
+Тагове:
+[User:]
+Потребител:
+[Domain/Server:]
+Сървър/Домейн:
+[Resource:]
+Източник:
+[Register new user]
+Регистриране
+[Use custom connection host and port:]
+Задаване на хост и порт:
+[Use Domain Login]
+Ползване на домейна за вписване
+[Search service]
+Търсене на услуга
+[Roster Editor]
+Редактор на списъка с хора
+[Roster editor\nView and modify your server-side contact list.]
+Редактор на списъка с хора\nПрегледайте и променете списъка с хора на сървъра.
+[Priority:]
+Предимство:
+[Use hostname as resource]
+Името на хоста като източник
+[List of public servers]
+Публични сървъри
+[Use SSL]
+Ползване на SSL
+[Use TLS]
+Ползване на TLS
+[Unregister]
+Премахване
+[Manually specify connection host]
+Ръчно задаване на хост
+[User directory:]
+Директория на потребителя:
+[Language for human-readable resources:]
+Език за човешките ресурси:
+[Allow file sending through direct peer-to-peer connection]
+Разрешаване изпращането на файлове чрез директна peer-to-peer връзка
+[Specify external address:]
+Въведете външен адрес:
+[Hint:]
+Съвет:
+[Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
+Премахнете горните отметки, ако имате проблеми с изпращането на файлове. Може да причини проблеми с обмена на големи файлове.
+[Jabber Account Registration]
+Регистриране на Jabber акаунт
+[Jabber Agents]
+Jabber агенти
+[Register/Search Jabber Agents]
+Регистриране/Търсене на Jabber агенти
+[Jabber server:]
+Jabber сървър:
+[Register...]
+Регистриране...
+[Browse/Join chat room...]
+Разглеждане/Влизане в чат стая...
+[Search...]
+Търсене...
+[Registered Jabber Transports]
+Регистрирани Jabber транспорти
+[Log on]
+Вписване
+[Log off]
+Отписване
+[Register with a new service...]
+Регистриране в нова услуга...
+[Command]
+Команда
+[Jabber Form]
+Jabber формуляр
+[Instruction:]
+Инструкции:
+[Submit]
+Пращане
+[Address1:]
+Адрес 1:
+[Address2:]
+Адрес 2:
+[ZIP:]
+Пощенски код:
+[Middle:]
+Презиме:
+[Jabber vCard: Add Email Address]
+Jabber vCard: Добавяне на имейл
+[Email address:]
+Имейл:
+[Jabber vCard: Add Phone Number]
+Jabber vCard: Добавяне на телефон
+[Phone number:]
+Тел. номер:
+[Pager]
+Пейджър
+[Text/Messaging]
+Текстови съобщения
+[Modem]
+Модем
+[Load]
+Зареди
+[Current Password:]
+Текуща парола:
+[New Password:]
+Нова парола:
+[Confirm New Password:]
+Потвърдете новата парола:
+[Jabber Multi-User Conference]
+Jabber конференция
+[Conference server:]
+Сървър:
+[Create or Join Groupchat]
+Създаване или влизане в групов чат
+[Jabber Multi-User Conference\nCreate or join existing conference room.]
+Jabber конференция\nСъздайте/присъединете се към съществуваща стая.
+[Room:]
+Стая:
+[Recently visited chatrooms:]
+Скоро посетени чат стаи:
+[Bookmarks]
+Отметки
+[JID List]
+JID списък
+[Apply Filter]
+Прилагане на филтъра
+[Reset Filter]
+Анулиране на филтъра
+[Jabber Agent Registration]
+Регистрация на Jabber агент
+[Register]
+Регистриране
+[Invite Users]
+Покани потребите
+[<room jid>\nSend groupchat invitation.]
+<room jid>\nИзпращане на покана за групов чат.
+[Other JID:]
+Друг JID:
+[Invitation reason:]
+Причина за поканата:
+[Groupchat Invitation]
+Покана за групов чат
+[<room jid>\nIncoming groupchat invitation.]
+<room jid>\nВходяща покана за групов чат.
+[You are invited to conference room by]
+Поканени сте в конферентна стая от
+[with following reason:]
+със следната причина:
+[Jabber Bookmarks]
+Jabber отметки
+[Server side bookmarks\nStore conference rooms and web links on server.]
+Отметки на сървъра\nСъхранете конферентните стаи и хипервръзките си на сървъра.
+[Bookmark Details]
+Подробности за отметката
+[Bookmark Type]
+Тип на отметката
+[Transport]
+Транспорт
+[Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
+Автовлизане ("Автоматично влизане в отметките" трябва да е отметнато в настройките на акаунта)
+[Room JID/ URL:]
+JID на стаята/URL:
+[Bookmark Name:]
+Име на отметката:
+[Privacy Lists]
+Списъци за поверителност
+[Privacy Lists\nFlexible way to configure visibility and more.]
+Списъци за поверителност\nЛесен начин за настройване на видимостта и други.
+[Lists:]
+Списъци:
+[Rules:]
+Правила:
+[Simple Mode]
+Прост режим
+[Advanced Mode]
+Разширен режим
+[Add list... (Ins)]
+Добавяне на списък... (Ins)
+[Activate (Space)]
+Активиране (Space)
+[Set as default (Ctrl+Space)]
+Задаване като стандарт (Ctrl+Space)
+[Remove list (Del)]
+Премахване на списък (Del)
+[Add rule (Ins)]
+Добавяне на правило (Ins)
+[Edit rule... (F2)]
+Редактиране на правило... (F2)
+[Move rule up (Alt+Up)]
+Преместване нагоре (Alt+Up)
+[Move rule down (Alt+Down)]
+Преместване надолу (Alt+Down)
+[Remove rule (Del)]
+Премахване на правило (Del)
+[Privacy rule]
+Правило за поверителност
+[If:]
+Ако:
+[Then:]
+Тогава:
+[following stanza types:]
+следния тип събития:
+[Incoming presence]
+Входящо присъствие
+[Outgoing presence]
+Изходящо присъствие
+[New privacy list name:]
+Име на списъка за поверителност:
+[Enter the name of the new list:]
+Въведете име на новия списък:
+[Service Discovery]
+Откриване на услуги
+[View as tree]
+Преглед като дърво
+[View as list]
+Преглед като списък
+[Node:]
+Възел:
+[Account type:]
+Тип на акаунта:
+[Register account now]
+Регистриране на акаунта
+[Jabber Account Information:]
+Информация за Jabber акаунт:
+[Member Information]
+Информация за потребителя
+[Member Information\n<user id>]
+Информация за потребителя\n<user id>
+[Role:]
+Роля:
+[Set role]
+Задаване на роля
+[Affiliation:]
+Ранг:
+[Set affiliation]
+Задаване на ранг
+[Chat options]
+Чат настройки
+[Alternate nick:]
+Заместващ прякор:
+[Custom messages]
+Персонални съобщения
+[Quit:]
+Изход:
+[Slap:]
+Шамар:
+[HTTP Authorization\nAccept or reject incoming request]
+HTTP упълномощаване\nПриемете или отхвърлете запитването
+[Request was sent from JID:]
+Молбата е изпратена от JID:
+[If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
+Ако желаете да удовлетворите молбата натиснете "Приемане", в противен случай натиснете "Отхвърляне".
+[Authorize]
+Упълномощаване
+[Deny]
+Отхвърляне
+[Jabber Notebook]
+Jabber бележник
+[Jabber notebook\nStore notes on server and access them from anywhere.]
+Jabber бележник\nСъхранете бележките си на сървъра и ще имате достъп до тях отвсякъде.
+[Bots Challenge Test]
+Тест за ботове
+[XML Console]
+XML конзола
+[Reset log]
+Изчистване
+;file \protocols\JabberG\src\jabber.cpp
+[Frame title]
+Заглавие на рамката
+[Frame text]
+Текст в рамката
+;file \protocols\JabberG\src\jabber.h
+;file \protocols\JabberG\src\jabber_adhoc.cpp
+[Error %s %s]
+Грешка %s %s
+[Select Command]
+Изберете команда
+[Done]
+Направено
+[In progress. Please Wait...]
+Напредък. Моля, изчакайте...
+[Execute]
+Изпълнение
+[Requesting command list. Please wait...]
+Изтегляне на списъка с команди. Моля, изчакайте...
+;file \protocols\JabberG\src\jabber_agent.cpp
+[No message]
+Няма съобщение
+;file \protocols\JabberG\src\jabber_bookmarks.cpp
+[Bookmark Name]
+Име на отметката
+[Address (JID or URL)]
+Адрес (JID или URL)
+[Conferences]
+Конференции
+;file \protocols\JabberG\src\jabber_byte.cpp
+[Bytestream Proxy not available]
+Няма налично прокси тип Bytestream
+;file \protocols\JabberG\src\jabber_caps.cpp
+;file \protocols\JabberG\src\jabber_captcha.cpp
+[Enter the text you see]
+Въведете текста, който виждате
+;file \protocols\JabberG\src\jabber_chat.cpp
+[Member]
+Член
+[Visitor]
+Посетител
+[Participant]
+Участник
+[Moderator]
+Модератор
+[User %s in now banned.]
+Потребителят %s е баннат.
+[User %s changed status to %s with message: %s]
+Потребителя %s промени състоянието си на "%s" със следното съобщение: %s
+[User %s changed status to %s]
+Потребителя %s промени състоянието си на "%s"
+[Room configuration was changed.]
+Настройките на стаята бяха променени.
+[Affiliation of %s was changed to '%s'.]
+Рангът на %s бе променена на '%s'.
+[Role of %s was changed to '%s'.]
+Ролята на %s е променена на "%s".
+[because room is now members-only]
+защото стаята е вече само за членове.
+[user banned]
+баннат потребител
+[Change &nickname]
+Промяна на прякора
+[&Invite a user]
+Поканване на потребител
+[&Roles]
+Роли
+[&Participant list]
+Списък на участниците
+[&Moderator list]
+Списък на модераторите
+[&Affiliations]
+Рангове
+[&Member list]
+Списък на членовете
+[&Admin list]
+Списък на администраторите
+[&Owner list]
+Списък на собствениците
+[Outcast list (&ban)]
+Списък на прокудените (бан)
+[&Room options]
+Настройки на стаята
+[View/change &topic]
+Преглед/Промяна на темата
+[Add to &bookmarks]
+Добавяне в отметките
+[&Configure...]
+Настройване...
+[&Destroy room]
+Унищожаване на стаята
+[Lin&ks]
+Връзки
+[Copy room &JID]
+Копиране JID на стаята
+[Copy room topic]
+Копиране на темата
+[&Send presence]
+Изпращане на присъствие
+[&User details]
+Подробности за потребителя
+[Member &info]
+Членска информация
+[&Add to roster]
+Добавяне в списъка с хора
+[&Copy to clipboard]
+Запис в клипборда
+[Invite to room]
+Покани в стая
+[Set &role]
+Задаване на роля
+[&Visitor]
+Посетител
+[&Participant]
+Участник
+[&Moderator]
+Модератор
+[Set &affiliation]
+Задаване на ранг
+[&None]
+Няма
+[&Member]
+Член
+[&Admin]
+Администратор
+[&Owner]
+Собственик
+[Outcast (&ban)]
+Прокуден (бан)
+[Copy &nickname]
+Копиране на прякора
+[Copy real &JID]
+Копиране на истинския JID
+[Copy in-room JID]
+Копиране JID за стаята
+[Real &JID: %s]
+Истински JID: %s
+[Send groupchat invitation.]
+Изпращане на покана за групов чат.
+[Member Info:]
+Членска информация:
+[Real JID not available]
+Истинският JID не е наличен
+[Reason to kick]
+Причина за изгонването
+[Reason to ban]
+Причина за банване
+[Invite %s to %s]
+Покани %s в %s
+[Set topic for]
+Задаване на тема за
+[Reason to destroy]
+Причина за унищожаване
+;file \protocols\JabberG\src\jabber_console.cpp
+[Can't send data while you are offline.]
+Изпращането на данни е невъзможно извън линия.
+[Jabber Error]
+Jabber грешка
+;file \protocols\JabberG\src\jabber_disco.cpp
+[Node hierarchy]
+Йерархия на възела
+[Node]
+Възел
+[Navigate]
+Придвижване
+[Browse all favorites]
+Разглеждане на всички любими
+[Remove all favorites]
+Премахване на всички любими
+[Registered transports]
+Регистрирани транспорти
+[Browse local transports]
+Разглеждане на местните транспорти
+[Browse chatrooms]
+Разглеждане на чат стаите
+[Add to roster]
+Добавяне в списъка с хора
+;file \protocols\JabberG\src\jabber_disco.h
+[Identities]
+Идентичности
+[category]
+категория
+[Category]
+Категория
+[Supported features]
+Поддържани функции
+;file \protocols\JabberG\src\jabber_form2.cpp
+;file \protocols\JabberG\src\jabber_groupchat.cpp
+[Failed to retrieve room list from server.]
+Списъкът със стаи от сървъра не бе извлечен.
+[No rooms available on server.]
+Няма налични стаи на сървъра.
+[<no nick>]
+<няма прякор>
+[Loading...]
+Зареждане...
+[Please wait for room list to download.]
+Моля, изчакайте списъка със стаи да бъде свален.
+[Bookmarks...]
+Отметки...
+[Incoming groupchat invitation.]
+Входяща покана за групов чат.
+;file \protocols\JabberG\src\jabber_icolib.cpp
+[Agents list]
+Списък с агенти
+[Transports]
+Транспорти
+[Personal vCard]
+Лична vCard
+[Convert to room]
+Превръщане в стая
+[Login/logout]
+Вписване/Отписване
+[Resolve nicks]
+Откриване на прякорите
+[Send note]
+Изпращане на бележка
+[AdHoc Command]
+AdHoc команда
+[OpenID Request]
+OpenID заявка
+[Discovery succeeded]
+Успешно откриване
+[Discovery failed]
+Неуспешно откриване
+[Discovery in progress]
+Извършва се търсене
+[Apply filter]
+Прилагане на филтър
+[Reset filter]
+Анулиране на филтъра
+[Navigate home]
+Към началото
+[Refresh node]
+Обновяване на възела
+[Browse node]
+Разглеждане на възела
+[RSS service]
+RSS услуга
+[Storage service]
+Услуга за съхраняване
+[Weather service]
+Метеоуслуга
+[Generic privacy list]
+Общ списък за поверителност
+[Active privacy list]
+Активен списък за поверителност
+[Default privacy list]
+Стандартен списък за поверителност
+[Allow Messages]
+Разрешаване на съобщения
+[Allow Presences (in)]
+Разрешаване на присъствия (вход)
+[Allow Presences (out)]
+Разрешаване на присъствия (изход)
+[Allow Queries]
+Разрешаване на запитвания
+[Deny Messages]
+Забрана на съобщения
+[Deny Presences (in)]
+Забрана на присъствията (вход)
+[Deny Presences (out)]
+Забрана на присъствията (изход)
+[Deny Queries]
+Забрана на запитвания
+[Dialogs]
+Прозорци
+[Discovery]
+Откриване
+;file \protocols\JabberG\src\jabber_iqid.cpp
+[Jabber Authentication]
+Jabber удостоверяване
+[Registration successful]
+Успешно регистриране
+[Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
+Паролата е променена. Не забравяйте да я промените в настройките на протокола Jabber.
+[Password cannot be changed.]
+Паролата не може да бъде променена.
+;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[%s, %d items (%s)]
+%s, %d елемента (%s)
+[Member List]
+Списък с членове
+[Moderator List]
+Списък с модератори
+[Ban List]
+Списък с банове
+[Admin List]
+Списък с администратори
+[Owner List]
+Списък със собственици
+[Removing]
+Премахване...
+;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+;file \protocols\JabberG\src\jabber_menu.cpp
+[Add to Bookmarks]
+Добавяне в отметките
+[Commands]
+Команди
+[Send Note]
+Изпращане на бележка
+[Send Presence]
+Изпращане на присъствие
+[Jabber Resource]
+Jabber източник
+[Last Active]
+Последна активност
+[Server's Choice]
+По избор на сървъра
+[&Convert to Contact]
+Превръщане в контакт
+[&Convert to Chat Room]
+Превръщане в чат стая
+[Registered Transports]
+Регистрирани транспорти
+[Local Server Transports]
+Видове транспорт на сървъра
+[Browse Chatrooms]
+Разглеждане на чат стаите
+[Create/Join groupchat]
+Създаване/Влизане в групов чат
+[Roster editor]
+Редактор на списъка с хора
+[Resource priority]
+Предимство на източника
+[Resource priority [%d]]
+Предимство на източника [%d]
+[Join conference]
+Влизане в конференция
+[Open bookmarks]
+Отваряне на отметките
+[Service discovery]
+Откриване на услуги
+[Last active]
+Последно активен
+[No activity yet, use server's choice]
+Все още няма активност, сървърът избира
+[Highest priority (server's choice)]
+Най-голямо предимство (сървърът избира)
+;file \protocols\JabberG\src\jabber_message_handlers.cpp
+;file \protocols\JabberG\src\jabber_misc.cpp
+[Both]
+И двамата
+;file \protocols\JabberG\src\jabber_notes.cpp
+[Incoming note from %s]
+Входяща бележка от %s
+[Send note to %s]
+Изпращане на бележка до %s
+[From: %s]
+От: %s
+[All tags]
+Всички тагове
+[Notes are not saved, close this window without uploading data to server?]
+Бележките не бяха запаметени. Желаете ли прозорецът да бъде затворен, без да бъдат качени на сървъра?
+[Incoming note]
+Входяща бележка
+;file \protocols\JabberG\src\jabber_opt.cpp
+[These changes will take effect the next time you connect to the Jabber network.]
+Промените ще бъдат осъществени при следващо свързване с мрежата Jabber.
+[Jabber Protocol Option]
+Настройки на протокола Jabber
+[Confirm password]
+Потвърдете паролата
+[Passwords do not match.]
+Паролите не съвпадат
+[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
+Акаунтът ви ще бъде заличен от сървъра, списъкът с хора и цялата информация, която сте съхранили на сървъра. Наистина ли желаете това?
+[Account removal warning]
+Предупреждение за премахване на акаунт
+[You can change your password only when you are online]
+Можете да промените паролата си само когато сте на линия
+[You must be online]
+Трябва да сте на линия
+[Log chat state changes]
+Записване на промените в състоянието на чата
+[Log presence subscription state changes]
+Записване на присъствията (при промяна)
+[Enable user moods receiving]
+Получаване на потребителски настроения
+[Enable user activity receiving]
+Получаване на потребителски дейности
+[Receive notes]
+Получаване на бележки
+[Automatically save received notes]
+Автоматично запазване на получените бележки
+[Server options]
+Настройки за сървъра
+[Disable SASL authentication (for old servers)]
+Изключване на SASL удостоверяването (за стари сървъри)
+[Enable stream compression (if possible)]
+Компресиране на потока (ако е възможно) - спестява трафик
+[Enable remote controlling (from another resource of same JID only)]
+Включване на дистанционно управление (контролиране от отдалечен източник, за същия JID)
+[Show transport agents on contact list]
+Показване на транспортните агенти в списъка с контакти
+[Automatically add contact when accept authorization]
+Автоматично добавяне на контакт след упълномощаването му
+[Automatically accept authorization requests]
+Автоматично приемане на молбите за упълномощаване
+[Fix incorrect timestamps in incoming messages]
+Поправяне на грешните времеви марки във входящите съобщения
+[Disable frame]
+Без рамка
+[Enable XMPP link processing (requires Association Manager)]
+Асоцииране с XMPP връзки (изисква приставка Association Manager)
+[Keep contacts assigned to local groups (ignore roster group)]
+Назначавай контактите към местните групи (игнориране на списъка с хора)
+[Allow servers to request version (XEP-0092)]
+Разрешаване на сървърите да заявяват инф. за версията (XEP-0092)
+[Show information about operating system in version replies]
+Показване на информация за операционната ви система в отговор на заявки за версията
+[Accept HTTP Authentication requests (XEP-0070)]
+Приемане на HTTP молби за удостоверяване (XEP-0070)
+[Autoaccept multiuser chat invitations]
+Автоматично приемане на покани за конференция
+[Automatically join bookmarks on login]
+Автоматично влизане в отметките при вписване
+[Automatically join conferences on login]
+Автоматично влизане в конферентните стаи при вписване
+[Hide conference windows at startup]
+Скриване на конферентните прозорци при стартиране
+[Do not show multiuser chat invitations]
+Без показване на покани за конференции
+[Log events]
+Събития за запазване в дневника
+[Ban notifications]
+Уведомяване за банове
+[Room configuration changes]
+Промяна в настройките на стаята
+[Affiliation changes]
+Промяна на ранг
+[Role changes]
+Промяна на роля
+[Filter history messages]
+Филтрирай старите съобщения
+[Nick Name]
+Прякор
+[Subscription]
+Пълномощно
+[Uploading...]
+Качване...
+[XML for MS Excel (UTF-8 encoded)]
+XML за MS Excel (кодиран с UTF-8)
+[Public XMPP Network]
+Публична XMPP мрежа
+[Secure XMPP Network]
+Защитена XMPP мрежа
+[Secure XMPP Network (old style)]
+Защитена XMPP мрежа (стар стил)
+[Facebook Chat]
+Facebook чат
+[Vkontakte]
+Vkontakte
+[Some changes will take effect the next time you connect to the Jabber network.]
+Някои промени ще бъдат осъществени при следващото свързване към мрежата Jabber.
+;file \protocols\JabberG\src\jabber_password.cpp
+[Set New Password for]
+Задаване на нова парола за
+[New password does not match.]
+Новата парола не съвпада
+[Current password is incorrect.]
+Текущата парола е грешна.
+;file \protocols\JabberG\src\jabber_privacy.cpp
+[Warning: privacy lists were changed on server.]
+Внимание: списъците за поверителност на сървъра бяха променени.
+[Error occurred while applying changes]
+Възникна грешка при осъществяването на промените
+[Privacy lists successfully saved]
+Списъците за поверителност бяха записани успешно
+[Privacy list %s set as active]
+Активиран е списък за поверителност %s
+[Active privacy list successfully declined]
+Активният списък за поверителност бе успешно отменен
+[Error occurred while setting active list]
+Възникна грешка при задаването на активен списък
+[Privacy list %s set as default]
+Списък за поверителност %s е зададен като стандартен
+[Default privacy list successfully declined]
+Стандартният списък за поверителност бе успешно отменен
+[Error occurred while setting default list]
+Възникна грешка при задаването на стандартен списък
+[Simple mode]
+Прост режим
+[Advanced mode]
+Разширен режим
+[Add JID]
+Добавяне на JID
+[Activate]
+Активиране
+[Set default]
+Задаване като стандартен
+[Edit rule]
+Редактиране на правило
+[Add rule]
+Добавяне на правило
+[Delete rule]
+Изтриване на правило
+[Move rule up]
+Преместване нагоре
+[Move rule down]
+Преместване надолу
+[Add list...]
+Добавяне на списък...
+[Remove list]
+Премахване на списъка
+[** Default **]
+** Стандарт **
+[** Subsription: both **]
+** Упълномощаване: двустранно **
+[** Subsription: to **]
+** Упълномощаване: за **
+[** Subsription: from **]
+** Упълномощаване: от **
+[** Subsription: none **]
+** Упълномощаване: няма **
+[allow ]
+позволяване
+[deny ]
+отхвърляне
+[all.]
+всичко.
+[ and ]
+ и
+[incoming presences]
+входящи присъствия
+[outgoing presences]
+изходящи присъствия
+[queries]
+запитвания
+[Else ]
+Или
+[If jabber id is ']
+Ако jabber id е '
+[ (nickname: ]
+ (прякор:
+[If group is ']
+Ако групата е '
+[If subscription is ']
+Ако пълномощното е '
+[then ]
+тогава
+[ (act., def.)]
+ (активен, стандартен)
+[ (active)]
+ (активен)
+[ (default)]
+ (стандартен)
+[Ready.]
+Готово.
+[Privacy lists are not saved, discard any changes and exit?]
+Списъците за поверителност не бяха запаметени. Желаете ли промените да бъдат съхранени?
+[Please save list before activating]
+Запишете списъка преди да активирате
+[First, save the list]
+Първо запишете списъка
+[Please save list before you make it the default list]
+Моля, запишете списъка преди да го направите стандартен
+[Unable to save list because you are currently offline.]
+Списъка не може да бъде запаметен защото сте извън линия.
+[List Editor...]
+Редактиране на списък...
+;file \protocols\JabberG\src\jabber_proto.cpp
+[No compatible file transfer machanism exist]
+Не съществува съвместим механизъм за обмен на файлове
+[Protocol is offline or no jid]
+Протоколът е "Извън линия" или няма JID
+;file \protocols\JabberG\src\jabber_rc.cpp
+[Command completed successfully]
+Успешно завършена команда
+[Error occured during processing command]
+Възникна грешка при изпълнението на командата
+[Set status]
+Избор на състояние
+[Set options]
+Конфигуриране
+[Forward unread messages]
+Препращане на непрочетените съобщения
+[Leave groupchats]
+Излизане от груповите чатове
+[Quit Miranda NG]
+Изход от Miranda NG
+[Change Status]
+Промяна на състояние
+[Choose the status and status message]
+Изберете състояние и текст
+[Do Not Disturb]
+Не безпокойте
+[Priority]
+Предимство
+[Change global status]
+Промяна на общото състояние
+[Set Options]
+Конфигуриране
+[Set the desired options]
+Задайте желаната опция
+[Automatically Accept File Transfers]
+Автоприемане на файлови трансфери
+[Disable remote controlling (check twice what you are doing)]
+Изключване на дистанционно управление (уверете се, че знаете какво правите)
+[There is no messages to forward]
+Няма съобщения за препращане
+[Forward options]
+Настройки за препращане
+[%d message(s) to be forwarded]
+ще бъдат препратени %d съобщения
+[Mark messages as read]
+Маркиране на съобщенията като прочетени
+[%d message(s) forwarded]
+%d съобщения бяха препратени
+[Confirmation needed]
+Необходимо е потвърждаване
+[Please confirm Miranda NG shutdown]
+Моля, потвърдете изключването на Miranda NG
+[There is no groupchats to leave]
+Няма групови чатове, от които да излезете
+[Choose the groupchats you want to leave]
+Изберете груповите чатове, от които желаете да излезете
+;file \protocols\JabberG\src\jabber_search.cpp
+[Error %s %s\r\nPlease select other server]
+Грешка %s %s\r\nМоля, изберете друг сървър
+[Error Unknown reply recieved\r\nPlease select other server]
+Грешка: Получен е непознат отговор\r\nМоля, изберете друг сървър
+[Search error]
+Грешка при търсенето
+[Please wait...\r\nConnecting search server...]
+Моля, изчакайте...\r\nСвързване ...
+[You have to be connected to server]
+Трябва да сте свързан към сървър
+;file \protocols\JabberG\src\jabber_svc.cpp
+[closed chat session]
+затворен разговор
+[sent subscription request]
+изпрати молба за упълномощаване
+[approved subscription request]
+одобри молбата за упълномощаване
+[declined subscription]
+отхвърли молбата за упълномощаване
+;file \protocols\JabberG\src\jabber_thread.cpp
+[Error: Not enough memory]
+Грешка: Недостатъчна памет
+[Error: Cannot connect to the server]
+Грешка: Свързването със сървъра е невъзможно
+[Error: Connection lost]
+Грешка: Връзката е изгубена
+[Requesting registration instruction...]
+Изтегляне на инструкции за регистрация...
+[Message redirected from: %s\r\n%s]
+Пренасочено съобщение от: %s\r\n%s
+[Sending registration information...]
+Изпращане на регистрационната информация...
+;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Software]
+Софтуер
+[Idle since]
+Бездейства от
+[Client capabilities]
+Възможности на клиента
+[Software information]
+Информация за софтуера
+[Operating system]
+Операционна система
+[Operating system version]
+Версия на ОС
+[Software version]
+Версия на софтуера
+[Miranda NG core version]
+Версия на Miranda NG
+[Unicode build]
+Unicode компилация
+[Alpha build]
+Alpha компилация
+[Debug build]
+Debug компилация
+[Last logoff time]
+Последно отписване на
+[Uptime]
+Работи от
+[Logoff message]
+Текст при отписването
+[<no information available>]
+<няма налична информация>
+[Last active resource]
+Последно активен източник
+[Please switch online to see more details.]
+Моля, преминете на линия за повече подробности.
+[Copy only this value]
+Копиране само на избраната стойност
+[format]
+формат
+[Unknown format]
+Неизвестен формат
+[<Photo not available while offline>]
+<Снимката не е налична, когато сте "Извън линия">
+[<No photo>]
+<Няма снимка>
+[Photo]
+Снимка
+;file \protocols\JabberG\src\jabber_util.cpp
+[Unknown error message]
+Непознато съобщение за грешка
+[Advanced Status]
+Разширено състояние
+[Set mood...]
+Избор на настроение...
+[Set activity...]
+Избор на дейност...
+;file \protocols\JabberG\src\jabber_vcard.cpp
+[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
+Поддържат се само JPG, GIF и BMP изображения, по-малки от 40kB
+[Jabber vCard: Edit Email Address]
+Jabber vCard: Редактиране адреса на имейла
+[Jabber vCard: Edit Phone Number]
+Jabber vCard: Редактиране на телефонен номер
+;file \protocols\JabberG\src\jabber_ws.cpp
+;file \protocols\JabberG\src\jabber_xstatus.cpp
+[Afraid]
+Уплашен
+[Amazed]
+Изумен
+[Amorous]
+Страстен
+[Annoyed]
+Раздразнен
+[Anxious]
+Обезпокоен
+[Aroused]
+Възбуден
+[Ashamed]
+Засрамен
+[Bored]
+Отегчен
+[Brave]
+Смел
+[Calm]
+Спокоен
+[Cautious]
+Предпазлив
+[Cold]
+Настинал
+[Confident]
+Уверен
+[Confused]
+Объркан
+[Contemplative]
+Замислен
+[Contented]
+Доволен
+[Cranky]
+Сприхав
+[Creative]
+Творящ
+[Curious]
+Любопитен
+[Dejected]
+Отчаян
+[Disgusted]
+Отвратен
+[Dismayed]
+Обезсърчен
+[Distracted]
+Разсеян
+[Embarrassed]
+Смутен
+[Envious]
+Завистлив
+[Excited]
+Развълнуван
+[Flirtatious]
+Склонен да флиртува
+[Frustrated]
+Разочарован
+[Grateful]
+Благодарен
+[Grieving]
+Скърбящ
+[Grumpy]
+Кисел
+[Guilty]
+Виновен
+[Happy]
+Щастлив
+[Hopeful]
+Надяващ се
+[Hot]
+Сгорещен
+[Humbled]
+Покорен
+[Humiliated]
+Унизен
+[Hungry]
+Гладен
+[Hurt]
+Наранен
+[Impressed]
+Впечатлен
+[In awe]
+Страхопочитание
+[In love]
+Влюбен
+[Indignant]
+Възмутен
+[Interested]
+Заинтересован
+[Intoxicated]
+Пиян
+[Invincible]
+Непобедим
+[Jealous]
+Ревнив
+[Lonely]
+Самотен
+[Lost]
+Загубен
+[Lucky]
+Щастлив
+[Mean]
+Злонамерен
+[Moody]
+На настроения
+[Nervous]
+Нервен
+[Neutral]
+Безразличен
+[Offended]
+Обиден
+[Outraged]
+Възмутен
+[Playful]
+Игрив
+[Proud]
+Горд
+[Relaxed]
+Релаксиран
+[Relieved]
+Облекчен
+[Remorseful]
+Разкайващ се
+[Restless]
+Неспокоен
+[Sad]
+Тъжен
+[Sarcastic]
+Саркастичен
+[Satisfied]
+Доволен
+[Serious]
+Сериозен
+[Shocked]
+Шокиран
+[Shy]
+Срамежлив
+[Sleepy]
+Сънлив
+[Spontaneous]
+Спонтанен
+[Stressed]
+Стресиран
+[Strong]
+Силен
+[Surprised]
+Изненадан
+[Thankful]
+Благодарен
+[Thirsty]
+Жаден
+[Undefined]
+Неуточнено
+[Weak]
+Слаб
+[Worried]
+Разтревожен
+[Mood: %s]
+Настроение: %s
+[Set Mood]
+Избор на настроение
+[Activity: %s]
+Дейност: %s
+[Set Activity]
+Избор на дейност
+[Moods]
+Настроения
+[Activities]
+Дейности
+;file \protocols\JabberG\src\ui_utils.cpp
+[Set filter...]
+Задаване на филтър...

@@ -1,0 +1,219 @@
+﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
+;  File: Scriver.dll
+;  Plugin: Scriver
+;  Version: 2.10.0.2
+;  Authors: Miranda NG Development Team
+;============================================================
+[Scriver - send and receive instant messages.]
+Scriver - за изпращане и получаване на съобщения.
+;file \plugins\Scriver\res\resource.rc
+[Automatically pop up the window when]
+Изскачане на прозореца при състояние:
+[and stay minimized]
+и минимизиране
+[Save size and location for each contact]
+Запис на размер и местоположение за всеки контакт
+[Minimize on send]
+Минимизиране след изпращане
+[Hide windows on close]
+Скриване на прозореца при изпращане
+[Remember unsent messages]
+Запомняне на неизпратените съобщения
+[Delete temporary contacts on closing]
+Изтриване на временните контакти след затваряне
+[Enable tabs]
+Включване на табовете
+[Always show tab bar]
+Постоянно видима лентата с табове
+[Tabs at bottom]
+Табове на дъното
+[Limit names on tabs to]
+Максимална дължина за име на таб:
+[Switch to active tab]
+Превключване към активния таб
+[Limit number of tabs per window to]
+Ограничаване на броя табове в прозорец до
+[Use separate windows for group chats]
+Отделни прозорци за групови чатове
+[Limit number of group chats tabs per window to]
+Максимален брой групови чат табове в прозорец
+[Show titlebar]
+Показване на заглавна лента
+[Show toolbar]
+Показване на лента с инструменти
+[Show infobar]
+Показване на информационна лента
+[Show progress indicator]
+Показване на индикатор за напредък
+[Min input area size]
+Минимален размер на полето за въвеждане
+[Enable IEView]
+Включване на IEView
+[Long date format]
+Ползване на дълга дата
+[Relative date]
+Кратък формат за дата
+[Enable message grouping]
+Групиране на съобщенията
+[Mark follow-up msgs with timestamp]
+Времева марка за всички съобщения
+[Start message text on a new line]
+Начало на съобщението на нов ред
+[Show lines between messages]
+Редове между съобщенията
+[Indent text]
+Отстъп на текста
+[Customize fonts and colors]
+Персонализиране на шрифтове и цветове
+[Preload]
+Допълнително зареждани събития
+[Unread events only]
+Само непрочетени събития
+[Last]
+Последните
+[Events in the last]
+Събития от последните
+[Typing Notification Options]
+Настройки за уведомяване при писане
+[Show typing notification switch in the status bar]
+Превключвач за уведомяване при писане в лентата за състояние
+[Update message window icons when a user is typing]
+Обновяване иконата на прозореца, когато потребител пише
+[Send To All Tabs]
+Изпращане до всички табове
+[You are about to send a message to all open tabs.\nAre you sure ?]
+Съобщението ще бъде изпратено до всички отворени табове.\nСигурни ли сте?
+[Remember my choice for this container]
+Запис на избора за контейнера
+[User list row height]
+Височина на редовете в списъка с прякори
+[Save logs]
+Запис на разговорите в дневник на диска
+[Trim to]
+Макс.
+[kB]
+kB
+[Group Chat]
+Групов чат
+[(0 means default setting, -1 means indefinite time)]
+(0 = стандартна стойност, -1 = безкрайност)
+;file \plugins\Scriver\src\globals.cpp
+[User's details]
+Подробности за потребителя
+[User's history]
+История на потребителя
+[User is typing]
+Потребителя пише
+[Typing notification off]
+Уведомяването при писане е изключено
+[Unicode is on]
+Unicode e включен
+[Unicode is off]
+Unicode е изключен
+[Sending]
+Изпращане
+[Quote button]
+Бутон "Цитиране"
+[Close button]
+Бутон "Затваряне"
+[Status 2 (10x10]
+Състояние 2 (10х10)
+;file \plugins\Scriver\src\input.cpp
+[Navigate: Previous Tab]
+Навигиране: Предишен таб
+[Navigate: Next Tab]
+Навигиране: Следващ таб
+[Window: Toggle Statusbar]
+Прозорец: Вкл/Изкл на лентата за състояние
+[Window: Toggle Titlebar]
+Прозорец: Вкл/Изкл на заглавни ленти
+[Window: Toggle Toolbar]
+Прозорец: Вкл/Изкл на лентата с инструменти
+[Window: Toggle Infobar]
+Прозорец: Вкл/Изкл на информационната лента
+[Window: Clear Log]
+Прозорец: Изчистване на дневника
+[Window: Minimize]
+Прозорец: Минимизиране
+[Window: Close Tab]
+Прозорец: Затваряне на таба
+[Action: Quote]
+Действие: Цитиране
+[Action: Send to All]
+Действие: Изпрати до всички
+[Action: Paste & Send]
+Действие: Поставяне и изпращане
+;file \plugins\Scriver\src\msgdialog.cpp
+[Quote Text]
+Цитат
+[User Menu - %s]
+Потребителско меню - %s
+[Sending in progress: %d message(s) left...]
+Процес на изпращане: още %d съобщение(я)
+;file \plugins\Scriver\src\msglog.cpp
+;file \plugins\Scriver\src\msgoptions.cpp
+[Event Log]
+Дневник на събития
+[Group Chat Log]
+Дневник за груповите чатове
+[Infobar contact name]
+Име на контакта в информационната лента
+[Infobar background]
+Фон на информационната лента
+[Infobar status message]
+Текст за състояние в информационната лента
+[Message background]
+Фон на съобщенията
+[User list members (online)]
+Списък с прякори (На линия)
+[User list background]
+Фон на списъка с прякори
+[User list lines]
+Редове на списък с прякори
+[User list background (selected)]
+Фон на списъка с прякори (маркирано)
+;file \plugins\Scriver\src\msgs.cpp
+;file \plugins\Scriver\src\msgtimedout.cpp
+;file \plugins\Scriver\src\msgwindow.cpp
+[Always On Top]
+Винаги отгоре
+;file \plugins\Scriver\src\sendqueue.cpp
+;file \plugins\Scriver\src\chat\clist.cpp
+;file \plugins\Scriver\src\chat\colorchooser.cpp
+;file \plugins\Scriver\src\chat\log.cpp
+;file \plugins\Scriver\src\chat\main.cpp
+;file \plugins\Scriver\src\chat\options.cpp
+[Flash when someone speaks]
+Мигане, когато някой говори
+[Flash when a word is highlighted]
+Мигане при отличаване на дума
+[Show chat user list]
+Показване на чат списъка с прякори
+[Enable button context menus]
+Включване на контекстното меню на контактите
+[Show topic on your contact list (if supported)]
+Показване на темата в списъка с контакти (ако се поддържа)
+[Do not play sounds when focused]
+Без звук, когато е фокусиран
+[Do not pop up when joining]
+Без изскачане при влизане
+[Show and hide by double clicking in the contact list]
+Показване/Скриване на прозореца чрез двукратно натискане върху контакта/стаята
+[Show contact statuses (if supported)]
+Показване на състояние (ако се поддържа)
+[Display contact status icon before role icon]
+Иконата за състояние пред икона на протокола
+[Timestamp has same colour as event]
+Еднакъв цвят на времевата марка и събитието
+[Limit user names to 20 characters]
+Ограничаване на потребителските имена до 20 знака
+[Strip colors from messages]
+Премахване на цветовете от съобщенията
+[Appearance and functionality of chat windows]
+Външен вид и функционалност на чат стаите
+[year without century, 01-  99]
+година без век (01-99)
+;file \plugins\Scriver\src\chat\services.cpp
+;file \plugins\Scriver\src\chat\tools.cpp
+;file \plugins\Scriver\src\chat\window.cpp

@@ -1,0 +1,36 @@
+﻿#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
+;============================================================
+;  File: TopToolbar.dll
+;  Plugin: TopToolBar
+;  Version: 0.8.0.3
+;  Authors: Bethoven
+;============================================================
+[ToptoolBar adds buttons in top frame for fast access.]
+ToptoolBar - лентата с инструменти, в която можете да добавяте бутони за бърз достъп до различни функции
+;file \plugins\TopToolBar\res\main.rc
+[Buttons Order && Visibility]
+Подреждане на бутоните и видимост
+[Button height]
+Височина на бутоните
+[Button width]
+Ширина на бутон
+[Interval between buttons]
+Интервал м/у бутоните
+[Use flat mode]
+Ползване на плосък режим
+[Auto resize]
+Автоматично оразмеряване
+[Single line]
+Само на един ред
+[Buttons order:]
+Подреждане на бутоните:
+[Add Separator]
+Добавяне на разделител
+[Add Launch]
+Добавпне на стартиращ бутон
+[Del Sep/Launch Button]
+Изтиване на бутона
+[Name: ]
+Име:
+;file \plugins\TopToolBar\src\toolbar.cpp
+;file \plugins\TopToolBar\src\ttbopt.cpp

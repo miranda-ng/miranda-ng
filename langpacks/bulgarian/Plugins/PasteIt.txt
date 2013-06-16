@@ -1,0 +1,83 @@
+﻿#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
+;============================================================
+;  File: PasteIt.dll
+;  Plugin: Paste it
+;  Version: 1.0.0.3
+;  Authors: Krzysztof Kral
+;============================================================
+;file \plugins\PasteIt\res\PasteIt.rc
+[Default web page]
+Стандартна уебстаница
+[Default file encoding]
+Станд. кодиране на знаците
+[Auto-detect UTF-8]
+Автоматично засичане на UTF8
+[Show confirmation dialog box]
+Показване на прозорец за потвърждаване
+[Web page settings]
+Настройки за уебстраницата
+[Web page to configure]
+Уебстраница за настройване
+[Default formatting]
+Стандартно форматиране
+[Auto-detect format from file extension]
+Автоматично засичане на формата от разширението на файла
+[Public paste]
+Публично поставяне
+[Login as guest]
+Вписване като гост
+[User key]
+Потребителски ключ
+[Get user key]
+Получаване на потребителски ключ
+[Configure formatting]
+Настройване на форматирането
+[Download more]
+Сваляне на още
+[Login to pastebin.com]
+Вписване в pastebin.com
+[User name]
+Потребителско име
+[Encoding]
+Кодиране
+;file \plugins\PasteIt\src\Options.cpp
+[Web page]
+уебстраница
+;file \plugins\PasteIt\src\PasteIt.cpp
+[Paste It - Select file]
+Paste It - Избиране на файл
+[Paste from clipboard]
+Поставяне от клипборда
+[Paste from file]
+Поставяне от файл
+[Paste It HTTP connections]
+HTTP връзки на Paste It
+;file \plugins\PasteIt\src\PasteToWeb.cpp
+[You can only paste 1 file]
+Можете да поставите само 1 файл
+[Cannot get data from clipboard]
+Данните от клипборда не могат да бъда извлечени
+[File size is %dKB, do you realy want to paste such large file?]
+Размерът на файла е %dKB. Желаете да поставите толкова голям файл?
+[Cannot read file '%s']
+Файлът "%s" не може да бъде прочетен
+[File size is larger then 10MB, cannot be send]
+Файлът е по-голям от 10MB, поради това не може да бъде изпратен
+[Cannot open file '%s']
+Файлът "%s" не може да бъде отворен
+[File '%s' is empty]
+Файлът "%s" е празен
+;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[Error during sending text to web page: %s]
+Грешка при качването на файла в уебстраницата "%s"
+[Error during sending text to web page]
+Грешка при качването на файла в уебстраницата
+[Error during getting user key from web page: %s]
+Грешка при получаването на потребителския ключ от уебстраницата "%s"
+[Paste expire date]
+Изтичане валидността на текста
+[10 minutes]
+10 минути
+[1 month]
+1 месец
+;file \plugins\PasteIt\src\PasteToWeb2.cpp

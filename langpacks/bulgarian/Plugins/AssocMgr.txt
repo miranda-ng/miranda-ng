@@ -1,0 +1,34 @@
+﻿#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
+;============================================================
+;  File: AssocMgr.dll
+;  Plugin: File association manager
+;  Version: 0.1.1.0
+;  Authors: H. Herkenrath
+;============================================================
+;file \plugins\AssocMgr\res\resource.rc
+[Registered associations for Miranda NG:]
+Регистрирани асоциации с Miranda NG:
+[&Start Miranda NG automatically when the Computer starts (using current profile)]
+Автостартиране на Miranda NG при включване на компютъра (за текущия профил)
+[Only associate with Miranda NG while it is &running]
+Асоцииране с Miranda NG само докато е работи
+;file \plugins\AssocMgr\src\assoclist.cpp
+[File Types]
+Тип файлове
+[File Association Error]
+Грешка при асоцииране на файлов тип
+[There was an error writing to the registry to modify the file/url associations.\nReason: %s]
+Възникна грешка при писане в регистъра за промяна на асоциация за файл/url адрес.\nПричина: %s
+[There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
+Възникна грешка при писане в регистъра за промяна на списъка за автостартиране.\n\nПричина: %s
+[Associations]
+Асоциации
+[Miranda NG Database]
+База от данни на Miranda NG
+;file \plugins\AssocMgr\src\dde.cpp
+[Miranda NG could not open file]
+Отварянето на файла е невъзможно
+[Miranda NG could not open URL]
+Отварянето на URL адреса е невъзможно
+;file \plugins\AssocMgr\src\reg.cpp
+;file \plugins\AssocMgr\src\test.cpp

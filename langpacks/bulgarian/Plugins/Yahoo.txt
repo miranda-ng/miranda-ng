@@ -1,0 +1,129 @@
+﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+;============================================================
+;  File: Yahoo.dll
+;  Plugin: Yahoo
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\Yahoo\res\Yahoo.rc
+[Create a new Yahoo account using the Yahoo website]
+Създаване на акаунт чрез сайта Yahoo.com
+[Use Yahoo Address Book (YAB)]
+Ползване на книгата с адреси от Yahoo (YAB)
+[AutoLogin to Yahoo Website(s)]
+Автовписване в сайтовете Yahoo
+[Display Yahoo notifications]
+Изобразяване на Yahoo уведомявания
+[Show Errors]
+Показване на грешки
+[Create a new Yahoo account]
+Създаване на Yahoo акаунт
+[Connection Settings]
+Конфигуриране на връзката
+[Yahoo Ignore List]
+Yahoo списък за игнориране
+[Ignore anyone who is not on my Yahoo buddy list ]
+Игнориране на всеки, който не е в списъка с контакти
+[Ignore only the people below: ]
+Игнориране само на следните хора:
+[Set Custom Status]
+Задаване на персонално състояние
+;file \protocols\Yahoo\src\avatar.cpp
+;file \protocols\Yahoo\src\chat.cpp
+;file \protocols\Yahoo\src\icolib.cpp
+[Mail]
+Поща
+[Address Book]
+Kнига с адреси
+[Set Status]
+Избор на състояние
+[Calendar]
+Календар
+;file \protocols\Yahoo\src\im.cpp
+[Yahoo Error]
+Yahoo грешка
+[Message is too long: Yahoo messages are limited by 800 UTF8 chars]
+Съобщението е твърде дълго: Yahoo съобщенията са ограничени до 800 UTF8 знака
+;file \protocols\Yahoo\src\links.cpp
+;file \protocols\Yahoo\src\main.cpp
+[YAHOO plugin HTTP connections]
+HTTP връзки на приставката YAHOO
+;file \protocols\Yahoo\src\options.cpp
+[The changes you have made require you to reconnect to the Yahoo network before they take effect]
+Направените промени изискват да се свържете наново с мрежата Yahoo, за да бъдат осъществени
+[YAHOO Options]
+YAHOO настройки
+[You need to be connected to Yahoo to add to Ignore List.]
+Необходимо е да сте свързани към Yahoo, за да редактирате списъка за игнориране.
+[Yahoo Ignore]
+Yahoo игнориране
+[Please enter a valid buddy name to ignore.]
+Моля, въдете валидно име.
+[The buddy is already on your ignore list. ]
+Контактът е вече в списъка за игнориране.
+[You need to be connected to Yahoo to remove from the Ignore List.]
+Необходимо е да сте свързани към Yahoo, за да редактирате списъка за игнориране.
+[Please select a buddy on the ignore list to remove.]
+Моля, изберете контакт, който да бъде премахнат от списъка за игнориране.
+[Ignore List]
+Списък за игнориране
+;file \protocols\Yahoo\src\proto.cpp
+[Please enter your yahoo id in Options/Network/Yahoo]
+Въведете Yahoo ID в Настройки/Мрежа/Yahoo
+[Please enter your yahoo password in Options/Network/Yahoo]
+Моля, въведете паролата си в Настройки>Мрежа>Yahoo
+[Yahoo Login Error]
+Yahoo грешка при вписването
+;file \protocols\Yahoo\src\services.cpp
+[You need to be connected to set the custom message]
+Необходимо е да сте свързани, за да зададете персонално съобщение
+[You need to be connected to refresh your buddy list]
+Необходимо е да сте свързани, за да бъде обновен списъкът с контакти
+[Set &Custom Status]
+Задаване на персонално състояние
+[&Edit My Profile]
+Редактиране на профила
+[&My Profile]
+Моят профил
+[&Yahoo Mail]
+Yahoo поща
+[&Address Book]
+Книга с адреси
+[&Calendar]
+Календар
+[&Show Profile]
+Показване на профила
+;file \protocols\Yahoo\src\webcam.cpp
+;file \protocols\Yahoo\src\yahoo.cpp
+[Calendar Reminder]
+Календар - напомняне
+[%s has rejected your request and sent the following message:]
+%s отхвърли запитването и изпрати следния отговор:
+[You Have %i unread msgs]
+Имате %i непрочетени съобщения
+[New Mail (%i msgs)]
+Ново писмо (%i съобщения)
+[From: %s\nSubject: %s]
+От: %s\nТема: %s
+[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+Вписването в услугата Yahoo не е възможно - потребителското име не е разпознато. Моля, проверете правилно ли е написано.
+[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+Вписването в услугата Yahoo не е възможно - грешна парола. Моля, проверете правилно ли са написани потребителското име и парола.
+[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+Вписването в услугата Yahoo не е възможно. Вашият акаунт е заключен.\nПосетете %s, за да бъде активиран.
+[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+Отписан сте от услугите на YAHOO вероятно поради дублиращо се вписване.
+[Could not connect to the Yahoo service. Check your server/port and proxy settings.]
+Свързването към Yahoo сървъра не е възможно. Проверете настройките за сървъра, порта и проксито.
+[Could not log in, unknown reason: %d.]
+Вписването не е възможно. Неизвестна причина: %d.
+[Unknown error %s]
+Неизвестна грешка
+[%s is already ignored]
+%s е вече в списъка за игнориране
+[%s is not in the ignore list]
+%s не е в списъка за игнориране
+[System Error: %s]
+Системна грешка: %s
+[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+Свързването към Yahoo сървъра не е възможно. Моля, уверете се че имате интернет и че pager host-а и порта са правилно въведени.
