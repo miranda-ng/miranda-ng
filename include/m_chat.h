@@ -499,7 +499,7 @@ typedef struct {
 	};
                                     // IRC use it to display a hostmask for JOIN, PART (and more) events.
 	BOOL  bIsMe;                    // Is this event from the Miranda user?
-	DWORD dwFlags;						// event flags: GCEF_ADDTOLOG, GC_UNICODE
+	DWORD dwFlags;						// event flags: GCEF_ADDTOLOG, GCEF_NOTNOTIFY, GC_UNICODE
 
                                     // FALSE any other time than when initializing the window (before sending SESSION_INITDONE)
 	DWORD_PTR dwItemData;           // User specified data.

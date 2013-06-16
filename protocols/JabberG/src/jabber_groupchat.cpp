@@ -1251,13 +1251,14 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	gce.ptszText = EscapeChatTags((TCHAR*)msgText);
 	gce.bIsMe = nick == NULL ? FALSE : (lstrcmp(resource, item->nick) == 0);
 	gce.dwFlags = GC_TCHAR;
-	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 
 	if (!isHistory)
 		gce.dwFlags |= GCEF_ADDTOLOG;
 
 	if (m_options.GcLogChatHistory && isHistory)
 		gce.dwFlags |= GCEF_NOTNOTIFY;
+
+	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 
 	item->bChatActive = 2;
 

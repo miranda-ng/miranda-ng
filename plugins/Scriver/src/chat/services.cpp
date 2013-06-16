@@ -561,7 +561,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 			else if (si->hWnd)
 				SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
 
-			if (!gce->dwFlags & GCEF_NOTNOTIFY)
+			if (!(gce->dwFlags & GCEF_NOTNOTIFY))
 				DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
 			if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings.LoggingEnabled)
 				LogToFile(si, gce);

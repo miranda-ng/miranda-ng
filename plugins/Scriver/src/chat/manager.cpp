@@ -296,7 +296,8 @@ BOOL SM_AddEventToAllMatchingUID(GCEVENT * gce)
 					else if (pTemp->hWnd && pTemp->bInitDone) {
 						SendMessage(pTemp->hWnd, GC_REDRAWLOG2, 0, 0);
 					}
-					DoSoundsFlashPopupTrayStuff(pTemp, gce, FALSE, bManyFix);
+					if (!(gce->dwFlags & GCEF_NOTNOTIFY))
+						DoSoundsFlashPopupTrayStuff(pTemp, gce, FALSE, bManyFix);
 					bManyFix ++;
 					if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings.LoggingEnabled)
 						LogToFile(pTemp, gce);
