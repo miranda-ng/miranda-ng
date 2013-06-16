@@ -6,10 +6,9 @@
 ;  Authors: Unsane, Mataes
 ;============================================================
 [Skype protocol support for Miranda NG.]
-Skype протокол для Miranda NG
+Skype протокол для Miranda NG.
 [Invite Contact To Chat]
 Пригласить в чат
-[sid]
 [&Invite]
 &Пригласить
 [&Cancel]
@@ -17,17 +16,15 @@ Skype протокол для Miranda NG
 [Add]
 Добавить
 [Enter password]
-Ввести паспорт
+Введите пароль
 [Enter a password for skype name %d:]
 Пароль для Skype ID %:
 [Remember this session password]
 Запомнить пароль этой сессии
-[OK]
-ОК
 [Cancel]
 Отменить
 [Skype name:]
-Имя Skype
+Имя Skype:
 [Status text:]
 Текст статуса:
 [Online since:]
@@ -35,9 +32,11 @@ Skype протокол для Miranda NG
 [Last event date:]
 Дата последнего события:
 [Last profile change:]
+Дата последнего изменения профиля:
 [Full name:]
 Полное имя:
 [Date of birth:]
+Дата рождения:
 [Gender:]
 Пол:
 [Homepage:]
@@ -59,13 +58,13 @@ Skype протокол для Miranda NG
 [Home phone:]
 Дом. телефон:
 [Office phone:]
-Офис. телефон
+Офис. телефон:
 [City:]
 Город:
 [State:]
 Штат:
 [Country:]
-Область:
+Страна:
 [Timezone:]
 Часовой пояс:
 [Change password]
@@ -93,15 +92,15 @@ Skype протокол для Miranda NG
 [Use ports 80 and 443 as alternative incoming]
 Использовать порты 80 и 443 как входящие
 [Default group:]
-Група по умолчанию
+Группа по умолчанию:
 [Proccess SkypeKit.exe did not start.]
-Процесс SkypeKit.exe не запустился
+Процесс SkypeKit.exe не запустился.
 [Initialization key corrupted or not valid.]
-Ключ инициализации повреден или не действителен
+Ключ инициализации повреждён или не действителен.
 [SkypeKit did not initialize.]
-SkypeKit не инициализирован
+SkypeKit не инициализирован.
 [SkypeKit did not start.]
-SkypeKit не запустился
+SkypeKit не запустился.
 [LOGOUT_CALLED]
 [HTTPS_PROXY_AUTH_FAILED]
 [SOCKS_PROXY_AUTH_FAILED]
@@ -114,7 +113,7 @@ SkypeKit не запустился
 [Invalid email]
 Неверный e-mail
 [Unacceptable password]
-Недопустимый пороль
+Недопустимый пароль
 [SKYPENAME_TAKEN]
 [REJECTED_AS_UNDERAGE]
 [NO_SUCH_IDENTITY]
@@ -141,16 +140,13 @@ SkypeKit не запустился
 [Failed to verify password. No connection to server]
 Невозможно проверить пароль. Нет подключения к серверу
 [Password was set but server didn't like it much]
-
 [New password was exactly the same as old one]
-
 [The new password was unacceptable]
-
 [Account was currently not logged in]
-[You have not entered a Skype name.\n						Configure this in Options->Network->Skype and try again.]
+[You have not entered a Skype name.\nConfigure this in Options->Network->Skype and try again.]
 ;file \protocols\Skype\src\skype_chat.cpp
 [&Invite user...]
-&Пригласить пользователя
+&Пригласить пользователя...
 [&Leave chat session]
 &Покинуть чат
 [User &details]
@@ -168,7 +164,7 @@ SkypeKit не запустился
 [Female]
 Женский
 [You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
-Вы не в сети в настоящее время. Вы должны быть онлайн, чтобы обновить Вашу информацию о сервере.
+Вы не в сети в настоящее время. Вы должны быть онлайн, чтобы обновить Вашу информацию на сервере.
 [Contacts]
 Контакт
 [Home]
@@ -182,11 +178,11 @@ SkypeKit не запустился
 [Account]
 Аккаунт
 [Incoming call]
-Входащий звонок
+Входящий звонок
 [Call]
 Звонок
 [Invite to conference]
-Приглосить в конференцию
+Пригласить в конференцию
 [Revoke authorization]
 Отозвать авторизацию
 [Request authorization]
@@ -195,7 +191,7 @@ SkypeKit не запустился
 Авторизовать
 [Protocols]
 Протоколы
-[SkypeKit will only permit you to login to one account at a time. 						  Adding multiple instances of SkypeKit is prohibited in the licence 						  agreement and standard distribution terms.]
+[SkypeKit will only permit you to login to one account at a time. Adding multiple instances of SkypeKit is prohibited in the licence agreement and standard distribution terms.]
 ;file \protocols\Skype\src\skype_menus.cpp
 [Hi! I'd like to add you to my contact list]
 ;file \protocols\Skype\src\skype_netlib.cpp
