@@ -583,34 +583,40 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 
 	// Add options to menu
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.cbSize = sizeof(mi);
 	mi.popupPosition = 500050000;
+	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_USERDETAILS);
+	mi.ptszName = LPGENT("My Details");
+	HANDLE hMenuRoot = Menu_AddMainMenuItem(&mi);
+
+	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR;
+	mi.ptszPopupName = (TCHAR *)hMenuRoot;
+	mi.popupPosition = 0;
+	mi.icolibItem = NULL;
 
 	if (protocols->CanSetAvatars()) {
-		mi.pszPopupName = LPGEN("My Details");
 		mi.position = 100001;
-		mi.pszName = LPGEN("Set My Avatar...");
+		mi.ptszName = LPGENT("Set My Avatar...");
 		CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYAVATARUI, Menu_SetMyAvatarUI);
 		mi.pszService = "MENU_" MS_MYDETAILS_SETMYAVATARUI;
 		Menu_AddMainMenuItem(&mi);
 	}
 
-	mi.pszPopupName = LPGEN("My Details");
 	mi.position = 100002;
-	mi.pszName = LPGEN("Set My Nickname...");
+	mi.ptszName = LPGENT("Set My Nickname...");
 	CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYNICKNAMEUI, Menu_SetMyNicknameUI);
 	mi.pszService = "MENU_" MS_MYDETAILS_SETMYNICKNAMEUI;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 100003;
-	mi.pszName = LPGEN("Set My Status Message...");
+	mi.ptszName = LPGENT("Set My Status Message...");
 	CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYSTATUSMESSAGEUI, Menu_SetMyStatusMessageUI);
 	mi.pszService = "MENU_" MS_MYDETAILS_SETMYSTATUSMESSAGEUI;
 	Menu_AddMainMenuItem(&mi);
 
 	// Set protocols to show frame
 	mi.position = 200001;
-	mi.pszName = LPGEN("Show next protocol");
+	mi.ptszName = LPGENT("Show next protocol");
 	mi.pszService = MS_MYDETAILS_SHOWNEXTPROTOCOL;
 	Menu_AddMainMenuItem(&mi);
 

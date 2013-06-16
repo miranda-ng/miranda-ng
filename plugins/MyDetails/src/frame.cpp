@@ -335,7 +335,7 @@ int CreateFrame()
 		mi.popupPosition = -0x7FFFFFFF;
 		mi.ptszPopupName = LPGENT("My Details");
 		mi.position = 1; // 500010000
-		mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+		mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS);
 		mi.ptszName = LPGENT("Show My Details");
 		mi.pszService= MODULE_NAME "/ShowHideMyDetails";
 		hMenuShowHideFrame = Menu_AddMainMenuItem(&mi);
