@@ -28,7 +28,7 @@ CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* u
 	}
 
 	char *keyPair = ppro->LoadKeyPair();
-	if ( !keyPair)
+	if (keyPair == NULL)
 	{
 		CSkypeProto::ShowNotification(::TranslateT("Initialization key corrupted or not valid."), MB_ICONERROR);
 		return NULL;
@@ -37,7 +37,9 @@ CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* u
 	TransportInterface::Status status = ppro->init(keyPair, "127.0.0.1", ppro->skypeKitPort, 0, 1);
 	if (status != TransportInterface::OK)
 	{
-		CSkypeProto::ShowNotification(::TranslateT("SkypeKit did not initialize."), MB_ICONERROR);
+		wchar_t message[256];
+		::mir_sntprintf(message, SIZEOF(message), ::TranslateT("SkypeKit did not initialize (%d)."), status);
+		CSkypeProto::ShowNotification(message, MB_ICONERROR);
 		return NULL;
 	}
 

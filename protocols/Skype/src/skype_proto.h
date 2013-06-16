@@ -292,6 +292,8 @@ protected:
 	void StartChat(StringList &invitedContacts);
 	void InviteToChatRoom(HANDLE hContact);
 
+	void CloseAllChatSessions();
+
 	ChatRoom *FindChatRoom(const wchar_t *cid);
 	void DeleteChatRoom(HANDLE hContact);
 

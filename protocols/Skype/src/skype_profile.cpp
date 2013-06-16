@@ -71,12 +71,17 @@ void CSkypeProto::UpdateProfileBirthday(SEObject *obj, HANDLE hContact)
 		INT day, month, year;
 		_stscanf(date, _T("%04d%02d%02d"), &year, &month, &day);
 
+		SYSTEMTIME sToday = {0};
+		GetLocalTime(&sToday);
+
+		if (sToday.wYear > year) return;
+		else if(sToday.wYear == year && sToday.wMonth > month) return;
+		else if(sToday.wYear == year && sToday.wMonth == month && sToday.wDay >= day) return;
+
 		::db_set_b(hContact, this->m_szModuleName, "BirthDay", day);
 		::db_set_b(hContact, this->m_szModuleName, "BirthMonth", month);
 		::db_set_w(hContact, this->m_szModuleName, "BirthYear", year);
 
-		SYSTEMTIME sToday = {0};
-		GetLocalTime(&sToday);
 		int nAge = sToday.wYear - year;
 		if (sToday.wMonth < month || (sToday.wMonth == month && sToday.wDay < day))
 			nAge--;

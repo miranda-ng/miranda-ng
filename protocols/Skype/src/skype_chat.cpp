@@ -178,6 +178,8 @@ void ChatRoom::CreateChatSession(bool showWindow)
 	gce.ptszStatus = NULL;
 	::CallServiceSync(MS_GC_EVENT, showWindow ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce);
 	::CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
+
+	this->ppro->Log(L"Created new chat session %s", this->cid);
 }
 
 void ChatRoom::Create(const StringList &invitedMembers, CSkypeProto *ppro, ChatRoomParam *param)
@@ -277,7 +279,10 @@ void ChatRoom::Start(const ConversationRef &conversation, bool showWindow)
 
 void ChatRoom::LeaveChat()
 {
-	this->conversation->RetireFrom();
+	this->ppro->Log(L"Leavind chat session %s", this->cid);
+
+	if (this->conversation->RetireFrom())
+		this->ppro->Log(L"Retired from conversation %s", this->cid);
 
 	GCDEST gcd = { ppro->m_szModuleName, { NULL }, GC_EVENT_CONTROL };
 	gcd.ptszID = this->cid;
@@ -544,9 +549,9 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 		{
 			SEString data;
 
-			/*Message::CONSUMPTION_STATUS status;
+			Message::CONSUMPTION_STATUS status;
 			message->GetPropConsumptionStatus(status);
-			if (status == Message::UNCONSUMED_NORMAL)*/
+			if (status != Message::CONSUMED)
 			{
 				uint timestamp;
 				message->GetPropTimestamp(timestamp);
@@ -637,10 +642,12 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 		{
 			SEString data;
 
-			/*Message::CONSUMPTION_STATUS status;
+			Message::CONSUMPTION_STATUS status;
 			message->GetPropConsumptionStatus(status);
-			if (status == Message::UNCONSUMED_NORMAL)*/
+			if (status != Message::CONSUMED)
 			{
+				this->ppro->Log(L"Retired other event for conversation %s", this->cid);
+
 				uint timestamp;
 				message->GetPropTimestamp(timestamp);
 
@@ -677,6 +684,8 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 			message->GetPropConsumptionStatus(status);
 			if (status != Message::CONSUMED)
 			{
+				this->ppro->Log(L"Retired event for conversation %s", this->cid);
+
 				uint timestamp;
 				message->GetPropTimestamp(timestamp);
 
@@ -1082,6 +1091,31 @@ void CSkypeProto::InviteToChatRoom(HANDLE hContact)
 	::mir_free(gci.pszID);
 }
 
+void CSkypeProto::CloseAllChatSessions()
+{
+	GC_INFO gci = {0};
+	gci.Flags = BYINDEX | ID | DATA;
+	gci.pszModule = this->m_szModuleName;
+
+	int count = ::CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)this->m_szModuleName);
+	for (int i = 0; i < count ; i++)
+	{
+		gci.iItem = i;
+		if ( !::CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci))
+		{
+			GCDEST gcd = { this->m_szModuleName, { NULL }, GC_EVENT_CONTROL };
+			gcd.ptszID = gci.pszID;
+
+			GCEVENT gce = {0};
+			gce.cbSize = sizeof(GCEVENT);
+			gce.dwFlags = GC_TCHAR;
+			gce.pDest = &gcd;
+			CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
+			CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
+		}
+	}
+}
+
 ChatRoom *CSkypeProto::FindChatRoom(const wchar_t *cid)
 {
 	GC_INFO gci = {0};
@@ -1151,9 +1185,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 		break;*/
 
 	case GC_USER_PRIVMESS:
-		{
 			::CallService(MS_MSG_SENDMESSAGE, (WPARAM)this->GetContactBySid(gch->ptszUID), 0);
-		}
 		break;
 
 	case GC_USER_LOGMENU:

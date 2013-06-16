@@ -126,11 +126,15 @@ void CSkypeProto::LogOut()
 {
 	if	(this->IsOnline() || this->m_iStatus == ID_STATUS_CONNECTING)
 	{
-		this->account->SetAvailability(CContact::OFFLINE);
+		this->account->SetAvailability(Contact::OFFLINE);
 		this->Log(L"Logout from account");
 		this->account->Logout(true);
 
-		this->SetAllContactStatus(ID_STATUS_OFFLINE);
+		if ( !::Miranda_Terminated())
+		{
+			this->SetAllContactStatus(ID_STATUS_OFFLINE);
+			this->CloseAllChatSessions();
+		}
 	}
 }
 

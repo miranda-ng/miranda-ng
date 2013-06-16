@@ -13,7 +13,7 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 		bbd.pszModuleName = MODULE;
 
 		bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
-		bbd.ptszTooltip = ::TranslateT("Invite to conference");
+		bbd.ptszTooltip = ::TranslateT("Invite contacts to conference");
 		bbd.hIcon = CSkypeProto::GetIconHandle("confInvite");
 		bbd.dwButtonID = BBB_ID_CONF_INVITE;
 		bbd.dwDefPos = 100 + bbd.dwButtonID;
