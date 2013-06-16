@@ -252,7 +252,7 @@ struct CJabberOptions
 		GcLogConfig(proto, "GcLogConfig", FALSE),
 		GcLogRoles(proto, "GcLogRoles", FALSE),
 		GcLogStatuses(proto, "GcLogStatuses", FALSE),
-		GcLogChatHistory(proto, "GcLogChatHistory", FALSE),
+		GcLogChatHistory(proto, "GcLogChatHistory", TRUE),
 		HostNameAsResource(proto, "HostNameAsResource", FALSE),
 		IgnoreMUCInvites(proto, "IgnoreMUCInvites", FALSE),
 		KeepAlive(proto, "KeepAlive", TRUE),
