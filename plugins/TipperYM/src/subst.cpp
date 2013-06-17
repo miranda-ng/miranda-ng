@@ -20,14 +20,6 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
-int ProtoServiceExists(const char *szModule, const char *szService)
-{
-	char str[MAXMODULELABELLENGTH];
-	strcpy(str,szModule);
-	strcat(str,szService);
-	return ServiceExists(str);
-}
-
 bool DBGetContactSettingAsString(HANDLE hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen)
 {
 	DBVARIANT dbv;

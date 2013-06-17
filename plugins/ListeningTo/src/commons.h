@@ -84,8 +84,6 @@ extern BOOL loaded;
 
 void RebuildMenu();
 void StartTimer();
-int ProtoServiceExists(const char *szModule, const char *szService);
-
 
 struct ProtocolInfo
 {

@@ -73,15 +73,6 @@ extern bool g_bFramesExist;
 #define PS_GETMYAVATARMAXSIZE "/GetMyAvatarMaxSize"
 #define PS_GETMYNICKNAMEMAXLENGTH "/GetMyNicknameMaxLength"
 
-// See if a protocol service exists
-__inline static int ProtoServiceExists(const char *szModule,const char *szService)
-{
-	char str[MAXMODULELABELLENGTH];
-	strcpy(str,szModule);
-	strcat(str,szService);
-	return ServiceExists(str);
-}
-
 // Helper
 static __inline int DRAW_TEXT(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol)
 {

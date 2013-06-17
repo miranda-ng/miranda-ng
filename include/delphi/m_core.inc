@@ -519,6 +519,13 @@ function mir_vsntprintf(buffer:pWideChar;count:size_t;fmt:pWideChar;va:va_list):
 
 
 ///////////////////////////////////////////////////////////////////////////////
+// protocol functions
+
+function ProtoServiceExists(const szModule, szName:PAnsiChar):int; stdcall;
+                 external CoreDLL name 'ProtoServiceExists';
+
+
+///////////////////////////////////////////////////////////////////////////////
 // sha1 functions
 type
   pmir_sha1_byte_t = ^mir_sha1_byte_t;

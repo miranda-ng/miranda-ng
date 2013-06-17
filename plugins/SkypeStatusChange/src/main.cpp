@@ -148,16 +148,6 @@ static void ThreadFunc(void*)
 	}
 }   
 
-bool ProtoServiceExists(const char *szModule,const char *szService)
-{
-	char str[MAXMODULELABELLENGTH * 2];
-	strncpy_s(str,szModule,strlen(szModule));
-	strncat_s(str,szService,strlen(szService));
-
-	return (ServiceExists(str) > 0);
-}
-
-
 LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {
 	LRESULT lReturnCode = 0;

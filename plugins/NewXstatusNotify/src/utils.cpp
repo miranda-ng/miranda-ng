@@ -65,17 +65,6 @@ void ShowLog(TCHAR *file)
 		MessageBox(0, TranslateT("Can't open the log file!"), TranslateT("NewXstatusNotify"), MB_OK | MB_ICONERROR);
 }
 
-int ProtoServiceExists(const char *szModule, const char *szService)
-{
-	char str[MAXMODULELABELLENGTH];
-	if (szModule == NULL || szService == NULL) 
-		return 0;
-
-	strcpy(str,szModule);
-	strcat(str,szService);
-	return ServiceExists(str);
-}
-
 BOOL StatusHasAwayMessage(char *szProto, int status) 
 {
 	if (szProto != NULL) {

@@ -25,7 +25,6 @@ bool GetLabelText(HANDLE hContact, const DISPLAYITEM &di, TCHAR *buff, int iBuff
 bool GetValueText(HANDLE hContact, const DISPLAYITEM &di, TCHAR *buff, int iBufflen);
 
 void StripBBCodesInPlace(TCHAR *text);
-int ProtoServiceExists(const char *szModule, const char *szService); 
 
 // can be used with hContact == 0 to get uid for a given proto
 bool UidName(char *szProto, TCHAR *buff, int bufflen); 

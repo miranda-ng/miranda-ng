@@ -29,6 +29,7 @@
     <ClCompile Include="cmdline.cpp" />
     <ClCompile Include="http.cpp" />
     <ClCompile Include="icons.cpp" />
+    <ClCompile Include="protos.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

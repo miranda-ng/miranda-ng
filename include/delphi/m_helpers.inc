@@ -1,7 +1,5 @@
 {$IFDEF M_API_UNIT}
 
-function ProtoServiceExists(const proto,service: PAnsiChar): int;
-
 function CreateVersionString(version:dword;buf:PAnsiChar):PAnsiChar;
 function CreateVersionStringPlugin(pluginInfo:PPluginInfoEx;buf:PAnsiChar):PAnsiChar;
 function PLUGIN_MAKE_VERSION(a,b,c,d: Cardinal): int;
@@ -89,21 +87,6 @@ function Options_Open(ood:POPENOPTIONSDIALOG):int_ptr;
 function Options_OpenPage(ood:POPENOPTIONSDIALOG):HWND;
 
 {$ELSE}
-
-function ProtoServiceExists(const proto,service: PAnsiChar): int;
-var
-  buf:array [0..127] of AnsiChar;
-begin
-  if (proto=nil) or (service=nil) then
-  begin
-    result:=0;
-    exit;
-  end;
-  lStrCpyA(@buf,proto);
-  lStrCatA(@buf,service);
-  result:=ServiceExists(@buf);
-end;
-
 
 function CreateVersionString(version:dword;buf:PAnsiChar):PAnsiChar;
 var

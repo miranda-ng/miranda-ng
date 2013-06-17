@@ -19,7 +19,6 @@
 #ifndef __GEN_HELPERS_H
 #define __GEN_HELPERS_H
 
-int ProtoServiceExists(const char *szModule, const char *szService);
 char *Hlp_GetProtocolNameA(const char *proto);
 TCHAR *Hlp_GetProtocolName(const char *proto);
 

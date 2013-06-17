@@ -431,6 +431,11 @@ MIR_CORE_DLL(int)    mir_vsnprintf(char *buffer, size_t count, const char* fmt, 
 MIR_CORE_DLL(int)    mir_vsntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, va_list va);
 
 ///////////////////////////////////////////////////////////////////////////////
+// protocol functions
+
+MIR_CORE_DLL(int)    ProtoServiceExists(const char *szModule, const char *szService);
+
+///////////////////////////////////////////////////////////////////////////////
 // sha1 functions
 
 typedef unsigned char mir_sha1_byte_t;

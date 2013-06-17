@@ -43,7 +43,6 @@ extern void DeleteAvatarFromCache(HANDLE, BOOL);
 extern HBITMAP LoadPNG(struct avatarCacheEntry *ace, char *szFilename);
 extern HANDLE GetContactThatHaveTheAvatar(HANDLE hContact, int locked = -1);
 
-extern int ProtoServiceExists(const char *szModule,const char *szService);
 extern BOOL Proto_IsAvatarsEnabled(const char *proto);
 extern BOOL ScreenToClient(HWND hWnd, LPRECT lpRect);
 

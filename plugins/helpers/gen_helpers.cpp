@@ -19,14 +19,6 @@
 #include "commonheaders.h"
 #include "gen_helpers.h"
 
-int ProtoServiceExists(const char *szModule, const char *szService) {
-
-	char str[MAXMODULELABELLENGTH];
-	mir_snprintf(str, sizeof(str), "%s%s", szModule, szService);
-
-	return ServiceExists(str);
-}
-
 char *Hlp_GetProtocolNameA(const char *proto) {
 
 	char protoname[256];

@@ -107,18 +107,7 @@ extern INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 extern INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 extern INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-
 static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilename, int format, BOOL square, BOOL grow);
-
-// See if a protocol service exists
-int ProtoServiceExists(const char *szModule,const char *szService)
-{
-	char str[MAXMODULELABELLENGTH * 2];
-	strcpy(str,szModule);
-	strcat(str,szService);
-	return ServiceExists(str);
-}
-
 
 /*
  * output a notification message.
@@ -2466,8 +2455,6 @@ lParam = PA_FORMAT_*   // avatar format
 return = 1 (supported) or 0 (not supported)
 */
 #define PS_ISAVATARFORMATSUPPORTED "/IsAvatarFormatSupported"
-
-
 
 BOOL Proto_IsAvatarsEnabled(const char *proto)
 {

@@ -144,15 +144,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	return 0;
 }
 
-
-int ProtoServiceExists(const char *szModule, const char *szService)
-{
-	char str[MAXMODULELABELLENGTH];
-	strcpy(str,szModule);
-	strcat(str,szService);
-	return ServiceExists(str);
-}
-
 void UpdateGlobalStatusMenus()
 {
 	BOOL enabled = ListeningToEnabled(NULL, TRUE);
