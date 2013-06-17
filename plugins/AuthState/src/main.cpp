@@ -114,7 +114,7 @@ int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 	if (!proto) return 0;
 
 	if (!lstrcmpA(cws->szModule,proto))
-		if (!lstrcmpA(cws->szSetting,"Auth") || !lstrcmpA(cws->szSetting,"Grant") || !lstrcmpA(cws->szSetting,"ServerId"))
+		if (!lstrcmpA(cws->szSetting,"Auth") || !lstrcmpA(cws->szSetting,"Grant") || !lstrcmpA(cws->szSetting,"ServerId") || !lstrcmpA(cws->szSetting,"ContactType"))
 			onExtraImageApplying(wParam, 1);
 
 	return 0;
