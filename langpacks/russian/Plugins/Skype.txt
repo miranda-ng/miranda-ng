@@ -92,7 +92,7 @@ Skype протокол для Miranda NG.
 [Use ports 80 and 443 as alternative incoming]
 Использовать порты 80 и 443 как входящие
 [Default group:]
-Группа по умолчанию:
+Группа:
 [Proccess SkypeKit.exe did not start.]
 Процесс SkypeKit.exe не запустился.
 [Initialization key corrupted or not valid.]
