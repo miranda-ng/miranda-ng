@@ -252,7 +252,7 @@ HANDLE FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	fbu.real_name += " ";
 	fbu.real_name += surname;
 
-	HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE, false, fbu.real_name.c_str());
+	HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE);
 	if (hContact) {
 		if (flags & PALF_TEMPORARY) {
 			db_set_b(hContact, "Clist", "Hidden", 1);

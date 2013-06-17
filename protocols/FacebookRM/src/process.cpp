@@ -93,18 +93,11 @@ void FacebookProto::ProcessBuddyList(void* data)
 		} else {
 			i = i->next;
 
-			if (!fbu->handle) { // just been added
+			if (!fbu->handle) // just been added
 				fbu->handle = AddToContactList(fbu, FACEBOOK_CONTACT_FRIEND);
-	
-				if (!fbu->real_name.empty()) {
-					db_set_utf(fbu->handle, m_szModuleName, FACEBOOK_KEY_NAME, fbu->real_name.c_str());
-					db_set_utf(fbu->handle, m_szModuleName, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
-				}
-			}
 
-			if (db_get_w(fbu->handle, m_szModuleName, "Status", 0) != fbu->status_id) {
+			if (db_get_w(fbu->handle, m_szModuleName, "Status", 0) != fbu->status_id)
 				db_set_w(fbu->handle, m_szModuleName, "Status", fbu->status_id);
-			}
 
 			if (db_get_dw(fbu->handle, m_szModuleName, "LastActiveTS", 0) != fbu->last_active) {
 				if (fbu->last_active > 0)
@@ -251,16 +244,10 @@ void FacebookProto::ProcessFriendList(void* data)
 	}
 
 	// Check remain contacts in map and add it to contact list
-	for (std::map< std::string, facebook_user* >::iterator iter = friends.begin(); iter != friends.end(); ++iter)
-	{
+	for (std::map< std::string, facebook_user* >::iterator iter = friends.begin(); iter != friends.end(); ++iter) {
 		facebook_user *fbu = iter->second;
 		
-		HANDLE hContact = AddToContactList(fbu, FACEBOOK_CONTACT_FRIEND, true); // This contact is surely new
-
-		db_set_b(hContact, m_szModuleName, "Gender", fbu->gender);
-		db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, fbu->real_name.c_str());
-		db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
-		db_set_s(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, fbu->image_url.c_str());
+		HANDLE hContact = AddToContactList(fbu, FACEBOOK_CONTACT_FRIEND, true); // This contact is surely new ...are you sure?
 //		db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
 	}
 
@@ -350,12 +337,11 @@ void FacebookProto::ProcessUnreadMessage(void *tid_data)
 		return;
 	}
 
-	std::string name = utils::text::source_get_value(&messageslist, 2, "sender_name\":\"", "\"");
-
 	facebook_user fbu;
 	fbu.user_id = user_id;
+	fbu.real_name = utils::text::source_get_value(&messageslist, 2, "sender_name\":\"", "\"");
 
-	HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE, false, name.c_str());
+	HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE);
 	// TODO: if contact is newly added, get his user info
 	// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
 
@@ -469,8 +455,9 @@ void FacebookProto::ProcessMessages(void* data)
 			LOG("      Got message: %s", messages[i]->message_text.c_str());
 			facebook_user fbu;
 			fbu.user_id = messages[i]->user_id;
+			fbu.real_name = messages[i]->sender_name;
 
-			HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE, false, messages[i]->sender_name.c_str());
+			HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE);
 			db_set_s(hContact, m_szModuleName, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
 
 			// TODO: if contact is newly added, get his user info
@@ -609,7 +596,7 @@ void FacebookProto::ProcessFriendRequests(void*)
 
 		if (fbu->user_id.length() && fbu->real_name.length())
 		{
-			HANDLE hContact = AddToContactList(fbu, FACEBOOK_CONTACT_APPROVE, false, fbu->real_name.c_str());
+			HANDLE hContact = AddToContactList(fbu, FACEBOOK_CONTACT_APPROVE);
 			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_APPROVE);
 
 			bool seen = false;

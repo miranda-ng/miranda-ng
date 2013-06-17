@@ -25,31 +25,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 bool FacebookProto::IsMyContact(HANDLE hContact, bool include_chat)
 {
 	const char *proto = GetContactProto(hContact);
-	if(proto && strcmp(m_szModuleName, proto) == 0)
-	{
-		if(include_chat)
+	if (proto && !strcmp(m_szModuleName, proto)) {
+		if (include_chat)
 			return true;
 		else
-			return db_get_b(hContact,m_szModuleName,"ChatRoom",0) == 0;
-	} else {
-		return false;
+			return !db_get_b(hContact, m_szModuleName, "ChatRoom", 0);
 	}
+	return false;
 }
 
 HANDLE FacebookProto::ChatIDToHContact(std::string chat_id)
 {
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if(!IsMyContact(hContact, true))
+		if (!IsMyContact(hContact, true))
 			continue;
 
-		DBVARIANT dbv;
-		if(!db_get_s(hContact,m_szModuleName,"ChatRoomID",&dbv))
-		{
-			bool found = strcmp(chat_id.c_str(), dbv.pszVal) == 0;
-			db_free(&dbv);
-			if (found)
-				return hContact;
-		}
+		ptrA id = db_get_sa(hContact, m_szModuleName, "ChatRoomID");
+		if (id && !strcmp(id, chat_id.c_str()))
+			return hContact;
 	}
 
 	return 0;
@@ -61,23 +54,15 @@ HANDLE FacebookProto::ContactIDToHContact(std::string user_id)
 		if (!IsMyContact(hContact))
 			continue;
 
-		DBVARIANT dbv;
-		if(!db_get_s(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
-		{
-			if(strcmp(user_id.c_str(),dbv.pszVal) == 0)
-			{
-				db_free(&dbv);
-				return hContact;
-			} else {
-				db_free(&dbv);
-			}
-		}
+		ptrA id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+		if (id && !strcmp(id, user_id.c_str()))
+			return hContact;
 	}
 
 	return 0;
 }
 
-HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_check, const char *new_name)
+HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_check)
 {
 	HANDLE hContact;
 
@@ -102,18 +87,20 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_
 
 			db_unset(hContact, "CList", "MyHandle");
 
-			DBVARIANT dbv;
-			if(!db_get_ts(NULL,m_szModuleName,FACEBOOK_KEY_DEF_GROUP,&dbv))
-			{
-				db_set_ts(hContact,"CList","Group",dbv.ptszVal);
-				db_free(&dbv);
+			ptrT group = db_get_tsa(NULL, m_szModuleName, FACEBOOK_KEY_DEF_GROUP);
+			if (group)
+				db_set_ts(hContact, "CList", "Group", group);
+
+			if (!fbu->real_name.empty()) {
+				db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, fbu->real_name.c_str());
+				db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
 			}
 
-			if (strlen(new_name) > 0)
-			{
-				db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, new_name);
-				db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, new_name);
-			}
+			if (fbu->gender)
+				db_set_b(hContact, m_szModuleName, "Gender", fbu->gender);
+			
+			if (!fbu->image_url.empty())
+				db_set_s(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, fbu->image_url.c_str());
 			
 			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, type);
 
@@ -136,13 +123,9 @@ void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 			continue;
 		
 		if (reset_client) {
-			DBVARIANT dbv;
-			if (!db_get_ts(hContact,m_szModuleName,"MirVer",&dbv)) {
-				if (_tcscmp(dbv.ptszVal, _T(FACEBOOK_NAME)))
-					db_set_ts(hContact,m_szModuleName,"MirVer", _T(FACEBOOK_NAME));
-				db_free(&dbv);
-			}
-
+			ptrT mirver = db_get_tsa(hContact, m_szModuleName, "MirVer");
+			if (!mirver || _tcscmp(mirver, _T(FACEBOOK_NAME)))
+				db_set_ts(hContact, m_szModuleName, "MirVer", _T(FACEBOOK_NAME));
 
 			/*std::tstring foldername = GetAvatarFolder() + L"\\smileys\\";
 			TCHAR *path = _tcsdup(foldername.c_str());
@@ -195,8 +178,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 		HANDLE hContact = ContactIDToHContact(id);		
 		
 		// If contact wasn't deleted from database
-		if (hContact != NULL)
-		{
+		if (hContact != NULL) {
 			db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
 			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_NONE);
 			db_set_dw(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, ::time(NULL));
@@ -232,15 +214,12 @@ void FacebookProto::AddContactToServer(void *data)
 	// Process result data
 	facy.validate_response(&resp);
 
-	if (resp.data.find("\"success\":true", 0) != std::string::npos)
-	{
+	if (resp.data.find("\"success\":true", 0) != std::string::npos) {
 		HANDLE hContact = ContactIDToHContact(id);		
 		
 		// If contact wasn't deleted from database
 		if (hContact != NULL)
-		{
 			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_REQUEST);
-		}
 				
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was sent."), NULL, FACEBOOK_EVENT_OTHER);
 	} else {
@@ -267,12 +246,8 @@ void FacebookProto::ApproveContactToServer(void *data)
 
 	std::string get_data = "id=";
 
-	DBVARIANT dbv;
-	if (!db_get_s(hContact, m_szModuleName, FACEBOOK_KEY_ID, &dbv))
-	{
-		get_data += dbv.pszVal;
-		db_free(&dbv);
-	}
+	ptrA id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+	get_data += id;
 
 	http::response resp = facy.flap(FACEBOOK_REQUEST_APPROVE_FRIEND, &post_data, &get_data);
 
@@ -296,12 +271,8 @@ void FacebookProto::CancelFriendsRequest(void *data)
 	query += "&fb_dtsg=" + facy.dtsg_;
 	query += "&__user=" + facy.self_.user_id;
 
-	DBVARIANT dbv;
-	if (!db_get_s(hContact, m_szModuleName, FACEBOOK_KEY_ID, &dbv))
-	{
-		query += "&friend=" + std::string(dbv.pszVal);
-		db_free(&dbv);
-	}
+	ptrA id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+	query += "&friend=" + std::string(id);
 
 	// Get unread inbox threads
 	http::response resp = facy.flap(FACEBOOK_REQUEST_CANCEL_REQUEST, &query);
@@ -349,9 +320,8 @@ void FacebookProto::SendPokeWorker(void *p)
 				utils::text::slashu_to_utf8(
 					utils::text::source_get_value(&resp.data, 3, "\"body\":", "__html\":\"", "\"}"))));
 
-		TCHAR* tmessage = mir_utf8decodeT(message.c_str());
+		ptrT tmessage = mir_utf8decodeT(message.c_str());
 		NotifyEvent(m_tszUserName, tmessage, NULL, FACEBOOK_EVENT_OTHER);
-		mir_free(tmessage);
 	}
 
 	facy.handle_success("SendPokeWorker");
