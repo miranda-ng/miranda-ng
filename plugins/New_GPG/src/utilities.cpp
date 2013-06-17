@@ -649,7 +649,7 @@ void HistoryLog(HANDLE hContact, db_event evt)
 		Event.timestamp = (DWORD)time(NULL);
 	else
 		Event.timestamp = evt.timestamp;
-	Event.cbBlob = strlen((char*)evt.pBlob)+1;
+	Event.cbBlob = (DWORD)strlen((char*)evt.pBlob)+1;
 	Event.pBlob = (PBYTE)_strdup((char*)evt.pBlob);
 	db_event_add(hContact, &Event);
 }
@@ -1193,8 +1193,8 @@ const bool StriStr(const char *str, const char *substr)
 	char *str_up = NEWTSTR_MALLOC(str);
 	char *substr_up = NEWTSTR_MALLOC(substr);
 
-	CharUpperBuffA(str_up, strlen(str_up));
-	CharUpperBuffA(substr_up, strlen(substr_up));
+	CharUpperBuffA(str_up, (DWORD)strlen(str_up));
+	CharUpperBuffA(substr_up, (DWORD)strlen(substr_up));
 
 	if(strstr (str_up, substr_up))
 		i = true;
@@ -1229,20 +1229,10 @@ struct TFakeAckParams {
 	LPCSTR	msg;
 };
 
-int SendBroadcast( HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam ) {
-	ACKDATA ack;
-	memset(&ack,0,sizeof(ack));
-	ack.cbSize = sizeof( ACKDATA );
-	ack.szModule = GetContactProto(hContact);//szGPGModuleName;
-	ack.hContact = hContact;
-	ack.type = type;
-	ack.result = result;
-	ack.hProcess = (HANDLE)777;//hProcess;
-	ack.lParam = lParam;
-	return CallService( MS_PROTO_BROADCASTACK, 0, ( LPARAM )&ack );
+__forceinline int SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
+{
+	return ProtoBroadcastAck( GetContactProto(hContact), hContact, type, result, hProcess, lParam);
 }
-
-
 
 unsigned __stdcall sttFakeAck( LPVOID param ) {
 
@@ -1312,7 +1302,7 @@ string get_random(int length)
 	string chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
 	string data;
 	boost::random_device rng;
-	boost::variate_generator<boost::random_device&, boost::uniform_int<>> gen(rng, boost::uniform_int<>(0, chars.length()-1));
+	boost::variate_generator<boost::random_device&, boost::uniform_int<>> gen(rng, boost::uniform_int<>(0, (int)chars.length()-1));
 	for(int i = 0; i < length; ++i) 
         data += chars[gen()];
 	return data;

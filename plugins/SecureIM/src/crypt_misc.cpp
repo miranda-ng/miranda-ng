@@ -1,17 +1,5 @@
 #include "commonheaders.h"
 
-int SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
-{
-	ACKDATA ack = { sizeof(ack) };
-	ack.szModule = GetContactProto(hContact);
-	ack.hContact = hContact;
-	ack.type = type;
-	ack.result = result;
-	ack.hProcess = hProcess;
-	ack.lParam = lParam;
-	return CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
-}
-
 static void sttWaitForExchange(LPVOID param)
 {
 	HANDLE hContact = (HANDLE)param;

@@ -102,7 +102,10 @@ int onModulesLoaded(WPARAM, LPARAM);
 int onSystemOKToExit(WPARAM, LPARAM);
 int ModuleLoad(WPARAM wParam, LPARAM lParam);
 
-int SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
+__forceinline int SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
+{
+	return ProtoBroadcastAck( GetContactProto(hContact), hContact, type, result, hProcess, lParam);
+}
 
 LPSTR myDBGetStringDecode(HANDLE,const char *,const char *);
 int myDBWriteStringEncode(HANDLE,const char *,const char *,const char *);
