@@ -24,7 +24,7 @@ Skype протокол для Miranda NG.
 [Cancel]
 Отменить
 [Skype name:]
-Имя Skype:
+Логин Skype:
 [Status text:]
 Текст статуса:
 [Online since:]
