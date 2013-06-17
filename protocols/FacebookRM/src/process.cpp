@@ -350,10 +350,12 @@ void FacebookProto::ProcessUnreadMessage(void *tid_data)
 		return;
 	}
 
+	std::string name = utils::text::source_get_value(&messageslist, 2, "sender_name\":\"", "\"");
+
 	facebook_user fbu;
 	fbu.user_id = user_id;
 
-	HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE);
+	HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE, false, name.c_str());
 	// TODO: if contact is newly added, get his user info
 	// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
 
