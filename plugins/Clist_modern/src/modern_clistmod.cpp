@@ -64,7 +64,7 @@ HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 		// check service exists
 		char str[MAXMODULELABELLENGTH];
 		strcpy(str,szProto);
-		strcat(str,"/GetXStatusIcon");
+		strcat(str,PS_GETCUSTOMSTATUSICON);
 		if ( ServiceExists(str)) {
 			// check status is online
 			if (status > ID_STATUS_OFFLINE) {

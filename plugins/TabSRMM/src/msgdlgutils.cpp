@@ -2141,14 +2141,16 @@ void TSAPI ConfigureSmileyButton(TWindowData *dat)
 
 HICON TSAPI GetXStatusIcon(const TWindowData *dat)
 {
-	char szServiceName[128];
 	BYTE xStatus = dat->cache->getXStatusId();
+	if (xStatus == 0)
+		return NULL;
 
-	mir_snprintf(szServiceName, 128, "%s/GetXStatusIcon", dat->cache->getActiveProto());
+	char szServiceName[128];
+	mir_snprintf(szServiceName, 128, "%s%s", dat->cache->getActiveProto(), PS_GETCUSTOMSTATUSICON);
+	if ( !ServiceExists(szServiceName))
+		return NULL;
 
-	if ( ServiceExists(szServiceName))
-		return (HICON)(CallProtoService(dat->cache->getActiveProto(), "/GetXStatusIcon", xStatus, 0));
-	return 0;
+	return (HICON)(CallProtoService(dat->cache->getActiveProto(), PS_GETCUSTOMSTATUSICON, xStatus, 0));
 }
 
 LRESULT TSAPI GetSendButtonState(HWND hwnd)

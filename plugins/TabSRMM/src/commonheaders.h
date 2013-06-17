@@ -30,7 +30,6 @@
  *
  */
 
-
 #ifndef __COMMONHEADERS_H
 #define __COMMONHEADERS_H
 
@@ -86,6 +85,7 @@
 #include <m_popup.h>
 #include <m_timezones.h>
 #include <m_modernopt.h>
+#include <m_xstatus.h>
 
 #include <m_ieview.h>
 #include <m_popup2.h>

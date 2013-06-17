@@ -1171,7 +1171,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	//für mtipper, damit man das statusico übertragen kann
 	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "/GetXStatusIcon");
+	strcat(servicefunction, PS_GETCUSTOMSTATUSICON);
 	CreateServiceFunction( servicefunction, GetXStatusIcon );
 
 	char AvatarsFolder[MAX_PATH]= "";
