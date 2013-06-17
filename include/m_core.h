@@ -433,7 +433,8 @@ MIR_CORE_DLL(int)    mir_vsntprintf(TCHAR *buffer, size_t count, const TCHAR* fm
 ///////////////////////////////////////////////////////////////////////////////
 // protocol functions
 
-MIR_CORE_DLL(int)    ProtoServiceExists(const char *szModule, const char *szService);
+MIR_CORE_DLL(int)     ProtoServiceExists(const char *szModule, const char *szService);
+MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 
 ///////////////////////////////////////////////////////////////////////////////
 // sha1 functions

@@ -35,6 +35,9 @@ void DestroyModularEngine(void);
 
 int InitPathUtils(void);
 
+void InitProtocols();
+void UninitProtocols();
+
 extern HINSTANCE hInst;
 extern HWND hAPCWindow;
 extern HANDLE hStackMutex, hThreadQueueEmpty;

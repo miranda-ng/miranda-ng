@@ -27,7 +27,7 @@ int LoadProtoChains(void);
 int LoadProtoOptions(void);
 
 HANDLE hAccListChanged;
-static HANDLE hAckEvent, hTypeEvent;
+static HANDLE hTypeEvent;
 static BOOL bModuleInitialized = FALSE;
 
 typedef struct
@@ -64,22 +64,6 @@ static int CompareProtos2(const PROTOCOLDESCRIPTOR* p1, const PROTOCOLDESCRIPTOR
 LIST<PROTOCOLDESCRIPTOR> filters(10, CompareProtos2);
 
 //------------------------------------------------------------------------------------
-
-static INT_PTR Proto_BroadcastAck(WPARAM wParam, LPARAM lParam)
-{
-	ACKDATA *ack = (ACKDATA*)lParam;
-	if (ack && ack->type == ACKTYPE_AVATAR && ack->hProcess) {
-		PROTO_AVATAR_INFORMATION* ai = (PROTO_AVATAR_INFORMATION*)ack->hProcess;
-		if (ai->cbSize == sizeof(PROTO_AVATAR_INFORMATION)) {
-			PROTO_AVATAR_INFORMATIONW aiw = { sizeof(aiw), ai->hContact, ai->format };
-			MultiByteToWideChar(CP_ACP, 0, ai->filename, -1, aiw.filename, SIZEOF(aiw.filename));
-
-			ack->hProcess = &aiw;
-		}
-	}
-
-	return NotifyEventHooks(hAckEvent, wParam, lParam);
-}
 
 INT_PTR __fastcall MyCallProtoService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 void FreeFilesMatrix(TCHAR ***files);
@@ -365,6 +349,12 @@ bool __fastcall Proto_IsAccountLocked(PROTOACCOUNT* pa)
 static INT_PTR srvProto_IsAccountLocked(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)Proto_IsAccountLocked(Proto_GetAccount((char*)lParam));
+}
+
+static INT_PTR Proto_BroadcastAck(WPARAM, LPARAM lParam)
+{
+	ACKDATA *ack = (ACKDATA*)lParam;
+	return ProtoBroadcastAck(ack->szModule, ack->hProcess, ack->type, ack->result, ack->hProcess, ack->lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -718,7 +708,6 @@ int LoadProtocolsModule(void)
 	InsertServiceListItem(109, PS_SEARCHBYNAMEW);
 	InsertServiceListItem(110, PS_SEARCHBYEMAILW);
 
-	hAckEvent = CreateHookableEvent(ME_PROTO_ACK);
 	hTypeEvent = CreateHookableEvent(ME_PROTO_CONTACTISTYPING);
 	hAccListChanged = CreateHookableEvent(ME_PROTO_ACCLISTCHANGED);
 
@@ -749,10 +738,6 @@ void UnloadProtocolsModule()
 {
 	if ( !bModuleInitialized) return;
 
-	if (hAckEvent) {
-		DestroyHookableEvent(hAckEvent);
-		hAckEvent = NULL;
-	}
 	if (hAccListChanged) {
 		DestroyHookableEvent(hAccListChanged);
 		hAccListChanged = NULL;

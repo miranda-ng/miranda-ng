@@ -521,9 +521,11 @@ function mir_vsntprintf(buffer:pWideChar;count:size_t;fmt:pWideChar;va:va_list):
 ///////////////////////////////////////////////////////////////////////////////
 // protocol functions
 
+function ProtoBroadcastAck(const szModule: PAnsiChar; hContact: THandle; type_: int; result_: int; hProcess: THandle; lParam: LPARAM): int_ptr; stdcall;
+                 external CoreDLL name 'ProtoBroadcastAck';
+
 function ProtoServiceExists(const szModule, szName:PAnsiChar):int; stdcall;
                  external CoreDLL name 'ProtoServiceExists';
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // sha1 functions

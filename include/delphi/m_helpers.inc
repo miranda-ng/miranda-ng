@@ -38,7 +38,6 @@ procedure TranslateDialogDefault(hwndDlg: THandle);
 procedure TranslateMenu(hMenu: HMENU);
 function Langpack_Register:int_ptr;
 
-function ProtoBroadcastAck(const szModule: PAnsiChar; hContact: THandle; type_: int; result_: int; hProcess: THandle; lParam: LPARAM): int_ptr;
 function CreateProtoServiceFunction(const szModule, szService: PAnsiChar; serviceProc: TMIRANDASERVICE): int_ptr;
 
 function  Srmm_AddIcon   (sid: PStatusIconData):int_ptr;
@@ -328,21 +327,6 @@ end;
 function Langpack_Register:int_ptr;
 begin
   result:=CallService(MS_LANGPACK_REGISTER,WPARAM(@hLangpack),LPARAM(@PluginInfo));
-end;
-
-
-function ProtoBroadcastAck(const szModule: PAnsiChar; hContact: THandle; type_: int; result_: int; hProcess: THandle; lParam: LPARAM): int_ptr;
-var
-  ack: TACKDATA;
-begin
-  ack.cbSize   := sizeof(TACKDATA);
-  ack.szModule := szModule;
-  ack.hContact := hContact;
-  ack._type    := type_;
-  ack._result  := result_;
-  ack.hProcess := hProcess;
-  ack.lParam   := lParam;
-  Result := CallService(MS_PROTO_BROADCASTACK, 0, tlParam(@ack));
 end;
 
 function CreateProtoServiceFunction(const szModule, szService: PAnsiChar; serviceProc: TMIRANDASERVICE): int_ptr;

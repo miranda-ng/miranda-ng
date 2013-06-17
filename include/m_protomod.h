@@ -123,12 +123,4 @@ __forceinline INT_PTR ProtoChainRecvFile(HANDLE hContact, PROTORECVFILET *pre)
 //See the notes in core/modules.h under NotifyEventHooks()
 #define MS_PROTO_BROADCASTACK    "Proto/BroadcastAck"
 
-__forceinline INT_PTR ProtoBroadcastAck(const char *szModule, HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
-{
-	ACKDATA ack = { sizeof(ACKDATA), szModule, hContact, type, result, hProcess, lParam };
-	return CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
-}
-
 #endif // M_PROTOMOD_H__
-
-
