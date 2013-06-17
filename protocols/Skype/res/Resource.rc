@@ -17,7 +17,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1251)
+#pragma code_page(1250)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -141,7 +141,7 @@ END
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
 LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
-#pragma code_page(1251)
+#pragma code_page(1250)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -239,14 +239,14 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | 
 CAPTION "Change password"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "Old password",IDC_INSTRUCTION,7,9,75,8
+    LTEXT           "Old password:",IDC_INSTRUCTION,7,9,75,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_PASSWORD,88,7,105,14,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "New password:",IDC_INSTRUCTION2,7,27,75,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_PASSWORD2,88,24,105,14,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Confirmation:",IDC_INSTRUCTION3,7,44,75,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_PASSWORD3,88,41,105,14,ES_PASSWORD | ES_AUTOHSCROLL
     DEFPUSHBUTTON   "OK",IDOK,88,69,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,142,69,51,14
-    LTEXT           "New password",IDC_INSTRUCTION2,7,27,75,8
-    EDITTEXT        IDC_PASSWORD2,88,24,105,14,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "Confirmation",IDC_INSTRUCTION3,7,44,75,8
-    EDITTEXT        IDC_PASSWORD3,88,41,105,14,ES_PASSWORD | ES_AUTOHSCROLL
 END
 
 

@@ -207,5 +207,8 @@
     <None Include="res\conf_spawn.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
+    <None Include="res\send_contacts.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
   </ItemGroup>
 </Project>

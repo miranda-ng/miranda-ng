@@ -134,6 +134,8 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 					GetDlgItemTextA(hwnd, IDC_PW, pwd, SIZEOF(pwd));
 
 					PasswordChangeBoxParam param;
+					param.password = ::mir_strdup(pwd);
+
 					if (proto->ChangePassword(param))
 					{
 						proto->account->ChangePassword(param.password, param.password2);
@@ -266,6 +268,10 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordChangeProc(HWND hwndDlg, UINT msg, WP
 	case WM_INITDIALOG:
 		::TranslateDialogDefault(hwndDlg);
 
+		SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_LIMITTEXT, SKYPE_PASSWORD_LIMIT, 0);
+		SendDlgItemMessage(hwndDlg, IDC_PASSWORD2, EM_LIMITTEXT, SKYPE_PASSWORD_LIMIT, 0);
+		SendDlgItemMessage(hwndDlg, IDC_PASSWORD3, EM_LIMITTEXT, SKYPE_PASSWORD_LIMIT, 0);
+
 		param = (PasswordChangeBoxParam *)lParam;
 		::SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		{
@@ -285,15 +291,34 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordChangeProc(HWND hwndDlg, UINT msg, WP
 			case IDOK:
 				{
 					char oldPwd[SKYPE_PASSWORD_LIMIT];
-					::GetDlgItemTextA(hwndDlg, IDC_PASSWORD, oldPwd, SIZEOF(oldPwd));
-					param->password = ::mir_strdup(oldPwd);
-
 					char pwd1[SKYPE_PASSWORD_LIMIT];
-					::GetDlgItemTextA(hwndDlg, IDC_PASSWORD2, pwd1, SIZEOF(pwd1));
-					param->password2 = ::mir_strdup(pwd1);
-
 					char pwd2[SKYPE_PASSWORD_LIMIT];
+
+					::GetDlgItemTextA(hwndDlg, IDC_PASSWORD, oldPwd, SIZEOF(oldPwd));
+					::GetDlgItemTextA(hwndDlg, IDC_PASSWORD2, pwd1, SIZEOF(pwd1));
 					::GetDlgItemTextA(hwndDlg, IDC_PASSWORD3, pwd2, SIZEOF(pwd2));
+
+					if (!::strlen(oldPwd) || !::strlen(pwd1)) {
+						::MessageBox(NULL, TranslateT("Password can't be empty."), TranslateT("Change password"), MB_OK | MB_ICONERROR);
+						break;
+					}
+
+					if (::strcmp(param->password, oldPwd)) {
+						::MessageBox(NULL, TranslateT("Old password is not correct."), TranslateT("Change password"), MB_OK | MB_ICONERROR);
+						break;
+					}
+
+					if (!::strcmp(oldPwd, pwd1)) {
+						::MessageBox(NULL, TranslateT("New password is same as old password."), TranslateT("Change password"), MB_OK | MB_ICONERROR);
+						break;
+					}
+
+					if (::strcmp(pwd1, pwd2)) {
+						::MessageBox(NULL, TranslateT("New password and confirmation must be same."), TranslateT("Change password"), MB_OK | MB_ICONERROR);
+						break;
+					}
+					
+					param->password2 = ::mir_strdup(pwd1);
 
 					::EndDialog(hwndDlg, IDOK);
 				}
@@ -318,7 +343,7 @@ bool CSkypeProto::ChangePassword(PasswordChangeBoxParam &param)
 		NULL, 
 		CSkypeProto::SkypePasswordChangeProc, 
 		(LPARAM)&param);
-	return value == 1;
+	return value == IDOK;
 }
 
 INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
