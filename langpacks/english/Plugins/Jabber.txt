@@ -912,7 +912,7 @@
 [Affiliation changes]
 [Role changes]
 [Status changes]
-[Filter history messages]
+[Don't notify history messages]
 [JID]
 [Nick Name]
 [Group]

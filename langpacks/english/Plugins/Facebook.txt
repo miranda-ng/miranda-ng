@@ -126,7 +126,6 @@
 [Request friendship]
 [Approve friendship]
 [Mind...]
-[Visit Profile]
 [Services...]
 [Refresh Buddy List]
 [Services]
