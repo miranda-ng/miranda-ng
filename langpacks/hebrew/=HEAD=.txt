@@ -1,0 +1,8 @@
+﻿Miranda Language Pack Version 1
+Language: Hebrew (Israel)
+Locale: 1037
+Authors: ofir aviram, Jerbifor
+Author-email: jerbifor@tut.by
+Last-Modified-Using: Miranda NG 0.94.4 
+;	This translation is automatically generated from the Hebrew langpack Miranda IM by ofir aviram.
+;	If you want to add, please contact the author.

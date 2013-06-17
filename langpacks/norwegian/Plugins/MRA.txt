@@ -1,0 +1,23 @@
+﻿#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+;============================================================
+;  File: MRA.dll
+;  Plugin: MRA
+;  Version: 2.0.0.1
+;  Authors: 
+;============================================================
+;file \protocols\MRA\res\resource.rc
+[Full e-mail:]
+E-post konto:
+;file \protocols\MRA\src\MraAntiSpam.cpp
+;file \protocols\MRA\src\MraAvatars.cpp
+;file \protocols\MRA\src\MraChat.cpp
+;file \protocols\MRA\src\MraConstans.h
+;file \protocols\MRA\src\MraFilesQueue.cpp
+;file \protocols\MRA\src\MraFilesQueue_mod.cpp
+;file \protocols\MRA\src\MraIcons.cpp
+;file \protocols\MRA\src\MraPopUp.cpp
+;file \protocols\MRA\src\MraProto.cpp
+;file \protocols\MRA\src\Mra_functions.cpp
+;file \protocols\MRA\src\Mra_options.cpp
+;file \protocols\MRA\src\Mra_proto.cpp
+;file \protocols\MRA\src\Mra_svcs.cpp

@@ -1,0 +1,47 @@
+﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+;============================================================
+;  File: Nudge.dll
+;  Plugin: Nudge
+;  Version: 0.0.2.0
+;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
+;============================================================
+;file \plugins\Nudge\res\resource.rc
+[Protocol options]
+אפשרויות פרוטוקול
+[Specify options for each protocol]
+הגדר אפשרויות לכל פרוטוקול בנפרד
+[Enable message window shaking]
+אפשר רעידת חלון שיחה
+[Show as status change]
+הראה כשמצב משתנה
+[Auto resend nudge after]
+שלח שנית נדנוד באופן אוטומטי אחרי
+[Sending text]
+שולח טקסט
+[Receiving text]
+טקסט מתקבל
+[Allow sending* one nudge to the same contact every :]
+אפשר לשלוח* נדנוד אחד לאותו משתמש כל :
+[Allow receiving one nudge from the same contact every :]
+הרשה לשלוח נדנוד אחד לאותו משתמש כל :\n
+[* Nudge sending delay is hardcoded and cannot be changed.]
+* זמן שליחת נדנוד הוא גורם קבוע ולא ניתן לשינוי.
+[Allow nudges when you're:]
+אפשר נדנוד כאשר אתה:
+[Shaking Clist Options]
+Clist אפשרויות הרעדת
+[Number of moves]
+מספר תנועות
+[Width of move]
+רוחב של תנועה
+[Shaking Message Window Options]
+הרעדת חלון הודעות אפשרויות
+;file \plugins\Nudge\src\main.cpp
+[Nudge]
+נדנוד
+[Nudge as Default]
+נדנד כברירת מחדל
+;file \plugins\Nudge\src\nudge.cpp
+;file \plugins\Nudge\src\options.cpp
+[Window Shaking]
+חלון רועד

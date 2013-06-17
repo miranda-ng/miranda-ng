@@ -1,0 +1,35 @@
+﻿#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+;============================================================
+;  File: SmileyAdd.dll
+;  Plugin: SmileyAdd
+;  Version: 0.2.3.17
+;  Authors: Peacow, nightwish, bid, borkra
+;============================================================
+;file \plugins\SmileyAdd\res\resource.rc
+[Smiley Categories]
+Smiley categorieën
+[Specify Smiley Pack for each category]
+Smiley Pack opgeven voor elke categorie
+[Scale smiley to textheight]
+Smiley naar teksthoogte schalen
+[Animate]
+Animatie
+[Smiley Selector]
+Smiley kiezer
+[Surround inserted smiley with spaces]
+Zet een spatie aan beide kanten van de ingevoegde smiley
+[Use first smiley for selection size]
+Gebruik de eerste smiley voor de grootte van de selectie
+[IEView style window]
+Scherm in IEView-stijl
+[Smiley Button]
+Smiley knop
+;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
+[Show Smiley Selection Window]
+Smiley selectiescherm tonen
+;file \plugins\SmileyAdd\src\download.cpp
+;file \plugins\SmileyAdd\src\main.cpp
+;file \plugins\SmileyAdd\src\options.cpp
+;file \plugins\SmileyAdd\src\services.cpp
+;file \plugins\SmileyAdd\src\smileys.cpp
+;file \plugins\SmileyAdd\src\smltool.cpp

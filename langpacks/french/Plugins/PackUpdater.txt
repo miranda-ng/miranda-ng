@@ -8,6 +8,10 @@
 ;file \plugins\PackUpdater\Res\Resource.rc
 ;file \plugins\PackUpdater\Src\Events.cpp
 ;file \plugins\PackUpdater\Src\Notifications.cpp
+[Current Version]
+Votre version
+[New Version]
+Nouvelle version
 ;file \plugins\PackUpdater\Src\Notifications.h
 ;file \plugins\PackUpdater\Src\Options.cpp
 ;file \plugins\PackUpdater\Src\PackUpdater.cpp

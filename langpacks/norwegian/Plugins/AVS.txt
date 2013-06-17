@@ -1,0 +1,85 @@
+﻿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.11.0.1
+;  Authors: Nightwish, Pescuma
+;============================================================
+;file \plugins\AVS\res\avs.rc
+[Set default picture]
+Sett standardbilde
+[Delete default picture]
+Fjern standardbilde
+[Try to draw avatar background transparent (for images without transparency)]
+Forsøk å tegne avatarbakgrunnen gjennomsiktig (for bilder uten gje.siktighet)
+[Num of points to define bkg:]
+Ant. punkter til å def. bkgr:
+[Color difference allowed:]
+Fargeforskjell tillatt:
+[Make transparency proportional to color diff]
+Gjør gjennomsiktigheten proporsjonell til fargeforskj.
+[Draw avatars grayscale]
+Tegn avatarer i gråskala
+[Show warning messages]
+Vis advarselsmeldinger
+[When setting avatars, always make them square]
+Settes avatarer, gjør dem alltid firekantede
+[Try to draw own avatar background transparent (for images without transparency)]
+Forsøk å tegn egne avatarbakgrunner gjennomsiktige (for bilder uten gj.siktighet)
+[Protect the picture and prevent automatic avatars from overwriting it]
+Beskytt bildet og hindre at automatiske avatarer overskriver det.
+[Make the avatar square]
+Gjør avataren firkantet
+[Resize the avatar to fit max allowed protocol size]
+Endre avatarstørrelse til maks tillatt protokollstørrelse
+[Contact picture]
+Kontaktbilde
+[Picture options]
+Bildevalg
+[Protect the picture]
+Beskytt bildet
+[Set as hidden]
+Sett som skjult
+[Try to make picture background transparent]
+Forsøk å gjøre bakgrunnsbildet gjennomsiktig
+[Use defaults]
+Bruk standarder
+[Points:]
+Poeng:
+[Color diff:]
+Farge forskj.:
+[Use per protocol avatars]
+Bruk avatarer for hver protokoll
+;file \plugins\AVS\src\acc.cpp
+[Protocols have different avatars]
+Protokollene har forskjellige avatarer
+;file \plugins\AVS\src\main.cpp
+[Flash Animations]
+Flash Animasjoner
+[XML Files]
+XML Filer
+[Set My Avatar]
+Sett Min Avatar
+[Set My Avatar for %s]
+Sett Min Avatar for %s
+[My Avatars]
+Mine Avatarer
+[My Global Avatar Cache]
+Min Globale Avatar Cache
+[Contact Avatars]
+Kontakt Avatarer
+[Own Avatars]
+Egne Avatarer
+;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+Sett avatarvalg for %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Slett bildefil fra disken (kan bli nødvendig å laste inn på nytt, men vil slette lokale bilder)?
+[Reset contact picture]
+Tilbakestill kontaktbilde
+[Contact has no avatar]
+Kontakten har ingen avatar
+[Are you sure you want to remove your avatar?]
+Er du sikker på at du vil fjerne avataren?
+[Global Avatar]
+Global Avatar

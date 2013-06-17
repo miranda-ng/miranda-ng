@@ -1,0 +1,60 @@
+﻿#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
+;============================================================
+;  File: watrack.dll
+;  Module: Winamp Track |Unicode aware|
+;  Versions: 0.0.2.4 - 0.0.6.12
+;  Url: http://addons.miranda-im.org/details.php?action=viewfile&id=2345
+;============================================================
+[Color codes]
+Fargekoder
+[File size]
+Filstørrelse
+[FileSize text format]
+FileStørrelse tekstformat
+[Formats]
+Formater
+[Player name letters]
+Spillernavn bokstaver
+[Players list]
+Spillers liste
+[Popup Title / Text]
+Popup Tittel / Tekst
+[Postfix]
+Postfiks
+[Refresh time, sec]
+Oppfriskningstid, sec
+[Report]
+Rapporter
+[Report Items]
+Rapporter Objekter
+[Report file]
+Rapport fil
+[Report format]
+Rapport format
+[Show in report]
+Vis i rapport
+[Sort]
+Sorter
+[Sort log file]
+Sorter loggfil
+[Statistic log file]
+Statistikk loggfil
+[Unicode to Ansi translation codepage:]
+Unicode til Ansi oversettelse kodeside:
+[VBR macro]
+VBR makro
+[WATrack Macro Info]
+WATrack Makro Info
+[Left click]
+Venstreklikk
+[Right click]
+Høyreklikk
+[Precision]
+Presisjon
+[Color]
+Farge
+;file \plugins\Watrack\myshows\myshows.rc
+;file \plugins\Watrack\lastfm\i_last_api.inc
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
+;file \plugins\Watrack\proto\proto.pas
+;other strings

@@ -1,0 +1,15 @@
+﻿#muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
+;============================================================
+;  File: RecentContacts.dll
+;  Plugin: Recent contacts
+;  Version: 0.0.2.0
+;  Authors: ValeraVi, Kildor
+;============================================================
+;file \plugins\RecentContacts\res\resource.rc
+[Recent Contacts]
+אנשי קשר אחרונים
+;file \plugins\RecentContacts\src\options.cpp
+;file \plugins\RecentContacts\src\RecentContacts.cpp
+[Ignore Contact]
+התעלמות
+;file \plugins\RecentContacts\src\RecentContacts.h

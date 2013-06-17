@@ -7,5 +7,9 @@
 ;============================================================
 ;file \Plugins\StatusPlugins\resource.rc
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
+[minutes of %s mode]
+minutes en mode %s
+[Auto Away]
+Absence automatique
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 ;file \Plugins\StatusPlugins\confirmdialog.cpp

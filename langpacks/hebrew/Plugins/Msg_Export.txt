@@ -1,0 +1,25 @@
+﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+;============================================================
+;  File: Msg_Export.dll
+;  Plugin: Message export
+;  Version: 3.1.0.3
+;  Authors: Kennet Nielsen, mod by ring0
+;============================================================
+;file \plugins\Msg_Export\res\resource.rc
+[Use internal viewer]
+השתמש בצפייה פנימית
+[Replace miranda history]
+השתמש בהיסטוריית מירנדה
+[Append extra new line]
+הוסף קו נוסף חדש
+[Auto filename]
+שם קובץ אוטומטי
+[Export all history]
+יצוא כל ההיסטוריה
+[Export directory]
+יצוא לתיקייה
+;file \plugins\Msg_Export\src\FileViewer.cpp
+;file \plugins\Msg_Export\src\Glob.h
+;file \plugins\Msg_Export\src\main.cpp
+;file \plugins\Msg_Export\src\options.cpp
+;file \plugins\Msg_Export\src\utils.cpp

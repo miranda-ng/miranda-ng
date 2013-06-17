@@ -1,0 +1,185 @@
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+;file \protocols\IRCG\res\IRC.rc
+[only while connecting]
+solo mentre mi sto connettendo
+[Force visible (-i)]
+Forza visibilità (-i)
+[Rejoin channel if kicked]
+Riunisciti a canale se espulso
+[Rejoin channels on reconnect]
+Riunisciti a canali su riconnessione
+[Disable tray balloon on error]
+Disattiva fumetto tray per errori
+[Show addresses]
+Mostra indirizzi
+[Automatically join on invite]
+Unisciti automaticamente su invito
+[Internet address]
+Indirizzo internet
+[Port range]
+Range porte
+[User ID (Ident)]
+ID Utente (Ident)
+[Server name]
+Nome server
+[Alternative nick]
+Nick alternativo
+[Default network]
+Rete predefinita
+[User info - Required]
+Informazioni utente - Richieste
+[Reconnect]
+Riconnetti
+[Wait (s)]
+Attesa
+[Retry count]
+Numero tentativi
+[User information]
+Informazioni utente
+[User information]
+Informazioni utente
+[&Refresh]
+&Aggiorna
+[&Refresh]
+&Aggiorna
+[Channels]
+Canali
+[Away Info]
+Info Altrove
+[&Set]
+&Imposta
+[Add server]
+Aggiungi server
+[Channels on server]
+Canali sul server
+[C&onnect]
+C&onnetti
+[&Clear all]
+&Cancella tutto
+[Bans]
+Ban
+[Invites]
+Inviti
+[Excepts]
+Eccezioni
+[Only Ops set topic]
+Solo Op settano arg.
+[No external messages]
+No messaggi esterni
+[Invite only]
+Solo invito
+[Moderated]
+Moderato
+[Key:]
+Chiave:
+[User limit:]
+Limita utenti:
+[Secret]
+Segreto
+[Topic]
+Argomento
+[User modes]
+Modalità utente
+[Channel modes]
+Modalità canale
+[Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
+Utilizza le opzioni per impostare le modalità per questo canale. Di solito dovrai essere op o superiore per farlo.
+;file \protocols\IRCG\src\clist.cpp
+;file \protocols\IRCG\src\commandmonitor.cpp
+[Downloading list (%u%%) - %u channels]
+Scaricamento lista (%u%%) - %u canali
+[Downloading list - %u channels]
+Scaricamento lista - %u canali
+[Done: %u channels]
+Completato - %u canali
+[(probably truncated by server)]
+(troncato probabilmente dal server)
+[Change nickname]
+Cambia nick
+;file \protocols\IRCG\src\input.cpp
+[The buddy check function is enabled]
+La funzione di controllo automatico dei tuoi amici è ora attivata
+[The buddy check function is disabled]
+La funzione di controllo automatico dei tuoi amici è ora disattivata
+[Ignore system is enabled]
+Sistema di ignoramento attivato
+[Ignore system is disabled]
+Sistema di ignoramento disattivato
+[%s is not ignored now]
+%s non viene ignorato ora
+[The time interval for the buddy check function is now at default setting]
+L'intervallo di tempo per la funzione controllo amici è ora quello predefinito
+[The time interval for the buddy check function is now %u seconds]
+L'intervallo di tempo per la funzione controllo amici è ora di %u secondi
+[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
+Questo comando non è consigliato su reti di tali\r\ndimensioni!Causerà probabilmente alto utilizzo di\r\nCPU e banda per da circa %u a %u minuti.\r\n\r\nVuoi continuare?
+[Aborted]
+Annullato
+[Input command]
+Comando di input
+[Please enter the reply]
+Inserisci per favore la risposta
+;file \protocols\IRCG\src\irclib.cpp
+;file \protocols\IRCG\src\ircproto.cpp
+[The protocol is not online]
+Il protocollo non è online
+;file \protocols\IRCG\src\options.cpp
+[Channel list]
+Lista canali
+[Quick connect]
+Connessione veloce
+[Quick connect]
+Connessione veloce
+[Show channel]
+Mostra canale
+[WhoIs]
+Chi è?
+[Please complete all fields]
+Completa per favore tutti i campi
+[Do you want to delete\r\n%s]
+Desideri eliminare\r\n%s
+[Delete server]
+Elimina server
+;file \protocols\IRCG\src\output.cpp
+[%s invites you to %s]
+%s ti invita a %s
+[%s is away]
+%s è altrove
+;file \protocols\IRCG\src\services.cpp
+[Join channel]
+Unisciti al canale
+[Please enter a channel to join]
+Inserisci un canale a cui unirti
+[Please select IRC network and enter the password if needed]
+Seleziona per favore la rete IRC e inserisci la password se richiesta
+[Please enter a unique nickname]
+Inserisci per favore un nick unico
+[Kick]
+Espulsione
+[&Control]
+&Controllo
+;file \protocols\IRCG\src\tools.cpp
+;file \protocols\IRCG\src\userinfo.cpp
+;file \protocols\IRCG\src\windows.cpp
+[Channel]
+Canale
+[Add ban]
+Aggiungi ban
+[Add invite]
+Aggiungi invito
+[Please enter the hostmask (nick!user@host)]
+Inserisci per favore l'hostmask (nick!utente@host)
+[Edit ban]
+Modifica ban
+[Remove ban?]
+Rimuovere il ban?
+[Remove invite?]
+Rimuovere l'invito?
+[Remove exception?]
+Rimuovere l'eccezione?

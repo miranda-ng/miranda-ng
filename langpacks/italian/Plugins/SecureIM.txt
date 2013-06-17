@@ -1,0 +1,72 @@
+﻿#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
+;============================================================
+;  File: SecureIM.dll
+;  Plugin: SecureIM
+;  Version: 1.0.12.4
+;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
+;============================================================
+;file \plugins\SecureIM\res\resource.rc
+[User List]
+Lista utenti
+[Enable Secure Offline messages]
+Attiva messaggi offline protetti
+[Enable Secure File Transfer]
+Attiva trasferimento file protetto
+[Key Exchange Timeout :]
+Timeout scambio chiave:
+[Key agreement colors]
+Colori scambio chiave
+[Secure connection colors]
+Colori connessione protetta
+[Send/Receive encrypted colors]
+Colori invio/ricezione protetta
+[Time in Seconds]
+Secondi
+[Show a popup on key send]
+Mostra un popup all'invio della chiave
+[Show a popup on key received]
+Mostra un popup alla ricezione della chiave
+[Show a popup on each secure send]
+Mostra un popup ad ogni invio protetto
+[Show a popup on each secure receive]
+Mostra un popup ad ogni ricezione protetta
+[Always Try to Establish Secure IM]
+Cerca sempre di stabilire una connessione protetta
+[Secure IM Enabled]
+Attiva SecureIM
+[Secure IM Disabled]
+Disattiva SecureIM
+;file \plugins\SecureIM\src\language.cpp
+[SecureIM established...]
+Canale SecureIM stabilito...
+[Key exchange failed...]
+Scambio chiavi fallito...
+[Key from disabled...]
+Chiave origine disattivata...
+[Sended back message received...]
+Messaggio di ritorno ricevuto...
+[Sending back secure message...]
+Restituzione messaggio protetto...
+[SecureIM disabled...]
+SecureIM disattivato...
+[Sending Message...]
+Invio messaggio...
+[Message Received...]
+Messaggio ricevuto...
+[Always try]
+Prova sempre
+[Create SecureIM connection]
+Crea connessione SecureIM
+[Disable SecureIM connection]
+Disattiva connessione SecureIM
+[Disable SecureIM connection]
+Disattiva connessione SecureIM
+;file \plugins\SecureIM\src\loadicons.cpp
+;file \plugins\SecureIM\src\main.cpp
+;file \plugins\SecureIM\src\options.cpp
+;file \plugins\SecureIM\src\popupOptions.cpp
+[Secure Popup]
+Popup protetto
+[Message Popup]
+Popup messaggio
+;file \plugins\SecureIM\src\svcs_srmm.cpp

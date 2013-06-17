@@ -1,0 +1,100 @@
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+;file \plugins\Clist_modern\res\resource.rc
+[Animate Avatars]
+Animeeri avatare
+[Available skins]
+Saadaval nahad
+[Object properties]
+Objekti omadused
+[Colour]
+Värv
+[Vertical Align]
+Vertikaalne joondus
+[Multiline status bar:]
+Mitmerealine olukuriba:
+[Set options per account]
+Sea valikud kontopõhiselt
+[Show both icons]
+Kuva mõlemad ikoonid
+[Show unread emails (if supported)]
+Kuva lugemata e-mailid (kui toetatud)
+[Show automaticaly]
+Kuva automaatselt
+[Always Visible]
+Alati nähtav
+[Min row height:]
+Min. rea kõrgus:
+[Round corners of avatars]
+Ümarda avataride nurkasid
+[Protocol status icon]
+Protokolli oleku ikoon
+[height]
+kõrgus
+[Hide icon when showing avatar]
+Peida ikoon, kui avatar kuvatud
+[Hide groups icon]
+Peida gruppide ikoon
+[Position (vertical)]
+Asukoht (vertikaalne)
+[Show Title]
+Kuva tiitel
+[Locked]
+Lukustatud
+[Vertical align:]
+Vertikaalne joondus:
+[&Show Offline Users in here]
+Kuva siin väljas kasutajad
+;file \plugins\Clist_modern\src\modern_clc.cpp
+;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Away contacts]
+Eemal kontaktid
+[Invisible contacts]
+Nähtamatud kontaktid
+;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
+Pole sündmusi
+;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+;file \plugins\Clist_modern\src\modern_clistopts.cpp
+;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+;file \plugins\Clist_modern\src\modern_clisttray.cpp
+;file \plugins\Clist_modern\src\modern_clui.cpp
+[Show Contact &Avatar]
+Kuva kontakti &avatar
+[Hide Contact &Avatar]
+Peida kontakti &avatar
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\modern_keyboard.cpp
+;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+[column]
+veerg
+[line]
+rida
+[columns]
+veerud
+;file \plugins\Clist_modern\src\modern_skineditor.cpp
+[Image size is]
+Pildi suurus on
+;file \plugins\Clist_modern\src\modern_skinengine.cpp
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[Warning!]
+Hoiatus!
+[Please select skin to apply]
+Palun vali rakendatav nahk
+[Default Skin]
+Vaikimisi nahk
+[%Default Skin%]
+%Vaikimisi nahk%
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+[<<Global>>]
+<<Globaalne>>
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
+;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

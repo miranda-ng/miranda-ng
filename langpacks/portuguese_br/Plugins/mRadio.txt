@@ -1,0 +1,107 @@
+﻿#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
+;============================================================
+;  File: mradio.dll
+;  Module: mRadio, mRadio Mod
+;  Versions: 0.0.2.1
+;  URL:http://awkward.mirandaim.ru
+;============================================================
+[Cave]
+Caverna
+[Arena]
+Arena
+[Genre]
+Gênero
+[Plain]
+Planície
+[Alley]
+Beco
+[Dizzy]
+Estonteante
+[Generic]
+Genérico
+[Bathroom]
+Banheiro
+[Parking Lot]
+Garagem
+[Stone Corridor]
+Corredor de Pedra
+[Sewer Pipe]
+Galeria de Esgoto
+[Auditorium]
+Auditório
+[Carpeted Hallway]
+Corredor Carpetado
+[Play from first]
+Tocar do primeiro
+[Shuffle playlist]
+Misturar playlist
+[Loop single media]
+Repetir mídia única
+[Station Name]
+Nome da Estação
+[Timeout, ms (5000)]
+Tempo, ms (5000)
+[PreBuf, % (75%)]
+PreBuf, % (75%)
+[Hallway]
+Saguão
+[Mountains]
+Montanhas
+[Use EAX]
+Usar EAX
+[Under Water]
+Debaixo d'água
+[Station URL (required)]
+URL da Estação (necessário)
+[To INI]
+Para INI
+[Buffer, ms (5000)]
+Buffer, mseg (5000)
+[Add station]
+Adicionar estação
+[Add Station]
+Adicionar Estação
+[Bitrate]
+Bitrate
+[Stone Room]
+Sala de Pedra
+[Living Room]
+Sala de Estar
+[Drugged]
+Drogado
+[Record path]
+Caminho para gravação
+[Padded Cell]
+Cela Alcochoada
+[Autoconnect last station]
+Auto-conectar última estação
+[Concert Hall]
+Sala de Concerto
+[Psychotic]
+Psicótico
+[To list]
+Para lista
+[Hangar]
+Hangar
+[Offline station as Offline]
+Estação off-line como off-line
+[Continuous record]
+Gravação contínua
+[Quarry]
+Pedreira
+[Station]
+Estação
+[Custom INI file]
+Arquivo INI personalizado
+[Record]
+Gravar
+[Status message template]
+Modelo de mensagem de status
+[Equalizer presets]
+Preparar equalizador
+[Export All]
+Exportar Todos
+[Volume]
+Volume
+[Equalizer]
+Equalizador

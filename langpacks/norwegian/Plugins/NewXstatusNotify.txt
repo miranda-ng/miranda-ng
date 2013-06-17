@@ -1,0 +1,60 @@
+﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: xStatus Notify
+;  Version: 1.4.0.9
+;  Authors: Luca Santarelli, Vasilich, yaho
+;============================================================
+;file \plugins\NewXstatusNotify\res\resource.rc
+[Notify when a contact changes to one of these statuses]
+Varsle når en kontakt endrer til følgende status
+[Always when changing from offline]
+Alltid når tilbake fra frakoblet
+[Plugin activation]
+Tillegg aktivering
+[Blink icon in the system tray]
+Blink ikon på oppgavelinjen
+[Use status icon]
+Bruk statusikon
+[Use individual sounds]
+Bruk individuelle lyder
+[Use Popup colours]
+Bruk Popupfarger
+[Read status message]
+Les statusmelding
+[Show previous status too]
+Vis tidligere status også
+[Popups on contact status change to:]
+Popups når kontakten endrer til:
+[Show contact group name]
+Vis kontakt gruppenavn
+[Use alternative descriptions]
+Bruk alternative beskrivelser
+;file \plugins\NewXstatusNotify\src\indsnd.cpp
+;file \plugins\NewXstatusNotify\src\indsnd.h
+;file \plugins\NewXstatusNotify\src\main.cpp
+[User: Online]
+Bruker: Påkoblet
+[User: Offline]
+Bruker: Frakoblet
+[User: Invisible]
+Bruker: Usynlig
+[User: Free For Chat]
+Bruker: Tilgjengelig For Samtale
+[User: Away]
+Bruker: Borte
+[User: Not Available]
+Bruker: Ikke Tilgjengelig
+[User: Occupied]
+Bruker: Opptatt
+[User: Do Not Disturb]
+Bruker: Ikke forstyrr
+[User: Out To Lunch]
+Bruker: Ute Til Lunsj
+[User: On The Phone]
+Bruker: I Telefonen
+;file \plugins\NewXstatusNotify\src\options.cpp
+;file \plugins\NewXstatusNotify\src\popup.h
+;file \plugins\NewXstatusNotify\src\utils.cpp
+;file \plugins\NewXstatusNotify\src\xstatus.cpp
+;file \plugins\NewXstatusNotify\src\xstatus.h

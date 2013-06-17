@@ -6,6 +6,22 @@
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 ;file \plugins\ContactsPlus\res\contacts.rc
+[Send contacts]
+Envoi des contacts
+[Choose contacts to be send:]
+Choisir contacts à envoyer :
+[Received contacts]
+Réception de contacts
+[Add to &group:]
+Ajouter au &groupe :
+[Contacts send error]
+Erreur dans l'envoi de contacts
+[Add to List]
+Ajouter à ma liste
 ;file \plugins\ContactsPlus\src\main.cpp
+[Incoming Contacts]
+Contacts entrants
+[Outgoing Contacts]
+Envoi de contacts
 ;file \plugins\ContactsPlus\src\receive.cpp
 ;file \plugins\ContactsPlus\src\send.cpp

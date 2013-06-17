@@ -6,5 +6,19 @@
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
+[Add an event (flashing icon) to the contact]
+Ajouter un évènement (icône clignotant) au contact
+[Open User Details]
+Ouvrir les détails du contact
+[Notify always]
+Toujours notifier
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
+[Hide contact]
+Cacher le contact
 ;file \plugins\BuddyExpectator\src\options.cpp
+[weeks]
+semaines
+[years]
+années
+[not detected]
+non détecté

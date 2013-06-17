@@ -1,0 +1,85 @@
+﻿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.11.0.1
+;  Authors: Nightwish, Pescuma
+;============================================================
+;file \plugins\AVS\res\avs.rc
+[Set default picture]
+Varsayılan resmi ayarla
+[Delete default picture]
+Varsayılan resmi sil
+[Try to draw avatar background transparent (for images without transparency)]
+Avatar art alanını saydam yapmayı dene (saydam olmayan resimler için)
+[Num of points to define bkg:]
+Artalan tanımı için nokta sayısı:
+[Color difference allowed:]
+İzin verilen renk farkı:
+[Make transparency proportional to color diff]
+Saydamlık renk farkıyla orantılı olsun
+[Draw avatars grayscale]
+Avatarlar gritonlamalı olsun
+[Show warning messages]
+Uyarı iletilerini göster
+[When setting avatars, always make them square]
+Avatarları ayarlarken her zaman kareye dönüştür
+[Try to draw own avatar background transparent (for images without transparency)]
+Benim avatarımın art alanını saydam yapmayı dene (saydam olmayan resimler için)
+[Protect the picture and prevent automatic avatars from overwriting it]
+Resmi koru ve otomatik avatarların üzerine yazmasını engelle
+[Make the avatar square]
+Avatar kare olsun
+[Resize the avatar to fit max allowed protocol size]
+Avatar'ı izin verilen en büyük protokol boyutuna göre ayarla
+[Contact picture]
+Kişi resmi
+[Picture options]
+Resim seçenekleri
+[Protect the picture]
+Resmi koru
+[Set as hidden]
+Gizle
+[Try to make picture background transparent]
+Resim art alanını saydam yapmayı dene
+[Use defaults]
+Varsayılanı kullan
+[Points:]
+Puanlar:
+[Color diff:]
+Renk farkı
+[Use per protocol avatars]
+Her protokolün kendi avatarını kullan
+;file \plugins\AVS\src\acc.cpp
+[Protocols have different avatars]
+Protokollerin farklı avatarları var
+;file \plugins\AVS\src\main.cpp
+[Flash Animations]
+Flash Animasyonlar
+[XML Files]
+XML Dosyaları
+[Set My Avatar]
+Avatar'ımı Ayarla
+[Set My Avatar for %s]
+%s için Avatar'ımı ayarla
+[My Avatars]
+Avatarlarım
+[My Global Avatar Cache]
+Genel Avatar Ara Belleğim
+[Contact Avatars]
+Kişi Avatarları
+[Own Avatars]
+Kendi Avatarlarım
+;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+%s için avatar seçeneklerini ayarla
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Resim dosyası diskten silinsin mi (yeniden yüklemek gerekebilir, ancak yerel resimler silinecek)?
+[Reset contact picture]
+Kişi resmini sıfırla
+[Contact has no avatar]
+Kişinin resmi yok
+[Are you sure you want to remove your avatar?]
+Avatarınızı silmek istediğinize emin misiniz?
+[Global Avatar]
+Genel Avatar

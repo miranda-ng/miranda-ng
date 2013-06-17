@@ -1,0 +1,66 @@
+﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\MSN\res\msn.rc
+[MSN]
+MSN
+[Server List Manager]
+Serveri nimekirja haldur
+[Contact is included into your server list]
+Kontakt sisaldub Sinu serveri nimekirjas
+[Allowed (active) contact]
+Lubatud (aktiivne) kontakt
+[Blocked contact]
+Blokeeritud kontakt
+[Somebody included you in his/her server list]
+Sa sisaldud tema serveri nimekirjas
+[Hotmail]
+Hotmail
+;file \protocols\MSN\src\msn_chat.cpp
+[Chat #]
+Vestlus #
+;file \protocols\MSN\src\msn_commands.cpp
+[Contact tried to open an audio conference (currently not supported)]
+Kontakt proovis avada audio-konverentsi (praegu ei toetata)
+[MSN Protocol]
+MSN protokoll
+[MSN Alert]
+MSN alarm
+[There is only 1 person left in the chat, do you want to switch back to standard message window?]
+Jäänud on ainult 1 isik jututuppa. Kas Sa soovid lülituda ümber standartsesse teateaknasse?
+[MSN Chat]
+MSN-vestlus
+[Message delivery failed]
+Teate edastus ebaõnnestus
+;file \protocols\MSN\src\msn_errors.cpp
+;file \protocols\MSN\src\msn_links.cpp
+;file \protocols\MSN\src\msn_lists.cpp
+;file \protocols\MSN\src\msn_mail.cpp
+[Subject: %s]
+Teema: %s
+;file \protocols\MSN\src\msn_menu.cpp
+[&Start Netmeeting]
+Alusta Netmeeting't
+;file \protocols\MSN\src\msn_misc.cpp
+;file \protocols\MSN\src\msn_msgqueue.cpp
+;file \protocols\MSN\src\msn_opts.cpp
+[MSN Options]
+MSN valikud
+[Automatically obtain host/port]
+Automaatselt saa host/port
+[Manually specify host/port]
+Määra käsitsi host/port
+[Server list]
+Serveri nimekiri
+;file \protocols\MSN\src\msn_p2p.cpp
+[Contact tried to send its webcam data (currently not supported)]
+Kontakt proovis saata veebikaamera andmeid (ei toetata)
+[Contact tried to view our webcam data (currently not supported)]
+Kontakt proovis vaadata meie veebikaamera andmeid (ei toetata)
+;file \protocols\MSN\src\msn_proto.cpp
+;file \protocols\MSN\src\msn_svcs.cpp
+;file \protocols\MSN\src\msn_ws.cpp

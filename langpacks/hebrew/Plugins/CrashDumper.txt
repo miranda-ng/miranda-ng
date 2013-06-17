@@ -1,0 +1,22 @@
+﻿#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
+;============================================================
+;  File: CrashDumper.dll
+;  Plugin: Crash dumper
+;  Version: 0.0.4.22
+;  Authors: borkra
+;============================================================
+;file \plugins\CrashDumper\res\crshdmp.rc
+[Upload automatically when changed]
+העלה אוטומטית כשמשתנה
+;file \plugins\CrashDumper\src\crshdmp.cpp
+[Version Information To File]
+גירסת מידע לקובץ 
+[Upload Version Information]
+העלה מידע על גירסה
+;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Crash Dumper]
+קראש דאמפר
+;file \plugins\CrashDumper\src\exhndlr.cpp
+;file \plugins\CrashDumper\src\ui.cpp
+;file \plugins\CrashDumper\src\upload.cpp
+;file \plugins\CrashDumper\src\utils.cpp

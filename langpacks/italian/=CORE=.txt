@@ -1,0 +1,526 @@
+﻿;file \src\resource.rc
+[Add %s]
+Aggiungi %s
+[Contact Display Options]
+Opzioni visualizzazione contatti
+[Miranda NG Profile Manager]
+Amministratore dei profili di Miranda NG
+[Miranda NG Profile Manager]
+Miranda NG - Gestione dei profili utente
+[&Run]
+&Esegui
+[Find/Add Contacts]
+Trova/Aggiungi contatti
+[First:]
+Nome
+[Last:]
+Cognome:
+[Add to list]
+Aggiungi alla lista
+[Please select a subentry from the list]
+Seleziona per favore una sottovoce dalla lista
+[Netlib Log Options]
+Opzioni di log di NetLib
+[Received bytes]
+Byte ricevuti
+[Sent bytes]
+Byte inviati
+[Additional data due to proxy communication]
+Dati aggiuntivi della communicazione proxy
+[Text dumps where available]
+Dump testuali dove disponibile
+[Auto-detect text]
+Auto-ricerca testo
+[Calling modules' names]
+Nomi dei moduli chiamanti
+[Log to]
+Registra in
+[Log to]
+Registra in
+[Run now]
+Esegui ora
+[Show this dialog box when Miranda NG starts]
+Mostra questa finestra all'avvio di Miranda NG
+[Save as default]
+Salva come predefinito
+[&Change...]
+&Cambia...
+[Download more sounds]
+Scarica altri suoni
+[Show category:]
+Mostra categoria:
+[Show category:]
+Mostra categoria:
+[&Load icon set...]
+&Carica set di icone...
+[&Import icons >>]
+&Importa icone >>
+[Download more icons]
+Scarica altre icone
+[All Events]
+Tutti gli eventi
+[Only the ticked contacts will be shown on the main contact list]
+Solo i contatti spuntati verranno mostrati nella lista dei contatti
+[You are visible to this person even when in invisible mode]
+Sei visibile per questa persona anche in modalità invisibile
+[You are never visible to this person]
+Non sei mai visibile per questa persona
+[Icon Index]
+Indice icone
+[Icon library:]
+Libreria icone:
+[Drag icons to main list to assign them:]
+Trascina le icone nella lista principale per assegnarle:
+[Import multiple]
+Importazione multipla
+[To main icons]
+Alle icone principali
+[<< &Import]
+<< &Importa
+[Use proxy server]
+Utilizza server proxy
+[(often %d)]
+(spesso %d)
+[Resolve hostnames through proxy]
+Recupera nomi host attraverso proxy
+[Example: 1050-1070, 2000-2010, 2500]
+Ad esempio: 1050-1070, 2000-2010, 2500
+[Please complete the following form to create a new user profile]
+Completate i campi seguenti per creare un nuovo profilo utente
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+E' possibile selezionare un differente driver per la gestione dei profili che offra un maggior numero di funzionalità. Se in dubbio, usate quello predefinito.
+[Driver]
+Driver
+[Sample]
+Esempio
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Nota: Miranda NG dovrà venire riavviato per applicare i cambiamenti.
+[&Add...]
+&Aggiungi...
+[&Reset to default]
+&Ripristina predefiniti
+[&Add to List]
+&Aggiungi alla lista
+[Send &Message]
+Invia &messaggio
+;file \src\core\stdauth\resource.rc
+[&Authorize]
+&Autorizza
+[Reason:]
+Motivo:
+;file \src\core\stdaway\resource.rc
+[Do not reply to requests for this message]
+Non rispondere alle richieste per questo messaggio
+[Do not pop up dialog asking for new message]
+Non mostrare la finestra di richiesta per un nuovo messaggio
+[By default, use the same message as last time]
+Usa lo stesso messaggio dell'ultima volta
+[By default, use this message:]
+Usa sempre questo messaggio:
+;file \src\core\stdchat\res\chat.rc
+;file \src\core\stdclist\res\resource.rc
+;file \src\core\stdfile\resource.rc
+[Send File(s)]
+Invia file
+[File(s):]
+File:
+[&Choose Again...]
+S&cegli di nuovo...
+[Total size:]
+Dimensioni totali:
+[A&ccept]
+A&ccetta
+[&Decline]
+&Rifiuta
+[Files:]
+File
+[Save to:]
+Salva in:
+[Open folder]
+Apri cartella
+[File Already Exists]
+Il file esiste già
+[Resume all]
+Riprendi tutto
+[Overwrite all]
+Sovrascrivi tutto
+[Save as...]
+Salva con nome
+[Skip]
+Ignora
+[Cancel transfer]
+Annulla trasferimento
+[You are about to receive the file]
+Stai per ricevere il file
+[Existing file]
+File esistente
+[Last modified:]
+Ultima modifica:
+[Open file]
+Apri file
+[File properties]
+Proprietà
+[File being received]
+File in ricezione
+[Receiving files]
+Ricezione file
+[Received files folder:]
+Cartella file ricevuti:
+[Auto-accept incoming files from people on my contact list]
+Accetta automaticamente file da persone sulla mia lista dei contatti
+[Minimize the file transfer window]
+Minimizza la finestra del trasferimento
+[Close window when transfer completes]
+Chiudi finestra al termine
+[Virus scanner]
+Scansione virus
+[Scan files:]
+Scansione files:
+[Never, do not use virus scanning]
+Mai, non utilizzare un antivirus
+[When all files have been downloaded]
+Quando tutti i file sono stati scaricati
+[As each file finishes downloading]
+Quando finisce lo scaricamento di ciascun file
+[Command line:]
+Linea di comando:
+[%f will be replaced by the file or folder name to be scanned]
+%f sarà sostituito dal nome del file o della cartella da controllare
+[Warn me before opening a file that has not been scanned]
+Avvisami prima di aprire un file non controllato
+[If incoming files already exist]
+Se il file in arrivo esiste già
+[Ask me]
+Chiedi
+[Rename (append " (1)", etc.)]
+Rinomina (aggiungi " (1)", ecc.)
+[You will always be asked about files from people not on your contact list]
+Ti verrà sempre richiesto cosa fare con file da persone non sulla lista contatti
+;file \src\core\stdhelp\resource.rc
+[About Miranda NG]
+Questo è Miranda NG
+;file \src\core\stdidle\resource.rc
+;file \src\core\stdmsg\res\resource.rc
+[Save the window size and location individually for each contact]
+Salva dimensioni e posizione della finestra individualmente per ogni contatto
+[Show 'Send' button]
+Mostra pulsante 'Invia'
+[Show username on top row]
+Mostra il nome utente in cima
+[Show toolbar buttons on top row]
+Mostra pulsanti barra strumenti in cima
+[Show character count]
+Mostra numero caratteri
+[Show dates]
+Mostra date
+[Update inactive message window icons when a user is typing]
+Aggiorna icone finestre messaggi inattive quando un utente sta digit.
+;file \src\core\stduihist\resource.rc
+[&Find Next]
+&Trova succ.
+[Find What:]
+Trova:
+;file \src\core\stduserinfo\resource.rc
+[%s: User Details]
+%s: Dettagli utente
+[Update Now]
+Aggiorna ora
+[Web page:]
+Pagina Web:
+[Past background:]
+Esperienze passate:
+[Interests:]
+Interessi:
+[My notes:]
+Note:
+[Spoken languages:]
+Lingue parlate:
+[Local time:]
+Ora locale:
+[Website:]
+Sito Web:
+;file \src\core\stdauth\auth.cpp
+[%s requests authorization]
+%s richiede l'autorizzazione
+;file \src\core\stdauth\authdialogs.cpp
+;file \src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdchat\src\clist.cpp
+;file \src\core\stdchat\src\colorchooser.cpp
+;file \src\core\stdchat\src\log.cpp
+;file \src\core\stdchat\src\options.cpp
+[Send message by pressing the Enter key]
+Invia messaggio premendo il tasto Invio
+[Send message by pressing the Enter key twice]
+Invia messaggio premendo il tasto Invio due volte
+[Show button for sending messages]
+Mostra il pulsante per l'invio dei messaggi
+[Show buttons for controlling the chat room]
+Visualizza i pulsanti per il controllo della chat room
+[Show buttons for formatting the text you are typing]
+Visualizza i pulsanti per la formattazione del testo
+[Show new windows cascaded]
+Visualizza le nuove finestre in cascata
+[Do not play sounds when the chat room is focused]
+Non riprodurre suoni quando la chat room è selezionata
+;file \src\core\stdchat\src\services.cpp
+;file \src\core\stdchat\src\tools.cpp
+;file \src\core\stdchat\src\window.cpp
+;file \src\core\stdclist\src\clcfonts.cpp
+;file \src\core\stdclist\src\clcopts.cpp
+;file \src\core\stdclist\src\clistopts.cpp
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdemail\email.cpp
+[User has not registered an e-mail address]
+L'utente non ha un indirizzo email registrato
+[&E-mail]
+&Email
+;file \src\core\stdfile\file.cpp
+[File from %s]
+File da %s
+[File from %s]
+File da %s
+;file \src\core\stdfile\fileexistsdlg.cpp
+;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\filerecvdlg.cpp
+[Cancelled]
+Cancellato
+;file \src\core\stdfile\filesenddlg.cpp
+[%d files]
+%d file
+[%d directories]
+%d cartelle
+;file \src\core\stdfile\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Questo file non è stato ancora controllato. Sei sicuro di volerlo aprire?
+[File Received]
+File ricevuto
+[Request sent, waiting for acceptance...]
+Richiesta inviata, attesa accettazione...
+[Waiting for connection...]
+In attesa di connessione...
+[Unable to initiate transfer.]
+Impossibile avviare il trasferimento.
+[remaining]
+rimanenti
+[Decision sent]
+Decisione inviata
+[Connected]
+Connesso
+[Initialising...]
+Inizializzazione...
+[Moving to next file...]
+Spostamento al file successivo...
+[File already exists]
+Il file esiste già
+[File transfer denied]
+Trasferimento file negato
+[File transfer failed]
+Trasferimento fallito
+[Scanning for viruses...]
+Scansione antivirus...
+[Transfer and virus scan complete]
+Trasferimento e scansione antivirus completati
+;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\help.cpp
+[&About...]
+&Informazioni su...
+[&Report Bug]
+Segnala un &bug
+;file \src\core\stdidle\idle.cpp
+;file \src\core\stdmsg\src\cmdlist.cpp
+;file \src\core\stdmsg\src\globals.cpp
+;file \src\core\stdmsg\src\msgdialog.cpp
+;file \src\core\stdmsg\src\msglog.cpp
+;file \src\core\stdmsg\src\msgoptions.cpp
+[Messaging Log]
+Scambio messaggi - Log
+;file \src\core\stdmsg\src\msgs.cpp
+;file \src\core\stdmsg\src\msgtimedout.cpp
+;file \src\core\stduihist\history.cpp
+[Outgoing Message]
+Messaggio in uscita
+[Outgoing Message]
+Messaggio in uscita
+[Incoming Message]
+Messaggio in entrata
+[Incoming Message]
+Messaggio in arrivo
+[Incoming Message]
+Messaggio in arrivo
+[Outgoing File]
+File in uscita
+[Outgoing File]
+File in uscita
+[Incoming File]
+File in entrata
+[Incoming File]
+File in arrivo
+[Incoming File]
+File in arrivo
+[Are you sure you want to delete this history item?]
+Sei sicuro di voler eliminare questo elemento dello storico?
+[Delete History]
+Elimina storico
+;file \src\core\stdurl\url.cpp
+[URL from %s]
+URL da %s
+[Web Page Address (&URL)]
+Indirizzo pagina Web (&URL)
+[Web Page Address (&URL)]
+Indirizzo Pagina Web (&URL)
+;file \src\core\stdurl\urldialogs.cpp
+;file \src\core\stduserinfo\contactinfo.cpp
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Il numero di telefono dovrebbe iniziare con un + e consistere solo di numeri, spazi, parentesi e trattini.
+[Primary]
+Primario
+[Custom %d]
+Personalizzato %d
+[Mobile]
+Cellulare
+;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduseronline\useronline.cpp
+[%s is Online]
+%s è online
+;file \src\modules\addcontact\addcontact.cpp
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clistmenus.cpp
+;file \src\modules\clist\clistmod.cpp
+;file \src\modules\clist\clistsettings.cpp
+;file \src\modules\clist\clisttray.cpp
+;file \src\modules\clist\clui.cpp
+[This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
+Questo contatto usa un protocollo che memorizza la lista dei contatti su un server centrale: verrà cancellato sia dal server che dalla tua lista dei contatti quando ti riconnetterai alla sua rete.
+[De&lete]
+E&limina
+[&Add permanently to list]
+&Aggiungi definitivamente alla lista
+;file \src\modules\clist\contacts.cpp
+[My custom name (not moveable)]
+Mio nome personalizzato (non spostabile)
+[FirstName]
+Nome
+[LastName]
+Cognome
+[FirstName LastName]
+Nome Cognome
+['(Unknown Contact)' (not moveable)]
+'(Contatto sconosciuto)' (non spostabile)
+;file \src\modules\clist\genmenu.cpp
+;file \src\modules\clist\genmenuopt.cpp
+;file \src\modules\clist\groups.cpp
+[New Group]
+Nuovo gruppo
+[You already have a group with that name. Please enter a unique name for the group.]
+Hai già un gruppo con questo nome. Inserisci per favore un nome univoco per il gruppo.
+[Rename Group]
+Rinomina gruppo
+[This group]
+Questo gruppo
+;file \src\modules\clist\keyboard.cpp
+;file \src\modules\clist\movetogroup.cpp
+;file \src\modules\database\database.cpp
+;file \src\modules\database\dbini.cpp
+[Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
+I sistemi di sicurezza per prevenire modifiche pericolose sono attivi e sarai avvisato prima di ogni cambiamento effettuato.
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+I sistemi di sicurezza per prevenire modifiche pericolose sono attivi e sarai avvisato prima di ogni modifca che è riconosciuta come non sicura.
+[Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+I sistemi di sicurezza per prevenire modifiche pericolose sono stati disattivati. Non riceverai altri avvisi.
+[This change is known to be safe.]
+Questa modifica è riconosciuta come sicura.
+[This change is known to be potentially hazardous.]
+Questa modifica è riconosciuta come potenzialmente rischiosa.
+[This change is not known to be safe.]
+Questa modifica non è riconosciuta come sicura.
+;file \src\modules\database\profilemanager.cpp
+[My Profiles]
+I miei profili
+[New Profile]
+Nuovo profilo
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
+;file \src\modules\extraicons\extraicons.cpp
+;file \src\modules\extraicons\options_ei.cpp
+;file \src\modules\findadd\findadd.cpp
+[You haven't filled in the search field. Please enter a search term and try again.]
+Non hai inserito nulla nel campo di ricerca. Inserisci un termine e riprova.
+[Results]
+Risultati
+[There are no results to display.]
+Nessun risultato da visualizzare.
+[All Networks]
+Tutte le reti
+;file \src\modules\findadd\searchresults.cpp
+[1 %s user found]
+1 utente %s trovato
+[%d %s users found]
+%d utenti %s trovati
+[%d users found (]
+%d utenti trovati (
+[No users found]
+Nessun utente trovato
+;file \src\modules\fonts\FontOptions.cpp
+[Fonts]
+Caratteri
+;file \src\modules\fonts\FontService.cpp
+;file \src\modules\icolib\skin2opts.cpp
+[Icon Sets]
+Set di icone
+;file \src\modules\ignore\ignore.cpp
+;file \src\modules\netlib\netliblog.cpp
+[No times]
+Nessun tempo
+[Standard hh:mm:ss times]
+Ora standard hh:mm:ss
+[Times in milliseconds]
+Tempo in millisecondi
+[Times in microseconds]
+Tempo in microsecondi
+;file \src\modules\netlib\netlibopts.cpp
+[<All connections>]
+<Tutte le connessioni>
+;file \src\modules\netlib\netlibssl.cpp
+;file \src\modules\options\options.cpp
+;file \src\modules\plugins\newplugins.cpp
+;file \src\modules\plugins\pluginopts.cpp
+;file \src\modules\protocols\protoopts.cpp
+;file \src\modules\skin\hotkey_opts.cpp
+;file \src\modules\skin\skinicons.cpp
+[Group (Open)]
+Gruppo (Aperto)
+[Group (Closed)]
+Gruppo (Chiuso)
+[Connecting]
+in connessione
+[Connecting]
+In connessione
+[SMS]
+SMS
+[Exit]
+Esci
+[%s Icons]
+Icone %s
+[Main Icons]
+Icone principali
+;file \src\modules\skin\sounds.cpp
+;file \src\modules\utils\bmpfilter.cpp
+[All Bitmaps]
+Tutte le immagini
+[All Bitmaps]
+Tutti i tipi di bitmap
+;file \src\modules\utils\timezones.cpp
+;file \src\modules\utils\utils.cpp
+[American Samoa]
+Samoa Americane
+[Christmas Island]
+Isole Christmas
+[Cocos (Keeling) Islands]
+Isole Cocos (Keeling)
+[Cyprus]
+Cipro
+[Norfolk Island]
+Isole Norfolk
+;file \src\modules\visibility\visibility.cpp

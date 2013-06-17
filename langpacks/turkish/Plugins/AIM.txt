@@ -1,0 +1,75 @@
+﻿#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
+;============================================================
+;  File: AIM.dll
+;  Plugin: AIM protocol
+;  Version: 0.11.0.1
+;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
+;============================================================
+;file \protocols\AimOscar\res\aim.rc
+[AIM User Details]
+AIM Kullanıcı Detayları
+[AIM Options]
+AIM Seçenekleri
+[Message Delivery Confirmation]
+İleti Aktarıldı Onayı
+[Do Not Autoreply When Away]
+Uzaktayken Kendiliğinden Yanıtlama
+[Convert Incoming Messages to BBCode]
+Gelen İletileri BBCode'a dönüştür
+[Convert Outgoing Messages to HTML]
+Giden İletileri HTML'ye dönüştür
+[Disable Avatars]
+Avatarları Kapat
+[Disable Account Type Icons]
+Hesap Tipi Simgelerini Kapat
+[Disable Extended Status Icons]
+Ek Durum Simgelerini Kapat
+[Advanced Options]
+Gelişmiş Seçenekler
+[Advanced Options]
+Gelişmiş Seçenekler
+[Instant Idle on Login]
+Girişte Boşta Ol
+[Force Proxy File Transfers]
+Vekil Dosya Aktarımını Dayat
+[Masquerade as a Sidekick/Hiptop User]
+Yadımcı Kişi Olarak Maskele
+[*Aim must be reconnected  for some option to take effect.]
+* Ayarların etkin olması için AIM'e yeniden bağlanmalısınız.
+[Save Profile]
+Profili Kaydet
+[AIM Instant Idler]
+AIM Şu An Boşta
+[Number of Hours:]
+Saat:
+[Number of Minutes:]
+Dakika:
+[Set Idle]
+Boşta Ayarla
+[Unset Idle]
+Boştayı Kaldır
+;file \protocols\AimOscar\src\avatars.cpp
+;file \protocols\AimOscar\src\chat.cpp
+;file \protocols\AimOscar\src\error.cpp
+;file \protocols\AimOscar\src\file.cpp
+;file \protocols\AimOscar\src\links.cpp
+;file \protocols\AimOscar\src\popup.cpp
+;file \protocols\AimOscar\src\proto.cpp
+;file \protocols\AimOscar\src\server.cpp
+[[Auto-Response]:]
+Kendiliğinden-Yanıt:
+[No information has been provided by the server.]
+Sunucudan hiç bilgi gelmedi.
+;file \protocols\AimOscar\src\theme.cpp
+[Manage Account]
+Hesabı Yönet
+[Instant Idle]
+Şu An Boşta
+[Read &HTML Away Message]
+&HTML Uzakta İletisini Oku
+[Read Profile]
+Profili Oku
+[Add To Server List]
+Sunucudaki Listeye Ekle
+;file \protocols\AimOscar\src\ui.cpp
+;file \protocols\AimOscar\src\utility.cpp

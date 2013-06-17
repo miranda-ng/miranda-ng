@@ -1,0 +1,99 @@
+﻿#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
+;============================================================
+;  File: SpellChecker.dll
+;  Plugin: Spell checker
+;  Version: 0.2.6.0
+;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
+;============================================================
+;file \plugins\SpellChecker\res\resource.rc
+[Replacements]
+Substituir
+[Enable auto-replacements]
+Ativar substituição automática
+[Edit...]
+Editar...
+[Edit...]
+Editar...
+[Spell Checker]
+Corretor Ortográfico
+[Spell Checker]
+Corretor Ortográfico
+[Default language:]
+Idioma padrão:
+[Auto-replace words with dictionary suggestions]
+Substituir automaticamente com sugestões do dicionário
+[Ignore words with numbers]
+Ignorar palavras com números
+[Ignore words in UPPER CASE]
+Ignorar palavrar em CAIXA ALTA
+[Ask before sending a message with spelling errors]
+Perguntar antes de enviar uma mensagem com erros
+[Download more dictionaries]
+Baixar mais dicionários
+[Underline type:]
+Escrever sublinhado:
+[Underline type:]
+Modo de sublinhar:
+[Show corrections in submenu]
+Mostrar correções no submenu
+[Show all corrections in context menu (takes more time to show)]
+Mostrar todas as correções no menu de contexto (mais lento)
+[Show wrong word]
+Mostrar palavras erradas
+[Use flags]
+Usar bandeiras
+[Use input language to select dictionary]
+Usar idioma de entrada para selecionar o dicionário
+[Use dictionaries from other programs]
+Usar dicionários de outros programas
+[Avoid removing underscores (slows down checking of long texts)]
+Evite remover subclassicação (a verificação de textos longos pode ser lenta)
+;file \plugins\SpellChecker\src\ardialog.cpp
+;file \plugins\SpellChecker\src\dictionary.cpp
+;file \plugins\SpellChecker\src\options.cpp
+[Auto-replacements]
+Substituição automática
+[Line]
+Linha
+[Dotted]
+Pontos
+[Dotted]
+Dotted
+[Dotted]
+Pontos
+[Dash]
+Traço
+[Dash dot]
+Traço ponto
+[Dash dot dot]
+Traço ponto ponto
+[Wave]
+Onda
+[Thick]
+Denso
+[Wrong word]
+Palavra errada
+[Correction]
+Correção
+;file \plugins\SpellChecker\src\spellchecker.cpp
+[Dictionaries]
+Dicionários
+[Custom Dictionaries]
+Dicionários personalizados
+[Enable/disable spell checker]
+Ativar/desativar corretor ortográfico
+;file \plugins\SpellChecker\src\utils.cpp
+[Other...]
+Outro...
+[Always replace with]
+Sempre substituir por
+[Add to dictionary]
+Adicionar ao dicionário
+[Wrong word: %s]
+Palavra errada: %s
+[Language]
+Idioma
+[Language]
+Idioma
+[Enable spell checking]
+Ativar verificação ortográfica

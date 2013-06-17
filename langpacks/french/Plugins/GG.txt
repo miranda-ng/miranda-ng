@@ -15,17 +15,27 @@ Retrouver un mot de passe
 [Friends only]
 Seulement les amis
 [Show offline users with status message as invisible in contact list]
-Voir les contacts Hors Ligne avec le motif d'invisibilité dans la liste
+Voir les contacts Hors ligne avec le motif d'invisibilité dans la liste
 [After disconnection leave away message of status:]
 Après déconnexion, se remettre dans l'état :
+[Receive image and after image is received use:]
+Receptionner les image, puis utiliser :
+[Conference policy]
+Police
 [if total participant count greater than:]
 s'y il la plus de participants que :
 [if unknown participant count greater than:]
 s'y il la plus de participants inconnus que :
+[in other case]
+dans une autre case
 [Advanced Configuration]
 Configuration avancée
 [Show connection errors]
 Voir les erreurs de connexion
+[Manually specify connection servers' hosts]
+Spécifier l'hôte du serveur de connexion
+[* new line is separator\n** hostname:port format]
+* la nouvelle ligne est séparateur \n** format hôte:port 
 [Use SSL secure connection]
 Utiliser une connexion sécurisée SSL
 [Use direct connections]
@@ -38,6 +48,8 @@ Nom de Famille :
 Ville d'origine :
 [Birth year:]
 Né en :
+[Enter token to continue]
+Entrer quelquechose pour continuer
 [Create Gadu-Gadu account]
 Créer un compte Gadu-Gadu.
 [New password:]
@@ -60,6 +72,20 @@ Agé de :
 Ouvrir un chat
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 ;file \protocols\Gadu-Gadu\src\core.cpp
+[Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
+Miranda n'a pu trouver le nom du serveur de Gadu-Gadu via son adresse numérique.
+[Received invalid server response.]
+Envoi d'une réponse inconnue du serveur.
+[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
+Vos identifiants ont été rejeté par le serveur Gadu-Gadu. Vérifier vos identifiants dans M->Options->Réseaux->Gadu-Gadu et reconnectez-vous.
+[Connecting to Gadu-Gadu hub failed.]
+Échec de connexion au hub Gadu-Gadu.
+[Cannot establish secure connection.]
+Impossible d'établir une connexion sécurisée.
+[Server disconnected asking you for changing your e-mail.]
+Le serveur déconnecté demande à ce que vous changiez d'e-mail.
+[Too many login attempts with invalid password.]
+Trop de tentative de connexion avec mot de passe erroné
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Nom d'Hôte du serveur %s invalide. Utilisez celui par défaut par le réseau.
 [List import successful.]
@@ -74,11 +100,21 @@ Liste exportée avec succès.
 [You need to specify your registration e-mail first.]
 Vous devez spécifier votre e-mail primaire d'enregistrement
 [Your password will be sent to your registration e-mail.\nDo you want to continue ?]
-Votre mot de passe sera envoyé dans votre mail d'enregistrement.\nVoulez-vous continuer ?
+Votre mot de passe sera envoyé dans votre e-mail d'enregistrement.\nVoulez-vous continuer ?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
 Vous devez vous déconnecter avant de perdre définitivement les modifications de votre compte.\nVoulez-vous vous déconnecter maintenant ?
+[Allow]
+Autoriser
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 ;file \protocols\Gadu-Gadu\src\gg.cpp
+[HTTP failed memory]
+Erreur HTTP : mémoire
+[HTTP failed connecting]
+Erreur HTTP : connexion
+[HTTP failed reading]
+Erreur HTTP : lecture
+[HTTP failed writing]
+Erreur HTTP : écriture
 [Unknown HTTP error]
 Erreur HTTP inconnue
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
@@ -104,24 +140,42 @@ Toutes les conférences ignorées sont maintenant désignorées et la politique 
 [There are no ignored conferences.]
 Il n'y a pas de conférence ignorée.
 ;file \protocols\Gadu-Gadu\src\icolib.cpp
+[Import list from server]
+Importer la liste du serveur
+[Import list from text file]
+Importer la liste depuis un fichier texte
+[Remove list from server]
+Effacer la liste du serveur
+[Export list to server]
+Exporter la liste vers le serveur
+[Export list to text file]
+Exporter la liste dans un fichier texte
+[Account settings]
+Réglages du compte
+[Previous image]
+Image précédente
+[Next image]
+Image suivante
+[Save image]
+Sauver l'image
+[Delete image]
+Effacer l'image
 ;file \protocols\Gadu-Gadu\src\image.cpp
-[&Image]
-&Image
 [Image cannot be written to disk.]
-L'image n'a pu être copié sur le disque.
+L'image n'a pu être copiée sur le disque.
 [Image from %s]
-Image from %s
+Image de %s
 [Image for %s]
-Image for %s
+Image pour %s
 [Select picture to send]
 Sélectionnez l'image à envoyer
+[Image exceeds maximum allowed size of 255 KB.]
+L'image excède la restriction des 255 kb.
 ;file \protocols\Gadu-Gadu\src\import.cpp
 [You have to be connected before you can import/export contacts from/to server.]
 Vous devez vous connecter afin d'importer/exporter vos contact sur le serveur.
 [Text files]
 Fichiers Texte
-[contacts]
-contacts
 [Import List From &Server]
 Importer depuis un &Serveur
 [Import List From &Text File...]
@@ -135,11 +189,13 @@ Exporter la liste vers un fichier &Texte
 ;file \protocols\Gadu-Gadu\src\links.cpp
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password was sent to your e-mail.]
-Votre mot de passe a été envoyé par mail.
+Votre mot de passe a été envoyé par e-mail.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
 ;file \protocols\Gadu-Gadu\src\services.cpp
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 ;file \protocols\Gadu-Gadu\src\token.cpp
+[Token retrieval failed because of error:\n\t%s]
+Une récupération a échoué. Erreur :\n\t%s
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 Enregistrement du nouveau compte impossible Erreur :\n\t%s
@@ -160,6 +216,6 @@ Votre mot de passe a bien été changé.
 [Your e-mail cannot be changed because of error:\n\t%s]
 Votre e-mail n'a pu être changé. Erreur :\n\t%s
 [Bad old e-mail or password]
-Ancien mail ou mot de passe erroné
+Ancien e-mail ou mot de passe erroné
 [Your e-mail has been changed.]
 Votre e-mail a bien été changé.

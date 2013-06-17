@@ -6,6 +6,14 @@
 ;  Authors: nullbie, Thief
 ;============================================================
 ;file \plugins\SplashScreen\res\splash.rc
+[Splash Options]
+Options de Splash
+[Display time:]
+Durée d'affichage
+[msec]
+ms
+[Preview...]
+Aperçu...
 ;file \plugins\SplashScreen\src\main.cpp
 ;file \plugins\SplashScreen\src\options.cpp
 ;file \plugins\SplashScreen\src\services.cpp

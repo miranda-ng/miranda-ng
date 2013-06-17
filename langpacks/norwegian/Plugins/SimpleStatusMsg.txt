@@ -1,0 +1,51 @@
+﻿#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+;============================================================
+;  File: SimpleStatusMsg.dll
+;  Plugin: Simple status message
+;  Version: 1.9.0.4
+;  Authors: Bartosz 'Dezeath' Biaіek, Harven
+;============================================================
+;file \plugins\SimpleStatusMsg\res\resource.rc
+[Max length:]
+Maks lengde:
+[Pop up dialog box]
+Popp opp dialogbox
+[Do not set status message]
+Ikke sett statusmelding
+[Pop up dialog asking for new message]
+Popp opp dialogspørsmål for ny melding
+[Set an empty message]
+Sett en tom melding
+[Use default message]
+Bruk standardmelding
+[Use last message]
+Bruk siste melding
+[Use last message set for this status]
+Bruk forrige melding for denne status
+[Put default message in message list]
+Sett standardmelding fra meldingslisten
+[Show status list]
+Vis statusliste
+[Show icons in status list]
+Vis ikoner i statusliste
+[Buttons:]
+Knapper:
+[Show icons in message list]
+Vis ikoner i meldingsliste
+[Store up to]
+Lagre opp til
+[Automatically close dialog window after]
+Automatisk lukk dialogvindu etter
+[Clear Predefined]
+Tøm Forh.def.
+;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[Re&ad Away Message]
+Le&s Bortemelding
+;file \plugins\SimpleStatusMsg\src\main.cpp
+;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+;file \plugins\SimpleStatusMsg\src\options.cpp
+[Flat, next to cancel button]
+Flat, vedsiden av avbr. knapp
+[Show in message list]
+Vis i meldingslisten
+;file \plugins\SimpleStatusMsg\src\utils.cpp

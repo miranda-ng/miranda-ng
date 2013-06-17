@@ -6,4 +6,6 @@
 ;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
 ;============================================================
 ;file \plugins\Boltun\res\Boltun.rc
+[Reload]
+Recharger
 ;file \plugins\Boltun\src\boltun.h

@@ -1,0 +1,72 @@
+﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\JabberG\res\jabber.rc
+[JID List]
+JID Liste
+[Jabber Agent Registration]
+Jabber Agentregistrering
+[Register]
+Registrer
+[Privacy Lists]
+Privatlister
+[Service Discovery]
+Tjeneste Oppdagelse
+;file \protocols\JabberG\src\jabber.cpp
+;file \protocols\JabberG\src\jabber.h
+;file \protocols\JabberG\src\jabber_adhoc.cpp
+;file \protocols\JabberG\src\jabber_agent.cpp
+[No message]
+Ingen melding
+;file \protocols\JabberG\src\jabber_bookmarks.cpp
+;file \protocols\JabberG\src\jabber_byte.cpp
+;file \protocols\JabberG\src\jabber_caps.cpp
+;file \protocols\JabberG\src\jabber_captcha.cpp
+;file \protocols\JabberG\src\jabber_chat.cpp
+[&User details]
+&Brukerdetaljer
+;file \protocols\JabberG\src\jabber_console.cpp
+;file \protocols\JabberG\src\jabber_disco.cpp
+[Add to roster]
+Legg til på tavle
+;file \protocols\JabberG\src\jabber_disco.h
+;file \protocols\JabberG\src\jabber_form2.cpp
+;file \protocols\JabberG\src\jabber_groupchat.cpp
+;file \protocols\JabberG\src\jabber_icolib.cpp
+[Personal vCard]
+Personlig vCard
+[Login/logout]
+Logg inn/logg ut
+;file \protocols\JabberG\src\jabber_iqid.cpp
+[Jabber Authentication]
+Jabber Autentisering
+[Registration successful]
+Registrering vellykket
+;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+;file \protocols\JabberG\src\jabber_menu.cpp
+[Add to Bookmarks]
+Legg til Bokmerker
+;file \protocols\JabberG\src\jabber_message_handlers.cpp
+;file \protocols\JabberG\src\jabber_misc.cpp
+;file \protocols\JabberG\src\jabber_notes.cpp
+;file \protocols\JabberG\src\jabber_opt.cpp
+;file \protocols\JabberG\src\jabber_password.cpp
+;file \protocols\JabberG\src\jabber_privacy.cpp
+;file \protocols\JabberG\src\jabber_proto.cpp
+;file \protocols\JabberG\src\jabber_rc.cpp
+;file \protocols\JabberG\src\jabber_search.cpp
+;file \protocols\JabberG\src\jabber_svc.cpp
+;file \protocols\JabberG\src\jabber_thread.cpp
+;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Photo]
+Foto
+;file \protocols\JabberG\src\jabber_util.cpp
+;file \protocols\JabberG\src\jabber_vcard.cpp
+;file \protocols\JabberG\src\jabber_ws.cpp
+;file \protocols\JabberG\src\jabber_xstatus.cpp
+;file \protocols\JabberG\src\ui_utils.cpp

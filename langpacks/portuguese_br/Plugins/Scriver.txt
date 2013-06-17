@@ -1,0 +1,95 @@
+﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
+;  File: Scriver.dll
+;  Plugin: Scriver
+;  Version: 2.10.0.2
+;  Authors: Miranda NG Development Team
+;============================================================
+;file \plugins\Scriver\res\resource.rc
+[Automatically pop up the window when]
+Automaticamente abrir a janela popup quando
+[and stay minimized]
+e fique minimizado
+[Save size and location for each contact]
+Guardar tamanho e localização para cada contato
+[Tabs at bottom]
+Abas na parte inferior
+[Limit names on tabs to]
+Limite de nomes nas guias para
+[Enable IEView]
+Habilitar IEView
+[Mark follow-up msgs with timestamp]
+Marcar seguimento msgs com hora e data
+[Start message text on a new line]
+Iniciar o texto da mensagem em uma nova linha
+[Indent text]
+Recuo de texto
+[Typing Notification Options]
+Escrevendo Opções de Notificação
+[Show typing notification switch in the status bar]
+Mostrar Alternar notificação de digitação na barra de status
+[Update message window icons when a user is typing]
+Atualizar mensagem da janela de ícones quando um usuário está digitando
+[&E]
+&E
+[&Q]
+&Q
+[Send To All Tabs]
+Enviar A Todas as Abas
+[You are about to send a message to all open tabs.\nAre you sure ?]
+Você está prestes a enviar uma mensagem para todos as abas abertas.\nTem certeza?
+[Remember my choice for this container]
+Lembrar minha escolha para o recipiente
+;file \plugins\Scriver\src\globals.cpp
+[User's details]
+Detalhes do Usuário
+[User's history]
+Histórico do usuário
+[User is typing]
+Usuário está digitando
+[Typing notification off]
+Digitando notificação desativado
+[Unicode is on]
+Unicode está ligado
+[Unicode is off]
+Unicode está desligado
+[Sending]
+Enviando
+[Quote button]
+Botão de Citação
+[Close button]
+Botão Fechar
+;file \plugins\Scriver\src\input.cpp
+;file \plugins\Scriver\src\msgdialog.cpp
+[Quote Text]
+Citar Texto
+[User Menu - %s]
+Menu do Usuário - %s
+[Sending in progress: %d message(s) left...]
+Enviando em andamento: a mensagen(s) %d à esquerda ...
+;file \plugins\Scriver\src\msglog.cpp
+;file \plugins\Scriver\src\msgoptions.cpp
+[Message background]
+Mensagem de fundo
+[User list members (online)]
+Membros da lista de usuários (online)
+[User list background]
+Fundo da lista de usuários
+[User list lines]
+Linhas da lista de usuário
+[User list background (selected)]
+Fundo da lista de usuário (selecionada)
+;file \plugins\Scriver\src\msgs.cpp
+;file \plugins\Scriver\src\msgtimedout.cpp
+;file \plugins\Scriver\src\msgwindow.cpp
+[Always On Top]
+Sempre No Topo
+;file \plugins\Scriver\src\sendqueue.cpp
+;file \plugins\Scriver\src\chat\clist.cpp
+;file \plugins\Scriver\src\chat\colorchooser.cpp
+;file \plugins\Scriver\src\chat\log.cpp
+;file \plugins\Scriver\src\chat\main.cpp
+;file \plugins\Scriver\src\chat\options.cpp
+;file \plugins\Scriver\src\chat\services.cpp
+;file \plugins\Scriver\src\chat\tools.cpp
+;file \plugins\Scriver\src\chat\window.cpp

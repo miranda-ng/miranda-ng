@@ -7,9 +7,15 @@
 ;============================================================
 ;file \plugins\Variables\res\Variables.rc
 ;file \plugins\Variables\src\help.cpp
+[Input]
+Entrée
+[Variables Help]
+Aide Variables
 ;file \plugins\Variables\src\options.cpp
 ;file \plugins\Variables\src\parse_alias.cpp
 ;file \plugins\Variables\src\parse_external.cpp
+[Stopped]
+Arrêté
 ;file \plugins\Variables\src\parse_inet.cpp
 ;file \plugins\Variables\src\parse_logic.cpp
 ;file \plugins\Variables\src\parse_math.cpp

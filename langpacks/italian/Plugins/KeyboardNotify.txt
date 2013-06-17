@@ -1,0 +1,24 @@
+﻿#muuid {119d7288-2050-448d-9900-d86ac70426bf}
+;============================================================
+;  File: KeyboardNotify.dll
+;  Plugin: Keyboard notify ext.
+;  Version: 1.5.7.7
+;  Authors: TioDuke
+;============================================================
+;file \plugins\KeyboardNotify\res\resources.rc
+[Incoming files]
+File in entrata
+[Incoming URLs]
+URL in entrata
+[Only notify if status is]
+Notifica solo quando sono
+[Slow]
+Lento
+[Ignore messages]
+Ignora messaggi
+[Ignore URLs]
+Ignora URL
+[Ignore files]
+Ignora file
+;file \plugins\KeyboardNotify\src\ignore.cpp
+;file \plugins\KeyboardNotify\src\options.cpp

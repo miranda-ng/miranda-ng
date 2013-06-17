@@ -1,0 +1,52 @@
+﻿#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
+;============================================================
+;  File: Clist_mw.dll
+;  Plugin: MultiWindow contact list
+;  Version: 0.9.0.0
+;  Authors: 
+;============================================================
+;file \plugins\Clist_mw\res\resource.rc
+[MenuObjects]
+MenuNesneleri
+[MenuItems]
+MenüÖgeleri
+[InsertSeparator]
+AyıraçEkle
+[Rows]
+Satırlar
+[MetaContacts supporting]
+MetaKişiler destekleniyor
+[Show size grip]
+boyut kavraması kullan
+[Show bevel effect on panels]
+Panellerde yuvarlatma etkisi kullan
+[Use connecting Icon]
+Bağlanıyor simgesini kullan
+[Use New Drawer for StatusBar]
+Drum Çubuğu için yeni çizimi kullan
+;file \plugins\Clist_mw\src\BkgrCfg.cpp
+[Backgrounds]
+Art alanlar
+;file \plugins\Clist_mw\src\clcfonts.cpp
+[Status messages]
+Durum iletileri
+[Group Closed]
+Grup Kapatıldı
+[Hover Contacts]
+Kişilerin Üzerine
+;file \plugins\Clist_mw\src\clcopts.cpp
+[List MetaContacts]
+KişiVerisini Listele
+[StatusBar Background]
+Durum Çubuğu Art Alanı
+;file \plugins\Clist_mw\src\clistopts.cpp
+;file \plugins\Clist_mw\src\clistsettings.cpp
+[_NoProtocol_]
+_ProtokolYok_
+;file \plugins\Clist_mw\src\clisttray.cpp
+;file \plugins\Clist_mw\src\clui.cpp
+;file \plugins\Clist_mw\src\cluiopts.cpp
+;file \plugins\Clist_mw\src\groupmenu.cpp
+;file \plugins\Clist_mw\src\keyboard.cpp
+;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

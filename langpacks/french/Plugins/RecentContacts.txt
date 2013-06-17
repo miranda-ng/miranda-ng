@@ -8,4 +8,6 @@
 ;file \plugins\RecentContacts\res\resource.rc
 ;file \plugins\RecentContacts\src\options.cpp
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
+[Ignore Contact]
+Ignorer ce contact
 ;file \plugins\RecentContacts\src\RecentContacts.h

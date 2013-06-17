@@ -7,7 +7,3 @@
 ;============================================================
 ;file \plugins\ModernOpt\res\resource.rc
 ;file \plugins\ModernOpt\src\modernopt.cpp
-[Style]
-Style
-[Chats]
-Chats

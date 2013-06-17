@@ -1,0 +1,43 @@
+﻿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.11.0.1
+;  Authors: Nightwish, Pescuma
+;============================================================
+;file \plugins\AVS\res\avs.rc
+[Num of points to define bkg:]
+Aantal punten voor agk:
+[Color difference allowed:]
+Kleurverschil toegestaan:
+[Make transparency proportional to color diff]
+Doorzichtigheid is proportioneel aan kleurverschil
+[Protect the picture and prevent automatic avatars from overwriting it]
+Bescherm de afbeelding om te voorkomen dat automatische avatars het overschrijven
+[Contact picture]
+Afbeelding persoon
+[Picture options]
+Afbeelding opties
+[Protect the picture]
+Bescherm de afbeelding
+[Set as hidden]
+Als verborgen instellen
+[Try to make picture background transparent]
+Achtergrond van afbeelding doorzichtig maken
+[Use defaults]
+Gebruik standaard
+[Points:]
+Punten:
+[Color diff:]
+Kleur verschil:
+;file \plugins\AVS\src\acc.cpp
+;file \plugins\AVS\src\main.cpp
+;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+Avatar opties voor %s instellen
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Afbeeldingbestand van de harde schrijf verwijderen (kan nodig zijn om een herlaad te forceren, maar zal lokale afbeeldingen verwijderen)?
+[Reset contact picture]
+Afbeelding persoon terugzetten
+[Contact has no avatar]
+Persoon heeft geen avatar

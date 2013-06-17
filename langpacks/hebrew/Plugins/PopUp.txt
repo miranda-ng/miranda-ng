@@ -1,0 +1,172 @@
+﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
+;============================================================
+;  File: Popup.dll
+;  Plugin: Popup plus
+;  Version: 2.1.1.7
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+;file \plugins\Popup\res\resource.rc
+[Live Preview]
+הראה לפני לייב
+[Size && Position]
+גודל && מיקום
+[Enable popup history]
+אפשר היסטוריית פופאפ
+[Store last]
+אחסן אחרון
+[Use History++ to render log]
+השתמש בהיסטוריה ++ בלוג
+[Draw avatar borders]
+צייר גבולות אוואטר
+[Draw borders for semitransparent avatars too]
+צייר גבולות גם בשביל אוואטרים חצי שקופים
+[Enable avatar updates]
+אפשר עדכוני אוואטרים
+[Start the popups in the monitor with]
+התחל את הפופאפים במוניטור עם
+[Miranda's window]
+חלון מירנדה
+[the active window]
+חלון פעיל
+[Opaque popups under cursor]
+עמעם פופאפ תחת מצביע עכבר
+[Limit window amount to:]
+הגבל כמות חלונות ל:
+[* - built-in skins]
+* - בנוי-בפנים סקין
+[Popup Area]
+איזור פופאפ
+[Enable popup actions]
+אפשר פעולות פופאפ
+[Popup Actions are those tiny buttons below notification text.]
+פעולות פופאפ הם הכפתורים הקטנים מתחת הודעות הטקסט.
+[Common Actions]
+פעולות נפוצות
+[Please choose in what cases default actions should be added:]
+בבקשה בחר באיזה מקרים פעולות ברירת מחדל יתווספו:
+[Add info && menu for IM contacts only]
+ הוסף מידע && תפריט תוכן בלבד 
+[Add default actions for contacts only]
+ פעולות מחדל בשביל תוכן בלבד
+[Don't close popups on default actions]
+אל תסגור פופאפים בפעולות ברירת מחדל
+[Use large icons]
+השתמש באייקונים גדולים
+[Popup actions will be displayed as:]
+פעולות פופאפים יוצגו כ:
+[Icons and labels below text]
+אייקונים ותוויות מתחת לטקסט
+[Icons on the left]
+אייקונים בשמאל
+[Icons aligned to the right]
+אייקונים שמסודרים לימין
+[Show Actions: (requires apply)]
+הראה פעולות: דורש אישור
+[Enable this notification]
+אפשר הודעה זאת
+[Left click action:]
+פעולות בשמאל:
+[Right click action:]
+פעולות מקש ימני:
+[Disable when global status is...]
+בטל כאשר מצב גלובלי הוא...
+[Disable when relevant protocol's status is...]
+בטל כאשר מצב פרוטוקול רלוונטי הוא...
+[Show always]
+הראה תמיד
+[Ignore fullscreen]
+לא במסך מלא
+[Never show]
+אל תראה
+[Show default]
+הראה ברירת מחדל
+[Infinite popup delay]
+השהיית פופאפ אינסופית
+[Popup delay:]
+השהיית פופאפ
+[Do not close hovered popups]
+אל תסגור פופאפים מרחפים
+[Dynamically resize the popups]
+הגדל פופאפים באופן דינמי
+[Minimum width]
+רווח מינימלי
+[Maximum width]
+רווח מקסימלי
+[Layout:]
+סידור:
+[Reorder Popups]
+סדר מחדש פופאפים
+[Disable when:]
+:בטל כאשר
+[Always (has priority)]
+תמיד-עדיפות גבוה
+;file \plugins\Popup\src\actions.cpp
+[User details]
+פרטי משתמש
+[Pin popup]
+נעץ פואפ
+;file \plugins\Popup\src\config.cpp
+;file \plugins\Popup\src\effects.cpp
+;file \plugins\Popup\src\font.cpp
+;file \plugins\Popup\src\history.cpp
+;file \plugins\Popup\src\icons.cpp
+[With "favourite" overlay]
+עם "מועדף" כיסוי
+[With "fullscreen" overlay]
+עם "מסך מלא" פרישת
+[Refresh skin list]
+רענן רשימת סקין
+[Popup Placement]
+ מיקום פופאפ
+[Popup Group]
+קבוצת פואפ
+[Favorite Contact]
+תוכן מועדף
+[Show in Fullscreen]
+הראה במסך מלא
+[Blocked Contact]
+תוכן חסום
+[Quick Reply]
+תגובה מהירה
+[Pin Popup]
+נעץ פופאפ
+[Pinned Popup]
+פופאפ מקובע
+;file \plugins\Popup\src\main.cpp
+[Popup Plus]
+פופאפ פלוס
+;file \plugins\Popup\src\opt_adv.cpp
+;file \plugins\Popup\src\opt_class.cpp
+;file \plugins\Popup\src\opt_gen.cpp
+[upper left corner]
+פינה שמאלית עליונה
+[lower left corner]
+פינה שמאלית תחתונה
+[lower right corner]
+פינה ימנית תחתונה
+[upper right corner]
+פינה ימנית עליונה
+[vertical]
+אנכי
+[Global Status]
+מצב גלובלי
+[Protocol Status]
+מצב פרוטוקול
+;file \plugins\Popup\src\opt_skins.cpp
+[Just take a look at this skin... ;)]
+פשוט תעיף מבט בסקין הזה... ;)
+[Enable Aero Glass (Vista+)]
+אפשר מראה אירו (Vista+)
+[Use advanced text render]
+השתמש ברינדור טקסט מתקדם
+;file \plugins\Popup\src\popup_thread.cpp
+;file \plugins\Popup\src\popup_wnd2.cpp
+;file \plugins\Popup\src\services.cpp
+;file \plugins\Popup\src\skin.cpp
+;file \plugins\Popup\src\srmm_menu.cpp
+[Popup Mode: Auto]
+ מצב פופאפ: אוטו'
+[Popup Mode: Ignore fullscreen]
+מצב פופאפ: התעלם ממסך מלא
+[Popup Mode: Block contact]
+מצב פופאפ: חסום תוכן

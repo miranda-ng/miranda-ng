@@ -1,0 +1,116 @@
+﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\MSN\res\msn.rc
+[MSN]
+MSN
+[Send message font color/size info inside messages]
+Send informasjon om meldingers font farge/størrelse i meldingene
+[Disable all contacts not included into my contact list]
+Deaktiver alle kontakter som ikke er inkludert i min kontaktliste.
+[Manage server groups]
+Behandle servergrupper
+[Run the following application when new Hotmail arrives]
+Kjør følgende program når det kommer ny Hotmail
+[Allow people on my contact list send messages to mobile device]
+Tillat mine kontakter å sende meldinger til min mobile enhet
+[Server List Manager]
+Serverlistebehandling
+[Contact is included into your server list]
+Kontakten er inkludert på din serverliste
+[Allowed (active) contact]
+Tillatt (aktiv) kontakt
+[Blocked contact]
+Blokkert kontakt
+[Somebody included you in his/her server list]
+Noen la deg til på sin serverliste
+[Hotmail]
+Hotmail
+[Enable 'Chat Session Established' popup]
+Aktiver 'Samtaleøkt opprettet' popup
+[Enable 'Contact left channel' popup]
+Aktiver 'Kontakten forlot kanalen' popup
+;file \protocols\MSN\src\msn_chat.cpp
+[Chat #]
+Samtale #
+;file \protocols\MSN\src\msn_commands.cpp
+[Contact tried to open an audio conference (currently not supported)]
+Kontakten forsøkte å åpne en lydkonferanse (ikke støttet for øyeblikket)
+[MSN Protocol]
+MSN Protokoll
+[MSN Alert]
+MSN Varsling
+[Chat session established by my request]
+Samtaleøkt etablert etter mitt eget ønske
+[Chat session established by contact request]
+Samtaleøkt etablert etter forespørsel fra kontakten
+[Contact left channel]
+Kontakten forlot kanalen
+[This conversation has been inactive, participants will be removed.]
+Denne samtalen har blitt merket som inaktiv, deltakere vil bli fjernet.
+[To resume the conversation, please quit this session and start a new chat session.]
+For å gjenoppta denne samtalen, vennligst avslutt denne og start en ny.
+[There is only 1 person left in the chat, do you want to switch back to standard message window?]
+Det er kun 1 person igjen i samtalen, ønsker du å bytte tilbake til standard meldingsvindu?
+[MSN Chat]
+MSN Chat
+[Message delivery failed]
+Meldingslevering mislykket
+;file \protocols\MSN\src\msn_errors.cpp
+[User not online]
+Bruker er ikke pålogget
+;file \protocols\MSN\src\msn_links.cpp
+;file \protocols\MSN\src\msn_lists.cpp
+;file \protocols\MSN\src\msn_mail.cpp
+[Subject: %s]
+Emne: %s
+[Hotmail from %s (%S)]
+Hotmail fra %s (%S)
+[Hotmail from %s]
+Hotmail fra %s
+;file \protocols\MSN\src\msn_menu.cpp
+[You must be talking to start Netmeeting]
+Du må snakke for å starte Nettmøte
+[&Start Netmeeting]
+&Start Nettmøte
+;file \protocols\MSN\src\msn_misc.cpp
+;file \protocols\MSN\src\msn_msgqueue.cpp
+;file \protocols\MSN\src\msn_opts.cpp
+[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
+Servergruppeimportering kan forandre kontaktliste layouten din etter din neste pålogging. Ønsker du å laste opp gruppene dine til serveren?
+[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+Forandringene du har gjort krever at du må koble til MSN nettverket på nytt før de vil bli aktivert.
+[MSN Options]
+MSN Valg
+[Automatically obtain host/port]
+Finn vertsadresse/port automatisk
+[Manually specify host/port]
+Manuelt spesifiser vertsadresse/port
+[IP info available only after login]
+IP informasjon bare tilgjengelig etter pålogging
+[Server list]
+Serverliste
+;file \protocols\MSN\src\msn_p2p.cpp
+[Contact tried to send its webcam data (currently not supported)]
+Kontakten forsøkte å sende webcam data.(ikke støttet for øyeblikket)
+[Contact tried to view our webcam data (currently not supported)]
+Kontakten forsøkte å se din webcam data (ikke støttet for øyeblikket)
+;file \protocols\MSN\src\msn_proto.cpp
+[Live Mail]
+Live E-post
+[Live Alert]
+Live Varsling
+[You cannot send message to yourself]
+Du kan ikke sende meldinger til deg selv
+[Message is too long: SMS page limited to 133 UTF8 chars]
+Meldingen er for lang: SMS meldinger er begrenset til 133 UTF8 tegn.
+[Message is too long: MSN messages are limited by 1202 UTF8 chars]
+Meldingen er for lang: MSN meldinger er begrenset til 1202 UTF8 tegn.
+;file \protocols\MSN\src\msn_svcs.cpp
+;file \protocols\MSN\src\msn_ws.cpp
+[Chat session dropped due to inactivity]
+Samtaleøkt avsluttet pga inaktivitet

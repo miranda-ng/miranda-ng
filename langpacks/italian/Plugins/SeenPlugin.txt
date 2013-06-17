@@ -1,0 +1,119 @@
+﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last seen
+;  Version: 5.0.4.8
+;  Authors: Heiko Schillinger, YB
+;============================================================
+;file \plugins\SeenPlugin\res\resource.rc
+[Last seen options]
+Opzioni di 'Ultimo Avvistamento'
+[Last seen menuitem]
+Crea un oggetto nel menu
+[Show icon]
+Mostra icona
+[Userinfo tab]
+Metti una pagina nei dettagli dell'utente
+[Log to history]
+Scrivi nello storico
+[Maximum size]
+Dimensione max
+[Variable list]
+Lista variabili
+[Ignore contacts going offline]
+Ignora i contatti che vanno Offline
+[Enable 'Missed Ones' feature]
+Attiva il "Ti sei perso..."
+[Count times]
+Conta le volte
+[Protocols to watch:]
+Protocolli da analizzare:
+[You missed following contacts:]
+Hai perso i seguenti contatti:
+[Alert when user status changes]
+Allerta quando lo stato dell'utente cambia
+;file \plugins\SeenPlugin\src\history.cpp
+[last seen history]
+storico ultimo avvistamento
+[Send Instant Message]
+Invia messaggio
+;file \plugins\SeenPlugin\src\main.cpp
+[Last seen]
+Ultimo Avvistamento
+;file \plugins\SeenPlugin\src\menu.cpp
+;file \plugins\SeenPlugin\src\options.cpp
+;file \plugins\SeenPlugin\src\seen.h
+[-- Date --]
+-- Data --
+[year (4 digits)]
+anno (4 caratteri)
+[year (2 digits)]
+anno (2 caratteri)
+[month]
+mese
+[name of month]
+nome del mese
+[short name of month]
+abbreviazione del mese
+[day]
+giorno
+[day]
+giorno
+[day]
+giorno
+[weekday (full)]
+gg. settimana (intero)
+[weekday (abbreviated)]
+gg. settimana (breve)
+[-- Time --]
+-- Ora --
+[hours (24)]
+ore(24)
+[hours (12)]
+ore(12)
+[-- User --]
+-- Utente --
+[username]
+nome
+[UIN/handle]
+UIN
+[external IP]
+IP esterno
+[internal IP]
+IP interno
+[-- Format --]
+-- Formato --
+[tabulator]
+tabulazione
+[line break]
+a capo
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp
+[Sun.]
+Dom.
+[Mon.]
+Lun.
+[Tue.]
+Mar.
+[Wed.]
+Mer.
+[Thu.]
+Gio.
+[Fri.]
+Ven.
+[Sat.]
+Sab.
+[Jan.]
+Gen.
+[Jun.]
+Giu.
+[Jul.]
+Lug.
+[Aug.]
+Ago.
+[Sep.]
+Set.
+[Oct.]
+Ott.
+[Dec.]
+Dic.

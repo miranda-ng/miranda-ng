@@ -1,0 +1,24 @@
+﻿#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
+;============================================================
+;  File: TopToolbar.dll
+;  Plugin: TopToolBar
+;  Version: 0.8.0.3
+;  Authors: Bethoven
+;============================================================
+;file \plugins\TopToolBar\res\main.rc
+[Buttons Order && Visibility]
+סדר כפתורים && ראות
+[Button width]
+רוחב כפתור
+[Buttons order:]
+סדר כפתורים:
+[Add Separator]
+הוסף מפריד
+[Add Launch]
+הוסף כפתור
+[Name: ]
+שם:
+;file \plugins\TopToolBar\src\toolbar.cpp
+[TopToolBar]
+סרגל כלים
+;file \plugins\TopToolBar\src\ttbopt.cpp

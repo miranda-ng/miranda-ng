@@ -6,30 +6,292 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 ;file \plugins\UserInfoEx\res\resource.rc
+[Edit Contact Information]
+Éditer les détails d'un Contact
+[Origin]
+Origine
+[&Update]
+&Mettre à jour
+[Second name:]
+Second prénom :
+[Partner:]
+Concubin :
+[Language skills]
+Langues parlées
+[County/State:]
+Pays/État :
+[Contact added to ContactList:]
+Contact ajouté :
+[Your contact's local time is:]
+Heure locale de votre contact :
+[Office:]
+Bureau :
+[Superior:]
+Supérieur :
+[Assistant:]
+Assistant :
+[Enter a category for this number:]
+Entrer une catégorie pour ce numéro :
+[Add E-Mail]
+Ajouter un e-mail
+[Enter a representitive name for the e-mail address here.]
+Indiquez ici un nom représentatif pour l'e-amail.
+[Enter the e-mail address here.]
+Entrez l'adresse e-mail ici.
+[Show menu items]
+Afficher le menu
+[Remind me]
+Me prévenir
+[days before.]
+jours avant.
+[Icon flashing on event]
+Faire clignoter l'icône
+[Perform check on each startup]
+Lancer la vérification à chaque démarrage
+[Time of last check:]
+Dernière vérif :
+[Birthday compatibility mode:]
+Compatibilité des anniversaires :
+[Use ignore list]
+Utiliser la liste des ignorés
+[Birthday popup colours]
+Popups des anniversaires
+[Show reminder messages as popups (if reminder is enabled)]
+Montrer les messages de rappel dans des popups (si rappel activé)
+[Anniversary popup colours]
+Couleurs des popup d'anniversaire
+[Add Affiliation]
+Ajouter organisation
+[Add Past]
+Ajouter un Passé
+[Add Interest]
+Ajouter un intérêt
+[Enter a name for the anniversary here please:]
+veuillez indiquer un nom d'anniversaire :
+[Anniversary list]
+Liste des anniv.
+[Statistics:]
+Statistiques :
+[female:]
+femme :
+[male:]
+homme :
+[number of contacts:]
+nombre de contacts :
+[average age:]
+moyenne d'age :
+[Show &during the next]
+Afficher &le(s) prochain(s)
+[day(s)]
+jour(s)
+[Check file version of default IconPack to prevent wrong icon display]
+Vérifier la version du Pack d'icône pour éviter tout défaut d'affichage
+[Display icons on each dialog button]
+Afficher des icônes sur chaque boite de dialogue
+[Scan SubContacts for missing information]
+Scanner les sous contacts pour les informations manquantes
+[Use Windows Timezone]
+Fuseau horaire de Windows
+[(*) Requires Miranda to be restarted.]
+(*) Requiert un redémarrage de Miranda.
+[Reset factory defaults]
+Restaurer les paramètres
+[Protocol's information]
+Infos sur le protocole
+[Custom information]
+Informations personnalisées
+[Overwritten information]
+Informations réécrites
+[Changed information]
+Informations modifiées
+[Enable colours to give information about information's status.]
+Activer les couleurs pour les états d'informations
+[Make protocol based contact information readonly.]
+Mettre les infos basées sur un protocole du contact en lecture seule.
+[Enable groups in details dialog's treeview.]
+Activer les groupes dans l'arborescence des boites dialogues
+[Sort all tree items alphabetically.]
+Classer par ordre alphabétique.
+[Info of a MetaContact's SubContact]
+Info du sous-contact d'un MetaContact
+[Common]
+Commun
+[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
+Changer mes détails ICQ avec UserInfoEx (désactivé si ICQ le ne supporte pas)
+[Setting/Event (20/100)]
+Option/Évènement (20/100)
+[MainMenu]
+Menu principal
+[Ex-/Import items]
+Éléments ex-/importés
+[ContactMenu]
+Menu du contact
+[Extra Icons]
+Icônes d'accès rapide
+[Replace the following default icons:]
+Remplacer les icônes par défaut suivants :
 [Phone]
 Téléphone
+[E-Mail]
+e-mail
+[Show 'Restart' menu item]
+Ajouter 'Relancer' dans le menu
+[Zodiac:]
+Zodiaque :
+[What do you want to export?]
+Que voulez-vous exporter ?
+[Contact Information]
+Informations du contact
+[Contact History]
+Historique du contact
+[Select Modules]
+Modules sélectionnés
+[Check all]
+Tous cocher
+[Uncheck all]
+Tous décocher
 ;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
+[Aries]
+Bélier
+[Taurus]
+Taureau
+[Gemini]
+Gémeaux
+[Leo]
+Lion
+[Virgo]
+Vierge
+[Libra]
+Balance
+[Scorpio]
+Scorpion
+[Sagittarius]
+Sagittaire
+[Capricorn]
+Capricorne
+[Aquarius]
+Verseau
+[Pisces]
+Poissons
+[%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
+%s fournit une nouvelle date via le protocole.\nC'est le %s, et il aura %s.\n\nVoulez-vous utiliser cette date comme nouvel anniversaire pour ce contact ?
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
+[Rename Item]
+Renommer l'élément
+[Hide Item]
+Cacher  l'élément
+[Show Items:]
+Voir les éléments :
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[Add a new anniversary]
+Ajouter un anniversaire
+[Delete an existing anniversary]
+Effacer un anniversaire existant
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Edit E-Mail]
+Éditer l'e-mail
+[The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
+Le numéro de téléphone doit commencer par un + et être ne peut contenir\nque des nombres, espaces, parenthèses et traits d'union.
+[Choose the item to display.]
+choisissez l'élément à afficher
+[Edit the currently displayed item.]
+Éditer les éléments sélectionnés
+[Add a new custom item.]
+Ajout d'un détail personnalisé
+[Delete the selected item.]
+Effacer la sélection
+[Do you really want to delete the current selected item?\n\t%s\n\t%s]
+Voulez-vous vraiment effacer les réglages sélectionnés ?\n\t%s\n\t%s
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[Age/Nr.]
+Age
+[Birthdays only]
+Seulement les anniversaires
+[Anniversaries only]
+Seulement les fêtes
+[Disabled reminder]
+Désactiver les rappels
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[Upload Details]
+Mise à jour des détails
+[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
+Vous n'êtes actuellement pas connecté à ICQ.\nVous devez être connecté afin de mettre à jour les infos sur le serveur.\nVos changements ne seront que sauvegardés dans votre profil Miranda.
+[Uploading]
+Mise à jour...
+[Contact (private)]
+Contact (privé)
+[Anniversaries]
+Anniversaires
+[Contact (Work)]
+Contact (professionnel)
+[Upload ICQ Details]
+Mise à jour des détails ICQ
+[Upload failed]
+Mise à jour échouée
+[Your details were not uploaded successfully.\nThey were written to database only.]
+Vous détails non pas été mis à jour.\nIls ont seulement été écrits dans votre base de données.
 ;file \plugins\UserInfoEx\src\init.cpp
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[IM Naming]
+Pseudo - nom
+[Marital status]
+État civil
+[Custom Phone]
+Téléphone
 [e-mail]
-E-mail
+e-mail
+[Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
+Attention : La version de votre pack d'icônes n'est pas prévue pour votre UserInfoEx actuel.\nCertaines images peuvent ne pas s'afficher correctement.
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[Export all contacts]
+Exporter tous les contacts
+[Import all contacts]
+Importer tous les contacts
+[Check anniversaries]
+Vérifier les anniversaires
+[Extended UserInfo]
+Informations avancées
 ;file \plugins\UserInfoEx\src\psp_about.cpp
+[My Notes:]
+Mes notes :
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
+[Please enter a valid Description first!]
+Veuillez commencer par entrer une description valide !
+[Do you really want to delete the %s?]
+Voulez-vous vraiment effacer l'entrée \"%s\" ?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
 [Company]
 Société
 ;file \plugins\UserInfoEx\src\psp_options.cpp
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
+Ceci effacera tous les réglages que vous aviez effectués !\nTous les réglages d'options, position des fenêtres, enfin, tout quoi !\n\nVoulez-vous vraiment tout effacer ?
+[Ready]
+Prêt
+[Reminder disabled]
+Rappels désactivés
+[Bithdays only]
+Seulement les anniversaires
+[everything]
+tout
+[Details Dialog]
+Détails de la fenêtre
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
+[Interest]
+Centres d'intérêt
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Désolé, mais il y a un problème avec l'ajout d'élément de type "%s"
+[Add Affliation]
+Ajouter une affiliation
+[Edit Category]
+Modifier la catégorie
+[Edit Value]
+Définir cette valeur
+[Do you really want to delete this entry?]
+Voulez-vous vraiment supprimer cette information ?
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]
 Culture & Littérature
@@ -69,17 +331,55 @@ Sport & Athlétisme
 Maison automatisée
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Memory allocation error!]
+Erreur d'allocution de mémoire !
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
+[User has no valid homepage]
+Le contact n'a pas de page web valdie
+[View Homepage]
+Voir la page web
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 ;file \plugins\UserInfoEx\src\svc_reminder.cpp
+[%s has %s today.]
+%s a %s aujourd'hui.
+[an anniversary]
+un anniversaire
+[\n%s becomes %d years old.]
+\n%s aura %d ans.
+[No anniversaries to remind of]
+Aucun anniversaire pour
+[Birthday reminder]
+Rappel d'anniversaire
+[Birthday reminder: it's coming]
+Rappel d'anniversaire : c'est bientôt
+[Anniversary Reminder]
+Rappel d'anniversaire
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
+[Settings: %S]
+Options : %S
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
+[Required modules]
+Modules requis
+[Optional modules]
+Modules optionnels
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+[Shows Miranda's installation directory.]
+Afficher le répertoire d'installation de miranda
+[Shows the directory with all your Miranda's profiles.]
+Afficher le répertoire des profils de Miranda
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
+[all Contacts]
+tous les contacts
+[Select a destination file...]
+Destination du fichier ...
+[Import User Details from VCard]
+Importer les détails depuis un vCard
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[Contact: %s (%S)]
+Contact : %s (%S)
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

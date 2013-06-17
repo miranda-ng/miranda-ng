@@ -1,0 +1,39 @@
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+;file \protocols\IRCG\res\IRC.rc
+[&Refresh]
+Värskenda
+[Scripting support]
+Skriptimise toetus
+[&Clear all]
+Puhasta kõik
+[Send notice]
+Saada teavitus
+[Ignore events]
+Ignoreeri sündmusi
+;file \protocols\IRCG\src\clist.cpp
+;file \protocols\IRCG\src\commandmonitor.cpp
+[IRC error]
+IRC viga
+[IRC Error]
+IRC viga
+;file \protocols\IRCG\src\input.cpp
+[IRC warning]
+IRC hoiatus
+;file \protocols\IRCG\src\irclib.cpp
+;file \protocols\IRCG\src\ircproto.cpp
+;file \protocols\IRCG\src\options.cpp
+[Show channel]
+Kuva kanal
+;file \protocols\IRCG\src\output.cpp
+;file \protocols\IRCG\src\services.cpp
+[Set language]
+Sea keel
+;file \protocols\IRCG\src\tools.cpp
+;file \protocols\IRCG\src\userinfo.cpp
+;file \protocols\IRCG\src\windows.cpp

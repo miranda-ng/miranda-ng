@@ -1,0 +1,326 @@
+﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.1
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+;file \plugins\Clist_nicer\res\resource.rc
+[About CList Nicer+]
+Sobre o CList Nicer+
+[Clist Nicer+]
+Clist Nicer+
+[Apply last active view mode ]
+Aplicar último modo de visualização ativo
+[Contact list layout]
+Layout da Lista de Contatos
+[Show menu and status buttons]
+Mostrar botões de menu e de status
+[Draw sunken edge]
+Desenhar borda submersa
+[Event area]
+Área de eventos
+[Set base visiblity on the frames menu]
+Definir base de visibilidade no menu de quadros
+[Auto mode]
+Modo Automático
+[Do not show system tray icon tooltips on mouse over]
+Não mostrar dicas ao passar o mouse no ícone na bandeja do sistema
+[Show number of contacts in a group]
+Mostrar o número de contatos em um grupo
+[Hide numbers when all offline]
+Ocultar quando todos os números estiverem offline
+[No expand/collapse icon]
+Não expandir/Colapso do ícone
+[Center groupnames horizontally]
+Centralizar grupo de nomes horizontalmente
+[Margins (left/right)]
+Margens (esquerda/direita)
+[Row gap]
+Abertura da linha
+[Minimum row height:]
+Altura mínima de linha:
+[Group row height]
+Agrupar altura da linha
+[Inner Row vertical padding]
+Inner Row padding vertical
+[Margins and spacing]
+Margens e espaçamento
+[First by]
+Primeiro por
+[Then by]
+Então por
+[Finally by]
+Finalmente por
+[Do not separate offline contacts]
+Faça contatos offline não separado
+[Hide as offline]
+Ocultar como offline
+[Right align contacts]
+Alinhar contatos à direita
+[Draw a border around avatars]
+Desenhar uma borda em torno de avatares
+[Rounded avatars]
+Avatars Rounded
+[Radius]
+Radius
+[Always align icons and text for missing avatars]
+Sempre alinhar ícones e texto na falta de avataes
+[Avatar alignment]
+Alinhamento de Avatar
+[Don't request avatars for offline contacts]
+Não há solicitação de avatares para contatos offline
+[Second text line]
+Segunda linha de texto
+[Display status message when available]
+Mostrar mensagem de status quando estiver disponível
+[Show second text line:]
+Show segunda linha do texto:
+[Show contacts local time]
+Mostrar contatos com hora local
+[Only when timezone differs]
+Somente quando o fuso horário for diferente
+[Show status icons]
+Ícones de Status Show
+[Centered when possible]
+Centralizado quando possível
+[When possible, draw status icons in avatar space]
+Sempre que possível, extrair ícones de status no espaço avatar
+[Use metacontact protocol icons instead of subcontacts]
+Use meta-protocolo de ícones em vez de subcontatos
+[Use Overlay icons on avatars]
+Use sobreposição de ícones em avatares
+[Replace status icons with xStatus]
+Substitua os ícones de status com xStatus
+[Rounded border]
+Bordas arredondadas
+[Rounded border]
+Borda arredondada
+[Client margins]
+Margens do cliente
+[Embedded frames border]
+Inserir bordas nas janelas
+[Clip border by]
+Prender borda por
+[Gap between frames]
+Abrir entre os quadros
+[Fully transparent (like TweakUI)]
+Totalmente transparente (como o TweakUI)
+[Use full row for selection and hottracking]
+Use linha completa para a seleção e atalhos
+[Double click on avatar opens userinfo]
+Clique duas vezes no avatar abre informações do usuário
+[Use these settings to skin the entire background]
+Use essas configurações para a skin do fundo inteiro
+[If you enable this, the background settings will affect the entire contact list frame.]
+Se você permitir isso, as configurações de fundo irão afetar a lista completa de contatos.
+[Draw background skin]
+Desenhar skin de fundo
+[Show ICQ extended status icons]
+Mostrar ícones de status extendido do ICQ
+[Mark protocols locked from global status changes]
+Marcar protocolos trancados para alterações do estado global
+[Per contact skins:]
+Por skins dos contatos:
+[Contact list skin]
+Skin da Lista de contatos
+[Apply skin now]
+Aplicar skin agora
+[Apply skin now]
+Aplicar skin agora
+[Unload skin]
+Não aplicar skin
+[Unload skin]
+Skin não aplicada
+[Make selection shape equal to selected item]
+Selecionar igual ao item selecionado
+[Blend selection with background]
+Desenhar seleção com fundo
+[Automatically fill background with wallpaper (tiled wallpaper only)]
+Preencher automaticamente o fundo com papel de parede (somente papel de parede azulejos)
+[Apply group indent values to background drawing]
+Aplicar os valores de recuo do grupo para o fundo de desenho
+[Use per protocol/contact skinning]
+Use por protocolo/Skin do contato
+[Protocol skins override status text colors]
+As skins de protocolo substituem as cores do texto de status
+[Set all buttons to skinned mode]
+Defina todos os botões para o modo de skin
+[Use fast gradient drawing]
+Use desenho gradiente rápido
+[Corner radius]
+Cantos arredondados
+[Group top padding]
+Agrupar disposição superior
+[Frame titlebar height]
+Altura da moldura da barra de título
+[Ignore selection for groups]
+Ignorar seleção para os grupos
+[Load from skin file]
+Carregar skin
+[Export to skin file]
+Exportar para arquivo de skin
+[Ignore these events]
+Ignorar esses eventos
+[Suppress auth requests]
+Cancelar pedido de autorização
+[Suppress added notifications]
+Reprimir adicionou notificações
+[Suppress online notifications]
+Notificações Repressão online
+[Appear always online]
+Aparecem sempre on-line
+[Appear always offline (block contact)]
+Aparecem sempre off-line (bloco de contato)
+[Hide this contact from the list]
+Ocultar este contato da lista
+[Display options]
+Opções de Exibição
+[Show contact with priority]
+Mostrar contato com prioridade
+[Show Avatar:]
+Mostrar Avatar:
+[Show 2nd line:]
+Mostrar linha 2:
+[Draw overlay icon on avatar]
+Desenhar ícone de sobreposição em avatar
+[Show local time]
+Mostrar a hora local
+[Move marked Contacts to this Group]
+Mover contatos marcados para este grupo
+[Show Status Icons]
+Mostrar Ícones de Status
+[Show Metacontact proto Icons]
+Mostrar proto Ícones para Metacontato
+[Show additional Buttons]
+Mostrar botões adicionais
+[Draw sunken Frame]
+Desenhar janela afundada
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
+;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Show menu]
+Menu Exibir
+[Show / hide offline contacts]
+Mostrar / ocultar os contatos offline
+[Toggle group mode]
+Alternar modo de grupo
+[Find and add contacts]
+Localizar e adicionar contatos
+[Open preferences]
+Abrir Preferências
+[Toggle sounds]
+Alternar sons
+[Minimize contact list]
+Minimizar a lista de contatos
+[tabSRMM session list]
+lista de sessões tabSRMM
+[tabSRMM Menu]
+Menu tabSRMM
+[Select view mode]
+Selecione o modo de exibição
+[Clear view mode]
+Desmarque o Modo de exibição
+;file \plugins\Clist_nicer\src\clcopts.cpp
+[Always Left]
+Sempre Esquerda
+[Always Right]
+Sempre Direita
+[Automatic (RTL)]
+Automático (RTL)
+[Last Message]
+Última mensagem
+[Message Frequency]
+Freqüência de Mensagem
+[For RTL only]
+Somente para RTL
+[RTL TEXT only]
+Apenas TEXTO RTL
+[When space allows it]
+Quando o espaço permite
+[When needed]
+Quando necessário
+[With Nickname - left]
+Com Apelido - à esquerda
+[Far left]
+Extrema esquerda
+[Far right]
+Extrema direita
+[With Nickname - right]
+Com Apelido - à direita
+[List layout]
+Lista de distribuição
+[Groups and layout]
+Grupos e layout
+;file \plugins\Clist_nicer\src\clistmenus.cpp
+[Add permanently]
+Adicionar permanente
+[Revert to default]
+Reverter para o padrão
+[Default (global setting)]
+Configuração padrão (global)
+[Show always when available]
+Mostrar sempre quando estiverem disponíveis
+[Hide always]
+Ocultar sempre
+[When space is available]
+Quando o espaço está disponível
+[When needed by status message]
+Quando necessário, por mensagem de status
+[Contact list display and ignore options for %s]
+Exibição de lista de contatos e ignorar as opções para %s
+[&Contact list settings...]
+&Lista de configurações de Contato ...
+;file \plugins\Clist_nicer\src\clistopts.cpp
+;file \plugins\Clist_nicer\src\clui.cpp
+[Toggle show online/offline]
+Mostrar alternar online/offline
+[Toggle groups]
+Alternar grupos
+[Find contacts]
+Procurar contatos
+[Show tabSRMM session list]
+Mostrar lista de sessão tabSRMM
+[Show tabSRMM menu]
+Mostrar menu tabSRMM
+[Sounds are off]
+Sons estão desligados
+[Setup accounts]
+Configurar contas
+[Open main menu]
+Abrir o menu principal
+[Set status modes]
+Definir os modos de status
+[Frame titles]
+Títulos das janelas
+[Contact list local time]
+Tempo da lista de contato local
+;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Tool Window]
+Janela de Ferramentas
+[Thin border]
+Borda estreita
+[No border]
+Sem borda
+;file \plugins\Clist_nicer\src\Docking.cpp
+[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+O clist não pode ser encaixado ao usar a barra de título padrão e borda. Use uma ferramenta de janela ou estilo sem fronteiras em vez disso.
+[Clist docking]
+Encaixando lista de contatos
+;file \plugins\Clist_nicer\src\extBackg.cpp
+;file \plugins\Clist_nicer\src\init.cpp
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Current view mode: %s]
+Modo de exibição atual: %s
+[No view mode]
+Sem modo de exibição
+[Clear current View Mode]
+Limpar Modo de Exibição Atual
+;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+[&Skinned frame]
+&Aparência do quadro
+[Skinned frame]
+Aparência do quadro
+;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[&About the contact list...]
+&Sobre a lista de contato...

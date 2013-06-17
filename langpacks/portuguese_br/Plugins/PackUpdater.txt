@@ -1,0 +1,30 @@
+﻿#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+;============================================================
+;  File: PackUpdater.dll
+;  Plugin: Pack updater
+;  Version: 0.0.1.1
+;  Authors: Mataes, ZERO_BiT
+;============================================================
+;file \plugins\PackUpdater\Res\Resource.rc
+[View info]
+Exibir informações
+[Pack update options]
+Opções de atualização
+;file \plugins\PackUpdater\Src\Events.cpp
+[Check for pack updates]
+Verificar atualizações
+[Pack Updater]
+Atualizador do Miranda BR
+;file \plugins\PackUpdater\Src\Notifications.cpp
+[Current Version]
+Versão atual
+[New Version]
+Nova versão
+[Downloading pack updates...]
+Baixando atualizações...
+;file \plugins\PackUpdater\Src\Notifications.h
+;file \plugins\PackUpdater\Src\Options.cpp
+;file \plugins\PackUpdater\Src\PackUpdater.cpp
+;file \plugins\PackUpdater\Src\Utils.cpp
+[Name of Update's file is not supported.]
+O NOME DO ARQUIVO A SER ATUALIZADO não é suportado.

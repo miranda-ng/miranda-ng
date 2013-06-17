@@ -1,0 +1,426 @@
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+;file \plugins\Clist_modern\res\resource.rc
+[1st:]
+1.:
+[2nd:]
+2.:
+[3rd:]
+3.:
+[Hide contact list after ]
+Şu kadar süre sonra gizle
+[Animate Avatars]
+Avatarları Oynat
+[Use Windows Colors]
+Windows Renklerini Kullan
+[Available skins]
+Geçerli temalar
+[\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
+\n\n\nLütfen uygun temalardan birini seçin. \n\nListelenmeyen temalar için web'e bakın.
+[Skin Preview]
+Tema Önizleme
+[WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
+UYARI: \tTemalar kullanımdaki profilinizi değiştirebilir ve geri alınamayabilir. \n\t\tLütfen temayı uygulamadan önce veritabanınızı YEDEKLEYİN.
+[* Restart may be required for all changes to take effect]
+* Tüm değişikliklerin etkin olması için yeniden başlatmanız gerekebilir
+[Available objects]
+Geçerli nesneler
+[Object properties]
+Nesne özellikleri
+[Colour]
+Renk
+[Image file and fitting mode]
+resim dosyasyı ve sığma kipi
+[Borders]
+Sınırlar
+[Fit mode]
+Sığma kipi
+[Fragment location]
+Yerleşimi böl
+[W x H: 0 x 0 pixels]
+G x Y: 0 x piksel
+[Show contacts in groups]
+Kişileri gruplayarak göster
+[Space between]
+Aradaki boşluk
+[Vertical Align]
+Yatay Yasla
+[Horizontal Align]
+Yatay Yasla
+[Multiline status bar:]
+Çok satırlı durum çubuğu:
+[Accounts per line]
+Her satırdaki hesap
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+Durum çubuğunun yüksekliğini değiştirmek için:\nMenü->Çerçeveler->Durum Çubuğu->Başlık Çubuğunu Göster seçip beliren başlığı aşağı/yukarı çekin.
+[Set options per account]
+Her hesap için ayrı ayar yap
+[Enable custom account settings]
+Kişisel hesap ayarlarını etkinleştir
+[Hide account completely]
+Hesabı tamamen gizle
+[Show xStatus icon]
+xDurum simgesini göster
+[Show both icons]
+İki simgeyi de göster
+[Show normal status as overlay]
+Normal drumu katman olarak göster
+[Status overlay opacity is 75% ]
+Durum katmanı matlığı %75
+[Show unread emails (if supported)]
+Okunmamış e-postaları göster (destekleniyorsa)
+[Space on Left]
+Soldaki boşluk
+[Space on right]
+Sağdaki boşluk
+[Place offline users out of groups]
+Çevrimdışılar grupların dışında görünsün
+[Full selection]
+Tümünü seç
+[Less selection]
+Daha az seçim
+[No selection]
+Seçim yok
+[Selection Mode]
+Seçim Kipi
+[Bring to front if covered]
+Örtüldüyse öne getir
+[Lock manual resize]
+El ile boyutlandırmayı kilitle
+[Drag to ]
+Şuna sürükle
+[Easy Scroll]
+Kolay Kaydır
+[x100 msec]
+x100 ms
+[show delay]
+görünme gecikmesi
+[hide delay]
+gizlenme gecikmesi
+[Hide method]
+Gizleme yöntemi
+[keep on screen]
+ekranda tut
+[Snap to edges]
+Kenarlara otur
+[Event notify area]
+Etkinlik uyarma alanı
+[Show automaticaly]
+Kendiliğinden göster
+[Always Visible]
+Her zaman görünür
+[Dock to sides]
+Yanlara yanaştır
+[Fade out entire list when:]
+Şu olduğunda tüm listeyi söndür:
+[System tray icon mode]
+Sistem tepsisi simge kipi
+[Use xStatus icon]
+xDurum simgesini kullan
+[only when statuses differ]
+yalnız durumlar farklıyken
+[Expand metacontacts]
+Metakişileri genişlet
+[MetaContacts stuff]
+MetaKişiler Özellikleri
+[Additional stuff]
+Ek özellikler
+[Subcontacts indent:]
+At kişileri içe al:
+[Show time only if it is different from current time]
+Saati yalnız kullanılan saatten farklıysa göster
+[Show contact time as row item]
+Kişi saatini satır ögesi olarak göster
+[Client area margins]
+Kullanıcı alanı boşlukları
+[Thin border main window]
+Ana pencere ince sınır
+[Borderless main window]
+Sınırsız ana pencere
+[Between frames:]
+Çerçeveler arası:
+[After captions:]
+Büyüklerden sonra:
+[Gaps]
+Boşluklar
+[Use Non-Layered mode]
+Katmansız kipi kullan
+[Non-layered mode]
+Katmansız kip
+[Disable Skin Engine]
+Tema Motoru Devre Dışı
+[Enable Aero Glass (Vista)]
+Aero Glass etkinleştir (Vista)
+[Order of items:]
+Öge sıralaması:
+[Min row height:]
+En az satır yüksekliği:
+[Row border:]
+Satır sınırı:
+[Variable row height]
+Değişken satır yüksekliği
+[Align left items to left]
+Sol ögeleri sola yasla
+[Align right items to right]
+Sağ ögeleri sağa yasla
+[Right margin:]
+Sağ boşluk:
+[Draw border on avatar]
+Avatara sınır çiz
+[Draw overlay icons]
+Simgeleri üstüne yerleştir
+[Round corners of avatars]
+Avatar köşelerini yuvarlat
+[Ignore size for row height calcs]
+Satır yüksekliği hesapları için boyutu yoksay
+[Border Color:]
+Sınır Rengi:
+[Normal overlay icon]
+Normal üstüste simgesi
+[Protocol status icon]
+Protokol durum simgesi
+[Contact icon]
+Kişi simgesi
+[height]
+yükseklik
+[Max width]
+En çok genişlik
+[Use old render method (Fast, but has artefacts)]
+Eski çizim yöntemini kullan (hızlı fakat girişimsiz)
+[Hide icon when showing avatar]
+Avatar görünürken simgeyi gizler
+[Draw icon in avatar space]
+Simgeyi avatar alanına yerleştir
+[Hide groups icon]
+Grup simgelerini gizle
+[Use extra status icon instead protocol]
+Protokol yerine diğer durum simgelerini kullan
+[Draw normal status as overlay]
+Normal durumu katman olarak yerleştir
+[Right-To-Left reading mode (mirror template)]
+Sağdan sola okuma kipi (ayna kalıbı)
+[Replace smileys in clist]
+Clist içine gülen yüzleri koy
+[Draw smileys on first line]
+Gülen yüzleri ilk satıra yerleştir
+[Resize smileys and 'Listining to' icon]
+Gülen yüzleri ve 'Şunu dinliyor' simgelerini yeniden boyutlandır
+[Align to right]
+Sağa yasla
+[Append nick if different from custom name]
+Kişisel addan faklıysa kısa adı ekle
+[Trim long text with ellipsis]
+Uzun yazıları elipsle sınırla
+[Top space:]
+Üst boşluk:
+[Draw smileys on second line]
+Gülen yüzleri ikinci satıra yerleştir
+[XStatus has priority]
+xDurum'un önceliği var
+[Use 'XStatus: XMessage']
+'xDurum: xİleti' kullan
+[(Variables will be replaced)]
+(Değişkenler değiştirilecek)
+[Show third line]
+Üçüncü satırı göster
+[Draw smileys on third line]
+Gülen yüzleri üçüncü satıra yerleştir
+[Top/Left]
+Üst/Sol
+[Bottom/Right]
+Alt/Sağ
+[Position (vertical)]
+Konum (dikey)
+[Show Title]
+Başlığı Göster
+[Locked]
+Kilitli
+[Frames Order]
+Çerçeve Dizilişi
+[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
+TASARLANIYOR!!!                 ÇALIŞMAZ
+[Row template]
+Satır kalıbı
+[Add container]
+Kutu ekle
+[Remove container]
+Kutuyu kaldır
+[Vertical align:]
+Yatay yasla:
+[Horizontal align:]
+Yatay yasla:
+[Container type:]
+Kutu tipi:
+[Container width:]
+Kutu genişliği:
+[Container height:]
+Kutu yüksekliği:
+[Layered]
+Katmanlı
+[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
+SEÇENEK SAYFASI TASARLANIYOR Lütfen bu bölümle ilgili sorunları göndermeyin.\n Yalnız üst düzey tasarım yorumları kabul edilebilir.
+[&Show Offline Users in here]
+&Buradaki çevrimdışıları göster
+;file \plugins\Clist_modern\src\modern_clc.cpp
+[Contact List smileys]
+Kişi Listesi gülen yüzler
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+'%s' kişisinin '%s' Metakişisine dünüştürülmesini ve eklenmesini istiyor musunuz?
+[Converting to MetaContact]
+MetaKişiye dönüştürülüyor
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+'%s' kişisinin '%s' Metakişisine dünüştürülmesini ve eklenmesini istiyor musunuz ('%s' ögesinden silinecek)?
+[Converting to MetaContact (Moving)]
+MetaKişiye dönüştürülüyor (taşınıyor)
+[Do you want to contact '%s' be added to metacontact '%s'?]
+'%s' kişisinin '%s' metakişisine eklenmesini istiyor musunuz?
+[Adding contact to MetaContact]
+Kişiler MetaKişilere ekleniyor
+[Do You want contact '%s' to be default ?]
+'%s' kişisinin varsayılan olmasını istiyor musunuz?
+[Set default contact]
+Varsayılan kişiyi ayarla
+[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+'%s' kişisinin '%s' Metakişisinden silinmesini ve '%s' ögesine eklenmesini istiyor musunuz?
+[Changing MetaContacts (Moving)]
+MetaKişiler değiştiriliyor (taşınıyor)
+[Do You want contact '%s' to be added to MetaContact '%s'?]
+'%s' kişisinin '%s' Metakişisine eklenmesini istiyor musunuz?
+;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Away contacts]
+Uzaktaki Kişiler
+[DND contacts]
+DND kişiler
+[NA contacts]
+Uygun değil kişiler
+[Occupied contacts]
+Meşgul kişiler
+[Free for chat contacts]
+Sohbete uygun kişiler
+[Invisible contacts]
+Görünmeyen kişiler
+[On the phone contacts]
+Telefondaki kişiler
+[Out to lunch contacts]
+Yemekteki kişiler
+[Contacts who are 'not on list']
+'Listede değil' kişiler
+[Open groups]
+Açık gruplar
+[Open group member counts]
+Açık grup üye sayıları
+[Closed groups]
+Kapalı gruplar
+[Closed group member counts]
+Kapalı grup üye sayıları
+[Third line]
+Üçüncü satır
+[Status bar text]
+Durum çubuğu yazısı
+[Event area text]
+Etkinlik alanı yazısı
+[Current view mode text]
+Kullanımdaki görünüm kipi yazısı
+[Hide to tray]
+Sistem tepsisine gizle
+[Behind left edge]
+Sol eşiğin arkasında
+[Behind right edge]
+Sağ eşiğin arkasında
+;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
+Etkinlik Yok
+;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[Contact rate None]
+Kişi derecelendirmesi Yok
+[Contact rate Low]
+Kişi derecelendirmesi Düşük
+[Contact rate Medium]
+Kişi derecelendirmesi Orta
+[Contact rate High]
+Kişi derecelendirmesi Yüksek
+;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
+Avatarları Oynat (GDI+ ve Avatar hizmet modülü (avs.dll) gereklidir)
+[Row items]
+Satır Ögeleri
+;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+;file \plugins\Clist_modern\src\modern_clisttray.cpp
+;file \plugins\Clist_modern\src\modern_clui.cpp
+[Show Contact &Avatar]
+Kişi Resmini &Göster
+[Hide Contact &Avatar]
+Kişi Resmini &Gizle
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\modern_keyboard.cpp
+;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+[Empty %s cell]
+Boş %s hücre
+[column]
+sütun
+[line]
+satır
+[columns]
+sütunlar
+[%s, contain %s]
+%s, %s içeriyor
+[ layered]
+ katmanlı
+;file \plugins\Clist_modern\src\modern_skineditor.cpp
+[Image size is]
+Resim boyutu
+;file \plugins\Clist_modern\src\modern_skinengine.cpp
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[Load/Save]
+Yükle/Kaydet
+[Object Editor]
+Nesne Düzenleyici
+[%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\nYazan:\t %s\nİletişim:\t %s\nWeb:\t %s\n\nDosya:\t %s
+[%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\nYazan: %s\nİletişim:\t %s\nWeb:\t %s\n\nDosya:\t %s
+[This is second default Modern Contact list skin in Vista Aero style]
+Bu Vista Aero stilindeki ikinci varsayılan Modern Contact Liste temasıdır
+[Inside library]
+İç kütüphane
+[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+Tema düzenleyicide kaydedilmemiş değişiklikler var.\n\nTüm değişiklikler kaybolacak.\n\n Yeni tema yüklensin mi? 
+[Warning!]
+Dikkat!
+[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+Kullanımdaki tema dosyaya kaydedilmedi.\nTüm değişiklikler kaybolacak.\n\n Yeni tema yüklensin mi?
+[%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
+%s\n\n%s\n\nYAZAN:\n%s\n\nİLETİŞİM:\n%s\n\nWEB:\n%s\n\n\n
+[Select skin from list]
+Listeden tema seçin
+[Please select skin to apply]
+Uygulanacak temayı seçin
+[Default Skin]
+Varsayılan Tema
+[%Default Skin%]
+%Varsayılan Tema%
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+[<<Global>>]
+<<Genel>>
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Main menu]
+Ana Menü
+[Accounts...]
+Hesaplar...
+[Show offline contacts]
+Çevrim Dışı Kişileri Göster
+[Use groups]
+Grupla
+[Disable Groups]
+Grupları Kaldır
+;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Configuring view mode: %s]
+%s görünüm kipi yapılandırılıyor
+;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

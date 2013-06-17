@@ -1,0 +1,167 @@
+﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
+;============================================================
+;  File: UInfoEx.dll
+;  Plugin: User info ext
+;  Version: 0.8.4.2
+;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+;============================================================
+;file \plugins\UserInfoEx\res\resource.rc
+[Show menu items]
+Vis menyelementer
+[Remind me]
+Påminnelse
+[days before.]
+dager før
+[Icon flashing on event]
+Ikonblinking ved hendelse
+[Perform check on each startup]
+Utfør kontroll ved hver oppstart
+[Time of last check:]
+Tidspunkt for siste sjekk:
+[Birthday compatibility mode:]
+Bursdags kompatibilitetsmodus:
+[Automatically backup and keep protocol based birthdays up to date]
+Utført automatisk backup og hold protokollbaserte bursdager oppdatert
+[Use ignore list]
+Bruk ignoreringsliste
+[Show reminder messages as popups (if reminder is enabled)]
+Vis påminnelser som popups (om påminnelser er aktivert)
+[Anniversary popup colours]
+Årsdags popup farger
+[Check file version of default IconPack to prevent wrong icon display]
+Sjekk filversjon eller standard IkonPakke for å hindre feilvisning
+[Display icons on each dialog button]
+Vis ikoner på hver dialogknapp
+[Scan SubContacts for missing information]
+Skann SubContacts for manglende informasjon
+[Enable extended 'send/receive email' service (*)]
+Aktiver utvidet 'send/motta epost' tjeneste (*)
+[Use Windows Timezone]
+Bruk Windows tidssone
+[(*) Requires Miranda to be restarted.]
+(*) Krever at Miranda restartes
+[Reset factory defaults]
+Gjennopprett orig. innst.
+[Protocol's information]
+Protokollenes informasjon
+[Custom information]
+Selvvalgt informasjon
+[Overwritten information]
+Overskrevet informasjon
+[Changed information]
+Endret informasjon
+[Enable colours to give information about information's status.]
+Aktiver farger for å gi informasjon om informasjonsstatuser
+[Make protocol based contact information readonly.]
+Gjør protokollbasert kontaktinformasjon kun mulig for lesing.
+[Enable groups in details dialog's treeview.]
+Aktiver grupper i detaljer dialogens tre-utseende.
+[Sort all tree items alphabetically.]
+Sorter alle tre-elementer alfabetisk.
+[Info of a MetaContact's SubContact]
+Info om en MetaContacts' SubContact
+[Common]
+Vanlig
+[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
+Endre mine ICQ detaljer med UserInfoEx. (Deaktivert dersom ICQ ikke støtter det)
+[TreeView]
+Tre-utseende
+[MainMenu]
+Hovedmeny
+[ContactMenu]
+Kontaktmeny
+[Extra Icons]
+Ekstra ikoner
+[Replace the following default icons:]
+Erstatt følgende standardikoner:
+[Phone]
+Telefon
+[E-Mail]
+E-Post
+;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
+;file \plugins\UserInfoEx\src\classPsTree.cpp
+;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
+;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
+;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[Birthdays only]
+Kun bursdager
+[Anniversaries only]
+Kun årsdager
+;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+;file \plugins\UserInfoEx\src\init.cpp
+;file \plugins\UserInfoEx\src\mir_icolib.cpp
+;file \plugins\UserInfoEx\src\mir_icolib.h
+;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+;file \plugins\UserInfoEx\src\psp_about.cpp
+;file \plugins\UserInfoEx\src\psp_anniversary.cpp
+;file \plugins\UserInfoEx\src\psp_contact.cpp
+;file \plugins\UserInfoEx\src\psp_options.cpp
+[Reminder disabled]
+Påminnelse deaktivert
+[everything]
+alt
+[Details Dialog]
+Detaljer Dialog
+;file \plugins\UserInfoEx\src\psp_profile.cpp
+;file \plugins\UserInfoEx\src\svc_constants.cpp
+[Culture & Literature]
+Kultur & Litteratur
+[Movies/TV]
+Filmer/TV
+[Outdoor Activities]
+Utendørs Aktiviteter
+[Pets/Animals]
+Dyr/Kjæledyr
+[Science/Technology]
+Vitenskap/Teknologi
+[Nature and Environment]
+Natur og Miljø
+[News & Media]
+Nyheter og Media
+[Business & Economy]
+Forretning & Økonomi
+[Finance and corporate]
+Finanser og selskap
+[Consumer electronics]
+Forbrukerelektronikk
+[Retail stores]
+Småhandel
+[Health and beauty]
+Helse og skjønnhet
+[Household products]
+Husholdningsprodukter
+[Mail order catalog]
+Postordrekatalog
+[Business services]
+Forretningstjenester
+[Audio and visual]
+Lyd og visuelt
+[Sporting and athletic]
+Sport og atletisk
+[Home automation]
+Hjemme automatisering
+;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+;file \plugins\UserInfoEx\src\svc_email.cpp
+;file \plugins\UserInfoEx\src\svc_gender.cpp
+;file \plugins\UserInfoEx\src\svc_homepage.cpp
+;file \plugins\UserInfoEx\src\svc_phone.cpp
+;file \plugins\UserInfoEx\src\svc_refreshci.cpp
+;file \plugins\UserInfoEx\src\svc_reminder.cpp
+[Birthday reminder]
+Bursdagspåminnelse
+[Birthday reminder: it's coming]
+Bursdagspåminnelse: nært forestående
+[Anniversary Reminder]
+Årsdags Påminnelse
+;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
+;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
+;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

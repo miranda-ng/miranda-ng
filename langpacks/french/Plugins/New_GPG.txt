@@ -8,6 +8,10 @@
 ;file \plugins\New_GPG\res\new_gpg.rc
 ;file \plugins\New_GPG\src\init.cpp
 ;file \plugins\New_GPG\src\main.cpp
+[Replace]
+Remplacer :
+[Accept]
+Accepter
 ;file \plugins\New_GPG\src\messages.cpp
 ;file \plugins\New_GPG\src\options.cpp
 ;file \plugins\New_GPG\src\utilities.cpp

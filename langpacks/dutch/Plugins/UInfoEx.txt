@@ -1,0 +1,437 @@
+﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
+;============================================================
+;  File: UInfoEx.dll
+;  Plugin: User info ext
+;  Version: 0.8.4.2
+;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+;============================================================
+;file \plugins\UserInfoEx\res\resource.rc
+[Edit Contact Information]
+Persoon informatie bewerken
+[Origin]
+Oorsprong
+[Origin]
+Oorsprong
+[&Update]
+&Bijwerken
+[Second name:]
+Tweede naam:
+[Partner:]
+Partner:
+[Language skills]
+Taalvaardigheden
+[County/State:]
+Provincie:
+[Your contact's local time is:]
+De plaatselijke tijd van uw peroon is:
+[Office:]
+Kantoor:
+[Superior:]
+Leidinggevende:
+[Assistant:]
+Assistent:
+[Enter a category for this number:]
+Vul een category in voor dit nummer:
+[Add E-Mail]
+E-mail toevoegen
+[Enter a representitive name for the e-mail address here.]
+Vul hier een aanspreekbare naam in voor het e-mail adres.
+[Enter the e-mail address here.]
+Vul hier het e-mail aders in.
+[Show menu items]
+Menu items weergeven
+[Remind me]
+Herinner me
+[days before.]
+dagen van tevoren.
+[Icon flashing on event]
+Icoon knippert op gebeurtenis
+[Perform check on each startup]
+Een controle uitvoeren bij elke start
+[Time of last check:]
+Tijdstip laatste controle:
+[Birthday compatibility mode:]
+Birthday compatibiliteits modus:
+[Automatically backup and keep protocol based birthdays up to date]
+Automatisch backups maken en protocol gebaseerde verjaardagen up to date houden
+[Birthday popup colours]
+Verjaardag popup kleuren
+[Show reminder messages as popups (if reminder is enabled)]
+Herinneringsberichten als popups weergeven (als herinnering is ingeschakeld)
+[Anniversary popup colours]
+Feest popup kleuren
+[Add Affiliation]
+Betrokkenheid toevoegen
+[Add Past]
+Verleden toevoegen
+[Add Interest]
+Interesse toevoegen
+[Enter a name for the anniversary here please:]
+Vul hier een naam voor het feest in aub:
+[Anniversary list]
+Feestlijst
+[Statistics:]
+Statistieken:
+[with birthday:]
+met verjaardag:
+[female:]
+vrouw:
+[male:]
+man:
+[number of contacts:]
+aantal personen:
+[average age:]
+gemiddelde leeftijd:
+[Check file version of default IconPack to prevent wrong icon display]
+Voorkom verkeerde weergave van iconen (controleer bestandsversie van standaard IconPack)
+[Display icons on each dialog button]
+Iconen weer op elke schermknop weergeven
+[Scan SubContacts for missing information]
+SubContacts voor ontbrekende informatie scannen
+[(*) Requires Miranda to be restarted.]
+(*) Vereist een herstart van Miranda.
+[Reset factory defaults]
+Fabrieksstandaarden terugzetten
+[Protocol's information]
+Informatie van het protocol
+[Custom information]
+Aangepaste informatie
+[Overwritten information]
+Overschreven informatie
+[Changed information]
+Gewijzigde informatie
+[Enable colours to give information about information's status.]
+Kleuren voor informatie over statusinformatie inschakelen
+[Make protocol based contact information readonly.]
+Protocol gebaseerde persoonsinformatie alleen lezen maken.
+[Enable groups in details dialog's treeview.]
+Groepen in treeview van het details scherm inschakelen.
+[Sort all tree items alphabetically.]
+Alle boom items alfabetisch sorteren.
+[Info of a MetaContact's SubContact]
+Informatie van een SubContact van een MetaContact
+[Common]
+Algemeen
+[MainMenu]
+Hoofdmenu
+[ContactMenu]
+Persoonmenu
+[Extra Icons]
+Extra iconen
+[Phone]
+Telefoon
+[Show 'Restart' menu item]
+'Herstarten' menu item weergeven
+[Select Modules]
+Modules selecteren
+[Check all]
+Alle selecteren
+[Uncheck all]
+Alle deselecteren
+;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
+[Aries]
+Ram
+[Taurus]
+Stier
+[Gemini]
+Tweelingen
+[Cancer]
+Kreeft
+[Leo]
+Leeuw
+[Virgo]
+Maagd
+[Libra]
+Weegschaal
+[Scorpio]
+Schorpioen
+[Sagittarius]
+Boogschutter
+[Capricorn]
+Steenbok
+[Aquarius]
+Waterman
+[Pisces]
+Vissen
+[%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
+%s levert een nieuwe verjaardag via protocol.\nHet is %s. De oude was %s.\n\nWilt u deze gebruiken als de nieuwe verjaardag voor deze persoon?
+[Update custom birthday]
+aangepaste verjaardag bijwerken
+[Keeps your custom birthday up to date.]
+Houdt uw aangepaste verjaardag up to date.
+;file \plugins\UserInfoEx\src\classPsTree.cpp
+[Due to a parameter error, one of the treeitems can't be added!]
+Als gevolg van een parameter fout kan één van de treeitems niet worden toegevoegd!
+[An fatal error occured on adding a property sheet page!\nDialog creation aborted!]
+Een fatale fout heeft zich voorgedaan bij het toevoegen van een eigenschappen blad!\nScherm wordt niet gemaakt!
+[Rename Item]
+Item hernoemen
+[Hide Item]
+Item verbergen
+[Show Items:]
+Items weergeven:
+;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
+[Creating unique name for a page failed with %d and error code %d]
+Aanmaken van een unieke pagina is fout gegaan met %d en fout code %d
+[Creating the label for a page failed with %d and error code %d]
+Aanmaken van het label voor een pagina is fout gegaan met %d en fout code %d
+[The dialog template type is no longer supported]
+Het scherm template type wordt niet langer ondersteund
+;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[Add a new anniversary]
+Een nieuw feest toevoegen
+[Delete an existing anniversary]
+Een bestaand feest verwijderen
+;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Edit E-Mail]
+E-Mail bewerken
+[The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
+Het telefoonnummer moet beginnen met een + en alleen bestaan uit\nnummer, spaties, haakjes en koppeltekens.
+[Choose the item to display.]
+Kies een item om weer te geven.
+[Edit the currently displayed item.]
+Het huidige weergegeven item bewerken.
+[Add a new custom item.]
+Een nieuw aangepast item toevoegen.
+[Delete the selected item.]
+Het geselecteerde item verwijderen.
+[CRITICAL: Unable to edit current entry!\nThis should not happen!]
+KRITIEK: Kan huidige record niet bewerken!\nDit moet niet gebeuren!
+[Do you really want to delete the current selected item?\n\t%s\n\t%s]
+Wilt u echt het huidig geselecteerde item verwijderen?\n\t%s\n\t%s
+;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
+;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[ETA]
+ETA
+[Age/Nr.]
+Leeftijd/Nr.
+[Anniversaries only]
+Alleen feesten
+;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[Protocol '%s' is offline]
+Protocol '%s' is offline
+[Upload Details]
+Upload Details
+[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
+U bent op dit moment niet verbonden met het ICQ netwerk.\nU moet online zijn om uw informatie te kunnen bijwerken op de server.\n\nUw wijzigingen worden alleen bewaard in de database.
+[Uploading]
+Uploaden
+[Creating the imagelist failed!]
+Maken van afbeeldingenlijst gefaald!
+[No pages have been added. Canceling dialog creation!]
+Geen pagina's toegevoegd. Scherm aanmaken geannuleerd!
+[Details dialog failed to be created. Returning error is %d.]
+Details scherm gefaald aan te maken. Fout is %d.
+[Contact (private)]
+Contact (prive)
+[Anniversaries]
+Feesten
+[Contact (Work)]
+Contact (Werk)
+[Upload ICQ Details]
+ICQ details uploaden
+[Upload failed]
+Upload gefaald
+[Your details were not uploaded successfully.\nThey were written to database only.]
+Uw details zijn niet succesvol geupload.\nZe zijn alleen naar de database geschreven.
+;file \plugins\UserInfoEx\src\init.cpp
+;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[IM Naming]
+IM naamgeving
+[Export: Modules]
+Exporteren: Modules
+[Export: Folder]
+Exporteren: Folder
+[Details Infobar]
+Details infobalk
+[Phone Infobar]
+Telefoon infobalk
+[E-Mail Infobar]
+E-Mail infobalk
+[Export VCard]
+VCard exporteren
+[Anniversary Infobar]
+Feest infobalk
+[Goto]
+Ga naar
+[Custom Phone]
+Aangepast nummer
+[e-mail]
+e-mail
+[Birthday tomorrow]
+Verjaardag morgen
+[Birthday in 2 days]
+Verjaardag over 2 dagen
+[Birthday in 3 days]
+Verjaardag over 3 dagen
+[Birthday in 4 days]
+Verjaardag over 4 dagen
+[Birthday in 5 days]
+Verjaardag over 5 dagen
+[Birthday in 6 days]
+Verjaardag over 6 dagen
+[Birthday in 7 days]
+Verjaardag over 7 dagen
+[Birthday in 8 days]
+Verjaardag over 8 dagen
+[Birthday in 9 days]
+Verjaardag over 9 dagen
+[Birthday later]
+Verjaardag later
+[Anniversary today]
+Feest vandaag
+[Anniversary tomorrow]
+Feest morgen
+[Anniversary in 2 days]
+Feest in 2 dagen
+[Anniversary in 3 days]
+Feest in 3 dagen
+[Anniversary in 4 days]
+Feest in 4 dagen
+[Anniversary in 5 days]
+Feest in 5 dagen
+[Anniversary in 6 days]
+Feest in 6 dagen
+[Anniversary in 7 days]
+Feest in 7 dagen
+[Anniversary in 8 days]
+Feest in 8 dagen
+[Anniversary in 9 days]
+Feest in 9 dagen
+[Anniversary later]
+Feest later
+[Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
+Waarschuwing: Uw huidige versie van IconPack is verschillen dan degene UserInfoEx is voor ontwikkeld.\nSommige iconen kunnen niet goed worden weergegeven
+;file \plugins\UserInfoEx\src\mir_icolib.h
+;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[&Export User Details]
+Gebruiker details &exporteren
+[&Import User Details]
+Gebruiker details &importeren
+[Export all contacts]
+Alle personen exporteren
+[Import all contacts]
+Alle personen importeren
+[Backup birthdays]
+Verjaardagen backuppen
+[Check anniversaries]
+Controleer feesten 
+[Extended UserInfo]
+Extended UserInfo
+;file \plugins\UserInfoEx\src\psp_about.cpp
+[My Notes:]
+Mijn notities:
+;file \plugins\UserInfoEx\src\psp_anniversary.cpp
+[Please enter a valid Description first!]
+Aub eerst een geldige omschrijving invullen!
+[No valid date selected for editing!]
+Geen geldige datum geselecteerd om te bewerken!
+[Do you really want to delete the %s?]
+Wilt u %s echt verwijderen?
+;file \plugins\UserInfoEx\src\psp_contact.cpp
+[Company]
+Bedrijf
+;file \plugins\UserInfoEx\src\psp_options.cpp
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
+Dit zal alle instellingen verwijderen die u heeft gemaakt!\nAlle TreeView instellinge, scherm posities en anders instellingen!\n\nWeet u zeker dat u door wilt gaan?
+[Ready]
+Klaar
+[All settings are reset to default values now!]
+Alle instellingen zijn nu terug gezet naar de standaard waarden!
+[Reminder disabled]
+Herinnereing uitgeschakeld
+[Bithdays only]
+Alleen verjaardagen
+[everything]
+alles
+[Details Dialog]
+Details scherm
+;file \plugins\UserInfoEx\src\psp_profile.cpp
+[Affiliation]
+Betrokkenheid
+[Interest]
+Interesses
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Sorry, maar er is een probleem met het toevoegen van een nieuw item van het type "%s"
+[Add Affliation]
+Betrokkenheid toevoegen
+[Edit Category]
+Categorie bewerken
+[Edit Value]
+Waarde bewerken
+[Do you really want to delete this entry?]
+Wilt u dit record echt verwijderen?
+;file \plugins\UserInfoEx\src\svc_constants.cpp
+[jun.]
+jun.
+[sen.]
+sen.
+;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+;file \plugins\UserInfoEx\src\svc_email.cpp
+[Memory allocation error!]
+Geheugen allocatie fout!
+;file \plugins\UserInfoEx\src\svc_gender.cpp
+;file \plugins\UserInfoEx\src\svc_homepage.cpp
+[User has no valid homepage]
+Gebruiker heeft geen geldige homepage
+[View Homepage]
+Homepage bekijken
+[&Homepage]
+&Homepage
+;file \plugins\UserInfoEx\src\svc_phone.cpp
+;file \plugins\UserInfoEx\src\svc_refreshci.cpp
+;file \plugins\UserInfoEx\src\svc_reminder.cpp
+[an anniversary]
+een feest
+[\n%s becomes %d years old.]
+\n%s wordt %d jaar oud.
+[No anniversaries to remind of]
+Geen feesten om aan herinnerd te worden
+[Backing up and syncing all birthdays complete!]
+Backuppen en synchroniseren van alle verjaardagen voltooid!
+[Birthday reminder]
+Verjaardag herinnering
+[Birthday reminder: it's coming]
+Verjaardag herinnering: het komt eraan
+[Anniversary Reminder]
+Feest Herinnering
+;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
+[The contact %s(%s) has no unique id in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
+De persoon %s(%s) heeft geen uniek id in de vCard,\nmaar er is een persoon in uw clist met dezelfde bijnaam en protocol.\nWilt u deze persoon gebruiken?
+;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
+[Required modules]
+Veplichte modules
+[Optional modules]
+Optionele modules
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
+[The ini-file "%s"\nfor saving contact information could not be opened.]
+Het ini-bestand "%s"\nvoor het opslaan van persoon informatie kon niet worden geopend.
+[None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
+Geen van de %d personen, opgeslagen in het ini-bestand, komt overeen met de geselecteerde persoon!\nEr zal niks worden geimporteerd
+[Added %d of %d contacts stored in the ini-file.]
+%d van de %d personen toegevoegd aan het ini-bestand.
+[The ini-file "%s"\nfor reading contact information could not be opened.]
+Het ini-bestand "%s"\nvoor lezen van persoon informatie kon niet worden geopend.
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
+[all Contacts]
+alle personen
+[Select a destination file...]
+Selecteer een bestand voor bestemming
+[Import User Details from VCard]
+Gebruiker details van VCard importeren
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[The selected file is no valid XMLCard]
+Het geselecteerde bestand is geen geldig XMLCard
+[The version of the XMLCard is not supported by UserInfoEx]
+De versie van XMLCard is niet ondersteund door UserInfoEx
+[Owner contact successfully imported.]
+Eigenaar persoon succesvol geimporteerd.
+[Selected XMLCard does not contain an owner contact!]
+Geselecteerde XMLCard heeft geen eigenaaar persoon!
+[FATAL: An exception was thrown while importing contacts from xmlCard!]
+FATAAL: Een uitzondering is gegooid tijden het importeren van personen van xmlCard!
+;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
+;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

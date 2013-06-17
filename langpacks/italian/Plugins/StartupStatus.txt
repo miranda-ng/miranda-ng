@@ -1,0 +1,21 @@
+﻿#muuid {4b733944-5a70-4b52-ab2d-68b1ef38ffe8}
+;============================================================
+;  File: StartupStatus.dll
+;  Plugin: StartupStatus
+;  Version: 0.8.0.45
+;  Authors: P Boon
+;============================================================
+[StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
+Stato all'Avvio, ti permette di definire lo stato che Miranda deve avere all'avvio, configurabile per ogni protocollo.
+;file \Plugins\StatusPlugins\resource.rc
+;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[default]
+predefinito
+[At least one profile must exist]
+Almeno un profilo deve esistere
+[StartupStatus]
+Stato all'avvio
+;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
+;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
+;file \Plugins\StatusPlugins\commonstatus.cpp
+;file \Plugins\StatusPlugins\confirmdialog.cpp

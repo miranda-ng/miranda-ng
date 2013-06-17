@@ -1,0 +1,45 @@
+﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+;============================================================
+;  File: Yahoo.dll
+;  Plugin: Yahoo
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\Yahoo\res\Yahoo.rc
+[ID:]
+ID:
+;file \protocols\Yahoo\src\avatar.cpp
+;file \protocols\Yahoo\src\chat.cpp
+;file \protocols\Yahoo\src\icolib.cpp
+[Mail]
+E-mail
+[Address Book]
+Aadressiraamat
+[Set Status]
+Sea olek
+[Calendar]
+Kalender
+;file \protocols\Yahoo\src\im.cpp
+[Yahoo Error]
+Yahoo viga
+;file \protocols\Yahoo\src\links.cpp
+;file \protocols\Yahoo\src\main.cpp
+;file \protocols\Yahoo\src\options.cpp
+[YAHOO Options]
+YAHOO seaded
+;file \protocols\Yahoo\src\proto.cpp
+[Yahoo Login Error]
+Yahoo logimise viga
+;file \protocols\Yahoo\src\services.cpp
+[&My Profile]
+&Minu profiil
+[&Yahoo Mail]
+&Yahoo e-mail
+[&Address Book]
+Aadressiraamat
+[&Calendar]
+&Calender
+[&Show Profile]
+Kuva profiil
+;file \protocols\Yahoo\src\webcam.cpp
+;file \protocols\Yahoo\src\yahoo.cpp

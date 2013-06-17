@@ -1,0 +1,45 @@
+﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+;============================================================
+;  File: Nudge.dll
+;  Plugin: Nudge
+;  Version: 0.0.2.0
+;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
+;============================================================
+;file \plugins\Nudge\res\resource.rc
+[Protocol options]
+Opções de protocolo
+[Specify options for each protocol]
+Especificar opções para cada protocolo
+[Enable message window shaking]
+Tremer janela de mensagens
+[Show as status change]
+Mostrar como mudança de status
+[Sending text]
+Texto para envio
+[Receiving text]
+Texto de recebimento
+[Allow sending* one nudge to the same contact every :]
+Permitir chamar a atenção do mesmo contato a cada:
+[Allow receiving one nudge from the same contact every :]
+Permitir 'ser chamado a atenção' do mesmo contato a cada:
+[* Nudge sending delay is hardcoded and cannot be changed.]
+*Chamar a atenção está inserido no código e não pode ser mudado.
+[Allow nudges when you're:]
+Permitir 'chamar atenção' quando está:
+[Shaking Clist Options]
+Opções de tremor da Lista de Contatos
+[Number of moves]
+Número de tremores
+[Width of move]
+Alcance (tamanho) da tremida
+[Shaking Message Window Options]
+Opções de tremor da Janela de Mensagens
+;file \plugins\Nudge\src\main.cpp
+[Nudge]
+Chamar a Atenção
+[Nudge as Default]
+'Chamar a atenção' como Padrão
+;file \plugins\Nudge\src\nudge.cpp
+;file \plugins\Nudge\src\options.cpp
+[Window Shaking]
+Tremor da Janela

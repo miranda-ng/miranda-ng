@@ -1,0 +1,408 @@
+﻿#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+;============================================================
+;  File: TabSRMM.dll
+;  Plugin: TabSRMM
+;  Version: 3.1.99.8
+;  Authors: The Miranda developers team and contributors
+;============================================================
+;file \plugins\TabSRMM\res\chat.rc
+;file \plugins\TabSRMM\res\resource.rc
+[Message send timeout]
+השהיית הודעה שנשלחה
+[Input history size]
+הכנס גודל היסטוריה
+[entries]
+כניסות
+[Event notify options]
+אפשרויות התראת אירוע
+[Limit message preview to]
+הגבל תצוגת הודעה מקדימה
+[All modes]
+כל המצבים
+[Send text formatting method]
+שיטה לשליחת תבנית הטקסט
+[You can override the global setting for text formatting here. Use "Force Off" to never send formatting info for this contact.]
+תוכל לעקוף הגדרות גלובליות לתבנית הטקסט כאן. השתמש ב"כפה ביטול" כדי .לא לשלוח מידע תבנית לאיש קשר זה
+[Use private splitter position]
+השתמש במיקום קו הפרדה פרטי
+[Contact is a favorite contact]
+איש קשר הוא איש קשר מועדף
+[Only show tab bar when it's needed]
+הראה סרגל טאבים רק כשדרוש
+[Container stays on top]
+השאר חלון עליון
+[Vertical maximize]
+הגדלה אנוכית
+[Use default setting]
+השתמש בהגדרות ברירת מחדל
+[Flash until focused]
+הבהב עד שימוקד
+[Disable flashing]
+בטל היבהוב
+[Enable popups if minimized]
+אפשר פופאפ כשחלון השיחה מוזער
+[Enable popups if unfocused]
+החל פופאפ כשהחלון לא ממוקד
+[Hide the status bar]
+הסתר את סרגל המצב
+[Hide the menu bar]
+הסתר את סרגל התפריט
+[Hide the tool bar]
+הסתר את סרגל הכלים
+[Show the info panel]
+הראה את פאנל המידע
+[Hide title bar]
+הסתר כותרת
+[Save current as global]
+שמור נוכחי כגלובלי
+[Message window options]
+אפשרויות חלון הודעה
+[Indent values]
+ערכי הפרדה
+[Template sets]
+סידורי תבניות
+[Standard templates...]
+...תבניות סטנדרטיות
+[RTL templates...]
+...RTL תבניות
+[Send typing notifications to the following users when you are typing a message to the them:]
+שלח התראות כתיבה למשתמשים הבאים:
+[Flash window once on typing events (only if flashing enabled)]
+(הבהב חלון פעם אחת באירוע כתיבה (רק אם ההיבהוב מופעל
+[Tab options]
+אפשרויות טאב
+[Miscellaneous options]
+אפשרויות מגוונות
+[Setup status modes for automatic tab creation...]
+...התקן מצבי סטטוס ליצירת טאב אוטומטית
+[Limit nicknames on tabs to]
+הגבל כינויים בטאבים ל
+[Available containers]
+חלון שיחה זמין
+[Create a new container]
+צור חלון חדש
+[Create new]
+צור חדש
+[Container flashing]
+היבהוב חלון טאב
+[Flash containers]
+הבהב חלונות טאב
+[times]
+פעמים
+[Flash interval]
+הפסקות היבהוב
+[...is &typing]
+...&מקליד
+[...stopped t&yping]
+...הפסיק ל&הקליד
+[U&se Popup colours]
+ה&שתמש בצבעי פופאפ
+[&Use Windows colours]
+&השתמש בצבעי חלונות
+[Only &one popup for each contact]
+רק &פופאפ אחד לכל איש קשר
+[Show &entry in the main menu]
+הראה &כפתור בתפריט הראשי
+[From protocol]
+מהפרוטוקול
+[Edit template]
+ערוך תבנית
+[Get more help on variables]
+השג עזרה נוספת במשתנים
+[Define up to 5 colors which you can use with some variables]
+הגדר עד 5 צבעים שתוכל להשתמש בהם עם כמה משתנים
+[Update Preview]
+עדכן תצוגה מקדימה
+[Save Template]
+שמור תבנית
+[Revert to Default]
+החזר לברירת מחדל
+[inner]
+פנימי
+[outer]
+חיצוני
+[NOTE: some settings will not affect open containers.]
+.הערה: חלק מההגדרות לא ישפיעו על חלונות הודעה פתוחים
+[Use contacts local time]
+השתמש בזמן המקומי של אנשי הקשר
+[Indent message body]
+הפרד את גוף ההודעה
+[RTL is default text direction]
+כתיבה מימין לשמאל כברירת מחדל
+[Send message on Enter]
+שלח הודעה באנטר
+[Send message on double Enter]
+שלח הודעה באנטר כפול
+[Notifications:]
+התראות:
+[&Quote]
+&ציטוט
+[Attach to Container...]
+...הוסף לחלון טאב
+[Container Options...]
+...הגדרות חלון טאב
+[Close Container]
+סגור חלון טאב
+[Always keep the button bar at full width]
+שמור על סרגל הכפתורים ברוחב מלא
+[Send Text Formatting]
+שלח תבנית טקססט
+[BBCode]
+BB קוד
+[This Contact]
+איש קשר זה
+[Global Setting]
+הגדרה גלובלית
+[Force Off]
+כפה ביטול
+[Recent Sessions]
+חלונות הודעה אחרונים
+[Favorites]
+מועדפים
+[Disable All Event Notifications]
+בטל את כל התראות האירועים
+[Don't create Windows automatically]
+אל תיצור חלונות אוטומטית
+[Hide all Message Containers]
+הסתר את כל חלונות ההודעה
+[Restore all Message Containers]
+שחזר את כל חלונות ההודעה
+[Don't play Sounds]
+אל תשמיע צלילים
+[Be "Super Quiet"]
+"תהיה "סופר שקט
+[Add Contact to Favorites]
+הוסף איש קשר למועדפים
+[Remove Contact from Favorites]
+הסר איש קשר מהמועדפים
+[Save Message Log As...]
+...שמור יומן הודעה כ
+[Show Menu Bar]
+הראה סרגל תפריט
+[Show Status Bar]
+הראה שורת מצב
+[Show Tool Bar]
+הראה סרגל כלים
+[Title Bar]
+שורת כותרת
+[Tabs at Bottom]
+טאבים בתחתית
+[Window Flashing]
+היבהוב חלון
+[Use default Value]
+השתמש בערך ברירת מחדל
+[Disable Flashing]
+בטל היבהוב
+[Show Multisend Contact List]
+הראה רשימת שליחה לכמה אנשי קשר
+[Stay on Top]
+מעל הכל
+[Event Popups]
+אירועי פופאפים
+[Disable all Event Popups]
+בטל אירועי פופאפים
+[Show Popups if Window is minimized]
+הראה פופאפים אם החלון ממוזער
+[Show Popups if Window is unfocused]
+הראה פופאפים אם החלון לא ממוקד
+[Show Popups for all inactive sessions]
+הראה פופאפים לכל החלונות הלא פעילים
+[Save current Window Position as Default]
+שמור מיקום חלון נוכחי כברירת מחדל
+;file \plugins\TabSRMM\src\buttonsbar.cpp
+[Bold text]
+מודגש
+[Italic text]
+נטוי
+[Underlined text]
+קן תחתון
+[Quote last message OR selected text]
+צטט הודעה אחרונה או טקסט מסומן
+[Message Log Options]
+אפשרויות יומן הודעות
+;file \plugins\TabSRMM\src\container.cpp
+[Hide titlebar]
+הסתר כותרת
+[Container options...]
+...אפשרויות חלון שיחה
+[Attach to]
+חבר ל
+[Autoselect]
+בחירה אוטומטית
+[Use Protocol]
+השתמש בפרוטוקול
+[Set Default Protocol]
+בחר פרוטוקול ברירת מחדל
+;file \plugins\TabSRMM\src\containeroptions.cpp
+[Tabs at the bottom]
+טאבים בתחתית
+[Globally on]
+אצל כולם
+[On, if present]
+רק אם מוצג
+[Globally OFF]
+אצל אף אחד
+;file \plugins\TabSRMM\src\controls.cpp
+[disabled]
+בטל
+;file \plugins\TabSRMM\src\eventpopups.cpp
+[Incoming file]
+קובץ נכנס
+;file \plugins\TabSRMM\src\generic_msghandlers.cpp
+;file \plugins\TabSRMM\src\globals.cpp
+;file \plugins\TabSRMM\src\hotkeyhandler.cpp
+;file \plugins\TabSRMM\src\infopanel.cpp
+[Use Global Setting]
+השתמש בהגדרה גלובלית
+;file \plugins\TabSRMM\src\mim.cpp
+;file \plugins\TabSRMM\src\modplus.cpp
+;file \plugins\TabSRMM\src\msgdialog.cpp
+[Save and close session]
+שלח וסגור חלון
+[The message send timed out]
+שליחת ההודעה נכשלה
+;file \plugins\TabSRMM\src\msgdlgutils.cpp
+;file \plugins\TabSRMM\src\msglog.cpp
+;file \plugins\TabSRMM\src\msgoptions.cpp
+[IEView plugin]
+IEViewפלאג ה
+[Tabs and layout]
+טאב ומערך
+[Containers]
+חלונות טאב
+[Tool bar]
+סרגל כלים
+[Choose status modes]
+בחר מצבי סטטוס
+;file \plugins\TabSRMM\src\msgs.cpp
+;file \plugins\TabSRMM\src\msgs.h
+;file \plugins\TabSRMM\src\selectcontainer.cpp
+[You cannot delete the default container]
+אתה לא יכול למחוק את הגדרות חלון השיחה
+[You cannot rename the default container]
+אתה לא יכול לשנות את שם חלון השיחה
+[This name is already in use]
+השם נמצא בשימוש
+;file \plugins\TabSRMM\src\sendlater.cpp
+;file \plugins\TabSRMM\src\sendqueue.cpp
+[A message delivery has failed.\nClick to open the message window.]
+שליחת ההודעה נכשלה. לחץ לפתחית חלון השיחה
+;file \plugins\TabSRMM\src\sidebar.cpp
+;file \plugins\TabSRMM\src\srmm.cpp
+;file \plugins\TabSRMM\src\taskbar.cpp
+;file \plugins\TabSRMM\src\templates.cpp
+[Template Set Editor]
+עורך סידור תבנית
+;file \plugins\TabSRMM\src\themeio.cpp
+;file \plugins\TabSRMM\src\themes.cpp
+;file \plugins\TabSRMM\src\translator.cpp
+[Show a preview of the event]
+הראה תצוגה מקדימה של האירוע
+[Don't announce event when message dialog is open]
+אל תודיע על אירוע כשחלון השיחה פתוח
+[Don't announce events from RSS protocols]
+RSS אל תודיע אל אירועים מפרוטוקולי 
+[Enable the system tray icon]
+אפשר אייקון במגש המערכת
+[Show headers]
+הראה כותרות עליונות
+[Open event]
+פתח אירוע
+[Dismiss event]
+סלק אירוע
+[Left click actions (popups only)]
+(פעולות קליק שמאלי (רק פופאפים
+[Right click actions (popups only)]
+(פעולות קליק ימני (רק פופאפים
+[Timeout actions (popups only)]
+פעולות זמן השהייה
+[Remove popups under following conditions]
+הסר פופאפים בתנאים הבאים
+[Message window behaviour]
+התנהגות חלון הודעה
+[Sending messages]
+שליחת הודעות
+[Send on SHIFT - Enter]
+אנטר SHIFT שלח הודעות בלחיצה
+[Delete temporary contacts on close]
+מחוק אנשי קשר זמניים בסגירה
+[Automatically copy selected text]
+העתק אוטומטית טקסט נבחר
+[Message log appearance]
+מראה יומן הודעה
+[Support for external plugins]
+תמיכה לפלאגים חיצוניים
+[Show file events]
+הראה אירועי קבצים
+[Draw grid lines]
+צייר רשת קווים
+[Use Incoming/Outgoing Icons]
+השתמש באייקוני הודעה נכנסת/יוצאת
+[Use Message Grouping]
+השתמש בקיבוץ הודעות
+[Simple text formatting (*bold* etc.)]
+(תבנית טקסט פשוטה (*מודגש* ועוד
+[Support BBCode formatting]
+BB תמוך בתבניות קודי
+[Show status text on tabs]
+הראה מצב כתיבה בטאבים
+;file \plugins\TabSRMM\src\trayicon.cpp
+;file \plugins\TabSRMM\src\typingnotify.cpp
+[Disable &typing notification]
+בטל &הודעות הקלדה
+[...is typing a message.]
+...מקליד הודעה.
+[...has stopped typing.]
+להקליד הפסיק...
+;file \plugins\TabSRMM\src\userprefs.cpp
+[Always On]
+תמיד מופעל
+[Always Off]
+תמיד מכובה
+[Force Default Message Log]
+כפה ברירת מחדל של יומן ההודעה
+[Force IEView]
+IEView כפה
+;file \plugins\TabSRMM\src\utils.cpp
+;file \plugins\TabSRMM\src\chat\clist.cpp
+;file \plugins\TabSRMM\src\chat\colorchooser.cpp
+;file \plugins\TabSRMM\src\chat\log.cpp
+;file \plugins\TabSRMM\src\chat\muchighlight.cpp
+;file \plugins\TabSRMM\src\chat\options.cpp
+[Log background]
+רקע יומן
+[>> Outgoing misc events]
+<< אירועים יוצאים
+[<< Incoming misc events]
+>> אירועים נכנסים
+[>> Outgoing messages (old)]
+<< (הודעות יוצאות (ישן
+[>> Outgoing misc events (old)]
+<< (אירועים יוצאים (ישן
+[<< Incoming messages (old)]
+>> (הודעות נכנסות (ישן
+[<< Incoming misc events (old)]
+>> (אירועים נכנסים (ישן
+[>> Outgoing name (old)]
+<< (שם יוצא (ישן
+[<< Incoming name (old)]
+>> (שם נכנס (ישן
+[* Message Input Area]
+* אזור כתיבת ההודעה
+[* Status changes]
+* שינויי מצב
+[* Dividers]
+* קווים מפרידים
+[* Error and warning Messages]
+* הודעות אזהרה ושגיאה
+[* Symbols (incoming)]
+* (סמלים (נכנסים
+[* Symbols (outgoing)]
+* (סמלים (יוצאים
+[Contacts local time]
+זמן מקומי של אנשי קשר
+[Userlist background]
+רקע רשימה
+;file \plugins\TabSRMM\src\chat\services.cpp
+;file \plugins\TabSRMM\src\chat\tools.cpp
+;file \plugins\TabSRMM\src\chat\window.cpp

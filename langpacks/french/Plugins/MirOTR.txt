@@ -6,6 +6,22 @@
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
+[OTR Generating Private Key]
+Génération d'une nouvelle clef privée OTR
+[Generating new private key - please wait.]
+Génération d'une nouvelle clef privée - veuillez patienter...
+[Default Policy]
+Politique par défaut
+[Manual]
+Manuel
 ;file \plugins\MirOTR\MirOTR\src\language.h
+[Start OTR]
+Cryptage OTR
+[Stop OTR]
+Stopper le Cryptage OTR
+[OTR Information]
+TOR - Informations
+[Policy]
+Politique
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 ;file \plugins\MirOTR\MirOTR\src\options.cpp

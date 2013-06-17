@@ -4,3 +4,5 @@
 ;  Versions: 0.0.1.6-0.0.3.19
 ;  URL: http://www.torun.mm.pl/~slotwin/smcn/smcnotifytest.zip
 ;============================================================
+[New status message]
+Nouveau message d'état

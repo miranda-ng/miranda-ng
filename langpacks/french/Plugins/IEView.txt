@@ -6,12 +6,56 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 ;file \plugins\IEView\res\ieview.rc
+[Save Image As...]
+Sauver l'image sous ...
+[Print]
+Imprimer
+[Show source]
+Voir les sources
+[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
+Les BBCodes suivant sont supportés :  [b][i][u][s][img][size][color][url]
+[Enable support for Flash files in smileys and BBCodes]
+Activer le support de fichiers Flash pour les smileys et BBCodes
+[Enable workaround for PNG transparency]
+Activer les PNG transparents
+[Enable MathModule support]
+Activer le support de MathModule
+[Replace smileys in user names]
+Mettre des smiley dans les pseudos
+[Hide window border]
+Cacher les bordures
+[Compatibility Mode]
+Mode compatibilité
+[Use External CSS]
+Utiliser un CSS externe
+[Use Templates]
+Utiliser les modèles
+[Background image]
+Image de fond
+[Template Options]
+Options des modèles
+[Use message grouping]
+Grouper les messages
+[Show nicknames]
+Voir les pseudos
+[Use long date format]
+Utiliser date long format
+[Use relative timestamp]
+Utiliser la date relative
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Outgoing File Transfer]
+Transfert de fichiers sortants
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 ;file \plugins\IEView\src\IEView.cpp
 [ERROR]
 ERREUR
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[%s has joined.]
+%s est arrivé.
+[%s has left.]
+%s est parti.
+[The topic is %s.]
+Le sujet est %s.
 ;file \plugins\IEView\src\Options.cpp
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp

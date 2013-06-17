@@ -7,4 +7,20 @@
 ;  Source: http://delphi-miranda-plugins.googlecode.com/svn/trunk/actman/
 ;  Authors: Awkward
 ;============================================================
+[Append data to file]
+Ajouter les données au fichier
+[Menu icons]
+Menus
 ;other strings
+[number value]
+Valeur numérique
+[ANSI string]
+Chaine ANSI
+[Unicode string]
+Chaine unicode
+[current contact]
+contact actuel
+[Effect]
+Effets
+[Start]
+Lancer

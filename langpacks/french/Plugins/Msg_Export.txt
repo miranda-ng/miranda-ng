@@ -9,13 +9,17 @@
 [Use internal viewer]
 Visionneur interne
 [Replace miranda history]
-Remplace l'historique de Miranda
+Remplace l'historique Miranda
+[Use UTF8 in new files]
+Utiliser l'UTF8
+[Append extra new line]
+Ajouter une ligne de plus
 [Use << and >>]
 Utiliser << et >>
 [Auto filename]
 Nommage auto
 [Export all history]
-Exporter tout l'historique
+Tout exporter
 [Export directory]
 Répertoire d'exportation
 [Max column width]
@@ -30,16 +34,18 @@ Fichier
 Visionneur
 [Exporting old messages]
 Exportation des anciens messages
+[History file for %s (%s format %s)]
+Fichier d'historique de %s (%s format %s)
 [&External]
 &Externe
 [When filename changes]
-Quand le contact change de nom
+Si le contact change de nom
 [Prompt for action]
 Demander quoi faire
 [Rename file]
 Renommer le fichier
 [When user is deleted]
-Quand le contact est effacé
+Si le contact est effacé
 [Delete file]
 Effacer le fichier
 [UserList]
@@ -60,7 +66,7 @@ Surligner un contact
 ;file \plugins\Msg_Export\src\Glob.h
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
-Ouvir l'historique e&xporté
+Ouvrir l'historique &exporté
 ;file \plugins\Msg_Export\src\options.cpp
 [No contacts found to export]
 Pas de contacts à exporter trouvés
@@ -75,11 +81,13 @@ Vous devez relancer Miranda pour changer la gestion de l'historique
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
 N'a pas trouvé Msg_Export.dll Veuillez localisé Msg_Export.txt manuellement.
 [You have unapplyed changes do you wish to apply these first ?]
-Vous avez restorer les changements, voulez-vous dabord les enregistrer ?
+Vous avez restauré les changements, voulez-vous d'abord les enregistrer ?
 [Select Destination Directory]
 Choix du répertoire de destination
 [Export Protocols]
 Exporter les protocoles
+[Message export]
+Message Export
 ;file \plugins\Msg_Export\src\utils.cpp
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Échec du renommage/déplacement du fichier\n\nde:\t%s\n en :\t%s\n\nErreur : %s
@@ -87,6 +95,26 @@ Exporter les protocoles
 Échec d'ouverture ou de création du fichier :\n
 [Failed to move to the end of the file :\n]
 Échec de mise en fin de fichier :\n
+[User      : %User%\r\n]
+Contact   : %User%\r\n
+[Protocol  : %Proto%\r\n]
+Protocole : %Proto%\r\n
+[FirstName : %FirstName%\r\n]
+Nom       : %FirstName%\r\n
+[LastName  : %LastName%\r\n]
+prénom    : %LastName%\r\n
+[Gender    : %Gender%\r\n]
+Sexe      : %Gender%\r\n
+[City      : %City%\r\n]
+Ville     : %City%\r\n
+[State     : %State%\r\n]
+État      : %State%\r\n
+[Phone     : %Phone%\r\n]
+Téléphone : %Phone%\r\n
+[Homepage  : %Homepage%\r\n]
+Page web  : %Homepage%\r\n
+[- About -\r\n%About%\r\n]
+- À propos -\r\n%About%\r\n
 [Failed to write message to the file :\n]
 Échec d'écriture du message dans le fichier :\n
 [URL: ]
@@ -102,9 +130,7 @@ Pseudo   :
 [FirstName :]
 Prénom    :
 [LastName  :]
-NOm       :
-[e-mail    :]
-e-mail    :
+Nom       :
 [Reason    :]
 Motif     :
 [Invalid Database event received. Type %d, size %d]
@@ -120,4 +146,4 @@ EmailExpress de :
 [Failed to write SMS to the file :\n]
 Échec d'écriture du SMS dans le fichier :\n
 [Failed to delete the file]
-Échec d'effacement du fichier
+Échec de la suppression du fichier

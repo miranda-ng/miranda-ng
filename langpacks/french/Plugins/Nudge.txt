@@ -6,6 +6,34 @@
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\Nudge\res\resource.rc
+[Protocol options]
+Protocoles
+[Specify options for each protocol]
+Options différentes pour chaque protocole
+[Enable message window shaking]
+Tremblement de la fenêtre de message
+[Show as status change]
+Afficher si changement d'état
+[Sending text]
+Message envoyé
+[Receiving text]
+Message reçu
+[Allow receiving one nudge from the same contact every :]
+Autoriser la réception d'un wizz du même contact toutes les 
+[Shaking Clist Options]
+Tremblement de la liste de contacts
+[Width of move]
+Force du mouvement
+[Shaking Message Window Options]
+Tremblement de la fenêtre de message
 ;file \plugins\Nudge\src\main.cpp
+[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
+Vous ne pouvez pas envoyer tant de wizz (uniquement 1 toutes les %d sec, %d sec restantes)
 ;file \plugins\Nudge\src\nudge.cpp
+[You received a nudge]
+Vous avez reçu un wizz
+[You sent a nudge]
+Vous avez envoyé un wizz
 ;file \plugins\Nudge\src\options.cpp
+[Window Shaking]
+Tremblement des fenêtres

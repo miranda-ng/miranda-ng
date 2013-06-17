@@ -1,0 +1,720 @@
+﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
+;============================================================
+;  File: ICQ.dll
+;  Plugin: ICQ
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\IcqOscarJ\res\resources.rc
+[Enter ICQ Password]
+ICQ parolasını yazın
+[Enter a password for UIN %d:]
+%d UIN için parolayı yazın:
+[ICQ number:]
+ICQ numarası:
+[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+İpucu: Eğer parolanızı buraya yazmazsanız, Miranda her çevrim içi olmaya çalıştığınızda soracaktır.
+[Retrieve a lost password or ICQ number]
+Kayıp parola veya ICQ numarası sor
+[Create a new ICQ account using the ICQ website]
+ICQ web sitesinden yeni bir ICQ hesabı oluştur
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+İpucu: Rastgele bir porta bağlanmak için 0 yazın. Http vekil sunucu üzerinden bağlanmakta sorun yaşıyorsanız 80 veya 443 kullanın.
+[Secure (MD5) login]
+Güvenli (MD5) giriş
+[Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
+'Canlı kal' iletileri gönder (bir vekil sunucu arkasında iseniz ve sık sık bağlantınız kopuyorsa seçin)
+[Ignore concurrent error messages]
+Aynı anda gelen hata iletilerini yoksay
+[Show connection error messages:]
+Bağlantı hata iletilerini göster:
+[ICQ contacts stored on server]
+ICQ kişileri sunucuda saklanıyor
+[Manage server's list...]
+Sunucu listelerini yönet...
+[Enable server-side contact lists *]
+Sunucu tarafı kişi listelerini aç *
+[Add contacts to the server's list when I add them to mine]
+Kişileri listeye eklediğimde sunucudaki listeye ekle
+[Update my contacts' details from the server *]
+Kişilerimin detaylarını sunucudan güncelle *
+[Update contacts' details on the server's list when I change them in mine]
+Listemde kişilerin detaylarını değiştirdiğimde sunucu listesini güncelle
+[ICQ avatars]
+ICQ avatarları
+[Enable avatar support]
+Avatar desteğini etkinleştir
+[Check avatar validity before saving *]
+Kaydetmeden önce avatar geçerliliğini denetle *
+[Load avatars automatically (like ICQ Lite)]
+Avatarları kendiliğinden yükle (ICQ Lite gibi)
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+Yaptığınız değişikliklerin etkili olması için ICQ ağına yeniden bağlanmalısınız.
+[You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
+ICQ ağına bağlıyken sunucu kişi listesini açıp/kapatmazsınız.
+[Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
+Not: Yıldız ile işaretlenmiş seçeneklerin henüz belgelenmemiş önemli yan etkileri olabilir.
+[Enable unicode messaging support]
+Unikod ileti desteğini aç
+[Send all messages in unicode if possible]
+Olabildiğinde tüm iletileri unikod olarak gönder
+[Use this codepage for Ansi <-> Unicode translation :]
+ANSI / unikod dönüşümü için bu kod sayfasını kullan
+[Make me temporarily visible to contacts I send message to]
+İleti gönderdiğim kişilere geçici olarak görün
+[Notify me when a message delivery has failed (recommended)]
+Bir ileti gönderilemediğinde beni uyar (önerilir)
+[Peer-to-peer Messaging]
+Uçtan-Uca İletişim
+[Enable peer-to-peer message connections]
+Uçtan-uca ileti bağlantılarını aç
+[Passive mode, i.e. do not initiate new connections]
+Pasif kip, örneğin yeni bağlantılar açma
+[Extra Features]
+Ek Özellikler
+[Reset Custom status on status change]
+Durum değişikliğinde özel durumu sıfırla
+[Auto-retrieve Custom status details]
+Özel durum iletilerini kendiliğinden al
+[Block known Spam Bots]
+Bilinen Spam Botlarını Engelle
+[Direct connections]
+Doğrudan bağlantılar
+[Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
+doğrudan bağlantılara izin vermek IP adresinizin bilinmesine neden olur ancak bazı ICQ özelliklerinin düzgün çalışması için gerekebilir.
+[Allow direct connections with any user]
+Her kullanıcı ile doğrudan bağlantılara izin ver
+[Allow direct connections with users on my contact list]
+Kişi listemdekilerle doğrudan bağlantılara izin ver
+[Allow direct connections only when I authorize or initiate them]
+Ben izin verir veya başlatırsam doğrudan bağlantılara izin ver.
+[Contact List Authorization]
+Kişi Listesi İzinleri
+[All users may add me to their Contact List]
+Tüm kişiler beni kendi kişi listelerine ekleyebilir
+[I want to be asked when someone wants to add me to their Contact List]
+Birisi beni kişi listesine eklemek istediğinde bana sor
+[Misc Settings]
+Diğer Ayarlar
+[Allow others to view my Online / Offline status from the web (Web Aware)]
+Kişiler benim çevrim içi / çevrim dışı olduğumu web üzerinden görebilsin (Web Aware)
+[Allow others to view my primary e-mail address]
+Kişiler asıl e-posta adresimi görebilsin
+[Only reply to status message requests from users on my contact list]
+Yalnız kişi listemdekilerin durum iletisi isteklerini yanıtla
+[Only reply to status message request from visible contacts]
+Yalnız göründüğüm kişilerin durum iletisi isteklerini yanıtla
+[Some options are greyed out because they can only be changed when you are online.]
+Bazı seçenekler yalnız çevrim içi olduğunuzda değiştirilebileceğinden dolayı devre dışı 
+[Enable popup support]
+Açılır pencere desteğini aç
+[Display popup when spambot is detected]
+Spambot algılandığında açılır pencerede göster
+[Look && Feel]
+Görünüş ve His
+[Fatal]
+Ölümcül
+[Spam detected]
+Spam algılandı
+[Use system &icons]
+Sistem s&imgelerini kullan
+[UIN:]
+UIN:
+[External IP:]
+Dış IP:
+[Protocol Version:]
+Protokol Sürümü:
+[User Client:]
+Kullanıcı İstemcisi:
+[System up since:]
+Şu zamandan beri çalışıyor:
+[Idle since:]
+Şu zamandan beri boşta:
+[Keywords:]
+Anahtar Kelimeler:
+[Organisation:]
+Kurum:
+[Interests]
+İlgi Alanları
+[Category:]
+Kategori:
+[Manage ICQ Server Contacts]
+ICQ Sunucu Kişilerini Yönet
+[Select contacts to store:]
+Saklanacak kişileri seçin:
+[Synchronize]
+eşleştir
+[Retrieving custom status details...]
+Özel durum detayları alınıyor...
+[Confirm Password Change]
+Parola Değişimini Onayla
+[Please re-type your new password:]
+Yeni parolanızı yeniden yazın:
+[Enter your current password:]
+Şimdiki parolanızı yazın:
+;file \protocols\IcqOscarJ\src\chan_04close.cpp
+[Unable to connect to migrated ICQ communication server]
+Eklenilen ICQ iletişim sunucusuna bağlanılamadı
+[Unable to connect to ICQ communication server]
+ICQ iletişim sunucusuna bağlanılamadı
+[You could not sign on because the server returned invalid data. Try again.]
+Sunucu geçersiz veri gönderdiğinden giriş yapamadınız. Yeniden deneyin.
+[You have been disconnected from the ICQ network because the current server shut down.]
+Kullanımdaki sunucu kapandığından ICQ ağıyla bağlantınız kesildi.
+[Connection failed.\nYour ICQ number or password was rejected (%d).]
+Bağlanılamadı.\nICQ numaranız veya parolanız kabul edilmedi (%d).
+[Connection failed.\nThe server is temporarily unavailable (%d).]
+Bağlanılamadı.\nSunucu geçici olarak devre dışı (%d).
+[Connection failed.\nServer has too many connections from your IP (%d).]
+Bağlanılamadı.\nIP adresinizden sunucuya çok fazla (%d) bağlantı var.
+[Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
+Bağlanılamadı.\nÇok hızlı bağlandınız,\lütfen 10-20 dakika bekleyip yeniden deneyin (%d).
+[Connection failed.\nThe server did not accept this client version.]
+Bağlanılamadı.\nSunucu bu istemci tipini kabul etmiyor.
+[The server sent warning, this version is getting old.\nTry to look for a new one.]
+Sunucu uyarısı, bu sürüm eskiyor.\Yenisine bakın.
+[Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
+Bağlanılamadı.\nbilinmeyen bir nedenle sunucu taradından red edildiniz.\nBu sorun UIN zaten bağlıysa oluşabilir.
+[Connection failed.\nSecure (MD5) login is not supported on this account.]
+Bağlanılamadı.\nBu hesap güvenli (MD5) girişi desteklemiyor.
+[Connection failed.\nUnknown error during sign on: 0x%02x]
+Bağlanılamadı.\ngiriş yapılırken bilinmeyen hata: 0x%02x
+[You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
+Başka bir yerden aynı ICQ numarası ile giriş yaptığınızdan ICQ ağıyla bağlantınız kesildi.
+[Unknown runtime error: 0x%02x]
+Bilinmeyen çalışma zamanı hatası: 0x%02x
+;file \protocols\IcqOscarJ\src\fam_01service.cpp
+[A server migration has failed because the server returned invalid data. You must reconnect manually.]
+Sunucu geçersiz veri ilettiğinden sunucu eklenemedi. El ile bağlanmalısınız.
+[Failed to request offline messages. They may be received next time you log in.]
+Çevrim dışı iletiler istenemedi. Sonraki girişinizde alınacaklar.
+;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
+[Spambot Detected]
+Spambot Bulundu
+[Contact deleted & further events blocked.]
+Kişi silindi bundan sonra yapacakları engellendi
+;file \protocols\IcqOscarJ\src\fam_04message.cpp
+[Incoming URL:]
+Gelen web adresi:
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
+Çok hızlı gönderiyorsunuz. Bir süre bekleyip yeniden deneyin.\r\nSNAC(4.1) Hata x02
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
+Çok hızlı gönderiyorsunuz. Bir süre bekleyip yeniden deneyin.\r\nSNAC(4.1) Hata x03
+[The contact does not support receiving offline messages.]
+Kişinin çevrim dışı iletileri alma desteği yok.
+[The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
+Kullanıcı çıktı. Çevrim dışı ileti göndermek için 'Yeniden' seçin.\r\nSNAC(4.1) Hata x04
+[The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
+İletişim hizmeti geçici olarak devre dışı. Bir süre bekleyip yeniden deneyin.\r\nSNAC(4.1) Hata x05
+[The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
+Alıcının istemcisi b tip iletiyi desteklemiyor.\r\nSNAC(4.1) Hata x09
+[You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
+Alıcının istemcisinin desteklemediği kadar uzun bir ileti gönderdiniz.\r\nSNAC(4.1) Hata x0A
+[The SNAC format was rejected by the server.\nSNAC(4.1) Error x0E]
+Sunucu SNAC biçimini red etti.\nSNAC(4.1) Hata x0E
+[The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
+Kullanıcı geçici olarak yok. Bir süre bekleyip yeniden deneyin.\r\nSNAC(4.1) Hata x013
+[SNAC(4.1) SENDMSG Error (x%02x)]
+SNAC(4.1) SENDMSG Hatası (x%02x)
+[ICQ Note]
+ICQ Not
+;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
+[Server contact list is unavailable, Miranda will use local contact list.]
+Sunucu kişi listesine ulaşılamadı, Miranda yerel kişi listesini kullanacak.
+[Updating of server contact failed.]
+Sunucu bağlantısı güncellenemedi.
+[Adding of privacy item to server list failed.]
+Kişisel öge sunucu listesine eklenemedi.
+[Removing of privacy item from server list failed.]
+Kişisel öge sunucu listesinden silinemedi.
+[Adding of contact to server list failed.]
+Kişi sunucu listesine eklenemedi.
+[Adding of group to server list failed.]
+Grup sunucu listesine eklenemedi.
+[Removing of contact from server list failed.]
+Kişi sunucu listesinden silinemedi.
+[Updating of group on server list failed.]
+Sunucu listesindeki grup güncellenemedi.
+[Removing of group from server list failed.]
+Grup sunucu listesinden silinemedi.
+[Moving of user to another group on server list failed.]
+Kişi sunucu listesindeki başka bir gruba taşınamadı.
+[Renaming of server group failed.]
+Sunucu grubu yeniden adlandırılamadı.
+;file \protocols\IcqOscarJ\src\fam_17signon.cpp
+[Secure login failed.\nInvalid server response.]
+Güvenli giriş yapılamadı.\nGeçersiz sunucu yanıtı.
+[Secure login failed.\nInvalid key length.]
+Güvenli giriş yapılamadı.\Geçersiz anahtar uzunluğu.
+;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
+[Are you sure you want to revoke user's authorization (this will remove you from his/her list on some clients) ?]
+Kullanıcının izinlerini geri almak istediğinizden emin misiniz (bu sizi bazı arkadaşlarınızın istemci listelerinden silecek)?
+[** This message was blocked by the ICQ server ** The message was invalid.]
+** ICQ sunucusu bu iletiyi engelledi. ** İleti geçersiz.
+[** This message was blocked by the ICQ server ** The message was too long.]
+** ICQ sunucusu bu iletiyi engelledi. ** İleti çok uzun.
+[** This message was blocked by the ICQ server ** The sender has flooded the server.]
+** ICQ sunucusu bu iletiyi engelledi. ** Gönderici sunucuda çok trafik oluşturdu.
+[** This message was blocked by the ICQ server ** You are too evil.]
+** ICQ sunucusu bu iletiyi engelledi. ** Çok kötüsünüz.
+;file \protocols\IcqOscarJ\src\icq_avatar.cpp
+[Error uploading avatar to server, server temporarily unavailable.]
+Avatar sunucuya yüklenemedi, sunucu geçici olarak devre dışı.
+[Error uploading avatar to server, server refused to accept the image.]
+Avatar sunucuya yüklenemedi, sunucu resmi kabul etmedi.
+;file \protocols\IcqOscarJ\src\icq_constants.h
+;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Ascension Island]
+Askensiyon Adaları
+[Bolivia]
+Bolivya
+[British Virgin Islands]
+İngiliz Virgin Adaları
+[Brunei]
+Brunei
+[Canary Islands]
+Kanarya Adaları
+[Cape Verde Islands]
+Cape Verde Adaları
+[Chile, Republic of]
+Şili Cumhuriyeti
+[Congo, Democratic Republic of (Zaire)]
+Demokratik kongo Cumhuriyeti (Zaire)
+[Congo, Republic of the]
+Kongo Cumhuriyeti
+[Cote d'Ivoire (Ivory Coast)]
+Cote d'Ivoire (Ivory Coast)
+[Diego Garcia]
+Diego Garcia
+[Faeroe Islands]
+Faeroe Adaları
+[Falkland Islands]
+Falkland Adaları
+[French Antilles]
+Fransız Antilleri
+[Guam, US Territory of]
+Guam, Amerikan bölgesi
+[Iran (Islamic Republic of)]
+İran İslam Cumhuriyeti
+[Korea, North]
+Kuzey Kore
+[Korea, South]
+Güney Kore
+[Laos]
+Laos
+[Libyan Arab Jamahiriya]
+Libya Arap Cemahiriyesi
+[Macau]
+Makau
+[Mayotte Island]
+Mayot Adaları
+[Netherlands Antilles]
+Hollanda Antilleri
+[Reunion Island]
+Reunion Adası
+[Russia]
+Rusya
+[Saint Helena]
+Sen Helen
+[Scotland]
+İskoçya
+[Taiwan]
+Tayvan
+[Tanzania]
+Tanzanya
+[USA]
+ABD
+[Vatican City]
+Vatikan
+[Venezuela]
+Venezüela
+[Vietnam]
+Vietnam
+[Wales]
+Galler
+[Wallis and Futuna Islands]
+Wallis ve Futuna Adaları
+[Yugoslavia]
+Yugoslavya
+[Business]
+İş
+[Past Work Place]
+Eski İşyeri
+[Past Organization]
+Eski Organizasyon
+[60-above]
+60 üzeri
+;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
+;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Dosya gönderme işleminiz kesildi çünkü seçtiğiniz dosyalar diskten okunamıyor. Dosyaları silmiş veya taşımış olabilirsiniz.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Dosya alma işleminiz kesildi çünkü Miranda hedef dosyayı yazmak için açamadı. Dosyayı salt okunur bir klasöre kaydetmeye çalışıyor olabilirsiniz.
+;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Add to server list]
+Sunucu listesine ekle
+[Show custom status details]
+Özel durum detayı göster
+;file \protocols\IcqOscarJ\src\icq_opts.cpp
+[Display all problems]
+Tüm sorunları göster
+[Display problems causing possible loss of data]
+Olası veri kaybına neden olan sorunları göster
+[Display explanations for disconnection]
+Bağlantı kesilmesinin açıklamasını göster
+[Display problems requiring user intervention]
+Kullanıcı müdahalesi gerektiren sorunları göster
+[Do not display any problems (not recommended)]
+Hiç bir sorunu gösterme (önerilmez)
+[System default codepage]
+Varsayılan sistem kod sayfası
+;file \protocols\IcqOscarJ\src\icq_popups.cpp
+[Sample Note]
+Örnek Not
+[Sample Warning]
+Örnek Uyarı
+[Sample Error]
+Örnek Hata
+[Sample Fatal]
+Örnek Ölümcül
+[Sample Spambot]
+Örnek Spambot
+;file \protocols\IcqOscarJ\src\icq_proto.cpp
+[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+Bir ICQ numarası yazmadınız.\nBunu Seçenekler->Ağ->ICQ bölümünden yazıp yeniden deneyin.
+;file \protocols\IcqOscarJ\src\icq_server.cpp
+[Unable to connect to ICQ login server]
+ICQ giriş sunucusuna bağlanılamadı
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
+Miranda istemciler arasında bağlantı kurmak için dinlenecek bir port ayarlayamadı. Pek çok ICQ özelliğini sorunsuz kullanabilirsiniz ancak dosya aktarımı yapamayabilirsiniz.\n\neğer Mirandayı engelleyebilecek bir güvenlik duvarınız varsa, bazı portları açıp Mirandaya bu portları kullanmasını Menü->Seçenekler->ICQ->Ağ bölümünden söyleyebilirsiniz.
+[Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
+Bağlanılamadı.\nGiriş işlemleri bilinmeyen bir nedenle yapılamadı.\nDaha sonra yeniden deneyin.
+[Your connection with the ICQ server was abortively closed]
+ICQ sunucu ile bağlantınız iptal edilerek kesildi
+;file \protocols\IcqOscarJ\src\icq_servlist.cpp
+[The contact's information was too big and was truncated.]
+Kişi bilgisi çok uzun olduğundan budanacak.
+;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
+[NOT FOUND]
+BULUNAMADI
+[ALREADY EXISTS]
+ZATEN VAR
+[INVALID DATA]
+GEÇERSİZ VERİ
+[LIST FULL]
+LİSTE DOLU
+[FAILED]
+BAŞARISIZ
+[Select contacts you want to store on server.]
+Sunucuda saklamak istediğiniz kişileri seçin.
+[Ready...]
+Hazır...
+[Server rate warning -> slowing down the process.]
+Sunucu derecelndirme uyarısı -> işlem yavaşlatılıyor.
+[Uploading %s...]
+%s yükleniyor...
+[No upload group available]
+Yükleme grubu yok
+[Deleting %s...]
+%s siliniyor...
+[Adding %s to visible list...]
+%s görün listesine ekleniyor...
+[Adding %s to invisible list...]
+%s görünme listesine ekleniyor...
+[Deleting %s from visible list...]
+%s görün listesinden siliniyor...
+[Deleting %s from invisible list...]
+%s görünme listesinden siliniyor...
+[Cleaning groups]
+Gruplar temizleniyor
+[All operations complete]
+Tüm işlemler tamamlandı
+[You have to be online to sychronize the server-list !]
+Sunucu listesini eşleştirmek için çevrim içi olmalısınız!
+;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[Taking a bath]
+Duştayım
+[Drinking beer]
+Bira içmece
+[Thinking]
+Düşünüyorum
+[Watching TV]
+TV seyrediyorum
+[Shooting]
+Av
+[Having fun]
+Eğleniyorum
+[Gaming]
+Oyundayım
+[Studying]
+Ders Çalışıyorum
+[Shopping]
+Alışveriş
+[Feeling sick]
+Hastayım
+[Surfing]
+Geziniyorum
+[Picnic]
+Piknik
+[I'm high]
+Uçuyorum
+[To be or not to be]
+Olmak ya da olmamak
+[Watching pro7 on TV]
+Pro7 seyrediyorum
+[%s Custom Status]
+%s Kişisel Durum
+;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
+[Greeting card:]
+Kutlama kartı:
+;file \protocols\IcqOscarJ\src\init.cpp
+;file \protocols\IcqOscarJ\src\log.cpp
+[ICQ Warning]
+ICQ Uyarısı
+[ICQ Error]
+ICQ Hatası
+[ICQ Fatal]
+ICA Ölümcül
+[The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
+Sunucu kabul edilebilir bir sürede bağlantı isteğinizi yanıtlamadı. Geçici olarak devre dışı olabilir. Daha sonra yeniden deneyin.
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
+Miranda sunucu adını sayısal adrese çeviremedi. Bu durum ağ bağlantınızda sorun olduğunda yaşanır (örneğin modem bağlı değilken). Bir güvenlik duvarının arkasında iseniz Menu->Seçenekler->Ağ bölümünden 'Sunucu adlarını vekil üzerinden çöz' seçeneğini kullanın.
+[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
+Vekil sunucunuz yazdığınız kullanıcı adı ve parolayı kabul etmedi. Menu->Seçenekler->Ağ bölümünden denetleyin.
+[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
+Bağlanmaya çalıştığınız sunucu bulunamadı. Doğru yazdığınızdan emin olun Menu->Seçenekler->Ağ->ICQ.
+[error]
+hata
+;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+[The file transfer was aborted by the other user.]
+Kullanıcı dosya aktarımını iptal etti.
+[The file transfer failed: Proxy error]
+Dosya aktarılamadı: Vekil hatası
+[The file transfer failed: Invalid request]
+Dosya aktarılamadı: Geçersiz istek
+[The file transfer failed: Proxy unavailable]
+Dosya aktarılamadı: Vekile ulaşılamadı
+[Failed to Initialize File Transfer. No valid files were specified.]
+Dosya aktarımı başlatılamadı. Geçerli bir dosya belirtilmedi.
+[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
+Dosyalar bir kerede göndermek için çok büyük. 4GB boyutundan büyük dosyalar ayrı ayrı gönderilebilir.
+[Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
+Dosya aktarımı başlatılamadı. Yerel porta bağlanılamadı ve dosya vekiline ulaşılamadı.
+[Connection lost during file transfer.]
+Dosya aktarımı sırasında bağlantı kesildi.
+[File transfer negotiation failed for unknown reason.]
+Bilinmeyen bir nedenle dosya aktarımı iletişimi yapılamadı.
+;file \protocols\IcqOscarJ\src\utilities.cpp
+;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+[GMT-12:00 Eniwetok; Kwajalein]
+GMT-12:00 Eniwetok; Kwajalein
+[GMT-11:30]
+GMT-11:30
+[GMT-11:00 Midway Island; Samoa]
+GMT-11:00 Midway Island; Samoa
+[GMT-10:30]
+GMT-10:30
+[GMT-10:00 Hawaii]
+GMT-10:00 Hawai
+[GMT-9:30]
+GMT-9:30
+[GMT-9:00 Alaska]
+GMT-9:00 Alaska
+[GMT-8:30]
+GMT-8:30
+[GMT-8:00 Pacific Time; Tijuana]
+GMT-8:00 Pasifik Zamanı; Tiuyana
+[GMT-7:30]
+GMT-7:30
+[GMT-7:00 Arizona; Mountain Time]
+GMT-7:00 Arizona; Dağ Zamanı
+[GMT-6:30]
+GMT-6:30
+[GMT-6:00 Central Time; Central America; Saskatchewan]
+GMT-6:00 Orta Zaman; Orta Amerika; Saskatchewan
+[GMT-5:30]
+GMT-5:30
+[GMT-5:00 Eastern Time; Bogota; Lima; Quito]
+GMT-5:00 Doğu Zamanı; Bogota; Lima; Quito
+[GMT-4:30]
+GMT-4:30
+[GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
+GMT-4:00 Atlantik Zamanı; Santiago; KaraKas; La Paz
+[GMT-3:30 Newfoundland]
+GMT-3:30 Newfoundland
+[GMT-3:00 Greenland; Buenos Aires; Georgetown]
+GMT-3:00 Grönland; Buenos Aires; Georgetown
+[GMT-2:30]
+GMT-2:30
+[GMT-2:00 Mid-Atlantic]
+GMT-2:00 Orta Atlantik
+[GMT-1:30]
+GMT-1:30
+[GMT-1:00 Cape Verde Islands; Azores]
+GMT-1:00 Cape Verde Adaları; Azores
+[GMT-0:30]
+GMT-0:30
+[GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
+GMT+0:00 Londra; Dublin; Edinburg; Lizbon; Kazablanka
+[GMT+0:30]
+GMT+0:30
+[GMT+1:00 Central European Time; West Central Africa; Warsaw]
+GMT+1:00 Orta Avrupa Zamanı; Orta Batı Afrika; Varşova
+[GMT+1:30]
+GMT+1:30
+[GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
+GMT+2:00 Kudüs; Helsinki; Harar; Kahire; Bükreş; Atina
+[GMT+2:30]
+GMT+2:30
+[GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
+GMT+3:00 Moskova; Sen Petersburg; Nairobi; Kuveyt; Bağdat
+[GMT+3:30 Tehran]
+GMT+3:30 Tahran
+[GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat]
+GMT+4:00 Bakü; Tiflis; Yerevan; Abu Dabi; Muskat
+[GMT+4:30 Kabul]
+GMT+4:30 Kabil
+[GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
+GMT+5:00 Kalküta; Çennai; Mumbai; Yeni Delhi; Ekaterinburg
+[GMT+5:30]
+GMT+5:30
+[GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
+GMT+6:00 Astana; Dakka; Almati; Novosibirsk; Sri Jayawardenepura
+[GMT+6:30 Rangoon]
+GMT+6:30 Rangun
+[GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
+GMT+7:00 Bankok; Hanoi; Cakarta; Krasnoyarsk
+[GMT+7:30]
+GMT+7:30
+[GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing]
+GMT+8:00 Perth; Taipei; Singapur; Hong Kong; Beijing
+[GMT+8:30]
+GMT+8:30
+[GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk]
+GMT+9:00 Tokyo; Osaka; Seul; Sapporo; Yakutsk
+[GMT+9:30 Darwin; Adelaide]
+GMT+9:30 Darwin; Adelaide
+[GMT+10:00 East Australia; Guam; Vladivostok]
+GMT+10:00 Doğu Avustralya; Guam; Vladivostok
+[GMT+10:30]
+GMT+10:30
+[GMT+11:00 Magadan; Solomon Is.; New Caledonia]
+GMT+11:00 Magadan; Solomon Ad.; Yeni Kaledonya]
+[GMT+11:30]
+GMT+11:30
+[GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
+GMT+12:00 Okland; Wellington; Fiji; Kamçatka; Marşal Ad.
+[Personal]
+Kişisel
+[First name]
+Ad
+[Last name]
+Soyad
+[Street]
+Adres
+[City]
+İlçe
+[ZIP/postcode]
+Posta kodu
+[Country]
+Ülke
+[Phone number]
+Telefon numarası
+[Fax number]
+Faks numarası
+[Cellular number]
+Cep telefonu numarası
+[Personal Detail]
+Kişisel Detay
+[Year of birth]
+Doğum yılı
+[Month of birth]
+doğum ayı
+[Day of birth]
+Doğum günü
+[Marital Status]
+Medeni hali
+[Spoken language 1]
+Konuşulan dil 1
+[Spoken language 2]
+Konuşulan dil 2
+[Spoken language 3]
+Konuşulan dil 3
+[Originally from]
+Aslı şuradan
+[Company name]
+Kurum adı
+[Company homepage]
+Kurum ana sayfası
+[Company street]
+Kurum adresi
+[Company city]
+Kurum ilçesi
+[Company state]
+Kurum şehri
+[Company phone]
+Kurum telefonu
+[Company fax]
+Kurum faksı
+[Company ZIP/postcode]
+Kurum posta kodu
+[Company country]
+Kurum ülkesi
+[Company department]
+Kurum bölümü
+[Company position]
+Kurum konumu
+[Personal Interests]
+Kişisel İlgi Alanları
+[Interest category 1]
+İlgi kategorisi 1
+[Interest areas 1]
+İlgi alanları 1
+[Interest category 2]
+İlgi kategorisi 2
+[Interest areas 2]
+İlgi alanları 2
+[Interest category 3]
+İlgi kategorisi 3
+[Interest areas 3]
+İlgi alanları 3
+[Interest category 4]
+İlgi kategorisi 4
+[Interest areas 4]
+İlgi alanları 4
+;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
+[The password does not match your current password. Check Caps Lock and try again.]
+Yazdığınız parola geçerli parolanız değil. Büyük harf kilidine bakıp tekrar deneyin.
+[Change ICQ Details]
+ICQ detaylarını değiştir
+[The password does not match the password you originally entered. Check Caps Lock and try again.]
+Yazdığınız iki parola aynı değil. Büyük harf kilidine bakıp tekrar deneyin.
+[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
+ICQ sunucusu 8 karakterden uzun parolaları desteklemez. Lütfen daha kısa bir parola kullanın.
+;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
+[<unremovable once applied>]
+<bir kere uygulandığında kaldırılamaz>
+[Unknown value]
+Bilinmeyen değer
+[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
+ICQ detaylarınızda bazı değişiklikler yaptınız fakat bunlar sunucuya kaydedilmedi. Bu pencereyi kapatmak istediğinize emin misiniz?
+[Upload in progress...]
+Yükleniyor
+[Upload complete]
+Yüklendi
+[Upload FAILED]
+YÜKLENEMEDİ
+;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
+[You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
+Şu anda ICQ ağına bağlı değilsiniz. Sunucudaki bilgilerinizi güncellemek için çevrimiçi olmalısınız.
+;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
+;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
+[Enter a password for UIN %u:]
+%u UIN için parolayı yazın:
+;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+[ (DC Established)]
+ (DC Kuruldu)
+[ScreenName:]
+Ekran Adı:
+[Member since:]
+Üyelik:

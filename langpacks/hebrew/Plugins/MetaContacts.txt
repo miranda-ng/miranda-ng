@@ -1,0 +1,43 @@
+﻿#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+;============================================================
+;  File: MetaContacts.dll
+;  Plugin: MetaContacts
+;  Version: 0.14.0.13
+;  Authors: J. Schaal & S. Ellis
+;============================================================
+;file \plugins\MetaContacts\res\MetaContacts.rc
+[&Ok]
+&אישור
+[Contact Labels]
+תווית תוכן
+[Function]
+פונקציה
+[Show user information]
+הראה מידע משתמש
+[Display subcontact nickname]
+הצג תת תוכן שם משתמש
+[Number of days to copy (0=all):]
+מספר ימים להעתיק(0=הכול):
+;file \plugins\MetaContacts\src\addto.cpp
+;file \plugins\MetaContacts\src\edit.cpp
+;file \plugins\MetaContacts\src\icons.cpp
+[Convert to MetaContact]
+המר לתוכן משותף
+[Add to Existing]
+הוסף לקיים
+[Set to Default]
+הגדר כברירת מחדל
+;file \plugins\MetaContacts\src\metacontacts.h
+;file \plugins\MetaContacts\src\meta_main.cpp
+;file \plugins\MetaContacts\src\meta_menu.cpp
+;file \plugins\MetaContacts\src\meta_options.cpp
+;file \plugins\MetaContacts\src\meta_services.cpp
+[Add to existing MetaContact...]
+הוסף למידע תוכן משותף...
+[Edit MetaContact...]
+ערוך תוכן משותף
+[Delete MetaContact]
+מחק תוכן משותף
+[Priorities]
+עדיפויות
+;file \plugins\MetaContacts\src\meta_utils.cpp

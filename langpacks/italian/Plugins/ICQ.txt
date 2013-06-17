@@ -1,0 +1,314 @@
+﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
+;============================================================
+;  File: ICQ.dll
+;  Plugin: ICQ
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\IcqOscarJ\res\resources.rc
+[Enter ICQ Password]
+Inserisci la Password di ICQ
+[ICQ number:]
+Numero ICQ:
+[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+Suggerimento: se non provvedete ad inserire la vostra password qui, Miranda vi richiederà di inserirla ogni volta che tenterete di andare online.
+[Retrieve a lost password or ICQ number]
+Recupera la password o un numero ICQ perso
+[Create a new ICQ account using the ICQ website]
+Crea un nuovo account ICQ utilizzando il sito di ICQ
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+Specificate la porta 0 per connettervi ad una porta casuale. Usate le porte 80 o 443 se avete problemi a connettervi attraverso un proxy server http.
+[Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
+Invia 'Keep-alives' (abilita questa opzione se uitilizzate un proxy server e vi ritrovate spesso disconnessi)
+[Show connection error messages:]
+Mostra messaggi di errore di connessione:
+[ICQ contacts stored on server]
+Contatti ICQ memorizzati sul server
+[Manage server's list...]
+Amministra la lista sul server
+[Enable server-side contact lists *]
+Attiva le liste dei contatti sul server *
+[Add contacts to the server's list when I add them to mine]
+Aggiungi i contatti alla lista sul server quando li aggiungo alla mia lista locale
+[Update my contacts' details from the server *]
+Aggiorna i dettagli relativi ai miei contatti usando le informazioni memorizzate sul server *
+[Update contacts' details on the server's list when I change them in mine]
+Aggiorna i dettagli relativi ai miei contatti sulla lista server quando li modifico localmente
+[ICQ avatars]
+Avatar su ICQ
+[Enable avatar support]
+Abilita il supporto per gli avatar
+[Load avatars automatically (like ICQ Lite)]
+Carica gli avatar in modo automatico (come in ICQ Lite)
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+Le modifiche fatte su questa pagina richiedono la riconnessione alla rete ICQ per essere attivate
+[You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
+Non puoi attivare/disattivare la lista dei contatti sul server mentre sei connesso alla rete ICQ.
+[Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
+Nota: Le opzioni marcate con un asterisco hanno importanti effetti o avvertenze che potrebbero apparentemente non essere documentate nell'aiuto.
+[Direct connections]
+Connessioni dirette
+[Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
+Le connessioni dirette esporranno il tuo indirizzo IP ma possono essere necessarie perché alcune caratteristiche di ICQ funzionino correttamente.
+[Allow direct connections with any user]
+Permetti connessioni dirette con qualsiasi utente
+[Allow direct connections with users on my contact list]
+Permetti connessioni dirette con utenti sulla mia lista dei contatti
+[Contact List Authorization]
+Autorizzazione per lista dei contatti
+[All users may add me to their Contact List]
+Tutti gli utenti possono aggiungermi alla loro lista dei contatti
+[I want to be asked when someone wants to add me to their Contact List]
+Voglio che mi venga richiesto quando qualcuno mi aggiunge alla sua lista dei contatti
+[Misc Settings]
+Impostazioni varie
+[Allow others to view my Online / Offline status from the web (Web Aware)]
+Permetti agli altri di vedere dal web il mio stato Online / Offline (Web Aware)
+[Allow others to view my primary e-mail address]
+Permetti agli altri di vedere il mio indirizzo email primario
+[Only reply to status message requests from users on my contact list]
+Replica solo a richieste sullo stato da parte di utenti sulla mia lista contatti
+[Only reply to status message request from visible contacts]
+Replica solo a richieste sullo stato da parte di contatti visibili
+[UIN:]
+UIN:
+[External IP:]
+IP Esterno:
+[System up since:]
+Pc acceso il:
+[Keywords:]
+Keyword:
+[Organisation:]
+Organizzazione:
+[Interests]
+Interessi
+[Category:]
+Categoria:
+[Manage ICQ Server Contacts]
+Amministra contatti del server di ICQ
+[Select contacts to store:]
+Seleziona contatti da memorizzare
+;file \protocols\IcqOscarJ\src\chan_04close.cpp
+[Unable to connect to ICQ communication server]
+Impossibile collegarsi al server di communicazione di ICQ
+[You could not sign on because the server returned invalid data. Try again.]
+Non puoi registrarti perchè il server ha restituito dati non validi. Riprova.
+[Connection failed.\nYour ICQ number or password was rejected (%d).]
+Connessione fallita.\nIl tuo numero ICQ o la password sono stati rifiutati (%d).
+[Connection failed.\nServer has too many connections from your IP (%d).]
+Connessione fallita.\nIl server ha troppo connessione dal tuo IP (%d).
+[Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
+Connessione fallita.\nTi sei connesso troppo velocemente,\nper favore attendi e riprova tra 10 e 20 minuti (%d).
+[Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
+Connessione fallita.\nSei stato rifiutato dal server per motivi sconosciuti.\nCiò può accadere se l'UIN è gà connesso.
+[Connection failed.\nUnknown error during sign on: 0x%02x]
+Connessione fallita.\nErrore sconosciuto durante la registrazione: 0x%02x
+[You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
+Sei stato disconnesso dalla rete ICQ perchè ti sei connesso da un'altra postazione con lo stesso numero ICQ.
+[Unknown runtime error: 0x%02x]
+Errore di runtime sconosciuto: 0x%02x
+;file \protocols\IcqOscarJ\src\fam_01service.cpp
+;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
+;file \protocols\IcqOscarJ\src\fam_04message.cpp
+[ICQ Note]
+Nota di ICQ
+;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
+;file \protocols\IcqOscarJ\src\fam_17signon.cpp
+;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
+;file \protocols\IcqOscarJ\src\icq_avatar.cpp
+;file \protocols\IcqOscarJ\src\icq_constants.h
+;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Ascension Island]
+Isole Ascensione
+[British Virgin Islands]
+Isole Vergini Britanniche
+[Canary Islands]
+Isole Canarie
+[Cape Verde Islands]
+Capo Verde
+[Chile, Republic of]
+Cile
+[Congo, Democratic Republic of (Zaire)]
+Congo, Repubblica Democratica del(Zaire)
+[Congo, Republic of the]
+Congo, Repubblica del
+[Cote d'Ivoire (Ivory Coast)]
+Costa d'Avorio
+[Faeroe Islands]
+Isole Faeroe
+[Falkland Islands]
+Isole Falkland
+[French Antilles]
+Antille Francesi
+[Guam, US Territory of]
+Guam, Territorio USA di
+[Iran (Islamic Republic of)]
+Iran (Repubblica Islamica di)
+[Korea, North]
+Corea del Nord
+[Korea, South]
+Corea del Sud
+[Libyan Arab Jamahiriya]
+Libia
+[Macau]
+Macao
+[Mayotte Island]
+Isole Mayotte
+[Netherlands Antilles]
+Antille Olandesi
+[Reunion Island]
+Isole Riunione
+[Saint Helena]
+Sant'Elena
+[Scotland]
+Scozia
+[USA]
+Stati Uniti d'America
+[Vatican City]
+Città del Vaticano
+[Virgin Islands (USA)]
+Isole Vergini (USA)
+[Wales]
+Galles
+[Wallis and Futuna Islands]
+Isole Wallis e Futuna
+[Past Work Place]
+Precedente occupazione
+[Past Organization]
+Precedente organizzazione
+[60-above]
+60 e oltre
+;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
+;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Il tuo trasferimento file è stato interrotto perchè uno dei file selezionati per l'invio non è più leggibile dal disco. Potresti averlo cancellato o spostato.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+La ricezione del file è stata annullata perchè Miranda non ha potuto aprire la cartella di destinazione in scrittura. Potresti aver tentato di utilizzare una cartella di sola lettura.
+;file \protocols\IcqOscarJ\src\icq_menu.cpp
+;file \protocols\IcqOscarJ\src\icq_opts.cpp
+[Display all problems]
+Mostra tutti i problemi
+[Display problems causing possible loss of data]
+Mostra problemi causanti una possibile perdita di dati
+[Display explanations for disconnection]
+Mostra spiegazioni per disconnessione
+[Display problems requiring user intervention]
+Mostra problemi richiedenti l'intervento dell'utente
+;file \protocols\IcqOscarJ\src\icq_popups.cpp
+;file \protocols\IcqOscarJ\src\icq_proto.cpp
+[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+Non hai inserito un numero ICQ.\nConfiguralo in Opzioni->Rete->ICQ e riprova.
+;file \protocols\IcqOscarJ\src\icq_server.cpp
+[Unable to connect to ICQ login server]
+Impossibile collegarsi al server di login di ICQ
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
+Miranda non è riuscito ad allocare una porta per l'ascolto di connessioni dirette peer-to-peer tra client. Potrai utilizzare la maggior parte delle caratteristiche di ICQ senza problemi ma potresti non riuscire a \ninviare o ricevere file. Se hai un firewall questo potrebbe bloccare Miranda, per cui dovresti configurarlo per lasciare aperte alcune porte che specificherai poi in Opzioni->Rete->ICQ.
+[Your connection with the ICQ server was abortively closed]
+La tua connessione al server ICQ è stata improvvisamente chiusa
+;file \protocols\IcqOscarJ\src\icq_servlist.cpp
+;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
+[Uploading %s...]
+Upload %s in corso...
+[Deleting %s...]
+Eliminazione %s in corso...
+[All operations complete]
+Tutte le operazioni completate
+;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
+;file \protocols\IcqOscarJ\src\init.cpp
+;file \protocols\IcqOscarJ\src\log.cpp
+[ICQ Warning]
+Avviso di ICQ
+[ICQ Error]
+Errore di ICQ
+[ICQ Fatal]
+Errore fatale di ICQ
+[The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
+Il server non ha risposto al tentativo di connessione in un tempo ragionevole, potrebbe essere temporaneamente inattivo. Riprova più tardi. 
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
+Miranda non è riuscito a recuperare dal nome del server il suo indirizzo numerico. Questo è molto probabilmente causato da una perdita catastrofica della connnessione alla rete (ad esempio, il tuo modem si è disconnesso), ma se sei dietro un proxy, potresti dover usare l'opzione 'Recupera nomi host attraverso proxy' in Opzioni->Rete.
+[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
+Il tuo proxy ha rifiutato il nome utente e la password che hai fornito. Controllali in Opzioni->Rete.
+[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
+Il server a cui stai tentando di collegarti non esiste. Controlla lo spelling in Opzioni->Rete->ICQ.
+[error]
+errore
+;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+;file \protocols\IcqOscarJ\src\utilities.cpp
+;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+[GMT+1:00 Central European Time; West Central Africa; Warsaw]
+GMT+1:00 Ora dell'Europa Centrale; Roma; Africa Centro Occidentale; Varsavia
+[Personal]
+Personale
+[First name]
+Nome
+[Last name]
+Cognome
+[Street]
+Via
+[City]
+Città
+[ZIP/postcode]
+Codice Postale
+[Country]
+Nazione
+[Phone number]
+Numero di telefono
+[Fax number]
+Numero di fax
+[Cellular number]
+Numero di cellulare
+[Personal Detail]
+Dettagli personali
+[Year of birth]
+Anno di nascita
+[Month of birth]
+Mese di nascita
+[Day of birth]
+Giorno di nascita
+[Spoken language 1]
+Lingua parlata 1
+[Spoken language 2]
+Lingua parlata 2
+[Spoken language 3]
+Lingua parlata 3
+[Company name]
+Nome compagnia
+[Company homepage]
+Pagina web compagnia
+[Company street]
+Via compagnia
+[Company city]
+Città compagnia
+[Company state]
+Regione compagnia
+[Company phone]
+Telefono compagnia
+[Company fax]
+Fax compagnia
+[Company ZIP/postcode]
+CAP compagnia
+[Company country]
+Nazione compagnia
+[Company department]
+Dipartimento
+[Company position]
+Posizione nella compagnia
+;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
+[Change ICQ Details]
+Modifica Dettagli ICQ
+;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
+[Unknown value]
+Valore sconosciuto
+[Upload in progress...]
+Upload in corso...
+[Upload complete]
+Upload completato
+;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
+[You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
+Non sei connesso alla rete ICQ. Devi essere in linea per aggiornare i tuoi dati sul server.
+;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
+;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
+[Enter a password for UIN %u:]
+Inserisci una password per l'UIN %u:
+;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp

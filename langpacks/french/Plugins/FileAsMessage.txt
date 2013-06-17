@@ -6,6 +6,62 @@
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 ;file \plugins\FileAsMessage\res\resources.rc
+[Filename:]
+Fichier :
+[Chunk size]
+Taille des morceaux
+[Delays between sends]
+Délai entre 2 envois
+[Transfer settings]
+Configuration de transferts
+[Unsent]
+Non envoyé
+[Sent]
+Envoi
+[To send]
+Envoyé
+[Received]
+Reçu
+[Use only alphanumeric encoding on transfer]
+Veuillez utiliser uniquement de l'alphanumérique sur les transferts
 ;file \plugins\FileAsMessage\src\dialog.cpp
+[Couldn't open a file]
+Impossible d'ouvrir le fichier
+[Size: %d bytes]
+Taille : %d octets
+[Request sent. Awaiting of acceptance..]
+Requête envoyée. Attente de confirmation...
+[Received successfully]
+Reçu avec succès
+[Requesting of missing chunks]
+En requête de parties manquantes
+[Sent successfully]
+Envoi réussi
+[Incoming file request. Do you want proceed?]
+Requête de fichier entrant. Voulez-vous continuer ?
+[Cancelled by remote user]
+Annulé par l'utilisateur à distance
+[New incoming file request. Do you want proceed?]
+Nouvelle requête de fichier entrant. Voulez-vous continuer ?
+[Paused, 'coz connection dropped]
+Suspendu, due à la perte de connexion
+[Failed on file initialization]
+Échec d'initialisation du fichier
+[Paused...]
+En pause...
+[Synchronizing...]
+Synchronisation...
+[Select a file]
+Sélectionnez un fichier
+[Save as]
+Sauver sous
+[Can't get a file size]
+N'a pu obtenir la taille du fichier
+[Cancelled by user]
+Annulé par l'usager
+[Transfer is in progress. Do you really want to close?]
+Transfert en cours. Voulez-vous vraiment annuler ?
 ;file \plugins\FileAsMessage\src\main.cpp
+[File As Message...]
+Fichier comme message...
 ;file \plugins\FileAsMessage\src\main.h

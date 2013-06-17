@@ -6,13 +6,73 @@
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 ;file \plugins\SecureIM\res\resource.rc
-[Public]
-Public
+[User List]
+Liste d'usager
+[Enable Secure Offline messages]
+Activer mess. sécurisés hors ligne
+[Enable Secure File Transfer]
+Transfert de fichier sécurisé
+[Always show status icons in contact list]
+Toujours voir l'icône d'état dans la CList
+[Status in Context Menu]
+État dans menu contextuel
+[Disable encryption for game plugins]
+Désactiver le cryptage pour les jeux
+[Always secured if possible]
+Toujours activer si possible
+[Key Exchange Timeout :]
+Délai d'envoi des clef :
+[Offline Key Timeout :]
+Clef hors-ligne expir. :
+[Load &Private key]
+Charger une clef privée
+[Executable:]
+Programme :
+[Home Directory:]
+Page web :
+[Key agreement colors]
+Clef publique
+[Secure connection colors]
+Connexions sécurisées
+[Send/Receive encrypted colors]
+Envoi/Réception des encryptés
+[Time in Seconds]
+Durée (s)
+[Show a popup on established connection]
+Afficher un popup à la connexion
+[Show a popup on disabled connection]
+Afficher un popup à la déconnexion
+[Show a popup on key send]
+Afficher un popup si clef envoyée
+[Show a popup on key received]
+Afficher un popup si clef reçue
+[Show a popup on each secure send]
+Afficher un popup dés envoi sécurisé
+[Show a popup on each secure receive]
+Afficher un popup dés réception sécurisée
+[Please type in your password]
+VEuillez taper un mot de passe
+[Always Try to Establish Secure IM]
+Toujours tenter le cryptage
+[Secure IM Enabled]
+Activer Secure IM
+[Secure IM Disabled]
+Désactiver Secure IM
+[Set key]
+Envoyer une clef
 ;file \plugins\SecureIM\src\language.cpp
+[(none)]
+(aucun)
 ;file \plugins\SecureIM\src\loadicons.cpp
 [Message Window]
 Fenêtre de message
 ;file \plugins\SecureIM\src\main.cpp
 ;file \plugins\SecureIM\src\options.cpp
 ;file \plugins\SecureIM\src\popupOptions.cpp
+[Key Popup]
+Clef sécurisée
+[Secure Popup]
+Sécurité
+[Message Popup]
+Message
 ;file \plugins\SecureIM\src\svcs_srmm.cpp

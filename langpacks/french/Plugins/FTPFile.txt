@@ -6,14 +6,24 @@
 ;  Authors: yaho
 ;============================================================
 ;file \plugins\FTPFileYM\res\ftpfile.rc
+[Host name]
+Hôte
+[Use passive mode]
+Utiliser le mode passif
 [Speed:]
 Vitesse :
 ;file \plugins\FTPFileYM\src\dialog.cpp
+[User Info]
+Voir les détails du contact
+[%d hours]
+%d heures
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 ;file \plugins\FTPFileYM\src\job_upload.cpp
 ;file \plugins\FTPFileYM\src\manager.cpp
+[Clear All]
+Tout effacer
 ;file \plugins\FTPFileYM\src\options.cpp
 ;file \plugins\FTPFileYM\src\serverlist.cpp
 ;file \plugins\FTPFileYM\src\utils.cpp

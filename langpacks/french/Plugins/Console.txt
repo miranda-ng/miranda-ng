@@ -7,3 +7,11 @@
 ;============================================================
 ;file \plugins\Console\res\resource.rc
 ;file \plugins\Console\src\Console.cpp
+[Show/Hide Console]
+Afficher/Cacher la console
+[Hide Console]
+Cacher la console
+[Show Console]
+Afficher la console
+[Text Files (*.txt)]
+Fichier texte (*.txt)

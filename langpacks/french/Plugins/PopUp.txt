@@ -6,17 +6,161 @@
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 ;file \plugins\Popup\res\resource.rc
+[Content && Style]
+Contenu && Style
+[Live Preview]
+Aperçu
+[Size && Position]
+Taille && Position
+[Enable popup history]
+Activer l'historique des popups
+[Store last]
+Stocker dernière
+[Use History++ to render log]
+Utiliser History++ pour le log
+[Draw avatar borders]
+Bordures sur les avatars
+[Draw borders for semitransparent avatars too]
+Bordures sur les avatars semi-transparents
+[Enable avatar updates]
+Activer la mise à jour des avatars
+[Start the popups in the monitor with]
+Afficher les popups sur l'écran de
+[Miranda's window]
+la fenêtre de Miranda
+[the active window]
+la fenêtre active
+[Enable Win 9x/Me transparency]
+Transparence (9x-ME)
+[Opaque popups under cursor]
+Rendre opaques popups survolés
+[Limit window amount to:]
+Nombre maximum de popups :
+[* - built-in skins]
+* skins inclut
+[Popup Area]
+Aspect
+[Configure popup area]
+Configuration du popup
+[Enable popup actions]
+Activer les actions sur popups
+[Popup Actions are those tiny buttons below notification text.]
+Ces actions sont des petits boutons sous le texte des popups.
+[Common Actions]
+Actions communes
+[Please choose in what cases default actions should be added:]
+Dans quels cas doit-on avoir les actions par défaut :
+[Add info && menu for IM contacts only]
+Seulement pour les contacts IM
+[Add default actions for contacts only]
+Seulement pour les contacts IM
+[Don't close popups on default actions]
+Ne pas fermer les popups
+[Use large icons]
+Utiliser de larges icônes
+[Popup actions will be displayed as:]
+Affichage des actions :
+[Icons and labels below text]
+Icônes et nom sous le texte
+[Icons on the left]
+Icônes alignés à gauche
+[Icons aligned to the right]
+Icônes alignés à droite
+[Show Actions: (requires apply)]
+Actions : (appliquer avant aperçu)
+[Enable this notification]
+Activer
+[Left click action:]
+Clic droit :
+[Right click action:]
+Clic gauche :
+[Disable when global status is...]
+Désactiver si l'état général est :
+[Disable when relevant protocol's status is...]
+Désactiver si l'état du protocole est :
+[Disable if message window is open]
+Désactiver si la fenêtre de message est ouverte
+[Show always]
+Toujours visible
+[Ignore fullscreen]
+Ignorer si en plein-écran
+[Never show]
+Ne plus afficher
+[Infinite popup delay]
+Affichage permanent
+[Popup delay:]
+Délai des popups :
+[Do not close hovered popups]
+Ne pas fermer les popups survolés
+[Dynamically resize the popups]
+Réajustement auto. des popups
+[Minimum width]
+Largeur minimum
+[Maximum width]
+Largeur maximum
+[Layout:]
+Disposition
+[Reorder Popups]
+Réordonner les popups
+[Disable when:]
+Désactivé quand :
+[Always (has priority)]
+Toujours (en priorité)
 ;file \plugins\Popup\src\actions.cpp
+[User details]
+Détails du contact
 ;file \plugins\Popup\src\config.cpp
+[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
+Test de l'aperçu pour le réglage des popups. Ceci est supposé être assez long pour ne pas tenir sur une seule ligne...
+[This is a notification message]
+Exemple de notification
+[This is a warning message]
+Exemple de message d'avertissement
+[This is an error message]
+Exemple de message d'erreur
 ;file \plugins\Popup\src\effects.cpp
 ;file \plugins\Popup\src\font.cpp
 ;file \plugins\Popup\src\history.cpp
 ;file \plugins\Popup\src\icons.cpp
+[Refresh skin list]
+Rafraîchir la liste des skins
+[Popup Placement]
+Emplacement
+[Blocked Contact]
+Contact bloqué
+[Pin Popup]
+Verrouiller le popup
+[Pinned Popup]
+Popup verrouillé
+[Add Contact Permanently]
+Ajouter le contact
 ;file \plugins\Popup\src\main.cpp
 ;file \plugins\Popup\src\opt_adv.cpp
 ;file \plugins\Popup\src\opt_class.cpp
 ;file \plugins\Popup\src\opt_gen.cpp
+[upper left corner]
+Angle haut gauche
+[lower left corner]
+Angle bas gauche
+[lower right corner]
+Angle bas droit
+[upper right corner]
+Angle haut droit
+[Popup Plus Warning]
+Avertissement de Popup Plus
 ;file \plugins\Popup\src\opt_skins.cpp
+[Skin preview]
+Aperçu du Skin
+[Just take a look at this skin... ;)]
+Pris juste pour voir le Skin...  ;-)
+[Enable Aero Glass (Vista+)]
+Activer Aero Glass (Vista)
+[Use advanced text render]
+Rendu avancé du texte
+[Global settings]
+Paramètres généraux
+[Refresh List]
+Rafraîchir
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp

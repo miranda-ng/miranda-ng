@@ -6,8 +6,10 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
+[Configuration]
+Configuration
 [Full e-mail:]
-Passeport :
+e-mail :
 ;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
@@ -19,5 +21,13 @@ Passeport :
 ;file \protocols\MRA\src\MraProto.cpp
 ;file \protocols\MRA\src\Mra_functions.cpp
 ;file \protocols\MRA\src\Mra_options.cpp
+[Connections]
+Connexions
 ;file \protocols\MRA\src\Mra_proto.cpp
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[Duck]
+Canard
+[Office]
+Bureau
+[Beer]
+Bière

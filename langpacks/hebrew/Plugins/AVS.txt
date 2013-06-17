@@ -1,0 +1,47 @@
+﻿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.11.0.1
+;  Authors: Nightwish, Pescuma
+;============================================================
+;file \plugins\AVS\res\avs.rc
+[The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
+התמונות שאתה יכול להגדיר כאן ישומשו כאוואטר ברירת מחדל\nבשביל משתמשים שאין להם אוואטר משלהם.\nהשתמש בקופסאות הסימון כדי לאפשר/לבטל הצגת אוואטרים בשביל פרוטוקולים.
+[Delete default picture]
+מחק תמונת ברירת מחדל
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
+אזהרה:תמונות אלה הם לא האוואטרים שלך.\nכדי להגדיר אוואטר משלך לך לתפריט ראשי |שנה/הצג את הפרטים שלי |אוואטרים
+[Try to draw avatar background transparent (for images without transparency)]
+נסה לצייר רקע אוואטר שקוף בשביל תמונות ללא שקיפות
+[Num of points to define bkg:]
+מספר של נקודות בשביל להגדיר רקע:
+[Color difference allowed:]
+שינוי צבע מותר:
+[Make transparency proportional to color diff]
+הפוך שקיפות פרופורציונלית לצבע הדף
+[Draw avatars grayscale]
+צייר אוואטרים שחור לבן
+[Show warning messages]
+הראה הודעות אזהרה
+[When setting avatars, always make them square]
+כאשר מגדירים אוואטרים, תמיד תעשה אותם מרובעים
+[Try to draw own avatar background transparent (for images without transparency)]
+נסה לצייר רקע שקוף בעצמך בשביל תמונות ללא שקיפות
+[This uses the same additional options as in "Contact Avatars" tab]
+זה משמש את אותם אפשרויות נוספות כמו בטאב " Contact Avatars"
+[Contact picture]
+תמונת איש קשר
+[Picture options]
+אפשרויות תמונה
+[Protect the picture]
+הגן על התמונה
+[Set as hidden]
+קבע כמוסתר
+[Try to make picture background transparent]
+נסה לעשות רקע תמונות שקוף
+[Use defaults]
+ברירות מחדל
+;file \plugins\AVS\src\acc.cpp
+;file \plugins\AVS\src\main.cpp
+;file \plugins\AVS\src\options.cpp

@@ -6,7 +6,87 @@
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 ;file \plugins\MyDetails\res\resource.rc
+[Set My Nickname]
+Changer mon pseudo
+[RTL]
+Lecture inversée
+[Align text to right]
+Aligner à droite
+[Auto-resize frame]
+Cadre dynamique
+[Use contact list smileys]
+Smileys dans la CList
+[Replace Smileys]
+Remplacer les smileys
+[Resize Smileys]
+Retailler les smileys
+[Top:]
+Haut :
+[Bottom:]
+Bas :
+[Left:]
+Gauche :
+[Right:]
+Droite :
+[Custom size:]
+Taille :
+[Allow it to grow]
+Permettre l'agrandissement
+[Use free space (under avatar) to other texts]
+Utiliser l'espace libre sous l'avatar pour d'autres textes
+[Set My Status Message for All Status]
+Changer le message pour tous les états
+[Status Message:]
+Message d'état :
+[&Offline]
+&Hors ligne
+[On&line]
+&En ligne
+[&Away]
+&Absent
+[&NA]
+&Indisponible
+[Occ&upied]
+&Occupé
+[&DND]
+&Ne pas déranger
+[&Free for chat]
+&OK pour un chat
+[On the &Phone]
+&Au téléphone
+[Out to &Lunch]
+&Parti manger
+[Set My Avatar...]
+Changer mon avatar...
+[Set My Nickname...]
+Changer mon pseudo...
+[Set My Status Message...]
+Changer mon message d'état...
+[Enable Listening To]
+Afficher ce que l'autre écoute
 ;file \plugins\MyDetails\src\data.cpp
+[<no status name>]
+<aucun état>
 ;file \plugins\MyDetails\src\frame.cpp
+[My Details]
+Mes détails
+[Show My Details]
+Afficher mes détails
+[Enable Listening To for %s]
+Afficher ce que %s écoute
+[Set My Avatar for %s...]
+Changer mon avatar pour %s...
+[Set My Nickname for %s...]
+Changer mon pseudo pour %s...
+[Set My Status Message for %s...]
+Changer mon message d'état pour %s...
+[Hide My Details]
+Cacher mes détails
 ;file \plugins\MyDetails\src\mydetails.cpp
+[Set My Nickname for %s]
+Changer mon pseudo pour %s
+[Set My Status Message for %s]
+Changer mon message d'état pour %s
+[Show next protocol]
+Protocole suivant
 ;file \plugins\MyDetails\src\options.cpp

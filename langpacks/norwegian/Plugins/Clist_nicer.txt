@@ -1,0 +1,316 @@
+﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.1
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+;file \plugins\Clist_nicer\res\resource.rc
+[About CList Nicer+]
+Om CList Nicer+
+[Clist Nicer+]
+Clist Nicer+
+[Apply last active view mode ]
+Bruk siste aktive filtermodus
+[Contact list layout]
+Kontaktliste layout
+[Show menu and status buttons]
+Vis meny og statusknapper
+[Draw sunken edge]
+Tegn nedsunket kant
+[Event area]
+Hendelsesområde
+[Set base visiblity on the frames menu]
+Sett basis synligheten på rammemenyen
+[Auto mode]
+Automodus
+[Do not show system tray icon tooltips on mouse over]
+Ikke vis oppgavelinjens ikontips ved mus-over
+[Show number of contacts in a group]
+Vis antall kontakter i en gruppe
+[Hide numbers when all offline]
+Skjul numre når alle er frakoblet
+[No expand/collapse icon]
+Ingen utvid/falle sammen ikon
+[Center groupnames horizontally]
+Sentrer gruppenavn horisontalt
+[Margins (left/right)]
+Marginer (venstre/høyre)
+[Row gap]
+Radmellomrom
+[Minimum row height:]
+Minimum radhøyde:
+[Group row height]
+Gruppe radhøyde
+[Inner Row vertical padding]
+Indre Rad vertikalt toppfyll
+[Margins and spacing]
+Marginer og mellomrom
+[First by]
+Først av
+[Then by]
+Så med
+[Finally by]
+Endelig av
+[Do not separate offline contacts]
+Ikke adskill frakoblede kontakter
+[Hide as offline]
+Skjul som frakoblet
+[Right align contacts]
+Høyrejuster kontakter
+[Draw a border around avatars]
+Tegn en ramme rundt avatarer
+[Rounded avatars]
+Avrundede avatarer
+[Radius]
+Radius
+[Always align icons and text for missing avatars]
+Alltid juster ikoner og tekst for manglende avatarer
+[Avatar alignment]
+Avatarjustering
+[Don't request avatars for offline contacts]
+Ikke forespør avatarer for frakoblede kontakter
+[Second text line]
+Andre tekstlinje
+[Display status message when available]
+Vis statusmelding når tilgjengelig
+[Show second text line:]
+Vis andre tekstlinje:
+[Show contacts local time]
+Vis kontakters lokale tid
+[Only when timezone differs]
+Bare når tidssonen er annerledes
+[Show status icons]
+Vis statusikoner
+[Centered when possible]
+Sentrert når mulig
+[When possible, draw status icons in avatar space]
+Når mulig, tegn statusikoner på avatarplassen
+[Use metacontact protocol icons instead of subcontacts]
+Bruk metakontaktprotokoll ikoner istedetfor underkontakter
+[Use Overlay icons on avatars]
+Bruk overlappingsikoner på avatarer
+[Replace status icons with xStatus]
+Erstatt statusikoner med xStatus
+[Rounded border]
+Avrundede grenser
+[Client margins]
+Klientmarginer
+[Embedded frames border]
+Innlagte rammegrenser
+[Clip border by]
+Klipp grense med
+[Gap between frames]
+Mellomrom mellom rammer
+[Fully transparent (like TweakUI)]
+Fullstendig gjennomskinnelig (som TweakUI)
+[Use full row for selection and hottracking]
+Bruk hele raden for velging og hottracking
+[Double click on avatar opens userinfo]
+Dobbeltklikk på avatar åpner brukerinfo
+[Use these settings to skin the entire background]
+Bruk disse innstillingene for å endre hele bakgrunnen
+[If you enable this, the background settings will affect the entire contact list frame.]
+Hvis du aktiverer dette, vil bakgrunnsinnstillingene påvirke hele kontaktlisterammen.
+[Draw background skin]
+Tegn bakgrunns-skin
+[Show ICQ extended status icons]
+Vis ICQ utvidet statusikoner
+[Mark protocols locked from global status changes]
+Merk protokoller låst for globale statusendringer
+[Per contact skins:]
+Pr. kontakt skins:
+[< Reload]
+< Omlasting
+[Contact list skin]
+Kontaktliste-skin
+[Apply skin now]
+Aktiver skin nå
+[Unload skin]
+Deaktiver skin
+[Make selection shape equal to selected item]
+Gjør valgformen lik det valgte elementet
+[Blend selection with background]
+Bland valgene med bakgrunnen
+[Automatically fill background with wallpaper (tiled wallpaper only)]
+Automatisk fyll bakgrunn med bakgrunnsbilde (kun flislagte bilder)
+[Apply group indent values to background drawing]
+Bruk gruppeinnrykksverdier til bakgrunnstegningen
+[Use per protocol/contact skinning]
+Bruk skinning pr. protokoll/kontakt
+[Protocol skins override status text colors]
+Protokoll-skins overstyrer statustekstfarger
+[Set all buttons to skinned mode]
+Sett alle knapper til skin-modus
+[Use fast gradient drawing]
+Bruk rask gradert tegning
+[Corner radius]
+Hjørneradius
+[Group top padding]
+Gruppe topfyll
+[Frame titlebar height]
+Rammens tittellinjehøyde
+[Ignore selection for groups]
+Ignorer valg for grupper
+[Load from skin file]
+Hent fra skin-fil
+[Export to skin file]
+Eksporter til skin-fil
+[Ignore these events]
+Ignorer disse hendelsene
+[Suppress auth requests]
+Undertrykk godkj.forespørsler
+[Suppress added notifications]
+Undertrykk tillagte varsler
+[Suppress online notifications]
+Undertrykk påloggingsvarsler
+[Appear always online]
+Vis alltid som påkoblet
+[Appear always offline (block contact)]
+Vis alltid som frakoblet (blokker kontakt)
+[Hide this contact from the list]
+Skjul denne kontakten fra listen
+[Display options]
+Utseendevalg
+[Show contact with priority]
+Vis kontakt med prioritet
+[Show Avatar:]
+Vis Avatar:
+[Show 2nd line:]
+Vis 2. linje:
+[Draw overlay icon on avatar]
+Tegn overlappingsikon på avatar
+[Show local time]
+Vis lokal tid
+[Move marked Contacts to this Group]
+Flytt markerte Kontakter til denne Gruppen
+[Show Status Icons]
+Vis Status Ikoner
+[Show Metacontact proto Icons]
+Vis Metakontakt protoikoner
+[Show additional Buttons]
+Vis tilleggsknapper
+[Draw sunken Frame]
+Tegn nedsunket Ramme
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
+;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Show menu]
+Vis meny
+[Show / hide offline contacts]
+Vis / skjul frakoblede kontakter
+[Toggle group mode]
+Bytter gruppemodus
+[Find and add contacts]
+Finn og legg til kontakter
+[Open preferences]
+Åpne innstillinger
+[Toggle sounds]
+Bytter lyder
+[Minimize contact list]
+Minimer kontaktlisten
+[tabSRMM session list]
+tabSRMM øktliste
+[tabSRMM Menu]
+tabSRMM Meny
+[Select view mode]
+Velg filtermodus
+[Clear view mode]
+Fjern filter
+;file \plugins\Clist_nicer\src\clcopts.cpp
+[Always Left]
+Alltid Venstre
+[Always Right]
+Alltid Høyre
+[Automatic (RTL)]
+Automatisk (RTL)
+[Last Message]
+Siste Melding
+[Message Frequency]
+Meldingsfrekvens
+[When space allows it]
+Når plassen tillater det
+[When needed]
+Ved behov
+[With Nickname - left]
+Med Kallenavn - venstre
+[Far left]
+Lengst venstre
+[Far right]
+Lengst høyre
+[With Nickname - right]
+Med Kallenavn - høyre
+[List layout]
+Liste layout
+[Groups and layout]
+Grupper og layout
+;file \plugins\Clist_nicer\src\clistmenus.cpp
+[Add permanently]
+Legg til permanent
+[Revert to default]
+Tilbake til standard
+[Default (global setting)]
+Standard (global innstilling)
+[Show always when available]
+Vis alltid når tilgjengelig
+[Hide always]
+Skjul alltid
+[When space is available]
+Når plass er tilgjengelig
+[When needed by status message]
+Når kreves av statusmelding
+[Contact list display and ignore options for %s]
+Kontaktlistens visnings og ignoreringsvalg for %s
+[&Contact list settings...]
+&Kontaktliste innstillinger...
+;file \plugins\Clist_nicer\src\clistopts.cpp
+;file \plugins\Clist_nicer\src\clui.cpp
+[Toggle show online/offline]
+Bytter vis påkoblet/frakoblet
+[Toggle groups]
+Bytter grupper
+[Find contacts]
+Finn kontakter
+[Show tabSRMM session list]
+Vis tabSRMM øktliste
+[Show tabSRMM menu]
+Vis tabSRMM meny
+[Sounds are off]
+Lyder er av
+[Open main menu]
+Åpne hovedmeny
+[Set status modes]
+Sett statusmodus
+[Frame titles]
+Rammetitler
+[Contact list local time]
+Kontaktlistens lokale tid
+;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Tool Window]
+Verktøyvindu
+[Thin border]
+Tynn grense
+[No border]
+Ingen grense
+;file \plugins\Clist_nicer\src\Docking.cpp
+[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+Clisten kan ikke sammenkobles ved bruk av standard titellinje og grense. Bruk et verktøyvindu eller grensefri stil istedet.
+[Clist docking]
+Clist sammenkobling
+;file \plugins\Clist_nicer\src\extBackg.cpp
+;file \plugins\Clist_nicer\src\init.cpp
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Current view mode: %s]
+Aktivt filter: %s
+[No view mode]
+Ingen filtreringsmodus
+[Clear current View Mode]
+Fjern aktivt filter
+;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+[&Skinned frame]
+&Skinnet ramme
+[Skinned frame]
+Skinnet ramme
+;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[&About the contact list...]
+&Om kontaktlisten...

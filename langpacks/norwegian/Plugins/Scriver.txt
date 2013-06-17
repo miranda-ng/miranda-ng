@@ -1,0 +1,77 @@
+﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
+;  File: Scriver.dll
+;  Plugin: Scriver
+;  Version: 2.10.0.2
+;  Authors: Miranda NG Development Team
+;============================================================
+;file \plugins\Scriver\res\resource.rc
+[Automatically pop up the window when]
+Automatisk sprett opp vinduet når
+[Save size and location for each contact]
+Lagre størrelse og plassering for hver kontakt
+[Tabs at bottom]
+Faner på bunnen
+[Limit names on tabs to]
+Begrens navn på faner til
+[Enable IEView]
+Aktiver IEView
+[Mark follow-up msgs with timestamp]
+Marker følg-opp meldinger med tidspunkt
+[Start message text on a new line]
+Begynn meldingstekst på en ny linje
+[Indent text]
+Rykk inn tekst
+[Typing Notification Options]
+Valg for Skrivevarsling
+[Update message window icons when a user is typing]
+Oppdater meldingsvinduikoner når en bruker skriver
+[Send To All Tabs]
+Send Til Alle Faner
+[You are about to send a message to all open tabs.\nAre you sure ?]
+Du er i ferd med å sende en melding til alle åpne faner.\nEr du sikker?
+[Remember my choice for this container]
+Husk mitt valg for denne beholderen
+;file \plugins\Scriver\src\globals.cpp
+[User's details]
+Brukerens detaljer
+[User's history]
+Brukerens historikk
+[User is typing]
+Brukeren skriver
+[Unicode is on]
+Unicode er på
+[Unicode is off]
+Unicode er av
+[Sending]
+Sender
+[Quote button]
+Siter knapp
+[Close button]
+Lukk knapp
+;file \plugins\Scriver\src\input.cpp
+;file \plugins\Scriver\src\msgdialog.cpp
+[Quote Text]
+Siter Tekst
+[User Menu - %s]
+Brukermeny - %s
+[Sending in progress: %d message(s) left...]
+Sender: %s melding(er) igjen...
+;file \plugins\Scriver\src\msglog.cpp
+;file \plugins\Scriver\src\msgoptions.cpp
+[Message background]
+Meldingsbakgrunn
+;file \plugins\Scriver\src\msgs.cpp
+;file \plugins\Scriver\src\msgtimedout.cpp
+;file \plugins\Scriver\src\msgwindow.cpp
+[Always On Top]
+Alltid På Topp
+;file \plugins\Scriver\src\sendqueue.cpp
+;file \plugins\Scriver\src\chat\clist.cpp
+;file \plugins\Scriver\src\chat\colorchooser.cpp
+;file \plugins\Scriver\src\chat\log.cpp
+;file \plugins\Scriver\src\chat\main.cpp
+;file \plugins\Scriver\src\chat\options.cpp
+;file \plugins\Scriver\src\chat\services.cpp
+;file \plugins\Scriver\src\chat\tools.cpp
+;file \plugins\Scriver\src\chat\window.cpp

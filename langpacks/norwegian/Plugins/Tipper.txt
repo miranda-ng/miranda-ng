@@ -1,0 +1,101 @@
+﻿#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
+;============================================================
+;  File: Tipper.dll
+;  Plugin: Tipper
+;  Version: 2.1.0.4
+;  Authors: Scott Ellis, yaho
+;============================================================
+;file \plugins\TipperYM\res\resource.rc
+[Max width:]
+Maks bredde:
+[Max height:]
+Maks høyde:
+[Show if list not focused]
+Vis dersom listen ikke er i fokus
+[General padding:]
+Generelt fyll:
+[Hover time:]
+Svevetid:
+[Status bar tips]
+Statuslinje tips
+[Labels:]
+Etiketter:
+[Values:]
+Verdier:
+[Min width:]
+Min bredde:
+[Min height:]
+Min høyde:
+[Text padding:]
+Tekst fyll:
+[Outer avatar padding:]
+Ytre avatar fyll:
+[Keep original avatar size]
+Behold original avatar størrelse
+[Avatar border]
+Avatar ramme
+[Title indent:]
+Tittel innrykk:
+[Value indent:]
+Verdi innrykk:
+[Inner avatar padding:]
+Indre avatar fyll:
+[Substitutions]
+Bytter
+[Advanced options]
+Avanserte valg
+[Retrieve XStatus details if auto-retrieve is disabled]
+Hent XStatus detaljer dersom auto-innhenting er deaktivert
+[Enable SmileyAdd support]
+Aktiver SmileyAdd støtte
+[Resize smileys]
+Endre smiley strl
+[Favourite contacts]
+Favorittkontakter
+[Favourite contacts]
+Favorittkontakter
+;file \plugins\TipperYM\src\mir_smileys.cpp
+;file \plugins\TipperYM\src\options.cpp
+[No icon]
+Ingen ikon
+[No title]
+Ingen tittel
+[Centre]
+Midten
+[Animation]
+Bevegelse
+[Fade]
+Uttoning
+[Content]
+Innhold
+[Tray tooltip]
+Oppgavelinje tooltip
+[Extra]
+Ekstra
+;file \plugins\TipperYM\src\options.h
+[Number of contacts]
+Antall kontakter
+[Logon time]
+Påloggingstid
+[Miranda uptime]
+Miranda oppetid
+[Clist event]
+Clist hendelse
+[Client]
+Klient
+;file \plugins\TipperYM\src\popwin.cpp
+;file \plugins\TipperYM\src\preset_items.cpp
+[Idle:]
+Tomgang:
+[Last message: (%sys:last_msg_reltime% ago)]
+Siste melding: (%sys: last_msg_reltime% siden)
+;file \plugins\TipperYM\src\skin_parser.cpp
+;file \plugins\TipperYM\src\tipper.cpp
+[Labels]
+Etiketter
+[Values]
+Verdier
+[Tray title]
+Oppgavelinje tittel
+;file \plugins\TipperYM\src\translations.cpp
+;file \plugins\TipperYM\src\translations.h

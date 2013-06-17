@@ -6,4 +6,18 @@
 ;  Authors: Felipe Brahm - souFrag
 ;============================================================
 ;file \plugins\StartPosition\res\resource.rc
+[Contact List Window Start Position]
+Définir la position de la liste de contact au démarrage
+[Pixels from Top]
+Pixels du haut
+[Pixels from Bottom]
+Pixels du bas
+[Pixels from Side]
+Pixels du bord
+[Always start...]
+Toujours lancer...
+[Minimized to System Tray]
+Minimisé dans le Systray
+[Opened]
+Ouvert
 ;file \plugins\StartPosition\src\main.cpp

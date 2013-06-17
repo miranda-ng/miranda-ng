@@ -1,0 +1,248 @@
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+;file \plugins\Clist_modern\res\resource.rc
+[1st:]
+1e:
+[2nd:]
+2e:
+[3rd:]
+3e:
+[Hide contact list after ]
+Lijst verbergen na
+[Available skins]
+Beschikbare skins
+[Available objects]
+Beschikbare objecten
+[Object properties]
+Object eigenschappen
+[Colour]
+Kleur
+[Image file and fitting mode]
+Afbeeldingbestand en pas modus
+[Borders]
+Randen
+[Fit mode]
+Pas  modus
+[Fragment location]
+Framgent locatie
+[Show xStatus icon]
+xStatus icoon weergeven
+[Show both icons]
+Beide iconen weergeven
+[Show normal status as overlay]
+Normale status als overlay weergeven
+[Show normal status as overlay]
+Normale status als overlay weergeven
+[Place offline users out of groups]
+Offline gebruikers buiten groepen plaatsen
+[Full selection]
+Volledige selectie
+[Less selection]
+Mindere selectie
+[No selection]
+Geen selectie
+[Selection Mode]
+Selectie modus
+[Bring to front if covered]
+Naar voren halen wanneer bedekt
+[Lock manual resize]
+Handmatige resize vergrendelen
+[Easy Scroll]
+Eenvoudig scrollen
+[show delay]
+vertraging weergeven
+[hide delay]
+vertraging verbergen
+[Hide method]
+Verberg methode
+[keep on screen]
+op scherm houden
+[Snap to edges]
+Aan randen plakken
+[Event notify area]
+Gebeurtenis meldingen gebied
+[Show automaticaly]
+Automatisch weergeven
+[Always Visible]
+Altijd zichtbaar
+[Fade out entire list when:]
+Volledige lijst grijs maken wanneer:
+[Use xStatus icon]
+xStatus icoon gebruiken
+[only when statuses differ]
+bij verschillende statussen
+[Additional stuff]
+Aanvullend spul
+[Show time only if it is different from current time]
+Tijd alleen weergeven wanneer deze verschillend is van de huidige tijd
+[Show contact time as row item]
+Persoon tijd als rij item weergeven
+[Thin border main window]
+Hoofdscherm met dunne rand
+[Borderless main window]
+Hoofdscherm zonder rand
+[Order of items:]
+Volgorde van items:
+[Min row height:]
+Min rij hoogte:
+[Row border:]
+Rij rand:
+[Variable row height]
+Variabele rij hoogte
+[Align left items to left]
+Lijn linker items links uit
+[Align right items to right]
+Lijn rechter items rechts uit
+[Right margin:]
+Rechter marge:
+[Draw border on avatar]
+Rand om avatar tekenen
+[Draw overlay icons]
+Overlay iconen tekenen
+[Round corners of avatars]
+Hoeken van avatars afronden
+[Ignore size for row height calcs]
+Grootte voor rij hoogte berekeningen negeren
+[Border Color:]
+Rand kleur:
+[Normal overlay icon]
+Normaal overlay icoon
+[Protocol status icon]
+Protocol status icoon
+[Contact icon]
+Persoon icoon
+[height]
+hoogte
+[Hide icon when showing avatar]
+Icoon verbergen wanneer avatar getoond wordt
+[Draw icon in avatar space]
+Icoon in ruimte van avatar tekenen
+[Hide groups icon]
+Groepen icoon verbergen
+[Right-To-Left reading mode (mirror template)]
+Rechts-Naar-Links leesmodus (spiegel template)
+[Replace smileys in clist]
+Smilyes in clist vervangen
+[Draw smileys on first line]
+Teken smileys op de eerste lijn
+[Align to right]
+Naar rechts uitlijnen
+[Append nick if different from custom name]
+Bijnaam toevoegen als verschilt van eigen naam
+[Trim long text with ellipsis]
+Lange tekst inkorten met cirkels
+[Top space:]
+Boven ruimte:
+[Draw smileys on second line]
+Teken smileys op de tweede lijn
+[XStatus has priority]
+XStatus heeft prioriteit
+[Use 'XStatus: XMessage']
+'XStatus: XMessage' gebruiken
+[Show third line]
+Derde lijn weergeven
+[&Show Offline Users in here]
+Offline gebruiker&s hierbinnen weergeven
+;file \plugins\Clist_modern\src\modern_clc.cpp
+;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Away contacts]
+Personen afwezig
+[DND contacts]
+Personen Niet storen
+[NA contacts]
+Personen Niet beschikbaar
+[Occupied contacts]
+Personen Bezet
+[Free for chat contacts]
+Personen Beschikbaar voor gesprek
+[Invisible contacts]
+Personen Onzichtbaar
+[On the phone contacts]
+Personen Aan de telefoon
+[Out to lunch contacts]
+Personen Aan het lunchen
+[Open groups]
+Open groepen
+[Open group member counts]
+Open groep lid telling
+[Closed groups]
+Gesloten groepen
+[Closed group member counts]
+Gesloten groep lid telling
+[Third line]
+Derde lijn
+[Status bar text]
+Statusbalk tekst
+[Event area text]
+Gebeurtenisgebied tekst
+[Last message time]
+Tijd laatste bericht
+[-Nothing-]
+-Niks-
+[Hide to tray]
+Naar systeemvak verbergen
+[Behind left edge]
+Achter linker rand
+[Behind right edge]
+Achter rechter rand
+;file \plugins\Clist_modern\src\modern_clistevents.cpp
+;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Left align group names]
+Groepnamen links uitlijnen
+[Center group names]
+Groepnamen centreren
+[Right align group names]
+Groepnamen rechts uitlijnen
+[Row]
+Rij
+[Second Line]
+Tweede lijn
+[Third Line]
+Derde lijn
+[Row items]
+Rij items
+;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+;file \plugins\Clist_modern\src\modern_clisttray.cpp
+;file \plugins\Clist_modern\src\modern_clui.cpp
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\modern_keyboard.cpp
+;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+;file \plugins\Clist_modern\src\modern_skineditor.cpp
+[- Empty - (do not draw this object)]
+- Leeg - (dit object niet tekenen)
+[Solid fill object]
+Object vullen 
+[Image (draw image)]
+Afbeelding (afbeelding tekenen)
+[Fragment (draw portion of image)]
+Gedeelte (gedeelte van afbeelding tekenen)
+[Stretch Both directions]
+Strek beide richtingen
+[Stretch Vertical, Tile Horizontal]
+Strek vertikaal, stapel horizontaal
+[Tile Vertical, Stretch Horizontal]
+Stapel vertikaal, strek horizontaal
+[Tile Both directions]
+Stapel beide richtingen
+;file \plugins\Clist_modern\src\modern_skinengine.cpp
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[Load/Save]
+Laden/Opslaan
+[Object Editor]
+Object bewerker
+[Default Skin]
+Standaard Skin
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+[Center]
+Midden
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
+;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

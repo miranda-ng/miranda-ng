@@ -1,0 +1,18 @@
+﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: xStatus Notify
+;  Version: 1.4.0.9
+;  Authors: Luca Santarelli, Vasilich, yaho
+;============================================================
+;file \plugins\NewXstatusNotify\res\resource.rc
+[Ignore empty status messages]
+התעלם מהודעות מצב ריקות
+;file \plugins\NewXstatusNotify\src\indsnd.cpp
+;file \plugins\NewXstatusNotify\src\indsnd.h
+;file \plugins\NewXstatusNotify\src\main.cpp
+;file \plugins\NewXstatusNotify\src\options.cpp
+;file \plugins\NewXstatusNotify\src\popup.h
+;file \plugins\NewXstatusNotify\src\utils.cpp
+;file \plugins\NewXstatusNotify\src\xstatus.cpp
+;file \plugins\NewXstatusNotify\src\xstatus.h

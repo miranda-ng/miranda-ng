@@ -5,14 +5,304 @@
 ;  Versions: 0.0.2.4 - 0.0.6.12
 ;  Url: http://addons.miranda-im.org/details.php?action=viewfile&id=2345
 ;============================================================
+[Use XStatus]
+Utiliser XStatus
+[Text insertion to other Apps]
+Insérer dans les autres applications
+[Share music list]
+Autoriser la liste de musique
+[Save events in database]
+Enregistrer les évènements
+[Music Info Request]
+Demande d'information musicale
+[Request Error]
+Erreur de demande
+[Save ignored requests]
+Enregistrer les demandes ignorées
+[Answer to ignored requests]
+Réponse aux demandes ignorées
+[Use frame]
+Activer la frame
+[Show info in the frame]
+Afficher les informations (frame)
+[Show controls in the frame]
+Afficher les controles dans l'image
+[Show volume controls]
+Afficher les contrôles du volume
+[Use Picture]
+Afficher une image
+[Use cover instead of picture]
+Afficher la pochette à la place de l'image
+[Show trackbar]
+Afficher la trackbar
+[Cover padding]
+Marge de la pochette
+[Frame refresh time]
+Temps de rafraichissement
+[Hide frame when no music played]
+Cacher la frame si le lecteur stoppé
+[Center horizontally]
+Centrer horizontallement
+[Center vertically]
+Centrer verticallement
+[Use styled trackbar]
+Trackbar stylée
+[Use buttons gap]
+Boutons espacés
+[Text effect]
+Effet tu texte
+[Text movement]
+Mouvement du texte
+[Text rotation speed (1-20)]
+Vitesse de rotation (1-20)
+[Scroll step]
+Mouvement du texte
+[Scroll gap]
+Espace entre le texte
+[Wrap]
+Afficher sur plusieurs lignes
+[Roll]
+Dérouler continuellement
+[PingPong]
+Ping-Pong
+[Hide frame when player not found]
+Cacher l'image si aucun lecteur trouvé
+[song year (date)]
+année de la chanson
+[width, video only]
+largeur, vidéo uniquement
+[player version]
+version du lecteur
+[player name]
+nom du lecteur
+[height, video only]
+hauteur, vidéo uniquement
+[FPS (frames per second), video only]
+FPS (images par seconde), vidéo uniquement
+[codec, video only]
+codec, vidéo uniquement
+[Color codes]
+Codes couleurs
+[File size]
+Taille
+[FileSize text format]
+Format de la taille
+[Player name letters]
+Casse du nom du lecteur
+[Players list]
+Liste des lecteurs
+[Popup Title / Text]
+Titre popup / Texte
+[Refresh time, sec]
+sec (rafraîchissement)
+[Report]
+Rapport
+[Report Items]
+Éléments
+[Report file]
+Fichier pour le rapport
+[Report format]
+Format du rapport
+[Show in report]
+Afficher dans le rapport
+[Sort]
+Tier
+[Sort log file]
+Classer dans le journal
+[Statistic log file]
+Fichier de sauvegarde des statistiques
+[Autosort period, days]
+Générer tout les (jours) :
+[Template file]
+Ficher modèle 
+[Export default]
+Export. défaut
+[by Length]
+par durée
+[Unicode to Ansi translation codepage:]
+Conversion de l'encodage Unicode vers Ansi :
+[Insert in messages]
+Insérer dans les messages
+[Use status messages]
+Utiliser les messages d'état
+[Independed XStatus]
+Xstatus indépendant
+[Use process implantation]
+Utiliser l'injection du processus
+[Simple Template mode]
+Mode de modèle simple
+[Use existing XStatus]
+Utiliser le XStatus existant
+[Only if 'Music' status was set]
+Uniquement si l'état 'Music' est réglé
+[Replace underlines with spaces]
+Remplacer les _ par des espaces
+[Check file time]
+Vérifier la durée du fichier
+[No Music]
+Pas de musique
+[User message]
+Conversation simple
+[Channel message]
+Conversation salon
+[Keep 'Music' XStatus]
+Conserver le XStatus de 'Music'
+[No-music text]
+Pas de musique
+[Protocol list]
+Protocoles
+[Use Status:]
+Utiliser l'état :
+[Text+Graph]
+Texte + graphique
+[Use external style]
+Utiliser un style externe
+[Add report file ext.]
+Ajouter une extension de fichier "report"
+[Freq. artists]
+Freq. des artistes
+[Freq. paths]
+Freq. des chemins
+[Freq. songs]
+Freq. des chansons
+[Last played songs]
+Dernières chansons écoutées
+[Song time]
+Durée de la piste
+[VBR or CBR]
+VBR ou CBR
+[VBR or empty]
+VBR ou vide
+[Show file name in info]
+Afficher le nom du fichier en info
+[Global hotkey]
+Raccourcis
+[Only if messages not used]
+Seulement si messages non utilisés
+[Don't use]
+Ne pas utiliser
+[All uppercase]
+Tout en majuscule
+[Do not change]
+Ne pas changer
+[All lowercase]
+Tout en minuscule
+[lowercase %type%]
+%type% en minuscule
+[Use "Variables" plugin]
+Utiliser le plugin Variables
+[Next track]
+piste suivante
+[Show player]
+Afficher lecteur
+[bitrate]
+débit
+[by Count]
+par numéro
+[by Date]
+par date
+[by Path]
+par chemin
+[by Title]
+par titre
+[Disable Log]
+Désactiver le journal
+[Get Info from player]
+Recevoir les infos du lecteur
+[No Player]
+Pas de lecteur
+[number of channels]
+nombre de cannaux
+[Open report]
+Ouvrir le rapport
+[Reverse order]
+Inverser l'ordre
+[song title]
+titre
+[song year]
+année
+[track number]
+piste
+[Try to use OLE interface]
+Tenter d'utiliser l'insterface OLE
+[player]
+lecteur
+[FPS (Frames per second)]
+FPS (images par seconde)
+[Save settings in INI-file]
+Sauver les réglages dans un INI
+[VBR or not]
+VBR ou non
+[video codec]
+codec vidéo
+[video height]
+hauteur vidéo
+[video width]
+largeur vidéo
+[Show by request only]
+Afficher sur demande seulement
+[Cover filenames]
+Noms de fichiers des pochettes
+[Music Info]
+Information musicale
+[Align text to center]
+Centrer
+[Create WATrack report]
+Créer un rapport WATrack
+[Report file name not defined]
+Nom de fichier du rapport non défini.
+[XStatus Title]
+XStatus - Titre
+['mono' / 'stereo']
+'mono' / 'stéréo'
+[- "mono" / "stereo"]
+- "mono" / "stéréo"
+[- artist]
+- artiste
+[- bitrate]
+- débit
+[- current song position (sec)]
+- position de la piste (sec)
+[- player version]
+- version du lecteur
+[- player]
+- lecteur
+[- song title]
+- titre
+[- total song length (sec)]
+- temps total (sec)
+[- track number]
+- piste
+[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
+  sec (rafraîchissement) - temps de mise à jour des infos de la chanson et du message d'état. Si nul, le rafraîchissement automatique sera désactivé.\n  Uniquement si l'état 'Music' est réglé - change votre état si le XStatus de Music est défini.\n  Conserver le XStatus de 'Music' - si le lecteur est stoppé ou éteint, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  Sauver les réglages dans un INI - ceci effacera vos réglages présents dans la base de données de Miranda. Sinon c'est le fichier ini qui le sera.
+["Variables" module use]
+ Utiliser le plugin "Variable"
+[Acoustic]
+Acoustique
+[Use ICQ XStatus]
+Utiliser XStatus
 [Disable Plugin]
 Désactiver Plugin
-[Enable Plugin]
-Activer Plugin
+[Left click]
+Clic gauche
+[Right click]
+Clic droit
+[Custom colors]
+Couleurs personnalisées
+[artist]
+artiste
+[Precision]
+Précision
 [Color]
 Couleur
+[Output]
+Sortie
+[Check]
+Vérifier
 [Choose font...]
 Police ...
+[[X]Status Title / Text]
+Titre xStatus / Texte
 ;file \plugins\Watrack\myshows\myshows.rc
 ;file \plugins\Watrack\lastfm\i_last_api.inc
 ;file \plugins\Watrack\lastfm\i_last_dlg.inc

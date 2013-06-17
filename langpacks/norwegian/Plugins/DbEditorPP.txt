@@ -1,0 +1,37 @@
+﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
+;============================================================
+;  File: DbEditorPP.dll
+;  Plugin: Database editor++
+;  Version: 3.2.0.0
+;  Authors: Bio, Jonathan Gordon
+;============================================================
+;file \plugins\DbEditorPP\res\resource.rc
+[Restore last opened position]
+Gjenopprett sist brukte posisjon
+[Use known modules list]
+Bruk liste over kjente moduler
+[Warn when deleting modules]
+Advar ved sletting av moduler
+[Use popups when watched settings change values]
+Bruk popups når overvåkede innstillinger endrer verdier
+[Modules to ALWAYS mark as known (e.g core modules)]
+Moduler som ALLTID merkes som gjenkjent (eks. kjernemoduler)
+[Put a space or comma between each module name]
+Sett et mellomrom eller komma mellom hvert modulnavn
+[Changes to this list will take effect next time miranda starts]
+Endringer i denne listen vil synes neste gang Miranda starter
+[Background Colour]
+Bakgrunnsfarge
+;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
+;file \plugins\DbEditorPP\src\copymodule.cpp
+;file \plugins\DbEditorPP\src\deletemodule.cpp
+;file \plugins\DbEditorPP\src\exportimport.cpp
+;file \plugins\DbEditorPP\src\findwindow.cpp
+;file \plugins\DbEditorPP\src\icons.cpp
+;file \plugins\DbEditorPP\src\main.cpp
+;file \plugins\DbEditorPP\src\main_window.cpp
+;file \plugins\DbEditorPP\src\modules.cpp
+;file \plugins\DbEditorPP\src\moduletree.cpp
+;file \plugins\DbEditorPP\src\options.cpp
+;file \plugins\DbEditorPP\src\settinglist.cpp
+;file \plugins\DbEditorPP\src\watchedvars.cpp

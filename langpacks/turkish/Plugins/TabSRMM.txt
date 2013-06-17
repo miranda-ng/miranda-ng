@@ -1,0 +1,732 @@
+﻿#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+;============================================================
+;  File: TabSRMM.dll
+;  Plugin: TabSRMM
+;  Version: 3.1.99.8
+;  Authors: The Miranda developers team and contributors
+;============================================================
+;file \plugins\TabSRMM\res\chat.rc
+[  Show these events]
+  Şu etkinlikleri göster
+[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
+Sohbet bütünleştirilmesi devre dışı. Bunu buradan etkinleştirebilirsiniz. Değişiklikten sonra Miranda'yı yeniden başlatmanız gerekir.\n\nBuradaki grup sohbeti desteğini etkinleştirdikten sonra standart sohbet eklentisini devre dışı bırakmak zorundasınız. Yoksa hiç bir grup sohbeti çalışmaz.
+[Log files]
+Günlük dosyaları
+[Maximum size for log files (in kB)]
+Günlük dosyasının en çok boyutu (KB)
+[Group chat log formatting]
+Grup sohbet günlüğü biçimi
+[Timestamp (window)]
+Zaman damgası (pencere)
+[Timestamp (logfile)]
+Zaman damgası (günlük)
+[Maximum number of events in the message window]
+İleti penceresindeki en çok etkinlik sayısı
+[Groupchat userlist row height (pixels)]
+Grup sohbeti kişi listesi satır yüksekliği (piksel)
+;file \plugins\TabSRMM\res\resource.rc
+[Advanced tweaks]
+Gelişmiş Ayarlar
+[Message send timeout]
+İleti gönderme zaman aşımı
+[Input history size]
+Geçmiş boyutunu yazın
+[entries]
+kayıt
+[Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
+Yıldız (*) ile işaretli seçeneklerin etkili olması için Miranda'yı yeniden başlatmalısınız.
+[More about advanced tweaks]
+Gelişmiş ayarlar hakkında
+[Revert to (safe) defaults]
+Varsayılanlara (güvenli) Döndür
+[Event notify options]
+Etkinlik uyarı seçenekleri
+[Limit message preview to]
+İleti önizleme sınırı
+[Timeout (seconds, 0 = default, -1 = no timeout)]
+Zaman aşımı (saniye, 0 = varsayılan, -1 = zaman aşımı yok)
+[All modes]
+Tüm kipler
+[Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
+İleti günlüğünün nasıl gösterileceğini seçin. Bu ayar listedeki eklerden biri kurulu değilse yoksayılır.
+[Send text formatting method]
+Yazı biçimlendirme yöntemini gönder
+[ANSI codepage]
+ANSI kodsayfası
+[Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.]
+Unikod olmayan iletilerin aktarımında ANSI kodlama/çözme için kod sayfası.
+[Info panel mode]
+Bilgi paneli kipi
+[Use private splitter position]
+Özel bölücü konumu kullan
+[Contact is a favorite contact]
+Kişi beğendiklerinizden biri
+[Force ANSI send / receive]
+Gönder / alda ANSI zorla
+[Ignore sending timeouts]
+Zaman aşımlarını gönderme
+[Load only actual history]
+Yalnız güncel geçmişi yükle
+[Always trim message log to]
+İleti günlüğünü şu boyda tut
+[Only show tab bar when it's needed]
+Sekme çubuğunu yalnız gerektiğinde göster
+[Container stays on top]
+Kutu üstte kalır
+[Vertical maximize]
+Dikey büyüt
+[Use default setting]
+Varsayılan değeri kullan
+[Flash until focused]
+Odaklanana kadar yan sön
+[Disable flashing]
+Yanıp sönmeyi kapat
+[Enable popups if minimized]
+Küçültülmüş ise açılır pencereleri aç
+[Enable popups if unfocused]
+Odakta değilse açılır pencereleri aç
+[Show popups for inactive tabs in active containers]
+Etkin kutulardaki etkin olmayan sekmeler için açılır pencere göster
+[Hide the status bar]
+Durum çubuğunu gizle
+[Hide the menu bar]
+Menü çubuğunu gizle
+[Hide the tool bar]
+Araç çubuğunu gizle
+[Show the info panel]
+bilgi panelini göster
+[Hide title bar]
+Başlık çubuğunu gizle
+[Use global container size and position]
+Genel kutu boyut ve konumunu kullan
+[Save current as global]
+Şimdikini genel olarak kaydet
+[Show contact avatars]
+Kişi avatarlarını göster
+[Show my own avatars]
+Kendi avatarlarımı göster
+[Message window options]
+İleti penceresi seçenekleri
+[(0 = no limit)]
+(0 = sınırsız)
+[Try to keep original size]
+Asıl boyutta tutmayı dene
+[Help on this]
+Bununla ilgili yardım
+[Indent values]
+Değerleri içeri al
+[Left/Right]
+Sol/Sağ
+[px]
+piksel
+[Template sets]
+Kalıp setleri
+[Standard templates...]
+Standart kalıplar...
+[RTL templates...]
+Sağdan sola kalıpları...
+[Global message log display]
+Genel ileti günlüğü görünümü
+[Send typing notifications to the following users when you are typing a message to the them:]
+Şu kişilere ileti yazarken yazma uyarılarını gönder:
+[          Show typing notifications in the message window]
+          İleti penceresinde yazma uyarılarını göster
+[Flash window once on typing events (only if flashing enabled)]
+Pencere yalnız yazma uyarıları sırasında bir kez yanıp sönsün (yan sön açıksa)
+[          Show typing notifications in the contact list and tray]
+          Kişi listesi ve sistem tepsisinde yazma uyarılarını göster
+[Show typing notification when message dialog is open]
+İleti penceresi açıkken yazma uyarısını göster
+[Show balloon tooltip in the system tray]
+Balon araç açıklamasını sistem tepsisinde göster
+[          Show popups when a user is typing]
+          Bir kişi yazarken açılır pencereleri göster
+[More about typing notifications]
+Yazma uyarıları hakkında
+[Tab options]
+Sekme seçenekleri
+[Miscellaneous options]
+Diğer ayarlar
+[Setup status modes for automatic tab creation...]
+Kendiliğinden sekme oluşturmak için durum kiplerini ayarla...
+[Limit nicknames on tabs to]
+Sekmelerdeki kısa ad sınırı
+[Select container]
+Kutuyu seç
+[Available containers]
+Kullanımdaki kutular
+[Create a new container]
+Yeni kutu oluştur
+[Create new]
+Yeni oluştur
+[Insert Separator]
+Ayıraç Ekle
+[Container flashing]
+Kutu yanıp sönmesi
+[Flash containers]
+Kutular yanıp sönsün
+[times]
+kere
+[Flash interval]
+Yanıp sönme aralığı
+[Help on containers]
+Kutularla ilgili yardım
+[...is &typing]
+...&yazıyor
+[...stopped t&yping]
+...y&azmayı bıraktı
+[U&se Popup colours]
+Açılır Pencere &Renklerini Kullan
+[&Use Windows colours]
+Windows renklerini k&ullan
+[Only &one popup for each contact]
+Her kişi için &bir tek açılır pencere
+[Show &entry in the main menu]
+Kayıdı ana m&enüde göster
+[From protocol]
+Protokolden
+[Edit template]
+Kalıbı düzenle
+[Get more help on variables]
+Değişkenler üzerine daha fazla bilgi al
+[Define up to 5 colors which you can use with some variables]
+Bazı değişkenlerle kullanabileceğiniz 5 tane renk belirleyebilirsiniz
+[Update Preview]
+Ön İzlemeyi Güncelle
+[Save Template]
+Kalıbı Kaydet
+[Revert to Default]
+Varsayılanlara Döndür
+[Reset all templates...]
+Tüm kalıpları sıfırla...
+[Tab text label padding vertical]
+Sekme etiket payı dikey
+[Tab page padding:]
+Sekme sayfa payı:
+[inner]
+iç
+[outer]
+dış
+[Bottom tabs vertical adjustment:]
+Alt sekmelerin dikey ayarı:
+[NOTE: some settings will not affect open containers.]
+NOT: Açık kutular bazı ayarlardan etkilenmeyecek.
+[About tabSRMM]
+tabSRMM Hakkında
+[Load fonts and colors provided by skin]
+Temayla gelen yazı tipi ve renkleri yükle
+[Load templates provided by skin (use with care, will overwrite your templates)]
+Temayla gelen kalıpları yükle (dikkatli olun, varolan kalıpların üzerine yazar)
+[Use different icons to mark incoming and outgoing messages]
+Gelen ve giden iletileri farklı simgelerle işaretle
+[Date and time]
+Tarih ve saat
+[Show seconds in timestamp]
+Zaman damgasında saniyeleri göster
+[Use contacts local time]
+Kişilerin yerel saatlerini kullan
+[Indent message body]
+İleti gövdesini içeri al
+[Display grid lines]
+Izgarayı göster
+[Message grouping]
+İleti gruplama
+[Support BBCODE]
+BBCODE destekle
+[RTL is default text direction]
+Varsayılan yazı yönü sağdan sola
+[Log status changes (in open message windows only)]
+Durum değişikliklerini günlükle (açık ileti pencerelerinde)
+[Revert to global options]
+Genel ayarlara döndür
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message Sessions->Message Log]
+Buradan bu kişi için özel ileti günlüğü seçeneklerini ayarlayabilirsiniz. Doldurulmuş kutular İleti Oturumları->İleti Günlüğü bölümündeki genel ayarlardan alınmıştır.
+[Use normal templates (uncheck to use simple templates)]
+Normal kalıpları kullan (basit kalıplar işaretini kaldırın)
+[&Quote]
+A&lıntı
+[Freeze Log]
+Günlüğü Dondur
+[Editor]
+Düzenleyici
+[Paste formatted Text]
+Biçimlendirilmiş Yazıyı Yapıştır
+[Paste and Send immediately]
+Yapıştır ve Hemen Gönder
+[Copy all]
+Tümünü kopyala
+[Select all]
+Tümünü seç
+[Show Message Length Indicator]
+İleti Genişliği Göstergesini Göster
+[Tabmenu]
+Sekme Menüsü
+[Leave Chat Room]
+Sohbet Odasından Çık
+[Save Tab Position]
+Sekme Konumunu Kaydet
+[Clear saved Tab Position]
+Kaydedilmiş Sekme Konumunu Sil
+[Attach to Container...]
+Kutuya İliştir...
+[Container Options...]
+Kutu Seçenekleri...
+[Close Container]
+Kutuyu Kapat
+[Picmenu]
+Resim Menüsü
+[Show Contact Picture]
+Kişi Resmini Göster
+[Hidden for this Contact]
+Bu kişi için gizli
+[Visible for this Contact]
+Bu Kişiye Görünür
+[Contact Picture Settings...]
+Kişi Resim Ayarları...
+[Always keep the button bar at full width]
+Düğme çubuğunu her zaman tam genişlikte tt
+[Save this Picture As...]
+Bu Resmi Farklı Kaydet...
+[Logmenu]
+Günlük Menüsü
+[&Message Log Settings]
+İleti Günlüğü &Ayarları
+[&Global...]
+&Genel...
+[&For this Contact...]
+Bu &Kişi İçin...
+[Sendmenu]
+Gönder Menüsü
+[Send &Default]
+&Varsayılan Gönder
+[Send to &multiple Users]
+Birden &fazla kişiye gönder
+[Send to &Container]
+&Kutuya Gönder
+[Send &Later]
+&Sonra Gönder
+[Force &ANSI]
+&ANSI zorla
+[Send unsafe (ignore Timeouts)]
+Güvenliksiz gönder (zaman aşımını yoksay)
+[Protomenu]
+Protokol Menüsü
+[Send Text Formatting]
+Yazı Biçimlendirmesini Gönder
+[BBCode]
+BBKod
+[This Contact]
+Bu Kişi
+[Global Setting]
+Genel Ayarlar
+[Force Off]
+Zorlamayı Kapat
+[Unread Menu]
+Okunmamış Menüsü
+[Traycontext]
+Tepsi Bağlamı
+[Recent Sessions]
+Son Oturumlar
+[Favorites]
+Sık Kullanılanlar
+[Disable All Event Notifications]
+Tüm Etkinlik Uyarılarını Kapat
+[Don't create Windows automatically]
+Pencereyi kendiliğinden olşturma
+[Hide all Message Containers]
+Tüm ileti kutularını gizle
+[Restore all Message Containers]
+Tüm İleti Kutuları Büyüt
+[Don't play Sounds]
+Sesleri Çalma
+[Default Color]
+Varsayılan Renk
+[Magenta]
+Mor
+[Cyan]
+Camgöbeği
+[Clear all Formatting]
+Biçimlendirmeyi Kaldır
+[Dummy]
+Boş
+[No Message Sessions opened]
+Hiç İleti Oturumu Açık Değil
+[Add Contact to Favorites]
+Kişiyi Beğendiklerime Ekle
+[Remove Contact from Favorites]
+Kişiyi Beğendiklerimden Çıkar
+[Apparentmenu]
+Ortalıkmenüsü
+[Panelpicmenu]
+Panel Resim Menüsü
+[Splitter context]
+Bölücü bağlamı
+[Set Position for this Session]
+Bu oturum için konumu ayarla
+[Set and Save for all Sessions]
+Tüm oturumlar için ayarla ve kaydet
+[Set and Save for this Contact only]
+Yalnız bu kişi için ayarla ve kaydet
+[Revert to old Position]
+Eski Konuma Döndür
+[Save Message Log As...]
+İleti Günlüğünü Farklı Kaydet...
+[Close Message Session\tCtrl-W]
+İleti Oturumunu Kapat\tCtrl-W
+[Close Container\tAlt-F4]
+Kutuyu Kapar\tAlt-F4
+[&View]
+&Görünüm
+[Show Menu Bar]
+Menü Çubuğunu Göster
+[Show Status Bar]
+Durum Çubuğunu Göster
+[Tool Bar]
+Araç Çubuğu
+[Show Tool Bar]
+Araç Çubuğunu Göster
+[Place ToolBar at bottom]
+Araç Çubuğunu Aşağı Koy
+[Title Bar]
+Başlık Çubuğu
+[Tabs at Bottom]
+Sekmeler Aşağı
+[Window Flashing]
+Pencere Yanıp Sönmesi
+[Use default Value]
+Varsayılan Değeri Kullan
+[Disable Flashing]
+Yanıp Sönmeyi Kapat
+[Show Multisend Contact List]
+Çoklu Gönderim Kişi Listesini Göster
+[Stay on Top]
+Üstte Kal
+[Message &Log]
+İleti Gün&lüğü
+[&Container]
+&Kutu
+[Event Popups]
+Etkinlik Açılır Pencereleri
+[Disable all Event Popups]
+Tüm Etkinlik Açılan Pencerelerini Kapat
+[Show Popups if Window is minimized]
+Pencere küçültülmüş ise açılır pencere göster
+[Show Popups if Window is unfocused]
+Pencere odakta değilse açılır pencere göster
+[Show Popups for all inactive sessions]
+Tüm etkin olmayan oturumlar için açılır pencereleri göster
+[Save current Window Position as Default]
+Şimdiki Pencere Konumunu Varsayılan Olarak Kaydet
+[About tabSRMM...]
+tabSRMM Hakkında...
+;file \plugins\TabSRMM\src\buttonsbar.cpp
+[Message Log Options]
+İleti Günlüğü Seçenekleri
+;file \plugins\TabSRMM\src\container.cpp
+[Hide titlebar]
+Başlık çubuğunu gizle
+[Container options...]
+Kutu seçenekleri...
+[Message Session...]
+İleti Oturumu...
+[Attach to]
+Şuna ekle
+[Meta Contact]
+Meta Kişi
+[(Forced)]
+(Zorlandı)
+[Autoselect]
+Kendin seç
+[Use Protocol]
+Kullanılacak Protokol
+[Set Default Protocol]
+Varsayılan Protokolü Ayarla
+;file \plugins\TabSRMM\src\containeroptions.cpp
+[Container options]
+Kutu seçenekleri
+[Tabs at the bottom]
+Sekmeler aşağıda
+[Globally on]
+Genel açık
+[On, if present]
+Varsa açık
+[Globally OFF]
+Genel kapalı
+[Don't show them]
+Gösterme
+;file \plugins\TabSRMM\src\controls.cpp
+[Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
+Sesler %s. Durumu değiştirmek için tıklayın. Tüm açık kutular için Shift'e basarken tıklayın
+[disabled]
+kapalı
+[Sending typing notifications is %s.]
+%s kişisine yazma uyarıları gönderiliyor.
+;file \plugins\TabSRMM\src\eventpopups.cpp
+[New messages: ]
+Yeni iletiler
+;file \plugins\TabSRMM\src\generic_msghandlers.cpp
+[Last received: %s at %s]
+Son alınan: %s %s saatinde
+;file \plugins\TabSRMM\src\globals.cpp
+[TABSRMM: Typing]
+TABSRMM: Yazıyor
+[&Messaging settings...]
+İ&leti ayarları...
+[signed off.]
+gitti.
+[signed on and is now %s.]
+girdi ve şimdi %s.
+[changed status from %s to %s.]
+%s olan durum %s oldu
+;file \plugins\TabSRMM\src\hotkeyhandler.cpp
+;file \plugins\TabSRMM\src\infopanel.cpp
+[tabSRMM Information]
+tabSRMM Bilgisi
+[Use Global Setting]
+Genel Ayarları Kullan
+;file \plugins\TabSRMM\src\mim.cpp
+;file \plugins\TabSRMM\src\modplus.cpp
+;file \plugins\TabSRMM\src\msgdialog.cpp
+[Character Encoding]
+Karakter Kodlaması
+[A message failed to send successfully.]
+İleti gönderilemedi.
+[WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
+DİKKAT: Yapıştırmaya çalıştığınız ileti kullanılan protokolün boyut sınırını aşıyor. %d karakterlik bloklar halinde gönderilecek.
+[The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent.]
+Yapıştırmaya çalıştığınız ileti kullanılan protokolün boyut sınırını aşıyor. Yalnız ilk %d karakter gönderilecek.
+[Save and close session]
+Oturumu kaydet ve kapat
+[Click for contact menu\nClick dropdown for window settings]
+Kişi menüsüne tıklayın\nPencere ayarları için açılıra tıklayın
+[Send later]
+Sonra gönder
+[Selection copied to clipboard]
+Seçim panoya kopyalandı
+[Delivery failure: %s]
+Gönderilemedi: %s
+[The message send timed out]
+İleti zaman aşımından gönderilemedi
+[Unforce failed]
+Zorlama kaldırılamadı
+[The selected protocol cannot be forced at this time]
+Seçili protokol şu anda zorlanamaz
+[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
+Dikkat: şu çevrimdışı iletileri göndermek için bir alt protokol seçtiniz
+[Contact is offline and this protocol does not support sending files to offline users.]
+Kişi çevrimdışı ve bu protokol çevrimdışı kişilere ileti gönderemiyor.
+;file \plugins\TabSRMM\src\msgdlgutils.cpp
+[Error creating destination directory]
+Hedef klasör oluşturulurken hata oldu
+[Save contact picture]
+Kişi resmini kaydet
+[The file exists. Do you want to overwrite it?]
+Bu dosya var. Üzerine yazmak ister misiniz?
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
+'yapıştır ve gönder' özelliği devre dışı. 'Genel' seçenekler sayfasında 'İleti Gönderme' bölümünden etkinleştirebilirsiniz
+;file \plugins\TabSRMM\src\msglog.cpp
+;file \plugins\TabSRMM\src\msgoptions.cpp
+[Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
+Temadan ileti kalıplarını da almak istiyor musunuz?\nDikkat: Varolan kalıp setinin üzerine yazılacağından ileti pencerelerinizin görünümü önemli ölçüde değişebilir.\nHiç bir şeyi yüklememek için İptal'e tıklayın.
+[Load theme]
+Tema yükle
+[Always, but no popup when window is focused]
+Her zaman, hiç bir açılır pencereye odaklanılmamışken
+[Only when no message window is open]
+Yalnız hiç bir ileti penceresi açık değilken
+[Tabs and layout]
+Sekme ve Yerleşim
+[Containers]
+Kutular
+[Tool bar]
+Araç Çubuğu
+[Log formatting]
+Günlük biçimi
+[Highlighting]
+Vurgulama
+[Choose status modes]
+Durum kiplerini seç
+;file \plugins\TabSRMM\src\msgs.cpp
+[Quote text]
+Alıntı yap
+[Save and close]
+Kaydet ve kapat
+[Format bold]
+Koyu biçim
+[Format italic]
+Yatık biçim
+[Format underline]
+Altı çizili biçim
+[Font face]
+Yazı tipi
+[Font color]
+Yazı rengi
+[Format strike-through]
+Üstü çizili biçim
+[Message delivery error]
+İleti aktarım hatası
+[Statuschange]
+Durumdeğişikliği
+[Static container icon]
+Durağan kutu simgesi
+[Pulldown Arrow]
+Aşağı ok
+[Left Arrow]
+Sol Ok
+[Right Arrow]
+Sağ ok
+[Up Arrow]
+Yukarı ok
+[Session List]
+Oturum Listesi
+[Frame 1]
+Çerçece 1
+[Frame 2]
+Çerçece 2
+[Frame 3]
+Çerçece 3
+[Frame 4]
+Çerçece 4
+;file \plugins\TabSRMM\src\msgs.h
+;file \plugins\TabSRMM\src\selectcontainer.cpp
+[Select container for %s]
+%s için kutu seçin
+[You cannot delete the default container]
+Varsayılan kutuyu silemezsiniz
+[You cannot rename the default container]
+Varsayılan kutuyu yeniden adlandıramazsınız
+[This name is already in use]
+Bu ad zaten kullanılıyor
+;file \plugins\TabSRMM\src\sendlater.cpp
+;file \plugins\TabSRMM\src\sendqueue.cpp
+[A message delivery has failed.\nClick to open the message window.]
+Bir ileti gönderilemedi.\nİleti penceresini açmak için tıklayın.
+[A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
+Kişi sohbet penceresi kapandıktan sonra bir ileti gönderilemedi. son iletiyi yeniden göndermek isteyebilirsiniz
+[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+Onay bekleyen gönderilmemiş iletiler var.\nPencereyi şimdi kapatırsanız, Miranda onları göndermeyi deneyecek ancak olabilecek hataları size bildiremeyecek.\nPencereyi kapatmak istiyor musunuz?
+;file \plugins\TabSRMM\src\sidebar.cpp
+;file \plugins\TabSRMM\src\srmm.cpp
+[tabSRMM Message (%s)]
+tabSRMM İletisi (%s)
+;file \plugins\TabSRMM\src\taskbar.cpp
+;file \plugins\TabSRMM\src\templates.cpp
+[Template Set Editor]
+Kalıp Seti Düzenleyici
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+Bu kalıp setini varsayılan iç kalıplara sıfırlayacak. Bunu yapmak istediğinizden emin misiniz?
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+Kalıp seti sıfırlandı, tüm ileti pencerelerini kapatıp yeniden açın. Bu kalıp düzenleyici penceresi şimdi kapanacak.
+;file \plugins\TabSRMM\src\themeio.cpp
+;file \plugins\TabSRMM\src\themes.cpp
+[All message containers need to close before the skin can be changed\nProceed?]
+Tema değiştirilmeden önce tüm ileti kutuları kapatılmalıdır\nKapatılsın mı?
+[Change skin]
+Temayı değiştir
+;file \plugins\TabSRMM\src\translator.cpp
+;file \plugins\TabSRMM\src\trayicon.cpp
+;file \plugins\TabSRMM\src\typingnotify.cpp
+[Disable &typing notification]
+Yazma &uyarısını kapat
+[Enable &typing notification]
+Yazma &uyarısını aç
+[...is typing a message.]
+...ileti yazıyor.
+[...has stopped typing.]
+...yazmayı bıraktı.
+;file \plugins\TabSRMM\src\userprefs.cpp
+[Always On]
+Her zaman açık
+[Always Off]
+Her zaman kapalı
+[Force Default Message Log]
+Varsayılan İleti Günlüğünü Dayat
+[Force History++]
+History++ Dayat
+[Force IEView]
+IEGörünüm Dayat
+;file \plugins\TabSRMM\src\utils.cpp
+;file \plugins\TabSRMM\src\chat\clist.cpp
+;file \plugins\TabSRMM\src\chat\colorchooser.cpp
+;file \plugins\TabSRMM\src\chat\log.cpp
+;file \plugins\TabSRMM\src\chat\muchighlight.cpp
+;file \plugins\TabSRMM\src\chat\options.cpp
+[Chat log symbols (Webdings)]
+Sohbet günlüğü simgeleri (Webdings)
+[>> Outgoing misc events]
+>> Gönderilen etkinlikler
+[<< Incoming misc events]
+<< Alınan etkinlikler
+[>> Outgoing messages (old)]
+>> Gönderilen iletiler (eski)
+[>> Outgoing misc events (old)]
+>> Gönderilen etkinlikler (eski)
+[<< Incoming messages (old)]
+<< Alınan iletiler (eski)
+[<< Incoming misc events (old)]
+<< Alınan etkinlikler (eski)
+[>> Outgoing name (old)]
+>> Gönderilen ad (eski)
+[<< Incoming name (old)]
+<< Alınan ad (eski)
+[* Message Input Area]
+* İleti Yazma Alanı
+[* Status changes]
+* Durum değişiklikleri
+[* Dividers]
+* Ayıraçlar
+[* Error and warning Messages]
+* Hata ve uyarı iletileri
+[* Symbols (incoming)]
+* Simgeler (alınan)
+[* Symbols (outgoing)]
+* Simgeler (gönderilen)
+[Contacts local time]
+Kişilerin yerel saatleri
+[Window caption (skinned mode)]
+Pencere başlığı (temalı kip)
+[Open new chat rooms in the default container]
+Yeni sohbet odalarını varsayılan kutuda aç
+[Activate chat window on highlight]
+Vurgulandığında sohbet penceresini etkinleştir
+[Colorize nicknames in member list]
+Üye listesindeki kısa adları renklendir
+[Sync splitter position with standard IM sessions]
+Standart IM oturumları ile ayıraç konumunu eşleştir
+[Use alternative sorting method in member list]
+Kişi listesinde farklı sıralama yöntemi kullan
+[Start private conversation on doubleclick in nick list (insert nick if unchecked)]
+Kısa ad listesinde çift tıklayınca özel görüşme başlat (seçili değilse kısa adı ekle)
+[Use IRC style status indicators in the log]
+Günlükte IRC tarzı durum göstergeleri kullan
+[Scale down icons to 10x10 pixels in the chat log]
+Sohbet günlüğündeki simgeleri 10x10 piksel boyutuna indir
+[Remove Status (10x10)]
+Durumu Kaldır (10x10)
+[Channel operators]
+Kanal operatörleri
+[Half operators]
+Yarım operatörler
+[Voiced]
+Seslendirildi
+[Extended mode 1]
+Genişletilmiş kip 1
+[Extended mode 2]
+Genişletilmiş kip 2
+[Selection background]
+Art alan seçimi
+[Incremental search highlight]
+Artımlı arama vurgusu
+;file \plugins\TabSRMM\src\chat\services.cpp
+;file \plugins\TabSRMM\src\chat\tools.cpp
+;file \plugins\TabSRMM\src\chat\window.cpp
+[%s: Chat Room (%u user%s)]
+%s: Sohbet Odası (% kullanıcı%s)
+[%s: Chat Room (%u users%s)]
+%s: Sohbet Odası (% kullanıcı%s)
+[, event filter active]
+, süzgec etkinken bile
+[The filter canoot be enabled, because there are no event types selected either global or for this chat room]
+Genel veya bu sohbet odası için seçili tipte etkinlik olmadığından süzgeç etkinleştirilemedi
+[Event filter error]
+Etkinlik süzme hatası

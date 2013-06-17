@@ -1,0 +1,666 @@
+﻿#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+;============================================================
+;  File: TabSRMM.dll
+;  Plugin: TabSRMM
+;  Version: 3.1.99.8
+;  Authors: The Miranda developers team and contributors
+;============================================================
+;file \plugins\TabSRMM\res\chat.rc
+[  Show these events]
+  Vis følgende hendelser
+[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
+Chat integrering er deaktivert. Du kan aktivere det her, og deretter MÅ du starte Miranda på nytt etter å ha gjort endringen.\n\nDu MÅ deaktivere standardchat tillegget når du aktiverer støtte for gruppechat. Hvis ikke fungerer kanskje ikke gruppechaten.
+[Group chat log formatting]
+Gruppechat logg formatering
+[Groupchat userlist row height (pixels)]
+Gruppechat brukerlistens radhøyde (piksler)
+;file \plugins\TabSRMM\res\resource.rc
+[Message send timeout]
+Melding sendingsutløp
+[Input history size]
+Inndata historikk størrelse
+[entries]
+treff
+[Event notify options]
+Hendelsevarslingsvalg
+[Limit message preview to]
+Begrens forhåndsvisning av melding til
+[All modes]
+Alle moduser
+[Send text formatting method]
+Send tekstformaterings metode
+[ANSI codepage]
+ANSI kodeside
+[Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.]
+Kodeside for ANSI koding/dekoding ved sending eller mottak av ikke-unicode meldinger.
+[Info panel mode]
+Infopanel modus
+[Use private splitter position]
+Bruk private Delerposisjoner
+[Contact is a favorite contact]
+Kontakten er favorittkontakt
+[Force ANSI send / receive]
+Tving ANSI send / motta
+[Ignore sending timeouts]
+Ignorer sendingsutløp
+[Always trim message log to]
+Alltid beskjær meldingslogg til
+[Only show tab bar when it's needed]
+Bare vis fanelinjen når den er nødvendig
+[Container stays on top]
+Beholder holdes øverst
+[Vertical maximize]
+Vertikal maksimering
+[Use default setting]
+Bruk standard innstilling
+[Flash until focused]
+Blink til fokusert
+[Disable flashing]
+Deaktiver blinking
+[Enable popups if minimized]
+Aktiver popups hvis minimert
+[Enable popups if unfocused]
+Aktiver popups hvis ufokusert
+[Show popups for inactive tabs in active containers]
+Vis popups for inaktive faner i aktive beholdere
+[Hide the status bar]
+Skjul statuslinjen
+[Hide the menu bar]
+Skjul menylinjen
+[Hide the tool bar]
+Skjul verktøylinjen
+[Show the info panel]
+Vis info panelet
+[Hide title bar]
+Skjul tittellinjen
+[Use global container size and position]
+Bruk global Beholderstørrelse og posisjon
+[Save current as global]
+Lagre nåværende som global
+[Show contact avatars]
+Vis kontaktavatarer
+[Show my own avatars]
+Vis mine egne avatarer
+[Message window options]
+Meldingsvindu valg
+[(0 = no limit)]
+(0 = ingen begr.)
+[Try to keep original size]
+Forsøk å beholde orig. str.
+[Indent values]
+Rykk inn verdier
+[Left/Right]
+Venstre/Høyre
+[px]
+px
+[Template sets]
+Mal pakker
+[Standard templates...]
+Standardmaler...
+[RTL templates...]
+RTL maler...
+[Global message log display]
+Global meldingslogg visning
+[Send typing notifications to the following users when you are typing a message to the them:]
+Send skrivevarslinger til følgende brukere når du skriver meldinger til dem:
+[Flash window once on typing events (only if flashing enabled)]
+Blink vindu en gang ved skrivehendelser (blinking må være aktivert)
+[Show typing notification when message dialog is open]
+Vis skrivevarsling når meldingsdialogen er åpen
+[Tab options]
+Fanevalg
+[Miscellaneous options]
+Diverse valg
+[Setup status modes for automatic tab creation...]
+Lag statusmoduser for automatisk faneopprettelse...
+[Limit nicknames on tabs to]
+Begrens kallenavn i fanen til
+[Select container]
+Velg beholder
+[Available containers]
+Tilgjengelige beholdere
+[Create a new container]
+Opprett en ny beholder
+[Create new]
+Opprett ny
+[Container flashing]
+Beholderblinking
+[Flash containers]
+Blink beholdere
+[times]
+ganger
+[Flash interval]
+Blinkeintervall
+[&Use Windows colours]
+&Bruk Windowsfarger
+[...is typing]
+...skriver
+[From protocol]
+Fra protokoll
+[...stopped typing]
+...stoppet å skrive
+[Edit template]
+Rediger mal
+[Get more help on variables]
+Få mer hjelp med variabler
+[Define up to 5 colors which you can use with some variables]
+Definer opp til 5 farger som du kan bruke ved hjelp av variabler
+[Update Preview]
+Oppdater Visning
+[Save Template]
+Lagre Mal
+[Revert to Default]
+Tilbake til Standard
+[Reset all templates...]
+Tilbakestill alle maler...
+[Tab text label padding vertical]
+Fanetekst merkefyll vertikalt
+[Tab page padding:]
+Faneside fyll:
+[inner]
+Indre
+[outer]
+ytre
+[Bottom tabs vertical adjustment:]
+Bunnfaner vertikal justering:
+[NOTE: some settings will not affect open containers.]
+MERK: noen innstillinger vil ikke påvirke åpne beholdere.
+[About tabSRMM]
+Om tabSRMM
+[Load fonts and colors provided by skin]
+Last inn skrifter og farger levert av skin
+[Load templates provided by skin (use with care, will overwrite your templates)]
+Last inn maler gitt av skin (bruk med varsomhet, vil overskrive malene)
+[Create new windows in minimized state]
+Opprett nye vinduer i mimimert tilstand
+[Freeze Log]
+Frys Logg
+[Editor]
+Editor
+[Paste formatted Text]
+Lim inn formatert Tekst
+[Paste and Send immediately]
+Lim og Send øyeblikkelig
+[Copy all]
+Kopier alt
+[Select all]
+Velg alt
+[Show Message Length Indicator]
+Vis Meldingslengde indikator
+[Tabmenu]
+Fanemeny
+[Leave Chat Room]
+Forlat Samtalerom
+[Save Tab Position]
+Lagre Faneposisjon
+[Clear saved Tab Position]
+Klarer lagrede Faneposisjoner
+[Attach to Container...]
+Fest til Beholder...
+[Container Options...]
+Beholdervalg...
+[Close Container]
+Lukk Beholder
+[Picmenu]
+Picmeny
+[Show Contact Picture]
+Vis Kontaktbilde
+[Hidden for this Contact]
+Skjult for denne Kontakten
+[Visible for this Contact]
+Synlig for denne Kontakten
+[Contact Picture Settings...]
+Kontaktbilde Innstillinger...
+[Always keep the button bar at full width]
+Alltid hold knappelinjen på full bredde
+[Save this Picture As...]
+Lagre dette Bilde Som...
+[Logmenu]
+Loggmeny
+[Sendmenu]
+Sendmeny
+[Send &Default]
+Send &Standard
+[Send to &multiple Users]
+Send til &flere Brukere
+[Send to &Container]
+Send til &Beholder
+[Send &Later]
+Send &Senere
+[Force &ANSI]
+Tving &ANSI
+[Send unsafe (ignore Timeouts)]
+Send usikkert (ignorer tidsutløp)
+[Protomenu]
+Protomeny
+[Send Text Formatting]
+Send tekstformatering
+[BBCode]
+BBKode
+[This Contact]
+Denne Kontakten
+[Global Setting]
+Global Innstilling
+[Force Off]
+Tving Av
+[Unread Menu]
+Ulest Meny
+[Traycontext]
+Oppgavelinjesammenheng
+[Recent Sessions]
+Nylige Økter
+[Favorites]
+Favoritter
+[Disable All Event Notifications]
+Deaktiver Alle Hendelsevarslinger
+[Don't create Windows automatically]
+Ikke opprett Vinduer automatisk
+[Hide all Message Containers]
+Skjul alle meldingsbeholdere
+[Restore all Message Containers]
+Tilbakestill alle Meldingsbeholdere
+[Don't play Sounds]
+Ikke spill Lyder
+[Default Color]
+Standard Farge
+[Magenta]
+Magenta
+[Cyan]
+Cyan
+[Clear all Formatting]
+Klarer all Formatering
+[Dummy]
+Falsk
+[No Message Sessions opened]
+Ingen Meldingsøkter åpnet
+[Add Contact to Favorites]
+Legg Kontakter til Favoritter
+[Remove Contact from Favorites]
+Fjern Kontakt fra Favoritter
+[Apparentmenu]
+Tydeligmeny
+[Panelpicmenu]
+Panelpicmeny
+[Splitter context]
+Spalter sammenheng
+[Set Position for this Session]
+Sett Posisjon for denne økten
+[Set and Save for all Sessions]
+Sett og Lagre for alle økter
+[Set and Save for this Contact only]
+Sett og Lagre kun for denne Kontakten
+[Revert to old Position]
+Tilbake til gammel Posisjon
+[Save Message Log As...]
+Lagre Meldingslogg Som...
+[Close Message Session\tCtrl-W]
+Lukk Meldingsøkt\tCtrl-W
+[Close Container\tAlt-F4]
+Lukk Beholder\tAlt-F4
+[&View]
+&Se
+[Show Menu Bar]
+Vis Menylinje
+[Show Status Bar]
+Vis Statuslinje
+[Show Tool Bar]
+Vis Verktøylinje
+[Title Bar]
+Tittellinje
+[Tabs at Bottom]
+Faner på Bunn
+[Window Flashing]
+Vindublinking
+[Use default Value]
+Bruk standard Verdi
+[Disable Flashing]
+Deaktiver Blinking
+[Show Multisend Contact List]
+Vis flersendings Kontaktliste
+[Stay on Top]
+Forbli på Topp
+[Message &Log]
+Meldings &Logg
+[&Container]
+&Beholder
+[Event Popups]
+Hendelse Popups
+[Disable all Event Popups]
+Deaktiver alle Hendelsepopups
+[Show Popups if Window is minimized]
+Vis Popups hvis vindu er minimert
+[Show Popups if Window is unfocused]
+Vis Popups hvis vindu er ufoksert
+[Show Popups for all inactive sessions]
+Vis Popups for alle inaktive økter
+[Save current Window Position as Default]
+Lagre nåværende Vindusposisjon som Standard
+[About tabSRMM...]
+Om tabSRMM...
+;file \plugins\TabSRMM\src\buttonsbar.cpp
+[Message Log Options]
+Meldingslogg Valg
+;file \plugins\TabSRMM\src\container.cpp
+[Hide titlebar]
+Skjul tittellinje
+[Container options...]
+Beholderinnstillinger...
+[Message Session...]
+Meldingsøkt...
+[Attach to]
+Fest til
+[Meta Contact]
+Meta Kontakt
+[(Forced)]
+(Tvunget)
+[Autoselect]
+Autovelg
+[Use Protocol]
+Bruk Protokoll
+[Set Default Protocol]
+Sett Standardprotokoll
+;file \plugins\TabSRMM\src\containeroptions.cpp
+[Container options]
+Beholdervalg
+[Tabs at the bottom]
+Faner på bunnen
+[Globally on]
+Globalt på
+[On, if present]
+På, hvis tilgjengelig
+[Globally OFF]
+Globalt AV
+[Don't show them]
+Ikke vis dem
+;file \plugins\TabSRMM\src\controls.cpp
+[&User]
+&Bruker
+[Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
+Lyder er %s. Klikk for å endre status, hold SHIFT og klikk for å sette for alle åpne beholdere
+[disabled]
+deaktivert
+[Sending typing notifications is %s.]
+Skrivevarsling er %s,
+;file \plugins\TabSRMM\src\eventpopups.cpp
+[Incoming file]
+Innkommende fil
+[New messages: ]
+Nye meldinger:
+;file \plugins\TabSRMM\src\generic_msghandlers.cpp
+[Last received: %s at %s]
+Sist mottatt: %s kl. %s
+;file \plugins\TabSRMM\src\globals.cpp
+[signed off.]
+koblet fra.
+[signed on and is now %s.]
+logget på og er nå %s.
+[changed status from %s to %s.]
+Endret status fra %s til %s.
+;file \plugins\TabSRMM\src\hotkeyhandler.cpp
+;file \plugins\TabSRMM\src\infopanel.cpp
+[tabSRMM Information]
+tabSRMM Informasjon
+[Use Global Setting]
+Bruk Global Innstilling
+;file \plugins\TabSRMM\src\mim.cpp
+;file \plugins\TabSRMM\src\modplus.cpp
+;file \plugins\TabSRMM\src\msgdialog.cpp
+[Character Encoding]
+Tegn Koding
+[A message failed to send successfully.]
+En melding feilet under sending.
+[WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
+ADVARSEL: Meldingen du forsøker å lime inn overskriver størrelsesbegrensningen for den aktive protokollen. Den vil bli sendt i deler på maks %d tegn.
+[The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent.]
+Meldingen du forsøker å lime inn overskriver størrelsesbegrensningen for den aktive protokollen. Bare de første %d tegnene vil bli sendt.
+[Save and close session]
+Lagre og lukk økt
+[Send later]
+Send senere
+[Selection copied to clipboard]
+Utvalg kopiert til utklippstavle
+[Delivery failure: %s]
+Leverings feil: %s
+[The message send timed out]
+Sendingen av melding er tidsutløpt
+[Unforce failed]
+Av-tvinging feilet
+[The selected protocol cannot be forced at this time]
+Den valgte protokollen kan ikke påtvinges på dette tidspunkt
+[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
+Advarsel: du har valgt en underprotokoll for sending av følgende meldinger som for øyeblikket er frakoblet
+[Contact is offline and this protocol does not support sending files to offline users.]
+Kontakten er frakoblet og denne protokollen støtter ikke sending av meldinger til frakoblede brukere.
+;file \plugins\TabSRMM\src\msgdlgutils.cpp
+[Error creating destination directory]
+Feil ved opprettelse av målmappe
+[Save contact picture]
+Lagre kontaktbilde
+[The file exists. Do you want to overwrite it?]
+Filen eksisterer. Ønsker du å overskrive den?
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
+'Lim og send' er deaktivert. Du kan aktivere dette ved å velge 'Generelt' som ligger i valgene under 'Sende Meldinger'.
+;file \plugins\TabSRMM\src\msglog.cpp
+;file \plugins\TabSRMM\src\msgoptions.cpp
+[Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
+Ønsker du å også lese meldingsmaler fra temaet?\nAdvarsel: Dette vil overskrive den lagrede malen som kan påvirke utseendet til meldingsvinduet ditt.\nVelg avbryt for å ikke laste inn noe i det hele tatt.
+[Load theme]
+Last tema
+[Tabs and layout]
+Faner og layout
+[Containers]
+Beholdere
+[Choose status modes]
+Velg statusmoduser
+;file \plugins\TabSRMM\src\msgs.cpp
+[Quote text]
+Siter tekst
+[Save and close]
+Lagre og lukk
+[Format bold]
+Fet type
+[Format italic]
+Skrå type
+[Format underline]
+Understreket type
+[Font face]
+Skriftutseende
+[Font color]
+Skriftfarge
+[Message delivery error]
+Meldingsleverings feil
+[Statuschange]
+Statusendring
+[Static container icon]
+Statisk beholderikon
+[Pulldown Arrow]
+Nedtrekkspil
+[Left Arrow]
+Pil Venstre
+[Right Arrow]
+Pil Høyre
+[Up Arrow]
+Pil Opp
+[Session List]
+Økt Liste
+[Frame 1]
+Ramme 1
+[Frame 2]
+Ramme 2
+[Frame 3]
+Ramme 3
+[Frame 4]
+Ramme 4
+;file \plugins\TabSRMM\src\msgs.h
+;file \plugins\TabSRMM\src\selectcontainer.cpp
+[Select container for %s]
+Velg beholder for %s
+[You cannot delete the default container]
+Du kan ikke slette standardbeholderen
+[You cannot rename the default container]
+Du kan ikke endre navnet på standardbeholderen
+[This name is already in use]
+Dette navnet er allerede i bruk
+;file \plugins\TabSRMM\src\sendlater.cpp
+;file \plugins\TabSRMM\src\sendqueue.cpp
+[A message delivery has failed.\nClick to open the message window.]
+En meldingslevering feilet.\nKlikk for å åpne meldingsvinduet.
+[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+Det er usendte meldinger som venter på bekreftelse.\nNår du lukker vinduet, vil Miranda forsøke å sende dem, men kan være ute av stand til å informere deg om mulige leveringsfeil.\nVil du virkelig lukke vinduet(ene)?
+;file \plugins\TabSRMM\src\sidebar.cpp
+;file \plugins\TabSRMM\src\srmm.cpp
+[tabSRMM Message (%s)]
+tabSRMM Melding (%s)
+;file \plugins\TabSRMM\src\taskbar.cpp
+;file \plugins\TabSRMM\src\templates.cpp
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+Dette vil tilbakestille malsettet til standardmalene.
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+Malsettet ble tilbakestilt, vennligst lukk og åpne alle meldingsvinduer på nytt. Dette maleditor vinduet vil nå lukkes.
+;file \plugins\TabSRMM\src\themeio.cpp
+;file \plugins\TabSRMM\src\themes.cpp
+[All message containers need to close before the skin can be changed\nProceed?]
+Alle meldingsbeholderne må lukkes før skinnet kan endres\nFortsett?
+[Change skin]
+Endre skin
+;file \plugins\TabSRMM\src\translator.cpp
+[Show a preview of the event]
+Forhåndsvisning av hendelsen
+[Don't announce event when message dialog is open]
+Ikke vis hendelsen når meldingsvinduet er åpent
+[Don't announce events from RSS protocols]
+Ikke vis hendelser fra RSS protokoller
+[Enable the system tray icon]
+Aktiver systemoppgavelinje ikonet
+[Show headers]
+Vis overskrifter
+[Open event]
+Åpne hendelse
+[Open event]
+Åpne hendelse
+[Open event]
+Åpne hendelse
+[Dismiss event]
+Avvis hendelse
+[Dismiss event]
+Avvis hendelse
+[Left click actions (popups only)]
+Venstreklikkvalg (kun popups)
+[Right click actions (popups only)]
+Høyreklikkvalg (kun popups)
+[Timeout actions (popups only)]
+Timeout handlinger (kun popups)
+[Remove popups under following conditions]
+Fjern popups under følgende forhold
+[Message window behaviour]
+Meldingsvindu oppførsel
+[Sending messages]
+Sende meldinger
+[Send on SHIFT - Enter]
+Send ved SHIFT - Enter
+[Always flash contact list and tray icon for new messages]
+Alltid tøm kontaktliste og oppgavelinjeikon for nye meldinger
+[Delete temporary contacts on close]
+Slett midlertidige kontakter ved lukking
+[Automatically split long messages (experimental, use with care)]
+Del opp lange meldinger automatisk (prøvestadie, bruk med varsomhet)
+[Use Incoming/Outgoing Icons]
+Bruk Innkommende/Utgående Ikoner
+[Use Message Grouping]
+Bruk Meldingsgruppering
+[Show status text on tabs]
+Vis statustekst på faner
+[Prefer xStatus icons when available]
+Foretrekk xStatus ikoner når tilgjengelig
+[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
+Detaljert verktøtytips på faner (krever mToolTip eller Tipper tillegget)
+[Remember and set keyboard layout per contact]
+Husk, og sett tastaturoppsett pr. kontakt
+[Add offline contacts to multisend list]
+Legg frakoblede kontakter til flersendingsliste
+;file \plugins\TabSRMM\src\trayicon.cpp
+;file \plugins\TabSRMM\src\typingnotify.cpp
+;file \plugins\TabSRMM\src\userprefs.cpp
+[Always On]
+Alltid På
+[Always Off]
+Alltid Av
+[Force Default Message Log]
+Tving Standard Meldingslogg
+[Force History++]
+Tving History++
+[Force IEView]
+Tving IEView
+;file \plugins\TabSRMM\src\utils.cpp
+;file \plugins\TabSRMM\src\chat\clist.cpp
+;file \plugins\TabSRMM\src\chat\colorchooser.cpp
+;file \plugins\TabSRMM\src\chat\log.cpp
+;file \plugins\TabSRMM\src\chat\muchighlight.cpp
+;file \plugins\TabSRMM\src\chat\options.cpp
+[Log background]
+Loggbakgrunn
+[Chat log symbols (Webdings)]
+Samtalelogg symboler (Webdings)
+[>> Outgoing misc events]
+>> Utgående div. hendelser
+[<< Incoming misc events]
+<< Innkommende div. hendelser
+[>> Outgoing messages (old)]
+>> Utgående meldinger (gamle)
+[>> Outgoing misc events (old)]
+>> Utgående div. hendelser (gamle)
+[<< Incoming messages (old)]
+<< Innkommende meldinger (gamle)
+[<< Incoming misc events (old)]
+<< Innkommende div. hendelser (gamle)
+[>> Outgoing name (old)]
+>> Utgående navn (gammel)
+[<< Incoming name (old)]
+<< Innkommende navn (gammel)
+[* Message Input Area]
+* Meldings Inndata Område
+[* Status changes]
+* Statusendringer
+[* Dividers]
+* Delere
+[* Error and warning Messages]
+* Feil og varselsmeldinger
+[* Symbols (incoming)]
+* Symboler (innkommende)
+[* Symbols (outgoing)]
+* Symboler (utgående)
+[Open new chat rooms in the default container]
+Åpne nye samtalerom i standardbeholderen
+[Sync splitter position with standard IM sessions]
+Synk delerposisjonen med standard IM økter
+[Scale down icons to 10x10 pixels in the chat log]
+Skaler ned ikoner til 10x10 piksler i samtaleloggen
+[Remove Status (10x10)]
+Fjern status (10x10)
+[Channel operators]
+Kanaloperatører
+[Half operators]
+Halvoperatører
+[Voiced]
+Voicet
+[Extended mode 1]
+Utvidet modus 1
+[Extended mode 2]
+Utvidet modus 2
+[Selection background]
+Utvalgsbakgrunn
+[Userlist background]
+Brukerlistebakgrunn
+;file \plugins\TabSRMM\src\chat\services.cpp
+;file \plugins\TabSRMM\src\chat\tools.cpp
+;file \plugins\TabSRMM\src\chat\window.cpp
+[%s: Chat Room (%u user%s)]
+%s: Samtalerom (%u bruker%s
+[%s: Chat Room (%u users%s)]
+%s: Samtalerom (%u brukere%s)
+[, event filter active]
+, hendelserilter aktivt
+[The filter canoot be enabled, because there are no event types selected either global or for this chat room]
+Filteret kan ikke aktiveres fordi det ikke er valgt noen hendelsestyper hverken globalt eller for dette samtalerommet.
+[Event filter error]
+Hendelsesfilter feil

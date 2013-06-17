@@ -1,0 +1,479 @@
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+;file \protocols\IRCG\res\IRC.rc
+[&Del]
+&Del
+[only while connecting]
+bare under tilkobling
+[Force visible (-i)]
+Tving synlig (-i)
+[Rejoin channel if kicked]
+Rejoin kanal hvis kicket
+[Rejoin channels on reconnect]
+Rejoin kanaler ved reconnect
+[Disable tray balloon on error]
+Deaktiver oppgavelinje ballong ved feil
+[Show addresses]
+Vis adresser
+[Use server window]
+Bruk servervindu
+[Show server window on startup]
+Vis servervindu ved oppstart
+[Automatically join on invite]
+Automatisk join ved invitasjon
+['Old style' mode changes]
+'Eldre stiltype' modusforandringer
+[Update online statuses for users]
+Oppdater online statusene for brukere
+[Update statuses in channel nicklist]
+Oppdater statuser i kanalens kallenavnliste
+[Internet address]
+Internettadresse
+[Port range]
+Portområde
+[User ID (Ident)]
+Bruker ID (Ident)
+[Full name (e-mail)]
+Fullt navn (e-post)
+[Server name]
+Server navn
+[Alternative nick]
+Alternativt kallenavn
+[Ident]
+Ident
+[Default network]
+Standard nettverk
+[User info - Required]
+Brukerinfo - Påkrevd
+[Reconnect]
+Koble på nytt
+[Wait (s)]
+Vent (s)
+[Retry count]
+Gjenta telling
+[Fear the monkeys!!!]
+Frykt apene!!!
+[Check every (s):]
+Sjekk hvert (s):
+[Don't check if more than (users):]
+Ikke sjekk hvis flere enn (brukere):
+[User information]
+Brukerinformasjon
+[Userinfo]
+Brukerinfo
+[&Refresh]
+&Oppdater
+[&Query]
+&Forespørsel
+[Channels]
+Kanaler
+[Away Info]
+Borte Info
+[The server returned the following information. Please note that this information might be misleading and/or falsified]
+Serveren returnerte den følgende informasjonen. Vennligst merk at denne informasjonen kan være misvisende og/eller forfalsket
+[CTCP information]
+CTCP informasjon
+[Perform]
+Utfør
+[&Set]
+&Lagre
+[Perform on event:]
+UTfør ved hendelse:
+[Scripting support]
+Scripting support
+[Add server]
+Legg til server
+[Channels on server]
+Kanaler på server
+[C&onnect]
+K&oble til
+[Hostmask]
+Vertsmaske
+[&Clear all]
+&Fjern alt
+[Online detection mode]
+Påkoblet oppdagelses modus
+[Wildcard enabled network search]
+Jokertegn tillatt i nettverkssøk
+[Bans]
+Forbud
+[Invites]
+Invitasjoner
+[Excepts]
+Unntak
+[Only Ops set topic]
+Bare Op setter overskrift
+[No external messages]
+Ingen eksterne meldinger
+[Invite only]
+Kun inviterte
+[Moderated]
+Moderert
+[Key:]
+Nøkkel:
+[User limit:]
+Brukergrense:
+[Secret]
+Hemmelig
+[Topic]
+Overskrift
+[User modes]
+Brukermoduser
+[Channel modes]
+Kanal moduser
+[Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
+Bruk valgene for å sette moduser for denne kanalen. Det kreves vanligvis at du er op. eller høyere for å modifisere.
+[Send-ahead]
+Send i forveien
+[Attempt reverse DCC (good if firewalled)]
+Forsøk motsatt DCC (best dersom du har firewall)
+[everyone on the contact list]
+alle på kontaktlisten
+[everyone]
+alle
+[Disconnect DCC chats when disconnecting from server]
+Koble fra DCC samtaler ved frakobling fra server
+[Manually set external IP:]
+Sett ekstern IP manuelt:
+[Client-to-Client File Transfers]
+Klient-til-Klient Filoverføringer
+[Client-to-Client Protocol]
+Klient-til-Klient Protokoll
+[Client-to-Client Chats]
+Klient-til-Klient Samtaler
+[Send mode:]
+Send modus:
+[Packet size (b):]
+Pakkestørrelse (b):
+[Get IP address from server]
+Hent IP adresse fra server
+[Auto-accept from:]
+Auto-aksept fra:
+[Send notice]
+Send varsel
+[CTCP Chat Request]
+CTCP samtaleforespørsel
+[Enable (*)]
+Aktiver (*)
+[Ignore channel messages by default]
+Ignorer kanalmeldinger som standard
+[Ignore filetransfer requests]
+Ignorer forespørsler om filoverføringer
+[Ignore DCC Chat requests]
+Ignorer DCC Chat forespørsler
+[Ignore DCC Chat requests from unknown contacts]
+Ignorer DCC Chat forespørsler fra ukjente kontakter
+[Ignore users]
+Ignorer brukere
+[(*) Queries from users on your contactlist are never ignored]
+(*) Forespørsler fra brukere på kontaktlisten din ignoreres aldri
+[CTCP]
+CTCP
+[DCC]
+DCC
+[Ignore mask ( nick!user@host )]
+Ignorer maske ( kallenavn!bruker@vert )
+[Network (*)]
+Nettverk (*)
+[Ignore events]
+Ignorer hendelser
+[(*) blank to set this mask for all networks]
+(*) tomt for å sette masken for alle nettverk
+;file \protocols\IRCG\src\clist.cpp
+[CTCP chat request from %s]
+CTCP samtale forespørsel fra %s
+;file \protocols\IRCG\src\commandmonitor.cpp
+[%s sets mode %s]
+%s setter modus %s
+[%s sets mode %s%s]
+%s setter modus %s%s
+[CTCP FINGER requested by %s]
+CTCP FINGER forespørsel fra %s
+[CTCP VERSION requested by %s]
+CTCP VERSION forespørsel av %s
+[CTCP SOURCE requested by %s]
+CTCP SOURCE forespørsel av %s
+[CTCP USERINFO requested by %s]
+CTCP USERINFO forespørsel av %s
+[CTCP PING requested by %s]
+CTCP PING forespørsel av %s
+[CTCP TIME requested by %s]
+CTCP TIME forespørsel av %s
+[DCC: Chat request from %s denied]
+DCC: Samtaleforespørsel fra %s avslått
+[DCC: File transfer request from %s denied]
+DCC: Filoverførings forespørsel fra %s avslått
+[DCC: Reverse file transfer request from %s denied [No local IP]]
+DCC: Reversert filoverførings forespørsel fra %s avslått [Ingen lokal IP]
+[DCC ERROR: Malformed CTCP request from %s [%s]]
+DCC ERROR: Feilformulert CTCP forespørsel fra %s [%s]
+[DCC: File transfer resume request from %s denied]
+DCC: Filoverføring fortsettelses forespørsel fra %s avslått
+[CTCP %s requested by %s]
+CTCP %S forespørsel fra %s
+[CTCP PING reply from %s: %u sec(s)]
+CTCP PING svar fra %s: %u sec(s)
+[CTCP %s reply from %s: %s]
+CTCP %s svar fra %s: %s
+[Downloading list (%u%%) - %u channels]
+Laster ned liste (%u%%) - %u kanaler
+[Downloading list - %u channels]
+Laster ned liste - %u kanaler
+[Done: %u channels]
+Ferdig: %u kanaler
+[(probably truncated by server)]
+(trolig forkortet av server)
+[Change nickname]
+Forandre kallenavn
+[IRC error]
+IRC feil
+[Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
+Vennglist skriv inn vertsmasken (kallenavn!bruker@vert)\nMERK! Kontakter i kontaktlisten din ignoreres aldri
+[Please enter the reason]
+Vennligst skriv inn grunn
+[Ban'n Kick]
+Forby og Kick
+[Jerk]
+Idiot
+[*Disconnected*]
+*Frakoblet*
+[The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
+Bruken av /AWAY i din utføringsbuffer er begrenset\n siden IRC sender denne kommandoen automatisk.
+[IRC Error]
+IRC Feil
+;file \protocols\IRCG\src\input.cpp
+[The buddy check function is enabled]
+Buddy check funksjonen er aktivert
+[The buddy check function is disabled]
+Buddy check funksjonen er deaktivert
+[Ignore system is enabled]
+Ignorer system er aktivert
+[Ignore system is disabled]
+Ignorer system er deaktivert
+[%s on %s is now ignored (+%s)]
+%s på %s er nå ignorert (+%s)
+[%s is not ignored now]
+%s blir ikke ignorert nå
+[%s was not ignored]
+%s ble ikke ingorert
+[Outgoing commands are shown]
+Utgående kommandoer vises
+[Outgoing commands are not shown]
+Utgående kommandoer vises ikke
+[The time interval for the buddy check function is now at default setting]
+Tidsintervallen for buddy check funksjonen er nå satt til standard innstilling
+[The time interval for the buddy check function is now %u seconds]
+Tidsintervallen for buccy check funksjonen er nå %u sekunder
+[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
+Denne kommandoen anbefales ikke på et nettverk av denne størrelsen!\r\nDen forårsaker trolig høy CPU bruk og/eller mye\r\n bruk av båndbredde i ca %u til %u minutt(er).\r\n\r\nØnsker du å fortsette?
+[IRC warning]
+Advarsel
+[Aborted]
+Avbrutt
+[CTCP %s request sent to %s]
+CTCP %S forespørsel sendt til %s
+[DCC ERROR: Unable to automatically resolve external IP]
+DCC ERROR: Klarer ikke å få tak i ekstern IP automatisk
+[DCC CHAT request sent to %s]
+DCC CHAT forespørsel sendt til %s
+[DCC ERROR: Unable to bind port]
+DCC ERROR: Klarer ikke å binde port
+[Input command]
+Input kommando
+[Please enter the reply]
+Vennligst skriv inn svaret
+;file \protocols\IRCG\src\irclib.cpp
+;file \protocols\IRCG\src\ircproto.cpp
+[DCC ERROR: No valid files specified]
+DCC ERROR: Ingen gyldige filer spesifisert
+[DCC reversed file transfer request sent to %s [%s]]
+DCC reversert filoverførings forespørsel send til %s [%s]
+[DCC file transfer request sent to %s [%s]]
+DCC filoverførings forespørsel sendt til %s [%s]
+[DCC ERROR: Unable to bind local port]
+DCC ERROR: Klarer ikke å binde lokal port
+[The protocol is not online]
+Protkollen er ikke online
+[The dcc chat connection is not active]
+DCC samtaleforbindelsen er ikke aktiv
+[Please choose an IRC-network to go online. This network will be the default.]
+Vennligst velg et IRC-nettverk å koble deg til. Dette nettverket vil bli satt som standard.
+;file \protocols\IRCG\src\options.cpp
+[Channel list]
+Kanal liste
+[Quick connect]
+Rask tilkobling
+[Show channel]
+Vis kanal
+[Incoming DCC Chat]
+Innkommende DCC Samtale
+[Logo (48x48)]
+Logo (48x48)
+[Please complete all fields]
+Vennligst fyll ut alle felt
+[Add a new network]
+Legg til et nytt nettverk
+[Edit this network]
+Rediger dette nettverket
+[Delete this network]
+Slett dette nettverket
+[Do you want to delete\r\n%s]
+Ønsker du å slette\r\n%s
+[Delete server]
+Slett server
+[Edit server]
+Rediger server
+[<Resolved IP: ]
+<Innhentet IP:
+[<Automatic>]
+<Automatisk>
+[<Local IP: ]
+<Lokal IP:
+[Click to set commands that will be performed for this event]
+Klikk for å sette kommandoer som vil utføres for denne hendelsen
+[Click to delete the commands for this event]
+Klikk for å slette kommandoene for denne hendelsen
+[Add new ignore]
+Legg til nytt forbud
+[Edit this ignore]
+Rediger denne ignoreringen
+[Delete this ignore]
+Fjern denne ignoreringen
+[Ignore mask]
+Ignorer maske
+[DCC'n CTCP]
+DCC og CTCP
+;file \protocols\IRCG\src\output.cpp
+[WallOps from %s: ]
+WallOps fra %s:
+[%s invites you to %s]
+%s inviterer deg til %s
+[%s is away]
+%s er borte
+[These are online: ]
+Følgende er påkoblet:
+[CTCP %s reply sent to %s]
+CTCP %s svar sendt til %s
+[CTCP %s reply sent to %s: %s]
+CTCP %S svar sendt til s: %s
+[Notice to %s: ]
+Varsel til %s:
+;file \protocols\IRCG\src\services.cpp
+[&Quick connect]
+&Rask tilkobling
+[&Change your nickname]
+&Endre ditt kallenavn
+[Show the &list of available channels]
+Vis &listen av tilgjengelige kanaler
+[&Show the server window]
+&Vis servervinduet
+[Channel &settings]
+Kanal &innstillinger
+[&WhoIs info]
+&WhoIs info
+[Di&sconnect]
+Ko&ble fra
+[&Add to ignore list]
+&Legg til ignoreringsliste
+[%s (%s) is requesting a client-to-client chat connection.]
+%s (%s) ber om en klient-til-klient chat forbindelse
+[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
+Vennglist skriv inn vertsmasken (kallenavn!bruker@vert) \nMERK! Kontakter i kontaktlisten din ignoreres aldri
+[Join channel]
+Join kanal
+[Please enter a channel to join]
+Vennligst skriv navnet på kanalen du vil joine
+[Please select IRC network and enter the password if needed]
+Vennligst velg IRC nettverk og skriv inn passord ved behov
+[Change nick name]
+Forandre kalle navn
+[Please enter a unique nickname]
+Vennligst skriv et unikt kallenavn
+[Kick]
+Kick
+[Invite to channel]
+Inviter til kanal
+[Show the server &window]
+Vis server &vindu
+[&Leave the channel]
+&Forlat kanalen
+[Send &notice]
+Send &varsel
+[&Control]
+&Kontroll
+[Give &Op]
+Gi &Op
+[Take O&p]
+Få O&p
+[Give &Halfop]
+Gi &Halv-op
+[Take H&alfop]
+Få H&alvOp
+[Give &Voice]
+Gi &Voice
+[Take V&oice]
+Få V&oice
+[Ki&ck (reason)]
+Ki&ck (grunn)
+[&Ban]
+&Forby
+[Ban'&n kick]
+Forby &og kick
+[Ban'n kick (&reason)]
+Forby og kick (&grunn)
+[&Direct Connection]
+&Direkte Forbindelse
+[Request &Chat]
+Forespør &Chat
+[Send &File]
+Send &Fil
+[Add to &ignore list]
+Legg til &ignoreringsliste
+[&Add User]
+&Legg til Bruker
+[Connecting to]
+Kobler til
+[Reconnecting to]
+Kobler på nytt til
+;file \protocols\IRCG\src\tools.cpp
+;file \protocols\IRCG\src\userinfo.cpp
+;file \protocols\IRCG\src\windows.cpp
+[Channel]
+Kanal
+[Add ban/invite/exception]
+Legg til forbud/invitasjon/unntak
+[Edit selected ban/invite/exception]
+Rediger valgt forbud/invitasjon/unntak
+[Delete selected ban/invite/exception]
+Slett valgt forbud/invitasjon/unntak
+[Set these modes for the channel]
+Sett følgende moduser for kanalen
+[Set this topic for the channel]
+Sett denne overskriften for kanalen
+[You have not applied all changes!\n\nApply before exiting?]
+Du har ikke aktivert alle endringer!\n\nAktiver før exit?
+[Add ban]
+Legg til forbud
+[Add invite]
+Legg til invitasjon
+[Add exception]
+Legg til unntak
+[Please enter the hostmask (nick!user@host)]
+Vennglist skriv inn vertsmasken (kallenavn!bruker@vert)
+[Edit ban]
+Rediger forbud
+[Edit invite?]
+Rediger invitasjon?
+[Edit exception?]
+Rediger unntak?
+[Remove ban?]
+Fjern ban?
+[Remove invite?]
+Fjern invitasjon?
+[Remove exception?]
+Fjern unntak?

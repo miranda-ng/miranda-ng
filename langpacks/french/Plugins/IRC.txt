@@ -67,7 +67,7 @@ Information usager
 [Userinfo]
 Info usager
 [&Refresh]
-&Rafraîchir
+&Actualiser
 [&Query]
 &Demande
 [Channels]
@@ -86,6 +86,12 @@ Action
 Action sur l'évènement :
 [Scripting support]
 Support des scripts
+[Quit message:]
+Message de départ :
+[Server code page:]
+Page de code du serveur :
+[Enable UTF8 autodetection]
+Auto-détection de l'UTF8
 [Add server]
 Ajouter serveur
 [Channels on server]
@@ -111,15 +117,13 @@ Sujet par les Ops seulement
 [No external messages]
 Pas de mess. externes
 [Invite only]
-N'inviter que
+Sur invitation
 [Moderated]
 Modéré
 [Key:]
 Code :
 [User limit:]
-Limite usager :
-[Secret]
-Secret
+Nb max usager :
 [Topic]
 Sujet
 [User modes]
@@ -154,6 +158,8 @@ Taille du paquet :
 Adresse IP du serveur
 [Auto-accept from:]
 Accepter automatiq. de :
+[Send notice]
+Envoyer une notice
 [CTCP Chat Request]
 Requêtes CTCP
 [Enable (*)]
@@ -315,7 +321,7 @@ Ajouter un nouveau réseau
 [Delete this network]
 Effacer ce réseau
 [Do you want to delete\r\n%s]
-Voulez-vous vraiment effacer\r\n%s
+Voulez-vous vraiment supprimer\r\n%s
 [Delete server]
 Effacer le serveur
 [Edit server]
@@ -364,6 +370,8 @@ Voir la &liste des canaux disponibles
 &Voir la fenêtre du serveur
 [Channel &settings]
 &Réglages du canal
+[&WhoIs info]
+Info &WhoIs
 [Di&sconnect]
 &Déconnecter
 [&Add to ignore list]
@@ -371,7 +379,7 @@ Voir la &liste des canaux disponibles
 [%s (%s) is requesting a client-to-client chat connection.]
 %s (%s) demande un chat client-à-client
 [Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
-Veuillez entrer le masque d'hôte (pseudo@hôte) nNote ! Les contacts de votre liste ne sont jamais ignorés
+Veuillez entrer le masque d'hôte (pseudo@hôte) \nNote ! Les contacts de votre liste ne sont jamais ignorés
 [Join channel]
 Rejoindre canal
 [Please enter a channel to join]
@@ -381,15 +389,29 @@ Veuillez sélectionner un réseau IRC et entrer le mot de passe si nécessaire.
 [Change nick name]
 Changer le pseudo
 [Please enter a unique nickname]
-Veuillez entrer un seul pseudo
-[Kick]
-Kick
+Veuillez entrer un pseudo unique
+[Please enter the notice text]
+Veuillez taper votre notice
+[Please enter the channel name to invite to]
+Veuillez saisir le nom du salon
+[Invite to channel]
+Inviter sur un salon
 [Show the server &window]
 Voir &fenêtre du serveur
 [&Leave the channel]
 &Quitter le canal
-[&Control]
-&Control
+[&Invite to channel]
+&Inviter sur un salon
+[Send &notice]
+Envoyer une &notice
+[Give Owner]
+Rendre Owner
+[Take Owner]
+Enlever Owner
+[Give Admin]
+Rendre Admin
+[Take Admin]
+Enlever Admin
 [Give &Op]
 Rendre &Op
 [Take O&p]
@@ -404,8 +426,6 @@ Rendre &Voice
 Enlever V&oice
 [Ki&ck (reason)]
 Ki&ck (Motif)
-[&Ban]
-&Ban
 [Ban'&n kick]
 Ban &et kick
 [Ban'n kick (&reason)]

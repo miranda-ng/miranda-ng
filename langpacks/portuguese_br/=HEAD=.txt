@@ -1,0 +1,8 @@
+﻿Miranda Language Pack Version 1
+Language: Portuguese (Brazil)
+Locale: 0416
+Authors: Paulo Giovanni Pereira (Paulus),Welinton Oliveira (weblade), Márcio Ricardo (Richard MacWell) Diego K. Sampaio (Kriador), Jerbifor
+Author-email: jerbifor@tut.by
+Last-Modified-Using: Miranda NG 0.94.4 
+;	This translation is automatically generated from the Portuguese langpack Miranda IM.
+;	If you want to add, please contact the author.

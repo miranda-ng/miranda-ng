@@ -6,6 +6,76 @@
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 ;file \plugins\AVS\res\avs.rc
+[Set default picture]
+Changer d'image par défaut
+[Delete default picture]
+Effacer l'image
+[Try to draw avatar background transparent (for images without transparency)]
+Tenter de rendre l'arrière-plan transparent (pour des images sans transparence)
+[Num of points to define bkg:]
+Nombre de points pour le fond :
+[Color difference allowed:]
+Nombre de couleurs autorisées :
+[Make transparency proportional to color diff]
+Transparence proportionnelle au nombre de couleurs
+[Draw avatars grayscale]
+Avatars en nuance de gris
+[Show warning messages]
+Afficher les avertissements
+[Try to draw own avatar background transparent (for images without transparency)]
+Tenter de rendre l'arrière-plan transparent (pour des images sans transparence)
+[Protect the picture and prevent automatic avatars from overwriting it]
+Protéger l'image et empêcher les avatars automatiques de la changer
+[Make the avatar square]
+Avatar en carré
+[Resize the avatar to fit max allowed protocol size]
+Redimensionner l'avatar pour correspondre au protocole
+[Contact picture]
+Avatar
+[Picture options]
+Options de l'image
+[Protect the picture]
+Protéger l'image
+[Set as hidden]
+Régler comme "caché"
+[Try to make picture background transparent]
+Tenter de rendre l'arrière-plan transparent
+[Use defaults]
+Par défaut
+[Points:]
+Point :
+[Color diff:]
+Couleurs :
+[Use per protocol avatars]
+Un avatar par protocole
 ;file \plugins\AVS\src\acc.cpp
+[Protocols have different avatars]
+Les protocoles ont différents avatars
 ;file \plugins\AVS\src\main.cpp
+[Flash Animations]
+Animations Flash
+[XML Files]
+Fichiers XML
+[Set My Avatar]
+Changer mon avatar
+[Set My Avatar for %s]
+Changer mon avatar pour %s
+[My Avatars]
+Mon avatar
+[My Global Avatar Cache]
+Cache de l'avatar général
+[Fatal error, image services not found. Avatar services will be disabled.]
+Erreur critique, aucun service d'image trouvé. Avatar Services sera désactivé.
 ;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+Définir les options d'avatar pour %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Effacer l'avatar du disque (peut-être nécessaire afin de recharger l'avatar, mais peut également effacer son véritable avatar) ?
+[Reset contact picture]
+Effacement de l'image du contact
+[Contact has no avatar]
+Contact sans avatar
+[Are you sure you want to remove your avatar?]
+Êtes-vous sûr de vouloir effacer cet avatar ?
+[Global Avatar]
+Avatar général

@@ -1,0 +1,37 @@
+﻿#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+;============================================================
+;  File: SmileyAdd.dll
+;  Plugin: SmileyAdd
+;  Version: 0.2.3.17
+;  Authors: Peacow, nightwish, bid, borkra
+;============================================================
+;file \plugins\SmileyAdd\res\resource.rc
+[Smiley Categories]
+Smilefjes kategorier
+[Specify Smiley Pack for each category]
+Angi Smilefjes pakke for hver kategori
+[Scale smiley to textheight]
+Endre smilefjes til teksthøyde
+[Disable custom smileys]
+Deaktiver selvvalgte smilefjes
+[Animate]
+Beveg
+[Smiley Selector]
+Smilefjes Velger
+[Surround inserted smiley with spaces]
+Omgi innsatt smilefjes med tomrom
+[Use first smiley for selection size]
+Bruk første smilefjeset for utvalgsstørrelse
+[IEView style window]
+IEView stil på vindu
+[Don't replace at cursor]
+Ikke erstatt ved pekeren
+[Built-In Message Dialog Support]
+Innebygger Meldingsdialog Støtte
+;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
+;file \plugins\SmileyAdd\src\download.cpp
+;file \plugins\SmileyAdd\src\main.cpp
+;file \plugins\SmileyAdd\src\options.cpp
+;file \plugins\SmileyAdd\src\services.cpp
+;file \plugins\SmileyAdd\src\smileys.cpp
+;file \plugins\SmileyAdd\src\smltool.cpp

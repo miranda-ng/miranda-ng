@@ -1,0 +1,40 @@
+﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+;============================================================
+;  File: MenuEx.dll
+;  Plugin: Menu item ext
+;  Version: 1.3.0.9
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
+;============================================================
+;file \plugins\MenuItemEx\res\resource.rc
+[Shown menu items]
+הצג פריטי תפריט
+[Show alpha icons]
+הראה אייקוני אלפא
+[Hide from list]
+הסתר מהרשימה
+[Copy to Account (Ctrl+click for move to Account)]
+העתק לחשבון (Ctrl+click בשביל להעביר לחשבון)
+[Send 'You were added']
+'שלח 'אתה צורפת
+[Request Authorization]
+בקשת אישור
+[Browse Received Files]
+פתח תקית קבצים שהתקבלו
+[Copy IP]
+העתק אייפי
+[Copy MirVer]
+העתק גירסת מירנדה
+[Copy Status Message]
+העתק הודעת מצב
+[Copy ID]
+העתק מספר זיהוי
+[Add protocol name]
+הוסף שם פרוטוקול
+[* Use Ctrl+click to see popup with the copied text]
+*   השתמש Ctrl+click בשביל לראות פופאפים עם הטקסט המועתק
+;file \plugins\MenuItemEx\src\main.cpp
+[Never visible]
+לא נראה לעולם
+[MenuItemEx]
+פריטי תפריט משתמש
+;file \plugins\MenuItemEx\src\options.cpp

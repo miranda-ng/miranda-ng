@@ -6,9 +6,57 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\YAPP\res\yapp.rc
+[Popup history]
+Historique des popups
+[Case sensitive]
+Respecter la casse
+[Never timeout]
+Sans durée
+[Set timeout:]
+Délai :
+[Width:]
+Largeur :
+[Maximum height:]
+Hauteur maximum :
+[Transparent background]
+Arrière-plan transparent
+[Disable when]
+Désactivé si
+[Timeout value (0 = default):]
+Délai   (0 = par défaut)  :
 ;file \plugins\YAPP\src\icons.cpp
 ;file \plugins\YAPP\src\notify_imp.cpp
 ;file \plugins\YAPP\src\options.cpp
+[Example]
+Exemple
+[The quick brown fox jumped over the lazy dog.]
+Le rapide renard brun a sauté par-dessus le chien paresseux.
+[Example With a Long Title]
+Exemple avec un long titre
+[Thequickbrownfoxjumpedoverthelazydog.]
+Lerapiderenardbrunasautépau-dessuslechienparesseux.
+[An avatar.]
+Un avatar.
+[No time]
+Pas d'heure
+[Time on left]
+Heure sur la gauche
+[Time on right]
+Heure sur la droite
+[Time above avatar]
+Heure sur l'avatar
+[Full-screen app running]
+Programme en plein écran
+[You cannot set a default timeout of 0.\nValue has been reset.]
+Vous ne pouvez pas régler le délai par défaut à 0.\nLa valeur a été resetée.
 ;file \plugins\YAPP\src\services.cpp
 ;file \plugins\YAPP\src\yapp.cpp
+[First line]
+Première ligne
 ;file \plugins\YAPP\src\yapp_history_dlg.cpp
+[Copy title to clipboard]
+Copier le titre
+[Copy message to clipboard]
+Copier le message
+[Copy timestamp to clipboard]
+Copier date et heure

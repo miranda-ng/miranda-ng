@@ -1,0 +1,18 @@
+﻿#muuid {53e095a3-2695-490a-9dad-d20479093831}
+;============================================================
+;  File: Clist_blind.dll
+;  Plugin: BClist
+;  Version: 0.8.0.1
+;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
+;============================================================
+;file \plugins\Clist_blind\res\resource.rc
+[Show/Hide:]
+보이기/숨기기:
+[Open in new browser window]
+새 브라우저 창 열기
+[Show Options]
+옵션 보이기
+;file \plugins\Clist_blind\src\clcopts.cpp
+;file \plugins\Clist_blind\src\clistopts.cpp
+;file \plugins\Clist_blind\src\cluiopts.cpp
+;file \plugins\Clist_blind\src\init.cpp

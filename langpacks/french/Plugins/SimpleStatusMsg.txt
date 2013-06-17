@@ -6,10 +6,32 @@
 ;  Authors: Bartosz 'Dezeath' Biaіek, Harven
 ;============================================================
 ;file \plugins\SimpleStatusMsg\res\resource.rc
+[Co&py to Clipboard]
+Co&pier dans le presse-papier
+[Retrieving status message for %s...]
+Récupération du message d'état de %s ...
+[Max length:]
+Taille maxi :
+[Use last message]
+Utiliser le message précédent
+[Use last message set for this status]
+Utiliser le message précédent de cet état
+[Show status list]
+Afficher les états
+[Buttons:]
+Boutons :
+[miliseconds]
+millisecondes
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[Copy %s Message]
+Copier le message %s
 [Re&ad Away Message]
 Lire le message d'&absence
+[Copy Away Message]
+Copier le message d'état
 ;file \plugins\SimpleStatusMsg\src\main.cpp
+[Change Status Message]
+Changer le message d'état
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 ;file \plugins\SimpleStatusMsg\src\options.cpp
 ;file \plugins\SimpleStatusMsg\src\utils.cpp

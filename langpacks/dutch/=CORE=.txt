@@ -1,0 +1,512 @@
+﻿;file \src\resource.rc
+[Add %s]
+Voor %s toe
+[Contact Display Options]
+Persoon weegave opties
+[Miranda NG Profile Manager]
+Miranda NG Profiel Beheerder
+[&Run]
+Uitvoe&ren
+[Find/Add Contacts]
+Personen zoeken/toevoegen
+[First:]
+Eerste:
+[Last:]
+Laatste:
+[Add to list]
+Aan lijst toevoegen
+[Please select a subentry from the list]
+Selecteer aub een subitem uit de lijst
+[Netlib Log Options]
+Netlib log opties
+[Received bytes]
+Bytes ontvangen 
+[Sent bytes]
+Bytes verstuurd
+[Additional data due to proxy communication]
+Extra data als gevolg van proxy communicatie
+[Text dumps where available]
+Tekst dumps waar beschikbaar
+[Auto-detect text]
+Automatische tekst-detectie
+[Calling modules' names]
+Namen van de aanroepende modules
+[Log to]
+Log naar
+[Run now]
+Nu uitvoeren
+[Show this dialog box when Miranda NG starts]
+Deze dialoog weergeven wanneer Miranda NG start
+[Save as default]
+Als standaard opslaan
+[&Change...]
+Wijzigen...
+[Download more sounds]
+Meer geluiden downloaden
+[Sound Information]
+Geluid informatie
+[Location:]
+Lokatie:
+[Show category:]
+Toon categorie:
+[&Load icon set...]
+Icoon set &laden...
+[&Import icons >>]
+Iconen &importeren >>
+[Download more icons]
+Meer iconen downloaden
+[Only the ticked contacts will be shown on the main contact list]
+Alleen de gemarkeerde personen zullen worden getoond op de hoofd lijst
+[You are visible to this person even when in invisible mode]
+U bent zichtbaar voor deze persoon zelfs wanneer in onzichtbare modus
+[You are never visible to this person]
+U bent nooit zichtbaar voor deze persoon
+[Icon Index]
+Icoon indez
+[Icon library:]
+Icoon bibliotheek
+[Drag icons to main list to assign them:]
+Versleep iconen naar de hooft lijst voor toewijzing:
+[Import multiple]
+Meerdere importeren
+[<< &Import]
+<< &Importeren
+[Use proxy server]
+Proxy server gebruiken
+[(often %d)]
+(vaak %d)
+[Resolve hostnames through proxy]
+Hostnamen oplossen door proxy
+[Example: 1050-1070, 2000-2010, 2500]
+Voorbeeld: 1050-1070, 2000-2010, 2500
+[Please complete the following form to create a new user profile]
+Vul aub het volgende scherm in om een nieuw gebruikersprofiel te maken
+[e.g. Workplace]
+bijv. Werkplek
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+U kan een andere profiel driver selecteren dan de standaard, het kan meer features en mogelijkheden bieden, bij twijfel gebruik de standaard.
+[e.g. Miranda Database]
+bijv. Miranda Database
+[Sample]
+Voorbeeld
+[&Reset to default]
+Naar standaard te&rugzetten
+[&Add to List]
+&Aan lijst toevoegen
+[Send &Message]
+Bericht versturen
+[Send &Message]
+Bericht versturen
+;file \src\core\stdauth\resource.rc
+[&Authorize]
+&Autoriserem
+[Reason:]
+Reden:
+;file \src\core\stdaway\resource.rc
+[Do not reply to requests for this message]
+Niet op verzoeken voor dit bericht reargeren
+[Do not pop up dialog asking for new message]
+Geen dialoog tonen dat vraagt voor een nieuw bericht
+[By default, use the same message as last time]
+Altijd hetzelfde bericht als de vorige keer gebruiken
+[By default, use this message:]
+Altijd dit bericht gebruiken:
+;file \src\core\stdchat\res\chat.rc
+[Trim to (kB)]
+Verkleinen tot (kB)
+[Userlist row distance (pixels):]
+Gebruikerslijst rij afstand (pixels):
+[Popups for the Chat plugin]
+Popups voor de Chat plugin
+;file \src\core\stdclist\res\resource.rc
+[Selection colour]
+Selectie kleur
+;file \src\core\stdfile\resource.rc
+[Send File(s)]
+Bestand(en) versturen
+[File(s):]
+Bestand(en):
+[&Choose Again...]
+Nogmaals kiezen...
+[Total size:]
+Totale grootte:
+[A&ccept]
+A&ccepteren
+[&Decline]
+Weigeren
+[Files:]
+Bestanden:
+[Save to:]
+Opslaan naar:
+[File Already Exists]
+Bestand bestaad al
+[Resume all]
+Alle vervolgen
+[Overwrite all]
+Alle overschrijven
+[Save as...]
+Opslaan als...
+[Skip]
+Overslaan
+[Cancel transfer]
+Overdracht annuleren
+[You are about to receive the file]
+U staat op het punt een bestand te ontvangen
+[Existing file]
+Bestaand bestand
+[Last modified:]
+Laast aangepast:
+[Open file]
+Bestand openen
+[File properties]
+Bestandseigenschappen
+[File being received]
+Bestand dat wordt ontvangen
+[Receiving files]
+Ontvangen bestanden
+[Received files folder:]
+Folder voor ontvangen bestanden:
+[Auto-accept incoming files from people on my contact list]
+Binnenkomende bestanden van personen op mijn lijst automatisch accepteren
+[Minimize the file transfer window]
+Bestandsoverdracht scherm minimaliseren
+[Close window when transfer completes]
+Scherm sluiten wanneer overdracht voltooid is
+[Scan files:]
+Bestanden scannen:
+[Never, do not use virus scanning]
+Nooit, gebruik geen virusscanner
+[When all files have been downloaded]
+Wanneer alle bestanden zijn gedownload
+[As each file finishes downloading]
+Wanneer elk bestand klaar is met downloaden
+[%f will be replaced by the file or folder name to be scanned]
+%f zal worden vervangen door de naam van het bestand of de folder welke gescand gaat worden
+[Warn me before opening a file that has not been scanned]
+Waarschuw mij voordat een bestand wordt geopend dat niet is gescanned
+[If incoming files already exist]
+Wanneer binnenkomende bestanden al bestaan
+[Ask me]
+Vraag mij
+[Rename (append " (1)", etc.)]
+Hernoemen (voeg " (1)" toe, etc.)
+[You will always be asked about files from people not on your contact list]
+Bestanden van personen niet op uw lijst zal altijd worden gevraagd
+;file \src\core\stdhelp\resource.rc
+[About Miranda NG]
+Over Miranda NG
+;file \src\core\stdidle\resource.rc
+[Become idle if the following is left unattended:]
+Wordt rustig wanneer het volgende onbeheerd is gelaten:
+[Become idle if the screen saver is active]
+Wordt rustig wanneer de schermbeveiliger actief is
+[Do not let protocols report any idle information]
+Laat protocollen geen rustigheidsinformatie kenbaar maken
+[minute(s)]
+minu(u)t(en)
+[for]
+voor
+[Change my status mode to:]
+Mijn status mode wijzigen naar:
+[Do not set status back to online when returning from idle]
+Status niet terugzetten naar online bij terugkomst van rustig
+[Idle Options]
+Rustig opties
+;file \src\core\stdmsg\res\resource.rc
+[Automatically popup window when:]
+Scherm automatisch laten zien wanneer:
+[Save the window size and location individually for each contact]
+De scherm grootte en lokatie per persoon opslaan
+[Show 'Send' button]
+'Versturen' knop weergeven
+[Show username on top row]
+Gebruikersnaam op bovenste rij weergeven
+[Show toolbar buttons on top row]
+Werkbalk knoppen op bovenste rij weergeven
+[Show character count]
+Aantal tekens weergeven
+[Support control up/down in message area to show previously sent messages]
+Control omhoog/omlaag ondersteunen om eerder verstuurde berichten te zien
+[Delete temporary contacts when closing message window]
+Tijdelijke personen verwijderen wanneer het berichtenscherm geloten wordt
+[Enable avatar support in the message window]
+Avatar ondersteuning in het berichtenschem inschakelen
+[Show timestamp]
+Tijd weergeven
+[Show dates]
+Datums weergeven
+[Show status changes]
+Status wijzigingen weergeven
+[Update inactive message window icons when a user is typing]
+Schermiconen van inactieve schermen bijwerken wanneer een persoon aan het typen is
+;file \src\core\stduihist\resource.rc
+[&Find Next]
+Volgende zoeken
+[Find What:]
+Zoeken naar:
+;file \src\core\stduserinfo\resource.rc
+[Add E-Mail Address]
+E-Mail adres toevoegen
+[%s: User Details]
+%s: Gebruikers details
+[Update Now]
+Nu bijwerken
+[Web page:]
+Website:
+[Past background:]
+Achtergrond:
+[Interests:]
+Interesses:
+[My notes:]
+Mijn aantekeningen:
+[Spoken languages:]
+Spreekt talen:
+[Local time:]
+Huidige tijd:
+;file \src\core\stdauth\auth.cpp
+[%u requests authorization]
+%u vraagt toestemming
+[%u added you to their contact list]
+%u heeft u toegevoegd aan zijn/haar lijst
+;file \src\core\stdauth\authdialogs.cpp
+[(Unknown)]
+(Onbekend)
+;file \src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdchat\src\clist.cpp
+;file \src\core\stdchat\src\colorchooser.cpp
+;file \src\core\stdchat\src\log.cpp
+;file \src\core\stdchat\src\options.cpp
+[Use a tabbed interface]
+Een tabbed interface gebruiken
+[Close tab on doubleclick]
+Tab sluiten bij dubbelklik
+[Restore previously open tabs when showing the window]
+Vorige open tabs herstellen wanneer het scherm wordt getoond
+[Show tabs at the bottom]
+Tabs onderaan tonen
+[Send message by pressing the Enter key]
+Bericht versturen door Enter in te drukken
+[Send message by pressing the Enter key twice]
+Bericht vesturen door Enter twee keer in te drukken
+[Show button for sending messages]
+Knop om berichten te versturen weergeven
+[Show buttons for controlling the chat room]
+Knoppen om de gespreksruimte te controleren weergeven
+[Show buttons for formatting the text you are typing]
+Knoppen om de tekst op te maken weergeven wanneer u aan typpen bent
+[Show new windows cascaded]
+Nieuwe schermen gestapeld weergeven
+[Save the size and position of chat rooms]
+De grootte en positie van gespreksruimtes opslaan
+[Show the topic of the room on your contact list (if supported)]
+Het onderwerp van de ruimte weergeven op uw persoon lijst (als ondersteund)
+[Do not play sounds when the chat room is focused]
+Geen geluiden afspelen wanneer de gespreksruimte de focus heeft
+[Toggle the visible state when double clicking in the contact list]
+Toggle de zichtbaarheidsstatus bij een dubbelklik in de persoon lijst
+[Timestamp has same colour as the event]
+Tijdstempel heeft dezelfde kleur als de gebeurtenis
+[Show icon for topic changes]
+Icoon voor onderwerp wijzigingen weergeven
+[Show icon for users joining]
+Icoon voor binnenkomende gebruikers weergeven
+[Show icon for users disconnecting]
+Icoon voor gebruikers met verbroken verbindingen weergeven
+[Show icon for messages]
+Icoon voor berichten weergeven
+[Show icon for actions]
+Icoon voor acties weergeven
+[Show icon for highlights]
+Icoon voor oplichtingen weergeven
+[Show icon for users leaving]
+Icoon voor vertrekkende gebruikers weergeven
+[Show icon for users kicking other user]
+Icoon voor gebruikers die andere gebruikers wegtrappen weergeven
+[Show icon for notices ]
+Icoon voor meldingen weergeven
+[Show icon for name changes]
+Icoon voor naamswijzigingen weergeven
+[Show icon for information messages]
+Icoon voor informatie berichten weergeven
+[Show icon for status changes]
+Icoon voor status wijzigingen weergeven
+[Options for using a tabbed interface]
+Opties voor het gebruik van een tabbed interface
+[Icons to display in the message log]
+Iconen om weer te geven in het bericht log
+[Chat Log]
+Gesprek log
+[Chat]
+Gesprek
+;file \src\core\stdchat\src\services.cpp
+;file \src\core\stdchat\src\tools.cpp
+;file \src\core\stdchat\src\window.cpp
+[Close current tab (CTRL+F4)]
+Huidige tab sluiten (CTRL+F4)
+;file \src\core\stdclist\src\clcfonts.cpp
+;file \src\core\stdclist\src\clcopts.cpp
+;file \src\core\stdclist\src\clistopts.cpp
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdemail\email.cpp
+[User has not registered an e-mail address]
+Gebruiker heeft geen geregistreerd e-mail adres
+[&E-mail]
+&E-mail
+;file \src\core\stdfile\file.cpp
+[File from %s]
+Bestand van %s
+[Denied]
+Geweigerd
+;file \src\core\stdfile\fileexistsdlg.cpp
+[%s File]
+%s Bestand
+;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\filerecvdlg.cpp
+[Cancelled]
+Geannuleerd
+;file \src\core\stdfile\filesenddlg.cpp
+;file \src\core\stdfile\filexferdlg.cpp
+;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\help.cpp
+[&About...]
+Over...
+[&Report Bug]
+Fout melden
+;file \src\core\stdidle\idle.cpp
+;file \src\core\stdmsg\src\cmdlist.cpp
+;file \src\core\stdmsg\src\globals.cpp
+;file \src\core\stdmsg\src\msgdialog.cpp
+;file \src\core\stdmsg\src\msglog.cpp
+;file \src\core\stdmsg\src\msgoptions.cpp
+[Messaging Log]
+Berichten log
+;file \src\core\stdmsg\src\msgs.cpp
+;file \src\core\stdmsg\src\msgtimedout.cpp
+;file \src\core\stduihist\history.cpp
+;file \src\core\stdurl\url.cpp
+[URL from %s]
+URL van %s
+[Web Page Address (&URL)]
+Webpagina adres (&URL)
+;file \src\core\stdurl\urldialogs.cpp
+[Send URL to]
+Verstuur URL naar
+;file \src\core\stduserinfo\contactinfo.cpp
+[Primary]
+Hoofd
+;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduseronline\useronline.cpp
+;file \src\modules\addcontact\addcontact.cpp
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clistmenus.cpp
+;file \src\modules\clist\clistmod.cpp
+;file \src\modules\clist\clistsettings.cpp
+;file \src\modules\clist\clisttray.cpp
+;file \src\modules\clist\clui.cpp
+[De&lete]
+Verwijderen
+[&Add permanently to list]
+Perm&anent aan lijst toevoegen
+;file \src\modules\clist\contacts.cpp
+[My custom name (not moveable)]
+Mijn eigen naam (niet verplaatsbaar)
+[FirstName]
+Voornaam
+[LastName]
+Achternaam
+[FirstName LastName]
+Voornaam achternaam
+['(Unknown Contact)' (not moveable)]
+'(Onbekend Persoon)' (niet verplaatsbaar)
+;file \src\modules\clist\genmenu.cpp
+;file \src\modules\clist\genmenuopt.cpp
+;file \src\modules\clist\groups.cpp
+;file \src\modules\clist\keyboard.cpp
+[Show Hide Contact List]
+Lijst weergeven verbergen
+[Read Message]
+Bericht lezen
+[Open Options Page]
+Opties scherm openen
+[Open Find User Dialog]
+Zoek gebruiker scherm openen
+;file \src\modules\clist\movetogroup.cpp
+[&Move to Group]
+Naar groep verplaatsen
+;file \src\modules\database\database.cpp
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
+Miranda kan '%s' niet openen omdat u geen profiel plugins heeft geinstalleerd.\nU moet dbx_3x.dll of een equivalent installeren.
+[No profile support installed!]
+Geen profiel ondersteuning geinstalleerd!
+[Miranda can't understand that profile]
+Miranda kan dat profiel niet begrijpen
+;file \src\modules\database\dbini.cpp
+;file \src\modules\database\profilemanager.cpp
+[The profile already exists]
+Het profiel bestaat al
+[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+Kan '%s' niet verplaatsen naar de prullenbak. Selecteer aub een ander profiel.
+[Problem moving profile]
+Probleem verplaaten profiel
+[Unable to create the profile '%s', the error was %x]
+Niet in staat om het profiel '%s' aan te maken, de fout was %x
+[Problem creating profile]
+Probleem aanmaken profiel
+[My Profiles]
+Mijn profielen
+[New Profile]
+Nieuw profiel
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
+;file \src\modules\extraicons\extraicons.cpp
+;file \src\modules\extraicons\options_ei.cpp
+;file \src\modules\findadd\findadd.cpp
+[Results]
+Resultaten
+[There are no results to display.]
+Er zijn geen resultaten om weer te geven.
+;file \src\modules\findadd\searchresults.cpp
+;file \src\modules\fonts\FontOptions.cpp
+[Shadow at left]
+Schaduw links
+[Shadow at right]
+Schaduw rechts
+[Outline smooth]
+Outline vloeiend
+[Fonts]
+Lettertypes
+;file \src\modules\fonts\FontService.cpp
+;file \src\modules\icolib\skin2opts.cpp
+[Icon Sets]
+Icoon sets
+;file \src\modules\ignore\ignore.cpp
+;file \src\modules\netlib\netliblog.cpp
+;file \src\modules\netlib\netlibopts.cpp
+[<All connections>]
+<Alle verbindingen>
+;file \src\modules\netlib\netlibssl.cpp
+;file \src\modules\options\options.cpp
+;file \src\modules\plugins\newplugins.cpp
+['%s' is disabled, re-enable?]
+'%s' is uitgeschakeld, opnieuw inschakelen?
+[Re-enable Miranda plugin?]
+Miranda plugin opnieuw inschakelen?
+;file \src\modules\plugins\pluginopts.cpp
+;file \src\modules\protocols\protoopts.cpp
+;file \src\modules\skin\hotkey_opts.cpp
+;file \src\modules\skin\skinicons.cpp
+[Group (Open)]
+Groep (Open)
+[Connecting]
+Verbinden
+[Main Icons]
+Hoofd iconen
+;file \src\modules\skin\sounds.cpp
+;file \src\modules\utils\bmpfilter.cpp
+[All Bitmaps]
+Alle bitmaps
+;file \src\modules\utils\timezones.cpp
+;file \src\modules\utils\utils.cpp
+;file \src\modules\visibility\visibility.cpp

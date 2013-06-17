@@ -6,6 +6,8 @@
 ;  Authors: vu1tur
 ;============================================================
 ;file \plugins\Spamotron\res\spamotron.rc
+[Enable popup notifications]
+Activer les notifications par popup
 ;file \plugins\Spamotron\src\bayes.cpp
 ;file \plugins\Spamotron\src\common.h
 ;file \plugins\Spamotron\src\options.cpp

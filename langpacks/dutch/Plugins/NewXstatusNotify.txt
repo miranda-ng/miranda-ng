@@ -1,0 +1,108 @@
+﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: xStatus Notify
+;  Version: 1.4.0.9
+;  Authors: Luca Santarelli, Vasilich, yaho
+;============================================================
+;file \plugins\NewXstatusNotify\res\resource.rc
+[Notify when a contact changes to one of these statuses]
+Een melding geven wanneer een persoon veranderd naar een van deze statussen
+[Always when changing from offline]
+Altijd bij wijzigen van offline
+[Plugin activation]
+Plugin activatie
+[Blink icon in the system tray]
+Icoon knipperen in het systeemvak
+[Use status icon]
+Status icoon gebruiken
+[Status Notify]
+Status melding
+;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Sound for the status]
+Geluid voor de status
+;file \plugins\NewXstatusNotify\src\indsnd.h
+[(default sound)]
+(standaard geluid)
+;file \plugins\NewXstatusNotify\src\main.cpp
+[(M) is back online!]
+hij is terug online!
+[(F) is back online!]
+zij is terug online!
+[(U) is back online!]
+is terug online!
+[User: Online]
+Gebruiker: Online
+[(M) went offline! :(]
+hij ging offline! :(
+[(F) went offline! :(]
+zij ging offline! :(
+[(U) went offline! :(]
+ging offline! :(
+[User: Offline]
+Gebruiker: Offline
+[User: Invisible]
+Gebruiker: Onzichtbaar
+[(M) feels talkative!]
+hij is spraakzaam!
+[(F) feels talkative!]
+zij is spraakzaam!
+[(U) feels talkative!]
+is spraakzaam!
+[User: Free For Chat]
+Gebruiker: Beschikbaar voor gesprek 
+[(M) went Away]
+hij ging weg
+[(F) went Away]
+zij ging weg
+[(U) went Away]
+ging weg
+[User: Away]
+Gebruiker: Afwezig
+[(M) isn't there anymore!]
+hij is er niet meer!
+[(F) isn't there anymore!]
+zij is er niet meer!
+[(U) isn't there anymore!]
+is er niet meer
+[User: Not Available]
+Gebruiker: Niet beschikbaar
+[(M) has something else to do.]
+hij heeft iets anders te doen
+[(F) has something else to do.]
+zij heeft iets anders te doen
+[(U) has something else to do.]
+heeft iets anders te doen
+[User: Occupied]
+Gebruiker: Bezet
+[(M) doesn't want to be disturbed!]
+hij wil niet gestoord worden!
+[(F) doesn't want to be disturbed!]
+zij  wil niet gestoord worden!
+[(U) doesn't want to be disturbed!]
+ wil niet gestoord worden!
+[User: Do Not Disturb]
+Gebruiker: Niet storeN
+[(M) is eating something]
+hij is iets aan het eten
+[(F) is eating something]
+zij  is iets aan het eten
+[(U) is eating something]
+ is iets aan het eten
+[User: Out To Lunch]
+Gebruiker: Aan het lunchen
+[(M) had to answer the phone]
+hij moest de telefoon beantwoorden
+[(F) had to answer the phone]
+zij moest de telefoon beantwoorden
+[(U) had to answer the phone]
+moest de telefoon beantwoorden
+[User: On The Phone]
+Gebruiker: Aan de telefoon
+[User: from offline (has priority!)]
+Gebruiker: van offline (heeft prioriteit!)
+;file \plugins\NewXstatusNotify\src\options.cpp
+;file \plugins\NewXstatusNotify\src\popup.h
+;file \plugins\NewXstatusNotify\src\utils.cpp
+;file \plugins\NewXstatusNotify\src\xstatus.cpp
+;file \plugins\NewXstatusNotify\src\xstatus.h

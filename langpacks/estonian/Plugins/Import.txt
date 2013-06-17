@@ -1,0 +1,33 @@
+﻿#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+;============================================================
+;  File: Import.dll
+;  Plugin: Import contacts and messages
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+;file \plugins\Import\res\resource.rc
+[Import completed]
+Importimine lõpetatud
+[&Filename:]
+Faili nimi:
+[Import all contacts and all messages]
+Impordi kõik kontaktid ja kõik teated
+[System history]
+Süsteemi ajalugu
+;file \plugins\Import\src\import.cpp
+[Added contact %u (found in history)]
+Lisatud kontakt %u (leitud ajaloost)
+[Importing groups.]
+Gruppide importimine.
+[Importing contacts.]
+Kontaktide importimine
+[Importing history.]
+Ajaloo importimine
+[Import completed in %d seconds.]
+Importimine teostatud %d sekundiga.
+;file \plugins\Import\src\main.cpp
+[&Import...]
+&Import...
+;file \plugins\Import\src\miranda.cpp
+;file \plugins\Import\src\utils.cpp
+;file \plugins\Import\src\wizard.cpp

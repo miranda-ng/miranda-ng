@@ -1,0 +1,87 @@
+﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
+;============================================================
+;  File: UInfoEx.dll
+;  Plugin: User info ext
+;  Version: 0.8.4.2
+;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+;============================================================
+;file \plugins\UserInfoEx\res\resource.rc
+[Show &during the next]
+Mostra quelli nei prossimi
+[day(s)]
+giorno(i)
+;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
+;file \plugins\UserInfoEx\src\classPsTree.cpp
+;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
+;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
+;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+;file \plugins\UserInfoEx\src\init.cpp
+;file \plugins\UserInfoEx\src\mir_icolib.cpp
+;file \plugins\UserInfoEx\src\mir_icolib.h
+;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+;file \plugins\UserInfoEx\src\psp_about.cpp
+;file \plugins\UserInfoEx\src\psp_anniversary.cpp
+;file \plugins\UserInfoEx\src\psp_contact.cpp
+;file \plugins\UserInfoEx\src\psp_options.cpp
+;file \plugins\UserInfoEx\src\psp_profile.cpp
+;file \plugins\UserInfoEx\src\svc_constants.cpp
+[Culture & Literature]
+Cultura e Letteratura
+[Movies/TV]
+Cinema/TV
+[Outdoor Activities]
+Attività all'Aperto
+[Pets/Animals]
+Animali
+[Science/Technology]
+Scienza/Tecnologia
+[Nature and Environment]
+Natura ed Ambiente
+[News & Media]
+Informazioni e Media
+[Business & Economy]
+Affari ed Economia
+[Finance and corporate]
+Finanza
+[Consumer electronics]
+Elettronica di consumo
+[Retail stores]
+Vendita al dettaglio
+[Health and beauty]
+Salute e bellezza
+[Household products]
+Articoli di casalinghi
+[Mail order catalog]
+Catalogo ordini via posta
+[Business services]
+Servizi di affari
+[Audio and visual]
+Audio e video
+[Sporting and athletic]
+Sport e atletica
+[Home automation]
+Automazione domestica
+;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+;file \plugins\UserInfoEx\src\svc_email.cpp
+;file \plugins\UserInfoEx\src\svc_gender.cpp
+;file \plugins\UserInfoEx\src\svc_homepage.cpp
+;file \plugins\UserInfoEx\src\svc_phone.cpp
+;file \plugins\UserInfoEx\src\svc_refreshci.cpp
+;file \plugins\UserInfoEx\src\svc_reminder.cpp
+[Birthday reminder]
+Memo Compleanno
+[Birthday reminder: it's coming]
+Compleanno in arrivo
+;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
+;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
+;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

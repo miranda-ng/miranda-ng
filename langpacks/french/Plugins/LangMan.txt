@@ -5,6 +5,22 @@
 ;  Version: 1.0.2.3
 ;  Authors: H. Herkenrath
 ;============================================================
+[Helps you manage Language Packs of different languages.]
+Vous permet de choisir entre différents packs de traduction (LangPack).
 ;file \plugins\LangMan\res\resource.rc
+[Last modified using:]
+Pour :
+[Locale:]
+Locale :
+[Download more Language Packs]
+Télécharger plus de pack de traduction
 ;file \plugins\LangMan\src\main.cpp
 ;file \plugins\LangMan\src\options.cpp
+[All installed plugins are included.]
+Tous les plugins installés sont traduit.
+[Current]
+Actuel
+[Installed Languages]
+Langues installées
+[Languages]
+Langages

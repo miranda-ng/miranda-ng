@@ -1,0 +1,47 @@
+﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+;============================================================
+;  File: Yahoo.dll
+;  Plugin: Yahoo
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\Yahoo\res\Yahoo.rc
+[Create a new Yahoo account using the Yahoo website]
+Creare una nuova registrazione a Yahoo usando il sito web
+[Set Custom Status]
+Imposta Stati Personalizzati
+[Show as busy]
+Mostra come 'Occupato'
+;file \protocols\Yahoo\src\avatar.cpp
+;file \protocols\Yahoo\src\chat.cpp
+;file \protocols\Yahoo\src\icolib.cpp
+;file \protocols\Yahoo\src\im.cpp
+;file \protocols\Yahoo\src\links.cpp
+;file \protocols\Yahoo\src\main.cpp
+;file \protocols\Yahoo\src\options.cpp
+[The changes you have made require you to reconnect to the Yahoo network before they take effect]
+Queste modifiche avranno effetto a partire dalla prossima connessione alla rete di Yahoo.
+[YAHOO Options]
+Impostazioni Yahoo
+;file \protocols\Yahoo\src\proto.cpp
+[Yahoo Login Error]
+Yahoo Errore di Connessione
+;file \protocols\Yahoo\src\services.cpp
+[Set &Custom Status]
+Imposta Stati Personalizzati
+[&Yahoo Mail]
+Posta &Yahoo
+;file \protocols\Yahoo\src\webcam.cpp
+;file \protocols\Yahoo\src\yahoo.cpp
+[%s has rejected your request and sent the following message:]
+%s ha respinto la vostra richiesta ed ha inviato il seguente messaggio:
+[You Have %i unread msgs]
+Ci sono %i msg non letti
+[New Mail (%i msgs)]
+Nuova Posta (%i msg)
+[From: %s\nSubject: %s]
+Da: %s\nOggetto: %s
+[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+Sei stato disconnesso dal servizio Yahoo, probabilmente per una doppia connessione.
+[Could not log in, unknown reason: %d.]
+Impossibile connettersi, motivo sconosciuto: %d.

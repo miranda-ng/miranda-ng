@@ -1,0 +1,118 @@
+﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\MSN\res\msn.rc
+[Create a new Windows Live account]
+Criar uma nova do Windows Live
+[Send message font color/size info inside messages]
+Enviar mensagem de informação sobre cor da fonte/tamanho dentro de mensagens
+[Disable all contacts not included into my contact list]
+Desative todos os contatos não incluídos na minha lista de contatos
+[Manage server groups]
+Gerir grupos de servidor
+[Run the following application when new Hotmail arrives]
+Execute o aplicativo quando um novo Hotmail chegar
+[Allow people on my contact list send messages to mobile device]
+Permitir que as pessoas na minha lista de contatos enviem mensagens para o dispositivo móvel
+[Server List Manager]
+Gerenciador da Lista de Servidores
+[Contact is included into your server list]
+O contato é incluído em sua lista de servidores
+[Allowed (active) contact]
+Contatos autorizados (ativos)
+[Blocked contact]
+Contato bloqueado
+[Somebody included you in his/her server list]
+Alguém que você incluiu na sua lista de servidores
+[Enable 'Chat Session Established' popup]
+Ativar popup 'Sessão de Ativação do Bate-papo'
+[Enable 'Contact left channel' popup]
+Ativar popup 'Canal direito do contato'
+;file \protocols\MSN\src\msn_chat.cpp
+[Chat #]
+Conversa #
+;file \protocols\MSN\src\msn_commands.cpp
+[Contact tried to open an audio conference (currently not supported)]
+Contato tentou abrir uma conferência de áudio (não suportados)
+[MSN Protocol]
+Protocolo MSN
+[MSN Alert]
+Alerta do MSN
+[Chat session established by my request]
+Sessão de bate-papo criado pelo meu pedido
+[Chat session established by contact request]
+Sessão de bate-papo criado pelo pedido de contato
+[Contact left channel]
+O Contato abandonou o canal
+[This conversation has been inactive, participants will be removed.]
+Esta conversa está inativa, os participantes serão removidos.
+[To resume the conversation, please quit this session and start a new chat session.]
+Para retomar a conversa, por favor, feche esta sessão e iniciar uma nova sessão de bate-papo.
+[There is only 1 person left in the chat, do you want to switch back to standard message window?]
+Existe apenas 1 pessoa no bate-papo, quer voltar à janela de mensagem padrão?
+[MSN Chat]
+Bate-papo MSN
+[Message delivery failed]
+A entrega da mensagem falhou
+;file \protocols\MSN\src\msn_errors.cpp
+[User not online]
+Usuário não está online
+;file \protocols\MSN\src\msn_links.cpp
+;file \protocols\MSN\src\msn_lists.cpp
+;file \protocols\MSN\src\msn_mail.cpp
+[Subject: %s]
+Assunto: %s
+[Hotmail from %s (%S)]
+Hotmail de %s (%S)
+[Hotmail from %s]
+Hotmail de %s
+;file \protocols\MSN\src\msn_menu.cpp
+[You must be talking to start Netmeeting]
+Você deve estar falando para iniciar o NetMeeting
+[&Start Netmeeting]
+&Iniciar Conferência
+;file \protocols\MSN\src\msn_misc.cpp
+;file \protocols\MSN\src\msn_msgqueue.cpp
+;file \protocols\MSN\src\msn_opts.cpp
+[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
+Importação grupos do Servidor pode alterar o esquema de lista de contatos após o login. Você deseja enviar o seu grupo para o servidor?
+[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+As alterações feitas exigem que você se reconecte à rede do MSN Messenger antes de produzirem efeitos
+[MSN Options]
+Opções do MSN
+[Automatically obtain host/port]
+Obter automaticamente host/porta
+[Manually specify host/port]
+Especificar manualmente o host/porta
+[IP info available only after login]
+Informações do IP disponíveis somente após o login
+[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
+O protocolo  MSN exige que o tempo limite de mensagens não deve ser inferior a 60 seg. Corrigir o valor do tempo limite.
+[Server list]
+Lista de servidor
+;file \protocols\MSN\src\msn_p2p.cpp
+[Contact tried to send its webcam data (currently not supported)]
+O Contato tentou enviar seus dados de webcam (atualmente não suportada)
+[Contact tried to view our webcam data (currently not supported)]
+O Contato tentou visualizar os dados da nossa webcam (atualmente não suportado)
+;file \protocols\MSN\src\msn_proto.cpp
+[Live Mail]
+Live Mail
+[Live Alert]
+Live Alerta
+[You cannot send message to yourself]
+Você não pode enviar mensagem para si mesmo
+[Message is too long: SMS page limited to 133 UTF8 chars]
+Mensagem é muito longa: Página de SMS limitada a 133 caracteres UTF8
+[Message is too long: MSN messages are limited by 1202 UTF8 chars]
+Mensagem é muito longa: MSN mensagens são limitados por 1202 caracteres UTF8
+[Offline messaging is not allowed for LCS contacts]
+Mensagens off-line não são permitidas pelos contatos LCS
+;file \protocols\MSN\src\msn_svcs.cpp
+;file \protocols\MSN\src\msn_ws.cpp
+[Chat session dropped due to inactivity]
+Chat sessão caiu devido à inatividade

@@ -1,0 +1,29 @@
+﻿#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+;============================================================
+;  File: ModernOpt.dll
+;  Plugin: ModernOpt
+;  Version: 0.1.0.0
+;  Authors: Victor Pavlychko, George Hazan
+;============================================================
+;file \plugins\ModernOpt\res\resource.rc
+[Visit official Miranda NG website]
+פתח את האתר הרשמי של מירנדה
+[Switch to classic options]
+החלף לממשק אפשרויות קלאסי
+;file \plugins\ModernOpt\src\modernopt.cpp
+[Setup your account information to start messaging.]
+הגדר את מידע החשבונות שלך בשביל להתחיל להתכתב.
+[Style]
+עיצוב
+[Change the look of Miranda NG according to your taste.]
+שנה את המראה של מירנדה בהתאם לטעם האישי שלך.
+[Configure behaviour of your contact list.]
+הגדר התנהגות של רשימת המשתמשים שלך.
+[Ban those users and events, you are annoyed with.]
+חסום את המשתמשים והאירועים האלה, שמטרידים אותך.
+[Set your status messages and idle reporting.]
+הגדר את מצב ההודעות שלך והשבת דיווח.
+[Addons]
+תוספים
+[Miranda NG is all about plugins. Manage all the plugins you have here.]
+מירנדה היא הכול בנוגע לפלאגים. נהל את כל הפלאגים שיש לך מכאן.

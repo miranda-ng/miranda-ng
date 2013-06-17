@@ -6,14 +6,82 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
+[Max width:]
+Largeur max :
+[Max height:]
+Hauteur max :
+[Show if list not focused]
+Afficher si liste couverte
+[General padding:]
+Remplissage général :
+[Status bar tips]
+Barre de popup d'états
+[Labels:]
+Nom :
+[Values:]
+Valeur :
+[Min width:]
+Largeur mini :
+[Min height:]
+Hauteur mini :
+[Keep original avatar size]
+Conserver la taille de l'avatar
+[Module:]
+Module :
+[Translation:]
+Traduction :
+[Item]
+Évènement
+[Value:]
+Valeur :
+[Draw a line above]
+Mettre une ligne en dessous
+[Value on a new line]
+Valeur sur une nouvelle ligne
+[Separator]
+Séparateur
+[Advanced options]
+Options avancées
+[Enable SmileyAdd support]
+Activer le support de SmileyAdd
+[Resize smileys]
+Redimensionner les avatars
 ;file \plugins\TipperYM\src\mir_smileys.cpp
 ;file \plugins\TipperYM\src\options.cpp
+[You must enter a label]
+Vous devez entrer un nom
+[Invalid Substitution]
+Substitution incorrecte
+[<No Label>]
+<sans nom>
+[No icon]
+Sans icône
+[No title]
+Sans titre
+[Centre]
+Centré
+[Fade]
+Fondu
+[Content]
+Contenu
 ;file \plugins\TipperYM\src\options.h
 ;file \plugins\TipperYM\src\popwin.cpp
 ;file \plugins\TipperYM\src\preset_items.cpp
 [Idle:]
 Inactivité :
+[Last message]
+Dernier message
+[Last message: (%sys:last_msg_reltime% ago)]
+Dernier message : il y a %sys:last_msg_reltime%
+[Sunrise:]
+Aube :
+[Sunset:]
+Aurore :
 ;file \plugins\TipperYM\src\skin_parser.cpp
 ;file \plugins\TipperYM\src\tipper.cpp
+[Labels]
+Nom
+[Values]
+Valeurs
 ;file \plugins\TipperYM\src\translations.cpp
 ;file \plugins\TipperYM\src\translations.h

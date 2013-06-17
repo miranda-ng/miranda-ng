@@ -1,0 +1,374 @@
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+;file \plugins\Clist_modern\res\resource.rc
+[1st:]
+1.:
+[2nd:]
+2.:
+[3rd:]
+3. :
+[Hide contact list after ]
+Skjul kontaktlisten etter
+[Animate Avatars]
+Beveg Avatarer
+[Use Windows Colors]
+Bruk Windowsfarger
+[Available skins]
+Tilgjengelig skins
+[\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
+\n\n\nVennligst velg et tilgjengelig skin. \n\nEller bla etter et skin som ikke står i listen.
+[Skin Preview]
+Vis Skin
+[WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
+ADVARSEL: \tSkins kan endre din nåværende profil. Gjenoppretting er ikke mulig. \n\t\tVennligst SIKKERHETSKOPIER databasen før aktivering av skin.
+[* Restart may be required for all changes to take effect]
+* Omstart kan være nødvendig før endringene tas i bruk
+[Available objects]
+Tilgjengelige objekter
+[Object properties]
+Objektegenskaper
+[Colour]
+Farge
+[Image file and fitting mode]
+Bildefil og tilpasningsmodus
+[Borders]
+Grenser
+[Fit mode]
+Tilpasningsmodus
+[Fragment location]
+Fragment lokalisering
+[W x H: 0 x 0 pixels]
+B x H: 0 x 0 piksler
+[Space between]
+Space mellom
+[Multiline status bar:]
+Flerlinjers statuslinje:
+[Show xStatus icon]
+Vis xStatus ikon
+[Show both icons]
+Vis begge ikoner
+[Show normal status as overlay]
+Vis vanlig status som overlapping
+[Status overlay opacity is 75% ]
+Status overlappings-uklarhet er 75%
+[Show unread emails (if supported)]
+Vis ulest epost (hvis støttet)
+[Place offline users out of groups]
+Plasser frakoblede brukere utenfor gr.
+[Full selection]
+Fullstendig utvalg
+[Less selection]
+Færre valg
+[No selection]
+Ingen valg
+[Selection Mode]
+Utvalgsmodus
+[Bring to front if covered]
+Hent frem hvis tildekket
+[Lock manual resize]
+Lås manuell størrelse
+[Drag to ]
+Dra til 
+[x100 msec]
+x100 msek
+[show delay]
+vis forsinkelse
+[hide delay]
+skjul forsinkelse
+[Hide method]
+Skjul metode
+[keep on screen]
+behold på skjerm
+[Snap to edges]
+Snapp til kanter
+[Event notify area]
+Hendelsesvarsel område
+[Show automaticaly]
+Vis automatisk
+[Always Visible]
+Alltid Synlig
+[Fade out entire list when:]
+Gli ut hele listen når:
+[Use xStatus icon]
+Bruk xStatus ikon
+[only when statuses differ]
+Bare når statuser er forskj.
+[Expand metacontacts]
+Utvid metacontacts
+[MetaContacts stuff]
+Valg for MetaContacts
+[Additional stuff]
+Tilleggsvalg
+[Subcontacts indent:]
+Underkontakter innrykk:
+[Show time only if it is different from current time]
+Vis tid bare hvis den er forskjellig fra nåværende tid
+[Show contact time as row item]
+Vis kontaktens tid som rad-element
+[Client area margins]
+Marginer i Klientområdet
+[Thin border main window]
+Tynn grense hovedvindu
+[Borderless main window]
+Grensefritt hovedvindu
+[Between frames:]
+Mellom rammer:
+[Gaps]
+Mellomrom
+[Use Non-Layered mode]
+Bruk Ingen-Lag modus
+[Non-layered mode]
+Ingen-lag modus
+[Disable Skin Engine]
+Deaktiver Skin-motor
+[Enable Aero Glass (Vista)]
+Aktiver Aero Glass (Vista)
+[Order of items:]
+Rekkefølge til objekter:
+[Min row height:]
+Min radhøyde:
+[Row border:]
+Radgrense:
+[Variable row height]
+Variabel radhøyde
+[Align left items to left]
+Still venstre elementer mot venstre
+[Align right items to right]
+Still høyre elementer mot høyre
+[Right margin:]
+Høyre margin:
+[Draw border on avatar]
+Tegn ramme på avatar
+[Draw overlay icons]
+Tegn overlappende ikoner
+[Round corners of avatars]
+Runde hjørner på avatarer
+[Ignore size for row height calcs]
+Ignorer størrelse ved utregning av radhøyde
+[Border Color:]
+Rammefarge:
+[Normal overlay icon]
+Vanlig overlappende ikon
+[Protocol status icon]
+Protokollstatus ikon
+[Contact icon]
+Kontaktikon
+[height]
+høyde
+[Max width]
+Maks bredde
+[Hide icon when showing avatar]
+Skjul ikon når avatar vises
+[Draw icon in avatar space]
+Tegn ikon på avatarplassen
+[Hide groups icon]
+Skjul gruppeikoner
+[Use extra status icon instead protocol]
+Bruk ekstra status ikon istedetfor protokoll
+[Draw normal status as overlay]
+Tegn normal status som overlapping
+[Right-To-Left reading mode (mirror template)]
+Høyre-Til-Venstre lesemodus (speil mal)
+[Replace smileys in clist]
+Erstatt smileyer i k.liste
+[Draw smileys on first line]
+Tegn smileyer på første linje
+[Resize smileys and 'Listining to' icon]
+Endre smileystørrelse og 'Hører på' ikon
+[Align to right]
+Oppstilling mot høyre
+[Append nick if different from custom name]
+Legg til kallenavn hvis forskjellg fra eget navn
+[Trim long text with ellipsis]
+Beskjær lang tekst med ellipse
+[Top space:]
+Topp space:
+[Draw smileys on second line]
+Tegn smileyer på andre linje
+[XStatus has priority]
+XStatus har prioritet
+[Use 'XStatus: XMessage']
+Bruk 'xStatus: XMelding'
+[(Variables will be replaced)]
+(Variabler vil bli erstattet)
+[Show third line]
+Vis tredje linje
+[Draw smileys on third line]
+Tegn smileyer på tredje linje
+[Top/Left]
+Topp/Venstre
+[Bottom/Right]
+Bunn/Høyre
+[Position (vertical)]
+Plassering (vertikal)
+[Show Title]
+Vis Tittel
+[Locked]
+Låst
+[Frames Order]
+Ramme rekkefølge
+[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
+UNDER KONSTRUKSJON!!!           DEN VIRKER IKKE
+[Row template]
+Rad mal
+[Add container]
+Legg til beholder
+[Remove container]
+Fjern beholder
+[Vertical align:]
+Vertikal oppstilling:
+[Horizontal align:]
+Horisontal justering:
+[Container type:]
+Beholdertype:
+[Container width:]
+Beholderbredde:
+[Container height:]
+Beholderhøyde:
+[Layered]
+Lagvis
+[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
+VALG SIDEN ER UNDER KONSTRUKSJON Vennligst IKKE si fra om noen problemer her.\n Bare høy-nivå designkommentarer tas imot.
+[&Show Offline Users in here]
+&Vis frakoblede Brukere
+;file \plugins\Clist_modern\src\modern_clc.cpp
+[Contact List smileys]
+Kontaktliste smileyer
+;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Away contacts]
+Borte-kontakter
+[DND contacts]
+Ikke Forstyrr-kontakter
+[NA contacts]
+NA kontakter
+[Occupied contacts]
+Opptatte kontakter
+[Free for chat contacts]
+Tilgjengelig for samtale-kontakter
+[Invisible contacts]
+Usynlige kontakter
+[On the phone contacts]
+I telefonen-kontakter
+[Out to lunch contacts]
+Ute til lunsj-kontakter
+[Contacts who are 'not on list']
+Kontakter som er 'ikke på listen'
+[Open groups]
+Åpne grupper
+[Open group member counts]
+Antall medlemmer i åpne grupper
+[Closed groups]
+Lukkede grupper
+[Closed group member counts]
+Antall medlemmer i lukkede grupper
+[Third line]
+Tredje linje
+[Status bar text]
+Statuslinjetekst
+[Event area text]
+Filterområde tekst
+[Current view mode text]
+Aktiv filter tekst
+[Hide to tray]
+Skjul til oppgavelinje
+[Behind left edge]
+Bak venstre kant
+[Behind right edge]
+Bak høyre kant
+;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
+Ingen Hendelser
+;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Left align group names]
+Venstrejustèr gruppenavn
+[Center group names]
+Midtstill gruppenavn
+[Right align group names]
+Høyrejustèr gruppenavn
+[Second Line]
+Andre Linje
+[Third Line]
+Tredje Linje
+[Row items]
+Radelementer
+;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+;file \plugins\Clist_modern\src\modern_clisttray.cpp
+;file \plugins\Clist_modern\src\modern_clui.cpp
+[Show Contact &Avatar]
+Vis Kontakt &Avatar
+[Hide Contact &Avatar]
+Skjul Kontakt &Avatar
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\modern_keyboard.cpp
+;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+[Empty %s cell]
+Tøm %s celle
+[column]
+kolonne
+[line]
+linje
+[columns]
+kolonner
+[%s, contain %s]
+%s, inneholder %s
+[ layered]
+ lagvist
+;file \plugins\Clist_modern\src\modern_skineditor.cpp
+[Image size is]
+Bildestørrelsen er
+;file \plugins\Clist_modern\src\modern_skinengine.cpp
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[Load/Save]
+Load/Lagre
+[Object Editor]
+Objekt Editor
+[%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\nForfatter(e):\t %s\nKontakt:\t %s\nWeb:\t %s\n\nFil:\t %s
+[%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\nForfatter(e): %s\nKontakt:\t %s\nWeb:\t %s\n\nFil:\t %s
+[This is second default Modern Contact list skin in Vista Aero style]
+Dette er andre standard Modern Contact list skin i Vista Aero-stil
+[Inside library]
+Innen biblioteket
+[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+Skin editoren inneholder ikke-lagrede endringer.\n\nAlle endringer vil gå tapt.\n\n Fortsett å laste nytt skin?
+[Warning!]
+Advarsel!
+[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+Aktivt skin ble ikke lagret til fil.\n\nAlle endringer vil gå tapt.\n\n Fortsett å laste nytt skin?
+[Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
+Forhåndsvisning er ikke tilgjengelig\n\n%s\n----------------------\n\n%s\n\nFORFATTER(E):\n%s\n\nKONTAKT:\n%s\n\nWEBSIDE:\n%s
+[%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
+%s\n\n%s\n\nFORFATTERE:\n%s\n\nKONTAKT:\n%s\n\nWEB:\n%s\n\n\n
+[Select skin from list]
+Velg skin fra liste
+[Please select skin to apply]
+Vennligst velg et skin du vil bruke
+[Default Skin]
+Standard Skin
+[%Default Skin%]
+%Standard Skin%
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Status Menu]
+Statusmeny
+[Show/Hide offline contacts]
+Vis/Skjul frakoblede kontakter
+[Use/Disable groups]
+Bruk/Deaktiver grupper
+[Enable/Disable sounds]
+Aktiver/Deaktiver lyder
+[Minimize]
+Minimer
+;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Configuring view mode: %s]
+Konfigurerer filter: %s
+;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

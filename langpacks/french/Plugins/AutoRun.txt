@@ -6,5 +6,11 @@
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)
 ;============================================================
 ;file \plugins\AutoRun\res\autorun.rc
+[Autorun]
+Démarrage
+[Launch Miranda NG at system startup]
+Lancer Miranda NG au démarrage de Windows
+[Note: At startup Miranda NG will use current profile]
+NOTE : Au prochain démarrage de Miranda NG,\n             vous utiliserez le profil actuel
 ;file \plugins\AutoRun\src\main.cpp
 ;file \plugins\AutoRun\src\stdafx.h

@@ -1,8 +1,8 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
-[Lost Password?]
-Passe perdu ?
+[Game]
+Jeu
 [Join]
 Rejoindre
 ;file \protocols\Xfire\res\resource.rc
@@ -10,8 +10,6 @@ Rejoindre
 ;file \protocols\Xfire\src\all_statusmsg.cpp
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
-[Confirm Delete]
-Confirmer l'effacement
 ;file \protocols\Xfire\src\options.cpp
 ;file \protocols\Xfire\src\searching4games.cpp
 ;file \protocols\Xfire\src\userdetails.cpp

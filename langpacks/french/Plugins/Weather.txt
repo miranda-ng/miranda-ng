@@ -6,19 +6,311 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \plugins\Weather\res\resource.rc
+[Brief Info]
+Info
+[Webpage]
+Page Web
+[Update weather information on startup]
+Mettre à jour la météo au démarrage
+[Update weather information every]
+Mettre à jour les infos toutes les
+[Consider weather info updated only when condition and temperature are changed]
+Considérer la Météo à jour seulement si les conditions et température sont changées
+[Remove old data when updating]
+Effacer toutes les données lors d'une mise à jour.
+[Make the contact italic when weather alert is issued]
+Mettre en italique le contact quand l'alerte Météo est publiée.
+[Use weather condition as protocol status]
+Gérer les conditions météo comme les états de protocole
+[Avatar only mode]
+Mode avatar uniquement
+[Temperature]
+Température
+[Degree sign:]
+Symbole
+[Wind]
+Vent
+[Pressure]
+Pression
+[Day/Month]
+Jour/Mois
+[2 chars]
+2 lettres
+[3 chars]
+3 lettres
+[Do not append units to values]
+Ne pas indiquer d'unité
+[Frame]
+Images
+[Avatar size]
+Taille d'avatar
+[Edit Weather Station]
+Modifier la Station Météo
+[Weather Station]
+Station Météo
+[City name]
+Ville
+[Log Information]
+Enregistrement des Informations
+[Use internal history]
+Utiliser un historique interne
+[Use external file]
+Utiliser un fichier externe
+[Overwrite file upon update]
+Écraser le fichier
+[More Info URL]
+Lien d'Info
+[Weather Map]
+Carte Météo
+[Other Options]
+Autres options
+[Set as default station]
+Prendre cette Station par défaut.
+[Disable automatic update for this station]
+Désactiver la mise à jour automatique pour cette Station.
+[Popup only when condition changes]
+Seulement si les conditions changent
+[Popup Actions]
+Action sur un popup
+[Left Click]
+Gauche
+[Right Click]
+Droit
+[Popup Delay]
+Délai des popups
+[Popup Text]
+Texte des popups
+[Updates]
+Mise à jour
+[Brief Info Title]
+Titre Court
+[Note Text]
+Note/Info
+[Extra Text]
+Info supplémen.
+[External Log]
+Log Externe
+[More Variables]
+Plus de variables
+[Sunset]
+Coucher de soleil
+[Feel-like]
+Ressenti comme
+[Today's Low]
+Mini du jour
+[Today's High]
+Maxi du jour
+[Sunrise]
+Lever de soleil
+[Dewpoint]
+Condensation
+[Humidity]
+Humidité
+[Weather Protocol INI Setup]
+Fichier INI de configuration pour Weather
+[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+Weather n'as pas trouvé son fichier INI de configuration.  Afin de configurer Weather et ajouter des Stations Météo, choisissez parmi les choix suivants :
+[Click here to download a weather ini file from Miranda file listing]
+Cliquez ici pour télécharger ce fichier INI depuis le site de Miranda
+[Extract the weather ini file from archive to this directory]
+Extraire un fichier INI depuis une archive de ce répertoire.
+[Click here to load the data from the new ini file into memory]
+Cliquez ici pour charger les données depuis le nouveau fichier INI
+[Add new weather station and close this dialog]
+Ajout de nouvelles Stations et fermer cette fenêtre
+[Total INI files]
+Nombre de fichiers INI
+[Total memory used]
+Quantité de mémoire utilisée
+[Reload INI]
+Recharger l'INI
+[Open brief information]
+Ouvrir les infos brèves
+[Open complete forecast]
+Ouvrir les prévisions au complet
+[Open weather map]
+Ouvrir la carte météo
+[View history]
+Voir l'historique
+[Show user detail]
+Voir détails utilisateur
+[To old setting]
+Anciens réglages
+[To default]
+Par défaut
 ;file \plugins\Weather\src\weather.cpp
+[Weather Condition Changed]
+Conditions météo changées
+[Weather Alert Issued]
+Alerte météo publiée
 ;file \plugins\Weather\src\weather.h
+[Invalid ID format, missing "/" (10)]
+Format ID invalide, perte de "/" (10)
+[Invalid service (11)]
+Service invalide (11)
+[Invalid station (12)]
+Service invalide (12)
+[Weather service ini for this station is not found (20)]
+L'ini. du service Weather n'a pas été trouvé sur cet ordinateur (20)
+[Netlib error - check your internet connection (30)]
+Erreur Netlib : vérifiez votre connexion Internet (30)
+[Empty data is retrieved (40)]
+Des données vides ont été trouvées (40)
+[Document not found (42)]
+Document non trouvé (42)
+[Document too short to contain any weather data (43)]
+Document trop court pour contenir une donnée weather (43)
+[Unknown error (99)]
+Erreur inconnue (99)
+[HTTP Error: No content (204)]
+Erreur HTTP : contenu vide (204)
+[HTTP Error: Data moved (301)]
+Erreur HTTP : données transférées (301)
+[HTTP Error: Use proxy (305)]
+Erreur HTTP : utiliser un proxy (305)
+[HTTP Error: Temporary redirect (307)]
+Erreur HTTP : redirection temporaire (307)
+[HTTP Error: Bad request (400)]
+Erreur HTTP : requête non valide (400)
+[HTTP Error: Unauthorized (401)]
+Erreur HTTP : non autorisé (401)
+[HTTP Error: Payment required (402)]
+Erreur HTTP : paiement requis (402)
+[HTTP Error: Forbidden (403)]
+Erreur HTTP : interdit (403)
+[HTTP Error: Not found (404)]
+Erreur HTTP : rien trouvé (404)
+[HTTP Error: Method not allowed (405)]
+Erreur HTTP : méthode non autorisée (405)
+[HTTP Error: Proxy authentication required (407)]
+Erreur HTTP : authentification proxy nécessaire (407)
+[HTTP Error: Gone (410)]
+Erreur HTTP : parti (410)
+[HTTP Error: Internal server error (500)]
+Erreur HTTP : erreur interne au serveur (500)
+[HTTP Error: Bad gateway (502)]
+Erreur HTTP : mauvaise passerelle (502)
+[HTTP Error: Service unavailable (503)]
+Erreur HTTP : service indisponible (503)
+[HTTP Error: Gateway timeout (504)]
+Erreur HTTP : délai d'attente de la passerelle dépassé (504)
+[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+%c\nTempérature : %t\nRessenti : %f\nPression : %p\Vent : %i  %w\nHumidité : %m\nPoint de rosée : %e\nVisibilité : %v\n\nLever de Soleil : %r\nCoucher de Soleil : %y\n\nPrévisions sur 5 Jours :\n%[Prévisions Jour 1]\n%[Prévisions Jour 2]\n%[Prévisions Jour 3]\n%[Prévisions Jour 4]\n%[Prévisions Jour 5]
+[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+Ressenti : %f\nPression : %p\nVent : %i  %w\nHumidité : %m\nDew Point : %e\nVisibilité : %v\n\nLever de Soleil : %r\nCoucher de Soleil : %y\n\nPrévisions sur 5 Jours :\n%[Prévisions Jour 1]\n%[Prévisions Jour 2]\n%[Prévisions Jour 3]\n%[Prévisions Jour 4]\n%[Prévisions Jour 5]
+[Weather Condition for %n as of %u]
+Conditions Météo de %n à %u
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (Ressenti %f)	Vent : %i %w	Humidité : %m]
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n at %u :	%c, %t (Ressenti %f)	Vent : %i %w	Humidité : %m]
+[%c, %t\nToday:  High %h, Low %l]
+%c, %t\nAujourd'hui:  maxi %h, mini %l]
 ;file \plugins\Weather\src\weather_addstn.cpp
+[Current weather information for %s.]
+Information météo en cours pour %s.
+[%s is now the default weather station]
+%s est maintenant la station météo par défaut
+[Weather Protocol]
+Protocole Weather
+[Please try again after weather update is completed.]
+Veuillez recommencer après la MAJ terminée.
+[<Enter station name here>]
+<Entrez le nom de la Station>
+[<Enter station ID here>]
+<Entrez l'ID de la Station>
 ;file \plugins\Weather\src\weather_contacts.cpp
+[Weather condition was not logged.]
+Les conditions météo n'ont pas été enregistrées.
+[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
+L'adresse pour le forcast complet n'a pas été réglé. Vous pouvez le régler dans 'Modifier les réglages'.
+[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+L'adresse pour la carte météo n'a pas été renseignées. Vous pouvez y remédier dans le menu d'édition des paramètres.
+[Get city name from ID]
+Prendre le nom de la ville d'après l'identifiant
+[Weather INI information]
+Information sur l'INI de Weather
+[View webpage]
+Site Web
 ;file \plugins\Weather\src\weather_conv.cpp
+[<unknown time>]
+<temps inconnu>
+[<Error>]
+<Erreur>
+[HTTP Error %i]
+Erreur HTTP %i
 ;file \plugins\Weather\src\weather_data.cpp
+[<Enter city name here>]
+<Entrez la ville ici>
+[Error when obtaining data: %s]
+Erreur à l'obtention des données: %s
 ;file \plugins\Weather\src\weather_http.cpp
+[Weather HTTP connections]
+Connexions HTTP de Weather
 ;file \plugins\Weather\src\weather_icons.cpp
 ;file \plugins\Weather\src\weather_info.cpp
+[The corresponding INI file for "%s" is not found.]
+Le fichier INI correspondant à %s n'a pas été trouvé.
+[Weather INI information for "%s":]
+Information sur l'INI de Weather pour %s :
+[Internal Name:]
+Nom Interne :
+[INI Version:]
+Version de l'ini :
+[File Name:]
+Nom de fichier :
+[Item Count:]
+Décompte d'article :
+[Memory Used:]
+Mémoire utilisée :
+[Here is a list of custom variables that are currently available]
+Voici la liste des variables actuellement disponibles :
 ;file \plugins\Weather\src\weather_ini.cpp
+[No update data file is found.  Please check your Plugins\\Weather directory.]
+Aucun fichier de mise à jour trouvé. Vérifiez le dossier Plugins\\Weather.
+[Invalid ini format for: %s]
+Format ini invalide de : %s
+[All update data has been reloaded.]
+Toutes les données ont bien été mise à jour.
 ;file \plugins\Weather\src\weather_mwin.cpp
 ;file \plugins\Weather\src\weather_opt.cpp
+[Weather Protocol Text Preview]
+Prévisualisation de Weather Protocole
 ;file \plugins\Weather\src\weather_popup.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tconditions courantes\n%d\tdate en cours\n%e\tpoint de condensation\n%f\ttempérature ressentie\n%h\tmaximales\n%i\tdirection du vent\n%l\tminimales\n%m\thumidité\n%n\tnom de la station\n%p\tpression\n%r\tlever du soleil\n%s\tidentifiant de la station\n%t\ttempérature\n%u\theure mise à jour\n%v\tvisibilité\n%w\tvitesse du vent\n%y\tcoucher du soleil
+[%[..]\tcustom variables]
+%[..]\tvariables personnalisées
 ;file \plugins\Weather\src\weather_svcs.cpp
+[Station ID]
+Identifiant de la station
+[Disable &weather notification]
+Désactiver les notifications météo &Weather
+[Enable &weather notification]
+Activer les notifications météo &Weather
+[Update Weather]
+MAJ de Weather
+[Remove Old Data then Update]
+Supprimer les anciennes données et mettre à jour
+[Brief Information]
+Information brève
+[Read Complete Forecast]
+Lire les prévisions au complet
+[Update All Weather]
+MAJ de tout Weather
+[Remove Old Data then Update All]
+Effacer les anciennes données lors d'une MAJ totale
+[Weather Notification]
+Notification de Weather
 ;file \plugins\Weather\src\weather_update.cpp
+[Unable to retrieve weather information for %s]
+Impossible de retrouver la météo de %s
 ;file \plugins\Weather\src\weather_userinfo.cpp
+[Current condition for %n]
+Condition actuelles de %n
+[Last update on:   %u]
+Dernière mise à jour : %u
+[Retrieving new data, please wait...]
+Réception des données, veuillez patienter...
+[More Info]
+Plus d'info

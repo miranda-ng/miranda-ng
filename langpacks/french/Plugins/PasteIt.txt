@@ -6,7 +6,11 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\PasteIt\res\PasteIt.rc
+[User name]
+Utilisateur
 ;file \plugins\PasteIt\src\Options.cpp
+[Web page]
+Page Web
 ;file \plugins\PasteIt\src\PasteIt.cpp
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp

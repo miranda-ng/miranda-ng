@@ -1,0 +1,312 @@
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+;file \plugins\Clist_modern\res\resource.rc
+[Transparency:]
+שקיפות:
+[Window behaviour:]
+התנהגות חלון:
+[List sorting:]
+סידור רשימה:
+[Status bar:]
+סרגל מצבים:
+[List content:]
+רשימת תוכן:
+[Hide contact list after ]
+החבא רשימת משתמשים אחרי
+[Animate Avatars]
+הנפש אוואטרים
+[Show contact time in list]
+הראה זמן משתמש ברשימה
+[Compact mode]
+מצב קומפקטי
+[Use Windows Colors]
+השתמש בצבעי חלונות
+[Colour]
+צבע
+[Borders]
+גבולות
+[Space between]
+רווח בין
+[Vertical Align]
+סידור אנכי
+[Horizontal Align]
+סידור אופקי
+[Multiline status bar:]
+סרגל מצבים מרובה שורות:
+[Accounts per line]
+חשבונות לשורה
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+* כדי להגדיל גובה סרגל מצבים\n  הגדר בתפריט ראשי: פריימים סרגל מצבים הראה כותרת סרגל ואז משוך כותרת נראה של סרגל מצבים למעלה או למטה.\n\n\n
+[Set options per account]
+הגדר אפשרויות על פי חשבון
+[Enable custom account settings]
+אפשר הגדרות חשבון מותאמות אישית
+[Hide account completely]
+החבא חשבון לחלוטין
+[Show xStatus icon]
+הראה xStatus אייקון
+[Show both icons]
+הראה את שתי האייקונים
+[Show normal status as overlay]
+הראה מצב נורמלי כפרוש
+[Status overlay opacity is 75% ]
+אטימות מצב פרוש היא 75%
+[Show unread emails (if supported)]
+הראה אימיילים חדשים אם נתמך\n
+[Space on Left]
+רווח בשמאל
+[Space on right]
+רווח בימין
+[Place offline users out of groups]
+שים משתמשים לא מחוברים מחוץ לקבוצות
+[Full selection]
+בחירה מלאה
+[Less selection]
+פחות בחירה
+[No selection]
+ללא בחירה
+[Selection Mode]
+מצב בחירה
+[Bring to front if covered]
+הבא לקדימה אם כוסה
+[Lock manual resize]
+נעל הגדלה ידנית
+[Drag to ]
+גרור ל
+[Easy Scroll]
+גלגול קל
+[x100 msec]
+x100 מילי שניות
+[show delay]
+הראה השהייה
+[hide delay]
+החבא השהייה
+[Hide method]
+שיטות החבאה
+[keep on screen]
+שמור על מסך
+[Snap to edges]
+הדבק לקצוות
+[Event notify area]
+איזור הודעות אירועים
+[Show automaticaly]
+הראה אוטומטית
+[Always Visible]
+ תמיד נראה
+[Dock to sides]
+עגן לצדדים
+[Fade out entire list when:]
+הדהה החוצה פריטי רשימה כאשר:
+[System tray icon mode]
+מצב אייקון סרגל מערכת
+[Use xStatus icon]
+השתמש באייקון xStatus
+[only when statuses differ]
+רק כאשר מצבים משתנים
+[Expand metacontacts]
+הרחב תוכן דומה של משתמשים
+[MetaContacts stuff]
+דברים של איחוד משתמשים
+[Additional stuff]
+דברים נוספים
+[Subcontacts indent:]
+תת משתמשים indent:
+[Show time only if it is different from current time]
+הראה זמן רק אם הוא שונה מהמזמן הנוכחי
+[Show contact time as row item]
+הראה זמן חיבור כפריט שורה
+[Client area margins]
+גבולות איזור לקוח
+[Thin border main window]
+גבול דק חלון ראשי
+[Borderless main window]
+חלון ראשי ללא גבולות
+[Between frames:]
+בין פריימים:
+[After captions:]
+אחרי הסברים:
+[Gaps]
+רווחים
+[Use Non-Layered mode]
+השתמש במצב ללא-שכבות
+[Non-layered mode]
+מצב ללא-שכבות
+[Disable Skin Engine]
+בטל מנוע סקין
+[Enable Aero Glass (Vista)]
+אפשר מראה אירו (Vista)
+[Order of items:]
+סדר הפריטים:
+[Min row height:]
+גודל שורה מינימלי:
+[Row border:]
+גבול גולמי:
+[Variable row height]
+גובה שורת משתנים
+[Align left items to left]
+סדר פריטי שמאל לשמאל
+[Align right items to right]
+סדר פריטי ימין לימין
+[Right margin:]
+מיזוג ימני:
+[Draw border on avatar]
+צייר גבול על אוואטר
+[Draw overlay icons]
+צייר אייקונים פרושים
+[Round corners of avatars]
+עגל פינות של אוואטרים
+[Ignore size for row height calcs]
+התעלם מגודל בשביל שורה גובה מחשבון
+[Border Color:]
+צבע גבול:
+[Normal overlay icon]
+אייקון פרוש רגיל
+[Protocol status icon]
+אייקון מצב פרוטוקול
+[Contact icon]
+אייקון יצירת קשר
+[height]
+גובה
+[Max width]
+רוחב מקסימלי
+[Use old render method (Fast, but has artefacts)]
+השתמש בשיטת רינדור ישנה מהיר אבל יש תופעות לוואי
+[Hide icon when showing avatar]
+החבא אייקון כאשר מראים אוואטר
+[Draw icon in avatar space]
+צייר אייקון במרווח אוואטר
+[Hide groups icon]
+החבא אייקון קבוצות
+[Always show "Always visibile" icon]
+תמיד הראה אייקון תמיד נראה
+[Use extra status icon instead protocol]
+השתמש באייקון מצב נוסף במקום פרוטוקול
+[Draw normal status as overlay]
+צייר מצב רגיל כפרוש
+[Right-To-Left reading mode (mirror template)]
+מצב קריאה ימין לשמאל טמפלת מראה 
+[Replace smileys in clist]
+החלף סמיילים ב clist
+[Draw smileys on first line]
+צייר סמיילים בשורה הראשונה
+[Resize smileys and 'Listining to' icon]
+הגדל סמיילים ואייקון האזנה ל
+[Align to right]
+סדר לימין
+[Append nick if different from custom name]
+הוסף כינוי אם שונה משם מוגדר אישית
+[Trim long text with ellipsis]
+גזום טקסט ארוך עם שלוש נקודות
+[Top space:]
+מרווח עליון:
+[Draw smileys on second line]
+צייר סמיילים בשורה השניה
+[XStatus has priority]
+XStatus יש עדיפות
+[Use 'XStatus: XMessage']
+השתמש XStatus:XMessage
+[(Variables will be replaced)]
+(משתנים יוחלפו)
+[Show third line]
+הראה שורה שלישית
+[Draw smileys on third line]
+צייר סמיילים בשורה שלישית
+[Locked]
+נעול
+;file \plugins\Clist_modern\src\modern_clc.cpp
+[Contact List smileys]
+סמיילים של רשימת משתמשים
+;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Away contacts]
+תוכן לא נמצא
+[NA contacts]
+תכנים לא זמינים
+[Open groups]
+פתח קבוצות
+[Name (use locale settings)]
+שם השתמש בהגדרות מקומיות
+[Last message time]
+זמן הודעה אחרונה
+[Rate]
+קצב
+[-Nothing-]
+-כלום-
+[Hide to tray]
+החבא במגש מערכת
+[Behind left edge]
+מאחורי קצה שמאלי
+[Behind right edge]
+מאחורי קצה ימני
+;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
+ללא אירועים
+;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[Low]
+נמוך
+[High]
+גבוה
+[Contact rate None]
+זמן חיבור אפסי
+[Contact rate Low]
+קצב חיבור נמוך
+[Contact rate Medium]
+קצב חיבור בינוני
+[Contact rate High]
+קצב חיבור גבוה
+;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Left align group names]
+סדר לשמאל שמות קבוצה
+[Center group names]
+מרכז שמות קבוצה
+[Right align group names]
+סדר לימין שמות קבוצה
+[Row]
+שורה
+[Second Line]
+שורה שניה
+[Third Line]
+שורה שלישית
+;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+;file \plugins\Clist_modern\src\modern_clisttray.cpp
+;file \plugins\Clist_modern\src\modern_clui.cpp
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\modern_keyboard.cpp
+;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+;file \plugins\Clist_modern\src\modern_skineditor.cpp
+;file \plugins\Clist_modern\src\modern_skinengine.cpp
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+[<<Global>>]
+<<גלובלי>>
+[Center]
+מרכז
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Main menu]
+תפריט ראשי
+[Status Menu]
+תפריט מצבים
+[Accounts...]
+...חשבונות
+[Show/Hide offline contacts]
+הראה/החבא משתמשים לא מחוברים
+[Show offline contacts]
+הראה משתמשים מנותקים\n
+[Use/Disable groups]
+השתמש/בטל קבוצות
+[Use groups]
+השתמש בקבוצות
+[Disable Groups]
+בטל קבוצות
+[Enable/Disable sounds]
+אפשר/בטל צלילים
+[Minimize]
+מזער
+;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

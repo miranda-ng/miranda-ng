@@ -6,11 +6,49 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
+[Don't show popups for subcontacts]
+Pas de popups pour les sous-contacts
+[Popup mouse click]
+Action de la souris
+[Play sounds when there are]
+Jouer un son si y en a.
+[hours.]
+heures.
+[Only notify once per day.]
+Une seule fois par jour.
+[Timeout:]
+Délai :
+[Birthday list]
+Liste de anniversaires
+[Manage anniversaries]
+Gestion des fêtes
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
-[Age]
-Age
+[%S protocol]
+%S protocole
 ;file \plugins\WhenWasIt\src\hooked_events.cpp
+[Check for birthdays]
+Vérifier si anniversaire
+[Birthday near]
+Prochains anniversaires
+[Birthdays (When Was It)]
+Anniversaire (quand ?)
+[Refresh user details]
+Rafraîchir les détails
+[Import birthdays]
+Importer des anniversaires
+[Export birthdays]
+Exporter vos anniversaires
+[Add/change user &birthday]
+Ajouter/modifier un anniversaire
 ;file \plugins\WhenWasIt\src\icons.cpp
 ;file \plugins\WhenWasIt\src\notifiers.cpp
+[Birthday - %s]
+Anniversaire - %s
+[%s\n%s will be %d years old.]
+%s\n%s aura %d ans.
 ;file \plugins\WhenWasIt\src\services.cpp
+[Starting to refresh user details]
+Début du rafraîchissement
+[Done refreshing user details]
+Rafraîchissement terminé
 ;file \plugins\WhenWasIt\src\services.h

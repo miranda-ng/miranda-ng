@@ -12,14 +12,16 @@ Contact :
 Ressource :
 [Register new user]
 Créer ce compte
-[Jabber]
-Jabber
+[Search service]
+Recherche
 [Priority:]
 Priorité :
 [List of public servers]
 Liste des serveurs publics
 [Use SSL]
 Connexion SSL
+[Use TLS]
+Connexion TLS
 [Unregister]
 Désenregistrer
 [Manually specify connection host]
@@ -28,6 +30,12 @@ Indiquer l'hôte manuellement
 Adresse utilisateur :
 [Allow file sending through direct peer-to-peer connection]
 Envoi de fichier en connexion directe
+[Specify external address:]
+Définir une adresse externe
+[Hint:]
+Info :
+[Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
+Essayer de tout décocher ci-dessous si vous rencontrez des problèmes avec l'envoi de fichier (surtout dans le cas de gros fichiers).
 [Jabber Account Registration]
 Enregistrement d'un compte Jabber
 [Jabber Agents]
@@ -50,6 +58,8 @@ Connexion
 Déconnexion
 [Register with a new service...]
 Enregistrer avec nouv. service
+[Command]
+Commande
 [Instruction:]
 Instruction :
 [Submit]
@@ -67,17 +77,13 @@ AAAA-MM-DD
 [Jabber vCard: Add Email Address]
 Détails Jabber : Ajout d'un e-mail
 [Email address:]
-E-mail :
-[X400]
-X400
+e-mail :
 [Jabber vCard: Add Phone Number]
 Détails Jabber : Ajout d'un téléphone
 [Phone number:]
 Téléphone :
-[BBS]
-BBS
-[Modem]
-Modem
+[Load]
+Charger
 [Current Password:]
 Passe actuel :
 [New Password:]
@@ -90,6 +96,8 @@ Salon de chat
 Serveur du chat :
 [Room:]
 Salon :
+[Bookmarks]
+Favoris
 [JID List]
 Liste des JID
 [Jabber Agent Registration]
@@ -98,21 +106,79 @@ Enregistrement des Services Jabber
 JID :
 [Register]
 Enregistrer
+[Other JID:]
+Autre ID :
+[Jabber Bookmarks]
+Favoris Jabber
+[Bookmark Details]
+Détails du favori
+[Bookmark Type]
+Type du favori
+[Room JID/ URL:]
+Salon / URL :
+[Bookmark Name:]
+Nom du favori :
+[Privacy rule]
+Règle
+[If:]
+Si :
+[Then:]
+et :
+[New privacy list name:]
+Nom de la nouvelle liste :
+[Enter the name of the new list:]
+Nom de la nouvelle liste :
+[Account type:]
+Type de compte :
+[Register account now]
+Enregistrer le compte
+[Authorize]
+Autoriser
+[Deny]
+Refuser
 ;file \protocols\JabberG\src\jabber.cpp
 ;file \protocols\JabberG\src\jabber.h
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
+[Error %s %s]
+Erreur %s %s
+[Select Command]
+Choississez une commande
+[Done]
+Terminé
+[In progress. Please Wait...]
+En cours... Veuillez patienter...
+[Execute]
+Exécuter
+[Requesting command list. Please wait...]
+Demande de la liste de commande. Veuillez patienter...
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Pas de message
 ;file \protocols\JabberG\src\jabber_bookmarks.cpp
+[Bookmark Name]
+Nom du favori
+[Address (JID or URL)]
+Adresse (JID ou URL)
+[Conferences]
+Conférences
 ;file \protocols\JabberG\src\jabber_byte.cpp
 ;file \protocols\JabberG\src\jabber_caps.cpp
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 ;file \protocols\JabberG\src\jabber_chat.cpp
 [Member]
 Membre
+[Visitor]
+Visiteur
+[Moderator]
+Modérateur
+[Visitors]
+Visiteurs
+[Moderators]
+Modérateurs
 [&User details]
 &Détails contact
+[&Copy to clipboard]
+Copier
 [Reason to kick]
 Raison du kick
 [Reason to ban]
@@ -124,12 +190,28 @@ Changer de pseudo pour
 [Reason to destroy]
 Modif de la destruction
 ;file \protocols\JabberG\src\jabber_console.cpp
+[Jabber Error]
+Erreur Jabber
 ;file \protocols\JabberG\src\jabber_disco.cpp
+[Remove all favorites]
+Effacer tous les favoris
+[Contact Menu...]
+Menu du contact...
+[Add to favorites]
+Ajouter aux favoris
 [Add to roster]
 Ajouter
+[Commands...]
+Commandes...
 ;file \protocols\JabberG\src\jabber_disco.h
+[category]
+catégorie
+[Category]
+Catégorie
 ;file \protocols\JabberG\src\jabber_form2.cpp
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
+[Loading...]
+Chargement...
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [Personal vCard]
 Détails personnels
@@ -142,7 +224,11 @@ Enregistrement réussi
 Mot de passe changé avec succès. Pensez à mettre à jour votre mot de passe dans les options de Jabber.
 [Password cannot be changed.]
 Mot de passe inchangeable.
+[Jabber Bookmarks Error]
+Erreur de favori Jabber
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[%s, %d items (%s)]
+%s, %d éléments (%s)
 [Member List]
 Liste des membres
 [Moderator List]
@@ -150,25 +236,101 @@ Liste des Modérateurs
 [Ban List]
 Liste des Ban
 [Admin List]
-Liste des Admin
+Liste des admins
 [Removing]
-Effacement
+Suppression
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Add to Bookmarks]
+Ajouter aux favoris
+[Commands]
+Commandes
+[&Convert to Contact]
+&Convertir en contact
+[&Convert to Chat Room]
+&Convertir en salon
+[Last active]
+Dernière activité
+[Highest priority (server's choice)]
+Haute priorité (choix du serveur)
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[Both]
+les 2
 ;file \protocols\JabberG\src\jabber_notes.cpp
 ;file \protocols\JabberG\src\jabber_opt.cpp
+[Aragonese]
+Aragonais
+[Assamese]
+Assamais
+[Avaric]
+Avar
+[Avestan]
+Avestique
+[Bashkir]
+Bachkir
+[Belarusian]
+Biélorusse
+[Bislama]
+Bichelamar
+[Catalan; Valencian]
+Catalan; Valence
+[Chechen]
+Tchétchène
+[Church Slavic; Old Slavonic]
+Église slaves; paléoslave
+[Chuvash]
+Tchouvache
+[Cornish]
+Cornique
+[Corsican]
+Corse
+[Divehi; Dhivehi; Maldivian]
+Divehi; Divehi, Maldivien
+[Dutch; Flemish]
+Néerlandais; Flamand
+[Dzongkha]
+Boutani
+[Ewe]
+Éwé
+[Faroese]
+Féroé
+[Fijian]
+Fidjien
+[Western Frisian]
+Frison occidental
+[Fulah]
+Peul
+[Georgian]
+Géorgien
 [These changes will take effect the next time you connect to the Jabber network.]
 Ces changements ne prendront effet qu'à la prochaine connexion au réseau Jabber.
 [Jabber Protocol Option]
 Options du protocole Jabber
+[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
+Cette opération détruira votre compte, rôle, et toutes informations relatives à votre compte stockées sur le serveur. Voulez-vous vraiment détruire entièrement votre compte ?
+[Account removal warning]
+Avertissement d'effacement de comtpe
+[Server options]
+Options du serveur
+[Disable SASL authentication (for old servers)]
+Désactiver l'authentification SASL (pour les anciens serveurs)
+[Enable stream compression (if possible)]
+Activer la compression du Stream (si disponible)
 [Show transport agents on contact list]
 Voir les services de transports dans ma liste de contact
 [Automatically add contact when accept authorization]
 Ajouter auto. un contact après une autorisation acceptée
+[Autoaccept multiuser chat invitations]
+Accepter automatiquement les invitations des utilisateurs d'une conférence
+[Automatically join conferences on login]
+Rejoindre automatiquement une conférence à la connexion
 [JID]
-JID
+JID 
+[Nick Name]
+Pseudo
+[Uploading...]
+Mise à jour...
 ;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for]
 Changer le mot de passe de
@@ -177,10 +339,46 @@ Nouveau passe non fonctionnel
 [Current password is incorrect.]
 Le passe actuel est incorrect.
 ;file \protocols\JabberG\src\jabber_privacy.cpp
+[Activate]
+Activer
+[Edit rule]
+Éditer la règle
+[Add rule]
+Ajouter une règle
+[Delete rule]
+Effacer la règle
+[Remove list]
+Effacer
+[Else ]
+Sinon 
+[then ]
+puis 
 ;file \protocols\JabberG\src\jabber_proto.cpp
 ;file \protocols\JabberG\src\jabber_rc.cpp
+[Quit Miranda NG]
+Quitter Miranda-IM
+[Change Status]
+Changerl'état
+[%d message(s) to be forwarded]
+%d message(s) à envoyer
+[%d message(s) forwarded]
+%d message(s) ont été envoyé
 ;file \protocols\JabberG\src\jabber_search.cpp
+[Error %s %s\r\nPlease select other server]
+Erreur %s %s\r\nVeuiller choisir un autre serveur
+[Error Unknown reply recieved\r\nPlease select other server]
+Erreur : réponse inconnue\r\nVeuillez sélectionner un autre serveur
+[Error %s %s\r\nTry to specify more detailed]
+Erreur %s %s\r\nVeuillez indiquer plus de renseignement
+[Search error]
+Erreur dans la recherche
+[Please wait...\r\nConnecting search server...]
+Veuillez patienter...\r\nConnexion en cours au serveur des recherches...
+[You have to be connected to server]
+Vosu êtes connecté au serveur
 ;file \protocols\JabberG\src\jabber_svc.cpp
+[closed chat session]
+session chat fermée
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Error: Not enough memory]
 Erreur : Mémoire insuffisante
@@ -191,17 +389,45 @@ Erreur : Connexion perdue
 [Sending registration information...]
 Envoi des infos d'enregistrement...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
-[format]
-format
 [Unknown format]
 Format inconnu
 [<Photo not available while offline>]
 <Photo non disponible si déconnecté>
 [<No photo>]
 <pas de photo>
-[Photo]
-Photo
 ;file \protocols\JabberG\src\jabber_util.cpp
+[Redirect]
+Redirection
+[Bad request]
+Mauvaise requête
+[Unauthorized]
+Non autorisé
+[Payment required]
+Paiement requis
+[Forbidden]
+Interdit
+[Not found]
+Non trouvé
+[Not allowed]
+Non disponible
+[Not acceptable]
+Non acceptable
+[Registration required]
+Enregistrement requis
+[Request timeout]
+Délai de requête dépassé
+[Conflict]
+Conflit
+[Internal server error]
+Erreur du serveur interne
+[Not implemented]
+Non implementé
+[Remote server error]
+Erreur du serveur distant
+[Service unavailable]
+Service indisponible
+[Remote server timeout]
+Délai du serveur distant dépassé
 [Unknown error message]
 Erreur de message inconnu
 ;file \protocols\JabberG\src\jabber_vcard.cpp
@@ -215,4 +441,48 @@ Détails Jabber : Éditer l'e-mail
 Détails Jabber : Éditer téléphone
 ;file \protocols\JabberG\src\jabber_ws.cpp
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
+[Calm]
+Calme
+[Distracted]
+Distret
+[Excited]
+Éxcité
+[Frustrated]
+Frusté
+[Happy]
+Heureux
+[Hot]
+Chaud
+[Humiliated]
+Humilié
+[Interested]
+Intéressé
+[Intoxicated]
+Intoxcité
+[Lonely]
+Seul
+[Nervous]
+Nerveux
+[Neutral]
+Neutre
+[Offended]
+Offensé
+[Proud]
+Fier
+[Sarcastic]
+Sarcastique
+[Serious]
+Sérieux
+[Shocked]
+Choqué
+[Shy]
+Timide
+[Stressed]
+Stressé
+[Surprised]
+Surpris
+[Undefined]
+Non défini
+[Worried]
+Inquiet
 ;file \protocols\JabberG\src\ui_utils.cpp

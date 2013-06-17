@@ -1,0 +1,12 @@
+﻿;============================================================
+;  File: smcn.dll, smcnotify.dll (???)
+;  Module: StatusMessageChangeNotify
+;  Versions: 0.0.1.6-0.0.3.19
+;  URL: http://www.torun.mm.pl/~slotwin/smcn/smcnotifytest.zip
+;============================================================
+[<empty status message>]
+<הודעת מצב ריקה>
+[Message cleared]
+הודעה נמחקה
+[%o Old Status Message]
+%o הודעת מצב ישנה

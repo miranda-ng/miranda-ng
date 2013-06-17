@@ -6,8 +6,24 @@
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\NewsAggregator\Res\Resource.rc
+[Authentication]
+Authentification
+[Use &authentication]
+Utiliser authentification
+[Visualization]
+Visualisation
+[Display news using the following format:]
+Afficher les nouveaux au format suivant :
+[All item's tags are valid. Put them between #. Example: #<author>#]
+Tous les tags sont valides. Mettez les entre #. Exemple : #<author>#
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
+[Wait...]
+Patientez...
 ;file \plugins\NewsAggregator\Src\Services.cpp
 ;file \plugins\NewsAggregator\Src\Utils.cpp
+[Feed]
+Flux
+[%s\nis a valid feed's address.]
+%s\nest une adresse de flux valide.

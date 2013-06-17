@@ -1,0 +1,976 @@
+﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\JabberG\res\jabber.rc
+[User:]
+Kullanıcı:
+[Resource:]
+Kaynak:
+[Register new user]
+Yeni kişi kaydet
+[Use custom connection host and port:]
+Özel bağlantı sunucusu ve portu kullan:
+[Go]
+Git
+[Search service]
+Arama hizmeti
+[Roster Editor]
+Liste Düzenleyici
+[Jabber]
+Jabber
+[Priority:]
+Öncelik:
+[Use hostname as resource]
+Sunucu adını kaynak olarak kullan
+[List of public servers]
+Açık sunucuların listesi
+[Use SSL]
+SSL Kullan
+[Use TLS]
+TLS Kullan
+[Unregister]
+Kayıdı sil
+[Manually specify connection host]
+Bağlantı sunucusunu el ile belirt
+[User directory:]
+Kullanıcı klasörü:
+[Language for human-readable resources:]
+İnsalanrın okuyacağı kaynaklar için dil:
+[Allow file sending through direct peer-to-peer connection]
+Doğrudan uçtan uca bağlantı ile dosya aktarımına izin ver
+[Specify external address:]
+Dış adresi belirt:
+[Allow file sending through bytestream proxy server:]
+Bytestream vekil sunucu üzerinden dosya aktarımına izin ver:
+[Hint:]
+İpucu:
+[Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
+Dosya göndermekte sorun yaşıyorsanız yukarıdaki tüm işaretleri kaldırmayı deneyin. ancak büyük dosyaları göndermekte sorun olabilir.
+[Jabber Account Registration]
+Jabber Hesap Kaydı
+[Jabber Agents]
+Jabber Ajanları
+[Register/Search Jabber Agents]
+Jabber Ajanlarını Kaydet/Ara
+[Jabber server:]
+Jabber Sunucsu:
+[Register...]
+Kayıt ol...
+[Browse/Join chat room...]
+Sohbet odasına Gözat/Katıl...
+[Search...]
+Ara...
+[Registered Jabber Transports]
+Kayıtlı Jabber Aktarımları
+[Log on]
+Giriş
+[Log off]
+Çıkış
+[Register with a new service...]
+Yeni bir hizmetle kayıt ol...
+[Command]
+Komut
+[Jabber Form]
+Jabber Form
+[Instruction:]
+Açıklama:
+[Submit]
+Gönder
+[Data form test]
+Sınama verisi
+[Address1:]
+Adres1:
+[Address2:]
+Adres2:
+[ZIP:]
+Posta kodu:
+[Middle:]
+Orta:
+[YYYY-MM-DD]
+YYYY-AA-GG
+[Jabber vCard: Add Email Address]
+Jabber sKart: E-posta adresi ekle
+[Email address:]
+E-posta adresi:
+[X400]
+X400
+[Jabber vCard: Add Phone Number]
+Jabber sKart: Telefon numarası ekle
+[Phone number:]
+Telefon numarası
+[Pager]
+Çağrı cihazı
+[Text/Messaging]
+Yazı/İletişim
+[BBS]
+BBS
+[Modem]
+Modem
+[ISDN]
+ISDN
+[PCS]
+PCS
+[Load]
+Yükle
+[Current Password:]
+Şimdiki Parola:
+[New Password:]
+Yeni Parola:
+[Confirm New Password:]
+Yeni Parolayı Onayla:
+[Jabber Multi-User Conference]
+Jabber Çok Kişili Konferans
+[Conference server:]
+Konferans sunucusu:
+[Create or Join Groupchat]
+Grup Sohbetine Katıl/Oluştur
+[Room:]
+Oda:
+[Recently visited chatrooms:]
+Son girilen sohbet odaları:
+[Bookmarks]
+Yer imleri
+[JID List]
+JID Listesi
+[Apply Filter]
+Süzgeç Uygula
+[Reset Filter]
+Süzgeci Sıfırla
+[Jabber Agent Registration]
+Jabber Ajan Kaydı
+[JID:]
+JID:
+[Register]
+Kayıt Ol
+[Other JID:]
+Başka JID:
+[Jabber Bookmarks]
+Jabber Yer İmleri
+[Bookmark Details]
+Yer İmi Detayları
+[Bookmark Type]
+Yer İmi Tipi
+[Transport]
+Aktarım
+[Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
+Kendin-katıl (Miranda seçeneklerinden Kendiliğinden Katıl Yer İmleri açık olmalı)
+[Room JID/ URL:]
+Oda JID/ URL:
+[Bookmark Name:]
+Yer İmi Adı:
+[Privacy Lists]
+Gizlilik Listeleri
+[Lists:]
+Listeler:
+[Rules:]
+Kurallar:
+[Simple Mode]
+Basit Kip
+[Advanced Mode]
+Gelişmiş Kip
+[Add list... (Ins)]
+Listeye ekle... (Ins)
+[Activate (Space)]
+Etkinleştir (Boşluk)
+[Set as default (Ctrl+Space)]
+Varsayılan olarak ata (Ctrl+Ara)
+[Remove list (Del)]
+Listeyi sil (Del)
+[Add rule (Ins)]
+Kural ekle (Ins)
+[Edit rule... (F2)]
+Kuralı düzenle... (F2)
+[Move rule up (Alt+Up)]
+Kuralı yukarı taşı (Alt+Up)
+[Move rule down (Alt+Down)]
+Kuralı aşağı taşı (Alt+Down)
+[Remove rule (Del)]
+Kuralı sil (Del)
+[Privacy rule]
+Öncelik kuralı
+[If:]
+Eğer:
+[Then:]
+Sonra:
+[following stanza types:]
+izleyen kıta tipleri:
+[Incoming presence]
+Gelen varlık
+[Outgoing presence]
+Giden varlık
+[New privacy list name:]
+Yeni kişi listesi adı:
+[Enter the name of the new list:]
+Yeni listenin adını yazın:
+[Service Discovery]
+Hizmet Arama
+[View as tree]
+Ağaç olarak göster
+[View as list]
+Liste olarak göster
+[Node:]
+Düğüm:
+[Account type:]
+Hesap tipi:
+[Register account now]
+Şimdi hesap oluştur
+[Jabber Account Information:]
+Jabber Hesap Bilgisi:
+[Member Information]
+Üye Bilgisi
+[Role:]
+Rol:
+[Set role]
+Rolü ata
+[Affiliation:]
+İlgiler:
+[Set affiliation]
+İlgileri ayarla
+[Chat options]
+Sohbet seçenekleri
+[Custom messages]
+Özel iletiler
+[Quit:]
+Çık:
+[Slap:]
+Tokat:
+[Someone (maybe you) has requested the following file:]
+Biri (belki siz) şu dosyayı istedi:
+[Request was sent from JID:]
+JID'den gönderilen istek:
+[The transaction identifier is:]
+Hareket kimliği:
+[Request method is:]
+İsteme yöntemi:
+[If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
+Bu isteği onaylamak isterseniz Onayla istemiyorsanız Red tuşuna tıklayın
+[Authorize]
+İzin ver
+[Deny]
+Red
+[XML Console]
+XML Konsolu
+[Reset log]
+Günlüğü sıfırla
+;file \protocols\JabberG\src\jabber.cpp
+;file \protocols\JabberG\src\jabber.h
+[/me slaps %s around a bit with a large trout]
+/me %s büyük bir alabalık ile tokatladı
+;file \protocols\JabberG\src\jabber_adhoc.cpp
+[Error %s %s]
+Hata %s %s
+[Select Command]
+Komut Seçin
+[Done]
+Tamam
+[In progress. Please Wait...]
+İşleniyor. Lütfen bekleyin...
+[Execute]
+Yürüt
+[Requesting command list. Please wait...]
+Komut listesi isteniyor. Lütfen bekleyin...
+[Jabber Ad-Hoc commands at]
+Şuradaki Jabber Ad-Hoc komutları
+[Sending Ad-Hoc command to]
+Ad-Hoc komutları şuraya gönderiliyor
+;file \protocols\JabberG\src\jabber_agent.cpp
+[No message]
+İleti yok
+;file \protocols\JabberG\src\jabber_bookmarks.cpp
+[Bookmark Name]
+Yer İmi Adı
+[Address (JID or URL)]
+Adres (JID veya web adresi)
+[Conferences]
+Konferanslar
+;file \protocols\JabberG\src\jabber_byte.cpp
+;file \protocols\JabberG\src\jabber_caps.cpp
+;file \protocols\JabberG\src\jabber_captcha.cpp
+;file \protocols\JabberG\src\jabber_chat.cpp
+[Member]
+Üye
+[Visitor]
+Ziyaretçi
+[Participant]
+Katılımcı
+[Moderator]
+Moderatör
+[User %s in now banned.]
+%s kişisi yasaklandı
+[User %s changed status to %s with message: %s]
+%s kişisi durumu %s yaptı. İleti: %s
+[User %s changed status to %s]
+%s kişisi durumu %s yaptı
+[Room configuration was changed.]
+Oda yapılandırması değiştirildi.
+[Outcast]
+Atılan
+[Affiliation of %s was changed to '%s'.]
+%s bağlılığı '%s' olarak değiştirildi.
+[Role of %s was changed to '%s'.]
+%s rolü '%s' olarak değiştirildi.
+[because room is now members-only]
+oda şu anda yalnız üyeler için olduğundan
+[user banned]
+kullanıcı yasaklandı
+[Change &nickname]
+&Kısa adı değiştir
+[&Invite a user]
+B&ir kişi çağır
+[&Roles]
+&Roller
+[&Participant list]
+&Katılımcı listesi
+[&Moderator list]
+&Moderatör listesi
+[&Affiliations]
+&İlgiler
+[&Member list]
+Üye &listesi
+[&Admin list]
+&Yönetici listesi
+[&Owner list]
+&Sahip listesi
+[Outcast list (&ban)]
+Atılan listesi (&yasak)
+[&Room options]
+&Oda seçenekleri
+[View/change &topic]
+Başlığı gös&ter/değiştir
+[Add to &bookmarks]
+Yer i&mlerine ekle
+[&Configure...]
+&Yapılandır...
+[&Destroy room]
+O&dayı yık
+[Lin&ks]
+Bağlantı&lar
+[Copy room &JID]
+Oda &JID kopyala
+[Copy room topic]
+Oda başlığını kopyala
+[&User details]
+K&llanıcı detayları
+[Member &info]
+Üye b&ilgisi
+[&Add to roster]
+Listeye &ekle
+[&Copy to clipboard]
+Panoya &kopyala
+[Set &role]
+&Rolü ayarla
+[&Visitor]
+&Ziyaretçi
+[&Participant]
+&Katılımcı
+[&Moderator]
+&Moderatör
+[Set &affiliation]
+Bağlılığı &ayarla
+[&None]
+&Hiç
+[&Member]
+Üy&e
+[&Admin]
+&Yönetici
+[&Owner]
+&Sahip
+[Outcast (&ban)]
+Atılan (&yasak)
+[Copy &nickname]
+Kısa adı &kopyala
+[Copy real &JID]
+Gerçek &JID kopyala
+[Real &JID: %s]
+Gerçek &JID: %s
+[Member Info:]
+Üye Bilgisi:
+[Real JID not available]
+Gerçek JID yok
+[Reason to kick]
+Tekmeleme nedeni
+[Reason to ban]
+Yasaklama nedeni
+[Set topic for]
+Şunun için başlık
+[Change nickname in]
+Kısa adı değiştir
+[Reason to destroy]
+Yıkma nedeni
+;file \protocols\JabberG\src\jabber_console.cpp
+[Can't send data while you are offline.]
+Çevrim dışı iken veri gönderemezsiniz.
+[Jabber Error]
+Jabber Hatası
+;file \protocols\JabberG\src\jabber_disco.cpp
+[Node hierarchy]
+Düğüm hiyerarşisi
+[Node]
+Düğüm
+[Navigate]
+Dolan
+[Browse all favorites]
+Tüm sık kullanılanlara gözat
+[Remove all favorites]
+Tüm sık kullanılanları sil
+[Registered transports]
+Kaydedilmiş aktarımlar
+[Browse local transports]
+Yerel aktarımlara gözat
+[Browse chatrooms]
+Sohbet odalarına gözat
+[Add to roster]
+İsim listesine ekle
+;file \protocols\JabberG\src\jabber_disco.h
+[Identities]
+Kimlikler
+[category]
+kategori
+[Category]
+Kategori
+[Supported features]
+Desteklenen özellikler
+[Info request error]
+Bilgi isteiği hatası
+[Items request error]
+Öge isteği hatası
+;file \protocols\JabberG\src\jabber_form2.cpp
+;file \protocols\JabberG\src\jabber_groupchat.cpp
+[Failed to retrieve room list from server.]
+Sunucudan oda listesi alınamadı.
+[No rooms available on server.]
+Sunucuda hiç oda yok.
+[Room list request timed out.]
+Oda listesi isteği zaman aşımına uğradı.
+[<no nick>]
+<kısa ad yok>
+[Loading...]
+Yükleniyor...
+[Please wait for room list to download.]
+Oda listesi indirilirken bekleyin.
+[Please specify groupchat directory first.]
+Önce grup sohbeti klasörünü belirtin.
+[Bookmarks...]
+Yer İmleri...
+;file \protocols\JabberG\src\jabber_icolib.cpp
+[Agents list]
+Ajan listesi
+[Transports]
+Aktarımlar
+[Personal vCard]
+Kişisel sKart
+[Convert to room]
+Odaya dönüştür
+[Login/logout]
+Giriş/Çıkış
+[Resolve nicks]
+Kısa adları getir
+[AdHoc Command]
+AdHoc Komutu
+[OpenID Request]
+OpenID İsteği
+[Discovery succeeded]
+Keşfedildi
+[Discovery failed]
+Keşfedilemedi
+[Discovery in progress]
+Keşfediliyor
+[Apply filter]
+Süzgeci uygula
+[Reset filter]
+Süzgeci sıfırla
+[Navigate home]
+Eve git
+[Refresh node]
+Düğümü yenile
+[Browse node]
+Düğüme gözat
+[RSS service]
+RSS hizmeti
+[Storage service]
+Saklama hizmeti
+[Weather service]
+Hava durumu hizmeti
+[Generic privacy list]
+Geneş kişisel liste
+[Active privacy list]
+Etkin kişisel liste
+[Default privacy list]
+Varsayılan kişi listesi
+[Allow Messages]
+İletilere İzin Ver
+[Allow Presences (in)]
+Varlıklara İzin Ver (gelen)
+[Allow Presences (out)]
+Varlıklara İzin Ver (giden)
+[Allow Queries]
+Sorgulara İzin Ver
+[Deny Messages]
+İletileri Reddet
+[Deny Presences (in)]
+Varlıkları Reddet (gelen)
+[Deny Presences (out)]
+Varlıkları Reddet (giden)
+[Deny Queries]
+Sorguları Reddet
+[Dialogs]
+Diyaloglar
+;file \protocols\JabberG\src\jabber_iqid.cpp
+[Jabber Authentication]
+Jabber Yetkilendirme
+[Registration successful]
+Kayıt başarılı
+[Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
+Parola değiştirildi. Jabber Protokol seçeneklerinden parolanızı güncellemeyi unutmayın.
+[Password cannot be changed.]
+Parolalar değiştirilemez.
+[Jabber Bookmarks Error]
+Jabber Yer İmleri Hatası
+;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[Voice List]
+Ses Listesi
+[Member List]
+Üye Listesi
+[Moderator List]
+Moderatör Listesi
+[Ban List]
+Yasak Listesi
+[Admin List]
+Yönetici Listesi
+[Owner List]
+Sahip Listesi
+[Removing]
+Siliniyor
+;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+[Http authentication request received]
+Http yetkilendirme isteği alındı
+;file \protocols\JabberG\src\jabber_menu.cpp
+[Add to Bookmarks]
+Yer İmlerine Ekle
+[Commands]
+Komutlar
+[Jabber Resource]
+Jabber Kaynağı
+[Last Active]
+Son Etkin
+[Server's Choice]
+Sunucunun Tercihi
+[&Convert to Contact]
+Kişiye &Dönüştür
+[&Convert to Chat Room]
+Sohbet Odasına &Dönüştür
+[Registered Transports]
+Kayıtlı Aktarımlar
+[Local Server Transports]
+Yerel Sunucu Aktarımları
+[Browse Chatrooms]
+Sohbet Odalarına Gözat
+[Create/Join groupchat]
+Grup Sohbeti Oluştur/Katıl
+[Roster editor]
+İsim listesi düzenleyici
+[Resource priority]
+Kaynak önceliği
+[Resource priority [%d]]
+Kaynak önceliği [%d]
+[Last active]
+Son etkin
+[No activity yet, use server's choice]
+Henüz etkinlik yok, sunucunun tercihini kullanın
+[Highest priority (server's choice)]
+En yüksek öncelik (sunucunun tercihi)
+;file \protocols\JabberG\src\jabber_message_handlers.cpp
+;file \protocols\JabberG\src\jabber_misc.cpp
+;file \protocols\JabberG\src\jabber_notes.cpp
+;file \protocols\JabberG\src\jabber_opt.cpp
+[These changes will take effect the next time you connect to the Jabber network.]
+Bu değişiklikler Jabber ağına yeniden bağlandığınızda etkin olacak.
+[Jabber Protocol Option]
+Jabbet Protokol Seçeneği
+[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
+Bu işlem hesabınızı kapatacak ve listeniz gibi sunucuda saklanan tüm bilgileri silecek. Bunu yapmaya hazır mısınız?
+[Account removal warning]
+Hesap silme uyarısı
+[Log chat state changes]
+Sohbet durum değişikliklerini günlükle
+[Log presence subscription state changes]
+Varlık aboneliği durum değişikliklerini günlükle
+[Log presence errors]
+Varlık hatalarını günlükle
+[Enable user moods receiving]
+Kişinin havasını almayı etkinleştir
+[Enable user tunes receiving]
+Kişinin dinlediği müzikleri almayı etkinleştir
+[Server options]
+Sunucu seçenekleri
+[Disable SASL authentication (for old servers)]
+SASL yetkilendirmeyi kapat (eski sunucular için)
+[Enable stream compression (if possible)]
+Akış sıkıştırmayı aç (olasıysa)
+[Enable remote controlling (from another resource of same JID only)]
+Uzaktan denetimi etkinleştir (Yalnız aynı JID ile başka kaynaktan )
+[Show transport agents on contact list]
+Aktarım ajanlarını kişi listesinde göster
+[Automatically add contact when accept authorization]
+İzni onaylarken kişiyi kendiliğinden ekle
+[Automatically accept authorization requests]
+İzin isteklerini kendiliğinden onayla
+[Fix incorrect timestamps in incoming messages]
+gelen iletilerdeki hatalı zaman damgalarını düzelt
+[Show information about operating system in version replies]
+Sürüm yanıtlarında işletim sistemi bilgisini göster
+[Accept only in band incoming filetransfers (don't disclose own IP)]
+Yalnız banttan gelen dosya aktarımlarını onayla (kendi IP adresini gösterme)
+[Accept HTTP Authentication requests (XEP-0070)]
+HTTP izin isteklerini onayla (XEP-0070)
+[Autoaccept multiuser chat invitations]
+Çok kişili sohbet çağrılarını kendin onayla
+[Automatically join bookmarks on login]
+Girişte yer imlerine kendiliğinden katıl
+[Automatically join conferences on login]
+Girişte konferanslara kendiliğinden katıl
+[Hide conference windows at startup]
+Başlangıçta konferans pencerelerini kapat
+[Do not show multiuser chat invitations]
+Çok kişili sohbet çağrılarını gösterme
+[Log events]
+Etkinlikleri günlükle
+[Ban notifications]
+Yasaklama uyarıları
+[Room configuration changes]
+Oda yapılandırması değişiklikleri
+[Affiliation changes]
+Bağlılık değişikliği
+[Role changes]
+Rol değişiklikleri
+[JID]
+JID
+[Subscription]
+Abonelik
+[Uploading...]
+Yükleniyor...
+[Public XMPP Network]
+Kamusal XMPP Ağı
+[Secure XMPP Network]
+Güvenli XMPP Ağı
+[Secure XMPP Network (old style)]
+Güvenli XMPP Ağı (eski tarz)
+[Google Talk!]
+Google Talk!
+[LiveJournal Talk]
+LiveJournal Görüşmesi
+[Some changes will take effect the next time you connect to the Jabber network.]
+Bazı değişiklikler Jabber ağına yeniden bağlandığınızda etkin olacak.
+;file \protocols\JabberG\src\jabber_password.cpp
+[Set New Password for]
+Şunun için yeni parola
+[New password does not match.]
+Yeni parolalar aynı değil.
+[Current password is incorrect.]
+Kullanımdaki parola hatalı.
+;file \protocols\JabberG\src\jabber_privacy.cpp
+[Warning: privacy lists were changed on server.]
+Uyarı: sunucudaki kişisel listeler değişti.
+[Error occurred while applying changes]
+değişiklikler uygulanırken hata oldu
+[Privacy lists successfully saved]
+Kişisel listeler kaydedildi.
+[Privacy list %s set as active]
+%s kişisel listesi etkin yapıldı
+[Active privacy list successfully declined]
+Etkin kişisel liste red edildi
+[Error occurred while setting active list]
+Etkin liste ayarlanırken hata oldu
+[Privacy list %s set as default]
+%s kişisel listesi varsayılan yapıldı
+[Default privacy list successfully declined]
+Varsayılan kişisel liste red edildi
+[Error occurred while setting default list]
+Varsayılan liste ayarlanırken hata oldu
+[Simple mode]
+Basit kip
+[Advanced mode]
+Gelişmiş kip
+[Add JID]
+JID ekle
+[Activate]
+Etkinleştir
+[Set default]
+Varsayılan olarak ata
+[Edit rule]
+Kural değiştir
+[Add rule]
+Kural ekle
+[Delete rule]
+Kural sil
+[Move rule up]
+Kuralı üste taşı
+[Move rule down]
+Kuralı alta taşı
+[Add list...]
+Liste ekle...
+[Remove list]
+Listeyi sil
+[** Default **]
+** Varsayılan **
+[** Subsription: both **]
+** Abonelik: ikisi de **
+[** Subsription: to **]
+** Abonelik: şuna **
+[** Subsription: from **]
+** Abonelik: şundan **
+[** Subsription: none **]
+** Abonelik: yok **
+[allow ]
+izin 
+[deny ]
+red 
+[all.]
+tüm.
+[messages]
+iletiler
+[ and ]
+ ve 
+[incoming presences]
+gelen varlıklar
+[outgoing presences]
+giden varlıklar
+[queries]
+sorgular
+[Else ]
+Değilse
+[If jabber id is ']
+Eğer Jabber kimliği '
+[ (nickname: ]
+ (kısa ad:
+[If group is ']
+Eğer grup '
+[If subscription is ']
+Eğer abonelik '
+[then ]
+sonra 
+[ (act., def.)]
+ (etkin, vars.)
+[ (active)]
+ (etkin)
+[ (default)]
+ (varsayılan)
+[Ready.]
+Hazır.
+[Privacy lists are not saved, discard any changes and exit?]
+Kişisel listeler kayıt edilmedi, değişiklikleri kaydetmeden çıkılsın mı?
+[Unable to save list because you are currently offline.]
+Şu anda çevrim dışı olduğunuzdan liste kaydedilemedi.
+[List Editor...]
+Lüste Düzenleyici...
+;file \protocols\JabberG\src\jabber_proto.cpp
+;file \protocols\JabberG\src\jabber_rc.cpp
+;file \protocols\JabberG\src\jabber_search.cpp
+[Error %s %s\r\nPlease select other server]
+Hata %s %s\r\nBaşka bir sunucu seçin
+[Error Unknown reply recieved\r\nPlease select other server]
+Hata bilinmeyen yanıt alındı\r\nBaşka bir sunucu seçin
+[Error %s %s\r\nTry to specify more detailed]
+Hata %s %s\r\nDaha detaylı belirtmeyi deneyin
+[Search error]
+Arama hatası
+[Select/type search service URL above and press <Go>]
+Yukarıdan arama hizmeti adresini yazın/seçin ve <Git>e tıklayın
+[Please wait...\r\nConnecting search server...]
+Lütfen bekleyin...\r\nArama sunucusuna bağlanılıyor...
+[You have to be connected to server]
+Sunucuya bağlı olmalısınız
+;file \protocols\JabberG\src\jabber_svc.cpp
+[closed chat session]
+kapalı sohbet oturumu
+[sent subscription request]
+abonelik isteği gönderildi
+[approved subscription request]
+onaylanmış abonelik isteği
+[declined subscription]
+red edilen abonelik
+[sent error presence]
+hata varlığı gönderildi
+[sent unknown presence type]
+bilinmeyen varlık tipi
+;file \protocols\JabberG\src\jabber_thread.cpp
+[Error: Not enough memory]
+Hata: Yetersiz bellek
+[Error: Cannot connect to the server]
+Hata: Sunucuya bağlanılamadı
+[Error: Connection lost]
+Hata: Bağlantı kesildi
+[Requesting registration instruction...]
+Kayıt bilgisi isteniyor...
+[Message redirected from: %s\r\n%s]
+Şuradan ileti yeniden yönlendirildi: %s\r\n%s
+[Sending registration information...]
+Kayıt bilgisi gönderiliyor...
+;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Software]
+Yazılım
+[Idle since]
+Şu kadardır boşta
+[Client capabilities]
+İstemci yetenekleri
+[Last logoff time]
+Son çıkış zamanı
+[Uptime]
+Çalışma süresi
+[Logoff message]
+Çıkış iletisi
+[<no information available>]
+<bilgi yok>
+[Last active resource]
+Son etkin kaynak
+[Please switch online to see more details.]
+daha fazla bilgi için çevrim içi olun.
+[Copy only this value]
+Yalnız bu değeri kopyala
+[format]
+biçim
+[Unknown format]
+Bilinmeyen biçim
+[<Photo not available while offline>]
+<Çevrim dışı iken resim görünmez>
+[<No photo>]
+<Resim yok>
+[Photo]
+Fotoğraf
+;file \protocols\JabberG\src\jabber_util.cpp
+[Unknown error message]
+Bilinmeyen hata iletisi
+[Advanced Status]
+Gelişmiş Durum
+;file \protocols\JabberG\src\jabber_vcard.cpp
+[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
+Yalnızca 40 KB'tan küçük JPG, GIF, ve BMP resim dosyaları desteklenir.
+[Jabber vCard]
+Jabber sKart
+[Jabber vCard: Edit Email Address]
+Jabber sKart: E-posta Adresini Değiştir
+[Jabber vCard: Edit Phone Number]
+Jabber sKart: Telefon Numarasını Değiştir
+;file \protocols\JabberG\src\jabber_ws.cpp
+;file \protocols\JabberG\src\jabber_xstatus.cpp
+[Afraid]
+Korkmuş
+[Amazed]
+Şaşırmış
+[Annoyed]
+Usanmış
+[Anxious]
+Endişeli
+[Aroused]
+Tahrik Olmuş
+[Ashamed]
+Utanmış
+[Bored]
+Sıkılmış
+[Brave]
+Cesur
+[Calm]
+Sakin
+[Calm]
+Calm
+[Cold]
+Soğuk
+[Confused]
+Dağılmış
+[Contented]
+Çekişmiş
+[Cranky]
+Thaf
+[Curious]
+Meraklı
+[Disgusted]
+Bezgin
+[Distracted]
+Aklı başka yerde
+[Embarrassed]
+Zor durumda
+[Excited]
+Heyecanlanmış
+[Flirtatious]
+Flörtöz
+[Frustrated]
+Didinmiş
+[Grumpy]
+Hırçın
+[Guilty]
+Suçlu
+[Happy]
+Mutle
+[Hot]
+Sıcak
+[Humbled]
+Alçak gönüllü
+[Humiliated]
+Küçük düşmüş
+[Hungry]
+Aç
+[Hurt]
+Acılı
+[Impressed]
+Etkilenmiş
+[In awe]
+Dehşet içinde
+[In love]
+Aşık
+[Indignant]
+Öfkeli
+[Interested]
+İlgili
+[Intoxicated]
+Sarhoş
+[Invincible]
+Yenilmez
+[Jealous]
+Kıskanç
+[Lonely]
+Yalnız
+[Mean]
+Zalim
+[Moody]
+Havada
+[Nervous]
+Sinirli
+[Neutral]
+Nötr
+[Offended]
+Gücenmiş
+[Playful]
+Oyuncu
+[Proud]
+Gururl
+[Relieved]
+Rahatlamış
+[Remorseful]
+Pişman
+[Restless]
+Huzursuz
+[Sad]
+Üzgün
+[Sarcastic]
+Alaycı
+[Serious]
+Ciddi
+[Shocked]
+Şokta
+[Shy]
+Utangaç
+[Sleepy]
+Uykulu
+[Stressed]
+Stresli
+[Surprised]
+Şaşırmış
+[Thirsty]
+Susamış
+[Worried]
+Endişeli
+;file \protocols\JabberG\src\ui_utils.cpp

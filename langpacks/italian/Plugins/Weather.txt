@@ -1,0 +1,212 @@
+﻿#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.1
+;  Authors: Miranda NG Team
+;============================================================
+;file \plugins\Weather\res\resource.rc
+[Brief Info]
+Info rapide
+[Webpage]
+Pagina web
+[Update weather information every]
+Aggiorna informazioni meteo ogni
+[Consider weather info updated only when condition and temperature are changed]
+Considera le info meteo aggiornate solo se condizioni e temperatura sono cambiate
+[Remove old data when updating]
+Rimuovi dati vecchi al momento dell'aggiornamento
+[Temperature]
+Temperatura
+[Degree sign:]
+Segno gradi:
+[Wind]
+Vento
+[knots]
+nodi
+[miles]
+miglia
+[Pressure]
+Pressione
+[inches]
+pollici
+[Edit Weather Station]
+Modifica stazione meteorologica
+[Weather Station]
+Stazione meteorologica
+[City name]
+Nome della città
+[Log Information]
+Informazioni di log
+[Use internal history]
+Utilizza cronologia interna
+[Use external file]
+Utilizza file esterno
+[Overwrite file upon update]
+Sovrascrivi file sopra aggiorn.
+[More Info URL]
+URL ulteriori info
+[Weather Map]
+Mappa meteo
+[Weather Map]
+Mappa meteorologica
+[Other Options]
+Altre opzioni
+[Set as default station]
+Imposta come stazione predefinita
+[Disable automatic update for this station]
+Disattiva aggiornamento automatico per questa stazione
+[Popup only when condition changes]
+Popup solo al cambiare delle condizioni
+[Popup Actions]
+Azioni popup al click
+[Left Click]
+Tasto sx
+[Right Click]
+Tasto dx 
+[Popup Delay]
+Ritardo popup
+[Popup Text]
+Testo popup
+[Brief Info Title]
+Titolo Info rapide
+[Note Text]
+Testo note
+[Extra Text]
+Testo extra
+[External Log]
+Log esterno
+[More Variables]
+Variabili aggiuntive
+[Sunset]
+Tramonto
+[Feel-like]
+Percepita
+[Today's Low]
+Minima odierna
+[Today's High]
+Massima odierna
+[Sunrise]
+Alba
+[Dewpoint]
+T condens.
+[Humidity]
+Umidità
+[Open brief information]
+Apri informazioni rapide
+[Open complete forecast]
+Apri previsioni complete
+[Open weather map]
+Apri mappa meteorologica
+[View history]
+Visualizza storico
+[Show user detail]
+Visualizza dettagli utente
+[To default]
+Imp. predefinite
+;file \plugins\Weather\src\weather.cpp
+;file \plugins\Weather\src\weather.h
+[Weather Condition for %n as of %u]
+Condizioni meteo per %n alle %u
+[%c, %t\nToday:  High %h, Low %l]
+%c, %t\nOggi:  Massima %h, Minima %l
+;file \plugins\Weather\src\weather_addstn.cpp
+[Current weather information for %s.]
+Condizioni meteo attuali a %s.
+[Current weather information for %s.]
+Condizioni meteo attuali a %s.
+[%s is now the default weather station]
+%s è ora la stazione meteo predefinita
+[Weather Protocol]
+Protocollo meteorologico
+[Please try again after weather update is completed.]
+Riprova dopo che l'aggiornamento del meteo è stato completato.
+[<Enter station name here>]
+<Inserisci qui il nome della stazione>
+[<Enter station ID here>]
+<Inserisci qui l'ID della stazione>
+;file \plugins\Weather\src\weather_contacts.cpp
+[Weather condition was not logged.]
+Le condizioni meteorologiche non sono state registrate.
+[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+L'URL per la mappa meteorologica non è stata impostata.  Lo puoi fare nella finestra Modifica impostazioni.
+[Get city name from ID]
+Ottieni il nome della città dall'ID
+[Weather INI information]
+Informazioni su INI meteorologici
+[View webpage]
+Visualizza pagina web
+;file \plugins\Weather\src\weather_conv.cpp
+[<unknown time>]
+<ora sconosciuta>
+[<Error>]
+<Errore>
+;file \plugins\Weather\src\weather_data.cpp
+[<Enter city name here>]
+<Inserisci qui il nome della città>
+[Error when obtaining data: %s]
+Errore nell'ottenere i dati: %s
+;file \plugins\Weather\src\weather_http.cpp
+[Weather HTTP connections]
+Connessioni HTTP per il meteo
+;file \plugins\Weather\src\weather_icons.cpp
+;file \plugins\Weather\src\weather_info.cpp
+[Internal Name:]
+Nome interno:
+[INI Version:]
+Versione INI:
+[File Name:]
+Nome file:
+[Item Count:]
+Numero voci:
+[Memory Used:]
+Memoria utilizzata:
+[Here is a list of custom variables that are currently available]
+Ecco una lista delle variabili personalizzate attualmente disponibili:
+;file \plugins\Weather\src\weather_ini.cpp
+[No update data file is found.  Please check your Plugins\\Weather directory.]
+Nessun file di aggiornamento dati trovato. Controlla la cartella Plugins\\Weather.
+[Invalid ini format for: %s]
+Formato ini non valido per: %s
+[All update data has been reloaded.]
+Tutti i file dati aggiornati sono stati ricaricati.
+;file \plugins\Weather\src\weather_mwin.cpp
+;file \plugins\Weather\src\weather_opt.cpp
+[Weather Protocol Text Preview]
+Anteprima del testo del protocollo meteo
+;file \plugins\Weather\src\weather_popup.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tcondizioni attuali\n%d\tdata attuale\n%e\tT. condensazione\n%f\ttemp. percepita\n%h\tmassima odierna\n%i\tdirezione vento\n%l\tminima odierna\n%m\tumidità\n%n\tnome stazione\n%p\tpressione\n%r\talba\n%s\tID stazione\n%t\ttemperatura\n%u\tora aggiornamento\n%v\tvisibilità\n%w\tvelocità vento\n%y\ttramonto
+[%[..]\tcustom variables]
+%[..]\tvariabili personalizzate
+;file \plugins\Weather\src\weather_svcs.cpp
+[Station ID]
+ID stazione
+[Disable &weather notification]
+Disattiva notifiche &meteorologiche
+[Enable &weather notification]
+Attiva notifiche &meteorologiche
+[Update Weather]
+Aggiorna condizioni
+[Remove Old Data then Update]
+Rimuovi vecchi dati poi aggiorna
+[Brief Information]
+Informazioni rapide
+[Read Complete Forecast]
+Leggi previsioni complete
+[Weather]
+Meteo
+[Update All Weather]
+Aggiorna tutti i rilevamenti
+[Remove Old Data then Update All]
+Rimuovi vecchi dati poi aggiorna tutto
+[Weather Notification]
+Notifica meteo
+;file \plugins\Weather\src\weather_update.cpp
+[Unable to retrieve weather information for %s]
+Impossibile recuperare informazioni meteo per %s
+;file \plugins\Weather\src\weather_userinfo.cpp
+[Current condition for %n]
+Condizione attuali a %n
+[More Info]
+Altre info

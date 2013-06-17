@@ -1,0 +1,55 @@
+﻿#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+;============================================================
+;  File: YAMN.dll
+;  Plugin: Mail Notifier
+;  Version: 0.1.2.6
+;  Authors: y_b, tweety, majvan
+;============================================================
+;file \plugins\YAMN\res\YAMN.rc
+[Installed plugins]
+פלאגים מותקנים
+[Check this account]
+בדוק חשבון זה
+[Startup check]
+בדיקה בפתיחה
+[Check from menu]
+בדוק מהתפריט
+[Sound notification if failed]
+התראה בצליל אם נכשל
+[Message notification if failed]
+התראה בהודעה אם נכשל
+[Tray icon notification if failed]
+התראה בסמל סרגל אם נכשל
+[Reset counter]
+אפס ספירה
+[TopToolBar button "Check mail"]
+כפתור סרגל כלים עליון לבדיקת דואר
+[Single popup]
+פופ אפ יחיד
+[Multi popup]
+פופ אפים רבים
+[No new mail notifications]
+התראת אין דואר חדש
+[Popup if no mail]
+הראה פופ אפ אם אין דואר
+[Persistant message]
+הודעה עקבית
+[Connection failure notifications]
+התראת כשל בחיבור
+[Popup notification if failed]
+התראה בפופ אפ אם נכשל
+;file \plugins\YAMN\src\main.cpp
+;file \plugins\YAMN\src\main.h
+;file \plugins\YAMN\src\services.cpp
+;file \plugins\YAMN\src\browser\badconnect.cpp
+;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[Value]
+ערך
+;file \plugins\YAMN\src\mails\mime.cpp
+[Part]
+חלק
+;file \plugins\YAMN\src\proto\netlib.cpp
+;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
+;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[No account selected]
+אף חשבון לא נבחר

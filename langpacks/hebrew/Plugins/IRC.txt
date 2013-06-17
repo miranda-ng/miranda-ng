@@ -1,0 +1,81 @@
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+;file \protocols\IRCG\res\IRC.rc
+[only while connecting]
+רק אם אני מחובר
+[Rejoin channel if kicked]
+התחבר מחדש אם נבעטתי
+[Rejoin channels on reconnect]
+התחבר מחדש לערוצים בהתחברות
+[Show addresses]
+הראה כתובת
+[Automatically join on invite]
+הצטרף אוטומטית להזמנות
+[Internet address]
+כתובת אינטרנט
+[Port range]
+טווח פורטים
+[User ID (Ident)]
+מזהה משתמש
+[Server name]
+שם שרת
+[Alternative nick]
+כינוי חלופי
+[Default network]
+רשת ברירת מחדל
+[User info - Required]
+אינפ' משתמש - נדרשת
+[Reconnect]
+התחברות מחדש
+[Wait (s)]
+המתן (s)
+[&Refresh]
+&רענן
+[Add server]
+הוסף שרת
+[Channels on server]
+ערוצים בשרת
+[C&onnect]
+התחבר
+[Secret]
+חשאי
+;file \protocols\IRCG\src\clist.cpp
+;file \protocols\IRCG\src\commandmonitor.cpp
+[Change nickname]
+שנה כינוי
+;file \protocols\IRCG\src\input.cpp
+[Input command]
+הכנסת פקודה
+;file \protocols\IRCG\src\irclib.cpp
+;file \protocols\IRCG\src\ircproto.cpp
+;file \protocols\IRCG\src\options.cpp
+[Channel list]
+רשימת הערוצים
+[Quick connect]
+התחברות מהירה
+[Show channel]
+הראה ערוץ
+;file \protocols\IRCG\src\output.cpp
+[%s invites you to %s]
+%s מזמין אותך ל %s
+[%s is away]
+%s לא נמצא
+;file \protocols\IRCG\src\services.cpp
+[Join channel]
+הצטרף לערוץ
+[Please select IRC network and enter the password if needed]
+בחר ערוץ, והקש סיסמא אם צריך.
+[Please enter a unique nickname]
+בבקשה הכנס שם משתמש יחודי\t\t 
+[Kick]
+בעט
+;file \protocols\IRCG\src\tools.cpp
+;file \protocols\IRCG\src\userinfo.cpp
+;file \protocols\IRCG\src\windows.cpp
+[Channel]
+ערוץ

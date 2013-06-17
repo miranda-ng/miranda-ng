@@ -1,0 +1,278 @@
+﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
+;============================================================
+;  File: ICQ.dll
+;  Plugin: ICQ
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\IcqOscarJ\res\resources.rc
+[ICQ number:]
+מספר:
+[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+רמז: אם לא תרשום כאן את סיסמתך, מירנדה תבקש את הסיסמא כל פעם .שתנסה להתחבר
+[Retrieve a lost password or ICQ number]
+השג סיסמא אבודה או מספר איי סי קיו
+[Create a new ICQ account using the ICQ website]
+צור חשבון חדש בעזרת האתר של איי סי קיו
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+רמז: השתמש בפורט 0 כדי להתקשר בפורט אקראי. נסה את פורט 80 או .http את פורט 443 אם יש לך בעיות להתקשר דרך שרת פרוקסי
+[Secure (MD5) login]
+מאובטחת (MD5) התחברות
+[Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
+שלח חבילות 'שמור חי' (הפעל את זה אם אתה משתמש בשרת פרוקסי (ומתנתק בתדירות גבוהה
+[Ignore concurrent error messages]
+התעלם מהודעות שגיאה חוזרות 
+[Show connection error messages:]
+הצג הודעות שגיאה תקשורתיות:
+[ICQ contacts stored on server]
+אנשי קשר של איי סי קיו המאוחסנים בשרת
+[Manage server's list...]
+...נהל רשימת שרת
+[Enable server-side contact lists *]
+* אפשר רשימת אנשי קשר בשרת
+[Add contacts to the server's list when I add them to mine]
+הוסף משתמשים לרשימת השרתים כשאני מוסיף אותם לרשימה שלי
+[Update my contacts' details from the server *]
+עדכן את פריטי המשתמשים ברשימה שלי מהשרת *
+[Update contacts' details on the server's list when I change them in mine]
+עדכן פריטי משתמש ברשימת השרת כאשר אני משנה אותם בשלי
+[ICQ avatars]
+אוואטרים ICQ
+[Enable avatar support]
+אפשר תמיכה באוואטרים
+[Check avatar validity before saving *]
+בדוק תוקף אוואטר לפני שמירה *
+[Load avatars automatically (like ICQ Lite)]
+(טען אוואטרים אוטומטית (כמו באייסיקיו לייט
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+אתה תצטרך להתחבר מחדש לרשת האייסיקיו בשביל שהשינויים שעשית יופעלו.
+[You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
+.אתה לא יכול לאפשר/לבטל את רשימת השרת בזמן שאתה מחובר לרשת האיי סי קיו
+[Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
+הערה: לאפשרויות האלה המסומנות בכוכבית יש השפעות חד צדדיות שלא מתוארות  .בעזרה
+[Enable unicode messaging support]
+אפשר תמיכה בשליחת הודעות יוניקוד
+[Send all messages in unicode if possible]
+שלח את כל ההודעות במצב יוניקוד אם אפשר
+[Use this codepage for Ansi <-> Unicode translation :]
+השתמש בקוד או זה בשביל  Ansi <-> Unicode תרגום :
+[Make me temporarily visible to contacts I send message to]
+עשה אותי נראה זמנית למשתמשים שאני שולח להם הודעה
+[Notify me when a message delivery has failed (recommended)]
+הודע לי כשמשלוח הודעה נכשל - מומלץ
+[Peer-to-peer Messaging]
+הודעות חיבור לחיבור
+[Enable peer-to-peer message connections]
+אפשר הודעות חיבורים מאחד לשני
+[Passive mode, i.e. do not initiate new connections]
+מצב פסיבי, ז"א אל תתחיל חיבורים חדשים בעצמך
+[Extra Features]
+תכונות נוספות
+[Reset Custom status on status change]
+אפס מצבים מותאמים אישית בשינוי מצב
+[Auto-retrieve Custom status details]
+קבל-אוטומטית פרטי מצבים מותאמים אישית
+[Block known Spam Bots]
+חסום ספאם בוטס מוכרים
+[Direct connections]
+קשר ישיר
+[Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
+.אפשור קשר ישיר יחשוף את כתובת האיי פי שלך אבל ייתכן ויהיה צריך אותו בכדי שמספר אפשרוית יעבדו
+[Allow direct connections with any user]
+אפשר קשר ישיר עם כל משתמש
+[Allow direct connections with users on my contact list]
+אפשר קשר ישיר עם אנשי קשר הנמצאים ברשימה שלי
+[Allow direct connections only when I authorize or initiate them]
+הרשה חיבור ישיר רק כשאני מאשר או מתחיל אותם
+[Contact List Authorization]
+אישור רשימת אנשי קשר
+[All users may add me to their Contact List]
+כל המשתמשים רשאים להוסיף אותי לרשימה שלהם
+[I want to be asked when someone wants to add me to their Contact List]
+אני רוצה להישאל כאשר מישהו רוצה להוסיף אותי לרשימה שלו
+[Misc Settings]
+שונות
+[Allow others to view my Online / Offline status from the web (Web Aware)]
+(Web Aware) אפשר לאחרים לראות את מצב המחובר/לא מחובר שלי מהאינטרנט
+[Allow others to view my primary e-mail address]
+אפשר לאחרים לראות את כתובת האימייל הראשית שלי
+[Only reply to status message requests from users on my contact list]
+הגב לבקשת הודעת מצב רק ממשתמשים ברשימה שלי
+[Only reply to status message request from visible contacts]
+הגב רק לבקשת הודעות מצב ממשתמשים נראים
+[Some options are greyed out because they can only be changed when you are online.]
+.חלק מהאפשרויות נחסמו לשינוי כיוון שאתה צריך להיות מחובר על מנת לשנות אותן
+[Enable popup support]
+אפשר תמיכת פופאפ
+[Display popup when spambot is detected]
+הצג פופאפ כשבוט ספאם מתגלה
+[Look && Feel]
+ראה && הרגש
+[Fatal]
+קריטי
+[Spam detected]
+ספאם נתגלה
+[Use system &icons]
+השתמש ב&אייקוני מערכת
+[UIN:]
+מספר:
+[External IP:]
+איי פי חיצוני:
+[Protocol Version:]
+גירסת פרוטוקול:
+[User Client:]
+תוכנת משתמש:
+[System up since:]
+המערכת דלוקה מ:
+[Idle since:]
+לא נמצא מ:
+[Manage ICQ Server Contacts]
+נהל אנשי הקשר בשרת איי סי קיו
+[Select contacts to store:]
+:בחר אנשי קשר לאחסון
+[Synchronize]
+סנכרן
+;file \protocols\IcqOscarJ\src\chan_04close.cpp
+[Unable to connect to ICQ communication server]
+לא ניתן להתחבר לשרת התקשורת של איי סי קיו
+[You could not sign on because the server returned invalid data. Try again.]
+.לא הצלחת להתחבר מכיוון שהשרת החזיר נתונים לא תקפים. נסה שנית
+[Connection failed.\nYour ICQ number or password was rejected (%d).]
+.הקשר נכשל\n.(%d) מספר האיי סי קיו או הסיסמא שלך נדחו 
+[Connection failed.\nServer has too many connections from your IP (%d).]
+.הקשר נכשל\n.(%d) לשרת יש יותר מדי התקשרויות מכתובת האיי פי שלך
+[Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
+.הקשר נכשל\n,התחברת יותר מדי מהר\n.(%d) אנא חכה ונסה להתחבר תוך 10-20 דקות
+[Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
+.הקשר נכשל\n.השרת דחה אותך מסיבה לא ידועה\n.זה קורה כאשר המספר שלך נמצא כבר בשימוש
+[Connection failed.\nUnknown error during sign on: 0x%02x]
+.הקשר נכשל\n.0x%02x :שגיאה לא ידועה במהלך התחברות
+[You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
+נותקת מהרשת מכיוון שמספר זה נמצא בשימוש במקום אחר
+[Unknown runtime error: 0x%02x]
+0x%02x :שגיאת זמן ריצה לא ידועה
+;file \protocols\IcqOscarJ\src\fam_01service.cpp
+;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
+;file \protocols\IcqOscarJ\src\fam_04message.cpp
+[ICQ Note]
+איי סי קיו - הערה
+;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
+;file \protocols\IcqOscarJ\src\fam_17signon.cpp
+;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
+;file \protocols\IcqOscarJ\src\icq_avatar.cpp
+;file \protocols\IcqOscarJ\src\icq_constants.h
+;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Business]
+עסקים
+[Past Work Place]
+מקום עבודה קודם
+[Past Organization]
+אירגון בעבר
+[60-above]
++60
+;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
+;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+.העברת הקובץ בוטלה מכיוון שאחד הקבצים שנבחרו נמחקו או הועברו ממקומם
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+.מירנדה לא מצליחה לשמור את הקובץ אותו אתה מנסה לקבל, ייתכן ומדובר בספריה בעלת הרשאת קריאה בלבד
+;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Add to server list]
+הוסף לרשימת שרת
+[Show custom status details]
+הצג פרטי מצבי סטאטוס מוכנים מראש
+;file \protocols\IcqOscarJ\src\icq_opts.cpp
+[Display all problems]
+הצג את כל הבעיות
+[Display problems causing possible loss of data]
+הצג בעיות שבאפשרותן לגרום לאיבוד מידע אפשרי
+[Display explanations for disconnection]
+הצג הסבר על ניתוק
+[Display problems requiring user intervention]
+הצג בעיות הדורשות התערבות משתמש
+[System default codepage]
+קוד דף ברירת מערכת
+;file \protocols\IcqOscarJ\src\icq_popups.cpp
+;file \protocols\IcqOscarJ\src\icq_proto.cpp
+;file \protocols\IcqOscarJ\src\icq_server.cpp
+[Unable to connect to ICQ login server]
+אין אפשרות להתחבר לשרת הכניסה
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
+מירנדה לא מצליחה להתחבר התחברות ישירה (נקודה לנקודה). לא תהיה לך אפשרות להעביר או לקבל קבצים\n\nייתכן וקיר אש חוסם את הגישה, במקרה כזה אנא הגדר מחדש את הגדרות הרשת של מירנדה באמצעות התפריט הראשי
+;file \protocols\IcqOscarJ\src\icq_servlist.cpp
+;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
+[Select contacts you want to store on server.]
+בחר משתמשים שאתה רוצה לאחסן על השרת.
+[Ready...]
+מוכן...
+[Uploading %s...]
+...מעלה את %s
+[Deleting %s...]
+...מוחק את %s
+[All operations complete]
+כל הפעולות הושלמו
+;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[Taking a bath]
+מתקלח
+[Drinking beer]
+שותה בירה
+[Thinking]
+חושב
+[Watching TV]
+צופה בטלוויזיה
+[Shooting]
+יורה
+[Having fun]
+עושה חיים
+[Gaming]
+משחק
+[Studying]
+לומד
+[Shopping]
+קניות
+[Feeling sick]
+מרגיש חולה
+[Surfing]
+גולש
+[Picnic]
+פינית
+[I'm high]
+אני גבוה
+[To be or not to be]
+להיות או לא להיות
+[Watching pro7 on TV]
+צופה פרו7 בטלוויזיה
+[%s Custom Status]
+%s מצבים מוגדרים אישית
+;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
+;file \protocols\IcqOscarJ\src\init.cpp
+;file \protocols\IcqOscarJ\src\log.cpp
+[ICQ Warning]
+איי סי קיו - אזהרה
+[ICQ Error]
+איי סי קיו - שגיאה
+[ICQ Fatal]
+איי סי קיו - כישלון
+[The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
+.השרת לא הגיב לניסיון ההתקשרות תוך זמן הגיוני, ייתכן והוא לא זמין זמנית. נסה שנית מאוחר יותר
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
+.מירנדה לא יכלה להמיר את שם השרת לכתובת המספרית שלו. בדרך כלל זה מתרחש כאשר נעשה איבוד קטסרופי של הקישור לרשת (לדוגמא, המודם נותק), אבל אם אתה עובד מאחורי פרוקסי, ייתכן ותצטרך לסמן את האופציה 'המר שמות בעזרת שרת פרוקסי' שנמצאת בתפריט->אפשריות->רשת
+[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
+.שרת הפרוקסי דחה את שם המשתמש והסיסמא שסיפקת. אנא בדוק אותם בתפריט->אפשריות->רשת
+[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
+.ICQ<-השרת שאליו את מנסה להתחבר לא קיים. בדוק את האיות שלך בתפריט->אפשריות->רשת
+[error]
+שגיאה
+;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+;file \protocols\IcqOscarJ\src\utilities.cpp
+;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+[First name]
+שם פרטי
+[Last name]
+שם משפחה
+;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
+;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
+;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
+;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
+;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
+;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp

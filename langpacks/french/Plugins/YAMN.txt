@@ -6,12 +6,220 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
+[Installed plugins]
+Plugins installés
+[Check this account]
+Vérifier ce compte
+[Check interval [min]:]
+Intervalle de vérification [min] :
+[Use contact notification for this account]
+Afficher un contact dans la liste
+[Replace nick name]
+Remplacer le pseudo
+[Disable Events]
+Désactiver les évènements
+[User Name:]
+Votre nom :
+[Codepage:]
+Codepage :
+[Disable STLS]
+Désactiver STLS
+[Startup check]
+Vérif. au lancement
+[Auto retrieve body]
+Récupérer le message
+[Check from menu]
+Vérifier depuis le menu
+[Sound notification if failed]
+Notification sonore d'erreur
+[Message notification if failed]
+Message de notification d'erreur
+[Tray icon notification if failed]
+Icône systray de notification d'erreur
+[Reset counter]
+Reset du compteur
+[Check while ...]
+Vérification pendant...
+[YAMN General Options]
+Options de YAMN
+[TopToolBar button "Check mail"]
+Afficher un bouton dans la barre d'outils
+[Show YAMN as a Protocol  (Require Restart)]
+Afficher YAMN comme un protocole (redémarrage nécessaire)
+[Enable Close on Delete Button]
+Fermer la fenêtre si clic sur effacer
+[Show long localised date]
+Montrer la date au format long
+[Don't show today's date]
+Ne pas montrer la date d'aujourd'hui
+[Date/Time Representation]
+Apparence de la date/heure
+[Don't show seconds]
+Ne pas afficher les secondes
+[Single popup]
+Popup seule
+[Multi popup]
+Popups multiples
+[No new mail notifications]
+Notification, aucun nouveau message
+[Popup if no mail]
+Popup si aucun message
+[Persistant message]
+Message persistant
+[Connection failure notifications]
+Notifications, erreur de connexion
+[Popup notification if failed]
+Popup de notification d'erreur
 ;file \plugins\YAMN\src\main.cpp
+[Check &mail (All Account)]
+Relever les e-mail (tous les comptes)
+[Check &mail (This Account)]
+Relever les e-mail (de ce compte)
+[Launch application]
+Lancer le programme
+[Check mail]
+Vérif. des messages
+[Connect Fail]
+Échec de la connexion
 ;file \plugins\YAMN\src\main.h
+[YAMN: new mail message]
+YAMN : nouvel e-mail
+[YAMN: connect failed]
+YAMN : échec connexion
 ;file \plugins\YAMN\src\services.cpp
+[No new mail message]
+Pas de nouveaux e-mail
 ;file \plugins\YAMN\src\browser\badconnect.cpp
+[ - connection error]
+ - échec de connexion
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[%s - %d new mail messages, %d total]
+%s - %d nouveaux e-mail, %d au total
+[- new mail message(s)]
+- nouveaux e-mail
+[%s : %d new mail message(s), %d total]
+%s : %d nouveaux e-mail, %d au total
+[%d new mail message(s), %d total]
+%d nouveaux e-mail, %d au total
+[No new mail message, %d spam(s)]
+Pas de nouveaux e-mail, %d spam(s)
+[Invalid]
+Invalide
+[Value]
+Valeur
+[Run application]
+Lancer l'application
+[Delete selected]
+Supprimer la sélection
+[Do you really want to delete %d selected mails?]
+Voulez-vous vraiment supprimer les %d e-mails sélectionnés ?
+[Delete confirmation]
+Confirmer la suppression
 ;file \plugins\YAMN\src\mails\mime.cpp
 ;file \plugins\YAMN\src\proto\netlib.cpp
 ;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
+[Disconnected]
+Déconnecté
+[Found new version of account book, not compatible with this version of YAMN.]
+Nouvelle version du compte de messagerie, incompatible avec cette version de YAMN.
+[YAMN (internal POP3) read error]
+Erreur d'écriture (YAMN POP3 en interne)
+[Error reading account file. Account file corrupted.]
+Erreur de lecture du compte de messagerie, compte corrompu.
+[Memory allocation error while data reading]
+Erreur d'allocation de la mémoire en cours d'écriture de données
+[Reading file error. File already in use?]
+Erreur de lecture. Fichier déjà en usage ?
+[Error while copying data to disk occured. File in use?]
+Erreur lors de la copie sur le disque. Fichier déjà en usage ?
+[POP3 plugin- write file error]
+Erreur d'écriture - plugin POP3
+[Connecting to server]
+Connexion au serveur
+[Entering POP3 account]
+Accès au compte POP3
+[Searching for new mail message]
+Recherche de nouveaux e-mail
+[Reading body %s]
+Lecture du message %s
+[Reading new mail messages (%d%% done)]
+Lecture des nouveaux e-mail  (%d%%)
+[Deleting requested mails]
+Suppression des messages demandés
+[Deleting spam]
+Suppression de spam
+[Memory allocation error.]
+Erreur d'allocation de la mémoire.
+[Account is about to be stopped.]
+Le compte est sur le point d'être arrêté.
+[Cannot connect to POP3 server.]
+Connexion impossible au serveur POP3.
+[Cannot allocate memory for received data.]
+Impossible d'allouer de la mémoire pour les données reçues.
+[Cannot login to POP3 server.]
+Identification au serveur POP3 impossible.
+[Bad user or password.]
+Mauvais identifiant ou passe.
+[Server does not support APOP authorization.]
+Le serveur ne reconnaît pas l'identification APOP.
+[Error while executing POP3 command.]
+Erreur lors de l'exécution de la commande POP3.
+[Cannot connect to server with NetLib.]
+Connexion au serveur impossible avec NetLib.
+[Cannot send data.]
+Envoi de données impossible.
+[Cannot receive data.]
+Réception de données impossible.
+[OpenSSL not loaded.]
+OpenSSL non chargé.
+[Windows socket 2.0 init failed.]
+Erreur d'initialisation de Windows Socket 2.0.
+[DNS lookup error.]
+Erreur de consultation de DNS.
+[Error while creating base socket.]
+Erreur lors de la création de la base socket.
+[Error connecting to server with socket.]
+Erreur de connexion au serveur avec le socket.
+[Error while creating SSL structure.]
+Erreur lors de la création de la structure SSL.
+[Error connecting socket with SSL.]
+Erreur de connexion au socket avec SSL.
+[Server rejected connection with SSL.]
+Le serveur rejette la connexion SSL.
+[Cannot write SSL data.]
+Écriture de données SSL impossible.
+[Cannot read SSL data.]
+Lecture de données SSL impossible.
+[Error %d-%d-%d-%d:]
+Erreur %d-%d-%d-%d :
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[No account selected]
+Aucun compte sélectionné
+[Time left to next check [s]: %d]
+Prochaine vérification : [s]: %d
+[Select executable used for notification]
+Sélectionnez le programme utilisé pour la notification
+[Do you really want to delete this account?]
+Voulez-vous vraiment supprimer ce compte ?
+[Delete account confirmation]
+Confirmation de suppression de compte
+[Please wait while no account is in use.]
+Veuillez attendre, aucun compte n'est en service.
+[This is not a valid number value]
+Ceci n'est pas un nombre correct
+[Input error]
+Erreur d'entrée
+[Please select application to run]
+Veuillez sélectionner l'application à lancer
+[Cannot allocate memory space for new account]
+Impossible d'allouer de la mémoire pour le nouveau compte
+[Memory error]
+Erreur de mémoire
+[Account Test]
+Test du compte
+[Account Test (failed)]
+Test du compte (erreur)
+[You have N new mail messages]
+Vous avez N nouveaux e-mail
+[Connection failed message]
+Message, erreur de connexion

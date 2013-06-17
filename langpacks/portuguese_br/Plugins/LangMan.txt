@@ -1,0 +1,28 @@
+﻿#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
+;============================================================
+;  File: LangMan.dll
+;  Plugin: Language pack manager
+;  Version: 1.0.2.3
+;  Authors: H. Herkenrath
+;============================================================
+[Helps you manage Language Packs of different languages.]
+Auxilia-o a gerir pacotes de diferentes idiomas.
+;file \plugins\LangMan\res\resource.rc
+[Last modified using:]
+Última modificação:
+[Last modified using:]
+Última modificação usando:
+[Locale:]
+Local:
+[Locale:]
+Local:
+[Download more Language Packs]
+Baixar mais Pacotes de idioma
+;file \plugins\LangMan\src\main.cpp
+;file \plugins\LangMan\src\options.cpp
+[All installed plugins are included.]
+Todos os plugins instalados estão incluídos.
+[Current]
+Atual
+[Installed Languages]
+Idiomas Instalados

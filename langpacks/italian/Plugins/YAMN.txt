@@ -1,0 +1,105 @@
+﻿#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+;============================================================
+;  File: YAMN.dll
+;  Plugin: Mail Notifier
+;  Version: 0.1.2.6
+;  Authors: y_b, tweety, majvan
+;============================================================
+;file \plugins\YAMN\res\YAMN.rc
+[Check this account]
+Controlla questo account
+[Check interval [min]:]
+Intervallo controllo [min]:
+[Startup check]
+Controllo all'avvio
+[Check from menu]
+Controlla dal menu
+[Sound notification if failed]
+Notifica con suono se errore
+[Message notification if failed]
+Notifica con messaggio se errore
+[Tray icon notification if failed]
+Notifica nell'icona della tray se errore
+[Reset counter]
+Reimposta contatore
+[Single popup]
+Popup singolo
+[Multi popup]
+Popup multiplo
+[No new mail notifications]
+Notifiche di assenza nuovi messaggi
+[Popup if no mail]
+Popup se non ci sono msg
+[Connection failure notifications]
+Notifiche di fallimento connessione
+[Popup notification if failed]
+Notifica con popup se errore
+;file \plugins\YAMN\src\main.cpp
+;file \plugins\YAMN\src\main.h
+[YAMN: connect failed]
+YAMN: connessione fallita
+;file \plugins\YAMN\src\services.cpp
+;file \plugins\YAMN\src\browser\badconnect.cpp
+[ - connection error]
+ - errore nella connessione
+;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[Run application]
+Esegui programma
+[Delete selected]
+Elimina selezionato
+[Do you really want to delete %d selected mails?]
+Sei sicuro di voler eliminare %d messaggi selezionati?
+[Delete confirmation]
+Conferma eliminazione
+;file \plugins\YAMN\src\mails\mime.cpp
+[Part]
+Part
+;file \plugins\YAMN\src\proto\netlib.cpp
+;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
+[Disconnected]
+Disconnesso
+[Found new version of account book, not compatible with this version of YAMN.]
+Trovata nuova versione del libro dell'account, non compatibile con questa versione di YAMN.
+[YAMN (internal POP3) read error]
+Errore di lettura di YAMN (POP3 interno)
+[Error reading account file. Account file corrupted.]
+Errore in lettura file account. File account corrotto.
+[Memory allocation error while data reading]
+Errore di allocazione memoria durante lettura dati
+[Reading file error. File already in use?]
+Errore in lettura file. Il file è già in uso?
+[Error while copying data to disk occured. File in use?]
+Errore nella copia dei dati sul disco. Il file è già in uso?
+[POP3 plugin- write file error]
+Plugin POP3 - errore in scrittura file
+[Connecting to server]
+Connessione al server
+[Entering POP3 account]
+Accesso all'account POP3
+[Deleting requested mails]
+Eliminazione messaggi richiesti
+[Deleting spam]
+Eliminazione spam
+[Server does not support APOP authorization.]
+Il server non supporta l'autorizzazione APOP.
+;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[No account selected]
+Nessun account selezionato
+[Time left to next check [s]: %d]
+Tempo prima del prossimo controllo: %d
+[Select executable used for notification]
+Seleziona eseguibile utilizzato per la notifica
+[Please wait while no account is in use.]
+Attendi mentre nessun account è in uso.
+[This is not a valid number value]
+Questo non è un valore numerico valido
+[Input error]
+Errore di inserimento
+[Please select application to run]
+Seleziona programma da eseguire
+[Account Test]
+Prova Account
+[Account Test (failed)]
+Prova Account (fallita)
+[Connection failed message]
+Messaggio di fallimento connessione

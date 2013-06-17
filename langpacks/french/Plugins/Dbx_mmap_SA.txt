@@ -8,4 +8,12 @@
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
 ;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
+[Please type in your password for]
+Veuillez taper votre mot de passe pour
+[Password is not correct!]
+Mot de passe incorrect !
+[Passwords do not match!]
+Mot de passe incorrect !
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
+[Set Password]
+Mot de passe du profil

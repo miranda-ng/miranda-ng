@@ -1,0 +1,72 @@
+﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\JabberG\res\jabber.rc
+[Phone number:]
+Telefoninumber:
+[Recently visited chatrooms:]
+Viimati külastatud jututoad:
+[Bookmarks]
+Lemmikud
+[Service Discovery]
+Teenuse avastamine
+[Chat options]
+Vestluse valikud
+[XML Console]
+XML-konsool
+;file \protocols\JabberG\src\jabber.cpp
+;file \protocols\JabberG\src\jabber.h
+;file \protocols\JabberG\src\jabber_adhoc.cpp
+;file \protocols\JabberG\src\jabber_agent.cpp
+;file \protocols\JabberG\src\jabber_bookmarks.cpp
+;file \protocols\JabberG\src\jabber_byte.cpp
+;file \protocols\JabberG\src\jabber_caps.cpp
+;file \protocols\JabberG\src\jabber_captcha.cpp
+;file \protocols\JabberG\src\jabber_chat.cpp
+[&Room options]
+Jututoa valikud
+;file \protocols\JabberG\src\jabber_console.cpp
+[Jabber Error]
+Jabber'i viga
+;file \protocols\JabberG\src\jabber_disco.cpp
+;file \protocols\JabberG\src\jabber_disco.h
+;file \protocols\JabberG\src\jabber_form2.cpp
+;file \protocols\JabberG\src\jabber_groupchat.cpp
+[Loading...]
+Laadimine
+;file \protocols\JabberG\src\jabber_icolib.cpp
+[Apply filter]
+Rakenda filtrit
+[Reset filter]
+Algväärtusta filter
+;file \protocols\JabberG\src\jabber_iqid.cpp
+;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+;file \protocols\JabberG\src\jabber_menu.cpp
+;file \protocols\JabberG\src\jabber_message_handlers.cpp
+;file \protocols\JabberG\src\jabber_misc.cpp
+;file \protocols\JabberG\src\jabber_notes.cpp
+;file \protocols\JabberG\src\jabber_opt.cpp
+[Server options]
+Serveri valikud
+;file \protocols\JabberG\src\jabber_password.cpp
+;file \protocols\JabberG\src\jabber_privacy.cpp
+;file \protocols\JabberG\src\jabber_proto.cpp
+;file \protocols\JabberG\src\jabber_rc.cpp
+;file \protocols\JabberG\src\jabber_search.cpp
+;file \protocols\JabberG\src\jabber_svc.cpp
+;file \protocols\JabberG\src\jabber_thread.cpp
+;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Photo]
+Foto
+;file \protocols\JabberG\src\jabber_util.cpp
+;file \protocols\JabberG\src\jabber_vcard.cpp
+[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
+Toetatakse ainult JPG, GIF ja BMP pildifailid, mis väiksemad kui 40KB.
+;file \protocols\JabberG\src\jabber_ws.cpp
+;file \protocols\JabberG\src\jabber_xstatus.cpp
+;file \protocols\JabberG\src\ui_utils.cpp

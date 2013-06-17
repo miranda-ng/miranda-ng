@@ -1,0 +1,35 @@
+﻿#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
+;============================================================
+;  File: SplashScreen.dll
+;  Plugin: Splash screen
+;  Version: 0.1.2.3
+;  Authors: nullbie, Thief
+;============================================================
+;file \plugins\SplashScreen\res\splash.rc
+[Splash Options]
+אפשרויות מסך פתיחה
+[Show splash]
+הראה ספלאש
+[Show random splash]
+הראה ספלאש אקראי
+[Show Miranda Version]
+הראה גירסת מירנדה
+[Display time:]
+זמן תצוגה:
+[msec]
+ מילי שניה
+[Fade in:]
+דהה פנימה:
+[steps]
+ שלבים
+[Fade out:]
+דהה החוצה:
+[Advaimg library not found. Please get it from nigtlies to be able to use images.]
+Advaimg ספריה לא נמצאה. בבקשה השג זאת מ nigtlies בשביל להיות מסוגל להשתמש בתמונות.
+[Preview...]
+הראה לפני...
+;file \plugins\SplashScreen\src\main.cpp
+;file \plugins\SplashScreen\src\options.cpp
+[Splash Screen]
+מסך פתיחה
+;file \plugins\SplashScreen\src\services.cpp

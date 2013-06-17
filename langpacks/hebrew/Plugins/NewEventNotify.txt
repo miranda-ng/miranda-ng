@@ -1,0 +1,39 @@
+﻿#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+;============================================================
+;  File: NewEventNotify.dll
+;  Plugin: NewEventNotify
+;  Version: 0.2.2.3
+;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
+;============================================================
+;file \plugins\NewEventNotify\res\resource.rc
+[General Options]
+אפשרויות כלליות
+[Temporarily disable Event Popups]
+בטל זמנית פופאפי אירועים
+[Show Preview of Event in Popup]
+הצג תצוגה מקדימה של פופאפי אירועים
+[Notify me of ...]
+הודע לי על...
+[Left Click Actions]
+לחיצה שמאלית...
+[Open Event]
+פתח אירוע
+[Dismiss Event]
+סלק אירוע
+[Right Click Actions]
+לחיצה ימנית...
+[Don't show Popup when Message-Dialog is already open]
+אל תראה פופאפ של אירועים כאשר חלון השיחה כבר פתוח
+[Open Reply-Dialog instead of reading the Message]
+פתח את חלון המענה במקום לקרוא את ההודעה
+[Show Date]
+הראה תאריך
+[No popups for RSS contacts]
+RSS ללא פופאפים  לאנשי קשר מסוג
+;file \plugins\NewEventNotify\src\main.cpp
+;file \plugins\NewEventNotify\src\menuitem.cpp
+;file \plugins\NewEventNotify\src\neweventnotify.h
+;file \plugins\NewEventNotify\src\options.cpp
+[Event Notify]
+התראת אירועים
+;file \plugins\NewEventNotify\src\popup.cpp

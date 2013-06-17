@@ -1,0 +1,2115 @@
+;
+[OK]
+אישור
+[Cancel]
+ביטול
+[&Add]
+&הוסף
+[&Cancel]
+בטל
+[Send "You were added"]
+"שלח "הוסיפו אותך לרשימה
+[Send authorization request]
+שלח בקשת אישור
+[Custom name:]
+שם מותאם אישית:
+[Group:]
+קבוצה:
+[Options]
+אפשרוית
+[Authorization Request]
+בקשת אישור
+[Delete Contact]
+מחיקת איש קשר
+[&Yes]
+&כן
+[&No]
+&לא
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+הסתר אותו מרשימה בלבד, בכדי לשמור את ההיסטוריה שלהם והגדרות התעלמות/ראות
+[Use Options->Ignore (expert mode) to unhide contacts.]
+.השתמש באפשרויות->התעלמות בכדי להסתיר משתמשים
+[Are you sure you want to delete %s?]
+?האם את בטוח שברצונך למחוק את %s  
+[Name]
+שם
+[Nick:]
+:כינוי
+[Advanced]
+מתקדם
+[More options]
+עוד אפשרויות
+[Custom]
+מותאם
+[Apply]
+החל
+[Install Database Settings]
+התקן הגדרות מסד נתונים
+[Yes]
+כן
+[No]
+לא
+[A file containing new database settings has been placed in the Miranda NG directory.]
+.קובץ המכיל הגדרות מסד נתונים חדש הונח בספרייה של מירנדה
+[Do you want to import the settings now?]
+האם ברצונך לייבאות את ההגדרות עכשיו?
+[No to all]
+לא להכול
+[&View contents]
+&הצג אנשי קשר
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+.מערכות אבטחה למניעת שינויים מזיקים עובדות, אתה תוזהר כששינוי שלא ידוע כבטוח יחל
+[Database Setting Change]
+הגדראות מסד הנתונים השתנו
+[Database settings are being imported from]
+הגדרות מסד נתונים מייובאות מ
+[This file wishes to change the setting]
+הקובץ הזה מנסה לשנות את ההגדרה
+[to the value]
+לערך
+[Do you want to allow this change?]
+?האם אתה מרשה את השינוי
+[&Allow all further changes to this section]
+אש&ר את כל השינויים לאזור הזה
+[Cancel Import]
+בטל ייבוא
+[Database Import Complete]
+ייבוא מסד נתונים הושלם
+[The import has completed from]
+הייבוא הושלם מ
+[What do you want to do with the file now?]
+?מה ברצונך לעשות עם הקובץ עכשיו
+[&Recycle]
+&מחזור
+[&Delete]
+&מחק
+[&Move/Rename]
+הזז/&שנה שם
+[&Leave]
+&עזוב
+[Show]
+הראה
+[File]
+קובץ
+[Sounds]
+צלילים
+[&Preview]
+הש&מע
+[Name:]
+שם:
+[Icons]
+סמלים
+[The following events are being ignored:]
+אתה מתעלם מהאירועים הבאים:
+[Messages]
+הודעות
+[Files]
+קבצים
+[None]
+ללא
+[Ignore]
+התעלם
+[Typing]
+מקליד
+[Visibility]
+ראות
+[To]
+עבור
+[Type:]
+סוג:
+[Port:]
+יציאה:
+[Username:]
+שם משתמש:
+[Password:]
+סיסמא:
+[You will need to reconnect for the changes you have made on this page to take effect.]
+.אתה תצטרך להתחבר מחדש בכדי שהשינויים יקחו תוקף
+[Profile]
+פרופיל
+[Description:]
+תיאור:
+[Author(s):]
+עורך/ים:
+[Homepage:]
+דף בית:
+[Copyright:]
+זכויות:
+[Please restart Miranda NG for your changes to take effect.]
+.תצטרך להפעיל מחדש את המירנדה כדי שהשינויים יכנסו לתוקף
+[Undo]
+בטל
+[Reset]
+אפס
+[Text Color]
+צבע טקסט
+[Font]
+גופן
+[Effects]
+אפקטים
+[&Help]
+&עזרה
+[Service:]
+שרות:
+[Default]
+ברירת מחדל
+[Set]
+החל
+[Add]
+הוסף
+[Remove]
+הסר
+[Hotkeys]
+מקשי קיצור
+[Accounts]
+חשבונות
+[&Edit]
+ערוך&
+[Miranda NG]
+מירנדה
+[opacity:]
+טישטוש
+[Tray]
+נסה
+[&Hide/Show]
+&הצג/הסתר
+[E&xit]
+&יציאה
+[&New Group]
+&קבוצה חדשה
+[&Hide Offline Users]
+הס&תר משתמשים לא מחוברים
+[Hide &Offline Users out here]
+הסתר משתמשים לא מחוב&רים כאן
+[Hide &Empty Groups]
+הסתר &קבוצות ריקות
+[Disable &Groups]
+בטל קבו&צות
+[Hide Miranda]
+הסתר את המירנדה
+[&New Subgroup]
+&תת קבוצה חדשה
+[&Hide Offline Users in here]
+הסתר מ&שתמשים לא מחוברים כאן
+[&Rename Group]
+ש&נה שם קבוצה
+[&Delete Group]
+&מחק קבוצה
+[User &Details]
+פרופיל &משתמש
+[Log]
+יומן
+[&Copy]
+ה&עתק
+[Co&py All]
+העת&ק הכול
+[Select &All]
+&בחר הכול
+[C&lear Log]
+&נקה יומן
+[Open in &new window]
+&פתח בחלון חדש
+[&Open in existing window]
+פ&תח בחלון קיים
+[&Copy link]
+ה&עתק קישור
+[&Deny]
+&דחה
+[You Were Added]
+אתה צורפת
+[&Close]
+סגור
+[%s Message for %s]
+הודעת %s של %s
+[Retrieving %s message...]
+... משיג הודעת %s
+[Status Messages]
+הודעות מצב
+[Use %time% for the current time, %date% for the current date]
+לקביעת הזמן והתאריך הנוכחיים %date% -ו %time% השתמש ב
+[Change %s Message]
+שנה הודעת %s
+[Closing in %d]
+סוגר תוך %d
+[&Send]
+שלח
+[Actions]
+פעולות
+[Nick changes]
+שינויי כינוי
+[Status changes]
+שינויי מצב
+[Information]
+מידע
+[Log Options]
+אפשרויות יומן
+[Log timestamp]
+יומן חותמת זמן
+[Timestamp]
+חותמת זמן
+[Other name]
+שם אחר
+[Your name]
+השם שלך
+[Enable highlighting]
+אפשר הדגשה
+[Limit log text to (events):]
+הגבל אירועי יומן ל:
+[Words to highlight (wildcards allowed)]
+מילים להדגיש כרטיס חופשי מותר
+[Enable logging to disk]
+אפשר שמירה לדיסק
+[Log directory]
+מיקום יומן
+[Other]
+אחר
+[Add new rooms to group:]
+הוסף חדרים לקבוצה:
+[Use same style as in the message log]
+עיצוב דומה כמו ביומן ההודעות
+[Use default colours]
+צבעי ברירת מחדל
+[Use custom colours]
+צבעים מותאמים אישית
+[Timeout (s)]
+(פסק זמן (ש
+[Text]
+טקסט
+[Background]
+רקע
+[List]
+רשימה
+[&Message]
+הודעה
+[Link]
+קישור
+[Message]
+הודעה
+[Redo]
+עשה שוב
+[Copy]
+העתק
+[Cut]
+גזור
+[Paste]
+הדבק
+[Select All]
+בחר הכל
+[Clear]
+בהיר
+[Tabs]
+טאבים
+[Hide offline users]
+הסתר משתמשים לא מחוברים
+[Hide empty groups]
+הסתר קבוצות ריקות
+[Disable groups]
+בטל קבוצות
+[Ask before deleting contacts]
+שאל לפני מחיקת אנשי קשר
+[Sort contacts by name]
+סדר אנשי קשר לפי שם
+[Sort contacts by status]
+סדר אנשי קשר לפי מצב
+[Sort contacts by protocol]
+סדר אנשי קשר לפי פרוטוקול
+[Single click interface]
+ממשק לחיצה אחת
+[Always show status in tooltip]
+הראה מצב תמיד בסרגל הכלים
+[Disable icon blinking]
+בטל הבהוב סמל
+[ms delay]
+דחיה במילי שניות
+[icon when statuses differ]
+כאשר המצבים שונים
+[Cycle icons every]
+שנה סמל כל
+[seconds, when statuses differ]
+שניות, כשהמצב שונה
+[Show multiple icons]
+הראה מספר סמלים
+[Only when statuses differ]
+רק כשהמצבים שונים
+[Contact List]
+רשימת אנשי קשר
+[System tray icon]
+סמל מגש המערכת
+[System tray icon when using multiple protocols]
+סמל מגש המערכת כשמשתמשים במספר פרוטוקולים
+[Contact List Sorting]
+סדר רשימה
+[Window]
+חלון
+[Always on top]
+מעל הכול
+[Tool style main window]
+חלון ראשי כסרגל כלים
+[Minimize to tray]
+מזער למגש המערכת
+[Show menu bar]
+הראה את התפריט
+[Easy move]
+תזוזה קלה
+[Show title bar]
+הראה כותרת חלון
+[Title bar text:]
+טקסט כותרת חלון:
+[Show drop shadow (restart required)]
+(הראה צל (דורש הפעלה מחדש
+[Pin to desktop]
+הצמד לשולחן העבודה
+[Hide contact list after it has been idle for]
+הסתר רשימה אחרי שלא נבחרה במשך
+[seconds]
+שניות
+[Automatically resize window to height of list]
+שנה גודל חלון אוטומטית שיתאים לגובה הרשימה
+[maximum]
+מקסימום
+[% of screen]
+% של מסך
+[Size upwards]
+שנה לכיוון מעלה
+[If window is partially covered, bring to front instead of hiding]
+אם החלון מכוסה חלקית, הבא מעל הכול במקום להסתיר
+[Fade contact list in/out]
+העבר את הרשימה בפנים/בחוץ
+[Transparent contact list]
+חלון שקוף
+[Inactive opacity:]
+כשלא פעיל:
+[Active opacity:]
+כשפעיל:
+[Items]
+פריטים
+[Show divider between online and offline contacts]
+הראה חוצץ בין אנשי קשר מחוברים ולא מחוברים
+[Hot track items as mouse passes over]
+עקוב אחרי פריטים כשהעכבר עובר מעליהם
+[Disable drag and drop of items]
+בטל גרירה ועזיבה של פריטים
+[Disable rename of items by clicking twice]
+בטל שינוי של של פריטים על ידי לחיצה פעמיים
+[Show selection even when list is not focused]
+הראה בחירה אפילו כשהרשימה אינה נבחרת
+[Make selection highlight translucent]
+עשה שרקע הבחירה יהיה שקוף
+[Dim idle contacts]
+הקהה אנשי קשר בלתי פעילים
+['Hide Offline' means to hide:]
+הסתר 'לא מחובר' הכוונה הסתר:
+[Groups]
+קבוצות
+[Draw a line alongside group names]
+שרטט קו לצד שמות הקבוצות
+[Show counts of number of contacts in a group]
+הראה מספר אנשי קשר בקבוצה
+[Hide group counts when there are none online]
+הסתר מספרי קבוצות כשאף אחד לא מחובר
+[Sort groups alphabetically]
+סדר קבוצות לפי א,ב,ג
+[Quicksearch in open groups only]
+חיפוש-מהיר בקבוצות פתוחות בלבד
+[Indent groups by:]
+הרווח בין הקבוצות:
+[pixels]
+פיקסלים
+[Visual]
+ויזואלי
+[Scroll list smoothly]
+גרור רשימה באופן חלק
+[Time:]
+זמן:
+[milliseconds]
+מילישניות:
+[Left margin:]
+לשמאל:
+[Hide vertical scroll bar]
+הסתר פס גלילה
+[Row height:]
+גודל גובה:
+[Gamma correction]
+תיקון גמא:
+[Grey out entire list when:]
+האפר את כל הרשימה כש:
+[Contact List Background]
+רקע רשימת אנשי קשר
+[Background colour]
+צבע רקע
+[Use background image]
+השתמש בתמונת רקע
+[Stretch to width]
+מתח לאורך
+[Stretch to height]
+מתח לגובה
+[Tile horizontally]
+פרוש לגובה
+[Tile vertically]
+פרוש לרוחב
+[Scroll with text]
+גלול עם טקסט
+[Stretch proportionally]
+מתח פרופורצית
+[Use Windows colours]
+השתמש בצבעי חלונות
+[Status Bar]
+שורת מצב
+[Show status bar]
+הצג את שורת המצב
+[Show icons]
+הראה סמלים
+[Show protocol names]
+הצג את שמות הפרוטוקולים
+[Show status text]
+הצג מצב
+[Right click opens status menu]
+לחיצה ימנית פותחת תפריט המצב\n
+[Right click opens Miranda NG menu]
+לחיצה ימנית פותחת את תפריט מירנדה
+[Make sections equal width]
+עשה שהאיזורים יהיו שווים
+[Show bevels on panels]
+הראה שיפועים בפאנלים
+[Show resize grip indicator]
+הראה סמן אחיזת הגדלה
+[&Status]
+מצב
+[&Offline\tCtrl+0]
+לא מ&חובר\tCtrl+0
+[On&line\tCtrl+1]
+מח&ובר\tCtrl+1
+[&Away\tCtrl+2]
+&לא נמצא\tCtrl+2
+[&NA\tCtrl+3]
+לא &זמין\tCtrl+3
+[Occ&upied\tCtrl+4]
+&עסוק\tCtrl+4
+[&DND\tCtrl+5]
+&לא להפריע\tCtrl+5
+[&Free for chat\tCtrl+6]
+&פנוי לשיחה\tCtrl+6
+[&Invisible\tCtrl+7]
+&בלתי נראה\tCtrl+7
+[On the &Phone\tCtrl+8]
+&מדבר בטלפון\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+או&כל ארוחת צהריים\tCtrl+9
+[To:]
+אל:
+[Incoming File Transfer]
+העברה קבצים נכנסת
+[Date:]
+תאריך:
+[Contact menu]
+תפריט משתמש
+[Resume]
+המשך
+[Overwrite]
+מחק
+[Size:]
+גודל:
+[File Transfers]
+העברות קבצים
+[Close]
+סגור
+[Windows]
+חלונות
+[Close the message window on send]
+סגור את חלון ההודעה בשליחת ההודעה
+[Minimize the message window on send]
+מזער את חלון ההודעה בשליחת ההודעה
+[Use the contact's status icon as the window icon]
+השתמש בסמל המצב של איש בקשר כסמל של חלון ההודעות
+[Cascade new windows]
+סדר חלונות חדשים
+[Send message on double 'Enter']
+שלח הודעות בלחיצה כפולה על 'אנטר'
+[Send message on 'Enter']
+'שלח הודעות בלחיצה על 'אנטר
+[Show warning when message has not been received after]
+הצג אזהרה כאשר ההודעה לא התקבלה אחרי
+[seconds.]
+שניות.
+[An error has occured. The protocol reported the following error:]
+התרחשה שגיאה. הפרוטוקול דיווח את השגיאה הבאה:
+[Try again]
+נסה שנית
+[Message Session]
+חלון הודעות
+[Message Window Event Log]
+חלון יומן הודעות
+[Show names]
+הראה שמות
+[Load unread events only]
+טען אירועים שלא נקראו בלבד
+[Load number of previous events]
+טען מספר אירועים קודמים
+[Load previous events less than]
+טען אירועים קודמים שזמנם פחות מ
+[minutes old]
+דקות
+[Show seconds]
+הראה שניות
+[Load History Events]
+הראה אירועי היסטוריה
+[Show typing notifications when a user is typing a message]
+הצג התראת כתיבה כאשר משתמש כותב
+[Show typing notification when no message dialog is open]
+הצג התראה כאשר חלון השיחה סגור
+[Flash in the system tray and in the contact list]
+הבהב במגש המערכת וברשימת אנשי הקשר
+[Show balloon popup]
+הצג בחלון פופ אפ
+[Paste && Send]
+הדבק && שלח
+[Delete]
+מחק
+[Find]
+חפש
+[Message History]
+היסטורית הודעות
+[&Find...]
+...&חפש
+[Add Phone Number]
+הוסף מספר טלפון
+[Enter country, area code and phone number:]
+:הזן ארץ, קידומת ומספר טלפון
+[Or enter a full international number:]
+:או הזן מספר בינלאומי מלא
+[Phone can receive SMS text messages]
+סמס יכול לקבל הודעות
+[Updating]
+מעדכן
+[Nickname:]
+כינוי:
+[Date of birth:]
+:תאריך לידה
+[About:]
+:אודות
+[Position:]
+מיקום:
+[Alerts]
+אזהרות
+[View User's Details]
+הצג פרופיל משתמש
+[Add Contact Permanently to List]
+הוסף איש קשר בקביעות לרשימה
+[Re&ad %s Message]
+קר&א הודעת %s
+[I've been away since %time%.]
+אני לא נמצא מ-%time%.
+[Give it up, I'm not in!]
+וותרו כבר, אני לא כאן!
+[Not right now.]
+לא עכשיו.
+[Give a guy some peace, would ya?]
+?אפשר לתת לבן אדם קצת אויר
+[I'm a chatbot!]
+!אני רובוט צ'יטוט
+[Yep, I'm here.]
+כן, אני כאן.
+[Nope, not here.]
+לא, לא כאטן.
+[I'm hiding from the mafia.]
+מסתתר מהמאפיה.
+[That'll be the phone.]
+בטלפון
+[Mmm...food.]
+הממ... אוכל.
+[Status]
+מצב
+[Text colour]
+צבע טקסט
+[%s is now known as %s]
+%s ידוע כ %s
+[Others nicknames]
+כינויים של אחרים
+[Your nickname]
+הכינוי שלך
+[User has joined]
+משתמש הצטרף
+[User has left]
+משתמש עזב
+[User has disconnected]
+משתמש התנתק
+[User kicked ...]
+...משתמש הועף
+[User is now known as ...]
+...המשתמש ידוע כעת כ
+[Notice from user]
+הערה ממשתמש
+[Incoming message]
+הודעה נכנסת
+[Outgoing message]
+הודעה יוצאת
+[The topic is ...]
+...הנושא הוא
+[Information messages]
+הודעות מידע
+[User enables status for ...]
+משתמש אפשר מצב בשביל...
+[User disables status for ...]
+משתמש ביטל מצב בשביל...
+[Action message]
+הודעת פעולה
+[Highlighted message]
+הודעה מודגשת
+[Message typing area]
+אזור כתיבת ההודעה
+[User list members (Online)]
+רשימת חברים של המשתמש (שמחוברים)
+[User list members (away)]
+רשימת חברים של המשתמש (במצב לא נמצא)
+[Flash window when someone speaks]
+הבהב חלון כשמישהו מדבר
+[Flash window when a word is highlighted]
+הבהב חלון כשמילה מודגשת
+[Show list of users in the chat room]
+הראה רשימת משתמשים בחדר הצ'אט
+[Show button menus when right clicking the buttons]
+הראה כפתור תפריטים בקליק ימני על הכפתורים
+[Do not pop up the window when joining a chat room]
+אל תקפיץ את החלון בהצטרפות לחדר צ'אט
+[Prefix all events with a timestamp]
+תקן מראש את כל האירועים עם חותמת זמן
+[Only prefix with timestamp if it has changed]
+תקן מראש עם חותמת זמן רק אם שונה
+[Indent the second line of a message]
+לחתוך את הקו השני של הודעה
+[Limit user names in the message log to 20 characters]
+הגבל שמות משתמש בלוג ההודעות ל 20 תווים
+[Strip colors from messages in the log]
+הורד צבעים מהודעות ביומן
+[Enable the 'event filter' for new rooms]
+אפשר את 'מסנן האירועים' לחדרים חדשים
+[Show topic changes]
+הראה שינויי נושא
+[Show users joining]
+הראה משתמשים שמתחברים
+[Show users disconnecting]
+הראה משתמשים שמתנתקים
+[Show messages]
+הראה הודעות
+[Show actions]
+הראה פעולות
+[Show users leaving]
+הראה משתמשים שעוזבים
+[Show users being kicked]
+הראה משתמשים שמועפים
+[Show notices]
+הראה הערות
+[Show users changing name]
+הראה משתמשים מחליפים שמות
+[Show information messages]
+הראה שינויי מידע
+[Show status changes of users]
+הראה שינויי מצב של משתמשים
+[Show icons in tray only when the chat room is not active]
+הראה אייקונים בסרגל רק כשחדר הצ'אט לא פעיל
+[Show icon in tray for topic changes]
+הראה בסרגל אייקון לשינויי נושא
+[Show icon in tray for users joining]
+הראה בסרגל אייקון למשתמשים שמתחברים
+[Show icon in tray for users disconnecting]
+הראה בסרגל אייקון למשתמשים שמתנתקים
+[Show icon in tray for messages]
+הראה בסרגל אייקון להודעות
+[Show icon in tray for actions]
+הראה בסרגל אייקון לפעולות
+[Show icon in tray for highlights]
+הראה בסרגל אייקון למודגשים
+[Show icon in tray for users leaving]
+הראה בסרגל אייקון למשתמשים שעוזבים
+[Show icon in tray for users kicking other user]
+הראה בסרגל אייקון למשתמשים שמעיפים משתמש אחר
+[Show icon in tray for notices ]
+הראה אייקון במגש מערכת בשביל הודעות
+[Show icon in tray for name changes]
+הראה בסרגל אייקון לשינויי שמות
+[Show icon in tray for information messages]
+הראה בסרגל אייקון לשינויי מידע
+[Show icon in tray for status changes]
+הראה בסרגל אייקון לשינויי מצב
+[Bold]
+בולט
+[Underlined]
+עם קו תחתון
+[Smiley button]
+כפתור סמיילים
+[Room history]
+היסטורית חדר
+[Room settings]
+הגדרות חדר
+[Event filter enabled]
+חוסם אירועים הופעל
+[Hide userlist]
+החבא רשימת משתמשים
+[Show userlist]
+הראה רשימת משתמשים
+[Icon overlay]
+מעל אייקון
+[Status 1 (10x10)]
+מצב 1 (10x10)
+[Status 2 (10x10)]
+מצב 2 (10x10)
+[Status 3 (10x10)]
+מצב 3 (10x10)
+[Status 4 (10x10)]
+מצב 4 (10x10)
+[Status 5 (10x10)]
+מצב 5 (10x10)
+[Status 6 (10x10)]
+מצב 6 (10x10)
+[Remove status (10x10)]
+הסר מצב (10x10)
+[Join (10x10)]
+הצטרף (10x10)
+[Quit (10x10)]
+צא (10x10)
+[Kick (10x10)]
+בעט (10x10)
+[Highlight (10x10)]
+הדגש (10x10)
+[Information (10x10)]
+מידע (10x10)
+[Messaging]
+הודעות
+[Group Chats]
+צ'אט קבוצתי
+[Appearance and functionality of chat room windows]
+מראה ותפקוד של חלונות חדרי הצ'אט
+[Appearance of the message log]
+מראה של יומן ההודעות
+[Default events to show in new chat rooms if the 'event filter' is enabled]
+הראה אירועי ברירת מחדל בחדרי צ'אט חדשים אם 'מסנן האירועים' פעיל
+[Icons to display in the tray]
+אייקונים להצגה בסרגל
+[Select Folder]
+בחר תיקייה
+[Message Sessions]
+חלון הודעות
+[General]
+כללי
+[Popups]
+פופ אפ
+[Message is highlighted]
+הודעה מודגשת
+[User has performed an action]
+משתמש ביצע פעולה
+[User has kicked some other user]
+משתמש העיף משתמש אחר
+[User has changed name]
+משתמש החליף שם
+[User has sent a notice]
+משתמש שלח הערה
+[The topic has been changed]
+נושא השתנה
+[&Join]
+הצטרף
+[%s kicked %s from %s]
+%s מ %s נבעט %s
+[Standard contacts]
+אנשי קשר רגילים
+[Online contacts to whom you have a different visibility]
+אנשי קשר מחוברים שלהם יש לך הגדרות ראות אחרות.
+[Offline contacts]
+אנשי קשר לא מחוברים
+[Contacts which are 'not on list']
+אנשי קשר שלא נמצאים ברשימה
+[Group member counts]
+מספר חבריי קבוצה
+[Dividers]
+חוצצים
+[Offline contacts to whom you have a different visibility]
+אנשי קשר לא מחוברים שלהם יש לך הגדרות ראות אחרות.
+[Not focused]
+לא נבחר
+[Offline]
+לא מחובר
+[Online]
+מחובר
+[Away]
+לא נמצא
+[NA]
+לא זמין
+[Occupied]
+עסוק
+[DND]
+לא להפריע
+[Free for chat]
+פנוי לשיחה
+[Invisible]
+בלתי נראה
+[Out to lunch]
+אוכל ארוחת צהריים
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדברת בטלפון
+[List Background]
+רקע הרשימה
+[Global]
+כולל
+[Send e-mail]
+שלח אימייל
+[bytes]
+בייטים
+[&File]
+קובץ
+[Incoming]
+נכנס
+[Complete]
+הושלם
+[Error]
+שגיאה
+[All Files]
+כל הקבצים
+[Executable Files]
+קבצי תוכניות
+[Events]
+אירועים
+[View User's History]
+הצג היסטוריה עם משתמש
+[User Menu]
+תפריט משתמש
+[sec]
+שניות
+[Connecting...]
+...מתחבר
+[Sending...]
+...שולח
+[Receiving...]
+...מקבל
+[Outgoing]
+יוצא
+[Idle]
+לא נמצא אוטומטי
+[The message send timed out.]
+שליחת ההודעה התארכה יותר מהצפוי.
+[Last message received on %s at %s.]
+ההודעה האחרונה התקבלה ב %s בשעה %s.
+[signed off (was %s)]
+התנתק (היה %s)
+[%s is typing a message...]
+%s כותב/ת הודעה...
+[Outgoing messages]
+הודעות יוצאות
+[Incoming messages]
+הודעות נכנסות
+[Outgoing name]
+שם שנשלח
+[Outgoing time]
+זמן שנשלח
+[Outgoing colon]
+נקודותיים שנשלחים
+[Incoming name]
+שם שמתקבל
+[Incoming time]
+זמן שמתקבל
+[Incoming colon]
+נקודתיים שמתקבלים
+[Message Log]
+יומן הודעה
+[** New contacts **]
+**אנשי קשר חדשים**
+[** Unknown contacts **]
+**אנשי קשר לא ידועים**
+[Show balloon popup (unsupported system)]
+(הצג חלונות פופאפ (מערכת בלתי נתמכת
+[Typing Notify]
+התראת כתיבה
+[Message from %s]
+הודעה מ%s
+[%s is typing a message]
+מקליד הודעה %s
+[Typing Notification]
+התראת כתיבה
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+מירנדה לא יכלה לטעון את מודול ההודעות, riched20.dll חסר. אם אתה משתמש ב Windows 95 או ב WINE אנא וודא שיש לך את riched20.dll מותקן. לחץ ב 'כן' בכדי להמשיך לטעון את מירנדה.
+[Incoming (Focused Window)]
+(נכנסות (חלון ממוקד
+[Incoming (Unfocused Window)]
+(נכנסות (חלון לא ממוקד
+[Incoming (New Session)]
+(נכנסות (חלון חדש
+[Message send error]
+שגיאה בשליחת ההודעה
+[Outgoing URL]
+קישור יוצא
+[Incoming URL]
+קישור נכנס
+[History for %s]
+%s היסטוריה עבור
+[View &History]
+הצד היסטוריה
+[URL]
+קישור
+[Edit Phone Number]
+ערוך מספר טלפון
+[Invalid Phone Number]
+מספר טלפון שגוי
+[Fax]
+פקס
+[Male]
+זכר
+[Female]
+נקבה
+[<not specified>]
+<לא מוגדר>
+[Summary]
+סיכום
+[Contact]
+קשר
+[Location]
+מיקום
+[Work]
+עבודה
+[Notes]
+הערות
+[Owner]
+בעלים
+[View/Change My &Details...]
+...הצג/שנה את הפרופיל ש&לי
+[Add Contact]
+הוסף איש קשר
+[Please authorize my request and add me to your contact list.]
+אנא אשר את בקשתי להוסיף אותך לרשימה שלי.
+[(Unknown Contact)]
+(איש קשר לא מוכר)
+[&Main Menu]
+&תפריט ראשי
+[&Rename]
+שנה ש&ם
+[Nick]
+כינוי
+[E-mail]
+אימייל
+[Username]
+שם משתמש
+['(Unknown Contact)']
+'(תוכן לא ידוע)'
+[Customize]
+התאמה אישית
+[Size]
+גודל
+[Extra icons]
+אייקונים נוספים
+[Search]
+חיפוש
+[&Find/Add Contacts...]
+&מצא/הוסף משתמשים
+[<none>]
+<ללא>
+[** All contacts **]
+** כל הרשימה **
+[Contacts]
+אנשי קשר
+[Network]
+רשת
+[Miranda NG Options]
+אפשרויות מירנדה
+[&Options...]
+...אפשרויו&ת
+[Version]
+גרסה
+[Plugins]
+תוספים
+[Create new account]
+צור חשבון חדש
+[Edit]
+ערוך
+[Protocol]
+פרוטוקול
+[Rename]
+שנה שם
+[System]
+מערכת
+[User Online]
+משתמש מחובר
+[User Details]
+פרופיל משתמש
+[History]
+היסטוריה\n
+[Find User]
+מצא משתמש
+[Help]
+עזרה
+[Main Menu]
+תפריט ראשי
+[On]
+פועל
+[Off]
+כבוי
+[Frames]
+מבנה רשימה
+[Request authorization]
+בקשת אישור
+[Grant authorization]
+הענק אישור
+[Revoke authorization]
+בקש אישור שנית
+[Always visible]
+תמיד נראה
+[Windows Bitmaps]
+מפות הסיביות של חלונות
+[JPEG Bitmaps]
+JPEG מפות סיביות של
+[GIF Bitmaps]
+GIF מפות סיביות של
+[Unknown]
+לא ידוע
+[New]
+חדש
+[Add contact]
+הוסף תוכן
+[Main]
+ראשי
+[Check connection]
+בדוק חיבור
+[Max. retries]
+מקסימום נסיונות
+[Delay between retries (secs)]
+(עיכוב בין ניסיונות (שניות\n\n
+[Show popups]
+הצג פופאפים
+[Dial-Up]
+חיוג
+[Don't reconnect if no internet connection seems available]
+אל תחייג אם לא נראה שיש חיבור אינטרנט זמין
+[Continuously check for internet connection]
+בדוק שיש חיבור אינטרנט ללא הפסקה
+[Do so by pinging host]
+בעזרת פינגים לשרת
+[after]
+אחרי
+[minutes of inactivity]
+דקות מחוסרות פעילות
+[Confirm resetting status]
+אמת איפוס מצב
+[Account]
+חשבון
+[Monitor Miranda's activity only]
+רק כאשר המוניטור של מירנדה פועל
+[when screen saver engages]
+כאשר שומר המסך מופעל
+[Copy to Clipboard]
+העתק לזיכרון 
+[Command Line:]
+שורת פקודות:
+[Create Shortcut]
+צור קיצור דרך
+[Set window state]
+הגדר מצב חלון
+[Show dialog]
+הראה תיבת דו שיח
+[Set status to offline before exit]
+עבור למצב לא מחובר לפני יציאה
+[Show CMDL]
+CMDL הראה
+[Activate status profile]
+הפעל פרופיל מצב
+[Set docked]
+עגון חלון
+[Status on startup]
+מצב בזמן הפעלה
+[ms]
+מש
+[Set after]
+לאחר
+[Timeout]
+זמן הפעלה 
+[s]
+ש
+[Set window location]
+הגדר מיקום חלון
+[Set window size]
+הגדר גודל חלון
+[Allow override]
+אפשר עקיפה
+[Note: status profiles can be created in the 'Status Profiles' options screen]
+הערה: פרופילי מצב יכולים להיווצר בחלון אפשרויות פרופילי מצב
+[Window on startup]
+התחל עם וינדוז
+[Automatically dial on startup]
+חייג אוטומטית בזמן הפעלה
+[Automatically hang up on exit]
+נתק אוטומטית בזמן יציאה
+[Dial-up (experimental)]
+חייגן - ניסיוני
+[Delay]
+זמן המתנה
+[On left click]
+קליק שמאל
+[On right click]
+קליק ימין
+[Do nothing]
+אל תעשה כלום
+[Close popup]
+סוגר פופ אפ
+[Cancel reconnecting]
+בטל התקשרות
+[Colours]
+צבעים
+[Preview]
+דוגמא
+[Show when connection is lost]
+הראה כאשר הקשר אבד
+[Show when a connection attempt is made]
+הראה כאשר נעשה נסיון התקשרות
+[Show when reconnection has finished]
+הראה כשנסיון ההתחברות שוב סיים
+[Show other messages]
+הראה הודעות אחרות
+[Permanent]
+קבוע
+[Show additional information in popups]
+הראה מידע נוסף בפופאפים
+[Use Miranda's message setting]
+השתמש בהגדרות הודעה של מירנדה
+[Use this message:]
+השתמש בהודעה זו:
+[Variables...]
+משתנים...
+[Add...]
+...הוסף
+[Create a TopToolBar button]
+צור כפתור בסרגל כלים עליון
+[Show confirm dialog when loading]
+הראה תיבת אישור כאשר טוענים
+[Create a main menu item]
+צור פריט בתפריט ראשי
+[Status Profiles]
+ פרופילי מצב
+[Hotkey]
+מקשי קיצור
+[In submenu]
+בתת תפריט
+[Max. delay (secs)]
+(מקס. עיכוב (שניות\n
+[Increase delay exponential]
+הגדל עיכוב אקספוננציאלית
+[Reconnect on APM resume]
+APM התחבר שוב בחידוש
+[Stop trying to reconnect]
+הפסק לנסות להתחבר מחדש
+[Set delay to]
+קבע הפסקה ל
+[React on login errors]
+הגב בשגיאות התחברות
+[Timers]
+טיימרים
+[Reconnecting]
+מתחבר מחדש
+[Consider connection lost after]
+החשב אובדן חיבור אחרי 
+[failed pings]
+פינגים 
+[Continuously check interval (secs)]
+בדוק מרווחים בשניות ללא הפסקה
+[<last>]
+<שהיה>
+[<current>]
+<נוכחי>
+[Display Name:]
+שם מוצג:
+[Login Server:]
+שרת:
+[Connection]
+התחברות
+[Others]
+אחרים
+[AIM Link Protocol]
+AIM לינק פרוטוקול
+[%s server connection]
+%s חיבור שרת
+[ICQ]
+אייסיקיו
+[Admin]
+ מנהל
+[Background Color]
+צבע רקע
+[Italic]
+נטוי
+[Underline]
+קו תחתי
+[Basic]
+בסיסי
+[Privacy]
+פרטיות
+[minutes]
+דקות
+[Loop sound]
+חזור על הצליל
+[Round corners]
+סביב הפינות
+[Title:]
+כותרת:
+[Static]
+סטטי
+[Title]
+כותרת
+[Sunday]
+ראשון
+[Monday]
+שני
+[Tuesday]
+שלישי
+[Wednesday]
+רביעי
+[Thursday]
+חמישי
+[Friday]
+שישי
+[Saturday]
+שבת
+[Miscellaneous]
+אפשרויות מזעריות
+[Type]
+סוג
+[Description]
+תיאור
+[Services]
+שירותים
+[MSN Link Protocol]
+MSN לינק פרוטוקול
+[Plugin settings]
+הגדרות פלאג
+[Header]
+ראשיות
+[Open Folder]
+פתח תיקיה
+[Protocols]
+פרוטוקולים
+[Avatar]
+אוואטר
+[Dialog]
+דו שיח
+[Change]
+שנה
+[Transparent]
+שקוף
+[Settings]
+הגדרות
+[hours]
+שעות
+[Enable Smileys]
+אפשר סמיילים
+[All Contacts]
+כל הרשימה
+[Display errors using popups]
+הראה שגיאות בעזרת פופאפים
+[Filter]
+פילטר
+[Time]
+זמן
+[Day]
+יום
+[Password]
+סיסמא
+[Import]
+יבוא
+[Export]
+יצוא
+[Send Message]
+שלח הודעה
+[>> Outgoing timestamp]
+<< חותמת זמן יוצאת
+[<< Incoming timestamp]
+>> חותמת זמן נכנסת
+[>> Outgoing name]
+<< שם יוצא
+[<< Incoming name]
+>> שם נכנס
+[>> Outgoing messages]
+<< הודעות יוצאות
+[<< Incoming messages]
+>> הודעות נכנסות
+[History Log]
+יומן היסטוריה
+[Menu]
+תפריט
+[Disable sounds]
+בטל צלילים
+[Enable sounds]
+אפשר צלילים
+[General Settings]
+הגדרות כלליות
+[Show the Tray Icon]
+הראה את אייקון המגש
+[Open message window]
+פותח חלון שיחה
+[Colors]
+צבעים
+[days]
+ימים
+[Enabled]
+אפשר
+[Disabled]
+מבוטל
+[Days]
+ימים
+[Back]
+רקע
+[Popup]
+פופאפ
+[Click action]
+פעולה בהקלקה
+[Sec]
+שניות
+[Use default]
+ברירת מחדל
+[Open contact details window]
+פתח פרטים של איש הקשר
+[Open contact menu]
+פתח תפריט איש קשר
+[Open contact history]
+פתח היסטוריה עם איש הקשר
+[Open log file]
+פותח קובץ טקסט
+[Templates]
+תבניות
+[Show Avatars]
+הראה תמונות קטנות
+[Background colour:]
+צבע רקע:
+[Selection colour:]
+בחירת צבע:
+[Use background bitmap]
+השתמש בתמונת רקע
+[Tile vertically according to Row Height]
+מתח באופן אנכי בהתאם לגובה שורה
+[Info]
+מידע
+[Alpha]
+אלפא
+[Left]
+שמאל
+[Top]
+למעלה
+[Height]
+גובה
+[Clear all]
+נקה הכל
+[Status mode]
+צורת מצב
+[Right click opens Miranda menu]
+לחיצה ימנית פותחת תפריט מירנדה
+[Dont move offline user to bottom]
+אל תזיז משתמשים לא מחוברים למטה
+[Behaviour]
+התנהגות
+[Hide vertical scrollbar]
+הסתר פס גלילה
+[ms, delay between icon blinking]
+מילי שניות, בין כל הבהוב סמל
+[Ignore Empty Extra icons places (arrange to right).]
+התעלם ממקומות אייקונים ריקים נוספים סדר לצד ימין
+[Use 'Meta' protocol icons for Metacontacts]
+השתמש בפרוטוקול 'Meta'בשביל איחוד משתמשים
+[Avoid doubleclick expand]
+הימנע מהרחבת לחיצה כפולה
+[Hide all 'Extra icons' for subcontacts]
+החבא כל  אייקונים נוספים בשביל תת משתמשים
+[Hide offline subcontacts.]
+הסתר משתמשים לא מחוברים.
+[Appearance]
+מראה
+[Enable drop shadow (restart required)]
+אפשר השלכת צללים דורש ריסטרט
+[Up]
+למעלה
+[Down]
+למטה
+[Custom corner size:]
+גודל פינה מותאם אישית:
+[Use protocol smileys]
+השתמש בסמיילים של פרוטוקול
+[Show second line]
+הראה שורה שניה
+[Text:]
+טקסט:
+[Nickname]
+כינוי
+[Status Message]
+הודעת מצב
+[Listening to]
+מקשיב ל
+[Contact time]
+זמן חיבור
+[Align]
+ישר
+[Visible]
+נראה
+[Border]
+גבול
+[Skins]
+ סקינים
+[Selected text]
+טקסט נבחר
+[Event Area]
+איזור אירוע
+[Icon]
+אייקון
+[&About]
+&אודות
+[My Contacts]
+אנשי הקשר שלי
+[&Visible]
+&נראה
+[&Locked]
+&נעל
+[&Floating Mode]
+&מצב ריחוף
+[&Border]
+&גבול
+[&Align]
+&סדר
+[&Top]
+&עליון
+[&Client]
+&לקוח
+[&Bottom]
+&תחתון
+[&Position]
+&מצב
+[&Down]
+&למטה
+[Show All Frames]
+הראה את כל המסגרות
+[Show All Titlebars]
+הראה את כל סרגלי הכותרות
+[Hide All Titlebars]
+הסתר את כל סרגלי הכותרות
+[Show TitleBar]
+הראה סרגל כותרת
+[GroupMenu]
+תפריט קבוצה
+[SubGroupMenu]
+תפריט תת קבוצה
+[Close Miranda]
+סגור את מירנדה
+[Restore last status]
+שחזר מצב אחרון
+[Right]
+ימין
+[Status menu]
+תפריט מצבים
+[Hide offline contacts]
+החבא משתמשים לא מחוברים
+[All contacts]
+כל התכנים
+[Select a view mode]
+בחר מצב צפייה
+[Setup view modes]
+הגדר מצב מוד
+[Clear view mode and return to default display]
+נקה מצב צפייה וחזור למצב צפייה ברירת מחדל
+[Reset view mode]
+אפס מצב מוד
+[View Modes]
+הראה מצבים
+[&Show TitleBar]
+&הראה כותרת סרגל
+[&Collapsed]
+&אסוף
+[Show avatars]
+הראה אוואטרים
+[Skin options]
+אפשרויות סקין
+[Incoming file transfers]
+העברות קבצים נכנסים
+[URL events]
+URL אירועי
+[Ignore all]
+התעלם מהכול
+[Ignore none]
+התעלם מכלום
+[Gradient]
+שיפוע
+[Left to right]
+משמאל לימין
+[Right to left]
+מימין לשמאל
+[Top to bottom]
+מלמעלה למטה
+[Bottom to top]
+מלמטה למעלה
+[Top-Left]
+עליון שמאלי
+[Top-Right]
+עליון ימני
+[Bottom-Right]
+תחתון ימני
+[Bottom-Left]
+תחתון שמאלי
+[Textcolor]
+טקסט
+[Border style]
+סגנון גבול
+[<None>]
+<כלום>
+[Raised]
+מובלט
+[Sunken]
+שקוע
+[Bumped]
+גבשושי
+[Etched]
+חרוט
+[Nothing]
+כלום
+[Never]
+אף פעם
+[Always]
+תמיד
+[Warning]
+אזהרה
+[Set popup colours]
+הגדר צבעי פופאפ
+[Popup options]
+אפשרויות פופאפ
+[Version:]
+:גירסה
+[Action]
+פעולה
+[View]
+תצוגה
+[Version Information]
+מידע על גרסא
+[Upload]
+העלה
+[Refresh]
+רענן
+[No change]
+ללא שינוי
+[< &Back]
+< &חזרה
+[&Export]
+יצוא&\n
+[Unknown Contact]
+איש קשר לא מוכר
+[Setting]
+הגדרות
+[Author:]
+יוצר:
+[Browse...]
+...עיון
+[Disable Popups]
+בטל פופאפים
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+בדיוק כמו סביבת משתנים %APPDATA% למשתמשי וינדוז שמחוברים כעת
+[username for currently logged-on Windows user]
+שם משתמש למשתמשי וינדוז שמחוברים כעת
+["My Documents" folder for currently logged-on Windows user]
+תיקית "המסמכים שלי" למשתמשי וינדוז שמחוברים כעת
+["Desktop" folder for currently logged-on Windows user]
+תיקית "שולחן עבודה" למשתמשי וינדוז שמחוברים כעת
+[Variables]
+משתנים
+[Event notifications]
+התראות אירועים
+[Notifications]
+התראות
+[Other events]
+אירועים אחרים
+[Notification]
+התראה
+[Round corners by]
+עגל פינות ב
+[Selected background]
+רקע נבחר
+[Select protocols]
+בחר פרוטוקולים
+[Tooltips]
+כלי טיפים
+[User]
+מתשמש
+[Port]
+פורט
+[Clipboard]
+לוח
+[Server:]
+:שרת
+[FTP File]
+FTP קובץ
+[Enable avatars]
+אפשר אוואטרים
+[Keep connection alive]
+החזק את הקשר חי
+[Send messages slower, but with full acknowledgement]
+שלח הודעות באופן איטי, אבל עם יידוע מלא
+[File Transfer]
+העברת קבצים
+[Number:]
+מספר:
+[Internal IP:]
+איי פי פנימי:
+[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
+מירנדה לא הצליח להתחבר לשרת האיי סי קיו. ייתכן והשרת נפל, במקרה זה, נסה שנית מאוחר יותר
+[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+.הקשר עם השרת הופסק בפתאומיות. ייתכן ונותק החיבור המקומי שלך, בדוק זאת ונסה שנית
+[%s connection]
+%s התחברות
+[Protocol icon]
+אייקון פרוטוקול
+[Background color]
+צבע רקע
+[Text color]
+צבע גופן
+[Test]
+בדוק
+[Enable BBCodes]
+BB אפשר קודי
+[Delete All]
+מחק הכול
+[Outgoing contacts]
+תכנים יוצאים
+[Toolbar]
+סרגל כלים
+[Incoming SMS Message]
+נכנסת סמס הודעת
+[RTF file]
+RTF קובץ
+[and]
+ו
+[Disable]
+בטל
+[All files]
+כל הקבצים
+[Enter an authorization request]
+רשום בקשת אישור
+[Connection settings]
+הגדרות חיבורים
+[Back Color]
+צבע רקע
+[Note]
+כלום
+[&Use Windows colors]
+&השתמש בצבעי וינדוז
+[Previe&w]
+&דוגמא
+[Online since:]
+און ליין מ:
+[Status:]
+מצב:
+[Language:]
+שפה:
+[Homepage]
+דף בית
+[Message:]
+הודעה:
+[Art]
+אומנות
+[Astronomy]
+אסטרונומיה
+[Cars]
+מכוניות
+[Celebrity Fans]
+מועדוני מעריצים
+[Clothing]
+בגדים
+[Collections]
+אוספים
+[Computers]
+מחשבים
+[Entertainment]
+בידור
+[Fitness]
+כושר
+[Hobbies]
+תחביבים
+[Games]
+משחקים
+[Government]
+ממשל
+[Internet]
+אינטרנט
+[Lifestyle]
+סגנון חיים
+[Media]
+מדיה
+[Music]
+מוזיקה
+[Mystics]
+מסטיקה
+[Parenting]
+הורות
+[Parties]
+מסיבות
+[Publishing]
+פרסום
+[Religion]
+דת
+[Skills]
+כישורים
+[Social science]
+מדע סוציאלי
+[Space]
+חלל
+[Sports]
+ספורט
+[Travel]
+טיולים
+[Web Design]
+עיצוב אינטרנט
+[Women]
+אישה
+[Arabic]
+ערבית
+[English]
+אנגלית
+[Greek]
+יוונית
+[Hebrew]
+עברית
+[Japanese]
+יפנית
+[Korean]
+קוריאנית
+[Thai]
+תאי
+[Turkish]
+טורקית
+[Vietnamese]
+ויאטנמים
+[Elementary School]
+בית ספר יסודי
+[High School]
+בית ספר תיכון
+[College]
+'קולג
+[University]
+אוניברסיטה
+[Military]
+צבא
+[Education]
+חינוך
+[Manufacturing]
+יצור
+[Academic]
+אקדמי
+[Administrative]
+ניהולי
+[Art/Entertainment]
+אמנות/בידור
+[College Student]
+'סטודנט קולג
+[Community & Social]
+קהילה וחברה
+[Engineering]
+הנדסה
+[Financial Services]
+שרותים פיננסים
+[High School Student]
+תלמיד בית ספר תיכון
+[Home]
+בית
+[ICQ - Providing Help]
+איי סי קיו - נתינת עזרה
+[Law]
+חוק
+[Managerial]
+ניהול
+[Medical/Health]
+קופת חולים/בריאות
+[Alumni Org.]
+ארגון בוגרים
+[Charity Org.]
+ארגון צדקה
+[Club/Social Org.]
+ארגון מועדוני/חברתי
+[Community Org.]
+ארגון קהילתי
+[Cultural Org.]
+ארגון תרבותי
+[Fan Clubs]
+מועדוני מעריצים
+[Fraternity/Sorority]
+אחווה
+[Hobbyists Org.]
+ארגון תחביבים
+[International Org.]
+ארגון בינלאומי
+[Nature and Environment Org.]
+ארגון טבע וסביבה
+[Professional Org.]
+ארגון מקצועי
+[Scientific/Technical Org.]
+ארגון טכני/מדעי
+[Self Improvement Group]
+קבוצת שיפור עצמי
+[Spiritual/Religious Org.]
+ארגון רוחני/דתי
+[Sports Org.]
+ארגון ספורט
+[Support Org.]
+ארגון תמיכה
+[Trade and Business Org.]
+ארגון מסחר ועסקים
+[Union]
+איחוד
+[Volunteer Org.]
+ארגון התנדבותי
+[No description given]
+לא ניתן תיאור
+[Simplified Chinese]
+סינית פשוטה
+[Traditional Chinese]
+סינית מסורתית\n
+[Central European]
+מזרח אירופאית
+[Cyrillic]
+קירילית
+[Latin I]
+לטינית I
+[Baltic]
+בלטית
+[Korean (Johab)]
+קוריאנית (Johab)
+[Features]
+תכונות
+[Popup Title]
+כותרת פופ אפ
+[%s client-to-client connections]
+%s לקוח-ל-לקוח חיבורי
+[Angry]
+עצבני
+[Tired]
+עייף
+[Eating]
+אוכל
+[Meeting]
+נפגש
+[Coffee]
+קפה
+[Listening to music]
+מקשיב למוזיקה
+[Sleeping]
+ישן
+[Working]
+עובד
+[Cooking]
+מבשל
+[Smoking]
+מעשן
+[On WC]
+בשירותים
+[Love]
+אהבה
+[Gender]
+מין
+[About]
+אודות
+[Please authorize me to add you to my contact list.]
+.אנא אשר אותי בכדי שאוסיף אותך לרשימת אנשי הקשר שלי
+[Clear Log]
+נקה לוג
+[Mode]
+סגנון
+[Show time]
+הראה זמן
+[Show date]
+הראה תאריך
+[Template]
+תבנית
+[Today]
+היום
+[Yesterday]
+אתמול
+[Import...]
+יבוא...
+[Enable]
+אפשר
+[Server]
+שרת
+[Question]
+שאלה
+[&OK]
+אישור
+[Private]
+פרטי
+[Hidden]
+מוסתר
+[Normal]
+רגיל
+[none]
+אין
+[&Kick]
+כינוי&
+[Expert]
+מתקדם
+[Browse]
+עיון
+[Video]
+וידאו
+[Save]
+שמור
+[Login server:]
+שרת מתחבר:
+[From]
+מאת
+[Errors]
+שגיאות
+[unknown]
+לא ידוע
+[Sick]
+חולה
+[Message-Event only]
+הודעות-רק אירועים
+[Update]
+עדכן
+[Message events]
+אירועי הודעה
+[File events]
+אירועי קובץ
+[Other options]
+אפשרויות אחרות
+[&Remove]
+&הסר
+[Reset All]
+אפס הכל
+[MetaContacts]
+תוכן משותף
+[Forget]
+שכח
+[Notify me when a message delivery has failed]
+הודע לי כאשר שליחת הודעה נכשלה
+[Your host (or router):]
+ההוסט שלך או ראוטר:
+[Send &Nudge]
+שלח &נדנוד
+[Debug]
+דיבאג
+[Proto]
+פרוטוקול
+[UIN]
+מספר
+[%s plugin connections]
+%s חיבורי פלאגין
+[Popup Options]
+אפשרויות פופאפ
+[Dismiss Popup]
+סלק פופאפ
+[Auto Update Enabled]
+עדכון אוטומטי מופעל
+[Auto Update Disabled]
+עדכון אוטומטי מבוטל
+[Log to file]
+שמור לקובץ
+[Enable popups]
+אפשר פופאפים
+[characters]
+תוים
+[Message log]
+יומן הודעה
+[You cannot specify a value lower than %d and higher than %d.]
+.אינך יכול לציין ערך קטן מ-%d וגדול מ-%d
+[Email]
+אימייל
+[Link Settings]
+הגדרות קישור
+[Logging]
+רושם מידע
+[Every]
+כל
+[Seconds]
+שניות
+[Component Name]
+שם רכיב
+[Use default codepage]
+השתמש בקוד עמוד ברירת מחדל
+[View Log]
+צפה ביומן
+[Restart]
+הפעל מחדש
+[events]
+אירועים
+[Avatar size:]
+גודל אוואטר:
+[Transparency]
+שקיפות
+[Popup History]
+היסטורית פופאפ\n
+[General options]
+אפשרויות כלליות
+[Popup timeout:]
+פופאפ פסק זמן:
+[More...]
+...עוד
+[Send message]
+שלח הודעה
+[Dismiss popup]
+בטל פופאפ
+[Popups are enabled]
+חלונות מוקפצים מאופשרים
+[Popups are disabled]
+פופאפים מבוטלים
+[Toggle Popups]
+בטל/הפעל פואפס
+[No effect]
+ללא אפקט
+[horizontal]
+אופקי
+[Buttons]
+כפתורים
+[Variable List]
+רשימת משתנים
+[Edit Settings]
+ערוך הגדרות
+[Layout]
+סידור
+[Enable transparency]
+אפשר שקיפות
+[active]
+פעיל
+[inactive]
+לא פעיל
+[Log status changes]
+הצג שינויי מצב
+[Yahoo]
+יאהו
+[Close Tab]
+סגור טאב
+[Insert Emoticon]
+הוסף פרצוף
+[Input area background]
+רקע איזור כתיבה
+[Misc]
+בנוסף
+[Close Session]
+סגור דיון
+[Close session]
+סגור חלון
+[Display]
+הראה
+[Bottom]
+בתחתית
+[Default colors]
+צבעי ברירת מחדל
+[Windows colors]
+צבעי חלונות
+[Play sound]
+דהה פנימה
+[Prefix:]
+תחילית:
+[Choose modes]
+בחר מצבים
+[Show user menu]
+הראה תפריט משתמש
+[Path:]
+נתיב:
+[Units]
+יחידות
+[He]
+הוא
+[He/She]
+הוא/היא
+[Winamp Track]
+טראק וינאמפ\n
+[ID]
+.ת.ז
+[N/A]
+לא זמין

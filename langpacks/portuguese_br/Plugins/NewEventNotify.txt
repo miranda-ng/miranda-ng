@@ -1,0 +1,27 @@
+﻿#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+;============================================================
+;  File: NewEventNotify.dll
+;  Plugin: NewEventNotify
+;  Version: 0.2.2.3
+;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
+;============================================================
+;file \plugins\NewEventNotify\res\resource.rc
+;file \plugins\NewEventNotify\src\main.cpp
+;file \plugins\NewEventNotify\src\menuitem.cpp
+;file \plugins\NewEventNotify\src\neweventnotify.h
+[Requests your authorisation]
+Seus pedidos de autorização
+[ICQ Web pager]
+ICQ Web pager
+[ICQ Email express]
+ICQ E-mail Expresso
+;file \plugins\NewEventNotify\src\options.cpp
+;file \plugins\NewEventNotify\src\popup.cpp
+[This is a sample message event :-)]
+Este é um exemplo de mensagens de eventos :-)
+[This is a sample URL event ;-)]
+Este é um exemplo de evento URL ;-)
+[This is a sample file event :-D]
+Este é um exemplo de evento arquivo:-D
+[This is a sample other event ;-D]
+Este é um exemplo de outro evento;-D

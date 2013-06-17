@@ -1,14 +1,18 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
-[Tlen]
-Tlen
 [Leave status message after disconnection]
 Garder message d'état après déconnexion
 [Ignore advertisements]
 Ignorer les avertissements
 [Show offline users with status messages as invisible in contact list]
 Afficher contacts hors ligne avec le motif d'invisibilité dans la liste
+[Send and receive client version information]
+Envoyer et recevoir l'information de version du logiciel
+[Alert policy]
+Politique d'alerte
+[Use Nudge plugin]
+Utiliser le plugin Nudge
 [Voice Chats]
 Chats vocaux
 [Recording device:]
@@ -19,8 +23,12 @@ Lecteur :
 Options expert
 [Connection Host:]
 Connexion sur l'hôte :
+[Enable encryption]
+Activer le cryptage
 [Enable Always Visible and Never Visible]
 Activer 'Toujours visible' et 'Jamais visible'
+[P2P Connections]
+Connexions p2p
 [Use proxy for incoming connections]
 Utiliser un Proxy pour les connexions entrantes
 [Proxy type:]
@@ -33,8 +41,6 @@ Proxy demandant une identification
 Activer la notification de mail
 [&Custom]
 &Défini
-[P&ermanent]
-P&ermanent
 [Year of birth:]
 Année de naiss. :
 [School:]
@@ -43,6 +49,8 @@ Année de naiss. :
 Recherche :
 [Voice chats]
 Chats vocaux
+[Publicly visible status]
+État visible par tout le monde
 [Save changes]
 Sauver les modifs
 [Avatar Options]
@@ -77,6 +85,26 @@ L'invitation suivante à un chat vocal, a été reçue.
 [Tlen Authentication]
 Authentification Tlen
 ;file \protocols\Tlen\src\jabber_opt.cpp
+[These changes will take effect the next time you connect to the Tlen network.]
+Certains changements ne prendront effets qu'à la reconnexion au réseau Tlen.
+[Tlen Protocol Option]
+Options
+[Accept all alerts]
+Accepter toutes les alertes
+[Ignore alerts from unauthorized contacts]
+Ignorer les alertes des contacts non autorisés
+[Ignore all alerts]
+Ignorer toutes les alertes
+[Always ask me]
+Toujours me demander
+[Accept invitations from authorized contacts]
+Accepter les invitations des contacts non autorisés
+[Accept all invitations]
+Accepter toutes les invitations
+[Ignore invitations from unauthorized contacts]
+Ignorer les invitations des contacts non autorisés
+[Ignore all invitation]
+Ignorer toutes les invitations
 [<Last message>]
 <Dernier message>
 [Forwarding]
@@ -87,24 +115,66 @@ login Tlen
 ;file \protocols\Tlen\src\jabber_thread.cpp
 [Jabber Connection Error]
 Erreur lors de la connexion à Jabber
+[%s Web Messages]
+%s messages web
 [Web message]
 message Web
+[An alert has been received.]
+Vous avez reçu une alerte.
 [Private conference]
 Chat privé
 ;file \protocols\Tlen\src\jabber_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
+[Microphone]
+Micro
+[Speaker]
+Haut parleur
 [Incoming mail]
-mail entrant
+e-mail entrant
 [Alert]
 Alerte
 [Voice Chat]
 Chat Vocal
 ;file \protocols\Tlen\src\tlen_file.cpp
+[1 File]
+1 fichier
 ;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
 Vous avez été kické. Motif : %s 
 [You cannot join this chat room, because you are banned.]
-Vous ne pouvez rssi efface
+Vous ne pouvez rejoindre ce salon, car vous avez été banni.
+[Chat room not found.]
+Salon de Chat non trouvé.
+[This is a private chat room and you are not one of the members.]
+Ceci est un salon privé dont vous n'avez pas été convié.
+[You cannot send any message unless you join this chat room.]
+Vous ne pouvez envoyer de message qu'à partir d'un salon.
+[Chat room with already created.]
+Salon de Chat déjà créé.
+[Nickname '%s' is already registered.]
+Le pseudo '%s' est déjà utilisé.
+[Nickname already in use, please try another one. Hint: '%s' is free.]
+Ce pseudo est déjà utilisé, choisissez en un autre. Conseil : '%s' .
+[You cannot register more than %s nicknames.]
+Vous ne pouvez enregistrer plus de %s pseudo.
+[You cannot create more than %s chat rooms.]
+Vous ne pouvez créer plus de %s salon.
+[You cannot join more than %s chat rooms.]
+Vous ne pouvez rejoindre plus de %s salon.
+[Anonymous nicknames are not allowed in this chat room.]
+les pseudos anonymes ne sont pas permis dans ce salon.
+[Unknown error code : %d]
+Code erreur inconnu : %d
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 ;file \protocols\Tlen\src\tlen_voice.cpp
+[...Connecting...]
+...Connexion...
+[...Waiting for connection...]
+...Attente d'une connexion...
+[...Finished...]
+...Terminée...
+[...Error...]
+...Erreur...
+[...Denied...]
+...Refusée...

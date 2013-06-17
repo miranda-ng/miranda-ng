@@ -8,6 +8,8 @@
 ;file \protocols\Omegle\res\omegle.rc
 ;file \protocols\Omegle\src\chat.cpp
 ;file \protocols\Omegle\src\communication.cpp
+[Stranger]
+Étranger
 ;file \protocols\Omegle\src\connection.cpp
 ;file \protocols\Omegle\src\constants.h
 ;file \protocols\Omegle\src\proto.cpp

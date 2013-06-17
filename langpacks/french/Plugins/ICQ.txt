@@ -20,8 +20,12 @@ Retrouver un mot de passe perdu ou un numéro ICQ
 Créer un nouveau compte ICQ sur le site web ICQ
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
 Note : Saisir 0 pour utiliser un port aléatoire. Mettez 80 ou 433 si vous avez des problèmes pour vous connecter au travers d'un serveur Proxy.
+[Secure (MD5) login]
+Identifiant sécurisé (MD5)
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
 Garder la connexion active (activez cette option si vous utilisez un serveur proxy et que vous êtes fréquemment déconnecté)
+[Ignore concurrent error messages]
+Ignorer les messsages d'erreur concourant
 [Show connection error messages:]
 Afficher les erreurs de connexion :
 [ICQ contacts stored on server]
@@ -40,6 +44,8 @@ Mettre à jour les détails du contact sur la liste du serveur quand je les chan
 Avatars de ICQ
 [Enable avatar support]
 Activer le support des avatars
+[Check avatar validity before saving *]
+Vérifier l'avatar avant de l'enregistrer *
 [Load avatars automatically (like ICQ Lite)]
 Charger les avatars automatiquement (comme ICQ Lite)
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
@@ -55,7 +61,9 @@ Envoyer tous les messages en unicode si possible
 [Use this codepage for Ansi <-> Unicode translation :]
 Traduire de Ansi vers Unicode avec l'encodage :
 [Make me temporarily visible to contacts I send message to]
-Être temporairement visible lorsque j'envoie des messages
+Devenir temporairement visible lorsque j'envoi des messages
+[Notify me when a message delivery has failed (recommended)]
+Me prévenir lors de l'échec d'un envoi de message (recommandé) 
 [Peer-to-peer Messaging]
 Envoi de message en peer-to-peer
 [Enable peer-to-peer message connections]
@@ -64,8 +72,10 @@ Activer le support du mode peer-to-peer
 Mode passif, ne pas créer de nouvelles connexions
 [Extra Features]
 Autres fonctions
+[Reset Custom status on status change]
+Au changement d'état, effacer l'état personnalisé
 [Auto-retrieve Custom status details]
-Télécharger les états personnels
+Télécharger les états personnalisés
 [Block known Spam Bots]
 Bloquer les spams
 [Direct connections]
@@ -87,7 +97,7 @@ Je veux être averti lorsque quelqu'un veut m'ajouter à sa liste de contacts
 [Misc Settings]
 Autres réglages
 [Allow others to view my Online / Offline status from the web (Web Aware)]
-Permettre que l'on voit mon état En Ligne / Hors Ligne depuis le Web
+Permettre que l'on voit mon état En ligne / Hors ligne depuis le Web
 [Allow others to view my primary e-mail address]
 Permettre que l'on voit mon adresse e-mail primaire
 [Only reply to status message requests from users on my contact list]
@@ -99,7 +109,11 @@ Certaines options sont grisées car elles ne peuvent être modifiées que si vou
 [Enable popup support]
 Activer le support des popups
 [Display popup when spambot is detected]
-Voir une popup quand un SpamBot est détecté
+Voir un popup quand un SpamBot est détecté
+[Look && Feel]
+Apparence
+[Fatal]
+Erreur fatale
 [Spam detected]
 Spam détecté
 [Use system &icons]
@@ -127,10 +141,20 @@ Catégorie :
 [Manage ICQ Server Contacts]
 Gestion des contacts du serveur ICQ
 [Select contacts to store:]
-Contacts à sauvegarder:
+Contacts à sauvegarder :
 [Synchronize]
 Synchroniser
+[Retrieving custom status details...]
+Récupération de l'état personnalisé...
+[Confirm Password Change]
+Confirmer le mot de passe
+[Please re-type your new password:]
+Veuillez retaper votre mot de passe :
+[Enter your current password:]
+Entrez le mot de passe actuel :
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
+[Unable to connect to ICQ communication server]
+Connexion impossible au serveur de communication ICQ
 [You could not sign on because the server returned invalid data. Try again.]
 L'authentification a échouée car le serveur a retourné des données invalides. Veuillez réessayer.
 [You have been disconnected from the ICQ network because the current server shut down.]
@@ -140,9 +164,11 @@ Connexion échouée.\nVotre numéro ICQ ou mot de passe ont été rejeté (%d).
 [Connection failed.\nServer has too many connections from your IP (%d).]
 Connexion échouée.\nLe serveur a subis trop de connexions avec votre IP (%d).
 [Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
-Connexion échouée.\nVous vous êtes connecté trop rapidement,\nveuillez réitérer dans 10-20 minutes (%d).
+Connexion échouée.\nVous vous êtes reconnecté trop rapidement,\nveuillez réitérer dans 10-20 minutes (%d).
 [Connection failed.\nThe server did not accept this client version.]
 Connexion échouée.\nLe serveur n'a pas accepté votre version de client.
+[The server sent warning, this version is getting old.\nTry to look for a new one.]
+Le serveur a envoyé un avertissement : version trop vieille.\nEssayez de trouver une plus récente.
 [Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
 Connexion échouée.\nVous avez été rejeté du serveur pour une raison inconnue.\nCeci peut arriver si votre ID est déjà connecté.
 [Connection failed.\nUnknown error during sign on: 0x%02x]
@@ -155,28 +181,50 @@ Erreur d'exécution inconnue : 0x%02x
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Une migration de serveur a échoué car le serveur a envoyé des données invalides. Vous devez vous reconnecter manuellement.
 ;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
+[Spambot Detected]
+Spambot détecté
+[Contact deleted & further events blocked.]
+Contact supprimé & ses futurs évènements bloqués.
 ;file \protocols\IcqOscarJ\src\fam_04message.cpp
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
+Envoi de message trop rapproché. Patientez un peu et retentez un envoi.\r\nSNAC(4.1) Erreur x02
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
+Envoi de message trop rapproché. Patientez un peu et retentez un envoi.\r\nSNAC(4.1) Erreur x03
+[The contact does not support receiving offline messages.]
+Ce contact ne supporte pas les messages hors-ligne
+[The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
+Le contact est déconnecté. Cliquez sur 'Réessayer' afin d'envoi votre message hors ligne\r\nSNAC(4.1) Erreur x04
+[The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
+Le service de messageries est temporairement indisponible. Veuillez attendre avant de ressayer.\r\nSNAC(4.1) Erreur x05
+[The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
+Le client de votre contact ne supporte pas ce type de massage\r\nSNAC(4.1) Erreur x09
+[You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
+Votre message est trop long. Le client de votre contact ne le supporte pas.\r\nSNAC(4.1) Erreur x0A
 [The SNAC format was rejected by the server.\nSNAC(4.1) Error x0E]
 Le format SNAC a été rejeté par le serveur.\nSNAC(4.1) Erreur x0E
+[The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
+Le contact est temporairement indisponible. Patientez un peu et retentez un envoi.\r\nSNAC(4.1) Erreur x13
 [SNAC(4.1) SENDMSG Error (x%02x)]
-SNAC(4.1) SENDMSG Erreur (x%02x)
+SNAC(4.1) Erreur SENDMSG (x%02x)
 [ICQ Note]
 Note ICQ
 ;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
+[Server contact list is unavailable, Miranda will use local contact list.]
+Liste de contacts du serveur indisponible, Miranda utilisera la liste locale.
 [Adding of contact to server list failed.]
 Ajout d'un contact à la liste-serveur échoué.
 [Adding of group to server list failed.]
 Ajout d'un groupe à la liste-serveur échoué.
 [Removing of contact from server list failed.]
-Effacement d'un contact de la liste-serveur échoué.
+Suppression d'un contact de la liste-serveur échouée.
 [Updating of group on server list failed.]
 MAJ d'un groupe sur la liste-serveur échouée.
 [Removing of group from server list failed.]
-Effacement d'un groupe de la liste-serveur échoué.
+Suppression d'un groupe de la liste-serveur échouée.
 [Moving of user to another group on server list failed.]
 Changement de groupe d'un contact de la liste-serveur échoué
 [Renaming of server group failed.]
-Renomage du groupe-serveur échoué.
+Modification du nom du groupe-serveur échouée.
 ;file \protocols\IcqOscarJ\src\fam_17signon.cpp
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
 [** This message was blocked by the ICQ server ** The message was invalid.]
@@ -184,7 +232,7 @@ Renomage du groupe-serveur échoué.
 [** This message was blocked by the ICQ server ** The message was too long.]
 ** Ce message a été bloqué par le serveur ICQ ** Le message était trop long.
 [** This message was blocked by the ICQ server ** The sender has flooded the server.]
-** Ce message a été bloqué par le serveur ICQ ** L'expéditeur a inondé le serveur.
+** Ce message a été bloqué par le serveur ICQ ** L'expéditeur a surchargé le serveur.
 [** This message was blocked by the ICQ server ** You are too evil.]
 ** Ce message a été bloqué par le serveur ICQ ** Vous êtes trop mauvais.
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
@@ -264,6 +312,8 @@ Pays de Galles
 Îles de Wallis et Futuna
 [Yugoslavia]
 Yougoslavie
+[Business]
+Collègues
 [Past Work Place]
 Anciens lieux de travail
 [Past Organization]
@@ -277,6 +327,10 @@ Le transfert de fichier a été avorté parce que l'un des fichiers que vous ave
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 La réception de fichier a été avortée parce que Miranda ne pouvait ouvrir le fichier de destination afin de l'écrire. Il se peut que vous tentiez de sauvegarder dans un dossier en lecture seule.
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Add to server list]
+Ajouter à la liste serveur
+[Show custom status details]
+Voir le message d'état
 ;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [Display all problems]
 Afficher tous les problèmes.
@@ -286,13 +340,31 @@ Afficher si possible perte de données.
 Afficher les explications des déconnexions.
 [Display problems requiring user intervention]
 Afficher si nécessite une intervention.
+[Do not display any problems (not recommended)]
+Ne jamais afficher (non recommandé)
 [System default codepage]
-Encodage par défaut
+Encodage système par défaut
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
+[Sample Note]
+Exemple de note
+[Sample Warning]
+Exemple d'avertissement
+[Sample Error]
+Exemple d'erreur
+[Sample Fatal]
+Exemple d'erreur fatale
+[Sample Spambot]
+Exemple de Spambot
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
 [You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 Vous n'avez pas indiqué votre numéro d'ICQ.\nAllez dans Options->Réseau->ICQ et recommencez.
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
+[Unable to connect to ICQ login server]
+Connexion impossible au serveur d'identification ICQ
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
+Miranda n'a pas pu allouer un port pour écouter des connexions directes (peer-to-peer) entre clients. Vous pourrez utiliser la plus grande partie du réseau ICQ sans problème, mais il est probable que le transfert de fichier ne fonctionne pas.\n\nSi vous possédez un pare-feu, il se peut que celui-ci bloque Miranda, auquel cas vous devriez configurer votre pare-feu pour qu'il laisse quelques ports ouverts et indiquer à Miranda quels ports utiliser dans M->Options->ICQ->Réseau.
+[Your connection with the ICQ server was abortively closed]
+Votre connexion avec le serveur ICQ a été fermée prématurément
 ;file \protocols\IcqOscarJ\src\icq_servlist.cpp
 ;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [FAILED]
@@ -316,9 +388,9 @@ Ajout de %s à la liste des visibles...
 [Adding %s to invisible list...]
 Ajout de %s à la liste des invisibles...
 [Deleting %s from visible list...]
-Effacement de %s de la liste des visibles...
+Suppression de %s de la liste des visibles...
 [Deleting %s from invisible list...]
-Effacement de %s de la liste des invisibles...
+Suppression de %s de la liste des invisibles...
 [Cleaning groups]
 Nettoyage des groupes
 [Updating group "%s"...]
@@ -330,6 +402,38 @@ Opérations terminées !
 [You have to be online to sychronize the server-list !]
 Vous devez être En ligne pour synchroniser le serveur !
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[Drinking beer]
+Boit de la bière
+[Thinking]
+Pensif
+[Watching TV]
+Regarde la télé
+[Shooting]
+Prend des photos
+[Having fun]
+Prend du bon temps
+[Gaming]
+Joue
+[Studying]
+Étudie
+[Shopping]
+Fait les courses
+[Feeling sick]
+Malade
+[Surfing]
+Surfe
+[Picnic]
+Pique-nique
+[I'm high]
+Plane
+[To be or not to be]
+Être ou ne pas être
+[Watching pro7 on TV]
+Regarde pro7 à la télé
+[Monkey]
+Singe
+[Dog]
+Chien
 [%s Custom Status]
 %s État Personnel
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
@@ -373,7 +477,7 @@ GMT-5:00 Est (E.U. et Canada),Bogota, Lima, Quito, Indiana Est
 [GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
 GMT-4:00 Caracas, La Paz, Heure Atlantique (Canada), Santiago
 [GMT-3:30 Newfoundland]
-GMT-3:30 Terre-Neuves
+GMT-3:30 Terre-Neuve
 [GMT-3:00 Greenland; Buenos Aires; Georgetown]
 GMT-3:00 Groenland, Buenos Aires, Georgetown
 [GMT-2:00 Mid-Atlantic]
@@ -383,15 +487,15 @@ GMT-1:00 Îles du Cap-Vert, Les Açores
 [GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
 GMT Casablanca, Monrovia, Dublin, Edimbourg, Lisbonne, Londres
 [GMT+1:00 Central European Time; West Central Africa; Warsaw]
-GMT+1:00 Afrique centraleouest, Paris, Amsterdam, Berlin, Rôme, Vienne
+GMT+1:00 Afrique centrale ouest, Paris, Amsterdam, Berlin, Rome, Vienne
 [GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
-GMT+2:00 Jérusalem, Helsinki, Harare, Bucharest, Athènes, Istannbul
+GMT+2:00 Jérusalem, Helsinki, Harare, Bucarest, Athènes, Istanbul
 [GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
-GMT+3:00 Moscow, St. Petersburg, Bagdad, Koweït, Riyad
+GMT+3:00 Moscou, St. Petersbourg, Koweït, Riyad, Bagdad
 [GMT+3:30 Tehran]
 GMT+3:30 Téhéran
 [GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat]
-GMT+4:00 Baku, Tbilisi, Everan, Abu Dhabi, Muscat
+GMT+4:00 Bakou, Tbilissi, Erevan, Abu Dhabi, Muscat
 [GMT+4:30 Kabul]
 GMT+4:30 Kaboul
 [GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
@@ -522,3 +626,5 @@ Entrez un mot de passe pour UIN %u :
 Nom affiché :
 [Member since:]
 Inscrit depuis :
+[%s Details]
+%s détails

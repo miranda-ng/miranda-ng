@@ -6,6 +6,8 @@
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Message direction]
+Sens du messsage
 ;file \plugins\HistoryLinkListPlus\src\language.h
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp

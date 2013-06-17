@@ -1,0 +1,38 @@
+﻿#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
+;============================================================
+;  File: HTTPServer.dll
+;  Plugin: HTTPServer
+;  Version: 0.1.2.2
+;  Authors: Kennet Nielsen, modified by Vampik, Houdini
+;============================================================
+;file \plugins\HTTPServer\res\resource.rc
+[Show HTTP server statistics]
+הצג סטטיסטיקת שיתוף הקבצים
+[External server name]
+שם שרת חיצוני
+[This is the link pasted to the message window]
+זה הקישור אשר יש להעתיק לחלון השיחה
+[Write log file]
+יומן קבצים
+[Enable / Disable HTTP server]
+הפעל/בטל שיתוף קבצים
+[Main menu items]
+פריטי תפריט ראשי
+[Open log]
+פתח יומן
+[Page keyword]
+עמוד מילת מפתח
+[URL address]
+כתובת אינטרנט
+[No control when Away/NA]
+ללא פיקוח בלא נמצא/זמין
+;file \plugins\HTTPServer\src\Glob.h
+;file \plugins\HTTPServer\src\GuiElements.cpp
+[HTTP Server]
+שיתוף קבצים
+;file \plugins\HTTPServer\src\HttpUser.cpp
+;file \plugins\HTTPServer\src\main.cpp
+[Disable HTTP server]
+בטל שיתוף קבצים
+[Enable HTTP server]
+אפשר שיתוף קבצים

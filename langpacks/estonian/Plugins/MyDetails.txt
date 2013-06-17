@@ -1,0 +1,46 @@
+﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.11
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+;file \plugins\MyDetails\res\resource.rc
+[Set My Nickname]
+Sea minu hüüdnimi
+[Left:]
+Vasak:
+[Right:]
+Parem:
+[Status Message:]
+Oleku teade:
+[&Offline]
+Väljas
+[On&line]
+Sees
+[&Away]
+Eemal
+[&NA]
+Pole kättesaadav
+[Occ&upied]
+Hõivatud
+[&Free for chat]
+Vestluseks vaba
+[&Invisible]
+Nähtamatu
+[On the &Phone]
+Telefonil
+[Out to &Lunch]
+Lõunatamas
+[Set My Avatar...]
+Sea minu avatar...
+[Set My Nickname...]
+Sea minu hüüdnimi...
+;file \plugins\MyDetails\src\data.cpp
+;file \plugins\MyDetails\src\frame.cpp
+[My Details]
+Minu detailid
+[Show My Details]
+Kuva minu detailid
+;file \plugins\MyDetails\src\mydetails.cpp
+;file \plugins\MyDetails\src\options.cpp

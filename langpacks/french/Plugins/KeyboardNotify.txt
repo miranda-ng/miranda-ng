@@ -6,6 +6,58 @@
 ;  Authors: TioDuke
 ;============================================================
 ;file \plugins\KeyboardNotify\res\resources.rc
+[Events to react on]
+Réagi au évènements suivants
+[Incoming files]
+Fichiers entrants
+[Incoming URLs]
+Liens reçus
+[Everything else]
+Tous les autres
+[Blink if message window is open]
+Si fenêtre de message ouverte
+[     ... and not in foreground]
+     ... et pas au premier plan
+[Only if last is]
+si le dernier à
+[sec. old]
+secondes
+[Events are opened]
+Ouverture de l'évènement
+[Notify when]
+Notifier si
+[Full Screen mode]
+Mode plein écran
+[Defined programs are running]
+Programmes définis en route
+[All other situations]
+Aux autres situations
+[Only notify if status is]
+Prévenir seulement si l'état est
+[Remind me every]
+Notifier toutes les
+[Custom theme]
+Personnaliser le thème
+[Wait before starting flashing]
+Attendre avant de notifier
+[Flash speed]
+Vitesse du clignotement
+[Fast]
+Rapide
+[Slow]
+Lent
+[Emulate keypresses (Use this option if you are using an USB keyboard)]
+Émuler la pression des touches (utile en cas de clavier USB)
+[Create/Edit Themes]
+Créer/Modifier les thèmes
+[Theme]
+Thème
+[Import/Export]
+Importer/Exporter
+[Program]
+Programme
+[Use custom theme]
+Thème personnalisé
 [Ignore messages]
 Ignorer les messages
 [Ignore URLs]
@@ -14,3 +66,11 @@ Ignorer les liens
 Ignorer les fichiers
 ;file \plugins\KeyboardNotify\src\ignore.cpp
 ;file \plugins\KeyboardNotify\src\options.cpp
+[left->right]
+gauche->droite
+[right->left]
+droite->gauche
+[left<->right]
+gauche<->droite
+[Themes]
+Thèmes

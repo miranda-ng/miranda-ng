@@ -8,3 +8,5 @@
 ;file \plugins\QuickContacts\res\resource.rc
 ;file \plugins\QuickContacts\src\options.cpp
 ;file \plugins\QuickContacts\src\quickcontacts.cpp
+[Open history]
+Ouvrir historique

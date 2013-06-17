@@ -6,12 +6,78 @@
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
 ;file \plugins\SMS\res\resource.rc
+[Received SMS]
+SMS reçu
 [&Reply]
 &Répondre
+[Read Next]
+Suivant
+[Message received:]
+Message reçu :
+[Send SMS]
+Envoyer SMS
+[Add number to list]
+Ajouter à la Liste
+[Save number]
+Enregistrer
 [Enter message:]
 Tapez un message :
+[Chars:]
+Lettres :
+[SMS Message Didn't Send]
+Le SMS n'a pas été envoyé
+[&Try again]
+&Réessayer
+[The SMS message send timed out]
+L'envoi du SMS a expiré
+[SMS Plugin]
+Plugin SMS
+[Begining]
+au début
+[End]
+à la fin
+[Put signature at the:]
+Où mettre la signature :
+[SMS Message Sent]
+Envoi d'un message SMS
+[Message ID:]
+ID du message :
+[Source:]
+Source :
+[Network:]
+Réseau :
 ;file \plugins\SMS\src\options.cpp
 ;file \plugins\SMS\src\receive.cpp
+[SMS Message from %s]
+SMS de %s
+[SMS Confirmation from %s]
+Accusé de réception de %s
 ;file \plugins\SMS\src\recvdlg.cpp
+[Received SMS Confirmation]
+Accusé de réception reçu
 ;file \plugins\SMS\src\senddlg.cpp
+[Add Number To The Multiple List]
+Ajouter ce numéro à la Liste
+[Save Number To The User's Details Phonebook]
+Enregistrer le numéro dans le répertoire.
+[Show/Hide Multiple List]
+Voir/Cacher la Liste
+[Shows How Much Chars You've Typed]
+Voir combien de lettres ont été tapées
+[The SMS message send to %s timed out.]
+Échec de l'envoi du SMS à %s.
+[Message is too long, press OK to continue.]
+Message trop long. Tapez OK pour continuer.
+[Error - Message too long]
+ERREUR - Message trop long
+[There must be numbers in the list first.]
+Il doit d'abord y avoir des numéros dans la liste
+[No Numbers]
+Pas de numéro
+[Invalid phone number]
+Numéro invalide
+[<< Single]
+<< Simple
 ;file \plugins\SMS\src\SMS_svc.cpp
+[Incoming SMS Confirmation]
+Accusé de réception entrant

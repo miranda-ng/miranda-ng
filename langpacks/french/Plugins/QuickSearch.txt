@@ -5,3 +5,49 @@
 ;  Versions: 1.4.0.4 - 1.4.0.18
 ;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=260
 ;============================================================
+[Show Offline contacts]
+Montrer les contacts hors ligne
+[wParam type:]
+wParam type :
+[lParam type:]
+lParam type :
+[Sort by Status]
+Trier par état
+[Draw Grid]
+Afficher la grille
+[integer value]
+Valeur intégrée
+[Save Item]
+Sauver
+[Quick Search]
+Recherche rapide
+[Setting:]
+Paramètre :
+[Additional Options]
+Options supplémentaires
+[InfoType:]
+InfoType :
+[New Column]
+Nouvelle colonne
+[Save Column]
+Sauver la colonne
+[Column Up]
+Monter la colonne
+[Column Down]
+Descendre la colonne
+[Delete Column]
+Effacer la colonne
+[Only Users in List]
+Seulement contacts de la liste
+[Show Client Icons]
+Voir l'icône du client
+[Item in Main Menu]
+Entrée dans le menu principal
+[Button on TopToolBar]
+Bouton dans la barre d'outils
+[Global scope hotkey]
+Raccourci principal
+[Miranda scope hotkey]
+Raccourci Miranda
+[TimeStamp]
+Horodateur

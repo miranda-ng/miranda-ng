@@ -1,0 +1,98 @@
+﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.11
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+;file \plugins\MyDetails\res\resource.rc
+[Set My Nickname]
+Sett Mitt Kallenavn
+[Align text to right]
+Still tekst mot høyre
+[Auto-resize frame]
+Auto-resize ramme
+[Use contact list smileys]
+Bruk kontaktliste smileys
+[Replace Smileys]
+Erstatt Smileys
+[Resize Smileys]
+Endring av Smileystørrelse
+[Top:]
+Topp:
+[Bottom:]
+Bunn:
+[Left:]
+Venstre:
+[Right:]
+Høyre:
+[Custom size:]
+Selvvalgt størrelse:
+[Allow it to grow]
+Tillat den å øke
+[Use free space (under avatar) to other texts]
+Bruk ledig plass (under avatar) til andre tekster
+[Set My Status Message for All Status]
+Sett Min Statusmelding for Alle Statuser
+[Status Message:]
+Statusmelding:
+[Status popup]
+Status popup
+[&Offline]
+&Frakoblet
+[On&line]
+On&line
+[&Away]
+&Borte
+[&NA]
+&Ikke Angitt
+[Occ&upied]
+Opp&tatt
+[&DND]
+&Ikke Forstyrr
+[&Free for chat]
+&Tilgjengelig for samtale
+[&Invisible]
+&Usynlig
+[On the &Phone]
+I &Telefonen
+[Out to &Lunch]
+Ute til &Lunsj
+[Context popup]
+Sammenheng popup
+[Set My Avatar...]
+Sett Min Avatar...
+[Set My Nickname...]
+Sett Mitt Kallenavn...
+[Set My Status Message...]
+Sett Min Statusmelding...
+[Nick popup]
+Kallenavn popup
+[Status message popup]
+Statusmelding popup
+[Avatar popup]
+Avatar popup
+;file \plugins\MyDetails\src\data.cpp
+[<no status name>]
+<ingen statusnavn>
+;file \plugins\MyDetails\src\frame.cpp
+[My Details]
+Mine Detaljer
+[Show My Details]
+Vis Mine Detaljer
+[Set My Avatar for %s...]
+Sett Min Avatar for %s...
+[Set My Nickname for %s...]
+Sett Mitt Kallenavn for %s...
+[Set My Status Message for %s...]
+Sett Min Statusmelding for %s...
+[Hide My Details]
+Skjul Mine Detaljer
+;file \plugins\MyDetails\src\mydetails.cpp
+[Set My Nickname for %s]
+Sett Mitt Kallenavn for %s
+[Set My Status Message for %s]
+Sett Min Statusmelding for %s
+[Show next protocol]
+Vis neste protokoll
+;file \plugins\MyDetails\src\options.cpp

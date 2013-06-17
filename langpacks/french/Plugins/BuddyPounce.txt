@@ -6,5 +6,89 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 ;file \plugins\BuddyPounce\res\resource.rc
+[Confirm Pounce send]
+Confirmer l'envoi
+[Pounce being sent to]
+Pounce a envoyé à
+[The Message:]
+Le message :
+[Delete Pounce]
+Effacer Pounce
+[Load default Settings]
+Paramètres par défaut
+[Setting text...........]
+Paramétrages du texte.....
+[Contact To Send Pounce To]
+Envoyer Pounce au contact :
+[The Message]
+Le Message
+[Use Advanced Dialog]
+Fonctions avancées
+[The Message:       (Characters:  )]
+Message  :     (caractères :   )
+[Show Delivery Messages]
+Afficher les msg. envoyés
 ;file \plugins\BuddyPounce\src\dialog.cpp
+[Send If My Status Is...]
+Envoi si mon état est...
+[Send If They Change Status to...]
+Envoi si leur état change vers...
+[Reuse Pounce]
+Réutiliser un message
+[Give Up delay]
+Délai pour réitérer
+[Confirmation Window]
+Fenêtre de confirmation
+[Send If My Status Is]
+Envoi si mon état est
+[Any]
+Hors ligne
+[Free For Chat]
+OK pour un chat
+[On The Phone]
+Au téléphone
+[Out To Lunch]
+Parti manger
+[Send If Their Status changes]
+Envoi si leur état change vers
+[From Offline]
+Hors ligne
+[To Online]
+En ligne
+[To Away]
+Absent
+[To NA]
+Indisponible
+[To Occupied]
+Occupé
+[To DND]
+Ne pas déranger
+[To Free For Chat]
+OK pour un chat
+[To Invisible]
+Invisible
+[To On The Phone]
+Au téléphone
+[To Out To Lunch]
+Parti manger
+[The Message    (%d Characters)]
+Message  :     (%d caractères)
+[The Message    (0 Characters)]
+Message  :     (0 caractère)
+[Reuse this message? (0 to use it once)]
+Réutiliser ce message ?  (0 = une seule fois)
+[Times]
+Heures
+[Giveup after.. (0 to not giveup)]
+Réitérer après (0=désactivé) :
+[Show confirmation window? (0 to not Show)]
+Voir la confirmation ? (0 pour ne pas voir)
+[Seconds to wait before sending]
+Secondes avant d'envoyer
+[Pounce being sent to %s in %d seconds]
+Message envoyé à %s dans %d secondes
+[Message successfully sent to %s]
+Envoi réussi du message à %s
+[Message failed to send to %s]
+Erreur d'envoi du message à %s
 ;file \plugins\BuddyPounce\src\main.cpp

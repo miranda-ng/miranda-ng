@@ -6,6 +6,36 @@
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
+[Automatic Backups]
+Sauvegardes automatiques
+[Number of backups to keep:]
+Nombre de sauvegarde à conserver :
+[Backup NOW]
+Sauvegarder
+[When Miranda starts]
+Au démarrage de Miranda
+[When Miranda exits]
+À la fermeture de Miranda
+[Every:]
+Tous les :
+[Backup to folder:]
+Dossier de sauvegarde :
+[Disable progress bar]
+Désactiver la barre de progression
 ;file \plugins\Db_autobackups\src\backup.cpp
+[Backup in Progress]
+Sauvegarde en cours
+[Rotating backup files...]
+Inversion des fichiers de sauvegardes...
+[Copying database file...]
+Copie de la base de données...
 ;file \plugins\Db_autobackups\src\main.cpp
+[Backup Profile]
+Sauvegarder votre profil
+[Database Backups]
+Profil sauvegardé
 ;file \plugins\Db_autobackups\src\options.cpp
+[Select Backup Folder]
+Sélectionner le répertoire de sauvegarde
+[Error Creating Backup Folder]
+Erreur à la création du répertoire de sauvegarde

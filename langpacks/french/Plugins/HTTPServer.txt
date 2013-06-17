@@ -6,7 +6,55 @@
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 ;file \plugins\HTTPServer\res\resource.rc
+[IPAddress1]
+Adresse IP 1
+[IPAddress2]
+Adresse IP 2
+[Max downloads]
+Download max
+[Allowed IP]
+IP autorisée
+[Show HTTP server statistics]
+Voir les stat. HTTP server
+[Set to default]
+Par défaut
+[Write log file]
+Journaliser
+[Enable / Disable HTTP server]
+Activer/désactiver HTTP server
+[Main menu items]
+Éléments du menu
+[Open log]
+Ouvrir
+[URL address]
+Adresse URL
+[%ExternalIP% variable]
+Variable %ExternalIP%
+[Transfer limit (kb/sec)]
+Limite de transfert (kb/sec)
+[No control when Away/NA]
+Sans contrôle si Absent/indisponible
+[Create HTML (compatibility)]
+Créer un XML (mode compatible)
+[Create XML]
+Créer un XML
+[&Open in Browser]
+&Ouvrir dans le navigateur
 ;file \plugins\HTTPServer\src\Glob.h
 ;file \plugins\HTTPServer\src\GuiElements.cpp
+[Max Downloads]
+Download max
+[Real path]
+Répertoire complet
+[Completed]
+Terminé
+[Speed]
+Vitesse
+[HTTP Server]
+Serveur HTTP
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 ;file \plugins\HTTPServer\src\main.cpp
+[Disable HTTP server]
+Désactiver HTTP server
+[Enable HTTP server]
+Activer HTTP server

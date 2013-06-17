@@ -1,0 +1,562 @@
+﻿;file \src\resource.rc
+[Add %s]
+הוסף את %s
+[Contact Display Options]
+אפשרויות תצוגת רשימה
+[Miranda NG Profile Manager]
+מנהל הפרופילים של מירנדה
+[Find/Add Contacts]
+מצא/הוסף משתמשים
+[Add to list]
+הוסף לרשימה
+[Please select a subentry from the list]
+אנא בחר תת קטגוריה מהרשימה
+[Netlib Log Options]
+אפשרוית רישום Netlib
+[Received bytes]
+בייטים שהתקבלו
+[Sent bytes]
+בייטים שנשלחו
+[Additional data due to proxy communication]
+מידע נוסף בגלל חיבור הפרוקסי
+[Text dumps where available]
+אשפת טקסט אפשרית
+[Auto-detect text]
+אתר באופן אוטומטי טקסט
+[Calling modules' names]
+קרא לשמות מודולים
+[Log to]
+שמור ל
+[OutputDebugString()]
+מחרוזת דיבאג יוצאת()
+[Run now]
+הפעל
+[Show this dialog box when Miranda NG starts]
+הצב את הדיאלוג הזה כשמירנדה מתחילה
+[Save as default]
+שמור כברירת מחדל
+[&Change...]
+...שנ&ה
+[Download more sounds]
+הורד עוד צלילים
+[Location:]
+מיקום:
+[Show category:]
+הראה קטגוריה:
+[&Load icon set...]
+...&טען סט סמלים
+[&Import icons >>]
+ייבא &סמלים >>
+[Download more icons]
+הורד עוד סמלים
+[All Events]
+כל האירועים
+[Only the ticked contacts will be shown on the main contact list]
+רק אנשי הקשר המסומנים יוצגו ברשימה
+[You are visible to this person even when in invisible mode]
+אתה נראה לאיש קשר זה אפילו כשאתה במצב בלתי נראה
+[You are never visible to this person]
+אתה בלתי נראה לאיש זה
+[Icon Index]
+אינדקס סמלים
+[Icon library:]
+ספריית סמלים:
+[Drag icons to main list to assign them:]
+גרור סמלים לרשימה הראשית בכדי להגדיר אותם:
+[Import multiple]
+ייבא מרובים
+[To main icons]
+לסמלים ראשיים
+[<< &Import]
+<< &ייבא
+[Use proxy server]
+השתמש בשרת פרוקסי
+[(often %d)]
+(לפעמים %d)
+[Resolve hostnames through proxy]
+המר שמות בעזרת שרת פרוקסי
+[Example: 1050-1070, 2000-2010, 2500]
+לדוגמא: 1050-1070, 2000-2010, 2500
+[Fonts and Colors]
+גופן וצבע
+[Sample]
+דוגמא
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+.הערה: מירנדה תצטרך להפעיל מחדש בכדי שהשינויים יקחו תוקף
+[&Add...]
+&הוסף...
+[Normal text:]
+טקסט רגיל:
+[&Reset to default]
+אפס &לברירת מחדל
+[&Add to List]
+&הוסף לרשימה
+[Send &Message]
+שלח &הודעה
+;file \src\core\stdauth\resource.rc
+[&Authorize]
+&אשר
+[Reason:]
+:סיבה
+;file \src\core\stdaway\resource.rc
+[Do not reply to requests for this message]
+אל תגיב לבקשות להודעה זו
+[Do not pop up dialog asking for new message]
+אל תציג דיאלוג להזנת הודעה חדשה
+[By default, use the same message as last time]
+כברירת מחדל, השתמש באותה הודעה כמו בפעם הקודמת
+[By default, use this message:]
+כברירת מחדל, השתמש בהודעה  זו
+;file \src\core\stdchat\res\chat.rc
+[Trim to (kB)]
+גזום ל (kB)
+[Userlist row distance (pixels):]
+רשימת משתמשים מרחק גולמי (פיקסלים):
+[Popups for the Chat plugin]
+פופאפים לפלאג הצ'אט
+;file \src\core\stdclist\res\resource.rc
+[Selection colour]
+בחירת צבע
+;file \src\core\stdfile\resource.rc
+[Send File(s)]
+(שלח קובץ(ים
+[File(s):]
+(קובץ(ים:
+[&Choose Again...]
+...בחר &שנית
+[Total size:]
+גודל כולל:
+[A&ccept]
+&קבל
+[&Decline]
+&דחה
+[Files:]
+קבצים:
+[Save to:]
+שמור אל:
+[Open folder]
+פתח תיקיה
+[File Already Exists]
+הקובץ קיים
+[Resume all]
+המשך הכל
+[Overwrite all]
+מחק הכול
+[Save as...]
+...שמור בשם
+[Skip]
+דלג
+[Cancel transfer]
+בטל העברה
+[You are about to receive the file]
+אתה עומד לקבל את הקובץ
+[Existing file]
+קובץ קיים
+[Last modified:]
+שונה לאחרונה:
+[Open file]
+פתח קובץ
+[File properties]
+אפשרויות קובץ
+[File being received]
+הקובץ מתקבל
+[Receiving files]
+מקבל קבצים
+[Received files folder:]
+תיקית קבצים שהתקבלו:
+[Auto-accept incoming files from people on my contact list]
+קבל באופן אוטומטי קבצים ממשתמשים הנמצאים ברשימה שלי
+[Minimize the file transfer window]
+מזער את חלון העברת הקבצים
+[Close window when transfer completes]
+סגור חלון כשהעברת הקבצים מסתיימת
+[Virus scanner]
+סורק וירוסים
+[Scan files:]
+סרוק קבצים:
+[Never, do not use virus scanning]
+לעולם לא, אל תסרוק לחיפוש וירוסים
+[When all files have been downloaded]
+כשכל הקבצים הועברו
+[As each file finishes downloading]
+כשכל קובץ הועבר
+[Command line:]
+שורת פקודה
+[%f will be replaced by the file or folder name to be scanned]
+יוחלף עם הקובץ או התיקיה לסריקה %f
+[Warn me before opening a file that has not been scanned]
+הזהר אותי לפני פתיחת קובץ שאינו נסרק
+[If incoming files already exist]
+אם קבצים שמתקבלים קיימים כבר
+[Ask me]
+שאל אותי
+[Rename (append " (1)", etc.)]
+שנה שם הוסף "(1)", וכד
+[You will always be asked about files from people not on your contact list]
+אתה תמיד תישאל על קבצים שאנשים שלא נמצאים ברשימה שולחים לך
+;file \src\core\stdhelp\resource.rc
+[About Miranda NG]
+אודות מירנדה
+;file \src\core\stdidle\resource.rc
+[Become idle if the following is left unattended:]
+:הפוך ללא נמצא אם הבאים אינם נמצאים בשימוש
+[Miranda]
+מירנדה
+[Become idle if the screen saver is active]
+הפוך ללא נמצא אם שומר המסך מופעל
+[Do not let protocols report any idle information]
+אל תיתן לפרוטוקולים לדווח על מידע היעדרות
+[minute(s)]
+דקות
+[for]
+כ:
+[Change my status mode to:]
+שנה את המצב שלי ל:
+[Do not set status back to online when returning from idle]
+אל תחליף את המצב למחובר כשחוזר מלא נמצא אוטומטי
+[Idle Options]
+אפשרויות לא נמצא אוטומטי
+;file \src\core\stdmsg\res\resource.rc
+[Automatically popup window when:]
+הקפץ חלון פופאפ אוטומטית כאשר:
+[Save the window size and location individually for each contact]
+שמור את גודל החלון ואת מיקומו לכל איש קשר באופן ייחודי
+[Show 'Send' button]
+הצג את לחצן 'שלח'
+[Show username on top row]
+הצג את שם המשתמש בשורה העליונה
+[Show toolbar buttons on top row]
+הצג את הלחצנים בשורה העליונה
+[Show character count]
+הצג את מספר התוים
+[Support control up/down in message area to show previously sent messages]
+תמוך בשליטה למטה/למעלה באיזור הודעות כדי להראות הודעות שנשלחו בעבר
+[Delete temporary contacts when closing message window]
+מחק תוכן זמני כאשר סוגרים חלון הודעות
+[Enable avatar support in the message window]
+אפשר תמיכה באוואטר בחלון הודעות
+[Limit avatar height to ]
+הגבל גובה אוואטר ל
+[pixels.]
+פיקסלים.
+[Show timestamp]
+הראה חותמת זמן
+[Show dates]
+הראה תאריך
+[Show status changes]
+הראה שינויי מצב
+[Update inactive message window icons when a user is typing]
+עדכן סמלים שעל חלונות הודעה לא פעילים כאשר משתמש כותב
+;file \src\core\stduihist\resource.rc
+[&Find Next]
+&חפש את הבא
+[Find What:]
+חפש את:
+;file \src\core\stduserinfo\resource.rc
+[%s: User Details]
+%s: פרטי משתמש
+[Update Now]
+עדכן עכשיו
+[My notes:]
+:הערות שלי
+;file \src\core\stdauth\auth.cpp
+;file \src\core\stdauth\authdialogs.cpp
+;file \src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdchat\src\clist.cpp
+;file \src\core\stdchat\src\colorchooser.cpp
+;file \src\core\stdchat\src\log.cpp
+;file \src\core\stdchat\src\options.cpp
+[Use a tabbed interface]
+השתמש בממשק טאבים
+[Close tab on doubleclick]
+סגור טאב עם לחיצה כפולה
+[Restore previously open tabs when showing the window]
+שחזר טאבים פתוחים קודמים כאשר מציגים את החלון
+[Show tabs at the bottom]
+הראה טאבים בתחתית
+[Send message by pressing the Enter key]
+שלח הודעה באנטר
+[Send message by pressing the Enter key twice]
+של הודעה באנטר כפול
+[Show button for sending messages]
+הראה כפתור לשליחת הודעות
+[Show buttons for controlling the chat room]
+הראה כפתורים לשליטה על חדר הצ'אט
+[Show buttons for formatting the text you are typing]
+הראה כפתורים למחיקת הטקסט שאתה כותב
+[Show new windows cascaded]
+הראה פרישת חלונות חדשים
+[Save the size and position of chat rooms]
+שמור את הגודל והמיקום של חדרי הצ'אט
+[Show the topic of the room on your contact list (if supported)]
+הראה את הכותרת של החדר ברשימת המשתמשים שלך אם נתמך
+[Do not play sounds when the chat room is focused]
+אל תנגן צלילים כשהחדר צ'אט ממוקד
+[Toggle the visible state when double clicking in the contact list]
+שנה את מצב הבלתי נראה בלחיצה פעמיים ברשימת אנשי הקשר
+[Show contact statuses if protocol supports them]
+הראה מצבי משתמש אם הפרוטוקול תומך בהם
+[Display contact status icon before user role icon]
+הצג אייקון סטטוס של משתמש לפני אייקון נגלל של משתמש
+[Timestamp has same colour as the event]
+לחותמת זמן יש אותו צבע כמו לאירוע
+[Add ':' to auto-completed user names]
+הוסף ':' להשלים אוטומטית שמות משתמש
+[Show icon for topic changes]
+הראה אייקון לשינויי נושא
+[Show icon for users joining]
+הראה אייקון למשתמשים שמתחברים
+[Show icon for users disconnecting]
+הראה אייקון למשתמשים שמתנתקים
+[Show icon for messages]
+הראה אייקון להודעות
+[Show icon for actions]
+הראה אייקון לפעולות
+[Show icon for highlights]
+הראה אייקון למודגשים
+[Show icon for users leaving]
+הראה אייקון למשתמשים שעוזבים
+[Show icon for users kicking other user]
+הראה אייקון למשתמשים שמעיפים משתמש אחר
+[Show icon for notices ]
+ הראה אייקון בשביל הודעות
+[Show icon for name changes]
+הראה אייקון לשינויי שמות
+[Show icon for information messages]
+הראה אייקון לשינויי מידע
+[Show icon for status changes]
+הראה אייקון לשינויי מצב
+[Chat Module]
+מצב צאט
+[Message Background]
+רקע הודעה
+[Userlist Lines]
+קווי רשימת משתמשים
+[Options for using a tabbed interface]
+אפשרויות בשביל להשתמש בממשק עם טאבים
+[Icons to display in the message log]
+אייקונים להראות ביומן ההודעות
+[Chat Log]
+יומן צ'אט
+[Chat]
+צ'אט
+;file \src\core\stdchat\src\services.cpp
+;file \src\core\stdchat\src\tools.cpp
+;file \src\core\stdchat\src\window.cpp
+;file \src\core\stdclist\src\clcfonts.cpp
+;file \src\core\stdclist\src\clcopts.cpp
+;file \src\core\stdclist\src\clistopts.cpp
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdemail\email.cpp
+[User has not registered an e-mail address]
+המשתמש לא הגדיר כתובת אימייל
+[&E-mail]
+&אימייל
+;file \src\core\stdfile\file.cpp
+[File from %s]
+%s קובץ מ
+[Denied]
+נדחה
+;file \src\core\stdfile\fileexistsdlg.cpp
+;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\filerecvdlg.cpp
+[Cancelled]
+בוטל
+;file \src\core\stdfile\filesenddlg.cpp
+[%d files]
+%d קבצים
+[%d directories]
+%d ספריות
+;file \src\core\stdfile\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+?הקובץ לא נסרק לוירוסים. האם אתה בטוח שברצונך לפתוח אותו
+[File Received]
+התקבל קובץ
+[Request sent, waiting for acceptance...]
+...הבקשה נשלחה, מחכה לקבלה
+[Waiting for connection...]
+...מחכה לקשר
+[remaining]
+נשארו
+[Decision sent]
+ההחלטה נשלחה
+[Connected]
+מחובר
+[Initialising...]
+...מאתחל
+[Moving to next file...]
+...עובר לקובץ הבא
+[File already exists]
+הקובץ קיים
+[File transfer failed]
+העברת הקבצים נכשלה
+[Scanning for viruses...]
+...סורק לוירוסים
+[Transfer and virus scan complete]
+ההעברה וסריקה לוירוסים הושלמה
+;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\help.cpp
+[&About...]
+...או&דות
+[&Report Bug]
+דווח ע&ל באג
+;file \src\core\stdidle\idle.cpp
+;file \src\core\stdmsg\src\cmdlist.cpp
+;file \src\core\stdmsg\src\globals.cpp
+;file \src\core\stdmsg\src\msgdialog.cpp
+;file \src\core\stdmsg\src\msglog.cpp
+;file \src\core\stdmsg\src\msgoptions.cpp
+[Messaging Log]
+יומן הודעות
+;file \src\core\stdmsg\src\msgs.cpp
+;file \src\core\stdmsg\src\msgtimedout.cpp
+;file \src\core\stduihist\history.cpp
+[Outgoing Message]
+הודעה יוצאת
+[Incoming Message]
+הודעה נכנסת
+[Outgoing File]
+קובץ יוצא
+[Incoming File]
+קובץ נכנס
+[Are you sure you want to delete this history item?]
+?האם אתה בטוח שברצונך למחוק את פריט ההיסטוריה הזה
+[Delete History]
+מחק היסטוריה
+;file \src\core\stdurl\url.cpp
+[URL from %s]
+%s קישור מ
+[Web Page Address (&URL)]
+קישור&
+;file \src\core\stdurl\urldialogs.cpp
+[Send timed out]
+הזמן הנקבע לשליחת ההודעה עבר
+;file \src\core\stduserinfo\contactinfo.cpp
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+מספר הטלפון אמור להתחיל עם + ולהמשיך עם מספרים, רווחים, סוגריים ומקפים בלבד. 
+[Primary]
+ראשי
+[Custom %d]
+%d מותאם אישית
+[Mobile]
+נייד
+;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduseronline\useronline.cpp
+[%s is Online]
+%s מחובר
+;file \src\modules\addcontact\addcontact.cpp
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clistmenus.cpp
+;file \src\modules\clist\clistmod.cpp
+;file \src\modules\clist\clistsettings.cpp
+;file \src\modules\clist\clisttray.cpp
+;file \src\modules\clist\clui.cpp
+[This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
+איש הקשר הזה נמצא במערכת מסרים מיידיים שמאחסנת את רשימת אנשי הקשר בשרת מרכזי. איש הקשר יוסר מהשרת ומהרשימה שלך כשתתחבר מחדש לרשת.
+[De&lete]
+מ&חק
+[&Add permanently to list]
+&הוסף בקביעות לרשימה
+;file \src\modules\clist\contacts.cpp
+[My custom name (not moveable)]
+(השם שאני הגדרתי (לא ניתן להזזה
+[FirstName LastName]
+שם פרטי + שם משפחה
+['(Unknown Contact)' (not moveable)]
+(איש קשר לא מוכר)' (לא ניתן להזזה)'
+;file \src\modules\clist\genmenu.cpp
+;file \src\modules\clist\genmenuopt.cpp
+;file \src\modules\clist\groups.cpp
+[New Group]
+קבוצה חדשה
+[You already have a group with that name. Please enter a unique name for the group.]
+יש לך קבוצה כבר בשם הזה. הזן שם ייחודי לקבוצה.
+[Rename Group]
+שנה שם קבוצה
+[This group]
+הקבוצה הזו
+;file \src\modules\clist\keyboard.cpp
+[Show Hide Contact List]
+הראה החבא רשימת תוכן
+[Read Message]
+קרא הודעה
+[Open Options Page]
+פתח דף אפשרויות
+[Open Find User Dialog]
+פתח תיבת חיפוש משתמש
+;file \src\modules\clist\movetogroup.cpp
+[&Move to Group]
+&העבר לקבוצה
+;file \src\modules\database\database.cpp
+;file \src\modules\database\dbini.cpp
+[Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
+מערכות אבטחה שמזהירות אותך מפני שינויים שיעשו.
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+מערכות אבטחה שמזהירות אותך מפני שינויים שידועים כבלתי בטוחים שנעשים.
+[Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+מערכות אבטחה המונעות שינויים מזיקים לא פעילות. אתה לא תקבל אזהרות.
+[This change is known to be safe.]
+שינוי זה ידוע כבטוח.
+[This change is known to be potentially hazardous.]
+שינוי זה ידוע כמסוכן באופן חלקי.
+[This change is not known to be safe.]
+שינוי זה לא ידוע כבטוח.
+;file \src\modules\database\profilemanager.cpp
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
+;file \src\modules\extraicons\extraicons.cpp
+[Chat Activity]
+פעילות צ'אט
+;file \src\modules\extraicons\options_ei.cpp
+;file \src\modules\findadd\findadd.cpp
+;file \src\modules\findadd\searchresults.cpp
+[%d users found (]
+%d משתמשים נמצאו(
+;file \src\modules\fonts\FontOptions.cpp
+[Fonts]
+גופנים
+;file \src\modules\fonts\FontService.cpp
+;file \src\modules\icolib\skin2opts.cpp
+[Icon Sets]
+סטי סמלים
+;file \src\modules\ignore\ignore.cpp
+;file \src\modules\netlib\netliblog.cpp
+;file \src\modules\netlib\netlibopts.cpp
+[<All connections>]
+<כל ההתקשרויות>
+;file \src\modules\netlib\netlibssl.cpp
+;file \src\modules\options\options.cpp
+;file \src\modules\plugins\newplugins.cpp
+;file \src\modules\plugins\pluginopts.cpp
+[Plugin]
+פלאג
+;file \src\modules\protocols\protoopts.cpp
+;file \src\modules\skin\hotkey_opts.cpp
+;file \src\modules\skin\skinicons.cpp
+[Group (Open)]
+(קבוצה (פתוחה
+[Group (Closed)]
+(קבוצה (סגורה
+[Connecting]
+מתחבר
+[SMS]
+סמס
+[ShowHide]
+הראה החבא
+[Exit]
+יציאה
+[Move to Group]
+העבר לקבוצה
+[%s Icons]
+סמלים של %s
+[Main Icons]
+סמלים ראשיים
+;file \src\modules\skin\sounds.cpp
+;file \src\modules\utils\bmpfilter.cpp
+[All Bitmaps]
+כל מפות הסיביות
+;file \src\modules\utils\timezones.cpp
+;file \src\modules\utils\utils.cpp
+;file \src\modules\visibility\visibility.cpp

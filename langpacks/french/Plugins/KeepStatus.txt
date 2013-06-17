@@ -7,6 +7,28 @@
 ;============================================================
 ;file \Plugins\StatusPlugins\resource.rc
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
+[%s Connected from another location]
+%s est connecté depuis un autre site
+[%s Login error, cancel reconnecting]
+Erreur d'indentification, annulation de la reconnexion
+[%s Login error (next retry (%d) in %ds)]
+Erreur d'indentification (tentative %d dans %ds)
+[%s Status error (next retry (%d) in %ds)]
+Erreur d'état %s (prochain essai (%d) dans %ds)
+[Status error (next retry (%d) in %ds)]
+Erreur dans l'état (tentative %d dans %ds)
+[Resetting status... (last try (%d))%s]
+RAZ de l'état... (dernière tentative (%d))%s]
+[Resetting status... (next retry (%d) in %ds)%s]
+Annulation de la connexion... (tentative %d dans %ds)%s
+[No internet connection seems available... (last try (%d))]
+Pas de connexion Internet... (dernière tentative (%d))]
+[No internet connection seems available... (next retry (%d) in %ds)]
+Pas de connexion Internet... (tentative %d dans %ds)
+[Status was set ok]
+L'état est réglé
+[Giving up]
+Abandon
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 ;file \Plugins\StatusPlugins\confirmdialog.cpp

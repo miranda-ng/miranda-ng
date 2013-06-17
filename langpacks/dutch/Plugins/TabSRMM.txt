@@ -1,0 +1,62 @@
+﻿#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+;============================================================
+;  File: TabSRMM.dll
+;  Plugin: TabSRMM
+;  Version: 3.1.99.8
+;  Authors: The Miranda developers team and contributors
+;============================================================
+;file \plugins\TabSRMM\res\chat.rc
+;file \plugins\TabSRMM\res\resource.rc
+[U&se Popup colours]
+Popup kleuren gebruiken
+[&Use Windows colours]
+Windows kleuren gebr&uik
+[&Use Windows colours]
+Windows kleuren gebr&uiken
+;file \plugins\TabSRMM\src\buttonsbar.cpp
+;file \plugins\TabSRMM\src\container.cpp
+;file \plugins\TabSRMM\src\containeroptions.cpp
+;file \plugins\TabSRMM\src\controls.cpp
+;file \plugins\TabSRMM\src\eventpopups.cpp
+[Incoming file]
+Binnenkomend bestand
+;file \plugins\TabSRMM\src\generic_msghandlers.cpp
+;file \plugins\TabSRMM\src\globals.cpp
+;file \plugins\TabSRMM\src\hotkeyhandler.cpp
+;file \plugins\TabSRMM\src\infopanel.cpp
+;file \plugins\TabSRMM\src\mim.cpp
+;file \plugins\TabSRMM\src\modplus.cpp
+;file \plugins\TabSRMM\src\msgdialog.cpp
+;file \plugins\TabSRMM\src\msgdlgutils.cpp
+;file \plugins\TabSRMM\src\msglog.cpp
+;file \plugins\TabSRMM\src\msgoptions.cpp
+;file \plugins\TabSRMM\src\msgs.cpp
+;file \plugins\TabSRMM\src\msgs.h
+;file \plugins\TabSRMM\src\selectcontainer.cpp
+;file \plugins\TabSRMM\src\sendlater.cpp
+;file \plugins\TabSRMM\src\sendqueue.cpp
+;file \plugins\TabSRMM\src\sidebar.cpp
+;file \plugins\TabSRMM\src\srmm.cpp
+;file \plugins\TabSRMM\src\taskbar.cpp
+;file \plugins\TabSRMM\src\templates.cpp
+;file \plugins\TabSRMM\src\themeio.cpp
+;file \plugins\TabSRMM\src\themes.cpp
+;file \plugins\TabSRMM\src\translator.cpp
+[Show headers]
+Koppen weergeven
+;file \plugins\TabSRMM\src\trayicon.cpp
+;file \plugins\TabSRMM\src\typingnotify.cpp
+;file \plugins\TabSRMM\src\userprefs.cpp
+;file \plugins\TabSRMM\src\utils.cpp
+;file \plugins\TabSRMM\src\chat\clist.cpp
+;file \plugins\TabSRMM\src\chat\colorchooser.cpp
+;file \plugins\TabSRMM\src\chat\log.cpp
+;file \plugins\TabSRMM\src\chat\muchighlight.cpp
+;file \plugins\TabSRMM\src\chat\options.cpp
+[Log background]
+Log achtergrond
+[Userlist background]
+Gebruikerslijst achtergrond
+;file \plugins\TabSRMM\src\chat\services.cpp
+;file \plugins\TabSRMM\src\chat\tools.cpp
+;file \plugins\TabSRMM\src\chat\window.cpp

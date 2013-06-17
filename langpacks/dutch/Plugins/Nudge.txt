@@ -1,0 +1,11 @@
+﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+;============================================================
+;  File: Nudge.dll
+;  Plugin: Nudge
+;  Version: 0.0.2.0
+;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
+;============================================================
+;file \plugins\Nudge\res\resource.rc
+;file \plugins\Nudge\src\main.cpp
+;file \plugins\Nudge\src\nudge.cpp
+;file \plugins\Nudge\src\options.cpp

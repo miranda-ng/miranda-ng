@@ -1,0 +1,968 @@
+﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\JabberG\res\jabber.rc
+[User:]
+Usuário:
+[Resource:]
+Recursos:
+[Register new user]
+Registrar novo usuário
+[Use custom connection host and port:]
+Usar host de conexão personalizado e porta:
+[Go]
+Ir
+[Search service]
+Serviço de pesquisa
+[Roster Editor]
+Editor de Registro
+[Jabber]
+Jabber
+[Priority:]
+Prioridade:
+[Use hostname as resource]
+Usar hostname como recurso
+[List of public servers]
+Lista dos servidores públicos
+[Use SSL]
+Usar SSL
+[Use TLS]
+Usar TLS
+[Unregister]
+Não registrado
+[Manually specify connection host]
+Especificar manualmente o host de conexão
+[User directory:]
+Diretório de usuário:
+[Language for human-readable resources:]
+Linguagem para os recursos humanos legível:
+[Allow file sending through direct peer-to-peer connection]
+Permitir o envio de arquivos diretos através de conexão peer-to-peer
+[Specify external address:]
+Especifique o endereço externo:
+[Allow file sending through bytestream proxy server:]
+Permitir o envio de arquivos através do servidor proxy bytestream:
+[Hint:]
+Dica:
+[Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
+Tente desmarcar todas as marcas de seleção acima se você estiver enfrentando problemas com o envio de arquivos. Mas ela pode causar problemas com a transferência de arquivos grandes.
+[Jabber Account Registration]
+Registro de Conta Jabber
+[Jabber Agents]
+Agentes Jabber
+[Register/Search Jabber Agents]
+Cadastre-se/Procura Jabber agentes
+[Jabber server:]
+Servidor Jabber:
+[Register...]
+Registrar...
+[Browse/Join chat room...]
+Procurar/Entrar na sala de bate-papo...
+[Search...]
+Procurar...
+[Registered Jabber Transports]
+Transportes Registrados Jabber
+[Log on]
+Registrar
+[Log off]
+Registro desligado
+[Register with a new service...]
+Registrar com um novo serviço...
+[Command]
+Comando
+[Jabber Form]
+Jabber Formulário
+[Instruction:]
+Instrução:
+[Submit]
+Enviar
+[Data form test]
+Dados de teste de formulário
+[Address1:]
+Endereço1:
+[Address2:]
+Endereço2:
+[ZIP:]
+CEP:
+[Middle:]
+Médio:
+[YYYY-MM-DD]
+AAAA-MM-DD
+[Jabber vCard: Add Email Address]
+Jabber vCard: Adicionar E-mail
+[Email address:]
+Email:
+[X400]
+X400
+[Jabber vCard: Add Phone Number]
+Jabber vCard: Acrescentar o número de telefone
+[Phone number:]
+Telefone:
+[Pager]
+Pager
+[Text/Messaging]
+Texto/Menssagem
+[BBS]
+BBS
+[Modem]
+Modem
+[ISDN]
+ISDN
+[PCS]
+PCS
+[Load]
+Carregar
+[Current Password:]
+Senha atual:
+[New Password:]
+Nova Senha:
+[Confirm New Password:]
+Confirmar Nova Senha:
+[Jabber Multi-User Conference]
+Conferência Multi-usuário Jabber
+[Conference server:]
+Servidor de Conferência:
+[Create or Join Groupchat]
+Criar ou participar de Grupo de Bate-papo
+[Room:]
+Sala:
+[Recently visited chatrooms:]
+Recentemente visitou as salas de bate-papo:
+[Bookmarks]
+Marcador
+[Bookmarks]
+Marcações
+[JID List]
+Lista JID
+[Apply Filter]
+Aplicar filtro
+[Reset Filter]
+Limpar Filtro
+[Jabber Agent Registration]
+Registro do Agente Jabber
+[JID:]
+JID:
+[Register]
+Registro
+[Other JID:]
+Outros JID:
+[Jabber Bookmarks]
+Jabber Favoritos
+[Bookmark Details]
+Detalhes das Preferências
+[Bookmark Type]
+Tipo de Preferências
+[Transport]
+Transportes
+[Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
+Entrar automatico (juntar automaticamente Bookmarks deve estar habilitado nas opções de Miranda)
+[Room JID/ URL:]
+Sala JID/ URL:
+[Bookmark Name:]
+Nome do indicador:
+[Privacy Lists]
+Listas Privadas
+[Lists:]
+Listas:
+[Rules:]
+Barras:
+[Simple Mode]
+Modo Simples
+[Advanced Mode]
+Modo Avançado
+[Add list... (Ins)]
+Adicionar lista... (Ins)
+[Activate (Space)]
+Ativado (Espaço)
+[Set as default (Ctrl+Space)]
+Definir como padrão (Ctrl+Espaço)
+[Remove list (Del)]
+Remover da lista (Del)
+[Add rule (Ins)]
+Adicionar regra (Ins)
+[Edit rule... (F2)]
+Editar parâmetro... (F2)
+[Move rule up (Alt+Up)]
+Mover barra para cima (Alt-te)
+[Move rule down (Alt+Down)]
+Mover barra para baixo (Alt Down)
+[Remove rule (Del)]
+Remover barra (Del)
+[Privacy rule]
+Regra de Privacidade
+[If:]
+Se:
+[Then:]
+Então:
+[following stanza types:]
+seguintes tipos de estrofe:
+[Incoming presence]
+Chegando presença
+[Outgoing presence]
+Saindo presença
+[New privacy list name:]
+Novo nome da lista de privacidade:
+[Enter the name of the new list:]
+Digite o nome da nova lista:
+[Service Discovery]
+Serviço de Descoberta
+[View as tree]
+Exibir como árvore
+[View as list]
+Exibir como lista
+[Node:]
+Nó:
+[Account type:]
+Tipo de conta:
+[Register account now]
+Registrar um conta agora
+[Jabber Account Information:]
+Informação de Conta Jabber:
+[Member Information]
+Informação de Membro
+[Role:]
+Papel:
+[Set role]
+Definir papel
+[Affiliation:]
+Filiação:
+[Set affiliation]
+Configurar afiliação
+[Chat options]
+Opções de Bate-papo
+[Custom messages]
+Mensagens personalizadas
+[Quit:]
+Sair:
+[Slap:]
+Lançar:
+[Someone (maybe you) has requested the following file:]
+Alguém (talvez você) pediu o seguinte arquivo:
+[Request was sent from JID:]
+Pedido foi enviado por JID:
+[The transaction identifier is:]
+O identificador da transação é:
+[Request method is:]
+Método de solicitação é:
+[If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
+Se você deseja confirmar este pedido, por favor clique em Autorizar. Caso contrário, prima negar a rejeitá-la.
+[Authorize]
+Autorizar
+[Deny]
+Negar
+[XML Console]
+Console XML
+[Reset log]
+Esvaziar registro
+;file \protocols\JabberG\src\jabber.cpp
+;file \protocols\JabberG\src\jabber.h
+[/me slaps %s around a bit with a large trout]
+/lançar-me %s em torno de um bit com uma truta grande
+;file \protocols\JabberG\src\jabber_adhoc.cpp
+[Error %s %s]
+Erro %s %s
+[Select Command]
+Selecione o comando
+[Done]
+Feito
+[In progress. Please Wait...]
+Em andamento. Por favor aguarde...
+[Execute]
+Execute
+[Requesting command list. Please wait...]
+Lista de comandos requerente. Aguarde ...
+[Jabber Ad-Hoc commands at]
+Jabber Ad-Hoc comandos AT
+[Sending Ad-Hoc command to]
+Enviando comando Ad-Hoc para
+;file \protocols\JabberG\src\jabber_agent.cpp
+[No message]
+Sem mensagem
+;file \protocols\JabberG\src\jabber_bookmarks.cpp
+[Bookmark Name]
+Nome do indicador
+[Address (JID or URL)]
+Endereço (JID ou URL)
+[Conferences]
+Conferências
+;file \protocols\JabberG\src\jabber_byte.cpp
+;file \protocols\JabberG\src\jabber_caps.cpp
+;file \protocols\JabberG\src\jabber_captcha.cpp
+;file \protocols\JabberG\src\jabber_chat.cpp
+[Member]
+Membro
+[Visitor]
+Visitante
+[Participant]
+Participante
+[Moderator]
+Moderador
+[User %s in now banned.]
+Usuário %s está agora proibido.
+[User %s changed status to %s with message: %s]
+Usuário %s mudou de status %s com a mensagem: %s
+[User %s changed status to %s]
+Usuário %s mudou de status %s
+[Room configuration was changed.]
+Sala de configuração foi alterada.
+[Outcast]
+Rejeitado
+[Affiliation of %s was changed to '%s'.]
+Filiação de %s foi alterado para '%s'.
+[Role of %s was changed to '%s'.]
+Papel de %s foi alterado para '%s'.
+[because room is now members-only]
+Porque a sala agora é apenas para membros
+[user banned]
+utilizador banido
+[Change &nickname]
+Mudar &apelido
+[&Invite a user]
+&Convidar um usuário
+[&Roles]
+&Funções
+[&Participant list]
+&lista de participantes
+[&Moderator list]
+&List Moderador
+[&Affiliations]
+&Afiliações
+[&Member list]
+&Lista de membros
+[&Admin list]
+&Lista de Admin
+[&Owner list]
+&Lista Proprietário
+[Outcast list (&ban)]
+Lista de Rejeitados (&proibir)
+[&Room options]
+&Opções de salas
+[View/change &topic]
+Ver/alterar &tópico
+[Add to &bookmarks]
+Adicionar ao &favoritos
+[&Configure...]
+&Configurar...
+[&Destroy room]
+&Eliminar sala
+[Lin&ks]
+Lin&ks
+[Copy room &JID]
+Copiar sala &JID
+[Copy room topic]
+Copiar tópico da sala
+[&User details]
+&Detalhes de Usuário
+[Member &info]
+Membro &info
+[&Add to roster]
+&Adicionar à lista
+[&Copy to clipboard]
+&Copiar para área de transferência
+[Set &role]
+configurar &papel
+[&Visitor]
+&Visitante
+[&Participant]
+&Participante
+[&Moderator]
+&Moderador
+[Set &affiliation]
+Configurar &filiação
+[&None]
+&Nenhum
+[&Member]
+E Estados
+[&Admin]
+&Admin
+[&Owner]
+&Proprietário
+[Outcast (&ban)]
+Rejeitar(&proibir)
+[Copy &nickname]
+Copiar &apelido
+[Copy real &JID]
+Copiar JID real
+[Real &JID: %s]
+Real &JID: %s
+[Member Info:]
+Membro Info:
+[Real JID not available]
+Real JID não disponível
+[Reason to kick]
+Motivo para chutar
+[Reason to ban]
+Razão para proibir
+[Set topic for]
+Definir tema para
+[Change nickname in]
+Mudança de apelido
+[Reason to destroy]
+Motivo para destruir
+;file \protocols\JabberG\src\jabber_console.cpp
+[Can't send data while you are offline.]
+Não é possível enviar dados enquanto estiver offline.
+[Jabber Error]
+Erro do Jabber
+;file \protocols\JabberG\src\jabber_disco.cpp
+[Node hierarchy]
+Hierarquia
+[Node]
+Nó
+[Navigate]
+Navegar
+[Browse all favorites]
+Procurar todos os favoritos
+[Remove all favorites]
+Remover todas os favoritos
+[Registered transports]
+Transportes registrados
+[Browse local transports]
+Navegar por transportes locais
+[Browse chatrooms]
+Navegar por salas de bate-papo
+[Add to roster]
+Adicionar para a lista de contatos
+;file \protocols\JabberG\src\jabber_disco.h
+[Identities]
+Identidades
+[category]
+categoria
+[Category]
+Categoria
+[Supported features]
+Recursos suportados
+[Info request error]
+Erro no pedido de informação
+[Items request error]
+Erro no pedido de itens
+;file \protocols\JabberG\src\jabber_form2.cpp
+;file \protocols\JabberG\src\jabber_groupchat.cpp
+[Failed to retrieve room list from server.]
+Falha ao obter lista da sala do servidor.
+[No rooms available on server.]
+Não há salas disponíveis no servidor.
+[Room list request timed out.]
+Solicitação de lista de salas expirou.
+[Loading...]
+Carregando...
+[Loading...]
+Carregando...
+[Please wait for room list to download.]
+Por favor, aguarde lista de salas para download.
+[Please specify groupchat directory first.]
+Por favor, especifique diretório do grupo de bate-papo primeiro.
+[Bookmarks...]
+Marcadores...
+;file \protocols\JabberG\src\jabber_icolib.cpp
+[Agents list]
+Lista de agentes
+[Transports]
+Transportes
+[Personal vCard]
+VCard Pessoal
+[Convert to room]
+Converter para sala
+[Login/logout]
+Entrar/Sair
+[Resolve nicks]
+Resolver apelidos
+[AdHoc Command]
+Comando AdHoc
+[OpenID Request]
+Pedido de OpenID
+[Discovery succeeded]
+Descoberta com sucesso
+[Discovery failed]
+Descoberta falhou
+[Discovery in progress]
+Descoberta em andamento
+[Apply filter]
+Aplicar filtro
+[Reset filter]
+Limpar filtro
+[Navigate home]
+Vá para casa
+[Refresh node]
+Atualizar nó
+[Browse node]
+Navegar nó
+[RSS service]
+Serviço de RSS
+[Storage service]
+Serviço de armazenamento
+[Weather service]
+Tempo de serviço
+[Generic privacy list]
+Lista de privacidade genérico
+[Active privacy list]
+Ativar lista de privacidade
+[Default privacy list]
+Lista padrão de privacidade
+[Allow Messages]
+Permitir Mensagens
+[Allow Presences (in)]
+Permitir Presenças (dentro)
+[Allow Presences (out)]
+Permitir Presenças (fora)
+[Allow Queries]
+Permitir consultas
+[Deny Messages]
+Negar Mensagens
+[Deny Presences (in)]
+Negar Presenças (dentro)
+[Deny Presences (out)]
+Negar Presenças (fora)
+[Deny Queries]
+Negar Consultas
+[Dialogs]
+Diálogos
+;file \protocols\JabberG\src\jabber_iqid.cpp
+[Jabber Authentication]
+Autenticação do Jabber
+[Registration successful]
+Sucesso no registro
+[Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
+A senha foi alterada com êxito. Não se esqueça de atualizar a sua senha na opção de protocolo Jabber.
+[Password cannot be changed.]
+A senha não pode ser mudada.
+[Jabber Bookmarks Error]
+Marcadores de Erro Jabber
+;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[Voice List]
+Lista de vozes
+[Member List]
+Lista de membros
+[Moderator List]
+Lista de Moderador
+[Ban List]
+Lista de Banidos
+[Admin List]
+Lista de Admin.
+[Owner List]
+Lista de Proprietário
+[Removing]
+Remover
+;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+[Http authentication request received]
+Http recebeu pedido de autenticação
+;file \protocols\JabberG\src\jabber_menu.cpp
+[Add to Bookmarks]
+Adicionar para Marcadores
+[Commands]
+Comandos
+[Jabber Resource]
+Jabber Resource
+[Last Active]
+Ativo pela última vez
+[Server's Choice]
+Escolha do Servidor
+[&Convert to Contact]
+&Converter em contato
+[&Convert to Chat Room]
+&Converter para Sala de Bate-Papo
+[Registered Transports]
+Transportes Registrado
+[Local Server Transports]
+Servidor Local de Transportes
+[Browse Chatrooms]
+Navegar Salas de Bate-papo
+[Create/Join groupchat]
+Criar/Entrar na Grupo de Bate-papo
+[Roster editor]
+Editor de registro
+[Resource priority]
+Resolver prioridade
+[Resource priority [%d]]
+Recurso prioridade [%d]
+[Last active]
+Ativo pela última vez
+[No activity yet, use server's choice]
+Nenhuma atividade ainda, a escolha o servidor para uso
+[Highest priority (server's choice)]
+Escolha a máxima prioridade do servidor (a)
+;file \protocols\JabberG\src\jabber_message_handlers.cpp
+;file \protocols\JabberG\src\jabber_misc.cpp
+;file \protocols\JabberG\src\jabber_notes.cpp
+;file \protocols\JabberG\src\jabber_opt.cpp
+[These changes will take effect the next time you connect to the Jabber network.]
+Essas mudanças terão efeito na próxima vez que você se conectar à rede Jabber.
+[Jabber Protocol Option]
+Opção do protocolo Jabber
+[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
+Esta operação irá matar a sua conta, lista e todas as informações armazenadas em outro servidor. Você está pronto para fazer isso?
+[Account removal warning]
+Aviso de remoção de conta
+[Log chat state changes]
+Registrar mudanças de status no bate-papo
+[Log presence subscription state changes]
+Reg subscrição de presença ao mudar status
+[Log presence errors]
+Reg erros presença
+[Enable user moods receiving]
+Habilitar receber humores do usuário
+[Enable user tunes receiving]
+Habilitar receber tunes do usuário
+[Server options]
+Opções de servidor
+[Disable SASL authentication (for old servers)]
+Desativar autenticação SASL (para servidores antigos)
+[Enable stream compression (if possible)]
+Ativar compressão de fluxo (se possível)
+[Enable remote controlling (from another resource of same JID only)]
+Ativar controle remoto (de outro recurso da mesma JID somente)
+[Show transport agents on contact list]
+Mostrar agentes de transportes na lista de contatos
+[Automatically add contact when accept authorization]
+Automaticamente adicionar contato quando aceitar autorização
+[Automatically accept authorization requests]
+Automaticamente aceitar pedidos de autorização
+[Fix incorrect timestamps in incoming messages]
+Fixar tempo incorreto em mensagens recebidas
+[Show information about operating system in version replies]
+Mostrar informações sobre o sistema operacional em versão de respostas
+[Accept only in band incoming filetransfers (don't disclose own IP)]
+Aceitar apenas em banda entrada de transferência de arquivos(não divulgar próprio IP)
+[Accept HTTP Authentication requests (XEP-0070)]
+Aceitar solicitações de autenticação HTTP (XEP-0070)
+[Autoaccept multiuser chat invitations]
+Automaticamente aceitar convites de bate-papo
+[Automatically join bookmarks on login]
+Automaticamente juntar marcadores no login
+[Automatically join conferences on login]
+Automaticamente aderir a conferências ao logar
+[Hide conference windows at startup]
+Ocultar janelas de conferência na inicialização
+[Do not show multiuser chat invitations]
+Não mostrar convites de chat multiusuário
+[Log events]
+Reg de eventos
+[Ban notifications]
+Banir notificações
+[Room configuration changes]
+Alterações de configuração da sala
+[Affiliation changes]
+Mudanças de filiação
+[Role changes]
+Mudanças de papel
+[JID]
+JID
+[Subscription]
+Assinatura
+[Uploading...]
+Enviando...
+[Public XMPP Network]
+Rede Pública XMPP
+[Secure XMPP Network]
+Rede Segura XMPP
+[Secure XMPP Network (old style)]
+Rede Segura XMPP (estilo antigo)
+[Google Talk!]
+Google Talk!
+[LiveJournal Talk]
+Discussão LiveJournal
+[Some changes will take effect the next time you connect to the Jabber network.]
+Algumas mudanças terão efeito na próxima vez que você se conectar à rede Jabber.
+;file \protocols\JabberG\src\jabber_password.cpp
+[Set New Password for]
+Definir a nova senha para
+[New password does not match.]
+Nova senha não corresponde.
+[Current password is incorrect.]
+Senha atual está incorreta.
+;file \protocols\JabberG\src\jabber_privacy.cpp
+[Warning: privacy lists were changed on server.]
+Atenção: as listas de privacidade foram alteradas no servidor.
+[Error occurred while applying changes]
+Ocorreu um erro ao aplicar alterações
+[Privacy lists successfully saved]
+Listas de privacidade salvas com sucesso
+[Privacy list %s set as active]
+Lista de privacidade %s definida como ativa
+[Active privacy list successfully declined]
+Ativar lista de privacidade sucesso diminuiu
+[Error occurred while setting active list]
+Ocorreu um erro ao definir lista ativa
+[Privacy list %s set as default]
+Lista de privacidade %s definida como padrão
+[Default privacy list successfully declined]
+Lista padrão de privacidade, o sucesso diminuiu
+[Error occurred while setting default list]
+Ocorreu um erro durante a configuração da lista padrão
+[Simple mode]
+Modo simples
+[Advanced mode]
+Modo avançado
+[Add JID]
+Adicionar JID
+[Activate]
+Ativar
+[Set default]
+Definir como padrão
+[Edit rule]
+Editar regra
+[Add rule]
+Adicionar regra
+[Delete rule]
+Apagar regra
+[Move rule up]
+Mover barra para cima
+[Move rule down]
+Mover barra para baixo
+[Add list...]
+Adicionar lista...
+[Remove list]
+Remover Lista
+[** Default **]
+** Padrão **
+[** Subsription: both **]
+** Subscrição: tanto **
+[** Subsription: to **]
+** Subscrição: a **
+[** Subsription: from **]
+** Subscrição: a partir de **
+[** Subsription: none **]
+** Subscrição: nenhuma **
+[allow ]
+permitir
+[deny ]
+negar
+[all.]
+todos.
+[messages]
+mensagens
+[ and ]
+e
+[incoming presences]
+presenças de entrada
+[outgoing presences]
+presenças de saída
+[queries]
+consultas
+[Else ]
+Diferente
+[If jabber id is ']
+Se Jabber ID é '
+[ (nickname: ]
+(apelidoe:
+[If group is ']
+Se o grupo é '
+[If subscription is ']
+Se a assinatura for '
+[then ]
+então
+[ (act., def.)]
+(ativ., def.)
+[ (active)]
+(ativo)
+[ (default)]
+(padrão)
+[Ready.]
+Pronto.
+[Privacy lists are not saved, discard any changes and exit?]
+Listas de privacidade não são salvas, descartar todas as alterações e sair?
+[Unable to save list because you are currently offline.]
+Não foi possível salvar a lista porque você está atualmente offline.
+[List Editor...]
+Editor de Lista...
+;file \protocols\JabberG\src\jabber_proto.cpp
+;file \protocols\JabberG\src\jabber_rc.cpp
+;file \protocols\JabberG\src\jabber_search.cpp
+[Error %s %s\r\nPlease select other server]
+Erro %s %s\r\nPor favor escolha outro servidor
+[Error Unknown reply recieved\r\nPlease select other server]
+Erro Desconhecido \r\nPor favor escolha outro servidor
+[Error %s %s\r\nTry to specify more detailed]
+Erro %s %s\r\nTente especificar mais detalhadamente
+[Search error]
+Pesquisar erro
+[Please wait...\r\nConnecting search server...]
+Por favor aguarde...\r\nConectando servidor de pesquisa...
+[You have to be connected to server]
+Você tem que estar conectado ao servidor
+;file \protocols\JabberG\src\jabber_svc.cpp
+[closed chat session]
+fechou sessão de chat
+[sent subscription request]
+enviou solicitação de inscrição
+[approved subscription request]
+aprovou o pedido de inscrição
+[declined subscription]
+declinou de inscrição
+[sent error presence]
+enviado presença de erro
+[sent unknown presence type]
+enviado presença tipo desconhecido
+;file \protocols\JabberG\src\jabber_thread.cpp
+[Error: Not enough memory]
+Erro: Não existe memória suficiente
+[Error: Cannot connect to the server]
+Erro: Não é possível conectar ao servidor
+[Error: Connection lost]
+Erro: conexão perdida
+[Requesting registration instruction...]
+Solicitando registro de instrução...
+[Message redirected from: %s\r\n%s]
+Mensagem redirecionada a partir de: %s\r\n%s
+[Sending registration information...]
+Envio de informações de registro...
+;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Software]
+Software
+[Idle since]
+Inativo desde
+[Client capabilities]
+Recursos de cliente
+[Last logoff time]
+Últim hora de saída
+[Uptime]
+Uptime
+[Logoff message]
+Mensagem de Saída
+[Last active resource]
+Recurso ativo a última vez
+[Please switch online to see more details.]
+Selecione on-line para ver mais detalhes.
+[Copy only this value]
+Copie apenas este valor
+[format]
+formato
+[Unknown format]
+Formato Desconhecido
+[Photo]
+Foto
+;file \protocols\JabberG\src\jabber_util.cpp
+[Unknown error message]
+Mensagem de erro desconhecido
+[Advanced Status]
+Status avançado
+;file \protocols\JabberG\src\jabber_vcard.cpp
+[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
+Só JPG, GIF e BMP arquivos de imagem menores que 40 KB são suportados.
+[Jabber vCard]
+VCard Jabber
+[Jabber vCard: Edit Email Address]
+Jabber vCard: Editar endereço de E-mail
+[Jabber vCard: Edit Phone Number]
+Jabber vCard: Editar número de telefone
+;file \protocols\JabberG\src\jabber_ws.cpp
+;file \protocols\JabberG\src\jabber_xstatus.cpp
+[Afraid]
+Com medo
+[Amazed]
+Espantado
+[Annoyed]
+Irritado
+[Anxious]
+Ansioso
+[Aroused]
+Despertado
+[Ashamed]
+Vergonha
+[Bored]
+Entediado
+[Brave]
+Bravo
+[Calm]
+Calmo
+[Cold]
+Frio
+[Confused]
+Confuso
+[Contented]
+Contentou
+[Cranky]
+Irritado
+[Curious]
+Curioso
+[Disgusted]
+Desgostoso
+[Distracted]
+Distraído
+[Embarrassed]
+Embaraçado
+[Excited]
+Animado
+[Flirtatious]
+Flertar
+[Frustrated]
+Frustrado
+[Grumpy]
+Zangado
+[Guilty]
+Culpado
+[Happy]
+Feliz
+[Hot]
+Quente
+[Humbled]
+Humilhado
+[Humiliated]
+Humilhado
+[Hungry]
+Faminto
+[Hurt]
+Ferido
+[Impressed]
+Impressionado
+[In awe]
+Em reverência
+[In love]
+No amor
+[Indignant]
+Indignado
+[Interested]
+Interessado
+[Intoxicated]
+Intoxicado
+[Invincible]
+Invencível
+[Jealous]
+Ciumento
+[Lonely]
+Solitário
+[Mean]
+Significar
+[Moody]
+Temperamental
+[Nervous]
+Nervoso
+[Neutral]
+Neutral
+[Offended]
+Ofendido
+[Playful]
+Brincalhão
+[Proud]
+Orgulho
+[Relieved]
+Aliviado
+[Remorseful]
+Remorso
+[Restless]
+Agitado
+[Sad]
+Triste
+[Sarcastic]
+Sarcástico
+[Serious]
+Sério
+[Shocked]
+Chocado
+[Shy]
+Tímido
+[Sleepy]
+Sonolento
+[Stressed]
+Estressado
+[Surprised]
+Surpreendido
+[Thirsty]
+Sedento
+[Worried]
+Preocupado
+;file \protocols\JabberG\src\ui_utils.cpp

@@ -1,0 +1,15 @@
+﻿#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+;============================================================
+;  File: SimpleStatusMsg.dll
+;  Plugin: Simple status message
+;  Version: 1.9.0.4
+;  Authors: Bartosz 'Dezeath' Biaіek, Harven
+;============================================================
+;file \plugins\SimpleStatusMsg\res\resource.rc
+;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[Re&ad Away Message]
+&a 자리 비움 메세지 읽기
+;file \plugins\SimpleStatusMsg\src\main.cpp
+;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+;file \plugins\SimpleStatusMsg\src\options.cpp
+;file \plugins\SimpleStatusMsg\src\utils.cpp

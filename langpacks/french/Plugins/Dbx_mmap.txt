@@ -7,6 +7,12 @@
 ;============================================================
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 ;file \plugins\Db3x_mmap\src\database.cpp
+[Disk is full. Miranda will now shutdown.]
+Le disque est plein. Miranda va se fermer.
+[Database failure. Miranda will now shutdown.]
+Base de donnée corrompue. Miranda va se fermer.
+[Database Error]
+Erreur dans la base de donnée
 [Database Panic]
 Panique dans la Base de données !
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp

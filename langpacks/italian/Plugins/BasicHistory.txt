@@ -1,0 +1,25 @@
+﻿#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
+;============================================================
+;  File: BasicHistory.dll
+;  Plugin: Basic history
+;  Version: 1.0.1.9
+;  Authors: Krzysztof Kral
+;============================================================
+;file \plugins\BasicHistory\res\BasicHistory.rc
+[Show event icons]
+Mostra icone eventi
+;file \plugins\BasicHistory\src\BasicHistory.cpp
+;file \plugins\BasicHistory\src\EventList.cpp
+[All events]
+Tutti gli eventi
+;file \plugins\BasicHistory\src\ExportManager.cpp
+;file \plugins\BasicHistory\src\HistoryWindow.cpp
+;file \plugins\BasicHistory\src\Options.cpp
+;file \plugins\BasicHistory\src\Options.h
+;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
+;file \plugins\BasicHistory\src\RichHtmlExport.cpp
+;file \plugins\BasicHistory\src\Scheduler.cpp
+;file \plugins\BasicHistory\src\Searcher.cpp
+["%s" not found]
+%s non trovato
+;file \plugins\BasicHistory\src\TxtExport.cpp

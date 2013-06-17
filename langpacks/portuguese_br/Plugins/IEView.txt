@@ -1,0 +1,52 @@
+﻿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.4.0.0
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
+;file \plugins\IEView\res\ieview.rc
+[Enable support for Flash files in smileys and BBCodes]
+Ativar suporte para Arquivos Flash em smileys e BBCodes
+[Enable workaround for PNG transparency]
+Suportar transparência em arquivos PNG
+[Enable MathModule support]
+Ativar suporte a módulo matemático
+[Enable MathModule support]
+Ativar o suporte ao MathModule
+[Replace smileys in user names]
+Substituir smileys no nome de usuários
+[Hide window border]
+Ocultar borda da janela
+[Compatibility Mode]
+Modo de Compatibilidade
+[Use External CSS]
+Usar CSS Externo
+[Use Templates]
+Usar Modelos
+[Background image]
+Imagem de fundo
+[Template Options]
+Opções do Modelo
+[Use message grouping]
+Usar o agrupamento de mensagens
+[Use message grouping]
+Usar mensagem de grupo
+[Show nicknames]
+Exibir apelidos
+[Use long date format]
+Usar formato de data longo
+[Use long date format]
+Usar formato de data por extenso
+[Use relative timestamp]
+Usar marca horária relativa
+[Use relative timestamp]
+Usar marca horária relativa
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+;file \plugins\IEView\src\HTMLBuilder.cpp
+;file \plugins\IEView\src\IEView.cpp
+;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+;file \plugins\IEView\src\Options.cpp
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

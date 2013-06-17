@@ -1,0 +1,106 @@
+﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: xStatus Notify
+;  Version: 1.4.0.9
+;  Authors: Luca Santarelli, Vasilich, yaho
+;============================================================
+;file \plugins\NewXstatusNotify\res\resource.rc
+[Notify when a contact changes to one of these statuses]
+Avvertimi quando un contatto si mette in uno di questi stati:
+[Always when changing from offline]
+Sempre, quando cambia da offline
+[Plugin activation]
+Attivazione plugin
+[Blink icon in the system tray]
+Icona lampeggiante nella SysTray
+[Use status icon]
+Utilizza icona di stato
+[Status Notify]
+Notifica stato
+;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Sound for the status]
+Suono associato allo stato
+;file \plugins\NewXstatusNotify\src\indsnd.h
+[(default sound)]
+(suono predefinito)
+;file \plugins\NewXstatusNotify\src\main.cpp
+[(M) is back online!]
+è tornato online!
+[(F) is back online!]
+è tornata online!
+[(U) is back online!]
+è tornato/a online!
+[User: Online]
+Contatto: Online
+[(M) went offline! :(]
+è andato via! :(
+[(F) went offline! :(]
+è andata via! :(
+[(U) went offline! :(]
+è andato/a via! :(
+[User: Offline]
+Contatto: Offline
+[User: Invisible]
+Contatto: Invisibile
+[(M) feels talkative!]
+ha voglia di chiacchierare!
+[(F) feels talkative!]
+ha voglia di chiacchierare!
+[(U) feels talkative!]
+ha voglia di chiacchierare!
+[User: Free For Chat]
+Contatto: Disponibile a chiacchierare
+[(M) went Away]
+è altrove...
+[(F) went Away]
+è altrove...
+[(U) went Away]
+è altrove...
+[User: Away]
+Contatto: Altrove
+[(M) isn't there anymore!]
+non è più lì!
+[(F) isn't there anymore!]
+non è più lì!
+[(U) isn't there anymore!]
+non è più lì!
+[User: Not Available]
+Contatto: Non disponibile
+[(M) has something else to do.]
+ha altro da fare, ora...
+[(F) has something else to do.]
+ha altro da fare, ora...
+[(U) has something else to do.]
+ha altro da fare, ora...
+[User: Occupied]
+Contatto: Occupato
+[(M) doesn't want to be disturbed!]
+non vuole essere disturbato, ora!
+[(F) doesn't want to be disturbed!]
+non vuole essere disturbata, ora!
+[(U) doesn't want to be disturbed!]
+non vuole essere disturbato/a, ora!
+[User: Do Not Disturb]
+Contatto: Non disturbare
+[(M) is eating something]
+sta masticando qualcosa...
+[(F) is eating something]
+sta masticando qualcosa...
+[(U) is eating something]
+sta masticando qualcosa...
+[User: Out To Lunch]
+Contatto: A pranzo
+[(M) had to answer the phone]
+è impegnato al telefono...
+[(F) had to answer the phone]
+è impegnata al telefono...
+[(U) had to answer the phone]
+è impegnato/a al telefono...
+[User: On The Phone]
+Contatto: Al telefono
+;file \plugins\NewXstatusNotify\src\options.cpp
+;file \plugins\NewXstatusNotify\src\popup.h
+;file \plugins\NewXstatusNotify\src\utils.cpp
+;file \plugins\NewXstatusNotify\src\xstatus.cpp
+;file \plugins\NewXstatusNotify\src\xstatus.h

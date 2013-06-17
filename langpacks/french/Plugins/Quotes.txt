@@ -15,6 +15,8 @@
 ;file \plugins\Quotes\src\ImportExport.cpp
 ;file \plugins\Quotes\src\ModuleInfo.cpp
 ;file \plugins\Quotes\src\QuoteChart.cpp
+[Log File]
+Journal
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp

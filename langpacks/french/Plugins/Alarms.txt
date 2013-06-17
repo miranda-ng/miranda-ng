@@ -6,9 +6,93 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Alarms\res\resource.rc
+[Alarms]
+Alarmes
+[Use popup plugin]
+Utiliser le plugin Popup
+[Default snooze:]
+Son par défaut :
+[Row Height:]
+Taille des colonnes :
+[Auto hide/show]
+Cacher/Montrer automatiquement
+[Period (hours):]
+Période (heure) :
+[Hide/show with clist]
+Comme les contacts
+[Auto size vertically]
+Taille verticale auto
+[Transparency (%):]
+Transparence (%) :
+[Alert Window]
+Fenêtre d'alerte
+[Alarm]
+Alarme
+[Run command:]
+Lignes de commandes :
+[Parameters:]
+Paramètres :
+[Alert 1]
+Alerte 1
+[Alert 2]
+Alerte 2
+[Alert 3]
+Alerte 3
+[Speak]
+Parle
+[Occurrence]
+Occurrence
+[Once]
+Une fois
+[Weekdays]
+En semaine
+[i'm hiding]
+j'me cache
+[Date and Time]
+Date et heure
+[Disable next occurence]
+Désactiver la prochaine occurrence
+[Don't trigger on startup]
+Ne pas activer au démarrage
+[No reminder]
+Ne pas répéter
+[Snooze]
+Répéter
+[&Suspend]
+&Suspendre
+[&Edit...]
+&Éditer...
+[&New Alarm...]
+&Nouvelle Alarme...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
+[Set Alarm]
+Ajouter une alarme
 ;file \plugins\Alarms\src\alarm_win.cpp
+[Example Alarm]
+Exemple
+[Some example text. Example, example, example.]
+Quelques texte d'exemple. Exemple, exemple, exemple.
 ;file \plugins\Alarms\src\frame.cpp
+[Hide Reminders]
+Cacher les rappels
+[Show Reminders]
+Voir les rappels
+[Alarm Reminders]
+Rappels d'alarme
 ;file \plugins\Alarms\src\icons.cpp
+[Menu: Set Alarm]
+Menu : Régler l'Alarme
+[Reminder: Soon]
+Rappel : Bientôt
+[Reminder: Very Soon]
+Rappel : Très Bientôt
+[Alarm: System Tray]
+Alarme : Systray
+[Menu: Show/Hide Reminders]
+Menu : Voir/Cacher les Rappels
 ;file \plugins\Alarms\src\options.cpp
+[Please enter a title for this alarm.]
+Indiquez un nom pour cette alarme.
+[The alarm time you have selected is in the past.]
+L'heure qui vous avez indiqué est dépassée.

@@ -1,0 +1,148 @@
+﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.11
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+;file \plugins\MyDetails\res\resource.rc
+[Set My Nickname]
+Alterar Meu Apelido
+[Set My Nickname]
+Configurar Meu Apelido
+[RTL]
+RTL
+[RTL]
+RTL
+[Align text to right]
+Alinhar texto à direita
+[Align text to right]
+Alinhar texto a direita
+[Auto-resize frame]
+Auto dimensionar janela
+[Auto-resize frame]
+Auto-dimensionarframe
+[Use contact list smileys]
+Usar smileys para os contatos
+[Use contact list smileys]
+Usar smileys na lista de contatos
+[Replace Smileys]
+Substituir Smileys
+[Replace Smileys]
+Substituir Smileys
+[Resize Smileys]
+Redimensionar Smileys
+[Resize Smileys]
+Redimensionar Smileys
+[Top:]
+Topo:
+[Top:]
+Topo:
+[Bottom:]
+Fundo:
+[Bottom:]
+Fundo:
+[Left:]
+Esquerdo:
+[Left:]
+Esquerdo:
+[Right:]
+Direita:
+[Right:]
+Direita:
+[Custom size:]
+Definir tamanho:
+[Custom size:]
+Personalizar tamanho:
+[Allow it to grow]
+Permitir que ela cresça
+[Allow it to grow]
+Permitir expansão
+[Use free space (under avatar) to other texts]
+Usar espaço livre (sob o avatar) para outros textos
+[Use free space (under avatar) to other texts]
+Usar o espaço livre (sob o avatar) para outros textos
+[Set My Status Message for All Status]
+Configura Minha mensagem de Status para Todos os Status
+[Status Message:]
+Mensgem de Status
+[Status popup]
+Popup do status
+[&Away]
+&Sempre
+[&NA]
+&NA
+[Occ&upied]
+Oc&upado
+[&DND]
+&DND
+[&Free for chat]
+&Disponível
+[&Invisible]
+&Invisível
+[On the &Phone]
+Ao tele&fone
+[Out to &Lunch]
+Saiu para &Almoço
+[Context popup]
+Popup de contexto
+[Set My Avatar...]
+Configurar Meu Avatar...
+[Set My Avatar...]
+Configurar Meu Avatar...
+[Set My Nickname...]
+Configurar Meu Apelido...
+[Set My Nickname...]
+Configurar Meu Apelido...
+[Set My Status Message...]
+Configurar Minha Mensagem de Status...
+[Set My Status Message...]
+Configurar Minha Mensagem de Status...
+[Enable Listening To]
+Ativar Ouvir para
+[Nick popup]
+Popup do Apelido
+[Status message popup]
+Popup da mensgem de status
+[Avatar popup]
+Avatar popup
+;file \plugins\MyDetails\src\data.cpp
+;file \plugins\MyDetails\src\frame.cpp
+[My Details]
+Meus detalhes
+[My Details]
+Meus Detalhes
+[Show My Details]
+Mostrar Meus Detalhes
+[Enable Listening To for %s]
+Ativar ouvir para %s
+[Set My Avatar for %s...]
+Config. Meu Avatar para %s...
+[Set My Avatar for %s...]
+Configurar Meu Avatar para %s...
+[Set My Nickname for %s...]
+Configurar Meu Apelido para %s...
+[Set My Nickname for %s...]
+Configurar Meu Apelido para %s...
+[Set My Status Message for %s...]
+Configar Minha Msg de Status para %s...
+[Set My Status Message for %s...]
+Configurar Minha Mensagem de Status para %s...
+[Hide My Details]
+Ocultar Meus Detalhes
+;file \plugins\MyDetails\src\mydetails.cpp
+[Previous protocol]
+Protocolo anterior
+[Next protocol]
+Próximo protocolo
+[Set My Nickname for %s]
+Configurar Meu Apelido para %s
+[Set My Nickname for %s]
+Configurar Meu Apelido para %s
+[Set My Status Message for %s]
+Você pode configurar imagens para serem usados como avatar padrão para contatos que não tenham os seus. Essas imagens NÃo são seus próprios avatares.
+[Show next protocol]
+Mostrar próximo protocolo
+[Show next protocol]
+Exibir próximo protocolo
+;file \plugins\MyDetails\src\options.cpp

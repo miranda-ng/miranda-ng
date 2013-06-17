@@ -1,0 +1,111 @@
+﻿#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
+;============================================================
+;  File: Tipper.dll
+;  Plugin: Tipper
+;  Version: 2.1.0.4
+;  Authors: Scott Ellis, yaho
+;============================================================
+;file \plugins\TipperYM\res\resource.rc
+[Max width:]
+Larg. máxima:
+[Max height:]
+Altura máxima:
+[Show if list not focused]
+Exibir se não visível
+[General padding:]
+Moldura geral:
+[Hover time:]
+Tempo destaque:
+[Status bar tips]
+Tb na Barra de status
+[Labels:]
+Rótulos:
+[Values:]
+Valores:
+[Min width:]
+Larg. Mínima:
+[Min height:]
+Altura mínima:
+[Text padding:]
+Moldura texto:
+[Keep original avatar size]
+Manter tamanho original do avatar
+[Substitution]
+Substituição
+[Contact protocol module]
+Contactar o módulo de protocolo
+[Module:]
+Módulo:
+[Setting or prefix:]
+Configurações:
+[Translation:]
+Tradução:
+[Translation:]
+Tradução:
+[Item]
+Item
+[Value:]
+Valor:
+[Draw a line above]
+Desenhe separador acima
+[Value on a new line]
+Valor em nova linha
+[Substitutions]
+Substituições
+[Enable SmileyAdd support]
+Ativar adição de smileys
+;file \plugins\TipperYM\src\mir_smileys.cpp
+;file \plugins\TipperYM\src\options.cpp
+[No icon]
+Sem ícone
+[No title]
+Sem título
+[Centre]
+Centro
+;file \plugins\TipperYM\src\options.h
+[Client]
+Cliente
+;file \plugins\TipperYM\src\popwin.cpp
+;file \plugins\TipperYM\src\preset_items.cpp
+[Last message]
+Última mens.
+;file \plugins\TipperYM\src\skin_parser.cpp
+;file \plugins\TipperYM\src\tipper.cpp
+[Values]
+Valores
+[Tipper]
+Tipper
+;file \plugins\TipperYM\src\translations.cpp
+[[No translation]]
+<Sem tradução>
+[WORD to status description]
+WORD para descrição do status
+[DWORD timestamp to time]
+DWORD marca para tempo
+[DWORD timestamp to time difference]
+DWORD marca para diferença horária 
+[BYTE to Yes/No]
+BYTE para Sim/Não
+[BYTE to Male/Female (ICQ)]
+BYTE para Homem/Mulher (ICQ)
+[WORD to country name]
+WORD para nome de país
+[DWORD to ip address]
+DWORD para endereço IP
+[<prefix>Day|Month|Year to date]
+<prefixo>Dia|Mês|Ano para data
+[<prefix>Day|Month|Year to age]
+<prefixo>Dia|Mês|Ano para idade
+[<prefix>Hours|Minutes|Seconds to time]
+<prefixo>Horas|Minutos|Segundos para tempo
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+<prefixo>Dia|Mês|Ano|Horas|Minutos|Segundos para diferença horária
+[DWORD timestamp to time (no seconds)]
+DWORD marca para tempo (sem segundos)
+[<prefix>Hours|Minutes to time]
+<prefix>Horas|Minutos para tempo
+[DWORD timestamp to date (short)]
+DWORD marca para data (curta)
+[DWORD timestamp to date (long)]
+DWORD marca para data (longa)
+;file \plugins\TipperYM\src\translations.h

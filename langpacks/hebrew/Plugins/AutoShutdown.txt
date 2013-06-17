@@ -1,0 +1,16 @@
+﻿#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
+;============================================================
+;  File: AutoShutdown.dll
+;  Plugin: Auto shutdown
+;  Version: 1.4.0.2
+;  Authors: H. Herkenrath
+;============================================================
+;file \plugins\AutoShutdown\res\resource.rc
+;file \plugins\AutoShutdown\src\frame.cpp
+[AutoShutdown]
+סגור אוטומטית
+;file \plugins\AutoShutdown\src\main.cpp
+;file \plugins\AutoShutdown\src\options.cpp
+;file \plugins\AutoShutdown\src\settingsdlg.cpp
+;file \plugins\AutoShutdown\src\shutdownsvc.cpp
+;file \plugins\AutoShutdown\src\utils.cpp

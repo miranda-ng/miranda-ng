@@ -8,12 +8,16 @@
 ;file \plugins\Clist_blind\res\resource.rc
 [Show/Hide:]
 Afficher/Cacher :
+[Read Message:]
+Lire le message :
+[Web Search:]
+Recherche web :
 [URL:]
 Lien :
 [Open in new browser window]
 Ouvrir dans une nouvelle fenêtre
 [Show Options]
-Voir les 'Options'
+Voir les options
 ;file \plugins\Clist_blind\src\clcopts.cpp
 ;file \plugins\Clist_blind\src\clistopts.cpp
 ;file \plugins\Clist_blind\src\cluiopts.cpp

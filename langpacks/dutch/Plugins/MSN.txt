@@ -1,0 +1,64 @@
+﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\MSN\res\msn.rc
+[Send message font color/size info inside messages]
+Lettertype grootte/kleur informatie binnenin berichten versturen
+[Disable all contacts not included into my contact list]
+Alle personen niet in mijn lijst uitschakelen
+[Manage server groups]
+Server groepen beheren
+[Server List Manager]
+Server lijst beheerder
+[Contact is included into your server list]
+Persoon is toegevoegd aan uw server lijst
+[Allowed (active) contact]
+Toegestane (actieve) persoon
+[Blocked contact]
+Geblokkeerd persoon
+[Somebody included you in his/her server list]
+Iemand heeft u toegevoegd aan zijn/haar server lijst
+;file \protocols\MSN\src\msn_chat.cpp
+;file \protocols\MSN\src\msn_commands.cpp
+[Contact tried to open an audio conference (currently not supported)]
+Persoon heeft geprobeerd een geluidsconferentie te openen (nog niet ondersteund)
+[Contact left channel]
+Persoon heeft kanaal verlaten
+[To resume the conversation, please quit this session and start a new chat session.]
+Om het gesprek verder te gaan, sluit deze sessie en start aub een nieuwe sessie.
+[There is only 1 person left in the chat, do you want to switch back to standard message window?]
+Er is nog maar 1 persoon over in het gesprek, wilt u terug gaan naar het standaard berichten scherm?
+;file \protocols\MSN\src\msn_errors.cpp
+;file \protocols\MSN\src\msn_links.cpp
+;file \protocols\MSN\src\msn_lists.cpp
+;file \protocols\MSN\src\msn_mail.cpp
+[Subject: %s]
+Onderwerp: %s
+[Hotmail from %s]
+Hotmail van %s
+;file \protocols\MSN\src\msn_menu.cpp
+[You must be talking to start Netmeeting]
+U moet aan het praten zijn om Netmeeting te starten
+;file \protocols\MSN\src\msn_misc.cpp
+;file \protocols\MSN\src\msn_msgqueue.cpp
+;file \protocols\MSN\src\msn_opts.cpp
+[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
+Het importeren van server groepen kan uw lijst layout wijzigen na de volgende login. Wilt u uw groepen uploaden naar de server?
+[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+De wijzigingen die u heeft gemaakt vereisen dat u opnieuw verbinding maakt met het MSN Messenger netwerk voordat ze effect hebben
+[Server list]
+Server lijst
+;file \protocols\MSN\src\msn_p2p.cpp
+[Contact tried to send its webcam data (currently not supported)]
+Persoon heeft geprobeerd zijn webcam gegevens te versturen (nog niet ondersteund)
+[Contact tried to view our webcam data (currently not supported)]
+Persoon heeft geprobeerd onze webcam gegevens te bekijken (nog niet ondersteund)
+;file \protocols\MSN\src\msn_proto.cpp
+[Message is too long: MSN messages are limited by 1202 UTF8 chars]
+Bericht is te lang: MSN berichten zijn gelimiteerd tot 1202 UTF8 karakters
+;file \protocols\MSN\src\msn_svcs.cpp
+;file \protocols\MSN\src\msn_ws.cpp

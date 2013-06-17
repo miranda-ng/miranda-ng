@@ -1,0 +1,452 @@
+﻿;file \src\resource.rc
+[Add %s]
+%s 추가
+[Contact Display Options]
+대화 상대 표시 옵션
+[Miranda NG Profile Manager]
+미란다 IM 프로필 매니저
+[Find/Add Contacts]
+대화 상대 찾기/추가
+[First:]
+이름:
+[Last:]
+성:
+[Add to list]
+목록에 추가
+[Please select a subentry from the list]
+목록에서 하위 엔트리를 선택해 주세요
+[Netlib Log Options]
+Netlib 로그 옵션
+[Received bytes]
+받은 bytes
+[Sent bytes]
+보낸 bytes
+[Additional data due to proxy communication]
+프록시를 이용한 대화로 인한 추가적인 데이터
+[Text dumps where available]
+이용 가능한 곳에서 텍스트 덤프
+[Auto-detect text]
+자동감지 텍스트
+[Calling modules' names]
+모듈명 호출
+[OutputDebugString()]
+디버그 구문 내보내기()
+[Run now]
+지금 실행
+[Show this dialog box when Miranda NG starts]
+미란다 IM 시작시 이 대화 상자 보이기
+[Save as default]
+기본값으로 저장
+[&Change...]
+&C 변경...
+[Download more sounds]
+더 많은 사운드 다운로드
+[Show category:]
+카테고리 보이기:
+[&Load icon set...]
+&L 아이콘 셋 불러오기...
+[&Import icons >>]
+&I 아이콘 불러오기 >>
+[Download more icons]
+더 많은 아이콘 다운로드
+[Only the ticked contacts will be shown on the main contact list]
+체크된 대화 상대만이 메인 대화 상대 목록에 보이게 됩니다
+[You are visible to this person even when in invisible mode]
+비공개 상태에 있을 때라도 이 사람에게는 보이도록 합니다.
+[You are never visible to this person]
+이 사람에게는 절대 보이지 않도록 합니다.
+[Icon Index]
+아이콘 인덱스
+[Icon library:]
+아이콘 라이브러리:
+[Drag icons to main list to assign them:]
+그것을 지정하기 위해 메인 목록에 아이콘은 드래그:
+[Import multiple]
+여러개 가져오기
+[To main icons]
+메인 아이콘으로
+[<< &Import]
+<< &I 가져오기
+[To default status icons]
+기본 상태 아이콘으로
+[Use proxy server]
+프록시 서버 사용
+[(often %d)]
+(%d 마다)
+[Resolve hostnames through proxy]
+프록시를 통해 호스트명 분석
+[Example: 1050-1070, 2000-2010, 2500]
+예: 1050-1070, 2000-2010, 2500
+[&Reset to default]
+&R 기본으로 재설정
+[&Add to List]
+&A 목록에 추가
+[Send &Message]
+&M 메세지 보내기
+;file \src\core\stdauth\resource.rc
+[&Authorize]
+&A 인증
+[Reason:]
+이유:
+;file \src\core\stdaway\resource.rc
+[Do not reply to requests for this message]
+이 메세지 요청에 답장 안함
+[Do not pop up dialog asking for new message]
+새로운 메세지에 대해 대화상자 띄우지 않기
+[By default, use the same message as last time]
+기본값으로, 지난 번과 같은 메세지를 사용
+[By default, use this message:]
+기본값으로, 이 메세지 사용
+;file \src\core\stdchat\res\chat.rc
+;file \src\core\stdclist\res\resource.rc
+;file \src\core\stdfile\resource.rc
+[Send File(s)]
+파일 보내기(s)
+[File(s):]
+파일:
+[&Choose Again...]
+&C 다시 선택...
+[Total size:]
+전체 크기:
+[A&ccept]
+&C 승인
+[&Decline]
+&D 거절
+[Files:]
+파일:
+[Save to:]
+저장
+[Open folder]
+폴더 열기
+[File Already Exists]
+이미 존재하는 파일
+[Resume all]
+전부 이어받기
+[Overwrite all]
+전부 덮어쓰기
+[Save as...]
+다른 이름으로 저장...
+[Skip]
+넘어가기
+[Cancel transfer]
+전송 취소
+[You are about to receive the file]
+파일을 막 받으려 합니다
+[Existing file]
+존재하는 파일
+[Last modified:]
+최근 수정:
+[Open file]
+파일 열기
+[File properties]
+파일 속성
+[File being received]
+받아진 파일
+[Receiving files]
+받은 파일
+[Received files folder:]
+받은 파일 폴더:
+[Auto-accept incoming files from people on my contact list]
+대화 상대 목록에 있는 사람들로부터의 파일은 자동으로 받기
+[Minimize the file transfer window]
+파일전송 창 최소화
+[Close window when transfer completes]
+전송 완료시 창 닫기
+[Virus scanner]
+바이러스 검사
+[Scan files:]
+파일 검사:
+[Never, do not use virus scanning]
+바이러스 검사 사용안함
+[When all files have been downloaded]
+모든 파일 다운로드 완료시
+[As each file finishes downloading]
+각각의 파일이 다운로드 완료시
+[Command line:]
+검사 프로그램:
+[%f will be replaced by the file or folder name to be scanned]
+%f은(는) 검사된 파일 또는 폴더명으로 대체되어질 것입니다
+[Warn me before opening a file that has not been scanned]
+검사가 이루어지지 않은 파일을 열기전에 경고 
+[If incoming files already exist]
+받으려는 파일이 이미 존재하면
+[Ask me]
+물어보기
+[You will always be asked about files from people not on your contact list]
+대화 상대 목록에 없는 사람으로부터의 파일에 대해 항상 물어보기
+;file \src\core\stdhelp\resource.rc
+[About Miranda NG]
+미란다 IM에 대하여
+;file \src\core\stdidle\resource.rc
+[Miranda]
+미란다
+[minute(s)]
+분(s)
+[Change my status mode to:]
+내 상태 변경:
+;file \src\core\stdmsg\res\resource.rc
+[Save the window size and location individually for each contact]
+각각의 대화 상대에 따라 창 크기와 위치를 개별적으로 저장
+[Show 'Send' button]
+'보내기' 버튼 보이기
+[Show username on top row]
+맨 윗 줄에 유저명 보이기
+[Show toolbar buttons on top row]
+맨 윗 줄에 도구바 버튼 보이기
+[Show character count]
+문자 수 보이기
+[Show dates]
+날짜 보이기
+[Update inactive message window icons when a user is typing]
+유저가 입력중일 때 비활성화된 메세지 창 아이콘 업데이트
+;file \src\core\stduihist\resource.rc
+[&Find Next]
+&F 다음 찾기
+[Find What:]
+검색어:
+;file \src\core\stduserinfo\resource.rc
+[Add E-Mail Address]
+이메일 주소 추가
+[%s: User Details]
+%s: 유저 세부사항
+[Update Now]
+지금 업데이트
+[Web page:]
+웹페이지:
+[Past background:]
+과거 배경:
+[Interests:]
+취미:
+[My notes:]
+내 노트:
+[Spoken languages:]
+사용 언어:
+[Local time:]
+지역 시간:
+[Website:]
+웹사이트:
+;file \src\core\stdauth\auth.cpp
+[%u requests authorization]
+%u의 요청에 권한 부여
+[%u added you to their contact list]
+%u가 당신을 대화 상대 목록에 추가했습니다
+;file \src\core\stdauth\authdialogs.cpp
+[(Unknown)]
+(알 수 없음)
+;file \src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdchat\src\clist.cpp
+;file \src\core\stdchat\src\colorchooser.cpp
+;file \src\core\stdchat\src\log.cpp
+;file \src\core\stdchat\src\options.cpp
+;file \src\core\stdchat\src\services.cpp
+;file \src\core\stdchat\src\tools.cpp
+;file \src\core\stdchat\src\window.cpp
+;file \src\core\stdclist\src\clcfonts.cpp
+;file \src\core\stdclist\src\clcopts.cpp
+;file \src\core\stdclist\src\clistopts.cpp
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdemail\email.cpp
+[User has not registered an e-mail address]
+유저가 이메일 주소를 등록하지 않았습니다
+[&E-mail]
+&E 이메일
+;file \src\core\stdfile\file.cpp
+[File from %s]
+%s 로부터 파일
+;file \src\core\stdfile\fileexistsdlg.cpp
+[%s File]
+%s 파일
+;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\filerecvdlg.cpp
+[Cancelled]
+취소됨
+;file \src\core\stdfile\filesenddlg.cpp
+[%d files]
+%d 파일
+[%d directories]
+%d 디렉토리
+;file \src\core\stdfile\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+이 파일은 아직 바이러스 검사가 이루어지지 않았습니다. 그래도 여시겠습니까?
+[File Received]
+받은 파일
+[Request sent, waiting for acceptance...]
+전송 요청, 승인을 기다리는 중...
+[Waiting for connection...]
+접속을 기다리는 중...
+[Unable to initiate transfer.]
+전송을 시작할 수 없습니다.
+[remaining]
+남은 시간
+[Decision sent]
+보낼 파일 결정
+[Connected]
+접속됨
+[Initialising...]
+초기화중...
+[Moving to next file...]
+다음 파일로 이동중...
+[File already exists]
+이미 같은 파일이 존재합니다
+[File transfer denied]
+파일 전송 거절
+[File transfer failed]
+파일 전송 실패
+[Scanning for viruses...]
+바이러스 검사...
+[Transfer and virus scan complete]
+전송 및 바이러스 검사 완료
+;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\help.cpp
+[&About...]
+&A 미란다에 메신저 대하여...
+[&Report Bug]
+&R 버그 리포트
+;file \src\core\stdidle\idle.cpp
+;file \src\core\stdmsg\src\cmdlist.cpp
+;file \src\core\stdmsg\src\globals.cpp
+;file \src\core\stdmsg\src\msgdialog.cpp
+;file \src\core\stdmsg\src\msglog.cpp
+;file \src\core\stdmsg\src\msgoptions.cpp
+[Messaging Log]
+메세징 로그
+;file \src\core\stdmsg\src\msgs.cpp
+;file \src\core\stdmsg\src\msgtimedout.cpp
+;file \src\core\stduihist\history.cpp
+[Outgoing Message]
+보낸 메세지
+[Incoming Message]
+받은 메세지
+[Outgoing File]
+보낸 파일
+[Incoming File]
+받은 파일
+[Are you sure you want to delete this history item?]
+이 히스토리 파일을 정말 지우시겠습니까?
+[Delete History]
+히스토리 지우기
+;file \src\core\stdurl\url.cpp
+[URL from %s]
+%s 로부터 받은 URL
+[Web Page Address (&URL)]
+웹 페이지 주소 (&URL)
+;file \src\core\stdurl\urldialogs.cpp
+[Send timed out]
+시간 초과
+;file \src\core\stduserinfo\contactinfo.cpp
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+전화번호는 a로 시작 해야만 하고 오직 숫자, 빈칸, 괄호, 하이픈으로만 이루어져야 합니다.
+[Primary]
+첫째
+[Custom %d]
+임의 지정 %d
+[Mobile]
+휴대폰
+;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduseronline\useronline.cpp
+[%s is Online]
+%s이(가) 온라인
+;file \src\modules\addcontact\addcontact.cpp
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clistmenus.cpp
+;file \src\modules\clist\clistmod.cpp
+;file \src\modules\clist\clistsettings.cpp
+;file \src\modules\clist\clisttray.cpp
+;file \src\modules\clist\clui.cpp
+[This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
+이 대화상대는 이 대화 상대 목록이 저장된 중앙 서버의 인스턴트 메세징 시스템에 있습니다.  그리고 다음에 네트워크 접속 시 대화 상대는 당신의 대화 상대 목록에서 삭제됩니다.
+[De&lete]
+&I 삭제
+[&Add permanently to list]
+&A 목록에 영구히 추가
+;file \src\modules\clist\contacts.cpp
+[My custom name (not moveable)]
+내 임의 지정 이름 (이동 불가능)
+[FirstName]
+이름
+[LastName]
+성
+[FirstName LastName]
+이름 성
+['(Unknown Contact)' (not moveable)]
+'(알 수 없는 대화 상대)' (이동 불가능)
+;file \src\modules\clist\genmenu.cpp
+;file \src\modules\clist\genmenuopt.cpp
+;file \src\modules\clist\groups.cpp
+[New Group]
+새 그룹
+[You already have a group with that name. Please enter a unique name for the group.]
+이미 그 이름을 가진 그룹이 있습니다. 다른 이름을 입력해 주세요.
+[Rename Group]
+그룹명 바꾸기
+[This group]
+현재 그룹
+;file \src\modules\clist\keyboard.cpp
+;file \src\modules\clist\movetogroup.cpp
+;file \src\modules\database\database.cpp
+;file \src\modules\database\dbini.cpp
+;file \src\modules\database\profilemanager.cpp
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
+;file \src\modules\extraicons\extraicons.cpp
+;file \src\modules\extraicons\options_ei.cpp
+;file \src\modules\findadd\findadd.cpp
+[You haven't filled in the search field. Please enter a search term and try again.]
+검색 필드가 채워지지 않았습니다. 검색어를 입력하고 다시 시도해 주세요.
+[Results]
+결과
+[There are no results to display.]
+표시할 결과가 없습니다.
+[All Networks]
+전체 네트워크
+[Handle]
+이름
+;file \src\modules\findadd\searchresults.cpp
+[1 %s user found]
+1 %s 유저를 찾았습니다
+[%d %s users found]
+%d %s 유저를 찾았습니다 
+[%d users found (]
+%d 유저를 찾았습니다 (
+[No users found]
+유저를 찾지 못했습니다
+;file \src\modules\fonts\FontOptions.cpp
+[Fonts]
+폰트
+;file \src\modules\fonts\FontService.cpp
+;file \src\modules\icolib\skin2opts.cpp
+[Icon Sets]
+아이콘 셋
+;file \src\modules\ignore\ignore.cpp
+;file \src\modules\netlib\netliblog.cpp
+[Select where log file will be created]
+로그 파일이 생성될 위치 지정
+[Select program to be run]
+프로그램이 실행될 위치 지정
+;file \src\modules\netlib\netlibopts.cpp
+[<All connections>]
+<모든 접속>
+;file \src\modules\netlib\netlibssl.cpp
+;file \src\modules\options\options.cpp
+;file \src\modules\plugins\newplugins.cpp
+;file \src\modules\plugins\pluginopts.cpp
+;file \src\modules\protocols\protoopts.cpp
+;file \src\modules\skin\hotkey_opts.cpp
+;file \src\modules\skin\skinicons.cpp
+[Connecting]
+접속중
+[Exit]
+끝내기
+[%s Icons]
+%s 아이콘
+[Main Icons]
+메인 아이콘
+;file \src\modules\skin\sounds.cpp
+;file \src\modules\utils\bmpfilter.cpp
+[All Bitmaps]
+모든 비트맵
+;file \src\modules\utils\timezones.cpp
+;file \src\modules\utils\utils.cpp
+;file \src\modules\visibility\visibility.cpp

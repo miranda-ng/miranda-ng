@@ -1,0 +1,29 @@
+﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
+;============================================================
+;  File: TooltipNotify.dll
+;  Plugin: Tooltip notify
+;  Version: 0.7.0.1
+;  Authors: perf
+;============================================================
+;file \plugins\TooltipNotify\res\main.rc
+[All other]
+כל השאר
+[Duration]
+משך ראות סרגל
+[Show tooltip for]
+הראה למשך
+[Duration x2 upon online event]
+משך כפול 2 למצב מחובר
+[Double click on tooltip]
+דאבל קליק על הסרגל
+[Shows/Hides CList]
+הראה/הסתר רשימה
+[Opens message dialog]
+פותח חלון שיחה
+[Auto positioning]
+מיקום אוטומטי
+[Transparent tooltip]
+שקיפות סרגל
+;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Tooltip Notify]
+סרגל התראות

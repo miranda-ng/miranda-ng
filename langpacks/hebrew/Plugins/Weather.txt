@@ -1,0 +1,208 @@
+﻿#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.1
+;  Authors: Miranda NG Team
+;============================================================
+;file \plugins\Weather\res\resource.rc
+[Brief Info]
+תקציר מידע
+[Webpage]
+אתר בית
+[Update weather information on startup]
+עדכן מידע מזג אוויר בהפעלה
+[Update weather information every]
+עדכן מידע מזג אויר כל
+[Consider weather info updated only when condition and temperature are changed]
+החשב שמידע מזג אויר עודכן רק כאשר יש שינוי בטמפרטורה ובמצב
+[Remove old data when updating]
+הסר מידע ישן בעדכון
+[Make the contact italic when weather alert is issued]
+הפוך את איש הקשר לנטוי כשמתפרסמת אזהרת מזג אויר
+[Modes]
+מצבים
+[Use weather condition as protocol status]
+השתמש במצב מזג אוויר כמצב פרוטוקול
+[Avatar only mode]
+מצב אוואטר בלבד
+[Temperature]
+טמפרטורה
+[Celsius]
+צלסיוס
+[Fahrenheit]
+פרנהייט
+[Degree sign:]
+סימן מעלה:
+[Wind]
+רוח
+[km/h]
+קמ"ש
+[mph]
+מטר לשעה
+[knots]
+קליקים
+[km]
+ק"מ
+[miles]
+מיילים
+[Pressure]
+לחץ
+[inches]
+אינצ'ים
+[mm Hg (torr)]
+mm Hg (תורר)
+[Day/Month]
+יום/חודש
+[Do not append units to values]
+אל תוסיף יחידות לערכים
+[Do not display fractional values]
+אל תציג ערכים מזעריים
+[Frame]
+פריים
+[Avatar size]
+גודל אוואטר
+[Edit Weather Station]
+ערוך מיקום מזג אויר
+[Weather Station]
+מיקום מזג אויר
+[City name]
+שם העיר
+[Log Information]
+מידע יומן
+[Use internal history]
+השתמש בהיסטוריה פנימית
+[Use external file]
+השתמש בקובץ חיצוני
+[Overwrite file upon update]
+החלף קובץ בזמן עדכון
+[More Info URL]
+URL עוד מידע
+[Weather Map]
+מפת מזג אויר
+[Other Options]
+אפשרויות נוספות
+[Set as default station]
+קבע מיקום כברירת מחדל
+[Disable automatic update for this station]
+בטל עדכון אוטומטי למיקום זה
+[Popup only when condition changes]
+פופ אפ רק כאשר מצב משתנה
+[Popup Actions]
+פעולות פופ אפ
+[Left Click]
+קליק שמאל
+[Right Click]
+קליק ימני
+[Popup Delay]
+השהיית פופ אפ
+[Popup Text]
+טקסט פופאפ
+[Updates]
+עדכונים
+[Brief Info Title]
+כותרת מידע
+[Note Text]
+הערות טקסט
+[Extra Text]
+טקסט נוסף
+[External Log]
+יומן חיצוני
+[More Variables]
+עוד משתנים
+[Sunset]
+שקיעה
+[Sunrise]
+זריחה
+[Dewpoint]
+נקודת טל
+[Humidity]
+לחות
+[Open brief information]
+פתח תקציר מידע
+[Open complete forecast]
+פתח תחזית מלאה
+[Open weather map]
+פתח מפת מזג אויר
+[View history]
+צפה בהיסטוריה
+[Show user detail]
+הראה פרטי משתמש
+;file \plugins\Weather\src\weather.cpp
+[Weather Condition Changed]
+תנאי מזג אויר השתנו
+[Weather Alert Issued]
+אזהרת מזג אויר הופעלה
+;file \plugins\Weather\src\weather.h
+[Netlib error - check your internet connection (30)]
+ שגיאת נטליב -בדוק את חיבור האינטרנט שלך (30)
+[%c, %t\nToday:  High %h, Low %l]
+%c, %t\nהיום:  גבוה %h, נמוך %l
+;file \plugins\Weather\src\weather_addstn.cpp
+[Weather Protocol]
+פרוטוקול מזג אוויר
+;file \plugins\Weather\src\weather_contacts.cpp
+;file \plugins\Weather\src\weather_conv.cpp
+[<Error>]
+<שגיאה>
+;file \plugins\Weather\src\weather_data.cpp
+;file \plugins\Weather\src\weather_http.cpp
+[Weather HTTP connections]
+של מזג אויר HTTP חיבורי
+;file \plugins\Weather\src\weather_icons.cpp
+[Update Disabled]
+בטל עדכונים
+[Update with Clear]
+עדכן עם ניקוי
+[View Brief]
+ הראה תקציר
+[View Complete]
+הראה הכול
+[Weather Update]
+עדכון מזג אוויר
+[No Popup]
+ללא פופאפ
+;file \plugins\Weather\src\weather_info.cpp
+[Here is a list of custom variables that are currently available]
+הנה רשימה של משתנים מותאמים אישית שכרגע זמינים
+;file \plugins\Weather\src\weather_ini.cpp
+;file \plugins\Weather\src\weather_mwin.cpp
+;file \plugins\Weather\src\weather_opt.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tמצב נוכחי\n%d\tתאריך נוכחי\n%e\tנקודת טל\n%f\tמרגיש כמו \n%h\tהיום גבוה\n%i\tכיוון רוח\n%l\tהיום נמוך\n%m\tלחות\n%n\tשם תחנה\n%p\tלחץ אטמוספרי\n%r\tזמן זריחה\n%s\tת.ז. תחנה\n%t\tטמפרטורה\n%u\tזמן עדכון\n%v\tראות\n%w\tמהירות רוח\n%y\tשקיעה
+;file \plugins\Weather\src\weather_popup.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tמצב נוכחי\n%d\tתאריך נוכחי\n%e\tנקודת טל\n%f\tמרגיש-כמו טמפרטורה\n%h\tהיום גבוה\n%i\tכיוון הרוח\n%l\tהיום נמוך\n%m\tלחות\n%n\tשם תחנה\n%p\tלחץ אטמוספרי\n%r\tזמן זריחה\n%s\tת.ז. תחנה\n%t\tטמפרטורה\n%u\tזמן עדכון\n%v\tראות\n%w\tמהירות הרוח\n%y\tזמן שקיעה
+[%[..]\tcustom variables]
+%[..]\tמשתנים מותאמים אישית
+;file \plugins\Weather\src\weather_svcs.cpp
+[Station ID]
+ת.ז. של מיקום\n
+[Disable &weather notification]
+בטל &הודעות מזג אוויר
+[Update Weather]
+עדכן מזג אויר
+[Remove Old Data then Update]
+הסר מידע ישן ואז עדכן
+[Brief Information]
+תקציר מידע
+[Read Complete Forecast]
+קרא תחזית מלאה
+[Weather]
+מזג אויר
+[Enable/Disable Weather Update]
+אפשר/בטל עדכון מזג אוויר
+[Update All Weather]
+עדכן את כל מזגי האויר
+[Remove Old Data then Update All]
+הסר מידע ישן ואז עדכן הכל
+[Weather Notification]
+הודעות מזג אוויר
+;file \plugins\Weather\src\weather_update.cpp
+[Unable to retrieve weather information for %s]
+לא מסוגל לקבל מידע מזג אוויר עבור %s
+;file \plugins\Weather\src\weather_userinfo.cpp
+[Variable]
+משתנה
+[More Info]
+מידע נוסף

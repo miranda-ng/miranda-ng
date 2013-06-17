@@ -1,0 +1,39 @@
+﻿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.11.0.1
+;  Authors: Nightwish, Pescuma
+;============================================================
+;file \plugins\AVS\res\avs.rc
+[Set default picture]
+Sea vaikimisi pilt
+[Delete default picture]
+Kustuta vaikimisi pilt
+[Show warning messages]
+Kuva hoiatusteated
+[Resize the avatar to fit max allowed protocol size]
+Muuda avatari suurust, et mahtuda protokolli maks. suurusesse.
+[Picture options]
+Pildi valikud
+[Try to make picture background transparent]
+Proovi teha pildi taust läbipaistvaks
+[Use defaults]
+Kasuta vaikeväärtusi
+;file \plugins\AVS\src\acc.cpp
+;file \plugins\AVS\src\main.cpp
+[XML Files]
+XML-fail
+[Set My Avatar]
+Sea minu avatar
+[My Avatars]
+Minu avatarid
+[Contact Avatars]
+Kontaktide avatarid
+[Own Avatars]
+Oma avatarid
+;file \plugins\AVS\src\options.cpp
+[Reset contact picture]
+Algväärtusta kontakti pilt
+[Contact has no avatar]
+Kontaktil ei ole avatari

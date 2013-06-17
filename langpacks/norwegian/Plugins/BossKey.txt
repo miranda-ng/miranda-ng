@@ -1,0 +1,26 @@
+﻿#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
+;============================================================
+;  File: BossKey.dll
+;  Plugin: BossKey+
+;  Version: 0.5.0.3
+;  Authors: Goblineye Entertainment, Billy_Bons
+;============================================================
+;file \plugins\BossKeyPlus\res\BossKey.rc
+[When I press the hotkey:]
+Når jeg trykker på snarveien:
+[Change status to]
+Endre status til
+[Change only if current status is Online]
+Endre bare dersom nåværende status er Pålogget
+[Use default status message]
+Bruk standard statusmelding
+[Disable Sounds]
+Deaktiver Lyder
+[When I return:]
+Når jeg er tilbake:
+[Request password:]
+Be om passord:
+[Change status back]
+Endre status tilbake
+;file \plugins\BossKeyPlus\src\BossKey.cpp
+;file \plugins\BossKeyPlus\src\Options.cpp

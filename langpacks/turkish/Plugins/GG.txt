@@ -1,0 +1,215 @@
+﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+;============================================================
+;  File: GG.dll
+;  Plugin: GG
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\Gadu-Gadu\res\resource.rc
+[Gadu-Gadu User Details]
+Gadu-Gadu Kullanıcı Detayları
+[Gadu-Gadu Number:]
+Gadu-Gadu Numarası:
+[Retrieve password]
+Parolayı öğren
+[Friends only]
+Yalnız arkadaşlar
+[Show offline users with status message as invisible in contact list]
+Kişi listesindeki çevrim dışı kişileri görünmez kişilerle göster 
+[After disconnection leave away message of status:]
+Bağlantı kesildikten sonra uzakta durum iletisi şu olsun:
+[Receive image and after image is received use:]
+Resmi al ve aldıktan sonra kullan:
+[Conference policy]
+Konferans politikası
+[if total participant count greater than:]
+eğer toplam katılımcı sayısı şundan fazlaysa:
+[if unknown participant count greater than:]
+eğer bilinmeyen katılımcı sayısı şundan fazlaysa:
+[in other case]
+diğer durumda
+[Advanced Configuration]
+Gelişmiş Yapılandırma
+[Show connection errors]
+Bağlantı hatalarını göster
+[Manually specify connection servers' hosts]
+Bağlanılacak sunucuları elle belirle
+[* new line is separator\n** hostname:port format]
+* yeni satır ayıraçtır\n** sunucu:port biçimi
+[Use SSL secure connection]
+SSL güvenli bağlantı kullan
+[Use direct connections]
+Doğrudan bağlantılar kullan
+[Use forwarding]
+İletmeyi kullan
+[Family name:]
+Soyadı:
+[Origin city:]
+Doğum yeri:
+[Birth year:]
+Doğum yılı:
+[Enter token to continue]
+Devam etmek için işareti yazın
+[Create Gadu-Gadu account]
+Gadu-Gadu hesabı oluştur
+[New password:]
+Yeni parola:
+[Confirm password:]
+Parolayı onayla:
+[New e-mail:]
+Yeni e-posta:
+[Remove Gadu-Gadu account]
+Gadu-Gadu hesabını sil
+[Yes, I want to remove my account]
+Evet, hesabımı silmek istiyorum
+[Change Gadu-Gadu password]
+Gadu-Gadu parolasını değiştir
+[Change Gadu-Gadu e-mail]
+Gadu-Gadu e-postasını değiştir
+[Age from:]
+Şu yaştan
+[Open new conference]
+Yeni konferans aç
+;file \protocols\Gadu-Gadu\src\avatar.cpp
+;file \protocols\Gadu-Gadu\src\core.cpp
+[External direct connections hostname %s is invalid. Disabling external host forwarding.]
+Dışarıda doğrudan bağlantı sunucusu %s geçersiz. Dış sunucu yönlendirme kapatılıyor.
+[Server hostname %s is invalid. Using default hostname provided by the network.]
+Sunucu adı %s geçersiz. Ağ tarafından verilen varsayılan sunucu adı kullanılıyor.
+[List import successful.]
+Liste alındı.
+[List remove successful.]
+Liste silindi
+[List export successful.]
+Liste verildi.
+;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[<Last Status>]
+<Son Durum>
+[You need to specify your registration e-mail first.]
+Öncelikle kayıt için e-posta adresinizi belirtmelisiniz.
+[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+Parolanız kayıt e-posta adresinize gönderilecek.\Devam etmek istiyor musunuz?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+Hesabınızda kalıcı değişiklikler yapmadan önce bağlantınızı kesmelisiniz.\nŞimdi bağlantınızı kesmek isitiyor musunuz?
+[Allow]
+İzin Ver
+;file \protocols\Gadu-Gadu\src\filetransfer.cpp
+;file \protocols\Gadu-Gadu\src\gg.cpp
+[HTTP failed connecting]
+HTTP bağlanamadı
+[HTTP failed resolving]
+HTTP çözülemedi
+[HTTP failed reading]
+HTTP okunamadı
+[HTTP failed writing]
+HTTP yazılamadı
+[Unknown HTTP error]
+Bilinmeyen HTTP hatası
+;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Gadu-Gadu Number]
+Gadu-Gadu Numarası
+;file \protocols\Gadu-Gadu\src\groupchat.cpp
+[Open &conference...]
+Kon&ferans aç...
+[&Clear ignored conferences]
+Yoksayılan konferansları &sil
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+%s %d katılımcı ile (%d bilinmeyen) bir konferans açtı.\Katılmak istiyor musunuz?
+[%s initiated the conference.]
+%s konferans açtı.
+[This is my own conference.]
+Bu benim konferansım
+['Unknown']
+'Bilinmeyen'
+[You have to be connected to open new conference.]
+Yeni bir konferans açmak için bağlı olmak zorundasınız.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Tüm yoksayılan konferanslar varsayılacak ve konferans politikası yeniden uygulanacak.
+[There are no ignored conferences.]
+Yoksayılan konferans yok
+;file \protocols\Gadu-Gadu\src\icolib.cpp
+[Import list from server]
+Listeyi sunucudan al
+[Import list from text file]
+Listeyi yazı dosyasından al
+[Remove list from server]
+Listeyi sunucudan sil
+[Export list to server]
+Listeyi sunucuya ver
+[Export list to text file]
+Listeyi yazı dosyasına ver
+[Account settings]
+Hesap ayarları
+[Previous image]
+Önceki resim
+[Next image]
+Sonraki resim
+[Save image]
+Resmi kaydet
+[Delete image]
+Resmi sil
+;file \protocols\Gadu-Gadu\src\image.cpp
+[&Image]
+Res&im
+[Image cannot be written to disk.]
+Resim diske yazılamadı.
+[Image from %s]
+%s resmi
+[Image for %s]
+%s için resim
+[Select picture to send]
+Gönderilecek resmi seçin
+[Image exceeds maximum allowed size of 255 KB.]
+Resim izin verilen büyüklüğü aşıyor (255 KB).
+;file \protocols\Gadu-Gadu\src\import.cpp
+[You have to be connected before you can import/export contacts from/to server.]
+Sunucu listesinde kişileri alıp/vermeden önce bağlanmış olmalısınız.
+[Text files]
+Yazı dosyaları
+[contacts]
+kişiler
+[Import List From &Server]
+Listeyi &Sunucdan Al
+[Import List From &Text File...]
+Lis&teyi Yazı Dosyasından Al...
+[&Remove List From Server]
+Listeyi Sunucudan Si&l
+[Export List To &Server]
+Listeyi &Sunucuya Ver
+[Export List To &Text File...]
+Lis&teyi Yazı Dosyasına Ver...
+;file \protocols\Gadu-Gadu\src\links.cpp
+;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
+[Password was sent to your e-mail.]
+Parolanız e-postanıza gönderildi.
+;file \protocols\Gadu-Gadu\src\popups.cpp
+;file \protocols\Gadu-Gadu\src\services.cpp
+;file \protocols\Gadu-Gadu\src\sessions.cpp
+;file \protocols\Gadu-Gadu\src\token.cpp
+[Token retrieval failed because of error:\n\t%s]
+İşaret şu hata yüzünden alınamadı:\n\t%s
+[Could not load token image.]
+İşaret kalıbı yüklenemedi.
+;file \protocols\Gadu-Gadu\src\userutils.cpp
+[Cannot register new account because of error:\n\t%s]
+Şu hata yüzünden yeni hesap oluşturulamadı:\n\t%s
+[Registration rejected]
+Kayıt red edildi
+[Your account cannot be removed because of error:\n\t%s]
+Hesabınız şu hata yüzünden silinemedi:\n\t%s
+[Bad number or password]
+Yanlış sayı veya parola
+[Your account has been removed.]
+Hesabınız silindi.
+[Your password cannot be changed because of error:\n\t%s]
+Parolanız şu hata yüzünden değiştirilemedi:\n\t%s
+[Invalid data entered]
+Geçersiz veri yazdınız
+[Your password has been changed.]
+Parolanız değiştirildi.
+[Your e-mail cannot be changed because of error:\n\t%s]
+E-postanız şu hata yüzünden değiştirilemedi:\n\t%s
+[Bad old e-mail or password]
+Yanlış esk ie-posta veya parola 
+[Your e-mail has been changed.]
+E-postanız değiştirildi.

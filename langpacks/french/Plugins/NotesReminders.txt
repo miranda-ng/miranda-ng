@@ -6,9 +6,75 @@
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 ;file \plugins\NotesAndReminders\res\resource.rc
+[Default Note Size]
+Taille par défaut
+[Width (Pixels)]
+Largeur (Pixels)
+[Height (Pixels)]
+Hauteur (Pixels)
+[Show Scrollbars]
+Voir les ascenseur
+[Startup options]
+Options démarrage
+[Add Contact list menu items]
+Ajouter au menu de la liste de contacts
+[Send Reminders through E-mail / SMS :]
+Envoyer les Rappels par e-mail / SMS :
+[Add Reminder]
+Ajout d'un Rappel
+[Trigger On Time && Date:]
+Heure && Date d'alerte :
+[Reminder Note:]
+Note de Rappel :
+[&Add Reminder]
+&Ajouter le Rappel
+[&View Reminders]
+&Voir les Rappels
+[&Dismiss]
+&Rejeter
+[Add New]
+Ajouter
+[&New Note]
+&Nouvelle Note
+[&Paste]
+C&oller
+[C&ut]
+Co&uper
+[C&lear]
+&Effacer
+[&Show / Hide Notes]
+&Afficher / Cacher les Notes
 ;file \plugins\NotesAndReminders\src\globals.h
+[Notes & Reminders]
+Notes & Rappels
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 ;file \plugins\NotesAndReminders\src\main.cpp
+[Delete All Reminders]
+supprimer tous les rappels
+[Add New Note]
+Ajouter une note
+[Add New Reminder]
+Nouveau rappel
+[Notes && Reminders]
+Notes && Rappels
+[&Delete All Notes]
+&Supprimer toutes les Notes
 ;file \plugins\NotesAndReminders\src\notes.cpp
+[Maroon]
+Rouge foncé
+[Navy]
+Marine
+[Purple]
+Pourpre
+[Gray]
+Gris
+[Silver]
+Argent
+[Aqua]
+Eau
 ;file \plugins\NotesAndReminders\src\options.cpp
 ;file \plugins\NotesAndReminders\src\reminders.cpp
+[Reminder text]
+Texte du rappel
+[Date of activation]
+Date d'activation

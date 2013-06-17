@@ -5,10 +5,160 @@
 ;  Version: 1.4.0.2
 ;  Authors: H. Herkenrath
 ;============================================================
+[Adds the possibility to shutdown the computer when a specified event occurs.]
+Ajoute la possibilité d'arrêter l'ordinateur quand un évènement indiqué se produit.
 ;file \plugins\AutoShutdown\res\resource.rc
+[Shutdown]
+Arrêt Système
+[&Show confirmation dialog before shutdown]
+&Demander confirmation avant de fermer
+[&Countdown starts at:]
+&Compte à rebours à :
+[Shutdown Events]
+Évènements d'extinction
+[&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
+&Activer la fermeture automatique avec les mêmes options de la dernière fermeture automatique.
+[&Ignore hidden or temporary contacts when watching for all contacts being offline]
+&Ignorer les contacts cachés ou provisoires lors de la recherche de contacts hors ligne
+[Critical Shutdown Events]
+Évènements d'extinction critque
+[Automatically shutdown the computer and turn the power off when one of the following occurs:]
+Éteindre automatiquement l'ordinateur si :
+[&Thunderstorm warning is issued  (Weather)]
+Un &orage est annoncé  (plugin Weather)
+[&Harddrive overheats (HDD Info)]
+&Surchauffe du disque dur  (plugin HDD Info)
+[Automatic Shutdown]
+Extinction Automatique
+[Select the automatic shutdown event]
+Sélectionner l'évènement qui fermera Miranda-IM
+[Shutdown at &specific time]
+À une heure précise
+[Shutdown a&t:]
+Extinction à :
+[Shutdown i&n:]
+Extinction dans :
+[Shutdown when a &message is received containing the following text:]
+À la réception d'un message contenant le texte suivant :
+[Shutdown when Miranda NG becomes &idle]
+Quand Miranda NG devient inactif
+[Shutdown when &prozessor usage drops below:]
+Extinction si la charge processeur descend à :
+[(current: 0%)]
+(actuel : 0%)
+[Shutdown when all contacts are &offline]
+Quand tous vos contacts sont déconnectés
+[Shutdown when all &file transfers are finished]
+Éteindre quand tous les fichiers auront été transféré
+[&Action:]
+&Action :
+[Unsaved data in open applications except Miranda NG might get lost.]
+Données non sauvées dans des programmes ouverts (exepté Miranda-IM).
+[Please click "Cancel" if you would like to abort the process.]
+Cliquer sur "Annuler" pour annuler cette action, ou sur "Maintenant" pour ne pas attendre.
+[&Now!]
+&Maintenant !
 ;file \plugins\AutoShutdown\src\frame.cpp
+[Shutdown at:]
+Heure d'extinction :
+[Time left:]
+Temps restant :
+[&Unpause Countdown]
+&Relancer le comte à rebours
+[&Pause Countdown]
+Figer le compte à rebours
+[&Cancel Countdown]
+&Annuler le compte à rebours
+[Countdown on Frame]
+Compte à rebours en image
+[Progress Bar]
+Progression
 ;file \plugins\AutoShutdown\src\main.cpp
 ;file \plugins\AutoShutdown\src\options.cpp
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp
+[(current: %u%%)]
+(actuel : %u%%)
+[Second(s)]
+Seconde(s)
+[Hour(s)]
+Heure(s)
+[Day(s)]
+Jour(s)
+[Week(s)]
+Semaine(s)
+[Month(s)]
+Mois
+[Start/Stop automatic shutdown]
+Lancer/Arrêter l'arrêt automatique
+[Stop automatic shutdown]
+Stopper l'arrêt automatique
+[Start automatic shutdown]
+Démarrer l'arrêt automatique
+[Stop automatic &shutdown]
+Stopper l'arrêt &automatique
+[Automatic &shutdown...]
+Extinction Automatique...
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
+[Automatic Shutdown Error]
+Erreur de Automatic Shutdown
+[The shutdown process failed!\nReason: %s]
+La procédure d'extinction a échouée !\nMotif :%s
+[Miranda NG is going to be automatically closed in %u second(s).]
+Miranda-IM va être fermé automatiquement dans %u seconde(s).
+[All Miranda NG protocols are going to be set to offline in %u second(s).]
+Tous les protocoles de Miranda-IM se déconnecteront dans %u seconde(s).
+[You will be logged off automatically in %u second(s).]
+Votre session se fermera automatiquement dans %u seconde(s).
+[The computer will automatically be restarted in %u second(s).]
+L'ordinateur redémarrera automatiquement dans %u seconde(s).
+[The computer will automatically be set to standby mode in %u second(s).]
+L'ordinateur se mettra automatiquement en veille dans %u seconde(s).
+[The computer will automatically be set to hibernate mode in %u second(s).]
+L'ordinateur se mettra automatiquement en veille prolongée dans %u seconde(s).
+[The workstation will automatically get locked in %u second(s).]
+L'ordinateur se verrouillera automatiquement dans %u seconde(s).
+[All dialup connections will be closed in %u second(s).]
+Toutes les connexions seront désactivées dans %u seconde(s).
+[The computer will automatically be shut down in %u second(s).]
+L'ordinateur s'éteindra automatiquement dans %u seconde(s).
+[Inititiating the shutdown process failed!\nReason: %s]
+Échec de l'initialisation d'extinction !\nMotif : %s
+[Close Miranda NG]
+Fermer Miranda NG
+[Set Miranda NG offline]
+Déconnecter Miranda-IM
+[Log off user]
+Bloquer la session
+[Restart computer]
+Redémarrer l'ordinateur
+[Shutdown computer]
+Éteindre l'ordinateur
+[Standby mode]
+Mettre en veille
+[Hibernate mode]
+Mettre en veille prolongée
+[Hang up dialup connections]
+Couper Internet
+[Sets all Miranda NG protocols to offline and closes Miranda NG.]
+Déconnecte les protocoles et ferme Miranda.
+[Sets all Miranda NG protocols to offline.]
+Déconnecte les protocoles.
+[Logs the current Windows user off so that another user can log in.]
+Enregistre la session l'utilisateur actuelle de Windows afin qu'un autre utilisateur puisse en ouvrir une autre.
+[Shuts down Windows and then restarts Windows.]
+Ferme Windows et redémarre l'ordinateur.
+[Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]
+Clôture tous les programmes en cours et arrête Windows à un point auquel il est sûr d'éteindre l'ordinateur.
+[Saves the current Windows session in memory and sets the system to suspend mode.]
+Sauvegarde la session actuelle de Windows en mémoire et met le système en veille.
+[Saves the current Windows session on harddisc, so that the power can be turned off.]
+Sauvegarde la session actuelle de Windows sur le disque dur, de sorte que le courant puisse être coupé (Veille Prolongée).
+[Locks the computer. To unlock the computer, you must log in.]
+Verrouille l'ordinateur (ou plutôt Windows).  Pour le déverrouiller, vous devrez vous identifier (login et mot de passe Windows).
+[Sets all protocols to offline and closes all RAS connections.]
+Vous déconnecte de tous vos protocoles et coupe votre connexion Internet.
+[Automatic Shutdown Countdown]
+Compte à rebours de Automatic Shutdown
 ;file \plugins\AutoShutdown\src\utils.cpp
+[Toggle Automatic Shutdown]
+Automatic Shutdown

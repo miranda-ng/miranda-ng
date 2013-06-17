@@ -6,13 +6,59 @@
 ;  Authors: Miranda NG Development Team
 ;============================================================
 ;file \plugins\Scriver\res\resource.rc
+[Automatically pop up the window when]
+Ouvrir la fenêtre si vous êtes
+[Save size and location for each contact]
+Sauver taille/position pour chaque contact
+[Minimize on send]
+Minimiser à l'envoi
+[Tabs at bottom]
+Onglets en bas
+[Limit names on tabs to]
+Taille maxi des noms des onglets à
+[Show close button on each tab]
+Afficher le bouton Fermer sur chaque onglet
 [Enable IEView]
 Activer IEView
+[Mark follow-up msgs with timestamp]
+Marquer l'heure des messages suivants
+[Start message text on a new line]
+Nouveau message sur une nouvelle ligne
+[Indent text]
+Décalage du texte
 [Typing Notification Options]
 Options de notification de frappe
+[Update message window icons when a user is typing]
+Actualiser les icônes des fenêtres inactives
+[Send To All Tabs]
+Envoyer à tous les onglets
+[You are about to send a message to all open tabs.\nAre you sure ?]
+Vous êtes sur le point d'envoyer un mesage à tous les onglets ouverts.\nVoulez-vous vraiment faire cela ?
+[Remember my choice for this container]
+Se rapeller de mon choix pour ce conteneur
 ;file \plugins\Scriver\src\globals.cpp
+[User's details]
+Détails du contact
+[User's history]
+Historique du contact
+[User is typing]
+Le contact écrit...
+[Unicode is on]
+Unicode activé
+[Unicode is off]
+Unicode désactivé
+[Sending]
+Envoyer
+[Quote button]
+Bouton de citation
 ;file \plugins\Scriver\src\input.cpp
 ;file \plugins\Scriver\src\msgdialog.cpp
+[Quote Text]
+Citer
+[User Menu - %s]
+Menu Contact - %s
+[Sending in progress: %d message(s) left...]
+Envoi en cours : il reste %d message(s)...
 ;file \plugins\Scriver\src\msglog.cpp
 ;file \plugins\Scriver\src\msgoptions.cpp
 [Message background]
@@ -20,6 +66,8 @@ Fond des messages
 ;file \plugins\Scriver\src\msgs.cpp
 ;file \plugins\Scriver\src\msgtimedout.cpp
 ;file \plugins\Scriver\src\msgwindow.cpp
+[Always On Top]
+Toujours visible
 ;file \plugins\Scriver\src\sendqueue.cpp
 ;file \plugins\Scriver\src\chat\clist.cpp
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
@@ -27,5 +75,7 @@ Fond des messages
 ;file \plugins\Scriver\src\chat\main.cpp
 ;file \plugins\Scriver\src\chat\options.cpp
 ;file \plugins\Scriver\src\chat\services.cpp
+[Server: %s]
+Serveur : %s
 ;file \plugins\Scriver\src\chat\tools.cpp
 ;file \plugins\Scriver\src\chat\window.cpp

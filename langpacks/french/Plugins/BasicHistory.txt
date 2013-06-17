@@ -6,18 +6,32 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Show event icons]
+Voir l'icône des évènements
+[External CSS file]
+Fichier CSS externe
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Status change]
 Changement d'état
+[Find Next]
+&Suivant
+[Find Previous]
+Précédent
 ;file \plugins\BasicHistory\src\EventList.cpp
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [Reply &Quoted]
 Répondre en citant
 ;file \plugins\BasicHistory\src\Options.cpp
+[Incoming events]
+Éléments reçus
+[Outgoing events]
+Élements envoyés
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 ;file \plugins\BasicHistory\src\Scheduler.cpp
 ;file \plugins\BasicHistory\src\Searcher.cpp
+["%s" not found]
+"%s" non trouvé
 ;file \plugins\BasicHistory\src\TxtExport.cpp

@@ -1,0 +1,53 @@
+﻿#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
+;============================================================
+;  File: VersionInfo.dll
+;  Plugin: Version information
+;  Version: 1.5.0.3
+;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
+;============================================================
+;file \plugins\VersionInfo\res\resource.rc
+[Output to:]
+:שמור ל
+[Text file]
+קובץ טקסט
+[DialogBox]
+תיבת שיחה
+[Upload to site]
+טען לאתר
+[Forum style formatting]
+תבנית עיצוב פורום
+[Do it now]
+בצע עכשיו
+[Show window in taskbar]
+הראה חלון בסרגל משימות
+[Ask every time]
+שאל בכל פעם
+[Also copy info to clipboard]
+גם העתק מידע לזיכרון
+[Upload site settings]
+טען הגדרות אתר
+[Highlight version number using]
+הדגש מספר גירסה בעזרת
+[Show disabled plugins too]
+הראה גם פלאגים מבוטלים
+[Suppress header information]
+דכא מידע כותרת
+[Enable debug messages]
+אפשר דיבאג להודעות
+[Show plugin UUIDs]
+הראה פלאגין UUIDs
+[Show installed languages]
+הראה שפות מותקנות
+[Miranda Version Information]
+מירנדה מידע גירסה 
+[&Copy text]
+&העתק טקסט
+[&Save to file]
+&שמור לקובץ
+;file \plugins\VersionInfo\src\CVersionInfo.cpp
+;file \plugins\VersionInfo\src\dlgHandlers.cpp
+;file \plugins\VersionInfo\src\hooked_events.cpp
+;file \plugins\VersionInfo\src\main.cpp
+;file \plugins\VersionInfo\src\utils.cpp
+[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+בסדר, משהו לא בסדר בהגדרת "%s". דווח בחזרה את הערכים הבאים:\nהתקן: &X\nשגיאת קוד: %X\nמספר שורה: %d

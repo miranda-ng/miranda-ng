@@ -6,3 +6,5 @@
 ;  Authors: Kildor, Thief
 ;============================================================
 ;file \plugins\Rate\src\main.cpp
+[Contact rate]
+Note du contact

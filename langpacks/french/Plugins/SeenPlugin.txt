@@ -6,12 +6,50 @@
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 ;file \plugins\SeenPlugin\res\resource.rc
+[Show icon]
+Afficher l'icône
+[Variable list]
+Liste variables
+[Popup Colors]
+Couleurs des popups
 ;file \plugins\SeenPlugin\src\history.cpp
+[Send Instant Message]
+Envoyer un message instantané
 ;file \plugins\SeenPlugin\src\main.cpp
 ;file \plugins\SeenPlugin\src\menu.cpp
 ;file \plugins\SeenPlugin\src\options.cpp
 ;file \plugins\SeenPlugin\src\seen.h
+[year (4 digits)]
+année (4 chiffres)
+[year (2 digits)]
+année (2 chiffres)
+[month]
+mois
+[name of month]
+Mois (long)
+[short name of month]
+Mois (court)
 [day]
 jour
+[weekday (full)]
+jour (long)
+[weekday (abbreviated)]
+jour (court)
+[-- Time --]
+-- Heure --
+[hours (24)]
+heure (24)
+[hours (12)]
+heure (12)
+[username]
+Identifiant
+[nick]
+Speudo
+[tabulator]
+tabulation
+[line break]
+limite
+[Use]
+Utiliser
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp

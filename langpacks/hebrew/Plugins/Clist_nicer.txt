@@ -1,0 +1,140 @@
+﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.1
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+;file \plugins\Clist_nicer\res\resource.rc
+[Contact list layout]
+מערך רשימת אנשי קשר
+[Show menu and status buttons]
+הראה תפריט וכפתורי מצב
+[Draw sunken edge]
+שרטט קצה שקוע
+[Event area]
+איזור אירוע
+[Do not show system tray icon tooltips on mouse over]
+אל תראה סרגל עזרה כשהעכבר עובר מעל אייקון מגש המערכת 
+[No expand/collapse icon]
+ללא אייקון פתיחת/סגירת קבוצות
+[Center groupnames horizontally]
+מרכז שמות קבוצה אופקית
+[Margins (left/right)]
+(שוליים (ימין/שמאל
+[Row gap]
+פער שורה
+[Minimum row height:]
+גובה שורה מינימלי:
+[Do not separate offline contacts]
+אל תפריד אנשי קשר לא מחוברים
+[Draw a border around avatars]
+שרטט גבול סביב האוואטרים
+[Rounded avatars]
+אוואטרים מעוגלים
+[Radius]
+רדיוס
+[Always align icons and text for missing avatars]
+ישר תמיד אייקונים וטקסט לאוואטרים חסרים
+[Avatar alignment]
+ישור אוואטרים
+[Don't request avatars for offline contacts]
+אל תבקש אוואטרים מאנשי קשר מנותקים
+[Show contacts local time]
+הראה זמן מקומי של אנשי קשר
+[Only when timezone differs]
+רק כאשר אזור הזמן שונה
+[Show status icons]
+הראה אייקוני מצב
+[Rounded border]
+גבולות מעוגלים
+[Clip border by]
+גזור חלון ב
+[Gap between frames]
+רווח בין מסגרות
+[Fully transparent (like TweakUI)]
+(TweakUIשקוף לגמרי (כמו ב
+[Use full row for selection and hottracking]
+השתמש בשורה מלאה לבחירה ולמעקב עכבר
+[Double click on avatar opens userinfo]
+דאבל קליק על אוואטר פותח פרטי המשתמש
+[Use these settings to skin the entire background]
+השתמש בהגדרות אלו לעצב את הרקע כולו
+[If you enable this, the background settings will affect the entire contact list frame.]
+אם תפעיל את זה, הגדרות הרקע ישפיעו על כל מסגרת רשימת אנשי .הקשר
+[Draw background skin]
+שרטט סקין רקע
+[Show ICQ extended status icons]
+מורחבים ICQ הראה אייקוני מצב
+[Contact list skin]
+סקין רשימת משתמשים
+[Make selection shape equal to selected item]
+עשה בחירה מעוצבת בשווה לפריט הנבחר
+[Blend selection with background]
+מזג בחירה עם הרקע
+[Automatically fill background with wallpaper (tiled wallpaper only)]
+(מלא אוטומטית רקע עם הטפט (טפט מתוח בלבד
+[Apply group indent values to background drawing]
+החל ערכי שינון קבוצות לשרטוט רקע
+[Protocol skins override status text colors]
+סקין פרוטוקול מחליף צבעי טקסט מצב
+[Corner radius]
+מרחק מהפינה
+[Suppress auth requests]
+הודעות אישור להוספה
+[Show Status Icons]
+הראה אייקוני מצב
+[Show additional Buttons]
+הראה כפתורים נוספים
+[Draw sunken Frame]
+שרטט מסגרת שקועה
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
+;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Find and add contacts]
+חפש והוסף משתמשים
+[Open preferences]
+פתח אפשרויות
+[Minimize contact list]
+מזער רשימה
+[tabSRMM session list]
+רשימת חלונות הודעה
+[tabSRMM Menu]
+TabSRMM תפריט
+[Clear view mode]
+נקה מצב תצוגה
+;file \plugins\Clist_nicer\src\clcopts.cpp
+[When space allows it]
+כשהמרווח מאפשר זאת
+[When needed]
+כשנדרש
+[With Nickname - left]
+עם הכינוי - שמאלה
+[Far left]
+בקצה השמאלי
+[Far right]
+בקצה הימני
+[With Nickname - right]
+עם הכינוי - ימינה
+;file \plugins\Clist_nicer\src\clistmenus.cpp
+[Add permanently]
+הוסף לנצח
+;file \plugins\Clist_nicer\src\clistopts.cpp
+;file \plugins\Clist_nicer\src\clui.cpp
+[Find contacts]
+ מצא משתמשים
+[Open main menu]
+פתח תפריט ראשי
+[Set status modes]
+קבע מצב
+[Frame titles]
+כותרות מסגרת
+;file \plugins\Clist_nicer\src\cluiopts.cpp
+[No border]
+ללא גבולות
+;file \plugins\Clist_nicer\src\Docking.cpp
+;file \plugins\Clist_nicer\src\extBackg.cpp
+;file \plugins\Clist_nicer\src\init.cpp
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp

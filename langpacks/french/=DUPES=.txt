@@ -1,4 +1,4 @@
-
+;
 [Cancel]
 Annuler
 [&Add]
@@ -13,8 +13,6 @@ Demande d'autorisation
 Nom à afficher :
 [Group:]
 Groupe :
-[Options]
-Options
 [Authorization Request]
 Demande d'autorisation
 [Delete Contact]
@@ -36,7 +34,7 @@ Ceci effacera tout l'historique et réglages de ce contact !
 [Search:]
 Chercher :
 [E-mail address]
-Adresse e-mail
+e-mail 
 [Name]
 Nom
 [Nick:]
@@ -49,6 +47,8 @@ Avancé >>
 &Recherche
 [More options]
 Plus d'options
+[Custom]
+Défini
 [Apply]
 Appliquer
 [Install Database Settings]
@@ -57,6 +57,8 @@ Installer les paramètres de la base de données
 Oui
 [No]
 Non
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Un fichier contenant les nouveaux paramètres de la base de données a été placé dans le répertoire de Miranda NG.
 [Do you want to import the settings now?]
 Voulez-vous importer les paramètres maintenant ?
 [No to all]
@@ -76,9 +78,9 @@ Ce fichier veut changer le paramètre
 [Do you want to allow this change?]
 Voulez-vous autoriser ce changement ?
 [&Allow all further changes to this section]
-&Permettre tous les changements suivants de cette section
+&Permettre tous les changements de cette section
 [Cancel Import]
-Annuler l'importation
+Annuler
 [Database Import Complete]
 Importation de la base de données terminée
 [The import has completed from]
@@ -92,11 +94,13 @@ Que voulez-vous désormais faire avec le fichier ?
 [&Move/Rename]
 &Déplacer/Renommer
 [&Leave]
-&Laisser
+&Quitter
 [Show]
 Afficher
 [File]
 Fichier
+[Ok]
+OK
 [Sounds]
 Sons
 [&Preview]
@@ -107,12 +111,14 @@ Nom :
 Icônes
 [The following events are being ignored:]
 Les évènements suivants sont ignorés :
-[Messages]
-Messages
+[Files]
+Fichiers
 [None]
 Aucun
 [Ignore]
 Ignorer
+[Typing]
+Écrit
 [Visibility]
 Visibilité
 [To]
@@ -136,25 +142,35 @@ Description :
 [Author(s):]
 Auteur(s) :
 [E-mail:]
-E-mail :
+e-mail :
 [Homepage:]
 Page web :
+[Unique ID:]
+ID unique :
 [Copyright:]
 Copyright :
+[Please restart Miranda NG for your changes to take effect.]
+Relancer Miranda NG pour que vos changements prennent effets.
 [Undo]
 Annuler
 [Reset]
 RAZ
+[Export...]
+Exportation...
 [Text Color]
 Texte
 [Font]
 Police
+[Effects]
+Effets
+[&Apply]
+&Appliquer
 [&Help]
 &Aide
 [Warning!\r\nThis MenuObject not support user defined options.]
-        -={ Avertissement }=-\nCe menu ne peut être modifié.
+        -={ Avertissement }=-\r\nCe menu ne peut être modifié.
 [Service:]
-Service:
+Service :
 [Default]
 Défaut
 [Set]
@@ -165,10 +181,14 @@ Ajouter
 Retirer
 [Hotkeys]
 Raccourcis clavier
+[Accounts]
+Comptes
 [&Edit]
 &Modifier
-[Close]
-Fermer
+[&Remove...]
+&Effacer...
+[opacity:]
+opacité :
 [Tray]
 Tray
 [&Hide/Show]
@@ -180,9 +200,9 @@ Autre
 [&New Group]
 Nouveau groupe
 [&Hide Offline Users]
-Cacher les contacts hors-ligne
+Cacher les contacts hors ligne
 [Hide &Offline Users out here]
-Cacher les &Hors Ligne de ce groupe
+Cacher les &Hors ligne de ce groupe
 [Hide &Empty Groups]
 Cacher les groupes vides
 [Disable &Groups]
@@ -194,7 +214,7 @@ Groupe
 [&New Subgroup]
 &Nouveau sous-groupe
 [&Hide Offline Users in here]
-Cacher les Hors Ligne de ce groupe
+Cacher les Hors ligne de ce groupe
 [&Rename Group]
 &Renommer le groupe
 [&Delete Group]
@@ -239,14 +259,12 @@ Fermeture dans %d
 &Envoyer
 [Show these events only:]
 Voir ces évènements si :
-[Actions]
-Actions
 [Nick changes]
 Changements de pseudo
 [Users joining]
-Arrivée des usagers
+Arrivée d'usagers
 [Users leaving]
-Départ des usagers
+Départ d'usagers
 [Topic changes]
 Changements de sujet
 [Status changes]
@@ -256,7 +274,7 @@ Informations
 [Disconnects]
 Déconnexions
 [User kicks]
-Bottage d'usagers
+Kicks d'usagers
 [Notices]
 Notifications
 [Log Options]
@@ -268,7 +286,7 @@ Heure
 [Other name]
 Autre nom
 [Your name]
-Son nom
+Votre nom
 [Enable highlighting]
 Autoriser surlignage
 [Limit log text to (events):]
@@ -282,7 +300,7 @@ Répertoire :
 [Other]
 Autre
 [Add new rooms to group:]
-Ajouter salons au groupe:
+Ajouter salons au groupe :
 [Use same style as in the message log]
 Utiliser même style que la fenêtre
 [Use default colours]
@@ -297,20 +315,18 @@ Texte
 Arrière-plan
 [List]
 Liste
-[&Message]
-&Message
 [Clear lo&g]
 Effacer le journal
 [Co&py all]
 &Tout copier
+[Word lookup]
+Consultation de mot
 [Link]
 Lien
 [Open a &new browser window]
 Ouvrir &nouvelle fenêtre de navigateur
 [&Open in current browser window]
 &Ouvrir dans la fenêtre active du navigateur
-[Message]
-Message
 [Undo  ]
 Annuler
 [Redo]
@@ -334,7 +350,7 @@ Fermer les autres onglets
 [&Open at this position]
 Ouvrir à cet endroit
 [Hide offline users]
-Cacher usager hors ligne
+Cacher les contacts hors ligne
 [Hide empty groups]
 Cacher les groupes vides
 [Disable groups]
@@ -360,11 +376,11 @@ quand les états diffèrent
 [Cycle icons every]
 Faire un cycle de
 [seconds, when statuses differ]
-seconde(s), quand les états diffèrent
+secondes si les états diffèrent
 [Show multiple icons]
 Afficher plusieurs icônes
 [Only when statuses differ]
-Seulement quand les états diffèrent
+seulement si les états diffèrent
 [Contact List]
 Liste de contacts
 [System tray icon]
@@ -399,8 +415,6 @@ Cacher la liste de contacts après :
 secondes
 [Automatically resize window to height of list]
 Redimensionnement automatique de la fenêtre
-[maximum]
-maximum
 [% of screen]
 % de l'écran
 [Size upwards]
@@ -408,7 +422,7 @@ Agrandir vers le haut
 [If window is partially covered, bring to front instead of hiding]
 Si la fenêtre est partiellement couverte, mettre en avant-plan plutôt que de cacher
 [Fade contact list in/out]
-Fondu pour la liste de contact
+Fondu de la liste de contacts
 [Transparent contact list]
 Liste de contact transparente
 [Inactive opacity:]
@@ -418,9 +432,9 @@ Opacité si inactive :
 [Items]
 Objets
 [Show divider between online and offline contacts]
-Séparateur entre contacts En Ligne et Hors Ligne
+Séparateur entre contacts En ligne et Hors ligne
 [Hot track items as mouse passes over]
-Colorer les objets quand la souris passe dessus
+Colorer les éléments suvolés par la souris
 [Disable drag and drop of items]
 Désactiver le glisser-déplacer
 [Disable rename of items by clicking twice]
@@ -432,7 +446,7 @@ Activer la sélection translucide
 [Dim idle contacts]
 Estomper les contacts inactifs
 ['Hide Offline' means to hide:]
-"Cacher les Hors Ligne" masque :
+"Cacher les Hors ligne" masque :
 [Groups]
 Groupes
 [Draw a line alongside group names]
@@ -446,9 +460,7 @@ Classer les groupes par ordre alphabétique
 [Quicksearch in open groups only]
 Recherche rapide uniquement sur les groupes ouverts
 [Indent groups by:]
-Décaler les groupes de :
-[pixels]
-pixels
+Décaler les contacts de :
 [Visual]
 Visuel
 [Scroll list smoothly]
@@ -499,6 +511,8 @@ Afficher le nom des protocoles
 Afficher l'état du protocole
 [Right click opens status menu]
 Le clic droit ouvre le menu "État"
+[Right click opens Miranda NG menu]
+Le clic droit ouvre le menu Miranda NG
 [Make sections equal width]
 Faire des sections de taille égale
 [Show bevels on panels]
@@ -508,9 +522,9 @@ Poignée de redimension
 [&Status]
 &État
 [&Offline\tCtrl+0]
-&Hors Ligne\tCtrl+0
+&Hors ligne\tCtrl+0
 [On&line\tCtrl+1]
-En &Ligne\tCtrl+1
+En &ligne\tCtrl+1
 [&Away\tCtrl+2]
 &Absent\tCtrl+2
 [&NA\tCtrl+3]
@@ -535,6 +549,8 @@ Transfert de fichier entrant
 De :
 [Date:]
 Date :
+[Contact menu]
+Menu Contact
 [Resume]
 Reprendre
 [Overwrite]
@@ -543,6 +559,8 @@ Reprendre
 Taille :
 [File Transfers]
 Transferts de fichiers
+[Close]
+Fermer
 [Credits >]
 Crédits >
 [Windows]
@@ -556,9 +574,9 @@ Utiliser l'icône d'état du contact comme icône de fenêtre
 [Cascade new windows]
 Voir les nouvelles fenêtres en cascade
 [Send message on double 'Enter']
-Taper "Entrée" 2 fois pour envoyer
+Taper 2 fois "Entrée" pour envoyer
 [Send message on 'Enter']
-Taper "Entrée" pour envoyer
+Taper 1 fois "Entrée" pour envoyer
 [Show warning when message has not been received after]
                        M'alerter quand le message n'a pas été reçu après :
 [seconds.]
@@ -567,6 +585,8 @@ secondes.
 Erreur d'envoi
 [An error has occured. The protocol reported the following error:]
 Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
+[while sending the following message:]
+tout en envoyant le message suivant :
 [Try again]
 Réessayer
 [Message Session]
@@ -586,7 +606,7 @@ minutes
 [Show seconds]
 Voir les secondes
 [Load History Events]
-Les derniers échanges de la fenêtre d'envoi
+Derniers échanges
 [Send typing notifications to the following users when you are typing a message to them:]
 Envoyer des notifications aux usagers suivants, quand vous tapez un message qui leur est destiné :
 [Show typing notifications when a user is typing a message]
@@ -594,9 +614,9 @@ Afficher des notifications quand un contact tape un message
 [Show typing notification when no message dialog is open]
 Afficher une notification quand aucune fenêtre n'est ouverte
 [Flash in the system tray and in the contact list]
-Signaler dans le system tray et dans la liste de contacts
+Signaler dans le systray et dans la liste de contacts
 [Show balloon popup]
-Afficher une popup
+Afficher un popup
 [Delete]
 Effacer
 [Find]
@@ -658,7 +678,7 @@ Voir les détails du contact
 [Add Contact Permanently to List]
 Ajouter le contact à la liste
 [Re&ad %s Message]
-&Pourquoi est-il %s ?
+&Message d'état de "%s"
 [I've been away since %time%.]
 Je suis absent depuis %time%.
 [Give it up, I'm not in!]
@@ -701,6 +721,12 @@ Vous avez rejoint %s
 Vous êtes connu en tant que %s
 [%s kicked %s]
 %s a exclu %s
+[Notice from %s: ]
+Notice de %s : 
+[ (set by %s)]
+ (réglé par %s)
+[<invalid>]
+<invalide>
 [Others nicknames]
 Autres pseudos
 [Your nickname]
@@ -738,7 +764,7 @@ Zone de saisie des messages
 [User list members (Online)]
 Liste des usagers (en ligne)
 [User list members (away)]
-Liste des usager (absents)
+Liste des usagers (absents)
 [Flash window when someone speaks]
 Fenêtre clignotante quand quelqu'un parle
 [Flash window when a word is highlighted]
@@ -760,11 +786,11 @@ Limiter les noms à 20 caractères dans la fenêtre de discussion
 [Strip colors from messages in the log]
 Retirer la couleur des messages dans le journal
 [Show topic changes]
-Afficher les changements de sujet
+Changements de sujet
 [Show users joining]
-Afficher les usagers entrants
+Usagers entrants
 [Show users disconnecting]
-Afficher les usagers qui se déconnectent
+Usagers qui se déconnectent
 [Show messages]
 Afficher les messages
 [Show actions]
@@ -782,31 +808,31 @@ Afficher les messages d'information
 [Show status changes of users]
 Afficher les changements d'état du contact
 [Show icons in tray only when the chat room is not active]
-N'afficher les icônes dans le tray que si le salon est inactif
+N'afficher les icônes dans le systray que si le salon est inactif
 [Show icon in tray for topic changes]
-Afficher une icône dans le tray pour les changements de sujet
+Changements de sujet
 [Show icon in tray for users joining]
-Afficher une icône dans le tray pour les usagers entrants
+Usagers entrants
 [Show icon in tray for users disconnecting]
-Afficher une icône dans le tray pour les usagers qui se déconnectent
+Usagers qui se déconnectent
 [Show icon in tray for messages]
-Afficher une icône dans le tray pour les messages
+Messages
 [Show icon in tray for actions]
-Afficher une icône dans le tray pour les actions
+Actions
 [Show icon in tray for highlights]
-Afficher une icône dans le tray pour les mots surlignés
+Texte surligné
 [Show icon in tray for users leaving]
-Afficher une icône dans le tray pour les usagers sortants
+Usagers sortants
 [Show icon in tray for users kicking other user]
-Afficher une icône dans le tray pour les exclusions
+Exclusions
 [Show icon in tray for notices ]
-Afficher une icône dans le tray pour les notices
+Notices
 [Show icon in tray for name changes]
-Afficher une icône dans le tray pour les changements de nom
+Changements de nom
 [Show icon in tray for information messages]
-Afficher une icône dans le tray pour les messages d'information
+Messages d'information
 [Show icon in tray for status changes]
-Afficher une icône dans la Tray pour les changements d'état du contact
+Changements d'état du contact
 [Window Icon]
 Icônes de la fenêtre
 [Bold]
@@ -830,7 +856,7 @@ Masquer la liste des usagers
 [Show userlist]
 Afficher la liste des usagers
 [Icon overlay]
-Recouvrement d'icône
+Surimpression d'icône
 [Status 1 (10x10)]
 État 1 (10x10)
 [Status 2 (10x10)]
@@ -869,10 +895,10 @@ Note (10x10)
 Sujet (10x10)
 [Highlight (10x10)]
 Surligner (10x10)
-[Information (10x10)]
-Information (10x10)
 [Messaging]
 Envoi de message
+[Group Chats]
+Groupe Chats
 [Appearance and functionality of chat room windows]
 Apparence et fonctionnalités des fenêtres de salon
 [Appearance of the message log]
@@ -883,16 +909,18 @@ Icônes à afficher dans la zone de notification système (tray)
 Sélectionnez un répertoire
 [Message Sessions]
 Sessions de message
+[Group chats]
+Chats
 [General]
 Général
-[Popups]
-Popups
 [Message is highlighted]
 Message surligné
 [User has performed an action]
 L'usager a effectué une action
 [User has kicked some other user]
 Usager a exclu un autre usager
+[User's status was changed]
+L'état du contact a changé
 [User has changed name]
 Usagé a changé de nom
 [User has sent a notice]
@@ -910,7 +938,7 @@ Re&joindre
 [%s has left %s]
 %s est parti de %s
 [%s kicked %s from %s]
-%s a été viré de %s
+%s a été kické de %s
 [Notice from %s]
 Note de %s
 [Topic change in %s]
@@ -924,9 +952,11 @@ Informations dans %s
 [%s has disconnected (%s)]
 %s s'est déconnecté (%s)
 [%s kicked %s (%s)]
-%s a viré %s (%s)
+%s a kické %s (%s)
 [Notice from %s: %s]
 Notice de %s : %s
+[No word to look up]
+Aucun mot à chercher
 [Insert a smiley]
 Insérer un smiley
 [Make the text bold (CTRL+B)]
@@ -955,12 +985,16 @@ Activer/désactiver les filtres d'évènement (CTRL+F)
 %s: Session de message
 [%s: Message Session (%u users)]
 %s: Session de message (%u usagers)
+[Nick name]
+Pseudo
+[Unique id]
+ID unique
 [Standard contacts]
-Contacts Standards
+Contacts standards
 [Online contacts to whom you have a different visibility]
-Contacts En Ligne pour lesquels vous avez une visibilité différente
+Contacts En ligne pour lesquels vous avez une visibilité différente
 [Offline contacts]
-Contacts Hors Ligne
+Contacts Hors ligne
 [Contacts which are 'not on list']
 Contacts qui ne sont pas dans la liste
 [Group member counts]
@@ -968,13 +1002,19 @@ Nombre de membres d'un groupe
 [Dividers]
 Séparateurs
 [Offline contacts to whom you have a different visibility]
-Contacts Hors Ligne pour lesquels vous avez une visibilité différente
+Contacts Hors ligne pour lesquels vous avez une visibilité différente
+[Selected Text]
+Texte sélectionné
+[Hottrack Text]
+Texte sous souris
+[Quicksearch Text]
+Texte en recherche rapide
 [Not focused]
 Fenêtre inactive
 [Offline]
-Hors Ligne
+Hors ligne
 [Online]
-En Ligne
+En ligne
 [Away]
 Absent
 [NA]
@@ -1041,8 +1081,12 @@ est arrivé (%s)
 est %s (était %s)
 [%s is typing a message...]
 %s vous écrit un message...
+[File sent]
+Fichier envoyé
+[File received]
+Fichier reçu
 [Outgoing messages]
-Messages sortants
+Messages envoyés
 [Incoming messages]
 Messages reçus
 [Outgoing name]
@@ -1059,12 +1103,14 @@ Heure entrante
 ":" entrant
 [Message area]
 Zone de message
+[Message Log]
+Historique récent
 [** New contacts **]
 ** Nouveaux contacts **
 [** Unknown contacts **]
 ** Contacts inconnus **
 [Show balloon popup (unsupported system)]
-Voir les popups (système non supporté)
+Afficher les popups (système non supporté)
 [Typing Notify]
 Notification de frappe
 [Message from %s]
@@ -1076,19 +1122,27 @@ Notification de frappe
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda n'a pas pu charger le module de messagerie préinstallé, riched20.dll est manquant. Si vous utilisez Windows 95 ou WINE, veuillez vous assurer que vous avez installé riched20.dll. Cliquez sur "Oui" pour continuer le chargement de Miranda.
 [Incoming (Focused Window)]
-Entrant (Fenêtre active)
+Entrant (fenêtre active)
 [Incoming (Unfocused Window)]
-Entrant (Fenêtre inactive)
+Entrant (fenêtre inactive)
 [Incoming (New Session)]
-Entrant (Nouvelle session)
+Entrant (nouvelle session)
 [An unknown error has occured.]
 Une erreur inconnue s'est produite.
+[Outgoing URL]
+Lien envoyé
+[Incoming URL]
+Lien reçu
+[History for %s]
+Historique de %s
 [View &History]
 Voir l'&historique
 [URL]
 Lien
-[Fax]
-Fax
+[Edit Phone Number]
+Éditer le numéro de téléphone
+[Invalid Phone Number]
+Numéro de téléphone invalide
 [Male]
 Homme
 [Female]
@@ -1097,20 +1151,20 @@ Femme
 <non spécifié>
 [Summary]
 Résumé
-[Contact]
-Contact
 [Location]
 Lieu
 [Work]
 Travail
-[Notes]
-Notes
+[Owner]
+Propriétaire
 [View/Change My &Details...]
 Voir/Changer mes &détails...
 [Add Contact]
 Ajouter le contact
 [Please authorize my request and add me to your contact list.]
 Veuillez autoriser ma demande et m'ajouter à votre liste de contact.
+[%s (locked)]
+%s (verrouillé)
 [(Unknown Contact)]
 (Contact inconnu)
 [&Main Menu]
@@ -1119,8 +1173,6 @@ Veuillez autoriser ma demande et m'ajouter à votre liste de contact.
 &Renommer
 [Nick]
 Pseudo
-[E-mail]
-E-mail
 [Username]
 ID
 ['(Unknown Contact)']
@@ -1129,26 +1181,34 @@ ID
 Apparence
 [Delete Group]
 Effacer un groupe
+[<Root Group>]
+<sans groupe>
 [&Create]
 &Créer
 [Size]
 Taille
+[Extra icons]
+Icônes d'accès rapide
 [Search]
 Recherche
 [Searching]
 Recherche en cours...
 [&Find/Add Contacts...]
 &Chercher/Ajouter des contacts...
+[Failed to create file]
+Échec de la création du fichier
 [<none>]
 <aucun>
+[Text Files]
+Fichiers txt
+[Fonts & Colors]
+Police et couleur
 [** All contacts **]
 ** Tous les contacts **
 [Network]
 Réseau
-[&Options...]
-&Options...
-[Version]
-Version
+[Miranda NG Options]
+Options de Miranda NG
 [Create new account]
 Créer un compte
 [Edit]
@@ -1157,22 +1217,36 @@ Créer un compte
 Effacer ce compte
 [Protocol]
 Protocole
+[<unknown>]
+<inconnu>
 [Rename]
 Renommer
+[Configure]
+Configurer
 [System]
 Système
 [User Online]
 Utilisateur en ligne
+[User Details]
+Détails du contact
+[History]
+Historique
+[Find User]
+Chercher un contact
 [Help]
 Aide
 [Main Menu]
-Menu Principal
-[On]
-On
-[Off]
-Off
+Menu principal
 [Frames]
 Cadres
+[Request authorization]
+Demander l'autorisation
+[Grant authorization]
+Accorder l'autorisation
+[Revoke authorization]
+Enlever l'autorisation
+[You need an image services plugin to process PNG images.]
+Vous avez besoin d'un plugin d'imagerie pour gérer les images PNG.
 [Windows Bitmaps]
 Bitmap Windows
 [JPEG Bitmaps]
@@ -1185,8 +1259,6 @@ Images PNG
 Non spécifié
 [Unknown]
 Inconnu
-[Afghanistan]
-Afghanistan
 [Albania]
 Albanie
 [Algeria]
@@ -1211,8 +1283,6 @@ Australie
 Autriche
 [Azerbaijan]
 Azerbaïdjan
-[Bahamas]
-Bahamas
 [Bahrain]
 Bahrain
 [Bangladesh]
@@ -1247,8 +1317,6 @@ Burundi
 Cambodge
 [Cameroon]
 Cameroun
-[Canada]
-Canada
 [Cayman Islands]
 Iles Cayman
 [Central African Republic]
@@ -1267,8 +1335,6 @@ Comores
 Costa Rica
 [Croatia]
 Croatie
-[Cuba]
-Cuba
 [Czech Republic]
 République Tchèque
 [Denmark]
@@ -1409,8 +1475,6 @@ Mexique
 Micronésie, États Fédérés de
 [Moldova, Republic of]
 Moldavie, Rép. de
-[Monaco]
-Monaco
 [Mongolia]
 Mongolie
 [Montserrat]
@@ -1439,8 +1503,6 @@ Nicaragua
 Niger
 [Nigeria]
 Nigéria
-[Niue]
-Niué
 [Norway]
 Norvège
 [Oman]
@@ -1559,32 +1621,208 @@ Yémen
 Zambie
 [Zimbabwe]
 Zimbabwe
+[New]
+Nouveau
 [Separated]
 Séparé(e)
+[Account:]
+Compte :
+[Add contact]
+Ajouter le contact
 [Main]
-Général
+Menu
+[Check connection]
+Vérifier la connexion
+[Max. retries]
+Tentatives max.
+[Delay between retries (secs)]
+Tentative toutes les (sec)
+[Show popups]
+Voir les popups
+[Don't reconnect if no internet connection seems available]
+Ne pas se reconnecter si Internet semble indisponible
+[Continuously check for internet connection]
+Vérifier continuellement la connexion
+[Do so by pinging host]
+à cette adresse :
+[Confirm Status]
+Confirmer l'état
+[after]
+après
+[minutes of inactivity]
+minutes d'inactivité
+[minutes of level 1 mode]
+minutes en mode niveau 1
+[Confirm resetting status]
+Confirmer la réinitialisation
+[Account]
+Compte
+[Only set if current status is]
+Uniquement si l'état est :
+[Monitor Miranda's activity only]
+Ne vérifier que l'activité de Miranda
+[Reset status on return]
+RAZ de l'état au retour
+[when screen saver engages]
+quand l'écran de veille est activé
+[only set when inactive]
+uniquement si inactif
+[when workstation is locked]
+quand l'ordinateur est verrouillé
+[Command Line]
+Ligne de commande
+[Copy to Clipboard]
+Copier
+[Command Line:]
+Ligne de commande :
+[Create Shortcut]
+Créer un raccourci
+[Add new profile]
+Ajouter un profil
+[Profile name]
+Nom du Profil
+[Set window state]
+Définir son état
+[Show dialog]
+Afficher une fenêtre
+[Set status to offline before exit]
+Se mettre Hors ligne en quittant
+[Show CMDL]
+Voir CMDL
+[Activate status profile]
+Activer le profil d'état
+[Set docked]
+Son alignement
+[Status on startup]
+État au démarrage
+[Set after]
+après
+[Timeout]
+Délai
+[Set window location]
+Définir sa position
+[Set window size]
+Définir sa taille
+[Allow override]
+État modifiable
+[Note: status profiles can be created in the 'Status Profiles' options screen]
+Info : plusieurs profils peuvent être créés dans État => Profils d'états
+[Window on startup]
+Fenêtre au démarrage
+[Automatically dial on startup]
+Connexion automatique au démarrage
+[Automatically hang up on exit]
+Déconnexion automatique en sortant
+[Dial-up (experimental)]
+Connexion (en essai !)
 [Delay]
 Délai
+[On left click]
+Clic gauche
+[On right click]
+Clic droit
 [Do nothing]
 Rien faire
+[Close popup]
+Fermer le popup
+[Cancel reconnecting]
+Reconnexion annulée
 [Colours]
 Couleurs
 [Preview]
 Aperçu
-[Permanent]
-Permanent
+[Show when connection is lost]
+Afficher si la connexion est perdue
+[Show when a connection attempt is made]
+Afficher si une tentative de connexion est effectuée
+[Show when reconnection has finished]
+Afficher lors d'une reconnexion
+[Show other messages]
+Afficher les autres messages
+[Show additional information in popups]
+Afficher des détails dans les popups
+[Use Miranda's message setting]
+Utiliser les messages de Miranda
+[Use this message:]
+Utiliser ce message :
+[Ignore caps-lock, num-lock and scroll-lock keys]
+Ignorer les touches Verr. Maj, Verr. Num. et Arr. Défil.
+[Check interval (secs)]
+Intervalle de vérification (secs) :
+[Confirm dialog timeout (secs)]
+Durée de la boîte de confirmation (secs) :
+[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+Vous avez activé "Changer mon état en" dans l'option "Inactif". Les options de AdvancedAutoAway seront ignorées.
+[Monitor keyboard activity]
+Surveiller si activité du clavier
+[Monitor mouse activity]
+Surveiller si activité de la souris
+[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+Ignorer les touches CRTL, ALT, MAJ, TAB, Echapp et Windows
+[Ignore any key combination with above keys]
+Ignonrer également les combinaisons de touches
+[Enable checking]
+Activer la vérif.
+[Disable checking]
+Désactiver la vérif.
+[Set status message]
+Configurer le message d'état
+[Add...]
+Ajouter
+[Create a TopToolBar button]
+Bouton dans la barre d'outils
+[Show confirm dialog when loading]
+Fenêtre de choix au chargement
+[Create a main menu item]
+Ajouter dans le menu
+[Status Profiles]
+Profils d'états
+[HotKey1]
+Raccourci
 [Hotkey]
 Raccourcis
+[In submenu]
+Sous-menu
+[Max. delay (secs)]
+Délai maxi (sec)
+[Increase delay exponential]
+Augmenter le délai exponentiellement
+[Reconnect on APM resume]
+Se reconnecter en sortant de la veille
+[Stop trying to reconnect]
+Ne plus tenter de se connecter
+[Set delay to]
+Attendre
+[React on login errors]
+Réagir en cas d'erreur de login
+[Timers]
+Temporisateurs
+[Reconnecting]
+Reconnexion
+[Consider connection lost after]
+Considérer perdue après
+[failed pings]
+pings échoués
+[Continuously check interval (secs)]
+Vérifier continuellement toutes les (sec)
+[Rules]
+Règles
+[<last>]
+<dernier>
+[<current>]
+<actuel>
+[<n/a>]
+<indisponible>
 [Display Name:]
 Nom affiché :
 [Login Server:]
 Serveur :
+[Connection]
+Connexion
 [Change Password]
 Changement du mot de passe
 [&Invite]
 &Inviter
-[Avatars]
-Avatars
 [Me]
 Moi
 [Others]
@@ -1597,10 +1835,10 @@ Autres
 &Détails du contact
 [User &history]
 Voir l'&historique
+[AIM Link Protocol]
+Raccourci du protocole AIM
 [%s server connection]
 Connexion serveur de %s
-[Admin]
-Admin
 [Italic]
 Italique
 [Underline]
@@ -1613,52 +1851,124 @@ Souligné
 Basique
 [Privacy]
 Vie privée
-[minutes]
-minutes
+[Indent:]
+Décalage :
+[Loop sound]
+Son en boucle
 [Round corners]
 Coins arrondis
 [Title:]
 Titre :
+[Popup window]
+Activer les popups
+[Sound:]
+Son :
+[Weekly]
+Semaine
+[Daily]
+Jour
+[Monthly]
+Mois
+[Yearly]
+Annuellement
+[Dismiss]
+Passer
 [Static]
 Fixe
+[Title]
+Titre
+[Sunday]
+Dimanche
+[Monday]
+Lundi
+[Tuesday]
+Mardi
+[Wednesday]
+Mercredi
+[Thursday]
+Jeudi
+[Friday]
+Vendredi
+[Saturday]
+Samedi
 [Miscellaneous]
 Autres options
-[Type]
-Type
-[Description]
-Description
+[MSN Link Protocol]
+Raccourci du protocole MSN
+[Gadu-Gadu Link Protocol]
+Raccourci du protocole Gadu-Gadu
+[Jabber Link Protocol]
+Raccourci du protocole Jabber
+[Plugin settings]
+Configuration
 [Auth]
 Authent.
+[Paused]
+En pause
+[Header]
+En-tête
+[Active]
+Actif
+[Inactive]
+Inactif
+[Lock workstation]
+Verrouiller la session
+[Open Folder]
+Dossier
 [Protocols]
 Protocoles
-[Avatar]
-Avatar
-[Dialog]
-Dialog
+[Unknown Protocol]
+Protocole inconnu
 [Change]
 Changer
-[Transparent]
-Transparent
+[No avatar]
+Pas d'avatar
 [Settings]
-Réglages
+Options
+[Show timestamps]
+Afficher l'horodatage
 [hours]
 heures
+[Show date in timestamps]
+Afficher la date dans l'horodatage
+[Show seconds in timestamps]
+Afficher les secondes dans l'horodatage
+[Enable Smileys]
+Activer les smileys
+[All Contacts]
+Tous les contacts
 [Display errors using popups]
 Voir les erreurs dans des popups
+[Filter]
+Filtre
 [Time]
 Heure
+[Day]
+Jour
 [Password]
 Passe
+[Authorisation request by %s (%s%d): %s]
+Demande d'autorisation de %s (%s%d) : %s
 [Import]
 Importer
 [Export]
 Exporter
+[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
+Cette opération EFFACERA de manière PERMANENTE tout l'historique de ce contact\nÊtes-vous sùr de vouloir l'effacer ?
 [Send Message]
 Envoyer le message
+[Filters]
+Filtres
+[File transfer]
+Transfert de fichiers
 [>> Outgoing timestamp]
 >> Date/Heure d'envoi
+[Outgoing background]
+Fond pour envoi
 [<< Incoming timestamp]
 << Date/Heure de réception
+[Incoming background]
+Fond pour reçu
 [>> Outgoing name]
 >> Nom sortant
 [<< Incoming name]
@@ -1667,8 +1977,28 @@ Envoyer le message
 >> Messages envoyés
 [<< Incoming messages]
 << Messages reçus
+[All Files (*.*)]
+Tous les fichiers (*.*)
+[History Log]
+Historique
+[Filter:]
+Filtre :
+[Conversation started at %s]
+Conversation démarrée à %s
+[Unknown error]
+Erreur inconnue
+[You have reached the end of the history.]
+Vous avez atteint la fin de l'historique.
+[General Settings]
+Options générales
 [Show the Tray Icon]
 Afficher l'icône Systray
+[Screen Saver is running]
+Écran de veille en route
+[Hide]
+Cacher
+[Open message window]
+Ouvrir la fenêtre de message
 [Colors]
 Couleurs
 [Use Windows colors]
@@ -1676,13 +2006,31 @@ Utiliser les couleurs Windows
 [days]
 jours
 [Enabled]
-Activer
+Activé
 [Disabled]
-Désactiver
+Désactivé
+[Contact name]
+Nom du contact
+[not found]
+non trouvé
 [Send]
 Envoyer
+[Setting Value]
+Réglages
+[Days]
+Jours
 [Retry]
 Réessayer
+[Back]
+Préc.
+[Copy to clipboard]
+Copier
+[Use default]
+Par défaut
+[Open log file]
+Ouvrir journal
+[Contact:]
+Contact :
 [Show Avatars]
 Voir les avatars
 [Background colour:]
@@ -1693,40 +2041,106 @@ Choix de couleur :
 Utiliser une image en fond
 [Tile vertically according to Row Height]
 "Tuiler" verticalement selon la taille de rangée
+[Rescan]
+Rescanner
 [Left]
 Gauche
+[Top]
+Haut
+[Width]
+Largeur
+[Height]
+Hauteur
+[Available view modes]
+Modes d'affichage dispo
+[Include protocols]
+Protocoles inclus
+[Include groups]
+Groupes inclus
+[Include status modes]
+États inclus
+[Sticky contacts]
+Contact collant
 [Clear all]
 Tout effacer
+[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
+En utilisant la liste de contact du côté gauche, vous pouvez choisir les contacts qui seront "collants" pour ce mode de vue. Ces contacts ignoreront les règles standards de filtre et utiliseront seulement le filtre de mode d'état ci-dessous.
+[Status mode]
+État
+[Automatically clear this view mode after]
+Effacer automatiquement ce mode de vue après :
+[View mode options]
+Mode de vue des options
+[Editing view mode]
+Édition du mode d'affichage
+[Last message ]
+Dernier message 
 [Right click opens Miranda menu]
 Le clic droit ouvre le menu Miranda
 [Dont move offline user to bottom]
-Ne pas mettre les Hors-ligne en bas
+Ne pas mettre les hors ligne en bas
+[Behaviour]
+Options
 [Hide vertical scrollbar]
 Masquer l'ascenseur
 [ms, delay between icon blinking]
 ms, délai de clignotement
 [Ignore Empty Extra icons places (arrange to right).]
-Ignorer les icônes vides (aligner sur la droite)
+Ignorer les icônes vides (ceux sur la droite)
 [Use 'Meta' protocol icons for Metacontacts]
 Utiliser l'icône de protocole 'Meta' pour les MetaContacts
 [Avoid doubleclick expand]
-Éviter le double-clique pour développer
+Ne pas développer sur un double-clic
 [Hide all 'Extra icons' for subcontacts]
 Cacher les 'Icônes d'accès rapide' des sous-contacts
 [Hide offline subcontacts.]
 Cacher les sous-contacts hors ligne
+[Appearance]
+Apparence
 [Enable drop shadow (restart required)]
 Activer l'ombre (redémarr. nécessaire)
+[Up]
+Monter
+[Down]
+Baisser
+[Custom corner size:]
+Définir le rayon :
+[Use protocol smileys]
+Utiliser le smiley des protocoles
+[Show second line]
+Afficher une seconde ligne
+[Text:]
+Texte :
 [Nickname]
 Pseudo
-[Visible]
-Visible
+[Status Message]
+Message d'état
+[Listening to]
+En écoute
+[Contact time]
+Heure du contact
+[Align]
+Alignement
+[Border]
+Bordures
 [Floating]
 Flottante
+[Move up]
+Monter
+[Move down]
+Descendre
+[Second line]
+Seconde ligne
+[Selected text]
+Texte sélectionné
+[Event Area]
+Zone d'évènements
+[Icon]
+Icône
 [&About]
-&A propos de
+À &propos de
 [My Contacts]
-Mes Contacts
+Mes contacts
 [&Visible]
 &Visible
 [&Locked]
@@ -1739,8 +2153,6 @@ Mode &Libre
 &Alignement
 [&Top]
 &Haut
-[&Client]
-&Client
 [&Bottom]
 &Bas
 [&Position]
@@ -1748,7 +2160,7 @@ Mode &Libre
 [&Up]
 &Monter
 [&Down]
-&Descendre
+&Baisser
 [Show All Frames]
 Afficher Cadres
 [Show All Titlebars]
@@ -1759,14 +2171,66 @@ Cacher barres de titre
 Verrouiller Cadre
 [Show TitleBar]
 Afficher la barre de titre
+[GroupMenu]
+Menu du groupe
+[SubGroupMenu]
+Menu du sous-groupe
 [&New SubGroup]
 &Nouveau sous-groupe
 [Close Miranda]
 Fermer Miranda
 [Restore last status]
 Restaurer le dernier état
+[lines]
+lignes
 [Right]
 Droite
+[Status menu]
+Menu états
+[Hide offline contacts]
+Cacher les Hors ligne
+[Ungrouped contacts]
+Contacts sans groupe
+[And]
+Et
+[Or]
+Ou
+[Older than]
+Plus vieux que
+[Newer than]
+Plus récent que
+[Minutes]
+Minutes
+[Hours]
+Heures
+[All contacts]
+Tous les contacts
+[Filtering]
+Filtre
+[*** All contacts ***]
+*** Tous les contacts ***
+[Configure view modes]
+Configurer les modes d'affichage
+[Really delete this view mode? This cannot be undone]
+Supprimer ce mode d'affichage ? Ceci ne pourra pas être annulé !
+[Delete a view mode]
+Effacer un mode d'affichage
+[A view mode with this name does alredy exist]
+Un mode de vue avec ce nom est déjà existant
+[Duplicate name]
+Nom en double
+[Setup View Modes...]
+Configurer les modes d'affichage...
+[Select a view mode]
+Sélectionner mode d'affichage
+[Setup view modes]
+Configurer les modes d'affichage
+[Clear view mode and return to default display]
+Effacer le mode d'affichage et retour à l'affichage par défaut.
+[Reset view mode]
+Remise à zéro du mode vue
+[View Modes]
+Mode d'affichage
 [&FrameTitle]
 &Barre de Titre
 [&Show TitleBar]
@@ -1775,12 +2239,18 @@ Droite
 &Fermé
 [Support and latest version information]
 Support et dernières informations de version
+[Alignment]
+Alignement
 [Show avatars]
 Voir les avatars
+[Load this skin on startup]
+Charger ce skin au démarrage
+[Skin options]
+Options
 [Incoming file transfers]
 Transfert de fichiers entrants
 [URL events]
-Évènements d'URL
+Évènements de liens
 [Ignore all]
 Tout ignorer
 [Ignore none]
@@ -1801,32 +2271,140 @@ Haut-droit
 Bas-droit
 [Bottom-Left]
 Bas-gauche
+[Item colors]
+Couleurs
+[First color]
+Couleur primaire
+[Textcolor]
+Couleur du texte
+[Second color]
+Couleur secondaire
+[Alpha (percent)]
+Alpha (pourcentage)
+[Item margins]
+Marges
+[Item borders]
+Bordures
+[Border style]
+Style bordure
+[3D border (bright / dark)]
+Bords en 3D (clair/sombre)
+[Item ignored]
+Élément ignoré
+[Not yet supported]
+Pas encore supporté
 [<None>]
 <Aucun>
+[Raised]
+Surlevée
+[Sunken]
+Effet évier
+[Nothing]
+Rien
+[Never]
+Jamais
+[Always]
+Toujours
 [Warning]
 Attention
+[Title bar]
+Barre de titre
+[Load and apply]
+Charger et appliquer
 [Notify]
 Notification
+[Set popup colours]
+Définir couleur des popups
+[Popup options]
+Options des popups
+[Version:]
+Version :
+[&Select All]
+&Tous prendre
+[View]
+Aperçu
+[Version Information]
+Information sur les versions
+[Upload]
+Envoyer
 [User ID]
-ID utilisateur
+ID 
 [Refresh]
-Rafraîchir
+Actualiser
+[Do you really want to delete selected item?]
+Voulez-vous vraiment supprimer la sélection ?
+[Main Icon]
+Icônes
+[No change]
+Non changé
 [< &Back]
 < &Précédent
 [&Next >]
 &Suivant >
+[&Export]
+&Exporter
+[&Import]
+&Importer
+[Export to file]
+Exporter vers
+[Stop]
+Arrêter
+[Searching...]
+Recherche...
+[Unknown Contact]
+Contact inconnu
+[Setting]
+Réglage
 [Change password]
 Changer mot de passe
+[Author:]
+Auteur :
+[Email:]
+e-mail :
+[Password is too short!]
+Le mot de passe est trop court !
+[Browse...]
+Localiser...
+[Disable Popups]
+Désactiver les popups
+[Check every]
+Vérifier toutes les
+[Subject]
+Sujet
+[Sender]
+Expéditeur
 [Event notifications]
 Notifications d'évènements
 [Other events]
 Autres évènements
+[Links]
+Liens
+[Round corners by]
+Coins arrondis sur
+[Select protocols]
+Protocoles
+[Security]
+Sécurité
+[Unknown client]
+client inconnu
+[Tooltips]
+Bulle système
+[Draw border]
+Limite du cadre
 [User]
 Usager
-[Port]
-Port
+[Clipboard]
+Presse Papier
 [Server:]
 Serveur :
+[Open in Browser]
+Ouvrir le lien
+[Copy Link]
+Copier le lien
+[Send file]
+Fichier sortant vers 
+[FTP File]
+Fichier FTP
 [Enable avatars]
 Activer les avatars
 [Keep connection alive]
@@ -1855,14 +2433,30 @@ Miranda n'a pas été capable d'établir une connexion avec un serveur. Il est p
 La connexion avec le serveur a été soudainement interrompue durant la tentative de connexion. Il se peut que vous ayez perdu votre connexion réseau locale.
 [Conference]
 Chat
+[Ask]
+Demander
 [Participants]
 Participants
+[Send image]
+Envoyer l'image
 [Background color]
 Couleur de fond
 [Text color]
 Couleur du texte
+[Copy All]
+Tous copier
+[Delete Selected]
+Sélection effacée
+[Enable BBCodes]
+Activer les BBCodes
+[Toolbar]
+Barre d'outils
+[Incoming SMS Message]
+SMS reçu
 [Address]
 Adresse
+[Disable]
+Désactiver
 [All files]
 Tous les fichiers
 [Enter an authorization request]
@@ -1873,8 +2467,6 @@ Se rappeler du mot de passe
 Réglages de la connexion
 [Back Color]
 Arrière-plan
-[Note]
-Note
 [&Use Windows colors]
 Utiliser les couleurs de Windows
 [Previe&w]
@@ -1895,8 +2487,6 @@ Page Web
 Détails de l'état personnel "%s" 
 [Message:]
 Message :
-[Art]
-Art
 [Astronomy]
 Astronomie
 [Cars]
@@ -1908,19 +2498,15 @@ Habillement
 [Collections]
 Collections
 [Computers]
-Ordinateurs
+Informatique
 [Entertainment]
 Loisirs
 [Fitness]
 Santé et Forme
-[Hobbies]
-Hobbies
 [Games]
 Jeux
 [Government]
 Gouvernement
-[Internet]
-Internet
 [Lifestyle]
 Modes de vie
 [Media]
@@ -1935,16 +2521,12 @@ Esotérisme
 Fêtes
 [Publishing]
 Édition
-[Religion]
-Religion
 [Skills]
 Talents
 [Social science]
 Sciences sociales
 [Space]
 Espace
-[Sports]
-Sports
 [Travel]
 Voyage
 [Web Design]
@@ -1964,7 +2546,7 @@ Azerbaijani
 [Belorussian]
 Biélorusse
 [Bosnian]
-Bosnien
+Bosniaque
 [Bulgarian]
 Bulgare
 [Burmese]
@@ -2019,6 +2601,8 @@ Khmer
 Coréen
 [Kurdish]
 Kurde
+[Lao]
+Laotien
 [Latvian]
 Letton
 [Lithuanian]
@@ -2036,7 +2620,7 @@ Norvégien
 [Persian]
 Persan
 [Polish]
-Poli
+Polonais
 [Portuguese]
 Portugais
 [Punjabi]
@@ -2092,9 +2676,9 @@ Militaire
 [Education]
 Éducation
 [Manufacturing]
-Manufacture
+Fabrication
 [Academic]
-Académique
+Universitaire
 [Administrative]
 Administration
 [Art/Entertainment]
@@ -2130,9 +2714,11 @@ Retraité
 [Science & Research]
 Science & Recherche
 [Technical]
-Technicien
+Technique
 [University Student]
 Étudiant
+[Web Building]
+Création de site WEB
 [Other Services]
 Autres Services
 [Alumni Org.]
@@ -2145,8 +2731,6 @@ Club/société
 Org. Communautaire
 [Cultural Org.]
 Org. Culturel
-[Fan Clubs]
-Fan Clubs
 [Fraternity/Sorority]
 Fraternité
 [Hobbyists Org.]
@@ -2187,20 +2771,54 @@ Divorcé(e)
 Veuf/Veuve
 [No description given]
 Aucune description
-[Request authorization]
-Demander l'autorisation
-[Grant authorization]
-Accorder l'autorisation
 [Simplified Chinese]
 Chinois Simplifié
 [Traditional Chinese]
 Chinois Traditionnel
+[Central European]
+Europe Centrale
+[Cyrillic]
+Cyrillique
+[Baltic]
+Balte
+[Korean (Johab)]
+Coréen (Johab)
 [Features]
 Fonctions
 [Popup Title]
 Titre
 [%s client-to-client connections]
 Connexions client-à-client de %s
+[Angry]
+Fâché(e)
+[Tired]
+Fatigué(e)
+[Birthday]
+Anniversaire
+[Eating]
+Mange
+[Meeting]
+Fait des rencontres
+[Coffee]
+Café
+[Listening to music]
+Écoute de la musique
+[Sleeping]
+Dodo
+[Working]
+Bosse
+[Cooking]
+Cuisine
+[Smoking]
+Fume
+[On WC]
+Aux toilettes
+[Love]
+Amoureux(se)
+[Custom Status]
+Message d'état
+[%d Files]
+%d fichiers
 [January]
 Janvier
 [February]
@@ -2230,7 +2848,7 @@ Sexe
 [About]
 À propos
 [Primary e-mail]
-E-mail
+e-mail
 [Secondary e-mail]
 Second e-mail 
 [Tertiary e-mail]
@@ -2245,34 +2863,30 @@ Fuseau Horaire
 Veuillez m'autoriser à vous ajouter à ma liste de contacts
 [Clear Log]
 Effacer le journal
-[Mode]
-Mode
 [Show time]
 Afficher l'heure
 [Show date]
 Afficher la date
+[URL sent]
+Liens envoyés
+[URL received]
+Lien reçu
+[Template]
+Modèle
 [Today]
 Aujourd'hui
 [Yesterday]
 Hier
+[All]
+Tous
+[Import...]
+Importation...
 [Finish]
 Terminer
 [Enable]
 Activer
-[SSL]
-SSL
-[Ping]
-Ping
 [Server]
 Serveur
-[Question]
-Question
-[&OK]
-&OK
-[Alias]
-Alias
-[Auto]
-Auto
 [&Save]
 &Sauvegarder
 [Channel manager]
@@ -2280,7 +2894,7 @@ Gestion des canaux
 [Private]
 Privé
 [Hidden]
-est caché
+Caché
 [Normal]
 Normal
 [none]
@@ -2291,20 +2905,20 @@ aucun
 Mess. Privés
 [Server window]
 Liste des serveurs
-[&Kick]
-&Kick
 [Please wait...]
 Veuillez patienter ...
 [Save password]
 Sauvegarder le mot de passe
 [Download]
 Télécharger
-[Expert]
-Expert
+[Import from file]
+Importer d'un fichier
 [Automatically delete contacts not in my roster]
 Effacer automatiquement les contacts absents de ma liste
 [Browse]
 Localiser
+[Next]
+Suiv
 [Jabber Password]
 Passe de Jabber
 [Full name:]
@@ -2318,9 +2932,13 @@ Portable
 [Video]
 Vidéo
 [Save]
-Enregistrer
+Sauver
 [Login server:]
 Serveur :
+[Status message:]
+Message d'état :
+[Not supported]
+Non supporté
 [not on roster]
 pas sur ma liste
 [from]
@@ -2333,56 +2951,106 @@ Nom
 Salon de chat
 [Authentication failed for]
 Authentification échouée pour
+[Convert]
+Conversion
+[CHAT plugin is required for conferences. Install it before chatting]
+Le plugin CHAT est requis pour les conférences. Vous devez l'installer avant de discuter
 [From]
 De
+[Errors]
+Erreurs
+[Are you sure?]
+Êtes-vous sûr ?
 [Downloading...]
 Téléchargement...
+[Status message]
+Message d'état
 [Enter password for]
 Entrez le passe pour
+[unknown]
+inconnu
 [both]
 les 2
 [to]
 vers
+[Sick]
+Malade
+[Message-Event only]
+Message-Évènement seulement
 [Update]
 Mettre à jour
 [Message events]
 Évènements de messages
 [File events]
 Évènements de fichiers
-[Version:]
-Version :
-[Format]
-Format
-[Subject]
-Sujet
+[Keyboard Flash]
+Flash du clavier
+[Flashing]
+Clignotement
 [Other options]
 Autres options
+[&Remove]
+&Retirer
+[Protocol:]
+Protocole :
+[Reset All]
+RAZ total
+[MetaContacts]
+MetaContacts
 [Forget]
 Annuler
 [Notify me when a message delivery has failed]
 Me prévenir en cas d'échec d'envoi d'un message
 [Your host (or router):]
 Hôte (ou routeur) :
+[Send &Nudge]
+Envoyer un &Wizz
 [New E-mail available in Inbox]
 Nouveaux e-mail disponibles
 [Contact Menu]
 Menu du contact
-[Debug]
-Débug
+[Foreground]
+Premier plan
 [UIN]
 #ICQ
 [Set Nickname]
 Changement du pseudo
+[Anniversary]
+Anniversaire
 [Set &Nickname]
 Changer le &Pseudo
+[%s plugin connections]
+Connexion serveur de %s
 [Popup Options]
 Options
+[Dismiss Popup]
+Ferme le popup
+[Auto Update Enabled]
+Mise à jour automatique activée
+[Auto Update Disabled]
+Mise à jour automatique désactivée
+[Enable popups]
+Activer les popups
 [characters]
 caractères
 [Message log]
 Historique récent
+[You cannot specify a value lower than %d and higher than %d.]
+Vous ne pouvez spécifier une valeur plus petite que %d et plus grande que %d.
+[Delete key]
+Effacer la clef
+[Email]
+e-mail
+[Link Settings]
+Configuration des Liens
 [Clear History]
 Effacer l'historique
+[Logging]
+Journal
+[Reset to defaults]
+Par défaut
+[Reminder]
+Rappel
 [Black]
 Noir
 [Green]
@@ -2395,46 +3063,186 @@ Jaune
 Bleu
 [White]
 Blanc
+[Week]
+Semaine
+[Every]
+Chaque
+[Seconds]
+Secondes
+[Sound]
+Son
+[Send Nudge]
+Envoyer un wizz
+[Component Name]
+Nom du plugin
+[Restore defaults]
+Options par défaut
 [Use default codepage]
 Codepage par défaut
+[Cyrillic KOI8-R]
+Cyrillique KOI8-R
+[Log to File]
+Sauvegarder
+[View Log]
+Journal
+[Label:]
+Nom :
 [enabled]
 activé
+[Restart]
+Relancer
+[events]
+entrées
+[Avatar size:]
+Taille avatar:
+[Transparency]
+Transparence
+[Popup History]
+Historique des popups
 [General options]
-Options Générales
+Options générales
+[Popup timeout:]
+Délai popup :
+[More...]
+Plus...
+[Default Timeout]
+Délai par défaut
 [Send message]
 Envoyer
 [Dismiss popup]
-Fermer la popup
-[horizontal]
-horizontal
+Fermer le popup
+[Popups are enabled]
+Popups activés
+[Popups are disabled]
+Popups désactivés
+[Toggle Popups]
+Activer/Désactiver les popups
+[Enable Popups]
+Activer les popups
+[Show all contacts]
+Afficher tous les contacts
+[Buttons]
+Boutons
+[Variable List]
+Liste des variables
+[Edit Settings]
+Modifier les réglages
+[Quote]
+Citer
+[Layout]
+Disposition
 [Enable transparency]
 Activer la transparence
-[active]
-active
-[inactive]
-inactive
 [Log status changes]
 Voir les changements d'état
-[Yahoo]
-Yahoo
+[Close Other Tabs]
+Fermer les autres onglets
 [Close Tab]
 Fermer l'onglet
 [Insert Emoticon]
 Insérer un smiley
 [Input area background]
 Fond de la zone de saisie
+[Not Idle]
+Non inactif
+[Misc]
+Divers
+[Close Session]
+Fermer la fenêtre
 [Close session]
 Fermer la session
 [Display]
-Afficher
+Affichage
+[Bottom]
+Bas
+[Default colors]
+Par défaut
+[Windows colors]
+Couleurs Windows
+[Play sound]
+Lire le son
+[Prefix:]
+Préfix :
+[Question: (Ctrl-Enter for carriage return)]
+Question : (Ctrl+Entrée = à la ligne).
+[Congratulation:]
+Félicitation :
+[Do not send more than ]
+Ne pas envoyer plus de 
+[ questions to one contact (0 - for no limit)]
+ questions à un même contact (0 = désactivé).
+[Enable StopSpam-StopSpam infinite talk protection]
+Activer StopSpam - Protection infinie des conversations de StopSpam.
+[Add contact permanently]
+Ajout permanent du contact.
 [Choose modes]
 Choix des modes
+[Show user menu]
+Voir menu du contact
+[Message window]
+Fenêtre de message
+[Text indent:]
+Décalage text
+[Sidebar width:]
+Barre latérale :
+[Round corners (avatar)]
+Coins arrondis (avatar)
+[Opacity(%):]
+Transparence (%) :
+[Shadow]
+Ombre
+[Round corners (window)]
+Coins arrondis (fenêtre)
+[Icon on left]
+Icône à gauche
+[Icon on right]
+Icône à droite
+[Bottom right]
+En bas à droite
+[Bottom left]
+En bas à gauche
+[Top right]
+En haut à droite
+[Top left]
+En haut à gauche
+[Left avatar]
+Avatar à gauche
+[Right avatar]
+Avatar à droite
+[Client:]
+Client :
+[IP:]
+IP :
+[Sidebar]
+Barre latérale
 [Serbo-Croatian]
 Serbo-croate
 [Path:]
 Accès :
+[Units]
+Unités de mesures
+[Text colour:]
+Couleur du texte :
+[Reset to default]
+Remettre par défaut
+[KB]
+ko
+[Birthday today]
+Anniversaire du jour
+[He]
+Il
+[She]
+Elle
+[He/She]
+Il/Elle
+[%s has birthday today.]
+Anniversaire ajoud'hui de %s
+[%s has birthday tomorrow.]
+Anniversaire demain de %s
+[%s has birthday in %d days.]
+Anniversaire de %s dans %d jours
 [ID]
-ID
+ID 
 [N/A]
 Indisponible
 [New Mail]

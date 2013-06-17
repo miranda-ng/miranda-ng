@@ -1,0 +1,196 @@
+﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
+;============================================================
+;  File: Popup.dll
+;  Plugin: Popup plus
+;  Version: 2.1.1.7
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+[Provides popup notification services for different plugins.]
+Provê um serviço notificações popup para diferentes plugins
+;file \plugins\Popup\res\resource.rc
+[Content && Style]
+Conteúdo e Estilo
+[Live Preview]
+Previsão
+[Size && Position]
+Tamanho e posição
+[Enable popup history]
+Habilitar histórico de popup
+[Store last]
+Armazenar última
+[Use History++ to render log]
+Usar History++ para renderizar o log
+[Draw avatar borders]
+Mostrar bordas do avatar
+[Draw borders for semitransparent avatars too]
+Mostrar bordas para avatares semitransparentes também
+[Enable avatar updates]
+Ativar atualização de avatar
+[Start the popups in the monitor with]
+Iniciar os popups no monitor com
+[Miranda's window]
+A janela do Miranda
+[the active window]
+A janela ativa
+[Enable Win 9x/Me transparency]
+Ativar trasparência no Win 9x/Me
+[Opaque popups under cursor]
+Popups opacos sob o cursor
+[Limit window amount to:]
+Janela limitada a:
+[* - built-in skins]
+* - Construindo capas
+[Popup Area]
+Área do popup
+[pixel(s)]
+Pixels
+[Configure popup area]
+Configurar área de popup
+[Enable popup actions]
+Ativar ações popup
+[Popup Actions are those tiny buttons below notification text.]
+Ações popup são aqueles pequenos botões abaixo do texto de notificação
+[Common Actions]
+Ações comuns
+[Please choose in what cases default actions should be added:]
+Por favor escolha em que casos ações padrão podem ser adicionadas
+[Add info && menu for IM contacts only]
+Adicionar informações e menu apenas para contatos IM
+[Add default actions for contacts only]
+Adicionar ações padrão para contatos apenas
+[Don't close popups on default actions]
+Não fechar popups numa ação padrão
+[Use large icons]
+Usar ícones grandes
+[Popup actions will be displayed as:]
+Ações popup serão mostradas como:
+[Icons and labels below text]
+Ícones e rótulos abaixo do texto
+[Icons on the left]
+Ícones à esquerda
+[Icons aligned to the right]
+Ícones alinhados à direita
+[Show Actions: (requires apply)]
+Exibir ações: (requer "aplicar")
+[Enable this notification]
+Ativar esta notificação
+[Left click action:]
+Ação do clique com botão esquerdo
+[Right click action:]
+Ação do clique com botão direito
+[Disable when global status is...]
+Desabilitar quando o status global for...
+[Disable when relevant protocol's status is...]
+Desabilitar quando status do protocolo pertinente for...
+[Per-contact settings]
+Configurações por contato
+[Show always]
+Mostrar sempre
+[Ignore fullscreen]
+Ignorar tela cheia
+[Never show]
+Nunca mostrar
+[Show default]
+Mostrar padrão
+[Infinite popup delay]
+Demora infinita do popup
+[Popup delay:]
+Demora do popup
+[Do not close hovered popups]
+Não fechar popups flutuantes
+[Dynamically resize the popups]
+Redimensionar popups dinamicamente
+[Minimum width]
+Largura minima
+[Maximum width]
+Largura máxima
+[Layout:]
+Formato
+[Reorder Popups]
+Reordenar popups
+[Disable when:]
+Desabilitar quando:
+[Always (has priority)]
+Sempre (tem prioridade)
+;file \plugins\Popup\src\actions.cpp
+[Quick reply]
+Resposta rápida
+[User details]
+Detalhes do usuário
+[Pin popup]
+Fixar popup
+;file \plugins\Popup\src\config.cpp
+[The Jabberwocky]
+O Jaguadarte
+[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
+Previsão teste para as configurações do plugin popup. Isso supostamente é longo o suficiente pra não caber em uma linha
+[This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
+Esta é uma previsão teste especial para as configurações do plugin popup. O texto e o título são bastante longos, então você ajustar sua capa e as configurações do plugin para se encaixarem melhor nas suas necessidades
+[This is a notification message]
+Esta é uma mensagem de notificação
+[This is a warning message]
+Esta é uma mensagem de aviso
+[This is an error message]
+Esta é uma mensagem de erro
+;file \plugins\Popup\src\effects.cpp
+;file \plugins\Popup\src\font.cpp
+[Hovered Action]
+Ação Flutuante
+;file \plugins\Popup\src\history.cpp
+;file \plugins\Popup\src\icons.cpp
+[With "favourite" overlay]
+Com sobreposição de favoritos
+[With "fullscreen" overlay]
+Com sobre posição de tela cheia
+[Refresh skin list]
+Recarregar lista de capas
+[Popup Placement]
+Localização do popup
+[Popup Group]
+Grupo do popup
+[Favorite Contact]
+Contatos favoritos
+[Show in Fullscreen]
+Mostrar em tela cheia
+[Blocked Contact]
+Contatos bloqueados
+[Pin Popup]
+Fixar popup
+[Pinned Popup]
+Popup fixo
+[Add Contact Permanently]
+Adicionar contato permanentemente
+;file \plugins\Popup\src\main.cpp
+;file \plugins\Popup\src\opt_adv.cpp
+;file \plugins\Popup\src\opt_class.cpp
+;file \plugins\Popup\src\opt_gen.cpp
+[upper left corner]
+Canto superior esquerdo
+[lower left corner]
+Conto inferior esquerdo
+[lower right corner]
+Canto inferior direito
+[upper right corner]
+Canto superior direito
+[vertical]
+Vertical
+[Protocol Status]
+Status do protocolo
+;file \plugins\Popup\src\opt_skins.cpp
+[Skin preview]
+Previsão de capa
+[Just take a look at this skin... ;)]
+Apenas dê uma olhada nessa capa...
+[Show clock]
+Mostrar rélogio
+[Enable Aero Glass (Vista+)]
+Ativar Aero Glass (Vista+)
+[Use advanced text render]
+Usar renderizador de texto avançado
+[Refresh List]
+Recarregar lista
+;file \plugins\Popup\src\popup_thread.cpp
+;file \plugins\Popup\src\popup_wnd2.cpp
+;file \plugins\Popup\src\services.cpp
+;file \plugins\Popup\src\skin.cpp
+;file \plugins\Popup\src\srmm_menu.cpp

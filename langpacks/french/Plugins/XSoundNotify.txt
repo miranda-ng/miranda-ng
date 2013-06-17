@@ -6,4 +6,6 @@
 ;  Authors: Roman Torsten
 ;============================================================
 ;file \plugins\XSoundNotify\res\XSoundNotify.rc
+[Choose]
+Changer
 ;file \plugins\XSoundNotify\src\xsn_main.cpp

@@ -1,0 +1,112 @@
+﻿#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+;============================================================
+;  File: TabSRMM.dll
+;  Plugin: TabSRMM
+;  Version: 3.1.99.8
+;  Authors: The Miranda developers team and contributors
+;============================================================
+;file \plugins\TabSRMM\res\chat.rc
+;file \plugins\TabSRMM\res\resource.rc
+[Hide the status bar]
+Peida olekuriba
+[Hide the menu bar]
+Peida menüüriba
+[Hide the tool bar]
+Peida tööriistariba
+[Show the info panel]
+Kuva infopaneel
+[Hide title bar]
+Peida tiitelriba
+[Message window options]
+Teadeteakna valikud
+[Left/Right]
+Vasak/parem
+[Tab options]
+Sakkide valikud
+[Miscellaneous options]
+Muud valikud
+[Insert Separator]
+Lisa eraldaja
+[Support BBCODE]
+Toeta BBCODE
+[Leave Chat Room]
+Lahku jututoast
+[Show Contact Picture]
+Kuva kontakti pilt
+[BBCode]
+BBCode
+[Global Setting]
+Globaalsed seaded
+[Favorites]
+Lemmikud
+[Show Tool Bar]
+Kuva tööriistariba
+;file \plugins\TabSRMM\src\buttonsbar.cpp
+;file \plugins\TabSRMM\src\container.cpp
+;file \plugins\TabSRMM\src\containeroptions.cpp
+;file \plugins\TabSRMM\src\controls.cpp
+;file \plugins\TabSRMM\src\eventpopups.cpp
+[New messages: ]
+Uued teated: 
+;file \plugins\TabSRMM\src\generic_msghandlers.cpp
+;file \plugins\TabSRMM\src\globals.cpp
+;file \plugins\TabSRMM\src\hotkeyhandler.cpp
+;file \plugins\TabSRMM\src\infopanel.cpp
+;file \plugins\TabSRMM\src\mim.cpp
+;file \plugins\TabSRMM\src\modplus.cpp
+;file \plugins\TabSRMM\src\msgdialog.cpp
+[Character Encoding]
+Märkide kodeering
+[Contact is offline and this protocol does not support sending files to offline users.]
+Kontakt on välja logitud ja see protokoll ei toeta failide saatmist väljas olevatele kasutajatele.
+;file \plugins\TabSRMM\src\msgdlgutils.cpp
+[Error creating destination directory]
+Viga sihtkataloogi loomisel
+[Save contact picture]
+Salvesta kontatki pilt
+[The file exists. Do you want to overwrite it?]
+Fail eksisteerib. Kas soovid üle kirjutada?
+;file \plugins\TabSRMM\src\msglog.cpp
+;file \plugins\TabSRMM\src\msgoptions.cpp
+;file \plugins\TabSRMM\src\msgs.cpp
+[Save and close]
+Salvesta ja sulge
+[Font color]
+Fondi värv
+;file \plugins\TabSRMM\src\msgs.h
+;file \plugins\TabSRMM\src\selectcontainer.cpp
+;file \plugins\TabSRMM\src\sendlater.cpp
+;file \plugins\TabSRMM\src\sendqueue.cpp
+;file \plugins\TabSRMM\src\sidebar.cpp
+;file \plugins\TabSRMM\src\srmm.cpp
+;file \plugins\TabSRMM\src\taskbar.cpp
+;file \plugins\TabSRMM\src\templates.cpp
+;file \plugins\TabSRMM\src\themeio.cpp
+;file \plugins\TabSRMM\src\themes.cpp
+[Change skin]
+Muuda nahk
+;file \plugins\TabSRMM\src\translator.cpp
+;file \plugins\TabSRMM\src\trayicon.cpp
+;file \plugins\TabSRMM\src\typingnotify.cpp
+[Enable &typing notification]
+Võimalda trükkimise teavitused
+[...is typing a message.]
+...on trükkimas teadet.
+[...has stopped typing.]
+...lõpetas trükkimise.
+;file \plugins\TabSRMM\src\userprefs.cpp
+[Always On]
+Alati sees
+[Always Off]
+Alati väljas
+;file \plugins\TabSRMM\src\utils.cpp
+;file \plugins\TabSRMM\src\chat\clist.cpp
+;file \plugins\TabSRMM\src\chat\colorchooser.cpp
+;file \plugins\TabSRMM\src\chat\log.cpp
+;file \plugins\TabSRMM\src\chat\muchighlight.cpp
+;file \plugins\TabSRMM\src\chat\options.cpp
+[* Error and warning Messages]
+* Vea- ja hoiatusteated
+;file \plugins\TabSRMM\src\chat\services.cpp
+;file \plugins\TabSRMM\src\chat\tools.cpp
+;file \plugins\TabSRMM\src\chat\window.cpp

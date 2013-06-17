@@ -1,0 +1,373 @@
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+;file \protocols\IRCG\res\IRC.rc
+[&Del]
+Verwij&deren
+[only while connecting]
+alleen tijdens verbinden
+[Force visible (-i)]
+Forceer onzichtbaar (-i)
+[Rejoin channel if kicked]
+Kanaal opnieuw binnengaan als weggetrapt
+[Rejoin channels on reconnect]
+Kanalen opnieuw binnengaan bij opnieuw verbinden
+[Disable tray balloon on error]
+Systeemvak ballon bij fout uitschakelen
+[Show addresses]
+Adressen tonen
+[Use server window]
+Server scherm gebruiken
+[Show server window on startup]
+Server scherm tonen bij opstarten
+[Automatically join on invite]
+Automatisch binnengaan bij uitnodiging
+[Internet address]
+Internet adres
+[Port range]
+Poort bereik
+[User ID (Ident)]
+Gebruikers ID
+[Full name (e-mail)]
+Volledige naam (e-mail)
+[Server name]
+Server naam
+[Alternative nick]
+Alternatieve bijnaam
+[Ident]
+Identificatie
+[Default network]
+Standaard netwerk
+[User info - Required]
+Gebruikers info - Verplicht
+[Reconnect]
+Opnieuw verbinden
+[Wait (s)]
+Wacht (s)
+[Retry count]
+Opnieuw proberen
+[Fear the monkeys!!!]
+Vrees de apen!!!
+[User information]
+Gebruikers informatie
+[Userinfo]
+Gebruikersinfo
+[&Refresh]
+Ve&rversen
+[&Query]
+&Query
+[Channels]
+Kanalen
+[Away Info]
+Afweigheidsinformatie
+[The server returned the following information. Please note that this information might be misleading and/or falsified]
+De server heeft de volgende informatie teruggeven. Let er op dat deze informatie misleidend en/of vals kan zijn
+[CTCP information]
+CTCP informatie
+[Perform]
+Optreden
+[&Set]
+In&stellen
+[Add server]
+Server toevoegen
+[Channels on server]
+Kanalen op server
+[C&onnect]
+Verbinden
+[Hostmask]
+Hostmasker
+[&Clear all]
+Alles ops&chonen
+[Bans]
+Bans
+[Invites]
+Uitnodigingen
+[Excepts]
+Uitzonderingen
+[Only Ops set topic]
+Alleen operators stellen onderwerp in
+[No external messages]
+Geen externe berichten
+[Invite only]
+Alleen uitnodigen
+[Moderated]
+Bijgehouden
+[Key:]
+Sleutel:
+[User limit:]
+Gebruikers limiet:
+[Secret]
+Geheim
+[Topic]
+Onderwerp
+[User modes]
+Gebruiker modi
+[Channel modes]
+Kannaal modi
+[Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
+Gebruik de opties om de modes in te stellen voor dit kanaal. U bent normaag gesproken vereist om operator of hoger te zijn.
+[Send-ahead]
+Vooruit versturen
+[Attempt reverse DCC (good if firewalled)]
+Probeer omgekeerde DCC (goed wanneer achter firewall)
+[everyone on the contact list]
+iedereen op de persoon lijst
+[everyone]
+iedereen
+[Disconnect DCC chats when disconnecting from server]
+Verbreek DCC gesprekken wanneer verbinding verbreken van server
+[Manually set external IP:]
+Extern IP handmatig instellen:
+[Client-to-Client File Transfers]
+Client-to-Client bestandsoverdrachten
+[Client-to-Client Protocol]
+Client-to-Client Protocol
+[Client-to-Client Chats]
+Client-to-Client gesprekken
+[Send mode:]
+Verstuur modus:
+[Packet size (b):]
+Pakket grootte (b):
+[Get IP address from server]
+Verkrijg IP adres van server
+[CTCP Chat Request]
+CTCP gesprekverzoek
+;file \protocols\IRCG\src\clist.cpp
+[CTCP chat request from %s]
+CTCP gesprek verzoek van %s
+;file \protocols\IRCG\src\commandmonitor.cpp
+[CTCP FINGER requested by %s]
+CTCP FINGER verzocht door %s
+[CTCP VERSION requested by %s]
+CTCP VERSION verzocht door %s
+[CTCP SOURCE requested by %s]
+CTCP SOURCE verzocht door %s
+[CTCP USERINFO requested by %s]
+CTCP USERINFO verzocht door %s
+[CTCP PING requested by %s]
+CTCP PING verzocht door %s
+[CTCP TIME requested by %s]
+CTCT TIME verzocht door %s
+[DCC: Chat request from %s denied]
+DCC: Gesprekverzoek van %s geweigerd
+[DCC: File transfer request from %s denied]
+DCC: Bestandsoverdacht verzoek van %s geweigerd
+[DCC: Reverse file transfer request from %s denied [No local IP]]
+DCC: Omgekeerd bestandsoverdracht verzoek van %s geweigerd [Geen lokaal IP]
+[DCC ERROR: Malformed CTCP request from %s [%s]]
+DCC ERROR: Slecht gevormde CTCP verzoek van %s [%s]
+[DCC: File transfer resume request from %s denied]
+DCC: Verzoek om bestandsoverdracht te hervatten van %s geweigerd
+[CTCP %s requested by %s]
+CTCP %s verzocht door %s
+[CTCP PING reply from %s: %u sec(s)]
+CTCP PING antwoord van %s: %u sec(s)
+[CTCP %s reply from %s: %s]
+CTCP %s antwoord van %s: %s
+[Downloading list (%u%%) - %u channels]
+Lijst downloaden (%u%%) - %u kanalen
+[Downloading list - %u channels]
+Lijst downloaden - %u kanalen
+[Done: %u channels]
+Klaar: %u kanalen
+[(probably truncated by server)]
+(waarschijnlijk ingekort door server)
+[Change nickname]
+Bijnaam wijzigen
+[IRC error]
+IRC fout
+[Please enter the reason]
+Vul aub een reden in
+[Ban'n Kick]
+Bann'n en Wegtrapp'n
+[Jerk]
+Eikel
+[*Disconnected*]
+*Verbinding verbroken*
+[IRC Error]
+IRC fout
+;file \protocols\IRCG\src\input.cpp
+[The buddy check function is enabled]
+De vrienden controle functie is ingeschakeld
+[The buddy check function is disabled]
+De vrienden controle functie is uitgeschakeld
+[Ignore system is enabled]
+Negeer systeem ingeschakeld
+[Ignore system is disabled]
+Negeer systeem uitgeschakeld
+[%s is not ignored now]
+%s is nu niet genegeerd
+[The time interval for the buddy check function is now at default setting]
+De tijd interval voor de vrienden controle functie is nu op de standaard instelling
+[The time interval for the buddy check function is now %u seconds]
+De tijd interval voor de vrienden controle functie is nu %u seconden
+[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
+Deze opdracht is niet aan te raden op een netwerk van deze grote!\r\nHet zal waarschijnlijk een grote CPU belasting en/of hoge\r\nbandbreedte verbuik veroorzaken van ongeveer %u tot %u minu(u)t(en).\r\n\r\nWilt u doorgaan?
+[IRC warning]
+IRC waarschuwing
+[Aborted]
+Afgebroken
+[CTCP %s request sent to %s]
+CTCP %s verzoek verstuurd naar %s
+[DCC ERROR: Unable to automatically resolve external IP]
+DCC ERROR: Kan extern IP niet automatisch opzoeken
+[DCC CHAT request sent to %s]
+DCC CHAT verzoek verstuurd naar %s
+[DCC ERROR: Unable to bind port]
+DCC ERROR: Kan niet aan poort binden
+[Input command]
+Opdracht invoeren
+[Please enter the reply]
+Vul aub het antwoord in
+;file \protocols\IRCG\src\irclib.cpp
+;file \protocols\IRCG\src\ircproto.cpp
+[DCC ERROR: No valid files specified]
+DCC ERROR: Geen geldige bestanden opgegeven
+[DCC reversed file transfer request sent to %s [%s]]
+DCC omgekeerde bestandsoverdracht verzoek verzonden naar %s [%s]
+[DCC file transfer request sent to %s [%s]]
+DCC bestandsoverdracht verzoek verzonden naar %s [%s]
+[DCC ERROR: Unable to bind local port]
+DCC ERROR: Kon niet aan lokale poort binden
+[The protocol is not online]
+Het protocol is niet online
+[The dcc chat connection is not active]
+De dcc gesprek verbinding is niet actief
+[Please choose an IRC-network to go online. This network will be the default.]
+Kies aub een IRC netwerk om mee online te gaan. Dit netwerk zal de standaard worden.
+;file \protocols\IRCG\src\options.cpp
+[Quick connect]
+Snel verbinden
+[Please complete all fields]
+Vul aub alle velden in
+[Add a new network]
+Een nieuw netwerk toevoegen
+[Edit this network]
+Dit netwerk bewerken
+[Delete this network]
+Dit netwerk verwijderen
+[Do you want to delete\r\n%s]
+Wilt u\r\n%s verwijderen
+[Delete server]
+Server verwijderen
+[Edit server]
+Server bewerken
+[<Resolved IP: ]
+<Gevonden IP:
+[<Automatic>]
+<Automatisch>
+[<Local IP: ]
+<Lokaal IP:
+[Click to set commands that will be performed for this event]
+Klik om opdrachten in te stellen die worden uitgevoerd voor deze gebeurtenis
+[Click to delete the commands for this event]
+Klik om de opdrachten te verwijderen voor deze gebeurtenis
+;file \protocols\IRCG\src\output.cpp
+[WallOps from %s: ]
+WallOps van %s:
+[%s invites you to %s]
+%s nodigt uw uit voor %s
+[%s is away]
+%s is weg
+[These are online: ]
+Deze zijn online
+[CTCP %s reply sent to %s]
+CTCP %s antwoord verzonden naar %s
+[CTCP %s reply sent to %s: %s]
+CTCP %s antwoord verzonden naar %s: %s
+[Notice to %s: ]
+Melding naar %s:
+;file \protocols\IRCG\src\services.cpp
+[&Quick connect]
+Snel verbinden
+[&Change your nickname]
+Wijzig uw bijnaam
+[Show the &list of available channels]
+De lijst van beschikbare kanalen tonen
+[&Show the server window]
+Het server scherm tonen
+[Channel &settings]
+Kanaal in&stellingen
+[Di&sconnect]
+Verbinding verbreken
+[%s (%s) is requesting a client-to-client chat connection.]
+%s (%s) verzoekt om een client-to-client gespreksverbinding.
+[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
+Vul hostmasker in (bijnaam!gebruiker#@host) \nNOTITIE! Personen op uw peroon lijst worden nooit genegeerd
+[Join channel]
+Kanaal binnengaan
+[Please enter a channel to join]
+Vul aub een kanaal in om binnen te gaan
+[Please select IRC network and enter the password if needed]
+Selecteer aub het IRC netwerk en vul indien nodig het wachtwoord in
+[Change nick name]
+Wijzig bijnaam
+[Please enter a unique nickname]
+Vul aub een unieke bijnaam in
+[Kick]
+Wegtrappen
+[Show the server &window]
+Het server scherm tonen
+[&Leave the channel]
+Kanaal verlaten
+[&Control]
+&Controleer
+[Ki&ck (reason)]
+Wegtrappen (reden)
+[&Ban]
+&Bannen
+[Ban'&n kick]
+Bann'n en Wegtrapp'n
+[&Direct Connection]
+Rechtstreekse verbin&ding
+[Request &Chat]
+Gesprek verzoek
+[Send &File]
+Bestand versturen
+[&Add User]
+Gebruiker toevoegen
+[Connecting to]
+Verbinding maken met
+[Reconnecting to]
+Opnieuw verbinden met
+;file \protocols\IRCG\src\tools.cpp
+;file \protocols\IRCG\src\userinfo.cpp
+;file \protocols\IRCG\src\windows.cpp
+[Channel]
+Kanaal
+[Add ban/invite/exception]
+Ban/uitnodiging/uitzondering toevoegen
+[Edit selected ban/invite/exception]
+Geselecteerde ban/Uitnodiging/uitzondering bewerken
+[Delete selected ban/invite/exception]
+Geselecteerde ban/Uitnodiging/uitzondering verwijderen
+[Set these modes for the channel]
+De modi voor dit kanaal instellen
+[Set this topic for the channel]
+Het onderwerp voor dit kanaal instellen
+[You have not applied all changes!\n\nApply before exiting?]
+U heeft niet alle wijzigingen toegepast!\n\nWTopassen alvorens af te sluiten?
+[Add ban]
+Ban toevoegen
+[Add invite]
+Uitnodiging toevoegen
+[Add exception]
+Uitzondering toevoegen
+[Please enter the hostmask (nick!user@host)]
+Vul aub een hostmasker in (bijnaam!gebruiker@host)
+[Edit ban]
+Ban bewerken
+[Edit invite?]
+Uitnodiging bewerken?
+[Edit exception?]
+Uitzondering bewerken?
+[Remove ban?]
+Ban verwijderen?
+[Remove invite?]
+Uitnodiging verwijderen?
+[Remove exception?]
+Uitzondering verwijderen?

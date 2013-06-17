@@ -6,6 +6,8 @@
 ;  Authors: Unsane, Mataes
 ;============================================================
 ;file \protocols\Skype\res\Resource.rc
+[Enter password]
+Entrez le passe
 ;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
 ;file \protocols\Skype\src\skype_chat.cpp

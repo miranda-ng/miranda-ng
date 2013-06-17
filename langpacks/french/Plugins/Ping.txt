@@ -6,10 +6,76 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Ping\res\ping.rc
+[Delay between pings (secs):]
+Délai entre chaque requêtes (secs) :
+[Ping timeout (secs):]
+Délai d'échec (secs) :
+[Log Filename:]
+Sauver dans :
+[Reply]
+Réponse
+[Block Repetitions]
+Pas de répétitions
+[Do not change icon when testing]
+Ne pas changer d'icône pendant le test
+[Use the Customize/Fonts options to change text size and colour.]
+Aller dans Apparence => Polices pour changer la taille et la couleur de la police de caractères.
+[Repeats for success/failure:]
+Répéter si succès/échec:
+[Attach to contact list]
+Attacher à la liste de contacts
+[Use CSV format]
+Utiliser le CSV
+[Address:]
+Adresse :
+[TCP Connect]
+Connexion TCP
+[Control Protocol:]
+Protocole :
+[Set my status to:]
+Régler mon état en :
+[On success, if my status is:]
+Réussi, si mon état est :
+[Execute the following command on double-click:]
+Exécuter les commandes suivantes suite à un double-clique :
+[(Optional) Command Parameters:]
+Lignes de commandes (facultatif) :
+[Graph]
+Graphe
+[Disable all pings]
+Activer tous les pings
+[Enable all pings]
+Désactiver tous les pings
 ;file \plugins\Ping\src\menu.cpp
+[Enable All Pings]
+Activer tous les pings
+[Disable All Pings]
+Désactiver tous les pings
 ;file \plugins\Ping\src\options.cpp
+[<all>]
+<tout>
 ;file \plugins\Ping\src\ping.cpp
 ;file \plugins\Ping\src\pinggraph.cpp
+[Show grid lines]
+Afficher une grille
+[Show stats]
+Voir les stats
+[AVG %.1lf ms]
+MOY %.1lf ms
 ;file \plugins\Ping\src\pingthread.cpp
+[double clicked]
+double-cliqué
+[Show/Hide &Ping Window]
+Voir/Cacher la fenêtre de &Ping
 ;file \plugins\Ping\src\rawping.cpp
+[Host %s requests that you reduce the amount of traffic you are sending.]
+Le serveur %s, demande à ce que vous réduisez vos demandes de ping.
 ;file \plugins\Ping\src\utils.cpp
+[Unknown Address]
+Adresse inconnue
+[Responding]
+Réponse en cours
+[Not Responding]
+Pas de réponse
+[Testing]
+Test en cours

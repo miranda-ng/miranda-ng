@@ -1,0 +1,264 @@
+﻿#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
+;============================================================
+;  File: watrack.dll
+;  Module: Winamp Track |Unicode aware|
+;  Versions: 0.0.2.4 - 0.0.6.12
+;  Url: http://addons.miranda-im.org/details.php?action=viewfile&id=2345
+;============================================================
+[Clear xStatus before set new one]
+Clear xStatus before set new one
+[Emulate Multimedia keys]
+Emular comandos Multimedia 
+[Use XStatus]
+Use XStatus
+[Text insertion to other Apps]
+Insersão de texto  em outros aplicat.
+[Share music list]
+Compartilhar lista musical
+[Save events in database]
+Salvar eventos na base de dados
+[Music Info Request]
+Requesito de info da Musica
+[Request Error]
+Requesito de Erro
+[Save ignored requests]
+Salve requesitos ignorados
+[Answer to ignored requests]
+Respnder requesitos ignorados
+[Use frame]
+Use frame
+[Show info in the frame]
+Mostra informação na frame
+[Show controls in the frame]
+Show controls in the frame
+[Show volume controls]
+Mostra o controle de volume
+[Use Picture]
+Use Picture
+[Use cover instead of picture]
+Use capa ao invez de imagem
+[Show trackbar]
+Mostra barra da musica
+[Cover padding]
+Cover padding
+[Frame refresh time]
+Tempo de atualização do Frame 
+[Hide frame when no music played]
+Hide frame when no music played
+[Center horizontally]
+Centralizar na horizontal
+[Center vertically]
+Centralizar verticalmente
+[Use styled trackbar]
+Use barra de musica estilizada
+[Use buttons gap]
+Use buttons gap
+[Text effect]
+Efeito de texto
+[Text movement]
+Movimento do Texto
+[Text rotation speed (1-20)]
+Text rotation speed (1-20)
+[Scroll step]
+Scroll step
+[Scroll gap]
+Scroll gap
+[Minimum scroll tail]
+Minimum scroll tail
+[Wrap]
+Wrap
+[Roll]
+Roll
+[PingPong]
+PingPong
+[Hide frame when player not found]
+Esconder frame quando não há player
+[Color codes]
+Códigos de cor
+[File size]
+Tamanho do arquivo
+[File size]
+Tamanho do arquivo
+[FileSize text format]
+Formatar texto
+[FileSize text format]
+Formatar texto
+[Formats]
+Formatos
+[Formats]
+Formatos
+[Player name letters]
+Tocar nome das letras
+[Player name letters]
+Tocar nome das letras
+[Players list]
+Tocar lista
+[Players list]
+Tocar lista
+[Popup Title / Text]
+Título Popup / Texto
+[Popup Title / Text]
+Título Popup / Texto
+[Frame Text]
+Frame Texto
+[Export Text]
+Exportar Texto
+[Postfix]
+Postfix
+[Refresh time, sec]
+Atualizar hora, seg
+[Refresh time, sec]
+Atualizar hora, seg
+[Report]
+Reportar
+[Report]
+Reportar
+[Report Items]
+Reportar Itens
+[Report Items]
+Reportar Itens
+[Report file]
+Reportar arquivo
+[Report file]
+Reportar arquivo
+[Report format]
+Reportar formato
+[Show in report]
+Mostrar em reportar
+[Show in report]
+Ver o reporte
+[Sort]
+Ordenar
+[Sort]
+Ordenar
+[Sort log file]
+Ordenar arquivo de registro
+[Sort log file]
+Ordenar arquivo de registro
+[Statistic log file]
+Estatística de arquivo de registro
+[Statistic log file]
+Estatística de arquivo de registro
+[Autosort period, days]
+Autoordenar periodo, dias
+[Template file]
+Template file
+[Export default]
+Export default
+[Freq. album]
+Freq. album
+[by Length]
+by Length
+[Unicode to Ansi translation codepage:]
+Traduzir codificação da página de Unicode para Ansi
+[Unicode to Ansi translation codepage:]
+Traduzir codificação da página de Unicode para Ansi
+[VBR macro]
+Macro VBR
+[VBR macro]
+Macro VBR
+[Insert in messages]
+Insert in messages
+[Use status messages]
+Use mensagens de status 
+[Independed XStatus]
+ XStatus Independente
+[Use process implantation]
+Use processo de implantação
+[Simple Template mode]
+Simple Template mode
+[Use existing XStatus]
+Use existing XStatus
+[Only if 'Music' status was set]
+Somente se o status 'Musica' for configurado
+[Replace underlines with spaces]
+Sobrepor sobrerlinhas com espaços
+[Check file time]
+Checar o tempo do arquivo
+[Other thread handle check]
+Other thread handle check
+[Keep old file]
+Keep old file
+[No Music]
+Sem Musica
+[User message]
+User message
+[Channel message]
+Mensagem do canal
+[Keep 'Music' XStatus]
+Mantem o XStatus 'Music' 
+[Add report file ext.]
+Add report file ext.
+[Freq. artists]
+Freqent. artistas
+[Freq. paths]
+Caminhos frequentes
+[Freq. songs]
+Freq. songs
+[Last played songs]
+Last played songs
+[Song time]
+Song time
+[VBR or CBR]
+VBR or CBR
+[VBR or empty]
+VBR or empty
+[All uppercase]
+All uppercase
+[Do not change]
+Pode não mudar
+[All lowercase]
+All lowercase
+[lowercase %type%]
+lowercase %type%
+[by Count]
+Por conta
+[by Date]
+by Date
+[by Path]
+Por caminho
+[by Title]
+Por titulo
+[Disable Log]
+Disable Log
+[No Player]
+Sem Player
+[Open report]
+Abrir reporte
+[Reverse order]
+Reverse order
+[Cover filenames]
+Arquivos de capa
+[Music Info]
+INform Musica
+[Align text to center]
+Centralizar texto
+[WATrack Macro Info]
+Informações da Macro WATrack
+[Left click]
+Clique esquerdo
+[Right click]
+Clique direito
+[Kilobytes]
+Kilobytes
+[Megabytes]
+Megabytes
+[Precision]
+Precisão
+[Precision]
+Precisão
+[Color]
+Cor
+[Color]
+Cor
+[Output]
+Saida
+[Check]
+Check
+[Choose font...]
+Escolher fonte...
+;file \plugins\Watrack\myshows\myshows.rc
+;file \plugins\Watrack\lastfm\i_last_api.inc
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
+;file \plugins\Watrack\proto\proto.pas
+;other strings

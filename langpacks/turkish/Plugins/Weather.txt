@@ -1,0 +1,334 @@
+﻿#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.1
+;  Authors: Miranda NG Team
+;============================================================
+;file \plugins\Weather\res\resource.rc
+[Brief Info]
+Kısa Bilgi
+[Webpage]
+Web Sitesi
+[Update weather information on startup]
+Hava durumunu açılışta güncelle
+[Update weather information every]
+Hava durumunu şu kadar aralıkla güncelle
+[Consider weather info updated only when condition and temperature are changed]
+Hava durumunu yalnız durum ve sıcaklık değiştiğinde güncelle
+[Remove old data when updating]
+Güncellerken eski veriyi sil
+[Make the contact italic when weather alert is issued]
+Hava durumu alarmı yayınlandığında kişi listesindeki yazı yatık olsun
+[Use weather condition as protocol status]
+Hava durumunu protokol durumu olarak göster
+[Avatar only mode]
+Yalnız avatar kipi
+[Temperature]
+Sıcaklık
+[Celsius]
+Celsius
+[Fahrenheit]
+Fahrenheit
+[Degree sign:]
+Derece simgesi:
+[Wind]
+Rüzgar
+[km/h]
+km/s
+[m/s]
+m/sn
+[mph]
+mph
+[knots]
+knots
+[km]
+km
+[miles]
+mil
+[Pressure]
+Basınç
+[kPa]
+kPa
+[inches]
+inç
+[mm Hg (torr)]
+mm Hg (torr)
+[Day/Month]
+Gün/Ay
+[2 chars]
+2 karakter
+[3 chars]
+3 karakter
+[Do not append units to values]
+Değerlere birimleri ekleme
+[Do not display fractional values]
+Küsuratları gösterme
+[Frame]
+Çerçeve
+[Avatar size]
+Avatar boyutu
+[Edit Weather Station]
+İstasyonu Değiştir
+[Weather Station]
+İstasyon
+[City name]
+Şehir Adı
+[Log Information]
+Bilgiyi Günlükle
+[Use internal history]
+İç geçmişi kullan
+[Use external file]
+Dış dosyayı kullan
+[Overwrite file upon update]
+Güncellerken üzerine yaz
+[More Info URL]
+Ek Bilgi Bağlantısı
+[Weather Map]
+Hava Haritası
+[Weather Map]
+Hava Haritası
+[Other Options]
+Diğer Seçenekler
+[Set as default station]
+Varsayılan istasyon olarak seç
+[Disable automatic update for this station]
+Bu istasyon için kendiliğinden güncellemeyi kapat
+[Popup only when condition changes]
+Yalnız hava durumu değiştiğinde açılsın
+[Popup Actions]
+Açılan Pencere Eylemleri
+[Left Click]
+Sol Tık
+[Right Click]
+Sağ Tık
+[Popup Delay]
+Açılan Pencere Gecikmesi
+[Popup Text]
+Açılan Pencere Yazısı
+[Popup Text]
+Açılır Pencere Yazısı
+[Updates]
+Güncellemeler
+[Brief Info Title]
+Kısa Bilgi Başlığı
+[Note Text]
+Not Yazısı
+[Extra Text]
+Tüm Bilgiler
+[External Log]
+Dış Günlük
+[More Variables]
+Diğer Değişkenler
+[Sunset]
+Günbatımı
+[Feel-like]
+Hissedilen
+[Today's Low]
+Bugün En Düşük
+[Today's High]
+Bugün En Yüksek
+[Sunrise]
+Gündoğumu
+[Dewpoint]
+Yoğuşma
+[Humidity]
+Nem
+[Weather Protocol INI Setup]
+Weather Protocol INI Kurulumu
+[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+Weather protokolü bilgisayarınıza yüklenmiş bir weather INI dosyası bulamadı. weather INI ve hava durumu istasyonlarını kurmak için şu adımları izleyin:
+[Click here to download a weather ini file from Miranda file listing]
+Mİranda dosya listesinden bir weather ini dosyası indirmek için buraya tıklayın
+[Extract the weather ini file from archive to this directory]
+İndirdiğiniz arşiv dosyasını açarak içindeki dosyayı bu klasöre yerleştirin
+[Click here to load the data from the new ini file into memory]
+Yeni ini dosyasındaki veriyi belleğe yüklemek için buraya tıklayın
+[Add new weather station and close this dialog]
+Yeni istasyonu yükleyin ve bu pencereyi kapatın
+[Open brief information]
+Kısa bilgileri aç
+[Open complete forecast]
+Tüm tahmini aç
+[Open weather map]
+Hava haritasını aç
+[View history]
+Geçmişi göster
+[Show user detail]
+Kullanıcı detaylarını göster
+[To default]
+Varsayılan ayarlara
+;file \plugins\Weather\src\weather.cpp
+[Weather Condition Changed]
+Hava Durumu Değişti
+[Weather Alert Issued]
+Hava Alarmı Yayınlandı
+;file \plugins\Weather\src\weather.h
+[Invalid service (11)]
+Geçersiz hizmet (11)
+[Invalid station (12)]
+Geçersiz istasyon (12)
+[Weather service ini for this station is not found (20)]
+Bu istasyon için hava durumu hizmeti ini dosyası bulunamadı (20)
+[Netlib error - check your internet connection (30)]
+Ağ kütüphanesi hatası - İnternet bağlantınızı denetleyin (30)
+[Empty data is retrieved (40)]
+Boş veri alındı (40)
+[Document not found (42)]
+Belge bulunamadı (42)
+[Document too short to contain any weather data (43)]
+Belge hava durumu bilgisi içeremeyecek kadar küçük (43)
+[Unknown error (99)]
+Bilinmeyen hata (99)
+[HTTP Error: No content (204)]
+HTTP Hatası: İçerik yok (204)
+[HTTP Error: Data moved (301)]
+HTTP Hatası: Veri taşındı (301)
+[HTTP Error: Use proxy (305)]
+HTTP Hatası: Vekil kullan (305)
+[HTTP Error: Temporary redirect (307)]
+HTTP Hatası: Geçici yönlendirme (307)
+[HTTP Error: Bad request (400)]
+HTTP Hatası: Kötü istek (400)
+[HTTP Error: Unauthorized (401)]
+HTTP Hatası: Yetkisiz (401)
+[HTTP Error: Payment required (402)]
+HTTP Hatası: Ödeme gerekiyor (402)
+[HTTP Error: Forbidden (403)]
+HTTP Hatası: Yasak (403)
+[HTTP Error: Not found (404)]
+HTTP Hatası: Bulunamadı (404)
+[HTTP Error: Method not allowed (405)]
+HTTP Hatası: Yönteme izin verilmedi (405)
+[HTTP Error: Proxy authentication required (407)]
+HTTP Hatası: Vekil izinleri gerekiyor (407)
+[HTTP Error: Gone (410)]
+HTTP Hatası: Gitti (410)
+[HTTP Error: Internal server error (500)]
+HTTP Hatası: İç sunucu hatası (500)
+[HTTP Error: Bad gateway (502)]
+HTTP Hatası: Kötü ağ geçidi (502)
+[HTTP Error: Service unavailable (503)]
+HTTP Hatası: Hizmet geçersiz (503)
+[HTTP Error: Gateway timeout (504)]
+HTTP Hatası: Ağ geçizidi zaman aşımı (504)
+[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+%c\nSıcaklık: %t\nHissedilen: %f\nBasınç: %p\nRüzgar: %i  %w\nNem: %m\nYoğuşma: %e\nGörüş: %v\n\nGündoğumu: %r\nGünbatımı: %y\n\n5 Günlük tahmin:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+[Weather Condition for %n as of %u]
+%n için %u saatindeki hava durumu
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (hissedilen %f)	Rüzgar: %i %w	Nem: %m
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n at %u:	%c, %t (hissedilen %f)	Rüzgar: %i %w	Nem: %m
+[%c, %t\nToday:  High %h, Low %l]
+%c, %t\nBugün:  En Yüksek %h, En Düşük %l
+;file \plugins\Weather\src\weather_addstn.cpp
+[Current weather information for %s.]
+%s için hava durumu
+[Current weather information for %s.]
+%s için şimdiki hava durumu.
+[%s is now the default weather station]
+%s artık varsayılan istasyonunuz oldu
+[Weather Protocol]
+Hava Durumu Protokolü
+[Please try again after weather update is completed.]
+Lütfen hava durumu güncellemesi tamamlandıktan sonra tekrar deneyin.
+[<Enter station name here>]
+<İstasyon adını buraya yazın>
+[<Enter station ID here>]
+<İstasyon kodunu buraya yazın>
+;file \plugins\Weather\src\weather_contacts.cpp
+[Weather condition was not logged.]
+Hava durumları günlüklenmiyor.
+[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+Hava haritası için web adresi belirtilmemiş. Ayarları değiştir bölümünden değiştirebilirsiniz.
+[Get city name from ID]
+Koddan şehir adını bul
+[Weather INI information]
+Weather INI bilgisi
+[View webpage]
+Web sayfasını göster
+;file \plugins\Weather\src\weather_conv.cpp
+[mb]
+mb
+[in]
+in
+[mm]
+mm
+[<unknown time>]
+<bilinmeyen zaman>
+[<Error>]
+<Hata>
+[HTTP Error %i]
+HTTP Hatası %i
+;file \plugins\Weather\src\weather_data.cpp
+[<Enter city name here>]
+<Buraya şehir adını yazın>
+[Error when obtaining data: %s]
+Veri alınırken hata oldu: %s
+;file \plugins\Weather\src\weather_http.cpp
+[Weather HTTP connections]
+Hava Durumu HTTP bağlantıları
+;file \plugins\Weather\src\weather_icons.cpp
+;file \plugins\Weather\src\weather_info.cpp
+[Internal Name:]
+İç Ad:
+[INI Version:]
+INI Sürümü:
+[File Name:]
+Dosya Adı:
+[Item Count:]
+Öge Sayısı:
+[Memory Used:]
+Kullanılan Bellek:
+[Here is a list of custom variables that are currently available]
+Kullanabileceğiniz tüm özel değişkenlerin listesini burada görebilirsiniz
+;file \plugins\Weather\src\weather_ini.cpp
+[No update data file is found.  Please check your Plugins\\Weather directory.]
+Güncelleme veri dosyası bulunamadı. Lütfen plugins\\weather klasörünü denetleyin.
+[Invalid ini format for: %s]
+%s için geçersiz ini biçimi
+[All update data has been reloaded.]
+Tüm güncelleme verisi yeniden yüklendi.
+;file \plugins\Weather\src\weather_mwin.cpp
+;file \plugins\Weather\src\weather_opt.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tşimdiki durum\n%d\tşimdiki tarih\n%e\tyoğuşma\n%f\thissedilen sıcaklık\n%h\tbugün en yüksek\n%i\trüzgar doğrultusu\n%l\tbugün en düşük\n%m\tnem\n%n\tistasyon adı\n%p\tbasınç\n%r\tgündoğumu\n%s\tistasyon kodu\n%t\tsıcaklık\n%u\tgüncelleme\n%v\tgörüş\n%w\trüzgar hızı\n%y\tgünbatımı
+[Weather Protocol Text Preview]
+Weather Protokol Yazısı Ön İzleme
+;file \plugins\Weather\src\weather_popup.cpp
+[%[..]\tcustom variables]
+%[..]\tkişisel değişkenler
+;file \plugins\Weather\src\weather_svcs.cpp
+[Station ID]
+İstasyon Kodu
+[Disable &weather notification]
+Hava durumu uyarısını d&evre dışı bırak
+[Enable &weather notification]
+Hava durumu uyarısını &etkinleştir
+[Update Weather]
+Hava Durumunu Güncelle
+[Remove Old Data then Update]
+Eski Veriyi Sil  ve Güncelle
+[Brief Information]
+Kısa Bilgi
+[Read Complete Forecast]
+Tüm Tahminleri Oku
+[Weather]
+Hava Durumu
+[Update All Weather]
+Tüm Hava Durumlarını Güncelle
+[Remove Old Data then Update All]
+Eski Veriyi Sil ve Tümünü Güncelle
+[Weather Notification]
+Hava Durumu Uyarıcı
+[Display in a frame]
+Çerçevede göster
+;file \plugins\Weather\src\weather_update.cpp
+[Unable to retrieve weather information for %s]
+%s için hava durumu bilgisi alınamadı
+;file \plugins\Weather\src\weather_userinfo.cpp
+[Current condition for %n]
+%n için şimdiki durum
+[More Info]
+Diğer Bilgiler

@@ -1,0 +1,159 @@
+﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
+;  File: Scriver.dll
+;  Plugin: Scriver
+;  Version: 2.10.0.2
+;  Authors: Miranda NG Development Team
+;============================================================
+;file \plugins\Scriver\res\resource.rc
+[Automatically pop up the window when]
+אוטומטית פתח את החלון כאשר
+[and stay minimized]
+והישאר ממוזער
+[Save size and location for each contact]
+שמור גודל ומיקום בשביל כל איש קשר\n
+[Minimize on send]
+מזער בזמן שליחה
+[Hide windows on close]
+הסתר חלון בזמן סגירה
+[Remember unsent messages]
+זכור הודעות שלא נשלחו
+[Delete temporary contacts on closing]
+מחק תכנים זמניים בזמן סגירה
+[Enable tabs]
+אפשר טאבים
+[Always show tab bar]
+תמיד הראה סרגל טאבים
+[Tabs at bottom]
+ טאבים בתחתית
+[Limit names on tabs to]
+הגבל שמות על טאבים ל
+[Switch to active tab]
+עבור לטאב פעיל
+[Limit number of tabs per window to]
+הגבל מספר טאבים לחלון ל
+[Use separate windows for group chats]
+השתמש בחלונות נפרדים לקבוצות צ'אטים
+[Limit number of group chats tabs per window to]
+הגבל מספר קבוצות צ'אטים בחלון ל
+[Show titlebar]
+הראה סרגל כותרת
+[Show toolbar]
+הראה סרגל כלים
+[Show infobar]
+הראה סרגל מידע
+[Show progress indicator]
+הראה סמן התקדמות
+[Enable IEView]
+אפשר IEview
+[Long date format]
+פורמט תאריך ארוך
+[Relative date]
+תאריך יחסי
+[Enable message grouping]
+אפשר קיבוץ הודעות
+[Mark follow-up msgs with timestamp]
+סמן הודעות עוקבות עם חתימות זמן
+[Start message text on a new line]
+התחל הודעת טקסט בשורה חדשה
+[Show lines between messages]
+הצג קווים בין הודעות\n
+[Indent text]
+הרחק טקסט מהשוליים
+[Preload]
+טען מראש
+[Unread events only]
+אירועים שלא נקראו בלבד
+[Last]
+אחרון
+[Events in the last]
+אירועים לאחרונה
+[Typing Notification Options]
+אפשרוית התראת כתיבה
+[Show typing notification switch in the status bar]
+הראה מתג הודעות כתיבה בסרגל המצבים
+[Update message window icons when a user is typing]
+עדכון אייקון חלון הודעות כאשר משתמש מקליד
+[User list row height]
+גובה שורת רשימת משתמש\n
+[Save logs]
+שמור לוגים
+[Trim to]
+גזום ל
+[Group Chat]
+קבוצת צ'אט
+[(0 means default setting, -1 means indefinite time)]
+  0 אומר הגדרות ברירת מחדל    \n-1 אומר זמן ללא הגבלה\n\n\n\n\n\n\n
+;file \plugins\Scriver\src\globals.cpp
+[User's details]
+פרטי המשתמש
+[User's history]
+היסטורית משתמשים
+[User is typing]
+משתמש מקליד
+[Unicode is on]
+יוניקוד פעיל
+[Unicode is off]
+יוניקוד מבוטל
+[Sending]
+שולח
+[Quote button]
+כפתור ציטוט
+[Close button]
+כפתור סגירה
+;file \plugins\Scriver\src\input.cpp
+;file \plugins\Scriver\src\msgdialog.cpp
+[Quote Text]
+צטט
+[User Menu - %s]
+תפריט משתמש - %s
+;file \plugins\Scriver\src\msglog.cpp
+;file \plugins\Scriver\src\msgoptions.cpp
+[Message background]
+רקע הודעה
+;file \plugins\Scriver\src\msgs.cpp
+;file \plugins\Scriver\src\msgtimedout.cpp
+;file \plugins\Scriver\src\msgwindow.cpp
+[Always On Top]
+תמיד עליון
+;file \plugins\Scriver\src\sendqueue.cpp
+;file \plugins\Scriver\src\chat\clist.cpp
+;file \plugins\Scriver\src\chat\colorchooser.cpp
+;file \plugins\Scriver\src\chat\log.cpp
+;file \plugins\Scriver\src\chat\main.cpp
+;file \plugins\Scriver\src\chat\options.cpp
+[Flash when someone speaks]
+הבהב בזמן שמישהו מדבר
+[Flash when a word is highlighted]
+הבהב בזמן שמילה מודגשת
+[Show chat user list]
+הראה רשימת משתמשים ב'צאט
+[Enable button context menus]
+אפשר כפתור בתפריט משתמש
+[Show topic on your contact list (if supported)]
+הראה כותרת ברשימת המשתמשים שלך אם נתמך
+[Do not play sounds when focused]
+אל תנגן צלילים כאשר אתה ממוקד\n
+[Do not pop up when joining]
+אל תקפיץ כאשר מצטרפים
+[Show and hide by double clicking in the contact list]
+הצג והחבא על ידי לחיצה כפולה ברשימת המשתמשים
+[Show contact statuses (if supported)]
+הראה מצבי אנשי קשר אם נתמך
+[Display contact status icon before role icon]
+הצג אייקוני מצבי אנשי קשר לפני תפקיד אייקון
+[Add ':' to auto-completed names]
+הוסף ':' לשמות מושלמים אוטומטית
+[Timestamp has same colour as event]
+לחתימת זמן יש אותו צבע כמו אירוע
+[Limit user names to 20 characters]
+הגבל שמות משתמש ל 20 תווים
+[Strip colors from messages]
+הסר צבעים מהודעות
+[Enable 'event filter' for new rooms]
+אפשר 'מסנן אירועים' לחדרים חדשים
+[Appearance and functionality of chat windows]
+מראה ושימושיות של חלונות צ'אט
+;file \plugins\Scriver\src\chat\services.cpp
+;file \plugins\Scriver\src\chat\tools.cpp
+;file \plugins\Scriver\src\chat\window.cpp

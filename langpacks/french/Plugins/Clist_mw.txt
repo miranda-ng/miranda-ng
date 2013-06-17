@@ -14,6 +14,8 @@ Boutons
 Séparateur
 [Rows]
 Lignes
+[MetaContacts supporting]
+Options pour les MetaContacts
 [Show size grip]
 Voir la poignée "Redimensionner"
 [Show bevel effect on panels]
@@ -30,9 +32,13 @@ Arrière-plan
 Messages d'état
 [Group Closed]
 Groupe fermé
+[Hover Contacts]
+Contacts survolés
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List MetaContacts]
 Liste MetaContacts
+[StatusBar Background]
+Arrière plan de la barre d'état
 ;file \plugins\Clist_mw\src\clistopts.cpp
 ;file \plugins\Clist_mw\src\clistsettings.cpp
 [_NoProtocol_]

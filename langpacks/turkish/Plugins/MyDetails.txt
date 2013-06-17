@@ -1,0 +1,98 @@
+﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.11
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+;file \plugins\MyDetails\res\resource.rc
+[Set My Nickname]
+Kısa Adımı Ayarla
+[RTL]
+RTL
+[Align text to right]
+Yazıyı sağa daya
+[Auto-resize frame]
+Çerçeveyi kendinden boyutlandır
+[Use contact list smileys]
+Kişi listesi gülen yüzlerini kullan
+[Replace Smileys]
+Gülen Yüzleri Değiştir
+[Resize Smileys]
+Gülen Yüzleri Boyutlandır
+[Top:]
+Üst:
+[Bottom:]
+Alt:
+[Left:]
+Sol:
+[Right:]
+Sağ:
+[Custom size:]
+Kişisel boyut:
+[Allow it to grow]
+Büyümesine izin ver
+[Use free space (under avatar) to other texts]
+Avatar altındaki alanı diğer yazılar için kullan
+[Set My Status Message for All Status]
+Tüm durumlar için durum iletimi ayarla
+[Status Message:]
+Durum İletisi:
+[Status popup]
+Durum açılsın
+[&Offline]
+Çevrim&dışı
+[On&line]
+Ç&vrimiçi
+[&Away]
+Uz&akta
+[&NA]
+&Uygun değil
+[Occ&upied]
+&Meşgul
+[&DND]
+&Rahatsız etmeyin
+[&Free for chat]
+&Sohbet edebilir
+[&Invisible]
+&Görünmez
+[On the &Phone]
+&Telefonda
+[Out to &Lunch]
+&Yemekte
+[Context popup]
+Kısayol açılsın
+[Set My Avatar...]
+Avatarımı Ayarla...
+[Set My Nickname...]
+Kısa Adımı Ayarla...
+[Set My Status Message...]
+Durumumu Ayarla...
+[Nick popup]
+Kısa Ad açılsın
+[Status message popup]
+Durum iletisi açılsın
+[Avatar popup]
+Avatar açılsın
+;file \plugins\MyDetails\src\data.cpp
+;file \plugins\MyDetails\src\frame.cpp
+[My Details]
+Detaylarım
+[Show My Details]
+Detaylarımı Göster
+[Set My Avatar for %s...]
+%s için avatarım...
+[Set My Nickname for %s...]
+%s için kısa adım...
+[Set My Status Message for %s...]
+%s için durum iletim...
+[Hide My Details]
+Ddetaylarımı Gizle
+;file \plugins\MyDetails\src\mydetails.cpp
+[Set My Nickname for %s]
+%s için kısa adımı ayarla
+[Set My Status Message for %s]
+%s için durum iletimi ayarla
+[Show next protocol]
+Sonraki protokolü göster
+;file \plugins\MyDetails\src\options.cpp

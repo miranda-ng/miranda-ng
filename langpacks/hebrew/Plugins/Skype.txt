@@ -1,0 +1,22 @@
+﻿#muuid {9c448c61-fc3f-42f9-b9f0-4a30e1cf8671}
+;============================================================
+;  File: Skype.dll
+;  Plugin: Skype Protocol
+;  Version: 0.0.0.1
+;  Authors: Unsane, Mataes
+;============================================================
+;file \protocols\Skype\res\Resource.rc
+[Enter password]
+הכנס סיסמה
+;file \protocols\Skype\src\skype.cpp
+;file \protocols\Skype\src\skype_account.cpp
+;file \protocols\Skype\src\skype_chat.cpp
+;file \protocols\Skype\src\skype_contacts.cpp
+;file \protocols\Skype\src\skype_dialogs.cpp
+;file \protocols\Skype\src\skype_events.cpp
+;file \protocols\Skype\src\skype_icons.cpp
+;file \protocols\Skype\src\skype_instances.cpp
+;file \protocols\Skype\src\skype_menus.cpp
+;file \protocols\Skype\src\skype_netlib.cpp
+;file \protocols\Skype\src\skype_proto.cpp
+;file \protocols\Skype\src\skype_utils.cpp

@@ -6,6 +6,16 @@
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 ;file \plugins\NoHistory\res\NoHistory.rc
+[Keep history for this contact]
+Conserver l'historique de ce contact
+[Disable history for this contact]
+Désactiver l'historique de ce contact
 ;file \plugins\NoHistory\src\dllmain.cpp
+[Enable History]
+Activer l'historique
+[Disable History]
+Désactiver l'historique
+[History Enabled]
+Historique activé
 ;file \plugins\NoHistory\src\icons.cpp
 ;file \plugins\NoHistory\src\options.cpp
