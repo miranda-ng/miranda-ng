@@ -1,5 +1,5 @@
 ﻿Miranda Language Pack Version 1
-Locale: 1038
+Locale: 040e
 Authors: Balázs Németh
 Author-email: jerbifor@tut.by
 Last-Modified-Using: Miranda NG 0.94.4 

@@ -1,6 +1,6 @@
 ﻿Miranda Language Pack Version 1
 Language: Hebrew (Israel)
-Locale: 1037
+Locale: 040d
 Authors: ofir aviram, Jerbifor
 Author-email: jerbifor@tut.by
 Last-Modified-Using: Miranda NG 0.94.4 

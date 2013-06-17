@@ -1,6 +1,6 @@
 ﻿Miranda Language Pack Version 1
 Language: Turkish (Turkey)
-Locale: 1055
+Locale: 041f
 Authors: Kaya Zeren, Jerbifor
 Author-email: jerbifor@tut.by
 Last-Modified-Using: Miranda NG 0.94.4 
