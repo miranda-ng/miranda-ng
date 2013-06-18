@@ -152,15 +152,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\auth_ask.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\auth_grant.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\auth_revoke.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
     <Image Include="res\facebook.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>

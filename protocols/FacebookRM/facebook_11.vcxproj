@@ -228,9 +228,6 @@
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\auth_ask.ico" />
-    <Image Include="res\auth_grant.ico" />
-    <Image Include="res\auth_revoke.ico" />
     <Image Include="res\facebook.ico" />
     <Image Include="res\feeds.ico" />
     <Image Include="res\friends.ico" />
