@@ -417,8 +417,6 @@ Odst&ranit...
 Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Restart programu Miranda.\nPočkejte prosím...
-[Close]
-Zavřít
 [Error Console]
 Chybová konzole
 [Error notifications]
@@ -970,6 +968,8 @@ Přijímaný soubor
 Přenos souborů
 [Clear completed]
 Vymazat dokončené
+[Close]
+Zavřít
 [Receiving files]
 Příjem souborů
 [Received files folder:]
@@ -2176,8 +2176,8 @@ Tato úprava se obecně považuje za bezpečnou.
 Tato úprava se považuje za potenciálně nebezpečnou.
 [This change is not known to be safe.]
 Neznámý druh úpravy; nelze považovat za bezpečné.
-[Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-Neplatný typ nastavení. První znak hodnoty musí být b, w, d, l, s, e, u, g, h nebo n.]
+[Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
+Neplatný typ nastavení pro '%s'. První znak hodnoty musí být b, w, d, l, s, e, u, g, h nebo n.]
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 
@@ -2383,6 +2383,10 @@ Zřídit nový účet
 Upravit účet
 [Upgrading account]
 Aktualizace účtu
+[Account name has to be unique. Please enter unique name.]
+Interní název účtu musí být unikátní. Zadejte prosím unikátní název.
+[Account Error]
+Chyba účtu
 [Account is disabled. Please activate it to access options.]
 Vybraný účet je vypnutý. Nejdříve ho musíte aktivovat.
 [New account]
@@ -2409,6 +2413,8 @@ Přejmenovat
 Nastavit...
 [Upgrade]
 Povýšit
+[Account %s is being disabled]
+Vypnutí účtu %s
 [Account is online. Disable account?]
 Účet je připojen. Deaktivovat účet?
 [Account %s is being deleted]
@@ -2501,6 +2507,12 @@ Běžící doplněk jádra
 Nenačitatelný doplněk
 [Frames]
 Rámečky
+[Request authorization]
+Požádat o autorizaci
+[Grant authorization]
+Udělit autorizaci
+[Revoke authorization]
+Odvolat autorizaci
 [Always visible]
 Tento člověk mě vždy uvidí
 [Always invisible]

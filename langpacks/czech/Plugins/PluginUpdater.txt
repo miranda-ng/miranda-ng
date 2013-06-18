@@ -2,58 +2,58 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.0
+;  Version: 0.1.1.1
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
-
+Aktualizátor pro Mirandu NG.
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
-
+Nalezeny aktualizace!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
-
+Aktualizátor našel novější verze některých komponent Mirandy. Klikněte na tlačítko 'Podrobnosti' pro zobrazení více informací.
 [Update]
 Aktualizovat
 [Details >>]
-
+Podrobnosti >>
 [Cancel]
 Zrušit
 [Select &all]
-
+Vybr&at vše
 [Select &none]
-
+Z&rušit výběr
 [Hotkey]
 Klávesy
 [Go to Customize -> Hotkeys to change the hotkey]
 Zkratky změníte v sekci Vlastní úpravy -> Klávesové zkratky
 [Plugin updates options]
-
+Kontrola aktualizací
 [On startup]
-
+Po spuštění
 [(but only once a day)]
-
+(ale pouze jednou denně)
 [Every]
-každých
+Každých
 [Update icons]
-
+Aktualizovat i ikony
 [Files source]
-
+Zdroj dat
 [Stable version]
-
+Stabilní verze
 [Development version (less stable)]
-
+Vývojová verze (méně stabilní)
 [Custom version]
-
+Vlastní verze
 [Notifications]
 Upozornění
 [Message boxes (*)]
-
+Dialogové okna (*)
 [Errors]
 Chyby
 [Info messages]
-
+Informační zprávy
 [Progress dialogs]
-
+Dialogy s postupem
 [Back]
 Pozadí
 [Text]
@@ -65,7 +65,7 @@ Použít vlastní barvy
 [Use &Windows colours]
 Použít barvy Windows
 [Use Pop&up colours]
-Použít barvy Oznámení
+Použít výchozí barvy
 [Preview]
 Náhled
 [Click action]
@@ -83,50 +83,59 @@ Doba zobrazení
 [Sec]
 sek.
 [* Needs popup actions to be enabled]
-
+* Vyžaduje povolené akce v doplňku pro oznámení
 [Not sets for "Message boxes"]
-
+Není aplikováno pro dialogové okna
 [Boxes]
-
+Dialogy
 [Popups]
 Oznámení
 [Component list]
-
+Seznam komponent
 [Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
-
+Zde je kompletní seznam dostupných komponent pro Mirandu NG. Zaškrtněte komponenty, které si přejete stáhnot.\n\nKlikněte na informační ikonu pro zobrazení stránky komponenty.
 [Download]
 Stáhnout
-;file \plugins\PluginUpdater\src\Notifications.cpp
+;file \plugins\PluginUpdater\src\DlgListNew.cpp
 [Skipped.]
-
-[Will be deleted!]
-
+Přeskočeno.
 [Downloading...]
 Stahování...
 [Failed!]
-
+Chyba!
 [Succeeded.]
-
+Hotovo.
 [Plugin Updater]
-
-[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-
-[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
-
+Aktualizátor
 [Download complete]
-
+Stahování dokončeno
 [Download complete. Do you want go to plugins option page?]
-
+Stahování dokončeno. Přejete si zobrazit nastavení doplňků?
 [Component Name]
-Název doplňku
+Název komponenty
 [State]
-Stát
+Stav
 [Plugins]
 Doplňky
 [Icons]
 Ikony
 [Other]
 Ostatní
+[List is empty.]
+Seznam je prázdný
+[List loading already started!]
+Načítání seznamu již probíhá!
+;file \plugins\PluginUpdater\src\DlgUpdate.cpp
+[Will be deleted!]
+Bude smazán!
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Stahování dokončeno. Spustit aktualizaci? Všechny vaše data budou uložena a Miranda NG bude restartována.
+[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
+Zvolili jste nespouštět aktualizaci nyní.\n
+[No updates found.]
+Žádné aktualizace nenalezeny.
+[Update checking already started!]
+Kontrola aktualizací již probíhá!
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 hod.
@@ -138,30 +147,21 @@ Ověřit
 Služby
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for plugin updates]
-
+Zkontrolovat aktualizace
 [Show full plugin list]
-
-;file \plugins\PluginUpdater\src\Scanner.cpp
-[Downloading version info...]
-
-[An error occured while downloading the update.]
-
-[No updates found.]
-
-[List is empty.]
-
-[Update checking already started!]
-
-[List loading already started!]
-
+Komponenty ke stažení...
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
-
+Tlačítko 'Ano'
 ['No' Button]
-
+Tlačítko 'Ne'
 [Plugin info]
-
+Informace
 [Plugin list]
-
+Seznam komponent
 [Plugin Updater HTTP connection]
-
+Aktualizátor - Spojení pomocí protokolu HTTP
+[Downloading version info...]
+Stahování informací...
+[An error occured while downloading the update.]
+Nastala chyba při stahování informací.

@@ -6,7 +6,7 @@
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 [Adds some useful options to a contacts menu.]
-
+Přidává některé užitečné možnosti do menu kontaktu.
 ;file \plugins\MenuItemEx\res\resource.rc
 [Enter an authorization request]
 Napište žádost o autorizaci
@@ -51,11 +51,11 @@ Zkrátit příliš dlouhé ID
 [* Use Ctrl+click to see popup with the copied text]
 * Použít Ctrl+klik pro zobrazení oznámení se zkopírovaným textem
 [Hide contact on 'Ignore all']
-
+Skrýt kontakt při 'Všechno'
 [Other options]
 Ostatní možnosti
 [Automatically refresh contact's details after they come online]
-
+Automaticky načíst informace o kontaktu po jeho připojení
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Zpráva stavu
@@ -66,23 +66,21 @@ Zpráva rozš.stavu
 [Listening to]
 Poslech hudby
 [Activity title]
-
+Název aktivity
 [Activity text]
-
+Text aktivity
 [Show in list]
-
+Zobrazit v seznamu
 [Always visible]
 Tento člověk mě vždy uvidí
 [Never visible]
 Tento člověk mě nikdy neuvidí
-[Request authorization]
-Požádat o autorizaci
 [Copy to Account]
-
+Zkopírovat do účtu
 [Copy xStatus Message]
-
+Zkopírovat rozšířený stav
 [All]
-všechno
+Všechno
 [Messages]
 Zprávy
 [URL]
@@ -98,15 +96,17 @@ Zpráva o zařazení mezi kontakty
 [Typing Notify]
 Psaní zprávy
 [Please authorize me to add you to my contact list.]
-
+Prosím potvrďte můj požadavek o přidání vás do mého seznamu kontaktů.
 [Do you want to send authorization request\nto new contact?]
-
+Přejete si odeslat požadavek o autorizaci\nnového kontaktu?
 [Miranda NG]
 Miranda NG
 [MenuItemEx]
 Rozšíření menu
 [Open ignore settings]
-
+Otevřít možnosti filtrování
+[Request authorization]
+Požádat o autorizaci
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Vlastní úpravy

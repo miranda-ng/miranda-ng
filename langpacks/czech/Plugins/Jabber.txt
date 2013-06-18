@@ -1133,12 +1133,6 @@ Seznam transportů
 Transporty
 [Personal vCard]
 Osobní karta (vCard)
-[Request authorization]
-Požádat o autorizaci
-[Grant authorization]
-Udělit autorizaci
-[Revoke authorization]
-Odvolat autorizaci
 [Convert to room]
 Změnit na místnost
 [Login/logout]
@@ -1243,6 +1237,12 @@ Odebírání
 [Http authentication request received]
 
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+Požádat o autorizaci
+[Grant authorization]
+Udělit autorizaci
+[Revoke authorization]
+Odvolat autorizaci
 [Convert]
 Nahradit
 [Add to Bookmarks]

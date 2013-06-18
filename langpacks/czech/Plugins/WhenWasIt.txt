@@ -9,7 +9,7 @@
 Přidává možnost upozornění na narozeniny.
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays:]
-
+Oznamovat narozeniny:
 [Popups]
 Oznámení
 [Popup timeout:]
@@ -73,7 +73,7 @@ Nastavit narozeniny:
 [OK]
 OK
 [Manage anniversaries]
-
+Spravovat výročí
 [Title:]
 Název:
 [Description:]
@@ -106,11 +106,11 @@ Komunikační okno
 [All contacts]
 Všechny kontakty
 [All contacts except hidden ones]
-
+Všechny kontakty krom skrytých
 [All contacts except ignored ones]
-
+Všechny kontakty krom ignorovaných
 [All contacts except hidden and ignored ones]
-
+Všechny kontakty krom skrytých a ignorovaných
 [Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occuring today]]
 Nastavit prodlevu oznámení při oznamování nadcházejících narozenin.\nFormát: výchozí prodleva [ | prodleva pro dnešní narozeniny]
 [Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
@@ -121,6 +121,8 @@ Narozeniny: %s
 %S protokol
 [N/A]
 <neuvedeno>
+[Unknown]
+neznámý
 [Birthday list (%d)]
 Seznam narozenin (%d)
 [Protocol]
@@ -143,7 +145,7 @@ Modul
 [Check for birthdays]
 Zjistit narozeniny
 [Birthdays]
-
+Narozeniny
 [Contacts]
 Kontakty
 [WhenWasIt]

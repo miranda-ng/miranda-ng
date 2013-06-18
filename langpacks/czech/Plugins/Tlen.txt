@@ -10,7 +10,7 @@ Uložit heslo
 [Create new account]
 Zřídit nový účet
 [Tlen]
-
+Tlen
 [Options]
 Možnosti
 [Automatically reconnect after unintentional disconnection]
@@ -66,7 +66,7 @@ Pro příchozí spojení použít proxy
 [Proxy type:]
 Druh proxy:
 [Proxy server:]
-
+Proxy server:
 [Proxy requires authorization]
 Proxy vyžaduje autorizaci
 [Mail Notification]
@@ -126,7 +126,7 @@ Avatar
 [Avatar Options]
 Nastavení avataru
 [Public avatar]
-
+Veřejný avatar
 [Tlen login:]
 Tlen login:
 [Subscription:]
@@ -138,7 +138,7 @@ Verze:
 [System:]
 Systém:
 [Personal Information]
-
+Osobní informace
 [Nickname:]
 Přezdívka:
 [Age:]
@@ -154,11 +154,11 @@ Plan:
 [Tlen Voice Chat]
 
 [Quality]
-
+Kvalita
 [In]
-V
+Vstup
 [Out]
-
+Výstup
 [Finish]
 Dokončit
 [Tlen Voice Chat Invitation]
@@ -271,10 +271,6 @@ Ikona protokolu
 Skupinové rozhovory
 [Tlen chats]
 
-[Grant authorization]
-Udělit autorizaci
-[Request authorization]
-Požádat o autorizaci
 [Voice chat]
 Telefonní hovor
 [Microphone]
@@ -294,12 +290,16 @@ Diskusní skupina
 [Tlen Mail]
 Pošta Tlen
 [Send picture]
-
+Odeslat obrázek
 [Voice Chat]
 Hovor
+[Request authorization]
+Požádat o autorizaci
+[Grant authorization]
+Udělit autorizaci
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
-
+1 soubor
 [%d Files]
 %d soubory
 ;file \protocols\Tlen\src\tlen_muc.cpp

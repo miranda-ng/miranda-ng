@@ -261,27 +261,3 @@ Metakontakt je poškozen - počet podkontaktů nesouhlasí.\nMazání metakontak
 
 [MetaContacts Warning]
 Upozornění metakontaktů
-[Offline]
-Offline
-[Online]
-Online
-[Away]
-Na chvíli pryč
-[DND]
-Nerušit!
-[N/A]
-<neuvedeno>
-[Occupied]
-Nemám čas
-[Free to Chat]
-Mám volno
-[Invisible]
-Neviditelný
-[On the Phone]
-Mám telefon
-[Out to Lunch]
-Jsem na obědě
-[IDLE]
-Nečinný
-[Unknown]
-neznámý

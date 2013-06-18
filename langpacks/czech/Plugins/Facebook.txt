@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.0
+;  Version: 0.1.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -179,6 +179,8 @@ Kontakt již není mezi vašimi přáteli.
 [Attachments:]
 Přílohy:
 ;file \protocols\FacebookRM\src\proto.cpp
+[Show Mind Window]
+Zobrazit dialog stavu
 [%s server connection]
 %s - spojení se serverem
 [Unable to get Netlib connection for Facebook]
@@ -207,6 +209,8 @@ Načítání novinek...
 Kontrola žádostí o přátelství...
 [Refreshing buddy list...]
 Obnovování seznamu kontaktů...
+[Do you want to cancel your friendship with '%s'?]
+Přejete si zrušit vaše přátelství s '%s'?
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 Ikona Facebooku
@@ -216,6 +220,12 @@ Stavová zpráva
 Šťouchnout
 [Newsfeed]
 Novinka
+[Friendship details]
+Podrobnosti o přátelství
+[Visit profile]
+Navštívít profil
+[Visit friendship details]
+Zobrazit podrobnosti o přátelství
 [Cancel friendship]
 Zrušit přátelství
 [Cancel friendship request]
@@ -224,10 +234,6 @@ Zrušit požadavek o přátelství
 Požádat o přátelství
 [Approve friendship]
 Potvrdit přátelství
-[Visit friendship details]
-Zobrazit podrobnosti o přátelství
-[Visit profile]
-Navštívít profil
 [Mind...]
 Stavová zpráva...
 [Visit Profile]

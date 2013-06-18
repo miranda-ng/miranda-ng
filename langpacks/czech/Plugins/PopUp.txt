@@ -383,6 +383,8 @@ Povolit Aero Glass (Vista+)
 Použít barvy Windows
 [Use advanced text render]
 Použít pokročilé vykreslování textu
+[Global settings]
+Globální nastavení
 [Refresh List]
 Aktualizovat seznam
 ;file \plugins\Popup\src\popup_thread.cpp

@@ -6,7 +6,7 @@
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 [SecureIM plugin for Miranda NG.]
-
+SecureIM doplněk pro Mirandu NG.
 ;file \plugins\SecureIM\res\resource.rc
 [User List]
 Seznam uživatelů
@@ -17,7 +17,7 @@ Seznam uživatelů
 [Always show status icons in contact list]
 Ukázat stavovou ikonu v kontaktech
 [Context Menu only for "Miranda" clients]
-
+Kontextová nabídka pouze pro Miranda klienty
 [Status in Context Menu]
 Stav v kontextovém menu
 [Disable encryption for game plugins]
@@ -39,9 +39,9 @@ Offline klíč vyprší za:
 [days]
 dnů
 [PGP]
-PGP 
+PGP
 [GPG]
-
+GPG
 [Reset All]
 Vše resetovat
 [Protocols]
@@ -55,13 +55,13 @@ Offline:
 [RSA Key]
 RSA klíč
 [SHA1:]
-
+SHA1:
 [Public]
-
+Veřejný
 [&Copy SHA1]
-
+&Zkopírovat SHA1
 [E&xport]
-
+E&xportovat
 [Private]
 Soukromý
 [&Export]
@@ -81,7 +81,7 @@ Program gpg.exe:
 [Home Directory:]
 Dom. adresář:
 [Temp Dir:]
-
+Dočasný adresář:
 [Key Assignment]
 Přiřazení klíčů
 [Debug]
@@ -145,11 +145,11 @@ Mód
 [Native SecureIM]
 Nativní SecureIM
 [PGP SecureIM]
-
+PGP SecureIM
 [GPG SecureIM]
-
+GPG SecureIM
 [RSA/AES SecureIM]
-
+RSA/AES SecureIM
 [Status]
 Stavy
 [Always Try to Establish Secure IM]
@@ -169,17 +169,17 @@ Smazat klíč
 [Delete pre-shared key]
 
 [Public key]
-
+Veřejný klíč
 [Export key]
-
+Exportovat klíč
 [Import key]
-
+Importovat klíč
 [Export public key]
-
+Exportovat veřejný klíč
 [Import public key]
-
+Importovat veřejný klíč
 [Delete public key]
-
+Smazat veřejný klíč
 ;file \plugins\SecureIM\src\language.cpp
 [SecureIM established...]
 Šifrované spojení navázáno...
@@ -246,7 +246,7 @@ Jméno
 [Password is too short!]
 Heslo je příliš krátké!
 [ON]
-
+Zap
 [Off]
 Vyp
 [Keyrings loaded.]
@@ -328,7 +328,7 @@ Nemohu dešifrovat tuto zprávu - namáte instalován PGP. Více informací na w
 [Session closed on error: %02x]
 
 [SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key ?]
-SecureIM přijal RSA veřejný klíčod "%s"\n\nSHA1: %s\n\nChcete přijmout tento klíč??
+SecureIM přijal RSA veřejný klíč od "%s"\n\nSHA1: %s\n\nChcete přijmout tento klíč??
 [SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
 
 [SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
@@ -341,7 +341,7 @@ Seznam kontaktů
 [Connection Disabled]
 Bez šifrování
 [Connection Established]
-
+Spojení navázáno
 [Contact Menu]
 Menu kontaktu
 [Disable Secure Connection]
@@ -349,19 +349,19 @@ Menu kontaktu
 [Establishe Secure Connection]
 Šifrované spojení navázáno
 [Message Window]
-
+Komunikační okno
 [Popups]
 Oznámení
 [Secure Connection Disabled]
-
+Zabezpečené připojení zrušeno
 [Secure Connection Established]
-
+Zabezpečené připojení navázáno
 [Secure Connection In Process]
-
+Zabezpečené připojení probíhá
 [Recv Secured Message]
-
+Přijata zabezpečená zpráva
 [Sent Secured Message]
-
+Odeslána zabezpečená zpráva
 [Menu State]
 
 [Always Try]
@@ -369,43 +369,43 @@ Oznámení
 [Overlays]
 
 [Native mode]
-
+Nativní mód
 [PGP mode]
-
+PGP mód
 [GPG mode]
-
+GPG mód
 [RSA/AES mode]
-
+RSA/AES mód
 ;file \plugins\SecureIM\src\main.cpp
 [SecureIM]
-
+SecureIM
 [Icons]
 Ikony
 [Incoming Secure Message]
-
+Příchozí zabezpečená zpráva
 [Outgoing Secure Message]
-
+Odchozí zabezpečená zpráva
 [SecureIM status]
-
+Stav SecureIM
 ;file \plugins\SecureIM\src\options.cpp
 [Executable Files]
 Spustitelné soubory
 [Select GnuPG Executable]
 Vyberte gpg.exe
 [ASC files]
-
+Soubory ASC
 [All files]
-Soubory celkově
+Všechny soubory
 [Open Key File]
-
+Otevřít soubor s klíčem
 [Save Private Key File]
-
+Uložit privátní klíč do souboru
 [Save Public Key File]
-
+Uložit veřejný klíč do souboru
 [Load Private Key File]
-
+Načíst privátní klíč ze souboru
 [Load Public Key File]
-
+Načíst veřejný klíč ze souboru
 [Services]
 Služby
 ;file \plugins\SecureIM\src\popupOptions.cpp
@@ -417,10 +417,10 @@ Služby
 
 ;file \plugins\SecureIM\src\svcs_srmm.cpp
 [SecureIM [Native]]
-
+SecureIM [Nativní]
 [SecureIM [PGP]]
-
+SecureIM [PGP]
 [SecureIM [GPG]]
-
+SecureIM [GPG]
 [SecureIM [RSA/AES]]
-
+SecureIM [RSA/AES]
