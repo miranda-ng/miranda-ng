@@ -15,7 +15,6 @@
 [Custom Smileys]
 [IP info available only after login]
 [MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
-[Contact already in your contact list]
 [Protocol is offline]
 [Offline messaging is not allowed for LCS contacts]
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]

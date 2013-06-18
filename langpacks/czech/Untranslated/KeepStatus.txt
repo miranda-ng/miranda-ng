@@ -16,4 +16,3 @@
 [TriggerData]
 [Status: The status the account will change to\r\nAccount: The account changing state]
 [will be set to]
-[Set %s message for %s.]

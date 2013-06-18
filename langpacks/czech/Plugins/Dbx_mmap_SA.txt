@@ -17,7 +17,7 @@ OK
 [Cancel]
 Zrušit
 [New password]
-
+Nové heslo
 [Change password]
 Změnit heslo
 [Change]
@@ -25,7 +25,7 @@ Změnit
 [Remove]
 Odebrat
 [Old password]
-
+Aktuální heslo
 [Install Database Settings]
 Konfigurace databáze
 [Yes]

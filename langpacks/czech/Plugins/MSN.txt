@@ -273,7 +273,7 @@ Upozornění (Live)
 [%s plugin connections]
 %s - spojení se serverem
 [Contact already in your contact list]
-
+Kontakt je již ve vašem seznamu
 [Protocol is offline]
 
 [You cannot send message to yourself]

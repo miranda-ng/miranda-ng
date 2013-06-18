@@ -8,9 +8,9 @@
 ;  Authors: Awkward
 ;============================================================
 [Contact window]
-
+Okno kontaktu
 [Text insert]
-
+Vložení textu
 [vars]
 
 [DWord]
@@ -18,127 +18,127 @@
 [You can use %name%, %uid%, %account% and %group% macros]
 
 [wParam type]
-
+Typ wParam
 [lParam type]
-
+Typ lParam
 [Service name]
-
+Název služby
 [wParam]
-
+wParam
 [lParam]
-
+lParam
 [Structure]
-
+Struktura
 [Result action]
-
+Výsledná akce
 [Window option]
 
 [Show in popup]
-
+Zobrazit oznámení
 [Start hidden]
-
+Spustit skrytý
 [Show in messagebox]
-
+Zobrazit dialogové okno
 [Start maximized]
-
+Spustit maximalizovaný
 [Continued]
 
 [Parallel]
 
 [Condition]
-Situace
+Podmínka
 [Insert into message]
-
+Vložit do zprávy
 [parameter]
-
+parametr
 [Process time, ms]
 
 [No Description]
-
+Bez popisu
 [Signed value]
 
 [Process options]
 
 [Do not show]
-
+Nezobrazit
 [Current path]
-
+Aktuální cesta
 [Start normal]
-
+Spustit normálně
 [last result]
-
+poslední výsledek
 [structure]
-
+struktura
 [Structure]
-
+Struktura
 [Link to action]
-
+Odkaz na akci
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 
 [Action manager]
-
+Správce akcí
 [Copy to]
-
+Zkopírovat do
 [Paste from as]
-
+Vložit z jako
 [Math]
 
 [Variables (below)]
-
+Proměnné (níže)
 [Variables script]
 
 [Other Action groups]
 
 [Operation]
-
+Operace
 [Last result]
-
+Poslední výsledek
 [Own settings]
-
+Vlastní nastavení
 [Array]
-
+Pole
 [Message title]
-
+Titulek zprávy
 [OK, Cancel]
-
+OK, Zrušit
 [Abort, Retry, Ignore]
-
+Přerušit, Opakovat, Ignorovat
 [Yes, No, Cancel]
-
+Ano, Ne, Zrušit
 [Yes, No]
-
+Ano, Ne
 [Retry, Cancel]
-
+Opakova, Zrušit
 [not defined]
-
+nedefinováno
 [Result as integer]
 
 [Keep Last Result]
-
+Zachovat poslední výsledek
 [Keep handle only]
-
+Zachovat pouze ukazatel
 [Variables mark]
 
 [C&ancel]
-
+Z&rušit
 [Structure Editor]
 
 [Result as structure]
 
 [Byte Array]
-
+Pole bajtů
 [Word Array]
-
+Pole wordů
 [Pointer to bytes]
-
+Ukazatel na bajty
 [Pointer to words]
-
+Ukazatel na wordy
 [Data length]
-
+Délka dat
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
 
 [Paste from]
-
+Vložit z
 [Service result]
 
 [Free memory]
@@ -262,24 +262,24 @@ Nativní
 [type]
 typ
 [length]
-
+délka
 [data]
-
+data
 [Structure help]
 
 [Descr]
 
 ;other strings
 [Open contact window]
-
+Otevřít okno kontaktu
 [Call service]
-
+Zavolat službu
 [Execute program]
-
+Spustit program
 [Insert text]
-
+Vložit text
 [Use Variables]
-
+Použít proměnné
 [number value]
 číselná hodnota
 [ANSI string]
@@ -289,13 +289,13 @@ Unicode řetězec
 [current contact]
 současný kontakt
 [Choose Contact]
-
+Zvolit kontakt
 [Miranda service help]
 
 [Return]
 
 [Effect]
-
+Efekt
 [Start]
 Začít
 [action group list was changed: some was added or deleted]

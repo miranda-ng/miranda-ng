@@ -329,7 +329,7 @@ Mňam... jídlo
 Chrrrrrrrrrrrr
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]
-
+Nastavit %s zprávu pro %s.
 [<last>]
 <minulý>
 [<current>]
