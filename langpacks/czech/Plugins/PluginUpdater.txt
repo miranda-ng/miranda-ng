@@ -104,7 +104,7 @@ Stahování...
 [Failed!]
 Chyba!
 [Succeeded.]
-Hotovo.
+Staženo.
 [Plugin Updater]
 Aktualizátor
 [Download complete]
