@@ -149,7 +149,7 @@ static void SetSrmmIcon(HANDLE hContact, LPTSTR ptszMirver)
 	sid.tszTooltip = ptszMirver;
 
 	if ( lstrlen(ptszMirver))
-		sid.hIcon = sid.hIconDisabled = (HICON)ServiceGetClientIconW((WPARAM)ptszMirver, TRUE);
+		sid.hIcon = (HICON)ServiceGetClientIconW((WPARAM)ptszMirver, TRUE);
 	else
 		sid.flags |= MBF_HIDDEN;
 
@@ -486,10 +486,8 @@ HICON __fastcall CreateIconFromIndexes(short base, short overlay, short overlay2
 
 		hIcon = icMain;
 
-		if (overlayMask) {
-			hIcon = CreateJoinedIcon(hIcon, icOverlay);
-			hTmp = hIcon;
-		}
+		if (overlayMask)
+			hTmp = hIcon = CreateJoinedIcon(hIcon, icOverlay);
 
 		if (overlay2Mask) {
 			hIcon = CreateJoinedIcon(hIcon, icOverlay2);
@@ -500,6 +498,7 @@ HICON __fastcall CreateIconFromIndexes(short base, short overlay, short overlay2
 		if (overlay3Mask) {
 			hIcon = CreateJoinedIcon(hIcon, icOverlay3);
 			if (hTmp) DestroyIcon(hTmp);
+			hTmp = hIcon;
 		}
 
 		if (overlay4Mask) {

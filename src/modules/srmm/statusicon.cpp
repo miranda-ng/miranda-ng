@@ -27,6 +27,10 @@ struct StatusIconChild : public MZeroedObject
 {
 	~StatusIconChild()
 	{
+		if (hIcon)
+			DestroyIcon(hIcon);
+		if (hIconDisabled)
+			DestroyIcon(hIconDisabled);
 		mir_free(tszTooltip);
 	}
 
@@ -95,6 +99,10 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 		pc = new StatusIconChild();
 		pc->hContact = hContact;
 		p->arChildren.insert(pc);
+	}
+	else {
+		if (pc->hIcon)
+			DestroyIcon(pc->hIcon);
 	}
 
 	pc->flags = sid->flags;
@@ -165,7 +173,10 @@ static INT_PTR GetNthIcon(WPARAM wParam, LPARAM lParam)
 			memcpy(&res, &p, sizeof(res));
 			if (pc) {
 				if (pc->hIcon) res.hIcon = pc->hIcon;
-				if (pc->hIconDisabled) res.hIconDisabled = pc->hIconDisabled;
+				if (pc->hIconDisabled)
+					res.hIconDisabled = pc->hIconDisabled;
+				else if (pc->hIcon)
+					res.hIconDisabled = pc->hIcon;
 				if (pc->tszTooltip) res.tszTooltip = pc->tszTooltip;
 				res.flags = pc->flags;
 			}
