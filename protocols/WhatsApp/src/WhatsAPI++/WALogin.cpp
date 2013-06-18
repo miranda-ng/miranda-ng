@@ -184,11 +184,10 @@ std::vector<unsigned char>* WALogin::getAuthBlob(const std::vector<unsigned char
 	}
 	list->insert(list->end(), this->user.begin(), this->user.end());
 	list->insert(list->end(), nonce.begin(), nonce.end());
-	time_t now;
-	std::string time = Utilities::intToStr(difftime(mktime(gmtime(&now)), 0));
-	list->insert(list->end(), time.begin(), time.end());
+	std::string strTime = Utilities::intToStr( time(NULL));
+	list->insert(list->end(), strTime.begin(), strTime.end());
 
-	this->outputKey->encodeMessage(&((*list)[0]), 0, 4, list->size() - 4);
+	this->outputKey->encodeMessage(&((*list)[0]), 0, 4, (int)list->size() - 4);
 	return list;
 }
 
@@ -281,7 +280,7 @@ KeyStream::KeyStream(unsigned char* key, size_t keyLength) {
 
 	this->key = new unsigned char[keyLength];
 	memcpy(this->key, key, keyLength);
-	this->keyLength = keyLength;
+	this->keyLength = (int)keyLength;
 
 	RC4_set_key(&this->rc4, this->keyLength, this->key);
 	RC4(&this->rc4, 256, drop, drop);
@@ -294,7 +293,7 @@ KeyStream::~KeyStream() {
 }
 
 void KeyStream::keyFromPasswordAndNonce(const std::string& pass, const std::vector<unsigned char>& nonce, unsigned char *out) {
-	PKCS5_PBKDF2_HMAC_SHA1(pass.data(), pass.size(), nonce.data(), nonce.size(), 16, 20, out);
+	PKCS5_PBKDF2_HMAC_SHA1(pass.data(), (int)pass.size(), nonce.data(), (int)nonce.size(), 16, 20, out);
 }
 
 void KeyStream::decodeMessage(unsigned char* buffer, int macOffset, int offset, const int length) {
