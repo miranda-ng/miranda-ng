@@ -296,7 +296,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				ListView_SetColumnWidth(hwndList, 2, 110);
 				w = 110;
 			}
-			int max = w < 110 ? 199+110-w:199;
+			int max = w < 110 ? 189+110-w:189;
 			ListView_SetColumnWidth(hwndList, 3, LVSCW_AUTOSIZE); // short name
 			w = ListView_GetColumnWidth(hwndList, 3);
 			if (w > max)
