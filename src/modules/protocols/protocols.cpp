@@ -354,7 +354,7 @@ static INT_PTR srvProto_IsAccountLocked(WPARAM, LPARAM lParam)
 static INT_PTR Proto_BroadcastAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
-	return ProtoBroadcastAck(ack->szModule, ack->hProcess, ack->type, ack->result, ack->hProcess, ack->lParam);
+	return ProtoBroadcastAck(ack->szModule, ack->hContact, ack->type, ack->result, ack->hProcess, ack->lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
