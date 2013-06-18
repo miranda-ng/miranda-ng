@@ -237,7 +237,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\base16.h" />
-    <ClInclude Include="src\base64.h" />
     <ClInclude Include="src\commonheaders.h" />
     <ClInclude Include="src\cpp_rsam.h" />
     <ClInclude Include="src\cpp_rsau.h" />
