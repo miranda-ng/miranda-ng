@@ -17,7 +17,7 @@ Přezdívka:
 [Create a new Windows Live account]
 Zřídit nový účet v síti Windows Live
 [Expert]
-
+Pokročilé
 [Send message font color/size info inside messages]
 Ke zprávě přidat informaci o barvě a velikosti písma
 [Disable all contacts not included into my contact list]

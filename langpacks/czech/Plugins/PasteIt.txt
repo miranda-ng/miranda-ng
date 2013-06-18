@@ -157,9 +157,9 @@ Nikdy
 [10 minutes]
 
 [1 hour]
-
+1 hodina
 [1 day]
-
+1 den
 [1 month]
 
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp

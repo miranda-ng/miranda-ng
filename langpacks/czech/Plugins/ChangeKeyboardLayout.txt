@@ -31,7 +31,7 @@ Možnosti
 [Strings for keyboard layouts]
 
 [EN]
-
+EN
 [Default]
 Výchozí
 [Invert current state]

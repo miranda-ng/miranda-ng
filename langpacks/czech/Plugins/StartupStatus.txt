@@ -107,7 +107,7 @@ Umístit na souřadnice
 [Set window size]
 Velikost okna
 [x]
-
+x
 [Allow override]
 Povolit potlačení
 [Note: status profiles can be created in the 'Status Profiles' options screen]
@@ -213,7 +213,7 @@ Přidat položku do hlavní nabídky
 [Status Profiles]
 Startovní profily
 [HotKey1]
-
+Klávesa1
 [Hotkey]
 Klávesy
 [In submenu]

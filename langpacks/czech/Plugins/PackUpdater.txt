@@ -9,7 +9,7 @@
 
 ;file \plugins\PackUpdater\Res\Resource.rc
 [Updates found!]
-
+Nalezeny aktualizace!
 [Update]
 Aktualizovat
 [View info]
@@ -25,7 +25,7 @@ Stahování...
 [Pack update options]
 
 [On startup]
-
+Po spuštění
 [Remind about not installed pack update]
 
 [Hotkey]
@@ -39,15 +39,15 @@ Upozornění
 [Errors]
 Chyby
 [Info messages]
-
+Informační zprávy
 [Progress dialogs]
-
+Dialogy s postupem
 [Every]
 každých
 [(but only once a day)]
-
+(ale pouze jednou denně)
 [Message boxes (*)]
-
+Dialogové okna (*)
 [Back]
 Pozadí
 [Text]
@@ -77,11 +77,11 @@ Doba zobrazení
 [Sec]
 sek.
 [* Needs popup actions to be enabled]
-
+* Vyžaduje povolené akce v doplňku pro oznámení
 [Not sets for "Message boxes"]
-
+Není aplikováno pro dialogové okna
 [Boxes]
-
+Dialogy
 [Popups]
 Oznámení
 ;file \plugins\PackUpdater\Src\Events.cpp
@@ -91,7 +91,7 @@ Oznámení
 
 ;file \plugins\PackUpdater\Src\Notifications.cpp
 [An error occured while downloading the update.]
-
+Nastala chyba při stahování informací.
 [Component Name]
 Název doplňku
 [Current Version]
@@ -105,7 +105,7 @@ Nová verze
 [Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
 
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-
+Stahování dokončeno. Spustit aktualizaci? Všechny vaše data budou uložena a Miranda NG bude restartována.
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
 
 ;file \plugins\PackUpdater\Src\Notifications.h
@@ -127,22 +127,22 @@ Služby
 
 ;file \plugins\PackUpdater\Src\Utils.cpp
 ['Yes' Button]
-
+Tlačítko 'Ano'
 ['No' Button]
-
+Tlačítko 'Ne'
 [Pack Updater HTTP connection]
 
 [URL for checking updates not found.]
 
 [Downloading version info...]
-
+Načítání informací...
 [Name of Update's file is not supported.]
 
 [Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
 
 [No updates found.]
-
+Žádné aktualizace nenalezeny.
 [No files for update.]
 
 [Update checking already started!]
-
+Kontrola aktualizací již probíhá!

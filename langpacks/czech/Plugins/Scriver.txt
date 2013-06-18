@@ -157,11 +157,11 @@ Rozhovor
 [&U]
 
 [&D]
-
+&D
 [&E]
 
 [&H]
-
+&H
 [&Q]
 
 [Send To All Tabs]

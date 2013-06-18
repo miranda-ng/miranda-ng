@@ -3,7 +3,6 @@
 [Accounts to check]
 [Specify settings for each account]
 [Use same settings for all accounts]
-[HotKey1]
 [Cancel all if a account connects from another location]
 [Set account offline before a connection attempt]
 [Max. account connecting time (secs)]

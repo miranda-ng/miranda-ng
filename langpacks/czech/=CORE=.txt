@@ -903,9 +903,9 @@ Vyberte &další...
 [Total size:]
 Celková velikost:
 [&D]
-
+&D
 [&H]
-
+&H
 [Incoming File Transfer]
 Žádost o přenos souboru
 [A&ccept]
@@ -921,7 +921,7 @@ Soubory:
 [Save to:]
 Uložit do:
 [&A]
-
+&A
 [Contact menu]
 Menu kontaktu
 [Open...]

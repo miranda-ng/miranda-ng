@@ -344,7 +344,7 @@ od
 [none]
 ---
 [not on roster]
-
+není v seznamu
 ;file \protocols\Tlen\src\tlen_voice.cpp
 [...Connecting...]
 

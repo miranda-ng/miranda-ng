@@ -114,7 +114,6 @@
 [Alien]
 [Shrimp]
 [Got lost]
-[Crazy]
 [Office]
 [In institute]
 [At school]

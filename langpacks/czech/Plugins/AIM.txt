@@ -123,13 +123,13 @@ E-mail
 [Save Changes]
 Uložit změny
 [Invite Buddy To Chat Room]
-
+Pozvat přítele 
 [&Invite]
 &Pozvat
 [Invitation reason]
-
+Důvod pozvání
 [Chat Room Invitation Request]
-
+Pozvánka ke skupinovému rozhovoru
 [&Deny]
 O&dmítnout
 [Message]

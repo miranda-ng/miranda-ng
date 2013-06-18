@@ -302,7 +302,7 @@ Extra
 [Toggle Popups]
 Zapnout/vypnout oznámení
 [Enable Popups]
-
+Povolit oznámení
 [Disable Popups]
 Vypnout oznámení
 [Popup Plus]

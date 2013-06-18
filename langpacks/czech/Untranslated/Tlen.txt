@@ -32,7 +32,6 @@
 [Unknown error code : %d]
 [Image sent file://%s]
 [Image received file://%s]
-[not on roster]
 [...Connecting...]
 [...Waiting for connection...]
 [...Finished...]

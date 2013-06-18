@@ -3,7 +3,6 @@
 [Disable if message window is open]
 [Popup History is disabled]
 [Popup History message]
-[Enable Popups]
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 [/Offline]

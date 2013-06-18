@@ -19,7 +19,7 @@ Po úspěšné odpovědi:
 [Auth. request reply:]
 
 [Divider:]
-
+Oddělovač:
 [Vars]
 
 [Disable protection for following accounts:]

@@ -1,5 +1,4 @@
 ﻿[Send SMS text messages to mobile phones through the IM networks.]
-[&H]
 [SMS Message Didn't Send]
 [The SMS message send timed out]
 [Auto popup on new message]

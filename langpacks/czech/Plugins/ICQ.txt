@@ -1941,7 +1941,7 @@ Chyba při aktualizaci dat.
 Momentálně nejste připojeni k síti ICQ. Chcete-li zaktualizovat informace na serveru, musíte být online.
 ;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
 [Please authorize me to add you to my contact list.]
-
+Prosím potvrďte můj požadavek o přidání vás do mého seznamu kontaktů.
 ;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
 

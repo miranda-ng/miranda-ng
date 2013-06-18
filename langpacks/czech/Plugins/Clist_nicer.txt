@@ -555,7 +555,7 @@ Ignorovat položku
 <zatím mimo provoz>
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
-
+Zkopírovat z
 [<None>]
 Není
 [Raised]

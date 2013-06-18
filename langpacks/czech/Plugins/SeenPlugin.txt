@@ -270,4 +270,4 @@ Nečinnost
 [Unknown]
 neznámý
 [Not Idle]
-
+Není nečinný

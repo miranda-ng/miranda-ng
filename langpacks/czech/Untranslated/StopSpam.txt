@@ -1,7 +1,6 @@
 ﻿[Antispam plugin for Miranda NG.]
 [Answer (Use divider to separate answers):]
 [Auth. request reply:]
-[Divider:]
 [Vars]
 [Disable protection for following accounts:]
 [Enable auth. requests blocking]

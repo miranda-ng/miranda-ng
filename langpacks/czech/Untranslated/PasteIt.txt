@@ -36,6 +36,4 @@
 [Error during getting user key from web page: %s]
 [Paste expire date]
 [10 minutes]
-[1 hour]
-[1 day]
 [1 month]

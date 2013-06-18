@@ -12,4 +12,3 @@
 [for empty string]
 [instead of]
 [<never seen>]
-[Not Idle]
