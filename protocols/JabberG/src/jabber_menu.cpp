@@ -291,12 +291,12 @@ void g_MenuInit(void)
 	mi.icolibItem = g_GetIconHandle(IDI_NOTES);
 	g_hMenuDirectPresence[0] = Menu_AddContactMenuItem(&mi);
 
-	mi.flags |= CMIF_ROOTHANDLE;
+	mi.flags |= CMIF_ROOTHANDLE | CMIF_TCHAR;
 	for (int i = 0; i < SIZEOF(PresenceModeArray); i++) {
 		char buf[] = "Jabber/DirectPresenceX";
 		buf[SIZEOF(buf)-2] = '0' + i;
 		mi.pszService = buf;
-		mi.pszName = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, PresenceModeArray[i].mode, 0);
+		mi.ptszName = pcli->pfnGetStatusModeDescription(PresenceModeArray[i].mode, 0);
 		mi.position = -1999901000;
 		mi.hParentMenu = g_hMenuDirectPresence[0];
 		mi.icolibItem = LoadSkinnedIcon(PresenceModeArray[i].icon);
@@ -304,7 +304,7 @@ void g_MenuInit(void)
 		CreateServiceFunctionParam(mi.pszService, JabberMenuHandleDirectPresence, PresenceModeArray[i].mode);
 	}
 
-	mi.flags &= ~CMIF_ROOTHANDLE;
+	mi.flags &= ~(CMIF_ROOTHANDLE | CMIF_TCHAR);
 
 	// Resource selector
 	mi.pszService = "Jabber/ResourceSelectorDummySvc";
@@ -466,7 +466,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 						}
 						mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s [%s, %d]"),
 							item->resource[i].resourceName,
-							(TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, item->resource[i].status, GSMDF_TCHAR),
+							pcli->pfnGetStatusModeDescription(item->resource[i].status, 0),
 							item->resource[i].priority);
 						clmi.ptszName = szTmp;
 						Menu_ModifyItem(m_phMenuResourceItems[i], &clmi);

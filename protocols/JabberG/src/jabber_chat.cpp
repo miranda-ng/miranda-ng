@@ -213,19 +213,15 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, JABBER_RESOURCE_
 
 	case INFO_STATUS:
 		if (m_options.GcLogStatuses) {
-			if (user->statusMessage) {
+			TCHAR *ptszDescr = pcli->pfnGetStatusModeDescription(user->status, 0);
+			if (user->statusMessage)
 				mir_sntprintf(buf, SIZEOF(buf), TranslateT("User %s changed status to %s with message: %s"),
-					user->resourceName,
-					CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, user->status, GSMDF_TCHAR),
-					user->statusMessage);
-			}
-			else {
-				mir_sntprintf(buf, SIZEOF(buf), TranslateT("User %s changed status to %s"),
-					user->resourceName,
-					CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, user->status, GSMDF_TCHAR));
-			}
+					user->resourceName, ptszDescr, user->statusMessage);
+			else
+				mir_sntprintf(buf, SIZEOF(buf), TranslateT("User %s changed status to %s"), user->resourceName, ptszDescr);
 		}
 		break;
+
 	case INFO_CONFIG:
 		if (m_options.GcLogConfig)
 			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Room configuration was changed."));

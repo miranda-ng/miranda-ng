@@ -324,15 +324,14 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 
 	EnterCriticalSection(&m_csModeMsgMutex);
 	for (int i=0; i < ID_STATUS_ONTHEPHONE-ID_STATUS_OFFLINE; i++) {
-		HICON hicon;
 		BOOL needFree;
-		int n=skinStatusToJabberStatus[i];
-		TCHAR *descr = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, n+ID_STATUS_OFFLINE, GSMDF_TCHAR);
+		int n = skinStatusToJabberStatus[i];
+		TCHAR *descr = pcli->pfnGetStatusModeDescription(n+ID_STATUS_OFFLINE, 0);
 		mir_snprintf(Uname, SIZEOF(Uname), "%s_Transport_%s_%d", m_szModuleName, proto, n);
-		hicon=(HICON)LoadTransportIcon(defFile,-skinIconStatusToResourceId[i],Uname,Group,descr,-(n+ID_STATUS_OFFLINE),&needFree);
-		int index=(m_transportProtoTableStartIndex[iID] == -1)?-1:m_transportProtoTableStartIndex[iID]+n;
-		int added=ImageList_ReplaceIcon(hAdvancedStatusIcon,index,hicon?hicon:empty);
-		if (first == -1) first=added;
+		HICON hicon = LoadTransportIcon(defFile,-skinIconStatusToResourceId[i],Uname,Group,descr,-(n+ID_STATUS_OFFLINE),&needFree);
+		int index = (m_transportProtoTableStartIndex[iID] == -1)?-1:m_transportProtoTableStartIndex[iID]+n;
+		int added = ImageList_ReplaceIcon(hAdvancedStatusIcon,index,hicon?hicon:empty);
+		if (first == -1) first = added;
 		if (hicon && needFree) DestroyIcon(hicon);
 	}
 

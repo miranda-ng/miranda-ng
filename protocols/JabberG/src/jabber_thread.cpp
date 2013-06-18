@@ -1666,7 +1666,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 		if (_tcschr(from, '@')==NULL) {
 			UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 		}
-		Log("%S (%S) online, set contact status to %s", nick, from, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)status,0));
+		Log("%S (%S) online, set contact status to %S", nick, from, pcli->pfnGetStatusModeDescription(status, 0));
 		mir_free(nick);
 
 		HXML xNode;
