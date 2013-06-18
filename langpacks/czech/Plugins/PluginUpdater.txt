@@ -11,11 +11,11 @@ Aktualizátor pro Mirandu NG.
 [Updates found!]
 Nalezeny aktualizace!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
-Aktualizátor našel novější verze některých komponent Mirandy. Klikněte na tlačítko 'Podrobnosti' pro zobrazení více informací.
+Aktualizátor našel novější verze některých komponent Mirandy. Klikněte na tlačítko 'Detaily' pro zobrazení více informací.
 [Update]
 Aktualizovat
 [Details >>]
-Podrobnosti >>
+Detaily >>
 [Cancel]
 Zrušit
 [Select &all]
@@ -162,6 +162,6 @@ Seznam komponent
 [Plugin Updater HTTP connection]
 Aktualizátor - Spojení pomocí protokolu HTTP
 [Downloading version info...]
-Stahování informací...
+Načítání informací...
 [An error occured while downloading the update.]
 Nastala chyba při stahování informací.
