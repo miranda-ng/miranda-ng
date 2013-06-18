@@ -1450,10 +1450,8 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 
 		ui1 = SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
 		if (ui1) {
-			char serviceName[256];
-			_snprintf(serviceName, SIZEOF(serviceName), "%s"MS_GC_PROTO_GETTOOLTIPTEXT, parentdat->pszModule);
-			if (ServiceExists(serviceName))
-				ti.lpszText = (TCHAR*)CallService(serviceName, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
+			if ( ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT))
+				ti.lpszText = (TCHAR*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
 			else {
 				TCHAR ptszBuf[ 1024 ];
 				mir_sntprintf( ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
@@ -1844,15 +1842,14 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			ui1 = SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
 			if (ui1) {
 				ti.cbSize = sizeof(ti);
-				mir_snprintf(serviceName, SIZEOF(serviceName), "%s"MS_GC_PROTO_GETTOOLTIPTEXT, parentdat->pszModule);
 
-				if (ServiceExists(serviceName))
-					mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("%s"), (TCHAR*)CallService(serviceName, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID));
+				if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT))
+					_tcsncpy(ptszBuf, (TCHAR*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID), SIZEOF(ptszBuf));
 				else 
 					mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s"),
-					TranslateT("Nick"), ui1->pszNick,
-					TranslateT("Unique id"), ui1->pszUID,
-					TranslateT("Status"), TM_WordToString(parentdat->pStatuses, ui1->Status));
+						TranslateT("Nick"), ui1->pszNick,
+						TranslateT("Unique id"), ui1->pszUID,
+						TranslateT("Status"), TM_WordToString(parentdat->pStatuses, ui1->Status));
 
 				if (ptszBuf != NULL)
 					if (CallService("mToolTip/ShowTipW", (WPARAM)mir_tstrdup(ptszBuf), (LPARAM)&ti))

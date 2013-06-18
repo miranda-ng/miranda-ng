@@ -271,11 +271,8 @@ static int TabsrmmButtonInit(WPARAM wParam, LPARAM lParam)
 
 void HideNudgeButton(HANDLE hContact)
 {
-	char str[MAXMODULELABELLENGTH + 12] = {0};
 	char *szProto = GetContactProto(hContact);
-	mir_snprintf(str,MAXMODULELABELLENGTH + 12,"%s/SendNudge", szProto);
-
-	if (!ServiceExists(str)) {
+	if ( !ProtoServiceExists(szProto, "/SendNudge")) {
 		BBButton bbd = { sizeof(bbd) };
 		bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
 		bbd.pszModuleName="Nudge";

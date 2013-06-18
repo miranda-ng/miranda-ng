@@ -2286,13 +2286,8 @@ void InitCheck()
 		strcpy(cap.caps, "GPG AutoExchange");
 
 		for(int i = 0; i < count; i++)
-		{
-			char svc[64];
-			strcpy(svc, accounts[i]->szProtoName);
-			strcat(svc, PS_ICQ_ADDCAPABILITY);
-			if(ServiceExists(svc))
-				CallService(svc, 0, (LPARAM)&cap);
-		}
+			if( ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))
+				CallProtoService(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&cap);
 	}
 	if(bFileTransfers)
 	{
@@ -2306,13 +2301,8 @@ void InitCheck()
 		strcpy(cap.caps, "GPG FileTransfer");
 
 		for(int i = 0; i < count; i++)
-		{
-			char svc[64];
-			strcpy(svc, accounts[i]->szProtoName);
-			strcat(svc, PS_ICQ_ADDCAPABILITY);
-			if(ServiceExists(svc))
-				CallService(svc, 0, (LPARAM)&cap);
-		}
+			if( ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))
+				CallProtoService(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&cap);
 	}
 }
 

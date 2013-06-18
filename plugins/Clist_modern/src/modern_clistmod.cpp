@@ -93,7 +93,6 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 {
 	if (hContact && szProto) {
 		char *szActProto = (char*)szProto;
-		char AdvancedService[255] = {0};
 		int nActStatus = nStatus;
 		HANDLE hActContact = hContact;
 		if ( !db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) && g_szMetaModuleName && !mir_strcmp(szActProto,g_szMetaModuleName)) {
@@ -108,11 +107,10 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 				}
 			}
 		}
-		mir_snprintf(AdvancedService,SIZEOF(AdvancedService),"%s%s",szActProto,"/GetAdvancedStatusIcon");
 
 		int result = -1;
-		if ( ServiceExists(AdvancedService))
-			result = CallService(AdvancedService,(WPARAM)hActContact, 0);
+		if ( ProtoServiceExists(szActProto, PS_GETADVANCEDSTATUSICON))
+			result = CallProtoService(szActProto, PS_GETADVANCEDSTATUSICON, (WPARAM)hActContact, 0);
 
 		if (result == -1 || !(LOWORD(result))) {
 			//Get normal Icon

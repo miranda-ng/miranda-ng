@@ -814,10 +814,8 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 			// /GetChatToolTipText
 			// wParam = roomID parentdat->ptszID
 			// lParam = userID ui1->pszUID
-			char serviceName[256];
-			_snprintf(serviceName,SIZEOF(serviceName), "%s"MS_GC_PROTO_GETTOOLTIPTEXT, parentdat->pszModule);
-			if (ServiceExists(serviceName))
-				ti.lpszText=(TCHAR*)CallService(serviceName, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
+			if ( ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT))
+				ti.lpszText=(TCHAR*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
 			else {
 				TCHAR ptszBuf[ 1024 ];
 				mir_sntprintf( ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),

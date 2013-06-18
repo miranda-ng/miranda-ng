@@ -1690,14 +1690,12 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					{
 						ResetUpdateInfo(pPs);
 
-						mir_snprintf(pPs->szUpdating, SIZEOF(pPs->szUpdating), 
-							"%s (%s)", Translate("Updating"), pPs->pszProto);
+						mir_snprintf(pPs->szUpdating, SIZEOF(pPs->szUpdating), "%s (%s)", Translate("Updating"), pPs->pszProto);
 						
 						// need meta contact's subcontact information
 						if (DB::Module::IsMetaAndScan(pPs->pszProto)) 
 						{
 							HANDLE hSubContact;
-							CHAR szService[MAXSETTING];
 							int	i, numSubs;
 							
 							numSubs = DB::MetaContact::SubCount(pPs->hContact);
@@ -1708,10 +1706,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 								hSubContact = DB::MetaContact::Sub(pPs->hContact, i);
 								if (hSubContact != NULL) 
 								{
-									mir_snprintf(szService, SIZEOF(szService), "%s%s", 
-										DB::Contact::Proto(hSubContact), PSS_GETINFO);
-									
-									if (ServiceExists(szService)) 
+									if ( ProtoServiceExists(DB::Contact::Proto(hSubContact), PSS_GETINFO)) 
 									{
 										pPs->infosUpdated = (TAckInfo*)mir_realloc(pPs->infosUpdated, sizeof(TAckInfo) * (pPs->nSubContacts + 1));
 										pPs->infosUpdated[pPs->nSubContacts].hContact = hSubContact;

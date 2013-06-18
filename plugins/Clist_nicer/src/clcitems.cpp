@@ -270,19 +270,15 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 			int xStatus;
 			WPARAM xStatus2;
 			TCHAR xStatusName[128];
-			char szServiceName[128];
 
-			mir_snprintf(szServiceName, 128, "%s%s", szProto, PS_GETCUSTOMSTATUSEX);
-
-			CUSTOM_STATUS cst = {0};
-			cst.cbSize = sizeof(CUSTOM_STATUS);
+			CUSTOM_STATUS cst = { sizeof(cst) };
 			cst.flags = CSSF_MASK_STATUS;
 			cst.status = &xStatus;
-			if (ServiceExists(szServiceName) && !CallService(szServiceName, (WPARAM)hContact, (LPARAM)&cst) && xStatus > 0) {
+			if (ProtoServiceExists(szProto, PS_GETCUSTOMSTATUSEX) && !CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, (WPARAM)hContact, (LPARAM)&cst) && xStatus > 0) {
 				cst.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
  				cst.wParam = &xStatus2;
 				cst.ptszName = xStatusName;
-				if ( !CallService(szServiceName, (WPARAM)hContact, (LPARAM)&cst)) {
+				if ( !CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, (WPARAM)hContact, (LPARAM)&cst)) {
 					TCHAR *szwXstatusName = TranslateTS(xStatusName);
 					p->statusMsg = (TCHAR *)realloc(p->statusMsg, (lstrlen(szwXstatusName) + 2) * sizeof(TCHAR));
 					_tcsncpy(p->statusMsg, szwXstatusName, lstrlen(szwXstatusName) + 1);

@@ -261,25 +261,12 @@ static int ChangeAllProtoStatuses(unsigned statusMode, TCHAR *msg)
 			(g_wMask & OPT_ONLINEONLY) ? // check "Change only if current status is Online" option
 			((status == ID_STATUS_ONLINE) || (status == ID_STATUS_FREECHAT)) // process only "online" and "free for chat"
 			:
-			((status > ID_STATUS_OFFLINE) && (status < ID_STATUS_IDLE) && (status != ID_STATUS_INVISIBLE)) // process all existing statuses except for "invisible" & "offline"
-			)
+			((status > ID_STATUS_OFFLINE) && (status < ID_STATUS_IDLE) && (status != ID_STATUS_INVISIBLE))) // process all existing statuses except for "invisible" & "offline"
 		{
 			if (g_wMask & OPT_SETONLINEBACK){ // need to save old statuses & status messages
 				oldStatus[i] = status;
-
-				char svc[256];
-				mir_snprintf(svc, 256, "%s%s", proto[i]->szModuleName, PS_GETMYAWAYMSG);
-				if (ServiceExists (svc))
-				{
-					if (ServiceExists (MS_AWAYMSG_GETSTATUSMSGT)) // if core can support unicode status message
-						oldStatusMsg[i] = (TCHAR *)CallService (svc, 0, SGMA_TCHAR);
-					else
-					{
-						char *tmp = (char *)CallService (svc, 0, 0);
-						oldStatusMsg[i] = mir_a2t(tmp);
-						mir_free(tmp);
-					}
-				}
+				if (ProtoServiceExists(proto[i]->szModuleName, PS_GETMYAWAYMSG))
+					oldStatusMsg[i] = (TCHAR*)CallProtoService(proto[i]->szModuleName, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
 				else
 					oldStatusMsg[i] = GetDefStatusMsg(status, proto[i]->szModuleName);
 			}

@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 #include "clc.h"
 #include "clist.h"
@@ -116,7 +117,6 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,ClcGroup *group
 	HANDLE hContact;
 	DBVARIANT dbv;
 	int i;
-	char AdvancedService[255] = {0};
 	int img  = -1; 
 	int basicIcon = 0;
 	
@@ -134,10 +134,8 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,ClcGroup *group
 	group->cl.items[i]->isSubcontact = 0;
 	group->cl.items[i]->subcontacts = NULL;
 
-	_snprintf(AdvancedService,sizeof(AdvancedService),"%s%s",cacheEntry->szProto,"/GetAdvancedStatusIcon");
-
-	if (ServiceExists(AdvancedService))
-		img = CallService(AdvancedService,(WPARAM)hContact, 0);
+	if ( ProtoServiceExists(cacheEntry->szProto, PS_GETADVANCEDSTATUSICON))
+		img = CallProtoService(cacheEntry->szProto, PS_GETADVANCEDSTATUSICON, (WPARAM)hContact, 0);
 
 	if (img == -1 || !(LOWORD(img)))
 		img = CallService(MS_CLIST_GETCONTACTICON,(WPARAM)hContact,0);

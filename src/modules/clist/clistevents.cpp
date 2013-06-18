@@ -347,7 +347,6 @@ int fnEventsProcessTrayDoubleClick(int index)
 		cli.pfnUnlockTray();
 		hContact = cli.events.items[eventIndex]->cle.hContact;
 		hDbEvent = cli.events.items[eventIndex]->cle.hDbEvent;
-		//if ( !ServiceExists(cli.events.items[eventIndex]->cle.pszService))
 		//	; may be better to show send msg?
 		CallService(cli.events.items[eventIndex]->cle.pszService, (WPARAM) NULL, (LPARAM) & cli.events.items[eventIndex]->cle);
 		cli.pfnRemoveEvent(hContact, hDbEvent);

@@ -84,8 +84,7 @@ typedef struct
 
 void ResizeFlash(HWND hwnd, ACCData* data)
 {
-	if ((data->hContact != NULL || data->proto[0] != '\0')
-		&& ServiceExists(MS_FAVATAR_RESIZE))
+	if ((data->hContact != NULL || data->proto[0] != '\0') && ServiceExists(MS_FAVATAR_RESIZE))
 	{
 		RECT rc;
 		GetClientRect(hwnd, &rc);
@@ -131,8 +130,7 @@ void DestroyFlash(HWND hwnd, ACCData* data)
 	if (!data->showingFlash)
 		return;
 
-	if ((data->hContact != NULL || data->proto[0] != '\0')
-		&& ServiceExists(MS_FAVATAR_DESTROY))
+	if ((data->hContact != NULL || data->proto[0] != '\0') && ServiceExists(MS_FAVATAR_DESTROY))
 	{
 		FLASHAVATAR fa = {0}; 
 		fa.hContact = data->hContact;

@@ -409,13 +409,11 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 				// use the subcontact's protocol 'recv' service to add the meta's history (AIMOSCAR removes HTML here!) if possible
 				char *proto = GetContactProto(ccs->hContact);
 				if (proto) {
-					char service[256];
 					HANDLE hSub = ccs->hContact;
 					DWORD flags = pre->flags;
-					mir_snprintf(service, 256, "%s%s", proto, PSR_MESSAGE);
 					ccs->hContact = hMeta;
 					pre->flags |= (db_get_b(hMeta, META_PROTO, "WindowOpen", 0) ? 0 : PREF_CREATEREAD);
-					if (ServiceExists(service) && !CallService(service, 0, (LPARAM)ccs))
+					if (ProtoServiceExists(proto, PSR_MESSAGE) && !CallProtoService(proto, PSR_MESSAGE, 0, (LPARAM)ccs))
 						added = TRUE;
 					ccs->hContact = hSub;
 					pre->flags = flags;
@@ -477,12 +475,9 @@ INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 		// use the subcontact's protocol to add the db if possible (AIMOSCAR removes HTML here!)
 		HANDLE most_online = Meta_GetMostOnline(ccs->hContact);
 		char *proto = GetContactProto(most_online);
-		if (proto) {
-			char service[256];
-			mir_snprintf(service, 256, "%s%s", proto, PSR_MESSAGE);
-			if (CallService(service, wParam, lParam) != CALLSERVICE_NOTFOUND)
+		if (proto)
+			if (CallProtoService(proto, PSR_MESSAGE, wParam, lParam) != CALLSERVICE_NOTFOUND)
 				return 0;
-		}
 	}
 
 	// otherwise, add event to db directly
@@ -842,13 +837,9 @@ INT_PTR Meta_UserIsTyping(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	char *proto = GetContactProto(most_online);
-	if (proto) {
-		char buff[512];
-		strncpy(buff, proto, 512);
-		strncpy(buff + strlen(proto), PSS_USERISTYPING, 512 - strlen(proto));
-		if (ServiceExists(buff))
-			CallService(buff, (WPARAM)most_online, (LPARAM)lParam);
-	}
+	if (proto)
+		if ( ProtoServiceExists(proto, PSS_USERISTYPING))
+			CallProtoService(proto, PSS_USERISTYPING, (WPARAM)most_online, (LPARAM)lParam);
 
 	return 0;
 }
@@ -1196,21 +1187,8 @@ INT_PTR Meta_FileSend(WPARAM wParam, LPARAM lParam)
 		}
 
 		proto = GetContactProto(most_online);
-		//Meta_CopyContactNick(ccs->hContact, most_online, proto);
-
-		if (proto) {
-			//ccs->hContact = most_online;
-			//Meta_SetNick(proto);
-
-			// don't check for existence of service - 'accounts' based protos don't have them!
-			//_snprintf(szServiceName, sizeof(szServiceName), "%s%s", proto, PSS_FILE);
-			//if (ServiceExists(szServiceName)) {
-			//	PUShowMessage("sending to subcontact", SM_NOTIFY);
+		if (proto)
 			return (int)(CallContactService(most_online, PSS_FILE, ccs->wParam, ccs->lParam));
-			//} else
-			//	PUShowMessage("no service", SM_NOTIFY);
-		} //else
-		//PUShowMessage("no proto for subcontact", SM_NOTIFY);
 	}
 	return 0; // fail
 }
@@ -1251,7 +1229,6 @@ INT_PTR Meta_GetAwayMsg(WPARAM wParam, LPARAM lParam)
 
 INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam) {
 	PROTO_AVATAR_INFORMATIONT *AI = (PROTO_AVATAR_INFORMATIONT *) lParam;
-	char *proto = 0;
 	DWORD default_contact_number;
 
 	if ((default_contact_number = db_get_dw(AI->hContact, META_PROTO, "Default",(DWORD)-1)) == (DWORD)-1)
@@ -1262,79 +1239,59 @@ INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam) {
 	}
 	else
 	{
-		HANDLE hSub, hMeta;
-		char szServiceName[100];
-		int result;
-
-		hMeta = AI->hContact;
-		hSub = Meta_GetMostOnlineSupporting(AI->hContact, PFLAGNUM_4, PF4_AVATARS);
-
+		HANDLE hMeta = AI->hContact;
+		HANDLE hSub = Meta_GetMostOnlineSupporting(AI->hContact, PFLAGNUM_4, PF4_AVATARS);
 		if ( !hSub)
 			return GAIR_NOAVATAR;
 
-		proto = GetContactProto(hSub);
+		char *proto = GetContactProto(hSub);
 		if ( !proto) return GAIR_NOAVATAR;
 
 		AI->hContact = hSub;
 
-		mir_snprintf(szServiceName, sizeof(szServiceName), "%s%s", proto, PS_GETAVATARINFOT);
-		result = CallService(szServiceName, wParam, lParam);
+		int result = CallProtoService(proto, PS_GETAVATARINFOT, wParam, lParam);
 		AI->hContact = hMeta;
 		if (result != CALLSERVICE_NOTFOUND) return result;
 	}
 	return GAIR_NOAVATAR; // fail
 }
 
-INT_PTR Meta_GetInfo(WPARAM wParam, LPARAM lParam) {
+INT_PTR Meta_GetInfo(WPARAM wParam, LPARAM lParam)
+{
 	CCSDATA *ccs = (CCSDATA*)lParam;
-	char *proto = 0;
 	DWORD default_contact_number;
 
+	// This is a simple contact
+	// (this should normally not happen, since linked contacts do not appear on the list.)
 	if ((default_contact_number = db_get_dw(ccs->hContact, META_PROTO, "Default",(DWORD)-1)) == (DWORD)-1)
-	{
-		// This is a simple contact
-		// (this should normally not happen, since linked contacts do not appear on the list.)
 		return 0;
-	}
-	else
-	{
-		HANDLE most_online;
-		PROTO_AVATAR_INFORMATIONT AI;
-		char szServiceName[100];
 
-		most_online = Meta_GetMostOnlineSupporting(ccs->hContact, PFLAGNUM_4, PF4_AVATARS);
+	HANDLE most_online = Meta_GetMostOnlineSupporting(ccs->hContact, PFLAGNUM_4, PF4_AVATARS);
+	if ( !most_online)
+		return 0;
 
-		if ( !most_online)
-			return 0;
+	char *proto = GetContactProto(most_online);
+	if ( !proto) return 0;
 
-		proto = GetContactProto(most_online);
-		if ( !proto) return 0;
+	PROTO_AVATAR_INFORMATIONT AI;
+	AI.cbSize = sizeof(AI);
+	AI.hContact = ccs->hContact;
+	AI.format = PA_FORMAT_UNKNOWN;
+	_tcscpy(AI.filename, _T("X"));
+	if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
+		db_set_ts(ccs->hContact, "ContactPhoto", "File",AI.filename);
 
-		AI.cbSize = sizeof(AI);
-		AI.hContact = ccs->hContact;
-		AI.format = PA_FORMAT_UNKNOWN;
-		_tcscpy(AI.filename, _T("X"));
-		if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
-			db_set_ts(ccs->hContact, "ContactPhoto", "File",AI.filename);
+	most_online = Meta_GetMostOnline(ccs->hContact);
+	Meta_CopyContactNick(ccs->hContact, most_online);
 
-		most_online = Meta_GetMostOnline(ccs->hContact);
-		Meta_CopyContactNick(ccs->hContact, most_online);
+	if ( !most_online)
+		return 0;
 
-		if ( !most_online)
-			return 0;
-
-		//Meta_CopyContactNick(ccs->hContact, most_online, proto);
-
-		ccs->hContact = most_online;
-		//Meta_SetNick(proto);
-
-		_snprintf(szServiceName, sizeof(szServiceName), "%s%s", proto, PSS_GETINFO);
-		if (ServiceExists(szServiceName)) {
-			strncpy(szServiceName, PSS_GETINFO, sizeof(szServiceName));
-			return (int)(CallContactService(ccs->hContact, szServiceName, ccs->wParam, ccs->lParam));
-		}
-	}
-	return 0; // fail
+	ccs->hContact = most_online;
+	if ( !ProtoServiceExists(proto, PSS_GETINFO))
+		return 0; // fail
+	
+	return CallContactService(ccs->hContact, PSS_GETINFO, ccs->wParam, ccs->lParam);
 }
 
 int Meta_OptInit(WPARAM wParam, LPARAM lParam)

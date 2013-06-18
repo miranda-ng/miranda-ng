@@ -45,7 +45,6 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 	int result = -1;
 	if (hContact && szProto) {
 		char * szActProto = (char*)szProto;
-		char AdvancedService[255] = {0};
 		int  nActStatus = nStatus;
 		HANDLE hActContact = hContact;
 		if ( !db_get_b(NULL,"CLC","Meta",0) && !strcmp(szActProto,"MetaContacts")) {
@@ -61,10 +60,9 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 				}
 			}
 		}
-		_snprintf(AdvancedService,sizeof(AdvancedService),"%s%s",szActProto,"/GetAdvancedStatusIcon");
 
-		if (ServiceExists(AdvancedService))
-			result = CallService(AdvancedService,(WPARAM)hActContact, 0);
+		if ( ProtoServiceExists(szActProto, PS_GETADVANCEDSTATUSICON))
+			result = CallProtoService(szActProto, PS_GETADVANCEDSTATUSICON, (WPARAM)hActContact, 0);
 
 		if (result == -1 || !(LOWORD(result)))
 			// result == -1 means no Advanced icon. LOWORD(result) == 0 happens when Advanced icon returned by ICQ (i.e. no transpot)

@@ -404,7 +404,6 @@ static void sttUpdateAccountInfo(HWND hwndDlg, struct TAccMgrData *dat)
 	int curSel = ListBox_GetCurSel(hwndList);
 	if (curSel != LB_ERR) {
 		HWND hwnd;
-		char svc[MAXMODULELABELLENGTH];
 
 		PROTOACCOUNT *pa = (PROTOACCOUNT *)ListBox_GetItemData(hwndList, curSel);
 		if (pa) {
@@ -428,6 +427,7 @@ static void sttUpdateAccountInfo(HWND hwndDlg, struct TAccMgrData *dat)
 				SetWindowText( GetDlgItem(hwndDlg, IDC_TXT_INFO), TranslateT("Account is disabled. Please activate it to access options."));
 			}
 			else {
+				char svc[MAXMODULELABELLENGTH];
 				mir_snprintf(svc, SIZEOF(svc), "%s%s", pa->szModuleName, PS_CREATEACCMGRUI);
 				hwnd = (HWND)CallService(svc, 0, (LPARAM)hwndDlg);
 				if (hwnd && (hwnd != (HWND)CALLSERVICE_NOTFOUND)) {

@@ -27,59 +27,55 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void sttApplySkin(MODERNOPTOBJECT *obj, TCHAR *fn)
 {
-	char svc[128];
-	mir_snprintf(svc, SIZEOF(svc), "%s%s", obj->lpzThemeModuleName, TS_SKIN_APPLY);
-	CallService(svc, NULL, (LPARAM)fn);
+	CallProtoService(obj->lpzThemeModuleName, TS_SKIN_APPLY, NULL, (LPARAM)fn);
 }
 
 static TCHAR *sttGetActiveSkin(MODERNOPTOBJECT *obj)
 {
-	char svc[128];
-	mir_snprintf(svc, SIZEOF(svc), "%s%s", obj->lpzThemeModuleName, TS_SKIN_ACTIVE);
-	return ServiceExists(svc) ? (TCHAR *)CallService(svc, 0, 0) : 0;
+	return ProtoServiceExists(obj->lpzThemeModuleName, TS_SKIN_ACTIVE) ?
+		(TCHAR*)CallProtoService(obj->lpzThemeModuleName, TS_SKIN_ACTIVE, 0, 0) : 0;
 }
 
 static void sttPreviewSkin(MODERNOPTOBJECT *obj, TCHAR *fn, LPDRAWITEMSTRUCT lps)
 {
 	if (!fn) return;
 
-	char svc[128];
-	mir_snprintf(svc, SIZEOF(svc), "%s%s", obj->lpzThemeModuleName, TS_SKIN_PREVIEW);
-	if (ServiceExists(svc))
-		CallService(svc, (WPARAM)lps, (LPARAM)fn);
-	else {
-		char *afn = mir_t2a(fn);
-		char *fnpreview = (char *)mir_alloc(lstrlenA(afn) + 10);
-		lstrcpyA(fnpreview, afn);
-		lstrcatA(fnpreview, ".png");
-		HBITMAP hbmPreview = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)fnpreview);
-		mir_free(afn);
-		mir_free(fnpreview);
-
-		if (!hbmPreview) return;
-
-		BITMAP bmp;
-		GetObject(hbmPreview, sizeof(bmp), &bmp);
-
-		SIZE szDst = { abs(bmp.bmWidth), abs(bmp.bmHeight) };
-		if ((szDst.cx > lps->rcItem.right-lps->rcItem.left) || (szDst.cy > lps->rcItem.bottom-lps->rcItem.top)) {
-			float q = min(
-				float(lps->rcItem.right-lps->rcItem.left) / szDst.cx,
-				float(lps->rcItem.bottom-lps->rcItem.top) / szDst.cy);
-			szDst.cx *= q;
-			szDst.cy *= q;
-		}
-		POINT ptDst = {
-			(lps->rcItem.left+lps->rcItem.right-szDst.cx) / 2,
-			(lps->rcItem.top+lps->rcItem.bottom-szDst.cy) / 2 };
-
-		HDC hdc = CreateCompatibleDC(lps->hDC);
-		SelectObject(hdc, hbmPreview);
-		SetStretchBltMode(hdc, HALFTONE);
-		StretchBlt(lps->hDC, ptDst.x, ptDst.y, szDst.cx, szDst.cy, hdc, 0, 0, abs(bmp.bmWidth), abs(bmp.bmHeight), SRCCOPY);
-		DeleteDC(hdc);
-		DeleteObject(hbmPreview);
+	if ( ProtoServiceExists(obj->lpzThemeModuleName, TS_SKIN_PREVIEW)) {
+		CallProtoService(obj->lpzThemeModuleName, TS_SKIN_PREVIEW, (WPARAM)lps, (LPARAM)fn);
+		return;
 	}
+
+	char *afn = mir_t2a(fn);
+	char *fnpreview = (char *)mir_alloc(lstrlenA(afn) + 10);
+	lstrcpyA(fnpreview, afn);
+	lstrcatA(fnpreview, ".png");
+	HBITMAP hbmPreview = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)fnpreview);
+	mir_free(afn);
+	mir_free(fnpreview);
+
+	if (!hbmPreview) return;
+
+	BITMAP bmp;
+	GetObject(hbmPreview, sizeof(bmp), &bmp);
+
+	SIZE szDst = { abs(bmp.bmWidth), abs(bmp.bmHeight) };
+	if ((szDst.cx > lps->rcItem.right-lps->rcItem.left) || (szDst.cy > lps->rcItem.bottom-lps->rcItem.top)) {
+		float q = min(
+			float(lps->rcItem.right-lps->rcItem.left) / szDst.cx,
+			float(lps->rcItem.bottom-lps->rcItem.top) / szDst.cy);
+		szDst.cx *= q;
+		szDst.cy *= q;
+	}
+	POINT ptDst = {
+		(lps->rcItem.left+lps->rcItem.right-szDst.cx) / 2,
+		(lps->rcItem.top+lps->rcItem.bottom-szDst.cy) / 2 };
+
+	HDC hdc = CreateCompatibleDC(lps->hDC);
+	SelectObject(hdc, hbmPreview);
+	SetStretchBltMode(hdc, HALFTONE);
+	StretchBlt(lps->hDC, ptDst.x, ptDst.y, szDst.cx, szDst.cy, hdc, 0, 0, abs(bmp.bmWidth), abs(bmp.bmHeight), SRCCOPY);
+	DeleteDC(hdc);
+	DeleteObject(hbmPreview);
 }
 
 struct TSkinListItem

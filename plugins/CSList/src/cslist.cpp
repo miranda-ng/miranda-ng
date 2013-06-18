@@ -100,12 +100,9 @@ static int OnCreateMenuItems(WPARAM, LPARAM)
 	PROTOACCOUNT** pdesc;
 	ProtoEnumAccounts(&protoCount, &pdesc);
 
-	for (int i = 0; i < protoCount; i++) {
-		char szService[100];
-		mir_snprintf(szService, SIZEOF(szService), "%s%s", pdesc[i]->szModuleName, PS_SETCUSTOMSTATUSEX);
-		if ( ServiceExists(szService))
+	for (int i = 0; i < protoCount; i++)
+		if ( ProtoServiceExists(pdesc[i]->szModuleName, PS_SETCUSTOMSTATUSEX))
 			addProtoStatusMenuItem(pdesc[i]->szModuleName);
-	}
 
 	return 0;
 }
@@ -189,9 +186,7 @@ void SetStatus(WORD code, StatusItem* item,  char *szAccName)
 	if (pdescr == NULL)
 		return;
 
-	char szService[100];
-	mir_snprintf(szService, SIZEOF(szService), "%s%s", szAccName, PS_SETCUSTOMSTATUSEX);
-	if ( !ServiceExists(szService))
+	if ( !ProtoServiceExists(szAccName, PS_SETCUSTOMSTATUSEX))
 		return;
 
 	int statusToSet;
@@ -212,7 +207,7 @@ void SetStatus(WORD code, StatusItem* item,  char *szAccName)
 	else return;
 
 	ics.status = &statusToSet;
-	CallService(szService, 0, (LPARAM)&ics);
+	CallProtoService(szAccName, PS_SETCUSTOMSTATUSEX, 0, (LPARAM)&ics);
 }
 
 INT_PTR showList(WPARAM wparam, LPARAM lparam, LPARAM param)

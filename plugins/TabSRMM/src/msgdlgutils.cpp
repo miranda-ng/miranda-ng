@@ -2145,9 +2145,7 @@ HICON TSAPI GetXStatusIcon(const TWindowData *dat)
 	if (xStatus == 0)
 		return NULL;
 
-	char szServiceName[128];
-	mir_snprintf(szServiceName, 128, "%s%s", dat->cache->getActiveProto(), PS_GETCUSTOMSTATUSICON);
-	if ( !ServiceExists(szServiceName))
+	if ( !ProtoServiceExists(dat->cache->getActiveProto(), PS_GETCUSTOMSTATUSICON))
 		return NULL;
 
 	return (HICON)(CallProtoService(dat->cache->getActiveProto(), PS_GETCUSTOMSTATUSICON, xStatus, 0));

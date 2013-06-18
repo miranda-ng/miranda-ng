@@ -558,15 +558,10 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 			char *proto = GetContactProto(ccs->hContact);
 			DWORD uin = db_get_dw(ccs->hContact, proto, "UIN", 0);
 			if(uin) {
-				char svc[64];
-				strcpy(svc, proto);
-				strcat(svc, PS_ICQ_CHECKCAPABILITY);
-				if(ServiceExists(svc))
-				{
+				if( ProtoServiceExists(proto, PS_ICQ_CHECKCAPABILITY)) {
 					ICQ_CUSTOMCAP cap = {0};
 					strcpy(cap.caps, "GPG AutoExchange");
-					if(CallService(svc, (WPARAM)ccs->hContact, (LPARAM)&cap))
-					{
+					if(CallProtoService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)ccs->hContact, (LPARAM)&cap)) {
 						CallContactService(ccs->hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)"-----PGP KEY REQUEST-----");
 						return 0;
 					}
@@ -823,89 +818,7 @@ INT_PTR SendMsgSvc(WPARAM w, LPARAM l)
 			debuglog<<std::string(time_str()+": info: encrypted messge, let it go, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
 		return CallService(MS_PROTO_CHAINSEND, w, l);
 	}
-	/*if(!isContactHaveKey(ccs->hContact))
-	{
-		if(bDebugLog)
-			debuglog<<std::string(time_str()+": info: contact have not key, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-		if(bAutoExchange && !strstr(msg, "-----PGP KEY REQUEST-----") && !strstr(msg, "-----BEGIN PGP PUBLIC KEY BLOCK-----") && gpg_valid)
-		{
-			if(bDebugLog)
-				debuglog<<std::string(time_str()+": info: checking for autoexchange possibility, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-			void send_encrypted_msgs_thread(HANDLE hContact);
-			LPSTR proto = GetContactProto(ccs->hContact);
-			DWORD uin = db_get_dw(ccs->hContact, proto, "UIN", 0);
-			if(uin)
-			{
-				if(bDebugLog)
-					debuglog<<std::string(time_str()+": info(autoexchange): protocol looks like icq, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-				char *proto = GetContactProto(ccs->hContact);
-				char svc[64];
-				strcpy(svc, proto);
-				strcat(svc, PS_ICQ_CHECKCAPABILITY);
-
-				if(ServiceExists(svc))
-				{
-					if(bDebugLog)
-						debuglog<<std::string(time_str()+": info(autoexchange, icq): checking for autoexchange icq capability, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-					ICQ_CUSTOMCAP cap = {0};
-					strcpy(cap.caps, "GPG AutoExchange");
-					if(CallService(svc, (WPARAM)ccs->hContact, (LPARAM)&cap))
-					{
-						if(bDebugLog)
-							debuglog<<std::string(time_str()+": info(autoexchange, icq): sending key requiest, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-						CallContactService(ccs->hContact, PSS_MESSAGE, (WPARAM)ccs->wParam, (LPARAM)"-----PGP KEY REQUEST-----");
-						hcontact_data[ccs->hContact].msgs_to_send.push_back(msg);
-						boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, ccs->hContact));
-						mir_free(msg);
-						return returnNoError(ccs->hContact);
-					}
-				}
-			}
-			else
-			{
-				TCHAR *jid = UniGetContactSettingUtf(ccs->hContact, proto, "jid", _T(""));
-				if(jid[0])
-				{
-					if(bDebugLog)
-						debuglog<<std::string(time_str()+": info(autoexchange): protocol looks like jabber, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-					extern list <JabberAccount*> Accounts;
-					list<JabberAccount*>::iterator end = Accounts.end();
-					for(list<JabberAccount*>::iterator p = Accounts.begin(); p != end; p++)
-					{
-						TCHAR *caps = (*p)->getJabberInterface()->Net()->GetResourceFeatures(jid);
-						if(caps)
-						{
-							wstring str;
-							for(int i=0;;i++)
-							{
-								str.push_back(caps[i]);
-								if(caps[i] == '\0')
-									if(caps[i+1] == '\0')
-										break;
-							}
-							mir_free(caps);
-							if(str.find(_T("GPG_Key_Auto_Exchange:0")) != string::npos)
-							{
-								if(bDebugLog)
-									debuglog<<std::string(time_str()+": info(autoexchange, jabber): autoexchange capability found, sending key request, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-								CallContactService(ccs->hContact, PSS_MESSAGE, (WPARAM)ccs->wParam, (LPARAM)"-----PGP KEY REQUEST-----");
-								hcontact_data[ccs->hContact].msgs_to_send.push_back(msg);
-								boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, ccs->hContact));
-								mir_free(msg);
-								return returnNoError(ccs->hContact);
-							}
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			mir_free(msg);
-			return CallService(MS_PROTO_CHAINSEND, w, l);
-		}
-	} */
-	else if(bDebugLog)
+	if(bDebugLog)
 		debuglog<<std::string(time_str()+": info: contact have key, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
 	if(bDebugLog && metaIsProtoMetaContacts(ccs->hContact))
 		debuglog<<std::string(time_str()+": info: protocol is metacontacts, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
@@ -917,7 +830,6 @@ INT_PTR SendMsgSvc(WPARAM w, LPARAM l)
 		return CallService(MS_PROTO_CHAINSEND, w, l);
 	}
 	mir_free(msg);
-	//boost::thread *thr = new boost::thread(boost::bind(SendMsgSvc_func, ccs->hContact, msg, (DWORD)ccs->wParam));
 	return returnNoError(ccs->hContact);
 }
 
@@ -964,19 +876,14 @@ int HookSendMsg(WPARAM w, LPARAM l)
 			{
 				if(bDebugLog)
 					debuglog<<std::string(time_str()+": info(autoexchange): protocol looks like icq, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
-				char *proto = GetContactProto(hContact);
-				char svc[64];
-				strcpy(svc, proto);
-				strcat(svc, PS_ICQ_CHECKCAPABILITY);
 
-				if(ServiceExists(svc))
-				{
+				char *proto = GetContactProto(hContact);
+				if(ProtoServiceExists(proto, PS_ICQ_CHECKCAPABILITY)) {
 					if(bDebugLog)
 						debuglog<<std::string(time_str()+": info(autoexchange, icq): checking for autoexchange icq capability, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
 					ICQ_CUSTOMCAP cap = {0};
 					strcpy(cap.caps, "GPG AutoExchange");
-					if(CallService(svc, (WPARAM)hContact, (LPARAM)&cap))
-					{
+					if(CallProtoService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)hContact, (LPARAM)&cap)) {
 						if(bDebugLog)
 							debuglog<<std::string(time_str()+": info(autoexchange, icq): sending key requiest, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
 						CallContactService(hContact, PSS_MESSAGE, (dbei->flags & DBEF_UTF) ? PREF_UTF : 0, (LPARAM)"-----PGP KEY REQUEST-----");

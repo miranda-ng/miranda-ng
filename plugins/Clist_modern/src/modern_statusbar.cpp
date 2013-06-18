@@ -381,10 +381,8 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				
 				if ((p.xStatusMode & 3)) {
 					if (p.ProtoStatus > ID_STATUS_OFFLINE) {
-						char str[MAXMODULELABELLENGTH];
-						mir_snprintf(str, SIZEOF(str), "%s%s", p.AccountName, PS_GETCUSTOMSTATUSICON);
-						if ( ServiceExists(str))
-							p.extraIcon = (HICON)CallService(str, 0, 0);
+						if ( ProtoServiceExists(p.AccountName, PS_GETCUSTOMSTATUSICON))
+							p.extraIcon = (HICON)CallProtoService(p.AccountName, PS_GETCUSTOMSTATUSICON, 0, 0);
 						if (p.extraIcon && (p.xStatusMode & 3) == 3)
 							w += GetSystemMetrics(SM_CXSMICON)+1;
 					}
@@ -467,9 +465,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 			if (p.showProtoIcon) {
 				if (p.ProtoStatus > ID_STATUS_OFFLINE && (p.xStatusMode & 3) > 0) {
-					char str[MAXMODULELABELLENGTH];
-					mir_snprintf(str, SIZEOF(str), "%s%s", p.AccountName, PS_GETCUSTOMSTATUSICON);
-					if ( ServiceExists(str)) {
+					if ( ProtoServiceExists(p.AccountName, PS_GETCUSTOMSTATUSICON)) {
 						hxIcon = p.extraIcon;
 						if (hxIcon) {
 							if ((p.xStatusMode & 3) == 2) {

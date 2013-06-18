@@ -535,7 +535,7 @@ LRESULT CALLBACK MessageSubclassProc(HWND hwnd,UINT message,WPARAM wParam,LPARAM
 //It called when SMS plugin loaded and upon change in the account list.
 int RefreshAccountList(WPARAM eventCode,LPARAM lParam)
 {
-	SIZE_T dwAccCount=0,i,dwSMSAccountsCount=0;
+	int dwAccCount=0,dwSMSAccountsCount=0;
 	PROTOACCOUNT **ppaAccounts;
 
 	ProtoEnumAccounts((int*)&dwAccCount,&ppaAccounts);
@@ -543,22 +543,12 @@ int RefreshAccountList(WPARAM eventCode,LPARAM lParam)
 	FreeAccountList();
 	ssSMSSettings.ppaSMSAccounts=(PROTOACCOUNT**)MEMALLOC((dwAccCount*sizeof(LPVOID)));
 	if (ssSMSSettings.ppaSMSAccounts)
-	{
-		char szServiceName[MAX_PATH];
+		for (int i=0; i < dwAccCount; i++)
+			if ( IsAccountEnabled(ppaAccounts[i]))
+				if ( ProtoServiceExists(ppaAccounts[i]->szModuleName,MS_ICQ_SENDSMS)) 
+					ssSMSSettings.ppaSMSAccounts[dwSMSAccountsCount++] = ppaAccounts[i];
 
-		for (i=0;i<dwAccCount;i++)
-		{
-			if (IsAccountEnabled(ppaAccounts[i]))
-			{
-				mir_snprintf(szServiceName,sizeof(szServiceName),"%s%s",ppaAccounts[i]->szModuleName,MS_ICQ_SENDSMS);
-				if (ServiceExists(szServiceName)) 
-				{
-					ssSMSSettings.ppaSMSAccounts[dwSMSAccountsCount++]=ppaAccounts[i];
-				}
-			}
-		}
-	}
-	ssSMSSettings.dwSMSAccountsCount=dwSMSAccountsCount;
+	ssSMSSettings.dwSMSAccountsCount = dwSMSAccountsCount;
 	SendSMSWindowsUpdateAllAccountLists();
 
 	return 0;

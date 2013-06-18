@@ -51,7 +51,7 @@ void StartSmsSend(HWND hWndDlg,SIZE_T dwModuleIndex,LPWSTR lpwszPhone,SIZE_T dwP
 				pdbei=(DBEVENTINFO*)MEMALLOC((sizeof(DBEVENTINFO)+dwBuffSize));
 				if (pdbei)
 				{
-					char szServiceName[MAX_PATH],szPhone[MAX_PHONE_LEN];
+					char szPhone[MAX_PHONE_LEN];
 					LPSTR lpszBuff=(LPSTR)(pdbei+1);
 					HANDLE hProcess;
 
@@ -65,15 +65,13 @@ void StartSmsSend(HWND hWndDlg,SIZE_T dwModuleIndex,LPWSTR lpwszPhone,SIZE_T dwP
 					pdbei->pBlob=(PBYTE)lpszBuff;
 					SendSMSWindowDbeiSet(hWndDlg,pdbei);
 
-					mir_snprintf(szServiceName,sizeof(szServiceName),"%s%s",ssSMSSettings.ppaSMSAccounts[dwModuleIndex]->szModuleName,MS_ICQ_SENDSMS);
-					if (ServiceExists(szServiceName))
-					{
+					char *szProto = ssSMSSettings.ppaSMSAccounts[dwModuleIndex]->szModuleName;
+					if (ProtoServiceExists(szProto, MS_ICQ_SENDSMS)) {
 						WideCharToMultiByte(CP_UTF8,0,lpwszMessageXMLEncoded,dwMessageXMLEncodedSize,lpszMessageUTF,dwMessageUTFBuffSize,NULL,NULL);
-						hProcess=(HANDLE)CallService(szServiceName,(WPARAM)szPhone,(LPARAM)lpszMessageUTF);
+						hProcess = (HANDLE)CallProtoService(szProto, MS_ICQ_SENDSMS, (WPARAM)szPhone,(LPARAM)lpszMessageUTF);
 						SendSMSWindowHProcessSet(hWndDlg,hProcess);
-					}else{
-						MEMFREE(pdbei);
 					}
+					else MEMFREE(pdbei);
 				}
 				MEMFREE(lpszMessageUTF);
 			}

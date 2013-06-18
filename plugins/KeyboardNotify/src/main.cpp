@@ -783,15 +783,11 @@ void GetWindowsVersion(void)
 
 void updateXstatusProto(PROTOCOL_INFO *protoInfo)
 {
-	unsigned int i;
-	char szServiceName[MAXMODULELABELLENGTH];
-	CUSTOM_STATUS xstatus={0};
-
-	mir_snprintf(szServiceName, sizeof(szServiceName), "%s%s", protoInfo->szProto, PS_GETCUSTOMSTATUSEX);
-	if (!ServiceExists(szServiceName)) return;
+	if (!ProtoServiceExists(protoInfo->szProto, PS_GETCUSTOMSTATUSEX))
+		return;
 
 	// Retrieve xstatus.count
-	xstatus.cbSize = sizeof(CUSTOM_STATUS);
+	CUSTOM_STATUS xstatus = { sizeof(xstatus) };
 	xstatus.flags = CSSF_STATUSES_COUNT;
 	xstatus.wParam = &(protoInfo->xstatus.count);
 	CallProtoService(protoInfo->szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
@@ -802,9 +798,8 @@ void updateXstatusProto(PROTOCOL_INFO *protoInfo)
 	if (!protoInfo->xstatus.enabled)
 		protoInfo->xstatus.count = 0;
 	else
-		for(i=0; i < protoInfo->xstatus.count; i++)
+		for(unsigned i=0; i < protoInfo->xstatus.count; i++)
 			protoInfo->xstatus.enabled[i] = FALSE;
-
 }
 
 

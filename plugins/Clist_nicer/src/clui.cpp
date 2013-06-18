@@ -1384,11 +1384,9 @@ skipbg:
 							}
 							else if (item->dwFlags & BUTTON_ISPROTOSERVICE && cfg::clcdat) {
 								if (contactOK) {
-									char szFinalService[512];
-
-									mir_snprintf(szFinalService, 512, "%s/%s", GetContactProto(hContact), item->szService);
-									if (ServiceExists(szFinalService))
-										CallService(szFinalService, wwParam, llParam);
+									char *szProto = GetContactProto(hContact);
+									if (ProtoServiceExists(szProto, item->szService))
+										CallProtoService(szProto, item->szService, wwParam, llParam);
 									else
 										serviceFailure = TRUE;
 								}
@@ -1708,15 +1706,11 @@ buttons_done:
 						hIcon = Skin_GetIcon(szBuffer);
 					}
 					else if (cfg::dat.bShowXStatusOnSbar && status > ID_STATUS_OFFLINE) {
-						CUSTOM_STATUS cst = {0};
-						char szServiceName[128];
 						int xStatus;
-
-						mir_snprintf(szServiceName, 128, "%s%s", pd->RealName, PS_GETCUSTOMSTATUSEX);
-						cst.cbSize = sizeof(CUSTOM_STATUS);
+						CUSTOM_STATUS cst = { sizeof(cst) };
 						cst.flags = CSSF_MASK_STATUS;
 						cst.status = &xStatus;
-						if (ServiceExists(szServiceName) && !CallService(szServiceName, 0, (LPARAM)&cst) && xStatus > 0)
+						if (ProtoServiceExists(pd->RealName, PS_GETCUSTOMSTATUSEX) && !CallProtoService(pd->RealName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cst) && xStatus > 0)
 							hIcon = (HICON)CallProtoService(pd->RealName, PS_GETCUSTOMSTATUSICON, 0, LR_SHARED);	// get OWN xStatus icon (if set)
 						else
 							hIcon = LoadSkinnedProtoIcon(szProto, status);

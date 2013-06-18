@@ -105,11 +105,9 @@ HANDLE Meta_GetHandle(const char *protocol, DBVARIANT *id)
 	char *field;
 	DBVARIANT dbv;
 	DWORD i,res = 1;
+
 	// Get the field identifying the contact in the database.
-	char str[MAXMODULELABELLENGTH];
-	strcpy(str,protocol);
-	strcat(str,PS_GETCAPS);
-	if ( !ServiceExists(str))
+	if ( !ProtoServiceExists(protocol, PS_GETCAPS))
 		return NULL;
 	
 	field = (char *)CallProtoService(protocol,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
