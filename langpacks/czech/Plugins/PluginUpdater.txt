@@ -93,7 +93,7 @@ Oznámení
 [Component list]
 Seznam komponent
 [Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
-Zde je kompletní seznam dostupných komponent pro Mirandu NG. Zaškrtněte komponenty, které si přejete stáhnot.\n\nKlikněte na informační ikonu pro zobrazení stránky komponenty.
+Zde je kompletní seznam dostupných komponent pro Mirandu NG. Zaškrtněte komponenty, které si přejete stáhnout.\n\nKlikněte na informační ikonu pro zobrazení stránky komponenty.
 [Download]
 Stáhnout
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
