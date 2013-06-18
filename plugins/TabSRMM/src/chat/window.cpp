@@ -1820,7 +1820,6 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			CLCINFOTIP ti = {0};
 			USERINFO *ui1 = NULL;
 			TCHAR ptszBuf[1024];
-			char serviceName[256];
 			POINT pt;
 
 			struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
@@ -1845,7 +1844,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 				if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT))
 					_tcsncpy(ptszBuf, (TCHAR*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID), SIZEOF(ptszBuf));
-				else 
+				else
 					mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s"),
 						TranslateT("Nick"), ui1->pszNick,
 						TranslateT("Unique id"), ui1->pszUID,
