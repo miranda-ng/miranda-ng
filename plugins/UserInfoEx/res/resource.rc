@@ -375,7 +375,7 @@ BEGIN
     GROUPBOX        "Colours",IDC_STATIC,3,4,303,74
     GROUPBOX        "Common",IDC_STATIC,3,79,303,53
     CONTROL         "Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)",CHECK_OPT_CHANGEMYDETAILS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,117,271,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,117,292,10
     GROUPBOX        "TreeView",IDC_STATIC,3,138,303,43
     CONTROL         "Adapt propertysheet pages to aero mode.",CHECK_OPT_AEROADAPTION,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,91,271,10
