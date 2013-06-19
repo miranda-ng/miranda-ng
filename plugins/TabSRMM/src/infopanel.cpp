@@ -1491,15 +1491,12 @@ void CTip::show(const RECT& rc, POINT& pt, const HICON hIcon, const TCHAR *szTit
  */
 void CTip::registerClass()
 {
-	WNDCLASSEX wc;
-
-	ZeroMemory(&wc, sizeof(wc));
+	WNDCLASSEX wc = { 0 };
 	wc.cbSize         = sizeof(wc);
 	wc.lpszClassName  = _T("RichEditTipClass");
 	wc.lpfnWndProc    = (WNDPROC)CTip::WndProcStub;
 	wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
 	wc.cbWndExtra     = sizeof(CTip *);
-	wc.hbrBackground  = 0;
 	wc.style          = CS_GLOBALCLASS | CS_DBLCLKS | CS_PARENTDC;
 	RegisterClassEx(&wc);
 }
@@ -1534,19 +1531,19 @@ LRESULT CALLBACK CTip::RichEditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
  * stub for the tip control window procedure. Just handle WM_CREATE and set the
  * this pointer.
  */
+
 INT_PTR CALLBACK CTip::WndProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CTip *tip = reinterpret_cast<CTip *>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
-
 	if (tip)
-		return(tip->WndProc(hwnd, msg, wParam, lParam));
+		return tip->WndProc(hwnd, msg, wParam, lParam);
 
 	switch(msg) {
 	case WM_CREATE:
 		CREATESTRUCT *cs = reinterpret_cast<CREATESTRUCT *>(lParam);
 		::SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(cs->lpCreateParams));
 	}
-	return(::DefWindowProc(hwnd, msg, wParam, lParam));
+	return ::DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
 /**
@@ -1646,18 +1643,14 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			::SetFocus(m_hRich);
 			switch (((ENLINK *) lParam)->msg) {
 			case WM_LBUTTONUP:
-				{
-					ENLINK *e = reinterpret_cast<ENLINK *>(lParam);
-					const TCHAR *tszUrl = Utils::extractURLFromRichEdit(e, m_hRich);
-					if (tszUrl) {
-						CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM)tszUrl);
-						mir_free(const_cast<TCHAR *>(tszUrl));
-					}
-					::DestroyWindow(hwnd);
-					break;
+				ENLINK *e = reinterpret_cast<ENLINK *>(lParam);
+				const TCHAR *tszUrl = Utils::extractURLFromRichEdit(e, m_hRich);
+				if (tszUrl) {
+					CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM)tszUrl);
+					mir_free(const_cast<TCHAR *>(tszUrl));
 				}
+				::DestroyWindow(hwnd);
 			}
-			break;
 		}
 		break;
 
@@ -1688,5 +1681,5 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 		delete this;
 	}
 
-	return(::DefWindowProc(hwnd, msg, wParam, lParam));
+	return ::DefWindowProc(hwnd, msg, wParam, lParam);
 }
