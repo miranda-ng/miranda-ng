@@ -42,7 +42,6 @@
     <ClCompile Include="modules.cpp" />
     <ClCompile Include="path.cpp" />
     <ClCompile Include="sha1.cpp" />
-    <ClCompile Include="commonheaders.cpp" />
     <ClCompile Include="subclass.cpp" />
     <ClCompile Include="threads.cpp" />
     <ClCompile Include="utf.cpp" />
