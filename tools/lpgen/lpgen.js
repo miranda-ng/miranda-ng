@@ -419,7 +419,7 @@ function ParseRCFile(FileTextVar,array) {
  //now make a job, till end of matching regexp
  while ((string = find.exec(FileTextVar)) != null) {
       // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
-      onestring=string[1].replace(/(List|Tab|Tree|Spin|Custom|Slider)\d/g,"");
+      onestring=string[1].replace(/^((List|Tab|Tree|Spin|Custom|Slider|DateTimePicker|Radio|Check|HotKey|Progress)\d)|(whiterect)$/g,"");
       //if there is double "", replace with single one
       onestring=onestring.replace(/\"{2}/g,"\"");
       //check result. If it does not match [a-z] (no any letter in results, such as "..." or "->") it's a crap, break further actions.
@@ -460,7 +460,7 @@ function filter_T(string) {
 //filter not begin with symbols :.]?;#~{!/_+$
 //var filter1=/^[^\:\]\?\;\#\~\|\{\!\/\_\+\\$].+$/g;
 //filter string starting from following words
-var filter2=/^(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|HKEY_|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|listbox|LISTBOX|combobox|COMBOBOX|DateTimePicker1|Radio1|Check1|HotKey1|whiterect|Progress1|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|\.!\.).*$/g;
+var filter2=/^(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|HKEY_|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|listbox|LISTBOX|combobox|COMBOBOX|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|\.!\.).*$/g;
 //filter string ending with following words
 var filter3=/^.+(001|\/value|\*!\*|=)$/g;
 //filter from Kildor
