@@ -8,6 +8,10 @@ _tag_iconList CSkypeProto::IconList[] =
 	{ LPGENT("Invite to conference"),	"confInvite",		IDI_CONF_INVITE },
 	{ LPGENT("Spawn conference"),		"confSpawn",		IDI_CONF_SPAWN },
 	{ LPGENT("Send contact"),			"sendContacts",		IDI_SEND_CONTACTS },
+	{ LPGENT("Bookmark"),				"bookmark",			IDI_BOOKMARK },
+	{ LPGENT("Delete"),					"delete",			IDI_DELETE },
+	{ LPGENT("Ignore"),					"ignore",			IDI_IGNORE },
+	{ LPGENT("Block"),					"block",			IDI_BLOCK },
 };
 
 void CSkypeProto::InitIcons()

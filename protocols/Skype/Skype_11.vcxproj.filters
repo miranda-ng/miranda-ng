@@ -120,6 +120,9 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\skype_bookmarks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -212,5 +215,9 @@
     <Image Include="res\send_contacts.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
+    <Image Include="res\delete.ico" />
+    <Image Include="res\bookmark.ico" />
+    <Image Include="res\ignore.ico" />
+    <Image Include="res\block.ico" />
   </ItemGroup>
 </Project>

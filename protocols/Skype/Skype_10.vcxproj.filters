@@ -204,10 +204,22 @@
     <None Include="res\conf_invite.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
+    <None Include="res\send_contacts.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
     <None Include="res\conf_spawn.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
-    <None Include="res\send_contacts.ico">
+    <None Include="res\bookmark.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\delete.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\ignore.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\block.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
   </ItemGroup>

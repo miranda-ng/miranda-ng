@@ -21,6 +21,7 @@
 #include <m_clui.h>
 #include <m_core.h>
 #include <m_database.h>
+#include <m_ignore.h>
 #include <m_langpack.h>
 #include <m_message.h>
 #include <m_netlib.h>
@@ -60,18 +61,21 @@
 
 #define BBB_ID_CONF_INVITE 2001
 #define BBB_ID_CONF_SPAWN 2002
+#define BBB_ID_CONF_BOOKMARK 2003
 
 #define SKYPE_DB_EVENT_TYPE_EMOTE 10001
 #define SKYPE_DB_EVENT_TYPE_CONTACTS 10002
 #define SKYPE_DB_EVENT_TYPE_CALL 10010
 
-#define CMI_AUTH_REVOKE 1
-#define CMI_AUTH_REQUEST 2
-#define CMI_AUTH_GRANT 3
-
-#define CMI_TEMS_COUNT 4
+#define CMI_AUTH_REQUEST 1
+#define CMI_AUTH_GRANT 2
+#define CMI_AUTH_REVOKE 3
+#define CMI_CHAT_BOOKMARK 4
+#define CMI_IGNORE 5
+#define CMI_BLOCK 6
 
 #define SMI_CHAT_INVITE 1
+#define SMI_CHAT_BOOKMARKS 2
 
 #include "string_list.h"
 

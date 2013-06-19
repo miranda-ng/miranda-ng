@@ -155,7 +155,9 @@ public:
 	static wchar_t *Roles[];
 
 	ChatRoom(const wchar_t *cid, const wchar_t *name, CSkypeProto *ppro);
-	~ChatRoom();	
+	~ChatRoom();
+
+	HANDLE GetContactHandle() const;
 
 	static void Create(const StringList &invitedMembers, CSkypeProto *ppro, ChatRoomParam *param);
 
@@ -183,6 +185,7 @@ public:
 	void RemoveMember(const wchar_t *sid, DWORD timestamp = time(NULL));
 
 	void OnEvent(const ConversationRef &conversation, const MessageRef &message);
+	void OnChange(const ConversationRef &conversation, int prop);
 
 	void OnParticipantChanged(const ParticipantRef &participant, int prop);
 

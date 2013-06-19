@@ -1,7 +1,7 @@
 #include "skype.h"
 #include "skype_chat.h"
 
-enum CHAT_LIST_MENU 
+enum CHAT_LIST_MENU
 {
 	ICM_CANCEL,
 
@@ -143,6 +143,11 @@ ChatRoom::~ChatRoom()
 	this->members.destroy();
 }
 
+HANDLE ChatRoom::GetContactHandle() const
+{
+	return this->hContact;
+}
+
 void ChatRoom::CreateChatSession(bool showWindow)
 {
 	SEString data;
@@ -222,6 +227,7 @@ void ChatRoom::Start(const ConversationRef &conversation, bool showWindow)
 
 	this->conversation = conversation;
 	this->conversation.fetch();
+	this->conversation->SetChatRoom(this);
 
 	GC_INFO gci = {0};
 	gci.Flags = BYID | HCONTACT;
@@ -230,6 +236,7 @@ void ChatRoom::Start(const ConversationRef &conversation, bool showWindow)
 
 	if ( !::CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci))
 	{
+		this->hContact = gci.hContact;
 		ptrW joinBlob = ::db_get_wsa(gci.hContact, ppro->m_szModuleName, "JoinBlob");
 		if ( joinBlob == NULL)
 		{
@@ -376,7 +383,8 @@ void ChatRoom::AddMember(const ChatMember &item, const ChatMember &author, DWORD
 		{
 			ChatMember *newMember = new ChatMember(item);
 			newMember->participant.fetch();
-			newMember->participant->SetOnChangedCallback(&ChatRoom::OnParticipantChanged, this);
+			newMember->participant->SetChatRoom(this);
+			//newMember->participant->SetOnChangedCallback(&ChatRoom::OnParticipantChanged, this);
 			this->members.insert(newMember);
 
 			this->SendEvent(item, GC_EVENT_JOIN, timestamp, GCEF_ADDTOLOG, 0, ::TranslateW(ChatRoom::Roles[item.GetRank()]));
@@ -389,7 +397,8 @@ void ChatRoom::AddMember(const ChatMember &item, const ChatMember &author, DWORD
 		{
 			this->me->participant = item.participant;
 			this->me->participant.fetch();
-			this->me->participant->SetOnChangedCallback(&ChatRoom::OnParticipantChanged, this);
+			this->me->participant->SetChatRoom(this);
+			//this->me->participant->SetOnChangedCallback(&ChatRoom::OnParticipantChanged, this);
 		}
 		if (this->me->GetRank() != item.GetRank())
 		{
@@ -514,6 +523,12 @@ void ChatRoom::RemoveMember(const wchar_t *sid, DWORD timestamp)
 
 void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &message)
 {
+	if ( !this->conversation)
+		this->conversation = conversation;
+
+	if ( this->conversation != conversation)
+		return;
+
 	uint messageType;
 	messageType = message->GetUintProp(Message::P_TYPE);
 
@@ -729,7 +744,7 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 	//	}
 	//	break;
 
-	case CMessage::STARTED_LIVESESSION:
+	/*case CMessage::STARTED_LIVESESSION:
 		{
 			SEString data;
 
@@ -753,16 +768,16 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 				NULL, 
 				::TranslateT("Incoming group call received"));
 		}
-		break;
+		break;*/
 
 	case CMessage::ENDED_LIVESESSION:
 		{
 			SEString data;
 
-			Message::CONSUMPTION_STATUS status;
-			message->GetPropConsumptionStatus(status);
-			if (status != Message::UNCONSUMED_NORMAL)
-				break;
+			//Message::CONSUMPTION_STATUS status;
+			//message->GetPropConsumptionStatus(status);
+			//if (status != Message::UNCONSUMED_NORMAL)
+			//	break;
 
 			message->GetPropAuthor(data);	
 			ptrW sid = ::mir_utf8decodeW(data);
@@ -771,13 +786,113 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 			message->GetPropTimestamp(timestamp);
 			
 			this->SendEvent(
-				sid, 
+				*this->sys, 
 				GC_EVENT_INFORMATION, 
 				timestamp,
 				GCEF_ADDTOLOG, 
 				0, 
 				NULL, 
 				::TranslateT("Incoming group call finished"));
+		}
+		break;
+	}
+}
+
+void ChatRoom::OnChange(const ConversationRef &conversation, int prop)
+{
+	if ( !this->conversation)
+		this->conversation = conversation;
+
+	if ( this->conversation != conversation)
+		return;
+
+	switch (prop)
+	{
+	case Conversation::P_MY_STATUS:
+		{
+			Conversation::MY_STATUS status;
+			conversation->GetPropMyStatus(status);
+			if (status == Conversation::INVALID_ACCESS_TOKEN)
+			{
+				//todo: password request;
+				CSkypeProto::ShowNotification(::TranslateT("The password is incorrect"), 0, this->hContact);
+				GCDEST gcd = { ppro->m_szModuleName, { NULL }, GC_EVENT_CONTROL };
+				gcd.ptszID = this->cid;
+
+				GCEVENT gce = {0};
+				gce.cbSize = sizeof(GCEVENT);
+				gce.dwFlags = GC_TCHAR;
+				gce.pDest = &gcd;
+				::CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
+				::CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
+			}
+			else if (status == Conversation::APPLICATION_DENIED)
+			{
+				//
+				CSkypeProto::ShowNotification(::TranslateT("Your application to join the conference was denied"), 0, this->hContact);
+				GCDEST gcd = { ppro->m_szModuleName, { NULL }, GC_EVENT_CONTROL };
+				gcd.ptszID = this->cid;
+
+				GCEVENT gce = {0};
+				gce.cbSize = sizeof(GCEVENT);
+				gce.dwFlags = GC_TCHAR;
+				gce.pDest = &gcd;
+				::CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
+				::CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
+			}
+		}
+		break;
+
+	case Conversation::P_IS_BOOKMARKED:
+		{
+			if (conversation->GetBoolProp(Conversation::P_IS_BOOKMARKED))
+				::db_set_b(hContact, this->ppro->m_szModuleName, "IsBookmarked", 1);
+			else
+				::db_unset(hContact, this->ppro->m_szModuleName, "IsBookmarked");
+		
+			if (this->hContact)
+			{
+				BBButton bbd = { sizeof(bbd) };
+				bbd.pszModuleName = MODULE;
+				bbd.bbbFlags = 0;
+				if (::strcmp(::GetContactProto(this->hContact), this->ppro->m_szModuleName) != 0)
+					bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
+				else if (this->ppro->IsChatRoomBookmarked(this->hContact)) 
+					bbd.bbbFlags = BBSF_DISABLED;
+				bbd.dwButtonID = BBB_ID_CONF_BOOKMARK;
+				::CallService(MS_BB_SETBUTTONSTATE, (WPARAM)this->hContact, (LPARAM)&bbd);
+			}
+		}
+		break;
+
+	case Conversation::P_LOCAL_LIVESTATUS:
+		{
+			Conversation::LOCAL_LIVESTATUS liveStatus;
+			conversation->GetPropLocalLivestatus(liveStatus);
+			if (liveStatus == Conversation::RINGING_FOR_ME)
+			{
+				SEString data;
+
+				/*Message::CONSUMPTION_STATUS status;
+				message->GetPropConsumptionStatus(status);
+				if (status != Message::UNCONSUMED_NORMAL)
+					break;*/
+
+				/*message->GetPropAuthor(data);	
+				ptrW sid = ::mir_utf8decodeW(data);*/
+
+				/*uint timestamp;
+				message->GetPropTimestamp(timestamp);*/
+			
+				this->SendEvent(
+					*this->sys, 
+					GC_EVENT_INFORMATION, 
+					time(NULL),
+					GCEF_ADDTOLOG, 
+					0, 
+					NULL, 
+					::TranslateT("Incoming group call received"));
+				}
 		}
 		break;
 	}
@@ -1024,6 +1139,11 @@ bool CSkypeProto::IsChatRoom(HANDLE hContact)
 	return ::db_get_b(hContact, this->m_szModuleName, "ChatRoom", 0) == 1;
 }
 
+bool CSkypeProto::IsChatRoomBookmarked(HANDLE hContact)
+{
+	return ::db_get_b(hContact, this->m_szModuleName, "IsBookmarked", 0) == 1;
+}
+
 HANDLE CSkypeProto::GetChatRoomByCid(const wchar_t *cid)
 {
 	HANDLE hContact = NULL;
@@ -1089,6 +1209,17 @@ void CSkypeProto::InviteToChatRoom(HANDLE hContact)
 		}
 	}	
 	::mir_free(gci.pszID);
+}
+
+void CSkypeProto::BookmarkChatRoom(HANDLE hContact)
+{
+	ptrW cid = ::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID");
+	ChatRoom *room = (ChatRoom *)this->FindChatRoom(cid);
+	if (room != NULL && room->conversation)
+	{
+		bool state = room->conversation->GetBoolProp(Conversation::P_IS_BOOKMARKED);
+		room->conversation->SetBookmark(!state);
+	}
 }
 
 void CSkypeProto::CloseAllChatSessions()
@@ -1448,7 +1579,7 @@ void CSkypeProto:: UpdateChatUserNick(CContact::Ref contact)
 	contact->GetPropFullname(data);
 	ptrW nick(::mir_utf8decodeW(data));
 	if (data.length() == 0)
-		nick = (WCHAR*)sid;		
+		nick = ::mir_wstrdup(sid);
 
 	GC_INFO gci = {0};
 	gci.Flags = BYINDEX | DATA;
@@ -1475,24 +1606,43 @@ INT_PTR __cdecl CSkypeProto::OnJoinChat(WPARAM wParam, LPARAM)
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact)
 	{
-		ptrW joinBlob(::db_get_wsa(hContact, this->m_szModuleName, "JoinBlob"));		
-
-		SEString data;
-		ConversationRef conversation;
-
-		this->GetConversationByBlob(::mir_utf8encodeW(joinBlob), conversation);
-		if (conversation)
+		if (::db_get_w(hContact, this->m_szModuleName, SKYPE_SETTINGS_STATUS, ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 		{
-			conversation->GetPropDisplayname(data);
-			ptrW name(::mir_utf8decodeW(data));
+			ptrW joinBlob(::db_get_wsa(hContact, this->m_szModuleName, "JoinBlob"));
 
-			conversation->GetJoinBlob(data);
-			joinBlob = ::mir_utf8decodeW(data);
-			::db_set_ws(hContact, this->m_szModuleName, "JoinBlob", joinBlob);
+			SEString data;
+			ConversationRef conversation;
+
+			this->GetConversationByBlob(::mir_utf8encodeW(joinBlob), conversation);
+			if (conversation)
+			{
+				conversation->GetPropDisplayname(data);
+				ptrW name(::mir_utf8decodeW(data));
+
+				conversation->GetJoinBlob(data);
+				joinBlob = ::mir_utf8decodeW(data);
+				::db_set_ws(hContact, this->m_szModuleName, "JoinBlob", joinBlob);
 			
+				ptrW cid(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
+				ChatRoom *room = new ChatRoom(cid, name, this);
+				room->Start(conversation, true);
+			}
+		}
+		else
+		{
 			ptrW cid(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
-			ChatRoom *room = new ChatRoom(cid, name, this);
-			room->Start(conversation, true);
+
+			GCDEST gcd = { this->m_szModuleName, { NULL }, GC_EVENT_CONTROL };
+			gcd.ptszID = cid;
+
+			GCEVENT gce = {0};
+			gce.cbSize = sizeof(GCEVENT);
+			gce.dwFlags = GC_TCHAR;
+			gce.pDest = &gcd;
+
+			// show window
+			gcd.iType = GC_EVENT_CONTROL;
+			::CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
 		}
 	}
 	

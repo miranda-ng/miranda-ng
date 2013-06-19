@@ -26,7 +26,14 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 		bbd.dwDefPos = 100 + bbd.dwButtonID;
 		::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 
-		HookEvent(ME_MSG_WINDOWEVENT, &CSkypeProto::OnSrmmWindowOpen);
+		bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
+		bbd.ptszTooltip = ::TranslateT("Bookmark");
+		bbd.hIcon = CSkypeProto::GetIconHandle("bookmark");
+		bbd.dwButtonID = BBB_ID_CONF_BOOKMARK;
+		bbd.dwDefPos = 100 + bbd.dwButtonID;
+		::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
+
+		this->HookEvent(ME_MSG_WINDOWEVENT, &CSkypeProto::OnSrmmWindowOpen);
 	}
 
 	return 0;
@@ -43,6 +50,9 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 		::CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
 
 		bbd.dwButtonID = BBB_ID_CONF_SPAWN;
+		::CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
+
+		bbd.dwButtonID = BBB_ID_CONF_BOOKMARK;
 		::CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
 	}
 
@@ -149,12 +159,20 @@ int __cdecl CSkypeProto::OnSrmmWindowOpen(WPARAM, LPARAM lParam)
 	{ 
 		BBButton bbd = { sizeof(bbd) };
 		bbd.pszModuleName = MODULE;
-		bbd.bbbFlags = (!strcmp( GetContactProto(ev->hContact), this->m_szModuleName)) ? 0 : BBSF_HIDDEN | BBSF_DISABLED;
+		bbd.bbbFlags = (!::strcmp(::GetContactProto(ev->hContact), this->m_szModuleName)) ? 0 : BBSF_HIDDEN | BBSF_DISABLED;
 
 		bbd.dwButtonID = BBB_ID_CONF_INVITE;
 		::CallService(MS_BB_SETBUTTONSTATE, (WPARAM)ev->hContact, (LPARAM)&bbd);
 
 		bbd.dwButtonID = BBB_ID_CONF_SPAWN;
+		::CallService(MS_BB_SETBUTTONSTATE, (WPARAM)ev->hContact, (LPARAM)&bbd);
+
+		bbd.bbbFlags = 0;
+		if (::strcmp(::GetContactProto(ev->hContact), this->m_szModuleName) != 0)
+			bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
+		else if (this->IsChatRoomBookmarked(ev->hContact)) 
+			bbd.bbbFlags = BBSF_DISABLED;
+		bbd.dwButtonID = BBB_ID_CONF_BOOKMARK;
 		::CallService(MS_BB_SETBUTTONSTATE, (WPARAM)ev->hContact, (LPARAM)&bbd);
 	} 
 	return 0; 
@@ -180,6 +198,10 @@ int __cdecl CSkypeProto::OnTabSRMMButtonPressed(WPARAM wParam, LPARAM lParam)
 
 			this->StartChat(targets);
 		}
+		break;
+
+	case BBB_ID_CONF_BOOKMARK:
+		this->SetBookmarkCommand(wParam, 0);
 		break;
 	}
 
@@ -234,47 +256,5 @@ void CSkypeProto::OnMessage(
 
 	//case CMessage::BLOCKED:
 	//	break;
-	}
-}
-
-void CSkypeProto::OnConversationChanged(const ConversationRef &conversation, int prop)
-{
-	if (prop == Conversation::P_LOCAL_LIVESTATUS)
-	{
-		Conversation::LOCAL_LIVESTATUS liveStatus;
-		conversation->GetPropLocalLivestatus(liveStatus);
-		if (liveStatus == Conversation::RINGING_FOR_ME)
-		{
-			SEString data;
-
-			CConversation::TYPE type;
-			conversation->GetPropType(type);
-			if (type == 0 || type == CConversation::DIALOG)
-			{
-				ParticipantRefs participants;
-				conversation->GetParticipants(participants, Conversation::OTHER_CONSUMERS);
-
-				participants[0]->GetPropIdentity(data);
-
-				ContactRef author;
-				this->GetContact(data, author);
-
-				HANDLE hContact = this->AddContact(author);
-		
-				char *message = ::mir_utf8encode(::Translate("Incoming call received"));
-		
-				this->AddDBEvent(
-					hContact,
-					SKYPE_DB_EVENT_TYPE_CALL,
-					time(NULL),
-					DBEF_UTF,
-					(DWORD)::strlen(message) + 1,
-					(PBYTE)message);
-			}
-			//temp popup
-				TCHAR popuptext[MAX_PATH];
-				mir_sntprintf(popuptext, SIZEOF(popuptext), TranslateT("Incoming call from %s. Use offical skype for calling."), ptrW(::mir_utf8decodeW(data)));
-				this->ShowNotification(popuptext);
-		}
 	}
 }

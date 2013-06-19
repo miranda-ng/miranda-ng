@@ -275,6 +275,7 @@ protected:
 
 	// chat
 	bool IsChatRoom(HANDLE hContact);
+	bool IsChatRoomBookmarked(HANDLE hContact);
 	HANDLE GetChatRoomByCid(const wchar_t *cid);
 	HANDLE AddChatRoom(CConversation::Ref conversation);
 
@@ -291,6 +292,7 @@ protected:
 	void StartChat();
 	void StartChat(StringList &invitedContacts);
 	void InviteToChatRoom(HANDLE hContact);
+	void BookmarkChatRoom(HANDLE hContact);
 
 	void CloseAllChatSessions();
 
@@ -430,8 +432,7 @@ protected:
 	// menus
 	HGENMENU m_hMenuRoot;
 	static HANDLE hChooserMenu;
-	static HANDLE contactMenuItems[CMI_TEMS_COUNT];
-	static HANDLE contactMenuServices[CMI_TEMS_COUNT];
+	static std::map<int, HANDLE> contactMenuItems;
 
 	virtual	int __cdecl RequestAuth(WPARAM, LPARAM);
 	virtual	int __cdecl GrantAuth(WPARAM, LPARAM);
@@ -441,7 +442,13 @@ protected:
 
 	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
 
+	INT_PTR __cdecl IgnoreCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl BlockCommand(WPARAM, LPARAM);
+
 	INT_PTR __cdecl InviteCommand(WPARAM, LPARAM);
+
+	INT_PTR __cdecl SetBookmarkCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl ShowBookmarksCommand(WPARAM, LPARAM);
 
 	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 	int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
@@ -471,6 +478,8 @@ protected:
 	static INT_PTR CALLBACK ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
+	static INT_PTR CALLBACK SkypeBookmarksProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+
 	// skype runtime
 	char *LoadKeyPair();
 	int StartSkypeRuntime(const wchar_t *profileName);
@@ -488,6 +497,4 @@ protected:
 
 	int __cdecl OnMessagePreCreate(WPARAM, LPARAM);
 	int __cdecl OnTabSRMMButtonPressed(WPARAM, LPARAM);
-
-	void OnConversationChanged(const ConversationRef &conversation, int prop);
 };
