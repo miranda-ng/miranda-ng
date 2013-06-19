@@ -432,7 +432,7 @@ protected:
 	// menus
 	HGENMENU m_hMenuRoot;
 	static HANDLE hChooserMenu;
-	static std::map<int, HANDLE> contactMenuItems;
+	static std::map<size_t, HANDLE> contactMenuItems;
 
 	virtual	int __cdecl RequestAuth(WPARAM, LPARAM);
 	virtual	int __cdecl GrantAuth(WPARAM, LPARAM);
@@ -442,12 +442,12 @@ protected:
 
 	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
 
-	INT_PTR __cdecl IgnoreCommand(WPARAM, LPARAM);
-	INT_PTR __cdecl BlockCommand(WPARAM, LPARAM);
+	int __cdecl IgnoreCommand(WPARAM, LPARAM);
+	int __cdecl BlockCommand(WPARAM, LPARAM);
 
 	INT_PTR __cdecl InviteCommand(WPARAM, LPARAM);
 
-	INT_PTR __cdecl SetBookmarkCommand(WPARAM, LPARAM);
+	int __cdecl SetBookmarkCommand(WPARAM, LPARAM);
 	INT_PTR __cdecl ShowBookmarksCommand(WPARAM, LPARAM);
 
 	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);

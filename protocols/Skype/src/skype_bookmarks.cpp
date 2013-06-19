@@ -1,7 +1,7 @@
 #include "skype.h"
 #include "skype_chat.h"
 
-INT_PTR CSkypeProto::SetBookmarkCommand(WPARAM wParam, LPARAM)
+int CSkypeProto::SetBookmarkCommand(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if (this->IsOnline() && this->IsChatRoom(hContact))
@@ -123,7 +123,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeBookmarksProc(HWND hwndDlg, UINT msg, WPARAM 
 
 				LVITEM lvi = {0};
 				lvi.mask = LVIF_GROUPID | LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
-				lvi.iItem = i;
+				lvi.iItem = (int)i;
 				lvi.iGroupId = 1;
 				lvi.iImage = 0;
 				lvi.lParam = (LPARAM)conversation.fetch();

@@ -1,7 +1,7 @@
 #include "skype.h"
 
 HANDLE CSkypeProto::hChooserMenu;
-std::map<int, HANDLE> CSkypeProto::contactMenuItems;
+std::map<size_t, HANDLE> CSkypeProto::contactMenuItems;
 
 INT_PTR CSkypeProto::MenuChooseService(WPARAM wParam, LPARAM lParam)
 {
@@ -150,7 +150,7 @@ int CSkypeProto::RevokeAuth(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CSkypeProto::IgnoreCommand(WPARAM wParam, LPARAM)
+int CSkypeProto::IgnoreCommand(WPARAM wParam, LPARAM)
 {
 	CContact::Ref contact;
 	HANDLE hContact = (HANDLE)wParam;
@@ -168,7 +168,7 @@ INT_PTR CSkypeProto::IgnoreCommand(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-INT_PTR CSkypeProto::BlockCommand(WPARAM wParam, LPARAM)
+int CSkypeProto::BlockCommand(WPARAM wParam, LPARAM)
 {
 	CContact::Ref contact;
 	HANDLE hContact = (HANDLE)wParam;
