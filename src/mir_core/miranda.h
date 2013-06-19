@@ -90,6 +90,10 @@ TCHAR* LangPackTranslateStringT(int hLangpack, const TCHAR* tszEnglish);
 
 HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name);
 
+/**** subclass.cpp *********************************************************************/
+
+void UninitSubclassing();
+
 /**** threads.cpp **********************************************************************/
 
 extern DWORD mir_tls;

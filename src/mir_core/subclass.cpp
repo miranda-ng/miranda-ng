@@ -33,6 +33,11 @@ struct MSubclassData
 
 static LIST<MSubclassData> arSubclass(10, LIST<MSubclassData>::FTSortFunc(HandleKeySortT));
 
+void UninitSubclassing()
+{
+	arSubclass.destroy();
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static LRESULT CALLBACK MSubclassWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

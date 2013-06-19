@@ -131,6 +131,8 @@ typedef struct _foundInfo
 void ClearFI();
 
 void InitFingerModule(void);
+void UninitFingerModule(void);
+
 int  OnOptInitialise(WPARAM wParam, LPARAM lParam);
 int  OnExtraImageApply(WPARAM wParam, LPARAM lParam);
 
