@@ -6,14 +6,14 @@
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
-
+OTR (Mimo záznam) doplněk pro Mirandu NG (používá některé části kódu a nápady ze SecureIM, Pidgin-OTR a starého Miranda OTR (autor SJE)).
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
 [OTR Generating Private Key]
-
+Generování privátního klíče OTR
 [Generating new private key - please wait.]
-
+Generování nového privátního klíče - prosím čekejte.
 [Default Policy]
-Výchozí metoda
+Výchozí aktivace
 [Always]
 Vždy
 [Opportunistic]
@@ -23,67 +23,67 @@ Ručně
 [Never]
 Nikdy
 [End sessions on window close]
-
+Ukončit relaci při zavření okna
 [End sessions when contacts go offline]
-
+Ukončit relaci při odhlášení kontaktu
 [Prefix encrypted IMs:]
-
+Prefix šifrovaných zpráv:
 [Don't add encrypted messages to the history]
-
+Nepřidávat šifrované zprávy do historie
 [Also remove OTR system messages]
-
+Také odstranit systémové zprávy OTR
 [Show OTR system messages inline]
-
+Systémové zprávy OTR zobrazovat v okně
 [Show OTR system messages as popup]
-
+Systémové zprávy OTR zobrazovat jako oznámení
 [Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
-
+Přepnout UKONČENÉ relace zpět do NEŠIFROVANÉ podoby (BUĎTE OPATRNÍ!)
 [Show verification dialog when receiving unverified fingerprint]
-
+Zobrazit ověřovací dialog při přijetí neověřeného klíče
 [Set OTR policy per protocol]
-
+Nastavit aktivaci šifrování (OTR) pro každý protokol zvlášť
 [Current policy:]
-
+Zvolit aktivaci:
 [Generate new private key]
-
+Vygenerovat nový privátní klíč
 [Forget private key]
-
+Zapomenout privátní klíč
 [Set OTR policy per contact]
-
+Nastavit aktivaci šifrování (OTR) pro každý kontakt zvlášť
 [View & Modify status of known fingerprints]
-
+Zobrazit a spravovat známé otisky
 [Set verified]
-
+Je ověřený
 [Set unknown]
-
+Není ověřený
 [Forget]
 Zapomenout
 [Socialist Millionaires Protocol]
-
+Socialistický milionářský protokol
 [Socialist Millionaires Protocol\r\nVerification progress]
-
+Socialistický milionářský protokol\r\nOvěřovací proces
 [&Cancel]
 &Zrušit
 [&OK]
 &OK
 [Socialist Millionaires Protocol\r\nVerification]
-
+Socialistický milionářský protokol\r\nOvěření
 [&No]
 &Ne
 [&Yes]
 &Ano
 [MirOTR]
-
+MirOTR
 [OTR status]
-
+Stav šifrování (OTR)
 [&Start OTR session]
-
+Šifrovat relaci (OTR)
 [&Refresh OTR session]
-
+Obnovit šifrovanou relaci (OTR)
 [Sto&p OTR session]
-
+Zrušit šifrovanou relaci (OTR)
 [&Verify Fingerprint]
-
+Ověřit otisk
 ;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
 Šifrovat spojení (OTR)
@@ -94,71 +94,71 @@ Ano
 [No]
 Ne
 [OTR status (Click for more options)]
-
+Stav šifrování (OTR) (klikněte pro více možností)
 [OTR Encryption: Disabled]
-
+Šifrování (OTR): Vypnuto
 [OTR Encryption: UNVERIFIED]
-
+Šifrování (OTR): Neověřeno
 [OTR Encryption: Private]
-
+Šifrování (OTR): Privátní
 [OTR Encryption: Finished]
-
+Šifrování (OTR): Ukončeno
 [&Convert HTML (for Pidgin)]
-
+&Konvertovat HTML (pro Pidgin)
 [OTR encrypted session with '%s' has been terminated]
-
+Šifrovaná relace (OTR) s '%s' byla ukončena
 [Requesting OTR encrypted session with '%s']
-
+Žádost o šifrovanou relaci (OTR) s '%s'
 [Beginning OTR encrypted session with '%s']
-
+Zahájena šifrovaná relace (OTR) s '%s'
 [Beginning OTR encrypted session with '%s' (NOT VERIFIED)]
-
+Zahájena šifrovaná relace (OTR) s '%s' (NEOVĚŘENO)
 [Trying to refresh OTR encrypted session with '%s']
-
+Pokus o obnovení šifrované relace (OTR) s '%s'
 [OTR encrypted session was refreshed by '%s']
-
+Obnovena šifrovaná relace (OTR) kontaktem '%s'
 [OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
-
+Obnovena šifrovaná relace (OTR) kontaktem '%s' (NEOVĚŘENO)
 [OTR encrypted session with '%s' sucessfully refreshed]
-
+Obnovena šifrovaná relace (OTR) s '%s'
 [OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)]
-
+Obnovena šifrovaná relace (OTR) s '%s' (NEOVĚŘENO)
 [OTR encrypted session has been terminated by '%s'. You should do that, too!]
-
+Ukončena šifrovaná relace (OTR) kontaktem '%s'. Měli byste udělat to samé!
 [OTR encrypted session with '%s' could not be started]
-
+Šifrovaná relace (OTR) s '%s' nemůže být zahájena
 [OTR could not encrypt when sending message]
-
+Šifrování (OTR) nemůže proběhnout při posílání zpráv
 [OTR Information]
-
+Šifrování (OTR)
 [[OTR INFO] ]
 
 [Authentication from %s]
-
+Ověření od %s
 [Authenticae %s]
-
+Ověřit %s
 [Unknown]
 neznámý
 [OTR: %s (%s)]
-
+Šifrování (OTR): %s (%s)
 [OTR %s (%s)]
-
+Šifrování (OTR) %s (%s)
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
-
+Šifrovaná relace (OTR) s '%s' nyní používá OVĚŘENÝ otisk
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
-
+Šifrovaná relace (OTR) s '%s' nyní používá NEOVĚŘENÝ otisk
 [OTR unverified]
-
+Neověřeno (OTR)
 [OTR finished]
-
+Ukončeno (OTR)
 [OTR private]
-
+Privátní (OTR)
 [OTR not secure]
-
+Nezabezpečeno (OTR)
 [OTR]
-Mimo záznam
+Šifrování (OTR)
 [Generating new private key for protocol '%s'.\nPlease Wait...]
-
+Generování nového privátního klíče pro protokol '%s'.\nProsím čekejte...
 [General]
 Obecné
 [Protocols]
@@ -166,92 +166,92 @@ Protokoly
 [Contacts]
 Kontakty
 [Fingerprints]
-
+Otisky
 [Contact]
 Kontakt
 [Protocol]
 Protokol
 [Policy]
-Metoda
+Aktivace
 [Verified]
-
+Ověřeno
 [Active]
 Aktivní
 [Fingerprint]
-
+Otisk
 [Conv. HTML]
-
+Konv. HTML
 [Default]
 Výchozí
 [Generating new key for '%s'. Continue?]
-
+Generování nového klíče pro '%s'. Pokračovat?
 [Removing key for '%s'. Continue?]
-
+Odstraňování klíče pro '%s'. Pokračovat?
 [OTR Fingerprint Verification]
-
+Ověření otisku (OTR)
 [OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is NOT VERIFIED.\nDo you trust it?]
-
+Šifrovaná relace (OTR) s '%s'.\nOtisk (OTR) vašeho kontaktu NENÍ OVĚŘEN.\nDůvěřujete mu?
 [OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is already verified.\nDo you still trust it?]
-
+Šifrovaná relace (OTR) s '%s'.\nOtisk (OTR) vašeho kontaktu je již ověřen.\nStále mu důvěřujete?
 [Your Fingerprint to tell your contact (use a trusted channel!)]
-
+Váš otisk k zaslání vašemu kontaktu (použijte bezpečný kanál!)
 [VERIFY: Fingerprint from contact]
-
+OVĚŘENÍ: Otisk kontaktu
 [OTR Authenticate: %s (%s)]
-
+Ověření (OTR): %s (%s)
 [Challenge Question]
-
+Otázka
 [Known Password]
-
+Známé heslo
 [Manual fingerprint comparison]
-
+Ruční porovnání otisku
 [Secret Answer]
-
+Tajná odpověď
 [Question]
 Otázka
 [Password]
 Heslo
 [Authentication sucessful.]
-
+Úspěšně ověřeno.
 [You contact authenticated you sucessful. You can send your own request to authenticate him.]
-
+Váš kontakt vás úspěšně ověřil. Můžete zaslat vlastní požadavek pro ověření jeho.
 [Error during authentication.]
-
+Nastala chyba během ověřování.
 [Authentication failed]
-
+Ověřování selhalo
 [Authentication for '%s' is already in progress.]
-
+Ověřování '%s' již probíhá.
 [OTR Authenticating: %s (%s)]
-
+Ověřování (OTR): %s (%s)
 [Authenticating contact:\n%s (%s)]
-
+Ověřování kontaktu:\n%s (%s)
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a question only your partner can answer.]
-
+Šifrovaná relace (OTR) s '%s' (NEOVĚŘENO).\nMůžete ověřit relaci použitím otázky.
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a question only your partner can answer.]
-
+Šifrovaná relace (OTR) s '%s' (OVĚŘENO).\nMůžete znovu ověřit relaci použitím otázky.
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a known password.]
-
+Šifrovaná relace (OTR) s '%s' (NEOVĚŘENO).\nMůžete ověřit relaci použitím známého hesla.
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a known password.]
-
+Šifrovaná relace (OTR) s '%s' (OVĚŘENO).\nMůžete znovu ověřit relaci použitím známého hesla.
 [Your contact '%s' wants to verify your identity with a question only you can answer.]
-
+Váš kontakt '%s' si přeje ověřit vaši identitu otázkou, kterou dokážete zodpovědět pouze vy.
 [Your contact '%s' wants to verify your identity with a secret password you should know.]
-
+Váš kontakt '%s' si přeje ověřit vaši identitu tajným heslem, které by vám mělo být známo.
 [Fingerprint '%s' still in use in conversation with '%s' (%s). You cannot delete it!]
-
+Otisk '%s' se stále používá v konverzaci s '%s' (%s). Nemůžete jej smazat!
 [Fingerprint '%s' in use in conversation with '%s' (%s). It could not be deleted!]
-
+Otisk '%s' se používá v konverzaci s '%s' (%s). Nemůže být smazán!
 [Cannot start OTR for '%s'. SecureIM is already running]
-
+Nelze zahájit šifrování (OTR) pro '%s'. Již se používá SecureIM
 [OTR: SecureIM installed]
-
+Šifrování (OTR): použito SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
-
+Používáte SecureIM. MirOTR funguje pouze pro kontakty s vypnutým SecureIM
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 [OTR Status]
-
+Stav šifrování (OTR)
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
 [Private Data]
-
+Privátní data
 [Services]
 Služby
