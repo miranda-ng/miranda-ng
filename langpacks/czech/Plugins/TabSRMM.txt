@@ -661,8 +661,6 @@ Zavřít klávesou ESC (jinak minimalizuje okno)
 Vždy vyvolat a aktivovat nové komunikační okno
 [Create new windows in minimized state]
 Vytvářet nová okna minimalizovaně
-[Check1]
-
 [Send on Shift+Enter]
 Odeslat zprávu pomocí SHIFT+ENTER
 [Send message on Enter]

@@ -10,8 +10,6 @@
 ;file \plugins\wbOSD\res\wbOSD.rc
 [Dialog]
 Dialog
-[Radio1]
-
 [Select font]
 
 [Text color]

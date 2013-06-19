@@ -8,7 +8,6 @@
 [Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
 [Importing...\nPlease wait!]
 [Setting/Event (20/100)]
-[Progress1]
 [John Doe (1/10)]
 [Use &unknown flag if country can not be determined]
 [Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]

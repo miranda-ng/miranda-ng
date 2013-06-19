@@ -98,8 +98,6 @@ Tip:
 Máte-li problémy s přenosem souborů, vypněte všechny výše uvedené možnosti. Na druhou stranu to může zamezit přenosu velkých souborů.
 [Jabber Account Registration]
 Jabber :: Registrace účtu
-[Progress1]
-
 [Jabber Agents]
 Jabber :: Transporty
 [Register/Search Jabber Agents]
@@ -1795,8 +1793,8 @@ Změny vztahu
 Změny funkce
 [Status changes]
 Změny stavu
-[Filter history messages]
-Filtrovat staré zprávy
+[Don't notify history messages]
+Neoznamovat staré zprávy
 [JID]
 Identifikátor
 [Nick Name]

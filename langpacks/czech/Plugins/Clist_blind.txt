@@ -26,8 +26,6 @@ Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
 Klávesové zkratky
 [Show/Hide:]
 Zobrazit/Skrýt:
-[HotKey1]
-Klávesa1
 [Read Message:]
 Přečíst zprávu:
 [Web Search:]

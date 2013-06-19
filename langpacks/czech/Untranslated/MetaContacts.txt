@@ -1,5 +1,4 @@
 ﻿[Merges contacts from the same or different protocols into one.]
-[Progress1]
 [Subcontact Priorities]
 [Rank:]
 [(Lower ranks are preferred)]

@@ -42,8 +42,6 @@ Soubor
 Prohlížeč souborů
 [Exporting old messages]
 Export starých zpráv
-[Progress1]
-
 [History file for %s (%s format %s)]
 
 [&Find...]

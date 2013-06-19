@@ -212,8 +212,6 @@ Po spuštění potvrzovat stav
 Přidat položku do hlavní nabídky
 [Status Profiles]
 Startovní profily
-[HotKey1]
-Klávesa1
 [Hotkey]
 Klávesy
 [In submenu]

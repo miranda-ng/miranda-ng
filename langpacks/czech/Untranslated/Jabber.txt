@@ -1,5 +1,4 @@
-﻿[Progress1]
-[Data form test]
+﻿[Data form test]
 [HTTP Authorization\nAccept or reject incoming request]
 [Someone (maybe you) has requested the following file:]
 [Request was sent from JID:]

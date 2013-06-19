@@ -1113,4 +1113,3 @@ Vrátí zpět výchozí režim zobrazení
 Výchozí režim zobrazení
 [View Modes]
 Pohledy
-;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

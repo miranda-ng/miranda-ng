@@ -36,8 +36,6 @@ Jiný pr&ofil...
 &Soubor:
 [Now importing...]
 Import dat...
-[Progress1]
-
 [Import Information Wizard]
 Průvodce importem dat
 [&Next >]

@@ -2,14 +2,14 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.0.0.1
-;  Authors: Unsane, Mataes
+;  Version: 0.11.0.1
+;  Authors: unsane, mataes, ghazan
 ;============================================================
 [Skype protocol support for Miranda NG.]
 Skype protokol pro Mirandu NG.
 ;file \protocols\Skype\res\Resource.rc
-[Invite Contact To Chat]
-Pozvat k diskusi
+[Invite contacts to conference]
+Pozvat kontakty do konference
 [sid]
 SID
 [&Invite]
@@ -18,6 +18,38 @@ SID
 &Zrušit
 [Add]
 Přidat
+[Create conference]
+Vytvořit konferenci
+[Skype name:]
+Uživatelské jméno:
+[&Create]
+&Vytvořit
+[Topic:]
+Téma:
+[Guidline:]
+
+[Enable joining]
+
+[Users joining as:]
+
+[Create with password]
+Zabezpečit heslem
+[Password:]
+Heslo:
+[Confirmation:]
+Potvrzení:
+[Password hint:]
+Nápověda k heslu:
+[Configure conference]
+Spravovat konferenci
+[&OK]
+&OK
+[Join role:]
+
+[Set password]
+Nastavit heslo
+[Hint:]
+Tip:
 [Enter password]
 Zadejte heslo
 [Enter a password for skype name %d:]
@@ -28,8 +60,6 @@ Zapamatovat heslo této relace
 OK
 [Cancel]
 Zrušit
-[Skype name:]
-Uživatelské jméno:
 [Status text:]
 Stavová zpráva:
 [Online since:]
@@ -74,20 +104,14 @@ Země:
 Časové pásmo:
 [Change password]
 Změnit heslo
-[Old password]
-Aktuální heslo
-[New password]
-Nové heslo
-[Confirmation]
-Potvrzení
-[Password:]
-Heslo:
+[Old password:]
+Aktuální heslo:
+[New password:]
+Nové heslo:
 [Register new account]
 Zaregistrovat nový účet
-[User Details]
-Informace o uživateli
-[Skype login:]
-Uživatelské jméno:
+[Account]
+Účet
 [Connection]
 Spojení
 [Use port]
@@ -99,14 +123,8 @@ Alternativně použít porty 80 a 443 pro příchozí připojení
 [Default group:]
 Výchozí skupina:
 ;file \protocols\Skype\src\skype.cpp
-[Proccess SkypeKit.exe did not start.]
-Proces SkypeKit.exe nebyl spuštěn.
-[Initialization key corrupted or not valid.]
-Inicializační klíč je poškozen nebo není platný.
-[SkypeKit did not initialize.]
-SkypeKit nebyl inicializován.
-[SkypeKit did not start.]
-SkypeKit nebyl spuštěn.
+[Did not unpack SkypeKit.exe.]
+
 ;file \protocols\Skype\src\skype_account.cpp
 [LOGOUT_CALLED]
 
@@ -174,23 +192,61 @@ Nové heslo bylo úplně stejné jako staré
 Nové heslo nebylo akceptovatelné
 [Account was currently not logged in]
 
-[You have not entered a Skype name.\n						Configure this in Options->Network->Skype and try again.]
+[You have not entered a Skype name.\nConfigure this in Options->Network->Skype and try again.]
 
 ;file \protocols\Skype\src\skype_chat.cpp
-[&Invite user...]
-Pozvat k d&iskusi...
-[&Leave chat session]
-&Opustit diskusi
-[User &details]
-&Detaily uživatele
-[User &history]
-Zobrazit &historii
+[&User details]
+Informace o &uživateli
+[&Request auth]
+Požádat o auto&rizaci
+[Invite to conference]
+Pozvat do konference
+[Set &role]
+Určit &roli
+[&Master]
+&Správce
+[&Helper]
+&Pomocník
+[&User]
+&Uživatel
+[&Listener]
+Pos&luchač
+[&Add]
+Přid&at
+[&Kick]
+Vy&kopnout
+[Outlaw (&ban)]
+Zakázaný (&ban)
+[Copy &skypename]
+Zkopírovat Skype jméno
+[Copy room &uri]
+Zkopírovat &URI místnosti
+[me]
+já
+[Incoming group call received]
+Příchozí skupinové volání
+[Incoming group call finished]
+Příchozí skupinové volání ukončeno
+[You did not select any contact]
+Nevybrali jste žádný kontakt
+[Hi! I'd like to add you to my contact list]
+Ahoj! Chtěl bych si tě přidat do svého seznamu kontaktů
 ;file \protocols\Skype\src\skype_contacts.cpp
 [Contact already in your contact list]
 Kontakt je již ve vašem seznamu
+[Contacts received]
+Přijaty kontakty
 ;file \protocols\Skype\src\skype_dialogs.cpp
 [Enter a password for Skype Name %s:]
 Zadejte heslo pro uživatelské jméno %s:
+[Password can't be empty.]
+Heslo nemůže být prázdné.
+[Old password is not correct.]
+Aktuální heslo není správné.
+[New password is same as old password.]
+Nové heslo se shoduje s aktuálním.
+[New password and confirmation must be same.]
+Nové heslo a potvrzení se musí shodovat.
 [<not specified>]
 <neurčeno>
 [Male]
@@ -199,48 +255,55 @@ muž
 žena
 [You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
 
+;file \protocols\Skype\src\skype_events.cpp
+[Spawn conference]
+Vytvořit konferenci
+[Network]
+Sítě
 [Contacts]
 Kontakty
 [Home]
 Domov
 [General]
 Obecné
-[You did not select any contact]
-Nevybrali jste žádný kontakt
-;file \protocols\Skype\src\skype_events.cpp
-[Network]
-Sítě
-[Account]
-Účet
-[Incoming call]
+[Incoming call received]
 Příchozí volání
+[Incoming call from %s. Use offical skype for calling.]
+Příchozí volání od %s. Použijte oficiální Skype pro hovory.
 ;file \protocols\Skype\src\skype_icons.cpp
 [Protocol icon]
 Ikona protokolu
 [Call]
 Volat
-[Invite to conference]
-Pozvat do konference
+[Send contact]
+Odeslat kontakt
+[Protocols]
+Protokoly
+;file \protocols\Skype\src\skype_instances.cpp
+[SkypeKit will only permit you to login to one account at a time.\nAdding multiple instances of SkypeKit is prohibited in the licence agreement and standard distribution terms.]
+SkypeKit dovoluje přihlášení pouze z jednoho účtu v jednu chvíli.\nPoužití více instancí SkypeKitu je zakázáno licenčními a distribučními podmínkami.
+[Initialization key corrupted or not valid.]
+Inicializační klíč je poškozen nebo není platný.
+[SkypeKit did not initialize (%d).]
+SkypeKit nebyl inicializován (%d).
+[SkypeKit did not start.]
+SkypeKit nebyl spuštěn.
+;file \protocols\Skype\src\skype_menus.cpp
 [Revoke authorization]
 Odvolat autorizaci
 [Request authorization]
 Požádat o autorizaci
 [Grant authorization]
 Udělit autorizaci
-[Protocols]
-Protokoly
-;file \protocols\Skype\src\skype_instances.cpp
-[SkypeKit will only permit you to login to one account at a time. 						  Adding multiple instances of SkypeKit is prohibited in the licence 						  agreement and standard distribution terms.]
-
-;file \protocols\Skype\src\skype_menus.cpp
-[Hi! I'd like to add you to my contact list]
-Ahoj! Chtěl bych si tě přidat do svého seznamu kontaktů
+;file \protocols\Skype\src\skype_messages.cpp
+[Incoming call finished]
+Příchozí volání ukončeno
 ;file \protocols\Skype\src\skype_netlib.cpp
 [%s connection]
 %s - spojení se serverem
 ;file \protocols\Skype\src\skype_proto.cpp
-[g_skype Name]
-
+[Skype Name]
+Skype jméno
 ;file \protocols\Skype\src\skype_utils.cpp
 [NOT_VALIDATED]
 
@@ -266,5 +329,3 @@ Heslo je příliš jednoduché
 
 [Avatars]
 Avatary
-[Skype Protocol]
-Skype protokol

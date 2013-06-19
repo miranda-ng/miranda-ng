@@ -1,5 +1,4 @@
 ﻿[Shows new message/status change info using onscreen display.]
-[Radio1]
 [Select font]
 [Shadow color]
 [Alternative shadow]

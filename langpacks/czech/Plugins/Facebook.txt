@@ -236,8 +236,6 @@ Požádat o přátelství
 Potvrdit přátelství
 [Mind...]
 Stavová zpráva...
-[Visit Profile]
-Zobrazit profil
 [Services...]
 Služby
 [Refresh Buddy List]

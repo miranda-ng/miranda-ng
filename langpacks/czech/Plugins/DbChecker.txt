@@ -8,8 +8,6 @@
 [Miranda NG Database Checker.]
 Kontrola databáze Mirandy NG.
 ;file \plugins\DbChecker\res\resource.rc
-[whiterect]
-
 [Welcome to the Miranda Database Wizard]
 Vítá vás průvodce správou databáze Mirandy!
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
@@ -80,8 +78,6 @@ Převede všechny zprávy v historii z původní kombinace kódování ANSI+UCS2
 Probíhá údržba...
 [Please wait while the requested operations are being performed.]
 Počkejte prosím, správce provádí požadovanou údržbu databáze.
-[Progress1]
-
 [Finished!]
 Dokončeno!
 [All tasks have been completed.]

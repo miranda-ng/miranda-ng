@@ -1,6 +1,5 @@
 ﻿[Imports contacts and messages from another Miranda profile or from an external program.]
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
-[Progress1]
 [Custom import]
 [Select this if you want to customize what to import.]
 [New contacts && groups]

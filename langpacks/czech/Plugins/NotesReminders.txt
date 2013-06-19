@@ -56,8 +56,6 @@ Přidat připomínku
 Da&tum a čas vyvolání
 [Date]
 Datum
-[DateTimePicker1]
-
 [Time]
 Čas
 [Reminder Note:]

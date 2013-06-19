@@ -1,5 +1,4 @@
 ﻿[Allows you to send a message to contacts if they change status.]
-[Check1]
 [Default Settings]
 [These settings are also used when sending a "Simple" pounce]
 [Couldnt Allocate enough memory]

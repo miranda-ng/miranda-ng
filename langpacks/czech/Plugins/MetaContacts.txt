@@ -82,8 +82,6 @@ Použít jméno prvního kontaktu
 avšak pouze pro aktuální rozhovor
 [History Copy]
 Kopírování historie
-[Progress1]
-
 [Please wait while the contact's history is copied.]
 Prosím čekejte, historie kontaktu se kopíruje.
 [History Remove]

@@ -76,8 +76,6 @@ Zvuk č.2
 Zvuk č.3
 [Speak]
 Přečíst
-[DateTimePicker1]
-
 [Occurrence]
 Opakování
 [Once]
