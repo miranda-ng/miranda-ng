@@ -1,29 +1,71 @@
 @echo off
-
-REM You can run this script either from "tools\lpgen\" folder or from "langpacks\<your_langpack>\"
+cls
 
 echo ========================
-echo Langpack refresher
-echo Author: Robyer
+echo    Langpack refresher
+echo      Author: Robyer
 echo ========================
+echo.
 
-echo Set your variables in script and remove this line. & PAUSE & goto end
+set err=0
+if "%~1" == "" (
+	echo ERROR: You must specify language parameter!
+	set err=1
+) else (
+	set "language=%~1"
+	
+	if not exist "..\..\langpacks\%language%" (
+		echo ERROR: This language doesn't exists!
+		set err=1
+		goto usage
+	)
+)
 
-REM === VARIABLES TO SET ===
+if not "%~3" == "" (
+	echo ERROR: You must specify 1 or 2 parameters only.
+	echo NOTE: If you have path with spaces inside, suround it with "".
+	set err=1
+	goto usage
+)
 
-set "language=czech"												& REM name of language from "langpacks\" folder
-set "useOldLangpack=yes" 											& REM "yes" or "no", if "yes" make sure you correctly set path to old langpack file below
-set "oldLangpackPath=Deprecated\old langpack\langpack_czech2.txt" 	& REM old langpack is searched in "langpacks\<your_langpack>\" folder
+if not "%~2" == "" (
+	set "oldLangpackPath=%~2"
+	
+	if not exist "..\..\langpacks\%language%\%oldLangpackPath%" (
+		echo ERROR: Old langpack file doesn't exists!
+		set err=1
+		goto usage
+	)
+)
+
+:usage
+if "%err%"=="1" (
+	echo.
+	echo ========================
+	echo Usage: refresh.bat language ["old langpack path"]
+	echo Note:  path to old langpack must be relative to "langpacks\<language>\" folder
+	echo.
+	echo Example 1: refresh.bat czech
+	echo Example 2: refresh.bat czech "Deprecated\old langpack\langpack_czech2.txt"
+	echo.
+	echo If you want own script in langpack dir, look at "langpacks\czech\refresh.bat"
+	echo ========================
+	echo.
+	
+	pause
+	goto end
+)
 
 REM =========================
 
-if "%useOldLangpack%" == "yes" (
+if defined "%oldLangpackPath%" (
 	set phase=0
 ) else (
 	set phase=1
 )
 
 :start
+echo Refreshing started...
 
 cd "..\..\tools\lpgen\"
 
@@ -31,11 +73,11 @@ mkdir "Plugins"
 mkdir "Untranslated"
 
 if "%phase%" == "0" (
-	REM load strings from old langpack
-	cscript /nologo translate.js /log:"yes" /out:"Plugins" /untranslated:"Untranslated" /outfile:"langpack_%language%.txt" /path:"..\..\langpacks\%language%\Plugins" /core:"..\..\langpacks\%language%\=CORE=.txt" /langpack:"..\..\langpacks\%language%\%oldLangpackPath%"
+	echo Loading strings from old langpack...
+	cscript /nologo translate.js /out:"Plugins" /untranslated:"Untranslated" /outfile:"langpack_%language%.txt" /path:"..\..\langpacks\%language%\Plugins" /core:"..\..\langpacks\%language%\=CORE=.txt" /langpack:"..\..\langpacks\%language%\%oldLangpackPath%"
 ) else (
 	REM load strings from recently created langpack (also to distribute strings between files)
-	cscript /nologo translate.js /log:"yes" /out:"Plugins" /untranslated:"Untranslated" /outfile:"langpack_%language%.txt" /path:"..\..\langpacks\%language%\Plugins" /core:"..\..\langpacks\%language%\=CORE=.txt" /langpack:"..\..\langpacks\%language%\Langpack_%language%.txt"
+	cscript /nologo translate.js /out:"Plugins" /untranslated:"Untranslated" /outfile:"langpack_%language%.txt" /path:"..\..\langpacks\%language%\Plugins" /core:"..\..\langpacks\%language%\=CORE=.txt" /langpack:"..\..\langpacks\%language%\Langpack_%language%.txt"
 )
 	
 rm -r "../../langpacks/%language%/Plugins"
@@ -57,13 +99,13 @@ rm "Langpack_%language%.txt"
 cd "..\..\langpacks\tool\"
 LangpackSuite.exe \q \p%language%
 
-if "%phase%" == "1" (
-	goto end
-) else (
+if not "%phase%" == "1" (
+	echo Loading strings from new langpack...
 	set "phase=1"
 	goto start
 )
 
 :end
+echo Refreshing finished!
 
 REM =========================
