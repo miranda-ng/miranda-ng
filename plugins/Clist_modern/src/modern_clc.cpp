@@ -383,15 +383,17 @@ static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const TCHAR 
 
 static BOOL clcItemNotHiddenOffline(ClcData *dat, ClcGroup* group, ClcContact *contact)
 {
-	if (!group || !contact) return FALSE;
-	if (group->hideOffline) return FALSE;
 	if (g_CluiData.bFilterEffective) return FALSE;
 
-	if (CLCItems_IsShowOfflineGroup(group)) return TRUE;
-
-	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry( contact->hContact);
-	if ( !pdnce) return FALSE;
+	if (!contact) return FALSE;
+	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(contact->hContact);
+	if (!pdnce) return FALSE;
 	if (pdnce->m_cache_nNoHiddenOffline) return TRUE;
+	
+	if (!group) return FALSE;
+	if (group->hideOffline) return FALSE;
+
+	if (CLCItems_IsShowOfflineGroup(group)) return TRUE;
 
 	return FALSE;
 }
