@@ -206,7 +206,7 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordRequestProc(HWND hwndDlg, UINT msg, W
 			::mir_sntprintf(
 				title, 
 				MAX_PATH, 
-				::TranslateT("Enter a password for Skype Name %s:"), 
+				::TranslateT("Enter a password for %s:"), 
 				param->login);
 			::SetDlgItemText(hwndDlg, IDC_INSTRUCTION, title);
 

@@ -237,16 +237,12 @@ void ChatRoom::Start(const ConversationRef &conversation, bool showWindow)
 	if ( !::CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci))
 	{
 		this->hContact = gci.hContact;
-		ptrW joinBlob = ::db_get_wsa(gci.hContact, ppro->m_szModuleName, "JoinBlob");
-		if ( joinBlob == NULL)
+		ptrW cid = ::db_get_wsa(gci.hContact, ppro->m_szModuleName, SKYPE_SETTINGS_SID);
+		if (cid == NULL)
 		{
 			this->conversation->GetPropIdentity(data);
-			ptrW cid = ::mir_utf8decodeW(data);
+			cid = ::mir_utf8decodeW(data);
 			::db_set_ws(gci.hContact, ppro->m_szModuleName, SKYPE_SETTINGS_SID, cid);
-
-			this->conversation->GetJoinBlob(data);
-			joinBlob = ::mir_utf8decodeW(data);
-			::db_set_ws(gci.hContact, ppro->m_szModuleName, "JoinBlob", joinBlob);
 		}
 	}
 
@@ -387,7 +383,18 @@ void ChatRoom::AddMember(const ChatMember &item, const ChatMember &author, DWORD
 			//newMember->participant->SetOnChangedCallback(&ChatRoom::OnParticipantChanged, this);
 			this->members.insert(newMember);
 
-			this->SendEvent(item, GC_EVENT_JOIN, timestamp, GCEF_ADDTOLOG, 0, ::TranslateW(ChatRoom::Roles[item.GetRank()]));
+			if (newMember->GetRank() == CParticipant::APPLICANT)
+				this->SendEvent(
+					*this->sys, 
+					GC_EVENT_INFORMATION, 
+					time(NULL),
+					GCEF_ADDTOLOG, 
+					0, 
+					NULL, 
+					::TranslateT("waits to join"));
+			else
+				this->SendEvent(item, GC_EVENT_JOIN, timestamp, GCEF_ADDTOLOG, 0, ::TranslateW(ChatRoom::Roles[item.GetRank()]));
+
 			this->SendEvent(item, GC_EVENT_SETCONTACTSTATUS, timestamp, 0, item.GetStatus());
 		}
 	}
@@ -814,31 +821,30 @@ void ChatRoom::OnChange(const ConversationRef &conversation, int prop)
 			conversation->GetPropMyStatus(status);
 			if (status == Conversation::INVALID_ACCESS_TOKEN)
 			{
-				//todo: password request;
-				CSkypeProto::ShowNotification(::TranslateT("The password is incorrect"), 0, this->hContact);
-				GCDEST gcd = { ppro->m_szModuleName, { NULL }, GC_EVENT_CONTROL };
-				gcd.ptszID = this->cid;
-
-				GCEVENT gce = {0};
-				gce.cbSize = sizeof(GCEVENT);
-				gce.dwFlags = GC_TCHAR;
-				gce.pDest = &gcd;
-				::CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
-				::CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
+				PasswordRequestBoxParam param(this->name, false);
+				if (this->ppro->RequestPassword(param))
+				{
+					if ( !this->conversation->EnterPassword(param.password))
+						this->SendEvent(
+							*this->sys, 
+							GC_EVENT_INFORMATION, 
+							time(NULL),
+							GCEF_ADDTOLOG, 
+							0, 
+							NULL, 
+							::TranslateT("The password is incorrect"));
+				}
 			}
 			else if (status == Conversation::APPLICATION_DENIED)
 			{
-				//
-				CSkypeProto::ShowNotification(::TranslateT("Your application to join the conference was denied"), 0, this->hContact);
-				GCDEST gcd = { ppro->m_szModuleName, { NULL }, GC_EVENT_CONTROL };
-				gcd.ptszID = this->cid;
-
-				GCEVENT gce = {0};
-				gce.cbSize = sizeof(GCEVENT);
-				gce.dwFlags = GC_TCHAR;
-				gce.pDest = &gcd;
-				::CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
-				::CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
+				this->SendEvent(
+					*this->sys, 
+					GC_EVENT_INFORMATION, 
+					time(NULL),
+					GCEF_ADDTOLOG, 
+					0, 
+					NULL, 
+					::TranslateT("Your application to join the conference was denied"));
 			}
 		}
 		break;
@@ -1608,24 +1614,23 @@ INT_PTR __cdecl CSkypeProto::OnJoinChat(WPARAM wParam, LPARAM)
 	{
 		if (::db_get_w(hContact, this->m_szModuleName, SKYPE_SETTINGS_STATUS, ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 		{
-			ptrW joinBlob(::db_get_wsa(hContact, this->m_szModuleName, "JoinBlob"));
+			ptrW cid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
+			ptrA cidA(::mir_utf8encodeW(cid));
 
 			SEString data;
 			ConversationRef conversation;
-
-			this->GetConversationByBlob(::mir_utf8encodeW(joinBlob), conversation);
-			if (conversation)
+			if (this->GetConversationByIdentity((char *)cidA, conversation))
 			{
-				conversation->GetPropDisplayname(data);
-				ptrW name(::mir_utf8decodeW(data));
-
 				conversation->GetJoinBlob(data);
-				joinBlob = ::mir_utf8decodeW(data);
-				::db_set_ws(hContact, this->m_szModuleName, "JoinBlob", joinBlob);
-			
-				ptrW cid(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
-				ChatRoom *room = new ChatRoom(cid, name, this);
-				room->Start(conversation, true);
+				if (this->GetConversationByBlob(data, conversation))
+				{
+					conversation->GetPropDisplayname(data);
+					ptrW name(::mir_utf8decodeW(data));
+
+					CSkypeProto::ReplaceSpecialChars(cid);
+					ChatRoom *room = new ChatRoom(cid, name, this);
+					room->Start(conversation, true);
+				}
 			}
 		}
 		else
