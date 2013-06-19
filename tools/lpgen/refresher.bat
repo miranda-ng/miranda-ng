@@ -11,9 +11,9 @@ echo Set your variables in script and remove this line. & PAUSE & goto end
 
 REM === VARIABLES TO SET ===
 
-set "language=czech"
-set "useOldLangpack=yes"
-set "oldLangpackPath=Deprecated\old langpack\langpack_czech2.txt"
+set "language=czech"												& REM name of language from "langpacks\" folder
+set "useOldLangpack=yes" 											& REM "yes" or "no", if "yes" make sure you correctly set path to old langpack file below
+set "oldLangpackPath=Deprecated\old langpack\langpack_czech2.txt" 	& REM old langpack is searched in "langpacks\<your_langpack>\" folder
 
 REM =========================
 
@@ -31,8 +31,10 @@ mkdir "Plugins"
 mkdir "Untranslated"
 
 if "%phase%" == "0" (
+	REM load strings from old langpack
 	cscript /nologo translate.js /log:"yes" /out:"Plugins" /untranslated:"Untranslated" /outfile:"langpack_%language%.txt" /path:"..\..\langpacks\%language%\Plugins" /core:"..\..\langpacks\%language%\=CORE=.txt" /langpack:"..\..\langpacks\%language%\%oldLangpackPath%"
 ) else (
+	REM load strings from recently created langpack (also to distribute strings between files)
 	cscript /nologo translate.js /log:"yes" /out:"Plugins" /untranslated:"Untranslated" /outfile:"langpack_%language%.txt" /path:"..\..\langpacks\%language%\Plugins" /core:"..\..\langpacks\%language%\=CORE=.txt" /langpack:"..\..\langpacks\%language%\Langpack_%language%.txt"
 )
 	
