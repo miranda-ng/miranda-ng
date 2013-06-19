@@ -235,4 +235,5 @@ void FacebookProto::ParseSmileys(std::string message, HANDLE hContact)
 		CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
 		mir_free(path);
 	}
+	Netlib_CloseHandle(nlc);
 }
