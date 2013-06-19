@@ -62,6 +62,7 @@ static void ApplyUpdates(void *param)
 	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
+	HANDLE nlc = NULL;
 	for (int i=0; i < todo.getCount(); ++i) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
 		if ( !todo[i].bEnabled) {
@@ -77,11 +78,12 @@ static void ApplyUpdates(void *param)
 		SetStringText(hwndList, i, TranslateT("Downloading..."));
 
 		FILEURL *pFileUrl = &todo[i].File;
-		if ( !DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum))
+		if ( !DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum, nlc))
 			SetStringText(hwndList, i, TranslateT("Failed!"));
 		else
 			SetStringText(hwndList, i, TranslateT("Succeeded."));
 	}
+	Netlib_CloseHandle(nlc);
 
 	if (todo.getCount() == 0) {
 LBL_Exit:

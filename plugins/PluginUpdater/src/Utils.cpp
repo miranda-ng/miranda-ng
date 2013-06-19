@@ -214,7 +214,12 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 	FILEURL pFileUrl;
 	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), baseUrl);
 	mir_sntprintf(pFileUrl.tszDiskPath, SIZEOF(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), tszTempPath);
-	if (!DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath, 0)) {
+
+	HANDLE nlc;
+	BOOL ret = DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath, 0, nlc);
+	Netlib_CloseHandle(nlc);
+
+	if (!ret) {
 		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);
 		return false;
 	}
@@ -257,7 +262,7 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 }
 
 
-BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum)
+BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum, HANDLE &nlc)
 {
 	DWORD dwBytes;
 
@@ -268,7 +273,8 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum)
 		nlhr.cbSize = sizeof(nlhr);
 	#endif
 	nlhr.requestType = REQUEST_GET;
-	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
+	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_PERSISTENT;
+	nlhr.nlc = nlc;
 	char *szUrl = mir_t2a(tszURL);
 	nlhr.szUrl = szUrl;
 	nlhr.headersCount = 4;
@@ -285,6 +291,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum)
 	bool ret = false;
 	NETLIBHTTPREQUEST *pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser,(LPARAM)&nlhr);
 	if (pReply) {
+		nlc = pReply->nlc;
 		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
 			HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 			if (hFile != INVALID_HANDLE_VALUE) {
@@ -319,6 +326,8 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum)
 			}
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
+	} else {
+		nlc = NULL;
 	}
 
 	mir_free(szUrl);

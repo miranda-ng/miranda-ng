@@ -55,6 +55,7 @@ static void ApplyDownloads(void *param)
 	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
+	HANDLE nlc = NULL;
 	for (int i=0; i < todo.getCount(); ++i) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
 		if ( !todo[i].bEnabled) {
@@ -66,12 +67,13 @@ static void ApplyDownloads(void *param)
 		ListView_SetItemText(hwndList, i, 2, TranslateT("Downloading..."));
 
 		FILEURL *pFileUrl = &todo[i].File;
-		if ( !DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum)){
+		if ( !DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum, nlc)){
 			ListView_SetItemText(hwndList, i, 2, TranslateT("Failed!"));
 		}
 		else
 			ListView_SetItemText(hwndList, i, 2, TranslateT("Succeeded."));
 	}
+	Netlib_CloseHandle(nlc);
 
 	if (todo.getCount() > 0) {
 		ShowPopup(0, LPGENT("Plugin Updater"), TranslateT("Download complete"), 2, 0);
