@@ -12,7 +12,7 @@ typedef struct _tagXPTObject
   LPCWSTR lpcwClassObject;
 } XPTObject;
 
-static SortedList * xptObjectList = NULL;
+static OBJLIST<XPTObject> xptObjectList(1);
 static CRITICAL_SECTION xptCS;
 static BOOL xptModuleLoaded = FALSE;
 
@@ -85,13 +85,12 @@ static void _sttXptReloadThemeData(XPTObject * xptObject)
 
 HRESULT XPThemesLoadModule()
 {
-	 if (_xpt_ThemeSupport()) 
-	 {
-	     InitializeCriticalSection(&xptCS);
-		 xptObjectList = List_Create(0, 1);
-		 xptModuleLoaded = TRUE;
-	 }
-	 return S_OK;
+	if (_xpt_ThemeSupport()) 
+	{
+		InitializeCriticalSection(&xptCS);
+		xptModuleLoaded = TRUE;
+	}
+	return S_OK;
 }
 
 void XPThemesUnloadModule()
@@ -100,7 +99,7 @@ void XPThemesUnloadModule()
 	xptlock();
 	xptModuleLoaded = FALSE;
 	xptunlock();
-	li_ListDestruct(xptObjectList,_sttXptObjectDestructor);
+	xptObjectList.destroy();
 	DeleteCriticalSection(&xptCS);
 	FreeLibrary(_xpt_ThemeAPIHandle);
 }
@@ -127,7 +126,7 @@ BOOL xpt_IsValidHandle(XPTHANDLE xptHandle)
 	if ( !xptHandle) return FALSE;
 	xptlock();
 	{
-		if (List_IndexOf(xptObjectList, (void*)xptHandle) != -1) 
+		if (xptObjectList.indexOf((XPTObject*)xptHandle) != -1) 
 			res = TRUE;
 	}
 	xptunlock();
@@ -140,11 +139,11 @@ XPTHANDLE xpt_AddThemeHandle(HWND hwnd, LPCWSTR className)
 	xptcheck NULL;
 	xptlock();
 	{
-		XPTObject* xptObject = (XPTObject*)mir_calloc(sizeof(XPTObject));
+		XPTObject* xptObject = new XPTObject;
 		xptObject->lpcwClassObject = className;
 		xptObject->hOwnerWindow = hwnd;
 		_sttXptReloadThemeData(xptObject);
-		List_InsertPtr(xptObjectList, (void*)xptObject);
+		xptObjectList.insert(xptObject);
 		res = (XPTHANDLE)xptObject;
 	}
 	xptunlock();
@@ -160,7 +159,7 @@ void xpt_FreeThemeHandle(XPTHANDLE xptHandle)
 	   XPTObject* xptObject = (XPTObject*)xptHandle;
 	   _sttXptCloseThemeData(xptObject);
 	   _sttXptObjectDestructor((void *) xptHandle);
-	   List_Remove(xptObjectList, List_IndexOf(xptObjectList,(void *) xptHandle));
+		xptObjectList.remove( xptObjectList.indexOf(xptObject));
    }
    xptunlock();
 }
@@ -169,18 +168,15 @@ void xpt_FreeThemeForWindow(HWND hwnd)
 	xptcheck;
 	xptlock();
 	{
-		int i=0;
-		while (i < xptObjectList->realCount)
+		for (int i=0; i < xptObjectList.getCount(); )
 		{
-		   XPTObject* xptObject = (XPTObject*)xptObjectList->items[i];
-		   if (xptObject->hOwnerWindow == hwnd)
-		   {
-		   	   _sttXptCloseThemeData(xptObject);
-			   _sttXptObjectDestructor((void *) xptObject);
-			   List_Remove(xptObjectList, i);		   
-		   }
-		   else 
-			   i++;
+		   XPTObject& xptObject = xptObjectList[i];
+		   if (xptObject.hOwnerWindow == hwnd)
+			{
+				_sttXptCloseThemeData(&xptObject);
+				xptObjectList.remove(i);		   
+			}
+			else i++;
 		}
 	}
 	xptunlock();
@@ -191,9 +187,8 @@ void xpt_OnWM_THEMECHANGED()
 	xptcheck;
 	xptlock();
 	{
-		int i;
-		for (i=0; i < xptObjectList->realCount; i++)
-			_sttXptReloadThemeData((XPTObject*)xptObjectList->items[i]);
+		for (int i=0; i < xptObjectList.getCount(); i++)
+			_sttXptReloadThemeData(&xptObjectList[i]);
 	}
 	xptunlock();
 }

@@ -268,26 +268,25 @@ int AniAva_RedrawAllAvatars(BOOL updateZOrder);			   // request to repaint all
 void AniAva_UpdateParent();
 int AniAva_RenderAvatar( HANDLE hContact, HDC hdcMem, RECT *rc );
 
-
-#define CCI_NAME			1
-#define CCI_GROUP			(1<<1)
-#define CCI_PROTO			(1<<2)
-#define CCI_STATUS			(1<<3)
-#define CCI_LINES			(1<<4)
-#define CCI_HIDDEN			(1<<4)
-#define CCI_NOHIDEOFFLINE	(1<<5)
-#define CCI_NOPROTO			(1<<6)
-#define CCI_HIDESUBCONTACT	(1<<7)
-#define CCI_I				(1<<8)
-#define CCI_APPARENT		(1<<9)
-#define CCI_NOTONLIST		(1<<10)
-#define CCI_IDLETS			(1<<11)
-#define CCI_CCONTACT		(1<<12)
-#define CCI_EXPAND			(1<<13)
-#define CCI_UNKNOWN			(1<<14)
-#define CCI_TIME			(1<<15)
-#define CCI_OTHER			~( CCI_NAME|CCI_GROUP|CCI_PROTO|CCI_STATUS|CCI_LINES|CCI_TIME )
-#define CCI_ALL				(0xFFFFFFFF)
+#define CCI_NAME            1
+#define CCI_GROUP          (1<<1)
+#define CCI_PROTO          (1<<2)
+#define CCI_STATUS         (1<<3)
+#define CCI_LINES          (1<<4)
+#define CCI_HIDDEN         (1<<4)
+#define CCI_NOHIDEOFFLINE  (1<<5)
+#define CCI_NOPROTO        (1<<6)
+#define CCI_HIDESUBCONTACT (1<<7)
+#define CCI_I              (1<<8)
+#define CCI_APPARENT       (1<<9)
+#define CCI_NOTONLIST      (1<<10)
+#define CCI_IDLETS         (1<<11)
+#define CCI_CCONTACT       (1<<12)
+#define CCI_EXPAND         (1<<13)
+#define CCI_UNKNOWN        (1<<14)
+#define CCI_TIME           (1<<15)
+#define CCI_OTHER         ~( CCI_NAME|CCI_GROUP|CCI_PROTO|CCI_STATUS|CCI_LINES|CCI_TIME )
+#define CCI_ALL            (0xFFFFFFFF)
 
 void CListSettings_FreeCacheItemData(ClcCacheEntry *pDst);
 int CLUI_SyncGetPDNCE(WPARAM wParam, LPARAM lParam);
@@ -296,10 +295,6 @@ void pdnce___SetStatus( ClcCacheEntry *pdnce, WORD wStatus );
 
 /* move to list module */
 typedef void (*ItemDestuctor)(void*);
-
-void li_ListDestruct(SortedList *pList, ItemDestuctor pItemDestructor);
-
-#define mir_safe_free(a) if(a) mir_free(a)
 
 template <class T> class INIT : public T
 {

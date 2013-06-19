@@ -150,12 +150,3 @@ BOOL DestroyIcon_protect(HICON icon)
 	if (icon) return DestroyIcon(icon);
 	return FALSE;
 }
-
-void li_ListDestruct(SortedList *pList, ItemDestuctor pItemDestructor)
-{
-	int i=0;
-	if ( !pList) return;
-	for (i=0; i < pList->realCount; i++)	pItemDestructor(pList->items[i]);
-	List_Destroy(pList);
-   mir_free(pList);
-}

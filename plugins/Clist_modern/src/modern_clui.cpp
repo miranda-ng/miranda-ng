@@ -1080,9 +1080,10 @@ static int CLUI_CreateTimerForConnectingIcon(WPARAM wParam,LPARAM lParam)
 					pt->himlIconList = ImageList_Create(16,16,ILC_MASK|ILC_COLOR32,cnt,1);
 					for (int i=0; i < cnt; i++) {
 						HICON ic = CLUI_GetConnectingIconForProto(szProto, i);
-						if (ic)
+						if (ic) {
 							ImageList_AddIcon(pt->himlIconList, ic);
-						DestroyIcon_protect(ic);
+							DestroyIcon(ic);
+						}
 					}
 					CLUI_SafeSetTimer(pcli->hwndContactList,TM_STATUSBARUPDATE+pt->nIndex,(int)(nAnimatedIconStep)/1,0);
 					pt->bTimerCreated = 1;
