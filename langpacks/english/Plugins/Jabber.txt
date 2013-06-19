@@ -52,7 +52,6 @@
 [Hint:]
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 [Jabber Account Registration]
-[Progress1]
 [Jabber Agents]
 [Register/Search Jabber Agents]
 [Jabber server:]

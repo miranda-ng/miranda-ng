@@ -41,7 +41,6 @@
 [Alert 2]
 [Alert 3]
 [Speak]
-[DateTimePicker1]
 [Occurrence]
 [Once]
 [Weekly]

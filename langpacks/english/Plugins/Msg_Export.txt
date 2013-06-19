@@ -24,7 +24,6 @@
 [Default file]
 [File viewer]
 [Exporting old messages]
-[Progress1]
 [History file for %s (%s format %s)]
 [&Find...]
 [&External]

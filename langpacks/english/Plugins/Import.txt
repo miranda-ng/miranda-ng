@@ -21,7 +21,6 @@
 [&Other Profile...]
 [&Filename:]
 [Now importing...]
-[Progress1]
 [Import Information Wizard]
 [&Next >]
 [Cancel]

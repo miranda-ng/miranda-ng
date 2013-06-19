@@ -7,7 +7,6 @@
 ;============================================================
 [Miranda NG Database Checker.]
 ;file \plugins\DbChecker\res\resource.rc
-[whiterect]
 [Welcome to the Miranda Database Wizard]
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
 [To continue, click Next.]
@@ -43,7 +42,6 @@
 [Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
 [Working...]
 [Please wait while the requested operations are being performed.]
-[Progress1]
 [Finished!]
 [All tasks have been completed.]
 [Launch Miranda with this profile]

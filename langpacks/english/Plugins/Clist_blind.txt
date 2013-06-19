@@ -16,7 +16,6 @@
 [Use Options->Ignore (expert mode) to unhide contacts.]
 [Hotkeys]
 [Show/Hide:]
-[HotKey1]
 [Read Message:]
 [Web Search:]
 [URL:]

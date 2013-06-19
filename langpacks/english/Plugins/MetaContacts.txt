@@ -44,7 +44,6 @@
 [Lock name to first contact]
 [but only for the current conversation]
 [History Copy]
-[Progress1]
 [Please wait while the contact's history is copied.]
 [History Remove]
 [Please wait while the contact's history is removed.]

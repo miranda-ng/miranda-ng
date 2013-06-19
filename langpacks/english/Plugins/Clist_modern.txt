@@ -569,4 +569,3 @@
 [Clear view mode and return to default display]
 [Reset view mode]
 [View Modes]
-;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

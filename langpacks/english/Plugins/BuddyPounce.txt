@@ -25,7 +25,6 @@
 [The Message]
 [Dialog]
 [Status]
-[Check1]
 [Use Advanced Dialog]
 [The Message:       (Characters:  )]
 [Default Settings]

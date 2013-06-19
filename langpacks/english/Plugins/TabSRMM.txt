@@ -334,7 +334,6 @@
 [Esc closes sessions (minimizes window, if disabled)]
 [Always pop up and activate new windows]
 [Create new windows in minimized state]
-[Check1]
 [Send on Shift+Enter]
 [Send message on Enter]
 [Send message on double Enter]

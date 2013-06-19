@@ -8,7 +8,6 @@
 [Shows new message/status change info using onscreen display.]
 ;file \plugins\wbOSD\res\wbOSD.rc
 [Dialog]
-[Radio1]
 [Select font]
 [Text color]
 [Background color]

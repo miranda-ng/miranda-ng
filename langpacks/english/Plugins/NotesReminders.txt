@@ -31,7 +31,6 @@
 [Add Reminder]
 [Trigger On Time && Date:]
 [Date]
-[DateTimePicker1]
 [Time]
 [Reminder Note:]
 [None]

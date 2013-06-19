@@ -1734,7 +1734,7 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaіek
+;  Authors: Bartosz 'Dezeath' Białek
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 ;file \plugins\AddContactPlus\res\resource.rc
@@ -1881,7 +1881,6 @@
 [Show confirm dialog when loading]
 [Create a main menu item]
 [Status Profiles]
-[HotKey1]
 [Hotkey]
 [In submenu]
 [Max. delay (secs)]
@@ -2200,7 +2199,6 @@
 [Alert 2]
 [Alert 3]
 [Speak]
-[DateTimePicker1]
 [Occurrence]
 [Once]
 [Weekly]
@@ -3104,7 +3102,6 @@
 [The Message]
 [Dialog]
 [Status]
-[Check1]
 [Use Advanced Dialog]
 [The Message:       (Characters:  )]
 [Default Settings]
@@ -3283,7 +3280,6 @@
 [Use Options->Ignore (expert mode) to unhide contacts.]
 [Hotkeys]
 [Show/Hide:]
-[HotKey1]
 [Read Message:]
 [Web Search:]
 [URL:]
@@ -3974,7 +3970,6 @@
 [Clear view mode and return to default display]
 [Reset view mode]
 [View Modes]
-;file \plugins\Clist_modern\src\hdr\modern_static_clui.h
 ﻿#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
 ;============================================================
 ;  File: Clist_mw.dll
@@ -5061,7 +5056,6 @@
 ;============================================================
 [Miranda NG Database Checker.]
 ;file \plugins\DbChecker\res\resource.rc
-[whiterect]
 [Welcome to the Miranda Database Wizard]
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
 [To continue, click Next.]
@@ -5097,7 +5091,6 @@
 [Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
 [Working...]
 [Please wait while the requested operations are being performed.]
-[Progress1]
 [Finished!]
 [All tasks have been completed.]
 [Launch Miranda with this profile]
@@ -8282,7 +8275,6 @@
 [&Other Profile...]
 [&Filename:]
 [Now importing...]
-[Progress1]
 [Import Information Wizard]
 [&Next >]
 [Cancel]
@@ -8861,7 +8853,6 @@
 [Hint:]
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 [Jabber Account Registration]
-[Progress1]
 [Jabber Agents]
 [Register/Search Jabber Agents]
 [Jabber server:]
@@ -10215,7 +10206,6 @@
 [Show confirm dialog when loading]
 [Create a main menu item]
 [Status Profiles]
-[HotKey1]
 [Hotkey]
 [In submenu]
 [Max. delay (secs)]
@@ -10760,7 +10750,6 @@
 [Lock name to first contact]
 [but only for the current conversation]
 [History Copy]
-[Progress1]
 [Please wait while the contact's history is copied.]
 [History Remove]
 [Please wait while the contact's history is removed.]
@@ -11448,7 +11437,6 @@
 [Default file]
 [File viewer]
 [Exporting old messages]
-[Progress1]
 [History file for %s (%s format %s)]
 [&Find...]
 [&External]
@@ -12557,7 +12545,6 @@
 [Add Reminder]
 [Trigger On Time && Date:]
 [Date]
-[DateTimePicker1]
 [Time]
 [Reminder Note:]
 [None]
@@ -15044,7 +15031,7 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.4
-;  Authors: Bartosz 'Dezeath' Biaіek, Harven
+;  Authors: Bartosz 'Dezeath' Białek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
 ;file \plugins\SimpleStatusMsg\res\resource.rc
@@ -15895,7 +15882,6 @@
 [Show confirm dialog when loading]
 [Create a main menu item]
 [Status Profiles]
-[HotKey1]
 [Hotkey]
 [In submenu]
 [Max. delay (secs)]
@@ -16428,7 +16414,6 @@
 [Esc closes sessions (minimizes window, if disabled)]
 [Always pop up and activate new windows]
 [Create new windows in minimized state]
-[Check1]
 [Send on Shift+Enter]
 [Send message on Enter]
 [Send message on double Enter]
@@ -18222,7 +18207,6 @@
 [Import]
 [Importing...\nPlease wait!]
 [Setting/Event (20/100)]
-[Progress1]
 [John Doe (1/10)]
 [Dialog]
 [OK]
@@ -19373,7 +19357,6 @@
 [Shows new message/status change info using onscreen display.]
 ;file \plugins\wbOSD\res\wbOSD.rc
 [Dialog]
-[Radio1]
 [Select font]
 [Text color]
 [Background color]
