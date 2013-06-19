@@ -58,14 +58,15 @@ if "%err%"=="1" (
 
 REM =========================
 
-if defined "%oldLangpackPath%" (
+if not "%oldLangpackPath%" == "" (
 	set phase=0
 ) else (
 	set phase=1
 )
 
-:start
 echo Refreshing started...
+
+:start
 
 cd "..\..\tools\lpgen\"
 
