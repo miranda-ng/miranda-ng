@@ -800,6 +800,8 @@ INT_PTR SendMsgSvc(WPARAM w, LPARAM l)
 	CCSDATA *ccs = (CCSDATA*)l;
 	if (!ccs)
 		return CallService(MS_PROTO_CHAINSEND, w, l);
+	if(!ccs->lParam)
+		return CallService(MS_PROTO_CHAINSEND, w, l);
 	char *msg = nullptr;
 	if((ccs->wParam & PREF_UTF) == PREF_UTF)
 		msg = mir_strdup((char*)(ccs->lParam));
