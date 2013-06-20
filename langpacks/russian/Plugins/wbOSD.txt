@@ -1,0 +1,35 @@
+#muuid {fc718bc7-abc8-43cd-aad9-761614617738}
+;============================================================
+;  File: wbOSD.dll
+;  Module: Shows new message/status change info using onscreen display.
+;  Versions: 0.2.1.0
+;  Authors: Andrej Krutak
+;============================================================
+[Shows new message/status change info using onscreen display.]
+Отображает новые сообщения/изменения статуса, используя OSD.
+[Align]
+Положение
+[Shadow align]
+Положение
+[Shadow color]
+Цвет тени
+[Alternative shadow]
+Альтернативная тень
+[Shadow distance:]
+Сдвиг тени:
+[Transparent]
+Прозрачный
+[Alpha:]
+Альфа:
+[Timeout (ms):]
+Длительность (мс):
+[Show testing OSD]
+Предпросмотр
+[Show my status changes]
+Показывать смены моего статуса
+[Show events]
+Показывать события
+[Show message window after click]
+Нажатие открывает окно сообщения
+[Show when my status is:]
+Показывать OSD, когда мой статус:
