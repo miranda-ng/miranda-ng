@@ -58,7 +58,7 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath)
 	for (char *p = strchr(filename, '/'); p; p = strchr(p+1, '/'))
 		*p = '\\';
 
-	if (!db_get_b(NULL, MODNAME "Files", StrToLower(ptrA(_strdup(filename))), true))
+	if (!db_get_b(NULL, MODNAME "Files", StrToLower(ptrA(mir_strdup(filename))), true))
 		return true;
 
 	TCHAR tszDestFile[MAX_PATH], tszBackFile[MAX_PATH];
