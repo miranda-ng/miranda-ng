@@ -231,7 +231,7 @@ Skype протокол
 Создать конференцию
 [Topic:]
 Тема:
-[Guidline:]
+[Guideline:]
 
 [Creator]
 Создатель
