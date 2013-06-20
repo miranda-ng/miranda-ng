@@ -216,6 +216,10 @@ Skype протокол
 
 [Creator]
 Создатель
+[Master] 
+Мастер 
+[Helper] 
+Помошник 
 [Set &role]
 Установить &роль
 [&Master]
