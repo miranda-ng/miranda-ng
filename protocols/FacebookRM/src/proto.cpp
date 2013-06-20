@@ -162,11 +162,6 @@ int FacebookProto::SetStatus(int new_status)
 		m_iDesiredStatus = new_status;
 		break;
 
-	// TODO RM: needed/useful?
-	case ID_STATUS_CONNECTING:
-		m_iDesiredStatus = ID_STATUS_OFFLINE;
-		break;
-
 	case ID_STATUS_IDLE:
 	default:
 		m_iDesiredStatus = ID_STATUS_INVISIBLE;
@@ -178,8 +173,8 @@ int FacebookProto::SetStatus(int new_status)
 		break;
 	}
 
-	if (m_iStatus == ID_STATUS_CONNECTING) {
-		LOG("===== Status is connecting, no change");
+	if (new_status != ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_CONNECTING) {
+		LOG("===== Status is already connecting, no change");
 		return 0;
 	}
 

@@ -103,6 +103,12 @@ void FacebookProto::ChangeStatus(void*)
 		} else {
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)old_status, m_iStatus);
 
+			if (facy.hFcbCon)
+				Netlib_CloseHandle(facy.hFcbCon);
+			facy.hFcbCon = NULL;
+
+			facy.clear_cookies();
+
 			// Set to offline
 			m_iStatus = m_iDesiredStatus = facy.self_.status_id = ID_STATUS_OFFLINE;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
@@ -185,7 +191,7 @@ bool FacebookProto::NegotiateConnection()
 	{
 		CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)dbv.ptszVal);
 	}
-
+	
 	return facy.login(user, pass);
 }
 

@@ -22,7 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#define FORCE_DISCONNECT true
+#define FORCE_DISCONNECT 1
+#define FORCE_QUIT 2
 
 class facebook_client
 {
@@ -110,7 +111,7 @@ public:
 
 	bool    handle_entry(std::string method);
 	bool    handle_success(std::string method);
-	bool    handle_error(std::string method, bool force_disconnect = false);
+	bool    handle_error(std::string method, int force_disconnect = 0);
 
 	void __inline increment_error() { this->error_count_++; }
 	void __inline decrement_error() { if (error_count_ > 0) error_count_--; }

@@ -184,23 +184,20 @@ bool facebook_client::handle_success(std::string method)
 	return true;
 }
 
-bool facebook_client::handle_error(std::string method, bool force_disconnect)
+bool facebook_client::handle_error(std::string method, int action)
 {
-	bool result;
 	increment_error();
 	parent->Log("!!!!! %s(): Something with Facebook went wrong", method.c_str());
 
-	if (force_disconnect)
-		result = false;
-	else if (error_count_ <= (UINT)db_get_b(NULL,parent->m_szModuleName,FACEBOOK_KEY_TIMEOUTS_LIMIT,FACEBOOK_TIMEOUTS_LIMIT))
-		result = true;
-	else
+	bool result = (error_count_ <= (UINT)db_get_b(NULL,parent->m_szModuleName,FACEBOOK_KEY_TIMEOUTS_LIMIT,FACEBOOK_TIMEOUTS_LIMIT));
+	if (action == FORCE_DISCONNECT || action == FORCE_QUIT)
 		result = false;
 
-	if (result == false)
-	{
+	if (!result) {
 		reset_error();
-		parent->SetStatus(ID_STATUS_OFFLINE);
+		
+		if (action != FORCE_QUIT)
+			parent->SetStatus(ID_STATUS_OFFLINE);
 	}
 
 	return result;
@@ -632,6 +629,20 @@ void facebook_client::clear_cookies()
 		cookies.clear();
 }
 
+void loginError(FacebookProto *proto, std::string error_str) {
+	error_str = utils::text::trim(
+			utils::text::special_expressions_decode(
+				utils::text::remove_html(
+					utils::text::edit_html(error_str))));
+	
+	proto->Log(" ! !  Login error: %s", error_str.length() ? error_str.c_str() : "Unknown error");
+
+	TCHAR buf[200];
+	mir_sntprintf(buf, SIZEOF(buf), TranslateT("Login error: %s"), 
+		(!error_str.length()) ? TranslateT("Unknown error") : ptrT(mir_utf8decodeT(error_str.c_str())));
+	proto->facy.client_notify(buf);
+}
+
 bool facebook_client::login(const std::string &username,const std::string &password)
 {
 	handle_entry("login");
@@ -639,8 +650,8 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 	username_ = username;
 	password_ = password;
 
-	// Access homepage to get initial cookies
-	flap(FACEBOOK_REQUEST_HOME, NULL);
+	// Get initial cookies
+	flap(FACEBOOK_REQUEST_LOGIN);
 
 	// Prepare login data
 	std::string data = "charset_test=%e2%82%ac%2c%c2%b4%2c%e2%82%ac%2c%c2%b4%2c%e6%b0%b4%2c%d0%94%2c%d0%84&pass_placeHolder=Password&login=Login&persistent=1";
@@ -657,21 +668,46 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 	// Process result data
 	validate_response(&resp);
 
+	// Save Device ID
+	if (cookies["datr"].length())
+		db_set_s(NULL, parent->m_szModuleName, FACEBOOK_KEY_DEVICE_ID, cookies["datr"].c_str());
+
 	if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end())
 	{
+		// Check for invalid requests
+		if (resp.headers["Location"].find("invalid_request.php") != std::string::npos) {
+			client_notify(TranslateT("Login error: Invalid request."));
+			parent->Log(" ! !  Login error: Invalid request.");
+			return handle_error("login", FORCE_QUIT);
+		}
+
+		// Check whether HTTPS connection is required and we don't have it enabled
+		if (!this->https_ && resp.headers["Location"].find("https://") != std::string::npos) {
+			client_notify(TranslateT("Your account requires HTTPS connection. Activating."));
+			db_set_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS, 1);
+			this->https_ = true;
+			return login(username, password);
+		}
+
 		// Check whether some Facebook things are required
 		if (resp.headers["Location"].find("help.php") != std::string::npos)
 		{
 			client_notify(TranslateT("Login error: Some Facebook things are required."));
 			parent->Log(" ! !  Login error: Some Facebook things are required.");
-			// return handle_error("login", FORCE_DISCONNECT);
+			// return handle_error("login", FORCE_QUIT);
 		}
 		
 		// Check whether setting Machine name is required
 		if (resp.headers["Location"].find("/checkpoint/") != std::string::npos)
 		{
 			resp = flap(FACEBOOK_REQUEST_SETUP_MACHINE, NULL, NULL, REQUEST_GET);
-			
+
+			if (resp.data.find("login_approvals_no_phones") != std::string::npos) {
+				// Code approval - but no phones in account
+				loginError(parent, utils::text::source_get_value(&resp.data, 4, "login_approvals_no_phones", "<div", ">", "</div>"));
+				return handle_error("login", FORCE_QUIT);
+			}
+
 			std::string inner_data;
 			if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
 				// Multi step with approving last unrecognized device
@@ -687,6 +723,13 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 				inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
 				resp = flap(FACEBOOK_REQUEST_SETUP_MACHINE, &inner_data);
+
+				// 3) Save device
+				inner_data = "submit[Continue]=Continue";
+				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
+				inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
+				inner_data += "&name_action_selected=save_device"; // Save device - or "dont_save"
+				resp = flap(FACEBOOK_REQUEST_SETUP_MACHINE, &inner_data);
 			}
 
 			// Save actual machine name
@@ -700,25 +743,6 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 			validate_response(&resp);
 		}
 	}
-	
-	if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end())
-	{
-		// Check whether HTTPS connection is required and we don't have enabled it
-		if (!this->https_)
-		{    
-			if (resp.headers["Location"].find("https://") != std::string::npos)
-			{
-				client_notify(TranslateT("Your account requires HTTPS connection. Activating."));
-				db_set_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS, 1);
-				this->https_ = true;
-			}
-		}
-
-	}
-
-	// Check for Device ID
-	if (cookies["datr"].length())
-		db_set_s(NULL, parent->m_szModuleName, FACEBOOK_KEY_DEVICE_ID, cookies["datr"].c_str());
 
 	switch (resp.code)
 	{
@@ -728,7 +752,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 		if (handle_error("login"))
 			return login(username, password);
 		else
-			return false;
+			return handle_error("login", FORCE_QUIT);
 	}
 
 	case HTTP_CODE_OK: // OK page returned, but that is regular login page we don't want in fact
@@ -738,31 +762,19 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 		{
 			client_notify(TranslateT("Login error: Captcha code is required. Bad login credentials?"));
 			parent->Log(" ! !  Login error: Captcha code is required.");
-			return handle_error("login", FORCE_DISCONNECT);
+			return handle_error("login", FORCE_QUIT);
 		}
 
-		// Get error message
-		std::string error_str = utils::text::trim(
-			utils::text::special_expressions_decode(
-				utils::text::remove_html(
-					utils::text::edit_html(
-						utils::text::source_get_value(&resp.data, 4, "login_error_box", "<div", ">", "</div>")))));
-
-		parent->Log(" ! !  Login error: %s", error_str.length() ? error_str.c_str() : "Unknown error");
-
-		TCHAR buf[200];
-		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Login error: %s"), 
-			(!error_str.length()) ? TranslateT("Unknown error") : ptrT(mir_utf8decodeT(error_str.c_str())));
-		client_notify(buf);
+		// Get and notify error message
+		loginError(parent, utils::text::source_get_value(&resp.data, 4, "login_error_box", "<div", ">", "</div>")); 
 	}
 	case HTTP_CODE_FORBIDDEN: // Forbidden
 	case HTTP_CODE_NOT_FOUND: // Not Found
 	default:
-		return handle_error("login", FORCE_DISCONNECT);
+		return handle_error("login", FORCE_QUIT);
 
 	case HTTP_CODE_FOUND: // Found and redirected to Home, Logged in, everything is OK
-		if (cookies.find("c_user") != cookies.end())
-		{
+		if (cookies.find("c_user") != cookies.end()) {
 			this->self_.user_id = cookies.find("c_user")->second;
 			db_set_s(NULL,parent->m_szModuleName,FACEBOOK_KEY_ID,this->self_.user_id.c_str());
 			parent->Log("      Got self user id: %s", this->self_.user_id.c_str());
@@ -770,7 +782,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 		} else {
 			client_notify(TranslateT("Login error, probably bad login credentials."));
 			parent->Log(" ! !  Login error, probably bad login credentials.");
-			return handle_error("login", FORCE_DISCONNECT);
+			return handle_error("login", FORCE_QUIT);
 		}
 	}
 }
@@ -809,7 +821,6 @@ bool facebook_client::home()
 {
 	handle_entry("home");
 
-
 	// get fb_dtsg
 	http::response resp = flap(FACEBOOK_REQUEST_DTSG);
 
@@ -836,7 +847,7 @@ bool facebook_client::home()
 			parent->Log("      Got self real name: %s", this->self_.real_name.c_str());
 		} else {
 			client_notify(TranslateT("Something happened to Facebook. Maybe there was some major update so you should wait for an update."));
-			return handle_error("home", FORCE_DISCONNECT);
+			return handle_error("home", FORCE_QUIT);
 		}
 
 		// Get avatar
@@ -848,9 +859,7 @@ bool facebook_client::home()
 		this->logout_hash_ = utils::text::source_get_value2(&resp.data, "/logout.php?h=", "&\"");
 		parent->Log("      Got self logout hash: %s", this->logout_hash_.c_str());
 
-
 		return handle_success("home");
-
 	}
 	case HTTP_CODE_FOUND:
 		// Work-around for replica_down, f**king hell what's that?
@@ -858,7 +867,7 @@ bool facebook_client::home()
 		return this->home();
 	
 	default:
-		return handle_error("home", FORCE_DISCONNECT);
+		return handle_error("home", FORCE_QUIT);
 	}
 }
 
