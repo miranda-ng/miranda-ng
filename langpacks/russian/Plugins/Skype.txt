@@ -213,17 +213,17 @@ Skype протокол
 [Topic:]
 Тема:
 [Guideline:]
-
+Правила
 [Creator]
 Создатель
 [Master] 
-Мастер 
+Модератор
 [Helper] 
 Помощник 
 [Set &role]
 Установить &роль
 [&Master]
-&Мастер
+&Модератор
 [&Helper]
 &Помощник
 [&User]
@@ -239,7 +239,7 @@ Skype протокол
 [Copy &skypename]
 Копировать &Skype ID
 [Copy room &uri]
-Копировать ID конференции
+Копировать URI конференции
 [Confirmation:]
 Подтверждение:
 [Create with password]
@@ -249,7 +249,9 @@ Skype протокол
 [Users joining as:]
 Пользователь входит как:
 [Enable joining]
-Разрешить добавления в чат
+Разрешить вход в чат
+[&Request auth]
+&Запросить авторизацию
 [Set bookmark]
 В закладках
 [Bookmarks]
