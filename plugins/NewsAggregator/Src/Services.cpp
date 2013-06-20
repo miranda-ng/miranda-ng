@@ -70,7 +70,7 @@ int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int NewsAggrPreShutdown(WPARAM wParam,LPARAM lParam)
+int NewsAggrPreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	if (hAddFeedDlg)
 		SendMessage(hAddFeedDlg, WM_CLOSE, 0, 0);
@@ -85,14 +85,14 @@ int NewsAggrPreShutdown(WPARAM wParam,LPARAM lParam)
 INT_PTR NewsAggrGetName(WPARAM wParam, LPARAM lParam)
 {
 	if(lParam) {
-		lstrcpynA((char*)lParam, MODULE, wParam);
+		lstrcpynA((char *)lParam, MODULE, wParam);
 		return 0;
 	}
 
 	return 1;
 }
 
-INT_PTR NewsAggrGetCaps(WPARAM wp,LPARAM lp)
+INT_PTR NewsAggrGetCaps(WPARAM wp, LPARAM lp)
 {
 	switch(wp) {
 	case PFLAGNUM_1:
@@ -111,14 +111,14 @@ INT_PTR NewsAggrGetCaps(WPARAM wp,LPARAM lp)
 	}
 }
 
-INT_PTR NewsAggrSetStatus(WPARAM wp, LPARAM /*lp*/)
+INT_PTR NewsAggrSetStatus(WPARAM wp, LPARAM)
 {
 	int nStatus = wp;
 	if ((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus)) {
 		int nOldStatus = g_nStatus;
 		if(nStatus != g_nStatus) {
 			g_nStatus = nStatus;
-			mir_forkthread(WorkingThread, (void*)g_nStatus);
+			mir_forkthread(WorkingThread, (void *)g_nStatus);
 			ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)nOldStatus, g_nStatus);
 		}
 	}
@@ -126,12 +126,12 @@ INT_PTR NewsAggrSetStatus(WPARAM wp, LPARAM /*lp*/)
 	return 0;
 }
 
-INT_PTR NewsAggrGetStatus(WPARAM/* wp*/,LPARAM/* lp*/)
+INT_PTR NewsAggrGetStatus(WPARAM, LPARAM)
 {
 	return g_nStatus;
 }
 
-INT_PTR NewsAggrLoadIcon(WPARAM wParam,LPARAM lParam)
+INT_PTR NewsAggrLoadIcon(WPARAM wParam, LPARAM lParam)
 {
 	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(LoadIconEx("main", FALSE)) : 0;
 }
@@ -139,17 +139,17 @@ INT_PTR NewsAggrLoadIcon(WPARAM wParam,LPARAM lParam)
 static void __cdecl AckThreadProc(HANDLE param)
 {
 	Sleep(100);
-	ProtoBroadcastAck(MODULE, param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	ProtoBroadcastAck(MODULE, param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
-INT_PTR NewsAggrGetInfo(WPARAM wParam,LPARAM lParam)
+INT_PTR NewsAggrGetInfo(WPARAM wParam, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *) lParam;
+	CCSDATA *ccs = (CCSDATA *)lParam;
 	mir_forkthread(AckThreadProc, ccs->hContact);
 	return 0;
 }
 
-INT_PTR CheckAllFeeds(WPARAM wParam,LPARAM lParam)
+INT_PTR CheckAllFeeds(WPARAM wParam, LPARAM lParam)
 {
 	for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		if (lParam && db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
@@ -163,7 +163,7 @@ INT_PTR CheckAllFeeds(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR AddFeed(WPARAM wParam,LPARAM lParam)
+INT_PTR AddFeed(WPARAM wParam, LPARAM lParam)
 {
 	hAddFeedDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_ADDFEED), NULL, DlgProcAddFeedOpts);
 	ShowWindow(hAddFeedDlg, SW_SHOW);
@@ -172,13 +172,12 @@ INT_PTR AddFeed(WPARAM wParam,LPARAM lParam)
 
 INT_PTR ChangeFeed(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE) wParam;
-	HWND hChangeFeedDlg = WindowList_Find(hChangeFeedDlgList,hContact);
+	HANDLE hContact = (HANDLE)wParam;
+	HWND hChangeFeedDlg = WindowList_Find(hChangeFeedDlgList, hContact);
 	if (!hChangeFeedDlg) {
 		hChangeFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), NULL, DlgProcChangeFeedMenu, (LPARAM)hContact);
 		ShowWindow(hChangeFeedDlg, SW_SHOW);
-	}
-	else {
+	} else {
 		SetForegroundWindow(hChangeFeedDlg);
 		SetFocus(hChangeFeedDlg);
 	}
@@ -187,6 +186,7 @@ INT_PTR ChangeFeed(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ImportFeeds(WPARAM wParam, LPARAM lParam)
 {
+	ImportFeedsDialog();
 	return 0;
 }
 
@@ -200,15 +200,15 @@ INT_PTR CheckFeed(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = (HANDLE)wParam;
 	if(IsMyContact(hContact))
 		UpdateListAdd(hContact);
-	if (!ThreadRunning)
+	if ( !ThreadRunning)
 		mir_forkthread(UpdateThreadProc, (LPVOID)FALSE);
 	return 0;
 }
 
 INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATIONT* pai = (PROTO_AVATAR_INFORMATIONT*) lParam;
-	if (!IsMyContact(pai->hContact))
+	PROTO_AVATAR_INFORMATIONT *pai = (PROTO_AVATAR_INFORMATIONT *)lParam;
+	if ( !IsMyContact(pai->hContact))
 		return GAIR_NOAVATAR;
 
 	// if GAIF_FORCE is set, we are updating the feed

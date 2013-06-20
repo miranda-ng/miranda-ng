@@ -129,6 +129,7 @@ VOID CheckCurrentFeed(HANDLE hContact);
 VOID CheckCurrentFeedAvatar(HANDLE hContact);
 TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg);
 void UpdateMenu(BOOL State);
+int ImportFeedsDialog();
 
 // ===============  NewsAggregator SERVICES  ================
 // Check all Feeds info
