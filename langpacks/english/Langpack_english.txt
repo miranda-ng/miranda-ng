@@ -1734,7 +1734,7 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Białek
+;  Authors: Bartosz 'Dezeath' Biaіek
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 ;file \plugins\AddContactPlus\res\resource.rc
@@ -13132,7 +13132,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.2
+;  Version: 0.1.1.3
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -15031,7 +15031,7 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.4
-;  Authors: Bartosz 'Dezeath' Białek, Harven
+;  Authors: Bartosz 'Dezeath' Biaіek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
 ;file \plugins\SimpleStatusMsg\res\resource.rc
@@ -15197,7 +15197,7 @@
 [Skype name:]
 [&Create]
 [Topic:]
-[Guidline:]
+[Guideline:]
 [Enable joining]
 [Users joining as:]
 [Create with password]
@@ -15210,7 +15210,7 @@
 [Set password]
 [Hint:]
 [Enter password]
-[Enter a password for skype name %d:]
+[Enter a password]
 [Remember this session password]
 [OK]
 [Cancel]
@@ -15245,6 +15245,8 @@
 [for incoming connections]
 [Use ports 80 and 443 as alternative incoming]
 [Default group:]
+[Skype bookmarks]
+[Server side bookmarks\nControl conference bookmarks on server.]
 ;file \protocols\Skype\src\skype.cpp
 [Did not unpack SkypeKit.exe.]
 ;file \protocols\Skype\src\skype_account.cpp
@@ -15282,6 +15284,9 @@
 [The new password was unacceptable]
 [Account was currently not logged in]
 [You have not entered a Skype name.\nConfigure this in Options->Network->Skype and try again.]
+;file \protocols\Skype\src\skype_bookmarks.cpp
+[Name]
+[Conferences]
 ;file \protocols\Skype\src\skype_chat.cpp
 [&User details]
 [&Request auth]
@@ -15297,15 +15302,18 @@
 [Copy &skypename]
 [Copy room &uri]
 [me]
-[Incoming group call received]
+[waits to join]
 [Incoming group call finished]
+[The password is incorrect]
+[Your application to join the conference was denied]
+[Incoming group call received]
 [You did not select any contact]
 [Hi! I'd like to add you to my contact list]
 ;file \protocols\Skype\src\skype_contacts.cpp
 [Contact already in your contact list]
 [Contacts received]
 ;file \protocols\Skype\src\skype_dialogs.cpp
-[Enter a password for Skype Name %s:]
+[Enter a password for %s:]
 [Password can't be empty.]
 [Old password is not correct.]
 [New password is same as old password.]
@@ -15316,16 +15324,18 @@
 [You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
 ;file \protocols\Skype\src\skype_events.cpp
 [Spawn conference]
+[Bookmark]
 [Network]
 [Contacts]
 [Home]
 [General]
-[Incoming call received]
-[Incoming call from %s. Use offical skype for calling.]
 ;file \protocols\Skype\src\skype_icons.cpp
 [Protocol icon]
 [Call]
 [Send contact]
+[Delete]
+[Ignore]
+[Block]
 [Protocols]
 ;file \protocols\Skype\src\skype_instances.cpp
 [SkypeKit will only permit you to login to one account at a time.\nAdding multiple instances of SkypeKit is prohibited in the licence agreement and standard distribution terms.]
@@ -15333,10 +15343,14 @@
 [SkypeKit did not initialize (%d).]
 [SkypeKit did not start.]
 ;file \protocols\Skype\src\skype_menus.cpp
-[Revoke authorization]
 [Request authorization]
 [Grant authorization]
+[Revoke authorization]
+[Set bookmark]
+[Bookmarks]
 ;file \protocols\Skype\src\skype_messages.cpp
+[Incoming call received]
+[Incoming call from %s. Use offical skype for calling.]
 [Incoming call finished]
 ;file \protocols\Skype\src\skype_netlib.cpp
 [%s connection]

@@ -17,8 +17,8 @@ Skype протокол для Miranda NG.
 Добавить
 [Enter password]
 Введите пароль
-[Enter a password for skype name %d:]
-Пароль для Skype ID %:
+[Enter a password]
+Введите пароль
 [Remember this session password]
 Запомнить пароль этой сессии
 [Cancel]
@@ -69,12 +69,12 @@ Skype протокол для Miranda NG.
 Часовой пояс:
 [Change password]
 Изменить пароль
-[Old password]
-Старый пароль
-[New password]
-Новый пароль
-[Confirmation]
-Подтвердить
+[Old password:]
+Старый пароль:
+[New password:]
+Новый пароль:
+[Confirmation:]
+Подтвердить:
 [Password:]
 Пароль:
 [Register new account]
@@ -101,35 +101,16 @@ Skype протокол для Miranda NG.
 SkypeKit не инициализирован.
 [SkypeKit did not start.]
 SkypeKit не запустился.
-[LOGOUT_CALLED]
-[HTTPS_PROXY_AUTH_FAILED]
-[SOCKS_PROXY_AUTH_FAILED]
-[P2P_CONNECT_FAILED]
-[SERVER_CONNECT_FAILED]
-[SERVER_OVERLOADED]
-[DB_IN_USE]
 [Invalid skypename]
 Неверный Skype ID
 [Invalid email]
 Неверный e-mail
 [Unacceptable password]
 Недопустимый пароль
-[SKYPENAME_TAKEN]
-[REJECTED_AS_UNDERAGE]
-[NO_SUCH_IDENTITY]
 [Incorrect password]
 Неверный пароль
 [Too many login attempts]
 Слишком много попыток входа
-[PASSWORD_HAS_CHANGED]
-[PERIODIC_UIC_UPDATE_FAILED]
-[DB_DISK_FULL]
-[DB_IO_ERROR]
-[DB_CORRUPT]
-[DB_FAILURE]
-[INVALID_APP_ID]
-[APP_ID_FAILURE]
-[UNSUPPORTED_VERSION]
 [ATO (Account TakeOver) detected, account blocked]
 [Logout from another instance]
 Выйти на других устройствах
@@ -159,8 +140,8 @@ SkypeKit не запустился.
 История &пользователя
 [Contact already in your contact list]
 Контакт уже в контакт листе
-[Enter a password for Skype Name %s:]
-Введите пароль для Skype ID %s:
+[Enter a password for %s:]
+Введите пароль для %s:
 [<not specified>]
 <не указано>
 [Male]
@@ -203,11 +184,9 @@ SkypeKit не запустился.
 [%s connection]
 %s подключение
 ;file \protocols\Skype\src\skype_proto.cpp
-[g_skype Name]
 ;file \protocols\Skype\src\skype_utils.cpp
-[NOT_VALIDATED]
 [Validation succeeded]
-
+Валидация пройдена
 [Password is too short]
 Пароль слишком короткий
 [The value exceeds max size limit for the given property]
@@ -229,16 +208,34 @@ SkypeKit не запустился.
 Skype протокол
 [Create conference]
 Создать конференцию
+[Invite contacts to conference]
+Пригласить в конференцию
 [Topic:]
 Тема:
 [Guideline:]
 
 [Creator]
 Создатель
-[Master]
-Мастер
-[Helper]
-Помошник
+[Set &role]
+Установить &роль
+[&Master]
+&Мастер
+[&Helper]
+&Помошник
+[&User]
+&Пользователь
+[&Listener]
+&Слушатель
+[&Add]
+&Добавить
+[&Kick]
+&Выкинуть
+[Outlaw (&ban)]
+Забанить
+[Copy &skypename]
+Копировать &Skype ID
+[Copy room &uri]
+Копировать ID конференции
 [Confirmation:]
 Подтверждение:
 [Create with password]
@@ -246,5 +243,30 @@ Skype протокол
 [Password hint:]
 Подсказка пароля:
 [Users joining as:]
-
+Пользователь входит как:
 [Enable joining]
+Разрешить добавления в чат
+[Set bookmark]
+В закладках
+[Bookmarks]
+Закладки
+[Bookmark]
+Закладка
+[Delete]
+Удалить
+[Ignore]
+Игнорировать
+[Block]
+Заблокировать
+[Skype bookmarks]
+Закладки Skype
+[Server side bookmarks\nControl conference bookmarks on server.]
+Закладки на сервере\nХранить чат-комнаты и ссылки на сервере.
+[Name]
+Имя
+[Conferences]
+Конференции
+[The password is incorrect]
+Пароль неверен
+[Your application to join the conference was denied]
+Ваша просьба о присоеденении к конференции отклонена
