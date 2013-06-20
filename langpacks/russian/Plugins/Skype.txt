@@ -164,6 +164,12 @@ SkypeKit не запустился.
 Аккаунт
 [Incoming call]
 Входящий звонок
+[Incoming call received]
+Принят входящий звонок
+[Incoming call from %s. Use offical skype for calling.]
+Входящий звонок от %s. Используйте официальный клиент для звонков.
+[Incoming call finished]
+Входящий звонок завершен
 [Call]
 Звонок
 [Invite to conference]
