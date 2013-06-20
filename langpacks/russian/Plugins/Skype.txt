@@ -213,7 +213,7 @@ Skype протокол
 [Topic:]
 Тема:
 [Guideline:]
-Правила
+Правила:
 [Creator]
 Создатель
 [Master] 
