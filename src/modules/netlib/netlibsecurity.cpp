@@ -89,12 +89,9 @@ static void LoadSecurityLibrary(void)
 
 	pInitSecurityInterface = (INIT_SECURITY_INTERFACE)GetProcAddress(g_hSecurity, SECURITY_ENTRYPOINT_ANSI);
 	if (pInitSecurityInterface != NULL)
-	{
 		g_pSSPI = pInitSecurityInterface();
-	}
 
-	if (g_pSSPI == NULL)
-	{
+	if (g_pSSPI == NULL) {
 		FreeLibrary(g_hSecurity);
 		g_hSecurity = NULL;
 	}
@@ -111,8 +108,7 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 {
 	HANDLE hSecurity = NULL;
 
-	if (_tcsicmp(szProvider, _T("Basic")) == 0)
-	{
+	if (_tcsicmp(szProvider, _T("Basic")) == 0) {
 		NtlmHandleType* hNtlm = (NtlmHandleType*)mir_calloc(sizeof(NtlmHandleType));
 		hNtlm->szProvider = mir_tstrdup(szProvider);
 		SecInvalidateHandle(&hNtlm->hClientContext);
@@ -124,21 +120,18 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 
 	WaitForSingleObject(hSecMutex, INFINITE);
 
-	if (secCnt == 0)
-	{
+	if (secCnt == 0) {
 		LoadSecurityLibrary();
 		secCnt += g_hSecurity != NULL;
 	}
 	else secCnt++;
 
-	if (g_pSSPI != NULL)
-	{
+	if (g_pSSPI != NULL) {
 		PSecPkgInfo ntlmSecurityPackageInfo;
 		bool isGSSAPI = _tcsicmp(szProvider, _T("GSSAPI")) == 0;
 		const TCHAR *szProviderC = isGSSAPI ? _T("Kerberos") : szProvider;
 		SECURITY_STATUS sc = g_pSSPI->QuerySecurityPackageInfo((LPTSTR)szProviderC, &ntlmSecurityPackageInfo);
-		if (sc == SEC_E_OK)
-		{
+		if (sc == SEC_E_OK) {
 			NtlmHandleType* hNtlm;
 
 			hSecurity = hNtlm = (NtlmHandleType*)mir_calloc(sizeof(NtlmHandleType));
@@ -164,12 +157,12 @@ HANDLE NetlibInitSecurityProvider(const char* szProvider, const char* szPrincipa
 
 void NetlibDestroySecurityProvider(HANDLE hSecurity)
 {
-	if (hSecurity == NULL) return;
+	if (hSecurity == NULL)
+		return;
 
 	WaitForSingleObject(hSecMutex, INFINITE);
 
-	if (ntlmCnt != 0)
-	{
+	if (ntlmCnt != 0) {
 		NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
 		if (SecIsValidHandle(&hNtlm->hClientContext)) g_pSSPI->DeleteSecurityContext(&hNtlm->hClientContext);
 		if (SecIsValidHandle(&hNtlm->hClientCredential)) g_pSSPI->FreeCredentialsHandle(&hNtlm->hClientCredential);
@@ -197,15 +190,14 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 	SecBuffer inBuffers[2] =
 	{
 		{ sizeof(inDataBuffer), SECBUFFER_DATA, inDataBuffer },
-		{ chlsz, SECBUFFER_STREAM, szChallenge },
+		{ chlsz, SECBUFFER_STREAM, szChallenge }
 	};
 
 	SecBufferDesc inBuffersDesc = { SECBUFFER_VERSION, 2, inBuffers };
 
 	unsigned long qop = 0;
 	SECURITY_STATUS sc = g_pSSPI->DecryptMessage(&hNtlm->hClientContext, &inBuffersDesc, 0, &qop);
-	if (sc != SEC_E_OK)
-	{
+	if (sc != SEC_E_OK) {
 		ReportSecError(sc, __LINE__);
 		return NULL;
 	}
@@ -215,8 +207,7 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 
 	SecPkgContext_Sizes sizes;
 	sc = g_pSSPI->QueryContextAttributes(&hNtlm->hClientContext, SECPKG_ATTR_SIZES, &sizes);
-	if (sc != SEC_E_OK)
-	{
+	if (sc != SEC_E_OK) {
 		ReportSecError(sc, __LINE__);
 		return NULL;
 	}
@@ -235,8 +226,7 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 	SecBufferDesc outBuffersDesc = { SECBUFFER_VERSION, 3, outBuffers };
 
 	sc = g_pSSPI->EncryptMessage(&hNtlm->hClientContext, SECQOP_WRAP_NO_ENCRYPT, &outBuffersDesc, 0);
-	if (sc != SEC_E_OK)
-	{
+	if (sc != SEC_E_OK) {
 		ReportSecError(sc, __LINE__);
 		return NULL;
 	}
@@ -246,8 +236,7 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 		ressz += outBuffersDesc.pBuffers[i].cbBuffer;
 
 	unsigned char *response = (unsigned char*)alloca(ressz), *p = response;
-	for (i=0; i < outBuffersDesc.cBuffers; i++)
-	{
+	for (i=0; i < outBuffersDesc.cBuffers; i++) {
 		memcpy(p, outBuffersDesc.pBuffers[i].pvBuffer, outBuffersDesc.pBuffers[i].cbBuffer);
 		p += outBuffersDesc.pBuffers[i].cbBuffer;
 	}
@@ -257,7 +246,9 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 
 char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const TCHAR* login, const TCHAR* psw, bool http, unsigned& complete)
 {
-	SECURITY_STATUS sc;
+	if (hSecurity == NULL || ntlmCnt == 0)
+		return NULL;
+
 	SecBufferDesc outputBufferDescriptor, inputBufferDescriptor;
 	SecBuffer outputSecurityToken, inputSecurityToken;
 	TimeStamp tokenExpiration;
@@ -265,9 +256,6 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 	char *szOutputToken;
 
 	NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
-
-	if (hSecurity == NULL || ntlmCnt == 0) return NULL;
-
 	if (_tcsicmp(hNtlm->szProvider, _T("Basic")))
 	{
 		bool isGSSAPI = _tcsicmp(hNtlm->szProvider, _T("GSSAPI")) == 0;
@@ -368,7 +356,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 				hNtlm->hasDomain = domainLen != 0;
 			}
 
-			sc = g_pSSPI->AcquireCredentialsHandle(NULL, szProvider,
+			SECURITY_STATUS sc = g_pSSPI->AcquireCredentialsHandle(NULL, szProvider,
 				SECPKG_CRED_OUTBOUND, NULL, hNtlm->hasDomain ? &auth : NULL, NULL, NULL,
 				&hNtlm->hClientCredential, &tokenExpiration);
 			if (sc != SEC_E_OK)
@@ -385,7 +373,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		outputSecurityToken.cbBuffer = hNtlm->cbMaxToken;
 		outputSecurityToken.pvBuffer = alloca(outputSecurityToken.cbBuffer);
 
-		sc = g_pSSPI->InitializeSecurityContext(&hNtlm->hClientCredential,
+		SECURITY_STATUS sc = g_pSSPI->InitializeSecurityContext(&hNtlm->hClientCredential,
 			hasChallenge ? &hNtlm->hClientContext : NULL,
 			hNtlm->szPrincipal, isGSSAPI ? ISC_REQ_MUTUAL_AUTH | ISC_REQ_STREAM : 0, 0, SECURITY_NATIVE_DREP,
 			hasChallenge ? &inputBufferDescriptor : NULL, 0, &hNtlm->hClientContext,
@@ -394,20 +382,16 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		complete = (sc != SEC_I_COMPLETE_AND_CONTINUE && sc != SEC_I_CONTINUE_NEEDED);
 
 		if (sc == SEC_I_COMPLETE_NEEDED || sc == SEC_I_COMPLETE_AND_CONTINUE)
-		{
 			sc = g_pSSPI->CompleteAuthToken(&hNtlm->hClientContext, &outputBufferDescriptor);
-		}
 
-		if (sc != SEC_E_OK && sc != SEC_I_CONTINUE_NEEDED)
-		{
+		if (sc != SEC_E_OK && sc != SEC_I_CONTINUE_NEEDED) {
 			ReportSecError(sc, __LINE__);
 			return NULL;
 		}
 
 		szOutputToken = mir_base64_encode((PBYTE)outputSecurityToken.pvBuffer, outputSecurityToken.cbBuffer);
 	}
-	else
-	{
+	else {
 		if ( !login || !psw) return NULL;
 
 		char *szLogin = mir_t2a(login);
@@ -416,8 +400,8 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		size_t authLen = strlen(szLogin) + strlen(szPassw) + 5;
 		char *szAuth = (char*)alloca(authLen);
 
-		mir_snprintf(szAuth, authLen, "%s:%s", szLogin, szPassw);
-		szOutputToken = mir_strdup(szAuth);
+		int len = mir_snprintf(szAuth, authLen, "%s:%s", szLogin, szPassw);
+		szOutputToken = mir_base64_encode((BYTE*)szAuth, len);
 		complete = true;
 
 		mir_free(szPassw);
@@ -456,7 +440,6 @@ static INT_PTR InitSecurityProviderService2(WPARAM, LPARAM lParam)
 	if (req->flags & NNR_UNICODE)
 		hSecurity = NetlibInitSecurityProvider(req->szProviderName, req->szPrincipal);
 	else
-
 		hSecurity = NetlibInitSecurityProvider((char*)req->szProviderName, (char*)req->szPrincipal);
 
 	return (INT_PTR)hSecurity;
@@ -487,19 +470,11 @@ static INT_PTR NtlmCreateResponseService2(WPARAM wParam, LPARAM lParam)
 	char* response;
 
 	if (req->flags & NNR_UNICODE)
-	{
 		response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge,
 			req->szUserName, req->szPassword, false, req->complete);
-	}
 	else
-	{
-		TCHAR *szLogin = mir_a2t((char*)req->szUserName);
-		TCHAR *szPassw = mir_a2t((char*)req->szPassword);
 		response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge,
-			szLogin, szPassw, false, req->complete);
-		mir_free(szLogin);
-		mir_free(szPassw);
-	}
+			_A2T((char*)req->szUserName), _A2T((char*)req->szPassword), false, req->complete);
 
 	return (INT_PTR)response;
 }

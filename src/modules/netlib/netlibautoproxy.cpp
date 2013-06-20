@@ -385,7 +385,7 @@ void NetlibLoadIeProxy(void)
 		char* szProxy = ltrim(szHostStr);
 		if (szProxy[0] == 0) { enabled = false; return; }
 
-		for (;;)
+		while(true)
 		{
 			char *szProxyEnd = strchr(szProxy, ';');
 			if (szProxyEnd) *szProxyEnd = 0;
@@ -417,7 +417,7 @@ void NetlibLoadIeProxy(void)
 		}
 
 		char* szProxyBypass = szProxyBypassStr;
-		for (;;)
+		while(true)
 		{
 			char *szProxyBypassEnd = strchr(szProxyBypass, ';');
 			if (szProxyBypassEnd) *szProxyBypassEnd = 0;

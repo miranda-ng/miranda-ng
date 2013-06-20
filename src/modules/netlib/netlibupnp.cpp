@@ -258,7 +258,7 @@ static int httpTransact(char* szUrl, char* szResult, int resSize, char* szAction
 	else
 		validateSocket();
 
-	for (;;)
+	while(true)
 	{
 		retryCount = 0;
 		switch(reqtype)
@@ -381,7 +381,7 @@ retrycon:
 
 				LongLog(szData);
 				sz = 0;
-				for (;;)
+				while(true)
 				{
 					int bytesRecv;
 

@@ -127,7 +127,7 @@ static void NetlibBindAcceptThread(void* param)
 	struct NetlibBoundPort *nlbp = (NetlibBoundPort*)param;
 
 	NetlibLogf(nlbp->nlu, "(%u) Port %u opened for incoming connections", nlbp->s, nlbp->wPort);
-	for (;;)
+	while(true)
 	{
 		fd_set r;
 		FD_ZERO(&r);

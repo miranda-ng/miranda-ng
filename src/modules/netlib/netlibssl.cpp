@@ -695,7 +695,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 
 	scRet = SEC_E_OK;
 
-	for (;;)
+	while(true)
 	{
 		if (0 == ssl->cbIoBuffer || scRet == SEC_E_INCOMPLETE_MESSAGE)
 		{
