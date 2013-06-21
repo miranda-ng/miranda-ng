@@ -87,7 +87,7 @@ BEGIN
     LTEXT           "&Check any protocol or any status to exclude it from synchronization:",IDC_STATIC,7,13,298,8
     CONTROL         "",IDC_TREE_PROTOCOLS,"SysTreeView32",WS_BORDER | WS_HSCROLL | WS_TABSTOP,16,26,225,146
     CONTROL         "Synchronize if current status differs from previous one",IDC_CHECK_STATUSES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,194,194,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,194,284,10
 END
 
 

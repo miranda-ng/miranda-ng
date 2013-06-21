@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME        "SkypeStatusChange"
 #define __FILENAME           "SkypeStatusChange.dll"
-#define __DESCRIPTION        "Skype Status Change according to miranda-Status"
+#define __DESCRIPTION        "Skype Status Change according to miranda-Status."
 #define __AUTHOR             "Dioksin"
 #define __AUTHOREMAIL        "dioksin@ua.fm"
 #define __AUTHORWEB          "http://miranda-ng.org/"
