@@ -382,7 +382,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				if ((p.xStatusMode & 3)) {
 					if (p.ProtoStatus > ID_STATUS_OFFLINE) {
 						if ( ProtoServiceExists(p.AccountName, PS_GETCUSTOMSTATUSICON))
-							p.extraIcon = (HICON)CallProtoService(p.AccountName, PS_GETCUSTOMSTATUSICON, 0, 0);
+							p.extraIcon = (HICON)ProtoCallService(p.AccountName, PS_GETCUSTOMSTATUSICON, 0, 0);
 						if (p.extraIcon && (p.xStatusMode & 3) == 3)
 							w += GetSystemMetrics(SM_CXSMICON)+1;
 					}

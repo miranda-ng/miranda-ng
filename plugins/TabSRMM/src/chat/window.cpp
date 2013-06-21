@@ -1411,12 +1411,10 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 	static int currentHovered = -1;
 	static HWND hwndToolTip = NULL;
 	static HWND oldParent = NULL;
-	TOOLINFO ti = {0};
-	RECT clientRect;
-	BOOL bNewTip = FALSE;
-	USERINFO *ui1 = NULL;
 
-	if (hoveredItem == currentHovered) return;
+	if (hoveredItem == currentHovered)
+		return;
+
 	currentHovered = hoveredItem;
 
 	if (oldParent != hwnd && hwndToolTip) {
@@ -1424,50 +1422,49 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 		DestroyWindow(hwndToolTip);
 		hwndToolTip = NULL;
 	}
+
 	if (hoveredItem == -1) {
-
 		SendMessage(hwndToolTip, TTM_ACTIVATE, 0, 0);
+		return;
+	} 
 
-	} else {
-
-		if (!hwndToolTip) {
-			hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS,  NULL,
-										 WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
-										 CW_USEDEFAULT, CW_USEDEFAULT,  CW_USEDEFAULT,  CW_USEDEFAULT,
-										 hwnd, NULL, g_hInst,  NULL);
-			bNewTip = TRUE;
-		}
-
-		GetClientRect(hwnd, &clientRect);
-		ti.cbSize = sizeof(TOOLINFO);
-		ti.uFlags = TTF_SUBCLASS;
-		ti.hinst = g_hInst;
-		ti.hwnd = hwnd;
-		ti.uId = 1;
-		ti.rect = clientRect;
-
-		ti.lpszText = NULL;
-
-		ui1 = SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
-		if (ui1) {
-			if ( ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT))
-				ti.lpszText = (TCHAR*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
-			else {
-				TCHAR ptszBuf[ 1024 ];
-				mir_sntprintf( ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
-					TranslateT("Nick name"), ui1->pszNick,
-					TranslateT("Unique Id"), ui1->pszUID,
-					TranslateT("Status"), TM_WordToString( parentdat->pStatuses, ui1->Status ));
-				ti.lpszText = mir_tstrdup( ptszBuf );
-			}
-		}
-
-		SendMessage(hwndToolTip, bNewTip ? TTM_ADDTOOL : TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
-		SendMessage(hwndToolTip, TTM_ACTIVATE, (ti.lpszText != NULL) , 0);
-		SendMessage(hwndToolTip, TTM_SETMAXTIPWIDTH, 0 , 400);
-		if (ti.lpszText)
-			mir_free(ti.lpszText);
+	BOOL bNewTip = FALSE;
+	if (!hwndToolTip) {
+		hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS,  NULL,
+										WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
+										CW_USEDEFAULT, CW_USEDEFAULT,  CW_USEDEFAULT,  CW_USEDEFAULT,
+										hwnd, NULL, g_hInst,  NULL);
+		bNewTip = TRUE;
 	}
+
+	RECT clientRect;
+	GetClientRect(hwnd, &clientRect);
+
+	TOOLINFO ti = { sizeof(ti) };
+	ti.uFlags = TTF_SUBCLASS;
+	ti.hinst = g_hInst;
+	ti.hwnd = hwnd;
+	ti.uId = 1;
+	ti.rect = clientRect;
+
+	TCHAR ptszBuf[1024];
+
+	USERINFO *ui1 = SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
+	if (ui1) {
+		if ( ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT))
+			ti.lpszText = (TCHAR*)ProtoCallService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
+		else {
+			mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+				TranslateT("Nick name"), ui1->pszNick,
+				TranslateT("Unique Id"), ui1->pszUID,
+				TranslateT("Status"), TM_WordToString( parentdat->pStatuses, ui1->Status));
+			ti.lpszText = ptszBuf;
+		}
+	}
+
+	SendMessage(hwndToolTip, bNewTip ? TTM_ADDTOOL : TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
+	SendMessage(hwndToolTip, TTM_ACTIVATE, (ti.lpszText != NULL) , 0);
+	SendMessage(hwndToolTip, TTM_SETMAXTIPWIDTH, 0 , 400);
 }
 
 /*
@@ -1843,7 +1840,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 				ti.cbSize = sizeof(ti);
 
 				if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT))
-					_tcsncpy(ptszBuf, (TCHAR*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID), SIZEOF(ptszBuf));
+					_tcsncpy(ptszBuf, (TCHAR*)ProtoCallService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID), SIZEOF(ptszBuf));
 				else
 					mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s"),
 						TranslateT("Nick"), ui1->pszNick,

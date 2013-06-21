@@ -546,11 +546,11 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 		bool cap_found = false, supported_proto = false;
 		if(uin)
 		{
-			if(ProtoServiceExists(proto, PS_ICQ_CHECKCAPABILITY)) {
+			if( ProtoServiceExists(proto, PS_ICQ_CHECKCAPABILITY)) {
 				supported_proto = true;
 				ICQ_CUSTOMCAP cap = {0};
 				strcpy(cap.caps, "GPG FileTransfer");
-				if(CallProtoService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)ccs->hContact, (LPARAM)&cap))
+				if( ProtoCallService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)ccs->hContact, (LPARAM)&cap))
 					cap_found = true;
 			}
 		}

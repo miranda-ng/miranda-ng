@@ -815,14 +815,14 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 			// wParam = roomID parentdat->ptszID
 			// lParam = userID ui1->pszUID
 			if ( ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT))
-				ti.lpszText=(TCHAR*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
+				ti.lpszText = (TCHAR*)ProtoCallService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
 			else {
-				TCHAR ptszBuf[ 1024 ];
-				mir_sntprintf( ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
-					TranslateT( "Nick name" ), ui1->pszNick,
-					TranslateT( "Unique id" ), ui1->pszUID,
-					TranslateT( "Status" ), TM_WordToString( parentdat->pStatuses, ui1->Status ));
-				ti.lpszText = mir_tstrdup( ptszBuf );
+				TCHAR ptszBuf[1024];
+				mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+					TranslateT("Nick name"), ui1->pszNick,
+					TranslateT("Unique id"), ui1->pszUID,
+					TranslateT("Status"), TM_WordToString( parentdat->pStatuses, ui1->Status));
+				ti.lpszText = mir_tstrdup(ptszBuf);
 			}
 		}
 

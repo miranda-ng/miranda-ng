@@ -452,8 +452,7 @@ static LRESULT CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam
 	switch(message) {
 	case WM_COMMAND: // snooze
 		if (HIWORD(wParam) == STN_CLICKED) { //It was a click on the Popup.
-			ALARM *mpd = NULL;
-			mpd = (ALARM *)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)mpd);
+			ALARM *mpd = (ALARM *)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);
 
 			if (mpd->flags & ALF_NOSNOOZE)
 				return TRUE;
@@ -490,7 +489,7 @@ static LRESULT CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam
 		return TRUE;
 
 	case UM_FREEPLUGINDATA: 
-		ALARM *mpd = (ALARM *)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)mpd);
+		ALARM *mpd = (ALARM *)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);
 		if (mpd > 0) {
 			free_alarm_data(mpd);
 			delete mpd;

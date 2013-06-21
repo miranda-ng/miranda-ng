@@ -2287,7 +2287,7 @@ void InitCheck()
 
 		for(int i = 0; i < count; i++)
 			if( ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))
-				CallProtoService(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&cap);
+				ProtoCallService(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&cap);
 	}
 	if(bFileTransfers)
 	{
@@ -2302,7 +2302,7 @@ void InitCheck()
 
 		for(int i = 0; i < count; i++)
 			if( ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))
-				CallProtoService(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&cap);
+				ProtoCallService(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&cap);
 	}
 }
 

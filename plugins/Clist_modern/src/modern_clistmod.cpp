@@ -110,7 +110,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 
 		int result = -1;
 		if ( ProtoServiceExists(szActProto, PS_GETADVANCEDSTATUSICON))
-			result = CallProtoService(szActProto, PS_GETADVANCEDSTATUSICON, (WPARAM)hActContact, 0);
+			result = ProtoCallService(szActProto, PS_GETADVANCEDSTATUSICON, (WPARAM)hActContact, 0);
 
 		if (result == -1 || !(LOWORD(result))) {
 			//Get normal Icon

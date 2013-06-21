@@ -413,7 +413,7 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 					DWORD flags = pre->flags;
 					ccs->hContact = hMeta;
 					pre->flags |= (db_get_b(hMeta, META_PROTO, "WindowOpen", 0) ? 0 : PREF_CREATEREAD);
-					if (ProtoServiceExists(proto, PSR_MESSAGE) && !CallProtoService(proto, PSR_MESSAGE, 0, (LPARAM)ccs))
+					if (ProtoServiceExists(proto, PSR_MESSAGE) && !ProtoCallService(proto, PSR_MESSAGE, 0, (LPARAM)ccs))
 						added = TRUE;
 					ccs->hContact = hSub;
 					pre->flags = flags;
@@ -465,18 +465,16 @@ INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	PROTORECVEVENT *pre = (PROTORECVEVENT *) ccs->lParam;
 
-	char *proto = GetContactProto(ccs->hContact);
-
 	// contact is not a meta proto contact - just leave it
+	char *proto = GetContactProto(ccs->hContact);
 	if ( !proto || strcmp(proto, META_PROTO))
 		return 0;
 
 	if (options.use_proto_recv) {
 		// use the subcontact's protocol to add the db if possible (AIMOSCAR removes HTML here!)
 		HANDLE most_online = Meta_GetMostOnline(ccs->hContact);
-		char *proto = GetContactProto(most_online);
-		if (proto)
-			if (CallProtoService(proto, PSR_MESSAGE, wParam, lParam) != CALLSERVICE_NOTFOUND)
+		if (char *subProto = GetContactProto(most_online))
+			if ( ProtoCallService(subProto, PSR_MESSAGE, wParam, lParam) != CALLSERVICE_NOTFOUND)
 				return 0;
 	}
 
@@ -839,7 +837,7 @@ INT_PTR Meta_UserIsTyping(WPARAM wParam, LPARAM lParam)
 	char *proto = GetContactProto(most_online);
 	if (proto)
 		if ( ProtoServiceExists(proto, PSS_USERISTYPING))
-			CallProtoService(proto, PSS_USERISTYPING, (WPARAM)most_online, (LPARAM)lParam);
+			ProtoCallService(proto, PSS_USERISTYPING, (WPARAM)most_online, (LPARAM)lParam);
 
 	return 0;
 }
@@ -1249,9 +1247,10 @@ INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam) {
 
 		AI->hContact = hSub;
 
-		int result = CallProtoService(proto, PS_GETAVATARINFOT, wParam, lParam);
+		INT_PTR result = ProtoCallService(proto, PS_GETAVATARINFOT, wParam, lParam);
 		AI->hContact = hMeta;
-		if (result != CALLSERVICE_NOTFOUND) return result;
+		if (result != CALLSERVICE_NOTFOUND)
+			return result;
 	}
 	return GAIR_NOAVATAR; // fail
 }

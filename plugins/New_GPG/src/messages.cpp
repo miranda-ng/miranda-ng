@@ -561,7 +561,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 				if( ProtoServiceExists(proto, PS_ICQ_CHECKCAPABILITY)) {
 					ICQ_CUSTOMCAP cap = {0};
 					strcpy(cap.caps, "GPG AutoExchange");
-					if(CallProtoService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)ccs->hContact, (LPARAM)&cap)) {
+					if(ProtoCallService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)ccs->hContact, (LPARAM)&cap)) {
 						CallContactService(ccs->hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)"-----PGP KEY REQUEST-----");
 						return 0;
 					}
@@ -880,12 +880,12 @@ int HookSendMsg(WPARAM w, LPARAM l)
 					debuglog<<std::string(time_str()+": info(autoexchange): protocol looks like icq, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
 
 				char *proto = GetContactProto(hContact);
-				if(ProtoServiceExists(proto, PS_ICQ_CHECKCAPABILITY)) {
+				if( ProtoServiceExists(proto, PS_ICQ_CHECKCAPABILITY)) {
 					if(bDebugLog)
 						debuglog<<std::string(time_str()+": info(autoexchange, icq): checking for autoexchange icq capability, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
 					ICQ_CUSTOMCAP cap = {0};
 					strcpy(cap.caps, "GPG AutoExchange");
-					if(CallProtoService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)hContact, (LPARAM)&cap)) {
+					if( ProtoCallService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)hContact, (LPARAM)&cap)) {
 						if(bDebugLog)
 							debuglog<<std::string(time_str()+": info(autoexchange, icq): sending key requiest, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
 						CallContactService(hContact, PSS_MESSAGE, (dbei->flags & DBEF_UTF) ? PREF_UTF : 0, (LPARAM)"-----PGP KEY REQUEST-----");

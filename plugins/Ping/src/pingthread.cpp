@@ -72,13 +72,13 @@ void SetProtoStatus(char *pszLabel, char *pszProto, int if_status, int new_statu
 		}
 	} else {
 		if(ProtoServiceExists(pszProto, PS_GETSTATUS)) {
-			if(CallProtoService(pszProto, PS_GETSTATUS, 0, 0) == if_status) {
+			if(ProtoCallService(pszProto, PS_GETSTATUS, 0, 0) == if_status) {
 				if(options.logging) {
 					char buf[1024];
 					mir_snprintf(buf, 1024, Translate("%s - setting status of protocol '%s' (%d)"), pszLabel, pszProto, new_status);
 					CallService(PLUG "/Log", (WPARAM)buf, 0);
 				}
-				CallProtoService(pszProto, PS_SETSTATUS, new_status, 0);
+				ProtoCallService(pszProto, PS_SETSTATUS, new_status, 0);
 			}
 		}
 	}

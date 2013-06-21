@@ -140,7 +140,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				item = SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_ADDSTRING,0,(LPARAM)TranslateT("Global"));
 				SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_SETITEMDATA,item,0);
 				for ( i = 0; i < count; i++ ) {
-					if ( !IsAccountEnabled( accs[i] ) || CallProtoService( accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0 ) == 0 )
+					if ( !IsAccountEnabled(accs[i]) || CallProtoService(accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
 						continue;
 
 					item = SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_ADDSTRING,0,(LPARAM)accs[i]->tszAccountName);

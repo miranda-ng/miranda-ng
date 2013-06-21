@@ -135,7 +135,7 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,ClcGroup *group
 	group->cl.items[i]->subcontacts = NULL;
 
 	if ( ProtoServiceExists(cacheEntry->szProto, PS_GETADVANCEDSTATUSICON))
-		img = CallProtoService(cacheEntry->szProto, PS_GETADVANCEDSTATUSICON, (WPARAM)hContact, 0);
+		img = ProtoCallService(cacheEntry->szProto, PS_GETADVANCEDSTATUSICON, (WPARAM)hContact, 0);
 
 	if (img == -1 || !(LOWORD(img)))
 		img = CallService(MS_CLIST_GETCONTACTICON,(WPARAM)hContact,0);

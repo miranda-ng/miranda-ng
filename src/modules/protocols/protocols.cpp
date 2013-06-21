@@ -65,7 +65,6 @@ LIST<PROTOCOLDESCRIPTOR> filters(10, CompareProtos2);
 
 //------------------------------------------------------------------------------------
 
-INT_PTR __fastcall MyCallProtoService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 void FreeFilesMatrix(TCHAR ***files);
 
 PROTOCOLDESCRIPTOR* __fastcall Proto_IsProtocolLoaded(const char* szProtoName)
@@ -565,7 +564,7 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 			psra->lastName = (PROTOCHAR*)mir_u2a(psr->lastName);
 			psra->email = (PROTOCHAR*)mir_u2a(psr->email);
 
-			INT_PTR res = MyCallProtoService(szModule, szService, wParam, (LPARAM)psra);
+			INT_PTR res = ProtoCallService(szModule, szService, wParam, (LPARAM)psra);
 
 			mir_free(psra->nick);
 			mir_free(psra->firstName);
@@ -576,7 +575,7 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 		}
 	}
 
-	INT_PTR res = MyCallProtoService(szModule, szService, wParam, lParam);
+	INT_PTR res = ProtoCallService(szModule, szService, wParam, lParam);
 
 	if (res == CALLSERVICE_NOTFOUND && pa && pa->bOldProto && pa->ppro && strchr(szService, 'W')) {
 		TServiceListItem *item = serviceItems.find((TServiceListItem*)&szService);
