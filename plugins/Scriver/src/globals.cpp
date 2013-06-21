@@ -428,7 +428,7 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 			if (hwndSender != NULL) {
 				ErrorWindowData *ewd = (ErrorWindowData *) mir_alloc(sizeof(ErrorWindowData));
 				ewd->szName = GetNickname(item->hContact, item->proto);
-				ewd->szDescription = a2t((char*) ack->lParam);
+				ewd->szDescription = mir_a2t((char*) ack->lParam);
 				ewd->szText = GetSendBufferMsg(item);
 				ewd->hwndParent = hwndSender;
 				ewd->queueItem = item;

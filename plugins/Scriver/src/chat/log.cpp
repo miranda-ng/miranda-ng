@@ -315,8 +315,8 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 				TCHAR *ptszTemp = NULL;
 				TCHAR *ptszText = streamData->lin->ptszText;
 				if (streamData->si->windowData.codePage != CP_ACP) {
-					char *aText = t2acp(streamData->lin->ptszText, CP_ACP);
-					ptszText = ptszTemp = a2tcp(aText, streamData->si->windowData.codePage);
+					char *aText = mir_t2a_cp(streamData->lin->ptszText, CP_ACP);
+					ptszText = ptszTemp = mir_a2t_cp(aText, streamData->si->windowData.codePage);
 					mir_free(aText);
 				}
 
@@ -407,8 +407,8 @@ static void AddEventToBufferIEView(TCHAR **buffer, int *bufferEnd, int *bufferAl
 				TCHAR *ptszTemp = NULL;
 				TCHAR *ptszText = streamData->lin->ptszText;
 				if (streamData->si->windowData.codePage != CP_ACP) {
-					char *aText = t2acp(streamData->lin->ptszText, CP_ACP);
-					ptszText = ptszTemp = a2tcp(aText, streamData->si->windowData.codePage);
+					char *aText = mir_t2a_cp(streamData->lin->ptszText, CP_ACP);
+					ptszText = ptszTemp = mir_a2t_cp(aText, streamData->si->windowData.codePage);
 					mir_free(aText);
 				}
 

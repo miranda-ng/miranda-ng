@@ -102,11 +102,11 @@ TCHAR *GetNickname(HANDLE hContact, const char* szProto)
 					if (!_tcscmp((TCHAR *)ci.pszVal, TranslateW(_T("'(Unknown Contact)'")))) {
 						ci.dwFlag &= ~CNF_UNICODE;
 						if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci))
-							szName = a2t((char*)ci.pszVal);
+							szName = mir_a2t((char*)ci.pszVal);
 					}
 					else szName = mir_tstrdup((TCHAR *)ci.pszVal);
 				}
-				else szName = a2t((char*)ci.pszVal);
+				else szName = mir_a2t((char*)ci.pszVal);
 
 				mir_free(ci.pszVal);
 				if (szName != NULL)

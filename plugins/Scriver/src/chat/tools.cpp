@@ -768,14 +768,14 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 		return FALSE;
 	
 	if ( !( si->dwFlags & GC_UNICODE )) {
-		gcd->pszID = t2a( pszID );
-		gch->pszUID = t2a( pszUID );
-		gch->pszText = t2a( pszText );
+		gcd->pszID = mir_t2a(pszID);
+		gch->pszUID = mir_t2a(pszUID);
+		gch->pszText = mir_t2a(pszText);
 	}
 	else {
-		replaceStr( &gcd->ptszID, pszID );
-		replaceStr( &gch->ptszUID, pszUID);
-		replaceStr( &gch->ptszText, pszText);
+		replaceStr(&gcd->ptszID, pszID);
+		replaceStr(&gch->ptszUID, pszUID);
+		replaceStr(&gch->ptszText, pszText);
 	}
 	
 	gcd->iType = iType;
@@ -796,9 +796,9 @@ BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCH
 		return FALSE;
 
 	if ( !(si->dwFlags & GC_UNICODE)) {
-		gcd.pszID = t2a(pszID);
-		gch.pszUID = t2a(pszUID);
-		gch.pszText = t2a(pszText);
+		gcd.pszID = mir_t2a(pszID);
+		gch.pszUID = mir_t2a(pszUID);
+		gch.pszText = mir_t2a(pszText);
 	}
 	else {
 		gcd.ptszID = mir_tstrdup(pszID);

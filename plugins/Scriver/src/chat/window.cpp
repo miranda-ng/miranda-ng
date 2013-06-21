@@ -1006,7 +1006,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			* iterate over the (sorted) list of nicknames and search for the
 			* string we have
 			*/
-			char *str = t2a(si->szSearch);
+			char *str = mir_t2a(si->szSearch);
 			mir_free(str);
 			for (i = 0; i < iItems; i++) {
 				ui = UM_FindUserFromIndex(si->pUsers, i);

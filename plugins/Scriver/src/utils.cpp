@@ -36,6 +36,20 @@ int safe_wcslen(wchar_t *msg, int maxLen) {
 	return 0;
 }
 
+wchar_t *a2w(const char *src, int len) {
+	wchar_t *wline;
+	int i;
+	if (len <0) {
+		len = (int)strlen(src);
+	}
+	wline = (wchar_t*)mir_alloc(2 * (len + 1));
+	for (i = 0; i < len; i ++) {
+		wline[i] = src[i];
+	}
+	wline[i] = 0;
+	return wline;
+}
+
 static int mimFlags = 0;
 
 enum MIMFLAGS {
