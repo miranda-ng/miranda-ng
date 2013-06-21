@@ -129,12 +129,6 @@ void CSkypeProto::LogOut()
 		this->account->SetAvailability(Contact::OFFLINE);
 		this->Log(L"Logout from account");
 		this->account->Logout(true);
-
-		if ( !::Miranda_Terminated())
-		{
-			this->SetAllContactStatus(ID_STATUS_OFFLINE);
-			this->CloseAllChatSessions();
-		}
 	}
 }
 
@@ -166,7 +160,7 @@ void CSkypeProto::InitProxy()
 		NETLIBUSERSETTINGS nlus = { sizeof(NETLIBUSERSETTINGS) };
 		::CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)this->hNetLibUser, (LPARAM)&nlus);
 
-		if (nlus.useProxy) 
+		if (nlus.useProxy)
 		{
 			char address[MAX_PATH];
 			::mir_snprintf(address, MAX_PATH, "%s:%d", nlus.szProxyServer, nlus.wProxyPort);
@@ -197,7 +191,7 @@ void CSkypeProto::InitProxy()
 				{
 					this->SetStr(SETUPKEY_SOCKS_PROXY_USER, nlus.szProxyAuthUser);
 					ptrA encodedPass(::mir_base64_encode((BYTE*)nlus.szProxyAuthPassword, ::lstrlenA(nlus.szProxyAuthPassword)));
-					this->SetStr(SETUPKEY_SOCKS_PROXY_PWD,	(char*)encodedPass);
+					this->SetStr(SETUPKEY_SOCKS_PROXY_PWD, (char*)encodedPass);
 				}
 				break;
 

@@ -437,21 +437,21 @@ int __cdecl CSkypeProto::SetApparentMode(HANDLE hContact, int mode) { return 0; 
 
 int CSkypeProto::SetStatus(int new_status)
 {
-	switch (new_status) 
+	switch (new_status)
 	{
-		case ID_STATUS_OCCUPIED: 
-			new_status = ID_STATUS_DND; 
+		case ID_STATUS_OCCUPIED:
+			new_status = ID_STATUS_DND;
 		break;
-		case ID_STATUS_FREECHAT: 
-			new_status = ID_STATUS_ONLINE; 
+		case ID_STATUS_FREECHAT:
+			new_status = ID_STATUS_ONLINE;
 		break;
-		case ID_STATUS_ONTHEPHONE: 
-		case ID_STATUS_OUTTOLUNCH: 
-		case ID_STATUS_NA: 
-			new_status = ID_STATUS_AWAY; 
+		case ID_STATUS_ONTHEPHONE:
+		case ID_STATUS_OUTTOLUNCH:
+		case ID_STATUS_NA:
+			new_status = ID_STATUS_AWAY;
 		break;
 	}
-	
+
 	if (new_status == this->m_iDesiredStatus)
 		return 0;
 
@@ -462,23 +462,35 @@ int CSkypeProto::SetStatus(int new_status)
 	{
 		this->LogOut();
 		this->m_iStatus = this->m_iDesiredStatus = ID_STATUS_OFFLINE;
+
+		this->SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+
+		if ( !::Miranda_Terminated())
+		{
+			this->SetAllContactStatus(ID_STATUS_OFFLINE);
+			this->CloseAllChatSessions();
+		}
+
+		return 0;
 	}
 	else
 	{
 		if (old_status == ID_STATUS_OFFLINE && !this->IsOnline())
 		{
 			this->m_iStatus = ID_STATUS_CONNECTING;
-			if ( !this->LogIn()) 
+			if ( !this->LogIn())
 				return 0;
 		}
 		else
 		{
-			if ( this->account->IsOnline()) {
+			if ( this->account->IsOnline())
+			{
 				SetServerStatus(new_status);
 				return 0;
 			}
-			
-			SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+
+			this->SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+			return 0;
 		}
 	}
 
