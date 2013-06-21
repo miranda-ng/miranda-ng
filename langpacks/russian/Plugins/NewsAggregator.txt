@@ -217,3 +217,7 @@ URL страницы с комментариями к новости.
 Введите формат сообщения
 [NewsAggregator HTTP connection]
 HTTP подключение каналов новостей
+[OPML files]
+Файлы OPML
+[Not valid import file.]
+Неверный файл для импорта
