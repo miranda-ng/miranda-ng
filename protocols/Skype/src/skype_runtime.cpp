@@ -22,24 +22,23 @@ char *CSkypeProto::LoadKeyPair()
 	if (length == 0)
 		return NULL;
 
-	char* pData = new char[length + 1];
+	char* pData = (char*)_alloca(length + 1);
     ::memcpy(pData, pLockedResource, length);
     pData[length] = 0;
 
-	unsigned char *tmpD = (unsigned char *)::mir_base64_decode(pData, NULL);
-	unsigned char *result = (unsigned char *)::mir_alloc(length*2);
-	delete [] pData;
+	unsigned decodedLen;
+	mir_ptr<BYTE> tmpD((BYTE*)::mir_base64_decode(pData, &decodedLen));
+	BYTE *result = (BYTE*)::mir_alloc(decodedLen+17);
 
 	aes_context ctx;
 	char *key = (char*)::mir_base64_decode(MY_KEY, NULL);
-	::aes_set_key(&ctx, (unsigned char *)key, 128);
+	::aes_set_key(&ctx, (BYTE*)key, 128);
 	::mir_free(key);
 
-	for (int i = 0; i < length; i += 16)
-		aes_decrypt(&ctx, tmpD + i, result + i);
+	for (unsigned i = 0; i < decodedLen; i += 16)
+		aes_decrypt(&ctx, &tmpD[i], &result[i]);
 
-	::mir_free(tmpD);
-	result[length] = 0;
+	result[decodedLen] = 0;
 	return (char *)result;
 }
 
