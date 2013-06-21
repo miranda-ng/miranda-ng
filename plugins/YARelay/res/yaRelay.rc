@@ -65,8 +65,8 @@ BEGIN
     GROUPBOX        "Forwarding options",IDC_STATIC,3,115,302,69
     CONTROL         "Split message (%m)",IDC_CHECK_SPLIT,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,8,125,136,10
-    LTEXT           "Send only first",IDC_STATIC,151,125,57,8,WS_TABSTOP
-    LTEXT           "Max size of split part (chars)",IDC_STATIC,8,138,101,8,
+    RTEXT           "Send only first",IDC_STATIC,151,125,63,8,WS_TABSTOP
+    RTEXT           "Max size of split part (chars)",IDC_STATIC,8,138,108,8,
                     WS_TABSTOP
     CONTROL         "Mark received messages as 'read'",IDC_CHECK_MARKREAD,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | 
@@ -74,11 +74,11 @@ BEGIN
     CONTROL         "Save sent messages in recipient's history",
                     IDC_CHECK_SAVEHISTORY,"Button",BS_AUTOCHECKBOX | BS_TOP | 
                     BS_MULTILINE | WS_TABSTOP,151,156,144,21
-    EDITTEXT        IDC_EDIT_MAXSIZE,114,134,22,14,ES_AUTOHSCROLL | 
+    EDITTEXT        IDC_EDIT_MAXSIZE,119,135,22,14,ES_AUTOHSCROLL | 
                     WS_DISABLED
-    EDITTEXT        IDC_EDIT_SENDPARTS,211,122,16,14,ES_AUTOHSCROLL | 
+    EDITTEXT        IDC_EDIT_SENDPARTS,219,122,16,14,ES_AUTOHSCROLL | 
                     WS_DISABLED
-    LTEXT           "split parts (0 = all)",IDC_STATIC,229,125,72,8,
+    LTEXT           "split parts (0 = all)",IDC_STATIC,239,125,63,8,
                     WS_TABSTOP
     LTEXT           "Note: Max size - it's a size of %m parameter",
                     IDC_STATIC,151,138,146,17,WS_TABSTOP
