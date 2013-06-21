@@ -1089,7 +1089,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	//statusmessages setzen
 	strcpy(statusmessage[0],"");
-	strcpy(statusmessage[1],"(AFK) Away from Keyboard");
+	mir_snprintf(statusmessage[1], SIZEOF(statusmessage[1]), "(AFK) %s", Translate("Away from Keyboard"));
 	
 	char servicefunction[100];
 	
@@ -1661,7 +1661,7 @@ INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 		{
 			//setze bei aktivem nocustomaway die alte awaystatusmsg zurück, bugfix
 			if(db_get_b(NULL,protocolname,"nocustomaway",0))
-				strcpy_s(statusmessage[1],1024,"(AFK) Away from Keyboard");
+				mir_snprintf(statusmessage[1], SIZEOF(statusmessage[1]), "(AFK) %s", Translate("Away from Keyboard"));
 
 			myClient->Status(statusmessage[1]);
 		}
@@ -3323,9 +3323,9 @@ INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam) {
 		{
 			strcpy(statusmessage[0],"");
 		}
-		else if((wParam!=ID_STATUS_ONLINE&&wParam!=ID_STATUS_OFFLINE)/*&&db_get_b(NULL,protocolname,"nocustomaway",0)==0*/)
+		else if(wParam!=ID_STATUS_OFFLINE/*&&db_get_b(NULL,protocolname,"nocustomaway",0)==0*/)
 		{
-			strcpy(statusmessage[1],"(AFK) Away from Keyboard");
+			mir_snprintf(statusmessage[1], SIZEOF(statusmessage[1]), "(AFK) %s", Translate("Away from Keyboard"));
 		}
 	}
 	else
@@ -3334,14 +3334,12 @@ INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam) {
 		{
 			strcpy(statusmessage[0],( char* )lParam);
 		}
-		else if((wParam!=ID_STATUS_ONLINE&&wParam!=ID_STATUS_OFFLINE)&&db_get_b(NULL,protocolname,"nocustomaway",0)==0&&strlen(( char* )lParam)>0)
-		{
-			sprintf(statusmessage[1], "(AFK) %s", (char*)lParam);
-			//strcpy(statusmessage[1],( char* )lParam);
-		}
-		else if(wParam!=ID_STATUS_ONLINE&&wParam!=ID_STATUS_OFFLINE)
-		{
-			strcpy(statusmessage[1],"(AFK) Away from Keyboard");
+		else if (wParam != ID_STATUS_OFFLINE) {
+			if (db_get_b(NULL,protocolname,"nocustomaway",0)==0&&strlen(( char* )lParam)>0) {
+				mir_snprintf(statusmessage[1], SIZEOF(statusmessage[1]), "(AFK) %s", (char*)lParam);
+				//strcpy(statusmessage[1],( char* )lParam);
+			} else
+				mir_snprintf(statusmessage[1], SIZEOF(statusmessage[1]), "(AFK) %s", Translate("Away from Keyboard"));
 		}
 	}
 
