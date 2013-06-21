@@ -506,18 +506,18 @@ void myPlaySound(HANDLE hcontact, WORD newStatus, WORD oldStatus)
 {
 	if (CallService(MS_IGNORE_ISIGNORED,(WPARAM)hcontact,IGNOREEVENT_USERONLINE)) return;
 	//oldStatus and hcontact are not used yet
-	char * soundname=0;
-	if ((newStatus==ID_STATUS_ONLINE) || (newStatus==ID_STATUS_FREECHAT)) soundname = "LastSeenTrackedStatusOnline";
-	else if (newStatus==ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusOffline";
-	else if (oldStatus==ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusFromOffline";
+	char *soundname = NULL;
+	if ((newStatus == ID_STATUS_ONLINE) || (newStatus == ID_STATUS_FREECHAT)) soundname = "LastSeenTrackedStatusOnline";
+	else if (newStatus == ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusOffline";
+	else if (oldStatus == ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusFromOffline";
 	else soundname = "LastSeenTrackedStatusChange";
-	if (soundname!=0) SkinPlaySound(soundname);
+	if (soundname != NULL)
+		SkinPlaySound(soundname);
 }
 
 //will add hContact to queue and will return position;
 static logthread_info* addContactToQueue(HANDLE hContact)
 {
-	int i = 0;
 	if (!hContact)
 		return NULL;
 

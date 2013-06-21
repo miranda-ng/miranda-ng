@@ -311,12 +311,8 @@ static INT_PTR AddContactMenuItem(WPARAM, LPARAM lParam)
 		mir_snprintf(buf, SIZEOF(buf), "%s/%s", (mi->pszContactOwner) ? mi->pszContactOwner : "", (mi->pszService) ? mi->pszService : "");
 	else if (mi->ptszName)
 	{
-		if (tmi.flags&CMIF_UNICODE)
-		{
-			char * temp = mir_t2a(mi->ptszName);
-			mir_snprintf(buf, SIZEOF(buf), "%s/NoService/%s", (mi->pszContactOwner) ? mi->pszContactOwner : "", temp);
-			mir_free(temp);
-		}
+		if (tmi.flags & CMIF_UNICODE)
+			mir_snprintf(buf, SIZEOF(buf), "%s/NoService/%s", (mi->pszContactOwner) ? mi->pszContactOwner : "", _T2A(mi->ptszName));
 		else
 			mir_snprintf(buf, SIZEOF(buf), "%s/NoService/%s", (mi->pszContactOwner) ? mi->pszContactOwner : "", mi->ptszName);
 	}

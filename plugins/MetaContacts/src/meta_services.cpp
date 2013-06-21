@@ -261,13 +261,8 @@ INT_PTR MetaFilter_SendMessage(WPARAM wParam,LPARAM lParam)
 
 INT_PTR Meta_SendNudge(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hMeta = (HANDLE)wParam, hSubContact = Meta_GetMostOnline(hMeta);
-
-	char servicefunction[ 100 ];
-	char *protoName = GetContactProto(hSubContact);
-	sprintf(servicefunction, "%s/SendNudge", protoName);
-
-	return CallService(servicefunction, (WPARAM)hSubContact, lParam);
+	HANDLE hSubContact = Meta_GetMostOnline((HANDLE)wParam);
+	return ProtoCallService(GetContactProto(hSubContact), "/SendNudge", (WPARAM)hSubContact, lParam);
 }
 
 /////////////////////////////////////////////////////////////////

@@ -2175,10 +2175,7 @@ void TSAPI EnableSendButton(const TWindowData *dat, int iMode)
 
 void TSAPI SendNudge(const TWindowData *dat)
 {
-	char szServiceName[128];
-
-	mir_snprintf(szServiceName, 128, "%s/SendNudge", dat->cache->getActiveProto());
-	if (ServiceExists(szServiceName) && ServiceExists(MS_NUDGE_SEND))
+	if ( ProtoServiceExists(dat->cache->getActiveProto(), "/SendNudge") && ServiceExists(MS_NUDGE_SEND))
 		CallService(MS_NUDGE_SEND, (WPARAM)dat->cache->getActiveContact(), 0);
 	else
 		SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE,
