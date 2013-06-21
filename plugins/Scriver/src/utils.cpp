@@ -36,67 +36,6 @@ int safe_wcslen(wchar_t *msg, int maxLen) {
 	return 0;
 }
 
-TCHAR *a2tcp(const char *text, int cp) {
-	if ( text != NULL ) {
-		int cbLen = MultiByteToWideChar( cp, 0, text, -1, NULL, 0 );
-		TCHAR* result = ( TCHAR* )mir_alloc( sizeof(TCHAR)*( cbLen+1 ));
-		if ( result == NULL )
-			return NULL;
-		MultiByteToWideChar(cp, 0, text, -1, result, cbLen);
-		return result;
-	}
-	return NULL;
-}
-
-char* u2a( const wchar_t* src, int codepage ) {
-	int cbLen = WideCharToMultiByte( codepage, 0, src, -1, NULL, 0, NULL, NULL );
-	char* result = ( char* )mir_alloc( cbLen+1 );
-	if ( result == NULL )
-		return NULL;
-
-	WideCharToMultiByte( codepage, 0, src, -1, result, cbLen, NULL, NULL );
-	result[ cbLen ] = 0;
-	return result;
-}
-
-wchar_t* a2u( const char* src, int codepage ) {
-	int cbLen = MultiByteToWideChar( codepage, 0, src, -1, NULL, 0 );
-	wchar_t* result = ( wchar_t* )mir_alloc( sizeof(wchar_t)*(cbLen+1));
-	if ( result == NULL )
-		return NULL;
-	MultiByteToWideChar( codepage, 0, src, -1, result, cbLen );
-	result[ cbLen ] = 0;
-	return result;
-}
-
-TCHAR *a2t(const char *text) {
-	if ( text == NULL )
-		return NULL;
-		return a2tcp(text, CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 ));
-}
-
-char* t2a( const TCHAR* src ) {
-return u2a( src, CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 ));
-}
-
-char* t2acp( const TCHAR* src, int codepage ) {
-	return u2a( src, codepage );
-}
-
-wchar_t *a2w(const char *src, int len) {
-	wchar_t *wline;
-	int i;
-	if (len <0) {
-		len = (int)strlen(src);
-	}
-	wline = (wchar_t*)mir_alloc(2 * (len + 1));
-	for (i = 0; i < len; i ++) {
-		wline[i] = src[i];
-	}
-	wline[i] = 0;
-	return wline;
-}
-
 static int mimFlags = 0;
 
 enum MIMFLAGS {

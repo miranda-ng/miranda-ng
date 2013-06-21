@@ -382,7 +382,7 @@ extern "C"
 		PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 		pd.szName = QUOTES_PROTOCOL_NAME;
 		pd.type = PROTOTYPE_VIRTUAL;
-		CallService( MS_PROTO_REGISTERMODULE, 0, ( LPARAM )&pd );
+		CallService(MS_PROTO_REGISTERMODULE, 0, ( LPARAM )&pd );
 
 		HANDLE h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETNAME, QuoteProtoFunc_GetName);
 		g_ahServices.push_back(h);

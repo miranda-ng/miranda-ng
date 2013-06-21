@@ -68,7 +68,7 @@ int Chat_Unload(void)
 int Chat_ModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	char* mods[3] = { "Chat", "ChatFonts" };
-	CallService( "DBEditorpp/RegisterModule", (WPARAM)mods, 2 );
+	CallService("DBEditorpp/RegisterModule", (WPARAM)mods, 2);
 	RegisterChatFonts();
 	OptionsInit();
 	LoadIcons();

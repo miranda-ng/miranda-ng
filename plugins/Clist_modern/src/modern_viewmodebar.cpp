@@ -1333,7 +1333,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 			db_unset(NULL,CLVM_MODULE,szSetting);
 		}
 		if ( g_CluiData.bOldUseGroups != (BYTE) -1 )
-			CallService( MS_CLIST_SETUSEGROUPS, (WPARAM)g_CluiData.bOldUseGroups, 0 );
+			CallService(MS_CLIST_SETUSEGROUPS, (WPARAM)g_CluiData.bOldUseGroups, 0 );
 
 		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);

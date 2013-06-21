@@ -37,7 +37,7 @@ INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 						// Set a flag so we remember to delete the contact when the protocol goes online the next time
 						db_set_b( hContact, "CList", "Delete", 1 );
 					else
-						CallService( MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0 );
+						CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0 );
 				}
 			}
 		}
@@ -54,7 +54,7 @@ INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 			if ( ConfirmDelete )
 				db_set_b( NULL, "CList", "ConfirmDelete", 0 );
 
-			CallService( MS_CLIST_GROUPDELETE, (WPARAM)hGroup, 0 );
+			CallService(MS_CLIST_GROUPDELETE, (WPARAM)hGroup, 0 );
 			if ( ConfirmDelete ) 
 				db_set_b( NULL, "CList", "ConfirmDelete", ConfirmDelete );
 			break;

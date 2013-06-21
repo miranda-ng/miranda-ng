@@ -805,7 +805,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 							acs.handleType = HANDLE_SEARCHRESULT;
 							acs.szProto = m_szModuleName;
 							acs.psr = &psr;
-							CallService( MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
+							CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
 						}
 						break;
 					case 31:	//slap
@@ -1232,5 +1232,5 @@ void CIrcProto::DoNetlibLog( const char* fmt, ... )
 	mir_vsnprintf( str, 32000, fmt, vararg );
 	va_end( vararg );
 
-	CallService( MS_NETLIB_LOG, (WPARAM)hNetlib, ( LPARAM )str );
+	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)str);
 }

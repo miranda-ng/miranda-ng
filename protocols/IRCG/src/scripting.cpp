@@ -136,7 +136,7 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertGuiOut( WPARAM, LPARAM lParam )
 
 BOOL CIrcProto::Scripting_TriggerMSPRawIn( char** pszRaw )
 {
-	int iVal = CallService( MS_MBOT_IRC_RAW_IN, (WPARAM)m_szModuleName, (LPARAM)pszRaw);
+	int iVal = CallService(MS_MBOT_IRC_RAW_IN, (WPARAM)m_szModuleName, (LPARAM)pszRaw);
 	if ( iVal == 0 )
 		return TRUE;
 
@@ -145,7 +145,7 @@ BOOL CIrcProto::Scripting_TriggerMSPRawIn( char** pszRaw )
 
 BOOL CIrcProto::Scripting_TriggerMSPRawOut(char ** pszRaw)
 {
-	int iVal =  CallService( MS_MBOT_IRC_RAW_OUT, (WPARAM)m_szModuleName, (LPARAM)pszRaw);
+	int iVal = CallService(MS_MBOT_IRC_RAW_OUT, (WPARAM)m_szModuleName, (LPARAM)pszRaw);
 	if ( iVal == 0 )
 		return TRUE;
 
@@ -161,7 +161,7 @@ BOOL CIrcProto::Scripting_TriggerMSPGuiIn(WPARAM * wparam, GCEVENT * gce)
 	if (gce->time == 0)
 		gce->time = time(0);
 
-	int iVal =  CallService( MS_MBOT_IRC_GUI_IN, (WPARAM)&wgi, (LPARAM)gce);
+	int iVal = CallService(MS_MBOT_IRC_GUI_IN, (WPARAM)&wgi, (LPARAM)gce);
 	if ( iVal == 0 ) {
 		*wparam = wgi.wParam;
 		return TRUE;
@@ -172,7 +172,7 @@ BOOL CIrcProto::Scripting_TriggerMSPGuiIn(WPARAM * wparam, GCEVENT * gce)
 
 BOOL CIrcProto::Scripting_TriggerMSPGuiOut(GCHOOK* gch)
 {
-	int iVal =  CallService( MS_MBOT_IRC_GUI_OUT, (WPARAM)m_szModuleName, (LPARAM)gch);
+	int iVal = CallService(MS_MBOT_IRC_GUI_OUT, (WPARAM)m_szModuleName, (LPARAM)gch);
 	if ( iVal == 0 )
 		return TRUE;
 

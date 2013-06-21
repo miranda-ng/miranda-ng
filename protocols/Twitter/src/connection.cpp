@@ -190,7 +190,7 @@ bool TwitterProto::NegotiateConnection()
 	}
 
 	if (!db_get_ts(NULL,m_szModuleName,TWITTER_KEY_GROUP,&dbv)) {
-		CallService( MS_CLIST_GROUPCREATE, 0, (LPARAM)dbv.ptszVal );
+		CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)dbv.ptszVal );
 		db_free(&dbv);	
 	}
 

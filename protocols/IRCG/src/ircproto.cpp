@@ -75,7 +75,7 @@ CIrcProto::CIrcProto(const char* szModuleName, const TCHAR* tszUserName) :
 
 	char text[ MAX_PATH ];
 	mir_snprintf( text, sizeof( text ), "%s/Status", m_szModuleName);
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)text);
 
 	CList_SetAllOffline(true);
 
@@ -206,7 +206,7 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 	nlu.szSettingsModule = m_szModuleName;
 	mir_sntprintf( name, SIZEOF(name), TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = name;
-	hNetlib=(HANDLE)CallService( MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	hNetlib = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	nlu.flags = NUF_OUTGOING|NUF_INCOMING|NUF_HTTPCONNS|NUF_TCHAR;
 	char szTemp2[256];
@@ -214,15 +214,15 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 	nlu.szSettingsModule = szTemp2;
 	mir_sntprintf( name, SIZEOF(name), TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.ptszDescriptiveName = name;
-	hNetlibDCC=(HANDLE)CallService( MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	hNetlibDCC = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	//add as a known module in DB Editor ++
-	CallService( "DBEditorpp/RegisterSingleModule",(WPARAM)m_szModuleName,0);
+	CallService("DBEditorpp/RegisterSingleModule", (WPARAM)m_szModuleName, 0);
 	mir_snprintf(szTemp3, sizeof(szTemp3), "%s DCC", m_szModuleName);
-	CallService( "DBEditorpp/RegisterSingleModule",(WPARAM)szTemp3,0);
+	CallService("DBEditorpp/RegisterSingleModule", (WPARAM)szTemp3, 0);
 
 	if ( ServiceExists("MBot/GetFcnTable")) {
-		CallService( MS_MBOT_REGISTERIRC, 0, (LPARAM)m_szModuleName);
+		CallService(MS_MBOT_REGISTERIRC, 0, (LPARAM)m_szModuleName);
 		m_bMbotInstalled = TRUE;
 	}
 
@@ -262,7 +262,7 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 	}
 	else {
 		if ( IDYES == MessageBox(0,TranslateT("The IRC protocol depends on another plugin called \'Chat\'\n\nDo you want to download it from the Miranda NG web site now?"),TranslateT("Information"),MB_YESNO|MB_ICONINFORMATION ))
-			CallService( MS_UTILS_OPENURL, 1, (LPARAM) "http://miranda-ng.org/");
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-ng.org/");
 	}
 
 	TCHAR szTemp[MAX_PATH];
@@ -913,7 +913,7 @@ int CIrcProto::SetStatusInternal( int iNewStatus, bool bIsInternal )
 		msn.tszInfo = TranslateT( "Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name)." );
 		msn.dwInfoFlags = NIIF_ERROR | NIIF_INTERN_UNICODE;
 		msn.uTimeout = 15000;
-		CallService( MS_CLIST_SYSTRAY_NOTIFY, 0,(LPARAM) &msn);
+		CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&msn);
 		return 0;
 	}
 

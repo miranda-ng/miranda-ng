@@ -35,7 +35,7 @@ DWORD WINAPI ShakeClistWindow(LPVOID Param)
 INT_PTR ShakeClist( WPARAM wParam, LPARAM lParam )
 {
 	DWORD tid;
-	HWND hWnd = (HWND) CallService( MS_CLUI_GETHWND, 0, 0 );
+	HWND hWnd = (HWND) CallService(MS_CLUI_GETHWND, 0, 0 );
 
 	CreateThread(NULL,0,ShakeClistWindow,(LPVOID) hWnd,0,&tid);
 	return 0;
@@ -59,7 +59,7 @@ INT_PTR ShakeChat( WPARAM wParam, LPARAM lParam )
 	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
 
-	CallService( MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd );
+	CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd );
 	//CallService(MS_MSG_GETWINDOWCLASS,(WPARAM)srmmName,(LPARAM)100 );
 
 	HWND parent;
@@ -82,7 +82,7 @@ int TriggerShakeClist( WPARAM wParam, LPARAM lParam )
 	if (!flags&ACT_PERFORM)
 		return 0;
 
-	hWnd = (HWND) CallService( MS_CLUI_GETHWND, 0, 0 );
+	hWnd = (HWND) CallService(MS_CLUI_GETHWND, 0, 0 );
 	
 	CreateThread(NULL,0,ShakeClistWindow,(LPVOID) hWnd,0,&tid);
 	return 0;
@@ -120,7 +120,7 @@ int TriggerShakeChat( WPARAM wParam, LPARAM lParam )
 	mwid.hContact = Nudge_GethContact((HANDLE) hContact);
 	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
-	CallService( MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd );
+	CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd );
 	CallService(MS_MSG_GETWINDOWCLASS,(WPARAM)srmmName,(LPARAM)100 );
 
 	if ( !strnicmp( srmmName,"tabSRMM ", 7 ))

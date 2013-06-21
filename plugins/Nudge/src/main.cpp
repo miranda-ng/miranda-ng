@@ -484,7 +484,7 @@ void Nudge_SentStatus(CNudgeElement n, HANDLE hContact)
 	NudgeEvent.cbBlob = (DWORD)strlen(buff) + 1;
 	NudgeEvent.pBlob = ( PBYTE ) buff;
 
-	INT_PTR res = CallService( MS_MC_GETMETACONTACT, (WPARAM)hContact, 0 ); //try to retrieve the metacontact if some
+	INT_PTR res = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0 ); //try to retrieve the metacontact if some
 	if(res != CALLSERVICE_NOTFOUND) {
 		HANDLE hMetaContact = (HANDLE) res;
 		if(hMetaContact != NULL) //metacontact
@@ -510,7 +510,7 @@ void Nudge_ShowStatus(CNudgeElement n, HANDLE hContact, DWORD timestamp)
 	NudgeEvent.pBlob = ( PBYTE ) buff;
 
 
-	INT_PTR res = CallService( MS_MC_GETMETACONTACT, (WPARAM)hContact, 0 ); //try to retrieve the metacontact if some
+	INT_PTR res = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0 ); //try to retrieve the metacontact if some
 	if(res != CALLSERVICE_NOTFOUND) {
 		HANDLE hMetaContact = (HANDLE) res;
 		if(hMetaContact != NULL) { //metacontact
@@ -524,7 +524,7 @@ void Nudge_ShowStatus(CNudgeElement n, HANDLE hContact, DWORD timestamp)
 
 HANDLE Nudge_GethContact(HANDLE hContact)
 {
-	INT_PTR res = CallService( MS_MC_GETMETACONTACT, (WPARAM)hContact, 0 );
+	INT_PTR res = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0 );
 	if(res!=CALLSERVICE_NOTFOUND)
 	{
 		HANDLE hMetaContact = (HANDLE) res;

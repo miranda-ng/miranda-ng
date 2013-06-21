@@ -261,7 +261,7 @@ BOOL SendPicture(TlenProtocol *proto, HANDLE hContact) {
 		char szFilter[512];
 		char *szFileName = (char*) mir_alloc(_MAX_PATH);
 		OPENFILENAMEA ofn = {0};
-		CallService( MS_UTILS_GETBITMAPFILTERSTRINGS, ( WPARAM ) sizeof( szFilter ), ( LPARAM )szFilter );
+		CallService(MS_UTILS_GETBITMAPFILTERSTRINGS, ( WPARAM ) sizeof( szFilter ), ( LPARAM )szFilter );
 		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 		ofn.hwndOwner = NULL;
 		ofn.lpstrFilter = szFilter;

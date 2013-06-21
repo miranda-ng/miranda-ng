@@ -32,7 +32,7 @@ BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 			this->launchparams[3]=='p'&&
 			this->launchparams[4]==':')
 		{
-			return CallService( MS_UTILS_OPENURL, 1, (LPARAM)this->launchparams );
+			return CallService(MS_UTILS_OPENURL, 1, (LPARAM)this->launchparams );
 		}
 	}
 
@@ -463,7 +463,7 @@ void Xfire_game::remoteMenuitem()
 {
 	if(menuhandle!=NULL)
 	{
-		CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )menuhandle, 0 );
+		CallService(MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )menuhandle, 0 );
 		menuhandle=NULL;
 	}
 }

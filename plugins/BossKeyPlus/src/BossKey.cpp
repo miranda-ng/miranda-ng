@@ -231,7 +231,7 @@ TCHAR* GetDefStatusMsg(unsigned uStatus, const char* szProto)
 	TCHAR *ret = (TCHAR *)CallService ( MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)uStatus, (LPARAM)szProto );
 	if ( (int)ret == CALLSERVICE_NOTFOUND )
 	{
-		char* tmp = ( char* )CallService( MS_AWAYMSG_GETSTATUSMSG, (WPARAM)uStatus, (LPARAM)szProto );
+		char* tmp = ( char* )CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM)uStatus, (LPARAM)szProto );
 		ret = mir_a2t( tmp );
 		mir_free( tmp );
 	}
@@ -439,7 +439,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 					strncpy(g_password, dbVar.pszVal, MAXPASSLEN);
 					db_free(&dbVar);
-					CallService( MS_DB_CRYPT_DECODESTRING, MAXPASSLEN+1, ( LPARAM )g_password );
+					CallService(MS_DB_CRYPT_DECODESTRING, MAXPASSLEN+1, ( LPARAM )g_password );
 
 					int res = DialogBox(g_hInstance,(MAKEINTRESOURCE(IDD_PASSDIALOGNEW)),GetForegroundWindow(),(DLGPROC)DlgStdInProc);
 

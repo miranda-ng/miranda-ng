@@ -210,7 +210,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 		if (thisVr->flags & TRF_PARSEFUNC )
 			callRes = (INT_PTR)thisVr->parseFunction( &cAi );
 		else if (thisVr->szService != NULL)
-			callRes = CallService( thisVr->szService, 0, (LPARAM)&cAi );
+			callRes = CallService(thisVr->szService, 0, (LPARAM)&cAi );
 
 		for ( j=0; j < cAi.argc; j++ )
 			if (cAi.argv[j] != NULL)
@@ -224,7 +224,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 		if (thisVr->flags & TRF_PARSEFUNC )
 			callRes = (INT_PTR)thisVr->parseFunctionT( ai );
 		else if (thisVr->szService != NULL)
-			callRes = CallService( thisVr->szService, 0, (LPARAM)ai );
+			callRes = CallService(thisVr->szService, 0, (LPARAM)ai );
 
 		if ((TCHAR*)callRes != NULL)
 			res = mir_tstrdup((TCHAR*)callRes );
@@ -236,7 +236,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 			if (trCopy.flags & TRF_CLEANUPFUNC )
 				trCopy.cleanupFunctionT((TCHAR*)callRes );
 			else if (trCopy.szCleanupService != NULL)
-				CallService( trCopy.szCleanupService, 0, (LPARAM)callRes );
+				CallService(trCopy.szCleanupService, 0, (LPARAM)callRes );
 		}
 		if (trCopy.flags & TRF_FREEMEM)
 			if (trCopy.memType == TR_MEM_MIRANDA)

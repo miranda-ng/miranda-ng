@@ -1903,7 +1903,7 @@ static HBITMAP ske_LoadGlyphImage_Png2Dib(const TCHAR *tszFilename)
 		param.pSource = ppMap;
 		param.cbSourceSize = cbFileSize;
 		param.pResult = &pDib;
-		if ( CallService( MS_PNG2DIB, 0, (LPARAM)&param ))
+		if ( CallService(MS_PNG2DIB, 0, (LPARAM)&param ))
 			pDibBits = ( BYTE* )( pDib+1 );
 		else
 			cbFileSize = 0;
@@ -2388,7 +2388,7 @@ BOOL ske_TextOutA(HDC hdc, int x, int y, char * lpString, int nCount)
 {
 	TCHAR *buf = (TCHAR *)mir_alloc((2+nCount)*sizeof(TCHAR));
 	BOOL res;
-	MultiByteToWideChar(CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 ), 0, lpString, -1, buf, (2+nCount)*sizeof(TCHAR));
+	MultiByteToWideChar(CallService(MS_LANGPACK_GETCODEPAGE, 0, 0 ), 0, lpString, -1, buf, (2+nCount)*sizeof(TCHAR));
 	res = ske_TextOut(hdc,x,y,buf,nCount);
 	mir_free(buf);
 	return res;

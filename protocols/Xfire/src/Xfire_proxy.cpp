@@ -83,7 +83,7 @@ int AfterSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	nb.pfnNewConnectionV2 = XfireclientConnecting;
 	nb.pExtra = NULL;
 	nb.wPort = 25999;
-	hBindPort = (HANDLE)CallService( MS_NETLIB_BINDPORT, (WPARAM)hNetlib,(LPARAM) &nb);
+	hBindPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlib,(LPARAM) &nb);
 
 
 	return 0;

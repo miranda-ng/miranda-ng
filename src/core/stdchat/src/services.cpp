@@ -754,7 +754,7 @@ static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	char* mods[3] = { "Chat", "ChatFonts" };
-	CallService( "DBEditorpp/RegisterModule", (WPARAM)mods, 2 );
+	CallService("DBEditorpp/RegisterModule", (WPARAM)mods, 2 );
 
 	RegisterFonts();
 	AddIcons();

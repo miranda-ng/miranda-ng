@@ -98,7 +98,7 @@ int CYahooProto::OnModulesLoadedEx( WPARAM, LPARAM )
 	nlu.pfnHttpGatewayUnwrapRecv = YAHOO_httpGatewayUnwrapRecv;
 #endif
 
-	m_hNetlibUser = ( HANDLE )CallService( MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu );
+	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	MenuContactInit();
 
 	return 0;
@@ -763,7 +763,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_COMMAND:
 		if ( LOWORD( wParam ) == IDC_NEWYAHOOACCOUNTLINK ) {
-			CallService( MS_UTILS_OPENURL,
+			CallService(MS_UTILS_OPENURL,
 							1,
 							(( BYTE )IsDlgButtonChecked( hwndDlg, IDC_YAHOO_JAPAN ) == 1) ?
 							(LPARAM) "http://edit.yahoo.co.jp/config/eval_register" :

@@ -57,7 +57,7 @@ http::response Omegle_client::flap( const int request_type, std::string* request
 		break;
 	}
 
-	NETLIBHTTPREQUEST* pnlhr = ( NETLIBHTTPREQUEST* )CallService( MS_NETLIB_HTTPTRANSACTION, (WPARAM)handle_, (LPARAM)&nlhr );
+	NETLIBHTTPREQUEST* pnlhr = ( NETLIBHTTPREQUEST* )CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)handle_, (LPARAM)&nlhr );
 
 	http::response resp;
 

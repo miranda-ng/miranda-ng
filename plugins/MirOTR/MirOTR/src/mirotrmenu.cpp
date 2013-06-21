@@ -278,6 +278,6 @@ void UninitMirOTRMenu(void)
 	DestroyWindow(hDummyPaintWin);
 	hDummyPaintWin = 0;
 	UnregisterClass(_T("MirOTRPopupMenuProcessor"), hInst);
-	if ( hMirOTRMenuObject   ) CallService( MO_REMOVEMENUOBJECT, (WPARAM)hMirOTRMenuObject, 0 );
+	if ( hMirOTRMenuObject   ) CallService(MO_REMOVEMENUOBJECT, (WPARAM)hMirOTRMenuObject, 0 );
 	hMirOTRMenuObject = 0;
 }

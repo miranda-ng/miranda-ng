@@ -71,7 +71,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 
 			if (!db_get_s(NULL,MOD_NAME,"password",&dbVar))
 			{
-				CallService( MS_DB_CRYPT_DECODESTRING, strlen( dbVar.pszVal )+1, ( LPARAM )dbVar.pszVal );
+				CallService(MS_DB_CRYPT_DECODESTRING, strlen( dbVar.pszVal )+1, ( LPARAM )dbVar.pszVal );
 
 				SetDlgItemTextA(hwndDlg,IDC_MAINOPT_PASS,dbVar.pszVal);
 				db_free(&dbVar);
@@ -133,7 +133,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 						char szPass[MAXPASSLEN+1];
 						GetDlgItemTextA(hwndDlg,IDC_MAINOPT_PASS,szPass,MAXPASSLEN+1);
 						if (strlen(szPass) != 0){
-							CallService( MS_DB_CRYPT_ENCODESTRING, MAXPASSLEN+1, ( LPARAM )szPass );
+							CallService(MS_DB_CRYPT_ENCODESTRING, MAXPASSLEN+1, ( LPARAM )szPass );
 							db_set_s(NULL,MOD_NAME,"password",szPass);
 							wMask |= OPT_REQPASS;
 						}

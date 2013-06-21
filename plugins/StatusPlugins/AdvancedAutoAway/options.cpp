@@ -189,7 +189,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 						flags = 0;
 					for(i=0;i<sizeof(statusModeList)/sizeof(statusModeList[0]);i++) {
 						if ((flags&statusModePf2List[i])  || (statusModePf2List[i] == PF2_OFFLINE) || (bSettingSame)) {
-							lvItem.pszText = ( TCHAR* )CallService( MS_CLIST_GETSTATUSMODEDESCRIPTION, statusModeList[i], GSMDF_TCHAR );
+							lvItem.pszText = ( TCHAR* )CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, statusModeList[i], GSMDF_TCHAR );
 							lvItem.lParam = ( LPARAM )statusModePf2List[i];
 							ListView_InsertItem(hList,&lvItem);
 							ListView_SetCheckState(hList, lvItem.iItem, setting->statusFlags&statusModePf2List[i]?TRUE:FALSE);
@@ -240,7 +240,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 				{
 					TCHAR setNaStr[256];
 					mir_sntprintf(setNaStr, SIZEOF(setNaStr), TranslateT("minutes of %s mode"),
-						CallService( MS_CLIST_GETSTATUSMODEDESCRIPTION, setting->lv1Status, GSMDF_TCHAR ));
+						CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, setting->lv1Status, GSMDF_TCHAR ));
 					SetDlgItemText(hwndDlg,IDC_SETNASTR,setNaStr);
 				}
 				break;

@@ -239,7 +239,7 @@ void CYahooProto::OpenURL(const char *url, int autoLogin)
 
 	DebugLog("[YahooOpenURL] url: %s Final URL: %s", url, tUrl);
 	
-	CallService( MS_UTILS_OPENURL, TRUE, (LPARAM)tUrl );    
+	CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)tUrl);
 }
 
 //=======================================================
@@ -367,13 +367,13 @@ INT_PTR __cdecl CYahooProto::GetUnreadEmailCount(WPARAM wParam, LPARAM lParam)
 void CYahooProto::MenuMainInit( void )
 {
 	char servicefunction[ 100 ];
-	lstrcpyA( servicefunction, m_szModuleName );
+	lstrcpyA( servicefunction, m_szModuleName);
 	char* tDest = servicefunction + lstrlenA( servicefunction );
 	
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = servicefunction;
 
-	HGENMENU hRoot = MO_GetProtoRootMenu( m_szModuleName );
+	HGENMENU hRoot = MO_GetProtoRootMenu( m_szModuleName);
 	if ( hRoot == NULL) {
 		mi.position = 500015000;
 		mi.hParentMenu = HGENMENU_ROOT;
@@ -468,7 +468,7 @@ void CYahooProto::MenuMainInit( void )
 void CYahooProto::MenuContactInit( void )
 {
 	char servicefunction[ 100 ];
-	lstrcpyA( servicefunction, m_szModuleName );
+	lstrcpyA( servicefunction, m_szModuleName);
 	char* tDest = servicefunction + lstrlenA( servicefunction );
 	
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -489,9 +489,9 @@ void CYahooProto::MenuContactInit( void )
 void CYahooProto::MenuUninit( void )
 {
 	if ( mainMenuRoot )
-		CallService( MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)mainMenuRoot, 0);
+		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)mainMenuRoot, 0);
 	
-	CallService( MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hShowProfileMenuItem, 0);
+	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hShowProfileMenuItem, 0);
 }
 
 int __cdecl CYahooProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
@@ -518,7 +518,7 @@ void CYahooProto::LoadYahooServices( void )
 	YHookEvent( ME_OPT_INITIALISE, &CYahooProto::OnOptionsInit );
 
 	//----| Create nudge event |----------------------------------------------------------
-	mir_snprintf( path, SIZEOF(path), "%s/Nudge", m_szModuleName);
+	mir_snprintf(path, SIZEOF(path), "%s/Nudge", m_szModuleName);
 	hYahooNudge = CreateHookableEvent( path );
 
 	//----| Service creation |------------------------------------------------------------
@@ -536,27 +536,27 @@ void CYahooProto::LoadYahooServices( void )
 
 	//----| Set resident variables |------------------------------------------------------
 	
-	mir_snprintf( path, SIZEOF(path), "%s/Status", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
+	mir_snprintf(path, SIZEOF(path), "%s/Status", m_szModuleName);
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
 
-	mir_snprintf( path, SIZEOF(path), "%s/YStatus", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
+	mir_snprintf(path, SIZEOF(path), "%s/YStatus", m_szModuleName);
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
 
-	mir_snprintf( path, SIZEOF(path), "%s/YAway", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
+	mir_snprintf(path, SIZEOF(path), "%s/YAway", m_szModuleName);
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
 
-	mir_snprintf( path, SIZEOF(path), "%s/Mobile", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
+	mir_snprintf(path, SIZEOF(path), "%s/Mobile", m_szModuleName);
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
 	
-	mir_snprintf( path, SIZEOF(path), "%s/YGMsg", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
+	mir_snprintf(path, SIZEOF(path), "%s/YGMsg", m_szModuleName);
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
 	
-	mir_snprintf( path, SIZEOF(path), "%s/IdleTS", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
+	mir_snprintf(path, SIZEOF(path), "%s/IdleTS", m_szModuleName);
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
 	
-	mir_snprintf( path, SIZEOF(path), "%s/PictLastCheck", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
+	mir_snprintf(path, SIZEOF(path), "%s/PictLastCheck", m_szModuleName);
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
 
-	mir_snprintf( path, SIZEOF(path), "%s/PictLoading", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
+	mir_snprintf(path, SIZEOF(path), "%s/PictLoading", m_szModuleName);
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
 }

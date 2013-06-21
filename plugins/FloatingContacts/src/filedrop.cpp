@@ -185,7 +185,7 @@ BOOL OnDropFiles( HDROP hDrop, ThumbInfo *pThumb )
 
 	ProcessDroppedItems( ppDroppedItems, nDroppedItemsCount, ppFiles );
 
-	BOOL bSuccess = (BOOL)CallService( MS_CLIST_CONTACTFILESDROPPED, (WPARAM)pThumb->hContact, (LPARAM)ppFiles ); 
+	BOOL bSuccess = (BOOL)CallService(MS_CLIST_CONTACTFILESDROPPED, (WPARAM)pThumb->hContact, (LPARAM)ppFiles ); 
 
 	// Cleanup
 	for (UINT iItem = 0; ppDroppedItems[ iItem ]; ++iItem ) 

@@ -126,7 +126,7 @@ TCHAR *GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 	}
 
 	if ( ServiceExists( MS_AWAYMSG_GETSTATUSMSGT )) {
-		TCHAR* tMsg = ( TCHAR* )CallService( MS_AWAYMSG_GETSTATUSMSGT, newstatus, (LPARAM)ps->szName );
+		TCHAR* tMsg = ( TCHAR* )CallService(MS_AWAYMSG_GETSTATUSMSGT, newstatus, (LPARAM)ps->szName );
 		log_debugA("CommonStatus: Status message retrieved from general awaysys (TCHAR)");
 		return tMsg;
 	}

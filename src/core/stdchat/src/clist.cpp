@@ -72,7 +72,7 @@ END_GROUPLOOP:
 	if (( hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0)) == NULL )
 		return NULL;
 
-	CallService( MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) pszModule );
+	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) pszModule );
 	if ( pszGroup && lstrlen( pszGroup ) > 0 )
 		db_set_ts(hContact, "CList", "Group", pszGroup );
 	else

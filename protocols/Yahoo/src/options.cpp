@@ -48,7 +48,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 		if ( !ppro->GetString( YAHOO_PASSWORD, &dbv )) {
 			//bit of a security hole here, since it's easy to extract a password from an edit box
-			CallService( MS_DB_CRYPT_DECODESTRING, strlen( dbv.pszVal )+1, (LPARAM)dbv.pszVal );
+			CallService(MS_DB_CRYPT_DECODESTRING, strlen( dbv.pszVal )+1, (LPARAM)dbv.pszVal);
 			SetDlgItemTextA( hwndDlg, IDC_PASSWORD, dbv.pszVal );
 			db_free( &dbv );
 		}
@@ -66,7 +66,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		
 		switch ( LOWORD( wParam )) {
  		case IDC_NEWYAHOOACCOUNTLINK:
- 			CallService( MS_UTILS_OPENURL, 1, 
+ 			CallService(MS_UTILS_OPENURL, 1, 
 				ppro->GetByte("YahooJapan", 0) ?
 					(LPARAM)"http://edit.yahoo.co.jp/config/eval_register" :
 					(LPARAM)"http://edit.yahoo.com/config/eval_register");
@@ -110,7 +110,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			ppro->SetString( YAHOO_LOGINID, str );
 
 			GetDlgItemTextA( hwndDlg, IDC_PASSWORD, str, sizeof( str ));
-			CallService( MS_DB_CRYPT_ENCODESTRING, sizeof( str ),(LPARAM)str );
+			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM)str);
 			dbv.pszVal = NULL;
 			if ( ppro->GetString( YAHOO_PASSWORD, &dbv ) || lstrcmpA( str, dbv.pszVal ))
 				reconnectRequired = TRUE;

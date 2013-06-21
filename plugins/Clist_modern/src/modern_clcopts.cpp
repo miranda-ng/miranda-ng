@@ -220,7 +220,7 @@ void GetFontSetting(int i,LOGFONT *lf,COLORREF *colour,BYTE *effect, COLORREF *e
 	_tcsncpy( fontid.group, fontOptionsList[index].szGroup, SIZEOF( fontid.group ));
 	_tcsncpy( fontid.name, fontOptionsList[index].szDescr, SIZEOF( fontid.name ));
 
-	COLORREF col = CallService( MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)lf );
+	COLORREF col = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)lf );
 
 	if ( colour )
 		*colour = col;

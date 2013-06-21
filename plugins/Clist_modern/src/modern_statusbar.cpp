@@ -618,7 +618,7 @@ static BOOL _ModernStatus_OnExtraIconClick(int protoIndex)
 			return FALSE;
 
 		POINT pt; GetCursorPos( &pt );
-		HWND hWnd = (HWND) CallService( MS_CLUI_GETHWND, 0 ,0 );
+		HWND hWnd = (HWND) CallService(MS_CLUI_GETHWND, 0 ,0 );
 		TrackPopupMenu( hExtraStatusMenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, hWnd, NULL );
 		return TRUE;
 	} 

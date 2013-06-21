@@ -1148,7 +1148,7 @@ TCHAR* a2tf(const TCHAR* str, int flags, DWORD cp)
 			return(mir_utf8decodeW((char *)str));
 
 		if (cp == 0)
-			cp = PluginConfig.m_LangPackCP; // CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 );
+			cp = PluginConfig.m_LangPackCP;
 		cbLen = MultiByteToWideChar(cp, 0, (char*)str, -1, 0, 0);
 		result = (TCHAR*)mir_alloc(sizeof(TCHAR) * (cbLen + 1));
 		if (result == NULL)

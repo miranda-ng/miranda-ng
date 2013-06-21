@@ -223,7 +223,7 @@ void Scan4Games( LPVOID lparam  )
 		{
 			searching=FALSE;
 			//dummymenü punkt entfernen
-			//CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )dummymenu, 0 );	
+			//CallService(MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )dummymenu, 0 );	
 
 			//gamelist unblocken
 			xgamelist.Block(FALSE);

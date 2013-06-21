@@ -121,7 +121,7 @@ http::response mir_twitter::slurp(const std::string &url,http::method meth,
 	req.nlc = httpPOST_;
 	http::response resp_data;
 	LOG("**SLURP - just before calling HTTPTRANSACTION");
-	NETLIBHTTPREQUEST *resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService( MS_NETLIB_HTTPTRANSACTION,
+	NETLIBHTTPREQUEST *resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService(MS_NETLIB_HTTPTRANSACTION,
 		reinterpret_cast<WPARAM>(handle_), reinterpret_cast<LPARAM>(&req)));
 	LOG("**SLURP - HTTPTRANSACTION complete.");
 	if(resp)
@@ -170,7 +170,7 @@ bool save_url(HANDLE hNetlib,const std::string &url,const std::tstring &filename
 	req.flags = NLHRF_HTTP11 | NLHRF_REDIRECT;
 	req.szUrl = const_cast<char*>(url.c_str());
 
-	NETLIBHTTPREQUEST *resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService( MS_NETLIB_HTTPTRANSACTION,
+	NETLIBHTTPREQUEST *resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService(MS_NETLIB_HTTPTRANSACTION,
 		reinterpret_cast<WPARAM>(hNetlib), reinterpret_cast<LPARAM>(&req)));
 
 	if (resp)

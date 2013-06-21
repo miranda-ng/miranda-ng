@@ -91,7 +91,7 @@ bool EventList::CanShowHistory(DBEVENTINFO* dbei)
 
 		default:
 			{
-				DBEVENTTYPEDESCR* et = ( DBEVENTTYPEDESCR* )CallService( MS_DB_EVENT_GETTYPE, ( WPARAM )dbei->szModule, ( LPARAM )dbei->eventType );
+				DBEVENTTYPEDESCR* et = ( DBEVENTTYPEDESCR* )CallService(MS_DB_EVENT_GETTYPE, ( WPARAM )dbei->szModule, ( LPARAM )dbei->eventType );
 				if ( et && ( et->flags & DETF_HISTORY ))
 				{
 					return true;

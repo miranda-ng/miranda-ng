@@ -175,7 +175,7 @@ static int OnContactDrag( WPARAM wParam, LPARAM lParam )
 	ThumbInfo	*pNewThumb	 =  NULL;
 	HANDLE		hContact	 =  ( HANDLE )wParam;
 	ThumbInfo	*pThumb		 =  thumbList.FindThumbByContact( hContact );
-	TCHAR		*ptName		 =  (TCHAR*)CallService( MS_CLIST_GETCONTACTDISPLAYNAME, wParam, (LPARAM)GCDNF_TCHAR );
+	TCHAR		*ptName		 =  (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, (LPARAM)GCDNF_TCHAR );
 	int			idStatus	 =  ID_STATUS_OFFLINE;
 	POINT pt;
 	GetCursorPos(&pt);
@@ -240,7 +240,7 @@ static int OnContactDragStop( WPARAM wParam, LPARAM lParam )
 static int OnSkinIconsChanged( WPARAM wParam, LPARAM lParam )
 {
 	// Get handle to the image list
-	himl = ( HIMAGELIST )CallService( MS_CLIST_GETICONSIMAGELIST, 0, 0 );
+	himl = ( HIMAGELIST )CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0 );
 
 	// Update thumbs
 	for (int i = 0; i < thumbList.getCount(); ++i)
@@ -369,7 +369,7 @@ void SendMsgDialog( HWND hwnd, TCHAR *pText )
 	ThumbInfo *pThumb = thumbList.FindThumb( hwnd );
 
 	if ( pThumb != NULL )
-		CallService( MS_MSG_SENDMESSAGET, (WPARAM)pThumb->hContact, (LPARAM)pText );
+		CallService(MS_MSG_SENDMESSAGET, (WPARAM)pThumb->hContact, (LPARAM)pText );
 }
 
 
@@ -379,12 +379,12 @@ static void ShowContactMenu( HWND hwnd, POINT pt )
 
 	if ( pThumb != NULL )
 	{
-		hContactMenu = (HMENU)CallService( MS_CLIST_MENUBUILDCONTACT, (WPARAM)pThumb->hContact, 0 );
+		hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)pThumb->hContact, 0 );
 
 		if ( hContactMenu == NULL ) return;
 
 		int idCommand = TrackPopupMenu( hContactMenu, TPM_RIGHTALIGN | TPM_TOPALIGN | TPM_RETURNCMD, pt.x, pt.y, 0 , hwnd, NULL );
-		CallService( MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM( idCommand , MPCF_CONTACTMENU), (LPARAM)pThumb->hContact );
+		CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM( idCommand , MPCF_CONTACTMENU), (LPARAM)pThumb->hContact );
 	}
 }
 
@@ -477,7 +477,7 @@ static LRESULT __stdcall CommWndProc(	HWND	hwnd,
 	case WM_REFRESH_CONTACT:
 		if (pThumb)
 		{
-			_tcsncpy( pThumb->ptszName, (TCHAR*)CallService( MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)pThumb->hContact, (LPARAM)GCDNF_TCHAR ), USERNAME_LEN - 1 );
+			_tcsncpy( pThumb->ptszName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)pThumb->hContact, (LPARAM)GCDNF_TCHAR ), USERNAME_LEN - 1 );
 			pThumb->RefreshContactStatus( (int)lParam );
 			pThumb->ResizeThumb();
 		}
@@ -869,7 +869,7 @@ static void LoadContact( HANDLE hContact )
 
 	DWORD	dwPos = db_get_dw( hContact, MODULE, "ThumbsPos", (DWORD)-1 );
 	if ( dwPos != -1 ) {
-		TCHAR	*ptName = (TCHAR*)CallService( MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, (LPARAM)GCDNF_TCHAR );
+		TCHAR	*ptName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, (LPARAM)GCDNF_TCHAR );
 		if ( ptName != NULL ) {
 			int nX = DB_POS_GETX( dwPos );
 			int nY = DB_POS_GETY( dwPos );

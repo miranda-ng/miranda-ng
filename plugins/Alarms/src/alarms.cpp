@@ -100,7 +100,7 @@ static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
 	TCHAR msg[1024], buff[1024];
 
 	if (_tcsncmp(ppre->tszMessage, szGamePrefix, _tcslen(szGamePrefix)))
-		return CallService( MS_PROTO_CHAINRECV, wParam, lParam );
+		return CallService(MS_PROTO_CHAINRECV, wParam, lParam );
 
 	_tcsncpy(msg, ppre->tszMessage + _tcslen(szGamePrefix),SIZEOF(msg));
 

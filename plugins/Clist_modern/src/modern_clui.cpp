@@ -457,13 +457,13 @@ HRESULT CLUI::CreateCLC()
 	nLastRequiredHeight = 0;
 	if (g_CluiData.current_viewmode[0] == '\0') {
 		if (bOldHideOffline != (BYTE)-1)
-			CallService( MS_CLIST_SETHIDEOFFLINE,(WPARAM)bOldHideOffline, 0);
+			CallService(MS_CLIST_SETHIDEOFFLINE,(WPARAM)bOldHideOffline, 0);
 		else
-			CallService( MS_CLIST_SETHIDEOFFLINE, 0, 0);
+			CallService(MS_CLIST_SETHIDEOFFLINE, 0, 0);
 		if (bOldUseGroups != (BYTE)-1)
-			CallService( MS_CLIST_SETUSEGROUPS ,(WPARAM)bOldUseGroups, 0);
+			CallService(MS_CLIST_SETUSEGROUPS ,(WPARAM)bOldUseGroups, 0);
 		else
-			CallService( MS_CLIST_SETUSEGROUPS ,(WPARAM)bOldUseGroups, 0);
+			CallService(MS_CLIST_SETUSEGROUPS ,(WPARAM)bOldUseGroups, 0);
 	}
 	nLastRequiredHeight = 0;
 	mutex_bDisableAutoUpdate = 0;
@@ -1710,8 +1710,8 @@ LRESULT CLUI::PreProcessWndProc(UINT msg, WPARAM wParam, LPARAM lParam, BOOL& bH
 			if (hView)
 			{
 				char szFilePath[MAX_PATH], szProfile[MAX_PATH];
-				CallService( MS_DB_GETPROFILEPATH,MAX_PATH,(LPARAM)&szFilePath );
-				CallService( MS_DB_GETPROFILENAME,MAX_PATH,(LPARAM)&szProfile );
+				CallService(MS_DB_GETPROFILEPATH,MAX_PATH,(LPARAM)&szFilePath );
+				CallService(MS_DB_GETPROFILENAME,MAX_PATH,(LPARAM)&szProfile );
 				_snprintf((char*)hView, MAX_PATH, "%s\\%s", szFilePath, szProfile );
 				UnmapViewOfFile( hView );
 				rc = 1;
@@ -1975,7 +1975,7 @@ LRESULT CLUI::OnInitMenu(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
 {
 	if ( !CLUI::IsMainMenuInited()) {
 		if ( ServiceExists( MS_CLIST_MENUBUILDMAIN ))
-			CallService( MS_CLIST_MENUBUILDMAIN, 0, 0 );
+			CallService(MS_CLIST_MENUBUILDMAIN, 0, 0 );
 		CLUI::m_fMainMenuInited = TRUE;
 	}
 	return FALSE;
@@ -2139,7 +2139,7 @@ LRESULT CLUI::OnParentNotify(UINT msg, WPARAM wParam, LPARAM lParam)
 
 LRESULT CLUI::OnSetFocus(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if ( hFrameContactTree && ( !CallService( MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM( FO_FLOATING, hFrameContactTree ), 0 )))
+	if ( hFrameContactTree && ( !CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM( FO_FLOATING, hFrameContactTree ), 0 )))
 		SetFocus(pcli->hwndContactTree);
 
 	return FALSE;
@@ -2635,7 +2635,7 @@ LRESULT CLUI::OnMeasureItem(UINT msg, WPARAM wParam, LPARAM lParam)
 		ReleaseDC( m_hWnd, hdc );
 		return TRUE;
 	}
-	return CallService( MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+	return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
 }
 
 LRESULT CLUI::OnDrawItem(UINT msg, WPARAM wParam, LPARAM lParam)

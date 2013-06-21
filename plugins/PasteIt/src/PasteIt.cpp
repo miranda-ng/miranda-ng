@@ -467,7 +467,7 @@ extern "C" int __declspec(dllexport) Load(void)
   	nlu.flags = NUF_TCHAR | NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = MODULE;
 	nlu.ptszDescriptiveName = TranslateT("Paste It HTTP connections");
-	g_hNetlibUser = ( HANDLE )CallService( MS_NETLIB_REGISTERUSER, 0, ( LPARAM )&nlu );
+	g_hNetlibUser = ( HANDLE )CallService(MS_NETLIB_REGISTERUSER, 0, ( LPARAM )&nlu );
 	
 	pasteToWebs[0] = new PasteToWeb1();
 	pasteToWebs[0]->pageIndex = 0;

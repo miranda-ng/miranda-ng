@@ -706,12 +706,12 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage* pmsg)
 
 			struct CONTACT user = { (TCHAR*)pmsg->prefix.sNick.c_str(), (TCHAR*)pmsg->prefix.sUser.c_str(), (TCHAR*)pmsg->prefix.sHost.c_str(), false, false, false};
 
-			if ( CallService( MS_IGNORE_ISIGNORED, NULL, IGNOREEVENT_MESSAGE )) 
-				if ( !CList_FindContact( &user ))
+			if ( CallService(MS_IGNORE_ISIGNORED, NULL, IGNOREEVENT_MESSAGE)) 
+				if ( !CList_FindContact(&user))
 					return true;
 
 			if (( m_ignore && IsIgnored( pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, 'q' ))) {
-				HANDLE hContact = CList_FindContact( &user );
+				HANDLE hContact = CList_FindContact(&user);
 				if ( !hContact || ( hContact && db_get_b( hContact,"CList", "Hidden", 0) == 1 ))
 					return true;
 			}
@@ -1142,8 +1142,8 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 				}
 				else {
 					struct CONTACT user = { (TCHAR*)pmsg->prefix.sNick.c_str(), (TCHAR*)pmsg->prefix.sUser.c_str(), (TCHAR*)pmsg->prefix.sHost.c_str(), false, false, false};
-					if ( CallService( MS_IGNORE_ISIGNORED, NULL, IGNOREEVENT_FILE )) 
-						if ( !CList_FindContact( &user ))
+					if ( CallService(MS_IGNORE_ISIGNORED, NULL, IGNOREEVENT_FILE))
+						if ( !CList_FindContact(&user))
 							return true;
 
 					HANDLE hContact = CList_AddContact( &user, false, true );
@@ -1914,7 +1914,7 @@ bool CIrcProto::OnIrc_ERROR(const CIrcMessage* pmsg)
 		msn.tszInfo = ( TCHAR* )S.c_str();
 		msn.dwInfoFlags = NIIF_ERROR | NIIF_INTERN_UNICODE;
 		msn.uTimeout = 15000;
-		CallService( MS_CLIST_SYSTRAY_NOTIFY, 0, ( LPARAM )&msn );
+		CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&msn);
 	}
 	ShowMessage( pmsg );
 	return true;	

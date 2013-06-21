@@ -78,9 +78,9 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 		cle.ptszTooltip = szNick;
 		cle.lParam = (LPARAM)pdci;
 
-		if ( CallService( MS_CLIST_GETEVENT, (WPARAM)hContact, 0))
-			CallService( MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)"dccchat");
-		CallService( MS_CLIST_ADDEVENT,(WPARAM) hContact,(LPARAM) &cle);
+		if ( CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0))
+			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)"dccchat");
+		CallService(MS_CLIST_ADDEVENT,(WPARAM) hContact,(LPARAM) &cle);
 	}
 	return TRUE;
 }
@@ -102,9 +102,9 @@ HANDLE CIrcProto::CList_AddContact(CONTACT * user, bool InList, bool SetOnline)
 	}
 	
 	// here we create a new one since no one is to be found
-	hContact = (HANDLE) CallService( MS_DB_CONTACT_ADD, 0, 0);
+	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if ( hContact ) {
-		CallService( MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM)m_szModuleName );
+		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM)m_szModuleName );
 
 		if ( InList )
 			db_unset(hContact, "CList", "NotOnList");

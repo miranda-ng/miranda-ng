@@ -194,7 +194,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	ncon.cbSize = sizeof(ncon);
 	ncon.szHost = info.sServer.c_str();
 	ncon.wPort = info.iPort;
-	con = (HANDLE) CallService( MS_NETLIB_OPENCONNECTION, (WPARAM) hNetlib, (LPARAM) & ncon);
+	con = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlib, (LPARAM)&ncon);
 	if (con == NULL) {
 		TCHAR szTemp[300];
 		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("\0035%s \002%s\002 (%S: %u)."),
@@ -373,7 +373,7 @@ void CIrcProto::DoReceive()
 		nb.pfnNewConnectionV2 = DoIdent;
 		nb.pExtra = this;
 		nb.wPort = m_info.iIdentServerPort;
-		hBindPort = (HANDLE)CallService( MS_NETLIB_BINDPORT, (WPARAM)hNetlib,(LPARAM) &nb);
+		hBindPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlib, (LPARAM)&nb);
 		if ( !hBindPort || nb.wPort != m_info.iIdentServerPort ) {
 			DoNetlibLog("Error: unable to bind local port %u", m_info.iIdentServerPort);
 			KillIdent();
@@ -920,7 +920,7 @@ int CDccSession::SetupConnection()
 		nb.pfnNewConnectionV2 = DoIncomingDcc; // this is the (helper) function to be called once an incoming connection is made. The 'real' function that is called is IncomingConnection()
 		nb.pExtra = (void *)this; 
 		nb.wPort = 0;
-		hBindPort = (HANDLE)CallService( MS_NETLIB_BINDPORT, (WPARAM)m_proto->hNetlibDCC,(LPARAM) &nb);
+		hBindPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)m_proto->hNetlibDCC, (LPARAM)&nb);
 
 		if ( hBindPort == NULL ) {
 			delete this; // dcc objects destroy themselves when the connection has been closed or failed for some reasson.
@@ -938,9 +938,8 @@ int CDccSession::SetupConnection()
 		ncon.cbSize = sizeof(ncon);
 		ncon.szHost = ConvertIntegerToIP(di->dwAdr); 
 		ncon.wPort = (WORD) di->iPort;
-		con = (HANDLE) CallService( MS_NETLIB_OPENCONNECTION, (WPARAM)m_proto->hNetlibDCC, (LPARAM) & ncon);
+		con = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_proto->hNetlibDCC, (LPARAM)&ncon);
 	}
-
 
 	// If a remote computer initiates a filetransfer this is used to connect to that computer (the user has chosen to accept but it is possible the file exists/needs to be resumed etc still)
 	if ( di->iType == DCC_SEND && !di->bSender ) {
@@ -999,7 +998,7 @@ int CDccSession::SetupConnection()
 			nb.pfnNewConnectionV2 = DoIncomingDcc; // this is the (helper) function to be called once an incoming connection is made. The 'real' function that is called is IncomingConnection()
 			nb.pExtra = (void *)this; 
 			nb.wPort = 0;
-			hBindPort = (HANDLE)CallService( MS_NETLIB_BINDPORT, (WPARAM)m_proto->hNetlibDCC,(LPARAM) &nb);
+			hBindPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)m_proto->hNetlibDCC, (LPARAM)&nb);
 
 			if ( hBindPort == NULL ) {
 				m_proto->DoEvent(GC_EVENT_INFORMATION, 0, m_proto->m_info.sNick.c_str(), LPGENT("DCC ERROR: Unable to bind local port for passive filetransfer"), NULL, NULL, NULL, true, false); 
@@ -1036,7 +1035,7 @@ int CDccSession::SetupConnection()
 		ncon.szHost = ConvertIntegerToIP(di->dwAdr);
 		ncon.wPort = (WORD) di->iPort;
 
-		con = (HANDLE) CallService( MS_NETLIB_OPENCONNECTION, (WPARAM)m_proto->hNetlibDCC, (LPARAM) & ncon);
+		con = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_proto->hNetlibDCC, (LPARAM)&ncon);
 	}
 
 	// if for some reason the plugin has failed to connect to the remote computer the object is destroyed.
@@ -1136,7 +1135,7 @@ void CDccSession::DoSendFile()
 			tLastActivity = time(0);
 
 			// create a packet receiver to handle receiving ack's from the remote computer.
-			HANDLE hPackrcver = (HANDLE)CallService( MS_NETLIB_CREATEPACKETRECVER, (WPARAM)con, (LPARAM)sizeof(DWORD));
+			HANDLE hPackrcver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)con, sizeof(DWORD));
 			NETLIBPACKETRECVER npr;
 			npr.cbSize = sizeof(NETLIBPACKETRECVER);
 			npr.dwTimeout = 60*1000;
@@ -1166,7 +1165,7 @@ void CDccSession::DoSendFile()
 					DWORD dwPacket = NULL;
 
 					do {					
-						dwRead = CallService( MS_NETLIB_GETMOREPACKETS, (WPARAM)hPackrcver, (LPARAM)&npr);
+						dwRead = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hPackrcver, (LPARAM)&npr);
 						npr.bytesUsed = sizeof(DWORD);          
 
 						if ( dwRead <= 0)
@@ -1187,7 +1186,7 @@ void CDccSession::DoSendFile()
 					DWORD dwPacket = 0;
 
 					do {					
-						dwRead = CallService( MS_NETLIB_GETMOREPACKETS, (WPARAM)hPackrcver, (LPARAM)&npr);
+						dwRead = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hPackrcver, (LPARAM)&npr);
 						npr.bytesUsed = sizeof(DWORD);          
 						if ( dwRead <= 0)
 							break; // connection closed, or a timeout occurred.

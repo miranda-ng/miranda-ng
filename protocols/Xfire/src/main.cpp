@@ -451,7 +451,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 		  case XFIRE_RECVREMOVEBUDDYPACKET:
 		  {
 				RecvRemoveBuddyPacket *remove = (RecvRemoveBuddyPacket*)content;
-				CallService( MS_DB_CONTACT_DELETE, (WPARAM) remove->handle, 1 );
+				CallService(MS_DB_CONTACT_DELETE, (WPARAM) remove->handle, 1 );
 				break;
 		  }
 		  case XFIRE_BUDDYS_NAMES_ID:
@@ -797,7 +797,7 @@ void __stdcall XFireLog( const char* fmt, ... )
 	mir_vsnprintf( str, 32000, fmt, vararg );
 	va_end( vararg );
 
-	CallService( MS_NETLIB_LOG, ( WPARAM )hNetlib, ( LPARAM )str );
+	CallService(MS_NETLIB_LOG, ( WPARAM )hNetlib, ( LPARAM )str );
 }
 
 //=====================================================
@@ -1378,7 +1378,7 @@ INT_PTR RecvMessage(WPARAM wParam, LPARAM lParam)
 
 	char *szProto = GetContactProto(ccs->hContact);
 	if ( szProto != NULL && !lstrcmpiA( szProto, protocolname ))
-		return CallService( MS_PROTO_RECVMSG, wParam, lParam );
+		return CallService(MS_PROTO_RECVMSG, wParam, lParam );
 
 	return 1;
 }
@@ -1725,9 +1725,9 @@ HANDLE CList_AddContact(XFireContact xfc, bool InList, bool SetOnline,int clan)
 		return 0;
 
 	// here we create a new one since no one is to be found
-	hContact = (HANDLE) CallService( MS_DB_CONTACT_ADD, 0, 0);
+	hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if ( hContact ) {
-		CallService( MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM)protocolname );
+		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM)protocolname );
 
 		if ( InList )
 			db_unset(hContact, "CList", "NotOnList");
@@ -1868,7 +1868,7 @@ void CList_MakeAllOffline()
 
 	//alle gefundenen handles lsöchen
 	for(uint i=0; i < fhandles.size(); i++)
-		CallService( MS_DB_CONTACT_DELETE, (WPARAM) fhandles.at(i), 0);
+		CallService(MS_DB_CONTACT_DELETE, (WPARAM) fhandles.at(i), 0);
 }
 
 void SetIcon(HANDLE hcontact,HANDLE hicon,int ctype)
@@ -2132,7 +2132,7 @@ static INT_PTR GotoProfile(WPARAM wParam,LPARAM lParam)
 	strcat_s(temp,64,dbv.pszVal);
 	db_free(&dbv);
 
-	CallService( MS_UTILS_OPENURL, 1, (LPARAM)temp );
+	CallService(MS_UTILS_OPENURL, 1, (LPARAM)temp );
 
 	return 0;
 }
@@ -2151,7 +2151,7 @@ static INT_PTR GotoXFireClanSite(WPARAM wParam,LPARAM lParam) {
 	strcat_s(temp,64,dbv.pszVal);
 	db_free(&dbv);
 
-	CallService( MS_UTILS_OPENURL, 1, (LPARAM)temp );
+	CallService(MS_UTILS_OPENURL, 1, (LPARAM)temp );
 
 	return 0;
 }
@@ -2168,7 +2168,7 @@ static INT_PTR GotoProfile2(WPARAM wParam,LPARAM lParam)
 	strcat_s(temp,64,dbv.pszVal);
 	db_free(&dbv);
 
-	CallService( MS_UTILS_OPENURL, 1, (LPARAM)temp );
+	CallService(MS_UTILS_OPENURL, 1, (LPARAM)temp );
 
 						//prefrences pakcet senden
 					//XFirePrefPacket *packet2 = new XFirePrefPacket();
@@ -2190,7 +2190,7 @@ static INT_PTR GotoProfileAct(WPARAM wParam,LPARAM lParam)
 	strcat_s(temp,64,dbv.pszVal);
 	db_free(&dbv);
 
-	CallService( MS_UTILS_OPENURL, 1, (LPARAM)temp );
+	CallService(MS_UTILS_OPENURL, 1, (LPARAM)temp );
 
 						//prefrences pakcet senden
 					//XFirePrefPacket *packet2 = new XFirePrefPacket();

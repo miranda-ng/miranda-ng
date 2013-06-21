@@ -102,14 +102,14 @@ extern "C" int __declspec(dllexport)Load(void)
 	pd.type   = PROTOTYPE_PROTOCOL;
 	pd.fnInit = ( pfnInitProto )yahooProtoInit;
 	pd.fnUninit = ( pfnUninitProto )yahooProtoUninit;
-	CallService( MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd );
+	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_TCHAR | NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = "YAHOO/libyahoo2";
 	nlu.ptszDescriptiveName = TranslateT("YAHOO plugin HTTP connections");
-	g_hNetlibUser = ( HANDLE )CallService( MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu );
+	g_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	YmsgrLinksInit();
 	/**

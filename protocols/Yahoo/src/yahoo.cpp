@@ -319,7 +319,7 @@ HANDLE CYahooProto::add_buddy( const char *yahoo_id, const char *yahoo_name, int
 
 	//not already there: add
 	LOG(("[add_buddy] Adding buddy id: %s (Nick: %s), flags: %lu", yid, yahoo_name, flags));
-	hContact = (HANDLE)CallService( MS_DB_CONTACT_ADD, 0, 0);
+	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact,(LPARAM)m_szModuleName);
 	SetString( hContact, YAHOO_LOGINID, yid );
 	Set_Protocol( hContact, protocol );
@@ -727,7 +727,7 @@ void CYahooProto::ext_rejected(const char *who, const char *msg)
 		* Make sure the contact is temporary so we could delete it w/o extra traffic
 		*/ 
 		db_set_b( hContact, "CList", "NotOnList", 1 );
-		CallService( MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);	
+		CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);	
 	}
 	else LOG(("[ext_rejected] Buddy not on our buddy list"));
 
@@ -759,7 +759,7 @@ void CYahooProto::ext_buddy_added(char *myid, char *who, char *group, int status
 			ShowPopup( TranslateT("Invalid Contact"), TranslateT("The id you tried to add is invalid."), NULL);
 			/* Make it TEMP first, we don't want to send any extra packets for FALSE ids */
 			db_set_b( hContact, "CList", "NotOnList", 1 );
-			CallService( MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
 		}
 		break;
 
@@ -769,7 +769,7 @@ void CYahooProto::ext_buddy_added(char *myid, char *who, char *group, int status
 			ShowPopup( TranslateT("Invalid Contact"), TranslateT("Unknown Error??."), NULL);
 			/* Make it TEMP first, we don't want to send any extra packets for FALSE ids */
 			db_set_b( hContact, "CList", "NotOnList", 1 );
-			CallService( MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
 		}
 
 		break;
@@ -1371,7 +1371,7 @@ static void connect_complete(void *data, int source, yahoo_input_condition condi
 	//tSelect.dwTimeout = T->mGatewayTimeout * 1000;
 	tSelect.dwTimeout = 1;
 	tSelect.hReadConns[ 0 ] = ( HANDLE )source;
-	error = CallService( MS_NETLIB_SELECT, 0, (LPARAM)&tSelect );
+	error = CallService(MS_NETLIB_SELECT, 0, (LPARAM)&tSelect );
 
 	if (error) {
 		//close(source);
