@@ -1,0 +1,80 @@
+﻿#muuid {4bb5b4aa-c364-4f23-9746-d5b708a286a5}
+;============================================================
+;  File: ConnectionNotify.dll
+;  Plugin: ConnectionNotify
+;  Version: 0.1.0.5
+;  Authors: MaKaR
+;============================================================
+[Notify with popup if some connection established]
+Benachrichtigt mittels Popup falls eine Verbindung aufgebaut wird.
+;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
+[Set popup colours]
+Popupfarben bestimmen
+[Popup options]
+Popup-Einstellungen
+[Background]
+Hintergrund
+[Text]
+Text
+[Close after: ]
+Schließe nach: 
+[sec.(0 default, -1 disabled)]
+Sek. (0 Standard, -1 deaktiviert)
+[Settings]
+Einstellungen
+[try resolve addresses]
+Versuche Adressen aufzulösen
+[Version:]
+Version:
+[Show notification if no filter defined]
+Benachrichtigungen anzeigen falls kein Filter gesetzt wurde
+[Attempt interval (ms.)]
+Versuchintervall (ms.)
+[X]
+X
+[Online mean]
+Online bedeutet
+[Filters]
+Filter
+[DN]
+Ru
+[UP]
+Ho
+[Rule editor]
+Regeln ändern
+[Application name]
+Anwendungsname
+[Local IP:Port]
+Lokale IP:Port
+[Action:]
+Aktion:
+[OK]
+OK
+[Cancel]
+Abbrechen
+[* and ? wildcard characters also available (for port enter number or *)]
+* und ? stehen als Wildcard zur Verfügung (für Port Nr. oder * eingeben)
+[Remote IP:Port]
+Remote IP:Port
+;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Always show popup]
+Popups immer anzeigen
+[Never show popup]
+Popups niemals anzeigen
+[Status]
+Status
+[Application]
+Anwendung
+[Internal socket]
+Interner Socket
+[External socket]
+Externer Socket
+[Action]
+Aktion
+[Plugins]
+Plugins
+[ConnectionNotify: New Connection Notification]
+ConnectionNotify: Neue Verbindungs-Benachrichtigung
+;file \plugins\ConnectionNotify\src\filter.cpp
+[First close options window]
+Zuerst Einstellungsfenster schließen
