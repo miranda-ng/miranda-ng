@@ -606,7 +606,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 
 	{"client_XMPP",             _T("|*XMPP*|Mrim*|*DRQZ00fz5WPn1gH+*"),     LPGENT("XMPP client"),                  IDI_XMPP,                JABBER_CASE                 },
 
-	{"client_Hangouts",         _T("*messaging-AChromeExtension*"),             _T("Google+ Hangouts"),             IDI_HANGOUTS,            OTHER_PROTOS_CASE,  TRUE    },
+	{"client_Hangouts",         _T("messaging-*"),                              _T("Google+ Hangouts"),             IDI_HANGOUTS,            OTHER_PROTOS_CASE,  TRUE    },
 	
 	{"client_WhatsApp",         _T("*WhatsApp*"),                               _T("WhatsApp"),                     IDI_WHATSAPP,            OTHER_PROTOS_CASE,  TRUE    },
 	
