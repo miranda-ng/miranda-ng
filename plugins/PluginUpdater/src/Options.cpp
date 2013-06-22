@@ -70,6 +70,8 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				CheckDlgButton(hwndDlg, IDC_STABLE, TRUE);
 			else if ( !strcmp(dbv.pszVal, DEFAULT_UPDATE_URL_TRUNK))
 				CheckDlgButton(hwndDlg, IDC_TRUNK, TRUE);
+			else if ( !strcmp(dbv.pszVal, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS))
+				CheckDlgButton(hwndDlg, IDC_TRUNK_SYMBOLS, TRUE);
 			else {
 				CheckDlgButton(hwndDlg, IDC_CUSTOM, TRUE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
@@ -99,6 +101,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			}
 			break;
 
+		case IDC_TRUNK_SYMBOLS:
 		case IDC_TRUNK:
 		case IDC_STABLE:
 		case IDC_CUSTOM:
@@ -159,7 +162,15 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					db_set_s(NULL, MODNAME, "UpdateURL", DEFAULT_UPDATE_URL);
 				else if ( IsDlgButtonChecked(hwndDlg, IDC_TRUNK))
 					db_set_s(NULL, MODNAME, "UpdateURL", DEFAULT_UPDATE_URL_TRUNK);
-				else {
+				else if ( IsDlgButtonChecked(hwndDlg, IDC_TRUNK_SYMBOLS)) {
+					ptrA oldUrl = db_get_sa(NULL, MODNAME, "UpdateURL");
+					if (strcmp(oldUrl, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS)) {
+						opts.bForceRedownload = true;
+						db_set_b(NULL, MODNAME, "ForceRedownload", 1);
+					}
+
+					db_set_s(NULL, MODNAME, "UpdateURL", DEFAULT_UPDATE_URL_TRUNK_SYMBOLS);
+				} else {
 					char szUrl[100];
 					GetDlgItemTextA(hwndDlg, IDC_CUSTOMURL, szUrl, SIZEOF(szUrl));
 					db_set_s(NULL, MODNAME, "UpdateURL", szUrl);

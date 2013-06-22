@@ -122,6 +122,7 @@ void LoadOptions()
 	opts.Period = db_get_dw(NULL, MODNAME, "Period", DEFAULT_PERIOD);
 	opts.bPeriodMeasure = db_get_b(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
 	opts.bUpdateIcons = db_get_b(NULL, MODNAME, "UpdateIcons", DEFAULT_UPDATEICONS);
+	opts.bForceRedownload = db_get_b(NULL, MODNAME, "ForceRedownload", 0);
 }
 
 ULONG crc32_table[256];
@@ -209,7 +210,8 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 	baseUrl = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)ptszUrl, (LPARAM)&dat);
 
 	// Download version info
-	ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Downloading version info..."), 4, 0);
+	if (!opts.bSilent)
+		ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Checking new updates..."), 4, 0);
 
 	FILEURL pFileUrl;
 	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), baseUrl);
@@ -219,8 +221,8 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 	BOOL ret = DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath, 0, nlc);
 	Netlib_CloseHandle(nlc);
 
-	if (!ret) {
-		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);
+	if (!ret && !opts.bSilent) {
+		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while checking new updates."), 1, 0);
 		return false;
 	}
 

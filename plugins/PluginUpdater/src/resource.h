@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by e:\Projects\C++\MirandaNG\plugins\PluginUpdater\res\Resource.rc
+// Used by D:\Development\Miranda NG\plugins\PluginUpdater\res\Resource.rc
 //
 #define IDI_MENU                        101
 #define IDD_UPDATE                      102
@@ -60,7 +60,8 @@
 #define IDC_CUSTOMURL                   1042
 #define IDC_STABLE                      1043
 #define IDC_TRUNK                       1044
-#define IDC_CUSTOM                      1045
+#define IDC_TRUNK_SYMBOLS               1045
+#define IDC_CUSTOM                      1046
 #define IDC_MSG_BOXES                   40071
 #define IDC_ERRORS                      40072
 #define IDC_INFO_MESSAGES               40073

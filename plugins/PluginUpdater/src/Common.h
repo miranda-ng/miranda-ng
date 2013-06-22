@@ -92,7 +92,7 @@ struct PopupDataText
 
 struct PlugOptions
 {
-	BYTE bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bUpdateIcons;
+	BYTE bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bUpdateIcons, bForceRedownload;
 	BOOL bSilent, bDlgDld;
 
 	BYTE bPeriodMeasure;
@@ -106,8 +106,9 @@ struct PlugOptions
 #define DEFAULT_PERIOD            1
 #define DEFAULT_PERIODMEASURE     1
 
-#define DEFAULT_UPDATE_URL        "http://miranda-ng.org/distr/stable/x%platform%"
-#define DEFAULT_UPDATE_URL_TRUNK  "http://miranda-ng.org/distr/x%platform%"
+#define DEFAULT_UPDATE_URL                "http://miranda-ng.org/distr/stable/x%platform%"
+#define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x%platform%"
+#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.now.im/pdb_x%platform%/"
 
 #define IDINFO				3
 #define IDDOWNLOAD			4

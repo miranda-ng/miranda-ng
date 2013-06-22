@@ -139,6 +139,9 @@ LBL_Exit:
 			db_set_ts(NULL, "CList", "TitleText", _T("Miranda NG"));
 	#endif
 
+	opts.bForceRedownload = false;
+	db_unset(NULL, MODNAME, "ForceRedownload");
+
 	db_set_b(NULL, MODNAME, "RestartCount", 2);
 	CallFunctionAsync(RestartMe, 0);
 	goto LBL_Exit;
@@ -414,11 +417,13 @@ static bool isValidExtension(const TCHAR *ptszFileName)
 	return false;
 }
 
-static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles)
+static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles)
 {
+	int count = 0;
+
 	// skip updater's own folder
 	if ( !_tcsicmp(tszFolder, tszRoot))
-		return;
+		return count;
 
 	TCHAR tszBuf[MAX_PATH];
 	mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\*"), tszFolder);
@@ -426,7 +431,7 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(tszBuf, &ffd);
 	if (hFind == INVALID_HANDLE_VALUE)
-		return;
+		return count;
 
 	do {
 		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
@@ -439,7 +444,7 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 
 			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
 			if (0 != _tcsicmp(tszBuf, tszProfilePath))
-				ScanFolder(tszBuf, cbBaseLen, level+1, tszBaseUrl, hashes, UpdateFiles);
+				count += ScanFolder(tszBuf, cbBaseLen, level+1, tszBaseUrl, hashes, UpdateFiles);
 			continue;
 		}
 
@@ -483,7 +488,7 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 			CalculateModuleHash(tszBuf, szMyHash);
 
 			MyCRC = item->m_crc;
-			bHasNewVersion = strcmp(szMyHash, item->m_szHash) != 0;
+			bHasNewVersion = opts.bForceRedownload ? true : strcmp(szMyHash, item->m_szHash) != 0;
 		}
 		else { // file was marked for deletion, add it to the list anyway
 			bHasNewVersion = true;
@@ -517,11 +522,15 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 
 			FileInfo->File.CRCsum = MyCRC;
 			UpdateFiles->insert(FileInfo);
+			
+			if (!opts.bSilent || db_get_b(NULL, MODNAME "Files", StrToLower(_T2A(FileInfo->tszNewName)), true))
+				count++;
 		} // end compare versions
 	}
 		while (FindNextFile(hFind, &ffd) != 0);
 
 	FindClose(hFind);
+	return count;
 }
 
 static void CheckUpdates(void *)
@@ -536,13 +545,13 @@ static void CheckUpdates(void *)
 	ptrT updateUrl( GetDefaultUrl()), baseUrl;
 
 	SERVLIST hashes(50, CompareHashes);
-	if ( ParseHashes(updateUrl, baseUrl, hashes)) {
+	if (ParseHashes(updateUrl, baseUrl, hashes)) {
 		FILELIST *UpdateFiles = new FILELIST(20);
 		VARST dirname( _T("%miranda_path%"));
-		ScanFolder(dirname, lstrlen(dirname)+1, 0, baseUrl, hashes, UpdateFiles);
+		int count = ScanFolder(dirname, lstrlen(dirname)+1, 0, baseUrl, hashes, UpdateFiles);
 
 		// Show dialog
-		if (UpdateFiles->getCount() == 0) {
+		if (count == 0) {
 			if ( !opts.bSilent)
 				ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("No updates found."), 2, 0);
 			delete UpdateFiles;
