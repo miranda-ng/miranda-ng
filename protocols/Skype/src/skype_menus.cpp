@@ -1,7 +1,7 @@
 #include "skype.h"
 
-HANDLE CSkypeProto::hChooserMenu;
-std::map<size_t, HANDLE> CSkypeProto::contactMenuItems;
+HGENMENU CSkypeProto::hChooserMenu;
+HGENMENU CSkypeProto::contactMenuItems[CMI_MAX];
 
 INT_PTR CSkypeProto::MenuChooseService(WPARAM wParam, LPARAM lParam)
 {
@@ -11,37 +11,14 @@ INT_PTR CSkypeProto::MenuChooseService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void CSkypeProto::ShowMenuItem(HANDLE hMenuItem, BOOL show)
-{
-	CLISTMENUITEM clmi = {0};
-	clmi.cbSize = sizeof(CLISTMENUITEM);
-	clmi.flags = CMIM_FLAGS;
-	if (!show)
-		clmi.flags |= CMIF_HIDDEN;
-
-	::CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&clmi);
-}
-
 int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	
 	if (hContact == NULL)
 		return 0;
 
-	if ( !this->IsOnline())
-	{
-		if (::db_get_b(hContact, this->m_szModuleName, "IsSkypeOut", 0) > 0)
-		{
-			CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_REQUEST], false);
-			CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_GRANT], false);
-			CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_REVOKE], false);
-			CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_CHAT_BOOKMARK], false);
-			CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_IGNORE], false);
-			CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_BLOCK], false);
-		}
+	if ( !this->IsOnline() || lstrcmpA( GetContactProto(hContact), m_szModuleName))
 		return 0;
-	}		
 
 	if ( !this->IsChatRoom(hContact))
 	{
@@ -51,42 +28,29 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 		bool grantNeed = ::db_get_b(hContact, this->m_szModuleName, "Grant", 0) > 0;
 		bool ignored = ::db_get_b(hContact, this->m_szModuleName, "Ignore", 0) > 0;
 
-		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_REQUEST], ctrlPressed || authNeed);
-		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_GRANT], ctrlPressed || grantNeed);
-		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_REVOKE], ctrlPressed || (!grantNeed && !authNeed));
+		Menu_ShowItem(CSkypeProto::contactMenuItems[CMI_AUTH_REQUEST], ctrlPressed || authNeed);
+		Menu_ShowItem(CSkypeProto::contactMenuItems[CMI_AUTH_GRANT], ctrlPressed || grantNeed);
+		Menu_ShowItem(CSkypeProto::contactMenuItems[CMI_AUTH_REVOKE], ctrlPressed || (!grantNeed && !authNeed));
+		Menu_ShowItem(CSkypeProto::contactMenuItems[CMI_BLOCK], ctrlPressed);
 
-		{	// ignore
-			CLISTMENUITEM clmi = {0};
-			clmi.cbSize = sizeof(CLISTMENUITEM);
-			clmi.flags = CMIM_FLAGS;
-
-			if (::db_get_b(hContact, this->m_szModuleName, "Ignore", 0) == 1)
-				clmi.flags |= CMIF_CHECKED;
+		CLISTMENUITEM clmi = { sizeof(clmi) };
+		clmi.cbSize = sizeof(CLISTMENUITEM);
+		clmi.flags = CMIM_FLAGS;
+		if (::db_get_b(hContact, this->m_szModuleName, "Ignore", 0) == 1)
+			clmi.flags |= CMIF_CHECKED;
 		
-			::CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)CSkypeProto::contactMenuItems[CMI_IGNORE], (LPARAM)&clmi);
-		}
-
-		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_BLOCK], ctrlPressed);
-		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_CHAT_BOOKMARK], false);
+		::CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)CSkypeProto::contactMenuItems[CMI_IGNORE], (LPARAM)&clmi);
 	}
 	else
 	{
-		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_REQUEST], false);
-		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_GRANT], false);
-		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_AUTH_REVOKE], false);
-		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_IGNORE], false);
-		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[CMI_BLOCK], false);
+		// bookmark
+		CLISTMENUITEM clmi = { sizeof(clmi) };
+		clmi.flags = CMIM_FLAGS;
 
-		{	// bookmark
-			CLISTMENUITEM clmi = {0};
-			clmi.cbSize = sizeof(CLISTMENUITEM);
-			clmi.flags = CMIM_FLAGS;
-
-			if (this->IsChatRoomBookmarked(hContact))
-				clmi.flags |= CMIF_CHECKED;
+		if (this->IsChatRoomBookmarked(hContact))
+			clmi.flags |= CMIF_CHECKED;
 		
-			::CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)CSkypeProto::contactMenuItems[CMI_CHAT_BOOKMARK], (LPARAM)&clmi);
-		}
+		::CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)CSkypeProto::contactMenuItems[CMI_CHAT_BOOKMARK], (LPARAM)&clmi);
 	}
 
 	return 0;
@@ -206,7 +170,7 @@ INT_PTR CSkypeProto::ShowBookmarksCommand(WPARAM, LPARAM)
 int CSkypeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	for (size_t i = 0; i < SIZEOF(CSkypeProto::contactMenuItems); i++)
-		CSkypeProto::ShowMenuItem(CSkypeProto::contactMenuItems[i], false);
+		Menu_ShowItem(CSkypeProto::contactMenuItems[i], false);
 
 	CSkypeProto* ppro = CSkypeProto::GetInstanceByHContact((HANDLE)wParam);
 	return (ppro) ? ppro->OnPrebuildContactMenu(wParam, lParam) : 0;
@@ -218,7 +182,7 @@ void  CSkypeProto::InitMenus()
 	mnu.cbSize = sizeof(mnu);
 	mnu.name = "SkypeAccountChooser";
 	mnu.ExecService = "Skype/MenuChoose";
-	hChooserMenu = (HANDLE)::CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&mnu);
+	hChooserMenu = (HGENMENU)::CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&mnu);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization

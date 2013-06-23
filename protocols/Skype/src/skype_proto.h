@@ -431,15 +431,13 @@ protected:
 
 	// menus
 	HGENMENU m_hMenuRoot;
-	static HANDLE hChooserMenu;
-	static std::map<size_t, HANDLE> contactMenuItems;
+	static HGENMENU hChooserMenu;
+	static HGENMENU contactMenuItems[CMI_MAX];
 
 	virtual	int __cdecl RequestAuth(WPARAM, LPARAM);
 	virtual	int __cdecl GrantAuth(WPARAM, LPARAM);
 	virtual	int __cdecl RevokeAuth(WPARAM, LPARAM);
 	
-	static void ShowMenuItem(HANDLE hMenuItem, BOOL show);
-
 	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
 
 	int __cdecl IgnoreCommand(WPARAM, LPARAM);
