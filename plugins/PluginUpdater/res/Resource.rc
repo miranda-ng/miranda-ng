@@ -77,7 +77,7 @@ BEGIN
     GROUPBOX        "Files source",IDC_STATIC,1,93,253,96
     CONTROL         "Stable version",IDC_STABLE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,106,236,10
     CONTROL         "Development version (less stable)",IDC_TRUNK,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,121,236,10
-	CONTROL         "Development version with debug symbols",IDC_TRUNK_SYMBOLS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,136,236,10
+    CONTROL         "Development version with debug symbols",IDC_TRUNK_SYMBOLS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,136,236,10
     CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,151,236,10
     EDITTEXT        IDC_CUSTOMURL,11,165,234,16,ES_AUTOHSCROLL
 END
