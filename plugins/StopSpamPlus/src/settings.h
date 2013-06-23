@@ -40,7 +40,7 @@ public:
 	}
 	operator T(){return m_value;}
 	void SetResident(BOOL bResident){
-		db_set_resident( bResident, (LPARAM)(pluginName m_name.c_str()));
+		db_set_resident(pluginName, m_name.c_str(), bResident);
 	}
 };
 
