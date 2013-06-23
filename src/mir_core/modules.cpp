@@ -76,9 +76,6 @@ static BOOL bServiceMode = FALSE;
 static CRITICAL_SECTION csHooks, csServices;
 static DWORD  mainThreadId;
 static int    hookId = 1;
-static HANDLE hMainThread;
-static HANDLE hMissingService;
-static THook *pLastHook = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -94,8 +91,7 @@ __forceinline HANDLE getThreadEvent()
 
 static int QueueMainThread(PAPCFUNC pFunc, void* pParam, HANDLE hDoneEvent)
 {
-	int result = QueueUserAPC(pFunc, hMainThread, (ULONG_PTR)pParam);
-	PostMessage(hAPCWindow, WM_NULL, 0, 0); // let this get processed in its own time
+	int result = PostMessage(hAPCWindow, WM_USER+1, (WPARAM)pFunc, (LPARAM)pParam); // let this get processed in its own time
 	if (hDoneEvent)
 		WaitForSingleObject(hDoneEvent, INFINITE);
 
@@ -130,9 +126,6 @@ MIR_CORE_DLL(HANDLE) CreateHookableEvent(const char *name)
 
 MIR_CORE_DLL(int) DestroyHookableEvent(HANDLE hEvent)
 {
-	if (pLastHook == (THook*)hEvent)
-		pLastHook = NULL;
-
 	mir_cslock lck(csHooks);
 
 	int idx;
@@ -649,9 +642,6 @@ int InitialiseModularEngine(void)
 	InitializeCriticalSection(&csServices);
 
 	mainThreadId = GetCurrentThreadId();
-	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
-
-	hMissingService = CreateHookableEvent(ME_SYSTEM_MISSINGSERVICE);
 	return 0;
 }
 
@@ -666,6 +656,4 @@ void DestroyModularEngine(void)
 	DeleteCriticalSection(&csServices);
 
 	pluginListAddr.destroy();
-
-	CloseHandle(hMainThread);
 }

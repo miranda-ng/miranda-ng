@@ -40,7 +40,12 @@ DWORD mir_tls = 0;
 
 static LRESULT CALLBACK APCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_NULL) SleepEx(0, TRUE);
+	if (msg == WM_USER+1) {
+		PAPCFUNC pFunc = (PAPCFUNC)wParam;
+		pFunc((ULONG_PTR)lParam);
+		return 0;
+	}
+
 	if (msg == WM_TIMECHANGE && RecalculateTime)
 		RecalculateTime();
 	return DefWindowProc(hwnd, msg, wParam, lParam);
