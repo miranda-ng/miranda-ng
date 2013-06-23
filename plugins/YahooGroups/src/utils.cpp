@@ -141,7 +141,7 @@ int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, 
 	if (db_get_s(hContact, szModule, szSettingName, &dbv) == 0)
 		{
 			res = 0;
-			int tmp = strlen(dbv.pszVal);
+			int tmp = (int)strlen(dbv.pszVal);
 			len = (tmp < size - 1) ? tmp : size - 1;
 			strncpy(szResult, dbv.pszVal, len);
 			szResult[len] = '\0';
@@ -151,7 +151,7 @@ int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, 
 			res = 1;
 			if (szError)
 				{
-					int tmp = strlen(szError);
+					int tmp = (int)strlen(szError);
 					len = (tmp < size - 1) ? tmp : size - 1;
 					strncpy(szResult, szError, len);
 					szResult[len] = '\0';
@@ -174,7 +174,7 @@ int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, 
 		if (dbv.type != DBVT_WCHAR)
 			MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, szResult, count);
 		else {
-			int tmp = wcslen(dbv.pwszVal);
+			int tmp = (int)wcslen(dbv.pwszVal);
 			len = (tmp < count - 1) ? tmp : count - 1;
 			wcsncpy(szResult, dbv.pwszVal, len);
 			szResult[len] = L'\0';
@@ -184,7 +184,7 @@ int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, 
 	else {
 		res = 1;
 		if (szError) {
-			int tmp = wcslen(szError);
+			int tmp = (int)wcslen(szError);
 			len = (tmp < count - 1) ? tmp : count - 1;
 			wcsncpy(szResult, szError, len);
 			szResult[len] = L'\0';

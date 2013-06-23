@@ -183,7 +183,7 @@ bool CLHttpUser::bReadGetParameters(char * pszRequest) {
 		pszRequest[0] = 0;
 		pszRequest++;
 		for (int nCur = 0; nCur < eLastParam ; nCur++) {
-			int nLen = strlen(szParmStr[nCur]);
+			int nLen = (int)strlen(szParmStr[nCur]);
 			if (strncmp(pszRequest, szParmStr[nCur], nLen) == 0) {
 				if (apszParam[nCur]) {
 					bRet = false;

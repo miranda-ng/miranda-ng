@@ -63,7 +63,7 @@ string sPageKeyword = szDefaultPageKeyword;
 
 void ReplaceAll(string &sSrc, const char * pszReplace, const string &sNew) {
 	string::size_type nCur = 0;
-	int nRepalceLen = strlen(pszReplace);
+	int nRepalceLen = (int)strlen(pszReplace);
 	while ((nCur = sSrc.find(pszReplace, nCur)) != sSrc.npos) {
 		sSrc.replace(nCur, nRepalceLen, sNew);
 		nCur += sNew.size();

@@ -165,7 +165,7 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 		//DWORD dwFlags = eventData->dwFlags;
 		const char *iconFile = "";
 		DWORD dwData = eventData->dwData;
-		int isSent = eventData->bIsMe;
+		bool isSent = eventData->bIsMe != 0;
 		int outputSize = 0;
 		char *output = NULL;
 		const char *className = "";
@@ -184,7 +184,7 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 
 		if (eventData->iType == IEED_GC_EVENT_MESSAGE) {
 			iconFile = isSent ? "message_out_chat.gif" : "message_in_chat.gif";
-			showIcon = iconFlags & (isSent ? GC_EVENT_MESSAGE : GC_EVENT_MESSAGE);
+			showIcon = (iconFlags & (isSent ? GC_EVENT_MESSAGE : GC_EVENT_MESSAGE)) != 0;
 			className = isSent ? "messageOut" : "messageIn";
 		}
 		else {
