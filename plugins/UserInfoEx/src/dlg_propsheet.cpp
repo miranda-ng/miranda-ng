@@ -262,8 +262,8 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 	HWND hWnd;
 
 	// update some cached settings
-	myGlobals.ShowPropsheetColours = DB::Setting::GetByte(SET_PROPSHEET_SHOWCOLOURS, TRUE);
-	myGlobals.WantAeroAdaption = DB::Setting::GetByte(SET_PROPSHEET_AEROADAPTION, TRUE);
+	myGlobals.ShowPropsheetColours = db_get_b(NULL, MODNAME, SET_PROPSHEET_SHOWCOLOURS, TRUE);
+	myGlobals.WantAeroAdaption = db_get_b(NULL, MODNAME, SET_PROPSHEET_AEROADAPTION, TRUE);
 
 	// allow only one dialog per user
 	if (hWnd = WindowList_Find(ghWindowList, (HANDLE)wParam)) {
@@ -277,9 +277,9 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 		HICON hDefIcon;
 
 		// init the treeview options
-		if (DB::Setting::GetByte(SET_PROPSHEET_SORTITEMS, FALSE))
+		if (db_get_b(NULL, MODNAME, SET_PROPSHEET_SORTITEMS, FALSE))
 			psh._dwFlags |= PSTVF_SORTTREE;
-		if (DB::Setting::GetByte(SET_PROPSHEET_GROUPS, TRUE))
+		if (db_get_b(NULL, MODNAME, SET_PROPSHEET_GROUPS, TRUE))
 			psh._dwFlags |= PSTVF_GROUPS;
 		// create imagelist
 		metrics.x = GetSystemMetrics(SM_CXSMICON);
@@ -533,7 +533,7 @@ static int InitDetails(WPARAM wParam, LPARAM lParam)
 	if (!(pPsh->_dwFlags & PSF_PROTOPAGESONLY)) {
 
 		OPTIONSDIALOGPAGE odp;
-		BYTE bChangeDetailsEnabled = myGlobals.CanChangeDetails && DB::Setting::GetByte(SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
+		BYTE bChangeDetailsEnabled = myGlobals.CanChangeDetails && db_get_b(NULL, MODNAME, SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
 		
 		// important to avoid craches!!
 		ZeroMemory(&odp, sizeof(odp));
@@ -607,9 +607,7 @@ void DlgContactInfoInitTreeIcons()
 			if ( !ProtoEnumAccounts(&ProtoCount, &pd)) {
 				for (i = 0; i < ProtoCount; i++) {
 					// enumerate all contacts
-					for (psh._hContact = DB::Contact::FindFirst();
-						psh._hContact != NULL;
-						psh._hContact = DB::Contact::FindNext(psh._hContact))
+					for (psh._hContact = db_find_first(); psh._hContact != NULL; psh._hContact = db_find_next(psh._hContact))
 					{
 						// compare contact's protocol to the current one, to add
 						pszContactProto = DB::Contact::Proto(psh._hContact);
@@ -1244,7 +1242,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			{ ICO_BTN_APPLY,	BM_SETIMAGE,	IDAPPLY		}
 		};
 		
-		const int numIconsToSet = DB::Setting::GetByte(SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 1;
+		const int numIconsToSet = db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 1;
 		
 		IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 		
@@ -1370,7 +1368,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					if (!myGlobals.szMetaProto)
 						break;
 					
-					if (!DB::Setting::GetByte(SET_META_SCAN, TRUE))
+					if (!db_get_b(NULL, MODNAME, SET_META_SCAN, TRUE))
 						break;
 					
 					for (i = 0; i < pPs->nSubContacts; i++) {
@@ -1447,7 +1445,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					break;
 				if (pPs->hContact != (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, NULL))
 					break;
-				if (!DB::Setting::GetByte(SET_META_SCAN, TRUE))
+				if (!db_get_b(NULL, MODNAME, SET_META_SCAN, TRUE))
 					break;
 			}
 
@@ -1671,7 +1669,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					CallService(MS_CLIST_INVALIDATEDISPLAYNAME, (WPARAM)pPs->hContact, NULL);
 
 					// need to upload owners settings
-					if (!pPs->hContact && myGlobals.CanChangeDetails && DB::Setting::GetByte(SET_PROPSHEET_CHANGEMYDETAILS, FALSE)) {
+					if (!pPs->hContact && myGlobals.CanChangeDetails && db_get_b(NULL, MODNAME, SET_PROPSHEET_CHANGEMYDETAILS, FALSE)) {
 						if (pPs->pUpload = new CPsUpload(pPs, LOWORD(wParam) == IDOK)) {
 							if (pPs->pUpload->UploadFirst() == CPsUpload::UPLOAD_CONTINUE)
 								break;

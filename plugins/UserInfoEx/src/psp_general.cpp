@@ -98,13 +98,13 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 										CheckDlgButton(hDlg, RADIO_FEMALE, (dbv.bVal == 'F'));
 										CheckDlgButton(hDlg, RADIO_MALE, (dbv.bVal == 'M'));
 
-										bEnable = !hContact || Flags.B.hasCustom || !DB::Setting::GetByte(SET_PROPSHEET_PCBIREADONLY, 0);
+										bEnable = !hContact || Flags.B.hasCustom || !db_get_b(NULL, MODNAME, SET_PROPSHEET_PCBIREADONLY, 0);
 										EnableWindow(GetDlgItem(hDlg, RADIO_FEMALE), bEnable);
 										EnableWindow(GetDlgItem(hDlg, RADIO_MALE), bEnable);
 									}
 									else
 									{
-										DB::Variant::Free(&dbv);
+										db_free(&dbv);
 									}
 								}
 							}
@@ -124,8 +124,10 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 									? 'M'
 									: 0;
 
-								if (gender) DB::Setting::WriteByte(hContact, hContact ? USERINFO : pszProto, SET_CONTACT_GENDER, gender);
-								else DB::Setting::Delete(hContact, hContact ? USERINFO : pszProto, SET_CONTACT_GENDER);
+								if (gender) 
+									db_set_b(hContact, hContact ? USERINFO : pszProto, SET_CONTACT_GENDER, gender);
+								else
+									db_unset(hContact, hContact ? USERINFO : pszProto, SET_CONTACT_GENDER);
 							}
 						}
 						break;

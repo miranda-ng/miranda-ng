@@ -437,7 +437,7 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 			#endif
 			; // nothing
 	}
-	DB::Variant::Free(&dbv);
+	db_free(&dbv);
 	if (xmlValue) {
 		xmlEntry = new TiXmlElement(XKEY_SET);
 		if (xmlEntry) {
@@ -577,7 +577,7 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 	LPSTR pszMetaProto = myGlobals.szMetaProto ? myGlobals.szMetaProto : "MetaContacts";
 
 	// delete last contact
-	DB::Variant::Free(&_dbvUID);
+	db_free(&_dbvUID);
 	_hContact = INVALID_HANDLE_VALUE;
 
 	_xmlNode = xContact;

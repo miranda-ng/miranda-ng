@@ -158,7 +158,7 @@ BOOL CCombo::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
 
 		_Flags.B.hasCustom = _Flags.B.hasProto = _Flags.B.hasMeta = 0;
 		_Flags.W |= DB::Setting::GetTStringCtrl(hContact, USERINFO, USERINFO, pszProto, _pszSetting, &dbv);
-		EnableWindow(_hwnd, !hContact || _Flags.B.hasCustom || !DB::Setting::GetByte(SET_PROPSHEET_PCBIREADONLY, 0));	
+		EnableWindow(_hwnd, !hContact || _Flags.B.hasCustom || !db_get_b(NULL, MODNAME, SET_PROPSHEET_PCBIREADONLY, 0));	
 
 		if (_Flags.B.hasCustom || _Flags.B.hasProto || _Flags.B.hasMeta)
 		{
@@ -180,7 +180,7 @@ BOOL CCombo::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
 			// unspecified
 			iVal = Find(_pList[0].nID);
 		}
-		DB::Variant::Free(&dbv);
+		db_free(&dbv);
 		ComboBox_SetCurSel(_hwnd, iVal);
 		_curSel = ComboBox_GetCurSel(_hwnd);
 		SendMessage(GetParent(_hwnd), WM_COMMAND, MAKEWPARAM( (WORD)this->_idCtrl, (WORD)CBN_SELCHANGE), (LPARAM)_hwnd);
@@ -212,17 +212,17 @@ void CCombo::OnApply(HANDLE hContact, LPCSTR pszProto)
 				switch (_bDataType)
 				{
 				case DBVT_BYTE:
-					DB::Setting::WriteByte(hContact, pszModule, _pszSetting, pd->nID);
+					db_set_b(hContact, pszModule, _pszSetting, pd->nID);
 					break;
 				case DBVT_WORD:
-					DB::Setting::WriteWord(hContact, pszModule, _pszSetting, pd->nID);
+					db_set_w(hContact, pszModule, _pszSetting, pd->nID);
 					break;
 				case DBVT_DWORD:
-					DB::Setting::WriteDWord(hContact, pszModule, _pszSetting, pd->nID);
+					db_set_dw(hContact, pszModule, _pszSetting, pd->nID);
 					break;
 				case DBVT_ASCIIZ:
 				case DBVT_WCHAR:
-					DB::Setting::WriteAString(hContact, pszModule, _pszSetting, (LPSTR)pd->pszText);
+					db_set_s(hContact, pszModule, _pszSetting, (LPSTR)pd->pszText);
 				}
 				if (!hContact)
 				{
@@ -234,7 +234,7 @@ void CCombo::OnApply(HANDLE hContact, LPCSTR pszProto)
 		}
 		if (_Flags.B.hasChanged)
 		{
-			DB::Setting::Delete(hContact, pszModule, _pszSetting);
+			db_unset(hContact, pszModule, _pszSetting);
 			_Flags.B.hasChanged = 0;
 			OnInfoChanged(hContact, pszProto);
 		}

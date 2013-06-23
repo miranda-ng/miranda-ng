@@ -127,8 +127,7 @@ int CPsTree::AddDummyItem(LPCSTR pszGroup)
 		psh._pPages	 = _pItems;
 		psh._numPages = _numItems;
 
-		OPTIONSDIALOGPAGE odp = { 0 };
-		odp.cbSize = sizeof(odp);
+		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 		odp.hInstance = ghInst;
 		odp.flags = ODPF_TCHAR;
 		odp.ptszTitle = mir_utf8decodeT(pszGroup);
@@ -163,7 +162,7 @@ BYTE CPsTree::InitTreeItems(LPWORD needWidth)
 	if (!DB::Setting::GetUString(NULL, MODNAME, SET_LASTITEM, &dbv)) 
 	{
 		_curItem = FindItemIndexByName(dbv.pszVal);
-		DB::Variant::Free(&dbv);
+		db_free(&dbv);
 	}
 
 	// init the groups
@@ -184,9 +183,8 @@ BYTE CPsTree::InitTreeItems(LPWORD needWidth)
 				
 				// need to add an empty parent item
 				if (iParent == -1) 
-				{
 					iParent = AddDummyItem(pszGroup);
-				}
+
 				_pItems[i]->Parent(iParent);
 				mir_free(pszGroup);
 			}
@@ -555,8 +553,8 @@ void CPsTree::SaveState()
 	}
 
 	// save current selected item
-	if (pti) DB::Setting::WriteUString(SET_LASTITEM, pti->Name());
-	else DB::Setting::Delete(NULL, MODNAME, SET_LASTITEM);
+	if (pti) db_set_utf(NULL, MODNAME, SET_LASTITEM, pti->Name());
+	else db_unset(NULL, MODNAME, SET_LASTITEM);
 }
 
 /**
@@ -588,7 +586,7 @@ void CPsTree::DBResetState()
 
 			if (s && *s == '{' && !mir_strnicmp(s + 1, p, c)) 
 			{
-				DB::Setting::Delete(NULL, MODNAME, s);
+				db_unset(NULL, MODNAME, s);
 			}
 		}
 		// keep only these flags
@@ -640,7 +638,7 @@ int CPsTree::BeginLabelEdit(HTREEITEM hItem)
 	CPsTreeItem* pti;
 
 	// tree is readonly
-	if (DB::Setting::GetByte(SET_PROPSHEET_READONLYLABEL, 0))
+	if (db_get_b(NULL, MODNAME, SET_PROPSHEET_READONLYLABEL, 0))
 		return 0;
 
 	// get item text
@@ -744,7 +742,7 @@ void CPsTree::PopupMenu()
 		tvi.hItem = hti.hItem;
 		TreeView_GetItem(_hWndTree, &tvi);
 
-		if (!DB::Setting::GetByte(SET_PROPSHEET_READONLYLABEL, FALSE)) {
+		if (!db_get_b(NULL, MODNAME, SET_PROPSHEET_READONLYLABEL, FALSE)) {
 			mii.dwTypeData = TranslateT("Rename Item");
 			mii.wID = 32001;
 			InsertMenuItem(hPopup, 0, FALSE, &mii);

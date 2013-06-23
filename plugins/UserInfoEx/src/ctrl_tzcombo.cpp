@@ -217,8 +217,8 @@ void CTzCombo::OnApply(HANDLE hContact, LPCSTR pszProto)
 			else {
 				const CTimeZone* pTimeZone = (CTimeZone*)ComboBox_GetItemData(_hwnd, _curSel);
 				if (PtrIsValid(pTimeZone)) {
-					DB::Setting::WriteTString(hContact, USERINFO, SET_CONTACT_TIMEZONENAME, pTimeZone->ptszName);
-					DB::Setting::WriteByte(hContact, pszModule, SET_CONTACT_TIMEZONE, pTimeZone->ToMirandaTimezone());
+					db_set_ts(hContact, USERINFO, SET_CONTACT_TIMEZONENAME, pTimeZone->ptszName);
+					db_set_b(hContact, pszModule, SET_CONTACT_TIMEZONE, pTimeZone->ToMirandaTimezone());
 
 					if (!hContact) {
 						_Flags.B.hasCustom = 0;
@@ -231,9 +231,9 @@ void CTzCombo::OnApply(HANDLE hContact, LPCSTR pszProto)
 
 		if (_Flags.B.hasChanged)
 		{
-			DB::Setting::Delete(hContact, USERINFO, SET_CONTACT_TIMEZONENAME);
-			DB::Setting::Delete(hContact, USERINFO, SET_CONTACT_TIMEZONEINDEX);
-			DB::Setting::Delete(hContact, pszModule, SET_CONTACT_TIMEZONE);
+			db_unset(hContact, USERINFO, SET_CONTACT_TIMEZONENAME);
+			db_unset(hContact, USERINFO, SET_CONTACT_TIMEZONEINDEX);
+			db_unset(hContact, pszModule, SET_CONTACT_TIMEZONE);
 
 			_Flags.B.hasChanged = 0;
 			OnInfoChanged(hContact, pszProto);

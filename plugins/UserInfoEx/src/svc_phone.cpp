@@ -136,13 +136,9 @@ static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
  **/
 void SvcPhoneApplyCListIcons()
 {
-	HANDLE hContact;
-
 	//walk through all the contacts stored in the DB
-	for (hContact = DB::Contact::FindFirst();	hContact != NULL;	hContact = DB::Contact::FindNext(hContact))
-	{
+	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 		OnCListApplyIcons(hContact, 0);
-	}
 }
 
 /**
@@ -154,7 +150,7 @@ void SvcPhoneApplyCListIcons()
 void SvcPhoneEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB) 
 {
 	if (bUpdateDB)
-		DB::Setting::WriteByte(SET_CLIST_EXTRAICON_PHONE, bEnable);
+		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_PHONE, bEnable);
 
 	// force module enabled, if extraicon plugin was found
 	if (bEnable) {
@@ -191,7 +187,7 @@ void SvcPhoneEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB)
 void SvcPhoneLoadModule()
 {
 	SvcPhoneEnableExtraIcons(
-		DB::Setting::GetByte(SET_CLIST_EXTRAICON_PHONE, DEFVAL_CLIST_EXTRAICON_PHONE), FALSE);
+		db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_PHONE, DEFVAL_CLIST_EXTRAICON_PHONE), FALSE);
 }
 
 /**

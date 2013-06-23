@@ -42,8 +42,6 @@ namespace Contact {
 	LPSTR	Proto         (HANDLE hContact);
 
 	INT_PTR	GetCount      ();
-	HANDLE	FindFirst     ();
-	HANDLE	FindNext      (HANDLE hContact);
 
 	HANDLE	Add();
 	BYTE	Delete        (HANDLE hContact);
@@ -99,65 +97,10 @@ namespace Setting {
 
 	BYTE	GetStatic     (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR szValue, int cchValue);
 
-	BYTE	GetByte       (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, BYTE errorValue);
-	static	FORCEINLINE
-	BYTE	GetByte       (LPCSTR pszModule, LPCSTR pszSetting, BYTE errorValue) { return GetByte(NULL, pszModule, pszSetting, errorValue); }
-	static	FORCEINLINE
-	BYTE	GetByte       (LPCSTR pszSetting, BYTE errorValue) { return GetByte(MODNAME, pszSetting, errorValue); }
-
-	WORD	GetWord       (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, WORD errorValue);
-	static	FORCEINLINE
-	WORD	GetWord       (LPCSTR pszModule, LPCSTR pszSetting, WORD errorValue) { return GetWord(NULL, pszModule, pszSetting, errorValue); }
-	static	FORCEINLINE
-	WORD	GetWord       (LPCSTR pszSetting, WORD errorValue) { return GetWord(MODNAME, pszSetting, errorValue); }
-
-	DWORD	GetDWord      (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DWORD errorValue);
-	static	FORCEINLINE
-	DWORD	GetDWord      (LPCSTR pszModule, LPCSTR pszSetting, DWORD errorValue) { return GetDWord(NULL, pszModule, pszSetting, errorValue); }
-	static	FORCEINLINE
-	DWORD	GetDWord      (LPCSTR pszSetting, DWORD errorValue) { return GetDWord(MODNAME, pszSetting, errorValue); }
-
 	/**
 	 * write values to the database.
 	 **/
 	BYTE	WriteVariant  (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, const DBVARIANT *dbv);
-
-	BYTE	WriteByte     (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, BYTE value);
-	static	FORCEINLINE
-	BYTE	WriteByte     (LPCSTR pszModule, LPCSTR pszSetting, BYTE value) { return WriteByte(NULL, pszModule, pszSetting, value); }
-	static	FORCEINLINE
-	BYTE	WriteByte     (LPCSTR pszSetting, BYTE value) { return WriteByte(MODNAME, pszSetting, value); }
-
-	BYTE	WriteWord     (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, WORD value);
-	static	FORCEINLINE
-	BYTE	WriteWord     (LPCSTR pszModule, LPCSTR pszSetting, WORD value) { return WriteWord(NULL, pszModule, pszSetting, value); }
-	static	FORCEINLINE
-	BYTE	WriteWord     (LPCSTR pszSetting, WORD value) { return WriteWord(MODNAME, pszSetting, value); }
-
-	BYTE	WriteDWord    (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DWORD value);
-	static	FORCEINLINE
-	BYTE	WriteDWord    (LPCSTR pszModule, LPCSTR pszSetting, DWORD value) { return WriteDWord(NULL, pszModule, pszSetting, value); }
-	static	FORCEINLINE
-	BYTE	WriteDWord    (LPCSTR pszSetting, DWORD value) { return WriteDWord(MODNAME, pszSetting, value); }
-
-	BYTE	WriteAString  (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR value);
-	static	FORCEINLINE
-	BYTE	WriteAString  (LPCSTR pszModule, LPCSTR pszSetting, LPSTR value) { return WriteAString(NULL, pszModule, pszSetting, value); }
-	static	FORCEINLINE
-	BYTE	WriteAString  (LPCSTR pszSetting, LPSTR value) { return WriteAString(MODNAME, pszSetting, value); }
-
-	BYTE	WriteWString  (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPWSTR value);
-	static	FORCEINLINE
-	BYTE	WriteWString  (LPCSTR pszModule, LPCSTR pszSetting, LPWSTR value) { return WriteWString(NULL, pszModule, pszSetting, value); }
-	static	FORCEINLINE
-	BYTE	WriteWString  (LPCSTR pszSetting, LPWSTR value) { return WriteWString(MODNAME, pszSetting, value); }
-
-	BYTE	WriteUString  (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR value);
-	static	FORCEINLINE
-	BYTE	WriteUString  (LPCSTR pszModule, LPCSTR pszSetting, LPSTR value) { return WriteUString(NULL, pszModule, pszSetting, value); }
-	static	FORCEINLINE
-	BYTE	WriteUString  (LPCSTR pszSetting, LPSTR value) { return WriteUString(MODNAME, pszSetting, value); }
-
 
 	#define GetTString			GetWString
 	#define GetTStringEx		GetWStringEx
@@ -169,7 +112,6 @@ namespace Setting {
 	 * misc operations
 	 **/
 	BYTE	Exists        (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
-	BYTE	Delete        (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
 	void	DeleteArray   (HANDLE hContact, LPCSTR pszModule, LPCSTR pszFormat, int iStart);
 
 } /* namespace Setting */
@@ -177,7 +119,6 @@ namespace Setting {
 namespace Variant {
 	BYTE	ConvertString (DBVARIANT* dbv, const BYTE destType);
 	BYTE	dbv2String    (DBVARIANT* dbv, const BYTE destType);
-	BYTE	Free          (DBVARIANT* dbv);
 } /* namespace Variant */
 
 namespace Event   {
@@ -185,7 +126,6 @@ namespace Event   {
 	BYTE	GetInfo        (HANDLE hEvent, DBEVENTINFO *dbei);
 	BYTE	GetInfoWithData(HANDLE hEvent, DBEVENTINFO *dbei);
 	DWORD	GetTime        (HANDLE hEvent);
-	INT_PTR	BlobSizeOf     (HANDLE hEvent);
 	BYTE	Exists         (HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei);
 } /* namespace Events */
 

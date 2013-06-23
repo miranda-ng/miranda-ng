@@ -189,7 +189,7 @@ void SvcEMailRebuildMenu()
 {
 	static HANDLE hPrebuildMenuHook = NULL;
 
-	if (DB::Setting::GetByte(SET_EXTENDED_EMAILSERVICE, TRUE)) 
+	if (db_get_b(NULL, MODNAME, SET_EXTENDED_EMAILSERVICE, TRUE)) 
 	{
 		if (!hPrebuildMenuHook) 
 		{
@@ -230,13 +230,9 @@ void SvcEMailRebuildMenu()
  **/
 void SvcEMailApplyCListIcons()
 {
-	HANDLE hContact;
-
 	//walk through all the contacts stored in the DB
-	for (hContact = DB::Contact::FindFirst();	hContact != NULL;	hContact = DB::Contact::FindNext(hContact))
-	{
+	for (HANDLE hContact = db_find_first();	hContact != NULL;	hContact = db_find_next(hContact))
 		OnCListApplyIcons((WPARAM)hContact, 0);
-	}
 }
 
 /**
@@ -248,7 +244,7 @@ void SvcEMailApplyCListIcons()
 void SvcEMailEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB) 
 {
 	if (bUpdateDB)
-		DB::Setting::WriteByte(SET_CLIST_EXTRAICON_EMAIL, bEnable);
+		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_EMAIL, bEnable);
 
 	if (bEnable) { // E-mail checkt
 		// hook events
@@ -284,7 +280,7 @@ void SvcEMailEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB)
 void SvcEMailOnModulesLoaded()
 {
 	SvcEMailEnableExtraIcons(
-		DB::Setting::GetByte(SET_CLIST_EXTRAICON_EMAIL, 
+		db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_EMAIL, 
 		DEFVAL_CLIST_EXTRAICON_EMAIL), FALSE);
 }
 
@@ -293,7 +289,7 @@ void SvcEMailOnModulesLoaded()
  **/
 void SvcEMailLoadModule()
 {
-	if (DB::Setting::GetByte(SET_EXTENDED_EMAILSERVICE, TRUE)) {
+	if (db_get_b(NULL, MODNAME, SET_EXTENDED_EMAILSERVICE, TRUE)) {
 		// create own email send command
 		if (!myDestroyServiceFunction(MS_EMAIL_SENDEMAIL))
 			CreateServiceFunction(MS_EMAIL_SENDEMAIL, MenuCommand);

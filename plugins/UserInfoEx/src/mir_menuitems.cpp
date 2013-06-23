@@ -76,10 +76,10 @@ void RebuildContact()
 	SvcHomepageRebuildMenu();
 
 	// load options
-	flag = DB::Setting::GetByte(SET_MI_CONTACT, MCAS_NOTINITIATED);
+	flag = db_get_b(NULL, MODNAME, SET_MI_CONTACT, MCAS_NOTINITIATED);
 	if (flag == MCAS_NOTINITIATED){
 		flag = MCAS_EXIMPORT|TRUE;
-		DB::Setting::WriteByte(SET_MI_CONTACT, flag);
+		db_set_b(NULL, MODNAME, SET_MI_CONTACT, flag);
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
@@ -173,10 +173,10 @@ void RebuildMain()
 	static HGENMENU hMenuItem[8] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 
 	// load options
-	flag = DB::Setting::GetByte(SET_MI_MAIN, MCAS_NOTINITIATED);
+	flag = db_get_b(NULL, MODNAME, SET_MI_MAIN, MCAS_NOTINITIATED);
 	if (flag == MCAS_NOTINITIATED){
 		flag = MCAS_ALL|TRUE;
-		DB::Setting::WriteByte(SET_MI_MAIN, flag);
+		db_set_b(NULL, MODNAME, SET_MI_MAIN, flag);
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
@@ -253,8 +253,8 @@ void RebuildMain()
 	// reminder
 	{
 		const BYTE bRemindMenus =
-			DB::Setting::GetByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) &&
-			DB::Setting::GetByte(SET_REMIND_MENUENABLED, DEFVAL_REMIND_MENUENABLED);
+			db_get_b(NULL, MODNAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) &&
+			db_get_b(NULL, MODNAME, SET_REMIND_MENUENABLED, DEFVAL_REMIND_MENUENABLED);
 		if (bRemindMenus) {
 			// make backup of each protocol based birthday
 			mi.pszService = MS_USERINFO_REMINDER_AGGRASIVEBACKUP;
@@ -311,10 +311,10 @@ void RebuildGroup()
 	static HGENMENU hMenuItem[3] = {NULL, NULL, NULL };
 
 	// load options
-	flag = DB::Setting::GetByte(SET_MI_GROUP, MCAS_NOTINITIATED);
+	flag = db_get_b(NULL, MODNAME, SET_MI_GROUP, MCAS_NOTINITIATED);
 	if (flag == MCAS_NOTINITIATED){
 		flag = MCAS_EXIMPORT|TRUE;
-		DB::Setting::WriteByte(SET_MI_GROUP, flag);
+		db_set_b(NULL, MODNAME, SET_MI_GROUP, flag);
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
@@ -408,10 +408,10 @@ void RebuildSubGroup()
 	static HGENMENU hMenuItem[3] = {NULL, NULL, NULL };
 
 	// load options
-	flag = DB::Setting::GetByte(SET_MI_SUBGROUP, MCAS_NOTINITIATED);
+	flag = db_get_b(NULL, MODNAME, SET_MI_SUBGROUP, MCAS_NOTINITIATED);
 	if (flag == MCAS_NOTINITIATED){
 		flag = MCAS_DISABLED|TRUE;
-		DB::Setting::WriteByte(SET_MI_SUBGROUP, flag);
+		db_set_b(NULL, MODNAME, SET_MI_SUBGROUP, flag);
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
@@ -530,10 +530,10 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 	}
 
 	// load options
-	flag = DB::Setting::GetByte(SET_MI_ACCOUNT, MCAS_NOTINITIATED);
+	flag = db_get_b(NULL, MODNAME, SET_MI_ACCOUNT, MCAS_NOTINITIATED);
 	if (flag == MCAS_NOTINITIATED){
 		flag = MCAS_EXIMPORT|TRUE;
-		DB::Setting::WriteByte(SET_MI_ACCOUNT, flag);
+		db_set_b(NULL, MODNAME, SET_MI_ACCOUNT, flag);
 	}
 
 	// loop for all account names

@@ -33,11 +33,11 @@ COLORREF clrMeta = -1;
 
 void Ctrl_InitTextColours()
 {
-	clrBoth = DB::Setting::GetDWord(NULL, MODNAME, SET_PROPSHEET_CLRBOTH, RGB(0, 160, 10));
-	clrChanged = DB::Setting::GetDWord(NULL, MODNAME, SET_PROPSHEET_CLRCHANGED, RGB(190, 0, 0));
-	clrCustom = DB::Setting::GetDWord(NULL, MODNAME, SET_PROPSHEET_CLRCUSTOM, RGB(0, 10, 130));
-	clrNormal = DB::Setting::GetDWord(NULL, MODNAME, SET_PROPSHEET_CLRNORMAL, RGB(90, 90, 90));
-	clrMeta = DB::Setting::GetDWord(NULL, MODNAME, SET_PROPSHEET_CLRMETA, RGB(120, 40, 130));
+	clrBoth = db_get_dw(NULL, MODNAME, SET_PROPSHEET_CLRBOTH, RGB(0, 160, 10));
+	clrChanged = db_get_dw(NULL, MODNAME, SET_PROPSHEET_CLRCHANGED, RGB(190, 0, 0));
+	clrCustom = db_get_dw(NULL, MODNAME, SET_PROPSHEET_CLRCUSTOM, RGB(0, 10, 130));
+	clrNormal = db_get_dw(NULL, MODNAME, SET_PROPSHEET_CLRNORMAL, RGB(90, 90, 90));
+	clrMeta = db_get_dw(NULL, MODNAME, SET_PROPSHEET_CLRMETA, RGB(120, 40, 130));
 }
 
 INT_PTR CALLBACK Ctrl_SetTextColour(HDC hdc, WORD wFlags)
@@ -55,7 +55,7 @@ INT_PTR CALLBACK Ctrl_SetTextColour(HDC hdc, WORD wFlags)
 
 INT_PTR CALLBACK Ctrl_SetTextColour(HWND hCtrl, HDC hdc)
 {
-	if (hCtrl && DB::Setting::GetByte(SET_PROPSHEET_SHOWCOLOURS, 1)) 
+	if (hCtrl && db_get_b(NULL, MODNAME, SET_PROPSHEET_SHOWCOLOURS, 1)) 
 	{
 		LPCTRL pCtrl = (LPCTRL)GetUserData(hCtrl);
 		if (PtrIsValid(pCtrl))

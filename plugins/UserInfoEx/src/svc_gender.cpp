@@ -40,7 +40,7 @@ BYTE GenderOf(HANDLE hContact, LPCSTR pszProto)
 		{
 			return dbv.bVal;	
 		}
-		DB::Variant::Free(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -110,13 +110,9 @@ static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
  **/
 void SvcGenderApplyCListIcons()
 {
-	HANDLE hContact;
-
 	//walk through all the contacts stored in the DB
-	for (hContact = DB::Contact::FindFirst();	hContact != NULL;	hContact = DB::Contact::FindNext(hContact))
-	{
+	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 		OnCListApplyIcons(hContact, 0);
-	}
 }
 
 /**
@@ -130,7 +126,7 @@ void SvcGenderEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB)
 	bool bEnable = (bColumn!=((BYTE)-1));
 
 	if (bUpdateDB)
-		DB::Setting::WriteByte(SET_CLIST_EXTRAICON_GENDER2, bColumn);
+		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_GENDER2, bColumn);
 
 	if (bEnable) { // Gender checkt or dropdown select
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
@@ -165,7 +161,7 @@ void SvcGenderEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB)
  **/
 void SvcGenderLoadModule()
 {
-	SvcGenderEnableExtraIcons(DB::Setting::GetByte(SET_CLIST_EXTRAICON_GENDER2, 0), FALSE);
+	SvcGenderEnableExtraIcons(db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_GENDER2, 0), FALSE);
 }
 
 /**

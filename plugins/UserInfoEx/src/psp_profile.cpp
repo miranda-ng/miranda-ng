@@ -502,8 +502,8 @@ static int ProfileList_AddItemlistFromDB(
 		DB::Setting::GetAString(hContact, pszModule, pszSetting, &dbvCat);
 		// create the itemobject
 		if (!(pItem = (LPLCITEM)mir_alloc(sizeof(LCITEM)))) {
-			DB::Variant::Free(&dbvCat);
-			DB::Variant::Free(&dbvVal);
+			db_free(&dbvCat);
+			db_free(&dbvVal);
 			break;
 		}
 		// fill item struct
@@ -544,12 +544,12 @@ static int ProfileList_AddItemlistFromDB(
 		// item not found in the predefined category list?
 		if ((idList == NULL || j == nList) && dbvCat.type == DBVT_ASCIIZ) {
 			pItem->pszText[0] = mir_a2t(dbvCat.pszVal);
-			DB::Variant::Free(&dbvCat);
+			db_free(&dbvCat);
 		}
 		if ((lvi.iItem = ListView_InsertItem(pList->hList, &lvi)) < 0) {
 			mir_free(pItem);
-			DB::Variant::Free(&dbvCat);
-			DB::Variant::Free(&dbvVal);
+			db_free(&dbvCat);
+			db_free(&dbvVal);
 			break;
 		}
 		lvi.iItem++;
@@ -1228,16 +1228,16 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 										continue;
 									if (!(pItem->wFlags & (CTRLF_HASPROTO|CTRLF_HASMETA))) {
 										mir_snprintf(pszSetting, MAXSETTING, pFmt[iFmt].szValFmt, iItem);
-										DB::Setting::WriteTString(hContact, pszModule, pszSetting, pItem->pszText[1]);
+										db_set_ts(hContact, pszModule, pszSetting, pItem->pszText[1]);
 										// save category
 										mir_snprintf(pszSetting, MAXSETTING, pFmt[iFmt].szCatFmt, iItem);
 										if (pItem->idstrList && pItem->iListItem > 0 && pItem->iListItem < pItem->idstrListCount)
-											DB::Setting::WriteAString(hContact, pszModule, pszSetting, (LPSTR)pItem->idstrList[pItem->iListItem].pszText);
+											db_set_s(hContact, pszModule, pszSetting, (LPSTR)pItem->idstrList[pItem->iListItem].pszText);
 										else 
 											if (pItem->pszText[0] && *pItem->pszText[0])
-												DB::Setting::WriteTString(hContact, pszModule, pszSetting, (LPTSTR)pItem->pszText[0]);
+												db_set_ts(hContact, pszModule, pszSetting, (LPTSTR)pItem->pszText[0]);
 											else									
-												DB::Setting::Delete(hContact, pszModule, pszSetting);
+												db_unset(hContact, pszModule, pszSetting);
 										// redraw the item if required
 										if (pItem->wFlags & CTRLF_CHANGED) {
 											pItem->wFlags &= ~CTRLF_CHANGED;

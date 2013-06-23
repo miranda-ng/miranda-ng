@@ -251,7 +251,7 @@ static int NotifyWithPopup(HANDLE hContact, CEvent::EType eventType, int DaysToA
 	{
 		POPUPDATAT ppd = { 0 };
 		ppd.PluginWindowProc = PopupWindowProc;
-		ppd.iSeconds = (int)DB::Setting::GetByte(SET_POPUP_DELAY, 0);
+		ppd.iSeconds = (int)db_get_b(NULL, MODNAME, SET_POPUP_DELAY, 0);
 
 		if (hContact) {
 			ppd.lchContact = hContact;
@@ -266,29 +266,29 @@ static int NotifyWithPopup(HANDLE hContact, CEvent::EType eventType, int DaysToA
 
 		switch (eventType) {
 		case CEvent::BIRTHDAY:
-			switch (DB::Setting::GetByte(SET_POPUP_BIRTHDAY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
+			switch (db_get_b(NULL, MODNAME, SET_POPUP_BIRTHDAY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
 			case POPUP_COLOR_WINDOWS:
 				ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 				ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 				break;
 
 			case POPUP_COLOR_CUSTOM:
-				ppd.colorBack = DB::Setting::GetDWord(SET_POPUP_BIRTHDAY_COLOR_BACK, RGB(192,180,30));
-				ppd.colorText = DB::Setting::GetDWord(SET_POPUP_BIRTHDAY_COLOR_TEXT, 0);
+				ppd.colorBack = db_get_dw(NULL, MODNAME, SET_POPUP_BIRTHDAY_COLOR_BACK, RGB(192,180,30));
+				ppd.colorText = db_get_dw(NULL, MODNAME, SET_POPUP_BIRTHDAY_COLOR_TEXT, 0);
 				break;
 			}
 			break;
 
 		case CEvent::ANNIVERSARY:
-			switch (DB::Setting::GetByte(SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
+			switch (db_get_b(NULL, MODNAME, SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
 			case POPUP_COLOR_WINDOWS:
 				ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 				ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 				break;
 
 			case POPUP_COLOR_CUSTOM:
-				ppd.colorBack = DB::Setting::GetDWord(SET_POPUP_ANNIVERSARY_COLOR_BACK, RGB(90, 190, 130));
-				ppd.colorText = DB::Setting::GetDWord(SET_POPUP_ANNIVERSARY_COLOR_TEXT, 0);
+				ppd.colorBack = db_get_dw(NULL, MODNAME, SET_POPUP_ANNIVERSARY_COLOR_BACK, RGB(90, 190, 130));
+				ppd.colorText = db_get_dw(NULL, MODNAME, SET_POPUP_ANNIVERSARY_COLOR_TEXT, 0);
 				break;
 			}
 		}
@@ -362,7 +362,7 @@ static void NotifyFlashCListIcon(HANDLE hContact, const CEvent &evt)
  **/
 static BYTE NotifyWithSound(const CEvent &evt)
 {
-	if (evt._wDaysLeft <= min(DB::Setting::GetByte(SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET), gRemindOpts.wDaysEarlier))
+	if (evt._wDaysLeft <= min(db_get_b(NULL, MODNAME, SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET), gRemindOpts.wDaysEarlier))
 	{
 		switch (evt._eType)
 		{
@@ -520,7 +520,7 @@ static BYTE CheckBirthday(HANDLE hContact, MTime &Now, CEvent &evt, BYTE bNotify
 			mtb.DBGetReminderOpts(hContact);
 
 			// make backup of each protocol based birthday
-			if (DB::Setting::GetByte(SET_REMIND_SECUREBIRTHDAY, TRUE))
+			if (db_get_b(NULL, MODNAME, SET_REMIND_SECUREBIRTHDAY, TRUE))
 			{
 				mtb.BackupBirthday(hContact, NULL, 0, LastAnwer);
 			}
@@ -601,7 +601,7 @@ static void CheckContact(HANDLE hContact, MTime &Now, CEvent &evt, BYTE bNotify,
 {
 	// ignore meta subcontacts here as their birthday information are collected explicitly
 	if (hContact &&
-			(!gRemindOpts.bCheckVisibleOnly || !DB::Setting::GetByte(hContact, MOD_CLIST, "Hidden", FALSE)) &&
+			(!gRemindOpts.bCheckVisibleOnly || !db_get_b(hContact, MOD_CLIST, "Hidden", FALSE)) &&
 			(!DB::MetaContact::IsSub(hContact)))
 	{
 		CEvent ca;
@@ -631,7 +631,6 @@ void SvcReminderCheckAll(const ENotify notify)
 {
 	if (gRemindOpts.RemindState != REMIND_OFF)
 	{
-		HANDLE hContact;
 		CEvent evt;
 		MTime now;
 		WORD a1 = 0;
@@ -639,12 +638,8 @@ void SvcReminderCheckAll(const ENotify notify)
 		now.GetLocalTime();
 
 		//walk through all the contacts stored in the DB
-		for (hContact = DB::Contact::FindFirst();
-				 hContact != NULL;
-				 hContact = DB::Contact::FindNext(hContact))
-		{
+		for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 			CheckContact(hContact, now, evt, notify != NOTIFY_CLIST, &a1);
-		}
 
 		if (notify != NOTIFY_CLIST)
 		{
@@ -652,15 +647,11 @@ void SvcReminderCheckAll(const ENotify notify)
 			NotifyWithSound(evt);
 
 			// popup anniversary list
-			if (DB::Setting::GetByte(SET_ANNIVLIST_POPUP, FALSE))
-			{
+			if (db_get_b(NULL, MODNAME, SET_ANNIVLIST_POPUP, FALSE))
 				DlgAnniversaryListShow(0, 0);
-			}
 
 			if (evt._wDaysLeft > gRemindOpts.wDaysEarlier && notify == NOTIFY_NOANNIV)
-			{
 				NotifyWithPopup(NULL, CEvent::NONE, 0, NULL, TranslateT("No anniversaries to remind of"));
-			}
 		}
 		UpdateTimer(FALSE);
 	}
@@ -809,30 +800,22 @@ static INT_PTR CheckService(WPARAM, LPARAM)
  **/
 static INT_PTR BackupBirthdayService(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact	= (HANDLE)wParam;
+	HANDLE hContact = (HANDLE)wParam;
 	MAnnivDate mdb;
 
 	if (hContact)
 	{
 		if (!mdb.DBGetBirthDate(hContact))
-		{
 			mdb.BackupBirthday(hContact, NULL, TRUE);
-		}
 	}
 	else
 	{
 		WORD a1 = 0;
 
 		//walk through all the contacts stored in the DB
-		for (hContact = DB::Contact::FindFirst();
-				 hContact != NULL;
-				 hContact = DB::Contact::FindNext(hContact))
-		{
+		for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 			if (!DB::MetaContact::IsSub(hContact) && !mdb.DBGetBirthDate(hContact))
-			{
 				mdb.BackupBirthday(hContact, NULL, TRUE, &a1);
-			}
-		}
 	}
 
 	if (lParam != TRUE)
@@ -859,7 +842,7 @@ static INT_PTR BackupBirthdayService(WPARAM wParam, LPARAM lParam)
  **/
 LPCSTR SvcReminderGetMyBirthdayModule()
 {
-	return ((DB::Setting::GetByte(SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE) == 1) ? USERINFO : MOD_MBIRTHDAY);
+	return ((db_get_b(NULL, MODNAME, SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE) == 1) ? USERINFO : MOD_MBIRTHDAY);
 }
 
 
@@ -912,7 +895,7 @@ static void CALLBACK TimerProc_Check(HWND, UINT, UINT_PTR, DWORD)
  **/
 static void UpdateTimer(BYTE bStartup)
 {
-	LONG	wNotifyInterval =	60 * 60 * (LONG)DB::Setting::GetWord(MODNAME, SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL);
+	LONG	wNotifyInterval =	60 * 60 * (LONG)db_get_w(NULL, MODNAME, SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL);
 	MTime	now, last;
 
 	now.GetTimeUTC();
@@ -921,7 +904,7 @@ static void UpdateTimer(BYTE bStartup)
 		last.DBGetStamp(NULL, MODNAME, SET_REMIND_LASTCHECK);
 
 		// if last check occured at least one day before just do it on startup again
-		if (now.Year() > last.Year() ||	now.Month() > last.Month() ||	now.Day() > last.Day() || DB::Setting::GetByte(SET_REMIND_CHECKON_STARTUP, FALSE))
+		if (now.Year() > last.Year() ||	now.Month() > last.Month() ||	now.Day() > last.Day() || db_get_b(NULL, MODNAME, SET_REMIND_CHECKON_STARTUP, FALSE))
 			wNotifyInterval = 5;
 		else
 			wNotifyInterval -= now.Compare(last);
@@ -955,26 +938,21 @@ void SvcReminderEnable(BYTE bEnable)
 			ghSettingsChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
 
 		// reinit reminder options
-		gRemindOpts.RemindState	= DB::Setting::GetByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
-		gRemindOpts.wDaysEarlier = DB::Setting::GetWord(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET);
-		gRemindOpts.bCListExtraIcon = DB::Setting::GetByte(SET_REMIND_EXTRAICON, 1);
-		gRemindOpts.bCheckVisibleOnly = DB::Setting::GetByte(SET_REMIND_CHECKVISIBLE, DEFVAL_REMIND_CHECKVISIBLE);
-		gRemindOpts.bFlashCList = DB::Setting::GetByte(SET_REMIND_FLASHICON, FALSE);
-		gRemindOpts.bPopups = ServiceExists(MS_POPUP_ADDPOPUPT) && DB::Setting::GetByte(SET_POPUP_ENABLED, DEFVAL_POPUP_ENABLED);
+		gRemindOpts.RemindState	= db_get_b(NULL, MODNAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
+		gRemindOpts.wDaysEarlier = db_get_w(NULL, MODNAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET);
+		gRemindOpts.bCListExtraIcon = db_get_b(NULL, MODNAME, SET_REMIND_EXTRAICON, 1);
+		gRemindOpts.bCheckVisibleOnly = db_get_b(NULL, MODNAME, SET_REMIND_CHECKVISIBLE, DEFVAL_REMIND_CHECKVISIBLE);
+		gRemindOpts.bFlashCList = db_get_b(NULL, MODNAME, SET_REMIND_FLASHICON, FALSE);
+		gRemindOpts.bPopups = ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, MODNAME, SET_POPUP_ENABLED, DEFVAL_POPUP_ENABLED);
 
 		// init the timer
 		UpdateTimer(TRUE);
 	}
 	else	// Reminder is off
 	{
-		HANDLE hContact;
-
-		for (hContact = DB::Contact::FindFirst();
-				 hContact != NULL;
-				 hContact = DB::Contact::FindNext(hContact))
-		{
+		for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 			NotifyWithExtraIcon(hContact, CEvent());
-		}
+
 		gRemindOpts.RemindState	= REMIND_OFF;
 		SvcReminderUnloadModule();
 	}
@@ -992,7 +970,7 @@ void SvcReminderOnModulesLoaded(void)
 	// init clist extra icon structure
 	OnCListRebuildIcons(0, 0);
 
-	SvcReminderEnable(DB::Setting::GetByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) != REMIND_OFF);
+	SvcReminderEnable(db_get_b(NULL, MODNAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) != REMIND_OFF);
 }
 
 /**

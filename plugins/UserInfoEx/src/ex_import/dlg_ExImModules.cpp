@@ -171,7 +171,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 					{ ICO_BTN_EXPORT,	BM_SETIMAGE,	IDOK		},
 					{ ICO_BTN_CANCEL,	BM_SETIMAGE,	IDCANCEL	}
 				};
-				const int numIconsToSet = DB::Setting::GetByte(SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 2;
+				const int numIconsToSet = db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 2;
 				IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
 				// create imagelist for treeview
@@ -294,9 +294,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 								{
 									HANDLE hContact;
 									
-									for (hContact = DB::Contact::FindFirst();
-											 hContact != NULL;
-											 hContact = DB::Contact::FindNext(hContact))
+									for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 									{
 										// ignore empty modules
 										if (!DB::Module::IsEmpty(hContact, p)) {

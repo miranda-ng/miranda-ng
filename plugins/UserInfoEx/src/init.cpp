@@ -97,7 +97,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent( ME_CLIST_PREBUILDSTATUSMENU, (MIRANDAHOOK)RebuildAccount);
 
 	// install known modules strings to database
-	DB::Setting::WriteAString(NULL, "KnownModules", MODULELONGNAME, USERINFO","MODNAME","MOD_MBIRTHDAY","MODNAMEFLAGS);
+	db_set_s(NULL, "KnownModules", MODULELONGNAME, USERINFO","MODNAME","MOD_MBIRTHDAY","MODNAMEFLAGS);
 
 	return 0;
 }

@@ -571,7 +571,7 @@ int CLineBuffer::DBWriteTokenFirst(HANDLE hContact, const CHAR* pszModule, const
 					CHAR c = *here;
 				
 					*here = 0;
-					iRet = DB::Setting::WriteAString(hContact, pszModule, pszSetting, (LPSTR)_pTok);
+					iRet = db_set_s(hContact, pszModule, pszSetting, (LPSTR)_pTok);
 					*here = c;
 				}
 				_pTok = (*here == 0	|| *here == '\n') ? NULL : ++here;
@@ -579,7 +579,7 @@ int CLineBuffer::DBWriteTokenFirst(HANDLE hContact, const CHAR* pszModule, const
 			}
 		}
 	}
-	if (iRet) iRet = DB::Setting::Delete(hContact, pszModule, pszSetting);
+	if (iRet) iRet = db_unset(hContact, pszModule, pszSetting);
 	return iRet;
 }
 
@@ -607,7 +607,7 @@ int CLineBuffer::DBWriteTokenNext(HANDLE hContact, const CHAR* pszModule, const 
 					CHAR c = *here;
 				
 					*here = 0;
-					iRet = DB::Setting::WriteAString(hContact, pszModule, pszSetting, (LPSTR)_pTok);
+					iRet = db_set_s(hContact, pszModule, pszSetting, (LPSTR)_pTok);
 					*here = c;
 				}
 				_pTok = (*here == 0	|| *here == '\n') ? NULL : ++here;
@@ -615,7 +615,7 @@ int CLineBuffer::DBWriteTokenNext(HANDLE hContact, const CHAR* pszModule, const 
 			}
 		}
 	}
-	if (iRet) iRet = DB::Setting::Delete(hContact, pszModule, pszSetting);
+	if (iRet) iRet = db_unset(hContact, pszModule, pszSetting);
 	return iRet;
 }
 
@@ -631,7 +631,7 @@ int CLineBuffer::DBWriteTokenNext(HANDLE hContact, const CHAR* pszModule, const 
 int CLineBuffer::DBWriteSettingString(HANDLE hContact, const CHAR* pszModule, const CHAR* pszSetting)
 {
 	if (_pVal && _cbUsed > 0)
-		return DB::Setting::WriteAString(hContact, pszModule, pszSetting, (LPSTR)_pVal);
+		return db_set_s(hContact, pszModule, pszSetting, (LPSTR)_pVal);
 	return 1;
 }
 
@@ -740,12 +740,12 @@ size_t CVCardFileVCF::packDB(const CHAR *pszModule, const CHAR *pszSetting, size
 		case DBVT_ASCIIZ:
 		{
 			size_t wAdd = _clVal + dbv.pszVal;
-			DB::Variant::Free(&dbv);
+			db_free(&dbv);
 			return wAdd;
 		}
 		default:
 			if (cbRew) (*cbRew)++;
-			DB::Variant::Free(&dbv);
+			db_free(&dbv);
 			break;
 	}
 	return 0;
@@ -783,14 +783,14 @@ size_t CVCardFileVCF::packDBList(const CHAR *pszModule, const CHAR *pszSetting, 
 		case DBVT_UTF8:
 		case DBVT_ASCIIZ:
 			wAdd = _clVal + Translate(dbv.pszVal);
-			DB::Variant::Free(&dbv);
+			db_free(&dbv);
 			break;
 		case DBVT_DELETED:
 			wAdd = 0;
 			break;
 		default:
 			wAdd = 0;
-			DB::Variant::Free(&dbv);
+			db_free(&dbv);
 			break;
 	}
 	if (cbRew) *cbRew = wAdd ? 0 : *cbRew + 1;
@@ -1051,8 +1051,8 @@ BYTE CVCardFileVCF::Export(BYTE bExportUtf)
 	// gender
 	//
 	{
-		BYTE gender = DB::Setting::GetByte(_hContact, USERINFO, SET_CONTACT_GENDER, 0);
-		if (!gender) gender = DB::Setting::GetByte(_hContact, _pszBaseProto, SET_CONTACT_GENDER, 0);
+		BYTE gender = db_get_b(_hContact, USERINFO, SET_CONTACT_GENDER, 0);
+		if (!gender) gender = db_get_b(_hContact, _pszBaseProto, SET_CONTACT_GENDER, 0);
 		switch (gender) {
 			case 'F':
 				fputs("X-WAB-GENDER:1\n", _pFile);
@@ -1215,13 +1215,13 @@ BYTE CVCardFileVCF::Import()
 
 						memcpy(buf, _clVal.GetBuffer(), 4);
 						buf[4] = 0;
-						DB::Setting::WriteWord(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHYEAR, (WORD)strtol(buf, NULL, 10));
+						db_set_w(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHYEAR, (WORD)strtol(buf, NULL, 10));
 						memcpy(buf, _clVal.GetBuffer() + 4, 2);
 						buf[2] = 0;
-						DB::Setting::WriteByte(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHMONTH, (BYTE)strtol(buf, NULL, 10));
+						db_set_b(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHMONTH, (BYTE)strtol(buf, NULL, 10));
 						memcpy(buf, _clVal.GetBuffer() + 6, 2);
 						buf[2] = 0;
-						DB::Setting::WriteByte(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, (BYTE)strtol(buf, NULL, 10));
+						db_set_b(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, (BYTE)strtol(buf, NULL, 10));
 					}
 				}
 				continue;
@@ -1339,10 +1339,9 @@ BYTE CVCardFileVCF::Import()
 			case 'X':
 				if (!strcmp(szEnt, "X-WAB-GENDER")) {
 					if (!strcmp(_clVal.GetBuffer(), "1"))
-						DB::Setting::WriteByte(_hContact, USERINFO, SET_CONTACT_GENDER, 'F');
-					else
-					if (!strcmp(_clVal.GetBuffer(), "2"))
-						DB::Setting::WriteByte(_hContact, USERINFO, SET_CONTACT_GENDER, 'M');
+						db_set_b(_hContact, USERINFO, SET_CONTACT_GENDER, 'F');
+					else if (!strcmp(_clVal.GetBuffer(), "2"))
+						db_set_b(_hContact, USERINFO, SET_CONTACT_GENDER, 'M');
 				}
 				continue;
 		}

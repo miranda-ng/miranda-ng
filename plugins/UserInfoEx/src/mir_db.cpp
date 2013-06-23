@@ -64,9 +64,9 @@ HANDLE	Sub(HANDLE hMetaContact, int idx)
  **/
 BYTE	IsSub(HANDLE hContact)
 {
-	return	myGlobals.szMetaProto &&
-			DB::Setting::GetByte(myGlobals.szMetaProto, "Enabled", TRUE) &&
-			DB::Setting::GetByte(hContact, myGlobals.szMetaProto, "IsSubcontact", FALSE);
+	return myGlobals.szMetaProto &&
+			db_get_b(NULL, myGlobals.szMetaProto, "Enabled", TRUE) &&
+			db_get_b(hContact, myGlobals.szMetaProto, "IsSubcontact", FALSE);
 }
 
 /**
@@ -132,27 +132,6 @@ INT_PTR	GetCount()
 }
 
 /**
- * This function searches the first contact in the database and returns its handle.
- * @retval	HANDLE		- handle of the next contact in the database	
- * @retval	NULL		- no more contacts in the database
- **/
-HANDLE	FindFirst()
-{
-	return db_find_first();
-}
-
-/**
- * This function searches the next contact in the database and returns its handle.
- * @param	hContact	- handle to the contact
- * @retval	HANDLE		- handle of the next contact in the database
- * @retval	NULL		- no more contacts in the database
- **/
-HANDLE	FindNext(HANDLE hContact)
-{
-	return db_find_next(hContact);
-}
-
-/**
  * Simply adds a new contact without setting up any protocol or something else
  * @return	HANDLE		The function returns the HANDLE of the new contact
  **/
@@ -210,12 +189,9 @@ namespace Module {
 void	Delete(HANDLE hContact, LPCSTR pszModule)
 {
 	CEnumList	Settings;
-	if (!Settings.EnumSettings(hContact, pszModule)) {
-		int i;
-		for (i = 0; i < Settings.getCount(); i++) {
-			DB::Setting::Delete(hContact, pszModule, Settings[i]);
-		}
-	}
+	if (!Settings.EnumSettings(hContact, pszModule))
+		for (int i = 0; i < Settings.getCount(); i++)
+			db_unset(hContact, pszModule, Settings[i]);
 }
 
 /**
@@ -265,9 +241,9 @@ BYTE	IsMeta(LPCSTR pszModule)
  * @retval	TRUE		- the module is empty
  * @retval	FALSE		- the module contains settings
  **/
-BYTE	IsMetaAndScan	(LPCSTR pszModule)
+BYTE	IsMetaAndScan(LPCSTR pszModule)
 {
-	return DB::Setting::GetByte(SET_META_SCAN, TRUE) && IsMeta(pszModule);
+	return db_get_b(NULL, MODNAME, SET_META_SCAN, TRUE) && IsMeta(pszModule);
 }
 
 } /* namespace Module */
@@ -319,7 +295,7 @@ LPSTR	GetAString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 		if (DB::Variant::dbv2String(&dbv, DBVT_WCHAR) == 0) {
 			return dbv.pszVal;
 		}
-		DB::Variant::Free(&dbv);
+		db_free(&dbv);
 	}
 	return NULL;
 }
@@ -339,7 +315,7 @@ LPWSTR	GetWString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 		if (DB::Variant::dbv2String(&dbv, DBVT_WCHAR) == 0) {
 			return dbv.pwszVal;
 		}
-		DB::Variant::Free(&dbv);
+		db_free(&dbv);
 	}
 	return NULL;
 }
@@ -498,111 +474,6 @@ BYTE	GetStatic(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR pszVa
 }
 
 /**
- * This function reads a byte from the database. If required it converts it to a byte value
- * @param	hContact		- handle to the contact
- * @param	pszModule		- the module to read the setting from (e.g. USERINFO)
- * @param	pszSetting		- the setting to read
- * @param	errorValue		- value to return if something goes wrong
- *
- * @return	byte value
- **/
-BYTE	GetByte(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, BYTE errorValue)
-{
-	DBVARIANT dbv;
-	BYTE result;
-	if (GetAsIs(hContact, pszModule, pszSetting, &dbv)) {
-		result = errorValue;
-	}
-	else {
-		switch (dbv.type) {
-		case DBVT_BYTE:
-			result = dbv.bVal;
-			break;
-		case DBVT_WORD:
-			result = (dbv.wVal < 0x0100) ? (BYTE) dbv.wVal : errorValue;
-			break;
-		case DBVT_DWORD:
-			result = (dbv.wVal < 0x00000100) ? (BYTE) dbv.dVal : errorValue;
-			break;
-		default:
-			DB::Variant::Free(&dbv);
-			result = errorValue;
-		}
-	}
-	return result;
-}		
-
-/**
- * This function reads a word from the database. If required it converts it to a word value
- * @param	hContact		- handle to the contact
- * @param	pszModule		- the module to read the setting from (e.g. USERINFO)
- * @param	pszSetting		- the setting to read
- * @param	errorValue		- value to return if something goes wrong
- *
- * @return	word value
- **/
-WORD	GetWord(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, WORD errorValue)
-{
-	DBVARIANT dbv;
-	WORD result;
-	if (GetAsIs(hContact, pszModule, pszSetting, &dbv)) {
-		result = errorValue;
-	}
-	else {
-		switch (dbv.type) {
-		case DBVT_BYTE:
-			result = 0x00ff & dbv.bVal;
-			break;
-		case DBVT_WORD:
-			result = dbv.wVal;
-			break;
-		case DBVT_DWORD:
-			result = (dbv.wVal < 0x00010000) ? (WORD) dbv.dVal : errorValue;
-			break;
-		default:
-			DB::Variant::Free(&dbv);
-			result = errorValue;
-		}
-	}
-	return result;
-}	
-
-/**
- * This function reads a double word from the database. If required it converts it to a double word value
- * @param	hContact		- handle to the contact
- * @param	pszModule		- the module to read the setting from (e.g. USERINFO)
- * @param	pszSetting		- the setting to read
- * @param	errorValue		- value to return if something goes wrong
- *
- * @return	double word value
- **/
-DWORD	GetDWord(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DWORD errorValue)
-{
-	DBVARIANT dbv;
-	DWORD result;
-	if (GetAsIs(hContact, pszModule, pszSetting, &dbv)) {
-		result = errorValue;
-	}
-	else {
-		switch (dbv.type) {
-		case DBVT_BYTE:
-			result = 0x000000ff & dbv.bVal;
-			break;
-		case DBVT_WORD:
-			result = 0x0000ffff & dbv.wVal;
-			break;
-		case DBVT_DWORD:
-			result = dbv.dVal;
-			break;
-		default:
-			DB::Variant::Free(&dbv);
-			result = errorValue;
-		}
-	}
-	return result;
-}
-
-/**
  * This function calls MS_DB_CONTACT_WRITESETTING to write a DBVARIANT structure to the database.
  * @param	hContact		- handle to the contact
  * @param	pszModule		- the module to read the setting from (e.g. USERINFO)
@@ -619,129 +490,6 @@ BYTE	WriteVariant(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, const DB
 	cws.szModule	= pszModule;
 	cws.szSetting	= pszSetting;
 	memcpy(&cws.value, dbv, sizeof(DBVARIANT));
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM) hContact, (LPARAM) &cws) != 0;
-}
-
-/**
- * This function calls MS_DB_CONTACT_WRITESETTING to write a BYTE to the database.
- * @param	hContact		- handle to the contact
- * @param	pszModule		- the module to read the setting from (e.g. USERINFO)
- * @param	pszSetting		- the setting to write
- * @param	value			- the byte to store
- *
- * @retval	0 - success
- * @retval	1 - error
- **/
-BYTE	WriteByte(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, BYTE value)
-{
-	DBCONTACTWRITESETTING cws;
-
-	cws.szModule	= pszModule;
-	cws.szSetting	= pszSetting;
-	cws.value.type	= DBVT_BYTE;
-	cws.value.bVal	= value;
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM) hContact, (LPARAM) &cws) != 0;
-}
-
-/**
- * This function calls MS_DB_CONTACT_WRITESETTING to write a WORD to the database.
- * @param	hContact		- handle to the contact
- * @param	pszModule		- the module to read the setting from (e.g. USERINFO)
- * @param	pszSetting		- the setting to write
- * @param	value			- the word to store
- *
- * @retval	0 - success
- * @retval	1 - error
- **/
-BYTE	WriteWord(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, WORD value)
-{
-	DBCONTACTWRITESETTING cws;
-
-	cws.szModule	= pszModule;
-	cws.szSetting	= pszSetting;
-	cws.value.type	= DBVT_WORD;
-	cws.value.wVal	= value;
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM) hContact, (LPARAM) &cws) != 0;
-}
-
-/**
- * This function calls MS_DB_CONTACT_WRITESETTING to write a DWORD to the database.
- * @param	hContact		- handle to the contact
- * @param	pszModule		- the module to read the setting from (e.g. USERINFO)
- * @param	pszSetting		- the setting to write
- * @param	value			- the double word to store
- *
- * @retval	0 - success
- * @retval	1 - error
- **/
-BYTE	WriteDWord(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DWORD value)
-{
-	DBCONTACTWRITESETTING cws;
-
-	cws.szModule	= pszModule;
-	cws.szSetting	= pszSetting;
-	cws.value.type	= DBVT_DWORD;
-	cws.value.dVal	= value;
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM) hContact, (LPARAM) &cws) != 0;
-}
-
-/**
- * This function calls MS_DB_CONTACT_WRITESETTING to write an ansi string to the database.
- * @param		hContact	- handle to the contact
- * @param		pszModule	- the module to read the setting from (e.g. USERINFO)
- * @param		pszSetting	- the setting to write
- * @param		value		- the string to store
- *
- * @retval	0 - success
- * @retval	1 - error
- **/
-BYTE	WriteAString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR value)
-{
-	DBCONTACTWRITESETTING cws;
-	cws.szModule		= pszModule;
-	cws.szSetting		= pszSetting;
-	cws.value.type		= DBVT_ASCIIZ;
-	cws.value.pszVal	= value;
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM) hContact, (LPARAM) &cws) != 0;
-}
-
-/**
- * This function calls MS_DB_CONTACT_WRITESETTING to write an unicode string to the database.
- * @param	hContact		- handle to the contact
- * @param	pszModule		- the module to read the setting from (e.g. USERINFO)
- * @param	pszSetting		- the setting to write
- * @param	value			- the string to store
- *
- * @retval	0 - success
- * @retval	1 - error
- **/
-BYTE	WriteWString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPWSTR value)
-{
-	DBCONTACTWRITESETTING cws;
-	cws.szModule		= pszModule;
-	cws.szSetting		= pszSetting;
-	cws.value.type		= DBVT_WCHAR;
-	cws.value.pwszVal	= value;
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM) hContact, (LPARAM) &cws) != 0;
-}
-
-/**
- * This function calls MS_DB_CONTACT_WRITESETTING to write an utf8 string to the database.
- * @param	hContact		- handle to the contact
- * @param	pszModule		- the module to read the setting from (e.g. USERINFO)
- * @param	pszSetting		- the setting to write
- * @param	value			- the string to store
- *
- * @retval	0 - success
- * @retval	1 - error
- **/
-BYTE	WriteUString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR value)
-{
-	DBCONTACTWRITESETTING cws;
-	cws.szModule		= pszModule;
-	cws.szSetting		= pszSetting;
-	cws.value.type		= DBVT_UTF8;
-	cws.value.pszVal	= value;
 	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM) hContact, (LPARAM) &cws) != 0;
 }
 
@@ -775,23 +523,6 @@ BYTE	Exists(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 }
 
 /**
- * This function deletes the given setting from database 
- * @param	hContact		- handle to the contact
- * @param	pszModule		- the module to read the setting from (e.g. USERINFO)
- * @param	pszSetting		- the setting to read
- *
- * @retval	0 - success
- * @retval	1 - failure
- **/
-BYTE	Delete(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
-{
-	DBCONTACTGETSETTING cgs;
-	cgs.szModule	= pszModule;
-	cgs.szSetting	= pszSetting;
-	return CallService(MS_DB_CONTACT_DELETESETTING, (WPARAM) hContact, (LPARAM) &cgs) != 0;
-}
-
-/**
  * This function deletes all reluctant settings of an setting array such as My-phoneXX.
  * @param	hContact		- handle to the contact
  * @param	pszModule		- the module to read the setting from (e.g. USERINFO)
@@ -806,17 +537,12 @@ void	DeleteArray(HANDLE hContact, LPCSTR pszModule, LPCSTR pszFormat, int iStart
 	do {
 		mir_snprintf(pszSetting, MAXSETTING, pszFormat, iStart++);
 	}
-	while (!DB::Setting::Delete(hContact, pszModule, pszSetting));
+	while (!db_unset(hContact, pszModule, pszSetting));
 }
 
 } /* namespace Setting */
 
 namespace Variant {
-
-BYTE	Free(DBVARIANT *dbv)
-{
-	return CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM) dbv) != 0;
-}
 
 /**
  * This function converts a string value of the DBVARIANT to the destination type
@@ -1026,7 +752,7 @@ BYTE	GetInfoWithData(HANDLE hEvent, DBEVENTINFO *dbei)
 {
 	dbei->cbSize = sizeof(DBEVENTINFO);
 	if (!dbei->cbBlob) {
-		INT_PTR size = BlobSizeOf(hEvent);
+		INT_PTR size = db_event_getBlobSize(hEvent);
 		dbei->cbBlob = (size != -1) ? (DWORD)size : 0;
 	}
 	if (dbei->cbBlob) {
@@ -1059,19 +785,6 @@ DWORD	TimeOf(HANDLE hEvent)
 		return dbei.timestamp;
 	}
 	return 0;
-}
-
-/**
- * This function returns the number of bytes required to retrieve
- * binary data associated with the event.
- * @param	hEvent			- the handle of the event to get the number of bytes for
- *
- * @retval	size of event data
- * @retval	-1 if hEvent is invalid
- **/
-INT_PTR	BlobSizeOf(HANDLE hEvent)
-{
-	return db_event_getBlobSize(hEvent);
 }
 
 /**

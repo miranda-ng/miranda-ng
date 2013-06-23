@@ -481,12 +481,12 @@ int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
 			// load custom order
 			if (!(pPsh->_dwFlags & PSTVF_SORTTREE)) 
 			{
-				_iPosition = (int)DB::Setting::GetByte(PropertyKey(SET_ITEM_POS), odp->position);
+				_iPosition = (int)db_get_b(NULL, MODNAME, PropertyKey(SET_ITEM_POS), odp->position);
 				if ((_iPosition < 0) && (_iPosition > 0x800000A))
 					_iPosition = 0;
 			}
 			// read visibility state
-			_bState =	DB::Setting::GetByte(PropertyKey(SET_ITEM_STATE), DBTVIS_EXPANDED);
+			_bState =	db_get_b(NULL, MODNAME, PropertyKey(SET_ITEM_STATE), DBTVIS_EXPANDED);
 
 			// error for no longer supported dialog template type
 			if (((UINT_PTR)odp->pszTemplate & 0xFFFF0000)) 
@@ -534,20 +534,20 @@ WORD CPsTreeItem::DBSaveItemState(LPCSTR pszGroup, int iItemPosition, UINT iStat
 	WORD numErrors = 0;
 
 	// save group
-	if ((dwFlags & PSTVF_GROUPS) && (dwFlags & PSTVF_POS_CHANGED)) {
-		numErrors += DB::Setting::WriteUString(PropertyKey(SET_ITEM_GROUP), (LPSTR)pszGroup);
-	}
+	if ((dwFlags & PSTVF_GROUPS) && (dwFlags & PSTVF_POS_CHANGED))
+		numErrors += db_set_utf(NULL, MODNAME, PropertyKey(SET_ITEM_GROUP), (LPSTR)pszGroup);
+
 	// save label
-	if ((dwFlags & PSTVF_LABEL_CHANGED) && (_dwFlags & PSTVF_LABEL_CHANGED)) {
-		numErrors += DB::Setting::WriteTString(GlobalPropertyKey(SET_ITEM_LABEL), Label());
-	}
+	if ((dwFlags & PSTVF_LABEL_CHANGED) && (_dwFlags & PSTVF_LABEL_CHANGED))
+		numErrors += db_set_ts(NULL, MODNAME, GlobalPropertyKey(SET_ITEM_LABEL), Label());
+
 	// save position
-	if ((dwFlags & PSTVF_POS_CHANGED) && !(dwFlags & PSTVF_SORTTREE)) {
-		numErrors += DB::Setting::WriteByte(PropertyKey(SET_ITEM_POS), iItemPosition);
-	}
+	if ((dwFlags & PSTVF_POS_CHANGED) && !(dwFlags & PSTVF_SORTTREE))
+		numErrors += db_set_b(NULL, MODNAME, PropertyKey(SET_ITEM_POS), iItemPosition);
+
 	// save state
 	if (dwFlags & PSTVF_STATE_CHANGED) {
-		numErrors += DB::Setting::WriteByte(PropertyKey(SET_ITEM_STATE), 
+		numErrors += db_set_b(NULL, MODNAME, PropertyKey(SET_ITEM_STATE), 
 			_hItem ? ((iState & TVIS_EXPANDED) ? DBTVIS_EXPANDED : DBTVIS_NORMAL) : DBTVIS_INVISIBLE);
 	}
 	RemoveFlags(PSTVF_STATE_CHANGED|PSTVF_LABEL_CHANGED|PSTVF_POS_CHANGED);

@@ -435,7 +435,7 @@ int		MTime::DBGetStamp  (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 		return 1;
 	}
 
-	dwTimeStamp = DB::Setting::GetDWord(hContact, pszModule, pszSetting, 0);
+	dwTimeStamp = db_get_dw(hContact, pszModule, pszSetting, 0);
 
 	if (dwTimeStamp == 0) {
 		ZeroDate();
@@ -446,7 +446,7 @@ int		MTime::DBGetStamp  (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 	return 0;
 }
 
-int		MTime::DBWriteStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
+int MTime::DBWriteStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	if (hContact == INVALID_HANDLE_VALUE ||
 			pszModule == NULL || pszModule[0] == 0 ||
@@ -454,5 +454,5 @@ int		MTime::DBWriteStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 	{
 		return 1;
 	}
-	return DB::Setting::WriteDWord(hContact, pszModule, pszSetting, TimeStamp());
+	return db_set_dw(hContact, pszModule, pszSetting, TimeStamp());
 }

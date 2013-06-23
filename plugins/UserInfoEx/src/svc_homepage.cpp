@@ -176,13 +176,9 @@ void SvcHomepageRebuildMenu()
  **/
 void SvcHomepageApplyCListIcons()
 {
-	HANDLE hContact;
-
 	//walk through all the contacts stored in the DB
-	for (hContact = DB::Contact::FindFirst();	hContact != NULL;	hContact = DB::Contact::FindNext(hContact))
-	{
+	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 		OnCListApplyIcons(hContact, 0);
-	}
 }
 
 /**
@@ -194,7 +190,7 @@ void SvcHomepageApplyCListIcons()
 void SvcHomepageEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB) 
 {
 	if (bUpdateDB)
-		DB::Setting::WriteByte(SET_CLIST_EXTRAICON_HOMEPAGE, bEnable);
+		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_HOMEPAGE, bEnable);
 
 	if (bEnable) {
 		// hook events
@@ -234,7 +230,7 @@ void SvcHomepageLoadModule()
 {
 	CreateServiceFunction(MS_USERINFO_HOMEPAGE_OPENURL, MenuCommand);
 	SvcHomepageEnableExtraIcons(
-		DB::Setting::GetByte(SET_CLIST_EXTRAICON_HOMEPAGE, DEFVAL_CLIST_EXTRAICON_HOMEPAGE), FALSE);
+		db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_HOMEPAGE, DEFVAL_CLIST_EXTRAICON_HOMEPAGE), FALSE);
 }
 
 /**

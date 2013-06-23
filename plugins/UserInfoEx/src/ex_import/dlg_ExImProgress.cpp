@@ -42,7 +42,7 @@ INT_PTR CALLBACK DlgProcProgress(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				{ ICO_DLG_IMPORT,	STM_SETIMAGE,	ICO_DLGLOGO	},
 				{ ICO_BTN_CANCEL,	BM_SETIMAGE,	IDCANCEL	}
 			};
-			const int numIconsToSet = DB::Setting::GetByte(SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 2;
+			const int numIconsToSet = db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 2;
 			IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
 			TranslateDialogDefault(hDlg);

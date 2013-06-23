@@ -195,16 +195,16 @@ static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 	WORD countryNumber;
 	char *pszProto = GetContactProto((HANDLE)wParam);
 	/* UserinfoEx */
-	if (countryNumber = (int)DB::Setting::GetWord((HANDLE)wParam,USERINFO,SET_CONTACT_ORIGIN_COUNTRY,0))
+	if (countryNumber = db_get_w((HANDLE)wParam, USERINFO, SET_CONTACT_ORIGIN_COUNTRY, 0))
 		return (INT_PTR)countryNumber;
-	else if (countryNumber = (int)DB::Setting::GetWord((HANDLE)wParam,USERINFO,SET_CONTACT_COUNTRY,0))
+	else if (countryNumber = db_get_w((HANDLE)wParam, USERINFO, SET_CONTACT_COUNTRY, 0))
 		return (INT_PTR)countryNumber;
-	else if (countryNumber = (int)DB::Setting::GetWord((HANDLE)wParam,USERINFO,SET_CONTACT_COMPANY_COUNTRY,0))
+	else if (countryNumber = db_get_w((HANDLE)wParam, USERINFO, SET_CONTACT_COMPANY_COUNTRY, 0))
 		return (INT_PTR)countryNumber;
 	/* fallback proto settings */
-	else if (countryNumber = (int)DB::Setting::GetWord((HANDLE)wParam,pszProto,"Country",0))
+	else if (countryNumber = db_get_w((HANDLE)wParam, pszProto, "Country", 0))
 		return (INT_PTR)countryNumber;
-	else if (countryNumber = (int)DB::Setting::GetWord((HANDLE)wParam,pszProto,"CompanyCountry",0))
+	else if (countryNumber = db_get_w((HANDLE)wParam, pszProto, "CompanyCountry", 0))
 		return (INT_PTR)countryNumber;
 	/* fallback ip detect
 	else if (countryNumber==0xFFFF && db_get_b(NULL,"Flags","UseIpToCountry",SETTING_USEIPTOCOUNTRY_DEFAULT)) {
@@ -228,14 +228,14 @@ static void CALLBACK SetExtraImage(LPARAM lParam)
 static void CALLBACK RemoveExtraImages(LPARAM lParam)
 {
 	/* enum all contacts */
-	for (HANDLE hContact = DB::Contact::FindFirst(); hContact != NULL; hContact = DB::Contact::FindNext(hContact))
+	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 		ExtraIcon_Clear(hExtraIconSvc, hContact);
 }
 
 // always call in context of main thread
 void EnsureExtraImages()
 {
-	for (HANDLE hContact = DB::Contact::FindFirst(); hContact != NULL; hContact = DB::Contact::FindNext(hContact))
+	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 		CallFunctionBuffered(SetExtraImage,(LPARAM)hContact,TRUE,EXTRAIMAGE_REFRESHDELAY);
 }
 
@@ -292,7 +292,7 @@ void SvcFlagsEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB)
 {
 	gFlagsOpts.bShowExtraImgFlag = (bColumn!=((BYTE)-1));
 	if (bUpdateDB)
-		DB::Setting::WriteByte(MODNAMEFLAGS,"ShowExtraImgFlag", bColumn!=(BYTE)-1);
+		db_set_b(NULL, MODNAMEFLAGS, "ShowExtraImgFlag", bColumn!=(BYTE)-1);
 
 	// Flags is on
 	if (gFlagsOpts.bShowExtraImgFlag) {
@@ -532,9 +532,9 @@ void SvcFlagsLoadModule()
 	//InitIpToCountry();	/* not implementet */
 	CreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY,ServiceDetectContactOriginCountry);
 	//init settings
-	gFlagsOpts.bShowExtraImgFlag   = DB::Setting::GetByte(MODNAMEFLAGS,"ShowExtraImgFlag",	  SETTING_SHOWEXTRAIMGFLAG_DEFAULT);
-	gFlagsOpts.bUseUnknownFlag     = DB::Setting::GetByte(MODNAMEFLAGS,"UseUnknownFlag",     SETTING_USEUNKNOWNFLAG_DEFAULT);
-	gFlagsOpts.bShowStatusIconFlag = DB::Setting::GetByte(MODNAMEFLAGS,"ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT);
+	gFlagsOpts.bShowExtraImgFlag   = db_get_b(NULL, MODNAMEFLAGS, "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT);
+	gFlagsOpts.bUseUnknownFlag     = db_get_b(NULL, MODNAMEFLAGS, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT);
+	gFlagsOpts.bShowStatusIconFlag = db_get_b(NULL, MODNAMEFLAGS, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT);
 
 	hOptInitHook		= HookEvent(ME_OPT_INITIALISE,ExtraImgOptInit);
 	hIconsChangedHook	= HookEvent(ME_SKIN2_ICONSCHANGED,OnStatusIconsChanged);
@@ -549,7 +549,7 @@ void SvcFlagsLoadModule()
  **/
 void SvcFlagsOnModulesLoaded() 
 {
-	SvcFlagsEnableExtraIcons(DB::Setting::GetByte(SET_CLIST_EXTRAICON_FLAGS2, 0), FALSE);
+	SvcFlagsEnableExtraIcons(db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_FLAGS2, 0), FALSE);
 
 	/* Status Icon */
 	hMsgWndEventHook = HookEvent(ME_MSG_WINDOWEVENT, OnMsgWndEvent);

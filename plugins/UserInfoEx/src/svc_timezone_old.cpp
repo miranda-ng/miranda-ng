@@ -403,13 +403,13 @@ CTimeZone* GetContactTimeZone(HANDLE hContact, LPCSTR pszProto)
 		if (!myGlobals.TzIndexExist || DB::Setting::GetAsIsEx(hContact, USERINFO, pszProto, SET_CONTACT_TIMEZONEINDEX, &dbv) || FAILED(TzMgr.find(&pTimeZone,dbv.dVal)))
 		{
 			// maybe a failure lets us read a string, so clear it out
-			DB::Variant::Free(&dbv);
+			db_free(&dbv);
 
 			// try to get miranda's timezone value
 			if (DB::Setting::GetAsIsEx(hContact, USERINFO, pszProto, SET_CONTACT_TIMEZONE, &dbv) || (dbv.type != DBVT_BYTE))
 			{
 				// maybe a failure lets us read a string, so clear it out
-				DB::Variant::Free(&dbv);
+				db_free(&dbv);
 			}
 			else 
 			{
@@ -459,7 +459,7 @@ WORD GetContactTimeZoneCtrl(HANDLE hContact, LPCSTR pszProto, CTimeZone** pTimeZ
 	flags = DB::Setting::GetCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_TIMEZONENAME, &dbv, DBVT_TCHAR);
 	if (flags == 0 || FAILED(TzMgr.find(&pTz, dbv.ptszVal)))
 	{
-		DB::Variant::Free(&dbv);
+		db_free(&dbv);
 
 		// try to get miranda's timezone index value
 		if (myGlobals.TzIndexExist)
@@ -489,7 +489,7 @@ WORD GetContactTimeZoneCtrl(HANDLE hContact, LPCSTR pszProto, CTimeZone** pTimeZ
 	{
 		*pTimeZone = pTz;
 	}
-	DB::Variant::Free(&dbv);
+	db_free(&dbv);
 	return flags;
 }
 
@@ -535,10 +535,10 @@ INT_PTR EnumTimeZones(PEnumNamesProc enumProc, LPARAM lParam)
  **/
 static BOOL SvcTimezoneSyncWithWindowsProc(LPCSTR pszProto, int bias)
 {
-	int tz = (int) ((CHAR)DB::Setting::GetByte(pszProto, SET_CONTACT_TIMEZONE, (BYTE)-100));
+	int tz = (int) ((CHAR)db_get_b(NULL, pszProto, SET_CONTACT_TIMEZONE, (BYTE)-100));
 	if (tz * 30 != bias)
 	{
-		DB::Setting::WriteByte(pszProto, SET_CONTACT_TIMEZONE, (BYTE)(bias / 30));
+		db_set_b(NULL, pszProto, SET_CONTACT_TIMEZONE, (BYTE)(bias / 30));
 		return TRUE;
 	}
 	return FALSE;
@@ -628,7 +628,7 @@ void SvcTimezoneLoadModule_old()
 	TzMgr.Init();
 	CreateServiceFunction(MS_USERINFO_TIMEZONEINFO, GetContactTimeZoneInformation);
 	CreateServiceFunction(MS_USERINFO_LOCALTIME, GetContactLocalTime);
-	if (DB::Setting::GetByte(SET_OPT_AUTOTIMEZONE, TRUE))
+	if (db_get_b(NULL, MODNAME, SET_OPT_AUTOTIMEZONE, TRUE))
 	{
 		SvcTimezoneSyncWithWindows();
 	}

@@ -722,8 +722,8 @@ INT_PTR MsgBoxService(WPARAM wParam, LPARAM lParam)
 		if (!(pMsgBox->uType & (MB_INFOBAR|MB_NOPOPUP)) &&					// message box can be a popup?
 				ServiceExists(MS_POPUP_ADDPOPUPT) &&						// popups exist?
 				myGlobals.PopupActionsExist == 1 &&							// popup support ext stuct?
-				(DB::Setting::GetDWord(NULL, "Popup","Actions", 0) & 1) &&	// popup++ actions on?
-				DB::Setting::GetByte(SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX))	// user likes popups?
+				(db_get_dw(NULL, "Popup","Actions", 0) & 1) &&	// popup++ actions on?
+				db_get_b(NULL, MODNAME, SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX))	// user likes popups?
 			return DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOXDUMMI), pMsgBox->hParent, MsgBoxPop, lParam);
 
 		return DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOX), pMsgBox->hParent, MsgBoxProc, lParam);

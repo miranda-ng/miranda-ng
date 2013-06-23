@@ -113,7 +113,7 @@ static void ExportModule(HANDLE hContact, LPCSTR pszModule, FILE* file)
 						}
 						break;
 				}
-				DB::Variant::Free(&dbv);
+				db_free(&dbv);
 			}
 		}
 	}
@@ -200,9 +200,7 @@ int SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
 			ExportContact(NULL, &Modules, file);
 			fprintf(file, "\n\n");
 			// Contacts
-			for (hContact = DB::Contact::FindFirst();
-					 hContact != NULL;
-					 hContact = DB::Contact::FindNext(hContact))
+			for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 			{
 				ExportContact(hContact, &Modules, file);
 				fprintf(file, "\n\n");
@@ -353,7 +351,7 @@ int ImportSetting(HANDLE hContact, LPCSTR pszModule, LPSTR &strLine)
 		value++;
 		// if the value is empty, delete it from db
 		if (*value == '\0')
-			return DB::Setting::Delete(hContact, pszModule, pszLine);
+			return db_unset(hContact, pszModule, pszLine);
 	} while (*value == '\t' || *value == ' ');
 
 	// decode database type and value

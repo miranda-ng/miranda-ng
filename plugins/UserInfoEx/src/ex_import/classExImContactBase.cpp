@@ -32,10 +32,10 @@ HANDLE CListFindGroup(LPCSTR pszGroup)
 		if (DB::Setting::GetUString(NULL, "CListGroups", buf, &dbv))
 			break;
 		if (dbv.pszVal && pszGroup && !_stricmp(dbv.pszVal + 1, pszGroup)) {
-			DB::Variant::Free(&dbv);
+			db_free(&dbv);
 			return (HANDLE)(INT_PTR)(i+1);
 		}
-		DB::Variant::Free(&dbv);
+		db_free(&dbv);
 	}
 	return INVALID_HANDLE_VALUE;
 }
@@ -78,7 +78,7 @@ CExImContactBase::~CExImContactBase()
 	MIR_FREE(_pszProto);
 	MIR_FREE(_pszAMPro);
 	MIR_FREE(_pszUIDKey);
-	DB::Variant::Free(&_dbvUID);
+	db_free(&_dbvUID);
 }
 
 /**
@@ -105,7 +105,7 @@ BYTE CExImContactBase::fromDB(HANDLE hContact)
 	MIR_FREE(_pszDisp);
 	MIR_FREE(_pszGroup);
 	MIR_FREE(_pszUIDKey);
-	DB::Variant::Free(&_dbvUID);
+	db_free(&_dbvUID);
 	ZeroMemory(&_dbvUID, sizeof(DBVARIANT));
 
 	// OWNER
@@ -118,11 +118,11 @@ BYTE CExImContactBase::fromDB(HANDLE hContact)
 	// AM_BaseProto
 	if (!DB::Setting::GetUString(NULL, pszProto, "AM_BaseProto", &dbv )) {
 		_pszAMPro = mir_strdup(dbv.pszVal);
-		DB::Variant::Free(&dbv);
+		db_free(&dbv);
 	}
 
 	// unique id (for ChatRoom)
-	if (isChatRoom = DB::Setting::GetByte(_hContact, pszProto, "ChatRoom", 0)) {
+	if (isChatRoom = db_get_b(_hContact, pszProto, "ChatRoom", 0)) {
 		uidSetting = "ChatRoomID";
 		_pszUIDKey = mir_strdup(uidSetting);
 		if (!DB::Setting::GetAsIs(_hContact, pszProto, uidSetting, &_dbvUID)) {
@@ -149,19 +149,19 @@ BYTE CExImContactBase::fromDB(HANDLE hContact)
 	// nickname
 	if (!DB::Setting::GetUString(_hContact, pszProto, SET_CONTACT_NICK, &dbv)) {
 		_pszNick = mir_strdup(dbv.pszVal);
-		DB::Variant::Free(&dbv);
+		db_free(&dbv);
 	}
 
 	if (_hContact && ret) {
 	// Clist Group
 		if (!DB::Setting::GetUString(_hContact, MOD_CLIST, "Group", &dbv)) {
 			_pszGroup = mir_strdup(dbv.pszVal);
-			DB::Variant::Free(&dbv);
+			db_free(&dbv);
 		}
 	// Clist DisplayName
 		if (!DB::Setting::GetUString(_hContact, MOD_CLIST, SET_CONTACT_MYHANDLE, &dbv)) {
 			_pszDisp = mir_strdup(dbv.pszVal);
-			DB::Variant::Free(&dbv);
+			db_free(&dbv);
 		}
 	}
 	return ret;
@@ -188,7 +188,7 @@ BYTE CExImContactBase::fromIni(LPSTR& row)
 	MIR_FREE(_pszDisp);
 	MIR_FREE(_pszGroup);
 	MIR_FREE(_pszUIDKey);
-	DB::Variant::Free(&_dbvUID);
+	db_free(&_dbvUID);
 	ZeroMemory(&_dbvUID, sizeof(DBVARIANT));
 	_dbvUIDHash = 0;
 
@@ -280,12 +280,12 @@ HANDLE CExImContactBase::toDB()
 			return INVALID_HANDLE_VALUE;
 		}
 		// write nick and display name
-		if (_pszNick) DB::Setting::WriteUString(_hContact, _pszProto, SET_CONTACT_NICK, _pszNick);
-		if (_pszDisp) DB::Setting::WriteUString(_hContact, MOD_CLIST, SET_CONTACT_MYHANDLE, _pszDisp);
+		if (_pszNick) db_set_utf(_hContact, _pszProto, SET_CONTACT_NICK, _pszNick);
+		if (_pszDisp) db_set_utf(_hContact, MOD_CLIST, SET_CONTACT_MYHANDLE, _pszDisp);
 
 		// add group
 		if (_pszGroup) {
-			DB::Setting::WriteUString(_hContact, MOD_CLIST, "Group", _pszGroup);
+			db_set_utf(_hContact, MOD_CLIST, "Group", _pszGroup);
 			if (CListFindGroup(_pszGroup) == INVALID_HANDLE_VALUE) {
 				WPARAM hGroup = (WPARAM)CallService(MS_CLIST_GROUPCREATE, 0, 0);
 				if (hGroup) {
@@ -523,7 +523,7 @@ BYTE CExImContactBase::isHandle(HANDLE hContact)
 			return FALSE;
 
 		isEqual = compareUID (&dbv);
-		DB::Variant::Free(&dbv);
+		db_free(&dbv);
 	}
 	// compare nicknames if no UID
 	else if (!DB::Setting::GetUString(hContact, _pszProto, SET_CONTACT_NICK, &dbv)) {
@@ -537,7 +537,7 @@ BYTE CExImContactBase::isHandle(HANDLE hContact)
 			MIR_FREE(ptszProto);
 			isEqual = ans == IDYES;
 		}
-		DB::Variant::Free(&dbv);
+		db_free(&dbv);
 	}
 	return isEqual;
 }
@@ -554,9 +554,7 @@ HANDLE CExImContactBase::findHandle()
 {
 	HANDLE hContact;
 
-	for (hContact = DB::Contact::FindFirst();
-		hContact != NULL;
-		hContact  = DB::Contact::FindNext(hContact))
+	for (hContact = db_find_first(); hContact != NULL; hContact  = db_find_next(hContact))
 	{
 		if (isHandle(hContact)) {
 			_hContact = hContact;

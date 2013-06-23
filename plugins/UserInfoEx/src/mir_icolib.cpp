@@ -160,7 +160,7 @@ LPTSTR IcoLib_GetDefaultIconFileName()
  **/
 static void IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
 {
-	if (DB::Setting::GetByte(SET_ICONS_CHECKFILEVERSION, TRUE))
+	if (db_get_b(NULL, MODNAME, SET_ICONS_CHECKFILEVERSION, TRUE))
 	{
 		if (szIconPack)
 		{

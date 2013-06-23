@@ -70,41 +70,22 @@ namespace NServices
 					//GetIconInfo(zodiac.hIcon, &iinfo);
 
 					// save the bitmap to a file used as avatar later
-					//if (!SaveBitmapAsAvatar(iinfo.hbmColor, szFileName))
-					{
-						if (!CallService(MS_AV_SETAVATAR, (WPARAM)hContact, (LPARAM)szFileName))
-						{
-							DB::Setting::WriteByte(hContact, "ContactPhoto", "IsZodiac", 1);
-						}
-					}
+					if (!CallService(MS_AV_SETAVATAR, (WPARAM)hContact, (LPARAM)szFileName))
+						db_set_b(hContact, "ContactPhoto", "IsZodiac", 1);
 				}
 			}
 		}
 
 		void DeleteAvatar(HANDLE hContact)
 		{
-			if (hContact && DB::Setting::GetByte(hContact, "ContactPhoto", "IsZodiac", FALSE))
+			if (hContact && db_get_b(hContact, "ContactPhoto", "IsZodiac", FALSE))
 			{
-				//AVATARCACHEENTRY *ace;
-				LPSTR szProto = DB::Contact::Proto(hContact);
+				db_unset(hContact, "ContactPhoto", "File");
+				db_unset(hContact, "ContactPhoto", "RFile");
+				db_unset(hContact, "ContactPhoto", "Backup");
+				db_unset(hContact, "ContactPhoto", "ImageHash");
 
-				DB::Setting::Delete(hContact, "ContactPhoto", "File");
-				DB::Setting::Delete(hContact, "ContactPhoto", "RFile");
-				DB::Setting::Delete(hContact, "ContactPhoto", "Backup");
-				DB::Setting::Delete(hContact, "ContactPhoto", "ImageHash");
-
-				DB::Setting::WriteByte(hContact, "ContactPhoto", "IsZodiac", 0);
-
-				/*
-				ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETMYAVATAR, NULL, (LPARAM)szProto);
-				if (ace)
-				{
-					if (!CallService(MS_AV_SETAVATAR, (WPARAM)hContact, (LPARAM)ace->szFilename))
-					{
-						DB::Setting::WriteByte(hContact, "ContactPhoto", "IsZodiac", 0);
-					}
-				}
-				*/
+				db_set_b(hContact, "ContactPhoto", "IsZodiac", 0);
 			}
 		}
 
@@ -125,15 +106,10 @@ namespace NServices
 							// set zodiac as avatar either if the desired avatar is invalid or a general protocol picture
 							((ace->dwFlags & AVS_PROTOPIC) || !(ace->dwFlags & AVS_BITMAP_VALID)))
 					{
-						if (!DB::Setting::GetByte(hContact, "ContactPhoto", "IsZodiac", 0))
-						{
+						if (!db_get_b(hContact, "ContactPhoto", "IsZodiac", 0))
 							SetZodiacAvatar(hContact);
-						}
 					}
-					else
-					{
-						DB::Setting::WriteByte(hContact, "ContactPhoto", "IsZodiac", 0);
-					}
+					else db_set_b(hContact, "ContactPhoto", "IsZodiac", 0);
 				}
 
 				// avatar was deleted, so we can set up a zodiac avatar
@@ -158,12 +134,10 @@ namespace NServices
 			{
 
 				//walk through all the contacts stored in the DB
-				for (hContact = DB::Contact::FindFirst();
-					hContact != NULL;
-					hContact = DB::Contact::FindNext(hContact))
+				for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 				{
 					// don't set if avatar is locked!
-					if (!DB::Setting::GetByte(hContact, "ContactPhoto", "Locked", 0))
+					if (!db_get_b(hContact, "ContactPhoto", "Locked", 0))
 					{
 						BYTE bInvalidAvatar = TRUE;
 
@@ -182,7 +156,7 @@ namespace NServices
 									fclose(f);
 								}
 							}
-							DB::Variant::Free(&dbv);
+							db_free(&dbv);
 						}
 
 						// the absolute file is valid
@@ -193,7 +167,7 @@ namespace NServices
 								bInvalidAvatar = FALSE;
 								fclose(f);
 							}
-							DB::Variant::Free(&dbv);
+							db_free(&dbv);
 						}
 
 						// set the zodiac as avatar
@@ -210,12 +184,8 @@ namespace NServices
 				ghChangedHook = NULL;
 
 				//walk through all the contacts stored in the DB
-				for (hContact = DB::Contact::FindFirst();
-						 hContact != NULL;
-						 hContact = DB::Contact::FindNext(hContact))
-				{
+				for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 					DeleteAvatar(hContact);
-				}
 			}
 		}
 
@@ -228,7 +198,7 @@ namespace NServices
 		 **/
 		void OnModulesLoaded()
 		{
-			Enable(DB::Setting::GetByte(SET_ZODIAC_AVATARS, FALSE));
+			Enable(db_get_b(NULL, MODNAME, SET_ZODIAC_AVATARS, FALSE));
 		}
 
 	} /* namespace NAvatar */

@@ -116,7 +116,7 @@ BOOL CEditCtrl::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
 		_Flags.W |= DB::Setting::GetTStringCtrl(hContact, _pszModule, _pszModule, pszProto, _pszSetting, &dbv);
 	
 		EnableWindow(_hwnd, 
-			!hContact || _Flags.B.hasCustom || !DB::Setting::GetByte(SET_PROPSHEET_PCBIREADONLY, 0));	
+			!hContact || _Flags.B.hasCustom || !db_get_b(NULL, MODNAME, SET_PROPSHEET_PCBIREADONLY, 0));	
 
 		MIR_FREE(_pszValue);
 		switch (dbv.type) 
@@ -149,7 +149,7 @@ BOOL CEditCtrl::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
 		
 		default:
 			SetWindowText(_hwnd, _T(""));
-			DB::Variant::Free(&dbv);
+			db_free(&dbv);
 			break;
 		}
 		_Flags.B.hasChanged = 0;
@@ -229,7 +229,7 @@ void CEditCtrl::OnApply(HANDLE hContact, LPCSTR pszProto)
 		}
 		if (_Flags.B.hasChanged)
 		{
-			DB::Setting::Delete(hContact, pszModule, _pszSetting);
+			db_unset(hContact, pszModule, _pszSetting);
 
 			_Flags.B.hasChanged = 0;
 

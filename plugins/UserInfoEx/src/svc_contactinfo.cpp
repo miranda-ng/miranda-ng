@@ -92,7 +92,7 @@ static FORCEINLINE INT_PTR GCIVar(CONTACTINFO *ci, LPCSTR pszSetting)
 	if (DB::Setting::Get(ci->hContact, ci->szProto, pszSetting, &dbv, CI_TCHAR(ci)) == 0) {
 		if (VarToVarCI(&dbv, ci)) {
 			// On a error, we need to make sure, read data is cleared out!
-			DB::Variant::Free(&dbv);
+			db_free(&dbv);
 		}
 	}
 	else {
@@ -122,7 +122,7 @@ static FORCEINLINE INT_PTR GCIVarEx(CONTACTINFO *ci, LPCSTR pszSetting)
 	if (DB::Setting::GetEx(ci->hContact, USERINFO, ci->szProto, pszSetting, &dbv, CI_TCHAR(ci)) == 0) {
 		if (VarToVarCI(&dbv, ci)) {
 			// On a error, we need to make sure, read data is cleared out!
-			DB::Variant::Free(&dbv);
+			db_free(&dbv);
 		}
 	}
 	else {
@@ -200,7 +200,7 @@ static FORCEINLINE INT_PTR GCIStr(CONTACTINFO *ci, LPCSTR pszSetting)
 			ci->pszVal = dbv.ptszVal;
 		}
 		else {
-			DB::Variant::Free(&dbv);
+			db_free(&dbv);
 			ci->pszVal = NULL;
 		}
 	}
@@ -248,26 +248,26 @@ static FORCEINLINE INT_PTR GCIFirstLast(CONTACTINFO *ci)
 			{
 				mir_snwprintf((LPWSTR) ci->pszVal, cbf + cbl + 2, L"%s %s", dbvf.pwszVal, dbvl.pwszVal);
 			}
-			DB::Variant::Free(&dbvf);
-			DB::Variant::Free(&dbvl);
+			db_free(&dbvf);
+			db_free(&dbvl);
 		}
 		// set firstname as result
 		else if (dbvf.type == DBVT_WCHAR)
 		{
 			ci->pszVal = (LPTSTR) dbvf.pwszVal;
-			DB::Variant::Free(&dbvl);
+			db_free(&dbvl);
 		}
 		// set lastname as result
 		else if (dbvl.type == DBVT_WCHAR)
 		{
 			ci->pszVal = (LPTSTR) dbvl.pwszVal;
-			DB::Variant::Free(&dbvf);
+			db_free(&dbvf);
 		}
 		else
 		{
 			ci->pszVal = NULL;
-			DB::Variant::Free(&dbvf);
-			DB::Variant::Free(&dbvl);
+			db_free(&dbvf);
+			db_free(&dbvl);
 		}
 	}
 	else
@@ -283,26 +283,26 @@ static FORCEINLINE INT_PTR GCIFirstLast(CONTACTINFO *ci)
 			{
 				mir_snprintf((LPSTR) ci->pszVal, cbf + cbl + 2, "%s %s", dbvf.pszVal, dbvl.pszVal);
 			}
-			DB::Variant::Free(&dbvf);
-			DB::Variant::Free(&dbvl);
+			db_free(&dbvf);
+			db_free(&dbvl);
 		}
 		// set firstname as result
 		else if (dbvf.type == DBVT_ASCIIZ)
 		{
 			ci->pszVal = (LPTSTR) dbvf.pszVal;
-			DB::Variant::Free(&dbvl);
+			db_free(&dbvl);
 		}
 		// set lastname as result
 		else if (dbvl.type == DBVT_ASCIIZ)
 		{
 			ci->pszVal = (LPTSTR) dbvl.pszVal;
-			DB::Variant::Free(&dbvf);
+			db_free(&dbvf);
 		}
 		else
 		{
 			ci->pszVal = NULL;
-			DB::Variant::Free(&dbvf);
-			DB::Variant::Free(&dbvl);
+			db_free(&dbvf);
+			db_free(&dbvl);
 		}
 	}
 	ci->type = (ci->pszVal != NULL) ? CNFT_ASCIIZ : 0;
@@ -776,7 +776,7 @@ void SvcContactInfoLoadModule()
 	}
 	else {
 		memcpy(gNameOrder, dbv.pbVal, dbv.cpbVal);
-		DB::Variant::Free(&dbv);
+		db_free(&dbv);
 	}
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanged);

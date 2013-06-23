@@ -258,18 +258,18 @@ int MAnnivDate::DBGetReminderOpts(HANDLE hContact)
 	if (!hContact || hContact == INVALID_HANDLE_VALUE)
 		return 1;
 	if (_wID == ANID_BIRTHDAY) {
-		_bRemind = DB::Setting::GetByte(hContact, USERINFO, SET_REMIND_BIRTHDAY_ENABLED, BST_INDETERMINATE);
-		_wDaysEarlier = DB::Setting::GetWord(hContact, USERINFO, SET_REMIND_BIRTHDAY_OFFSET, (WORD)-1);
+		_bRemind = db_get_b(hContact, USERINFO, SET_REMIND_BIRTHDAY_ENABLED, BST_INDETERMINATE);
+		_wDaysEarlier = db_get_w(hContact, USERINFO, SET_REMIND_BIRTHDAY_OFFSET, (WORD)-1);
 	}
 	else if (_wID <= ANID_LAST) {
 		CHAR pszSetting[MAXSETTING];
 
 		// read reminder option
 		mir_snprintf(pszSetting, MAXSETTING, "Anniv%dReminder", _wID);
-		_bRemind = DB::Setting::GetByte(hContact, Module(), pszSetting, BST_INDETERMINATE);
+		_bRemind = db_get_b(hContact, Module(), pszSetting, BST_INDETERMINATE);
 		// read offset
 		mir_snprintf(pszSetting, MAXSETTING, "Anniv%dOffset", _wID);
-		_wDaysEarlier = DB::Setting::GetWord(hContact, Module(), pszSetting, (WORD)-1);
+		_wDaysEarlier = db_get_w(hContact, Module(), pszSetting, (WORD)-1);
 	}
 	else {
 		_bRemind = BST_INDETERMINATE;
@@ -290,23 +290,31 @@ int MAnnivDate::DBWriteReminderOpts(HANDLE hContact)
 	if (!hContact || hContact == INVALID_HANDLE_VALUE)
 		return 1;
 	if (_wID == ANID_BIRTHDAY) {
-		if (_bRemind == BST_INDETERMINATE) DB::Setting::Delete(hContact, USERINFO, SET_REMIND_BIRTHDAY_ENABLED);
-		else DB::Setting::WriteByte(hContact, USERINFO, SET_REMIND_BIRTHDAY_ENABLED, _bRemind);
+		if (_bRemind == BST_INDETERMINATE)
+			db_unset(hContact, USERINFO, SET_REMIND_BIRTHDAY_ENABLED);
+		else
+			db_set_b(hContact, USERINFO, SET_REMIND_BIRTHDAY_ENABLED, _bRemind);
 
-		if (_wDaysEarlier == (WORD)-1) DB::Setting::Delete(hContact, USERINFO, SET_REMIND_BIRTHDAY_OFFSET);
-		else DB::Setting::WriteWord(hContact, USERINFO, SET_REMIND_BIRTHDAY_OFFSET, _wDaysEarlier);
+		if (_wDaysEarlier == (WORD)-1)
+			db_unset(hContact, USERINFO, SET_REMIND_BIRTHDAY_OFFSET);
+		else
+			db_set_w(hContact, USERINFO, SET_REMIND_BIRTHDAY_OFFSET, _wDaysEarlier);
 	}
 	else if (_wID <= ANID_LAST) {
 		CHAR pszSetting[MAXSETTING];
 		// read reminder option
 		mir_snprintf(pszSetting, MAXSETTING, "Anniv%dReminder", _wID);
-		if (_bRemind == BST_INDETERMINATE) DB::Setting::Delete(hContact, USERINFO, pszSetting);
-		else DB::Setting::WriteByte(hContact, USERINFO, pszSetting, _bRemind);
+		if (_bRemind == BST_INDETERMINATE)
+			db_unset(hContact, USERINFO, pszSetting);
+		else
+			db_set_b(hContact, USERINFO, pszSetting, _bRemind);
 		
 		// read offset
 		mir_snprintf(pszSetting, MAXSETTING, "Anniv%dOffset", _wID);
-		if (_wDaysEarlier == (WORD)-1) DB::Setting::Delete(hContact, USERINFO, pszSetting);
-		else DB::Setting::WriteWord(hContact, USERINFO, pszSetting, _wDaysEarlier);
+		if (_wDaysEarlier == (WORD)-1)
+			db_unset(hContact, USERINFO, pszSetting);
+		else
+			db_set_w(hContact, USERINFO, pszSetting, _wDaysEarlier);
 	}
 	return 0;
 }
@@ -328,19 +336,17 @@ int MAnnivDate::DBWriteReminderOpts(HANDLE hContact)
  **/ 
 int MAnnivDate::DBGetDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear)
 {
-	WORD wtmp;
-
 	ZeroDate();
 
-	wtmp = DB::Setting::GetWord(hContact, pszModule, szYear, 0);
+	WORD wtmp = db_get_w(hContact, pszModule, szYear, 0);
 	if (wtmp < 1601) return 1;
 	Year(wtmp);
 
-	wtmp = DB::Setting::GetWord(hContact, pszModule, szMonth, 0);
+	wtmp = db_get_w(hContact, pszModule, szMonth, 0);
 	if (wtmp > 0 && wtmp < 13) {
 		Month(wtmp);
 
-		wtmp = DB::Setting::GetWord(hContact, pszModule, szDay, 0);
+		wtmp = db_get_w(hContact, pszModule, szDay, 0);
 		if (wtmp > 0 && wtmp <= DaysInMonth(Month())) {
 			Day(wtmp);
 			// date was correctly read from db
@@ -365,11 +371,10 @@ int MAnnivDate::DBGetDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LPCST
  **/ 
 int MAnnivDate::DBWriteDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear)
 {
-	return (
-		DB::Setting::WriteByte(hContact, pszModule, szDay, (BYTE)Day()) ||
-		DB::Setting::WriteByte(hContact, pszModule, szMonth, (BYTE)Month()) ||
-		DB::Setting::WriteWord(hContact, pszModule, szYear, Year())
-);
+	return
+		db_set_b(hContact, pszModule, szDay, (BYTE)Day()) ||
+		db_set_b(hContact, pszModule, szMonth, (BYTE)Month()) ||
+		db_set_b(hContact, pszModule, szYear, Year());
 }
 
 /**
@@ -387,9 +392,9 @@ int MAnnivDate::DBDeleteDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LP
 {
 	int ret;
 
-	ret = DB::Setting::Delete(hContact, pszModule, szDay);
-	ret &= DB::Setting::Delete(hContact, pszModule, szMonth);
-	ret &= DB::Setting::Delete(hContact, pszModule, szYear);
+	ret = db_unset(hContact, pszModule, szDay);
+	ret &= db_unset(hContact, pszModule, szMonth);
+	ret &= db_unset(hContact, pszModule, szYear);
 	return ret;
 }
 
@@ -413,7 +418,7 @@ int MAnnivDate::DBGetDateStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSett
 	if (DB::Setting::GetAsIs(hContact, pszModule, pszSetting, &dbv))
 		return 1;
 	if (dbv.type != DBVT_DWORD) {
-		DB::Variant::Free(&dbv);
+		db_free(&dbv);
 		return 1;
 	}
 	DateStamp(dbv.dVal);
@@ -440,7 +445,7 @@ int MAnnivDate::DBWriteDateStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSe
 	{
 		return 1;
 	}
-	return DB::Setting::WriteDWord(hContact, pszModule, pszSetting, dwStamp);
+	return db_set_dw(hContact, pszModule, pszSetting, dwStamp);
 }
 
 /***********************************************************************************************************
@@ -540,14 +545,14 @@ int MAnnivDate::DBMoveBirthDate(HANDLE hContact, BYTE bOld, BYTE bNew) {
 				if (DBWriteDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
 					return 1;
 				DBDeleteDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
-				DB::Setting::Delete(hContact, MOD_MBIRTHDAY, "BirthMode");
+				db_unset(hContact, MOD_MBIRTHDAY, "BirthMode");
 				}
 			break;
 		case 1:		//USERINFO
 			if (!DBGetDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR)) {
 				if (DBWriteDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
 					return 1;
-				DB::Setting::WriteByte(hContact, MOD_MBIRTHDAY, "BirthMode", 2);
+				db_set_b(hContact, MOD_MBIRTHDAY, "BirthMode", 2);
 				DBDeleteDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
 			}
 			break;
@@ -575,15 +580,13 @@ int MAnnivDate::DBWriteBirthDate(HANDLE hContact)
 	if (!rc)
 	{
 		if (!mir_strcmp(pszModule, MOD_MBIRTHDAY))
-		{
-			DB::Setting::WriteByte(hContact, MOD_MBIRTHDAY, "BirthMode", 2);
-		}
+			db_set_b(hContact, MOD_MBIRTHDAY, "BirthMode", 2);
 
 		if (
 				// only delete values from current contact's custom modules
 				!(_wFlags & (MADF_HASPROTO|MADF_HASMETA)) &&
 				// check whether user wants this feature
-				DB::Setting::GetByte(SET_REMIND_SECUREBIRTHDAY, TRUE) &&
+				db_get_b(NULL, MODNAME, SET_REMIND_SECUREBIRTHDAY, TRUE) &&
 				!myGlobals.UseDbxTree)
 		{
 			// keep the database clean
@@ -591,7 +594,7 @@ int MAnnivDate::DBWriteBirthDate(HANDLE hContact)
 			if (mir_strcmp(pszModule, MOD_MBIRTHDAY)!= 0)
 			{
 				DBDeleteDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
-				DB::Setting::Delete(hContact, MOD_MBIRTHDAY, "BirthMode");
+				db_unset(hContact, MOD_MBIRTHDAY, "BirthMode");
 			}
 			else if (mir_strcmp(pszModule, USERINFO) !=0)
 			{
@@ -601,7 +604,7 @@ int MAnnivDate::DBWriteBirthDate(HANDLE hContact)
 			DBDeleteDate(hContact, USERINFO, SET_CONTACT_DOBD, SET_CONTACT_DOBM, SET_CONTACT_DOBY);
 		}
 
-		rc = DB::Setting::WriteWord(hContact, USERINFO, SET_CONTACT_AGE, Age());
+		rc = db_set_w(hContact, USERINFO, SET_CONTACT_AGE, Age());
 	}
 	return rc;
 }
@@ -653,7 +656,7 @@ int MAnnivDate::DBGetAnniversaryDate(HANDLE hContact, WORD iIndex)
 		if (!DB::Setting::GetTString(hContact, USERINFO, szStamp, &dbv)) 
 		{
 			_strDesc = dbv.ptszVal;
-			DB::Variant::Free(&dbv);
+			db_free(&dbv);
 		}
 	}
 	return rc;
@@ -683,11 +686,11 @@ int MAnnivDate::DBWriteAnniversaryDate(HANDLE hContact, WORD wIndex)
 		{
 			// write description
 			mir_snprintf(pszSetting, SIZEOF(pszSetting), "Anniv%dDesc", wIndex);
-			DB::Setting::WriteTString(hContact, USERINFO, pszSetting, (LPTSTR)Description());
+			db_set_ts(hContact, USERINFO, pszSetting, (LPTSTR)Description());
 			return 0;
 		}
 		// delete date if written incompletely
-		DB::Setting::Delete(hContact, USERINFO, pszSetting);
+		db_unset(hContact, USERINFO, pszSetting);
 	}
 	return 1;
 }
@@ -760,7 +763,7 @@ int MAnnivDate::BackupBirthday(HANDLE hContact, LPSTR pszProto, const BYTE bDont
 				
 			BYTE bWantBackup = !mdbNewProto.DBGetDate(hContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR) 
 									&& !IsEqual(mdbNewProto.SystemTime())
-									&& (bDontIgnoreAnything || (DB::Setting::GetDWord(hContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED, 0) != mdbNewProto.DateStamp()))
+									&& (bDontIgnoreAnything || (db_get_dw(hContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED, 0) != mdbNewProto.DateStamp()))
 									&& !bIsMetaSub;
 
 			// allow backup only, if the custom setting differs from all meta subcontacts' protocol based settings, too.
@@ -769,7 +772,7 @@ int MAnnivDate::BackupBirthday(HANDLE hContact, LPSTR pszProto, const BYTE bDont
 				if (hSubContact && !mdbIgnore.DBGetDate(hSubContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
 					bWantBackup = bWantBackup 
 											&& !IsEqual(mdbIgnore.SystemTime()) 
-											&& (bDontIgnoreAnything || (DB::Setting::GetDWord(hSubContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED, 0) != mdbIgnore.DateStamp()));
+											&& (bDontIgnoreAnything || (db_get_dw(hSubContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED, 0) != mdbIgnore.DateStamp()));
 			}
 			if (bWantBackup) {
 				if (!lastAnswer || *lastAnswer != IDALL) {

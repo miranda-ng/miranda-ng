@@ -243,9 +243,9 @@ static void SaveInitialDir(LPSTR pszInitialDir)
 	if (p = mir_strrchr(pszInitialDir, '\\')) {
 		*p = 0;
 		if ( PathToRelative(pszInitialDir, szRelative))
-			DB::Setting::WriteAString(0, MODNAME, "vCardPath", szRelative);
+			db_set_s(0, MODNAME, "vCardPath", szRelative);
 		else
-			DB::Setting::WriteAString(0, MODNAME, "vCardPath", pszInitialDir);
+			db_set_s(0, MODNAME, "vCardPath", pszInitialDir);
 		*p = '\\';
 	}	
 }

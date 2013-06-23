@@ -152,7 +152,7 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 		SetUserData(hDlg, lParam);
 			
 		SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)IcoLib_GetIcon(ICO_DLG_EMAIL));
-		if (DB::Setting::GetByte(SET_ICONS_BUTTONS, 1))
+		if (db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1))
 		{
 			SendDlgItemMessage(hDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_OK));
 			SendDlgItemMessage(hDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_CANCEL));
@@ -246,7 +246,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			SetUserData(hDlg, lParam);
 
 			SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)IcoLib_GetIcon(ICO_DLG_PHONE));
-			if (DB::Setting::GetByte(SET_ICONS_BUTTONS, 1))
+			if (db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1))
 			{
 				SendDlgItemMessage(hDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_OK));
 				SendDlgItemMessage(hDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_CANCEL));
@@ -581,7 +581,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		 * return:	a brush
 		 **/
 		case WM_CTLCOLOREDIT:
-			if (!DB::Setting::GetByte(SET_PROPSHEET_SHOWCOLOURS, 1) || (HWND)lParam != cbex->hEdit || !cbex->pItems || cbex->iSelectedItem < 0) 
+			if (!db_get_b(NULL, MODNAME, SET_PROPSHEET_SHOWCOLOURS, 1) || (HWND)lParam != cbex->hEdit || !cbex->pItems || cbex->iSelectedItem < 0) 
 				break;
 			return Ctrl_SetTextColour((HDC)wParam, cbex->pItems[cbex->iSelectedItem].wFlags);
 
@@ -1157,7 +1157,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 				bEnabled	= !hContact ||
 							(cbex->pItems[cbex->iSelectedItem].wFlags & CTRLF_HASCUSTOM) || 
 							!(cbex->pItems[cbex->iSelectedItem].wFlags & (CTRLF_HASPROTO|CTRLF_HASMETA)) ||
-							!DB::Setting::GetByte(SET_PROPSHEET_PCBIREADONLY, 0);
+							!db_get_b(NULL, MODNAME, SET_PROPSHEET_PCBIREADONLY, 0);
 
 				EnableWindow(cbex->hBtnEdit, bEnabled);
 				EnableWindow(cbex->hBtnDel, bEnabled && GetWindowTextLength(cbex->hEdit) > 0);
@@ -1333,7 +1333,7 @@ int CtrlContactAddItemFromDB(
 	cbi.wMask = CBEXIM_ALL;
 	cbi.pszIcon = szIcon;
 	SendMessage(hCtrl, CBEXM_ADDITEM, NULL, (LPARAM)&cbi);
-	DB::Variant::Free(&dbv);
+	db_free(&dbv);
 	return (cbi.wFlags & CTRLF_CHANGED) == CTRLF_CHANGED;
 }
 
@@ -1450,12 +1450,12 @@ int CtrlContactWriteItemToDB(
 	if (!(cbi.wFlags & CTRLF_CHANGED)) return 0;
 	if (!hContact && !(pszModule = pszProto)) return 1;
 	if (!*szVal)
-		DB::Setting::Delete(hContact, pszModule, pszSetting);
+		db_unset(hContact, pszModule, pszSetting);
 	else {
-		if (cbi.wFlags & CBEXIF_SMS) {
+		if (cbi.wFlags & CBEXIF_SMS)
 			mir_tcsncat(szVal, _T(" SMS"), SIZEOF(szVal));
-		}
-		if (DB::Setting::WriteTString(hContact, pszModule, pszSetting, szVal)) return 1;
+
+		if (db_set_ts(hContact, pszModule, pszSetting, szVal)) return 1;
 	}
 	cbi.wFlags &= ~CTRLF_CHANGED;
 	cbi.wMask = CBEXIM_FLAGS;
@@ -1507,12 +1507,12 @@ int CtrlContactWriteMyItemsToDB(
 			}
 			mir_snprintf(pszSetting, MAXSETTING, szFormatCat, i);
 			if (*szCat && _tcsncmp(szCat, pszOther, ccOther)) {
-				if (DB::Setting::WriteTString(hContact, pszModule, pszSetting, szCat)) return 1;
+				if (db_set_ts(hContact, pszModule, pszSetting, szCat)) return 1;
 			}
 			else
-				DB::Setting::Delete(hContact, pszModule, pszSetting);
+				db_unset(hContact, pszModule, pszSetting);
 			mir_snprintf(pszSetting, MAXSETTING, szFormatVal, i);
-			if (DB::Setting::WriteTString(hContact, pszModule, pszSetting, szVal)) return 1;
+			if (db_set_ts(hContact, pszModule, pszSetting, szVal)) return 1;
 			cbi.wFlags &= ~CTRLF_CHANGED;
 			cbi.wMask = CBEXIM_FLAGS;
 			CtrlContactWndProc(hCtrl, CBEXM_SETITEM, NULL, (LPARAM)&cbi);

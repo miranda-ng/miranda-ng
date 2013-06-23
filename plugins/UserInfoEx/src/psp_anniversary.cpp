@@ -44,7 +44,7 @@ static INT_PTR CALLBACK DlgProc_AnniversaryEditor(HWND hDlg, UINT uMsg, WPARAM w
 			SetUserData(hDlg, lParam);
 
 			// set icons
-			if (DB::Setting::GetByte(SET_ICONS_BUTTONS, 1))
+			if (db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1))
 			{
 				SendDlgItemMessage(hDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_OK));
 				SendDlgItemMessage(hDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_CANCEL));

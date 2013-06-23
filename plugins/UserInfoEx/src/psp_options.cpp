@@ -158,7 +158,7 @@ static BYTE EnableControls(HWND hDlg, const int *idCtrl, int countCtrl, BYTE bEn
  **/
 static BYTE DBGetCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE bDefault)
 {
-	BYTE val = (DB::Setting::GetByte(pszSetting, bDefault) & 1) == 1;
+	BYTE val = (db_get_b(NULL, MODNAME, pszSetting, bDefault) & 1) == 1;
 	CheckDlgButton(hDlg, idCtrl, val);
 	return val;
 }
@@ -176,9 +176,9 @@ static BYTE DBGetCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE b
 static BYTE DBWriteCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
 {
 	BYTE val = IsDlgButtonChecked(hDlg, idCtrl);
-	int Temp = DB::Setting::GetByte(pszSetting, 0);
+	int Temp = db_get_b(NULL, MODNAME, pszSetting, 0);
 	Temp &= ~1;
-	DB::Setting::WriteByte(pszSetting, Temp |= val );
+	db_set_b(NULL, MODNAME, pszSetting, Temp |= val );
 	return val;
 }
 
@@ -195,7 +195,7 @@ static BYTE DBWriteCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
  **/
 static void DBGetColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting, DWORD bDefault)
 {
-	SendDlgItemMessage(hDlg, idCtrl, CPM_SETCOLOUR, 0, DB::Setting::GetDWord(pszSetting, bDefault));
+	SendDlgItemMessage(hDlg, idCtrl, CPM_SETCOLOUR, 0, db_get_dw(NULL, MODNAME, pszSetting, bDefault));
 }
 
 /**
@@ -210,7 +210,7 @@ static void DBGetColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting, DWORD bDe
  **/
 static void DBWriteColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
 {
-	DB::Setting::WriteDWord(pszSetting, SendDlgItemMessage(hDlg, idCtrl, CPM_GETCOLOUR, 0, 0));
+	db_set_w(NULL, MODNAME, pszSetting, SendDlgItemMessage(hDlg, idCtrl, CPM_GETCOLOUR, 0, 0));
 }
 
 /**
@@ -232,9 +232,9 @@ static BYTE DBWriteEditByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE
 	BOOL t;
 
 	v = (BYTE)GetDlgItemInt(hDlg, idCtrl, &t, FALSE);
-	if (t && (v != DB::Setting::GetByte(pszSetting, defVal)))
+	if (t && (v != db_get_b(NULL, MODNAME, pszSetting, defVal)))
 	{
-		return DB::Setting::WriteByte(pszSetting, v) == 0;
+		return db_set_b(NULL, MODNAME, pszSetting, v) == 0;
 	}
 	return FALSE;
 }
@@ -258,10 +258,9 @@ static BYTE DBWriteEditWord(HWND hDlg, const int idCtrl, LPCSTR pszSetting, WORD
 	BOOL t;
 
 	v = (WORD)GetDlgItemInt(hDlg, idCtrl, &t, FALSE);
-	if (t && (v != DB::Setting::GetWord(pszSetting, defVal)))
-	{
-		return DB::Setting::WriteWord(pszSetting, v) == 0;
-	}
+	if (t && (v != db_get_w(NULL, MODNAME, pszSetting, defVal)))
+		return db_set_w(NULL, MODNAME, pszSetting, v) == 0;
+
 	return FALSE;
 }
 
@@ -283,9 +282,9 @@ static BYTE DBWriteComboByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYT
 	BYTE v;
 
 	v = (BYTE)SendDlgItemMessage(hDlg, idCtrl, CB_GETCURSEL, NULL, NULL);
-	if (v != DB::Setting::GetByte(pszSetting, defVal))
+	if (v != db_get_b(NULL, MODNAME, pszSetting, defVal))
 	{
-		return DB::Setting::WriteByte(pszSetting, v) == 0;
+		return db_set_b(NULL, MODNAME, pszSetting, v) == 0;
 	}
 	return FALSE;
 }
@@ -328,7 +327,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 						
 						// menu item settings
 						for (int i = 0; i < SIZEOF(ctrl_Menu); i++) {
-							int flag = DB::Setting::GetByte(ctrl_Menu[i].pszKey, 2);
+							int flag = db_get_b(NULL, MODNAME, ctrl_Menu[i].pszKey, 2);
 							// check button and enable / disable control
 							int idEnable[] = { ctrl_Menu[i].idCheckbox + 1, ctrl_Menu[i].idNONE, ctrl_Menu[i].idALL, ctrl_Menu[i].idEXIMPORT };
 							EnableControls(hDlg, idEnable, SIZEOF(idEnable), DBGetCheckBtn(hDlg, ctrl_Menu[i].idCheckbox, ctrl_Menu[i].pszKey,0));
@@ -362,7 +361,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 							flag |= IsDlgButtonChecked(hDlg, ctrl_Menu[i].idNONE)? 2:0;
 							flag |= IsDlgButtonChecked(hDlg, ctrl_Menu[i].idALL)? 4:0;
 							flag |= IsDlgButtonChecked(hDlg, ctrl_Menu[i].idEXIMPORT)? 8:0;
-							DB::Setting::WriteByte(ctrl_Menu[i].pszKey, (BYTE) flag);
+							db_set_b(NULL, MODNAME, ctrl_Menu[i].pszKey, (BYTE) flag);
 						}
 
 						RebuildMenu();
@@ -376,14 +375,14 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 						valNew = IsDlgButtonChecked(hDlg, CHECK_OPT_FLAGSUNKNOWN);
 						if (gFlagsOpts.bUseUnknownFlag != valNew) {
 							gFlagsOpts.bUseUnknownFlag  = valNew;
-							DB::Setting::WriteByte(MODNAMEFLAGS,"UseUnknownFlag",valNew);
+							db_set_b(NULL, MODNAMEFLAGS, "UseUnknownFlag",valNew);
 							FlagsClistChange++;
 							FlagsMsgWndChange++;
 						}
 						valNew = IsDlgButtonChecked(hDlg, CHECK_OPT_FLAGSMSGSTATUS);
 						if (gFlagsOpts.bShowStatusIconFlag != valNew) {
 							gFlagsOpts.bShowStatusIconFlag  = valNew;
-							DB::Setting::WriteByte(MODNAMEFLAGS,"ShowStatusIconFlag",valNew);
+							db_set_b(NULL, MODNAMEFLAGS, "ShowStatusIconFlag",valNew);
 							FlagsMsgWndChange++;
 						}
 
@@ -400,7 +399,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 
 					// misc
 					BYTE bEnabled = IsDlgButtonChecked(hDlg, CHECK_OPT_ZODIACAVATAR);
-					DB::Setting::WriteByte(SET_ZODIAC_AVATARS, bEnabled);
+					db_set_b(NULL, MODNAME, SET_ZODIAC_AVATARS, bEnabled);
 					NServices::NAvatar::Enable(bEnabled);
 			}
 			break;
@@ -554,7 +553,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 									for (i = 0; i < Settings.getCount(); i++) {
 										s = Settings[i];
 										if (!mir_strnicmp(s, "UserInfoEx", 10)) {
-											DB::Setting::Delete(NULL, "SkinIcons", s);
+											db_unset(NULL, "SkinIcons", s);
 										}
 									}
 								}
@@ -563,16 +562,16 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 								DB::Module::Delete(NULL, USERINFO"ExW");
 
 								// delete old contactsettings
-								for (hContact = DB::Contact::FindFirst();	hContact != NULL; hContact = DB::Contact::FindNext(hContact)) {
-									DB::Setting::Delete(hContact, USERINFO, "PListColWidth0");
-									DB::Setting::Delete(hContact, USERINFO, "PListColWidth1");
-									DB::Setting::Delete(hContact, USERINFO, "PListColWidth2");
-									DB::Setting::Delete(hContact, USERINFO, "EMListColWidth0");
-									DB::Setting::Delete(hContact, USERINFO, "EMListColWidth1");
-									DB::Setting::Delete(hContact, USERINFO, "BirthRemind");
-									DB::Setting::Delete(hContact, USERINFO, "RemindBirthday");
-									DB::Setting::Delete(hContact, USERINFO, "RemindDaysErlier");
-									DB::Setting::Delete(hContact, USERINFO, "vCardPath");
+								for (hContact = db_find_first();	hContact != NULL; hContact = db_find_next(hContact)) {
+									db_unset(hContact, USERINFO, "PListColWidth0");
+									db_unset(hContact, USERINFO, "PListColWidth1");
+									db_unset(hContact, USERINFO, "PListColWidth2");
+									db_unset(hContact, USERINFO, "EMListColWidth0");
+									db_unset(hContact, USERINFO, "EMListColWidth1");
+									db_unset(hContact, USERINFO, "BirthRemind");
+									db_unset(hContact, USERINFO, "RemindBirthday");
+									db_unset(hContact, USERINFO, "RemindDaysErlier");
+									db_unset(hContact, USERINFO, "vCardPath");
 
 									DB::Module::Delete(hContact, USERINFO"Ex");
 									DB::Module::Delete(hContact, USERINFO"ExW");
@@ -744,7 +743,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 						BYTE bEnabled;
 
 						// set reminder options
-						bEnabled = DB::Setting::GetByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
+						bEnabled = db_get_b(NULL, MODNAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
 						SendDlgItemMessage(hDlg, EDIT_REMIND_ENABLED, CB_SETCURSEL, bEnabled, NULL);
 						DlgProc_ReminderOpts(hDlg, WM_COMMAND, MAKEWPARAM(EDIT_REMIND_ENABLED, CBN_SELCHANGE),
 							(LPARAM)GetDlgItem(hDlg, EDIT_REMIND_ENABLED));
@@ -755,11 +754,11 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 						DBGetCheckBtn(hDlg, CHECK_REMIND_STARTUP, SET_REMIND_CHECKON_STARTUP, FALSE);
 						DBGetCheckBtn(hDlg, CHECK_REMIND_SECURED, SET_REMIND_SECUREBIRTHDAY, FALSE);
 
-						SetDlgItemInt(hDlg, EDIT_REMIND, DB::Setting::GetWord(NULL, MODNAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), FALSE);
-						SetDlgItemInt(hDlg, EDIT_REMIND_SOUNDOFFSET, DB::Setting::GetByte(SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET), FALSE);
-						SetDlgItemInt(hDlg, EDIT_REMIND2, DB::Setting::GetWord(NULL, MODNAME, SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL), FALSE);
+						SetDlgItemInt(hDlg, EDIT_REMIND, db_get_w(NULL, MODNAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), FALSE);
+						SetDlgItemInt(hDlg, EDIT_REMIND_SOUNDOFFSET, db_get_b(NULL, MODNAME, SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET), FALSE);
+						SetDlgItemInt(hDlg, EDIT_REMIND2, db_get_w(NULL, MODNAME, SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL), FALSE);
 
-						SendDlgItemMessage(hDlg, EDIT_BIRTHMODULE, CB_SETCURSEL, DB::Setting::GetByte(SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE), NULL);
+						SendDlgItemMessage(hDlg, EDIT_BIRTHMODULE, CB_SETCURSEL, db_get_b(NULL, MODNAME, SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE), NULL);
 						{
 							MTime mtLast;
 							TCHAR szTime[MAX_PATH];
@@ -792,7 +791,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 						bReminderCheck = DBWriteEditWord(hDlg, EDIT_REMIND, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET);							
 
 						// save primary birthday module
-						BYTE bOld = DB::Setting::GetByte(SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE);  //    = 1
+						BYTE bOld = db_get_b(NULL, MODNAME, SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE);  //    = 1
 						BYTE bNew = (BYTE)ComboBox_GetCurSel(GetDlgItem(hDlg,EDIT_BIRTHMODULE));
 						if (bOld != bNew) {
 							//keep the database clean
@@ -800,19 +799,15 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 							HANDLE hContact = NULL;
 							DBWriteComboByte(hDlg, EDIT_BIRTHMODULE, SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE);
 							//walk through all the contacts stored in the DB
-							for (hContact = DB::Contact::FindFirst();
-								 hContact != NULL;
-								 hContact = DB::Contact::FindNext(hContact))
-							{
+							for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 								mdb.DBMoveBirthDate(hContact,bOld,bNew);
-							}
 						}
 
 						// update current reminder state
 						bNewVal = (BYTE)SendDlgItemMessage(hDlg, EDIT_REMIND_ENABLED, CB_GETCURSEL, NULL, NULL);
-						if (DB::Setting::GetByte(SET_REMIND_ENABLED, 1) != bNewVal) 
+						if (db_get_b(NULL, MODNAME, SET_REMIND_ENABLED, 1) != bNewVal) 
 						{
-							DB::Setting::WriteByte(SET_REMIND_ENABLED, bNewVal);
+							db_set_b(NULL, MODNAME, SET_REMIND_ENABLED, bNewVal);
 							if (bNewVal == REMIND_OFF) 
 							{
 								SvcReminderEnable(FALSE);
@@ -878,7 +873,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 								WORD v;
 								
 								v = (WORD)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
-								if (t && (v != DB::Setting::GetWord(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET)))
+								if (t && (v != db_get_w(NULL, MODNAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET)))
 								{
 									NotifyParentOfChange(hDlg);
 								}
@@ -897,7 +892,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 								BYTE v;
 								
 								v = (BYTE)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
-								if (t && (v != DB::Setting::GetByte(SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET)))
+								if (t && (v != db_get_b(NULL, MODNAME, SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET)))
 								{
 									NotifyParentOfChange(hDlg);
 								}
@@ -913,13 +908,9 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 							if (bInitialized && HIWORD(wParam) == EN_UPDATE) 
 							{
 								BOOL t;
-								WORD v;
-								
-								v = (WORD)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
-								if (t && (v != DB::Setting::GetWord(NULL, MODNAME, SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL)))
-								{
+								WORD v = (WORD)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
+								if (t && (v != db_get_w(NULL, MODNAME, SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL)))
 									NotifyParentOfChange(hDlg);
-								}
 							}
 						}
 				}
@@ -958,7 +949,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 						EnableDlgItem(hDlg, CHECK_OPT_POPUP_MSGBOX, FALSE);
 						EnableDlgItem(hDlg, CHECK_OPT_POPUP_PROGRESS, FALSE);
 					}
-					else if (!(DB::Setting::GetDWord(0, "Popup","Actions", 0) & 1)) {
+					else if (!(db_get_dw(0, "Popup","Actions", 0) & 1)) {
 						EnableDlgItem(hDlg, CHECK_OPT_POPUP_MSGBOX, FALSE);
 					}
 
@@ -969,7 +960,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 					// set colortype checkboxes and color controls
 					DBGetColor(hDlg, CLR_BBACK, SET_POPUP_BIRTHDAY_COLOR_BACK, RGB(192, 180, 30));
 					DBGetColor(hDlg, CLR_BTEXT, SET_POPUP_BIRTHDAY_COLOR_TEXT, RGB(0, 0, 0));
-					switch (DB::Setting::GetByte(SET_POPUP_BIRTHDAY_COLORTYPE, POPUP_COLOR_CUSTOM))
+					switch (db_get_b(NULL, MODNAME, SET_POPUP_BIRTHDAY_COLORTYPE, POPUP_COLOR_CUSTOM))
 					{
 					case POPUP_COLOR_DEFAULT:
 						{
@@ -985,7 +976,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 
 					DBGetColor(hDlg, CLR_ABACK, SET_POPUP_ANNIVERSARY_COLOR_BACK, RGB(90, 190, 130));
 					DBGetColor(hDlg, CLR_ATEXT, SET_POPUP_ANNIVERSARY_COLOR_TEXT, RGB(0, 0, 0));
-					switch (DB::Setting::GetByte(SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM)) 
+					switch (db_get_b(NULL, MODNAME, SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM)) 
 					{
 						case POPUP_COLOR_DEFAULT:
 							{
@@ -1004,7 +995,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 						SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_POPUP_ADEFCLR, BN_CLICKED), NULL);
 					}
 					// set delay values
-					bDelay = DB::Setting::GetByte(SET_POPUP_DELAY, 0);
+					bDelay = db_get_b(NULL, MODNAME, SET_POPUP_DELAY, 0);
 					switch (bDelay) 
 					{
 					case 0:
@@ -1046,7 +1037,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 					// save popup style for birthdays
 					DBWriteColor(hDlg, CLR_BBACK, SET_POPUP_BIRTHDAY_COLOR_BACK);
 					DBWriteColor(hDlg, CLR_BTEXT, SET_POPUP_BIRTHDAY_COLOR_TEXT);
-					DB::Setting::WriteByte(SET_POPUP_BIRTHDAY_COLORTYPE, 
+					db_set_b(NULL, MODNAME, SET_POPUP_BIRTHDAY_COLORTYPE, 
 						SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_DEFCLR, BM_GETCHECK, NULL, NULL) 
 							? POPUP_COLOR_DEFAULT 
 							: SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_WINCLR, BM_GETCHECK, NULL, NULL) 
@@ -1056,7 +1047,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 					// save popup style for anniversaries
 					DBWriteColor(hDlg, CLR_ABACK, SET_POPUP_ANNIVERSARY_COLOR_BACK);
 					DBWriteColor(hDlg, CLR_ATEXT, SET_POPUP_ANNIVERSARY_COLOR_TEXT);
-					DB::Setting::WriteByte(SET_POPUP_ANNIVERSARY_COLORTYPE, 
+					db_set_b(NULL, MODNAME, SET_POPUP_ANNIVERSARY_COLORTYPE, 
 						SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_ADEFCLR, BM_GETCHECK, NULL, NULL) 
 							? POPUP_COLOR_DEFAULT 
 							: SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_AWINCLR, BM_GETCHECK, NULL, NULL) 
@@ -1066,17 +1057,17 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 					// save delay
 					if (SendDlgItemMessage(hDlg, RADIO_OPT_POPUP_PERMANENT, BM_GETCHECK, NULL, NULL))
 					{
-						DB::Setting::WriteByte(SET_POPUP_DELAY, 255);
+						db_set_b(NULL, MODNAME, SET_POPUP_DELAY, 255);
 					}
 					else if (SendDlgItemMessage(hDlg, RADIO_OPT_POPUP_CUSTOM, BM_GETCHECK, NULL, NULL)) 
 					{
 						TCHAR szDelay[4];
 						GetDlgItemText(hDlg, EDIT_DELAY, szDelay, SIZEOF(szDelay));
-						DB::Setting::WriteByte(SET_POPUP_DELAY, (BYTE)_tcstol(szDelay, NULL, 10));
+						db_set_b(NULL, MODNAME, SET_POPUP_DELAY, (BYTE)_tcstol(szDelay, NULL, 10));
 					}
 					else
 					{
-						DB::Setting::Delete(NULL, MODNAME, SET_POPUP_DELAY);
+						db_unset(NULL, MODNAME, SET_POPUP_DELAY);
 					}
 				}
 			}
@@ -1088,7 +1079,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 		case BTN_PREVIEW:
 			{
 				POPUPDATAT ppd = { 0 };
-				ppd.iSeconds = (int)DB::Setting::GetByte(SET_POPUP_DELAY, 0);
+				ppd.iSeconds = (int)db_get_b(NULL, MODNAME, SET_POPUP_DELAY, 0);
 				mir_tcsncpy(ppd.lptzText, TranslateT("This is the reminder message"), MAX_SECONDLINE);
 
 				// Birthday

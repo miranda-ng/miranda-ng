@@ -35,7 +35,7 @@ INT_PTR CALLBACK DlgProc_DataHistory(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 				{ ICO_BTN_EXPORT,	BM_SETIMAGE,	IDOK		},
 				{ ICO_BTN_CANCEL,	BM_SETIMAGE,	IDCANCEL	}
 			};
-			const int numIconsToSet = DB::Setting::GetByte(SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 2;
+			const int numIconsToSet = db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 2;
 			IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
 			TranslateDialogDefault(hDlg);
@@ -151,9 +151,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 				vContact.Export(xmlfile, &Modules);
 			}
 			// loop for all other contact
-			for (hContact = DB::Contact::FindFirst();
-				hContact != NULL;
-				hContact = DB::Contact::FindNext(hContact))
+			for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 			{
 				switch (ExImContact->Typ)
 				{

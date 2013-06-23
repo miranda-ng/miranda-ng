@@ -242,7 +242,7 @@ class CDlgUpdProgress : public CUpdProgress
 					{ ICO_BTN_DOWNARROW,	BM_SETIMAGE,	IDSKIP		},
 					{ ICO_BTN_CANCEL,		BM_SETIMAGE,	IDCANCEL	}
 				};
-				IcoLib_SetCtrlIcons(hWnd, idIcon, DB::Setting::GetByte(SET_ICONS_BUTTONS, 1) ? 2 : 1);
+				IcoLib_SetCtrlIcons(hWnd, idIcon, db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1) ? 2 : 1);
 	
 				SendDlgItemMessage(hWnd, IDCANCEL,	BUTTONTRANSLATE, NULL, NULL);
 				SendDlgItemMessage(hWnd, IDSKIP,	BUTTONTRANSLATE, NULL, NULL);
@@ -397,7 +397,7 @@ public:
 		: CUpdProgress(data)
 	{
 		_szText = NULL;
-		_bBBCode = DB::Setting::GetByte("Popup", "UseMText", FALSE);
+		_bBBCode = db_get_b(NULL, "Popup", "UseMText", FALSE);
 
 		_popupButtons[0].cbSize = sizeof(POPUPACTION);
 		_popupButtons[0].flags = PAF_ENABLED;
@@ -706,21 +706,15 @@ public:
 	 **/
 	void RefreshAll()
 	{
-		HANDLE		hContact;
-		int				iWait;
+		int iWait = 100;
 
-		for (hContact = DB::Contact::FindFirst(),	iWait = 100;
-				 hContact != NULL;
-				 hContact = DB::Contact::FindNext(hContact))
-		{
+		for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 			if (QueueAddRefreshContact(hContact, iWait))
-			{
 				iWait += 5000;
-			}
-		}
+
 		if (Size() && !_pProgress)
 		{
-			if (ServiceExists(MS_POPUP_CHANGETEXTT) && DB::Setting::GetByte("PopupProgress", FALSE))
+			if (ServiceExists(MS_POPUP_CHANGETEXTT) && db_get_b(NULL, MODNAME, "PopupProgress", FALSE))
 			{
 				_pProgress = new CPopupUpdProgress(this);
 			}
@@ -846,9 +840,7 @@ static int OnContactAdded(WPARAM wParam, LPARAM lParam)
 {
 	try
 	{
-		DWORD dwStmp;
-
-		dwStmp = DB::Setting::GetDWord((HANDLE)wParam, USERINFO, SET_CONTACT_ADDEDTIME, 0);
+		DWORD dwStmp = db_get_dw((HANDLE)wParam, USERINFO, SET_CONTACT_ADDEDTIME, 0);
 		if (!dwStmp)
 		{
 			MTime mt;

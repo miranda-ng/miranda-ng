@@ -91,7 +91,7 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 								{
 									DWORD dwStamp;
 									
-									dwStamp = DB::Contact::WhenAdded(DB::Setting::GetDWord(hContact, pszProto, "UIN", 0), pszProto);
+									dwStamp = DB::Contact::WhenAdded(db_get_dw(hContact, pszProto, "UIN", 0), pszProto);
 									if (dwStamp > 0)
 									{
 										mt.FromStampAsUTC(dwStamp);
