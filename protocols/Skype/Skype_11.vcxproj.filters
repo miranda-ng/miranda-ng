@@ -183,15 +183,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\auth_grant.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\auth_request.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\auth_revoke.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
     <None Include="res\main.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
@@ -210,14 +201,20 @@
     <None Include="res\conf_spawn.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\send_contacts.ico">
+    <None Include="res\send_contacts.ico">
       <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\delete.ico" />
-    <Image Include="res\bookmark.ico" />
-    <Image Include="res\ignore.ico" />
-    <Image Include="res\block.ico" />
+    </None>
+    <None Include="res\block.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\bookmark.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\delete.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\ignore.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
   </ItemGroup>
 </Project>

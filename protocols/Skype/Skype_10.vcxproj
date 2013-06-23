@@ -77,13 +77,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SKYPE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\api;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\ipc;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\types;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\platform\threading;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\platform\threading\win;..\..\..\SkypeKit\SDK\ipc\cpp;..\..\..\SkypeKit\SDK\ipc\cpp\VideoBuffers;..\..\..\SkypeKit\SDK\ipc\cpp\platform\se;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\include;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\include\openssl;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\ctaocrypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <StringPooling>false</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)\</ObjectFileName>
       <PrecompiledHeaderFile>skype.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
@@ -107,12 +107,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;SKYPE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\api;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\ipc;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\types;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\platform\threading;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\platform\threading\win;..\..\..\SkypeKit\SDK\ipc\cpp;..\..\..\SkypeKit\SDK\ipc\cpp\VideoBuffers;..\..\..\SkypeKit\SDK\ipc\cpp\platform\se;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\include;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\include\openssl;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\ctaocrypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <StringPooling>false</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)\</ObjectFileName>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>skype.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -138,9 +139,10 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SKYPE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\api;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\ipc;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\types;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\platform\threading;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\platform\threading\win;..\..\..\SkypeKit\SDK\ipc\cpp;..\..\..\SkypeKit\SDK\ipc\cpp\VideoBuffers;..\..\..\SkypeKit\SDK\ipc\cpp\platform\se;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\include;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\include\openssl;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\ctaocrypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)\</ObjectFileName>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>skype.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -166,9 +168,10 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;SKYPE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\api;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\ipc;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\types;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\platform\threading;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\platform\threading\win;..\..\..\SkypeKit\SDK\ipc\cpp;..\..\..\SkypeKit\SDK\ipc\cpp\VideoBuffers;..\..\..\SkypeKit\SDK\ipc\cpp\platform\se;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\include;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\include\openssl;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\ctaocrypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)\</ObjectFileName>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>skype.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -208,10 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\aes\aes.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\skype.cpp" />
     <ClCompile Include="src\skypekit\account.cpp">
@@ -256,15 +256,12 @@
     <ClCompile Include="src\skype_profile.cpp" />
     <ClCompile Include="src\skype_proto.cpp" />
     <ClCompile Include="src\skype_runtime.cpp" />
-    <ClCompile Include="src\skype_skype.cpp" />
     <ClCompile Include="src\skype_services.cpp" />
+    <ClCompile Include="src\skype_skype.cpp" />
     <ClCompile Include="src\skype_transfers.cpp" />
     <ClCompile Include="src\skype_utils.cpp" />
     <ClCompile Include="src\stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -274,17 +271,14 @@
   <ItemGroup>
     <None Include="..\..\..\SkypeKit\keypair.bin" />
     <None Include="..\..\..\SkypeKit\SDK\bin\windows-x86\windows-x86-skypekit.exe" />
-    <None Include="res\auth_grant.ico" />
-    <None Include="res\auth_request.ico" />
-    <None Include="res\auth_revoke.ico" />
-    <None Include="res\block.ico" />
-    <None Include="res\bookmark.ico" />
     <None Include="res\call.ico" />
     <None Include="res\conf_invite.ico" />
     <None Include="res\conf_spawn.ico" />
+    <None Include="res\main.ico" />
+    <None Include="res\block.ico" />
+    <None Include="res\bookmark.ico" />
     <None Include="res\delete.ico" />
     <None Include="res\ignore.ico" />
-    <None Include="res\main.ico" />
     <None Include="res\send_contacts.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
