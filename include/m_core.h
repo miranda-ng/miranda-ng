@@ -110,11 +110,11 @@ MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv);
 MIR_CORE_DLL(INT_PTR) db_unset(HANDLE hContact, const char *szModule, const char *szSetting);
 
 #if defined(__cplusplus)
-MIR_CORE_DLL(HANDLE)  db_find_first(const char *szProto = NULL);
-MIR_CORE_DLL(HANDLE)  db_find_next(HANDLE hContact, const char *szProto = NULL);
+	MIR_CORE_DLL(HANDLE)  db_find_first(const char *szProto = NULL);
+	MIR_CORE_DLL(HANDLE)  db_find_next(HANDLE hContact, const char *szProto = NULL);
 #else
-MIR_CORE_DLL(HANDLE)  db_find_first(const char *szProto);
-MIR_CORE_DLL(HANDLE)  db_find_next(HANDLE hContact, const char *szProto);
+	MIR_CORE_DLL(HANDLE)  db_find_first(const char *szProto);
+	MIR_CORE_DLL(HANDLE)  db_find_next(HANDLE hContact, const char *szProto);
 #endif
 
 MIR_CORE_DLL(HANDLE)  db_event_add(HANDLE hContact, DBEVENTINFO *dbei);
@@ -138,9 +138,9 @@ MIR_CORE_DLL(char*)   db_get_sa(HANDLE hContact, const char *szModule, const cha
 MIR_CORE_DLL(WCHAR*)  db_get_wsa(HANDLE hContact, const char *szModule, const char *szSetting);
 
 #if defined(__cplusplus)
-MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType=DBVT_ASCIIZ);
+	MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType=DBVT_ASCIIZ);
 #else
-MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType);
+	MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType);
 #endif
 
 MIR_CORE_DLL(INT_PTR) db_set_b(HANDLE hContact, const char *szModule, const char *szSetting, BYTE val);
@@ -150,6 +150,12 @@ MIR_CORE_DLL(INT_PTR) db_set_s(HANDLE hContact, const char *szModule, const char
 MIR_CORE_DLL(INT_PTR) db_set_ws(HANDLE hContact, const char *szModule, const char *szSetting, const WCHAR *val);
 MIR_CORE_DLL(INT_PTR) db_set_utf(HANDLE hContact, const char *szModule, const char *szSetting, const char *val);
 MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const char *szSetting, void *val, unsigned len);
+
+#if defined(__cplusplus)
+	MIR_CORE_DLL(BOOL) db_set_resident(const char *szModule, const char *szService, BOOL bEnable=TRUE);
+#else
+	MIR_CORE_DLL(BOOL) db_set_resident(const char *szModule, const char *szService, BOOL bEnable);
+#endif
 
 #define db_get_ws(a,b,c,d)  db_get_s(a,b,c,d,DBVT_WCHAR)
 #define db_get_utf(a,b,c,d) db_get_s(a,b,c,d,DBVT_UTF8)
@@ -581,9 +587,9 @@ typedef unsigned (__stdcall *pThreadFuncEx)(void*);
 typedef unsigned (__cdecl *pThreadFuncOwner)(void *owner, void* param);
 
 #if defined( __cplusplus )
-MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner=NULL);
+	MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner=NULL);
 #else
-MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner);
+	MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner);
 #endif
 MIR_CORE_DLL(INT_PTR) Thread_Pop(void);
 MIR_CORE_DLL(void)    Thread_Wait(void);

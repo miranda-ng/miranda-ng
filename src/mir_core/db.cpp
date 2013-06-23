@@ -311,3 +311,14 @@ extern "C" MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db)
 {
 	currDb = _db;
 }
+
+MIR_CORE_DLL(BOOL) db_set_resident(const char *szModule, const char *szService, BOOL bEnable)
+{
+	if (currDb == NULL || szModule == NULL || szService == NULL)
+		return FALSE;
+
+	char str[MAXMODULELABELLENGTH * 2];
+	strncpy_s(str,szModule,strlen(szModule));
+	strncat_s(str,szService,strlen(szService));
+	return currDb->SetSettingResident(bEnable, str);
+}

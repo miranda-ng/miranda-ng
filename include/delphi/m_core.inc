@@ -126,6 +126,8 @@ function db_event_prev(hDbEvent:THANDLE):THANDLE; stdcall;
 
 function db_free(dbv:PDBVARIANT):int_ptr; stdcall;
                  external CoreDLL name 'db_free';
+function db_set_resident(const szModule:pAnsiChar; const szSetting:pAnsiChar; bEnable:int):int; stdcall;
+                 external CoreDLL name 'db_set_resident';
 function db_unset(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):int_ptr; stdcall;
                  external CoreDLL name 'db_unset';
 
