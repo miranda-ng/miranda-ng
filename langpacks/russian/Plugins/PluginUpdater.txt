@@ -16,8 +16,8 @@
 Обновлений нет.
 [View info]
 Посмотреть инфо
-[An error occured while downloading the update.]
-Во время загрузки обновления произошла ошибка.
+[An error occured while checking new updates.]
+Во время проверки обновления произошла ошибка.
 [URL for checking updates not found.]
 Ссылка для проверки обновлений не найдена.
 [Downloading version info...]
@@ -104,6 +104,8 @@ HTTP подключение Plugin Updater
 Стабильная версия
 [Development version (less stable)]
 Версия в разработке (менее стабильна)
+[Development version with debug symbols]
+Версия в разработке c отладочными символами
 [Custom version]
 Заданная пользователем версия
 [Show full plugin list]
