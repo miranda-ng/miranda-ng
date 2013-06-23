@@ -7,9 +7,6 @@
 typedef INT_PTR (*PSYNCCALLBACKPROC)(WPARAM,LPARAM);
 
 int SyncCall(void * vproc, int count, ... );
-int SyncCallProxy( PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lParam, CRITICAL_SECTION * cs = NULL );
-HRESULT SyncCallWinProcProxy( PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lParam, int& nReturn );
-HRESULT SyncCallAPCProxy( PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lParam, int& hReturn );
 
 LRESULT SyncOnWndProcCall(WPARAM wParam );
 
