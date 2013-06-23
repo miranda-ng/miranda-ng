@@ -1458,14 +1458,11 @@ INT_PTR __cdecl CJabberProto::OnSetXStatusEx(WPARAM wParam, LPARAM lParam)
 void CJabberProto::RegisterAdvStatusSlot(const char *pszSlot)
 {
 	char szSetting[256];
-	mir_snprintf(szSetting, SIZEOF(szSetting), "AdvStatus/%s/%s/id", m_szModuleName, pszSlot);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)szSetting);
-	mir_snprintf(szSetting, SIZEOF(szSetting), "AdvStatus/%s/%s/icon", m_szModuleName, pszSlot);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)szSetting);
-	mir_snprintf(szSetting, SIZEOF(szSetting), "AdvStatus/%s/%s/title", m_szModuleName, pszSlot);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)szSetting);
-	mir_snprintf(szSetting, SIZEOF(szSetting), "AdvStatus/%s/%s/text", m_szModuleName, pszSlot);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)szSetting);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "AdvStatus/%s/%s", m_szModuleName, pszSlot);
+	db_set_resident(szSetting, "id");
+	db_set_resident(szSetting, "icon");
+	db_set_resident(szSetting, "title");
+	db_set_resident(szSetting, "text");
 }
 
 void CJabberProto::ResetAdvStatus(HANDLE hContact, const char *pszSlot)

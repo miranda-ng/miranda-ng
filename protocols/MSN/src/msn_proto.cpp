@@ -43,24 +43,13 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	lsAvatarQueue(1),
 	msgCache(5, CompareId)
 {
-	char path[MAX_PATH];
-
 	ProtoConstructor(this, aProtoName, aUserName);
 
-	mir_snprintf(path, sizeof(path), "%s/Status", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
-
-	mir_snprintf(path, sizeof(path), "%s/IdleTS", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
-
-	mir_snprintf(path, sizeof(path), "%s/p2pMsgId", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
-
-	mir_snprintf(path, sizeof(path), "%s/MobileEnabled", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
-
-	mir_snprintf(path, sizeof(path), "%s/MobileAllowed", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
+	db_set_resident(m_szModuleName, "Status");
+	db_set_resident(m_szModuleName, "IdleTS");
+	db_set_resident(m_szModuleName, "p2pMsgId");
+	db_set_resident(m_szModuleName, "MobileEnabled");
+	db_set_resident(m_szModuleName, "MobileAllowed");
 
 	// Protocol services and events...
 	hMSNNudge = CreateProtoEvent("/Nudge");
@@ -101,6 +90,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	deleteSetting(NULL, "MobileEnabled");
 	deleteSetting(NULL, "MobileAllowed");
 
+	char path[MAX_PATH];
 	if (getStaticString(NULL, "LoginServer", path, sizeof(path)) == 0 &&
 		(strcmp(path, MSN_DEFAULT_LOGIN_SERVER) == 0 ||
 		strcmp(path, MSN_DEFAULT_GATEWAY) == 0))

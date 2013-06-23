@@ -106,20 +106,20 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 		SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, NULL, 0, NULL, 0, NULL, 0);
 
 	// unsaved values
-	DB_MraCreateResidentSetting("Status");// NOTE: XStatus cannot be temporary
-	DB_MraCreateResidentSetting("LogonTS");
-	DB_MraCreateResidentSetting("ContactID");
-	DB_MraCreateResidentSetting("GroupID");
-	DB_MraCreateResidentSetting("ContactFlags");
-	DB_MraCreateResidentSetting("ContactSeverFlags");
-	DB_MraCreateResidentSetting("HooksLocked");
-	DB_MraCreateResidentSetting(DBSETTING_CAPABILITIES);
-	DB_MraCreateResidentSetting(DBSETTING_XSTATUSNAME);
-	DB_MraCreateResidentSetting(DBSETTING_XSTATUSMSG);
-	DB_MraCreateResidentSetting(DBSETTING_BLOGSTATUSTIME);
-	DB_MraCreateResidentSetting(DBSETTING_BLOGSTATUSID);
-	DB_MraCreateResidentSetting(DBSETTING_BLOGSTATUS);
-	DB_MraCreateResidentSetting(DBSETTING_BLOGSTATUSMUSIC);
+	db_set_resident(m_szModuleName, "Status");// NOTE: XStatus cannot be temporary
+	db_set_resident(m_szModuleName, "LogonTS");
+	db_set_resident(m_szModuleName, "ContactID");
+	db_set_resident(m_szModuleName, "GroupID");
+	db_set_resident(m_szModuleName, "ContactFlags");
+	db_set_resident(m_szModuleName, "ContactSeverFlags");
+	db_set_resident(m_szModuleName, "HooksLocked");
+	db_set_resident(m_szModuleName, DBSETTING_CAPABILITIES);
+	db_set_resident(m_szModuleName, DBSETTING_XSTATUSNAME);
+	db_set_resident(m_szModuleName, DBSETTING_XSTATUSMSG);
+	db_set_resident(m_szModuleName, DBSETTING_BLOGSTATUSTIME);
+	db_set_resident(m_szModuleName, DBSETTING_BLOGSTATUSID);
+	db_set_resident(m_szModuleName, DBSETTING_BLOGSTATUS);
+	db_set_resident(m_szModuleName, DBSETTING_BLOGSTATUSMUSIC);
 
 	// destroy all chat sessions
 	if (bChatExists)

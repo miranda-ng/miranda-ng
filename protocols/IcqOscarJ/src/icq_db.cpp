@@ -29,16 +29,6 @@
 // -----------------------------------------------------------------------------
 #include "icqoscar.h"
 
-void CIcqProto::CreateResidentSetting(const char *szSetting)
-{
-	char pszSetting[2*MAX_PATH];
-
-	strcpy(pszSetting, m_szModuleName);
-	strcat(pszSetting, "/");
-	strcat(pszSetting, szSetting);
-	CallService(MS_DB_SETSETTINGRESIDENT, 1, (WPARAM)pszSetting);
-}
-
 int CIcqProto::getSetting(HANDLE hContact, const char *szSetting, DBVARIANT *dbv)
 {
 	return db_get_s(hContact, m_szModuleName, szSetting, dbv, 0);

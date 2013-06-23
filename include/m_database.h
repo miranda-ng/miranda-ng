@@ -819,13 +819,6 @@ don't change any of the members.
 */
 #define ME_DB_CONTACT_SETTINGCHANGED  "DB/Contact/SettingChanged"
 
-/* DB/Contact/SetSettingResident service (0.6+)
-Disables a setting saving to the database.
-  wParam = (WPARAM)(BOOL)bIsResident
-  lParam = (LPARAM)(char*)pszSettingName
-*/
-#define MS_DB_SETSETTINGRESIDENT "DB/SetSettingResident"
-
 /******************************************************************/
 /********************* SETTINGS HELPER FUNCTIONS ******************/
 /******************************************************************/

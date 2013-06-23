@@ -809,19 +809,6 @@ void	DeleteArray(HANDLE hContact, LPCSTR pszModule, LPCSTR pszFormat, int iStart
 	while (!DB::Setting::Delete(hContact, pszModule, pszSetting));
 }
 
-/**
- * This function can prevent a setting from being stored to database permanently.
- * @param	pszSetting		- the setting to read
- * @param	enabled			- if set to 'true' the setting will not be stored in database
- *
- * @retval	0 - success
- * @retval	1 - failure
- **/
-BYTE	Resident(LPCSTR pszSetting, const bool enabled)
-{
-	return CallService(MS_DB_SETSETTINGRESIDENT, (WPARAM) enabled, (LPARAM) pszSetting) != 0;
-}
-
 } /* namespace Setting */
 
 namespace Variant {

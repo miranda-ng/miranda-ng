@@ -202,13 +202,6 @@ void MraAddrListFree(MRA_ADDR_LIST *pmalAddrList)
 	}
 }
 
-void CMraProto::DB_MraCreateResidentSetting(LPSTR lpszValueName)
-{
-	char szSetting[2*MAX_PATH];
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s", m_szModuleName, lpszValueName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (WPARAM)szSetting);
-}
-
 BOOL DB_GetStaticStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
 {
 	BOOL bRet = FALSE;

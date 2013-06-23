@@ -171,7 +171,6 @@ namespace Setting {
 	BYTE	Exists        (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
 	BYTE	Delete        (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
 	void	DeleteArray   (HANDLE hContact, LPCSTR pszModule, LPCSTR pszFormat, int iStart);
-	BYTE	Resident      (LPCSTR pszSetting, const bool enabled);
 
 } /* namespace Setting */
 

@@ -255,8 +255,6 @@ struct CMraProto : public PROTO_INTERFACE
 
 	void   MraAddrListStoreToContact(HANDLE hContact, MRA_ADDR_LIST *pmalAddrList);
 
-	void   DB_MraCreateResidentSetting(LPSTR lpszValueName);
-
 	DWORD  GetContactFlags(HANDLE hContact);
 	DWORD  SetContactFlags(HANDLE hContact, DWORD dwContactFlag);
 	DWORD  GetContactBasicInfoW(HANDLE hContact, DWORD *pdwID, DWORD *pdwGroupID, DWORD *pdwContactFlag, DWORD *pdwContactSeverFlags, DWORD *pdwStatus, LPSTR lpszEMail, size_t dwEMailSize, size_t *pdwEMailSize, LPWSTR lpwszNick, size_t dwNickSize, size_t *pdwNickSize, LPSTR lpszPhones, size_t dwPhonesSize, size_t *pdwPhonesSize);

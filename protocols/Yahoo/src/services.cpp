@@ -536,27 +536,13 @@ void CYahooProto::LoadYahooServices( void )
 
 	//----| Set resident variables |------------------------------------------------------
 	
-	mir_snprintf(path, SIZEOF(path), "%s/Status", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
+	db_set_resident(m_szModuleName, "Mobile");
+	db_set_resident(m_szModuleName, "IdleTS");
+	db_set_resident(m_szModuleName, "PictLastCheck");
+	db_set_resident(m_szModuleName, "PictLoading");
+	db_set_resident(m_szModuleName, "Status");
 
-	mir_snprintf(path, SIZEOF(path), "%s/YStatus", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
-
-	mir_snprintf(path, SIZEOF(path), "%s/YAway", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
-
-	mir_snprintf(path, SIZEOF(path), "%s/Mobile", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
-	
-	mir_snprintf(path, SIZEOF(path), "%s/YGMsg", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
-	
-	mir_snprintf(path, SIZEOF(path), "%s/IdleTS", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
-	
-	mir_snprintf(path, SIZEOF(path), "%s/PictLastCheck", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
-
-	mir_snprintf(path, SIZEOF(path), "%s/PictLoading", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
+	db_set_resident(m_szModuleName, "YAway");
+	db_set_resident(m_szModuleName, "YGMsg");
+	db_set_resident(m_szModuleName, "YStatus");
 }

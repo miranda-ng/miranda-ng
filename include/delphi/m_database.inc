@@ -669,11 +669,4 @@ const
   }
   ME_DB_CONTACT_SETTINGCHANGED:PAnsiChar = 'DB/Contact/SettingChanged';
 
-  { DB/Contact/SetSettingResident service (0.6+)
-    Disables a setting saving to the database.
-    wParam=(WPARAM)(BOOL)bIsResident
-    lParam=(LPARAM)(AnsiChar*)pszSettingName
-  }
-  MS_DB_SETSETTINGRESIDENT:PAnsiChar = 'DB/SetSettingResident';
-
 {$ENDIF}

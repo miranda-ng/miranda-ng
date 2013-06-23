@@ -26,9 +26,7 @@ Boston, MA 02111-1307, USA.
 ExtraIconGroup::ExtraIconGroup(const char *_name) :
 	ExtraIcon(_name), setValidExtraIcon(false), insideApply(false)
 {
-	char setting[512];
-	mir_snprintf(setting, SIZEOF(setting), "%s/%s", MODULE_NAME, _name);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (WPARAM) setting);
+	db_set_resident(MODULE_NAME, _name);
 }
 
 ExtraIconGroup::~ExtraIconGroup()

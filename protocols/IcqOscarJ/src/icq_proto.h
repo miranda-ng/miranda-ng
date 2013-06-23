@@ -430,7 +430,6 @@ struct CIcqProto : public PROTO_INTERFACE
 
 	//----| icq_db.cpp |------------------------------------------------------------------
 	HANDLE AddEvent(HANDLE hContact, WORD wType, DWORD dwTime, DWORD flags, DWORD cbBlob, PBYTE pBlob);
-	void   CreateResidentSetting(const char* szSetting);
 	HANDLE FindFirstContact();
 	HANDLE FindNextContact(HANDLE hContact);
 	int    IsICQContact(HANDLE hContact);

@@ -111,16 +111,16 @@ CIcqProto::CIcqProto( const char* aProtoName, const TCHAR* aUserName ) :
 	m_avatarsMutex = new icq_critical_section();
 
 	// Initialize temporary DB settings
-	CreateResidentSetting("Status"); // NOTE: XStatus cannot be temporary
-	CreateResidentSetting("TemporaryVisible");
-	CreateResidentSetting("TickTS");
-	CreateResidentSetting("IdleTS");
-	CreateResidentSetting("AwayTS");
-	CreateResidentSetting("LogonTS");
-	CreateResidentSetting("DCStatus");
-	CreateResidentSetting("CapBuf"); //capabilities bufer
-	CreateResidentSetting(DBSETTING_STATUS_NOTE_TIME);
-	CreateResidentSetting(DBSETTING_STATUS_MOOD);
+	db_set_resident(m_szModuleName, "Status"); // NOTE: XStatus cannot be temporary
+	db_set_resident(m_szModuleName, "TemporaryVisible");
+	db_set_resident(m_szModuleName, "TickTS");
+	db_set_resident(m_szModuleName, "IdleTS");
+	db_set_resident(m_szModuleName, "AwayTS");
+	db_set_resident(m_szModuleName, "LogonTS");
+	db_set_resident(m_szModuleName, "DCStatus");
+	db_set_resident(m_szModuleName, "CapBuf"); //capabilities bufer
+	db_set_resident(m_szModuleName, DBSETTING_STATUS_NOTE_TIME);
+	db_set_resident(m_szModuleName, DBSETTING_STATUS_MOOD);
 
 	// Setup services
 	CreateProtoService(PS_CREATEACCMGRUI, &CIcqProto::OnCreateAccMgrUI );

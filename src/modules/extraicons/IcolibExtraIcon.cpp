@@ -30,9 +30,7 @@ IcolibExtraIcon::IcolibExtraIcon(int _id, const char *_name, const TCHAR *_descr
 		MIRANDAHOOKPARAM _OnClick, LPARAM _param) :
 	BaseExtraIcon(_id, _name, _description, _descIcon, _OnClick, _param)
 {
-	char setting[512];
-	mir_snprintf(setting, SIZEOF(setting), "%s/%s", MODULE_NAME, _name);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (WPARAM) setting);
+	db_set_resident(MODULE_NAME, _name);
 }
 
 IcolibExtraIcon::~IcolibExtraIcon()

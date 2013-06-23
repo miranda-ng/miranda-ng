@@ -318,7 +318,6 @@ MIR_CORE_DLL(BOOL) db_set_resident(const char *szModule, const char *szService, 
 		return FALSE;
 
 	char str[MAXMODULELABELLENGTH * 2];
-	strncpy_s(str,szModule,strlen(szModule));
-	strncat_s(str,szService,strlen(szService));
+	mir_snprintf(str, SIZEOF(str), "%s/%s", szModule, szService);
 	return currDb->SetSettingResident(bEnable, str);
 }

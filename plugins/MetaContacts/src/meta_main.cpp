@@ -144,11 +144,11 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
 
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/Status"));
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/IdleTS"));
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/ContactCountCheck"));
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/Handle"));
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/WindowOpen"));
+	db_set_resident(META_PROTO, "Status");
+	db_set_resident(META_PROTO, "IdleTS");
+	db_set_resident(META_PROTO, "ContactCountCheck");
+	db_set_resident(META_PROTO, "Handle");
+	db_set_resident(META_PROTO, "WindowOpen");
 
 	//set all contacts to 'offline', and initialize subcontact counter for db consistency check
 	for (HANDLE hContact = db_find_first(META_PROTO); hContact; hContact = db_find_next(hContact, META_PROTO)) {

@@ -171,20 +171,13 @@ CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
 
 	*m_savedPassword = 0;
 
-	char text[ MAX_PATH ];
-	mir_snprintf(text, sizeof(text), "%s/Status", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)text);
-	mir_snprintf(text, sizeof(text), "%s/%s", m_szModuleName, DBSETTING_DISPLAY_UID);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)text);
-
-	mir_snprintf(text, sizeof(text), "%s/SubscriptionText", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)text);
-	mir_snprintf(text, sizeof(text), "%s/Subscription", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)text);
-	mir_snprintf(text, sizeof(text), "%s/Auth", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)text);
-	mir_snprintf(text, sizeof(text), "%s/Grant", m_szModuleName);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)text);
+	db_set_resident(m_szModuleName, "Status");
+	db_set_resident(m_szModuleName, DBSETTING_DISPLAY_UID);
+	
+	db_set_resident(m_szModuleName, "SubscriptionText");
+	db_set_resident(m_szModuleName, "Subscription");
+	db_set_resident(m_szModuleName, "Auth");
+	db_set_resident(m_szModuleName, "Grant");
 
 	DBVARIANT dbv;
 	if ( !JGetStringT(NULL, "XmlLang", &dbv)) {

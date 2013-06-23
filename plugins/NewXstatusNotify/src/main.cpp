@@ -1179,8 +1179,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitIcolib();
 	InitSound();
 
-	CallService(MS_DB_SETSETTINGRESIDENT, (WPARAM)TRUE, (LPARAM)"MetaContacts/LastOnline");
-	CallService(MS_DB_SETSETTINGRESIDENT, (WPARAM)TRUE, (LPARAM)"NewStatusNotify/LastPopupText");
+	db_set_resident("MetaContacts", "LastOnline");
+	db_set_resident("NewStatusNotify", "LastPopupText");
 	return 0;
 }
 

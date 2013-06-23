@@ -77,7 +77,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	icce.dwICC = ICC_LISTVIEW_CLASSES|ICC_PROGRESS_CLASS;
 	InitCommonControlsEx(&icce);
 
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(MODULENAME "/TrustLevel"));
+	db_set_resident(MODULENAME, "TrustLevel");
 
 	/////////////
 	////// init plugin
