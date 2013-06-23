@@ -1,7 +1,3 @@
-void WriteSettingInt(HANDLE hContact,char *ModuleName,
-					 char *SettingName,int Value);
-int ReadSettingInt(HANDLE hContact,char *ModuleName,
-				   char *SettingName,int Default);
 void ReadSettingBlob(HANDLE hContact, char *ModuleName,
 					 char *SettingName, WORD *pSize, void **pbBlob);
 void WriteSettingBlob(HANDLE hContact,char *ModuleName,
@@ -11,8 +7,6 @@ BOOL ReadSettingBool(HANDLE hContact,char *ModuleName,
 					 char *SettingName,BOOL Default);
 void WriteSettingBool(HANDLE hContact,char *ModuleName,
 					  char *SettingName,BOOL Value);
-void DeleteSetting(HANDLE hContact,char *ModuleName,
-				   char *SettingName);
 void WriteSettingIntArray(HANDLE hContact,char *ModuleName,
 					 char *SettingName,const int *Value, int Size);
 bool ReadSettingIntArray(HANDLE hContact,char *ModuleName,

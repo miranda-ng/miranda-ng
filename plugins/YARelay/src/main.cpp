@@ -220,7 +220,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 
 	// mark message as 'read'
 	if (iMarkRead > 0)
-		CallService(MS_DB_EVENT_MARKREAD, wParam, lParam);
+		db_event_markRead(hContact, hDBEvent);
 	return 0;
 }
 

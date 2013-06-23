@@ -849,7 +849,7 @@ static unsigned __stdcall checkthread(void *dummy)
 		cur=conn;
 		while(cur!=NULL)
 		{	
-			if (searchConnection(first,cur->strIntIp,cur->strExtIp,cur->intIntPort,cur->intExtPort,cur->state)==NULL && settingStatusMask&1<<cur->state-1)
+			if (searchConnection(first,cur->strIntIp,cur->strExtIp,cur->intIntPort,cur->intExtPort,cur->state)==NULL && (settingStatusMask & (1 << (cur->state-1))))
 			{
 				
 
@@ -1044,16 +1044,11 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.type=PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
 	//set all contacts to offline
-	{	
-		HANDLE hContact;
-		hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
-		while(hContact!=NULL) {
-			if(!lstrcmpA(PLUGINNAME,(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0))) {
-				db_set_w(hContact,PLUGINNAME,"status",ID_STATUS_OFFLINE);
-			}
-			hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
-		}
-	}
+
+	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+		if(!lstrcmpA(PLUGINNAME,(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0)))
+			db_set_w(hContact,PLUGINNAME,"status",ID_STATUS_OFFLINE);
+
 	mir_snprintf(service,sizeof(service), "%s%s", PLUGINNAME, PS_GETCAPS);
 	CreateServiceFunction(service, (MIRANDASERVICE)GetCaps);
 	mir_snprintf(service,sizeof(service), "%s%s", PLUGINNAME, PS_GETNAME);

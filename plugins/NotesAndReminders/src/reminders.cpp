@@ -373,11 +373,11 @@ void PurgeReminders(void)
 	int ReminderCount,I;
 	char ValueName[32];
 
-	ReminderCount = ReadSettingInt(0,MODULENAME,"RemindersData",0);
+	ReminderCount = db_get_dw(0,MODULENAME,"RemindersData",0);
 	for(I = 0;I < ReminderCount;I++)
 	{
 		sprintf(ValueName, "RemindersData%d", I);
-		DeleteSetting(0,MODULENAME,ValueName);
+		db_unset(0, MODULENAME, ValueName);
 	}
 }
 
@@ -390,11 +390,11 @@ void JustSaveReminders(void)
 	int ReminderCount;
 	REMINDERDATA *pReminder;
 
-	const int OldReminderCount = ReadSettingInt(0, MODULENAME, "RemindersData", 0);
+	const int OldReminderCount = db_get_dw(0, MODULENAME, "RemindersData", 0);
 
 	ReminderCount = TreeGetCount(RemindersList);
 
-	WriteSettingInt(0,MODULENAME, "RemindersData", ReminderCount);
+	db_set_dw(0,MODULENAME, "RemindersData", ReminderCount);
 
 	for (TTE = RemindersList, I = 0; TTE; TTE = (TREEELEMENT*)TTE->next, I++)
 	{
@@ -472,7 +472,7 @@ void LoadReminders(void)
 	BOOL GenerateUids = FALSE;
 
 	RemindersList = NULL;
-	RemindersCount = ReadSettingInt(0, MODULENAME, "RemindersData", 0);
+	RemindersCount = db_get_dw(0, MODULENAME, "RemindersData", 0);
 
 	for (I = 0; I < RemindersCount; I++)
 	{
@@ -764,7 +764,7 @@ void SaveReminders(void)
 void DeleteReminders(void)
 {
 	PurgeReminders();
-	WriteSettingInt(0,MODULENAME,"RemindersData",0);
+	db_set_dw(0,MODULENAME,"RemindersData",0);
 	PurgeReminderTree();
 }
 

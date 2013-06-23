@@ -444,17 +444,17 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 			else
 				db_unset(0,MODULENAME,"AltBrowser");
 
-			WriteSettingInt(0,MODULENAME,"ShowNotesAtStart",g_ShowNotesAtStart);
-			WriteSettingInt(0,MODULENAME,"ShowNoteButtons",g_ShowNoteButtons);
-			WriteSettingInt(0,MODULENAME,"ShowScrollbar",g_ShowScrollbar);
-			WriteSettingInt(0,MODULENAME,"AddContactMenuItems",g_AddContListMI);
-			WriteSettingInt(0,MODULENAME,"NoteWidth",g_NoteWidth);
-			WriteSettingInt(0,MODULENAME,"NoteHeight",g_NoteHeight);
-			WriteSettingInt(0,MODULENAME,"Transparency",g_Transparency);
-			WriteSettingInt(0,MODULENAME,"NoteTitleDate",g_NoteTitleDate);
-			WriteSettingInt(0,MODULENAME,"NoteTitleTime",g_NoteTitleTime);
-			WriteSettingInt(0,MODULENAME,"CloseAfterAddReminder",g_CloseAfterAddReminder);
-			WriteSettingInt(0,MODULENAME,"UseMCI",!g_UseDefaultPlaySound);
+			db_set_dw(0,MODULENAME,"ShowNotesAtStart",g_ShowNotesAtStart);
+			db_set_dw(0,MODULENAME,"ShowNoteButtons",g_ShowNoteButtons);
+			db_set_dw(0,MODULENAME,"ShowScrollbar",g_ShowScrollbar);
+			db_set_dw(0,MODULENAME,"AddContactMenuItems",g_AddContListMI);
+			db_set_dw(0,MODULENAME,"NoteWidth",g_NoteWidth);
+			db_set_dw(0,MODULENAME,"NoteHeight",g_NoteHeight);
+			db_set_dw(0,MODULENAME,"Transparency",g_Transparency);
+			db_set_dw(0,MODULENAME,"NoteTitleDate",g_NoteTitleDate);
+			db_set_dw(0,MODULENAME,"NoteTitleTime",g_NoteTitleTime);
+			db_set_dw(0,MODULENAME,"CloseAfterAddReminder",g_CloseAfterAddReminder);
+			db_set_dw(0,MODULENAME,"UseMCI",!g_UseDefaultPlaySound);
 			SaveNotes();
 			LoadNotes(FALSE);
 			return TRUE;
@@ -576,17 +576,17 @@ void InitSettings(void)
 
 	g_lpszAltBrowser = db_get_sa(0,MODULENAME,"AltBrowser");
 
-	g_ShowNotesAtStart = (BOOL)ReadSettingInt(0,MODULENAME,"ShowNotesAtStart",1);
-	g_ShowNoteButtons = (BOOL)ReadSettingInt(0,MODULENAME,"ShowNoteButtons",1);
-	g_ShowScrollbar = (BOOL)ReadSettingInt(0,MODULENAME,"ShowScrollbar",1);
-	g_AddContListMI = (BOOL)ReadSettingInt(0,MODULENAME,"AddContactMenuItems",1);
-	g_NoteWidth = ReadSettingInt(0,MODULENAME,"NoteWidth",179);
-	g_NoteHeight = ReadSettingInt(0,MODULENAME,"NoteHeight",50);
-	g_Transparency = ReadSettingInt(0,MODULENAME,"Transparency",255);
-	g_NoteTitleDate = ReadSettingInt(0,MODULENAME,"NoteTitleDate",1);
-	g_NoteTitleTime = ReadSettingInt(0,MODULENAME,"NoteTitleTime",1);
-	g_CloseAfterAddReminder = (BOOL)ReadSettingInt(0,MODULENAME,"CloseAfterAddReminder",1);
-	g_UseDefaultPlaySound = !(BOOL)ReadSettingInt(0,MODULENAME,"UseMCI",1);
+	g_ShowNotesAtStart = (BOOL)db_get_dw(0,MODULENAME,"ShowNotesAtStart",1);
+	g_ShowNoteButtons = (BOOL)db_get_dw(0,MODULENAME,"ShowNoteButtons",1);
+	g_ShowScrollbar = (BOOL)db_get_dw(0,MODULENAME,"ShowScrollbar",1);
+	g_AddContListMI = (BOOL)db_get_dw(0,MODULENAME,"AddContactMenuItems",1);
+	g_NoteWidth = db_get_dw(0,MODULENAME,"NoteWidth",179);
+	g_NoteHeight = db_get_dw(0,MODULENAME,"NoteHeight",50);
+	g_Transparency = db_get_dw(0,MODULENAME,"Transparency",255);
+	g_NoteTitleDate = db_get_dw(0,MODULENAME,"NoteTitleDate",1);
+	g_NoteTitleTime = db_get_dw(0,MODULENAME,"NoteTitleTime",1);
+	g_CloseAfterAddReminder = (BOOL)db_get_dw(0,MODULENAME,"CloseAfterAddReminder",1);
+	g_UseDefaultPlaySound = !(BOOL)db_get_dw(0,MODULENAME,"UseMCI",1);
 
 	ReadSettingIntArray(0,MODULENAME,"ReminderListGeom",g_reminderListGeom,SIZEOF(g_reminderListGeom));
 	ReadSettingIntArray(0,MODULENAME,"ReminderListColGeom",g_reminderListColGeom,SIZEOF(g_reminderListColGeom));

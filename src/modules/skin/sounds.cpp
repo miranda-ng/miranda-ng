@@ -360,13 +360,10 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						while (tvic.hItem != NULL) {
 							tvic.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_STATE;
 							TreeView_GetItem(hwndTree, &tvic);
-							if (((tvic.state & TVIS_STATEIMAGEMASK) >> 12 == 2)) {
-								DBCONTACTGETSETTING cgs;
-								cgs.szModule = "SkinSoundsOff";
-								cgs.szSetting = arSounds[tvic.lParam].name;
-								CallService(MS_DB_CONTACT_DELETESETTING, (WPARAM)(HANDLE)NULL, (LPARAM)&cgs);
-							}
-							else db_set_b(NULL, "SkinSoundsOff", arSounds[tvic.lParam].name, 1);
+							if (((tvic.state & TVIS_STATEIMAGEMASK) >> 12 == 2))
+								db_unset(NULL, "SkinSoundsOff", arSounds[tvic.lParam].name);
+							else
+								db_set_b(NULL, "SkinSoundsOff", arSounds[tvic.lParam].name, 1);
 							tvic.hItem = TreeView_GetNextSibling(hwndTree, tvic.hItem);
 					}	}
 

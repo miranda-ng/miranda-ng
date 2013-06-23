@@ -375,7 +375,7 @@ void LoadNotes(BOOL bIsStartup)
 
 	g_Stickies = NULL;
 
-	NotesCount = ReadSettingInt(0,MODULENAME,"NotesData",0);
+	NotesCount = db_get_dw(0,MODULENAME,"NotesData",0);
 
 	for (I = 0; I < NotesCount; I++)
 	{
@@ -691,7 +691,7 @@ void PurgeNotes(void)
 	int NotesCount, I;
 	char ValueName[16];
 
-	NotesCount = ReadSettingInt(0,MODULENAME,"NotesData",0);
+	NotesCount = db_get_dw(0,MODULENAME,"NotesData",0);
 	for(I = 0; I < NotesCount; I++)
 	{
 		sprintf(ValueName, "NotesData%d", I);
@@ -721,7 +721,7 @@ void OnDeleteNote(HWND hdlg, STICKYNOTE *SN)
 void DeleteNotes(void)
 {
 	PurgeNotes();
-	WriteSettingInt(0, MODULENAME, "NotesData", 0);
+	db_set_dw(0, MODULENAME, "NotesData", 0);
 	PurgeNotesTree();
 	NOTIFY_LIST();
 }
@@ -824,9 +824,9 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 	int scrollV;
 	char *tData, *Value;
 
-	const int OldNotesCount = ReadSettingInt(0, MODULENAME, "NotesData", 0);
+	const int OldNotesCount = db_get_dw(0, MODULENAME, "NotesData", 0);
 
-	WriteSettingInt(0, MODULENAME, "NotesData", NotesCount);
+	db_set_dw(0, MODULENAME, "NotesData", NotesCount);
 
 	for (TTE = g_Stickies, I = 0; TTE; TTE = (TREEELEMENT*)TTE->next, I++)
 	{

@@ -274,10 +274,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 				while (setting_items) {
 					SettingsList *next = setting_items->next;
 
-					DBCONTACTGETSETTING dbcgs;
-					dbcgs.szModule = szSection;
-					dbcgs.szSetting = setting_items->name;
-					CallService(MS_DB_CONTACT_DELETESETTING, 0, (LPARAM)&dbcgs);
+					db_unset(NULL, szSection, setting_items->name);
 
 					mir_free(setting_items->name);
 					mir_free(setting_items);
