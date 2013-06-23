@@ -3,12 +3,9 @@
 
 #include "hdr/modern_commonheaders.h"
 
-
 typedef INT_PTR (*PSYNCCALLBACKPROC)(WPARAM,LPARAM);
 
 int SyncCall(void * vproc, int count, ... );
-
-LRESULT SyncOnWndProcCall(WPARAM wParam );
 
 // Experimental sync caller
 

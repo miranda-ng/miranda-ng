@@ -41,20 +41,6 @@ struct SYNCCALLITEM
 	PSYNCCALLBACKPROC pfnProc;    
 };
 
-static HRESULT SyncCallWinProcProxy( PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lParam, int& nReturn )
-{
-	nReturn = 0;
-	if (pcli->hwndContactList == NULL )
-		return E_FAIL;
-	
-	SYNCCALLITEM item = {0};
-	item.wParam = wParam;
-	item.lParam = lParam;
-	item.pfnProc = pfnProc;
-	nReturn = SendMessage(pcli->hwndContactList, UM_SYNCCALL, (WPARAM)&item,0);
-	return S_OK;
-}
-
 static void CALLBACK _SyncCallerUserAPCProc(void* param)
 {
 	SYNCCALLITEM* item = (SYNCCALLITEM*)param;
@@ -85,14 +71,6 @@ static int SyncCallAPCProxy(PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lPa
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-LRESULT SyncOnWndProcCall(WPARAM wParam )
-{
-	SYNCCALLITEM *psci = (SYNCCALLITEM *)wParam;
-	if (psci)
-		return psci->pfnProc( psci->wParam, psci->lParam);
-	return 0;
-}
 
 int DoCall( PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lParam)
 {

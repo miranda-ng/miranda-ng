@@ -1959,11 +1959,6 @@ LRESULT CLUI::OnDwmCompositionChanged(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*
 	return FALSE;
 }
 
-LRESULT CLUI::OnSyncCall(UINT /*msg*/, WPARAM wParam, LPARAM /*lParam*/ )
-{
-	return SyncOnWndProcCall( wParam );
-}
-
 LRESULT CLUI::OnUpdate(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
 {
 	if ( g_flag_bPostWasCanceled )

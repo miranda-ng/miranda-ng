@@ -134,7 +134,6 @@ extern char *g_szMetaModuleName;
 #define UM_CREATECLC                (WM_USER+1)
 #define UM_SETALLEXTRAICONS         (WM_USER+2)
 #define UM_UPDATE                   (WM_USER+50)
-#define UM_SYNCCALL                 (WM_USER+654)
 
 // Define constants for CLUI_SizingOnBorder SC_SIZE
 
