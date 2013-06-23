@@ -10,6 +10,8 @@
 Обновление плагинов
 [Check for plugin updates]
 Проверить обновления плагинов
+[Checking new updates...]
+Проверка обновлений...
 [Downloading plugin updates...]
 Загрузка обновлённых плагинов...
 [No updates found.]
