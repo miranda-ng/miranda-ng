@@ -1,24 +1,122 @@
 ﻿;file \src\resource.rc
+[OK]
+OK
+[Cancel]
+Annuleren
 [Add %s]
 Voor %s toe
+[&Add]
+Toevoegen
+[&Cancel]
+Annuleren
+[Send authorization request]
+Autorisatie verzoek versturen
+[Custom name:]
+Eigen naam:
+[Group:]
+Groep:
+[Options]
+Opties
+[Authorization Request]
+Autorisatie verzoek
+[Delete Contact]
+Contact verwijderen
+[&Yes]
+Ja
+[&No]
+&Nee
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Verberg alleen van lijst, zodat de geschiedenis en negeer/zichtbaarheid instellingen bewaard blijven
+[Use Options->Ignore (expert mode) to unhide contacts.]
+Gebruik Opties->Negeren (expert modus) om verborgen personen te tonen
+[Are you sure you want to delete %s?]
+Weet u zeker dat u %s wilt verwijderen?
+[This will erase all history and settings for this contact!]
+Dit zal alle geschiedenis en instellingen verwijderen voor deze persoon!
 [Contact Display Options]
 Persoon weegave opties
 [Miranda NG Profile Manager]
 Miranda NG Profiel Beheerder
 [&Run]
 Uitvoe&ren
+[&Exit]
+Afsluiten
 [Find/Add Contacts]
 Personen zoeken/toevoegen
+[Search:]
+Zoeken:
+[E-mail address]
+E-mail adres
+[Name]
+Naam
+[Nick:]
+Bijnaam:
 [First:]
 Eerste:
 [Last:]
 Laatste:
+[Advanced]
+Geavanceerd
+[Advanced >>]
+Gevanceerd >>
+[&Search]
+Zoeken
+[More options]
+Meer opties
 [Add to list]
 Aan lijst toevoegen
+[Custom]
+Aangepast
+[Apply]
+Toepassen
 [Please select a subentry from the list]
 Selecteer aub een subitem uit de lijst
+[Install Database Settings]
+Database instellingen installeren
+[Yes]
+Ja
+[No]
+Ne
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Een bestand met nieuwe database instellingen is geplaatst in de Mirande IM directory.
+[Do you want to import the settings now?]
+Wilt u nu de instellingen importeren?
+[No to all]
+Nee voor alles
+[&View contents]
+Inhoud bekijken
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Ter voorkoming van kwaadaardige wijzigen zijn beveilingssystemen aangebracht en u zal worden gewaarschuwd voordat wijzigingen worden gedaan die niet veilig worden geacht.
+[Database Setting Change]
+Database instellingen wijzigen
+[Database settings are being imported from]
+Database instellingen worden geimporteerd van
+[This file wishes to change the setting]
+Dit bestand wenst een wijziging op de instelling
+[to the value]
+naar de waarde
+[Do you want to allow this change?]
+Wilt u deze wijziging door laten gaan?
+[&Allow all further changes to this section]
+&alle verdere wijzigingen aan deze sectie toestaan
+[Cancel Import]
+Import annuleren
+[Database Import Complete]
+Database import voltooid
+[The import has completed from]
+De import is voltooid van
+[What do you want to do with the file now?]
+Wat wilt u nu met het bestand doen?
+[&Delete]
+Verwij&deren
+[&Move/Rename]
+Verplaatsen/Hernoe&men
+[&Leave]
+&Laten staan
 [Netlib Log Options]
 Netlib log opties
+[Show]
+Weergeven
 [Received bytes]
 Bytes ontvangen 
 [Sent bytes]
@@ -33,12 +131,16 @@ Automatische tekst-detectie
 Namen van de aanroepende modules
 [Log to]
 Log naar
+[File]
+Bestand
 [Run now]
 Nu uitvoeren
 [Show this dialog box when Miranda NG starts]
 Deze dialoog weergeven wanneer Miranda NG start
 [Save as default]
 Als standaard opslaan
+[Sounds]
+Geluiden
 [&Change...]
 Wijzigen...
 [Download more sounds]
@@ -47,6 +149,10 @@ Meer geluiden downloaden
 Geluid informatie
 [Location:]
 Lokatie:
+[Name:]
+Naam:
+[Icons]
+Iconen
 [Show category:]
 Toon categorie:
 [&Load icon set...]
@@ -55,8 +161,18 @@ Icoon set &laden...
 Iconen &importeren >>
 [Download more icons]
 Meer iconen downloaden
+[The following events are being ignored:]
+De volgende gebeurtenissen worden genegeerd:
+[Messages]
+Berichten
+[Files]
+Bestanden
 [Only the ticked contacts will be shown on the main contact list]
 Alleen de gemarkeerde personen zullen worden getoond op de hoofd lijst
+[Ignore]
+Negeer
+[Visibility]
+Zichtbaarheid
 [You are visible to this person even when in invisible mode]
 U bent zichtbaar voor deze persoon zelfs wanneer in onzichtbare modus
 [You are never visible to this person]
@@ -69,40 +185,132 @@ Icoon bibliotheek
 Versleep iconen naar de hooft lijst voor toewijzing:
 [Import multiple]
 Meerdere importeren
+[To]
+Aan
 [<< &Import]
 << &Importeren
 [Use proxy server]
 Proxy server gebruiken
+[Type:]
+Type:
+[Port:]
+Poort:
 [(often %d)]
 (vaak %d)
+[Username:]
+Gebruikersnaam:
+[Password:]
+Wachtwoord:
 [Resolve hostnames through proxy]
 Hostnamen oplossen door proxy
 [Example: 1050-1070, 2000-2010, 2500]
 Voorbeeld: 1050-1070, 2000-2010, 2500
+[You will need to reconnect for the changes you have made on this page to take effect.]
+U moet opnieuw verbinden om de wijzigingen die u gemaakt heeft op deze pagina in te laten gaan.
 [Please complete the following form to create a new user profile]
 Vul aub het volgende scherm in om een nieuw gebruikersprofiel te maken
+[Profile]
+Profiel
 [e.g. Workplace]
 bijv. Werkplek
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 U kan een andere profiel driver selecteren dan de standaard, het kan meer features en mogelijkheden bieden, bij twijfel gebruik de standaard.
 [e.g. Miranda Database]
 bijv. Miranda Database
+[Description:]
+Omschr.:
+[Author(s):]
+Maker(s):
+[Please restart Miranda NG for your changes to take effect.]
+Herstart Miranda NG op de wijzigingen actief te maken.
+[Undo]
+Ongedaan maken
+[Reset]
+Terugzetten
+[Export...]
+Exporteren...
+[Effects]
+Effecten
 [Sample]
 Voorbeeld
+[Default]
+Standaard
+[Set]
+Instellen
+[Add]
+Toevoegen
+[Hotkeys]
+Sneltoetsen
+[&Edit]
+B&ewerken
+[opacity:]
+ondoorlatendheid:
+[&Hide/Show]
+Verbergen/Weergeven
+[E&xit]
+Afsluiten
+[&New Group]
+&Nieuwe Groep
+[&Hide Offline Users]
+Offline gebruikers verbergen
+[Hide &Offline Users out here]
+&Offline gebruikers hierbuiten verbergen
+[Hide &Empty Groups]
+L&ege groepen verbergen
+[Disable &Groups]
+&Groepen uitschakelen
+[Hide Miranda]
+Miranda verbergen
+[Group]
+Groep
+[&New Subgroup]
+&Nieuw Subgroep
+[&Hide Offline Users in here]
+&Offline gebruikers hierbinnen verbergen
+[&Rename Group]
+G&roep hernoemen
+[&Delete Group]
+Groep verwij&deren
 [&Reset to default]
 Naar standaard te&rugzetten
 [&Add to List]
 &Aan lijst toevoegen
+[User &Details]
+Gebruikers &details
 [Send &Message]
 Bericht versturen
-[Send &Message]
-Bericht versturen
+[Log]
+Loggen
+[&Copy]
+Kopiëren
+[Co&py All]
+Alles ko&piëren
+[Select &All]
+&Alles selecteren
+[C&lear Log]
+Log opschonen
+[Open in &new window]
+In &nieuw scherm openen
+[&Open in existing window]
+In bestaand scherm &openen
+[&Copy link]
+Link kopiëreren
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Autoriserem
+[&Deny]
+Weigeren
 [Reason:]
 Reden:
+[You Were Added]
+U bent toegevoegd
+[&Close]
+Sluiten
 ;file \src\core\stdaway\resource.rc
+[%s Message for %s]
+%s Bericht voor %s
+[Status Messages]
+Status berichten
 [Do not reply to requests for this message]
 Niet op verzoeken voor dit bericht reargeren
 [Do not pop up dialog asking for new message]
@@ -111,37 +319,307 @@ Geen dialoog tonen dat vraagt voor een nieuw bericht
 Altijd hetzelfde bericht als de vorige keer gebruiken
 [By default, use this message:]
 Altijd dit bericht gebruiken:
+[Use %time% for the current time, %date% for the current date]
+Gebruik %time% voor de huidige tijd, %date% voor de huidige datum
+[Change %s Message]
+%s bericht wijzigen
+[Closing in %d]
+Sluiten in %d
 ;file \src\core\stdchat\res\chat.rc
+[&Send]
+Ver&sturen
+[Nick changes]
+Bijnaam wijzigingen
+[Status changes]
+Status wijzigingen
+[Information]
+Informatie
+[Notices]
+Meldingen
+[Log Options]
+Log opties
+[Log timestamp]
+Log tijdstempel
+[Timestamp]
+Tijdstempel
+[Other name]
+Andere naam
+[Your name]
+Uw naam
+[Enable highlighting]
+Oplichting inschakelen
+[Limit log text to (events):]
+Log tekst beperken tot (gebeurtenissen):
 [Trim to (kB)]
 Verkleinen tot (kB)
+[Words to highlight (wildcards allowed)]
+Woorden om op te lichten (jokertekens toegestaan)
+[Enable logging to disk]
+Log naar schijf inschakelen
+[Log directory]
+Log directory
+[Other]
+Ander
+[Add new rooms to group:]
+Nieuwe ruimtes toevoegen aan groep:
 [Userlist row distance (pixels):]
 Gebruikerslijst rij afstand (pixels):
+[Use same style as in the message log]
+Dezelfde stijl als in het bericht log gebruiken
+[Use default colours]
+Standaard kleuren gebruiken
+[Use custom colours]
+Aangepaste kleuren gebruiken
 [Popups for the Chat plugin]
 Popups voor de Chat plugin
+[Timeout (s)]
+Timeout (s)
+[Text]
+Tekst
+[Background]
+Achtergrond
+[List]
+Lijst
+[&Message]
+Bericht
+[Clear lo&g]
+Lo&g opschonen
+[Co&py all]
+Alles ko&piëren
+[Open a &new browser window]
+Een &nieuw browser scherm openen
+[&Open in current browser window]
+On huidige browser scherm &openen
+[Message]
+Bericht
+[Undo  ]
+Ongedaan maken
+[Redo]
+Opnieuw
+[Copy]
+Kopiëren
+[Cut]
+Knippen
+[Paste]
+Plakken
+[Select All]
+Alles selecteren
+[Clear]
+Opschonen
+[&Close tab]
+Tab sluiten
+[C&lose other tabs]
+Andere tabs sluiten
+[&Open at this position]
+&Op deze positie toevoegen
 ;file \src\core\stdclist\res\resource.rc
+[Hide offline users]
+Offline gebruikers verbergen
+[Hide empty groups]
+Lege groepen verbergen
+[Disable groups]
+Groepen uitschakelen
+[Ask before deleting contacts]
+Vraag voor het verwijderen van personen
+[Sort contacts by name]
+Personen op naam sorteren
+[Sort contacts by status]
+Personen op status sorteren
+[Sort contacts by protocol]
+Personen op protocol sorteren
+[Single click interface]
+Enkele-klik interface
+[Always show status in tooltip]
+Status altijd in tooltip weergeven
+[Disable icon blinking]
+Knipperend icoon uitschakelen
+[icon when statuses differ]
+icoon wanneer statussen verschillen
+[Cycle icons every]
+Verander iconen iedere
+[seconds, when statuses differ]
+seconden, wanneer statussen verschillen
+[Show multiple icons]
+Meerdere iconen weergeven
+[Only when statuses differ]
+Alleen wanneer statussen verschillen
+[Contact List]
+Persoon lijst
+[System tray icon]
+Systeemvak icoon
+[System tray icon when using multiple protocols]
+Systeemvak icoon bij gebruik meedere protocollen
+[Contact List Sorting]
+Persoon lijst sortering
+[Window]
+Scherm
+[Always on top]
+Altijd bovenop
+[Minimize to tray]
+Naar systeemvak minimaliseren
+[Show menu bar]
+Menu balk weergeven
+[Easy move]
+Makkelijk verplaatsen
+[Show title bar]
+Titelbalk weergeven
+[Title bar text:]
+Titelbalk tekst:
+[Pin to desktop]
+Op desktop vastzetten
+[Hide contact list after it has been idle for]
+Lijst verbergen nadat het rustig is voor
+[seconds]
+seconden
+[Automatically resize window to height of list]
+Hoogte van de lijst autmatisch aanpassen
+[maximum]
+maximum
+[% of screen]
+% van het scherm
+[Size upwards]
+Omhoog vergrootten
+[If window is partially covered, bring to front instead of hiding]
+Als scherm gedeeltelijk bedekt is, breng naar voren in plaats van verbergen
+[Transparent contact list]
+Doorzichtig persoon lijst
+[Inactive opacity:]
+Inactief ondoorlatendheid:
+[Active opacity:]
+Actief ondoorlatendheid
+[Show divider between online and offline contacts]
+Verdeler tussen online en offline personen weergeven
+[Hot track items as mouse passes over]
+Hot track items wanneer de muis erover gaat
+[Disable drag and drop of items]
+Drag and drop voor items uitschakelen
+[Disable rename of items by clicking twice]
+Items hernoemen door dubbelklik uitschakelen
+[Show selection even when list is not focused]
+Selectie weergeven zelfs wanneer lijst geen focus heeft
+[Make selection highlight translucent]
+Selectie oplichting doorzichtig maken
+[Dim idle contacts]
+Rustige personen donker maken
+['Hide Offline' means to hide:]
+'Verberg Offline' betekent verberg:
+[Groups]
+Groepen
+[Draw a line alongside group names]
+Een lijn bij groepnamen tekenen
+[Show counts of number of contacts in a group]
+Aantallen van aantal personen in een groep weergeven
+[Hide group counts when there are none online]
+Groep aantallen wanneer er niemand online is verbergen
+[Sort groups alphabetically]
+Groepen alfabetisch sorteren
+[Quicksearch in open groups only]
+Snelzoeken alleen in open groepen
+[Indent groups by:]
+Spring groepen in bij:
+[Visual]
+Visueel
+[Scroll list smoothly]
+Lijst vloeiend scrollen
+[Time:]
+Tijd:
+[milliseconds]
+milliseconden
+[Left margin:]
+Linker marge:
+[Row height:]
+Rij hoogte:
+[Gamma correction]
+Gamma correctie
+[Grey out entire list when:]
+Gehele lijst grijs maken wanneer:
+[Contact List Background]
+Persoon lijst achtergrond
+[Background colour]
+Achtergrond kleur
 [Selection colour]
 Selectie kleur
+[Use background image]
+Achtergrondplaatje gebruiken
+[Stretch to width]
+Tot breedte uitrekken
+[Stretch to height]
+Tot hoogte uitrekken
+[Tile horizontally]
+Naast elkaar
+[Tile vertically]
+Onder elkaar
+[Scroll with text]
+Met tekst scrollen
+[Stretch proportionally]
+Proportioneel uitrekken
+[Use Windows colours]
+Windows kleuren gebruiken
+[Status Bar]
+Status balk
+[Show status bar]
+Status balk weergeven
+[Show icons]
+Iconen weergeven
+[Show protocol names]
+Protocol namen weergeven
+[Show status text]
+Status tekst weergeven
+[Right click opens status menu]
+Rechts klikken opent status menu
+[Right click opens Miranda NG menu]
+Rechts klikken opent Miranda NG menu
+[Make sections equal width]
+Selecties even groot maken
+[&Away\tCtrl+2]
+Afwezig\tCtrl+2
+[&NA\tCtrl+3]
+&Niet beschikbaar\tCtrl+3
+[Occ&upied\tCtrl+4]
+Bezet\tCtrl+4
+[&DND\tCtrl+5]
+Niet storen\tCtrl+5
+[&Free for chat\tCtrl+6]
+Beschikbaar voor gesprek\tCtrl+6
+[&Invisible\tCtrl+7]
+Onz&ichtbaar\tCtrl+7
+[On the &Phone\tCtrl+8]
+Aan de telefoon\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Aan het lunchen\tCtrl+9
 ;file \src\core\stdfile\resource.rc
 [Send File(s)]
 Bestand(en) versturen
+[To:]
+Aan:
 [File(s):]
 Bestand(en):
 [&Choose Again...]
 Nogmaals kiezen...
 [Total size:]
 Totale grootte:
+[Incoming File Transfer]
+Binnenkomend bestand overdracht
 [A&ccept]
 A&ccepteren
 [&Decline]
 Weigeren
+[From:]
+Van:
+[Date:]
+Datum:
 [Files:]
 Bestanden:
 [Save to:]
 Opslaan naar:
 [File Already Exists]
 Bestand bestaad al
+[Resume]
+Hervatten
 [Resume all]
 Alle vervolgen
+[Overwrite]
+Overschrijven
 [Overwrite all]
 Alle overschrijven
 [Save as...]
@@ -154,6 +632,8 @@ Overdracht annuleren
 U staat op het punt een bestand te ontvangen
 [Existing file]
 Bestaand bestand
+[Size:]
+Grootte:
 [Last modified:]
 Laast aangepast:
 [Open file]
@@ -162,6 +642,10 @@ Bestand openen
 Bestandseigenschappen
 [File being received]
 Bestand dat wordt ontvangen
+[File Transfers]
+Bestandsoverdrachten
+[Close]
+Sluit
 [Receiving files]
 Ontvangen bestanden
 [Received files folder:]
@@ -215,68 +699,248 @@ Rustig opties
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Scherm automatisch laten zien wanneer:
+[Close the message window on send]
+Het berichtenscherm bij versturen sluiten
+[Minimize the message window on send]
+Het berichtenscherm bij versturen minimaliseren
+[Use the contact's status icon as the window icon]
+Het status icoon van de persoon gebruiken als het scherm icoon
 [Save the window size and location individually for each contact]
 De scherm grootte en lokatie per persoon opslaan
+[Cascade new windows]
+Nieuwe schermen stapelen
 [Show 'Send' button]
 'Versturen' knop weergeven
 [Show username on top row]
 Gebruikersnaam op bovenste rij weergeven
 [Show toolbar buttons on top row]
 Werkbalk knoppen op bovenste rij weergeven
+[Send message on double 'Enter']
+Bericht op dubble 'Enter' versturen
+[Send message on 'Enter']
+Bericht op 'Enter' versturen
 [Show character count]
 Aantal tekens weergeven
+[Show warning when message has not been received after]
+Waarschuwing weergeven wanneer bericht niet is ontvangen na
+[seconds.]
+seconden.
 [Support control up/down in message area to show previously sent messages]
 Control omhoog/omlaag ondersteunen om eerder verstuurde berichten te zien
 [Delete temporary contacts when closing message window]
 Tijdelijke personen verwijderen wanneer het berichtenscherm geloten wordt
 [Enable avatar support in the message window]
 Avatar ondersteuning in het berichtenschem inschakelen
+[Message Window Event Log]
+Berichten scherm gebreurtenis log
+[Show names]
+Namen weergeven
 [Show timestamp]
 Tijd weergeven
 [Show dates]
 Datums weergeven
+[Load unread events only]
+Alleen ongelezen gebeurtenissen laden
+[Load number of previous events]
+Aantal van vorige gebeurtenissen laden
+[Load previous events less than]
+Vorige gebeurtenissen laden minder dan
+[minutes old]
+minuten oud
 [Show status changes]
 Status wijzigingen weergeven
+[Show seconds]
+Seconden weergeven
+[Load History Events]
+Geschiedenis gebeurtenissen laden
+[Send typing notifications to the following users when you are typing a message to them:]
+Typen meldingen naar de volgende gebruikers versturen wanneer u een bericht naar hen aan het typen bent:
+[Show typing notifications when a user is typing a message]
+Typen meldingen weergeven wanneer een persoon een bericht aan het typen is
 [Update inactive message window icons when a user is typing]
 Schermiconen van inactieve schermen bijwerken wanneer een persoon aan het typen is
+[Show typing notification when no message dialog is open]
+Typen melding weergeven waneer er geen berichtenscherm open is
+[Flash in the system tray and in the contact list]
+In het systeemvak en in de lijst knipperen
+[Show balloon popup]
+Baloon popup weergeven
+[Delete]
+Verwijderen
 ;file \src\core\stduihist\resource.rc
+[Find]
+Vinden
 [&Find Next]
 Volgende zoeken
 [Find What:]
 Zoeken naar:
+[Message History]
+Bericht geschiedenis
+[&Find...]
+Zoeken...
 ;file \src\core\stduserinfo\resource.rc
+[Add Phone Number]
+Telefoonnummer toevoegen:
+[Enter country, area code and phone number:]
+Vul een land, regio en telefoonnummer in:
+[Or enter a full international number:]
+Of vul een volledig internationaal nummer in:
+[Phone can receive SMS text messages]
+Telefoon kan SMS tekst berichten ontvangen
 [Add E-Mail Address]
 E-Mail adres toevoegen
 [%s: User Details]
 %s: Gebruikers details
 [Update Now]
 Nu bijwerken
+[Updating]
+Bijwerken
+[Nickname:]
+Bijnaam:
+[First name:]
+Voornaam:
+[Gender:]
+Geslacht:
+[Last name:]
+Achternaam:
+[Age:]
+Leeftijd:
+[Date of birth:]
+Geboortedatum:
+[Marital status:]
+Trouw status:
+[Phone:]
+Telefoon:
 [Web page:]
 Website:
 [Past background:]
 Achtergrond:
 [Interests:]
 Interesses:
+[About:]
+Over:
 [My notes:]
 Mijn aantekeningen:
+[Street:]
+Straat:
+[City:]
+Plaats:
+[State:]
+Provincie:
+[Postal code:]
+Postcode:
+[Country:]
+Land:
 [Spoken languages:]
 Spreekt talen:
+[Timezone:]
+Tijdzone:
 [Local time:]
 Huidige tijd:
+[Company:]
+Bedrijf:
+[Department:]
+Afdeling
+[Position:]
+Positie:
 ;file \src\core\stdauth\auth.cpp
 [%u requests authorization]
 %u vraagt toestemming
 [%u added you to their contact list]
 %u heeft u toegevoegd aan zijn/haar lijst
+[Alerts]
+Waarschuwingen
 ;file \src\core\stdauth\authdialogs.cpp
+[View User's Details]
+Details van de gebruiker bekijken
+[Add Contact Permanently to List]
+Persoon permanent aan lijst toevoegen
 [(Unknown)]
 (Onbekend)
 ;file \src\core\stdaway\awaymsg.cpp
+[Re&ad %s Message]
+%s bericht lezen
 ;file \src\core\stdaway\sendmsg.cpp
+[I've been away since %time%.]
+Ik ben weg sinds %time%.
+[Give it up, I'm not in!]
+Geef het op, ik ben er niet!
+[Not right now.]
+Nu even niet.
+[Give a guy some peace, would ya?]
+Gun een man zijn rust, wil je?
+[I'm a chatbot!]
+Ik ben een gesprekbot!
+[Yep, I'm here.]
+Ja, hier ben ik.
+[Nope, not here.]
+Nee, hier niet.
+[I'm hiding from the mafia.]
+Ik verstop me voor de mafia.
+[That'll be the phone.]
+Dat zal de telefoon zijn.
+[Mmm...food.]
+Mmm...eten.
+[idleeeeeeee]
+ruuuuustig
+[Status]
+Status
 ;file \src\core\stdchat\src\clist.cpp
 ;file \src\core\stdchat\src\colorchooser.cpp
+[Text colour]
+Tekst kleur
 ;file \src\core\stdchat\src\log.cpp
+[%s has joined]
+%s komt binnen
+[%s has left]
+%s is weg gegaan
+[%s has disconnected]
+%s heeft de verbinding verbroken
+[%s is now known as %s]
+%s is nu bekend als %s
+[%s kicked %s]
+%s trapt %s weg
+[ (set by %s)]
+ (ingesteld door %s)
 ;file \src\core\stdchat\src\options.cpp
+[Others nicknames]
+Bijnamen van anderen
+[Your nickname]
+Uw bijnaam
+[User has joined]
+Gebruiker komt binnen
+[User has left]
+Gebruiker is weg gegaan
+[User has disconnected]
+Gebruiker heeft de verbinding verbroken
+[User kicked ...]
+Gebruiker weggetrapt ...
+[User is now known as ...]
+Gebruiker is nu bekend als ...
+[Notice from user]
+Melding van gebruiker
+[Incoming message]
+Binnenkomend bericht
+[Outgoing message]
+Uitgaand bericht
+[The topic is ...]
+Het onderwerp is ...
+[Information messages]
+Informatie berichten
+[User enables status for ...]
+Gebruiker schakeld status in voor ...
+[User disables status for ...]
+Gebruiker schakeld status uit voor ...
+[Action message]
+Actie bericht
+[Highlighted message]
+Opgelichte berichten
+[Message typing area]
+Bericht typen gebied
+[User list members (Online)]
+Gebruikerlijst leden (Online)
+[User list members (away)]
+Gebruikerlijst leden (afwezig)
 [Use a tabbed interface]
 Een tabbed interface gebruiken
 [Close tab on doubleclick]
@@ -289,12 +953,20 @@ Tabs onderaan tonen
 Bericht versturen door Enter in te drukken
 [Send message by pressing the Enter key twice]
 Bericht vesturen door Enter twee keer in te drukken
+[Flash window when someone speaks]
+Scherm knipperen wanneer iemand praat
+[Flash window when a word is highlighted]
+Scherm knipperen wanneer een woord is opgelicht
+[Show list of users in the chat room]
+Lijst van gebruikers weergeven in de geprekruimte
 [Show button for sending messages]
 Knop om berichten te versturen weergeven
 [Show buttons for controlling the chat room]
 Knoppen om de gespreksruimte te controleren weergeven
 [Show buttons for formatting the text you are typing]
 Knoppen om de tekst op te maken weergeven wanneer u aan typpen bent
+[Show button menus when right clicking the buttons]
+Knop menus weergeven bij rechtermuis-klik op de knoppen
 [Show new windows cascaded]
 Nieuwe schermen gestapeld weergeven
 [Save the size and position of chat rooms]
@@ -303,10 +975,44 @@ De grootte en positie van gespreksruimtes opslaan
 Het onderwerp van de ruimte weergeven op uw persoon lijst (als ondersteund)
 [Do not play sounds when the chat room is focused]
 Geen geluiden afspelen wanneer de gespreksruimte de focus heeft
+[Do not pop up the window when joining a chat room]
+Geen scherm openen bij binnenkomst van een gespreksruimte
 [Toggle the visible state when double clicking in the contact list]
 Toggle de zichtbaarheidsstatus bij een dubbelklik in de persoon lijst
+[Prefix all events with a timestamp]
+Voor alle gebeurtenissen een tijdstempel zetten
+[Only prefix with timestamp if it has changed]
+Alleen een tijdstempel toevoegen als het veranderd is
 [Timestamp has same colour as the event]
 Tijdstempel heeft dezelfde kleur als de gebeurtenis
+[Indent the second line of a message]
+De tweede lijn van een bericht inspringen
+[Limit user names in the message log to 20 characters]
+Gebruikersnamen in de berichten log beperken tot 20 karakters
+[Strip colors from messages in the log]
+De kleuren uit berichten in de log halen
+[Show topic changes]
+Onderwerp wijzigingen weergeven
+[Show users joining]
+Binnenkomende gebruikers weergeven
+[Show users disconnecting]
+Gebruikers met verbroken verbindingen weergeven
+[Show messages]
+Berichten weergeven
+[Show actions]
+Acties weergeven
+[Show users leaving]
+Vertrekkende gebruikers weergeven
+[Show users being kicked]
+Gebruikers die worden weggetrapt weergeven
+[Show notices]
+Meldingen weergeven
+[Show users changing name]
+Gebruikers die hun naam wijzigen weergeven
+[Show information messages]
+Informatie berichten weergeven
+[Show status changes of users]
+Status wijziging van gebruikers weergeven
 [Show icon for topic changes]
 Icoon voor onderwerp wijzigingen weergeven
 [Show icon for users joining]
@@ -331,43 +1037,209 @@ Icoon voor naamswijzigingen weergeven
 Icoon voor informatie berichten weergeven
 [Show icon for status changes]
 Icoon voor status wijzigingen weergeven
+[Show icons in tray only when the chat room is not active]
+Iconen alleen in systeemvak wanneer de gespreksruimte niet actief is weergeven
+[Show icon in tray for topic changes]
+Icoon in systeemvak voor onderwerp wijzigingen weergeven
+[Show icon in tray for users joining]
+Icoon in systeemvak voor binnenkomende gebruikers weergeven
+[Show icon in tray for users disconnecting]
+Icoon in systeemvak voor gebruikers met verbroken verbindingen weergeven
+[Show icon in tray for messages]
+Icoon in systeemvak voor berichten weergeven
+[Show icon in tray for actions]
+Icoon in systeemvak voor acties weergeven
+[Show icon in tray for highlights]
+Icoon in systeemvak voor oplichtingen weergeven
+[Show icon in tray for users leaving]
+Icoon in systeemvak voor vertrekkende gebruikers weergeven
+[Show icon in tray for users kicking other user]
+Icoon in systeemvak voor gebruikers die andere gebruikers wegtrappen weergeven
+[Show icon in tray for notices ]
+Icoon in systeemvak meldingen weergeven
+[Show icon in tray for name changes]
+Icoon in systeemvak naamwijzigingen weergeven
+[Show icon in tray for information messages]
+Icoon in systeemvak informatie berichten weergeven
+[Show icon in tray for status changes]
+Icoon in systeemvak status wijzigingen weergeven
+[Bold]
+Vet
+[Messaging]
+Berichtgeving
 [Options for using a tabbed interface]
 Opties voor het gebruik van een tabbed interface
+[Appearance and functionality of chat room windows]
+Uiterlijk en functionaliteit van schermen van Gespreksruimte
+[Appearance of the message log]
+Uiterlijk van het bericht log
 [Icons to display in the message log]
 Iconen om weer te geven in het bericht log
+[Icons to display in the tray]
+Iconen om weer te geven in het systeemvak
+[Select Folder]
+Folder selecteren
+[General]
+Algemeen
 [Chat Log]
 Gesprek log
 [Chat]
 Gesprek
+[Popups]
+Popups
+[Message is highlighted]
+Bericht is opgelicht
+[User has performed an action]
+Gebruiker heeft een actie gedaan
+[User has kicked some other user]
+Gebruiker heeft een andere gebruiker weggetrapt
+[User has changed name]
+Gebruiker heeft naam gewijzigd
+[User has sent a notice]
+Gebruiker heeft een melding gestuurd
+[The topic has been changed]
+Het onderwerp is veranderd
 ;file \src\core\stdchat\src\services.cpp
+[&Join]
+Binnengaan
 ;file \src\core\stdchat\src\tools.cpp
+[%s wants your attention in %s]
+%s heeft uw aandacht nodig in %s
+[%s speaks in %s]
+%s spreekt in %s
+[%s has joined %s]
+%s komt binnen in %s
+[%s has left %s]
+%s is weggegaan uit %s
+[%s kicked %s from %s]
+%s heeft %s weggetrapt van %s
+[Notice from %s]
+Melding van %s
+[Topic change in %s]
+Onderwerp wijziging in %s
+[Information in %s]
+Informatie in %s
+[%s says: %s]
+%s zegt: %s
+[%s has disconnected (%s)]
+%s heeft de verbinding verbroken (%s)
+[%s kicked %s (%s)]
+%s heeft %s weggetrapt (%s)
+[Notice from %s: %s]
+Melding van %s: %s
+[No word to look up]
+Geen woord om op te zoeken
 ;file \src\core\stdchat\src\window.cpp
+[Insert a smiley]
+Een smiley toevoegen
+[Make the text bold (CTRL+B)]
+De tekst vet maken(CTRL+B)
+[Make the text italicized (CTRL+I)]
+De tekst cursief maken(CTRL+I)
+[Make the text underlined (CTRL+U)]
+De tekst onderstrepen (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Een achtergrond kleur voor de tekst selecteren (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Een voorgrond kleur voor de tekst selecteren (CTRL+K)
+[Show the history (CTRL+H)]
+De geschiedenis weergeven (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+De bijnaamlijst weergeven/verbergen
+[Control this room (CTRL+O)]
+Deze ruimte controleren (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+De gebeurtenis filter in-/uitschakelen (CTRL+O)
 [Close current tab (CTRL+F4)]
 Huidige tab sluiten (CTRL+F4)
+[%s: Chat Room (%u user)]
+%s: Gespreksruimte (%u gebruiker)
+[%s: Chat Room (%u users)]
+%s: Gespreksruimte (%u gebruikers)
+[%s: Message Session]
+%s: Bericht sessie
+[%s: Message Session (%u users)]
+%s: Bericht sessie (%u gebruikers)
 ;file \src\core\stdclist\src\clcfonts.cpp
+[Standard contacts]
+Standaard personen
+[Online contacts to whom you have a different visibility]
+Online personen met een andere zichtbaarheid
+[Offline contacts]
+Offline personen
+[Contacts which are 'not on list']
+Personen die 'niet op de lijst' staan
+[Dividers]
+Verdelers
+[Offline contacts to whom you have a different visibility]
+Offline personen met een andere zichtbaarheid
 ;file \src\core\stdclist\src\clcopts.cpp
+[Not focused]
+Geen focus
+[Offline]
+Offline
+[Away]
+Afwezig
+[NA]
+Niet beschikbaar
+[Occupied]
+Bezet
+[DND]
+Niet storen
+[Free for chat]
+Beschikbaar voor gesprek
+[Invisible]
+Onzichtbaar
+[Out to lunch]
+Aan het lunchen
+[On the phone]
+Aan de telefoon
+[List Background]
+Lijst achtergrond
 ;file \src\core\stdclist\src\clistopts.cpp
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Gebruiker heeft geen geregistreerd e-mail adres
+[Send e-mail]
+E-mail versturen
 [&E-mail]
 &E-mail
 ;file \src\core\stdfile\file.cpp
 [File from %s]
 Bestand van %s
+[&File]
+Bestand
+[Incoming]
+Binnenkomend
+[Complete]
+Voltooid
+[Error]
+Fout
 [Denied]
 Geweigerd
 ;file \src\core\stdfile\fileexistsdlg.cpp
 [%s File]
 %s Bestand
+[All Files]
+Alle bestanden
 ;file \src\core\stdfile\fileopts.cpp
+[Executable Files]
+Uitvoerbare bestanden
+[Events]
+Gebeurtenissen
 ;file \src\core\stdfile\filerecvdlg.cpp
+[View User's History]
+Geschiedenis van de gebruiker bekijken
+[User Menu]
+Gebruikersmenu
 [Cancelled]
 Geannuleerd
 ;file \src\core\stdfile\filesenddlg.cpp
 ;file \src\core\stdfile\filexferdlg.cpp
 ;file \src\core\stdfile\ftmanager.cpp
+[Outgoing]
+Uitgaand
 ;file \src\core\stdhelp\about.cpp
 ;file \src\core\stdhelp\help.cpp
 [&About...]
@@ -375,16 +1247,56 @@ Over...
 [&Report Bug]
 Fout melden
 ;file \src\core\stdidle\idle.cpp
+[Idle]
+Rustig
 ;file \src\core\stdmsg\src\cmdlist.cpp
 ;file \src\core\stdmsg\src\globals.cpp
 ;file \src\core\stdmsg\src\msgdialog.cpp
+[Last message received on %s at %s.]
+Laatste bericht ontvangen op %s om %s.
+[%s is typing a message...]
+%s is een bericht aan het typen...
 ;file \src\core\stdmsg\src\msglog.cpp
 ;file \src\core\stdmsg\src\msgoptions.cpp
+[Outgoing messages]
+Uitgaande berichten
+[Incoming messages]
+Binnenkomende berichten
+[Outgoing name]
+Uitgaande naam
+[Outgoing time]
+Uitgaande tijd
+[Outgoing colon]
+Uitgaande colon
+[Incoming name]
+Binnenkomende naam
+[Incoming time]
+Binnenkomende tijd
+[Incoming colon]
+Binnenkomende colon
+[Message area]
+Berichtruimte
+[** New contacts **]
+** Nieuwe Personen **
+[** Unknown contacts **]
+** Onbekende personen **
 [Messaging Log]
 Berichten log
+[Typing Notify]
+Typen meldingen
 ;file \src\core\stdmsg\src\msgs.cpp
+[Incoming (Focused Window)]
+Binnenkomend (Actief scherm)
+[Incoming (Unfocused Window)]
+Binnenkomend (Niet actief scherm)
+[Incoming (New Session)]
+Binnenkomend (Nieuwe sessie)
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 ;file \src\core\stduihist\history.cpp
+[History for %s]
+Geschiedenis voor %s
+[View &History]
+Gesc&hiedenis bekijken
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL van %s
@@ -394,35 +1306,69 @@ Webpagina adres (&URL)
 [Send URL to]
 Verstuur URL naar
 ;file \src\core\stduserinfo\contactinfo.cpp
+[Edit Phone Number]
+Telefoonnummer bewerken
 [Primary]
 Hoofd
+[Fax]
+Fax
 ;file \src\core\stduserinfo\stdinfo.cpp
+[Male]
+Man
+[Female]
+Vrouw
+[Summary]
+Samenvatting
+[Contact]
+Persoon
+[Location]
+Locatie
+[Work]
+Werk
+[Notes]
+Notities
 ;file \src\core\stduserinfo\userinfo.cpp
+[Owner]
+Eigenaar
+[View/Change My &Details...]
+Mijn &details bekijken/wijzigen...
 ;file \src\core\stduseronline\useronline.cpp
 ;file \src\modules\addcontact\addcontact.cpp
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 ;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
+[(Unknown Contact)]
+(Onbekend Persoon)
 ;file \src\modules\clist\clisttray.cpp
 ;file \src\modules\clist\clui.cpp
 [De&lete]
 Verwijderen
+[&Rename]
+He&rnoemem
 [&Add permanently to list]
 Perm&anent aan lijst toevoegen
 ;file \src\modules\clist\contacts.cpp
 [My custom name (not moveable)]
 Mijn eigen naam (niet verplaatsbaar)
+[Nick]
+Bijnaam
 [FirstName]
 Voornaam
 [LastName]
 Achternaam
+[Username]
+Gebruikersnaam
 [FirstName LastName]
 Voornaam achternaam
 ['(Unknown Contact)' (not moveable)]
 '(Onbekend Persoon)' (niet verplaatsbaar)
+['(Unknown Contact)']
+'(Onbekend Persoon)'
 ;file \src\modules\clist\genmenu.cpp
 ;file \src\modules\clist\genmenuopt.cpp
+[Customize]
+Aanpassen
 ;file \src\modules\clist\groups.cpp
 ;file \src\modules\clist\keyboard.cpp
 [Show Hide Contact List]
@@ -455,6 +1401,8 @@ Probleem verplaaten profiel
 Niet in staat om het profiel '%s' aan te maken, de fout was %x
 [Problem creating profile]
 Probleem aanmaken profiel
+[Size]
+Grootte
 [My Profiles]
 Mijn profielen
 [New Profile]
@@ -462,13 +1410,21 @@ Nieuw profiel
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
 ;file \src\modules\extraicons\extraicons.cpp
 ;file \src\modules\extraicons\options_ei.cpp
+[Extra icons]
+Extra iconen
 ;file \src\modules\findadd\findadd.cpp
+[Search]
+Zoeken
 [Results]
 Resultaten
 [There are no results to display.]
 Er zijn geen resultaten om weer te geven.
+[&Find/Add Contacts...]
+Personen zoeken/toevoegen...
 ;file \src\modules\findadd\searchresults.cpp
 ;file \src\modules\fonts\FontOptions.cpp
+[<none>]
+<geen>
 [Shadow at left]
 Schaduw links
 [Shadow at right]
@@ -482,25 +1438,57 @@ Lettertypes
 [Icon Sets]
 Icoon sets
 ;file \src\modules\ignore\ignore.cpp
+[** All contacts **]
+** Alle personen **
+[Contacts]
+Personen
 ;file \src\modules\netlib\netliblog.cpp
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Alle verbindingen>
+[Network]
+Netwerk
 ;file \src\modules\netlib\netlibssl.cpp
 ;file \src\modules\options\options.cpp
+[Miranda NG Options]
+Miranda NG opties
+[&Options...]
+&Opties...
 ;file \src\modules\plugins\newplugins.cpp
 ['%s' is disabled, re-enable?]
 '%s' is uitgeschakeld, opnieuw inschakelen?
 [Re-enable Miranda plugin?]
 Miranda plugin opnieuw inschakelen?
 ;file \src\modules\plugins\pluginopts.cpp
+[Version]
+Versie
+[Plugins]
+Plugins
 ;file \src\modules\protocols\protoopts.cpp
+[Edit]
+Bewerken
+[Protocol]
+Protocol
+[Configure]
+Instellen
 ;file \src\modules\skin\hotkey_opts.cpp
+[System]
+Systeem
 ;file \src\modules\skin\skinicons.cpp
+[User Online]
+Gebruiker Online
 [Group (Open)]
 Groep (Open)
 [Connecting]
 Verbinden
+[User Details]
+Gebruikersdetails
+[History]
+Geschiedenis
+[On]
+Aan
+[Off]
+Uit
 [Main Icons]
 Hoofd iconen
 ;file \src\modules\skin\sounds.cpp
@@ -509,4 +1497,8 @@ Hoofd iconen
 Alle bitmaps
 ;file \src\modules\utils\timezones.cpp
 ;file \src\modules\utils\utils.cpp
+[Unspecified]
+Niet opgegeven
+[Unknown]
+Onbekend
 ;file \src\modules\visibility\visibility.cpp

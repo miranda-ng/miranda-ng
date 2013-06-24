@@ -4,8 +4,6 @@ Aggiungi %s
 [Contact Display Options]
 Opzioni visualizzazione contatti
 [Miranda NG Profile Manager]
-Amministratore dei profili di Miranda NG
-[Miranda NG Profile Manager]
 Miranda NG - Gestione dei profili utente
 [&Run]
 &Esegui
@@ -35,8 +33,6 @@ Auto-ricerca testo
 Nomi dei moduli chiamanti
 [Log to]
 Registra in
-[Log to]
-Registra in
 [Run now]
 Esegui ora
 [Show this dialog box when Miranda NG starts]
@@ -47,8 +43,6 @@ Salva come predefinito
 &Cambia...
 [Download more sounds]
 Scarica altri suoni
-[Show category:]
-Mostra categoria:
 [Show category:]
 Mostra categoria:
 [&Load icon set...]
@@ -278,8 +272,6 @@ L'utente non ha un indirizzo email registrato
 ;file \src\core\stdfile\file.cpp
 [File from %s]
 File da %s
-[File from %s]
-File da %s
 ;file \src\core\stdfile\fileexistsdlg.cpp
 ;file \src\core\stdfile\fileopts.cpp
 ;file \src\core\stdfile\filerecvdlg.cpp
@@ -341,22 +333,10 @@ Scambio messaggi - Log
 ;file \src\core\stduihist\history.cpp
 [Outgoing Message]
 Messaggio in uscita
-[Outgoing Message]
-Messaggio in uscita
-[Incoming Message]
-Messaggio in entrata
-[Incoming Message]
-Messaggio in arrivo
 [Incoming Message]
 Messaggio in arrivo
 [Outgoing File]
 File in uscita
-[Outgoing File]
-File in uscita
-[Incoming File]
-File in entrata
-[Incoming File]
-File in arrivo
 [Incoming File]
 File in arrivo
 [Are you sure you want to delete this history item?]
@@ -366,8 +346,6 @@ Elimina storico
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL da %s
-[Web Page Address (&URL)]
-Indirizzo pagina Web (&URL)
 [Web Page Address (&URL)]
 Indirizzo Pagina Web (&URL)
 ;file \src\core\stdurl\urldialogs.cpp
@@ -494,8 +472,6 @@ Gruppo (Aperto)
 [Group (Closed)]
 Gruppo (Chiuso)
 [Connecting]
-in connessione
-[Connecting]
 In connessione
 [SMS]
 SMS
@@ -507,8 +483,6 @@ Icone %s
 Icone principali
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
-[All Bitmaps]
-Tutte le immagini
 [All Bitmaps]
 Tutti i tipi di bitmap
 ;file \src\modules\utils\timezones.cpp

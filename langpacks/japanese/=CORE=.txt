@@ -792,8 +792,6 @@ Miranda はプロファイルを開けませんでした
 既知の望ましくない危険のある変更です
 [This change is not known to be safe.]
 既知の安全ではない変更です
-[Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-設定の型が不正です。全ての値の最初の文字は b, w, d, l, s, e, u, g, h, n でなければいけません
 ;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 プロファイルは既に存在します

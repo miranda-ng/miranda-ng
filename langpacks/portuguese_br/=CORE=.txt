@@ -8,11 +8,7 @@ Especifique o nome da conta interna (opcional)
 [Add %s]
 Adicionar %s
 [Contact Display Options]
-Exibir Opções do Contato
-[Contact Display Options]
 Exibir Opções dos Contatos
-[Miranda NG Profile Manager]
-Gerenciador de Perfil do Miranda NG BR
 [Miranda NG Profile Manager]
 Gerenciador de Perfil do Miranda NG BR
 [&Run]
@@ -29,8 +25,6 @@ Visita:
 Adicionar à lista
 [Find/Add Contacts\nHere you can add contacts to your contact list]
 Procurar/Adicionar Contatos\nAqui você pode adicionar contatos a sua lista
-[Please select a subentry from the list]
-Por favor, selecione uma entrada secundária da lista
 [Please select a subentry from the list]
 Por favor selecione uma sub-opção da lista
 [Netlib Log Options]
@@ -66,53 +60,31 @@ Informação sonora
 [Location:]
 Localização:
 [Enable sound events]
-Habilitar eventos de som
-[Enable sound events]
 Ativar som dos eventos
 [Show category:]
 Mostrar categoria:
-[&Load icon set...]
-Carregar pacote de ícones...
 [&Load icon set...]
 &Aplicar pacote de ícones...
 [&Import icons >>]
 &Importar ícones >>
 [Download more icons]
 Baixar mais ícones
-[Download more icons]
-Baixar mais ícones
-[Online Notification]
-Notificação Online
 [Online Notification]
 Notificação de estado Online
-[Auth Requests]
-Pedidos de Autorização
 [Auth Requests]
 Requesição de Autorização
 [All Events]
 Todos os Eventos
-[All Events]
-Todos os Eventos
-[Only the ticked contacts will be shown on the main contact list]
-Somente os contatos assinalados serão mostrado na lista principal de contatos
 [Only the ticked contacts will be shown on the main contact list]
 Só os contatos assinalados serão exibidos na lista de contatos
 [Added Notification]
-Adicionado Notificação
-[Added Notification]
 Notificação Adicionada
 [You are visible to this person even when in invisible mode]
-Está visível a esta pessoa, mesmo quando em modo invisível
-[You are visible to this person even when in invisible mode]
 Está visível para este contato mesmo em modo invisível
-[You are never visible to this person]
-Você nunca estará visível para essa pessoa
 [You are never visible to this person]
 Nunca está visível para este contato
 [Icon Index]
 Índice de Ícones
-[Icon library:]
-Biblioteca de Ícone:
 [Icon library:]
 Biblioteca de Ícones:
 [Drag icons to main list to assign them:]
@@ -124,29 +96,17 @@ Para ícones principais
 [To default status icons]
 Para ícones de status padrão
 [Logging...]
-Registrando...
-[Logging...]
 Conectando...
 [Outgoing Connections]
-Conexões de saída
-[Outgoing Connections]
 Conexões de Envio
-[Use proxy server]
-Usar servidor proxy
 [Use proxy server]
 Use servidor proxy
 [(often %d)]
 (freq. %d)
 [Resolve hostnames through proxy]
-Resolver nomes dos servidores através do proxy
-[Resolve hostnames through proxy]
 Resolver 'hostnames' via proxy
 [Port Range:]
-Abrangência da Porta:
-[Port Range:]
 Alcance da porta:
-[Example: 1050-1070, 2000-2010, 2500]
-Exemplo: 1050-1070, 2000-2010, 2500
 [Example: 1050-1070, 2000-2010, 2500]
 Exemplo: 1050-1070, 2000-2010, 2500
 [Validate SSL certificates]
@@ -156,35 +116,19 @@ Conexões de entrada
 [Enable UPnP port mapping]
 Habilitar o mapeamento de portas UPnP
 [Please complete the following form to create a new user profile]
-Preencha o formulário abaixo para criar um novo perfil de usuário
-[Please complete the following form to create a new user profile]
 Complete o formulário seguinte para criar um novo perfil
-[e.g. Workplace]
-por exemplo, no local de trabalho
 [e.g. Workplace]
 e.g. local de trabalho
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-Você pode selecionar um driver de perfil diferente do padrão, ele pode oferecer mais recursos ou habilidades, em caso de dúvida use o padrão.
-[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Pode selecionar um sistema de perfis diferente do padrão, poderá acrescentar mais funcionalidades, mas em caso de duvida utilize o padrão.
 [e.g. Miranda Database]
-por exemplo, Miranda Database
-[e.g. Miranda Database]
 e.g. Database do Miranda
-[Driver]
-Motorista
 [Driver]
 Sistema
 [Fonts and Colors]
 Fontes e Cores
-[Fonts and Colors]
-Fontes e Cores
 [Color/Background]
 Cor/Fundo
-[Color/Background]
-Cor/Fundo
-[Choose Font]
-Escolher Fonte
 [Choose Font]
 Selecionar Fonte
 [&Font:]
@@ -206,8 +150,6 @@ AaBbYyZz
 [Sc&ript:]
 Sc&ript:
 [Insert separator]
-Inserir Separador
-[Insert separator]
 Inserir separador
 [Account Order && Visibility]
 Ordem das Contas
@@ -224,19 +166,11 @@ Restaurar padrão
 [Accounts\nConfigure your IM accounts]
 Contas\nConfigure as contas de seu Miranda NG BR
 [Account information:]
-Informações da Conta:
-[Account information:]
 Informação da conta
 [Additional:]
 Adicional:
-[Additional:]
-Adicional:
 [Configure network...]
 Configurar rede...
-[Configure network...]
-Configurar rede...
-[Get more protocols...]
-Adquirir mais protocolos...
 [Get more protocols...]
 Adquira mais protocolos...
 [&Add...]
@@ -271,15 +205,11 @@ procurar/adicionar
 &Adicionar a lista
 [Send &Message]
 Enviar &Mensagem
-[Send &Message]
-Enviar &Mensagem
 [Cancel Change]
 Cancelar Alterações
 [&Reset To Default]
 Restaurar padrão
 ;file \src\core\stdauth\resource.rc
-[&Authorize]
-&Autorizar
 [&Authorize]
 &Autorizar
 [&I]
@@ -290,15 +220,9 @@ Razão:
 [Do not reply to requests for this message]
 Não responda a pedidos para esta mensagem
 [Do not pop up dialog asking for new message]
-Sem diálogos pop-up pedindo por novas mensagens
-[Do not pop up dialog asking for new message]
 Não permitir a abertura de nenhum 'popup' solicitando resposta
 [By default, use the same message as last time]
-Por padrão, use a mesma mensagem, como da última vez
-[By default, use the same message as last time]
 Utilizar a mesma mensagem da última vez
-[By default, use this message:]
-Por padrão, use a seguinte mensagem:
 [By default, use this message:]
 Usar esta mensagem como padrão:
 [Status messages:]
@@ -312,20 +236,14 @@ Espaçamento da lista de usuários (pixels):
 Popup para o plugin Chat
 ;file \src\core\stdclist\res\resource.rc
 [Selection colour]
-Seleção de cor
-[Selection colour]
 Selecionar cor
 ;file \src\core\stdfile\resource.rc
-[Send File(s)]
-Enviar Arquivo(s)
 [Send File(s)]
 Enviar Arquivos(s)
 [File(s):]
 Arquivo(s):
 [&Choose Again...]
 Escolha Again & ...
-[Total size:]
-Tamanho total:
 [Total size:]
 Tamanho total:
 [A&ccept]
@@ -361,8 +279,6 @@ Você está prestes a receber um arquivo
 [Existing file]
 Arquivo existente
 [Last modified:]
-Última modificação:
-[Last modified:]
 Última Modificação:
 [Open file]
 Abrir arquivo
@@ -371,77 +287,43 @@ Propriedades do arquivo
 [File being received]
 Arquivo que está sendo recebido
 [Clear completed]
-Limpeza concluída
-[Clear completed]
 Limpeza completa
 [Receiving files]
-Recebimento de arquivos
-[Receiving files]
 Recepção de arquivos
-[Received files folder:]
-Pasta de arquivos recebidos:
 [Received files folder:]
 Pasta de arquivos recebidos:
 [Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
 Variáveis permitidas: %userid%,%nick%, %proto%%,%miranda_path%, %userprofile%
 [Auto-accept incoming files from people on my contact list]
-Auto-aceitar arquivos de entrada de pessoas na minha lista de contatos
-[Auto-accept incoming files from people on my contact list]
 Aceitar automaticamente arquivos dos meus contatos
 [Minimize the file transfer window]
-Minimize a janela de transferência de arquivos
-[Minimize the file transfer window]
 Minimizar janela de transferência de arquivos
-[Close window when transfer completes]
-Fechar a janela quando a transferência for concluída
 [Close window when transfer completes]
 Fechar a janela após a transferência 
 [Clear completed transfers on window closing]
 Limpar transferências completas ao fechar a janela
 [Virus scanner]
-Scanner de vírus
-[Virus scanner]
 Escaneamento de virus
-[Scan files:]
-Verificar arquivos:
 [Scan files:]
 Verificar:
 [Never, do not use virus scanning]
-Nunca, não usar antivírus
-[Never, do not use virus scanning]
 Nunca, não utilizar verificação de vírus 
 [When all files have been downloaded]
-Quando todos os arquivos forem baixados
-[When all files have been downloaded]
 Quando terminarem todas as transferências de arquivos
-[As each file finishes downloading]
-Como cada arquivo termina o download
 [As each file finishes downloading]
 Assim que cada arquivo for transferido
 [Command line:]
 Linha de comando:
-[Command line:]
-Linha de comando:
-[%f will be replaced by the file or folder name to be scanned]
-f% será substituída pelo nome do arquivo ou pasta para ser verificado
 [%f will be replaced by the file or folder name to be scanned]
 %f será substituído pelo nome do arquivo ou da pasta a ser rastreado
 [Warn me before opening a file that has not been scanned]
-Avisar antes de abrir um arquivo que não foi verificado
-[Warn me before opening a file that has not been scanned]
 Avise-me antes de abrir um arquivo não verificado
-[If incoming files already exist]
-Se os arquivos recebidos já existem
 [If incoming files already exist]
 Se receber arquivos já existente
 [Ask me]
 Pergunte-me
-[Ask me]
-Pergunte-me
 [Rename (append " (1)", etc.)]
 Renomear
-[You will always be asked about files from people not on your contact list]
-Você sempre será perguntado sobre arquivos de pessoas que não são conhecidas
 [You will always be asked about files from people not on your contact list]
 Será sempre questionado sobre arquivos de pessoas que não estão na sua lista
 ;file \src\core\stdhelp\resource.rc
@@ -449,47 +331,23 @@ Será sempre questionado sobre arquivos de pessoas que não estão na sua lista
 Sobre o Miranda NG BR
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
-Tornar-se inativo se não se registrar ação nos items seguintes:
-[Become idle if the following is left unattended:]
 Passar a inativo se não se registrar ação nos items seguintes:
-[Miranda]
-Miranda
 [Miranda]
 Miranda NG BR
 [Become idle if the screen saver is active]
-Torna-se inativo se o protector de ecrã está activo
-[Become idle if the screen saver is active]
 Ficar inativo se o screensaver está ativo
 [Become idle if a terminal session is disconnected]
-Torna-se ocioso uma sessão de terminal está desligado
-[Become idle if a terminal session is disconnected]
 Não permitir se uma sessão estiver desconectada
-[Do not let protocols report any idle information]
-Não deixe nos relatório dos protocolos informações sobre ociosidade
 [Do not let protocols report any idle information]
 Não permitir que os protocolos indiquem qualquer informação de inativo
 [minute(s)]
 minuto(s)
-[minute(s)]
-minuto(s)
-[minute(s)]
-minuto(s)
 [for]
 para
-[for]
-por
-[for]
-para
-[Change my status mode to:]
-Mudar o meu status para:
 [Change my status mode to:]
 Alterar o meu status para:
 [Do not set status back to online when returning from idle]
-Não ajuste status para on-line quando voltar de ocioso
-[Do not set status back to online when returning from idle]
 Não alterar o meu status para online após deixar de estar inativo 
-[Idle Options]
-Opções de inatividade
 [Idle Options]
 Opções de Inatividade
 [Become idle if computer is left unattended for:]
@@ -498,31 +356,17 @@ Passar a inativo se o computador não reg. ação em:
 Indisponível (auto-invisível):
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
-Automaticamente quando abrir janela popup:
-[Automatically popup window when:]
 Mostrar popup automaticamente quando:
-[Save the window size and location individually for each contact]
-Salve o tamanho da janela e a localização individualmente para cada contato
 [Save the window size and location individually for each contact]
 Salvar o tamanho da janela e localização individualmente para cada contato
 [Show 'Send' button]
 Mostrar botão 'Enviar'
-[Show 'Send' button]
-Mostrar botão 'Enviar'
-[Show username on top row]
-Mostrar nome de usuário na linha superior
 [Show username on top row]
 Mostrar nome do usário no topo
 [Show toolbar buttons on top row]
-Mostrar botões da barra de ferramentas na linha superior
-[Show toolbar buttons on top row]
 Mostrar botões (Barra Ferr) no topo
 [Show character count]
-Mostrar o número de caracteres
-[Show character count]
 Mostrar caracteres da conta
-[Support control up/down in message area to show previously sent messages]
-Controle de suporte para cima/baixo na área de mensagem para mostrar as mensagens enviadas anteriormente
 [Support control up/down in message area to show previously sent messages]
 Suportar o controle subir/descer na área de mensagem para exibir mensagens enviadas
 [Delete temporary contacts when closing message window]
@@ -530,15 +374,11 @@ Apagar contatos temporários quando fechar a janela de mensagens
 [Enable avatar support in the message window]
 Ative o suporte de Avatares na janela de mensagens
 [Limit avatar height to ]
-Limite de altura para avatar
-[Limit avatar height to ]
 Limitar o tamanho do avatar a]
 [Show timestamp]
 Mostrar hora
 [Show dates]
 Exibir datas
-[Show status changes]
-Mostrar alteração de status
 [Show status changes]
 Exibir mudança de status
 [Update inactive message window icons when a user is typing]
@@ -556,13 +396,9 @@ Localizar:
 [Add E-Mail Address]
 Adicionar E-Mail
 [%s: User Details]
-%s: Detalhes do Usuário
-[%s: User Details]
 %s: Detalhes do usuário
 [%s\nView personal user details and more]
 %s\nExibe detalhes pessoais do usuário e mais...
-[Update Now]
-Atualizar agora
 [Update Now]
 Atualizar Agora
 [Web page:]
@@ -598,19 +434,11 @@ Evento adicionado
 ;file \src\core\stdchat\src\log.cpp
 ;file \src\core\stdchat\src\options.cpp
 [Use a tabbed interface]
-Use uma interface com abas
-[Use a tabbed interface]
 Usar um 'interface' em abas'
-[Close tab on doubleclick]
-Fechar guia com um duplo clique
 [Close tab on doubleclick]
 Fechar a aba com duplo clique
 [Restore previously open tabs when showing the window]
-Restaurar abas abertas anteriormente ao mostrar a janela
-[Restore previously open tabs when showing the window]
 Restaurar abas previamente abertas quando mostrar a janela
-[Show tabs at the bottom]
-Mostrar separadores no fundo
 [Show tabs at the bottom]
 Mostrar separadores ao fundo
 [Send message by pressing the Enter key]
@@ -625,34 +453,18 @@ Exibrir botões para controle das salas de bate-papo
 Exibir botões para formatação de texto que está sendo escrito
 [Show new windows cascaded]
 Mostrar novas janelas em cascata
-[Show new windows cascaded]
-Mostrar novas janelas em cascata
-[Save the size and position of chat rooms]
-Salve o tamanho e posição de salas de bate-papo
 [Save the size and position of chat rooms]
 Salvar o tamanho e posição das salas de bate-papo
 [Show the topic of the room on your contact list (if supported)]
-Mostrar o tópico da sala de sua lista de contatos (se suportado)
-[Show the topic of the room on your contact list (if supported)]
 Mostrar o tema da sala em sua lista de contato (se suportado)
-[Do not play sounds when the chat room is focused]
-Não tocar sons quando a janela de mensagem estiver visível
 [Do not play sounds when the chat room is focused]
 Não reproduzir sons quando a sala de chat está centrada
 [Toggle the visible state when double clicking in the contact list]
-Mudar o status visível ao dar um duplo clique na lista de contatos
-[Toggle the visible state when double clicking in the contact list]
 Alternar o estado visível ao clicar duas vezes na lista de contactos
-[Show contact statuses if protocol supports them]
-Exibir os status dos contatos se os protocolos suportarem eles
 [Show contact statuses if protocol supports them]
 Mostrar status dos usuários se o protocolo suportar
 [Display contact status icon before user role icon]
-Mostrar ícone de status antes de entrar
-[Display contact status icon before user role icon]
 Mostrar ícone de status do contato antes do ícone função de usuário
-[Timestamp has same colour as the event]
-O número tem a mesma cor que o evento
 [Timestamp has same colour as the event]
 Timestamp tem a mesma cor que o evento
 [Add ':' to auto-completed user names]
@@ -666,39 +478,21 @@ Mostrar ícone para usários desconectando
 [Show icon for messages]
 Mostrar ícone para mensagens
 [Show icon for actions]
-Mostrar ícone para as ações
-[Show icon for actions]
 Mostrar ícone de ações
-[Show icon for highlights]
-Mostrar ícone para palavras destacadas
 [Show icon for highlights]
 Mostrar ícone para destaques
 [Show icon for users leaving]
-Mostrar ícone para usuários saindo 
-[Show icon for users leaving]
 Mostrar ícone os que estão usuários saindo
 [Show icon for users kicking other user]
-Mostrar ícone para usuário chutando outro usuário
-[Show icon for users kicking other user]
 Mostrar ícone para usuários que estão chutando outro usuário
-[Show icon for notices ]
-Mostrar ícone para notificações
 [Show icon for notices ]
 Mostrar ícone de anúncios
 [Show icon for name changes]
 Mostrar ícone para mudanças de nome
-[Show icon for name changes]
-Mostrar ícone para mudanças de nome
-[Show icon for information messages]
-Mostrar ícone para mensagens de informação
 [Show icon for information messages]
 Mostrar ícone de mensagens de informação
 [Show icon for status changes]
-Mostrar ícone para mudança de status
-[Show icon for status changes]
 Mostrar ícone de alteração de status
-[Chat Module]
-Módulo Chat
 [Chat Module]
 Módulo de Mensagem
 [Message Background]
@@ -706,25 +500,15 @@ Fundo da Mensagem
 [Userlist Background]
 Fundo da Lista de Usuários
 [Userlist Lines]
-Linhas da Lista de Usuários
-[Userlist Lines]
 Linhas da Lista de usuário
-[Userlist Background (selected)]
-Fundo da Lista de Usuários (selecionado)
 [Userlist Background (selected)]
 Fundo da Lista de usuários (selecionado)
 [Group Chats Log]
 Reg. de Grupos de Chats
 [Options for using a tabbed interface]
-Opções para utilizar uma interface com guias
-[Options for using a tabbed interface]
 Opções para usar um 'interface' em abas
 [Icons to display in the message log]
-Ícones a serem exibidos no registro de mensagens
-[Icons to display in the message log]
 Ícones para exibir o registro de mensagens
-[Chat Log]
-Registro de bate-papo
 [Chat Log]
 Reg. Chat
 [Chat]
@@ -748,8 +532,6 @@ O usuário não tem registrado um endereço de e-mail
 Arquivo de %s
 [File &Transfers...]
 Transferência de &Arquivos...
-[Denied]
-Negado
 [Denied]
 Recusado
 ;file \src\core\stdfile\fileexistsdlg.cpp
@@ -777,19 +559,11 @@ remanescente
 ;file \src\core\stdhelp\about.cpp
 ;file \src\core\stdhelp\help.cpp
 [&About...]
-Sobre...
-[&About...]
-&Sobre...
-[&About...]
 &Sobre...
 [&Support]
 Suporte
 [&Miranda NG Homepage]
-&Página do Miranda NG (Inglês)
-[&Miranda NG Homepage]
 Site do &Miranda NG em Inglês
-[&Report Bug]
-&Reportar Bug
 [&Report Bug]
 &Reportar Bug
 ;file \src\core\stdidle\idle.cpp
@@ -798,8 +572,6 @@ Site do &Miranda NG em Inglês
 ;file \src\core\stdmsg\src\msgdialog.cpp
 ;file \src\core\stdmsg\src\msglog.cpp
 ;file \src\core\stdmsg\src\msgoptions.cpp
-[Messaging Log]
-Mensagens ao Entrar
 [Messaging Log]
 Registro de Mensagens
 ;file \src\core\stdmsg\src\msgs.cpp
@@ -855,19 +627,13 @@ Status personalizada
 ;file \src\modules\clist\clistmod.cpp
 [This plugin requires db3x plugin version 0.5.1.0 or later]
 Este plugin requer o plugin db3x versão 0.5.1.0 ou posterior
-[This plugin requires db3x plugin version 0.5.1.0 or later]
-Este plugin requer o plugin db3x versão 0.5.1.0 ou posterior
 ;file \src\modules\clist\clistsettings.cpp
 ;file \src\modules\clist\clisttray.cpp
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Este contato é sobre um sistema de mensagens instantâneas que armazena sua lista de contatos em um servidor central. O contato será removido do servidor e de sua lista de contato quando você conectar-se próxima a essa rede.
 [De&lete]
-Exc&luir
-[De&lete]
 &Apagar
-[&Add permanently to list]
-&Adicionar permanentemente à lista
 [&Add permanently to list]
 &Adicionar permanentemente a lista
 ;file \src\modules\clist\contacts.cpp
@@ -894,8 +660,6 @@ Novo Grupo
 Já existe um grupo com esse nome. Por favor insira um nome original para o grupo.
 [Rename Group]
 Renomear Grupo
-[This group]
-Este grupo
 [This group]
 Este grupo
 ;file \src\modules\clist\keyboard.cpp
@@ -931,8 +695,6 @@ Não é possível criar o perfil '%s', o erro foi x%
 Problema criando perfil
 [Created]
 Criado
-[Created]
-Criado
 [Run]
 Ativar
 [Miranda Profiles from]
@@ -941,16 +703,10 @@ Perfil do Miranda NG BR em
 Selecione ou crie seu perfil do Miranda NG BR
 [My Profiles]
 Meus Perfis
-[My Profiles]
-Meus Perfis
-[New Profile]
-Novo Perfil
 [New Profile]
 Novo Perfil
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
 ;file \src\modules\extraicons\extraicons.cpp
-[Chat Activity]
-Atividade de Bate-papo
 [Chat Activity]
 Atividade de bate-papo
 ;file \src\modules\extraicons\options_ei.cpp
@@ -1026,8 +782,6 @@ Não é possível iniciar qualquer um dos plugins instalados lista de contato, e
 Plugin
 ;file \src\modules\protocols\protoopts.cpp
 [Editing account]
-Editando conta
-[Editing account]
 Editar conta
 [Upgrading account]
 Atualizando conta
@@ -1036,17 +790,9 @@ A conta está desativada. Por favor, ative-a para acessar as opções.
 [New account]
 Nova conta
 [Account ID]
-ID da conta
-[Account ID]
 Conta
 [Account %s is being deleted]
-A conta %s está sendo excluída
-[Account %s is being deleted]
 A Conta %s está sendo apagada
-[&Accounts...]
-&Contas...
-[&Accounts...]
-Contas...
 [&Accounts...]
 &Contas...
 ;file \src\modules\skin\hotkey_opts.cpp
@@ -1063,50 +809,28 @@ Adicionar
 ;file \src\modules\skin\skinicons.cpp
 [Group (Open)]
 Grupo (Aberto)
-[Group (Open)]
-Grupo (Aberto)
-[Group (Closed)]
-Grupo (fechado)
 [Group (Closed)]
 Grupo (Fechado)
 [Connecting]
 Conectando
-[Connecting]
-Conectando
-[Down Arrow]
-Seta para baixo
 [Down Arrow]
 Baixar
-[Send E-mail]
-Enviar E-mail
 [Send E-mail]
 Enviar E-mail
 [SMS]
 SMS
 [Search All]
-Busca Todas as
-[Search All]
 Pesquisar Tudo
 [Tick]
-Pulsar
-[Tick]
 Selecionado
-[No Tick]
-Sem Barulho
 [No Tick]
 Não selecionado
 [Miranda Website]
 Miranda Website
 [Small Dot]
-Pequeno Ponto
-[Small Dot]
 Símbolo Pequeno
 [Filled Blob]
-Blob cheio
-[Filled Blob]
 Falhou o carregamento
-[Empty Blob]
-Esvazir Blob
 [Empty Blob]
 Carregado com êxito
 [Unicode plugin]
@@ -1114,19 +838,11 @@ Plugin Unicode
 [ANSI plugin]
 Plugin ANSI
 [Running plugin]
-rodando plugin
-[Running plugin]
 Plugin ativado
 [Unloaded plugin]
 Plugin desativado
-[Unloaded plugin]
-Plugin desativado
-[ShowHide]
-MostrarOcultar
 [ShowHide]
 Exibir/Ocultar
-[Exit]
-Sair
 [Exit]
 Sair
 [Leave chat]
@@ -1141,8 +857,6 @@ Mover para o Grupo
 Ícones Principais
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
-[All Bitmaps]
-Todos os Bitmaps
 [All Bitmaps]
 Todos os Bitmaps
 ;file \src\modules\utils\timezones.cpp

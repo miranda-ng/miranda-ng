@@ -808,8 +808,6 @@ Miranda 无法打开此配置文件
 此变更具有潜在危险.
 [This change is not known to be safe.]
 此变更不知是否安全.
-[Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-无效设置类型. 每个值的首字符必须为 b, w, d, l, s, e, u, g, h 或 n.
 ;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 配置文件已存在
@@ -1029,6 +1027,10 @@ ANSI 插件
 离开聊天室
 [Move to Group]
 移至群组
+[Grant authorization]
+准许授权
+[Revoke authorization]
+撤销授权
 [Locked status]
 锁定状态
 [Status Icons]

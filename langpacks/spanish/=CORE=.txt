@@ -387,8 +387,6 @@ Mostrar fecha y hora
 Mostrar fechas
 [Show status changes]
 Mostrar los cambios de estado
-[Show status changes]
-Mostrar los cambios de estado
 [Show Formatting]
 Mostrar formato
 [Update inactive message window icons when a user is typing]
@@ -730,10 +728,6 @@ Este cambio se sabe que es segura.
 Este cambio se sabe que son potencialmente peligrosos.
 [This change is not known to be safe.]
 Este cambio no se sabe que es segura.
-[Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-No válido ajuste del tipo de. El primer carácter de cada valor debe ser b, w, d, l, s, e, u, g, h or n.
-[Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-No válido ajuste del tipo de. El primer carácter de cada valor debe ser b, w, d, l, s, e, u, g, h or n.
 ;file \src\modules\database\profilemanager.cpp
 [Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
 No se puede mover '%s' a la Papelera de reciclaje, por favor seleccione otro nombre de perfil.
@@ -761,8 +755,6 @@ Nuevo perfil
 [Chat activity]
 Chat Actividad
 ;file \src\modules\extraicons\extraicons.cpp
-[Chat Activity]
-Chat Actividad
 [Chat Activity]
 Chat Actividad
 ;file \src\modules\extraicons\options_ei.cpp
