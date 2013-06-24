@@ -78,6 +78,7 @@ void	TSAPI GetClientIcon					(TWindowData *dat);
 void	TSAPI RearrangeTab					(HWND hwndDlg, const TWindowData *dat, int iMode, BOOL fSavePos);
 void	TSAPI GetCachedStatusMsg			(TWindowData *dat);
 BOOL	TSAPI IsStatusEvent					(int eventType);
+BOOL	TSAPI IsCustomEvent					(int eventType);
 void	TSAPI GetMyNick						(TWindowData *dat);
 HICON	TSAPI MY_GetContactIcon				(const TWindowData *dat);
 void	TSAPI CheckAndDestroyIEView			(TWindowData *dat);

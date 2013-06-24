@@ -68,6 +68,15 @@ BOOL TSAPI IsStatusEvent(int eventType)
 	return FALSE;
 }
 
+BOOL TSAPI IsCustomEvent(int eventType)
+{
+	if (eventType == EVENTTYPE_MESSAGE || eventType == EVENTTYPE_URL || eventType == EVENTTYPE_CONTACTS ||
+		eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST || eventType == EVENTTYPE_FILE)
+		return FALSE;
+
+	return TRUE;
+}
+
 /*
  * reorder tabs within a container. fSavePos indicates whether the new position should be saved to the
  * contacts db record (if so, the container will try to open the tab at the saved position later)

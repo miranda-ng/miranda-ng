@@ -543,20 +543,18 @@ static char *CreateRTFTail(struct TWindowData *dat)
 	return buffer;
 }
 
-int TSAPI DbEventIsShown(struct TWindowData *dat, DBEVENTINFO * dbei)
+int TSAPI DbEventIsShown(struct TWindowData *dat, DBEVENTINFO *dbei)
 {
-	switch (dbei->eventType) {
-	case EVENTTYPE_MESSAGE:
+	if (!IsCustomEvent(dbei->eventType))
 		return 1;
 
-	case EVENTTYPE_FILE:
-		return(dat->dwFlagsEx & MWF_SHOW_FILEEVENTS);
-	}
+	if (DbEventIsForMsgWindow(dbei))
+		return 1;
 
 	return IsStatusEvent(dbei->eventType);
 }
 
-static int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
+int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 {
 	DBEVENTTYPEDESCR* et = ( DBEVENTTYPEDESCR* )CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
 	return et && ( et->flags & DETF_MSGWINDOW );
@@ -1028,6 +1026,12 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 									AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, tszFileName, 0 );
 								}
 								mir_free( tszFileName );
+							}
+							break;
+						default:
+							if (IsCustomEvent(dbei.eventType)) {
+								TCHAR* tszText = DbGetEventTextT(&dbei, CP_ACP);
+								AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, tszText, 0);
 							}
 							break;
 					}

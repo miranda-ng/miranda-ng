@@ -712,7 +712,9 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 
 	HWND hwnd = M->FindWindow((HANDLE)wParam);
 
-	if (dbei.flags & DBEF_SENT || !(dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE) || dbei.flags & DBEF_READ)
+	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
+	BOOL isShownCustomEvent = DbEventIsForMsgWindow(&dbei);
+	if (dbei.flags & DBEF_SENT || (isCustomEvent && !isShownCustomEvent) || dbei.flags & DBEF_READ)
 		return 0;
 
 	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM)1);

@@ -510,35 +510,39 @@ static BOOL CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 * @return
 */
 
-static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
+static TCHAR *ShortenPreview(DBEVENTINFO* dbe)
 {
-	char	*pBlob = (char *)dbe->pBlob;
 	bool	fAddEllipsis = false;
-
 	int iPreviewLimit = nen_options.iLimitPreview;
 	if (iPreviewLimit > 500 || iPreviewLimit == 0)
 		iPreviewLimit = 500;
 
+	TCHAR* buf = DbGetEventTextT(dbe, CP_ACP);
+	if (lstrlen(buf) > iPreviewLimit) {
+		fAddEllipsis = true;
+		int iIndex = iPreviewLimit;
+		int iWordThreshold = 20;
+		while(iIndex && buf[iIndex] != ' ' && iWordThreshold--)
+			buf[iIndex--] = 0;
+
+		buf[iIndex] = 0;
+	}
+	if (fAddEllipsis) {
+		buf = (TCHAR *)mir_realloc(buf, (lstrlen(buf) + 5) * sizeof(TCHAR));
+		_tcscat(buf, _T("..."));
+	}
+	return buf;
+}
+
+static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
+{
+	char	*pBlob = (char *)dbe->pBlob;
+
 	switch (eventType) {
 	case EVENTTYPE_MESSAGE:
-		if (pBlob) {
-			if (nen_options.bPreview) {
-				TCHAR* buf = DbGetEventTextT(dbe, CP_ACP);
-				if (lstrlen(buf) > iPreviewLimit) {
-					fAddEllipsis = true;
-					int iIndex = iPreviewLimit;
-					int iWordThreshold = 20;
-					while(iIndex && buf[iIndex] != ' ' && iWordThreshold--) {
-						buf[iIndex--] = 0;
-					}
-					buf[iIndex] = 0;
-				}
-				buf = (TCHAR *)mir_realloc(buf, (lstrlen(buf) + 5) * sizeof(TCHAR));
-				if (fAddEllipsis)
-					_tcscat(buf, _T("..."));
-				return buf;
-			}
-		}
+		if (pBlob && nen_options.bPreview)
+			return ShortenPreview(dbe);
+
 		return mir_tstrdup( TranslateT("Message"));
 
 	case EVENTTYPE_FILE:
@@ -574,6 +578,9 @@ static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 		return mir_tstrdup(TranslateT("Incoming file (invalid format"));
 
 	default:
+		if (nen_options.bPreview)
+			return ShortenPreview(dbe);
+
 		return mir_tstrdup(TranslateT("Unknown event"));
 	}
 }
@@ -656,25 +663,6 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 	if (!PluginConfig.g_PopupAvail)
 		return 0;
 
-	POPUPDATAT pud = {0};
-	long iSeconds;
-	switch (eventType) {
-	case EVENTTYPE_MESSAGE:
-		pud.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-		pud.colorBack = pluginOptions->bDefaultColorMsg ? 0 : pluginOptions->colBackMsg;
-		pud.colorText = pluginOptions->bDefaultColorMsg ? 0 : pluginOptions->colTextMsg;
-		iSeconds = pluginOptions->iDelayMsg;
-		break;
-	case EVENTTYPE_FILE:
-		pud.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_FILE);
-		pud.colorBack = pluginOptions->bDefaultColorOthers ? 0 : pluginOptions->colBackOthers;
-		pud.colorText = pluginOptions->bDefaultColorOthers ? 0 : pluginOptions->colTextOthers;
-		iSeconds = pluginOptions->iDelayOthers;
-		break;
-	default:
-		return 1;
-	}
-
 	DBEVENTINFO dbe = { sizeof(dbe) };
 	// fix for a crash
 	if (hEvent && (pluginOptions->bPreview || hContact == 0)) {
@@ -685,6 +673,24 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 
 	if (hEvent == 0 && hContact == 0)
 		dbe.szModule = Translate("Unknown module or contact");
+
+	POPUPDATAT pud = {0};
+	long iSeconds;
+	switch (eventType) {
+	case EVENTTYPE_MESSAGE:
+		pud.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+		pud.colorBack = pluginOptions->bDefaultColorMsg ? 0 : pluginOptions->colBackMsg;
+		pud.colorText = pluginOptions->bDefaultColorMsg ? 0 : pluginOptions->colTextMsg;
+		iSeconds = pluginOptions->iDelayMsg;
+		break;
+
+	default:
+		pud.lchIcon = (HICON)CallService(MS_DB_EVENT_GETICON, LR_SHARED, (LPARAM)&dbe);
+		pud.colorBack = pluginOptions->bDefaultColorOthers ? 0 : pluginOptions->colBackOthers;
+		pud.colorText = pluginOptions->bDefaultColorOthers ? 0 : pluginOptions->colTextOthers;
+		iSeconds = pluginOptions->iDelayOthers;
+		break;
+	}
 
 	PLUGIN_DATAT *pdata = (PLUGIN_DATAT *)mir_calloc(sizeof(PLUGIN_DATAT));
 	pdata->eventType = eventType;

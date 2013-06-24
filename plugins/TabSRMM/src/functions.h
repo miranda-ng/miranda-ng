@@ -132,6 +132,8 @@ void  TSAPI RTF_CTableInit();
 INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR    CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
+int DbEventIsForMsgWindow(DBEVENTINFO *dbei);
+
 int   TSAPI InitOptions(void);
 int   TSAPI DbEventIsShown(TWindowData *dat, DBEVENTINFO *dbei);
 void  TSAPI StreamInEvents(HWND hwndDlg,HANDLE hDbEventFirst,int count,int fAppend, DBEVENTINFO *dbei_s);
