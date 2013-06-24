@@ -4,13 +4,13 @@ extern OBJLIST<WhatsAppProto> g_Instances;
 
 static IconItem icons[] =
 {
-	{ LPGEN("WhatsApp Icon"),				 "whatsApp",					  IDI_WHATSAPP },
-	{ LPGEN("Add To Group"),				  "addContactToGroup",		  IDI_ADD_USER_TO_GROUP},
-	{ LPGEN("Create Chat Group"),			"createGroup",				  IDI_ADD_GROUP },
-	{ LPGEN("Remove From Chat Group"),	 "removeContactFromGroup",	IDI_REMOVE_USER_FROM_GROUP },
-	{ LPGEN("Leave And Delete Group"),	 "leaveAndDeleteGroup",		IDI_LEAVE_GROUP },
-	{ LPGEN("Leave Group"),					"leaveGroup",					IDI_LEAVE_GROUP },
-	{ LPGEN("Change Group Subject"),		"changeGroupSubject",		 IDI_CHANGE_GROUP_SUBJECT }
+	{ LPGEN("WhatsApp Icon"),             "whatsApp",                 IDI_WHATSAPP },
+	{ LPGEN("Add To Group"),              "addContactToGroup",        IDI_ADD_USER_TO_GROUP},
+	{ LPGEN("Create Chat Group"),         "createGroup",              IDI_ADD_GROUP },
+	{ LPGEN("Remove From Chat Group"),    "removeContactFromGroup",   IDI_REMOVE_USER_FROM_GROUP },
+	{ LPGEN("Leave And Delete Group"),    "leaveAndDeleteGroup",      IDI_LEAVE_GROUP },
+	{ LPGEN("Leave Group"),               "leaveGroup",               IDI_LEAVE_GROUP },
+	{ LPGEN("Change Group Subject"),      "changeGroupSubject",       IDI_CHANGE_GROUP_SUBJECT }
 };
 
 void InitIcons(void)
@@ -37,10 +37,7 @@ char *GetIconDescription(const char* name)
 }
 
 // Contact List menu stuff
-HANDLE hHookPreBuildMenu;
-HANDLE g_hContactMenuItems[CMITEMS_COUNT];
-HANDLE g_hContactMenuSvc[CMITEMS_COUNT];
-
+HGENMENU g_hContactMenuItems[CMITEMS_COUNT];
 
 // Helper functions
 static WhatsAppProto* GetInstanceByHContact(HANDLE hContact)
@@ -74,9 +71,7 @@ INT_PTR GlobalServiceParam(WPARAM wParam,LPARAM lParam, LPARAM lParam2)
 static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {
 	for (size_t i=0; i<SIZEOF(g_hContactMenuItems); i++)
-	{
-		EnableMenuItem(g_hContactMenuItems[i], false);
-	}
+		Menu_ShowItem(g_hContactMenuItems[i], false);
 
 	WhatsAppProto *proto = GetInstanceByHContact(reinterpret_cast<HANDLE>(wParam));
 	return proto ? proto->OnPrebuildContactMenu(wParam,lParam) : 0;
@@ -84,7 +79,7 @@ static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 
 void WhatsAppProto::InitContactMenus()
 {
-	hHookPreBuildMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
 	CLISTMENUITEM mi = {sizeof(mi)};
 
@@ -92,34 +87,20 @@ void WhatsAppProto::InitContactMenus()
 	mi.icolibItem = GetIconHandle("leaveGroup");
 	mi.pszName = GetIconDescription("leaveGroup");
 	mi.pszService = "WhatsAppProto/LeaveGroup";
-	g_hContactMenuSvc[CMI_LEAVE_GROUP] =
-		CreateServiceFunction(mi.pszService,GlobalService<&WhatsAppProto::OnLeaveGroup>);
+	CreateServiceFunction(mi.pszService,GlobalService<&WhatsAppProto::OnLeaveGroup>);
 	g_hContactMenuItems[CMI_LEAVE_GROUP] = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000006100;
 	mi.icolibItem = GetIconHandle("leaveAndDeleteGroup");
 	mi.pszName = GetIconDescription("leaveAndDeleteGroup");
-	g_hContactMenuSvc[CMI_REMOVE_GROUP] = g_hContactMenuSvc[CMI_LEAVE_GROUP];
 	g_hContactMenuItems[CMI_REMOVE_GROUP] = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000006099;
 	mi.icolibItem = GetIconHandle("changeGroupSubject");
 	mi.pszName = GetIconDescription("changeGroupSubject");
 	mi.pszService = "WhatsAppProto/ChangeGroupSubject";
-	g_hContactMenuSvc[CMI_CHANGE_GROUP_SUBJECT] =
-		CreateServiceFunction(mi.pszService,GlobalService<&WhatsAppProto::OnChangeGroupSubject>);
+	CreateServiceFunction(mi.pszService,GlobalService<&WhatsAppProto::OnChangeGroupSubject>);
 	g_hContactMenuItems[CMI_CHANGE_GROUP_SUBJECT] = Menu_AddContactMenuItem(&mi);
-
-}
-
-void EnableMenuItem(HANDLE hMenuItem, bool enable)
-{
-	CLISTMENUITEM clmi = { sizeof(clmi) };
-	clmi.flags = CMIM_FLAGS;
-	if (!enable)
-		clmi.flags |= CMIF_HIDDEN;
-
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&clmi);
 }
 
 int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
@@ -131,13 +112,10 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 		LOG("No contact found");
 
 	if (g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP] != NULL)
-	{
 		CallService("CList/RemoveContactMenuItem", (WPARAM) g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP], (LPARAM) 0);
-	}
+
 	if (g_hContactMenuItems[CMI_REMOVE_CONTACT_FROM_GROUP] != NULL)
-	{
 		CallService("CList/RemoveContactMenuItem", (WPARAM) g_hContactMenuItems[CMI_REMOVE_CONTACT_FROM_GROUP], (LPARAM) 0);
-	}
 	
 	int chatType = db_get_b(hContact, m_szModuleName, "SimpleChatRoom", 0);
 
@@ -154,14 +132,14 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 
 		if (!isOnline())
 		{
-			mi.flags = CMIM_FLAGS | CMIF_GRAYED;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP], (LPARAM) &mi);
+			Menu_ShowItem(g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP], false);
 			return 0;
 		}
 
 		mi.hParentMenu = (HGENMENU) g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP];
 		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 
+		int iGrpCount = 0;
 		string fullSvcName;
 		string svcName = m_szModuleName;
 		svcName += "/AddContactToGroup_";
@@ -182,16 +160,17 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 				Menu_AddContactMenuItem(&mi);
 				db_free(&dbv);
 				mir_free(mi.ptszName);
+				iGrpCount++;
 			}
 		}
+		if (!iGrpCount)
+			Menu_ShowItem(g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP], false);
 	}
 	else if (chatType == 1)
 	{
 		mi.flags = CMIM_FLAGS;
 		if (!isOnline() || db_get_b(hContact, m_szModuleName, "IsGroupMember", 0) == 0)
-		{
 			mi.flags |= CMIF_GRAYED;
-		}
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) g_hContactMenuItems[CMI_LEAVE_GROUP], (LPARAM) &mi);
 	}
 	else if (chatType == 2)
@@ -204,6 +183,7 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 		mi.pszService = NULL;
 		g_hContactMenuItems[CMI_REMOVE_CONTACT_FROM_GROUP] = Menu_AddContactMenuItem(&mi);
 
+		bool bShow = false;
 		if (isOnline() &&  db_get_b(hContact, m_szModuleName, "IsGroupMember", 0) == 1)
 		{
 			map<HANDLE, map<HANDLE, bool>>::iterator groupsIt = this->isMemberByGroupContact.find(hContact);
@@ -233,18 +213,15 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 						Menu_AddContactMenuItem(&mi);
 						db_free(&dbv);
 						mir_free(mi.ptszName);
+						bShow = true;
 					}
 				}
 			}
-			mi.flags = CMIM_FLAGS;
 		}
-		else
-		{
-			mi.flags = CMIM_FLAGS | CMIF_GRAYED;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) g_hContactMenuItems[CMI_REMOVE_CONTACT_FROM_GROUP], (LPARAM) &mi);
-		}
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) g_hContactMenuItems[CMI_REMOVE_GROUP], (LPARAM) &mi);
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) g_hContactMenuItems[CMI_CHANGE_GROUP_SUBJECT], (LPARAM) &mi);
+		else Menu_ShowItem(g_hContactMenuItems[CMI_REMOVE_CONTACT_FROM_GROUP], false);
+
+		Menu_ShowItem(g_hContactMenuItems[CMI_REMOVE_GROUP], bShow);
+		Menu_ShowItem(g_hContactMenuItems[CMI_CHANGE_GROUP_SUBJECT], bShow);
 	}
 
 	return 0;
