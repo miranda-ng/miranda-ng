@@ -5,12 +5,13 @@
  *      Author: Antonio
  */
 
-#include "../common.h"
 #include "WAConnection.h"
 #include "ProtocolTreeNode.h"
 #include <map>
 #include <vector>
 #include "utilities.h"
+
+std::string base64_encode(void*, size_t);
 
 const char* WAConnection::dictionary[] = {
 		"",
@@ -1156,7 +1157,7 @@ void WAConnection::parseMessageInitialTagAlreadyChecked(ProtocolTreeNode* messag
 							data = childNode->getDataAsString();
 						} else {
 							_LOGDATA("Media data encoding type '%s'", (encoding == NULL? "text":encoding->c_str()));
-							data = (childNode->data == NULL? NULL : new std::string(mir_base64_encode((BYTE*)childNode->data->data(), (unsigned)childNode->data->size())));
+							data = (childNode->data == NULL? NULL : new std::string(base64_encode(childNode->data->data(), childNode->data->size())));
 						}
 						fmessage->data = (data == NULL? "": *data);
 						if (data != NULL)
@@ -1591,7 +1592,7 @@ std::string WAConnection::removeResourceFromJid(const std::string& jid) {
 }
 
 void WAConnection::sendStatusUpdate(std::string& status) throw (WAException) {
-	std::string id = this->makeId(Utilities::intToStr(time(NULL)));
+	std::string id = this->makeId(Utilities::intToStr((int)time(NULL)));
 	FMessage* message = new FMessage(new Key("s.us", true, id));
 	ProtocolTreeNode* body = new ProtocolTreeNode("body", NULL, new std::vector<unsigned char>(status.begin(), status.end()), NULL);
 	ProtocolTreeNode* messageNode = getMessageNode(message, body);

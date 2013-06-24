@@ -5,7 +5,6 @@
  *      Author: Antonio
  */
 
-#include "../common.h"
 #include "WAException.h"
 #include "ProtocolTreeNode.h"
 

@@ -142,7 +142,6 @@ void WhatsAppProto::stayConnectedLoop(void*)
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) ID_STATUS_OFFLINE, m_iStatus);
 
 		CODE_BLOCK_TRY
-
 			unsigned passLen;
 			ptrA passBin((char*)mir_base64_decode(pass.c_str(), &passLen));
 			std::string password(passBin, passLen);

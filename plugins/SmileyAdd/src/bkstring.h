@@ -159,7 +159,7 @@ public:
 	bkstring& operator += (const value_type _Ch)
 	{ return append(1, _Ch); }
 
-	value_type& operator[] (int ind) const
+	value_type& operator[] (size_t ind) const
 	{ return buf[ind]; }
 
 	friend bkstring operator+ (const bkstring& _Str1, const bkstring& _Str2)

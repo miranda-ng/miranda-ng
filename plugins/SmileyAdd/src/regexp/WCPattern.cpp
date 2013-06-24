@@ -624,9 +624,7 @@ NFAUNode * WCPattern::parseRegisteredWCPattern(NFAUNode ** end)
           (pattern[j] >= (wchar_t)'a' && pattern[j] <= (wchar_t)'z') ||
           (pattern[j] >= (wchar_t)'A' && pattern[j] <= (wchar_t)'Z') ||
           (pattern[j] >= (wchar_t)'0' && pattern[j] <= (wchar_t)'9') ||
-          (pattern[j] == (wchar_t)'_')
-         )
-        )
+          (pattern[j] == (wchar_t)'_')))
     {
       raiseError();
       return NULL;

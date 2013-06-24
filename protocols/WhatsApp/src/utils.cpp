@@ -112,3 +112,8 @@ BYTE* utils::md5string(const BYTE *data, int size, BYTE *digest)
 	mir_md5_finish(&md5_state, digest);
 	return digest;
 }
+
+std::string base64_encode(void* pData, size_t len)
+{
+	return (char*)ptrA( mir_base64_encode((BYTE*)pData, (unsigned)len));
+}

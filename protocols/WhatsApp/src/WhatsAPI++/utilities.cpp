@@ -1,5 +1,3 @@
-
-#include "../common.h"
 #include "utilities.h"
 //#include "ApplicationData.h"
 #include <iostream>

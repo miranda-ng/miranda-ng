@@ -5,7 +5,6 @@
  *      Author: Antonio
  */
 
-#include "../common.h"
 #include "BinTreeNodeWriter.h"
 #include <cstring>
 #include "utilities.h"
