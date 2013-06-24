@@ -113,10 +113,6 @@ Počkejte...
 
 [Contact deleting]
 
-[OPML files]
-
-[Not valid import file.]
-
 [Network]
 Sítě
 ;file \plugins\NewsAggregator\Src\Services.cpp
@@ -136,4 +132,8 @@ Zdroj
 [%s\nis a not valid feed's address.]
 
 [empty]
+
+[OPML files]
+
+[Not valid import file.]
 

@@ -24,7 +24,6 @@
 [Other (rare) protocols]
 [Other icons]
 [Show client icon in message window status bar]
-[Fingerprint]
 [Client icons]
 [Multi-proto clients]
 [Other protocols]

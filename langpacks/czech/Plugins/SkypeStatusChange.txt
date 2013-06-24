@@ -5,17 +5,17 @@
 ;  Version: 0.0.0.18
 ;  Authors: Dioksin
 ;============================================================
-[Skype Status Change according to miranda-Status]
-
+[Skype Status Change according to miranda-Status.]
+Změna stavu programu Skype dle stavu Mirandy.
 ;file \plugins\SkypeStatusChange\res\SkypeStatusChange.rc
 [Synchronize status message]
-
+Synchronizovat zprávu stavu.
 [&Check any protocol or any status to exclude it from synchronization:]
-
+&Zaškrtněte jakýkoliv protokol či stav pro vyloučení ze synchronizace:
 [Synchronize if current status differs from previous one]
-
+Synchronizovat pouze pokud se aktuální stav liší od předchozího
 ;file \plugins\SkypeStatusChange\src\options.cpp
 [Change Skype Status]
-
+Změna stavu Skype
 [Plugins]
 Doplňky

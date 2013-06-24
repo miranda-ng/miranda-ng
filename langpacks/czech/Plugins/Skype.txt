@@ -26,12 +26,12 @@ Uživatelské jméno:
 &Vytvořit
 [Topic:]
 Téma:
-[Guidline:]
-
+[Guideline:]
+Pravidla:
 [Enable joining]
-
+Povolit připojování
 [Users joining as:]
-
+Uživatelé se připojují jako:
 [Create with password]
 Zabezpečit heslem
 [Password:]
@@ -45,15 +45,15 @@ Spravovat konferenci
 [&OK]
 &OK
 [Join role:]
-
+Role po připojení:
 [Set password]
 Nastavit heslo
 [Hint:]
 Tip:
 [Enter password]
 Zadejte heslo
-[Enter a password for skype name %d:]
-Zadejte heslo k uživatelskému jménu %d:
+[Enter a password]
+Zadejte heslo
 [Remember this session password]
 Zapamatovat heslo této relace
 [OK]
@@ -122,24 +122,28 @@ pro příchozí připojení
 Alternativně použít porty 80 a 443 pro příchozí připojení
 [Default group:]
 Výchozí skupina:
+[Skype bookmarks]
+Záložky Skype
+[Server side bookmarks\nControl conference bookmarks on server.]
+Záložky na serveru\nSpravujte záložky konferencí na serveru.
 ;file \protocols\Skype\src\skype.cpp
 [Did not unpack SkypeKit.exe.]
-
+SkypeKit.exe nebyl rozbalen
 ;file \protocols\Skype\src\skype_account.cpp
 [LOGOUT_CALLED]
-
+Zavoláno odhlášení
 [HTTPS_PROXY_AUTH_FAILED]
-
+Chyba autorizace k HTTPS proxy
 [SOCKS_PROXY_AUTH_FAILED]
-
+Chyba autorizace k SOCKS proxy
 [P2P_CONNECT_FAILED]
-
+Chyba připojení k P2P
 [SERVER_CONNECT_FAILED]
-
+Chyba připojení k serveru
 [SERVER_OVERLOADED]
-
+Přetížení serveru
 [DB_IN_USE]
-
+DB je již používána
 [Invalid skypename]
 Neplatené uživatelské jméno
 [Invalid email]
@@ -147,35 +151,35 @@ Neplatný e-mail
 [Unacceptable password]
 Neakceptovatelné heslo
 [SKYPENAME_TAKEN]
-
+Skype jméno převzato
 [REJECTED_AS_UNDERAGE]
-
+Odmítnuto pro nízký věk
 [NO_SUCH_IDENTITY]
-
+Neznámá identita
 [Incorrect password]
 Nesprávné heslo
 [Too many login attempts]
 Příliš mnoho pokusů o přihlášení
 [PASSWORD_HAS_CHANGED]
-
+Heslo bylo změněno
 [PERIODIC_UIC_UPDATE_FAILED]
-
+Průběžná aktualizace UIC selhala
 [DB_DISK_FULL]
-
+Plný disk pro DB
 [DB_IO_ERROR]
-
+Chyba čtení/zápisu DB
 [DB_CORRUPT]
-
+Poškozená DB
 [DB_FAILURE]
-
+Chyba DB
 [INVALID_APP_ID]
-
+Neplatné ID aplikace
 [APP_ID_FAILURE]
-
+Chyba ID aplikace
 [UNSUPPORTED_VERSION]
-
+Nepodporovaná verze
 [ATO (Account TakeOver) detected, account blocked]
-
+Detekováno převzetí účtu, účet byl zablokován
 [Logout from another instance]
 Odhlášeno kvůli připojení z jiného místa
 [Password change succeeded]
@@ -191,9 +195,14 @@ Nové heslo bylo úplně stejné jako staré
 [The new password was unacceptable]
 Nové heslo nebylo akceptovatelné
 [Account was currently not logged in]
-
+Účet nebyl aktuálně přihlášený
 [You have not entered a Skype name.\nConfigure this in Options->Network->Skype and try again.]
-
+Nezadali jste Skype jméno.\nNastavení proveďte v Možnosti->Sítě->Skype a opakujte požadavek znovu.
+;file \protocols\Skype\src\skype_bookmarks.cpp
+[Name]
+Jméno
+[Conferences]
+Diskusní skupiny
 ;file \protocols\Skype\src\skype_chat.cpp
 [&User details]
 Informace o &uživateli
@@ -223,10 +232,16 @@ Zkopírovat Skype jméno
 Zkopírovat &URI místnosti
 [me]
 já
-[Incoming group call received]
-Příchozí skupinové volání
+[waits to join]
+čeká na připojení
 [Incoming group call finished]
 Příchozí skupinové volání ukončeno
+[The password is incorrect]
+Heslo není správné
+[Your application to join the conference was denied]
+Váš požadavek o připojení do konference byl zamítnut
+[Incoming group call received]
+Příchozí skupinové volání
 [You did not select any contact]
 Nevybrali jste žádný kontakt
 [Hi! I'd like to add you to my contact list]
@@ -237,8 +252,8 @@ Kontakt je již ve vašem seznamu
 [Contacts received]
 Přijaty kontakty
 ;file \protocols\Skype\src\skype_dialogs.cpp
-[Enter a password for Skype Name %s:]
-Zadejte heslo pro uživatelské jméno %s:
+[Enter a password for %s:]
+Zadejte heslo pro %s:
 [Password can't be empty.]
 Heslo nemůže být prázdné.
 [Old password is not correct.]
@@ -254,10 +269,12 @@ muž
 [Female]
 žena
 [You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
-
+Nyní nejste připojeni k síti Skype. Musíte být připojeni pro aktualizaci vašich informací na serveru.
 ;file \protocols\Skype\src\skype_events.cpp
 [Spawn conference]
 Vytvořit konferenci
+[Bookmark]
+Záložka
 [Network]
 Sítě
 [Contacts]
@@ -266,10 +283,6 @@ Kontakty
 Domov
 [General]
 Obecné
-[Incoming call received]
-Příchozí volání
-[Incoming call from %s. Use offical skype for calling.]
-Příchozí volání od %s. Použijte oficiální Skype pro hovory.
 ;file \protocols\Skype\src\skype_icons.cpp
 [Protocol icon]
 Ikona protokolu
@@ -277,6 +290,12 @@ Ikona protokolu
 Volat
 [Send contact]
 Odeslat kontakt
+[Delete]
+Smazat
+[Ignore]
+Filtrování
+[Block]
+Blokovat
 [Protocols]
 Protokoly
 ;file \protocols\Skype\src\skype_instances.cpp
@@ -289,13 +308,21 @@ SkypeKit nebyl inicializován (%d).
 [SkypeKit did not start.]
 SkypeKit nebyl spuštěn.
 ;file \protocols\Skype\src\skype_menus.cpp
-[Revoke authorization]
-Odvolat autorizaci
 [Request authorization]
 Požádat o autorizaci
 [Grant authorization]
 Udělit autorizaci
+[Revoke authorization]
+Odvolat autorizaci
+[Set bookmark]
+Přidat do záložek
+[Bookmarks]
+Záložky
 ;file \protocols\Skype\src\skype_messages.cpp
+[Incoming call received]
+Příchozí volání
+[Incoming call from %s. Use offical skype for calling.]
+Příchozí volání od %s. Použijte oficiální Skype pro hovory.
 [Incoming call finished]
 Příchozí volání ukončeno
 ;file \protocols\Skype\src\skype_netlib.cpp
@@ -306,26 +333,26 @@ Příchozí volání ukončeno
 Skype jméno
 ;file \protocols\Skype\src\skype_utils.cpp
 [NOT_VALIDATED]
-
+Neověřeno
 [Validation succeeded]
-
+Úspěšně oveřeno
 [Password is too short]
 Heslo je příliš krátké
 [The value exceeds max size limit for the given property]
-
+Hodnota přesahuje maximální délku pro danou položku
 [Value contains illegal characters]
-
+Hodnota obsahuje zakázané znaky
 [Value contains whitespace]
-
+Hodnota obsahuje mezery
 [Password cannot be the same as skypename]
 Heslo nemůže být stejné jako uživatelské jméno
 [Value has invalid format]
-
+Hodnota má neplatný formát
 [Value contains invalid word]
-
+Hodnota obsahuje neplatné slovo
 [Password is too simple]
 Heslo je příliš jednoduché
 [Value starts with an invalid character]
-
+Hodnota začíná neplatným znakem
 [Avatars]
 Avatary

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.2
+;  Version: 0.1.1.4
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -42,6 +42,8 @@ Zdroj dat
 Stabilní verze
 [Development version (less stable)]
 Vývojová verze (méně stabilní)
+[Development version with debug symbols]
+Vývojová verze s debug symboly
 [Custom version]
 Vlastní verze
 [Notifications]
@@ -161,7 +163,7 @@ Informace
 Seznam komponent
 [Plugin Updater HTTP connection]
 Aktualizátor - Spojení pomocí protokolu HTTP
-[Downloading version info...]
-Načítání informací...
-[An error occured while downloading the update.]
-Nastala chyba při stahování informací.
+[Checking new updates...]
+Zjišťování aktualizací...
+[An error occured while checking new updates.]
+Nastala chyba při zjišťování aktualizací.

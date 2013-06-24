@@ -62,7 +62,7 @@ Vybrat protokoly
 
 ;file \plugins\FingerprintNG\src\fingerprint.cpp
 [Fingerprint]
-
+Fingerprint
 ;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons]
 

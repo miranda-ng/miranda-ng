@@ -336,7 +336,7 @@ Rozhovor začal %s
 [Remove bookmark]
 
 [Bookmark]
-
+Záložka
 [Remove Bookmark]
 Odstranění záložky
 [Set Bookmark]
