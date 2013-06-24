@@ -97,7 +97,7 @@ MIR_CORE_DLL(char*) mir_base64_encode(const BYTE *input, unsigned inputLen)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int Base64DecodeTable[] =
+static BYTE Base64DecodeTable[] =
 {
 	-1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1,
 	-1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1,
@@ -122,38 +122,33 @@ MIR_CORE_DLL(void*) mir_base64_decode(const char *input, unsigned *outputLen)
 	if (input == NULL)
 		return NULL;
 
-	size_t i = 0;
-	BYTE chr[3], enc[4];
-
 	size_t length = strlen(input);
 	size_t nLength = (length / 4) * 3;
+	const char *stop = input + length;
 
 	char *output = (char *)mir_alloc(nLength+1);
 	char *p = output;
 
-	while (i < length)
-	{
-		enc[0] = Base64DecodeTable[input[i++]];
-		enc[1] = Base64DecodeTable[input[i++]];
-		enc[2] = Base64DecodeTable[input[i++]];
-		enc[3] = Base64DecodeTable[input[i++]];
+	while (input < stop) {
+		BYTE e0 = Base64DecodeTable[*input++];
+		BYTE e1 = Base64DecodeTable[*input++];
+		BYTE e2 = Base64DecodeTable[*input++];
+		BYTE e3 = Base64DecodeTable[*input++];
 
-		if (enc[0] == -1 || enc[1] == -1) break;
+		if (e0 == (BYTE)-1 || e1 == (BYTE)-1)
+			break;
 
-		chr[0] = (enc[0] << 2) | (enc[1] >> 4);
-		chr[1] = ((enc[1] & 15) << 4) | (enc[2] >> 2);
-		chr[2] = ((enc[2] & 3) << 6) | enc[3];
-
-		*p++ = chr[0];
-
-		if (enc[2] != -1) *p++ = chr[1];
-		if (enc[3] != -1) *p++ = chr[2];
+		*p++ = (e0 << 2) | (e1 >> 4);
+		if (e2 != (BYTE)-1)
+			*p++ = ((e1 & 15) << 4) | (e2 >> 2);
+		if (e3 != (BYTE)-1)
+			*p++ = ((e2 & 3) << 6) | e3;
 	}
 
 	*p = 0;
 
 	if (outputLen != NULL)
-		*outputLen = (unsigned)nLength;
+		*outputLen = p - output;
 
 	return output;
 }
