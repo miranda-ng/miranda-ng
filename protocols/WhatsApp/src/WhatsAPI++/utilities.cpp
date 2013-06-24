@@ -1,5 +1,4 @@
 #include "utilities.h"
-//#include "ApplicationData.h"
 #include <iostream>
 #include <cstdio>
 #include <stdlib.h>
@@ -10,9 +9,6 @@
 #include <time.h>
 #include <fstream>
 #include <iomanip>
-
-// #TODO Remove Miranda dependency
-#include "../common.h"
 
 namespace Utilities{
 
@@ -84,7 +80,7 @@ std::string processIdentity(const std::string& id){
 	std::string buffer_str = reverseString(id);
 
    unsigned char digest[16];
-	utils::md5string(buffer_str, digest); 
+	md5_string(buffer_str, digest); 
 	buffer_str.clear();
 
 	for(int i =0; i < 16; i++){
@@ -132,7 +128,7 @@ std::string str(int64_t i, int radix ) {
 }
 
 int64_t randLong() {
-	std::srand(time(NULL));
+	std::srand((unsigned)time(NULL));
 	int64_t r = (int64_t) ((char) (std::rand() % 256));
 
 	for (int i = 0; i < 7 ; i++)
@@ -195,18 +191,14 @@ long long parseLongLong(const std::string& str) {
 	return val;
 }
 
-unsigned char* bytesToHex(unsigned char* bytes, int length) {
-	unsigned char* ret = new unsigned char[length*2];
+string bytesToHex(unsigned char* bytes, int length) {
+	string ret(length*2, ' ');
+	string::iterator p = ret.begin();
 	int i = 0;
 	for (int c = 0; c < length; c++) {
 		int ub = bytes[c];
-
-		if (ub < 0)
-			ub += 256;
-		ret[i] = forDigit(ub >> 4);
-		i++;
-		ret[i] = forDigit(ub % 16);
-		i++;
+		*p++ = forDigit(ub >> 4);
+		*p++ = forDigit(ub % 16);
 	}
 
 	return ret;
@@ -216,15 +208,6 @@ unsigned char forDigit(int b) {
 	if (b < 10)
 		return (unsigned char) (48 + b);
 	return (unsigned char) (97 + b - 10);
-}
-
-string md5String(const string& data) {
-	unsigned char md5_buffer[16+1];
-	md5_buffer[16] = '\0';
-	utils::md5string(data, md5_buffer);
-	std::string result((char*) Utilities::bytesToHex(md5_buffer, 16), 16*2);
-
-	return result;
 }
 
 bool saveStringToFile(const string& data, const string& filePath) {
@@ -261,7 +244,7 @@ bool saveBytesToFile(const string& data, const string& filePath) {
 vector<unsigned char>* loadFileToBytes(const string& path) {
 	vector<unsigned char>* bytes = NULL;
 	std::ifstream in(path.c_str(), ios::in | ios::binary | ios::ate);
-	long size = in.tellg();
+	size_t size = in.tellg();
 	if (in.fail()) return NULL;
 
 	in.seekg(0, ios::beg);

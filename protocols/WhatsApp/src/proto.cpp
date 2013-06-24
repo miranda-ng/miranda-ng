@@ -212,15 +212,16 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
 		BYTE idxBuf[16];
 		utils::md5string(tm.str(), idxBuf);
 		idx = std::string((const char*) idxBuf, 16);
-		db_set_s(0, m_szModuleName,WHATSAPP_KEY_IDX, idx.c_str());
+		db_set_s(0, m_szModuleName, WHATSAPP_KEY_IDX, idx.c_str());
 	}
 
 	string url;
 	if (state == REG_STATE_REQ_CODE)
 	{
-		string token(Utilities::md5String(std::string(ACCOUNT_TOKEN_PREFIX1) + ACCOUNT_TOKEN_PREFIX2 + number));
+		unsigned char digest[16];
+		utils::md5string(std::string(ACCOUNT_TOKEN_PREFIX1) + ACCOUNT_TOKEN_PREFIX2 + number, digest);
 		url = string(ACCOUNT_URL_CODEREQUESTV2);
-		url += "?lc=US&lg=en&mcc=000&mnc=000&method=sms&token="+ token;
+		url += "?lc=US&lg=en&mcc=000&mnc=000&method=sms&token=" + Utilities::bytesToHex(digest, 16);
 	}
 	else if (state == REG_STATE_REG_CODE)
 	{

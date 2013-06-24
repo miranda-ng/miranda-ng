@@ -91,12 +91,12 @@ std::string WALogin::getResponse(const std::string& challenge) {
 	std::string digest_uri = "xmpp/" + this->domain;
 	std::vector<unsigned char>* A1 = bos.toByteArray();
 	std::string A2 = "AUTHENTICATE:" + digest_uri;
-	std::string KD((char*) bytesToHex(utils::md5string(&A1->front(), (int)A1->size(), md5_buffer), SIZEOF(md5_buffer)), SIZEOF(md5_buffer) * 2);
-	KD += + ":" + nonce + ":" + nc + ":" + cnonce + ":auth:" + std::string((char*) bytesToHex(utils::md5string(A2, md5_buffer), SIZEOF(md5_buffer)), SIZEOF(md5_buffer)*2);
+	std::string KD = bytesToHex(utils::md5string(&A1->front(), (int)A1->size(), md5_buffer), SIZEOF(md5_buffer));
+	KD += + ":" + nonce + ":" + nc + ":" + cnonce + ":auth:" + bytesToHex(utils::md5string(A2, md5_buffer), SIZEOF(md5_buffer));
 
 	_LOGDATA("KD = %s", KD.c_str());
 
-	std::string response((char*) bytesToHex(utils::md5string(KD, md5_buffer), SIZEOF(md5_buffer)), SIZEOF(md5_buffer)*2);
+	std::string response = bytesToHex(utils::md5string(KD, md5_buffer), SIZEOF(md5_buffer));
 
 	_LOGDATA("response = %s", response.c_str());
 

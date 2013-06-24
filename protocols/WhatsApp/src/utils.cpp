@@ -113,7 +113,15 @@ BYTE* utils::md5string(const BYTE *data, int size, BYTE *digest)
 	return digest;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// external stubs for WhatsAPI++
+
 std::string base64_encode(void* pData, size_t len)
 {
 	return (char*)ptrA( mir_base64_encode((BYTE*)pData, (unsigned)len));
+}
+
+void md5_string(const std::string& data, BYTE digest[16])
+{
+	utils::md5string(data, digest);
 }

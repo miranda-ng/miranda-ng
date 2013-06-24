@@ -11,8 +11,6 @@
 #include <vector>
 #include "utilities.h"
 
-std::string base64_encode(void*, size_t);
-
 const char* WAConnection::dictionary[] = {
 		"",
 		"",
