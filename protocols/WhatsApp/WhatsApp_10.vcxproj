@@ -173,9 +173,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\chat.cpp" />
-    <ClCompile Include="src\cJSON.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\connection.cpp" />
     <ClCompile Include="src\contacts.cpp" />
     <ClCompile Include="src\dialogs.cpp" />
@@ -249,7 +246,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\cJSON.h" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\constants.h" />
     <ClInclude Include="src\db.h" />

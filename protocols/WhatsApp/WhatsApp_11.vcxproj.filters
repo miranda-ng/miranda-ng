@@ -35,9 +35,6 @@
     <ClCompile Include="src\chat.cpp">
       <Filter>Miranda Plugin\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cJSON.cpp">
-      <Filter>Miranda Plugin\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\connection.cpp">
       <Filter>Miranda Plugin\Source Files</Filter>
     </ClCompile>
@@ -118,9 +115,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\cJSON.h">
-      <Filter>Miranda Plugin\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\common.h">
       <Filter>Miranda Plugin\Header Files</Filter>
     </ClInclude>

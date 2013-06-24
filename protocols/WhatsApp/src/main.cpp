@@ -1,5 +1,6 @@
 #include "common.h"
 
+JSONSERVICEINTERFACE jsi;
 CLIST_INTERFACE* pcli;
 int hLangpack;
 
@@ -70,9 +71,8 @@ static HANDLE g_hEvents[1];
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-
-	pcli = reinterpret_cast<CLIST_INTERFACE*>( CallService(
-		 MS_CLIST_RETRIEVE_INTERFACE,0,reinterpret_cast<LPARAM>(g_hInstance)));
+	mir_getCLI();
+	json_getJSI(&jsi);
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "WhatsApp";

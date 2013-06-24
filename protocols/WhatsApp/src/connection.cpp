@@ -143,7 +143,9 @@ void WhatsAppProto::stayConnectedLoop(void*)
 
 		CODE_BLOCK_TRY
 
-			std::string password = ptrA((char*)mir_base64_decode(pass.c_str(),0));
+			unsigned passLen;
+			ptrA passBin((char*)mir_base64_decode(pass.c_str(), &passLen));
+			std::string password(passBin, passLen);
 			BYTE UseSSL = db_get_b(NULL, this->ModuleName(), WHATSAPP_KEY_SSL, 0);
 			if (UseSSL) {
 				this->conn = new WASocketConnection("c.whatsapp.net", 443);

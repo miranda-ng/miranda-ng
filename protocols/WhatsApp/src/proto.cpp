@@ -262,10 +262,7 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
 	LOG("Server response: %s", pnlhr->pData);
 	MessageBoxA(NULL, pnlhr->pData, "Debug", MB_OK);
 
-	cJSON* resp = cJSON_Parse(pnlhr->pData);
-	cJSON* val;
-
-	// Invalid
+	JSONNODE* resp = json_parse(pnlhr->pData);
 	if (resp == NULL)
 	{
 		this->NotifyEvent(title, this->TranslateStr("Registration failed. Invalid server response."), NULL, WHATSAPP_EVENT_CLIENT);
@@ -273,48 +270,38 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
 	}
 
 	// Status = fail
-	val = cJSON_GetObjectItem(resp, "status");
-	if (strcmp(val->valuestring, "fail") == 0)
+	JSONNODE *val = json_get(resp, "status");
+	if (!lstrcmpA( json_as_string(val), "fail"))
 	{
-		cJSON* tmpVal = cJSON_GetObjectItem(resp, "reason");
-		if (strcmp(tmpVal->valuestring, "stale") == 0)
-		{
+		JSONNODE *tmpVal = json_get(resp, "reason");
+		if (!lstrcmpA( json_as_string(tmpVal), "stale"))
 			this->NotifyEvent(title, this->TranslateStr("Registration failed due to stale code. Please request a new code"), NULL, WHATSAPP_EVENT_CLIENT);
-		}
 		else
-		{
 			this->NotifyEvent(title, this->TranslateStr("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
-		}
 
-		tmpVal = cJSON_GetObjectItem(resp, "retry_after");
+		tmpVal = json_get(resp, "retry_after");
 		if (tmpVal != NULL)
-		{
-			this->NotifyEvent(title, this->TranslateStr("Please try again in %i seconds", tmpVal->valueint), NULL, WHATSAPP_EVENT_OTHER);
-		}
+			this->NotifyEvent(title, this->TranslateStr("Please try again in %i seconds", json_as_int(tmpVal)), NULL, WHATSAPP_EVENT_OTHER);
 	}
 
 	//  Request code
 	else if (state == REG_STATE_REQ_CODE)
 	{
-		if (strcmp(val->valuestring, "sent") == 0)
-		{
+		if (!lstrcmpA(json_as_string(val), "sent"))
 			this->NotifyEvent(title, this->TranslateStr("Registration code has been sent to your phone."), NULL, WHATSAPP_EVENT_OTHER);
-		}
 	}
 
 	// Register
 	else if (state == REG_STATE_REG_CODE)
 	{
-		val = cJSON_GetObjectItem(resp, "pw");
+		val = json_get(resp, "pw");
 		if (val == NULL)
-		{
 			this->NotifyEvent(title, this->TranslateStr("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
-		} else
-			ret = val->valuestring;
+		else
+			ret = json_as_string(val);
 	}
 
-	cJSON_Delete(resp);
-
+	json_delete(resp);
 	return ret;
 }
 

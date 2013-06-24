@@ -67,6 +67,7 @@ Copyright © 2013 Uli Hecht
 #include <m_xml.h>
 #include <m_hotkeys.h>
 #include <m_folders.h>
+#include <m_json.h>
 #include "WhatsAPI++/WAConnection.h"
 
 class WhatsAppProto;
@@ -81,7 +82,6 @@ class WhatsAppProto;
 #include "WASocketConnection.h"
 #include "proto.h"
 #include "entities.h"
-#include "cJSON.h"
 
 #if defined _DEBUG
 #include <stdlib.h>
