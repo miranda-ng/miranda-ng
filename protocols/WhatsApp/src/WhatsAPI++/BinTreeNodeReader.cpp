@@ -4,11 +4,12 @@
  *  Created on: 26/06/2012
  *      Author: Antonio
  */
+
+#include "../common.h"
 #include "BinTreeNodeReader.h"
 #include "WAException.h"
 #include "ProtocolTreeNode.h"
 #include "utilities.h"
-#include <string>
 
 BinTreeNodeReader::BinTreeNodeReader(WAConnection* conn, ISocketConnection* connection, const char** dictionary, const int dictionarysize) {
 	this->conn = conn;

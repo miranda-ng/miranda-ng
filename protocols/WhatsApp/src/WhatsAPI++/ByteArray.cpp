@@ -5,6 +5,7 @@
  *      Author: Antonio
  */
 
+#include "../common.h"
 #include "ByteArray.h"
 #include "WAException.h"
 #include <iostream>
@@ -116,7 +117,7 @@ int ByteArrayInputStream::read(std::vector<unsigned char>& b, size_t  off, size_
 		}
 	} catch (std::exception& ) {
 	}
-	return i;
+	return (int)i;
 }
 
 ByteArrayInputStream::~ByteArrayInputStream() {

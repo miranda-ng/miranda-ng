@@ -5,12 +5,12 @@
  *      Author: Antonio
  */
 
+#include "../common.h"
 #include "WAConnection.h"
 #include "ProtocolTreeNode.h"
 #include <map>
 #include <vector>
 #include "utilities.h"
-#include "base64.h"
 
 const char* WAConnection::dictionary[] = {
 		"",
@@ -566,11 +566,11 @@ void WAConnection::sendMessageWithMedia(FMessage* message)  throw (WAException) 
 	} else {
 		if (message->media_wa_type != FMessage::WA_TYPE_CONTACT && !message->media_name.empty() && !message->media_url.empty() && message->media_size > 0L) {
 			(*attribs)["file"] = message->media_name;
-			(*attribs)["size"] = Utilities::intToStr(message->media_size);
+			(*attribs)["size"] = Utilities::intToStr((int)message->media_size);
 			(*attribs)["url"] = message->media_url;
 		} else {
 			(*attribs)["file"] = message->media_name;
-			(*attribs)["size"] = Utilities::intToStr(message->media_size);
+			(*attribs)["size"] = Utilities::intToStr((int)message->media_size);
 			(*attribs)["url"] = message->media_url;
 			(*attribs)["seconds"] = Utilities::intToStr(message->media_duration_seconds);
 		}
@@ -986,11 +986,11 @@ std::vector<ProtocolTreeNode*>* WAConnection::processGroupSettings(const std::ve
 	std::vector<ProtocolTreeNode*>* result = new std::vector<ProtocolTreeNode*>(groups.size());
 	if (!groups.empty()) {
 		time_t now = time(NULL);
-		for (int i = 0; i < groups.size(); i++) {
+		for (size_t i = 0; i < groups.size(); i++) {
 			std::map<string, string>* attribs = new std::map<string, string>();
 			(*attribs)["jid"] = groups[i].jid;
 			(*attribs)["notify"] = (groups[i].enabled? "1": "0");
-			(*attribs)["mute"] = Utilities::intToStr(groups[i].muteExpiry > now? (groups[i].muteExpiry - now): 0);
+			(*attribs)["mute"] = Utilities::intToStr( int(groups[i].muteExpiry > now ? (groups[i].muteExpiry - now) : 0));
 			_LOGDATA("mute group %s, %s", (*attribs)["jid"].c_str(), (*attribs)["mute"].c_str());
 
 			(*result)[i] = new ProtocolTreeNode("item", attribs);
@@ -1156,7 +1156,7 @@ void WAConnection::parseMessageInitialTagAlreadyChecked(ProtocolTreeNode* messag
 							data = childNode->getDataAsString();
 						} else {
 							_LOGDATA("Media data encoding type '%s'", (encoding == NULL? "text":encoding->c_str()));
-							data = (childNode->data == NULL? NULL : new std::string(base64_encode(childNode->data->data(), childNode->data->size())));
+							data = (childNode->data == NULL? NULL : new std::string(mir_base64_encode((BYTE*)childNode->data->data(), (unsigned)childNode->data->size())));
 						}
 						fmessage->data = (data == NULL? "": *data);
 						if (data != NULL)
@@ -1228,14 +1228,14 @@ void WAConnection::parseMessageInitialTagAlreadyChecked(ProtocolTreeNode* messag
 			bool flag = false;
 			std::vector<ProtocolTreeNode*> myVector(0);
 			std::vector<ProtocolTreeNode*>* children = messageNode->children == NULL? &myVector: messageNode->getAllChildren();
-			for (int i = 0; i < children->size(); i++) {
+			for (size_t i = 0; i < children->size(); i++) {
 				ProtocolTreeNode* child = (*children)[i];
 				if (ProtocolTreeNode::tagEquals(child, "notification")) {
 					std::string* type = child->getAttributeValue("type");
 					if ((type != NULL) && (type->compare("picture") == 0) && (this->event_handler != NULL)) {
 						std::vector<ProtocolTreeNode*> myVector2(0);
 						std::vector<ProtocolTreeNode*>* children2 = child->children == NULL? &myVector2: child->getAllChildren();
-						for (int j = 0; j < children2->size(); j++) {
+						for (unsigned j = 0; j < children2->size(); j++) {
 							ProtocolTreeNode* child2 = (*children2)[j];
 							if (ProtocolTreeNode::tagEquals(child2, "set")) {
 								std::string* id = child2->getAttributeValue("id");
@@ -1544,7 +1544,7 @@ void WAConnection::sendRemoveParticipants(const std::string& gjid, const std::ve
 void WAConnection::sendVerbParticipants(const std::string& gjid, const std::vector<std::string>& participants, const std::string& id, const std::string& inner_tag) throw (WAException) {
 	size_t size = participants.size();
 	std::vector<ProtocolTreeNode*>* children = new std::vector<ProtocolTreeNode*>(size);
-	for (int i = 0; i < size; i++) {
+	for (size_t i = 0; i < size; i++) {
 		std::map<string, string>* attribs1 = new std::map<string, string>();
 		(*attribs1)["jid"] = participants[i];
 		(*children)[i] = new ProtocolTreeNode("participant", attribs1);
@@ -1645,7 +1645,7 @@ void WAConnection::sendGetPictureIds(const std::vector<std::string>& jids) throw
 	this->pending_server_requests[id] = new IqResultGetPictureIdsHandler(this);
 
 	std::vector<ProtocolTreeNode*>* children = new std::vector<ProtocolTreeNode*>();
-	for (int i = 0; i < jids.size(); i++) {
+	for (size_t i = 0; i < jids.size(); i++) {
 		std::map<string, string>* attribs = new std::map<string, string>();
 		(*attribs)["jid"] = jids[i];
 		ProtocolTreeNode* child = new ProtocolTreeNode("user", attribs);

@@ -5,6 +5,7 @@
  *      Author: Antonio
  */
 
+#include "../common.h"
 #include "WALogin.h"
 #include "ByteArray.h"
 //#include "ApplicationData.h"

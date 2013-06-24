@@ -4,6 +4,8 @@
  *  Created on: 26/06/2012
  *      Author: Antonio
  */
+
+#include "../common.h"
 #include "BinTreeNodeWriter.h"
 #include <cstring>
 #include "utilities.h"

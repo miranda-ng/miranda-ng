@@ -6,7 +6,6 @@
 #include <iostream>
 #include "WhatsAPI++/WAException.h"
 #include "WhatsAPI++/WALogin.h"
-#include "WhatsAPI++/base64.h"
 #include <windows.h>
 
 class WASocketConnection : public ISocketConnection

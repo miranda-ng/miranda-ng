@@ -65,9 +65,6 @@
     <ClCompile Include="src\WASocketConnection.cpp">
       <Filter>Miranda Plugin\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\WhatsAPI++\base64.cpp">
-      <Filter>WhatsAPI++\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\WhatsAPI++\BinTreeNodeReader.cpp">
       <Filter>WhatsAPI++\Source Files</Filter>
     </ClCompile>
@@ -154,9 +151,6 @@
     <ClInclude Include="src\WASocketConnection.h">
       <Filter>Miranda Plugin\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\WhatsAPI++\base64.h">
-      <Filter>WhatsAPI++\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\WhatsAPI++\BinTreeNodeReader.h">
       <Filter>WhatsAPI++\Header Files</Filter>
     </ClInclude>
@@ -198,9 +192,6 @@
     </ClInclude>
     <ClInclude Include="src\OpenSSL\rc4.h">
       <Filter>WhatsAPI++\OpenSSL</Filter>
-    </ClInclude>
-    <ClInclude Include="res\resource.h">
-      <Filter>Miranda Plugin\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">
       <Filter>Miranda Plugin\Header Files</Filter>

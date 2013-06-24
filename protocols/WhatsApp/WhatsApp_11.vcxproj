@@ -214,41 +214,37 @@
     <ClCompile Include="src\theme.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\WASocketConnection.cpp" />
-    <ClCompile Include="src\WhatsAPI++\base64.cpp">
-      <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\WhatsAPI++\BinTreeNodeReader.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\BinTreeNodeWriter.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\ByteArray.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\FMessage.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\ProtocolTreeNode.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\utilities.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\WAConnection.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\WALogin.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,7 +262,6 @@
     <ClInclude Include="src\theme.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\WASocketConnection.h" />
-    <ClInclude Include="src\WhatsAPI++\base64.h" />
     <ClInclude Include="src\WhatsAPI++\BinTreeNodeReader.h" />
     <ClInclude Include="src\WhatsAPI++\BinTreeNodeWriter.h" />
     <ClInclude Include="src\WhatsAPI++\ByteArray.h" />

@@ -178,7 +178,7 @@ public:
    virtual void onClientConfigReceived(const std::string& paramString)  { LOG(""); }
    virtual void onLastSeen(const std::string& paramString1, int paramInt, std::string* paramString2);
    virtual void onIsTyping(const std::string& paramString, bool paramBoolean);
-   virtual void onAccountChange(int paramInt, long paramLong)  { LOG(""); }
+   virtual void onAccountChange(int paramInt, time_t expire_date)  { LOG(""); }
    virtual void onPrivacyBlockListAdd(const std::string& paramString)  { LOG(""); }
    virtual void onPrivacyBlockListClear()  { LOG(""); }
    virtual void onDirty(const std::map<string,string>& paramHashtable)  { LOG(""); }

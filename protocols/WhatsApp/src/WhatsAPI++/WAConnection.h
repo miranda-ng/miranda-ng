@@ -38,7 +38,7 @@ public:
 	virtual void onClientConfigReceived(const std::string& paramString)=0;
 	virtual void onLastSeen(const std::string& paramString1, int paramInt, std::string* paramString2)=0;
 	virtual void onIsTyping(const std::string& paramString, bool paramBoolean)=0;
-	virtual void onAccountChange(int paramInt, long paramLong)=0;
+	virtual void onAccountChange(int paramInt, time_t paramLong)=0;
 	virtual void onPrivacyBlockListAdd(const std::string& paramString)=0;
 	virtual void onPrivacyBlockListClear()=0;
 	virtual void onDirty(const std::map<string,string>& paramHashtable)=0;
@@ -269,7 +269,7 @@ class WAConnection {
 
 			if ((attributeValue != NULL) && (attributeValue->compare("result") == 0) && (this->con->event_handler != NULL)) {
 				std::vector<ProtocolTreeNode*>* children = node->getAllChildren("picture");
-				for (int i = 0; i < children->size(); i++) {
+				for (size_t i = 0; i < children->size(); i++) {
 					ProtocolTreeNode* current = (*children)[i];
 					std::string* id = current->getAttributeValue("id");
 					if ((id != NULL) && (current->data != NULL) && (current->data->size() > 0)) {
@@ -317,7 +317,7 @@ class WAConnection {
 			ProtocolTreeNode* groupNode = node->getChild("list");
 			std::vector<ProtocolTreeNode*>* children = groupNode->getAllChildren("user");
 			std::map<std::string, std::string> ids;
-			for (int i = 0; i < children->size(); i++) {
+			for (size_t i = 0; i < children->size(); i++) {
 				std::string* jid = (*children)[i]->getAttributeValue("jid");
 				std::string* id = (*children)[i]->getAttributeValue("id");
 				if (jid != NULL) {
