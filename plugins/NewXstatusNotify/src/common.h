@@ -71,8 +71,6 @@
 
 #define MODULE "NewStatusNotify"
 
-#define WM_AWAYMSG				WM_USER + 0x0192
-
 #define MAX_STATUSTEXT			36
 #define MAX_STANDARDTEXT		36
 #define MAX_SKINSOUNDNAME		36
@@ -118,6 +116,7 @@ typedef struct tagPLUGINDATA
 {
 	WORD newStatus;
 	WORD oldStatus;
+	HWND hWnd;
 	HANDLE hAwayMsgProcess;
 	HANDLE hAwayMsgHook;
 } PLUGINDATA;

@@ -680,7 +680,7 @@ void ShowStatusChangePopup(HANDLE hContact, char *szProto, WORD oldStatus, WORD 
 
 	ppd.PluginWindowProc = PopupDlgProc;
 
-	PLUGINDATA *pdp = (PLUGINDATA *)mir_alloc(sizeof(PLUGINDATA));
+	PLUGINDATA *pdp = (PLUGINDATA *)mir_calloc(sizeof(PLUGINDATA));
 	pdp->oldStatus = oldStatus;
 	pdp->newStatus = newStatus;
 	pdp->hAwayMsgHook = NULL;
