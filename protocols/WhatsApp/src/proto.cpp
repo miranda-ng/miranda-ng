@@ -166,6 +166,15 @@ HANDLE WhatsAppProto::SearchBasic( const PROTOCHAR* id )
 	return email;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static NETLIBHTTPHEADER s_registerHeaders[] = 
+{
+	{ "User-Agent",   ACCOUNT_USER_AGENT_REGISTRATION },
+	{ "Accept",       "text/json" },
+	{ "Content-Type", "application/x-www-form-urlencoded" }
+};
+
 string WhatsAppProto::Register(int state, string cc, string number, string code)
 {
 	string idx;
@@ -178,33 +187,12 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
 		return ret;
 	}
 
-	/*
-	if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_CC,&dbv, DBVT_ASCIIZ))
-	{
-		cc = dbv.pszVal;
-		db_free(&dbv);
-		if (cc.empty())
-		{
-			NotifyEvent(m_tszUserName,TranslateT("Please enter a country-code."),NULL,WHATSAPP_EVENT_CLIENT);
-			return;
-		}
-	}
-	if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_LOGIN,&dbv, DBVT_ASCIIZ))
-	{
-		number = dbv.pszVal;
-		db_free(&dbv);
-		if (number.empty())
-		{
-			NotifyEvent(m_tszUserName,TranslateT("Please enter a phone-number without country-code."),NULL,WHATSAPP_EVENT_CLIENT);
-			return;
-		}
-	}
-	*/
 	if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_IDX,&dbv,DBVT_ASCIIZ))
 	{
 		idx = dbv.pszVal;
 		db_free(&dbv);
 	}
+
 	if (idx.empty())
 	{
 		std::stringstream tm;
@@ -230,25 +218,11 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
 	}
 	url += "&cc="+ cc +"&in="+ number +"&id="+ idx;
 
-	NETLIBHTTPHEADER agentHdr;
-	agentHdr.szName = "User-Agent";
-	agentHdr.szValue = ACCOUNT_USER_AGENT_REGISTRATION;
-
-	NETLIBHTTPHEADER acceptHdr;
-	acceptHdr.szName = "Accept";
-	acceptHdr.szValue = "text/json";
-
-	NETLIBHTTPHEADER ctypeHdr;
-	ctypeHdr.szName = "Content-Type";
-	ctypeHdr.szValue = "application/x-www-form-urlencoded";
-
-	NETLIBHTTPHEADER headers[] = { agentHdr, acceptHdr, ctypeHdr };
-
 	NETLIBHTTPREQUEST nlhr = {sizeof(NETLIBHTTPREQUEST)};
 	nlhr.requestType = REQUEST_POST;
 	nlhr.szUrl = (char*) url.c_str();
-	nlhr.headers = &headers[0];
-	nlhr.headersCount = 3;
+	nlhr.headers = s_registerHeaders;
+	nlhr.headersCount = SIZEOF(s_registerHeaders);
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_GENERATEHOST | NLHRF_REMOVEHOST | NLHRF_SSL;
 
 	NETLIBHTTPREQUEST* pnlhr = (NETLIBHTTPREQUEST*) CallService(MS_NETLIB_HTTPTRANSACTION,
