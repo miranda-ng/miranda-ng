@@ -23,6 +23,8 @@ Skype протокол для Miranda NG.
 Запомнить пароль этой сессии
 [Cancel]
 Отменить
+[Skype name] 
+Логин Skype
 [Skype name:]
 Логин Skype:
 [Status text:]
@@ -81,8 +83,6 @@ Skype протокол для Miranda NG.
 Зарегистрироваться
 [User Details]
 Детали пользователя
-[Skype login:]
-Имя Skype:
 [Connection]
 Подключение
 [Use port]
@@ -127,8 +127,8 @@ SkypeKit не запустился.
 [The new password was unacceptable]
 Новый пароль неприемлем 
 [Account was currently not logged in]
-[You have not entered a Skype name.\nConfigure this in Options->Network->Skype and try again.]
-Вы не ввели Skype ID.\nНастройте это в Настройки->Сеть->Skype и попробуйте снова. 
+[You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
+Вы не ввели Skype ID.\nНастройте это в Настройки->Сеть->%s и попробуйте снова. 
 ;file \protocols\Skype\src\skype_chat.cpp
 [&Invite user...]
 &Пригласить пользователя...
@@ -150,8 +150,10 @@ SkypeKit не запустился.
 Женский
 [You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
 Вы не подключены в настоящее время. Вы должны быть онлайн, чтобы обновить Вашу информацию на сервере.
-[Contacts]
+[Contact]
 Контакт
+[Contacts]
+Контакты
 [Home]
 Дом
 [General]
@@ -258,25 +260,49 @@ Skype протокол
 Разрешить вход в чат
 [&Request auth]
 &Запросить авторизацию
-[Set bookmark]
-В закладках
-[Bookmarks]
-Закладки
-[Bookmark]
-Закладка
 [Delete]
 Удалить
 [Ignore]
 Игнорировать
 [Block]
 Заблокировать
+[Ignore list]
+Список игнорирования
 [Server side ignore list\nControl ignore list on server.]
 Список игнорирования сервере\nХранить список игнорирования на сервере.
 [Name]
 Имя
 [Conferences]
 Конференции
+[Conference]
+Конференция
 [The password is incorrect]
-Пароль неверен
+Неверный пароль
 [Your application to join the conference was denied]
 Ваша просьба о присоеденении к конференции отклонена
+[Command"%s" is unsupported] 
+Команда"%s" не поддерживается
+[HTTPS proxy authentication failed]
+Аутентификация по HTTP прокси не удалась
+[SOCKS proxy authentication failed]
+Аутентификация по SOCKS прокси не удалась
+[P2P connection failed]
+Соединение по P2P не удалось
+[Server is overloaded]
+Сервер перегружен
+[SkypeKit database already in use]
+База данных SkypeKit уже используется
+[SkypeKit database is corrupt]
+База данных SkypeKit повреждена
+[Skype name is taken]
+Логин Skype занят
+[Password has changed]
+Пароль был изменён
+[Invalid application ID]
+Неверное ID приложения
+[Version is unsupported]
+Версия не поддерживается
+[Password successfully changed]
+Пароль успешно изменён
+[Password changing]
+Изменение пароля
