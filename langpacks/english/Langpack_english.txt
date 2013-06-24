@@ -5719,11 +5719,12 @@
 [Send "Seen" info when marking messages as read]
 [Use this server for opening links:]
 ;file \protocols\FacebookRM\src\communication.cpp
-[Login error: Some Facebook things are required.]
-[Your account requires HTTPS connection. Activating.]
-[Login error: Captcha code is required. Bad login credentials?]
 [Login error: %s]
 [Unknown error]
+[Login error: Invalid request.]
+[Your account requires HTTPS connection. Activating.]
+[Login error: Some Facebook things are required.]
+[Login error: Captcha code is required. Bad login credentials?]
 [Login error, probably bad login credentials.]
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 [Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
@@ -11949,8 +11950,6 @@
 [Wait...]
 [Change Feed]
 [Contact deleting]
-[OPML files]
-[Not valid import file.]
 [Network]
 ;file \plugins\NewsAggregator\Src\Services.cpp
 [Avatars]
@@ -11962,6 +11961,8 @@
 [New Aggregator]
 [%s\nis a not valid feed's address.]
 [empty]
+[OPML files]
+[Not valid import file.]
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
@@ -13132,7 +13133,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.3
+;  Version: 0.1.1.4
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -13154,6 +13155,7 @@
 [Files source]
 [Stable version]
 [Development version (less stable)]
+[Development version with debug symbols]
 [Custom version]
 [Notifications]
 [Message boxes (*)]
@@ -13216,8 +13218,8 @@
 [Plugin info]
 [Plugin list]
 [Plugin Updater HTTP connection]
-[Downloading version info...]
-[An error occured while downloading the update.]
+[Checking new updates...]
+[An error occured while checking new updates.]
 ﻿#muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
 ;============================================================
 ;  File: PManagerEx.dll
@@ -15376,7 +15378,7 @@
 ;  Version: 0.0.0.18
 ;  Authors: Dioksin
 ;============================================================
-[Skype Status Change according to miranda-Status]
+[Skype Status Change according to miranda-Status.]
 ;file \plugins\SkypeStatusChange\res\SkypeStatusChange.rc
 [Synchronize status message]
 [&Check any protocol or any status to exclude it from synchronization:]
@@ -20040,6 +20042,7 @@
 [Xfire Link Protocol]
 [Buddy start a game]
 [It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer.]
+[Away from Keyboard]
 [&XFire Online Profile]
 [XFire &Clan Site]
 [C&opy Server Address and Port]

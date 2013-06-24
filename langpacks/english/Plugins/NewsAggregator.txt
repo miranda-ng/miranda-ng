@@ -61,8 +61,6 @@
 [Wait...]
 [Change Feed]
 [Contact deleting]
-[OPML files]
-[Not valid import file.]
 [Network]
 ;file \plugins\NewsAggregator\Src\Services.cpp
 [Avatars]
@@ -74,3 +72,5 @@
 [New Aggregator]
 [%s\nis a not valid feed's address.]
 [empty]
+[OPML files]
+[Not valid import file.]
