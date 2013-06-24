@@ -270,10 +270,8 @@ Skype протокол
 Игнорировать
 [Block]
 Заблокировать
-[Skype bookmarks]
-Закладки Skype
-[Server side bookmarks\nControl conference bookmarks on server.]
-Закладки на сервере\nХранить чат-комнаты и ссылки на сервере.
+[Server side ignore list\nControl ignore list on server.]
+Список игнорирования сервере\nХранить список игнорирования на сервере.
 [Name]
 Имя
 [Conferences]
