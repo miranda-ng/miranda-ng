@@ -346,7 +346,7 @@ xСтатус
 [WORD to name of a month (1..12, 1 = January)]
 Слово - в название месяца (1..12, 1 = Январь)
 [Last message: (%sys:last_msg_reltime% ago)]
-Последние сообщение: (%sys:last_msg_reltime% назад)
+Последнее сообщение: (%sys:last_msg_reltime% назад)
 [Add item]
 Добавить
 [No preview]
