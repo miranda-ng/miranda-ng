@@ -1266,7 +1266,7 @@ E-Mail
 [Warning]
 Предупреждение
 [Web page]
-Web страница
+Web-страница
 [Welsh]
 Уэльский
 [Western Frisian]
@@ -1834,7 +1834,7 @@ GMT-09:00 Аляска
 [Upload]
 Загрузить
 [(0 = no limit)]
-(0=неограничено)
+(0=не ограничено)
 [Formatting]
 Форматирование
 [Message from %s]

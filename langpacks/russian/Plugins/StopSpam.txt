@@ -36,7 +36,7 @@
 [Answer:]
 Ответ:
 [Congratulation:]
-Поздравления:
+Поздравление:
 [Installed protocols:]
 Протоколы:
 [Despammed protocols:]

@@ -3,9 +3,7 @@
 ;  File: MirFox.dll
 ;  Plugin: MirFox
 ;  Version: 0.5.0.0
-;  Authors: Jerbifor
-;  Authors-email: jerbifor@tut.by
-;  Language: Russian
+;  Authors: Szymon Tokarz
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
 MirFox (Миранда NG) - часть интеграции Миранда-Firefox - http://wsx22.3.xpdev-hosted.com

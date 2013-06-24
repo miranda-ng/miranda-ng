@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: advaimg.dll
 ;  Plugin: Provides generic image services for Miranda NG
-;  Versions: 0.10.0.2
+;  Version: 0.11.0.1
 ;  URL: http://code.google.com/p/miranda/downloads/list
 ;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/freeimage/
 ;  Authors: Nightwish, The FreeImage project
