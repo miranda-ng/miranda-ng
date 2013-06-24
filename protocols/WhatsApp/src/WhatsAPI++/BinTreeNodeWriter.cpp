@@ -27,7 +27,7 @@ BinTreeNodeWriter::BinTreeNodeWriter(WAConnection* conn, ISocketConnection* conn
 void BinTreeNodeWriter::writeDummyHeader()
 {
 	int num = 3;
-	this->dataBegin = this->out->getPosition();
+	this->dataBegin = (int)this->out->getPosition();
 	int num2 = this->dataBegin + num;
 	this->out->setLength(num2);
 	this->out->setPosition(num2);
@@ -40,12 +40,12 @@ void BinTreeNodeWriter::processBuffer()
 	unsigned int num = 0u;
 	if (flag)
 	{
-		long num2 = this->out->getLength() + 4L;
+		long num2 = (long)this->out->getLength() + 4L;
 		this->out->setLength(num2);
 		this->out->setPosition(num2);
 		num |= 1u;
 	}
-	long num3 = this->out->getLength() - 3L - (long) this->dataBegin;
+	long num3 = (long)this->out->getLength() - 3L - (long) this->dataBegin;
 	if (num3 >= 1048576L)
 	{
 		throw WAException("Buffer too large: " + num3, WAException::CORRUPT_STREAM_EX, 0);
@@ -76,7 +76,7 @@ void BinTreeNodeWriter::streamStart(std::string domain, std::string resource) {
 		attributes["to"] = domain;
 		attributes["resource"] = resource;
 		this->writeDummyHeader();
-		this->writeListStart(attributes.size() * 2 + 1);
+		this->writeListStart((int)attributes.size() * 2 + 1);
 		this->out->write(1);
 		this->writeAttributes(&attributes);
 		this->processBuffer();
@@ -135,7 +135,7 @@ void BinTreeNodeWriter::writeString(const std::string& tag) {
 	else {
 		size_t atIndex = tag.find('@');
 		if (atIndex == 0 || atIndex == string::npos)
-			writeBytes((unsigned char*) tag.data(), tag.length());
+			writeBytes((unsigned char*) tag.data(), (int)tag.length());
 		else {
 			std::string server = tag.substr(atIndex + 1);
 			std::string user = tag.substr(0, atIndex);
@@ -183,16 +183,16 @@ void BinTreeNodeWriter::writeInt24(int v) {
 
 void BinTreeNodeWriter::writeInternal(ProtocolTreeNode* node) {
 	writeListStart(
-			1 + (node->attributes == NULL ? 0 : node->attributes->size() * 2)
+			1 + (node->attributes == NULL ? 0 : (int)node->attributes->size() * 2)
 			+ (node->children == NULL ? 0 : 1)
 			+ (node->data == NULL ? 0 : 1));
 	writeString(node->tag);
 	writeAttributes(node->attributes);
 	if (node->data != NULL) {
-		writeBytes((unsigned char*) node->data->data(), node->data->size());
+		writeBytes((unsigned char*) node->data->data(), (int)node->data->size());
 	}
 	if (node->children != NULL && !node->children->empty()) {
-		writeListStart(node->children->size());
+		writeListStart((int)node->children->size());
 		for (size_t a = 0; a < node->children->size(); a++) {
 			writeInternal((*node->children)[a]);
 		}
