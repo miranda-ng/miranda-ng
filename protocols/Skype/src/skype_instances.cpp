@@ -72,3 +72,17 @@ void CSkypeProto::UninitInstances()
 {
 	instanceList.destroy();
 }
+
+CSkypeProto* CSkypeProto::GetContactInstance(HANDLE hContact)
+{
+	char *proto = (char *)::CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+
+	if (proto == NULL)
+		return NULL;
+
+	for (int i = 0; i < CSkypeProto::instanceList.getCount(); i++)
+		if ( !::strcmp(proto, CSkypeProto::instanceList[i]->m_szModuleName))
+			return CSkypeProto::instanceList[i];
+
+	return NULL;
+}

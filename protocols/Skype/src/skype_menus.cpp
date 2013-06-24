@@ -14,10 +14,10 @@ INT_PTR CSkypeProto::MenuChooseService(WPARAM wParam, LPARAM lParam)
 int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if (hContact == NULL)
+	if ( !hContact)
 		return 0;
 
-	if ( !this->IsOnline() || lstrcmpA( GetContactProto(hContact), m_szModuleName))
+	if ( !this->IsOnline() || ::lstrcmpA(::GetContactProto(hContact), m_szModuleName))
 		return 0;
 
 	if ( !this->IsChatRoom(hContact))
@@ -36,44 +36,20 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 		CLISTMENUITEM clmi = { sizeof(clmi) };
 		clmi.cbSize = sizeof(CLISTMENUITEM);
 		clmi.flags = CMIM_FLAGS;
+		//::CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_ALL);
 		if (::db_get_b(hContact, this->m_szModuleName, "Ignore", 0) == 1)
 			clmi.flags |= CMIF_CHECKED;
 		
 		::CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)CSkypeProto::contactMenuItems[CMI_IGNORE], (LPARAM)&clmi);
 	}
-	else
-	{
-		// bookmark
-		CLISTMENUITEM clmi = { sizeof(clmi) };
-		clmi.flags = CMIM_FLAGS;
-
-		if (this->IsChatRoomBookmarked(hContact))
-			clmi.flags |= CMIF_CHECKED;
-		
-		::CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)CSkypeProto::contactMenuItems[CMI_CHAT_BOOKMARK], (LPARAM)&clmi);
-	}
 
 	return 0;
-}
-
-CSkypeProto* CSkypeProto::GetInstanceByHContact(HANDLE hContact)
-{
-	char *proto = (char *)::CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-
-	if (proto == NULL)
-		return NULL;
-
-	for (int i = 0; i < CSkypeProto::instanceList.getCount(); i++)
-		if ( !::strcmp(proto, CSkypeProto::instanceList[i]->m_szModuleName))
-			return CSkypeProto::instanceList[i];
-
-	return NULL;
 }
 
 template<int (__cdecl CSkypeProto::*Service)(WPARAM, LPARAM)>
 INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
 {
-	CSkypeProto *ppro = CSkypeProto::GetInstanceByHContact((HANDLE)wParam);
+	CSkypeProto *ppro = CSkypeProto::GetContactInstance((HANDLE)wParam);
 	return ppro ? (ppro->*Service)(wParam, lParam) : 0;
 }
 
@@ -86,7 +62,7 @@ int CSkypeProto::GrantAuth(WPARAM wParam, LPARAM lParam)
 {
 	CContact::Ref contact;
 	HANDLE hContact = (HANDLE)wParam;
-	SEString sid(::mir_u2a(mir_ptr<wchar_t>(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID))));
+	SEString sid(_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));
 	if (this->GetContact(sid, contact))
 	{
 		if (contact->SetBuddyStatus(true))
@@ -114,65 +90,12 @@ int CSkypeProto::RevokeAuth(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CSkypeProto::IgnoreCommand(WPARAM wParam, LPARAM)
-{
-	CContact::Ref contact;
-	HANDLE hContact = (HANDLE)wParam;
-	SEString sid(_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));
-	if (this->GetContact(sid, contact))
-	{
-		bool state = ::db_get_b(hContact, this->m_szModuleName, "Ignore", 0) > 0;
-		if (contact->SetBlocked(!state))
-		{
-			::CallService(!state ? MS_IGNORE_IGNORE : MS_IGNORE_UNIGNORE, wParam, IGNOREEVENT_ALL);
-			::db_set_b(hContact, this->m_szModuleName, "Ignore", (int)!state);
-		}
-	}
-
-	return 0;
-}
-
-int CSkypeProto::BlockCommand(WPARAM wParam, LPARAM)
-{
-	CContact::Ref contact;
-	HANDLE hContact = (HANDLE)wParam;
-	SEString sid(_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));
-	if (this->GetContact(sid, contact))
-	{
-		if (contact->SetBuddyStatus(false))
-			::db_set_b(hContact, this->m_szModuleName, "Grant", 1);
-		this->contactList.remove_val(contact);
-		
-		bool state = ::db_get_b(hContact, this->m_szModuleName, "Ignore", 0) > 0;
-		if (contact->SetBlocked(!state))
-			::db_set_b(hContact, this->m_szModuleName, "Ignore", (int)!state);
-
-		::db_set_b(hContact, "CList", "Hidden", 1);
-	}
-
-	return 0;
-}
-
-INT_PTR CSkypeProto::InviteCommand(WPARAM, LPARAM)
-{
-	this->StartChat();
-
-	return 0;
-}
-
-INT_PTR CSkypeProto::ShowBookmarksCommand(WPARAM, LPARAM)
-{
-	::DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_BOOKMARKS), NULL, CSkypeProto::SkypeBookmarksProc, (LPARAM)this);
-
-	return 0;
-}
-
 int CSkypeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	for (size_t i = 0; i < SIZEOF(CSkypeProto::contactMenuItems); i++)
-		Menu_ShowItem(CSkypeProto::contactMenuItems[i], false);
+	for (int i = 0; i < SIZEOF(CSkypeProto::contactMenuItems); i++)
+		::Menu_ShowItem(CSkypeProto::contactMenuItems[i], false);
 
-	CSkypeProto* ppro = CSkypeProto::GetInstanceByHContact((HANDLE)wParam);
+	CSkypeProto* ppro = CSkypeProto::GetContactInstance((HANDLE)wParam);
 	return (ppro) ? ppro->OnPrebuildContactMenu(wParam, lParam) : 0;
 }
 
@@ -214,14 +137,6 @@ void  CSkypeProto::InitMenus()
 	mi.icolibItem = ::LoadSkinnedIconHandle(SKINICON_AUTH_REVOKE);
 	CSkypeProto::contactMenuItems[CMI_AUTH_REVOKE] = ::Menu_AddContactMenuItem(&mi);
 	::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::RevokeAuth>);
-
-	// "Bookmark"
-	mi.pszService = MODULE"/SetBookmark";
-	mi.ptszName = LPGENT("Set bookmark");
-	mi.position = -200001000 + CMI_CHAT_BOOKMARK;
-	mi.icolibItem = NULL;//CSkypeProto::GetIconHandle("bookmark");
-	CSkypeProto::contactMenuItems[CMI_CHAT_BOOKMARK] = ::Menu_AddContactMenuItem(&mi);
-	::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::SetBookmarkCommand>);
 
 	// "Ignore"
 	mi.pszService = MODULE"/Ignore";
@@ -275,18 +190,18 @@ void CSkypeProto::OnInitStatusMenu()
 	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR;	
 
 	// Invite Command
-	::strcpy(tDest, "/InviteCommand");
-	this->CreateServiceObj(tDest, &CSkypeProto::InviteCommand);
+	::strcpy(tDest, "/CreateChatRoom");
+	this->CreateServiceObj(tDest, &CSkypeProto::CreateChatRoomCommand);
 	mi.ptszName = LPGENT("Create conference");
-	mi.position = 200000 + SMI_CHAT_INVITE;
-	mi.icolibItem = CSkypeProto::GetIconHandle("confInvite");
+	mi.position = 200000 + SMI_CHAT_CREATE;
+	mi.icolibItem = CSkypeProto::GetIconHandle("conference");
 	::Menu_AddProtoMenuItem(&mi);
 
 	// Invite Command
-	::strcpy(tDest, "/BookmarksCommand");
-	this->CreateServiceObj(tDest, &CSkypeProto::ShowBookmarksCommand);
-	mi.ptszName = LPGENT("Bookmarks");
-	mi.position = 200000 + SMI_CHAT_BOOKMARKS;
-	mi.icolibItem = CSkypeProto::GetIconHandle("bookmark");
+	::strcpy(tDest, "/IgnoreList");
+	this->CreateServiceObj(tDest, &CSkypeProto::OpenIgnoreListCommand);
+	mi.ptszName = LPGENT("Ignore list");
+	mi.position = 200000 + SMI_IGNORE_LIST;
+	mi.icolibItem = CSkypeProto::GetIconHandle("ignore");
 	::Menu_AddProtoMenuItem(&mi);
 }

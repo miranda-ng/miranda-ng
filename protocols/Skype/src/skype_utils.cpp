@@ -540,3 +540,69 @@ void CSkypeProto::ReplaceSpecialChars(wchar_t *text, wchar_t replaceWith)
 	if (::wcschr(special, text[i]) != NULL)
 		text[i] = replaceWith;
 }
+
+INT_PTR CSkypeProto::ParseSkypeUri(WPARAM wParam, LPARAM lParam)
+{
+	return 1;
+	if (CSkypeProto::instanceList.getCount() == 0 || !CSkypeProto::instanceList[0]->IsOnline())
+		return 1;
+
+	CSkypeProto::ShowNotification((wchar_t *)lParam);
+
+	CSkypeProto *ppro = CSkypeProto::instanceList[0];
+
+	wchar_t *args = ::mir_wstrdup((wchar_t *)lParam);
+	if (args == NULL)
+		return 1;
+		// set focus on clist
+
+	wchar_t * q = ::wcschr(args, L'?');
+	if (q == NULL)
+		return 1;
+		
+	wchar_t *c = q + 1; q = 0;
+	StringList participants = StringList(args, L";");
+	StringList commands = StringList(q + 1, L"&");
+
+	ptrW command, arg, commandAndParam;
+
+	if (::lstrcmpiW( commands[0], L"chat") != 0)
+	{
+		wchar_t message[1024];
+		::mir_sntprintf(message, SIZEOF(message), ::TranslateT("Command\"%s\" is unsupported"), args);
+		CSkypeProto::ShowNotification(message);
+		return 1;
+	}
+			
+	ChatRoomParam *param = new ChatRoomParam(NULL, participants, ppro);
+
+	for (size_t i = 1; i < commands.size(); i++)
+	{
+		commandAndParam = command = ::mir_wstrdup(commands[i]);
+		wchar_t * p = ::wcschr(commandAndParam, L'=');
+		if (p != NULL)
+		{
+			arg = p + 1;
+			p = 0;
+		}
+
+		if ( !::lstrcmpiW(commands[0], L"blob"))
+		{
+			ppro->JoinToChat(arg);
+			break;
+		}
+
+		if ( !::lstrcmpiW( commands[0], L"topic"))
+		{
+			::wcscpy(param->topic, arg);
+			ppro->CreateChat(param);
+			break;
+			
+		}
+		//param
+	}
+	
+	delete param;
+	
+	return 0;
+}

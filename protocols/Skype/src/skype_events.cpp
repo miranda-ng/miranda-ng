@@ -7,6 +7,12 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 	this->InitCustomFolders();
 	this->InitInstanceHookList();
 
+	/*if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
+	{
+		::CreateServiceFunction(MODULE"/ParseSkypeURI", &CSkypeProto::ParseSkypeUri);
+		::AssocMgr_AddNewUrlTypeT("skype:", TranslateT("Skype URI"), g_hInstance, IDI_SKYPE, MODULE"/ParseSkypeURI", 0);
+	}*/
+
 	if (::ServiceExists(MS_BB_ADDBUTTON))
 	{
 		BBButton bbd = { sizeof(bbd) };
@@ -14,22 +20,15 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 
 		bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
 		bbd.ptszTooltip = ::TranslateT("Invite contacts to conference");
-		bbd.hIcon = CSkypeProto::GetIconHandle("confInvite");
+		bbd.hIcon = CSkypeProto::GetIconHandle("addContacts");
 		bbd.dwButtonID = BBB_ID_CONF_INVITE;
 		bbd.dwDefPos = 100 + bbd.dwButtonID;
 		::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON;
 		bbd.ptszTooltip = ::TranslateT("Spawn conference");
-		bbd.hIcon = CSkypeProto::GetIconHandle("confSpawn");
+		bbd.hIcon = CSkypeProto::GetIconHandle("conference");
 		bbd.dwButtonID = BBB_ID_CONF_SPAWN;
-		bbd.dwDefPos = 100 + bbd.dwButtonID;
-		::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
-
-		bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
-		bbd.ptszTooltip = ::TranslateT("Bookmark");
-		bbd.hIcon = CSkypeProto::GetIconHandle("bookmark");
-		bbd.dwButtonID = BBB_ID_CONF_BOOKMARK;
 		bbd.dwDefPos = 100 + bbd.dwButtonID;
 		::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 
@@ -50,9 +49,6 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 		::CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
 
 		bbd.dwButtonID = BBB_ID_CONF_SPAWN;
-		::CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
-
-		bbd.dwButtonID = BBB_ID_CONF_BOOKMARK;
 		::CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
 	}
 
@@ -166,14 +162,6 @@ int __cdecl CSkypeProto::OnSrmmWindowOpen(WPARAM, LPARAM lParam)
 
 		bbd.dwButtonID = BBB_ID_CONF_SPAWN;
 		::CallService(MS_BB_SETBUTTONSTATE, (WPARAM)ev->hContact, (LPARAM)&bbd);
-
-		bbd.bbbFlags = 0;
-		if (::strcmp(::GetContactProto(ev->hContact), this->m_szModuleName) != 0)
-			bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
-		else if (this->IsChatRoomBookmarked(ev->hContact)) 
-			bbd.bbbFlags = BBSF_DISABLED;
-		bbd.dwButtonID = BBB_ID_CONF_BOOKMARK;
-		::CallService(MS_BB_SETBUTTONSTATE, (WPARAM)ev->hContact, (LPARAM)&bbd);
 	} 
 	return 0; 
 }
@@ -198,10 +186,6 @@ int __cdecl CSkypeProto::OnTabSRMMButtonPressed(WPARAM wParam, LPARAM lParam)
 
 			this->StartChat(targets);
 		}
-		break;
-
-	case BBB_ID_CONF_BOOKMARK:
-		this->SetBookmarkCommand(wParam, 0);
 		break;
 	}
 

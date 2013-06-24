@@ -1,7 +1,4 @@
 Features:
-- add correct own info
-- multiuser chat
 - voice
 - video
-- editing last message as in skype
 - run skype runtime from resources directly

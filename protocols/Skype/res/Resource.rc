@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -225,13 +225,13 @@ BEGIN
     LTEXT           "Default group:",IDC_STATIC,15,121,63,8
 END
 
-IDD_BOOKMARKS DIALOGEX 0, 0, 296, 262
+IDD_IGNORE_LIST DIALOGEX 0, 0, 296, 262
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Skype bookmarks"
+CAPTION "Ignore list"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Server side bookmarks\nControl conference bookmarks on server.",IDC_HEADERBAR,
+    CONTROL         "Server side ignore list\nControl ignore list on server.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,296,25
     CONTROL         "List1",IDC_BM_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,6,38,282,216
 END
@@ -352,7 +352,7 @@ BEGIN
         BOTTOMMARGIN, 231
     END
 
-    IDD_BOOKMARKS, DIALOG
+    IDD_IGNORE_LIST, DIALOG
     BEGIN
         VERTGUIDE, 6
         VERTGUIDE, 288
@@ -379,15 +379,15 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON                ICON                    "main.ico"
+IDI_SKYPE               ICON                    "skype.ico"
 IDI_CALL                ICON                    "call.ico"
-IDI_CONF_INVITE         ICON                    "conf_invite.ico"
-IDI_CONF_SPAWN          ICON                    "conf_spawn.ico"
+IDI_ADD_CONTACTS        ICON                    "add_contacts.ico"
 IDI_SEND_CONTACTS       ICON                    "send_contacts.ico"
 IDI_DELETE              ICON                    "delete.ico"
-IDI_BOOKMARK            ICON                    "bookmark.ico"
 IDI_IGNORE              ICON                    "ignore.ico"
 IDI_BLOCK               ICON                    "block.ico"
+IDI_CONFERENCE          ICON                    "conference.ico"
+IDI_CONTACT             ICON                    "contact.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

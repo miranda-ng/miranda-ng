@@ -4,38 +4,38 @@ wchar_t *CSkypeProto::LogoutReasons[] =
 {
 	LPGENW("")															/* ---							*/,
 	LPGENW("LOGOUT_CALLED")												/* LOGOUT_CALLED				*/,
-	LPGENW("HTTPS_PROXY_AUTH_FAILED")									/* HTTPS_PROXY_AUTH_FAILED		*/,
-	LPGENW("SOCKS_PROXY_AUTH_FAILED")									/* SOCKS_PROXY_AUTH_FAILED		*/,
-	LPGENW("P2P_CONNECT_FAILED")										/* P2P_CONNECT_FAILED			*/,
+	LPGENW("HTTPS proxy authentication failed")							/* HTTPS_PROXY_AUTH_FAILED		*/,
+	LPGENW("SOCKS proxy authentication failed")							/* SOCKS_PROXY_AUTH_FAILED		*/,
+	LPGENW("P2P connection failed")										/* P2P_CONNECT_FAILED			*/,
 	LPGENW("SERVER_CONNECT_FAILED")										/* SERVER_CONNECT_FAILED		*/,
-	LPGENW("SERVER_OVERLOADED")											/* SERVER_OVERLOADED			*/,
-	LPGENW("DB_IN_USE")													/* DB_IN_USE					*/,
+	LPGENW("Server is overloaded")										/* SERVER_OVERLOADED			*/,
+	LPGENW("SkypeKit database already in use")							/* DB_IN_USE					*/,
 	LPGENW("Invalid skypename")											/* INVALID_SKYPENAME			*/,
 	LPGENW("Invalid email")												/* INVALID_EMAIL				*/,
 	LPGENW("Unacceptable password")										/* UNACCEPTABLE_PASSWORD		*/,
-	LPGENW("SKYPENAME_TAKEN")											/* SKYPENAME_TAKEN				*/,
+	LPGENW("Skype name is taken")										/* SKYPENAME_TAKEN				*/,
 	LPGENW("REJECTED_AS_UNDERAGE")										/* REJECTED_AS_UNDERAGE			*/,
 	LPGENW("NO_SUCH_IDENTITY")											/* NO_SUCH_IDENTITY				*/,
 	LPGENW("Incorrect password")										/* INCORRECT_PASSWORD			*/,
 	LPGENW("Too many login attempts")									/* TOO_MANY_LOGIN_ATTEMPTS		*/,
-	LPGENW("PASSWORD_HAS_CHANGED")										/* PASSWORD_HAS_CHANGED			*/,
+	LPGENW("Password has changed")										/* PASSWORD_HAS_CHANGED			*/,
 	LPGENW("PERIODIC_UIC_UPDATE_FAILED")								/* PERIODIC_UIC_UPDATE_FAILED	*/,
 	LPGENW("DB_DISK_FULL")												/* DB_DISK_FULL					*/,
 	LPGENW("DB_IO_ERROR")												/* DB_IO_ERROR					*/,
-	LPGENW("DB_CORRUPT")												/* DB_CORRUPT					*/,
+	LPGENW("SkypeKit database is corrupt")								/* DB_CORRUPT					*/,
 	LPGENW("DB_FAILURE")												/* DB_FAILURE					*/,
-	LPGENW("INVALID_APP_ID")											/* INVALID_APP_ID				*/,
+	LPGENW("Invalid application ID")									/* INVALID_APP_ID				*/,
 	LPGENW("APP_ID_FAILURE")											/* APP_ID_FAILURE				*/,
-	LPGENW("UNSUPPORTED_VERSION")										/* UNSUPPORTED_VERSION			*/,
-	LPGENW("ATO (Account TakeOver) detected, account blocked")			/* ATO_BLOCKED					*/,
+	LPGENW("Version is unsupported")									/* UNSUPPORTED_VERSION			*/,
+	LPGENW("Account blocked")											/* ATO_BLOCKED					*/,
 	LPGENW("Logout from another instance")								/* REMOTE_LOGOUT				*/,
-	LPGENW("")															/* ACCESS_TOKEN_RENEWAL_FAILED 	*/
+	LPGENW("ACCESS_TOKEN_RENEWAL_FAILED")								/* ACCESS_TOKEN_RENEWAL_FAILED 	*/
 };
 
 wchar_t *CSkypeProto::PasswordChangeReasons[] =
 {
-	LPGENW("Password change succeeded")									/* PWD_OK						*/,
-	LPGENW("")															/* PWD_CHANGING					*/,
+	LPGENW("Password successfully changed")								/* PWD_OK						*/,
+	LPGENW("Password changing")											/* PWD_CHANGING					*/,
 	LPGENW("Old password was incorrect")								/* PWD_INVALID_OLD_PASSWORD		*/,
 	LPGENW("Failed to verify password. No connection to server")		/* PWD_SERVER_CONNECT_FAILED	*/,
 	LPGENW("Password was set but server didn't like it much")			/* PWD_OK_BUT_CHANGE_SUGGESTED	*/,
@@ -56,7 +56,10 @@ bool CSkypeProto::PrepareLogin()
 	{
 		this->m_iStatus = ID_STATUS_OFFLINE;
 		this->SendBroadcast(ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
-		this->ShowNotification(::TranslateT("You have not entered a Skype name.\nConfigure this in Options->Network->Skype and try again."));
+		
+		wchar_t message[512];
+		::mir_sntprintf(message, SIZEOF(message), ::TranslateT("You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again."), this->m_tszUserName);
+		this->ShowNotification(message);
 		return false;
 	}
 

@@ -240,7 +240,6 @@
     </ClCompile>
     <ClCompile Include="src\skype_account.cpp" />
     <ClCompile Include="src\skype_avatars.cpp" />
-    <ClCompile Include="src\skype_bookmarks.cpp" />
     <ClCompile Include="src\skype_chat.cpp" />
     <ClCompile Include="src\skype_contacts.cpp" />
     <ClCompile Include="src\skype_database.cpp" />
@@ -248,6 +247,7 @@
     <ClCompile Include="src\skype_events.cpp" />
     <ClCompile Include="src\skype_hooks.cpp" />
     <ClCompile Include="src\skype_icons.cpp" />
+    <ClCompile Include="src\skype_ignore_list.cpp" />
     <ClCompile Include="src\skype_instances.cpp" />
     <ClCompile Include="src\skype_menus.cpp" />
     <ClCompile Include="src\skype_messages.cpp" />

@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by E:\Projects\C++\MirandaNG\protocols\Skype\res\Resource.rc
+// Used by D:\Projects\CPlusPlus\MirandaNG\protocols\Skype\res\Resource.rc
 //
 #define IDD_ACCMGR                      9
 #define IDD_OPT_MAIN                    10
@@ -10,21 +10,21 @@
 #define IDD_OWNINFO_CONTACT             14
 #define IDD_PASSWORD_CHANGE             15
 #define IDD_CHATROOM_INVITE             40
-#define IDI_ICON                        101
+#define IDI_SKYPE                       101
 #define IDR_RUNTIME                     102
 #define IDD_PASSWORD_REQUEST            106
 #define IDR_KEY                         107
 #define IDI_CALL                        108
 #define IDI_CONF_INVITE                 109
-#define IDI_CONF_SPAWN                  110
+#define IDI_ADD_CONTACTS                109
 #define IDI_SEND_CONTACTS               111
 #define IDD_CHATROOM_CREATE             111
 #define IDD_CHATROOM_CONFIG             112
 #define IDI_DELETE                      112
-#define IDI_BOOKMARK                    113
 #define IDI_IGNORE                      114
-#define IDI_ICON1                       115
 #define IDI_BLOCK                       115
+#define IDI_CONFERENCE                  116
+#define IDI_CONTACT                     117
 #define IDC_CCLIST                      173
 #define IDC_EDITSCR                     174
 #define IDC_ADDSCR                      175
@@ -92,13 +92,14 @@
 #define IDC_CHECK2                      1054
 #define IDC_HEADERBAR                   1320
 #define IDD_BOOKMARKS                   3001
+#define IDD_IGNORE_LIST                 3001
 #define IDC_BM_LIST                     3002
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        116
+#define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1054
 #define _APS_NEXT_SYMED_VALUE           101

@@ -120,7 +120,7 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skype_bookmarks.cpp">
+    <ClCompile Include="src\skype_ignore_list.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

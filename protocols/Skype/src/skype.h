@@ -15,6 +15,7 @@
 
 #include <newpluginapi.h>
 #include <m_system_cpp.h>
+#include <m_assocmgr.h>
 #include <m_avatars.h>
 #include <m_clist.h>
 #include <m_clistint.h>
@@ -61,7 +62,6 @@
 
 #define BBB_ID_CONF_INVITE 2001
 #define BBB_ID_CONF_SPAWN 2002
-#define BBB_ID_CONF_BOOKMARK 2003
 
 #define SKYPE_DB_EVENT_TYPE_EMOTE 10001
 #define SKYPE_DB_EVENT_TYPE_CONTACTS 10002
@@ -72,14 +72,13 @@ enum
 	CMI_AUTH_REQUEST,
 	CMI_AUTH_GRANT,
 	CMI_AUTH_REVOKE,
-	CMI_CHAT_BOOKMARK,
 	CMI_IGNORE,
 	CMI_BLOCK,
 	CMI_MAX   // this item shall be the last one
 };
 
-#define SMI_CHAT_INVITE 1
-#define SMI_CHAT_BOOKMARKS 2
+#define SMI_CHAT_CREATE 1
+#define SMI_IGNORE_LIST 2
 
 #include "string_list.h"
 

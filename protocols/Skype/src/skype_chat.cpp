@@ -187,7 +187,7 @@ void ChatRoom::CreateChatSession(bool showWindow)
 	this->ppro->Log(L"Created new chat session %s", this->cid);
 }
 
-void ChatRoom::Create(const StringList &invitedMembers, CSkypeProto *ppro, ChatRoomParam *param)
+void ChatRoom::Create(const StringList &invitedMembers, CSkypeProto *ppro, const ChatRoomParam *param)
 {
 	SEString data;
 	ChatRoom *room = NULL;
@@ -849,28 +849,6 @@ void ChatRoom::OnChange(const ConversationRef &conversation, int prop)
 		}
 		break;
 
-	case Conversation::P_IS_BOOKMARKED:
-		{
-			if (conversation->GetBoolProp(Conversation::P_IS_BOOKMARKED))
-				::db_set_b(hContact, this->ppro->m_szModuleName, "IsBookmarked", 1);
-			else
-				::db_unset(hContact, this->ppro->m_szModuleName, "IsBookmarked");
-		
-			if (this->hContact)
-			{
-				BBButton bbd = { sizeof(bbd) };
-				bbd.pszModuleName = MODULE;
-				bbd.bbbFlags = 0;
-				if (::strcmp(::GetContactProto(this->hContact), this->ppro->m_szModuleName) != 0)
-					bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
-				else if (this->ppro->IsChatRoomBookmarked(this->hContact)) 
-					bbd.bbbFlags = BBSF_DISABLED;
-				bbd.dwButtonID = BBB_ID_CONF_BOOKMARK;
-				::CallService(MS_BB_SETBUTTONSTATE, (WPARAM)this->hContact, (LPARAM)&bbd);
-			}
-		}
-		break;
-
 	case Conversation::P_LOCAL_LIVESTATUS:
 		{
 			Conversation::LOCAL_LIVESTATUS liveStatus;
@@ -1145,11 +1123,6 @@ bool CSkypeProto::IsChatRoom(HANDLE hContact)
 	return ::db_get_b(hContact, this->m_szModuleName, "ChatRoom", 0) == 1;
 }
 
-bool CSkypeProto::IsChatRoomBookmarked(HANDLE hContact)
-{
-	return ::db_get_b(hContact, this->m_szModuleName, "IsBookmarked", 0) == 1;
-}
-
 HANDLE CSkypeProto::GetChatRoomByCid(const wchar_t *cid)
 {
 	HANDLE hContact = NULL;
@@ -1181,10 +1154,12 @@ void CSkypeProto::StartChat(StringList &invitedContacts)
 	delete param;
 }
 
-void CSkypeProto::StartChat()
+INT_PTR CSkypeProto::CreateChatRoomCommand(WPARAM, LPARAM)
 {
 	StringList empty;
-	return this->StartChat(empty);
+	this->StartChat(empty);
+
+	return 0;
 }
 
 void CSkypeProto::InviteToChatRoom(HANDLE hContact)
@@ -1215,17 +1190,6 @@ void CSkypeProto::InviteToChatRoom(HANDLE hContact)
 		}
 	}	
 	::mir_free(gci.pszID);
-}
-
-void CSkypeProto::BookmarkChatRoom(HANDLE hContact)
-{
-	ptrW cid = ::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID");
-	ChatRoom *room = (ChatRoom *)this->FindChatRoom(cid);
-	if (room != NULL && room->conversation)
-	{
-		bool state = room->conversation->GetBoolProp(Conversation::P_IS_BOOKMARKED);
-		room->conversation->SetBookmark(!state);
-	}
 }
 
 void CSkypeProto::CloseAllChatSessions()
@@ -1607,6 +1571,29 @@ void CSkypeProto:: UpdateChatUserNick(CContact::Ref contact)
 	}
 }
 
+void CSkypeProto::CreateChat(const ChatRoomParam *param)
+{
+	ChatRoom::Create(param->invitedContacts, this, param);
+}
+
+void CSkypeProto::JoinToChat(const wchar_t *joinBlob)
+{
+	SEString data;
+	ConversationRef conversation;
+	if (this->GetConversationByBlob(data, conversation))
+	{
+		conversation->GetPropIdentity(data);
+		ptrW cid(::mir_utf8decodeW(data));
+
+		conversation->GetPropDisplayname(data);
+		ptrW name(::mir_utf8decodeW(data));
+
+		CSkypeProto::ReplaceSpecialChars(cid);
+		ChatRoom *room = new ChatRoom(cid, name, this);
+		room->Start(conversation, true);
+	}
+}
+
 INT_PTR __cdecl CSkypeProto::OnJoinChat(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
@@ -1617,20 +1604,13 @@ INT_PTR __cdecl CSkypeProto::OnJoinChat(WPARAM wParam, LPARAM)
 			ptrW cid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
 			ptrA cidA(::mir_utf8encodeW(cid));
 
-			SEString data;
 			ConversationRef conversation;
 			if (this->GetConversationByIdentity((char *)cidA, conversation))
 			{
+				SEString data;
 				conversation->GetJoinBlob(data);
-				if (this->GetConversationByBlob(data, conversation))
-				{
-					conversation->GetPropDisplayname(data);
-					ptrW name(::mir_utf8decodeW(data));
-
-					CSkypeProto::ReplaceSpecialChars(cid);
-					ChatRoom *room = new ChatRoom(cid, name, this);
-					room->Start(conversation, true);
-				}
+				ptrW joinBlob(::mir_utf8decodeW(data));
+				this->JoinToChat(joinBlob);
 			}
 		}
 		else

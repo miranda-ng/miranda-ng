@@ -156,7 +156,7 @@ public:
 	static CSkypeProto* InitSkypeProto(const char* protoName, const wchar_t* userName);
 	static int UninitSkypeProto(CSkypeProto* ppro);
 
-	static CSkypeProto* GetInstanceByHContact(HANDLE hContact);
+	static CSkypeProto* GetContactInstance(HANDLE hContact);
 	static void UninitInstances();
 
 	// icons
@@ -275,7 +275,6 @@ protected:
 
 	// chat
 	bool IsChatRoom(HANDLE hContact);
-	bool IsChatRoomBookmarked(HANDLE hContact);
 	HANDLE GetChatRoomByCid(const wchar_t *cid);
 	HANDLE AddChatRoom(CConversation::Ref conversation);
 
@@ -289,16 +288,18 @@ protected:
 
 	void InitChat();
 	
-	void StartChat();
 	void StartChat(StringList &invitedContacts);
 	void InviteToChatRoom(HANDLE hContact);
-	void BookmarkChatRoom(HANDLE hContact);
 
 	void CloseAllChatSessions();
 
 	ChatRoom *FindChatRoom(const wchar_t *cid);
 	void DeleteChatRoom(HANDLE hContact);
+	
+	void CreateChat(const ChatRoomParam *param);
+	void JoinToChat(const wchar_t *joinBlob);
 
+	INT_PTR __cdecl CreateChatRoomCommand(WPARAM, LPARAM);
 	INT_PTR __cdecl OnJoinChat(WPARAM wParam, LPARAM);
 	INT_PTR __cdecl OnLeaveChat(WPARAM wParam, LPARAM);
 
@@ -390,6 +391,8 @@ protected:
 
 	static void ReplaceSpecialChars(wchar_t *text, wchar_t replaceWith = L'_');
 
+	static INT_PTR __cdecl ParseSkypeUri(WPARAM wParam, LPARAM lParam);
+
 	// languages
 	static std::map<std::wstring, std::wstring> languages;
 
@@ -440,16 +443,15 @@ protected:
 	
 	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
 
-	int __cdecl IgnoreCommand(WPARAM, LPARAM);
-	int __cdecl BlockCommand(WPARAM, LPARAM);
-
-	INT_PTR __cdecl InviteCommand(WPARAM, LPARAM);
-
-	int __cdecl SetBookmarkCommand(WPARAM, LPARAM);
-	INT_PTR __cdecl ShowBookmarksCommand(WPARAM, LPARAM);
-
 	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 	int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
+
+	// ignore list
+	int __cdecl IgnoreCommand(WPARAM, LPARAM);
+	int __cdecl BlockCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl OpenIgnoreListCommand(WPARAM, LPARAM);
+
+	static INT_PTR CALLBACK IgnoreListWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// database
 	bool IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid, int flag = 0);
@@ -474,9 +476,7 @@ protected:
 	static INT_PTR CALLBACK SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
-	static INT_PTR CALLBACK SkypeBookmarksProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);	
 
 	// skype runtime
 	char *LoadKeyPair();

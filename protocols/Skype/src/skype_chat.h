@@ -159,7 +159,7 @@ public:
 
 	HANDLE GetContactHandle() const;
 
-	static void Create(const StringList &invitedMembers, CSkypeProto *ppro, ChatRoomParam *param);
+	static void Create(const StringList &invitedMembers, CSkypeProto *ppro, const ChatRoomParam *param);
 
 	void Start(const ConversationRef &conversation, bool showWindow = false);
 
