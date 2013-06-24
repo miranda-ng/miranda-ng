@@ -29,95 +29,95 @@ OPTTREE_OPTION *pOptions; // Через этот указатель модуль opttree.c может добрать
 
 static INT_PTR CALLBACK DlgProcPopupsTraffic(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-		case WM_INITDIALOG:
-			TranslateDialogDefault(hwndDlg);
-			//
-			CheckDlgButton(hwndDlg,IDC_NOTIFYSIZE,(unOptions.NotifyBySize) ? BST_CHECKED : BST_UNCHECKED);
-			SetDlgItemInt(hwndDlg,IDC_ENOTIFYSIZE,Traffic_Notify_size_value,0);
-			SendDlgItemMessage(hwndDlg,IDC_ENOTIFYSIZE,EM_LIMITTEXT,4,0);
-			if (!unOptions.NotifyBySize) EnableWindow(GetDlgItem(hwndDlg,IDC_ENOTIFYSIZE),0);
-			CheckDlgButton(hwndDlg,IDC_NOTIFYTIME,(unOptions.NotifyByTime) ? BST_CHECKED : BST_UNCHECKED);
-			SetDlgItemInt(hwndDlg,IDC_ENOTIFYTIME,Traffic_Notify_time_value,0);
-			SendDlgItemMessage(hwndDlg,IDC_ENOTIFYTIME,EM_LIMITTEXT,2,0);
-			if (!unOptions.NotifyByTime) EnableWindow(GetDlgItem(hwndDlg,IDC_ENOTIFYTIME),0);
-			//colors
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		//
+		CheckDlgButton(hwndDlg,IDC_NOTIFYSIZE,(unOptions.NotifyBySize) ? BST_CHECKED : BST_UNCHECKED);
+		SetDlgItemInt(hwndDlg,IDC_ENOTIFYSIZE,Traffic_Notify_size_value,0);
+		SendDlgItemMessage(hwndDlg,IDC_ENOTIFYSIZE,EM_LIMITTEXT,4,0);
+		if (!unOptions.NotifyBySize)
+			EnableWindow(GetDlgItem(hwndDlg,IDC_ENOTIFYSIZE),0);
+		
+		CheckDlgButton(hwndDlg,IDC_NOTIFYTIME,(unOptions.NotifyByTime) ? BST_CHECKED : BST_UNCHECKED);
+		SetDlgItemInt(hwndDlg,IDC_ENOTIFYTIME,Traffic_Notify_time_value,0);
+		SendDlgItemMessage(hwndDlg,IDC_ENOTIFYTIME,EM_LIMITTEXT,2,0);
+		if (!unOptions.NotifyByTime)
+			EnableWindow(GetDlgItem(hwndDlg,IDC_ENOTIFYTIME),0);
+
+		//colors
+		SendDlgItemMessage(hwndDlg,IDC_COLOR1,CPM_SETDEFAULTCOLOUR,0,RGB(200,255,200));
+		SendDlgItemMessage(hwndDlg,IDC_COLOR1,CPM_SETCOLOUR,0,Traffic_PopupBkColor);
+		SendDlgItemMessage(hwndDlg,IDC_COLOR2,CPM_SETDEFAULTCOLOUR,0,RGB(0,0,0));
+		SendDlgItemMessage(hwndDlg,IDC_COLOR2,CPM_SETCOLOUR,0,Traffic_PopupFontColor);
+
+		//timeout
+		CheckDlgButton(hwndDlg,IDC_RADIO_FROMPOPUP,(Traffic_PopupTimeoutDefault != 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg,IDC_RADIO_CUSTOM,(Traffic_PopupTimeoutDefault == 0) ? BST_CHECKED : BST_UNCHECKED);
+		EnableWindow(GetDlgItem(hwndDlg,IDC_POPUP_TIMEOUT),Traffic_PopupTimeoutDefault == 0);
+		SetDlgItemInt(hwndDlg,IDC_POPUP_TIMEOUT,Traffic_PopupTimeoutValue,0);
+		SendDlgItemMessage(hwndDlg,IDC_POPUP_TIMEOUT,EM_LIMITTEXT,2,0);
+		return 0;
+
+	case WM_COMMAND:
+		switch(LOWORD(wParam)) {
+		case IDC_NOTIFYSIZE:
+			EnableWindow(GetDlgItem(hwndDlg,IDC_ENOTIFYSIZE),IsDlgButtonChecked(hwndDlg,IDC_NOTIFYSIZE));
+			break;
+
+		case IDC_ENOTIFYSIZE:
+			if (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
+			break;
+
+		case IDC_NOTIFYTIME:
+			EnableWindow(GetDlgItem(hwndDlg,IDC_ENOTIFYTIME),IsDlgButtonChecked(hwndDlg,IDC_NOTIFYTIME));
+			break;
+
+		case IDC_ENOTIFYTIME:
+			if (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
+			break;
+
+		case IDC_RESETCOLORS:
 			SendDlgItemMessage(hwndDlg,IDC_COLOR1,CPM_SETDEFAULTCOLOUR,0,RGB(200,255,200));
-			SendDlgItemMessage(hwndDlg,IDC_COLOR1,CPM_SETCOLOUR,0,Traffic_PopupBkColor);
+			SendDlgItemMessage(hwndDlg,IDC_COLOR1,CPM_SETCOLOUR,0,RGB(200,255,200));
 			SendDlgItemMessage(hwndDlg,IDC_COLOR2,CPM_SETDEFAULTCOLOUR,0,RGB(0,0,0));
-			SendDlgItemMessage(hwndDlg,IDC_COLOR2,CPM_SETCOLOUR,0,Traffic_PopupFontColor);
-			//timeout
-			CheckDlgButton(hwndDlg,IDC_RADIO_FROMPOPUP,(Traffic_PopupTimeoutDefault != 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg,IDC_RADIO_CUSTOM,(Traffic_PopupTimeoutDefault == 0) ? BST_CHECKED : BST_UNCHECKED);
-			EnableWindow(GetDlgItem(hwndDlg,IDC_POPUP_TIMEOUT),Traffic_PopupTimeoutDefault == 0);
-			SetDlgItemInt(hwndDlg,IDC_POPUP_TIMEOUT,Traffic_PopupTimeoutValue,0);
-			SendDlgItemMessage(hwndDlg,IDC_POPUP_TIMEOUT,EM_LIMITTEXT,2,0);
+			SendDlgItemMessage(hwndDlg,IDC_COLOR2,CPM_SETCOLOUR,0,RGB(0,0,0));
+			break;
 
+		case IDC_RADIO_FROMPOPUP:
+		case IDC_RADIO_CUSTOM:
+			EnableWindow(GetDlgItem(hwndDlg,IDC_POPUP_TIMEOUT),IsDlgButtonChecked(hwndDlg,IDC_RADIO_CUSTOM));
+			break;
+
+		case IDC_TEST:
+			NotifyOnRecv();
+			NotifyOnSend();
 			return 0;
+		}
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		return 0;
 
-		case WM_COMMAND:
-			switch(LOWORD(wParam))
-			{
-				case IDC_NOTIFYSIZE:
-					EnableWindow(GetDlgItem(hwndDlg,IDC_ENOTIFYSIZE),IsDlgButtonChecked(hwndDlg,IDC_NOTIFYSIZE));
-					break;
-
-				case IDC_ENOTIFYSIZE:
-					if (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
-					break;
-
-				case IDC_NOTIFYTIME:
-					EnableWindow(GetDlgItem(hwndDlg,IDC_ENOTIFYTIME),IsDlgButtonChecked(hwndDlg,IDC_NOTIFYTIME));
-					break;
-
-				case IDC_ENOTIFYTIME:
-					if (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
-					break;
-
-				case IDC_RESETCOLORS:
-					SendDlgItemMessage(hwndDlg,IDC_COLOR1,CPM_SETDEFAULTCOLOUR,0,RGB(200,255,200));
-					SendDlgItemMessage(hwndDlg,IDC_COLOR1,CPM_SETCOLOUR,0,RGB(200,255,200));
-					SendDlgItemMessage(hwndDlg,IDC_COLOR2,CPM_SETDEFAULTCOLOUR,0,RGB(0,0,0));
-					SendDlgItemMessage(hwndDlg,IDC_COLOR2,CPM_SETCOLOUR,0,RGB(0,0,0));
-					break;
-
-				case IDC_RADIO_FROMPOPUP:
-				case IDC_RADIO_CUSTOM:
-					EnableWindow(GetDlgItem(hwndDlg,IDC_POPUP_TIMEOUT),IsDlgButtonChecked(hwndDlg,IDC_RADIO_CUSTOM));
-					break;
-
-				case IDC_TEST:
-					NotifyOnRecv();
-					NotifyOnSend();
-					return 0;
-
-			}
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			return 0;
-
-		case WM_NOTIFY:
-			switch(((LPNMHDR)lParam)->idFrom)
-			{
-				case 0:
-					if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
-						unOptions.NotifyBySize = IsDlgButtonChecked(hwndDlg,IDC_NOTIFYSIZE);
-						Traffic_Notify_size_value = GetDlgItemInt(hwndDlg,IDC_ENOTIFYSIZE,NULL,0);
-						unOptions.NotifyByTime = IsDlgButtonChecked(hwndDlg,IDC_NOTIFYTIME);
-						Traffic_Notify_time_value = GetDlgItemInt(hwndDlg,IDC_ENOTIFYTIME,NULL,0);
-						//
-						Traffic_PopupBkColor = SendDlgItemMessage(hwndDlg,IDC_COLOR1,CPM_GETCOLOUR,0,0);
-						Traffic_PopupFontColor = SendDlgItemMessage(hwndDlg,IDC_COLOR2,CPM_GETCOLOUR,0,0);
-						//
-						Traffic_PopupTimeoutDefault = IsDlgButtonChecked(hwndDlg,IDC_RADIO_FROMPOPUP);
-						if (Traffic_PopupTimeoutDefault == 0) Traffic_PopupTimeoutValue = GetDlgItemInt(hwndDlg,IDC_POPUP_TIMEOUT,NULL,0);
-						//
-						UpdateNotifyTimer();
-						return TRUE;
-					}
-					break;
+	case WM_NOTIFY:
+		switch(((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
+				unOptions.NotifyBySize = IsDlgButtonChecked(hwndDlg,IDC_NOTIFYSIZE);
+				Traffic_Notify_size_value = GetDlgItemInt(hwndDlg,IDC_ENOTIFYSIZE,NULL,0);
+				unOptions.NotifyByTime = IsDlgButtonChecked(hwndDlg,IDC_NOTIFYTIME);
+				Traffic_Notify_time_value = GetDlgItemInt(hwndDlg,IDC_ENOTIFYTIME,NULL,0);
+				//
+				Traffic_PopupBkColor = SendDlgItemMessage(hwndDlg,IDC_COLOR1,CPM_GETCOLOUR,0,0);
+				Traffic_PopupFontColor = SendDlgItemMessage(hwndDlg,IDC_COLOR2,CPM_GETCOLOUR,0,0);
+				//
+				Traffic_PopupTimeoutDefault = IsDlgButtonChecked(hwndDlg,IDC_RADIO_FROMPOPUP);
+				if (Traffic_PopupTimeoutDefault == 0) Traffic_PopupTimeoutValue = GetDlgItemInt(hwndDlg,IDC_POPUP_TIMEOUT,NULL,0);
+				//
+				UpdateNotifyTimer();
+				return TRUE;
 			}
 			break;
+		}
+		break;
 	}
 	return 0;
 }
@@ -186,20 +186,18 @@ static OPTTREE_OPTION options[] =
 
 static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	WORD i, j, l;
+	WORD i, j;
 	BOOL result;
 	static BYTE Initialized = 0;
 	static WORD optionCount = 0;
 
-	if (!Initialized)
-	{
+	if (!Initialized) {
 		pOptions = options;
 		optionCount = SIZEOF(options);
 		// Если нет Variables, активируем галочки для старого метода рисования
 		if (!bVariablesExists)
-		{
-			for (i = 0; i < 8; i++)	options[i].dwFlag = 1;
-		}
+			for (i = 0; i < 8; i++)
+				options[i].dwFlag = 1;
 
 		// Флажки для видимости аккаунтов создаются в любом случае.
 		for (i = j = 0; (j < NumberOfAccounts) && (i < optionCount) ; i++)
@@ -207,14 +205,10 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			{
 				options[i].szSettingName = (char*)mir_alloc(1 + strlen(ProtoList[j].name));
 				strcpy(options[i].szSettingName, ProtoList[j].name);
-				l = 20 + _tcslen(ProtoList[j].tszAccountName);
+				size_t l = 20 + _tcslen(ProtoList[j].tszAccountName);
 				options[i].szOptionName = (TCHAR*)mir_alloc(sizeof(TCHAR) * l);
-				mir_sntprintf(options[i].szOptionName,
-								l,
-								_T("Visible accounts/%s"),
-								ProtoList[j].tszAccountName);
-				options[i].dwFlag =   (ProtoList[j++].Enabled ? 1 : OPTTREE_INVISIBLE)
-									| OPTTREE_NOTRANSLATE;
+				mir_sntprintf(options[i].szOptionName, l, _T("Visible accounts/%s"), ProtoList[j].tszAccountName);
+				options[i].dwFlag = (ProtoList[j++].Enabled ? 1 : OPTTREE_INVISIBLE) | OPTTREE_NOTRANSLATE;
 			}
 		Initialized = 1;
 	}
@@ -222,150 +216,136 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	if (OptTree_ProcessMessage(hwndDlg, msg, wParam, lParam, &result, IDC_APPEARANCEOPTIONS, options, optionCount))
 		return result;
 
-	switch (msg)
-	{	
-		case WM_INITDIALOG:
-			TranslateDialogDefault(hwndDlg);
-			
-			SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(15, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETPOS, 0, GetDlgItemInt(hwndDlg, IDC_EDIT_SPACE, NULL, FALSE));
+	switch (msg) {	
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 
-			//show/hide button
-			SetDlgItemText(hwndDlg,IDC_BSHOWHIDE,(IsWindowVisible(TrafficHwnd) != 0)? TranslateT("Hide now") : TranslateT("Show now"));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(15, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETPOS, 0, GetDlgItemInt(hwndDlg, IDC_EDIT_SPACE, NULL, FALSE));
 
-			// Строки формата для счётчиков
-			EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_COUNTER_FORMAT), bVariablesExists);
-			SetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_COUNTER_FORMAT), Traffic_CounterFormat);
+		//show/hide button
+		SetDlgItemText(hwndDlg,IDC_BSHOWHIDE,(IsWindowVisible(TrafficHwnd) != 0)? TranslateT("Hide now") : TranslateT("Show now"));
 
-			// Формат всплывающей подсказки
-			EnableWindow(GetDlgItem(hwndDlg,IDC_EDIT_TOOLTIP_FORMAT), bTooltipExists);
-			SetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT), Traffic_TooltipFormat);
+		// Строки формата для счётчиков
+		EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_COUNTER_FORMAT), bVariablesExists);
+		SetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_COUNTER_FORMAT), Traffic_CounterFormat);
 
-			// Display traffic for current...
-			SendDlgItemMessage(hwndDlg, IDC_COMBO_AUTO_CLEAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Day"));
-			SendDlgItemMessage(hwndDlg, IDC_COMBO_AUTO_CLEAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Week"));
-			SendDlgItemMessage(hwndDlg, IDC_COMBO_AUTO_CLEAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Month"));
-			SendDlgItemMessage(hwndDlg, IDC_COMBO_AUTO_CLEAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Year"));
-			SendDlgItemMessage(hwndDlg, IDC_COMBO_AUTO_CLEAR, CB_SETCURSEL, unOptions.PeriodForShow, 0);
-			
+		// Формат всплывающей подсказки
+		EnableWindow(GetDlgItem(hwndDlg,IDC_EDIT_TOOLTIP_FORMAT), bTooltipExists);
+		SetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT), Traffic_TooltipFormat);
+
+		// Display traffic for current...
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_AUTO_CLEAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Day"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_AUTO_CLEAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Week"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_AUTO_CLEAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Month"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_AUTO_CLEAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Year"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_AUTO_CLEAR, CB_SETCURSEL, unOptions.PeriodForShow, 0);
+
+		// Интервал между строками
+		SetDlgItemInt(hwndDlg, IDC_EDIT_SPACE, Traffic_AdditionSpace, 0);
+		SendDlgItemMessage(hwndDlg, IDC_EDIT_SPACE, EM_LIMITTEXT, 2, 0);
+
+		// Appearance
+		OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.DrawProtoIcon, "DrawProtoIcon");
+		OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.DrawProtoName, "DrawProtoName");
+		OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.DrawCurrentTraffic, "DrawCurrentTraffic");
+		OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.DrawTotalTraffic, "DrawTotalTraffic");
+		OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.DrawCurrentTimeCounter, "DrawCurrentTime");
+		OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.DrawTotalTimeCounter, "DrawTotalTime");
+		OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.DrawFrmAsSkin, "DrawFrmAsSkin");
+		OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.ShowSummary , "ShowSummary");
+		OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.ShowTooltip, "ShowTooltip");
+		OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.ShowMainMenuItem, "ShowMainMenuItem");
+
+		// Настройки видимости протоколов
+		for (i = 0; i < NumberOfAccounts; i++) {
+			char buffer[32];
+			strcpy(buffer, ProtoList[i].name);
+			OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, ProtoList[i].Visible, buffer);
+		}
+		OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.ShowOverall, "ShowOverall");
+
+		EnableWindow(GetDlgItem(GetParent(hwndDlg),IDC_APPLY),FALSE);
+		return 0;
+
+	case WM_COMMAND:
+		switch(LOWORD(wParam)) {
+		case IDC_BSHOWHIDE:
+			MenuCommand_TrafficShowHide(0, 0);
+			SetDlgItemText(hwndDlg,IDC_BSHOWHIDE,IsWindowVisible(TrafficHwnd)? TranslateT("Hide now") : TranslateT("Show now"));
+			return 0;
+
+		case IDC_EDIT_SPACE:
+		case IDC_EDIT_COUNTER_FORMAT:
+		case IDC_EDIT_OVERALL_COUNTER_FORMAT:
+		case IDC_EDIT_TOOLTIP_FORMAT:
+			if (HIWORD(wParam) == EN_CHANGE)
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_COMBO_AUTO_CLEAR:
+			if (HIWORD(wParam) == CBN_SELCHANGE)
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+		}
+		break;
+
+	case WM_NOTIFY:
+		LPNMHDR lpnmhdr = (LPNMHDR)lParam;
+		switch (lpnmhdr->code) {
+		case PSN_APPLY:
+			unOptions.PeriodForShow = (char)SendDlgItemMessage(hwndDlg,IDC_COMBO_AUTO_CLEAR,CB_GETCURSEL,0,0);
+
 			// Интервал между строками
-			SetDlgItemInt(hwndDlg, IDC_EDIT_SPACE, Traffic_AdditionSpace, 0);
-			SendDlgItemMessage(hwndDlg, IDC_EDIT_SPACE, EM_LIMITTEXT, 2, 0);
+			Traffic_AdditionSpace = GetDlgItemInt(hwndDlg, IDC_EDIT_SPACE, NULL, 0);
+			// Настройки Appearance
+			unOptions.DrawProtoIcon = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawProtoIcon");
+			unOptions.DrawProtoName = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawProtoName");
+			unOptions.DrawCurrentTraffic = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawCurrentTraffic");
+			unOptions.DrawTotalTraffic = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawTotalTraffic");
+			unOptions.DrawTotalTimeCounter = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawTotalTime");
+			unOptions.DrawCurrentTimeCounter = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawCurrentTime");
+			unOptions.DrawTotalTimeCounter = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawTotalTime");
+			unOptions.DrawFrmAsSkin = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawFrmAsSkin");
+			unOptions.ShowSummary = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowSummary");
+			unOptions.ShowTooltip = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowTooltip");
+			unOptions.ShowMainMenuItem = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowMainMenuItem");
 
-			// Appearance
-			OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.DrawProtoIcon, "DrawProtoIcon");
-			OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.DrawProtoName, "DrawProtoName");
-			OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.DrawCurrentTraffic, "DrawCurrentTraffic");
-			OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.DrawTotalTraffic, "DrawTotalTraffic");
-			OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.DrawCurrentTimeCounter, "DrawCurrentTime");
-			OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.DrawTotalTimeCounter, "DrawTotalTime");
-			OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.DrawFrmAsSkin, "DrawFrmAsSkin");
-			OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.ShowSummary , "ShowSummary");
-			OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.ShowTooltip, "ShowTooltip");
-			OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.ShowMainMenuItem, "ShowMainMenuItem");
-			
 			// Настройки видимости протоколов
 			for (i = 0; i < NumberOfAccounts; i++)
 			{
 				char buffer[32];
 				strcpy(buffer, ProtoList[i].name);
-				OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, ProtoList[i].Visible, buffer);
+				ProtoList[i].Visible = (BYTE)OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, buffer);
 			}
-			OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.ShowOverall, "ShowOverall");
+			unOptions.ShowOverall = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowOverall");
 
-			EnableWindow(GetDlgItem(GetParent(hwndDlg),IDC_APPLY),FALSE);
-			return 0;
-			
-		case WM_COMMAND:
-		{
-			switch(LOWORD(wParam))
+			// Формат счётчиков
+			GetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_COUNTER_FORMAT), Traffic_CounterFormat, 512);
+			// Формат всплывающей подсказки
+			GetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT), Traffic_TooltipFormat, 512);
+
+			// Ключевой цвет
+			UseKeyColor = db_get_b(NULL, "ModernSettings", "UseKeyColor", 1);
+			KeyColor = db_get_dw(NULL, "ModernSettings", "KeyColor", 0);
+
+			// Перерисовываем фрейм
+			UpdateTrafficWindowSize();
+
+			// Если отключается показ пункта главного меню, то удаляем его.
+			if (!unOptions.ShowMainMenuItem && hTrafficMainMenuItem)
 			{
-				case IDC_BSHOWHIDE:
-					MenuCommand_TrafficShowHide(0, 0);
-					SetDlgItemText(hwndDlg,IDC_BSHOWHIDE,IsWindowVisible(TrafficHwnd)? TranslateT("Hide now") : TranslateT("Show now"));
-					return 0;
-			
-				case IDC_EDIT_SPACE:
-				case IDC_EDIT_COUNTER_FORMAT:
-				case IDC_EDIT_OVERALL_COUNTER_FORMAT:
-				case IDC_EDIT_TOOLTIP_FORMAT:
-					if (HIWORD(wParam) == EN_CHANGE)
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					break;
-
-				case IDC_COMBO_AUTO_CLEAR:
-					if (HIWORD(wParam) == CBN_SELCHANGE)
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					break;
+				CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hTrafficMainMenuItem, 0);
+				hTrafficMainMenuItem = NULL;
 			}
-			break;
+			// Если включается, то создаём.
+			if (unOptions.ShowMainMenuItem && !hTrafficMainMenuItem)
+				Traffic_AddMainMenuItem();
+
+			SaveSettings(0);
+			//
+			return TRUE;
 		}
-
-		case WM_NOTIFY:
-		{
-			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
-
-			switch (lpnmhdr->code)
-			{
-				case PSN_APPLY:
-				{
-					unOptions.PeriodForShow = (char)SendDlgItemMessage(hwndDlg,IDC_COMBO_AUTO_CLEAR,CB_GETCURSEL,0,0);
-							
-					// Интервал между строками
-					Traffic_AdditionSpace = GetDlgItemInt(hwndDlg, IDC_EDIT_SPACE, NULL, 0);
-					// Настройки Appearance
-					unOptions.DrawProtoIcon = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawProtoIcon");
-					unOptions.DrawProtoName = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawProtoName");
-					unOptions.DrawCurrentTraffic = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawCurrentTraffic");
-					unOptions.DrawTotalTraffic = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawTotalTraffic");
-					unOptions.DrawTotalTimeCounter = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawTotalTime");
-					unOptions.DrawCurrentTimeCounter = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawCurrentTime");
-					unOptions.DrawTotalTimeCounter = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawTotalTime");
-					unOptions.DrawFrmAsSkin = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawFrmAsSkin");
-					unOptions.ShowSummary = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowSummary");
-					unOptions.ShowTooltip = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowTooltip");
-					unOptions.ShowMainMenuItem = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowMainMenuItem");
-
-					// Настройки видимости протоколов
-					for (i = 0; i < NumberOfAccounts; i++)
-					{
-						char buffer[32];
-						strcpy(buffer, ProtoList[i].name);
-						ProtoList[i].Visible = (BYTE)OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, buffer);
-					}
-					unOptions.ShowOverall = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowOverall");
-
-					// Формат счётчиков
-					GetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_COUNTER_FORMAT), Traffic_CounterFormat, 512);
-					// Формат всплывающей подсказки
-					GetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT), Traffic_TooltipFormat, 512);
-
-					// Ключевой цвет
-					UseKeyColor = db_get_b(NULL, "ModernSettings", "UseKeyColor", 1);
-					KeyColor = db_get_dw(NULL, "ModernSettings", "KeyColor", 0);
-
-					// Перерисовываем фрейм
-					UpdateTrafficWindowSize();
-
-					// Если отключается показ пункта главного меню, то удаляем его.
-					if (!unOptions.ShowMainMenuItem && hTrafficMainMenuItem)
-					{
-						CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hTrafficMainMenuItem, 0);
-						hTrafficMainMenuItem = NULL;
-					}
-					// Если включается, то создаём.
-					if (unOptions.ShowMainMenuItem && !hTrafficMainMenuItem)
-						Traffic_AddMainMenuItem();
-
-					SaveSettings(0);
-					//
-					return TRUE;
-				} // case PSN_APPLY
-			} // switch
-		}
-
-		case WM_DESTROY:
-			return FALSE;
 	}
 	return 0;
 }
