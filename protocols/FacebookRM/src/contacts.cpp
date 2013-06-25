@@ -118,7 +118,7 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_
 
 void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (db_get_b(hContact,m_szModuleName,"ChatRoom",0))
 			continue;
 		
