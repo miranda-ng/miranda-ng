@@ -415,11 +415,14 @@ function ParseFiles (filelist,stringsarray, parsefunction) {
 
 //*.RC files line-by-line parser for RC_File, return result into "array"
 function ParseRCFile(FileTextVar,array) {
- var find=/^(?!\/{1,2})\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|AUTORADIOBUTTON|GROUPBOX|(?:AUTO)?CHECKBOX|CAPTION|MENUITEM|POPUP)\s*"((?:(?:""[^"]+?"")*[^"]*?)*)"\s*?(,|$|\\)/mgi;
+ var find=/^(?!\/{1,2})\s*(CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|AUTORADIOBUTTON|GROUPBOX|(?:AUTO)?CHECKBOX|CAPTION|MENUITEM|POPUP)\s*"((?:(?:""[^"]+?"")*[^"]*?)*)"\s*?(,|$|\\)/mgi;
  //now make a job, till end of matching regexp
  while ((string = find.exec(FileTextVar)) != null) {
       // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
-      onestring=string[1].replace(/^((List|Tab|Tree|Spin|Custom|Slider|DateTimePicker|Radio|Check|HotKey|Progress)\d)|(whiterect)$/g,"");
+      onestring=string[2].replace(/^((List|Tab|Tree|Spin|Custom|Slider|DateTimePicker|Radio|Check|HotKey|Progress)\d)|(whiterect)$/g,"");
+	  // remove some popup menu craps
+	  if (string[1]=="POPUP")
+		  onestring=onestring.replace(/^([a-zA-Z]*menu)|([A-Z][a-z]+[A-Z][a-z]*|dummy)$/g,"");
       //if there is double "", replace with single one
       onestring=onestring.replace(/\"{2}/g,"\"");
       //check result. If it does not match [a-z] (no any letter in results, such as "..." or "->") it's a crap, break further actions.
