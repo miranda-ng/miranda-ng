@@ -155,15 +155,15 @@ Zrušit
 [Message Session]
 Rozhovor
 [&U]
-
+&U
 [&D]
 &D
 [&E]
-
+&E
 [&H]
 &H
 [&Q]
-
+&Q
 [Send To All Tabs]
 
 [You are about to send a message to all open tabs.\nAre you sure ?]
@@ -278,8 +278,6 @@ Yahoo
 
 [C&lear Log]
 Vy&mazat záznam
-[LogLink]
-
 [&Open link]
 &Otevřít odkaz
 [&Copy link]

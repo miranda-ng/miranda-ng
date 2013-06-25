@@ -6,7 +6,7 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
-
+Komunikační modul pro rozhovory a chaty pro Mirandu NG.
 ;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his id. Wildcards are allowed and recommended.]
 Můžete přidat uživatelské jméno nebo ID. Zástupné znaky jsou povoleny a doporučeny.
@@ -506,7 +506,7 @@ Pouze jedn&o oznámení na kontakt
 [Show &entry in the main menu]
 Zobrazit položku v hlavním m&enu
 [...is typing]
-
+... píše zprávu
 [From Popup plugin]
 Globální nastavení
 [From protocol]
@@ -516,9 +516,9 @@ Trvale
 [Custom]
 Vlastní
 [...stopped typing]
-
+... dopsal zprávu
 [Popups timeout]
-
+Doba zobrazení oznámení
 [Templates]
 Šablony
 [Edit template]
@@ -707,8 +707,6 @@ Vybr&at vše
 Vymazat záznam
 [Freeze Log]
 Pozastavit záznam
-[LogLink]
-
 [Open in &new window]
 Otevřít v &novém okně
 [&Open in existing window]
@@ -725,8 +723,6 @@ Zkopírovat vše
 Vybrat vše
 [Show Message Length Indicator]
 Zobrazit indikátor délky zprávy
-[Tabmenu]
-
 [Close Tab]
 Zavřít panel
 [Close Other Tabs]
@@ -743,8 +739,6 @@ Připojit ke kontejneru...
 Možnosti kontejneru...
 [Close Container]
 Zavřít kontejner
-[Picmenu]
-
 [Show Contact Picture]
 Zobrazit obrázek kontaktu
 [Default]
@@ -759,16 +753,12 @@ Možnosti obrázku...
 Udržovat lištu s tlačítky v plné šíři
 [Save this Picture As...]
 Uložit tento obrázek jako.. 
-[Logmenu]
-
 [&Message Log Settings]
 &Možnosti záznamu komunikace
 [&Global...]
 &Globální...
 [&For this Contact...]
 &Pro tento kontakt...
-[Sendmenu]
-
 [Send &Default]
 Poslat &kontaktu
 [Send to &multiple Users]
@@ -783,8 +773,6 @@ Vždy poslat jako &ANSI
 Poslat bez ověření (ignorovat chyby doručení)
 [Send Nudge]
 Drc-drc
-[Protomenu]
-
 [Splitter Position]
 Pozice oddělovače
 [Global]
@@ -855,11 +843,7 @@ Není otevřen žádný rozhovor
 Přidat kontakt do oblíbených
 [Remove Contact from Favorites]
 Ostranit kontakt z oblíbených
-[Apparentmenu]
-
 [dummy]
-
-[Panelpicmenu]
 
 [Splitter context]
 Kontext oddělovače
@@ -1750,14 +1734,10 @@ Automaticky kopírovat vybraný text
 Vzhled záznamu komunikace
 [Support for external plugins]
 Podpora externích doplňků
-[Additional events to show]
-Zobrazení dalších událostí
 [Timestamp settings (note: timstamps also depend on your templates)]
 Nastavení časových údajů (pozn.: rovněž závisí na vašich šablonách)
 [Message log icons]
 Ikony v záznamu komunikace
-[Show file events]
-Zobrazit informace o přenosu souborů
 [Show dates in timestamps]
 Zobrazit datum v časovém údaji
 [Show seconds in timestamps]

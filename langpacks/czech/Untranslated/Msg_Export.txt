@@ -1,7 +1,6 @@
 ﻿[Exports every message, URL or File you receive to a text file.]
 [Use UTF8 in new files]
 [History file for %s (%s format %s)]
-[UserList]
 [Failed to write to the RichEdit the buffer was to small.]
 [Error: Optimal buffer size decrecied to a to low size !!]
 [Internal error !! (lExtraRead >= 0)]

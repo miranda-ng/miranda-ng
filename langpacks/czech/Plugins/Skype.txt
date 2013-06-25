@@ -122,36 +122,36 @@ pro příchozí připojení
 Alternativně použít porty 80 a 443 pro příchozí připojení
 [Default group:]
 Výchozí skupina:
-[Skype bookmarks]
-Záložky Skype
-[Server side bookmarks\nControl conference bookmarks on server.]
-Záložky na serveru\nSpravujte záložky konferencí na serveru.
+[Ignore list]
+Filtrování
+[Server side ignore list\nControl ignore list on server.]
+Filtrování na serveru\nSpravujte filtrování na serveru. 
 ;file \protocols\Skype\src\skype.cpp
 [Did not unpack SkypeKit.exe.]
 SkypeKit.exe nebyl rozbalen
 ;file \protocols\Skype\src\skype_account.cpp
 [LOGOUT_CALLED]
 Zavoláno odhlášení
-[HTTPS_PROXY_AUTH_FAILED]
-Chyba autorizace k HTTPS proxy
-[SOCKS_PROXY_AUTH_FAILED]
-Chyba autorizace k SOCKS proxy
-[P2P_CONNECT_FAILED]
-Chyba připojení k P2P
+[HTTPS proxy authentication failed]
+Autentizace HTTPS proxy se nezdařila
+[SOCKS proxy authentication failed]
+Autentizace SOCKS proxy se nezdařila
+[P2P connection failed]
+P2P připojení se nezdařilo
 [SERVER_CONNECT_FAILED]
 Chyba připojení k serveru
-[SERVER_OVERLOADED]
-Přetížení serveru
-[DB_IN_USE]
-DB je již používána
+[Server is overloaded]
+Server je přetížen
+[SkypeKit database already in use]
+SkypeKit databáze se již používá
 [Invalid skypename]
 Neplatené uživatelské jméno
 [Invalid email]
 Neplatný e-mail
 [Unacceptable password]
 Neakceptovatelné heslo
-[SKYPENAME_TAKEN]
-Skype jméno převzato
+[Skype name is taken]
+Skype jméno je již zabráno
 [REJECTED_AS_UNDERAGE]
 Odmítnuto pro nízký věk
 [NO_SUCH_IDENTITY]
@@ -160,7 +160,7 @@ Neznámá identita
 Nesprávné heslo
 [Too many login attempts]
 Příliš mnoho pokusů o přihlášení
-[PASSWORD_HAS_CHANGED]
+[Password has changed]
 Heslo bylo změněno
 [PERIODIC_UIC_UPDATE_FAILED]
 Průběžná aktualizace UIC selhala
@@ -168,22 +168,26 @@ Průběžná aktualizace UIC selhala
 Plný disk pro DB
 [DB_IO_ERROR]
 Chyba čtení/zápisu DB
-[DB_CORRUPT]
-Poškozená DB
+[SkypeKit database is corrupt]
+SkypeKit databáze je poškozena
 [DB_FAILURE]
 Chyba DB
-[INVALID_APP_ID]
+[Invalid application ID]
 Neplatné ID aplikace
 [APP_ID_FAILURE]
 Chyba ID aplikace
-[UNSUPPORTED_VERSION]
-Nepodporovaná verze
-[ATO (Account TakeOver) detected, account blocked]
-Detekováno převzetí účtu, účet byl zablokován
+[Version is unsupported]
+Verze není podporovaná
+[Account blocked]
+Účet je zablokován
 [Logout from another instance]
 Odhlášeno kvůli připojení z jiného místa
-[Password change succeeded]
+[ACCESS_TOKEN_RENEWAL_FAILED]
+Aktualizace přístupového tokenu selhala
+[Password successfully changed]
 Heslo bylo úspěšně změněno
+[Password changing]
+Změna hesla
 [Old password was incorrect]
 Aktuální heslo není správné
 [Failed to verify password. No connection to server]
@@ -196,8 +200,8 @@ Nové heslo bylo úplně stejné jako staré
 Nové heslo nebylo akceptovatelné
 [Account was currently not logged in]
 Účet nebyl aktuálně přihlášený
-[You have not entered a Skype name.\nConfigure this in Options->Network->Skype and try again.]
-Nezadali jste Skype jméno.\nNastavení proveďte v Možnosti->Sítě->Skype a opakujte požadavek znovu.
+[You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
+Nezadali jste Skype jméno.\nNastavení proveďte v Možnosti->Sítě->%s a zkuste to znovu.
 ;file \protocols\Skype\src\skype_bookmarks.cpp
 [Name]
 Jméno
@@ -273,8 +277,6 @@ Nyní nejste připojeni k síti Skype. Musíte být připojeni pro aktualizaci v
 ;file \protocols\Skype\src\skype_events.cpp
 [Spawn conference]
 Vytvořit konferenci
-[Bookmark]
-Záložka
 [Network]
 Sítě
 [Contacts]
@@ -288,8 +290,12 @@ Obecné
 Ikona protokolu
 [Call]
 Volat
+[Conference]
+Konference
 [Send contact]
 Odeslat kontakt
+[Contact]
+Kontakt
 [Delete]
 Smazat
 [Ignore]
@@ -298,6 +304,7 @@ Filtrování
 Blokovat
 [Protocols]
 Protokoly
+;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
 [SkypeKit will only permit you to login to one account at a time.\nAdding multiple instances of SkypeKit is prohibited in the licence agreement and standard distribution terms.]
 SkypeKit dovoluje přihlášení pouze z jednoho účtu v jednu chvíli.\nPoužití více instancí SkypeKitu je zakázáno licenčními a distribučními podmínkami.
@@ -314,10 +321,6 @@ Požádat o autorizaci
 Udělit autorizaci
 [Revoke authorization]
 Odvolat autorizaci
-[Set bookmark]
-Přidat do záložek
-[Bookmarks]
-Záložky
 ;file \protocols\Skype\src\skype_messages.cpp
 [Incoming call received]
 Příchozí volání
@@ -329,7 +332,7 @@ Příchozí volání ukončeno
 [%s connection]
 %s - spojení se serverem
 ;file \protocols\Skype\src\skype_proto.cpp
-[Skype Name]
+[Skype name]
 Skype jméno
 ;file \protocols\Skype\src\skype_utils.cpp
 [NOT_VALIDATED]
@@ -356,3 +359,5 @@ Heslo je příliš jednoduché
 Hodnota začíná neplatným znakem
 [Avatars]
 Avatary
+[Command"%s" is unsupported]
+Příkaz "%s" není podporován

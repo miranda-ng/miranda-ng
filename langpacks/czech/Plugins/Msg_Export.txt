@@ -64,8 +64,6 @@ Po odebrání kontaktu
 Smazat soubor
 [Debug]
 Debug
-[UserList]
-
 [User &Details]
 In&formace o kontaktu
 [Export selected]

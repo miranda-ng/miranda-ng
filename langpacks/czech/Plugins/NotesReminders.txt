@@ -96,8 +96,6 @@ Připomínka
 
 [Add New]
 Přidat novou
-[Context Menu Reminder ListView]
-
 [Edi&t Reminder]
 
 [New &Reminder]
@@ -145,8 +143,6 @@ Vyjmou&t
 [&View Notes]
 
 [&Bring All To Front]
-
-[Context Menu Note ListView]
 
 [Edi&t Note]
 

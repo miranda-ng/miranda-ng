@@ -485,8 +485,6 @@ Skrýt uživatele o&ffline
 Př&ejmenovat skupinu
 [&Delete Group]
 &Smazat skupinu
-[IconOptions]
-
 [&Reset to default]
 O&bnovit výchozí
 [find/add]
@@ -507,8 +505,6 @@ Zko&pírovat vše
 Vybr&at vše
 [C&lear Log]
 Vy&mazat záznam
-[LogLink]
-
 [Open in &new window]
 Otevřít v &novém okně
 [&Open in existing window]
@@ -529,7 +525,7 @@ O&dmítnout
 [Decide &Later]
 &Později
 [&I]
-
+&I
 [Reason:]
 Důvod:
 [Denial Reason:]
@@ -541,7 +537,7 @@ Zpráva o zařazení mezi kontakty
 [&Close]
 &Zavřít
 [&U]
-
+&U
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 Stav: '%s', uživatel: %s
@@ -2146,9 +2142,9 @@ Přesunout do s&kupiny
 <kořenová skupina>
 ;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exist. Please resolve the issue manually.]
-
+Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže být přesunut do nového umístění %s,\nprotože profil s tímto názvem již existuje. Vyřešte prosím tento problém ručně.
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
-
+Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže být přesunut do nového umístění %s automaticky,\nnejspíše kvůli nedostatečným oprávněním. Přesuňte prosím profil ručně.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil nemůže být umístěn v kořenové složce Mirandy.\nProsím přesuňte profil Mirandy na jiné místo.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
@@ -2156,7 +2152,7 @@ Profil '%s' nelze otevřít. Není nainstalovaný odpovídající doplněk.\nPou
 [No profile support installed!]
 Není nainstalovaná podpora pro profily!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DBChecker which should be installed.]
-
+Miranda nemůže otevřít '%s', který má neznámý formát.\nTento profil může být také poškozen, spusťte prosím DBChecker.
 [Miranda can't understand that profile]
 Tento profil není ve formátu Miranda-IM
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
@@ -2165,11 +2161,11 @@ Profil '%s' nelze otevřít. Zkontrolujte,\nzda máte oprávnění ke čtení da
 Vybraný profil nelze otevřít
 ;file \src\modules\database\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
-
+Bezpečnostní systémy pro ochranu před škodlivými změnami jsou zapnuty a budete varování před všemi změnami.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
-
+Bezpečnostní systémy pro ochranu před škodlivými změnami jsou zapnuty a budete varování před změnami, které jsou známé jako nebezpečné.
 [Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
-
+Bezpečnostní systémy pro ochranu před škodlivými změnami byly vypnuty. Nebudete dostávat žádné další varování.
 [This change is known to be safe.]
 Tato úprava se obecně považuje za bezpečnou.
 [This change is known to be potentially hazardous.]
@@ -2180,7 +2176,7 @@ Neznámý druh úpravy; nelze považovat za bezpečné.
 Neplatný typ nastavení pro '%s'. První znak hodnoty musí být b, w, d, l, s, e, u, g, h nebo n.]
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
-
+Profil '%s' již existuje. Přejete si jej přesunout do koše?\n\nVAROVÁNÍ: Pokud je koš vypnut, profil bude rovnou smazán.\nVAROVÁNÍ: Profil může obsahovat důvěrné informace a měl by být řádně smazán.
 [The profile already exists]
 Profil s tímto názvem již existuje
 [Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
@@ -2354,7 +2350,7 @@ Chcete znovu aktivovat tento doplněk?
 [Unable to load plugin in Service Mode!]
 Nelze načíst doplněk v nouzovém režimu
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-
+Nelze spustit žádný z nainstalovaných doplňků pro seznam kontaktů a to i přesto, že byla ignorována vaše volba konkrétního doplňku.
 [Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
 Nelze nalézt doplněk pro seznam kontaktů! Potřebujete clist_classic nebo jiný doplněk.
 ;file \src\modules\plugins\pluginopts.cpp
@@ -2794,7 +2790,7 @@ Kuvajt
 [Kyrgyzstan]
 Kirgizstán
 [Lao People's Democratic Republic]
-
+Laoská lidově demokratická republika
 [Latvia]
 Lotyšsko
 [Lebanon]
@@ -2804,7 +2800,7 @@ Lesotho
 [Liberia]
 Libérie
 [Libya]
-
+Libye
 [Liechtenstein]
 Lichtenštejnsko
 [Lithuania]
@@ -2812,9 +2808,9 @@ Litva
 [Luxembourg]
 Lucembursko
 [Macao]
-
+Macao
 [Macedonia, The Former Yugoslav Republic of]
-
+Makedonie, bývalá jugoslávská republika
 [Madagascar]
 Madagaskar
 [Malawi]
@@ -2836,7 +2832,7 @@ Mauretánie
 [Mauritius]
 Mauritius
 [Mayotte]
-
+Mayotte
 [Mexico]
 Mexiko
 [Micronesia, Federated States of]
@@ -2848,7 +2844,7 @@ Monako
 [Mongolia]
 Mongolsko
 [Montenegro]
-
+Černá Hora
 [Montserrat]
 Montserrat
 [Morocco]
@@ -2880,7 +2876,7 @@ Niue
 [Norfolk Island]
 Norfolk
 [Northern Mariana Islands]
-
+Severní Mariany
 [Norway]
 Norsko
 [Oman]
@@ -2890,7 +2886,7 @@ Pákistán
 [Palau]
 Palau
 [Palestinian Territory, Occupied]
-
+Palestina, okupovaná
 [Panama]
 Panama
 [Papua New Guinea]
@@ -2902,7 +2898,7 @@ Peru
 [Philippines]
 Filipíny
 [Pitcairn]
-
+Pitcairn
 [Poland]
 Polsko
 [Portugal]
@@ -2912,23 +2908,23 @@ Portoriko
 [Qatar]
 Katar
 [Reunion]
-
+Réunion
 [Romania]
 Rumunsko
 [Russian Federation]
-
+Ruská federace
 [Rwanda]
 Rwanda
 [Saint Barthelemy]
-
+Svatý Bartoloměj
 [Saint Helena, Ascension and Tristan da Cunha]
-
+Svatá Helena, Ascension a Tristan da Cunha
 [Saint Kitts and Nevis]
 Sv. Kryštof a Nevis
 [Saint Lucia]
 Sv. Lucie
 [Saint Martin (French part)]
-
+Svatý Martin (francouzská část)
 [Saint Pierre and Miquelon]
 Sv. Petr a Mikelon
 [Saint Vincent and the Grenadines]
@@ -2944,7 +2940,7 @@ Saudská Arábie
 [Senegal]
 Senegal
 [Serbia]
-
+Srbsko
 [Seychelles]
 Seychely
 [Sierra Leone]
@@ -2952,7 +2948,7 @@ Sierra Leone
 [Singapore]
 Singapur
 [Sint Maarten (Dutch part)]
-
+Svatý Martin (nizozemská část)
 [Slovakia]
 Slovensko
 [Slovenia]
@@ -2964,9 +2960,9 @@ Somálsko
 [South Africa]
 Jižní Afrika
 [South Georgia and the South Sandwich Islands]
-
+Jižní Georgie a Jižní Sandwichovy ostrovy
 [South Sudan]
-
+Jižní Súdán
 [Spain]
 Španělsko
 [Sri Lanka]
@@ -2976,7 +2972,7 @@ Súdán
 [Suriname]
 Surinam
 [Svalbard and Jan Mayen]
-
+Špicberky a Jan Mayen
 [Swaziland]
 Swazijsko
 [Sweden]
@@ -2986,15 +2982,15 @@ Swazijsko
 [Syrian Arab Republic]
 Sýrie
 [Taiwan, Province of China]
-
+Tchaj-wan, čínská provincie
 [Tajikistan]
 Tádžikistán
 [Tanzania, United Republic of]
-
+Tanzanie, spojená republika
 [Thailand]
 Thajsko
 [Timor-Leste]
-
+Východní Timor
 [Togo]
 Togo
 [Tokelau]
@@ -3024,7 +3020,7 @@ Spojené království
 [United States]
 Spojené státy
 [United States Minor Outlying Islands]
-
+Menší odlehlé ostrovy Spojených států
 [Uruguay]
 Uruguay
 [Uzbekistan]
@@ -3032,17 +3028,17 @@ Uzbekistán
 [Vanuatu]
 Vanuatu
 [Venezuela, Bolivarian Republic of]
-
+Venezuela, Bolívarovská republika
 [Viet Nam]
-
+Vietnam
 [Virgin Islands, British]
-
+Panenské ostrovy, britské
 [Virgin Islands, U.S.]
-
+Panenské ostrovy, americké
 [Wallis and Futuna]
-
+Wallis a Futuna
 [Western Sahara]
-
+Západní Sahara
 [Yemen]
 Jemen
 [Zambia]
