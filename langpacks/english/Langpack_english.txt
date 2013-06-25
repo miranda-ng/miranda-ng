@@ -243,7 +243,6 @@
 [&Hide Offline Users in here]
 [&Rename Group]
 [&Delete Group]
-[IconOptions]
 [&Reset to default]
 [find/add]
 [&Add to List]
@@ -254,7 +253,6 @@
 [Co&py All]
 [Select &All]
 [C&lear Log]
-[LogLink]
 [Open in &new window]
 [&Open in existing window]
 [&Copy link]
@@ -1734,7 +1732,7 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaіek
+;  Authors: Bartosz 'Dezeath' Białek
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 ;file \plugins\AddContactPlus\res\resource.rc
@@ -11449,7 +11447,6 @@
 [When user is deleted]
 [Delete file]
 [Debug]
-[UserList]
 [User &Details]
 [Export selected]
 [Set to default filename]
@@ -12566,7 +12563,6 @@
 [&Dismiss]
 [Reminders]
 [Add New]
-[Context Menu Reminder ListView]
 [Edi&t Reminder]
 [New &Reminder]
 [&Delete Reminder]
@@ -12591,7 +12587,6 @@
 [C&lear]
 [&View Notes]
 [&Bring All To Front]
-[Context Menu Note ListView]
 [Edi&t Note]
 [&Visible]
 [Always &On Top]
@@ -14038,7 +14033,6 @@
 [Yahoo]
 [Foodnetwork]
 [C&lear Log]
-[LogLink]
 [&Open link]
 [&Copy link]
 [Message]
@@ -15033,7 +15027,7 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.4
-;  Authors: Bartosz 'Dezeath' Biaіek, Harven
+;  Authors: Bartosz 'Dezeath' Białek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
 ;file \plugins\SimpleStatusMsg\res\resource.rc
@@ -16456,7 +16450,6 @@
 [Select &All]
 [Clear Log]
 [Freeze Log]
-[LogLink]
 [Open in &new window]
 [&Open in existing window]
 [Editor]
@@ -16465,7 +16458,6 @@
 [Copy all]
 [Select all]
 [Show Message Length Indicator]
-[Tabmenu]
 [Close Tab]
 [Close Other Tabs]
 [Leave Chat Room]
@@ -16474,7 +16466,6 @@
 [Attach to Container...]
 [Container Options...]
 [Close Container]
-[Picmenu]
 [Show Contact Picture]
 [Default]
 [Hidden for this Contact]
@@ -16482,11 +16473,9 @@
 [Contact Picture Settings...]
 [Always keep the button bar at full width]
 [Save this Picture As...]
-[Logmenu]
 [&Message Log Settings]
 [&Global...]
 [&For this Contact...]
-[Sendmenu]
 [Send &Default]
 [Send to &multiple Users]
 [Send to &Container]
@@ -16494,7 +16483,6 @@
 [Force &ANSI]
 [Send unsafe (ignore Timeouts)]
 [Send Nudge]
-[Protomenu]
 [Splitter Position]
 [Global]
 [Private]
@@ -16530,9 +16518,7 @@
 [No Message Sessions opened]
 [Add Contact to Favorites]
 [Remove Contact from Favorites]
-[Apparentmenu]
 [dummy]
-[Panelpicmenu]
 [Splitter context]
 [Set Position for this Session]
 [Set and Save for all Sessions]

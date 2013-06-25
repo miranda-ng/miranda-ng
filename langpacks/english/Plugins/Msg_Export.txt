@@ -35,7 +35,6 @@
 [When user is deleted]
 [Delete file]
 [Debug]
-[UserList]
 [User &Details]
 [Export selected]
 [Set to default filename]

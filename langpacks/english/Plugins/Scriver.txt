@@ -142,7 +142,6 @@
 [Yahoo]
 [Foodnetwork]
 [C&lear Log]
-[LogLink]
 [&Open link]
 [&Copy link]
 [Message]
