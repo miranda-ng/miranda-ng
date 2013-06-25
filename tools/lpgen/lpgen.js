@@ -420,9 +420,9 @@ function ParseRCFile(FileTextVar,array) {
  while ((string = find.exec(FileTextVar)) != null) {
       // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
       onestring=string[2].replace(/^((List|Tab|Tree|Spin|Custom|Slider|DateTimePicker|Radio|Check|HotKey|Progress)\d)|(whiterect)$/g,"");
-	  // remove some popup menu craps
-	  if (string[1]=="POPUP")
-		  onestring=onestring.replace(/^([a-zA-Z]*menu)|([A-Z][a-z]+[A-Z][a-z]*|dummy)$/g,"");
+	  // ignore some popup menu craps
+	  if (string[1]=="POPUP" && onestring.match(/^([a-zA-Z]*menu)|([A-Z][a-z]+[A-Z][a-z]*|dummy)$/g,""))
+		continue;
       //if there is double "", replace with single one
       onestring=onestring.replace(/\"{2}/g,"\"");
       //check result. If it does not match [a-z] (no any letter in results, such as "..." or "->") it's a crap, break further actions.
