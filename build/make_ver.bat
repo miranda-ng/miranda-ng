@@ -2,19 +2,12 @@
 cd /d %~dp0
 
 for /F "tokens=2,3" %%i in (..\include\m_version.h) do if "%%i"=="MIRANDA_VERSION_FILEVERSION" (set OldVer=%%j)
-echo %OldVer%
-
-for /F "tokens=1,2" %%i in ('svn info build.no') do call :AddBuild %%i %%j
-goto :eof
-
-:AddBuild
-if (%1) == (Revision:) (
-	for /F "tokens=1,2,3 delims= " %%i in (build.no) do call :WriteVer %%i %%j %%k %2
-   )
-
+for /F %%i in ('svnversion build.no') do set Revision=%%i
+for /F "tokens=1,2,3 delims= " %%i in (build.no) do call :WriteVer %%i %%j %%k %Revision%
 goto :eof
 
 :WriteVer
+echo %1.%2.%3.%4
 if "%OldVer%" == "%1,%2,%3,%4" (goto :eof)
 
 for /f "delims=/ tokens=1-3" %%a in ("%DATE:~4%") do (
