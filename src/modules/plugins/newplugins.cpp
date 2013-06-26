@@ -370,7 +370,7 @@ int Plugin_UnloadDyn(pluginEntry *p)
 		KillModuleSrmmIcons(hLangpack);
 	}
 
-	NotifyEventHooks(hevUnloadModule, (WPARAM)p->bpi.pluginInfo, (LPARAM)p->bpi.hInst);
+	NotifyFastHook(hevUnloadModule, (WPARAM)p->bpi.pluginInfo, (LPARAM)p->bpi.hInst);
 
 	Plugin_Uninit(p);
 

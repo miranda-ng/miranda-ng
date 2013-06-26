@@ -60,7 +60,7 @@ INT_PTR NetlibSend(WPARAM wParam, LPARAM lParam)
 	NetlibLeaveNestedCS(&nlc->ncsSend);
 
 	NETLIBNOTIFY nln = { nlb, result };
-	NotifyEventHooks(hSendEvent, (WPARAM)&nln, (LPARAM)&nlc->nlu->user);
+	NotifyFastHook(hSendEvent, (WPARAM)&nln, (LPARAM)&nlc->nlu->user);
 
 	return result;
 }
@@ -96,7 +96,7 @@ INT_PTR NetlibRecv(WPARAM wParam, LPARAM lParam)
 
 	if ((nlb->flags & MSG_PEEK) == 0) {
 		NETLIBNOTIFY nln = { nlb, recvResult };
-		NotifyEventHooks(hRecvEvent, (WPARAM)&nln, (LPARAM)&nlc->nlu->user);
+		NotifyFastHook(hRecvEvent, (WPARAM)&nln, (LPARAM)&nlc->nlu->user);
 	}
 	return recvResult;
 }
