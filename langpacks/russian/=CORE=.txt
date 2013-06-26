@@ -1313,8 +1313,8 @@ URL от %s
 Ссылки
 [Use %time% for the current time, %date% for the current date]
 %date% - сегодняшняя дата; %time% - текущее время
-[Use Options->Ignore (expert mode) to unhide contacts.]
-Скрытые контакты: "События-> Игнорировать"
+[Use Options->Contacts->Ignore to unhide contacts.]
+Скрытые контакты: "События->Контакты->Игнорировать"
 [Use proxy server]
 И&спользовать прокси
 [User &Details]
