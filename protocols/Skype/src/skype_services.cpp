@@ -12,6 +12,8 @@ void CSkypeProto::InitInstanceServiceList()
 	// Chat API
 	this->CreateServiceObj(PS_JOINCHAT, &CSkypeProto::OnJoinChat);
 	this->CreateServiceObj(PS_LEAVECHAT, &CSkypeProto::OnLeaveChat);
+	// Own info
+	this->CreateServiceObj(PS_SETMYNICKNAME, &CSkypeProto::SetMyNickName);
 	// Avatar API
 	this->CreateServiceObj(PS_GETAVATARINFOT, &CSkypeProto::GetAvatarInfo);
 	this->CreateServiceObj(PS_GETAVATARCAPS, &CSkypeProto::GetAvatarCaps);

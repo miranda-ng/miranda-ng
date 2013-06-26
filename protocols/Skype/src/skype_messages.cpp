@@ -49,7 +49,7 @@ void CSkypeProto::OnMessageReceived(const ConversationRef &conversation, const M
 	message->GetPropBodyXml(data);
 	char *text = CSkypeProto::RemoveHtml(data);
 
-	message->GetPropAuthor(data);			
+	message->GetPropAuthor(data);
 		
 	CContact::Ref author;
 	this->GetContact(data, author);
@@ -161,7 +161,7 @@ void CSkypeProto::OnMessageEvent(const ConversationRef &conversation, const Mess
 
 			HANDLE hContact = this->AddContact(author);
 		
-			char *message = ::mir_utf8encode(::Translate("Incoming call received"));
+			char *message = ::mir_utf8encode(::Translate("Incoming call started"));
 		
 			this->AddDBEvent(
 				hContact,
@@ -171,9 +171,9 @@ void CSkypeProto::OnMessageEvent(const ConversationRef &conversation, const Mess
 				(DWORD)::strlen(message) + 1,
 				(PBYTE)message);
 			//temp popup
-			TCHAR popuptext[MAX_PATH];
-			mir_sntprintf(popuptext, SIZEOF(popuptext), TranslateT("Incoming call from %s. Use offical skype for calling."), mir_ptr<wchar_t>(::mir_utf8decodeW(identity)));
-			this->ShowNotification(popuptext);
+			/*TCHAR popuptext[MAX_PATH];
+			mir_sntprintf(popuptext, SIZEOF(popuptext), TranslateT("Incoming call from %s. Use offical skype for calling."), ptrW(::mir_utf8decodeW(identity)));
+			this->ShowNotification(popuptext);*/
 		}
 		break;
 

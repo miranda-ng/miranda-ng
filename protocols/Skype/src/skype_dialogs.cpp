@@ -524,7 +524,7 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 
 			// language
 			int i = 0;
-			mir_ptr<wchar_t> lang( ::db_get_wsa(NULL, ppro->m_szModuleName, "Language1"));
+			ptrW lang( ::db_get_wsa(NULL, ppro->m_szModuleName, "Language1"));
 			for (auto it = CSkypeProto::languages.begin(); it != CSkypeProto::languages.end(); ++it)
 			{
 				::SendMessage(

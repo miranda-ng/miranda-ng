@@ -62,7 +62,7 @@ wchar_t * CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 
 	if (m_hAvatarsFolder == NULL || FoldersGetCustomPathT(m_hAvatarsFolder, path, MAX_PATH, _T("")))
 	{
-		mir_ptr<wchar_t> tmpPath( ::Utils_ReplaceVarsT(L"%miranda_avatarcache%"));
+		ptrW tmpPath( ::Utils_ReplaceVarsT(L"%miranda_avatarcache%"));
 		::mir_sntprintf(path, MAX_PATH, _T("%s\\%S"), tmpPath, this->m_szModuleName);
 	}
 
@@ -70,7 +70,7 @@ wchar_t * CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
 
-	mir_ptr<wchar_t> sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
+	ptrW sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
 	if (hContact != NULL)
 		::mir_sntprintf(path, MAX_PATH, _T("%s\\%s.jpg"), path, sid);
 	else if (sid != NULL)
@@ -93,10 +93,10 @@ INT_PTR __cdecl CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 		return GAIR_NOAVATAR;
 	}
 
-	mir_ptr<wchar_t> sid = ::db_get_wsa(pai->hContact, this->m_szModuleName, SKYPE_SETTINGS_SID);
+	ptrW sid = ::db_get_wsa(pai->hContact, this->m_szModuleName, SKYPE_SETTINGS_SID);
 	if (sid)
 	{
-		mir_ptr<wchar_t> path( this->GetContactAvatarFilePath(pai->hContact));
+		ptrW path( this->GetContactAvatarFilePath(pai->hContact));
 		if (path && !_waccess(path, 0))
 		{
 			::wcsncpy(pai->filename, path, SIZEOF(pai->filename));
@@ -171,7 +171,7 @@ INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 	wchar_t *path = (wchar_t *)lParam;
 	if (path)
 	{
-		mir_ptr<wchar_t> avatarPath( this->GetContactAvatarFilePath(NULL));
+		ptrW avatarPath( this->GetContactAvatarFilePath(NULL));
 		if ( !::wcscmp(path, avatarPath))
 		{
 			this->Log(L"New avatar path are same with old.");

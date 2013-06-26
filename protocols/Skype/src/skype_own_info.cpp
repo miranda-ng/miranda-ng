@@ -2,7 +2,7 @@
 
 void __cdecl CSkypeProto::LoadOwnInfo(void *)
 {
-	mir_ptr<wchar_t> nick( ::db_get_wsa(NULL, this->m_szModuleName, "Nick"));
+	/*ptrW nick( ::db_get_wsa(NULL, this->m_szModuleName, "Nick"));
 	if ( !nick)
 	{
 		SEString data;
@@ -15,9 +15,23 @@ void __cdecl CSkypeProto::LoadOwnInfo(void *)
 
 		nick = ::mir_utf8decodeW(data);
 		::db_set_ws(NULL, this->m_szModuleName, "Nick", nick);
-	}
+	}*/
 
 	this->UpdateProfile(this->account.fetch());
+}
+
+INT_PTR __cdecl CSkypeProto::SetMyNickName(WPARAM wParam, LPARAM lParam)
+{
+	wchar_t *nick = (wParam & SMNN_UNICODE) ? ::mir_wstrdup((wchar_t *)lParam) : ::mir_a2t((char*) lParam);
+
+	//::db_set_ws(NULL, this->m_szModuleName, "Nick", nick);
+	
+	if ( !this->IsOnline())
+		return 0;
+
+	this->account->SetStrProperty(Account::P_FULLNAME, (char *)ptrA(::mir_utf8encodeW(nick)));
+	
+	return 0;
 }
 
 void CSkypeProto::SaveOwnInfoToServer(HWND hwndPage, int iPage)
@@ -30,17 +44,17 @@ void CSkypeProto::SaveOwnInfoToServer(HWND hwndPage, int iPage)
 	case 0:
 		{
 			::GetDlgItemText(hwndPage, IDC_FULLNAME, text, SIZEOF(text));
-			if (this->account->SetStrProperty(Account::P_FULLNAME, (char*)mir_ptr<char>(::mir_utf8encodeW(text))))
+			if (this->account->SetStrProperty(Account::P_FULLNAME, (char *)ptrA(::mir_utf8encodeW(text))))
 				::db_set_ws(NULL, this->m_szModuleName, "Nick", text);
 
 			::GetDlgItemText(hwndPage, IDC_MOOD, text, SIZEOF(text));
-			this->account->SetStrProperty(Account::P_MOOD_TEXT, (char*)mir_ptr<char>(::mir_utf8encodeW(text)));
+			this->account->SetStrProperty(Account::P_MOOD_TEXT, (char *)ptrA(::mir_utf8encodeW(text)));
 
 			::GetDlgItemText(hwndPage, IDC_ABOUT, text, SIZEOF(text));
-			this->account->SetStrProperty(Account::P_ABOUT, (char*)mir_ptr<char>(::mir_utf8encodeW(text)));
+			this->account->SetStrProperty(Account::P_ABOUT, (char *)ptrA(::mir_utf8encodeW(text)));
 
 			::GetDlgItemText(hwndPage, IDC_HOMEPAGE, text, SIZEOF(text));
-			this->account->SetStrProperty(Account::P_HOMEPAGE, (char*)mir_ptr<char>(::mir_utf8encodeW(text)));
+			this->account->SetStrProperty(Account::P_HOMEPAGE, (char *)ptrA(::mir_utf8encodeW(text)));
 
 			this->account->SetIntProperty(
 				Account::P_GENDER, 
@@ -59,7 +73,7 @@ void CSkypeProto::SaveOwnInfoToServer(HWND hwndPage, int iPage)
 				std::wstring key = *(std::wstring *)SendMessage(GetDlgItem(hwndPage, IDC_LANGUAGE), CB_GETITEMDATA, lang, 0);
 				this->account->SetStrProperty(
 					Account::P_LANGUAGES, 
-					(char *)mir_ptr<char>(::mir_utf8encodeW(key.c_str())));
+					(char *)ptrA(::mir_utf8encodeW(key.c_str())));
 			}
 		}
 		break;
@@ -80,26 +94,26 @@ void CSkypeProto::SaveOwnInfoToServer(HWND hwndPage, int iPage)
 			::wcscat(emails, L" ");
 			::wcscat(emails, text);
 		}
-		this->account->SetStrProperty(Account::P_EMAILS, (char*)mir_ptr<char>(::mir_utf8encodeW(emails)));
+		this->account->SetStrProperty(Account::P_EMAILS, (char *)ptrA(::mir_utf8encodeW(emails)));
 
 		::GetDlgItemText(hwndPage, IDC_MOBPHONE, text, SIZEOF(text));
-		this->account->SetStrProperty(Account::P_PHONE_MOBILE, (char*)mir_ptr<char>(::mir_utf8encodeW(text)));
+		this->account->SetStrProperty(Account::P_PHONE_MOBILE, (char *)ptrA(::mir_utf8encodeW(text)));
 
 		::GetDlgItemText(hwndPage, IDC_HOMEPHONE, text, SIZEOF(text));
-		this->account->SetStrProperty(Account::P_PHONE_HOME, (char*)mir_ptr<char>(::mir_utf8encodeW(text)));
+		this->account->SetStrProperty(Account::P_PHONE_HOME, (char *)ptrA(::mir_utf8encodeW(text)));
 
 		::GetDlgItemText(hwndPage, IDC_OFFICEPHONE, text, SIZEOF(text));
-		this->account->SetStrProperty(Account::P_PHONE_OFFICE, (char*)mir_ptr<char>(::mir_utf8encodeW(text)));
+		this->account->SetStrProperty(Account::P_PHONE_OFFICE, (char *)ptrA(::mir_utf8encodeW(text)));
 
 		break;
 
 	// Page 2: Home
 	case 2:
 		::GetDlgItemText(hwndPage, IDC_CITY, text, SIZEOF(text));
-		this->account->SetStrProperty(Account::P_CITY, (char*)mir_ptr<char>(::mir_utf8encodeW(text)));
+		this->account->SetStrProperty(Account::P_CITY, (char *)ptrA(::mir_utf8encodeW(text)));
 
 		::GetDlgItemText(hwndPage, IDC_STATE, text, SIZEOF(text));
-		this->account->SetStrProperty(Account::P_PROVINCE, (char*)mir_ptr<char>(::mir_utf8encodeW(text)));
+		this->account->SetStrProperty(Account::P_PROVINCE, (char *)ptrA(::mir_utf8encodeW(text)));
 
 		int i = ::SendMessage(::GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETCURSEL, 0, 0);
 		char *iso = (char *)::SendMessage(::GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETITEMDATA, i, 0);

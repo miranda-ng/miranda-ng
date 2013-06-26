@@ -27,7 +27,16 @@ SEString CContact::GetNick()
 	if (availability == CContact::SKYPEOUT)
 		this->GetPropPstnnumber(result);
 	else
-		this->GetPropFullname(result);
+	{
+		this->GetPropDisplayname(result);
+		if (this->proto && this->proto->login)
+		{
+			SEString sid;
+			this->GetIdentity(sid);
+			if (sid.equals(result))
+				this->GetPropFullname(result);
+		}
+	}
 	return result;
 }
 

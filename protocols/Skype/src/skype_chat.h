@@ -126,6 +126,8 @@ class ChatRoom
 private:
 	wchar_t *cid;
 	wchar_t *name;
+	
+	CConversation::Ref conversation;
 
 	HANDLE hContact;	
 
@@ -150,7 +152,6 @@ private:
 public:
 	ChatMember *me;
 	ChatMember *sys;
-	CConversation::Ref conversation;
 
 	static wchar_t *Roles[];
 
@@ -159,18 +160,24 @@ public:
 
 	HANDLE GetContactHandle() const;
 
-	static void Create(const StringList &invitedMembers, CSkypeProto *ppro, const ChatRoomParam *param);
+	void SetTopic(const wchar_t *topic);
+	wchar_t *GetUri();
+	void ShowWindow();
 
+	void Invite(const StringList &contacts);
 	void Start(const ConversationRef &conversation, bool showWindow = false);
+	//void Join(const wchar_t *joinBlob, bool showWindow = false);
+
+	void SendMessage(const wchar_t *text);
 
 	void LeaveChat();
+	void LeaveChatAndDelete();
 
 	void SendEvent(const wchar_t *sid, int eventType, DWORD timestamp = time(NULL), DWORD flags = GCEF_ADDTOLOG, DWORD itemData = 0, const wchar_t *status = NULL, const wchar_t *message = NULL);
 
 	bool IsMe(const wchar_t *sid) const;
 	bool IsSys(const wchar_t *sid) const;
 
-	//
 	ChatMember *FindChatMember(const wchar_t *sid);
 
 	void AddMember(const ChatMember &item, const ChatMember &author, DWORD timestamp = time(NULL));
@@ -181,6 +188,9 @@ public:
 	
 	void UpdateMember(const wchar_t *sid, const wchar_t *nick, int role, int status, DWORD timestamp = time(NULL));
 
+	//void GiveMember(const wchar_t *sid);
+	void AddApplicant(const ChatMember *sid);
+
 	void KickMember(const wchar_t *sid, const wchar_t *author, DWORD timestamp = time(NULL));
 	void RemoveMember(const wchar_t *sid, DWORD timestamp = time(NULL));
 
@@ -189,5 +199,6 @@ public:
 
 	void OnParticipantChanged(const ParticipantRef &participant, int prop);
 
-	static ChatRoom *FindChatRoom(const wchar_t *cid);
+	static void Create(const ChatRoomParam *param, CSkypeProto *ppro);
+	static void Join(const wchar_t *joinBlob, CSkypeProto *ppro);
 };

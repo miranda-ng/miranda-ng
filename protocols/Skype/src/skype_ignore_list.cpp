@@ -211,7 +211,7 @@ INT_PTR CALLBACK CSkypeProto::IgnoreListWndProc(HWND hwndDlg, UINT msg, WPARAM w
 				}
 			}
 
-			::Utils_RestoreWindowPosition(hwndDlg, 0, MODULE, "BookmarksWindow");
+			::Utils_RestoreWindowPosition(hwndDlg, 0, MODULE, "IgnoreListWindow");
 		}
 		break;
 
@@ -239,26 +239,14 @@ INT_PTR CALLBACK CSkypeProto::IgnoreListWndProc(HWND hwndDlg, UINT msg, WPARAM w
 						ptrW sid(::mir_utf8decodeW(data));
 						::CallService(MS_MSG_SENDMESSAGE, (WPARAM)ppro->GetContactBySid(sid), 0);
 					}
-					else if (lvi.iGroupId == 2)
+					/*else if (lvi.iGroupId == 2)
 					{
 						CConversation *conversation = (CConversation *)lvi.lParam;
 
 						conversation->GetPropIdentity(data);
 						ptrW cid(::mir_utf8decodeW(data));
 						CSkypeProto::ReplaceSpecialChars(cid);
-
-						ChatRoom *room = ppro->FindChatRoom(cid);
-						if (room != NULL)
-							::CallProtoService(ppro->m_szModuleName, PS_JOINCHAT, (WPARAM)room->GetContactHandle(), 0);
-						else
-						{
-							conversation->GetPropDisplayname(data);
-							ptrW name = ::mir_utf8decodeW(data);
-
-							ChatRoom *room = new ChatRoom(cid, name, ppro);
-							room->Start(conversation->ref(), true);
-						}
-					}
+					}*/
 				}
 			}
 		}
@@ -270,7 +258,7 @@ INT_PTR CALLBACK CSkypeProto::IgnoreListWndProc(HWND hwndDlg, UINT msg, WPARAM w
 			switch(LOWORD(wParam))
 			{
 			case IDCANCEL:
-				::Utils_SaveWindowPosition(hwndDlg, NULL, MODULE, "BookmarksWindow");
+				::Utils_SaveWindowPosition(hwndDlg, NULL, MODULE, "IgnoreListWindow");
 				::Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
 				::Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
 				::DestroyWindow(hwndDlg);

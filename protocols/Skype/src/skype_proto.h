@@ -36,6 +36,20 @@ struct ChatRoomParam
 	wchar_t		confirmation[32];
 	wchar_t		hint[32];
 
+	ChatRoomParam(CSkypeProto *ppro)
+		: ppro(ppro) 
+	{
+		this->id = NULL;
+		this->topic[0] = 0;
+		this->guidline[0] = 0;
+		this->password[0] = 0;
+		this->confirmation[0] = 0;
+		this->hint[0] = 0;
+		this->enableJoining = true;
+		this->joinRank = Participant::WRITER;
+		this->passwordProtection = false;
+	}
+
 	ChatRoomParam(const wchar_t *id, const StringList &contacts, CSkypeProto *ppro)
 		: id(::mir_wstrdup(id)), invitedContacts(contacts), ppro(ppro) 
 	{
@@ -177,6 +191,8 @@ public:
 	// languages
 	static void InitLanguages();
 
+	static INT_PTR __cdecl ParseSkypeUri(WPARAM wParam, LPARAM lParam);
+
 private:
 	// Skype
 	CAccount		*newAccount(int oid);
@@ -244,6 +260,8 @@ protected:
 
 	void	OnAccountChanged(int prop);
 
+	INT_PTR __cdecl SetMyNickName(WPARAM, LPARAM);
+
 	// avatars
 	bool IsAvatarChanged(const SEBinary &avatar, HANDLE hContact = NULL);
 
@@ -274,30 +292,25 @@ protected:
 	void	OnTransferChanged(CTransfer::Ref transfer, int prop);
 
 	// chat
-	bool IsChatRoom(HANDLE hContact);
-	HANDLE GetChatRoomByCid(const wchar_t *cid);
-	HANDLE AddChatRoom(CConversation::Ref conversation);
+	void InitChatModule();
 
-	void UpdateChatUserStatus(CContact::Ref contact);
-	void UpdateChatUserNick(CContact::Ref contact);
+	bool IsChatRoom(HANDLE hContact);
+
+	void UpdateChatUserStatus(const ContactRef &contact);
+	void UpdateChatUserNick(const ContactRef &contact);
 
 	void ChatValidateContact(HANDLE hItem, HWND hwndList, const StringList &contacts);
 	void ChatPrepare(HANDLE hItem, HWND hwndList, const StringList &contacts);
 
-	void GetInvitedContacts(HANDLE hItem, HWND hwndList, StringList &invitedContacts);
+	void GetInvitedContacts(HANDLE hItem, HWND hwndList, StringList &invitedContacts);	
 
-	void InitChat();
-	
-	void StartChat(StringList &invitedContacts);
-	void InviteToChatRoom(HANDLE hContact);
+	void ChatRoomParseUriComands(const wchar_t *commands);
+
+	void ChatRoomInvite(HANDLE hContact);
 
 	void CloseAllChatSessions();
 
 	ChatRoom *FindChatRoom(const wchar_t *cid);
-	void DeleteChatRoom(HANDLE hContact);
-	
-	void CreateChat(const ChatRoomParam *param);
-	void JoinToChat(const wchar_t *joinBlob);
 
 	INT_PTR __cdecl CreateChatRoomCommand(WPARAM, LPARAM);
 	INT_PTR __cdecl OnJoinChat(WPARAM wParam, LPARAM);
@@ -309,20 +322,17 @@ protected:
 	void	OnChatEvent(const ConversationRef &conversation, const MessageRef &message);
 
 	// contacts
-	void	UpdateContactAuthState(HANDLE hContact, CContact::Ref contact);
-	void	UpdateContactAvatar(HANDLE hContact, CContact::Ref contact);
-	void	UpdateContactStatus(HANDLE hContact, CContact::Ref contact);
-	void	UpdateContactClient(SEObject *obj, HANDLE hContact);
-
-	void	UpdateContactNickName(SEObject *obj, HANDLE hContact);
-	void	UpdateContactOnlineSinceTime(SEObject *obj, HANDLE hContact);
-	void	UpdateContactLastEventDate(SEObject *obj, HANDLE hContact);
+	void	UpdateContactAuthState(HANDLE hContact, const ContactRef &contact);
+	void	UpdateContactStatus(HANDLE hContact, const ContactRef &contact);
+	void	UpdateContactClient(HANDLE hContact, const ContactRef &contact);
+	void	UpdateContactOnlineSinceTime(HANDLE hContact, const ContactRef &contact);
+	void	UpdateContactLastEventDate(HANDLE hContact, const ContactRef &contact);
 
 	void	OnSearchCompleted(HANDLE hSearch);
 	void	OnContactFinded(CContact::Ref contact, HANDLE hSearch);
 
-	void	OnContactChanged(CContact::Ref contact, int prop);
-	void	OnContactListChanged(CContact::Ref contact);
+	void	OnContactChanged(const ContactRef &contact, int prop);
+	void	OnContactListChanged(const ContactRef &contact);
 
 	bool	IsProtoContact(HANDLE hContact);
 	HANDLE	GetContactBySid(const wchar_t* sid);
@@ -341,7 +351,6 @@ protected:
 	void __cdecl SearchByEmailAsync(void*);
 
 	// profile
-	//static std::map<std::wstring, std::wstring> FillLanguages();
 
 	void	UpdateProfileAvatar(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileAboutText(SEObject *obj, HANDLE hContact = NULL);
@@ -354,7 +363,7 @@ protected:
 	void	UpdateProfileHomepage(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileLanguages(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileMobilePhone(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileNickName(SEObject *obj, HANDLE hContact = NULL);
+	void	UpdateProfileNick(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfilePhone(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileOfficePhone(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileState(SEObject *obj, HANDLE hContact = NULL);
@@ -389,9 +398,7 @@ protected:
 
 	static void CopyToClipboard(const wchar_t *text);
 
-	static void ReplaceSpecialChars(wchar_t *text, wchar_t replaceWith = L'_');
-
-	static INT_PTR __cdecl ParseSkypeUri(WPARAM wParam, LPARAM lParam);
+	static void ReplaceSpecialChars(wchar_t *text, wchar_t replaceWith = L'_');	
 
 	// languages
 	static std::map<std::wstring, std::wstring> languages;
@@ -485,7 +492,9 @@ protected:
 	void StopSkypeRuntime();
 
 	// events
-	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
+	static int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
+
+	int __cdecl OnProtoModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int __cdecl OnContactDeleted(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);

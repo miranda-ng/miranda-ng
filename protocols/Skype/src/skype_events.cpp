@@ -2,16 +2,21 @@
 
 int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	this->InitChat();
-	this->InitNetLib();
-	this->InitCustomFolders();
-	this->InitInstanceHookList();
-
-	/*if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
+	/*if (::ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
 	{
 		::CreateServiceFunction(MODULE"/ParseSkypeURI", &CSkypeProto::ParseSkypeUri);
-		::AssocMgr_AddNewUrlTypeT("skype:", TranslateT("Skype URI"), g_hInstance, IDI_SKYPE, MODULE"/ParseSkypeURI", 0);
+		::AssocMgr_AddNewUrlTypeT("skype:", TranslateT("Skype URI API"), g_hInstance, IDI_SKYPE, MODULE"/ParseSkypeURI", 0);
 	}*/
+
+	return 0;
+}
+
+int CSkypeProto::OnProtoModulesLoaded(WPARAM, LPARAM)
+{
+	this->InitNetLib();
+	this->InitChatModule();
+	this->InitCustomFolders();
+	this->InitInstanceHookList();
 
 	if (::ServiceExists(MS_BB_ADDBUTTON))
 	{
@@ -62,10 +67,19 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if (hContact && this->IsOnline())
+	if (hContact)
 	{
 		if (this->IsChatRoom(hContact))
-			this->DeleteChatRoom(hContact);
+		{
+			this->OnLeaveChat(wParam, 0);
+			ptrW cid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
+			if (cid != NULL)
+			{
+				ConversationRef conversation;
+				if (this->GetConversationByIdentity((char *)_T2A(cid), conversation))
+					conversation->Delete();
+			}
+		}
 		else
 			this->RevokeAuth(wParam, lParam);
 	}
@@ -175,16 +189,32 @@ int __cdecl CSkypeProto::OnTabSRMMButtonPressed(WPARAM wParam, LPARAM lParam)
 	{
 	case BBB_ID_CONF_INVITE:
 		if (this->IsOnline() && this->IsChatRoom(hContact))
-			this->InviteToChatRoom(hContact);
+			this->ChatRoomInvite(hContact);
 		break;
 
 	case BBB_ID_CONF_SPAWN:
 		if (this->IsOnline() && !this->IsChatRoom(hContact))
 		{
-			StringList targets;
-			targets.insert(ptrW(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));
+			SEStringList targets;
+			ptrW sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
+			targets.append((char *)_T2A(sid));
 
-			this->StartChat(targets);
+			ConversationRef conversation, conference;
+			this->GetConversationByParticipants(targets, conversation);
+
+			StringList invitedContacts(sid);
+			ChatRoomParam *param = new ChatRoomParam(NULL, invitedContacts, this);
+			
+			if (::DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CHATROOM_CREATE), NULL, CSkypeProto::ChatRoomProc, (LPARAM)param) == IDOK && param->invitedContacts.size() > 0)
+			{				
+				for (size_t i = 0; i < param->invitedContacts.size(); i++)
+				{
+					SEString contact(_T2A(param->invitedContacts[i]));
+					if ( !targets.contains(contact))
+						targets.append(contact);
+				}
+				conversation->SpawnConference(targets, conference);
+			}
 		}
 		break;
 	}

@@ -536,7 +536,7 @@ int __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 	switch (eventType)
 	{
 	case EV_PROTO_ONLOAD:
-		return this->OnModulesLoaded(wParam, lParam);
+		return this->OnProtoModulesLoaded(wParam, lParam);
 
 	case EV_PROTO_ONEXIT:
 		return this->OnPreShutdown(wParam, lParam);

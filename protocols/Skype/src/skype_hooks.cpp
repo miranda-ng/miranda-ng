@@ -2,7 +2,8 @@
 
 void CSkypeProto::InitHookList()
 {
-	::HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CSkypeProto::PrebuildContactMenu);
+	::HookEvent(ME_SYSTEM_MODULESLOADED, &CSkypeProto::OnModulesLoaded);
+	::HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CSkypeProto::PrebuildContactMenu);	
 }
 
 HANDLE CSkypeProto::HookEvent(const char* szEvent, SkypeEventFunc handler)
