@@ -726,7 +726,7 @@ void PlayChangeSound(HANDLE hContact, WORD oldStatus, WORD newStatus)
 			//Now make path to IndSound absolute, as it isn't registered
 			TCHAR stzSoundPath[MAX_PATH];
 			PathToAbsoluteT(stzSoundFile, stzSoundPath);
-			PlaySound(stzSoundPath, NULL, SND_ASYNC | SND_FILENAME | SND_NOSTOP);
+			SkinPlaySoundFile(stzSoundPath);
 			return;
 		}
 	}

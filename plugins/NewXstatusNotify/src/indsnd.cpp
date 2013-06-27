@@ -43,7 +43,7 @@ void PreviewSound(HWND hList)
 	else 
 	{ 
 		PathToAbsoluteT(buff, stzSoundPath);
-		PlaySound(stzSoundPath, NULL, SND_ASYNC | SND_FILENAME);
+		SkinPlaySoundFile(stzSoundPath);
 	}
 }
 
@@ -72,13 +72,16 @@ TCHAR *SelectSound(HWND hwndDlg, TCHAR *buff)
 	ofn.hwndOwner = GetParent(hwndDlg);
 	ofn.hInstance = hInst;
 	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.wav)%c*.WAV%c%s (*.*)%c*%c"), TranslateT("Wave Files"), 0, 0, TranslateT("All Files"), 0, 0);
+	if (GetModuleHandle(_T("bass_interface.dll")))
+		mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*.*)%c*%c"), TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
+	else
+		mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.wav)%c*.wav%c%s (*.*)%c*%c"), TranslateT("Wave files"), 0, 0, TranslateT("All files"), 0, 0);
 	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = buff;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.nMaxFileTitle = MAX_PATH;
-	ofn.lpstrDefExt = _T("wav");
+	ofn.lpstrDefExt = _T("");
 	if (GetOpenFileName(&ofn))
 		return buff;
 	
