@@ -357,21 +357,21 @@ void CMimAPI::InitAPI()
 			if (m_pfnIsThemeActive != 0 && m_pfnOpenThemeData != 0 && m_pfnDrawThemeBackground != 0 && m_pfnCloseThemeData != 0
 				&& m_pfnDrawThemeText != 0 && m_pfnIsThemeBackgroundPartiallyTransparent != 0 && m_pfnDrawThemeParentBackground != 0
 				&& m_pfnGetThemeBackgroundContentRect != 0) {
-				m_VsAPI = true;
+					m_VsAPI = true;
 			}
 		}
 	}
 
 	/*
-	 * vista+ DWM API
-	 */
+	* vista+ DWM API
+	*/
 
 	m_hDwmApi = 0;
 	if (IsWinVerVistaPlus())  {
-	    m_hDwmApi = Utils::loadSystemLibrary(L"\\dwmapi.dll");
-	    if (m_hDwmApi)  {
-            m_pfnDwmExtendFrameIntoClientArea = (DEFICA)GetProcAddress(m_hDwmApi,"DwmExtendFrameIntoClientArea");
-            m_pfnDwmIsCompositionEnabled = (DICE)GetProcAddress(m_hDwmApi,"DwmIsCompositionEnabled");
+		m_hDwmApi = Utils::loadSystemLibrary(L"\\dwmapi.dll");
+		if (m_hDwmApi)  {
+			m_pfnDwmExtendFrameIntoClientArea = (DEFICA)GetProcAddress(m_hDwmApi,"DwmExtendFrameIntoClientArea");
+			m_pfnDwmIsCompositionEnabled = (DICE)GetProcAddress(m_hDwmApi,"DwmIsCompositionEnabled");
 			m_pfnDwmRegisterThumbnail = (DRT)GetProcAddress(m_hDwmApi, "DwmRegisterThumbnail");
 			m_pfnDwmBlurBehindWindow = (BBW)GetProcAddress(m_hDwmApi, "DwmEnableBlurBehindWindow");
 			m_pfnDwmGetColorizationColor = (DGC)GetProcAddress(m_hDwmApi, "DwmGetColorizationColor");
@@ -381,10 +381,10 @@ void CMimAPI::InitAPI()
 			m_pfnDwmUnregisterThumbnail = (DURT)GetProcAddress(m_hDwmApi, "DwmUnregisterThumbnail");
 			m_pfnDwmSetIconicThumbnail = (DSIT)GetProcAddress(m_hDwmApi, "DwmSetIconicThumbnail");
 			m_pfnDwmSetIconicLivePreviewBitmap = (DSILP)GetProcAddress(m_hDwmApi, "DwmSetIconicLivePreviewBitmap");
-	    }
+		}
 		/*
-		 * additional uxtheme APIs (Vista+)
-		 */
+		* additional uxtheme APIs (Vista+)
+		*/
 		if (m_hUxTheme) {
 			m_pfnDrawThemeTextEx = (PDTTE)GetProcAddress(m_hUxTheme, "DrawThemeTextEx");
 			m_pfnBeginBufferedPaint = (BBP)GetProcAddress(m_hUxTheme, "BeginBufferedPaint");
@@ -397,9 +397,8 @@ void CMimAPI::InitAPI()
 				m_pfnBufferedPaintInit();
 		}
 		m_pfnGetLocaleInfoEx = (GLIX)GetProcAddress(GetModuleHandleA("kernel32"), "GetLocaleInfoEx");
-    }
-	else
-		m_haveBufferedPaint = false;
+	}
+	else m_haveBufferedPaint = false;
 }
 
 /**
@@ -707,6 +706,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 				bAllowAutoCreate = TRUE;
 		}
 	}
+
 	if (bAllowAutoCreate && (bAutoPopup || bAutoCreate)) {
 		BOOL bActivate = TRUE, bPopup = TRUE;
 		if (bAutoPopup) {
@@ -715,29 +715,19 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 				pContainer = CreateContainer(szName, FALSE, (HANDLE)wParam);
 			CreateNewTabForContact(pContainer, (HANDLE) wParam, 0, NULL, bActivate, bPopup, FALSE, 0);
 			return 0;
-		} else {
-			bActivate = FALSE;
-			bPopup = (BOOL) M.GetByte("cpopup", 0);
-			pContainer = FindContainerByName(szName);
-			if (pContainer != NULL) {
-				//if ((IsIconic(pContainer->hwnd)) && PluginConfig.haveAutoSwitch())
-				//	pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
-				if (M.GetByte("limittabs", 0) &&  !wcsncmp(pContainer->szName, L"default", 6)) {
-					if ((pContainer = FindMatchingContainer(L"default", (HANDLE)wParam)) != NULL) {
-						CreateNewTabForContact(pContainer, (HANDLE) wParam, 0, NULL, bActivate, bPopup, TRUE, (HANDLE)lParam);
-						return 0;
-					} else if (bAutoContainer) {
-						pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, (HANDLE)wParam);         // 2 means create minimized, don't popup...
-						CreateNewTabForContact(pContainer, (HANDLE) wParam,  0, NULL, bActivate, bPopup, TRUE, (HANDLE)lParam);
-						SendMessageW(pContainer->hwnd, WM_SIZE, 0, 0);
-						return 0;
-					}
-				} else {
+		}
+		
+		bActivate = FALSE;
+		bPopup = (BOOL) M.GetByte("cpopup", 0);
+		pContainer = FindContainerByName(szName);
+		if (pContainer != NULL) {
+			//if ((IsIconic(pContainer->hwnd)) && PluginConfig.haveAutoSwitch())
+			//	pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
+			if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6)) {
+				if ((pContainer = FindMatchingContainer(L"default", (HANDLE)wParam)) != NULL) {
 					CreateNewTabForContact(pContainer, (HANDLE) wParam, 0, NULL, bActivate, bPopup, TRUE, (HANDLE)lParam);
 					return 0;
 				}
-
-			} else {
 				if (bAutoContainer) {
 					pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, (HANDLE)wParam);         // 2 means create minimized, don't popup...
 					CreateNewTabForContact(pContainer, (HANDLE) wParam,  0, NULL, bActivate, bPopup, TRUE, (HANDLE)lParam);
@@ -745,6 +735,16 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 					return 0;
 				}
 			}
+			else {
+				CreateNewTabForContact(pContainer, (HANDLE) wParam, 0, NULL, bActivate, bPopup, TRUE, (HANDLE)lParam);
+				return 0;
+			}
+		}
+		else if (bAutoContainer) {
+			pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, (HANDLE)wParam);         // 2 means create minimized, don't popup...
+			CreateNewTabForContact(pContainer, (HANDLE) wParam,  0, NULL, bActivate, bPopup, TRUE, (HANDLE)lParam);
+			SendMessageW(pContainer->hwnd, WM_SIZE, 0, 0);
+			return 0;
 		}
 	}
 
