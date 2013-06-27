@@ -1,166 +1,71 @@
-﻿#muuid {863bfce7-31ed-4a81-af95-da2685ce1bc2}
+﻿#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
+;============================================================
 ;  File: FTPFile.dll
-;  Module: FTPFile, FTP File YM
+;  Plugin: FTP File YM
+;  Version: 0.5.0.0
+;  Authors: yaho
+;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
 Дадатак дазваляе загрузіць файл на FTP сервер з дапамогай Miranda NG і паслаць спасылку сваім кантактам.
-[FTP File]
-Файл на FTP
-[FTP File - Select files]
-Файл на FTP - Выбар файла
-[FTP File Error]
-Файл на FTP Памылка
-[You must change the settings before you FTP a file.]
-Вы павінны змяніць налады перад адпраўкай файла.
-[Error calling function InternetOpen]
-Памылка выкліку функцыі InternetOpen
-[Error connecting to server]
-Памылка злучэння з серверам
-[Aborting all files...]
-Адмена ўсіх перадач ...
-[Could not change remote directory to %s (%d, %d)\n\nMore info:\n%s\n\nRetry will try to create the directory]
-Немагчыма змяніць выдаленую тэчку на %s (%d, %d)\n\n Пашыраная інфармацыя:\n%s\n\n Паўтор для спробы стварыць тэчку
-[Could not change remote directory to %s (%d)\n\nRetry will try to create the directory]
-Немагчыма змяніць выдаленую тэчку на %s (%d)\n\n Паўтор для спробы стварыць тэчку
-[Could not create directory]
-Немагчыма стварыць тэчку
-[Error opening local file %s]
-Памылка адкрыцця лакальнага файла %s
-[Ignoring this file: %s]
-Ігнараваць гэты файл: %s
-[Error opening file on server]
-Памылка адкрыцця файла на серверы
-[Error writing remote file file %s]
-Памылка запісу выдаленага файла %s
-[Error reading local file %s (%d)\nIgnoring this file...]
-Памылка чытання лакальнага файла %s (%d)\n Ігнараваць гэты файл ...  
-[%s\nsent bytes (%d) didn't match filesize (%d)]
-%s\n адпраўлена біт (%d) не адпавядае памеру файла (%d)
-[FtpCommand error]
-Памылка каманды FTP
-[Ignoring error.]
-Ігнараваць памылку.
-[%s (%d, %d)\n\nMore info:\n%s\n\n%s]
-%s (%d, %d)\n\n Пашыраная інфармацыя:\n%s\n\n%s
-[Do you want to delete a partially uploaded file?]
-Выдаліць часткова запампаваны файл?
-[Could not delete file from server]
-Немагчыма выдаліць файл з сервера
-[FTP File (uploading file)]
-Файл на FTP (запампаваць файл)
-[FTP File (paused)]
-Файл на FTP (паўза)
-[Upload info]
-Інфармацыя запампоўкі
-[Upload speed:]
-Хуткасць запампоўкі:
-[Cancel all]
-Адмяніць усё
-[File upload complete]
-Запампоўка файла завершана
-[Upload canceled]
-Запампоўка адменена
-[FTP Server %d]
-Сервер FTP %d
-[FTP server]
-Сервер FTP
+;file \plugins\FTPFileYM\res\ftpfile.rc
+[FTP account]
+FTP-акаўнты
 [Host name]
 Імя хаста
 [Directory on server]
 Тэчка на серверы
 [Command after upload]
 Каманда пасля загрузкі
-[Use Passive mode]
-Выкарыстоўваць пасіўны рэжым
-[File URL options]
-Налады URL файла
-[Automatically send URL to the contact]
-Адправіць спасылку аўтаматычна
-[Copy URL to message log]
-Капіяваць спасылку ў лог паведамленняў
-[Remove national characters from filename]
-Выдаліць нацыянальныя знакі з імя файла
-[FTP account]
-FTP-акаўнты
-[Account name]
-Імя акаўнта
-[Menu items options]
-Налады пунктаў меню
-[Use submenu in contact menu:]
-Выкарыстоўваць падменю ў меню кантакту:
-[Always (use submenu in any situation)]
-Заўсёды (падменю выкарыстоўваецца ў любой сітуацыі)
-[When more than one account is set]
-Толькі калі ўсталявана больш аднаго FTP-акаўнта
-[Never (place items directly into contact menu)]
-Ніколі (пункт непасрэдна ў меню кантакту)
-[Hide inactive accounts]
-Хаваць неактыўныя FTP-акаўнты
-[FTP File YM]
-Файл на FTP
+[Use passive mode]
+Пасіўны рэжым
+[Default FTP server]
+Сервер па змаўчанні
 [File download link]
 Спасылка на загружаны файл
+[Close dialog after upload is completed]
+Зачыніць дыялог пасля запампоўкі
 [Copy download link to message log]
 Капіяваць спасылку ў лог паведамленняў
 [Menu items]
 Пункты ў меню
 [Use submenu (restart required)]
 Выкарыстоўваць падменю (патрабуецца перазагрузка)
-[Close dialog after upload finishes]
-Зачыніць акно пасля канчатка загрузкі
-[Upload manager - %d file(s)]
-Мэнэджар загрузак - %d файл(аў)
-[Sending for:]
-Адпраўлена для:
-[Download link for uploaded file:]
-Спасылка на загружаны файл:
-[Copy link to clipboard]
-Капіяваць спасылку ў буфер абмену
-[Could not change remote directory.\nDo you want to upload file?]
-Немагчыма змяніць выдаленую дырэкторыю.\n Вы сапраўды жадаеце загрузіць файл?
-[FTPFile]
-Файл на FTP
-[Completed:]
-Завершана:
-[Remaining:]
-Засталося:
-[Do you really want to cancel all running uploads?]
-Вы сапраўды жадаеце адмяніць усе загрузкі?
-[FTP File manager]
-FTP файл мэнэджар
-[FTPFile manager]
-FTP файл мэнэджар
-[Delete from list]
-Выдаліць са спісу
-[Deselect all]
-Зняць выбар
-[No files...]
-Няма файлаў...
-[Delete from FTP]
-Выдаліць з FTP
-[FINISHED]
-Скончана
-[Copy link]
-Капіяваць спасылку
-[Do you really want to cancel running upload?]
-Вы сапраўды жадаеце адмяніць загрузку?
-[Show FTPFile manager]
-Паказаць FTP файл мэнэджар
-[Download link:]
-Спасылка:
-[You have to fill and enable at least one FTP server in setting.]
-Вы павінны дадаць хоць бы адзін FTP сервер у наладах.
+[Hide inactive accounts]
+Хаваць неактыўныя FTP-акаўнты
 [Automatically delete file from FTP server after (experimental):]
 Аўтаматычна выдаляць файлы з FTP сервера пасля (эксп.):
-[Error occurred when connecting to server.]
-Памылка пры ўсталёўцы злучэння з серверам.
-[Aborting file upload...]
-Загрузка файла адменена...
-[Upload file manager]
-Мэнэджар загрузак
+[ZIP support]
+Падтрымка ZIP
+[Enter archive name manually]
+Увядзіце сваё імя архіва
+[Compression level:]
+Узровень сціску:
+[File:]
+Файл:
+[Completed:]
+Завершана:
+[Speed:]
+Хуткасць:
+[Remaining:]
+Засталося:
+[Delete from list]
+Выдаліць са спісу
+[Delete from FTP]
+Выдаліць з FTP
+[Close dialog after upload finishes]
+Зачыніць акно пасля канчатка загрузкі
 [Automatically delete file after...]
 Аўтаматычна выдаліць файл праз...
+;file \plugins\FTPFileYM\src\dialog.cpp
+[%d minutes]
+%d хвл.
+[%d hours]
+%d ч.
 [%d days]
 %d дзён
+[Do you really want to cancel all running jobs?]
+Скасаваць усе зпушчаныя заданні?
+;file \plugins\FTPFileYM\src\ftpfile.cpp
 [FTP Server 1]
 FTP сервер 1
 [FTP Server 2]
@@ -171,22 +76,19 @@ FTP сервер 3
 FTP сервер 4
 [FTP Server 5]
 FTP сервер 5
-[ZIP support]
-Падтрымка ZIP
-[Enter archive name manually]
-Увядзіце сваё імя архіва
-[Compression level:]
-Узровень сціску:
-[Close dialog after upload is completed]
-Зачыніць дыялог пасля запампоўкі
-[Default FTP server]
-Сервер па змаўчанні
-[Use passive mode]
-Пасіўны рэжым
-[Speed:]
-Хуткасць:
-[Do you really want to cancel all running jobs?]
-Скасаваць усе зпушчаныя заданні?
+[FTP Server %d]
+Сервер FTP %d
+[FTP File manager]
+FTP файл мэнэджар
+[Show FTPFile manager]
+Паказаць FTP файл мэнэджар
+[File upload complete]
+Запампоўка файла завершана
+[Upload canceled]
+Запампоўка адменена
+;file \plugins\FTPFileYM\src\job_generic.cpp
+[FTP File - Select files]
+Файл на FTP - Выбар файла
 [CANCELED]
 СКАСАВАННЕ
 [COMPLETED]
@@ -203,3 +105,15 @@ FTP сервер 5
 ЧАКАННЕ...
 [UNKNOWN]
 НЕВЯДОМА
+;file \plugins\FTPFileYM\src\job_packer.cpp
+;file \plugins\FTPFileYM\src\job_upload.cpp
+[Download link:]
+Спасылка:
+[Do you really want to cancel running upload?]
+Вы сапраўды жадаеце адмяніць загрузку?
+;file \plugins\FTPFileYM\src\manager.cpp
+[You have to fill and enable at least one FTP server in setting.]
+Вы павінны дадаць хоць бы адзін FTP сервер у наладах.
+;file \plugins\FTPFileYM\src\options.cpp
+;file \plugins\FTPFileYM\src\serverlist.cpp
+;file \plugins\FTPFileYM\src\utils.cpp

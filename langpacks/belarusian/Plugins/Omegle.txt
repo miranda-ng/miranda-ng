@@ -1,5 +1,0 @@
-﻿#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
-;  File: Omegle.dll
-;  Plugin: Provides basic support for Omegle Chat protocol
-[Omegle protocol support for Miranda NG.]
-Убудова падтрымкі пратакола Omegle ў Miranda NG.

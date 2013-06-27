@@ -1,0 +1,56 @@
+﻿#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+;============================================================
+;  File: WhoUsesMyFiles.dll
+;  Plugin: Who Use My Files
+;  Version: 0.1.0.2
+;  Authors: Nikolay Redko
+;============================================================
+;file \plugins\WhoUsesMyFiles\res\resource.rc
+[WUMF: Current connections]
+WUMF: Бягучыя злучэнні
+[Popup delay settings]
+Налады паказу Popup
+[Popup Delay (seconds)]
+Акно бачнае (секунд)
+[Show infinitely]
+Увесь час
+[Default Popup delay]
+Як у Popup
+[Choose delay time]
+Наладзіць самому
+[Popup color settings]
+Налады колеру Popup
+[Use windows colors]
+Колеры Windows
+[Use default Popup colors]
+Колеры Popup
+[Choose colors]
+Абраць колер
+[File access filter && logging settings]
+Налады фільтраў часопіса
+[Log into text file]
+Пісаць у файл
+[Log folders access]
+Доступ да тэчак
+[Alerts on folders access]
+Доступ да тэчак
+[Log files and folders in UNC format]
+Тэчкі і файлы ў UNC фармаце
+[Alert files && folders in UNC format]
+Паказваць тэчкі і файлы ў UNC фармаце
+[Log computer name with username]
+Імёны кампутараў разам з імёнамі карыстачоў
+[Alert computer name with username]
+Паказваць імёны кампутараў разам з імёнамі карыстачоў
+[Disabled options will be available in the next version]
+Будуць даступныя ў наступнай версіі
+[Show current connections]
+Паказаць злучэнні
+;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Enable WUMF popups]
+Уключыць WUMF вокны
+[Disable WUMF popups]
+Выключыць WUMF вокны
+[WUMF: Show connections]
+WUMF: Паказаць падлучэнні

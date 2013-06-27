@@ -1,31 +1,21 @@
 ﻿#muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
-;  File: quickcontacts.dll
+;============================================================
+;  File: QuickContacts.dll
+;  Plugin: Quick contacts
+;  Version: 1.0.0.0
+;  Authors: Ricardo Pescuma Domenecci, Heiko Schillinger
+;============================================================
 [Open contact-specific windows by hotkey.]
 Шпаркія кантакты, на гарачыя клавішы.
-[Quick Contacts]
-Шпаркія кантакты
-[Open dialog]
-Адкрыць дыялог
-[Open Quick Contacts dialog]
-Адкрыць дыялог хуткіх кантактаў
-[Quick Contacts...]
-Шпаркія кантакты...
-[Enter Username:]
-Увядзіце імя карыстача:
-[Show all contacts (Ctrl+A)]
-Паказаць усе кантакты (Ctrl+A)
-[Send file (Ctrl+F)]
-Паслаць файл (Ctrl+F)
-[Send URL (Ctrl+U)]
-Паслаць URL (Ctrl+U)
-[Open userinfo (Ctrl+I)]
-Адкрыць дадзеныя карыстача (Ctrl+I)
-[Open history (Ctrl+H)]
-Адкрыць гісторыю (Ctrl+H)
-[Open contact menu (Ctrl+M)]
-Адкрыць меню кантакту (Ctrl+M)
+;file \plugins\QuickContacts\res\resource.rc
 [Last Sent]
 Апошняя адпраўленая падзея
+[Enable last-sent-to]
+Уключыць апошнюю падзею
+[recognize all messages sent]
+Вызначаць усе пасланыя паведамленні
+[recognize messages sent with hotkey only]
+Вызначаць толькі паведамленне адпраўленыя гар.клавішай
 [Show offline contacts on these protocols:]
 Паказваць адкл.кантакты для гэтых пратаколаў:
 [But hide them if protocol is offline]
@@ -40,3 +30,15 @@
 Хаваць суб-кантакты
 [But keep subcontacts of protocols in above list if meta is hidden]
 Але паказваць, калі метакантакт схаваны
+[Show all contacts (Ctrl+A)]
+Паказаць усе кантакты (Ctrl+A)
+;file \plugins\QuickContacts\src\options.cpp
+[Quick Contacts]
+Шпаркія кантакты
+;file \plugins\QuickContacts\src\quickcontacts.cpp
+[Open dialog]
+Адкрыць дыялог
+[Open history]
+Гісторыя
+[Quick Contacts...]
+Шпаркія кантакты...

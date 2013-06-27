@@ -1,241 +1,180 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
-;  File: msn.dll
-;  Module: MSN Protocol
-[Microsoft Network (MSN) protocol support for Miranda NG.]
-Убудова падтрымкі пратакола Microsoft Network (MSN).
-[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-Для MSN таймаўт адпраўлення паведамлення павінен быць не меней, чым 60 секунд. Калі ласка, наладзьце ваш модуль паведамленняў.
-[Setup Live &Alerts]
-Налады Live &Alerts
-[Run the following application when new Hotmail arrives]
-Запусціць прыкладанне пры з'яўленні новай пошты
-[MSN Options]
-Налады MSN
-[Relative list]
-Спіс "вы ў спісе"
-[Blocked list]
-Спіс заблакаваных
-[Allowed list]
-Спіс дазволеных
-[Contact list]
-Спіс кантактаў
-[Local list]
-Лакальны спіс
-[Start Netmeeting]
-Запусціць Netmeeting
-[Invite to chat]
-Запрасіць у чат
-[Block user]
-Заблакаваць
-[Set Avatar]
-Аватар
-[MSN Services]
-Службы MSN
-[Hotmail Inbox]
-Уваходныя Hotmail
-[Unable to contact MS Passport servers check proxy/firewall settings]
-Немагчыма далучыцца да сервераў MS Passport. Праверце налады проксі/брандмаўара
-[MSN Protocol]
-Пратакол MSN
-[Hotmail from %s]
-Пошта Hotmail ад %s
-[Hotmail from %s (%s)]
-Пошта Hotmail ад %s (%s)
-[Subject: %s]
-Тэма: %s
-[Contact left channel]
-Кантакт пакінуў канал
-[&Block]
-Блакаваць
-[&Unblock]
-Разблакаваць
-[&Invite to chat]
-Запрасіць на чат
-[Set &Nickname]
-Псеўданім...
-[&Start Netmeeting]
-Запусціць Netmeeting
-[Contact tried to send its webcam data (currently not supported)]
-Кантакт спрабаваў адправіць дадзеныя з вэб-камеры (не падтрымліваецца)
-[Contact tried to view our webcam data (currently not supported)]
-Кантакт спрабаваў прагледзець нашу вэб-камеру (не падтрымліваецца)
-[Contact tried to open an audio conference (currently not supported)]
-Кантакт спрабаваў адкрыць аўдыёканферэнцыю (не падтрымліваецца)
-[file transfer is canceled by remote host]
-перадача файла адменена выдаленым карыстачом
-[MSN plugin cannot add a new contact because the contact list is full]
-Модуль MSN не можа дадаць кантакт у спіс, таму што спіс кантактаў поўны
-[MSN protocol does not allow you to communicate with others when you are invisible]
-Пратакол MSN не дазваляе размаўляць з іншымі карыстачамі, калі вы нябачныя.
-[MSN Services are temporarily unavailable, please try to connect later]
-Службы MSN часова недаступныя, паспрабуйце далучыцца пазней
-[Message is too long: MSN messages are limited by 1202 UTF8 chars]
-Паведамленні MSN абмежаваны 1202 знакамі UTF-8
-[Server has requested an unknown protocol set (%s)]
-Сервер запытаў невядомы набор пратаколаў (%s)
-[Unprocessed error: %s]
-Неапрацаваная памылка: %s
-[Unrecognised error %d. The server has closed our connection]
-Невядомая памылка %d. Сервер зачыніў наша далучэнне.
-[User is already in your contact list]
-Карыстач ужо ў спісе кантактаў
-[You must be talking to start Netmeeting]
-Вы павінны размаўляць перад запускам Netmeeting
-[You must specify your e-mail in Options/Network/MSN]
-Вы павінны паказаць ваш e-mail у частцы Налады/Сетка/MSN
-[Your username or password is incorrect]
-Ваш адрас ці пароль няслушны
-[Your MSN account e-mail is unverified. Goto http://www.passport.com and verify the primary e-mail first]
-Ваш конт MSN не пацверджаны. Пацвердзіце ваш галоўны адрас e-mail на http://www.passport.com
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\MSN\res\msn.rc
+[Create a new Windows Live account]
+Стварыць новы конт Windows Live
 [Send message font color/size info inside messages]
 Адпраўляць інфармацыю пра шрыфт/колеры ў паведамленні
 [Disable all contacts not included into my contact list]
 Адключыць усе кантакты не ў спісе кантактаў
 [Manage server groups]
 Кіраваць групамі на серверы
-[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
-Імпарт груп з сервера можа змяніць размяшчэнне кантактаў пасля наступнага ўваходу. Загрузіць групы на сервер?
-[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
-Змены ўступяць пры наступным уваходзе ў сетку MSN
-[Server list]
-Спіс на серверы
+[Run the following application when new Hotmail arrives]
+Запусціць прыкладанне пры з'яўленні новай пошты
+[Allow people on my contact list send messages to mobile device]
+Дазволіць кантактам са спісу адпраўляць паведамленні на мабільнік
+[Direct:]
+Сервер:
+[Gateway:]
+Шлюз:
 [Server List Manager]
 Кіраванне спісам на серверы
+[Contact is on your local list]
+Кантакт у вашым лакальным спісе
 [Contact is included into your server list]
 Кантакт у вашым спісе на серверы
-[Somebody included you in his/her server list]
-Вы ў спісе кантакту на серверы
 [Allowed (active) contact]
 Дазволены кантакт
 [Blocked contact]
 Блакаваны
-[This conversation has been inactive, participants will be removed.]
-Гэта гутарка неактыўная, удзельнікі будуць выдалены
-[To resume the conversation, please quit this session and start a new chat session.]
-Каб працягнуць гутарку, пакіньце гэты сеанс і пачніце новы сеанс.
-[There is only 1 person left in the chat, do you want to switch back to standard message window?]
-У чаце застаўся толькі адзін чалавек, вярнуцца да акна дыялогу?
-[User is already in the chat session.]
-Карыстач ужо ёсць у гэтым сеансе чата.
-[No active chat session is found.]
-Актыўны сеанс чата не знойдзены.
-[User &history]
-Гісторыя карыстача
-[&Invite user...]
-Запрасіць карыстача...
-[Set Nickname]
-Увод ніка
-[User not online]
-Карыстач не далучаны
-[Live Alert]
-Live апавяшчэнне
-[Live Mail]
-Live пошта
-[Allow people on my contact list send messages to mobile device]
-Дазволіць кантактам са спісу адпраўляць паведамленні на мабільнік
-[Enable 'Contact left channel' popup]
-Усплывальнае акно 'Кантакт пакінуў канал'
-[Chat session established by contact request]
-Сесія ўсталявана па запыце кантакту
-[Chat session established by my request]
-Сесія ўсталявана па маім запыце
-[MSN Alert]
-MSN апавяшчэнне
-[Hotmail from %S]
-Пошта ад %S
-[Hotmail from %S (%s)]
-Пошта ад %S (%s)
-[Hotmail from %s (%S)]
-Пошта ад %s (%S)
-[Subject: %S]
-Тэма: %S
-[Automatically obtain host/port]
-Аўтаматычна атрымліваць хост/порт
-[Chat session established]
-Сесія ўсталявана
-[IP info available only after login]
-Інфармацыя о IP даступная пасля ўваходу
-[Manually specify host/port]
-Паказваць хост/порт
-[Message is too long: SMS page limited to 133 UTF8 chars]
-Занадта вялікае паведамленне, максімум 133  знака UTF8
-[You cannot send message to yourself]
-Вы не можаце пасылаць паведамленні самому сабе
-[Chat session dropped due to inactivity]
-Сесія скінута з-за неактыўнасці
-[Adds support for communicating with users of the MSN Messenger network]
-Дадае падтрымку пратаколу MSN.
-[Enable 'Chat Session Established' popup]
-Усплывальнае акно 'Чат сесія ўсталявана'
-[Chat #]
-Чат #
-[MSN Chat]
-MSN Чат
-[MSN Server Lists]
-Спісы на серверы (MSN)
-[Custom Smiley]
-Свае смайлікі
-[MSN Protocol Plugin]
-Модуль MSN пратаколу
-[No Title]
-Няма загалоўка
-[Server Lists]
-Кантакты на серверы
-[Contact already in your contact list]
-Кантакт ужо ў вашым спісе
-[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
-Пратакол MSN патрабуе таймаўту адпраўкі паведамлення не меней 60 секунд. Выправіце налады.
-[Offline messaging is not allowed for LCS contacts]
-Паведамленні адключаным LCS кантактам немагчымыя
-[%s plugin HTTPS connections]
-%s далучэнне па HTTPS
-[Create a new Windows Live account]
-Стварыць новы конт Windows Live
-[Middle Name]
-Імя па бацьку
-[Mobile Device (used for SMS)]
-Мабільная прылада (SMS)
-[Spouse/Partner]
-Муж(а)/Партнёр
+[Somebody included you in his/her server list]
+Вы ў спісе кантакту на серверы
 [Disable Popup notifications]
 Адключыць апавяшчэнне ўсплывальнымі вокнамі
 [Disable Tray notifications]
 Адключыць апавяшчэнні ў трэі
 [Ignore new messages not in Inbox folder]
 Ігнараваць новыя лісты не з "Уваходных"
+[Enable 'Chat Session Established' popup]
+Усплывальнае акно 'Чат сесія ўсталявана'
+[Enable 'Contact left channel' popup]
+Усплывальнае акно 'Кантакт пакінуў канал'
 [Disable Contact List notifications]
 Адключыць апавяшчэнні ў спісе кантактаў
-[Block Contact]
-Заблакаваць
-[Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
-Кантакт %s быў выдалены з сервера.\nЦi хочаце вы пакінуць яго ў лакальным спісе, каб захаваць гісторыю?
-[Display &Hotmail Inbox]
-Паказаць скрыню Hotmail
+[Mobile Device (used for SMS)]
+Мабільная прылада (SMS)
+[Spouse/Partner]
+Муж(а)/Партнёр
+[Middle Name]
+Імя па бацьку
 [MSN Delete Contact]
 Выдаленне MSN-кантакту
-[MSN protocol]
-Пратакол MSN
-[Open &Hotmail Inbox]
-Адкрыць скрыню &Hotmail
 [Remove from Hotmail Address book]
 Выдаліць з адраснай кнігі Hotmail
-[Send &Hotmail E-mail]
-Адправіць пошту Hotmail
-[Unread mail is available: %d in Inbox and %d in other folders).]
-Маецца непрачытаная пошта: %d уваходных пісьмаў і %d у іншых тэчках.
+[Block Contact]
+Заблакаваць
+;file \protocols\MSN\src\msn_chat.cpp
+[Chat #]
+Чат #
+;file \protocols\MSN\src\msn_commands.cpp
+[Contact tried to open an audio conference (currently not supported)]
+Кантакт спрабаваў адкрыць аўдыёканферэнцыю (не падтрымліваецца)
+[MSN Protocol]
+Пратакол MSN
+[MSN Alert]
+MSN апавяшчэнне
+[Chat session established by my request]
+Сесія ўсталявана па маім запыце
+[Chat session established by contact request]
+Сесія ўсталявана па запыце кантакту
+[Contact left channel]
+Кантакт пакінуў канал
+[This conversation has been inactive, participants will be removed.]
+Гэта гутарка неактыўная, удзельнікі будуць выдалены
+[To resume the conversation, please quit this session and start a new chat session.]
+Каб працягнуць гутарку, пакіньце гэты сеанс і пачніце новы сеанс.
+[There is only 1 person left in the chat, do you want to switch back to standard message window?]
+У чаце застаўся толькі адзін чалавек, вярнуцца да акна дыялогу?
+[MSN Chat]
+MSN Чат
 [Message delivery failed]
 Дастаўка паведамлення не атрымалася
-[Contact is on your local list]
-Кантакт у вашым лакальным спісе
-[Direct:]
-Сервер:
-[Gateway:]
-Шлюз:
-[View &Profile]
-Прагледзець &профіль
-[Convert to Chat]
-Канвертаваць у чат
+;file \protocols\MSN\src\msn_errors.cpp
+[User not online]
+Карыстач не далучаны
+;file \protocols\MSN\src\msn_links.cpp
+;file \protocols\MSN\src\msn_lists.cpp
+[Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
+Кантакт %s быў выдалены з сервера.\nЦi хочаце вы пакінуць яго ў лакальным спісе, каб захаваць гісторыю?
+;file \protocols\MSN\src\msn_mail.cpp
+[Subject: %s]
+Тэма: %s
+[Hotmail from %s (%S)]
+Пошта ад %s (%S)
+[Hotmail from %s]
+Пошта Hotmail ад %s
+[Unread mail is available: %d in Inbox and %d in other folders).]
+Маецца непрачытаная пошта: %d уваходных пісьмаў і %d у іншых тэчках.
+;file \protocols\MSN\src\msn_menu.cpp
+[Open &Hotmail Inbox]
+Адкрыць скрыню &Hotmail
+[Send &Hotmail E-mail]
+Адправіць пошту Hotmail
+[You must be talking to start Netmeeting]
+Вы павінны размаўляць перад запускам Netmeeting
 [Create &Chat]
 Стварыць &чат
-[Place:]
-Месца:
+[Display &Hotmail Inbox]
+Паказаць скрыню Hotmail
+[View &Profile]
+Прагледзець &профіль
+[Setup Live &Alerts]
+Налады Live &Alerts
+[&Start Netmeeting]
+Запусціць Netmeeting
+;file \protocols\MSN\src\msn_misc.cpp
+;file \protocols\MSN\src\msn_msgqueue.cpp
+;file \protocols\MSN\src\msn_opts.cpp
+[Hotmail Inbox]
+Уваходныя Hotmail
+[MSN Services]
+Службы MSN
+[Invite to chat]
+Запрасіць у чат
+[Start Netmeeting]
+Запусціць Netmeeting
+[Allowed list]
+Спіс дазволеных
+[Relative list]
+Спіс "вы ў спісе"
+[Local list]
+Лакальны спіс
+[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
+Імпарт груп з сервера можа змяніць размяшчэнне кантактаў пасля наступнага ўваходу. Загрузіць групы на сервер?
+[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+Змены ўступяць пры наступным уваходзе ў сетку MSN
+[MSN Options]
+Налады MSN
+[Automatically obtain host/port]
+Аўтаматычна атрымліваць хост/порт
+[Manually specify host/port]
+Паказваць хост/порт
+[IP info available only after login]
+Інфармацыя о IP даступная пасля ўваходу
+[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
+Пратакол MSN патрабуе таймаўту адпраўкі паведамлення не меней 60 секунд. Выправіце налады.
+[Server list]
+Спіс на серверы
+;file \protocols\MSN\src\msn_p2p.cpp
+[Contact tried to send its webcam data (currently not supported)]
+Кантакт спрабаваў адправіць дадзеныя з вэб-камеры (не падтрымліваецца)
+[Contact tried to view our webcam data (currently not supported)]
+Кантакт спрабаваў прагледзець нашу вэб-камеру (не падтрымліваецца)
+;file \protocols\MSN\src\msn_proto.cpp
+[Live Mail]
+Live пошта
+[Live Alert]
+Live апавяшчэнне
+[%s plugin HTTPS connections]
+%s далучэнне па HTTPS
+[You cannot send message to yourself]
+Вы не можаце пасылаць паведамленні самому сабе
+[Message is too long: SMS page limited to 133 UTF8 chars]
+Занадта вялікае паведамленне, максімум 133  знака UTF8
+[Message is too long: MSN messages are limited by 1202 UTF8 chars]
+Паведамленні MSN абмежаваны 1202 знакамі UTF-8
+[Offline messaging is not allowed for LCS contacts]
+Паведамленні адключаным LCS кантактам немагчымыя
+;file \protocols\MSN\src\msn_svcs.cpp
+[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
+Для MSN таймаўт адпраўлення паведамлення павінен быць не меней, чым 60 секунд. Калі ласка, наладзьце ваш модуль паведамленняў.
+[Convert to Chat]
+Канвертаваць у чат
+;file \protocols\MSN\src\msn_ws.cpp
+[Chat session dropped due to inactivity]
+Сесія скінута з-за неактыўнасці

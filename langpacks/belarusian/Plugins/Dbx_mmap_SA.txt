@@ -1,33 +1,51 @@
 ﻿#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
-;  File: dbx_mmap_sa.dll
-;  Module: Miranda SecuredMMAP database driver
-[Disk is full. Miranda will now shutdown.]
-Дыск перапоўнены. Miranda будзе зачынена.
+;============================================================
+;  File: Dbx_mmap_SA.dll
+;  Plugin: Miranda NG mmap secure database driver
+;  Version: 0.7.5.4
+;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
+;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
+Падтрымка базы дадзеных. Пашыраная мадыфікацыя з магчымасцю шыфравання.
+;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
+[Login to Miranda NG]
+Уваход у Miranda NG
+[Database encryption]
+Шыфраванне профіля
+[Site:]
+Сайт:
+;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
+[Database is Secured MMAP database]
+БД: база дадзеных з шыфраваннем
+[You are not authorized for access to Database]
+Вы не аўтарызаваны для доступу да БД
+[Secured MMAP: authorization successful]
+Абароненая БД: аўтарызацыя паспяховая
+;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
 [Database Features]
 Магчымасці БД
 [Set password]
 Усталяваць пароль
-[Too many errors!]
-Занадта шмат памылак!
-[Login to Miranda NG]
-Уваход у Miranda NG
-[Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
-Падтрымка базы дадзеных. Пашыраная мадыфікацыя з магчымасцю шыфравання.
-[DB is already secured!]
-Профіль ужо зашыфраваны!
-[Please enter password for]
-Увядзіце пароль для
-[Database encryption]
-Шыфраванне профіля
-[Old password]
-Стары пароль
-[New password]
-Новы пароль
 [Dll]
 Алгарытм
-[Notice]
-Апавяшчэнне
-[Miranda MMAP Secured Database]
-Драйвер БД Miranda MMAP з шыфраваннем
+[Please type in your password for]
+Калі ласка, увядзіце пароль для
+[Too many errors!]
+Занадта шмат памылак!
+[Password is not correct!]
+Пароль няслушны!
+[Passwords do not match!]
+Паролі не супадаюць!
+[Wrong password!]
+Няслушны пароль!
+;file \plugins\Dbx_mmap_SA\src\security.cpp
+[Sorry, but your database encrypted with unknown module]
+БД зашыфравана невядомым алгарытмам
 [Crypto modules not found]
 Модулі шыфравання не знойдзены
+[DB is already secured!]
+Профіль ужо зашыфраваны!
+[current database]
+бягучай БД
+[Set Password]
+Усталяваць пароль

@@ -1,65 +1,103 @@
 ﻿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
-;  File: avs.dll
+;============================================================
+;  File: AVS.dll
 ;  Plugin: Avatar service
+;  Version: 0.11.0.1
+;  Authors: Nightwish, Pescuma
+;============================================================
 [Loads and manages contact pictures for other plugins.]
-Загружае і кіруе аватарамі для іншых убудоў.
+Загружае і кіруе аватарамі для іншых плагiнаў.
+;file \plugins\AVS\res\avs.rc
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
 Усталяваныя тут выявы з'яўляюцца аватарамі для кантактаў, у якіх няма свайго аватара. Галачка ўключае/выключае адлюстраванне стандартнага аватара для пратаколаў.
-[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
-ПАПЯРЭДЖАННЕ: Гэтыя выявы НЕ ВАШЫ аватары. Усталяваць свой аватар Вы можаце праз Галоўнае меню.
 [Set default picture]
 Усталяваць стандартнае
 [Delete default picture]
 Выдаліць стандартнае
-[Set avatar options for %s]
-Налады аватара для %s
-[Contact Avatars]
-Аватары кантактаў
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
+ПАПЯРЭДЖАННЕ: Гэтыя выявы НЕ ВАШЫ аватары. Усталяваць свой аватар Вы можаце праз Галоўнае меню.
 [Try to draw avatar background transparent (for images without transparency)]
 Выводзіць фон аватара празрыстым (для аватараў без празрыстасці)
+[Num of points to define bkg:]
+Колькасць кропак фону:
+[Color difference allowed:]
+Дазволеная розніца колераў:
+[Make transparency proportional to color diff]
+Празрыстасць прапарцыйная розніцы колеру
 [Draw avatars grayscale]
 Маляваць аватары чорна-белымі
-[Own Avatars]
-Свае аватары
+[Show warning messages]
+Паказваць папярэджанні
 [When setting avatars, always make them square]
 Рабіць аватары квадратнымі пры ўсталёўцы
 [Try to draw own avatar background transparent (for images without transparency)]
 Выводзіць фон свайго аватара празрыстым (для аватараў без празрыстасці)
 [This uses the same additional options as in "Contact Avatars" tab]
 Дадатковыя налады ва ўкладцы "Аватары кантактаў"
-[Grow avatar to fit max allowed protocol size]
-Павялічваць аватар да максімальнага памеру
-[Use per protocol avatars]
-Розныя аватары пратаколаў
-[Flash Animations]
-Flash анімацыя
-[XML Files]
-XML файлы
-[Are you sure you want to remove your avatar?]
-Вы жадаеце выдаліць ваш аватар?
-[Global avatar]
-Глабальны аватар
-[Global avatar for %s accounts]
-Аватар для ўсіх акаўнтаў %s
+[Protect the picture and prevent automatic avatars from overwriting it]
+Абараніць малюнак і не дазваляць аватарам яго замяняць
 [Make the avatar square]
 Зрабіць аватар квадратным
 [Resize the avatar to fit max allowed protocol size]
 Змяніць памер аватара да максімальна магчымага памеру
-[ Background ]
-Фон
-[Transparent]
-Празрыста
-[My Global Avatar Cache]
-Мой глабальны кэш аватараў
-[My Avatars]
-Мае аватары
-[Fatal error, image services not found. Avatar services will be disabled.]
-Фатальная памылка, служба малюнкаў не знойдзена. Служба аватараў будзе адключана.
-[Avatar Service]
-Служба аватар
+[Contact picture]
+Аватар кантакту
+[Picture options]
+Налады малюнка
+[Protect the picture]
+Абараніць выяву
+[Set as hidden]
+Схаваць
+[Try to make picture background transparent]
+Паспрабаваць зрабіць фон празрыстым
+[Use defaults]
+Стандартныя
+[Points:]
+Кропкі:
+[Color diff:]
+Зм.колеры:
+[Use per protocol avatars]
+Розныя аватары пратаколаў
+;file \plugins\AVS\src\acc.cpp
+[Protocols have different avatars]
+Ва ўсіх пратаколаў розныя аватары
+;file \plugins\AVS\src\main.cpp
+[Grow avatar to fit max allowed protocol size]
+Павялічваць аватар да максімальнага памеру
+[Flash Animations]
+Flash анімацыя
+[XML Files]
+XML файлы
 [Set My Avatar]
 Усталяваць мой аватар
 [Set My Avatar for %s]
 Змяніць мой аватар для %s
-[Protocols have different avatars]
-Ва ўсіх пратаколаў розныя аватары
+[Global avatar]
+Глабальны аватар
+[Global avatar for %s accounts]
+Аватар для ўсіх акаўнтаў %s
+[My Avatars]
+Мае аватары
+[My Global Avatar Cache]
+Мой глабальны кэш аватараў
+[Contact Avatars]
+Аватары кантактаў
+[Own Avatars]
+Свае аватары
+[Fatal error, image services not found. Avatar services will be disabled.]
+Фатальная памылка, служба малюнкаў не знойдзена. Служба аватараў будзе адключана.
+[Avatar Service]
+Служба аватар
+;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+Налады аватара для %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Выдаліць аватар з дыска (магчыма, неабходна для скіду, але выдаліць лакальны малюнак)?
+[Reset contact picture]
+Скід аватара кантакту
+[Contact has no avatar]
+У кантакту няма аватара
+[Are you sure you want to remove your avatar?]
+Вы жадаеце выдаліць ваш аватар?
+[Global Avatar]
+Глабальны аватар

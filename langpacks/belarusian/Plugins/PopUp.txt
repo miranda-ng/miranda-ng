@@ -1,164 +1,97 @@
 ﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
-;  File: popup.dll
-;  Module: Popup Interoperability, Popup Plus
-[Popup Mode: Auto]
-Рэжым усплывальных вокнаў: па змаўчанні
-[Popup Mode: Favourtite]
-Рэжым усплывальных вокнаў: абранае
-[Popup Mode: Ignore fullscreen]
-Рэжым усплывальных вокнаў: ігнараваць поўнаэкранныя прыкладанні
-[Popup Mode: Block contact]
-Рэжым усплывальных вокнаў: блакаваць
-[Favourite]
-Абранае
-[Block]
-Заблакаваць
-[Popup Placement]
-Становішча
-[Layout:]
-Парадак:
-[vertical]
-вертыкаль
-[Popup Area]
-Зона
-[Spacing:]
-Месца:
-[Pixel(s)]
-пікс.
-[pixel(s)]
-пікс.
-[Whole Screen]
-Увесь экран
-[Configure popup area]
-Зона ўсплывальных вокнаў
-[Always (has priority)]
-Заўсёды (мае прыярытэт)
-[Refresh skin list]
-Абнавіць спіс
-[Clock]
-Час
-[Popup Plus]
-Усплывальныя вокны
+;============================================================
+;  File: Popup.dll
+;  Plugin: Popup plus
+;  Version: 2.1.1.7
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+[Provides popup notification services for different plugins.]
+Падае сэрвіс усплывальных вокнаў для розных модуляў.
+;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Стыль вокнаў
-[Dynamically resize the popups]
-Дынамічная шырыня
-[Minimum width]
-Мінімум
-[Maximum width]
-Максімум
-[Use transparency (Windows 2000+)]
-Празрыстасць (Windows 2000+)
-[Default color]
-Колер па змаўчанні
-[Default text color]
-Колер тэксту па змаўчанні
-[Disable popups in fullscreen mode]
-Выкл. у поўнаэкранным рэжыме
-[Size && Position]
-Месца і памер
+[Go to Customize > Fonts && Colors for fonts and colors options]
+Налады шрыфтоў і колеры: Тонкая налада>Шрыфты і колеры
 [Live Preview]
 Прадпрагляд
-[Window sliding]
-Слізгаценне
-[Window fading (Windows 2000+)]
-Згасанне (Windows 2000+)
-[Vanish time:]
-Час знікнення:
-[upper left corner]
-злева зверху
-[lower left corner]
-злева знізу
-[lower right corner]
-справа знізу
-[upper right corner]
-справа зверху
-[The Jabberwocky :)]
-Балбатун :)
-[Drop shadow effect]
-Эфект ценю
-[* - built-in skins]
-* - убудаваныя
-[Refresh List]
-Абнавіць спіс
-[Draw gradient background]
-Фон з градыентам
-[Flat borders]
-Плоскія межы
-[Performance]
-Паводзіны
-[Use advanced text render (mtextcontrol.dll)]
-Пашыраная апрацоўка (mtextcontrol.dll)
+[Size && Position]
+Месца і памер
 [Enable popup history]
 Гісторыя ўсплывальных вокнаў
-[Do not show more than]
-Не паказваць больш
-[items]
-штук
-[popup windows]
-вокнаў
 [Store last]
 Захоўваць
 [Use History++ to render log]
 History++ для гісторыі вокнаў
-[Sample text]
-Прыклад тэксту
-[Set &Font]
-&Шрыфт
-[Contents]
-Змесціва
-[Use &bold font for nick]
-Імёны &тоўстым шрыфтам
-[Display &Time]
-Адлюстроўваць час
-[Show s&econd line]
-Паказваць другі радок
-[En&large Popups by]
-&Павялічваць вокны на
-[&Dynamically resize the popups]
-Сапраўды &падбіраць памер вокнаў
-[A&nimate Popups (98/ME/2000/XP)]
-Анімацыя вокнаў (98/ME/2000/XP)
-[Fade &in/out (2000/XP)]
-Плыўны паказ (2000/XP)
-[Use Tr&ansparency]
-&Празрыстасць
-[Transparency options (2000/XP)]
-Празрыстасць (2000/XP)
-[Opaque]
-Непразрыста
-[Start windows in the...]
-Адкрываць акно ў...
-[... upper left corner]
-...верхнім левым куце
-[... lower left corner]
-...ніжнім левым куце
-[... lower right corner]
-...ніжнім правым куце
-[... upper right corner]
-...верхнім правым куце
-[... center]
-...цэнтры
-[Spread...]
-Размяшчэнне...
-[... horizontally]
-... гарызантальнае
-[... vertically]
-... вертыкальнае
-[Use a...]
-Выкарыстоўваць ...
-[... beveled style]
-... аб'ёмны стыль
-[... flat style]
-... плоскі стыль
-[Miscellanea]
-Іншае
-[Popup Delay (seconds)]
-Акно бачнае (секунд)
-[Hey, this is a status message!]
-Прывітанне, гэта паведамленне пра змену статусу!
-[Hey, this is a... real message!]
-Прывітанне, гэта сапраўднае паведамленне!
+[Draw avatar borders]
+Маляваць рамкі аватараў
+[Draw borders for semitransparent avatars too]
+Таксама для напаўпразрыстых аватараў
+[Enable avatar updates]
+Абнаўленні аватараў
+[Start the popups in the monitor with]
+Усплыў. вокны на маніторы, дзе
+[Miranda's window]
+Вакно Miranda NG
+[the active window]
+Актыўнае акно
+[Enable Win 9x/Me transparency]
+Празрыстасць у Win9x/ME
+[Opaque popups under cursor]
+Непразрыста пад курсорам
+[Slide Popup]
+Слізгаценне
+[Time (in):]
+Час (з'яўленне):
+[Time (out):]
+Час (знікненне):
+[Limit window amount to:]
+Абмежаваць колькасць да:
+[* - built-in skins]
+* - убудаваныя
+[Download more skins]
+Запампаваць скіны
+[Popup Area]
+Зона
+[pixel(s)]
+пікс.
+[Distance between popups]
+Адлегласць паміж успл. вокнамі
+[Configure popup area]
+Зона ўсплывальных вокнаў
+[Enable popup actions]
+Уключыць дзеянні
+[Popup Actions are those tiny buttons below notification text.]
+Дзеянні - гэта маленькія кнопкі пад тэкстам акна.
+[Common Actions]
+Агульныя дзеянні
+[Please choose in what cases default actions should be added:]
+Абярыце, у якіх выпадках дадаваць агульныя дзеянні:
+[Add info && menu for IM contacts only]
+Меню і інфа толькі ў кантактаў
+[Add default actions for contacts only]
+Звычайныя дзеянні толькі ў кантактаў
+[Don't close popups on default actions]
+Не зачыняць вокны агульных дзеянняў
+[Use large icons]
+Вялікія значкі
+[Popup actions will be displayed as:]
+Адлюстраванне дзеянняў:
+[Icons and labels below text]
+Значкі і подпісы знізу
+[Icons on the left]
+Значкі злева
+[Icons aligned to the right]
+Значкі справа
+[Show Actions: (requires apply)]
+Дзеянні: (патрабуе "Ўжыць")
+[Mouse Actions Overwrite]
+Дзеянні па націску мышкі
+[LeftButton]
+Левая кнопка
+[MiddleButton]
+Сярэдняя кнопка
+[RightButton]
+Правая кнопка
 [Enable this notification]
 Уключыць гэта апавяшчэнне
 [Left click action:]
@@ -169,403 +102,149 @@ History++ для гісторыі вокнаў
 Адключыць, калі глабальны статус...
 [Disable when relevant protocol's status is...]
 Адключыць, калі статус адпавядае пратаколу...
-[Colors can be configured in Customize > Fonts section.]
-Колеры наладжваюцца ў Тонкая налада > Шрыфты і колеры.
-[1 second]
-1 секунда
-[2 seconds]
-2 секунды
-[3 seconds]
-3 секунды
-[5 seconds]
-5 секунд
-[7 seconds]
-7 секунд
-[10 seconds]
-10 секунд
-[15 seconds]
-15 секунд
-[Infinite]
-Бясконца
+[Colors can be configured in\r\nCustomize > Fonts && Colors]
+Настроіць колеры ў\r\nТонкая налада > Шрыфты і колеры
 [Per-contact settings]
 Налады для кожнага кантакту
-[Show default]
-Па змаўчанні
 [Show always]
 Заўсёды
 [Never show]
 Ніколі
-[Reorder Popups]
-Перамяшчаць вокны
-[&Minimum width]
-&Мінімальная шырыня
-[This is a notifying message (for developers)]
-Гэта апавяшчэнне (для распрацоўнікаў)
-[This is a warning message (for developers)]
-Гэта папярэджанне (для распрацоўнікаў)
-[Ok, something went wrong in the "%s" setting. Report back this error value: %d]
-Штосьці адбылося з наладай "%s". Паведаміце распрацоўнікам памылку: %d
-[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-Штосьці адбылося з наладай "%s". Паведаміце аўтару наступныя значэнні:\nFacility: %X\nКод памылкі: %X\nНумар радкі: %d
-[Ma&ximum width]
-Максімальная шырыня
-[Multimonitor (98/ME/2000/XP)]
-Мультыманітор (98/ME/2000/XP)
-[Start the popups in the monitor that contains]
-Паказваць вокны на экране, які змяшчае
-[Miranda's window]
-Вакно Miranda NG
-[the active window]
-Актыўнае акно
-[Disable &popup module]
-Выключыць усплывальныя вокны
-[Enable &popup module]
-Уключыць усплывальныя вокны
-[Concurrent Popups]
-Некалькі вокнаў
-[Use multiple threads]
-Некалькі струменяў
-[Note: this option may (and may not) cause some unexpected crashes, be sure to disable it before reporting a bug.]
-Важна: пры ўключэнні гэтай опцыі магчымыя памылкі.
-[Multiline &popups]
-Шматрадковыя вокны
-[opacity: %d%%]
-непразрыстасць: %d%%
-[Use Tr&ansparency (2000/XP)]
-&Празрыстасць (2000/XP)
-[Default colour]
-Колер фону
-[Default text colour]
-Колер тэксту
-[A&nimate Popups]
-Анімацыя вокнаў
-[Slide popups while rordering]
-Зрушваць пры перасартаванні
+[Show default]
+Па змаўчанні
 [Infinite popup delay]
 Не зачыняць вокны
-[Disable Popups when fullscreen]
-Выкл. у поўнаэкранным рэжыме
-[Do not close hovered popups]
-Не зачыняць вокны пад курсорам
-[Some plus features:]
-Новыя магчымасці:
-[Plus]
-Скіны
-[Emoticons]
-Смайлікі
-[Select emoticon package type:]
-Тып смайлікаў:
-[Disable emoticons]
-Адключыць смайлікі
-[Use SmileyAdd settings]
-Выкарыстоўваць налады SmileyAdd
-[nConvers emoticon file (*.xep)]
-Файл смайлікаў nConvers (*.xep)
-[Select emoticon package file:]
-Файл смайлікаў:
-[SmileyAdd 0.1.3.2 workaround]
-Падтрымка SmileyAdd 0.1.3.2
-[Advanced Look]
-Пашыраны прагляд
-[MathModule support]
-Падтрымка MathModule
-[BBCodes (like [b]..[/b] for bold)]
-BBCode ([b]..[/b] - тоўсты)
-[Truncate very long lines]
-Абразаць доўгія радкі
-[Popups drop shadow (WinXP+)]
-Цень ад вокнаў (WinXP)
-[Skin preferences]
-Налады скіна
-[Choose preferred skin:]
-Выбар скіна:
-[Display sidebar]
-З контурам
-[Beveled windows (3d-look)]
-Выпуклыя вокны (3D)
-[Skin preview]
-Прагляд скіна
-[Just take a look at this skin... ;)]
-Зірніце на гэты скін... ;)
-[Popups are enabled]
-Вокны ўключаны
-[Popups are disabled]
-Вокны выключаны
-[Image not available (bbCode)]
-Малюнак недаступна (BBCode)
-[Timestamp digit '0']
-Лічба "0"
-[Timestamp digit '1']
-Лічба "1"
-[Timestamp digit '2']
-Лічба "2"
-[Timestamp digit '3']
-Лічба "3"
-[Timestamp digit '4']
-Лічба "4"
-[Timestamp digit '5']
-Лічба "5"
-[Timestamp digit '6']
-Лічба "6"
-[Timestamp digit '7']
-Лічба "7"
-[Timestamp digit '8']
-Лічба "8"
-[Timestamp digit '9']
-Лічба "9"
-[Left edge of timestamp]
-Левы бок часу
-[Right edge of timestamp]
-Правы бок часу
-[Timestamp digit separator]
-Падзельнік лічбаў часу
-[opacity: 75%]
-непразрыстасць 75%
-[Slide popups while reordering]
-Слізгаць вокнамі
-[Single window mode]
-Рэжым аднаго акна
-[Show newer messages first]
-Паказваць новыя першымі
-[Ignore Subcontact Notifications]
-Ігнараваць субкантакты
-[Disable when:]
-Выключыць, калі
-[Draw avatar borders]
-Маляваць рамкі аватараў
-[Round avatar corners by]
-Закругліць куты аватараў
-[Draw borders for semitransparent avatars too]
-Таксама для напаўпразрыстых аватараў
-[Show colours]
-Паказваць колеры
-[Show shadow]
-Цень
-[Add Contact Permanently]
-Дадаць кантакт увесь час
-[Pin Popup]
-Замацаваць
-[* Popup Classic]
-* Класічны
-[Pinned Popup]
-Замацаванае
-[Enable Aero Glass (Vista+)]
-Эфект Aero Glass (Vista+)
-[Test action]
-Выпрабавальнае дзеянне
-[Common Actions]
-Агульныя дзеянні
-[Popup Actions are those tiny buttons below notification text.]
-Дзеянні - гэта маленькія кнопкі пад тэкстам акна.
-[Add info && menu for IM contacts only]
-Меню і інфа толькі ў кантактаў
-[Opaque popups under cursor]
-Непразрыста пад курсорам
-[* Effect:]
-* Эфект:
-[Fading]
-Згасанне
-[Test effect]
-Тэставы эфект
-[Use advanced text render]
-Пашыраная апрацоўка тэксту
-[Start the popups in the monitor with]
-Усплыў. вокны на маніторы, дзе
 [Popup delay:]
 Затрымка:
-[Limit window amount to:]
-Абмежаваць колькасць да:
-[Protocol Status]
-Статус пратаколу
+[Do not close hovered popups]
+Не зачыняць вокны пад курсорам
+[Dynamically resize the popups]
+Дынамічная шырыня
+[Minimum width]
+Мінімум
+[Maximum width]
+Максімум
+[Layout:]
+Парадак:
 [Reorder Popups]
 Парадкаваць (зрушваць) вокны
-[Options marked with asterisk will be applied after restart]
-Опцыі, адзначаныя *, ужывуцца пасля перазапуску
-[Enable avatar updates]
-Абнаўленні аватараў
-[Use large icons]
-Вялікія значкі
-[Add default actions for contacts only]
-Звычайныя дзеянні толькі ў кантактаў
-[Go to Customize > Fonts section for fonts and colors options]
-Налады шрыфтоў і колеры: Тонкая налада>Шрыфты і колеры
-[Make action icons customizable*]
-Наладжвальныя значкі дзеянняў*
-[Enable freeform shadows (XP+)]
-Вольныя цені (XP+)
-[Icons aligned to the right]
-Значкі справа
-[Icons on the left]
-Значкі злева
-[Enable popup actions]
-Уключыць дзеянні
-[Second test action]
-Другое выпрабавальнае дзеянне
-[Enable Win 9x/Me transparency]
-Празрыстасць у Win9x/ME
-[Global Status]
-Агульны статус
-[Don't close popups on default actions]
-Не зачыняць вокны агульных дзеянняў
-[Performance && Tweaks]
-Хуткадзейнасць
-[Please choose in what cases default actions should be added:]
-Абярыце, у якіх выпадках дадаваць агульныя дзеянні:
-[Show Actions: (requires apply)]
-Дзеянні: (патрабуе "Ўжыць")
-[Drop shadow effect (Windows XP+)]
-Цень (Windows XP+)
-[Popup actions will be displayed as:]
-Адлюстраванне дзеянняў:
-[Make OK/Cancel icons customizable*]
-Наладжвальныя ОК/Адмена*
-[Icons and labels below text]
-Значкі і подпісы знізу
-[One more action]
-Яшчэ дзеянне
-[Provides popup notification services for different plugins.]
-Падае сэрвіс усплывальных вокнаў для розных модуляў.
+[Disable when:]
+Выключыць, калі
+[Always (has priority)]
+Заўсёды (мае прыярытэт)
+[Fullscreen mode]
+Поўны экран
+;file \plugins\Popup\src\actions.cpp
+[no overwrite]
+няма дзеяння
+[Quick reply]
+Хуткі адказ
+[User details]
+Інфармацыя пра карыстача
 [Pin popup]
 Замацаваць
-[This is an error message]
-Гэта паведамленне пра памылку
-[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
-Тэставы прадпрагляд для налад модуля ўсплывальных вокнаў. Загаловак досыць доўгі...
-[This is a notification message]
-Гэта апавяшчэнне
+;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 Пустаслоўе
-[This is a warning message]
-Гэта папярэджанне
+[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
+Тэставы прадпрагляд для налад модуля ўсплывальных вокнаў. Загаловак досыць доўгі...
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
 Гэта адмысловы прадпрагляд для налад модуля ўсплывальных вокнаў. Тэкст і загаловак досыць доўгія для таго каб вы змаглі наладзіць скін і модуль, бо вам падабаецца ;)
+[This is a notification message]
+Гэта апавяшчэнне
+[This is a warning message]
+Гэта папярэджанне
+[This is an error message]
+Гэта паведамленне пра памылку
+;file \plugins\Popup\src\effects.cpp
+;file \plugins\Popup\src\font.cpp
 [Hovered Action]
 Наведзенае дзеянне
-[Error (colors only)]
-Памылка (толькі колеры)
-[Notification (colors only)]
-Апавяшчэнне (толькі колеры)
-[Warning (colors only)]
-Папярэджанне (толькі колеры)
+[Clock]
+Час
+;file \plugins\Popup\src\history.cpp
+[Popup History is disabled]
+Гісторыя ўсплывальных вокнаў адключана
+[Popup History message]
+Гісторыя ўсплывальных вокнаў
+;file \plugins\Popup\src\icons.cpp
 [With "favourite" overlay]
 З накладаннем "Абраны"
 [With "fullscreen" overlay]
 З накладаннем "Поўны экран"
+[Refresh skin list]
+Абнавіць спіс
+[Popup Placement]
+Становішча
 [Popup Group]
 Група вокнаў
-[Quick Reply]
-Хуткі адказ
-[Show Default]
-Паказваць па змаўчанні
-[Favourite Contact]
+[Favorite Contact]
 Абраны кантакт
 [Show in Fullscreen]
 Паказаць у поўны экран
 [Blocked Contact]
 Заблакаваны кантакт
-[...skin for popup windows]
-...скіны ўсплывальных вокнаў
-[Avatars to right]
-Аватары справа
-[Fast halftones]
-Хуткія паўтоны
-[Line under title]
-Лінія пад загалоўкам
-[Use different colors]
-Розныя колеры для вокнаў
-[Use only one (but large) window]
-Выкарыстоўваць адно (але вялікае) акно
-[Favorite Contact]
-Абраны кантакт
-[Avatars on right]
-Аватары справа
-[Customizable text color]
-Наладжвальны колер тэксту
-[Display icon]
-Паказваць значок
-[Show headerbar]
-Панэль загалоўка
-[...skin for old plugins]
-...скіны для старых версій Popup
-[Popup class:]
-Класы Popup:
-[Popup Interoperability]
-Сумяшчальныя ўсплывальныя вокны
-[Provides a common Popup interface for different plugins. Development of famous Popup seems to be stopped so this is an update for  Luca Santarelli`s Popup. Now it supports wrapping and emoticons ;). But this is just alpha-version and so contains lots of bugs :(]
-Дапаўняе ўсплывальны інтэрфейс для розных модуляў да праграмы. Развіццё вядомага ўсплывальнага модуля будзе спынена. Гэта абнаўленне ад Luca Santarelli . Зараз яно падтрымлівае перанос і дадатковыя значкі. Гэта альфа версія і таму ўтрымоўвае ў сабе шмат памылак. Пераклад Homeric, Radion
-[Reload skins]
-Абнавіць спіс
-[Using SmileyAdd's settings is preferred due to bugs in internal MSL loading code. Also it allows you to select the same emoticons both for Popup and message dialog.]
-SmileyAdd пераважней з-за дэфектаў ва ўнутраным MSL кодзе. Гэта дазваляе вам выбіраць тыя ж значкі для ўсплывальных вокнаў і дыялогу ў паведамленнях.
-[Show colours in text bloc]
-Паказваць колеры ў тэкставым блоку
-[Show avatar border]
-Паказваць межы аватара
-[Black text bg.]
-Чорны тэкст фону
-[Align avatar to right]
-Выраўноўваць аватар справа
-[Black background]
-Чорны фон
-[Here you are! :-)  ;-)  :-(]
-Вось яны! :-) ;-) :-(
-[Quick reply]
+[Quick Reply]
 Хуткі адказ
-[Show clock]
-Паказваць гадзіны
-[Clock Button]
-Гадзіны-кнопка
-[Icon Button]
-Значок-кнопка
-[Go to Customize > Fonts && Colors for fonts and colors options]
-Налады шрыфтоў і колеры: Тонкая налада>Шрыфты і колеры
-[Mouse Actions Overwrite]
-Дзеянні па націску мышкі
-[LeftButton]
-Левая кнопка
-[MiddleButton]
-Сярэдняя кнопка
-[RightButton]
-Правая кнопка
-[no overwrite]
-няма дзеяння
-[Colors can be configured in\r\nCustomize > Fonts && Colors]
-Настроіць колеры ў\r\nТонкая налада > Шрыфты і колеры
-[Popups On/Off]
-Успл. вакны укл/адкл
-[Toggle Popups]
-Вкл/Выкл успл. вакна
-[non rectangular]
-не прастакутныя
-[Slide Popup]
-Слізгаценне
+[Pin Popup]
+Замацаваць
+[Pinned Popup]
+Замацаванае
+[Add Contact Permanently]
+Дадаць кантакт увесь час
+;file \plugins\Popup\src\main.cpp
+[Popup Plus]
+Усплывальныя вокны
+;file \plugins\Popup\src\opt_adv.cpp
 [Fade in/out]
 Плыўны паказ
-[Time (in):]
-Час (з'яўленне):
-[Time (out):]
-Час (знікненне):
-[Desktop]
-Працоўны стол
-[Distance between popups]
-Адлегласць паміж успл. вокнамі
-[Process Clist events]
-Апрацоўваць падзеі СК
-[Avatar Border]
-Мяжа аватара
-[Popup History message]
-Гісторыя ўсплывальных вокнаў
-[Popup History is disabled]
-Гісторыя ўсплывальных вокнаў адключана
-[Popup Plus Warning]
-Папярэджанне Popup Plus
-[Download more skins]
-Запампаваць скіны
+;file \plugins\Popup\src\opt_class.cpp
 [CLASS Plugins]
 Групы модуляў
-[Position:]
-Становішча:
-[Disable popups]
-Адключыць вокны
-[Enable popups]
-Уключыць вокны
+;file \plugins\Popup\src\opt_gen.cpp
+[upper left corner]
+злева зверху
+[lower left corner]
+злева знізу
+[lower right corner]
+справа знізу
+[upper right corner]
+справа зверху
+[vertical]
+вертыкаль
+[Global Status]
+Агульны статус
+[Protocol Status]
+Статус пратаколу
+[Popup Plus Warning]
+Папярэджанне Popup Plus
+;file \plugins\Popup\src\opt_skins.cpp
+[Skin preview]
+Прагляд скіна
+[Just take a look at this skin... ;)]
+Зірніце на гэты скін... ;)
+[Show clock]
+Паказваць гадзіны
+[Drop shadow effect]
+Эфект ценю
+[non rectangular]
+не прастакутныя
+[Enable Aero Glass (Vista+)]
+Эфект Aero Glass (Vista+)
+[Use advanced text render]
+Пашыраная апрацоўка тэксту
+[Global settings]
+Глабальныя налады
+[Refresh List]
+Абнавіць спіс
+;file \plugins\Popup\src\popup_thread.cpp
+;file \plugins\Popup\src\popup_wnd2.cpp
+;file \plugins\Popup\src\services.cpp
+;file \plugins\Popup\src\skin.cpp
+;file \plugins\Popup\src\srmm_menu.cpp
+[Popup Mode: Auto]
+Рэжым усплывальных вокнаў: па змаўчанні
+[Popup Mode: Ignore fullscreen]
+Рэжым усплывальных вокнаў: ігнараваць поўнаэкранныя прыкладанні
+[Popup Mode: Block contact]
+Рэжым усплывальных вокнаў: блакаваць

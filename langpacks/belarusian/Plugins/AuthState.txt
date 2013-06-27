@@ -1,33 +1,30 @@
 ﻿#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
+;============================================================
 ;  File: AuthState.dll
-;  Plugin: Shows authorisation state icon
+;  Plugin: Authorization state
+;  Version: 0.0.2.1
+;  Authors: Thief, idea by snwbrdr
+;============================================================
 [If contact didn't authorized you this plugin puts an icon in front of contacts name.]
-Гэтая ўбудова змесціць абразок насупраць імя, калі кантакт не аўтарызаваў вас, ці вы яго.
-[Auth State]
-Стан аўтарызацыі
-[Grant]
-Дазволіць
-[Auth & Grant]
-Запыт & Дазволіць
-[Enable Menu Item (*)]
-Дадаць пункт меню (*)
-[Show icons only for recently added contacts]
-Значкі толькі для нядаўна дададзеных
+Гэты плагiн змесціць абразок насупраць імя, калі кантакт не аўтарызаваў вас, ці вы яго.
+;file \plugins\AuthState\res\authstate.rc
 [Show Auth icon]
 Паказваць значок "Запыт"
 [Show Grant icon]
 Паказваць значок "Дазволіць"
-[* Restart of Miranda required]
-* Патрабуецца перазапуск праграмы
-[Enable AuthState Icons]
-Уключыць значкі стану аўтарызацыі
-[Disable AuthState Icons]
-Адключыць значкі стану аўтарызацыі
-[Enable AuthState icons]
-Вкл. значкі стану аўтарызацыі
+[Enable Menu Item (*)]
+Дадаць пункт меню (*)
+[Show icons only for recently added contacts]
+Значкі толькі для нядаўна дададзеных
+;file \plugins\AuthState\src\main.cpp
 [Disable AuthState icons]
 Выкл. значкі стану аўтарызацыі
-[* Show Menu Item]
-* Пункт у меню
-[Authorization State]
+[Enable AuthState icons]
+Вкл. значкі стану аўтарызацыі
+[Grant]
+Дазволіць
+[Auth & Grant]
+Запыт & Дазволіць
+[Auth State]
 Стан аўтарызацыі
+;file \plugins\AuthState\src\options.cpp

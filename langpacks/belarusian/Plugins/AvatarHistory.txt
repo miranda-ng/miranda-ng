@@ -1,0 +1,106 @@
+﻿#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
+;============================================================
+;  File: AvatarHistory.dll
+;  Plugin: Avatar history
+;  Version: 0.1.0.1
+;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
+;============================================================
+[This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
+Плагiн захоўвае гісторыю змены аватараў кантактаў і паказвае ўсплывальныя вокны.
+;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[Save As...]
+Захаваць як...
+[Delete this entry]
+Выдаліць гэты запіс
+[Delete this entry and the bitmap file]
+Выдаліць гэты запіс і файл малюнка
+[Avatar History]
+Гісторыя аватараў
+[Store this user's old avatars in disk]
+Захоўваць старыя аватары на дыску
+[Log this user's avatars changes to history]
+Захоўваць змену аватараў у гісторыі
+[Show popups for this user]
+Успл. акна для гэтага карыстача
+[Enable tracking for these protocols:]
+Адсочваць наступныя пратаколы:
+[MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
+Метакантакты апрацоўваюцца асоба: інфармацыя заўсёды капіюецца з субкантактаў (апавяшчэнні ад метакантактаў ігнаруюцца)
+[Show popup when a contact change his avatar]
+Усплывальнае акно пры змене аватара
+[From popup plugin]
+Па змаўчанні
+[On right click:]
+Правая пстрычка:
+[On left click:]
+Левая пстрычка:
+[Avatar change:]
+Змена аватара:
+[Avatar removal:]
+Выдаленне аватара:
+[Avatar History: Select how to store history avatars]
+Гісторыя аватараў: абярыце, як захоўваць гісторыю аватараў
+[Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
+Абярыце, якім чынам захоўваць гісторыю аватараў кантактаў. Гэта наладу НЕЛЬГА будзе змяніць у будучыні, бо ўсе папярэднія падзеі гісторыі будуць страчаны.
+[Store history in miranda history and all history avatars in same folder]
+Захоўваць гісторыю ў гісторыі Miranda і ўсе аватары ў адной тэчцы
+[Store history in miranda history and history avatars in per protocol folders]
+Захоўваць гісторыю ў тэчцы Miranda і гісторыю аватараў у тэчцы пратаколаў
+[Store history in miranda history and history avatars in per contact folders using shortcuts]
+Захоўваць гісторыю ў гісторыі Miranda і гісторыю аватараў у тэчцы кантакту, выкарыстоўваючы цэтлікі
+[Store history avatars in per contact folders using shortcuts]
+Захоўваць гісторыю для кожнага кантакту, выкарыстоўваючы цэтлікі
+[Store history avatars in per contact folders]
+Захоўваць гісторыю ў тэчцы кожнага кантакту
+[History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.]
+Гісторыя захоўваецца ў БД Miranda. Яна можа быць адлюстравана ўбудаваным прагляднікам ці плагiн History++ 
+[All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
+Усе аватары захоўваюцца як <Профіль>\\Avatars History\\<Хэш Аватара>
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>]
+Усе аватары захоўваюцца як <Профіль>\\Avatars History\\<Пратакол>\\<Хэш Аватара>
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
+Усе аватары захоўваюцца як <Профіль>\\Avatars History\\<Пратакол>\\<Хэш аватара> і маюць цэтлік у гісторыі <Профіль>\\Avatars History\\<Пратакол>\\<ID кантакту>\\<Час>
+[History is stored only in disk. It can be seen by Avatar History internal viewer.]
+Гісторыя захоўваецца толькі на дыск. Яе можна прагледзець убудаваным прагляднікам.
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
+Усе аватары захоўваюцца як <Профіль>\\Avatars History\\<Пратакол>\\<ID кантакту>\\<час> (аднолькавыя аватары могуць быць захаваны некалькі разоў)
+;file \plugins\AvatarHistory\src\AvatarDlg.cpp
+[Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
+Вы ўпэўнены, што жадаеце выдаліць гэты запіс з гісторыі?\n Будзе выдалена толькі сам запіс, файл малюнка застанецца!
+[Delete avatar log?]
+Выдаліць запісы змен аватараў?
+[Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!]
+Вы ўпэўнены, што жадаеце выдаліць гэты цэтлік аватара?\n Будзе выдалены толькі цэтлік, файл малюнка застанецца!
+[Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
+Вы ўпэўнены, што жадаеце выдаліць гэты захаваны аватар?\n Будуць выдалены запіс з гісторыі і файл малюнка.\n УВАГА: Гэта можа закрануць некалькі запісаў у гісторыі!
+[Delete avatar?]
+Выдаліць аватар?
+[Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
+Вы ўпэўнены, што жадаеце выдаліць гэты захаваны аватар?\n Будуць выдалены цэтлік і файл малюнка.\n УВАГА: Гэта можа закрануць некалькі цэтлікаў!
+[View Avatar History]
+Паказаць гісторыю аватараў
+;file \plugins\AvatarHistory\src\AvatarHistory.cpp
+[Contact changed avatar]
+Кантакт змяніў выяву
+[Contact removed avatar]
+Кантакт выдаліў выяву
+;file \plugins\AvatarHistory\src\AvatarHistory.h
+[removed his/her avatar]
+выдаліў(а) свой аватар
+[changed his/her avatar]
+змяніў(а) свой аватар
+;file \plugins\AvatarHistory\src\icolib.cpp
+;file \plugins\AvatarHistory\src\options.cpp
+[Show avatar history]
+Паказаць гісторыю аватараў
+[Show contact history]
+Паказаць гісторыю кантакту
+[Test Contact]
+Тэставы кантакт
+[Test description]
+Тэставае апісанне
+[Avatar Change]
+Змена аватара
+;file \plugins\AvatarHistory\src\utils.cpp
+[Unknown UIN]
+Невядомы нумар

@@ -1,242 +1,31 @@
 ﻿#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
-;  File: variables.dll
-;  Module: variables
+;============================================================
+;  File: Variables.dll
+;  Plugin: Variables
+;  Version: 0.2.3.9
+;  Authors: P Boon
+;============================================================
 [Adds support for dynamic variables in strings for plugins.]
 Падтрымка дынамічных зменных для іншых модуляў
-[Parse]
-Аналіз
-[Auto parse]
-Аўтапрагляд
-[Parse the following string at startup]
-Аналіз радка пры загрузцы
+;file \plugins\Variables\res\Variables.rc
+[Parse options]
+Налады аналізу
 [Automatically strip "end of line" characters]
 Абразаць знак "канец радка"
-[Help...]
-Дапамога...
-[Token]
-Маркер
-[(ANSI input only) substring match number z found in subject y with pattern x]
-(Толькі ANSI увод) падрадок супадзення z знойдзены ў тэме y з шаблонам x
-[shows files and directories of directory z, with filter y, separated by z (y and z optional)]
-паказвае файлы і тэчкі путя z, з фільтрам y, падзеленым z (y і z неабавязковыя)
-[stores y as alias named x]
-захоўвае Y, як аліас X
-[the number of lines in string x]
-клькасць радкоў у радку x
-[converts each non-html character into hex format]
-перакладае кожны не-HTML знак у шаснаццатковы фармат
-[pads x to length y appending character z (z is optional)]
-падаўжае x да даўжыні y дадаючы справа знак z (z неабавязкова)
-[z if y equals x, multiple y and z arguments allowed]
-z, калі y роўна x, дапушчальныя множныя аргументы y і z
-[x - y - ...]
-x - y - ...
-[repeats x y times]
-паўтарае x y раз
-[formats timestamp x (seconds since 1/1/1970) in time format y]
-выводзіць час x (у секундах з 1/1/1970) у фармаце часу y
-[get last seen time of contact x in format y (y is optional)]
-атрымаць час апошняга з'яўлення кантакту x, у фармаце y (y неабавязкова)
-[strips y directories from x]
-выразае y тэчак са шляху x
-[substring of x starting from position y to z]
-падрадок x якая пачынаецца з пазіцыі y у z
-[uptime in seconds]
-час працы сістэмы (секунд)
-[minimum value of (decimal) arguments]
-мінімальнае значэнне (дзесятковых) аргументаў
-[retrieves the subject, depending on situation]
-атрымаць subject, у залежнасці ад сітуацыі
-[location of first occurrence of string y in x]
-месца першага ўваходжання радка y у x
-[converts a 32-bit number (in host byte order) to IPv4 dotted notation]
-перакладае 32бітную лічбу (у парадку хаста) у фармат IPv4 (4 лічбы падзелены кропкамі)
-[current time in format y (y is optional)]
-бягучы час у фармаце y (y неабавязкова)
-[words (separated by white spaces) number y to z from string x (z is optional)]
-словы (падзеленыя прабелам) колькасцю ад y да z з радка x (z неабавязкова)
-[trims x to length y, keeping last y characters]
-абразае x па даўжыні y, захоўваючы апошнія y знакаў
-[location of last occurrence of character y in string x]
-месца апошняга ўваходжання знака y у радку x
-[get the version of Miranda]
-атрымаць версію Miranda
-[protocol name of protocol id x]
-імя пратаколу id x
-[cpu load of process x (without extension) (x is optional)]
-нагрузка працэсу x (без пашырэння) (x неабавязкова)
-[TRUE if directory x exists]
-ПРАЎДА, калі тэчка x існуе
-[length of x]
-даўжыня х
-[TRUE if x > y]
-ПРАЎДА, калі х > у
-[the first argument parsed successfully]
-першы аргумент аналізаваны паспяхова
-[Boolean FALSE]
-Лагічнае ХЛУСНЯ
-[db profile path]
-шлях профіля базы
-[inserts x tab characters (x is optional)]
-уставіць x знакаў табуляцыі (x неабавязкова)
-[get event for contact x (optional), according to y,z,w, see documentation]
-атрымаць падзею для кантакту x (неабавязкова), адпаведнае y,z,w, гл. дакументацыю
-[only stores y as variables x]
-толькі захоўвае y, як зменную x
-[performs logical OR (x || y || ...)]
-выконвае лагічнае ЦІ (x || y || ...)
-[the directory y directories above x]
-шлях тэчкі y вышэй тэчак x
-[value y from registry key x (REG_SZ (string) values only)]
-значэнне y з ключа x, з рэестру Windows (толькі значэнні REG_SZ (string))
-[removes white spaces in before and after x]
-выдаліць прабелы перад і пасля x
-[TRUE if the first z characters of x equal y]
-ПРАЎДА, калі першыя z знакаў x роўныя y
-[Boolean TRUE]
-Лагічнае ПРАЎДА
-[variable set by put(s) with name x]
-зменная зададзеная put з імем x
-[translates status code x into a status description]
-перакладае статус код x у тэкставае апісанне статусу
-[random number]
-выпадковы нумар
-[TRUE if x equals y]
-ПРАЎДА, калі х = у
-[x + y + ...]
-x + y + ...
-[TRUE if process x is running]
-ПРАЎДА, калі працэс х запушчаны
-[performs logical NOT (!x)]
-выконвае лагічнае НЯМА (!x)
-[moves string x, z characters to the left and trims it to y characters]
-зрух радка x, z знакаў злева і абразанне да y знакаў
-[replace all occurrences of y in x with z, multiple y and z arguments allowed]
-замена ўсіх уваходжанняў y у x на z, магчымыя множныя аргументы y і z
-[pads x to length y appending character z, or cut if x is longer (z is optional)]
-падаўжае x да даўжыні y, дадаючы справа знак z, ці абразае, калі x даўжэй (z неабавязкова)
-[number of contacts with property y described by x, example: (unregistered,nick)]
-нумар кантакту з уласцівасцю y, апісанай x, прыклад: (unregistered,nick)
-[converts each first letter of a word to uppercase, all others to lowercase]
-перакладае кожную першую літару слова ў ЗАГАЛОЎНУЮ, усе астатнія ў вялікія
-[trims x to length y, keeping first y characters]
-абразае x па даўжыні y, захоўваючы першыя знакі y
-[cuts x after the first line and appends y (y is optional)]
-абразае x пасля першай лініі, і дадае y (у неабавязкова)
-[retrieves current Winamp state (Playing/Paused/Stopped)]
-атрымлівае стан Winamp (гуляе/паўза/спынены)
-[maximum value of (decimal) arguments]
-максімальнае значэнне (дзесятковых) аргументаў
-[path to the Miranda NG executable]
-шлях да miranda32(64).exe
-[converts x to upper case]
-перакладае x у ЗАГАЛОЎНЫЯ літары
-[x times y]
-x памножанае на y
-[inserts string y at position z in string x]
-устаўляе радок y, у пазіцыю z у радку x
-[inserts 'end of line' character]
-устаўляе знак EOL
-[converts each first letter of a word to uppercase]
-перакладае кожную першую літару слова ў ЗАГАЛОЎНУЮ
-[x modulo y (remainder of x divided by y)]
-модуль x ад у (рэштка x, дзеленага на y)
-[performs logical XOR (x ^ y)]
-выконвае лагічнае выключальнае ЦІ - XOR (x ^ y)
-[performs logical AND (x && y && ...)]
-лагічнае І (x && y && ...)
-[current status description of protocol x (without x, the global status is retrieved)]
-бягучае вызначэнне статусу пратаколу x (без x, выкарыстоўваецца глабальны статус)
-[zth contact with property y described by x, example: (unregistered,nick) (z is optional)]
-z кантакт з уласцівасцю y, апісанай у x, прыклад (unregistered,nick) (z неабавязкова)
-[x divided by y]
-х, дзеленае на ў
-[db profile name]
-імя профіля базы
-[replaces all end of line characters by y (y is optional)]
-замяняе ўсе знакі EOL на y (y неабавязкова)
-[y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
-y > 0: радок нумар y з файла x, y = 0: цэлы файл, y < 0: радок y ад канца файла, y = r: выпадковы радок
-[shows y if x is TRUE, otherwise it shows z]
-паказвае y, калі x ПРАЎДА, у інакш паказвае z
-[formats timestamp x (seconds since 1/1/1970) in date format y]
-выводзіць час x (у секундах з 1/1/1970) у фармаце даты y
-[TRUE if x equals y, ignoring case]
-ПРАЎДА, калі x роўны y, не ўлічваючы рэгістр
-[number of seconds between date x and y (x and y in format: M/d/yy H:m:s)]
-колькасць секунд паміж датамі x і y (x і y у фармаце: М/д/гг Г:м:с))
-[window title of first window of class x]
-загаловак першага вакна класа x
-[x times y divided by z]
-x памножанае на y дзеленае на z
-[get last seen status of contact x]
-атрымаць апошні статус кантакту x
-[pads x to length y prepending character z (z is optional)]
-падаўжае x да даўжыні y дадаючы злева знак z (z неабавязкова)
-[pads x to length y prepending character z, or cut if x is longer (z is optional)]
-падаўжае x да даўжыні y, дадаючы злева знак z, ці абразае, калі x даўжэй (z неабавязкова)
-[no operation, x as given]
-няма аперацыі, x зададзены
-[user name]
-імя карыстача
-[shows x if x is TRUE, otherwise it shows y (if(x,x,y))]
-паказвае x, калі x ПРАЎДА ў іншым выпадку паказвае y (if(x,x,y))
-[the xth string of the arguments]
-x радок па рахунку ў аргументах
-[the longest string of the arguments]
-самы доўгі радок у аргументах
-[get last seen date of contact x in format y (y is optional)]
-атрымаць дату апошняга з'яўлення кантакту x, у фармаце y (y неабавязкова)
-[db setting z of module y of contact x]
-налада базы z, модуля y, кантакту x
-[converts x to lowercase]
-перакладае x у вялікія літары
-[retrieves song name of the song currently playing in Winamp]
-атрымлівае імя песні якая грае ў Winamp
-[TRUE if the first z characters of x equal y, ignoring case]
-ПРАЎДА, калі першыя z знакаў x роўныя y, без уліку рэгістра
-[converts decimal value x to hex value and padds to length y]
-перакладае дзесятковае значэнне x у шаснаццатковае, выкарыстоўваючы даўжыню y
-[converts a 32-bit number to IPv4 dotted notation]
-перакладае 32бітную лічбу у фармат IPv4 (4 лічбы падзелены кропкамі)
-[expand environment variable x]
-пашырае зменную асяроддзі x
-[x, and stores y as variable named x]
-x, і захоўвае y, як зменную з імем x
-[y if w > x, else z]
-y, калі w > x, інакш z
-[converts each hex value into non-html character]
-перакладае кожнае шаснаццатковае значэнне ў не-HTML знак
-[location of first occurrence of character y in string x]
-месца першага ўваходжання знака y у радку x
-[computer name]
-імя кампутара
-[the shortest string of the arguments]
-самы кароткі радок у аргументах
-[info property y of contact x]
-інфармацыйная ўласцівасць y кантакту x
-[pads decimal value x to length y with zeros]
-запаўняе дзесятковае значэнне x па даўжыні y нулямі
-[current date in format y (y is optional)]
-бягучая дата ў фармаце y (y неабавязкова)
-[TRUE if file x exists]
-ПРАЎДА, калі файл x існуе
-[External Applications]
-Знешнія прыкладанні
-[Internet Related]
-Інтэрнэт
-[Logical Expressions]
-Лагічныя выразы
-[Mathematical Functions]
-Матэматычныя функцыі
-[Miranda Related]
-Адносіцца да Miranda
-[Regular Expressions]
-Рэгулярныя выразы
-[String Functions]
-Радковыя функцыі 
-[System Functions]
-Сістэмныя функцыі
+[Automatically strip white space]
+Аўтаматычна абразаць прабелы
+[Automatically strip all non-parsing characters]
+Аўтаматычна абразаць усе не аналізаваныя знакі
+[Test area]
+Тэставая вобласць
+[Click on the help button to get more information]
+Націсніце на кнопку дапамогі, каб атрымаць больш інфармацыі
+[Parse the following string at startup]
+Аналіз радка пры загрузцы
+[Auto parse]
+Аўтапрагляд
+[Parse]
+Аналіз
 [Please enter your input below]
 Уводзіце Ваш радок ніжэй
 [Don't set a contact]
@@ -247,157 +36,306 @@ y, калі w > x, інакш z
 Маркер %subject% будзе прыняты як адмысловы кантакт, які залежыць ад сітуацыі, як і дзе гэты радок скарыстана. Выкарыстоўвайце гэты дыялог, каб сімуляваць кантакт, які будзе падстаўляцца ў %subject%. Прыклад выкарыстання гэтага маркера: !cinfo(%subject%,display).
 [The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
 Маркер %extratext% будзе прыняты, як адмысловы радок, якая залежыць ад сітуацыі, як і дзе гэты радок скарыстана. Выкарыстоўвайце гэты дыялог, каб сімуляваць радок, якая будзе падстаўляцца ў %extratext%
-[%extratext%]
-%extratext%
-[%false%]
-лагічнае ХЛУСНЯ
-[%true%]
-лагічнае ПРАЎДА
-[Automatically strip white space]
-Аўтаматычна абразаць прабелы
-[Test area]
-Тэставая вобласць
-[Click on the help button to get more information]
-Націсніце на кнопку дапамогі, каб атрымаць больш інфармацыі
-[Parse options]
-Налады аналізу
-[Automatically strip all non-parsing characters]
-Аўтаматычна абразаць усе не аналізаваныя знакі
-[Replace all occurrences of \n (Unix) by \r\n (Windows)]
-замена ўсіх уваходжанняў '\n' (Unix) на '\r\n' (Windows)
-[TRUE if x equals any of the following arguments]
-ПРАЎДА, калі x роўны любому з наступных аргументаў
-[info property y of protocol id x]
-інфармацыйная ўласцівасць y id пратаколу x
-[Replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
-замяніць усе супадзенні \\n (Unix) на \\r\\n (Windows)
-[Automatically strip ]
-Аўтаматычна падразаць
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 Служба зменных падстаўляе розным маркерам адпаведныя значэнні. Прыклад: Я выкарыстоўваю Miranda NG версіі %mirandaversion%. У маркер %mirandaversion% будзе падстаўлены адпаведны нумар версіі вашай Miranda IM. Наступны спіс паказвае ўсе даступныя маркеры.
-[Tokens]
-Маркеры
-[user defined]
-вызначана карыстачом
-[Stopped]
-Спынена
-[performs w, then shows z and performs y while x is TRUE]
-выконвае w, потым паказвае z, і выконвае y, пакуль x = ПРАЎДА
-[y if string length of w > x, else z]
-y, калі даўжыня радка w > x, у іншым выпадку z
-[TRUE if x is longer than y]
-ПРАЎДА, калі x даўжэй, чым y
-[boolean TRUE]
-лагічнае ПРАЎДА
-[get the version of miranda]
-атрымаць версію Miranda
-[(ANSI input only) the number of substring matches found in y with pattern x]
-(уваход. дадзеныя толькі ANSI) колькасць падрадкоў знойдзеных у y, па масцы x
-[the number of substring matches found in y with pattern x]
-колькасць знойдзеных падрадкоў у y, па масцы x
-[substring match number z found in subject y with pattern x]
-падрадок адпавядае нумару z, знойдзенаму ў subject y, па масцы x
-[depends on calling plugin]
-залежыць ад модуля, які выклікае токен
-[padds x to length y prepending character z (z is optional)]
-запаўняе x па даўжыні y знакам z (z неабавязкова)
-[padds x to length y appending character z (z is optional)]
-запаўняе x па даўжыні y дадавалым знакам z (z неабавязкова)
-[padds x to length y appending character z, or cut if x is longer (z is optional)]
-запаўняе x па даўжыні y дадавалым знакам z, ці абразае, калі x даўжэй (z неабавязкова)
-[padds x to length y prepending character z, or cut if x is longer (z is optional)]
-запаўняе x па даўжыні y знакам z, ці абразае, калі x даўжэй (z неабавязкова)
-[replace all occurenses of y in x with z, multiple y and z arguments allowed]
-замяняе ўсе супадзенні y у x на z, множныя y,z аргументы магчымыя
-[moves x z charcters to the left and trims it to y characters]
-пераносіць x на z знакаў налева, і абразае ў знакаў
-[TRUE if x equals y, ingnoring case]
-ПРАЎДА, калі x ураўноўваецца y, рэгістр не ўлічваецца
-[TRUE if the first z characters of x equal y, ingnoring case]
-ПРАЎДА, калі першыя z знакаў x роўныя y, без уліку рэгістра
-[location of first occurence of character y in string x]
-становішча першага супадзення знака y у радку x
-[location of last occurence of character y in string x]
-становішча апошняга супадзення знака y у радку x
-[location of first occurence of string y in x]
-становішча першага супадзення радка y у x
-[z if y equals x, multple y and z arguments allowed]
-z, калі y ураўноўваецца x, множныя аргументы y,z дазволены
-[z{2,4} matches "zz", "zzz" or "zzzz"\r\n* is equivalent to {0,}\r\n+ is equivalent to {1,}\r\n? is equivalent to {0,1}]
-Z {2,4} роўна "ZZ", "ZZZ" або "ZZZZ" \ г \ п * эквівалентна {0,} \ г \ п + эквівалентна {1} \ г \ п? эквівалентна {0,1}
-[words (seperated by white spaces) number y to z from string x (z is optional)]
-словы (падзеленыя прабеламі) лік y ад z ад радка x (z неабавязкова)
-[(File content ANSI only) y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
-(Толькі файл ANSI) y > 0: радок нумар y файла x, y = 0: увесь файл, y < 0: радок y з канца, y = r: выпадковы радок
-[moves x z characters to the left and trims it to y characters]
-пераносіць x на z знакаў налева, і абразае ў знакаў
-[value y from registry key x (REG_SZ (string) values only]
-значэнне y з ключа x, з ресстра Windows (толькі значэнні REG_SZ (string))
-[shows files and directories of directory z, with filter y, seperated by z (y and z optional)]
-паказвае файлы і тэчкі шляху z, з фільтрам y, падзеленым z (y і z неабавязковыя)
-[Paused]
-Паўза
-[x if x is TRUE, else z]
-х, калі х - ПРАЎДА, інакш - z
-[Y if x is TRUE, else z]
-Y, калі x ПРАЎДА, інакш z
-[get the contact display name]
-атрымаць імя кантакту
-[get the date and time (using Miranda format)]
-атрымаць дату і час (выкарыстоўваецца фармат Miranda NG)
+;file \plugins\Variables\src\help.cpp
+[Token]
+Маркер
 [--- Special characters ---\r\n\r\nThe following characters have a special meaning in a formatting string:\r\n\r\n?<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n!<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\r\n\r\n%<field>%\r\nThis will parse the given field. Example: I installed Miranda at: %mirandapath%.\r\n\r\n`<string>`\r\nThis will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\r\n\r\n#<comment>\r\nThis will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n--- Contacts ---\r\n\r\nWhenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n(1) Using a unique id (UIN for ICQ, email for MSN) or, a protocol id followed by a unique id in the form <PROTOID:UNIQUEID>, for example <MSN:miranda@hotmail.com> or <ICQ:123456789>.\r\n\r\n(2) Using the contact function:\r\n?contact(x,y)\r\nA contact will be searched which will have value x for its property y, y can be one of the following:\r\nfirst, last, nick, email, id or display\r\n\r\nFor example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.]
 --- Адмысловыя знакі ---\r\n\r\nНаступныя знакі маюць адмысловае значэнне ў радку фарматавання:\r\n\r\n?<функцыя>(<аргументы>)\n Апрацоўка функцыі з зададзенымі аргументамі, вынік апрацоўваецца зноў. Прыклад: сёння ?cdate(yyyy/MM/dd).\r\n\r\n!<функцыя>(<аргументы>)\n Апрацоўка функцыі з зададзенымі аргументамі, вынік НЕ апрацоўваецца зноў. Прыклад: Уваходнае паведамленне: !message(,first,rcvd,unread).\r\n\r\n%<поле>%\nАпрацуе гэта поле . Прыклад: Я ўсталяваў Miranda NG у: %mirandapath%.\r\n\r\n`<радок>`\nНе апрацуе гэты радок, функцыю, поле ці адмысловы знак у радку. Прыклад: Выкарыстоўвайце `%mirandapath%` для паказу шляху ўсталёўкі.\r\n\r\n#<каментар>\nДаданне каментара. Усё за знакам # да канца радка будзе выдалена. Прыклад: %dbprofile% #гэта бескарысны каментар.\r\n\r\r\n\r\n--- Кантакты ---\r\n\r\n Калі функцыі неабходзен кантакт як аргумент, яго можна атрымаць двума шляхамі:\r\n\r\n(1) выкарыстоўваючы ўнікальны id (UIN для ICQ, e-mail для MSN) ці id кантакту, наступным за id пратаколу ў фармаце <PROTOID:UNIQUEID>, напрыклад, <MSN:miranda@hotmail.com> ці <ICQ:123456789>.\r\n\r\n(2) выкарыстоўваючы функцыю contact:\n?contact(x,y)\nВерне кантакт са значэннем x уласцівасці y, y можа быць адным з:\nfirst, last, nick, email, id ці display\r\n\r\n Прыклад: ?contact(miranda@hotmail.com,email) ці ?contact(Miranda,nick). Функцыя contact вяртае ўнікальны кантакт, знойдзены па зададзеных аргументах, або не вяртае нічога, калі не знойдзена ніводнага ці знойдзена некалькі кантактаў.
+[Tokens]
+Маркеры
+[Input]
+Увод
+[Variables Help]
+Дапамога па зменных
+;file \plugins\Variables\src\options.cpp
+;file \plugins\Variables\src\parse_alias.cpp
+[user defined]
+вызначана карыстачом
+[stores y as alias named x]
+захоўвае Y, як аліас X
+;file \plugins\Variables\src\parse_external.cpp
+[Stopped]
+Спынена
+[External Applications]
+Знешнія прыкладанні
+[retrieves song name of the song currently playing in Winamp]
+атрымлівае імя песні якая грае ў Winamp
+[retrieves current Winamp state (Playing/Paused/Stopped)]
+атрымлівае стан Winamp (гуляе/паўза/спынены)
+[retrieves info from AMIP (x is var_<variable> with any AMIP variable)]
+атрымлівае інфармацыю з AMIP (х гэта var_<variable> з любой зменнай AMIP
+[retrieves info from AMIP (x is AMIP format string)]
+атрымлівае інфармацыю з AMIP (х гэта радок у фармаце AMIP)
+;file \plugins\Variables\src\parse_inet.cpp
+[Internet Related]
+Інтэрнэт
+[converts each non-html character into hex format]
+перакладае кожны не-HTML знак у шаснаццатковы фармат
+[converts each hex value into non-html character]
+перакладае кожнае шаснаццатковае значэнне ў не-HTML знак
+[converts a 32-bit number to IPv4 dotted notation]
+перакладае 32бітную лічбу у фармат IPv4 (4 лічбы падзелены кропкамі)
+[converts a 32-bit number (in host byte order) to IPv4 dotted notation]
+перакладае 32бітную лічбу (у парадку хаста) у фармат IPv4 (4 лічбы падзелены кропкамі)
+;file \plugins\Variables\src\parse_logic.cpp
+[Logical Expressions]
+Лагічныя выразы
+[performs logical AND (x && y && ...)]
+лагічнае І (x && y && ...)
+[Boolean FALSE]
+Лагічнае ХЛУСНЯ
+[performs w, then shows z and performs y while x is TRUE]
+выконвае w, потым паказвае z, і выконвае y, пакуль x = ПРАЎДА
+[shows y if x is TRUE, otherwise it shows z]
+паказвае y, калі x ПРАЎДА, у інакш паказвае z
+[shows x if x is TRUE, otherwise it shows y (if(x,x,y))]
+паказвае x, калі x ПРАЎДА ў іншым выпадку паказвае y (if(x,x,y))
+[the first argument parsed successfully]
+першы аргумент аналізаваны паспяхова
+[y if w = x, else z]
+y, калі w = x, інакш z
+[y if w > x, else z]
+y, калі w > x, інакш z
+[y if string length of w > x, else z]
+y, калі даўжыня радка w > x, у іншым выпадку z
+[TRUE if x = y]
+ПРАЎДА, калі x = y
+[TRUE if x > y]
+ПРАЎДА, калі х > у
+[TRUE if x is longer than y]
+ПРАЎДА, калі x даўжэй, чым y
+[performs logical NOT (!x)]
+выконвае лагічнае НЯМА (!x)
+[performs logical OR (x || y || ...)]
+выконвае лагічнае ЦІ (x || y || ...)
+[Boolean TRUE]
+Лагічнае ПРАЎДА
+[performs logical XOR (x ^ y)]
+выконвае лагічнае выключальнае ЦІ - XOR (x ^ y)
+;file \plugins\Variables\src\parse_math.cpp
+[Mathematical Functions]
+Матэматычныя функцыі
+[x + y + ...]
+x + y + ...
+[x divided by y]
+х, дзеленае на ў
+[converts decimal value x to hex value and padds to length y]
+перакладае дзесятковае значэнне x у шаснаццатковае, выкарыстоўваючы даўжыню y
+[x modulo y (remainder of x divided by y)]
+модуль x ад у (рэштка x, дзеленага на y)
+[x times y]
+x памножанае на y
+[x times y divided by z]
+x памножанае на y дзеленае на z
+[minimum value of (decimal) arguments]
+мінімальнае значэнне (дзесятковых) аргументаў
+[maximum value of (decimal) arguments]
+максімальнае значэнне (дзесятковых) аргументаў
+[pads decimal value x to length y with zeros]
+запаўняе дзесятковае значэнне x па даўжыні y нулямі
+[random number]
+выпадковы нумар
+[x - y - ...]
+x - y - ...
+;file \plugins\Variables\src\parse_metacontacts.cpp
 [get parent metacontact of contact x]
 вяртае бацькоўскі метакантакт субкантакту x
 [get default subcontact x]
 вяртае субкантакт па змаўчанні метакантакту x
 [get the 'most online' subcontact x]
 вяртае субкантакт 'Далучаны' метакантакту x
-[TRUE if service function is exists]
-ПРАЎДА, калі сэрвіс існуе
-[Miranda Core OS]
-Зменныя АС ў Miranda
+;file \plugins\Variables\src\parse_miranda.cpp
 [Miranda Core Global]
 Зменныя ядра Miranda
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache]
 вяртае шлях %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs]
 вяртае шлях %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs
-[TRUE if x = y]
-ПРАЎДА, калі x = y
-[y if w = x, else z]
-y, калі w = x, інакш z
+[Miranda Core OS]
+Зменныя АС ў Miranda
+[Miranda Related]
+Адносіцца да Miranda
+[translates status code x into a status description]
+перакладае статус код x у тэкставае апісанне статусу
+[zth contact with property y described by x, example: (unregistered,nick) (z is optional)]
+z кантакт з уласцівасцю y, апісанай у x, прыклад (unregistered,nick) (z неабавязкова)
+[number of contacts with property y described by x, example: (unregistered,nick)]
+нумар кантакту з уласцівасцю y, апісанай x, прыклад: (unregistered,nick)
+[info property y of contact x]
+інфармацыйная ўласцівасць y кантакту x
+[db profile name]
+імя профіля базы
+[db profile path]
+шлях профіля базы
 [db setting z of module y of contact x and return w if z isn't exist (w is optional)]
 атрымаць наладу z модуля y кантакту x ці вярнуць w, калі z не існуе (w не абавязкова)
-[text from clipboard]
-тэкст з буфера абмену
-[Album name]
-Альбом
-[Artist name]
-Выканаўца
-[Song genre]
-Жанр
-[Listening info as set in the options]
-Інфармацыя пра праслухоўванне ўсталяваная ў наладах
-[Song length]
-Працягласць
-[Player name]
-Плэер
-[Song name]
-Песня
-[Track number]
-Нумар песні
-[Media type: Music, Video, etc]
-Тып: музыка, відэа і г.д.
-[Song year]
-Год
-[retrieves info from AMIP (x is var_<variable> with any AMIP variable)]
-атрымлівае інфармацыю з AMIP (х гэта var_<variable> з любой зменнай AMIP
-[retrieves info from AMIP (x is AMIP format string)]
-атрымлівае інфармацыю з AMIP (х гэта радок у фармаце AMIP)
+[get event for contact x (optional), according to y,z,w, see documentation]
+атрымаць падзею для кантакту x (неабавязкова), адпаведнае y,z,w, гл. дакументацыю
+[get last seen time of contact x in format y (y is optional)]
+атрымаць час апошняга з'яўлення кантакту x, у фармаце y (y неабавязкова)
+[get last seen date of contact x in format y (y is optional)]
+атрымаць дату апошняга з'яўлення кантакту x, у фармаце y (y неабавязкова)
+[get last seen status of contact x]
+атрымаць апошні статус кантакту x
+[path to the Miranda NG executable]
+шлях да miranda32(64).exe
+[current status description of protocol x (without x, the global status is retrieved)]
+бягучае вызначэнне статусу пратаколу x (без x, выкарыстоўваецца глабальны статус)
+[info property y of protocol id x]
+інфармацыйная ўласцівасць y id пратаколу x
+[retrieves the subject, depending on situation]
+атрымаць subject, у залежнасці ад сітуацыі
+[translates x]
+перакладае х
+[get the version of Miranda]
+атрымаць версію Miranda
+[get the contact display name]
+атрымаць імя кантакту
+[get the date and time (using Miranda format)]
+атрымаць дату і час (выкарыстоўваецца фармат Miranda NG)
 [TRUE if service function exists]
 ПРАЎДА, калі сэрвісная функцыя існуе
+;file \plugins\Variables\src\parse_regexp.cpp
+[Regular Expressions]
+Рэгулярныя выразы
+[(ANSI input only) the number of substring matches found in y with pattern x]
+(уваход. дадзеныя толькі ANSI) колькасць падрадкоў знойдзеных у y, па масцы x
+[(ANSI input only) substring match number z found in subject y with pattern x]
+(Толькі ANSI увод) падрадок супадзення z знойдзены ў тэме y з шаблонам x
+;file \plugins\Variables\src\parse_str.cpp
+[String Functions]
+Радковыя функцыі 
+[converts each first letter of a word to uppercase, all others to lowercase]
+перакладае кожную першую літару слова ў ЗАГАЛОЎНУЮ, усе астатнія ў вялікія
+[converts each first letter of a word to uppercase]
+перакладае кожную першую літару слова ў ЗАГАЛОЎНУЮ
+[inserts 'end of line' character]
+устаўляе знак EOL
+[depends on calling plugin]
+залежыць ад модуля, які выклікае токен
+[Replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
+замяніць усе супадзенні \\n (Unix) на \\r\\n (Windows)
+[cuts x after the first line and appends y (y is optional)]
+абразае x пасля першай лініі, і дадае y (у неабавязкова)
+[replaces all end of line characters by y (y is optional)]
+замяняе ўсе знакі EOL на y (y неабавязкова)
+[inserts string y at position z in string x]
+устаўляе радок y, у пазіцыю z у радку x
+[trims x to length y, keeping first y characters]
+абразае x па даўжыні y, захоўваючы першыя знакі y
+[length of x]
+даўжыня х
+[the number of lines in string x]
+клькасць радкоў у радку x
+[the longest string of the arguments]
+самы доўгі радок у аргументах
+[converts x to lowercase]
+перакладае x у вялікія літары
+[no operation, x as given]
+няма аперацыі, x зададзены
+[pads x to length y prepending character z (z is optional)]
+падаўжае x да даўжыні y дадаючы злева знак z (z неабавязкова)
+[pads x to length y appending character z (z is optional)]
+падаўжае x да даўжыні y дадаючы справа знак z (z неабавязкова)
+[pads x to length y prepending character z, or cut if x is longer (z is optional)]
+падаўжае x да даўжыні y, дадаючы злева знак z, ці абразае, калі x даўжэй (z неабавязкова)
+[pads x to length y appending character z, or cut if x is longer (z is optional)]
+падаўжае x да даўжыні y, дадаючы справа знак z, ці абразае, калі x даўжэй (z неабавязкова)
+[repeats x y times]
+паўтарае x y раз
+[replace all occurrences of y in x with z, multiple y and z arguments allowed]
+замена ўсіх уваходжанняў y у x на z, магчымыя множныя аргументы y і z
+[trims x to length y, keeping last y characters]
+абразае x па даўжыні y, захоўваючы апошнія y знакаў
+[moves string x, z characters to the left and trims it to y characters]
+зрух радка x, z знакаў злева і абразанне да y знакаў
+[TRUE if x equals y]
+ПРАЎДА, калі х = у
+[TRUE if x equals any of the following arguments]
+ПРАЎДА, калі x роўны любому з наступных аргументаў
+[TRUE if the first z characters of x equal y]
+ПРАЎДА, калі першыя z знакаў x роўныя y
+[TRUE if x equals y, ignoring case]
+ПРАЎДА, калі x роўны y, не ўлічваючы рэгістр
+[TRUE if the first z characters of x equal y, ignoring case]
+ПРАЎДА, калі першыя z знакаў x роўныя y, без уліку рэгістра
+[the shortest string of the arguments]
+самы кароткі радок у аргументах
+[location of first occurrence of character y in string x]
+месца першага ўваходжання знака y у радку x
+[location of last occurrence of character y in string x]
+месца апошняга ўваходжання знака y у радку x
+[location of first occurrence of string y in x]
+месца першага ўваходжання радка y у x
+[substring of x starting from position y to z]
+падрадок x якая пачынаецца з пазіцыі y у z
+[the xth string of the arguments]
+x радок па рахунку ў аргументах
+[z if y equals x, multiple y and z arguments allowed]
+z, калі y роўна x, дапушчальныя множныя аргументы y і z
+[removes white spaces in before and after x]
+выдаліць прабелы перад і пасля x
+[inserts x tab characters (x is optional)]
+уставіць x знакаў табуляцыі (x неабавязкова)
+[converts x to upper case]
+перакладае x у ЗАГАЛОЎНЫЯ літары
+[words (separated by white spaces) number y to z from string x (z is optional)]
+словы (падзеленыя прабелам) колькасцю ад y да z з радка x (z неабавязкова)
+;file \plugins\Variables\src\parse_system.cpp
+[System Functions]
+Сістэмныя функцыі
+[computer name]
+імя кампутара
+[cpu load of process x (without extension) (x is optional)]
+нагрузка працэсу x (без пашырэння) (x неабавязкова)
+[current date in format y (y is optional)]
+бягучая дата ў фармаце y (y неабавязкова)
+[current time in format y (y is optional)]
+бягучы час у фармаце y (y неабавязкова)
+[the directory y directories above x]
+шлях тэчкі y вышэй тэчак x
+[strips y directories from x]
+выразае y тэчак са шляху x
+[number of seconds between date x and y (x and y in format: M/d/yy H:m:s)]
+колькасць секунд паміж датамі x і y (x і y у фармаце: М/д/гг Г:м:с))
+[TRUE if directory x exists]
+ПРАЎДА, калі тэчка x існуе
+[TRUE if file x exists]
+ПРАЎДА, калі файл x існуе
+[window title of first window of class x]
+загаловак першага вакна класа x
+[shows files and directories of directory z, with filter y, separated by z (y and z optional)]
+паказвае файлы і тэчкі путя z, з фільтрам y, падзеленым z (y і z неабавязковыя)
+[TRUE if process x is running]
+ПРАЎДА, калі працэс х запушчаны
+[value y from registry key x (REG_SZ (string) values only)]
+значэнне y з ключа x, з рэестру Windows (толькі значэнні REG_SZ (string))
+[formats timestamp x (seconds since 1/1/1970) in date format y]
+выводзіць час x (у секундах з 1/1/1970) у фармаце даты y
+[formats timestamp x (seconds since 1/1/1970) in time format y]
+выводзіць час x (у секундах з 1/1/1970) у фармаце часу y
+[y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
+y > 0: радок нумар y з файла x, y = 0: цэлы файл, y < 0: радок y ад канца файла, y = r: выпадковы радок
+[uptime in seconds]
+час працы сістэмы (секунд)
+[expand environment variable x]
+пашырае зменную асяроддзі x
+[user name]
+імя карыстача
+[text from clipboard]
+тэкст з буфера абмену
+;file \plugins\Variables\src\parse_variables.cpp
+[variable set by put(s) with name x]
+зменная зададзеная put з імем x
+[x, and stores y as variable named x]
+x, і захоўвае y, як зменную з імем x
+[only stores y as variables x]
+толькі захоўвае y, як зменную x
+;file \plugins\Variables\src\parse_xml.cpp
 [apply stylesheet file x to document file y]
 ужыць файл стылю x да файла дакумента y
 [apply stylesheet x to document y]
 ужыць стыль x да дакумента y
+;file \plugins\Variables\src\variables.cpp

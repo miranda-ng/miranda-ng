@@ -1,53 +1,112 @@
 ﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+;============================================================
 ;  File: Msg_Export.dll
-[Exports every message, URL or File you receive to a text file.\r\nMessages are exported to one file per user, users may be set to use the same file.]
-Экспарт паведамленняў, спасылак ці прынятых файлаў у тэкставы файл.\r\n Паведамленні могуць экспартавацца як пакантактна, так і ў адзін агульны файл.
-[Open E&xported History]
-Экспартаваная гісторыя
-[Message export]
-Экспарт паведамленняў
-[Export directory]
-Каталог экспарту
-[Default file]
-Імя файла
-[Export format]
-Фармат экспарту
-[Max column width]
-Макс. шырыня радка
-[Time format]
-Фармат часу
+;  Plugin: Message export
+;  Version: 3.1.0.3
+;  Authors: Kennet Nielsen, mod by ring0
+;============================================================
+;file \plugins\Msg_Export\res\resource.rc
+[Use internal viewer]
+Унутраны прагляд
+[Replace miranda history]
+Замяніць гісторыю
+[Use UTF8 in new files]
+UTF8 у новых файлах
+[Append extra new line]
+Дап. пераклад радка
+[Use << and >>]
+Знакі << і >>
 [Auto filename]
 Аўта імёны
 [Export all history]
 Экспарт гісторыі
-[You have unapplyed changes do you wish to apply these first ?]
-Ёсць незахаваныя змены, ужыць?
+[Export directory]
+Каталог экспарту
+[Max column width]
+Макс. шырыня радка
+[Time format]
+Фармат часу
+[Export format]
+Фармат экспарту
+[Default file]
+Імя файла
+[File viewer]
+Прагляд файлаў
+[Exporting old messages]
+Экспарт старых паведамленняў
+[History file for %s (%s format %s)]
+Файл гісторыі для  %s (%s фармат %s)
+[&External]
+Вонкавае
+[When filename changes]
+Пры пераназванні файла
+[Prompt for action]
+Спытаць
+[Rename file]
+Пераназваць файл
+[When user is deleted]
+Пры выдаленні карыстача
+[Delete file]
+Выдаліць файл
+[Export selected]
+Экспарт абранага
+[Set to default filename]
+Імя файла па змаўчанні
+;file \plugins\Msg_Export\src\FileViewer.cpp
+[Search string was not found !]
+Радок не знойдзена!
+[Color...]
+Колер...
+[Font...]
+Шрыфт
+[Syntax highlight]
+Падсвятленне сінтаксісу
+;file \plugins\Msg_Export\src\Glob.h
+;file \plugins\Msg_Export\src\main.cpp
+[Open E&xported History]
+Экспартаваная гісторыя
+;file \plugins\Msg_Export\src\options.cpp
 [No contacts found to export]
 Няма кантактаў для экспарту
 [Failed to export at least one contact]
 Не атрымалася экспартаваць прынамсі 1 кантакт
-[Max line width must be at least %d]
-Макс шырыня радка павінна быць не меней %d
-[Exporting old messages]
-Экспарт старых паведамленняў
-[Reading database information ( Phase 1 of 2 )]
-Крок 1: Чытанне базы дадзеных
 [Sorting and writing database information ( Phase 2 of 2 )]
 Крок 2: Сартаванне і запіс інфармацыі
-[Select Destination Directory]
-Абраць тэчку для запісу
-[The following user added you to their contact list:]
-Карыстач дадаў вас у свой спіс кантактаў:
-[The following user made an authorization request:]
-Наступны карыстач запытаў аўтарызацыю:
-[Message has not been saved !]
-Паведамленне не было захавана !
+[Max line width must be at least %d]
+Макс шырыня радка павінна быць не меней %d
+[You need to restart miranda to change the history function]
+Змены функцыі гісторыі набудуць моц пасля перазапуску Miranda
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
 Не атрымалася атрымаць шлях да Msg_Export.dll\n Калі ласка знайдзіце Msg_Export.txt самастойна
-[Failed to move to the end of the file :\n]
-Не атрымалася перайсці да канца файла:\n
+[You have unapplyed changes do you wish to apply these first ?]
+Ёсць незахаваныя змены, ужыць?
+[Executable files]
+Прыкладанні
+[Select Destination Directory]
+Абраць тэчку для запісу
+[Export Protocols]
+Экспарт пратаколаў
+[Message export]
+Экспарт паведамленняў
+[Additional]
+Дадаткова
+;file \plugins\Msg_Export\src\utils.cpp
+[Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
+Не атрымалася пераназваць файл\n\n старое імя:\t%s\n новае імя:\t%s\n\n Памылка: %s
 [Failed to open or create file :\n]
 Не атрымалася адкрыць ці стварыць файл :\n
+[Failed to move to the end of the file :\n]
+Не атрымалася перайсці да канца файла:\n
+[Failed to write message to the file :\n]
+Не атрымалася запісаць паведамленне ў файл:\n
+[URL: ]
+URL: 
+[File: ]
+Файл: 
+[Description: ]
+Апісанне :
+[Failed to write URL/File to the file :\n]
+Не атрымалася запісаць перадачу файла ці URL у файл:\n
 [Nick      :]
 Псеўданім :
 [FirstName :]
@@ -58,95 +117,19 @@
 e-mail    :
 [Reason    :]
 Чыннік   :
-[Failed to write message to the file :\n]
-Не атрымалася запісаць паведамленне ў файл:\n
-[Failed to write URL/File to the file :\n]
-Не атрымалася запісаць перадачу файла ці URL у файл:\n
-[URL: ]
-URL: 
-[File: ]
-Файл: 
-[Description: ]
-Апісанне :
+[The following user made an authorization request:]
+Наступны карыстач запытаў аўтарызацыю:
+[The following user added you to their contact list:]
+Карыстач дадаў вас у свой спіс кантактаў:
 [EmailExpress from:]
 EmailExpress ад:
+[WebPager from:]
+WebPager ад:
 [No from address]
 без адрасу
 [Failed to write EmailExpress to the file :\n]
 Не атрымалася запісаць EmailExpress у файл:\n
 [Failed to write SMS to the file :\n]
 Не атрымалася запісаць SMS у файл:\n
-[Replace miranda history]
-Замяніць гісторыю
-[Use internal viewer]
-Унутраны прагляд
-[You need to restart miranda to change the history function]
-Змены функцыі гісторыі набудуць моц пасля перазапуску Miranda
-[History file for %s (%s)]
-Файл гісторыі для %s (%s)
-[Find...]
-Знайсці...
-[External]
-Вонкавы
-[Search string was not found !]
-Радок не знойдзена!
-[File name for the user "%s" has changed !\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file ?]
-Імя файла для карыстача "%s" змянілася !\n\n старое імя:\t%s\n новае імя:\t%s\n\n Пераназваць файл?
-[Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
-Не атрымалася пераназваць файл\n\n старое імя:\t%s\n новае імя:\t%s\n\n Памылка: %s
-[No to A&ll]
-Няма для ўсіх
-[Color...]
-Колер...
-[Font...]
-Шрыфт
 [Failed to delete the file]
 Не атрымалася выдаліць файл
-[Prompt to delete file]
-Запыт на выдаленне
-[Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.]
-Не атрымалася замяніць гісторыю ў Miranda.\r\n Хутчэй за ўсё, гэта выклікана зменамі ў Miranda.
-[User has been deleted do you want to delete the file ?]
-Карыстач быў выдалены. Выдаліць яго файл?
-[Syntax highlight]
-Падсвятленне сінтаксісу
-[File viewer]
-Прагляд файлаў
-[Append extra new line]
-Дап. пераклад радка
-[WebPager from:]
-WebPager ад:
-[Export selected]
-Экспарт абранага
-[Set to default filename]
-Імя файла па змаўчанні
-[Use << and >>]
-Знакі << і >>
-[When filename changes]
-Пры пераназванні файла
-[When user is deleted]
-Пры выдаленні карыстача
-[Prompt for action]
-Спытаць
-[Rename file]
-Пераназваць файл
-[Delete file]
-Выдаліць файл
-[Executable files]
-Прыкладанні
-[All files]
-Усе файлы
-[Export Protocols]
-Экспарт пратаколаў
-[Use UTF8 in new files]
-UTF8 у новых файлах
-[&External]
-Вонкавае
-[Message export2]
-Экспарт паведамленняў 2
-[Message export (mod by ring0)]
-Экспарт паведамленняў (мод ад ring0)
-[History file for %s (%s format %s)]
-Файл гісторыі для  %s (%s фармат %s)
-[Additional]
-Дадаткова

@@ -1,6 +1,10 @@
 ﻿#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
+;============================================================
 ;  File: watrack.dll
 ;  Module: Winamp Track |Unicode aware|
+;  Versions: 0.0.2.4 - 0.0.6.12
+;  Url: http://addons.miranda-im.org/details.php?action=viewfile&id=2345
+;============================================================
 [Clear xStatus before set new one]
 Чысціць хстатус перад усталёўкай новага
 [Emulate Multimedia keys]
@@ -459,8 +463,6 @@ VBR ці няма
 Акустыка
 [Use ICQ XStatus]
 Выкарыстоўваць xCтатус ICQ
-[Winamp Track]
-Цяпер гуляе (WATrack)
 [Pause Pushed]
 Паўза націснута
 [-default-]
@@ -523,8 +525,6 @@ VBR ці няма
 Артыст
 [Album]
 Альбом
-[Track]
-Трэк
 [Get Artist Info]
 Інфа пра артыста
 [Get Track Info]
@@ -561,26 +561,49 @@ VBR ці няма
 Фрэйм (тэкст)
 [Manual element placement]
 Размясціць элементы ўручную
-[Alpha]
-Альфа
 [Hide when no player]
 Хаваць калі плэер не знойдзены
 [Hide when no music]
 Хаваць калі нічога не прайграваецца
 [Use popup action buttons]
 Выкарыстоўваць кнопкі дзеянняў
+[Left click]
+Левая пстрычка
+[Right click]
+Правая пстрычка
+[Custom colors]
+Задаць колеры
+[artist]
+выканаўца
+[album]
+альбом
+[genre]
+жанр
 [Picture transform]
 Трансфармацыя выявы
-[none]
-няма
+[Kilobytes]
+Кілабайт
+[Megabytes]
+Мегабайт
+[Precision]
+знакаў пасля коскі
 [kb]
 кб
-[KB]
+[Kb]
 Кб
+[Color]
+Колер
+[Output]
+Выснова
+[Check]
+Адзначыць
+[Choose font...]
+Шрыфт...
 [Genres]
 Жанр
 [[X]Status Title / Text]
 Загаловак статусу/Тэкст
+;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 Скробліць з
 [Timeout, ms]
@@ -589,8 +612,7 @@ VBR ці няма
 Інфармацыя пра серыю
 [Episode]
 Эпізод
-[Kinopoisk info page]
-Інфармацыя з Кінопошуку
+;file \plugins\Watrack\lastfm\i_last_api.inc
 [Last.fm error: ]
 Памылка Last.fm:
 [Client is banned]
@@ -599,11 +621,14 @@ VBR ці няма
 Памылка аўтарызацыі. Праверце логін і пароль
 [Bad TimeStamp]
 Няслушны час
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
 [Similar artists]
 Падобныя выканаўцы
+;file \plugins\Watrack\proto\proto.pas
 [Music Info from ]
 Інфармацыя пра музыку ад
-[ answer you]
-адказаў
 [You Get Error]
 У Вас памылка
+;other strings
+[Slider]
+Лятунок

@@ -1,44 +1,25 @@
 ﻿#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
-;  File: facebook.dll
-;  Module: Facebook
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook RM
+;  Version: 0.1.1.1
+;  Authors: Michal Zelinka, Robert Pösel
+;============================================================
 [Facebook protocol support for Miranda NG.]
 Падтрымка пратаколу  Facebook.
-[Default group for newly added contacts:]
-Дадаваць кантакты ў групу:
-[User-Agent:]
-Кліент:
-[Set Facebook status through Miranda status]
-Усталёўваць статус Facebook праз Miranda
+;file \protocols\FacebookRM\res\facebook.rc
 [Create a new Facebook account]
 Стварыць новы конт Facebook
 [What's on your mind?]
 Пра што вы думаеце?
-[Mind...]
-Думаю...
-[Set Facebook status through Miranda status (TBD)]
-Усталёўваць статус Facebook праз Miranda (TBD)
-[Show cookies]
-Паказваць cookies
-[No cookies available.]
-Не cookies.
-[Facebook Protocol]
-Пратакол Facebook
-[Enable loggin for debugging purposes]
-Уключыць адлюстраванне памылак
-[Info Dialog]
-Інфармацыя
-[Probably wrong password entered, please try again.]
-Няправільны пароль, паспрабуйце зноў.
-[Enable popup notifications for others minds]
-Уключыць popup апавяшчэнні
-[Force secure (HTTPS) connection]
-Бяспечнае злучэнне (HTTPS)
-[Automatically close chat windows on website]
-Аўтаматычна зачыняць чат у браўзары
-[Post Miranda statuses to Wall]
-Публікаваць статусы Miranda на сцяну
-[Enable logging for debugging purposes]
-Журналяванне для адладкі
+[Automatically set 'Ignore status change' flag]
+Аўтаматычна ўключаць ігнараванне змены статутаў
+[Contacts Settings]
+Налады кантактаў
+[Use bigger avatars]
+Вялікія аватары
+[Load contacts with 'On the Mobile' status]
+Загружаць кантакты "з мабільнага"
 [News feeds]
 Навіны
 [Client notifications]
@@ -47,93 +28,99 @@
 Працягласць (сек.)
 [(0 = default, -1 = infinite)]
 (0 = змаўчанне, -1 = бясконца)
-[Request following types of News Feed items]
-Запытваць выгляды навін:
 [Use balloon notifications in system tray instead of popups]
 Апавяшчаць падказкай у трэі замест усплывальных вокнаў
-[Most Recent]
-Нядаўнія абнаўленні
-[Status Updates]
-Абнаўленні статусу
-[Top News]
-Папулярныя навіны
-[Sample event]
-Прыклад падзеі
-[Sample newsfeed]
-Прыклад навіны
-[Sample notification]
-Прыклад апавяшчэння
-[Please enter a username.]
-Калі ласка, увядзіце імя карыстача.
-[Please enter a password.]
-Калі ласка, увядзіце пароль.
-[Sample request]
-Прыклад запыту
-[Visit Profile]
-Мой профіль
-[News Feed]
-Навіны
 [News Feed types to notify:]
 Апавяшчаць пра тыпы навін:
-[Contacts Settings]
-Налады кантактаў
-[Default group:]
-Група:
-[Automatically set 'Ignore status change' flag]
-Аўтаматычна ўключаць ігнараванне змены статутаў
-[Use bigger avatars]
-Вялікія аватары
-[Load contacts with 'On the Mobile' status]
-Загружаць кантакты "з мабільнага"
+[Advanced Settings]
+Пашыраныя параметры
+[Force secure (HTTPS) connection]
+Бяспечнае злучэнне (HTTPS)
+[Post Miranda statuses to Wall]
+Публікаваць статусы Miranda на сцяну
 [Use secure connection also for channel requests]
 Бяспечнае злучэнне таксама для запытаў канала
 [Also disconnect chat when going to offline]
 Адключаць чат на сайце пры сыходзе ў афлайн
-[Automatically close chat windows (on website)]
-Аўтаматычна зачыняць акно чата (на сайце)
 [Map non-standard statuses to Invisible (instead of Online)]
 Нестандартныя статусы, як Нябачны (замест 'Далучаны')
-[Get unread messages on login (EXPERIMENTAL)]
-Не прачытаныя паведамленні пры ўваходзе (Эксперыментальна)
-[Enable groupchats support (EXPERIMENTAL)]
-Падтрымка канферэнцый (Эксперыментальна)
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 Падтрымка карыстацкіх смайлаў (Эксперыментальна!)
-[Automatically close chat windows (on website) (NOT WORKING)]
-Аўтаматычна зачыняць вокны чата (на сайце) (НЕ ПРАЦУЕ)
+;file \protocols\FacebookRM\src\communication.cpp
+;file \protocols\FacebookRM\src\connection.cpp
+[Please enter a username.]
+Калі ласка, увядзіце імя карыстача.
+[Please enter a password.]
+Калі ласка, увядзіце пароль.
+;file \protocols\FacebookRM\src\constants.h
+[Most Recent]
+Нядаўнія абнаўленні
+[Wall Posts]
+Паведамленні са сцяны
+[Top News]
+Папулярныя навіны
 [Photos]
 Фатаграфіі
-[Links]
-Спасылкі
-[Request friendship]
-Дадаць ў сябры
-[Approve friendship]
-Дадаць ў сябры
+[Apps and Games]
+Прыкладанні і гульні
+[Classic website]
+Класічны сайт
+[Mobile website]
+Мабільны сайт
+[Smartphone website]
+Для смартфонаў
+[For everyone]
+Усе
+[For friends of friends]
+Сябры сяброў
+[For friends]
+Сябры
+[Only for me]
+Толькі я
+;file \protocols\FacebookRM\src\contacts.cpp
+;file \protocols\FacebookRM\src\dialogs.cpp
+[Sample event]
+Прыклад падзеі
+[Sample request]
+Прыклад запыту
+[Sample newsfeed]
+Прыклад навіны
+[Sample notification]
+Прыклад апавяшчэння
+;file \protocols\FacebookRM\src\json.cpp
+;file \protocols\FacebookRM\src\messages.cpp
+[You cannot send messages when you are offline.]
+Вы не можаце адпраўляць паведамленні без далучэння.
+;file \protocols\FacebookRM\src\process.cpp
+;file \protocols\FacebookRM\src\proto.cpp
+[News Feed]
+Навіны
+[Other Event]
+Іншая падзея
+[Loading newsfeeds...]
+Загрузка навін...
+[Checking friend requests...]
+Праверка запытаў сяброўства...
+[Refreshing buddy list...]
+Абнаўленне спісу сяброў...
+;file \protocols\FacebookRM\src\theme.cpp
+[Facebook icon]
+Абразок Facebook
+[Mind]
+Меркаванне
 [Cancel friendship]
 Выдаліць з сяброў
 [Cancel friendship request]
 Скасаваць запыт сяброўства
+[Request friendship]
+Дадаць ў сябры
+[Approve friendship]
+Дадаць ў сябры
+[Mind...]
+Думаю...
+[Refresh Buddy List]
+Абнавіць спіс сяброў
 [Check Friends Requests]
 Праверыць запыты сяброўства
 [Check Newsfeeds]
 Праверыць навіны
-[Refresh Buddy List]
-Абнавіць спіс сяброў
-[Checking friend requests...]
-Праверка запытаў сяброўства...
-[Loading newsfeeds...]
-Загрузка навін...
-[Refreshing buddy list...]
-Абнаўленне спісу сяброў...
-[Services]
-Службы
-[Wall Posts]
-Паведамленні са сцяны
-[Apps and Games]
-Прыкладанні і гульні
-[Facebook Icon]
-Значок Facebook
-[Mind]
-Меркаванне
-[Other Event]
-Іншая падзея

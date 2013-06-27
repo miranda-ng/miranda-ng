@@ -1,6 +1,12 @@
 ﻿#muuid {6f376b33-d3f4-4c4f-a96b-77da08043b06}
+;============================================================
 ;  File: importtxt.dll
 ;  Module: Imports history saved in TXT files from other clients
+;  Versions: 0.0.1.10
+;  URL: 
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/importtxt/
+;  Authors: Abyss
+;============================================================
 [Imports history saved in TXT files from other clients.]
 Імпартуе гісторыю з тэкставых файлаў.
 [Import history to ]
@@ -15,8 +21,6 @@
 Абярыце файл для імпарту...
 [Text files (*.txt)]
 Тэкставыя файлы (*.txt)
-[All files (*.*)]
-Усе файлы (*.*)
 [Error in cfg file: ]
 Памылка ў cfg файле:
 [No Files Patterns Found]
@@ -35,8 +39,6 @@
 Імпарт не скончаны. Вы сапраўды жадаеце зачыніць?
 [Error adding message to DB]
 Памылка дадання паведамлення ў Базу
-[Error opening file]
-Памылка адкрыцця файла
 [Error mapping file]
 Памылка адлюстравання файла
 [Error mapping]

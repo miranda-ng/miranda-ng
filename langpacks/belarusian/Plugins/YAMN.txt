@@ -1,18 +1,61 @@
 ﻿#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+;============================================================
 ;  File: YAMN.dll
-;  Module: Yet Another Mail Notifier
-[Check &mail (This Account)]
-Праверыць пошту
-[Auto retrieve body]
-Загружаць цела
+;  Plugin: Mail Notifier
+;  Version: 0.1.2.6
+;  Authors: y_b, tweety, majvan
+;============================================================
+;file \plugins\YAMN\res\YAMN.rc
+[Installed plugins]
+Усталяваныя плагiны
+[WWW:]
+сайт:
+[Check this account]
+Правяраць гэты конт
+[Check interval [min]:]
+Інтэрвал праверкі (мін):
+[Tray Icon]
+Абразок у трэі
+[Execute Application]
+Запуск прыкладання
+[Use contact notification for this account]
+Натыфікацыя кантактам
+[Replace nick name]
+Замяніць нік
 [Disable Events]
 Выключыць падзеі
+[User Name:]
+Лагін:
+[Codepage:]
+Кадоўка:
+[Disable STLS]
+Выключыць STLS
+[Startup check]
+Пры запуску IM
+[Auto retrieve body]
+Загружаць цела
+[Check from menu]
+З меню IM
+[Only check when ...]
+Правяраць, калі...
+[Sound notification if failed]
+Гукавое апавяшчэнне пры памылцы
+[Message notification if failed]
+Акно з паведамленнем пры памылцы
+[Tray icon notification if failed]
+Апавяшчэнне ў трэі пры памылцы
+[Reset counter]
+Скід лічыльніка
+[Check while ...]
+Правяраць, калі...
 [YAMN General Options]
 Асноўныя налады
-[Enable YAMN Main Menu (Require Restart)]
-Пункт YAMN у галоўным меню (патрэбен перазапуск)
+[TopToolBar button "Check mail"]
+Кнопка "Праверыць пошту" ў Панэлі кнопак
 [Enable YAMN Main Menu]
 Пункт YAMN ў галоўным меню
+[Show YAMN as a Protocol  (Require Restart)]
+Паказваць YAMN як пратакол (патрэбен перазапуск)
 [MailBrowser Options]
 Налады прагляду лістоў
 [Enable Close on Delete Button]
@@ -25,216 +68,94 @@
 Дата/час
 [Don't show seconds]
 Не паказваць секунды
-[Check &mail (All Account)]
-Праверыць пошту
-[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-Апавяшчэнне і прагляд новай пошты для Miranda NG. Убудаваны пратакол POP3.
-[Launch Application]
-Запусціць прыкладанне
-[YAMN: new mail]
-YAMN: новая пошта
-[YAMN: connect failed]
-YAMN: збой далучэння
-[Check &mail (YAMN)]
-Праверыць &пошту (YAMN)
-[Hotkey for mail check:]
-Гарачая клавіша для праверкі:
-[TopToolBar button "Chack mail"]
-Паказваць кнопку "Праверыць пошту"
-[Installed plugins]
-Усталяваныя ўбудовы
-[Use subject to detect spam]
-Выкарыстоўваць для вызначэння спаму
-[%s - %d new mails, %d total]
-%s - новых %d, усяго %d
-[ - new mail(s)]
- - новы ліст
-[Subject]
-Тэма
-[Run application]
-Запусціць прыкладанне
-[Delete selected]
-Выдаліць абранае
-[Delete confirmation]
-Пацверджанне выдалення
-[Do you really want to delete %d selected mails?]
-Выдаліць %d лістоў?
-[ - connection error]
- - памылка далучэння
-[Cannot allocate memory for received data]
-Не магу вылучыць памяць пад прынятыя дадзеныя
-[Bad user name or error while logging]
-Няправільнае імя карыстача ці памылка пры далучэнні
-[Bad user or password or error while logging]
-Няправільнае імя ці пароль карыстача ці памылка пры далучэнні
-[Cannot get number of messages]
-Не магу атрымаць лік паведамленняў
-[Cannot resolve message signatures]
-Не магу вызначыць подпісы паведамленняў
-[Cannot get sizes of messages]
-Не магу атрымаць памеры паведамленняў
-[Cannot find server]
-Не магу знайсці сервер
-[Cannot connect to server]
-Не магу далучыцца да сервера
-[System error occured]
-Адбылася сістэмная памылка
-[Cannot send data]
-Не магу адправіць дадзеныя
-[Cannot receive data]
-Не магу атрымаць дадзеныя
-[No new mail]
-Няма новых лістоў
-[Performs easy filtering. YAMN required (http://www.majvan.host.sk/Projekty/YAMN).]
-Дадатковы фільтр пошты для модуля YAMN.
-[Connect Fail]
-Абрыў злучэння
-[TopToolBar UP]
-Верх панэлі кнопак
-[TopToolBar Down]
-Ніз панэлі кнопак
-[No account selected]
-Не абраны конт
-[Check this account]
-Правяраць гэты конт
-[Check interval [min]:]
-Інтэрвал праверкі (мін):
-[New mail notifications]
-Калі ёсць новая пошта
-[Sound notification]
-Гукавое апавяшчэнне
-[Message notification]
-Акно з паведамленнем
-[Tray icon notification]
-Апавяшчэнне ў трэі
-[Application execution:]
-Выкананне прыкладання:
+[Mail Notifications]
+Апавяшчэнні пра пошту
 [Single popup]
 Адно акно
 [Multi popup]
 Шмат вокнаў
-[Use contact notification for this account]
-Натыфікацыя кантактам
-[Replace nick name]
-Замяніць нік
+[Use custom colour]
+Свае колеры
 [No new mail notifications]
 Пры адсутнасці новай пошты
 [Popup if no mail]
 Усплывальнае акно
 [Persistant message]
 Працягласць
-[Default codepage:]
-Кодавая старонка:
-[APOP auth]
-APOP
-[Disable STLS]
-Выключыць STLS
-[Startup check]
-Пры запуску IM
-[Check from menu]
-З меню IM
-[Check while...]
-Правяраць, калі...
 [Connection failure notifications]
 Пры памылках далучэння
-[Sound notification if failed]
-Гукавое апавяшчэнне пры памылцы
-[Message notification if failed]
-Акно з паведамленнем пры памылцы
-[Tray icon notification if failed]
-Апавяшчэнне ў трэі пры памылцы
 [Popup notification if failed]
 Усплываць пры памылцы
-[Reset counter]
-Скід лічыльніка
-[TopToolBar button "Check mail"]
-Кнопка "Праверыць пошту" ў Панэлі кнопак
-[Contact:]
-Кантакт:
-[Invalid]
-Няслушна
-[Show YAMN as a Protocol  (Require Restart)]
-Паказваць YAMN як пратакол (патрэбен перазапуск)
-[Only check when ...]
-Правяраць, калі...
-[Codepage:]
-Кадоўка:
-[New Account]
-Новы Конт
-[Execute Application]
-Запуск прыкладання
-[Please select application to run]
-Абярыце прыкладанне для запуску
-[Mail Notifications]
-Апавяшчэнні пра пошту
 [..s Popup duration]
 сек (працягласць)
-[Use custom colour]
-Свае колеры
-[Account Test]
-Праверка
-[Account Test (failed)]
-Праверка (памылка)
-[You have N new mail messages]
-У вас Х новых паведамленняў
-[Connection failed message]
-Паведамленне пра няўдалае далучэнне
+;file \plugins\YAMN\src\main.cpp
+[Check &mail (All Account)]
+Праверыць пошту
+[Check &mail (This Account)]
+Праверыць пошту
+[Launch application]
+Запусціць прыкладанне
+[YAMN]
+Пошта
+[YAMN Account Folder]
+Тэчка контаў YAMN
+[Check mail]
+Праверыць пошту
+[Connect Fail]
+Абрыў злучэння
+;file \plugins\YAMN\src\main.h
+[YAMN: new mail message]
+YAMN: новы ліст
+[YAMN: connect failed]
+YAMN: збой далучэння
+;file \plugins\YAMN\src\services.cpp
 [No new mail message]
 Няма новых лістоў
-[%d new mail message(s), %d total]
-%d новых лістоў (%d усяго)
+;file \plugins\YAMN\src\browser\badconnect.cpp
+[%s - connection error]
+%s - памылка злучэння
+[An error occured. Error code: %d]
+Адбылася памылка. Код памылкі:%d
+[ - connection error]
+ - памылка далучэння
+;file \plugins\YAMN\src\browser\mailbrowser.cpp
 [%s - %d new mail messages, %d total]
 %s - %d новых лістоў (%d усяго)
 [- new mail message(s)]
 - новых лістоў
-[YAMN: new mail message]
-YAMN: новы ліст
-[Please wait while no account is in use.]
-Калі ласка, пачакайце, пакуль ніводны конт не выкарыстоўваецца.
-[YAMN Account Folder]
-Тэчка контаў YAMN
-[Launch application]
+[%s : %d new mail message(s), %d total]
+%s : %d новых лістоў, %d усяго
+[%d new mail message(s), %d total]
+%d новых лістоў (%d усяго)
+[No new mail message, %d spam(s)]
+Няма новых лістоў,%d спаму
+[Invalid]
+Няслушна
+[Value]
+Значэнне
+[Copy Selected]
+Капіяваць вылучанае
+[Run application]
 Запусціць прыкладанне
-[Searching for new mail message]
-Пошук новай пошты
-[Time left to next check [s]: %d]
-Час да наступнай праверкі: %d з.
-[YAMN tweety]
-Праверка пошты (YAMN)
-[YAMN uninstalling]
-Выдаленне YAMN
-[- new mail(s)]
-- новая пошта
-[%d new mail(s), %d total]
-%d новых, %d усяго
-[%s : %d new mail(s), %d total]
-%s : %d новых, %d усяго
-[Check mail]
-Праверыць пошту
-[Check while ...]
-Правяраць, калі...
-[Delete account confirmation]
-Пацверджанне выдалення конта
-[Do you also want to remove native YAMN plugins settings?]
-Выдаліць налады YAMN модуляў?
-[Do you really want to delete this account?]
-Вы сапраўды жадаеце выдаліць гэты конт?
-[Error %d-%d-%d-%d:]
-Памылка %d-%d-%d-%d:
-[No new mail, %d spam(s)]
-Няма пошты, %d спаму
-[Reading new mails (%d%% done)]
-Чытанне новай пошты (%d%% гатова)
-[Select executable used for notification]
-Выбар праграмы для апавяшчэння
-[YAMN]
-Пошта
-[Cannot allocate memory space for new account]
-Немагчыма вылучыць памяць для новага конта
-[Memory error]
-Памылка памяці
+[Delete selected]
+Выдаліць абранае
+[Do you really want to delete %d selected mails?]
+Выдаліць %d лістоў?
+[Delete confirmation]
+Пацверджанне выдалення
+;file \plugins\YAMN\src\mails\mime.cpp
+[Part]
+Частка
+;file \plugins\YAMN\src\proto\netlib.cpp
+;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
+[Disconnected]
+Адключаны
+[POP3 protocol (internal)]
+Пратакол POP3 (убудаваны)
 [Found new version of account book, not compatible with this version of YAMN.]
 Знойдзена новая версія файла з контамі - яна несумяшчальная з бягучай версіяй YAMN.
+[YAMN (internal POP3) read error]
+YAMN (унутраны POP3) памылка чытання
 [Error reading account file. Account file corrupted.]
 Памылка пры чытанні файла з контамі. Файл сапсаваны.
 [Memory allocation error while data reading]
@@ -243,12 +164,22 @@ YAMN: новы ліст
 Памылка чытання файла. Файл ужо выкарыстоўваецца?
 [Error while copying data to disk occured. File in use?]
 Памылка капіявання дадзеных на дыску. Файл ужо выкарыстоўваецца?
-[YAMN (internal POP3) read error]
-YAMN (унутраны POP3) памылка чытання
 [POP3 plugin- write file error]
 POP3 модуль - памылка пры запісе ў файл
-[Error %d-%d-%d:]
-Памылка %d-%d-%d:
+[Connecting to server]
+Злучаюся з серверам
+[Entering POP3 account]
+Аўтарызацыя...
+[Searching for new mail message]
+Пошук новай пошты
+[Deleting requested mails]
+Выдаленне запытаных лістоў
+[Deleting spam]
+Выдаленне спаму
+[Memory allocation error.]
+Памылка памяці.
+[Account is about to be stopped.]
+Конт хутка будзе спынены.
 [Cannot connect to POP3 server.]
 Не магу злучыцца з паштовым серверам
 [Cannot allocate memory for received data.]
@@ -257,73 +188,70 @@ POP3 модуль - памылка пры запісе ў файл
 Не магу аўтарызавацца на POP3 серверы
 [Bad user or password.]
 Няправільнае імя карыстача ці пароль
+[Server does not support APOP authorization.]
+Сервер не падтрымлівае APOP аўтэнтыфікацыю
 [Error while executing POP3 command.]
 Памылка выканання POP3 каманды
-[Cannot connect to server.]
-Не магу злучыцца з серверам
+[Cannot connect to server with NetLib.]
+Не магу далучыцца да сервера з NetLib.
 [Cannot send data.]
 Не магу адправіць дадзеныя
 [Cannot receive data.]
 Не магу атрымаць дадзеныя
-[Please wait while account is in use.]
-Калі ласка, пачакайце, пакуль конт выкарыстоўваецца.
-[This is not a valid number value]
-Няправільнае лікавае значэнне
-[At least one mail notification event must be checked]
-Прынамсі адна падзея для апавяшчэння павінна быць адзначана
-[Check while:]
-Правяраць калі:
-[You have N new mails]
-У вас N новых лістоў
-[Connecting to server]
-Злучаюся з серверам
-[Entering POP3 account]
-Аўтарызацыя...
-[Searching for new mail]
-Пошук новай пошты...
-[Deleting requested mails]
-Выдаленне запытаных лістоў
-[Deleting spam]
-Выдаленне спаму
-[APOP Auth]
-Аўтэнтыфікацыя APOP
-[- connection error]
-- памылка злучэння
-[Account is about to be stopped.]
-Конт хутка будзе спынены.
-[Cannot connect to server with NetLib.]
-Не магу далучыцца да сервера з NetLib.
-[Cannot read SSL data.]
-Не магу прачытаць SSL дадзеныя.
-[Cannot write SSL data.]
-Не магу запісаць SSL дадзеныя.
-[DNS lookup error.]
-Памылка DNS
-[Error connecting socket with SSL.]
-Памылка злучэння сокета з SSL.
-[Error connecting to server with socket.]
-Памылка злучэння з серверам праз сокет.
-[Error while creating base socket.]
-Памылка стварэння асноўнага сокета.
-[Error while creating SSL structure.]
-Памылка стварэння структуры SSL.
-[Memory allocation error.]
-Памылка памяці.
 [OpenSSL not loaded.]
 OpenSSL не загружаны
-[Server does not support APOP authorization.]
-Сервер не падтрымлівае APOP аўтэнтыфікацыю
-[Server rejected connection with SSL.]
-Сервер адмовіў у SSL-злучэнні
 [Windows socket 2.0 init failed.]
 Ініцыялізацыя Windows socket 2.0 не атрымалася.
-[YAMN tweety 2in1]
-Праверка пошты YAMN 2ў1
-[%s : %d new mail message(s), %d total]
-%s : %d новых лістоў, %d усяго
-[POP3 protocol (internal)]
-Пратакол POP3 (убудаваны)
-[Copy Selected]
-Капіяваць вылучанае
+[DNS lookup error.]
+Памылка DNS
+[Error while creating base socket.]
+Памылка стварэння асноўнага сокета.
+[Error connecting to server with socket.]
+Памылка злучэння з серверам праз сокет.
+[Error while creating SSL structure.]
+Памылка стварэння структуры SSL.
+[Error connecting socket with SSL.]
+Памылка злучэння сокета з SSL.
+[Server rejected connection with SSL.]
+Сервер адмовіў у SSL-злучэнні
+[Cannot write SSL data.]
+Не магу запісаць SSL дадзеныя.
+[Cannot read SSL data.]
+Не магу прачытаць SSL дадзеныя.
+[Error %d-%d-%d-%d:]
+Памылка %d-%d-%d-%d:
+;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[No account selected]
+Не абраны конт
+[Time left to next check [s]: %d]
+Час да наступнай праверкі: %d з.
+[New Account]
+Новы Конт
 [Executables]
 Якія запускаюцца
+[Select executable used for notification]
+Выбар праграмы для апавяшчэння
+[Do you really want to delete this account?]
+Вы сапраўды жадаеце выдаліць гэты конт?
+[Delete account confirmation]
+Пацверджанне выдалення конта
+[Please wait while no account is in use.]
+Калі ласка, пачакайце, пакуль ніводны конт не выкарыстоўваецца.
+[This is not a valid number value]
+Няправільнае лікавае значэнне
+[Input error]
+Памылка ўводу
+[Please select application to run]
+Абярыце прыкладанне для запуску
+[Cannot allocate memory space for new account]
+Немагчыма вылучыць памяць для новага конта
+[Memory error]
+Памылка памяці
+[Account Test]
+Праверка
+[Account Test (failed)]
+Праверка (памылка)
+[You have N new mail messages]
+У вас Х новых паведамленняў
+[Connection failed message]
+Паведамленне пра няўдалае далучэнне

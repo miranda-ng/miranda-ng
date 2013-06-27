@@ -1,15 +1,19 @@
 ﻿#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
+;============================================================
 ;  File: AutoShutdown.dll
+;  Plugin: Auto shutdown
+;  Version: 1.4.0.2
+;  Authors: H. Herkenrath
+;============================================================
 [Adds the possibility to shutdown the computer when a specified event occurs.]
 Дадае магчымасць кіравання камп'ютара праз Miranda NG.
+;file \plugins\AutoShutdown\res\resource.rc
 [Shutdown]
 Выключэнне
 [&Show confirmation dialog before shutdown]
 Спытаць перад выключэннем
 [&Countdown starts at:]
 Адлік пачнецца:
-[seconds]
-секунд(ы)
 [Shutdown Events]
 З'ява аўтавыключэння
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
@@ -23,7 +27,7 @@
 [&Thunderstorm warning is issued  (Weather)]
 Штармавое папярэджанне (Weather)
 [&Harddrive overheats (HDD Info)]
-Перагрэў HDD (убудова HDD info)
+Перагрэў HDD (плагiн HDD info)
 [Automatic Shutdown]
 Аўтавыключэнне
 [Select the automatic shutdown event]
@@ -38,8 +42,6 @@
 Выключыць пры атрыманні паведамлення, якое змяшчае наступны тэкст:
 [Shutdown when Miranda NG becomes &idle]
 Пераход Miranda NG у рэжым чакання
-[Configure]
-Наладзіць
 [Shutdown when &prozessor usage drops below:]
 Выключыць, калі карыстанне працэсара падзе да:
 [(current: 0%)]
@@ -50,26 +52,17 @@
 Выключыць, калі ўсе перадачы файлаў завяршыліся
 [&Action:]
 Дзеянне:
-[Cancel]
-Скасаваць
 [Unsaved data in open applications except Miranda NG might get lost.]
 Ўсе не захаваныя дадзеныя ў іншых прыкладаннях могуць быць згублены.
 [Please click "Cancel" if you would like to abort the process.]
 Націсніце "Скасаваць", калі жадаеце спыніць
 [&Now!]
 Зараз!
+;file \plugins\AutoShutdown\src\frame.cpp
 [Shutdown at:]
 Выключыць у:
 [Time left:]
 Засталося часу:
-[Progress Bar]
-Радок стана
-[Background]
-Фон
-[Countdown on Frame]
-Адлік
-[Paused]
-Паўза
 [&Unpause Countdown]
 Узнавіць адлік
 [&Pause Countdown]
@@ -78,14 +71,13 @@
 Адмяніць адлік
 [AutoShutdown]
 Аўтавыключэнне
-[Header]
-Загаловак
-[Active]
-Актыўна
-[Inactive]
-Не Актыўна
-[Events]
-З'явы
+[Countdown on Frame]
+Адлік
+[Progress Bar]
+Радок стана
+;file \plugins\AutoShutdown\src\main.cpp
+;file \plugins\AutoShutdown\src\options.cpp
+;file \plugins\AutoShutdown\src\settingsdlg.cpp
 [(current: %u%%)]
 (бягучае %u%%)
 [Second(s)]
@@ -110,6 +102,7 @@
 Спыніць аўтавыключэнне
 [Automatic &shutdown...]
 Аўтавыключэнне...
+;file \plugins\AutoShutdown\src\shutdownsvc.cpp
 [Automatic Shutdown Error]
 Памылка аўтавыключэння
 [The shutdown process failed!\nReason: %s]
@@ -148,8 +141,6 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 Рэжым чакання
 [Hibernate mode]
 Рэжым гібернацыі
-[Lock workstation]
-Заблакаваць кампутар
 [Hang up dialup connections]
 Адключыць тэлефонныя злучэнні
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
@@ -170,9 +161,8 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 Заблакаваць кампутар. Для разблакоўкі неабходна ўвайсці ў сістэму.
 [Sets all protocols to offline and closes all RAS connections.]
 Адключыць усе пратаколы і разарваць усе тэлефонныя злучэнні.
-[Alerts]
-Паведамленні
 [Automatic Shutdown Countdown]
 Зваротны адлік аўтавыключэння
+;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle Automatic Shutdown]
 Пераключыць аўтавыключэнне

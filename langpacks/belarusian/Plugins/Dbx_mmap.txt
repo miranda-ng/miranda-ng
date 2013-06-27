@@ -1,9 +1,110 @@
 ﻿#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
-;  File: db3x_mmap.dll
-;  Module: Miranda mmap database driver
-[db3x_mmap Plugin]
-Модуль db3x_mmap
+;============================================================
+;  File: Dbx_mmap.dll
+;  Plugin: Miranda NG mmap database driver
+;  Version: 0.11.0.1
+;  Authors: Miranda-NG project
+;============================================================
+;file \plugins\Db3x_mmap\res\db3x_mmap.rc
+;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shutdown.]
-Дыск поўны. Miranda завяршае працу.
-[Provides Miranda database support: global settings, contacts, history, settings per contact.]
-Падтрымка базы Miranda NG.
+Дыск перапоўнены. Miranda будзе зачынена.
+[Database failure. Miranda will now shutdown.]
+Памылка базы. Miranda NG будзе зачынена.
+[Database Error]
+Памылка базы
+[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from http://miranda-ng.org/. Miranda will now shutdown.]
+Міранда знайшла пашкоджанні ў базе дадзеных. Яны могуць быць выпраўлены убудовай DbChecker.
+[Database Panic]
+Праблема з базай
+;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
+[Performing aggressive pass]
+Выкананне агрэсіўнага праходу
+[Aggressive: random junk at %08X: skipping]
+Агрэсіўна: выпадковыя дадзеныя на %08X: прапусканы
+[Aggressive: unlinked data at %08X: can't automatically place]
+Агрэсіўна: незвязаныя дадзеныя на %08X: немагчыма аўтаматычна ўсталяваць іх месца
+;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
+[Processing contact chain]
+Апрацоўка ланцужка кантактаў
+[Contact count marked wrongly: correcting]
+Лік кантактаў паказана няправільна: выпраўленне
+[Contact chain corrupted, further entries ignored]
+Ланцужок кантактаў пашкоджана, наступныя дадзеныя праігнараваны
+;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
+[Invalid offset found (database truncated?)]
+Няслушнае зрушэнне (база няпоўная?)
+[Invalid offset found]
+Знойдзена няправільнае зрушэнне
+[Error reading, database truncated? (%u)]
+Памылка чытання, база дадзеных абрэзана? (%u)
+[Can't write to working file, aggressive mode may be too aggressive now]
+Немагчыма запісаць у працоўны файл, агрэсіўны рэжым цяпер можа быць занадта агрэсіўны
+[Can't write to output file - disk full? (%u)]
+Немагчыма запісаць файл - дыск перапоўнены? (%u)
+;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
+[Event count marked wrongly: correcting]
+Лік падзей паказана няправільна: выпраўленне
+[Event chain corrupted, trying to recover...]
+Ланцужок падзей пашкоджана, спрабую выправіць...
+[Event chain corrupted, further entries ignored]
+Ланцужок падзей пашкоджана, наступныя дадзеныя ігнараваны
+[First event not marked as such: correcting]
+Першая падзея не пазначана: выпраўленне
+[Event marked as first which is not: correcting]
+Падзея пазначана першым, але ім не з'яўляецца: выпраўленне
+[Extra flags found in event: removing]
+Дадатковыя сцягі знойдзены ў падзеі: выдаленне
+[First unread event marked wrong: fixing]
+Першая непрачытаная падзея пазначана няправільна: выпраўленне
+[Infeasibly large event blob: skipping]
+Падзея займае занадта шмат месца: прапусканы
+[Event not backlinked correctly: fixing]
+Падзея некарэктна злучана з папярэднім: выпраўленне
+[Duplicate event was found: skipping]
+Знойдзены дубль падзеі: прапускаю
+[Event position in chain is not correct]
+Хібная пазіцыя падзеі ў ланцужку
+[Event position in chain is not correct: fixing]
+Хібная пазіцыя падзеі ў ланцужку: выпраўляемы
+[Event position in chain is not correct: unable to fix]
+Хібная пазіцыя падзеі ў ланцужку: немагчыма выправіць
+;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
+[Processing final tasks]
+Выкананне завяршальных прац
+;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
+[Database signature is corrupted, automatic repair is impossible]
+Загаловак базы дадзеных пашкоджаны, аўтаматычнае выпраўленне немагчыма
+[Database is newly created and has no data to process]
+База дадзеных новая, і ў ёй няма дадзеных для апрацоўкі
+[Processing completed successfully]
+Апрацоўка завершана паспяхова
+[Can't create file mapping (%u)]
+Не магу стварыць файл карты (%u)
+[Can't create map view of file (%u)]
+Не магу стварыць карту файла  (%u)
+;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
+[Processing module name chain]
+Апрацоўка ланцужка імёнаў модуляў
+[Module chain corrupted, further entries ignored]
+Ланцужок модуляў пашкоджана, наступныя дадзеныя ігнараваны
+[Unreasonably long module name, skipping]
+Занадта доўгае імя модуля, прапусканы
+[Module name '%s' is not unique: %d duplicates found)]
+Імя модуля '%s' не ўнікальна: знойдзена %d дублікатаў)
+[Invalid module name offset, skipping data]
+Няправільнае зрушэнне імя модуля, прапусканы дадзеныя
+;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
+[Settings chain corrupted, further entries ignored]
+Ланцужок налад пашкоджана, наступныя дадзеныя ігнараваны
+[Infeasibly large settings blob: skipping]
+Налада займае занадта шмат месца: прапусканы
+[Empty settings group at %08X: skipping]
+Група пустых значэнняў на %08X: прапускаю
+;file \plugins\Db3x_mmap\src\dbtool\user.cpp
+[Processing user data]
+Апрацоўка карыстацкіх дадзеных
+[User corrupted, this could cause major problems]
+Карыстач пашкоджаны, гэта можа быць сур'ёзнай праблемай
+[More than one user contact: keeping only first]
+Больш чым адзін кантакт карыстача: захоўваем толькі першы

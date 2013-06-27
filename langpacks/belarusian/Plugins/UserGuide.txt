@@ -1,7 +1,0 @@
-﻿#muuid {297ec1e7-41b7-41f9-bb91-efa95028f16c}
-;  File: UserGuide.dll
-;  Module: This plug-in adds the main menu item used to view pack user guide
-[This plug-in adds the main menu item used to view miranda-im pack user guide.]
-Гэта ўбудова дадае пункт у галоўнае меню для прагляду кіраўніцтва карыстальніка па зборцы Miranda NG.
-[User Guide]
-Кіраўніцтва

@@ -1,237 +1,135 @@
 ﻿#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
 ;  File: DbChecker.dll
-;  Module: Miranda NG Database Checker
-[%s\\Backup (%d) of %s]
-%s\\Рэзервовая копія (%d) %s
-[%s\\Backup of %s]
-%s\\Рэзервовая копія %s
+;  Plugin: Database checker
+;  Version: 0.11.0.1
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
+Модуль праверкі БД Miranda NG.
+;file \plugins\DbChecker\res\resource.rc
+[Welcome to the Miranda Database Wizard]
+Сардэчна запрашаем у майстар базы дадзеных
+[Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
+Выкарыстоўваючы гэты майстар, вы можаце паменшыць памер профіля выдаленнем "мёртвай" прасторы.
+[To continue, click Next.]
+Націсніце "Далей" для працягу.
+[This programme is licenced under the terms of the GNU General Public License.]
+Праграма ліцэнзавана пад умовамі GNU General Public License.
+[Miranda Database Tool]
+Прылада базы Miranda NG
+[Select Miranda Profile]
+Выбар профіля Miranda NG
+[You can choose the Miranda profile database to compact or repair.]
+Абярыце профіль Miranda NG для сціску ці аднаўленні.
+[Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
+Абярыце профіль базы ў спісе. Калі яго няма ў спісе, націсніце "Яшчэ..." для пошуку на кампутары.
 [&File:]
 Файл:
-[&Finish]
-Завяршыць
-[&Next >]
-&Далей >
 [&Other...]
 Яшчэ...
-[< &Back]
-< &Назад
-[<check only>]
-<толькі праверыць>
-[Aggressive: random junk at %08X: skipping]
-Агрэсіўна: выпадковыя дадзеныя на %08X: прапусканы
-[Aggressive: unlinked data at %08X: can't automatically place]
-Агрэсіўна: незвязаныя дадзеныя на %08X: немагчыма аўтаматычна ўсталяваць іх месца
-[Aggressively find corruption]
-Агрэсіўны пошук пашкоджанняў
-[All tasks completed but with errors (%d)]
-Усе задачы завершаны, але з памылкамі (%d шт)
-[All tasks completed successfully]
-Усе задачы завершаны
-[All tasks have been completed.]
-Усе задачы завершаны.
-[Backup:]
-Рэзерв:
-[Can't create file mapping (%u)]
-Не магу стварыць файл карты (%u)
-[Can't create map view of file (%u)]
-Не магу стварыць карту файла  (%u)
-[Can't create output file (%u)]
-Немагчыма стварыць файл на выйсці (%u)
-[Can't write to output file - disk full? (%u)]
-Немагчыма запісаць файл - дыск перапоўнены? (%u)
-[Can't write to working file, aggressive mode may be too aggressive now]
-Немагчыма запісаць у працоўны файл, агрэсіўны рэжым цяпер можа быць занадта агрэсіўны
-[Check consistency only]
-Толькі праверыць цэласнасць
-[Cleaning Options]
-Опцыі ачысткі
-[Click Next to continue]
-Націсніце "Далей" для працягу
+[Error Opening Database]
+Памылка адкрыцця базы
+[There was an error opening the profile database given.]
+Памылка адкрыцця базы профіля.
 [Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
 Націсніце Далей, каб паўтарыць чытанне файла, ці націсніце Назад, каб абраць іншы профіль базы дадзеных.
-[Contact chain corrupted, further entries ignored]
-Ланцужок кантактаў пашкоджана, наступныя дадзеныя праігнараваны
-[Contact count marked wrongly: correcting]
-Лік кантактаў паказана няправільна: выпраўленне
-[Convert old Unicode messages to UTF8]
-Канверсаваць старыя Unicode паведамленні ў UTF8
-[Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
-Канверсуе гісторыю паведамленняў з <0.7 фармату (ANSI+UCS2) у новы UTF8 фармат. У большасці выпадкаў дапамагае захаваць месца на дыску (рэкамендуецца).
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+Файл ужо выкарыстоўваецца іншай копіяй Miranda NG. Зачыніце ўсе адкрытыя копіі і націсніце "Далей" для паўтору.
+[File Access Options]
+Налады доступу
+[You can select low level options to determine how the database is processed.]
+Вы можаце абраць узровень змен базы.
 [Create backup]
 Стварыць рэзерв
 [Creates a backup copy of the database before any of the requested changes are made.]
 Стварае рэзервовую копію базы перад любой зменай.
-[Database is corrupted and too small to contain any recoverable data]
-База пашкоджана, памер дадзеных занадта малы, каб утрымоўваць аднаўляльныя дадзеныя
-[Database is marked as belonging to an unknown version of Miranda]
-База дадзеных пазначана як прыналежная невядомай версіі Miranda NG
-[Database is newly created and has no data to process]
-База дадзеных новая, і ў ёй няма дадзеных для апрацоўкі
-[Database signature is corrupted, automatic repair is impossible]
-Загаловак базы дадзеных пашкоджаны, аўтаматычнае выпраўленне немагчыма
-[Database worker thread activated]
-Актывавана аднаўленне працаздольнасці базы
-[Duplicate event was found: skipping]
-Знойдзены дубль падзеі: прапускаю
-[Elapsed time: %d sec]
-Выдаткавана часу: %d сек.
-[Empty settings group at %08X: skipping]
-Група пустых значэнняў на %08X: прапускаю
-[Erase all histories]
-Выдаліць усю гісторыю
-[Error Opening Database]
-Памылка адкрыцця базы
-[Error reading, database truncated? (%u)]
-Памылка чытання, база дадзеных абрэзана? (%u)
-[Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
-Былі знойдзены памылкі, але вы не захавалі рэзервовую копію. Строга рэкамендуецца яе зрабіць, бо важныя дадзеныя могуць быць згублены. Вы жадаеце захаваць рэзервовую копію арыгінальнай базы дадзеных?
-[Event chain corrupted, further entries ignored]
-Ланцужок падзей пашкоджана, наступныя дадзеныя ігнараваны
-[Event chain corrupted, trying to recover...]
-Ланцужок падзей пашкоджана, спрабую выправіць...
-[Event count marked wrongly: correcting]
-Лік падзей паказана няправільна: выпраўленне
-[Event marked as first which is not: correcting]
-Падзея пазначана першым, але ім не з'яўляецца: выпраўленне
-[Event not backlinked correctly: fixing]
-Падзея некарэктна злучана з папярэднім: выпраўленне
-[Event position in chain is not correct: fixing]
-Хібная пазіцыя падзеі ў ланцужку: выпраўляемы
-[Event position in chain is not correct: unable to fix]
-Хібная пазіцыя падзеі ў ланцужку: немагчыма выправіць
-[Event position in chain is not correct]
-Хібная пазіцыя падзеі ў ланцужку
-[Extra flags found in event: removing]
-Дадатковыя сцягі знойдзены ў падзеі: выдаленне
-[File Access Options]
-Налады доступу
-[Finished!]
-Скончана
-[First event not marked as such: correcting]
-Першая падзея не пазначана: выпраўленне
-[First unread event marked wrong: fixing]
-Першая непрачытаная падзея пазначана няправільна: выпраўленне
-[Infeasibly large event blob: skipping]
-Падзея займае занадта шмат месца: прапусканы
-[Infeasibly large settings blob: skipping]
-Налада займае занадта шмат месца: прапусканы
-[Invalid module name offset, skipping data]
-Няправільнае зрушэнне імя модуля, прапусканы дадзеныя
-[Invalid offset found (database truncated?)]
-Няслушнае зрушэнне (база няпоўная?)
-[Invalid offset found]
-Знойдзена няправільнае зрушэнне
+[Aggressively find corruption]
+Агрэсіўны пошук пашкоджанняў
+[Scans the database for data that is not linked to any other data. This requires more disk space and more time, so is only required if you suspect corruption.]
+Скануе базу для пошуку не прывязаных дадзеных. Патрабуецца больш часу і месцы на дыску. Выкарыстоўвайце, толькі калі вы ўпэўнены ў пашкоджаннях.
+[Check consistency only]
+Толькі праверыць цэласнасць
 [Just checks that the database is valid, without writing anything to the disk.]
 Толькі праверка базы, без запісу чаго-небудзь на дыск.
-[Launch Miranda with this profile]
-Запусціць Miranda NG з гэтым профілем
-[Launches Miranda with the profile that was just worked on.]
-Запускае Miranda NG з папярэднім профілем
+[Cleaning Options]
+Опцыі ачысткі
+[You can choose to remove information from the database while it is being processed.]
+Вы можаце выдаліць інфармацыю з базы падчас працэсу.
+[Erase all histories]
+Выдаліць усю гісторыю
+[Removes all the saved history for all contacts in the database.]
+Выдаляе ўсе захаваныя запісы ў гісторыі для ўсіх кантактаў.
 [Mark all events read]
 Пазначыць як прачытаныя
 [Marks all the history events as read. This will rectify any problems with old messages always appearing in the message window log box.]
 Пазначыць усе падзеі як прачытаныя. Гэта выправіць праблемы са старымі паведамленнямі, заўсёды адлюстроўванымі ў акне паведамлення
-[Miranda Database Tool]
-Прылада базы Miranda NG
-[Miranda Databases (*.dat)\0*.DAT\0All Files (*)\0*\0]
-Базы дадзеных Miranda NG (*.dat)\0*.DAT\0 Усе файлы (*)\0*\0
-[Miranda Databases (*.dat)]
-Базы Miranda NG (*.dat)
-[Module chain corrupted, further entries ignored]
-Ланцужок модуляў пашкоджана, наступныя дадзеныя ігнараваны
-[Module name '%s' is not unique: %d duplicates found)]
-Імя модуля '%s' не ўнікальна: знойдзена %d дублікатаў)
-[More than one user contact: keeping only first]
-Больш чым адзін кантакт карыстача: захоўваем толькі першы
-[Path]
-Шлях:
-[Performing aggressive pass]
-Выкананне агрэсіўнага праходу
+[Convert old Unicode messages to UTF8]
+Канверсаваць старыя Unicode паведамленні ў UTF8
+[Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
+Канверсуе гісторыю паведамленняў з <0.7 фармату (ANSI+UCS2) у новы UTF8 фармат. У большасці выпадкаў дапамагае захаваць месца на дыску (рэкамендуецца).
+[Working...]
+Выкананне...
 [Please wait while the requested operations are being performed.]
 Пачакайце, пакуль усе аперацыі будуць завершаны.
-[Processing aborted by user]
-Апрацоўка адменена карыстачом
-[Processing completed successfully]
-Апрацоўка завершана паспяхова
-[Processing contact chain]
-Апрацоўка ланцужка кантактаў
-[Processing final tasks]
-Выкананне завяршальных прац
+[Finished!]
+Скончана
+[All tasks have been completed.]
+Усе задачы завершаны.
+[Launch Miranda with this profile]
+Запусціць Miranda NG з гэтым профілем
+[Launches Miranda with the profile that was just worked on.]
+Запускае Miranda NG з папярэднім профілем
+[Backup:]
+Рэзерв:
+[The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
+Праверка базы завершана. Націсніце "Далей" для звароту ў майстар і праверкі іншай базы, ці "Завяршыць" для выйсця.
+;file \plugins\DbChecker\src\finished.cpp
+[&Finish]
+Завяршыць
+;file \plugins\DbChecker\src\progress.cpp
+[Click Next to continue]
+Націсніце "Далей" для працягу
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
 Апрацоўка яшчэ не завершана; калі вы адменіце яе цяпер, то змены не будуць ужыты да арыгінальнай базы дадзеных. Вы жадаеце адмяніць?
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 Апрацоўка яшчэ не завершана; калі вы пяройдзеце назад цяпер, то змены не будуць ужыты да арыгінальнай базы дадзеных. Вы жадаеце перайсці назад?
-[Processing module name chain]
-Апрацоўка ланцужка імёнаў модуляў
-[Processing user data]
-Апрацоўка карыстацкіх дадзеных
-[Removes all the saved history for all contacts in the database.]
-Выдаляе ўсе захаваныя запісы ў гісторыі для ўсіх кантактаў.
-[Scans the database for data that is not linked to any other data. This requires more disk space and more time, so is only required if you suspect corruption.]
-Скануе базу для пошуку не прывязаных дадзеных. Патрабуецца больш часу і месцы на дыску. Выкарыстоўвайце, толькі калі вы ўпэўнены ў пашкоджаннях.
-[Select Miranda Profile]
-Выбар профіля Miranda NG
-[Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
-Абярыце профіль базы ў спісе. Калі яго няма ў спісе, націсніце "Яшчэ..." для пошуку на кампутары.
-[Settings chain corrupted, further entries ignored]
-Ланцужок налад пашкоджана, наступныя дадзеныя ігнараваны
-[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
-Файл ужо выкарыстоўваецца іншай копіяй Miranda NG. Зачыніце ўсе адкрытыя копіі і націсніце "Далей" для паўтору.
-[The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
-Праверка базы завершана. Націсніце "Далей" для звароту ў майстар і праверкі іншай базы, ці "Завяршыць" для выйсця.
-[There was an error opening the profile database given.]
-Памылка адкрыцця базы профіля.
-[This programme is licenced under the terms of the GNU General Public License.]
-Праграма ліцэнзавана пад умовамі GNU General Public License.
-[To continue, click Next.]
-Націсніце "Далей" для працягу.
-[Total size]
-Памер
-[Unable to delete original file]
-Немагчыма выдаліць арыгінальны файл
-[Unable to rename original file]
-Немагчыма пераназваць арыгінальны файл
-[Unable to rename output file]
-Немагчыма пераназваць файл на выйсці
-[Unreasonably long module name, skipping]
-Занадта доўгае імя модуля, прапусканы
-[User corrupted, this could cause major problems]
-Карыстач пашкоджаны, гэта можа быць сур'ёзнай праблемай
-[Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
-Выкарыстоўваючы гэты майстар, вы можаце паменшыць памер профіля выдаленнем "мёртвай" прасторы.
-[Wasted]
-Мёртва
-[Welcome to the Miranda Database Wizard]
-Сардэчна запрашаем у майстар базы дадзеных
-[Working...]
-Выкананне...
-[You can choose the Miranda profile database to compact or repair.]
-Абярыце профіль Miranda NG для сціску ці аднаўленні.
-[You can choose to remove information from the database while it is being processed.]
-Вы можаце выдаліць інфармацыю з базы падчас працэсу.
-[You can select low level options to determine how the database is processed.]
-Вы можаце абраць узровень змен базы.
-[Scanning cryptors directory]
-Сканаванне дырэкторыі алгарытмаў шыфравання
-[Cryptor loaded: %s [%s] (%s)]
-Загружаны алгарытм шыфравання: %s [%s] (%s)
-[%d crypto modules loaded]
-Загружана алгарытмаў шыфравання: %d
-[Database is Secured MMAP database]
-БД: база дадзеных з шыфраваннем
-[Sorry, but your database encrypted with unknown module]
-БД зашыфравана невядомым алгарытмам
-[You are not authorized for access to Database]
-Вы не аўтарызаваны для доступу да БД
-[your database]
-вашай БД
-[Secured MMAP: authorization successful]
-Абароненая БД: аўтарызацыя паспяховая
-[current database]
-бягучай БД
-[Database encrypted with %s by %s]
-БД зашыфравана з дапамогай алгарытму %s ад %s
-[Miranda NG Database Checker.]
-Модуль праверкі БД Miranda NG.
+;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Модуль праверкі не можа знайсці падыходнага драйвера БД для адкрыцця '%s'.
+[Database driver '%s' doesn't support checking.]
+Драйвер базы '%s' не падтрымлівае праверку.
+[Total size]
+Памер
+[Wasted]
+Мёртва
+[Miranda Databases (*.dat)]
+Базы Miranda NG (*.dat)
+;file \plugins\DbChecker\src\wizard.cpp
+;file \plugins\DbChecker\src\worker.cpp
+[Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
+Былі знойдзены памылкі, але вы не захавалі рэзервовую копію. Строга рэкамендуецца яе зрабіць, бо важныя дадзеныя могуць быць згублены. Вы жадаеце захаваць рэзервовую копію арыгінальнай базы дадзеных?
+[%s\\Backup of %s]
+%s\\Рэзервовая копія %s
+[%s\\Backup (%d) of %s]
+%s\\Рэзервовая копія (%d) %s
+[Unable to rename original file]
+Немагчыма пераназваць арыгінальны файл
+[Unable to delete original file]
+Немагчыма выдаліць арыгінальны файл
+[Unable to rename output file]
+Немагчыма пераназваць файл на выйсці
+[Database worker thread activated]
+Актывавана аднаўленне працаздольнасці базы
+[<check only>]
+<толькі праверыць>
+[Can't create output file (%u)]
+Немагчыма стварыць файл на выйсці (%u)
+[Processing aborted by user]
+Апрацоўка адменена карыстачом
+[Elapsed time: %d sec]
+Выдаткавана часу: %d сек.
+[All tasks completed but with errors (%d)]
+Усе задачы завершаны, але з памылкамі (%d шт)
+[All tasks completed successfully]
+Усе задачы завершаны

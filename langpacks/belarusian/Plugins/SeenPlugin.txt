@@ -1,44 +1,136 @@
 ﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
-;  File: seenplugin.dll
-;  Module: Last Seen Plugin (NSN Compatible)
-[Last seen plugin]
-Апошняе з'яўленне
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last seen
+;  Version: 5.0.4.8
+;  Authors: Heiko Schillinger, YB
+;============================================================
+[Logs when a user was last seen online and which users were online while you were away.]
+Запамінае, калі карыстач апошні раз далучаўся і хто быў далучаны, пакуль вы адсутнічалі.
+;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Параметры апошняга з'яўлення
 [Last seen menuitem]
 Пункт меню апошняга з'яўлення
+[Show icon]
+Паказаць абразок
 [Userinfo tab]
 Закладка ў інфармацыі пра кантакт
+[Log to history]
+Запісваць гісторыю
+[Maximum size]
+Максімальны памер
+[Variable list]
+Зменныя
+[Enable Idle support]
+Вкл. рэжым чакання
+[Ignore contacts going offline]
+Ігнараваць кантакты, што адключаюцца
+[Enable 'Missed Ones' feature]
+Дазволіць функцыю 'Прапушчаныя'
+[Count times]
+Колькасць уваходаў у сетку
+[Protocols to watch:]
+Пратаколы для назірання:
+[Use popups]
+Успл. акна
+[Popup Colors]
+Колеры вокнаў
+[Reset colors]
+Скід кветак
+[Last seen plugin]
+Апошняе з'яўленне
+[You missed following contacts:]
+Прапушчаны наступныя кантакты:
+[Alert when user status changes]
+Папярэджваць пры змене статусу
+;file \plugins\SeenPlugin\src\history.cpp
+[last seen history]
+гісторыя апошняй сустрэчы
+[Send Instant Message]
+Адправіць імгненнае паведамленне
+;file \plugins\SeenPlugin\src\main.cpp
+[LastSeen]
+Апошняе з'яўленне
+[User status change]
+Змена статусу карыстача
+[Changed to Online]
+Змена: Далучаны
+[User Logged Off]
+Карыстач Адключаны
+[User Logged In]
+Карыстач Падлучаны
+[Last seen]
+Апошняе з'яўленне
+;file \plugins\SeenPlugin\src\menu.cpp
+;file \plugins\SeenPlugin\src\options.cpp
+[Last Seen Variables]
+Зменныя
+;file \plugins\SeenPlugin\src\seen.h
+[%n is %s (%u)]
+%n %s (%u)
+[%i(%r)%bWas %o]
+%i(%r)%b быў %o
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
+Імя:%t%N%b Статус:%t%s%b Дата:%t%d.%m.%Y%b Час:%t%H:%M:%S%b Папярэдні статус:%t%o%b%b%P ID:%t%u%b Вонкавы IP:%t%i%b Унутраны IP:%t%r%b Кліент: %t%C%b%b Паведамленне статусу:%t%T
+[-- Date --]
+-- Дата --
 [year (4 digits)]
 год (4 лічбы)
 [year (2 digits)]
 год (2 лічбы)
 [month]
 месяц
-[username]
-карыстач
-[UIN/handle]
-нумар/апрацоўнік
-[external IP]
-вонкавы IP
-[internal IP]
-унутраны IP
-[tabulator]
-табуляцыя
-[Ignore contacts going offline]
-Ігнараваць кантакты, што адключаюцца
-[Enable 'Missed Ones' feature]
-Дазволіць функцыю 'Прапушчаныя'
-[You missed following contacts:]
-Прапушчаны наступныя кантакты:
-[hours (24)]
-гадзіны (24)
-[hours (12)]
-гадзіны (12)
+[name of month]
+назва месяца
+[short name of month]
+назва месяца
+[day]
+дзень
 [weekday (full)]
 дзень тыдня (full)
 [weekday (abbreviated)]
 дзень тыдня (abbreviated)
+[-- Time --]
+-- Час --
+[hours (24)]
+гадзіны (24)
+[hours (12)]
+гадзіны (12)
+[-- User --]
+-- Карыстач --
+[username]
+карыстач
+[nick]
+нік
+[UIN/handle]
+нумар/апрацоўнік
+[Old status]
+Стары статус
+[external IP]
+вонкавы IP
+[internal IP]
+унутраны IP
+[Client info]
+Кліент
+[-- Format --]
+-- Фармат --
+[tabulator]
+табуляцыя
+[line break]
+з новага радка
+[Note:]
+Нататка:
+[Use]
+Выкарыстоўваць
+[for empty string]
+для пустога радка
+[instead of]
+замест
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp
+[Sun.]
+Нд.
 [Mon.]
 Пн.
 [Tue.]
@@ -51,85 +143,5 @@
 Пт.
 [Sat.]
 Сб.
-[Sun.]
-Нд.
-[name of month]
-назва месяца
-[short name of month]
-назва месяца
-[Count times]
-Колькасць уваходаў у сетку
-[last seen history]
-гісторыя апошняй сустрэчы
-[Log to history]
-Запісваць гісторыю
-[Maximum size]
-Максімальны памер
-[Variable list]
-Зменныя
-[Protocols to watch:]
-Пратаколы для назірання:
-[Alert when user status changes]
-Папярэджваць пры змене статусу
-[Logs when a user was last seen online and which users were online while you were away.]
-Запамінае, калі карыстач апошні раз далучаўся і хто быў далучаны, пакуль вы адсутнічалі.
-[User Logged In]
-Карыстач Падлучаны
-[User Logged Off]
-Карыстач Адключаны
-[User status change]
-Змена статусу карыстача
-[Changed to Online]
-Змена: Далучаны
-[Changed to Offline]
-Змена: Адключаны
-[For non-watched protocols]
-Для не прагляданых пратаколаў
-[Enable Idle support]
-Вкл. рэжым чакання
-[Disable CList Notifications]
-Выкл. апавяшчэнні спісу кантактаў
-[For watched protocols]
-Для прагляданых пратаколаў
-[Popup interoperability missing or disabled. You need Popups plugin]
-Усплывальныя вокны адсутнічаюць ці адключаны. Неабходзен модуль усплывальных вокнаў
-[LastSeen]
-Апошняе з'яўленне
-[Reset colors]
-Скід кветак
-[Popup Colors]
-Колеры вокнаў
-[Use popups]
-Успл. акна
-[-- Date --]
--- Дата --
-[-- Time --]
--- Час --
-[-- User --]
--- Карыстач --
-[-- Format --]
--- Фармат --
-[Old status]
-Стары статус
-[Client info]
-Кліент
-[for empty string]
-для пустога радка
-[instead of]
-замест
-[Note:]
-Нататка:
-[LastSeen: User status change]
-LastSeen: Змена статусу карыстача
 [<never seen>]
 <ніколі не з'яўляўся>
-[Last seen plugin mod (NSNCompat)]
-Апошняе з'яўленне (mod NSNCompat)
-[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
-Імя:%t%N%b Статус:%t%s%b Дата:%t%d.%m.%Y%b Час:%t%H:%M:%S%b Папярэдні статус:%t%o%b%b%P ID:%t%u%b Вонкавы IP:%t%i%b Унутраны IP:%t%r%b Кліент: %t%C%b%b Паведамленне статусу:%t%T
-[Last Seen Variables]
-Зменныя
-[%i(%r)%bWas %o]
-%i(%r)%b быў %o
-[%n is %s (%u)]
-%n %s (%u)

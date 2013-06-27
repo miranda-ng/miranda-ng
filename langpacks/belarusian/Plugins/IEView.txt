@@ -1,87 +1,70 @@
 ﻿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
-;  File: ieview.dll
-;  Module: IEview provides IE engine to display message log.
-[IEView]
-Журнал IEView
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.4.0.0
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
 [IE Based Chat Log.]
 Журнал на IE рухавічку.
-[Currently the following BBCodes are supported: [b][i][u][img][size][color]]
-Падтрымліваюцца [b][i][u][img][size][color] BBCodes
-[Currently the following BBCodes are supported: [b][i][u][s][img][size][color]]
-Падтрымліваюцца [b][i][u][s][img][size][color] BBCodes
-[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
-Падтрымліваюцца [b][i][u][s][img][size][color][url] BBCodes
-[Enable support for Flash files in smileys and BBCodes]
-Падтрымка flash (*.swf) файлаў у смайлах і BBCodes
-[Enable workaround for PNG transparency]
-Уключыць празрыстасць для PNG
-[Replace smileys in user names]
-Смайлы ў імёнах
-[Hide window border]
-Схаваць межы акна
-[Compatibility Mode]
-Рэжым сумяшчальнасці
-[Use External CSS]
-Знешні CSS файл
-[Use Templates]
-Шаблон
-[Template Options]
-Налады шаблону
-[Grouping]
-Групоўка
-[Show nicknames]
-Паказваць нікі
-[RTL]
-RTL
-[Copy Link]
-Капіяваць спасылку
+;file \plugins\IEView\res\ieview.rc
 [Save Image As...]
 Захаваць малюнак...
 [Print]
 Друк
 [Show source]
 Зыходнік шаблону
-[External CSS file]
+[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
+Падтрымліваюцца [b][i][u][s][img][size][color][url] BBCodes
+[Enable support for Flash files in smileys and BBCodes]
+Падтрымка flash (*.swf) файлаў у смайлах і BBCodes
+[Enable workaround for PNG transparency]
+Уключыць празрыстасць для PNG
+[Enable MathModule support]
+Падтрымка MathModule
+[Replace smileys in user names]
+Смайлы ў імёнах
+[Hide window border]
+Схаваць межы акна
+[Embed YouTube videos]
+Убудоўваць відэа з YouTube
+[Compatibility Mode]
+Рэжым сумяшчальнасці
+[Use External CSS]
 Знешні CSS файл
-[Events To Show]
-Адлюстроўваныя падзеі
-[Animated Smiley Libraries]
-Бібліятэкі анімаваных смайлаў
-[Enable smiley replacement]
-Уключыць замену смайлаў
-[Specify library for each protocol]
-Пратаколы з рознымі смайламі
-[Only replace isolated smileys]
-Замена толькі ізаляваных
-[Surround smileys with spaces]
-Устаўляць смайлы з прабеламі
-[Emotikons]
-Смайлікі
+[Use Templates]
+Шаблон
+[Background image]
+Фонавы малюнак
+[Template Options]
+Налады шаблону
+[Use message grouping]
+Групоўка паведамленняў
+[Show nicknames]
+Паказваць нікі
+[Use long date format]
+Літарны фармат даты
+[Use relative timestamp]
+Адносны час
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+;file \plugins\IEView\src\HTMLBuilder.cpp
+;file \plugins\IEView\src\IEView.cpp
+[ERROR]
+ПАМЫЛКА
+;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 %s увайшоў.
 [%s has left.]
 %s выйшаў.
-[Message Log Background]
-Фон журналу паведамленняў
-[RTL CSS file]
-RTL CSS файл
-[RTL templates]
-RTL шаблоны
-[Template Library]
-Бібліятэка шаблонаў
 [The topic is %s.]
 Тэма %s
-[Use external CSS file]
-Выкарыстоўваць вонкавы CSS файл
-[Use template-based HTML builder]
-Выкарыстоўваць кампаноўку па HTML шаблону
-[HTML Log Options]
-Налада лога HTML
-[RTL template file]
-RTL шаблон
+;file \plugins\IEView\src\Options.cpp
+[IEView]
+Журнал IEView
 [All Images]
 Усе малюнкі
 [Style Sheet]
 Табліца стыляў
-[Embed YouTube videos]
-Убудоўваць відэа з YouTube
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

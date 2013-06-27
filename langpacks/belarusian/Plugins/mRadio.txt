@@ -1,6 +1,10 @@
 ﻿#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
+;============================================================
 ;  File: mradio.dll
-;  Module: mRadio
+;  Module: mRadio, mRadio Mod
+;  Versions: 0.0.2.1
+;  URL:http://awkward.mirandaim.ru
+;============================================================
 [This plugin plays and records Internet radio streams. Also local media files can be played.]
 Гэты модуль дазваляе праслухоўваць і запісваць інтэрнэт радыё. Гэтак жа можа прайграваць лакальныя файлы.
 [mRadio Mod]
@@ -115,10 +119,6 @@ URL станцыі
 URL станцыі/плэйліста
 [Currently used decoder]
 Бягучы дэкодар
-[connecting]
-далучаецца
-[aborting]
-адключаецца
 [Can't initialize device]
 Не магу ініцыялізаваць прыладу
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
@@ -169,7 +169,9 @@ URL станцыі/плэйліста
 Памылка бібліятэкі BASS
 [Mute with Miranda]
 Адключаць з іншымі гукамі Miranda NG
-[Advanced]
-Дадаткова
-[Stop]
-Спыніць
+[OFF]
+выкл
+[Volume]
+Гучнасць
+[Equalizer]
+Эквалайзер

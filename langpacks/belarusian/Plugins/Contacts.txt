@@ -1,47 +1,33 @@
-﻿#muuid {0324785e-74ce-4600-b781-851773b3efc5}
-;  File: contacts.dll
-;  Module: Contacts
+﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.5.2.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+[Allows you to send and receive contacts.]
+Дазваляе вам пасылаць і атрымліваць кантакты.
+;file \plugins\ContactsPlus\res\contacts.rc
+[Send contacts]
+Паслаць кантакты
+[Choose contacts to be send:]
+Абраць кантакты для адпраўкі:
+[Received contacts]
+Прынятыя кантакты
+[Add to &group:]
+Дадаць у групу:
 [&Details]
 Дэталі
+[Contacts send error]
+Памылка адпраўкі кантактаў
+[Add to List]
+Дадаць
+;file \plugins\ContactsPlus\src\main.cpp
+[Contacts received from]
+Атрыманы кантакты ад
 [Incoming Contacts]
 Уваходныя кантакты
 [Outgoing Contacts]
 Выходныя кантакты
-[Contacts received from %s]
-Кантакты атрыманы ад %s
-[Send contacts to %s]
-Адправіць кантакты да %s
-[Send contacts...]
-Адправіць кантакты...
-[Mailformed Receive Contacts Packet.]
-Некарэктны пакет атрымання кантактаў.
-[Add to &group:]
-Дадаць у групу:
-[&Add selected]
-&Дадаць
-[Choose contacts to be send:]
-Абраць кантакты для адпраўкі:
-[Allows you to send and receive contacts.]
-Дазваляе вам пасылаць і атрымліваць кантакты.
-[Send Contacts to]
-Адправіць кантакты
-[Contacts from]
-Кантакты ад
-[Add to List]
-Дадаць
-[The contacts send timed out.]
-Тайм-аўт адпраўкі.
-[Contacts received from]
-Атрыманы кантакты ад
-[Contacts transfer failed!]
-Памылка перадачы кантактаў
-[The selected contact does not support receiving contacts.]
-Абраны кантакт не падтрымлівае прыём кантактаў.
-[Contacts send error]
-Памылка адпраўкі кантактаў
-[Received contacts]
-Прынятыя кантакты
-[Send contacts]
-Паслаць кантакты
-[Send/Receive Contacts+]
-Адпраўка/Прыём кантактаў+
+;file \plugins\ContactsPlus\src\receive.cpp
+;file \plugins\ContactsPlus\src\send.cpp

@@ -1,107 +1,69 @@
 ﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
-;  File: nudge.dll
-;  Module: nudge
-[Nudge for MetaContacts]
-Абудзіць (метакантакты)
+;============================================================
+;  File: Nudge.dll
+;  Plugin: Nudge
+;  Version: 0.0.2.0
+;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
+;============================================================
 [Plugin to shake the clist and chat window.]
 Будзільнік (трасенне вакон)
-[Send &Nudge]
-Абудзіць
-[Nudge]
-Трасенне
-[Nudge for MSN]
-Абудзіць (MSN)
-[Nudge as Default]
-Абудзіць (па змаўчанні)
-[Check status for which nudge are allowed]
-Статусы з дазволеным апавяшчэннем
+;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 Налады пратаколу
 [Specify options for each protocol]
 Індывідуальныя налады пратаколаў
+[Open contact list]
+Паказаць спіс кантактаў
 [Enable contact list shaking]
 Трэсці спіс кантактаў
 [Enable message window shaking]
 Трэсці акно паведамленняў
-[Treat nudge as a message]
-Тлумачыць як паведамленне
-[Sending text]
-Тэкст адпраўкі
-[Receiving text]
-Тэкст прыёму
-[Allow sending one nudge to the same contact every :]
-Адпраўка трасяніны аднаму і таму ж кантакту кожныя:
-[Allow receiving one nudge from the same contact every :]
-Прыём трасяніны ад аднаго кантакту кожныя:
 [Show as status change]
 Паказваць як змену статусу
-[Auto resend nudge]
-Аўтамат. паўтараць
-[Shaking Clist Options]
-Трасенне спісу кантактаў
-[Shaking Message Window Options]
-Трасенне вакна паведамленняў
-[Number of move]
-Колькасць рухаў
-[Width of move]
-Шырыня рухаў
-[Window Shaking]
-Трасенне акна
-[You received a nudge]
-Вас падтрэслі
-[You sent a nudge]
-Вы падтрэслі
-[Nudge for MRA]
-Абудзіць для Mail.ru агента
-[Allow sending* one nudge to the same contact every :]
-Трэсці той жа кантакт адзін раз кожныя:
 [Auto resend nudge after]
 Паўтараць трасенне кожныя
-[* Nudge sending delay is hardcoded and cannot be changed.]
-* Гэту лічбу нельга змяняць, яна ў кодзе модуля.
-[Number of moves]
-Колькасць рухаў
-[Shake the chat window]
-Страсянуць акно паведамлення
-[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
-Нельга пасылаць шмат падтрэсванняў (толькі 1 кожныя %d сек, %d сек засталося)
-[received a nudge]
-атрымаў будзільнік
-[sent a nudge]
-паслаў будзільнік
-[Allow nudges when you're:]
-Дазваляць трасяніну калі Вы:
-[Nudge : Default]
-Будзільнік
-[Nudge for IRC]
-Абудзіць (IRC)
-[Nudge for YAHOO]
-Абудзіць (YAHOO)
-[Nudge for JABBER]
-Абудзіць (JABBER)
-[Enable Nudge support]
-Уключыць падтрымку трасяніны
-[Enable nudge]
-Уключыць трасяніну
-[Allow nudges when you're]
-Дазваляць трасяніну калі Вы:
-[Nudge for]
-Будзільнік для
-[Open contact list]
-Паказаць спіс кантактаў
 [Enable popup notification]
 Уключыць усплывальныя вокны
 [Respect ignore settings (status changes)]
 Улічыць налады ігнаравання (змены статусаў)
+[Sending text]
+Тэкст адпраўкі
+[Receiving text]
+Тэкст прыёму
+[Allow sending* one nudge to the same contact every :]
+Трэсці той жа кантакт адзін раз кожныя:
+[Allow receiving one nudge from the same contact every :]
+Прыём трасяніны ад аднаго кантакту кожныя:
+[* Nudge sending delay is hardcoded and cannot be changed.]
+* Гэту лічбу нельга змяняць, яна ў кодзе модуля.
+[Allow nudges when you're:]
+Дазваляць трасяніну калі Вы:
+[Shaking Clist Options]
+Трасенне спісу кантактаў
+[Number of moves]
+Колькасць рухаў
+[Width of move]
+Шырыня рухаў
+[Shaking Message Window Options]
+Трасенне вакна паведамленняў
+;file \plugins\Nudge\src\main.cpp
+[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
+Нельга пасылаць шмат падтрэсванняў (толькі 1 кожныя %d сек, %d сек засталося)
+[Nudge]
+Трасенне
+[Default Nudge]
+Буздільнік па змаўчанні
+[Nudge as Default]
+Абудзіць (па змаўчанні)
 [Show Nudge]
 Патрэсці
 [Nudge for %s]
 Будзільнік для %s
-[Shake the contact list]
-Трэсці спіс кантактаў
-[Default Nudge]
-Буздільнік па змаўчанні
-[Nudge : Shake contact list/chat window]
-Будзільнік: Патрэсці спіс\гутарку
-[Nudge : Send a nudge]
-Будзільнік: Пабудзіць
+;file \plugins\Nudge\src\nudge.cpp
+[You received a nudge]
+Вас падтрэслі
+[You sent a nudge]
+Вы падтрэслі
+;file \plugins\Nudge\src\options.cpp
+[Window Shaking]
+Трасенне акна

@@ -1,58 +1,136 @@
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
-;  File: yahoo.dll
-;  Module: Yahoo Protocol
-[Yahoo Protocol support for Miranda NG.]
-Убудова аадтрымкі пратакола Yahoo.
+;============================================================
+;  File: Yahoo.dll
+;  Plugin: Yahoo
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\Yahoo\res\Yahoo.rc
+[Create a new Yahoo account using the Yahoo website]
+Стварыць конт на сайце Yahoo
+[Use Yahoo Address Book (YAB)]
+Выкарыстоўваць адрасную кнігу Yahoo (YAB)
+[AutoLogin to Yahoo Website(s)]
+Аўтаматычна далучацца да Yahoo сайту(ам)
+[Display Yahoo notifications]
+Паказваць паведамленні Yahoo
+[Show Errors]
+Паказваць памылкі
+[Yahoo Japan]
+Yahoo Японія
+[Create a new Yahoo account]
+Стварыць новы конт Yahoo
+[Connection Settings]
+Налады злучэнняў
+[Yahoo Ignore List]
+Ігнараваць на Yahoo
+[Ignore anyone who is not on my Yahoo buddy list ]
+Ігнараваць усіх, хто не ў маім спісе сяброў
+[Ignore only the people below: ]
+Ігнараваць абраных:
+[Set Custom Status]
+Усталёўка xСтатуса
+[Show as busy]
+Паказаць як "заняты"
+[Host]
+Хост
+;file \protocols\Yahoo\src\avatar.cpp
+;file \protocols\Yahoo\src\chat.cpp
+[[miranda] Got conference invite to room: %s with msg: %s]
+(Miranda NG) Атрымана запрашэнне ў пакой %s:%s
+[Join My Conference...]
+Заходзь ў мой чат-пакой...
+[No, thank you...]
+Не, дзякуй ...
+;file \protocols\Yahoo\src\icolib.cpp
+[Mail]
+Пошта
+[Address Book]
+Адрасная кніга
+[Set Status]
+Усталяваць статус
+[Calendar]
+Каляндар
+;file \protocols\Yahoo\src\im.cpp
+[Yahoo Error]
+Yahoo памылка
+[Message is too long: Yahoo messages are limited by 800 UTF8 chars]
+Паведамленне занадта доўгае: Yahoo абмежавана ў 800 UTF8 знакаў
+;file \protocols\Yahoo\src\links.cpp
+[YAHOO Link Protocol]
+YAHOO Link пратакол
+;file \protocols\Yahoo\src\main.cpp
+[YAHOO plugin HTTP connections]
+YAHOO плагіна HTTP злучэнні
+;file \protocols\Yahoo\src\options.cpp
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 Змены ўступяць пры наступным уваходзе ў сетку Yahoo.
-[New Mail (99 msgs)]
-Новая пошта (99 лістоў)
-[From: Sample User\nSubject: Testing123.]
-Ад: Просты карыстач\nЦема: ТЭСТ.
+[YAHOO Options]
+Налады Yahoo
+[You need to be connected to Yahoo to add to Ignore List.]
+Вы павінны далучыцца для дадання ў спіс ігнаравання.
+[Yahoo Ignore]
+Yahoo Ігнор
+[Please enter a valid buddy name to ignore.]
+Увядзіце правільнае імя кантакту для ігнаравання.
+[The buddy is already on your ignore list. ]
+Гэты кантакт ужо ў Вашым спісе ігнаравання.
+[You need to be connected to Yahoo to remove from the Ignore List.]
+Вы павінны далучыцца для выдалення са спісу ігнаравання.
+[Please select a buddy on the ignore list to remove.]
+Абярыце кантакт для выдалення са спісу ігнаравання.
+[Ignore List]
+Чорны спіс
+;file \protocols\Yahoo\src\proto.cpp
 [Please enter your yahoo id in Options/Network/Yahoo]
 Увядзіце ваш yahoo ID - Налады/Сеціва/Yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]
 Увядзіце ваш yahoo пароль - Налады/Сеціва/Yahoo
 [Yahoo Login Error]
 Памылка далучэння Yahoo
-[Message is too long: Yahoo messages are limited by 800 UTF8 chars]
-Паведамленне занадта доўгае: Yahoo абмежавана ў 800 UTF8 знакаў
+;file \protocols\Yahoo\src\services.cpp
 [You need to be connected to set the custom message]
 Вы павінны быць далучаны каб задаць паведамленне
 [You need to be connected to refresh your buddy list]
 Вы павінны быць далучаны для абнаўлення спісу
 [Set &Custom Status]
 Усталяваць xСтатус
-[S&how My profile]
-Паказаць мой профіль
-[&Yahoo Mail]
-Пошта &Yahoo
-[&Show profile]
-Паказаць профіль
+[&Edit My Profile]
+&Рэдагаваць мой профіль
 [&My Profile]
 Мой &профіль
+[&Yahoo Mail]
+Пошта &Yahoo
 [&Address Book]
 &Адрасная кніга
 [&Calendar]
 &Каляндар
-[[miranda] Got conference invite to room: %s with msg: %s]
-(Miranda NG) Атрымана запрашэнне ў пакой %s:%s
-[I am sorry, but i can't join your conference since this feature is not currently implemented in my client.]
-Прабачыце, але я не магу да вас далучыцца, бо гэта магчымасць яшчэ не рэалізавана.
-[Please install png2dib.dll for avatar support. ]
-Усталюйце png2dib.dll для падтрымкі аватараў.
-[Your png2dib.dll is either obsolete or damaged. ]
-Бібліятэка png2dib.dll састарэлая ці пашкоджана.
+[Create Conference]
+Стварыць чат-пакой
+[&Show Profile]
+Профіль
+;file \protocols\Yahoo\src\webcam.cpp
+[[miranda] Got webcam invite. (not currently supported)]
+(Miranda NG) Запрашэнне ў відэаканферэнцыю (пакуль не падтрымліваецца)
+;file \protocols\Yahoo\src\yahoo.cpp
+[Calendar Reminder]
+Каляндар напамінкаў
 [%s has rejected your request and sent the following message:]
 %s адхіліў запыт і паслаў паведамленне:
+[Invalid Contact]
+Несапраўдны Кантакт
+[The id you tried to add is invalid.]
+ID, якога вы сабраліся дадаць, несапраўдны.
+[Unknown Error??.]
+Невядомая памылка??.
 [You Have %i unread msgs]
 У вас %i не прачытаных паведамленняў
 [New Mail (%i msgs)]
 Новая пошта (%i лістоў)
 [From: %s\nSubject: %s]
 Ад: %s\nТема: %s
-[[miranda] Got webcam invite. (not currently supported)]
-(Miranda NG) Запрашэнне ў відэаканферэнцыю (пакуль не падтрымліваецца)
+[Yahoo System Message]
+Яхо паведамленне.
 [Yahoo Ping Error]
 Yahoo памылка пінгу
 [Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
@@ -67,9 +145,9 @@ Yahoo памылка пінгу
 Не магу далучыцца да сэрвісу Yahoo. Праверце налады сервера/порт і проксі.
 [Could not log in, unknown reason: %d.]
 Не магу аўтарызавацца, чыннік: %d.
-[unknown error %s]
-невядомая памылка %s
-[custom error %s]
+[Unknown error %s]
+Невядомая памылка %s
+[Custom error %s]
 Памылка %s
 [%s is not available for the conference]
 %s недаступны для гутаркі
@@ -79,127 +157,9 @@ Yahoo памылка пінгу
 %s не ў ігнор-спісе
 [%s is in buddy list - cannot ignore ]
 %s у спісе - не магу ігнараваць
-[system error %s]
-сістэмная памылка %s
-[Yahoo Error]
-Yahoo памылка
-[Connection to %s:%d failed]
-далучэнне да %s:%d не атрымалася
-[Please enter Yahoo server to Connect to in Options.]
-Увядзіце ў наладах сервер Yahoo
-[Create a new Yahoo account using the Yahoo website]
-Стварыць конт на сайце Yahoo
-[Disable UTF8 encoding]
-Выключыць кадоўку UTF8
-[Disable main menu (needs restart)]
-Прыбраць падменю ў галоўным меню
-[Use Yahoo Address Book (YAB)]
-Выкарыстоўваць адрасную кнігу Yahoo (YAB)
-[Show Errors]
-Паказваць памылкі
-[Display Yahoo Mail notifications]
-Апавяшчаць пра новую пошту
-[Show as busy]
-Паказаць як "заняты"
-[Yahoo Mail]
-Пошта Yahoo
-[Set Custom Status]
-Усталёўка xСтатуса
-[YAHOO plugin connections]
-далучэнні модуля YAHOO
-[YAHOO plugin HTTP connections] 
-Yahoo далучэнні па HTTP
-[AutoLogin to Yahoo ]
-Аўтаматычны ўваход
-[Display Yahoo notifications]
-Паказваць паведамленні Yahoo
-[Yahoo Ignore List]
-Ігнараваць на Yahoo
-[Yahoo Japan]
-Yahoo Японія
-[Avatar upload failed!?!]
-Памылка загрузкі аватара!?!
-[Address Book]
-Адрасная кніга
-[Calendar]
-Каляндар
-[Mail]
-Пошта
-[Set Status]
-Усталяваць статус
-[Yahoo plugin requires db3x plugin version 0.5.1.0 or later]
-Модулю Yahoo патрэбен модуль db3x версіі 0.5.1.0 ці старэй
-[Please enter a valid buddy name to ignore.]
-Увядзіце правільнае імя кантакту для ігнаравання.
-[Please select a buddy on the ignore list to remove.]
-Абярыце кантакт для выдалення са спісу ігнаравання.
-[The buddy is already on your ignore list. ]
-Гэты кантакт ужо ў Вашым спісе ігнаравання.
-[YAHOO Options]
-Налады Yahoo
-[Yahoo Ignore]
-Yahoo Ігнор
-[You need to be connected to Yahoo to add to Ignore List.]
-Вы павінны далучыцца для дадання ў спіс ігнаравання.
-[You need to be connected to Yahoo to remove from the Ignore List.]
-Вы павінны далучыцца для выдалення са спісу ігнаравання.
-[&Show Profile]
-Профіль
-[Calendar Reminder]
-Каляндар напамінкаў
-[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
-Немагчыма далучыцца да сервера Yahoo. Праверце налады, і станы далучэння.
-[Custom error %s]
-Памылка %s
-[Server Connection Error: %s]
-Памылка злучэння сервера: %s
 [System Error: %s]
 Сістэмная памылка: %s
-[Unknown error %s]
-Невядомая памылка %s
-[You have been logged out of the yahoo service.]
-Вы адключаны Yahoo.
-[Yahoo Detail]
-Yahoo дэталі
-[Yahoo Directory Search]
-Пошук у дырэкторыі Yahoo
-[Yahoo Member Profile]
-Профіль карыстача Yahoo
-[Yahoo Protocol]
-Пратакол Yahoo
-[YAHOO]
-Yahoo
-[[%s] Requesting file from %s]
-(%s) Запыт файла ад %s
-[Yahoo Protocol Beta/Nightly]
-Пратакол Yahoo Beta/Nightly
-[&Edit My Profile]
-&Рэдагаваць мой профіль
-[Connection Settings]
-Налады злучэнняў
-[Ignore List]
-Чорны спіс
-[Ignore anyone who is not on my Yahoo buddy list ]
-Ігнараваць усіх, хто не ў маім спісе сяброў
-[Ignore only the people below: ]
-Ігнараваць абраных:
-[Disable Yahoo Menu Items]
-Адключыць пункты меню Yahoo
-[My Yahoo Member Profile]
-Мой Yahoo профіль
-[Create a new Yahoo account]
-Стварыць новы конт Yahoo
-[mail]
-пошта
-[AutoLogin to Yahoo Website(s)]
-Аўтаматычна далучацца да Yahoo сайту(ам)
-[Create Conference]
-Стварыць чат-пакой
-[Invite Buddy To Chat Room]
-Запрашэнне ў чат-пакой
-[Screen Name]
-Мянушка
-[Invitation reason]
-Мэта запрашэння
-[Join My Conference...]
-Заходзь ў мой чат-пакой...
+[Server Connection Error: %s]
+Памылка злучэння сервера: %s
+[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+Немагчыма далучыцца да сервера Yahoo. Праверце налады, і станы далучэння.

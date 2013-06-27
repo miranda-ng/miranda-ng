@@ -1,85 +1,49 @@
 ﻿#muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
-;  File: New_GPG.dll 
-[New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.] 
-Убудова для шыфравання GPG. Заснаваны на старой GPG убудове і  SecureIM.
-[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
-Ваша версія GPG падтрымліваецца. Моўныя файлы знойдзеныя.\nGPG Павінен працаваць нармальна.\nНацісьніце ОК.
-[please choose gpg binary location]
-Вылучыце дырэкторыю з GnuPG
-[please set keyring's home directory]
-Вылучыце дырэкторыю з ключамі GnuPG
-[Set GPG bin path and keyring home dir.]
-Задайце шлях да выкананага файла GnuPG і дырэкторыі з ключамі
-[Copy own key]
-Капір. свой ключ
-[Select own key]
-Выбраць свой ключ
-[Export PubKey]
-Захаваць ключ
-[GnuPG Variables]
-Шляхі да GPG
-[Turn on debug log]
-Укл. запіс адладкі
-[Accept]
-Прыняць
-[Accept and enable encryption]
-Прыняць і ўключыць шыфраванне
-[Replace]
-Замяніць
-[Import key]
-Імпарт ключа
+;============================================================
+;  File: New_GPG.dll
+;  Plugin: GPG
+;  Version: 0.0.0.11
+;  Authors: sss
+;============================================================
+;file \plugins\New_GPG\res\new_gpg.rc
 [Load from file]
 Імпарт з файла
-[Load other]
-Загрузіць
-[Delete key]
-Выдаліць ключ
 [Select existing]
 Выбраць існуючы
 [Turn on encryption]
 Ўключыць шыфраванне
 [Import key from keyserver]
 Імпарт ключа з сервера ключоў
-[New public key was received, do you want to import it?]
-Атрыманы новы адкрыты ключ. Вы хочаце прыняць яго?
-[There is existing key for contact, would you like to replace with new key ?]
-Атрыманы ключ, але ў кантакта ўжо ёсць ключ. Вы жадаеце яго замяніць новым?
-[The new public key was recieved]
-Атрыманы новы адкрыты ключ.
-[Received key from]
-Атрыманы ключ ад
-[Do you want to remove key from entire metacontact (all subcontacts) ?]
-Вы хочаце прыбраць ключ для метаконтакта (усіх субконтактаў)?
-[Select existing public key from list]
-Выбраць адкрыты ключ з спісу
-[Encrypt file transfers]
-Шыфраваная перадача файлаў
-[Use jabber api on Miranda NG (recomended)]
-Выкарыстоўваць jabber api Miranda NG (Рэкамендуецца)
-[Current private key id]
-Закрыты ключ
-[This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn.]
-Абраны вамі exe не GnuPG!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым убудовай.
-[Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn.]
-Ваша версія GnuPG не падтрымліваецца і можа працаваць не правільна!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым убудовай.
+[Set own key]
+Выбар ўласнага ключа
 [Generate key]
 Згенераваць
 [Select key for use]
 Выбраць ключ
+[Key password:]
+Пароль ключа:
+[Load other]
+Загрузіць
 [Generate and use random key]
 Згенераваць і выкарыстоўваць ключ
-[GnuPG binary:]
-Шлях да exe:
+[Set GPG bin path and keyring home dir.]
+Задайце шлях да выкананага файла GnuPG і дырэкторыі з ключамі
 [Home directory:]
 Хатні каталог:
+[GnuPG binary:]
+Шлях да exe:
 [Turn on key autoexchange]
 Ўключыць автообмен ключамі
+[The new public key was recieved]
+Атрыманы новы адкрыты ключ.
+[Accept and enable encryption]
+Прыняць і ўключыць шыфраванне
+[Key Generation dialog]
+Стварэнне прыватнага ключа
 [Key type:]
 Тып ключа:
 [Key length:]
 Доўгая ключа
-[Key password:]
-Пароль ключа:
 [Real name:]
 Імя / Нік:
 [Comment:]
@@ -94,16 +58,30 @@
 Гэта можа заняць некалькі хвілін.
 [0 - does not expire]
 0 - ніколі не сканчаецца
+[Select existing public key from list]
+Выбраць адкрыты ключ з спісу
 [Save password to database]
 Захаваць пароль у базу
 [Default password]
 Пароль па змаўчанні
-[Import]
-Імпартаваць
 [Select keyserver for key search:]
 Выбраць сервер ключоў для пошуку:
 [Userlist:]
 Ліст карыстальнікаў:
+[Export PubKey]
+Захаваць ключ
+[Select own key]
+Выбраць свой ключ
+[Turn on debug log]
+Укл. запіс адладкі
+[Use jabber api on Miranda NG (recomended)]
+Выкарыстоўваць jabber api Miranda NG (Рэкамендуецца)
+[Encrypt file transfers]
+Шыфраваная перадача файлаў
+[Automatic key exchange]
+Автообмен ключамі
+[Copy own key]
+Капір. свой ключ
 [Add tags to encoded and decoded messages]
 Дадаваць пазнакі да паведамленняў
 [Incomming message tags:]
@@ -114,31 +92,46 @@
 Пачатку
 [Close:]
 Канца
-[Account:]
-Уліковы запіс:
-[Key ID]
-Ключ
+[Strip all tags in outgoing messages]
+Выдаляць усе пазнакі з выходных паведамленняў
+;file \plugins\New_GPG\src\init.cpp
+[GPG encryption status]
+Статус шыфравання GPG
+;file \plugins\New_GPG\src\main.cpp
 [Creation date]
 Дата стварэння
 [Key length]
 Доўгая ключа
-[Own private key warning]
-Папярэджанне! Не вылучаны прыватны ключ.
-[You didn't set a private key.\nWould you like to set it now?]
-Вы не выбралі прыватны ключ.\nВы хочаце зрабіць гэта зараз?
-[Set own key]
-Выбар ўласнага ключа
-[Automatic key exchange]
-Автообмен ключамі
 [Default private key id]
 Асноўны прыватны ключ
-[Strip all tags in outgoing messages]
-Выдаляць усе пазнакі з выходных паведамленняў
-[Turn on presence signing (Jabber)]
-Уключыць подпіс паведамленняў прысутнасці (Jabber)
-[GPG encryption status]
-Статус шыфравання GPG
-[Continue]
-Працягнуць
-[Key Generation dialog]
-Стварэнне прыватнага ключа
+[This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn.]
+Абраны вамі exe не GnuPG!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагiнам.
+[Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn.]
+Ваша версія GnuPG не падтрымліваецца і можа працаваць не правільна!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагiнам.
+[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
+Ваша версія GPG падтрымліваецца. Моўныя файлы знойдзеныя.\nGPG Павінен працаваць нармальна.\nНацісьніце ОК.
+[please choose gpg binary location]
+Вылучыце дырэкторыю з GnuPG
+[please set keyring's home directory]
+Вылучыце дырэкторыю з ключамі GnuPG
+[There is existing key for contact, would you like to replace with new key ?]
+Атрыманы ключ, але ў кантакта ўжо ёсць ключ. Вы жадаеце яго замяніць новым?
+[New public key was received, do you want to import it?]
+Атрыманы новы адкрыты ключ. Вы хочаце прыняць яго?
+[Replace]
+Замяніць
+[Accept]
+Прыняць
+[You didn't set a private key.\nWould you like to set it now?]
+Вы не выбралі прыватны ключ.\nВы хочаце зрабіць гэта зараз?
+[Own private key warning]
+Папярэджанне! Не вылучаны прыватны ключ.
+;file \plugins\New_GPG\src\messages.cpp
+;file \plugins\New_GPG\src\options.cpp
+[GnuPG Variables]
+Шляхі да GPG
+[Key ID]
+Ключ
+[Do you want to remove key from entire metacontact (all subcontacts) ?]
+Вы хочаце прыбраць ключ для метаконтакта (усіх субконтактаў)?
+;file \plugins\New_GPG\src\utilities.cpp

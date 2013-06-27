@@ -1,242 +1,237 @@
 ﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
-;  File: clist_modern.dll
-;  Module: Modern Contact List
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
 [Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
 Паказвае кантакты, падзеі, статусы пратаколаў з пашыранымі функцыямі афармлення (скіны). Мультываконная мадыфікацыя, пашыраная падтрымка метакантактаў.
-[Selection Mode]
-Тып вылучэння
-[Full selection]
-Поўнае вылучэнне
-[Less selection]
-Толькі над тэкстам
-[No selection]
-Не вылучаць
+;file \plugins\Clist_modern\res\resource.rc
+[Transparency:]
+Празрыстасць:
+[Window behaviour:]
+Паводзіны спісу:
+[List sorting:]
+Сартаванне спісу:
+[Status bar:]
+Панэль статусу:
+[List content:]
+Утрыманне спісу:
 [1st:]
 1-шы:
 [2nd:]
 2-гі:
 [3rd:]
 3-ці:
-[Name (use locale settings)]
-Імя (уключаючы лакалізацыю)
-[Last message time]
-Апошняе паведамленне
-[Account Name]
-Імя ўліковага запісу
-[-Nothing-]
--Нічога-
-[Place offline users out of groups]
-Адключаных паказваць па-за групамі
-[Dont move offline user to bottom]
-Не перасоўваць адключаных уніз
-[System tray icon mode]
-Паводзіны значка ў сістэмным трэі
-[ms, delay between icon blinking]
-мс, паміж мігценнямі значка
-[Use xStatus icon]
-Значок xСтатуса
-[Show normal status as overlay]
-Звычайны статус па-над
-[Status overlay opacity is 75% ]
-Непразрыстасць 75%
-[only when statuses differ]
-пры розных статусах
-[TrayMenu]
-Меню ў трэі
-[Hide vertical scrollbar]
-Схаваць паласу прагорткі
-[Fade out entire list when:]
-Прыцьміць увесь ліст калі:
-[Non-layered mode]
-Рэжым без скінаў
-[Disable Skin Engine]
-Выключыць скіны
-[Use Non-Layered mode]
-Рэжым без скіна
-[Borderless main window]
-Галоўнае акно без меж
-[Thin border main window]
-Тонкая мяжа спісу
-[Gaps]
-Інтэрвалы
-[Between frames:]
-Паміж фрэймамі
-[After captions:]
-Пасля загалоўка
-[Client area margins]
-Межы спісу кантактаў
-[Translucency options (Windows 2000/XP+)]
-Налады празрыстасці
-[Enable drop shadow (restart required)]
-Уключыць цень (патрэбен перазапуск)
-[Enable Aero Glass (Vista)]
-Стыль Аэро (Vista/Seven)
-[Bring to front if covered]
-Перасоўваць на пярэдні план
 [Hide contact list after ]
 Хаваць спіс пасля
-[Hide method]
-Метад утойвання
-[Hide to tray]
-У сістэмны латок
-[Behind left edge]
-За левы край
-[Behind right edge]
-За правы край
-[show delay]
-затрымка
-[hide delay]
-хаваць праз
-[keep on screen]
-пакідаць бачным
-[x100 msec]
-х100 мсек
-[Lock manual resize]
-Забараніць змену памеру
-[and minimum]
-і мінімум
-[Drag to ]
-Перацягванне
-[Easy Scroll]
-Простая прагортка
-[Snap to edges]
-Ліпнуць да краёў
-[Dock to sides]
-Паркаваць
-[Event notify area]
-Зона падзей
-[Show automaticaly]
-Аўтаматычна
-[Always Visible]
-Заўсёды бачны
-[Never Visible]
-Ніколі не бачны
-[Chat Activity]
-Актыўнасць чата
-[Space between ]
-Адлегласць паміж
+[Animate Avatars]
+Анімацыя аватараў
+[Show contact time in list]
+Паказваць час кантакту
+[Compact mode]
+Кампактны рэжым
+[Use Windows Colors]
+Колеры Windows
+[Available skins]
+Даступныя скіны
+[\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
+\n\n\nВыбярыце скін. \n\nНажміце "Агляд" для пошуку іншых.
+[Skin Preview]
+Прагляд скіна
+[WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
+УВАГА: \tСкіны могуць змяняць Ваш профіль. Адкат немагчымы. \n\t\tКалі ласка, зрабіце РЭЗЕРВОВУЮ КОПІЮ профіля.
+[* Restart may be required for all changes to take effect]
+* Неабходзен рэстарт для ўступа змен у сілу
+[Available objects]
+Даступныя аб'екты
+[Object properties]
+Уласцівасці аб'екта
+[Colour]
+Колер
+[Image file and fitting mode]
+Файл выявы i рэжым налады
 [Borders]
 Межы
-[Horizontal Align]
-Па гарызанталі
+[Fit mode]
+Рэжым налады
+[Fragment location]
+Пазiцыя фрагмента
+[W x H: 0 x 0 pixels]
+Ш x В: 0 x 0 пiкс.
+[Show contacts in groups]
+Паказваць кантакты ў групах
+[Space between]
+Прамежак
 [Vertical Align]
 Па вертыкалі
-[Center]
-У цэнтры
+[Horizontal Align]
+Па гарызанталі
 [Multiline status bar:]
 Шматрадковая панэль статусу:
 [Accounts per line]
 Акаўнтаў у радку
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
 * Змена вышыні радка статусу: "Галоўнае меню->Фрэймы->Панэль статусу->Плывучы рэжым" і расцягніце панэль.
-[Hold [Shift] to inverse [Right Click] behaviour]
-[Shift]+[Правы клік] - Галоўнае меню
-[[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
-[Ctrl]+[Левы клік] уключыць фільтр па пратаколу, клік па пустым месцы адключыць.
 [Set options per account]
 Паакаўнтная налада
-[<<Global>>]
-<<Агульнае>>
 [Enable custom account settings]
 Наладзіць уліковы запіс
 [Hide account completely]
 Схаваць акаўнт
+[Show status name]
+Імя Статуса
+[Show xStatus name]
+Імя хСтатуса
+[Show protocol icon]
+Абразок пратаколу
+[Use connecting icon]
+Абразкі далучэння
 [Show xStatus icon]
 Значок xСтатуса
-[Show xStatus Name]
-Імя xСтатуса
-[Use connecting Icon]
-Значок злучэння
 [Show both icons]
 Абодва значка
+[Show normal status as overlay]
+Звычайны статус па-над
+[Status overlay opacity is 75% ]
+Непразрыстасць 75%
 [Show unread emails (if supported)]
 Непрачытаная пошта (калі падтрымліваецца)
-[Right click opens Miranda menu]
-Правая пстрычка - галоўнае меню
-[Space on right]
-Водступ справа
 [Space on Left]
 Водступ злева
-[Additional stuff]
-Дадаткова
-[Ignore Empty Extra icons places (arrange to right).]
-Ігнараваць пустыя дадатковыя значкі (справа)
-[Allow internal requesting of away message text]
-Дазволіць унутраныя запыты статусных паведамленняў
-[Remove away message if contact became offline]
-Выдаліць статуснае паведамленне, калі кантакт афлайн
-[Use improved search method in contactlist]
-Пошук па спісе з фільтраваннем вынікаў
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
-Для дадатковых магчымасцяў загрузіце модуль MetaContacts.\n\nhttp://miranda-ng.org
-[MetaContacts stuff]
-Метакантакты
-[Use 'Meta' protocol icons for Metacontacts]
-'Мета' значкі для метакантактаў
+[Space on right]
+Водступ справа
+[Place offline users out of groups]
+Адключаных паказваць па-за групамі
+[Full selection]
+Поўнае вылучэнне
+[Less selection]
+Толькі над тэкстам
+[No selection]
+Не вылучаць
+[Selection Mode]
+Тып вылучэння
+[Bring to front if covered]
+Перасоўваць на пярэдні план
+[Lock manual resize]
+Забараніць змену памеру
+[Drag to ]
+Перацягванне
+[Easy Scroll]
+Простая прагортка
+[x100 msec]
+х100 мсек
+[show delay]
+затрымка
+[hide delay]
+хаваць праз
+[Hide method]
+Метад утойвання
+[keep on screen]
+пакідаць бачным
+[Snap to edges]
+Ліпнуць да краёў
+[Event notify area]
+Зона падзей
+[Show automaticaly]
+Аўтаматычна
+[Always Visible]
+Заўсёды бачны
+[Dock to sides]
+Паркаваць
+[and minimum]
+і мінімум
+[Fade out entire list when:]
+Прыцьміць увесь ліст калі:
+[System tray icon mode]
+Паводзіны значка ў сістэмным трэі
+[Use xStatus icon]
+Значок xСтатуса
+[only when statuses differ]
+пры розных статусах
 [Expand metacontacts]
 Разгортваць метакантакты
-[Avoid doubleclick expand]
-Не разгортваць па падвойным кліку
-[Hide all 'Extra icons' for subcontacts]
-Схаваць дадатковыя значкі для субкантактаў
-[Hide offline subcontacts.]
-Хаваць адключаныя субкантакты
+[MetaContacts stuff]
+Метакантакты
+[Additional stuff]
+Дадаткова
+[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
+Для дадатковых магчымасцяў загрузіце модуль MetaContacts.\n\nhttp://miranda-ng.org
+[Allow internal requesting of status message text]
+Дазволіць унутраныя запыты статусаў
 [Subcontacts indent:]
 Водступ субкантактаў:
-[Row items]
-Элементы радкоў
-[Row]
-Радок
+[Use improved search method in contactlist]
+Пошук па спісе з фільтраваннем вынікаў
+[Show time only if it is different from current time]
+Паказваць час, толькі калі яно адрозніваецца
+[Show contact time as row item]
+Час як элемент радка
+[Client area margins]
+Межы спісу кантактаў
+[Thin border main window]
+Тонкая мяжа спісу
+[Borderless main window]
+Галоўнае акно без меж
+[Translucency options]
+Налады празрыстасці
+[Between frames:]
+Паміж фрэймамі
+[After captions:]
+Пасля загалоўка
+[Gaps]
+Інтэрвалы
+[Use Non-Layered mode]
+Рэжым без скіна
+[Non-layered mode]
+Рэжым без скінаў
+[Disable Skin Engine]
+Выключыць скіны
+[Enable Aero Glass (Vista)]
+Стыль Аэро (Vista/Seven)
 [Order of items:]
 Парадак элементаў:
-[Icon]
-Значок
-[Contact time]
-Час кантакту
 [Min row height:]
 Мін. вышыня лініі:
 [Row border:]
 Мяжа лініі:
-[Right margin:]
-Правае поле:
 [Variable row height]
 Зменная вышыня радка
 [Align left items to left]
 Выраўноўваць значкі злева
 [Align right items to right]
 Выраўноўваць значкі справа
+[Right margin:]
+Правае поле:
 [Compact mode\n(Show avatars and additional text on selected contacts only)]
 Кампактны рэжым\n(Аватары і дадатковы тэкст толькі ў абраных кантактаў)
-[Animate Avatars]
-Анімацыя аватараў
-[Use old render method (Fast, but has artefacts)]
-Стары метад адмалёўкі (Хутчэй, але могуць быць "артэфакты")
 [Draw border on avatar]
 Рамкі на аватарах
-[Border Color:]
-Колер рамкі:
-[Round corners of avatars]
-Закругленыя аватары
-[Custom corner size:]
-Памер кута:
-[Max width]
-Шырыня
-[height]
-вышыня
 [Draw overlay icons]
 Значкі на аватарах
+[Round corners of avatars]
+Закругленыя аватары
+[Ignore size for row height calcs]
+Ігнараваць вышыню радка
+[Border Color:]
+Колер рамкі:
 [Normal overlay icon]
 Звычайны значок
 [Protocol status icon]
 Значок пратаколу
 [Contact icon]
 Значок кантакту
+[height]
+вышыня
+[Max width]
+Шырыня
+[Use old render method (Fast, but has artefacts)]
+Стары метад адмалёўкі (Хутчэй, але могуць быць "артэфакты")
 [Hide icon when showing avatar]
 Хаваць значок пратаколу
 [Draw icon in avatar space]
 Значкі на месцы аватара
-[Ignore size for row height calcs]
-Ігнараваць вышыню радка
 [Hide groups icon]
 Схаваць значок груп
 [Always show "Always visibile" icon]
@@ -245,26 +240,16 @@
 Значок хстатуса замест пратаколу
 [Draw normal status as overlay]
 Звычайны статус аверлэем
-[Show contact time as row item]
-Час як элемент радка
-[Show time only if it is different from current time]
-Паказваць час, толькі калі яно адрозніваецца
-[Left align group names]
-Імёны груп злева
-[Center group names]
-Імёны груп па цэнтры
-[Right align group names]
-Імёны груп справа
 [Right-To-Left reading mode (mirror template)]
 Рэжым справа налева (люстраны шаблон)
-[Align to right]
-Выраўнаваць справа
 [Replace smileys in clist]
 Замяняць смайлікі ў спісе
-[Resize smileys and 'Listining to' icon]
-Змяніць памеры смайлікаў і значка 'Зараз слухаю'
 [Draw smileys on first line]
 Смайлікі ў першым радку
+[Resize smileys and 'Listining to' icon]
+Змяніць памеры смайлікаў і значка 'Зараз слухаю'
+[Align to right]
+Выраўнаваць справа
 [Append nick if different from custom name]
 Дадаваць нік, калі ён выдатны ад імя ў спісе
 [Trim long text with ellipsis]
@@ -273,124 +258,86 @@
 Становішча:
 [Draw smileys on second line]
 Смайлікі на другім радку
-[Away Message]
-Статуснае паведамленне
-[Show status if there isn't away message]
-Статус, калі няма статуснага паведамлення
-[Show listening to if there isn't away message]
-"Слухаю", калі няма статуснага паведамлення
+[Show status if there is no status message]
+Паказаць стан, калі няма паведамлення
+[Show listening to if there is no status message]
+Паказаць "Слухаю", калі няма паведамлення
 [XStatus has priority]
 Прыярытэт xСтатуса
 [Use 'XStatus: XMessage']
 'xСтатус: хпаведамленне:
 [(Variables will be replaced)]
 (Зменныя замяняюцца)
-[Third Line]
-Трэці радок
 [Show third line]
 Паказваць трэці радок
 [Draw smileys on third line]
 Смайлікі на трэцяй сцёку
-[Extra Icons]
-Экстра значкі
-[Contact List Extra Icons]
-Значкі ў спісе кантактаў
-[Client (fingerprint.dll is required)]
-Кліент (неабходзен fingerprint.dll)
-[Restore last status]
-Аднавіць апошні стан статусу
-[FrameMenu]
-Меню вокнаў
-[&Expanded]
-&Пашыраны
-[&Show title]
-&Паказваць назву
-[Contact rate None]
-Рэйтынг кантакту Няма
-[Contact rate Low]
-Рэйтынг кантакту Нізкі
-[Contact rate Medium]
-Рэйтынг кантакту Сярэдні
-[Contact rate High]
-Рэйтынг кантакту Высокі
+[Top/Left]
+Вышэй/Лявей
+[Bottom/Right]
+Ніжэй/Правей
+[Position (vertical)]
+Палажэнне (вертыкальна)
+[Show Title]
+Загаловак
+[Locked]
+Заблакавана
+[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
+У РАСПРАЦОЎЦЫ!!!                      ГЭТА НЕ ПРАЦУЕ
+[Row template]
+Радок шаблона
+[Add container]
+Дадаць кантэйнер
+[Remove container]
+Выдаліць кантэйнер
+[Vertical align:]
+Раўняць па вертыкалі:
+[Horizontal align:]
+Раўняць по гарызанталі:
+[Container type:]
+Тып кантэйнера:
+[Container width:]
+Шырыня кантэйнера:
+[Container height:]
+Вышыня кантэйнера:
+[Layered]
+Слаіста
+[&Show Offline Users in here]
+Паказаць адключаных у групе
+;file \plugins\Clist_modern\src\modern_clc.cpp
+[Modern contact list]
+Прадвінуты спіс кантактаў
 [Status Overlay]
 Аверлэй статусу
-[ToolBar]
-Панэль кнопак
-[Toolbar settings]
-Налада панэлі кнопак
-[Show Toolbar with next buttons:]
-Паказваць панэль з наступнымі кнопкамі:
-[Show/Hide offline contacts]
-Паказаць/схаваць адключаных
-[Enable/Disable sounds]
-Уключыць/Выключыць гукі
-[Use/Disable groups]
-Укл/Выкл групы
-[Minimize]
-Згарнуць
-[Status Menu]
-Меню статусу
-[Multiline toolbar]
-Шматрадковая панэль
-[Autosize toolbar]
-Аўтапамер панэлі
-[Button width]
-Шырыня кнопкі
-[Hints:\n* Use Drag&&Drop feature to change buttons order.\n* You can change button icons at Customize->Icons Toolbar section]
-Падказка:\n* Парадак кнопак можна змяніць перацягваннем\n* Значкі можна памяняць у "Тонкая налада>Значкі"
-[Space between]
-Прамежак
-[DBEditor++]
-Рэдактар базы
-[Database Editor]
-Рэдактар базы
-[Disable sounds]
-Адключыць гукі
-[Main menu]
-Галоўнае меню
-[Accounts...]
-Уліковыя запісы...
-[Disable Groups]
-Выключыць сартаванне па групах
-[Use groups]
-Уключыць сартаванне па групах
-[Show offline contacts]
-Паказаць адключаных
-[Toolbar upgrade]
-Аднаўленне тулбара
-[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
-Для панэлі кнопак ў Clist Modern неабходны дадатак TopToolBar. Каб спампаваць яго, нажміце "Да"
-[Available skins]
-Даступныя скіны
-[Default Skin]
-Стандартны скін
-[Skin Preview]
-Прагляд скіна
-[Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
-Прадпрагляд не даступны\n\n%s\n----------------------\n\n%s\n\nАўтар(ы):\n%s\n\nКантакт:\n%s\n\nWeb:\n%s
-[This is second default Modern Contact list skin in Vista Aero style]
-Гэта другі стандартны скін спісу кантактаў у стылі Vista Aero
-[Info]
-Інфа
-[WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
-УВАГА: \tСкіны могуць змяняць Ваш профіль. Адкат немагчымы. \n\t\tКалі ласка, зрабіце РЭЗЕРВОВУЮ КОПІЮ профіля.
-[* Restart may be required for all changes to take effect]
-* Неабходзен рэстарт для ўступа змен у сілу
-[%Default Skin%]
-%Стандартны Скін%
-[%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
-%s\n\n%s\n\nАЎТАРЫ:\n%s\n\nКАНТАКТ:\n%s\n\nWEB:\n%s\n\n\n
-[%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-%s\n\n%s\n\nАўтар(ы): %s\nКантакт:\t %s\nВэб:\t %s\n\nФайл:\t %s
-[%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-%s\n\n%s\n\nАўтар(ы):\t %s\nКантакт:\t %s\nWeb:\t %s\n\nФайл:\t %s
-[\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
-\n\n\nВыбярыце скін. \n\nНажміце "Агляд" для пошуку іншых.
-[Miranda skin file]
-Файл скіна Miranda
-[Contact names]
-Кантакты
+[Contact List smileys]
+Смайлы спісу кантактаў
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+Жадаеце канверсаваць '%s' у метакантакт і дадаць '%s' у яго?
+[Converting to MetaContact]
+Канвертаванне ў метакантакт
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+Жадаеце канверсаваць '%s' у метакантакт і дадаць '%s' у яго (выдаліць яго з '%s')?
+[Converting to MetaContact (Moving)]
+Канвертаванне ў метакантакт (перасоўванне)
+[Do you want to contact '%s' be added to metacontact '%s'?]
+Жадаеце дадаць '%s' у метакантакт '%s'?
+[Adding contact to MetaContact]
+Даданне да метакантакту
+[Do You want contact '%s' to be default ?]
+Жадаеце зрабіць '%s' кантактам па змаўчанні?
+[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+Жадаеце выдаліць '%s' з метакантакту '%s' і дадаць у '%s'?
+[Changing MetaContacts (Moving)]
+Змена метакантакту (перасоўванне)
+[Do You want contact '%s' to be added to MetaContact '%s'?]
+Жадаеце дадаць кантакт '%s' у метакантакт '%s'?
+;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Row Items]
+Элементы радкоў
+[Frame texts]
+Тэкст фрэйма
+[Special colours]
+Адмысловыя колеры
 [Away contacts]
 Кантакт "адышоў"
 [DND contacts]
@@ -409,103 +356,214 @@
 Кантакт "на абедзе"
 [Contacts who are 'not on list']
 Кантакты "не ў спісе"
-[Open group member counts]
-Адкрытыя групы (колькасць)
 [Open groups]
 Адкрытыя групы
-[Closed group member counts]
-Зачыненыя групы (колькасць)
+[Open group member counts]
+Адкрытыя групы (колькасць)
 [Closed groups]
 Зачыненыя групы
-[Special colours]
-Адмысловыя колеры
-[Hot text]
-Тэкст пад курсорам
-[Quick search text]
-Тэкст хуткага пошуку
-[Menu text]
-Тэкст меню
-[Frame title text]
-Тэкст загалоўка фрэйма
-[Selected menu text]
-Тэкст вылучанага меню
-[Statusbar text]
-Тэкст панэлі статусу
-[3rd party frames transparent back colour]
-Фон празрыстасці іншых фрэймаў
-[Frame texts]
-Тэкст фрэйма
+[Closed group member counts]
+Зачыненыя групы (колькасць)
+[Third line]
+Трэці радок
 [Status bar text]
 Радок статусу
 [Event area text]
 Тэкст вобласці падзей
 [Current view mode text]
 Тэкст рэжыму прагляду
-[Row Items]
-Элементы радкоў
-[Third line]
-Трэці радок
-[&Show Offline Users in here]
-Паказаць адключаных у групе
+[Hot text]
+Тэкст пад курсорам
+[Quick search text]
+Тэкст хуткага пошуку
+[Menu text]
+Тэкст меню
+[Selected menu text]
+Тэкст вылучанага меню
+[Frame title text]
+Тэкст загалоўка фрэйма
+[Statusbar text]
+Тэкст панэлі статусу
+[3rd party frames transparent back colour]
+Фон празрыстасці іншых фрэймаў
+[Name (use locale settings)]
+Імя (уключаючы лакалізацыю)
+[Last message time]
+Апошняе паведамленне
+[Account Name]
+Імя ўліковага запісу
+[Rate]
+Рэйтынг
+[-Nothing-]
+-Нічога-
+[Hide to tray]
+У сістэмны латок
+[Behind left edge]
+За левы край
+[Behind right edge]
+За правы край
+;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
+Падзей няма
+;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 Рэйтынг кантакту
-[&Contact rate (Low)]
-Рэйтынг кантакту (Нізкі)
-[&Contact rate (Medium)]
-Рэйтынг кантакту (Сярэдні)
-[&Contact rate (High)]
-Рэйтынг кантакту (Высокі)
+[Low]
+Нізкі
+[Medium]
+Сярэдні
+[High]
+Высокі
+[Contact rate None]
+Рэйтынг кантакту Няма
+[Contact rate Low]
+Рэйтынг кантакту Нізкі
+[Contact rate Medium]
+Рэйтынг кантакту Сярэдні
+[Contact rate High]
+Рэйтынг кантакту Высокі
+[Show even if offline]
+Паказваць адключаных
+;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
+Анімаваныя аватары (патрэбны GDI+ і сервіс аватараў (avs.dll))
+[Left align group names]
+Імёны груп злева
+[Center group names]
+Імёны груп па цэнтры
+[Right align group names]
+Імёны груп справа
+[Row]
+Радок
+[Row design]
+Дызайн радка
+[Second Line]
+Другі радок
+[Third Line]
+Трэці радок
+[Row items]
+Элементы радкоў
+;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+;file \plugins\Clist_modern\src\modern_clisttray.cpp
+;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 Паказаць аватар
 [Hide Contact &Avatar]
 Схаваць аватар
-[Show even if offline]
-Паказваць адключаных
-[Low]
-Нізкі
-[High]
-Высокі
-[Adding contact to MetaContact]
-Даданне да метакантакту
-[Changing MetaContacts (Moving)]
-Змена метакантакту (перасоўванне)
-[Converting to MetaContact]
-Канвертаванне ў метакантакт
-[Converting to MetaContact (Moving)]
-Канвертаванне ў метакантакт (перасоўванне)
-[Do You want contact '%s' to be removed from MetaContact '%s' to group '%s'?]
-Жадаеце выдаліць '%s' з метакантакту '%s' і перамясціць у групу '%s'?
-[Do You want contact '%s' to be removed from MetaContact '%s'?]
-Жадаеце выдаліць кантакт '%s' з метакантакту '%s'?
-[Do You want contact '%s' to be added to MetaContact '%s'?]
-Жадаеце дадаць кантакт '%s' у метакантакт '%s'?
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
-Жадаеце канверсаваць '%s' у метакантакт і дадаць '%s' у яго (выдаліць яго з '%s')?
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
-Жадаеце канверсаваць '%s' у метакантакт і дадаць '%s' у яго?
-[Do You want contact '%s' to be default ?]
-Жадаеце зрабіць '%s' кантактам па змаўчанні?
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
-Жадаеце выдаліць '%s' з метакантакту '%s' і дадаць у '%s'?
-[Do you want to contact '%s' be added to metacontact '%s'?]
-Жадаеце дадаць '%s' у метакантакт '%s'?
-[Do you want to contact '%s' be converted to MetaContact and contact '%s' be added?]
-Канверсаваць '%s' у метакантакт і дадаць да яго '%s'?
-[No Events]
-Падзей няма
-[Tile vertically according to Row Height]
-Расцягваць вертыкальна па вышыні
-[Use Windows Colors]
-Колеры Windows
-[Selection colour:]
-Колер вылучэння:
-[Event Area Background]
-Фон вобласці падзей
-[View Mode Background]
-Фон рэжымаў выгляду
-[Menu Background]
-Фон меню
-[ToolBar Background]
-Фон панэлі кнопак
-[Frames TitleBar BackGround]
-Фон загалоўка фрэймаў
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+[&Show title]
+&Паказваць назву
+[&Expanded]
+&Пашыраны
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\modern_keyboard.cpp
+[Show/Hide Offline Users]
+Паказаць/Скрыць адключаных
+;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+[Empty %s cell]
+Пуста %s клетак
+[column]
+слупок
+[line]
+радок
+[columns]
+слупкоў
+[%s, contain %s]
+%s, утрымлівае %s
+[ layered]
+слаіста
+;file \plugins\Clist_modern\src\modern_skineditor.cpp
+[- Empty - (do not draw this object)]
+- Пуста - (не маляваць гэта)
+[Solid fill object]
+Суцэльна для аб'екта
+[Image (draw image)]
+Выява
+[Fragment (draw portion of image)]
+Фрагмент (частка выявы)
+[Stretch Both directions]
+Расцянць ва ўсе бакі
+[Stretch Vertical, Tile Horizontal]
+Расцягнуць гарызантальна, плітка вертыкальна
+[Tile Vertical, Stretch Horizontal]
+Плітка вертыкальна, расцягнуць гарызантальна
+[Tile Both directions]
+Плітка ў абодвух напрамках
+[Image size is]
+Памер выявы
+;file \plugins\Clist_modern\src\modern_skinengine.cpp
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[Load/Save]
+Загрузіць/Захаваць
+[Object Editor]
+Рэдактар аб'ектаў
+[( unknown )]
+( невядома )
+[%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\nАўтар(ы):\t %s\nКантакт:\t %s\nWeb:\t %s\n\nФайл:\t %s
+[%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\nАўтар(ы): %s\nКантакт:\t %s\nВэб:\t %s\n\nФайл:\t %s
+[reVista for Modern v0.5]
+reVista для Modern v0.5
+[This is second default Modern Contact list skin in Vista Aero style]
+Гэта другі стандартны скін спісу кантактаў у стылі Vista Aero
+[Angeli-Ka (graphics), FYR (template)]
+Angeli-Ka (графіка), FYR (шаблон)
+[Inside library]
+Устроены
+[Skin Information]
+Інфармацыя
+[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+Рэдактар утрымоўвае незахаваныя змяненні.\n\nУсе змяненні будуць згубленыя.\n\nПрацягнуць загрузку новага скіна?
+[Warning!]
+Увага!
+[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+Сучасны выгляд не захаваны.\n\nУсе змены будуць страчаны.\n\n Current skin was not saved to file.\n\nAll changes will be lost.\n\n Працягнуць загрузку?
+[Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
+Прадпрагляд не даступны\n\n%s\n----------------------\n\n%s\n\nАўтар(ы):\n%s\n\nКантакт:\n%s\n\nWeb:\n%s
+[%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
+%s\n\n%s\n\nАЎТАРЫ:\n%s\n\nКАНТАКТ:\n%s\n\nWEB:\n%s\n\n\n
+[graphics by Angeli-Ka\ntemplate by FYR]
+графіка Angeli-Ka\nшаблон FYR
+[Select skin from list]
+Вылчыце вокладку са спісу
+[Please select skin to apply]
+Абярыце вокладку для ўжывання
+[Default Skin]
+Стандартны скін
+[%Default Skin%]
+%Стандартны Скін%
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+[<<Global>>]
+<<Агульнае>>
+[Center]
+У цэнтры
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Main menu]
+Галоўнае меню
+[Status Menu]
+Меню статусу
+[Accounts...]
+Уліковыя запісы...
+[Show/Hide offline contacts]
+Паказаць/схаваць адключаных
+[Show offline contacts]
+Паказаць адключаных
+[Use/Disable groups]
+Укл/Выкл групы
+[Use groups]
+Уключыць сартаванне па групах
+[Disable Groups]
+Выключыць сартаванне па групах
+[Enable/Disable sounds]
+Уключыць/Выключыць гукі
+[Minimize]
+Згарнуць
+[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+Для панэлі кнопак ў Clist Modern неабходны дадатак TopToolBar. Каб спампаваць яго, нажміце "Да"
+[Toolbar upgrade]
+Аднаўленне тулбара
+;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Configuring view mode: %s]
+Налада рэжыму прагляду: %s

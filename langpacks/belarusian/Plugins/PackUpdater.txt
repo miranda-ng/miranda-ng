@@ -1,77 +1,54 @@
-﻿#muuid {29517BE5-779A-48E5-8950-CB4DE1D43172}
+﻿#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+;============================================================
 ;  File: PackUpdater.dll
-;  Module: PackUpdater
+;  Plugin: Pack updater
+;  Version: 0.0.1.1
+;  Authors: Mataes, ZERO_BiT
+;============================================================
 [Simple updater for Miranda NG premodified packs.]
 Дадатак для абнаўлення зборак Miranda NG.
-[Pack Updater]
-Абнаўленне зборкі
-[Check for pack updates]
-Праверыць абнаўленні зборкі
-[Downloading pack updates...]
-Загрузка абноўленай зборкі...
-[No updates found.]
-Абнаўленняў няма.
+;file \plugins\PackUpdater\Res\Resource.rc
 [View info]
-Інфармацыя
-[An error occured while downloading the update.]
-Падчас загрузкі абнаўлення адбылася памылка.
-[URL for checking updates not found.]
-Спасылка для праверкі абнаўленняў не знойдзена.
-[Downloading version info...]
-Загрузка інфармацыі пра версіі...
-[Name of Update's file is not supported.]
-Імя файла абнаўлення не падтрымліваецца.
-[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Загрузка завершана. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda зачынена.
-[You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
-Вы адмовіліся ад неадкладнай усталёўкі абнаўлення зборкі.\n Вы можаце ўсталяваць гэта абнаўленне ўручную адгэтуль:\n\n%s
-[No files for update.]
-Няма файлаў для абнаўлення.
-[Update checking already started!]
-Абнаўленне ўжо запушчана!
-[Automatically check for pack updates]
-Аўтаматычна правяраць абнаўленні зборкі
+Паглядзець інфа
+[PackUpdater has detected updated versions\nof the following Miranda components:]
+Былі знойдзены абноўленыя версіі наступных модуляў:
 [Pack update options]
 Налады абнаўлення зборкі
 [Remind about not installed pack update]
 Нагадваць пра неўсталяванае абнаўленне
-[Message boxes (*)]
-Дыялогі (*)
-[Info messages]
-Інфа паведамленні
-[Progress dialogs]
-Дыялогі прагрэсу
-[* Needs popup actions to be enabled]
-* Неабходны ўключаныя дзеянні успл. вокнаў
-[Not sets for "Message boxes"]
-Не ўсталёўвае для "Дыялогі"
-[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Загрузкі завершаны. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda зачынена.
-[Clear pack updates folder]
-Ачысціць тэчку з абнаўленнямі зборкі
-[Downloading update...]
-Загрузка абнаўлення...
-[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
-Абнаўленне не магчыма!\n Вы не маеце адміністратарскіх правоў.\nКалі ласка, запусціце Miranda з правамі адміністратара.
-[Boxes]
-Вокны
 [Message boxes]
 Дыялогі
+;file \plugins\PackUpdater\Src\Events.cpp
+[Check for pack updates]
+Праверыць абнаўленні зборкі
+[Pack Updater]
+Абнаўленне зборкі
+;file \plugins\PackUpdater\Src\Notifications.cpp
+[Current Version]
+Бягучая версія
+[New Version]
+Новая версія
+[Downloading pack updates...]
+Загрузка абноўленай зборкі...
+[Downloading update...]
+Загрузка абнаўлення...
+[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Загрузкі завершаны. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda зачынена.
+[You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
+Вы адмовіліся ад неадкладнай усталёўкі абнаўлення зборкі.\n Вы можаце ўсталяваць гэта абнаўленне ўручную адгэтуль:\n\n%s
+;file \plugins\PackUpdater\Src\Notifications.h
+;file \plugins\PackUpdater\Src\Options.cpp
+;file \plugins\PackUpdater\Src\PackUpdater.cpp
+[Clear pack updates folder]
+Ачысціць тэчку з абнаўленнямі зборкі
+;file \plugins\PackUpdater\Src\Utils.cpp
 [Pack Updater HTTP connection]
 HTTP падлучэнне Pack Updater
-[Updates found!]
-Знойдзены абнаўленні!
-[PackUpdater has detected updated versions\nof the following Miranda components:]
-Былі знойдзены абноўленыя версіі наступных модуляў:
-['Yes' Button]
-Кнопка 'Так'
-['No' Button]
-Кнопка 'Не'
-[On startup]
-Пры запуску
-[(but only once a day)]
-(1 раз у дзень)
-[Every]
-Кожныя
-[days]
-дзён
+[URL for checking updates not found.]
+Спасылка для праверкі абнаўленняў не знойдзена.
+[Name of Update's file is not supported.]
+Імя файла абнаўлення не падтрымліваецца.
+[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
+Абнаўленне не магчыма!\n Вы не маеце адміністратарскіх правоў.\nКалі ласка, запусціце Miranda з правамі адміністратара.
+[No files for update.]
+Няма файлаў для абнаўлення.

@@ -1,98 +1,88 @@
 ﻿#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
+;============================================================
 ;  File: CmdLine.dll
-;  Module: Command line support for Miranda NG
-[Wrong number of parameters for command '%s'.]
-Няслушная колькасць параметраў для каманды '%s'
+;  Plugin: Command line
+;  Version: 0.0.4.1
+;  Authors: Cristian Libotean
+;============================================================
 [This plugin lets you control Miranda from the command line.]
 Модуль дазваляе кіраваць Miranda праз камандны радок.
-[Could not find contact handle for contact '%s'.]
-Немагчыма знайсці апрацоўнік для кантакту '%s'.
-[No unread messages found.]
-Няма непрачытаных паведамленняў.
-[%s usage:\n]
-%s выкарыстанне:\n
-[Unknown command '%s'.\n]
-Невядомая каманда '%s'.\n
-[Current status: %s.]
-Бягучы статут: %s.
-[CallService call successful: service '%s' returned %d.]
-Выклік службы завершаны: служба '%s' вярнула %d.
-[Could not create connection with Miranda or could not retrieve list of known commands.\n]
-Немагчыма стварыць злучэнне з Miranda ці атрымаць спіс даступных каманд.\n
-[Wrote '%s:%s' to database entry '%s/%s'.]
-Запісана '%s:%s' у запіс '%s/%s' базы дадзеных.
-[Setting '%s/%s' was not found.]
-Налада '%s/%s' не знойдзена.
-['%s' doesn't seem to be a valid protocol.]
-'%s' гэта не правільны пратакол.
-[Issued check email command to YAMN plugin.]
-Адпраўлена каманда праверкі пошты для модуля YAMN.
-[Invalid parameter '%s' passed to CallService command.]
-Няправільны аргумент '%s' адпраўлены камандзе CallService.
-[Could not send message to '%s'.]
-Немагчыма адправіць паведамленне для '%s'.
-[This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
-Перадача Miranda паказанай каманды на выкананне. Каманды могуць мець ці не мець аргумент(ы). Выкарыстоўвайце '%s help' для атрымання спісу даступных каманд.\n
-[%s The port or the proxy type parameter is invalid.]
-%s Порт ці тып проксі няправільны.
-[Available commands: ]
-Даступныя каманды: 
-[Contact '%s' has '%d' events in history.]
-Кантакт '%s' мае '%d' падзей у гісторыі.
-[YAMN plugin is not running.]
-Модуль YAMN не запушчаны.
-[%s:%s - %d unread events.]
-%s:%s - %d непрачытаныя паведамленні.
-[Setting '%s/%s' deleted.]
-Налада '%s/%s' выдалена.
-[Exchange plugin is not running.]
-Модуль Exchange не запушчаны.
-[Could not retrieve setting '%s/%s': %s.]
-Немагчыма прачытаць наладу '%s/%s': %s.
-[Miranda has been closed or an error has occured while waiting for the result, could not process request.]
-Miranda была зачынена ці адбылася памылка пры чаканні выніку, немагчыма апрацаваць запыт.
-[Unknown parameter '%s' for command '%s'.]
-Невядомы аргумент '%s' для каманды '%s'.
-[Successfully set '%s' status message to '%s' (status is '%s').]
-Паспяхова ўсталявана '%s' паведамленне статуту для '%s' (статут '%s').
-[Changed global status to '%s' (previous status was '%s').]
-Зменены глабальны статут на '%s' (папярэдні быў '%s').
-[Service '%s' does not exist.]
-Служба '%s' не існуе.
-[Failed to change status for protocol '%s' to '%s'.]
-Памылка змены статуту для пратаколу '%s' на '%s'.
-[Failed to change status message for protocol '%s' to '%s' (status is '%s').]
-Памылка змены паведамлення статуту для пратаколу '%s' на '%s' (статут '%s').
-[%s proxy set to %s %s:%d.]
-%s проксі ўсталяваны на %s %s:%d.
-['%s' proxy was disabled.]
-'%s' проксі выключаны.
-[Changed '%s' status to '%s' (previous status was '%s').]
-Зменены '%s' статут на '%s' (папярэдні быў '%s').
-[Command '%s' is not currently supported.]
-Каманда '%s' не падтрымліваецца.
-['%s' proxy was enabled.]
-'%s' проксі ўключаны.
-[Issued check email command to Exchange plugin.]
-Адпраўлена каманда праверкі пошты для модуля Exchange.
-[Changed '%s' status message to '%s' (status is '%s').]
-Зменена '%s' паведамленне статуту на '%s' (статут '%s').
-[%s proxy server: %s %s:%d.]
-%s проксі сервер: %s %s:%d.
-[Message sent to '%s'.]
-Паведамленне адпраўлена для '%s'.
-[%s <command> [<param> [, <param> ..]]\n]
-%s <каманда> [<аргумент> [, <аргумент> ..]]\n
-[No command can have more than %d parameters\n]
-Каманды не могуць мець больш %d аргументаў\n
-[%s version %s]
-[Could not create CommandLine listening server!]
-[Failed to set '%s' status message to '%s' (status is '%s').]
-[Message to '%s' was marked as sent but the protocol seems to be offline]
+;file \plugins\CmdLine\MimCmd\src\commands.cpp
 [No help for '%s'.]
 Няма дапамогі для '%s'.
-[Timed out while waiting for acknowledgement for contact '%s'.]
+[Available commands: ]
+Даступныя каманды: 
+[Miranda has been closed or an error has occured while waiting for the result, could not process request.]
+Miranda была зачынена ці адбылася памылка пры чаканні выніку, немагчыма апрацаваць запыт.
+;file \plugins\CmdLine\MimCmd\src\MimCmd.cpp
+[%s usage:\n]
+%s выкарыстанне:\n
+[%s <command> [<param> [, <param> ..]]\n]
+%s <каманда> [<аргумент> [, <аргумент> ..]]\n
+[This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
+Перадача Miranda паказанай каманды на выкананне. Каманды могуць мець ці не мець аргумент(ы). Выкарыстоўвайце '%s help' для атрымання спісу даступных каманд.\n
+[No command can have more than %d parameters\n]
+Каманды не могуць мець больш %d аргументаў\n
+[Unknown command '%s'.\n]
+Невядомая каманда '%s'.\n
+;file \plugins\CmdLine\src\CmdLine.cpp
+;file \plugins\CmdLine\src\mimcmd_data.h
+;file \plugins\CmdLine\src\mimcmd_handlers.cpp
+[Command '%s' is not currently supported.]
+Каманда '%s' не падтрымліваецца.
+[Wrong number of parameters for command '%s'.]
+Няслушная колькасць параметраў для каманды '%s'
+[Unknown parameter '%s' for command '%s'.]
+Невядомы аргумент '%s' для каманды '%s'.
+[Changed global status to '%s' (previous status was '%s').]
+Зменены глабальны статут на '%s' (папярэдні быў '%s').
+[Changed '%s' status to '%s' (previous status was '%s').]
+Зменены '%s' статут на '%s' (папярэдні быў '%s').
+[Changed '%s' status message to '%s' (status is '%s').]
+Зменена '%s' паведамленне статуту на '%s' (статут '%s').
+[Issued check email command to Exchange plugin.]
+Адпраўлена каманда праверкі пошты для модуля Exchange.
+[Exchange plugin is not running.]
+Модуль Exchange не запушчаны.
+[Issued check email command to YAMN plugin.]
+Адпраўлена каманда праверкі пошты для модуля YAMN.
+[YAMN plugin is not running.]
+Модуль YAMN не запушчаны.
+[Invalid parameter '%s' passed to CallService command.]
+Няправільны аргумент '%s' адпраўлены камандзе CallService.
+[Service '%s' does not exist.]
+Служба '%s' не існуе.
+[Message sent to '%s'.]
+Паведамленне адпраўлена для '%s'.
+[Could not send message to '%s'.]
+Немагчыма адправіць паведамленне для '%s'.
+[Could not find contact handle for contact '%s'.]
+Немагчыма знайсці апрацоўнік для кантакту '%s'.
+[Setting '%s/%s' deleted.]
+Налада '%s/%s' выдалена.
+[Wrote '%s:%s' to database entry '%s/%s'.]
+Запісана '%s:%s' у запіс '%s/%s' базы дадзеных.
+[Could not retrieve setting '%s/%s': %s.]
+Немагчыма прачытаць наладу '%s/%s': %s.
+[Setting '%s/%s' was not found.]
+Налада '%s/%s' не знойдзена.
+['%s' proxy was disabled.]
+'%s' проксі выключаны.
+['%s' proxy was enabled.]
+'%s' проксі ўключаны.
+[%s proxy server: %s %s:%d.]
+%s проксі сервер: %s %s:%d.
+[%s proxy set to %s %s:%d.]
+%s проксі ўсталяваны на %s %s:%d.
+[%s The port or the proxy type parameter is invalid.]
+%s Порт ці тып проксі няправільны.
+[No unread messages found.]
+Няма непрачытаных паведамленняў.
+[%s:%s - %d unread events.]
+%s:%s - %d непрачытаныя паведамленні.
+[Contact '%s' has '%d' events in history.]
+Кантакт '%s' мае '%d' падзей у гісторыі.
+;file \plugins\CmdLine\src\services.cpp
 [You can only run one instance of CmdLine plugin.]
 Вы можаце запускаць толькі адну копію модуля CmdLine.
-[Issued a quit command.]
-Выканана каманда "Выйсце".
+;file \plugins\CmdLine\src\utils.cpp

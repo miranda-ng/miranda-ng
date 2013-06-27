@@ -1,224 +1,72 @@
 ﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
+;============================================================
 ;  File: TrafficCounter.dll
-;  Module: Traffic Counter
+;  Plugin: Traffic counter
+;  Version: 0.1.1.8
+;  Authors: Ghost, Mironych
+;============================================================
 [Adding traffic and time counters.]
 Лічыльнік трафіка.
-[Traffic Counter]
-Лічыльнік трафіку
-[Show/Hide frame]
-Паказаць/Схаваць фрэйм
-[Active protocols]
-Актыўныя пратаколы
-[Overall traffic]
-Агульны трафік
-[Tooltip format string:]
-Фармат падказкі:
-[Protocol counters format string:]
-Фармат адлюстравання трафіку пратаколу:
-[Overall counter format string:]
-Фармат адлюстравання агульнага трафіку:
-[Show last clear date]
-Паказваць дату апошняга скіду
-[Draw frame as skin element]
-Адмалёўваць фрэйм як элемент скіна
-["Toggle traffic counter" in main menu]
-"Перамыкач лічыльніка трафіку" ў галоўным меню
-[Visible protocols]
-Адлюстроўваныя пратаколы
-[Show ICQ x-status icon]
-Значок хстатуса
-[Traffic Counter - add feature to count traffic and time]
-Дадае магчымасць падліку трафіку і часу.
-[Hide now]
-Схаваць
-[Show now]
-Паказаць
-[(unknown)]
-(невядома)
-[Now traffic will be cleared. Are you sure?]
-Лічыльнік трафіку будзе скінуты. Вы ўпэўнены?
-[Show/Hide traffic window]
-Паказаць/схаваць акно трафіку
-[Hide traffic window]
-Схаваць акно трафіку
-[Clear the current (Now:) value]
-Скінуць бягучае (Now:) значэнне
-[Draw traffic in kilobytes]
-Маляваць трафік у кілабайтах
-[Draw last clear time]
-Маляваць час апошняга скіду
-[Traffic counter test]
-Лічыльнік трафіку: ТЭСТ
-[%d bytes recv%c%d bytes send]
-%d байт атрымана%c%d байт адпраўлена
-[%dk bytes recv%c%dk bytes send]
-%d кілабайт атрымана%c%d кілабайт адпраўлена
-[%d bytes send]
-%d байт адпраўлена
-[%dk bytes send]
-%d кілабайт адпраўлена
-[%d bytes recv]
-%d байт атрымана
-[%dk bytes recv]
-%d кілабайт атрымана
-[Show/Hide traffic window:]
-Паказаць/схаваць акно трафіку:
-[Traffic statistics]
-Статыстыка
-[Last clear date:]
-Дата скіду:
-[Show on traffic window last clear date]
-Час апошняга скіду ў акне трафіку
-[Automaticaly clear traffic every:]
-Скід лічыльніка кожныя:
-[Week]
-Тыдзень
-[Traffic window background color:]
-Колер фону акна трафіку:
-[Traffic window font color:]
-Колер шрыфта акна трафіку:
-[Draw border around window]
-Маляваць рамку вакол акна
-[Transparent traffic window]
-Празрыстае акно трафіку
-[Show/hide traffic window together with contact list]
-Паказваць/хаваць акно трафіку разам са спісам кантактаў
-[Show traffic in kilobytes]
-Паказваць у кілабайтах
-[Minimize traffic window size]
-Памяншаць акно трафіку
-[Use multiwindow]
-Выкарыстоўваць MultiWindow
-[You will need to restart miranda for the changes you have made to take effect.]
-Змены набудуць моц пасля перазапуску Miranda.
-[Clear traffic now]
-Скінуць трафік
+;file \plugins\TrafficCounter\res\resource.rc
+[Selected totals]
+Вылучана ўсяго
+[Clear statistics]
+Ачысціць
 [Notify me on every]
 Апавяшчаць кожныя
 [kilobytes]
 кілабайт
-[Time counter]
-Лічыльнік часу
-[Options just as Traffic counter]
-Опцыі як у лічыльніка трафіку
-[Show/Hide time window:]
-Паказаць/Схаваць акно часу: 
-[Time window background color:]
-Колер фону акна часу:
-[Time window font color:]
-Колер шрыфта акна часу:
-[Show/hide time window together with contact list]
-Паказваць/хаваць акно часу разам са спісам кантактаў
-[Hide time window]
-Схаваць акно часу
-[Reset time]
-Скінуць час
-[Show/Hide time window]
-Паказаць/схаваць акно часу
-[Now:]
-Цяпер:
-[Total:]
-Усяго:
-[Draw last clear date]
-Маляваць дату апошняга скіду
-[Time counter options]
-Лічыльнік часу
-[Traffic counter expert options]
-Лічыльнік трафіку (Эксперт)
-[Traffic counter options]
-Лічыльнік трафіку
-[kbytes]
-у кілабайтах
-[mbytes]
-у мегабайтах
-[dynamic]
-дынамічна
-[%d total bytes send, %d total bytes recv%c%d bytes send now, %d bytes recv now%cLast clear date: %s]
-%d усяго байт адпраўлена, %d усяго байт прынята%c%d цяпер байт адпраўлена, %d цяпер байт прынята%c Дата скіду: %s
-[Now traffic will be cleared.]
-Лічыльнік трафіку будзе скінуты.
-[Transparency options (Windows 2000/XP only)]
-Празрыстасць (толькі ў Windows 2000/XP)
-[Transparent time window]
-Празрыстае акно часу
-[Always on top (only if multiwindow is off)]
-Заўсёды наверсе (толькі калі MultiWindow выкл.)
-[Show/hide time window together with contact list (only if multiwindow is off)]
-Паказваць/хаваць акно разам са спісам кантактаў (калі multiwindow адключаны)
-[Show/hide traffic window together with contact list (only if multiwindow is off)]
-Хаваць акно трафіку разам са спісам кантактаў (MultiWindow выкл.)
-[Don't show clear question]
-Схаваць пацверджанне
-[Show size in:]
-Паказваць аб'ём
-[Minimize traffic window size (only if multiwindow is on)]
-Мінімізаваць акно трафіку (толькі калі MultiWindow вкл.)
-[Show tooltip in traffic window]
-Паказваць падказку ў акне трафіку
-[Last clear date format string:]
-Радок фарматавання для даты скіду:
-[Fixed line height]
-Фіксаваная вышыня радка
-[Line height:]
-Вышыня радка:
-[Space between lines:]
-Адлегласць паміж радкамі:
-[Last clear date alignment:]
-Выраўноўванне даты апошняга скіду:
-[Draw line above last clear date]
-Маляваць лінію над датай апошняга скіду
 [Popup timeout]
 Працягласць акна
-[Traffic counter: TEST]
-Лічыльнік трафіку: ТЭСТ
-["Show/Hide traffic" in main menu]
-"Паказаць/Схаваць трафік" у меню
-["Show/Hide time" in main menu]
-"Паказаць/Схаваць час" у меню
-[Auto clear traffic]
-Аўтаачыстка трафіку
-[Incoming connections]
-Уваходныя падлучэнні
-[Outgoing connections]
-Выходныя падлучэнні
-[Last clear date format:]
-Фармат даты скіду:
-[%d total bytes send, %d total bytes recv%c%d bytes send now, %d bytes recv now\nLast clear date: %s]
-%d усяго байт паслана, %d усяго байт атрымана%c%d байт паслана цяпер, %d байт атрымана цяпер\n Дата скіду: %s
-[Summary traffic for active protocols]
-Сумарны трафік для актыўных пратаколаў
-[Get time counter value. A: <ProtocolName> OR summary; B: now OR total]
-Атрымаць лічыльнік часу. А: <ProtocolName> ЦІ сумарна; B: цяпер ЦІ ўсяго
-[Get traffic counter value. A: <ProtocolName> OR overall OR summary; B: now OR total; C: sent OR recieved OR both; D: b - in bytes, k - in kilobytes, m - in megabytes, d - dynamic]
-Атрымаць лічыльнік трафіку. A: <ProtocolName> ЦІ ўсяго ЦІ сумарна; B: цяпер ЦІ ўсяго; C: адпраўлена ЦІ атрымана ЦІ абодва; D: b - у байтах, k - у кілабайтах, m - у мегабайтах, d - дынамічна
-[Get last clear date timestamp]
-Атрымаць дату апошняга скіду
-[Traffic counter]
-Лічыльнік трафіку
-[Visible accounts/]
-Адлюстроўваныя акаўнты/
-[Summary traffic for active accounts]
-Сумарны трафік актыўных акаўнтаў
-[Summary traffic for visible accounts]
-Сумарны трафік для бачных акаўнтаў
-[Adaptive]
-Плывучы
+[Show now]
+Паказаць
+[Space between lines:]
+Адлегласць паміж радкамі:
+[Tooltip format string:]
+Фармат падказкі:
 [Display traffic for current]
 Трафік за бягучы
-[Account counters format string:]
-Фармат радка лічыльнікаў акаўнтаў:
-[Active accounts/]
-Актыўныя акаўнты/
-[Clear statistics]
-Ачысціць
+;file \plugins\TrafficCounter\src\options.cpp
+[Draw frame as skin element]
+Адмалёўваць фрэйм як элемент скіна
+[Show tooltip in traffic window]
+Паказваць падказку ў акне трафіку
+["Toggle traffic counter" in main menu]
+"Перамыкач лічыльніка трафіку" ў галоўным меню
+[Summary traffic for visible accounts]
+Сумарны трафік для бачных акаўнтаў
+[Overall traffic]
+Агульны трафік
+[Hide now]
+Схаваць
+[Month]
+Месяц
+[Year]
+Год
+[Traffic counter]
+Лічыльнік трафіку
+[Statistics]
+Статыстыка
+;file \plugins\TrafficCounter\src\statistics.cpp
+[Bytes]
+Байт
+[Adaptive]
+Плывучы
 [Hourly]
 Штогадзіны
 [Period]
 Перыяд
 [Sum]
 Сума
-[Selected totals]
-Вылучана ўсяго
+[Traffic Counter]
+Лічыльнік трафіку
+;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Show/Hide frame]
+Паказаць/Схаваць фрэйм
+[Hide traffic window]
+Схаваць акно трафіку
+[Clear the current (Now:) value]
+Скінуць бягучае (Now:) значэнне
 [Traffic counter notification]
 Апавяшчэнне лічыльніка трафіку
 [%d kilobytes sent]

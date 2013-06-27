@@ -1,55 +1,63 @@
 ﻿#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
-;  File: quickmessages.dll
-;  Module: Quick messages
+;============================================================
+;  File: QuickMessages.dll
+;  Plugin: Quick messages
+;  Version: 0.0.4.2
+;  Authors: MaD_CLuSTeR
+;============================================================
 [Plugin for quick insert pre-defined messages in message input area.]
 Дазваляе ўстаўляць загатаваныя фразы ў акно паведамленняў
-[Quick Messages]
-Шпаркія паведамленні
+;file \plugins\QuickMessages\res\quickmessages.rc
+[Button Right-Click value]
+Функцыя правай кнопкі мышы
 [Button Left-Click menu]
 Меню левай кнопкі мышы
 [Menu entry value:]
 Найменне меню:
-[Consider as ServiceName]
-Унутраная каманда
-[Button Right-Click value]
-Функцыя правай кнопкі мышы
 [Misc.]
 Рознае
 [Auto-send on Left-Click]
 Аўта адпраўка па левай клавішы
 [Auto-send on Right-Click]
 Аўта адпраўка па правай клавішы
+[Add to QuickMenu]
+Дадаць у кантэкстнае меню
 [Enable QuickMenu]
 Дазволіць кантэкстнае меню
+[Consider as ServiceName]
+Унутраная каманда
+[You have changed the plugin settings via database.\nThis requires restart!]
+Вы змянілі налады модуля праз базу дадзеных. Патрабуецца перазапуск Miranda!
 [Quick Messages Help]
 Дапамога па хуткіх паведамленнях
-[List of variables:]
-Спіс зменных:
 [- Selected text]
 - Вылучаны тэкст
+[List of variables:]
+Спіс зменных:
 [- Text from Clipboard]
 - Тэкст з буфера абмену
+[- Contacts Protocol name (upper case)]
+- Імя кантакту (Загалоўныя літары)
 [- Contact display name]
 - Імя кантакту па змаўчанні
-[- Contact first name]
-- Імя кантакту
-[- Contact last name]
-- Прозвішча кантакту
 [Tips:]
 Падказкі:
 [*Rename menu item into "---" to insert separator]
 Каб ўставіць падзельнік, пераназавіце пункт меню ў "---"
 [*Use drag'n'drop for arranging menu items]
 Перацягвайце мышкай пункты меню для сартавання
-[Add to QuickMenu]
-Дадаць у кантэкстнае меню
-[You have changed the plugin settings via database.\nThis requires restart!]
-Вы змянілі налады модуля праз базу дадзеных. Патрабуецца перазапуск Miranda!
-[- Contacts Protocol name (upper case)]
-- Імя кантакту (Загалоўныя літары)
+[- Contact first name]
+- Імя кантакту
+[- Contact last name]
+- Прозвішча кантакту
+;file \plugins\QuickMessages\src\main.cpp
+[Quick Messages]
+Шпаркія паведамленні
+;file \plugins\QuickMessages\src\options.cpp
 [Enter Value]
 Увядзіце значэнне
 [New Button]
 Новая кнопка
 [New Menu Entry]
 Новы пункт меню
+;file \plugins\QuickMessages\src\Utils.cpp

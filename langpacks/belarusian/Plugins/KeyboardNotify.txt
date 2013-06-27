@@ -1,22 +1,55 @@
 ﻿#muuid {119d7288-2050-448d-9900-d86ac70426bf}
+;============================================================
 ;  File: KeyboardNotify.dll
-;  Module: Keyboard Notify
+;  Plugin: Keyboard notify ext.
+;  Version: 1.5.7.7
+;  Authors: TioDuke
+;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
 Дадае мігценне святлодыёдаў клавіятуры пры прыбылых паведамленнях.
-[Keyboard Notify]
-Апавяшчэнне клавіятуры
-[Incomming messages]
-Уваходныя паведамленні
-[Keys to flash]
-Чым лыпаць
-[Seconds to wait before starting flash]
-Чакаць перад мігценнем (секунд)
+;file \plugins\KeyboardNotify\res\resources.rc
+[Events to react on]
+Падзеі
 [Incoming files]
 Уваходныя файлы
 [Incoming URLs]
 Уваходныя URL
+[Everything else]
+Усе іншыя
+[Blink if message window is open]
+Мігаць, калі вакно гутаркі ачынена
+[     ... and not in foreground]
+і не змешчана на пярэдні план
+[Only if last is]
+Калі апошн.
+[sec. old]
+сек. назад
+[Flash until]
+Міргаць так:
+[is re-attended]
+звароты
+[Events are opened]
+Падзеі будуць адкрытыя
+[End of 'notify when' conditions]
+Канчатак "апавяшчаць калі"
+[Notify when]
+Апавяшчаць, калі
+[Full Screen mode]
+Поўнаэкранны рэжым
+[Defined programs are running]
+Запушчана ўказ. праграма
+[All other situations]
+Усе іншыя сітуацыі
+[Only notify if status is]
+Паказваць, калі статус
+[Pending Events]
+Чаканыя падзеі
+[Remind me every]
+Напам. кожныя
 [xStatuses]
 хстатусы
+[Keys to flash]
+Чым лыпаць
 [Flashing effects]
 Міргаць
 [All at the same time]
@@ -25,16 +58,18 @@
 Па чарзе
 [In sequence]
 Па парадку
-[left->right]
-лева->права
-[right->left]
-права->лева
-[left<->right]
-лева<->права
 [Custom theme]
 Свая тэма
 [Accordingly to events' count]
 Па колькасці падзей
+[Wait before starting flashing]
+Паўза перад пачаткам мігцення
+[Flash speed]
+Хуткасць мігцення
+[Fast]
+Хутка
+[Slow]
+Павольна
 [Emulate keypresses (Use this option if you are using an USB keyboard)]
 Эмуляваць націскі клавіш (Толькі для USB клавіятур)
 [Create/Edit Themes]
@@ -43,53 +78,35 @@
 Тэма
 [Import/Export]
 Імпарт/Экспарт
-[Import...]
-Імпарт...
 [Override existing]
 Замяніць наяўнае
-[Set xStatus list]
-Спіс хстатусаў
 [Set program list]
 Спіс праграм
-[Consider event opened after]
-Дзейнічаць праз
+[Program]
+Праграма
 [Set LEDs for events]
 Усталяваць па падзеі
+[Consider event opened after]
+Дзейнічаць праз
 [Use custom theme]
 Ужыв. сваю тэму
-[Hz]
-Гц
-[Beep]
-Сігнал
-[Workstation is locked ]
-Кампутар заблакаваны
-[Beep the PC Speaker]
-Сігнал у PC Speaker
-[sequence]
-паслядоўнасць
-[Turn on without blinking]
-Вкл. без мігцення
-[Flashing time]
-Час мігцення
-[LEDs to flash]
-Міргаць святлодыёдамі
-[reversed]
-зваротны
-[Screensaver is running]
-Запушчана застаўка
-[seconds (0 = unlimited)]
-секунд (0 = бясконца)
-[ Notify when]
- Апавяшчаць калі
-[simple]
-просты
-[Ignore others]
-Астатнія падзеі
-[Keyboard Notify Ext.]
-Апавяшчэнне клавіятуры
 [Ignore messages]
 Паведамленні
 [Ignore URLs]
 Адрасы (URL)
 [Ignore files]
 Перадачы файлаў
+[Ignore others]
+Астатнія падзеі
+[Set xStatus list]
+Спіс хстатусаў
+;file \plugins\KeyboardNotify\src\ignore.cpp
+;file \plugins\KeyboardNotify\src\options.cpp
+[left->right]
+лева->права
+[right->left]
+права->лева
+[left<->right]
+лева<->права
+[Themes]
+Тэмы

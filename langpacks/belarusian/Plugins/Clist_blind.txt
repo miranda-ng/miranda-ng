@@ -1,5 +1,0 @@
-﻿#muuid {53e095a3-2695-490a-9dad-d20479093831}
-;  File: Clist_blind.dll
-;  Plugin: A contact list for blind folks.
-[A contact list for blind folks.]
-Спіс кантактаў для карыстачоў з дрэнным зрокам.

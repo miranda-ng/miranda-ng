@@ -1,0 +1,64 @@
+﻿#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
+;============================================================
+;  File: HistorySweeperLight.dll
+;  Plugin: History sweeper light
+;  Version: 0.0.0.7
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
+;============================================================
+[This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
+Гэты модуль можа чысціць сістэмную гісторыю, гісторыю ўсіх кантактаў ці толькі абраных; чысціць гісторыю больш старую чым вызначаны час; і можа рабіць гэта пры запуску/выключэнні праграмы.
+;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
+[History Sweeper Light]
+Чыстка гісторыі
+[Sweep history for this contacts:]
+Ачысціць гісторыю для гэтых кантактаў:
+[Action 1]
+Дзеянне 1
+[Action 2]
+Дзеянне 2
+[Sweep on closing message window]
+Чысціць пры зачыненні акна паведамленняў
+[Clicking on the icon in the status bar will change settings]
+Пстрычка па абразку ў панэлі статутаў змяняе налады
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
+Выкарыстоўваць НЕБЯСПЕЧНЫ рэжым (хутчэй, але небяспечней для БД)
+;file \plugins\HistorySweeperLight\src\main.cpp
+[Keep all events]
+Усе падзеі захоўваюцца ў гісторыі
+[Delete all events]
+Усе падзеі выдаляюцца з гісторыі
+;file \plugins\HistorySweeperLight\src\options.cpp
+[Delete older than 1 day]
+Выдаліць гісторыю старэй 1 дня
+[Delete older than 3 days]
+Выдаліць гісторыю старэй 3 дзён
+[Delete older than 7 days]
+Выдаліць гісторыю старэй 7 дзён
+[Delete older than 2 weeks (14 days)]
+Выдаліць гісторыю старэй 2 тыдняў
+[Delete older than 1 month (30 days)]
+Выдаліць гісторыю старэй 1 месяца
+[Delete older than 3 months (90 days)]
+Выдаліць гісторыю старэй 3 месяцаў
+[Delete older than 6 months (180 days)]
+Выдаліць гісторыю старэй 6 месяцаў
+[Delete older than 1 year (365 days)]
+Выдаліць гісторыю старэй 1 гады
+[Keep 1 last event]
+Захаваць 1 апошняя падзея
+[Keep 2 last events]
+Захаваць 2 апошніх падзеі
+[Keep 5 last events]
+Захаваць 5 апошніх падзей
+[Keep 10 last events]
+Захаваць 10 апошніх падзей
+[Keep 20 last events]
+Захаваць 20 апошніх падзей
+[Keep 50 last events]
+Захаваць 50 апошніх падзей
+[Default Action]
+Звычайнае дзеянне
+[*** Defaut Action ***]
+*** Агульнае дзеянне ***
+[*** System History ***]
+*** Сістэмная гісторыя ***

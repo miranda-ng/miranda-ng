@@ -1,171 +1,65 @@
 ﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
-;  File: sendss.dll
-;  Module: Send ScreenShot
+;============================================================
+;  File: SendSS.dll
+;  Plugin: Send screenshot+
+;  Version: 0.8.0.0
+;  Authors: Merlin
+;============================================================
 [Take a screenshot and send it to a contact.]
 Стварэння здымкаў і адсылка кантакту.
+;file \plugins\SendScreenshotPlus\res\resource.rc
+[Ti&med capture]
+Затрымка захопу
+[Time (secs) :]
+Секунд :
+[&Format :]
+Фармат :
+[Send B&y :]
+Праз:
+[E&xplore]
+Агляд
+[&Fill description textbox.]
+Запоўніць радкі апісання.
+[Delete &after send]
+Выдаліць пасля адпраўкі
+[Open again]
+Адкрыць ізноў
+[&Capture]
+Захоп
+[C&lient Area]
+Змесціва
+[Caption :]
+Загаловак :
+[Size (HxW) :]
+Памер (HxW) :
+;file \plugins\SendScreenshotPlus\src\CSend.cpp
+;file \plugins\SendScreenshotPlus\src\CSend.h
+;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+[Could not start the HTTP Server plugin.]
+Не магу запусціць модуль HTTP Сервер.
+;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
+;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
+;file \plugins\SendScreenshotPlus\src\global.h
+;file \plugins\SendScreenshotPlus\src\Main.cpp
 [SendSS]
 Адправіць скрыншот
-[Send using:]
-Спосаб адпраўкі:
-[Miranda's File Transfer.]
-Перадача файлаў Miranda NG
-[Send to default email client.]
-Адправіць праз e-mail кліент
-[Method for capturing the screenshot:]
-Метад атрымання скрыншота:
-[Internal function.]
-Унутраная функцыя
-[PrintScreen Emulation. (waste clipboard content)]
-Эмуляцыя PrintScreen (змесціва буфера абмену)
-[Take a screenshot]
-Зрабіць скрыншот
+[Could not create main dialog.]
+Немагчыма стварыць галоўны дыялог.
 [Send Screenshot]
 Адправіць скрыншот
 [Send desktop screenshot]
 Адправіць скрыншот экрана
-[Open again]
-Адкрыць ізноў
-[&Emulate Send button click.]
-Пасылаць аўтаматычна
-[Send B&y :]
-Праз:
-[Single &Window]
-Адно акно
-[Time (secs) :]
-Секунд :
-[&Desktop]
-Працоўны стол
-[Size (HxW) :]
-Памер (HxW) :
-[Caption :]
-Загаловак :
-[E&xplore]
-Агляд
-[&Capture]
-Захоп
-[<Unknown Contact>]
-<Невядомы кантакт>
+[Take a screenshot]
+Зрабіць скрыншот
+;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Prev]
+Назад
+;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
+;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&&Drop the target on the desired window.]
 Перацягнеце прыцэл на патрэбнае акно.
-[Use Edit&or]
-Рэдактар
-[&Fill description textbox.]
-Запоўніць радкі апісання.
-[&Format :]
-Фармат :
-[Delete &after send]
-Выдаліць пасля адпраўкі
-[Send screenshot to <Unknow Contact> - Capture Options]
-Адправіць скрыншот: <Невядомы кантакт> - Налады захопу
-[Ti&med capture]
-Затрымка захопу
-[JPG &Quality :]
-Якасць JPG :
-[C&lient Area]
-Змесціва
-[&Just save it]
-Толькі зах.
-[Area]
-Вобласць
-[Could not start the HTTP Server plugin.]
-Не магу запусціць модуль HTTP Сервер.
-[FTP File is not loaded!]
-FTP File не загружаны!
-[HTTP Server is not loaded!]
-HTTP Server не загружаны!
-[New width?]
-Новая шырыня?
 [Select a target window.]
 Абярыце акно для адпраўкі.
-[Send the screenshot?]
-Паслаць скрыншот?
-[Set &Width]
-Шырыня
-[Set C&olor]
-Колер
-[Set Width]
-Шырыня
-[Type the text to be draw:]
-Набярыце тэкст:
-[Upload completed!]
-Загрузка завершана!
-[&Crop tool]
-Абразаць
-[&Ellipse tool]
-Эліпс
-[&Line tool]
-Лінія
-[&Pen tool]
-Ручка
-[&Rectangle tool]
-Прастакутнік
-[&Set Width]
-Шырыня
-[&Text tool]
-Тэкст
-[&Tools]
-Прылады
-[A&bout]
-Пра праграму
-[C&hoose]
-Выбар
-[Clo&se]
-Зачыніць
-[Close&&S&end]
-Зачыніць&&Паслаць
-[Close&&Sa&ve]
-Зачыніць&&Захаваць
-[Des&tination Folder :]
-Тэчка прызначэння:
-[Destination for the image file(s):]
-Прызначэнне малюнкаў:
-[Fille&d]
-Запаўняць
-[Transparent &Background]
-Празрысты фон
-[Miranda is exiting]
-Miranda выходзіць
-[Could not create main dialog.]
-Немагчыма стварыць галоўны дыялог.
-[Close all capture dialogs and edit windows now, after that press OK.]
-Зачыніць усе дыялогі захопу і вокны рэдактара, пасля націску OK.
-[Not a supported file type.]
-Тып файла не падтрымліваецца.
-[Could not register miranda service MS_SENDSS_SENDDESKTOP.]
-Немагчыма звязаць службу Miranda MS_SENDSS_SENDDESKTOP.
-[Starting upload!]
-Пачатак запампоўкі!
-[Send screenshot to <unknown> - Capture Options]
-Паслаць здымак <unknown> - Налады захопу
-[Could not add a share to the FTP File plugin.]
-Немагчыма дадаць рэсурс у модуль FTP File.
-[Could not add a share to the HTTP Server plugin.]
-Немагчыма дадаць рэсурс у модуль HTTP Server.
-[C&olor]
-Колер
-[Selection Tool]
-Вылучэнне
-[Tool &Options]
-Налады
-[&Capture Again]
-Захапіць ізноў
-[&Crop]
-Абразаць
-[&Ellipse]
-Авал
-[&Line]
-Радок
-[&Pen]
-Ручка
-[&Text]
-Тэкст
-[<unknow>]
-<невядома>
-[JPG Quality]
-JPG якасць
-[Print&Screen Emulation]
-Эмуляцыя скрыншота
-[(Unknow Contact)]
-(Невядомы кантакт)
-[<Unknow Contact>]
-(Невядомы кантакт)

@@ -1,38 +1,13 @@
-﻿#muuid {1AAC15E8-DCEC-4050-B66F-2AA0E6120C22}
+﻿#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
+;============================================================
 ;  File: PasteIt.dll
-;  Module: Paste It
-[Paste It]
-Paste It
+;  Plugin: Paste it
+;  Version: 1.0.0.3
+;  Authors: Krzysztof Kral
+;============================================================
 [Uploads the text to web page and sends the URL to your friends.]
 Загружае тэкст на вэб-старонку і адпраўляе URL сябрам.
-[Paste It - Select file]
-Paste It - Абраць файл
-[Paste It HTTP connections]
-HTTP далучэнне Paste It
-[You can only paste 1 file]
-Вы можаце змесцаваць толькі 1 файл
-[Cannot get data from clipboard]
-Не магчыма атрымаць дадзеныя з буфера абмену
-[File size is %dKB, do you realy want to paste such large file?]
-Памер файла %dKB, вы сапраўды жадаеце змесцаваць такі вялікі файл?
-[Cannot read file '%s']
-Немагчыма прачытаць файл '%s'
-[File size is larger then 10MB, cannot be send]
-Файл памерам больш 10MB, не можа быць адпраўлены
-[Cannot open file '%s']
-Немагчыма адкрыць файл '%s'
-[File '%s' is empty]
-Файл '%s' пусты
-[Error during sending text to web page: %s]
-Памылка пры адпраўцы тэксту на web-старонку: %s
-[Error during sending text to web page]
-Памылка пры адпраўцы тэксту на web-старонку
-[Error during getting user key from web page: %s]
-Памылка пры атрыманні ключа карыстача ад web-старонкі: %s
-[Paste from clipboard]
-Уставіць з буфера
-[Paste from file]
-Уставіць з файла
+;file \plugins\PasteIt\res\PasteIt.rc
 [Default web page]
 Стандартная web-старонка
 [Default file encoding]
@@ -51,8 +26,6 @@ Web-старонка для налады
 Аўтаматычнае вызначэнне фармату па пашырэнні файла
 [Public paste]
 Уставіць публічна
-[Paste expire date]
-Уставіць на тэрмін
 [Login as guest]
 Увайсці як госць
 [User key]
@@ -65,12 +38,52 @@ Web-старонка для налады
 Загрузіць больш
 [Login to pastebin.com]
 Увайсці на pastebin.com
+[User name]
+Лагін
+[Paste It]
+Paste It
 [Encoding]
 Кадаванне
 [Recode]
 Запіс
+;file \plugins\PasteIt\src\Options.cpp
+[Web page]
+Web старонка
+;file \plugins\PasteIt\src\PasteIt.cpp
+[Paste It - Select file]
+Paste It - Абраць файл
+[Paste from clipboard]
+Уставіць з буфера
+[Paste from file]
+Уставіць з файла
+[Paste It HTTP connections]
+HTTP далучэнне Paste It
+;file \plugins\PasteIt\src\PasteToWeb.cpp
+[You can only paste 1 file]
+Вы можаце змесцаваць толькі 1 файл
+[Cannot get data from clipboard]
+Не магчыма атрымаць дадзеныя з буфера абмену
+[File size is %dKB, do you realy want to paste such large file?]
+Памер файла %dKB, вы сапраўды жадаеце змесцаваць такі вялікі файл?
+[Cannot read file '%s']
+Немагчыма прачытаць файл '%s'
+[File size is larger then 10MB, cannot be send]
+Файл памерам больш 10MB, не можа быць адпраўлены
+[Cannot open file '%s']
+Немагчыма адкрыць файл '%s'
+[File '%s' is empty]
+Файл '%s' пусты
+;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[Error during sending text to web page: %s]
+Памылка пры адпраўцы тэксту на web-старонку: %s
+[Error during sending text to web page]
+Памылка пры адпраўцы тэксту на web-старонку
+[Error during getting user key from web page: %s]
+Памылка пры атрыманні ключа карыстача ад web-старонкі: %s
+[Paste expire date]
+Уставіць на тэрмін
 [10 minutes]
 10 хвілін
 [1 month]
 1 месяц
-
+;file \plugins\PasteIt\src\PasteToWeb2.cpp

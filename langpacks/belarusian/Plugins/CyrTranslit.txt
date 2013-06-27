@@ -1,5 +1,0 @@
-﻿#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
-;  File: CyrTranslit.dll
-;  Plugin: Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations
-[Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations.]
-Транслітарацыя выходных паведамленняў (замена кірылічных знакаў на фанетычны эквівалент лацінскіх).

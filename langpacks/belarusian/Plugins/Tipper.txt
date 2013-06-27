@@ -1,42 +1,47 @@
 ﻿#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
+;============================================================
 ;  File: Tipper.dll
-;  Module: Tipper, Tipper YM
-[xStatus: empty xStatus name to default name]
-хстатус: пустое імя ў імя па змаўчанні
+;  Plugin: Tipper
+;  Version: 2.1.0.4
+;  Authors: Scott Ellis, yaho
+;============================================================
 [Tool Tip notification windows.]
-Модуль усплывальных падказак для іншых убудоў.
-[Min width:]
-Мін. шырыня:
-[Min height:]
-Мін. вышыня:
+Усплывальныя падказкi для іншых плагiнаў.
+;file \plugins\TipperYM\res\resource.rc
+[Max width:]
+Макс. шырыня:
+[Max height:]
+Макс. вышыня:
+[Show if list not focused]
+Спіс не ў фокусе
+[General padding:]
+Асноўны водступ:
+[Hover time:]
+Затрымка:
 [Status bar tips]
 Падказкі ў панэлі статусу
 [Labels:]
 Назвы:
 [Values:]
 Значэнні:
-[General padding:]
-Асноўны водступ:
+[Min width:]
+Мін. шырыня:
+[Min height:]
+Мін. вышыня:
 [Text padding:]
 Міжрадковы водступ:
-[Avatar padding:]
-Водступ аватара:
-[Centre]
-Цэнтр
-[Max height:]
-Макс. вышыня:
-[Show if list not focused]
-Спіс не ў фокусе
-[Last message]
-Апош. паведамл.
-[Substitutions]
-Падстановы
-[Right labels]
-Пазнакі справа
-[Hover time:]
-Затрымка:
-[XP only]
-Толькі XP
+[Outer avatar padding:]
+Зн. водступ аватара:
+[Keep original avatar size]
+Захоўваць памер аватара
+[Avatar border]
+Рамка аватара
+[Title indent:]
+Водступ загалоўка:
+[Value indent:]
+Водступ значэння:
+[Inner avatar padding:]
+Унут. водступ аватара:
 [Substitution]
 Падстанова
 [Contact protocol module]
@@ -47,431 +52,306 @@
 Параметр, прэфікс:
 [Translation:]
 Пераўтварэнне:
+[Item]
+Элемент
 [Value:]
 Значэнне:
 [Draw a line above]
 Маляваць лінію зверху
 [Value on a new line]
 Значэнне з новага радка
-[<prefix>Day|Month|Year to age]
-<прэфікс>дзень|месяц|год - ва ўзрост
-[<prefix>Day|Month|Year to date]
-<прэфікс>дзень|месяц|год - у дату
-[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
-<прэфікс>дзень|месяц|год|гадзіны|мін|сек - у розніцу часу
-[<prefix>Hours|Minutes to time]
-<прэфікс>гадзіны|хвіліны - падчас
-[<prefix>Hours|Minutes|Seconds to time]
-<прэфікс>гадзіны|хвіліны|секунды - падчас
-[BYTE to Male/Female (ICQ)]
-Байт - у падлогу (М/Ж) (ICQ)
-[BYTE to Yes/No]
-Байт - у значэнне Ды/Не
-[DWORD timestamp to date (long)]
-Дв. слова - у дату (доўгую)
-[DWORD timestamp to date (short)]
-Дв. слова - у дату (кароткую)
-[DWORD timestamp to time (no seconds)]
-Дв. слова - у дату (без секунд)
-[DWORD timestamp to time difference]
-Дв. слова - у розніцу часу
-[DWORD timestamp to time]
-Дв. слова - падчас
-[DWORD to ip address]
-Дв. слова - у IP-адрас
-[WORD to country name]
-Слова - у назву краіны
-[WORD to status description]
-Слова - у апісанне статусу
-[[No translation]]
-(без пераўтварэння)
-[Last message:]
-Апошняе паведамленне:
-[Labels]
-Пазнакі
-[Values]
-Значэнні
-[Content]
-Змесціва
-[No icon]
-Без значка
-[No title]
-Без загалоўка
-[Bottom]
-Ніз
-[%dm]
-%dхв
-[%dh %dm]
-%dг %хв
-[%dd %dh %dm]
-%dдз %dг %dхв
-[Dimensions]
-Памеры
-[Keep original avatar size]
-Захоўваць памер аватара
-[Max avatar size:]
-Памер (макс.):
-[Background image:]
-Фонавы малюнак:
-[Stretch]
-Расцягнуць
-[Item]
-Элемент
-[BYTE timezone to time]
-Байт зона часу падчас
-[DWORD seconds to time difference]
-Дв. слова секунд у часавую розніцу
-[%dy %dd %dh %dm]
-%dгод %dдз %dг %dхв
-[Use glyph transformation]
-Трансфармацыя гліфаў
-[Country flag]
-Сцяг краіны
-[Use item]
-Выкарыстоўваць
-[Extra status]
-Дап. статус
-[Tooltip skin]
-Скін падказкі
-[Smileys support]
-Смайлікі
-[Avatar border]
-Рамка аватара
-[Draw options]
-Опцыі адлюстравання
-[Stretch both directions]
-Расцягнуць ва ўсе бакі
-[Tile both directions]
-Забрукаваць абодва кірункі
-[Disable status message retrieve in invisible status]
-Адключыць запыт паведамлення статусу ў нябачным рэжыме
+[Preset items:]
+Зададзеныя элементы:
+[Parse Tipper variables first]
+Апрацоўваць зменныя падказак першымі
+[Substitutions]
+Падстановы
+[Separator]
+Падзельнік
+[Advanced options]
+Дадаткова
 [Retrieve XStatus details if auto-retrieve is disabled]
 Запытваць падрабязны xСтатус, калі аўтазапыт выключаны
-[Margins]
-Палі
-[Title indent:]
-Водступ загалоўка:
-[Value indent:]
-Водступ значэння:
-[Outer avatar padding:]
-Зн. водступ аватара:
-[Inner avatar padding:]
-Унут. водступ аватара:
-[Show effect]
-Эфект
-[Animation]
-Анімацыя
-[Fade]
-Згасанне
-[Tray tooltip]
+[Smileys support]
+Смайлікі
+[Enable SmileyAdd support]
+Падтрымка смайлікаў
+[Resize smileys]
+Маштабаваць смайлы
+[Replace only isolated smileys]
+Толькі смайлы праз прабел
+[Retrieve new status message]
+Запытваць паведамленне статусу
+[Show tooltip after all content is ready (avatar && status message)]
+Паказаць падказку толькі пасля загрузкі ўсяго змесціва
+[Status bar and tray tooltip]
+Панэль статусу і падказка ў трэі
+[Limit status messages in status bar and tray tooltips to:]
+Абмежаваць паведамленне ў панэлі статусу і ў падказцы трэя да:
+[Disable in invisible status]
+Адключыць запыт, калі нябачны
+[Aero Glass (Vista+)]
+Эфект Aero Glass (Vista+)
+[Animation speed:]
+Хуткасць анімацыі:
+[No preview]
+Няма прэв'ю
+[Skin option]
+Налада скіна
+[Load fonts and colors]
+Загружаць шрыфты і колеры
+[Enable skin coloring]
+Размалёўка скінаў
+[Reload skin list]
+Абнавіць спіс скінаў
+[Apply skin]
+Ужыць скін
+[Load tooltip proportions]
+Загружаць прапорцыі падказкі
+[Get more skins]
+Запампаваць скіны
+[Enable tray tooltips]
 Падказкі ў трэі
-[Enable tray tooltip]
-Падказкі ў трэі
-[Enable extended tray tooltip]
-Пашыраныя падказкі ў трэі
-[Tray title]
-Загаловак у трэі
-[Use status bar setting]
-Налады панэлі статусу
-[Expand tooltip after:]
-Разгарнуць падказку пасля:
-[Number of contacts]
-Кол-у кантактаў
-[Logon time]
-Час уваходу
-[Logon time:]
-Далучаны з:
-[Logoff time:]
-Адключаны з:
-[Unread emails]
-Непрачытаныя лісты
+[Handle tray tooltips by Tipper]
+Перахапляць падказкі ў трэі
 [Favourite contacts]
 Абраныя кантакты
-[Clist event]
-Падзея спісу
-[Miranda uptime]
-Час працы Miranda
+[Expand to second level after:]
+Другі ўзровень падказкі праз:
+[First level tooltip]
+Падказка першага ўзроўня
+[Second level tooltip]
+Падказка другога ўзроўня
+[Hide offline protocols]
+Хаваць адключаныя пратаколы
 [Hide offline]
 Схаваць адключаных
 [Append protocol name]
 Дадаць імя пратаколу
-[XStatus:]
-хстатус:
-[Log on:]
-Далучаны:
-[Miranda uptime:]
-Час працы Miranda:
-[Idle:]
-У чаканні:
-[ ago]
- назад
+;file \plugins\TipperYM\src\mir_smileys.cpp
+[Tipper smileys]
+Смайлы падказак
+;file \plugins\TipperYM\src\options.cpp
+[You must enter a label]
+Вы павінны ўвесці пазнаку
+[Invalid Substitution]
+Хібная замена
 [<No Label>]
 <Без пазнакі>
+[Add item]
+Дадаць
+[Add separator]
+Дадаць падзельнік
+[No icon]
+Без значка
+[No title]
+Без загалоўка
+[Centre]
+Цэнтр
+[Max avatar size:]
+Памер (макс.):
+[Animation]
+Анімацыя
+[Fade]
+Згасанне
+[Content]
+Змесціва
+[Tray tooltip]
+Падказкі ў трэі
+[Extra]
+Іншае
+;file \plugins\TipperYM\src\options.h
+[Number of contacts]
+Кол-у кантактаў
+[Protocol lock status]
+Заблакаваны статус
+[Logon time]
+Час уваходу
+[Miranda uptime]
+Час працы Miranda
+[Clist event]
+Падзея спісу
+[Jabber activity]
+Занятак Jabber
+[Client]
+Кліент
+;file \plugins\TipperYM\src\popwin.cpp
+[ ago]
+ назад
+[Log on:]
+Далучаны:
+[Unread emails:]
+Непрачытаных лістоў:
+[XStatus:]
+хстатус:
+[Activity:]
+Занятак:
+[Listening to:]
+Слухаю:
 [Copy all items with labels]
 Капіяваць усё з пазнакамі 
 [Copy all items]
 Капіяваць усё
 [Copy avatar]
 Капіяваць аватар
-[Displayed protocols]
-Адлюстроўваныя пратаколы
-[Do you want to import selected skin setting? Current setting will be overwritten.]
-Імпартаваць абраны скін? Бягучыя налады будуць перазапісаны.
 [Fav. contacts]
 Абраныя
-[Invalid Substitution]
-Хібная замена
-[Last message: (%sys:last_msg_reltime% ago)
-Апошняе паведамленне: (%sys:last_msg_reltime% назад)
-[New global status message.]
-Новае глабальнае статус-паведамленне
-[Select image]
-Абраць малюнак
-[Tipper error]
-Памылка Tipper
-[Tipper skin import]
-Імпарт скіна падказкі
-[Tipper smileys]
-Смайлы падказак
-[Xstatus:]
-хстатус:
-[You must enter a label]
-Вы павінны ўвесці пазнаку
-[You need advaimg.dll plugin for advanced skin features. Get latest from Miranda alpha builds.]
-Вам патрэбен модуль advaimg.dll для падтрымкі скінаў. Ён ёсць у апошніх альфа зборках Miranda.
-[Empty message]
-Пустое паведамленне
-[Tooltips View]
-Выгляд падказак
-[Tooltips Content]
-Утрыманне падказак
-[Jabber activity]
-Занятак Jabber
-[Tipper YM]
-Падказкі
-[XStatus title]
-Загаловак хстатуса
-[IP internal]
-Унутраны IP
-[Predefined items:]
-Наканаваныя элементы:
+[Miranda uptime:]
+Час працы Miranda:
+;file \plugins\TipperYM\src\preset_items.cpp
 [Identifier]
 Ідэнтыфікатар
-[XStatus text]
-Тэкст хстатуса
-[Number of sended messages]
-Колькасць адпраўленых паведамленняў
+[Idle:]
+У чаканні:
+[IP internal]
+Унутраны IP
+[IP internal:]
+Унутраны IP:
+[Last message]
+Апош. паведамл.
+[Last message: (%sys:last_msg_reltime% ago)]
+Апошнія паведамленне: (%sys:last_msg_reltime% назад)
 [Number of received messages]
 Колькасць атрыманых паведамленняў
+[Number of msg [IN]:]
+Колькасць атрыманых паведамленняў:
+[Number of sended messages]
+Колькасць адпраўленых паведамленняў
+[Number of msg [OUT]:]
+Колькасць адпраўленых паведамленняў:
+[XStatus title:]
+Загаловак хстатуса:
+[XStatus text]
+Тэкст хстатуса
+[XStatus text:]
+Тэкст хстатуса:
 [[jabber.dll] Activity title]
 (jabber.dll) Загаловак занятку
+[Activity title:]
+Загаловак занятку:
 [[jabber.dll] Activity text]
 (jabber.dll) Тэкст занятку
+[Activity text:]
+Тэкст занятку:
 [[menuex.dll] Logon time]
 (menuex.dll) Час далучэння
+[Logon time:]
+Далучаны з:
 [[menuex.dll] Logoff time]
 (menuex.dll) Час адключэння
-[[weather.dll] Max/Min temperature]
-(weather.dll) Макс/мін тэмпература
-[[weather.dll] Pressure]
-(weather.dll) Ціск
-[[weather.dll] Update time]
-(weather.dll) Час абнаўлення
-[[weather.dll] Sunrise]
-(weather.dll) Узыход
+[Logoff time:]
+Адключаны з:
+[[seenplugin.dll] Last seen time]
+(seenplugin.dll) Апошняе з'яўленне
+[Last seen time:]
+Апошняе з'яўленне:
+[[seenplugin.dll] Last seen status]
+(seenplugin.dll) Апошні статус
+[Last seen status:]
+Апошні статус:
+[[weather.dll] Condition]
+(weather.dll) Стан
+[Condition:]
+Стан:
 [[weather.dll] Humidity]
 (weather.dll) Вільготнасць
+[Humidity:]
+Вільготнасць:
+[[weather.dll] Max/Min temperature]
+(weather.dll) Макс/мін тэмпература
+[Max/Min:]
+Макс./мін. тэмпература: 
+[[weather.dll] Moon]
+(weather.dll) Месяц
+[Moon:]
+Месяц:
+[[weather.dll] Pressure]
+(weather.dll) Ціск
+[Pressure:]
+Ціск:
+[[weather.dll] Sunrise]
+(weather.dll) Узыход
+[Sunrise:]
+Узыход:
+[[weather.dll] Sunset]
+(weather.dll) Заход
+[Sunset:]
+Заход:
+[[weather.dll] Temperature]
+(weather.dll) Тэмпература
+[Temperature:]
+Тэмпература:
+[[weather.dll] Update time]
+(weather.dll) Час абнаўлення
+[Update time:]
+Час абнаўлення:
+[[weather.dll] UV Index]
+(weather.dll) Індэкс УХ
+[UV Index:]
+Індэкс УХ:
 [[weather.dll] Visibility]
 (weather.dll) Бачнасць
 [[weather.dll] Wind]
 (weather.dll) Вецер
-[[weather.dll] Moon]
-(weather.dll) Месяц
-[[weather.dll] Temperature]
-(weather.dll) Тэмпература
-[[weather.dll] UV Index]
-(weather.dll) Індэкс УХ
-[[weather.dll] Condition]
-(weather.dll) Стан
-[[weather.dll] Sunset]
-(weather.dll) Заход
-[[seenplugin.dll] Last seen time]
-(seenplugin.dll) Апошняе з'яўленне
-[[seenplugin.dll] Last seen status]
-(seenplugin.dll) Апошні статус
-[<prefix>Day|Month to days to next birthday]
-<прэфікс>дзень|месяц - у днях да наступнага дня нараджэння
-[Any to /Idle or empty]
-Любое ў /У чаканні ці пуста
-[Any to Idle/Not Idle/Unknown]
-Любое ў /У чаканні/Не ў чаканні/Невядома
-[Hide offline protocols]
-Хаваць адключаныя пратаколы
-[Basic tooltip]
-Асноўная падказка
-[Expanded tooltip]
-Пашыраная падказка
-[Effect speed:]
-Хуткасць эфекту
-[Aero Glass (Vista+)]
-Эфект Aero Glass (Vista+)
-[Protocol lock status]
-Заблакаваны статус
-[Tipper]
-Падказкі
-[Replace only isolated smileys]
-Толькі смайлы праз прабел
-[Show tooltip after all content is ready (avatar && status message)]
-Паказаць падказку толькі пасля загрузкі ўсяго змесціва
-[Disable status message retrieve in all statuses]
-Выключыць аднаўленне статуснага паведамлення
-[Preset items:]
-Зададзеныя элементы:
-[Add separator]
-Дадаць падзельнік
-[Status bar and tray tooltip]
-Панэль статусу і падказка ў трэі
-[Limit status messages in status bar and tray tooltips to:]
-Абмежаваць паведамленне ў панэлі статусу і ў падказцы трэя да:
-[IP internal:]
-Унутраны IP:
-[BYTE to language (ICQ)]
-Байт - у мову (ICQ)
-[WORD to name of a day (0..6, 0 = Sunday)]
-Слова - у назву дзень тыдня (0..6, 0 = Нядзеля)
-[WORD to name of a month (1..12, 1 = January)]
-Слова - у назву месяца (1..12, 1 = Студзень)
-[Last message: (%sys:last_msg_reltime% ago)]
-Апошнія паведамленне: (%sys:last_msg_reltime% назад)
-[Add item]
-Дадаць
-[No preview]
-Няма прэв'ю
-[Skin option]
-Налада скіна
-[Animation speed:]
-Хуткасць анімацыі:
-[Load fonts and colors on startup]
-Грузіць шрыфты, колеры на старце
-[Enable skin coloring]
-Размалёўка скінаў
-[Apply skin]
-Ужыць скін
-[Reload skin list]
-Абнавіць спіс скінаў
-[Load tooltip proportions]
-Загружаць прапорцыі падказкі
-[Load fonts and colors]
-Загружаць шрыфты і колеры
-[Tipper skins]
-Скіны падказак
-[Activity title:]
-Загаловак занятку:
-[Activity text:]
-Тэкст занятку:
-[Last seen time:]
-Апошняе з'яўленне:
-[Last seen status:]
-Апошні статус:
 [Wind:]
 Вецер:
-[Visibility:]
-Бачнасць:
-[Humidity:]
-Вільготнасць:
-[Update time:]
-Час абнаўлення:
-[Pressure:]
-Ціск:
-[Moon:]
-Месяц:
-[Max/Min:]
-Макс./мін. тэмпература: 
-[Condition:]
-Стан:
-[Temperature:]
-Тэмпература:
-[UV Index:]
-Індэкс УХ:
-[XStatus title:]
-Загаловак хстатуса:
-[Number of msg [OUT]:]
-Колькасць адпраўленых паведамленняў:
-[Number of msg [IN]:]
-Колькасць атрыманых паведамленняў:
-[Listening to:]
-Слухаю:
-[XStatus text:]
-Тэкст хстатуса:
-[Enable tray tooltips]
-Падказкі ў трэі
-[Handle tray tooltips by Tipper]
-Перахапляць падказкі ў трэі
-[Expand to second level after:]
-Другі ўзровень падказкі праз:
-[Fav]
-Абраны
-[First level tooltip]
-Падказка першага ўзроўня
-[Second level tooltip]
-Падказка другога ўзроўня
-[Resize smileys]
-Маштабаваць смайлы
+;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 # заліванне колерам
-[Mood:]
-Настрой:
-[Activity:]
-Занятак:
+;file \plugins\TipperYM\src\tipper.cpp
+[Labels]
+Пазнакі
+[Values]
+Значэнні
+[Tray title]
+Загаловак у трэі
+[Tipper]
+Падказкі
+;file \plugins\TipperYM\src\translations.cpp
+[[No translation]]
+(без пераўтварэння)
+[WORD to status description]
+Слова - у апісанне статусу
+[DWORD timestamp to time]
+Дв. слова - падчас
+[DWORD timestamp to time difference]
+Дв. слова - у розніцу часу
+[BYTE to Yes/No]
+Байт - у значэнне Ды/Не
+[BYTE to Male/Female (ICQ)]
+Байт - у падлогу (М/Ж) (ICQ)
+[WORD to country name]
+Слова - у назву краіны
+[DWORD to ip address]
+Дв. слова - у IP-адрас
+[<prefix>Day|Month|Year to date]
+<прэфікс>дзень|месяц|год - у дату
+[<prefix>Day|Month|Year to age]
+<прэфікс>дзень|месяц|год - ва ўзрост
+[<prefix>Hours|Minutes|Seconds to time]
+<прэфікс>гадзіны|хвіліны|секунды - падчас
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+<прэфікс>дзень|месяц|год|гадзіны|мін|сек - у розніцу часу
+[<prefix>Day|Month to days to next birthday]
+<прэфікс>дзень|месяц - у днях да наступнага дня нараджэння
+[DWORD timestamp to time (no seconds)]
+Дв. слова - у дату (без секунд)
+[<prefix>Hours|Minutes to time]
+<прэфікс>гадзіны|хвіліны - падчас
+[DWORD timestamp to date (short)]
+Дв. слова - у дату (кароткую)
+[DWORD timestamp to date (long)]
+Дв. слова - у дату (доўгую)
+[xStatus: empty xStatus name to default name]
+хстатус: пустое імя ў імя па змаўчанні
+[DWORD seconds to time difference]
+Дв. слова секунд у часавую розніцу
+[BYTE timezone to time]
+Байт зона часу падчас
 [WORD to name of a day (0..6, 0 is Sunday)]
 Слова - у назву дня тыдня (0..6, 0 - нядзеля)
 [WORD to name of a month (1..12, 1 is January)]
 Слова - у назву месяца (1..12, 1 - студзень)
-[Get more skins]
-Запампаваць скіны
-[Parse Tipper variables first]
-Апрацоўваць зменныя падказак першымі
-[Meta contact:]
-Мета кантакт:
-[Cellular:]
-Мабільны:
-[X-Status:]
-Х-Статус:
-[Last seen:]
-Апошняе з'яўленне:
-[Registered:]
-Зарэгістраваны:
-[Idle ago:]
-Неактыўны з:
-[Total messages: %sys:msg_count_all%]
-Усяго паведамленняў: %sys:msg_count_all%
-[Rainfall:]
-Уляганні:
-[Sunrise / Sunset:]
-Узыход/Заход:
-[Phase of moon:]
-Фаза месяца:
-[Tomorrow:]
-Заўтра:
-[Day after tomorrow:]
-Пазаўтра:
-[Station URL:]
-URL станцыі:
-[Genre:]
-Жанр:
-[along]
-назад
-[with status]
-са статусам
-[Last message: (%sys:last_msg_reltime% along)]
-Апошняе паведамленне: (%sys:last_msg_reltime% назад)
-[(received: %sys:msg_count_in%,sent: %sys:msg_count_out%)]
-(прынята: %sys:msg_count_in%, паслана: %sys:msg_count_out%)
-[[icq.dll] Logon time]
-(icq.dll) Час уваходу
-[Retrieve new status message]
-Запытваць паведамленне статусу
-[Disable in invisible status]
-Адключыць запыт, калі нябачны
-[Unread emails:]
-Непрачытаных лістоў:
+[BYTE to language (ICQ)]
+Байт - у мову (ICQ)
+;file \plugins\TipperYM\src\translations.h

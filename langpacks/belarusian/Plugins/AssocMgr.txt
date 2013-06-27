@@ -1,97 +1,52 @@
 ﻿#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
-;  File: assocmgr.dll
-;  Plugin: File Association Manager
+;============================================================
+;  File: AssocMgr.dll
+;  Plugin: File association manager
+;  Version: 0.1.1.0
+;  Authors: H. Herkenrath
+;============================================================
 [Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
 Асацыяцыя пашырэнняў файлаў і URL-спасылак з пратаколамі: AIM, Yahoo, Jabber, Gadu-Gadu, Tlen.
-[Associations]
-Асацыяцыі
-[Feed protocol]
-Навінавыя стужкі
-[Associations for Miranda NG]
-Асацыяцыі для Miranda NG
-[Miranda NG and its plugins are capable to handle the following\nfile types and website links:]
-Miranda і яе модулі могуць апрацоўваць наступныя тыпы файлаў, а таксама гіперспасылак:
-[&Enable]
-&Уключыць
-[&Disable]
-Выключыць
-[Extensions]
-Пашырэнні
-[Autostart]
-Аўтазапуск
-[Miranda NG is not run automatically when the computer is started.]
-Miranda NG не запусціцца аўтаматычна пасля загрузкі АС
-[Miranda NG is run automatically when the computer is started.]
-Miranda NG запусціцца аўтаматычна пасля загрузкі АС
-[ files]
- файлы
-[&Defaults]
-&Скід
-[Only associate with Miranda NG while it is &running]
-Асацыяваць толькі падчас &працы праграмы
-[Associations are available]
-Даступныя асацыяцыі
-[The settings can be modified later on again in Options > Services > Associations]
-Налады асацыявання таксама даступныя па шляху\n Налады > Службы > Асацыяцыі
-[There was an error writing to the registry to modify the autostart list.%n%n%1]
-Памылка пры спробе запісу ў рэестр значэння аўтазапуску.%n%n%1
-[Hyperlink]
-Спасылка
+;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 Зарэгістраваныя асацыяцыі для Miranda NG:
 [&Start Miranda NG automatically when the Computer starts (using current profile)]
 &Загружаць праграму пры запуску кампутара (выкарыстоўваючы бягучы профіль)
-[File Types]
-Тыпы файлаў
+[Only associate with Miranda NG while it is &running]
+Асацыяваць толькі падчас &працы праграмы
+;file \plugins\AssocMgr\src\assoclist.cpp
+[%hs files]
+%hs файлы
 [URLs on Websites]
 Спасылкі і сайты
+[File Types]
+Тыпы файлаў
 [File Association Error]
 Памылка асацыяцыі файлаў
-[Gadu-Gadu Link Protocol]
-Пратакол Gadu-Gadu
-[Yahoo Link Protocol]
-Пратакол Yahoo
-[MSN Link Protocol]
-Пратакол MSN
-[ICQ Link Shortcut]
-Пратакол ICQ
-[Jabber Link Protocol]
-Пратакол Jabber
-[URL Protocol]
-Спасылкі
-[DefaultIcon]
-Стандартны значок
-[Extension]
-Пашырэнне
-[&Add to Contact List...]
-&Дадаць у спіс кантактаў...
+[There was an error writing to the registry to modify the file/url associations.\nReason: %s]
+Адбылася памылка запісу для мадыфікацыі асацыяцый файлаў/спасылак.\n\n Чыннік: %s
+[Autostart Error]
+Памылка аўтазагрузкі
+[There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
+Адбылася памылка запісу для мадыфікацыі спісу аўтазапуску.\n\n Чыннік: %s
+[Associations]
+Асацыяцыі
+[Miranda NG Database]
+База дадзеных Miranda NG
+;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
 Miranda NG не можа адкрыць файл
 [Miranda NG could not open URL]
 Miranda NG не можа адкрыць спасылку
-[Miranda NG Database]
-База дадзеных Miranda NG
-[There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
-Адбылася памылка запісу для мадыфікацыі спісу аўтазапуску.\n\n Чыннік: %s
-[There was an error writing to the registry to modify the file/url associations.\nReason: %s]
-Адбылася памылка запісу для мадыфікацыі асацыяцый файлаў/спасылак.\n\n Чыннік: %s
-[The File Association Manager Plugin can not be loaded. It requires Miranda NG %hs or later.]
-Убудова асацыяцый не можа быць загружаны. Патрабуецца версія Miranda NG %hs ці пазней.
-[%hs files]
-%hs файлы
-[Autostart Error]
-Памылка аўтазагрузкі
-[EditFlags]
-Рэдагаваць пазнакі
-[File Types Extension]
-Пашырэнне тыпаў файлаў
-[File Types Section Info]
-Інфармацыя пра тыпы файлаў
+;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 Доступ забаронены:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
-[SupportedTypes]
-Падтрымоўваныя тыпы
-[Trusted Protocols]
-Правераныя пратаколы
-[File Association Manager]
-Асацыяцыі
+[Registry Warning]
+Заўвага рэестра
+;file \plugins\AssocMgr\src\test.cpp
+[ICQ Link Shortcut]
+Пратакол ICQ
+[&Add to Contact List...]
+&Дадаць у спіс кантактаў...
+[Yahoo Link Protocol]
+Пратакол Yahoo

@@ -1,162 +1,32 @@
 ﻿#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
+;============================================================
 ;  File: NewsAggregator.dll
-;  Module: RSS/Atom news aggregator
+;  Plugin: News aggregator
+;  Version: 0.0.0.1
+;  Authors: Mataes, FREAK_THEMIGHTY
+;============================================================
 [RSS/Atom news aggregator.]
 Каналы навін RSS/Atom.
-[News Aggregator]
-Каналы навін
-[Adding new feed]
-Дадаць канал
-[Manage feed]
-Рэдагаваць канал
-[Auto &discovery]
-&Праверыць
+;file \plugins\NewsAggregator\Res\Resource.rc
+[Retrieve news at startup]
+Атрымліваць пры запуску
+[Check Feed]
+Праверыць
+[Authentication]
+Аўтэнтыфікацыя
 [Use &authentication]
 Выкарыстоўваць аўтэнтыфікацыю
-[Maximum displayed items]
-Максімум навін
+[Login]
+Імя карыстача
 [Visualization]
 Адлюстраванне
 [Display news using the following format:]
 Адлюстроўваць навіны, выкарыстоўваючы фармат:
 [All item's tags are valid. Put them between #. Example: #<author>#]
 Усе тэгі навін сапраўдныя. Змесціце іх паміж #, напрыклад: #<author>#
-[Feed]
-Канал
-[Retrieve news at &startup]
-&Прымаць навіны пры старце
-[E&xport...]
-&Экспарт
-[Import from:]
-Імпарт з:
-[&Go]
-&Старт
-[Available feeds:]
-Наяўныя каналы:
-[Feeds to be imported:]
-Каналы для імпарту:
-[Feeds to be exported:]
-Каналы для экспарту:
-[Export to file:]
-Экспарт у файл:
-[Enter a value in URL field.]
-Запоўніце поле "Адрас"
-[Enter a value greater than zero in Minutes field.]
-Увядзіце значэнне большае нуля ў поле "Хвіліны"
-[Enter a value in Username field.]
-Запоўніце поле "Імя"
-[Enter a value in Password field.]
-Запоўніце поле "Пароль"
-[Enter a value equal or greater than zero in Maximum items displayed field.]
-Увядзіце значэнне роўнае ці большае нуля ў поле "Максімальная колькасць палёў"
-[Select a feed to manage.]
-Абярыце канал для рэдагавання.
-[Select a feed to delete.]
-Абярыце канал для выдалення.
-[Invalid path and/or filename.]
-Няправільны шлях і/ці імя.
-[Exporting sucessfully completed.]
-Экспарт выкананы паспяхова.
-[There are no items to be exported.]
-Няма навін для экспарту.
-[Importing sucessfully completed.]
-Імпарт выкананы паспяхова.
-[There are no items to be imported.]
-Няма навін для імпарту.
-[Wait...]
-Чакайце...
-[%s\nis a valid feed's address.]
-%s\n сапраўды існуе.
-[Do you want to use it?]
-Жадаеце выкарыстоўваць яго?
-[is no longer available at the server and no forwarding address is known.]
-больш не даступны на серверы і адрас пераадрасавання не вядомы.
-[This condition is expected to be considered permanent.]
-Гэты стан чакаўся як сталае......
-[Would you like to delete this feed?]
-Вы жадаеце выдаліць гэту крыніцу?
-[Forbidden address]
-Забаронены адрас
-[Authorization will not help and the request should not be repeated.]
-Аўтарызацыя не дапаможа і запыт не будзе паўтораны.
-[Feed sucessfully added.]
-Канал паспяхова дададзены.
-[Retrieve &news]
-Прыняць &навіны
-[&Check all feeds]
-&Праверыць усё
-[&Add new feed...]
-&Дадаць...
-[&Export...]
-&Экспарт
-[MyFeeds]
-МаеКаналы
-[OPML File]
-Файл OPML
-[Feed ID]
-ID канала
-[Avaliable feeds:]
-Наяўныя каналы:
-[Check &all feeds]
-Праверыць &усе каналы
-[There are no new items for this feed for a long period of time.]
-Гэты канал не абнаўляецца працяглы перыяд часу.
-[What do you want to do?]
-Што вы жадаеце зрабіць?
-[&Continue checking this feed for new items]
-Працягнуць праверку гэтага канала
-[&Delete this feed]
-Выдаліць гэты канал
-[RSS/Atom reader.]
-Модуль для чытання RSS/Atom.
-[&Do not ask again for this feed]
-Не пытаць ізноў для гэтага канала
-[Authentication]
-Аўтэнтыфікацыя
-[Feed options]
-Налады канала
-[Maximum news displayed]
-Максімум навін
-[&Store only unread news]
-Захоўваць толькі непрачытаныя навіны
-[Real URL :]
-URL :
-[goes to]
-Запісваецца як
-[&Manage feed...]
-&Рэдагаваць
-[&Delete feed]
-&Выдаліць канал
-[Feed enabled]
-Канал уключаны
-[Feed disabled]
-Канал выключаны
-[Do not show warning, help and &error messages]
-Не паказваць папярэджанні і памылкі
-[Enter a value in Title field.]
-Запоўніце поле "Назву"
-[Enter a value in Server field.]
-Запоўніце поле "Сервер"
-[Enter a value in Location field.]
-Запоўніце поле "Шлях"
-[RSS plugin can't connect to the server %s, it may be temporarily down. Please try again later.]
-Модуль RSS не можа злучыцца з серверам %s, магчыма, ён адключаны. Паспрабуйце пазней.
-[RSS plugin is unable to resolve the name of the server %s.]
-RSS не змог знайсці IP-адрас, які адпавядае імя сервера %s.
-[All item's tags are valid. Put them between #.]
-Усе значэнні дакладныя. Падзел праз #
-[Do not show warning and &error messages]
-Не паказваць папярэджанні і памылкі
-[Example: #<author>#, #<pubDate>#, etc.]
-Прыклад: #<аўтар>#, #<Дата>#, і г.д.
-[Examples: #<author>#, #<pubDate>#, etc.]
-Прыклады: #<аўтар>#, #<Дата>#, і г.д.
-[Maximum items displayed]
-Максімум навін:
-[Store news using the following format:]
-Захоўваць навіны ў фармаце:
-[Do not &warn me again for this feed]
-Не &папярэджваць мяне больш для гэтага канала
+[0 - check manually]
+0 - правяраць уручную
+;file \plugins\NewsAggregator\Src\Icons.cpp
 [Check All Feeds]
 Праверыць усе каналы
 [Add Feed]
@@ -165,26 +35,20 @@ RSS не змог знайсці IP-адрас, які адпавядае імя
 Імпарт каналаў
 [Export Feeds]
 Экспарт каналаў
-[Check Feed]
-Праверыць
+[News Aggregator]
+Каналы навін
+;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Праверыць канал
 [Change feed]
 Змяніць канал
-[Change Feed]
-Змяніць канал
-[0 - check manually]
-0 - правяраць уручную
-[Feed Tag Help]
-Дапамога па тэгам
+;file \plugins\NewsAggregator\Src\Options.cpp
 [The title of the item.]
 Загаловак навіны.
 [The item synopsis.]
 Тэкст навіны.
 [The URL of the item.]
 URL навіны.
-[URL]
-Ссылка
 [Email address of the author of the item.]
 E-mail аўтара навіны.
 [URL of a page for comments relating to the item.]
@@ -193,5 +57,15 @@ URL старонкі з каментарыямі да навіны.
 ID навіны.
 [Specify one or more categories that the item belongs to.]
 Катэгорыі навіны.
-[Retrieve news at startup]
-Атрымліваць пры запуску
+[Feed Tag Help]
+Дапамога па тэгам
+[Wait...]
+Чакайце...
+[Change Feed]
+Змяніць канал
+;file \plugins\NewsAggregator\Src\Services.cpp
+;file \plugins\NewsAggregator\Src\Utils.cpp
+[Feed]
+Канал
+[%s\nis a valid feed's address.]
+%s\n сапраўды існуе.

@@ -1,28 +1,68 @@
 ﻿#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
-;  File: spellchecker.dll
-;  Module: Spell Checker
-[Unknown Flag]
-Невядомы сцяг
-[Spell Checker/Flags]
-Арфаграфія/Сцягі
-[Corrections]
-Выпраўленні
+;============================================================
+;  File: SpellChecker.dll
+;  Plugin: Spell checker
+;  Version: 0.2.6.0
+;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
+;============================================================
+[Spell checker for the message windows. Uses Hunspell to do the checking.]
+Праверка арфаграфіі ў акне паведамленняў. Выкарыстоўвае Hunspell для праверкі.
+;file \plugins\SpellChecker\res\resource.rc
+[Replacements]
+Замены
+[Enable auto-replacements]
+Уключыць аўтазамену
+[Edit...]
+Праўка...
+[Add auto-replace word]
+Дадатак аўтазамены слова
+[Wrong word:]
+Слова з памылкай:
+[No separators and all lowercase chars]
+Не ўлічваць падзельнікі і рэгістр
+[Correction:]
+Выпраўленне:
+[Use variables in correction]
+Выкарыстоўваць зменныя для замены
 [Spell Checker]
 Арфаграфія
 [Default language:]
 Мова па змаўчанні:
-[Auto-correct words]
-Аўта выпраўленне слоў
-[Underline type:]
-Тып падкрэслення:
+[Auto-replace words with dictionary suggestions]
+Аўтаматычная замена словамі са слоўніка
+[Ignore words with numbers]
+Ігнараваць словы з лікамі
+[Ignore words in UPPER CASE]
+Ігнараваць словы ЗАГАЛОЎНЫМІ ЛІТАРАМІ
+[Ask before sending a message with spelling errors]
+Пытаць перад дасылкай паведамлення з памылкамі
 [Download more dictionaries]
 Загрузіць іншыя слоўнікі
+[Underline type:]
+Тып падкрэслення:
 [Show corrections in submenu]
 Групаваць выпраўленні ў падменю
-[Show all corrections]
-Усе выпраўленні
+[Show all corrections in context menu (takes more time to show)]
+Паказваць усе выпраўленні ў меню (патрабуе больш часу)
+[Show wrong word]
+Паказваць слова з памылкай
 [Use flags]
 Адлюстроўваць сцягі
+[Use input language to select dictionary]
+Выкарыстоўваць мову ўводу для выбару слоўніка
+[Use dictionaries from other programs]
+Выкарыстоўваць слоўнікі з іншых праграм
+[Avoid removing underscores (slows down checking of long texts)]
+Не выдаляць падкрэсленні (запавольвае праверку вялікіх тэкстаў)
+;file \plugins\SpellChecker\src\ardialog.cpp
+[Wrong Correction]
+Няслушнае выпраўленне
+;file \plugins\SpellChecker\src\dictionary.cpp
+;file \plugins\SpellChecker\src\options.cpp
+[Auto-replacements]
+Аўтазамена
+[Line]
+Лінія
 [Dotted]
 Кропкамі
 [Dash]
@@ -33,83 +73,35 @@
 Дзве кропкі працяжніка
 [Wave]
 Хваля
-[Enable spell checking]
-Уключыць праверку арфаграфіі
-[Ignore words in UPPER CASE]
-Ігнараваць словы ЗАГАЛОЎНЫМІ ЛІТАРАМІ
-[Show all corrections in context menu (takes more time to show)]
-Паказваць усе выпраўленні ў меню (патрабуе больш часу)
-[Show wrong word]
-Паказваць слова з памылкай
-[Dictionaries]
-Слоўнікі
-[Custom Dictionaries]
-Асабістыя слоўнікі
-[Flag icons]
-Значок са сцягам (ICO)
-[Flags DLL]
-Бібліятэка са сцягамі (DLL)
-[ Spell Checker ]
-Праверка арфаграфіі
-[ Advanced ]
-Дадаткова
-[Always replace with]
-Заўсёды замяняць на
-[Add to dictionary]
-Дадаць у слоўнік
-[Wrong word: %s]
-Няслушнае слова: %s
-[Auto-replace words with dictionary suggestions]
-Аўтаматычная замена словамі са слоўніка
-[Auto-replace words with user defined replacements]
-Аўтаматычная замена з карыстацкага слоўніка
-[Use input language to select dictionary]
-Выкарыстоўваць мову ўводу для выбару слоўніка
-[Correction:]
-Выпраўленне:
-[Add auto-replace word]
-Дадатак аўтазамены слова
-[OLD WORD]
-Старое слова
-[Wrong word:]
-Слова з памылкай:
-[The correction can't be an empty word!]
-Выпраўленне не можа быць пустым!
-[The correction can't be the equal to the wrong word!]
-Выпраўленне не можа быць такім жа, як слова з памылкай!
-[Wrong Correction]
-Няслушнае выпраўленне
-[Could not find the message dialog. This usually means one of two things:\n- In tabSRMM the checkbox 'Enable event API' is disabled or\n- You are using SRMM (which don't support Spell Checker)]
-Акно паведамленняў не знойдзена. Звычайна гэта адбываецца ў двух выпадках:\n- У TabSRMM адключана опцыя "Ўключыць API"\n- вы выкарыстоўваеце модуль, які не падтрымлівае праверку арфаграфіі.
-[Languages]
-Мовы
-[Languages/Flags]
-Мовы/Сцягі
-[Wrong words]
-Няправільныя словы
-[Use dictionaries from other programs]
-Выкарыстоўваць слоўнікі з іншых праграм
-[Auto-replacements]
-Аўтазамена
+[Thick]
+Тоўсты
 [Wrong word]
 Няправільнае слова
 [Correction]
 Выпраўленне
-[No separators and all lowercase chars]
-Не ўлічваць падзельнікі і рэгістр
-[Use variables in correction]
-Выкарыстоўваць зменныя для замены
-[Spell checker for the message windows. Uses Hunspell to do the checking.]
-Праверка арфаграфіі ў акне паведамленняў. Выкарыстоўвае Hunspell для праверкі.
-[Replacements]
-Замены
-[Ignore words with numbers]
-Ігнараваць словы з лікамі
-[Ask before sending a message with spelling errors]
-Пытаць перад дасылкай паведамлення з памылкамі
-[Enable auto-replacements]
-Уключыць аўтазамену
-[Avoid removing underscores (slows down checking of long texts)]
-Не выдаляць падкрэсленні (запавольвае праверку вялікіх тэкстаў)
+;file \plugins\SpellChecker\src\spellchecker.cpp
+[Dictionaries]
+Слоўнікі
+[Custom Dictionaries]
+Асабістыя слоўнікі
+[Flags DLL]
+Бібліятэка са сцягамі (DLL)
 [Enable/disable spell checker]
 Уключыць/выключыць праверку арфаграфіі
+;file \plugins\SpellChecker\src\utils.cpp
+[Other...]
+Іншае...
+[Always replace with]
+Заўсёды замяняць на
+[Add to dictionary]
+Дадаць у слоўнік
+[Corrections]
+Выпраўленні
+[Wrong word: %s]
+Няслушнае слова: %s
+[Language]
+Мова
+[Enable spell checking]
+Уключыць праверку арфаграфіі
+[Wrong words]
+Няправільныя словы

@@ -1,130 +1,40 @@
 ﻿#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
-;  Module: toptoolbar.dll
-[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org]
-Ваш спіс кантактаў не подтрымлівае сервіс фрэймаў, таму модуль панэлі кнопак быў выключаны.\nДля працы панэлі кнопак патрабуецца адзін з дадаткаў:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nВы можаце іх знайсці на http://miranda-ng.org
-[Hide Offline Users]
-Схаваць адключаных
-[Show All Users]
-Показваць усіх
-[Show Groups]
-Показваць групы
-[Hide Groups]
-Схаваць групы
-[Enable Sounds]
-Уключыць гукі
-[Buttons Order && Visibility]
-Паслядоўнасць і бачнасць кнопак
-[Buttons order:]
-Паказваць кнопкі:
-[Groups On/Off]
-Групы ўкл/выкл
-[Sounds Enable/Disable]
-Грукі ўкл/выкл
-[Show Options Page]
-Налады Miranda
-[Show only Online Users]
-Паказаць толькі анлайн
-[Separator 0]
-Падзельнік 0
-[Separator 1]
-Падзельнік 1
-[Separator 2]
-Падзельнік 2
-[Separator 3]
-Падзельнік 3
-[Separator 4]
-Падзельнік 4
-[Separator 5]
-Падзельнік 5
-[Separator 6]
-Падзельнік 6
-[Separator 7]
-Падзельнік 7
-[Separator 8]
-Падзельнік 8
-[Separator 9]
-Падзельнік 9
-[Separator 10]
-Падзельнік 10
-[Separator 11]
-Падзельнік 11
-[Separator 12]
-Падзельнік 12
-[Separator 13]
-Падзельнік 13
-[Separator 14]
-Падзельнік 14
-[Separator 15]
-Падзельнік 15
-[Separator 16]
-Падзельнік 16
-[Separator 17]
-Падзельнік 17
-[Separator 18]
-Падзельнік 18
-[Separator 19]
-Падзельнік 19
-[Separator 20]
-Падзельнік 20
-[Separator 21]
-Падзельнік 21
-[Separator 22]
-Падзельнік 22
-[Separator 23]
-Падзельнік 23
-[Separator 24]
-Падзельнік 24
-[Separator 25]
-Падзельнік 25
-[Separator 26]
-Падзельнік 26
-[Separator 27]
-Падзельнік 27
-[Separator 28]
-Падзельнік 28
-[Separator 29]
-Падзельнік 29
-[Separator 30]
-Падзельнік 30
-[Minimize Button]
-Згарнуць
-[Up:]
-Вышэй:
-[Down:]
-Ніжэй:
-[Separator Button]
-Падзельнік
-[Add Separator]
-Дадаць падзельнік
-[Launch Button]
-Кнопкі запуску
-[Add Launch]
-Дадаць запуск
-[Del Sep/Launch Button]
-Выдаліць падзельнік/кнопку
-[Execute Path]
-Шлях запуску
-[Button width]
-Шырыня кнопкі
-[Button height]
-Вышыня кнопкі
-[Interval between buttons]
-Прамежак
-[WUMF: Show connections list]
-Спіс бягучых далучэнняў
+;============================================================
+;  File: TopToolbar.dll
+;  Plugin: TopToolBar
+;  Version: 0.8.0.3
+;  Authors: Bethoven
+;============================================================
 [ToptoolBar adds buttons in top frame for fast access.]
 Модуль дадае панэль кнопак для хуткага доступу да функцый Miranda і Вашых праграм.
-[Network Connections]
-Сеткавыя далучэнні
+;file \plugins\TopToolBar\res\main.rc
+[Buttons Order && Visibility]
+Паслядоўнасць і бачнасць кнопак
+[Button height]
+Вышыня кнопкі
+[Button width]
+Шырыня кнопкі
+[Interval between buttons]
+Прамежак
 [Use flat mode]
 Кнопкі без мяжы
 [Auto resize]
 Аўтапамер
 [Single line]
 У адзін радок
-[Select Directory]
-Абярыце тэчку
-[Separator]
-Падзельнік
-[TopToolbar]
+[Buttons order:]
+Паказваць кнопкі:
+[Add Separator]
+Дадаць падзельнік
+[Add Launch]
+Дадаць запуск
+[Del Sep/Launch Button]
+Выдаліць падзельнік/кнопку
+[Name: ]
+Імя:
+;file \plugins\TopToolBar\src\toolbar.cpp
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org]
+Ваш спіс кантактаў не подтрымлівае сервіс фрэймаў, таму модуль панэлі кнопак быў выключаны.\nДля працы панэлі кнопак патрабуецца адзін з дадаткаў:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nВы можаце іх знайсці на http://miranda-ng.org
+[TopToolBar]
 Панэль кнопак
+;file \plugins\TopToolBar\src\ttbopt.cpp

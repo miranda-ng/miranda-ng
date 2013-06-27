@@ -1,27 +1,20 @@
 ﻿#muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
-;  File: pmanager.dll
-;  Module: Miranda NG Profile Changer by Roman Gemini
-[Closes Miranda NG and starts Profile Manager]
-Зачыняе Miranda NG і запускае мэнэджар профіляў
+;============================================================
+;  File: PManagerEx.dll
+;  Plugin: Miranda NG profile changer
+;  Version: 0.0.0.5
+;  Authors: Roman Gemini
+;============================================================
 [Adds a menu item to change or load a different profile of Miranda NG, restart or run a dbchecker.]
 Дадае пункт меню, для змены ці загрузкі іншага профіля Miranda NG, перазагрузкі і праверкі базы.
-[&Change Profile...]
-&Змяніць профіль...
-[Are you sure want to change your profile? Miranda will be closed.]
-Вы ўпэўнены ў тым, што жадаеце змяніць профіль? Праграма будзе зачынена.
-[&Show Profile Manager...]
-Паказаць мэнэджар профіляў...
-[Starts Profile Manager]
-Запускаць мэнэджар профіляў
-[Profile manager]
-Мэнэджар профіляў
+;file \plugins\ProfileManager\src\pmanagerEx.cpp
+[Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
+Miranda NG будзе зачынена.\n\nВы ўпэўнены, што хочаце пачаць праверку базы?
+[Check Database]
+Праверыць базу
 [Load profile]
 Загрузіць профіль
 [Change profile]
 Змяніць профіль
-[Check database]
-Праверыць базу
-[Check Database]
-Праверыць базу
-[Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
-Miranda NG будзе зачынена.\n\nВы ўпэўнены, што хочаце пачаць праверку базы?
+[Profile manager]
+Мэнэджар профіляў

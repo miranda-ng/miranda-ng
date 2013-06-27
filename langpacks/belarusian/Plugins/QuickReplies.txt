@@ -1,23 +1,28 @@
 ﻿#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
-;  File: quickreplies.dll
-;  Module: Quick Replies
-[Quick Replies]
-Хуткія адказы
+;============================================================
+;  File: QuickReplies.dll
+;  Plugin: Quick replies
+;  Version: 0.8.1.0
+;  Authors: Unsane
+;============================================================
 [Plugin for quick insert (or sending) pre-defined messages in message input area.]
 Дадатак для хуткай ўстаўкі/адпраўкі паведамленняў.
-[Hints:]
-Падказкі:
+;file \plugins\QuickReplies\res\resources.rc
+[Quick Replies]
+Хуткія адказы
+[Send replies immediately]
+Адразу адсылаць
 [- Add your replies, one per line.]
 - Дадайые адказы, па адному у радок.
+[Hints:]
+Падказкі:
 [- Add "---" for separator.]
 - Дадаць "---" падзельнік
 [- Press [v] button for variable's help.]
 Націсніце [v] для дапамогі па зменным
-[Send replies immediately]
-Адразу адсылаць
-[Button %x]
-Кнопка %x
-[Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
-Хуткія паведамленні\r\nЛевай кнопкай - меню\r\nПравай кнопкай - налады
+;file \plugins\QuickReplies\src\events.cpp
 [Button]
 Кнопка
+[Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
+Хуткія паведамленні\r\nЛевай кнопкай - меню\r\nПравай кнопкай - налады
+;file \plugins\QuickReplies\src\options.cpp

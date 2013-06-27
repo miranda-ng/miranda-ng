@@ -1,4 +1,0 @@
-﻿#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
-;  File: Watrack_MPD.dll
-[Music Player Daemon support for Watrack.]
-Падтрымка Music Player Daemon для Watrack.

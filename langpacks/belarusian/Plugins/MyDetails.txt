@@ -1,111 +1,114 @@
 ﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
-;  File: mydetails.dll
-;  Module: My Details 
-[<no status name>]
-<няма імя статусу>
-[Hide My Details]
-Схаваць мае дэталі
-[Main Window/Backgrnd]
-Галоўнае акно/Фон
-[Set My Avatar for %s...]
-Змяніць мой аватар для %s...
-[Set My Nickname for %s...]
-Змяніць мой нік для %s...
-[Set My Status Message for %s...]
-Змяніць статутнае паведамленне для %s...
-[Show My Details]
-Паказаць мае дэталі
-[Set My Nickname for %s]
-Змяніць мой нік для %s
-[Set My Status Message for %s]
-Усталяваць статус для %s
-[Avatar]
-Аватар
-[Frame Options]
-Налады вакна
-[General]
-Агульна
-[Protocol]
-Пратакол
-[&Offline]
-Адключаны
-[Align text to right]
-Выраўнаваць справа
-[Allow it to grow]
-Расцягнуць аватар
-[Auto-resize frame]
-Выраўноўваць фрэйм
-[Avatar popup]
-Аватар
-[Background Color:]
-Колер залівання:
-[Bottom:]
-Ніз:
-[Context popup]
-Кантэкст
-[Custom size:]
-Памер аватара:
-[Cycle through protocols]
-Змена пратаколаў
-[Cycle through protocols every:]
-Змяняць пратаколы кожныя:
-[Don't cycle through protocols]
-Не змяняць пратаколы
-[Global on avatar]
-Глабальны аватар
-[Global on nickname]
-Глабальны нік
-[Global on status]
-Глабальны статут
-[Global on status message]
-Глабальнае статутнае паведамленне
-[Left:]
-Лева:
-[Nick popup]
-Нік
-[Replace Smileys]
-Замяняць смайлы
-[Right:]
-Права:
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.11
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+[Shows and allows you to edit your details for all protocols.]
+Модуль дазваляе паказваць і рэдагаваць вашы дэталі для ўсіх пратаколаў.
+;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Мой нік
-[Set My Status Message for All Status]
-Статуснае паведамленне для ўсіх статусаў
-[Show previous protocol]
-Паказаць папярэдні пратакол
-[Status message popup]
-Статутнае паведамленне
-[Status popup]
-Статус
-[Top:]
-Верх:
+[RTL]
+RTL
+[Align text to right]
+Выраўнаваць справа
+[Auto-resize frame]
+Выраўноўваць фрэйм
 [Use contact list smileys]
 Смайлікі спісу кантактаў
+[Replace Smileys]
+Замяняць смайлы
+[Resize Smileys]
+Змяняць памер смайлаў
+[Top:]
+Верх:
+[Bottom:]
+Ніз:
+[Left:]
+Лева:
+[Right:]
+Права:
+[Custom size:]
+Памер аватара:
+[Allow it to grow]
+Расцягнуць аватар
 [Use free space (under avatar) to other texts]
 Ужыв. вольнае месца (пад аватарамі) для тэксту
+[Frame Options]
+Налады вакна
+[Set My Status Message for All Status]
+Статуснае паведамленне для ўсіх статусаў
+[Status Message:]
+Паведамленне статусу:
+[Status popup]
+Статус
+[&Offline]
+Адключаны
+[On&line]
+У с&еціве
+[&Away]
+&Адсутнічаю
+[&NA]
+&Недаступны
+[Occ&upied]
+Зан&ят
+[&DND]
+&Не турбаваць
+[&Free for chat]
+&Свабодны
+[&Invisible]
+&Нябачны
+[On the &Phone]
+Тэлефаную
+[Out to &Lunch]
+Абедаю
+[Context popup]
+Кантэкст
 [Set My Avatar...]
 Змяніць мой аватар...
 [Set My Nickname...]
 Змяніць мой нік...
 [Set My Status Message...]
 Змяніць статутнае паведамленне...
-[Show next protocol]
-Паказаць наступны пратакол
 [Enable Listening To]
 Уключыць Цяпер слухаю
+[Nick popup]
+Нік
+[Status message popup]
+Статутнае паведамленне
+[Avatar popup]
+Аватар
+;file \plugins\MyDetails\src\data.cpp
+[<no status name>]
+<няма імя статусу>
+;file \plugins\MyDetails\src\frame.cpp
+[My Details]
+Мае дэталі
+[Avatar Border]
+Мяжа аватара
+[Show My Details]
+Паказаць мае дэталі
 [Enable Listening To for %s]
 Уключыць Цяпер слухаю для %s
-[Shows and allows you to edit your details for all protocols.]
-Модуль дазваляе паказваць і рэдагаваць вашы дэталі для ўсіх пратаколаў.
-[Show protocol cycle button]
-Кнопка пераключэння пратаколу
+[Set My Avatar for %s...]
+Змяніць мой аватар для %s...
+[Set My Nickname for %s...]
+Змяніць мой нік для %s...
+[Set My Status Message for %s...]
+Змяніць статутнае паведамленне для %s...
+[Hide My Details]
+Схаваць мае дэталі
+;file \plugins\MyDetails\src\mydetails.cpp
 [Previous protocol]
 Папярэдні пратакол
 [Next protocol]
 Наступны пратакол
-[Unread Email Count]
-Лічыльнік непрачытанай пошты
-[MyDetails]
-Мае дэталі
-[My Details]
-Мае дэталі
+[Set My Nickname for %s]
+Змяніць мой нік для %s
+[Set My Status Message for %s]
+Усталяваць статус для %s
+[Show next protocol]
+Паказаць наступны пратакол
+;file \plugins\MyDetails\src\options.cpp

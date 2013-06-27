@@ -1,2407 +1,740 @@
-﻿;============================================================
-;  Module: lot's of duplicated strings from different modules.
-[-1 = Infinite]
--1=Бясконца
-[ Actions ]
- Дзеянні
-[ Colours ]
- Колеры
-[ Delay ]
- Затрымка
-[ Protocols ]
- Пратаколы
-[%d Files]
-%d файлаў
-[%s Custom Status]
-xСтатус %s
-[%s connection]
-Злучэнне %s
-[%s plugin connections]
-%s злучэнне з серверам
-[&Accept]
-Прыняць
-[&Default]
-Па змаўчанні
-[&Down]
-У&ніз
-[&Export]
-&Экспарт
-[&File Transfers...]
-&Перадача файлаў...
-[&Import]
-Імпарт
-[&Join]
-Зайсці
-[&Refresh]
-Абнавіць
-[&Save]
-&Захаваць
-[&Up]
-&Уверх
-[&User details]
-Інфармацыя пра кантакт
-[(Default)]
-(Па змаўчанні)
-[(NULL)]
-(НЕ)
-[** New contacts **]
-** Новыя кантакты **
-[<default>]
-<па змаўчанні>
-[<Default>]
-<Змаўчанні>
-[0 = Default]
-0=Змаўчанне
-[Abkhazian]
-Абхазскі
-[About]
-Інфармацыя
+﻿;These lines are not in the nucleus, but they encountered in many plug-ins
+[You can use %name%, %uid%, %account% and %group% macros]
+Вы можаце выкарыстоўваць зменныя %name%, %uid%, %account% і %group%
+[Structure]
+Структура
+[New]
+Новы
+[New]
+Стварыць
+[Separated]
+Разведзены(а)
+[Separated]
+Падзельнік
+[Native]
+Змаўчанне
+[Native]
+Убудаваны
+[type]
+тып
+[Account:]
+Конт:
+[Account:]
+Уліковы запіс:
+[Add contact]
+Дадаць кантакт
+[Add contact]
+Дадаць кантакт
+[Main]
+Галоўны
+[Check connection]
+Правяраць
+[Max. retries]
+Макс. спроб
+[Account Connection]
+Далучэнне конту
+[Delay between retries (secs)]
+Затрымка паміж спробамі (сек)
+[Show popups]
+Паказваць вокны
+[Accounts to check]
+Правяраць наступныя:
+[Dial-Up]
+Выдалены доступ
+[Don't reconnect if no internet connection seems available]
+Не далучацца, калі няма злучэння з Інтэрнэтам
+[Continuously check for internet connection]
+Увесь час правяраць далучэнне да Інтэрнэту
+[Do so by pinging host]
+Пінгаваць хост
+[Confirm Status]
+Пацвердзіце статус
+[after]
+праз
+[minutes of inactivity]
+хвілін неактыўнасці
+[minutes of level 1 mode]
+мінуць рэжыму 1
+[Confirm resetting status]
+Пацвердзіць скід статуту
 [Account]
 Конт
-[Action]
-Дзеянне
-[Actions]
-Дзеянні
-[Active]
-Актыўна
-[Add new rooms to group:]
-Дадаваць чат-пакоі ў групу:
-[Add rule]
-Дадаць правіла
-[Add...]
-Дадаць...
-[Address]
-Адрас
-[Advanced #1]
-Дад. слот #1
-[Advanced #2]
-Дад. слот #2
-[Advanced #3]
-Дад. слот #3
-[Advanced #4]
-Дад. слот #4
-[Advanced #5]
-Дад. слот #5
-[Advanced 1]
-Дад. слот #1
-[Advanced 2]
-Дад. слот #2
-[Advanced 3]
-Дад. слот #3
-[Advanced 4]
-Дад. слот #4
-[Advanced 5]
-Дад. слот #5
-[Advanced 6]
-Дад. слот #6
-[Advanced 7]
-Дад. слот #7
-[Advanced #6]
-Дад. слот #6
-[Advanced #7]
-Дад. слот #7
-[Advanced options]
-Дадаткова
-[Advanced Options]
-Дадаткова
-[Afar]
-Афар
-[Afrikaans]
-Афрыкаанс
-[Age]
-Узрост
-[Akan]
-Акан
-[Albanian]
-Албанскі
-[All contacts]
-Усе кантакты
-[All Contacts]
-Усе кантакты
-[All]
-Усё
-[Allow]
-Дазволіць
-[Always]
-Заўсёды
-[Amharic]
-Амхарскі
-[Angry]
-Злуюся
-[Anniversary]
-Свята 
-[ANSI string]
-радок ANSI
-[Any]
-Любое
-[Appearance]
-Знешні выгляд
-[April]
-Красавік
-[Arabic]
-Арабскі
-[Aragonese]
-Арагонскі
-[Are you sure?]
-Вы ўпэўнены?
-[Armenian]
-Армянскі
-[Assamese]
-Асамскі
-[Audio]
-Аўдыё
-[August]
-Жнівень
-[Author]
-Аўтар
-[Authorisation Request]
-Запыт аўтарызацыі
-[Authorization request]
-Запыт аўтарызацыі
-[Authorization]
-Аўтарызацыя
-[Avaric]
-Аварскі
-[Avatar]
-Аватар
-[Avatars]
-Аватары
-[Avestan]
-Авестыйскі
-[Aymara]
-Аймарскі
-[Azerbaijani]
-Азербайджанскі
-[Back]
-Фон
-[Background color]
-Колер фону
-[Background colour]
-Колер фону
-[Baltic]
-Балтыйскі
-[Bambara]
-Бамана
-[Bashkir]
-Башкірскі
-[Basque]
-Басконскі
-[Behaviour]
-Паводзіны
-[Belarusian]
-Беларускі
-[Belorussian]
-Беларускі
-[Bengali]
-Бенгальскі
-[Bhojpuri]
-Хайпурыйскі
-[Bihari]
-Біхары
-[Birthday]
-Дзень нараджэння
-[Bislama]
-Біслама
-[BokmР•l, Norwegian; Norwegian BokmР•l]
-Нарвежскі
-[Bookmarks]
-Закладкі
-[Border]
-Рамка
-[Bosnian]
-Баснійскі
-[Breton]
-Брэтонскі
-[Browse...]
-Адкрыць...
-[Bulgarian]
-Балгарскі
-[Burmese]
-Бурмескі
-[Buttons]
-Кнопкі
-[C&lear]
-Ачысціць
-[Can't find a contact list plugin you need clist_classic or clist_mw.]
-Убудова спісу кантактаў не знойдзена. Вам патрэбен clist_*.dll
-[Cantonese]
-Катанезійскі
-[Catalan; Valencian]
-Каталонскі
-[Catalan]
-Каталанскі
-[Cellular]
-Мабільны
-[Central European]
-Цэнтральнаеўрапейскі
-[Central Khmer]
-Кхмерскі (цэнтральны)
-[Chamorro]
-Чаморскій
-[Change password]
-Змяніць пароль
-[characters]
-знакаў
-[Chat]
-Чат
-[Chechen]
-Чачэнскі
-[Check every]
-Прав. кожныя
-[Check for Updates]
-Праверыць абнаўленні
-[Chichewa; Chewa; Nyanja]
-Ньянджа
-[Chinese]
-Кітайскі
-[Church Slavic; Old Slavonic]
-Стараславянскі
-[Chuvash]
-Чувашскі
-[Clear all]
-Ачысціць
-[Clear]
-Ачысціць
-[Click action]
-Дзеянні па пстрычцы
-[Client:]
-Кліент:
-[Client]
-Кліент
+[Only set if current status is]
+Толькі калі статут:
+[Monitor Miranda's activity only]
+Сачыць толькі за Miranda
+[Reset status on return]
+Аднавіць статут пры вяртанні
+[when screen saver engages]
+пры запуску застаўкі
+[only set when inactive]
+толькі пры неактыўнасці
+[when workstation is locked]
+пры блакаванні кампутара
+[Command Line]
+Камандны радок
+[Copy to Clipboard]
+Капіяваць у буфер
+[Command Line:]
+Кам. радок:
+[Create Shortcut]
+Стварыць цэтлік
+[Add new profile]
+Дадаць профіль
+[Profile name]
+Імя профіля
+[Set window state]
+Стан акна
+[Show dialog]
+Паказваць дыялог
+[Set status to offline before exit]
+"Адключаны" пры выйсці
+[Show CMDL]
+Кам. радок
+[Activate status profile]
+Статус-профіль
+[Set docked]
+Паркаваць
+[Status on startup]
+Статус пры запуску
+[ms]
+мс
+[Set after]
+праз
+[Timeout]
+Таймаўт
+[s]
+з
+[Set window location]
+Пазіцыя акна
+[Set window size]
+Памер акна
+[Allow override]
+Змяняць
+[Note: status profiles can be created in the 'Status Profiles' options screen]
+статус-профіль можна стварыць ва ўкладцы "Профілі статусаў".
+[Window on startup]
+Вакно пры запуску
+[Automatically dial on startup]
+далучацца пры старце
+[Automatically hang up on exit]
+Раздзіраць сувязь пры выйсці
+[Dial-up (experimental)]
+Dial-up (эксперыментальна)
+[Delay]
+Затрымка
+[On left click]
+Левая пстрычка
+[On right click]
+Правая пстрычка
+[Do nothing]
+Нічога не рабіць
 [Close popup]
 Зачыніць акно
-[College]
-ВНУ
-[Color]
-Колер
-[Colors]
-Колеры
+[Cancel reconnecting]
+Адмена далучэння
 [Colours]
 Колеры
-[Style]
-Стыль
-[Colour]
-Колер
-[Bold]
-Тоўсты
+[Preview]
+Тэст
+[Show when connection is lost]
+Абрыў злучэння
+[Show when a connection attempt is made]
+Спроба далучэння
+[Show when reconnection has finished]
+Паспяховае далучэнне
+[Show other messages]
+Іншыя
+[From Popup plugin]
+Па змаўчанні
+[Permanent]
+Увесь час
+[Show additional information in popups]
+Дадатковая інфармацыя
+[Use Miranda's message setting]
+Выкарыстоўваць налады Miranda
+[Use this message:]
+Выкарыстоўваць паведамленне:
+[Variables...]
+Зменныя...
+[Specify settings for each account]
+Асабіста для кожнага конту
+[Use same settings for all accounts]
+Агульна для ўсіх контаў
+[Ignore caps-lock, num-lock and scroll-lock keys]
+Ігнараваць клавішы caps-lock, num-lock і scroll-lock
+[Check interval (secs)]
+Інтэрвал праверкі (сек):
+[Confirm dialog timeout (secs)]
+Інтэрвал пацверджання (сек)
+[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+Вы ўключылі функцыю змены статуту ў частцы налад "Рэжым чакання", налады ААА будуць ігнаравацца.
+[Monitor keyboard activity]
+Сачыць за актыўнасцю клавіятуры
+[Monitor mouse activity]
+Сачыць за актыўнасцю мышы
+[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+Ігнараваць клавішы Ctrl, Alt, Shift, Tab, Esc, Win
+[Ignore any key combination with above keys]
+Ігнараваць камбінацыі са згаданымі клавішамі
+[Set status message]
+Усталяваць статутнае паведамленне
+[Set status message]
+Усталяваць статутнае паведамленне
+[Add...]
+Дадаць...
+[Create a TopToolBar button]
+Стварыць кнопку Панэлі кнопак
+[Show confirm dialog when loading]
+Пацвярджаць пры загрузцы
+[Create a main menu item]
+Пункт у галоўным меню
+[Status Profiles]
+Профілі статусаў
+[HotKey1]
+Гарачыя клавішы 1
+[Hotkey]
+Гарачая клавіша
+[In submenu]
+У падменю
+[Max. delay (secs)]
+Макс. затрымка (сек)
+[Increase delay exponential]
+Павялічыць экспанентна
+[Cancel all if a account connects from another location]
+Адмяніць, калі конт далучаны з другога месца
+[Reconnect on APM resume]
+Перадалучыцца пасля спячага рэжыму
+[Stop trying to reconnect]
+Спыніць далучэнне
+[Set delay to]
+Пачакаць
+[React on login errors]
+Улічваць памылкі ўваходу
+[Set account offline before a connection attempt]
+Адключыць конт перад далучэннем
+[Max. account connecting time (secs)]
+Спрабаваць далучацца (сек):
+[Timers]
+Таймеры
+[Reconnecting]
+Перадалучэнне
+[Ignore locked status of accounts]
+Ігнараваць блакаваныя конты
+[Consider connection lost after]
+Сувязь страчана пасля
+[failed pings]
+незад. пінг.
+[Continuously check interval (secs)]
+Інтэрвал праверкі (сек)
+[Rules]
+Кіравала
+[Set %s message for %s.]
+Уст. %s паведамленне для %s.
+[<last>]
+<апошні>
+[<current>]
+<бягучы>
+[<n/a>]
+<невядома>
+[Display Name:]
+Паказваць імя:
+[Login Server:]
+Сервер:
+[Connection]
+Далучэнне
+[Change Password]
+Змяніць пароль
+[Screen Name]
+Імя AIM
+[Screen Name]
+Мянушка
+[Invite Buddy To Chat Room]
+Запрашэнне ў чат-пакой
+[&Invite]
+Запрасіць
+[Invitation reason]
+Мэта запрашэння
+[Avatars]
+Аватары
+[Me]
+Я
+[Others]
+Іншае
+[&Invite user...]
+Запрасіць карыстача...
+[&Leave chat session]
+&Пакінуць сеанс
+[User &details]
+Дадзеныя кантакту
+[User &history]
+Гісторыя карыстача
+[AIM Link Protocol]
+Пратакол AIM
+[%s server connection]
+Далучэнне да сервера %s
+[Block]
+Заблакаваць
+[Admin]
+Адмін
+[Blocked list]
+Спіс заблакаваных
+[Background Color]
+Колер фону
 [Italic]
 Курсіў
 [Underline]
 Падкрэсленне
-[Common]
-Агульныя
-[Conference]
-Чат-пакой
-[Configuration]
-Канфігурацыя
-[Connection]
-Далучэнне
-[Connection settings]
-Налады далучэння
-[Copy]
-Капіяваць
-[Cornish]
-Карнуоллскі
-[Corsican]
-Карсіканскі
-[Country]
-Краіна
-[Cree]
-Кры
-[Croatian]
-Харвацкі
-[current contact]
-бягучы кантакт
-[Cut]
-Выразаць
-[Cyrillic]
-Кірыліца
-[Czech]
-Чэшскі
-[Danish]
-Дацкі
-[Date]
-Дата
-[day(s)]
-дзён
-[day]
-дзень
-[Day]
-Дзень
-[Days]
-Дзён
-[Debug]
-Адладка
-[December]
-Снежань
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Паказаць у новым вакне, калі 'Фільтр падзей' уключаны
-[default]
-па змаўчанні
-[Delete rule]
-Выдаліць правіла
-[Deny]
-Забараніць
-[Description]
-Апісанне
-[Dialog]
-Гутарка
-[Disable]
-Выключыць
-[disabled]
-выключаны
-[Disabled]
-Выключаны
-[Disconnects]
-Адключэнні
-[Dismiss Popup]
-Зачыніць
-[Dismiss]
-Прыбраць
-[Display errors using popups]
-Паказваць памылкі ў вокнах
-[Display Name:]
-Паказваць імя:
-[Display]
-Паказваць
-[Divehi; Dhivehi; Maldivian]
-Мальдыўскі
-[Don't log Status Message changes]
-Не захоўваць змены статуснага паведамлення
-[Complete]
-Гатова
-[Done]
-Гатова
-[Down]
-Уніз
-[Dutch; Flemish]
-Фламандскі
-[Dutch]
-Галандскі
-[Dzongkha]
-Дзонгка
-[E-Mail]
-E-Mail
-[Eating]
-Ем
-[Edit rule]
-Змяніць правіла
-[Edit...]
-Праўка...
-[Enable highlighting]
-Уключыць вылучэнне
-[Enable popups]
-Усплываючыя вокны
-[Provides a common popup interface for different plugins.]
-Падтрымка ўсплываючых паведамленняў для розных убудоў.
-[Enable tracking for these protocols:]
-Адсочваць наступныя пратаколы:
-[Enable]
-Уключана
-[enabled]
-уключаны
-[Enabled]
-Уключаны
-[English]
-Ангельскі
-[error]
-памылка
-[Errors]
-Памылкі
-[Esperanto]
-Эсперанта
-[Estonian]
-Эстонскі
-[events]
-падзеі(й)
-[Ewe]
-Еве
-[Example]
-Прыклад
-[Expert]
-Эксперт
-[Export to file]
-Экспарт
-[Export]
-Экспарт
-[Extra icons]
-Экстра абразкі
-[Farsi]
-Фарсі
-[Faroese]
-Фарэрскі
-[Favorites]
-Абраныя
-[February]
-Люты
-[Fijian]
-Фіджыйскі
-[File Transfer]
-Перадача файла
-[Filename:]
-Імя файла:
-[Filter]
-Фільтр
-[Filters]
-Фільтры
-[Finnish]
-Фінскі
-[Flash in the system tray and in the contact list]
-Міргаць у трэі і ў спісе кантактаў
-[Flashing]
-Мігценне
-[Format]
-Фармат
-[Formatting options]
-Фарматаванне
-[Frames]
-Фрэймы
-[French]
-Французскі
-[Friends]
-Сябры
-[From popup plugin]
-Па змаўчанні
-[From Popup plugin]
-Па змаўчанні
-[From]
-Ад
-[Fulah]
-Фула
-[Gaelic; Scottish Gaelic]
-Гэльскі
-[Gaelic]
-Гайскі
-[Galician]
-Галісійскі
-[Game]
-Гульня
-[Games]
-Гульні
-[Ganda]
-Ганда
-[Gender]
-Пол
-[General Options]
-Агульныя параметры
-[Georgian]
-Грузінскі
-[German]
-Нямецкі
-[Grant authorization]
-Аўтарызаваць
-[Greek, Modern (1453-)]
-Грэцкі
-[Greek]
-Грэцкі
-[Guarani]
-Гуарані
-[Gujarati]
-Гуджарацкі
-[Haitian; Haitian Creole]
-Гаіцянскі
-[Hausa]
-Науса
-[Hebrew]
-Іўрыт
-[Herero]
-Герэра
-[Hidden]
-Утоены
-[Hide offline contacts]
-Схаваць адключаных
-[Hindi]
-Хінді
-[Hiri Motu]
-Хіры Моту
-[Home]
-Дома
-[Homepage]
-Сайт
-[Hotkey]
-Гарачая клавіша
-[Hottrack Text]
-Пад курсорам
-[Hungarian]
-Вугорскі
-[Icelandic]
-Ісландскі
-[Ido]
-Іда
-[Igbo]
-Ігбо
-[Ignore all]
-Ігнараваць усё
-[Import]
-Імпарт
-[Inactive]
-Неактыўна
-[Incoming message]
-Уваходнае паведамленне
-[Incoming messages]
-Уваходныя паведамленні
-[Indent:]
-Водступ:
-[Indonesian]
-Інданэзійскі
-[Input error]
-Памылка ўводу
-[Input]
-Увод
-[Interlingua (International Auxiliary Language Association)]
-Інтэрлінгва (IALA)
-[Interlingue]
-Інтэрлінгва
-[Inuktitut]
-Інуктітут
-[Inupiaq]
-Інуіт
-[Irish]
-Ірландскі
-[It is recommended that you create a backup of your current Miranda profile before importing.]
-Рэкамендуецца стварыць рэзервовую копію бягучага профіля перад імпартаваннем.
-[Italian]
-Італьянскі
-[January]
-Студзень
-[Japanese]
-Японскі
-[Javanese]
-Яванскі
-[July]
-Ліпень
-[June]
-Чэрвень
-[Kalaallisut; Greenlandic]
-Грэнландскі
-[Kannada]
-Канада
-[Kanuri]
-Кануры
-[Kashmiri]
-Кашмірскі
-[Kazakh]
-Казахскі
-[Keep connection alive]
-Падтрымліваць злучэнне
-[Khmer]
-Кхмерскі
-[Kikuyu; Gikuyu]
-Кікую
-[Kinyarwanda]
-Кінаруанда
-[Kirghiz; Kyrgyz]
-Кіргізскі
-[Komi]
-Комі
-[Kongo]
-Конга
-[Korean ( Johab )]
-Карэйскі ( Johab )
-[Korean (Johab)]
-Карэйскі (Johab)
-[Korean]
-Карэйскі
-[Kuanyama; Kwanyama]
-Кіньяма
-[Kurdish]
-Курдскі
-[Language]
-Мова
-[Lao]
-Лаоскі
-[Latin I]
-Заходнееўрапейскі
-[Latin]
-Лацінскі
-[Latvian]
-Латышскі
-[Left click]
-Левая пстрычка
-[Limburgan; Limburger; Limburgish]
-Лімбургійскі
-[Limit log text to (events):]
-Абмежаваць лог да (падзей):
-[Line]
-Лінія
-[Lingala]
-Лінгала
-[Link]
-Спасылка
-[Lithuanian]
-Літоўскі
-[Loading...]
-Загрузка...
-[Lock Frame]
-Замацаваць фрэйм
-[Log timestamp]
-Запісваць час
-[Log to file]
-Запіс у файл
-[Logging]
-Гісторыя
-[Login server:]
-Сервер:
-[Love]
-Каханне
-[Luba-Katanga]
-Лубу-Катанга
-[Luxembourgish; Letzeburgesch]
-Люксембургскі
-[Macedonian]
-Македонскі
-[Main]
-Галоўны
-[Malagasy]
-Малагасійскі
-[Malay]
-Малайскі
-[Malayalam]
-Малаялам
-[Maltese]
-Мальтыйскі
-[Mandarin]
-Мандарын
-[Manx]
-Мэнскі
-[Maori]
-Маорыйскі
-[Marathi]
-Марахатскі
-[March]
-Сакавік
-[Marital status:]
-Сямейнае становішча:
-[Marshallese]
-Маршальскі
-[max]
-макс
-[May]
-Травень
-[Menu]
-Меню
-[Message-Event only]
-Толькі для паведамленняў
-[Message Log]
-Журнал
-[Message Session]
-Гутарка
-[Message window]
-Гутарка
-[Message:]
-паведамленне:
-[message]
-паведамленне
-[messages]
-паведамленняў
-[Messaging]
-Паведамленні
-[min]
-мін.
-[Minutes]
-хвілін(ы)
-[minutes]
-хвілін(ы)
-[Misc]
-Іншае
-[Miscellaneous]
-Іншае
-[Mode]
-Рэжым
-[Moldavian]
-Малдаўскі
-[Mongolian]
-Мангольскі
-[ms]
-мс
-[Navajo; Navaho]
-Наваха
-[Ndebele, North; North Ndebele]
-Ндебеле, Паўночны
-[Ndebele, South; South Ndebele]
-Ндебеле, Паўднёвы
-[Ndonga]
-Ндонга
-[Nepali]
-Непальскі
-[Next]
-Наперад
-[Nick changes]
-Змена ніка
-[nick]
-нік
-[Nickname Change]
-Змена псеўданіма
-[Nickname]
-Нік
-[No description given]
-Без апісання
-[No word to look up]
-Няма слоў для пошуку
-[Northern Sami]
-Паўночнасаамскі
-[Norwegian Nynorsk; Nynorsk, Norwegian]
-Нарвежскі
-[Norwegian]
-Нарвежскі
-[Note]
-Нататка
-[Nothing]
-Нічога
-[Notices]
-Апавяшчэнні
-[Notification]
-Апавяшчэнне
-[Notifications]
-Апавяшчэнні
-[Notify]
-Апавяшчэнне
-[November]
-Лістапад
-[number value]
-лік
-[Number:]
-Нумар:
-[Occitan (post ); ProvenР\“al]
-Аксітанскі
-[Occupation:]
-Занятак:
-[October]
-Кастрычнік
-[Ojibwa]
-Аджыбва
-[On left click:]
-Левая пстрычка:
-[On left click]
-Левая пстрычка
-[On right click:]
-Правая пстрычка:
-[On right click]
-Правая пстрычка
-[On]
-Укл
-[Online since:]
-Далучаны:
-[Offline since:]
-Адключаны:
-[Only notify if status is]
-Паказваць, калі статус
-[Only prefix with timestamp if it has changed]
-Падстаўляць час, калі ёсць змены
-[Open contact details window]
-Адчыніць акно дэталяў кантакту
-[Open contact history]
-Адкрыць гісторыю кантакту
-[Open contact menu]
-Адкрыць меню кантакту
-[Open log file]
-Адкрыць лог
-[Open message window]
-Адкрыць вакно гутаркі
-[Open]
-Адкрыць
-[Oriya]
-Орыя
-[Oromo]
-Орома
-[Ossetian; Ossetic]
-Асяцінскі
-[Other name]
-Імёны іншых
-[Other]
-Іншае
-[Others]
-Іншае
-[Outgoing message]
-Выходнае паведамленне
-[Output]
-Выснова
-[Pali]
-Палі
-[Panjabi; Punjabi]
-Панджабскі
-[Participants]
-Удзельнікі
-[password:]
-пароль:
-[Password]
-Пароль
-[Paste]
-Уставіць
-[Pause]
-Паўза
-[Perform]
-Выканаць
-[Persian]
-Персідскі
-[Phone/SMS]
-Тэлефон/SMS
-[Phone]
-Тэлефон
-[Plugin settings]
-Налады
-[Polish]
-Польскі
-[Popup notification]
-Усплывальнае акно
-[Popup timeout:]
-Працягласць:
-[Popup]
-Усплывальнае акно
-[Popup]
-Усплывальныя вокны
-[Popups]
-Усплывальныя вокны
-[Popups]
-Усплывальныя вокны
-[Port]
-Порт
-[Portuguese]
-Партугальскі
-[Prefix all events with a timestamp]
-Падстаўляць час ва ўсе падзеі
-[Prev]
-Назад
-[Preview]
-Тэст
-[Progress1]
-Прагрэс1
-[Protocol icon]
-Абразок пратаколу
-[Protocol Order && Visibility]
-Налада пратаколаў і бачнасць
-[Protocols to check]
-Правяраць пратаколы
-[Protocols]
-Пратаколы
-[Punjabi]
-Панджабскі
-[Pushto]
-Пушту
-[Quechua]
-Кечуа
-[Question]
-Пытанне
-[Refresh]
-Абнавіць
-[Request authorization]
-Запытаць аўтарызацыю
-[Reserved #1]
-Дап. слот #1
-[Reserved #2]
-Дап. слот #2
-[Reserved #3]
-Дап. слот #3
-[Reserved #4]
-Дап. слот #4
-[Reset to defaults]
-Стандартныя
-[Right click]
-Правая пстрычка
-[Romanian]
-Румынскі
-[Romansh]
-Раманшскі
-[Round corners]
-Закругленыя куты
-[Rules]
-Кіравала
-[Rundi]
-Рунді
-[Russian]
-Рускі
-[s]
-з
-[Samoan]
-Самоанскі
-[Sango]
-Санга
-[Sanskrit]
-Санскрыт
-[Sardinian]
-Сардынскі
-[Save to history]
-Захоўваць у гісторыю
-[Save]
-Захаваць
-[Screen Saver is running]
-Запушчана застаўка
-[sec.]
-сек.
-[Sec]
-сек.
-[second(s)]
-секунд
-[seconds.]
-секунд.
-[Select All]
-Вылучыць усё
-[Send file]
-Перадаць файл
-[Send Instant Message]
-Адправіць імгненнае паведамленне
-[Send message on 'Enter']
-Пасылаць па "Enter"
-[Send message on Enter]
-Пасылаць па "Enter"
-[Send message on double Enter]
-Пасылаць па падвойным "Enter"
-[Send message on double 'Enter']
-Пасылаць па падвойным "Enter"
-[Send]
-Адправіць
-[September]
-Верасень
-[Serbian]
-Сербскі
-[Serbo-Croatian]
-Сербахарвацкі
-[Server:]
-Сервер:
-[Server]
-Сервер
-[Service]
-Служба
-[Services]
-Службы
-[Settings]
-Налады
-[Shona]
-Шона
-[Show actions]
-Дзеянні
-[Show Avatars]
-Паказваць аватары
-[Show balloon popup]
-Паказваць усплываючую падказку
-[Show history]
-Паказаць гісторыю
-[Show icon in tray for actions]
-Дзеянні
-[Show icon in tray for highlights]
-Падсветленыя паведамленні
-[Show icon in tray for information messages]
-Інфармацыйныя паведамленні
-[Show icon in tray for messages]
-Паведамленні
-[Show icon in tray for name changes]
-Змены псеўданімаў
-[Show icon in tray for notices ]
-Апавяшчэнні
-[Show icon in tray for status changes]
-Змены статусаў
-[Show icon in tray for topic changes]
-Змена тэмы
-[Show icon in tray for users disconnecting]
-Адключэнні ўдзельнікаў
-[Show icon in tray for users joining]
-Далучэнні ўдзельнікаў
-[Show icon in tray for users kicking other user]
-Выспятак
-[Show icon in tray for users leaving]
-Выйсці ўдзельнікаў
-[Show icons in tray only when the chat room is not active]
-Паказваць абразкі толькі калі вакно чат-пакоя неактыўнае
-[Show information messages]
-Інфармацыйныя паведамленні
-[Show messages]
-Паведамленні
-[Show notices]
-Апавяшчэнні
-[Show popup for actions]
-Дзеянні
-[Show popup for highlights]
-Падсветленыя паведамленні
-[Show popup for information messages]
-Інфармацыйныя паведамленні
-[Show popup for messages]
-Паведамленні
-[Show popup for name changes]
-Змены псеўданімаў
-[Show popup for notices ]
-Апавяшчэнні
-[Show popup for status changes]
-Змены статусаў
-[Show popup for topic changes]
-Змена тэмы
-[Show popup for users disconnecting]
-Адключэнні ўдзельнікаў
-[Show popup for users joining]
-Далучэнні ўдзельнікаў
-[Show popup for users kicking other user]
-Выспятак 
-[Show popup for users leaving]
-Выйсці ўдзельнікаў
-[Show popup]
-Паказваць успл. акно
-[Show Popups when I connect]
-Вокны пры злучэнні
-[Show popups]
-Паказваць вокны
-[Show protocol name]
-Паказваць назву пратаколу
-[Show seconds]
-Секунды
-[Show status changes of users]
-Змена статусу
-[Show topic changes]
-Змена тэмы
-[Show typing notification when no message dialog is open]
-Апавяшчаць пра набор тэксту, пры зачыненым вакне гутаркі
-[Show typing notifications when a user is typing a message]
-Паказваць апавяшчэнні пра набор тэксту
-[Show user detail]
-Паказаць дэталі
-[Show user menu]
-Меню карыстача
-[Show users being kicked]
-Выспяткі з чат-пакою
-[Show users changing name]
-Змена псеўданіма
-[Show users disconnecting]
-Карыстачы, якія пакінулі сервер
-[Show users joining]
-Новыя карыстачы
-[Show users leaving]
-Карыстачы, што пакінулі чат-пакой
-[Sichuan Yi]
-Сычуаньскі
-[Simplified Chinese]
-Кітайскі (спрошчаны)
-[Sindhi]
-Сіндзі
-[Sinhala; Sinhalese]
-Сінгальсткі
-[slot to draw the icon]
-слот для абразка
-[Slovak]
-Славацкі
-[Slovenian]
-Славенскі
-[Somali]
-Самалійскі
-[Sotho, Southern]
-Суто
-[Sound]
-Гук
-[Spanish; Castilian]
-Кастыльскі
-[Spanish]
-Гішпанскі
-[Speak]
-Гаворка
-[Static]
-Статычны
-[Statistics]
-Статыстыка
-[Status changes]
-Змены статусу
-[Status Message:]
-Паведамленне статусу:
-[Status message]
-Паведамленне статусу
-[Status Message]
-Статуснае паведамленне
-[status]
-статус
-[Statuses]
-Статусы
-[Sundanese]
-Сунданскі
-[Swahili]
-Суахілі
-[Swati]
-Сваці
-[Swedish]
-Швецкі
-[Tabs]
-Укладкі
-[Tagalog]
-Тагалог
-[Tahitian]
-Таіцянскі
-[Taiwanese]
-Тайваньскі
-[Tajik]
-Таджыкскі
-[Tamil]
-Тамільскі
-[Tatar]
-Татарскі
-[Telugu]
-Тэлугу
-[Template:]
-Шаблон:
-[Template]
-Шаблон
-[Test Contact]
-Тэставы кантакт
-[Test description]
-Тэставае апісанне
-[Test]
-Тэст
-[Text color]
-Колер тэксту
-[Text colour]
-Колер тэксту
-[Thai]
-Тайскі
-[Tibetan]
-Тыбецкі
-[Tigrinya]
-Тыгрынья
-[time]
-час
-[Time]
-Час
-[Timeout (s)]
-Працягласць (з)
-[Timeout:]
-Таймаўт:
-[Timestamp]
-Час
-[Timezone]
-Гадзінны пояс
-[Title:]
-Загаловак:
-[Title]
-Загаловак
-[Tonga (Tonga Islands)]
-Танганскі
-[Tooltips]
-Падказкі
-[Topic changes]
-Змены тэмы
-[Traditional Chinese]
-Кітайскі (традыцыйны)
-[Transparency]
-Празрыстасць
-[Transparent background]
-Празрысты фон
-[Travel]
-Вандроўкі
-[Tray Icon]
-Абразок у трэі
-[Tsonga]
-Тсонга
-[Tswana]
-Тсвана
-[Turkish]
-Турэцкі
-[Turkmen]
-Туркменскі
-[Twi]
-Тві
-[Type]
-Тып
-[Typing Notification Options]
-Налады апавяшчэнняў набору
-[Typing Notify]
-Набірае тэкст
-[U&se Popup colours]
-Колеры успл. вокнаў
-[Uighur; Uyghur]
-Уйгурскі
-[Ukrainian]
-Украінскі
-[Unicode string]
-радок Unicode
-[unknown]
-невядома
-[Unspecified]
-Не паказана
-[Up]
-Угару
-[Update]
-Абнавіць
-[Urdu]
-Урду
-[Use background image]
-Выкарыстоўваць фон
-[Use custom colours]
-Задаць колеры
-[Use default]
-Па змаўчанні
-[Use same style as in the message log]
-Той жа стыль, што і ў логе
-[Use Windows colors]
-Колеры Windows
-[User &details]
-Дадзеныя кантакту
-[User details]
-Інфармацыя пра карыстача
-[User kicks]
-Выспятак
-[User Name:]
-Лагін:
-[User]
-Карыстач
-[Users joining]
-Уваходы ў чат
-[Users leaving]
-Выйсці з чата
-[Uzbek]
-Узбекскі
-[Variables]
-Зменныя
-[Venda]
-Венда
-[Version:]
-Версія:
-[Vietnamese]
-В'етнамскі
-[View]
-Выгляд
-[Visibility/Chat activity]
-Бачнасць/Актыўнасць чата
-[Visible]
-Мабыць
-[Voice]
-Голас
-[VolapРk]
-Воляпюк
-[Volume]
-Гучнасць
-[Wait]
-Чакаем
-[Walloon]
-Валонскі
-[Warning]
-Папярэджанне
-[Web page]
-Web старонка
-[Welsh]
-Валійскі
-[Western Frisian]
-Фрызскі
-[Width]
-Шырыня
-[Wolof]
-Волоф
-[Women]
-Жанчыны
-[Words to highlight (wildcards allowed)]
-Словы для падсвятлення (дазволены маскі)
-[Working]
-Працую
-[Xhosa]
-Каса
-[Year]
-Год
-[Yiddish]
-Ідыш
-[Yoruba]
-Ерубскі
-[Your name]
-Ваша імя
-[Zhuang; Chuang]
-Чжуан
-[Zulu]
-Зулускі
-[Resize Smileys]
-Змяняць памер смайлаў
-[Show avatars]
-Аватары
-[Group Chats]
-Чаты
-[Group chats]
-Чаты
-[Instant messages]
-Паведамленні IM
-[Incoming (Focused Window)]
-Уваходныя (актыўнае акно)
-[Incoming (Unfocused Window)]
-Уваходныя (неактыўнае акно)
-[Incoming (New Session)]
-Уваходныя (новыя сеанс)
-[Message is highlighted]
-Паведамленне вылучана
-[The topic has been changed]
-Тэма змянілася
-[User has changed name]
-Карыстач змяніў імя
-[User has disconnected]
-Карыстач адключыўся
-[User has joined]
-Карыстач далучыўся
-[User has kicked some other user]
-Карыстач штурхнуў іншага
-[User has left]
-Карыстач сышоў
-[User has performed an action]
-Карыстач здзейсніў дзеянне
-[User has sent a notice]
-Карыстач адправіў апавяшчэнне
-[Avatar size:]
-Аватар:
-[Author:]
-Аўтар:
-[Browse]
-Агляд
-[More...]
-Яшчэ...
-[Path:]
-Шлях:
-[Popup Actions]
-Кнопкі мышы
-[Popup Delay]
-Затрымка акна
-[Popup Options]
-Усплывальныя вокны
-[Popup Title]
-Загаловак акна
-[Sunrise]
-Узыход
-[Sunset]
-Заход
-[Updates]
-Абнаўленні
-[Variable List]
-Зменныя
-[&About]
-Пра праграму
-[%s server connection]
-Далучэнне да сервера %s
-[%s client-to-client connections]
-Злучэнні паміж кліентамі %s
-[Use default colours]
-Колеры па змаўчанні
-[Do nothing]
-Нічога не рабіць
-[Timeout]
-Таймаўт
-[Status:]
-Статус:
-[Off]
-Адкл.
-[Protocol:]
-Пратакол:
-[Normal]
-Звычайны
-[Delay]
-Затрымка
-[Permanent]
-Увесь час
-[seconds]
-секунд(ы)
-[Alerts]
-Апавяшчэнні
-[Add permanently]
-Дадаць у спіс
-[Contact List]
-Спіс кантактаў
-[Hide offline users]
-Схаваць адключаных
-[Hide empty groups]
-Схаваць пустыя групы
-[Global]
-Глабальныя
-[Disable groups]
-Адключыць групы
-[Ask before deleting contacts]
-Пацверджанне выдалення
-[Disable icon blinking]
-Выключыць мігценне
-[System tray icon]
-Абразок у трэі
-[Single click interface]
-Адна пстрычка
-[Always show status in tooltip]
-Заўсёды паказваць статус у падказцы
-[System tray icon when using multiple protocols]
-Абразкі пратаколаў у сістэмным лапку
-[icon when statuses differ]
-пры розных статусах
-[Cycle icons every]
-Змяняць кожныя
-[Show multiple icons]
-Некалькі абразкоў
-[seconds, when statuses differ]
-секунд, пры розных статусах
-[Only when statuses differ]
-Пры розных статусах
-[Items]
-Элементы
-[Show divider between online and offline contacts]
-Мяжа паміж злуч. і адкл. карыстачамі
-[Hot track items as mouse passes over]
-Падсвятленне пад курсорам мышы
-[Disable drag and drop of items]
-Адключыць перацягванне элементаў
-[Disable rename of items by clicking twice]
-Адключыць пераназванне па дзвюх пстрычках
-[Show selection even when list is not focused]
-Вылучэнне, нават калі акно неактыўнае
-[Make selection highlight translucent]
-Напаўпразрыстае вылучэнне
-[Visual]
-Візуальныя налады
-[Scroll list smoothly]
-Плыўная прагортка
-[Time:]
-Час:
-[milliseconds]
-мс
-[Grey out entire list when:]
-Зрабіць шэрым, калі:
-[Not focused]
-Не ў фокусе
-[Always on top]
-Па-над усімі вокнамі
-[Minimize to tray]
-Схаваць у сістэмны латок
-[Show menu bar]
-Паказваць меню
-[Easy move]
-Простае перасоўванне
-[Title bar text:]
-Загаловак акна:
-[Translucency options (Windows 2000/XP only)]
-Празрыстасць (толькі ў Windows 2000/XP)
-[Transparent contact list]
-Празрысты спіс кантактаў
-[Active opacity:]
-Акно актыўнае:
-[Inactive opacity:]
-Акно неактыўнае:
-[Fade contact list in/out]
-Плыўна схаваць спіс
-[Hide contact list after it has been idle for]
-Схаваць спіс, калі не актыўны на працягу:
-[Automatically resize window to height of list]
-Аўтаматычна змяняць памер акна
-[maximum]
-максімум
-[% of screen]
-% ад экрана
-[Size upwards]
-Расцягваць угару
-[If window is partially covered, bring to front instead of hiding]
-Змясціць акно на пярэдні план, калі яно прычынена іншымі вокнамі
-[Contact List Background]
-Фон спісу
-[Use Windows colours]
-Колеры Windows
-[&Use Windows colours]
-Колеры Windows
-[Stretch to height]
-Расцягнуць па вышыні
-[Stretch to width]
-Расцягнуць па шырыні
-[Tile horizontally]
-Гарызантальная мазаіка
-[Tile vertically]
-Вертыкальная мазаіка
-[Scroll with text]
-Пракручваць з тэкстам
-[Stretch proportionally]
-Расцягнуць
-[Show status bar]
-Паказваць панэль статусу
-[Show icons]
-Паказваць абразкі
-[Status Bar]
-Панэль статусу
-[Show protocol names]
-Паказваць пратаколы
-[Show status text]
-Паказваць тэкст статусу
-[Show bevels on panels]
-Бардзюры на панэлях
-[Make sections equal width]
-Часткі роўнай шырыні
-[Right click opens status menu]
-Правая пстрычка - меню статусу
-[Right click opens Miranda NG menu]
-Правая пстрычка - галоўнае меню
-[Contact list skin]
-Скін спісу
-[Contact List Sorting]
-Сартаванне спісу кантактаў
-[Groups]
-Групы
-[Draw a line alongside group names]
-Лінія ўздоўж назваў груп
-[Sort groups alphabetically]
-Сартаваць групы па алфавіце
-[Quicksearch in open groups only]
-Хуткі пошук толькі ў адкрытых групах
-[Dim idle contacts]
-Прыцьміць неактыўных карыстачоў
-[Standard contacts]
-Стандартныя кантакты
-[Online contacts to whom you have a different visibility]
-Са змененай бачнасцю (далучаны)
-[Offline contacts to whom you have a different visibility]
-Са змененай бачнасцю (адключаныя)
-[Offline contacts]
-Адключаныя кантакты
-[Group member counts]
-Лічыльнікі груп
-[Dividers]
-Падзельнікі
-[Selected Text]
-Вылучаны тэкст
-[Quicksearch Text]
-Хуткі пошук
-[Contacts which are 'not on list']
-Кантакты 'не ў спісе'
-[Indent groups by:]
-Водступ для груп:
-[Second line]
-Другі радок
-[Background colour:]
-Колер фону:
-[N/A]
-Недаступны
-[Text]
-Тэкст
-[Left]
-Злева
-[Right]
-Справа
-[Total time]
-Агульны час
-[Default colors]
-Па змаўчанні
-[Information]
-Інфармацыя
-[Change]
-Змяніць
-[No border]
-Без рамкі
-[Protocol Icon]
-Абразок пратаколу
-[Enable avatars support]
-Уключыць падтрымку аватараў
-[Avatars Cache]
-Кэш аватараў
-[Error: Cannot connect to the server]
-Памылка: Немагчыма далучыцца ды сервера
-[Status message:]
-Статуснае паведамленне:
-[Single]
-Самотны
-[Engaged]
-Заручаны
-[Married]
-У шлюбе
-[Education]
-Адукацыя
-[Enter an authorization request]
-Тэкст запыту аўтарызацыі
-[Windows colors]
-Колеры Windows
-[Custom colors]
-Задаць колеры
-[Video]
-Відэа
-[Music]
-Музыка
-[Close button]
-Кнопка "Зачыніць"
-[hours]
-гадзіны(ов)
-[GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
-GMT+00:00 Гадзіна па Грынвічы: Дублін, Лондан, Лісабон, Эдынбург
-[GMT+10:00 East Australia; Guam; Vladivostok]
-GMT+10:00 Уладзівасток; Гуам; Усходняя Аўстралія
-[GMT+11:00 Magadan; Solomon Is.; New Caledonia]
-GMT+11:00 Магадан, Сахалін, Саламонавы в-пы
-[GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
-GMT+12:00 Камчатка, Фіджы, Маршалавы в-пы, Окленд, Велінгтон
-[GMT+1:00 Central European Time; West Central Africa; Warsaw]
-GMT+01:00 Цэнтральна-еўрапейскі час; Зап. Цэнтр. Афрыка; Варшава
-[GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
-GMT+02:00 Афіны; Бухарэст; Каір; Іерусалім; Хельсінкі; Хараре
-[GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
-GMT+03:00 Масква, Санкт-Пецярбург, Багдад, Найробі, Кувейт
-[GMT+3:30 Tehran]
-GMT+03:30 Тэгеран
-[GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat]
-GMT+04:00 Баку, Ерэван, Тбілісі; Абу-Дабі, Мушкат
-[GMT+4:30 Kabul]
-GMT+04:30 Кабул
-[GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
-GMT+05:00 Екацярынбург; Ісламабад, Карачы, Ташкент
-[GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
-GMT+06:00 Омск, Новасібірск, Алма-Ата; Астана, Дхака; Шры Джаяварденепура
-[GMT+6:30 Rangoon]
-GMT+06:30 Рангун
-[GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
-GMT+07:00 Краснаярск; Бангкок, Джакарта, Ханой
-[GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing]
-GMT+08:00 Іркуцк, Улан-Батор; Перт; Тайпей; Сінгапур; Ганконг, Пекін
-[GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk]
-GMT+09:00 Якуцк; Сеўл; Асака, Саппоро, Токіо
-[GMT+9:30 Darwin; Adelaide]
-GMT+09:30 Дарвін; Адэлаіда
-[GMT-10:00 Hawaii]
-GMT-10:00 Гаваі
-[GMT-11:00 Midway Island; Samoa]
-GMT-11:00 в. Мідуэй, Самоа
-[GMT-12:00 Eniwetok; Kwajalein]
-GMT-12:00 Эневеток, Кваджалейн
-[GMT-1:00 Cape Verde Islands; Azores]
-GMT-01:00 в-пы Зяленага мыса, Азорскія а-вы
-[GMT-2:00 Mid-Atlantic]
-GMT-02:00 Сярэдняатлантычны час
-[GMT-3:00 Greenland; Buenos Aires; Georgetown]
-GMT-03:00 Грэнландыя; Буэнас-Айрэс, Джорджтаун
-[GMT-3:30 Newfoundland]
-GMT-03:30 Ньюфаўндленд
-[GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
-GMT-04:00 Атлантычны гадзіна; Сант'яга; Каракас, Ла Пас
-[GMT-5:00 Eastern Time; Bogota; Lima; Quito]
-GMT-05:00 Усходні час; Багота, Ліма, Кіто; Індыяна (усход)
-[GMT-6:00 Central Time; Central America; Saskatchewan]
-GMT-06:00 Цэнтральны час; Цэнтральная Амерыка; Саскачеван
-[GMT-7:00 Arizona; Mountain Time]
-GMT-07:00 Горны час (ЗША і Канада)
-[GMT-8:00 Pacific Time; Tijuana]
-GMT-08:00 Ціхаакіянскі час; Тыхуана
-[GMT-9:00 Alaska]
-GMT-09:00 Аляска
-[Show time]
-Паказваць час
-[pixels]
-пікс.
-['Hide Offline' means to hide:]
-'Схаваць адключаных' - схаваць:
-[Left margin:]
-Левае поле:
-[Gamma correction]
-Карэкцыя гамы
-[Show counts of number of contacts in a group]
-Паказваць колькасць карыстачоў у групах
-[Hide group counts when there are none online]
-Хаваць лічыльнік, калі няма далучаных карыстачоў
-[Last message received on %s at %s.]
-Апошняе паведамленне вы атрымалі %s у %s.
-[%s is typing a message...]
-%s набірае тэкст...
-[signed off (was %s)]
-сыходзіць (быў(а) %s)
-[signed on (%s)]
-прыходзіць (%s)
-[is now %s (was %s)]
-зараз %s (быў(а) %s)
-[Others nicknames]
-Іншыя псеўданімы
-[Your nickname]
-Ваш псеўданім
-[User kicked ...]
-Выспятак
-[User is now known as ...]
-Змена псеўданіма
-[Notice from user]
-Апавяшчэнне
-[The topic is ...]
-Змена тэмы
-[Information messages]
-Інфармацыйныя паведамленні
-[User enables status for ...]
-Усталёўка статусу
-[User disables status for ...]
-Здыманне статусу
-[Action message]
-Дзеянне
-[Highlighted message]
-Падсветленае паведамленне
-[Message typing area]
-Поле набору тэксту
-[User list members (away)]
-Карыстачы (адсутнічаюць)
-[Outgoing messages]
-Выходныя паведамленні
-[Outgoing name]
-Маё імя
-[Outgoing time]
-Час адпраўлення
-[Outgoing colon]
-Двукроп'е ў выходных паведамленнях
-[Incoming name]
-Імя суразмоўцы
-[Incoming time]
-Час атрымання
-[Incoming colon]
-Двукроп'е ва ўваходных паведамленнях
-[Message area]
-Вобласць паведамлення
-[%s has joined]
-%s увайшоў
-[%s has left]
-%s выйшаў
-[%s has disconnected]
-%s адключыўся
-[%s is now known as %s]
-%s змяніў імя на %s
-[%s kicked %s]
-%s выкінуў %s
-[You have joined %s]
-Вы прыйшлі на '%s'
-[Notice from %s: %s]
-Апавяшчэнне ад %s: %s
-[The topic is '%s%s']
-Тэма '%s%s'
-[ (set by %s)]
- (пастаўлена %s)
-[%s enables '%s' status for %s]
-%s уключае статус '%s' для %s
-[%s disables '%s' status for %s]
-%s выключае статус '%s' для %s
-[You are now known as %s]
-Зараз вы вядомыя як %s
-[Show the history (CTRL+H)]
-Паказаць гісторыю (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
-Паказаць/схаваць спіс карыстачоў (CTRL+N)
-[Control this room (CTRL+O)]
-Кантраляваць гэты чат-пакой (CTRL+O)
-[Enable/disable the event filter (CTRL+F)]
-Уключыць/выключыць фільтр падзей (CTRL+F)
-[Insert a smiley]
-Уставіць смайл
-[Insert Emoticon]
-Смайлы
-[View User's History]
-Гісторыя паведамленняў
-[Byte]
-Байт
-[Word]
-Словы
-[Value]
-Значэнне
-[Setting]
-Параметр
-[Unicode]
-Юнікод
-[Reload]
-Перагрузіць
-[Display time:]
-Адлюстроўваць:
-[Copy to clipboard]
-Капіяваць у буфер абмену
-[Use protocol smileys]
-Смайлікі пратаколу
-[Move down]
-Ніжэй
-[Move up]
-Вышэй
-[Top]
-Угару
-[Show all contacts]
-Паказаць усе кантакты
-[Backup Database]
-Рэзерваваць профіль
-[Select Backup Folder]
-Абярыце тэчку для рэзервовых копій
-[Backup progress]
-Ход працэсу рэзервавання
-[Show icon]
-Паказаць абразок
-[Enable SmileyAdd support]
-Падтрымка смайлікаў
-[Always RTL]
-Справа налева
-[Always LTR]
-Злева направа
-[Show headers]
-Паказаць загалоўкі
-[Enable MathModule support]
-Падтрымка MathModule
-[Other events]
-Іншыя падзеі
-[Selected text]
-Вылучаны тэкст
-[closed chat session]
-зачыніў акно чата
+[&Block]
+Блакаваць
+[&Unblock]
+Разблакаваць
+[Basic]
+Асноўныя
 [Privacy]
 Прыватнасць
-[Revoke authorization]
-Адклікаць аўтарызацыю
-[client]
-кліент
-[Other...]
-Іншае...
-[Background image]
-Фонавы малюнак
-[Clear Log]
-Ачысціць гісторыю
-[&Import...]
-&Імпарт
-[Now importing...]
-Імпартуецца...
-[connection]
-Далучэнне
-[Neutral]
-Нейтральная
-[Upload]
-Загрузіць
-[(0 = no limit)]
-(0=неабмежавана)
-[Formatting]
-Фарматаванне
-[Message from %s]
-Паведамленне ад %s
-[XStatus message]
-Паведамленне xСтатуса
-[Flags]
-Сцягі
-[Service discovery]
-Прагляд службаў
-[timeout]
-таймаўт
-[cancel]
-скасаваць
-[close]
-зачыніць
-[name]
-імя
-[N&o to All]
-Н&е для ўсіх
-[Write]
-Запіс
-[Program]
-Праграма
-[Read]
-Чытанне
-[Text to insert]
-Тэкст для ўстаўкі
-[Use Variables]
-Уключыць зменныя
-[Result as Hex]
-Вынік Hex
-[Start minimized]
-Запуск згорнутым
-[Call service]
-Выклік службы
-[Clipboard]
-Буфер абмену
-[Result as Int]
-Вынік Int
-[Program path]
-Шлях
-[Service name]
-Імя службы
-[Program args]
-Аргументы
-[Execute program]
-Выканаць
-[Choose Contact]
-Абраць кантакт
-[Module]
-Ўбудова
-[wParam type]
-Тып wParam
-[lParam type]
-Тып lParam
-[Manual]
-Ручны
-[Open contact window]
-Адчыніць акно кантакту
-[Insert text]
-Уставіць тэкст
-[Result as string]
-Вынік радок
-[Signed value]
-Значэнне са знакам
-[Parameter]
-Параметр
-[MessageBox]
-Акно апавяшчэння
-[Service help]
-Дапамога
-[Undefined]
-Нявызначана
-[Return]
-Якое вяртаецца
-[Yes to &All]
-Ды для &ўсіх
-[User ID:]
-ID карыстача:
-[minutes of inactivity]
-хвілін неактыўнасці
-[Play sound]
-Прайграць гук
+[minutes]
+хвілін(ы)
+[Indent:]
+Водступ:
 [Loop sound]
 Паўтараць гук
-[Prefix:]
-Прэфікс:
-[msec]
-мсек
-[Sound:]
-Гук:
-[minute]
-хвіліна(у)
-[second]
-секунда(у)
-[secs]
-сек.
-[AIM Link Protocol]
-Пратакол AIM
-[&Edit...]
-&Змяніць
-[Daily]
-Штодня
-[Monthly]
-Штомесяц
-[Once]
-Адзін раз
-[Parameters:]
-Параметры:
+[Round corners]
+Закругленыя куты
+[Title:]
+Загаловак:
 [Popup window]
 Усплывальнае акно
+[Sound:]
+Гук:
+[DateTimePicker1]
+Дата Час 1
 [Weekly]
 Штотыдзень
-[Mark replied to messages as read]
-Адзначаць адказы як прачытаныя
-[Message with question]
-Паведамленне з пытаннем
-[Invite]
-Запрашэнне
-[Applications]
-Убудовы
-[Adding rule]
-Дадаць правіла
-[Ask to set autoreply message when mode changes]
-Пытацца пра паведамленне аўтаадказніка пры змене статусу
-[Away mode]
-Адсутнічаю
-[Contact name]
-Імя кантакту
-[Custom rules]
-Правілы
-[Disable when Miranda is switched on]
-Не адказваць, калі Miranda актыўная
-[DND mode]
-Не турбаваць
-[Do you really want delete selected rule ?]
-Вы сапраўды жадаеце выдаліць абранае правіла?
-[Free for chat mode]
-Свабодны
-[NA mode]
-Недаступны
-[Occupied mode]
-Заняты
-[Online mode]
-Далучаны
-[Reply delay:]
-Затрымка:
-[Rule name:]
-Імя правіла:
-[Rule settings]
-Налады правіл
-[Save autoreplies to history]
-Захоўваць паведамленні аўтаадказніка ў гісторыю
-[Select user from a list]
-Абярыце карыстача са спісу
-[Select]
-Абраць
-[Set autoreply message]
-Усталяваць паведамленне аўтаадказніка
-[Note: if you still don't see the icons try changing icon slot. Perhaps its used by some other plugin.]
-Нататка: калі вы не бачыце абразкі, змяніце слот. Магчыма, ён ужо выкарыстоўваецца іншай убудовай.
-[Number of backups to keep:]
-Колькасць рэзервовых копяў:
-[ Track ]
- Адсочванне 
-[Protect the picture and prevent automatic avatars from overwriting it]
-Абараніць малюнак і не дазваляць аватарам яго замяняць
-[Protect the picture]
-Абараніць выяву
-[Try to make picture background transparent]
-Паспрабаваць зрабіць фон празрыстым
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Выдаліць аватар з дыска (магчыма, неабходна для скіду, але выдаліць лакальны малюнак)?
-[Contact has no avatar]
-У кантакту няма аватара
-[Num of points to define bkg:]
-Колькасць кропак фону:
-[When setting avatars, always make it square]
-Зрабіць аватар квадратным
-[Make transparency proportional to color diff]
-Празрыстасць прапарцыйная розніцы колеру
-[Show warning messages]
-Паказваць папярэджанні
-[Contact pictures]
-Аватары
-[Active Protocols]
-Актыўныя пратаколы
-[Set proto picture]
-Абраць малюнак
-[Delete proto picture]
-Выдаліць малюнак
-[Max allowed file size for avatars: (KBytes)]
-Максімальны памер файла аватара (КБ):
-[Color difference allowed:]
-Дазволеная розніца колераў:
-[Make my avatars transparent too]
-Зрабіць мае аватары празрыстымі
-[Make avatars grayscale]
-Чорна-белыя аватары
-[Contact picture]
-Аватар кантакту
-[Set as hidden]
-Схаваць
-[Picture options]
-Налады малюнка
-[Use defaults]
-Стандартныя
-[ Options ]
-Параметры
-[Points:]
-Кропкі:
-[Color diff:]
-Зм.колеры:
-[Protocol Avatars Cache]
-Кэш аватараў пратаколу
-[Reset contact picture]
-Скід аватара кантакту
-[Enable contact menu item]
-Уключыць пункт меню кантакту
-[On event...]
-Пры:
-[%d seconds]
-%d сек.
-[%d minutes]
-%d хвл.
-[%d hours]
-%d ч.
-[Stranger]
-Пачатковец
-[Away System]
-Сістэма паведамленняў
-[By default...]
-Па змаўчанні...
-[Use the default message]
-Стандартнае паведамленне
-[Creepy]
-(па змаўчанні)
-[Gone fragging]
-Заняты
-[Showing an invitation messages]
-Паказаць запрашэнні да гульні
-[as events in the contact list]
-падзеямі ў спісе кантактаў
-[in Popup windows]
-у ўсплывальных вокнах
-[Load &skin...]
-Загрузіць &скін...
-[Filename]
-Імя файла
-[Check birthdays]
-Праверыць дні нараджэння
-[Birthday reminder]
-Напамінак пра дзень нараджэння
-[Birthday reminder: it's coming]
-Напамінак пра надыходзячы дзень нараджэння
-[Hotkey:]
-Клавіша:
-[Please enter password!]
-Калі ласка, увядзіце пароль!
-[Change only if current status is Online]
-Змяняць толькі пры статусе 'Далучаны'
-[Create a main menu item]
-Пункт у галоўным меню
+[Weekly]
+Тыдняў
+[Daily]
+Штодня
+[Daily]
+Дзён
+[Monthly]
+Штомесяц
+[Monthly]
+Месяцаў
+[Yearly]
+Штогод
+[Dismiss]
+Прыбраць
+[Static]
+Статычны
+[1 hour]
+1 гадзіна
+[1 day]
+1 дзень
+[Title]
+Загаловак
+[Sunday]
+Нядзеля
+[Sunday]
+Нядзеля
+[Sunday]
+Нядзеля
+[Monday]
+Панядзелак
+[Monday]
+Панядзелак
+[Monday]
+Панядзелак
+[Tuesday]
+Аўторак
+[Tuesday]
+Аўторак
+[Tuesday]
+Аўторак
+[Wednesday]
+Серада
+[Wednesday]
+Асяроддзе
+[Wednesday]
+Асяроддзе
+[Thursday]
+Чацвер
+[Thursday]
+Чацвер
+[Thursday]
+Чацвер
+[Friday]
+Пятніца
+[Friday]
+Пятніца
+[Friday]
+Пятніца
+[Saturday]
+Субота
+[Saturday]
+Субота
+[Saturday]
+Субота
+[Miscellaneous]
+Іншае
+[Type]
+Тып
+[Description]
+Апісанне
+[Services]
+Службы
+[Services]
+Службы
+[MSN Link Protocol]
+Пратакол MSN
+[Gadu-Gadu Link Protocol]
+Пратакол Gadu-Gadu
+[Jabber Link Protocol]
+Пратакол Jabber
+[Plugin settings]
+Налады
+[Auth]
+Аўтарызацыя
+[Paused]
+Паўза
+[Paused]
+Паўза
+[Header]
+Загаловак
+[Header]
+Загаловак
+[Active]
+Актыўна
+[Active]
+Актыўна
+[Inactive]
+Неактыўна
+[Inactive]
+Не Актыўна
+[Lock workstation]
+Заблакаваць кампутар
+[Lock workstation]
+Заблакаваць кампутар
+[Open Folder]
+Адкрыць тэчку
+[Open Folder]
+Адкрыць тэчку
+[Protocols]
+Пратаколы
+[Track]
+Трэк
+[Avatar Overlay]
+Аверлэй аватара
+[Avatar]
+Аватар
+[Avatar]
+Аватар
+[Unknown Protocol]
+Невядомы пратакол
+[Unknown Protocol]
+Невядомы пратакол
+[Dialog]
+Гутарка
+[Change]
+Змяніць
+[Change]
+Змена
+[Transparent]
+Празрыста
+[No avatar]
+Без аватара
+[Settings]
+Налады
+[Show timestamps]
+Паказваць час
+[Truncate message length to:]
+Абразаць паведамленне да:
+[hours]
+гадзіны(ов)
+[Show date in timestamps]
+Паказваць дату 
+[Show seconds in timestamps]
+Паказваць секунды
+[Enable Smileys]
+Уключыць смайлы
+[All Contacts]
+Усе кантакты
+[Display errors using popups]
+Паказваць памылкі ў вокнах
+[Filter]
+Фільтр
+[Time]
+Час
+[Time]
+Час
+[Day]
+Дзень
+[Day]
+Дзень
+[Password]
+Пароль
+[Authorisation request by %s (%s%d): %s]
+Запыт аўтарызацыі ад %s (%s%d): %s
+[Import]
+Імпарт
+[Import]
+Імпартаваць
+[Export]
+Экспарт
+[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
+Гэта аперацыя цалкам выдаліць гісторыю гэтага кантакту.\nВы ўпэўнены?
+[Are You sure?]
+Вы ўпэўнены?
+[Send Message]
+Адправіць
+[Filters]
+Фільтры
+[File transfer]
+Перадача файла
+[>> Outgoing timestamp]
+Выходны час
+[Outgoing background]
+Выходны фон
+[<< Incoming timestamp]
+Уваходны час
+[Incoming background]
+Уваходны фон
+[>> Outgoing name]
+Выходнае імя
+[<< Incoming name]
+Уваходнае імя
+[>> Outgoing messages]
+Выходнае паведамленне
+[<< Incoming messages]
+Уваходнае паведамленне
+[All Files (*.*)]
+Усе файлы (*.*)
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+Вы ўвялі няслушную кодавую старонку. Абярыце кодавую старонку з выпадальнага спісу ці ўвядзіце правільнае імя.
+[Invalid codepage]
+Няслушная кодавая старонка
+[Hour]
+Гадзіны
+[Hour]
+Гадзіна
+[History Log]
+Прагляд гісторыі
+[Conversation started at %s]
+Гутарка пачата ў %s
+[Menu]
+Меню
+[Unknown error]
+Невядомая памылка
+[You have reached the end of the history.]
+Вы дабраліся да канца гісторыі.
+[Disable sounds]
+Адключыць гукі
+[Disable sounds]
+Адключыць гукі
+[Enable sounds]
+Уключыць гукі
+[Frame Background]
+Фон фрэйма
+[General Settings]
+Асноўныя налады
+[Go to Customize -> Hotkeys to change the hotkey]
+Налада ў Тонкая налада -> Гарачыя клавішы
+[Go to Customize -> Hotkeys to change the hotkey]
+Налада ў Тонкая налада -> Гарачыя клавішы
+[Show the Tray Icon]
+Паказваць абразок у трэі
+[Screen Saver is running]
+Запушчана застаўка
 [Hide]
 Схаваць
+[Open String Formatting Help]
+Дапамога па фармаце радкоў
+[Open message window]
+Адкрыць вакно гутаркі
+[Colors]
+Колеры
+[Use Windows colors]
+Колеры Windows
+[days]
+дзён
+[days]
+дзён
+[Enabled]
+Уключаны
+[Disabled]
+Выключаны
+[Contact name]
+Імя кантакту
 [not found]
 не знойдзена
-[Hide contact]
-Схаваць кантакт
-[Unknown value]
-Невядомае значэнне
-[Upload in progress...]
-Загрузка...
-[Upload complete]
-Загрузка завершана
-[Change ICQ Details]
-Змяніць дадзеныя ICQ
-[You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
-Вы не далучаны да ICQ. Каб абнаўляць дадзеныя, трэба далучыцца.
-[Appearance and functionality of chat room windows]
-Інтэрфейс і функцыянальнасць вокнаў чата
-[Appearance of the message log]
-Вонкавы выгляд лога паведамленняў
-[Icons to display in the message log]
-Абразкі лога паведамленняў
-[Icons to display in the tray]
-Абразкі ў сістэмным латку
-[Popups to display]
+[Send]
+Адправіць
+[Setting Value]
+Значэнне
+[Days]
+Дзён
+[Days]
+Дзён
+[Retry]
+Яшчэ раз
+[Back]
+Фон
+[Copy to clipboard]
+Капіяваць у буфер абмену
+[Popup]
+Усплывальнае акно
+[Popup]
 Усплывальныя вокны
-[User's status was changed]
-Статус карыстача змяніўся
-[Window Icon]
-Абразок вакна
-[Italics]
-Курсіў
-[Underlined]
-Падкрэслены
-[Smiley button]
-Смайлы
-[Room history]
-Гісторыя
-[Event filter]
-Фільтр падзей
-[Room settings]
-Налады
-[Event filter disabled]
-Фільтр падзей выключаны
-[Event filter enabled]
-Фільтр падзей уключаны
-[Hide userlist]
-Схаваць спіс карыстачоў
-[Show userlist]
-Паказаць спіс карыстачоў
-[Icon overlay]
-Абразок па-над
-[Status 1 (10x10)]
-Статус 1 (10x10)
-[Status 2 (10x10)]
-Статус 2 (10x10)
-[Status 3 (10x10)]
-Статус 3 (10x10)
-[Status 4 (10x10)]
-Статус 4 (10x10)
-[Status 5 (10x10)]
-Статус 5 (10x10)
-[Status 6 (10x10)]
-Статус 6 (10x10)
-[Information (10x10)]
-Інфармацыя (10х10)
-[Highlight (10x10)]
-Вылучыць (10х10)
-[Topic (10x10)]
-Тэма (10х10)
-[Nickchange (10x10)]
-Змена псеўданіма (10х10)
-[Kick (10x10)]
-Выгнаць (10х10)
-[Quit (10x10)]
-Выйсце (10х10)
-[Leave (10x10)]
-Пакінуць (10х10)
-[Join (10x10)]
-Увайсці (10x10)
-[Remove status (10x10)]
-Выдаліць статус (10х10)
-[Add Status (10x10)]
-Дадаць статус (10х10)
-[Message out (10x10)]
-Адпраўленае паведамленне (10х10)
-[Message in (10x10)]
-Прынятае паведамленне (10х10)
-[Notice (10x10)]
-Апавяшчэнне (10x10)
-[Action (10x10)]
-Дзеянне (10x10)
-[%s: Message Session]
-%s: гутарка
-[%s: Message Session (%u users)]
-%s: гутарка (%u карыстачоў)
-[Enable logging to disk]
-Запіс лога на дыск
-[Log background]
-Фон лога
-[Message background]
-Фон поля ўводу
-[Userlist background]
-Фон спісу карыстачоў
-[Trim to (kB)]
-Ліміт (КБ)
-[Log directory]
-Тэчка лога
-[Fonts 'n Colors]
-Шрыфты і колеры
-[Log Options]
-Налады лога
-[Popups for the Chat plugin]
-Усплывальныя вокны чата
-[Clear lo&g]
-Ачысціць ча&т
-[Co&py all]
-Капіяваць усё
-[Open a &new browser window]
-Адкрыць у &новым вакне
-[&Open in current browser window]
-&Адкрыць у бягучым вакне
-[Undo  ]
-Адкат 
-[Redo]
-Вярнуць
-[&Open at this position]
-Адкрыць у гэтым месцы
-[&Close tab]
-Зачыніць укладку
-[%s wants your attention in %s]
-%s патрабуе Вашай увагі ў %s
-[%s speaks in %s]
-%s кажа ў %s
-[%s has joined %s]
-%s увайшоў у %s
-[%s has left %s]
-%s выйшаў з %s
-[%s kicked %s from %s]
-%s выкінуў %s з %s
-[Notice from %s]
-Апавяшчэнне ад %s
-[Topic change in %s]
-Змена тэмы ў %s
-[Information in %s]
-Інфармацыя ў %s
-[%s enables '%s' status for %s in %s]
-%s уключае статус '%s' для %s у %s
-[%s disables '%s' status for %s in %s]
-%s выключае статус '%s' для %s у %s
-[%s says: %s]
-%s кажа: %s
-[%s has disconnected (%s)]
-%s адключыўся (%s)
-[%s kicked %s (%s)]
-%s выкінуў %s (%s)
-[The topic is '%s']
-Тэма '%s'
-[The topic is '%s' (set by %s)]
-Тэма '%s' (усталявана %s)
-[User list members (Online)]
-Карыстачы (далучаны)
-[Flash window when someone speaks]
-Міргаць акном, пры новым паведамленні
-[Flash window when a word is highlighted]
-Міргаць акном, прыпадсветленым  паведамленні
-[Show list of users in the chat room]
-Паказваць спіс карыстачоў у чат-пакоі
-[Show button menus when right clicking the buttons]
-Паказваць меню кнопкі па правай пстрычцы
-[Limit user names in the message log to 20 characters]
-Абмежаваць імёны ў логе 20-ю знакамі
-[Show the topic of the room on your contact list (if supported)]
-Паказваць тэму чат-пакоя ў спісе кантактаў (калі падтрымліваецца)
-[Do not play sounds when the chat room is focused]
-Не ўключаць гук, калі чат-пакой на пярэднім плане
-[Do not pop up the window when joining a chat room]
-Не адчыняць вакно чата пры ўваходзе ў чат-пакой
-[Toggle the visible state when double clicking in the contact list]
-Пераключыць бачнасць па падвойнай пстрычцы ў спісе кантактаў
-[Timestamp has same colour as the event]
-Паказваць час тым жа колерам што і падзею
-[Add ':' to auto-completed user names]
-Дадаваць ":" да імёнаў карыстачоў
-[Strip colors from messages in the log]
-Забараніць колеры ў логе
-[Enable the 'event filter' for new rooms]
-Уключыць 'фільтр падзей' для новых чат-пакояў
-[Show icon for topic changes]
-Змены тэмы
-[Show icon for users joining]
-Новыя карыстачы
-[Show icon for users disconnecting]
-Адключэнні ўдзельнікаў
-[Show icon for messages]
-Паведамленні
-[Show icon for actions]
-Дзеянні
-[Show icon for highlights]
-Падсветленыя паведамленні
-[Show icon for users leaving]
-Выйсці ўдзельнікаў
-[Show icon for users kicking other user]
-Выспяткі
-[Show icon for notices ]
-Апавяшчэнні
-[Show icon for name changes]
-Змены нікаў
-[Show icon for information messages]
-Інфармацыйныя паведамленні
-[Show icon for status changes]
-Змены статусаў
-[Show popups only when the chat room is not active]
-Паказваць успл. вокны толькі пры не актыўным вакне чат-пакоя
-[%s has left (%s)]
-%s выйшаў (%s)
-[Custom1]
-Набор 1
-[Notice from %s: ]
-Апавяшчэнне ад %s: 
-[Show these events only:]
-Паказваць толькі:
-[%s: Server]
-%s: Сервер
-[Chat rooms]
-Чаты
-[Display contact status icon before user role icon]
-Паказваць абразок статусу перад абразком ролі
-[Look up '%s':]
-Шукаць '%s':
-[Server: %s]
-Сервер: %s
-[Show contact statuses if protocol supports them]
-Паказваць статусы, калі есць падтрымка ў пратаколе
-[Terminal]
-Тэрмінал
-[Enable notification]
-Уключыць апавяшчэнне
-[List Background]
-Фон спісу
-[Pin to desktop]
-Прымацаваць ды стала
-[Show resize grip indicator]
-Індыкатар зм. памеру
-[Hide vertical scroll bar]
-Схаваць паласу прагорткі
-[Tool style main window]
-Стыль панэлі загалоўка
-[Rate]
-Рэйтынг
-[Reset view mode]
-Скінуць рэжым
-[No view mode]
-Няма рэжыму прагляду
-[Clear view mode and return to default display]
-Скінуць рэжым і перайсці ў рэжым па змаўчанні
-[Select a view mode]
-Выбар рэжыму прагляду
-[Ungrouped contacts]
-Кантакты па-за групамі
-[And]
-І
-[Or]
-ЦІ
-[Older than]
-старэй, чым
-[Newer than]
-навей, чым
-[Delete a view mode]
-Выдаленне рэжыму прагляду
-[Really delete this view mode? This cannot be undone]
-Сапраўды выдаліць рэжым? Адмена не магчымая!
+[Popup]
+Вакно
+[Click action]
+Дзеянні па пстрычцы
+[Sec]
+сек.
+[0 = Default]
+0=Змаўчанне
+[-1 = Infinite]
+-1=Бясконца
+[Use default]
+Па змаўчанні
+[Open contact details window]
+Адчыніць акно дэталяў кантакту
+[Open contact menu]
+Адкрыць меню кантакту
+[Open contact history]
+Адкрыць гісторыю кантакту
+[Open log file]
+Адкрыць лог
+[Templates]
+Шаблоны
+[Contact:]
+Кантакт:
+[Divider:]
+Падзельнік:
+[Show Avatars]
+Паказваць аватары
+[Background colour:]
+Колер фону:
+[Selection colour:]
+Колер вылучэння:
+[Use background bitmap]
+Фонавая выява
+[Tile vertically according to Row Height]
+Расцягваць вертыкальна па вышыні
+[Rescan]
+Абнавіць
+[Info]
+Інфа
+[Alpha]
+Альфа
+[Left]
+Злева
+[Top]
+Угару
+[Width]
+Шырыня
+[Height]
+Вышыня
+[Available view modes]
+Даступныя рэжымы выгляду
+[Include protocols]
+Уключыць пратаколы
+[Include groups]
+Уключыць групы
+[Include status modes]
+Уключыць статусы
+[Sticky contacts]
+Замацаваныя кантакты
+[Clear all]
+Ачысціць
+[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
+Пры карыстанні спісам кантактаў з левага боку, вы можаце абраць кантакты, якія будуць замацаваны за гэтым рэжымам прагляду. Гэтыя кантакты ібудуць ігнараваць стандартныя правілы фільтра і выкарыстоўваць толькі фільтр статусу ніжэй.
+[Status mode]
+Рэжым статусу
+[Automatically clear this view mode after]
+Аўтаматычна скідаць гэты рэжым пасля
+[View mode options]
+Налады рэжыму выгляду
+[Editing view mode]
+Рэжым прагляду па змаўчанні
 [Last message ]
 Апошняе паведамленне
+[Right click opens Miranda menu]
+Правая пстрычка - галоўнае меню
+[Dont move offline user to bottom]
+Не перасоўваць адключаных уніз
+[Behaviour]
+Паводзіны
+[Hide vertical scrollbar]
+Схаваць паласу прагорткі
+[ms, delay between icon blinking]
+мс, паміж мігценнямі значка
+[Ignore Empty Extra icons places (arrange to right).]
+Ігнараваць пустыя дадатковыя значкі (справа)
+[Use 'Meta' protocol icons for Metacontacts]
+'Мета' значкі для метакантактаў
+[Avoid doubleclick expand]
+Не разгортваць па падвойным кліку
+[Hide all 'Extra icons' for subcontacts]
+Схаваць дадатковыя значкі для субкантактаў
+[Hide offline subcontacts.]
+Хаваць адключаныя субкантакты
+[Appearance]
+Знешні выгляд
+[Enable drop shadow (restart required)]
+Уключыць цень (патрэбен перазапуск)
+[Up]
+Угару
+[Down]
+Уніз
+[Custom corner size:]
+Памер кута:
+[Use protocol smileys]
+Смайлікі пратаколу
+[Show second line]
+Паказваць другі радок
+[Text:]
+Тэкст:
+[Nickname]
+Нік
+[Status Message]
+Статуснае паведамленне
 [Listening to]
 Слухаю
-[SubGroupMenu]
-Меню падгруп
-[&New SubGroup]
-Стварыць падгрупу
-[GroupMenu]
-Меню груп
+[Contact time]
+Час кантакту
+[Align]
+Выраўноўванне
+[Visible]
+Мабыць
+[Border]
+Рамка
+[Floating]
+Плывучае
+[Move up]
+Вышэй
+[Move down]
+Ніжэй
+[Skins]
+Скіны
+[Second line]
+Другі радок
+[Selected text]
+Вылучаны тэкст
 [Event Area]
 Вобласць падзей
-[Hide All Titlebars]
-Схаваць назвы
-[Show All Titlebars]
-Паказваць назвы
-[Show All Frames]
-Паказаць усе фрэймы
+[Icon]
+Значок
+[&About]
+Пра праграму
+[My Contacts]
+Мае кантакты
 [&Visible]
 Паказваць
-[&Show TitleBar]
-Паказваць назву
+[&Visible]
+&Бачнасць
 [&Locked]
 Замацаваць
-[&Collapsed]
-Згорнутае
 [&Floating Mode]
 Плывучы рэжым
 [&Border]
@@ -2416,1336 +749,1444 @@ ID карыстача:
 Ніз
 [&Position]
 Становішча
-[&FrameTitle]
-&Загаловак фрэйма
-[Align]
-Выраўноўванне
-[InsertSeparator]
-Падзельнік
-[My Contacts]
-Мае кантакты
-[Setup view modes]
-Наладзіць рэжымы выгляду
-[Show second line]
-Паказваць другі радок
-[View Modes]
-Рэжымы выгляду
-[Enable sounds]
-Уключыць гукі
-[Disable Sounds]
-Адключыць гукі
-[Height]
-Вышыня
-[Text:]
-Тэкст:
-[Second Line]
-Другі радок
-[Status menu]
-Меню статусаў
-[Configure view modes]
-Налада рэжымаў выгляду
-[Filtering]
-Фільтраванне
-[Sticky contacts]
-Замацаваныя кантакты
-[Available view modes]
-Даступныя рэжымы выгляду
-[Include groups]
-Уключыць групы
-[Include protocols]
-Уключыць пратаколы
-[Include status modes]
-Уключыць статусы
-[Status mode]
-Рэжым статусу
-[Duplicate name]
-Супадальнае імя
-[A view mode with this name does alredy exist]
-Рэжым адлюстравання з такім імем ужо прысутнічае
-[Automatically clear this view mode after]
-Аўтаматычна скідаць гэты рэжым пасля
-[Clear current View Mode]
-Ачысціць бягучы рэжым выгляду
-[Event area]
-Вобласць падзей
-[Floating]
-Плывучае
-[View mode options]
-Налады рэжыму выгляду
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-Пры карыстанні спісам кантактаў з левага боку, вы можаце абраць кантакты, якія будуць замацаваны за гэтым рэжымам прагляду. Гэтыя кантакты ібудуць ігнараваць стандартныя правілы фільтра і выкарыстоўваць толькі фільтр статусу ніжэй.
-[Setup View Modes...]
-Наладзіць рэжымы выгляду...
-[Medium]
-Сярэдні
-[StatusBar Background]
-Фон панэлі статусу
-[New Menu System not Found...]
-Не знойдзена новая сістэма меню...
-[Show Main Menu]
-Галоўнае меню
-[Show status message]
-Статуснае паведамленне
-[*** All contacts ***]
-*** Усе кантакты ***
-[Transparency:]
-Празрыстасць:
-[Protocol Type]
-Тып пратаколу
-[Show size grip]
-Індыкатар змены памеру
-[&Floating Contact]
-Плывучы кантакт
-[tabSRMM Menu]
-Меню tabSRMM
-[tabSRMM session list]
-Спіс сесій tabSRMM
-[Title bar]
-Загаловак
-[Alignment]
-Выраўноўванне
-[Display options]
-Опцыі адлюстравання
-[Export to skin file]
-Захаваць у файл
-[Ignore none]
-Ніякія падзеі
-[Load from skin file]
-Загрузіць з файла
-[Profiles]
-Профілі
-[URL events]
-Спасылкі (URL)
-[Show tooltips]
-Падказкі
-[Skin items]
-Элементы скіна
-[<current>]
-<бягучы>
-[Apply skin now]
-Ужыць скін
-[build time]
-час зборкі
-[Custom Status]
-хстатус
-[Incoming file transfers]
-Прыем файлаў
-[Load and apply]
-Загрузіць і ўжыць
-[Load this skin on startup]
-Загружаць гэты скін пры старце
-[Opacity]
-Непразрыстасць
-[Parameter mismatch]
-Неадпаведнасць параметру
-[Raised]
-Прыпадняты
-[Rounded border]
-Закругленыя
-[Show drop shadow (restart required)]
-Цень (патрэбен перазапуск)
+[&Up]
+&Уверх
+[&Down]
+У&ніз
+[Show All Frames]
+Паказаць усе фрэймы
+[Show All Titlebars]
+Паказваць назвы
+[Hide All Titlebars]
+Схаваць назвы
+[Lock Frame]
+Замацаваць фрэйм
 [Show TitleBar]
 Паказаць загаловак
-[Show Tool Bar]
-Паказваць панэль кнопак
-[Skin options]
-Налады скіна
-[Sounds are off]
-Гукі выкл.
-[Sunken]
-Патоплены
+[GroupMenu]
+Меню груп
+[SubGroupMenu]
+Меню падгруп
+[&New SubGroup]
+Стварыць падгрупу
+[Close Miranda]
+Зачыніць праграму
+[Restore last status]
+Аднавіць апошні стан статусу
+[lines]
+ліній
+[Right]
+Справа
+[Status menu]
+Меню статусаў
+[Hide offline contacts]
+Схаваць адключаных
+[Ungrouped contacts]
+Кантакты па-за групамі
+[And]
+І
+[Or]
+ЦІ
+[Older than]
+старэй, чым
+[Newer than]
+навей, чым
+[Minutes]
+хвілін(ы)
+[Minutes]
+Мінуць
+[Hours]
+Гадзін
+[Hours]
+Гадзін
+[All contacts]
+Усе кантакты
+[Filtering]
+Фільтраванне
+[*** All contacts ***]
+*** Усе кантакты ***
+[Configure view modes]
+Налада рэжымаў выгляду
+[Really delete this view mode? This cannot be undone]
+Сапраўды выдаліць рэжым? Адмена не магчымая!
+[Delete a view mode]
+Выдаленне рэжыму прагляду
+[A view mode with this name does alredy exist]
+Рэжым адлюстравання з такім імем ужо прысутнічае
+[Duplicate name]
+Супадальнае імя
+[Setup View Modes...]
+Наладзіць рэжымы выгляду...
+[Select a view mode]
+Выбар рэжыму прагляду
+[Setup view modes]
+Наладзіць рэжымы выгляду
+[Clear view mode and return to default display]
+Скінуць рэжым і перайсці ў рэжым па змаўчанні
+[Reset view mode]
+Скінуць рэжым
+[View Modes]
+Рэжымы выгляду
+[&FrameTitle]
+&Загаловак фрэйма
+[&Show TitleBar]
+Паказваць назву
+[&Collapsed]
+Згорнутае
+[Continue]
+Працягнуць
+[Exit Miranda]
+Выйсці з Міранды
 [Support and latest version information]
 Падтрымка і інфармацыя пра апошнюю версію
-[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
-Для запытанага дзеяння неабходзен правільны выбар кантакту. Абярыце кантакт са спісу і паўторыце
-[Unload skin]
-Прыбраць скін
-[Classes]
-Класы
-[Hide from list]
-Схаваць са спісу
-[Ignore...]
-Ігнараваць...
-[Protocol...]
-Пратакол...
-[Group...]
-Група...
-[Send 'You were added']
-Адправіць "Вас дадалі"
-[Request Authorization]
-Запытаць аўтарызацыю
-[Copy ID]
-Капіяваць ID
-[Add protocol name]
-Дадаць пратакол
-[Copy Status Message]
-Капіяваць статус
-[Copy IP]
-Капіяваць IP
-[Copy MirVer]
-Капіяваць ID кліента
-[Browse Received Files]
-Прынятыя файлы
-[Last Online]
-Апошні раз...
-[Month (01-12)]
-Месяц (01-12)
-[Month Name]
-Месяц (поўны)
-[Month Name Short]
-Месяц (кароткі)
-[Day (01-31)]
-Дзень (01-31)
-[Day of Week]
-Дзень тыдня
-[Day of Week Short]
-Дзень тыдня (коратка)
-[Hour (01-24)]
-Гадзіна (01-24)
-[Hour (1-12)]
-Гадзіна (1-12)
-[Minutes (00-60)]
-Хвіліны (00-60)
-[Seconds (00-60)]
-Секунды (00-60)
-[X-Status Message]
-Паведамленне xСтатуса
-[An error has occured. The protocol reported the following error:]
-Пратакол вярнуў наступную памылку:
-[Try again]
-Яшчэ раз
-[View Homepage]
-Сайт
-[Show Menu Item]
-Выгляд адлюстравання меню
-[Notification mode]
-Рэжым апавяшчэння
-[Popup colors]
-Колеры ўсплывальных вокнаў
-[Dismiss popup]
-Зачыніць вакно
+[Alignment]
+Выраўноўванне
+[Show avatars]
+Аватары
+[Load this skin on startup]
+Загружаць гэты скін пры старце
+[Skin options]
+Налады скіна
+[Incoming file transfers]
+Прыем файлаў
+[URL events]
+Спасылкі (URL)
+[Ignore all]
+Ігнараваць усё
+[Ignore none]
+Ніякія падзеі
+[Skin items]
+Элементы скіна
+[Gradient]
+Градыент
+[Left to right]
+Злева направа
+[Right to left]
+Справа налева
+[Top to bottom]
+Зверху ўніз
+[Bottom to top]
+Знізу ўгару
+[Top-Left]
+Левы верхні
+[Top-Right]
+Правы верхні
+[Bottom-Right]
+Правы ніжні
+[Bottom-Left]
+Левы ніжні
+[Item colors]
+Колеры
+[First color]
+Першы колер
+[Textcolor]
+Тэкст(колер)
+[Second color]
+Другі колер
+[Alpha (percent)]
+Альфа (адсотак)
+[Item margins]
+Палі
+[Item borders]
+Межы 
+[Border style]
+Стыль рамкі
+[3D border (bright / dark)]
+3D рамка
+[Item ignored]
+Пункт ігнаруецца
+[Not yet supported]
+Не падтрымліваецца
+[Copy from]
+Капіяваць з
+[Raised]
+Прыпадняты
+[Sunken]
+Патоплены
+[Bumped]
+Выпуклы
+[Etched]
+Вытраўлены
+[Nothing]
+Нічога
+[Never]
+Ніколі
+[Never]
+Не выкарыстоўваць
+[Always]
+Заўсёды
+[Contact list]
+Спіс кантактаў
+[Warning]
+Папярэджанне
+[Title bar]
+Загаловак
+[Load and apply]
+Загрузіць і ўжыць
+[Notify]
+Апавяшчэнне
 [Popup options]
 Налады ўсплывальных вокнаў
-[&Update]
-&Абнаўленне
-[My Notes:]
-Мае нататкі:
-[Nick Name:]
-Нік:
-[Work:]
-Працоўная:
-[F]
-Ж
-[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from http://www.miranda-ng.org. Miranda will now shutdown.]
-Miranda вызначыла, што база пашкоджана. Пашкоджанні могуць быць выправўлены з дапамогай DbChecker. Падрабязней на сайце http://www.miranda-ng.org. 
-[Database Panic]
-Праблема з базай
-[Please type in your new password]
-Калі ласка, увядзіце ваш новыя пароль
-[Password is too short!]
-Пароль надта кароткі!
-[Database Error]
-Памылка базы
-[Database failure. Miranda will now shutdown.]
-Памылка базы. Miranda NG будзе зачынена.
-[%s (CreateFileMapping failed. Code: %d)]
-%s (Памылка CreateFileMapping. Код: %d)
-[%s (MapViewOfFile failed. Code: %d)]
-%s (Памылка MapViewOfFile. Код: %d)
-[%s (Too large increment)]
-%s (Занадта вялікае прырашчэнне)
-[%s (Module Name not unique)]
-%s (Імя ўбудовы не ўнікальна)
-[%s (Module Offset not unique)]
-%s (Зрушэнне ўбудовы не ўнікальна)
-[Copying database file...]
-Капіяванне файла базы...
-[Backups]
-Рэзервовыя копіі
-[Please enter your new password]
-Калі ласка, увядзіце новы пароль
-[Wrong password!]
-Няслушны пароль!
-[Rotating backup files...]
-Ратацыя папярэдніх копіяў...
-[Backup Profile]
-Рэзерваваць профіль
-[Database Backups]
-Рэзерваванне профіля
-[Automatic Backups]
-Аўтаматычнае рэзерваванне
-[Backup to folder:]
-Захоўваць у тэчку:
-[Disable Popups]
-Адключыць усплывальныя вокны
-[to]
-у
-[Incoming contacts]
-Уваходныя кантакты
-[Incoming file]
-Уваходны файл
-[You Were Added Message]
-Паведамленне "Вас дадалі"
-[Subject:]
-Тэма:
-[New message]
-Новае паведамленне
-[Precision]
-знакаў пасля коскі
-[Variables...]
-Зменныя...
-[Source:]
-Крыніца:
-[File:]
-Файл:
-[Use this message:]
-Выкарыстоўваць паведамленне:
-[Advanced Settings]
-Пашыраныя параметры
-[But not during sign-on]
-Але не падчас уваходу
-[Use Popup colors]
-Колеры успл. вокнаў
-[Use custom colors]
-Вык. іншыя колеры
-[Timeouts]
-Перапынкі
-[Round corners by]
-Акругліць куты на
-[Favourites]
-Абраныя
-[Events to react on]
-Падзеі
-[Incomming files]
-Уваходныя файлы
-[Incomming URLs]
-Уваходныя спасылкі
-[Everything else]
-Усе іншыя
-[Blink if message window is open]
-Мігаць, калі вакно гутаркі ачынена
-[     ... and not in foreground]
-і не змешчана на пярэдні план
-[Only if last is]
-Калі апошн.
-[sec. old]
-сек. назад
-[Flash until]
-Міргаць так:
-[is re-attended]
-звароты
-[Events are opened]
-Падзеі будуць адкрытыя
-[End of 'notify when' conditions]
-Канчатак "апавяшчаць калі"
-[Notify when]
-Апавяшчаць, калі
-[Full Screen mode]
-Поўнаэкранны рэжым
-[Workstation is Locked (2000/XP)]
-Блакавана сістэма (2000/ХР)
-[Defined programs are running]
-Запушчана ўказ. праграма
-[All other situations]
-Усе іншыя сітуацыі
-[Pending Events]
-Чаканыя падзеі
-[Remind me every]
-Напам. кожныя
-[Wait before starting flashing]
-Паўза перад пачаткам мігцення
-[Slow]
-Павольна
-[Fast]
-Хутка
-[Play]
-Пуск
-[Client Icons]
-Кліенты
-[Mail.ru Agent]
-Пратакол Mail.ru Агент
-[Main Features]
-Галоўнае
-[Properties]
-Уласцівасці
-[Folders]
-Тэчкі
-[Server name]
-Імя сервера
-[Copy URL to clipboard]
-Капіяваць спасылку ў буфер абмену
-[Command Line:]
-Кам. радок:
-[Variables Help]
-Дапамога па зменных
-[contacts]
-кантакту(аў)
-[Registration rejected]
-У рэгістрацыі адмоўлена
-[<Last Status>]
-<Апошні статус>
-[Automatically reconnect after unintentional disconnection]
-Перападключыцца пасля нечаканага парыву
-[&Save changes]
-Захаваць змены
-[Internal IP:]
-Унутраны IP:
-[Me]
-Я
-[Search online users only]
-Толькі далучоных карыстачоў
-[Send messages slower, but with full acknowledgement]
-Адсылаць паведамленні павольней, але з пацверджаннем
-[pixel]
-пікс.
-[Checking...]
-Правяраю...
-[Key ID:]
-ID ключа:
+[Version:]
+Версія:
+[Action]
+Дзеянне
+[&Select All]
+&Вылучыць усё
+[Copy To Clipboard]
+Капіяваць у буфер
+[View]
+Выгляд
+[Version Information]
+Версіі
+[Upload]
+Загрузіць
 [User ID]
 ID карыстача
-[Tags]
-Тэгі
-[&Reset]
-&Скід
-[Seconds]
-секунд
-[(Require Miranda restart)]
-(Патрабуецца перазапуск праграмы)
-[Image]
-Малюнак
-[Slider]
-Лятунок
-[Tool Bar]
-Панэль прылад
-[ Tracking ]
- Апавяшчэнне
-[Log Status Message changes]
-Захоўваць змены статуснага паведамлення
-[Don't log Nickname changes]
-Не захоўваць змены псеўданіма
-[Status change]
-Змена статусу
-[System message]
-Сістэмнае паведамленне
-[Enter password]
-Увядзіце пароль
-[Contact history]
-Гісторыя кантакту
-[Message direction]
-Кірунак паведамлення
-[File transfer]
+[Refresh]
+Абнавіць
+[Favourites]
+Абраныя
+[Do you really want to delete selected item?]
+Выдаліць абраны запіс?
+[Main Icon]
+Галоўны значок
+[Favourite]
+Абранае
+[No change]
+без зм.
+[< &Back]
+< &Назад
+[< &Back]
+< &Назад
+[&Next >]
+&Далей >
+[&Next >]
+&Далей >
+[Progress1]
+Прагрэс1
+[Database]
+Профіль
+[&Export]
+&Экспарт
+[&Import]
+Імпарт
+[Export to file]
+Экспарт
+[Stop]
+Стоп
+[Stop]
+Спыніць
+[Searching...]
+Пошук...
+[Unknown Contact]
+Невядомы кантакт
+[Module]
+Плагiн
+[Setting]
+Параметр
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Падтрымка базы Miranda NG.
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Падтрымка базы Miranda NG.
+[Database is marked as belonging to an unknown version of Miranda]
+База дадзеных пазначана як прыналежная невядомай версіі Miranda NG
+[New password]
+Новы пароль
+[Change password]
+Змяніць пароль
+[Old password]
+Стары пароль
+[Author:]
+Аўтар:
+[Please enter your new password]
+Калі ласка, увядзіце новы пароль
+[Password is too short!]
+Пароль надта кароткі!
+[Browse...]
+Адкрыць...
+[Disable Popups]
+Адключыць усплывальныя вокны
+[path to root miranda folder]
+шлях да тэчкі праграмы
+[path to current miranda profile]
+шлях да тэчкі бягучага профіля
+[name of current miranda profile (filename, without extension)]
+імя бягучага профіля (толькі імя, без пашырэння)
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
+верне радок выгляду %miranda_profile%\\Profiles\\%miranda_profilename%
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+аналог зменнага асяроддзя %APPDATA% для бягучага карыстача сістэмы
+[username for currently logged-on Windows user]
+імя бягучага карыстача сістэмы
+["My Documents" folder for currently logged-on Windows user]
+тэчка "Мае дакументы" для бягучага Windows карыстача
+["Desktop" folder for currently logged-on Windows user]
+тэчка "Працоўны стол" для бягучага Windows карыстача
+[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+любая зменная асяроддзі, вызначаная ў бягучай Windows сесіі (напрыклад, %systemroot%, %allusersprofile% і г.д.)
+[Variables]
+Зменныя
+[Unread emails]
+Непрачытаныя лісты
+[Check every]
+Прав. кожныя
+[Subject]
+Тэма
+[Place:]
+Месца:
+[Visibility:]
+Бачнасць:
+[Default group:]
+Група:
+[Event notifications]
+Апавяшчэнні
+[Notifications]
+Апавяшчэнні
+[Other events]
+Іншыя падзеі
+[Enable logging for debugging purposes]
+Журналяванне для адладкі
+[Links]
+Спасылкі
+[Notification]
+Апавяшчэнне
+[Services...]
+Службы...
+[Round corners by]
+Акругліць куты на
+[Selected background]
+Фон вылучэння
+[Play]
+Пуск
+[Pause]
+Паўза
+[Select protocols]
+Пратаколы
+[Fingerprint]
+Абразкі кліентаў
+[Fingerprint]
+Адбітак
+[Overlays]
+Абразкі
+[Overlays]
+Аверлэі
+[Resource]
+Рэсурс
+[Security]
+Бяспека
+[Unknown client]
+Невядомы кліент
+[Country Flags]
+Сцягі краін
+[Show country flag as &status icon on message window]
+Паказваць сцяг, як абразок статусу ў вакне гутаркі
+[Country flag]
+Сцяг краіны
+[Tooltips]
+Падказкі
+[Draw border]
+Паказваць рамку
+[User]
+Карыстач
+[Port]
+Порт
+[Account name]
+Імя акаўнта
+[Autosend download link to contact]
+Адправіць спасылку аўтаматычна
+[Clipboard]
+Буфер абмену
+[Server:]
+Сервер:
+[Open in Browser]
+Адкрыць у браўзары
+[Copy Link]
+Капіяваць спасылку
+[Send file]
+Перадаць файл
+[FTP File]
+Файл на FTP
+[Enable avatars]
+Уключыць аватары
+[Keep connection alive]
+Падтрымліваць злучэнне
+[Automatically reconnect after unintentional disconnection]
+Перападключыцца пасля нечаканага парыву
+[Send messages slower, but with full acknowledgement]
+Адсылаць паведамленні павольней, але з пацверджаннем
+[File Transfer]
 Перадача файла
-[Chats]
-Чаты
-[Case sensitive]
-Улік рэгістра
-[Format:]
-Фармат:
-[recognize all messages sent]
-Вызначаць усе пасланыя паведамленні
-[recognize messages sent with hotkey only]
-Вызначаць толькі паведамленне адпраўленыя гар.клавішай
-[Check]
-Адзначыць
-[XStatus]
-хстатус
-[Run]
-Запусціць
-[Dial]
-Пазваніць
-[Function]
-Функцыя
-[Answer]
-Адказаць
-[System up since:]
-Уключаны з:
-[Contact Information]
-Інфармацыя пра кантакт
-[No connection]
-Няма злучэння
-[Features]
-Магчымасці
-[Meeting]
-Сустрэча
-[Coffee]
-П'ю каву
-[Business]
-Справы
-[Sleeping]
-Сплю
-[Cooking]
-Гатую 
-[Smoking]
-Палю
-[On WC]
-У туалеце
-[You cannot send messages when you are offline.]
-Вы не можаце адпраўляць паведамленні без далучэння.
-[%s Avatar]
-Аватар %s
+[Number:]
+Нумар:
+[Internal IP:]
+Унутраны IP:
+[&Save changes]
+Захаваць змены
+[to:]
+да:
+[Search online users only]
+Толькі далучоных карыстачоў
+[Open]
+Адкрыць
+[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
+Не атрымалася далучыцца да сервера. Магчыма, сервер не працуе. Калі ласка, паспрабуйце далучыцца пазней.
+[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+Спроба далучэння з серверам перапынілася з памылкай. Магчыма, знікла далучэнне да лакальнай сеткі.
+[Conference]
+Чат-пакой
+[Ask]
+Спытаць
+[%s connection]
+Злучэнне %s
+[Participants]
+Удзельнікі
+[Protocol icon]
+Абразок пратаколу
+[Block user]
+Заблакаваць
+[Send image]
+Адправіць
+[Background color]
+Колер фону
+[Text color]
+Колер тэксту
+[Test]
+Тэст
+[Copy All]
+Капіяваць усё
+[Delete Selected]
+Выдаліць абранае
+[Delete Selected]
+Удаліць абранае
+[Enable BBCodes]
+Падтрымка BBCode
+[Delete All]
+Выдаліць усё
+[Outgoing contacts]
+Выходныя кантакты
+[Toolbar]
+Панэль кнопак
+[Toolbar]
+Панэль кнопак
+[Incoming SMS Message]
+Уваходнае SMS паведамленне
+[RTF file]
+RTF файл
+[and]
+і
+[Address]
+Адрас
+[Mask]
+Маска
+[Disable]
+Выключыць
+[All files]
+Усе файлы
+[Enter an authorization request]
+Тэкст запыту аўтарызацыі
+[Remember this session password]
+Запомніць пароль сеансу
+[Connection settings]
+Налады далучэння
+[Back Color]
+Колер фону
+[Note]
+Нататка
+[&Use Windows colors]
+&Колеры Windows
 [Previe&w]
 &Тэст
-[Timeout (*)]
-Працягласць (*)
-[Popup title]
-Загаловак акна
-[External IP:]
-Вонкавы IP:
+[Online since:]
+Далучаны:
+[Status:]
+Статус:
+[Occupation:]
+Занятак:
+[Language:]
+Мова:
 [Past]
 Мінулае
-[ICQ - Providing Help]
-ICQ - падтрымка
-[Internet]
-Інтэрнэт
-[<empty>]
-<не>
-[Always visible]
-Заўсёды бачны
-[Never visible]
-Заўсёды нябачны
-[Affiliation]
-Прыналежнасць
-[Other Services]
-Іншае
-[Primary e-mail]
-Асноўны e-mail
-[Secondary e-mail]
-Другасны e-mail
-[Tertiary e-mail]
-Трэці e-mail
-[Web Building]
-Web-службы
-[Year of birth]
-Год нараджэння
-[ZIP/postcode]
-Індэкс
-[Divorced]
-У разводзе
-[Academic]
-Акадэмія
-[Alumni Org.]
-Выпускнікі
-[Administrative]
-Адміністрацыя
+[Homepage]
+Сайт
+[Custom Status "%s" Details]
+xСтатус "%s"
+[Message:]
+паведамленне:
+[Confirmation]
+Пацверджанне
+[50's]
+50-е
+[60's]
+60-е
+[70's]
+70-е
+[80's]
+80-е
 [Art]
 Мастацтва
-[Art/Entertainment]
-Забаўкі
 [Astronomy]
 Астраномія
-[Audio and visual]
-Гук і візуалізацыя
-[Business & Economy]
-Бізнэс і эканоміка
-[Business services]
-Бізнэс
 [Cars]
 Машыны
 [Celebrity Fans]
 Фанат знакамітасцей
-[Charity Org.]
-Дабрачынная арганізацыя
-[Close relationships]
-У блізкіх стасунках
 [Clothing]
 Адзежа
-[Club/Social Org.]
-Клуб
 [Collections]
 Калекцыянаванне
-[College Student]
-Студэнт каледжа
-[Community & Social]
-Грамадства і соцыюм
-[Community Org.]
-Грамадскае аб'яднанне
 [Computers]
 Кампутары
-[Consumer electronics]
-Побытавыя электрапрыборы
-[Cultural Org.]
-Культурнае аб'яднанне
-[Culture & Literature]
-Культура і літаратура
-[Engineering]
-Інжынер
 [Entertainment]
 Забаўкі
-[Finance and corporate]
-Фінансы
-[Financial Services]
-Фінансы
 [Fitness]
 Фітнэс
-[Government]
-Урад
-[Health and beauty]
-Прыгажосць і здароўе
-[High School]
-Сярэдняя школа
-[High School Student]
-Вучань сярэдняй школы
 [Hobbies]
 Хобі
-[Hobbyists Org.]
-Арганізацыя па захапленнях
-[Home automation]
-Побытавая аўтаматызацыя
-[Household products]
-Хатнія прадукты
-[Law]
-Закон
+[Games]
+Гульні
+[Government]
+Урад
+[Internet]
+Інтэрнэт
 [Lifestyle]
 Лад жыцця
-[Managerial]
-Кіраванне
-[Manufacturing]
-Вытворчасць
 [Media]
 Медыя
-[Medical/Health]
-Медыцына/Здароўе
-[Military]
-Вайсковец
-[Nature and Environment]
-Прырода і навакольнае асяроддзе
-[Nature and Environment Org.]
-Прыродаахоўная арганізацыя
-[Non-Government Organization]
-Няўрадавая арганізацыя
-[Outdoor Activities]
-Актыўны адпачынак
+[Music]
+Музыка
+[Mystics]
+Містыка
 [Parenting]
 Выхаванне
 [Parties]
 Вечарыны
-[Past Organization]
-Мінулая арганізацыя
-[Past Work Place]
-Мінулая праца
-[Pets/Animals]
-Жывёлы
-[Professional]
-Прафесіянал
-[Professional Org.]
-Прафсаюз
 [Publishing]
 Публікацыі
 [Religion]
 Рэлігія
-[Retail stores]
-Рознічны гандаль
-[Retail]
-Рознічны гандляр
-[Retired]
-У адстаўцы
-[Science & Research]
-Навука і даследаванні
-[Science/Technology]
-Навука/Тэхналогія
-[Scientific/Technical Org.]
-Навукова-тэхнічная арганізацыя
-[Self Improvement Group]
-Група самаўдасканальвання
-[Movies/TV]
-Кіно/ТБ
-[Mystics]
-Містыка
-[News & Media]
-Навіны і медыя
 [Skills]
 Навыкі
 [Social science]
 Сацыялогія
 [Space]
 Космас
-[Spiritual/Religious Org.]
-Рэлігійная арганізацыя
-[Sporting and athletic]
-Спорт
 [Sports]
 Спорт
+[Travel]
+Вандроўкі
+[Web Design]
+Web Дызайн
+[Women]
+Жанчыны
+[Afrikaans]
+Афрыкаанс
+[Albanian]
+Албанскі
+[Arabic]
+Арабскі
+[Armenian]
+Армянскі
+[Azerbaijani]
+Азербайджанскі
+[Belorussian]
+Беларускі
+[Bhojpuri]
+Хайпурыйскі
+[Bosnian]
+Баснійскі
+[Bulgarian]
+Балгарскі
+[Burmese]
+Бурмескі
+[Cantonese]
+Катанезійскі
+[Catalan]
+Каталанскі
+[Chamorro]
+Чаморскій
+[Chinese]
+Кітайскі
+[Croatian]
+Харвацкі
+[Czech]
+Чэшскі
+[Danish]
+Дацкі
+[Dutch]
+Галандскі
+[English]
+Ангельскі
+[Esperanto]
+Эсперанта
+[Estonian]
+Эстонскі
+[Farsi]
+Фарсі
+[Finnish]
+Фінскі
+[French]
+Французскі
+[Gaelic]
+Гайскі
+[German]
+Нямецкі
+[Greek]
+Грэцкі
+[Gujarati]
+Гуджарацкі
+[Hebrew]
+Іўрыт
+[Hindi]
+Хінді
+[Hungarian]
+Вугорскі
+[Icelandic]
+Ісландскі
+[Indonesian]
+Інданэзійскі
+[Italian]
+Італьянскі
+[Japanese]
+Японскі
+[Khmer]
+Кхмерскі
+[Korean]
+Карэйскі
+[Kurdish]
+Курдскі
+[Lao]
+Лаоскі
+[Latvian]
+Латышскі
+[Lithuanian]
+Літоўскі
+[Macedonian]
+Македонскі
+[Malay]
+Малайскі
+[Mandarin]
+Мандарын
+[Mongolian]
+Мангольскі
+[Norwegian]
+Нарвежскі
+[Persian]
+Персідскі
+[Polish]
+Польскі
+[Portuguese]
+Партугальскі
+[Punjabi]
+Панджабскі
+[Romanian]
+Румынскі
+[Russian]
+Рускі
+[Serbian]
+Сербскі
+[Sindhi]
+Сіндзі
+[Slovak]
+Славацкі
+[Slovenian]
+Славенскі
+[Somali]
+Самалійскі
+[Spanish]
+Гішпанскі
+[Swahili]
+Суахілі
+[Swedish]
+Швецкі
+[Tagalog]
+Тагалог
+[Taiwanese]
+Тайваньскі
+[Tamil]
+Тамільскі
+[Tatar]
+Татарскі
+[Thai]
+Тайскі
+[Turkish]
+Турэцкі
+[Ukrainian]
+Украінскі
+[Urdu]
+Урду
+[Vietnamese]
+В'етнамскі
+[Welsh]
+Валійскі
+[Yiddish]
+Ідыш
+[Yoruba]
+Ерубскі
+[Elementary School]
+Пачатковая школа
+[High School]
+Сярэдняя школа
+[College]
+ВНУ
+[University]
+Універсітэт
+[Military]
+Вайсковец
+[Education]
+Адукацыя
+[Manufacturing]
+Вытворчасць
+[Academic]
+Акадэмія
+[Administrative]
+Адміністрацыя
+[Art/Entertainment]
+Забаўкі
+[College Student]
+Студэнт каледжа
+[Community & Social]
+Грамадства і соцыюм
+[Engineering]
+Інжынер
+[Financial Services]
+Фінансы
+[High School Student]
+Вучань сярэдняй школы
+[Home]
+Дома
+[ICQ - Providing Help]
+ICQ - падтрымка
+[Law]
+Закон
+[Managerial]
+Кіраванне
+[Medical/Health]
+Медыцына/Здароўе
+[Non-Government Organization]
+Няўрадавая арганізацыя
+[Professional]
+Прафесіянал
+[Retail]
+Рознічны гандляр
+[Retired]
+У адстаўцы
+[Science & Research]
+Навука і даследаванні
+[Technical]
+Тэхнічны
+[University Student]
+Студэнт універсітэта
+[Web Building]
+Web-службы
+[Other Services]
+Іншае
+[Alumni Org.]
+Выпускнікі
+[Charity Org.]
+Дабрачынная арганізацыя
+[Club/Social Org.]
+Клуб
+[Community Org.]
+Грамадскае аб'яднанне
+[Cultural Org.]
+Культурнае аб'яднанне
+[Fan Clubs]
+Фан-клуб
+[Fraternity/Sorority]
+Клуб па інтарэсах/Жаночы клуб
+[Hobbyists Org.]
+Арганізацыя па захапленнях
+[International Org.]
+Міжнародная арганізацыя
+[Nature and Environment Org.]
+Прыродаахоўная арганізацыя
+[Professional Org.]
+Прафсаюз
+[Scientific/Technical Org.]
+Навукова-тэхнічная арганізацыя
+[Self Improvement Group]
+Група самаўдасканальвання
+[Spiritual/Religious Org.]
+Рэлігійная арганізацыя
 [Sports Org.]
 Спартовая арганізацыя
 [Support Org.]
 Арганізацыя падтрымкі
-[Technical]
-Тэхнічны
-[University]
-Універсітэт
-[University Student]
-Студэнт універсітэта
-[Volunteer Org.]
-Добраахвотніцкая арганізацыя
-[Separated]
-Разведзены(а)
-[Fraternity/Sorority]
-Клуб па інтарэсах/Жаночы клуб
 [Trade and Business Org.]
 Гандлевая арганізацыя
-[Web Design]
-Web Дызайн
-[Elementary School]
-Пачатковая школа
-[International Org.]
-Міжнародная арганізацыя
-[Mail order catalog]
-Замова тавараў па пошце
 [Union]
 Аб'яднанне
+[Volunteer Org.]
+Добраахвотніцкая арганізацыя
+[Single]
+Самотны
+[Close relationships]
+У блізкіх стасунках
+[Engaged]
+Заручаны
+[Married]
+У шлюбе
+[Divorced]
+У разводзе
 [Widowed]
 Удавец/Удава
-[Auth]
-Аўтарызацыя
-[Name: ]
-Імя:
-[Server port:]
-Порт сервера:
-[Details]
-Дэталі
-[Contact Info]
-Дадзеныя кантакту
-[Enable last-sent-to]
-Уключыць апошнюю падзею
-[ERROR]
-ПАМЫЛКА
-[Use message grouping]
-Групоўка паведамленняў
-[Show date]
-Дата
-[Use relative timestamp]
-Адносны час
-[Warning: classic contact list plugin doesn`t have ability to use extraicons]
-Увага: класічны спіс кантактаў не падтрымлівае экстра абразкі
-[Contact Rate]
-Рэйтынг кантакту
-[Check3]
-Праверка3
-[Choose how you would like to import:]
-Абярыце, адкуль неабходна вырабіць імпарт дадзеных:
-[Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
-Націсніце "Далей", каб абраць інфармацыю для імпартавання, ці "Скасаваць", каб выйсці з гэтага майстра.
-[Start]
-Пачаць
-[Kb]
-Кб
-[Profile:]
-Профіль:
-[Del]
-Выд.
-[Bytes]
-Байт
-[Kilobytes]
-Кілабайт
-[Megabytes]
-Мегабайт
-[Direction]
-Кірунак
-[Auto]
-Аўта
-[Channel list]
-Спіс каналаў
-[Kick]
-Выкінуць
-[&Kick]
-Выкінуць
-[Private]
-Канфідэнцыйны
-[Reconnect]
-Перападключенне
-[Channel manager]
-Кіраванне каналам
-[Admin]
-Адмін
-[Add Ignore]
-Дадаць ігнор
-[Please wait...]
-Пачакайце, калі ласка...
-[&Slap]
-&Аплявуха
-[Internal server error]
-Унутраная памылка сервера
-[Hot]
-Гарачы
-[Sick]
-Хворы
-[Import from file]
-Імпарт з файла
-[Enable avatars]
-Уключыць аватары
-[Disappointed]
-Расчараваны
-[Download]
-Запампаваць
-[Activate]
-Актываваць
-[Dialogs]
-Гутаркі
-[&Leave chat session]
-&Пакінуць сеанс
-[Office]
-Офіс
-[&Copy to clipboard]
-Скапіяваць у буфер абмену
-[hierarchy]
-іерархія
-[Lock workstation]
-Заблакаваць кампутар
-[Relaxing]
-Адпачываю
-[Talking]
-Размаўляю
-[Options...]
-Налады...
-[Play sounds]
-Прайграваць гукі
-[Last]
-Апошн.
-[hour]
-гадзіна
-[Group Chat]
-Чат-пакой
-[Keyboard Flash]
-Мігценне клавіятуры
-[Themes]
-Тэмы
-[Current:]
-Бягучы:
-[Current]
-Бягучы
-[Locale:]
-Мова:
-[Copy to Clipboard]
-Капіяваць у буфер
-[General Settings]
-Асноўныя налады
-[Search for:]
-Знайсці:
-[ Contacts ]
- Кантакты 
-[album]
-альбом
-[genre]
-жанр
-[Year:]
-Год:
-[Month:]
-Месяц:
-[Day:]
-Дзень:
-[Contact Menu]
-Меню кантакту
-[Notify always]
-Паведамляць заўсёды
-[Popup mouse click]
-Пстрычка па вакне кнопкай
-[MetaContacts]
-Метакантакты
-[&Remove]
-Ачысціць
-[Show &during the next]
-Паказваць пры наступным
-[&Font]
-&Шрыфт
-[Notifications:]
-Апавяшчэнні:
-[Full e-mail:]
-Поўны e-mail:
-[Duck]
-У ваннай
+[No description given]
+Без апісання
+[Simplified Chinese]
+Кітайскі (спрошчаны)
+[Traditional Chinese]
+Кітайскі (традыцыйны)
+[Central European]
+Цэнтральнаеўрапейскі
+[Cyrillic]
+Кірыліца
+[Latin I]
+Заходнееўрапейскі
+[Baltic]
+Балтыйскі
+[Korean (Johab)]
+Карэйскі (Johab)
+[Features]
+Магчымасці
+[Popup Title]
+Загаловак акна
+[%s client-to-client connections]
+Злучэнні паміж кліентамі %s
+[Angry]
+Злуюся
+[Tired]
+Стаміўся
+[Birthday]
+Дзень нараджэння
+[Eating]
+Ем
+[Meeting]
+Сустрэча
+[Coffee]
+П'ю каву
+[Listening to music]
+Слухаю музыку
+[Sleeping]
+Сплю
+[Working]
+Працую
+[Cooking]
+Гатую 
+[Smoking]
+Палю
+[On WC]
+У туалеце
+[Love]
+Каханне
+[Alien]
+Іншапланецянін
+[Laughing]
+Смяюся
+[Depressed]
+Падушаны
 [Playing]
 Грае
-[Beer]
-П'ю піва
+[Custom Status]
+хстатус
+[%d Files]
+%d файлаў
+[January]
+Студзень
+[February]
+Люты
+[March]
+Сакавік
+[April]
+Красавік
+[May]
+Травень
+[June]
+Чэрвень
+[July]
+Ліпень
+[August]
+Жнівень
+[September]
+Верасень
+[October]
+Кастрычнік
+[November]
+Лістапад
+[December]
+Снежань
+[Gender]
+Пол
+[About]
+Інфармацыя
+[Primary e-mail]
+Асноўны e-mail
+[Secondary e-mail]
+Другасны e-mail
+[Tertiary e-mail]
+Трэці e-mail
+[State]
+Штат
+[State]
+Стан
+[Timezone]
+Гадзінны пояс
+[<empty>]
+<не>
+[Please authorize me to add you to my contact list.]
+Дазволіце, калі ласка, дадаць Вас у спіс.
+[Clear Log]
+Ачысціць гісторыю
+[Mode]
+Рэжым
+[Show time]
+Паказваць час
+[Show date]
+Дата
+[Template]
+Шаблон
+[Today]
+Сёння
+[Yesterday]
+Учора
+[All]
+Усё
+[Authorization]
+Аўтарызацыя
+[Import...]
+Імпарт...
+[Import...]
+Імпарт...
+[Finish]
+Завяршыць
+[All files (*.*)]
+Усе файлы (*.*)
+[Error opening file]
+Памылка адкрыцця файла
+[Enable]
+Уключана
+[Ping]
+Пінг
+[Server]
+Сервер
+[Question]
+Пытанне
+[Alias]
+Аліас
+[Auto]
+Аўта
+[&Save]
+&Захаваць
+[Channel manager]
+Кіраванне каналам
+[Private]
+Канфідэнцыйны
+[Hidden]
+Утоены
+[Normal]
+Звычайны
+[none]
+няма
+[&Accept]
+Прыняць
+[Queries]
+Запыты
+[Server window]
+Вакно сервера
+[&Slap]
+&Аплявуха
+[&Kick]
+Выкінуць
+[Please wait...]
+Пачакайце, калі ласка...
+[Save password]
+Захаваць пароль
+[Download]
+Запампаваць
+[Import from file]
+Імпарт з файла
+[Expert]
+Эксперт
+[Automatically delete contacts not in my roster]
+Аўтаматычна выдаляць кантакты, якія не ў спісе
+[Browse]
+Агляд
+[Next]
+Наперад
+[Jabber Password]
+Jabber Пароль
+[Full name:]
+Поўнае імя:
+[Nick name:]
+Псеўданім:
+[Voice]
+Голас
+[Cellular]
+Мабільны
+[Video]
+Відэа
+[Save]
+Захаваць
+[Login server:]
+Сервер:
+[Status message:]
+Статуснае паведамленне:
+[Not supported]
+Не падтрымліваецца
+[from]
+з
+[First Name]
+Імя
+[Last Name]
+Прозвішча
+[Multi-User Conference]
+Канферэнцыя
+[Convert]
+Канвертаваць
+[Options...]
+Налады...
+[From]
+Ад
+[Errors]
+Памылкі
+[Are you sure?]
+Вы ўпэўнены?
+[Downloading...]
+Загрузка...
+[Downloading...]
+Загрузка...
+[Status message]
+Паведамленне статусу
+[Play sounds]
+Прайграваць гукі
+[Enter password for]
+Увядзіце пароль для
+[unknown]
+невядома
+[Mood]
+Настрой
+[Activity]
+Занятак
+[both]
+у абодва бакі
+[to]
+у
+[Crazy]
+Вар'ят
+[Disappointed]
+Расчараваны
+[Sick]
+Хворы
+[Relaxing]
+Адпачываю
+[Message-Event only]
+Толькі для паведамленняў
+[Update]
+Абнавіць
+[Message events]
+Паведамленні
+[File events]
+Файлы
+[Keyboard Flash]
+Мігценне клавіятуры
+[Flashing]
+Мігценне
+[Date]
+Дата
+[Date]
+Дата
+[Format]
+Фармат
+[Other options]
+Іншыя параметры
+[XStatus title]
+Загаловак хстатуса
+[&Remove]
+Ачысціць
+[Protocol:]
+Пратакол:
+[Reset All]
+Скід
+[MetaContacts]
+Метакантакты
+[Forget]
+Адмяніць
 [Notify me when a message delivery has failed]
 Апавяшчаць пра няўдалую дастаўку паведамленняў
+[Notify me when a message delivery has failed]
+Апавясціць, калі паведамленне не дайшло
+[Birthday:]
+Дзень нараджэння:
 [Your host (or router):]
 Ваш хост (ці роўтар):
+[Send &Nudge]
+Абудзіць
 [New E-mail available in Inbox]
 Новая пошта ў тэчцы "Ўваходныя"
-[Equalizer]
-Эквалайзер
-[OFF]
-выкл
-[Room]
-Чат-пакой
-[playing]
-грае
-[paused]
-паўза
-[stopped]
-спынена
-[MessagePopup]
-Папярэджанні
-[The changes you have made require you to restart Miranda NG before they take effect]
-Змены ўступяць пасля перазапуску Miranda NG
-[Font name]
-Імя шрыфта
-[Green]
-Зялены
-[Yellow]
-Жоўты
-[Red]
-Чырвоны
-[Black]
-Чорны
-[Max width:]
-Макс. шырыня:
-[Back color]
-Колер фону
-[Border color]
-Колер мяжы
-[Fore color]
-Колер тэксту
-[&Away]
-&Адсутнічаю
-[&DND]
-&Не турбаваць
-[&Free for chat]
-&Свабодны
-[&Invisible]
-&Нябачны
-[&NA]
-&Недаступны
-[Occ&upied]
-Зан&ят
-[On the &Phone]
-Тэлефаную
-[On&line]
-У с&еціве
-[Out to &Lunch]
-Абедаю
-[<no status message>]
-<няма паведамлення статусу>
-[Contact Menu Icon]
-Абразок у меню кантакту
-[External History]
-Вонкавая гісторыя
-[Internal History]
-Унутраная гісторыя
-[Popup Notify]
-Апавяшчэнне успл. вокнамі
-[Popup Enabled]
-Успл. вокны ўключаны
-[Popup Disabled]
-Успл. вокны адключаны
-[Enable/Disable external logging for this contact]
-Уключыць/выключыць запіс у вонкавы лог для гэтага кантакту
-[Maximum entries]
-Запісаў
-[Popup text]
-Тэкст акна
-[Enable/Disable internal logging for this contact]
-Уключыць/выключыць запіс у ўнутраны лог для гэтага кантакту
-[Enable/Disable popups for this contact]
-Уключыць/выключыць усплывальныя вокны для гэтага кантакту
-[Left Click Actions]
-Па левай пстрычцы
-[Right Click Actions]
-Па правай пстрычцы
-[History format]
-Гісторыя
-[Log format]
-Фармат Журнала
-[Popup display time]
-Гадзіна адлюстравання акна
-[Temporarily disable Popups]
-Часова выключыць вокны
-[Toolbar buttons]
-Кнопкі панэлі кнопак
-[Filter Duplicate Messages (RECOMMENDED)]
-Фільтр дублікатаў паведамленняў (РЭКАМЕНДУЕЦЦА)
-[Minimize on send]
-Згортваць пасля адпраўкі
-[&Quote]
-&Цытаваць
-[&Paste]
-&Уставіць
-[Retry]
-Яшчэ раз
-[NICK]
-НІК
-[Update inactive message window icons when a user is typing]
-Абнавіць абразок неактыўнага вакна пры наборы паведамлення Вам
-[Use windows colors]
-Колеры Windows
-[General options]
-Агульныя параметры
-[Disconnected]
-Адключаны
-[min.]
-мін.
-[Main options]
-Асноўныя налады
-[Read status message]
-Чытаць статуснае паведамленне
-[Can't open log file ]
-Немагчыма адкрыць файл лога
-[Error #%d]
-Памылка #%d
-[&Variables]
-&Зменныя
-[all contacts]
-усіх кантактаў
-[Open String Formatting Help]
-Дапамога па фармаце радкоў
+[Contact Menu]
+Меню кантакту
+[Extra status]
+xСтатус
+[Extra status]
+Дап. статус
+[Debug]
+Адладка
+[connecting]
+далучаецца
+[aborting]
+адключаецца
+[Frame background]
+Фон фрэйма
+[Proto]
+Пратакол
+[UIN]
+Нумар
+[Set Nickname]
+Увод ніка
+[Anniversary]
+Свята 
+[Set &Nickname]
+Псеўданім...
+[%s plugin connections]
+%s злучэнне з серверам
+[Contact already in your contact list]
+Кантакт ужо ў вашым спісе
+[Popup Options]
+Усплывальныя вокны
+[Popup Options]
+Налады ўсплывальных вокнаў
+[Dismiss Popup]
+Зачыніць
 [Dismiss Popup]
 Убраць вакно
-[Reminder]
-Напамінак
-[(M) is back online!]
-далучаны ізноў!
-[(F) is back online!]
-далучаны ізноў!
-[(U) is back online!]
-далучаны ізноў!
-[(M) went offline! :(]
-Адключыўся! :(
-[(F) went offline! :(]
-Адключылася! :(
-[(U) went offline! :(]
-Адключыўся! :(
-[(M) hide in shadows...]
-схаваўся ў цені...
-[(F) hide in shadows...]
-схавалася ў цені...
-[(U) hide in shadows...]
-схаваўся ў цені...
-[(M) hides in shadows...]
-схаваўся ў цені...
-[(F) hides in shadows...]
-схавалася ў цені...
-[(U) hides in shadows...]
-схаваўся ў цені...
-[(M) feels talkative!]
-вольны!
-[(F) feels talkative!]
-вольная!
-[(U) feels talkative!]
-вольны(ая)!
-[(M) went Away]
-адышоў
-[(F) went Away]
-адышла
-[(U) went Away]
-адышоў
-[(M) isn't there anymore!]
-адсутнічае!
-[(F) isn't there anymore!]
-адсутнічае!
-[(U) isn't there anymore!]
-адсутнічае!
-[(M) has something else to do.]
-заняты чымсьці іншым.
-[(F) has something else to do.]
-занята чымсьці іншым.
-[(U) has something else to do.]
-заняты чымсьці іншым.
-[(M) doesn't want to be disturbed!]
-просьба не турбаваць!
-[(F) doesn't want to be disturbed!]
-просьба не турбаваць!
-[(U) doesn't want to be disturbed!]
-просіць не турбаваць!
-[(M) is eating something]
-нешта есць
-[(F) is eating something]
-нешта есць
-[(U) is eating something]
-нешта есць
-[(M) had to answer the phone]
-тэлефануе
-[(F) had to answer the phone]
-тэлефануе
-[(U) had to answer the phone]
-теэлефануе
-[Notify when a contact changes to one of these statuses]
-Паведамляць, калі статус кантакту змяняецца на:
-[Plugin activation]
-Актывізацыя ўбудовы
-[Temporarily disable NewStatusNotify (disables popups and sounds)]
-Часова забараніць NewStatusNotify (выключыць вокны і гукі)
-[Put an item in the main menu to easily enable/disable the plugin]
-Пункт у галоўным меню для ўключэння/адключэння ўбудовы
-[Sound options]
-Параметры гуку
-[Use Internal &Speaker]
-&Убудаваны дынамік
-[&Avoid clipping]
-&Не абразаць
-[Open message]
-Адкрыць паведамленне
-[Open user menu]
-Меню кантакту
-[Sound for the status]
-Гук для статусу
-[(default sound)]
-(па змаўчанні)
-[&Change]
-&Змяніць
-[Status Notify]
-Змена статусу
-[User: from offline (has priority!)]
-Карыстач:  далучаецца (мае прыярытэт!)
-[User: Online]
-Карыстач: Далучаны
-[User: Offline]
-Карыстач: адключаны
-[User: Away]
-Карыстач: адсутнічае
-[User: Not Available]
-Карыстач: недаступны
-[User: Occupied]
-Карыстач: заняты
-[User: Do Not Disturb]
-Карыстач: не турбаваць
-[User: Free For Chat]
-Карыстач: Свабодны
-[User: Invisible]
-Карыстач: нябачны
-[User: Out To Lunch]
-Карыстач: абедае
-[User: On The Phone]
-Карыстач: тэлефануе
-[Disable status &notification]
-Выключыць апавяшчэнні пра змену статусу
-[Enable status &notification]
-Уключыць апавяшчэнні пра змену статусу
-[Automatically turn off Popups and Sounds on status change]
-Выключыць вокны і гукі пры змене статусу
-[Configure]
-Наладзіць
-[Automatically disable sounds or popups when I change to:]
-Аўтаматычна адключыць гукі і вокны пры пераходзе ў:
-[Do not warn me for people not in my Contact List]
-Не папярэджваць для карыстачоў не ў спісе
-[Read status &message]
-Чытаць статуснае паведамленне
-[(was %s)]
-(было %s)
-[Show &previous status too]
-&Паказваць папярэдні статус
-[&Log status changes to file]
-Запісваць змены статусу ў файл
-[&From Popup plugin]
-Усталёўкі Popup
-[&Custom]
-Наладзіць
-[P&ermanent]
-Увесь час
-[Blink icon in the system tray]
-Абразок, што мігае у сіст. трэі
-[Use status icon]
-Абразок статусу
-[Use standard &descriptions]
-&Стандартныя апісанні
-[Popups on contact status change to:]
-Вокны, калі статус змяніўся на:
-[Always when changing from offline]
-Са статусу "Адключаны"
-[From offline]
-Далучаецца
-[with sounds]
-з гукамі
-[with popups]
-з вокнамі
-[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
-Асабістыя гукі выключаны.\n\nКаб іх уключыць, ідзіце ў Налады - Статус - Апавяшчэнне, уключыце \n"Індывідуальныя гукі", і зноў адчыніце гэта вакно.
-[Contact status change notifications]
-Апавяшчэнні пра змену статусу
-[Enable sound notifications for this contact]
-Апавяшчаць гукам
-[Enable popup notifications for this contact]
-Апавяшчаць ва ўсплывальным вакне
-[Use &alternative descriptions]
-Альтэрнатыўныя апісанні
-[Show contact &group name]
-Паказваць імя &групы кантакту
-[Use cus&tom colors]
-Наладзіць колеры
-[Use Pop&up colours]
-Колеры Pop&up
-[Use &Windows colours]
-Колеры Windows
-[Use individual sounds]
-Індывідуальныя гукі
-[Prev&iew]
-Тэст
+[Auto Update Enabled]
+Аўтаабнаўленне ўключана
+[Auto Update Disabled]
+Аўтаабнаўленне выключана
+[Enable/disable auto update]
+Аднаўляць аўтаматычна
+[Log to file]
+Запіс у файл
+[Enable popups]
+Усплываючыя вокны
+[Enable popups]
+Уключыць вокны
+[characters]
+знакаў
+[Disable notifications]
+Выключыць апавяшчэнні
+[Message log]
+Лог
 [You cannot specify a value lower than %d and higher than %d.]
 Значэнне меншае %d ці большае %d не дапушчаецца.
-[XStatus Notify]
-xСтатусы
-[removed XStatus]
-выдаліў хстатус
-[to %s]
-на %s
-[message (%s)]
-паведамленне (%s)
-[<no message>]
-<няма паведамлення>
-[Templates]
-Шаблоны
-[XStatus Logging]
-Запіс хстатусаў
-[Hide the "toggle sound" menu item (requires restart of Miranda)]
-Схаваць "укл/выкл гук" у галоўным меню (патрабуецца перазапуск)
-[Popup duration]
-Працягласць
-[Cannot send message]
-Не магу паслаць паведамленне
-[Extra]
-Іншае
-[Flags:]
-Сцягі:
-[Skins]
-Скіны
-[Open history]
+[Delete key]
+Выдаліць ключ
+[Delete key]
+Выдаліць ключ
+[Import key]
+Імпарт ключа
+[Import key]
+Імпартаваць ключ
+[Link Settings]
+Налада спасылак
+[Clear History]
+Ачысціць гісторыю
+[Clear History]
+Ачысціць
+[Logging]
 Гісторыя
-[Display time]
-Паказваць час
-[Popup History]
-Гісторыя успл.вокнаў
-[Send message]
-Адправіць
-[Last seen]
-Апошняе з'яўленне
-[QuickSearch]
-Хуткі Пошук
+[Reset to defaults]
+Стандартныя
+[Reset to defaults]
+Скінуць
+[Reminder]
+Напамінак
+[Reminder]
+Напамінак
+[Black]
+Чорны
+[Green]
+Зялены
+[Red]
+Чырвоны
+[Yellow]
+Жоўты
+[Blue]
+Сіні
+[White]
+Белы
+[Week]
+Тыдзень
+[Week]
+Тыдзень
+[Every]
+Кожныя
+[Every]
+Кожныя
+[Every]
+Кожныя
+[Seconds]
+секунд
+[Seconds]
+Секунд
+[Sound]
+Гук
+[Send Nudge]
+Страсянуць
+[Updates found!]
+Знойдзены абнаўленні!
+[Updates found!]
+Знойдзены абнаўленні!
+[On startup]
+Пры запуску
+[On startup]
+Пры запуску
+[Info messages]
+Інфа паведамленні
+[Info messages]
+Інфа паведамленні
+[Progress dialogs]
+Дыялогі прагрэсу
+[Progress dialogs]
+Дыялогі прагрэсу
+[(but only once a day)]
+(1 раз у дзень)
+[(but only once a day)]
+(але толькі 1 раз у дзень)
+[Message boxes (*)]
+Дыялогі (*)
+[Message boxes (*)]
+Дыялогі (*)
+[Use cus&tom colors]
+Наладзіць колеры
+[Use &Windows colours]
+Колеры Windows
+[Use Pop&up colours]
+Колеры Pop&up
+[* Needs popup actions to be enabled]
+* Неабходны ўключаныя дзеянні успл. вокнаў
+[* Needs popup actions to be enabled]
+* Неабходны ўключаныя дзеянні успл. вокнаў
+[Not sets for "Message boxes"]
+Не ўсталёўвае для "Дыялогі"
+[Not sets for "Message boxes"]
+Не ўсталёўвае для "Дыялогі"
+[Boxes]
+Вокны
+[Boxes]
+Вокны
+[An error occured while downloading the update.]
+Падчас загрузкі абнаўлення адбылася памылка.
+[An error occured while downloading the update.]
+Падчас загрузкі абнаўлення адбылася памылка.
+[Component Name]
+Імя кампанента
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Загрузка завершана. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda зачынена.
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Загрузка завершана. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda NG зачынена.
+['Yes' Button]
+Кнопка 'Так'
+['Yes' Button]
+Кнопка 'Так'
+['No' Button]
+Кнопка 'Не'
+['No' Button]
+Кнопка 'Не'
+[Downloading version info...]
+Загрузка інфармацыі пра версіі...
+[Downloading version info...]
+Загрузка інфармацыі пра версіі...
+[No updates found.]
+Абнаўленняў няма.
+[No updates found.]
+Абнаўленняў няма.
+[Update checking already started!]
+Абнаўленне ўжо запушчана!
+[Update checking already started!]
+Абнаўленне ўжо запушчана!
+[Restore defaults]
+Скінуць
+[Use default codepage]
+Кадоўка па змаўчанні
+[Cyrillic KOI8-R]
+Кірыліца KOI8-R
+[View Log]
+Лог
+[Label:]
+Пазнака:
+[enabled]
+уключаны
 [Restart]
 Перазапуск
-[line break]
-з новага радка
-[Send Message]
+[events]
+падзеі(й)
+[Avatar size:]
+Аватар:
+[Transparency]
+Празрыстасць
+[Popup History]
+Гісторыя успл.вокнаў
+[Desktop]
+Працоўны стол
+[General options]
+Агульныя параметры
+[Popup timeout:]
+Працягласць:
+[More...]
+Яшчэ...
+[Default Timeout]
+Працягласць па змаўчанні
+[Send message]
 Адправіць
-[Incoming message (10x10)]
-Уваходнае паведамленне (10x10)
-[Outgoing message (10x10)]
-Выходнае паведамленне (10x10)
-[Show times]
-Паказваць час
-[Tabs at bottom]
-Укладкі знізу
-[Use long date format]
-Літарны фармат даты
-[Show warning when message has not been received after]
-Паведамляць, калі паведамленне не атрымалася адправіць на працягу
-[Cascade new windows]
-Размяшчаць новыя вокны каскадам
-[Use the contact's status icon as the window icon]
-Выкарыстоўваць у якасці абразка вакна абразок статусу кантакту
+[Dismiss popup]
+Зачыніць вакно
+[Popups are enabled]
+Вокны ўключаны
+[Popups are disabled]
+Вокны выключаны
+[Classes]
+Класы
+[Toggle Popups]
+Вкл/Выкл успл. вакна
+[Enable Popups]
+Уключыць усплывальныя вокны
+[No effect]
+Без эфекту
+[horizontal]
+гарызанталь
+[Show all contacts]
+Паказаць усе кантакты
+[Buttons]
+Кнопкі
+[Variable List]
+Зменныя
+[Edit Settings]
+Змяніць налады
+[Quote]
+Катыроўка
+[Quote]
+Цытата
+[Layout]
+Размяшчэнне
 [Enable transparency]
 Уключыць празрыстасць
 [active]
 актыўн.
 [inactive]
 неактыўн.
-[Show names]
-Паказваць імёны
-[Show status changes]
-Паказваць змены статусу
-[Message Window Event Log]
-Журнал гутаркі
-[pixels.]
-пікселяў
-[Message Sessions]
-Гутаркі
-[Send typing notifications to the following users when you are typing a message to them:]
-Апавяшчаць адзначаных карыстачоў пра тое, што вы набіраеце паведамленне:
+[Log status changes]
+Запісваць змены статусаў
+[Close Other Tabs]
+Зачыніць астатнія ўкладкі
+[Close Other Tabs]
+Зачыніць іншыя ўкладкі
+[Close Tab]
+Зачыніць укладку
 [Single Messaging]
 Паведамленні
-[Add contact]
-Дадаць кантакт
+[Insert Emoticon]
+Смайлы
+[nick of current contact (if defined)]
+нік бягучага кантакту (калі вызначаны)
+[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+назва пратаколу бягучага кантакту (калі вызначана). Назва ўліковага запісу выкарыстоўваецца калі пратакол падтрымлівае шматконтнасць
+[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+ID бягучага кантакту (калі вызначаны). Напрыклад, UIN для ICQ, JID для Jabber і г.д.
+[day of month, 1-31]
+дзень месяца, 1-31
+[day of month, 01-31]
+дзень месяца, 01-31
+[month number, 1-12]
+нумар месяца, 1-12
+[month number, 01-12]
+нумар месяца, 01-12
+[abbreviated month name]
+скарочаная назва месяца
+[full month name]
+поўная назва месяца
+[year with century, 1901-9999]
+год з 4-х лічбаў, 1901-9999
+[abbreviated weekday name]
+скарочаная назва дня тыдня
+[full weekday name]
+поўная назва дня тыдня
+[Nick list]
+Спіс нікаў
+[Down arrow]
+Стрэлка ўніз
+[Misc]
+Іншае
+[Close Session]
+Зачыніць укладку
+[Close Session]
+Зачыніць сесію
 [Close session]
 Зачыніць укладку
-[&Action]
-Дзеянне
-[Header]
-Загаловак
-[Hold call]
-Утрымаць званок
-[Message Window]
-Вакно паведамленняў
-[Animate]
-Анімацыя
-[Main menu item]
-Пункт у галоўным меню
-[Contact menu item]
-Пункт у меню кантактаў
-[Announce]
-Аб'явы
-[Thick]
-Тоўсты
-[The message send timed out.]
-Таймаўт адпраўкі паведамлення
-[%s is typing a message]
-%s набірае тэкст
-[Typing Notification]
-Апавяшчэнне пра набор тэксту
-[Close the message window on send]
-Зачыняць вакно пасля адпраўкі
-[Minimize the message window on send]
-Згортваць вакно пасля адпраўкі
-[Load unread events only]
-Толькі непрачытаныя падзеі
-[Load number of previous events]
-Папярэднія падзеі ў колькасці
-[Load previous events less than]
-Падзеі, атрыманыя 
-[Choose font...]
-Шрыфт...
-[minutes old]
-хвілін назад
-[Load History Events]
-Падгрузка гісторыі
-[Version Information]
-Версіі
-[(UNKNOWN)]
-(НЕВЯДОМЫ)
-[Select font]
-Выбар шрыфта
-[Retrieving...]
-Загрузка...
-[...is &typing]
-набірае &тэкст
-[...stopped t&yping]
-скончыў набіраць
-[Only &one popup for each contact]
-Толькі адно вакно на кантакт
-[Show &entry in the main menu]
-Пункт у галоўным меню
-[Popup timeout (is typing)]
-Працягласць (набірае)
-[From protocol]
-З пратаколу
-[Popup timeout (stopped typing)]
-Працягласць (скончыў набіраць)
-[...is typing a message.]
-... набірае тэкст.
-[...has stopped typing.]
-... скончыў(ла) набіраць тэкст.
-[Typing Notify: is typing]
-Набірае тэкст: набірае
-[Typing Notify: stopped typing]
-Набірае тэкст: скончыў(ла) набіраць тэкст
-[Disable &typing notification]
-Выключыць апавяшчэнні пра набор тэксту
-[Enable &typing notification]
-Уключыць апавяшчэнні пра набор тэксту
-[Shadow]
-Цень
-[Label:]
-Пазнака:
-[Layout]
-Размяшчэнне
-[Sidebar]
-Урэзка
-[Round corners (window)]
-Акругляць куты акна
+[Close session]
+Зачыніць сесію
+[Mood:]
+Настрой:
+[Display]
+Паказваць
+[Bottom]
+Ніз
+[Default colors]
+Па змаўчанні
+[Windows colors]
+Колеры Windows
+[Play sound]
+Прайграць гук
+[Prefix:]
+Прэфікс:
+[Question: (Ctrl-Enter for carriage return)]
+Пытанне: (Ctrl+Enter для пачатку новага радка)
+[Congratulation:]
+Віншаванні:
+[Auth. request reply:]
+Адказ на запыты аўтарызацыі:
+[Do not send more than ]
+Не адпраўляць больш 
+[ questions to one contact (0 - for no limit)]
+ пытанняў кантакту (0 - неабмежавана)
+[Enable StopSpam-StopSpam infinite talk protection]
+Не адсылаць пытанне анціспаму
+[Add contact permanently]
+Дадаваць у сталы спіс
+[Enable auth. requests blocking]
+Блакаваць запыты аўтарызацыі
+[Remove all tempory contacts after restart]
+Выдаляць усе часовыя кантакты пасля перазапуску
+[Log Spammers to system history]
+Запісваць у сістэмную гісторыю
+[StopSpam]
+Антыспам
+[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
+Няма больш спаму! Робаты адпачываюць!\r\n\r\nГэты модуль працуе проста:\r\nУ той час як паведамленні ад карыстачоў у Вашым спісе прыходзяць без праверкі на спам, паведамленні ад невядомых карыстачоў вам не дастаўляюцца. Але яны не ігнаруюцца, модуль адказвае простым пытаннем, і калі карыстач дае правільны адказ, модуль дадае яго ў спіс, для таго каб ён мог звязацца з Вамі.
+[Remove Temporary Contacts]
+Выдаліць часовыя кантакты
+[Choose modes]
+Рэжымы статусу
+[Show user menu]
+Меню карыстача
+[Message window]
+Гутарка
+[Text indent:]
+Водступ тэксту:
+[Sidebar width:]
+Шырыня ўрэзкі:
 [Round corners (avatar)]
 Акругляць куты аватара
 [Opacity(%):]
 Непразрыстасць (%):
+[Shadow]
+Цень
+[Round corners (window)]
+Акругляць куты акна
+[Icon on left]
+Абразок злева
+[Icon on right]
+Абразок справа
 [Bottom right]
 Унізе справа
 [Bottom left]
@@ -3754,357 +2195,47 @@ xСтатусы
 Наверсе справа
 [Top left]
 Наверсе злева
-[Text indent:]
-Водступ тэксту:
-[Sidebar width:]
-Шырыня ўрэзкі:
-[No avatar]
-Без аватара
-[Right avatar]
-Аватар справа
 [Left avatar]
 Аватар злева
-[Icon on left]
-Абразок злева
-[Icon on right]
-Абразок справа
-[Sunrise:]
-Узыход:
-[Sunset:]
-Заход:
-[Birthday:]
-Дзень нараджэння:
-[TopToolBar]
-Панэль кнопак
-[Month]
-Месяц
-[Select protocols]
-Пратаколы
+[Right avatar]
+Аватар справа
+[Client:]
+Кліент:
+[Sidebar]
+Урэзка
+[Serbo-Croatian]
+Сербахарвацкі
+[Path:]
+Шлях:
+[Units]
+Адзінкі
 [Text colour:]
 Колер тэксту:
-[translates x]
-перакладае х
-[Trigger when the following string changes]
-Спрацоўваць калі наступны радок змяняецца
+[Reset to default]
+Па змаўчанні
+[KB]
+Кб
 [Birthday today]
 Дзень нараджэння сёння
-[Ready]
-Гатова
-[UIN]
-Нумар
 [He]
 Яму
 [She]
 Ёй
 [He/She]
 Ёй/яму
-[%s has birthday in %d days.]
-%s адзначае дзень нараджэння праз %d дзён.
 [%s has birthday today.]
 %s адзначае Дзень нараджэння сёння.
 [%s has birthday tomorrow.]
 %s адзначае Дзень нараджэння заўтра.
-[Show 'Restart' menu item]
-Пункт меню "Перазапуск"
-[Frame]
-Фрэйм
-[artist]
-выканаўца
-[Enable &XStatus notification]
-Уключыць апавяшчэнне пра змену хстатусаў
-[Text to log :]
-Тэкст лога:
+[%s has birthday in %d days.]
+%s адзначае дзень нараджэння праз %d дзён.
+[Winamp Track]
+Цяпер гуляе (WATrack)
+[N/A]
+Недаступны
 [New Mail]
 Новая пошта
-[List]
-Спіс
-[Show title bar]
-Паказваць загаловак
-[%s: Chat Room (%u user)]
-%s: Чат-пакой (%u карыстач)
-[%s: Chat Room (%u users)]
-%s: Чат-пакой (%u карыстачоў)
-[Log status changes]
-Запісваць змены статусаў
-[Indent the second line of a message]
-Водступ другога радка паведамлення
-[Show Date]
-Дата
-[Popup Options]
-Налады ўсплывальных вокнаў
-[Close Tab]
-Зачыніць укладку
-[Open chat window]
-Адчыніць вакно чата
-[Hours]
-Гадзін
-[Change Password]
-Змяніць пароль
-[Set Password]
-Усталяваць пароль
-[Old password is too short!]
-Старыя пароль надта кароткі!
-[Password has been changed!]
-Пароль зменены!
-[Password has been removed!]
-Пароль прыбраны!
-[Login to Miranda]
-Вход в Miranda NG
-[Password is not correct!]
-Пароль няслушны!
-[Periodically:]
-Перыядычна:
-[Backup complete!]
-Рэзерваванне завершана!
-[Can't create backup file!]
-Немагчыма стварыць копію!
-[Can't create profile directory! Check permissions please!]
-Немагчыма стварыць тэчку профіляў! Праверце дазволы!
-[Backup folder does not exist and can't be created!]
-Тэчка для копіяў не існуе і не можа быць створана!
-[Are you sure you want to remove the password?]
-Вы ўпэўнены, што жадаеце прыбраць пароль ?
-[Old password does not match!]
-Старыя пароль няправільны!
-[Backup folder name can not be created!]
-Немагчыма стварыць тэчку для рэзервавання!
-[An error occured while rotating old backups!]
-Памылка пры перагрупоўцы старых копій!
-[Backup was aborted by user!\nThe incomplete backup file will be deleted!]
-Рэзерваванне адменена карыстачом!\nНезавершаная копія будзе выдалена!
-[An error occured while writing the database backup!]
-Памылка пры спробе запісу копіі базы дадзеных!
-[db3xSA Plugin]
-Убудова db3xSA
-[Fatal error!]
-Фатальная памылка!
-[The current version of encryption is no longer supported!\nYou need to convert your profile!]
-Бягучая версія шыфравання больш не падтрымліваецца.\nНеабходна канверсаваць профіль!
-[Passwords do not match!]
-Паролі не супадаюць!
-[Old Password:]
-Старыя пароль:
-[Confirm:]
-Паўтор:
-[Please type in your password for]
-Калі ласка, увядзіце пароль для
-[(1/3) Deleting old Backups...]
-(1/3) Выдаленне старых копій...
-[(2/3) Rotating Backups...]
-(2/3) Чаргаванне копій...
-[(3/3) Creating Backup...]
-(3/3) Стварэнне копіі...
-[Backup]
-Рэзервовая копія
-[Changing password...]
-Змена пароля...
-[Do you want to encrypt the new database?]
-Зашыфраваць новую базу дадзеных?
-[When Miranda starts]
-Пры запуску Miranda
-[When Miranda exits]
-Пры выйсці з Miranda
-[Every:]
-Кожныя:
-[Backup NOW]
-Захаваць ЦЯПЕР
-[Disable progress bar]
-Адключыць індыкатар выканання
-[Backup in Progress]
-Рэзерваванне падчас
-[Error code: %d]
-Памылка код: %d
-[No effect]
-Без эфекту
-[Send Error]
-Памылка адпраўкі
-[Flash speed]
-Хуткасць мігцення
-[Comments]
-Каментары
-[Yearly]
-Штогод
-[Login]
-Імя карыстача
-[Crazy]
-Вар'ят
-[Default Timeout]
-Працягласць па змаўчанні
-[Fullscreen mode]
-Поўны экран
-[Global settings]
-Глабальныя налады
-[Normal background]
-Фон звычайнай укладкі
-[Show previous status too]
-Паказваць папярэдні cтатус
-[Account:]
-Конт:
-[Site:]
-Сайт:
-[Frame background]
-Фон фрэйма
-[Message text]
-Тэкст паведамлення
-[Avatar Overlay]
-Аверлэй аватара
-[Show protocol icon]
-Абразок пратаколу
-[Client (fingerprint required)]
-Кліент (патрэбна ўбудова fingerprint)
-[Never]
-Ніколі
-[Use &unknown flag if country can not be determined]
-Паказаць невядомы сцяг, калі краіна не вызначана
-[Country Flags]
-Сцягі краін
-[Show country flag as &status icon on message window]
-Паказваць сцяг, як абразок статусу ў вакне гутаркі
-[User Menu]
-Меню карыстача
-[Server window]
-Вакно сервера
-[Radio]
-Радыё
-[Component Name]
-Імя кампанента
-[Current Version]
-Бягучая версія
-[New Version]
-Новая версія
-[Close Session]
-Зачыніць укладку
-[Nick list]
-Спіс нікаў
-[Message send error]
-Памылка адпраўкі паведамлення
-[Rescan]
-Абнавіць
-["My Documents" folder for currently logged-on Windows user]
-тэчка "Мае дакументы" для бягучага Windows карыстача
-["Desktop" folder for currently logged-on Windows user]
-тэчка "Працоўны стол" для бягучага Windows карыстача
-[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
-Падказка: калі Вы не азначыце тут пароль, Miranda будзе запытваць яго кожны раз пры далучэнні.
-[INI Files]
-INI файлы
-[Basic HTML]
-Базавы HTML
-[Autosend download link to contact]
-Адправіць спасылку аўтаматычна
-[1 hour]
-1 гадзіна
-[1 day]
-1 дзень
-[Are You sure?]
-Вы ўпэўнены?
-[All Files (*.*)]
-Усе файлы (*.*)
-[Use default codepage]
-Кадоўка па змаўчанні
-[Cyrillic KOI8-R]
-Кірыліца KOI8-R
-[Restore defaults]
-Скінуць
-[User name]
-Лагін
-[horizontal]
-гарызанталь
-[Photo]
-Фота
-[Alien]
-Іншапланецянін
-[Mask]
-Маска
-[Laughing]
-Смяюся
-[Free for Chat]
-Свабодны
-[Ask]
-Спытаць
-[Use]
-Выкарыстоўваць
-[Ignore empty status messages]
-Ігнараваць пустыя паведамленні
-[Use background bitmap]
-Фонавая выява
-[>> Outgoing timestamp]
-Выходны час
-[<< Incoming timestamp]
-Уваходны час
-[>> Outgoing name]
-Выходнае імя
-[<< Incoming name]
-Уваходнае імя
-[>> Outgoing messages]
-Выходнае паведамленне
-[<< Incoming messages]
-Уваходнае паведамленне
-[Show timestamps]
-Паказваць час
-[Truncate message length to:]
-Абразаць паведамленне да:
-[Show date in timestamps]
-Паказваць дату 
-[Show seconds in timestamps]
-Паказваць секунды
-[Group list]
-Спіс груп
-[StatusChange]
-Змена статуса
-[Show event icons]
-Абразкі падзей
-[Find Next]
-Знайсці далей
-[All events]
-Усе падзеі
-[Reply &Quoted]
-Адказаць з &цытатай
-[Incoming events]
-Уваходныя падзеі
-[Outgoing events]
-Выходныя падзеі
-[You were added]
-Вас дадалі
-[SMTP Simple Email]
-Паведамленне e-mail (SMTP Simple)
-[SMS message]
-Паведамленне SMS
-[Today]
-Сёння
-[Yesterday]
-Учора
-[Repeat]
-Паўтарыць
-[Current age]
-Бягучы ўзрост
-[History Log]
-Прагляд гісторыі
-[Monday]
-Панядзелак
-[Tuesday]
-Аўторак
-[Wednesday]
-Серада
-[Thursday]
-Чацвер
-[Friday]
-Пятніца
-[Saturday]
-Субота
-[Sunday]
-Нядзеля
-[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
-Гэта аперацыя цалкам выдаліць гісторыю гэтага кантакту.\nВы ўпэўнены?
-["%s" not found]
-"%s" не знойдзена
-[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
-Вы ўвялі няслушную кодавую старонку. Абярыце кодавую старонку з выпадальнага спісу ці ўвядзіце правільнае імя.
-[Invalid codepage]
-Няслушная кодавая старонка
-[Scheduler]
-Планоўшчык
-[ETA]
-Засталося дзён
-[Toolbar]
-Панэль кнопак
+[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
+Апавяшчэнне і прагляд новай пошты для Miranda NG. Убудаваны пратакол POP3.
+[EN]
+EN

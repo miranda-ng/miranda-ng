@@ -1,173 +1,152 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
-;  File: tlen.dll
-;  Module: Tlen Protocol
-[Tlen protocol support for Miranda NG.]
-Падтрымка пратаколу Tlen.
-[%s Web Messages]
-%s Web паведамленняў
-[...Connecting...]
-...далучэнне...
-[...Denied...]
-...Забаронена...
-[...Error...]
-...Памылка...
-[...Finished...]
-...Завершана...
-[...Waiting for connection...]
-...Чаканне злучэння...
-[<Ask me>]
-<Спытай мяне>
-[<Last message>]
-(Апошняе паведамленне)
-[Accept all alerts]
-Прымаць усе апавяшчэнні
-[Accept all invitations]
-Прымаць усе запрашэнні
-[Accept invitations from authorized contacts]
-Прымаць запрашэнні ад аўтарызаваных кантактаў
-[Alert]
-Папярэджанне
-[Ignore advertisements]
-Ігнараваць рэкламу
-[Plan:]
-План:
-[Looking for:]
-Шукаю:
-[Clerk]
-Клерк
-[Enable incoming mail notification]
-Укл. апавяшчэнне пра ўваходную пошту
-[Friendship]
-Сяброўства
-[Connection Host:]
-Вузел далучэння:
-[Tlen login:]
-Уваход Tlen:
-[Unemployed]
-Беспрацоўны
-[You cannot create more than %s chat rooms.]
-Вы не можаце стварыць больш чым %s пакояў.
-[Nickname '%s' is already registered.]
-Псеўданім '%s' ужо зарэгістраваны.
-[You cannot send any message unless you join this chat room.]
-Вы не можаце пасылаць паведамленне, пакуль Вы не ўвайшлі ў пакой.
-[Ignore all invitation]
-Ігнараваць усе запрашэнні
-[Subscription:]
-Падпіска:
-[Tlen Voice Chat Invitation]
-Tlen запрашэнне галасавога чата
-[Expert Options]
-Налады Эксперта
-[Ignore all alerts]
-Ігнараваць усе апавяшчэнні
-[You cannot register more than %s nicknames.]
-Вы не можаце зарэгістраваць больш чым %s псеўданімаў.
-[Nickname already in use, please try another one. Hint: '%s' is free.]
-Псеўданім ужо выкарыстоўваецца, абярыце іншы. Падказка: '%s' вольны.
-[Manager]
-Мэнэджар
-[Send and receive client version information]
-Адпраўляць і атрымліваць версіі кліентаў
-[Teacher]
-Настаўнік
-[Voice chat policy]
-Палітыка групавых чатаў
-[Group chat policy]
-Палітыка чатаў
-[Ignore invitations from unauthorized contacts]
-Ігнараваць запрашэнні ад неаўтарызаваных кантактаў
-[Pensioner]
-Пенсіянер
-[School:]
-Школа:
-[Tlen Protocol Option]
-Налады пратаколу Tlen
-[Alert policy]
-Палітыка апавяшчэння
-[These changes will take effect the next time you connect to the Tlen network.]
-Змены набудуць моц, пасля таго як Вы перападключыцеся Tlen.
-[Voice Chat]
-Галасавы чат
-[Voice chat]
-Галасавы чат
-[Voice Chats]
-Галасавыя чаты
-[Voice chats]
-Галасавыя чаты
-[Always ask me]
-Заўсёды пытаць
-[Show offline users with status messages as invisible in contact list]
-Паказваць адключаных карыстачоў з паведамленнямі статусу як нябачныя
-[Use Nudge plugin]
-Ужываць Трасяніну
-[Somebody to talk]
-Пагаварыць з любым
-[Housekeeper]
-Хатняя прыслужніца
-[Chat room with already created.]
-Пакой ужо створана.
-[Log alerts as messages]
-Захоўв. падзеі як паведамленні
-[Ignore alerts from unauthorized contacts]
-Ігнараваць апавяшчэнні ад неаўтарызаваных кантактаў
-[You have been kicked. Reason: %s ]
-Вас выкінулі. Чыннік: %s
-[P2P Connections]
-P2P далучэнні
-[Enable Always Visible and Never Visible]
-Вкл. Заўсёды бачны і Заўсёды нябачны
-[Incoming mail]
-Уваходная пошта
-[You cannot join more than %s chat rooms.]
-Вы не можаце ўвайсці ў больш чым %s пакояў.
-[This is a private chat room and you are not one of the members.]
-Гэта прыватная чат-пакой, і вы не яе чалец.
-[Playback device:]
-Прылада прайгр.
-[Flirt/romance]
-Флірт/Рамантыка
-[Private conference]
-Асабістая канферэнцыя
-[You cannot join this chat room, because you are banned.]
-Вы не можаце ўвайсці ў пакой, таму што Вы заблакаваны.
-[Use proxy for incoming connections]
-Ужыв. проксі для ўваходных далучэнняў
-[Specialist]
-Адмысловец
-[Chat room not found.]
-Пакой чата не знойдзена.
-[The following invitation to join a voice chat is received.]
-Атрымана запрашэнне ўвайсці ў галасавы чат.
-[Student]
-Студэнт
-[Recording device:]
-Прылада запісу:
-[An alert has been received.]
-Апавяшчэнне прынята.
-[Forwarding]
-Перанакіраванне
-[Farmer]
-Фермер
-[Doctor]
-Доктар
-[Year of birth:]
-Год нараджэння:
-[Personal Information]
-Персанальныя дадзеныя
-[Unknown error code : %d]
-Невядомая памылка: %d
-[Extra Search Criterias]
-Дап. крытэры пошуку
+;langpack template for Tlen
+;file \protocols\Tlen\res\tlen.rc
 [Leave status message after disconnection]
 Пакінуць паведамленне статусу пасля адключэння
+[Ignore advertisements]
+Ігнараваць рэкламу
+[Show offline users with status messages as invisible in contact list]
+Паказваць адключаных карыстачоў з паведамленнямі статусу як нябачныя
+[Send and receive client version information]
+Адпраўляць і атрымліваць версіі кліентаў
+[Alert policy]
+Палітыка апавяшчэння
+[Use Nudge plugin]
+Ужываць Трасяніну
+[Log alerts as messages]
+Захоўв. падзеі як паведамленні
+[Group chat policy]
+Палітыка чатаў
+[Voice Chats]
+Галасавыя чаты
+[Voice chat policy]
+Палітыка групавых чатаў
+[Recording device:]
+Прылада запісу:
+[Playback device:]
+Прылада прайгр.
+[Expert Options]
+Налады Эксперта
+[Connection Host:]
+Вузел далучэння:
+[Enable Always Visible and Never Visible]
+Вкл. Заўсёды бачны і Заўсёды нябачны
+[P2P Connections]
+P2P далучэнні
+[Use proxy for incoming connections]
+Ужыв. проксі для ўваходных далучэнняў
+[Enable incoming mail notification]
+Укл. апавяшчэнне пра ўваходную пошту
+[&From Popup plugin]
+Усталёўкі Popup
+[&Custom]
+Наладзіць
+[P&ermanent]
+Увесь час
+[Year of birth:]
+Год нараджэння:
+[School:]
+Школа:
+[Looking for:]
+Шукаю:
+[Voice chats]
+Галасавыя чаты
+[Tlen login:]
+Уваход Tlen:
+[Subscription:]
+Падпіска:
+[Personal Information]
+Персанальныя дадзеныя
+[Extra Search Criterias]
+Дап. крытэры пошуку
+[Plan:]
+План:
+[Tlen Voice Chat Invitation]
+Tlen запрашэнне галасавога чата
+[The following invitation to join a voice chat is received.]
+Атрымана запрашэнне ўвайсці ў галасавы чат.
+;file \protocols\Tlen\src\jabber_iqid.cpp
+;file \protocols\Tlen\src\jabber_opt.cpp
+[These changes will take effect the next time you connect to the Tlen network.]
+Змены набудуць моц, пасля таго як Вы перападключыцеся Tlen.
+[Tlen Protocol Option]
+Налады пратаколу Tlen
+[Accept all alerts]
+Прымаць усе апавяшчэнні
+[Ignore alerts from unauthorized contacts]
+Ігнараваць апавяшчэнні ад неаўтарызаваных кантактаў
+[Ignore all alerts]
+Ігнараваць усе апавяшчэнні
+[Always ask me]
+Заўсёды пытаць
+[Accept invitations from authorized contacts]
+Прымаць запрашэнні ад аўтарызаваных кантактаў
+[Accept all invitations]
+Прымаць усе запрашэнні
+[Ignore invitations from unauthorized contacts]
+Ігнараваць запрашэнні ад неаўтарызаваных кантактаў
+[Ignore all invitation]
+Ігнараваць усе запрашэнні
+[<Last message>]
+(Апошняе паведамленне)
+[Forwarding]
+Перанакіраванне
+;file \protocols\Tlen\src\jabber_svc.cpp
+;file \protocols\Tlen\src\jabber_thread.cpp
+[%s Web Messages]
+%s Web паведамленняў
+[An alert has been received.]
+Апавяшчэнне прынята.
+[Private conference]
+Асабістая канферэнцыя
+;file \protocols\Tlen\src\jabber_ws.cpp
+;file \protocols\Tlen\src\tlen.cpp
+[Voice chat]
+Галасавы чат
+[Incoming mail]
+Уваходная пошта
+[Alert]
+Папярэджанні
+[Voice Chat]
+Галасавы чат
+;file \protocols\Tlen\src\tlen_file.cpp
+;file \protocols\Tlen\src\tlen_muc.cpp
+[You have been kicked. Reason: %s ]
+Вас выкінулі. Чыннік: %s
+[You cannot join this chat room, because you are banned.]
+Вы не можаце ўвайсці ў пакой, таму што Вы заблакаваны.
+[Chat room not found.]
+Пакой чата не знойдзена.
+[This is a private chat room and you are not one of the members.]
+Гэта прыватная чат-пакой, і вы не яе чалец.
+[You cannot send any message unless you join this chat room.]
+Вы не можаце пасылаць паведамленне, пакуль Вы не ўвайшлі ў пакой.
+[Chat room with already created.]
+Пакой ужо створана.
+[Nickname '%s' is already registered.]
+Псеўданім '%s' ужо зарэгістраваны.
+[Nickname already in use, please try another one. Hint: '%s' is free.]
+Псеўданім ужо выкарыстоўваецца, абярыце іншы. Падказка: '%s' вольны.
+[You cannot register more than %s nicknames.]
+Вы не можаце зарэгістраваць больш чым %s псеўданімаў.
+[You cannot create more than %s chat rooms.]
+Вы не можаце стварыць больш чым %s пакояў.
+[You cannot join more than %s chat rooms.]
+Вы не можаце ўвайсці ў больш чым %s пакояў.
 [Anonymous nicknames are not allowed in this chat room.]
 Ананімныя псеўданімы забаронены ў гэтым пакоі.
-[...Status...]
-...Статус...
-[Event Filter]
-Фільтр падзей
-[Topic:]
-Тэма:
-[User JID:]
-Карыстач:
+[Unknown error code : %d]
+Невядомая памылка: %d
+;file \protocols\Tlen\src\tlen_picture.cpp
+;file \protocols\Tlen\src\tlen_userinfo.cpp
+;file \protocols\Tlen\src\tlen_voice.cpp
+[...Connecting...]
+...далучэнне...
+[...Waiting for connection...]
+...Чаканне злучэння...
+[...Finished...]
+...Завершана...
+[...Error...]
+...Памылка...
+[...Denied...]
+...Забаронена...

@@ -1,8 +1,14 @@
 ﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
+;============================================================
 ;  File: KeepStatus.dll
-;  Module: A connection checker
-[<from trigger>]
-<з трыгера>
+;  Plugin: Keep Status
+;  Version: 0.8.0.97
+;  Authors: P Boon
+;============================================================
+[KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
+Правярае наяўнасць далучэння і аўтаматычна перадалучае пры парывах.
+;file \Plugins\StatusPlugins\resource.rc
+;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 [KeepStatus]
 Перадалучэнне
 [%s Connected from another location]
@@ -15,6 +21,8 @@
 %s памылка статусу (наступны паўтор (%d) праз %d з.)
 [Status error (next retry (%d) in %ds)]
 Памылка статусу (спроба № %d праз % з.)
+[will be set to]
+будзе
 [Resetting status... (last try (%d))%s]
 Скід статусу.. (апошняя спроба (%d))%s
 [Resetting status... (next retry (%d) in %ds)%s]
@@ -27,165 +35,8 @@
 Статус усталяваны
 [Giving up]
 Спыняю
-[connection lost]
-злучэнне страчана
-[each retry]
-кожная спроба
-[, each retry]
-, кожная спроба
-[success]
-паспяхова
-[, success]
-, паспяхова
-[giving up]
-спыняю
-[, giving up]
-, спыняю
-[Check connection]
-Правяраць
-[Don't reconnect if no internet connection seems available]
-Не далучацца, калі няма злучэння з Інтэрнэтам
-[Continuously check for internet connection]
-Увесь час правяраць далучэнне да Інтэрнэту
-[Do so by pinging host]
-Пінгаваць хост
-[Cancel reconnecting]
-Адмена далучэння
-[Show when connection is lost]
-Абрыў злучэння
-[Show when a connection attempt is made]
-Спроба далучэння
-[Show when reconnection has finished]
-Паспяховае далучэнне
-[Show other messages]
-Іншыя
-[Show additional information in popups]
-Дадатковая інфармацыя
-[connection loss is detected]
-страчана злучэнне
-[reconnection attempt is made]
-зроблена паўторнае далучэнне
-[successfull reconnected]
-паспяховае паўторнае далучэнне
-[giving up reconnecting]
-спыняю далучэнні
-[Increase delay exponential]
-Павялічыць экспанентна
-[Cancel all if a protocol connects from another location]
-Адмяніць, калі далучаны з іншага месца
-[Reconnect on APM resume]
-Перадалучыцца пасля спячага рэжыму
-[Stop trying to reconnect]
-Спыніць далучэнне
-[Set delay to]
-Пачакаць
-[React on login errors]
-Улічваць памылкі ўваходу
-[Set protocol offline before a connection attempt]
-Адключаць пратакол перад далучэннем
-[Ignore locked status of accounts]
-Ігнараваць блакаваныя конты
-[Max. retries]
-Макс. спроб
-[Delay between retries (secs)]
-Затрымка паміж спробамі (сек)
-[Max. delay (secs)]
-Макс. затрымка (сек)
-[Max. protocol connecting time (secs)]
-Макс. час для пратаколу (сек)
-[Consider connection lost after]
-Сувязь страчана пасля
-[failed pings]
-незад. пінг.
-[Continuously check interval (secs)]
-Інтэрвал праверкі (сек)
-[Dial-Up]
-Выдалены доступ
-[KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
-Правярае наяўнасць далучэння і аўтаматычна перадалучае пры парывах.
-[Increase exponential]
-Экспанентна
-[Initial delay]
-Пачатковая затрымка
-[Max. delay]
-Макс. затрымка
-[On left Click]
-Левая пстрычка
-[On right Click]
-Правая пстрычка
+;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [You broke the Internet!]
 Злучэнне з Інтэрнэт разарвана!
-[Resetting status... (last try (%d))]
-Скід статусу... (апошняя спроба (%d))
-[Resetting status... (next retry (%d) in %ds)]
-Скід статусу... (наступны паўтор (%d) праз %dc)
-[KeepStatus: assigning status %d to %s]
-KeepStatus: усталёўваю статус %d у %s
-[KeepStatus: cancel on login error (%s)]
-KeepStatus: адмена з-за памылкі (%s)
-[KeepStatus: connection lost! (%s)]
-KeepStatus: далучэнне страчана! (%s)
-[KeepStatus: connection lost! (continuesly check)]
-KeepStatus:  далучэнне страчана! (сталая праверка)
-[KeepStatus: connection state change]
-KeepStatus: стан далучэння змянілася
-[KeepStatus: Enable/Disable checking]
-KeepStatus: Вкл/Выкл праверку
-[KeepStatus: icmp.dll error (1)]
-KeepStatus: icmp.dll памылка (1)
-[KeepStatus: icmp.dll error (2)]
-KeepStatus: icmp.dll памылка (2)
-[KeepStatus: icmp.dll not found, ping disabled]
-KeepStatus: icmp.dll не знойдзены. Пінг выключаны
-[KeepStatus: pinging %s (result: %d)]
-KeepStatus: пінгую %s (вынік: %d)
-[KeepStatus: set delay to %d on login error (%s)]
-KeepStatus: затрымка %d з-за памылкі (%s)
-[KeepStatus: Setting %s offline before making a new connection attempt]
-KeepStatus: адключаю %s перад наступнай спробай далучэння
-[KeepStatus: stop checking (%s)]
-KeepStatus: супын праверкі (%s)
-[KeepStatus: unable to resolve %s]
-KeepStatus: не магу дазволіць %s
-[Reconnect on login failures]
-Перадалучыцца пасля памылак ўваходу
-[Continuesly check for internet connection]
-Увесь час правяраць даступнасць злучэння
-[Dial-Up (please read keepstatus.txt)]
-Dial-Up (прачытайце keepstatus.txt)
-[Initial delay (seconds)]
-Пачатковая затрымка
-[Max. delay (seconds)]
-Затрымка (секунд)
-[minutes of ]
-мінуць ад
-[Basic]
-Асноўныя
-[Timers]
-Таймеры
-[Reconnecting]
-Перадалучэнне
-[Protocol Connection]
-Злучэнне
-[%s	(will be set to %s)]
-%s (будзе "%s")
-[%s\t(will be set to %s)]
-%s (будзе "%s")
-[%s\t(will be set to %s)\n]
-%s\t(будзе ўсталяваны %s)\n
-[%s\t(will be set to %s)\r\n]
-%s\t(будзе %s)\r\n
-[(will be set to %s)]
-(будзе "%s")
-[will be set to]
-будзе
-[Account Connection]
-Далучэнне конту
-[Accounts to check]
-Правяраць наступныя:
-[Max. account connecting time (secs)]
-Спрабаваць далучацца (сек):
-[Set account offline before a connection attempt]
-Адключыць конт перад далучэннем
-[Cancel all if a account connects from another location]
-Адмяніць, калі конт далучаны з другога месца
+;file \Plugins\StatusPlugins\commonstatus.cpp
+;file \Plugins\StatusPlugins\confirmdialog.cpp

@@ -1,95 +1,19 @@
 ﻿#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
+;============================================================
 ;  File: BasicHistory.dll
+;  Plugin: Basic history
+;  Version: 1.0.1.9
+;  Authors: Krzysztof Kral
+;============================================================
 [History viewer for Miranda NG.]
 Праглядчык гісторыі для Miranda NG.
-[Number of history items to delete: %d.\nAre you sure you want to do this?]
-Колькасць выдаляных пунктаў гісторыі: %d.\n Вы сапраўды гэтага жадаеце?
-[You have reached the end of the group.]
-Вы дасягнулі канца групы
-[Invalid event number]
-Непрымальны нумар падзеі
-[Enter filter name]
-Увядзіце імя фільтра
-[Filter name exists]
-Назва фільтра існуе
-[Event already exists]
-Падзея ўжо існуе
-[File do not exist. Enter correct file path.]
-Файл адсутнічае. Увядзі дакладны шлях да файла.
-[Invalid file]
-Няслушны файл
-[Invalid '%s' value.]
-Няслушнае значэнне '%s'.
-[Invalid '%s' value.\n%s]
-Няслушнае значэнне '%s'.\n%s
-[At least one contact should be selected.]
-Павінен быць абраны, хоць бы адзін кантакт
-[To create session open WinSCP, click New Session,  enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
-Для стварэння сесіі, адкрыйце WinSCP, націсніце "Новая сесія", увядзіце дату і захаваеце пад вызначаным імем. Памятайце, калі FTP сервер выкарыстоўвае пароль, тыя Вы павінны захаваць яго ў WinSCP.
-[FTP path must contains '/' instead '\\' and starts from '/'.]
-FTP шлях павінен утрымоўваць '/' замест '\ \' і пачынацца з '/'.
-[Outgoing background]
-Выходны фон
-[Incoming background]
-Уваходны фон
-[Window background]
-Фон вакна
-[Open global history]
-Глабальная гісторыя
-[Find Previous]
-Знайсці папярэдняе
-[Switch All Contacts]
-Усе кантакты
-[Switch Match Case]
-Улічваць рэгістр
-[Switch Match Whole Word]
-Слова цалкам
-[Show/Hide Contacts]
-Паказаць/схаваць кантакты
-[Switch Only Incomming Messages]
-Толькі ўваходныя паведамленні
-[Switch Only Outgoing Messages]
-Толькі выходныя паведамленні
-[Show contact list]
-Паказаць спіс
-[Hide contact list]
-Схаваць спіс
-[Hide Contacts]
-Схаваць кантакты
-[Show Contacts]
-Паказаць кантакты
-[Match Case]
-Улічваць рэгістр
-[Match Whole Word]
-Слова цалкам
-[Only Incomming Messages]
-Толькі ўваходныя паведамленні
-[Only Outgoing Messages]
-Толькі выходныя паведамленні
-[Save window position as default]
-Захаваць становішча акна
-[Save window position for all contacts]
-Захаваць становішча акна для ўсіх кантактаў
-[Delete All User History]
-Выдаліць усю гісторыю карыстача
+;file \plugins\BasicHistory\res\BasicHistory.rc
 [Always show contact list]
 Заўсёды паказваць спіс кантактаў
-[New messages on top]
-Новыя паведамленні зверху
-[Delta time to group messages:]
-Абмежаваць час для паведамленняў:
-[Limit messages to:]
-Абмежаваць паведамленні да:
-[Search forward in list group]
-Шукаць далей у групе
-[Search forward in message window]
-Шукаць далей у акне паведамленняў
-[Only Selected Group]
-Толькі абраная група
-[Switch Only Selected Group]
-Толькі абраныя групы
-[Default history events]
-Падзеі па змаўчанні
+[Show groups in contact list]
+Паказваць групы ў спісе кантактаў
+[Do not show Find control border]
+Не маляваць рамку для радка пошуку
 [Default Event Filter]
 Фільтр падзей
 [Custom filters]
@@ -102,50 +26,58 @@ FTP шлях павінен утрымоўваць '/' замест '\ \' і п�
 Стварыць падзею
 [Delete event]
 Выдаліць падзею
-[Contacts recieved]
-Атрыманне кантактаў
-[Show groups in contact list]
-Паказваць групы ў спісе кантактаў
-[Rich Html]
-Паўнавартасны HTML
-[Plain Html]
-Чысты HTML
-[Export To Rich Html]
-Экспарт у паўнавартасны HTML
-[Export To Plain Html]
-Экспарт у чысты HTML
-[Export To Txt]
-Экспарт у тэкст
-[Export To Binary]
-Экспарт у двайковы файл
-[Export To Dat (mContacts)]
-Экспарт у Dat (мКантакты)
-[Import From Binary]
-Імпарт з двайковага файла
-[Import From Dat (mContacts)]
-Імпарт з Dat (мКантакты)
-[File encoding*]
-Кадоўка файла*
-[External CSS file]
-Вонкавы файл CSS
-[* Choose encoding from combo box or enter code page number and name separated by semicolon, name is used in Content-Type header.]
-* Абярыце кадоўку з выпадальнага спісу ці ўвядзіце імя кадоўкі праз кропку з коскі, імя выкарыстоўваецца ў загалоўка тыпу змесціва.
 [WinSCP path]
 Шлях да WinSCP
 [WinSCP log path]
 Шлях да логаў WinSCP
+[New messages on top]
+Новыя паведамленні зверху
+[Show event icons]
+Абразкі падзей
+[Delta time to group messages:]
+Абмежаваць час для паведамленняў:
+[Limit messages to:]
+Абмежаваць паведамленні да:
+[Search forward in list group]
+Шукаць далей у групе
+[Search forward in message window]
+Шукаць далей у акне паведамленняў
+[Match Case]
+Улічваць рэгістр
+[Match Whole Word]
+Слова цалкам
+[Only Incomming Messages]
+Толькі ўваходныя паведамленні
+[Only Outgoing Messages]
+Толькі выходныя паведамленні
+[Only Selected Group]
+Толькі абраная група
+[Export To Txt]
+Экспарт у тэкст
+[File encoding*]
+Кадоўка файла*
+[Export To Plain Html]
+Экспарт у чысты HTML
+[Export To Rich Html]
+Экспарт у паўнавартасны HTML
+[External CSS file]
+Знешні CSS файл
+[* Choose encoding from combo box or enter code page number and name separated by semicolon, name is used in Content-Type header.]
+* Абярыце кадоўку з выпадальнага спісу ці ўвядзіце імя кадоўкі праз кропку з коскі, імя выкарыстоўваецца ў загалоўка тыпу змесціва.
 [Add task]
 Дадаць задачу
 [Edit task]
 Рэд. задачу
 [Delete task]
 Выд. задачу
+[Save errors to system history]
+Захоўваць памылкі ў сістэмнай гісторыі
+[Task]
+Заданне
 [Action type]
 Тып дзеяння
 [Events older than*]
 Падзеі старэй чым*
-[Events older than]
-Падзеі старэй чым
 [Triger type]
 Паводзіны
 [Delta time]
@@ -156,26 +88,123 @@ FTP шлях павінен утрымоўваць '/' замест '\ \' і п�
 Сціснуць файлы
 [Upload to FTP (WinSCP requred)]
 Заліць на FTP (патрабуецца WinSCP)
-[Upload to FTP]
-Заліць на FTP
 [Session name]
 Імя сесіі
-[Path to output file**]
+[Path to file**]
 Шлях да файла**
-[Path to output file]
-Шлях да файла
+[Export imported messages]
+Экспарт імпарціраваных паведамленняў
 [* Use negative values to filter younger events]
 * Адмоўныя значэнні для фільтравання ранніх падзей
-[** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
-** <date> - устаўляе дату, <ext> - пашырэнне, <contact> - імя кантакту
 [Execute task for specified contacts]
 Выконваць задачу для вызначаных кантактаў
+;file \plugins\BasicHistory\src\BasicHistory.cpp
+[Open History]
+Адчыніць гісторыю
+[Delete All User History]
+Выдаліць усю гісторыю карыстача
+[Status change]
+Змена статусу
+[Show Contacts]
+Паказаць кантакты
+[Hide Contacts]
+Схаваць кантакты
+[Find Next]
+Знайсці далей
+[Find Previous]
+Знайсці папярэдняе
+[Plus in export]
+Плюс у экспарце
+[Minus in export]
+Мінус у экспарце
+;file \plugins\BasicHistory\src\EventList.cpp
+[All events]
+Усе падзеі
+[Default history events]
+Падзеі па змаўчанні
+;file \plugins\BasicHistory\src\ExportManager.cpp
+;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Reply &Quoted]
+Адказаць з &цытатай
+[Rich Html]
+Паўнавартасны HTML
+[Plain Html]
+Чысты HTML
+[Binary]
+Двайковы файл
+[Dat (mContacts)]
+Dat (мКантакты)
+[Save window position as default]
+Захаваць становішча акна
+[Save window position for all contacts]
+Захаваць становішча акна для ўсіх кантактаў
+[Number of history items to delete: %d.\nAre you sure you want to do this?]
+Колькасць выдаляных пунктаў гісторыі: %d.\n Вы сапраўды гэтага жадаеце?
+;file \plugins\BasicHistory\src\Options.cpp
+[You were added]
+Вас дадалі
+[Contacts recieved]
+Атрыманне кантактаў
+[SMTP Simple Email]
+Паведамленне e-mail (SMTP Simple)
+[SMS message]
+Паведамленне SMS
+[Group list]
+Спіс груп
+[Scheduler]
+Планоўшчык
+[Find window]
+Вакно пошуку
+[Window background]
+Фон вакна
+[Contact list background]
+Фон спісу кантактаў
+[Open global history]
+Глабальная гісторыя
+[Switch Match Case]
+Улічваць рэгістр
+[Switch Match Whole Word]
+Слова цалкам
+[Show/Hide Contacts]
+Паказаць/схаваць кантакты
+[Switch Only Incomming Messages]
+Толькі ўваходныя паведамленні
+[Switch Only Outgoing Messages]
+Толькі выходныя паведамленні
+[Switch Only Selected Group]
+Толькі абраныя групы
+[Switch All Contacts]
+Усе кантакты
+[Export To Binary]
+Экспарт у двайковы файл
+[Import From Binary]
+Імпарт з двайковага файла
+[Export To Dat (mContacts)]
+Экспарт у Dat (мКантакты)
+[Import From Dat (mContacts)]
+Імпарт з Dat (мКантакты)
+[Invalid event number]
+Непрымальны нумар падзеі
+[Incoming events]
+Уваходныя падзеі
+[Outgoing events]
+Выходныя падзеі
+[File do not exist. Enter correct file path.]
+Файл адсутнічае. Увядзі дакладны шлях да файла.
+[Invalid file]
+Няслушны файл
+[Enter filter name]
+Увядзіце імя фільтра
+[Filter name exists]
+Назва фільтра існуе
+[Event already exists]
+Падзея ўжо існуе
 [Export and Delete]
 Экспартаваць і выдаліць
+[Import and Marge]
+Імпарт і зьліцьцё
 [Minute]
 Хвіліны
-[Hour]
-Гадзіны
 [At Start]
 Пры запуску
 [At Finish]
@@ -184,39 +213,37 @@ FTP шлях павінен утрымоўваць '/' замест '\ \' і п�
 Праз час (хвіліны)
 [Delta time (hours)]
 Праз час (гадзіны)
-[Task]
-Заданне
-[Binary]
-Двайковы файл
-[Download from FTP (WinSCP requred)]
-Спампаваць з FTP (патрабуецца WinSCP)
-[Import and Marge]
-Імпарт і зьліцьцё
-[Dat (mContacts)]
-Dat (мКантакты)
-[Import from]
-Імпарт з:
-[Input files are compressed]
-Уваходныя файлы сціснуты
-[Path to file**]
-Шлях да файла**
+[Invalid '%s' value.]
+Няслушнае значэнне '%s'.
+[Events older than]
+Падзеі старэй чым
+[Invalid '%s' value.\n%s]
+Няслушнае значэнне '%s'.\n%s
 [** Use <ext> to insert extension, <contact> to insert contact name]
 ** Пішыце <ext> для ўстаўкі пашырэння, <contact> для ўстаўкі імя кантакту
-[Export imported messages]
-Экспарт імпарціраваных паведамленняў
-[Save errors to system history]
-Захоўваць памылкі ў сістэмнай гісторыі
-[Do not show Find control border]
-Не маляваць рамку для радка пошуку
+[Input files are compressed]
+Уваходныя файлы сціснуты
+[Download from FTP (WinSCP requred)]
+Спампаваць з FTP (патрабуецца WinSCP)
+[Import from]
+Імпарт з:
+[** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
+** <date> - устаўляе дату, <ext> - пашырэнне, <contact> - імя кантакту
+;file \plugins\BasicHistory\src\Options.h
+;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
+;file \plugins\BasicHistory\src\RichHtmlExport.cpp
+;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
 Гісторыя
-[Plus in export]
-Плюс у экспарце
-[Minus in export]
-Мінус у экспарце
-[Open History]
-Адчыніць гісторыю
-[Find window]
-Вакно пошуку
-[Contact list background]
-Фон спісу кантактаў
+[At least one contact should be selected.]
+Павінен быць абраны, хоць бы адзін кантакт
+[Upload to FTP]
+Заліць на FTP
+[Path to output file]
+Шлях да файла
+;file \plugins\BasicHistory\src\Searcher.cpp
+["%s" not found]
+"%s" не знойдзена
+[You have reached the end of the group.]
+Вы дасягнулі канца групы
+;file \plugins\BasicHistory\src\TxtExport.cpp

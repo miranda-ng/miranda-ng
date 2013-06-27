@@ -1,125 +1,238 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
-;  File: NewXstatusNotifyW.dll
-;  Module: NewXstatusNotify YM
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: xStatus Notify
+;  Version: 1.4.0.9
+;  Authors: Luca Santarelli, Vasilich, yaho
+;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
 Апавяшчае вас пра змены статусаў, хстатусаў ці статусных паведамленняў.
-[Notifies you when a contact changes his/her (X)status.]
-Апавяшчае вас пра змены статусу і xСтатуса кантактаў.
-[<error>]
-<памылка>
-[%s is now %s]
-%s цяпер %s
-[%s, %s. %s changed to: %s (was: %s).\r\n]
-%s, %s. %s змяніў(а): %s (быў(а): %s).\r\n
-[Disable globally]
-Адключыць цалкам
-[Can't open the log file!]
-Не магу адкрыць файл лога!
-[Remove:]
-Выдаленне:
-[On opening ML:]
-Адкрыццё акна:
-[Disable all]
-Адключыць усё
-[Enable all]
-Уключыць усё
-[NewXstatusNotify]
-Апавяшчэнне пра змену статусаў
-[Reset templates]
-Скінуць шаблоны
-[Do you want to reset all templates to default?]
-Вы жадаеце скінуць усе шаблоны на стандартныя?
-[Disable for extra status 'Music']
-Адключыць для дап. статусу "Музыка"
-[New status:]
-Новы статус:
-[New message:]
-Новае паведамленне:
-[Title - text delimiter:]
-Загаловак-тэкст падзельнік:
-[changed %N to: %T%D%I]
-змяніў(а) %N на: %T%D%I
-[changed %N message to:%D%I]
-змяніў(а) паведамленне %N на:%D%I
-[removed %N]
-выдаліў(а) %N
-[These variables are available:\r\n\r\n\%N\textra status name (Xstatus, Mood, Activity)\r\n\%T\textra status title\r\n\%I\textra status text\r\n\%D\tdelimiter\r\n\%B\tline break (can be used as delimiter)]
-Даступныя зменныя:\r\n\r\n\%N\tназва дап. статусу (хстатус, Настрой, Занятак)\r\n\%T\tзагаловак дап. статусу\r\n\%I\tтэкст дап. статусу\r\n\%D\tпадзельнік\r\n\%B\tпарыў радка (можа выкарыстоўвацца як падзельнік)
+;file \plugins\NewXstatusNotify\res\resource.rc
+[Notify when a contact changes to one of these statuses]
+Паведамляць, калі статус кантакту змяняецца на:
+[Always when changing from offline]
+Са статусу "Адключаны"
+[Plugin activation]
+Актывізацыя плагiна
 [Automatically turn off Popups and Sounds on status change]
 Выключаць успл. акна і гукі пры змене статусу
 [Notify me for people not in my Contact List]
 Апавяшчаць мяне пра кантакты не ў спісе
-[Go to Customize -> Sound to select the sounds]
-Налада гукаў: Тонкая налада -> Гукі
-[Disable when my status is:]
-Адключаць, калі мой статус:
-[Disable only if I change global status]
-Адключаць, толькі пры змене глабальнага статусу
+[Blink icon in the system tray]
+Абразок, што мігае у сіст. трэі
+[Use status icon]
+Абразок статусу
+[Use individual sounds]
+Індывідуальныя гукі
+[Status Notify]
+Змена статусу
+[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
+Асабістыя гукі выключаны.\n\nКаб іх уключыць, ідзіце ў Налады - Статус - Апавяшчэнне, уключыце \n"Індывідуальныя гукі", і зноў адчыніце гэта вакно.
 [Extra status notify]
 Дап. статусы
-[Extra status]
-xСтатус
 [Extra status logging]
 Запіс дап. статусаў
-[Prevent identical logs]
-Прадухіляць аднолькавыя запісы
+[Disable all]
+Адключыць усё
+[Enable all]
+Уключыць усё
+[Use Popup colours]
+Колеры ўсплывальных вокнаў
+[Popup text]
+Тэкст усплывальных вокнаў
+[Read status message]
+Чытаць статуснае паведамленне
+[Show previous status too]
+Паказваць папярэдні cтатус
+[Popups on contact status change to:]
+Вокны, калі статус змяніўся на:
+[Show contact group name]
+Паказваць імя групы кантакту
+[Use alternative descriptions]
+Выкарыстоўваць альтэрнатыўнае апісанне
+[Show status description]
+Паказваць апісанне статусу
+[Disable for extra status 'Music']
+Адключыць для дап. статусу "Музыка"
+[Title - text delimiter:]
+Загаловак-тэкст падзельнік:
+[Remove:]
+Выдаленне:
+[New message:]
+Новае паведамленне:
+[New status:]
+Новы статус:
+[Disable globally]
+Адключыць цалкам
+[Disable only if I change global status]
+Адключаць, толькі пры змене глабальнага статусу
+[Disable when my status is:]
+Адключаць, калі мой статус:
+[Extra status log]
+Запіс дап. статусаў
+[Enable logging extra status to message window]
+Уключыць запіс дап. статусаў у акно паведамленняў
 [Keep events in history]
 Захоўваць падзеі ў гісторыю
-[changed %N @ %T%D%I]
-змяніў(а) %N @ %T%D%I
-[changed %N message @ %I]
-змяніў(а) паведамленне %N @ %I
-[has %N @ %T%D%I]
-%N @ %T%D%I
-[Xstatus]
-хстатус
-[Show available variables]
-Даступныя зменныя
-[Reset all templates to default]
-Скінуць усе шаблоны на стандартныя
+[Prevent identical logs]
+Прадухіляць аднолькавыя запісы
+[On opening ML:]
+Адкрыццё акна:
+[Show Popups when I connect]
+Вокны пры злучэнні
+[Ignore empty status messages]
+Ігнараваць пустыя паведамленні
+[Enable/Disable protocols which you don't wish to be notified for:]
+Выключыць/Уключыць апавяшчэнні для пратаколаў:
+;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Wave Files]
+Wave файлы
+[Sound for the status]
+Гук для статусу
+[From offline]
+Далучаецца
+;file \plugins\NewXstatusNotify\src\indsnd.h
+[(default sound)]
+(па змаўчанні)
+;file \plugins\NewXstatusNotify\src\main.cpp
+[<no status message>]
+<няма паведамлення статусу>
+[playing]
+грае
+[%s is now %s]
+%s цяпер %s
+[%s, %s. %s changed to: %s (was: %s).\r\n]
+%s, %s. %s змяніў(а): %s (быў(а): %s).\r\n
+[(M) is back online!]
+далучаны ізноў!
+[(F) is back online!]
+далучаны ізноў!
+[(U) is back online!]
+далучаны ізноў!
+[User: Online]
+Карыстач: Далучаны
+[(M) went offline! :(]
+Адключыўся! :(
+[(F) went offline! :(]
+Адключылася! :(
+[(U) went offline! :(]
+Адключыўся! :(
+[User: Offline]
+Карыстач: адключаны
+[(M) hides in shadows...]
+схаваўся ў цені...
+[(F) hides in shadows...]
+схавалася ў цені...
+[(U) hides in shadows...]
+схаваўся ў цені...
+[User: Invisible]
+Карыстач: нябачны
+[(M) feels talkative!]
+вольны!
+[(F) feels talkative!]
+вольная!
+[(U) feels talkative!]
+вольны(ая)!
+[User: Free For Chat]
+Карыстач: Свабодны
+[(M) went Away]
+адышоў
+[(F) went Away]
+адышла
+[(U) went Away]
+адышоў
+[User: Away]
+Карыстач: адсутнічае
+[(M) isn't there anymore!]
+адсутнічае!
+[(F) isn't there anymore!]
+адсутнічае!
+[(U) isn't there anymore!]
+адсутнічае!
+[User: Not Available]
+Карыстач: недаступны
+[(M) has something else to do.]
+заняты чымсьці іншым.
+[(F) has something else to do.]
+занята чымсьці іншым.
+[(U) has something else to do.]
+заняты чымсьці іншым.
+[User: Occupied]
+Карыстач: заняты
+[(M) doesn't want to be disturbed!]
+просьба не турбаваць!
+[(F) doesn't want to be disturbed!]
+просьба не турбаваць!
+[(U) doesn't want to be disturbed!]
+просіць не турбаваць!
+[User: Do Not Disturb]
+Карыстач: не турбаваць
+[(M) is eating something]
+нешта есць
+[(F) is eating something]
+нешта есць
+[(U) is eating something]
+нешта есць
+[User: Out To Lunch]
+Карыстач: абедае
+[(M) had to answer the phone]
+тэлефануе
+[(F) had to answer the phone]
+тэлефануе
+[(U) had to answer the phone]
+теэлефануе
+[User: On The Phone]
+Карыстач: тэлефануе
+[Enable status notification]
+Уключыць апавяшчэнні пра змену статусу
+[Disable status notification]
+Выключыць апавяшчэнні пра змену статусу
+[Notification enabled]
+Апавяшчэнне ўключана
+[Notification disabled]
+Апавяшчэнне выключана
+[User: from offline (has priority!)]
+Карыстач:  далучаецца (мае прыярытэт!)
 [Extra status changed]
 Дап. статус зменены
 [Extra status message changed]
 Зменена паведамленне дап. статусу
 [Extra status removed]
 Дап. статус выдалены
-[Popup text]
-Тэкст усплывальных вокнаў
-[Use Popup colours]
-Колеры ўсплывальных вокнаў
-[Show contact group name]
-Паказваць імя групы кантакту
-[Show status description]
-Паказваць апісанне статусу
-[Use alternative descriptions]
-Выкарыстоўваць альтэрнатыўнае апісанне
-[Extra status log]
-Запіс дап. статусаў
-[Enable logging extra status to message window]
-Уключыць запіс дап. статусаў у акно паведамленняў
 [Toggle status notification]
 Вкл/Выкл апавяшчэнні пра змену статусу
-[Status notification enabled]
-Апавяшчэнні пра змену статусу ўключаны
-[Status notification disabled]
-Апавяшчэнні пра змену статусу выключаны
-[NewStatusNotify]
-Апавяшчэнне пра змену статусаў
-[Notification enabled]
-Апавяшчэнне ўключана
-[Notification disabled]
-Апавяшчэнне выключана
-[Disable status notification]
-Выключыць апавяшчэнні пра змену статусу
-[Enable status notification]
-Уключыць апавяшчэнні пра змену статусу
-[Wave Files]
-Wave файлы
-[changed his/her status message to %n]
-змяніў(а) статуснае паведамленне на %n
-[Enable/Disable protocols which you don't wish to be notified for:]
-Выключыць/Уключыць апавяшчэнні для пратаколаў:
-[These variables are available:\r\n\r\n\%n\tNew Status Message\r\n\%o\tOld Status Message\r\n\%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
-Даступныя зменныя:\r\n\r\n\%n\t Новае паведамленне статусу\r\n\%o\t Старое паведамленне статусу\r\n\%c\t Нікнэйм\r\n\\n\t Парыў радка\r\n\\t\t Табуляцыя
+;file \plugins\NewXstatusNotify\src\options.cpp
 [This is status message]
 Гэта паведамленне статусу
+[Do you want to reset all templates to default?]
+Вы жадаеце скінуць усе шаблоны на стандартныя?
+[Reset templates]
+Скінуць шаблоны
+[Show available variables]
+Даступныя зменныя
+[Reset all templates to default]
+Скінуць усе шаблоны на стандартныя
+;file \plugins\NewXstatusNotify\src\popup.h
+;file \plugins\NewXstatusNotify\src\utils.cpp
+[Can't open the log file!]
+Не магу адкрыць файл лога!
+[NewXstatusNotify]
+Апавяшчэнне пра змену статусаў
+;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[Xstatus]
+хстатус
+;file \plugins\NewXstatusNotify\src\xstatus.h
+[changed %N to: %T%D%I]
+змяніў(а) %N на: %T%D%I
+[changed %N message to:%D%I]
+змяніў(а) паведамленне %N на:%D%I
+[removed %N]
+выдаліў(а) %N
+[changed his/her status message to %n]
+змяніў(а) статуснае паведамленне на %n
+[changed %N @ %T%D%I]
+змяніў(а) %N @ %T%D%I
+[changed %N message @ %I]
+змяніў(а) паведамленне %N @ %I
+[has %N @ %T%D%I]
+%N @ %T%D%I

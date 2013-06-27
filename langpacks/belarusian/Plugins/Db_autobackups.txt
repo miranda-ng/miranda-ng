@@ -1,29 +1,53 @@
 ﻿#muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
-;  File: db_autobackups.dll
-;  Module: DB AutoBackups
-[DB Autobackuper plugin.]
-Модуль аўтарэзервіравання профіля.
-[Save Profile As...]
-Захаваць профіль як...
-[Database AutoBackups]
-Аўтарэзервіраванне профіля
-[Database backuped]
-Профіль зарэзерваваны
-[Backup Folder]
-Тэчка рэзервавання
+;============================================================
+;  File: Db_autobackups.dll
+;  Plugin: Db autobackuper
+;  Version: 0.0.0.8
+;  Authors: chaos.persei, sje, Kildor, Billy_Bons
+;============================================================
+;file \plugins\Db_autobackups\res\db_autobackups.rc
+[Backup progress]
+Ход працэсу рэзервавання
+[Automatic Backups]
+Аўтаматычнае рэзерваванне
+[Number of backups to keep:]
+Колькасць рэзервовых копяў:
+[Backup NOW]
+Захаваць ЦЯПЕР
+[When Miranda starts]
+Пры запуску Miranda
+[When Miranda exits]
+Пры выйсці з Miranda
+[Every:]
+Кожныя:
+[Backup to folder:]
+Захоўваць у тэчку:
 [Go to the "Customize -> Folders" to change settings]
 Адкрыйце "Тонкая налада -> Тэчкі" для змены налад
-[path to root miranda folder]
-шлях да тэчкі праграмы
-[path to current miranda profile]
-шлях да тэчкі бягучага профіля
-[name of current miranda profile (filename, without extension)]
-імя бягучага профіля (толькі імя, без пашырэння)
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-верне радок выгляду %miranda_profile%\\Profiles\\%miranda_profilename%
-[same as environment variable %APPDATA% for currently logged-on Windows user]
-аналог зменнага асяроддзя %APPDATA% для бягучага карыстача сістэмы
-[username for currently logged-on Windows user]
-імя бягучага карыстача сістэмы
+[Disable progress bar]
+Адключыць індыкатар выканання
+;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda Databases]
 Базы данных Miranda NG
+[Backup in Progress]
+Рэзерваванне падчас
+[Rotating backup files...]
+Ратацыя папярэдніх копіяў...
+[Copying database file...]
+Капіяванне файла базы...
+[Database backuped]
+Профіль зарэзерваваны
+;file \plugins\Db_autobackups\src\main.cpp
+[Backup Profile]
+Рэзерваваць профіль
+[Save Profile As...]
+Захаваць профіль як...
+[Database Backups]
+Рэзерваванне профіля
+[Backup Folder]
+Тэчка рэзервавання
+;file \plugins\Db_autobackups\src\options.cpp
+[Select Backup Folder]
+Абярыце тэчку для рэзервовых копій
+[Database AutoBackups]
+Аўтарэзервіраванне профіля

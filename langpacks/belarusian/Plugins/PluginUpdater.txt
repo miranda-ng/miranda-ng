@@ -1,99 +1,75 @@
 ﻿#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
+;============================================================
 ;  File: PluginUpdater.dll
-;  Module: PluginUpdater
+;  Plugin: Plugin updater
+;  Version: 0.1.1.4
+;  Authors: Mataes, George Hazan
+;============================================================
 [Plugin updater for Miranda NG.]
 Абнаўленне модуляў Miranda NG.
-[Plugin Updater]
-Абнаўленне модуляў
-[Check for plugin updates]
-Праверыць абнаўленні модуляў
-[Downloading plugin updates...]
-Загрузка абноўленых модуляў...
-[No updates found.]
-Абнаўленняў няма.
-[View info]
-Паглядзець інфа
-[An error occured while downloading the update.]
-Падчас загрузкі абнаўлення адбылася памылка.
-[URL for checking updates not found.]
-Спасылка для праверкі абнаўленняў не знойдзена.
-[Downloading version info...]
-Загрузка інфармацыі пра версіі...
-[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
-Вы адмовіліся ад неадкладнай усталёўкі абнаўлення модуляў.\nВы можаце ўсталяваць гэта абнаўленне ўручную адгэтуль:\n\n%s
-[No files for update.]
-Няма файлаў для абнаўлення.
-[Update checking already started!]
-Абнаўленне ўжо запушчана!
-[Automatically check for plugin updates]
-Аўтаматычна правяраць абнаўленні модуляў
-[Plugin updates options]
-Налады абнаўлення модуляў
-[Remind about not installed plugin updates]
-Нагадваць пра неўсталяваныя абнаўленні
-[Message boxes (*)]
-Дыялогі (*)
-[Info messages]
-Інфа паведамленні
-[Progress dialogs]
-Дыялогі прагрэсу
-[* Needs popup actions to be enabled]
-* Неабходны ўключаныя дзеянні успл. вокнаў
-[Not sets for "Message boxes"]
-Не ўсталёўвае для "Дыялогі"
-[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Загрузка завершана. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda NG зачынена.
-[Downloading update...]
-Загрузка абнаўлення...
-[Boxes]
-Вокны
-[Message boxes]
-Дыялогі
-[Plugin Updater HTTP connection]
-HTTP падлучэнне Plugin Updater
-[Updates found!]
-Знойдзены абнаўленні!
+;file \plugins\PluginUpdater\res\Resource.rc
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
 Былі знойдзены абноўленыя версіі модуляў Miranda NG. Націсніце на кнопку "Дэталі" для падрабязнай інфармацыі.
-['Yes' Button]
-Кнопка 'Так'
-['No' Button]
-Кнопка 'Не'
-[On startup]
-Пры запуску
-[(but only once a day)]
-(але толькі 1 раз у дзень)
-[Every]
-Кожныя
-[days]
-дзён
+[Details >>]
+Дэталі >>
 [Select &all]
 Абраць усё
 [Select &none]
 Зняць выбар
-[Details >>]
-Дэталі >>
-[Go to Customize -> Hotkeys to change the hotkey]
-Налада ў Тонкая налада -> Гарачыя клавішы
+[Plugin updates options]
+Налады абнаўлення модуляў
 [Update icons]
 Абнаўляць значкі
-[Downloading...]
-Загрузка...
-[Succeeded.]
-Завершана.
-[Failed!]
-Памылка!
-[Skipped.]
-Прапушчана.
-[Will be deleted!]
-Выдалена!
-[State]
-Стан
 [Files source]
 Крыніца абнаўлення
 [Stable version]
 Стабільная версія
 [Development version (less stable)]
 Версія ў распрацоўцы (меней стабільная)
+[Development version with debug symbols]
+Версія ў распрацоўцы з сімваламі адладкі
 [Custom version]
 Зададзеная карыстачом версія
+[Component list]
+Спіс кампанентаў
+[Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
+Вось поўны спіс даступных кампанентаў Міранды.Адзначце кампаненты, якія вы хочаце загрузіць.\n\nНацісьніце на абразок інфармацыі, каб праглядзець старонку інфармацыі пра кампанент. 
+;file \plugins\PluginUpdater\src\DlgListNew.cpp
+[Skipped.]
+Прапушчана.
+[Failed!]
+Памылка!
+[Succeeded.]
+Завершана.
+[Plugin Updater]
+Абнаўленне модуляў
+[Download complete]
+Загрузка завершана
+[Download complete. Do you want go to plugins option page?]
+Загрузка завершана. Адчыніць старонку налад?
+[List is empty.]
+Спіс пусты
+[List loading already started!]
+Пачалася загрузка спісу!
+;file \plugins\PluginUpdater\src\DlgUpdate.cpp
+[Will be deleted!]
+Выдалена!
+[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
+Вы адмовіліся ад неадкладнай усталёўкі абнаўлення модуляў.\nВы можаце ўсталяваць гэта абнаўленне ўручную адгэтуль:\n\n%s
+;file \plugins\PluginUpdater\src\Options.cpp
+;file \plugins\PluginUpdater\src\PluginUpdater.cpp
+[Check for plugin updates]
+Праверыць абнаўленні модуляў
+[Show full plugin list]
+Паказаць увесь спіс плагінаў
+;file \plugins\PluginUpdater\src\Utils.cpp
+[Plugin info]
+Пра плагін
+[Plugin list]
+Спіс плагінаў
+[Plugin Updater HTTP connection]
+HTTP падлучэнне Plugin Updater
+[Checking new updates...]
+Праверка абнаўленняў...
+[An error occured while checking new updates.]
+Пры праверцы абнаўленняў адбылася памылка.

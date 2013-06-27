@@ -1,83 +1,37 @@
 ﻿#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
-;  File: modernopt.dll
-;  Module Support for new options design
+;============================================================
+;  File: ModernOpt.dll
+;  Plugin: ModernOpt
+;  Version: 0.1.0.0
+;  Authors: Victor Pavlychko, George Hazan
+;============================================================
 [Support for new options design.]
 Падтрымка новага дызайну налад.
+;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 Афіцыйны сайт Miranda NG
 [Switch to classic options]
 Класічны выгляд налад
-[View help online]
-Анлайн-даведка
+;file \plugins\ModernOpt\src\modernopt.cpp
 [Setup your account information to start messaging.]
 Наладзьце ўліковыя запісы для пачатку зносін.
+[Style]
+Стыль
 [Change the look of Miranda NG according to your taste.]
 Змяняйце вонкавы выгляд праграмы на свой густ.
 [Configure behaviour of your contact list.]
 Наладзьце паводзіны вашага спісу кантактаў.
+[Chats]
+Чаты
 [Customize look&&feel of your chat windows here.]
 Наладзьце вонкавы выгляд вашага вакна гутаркі.
 [Ban those users and events, you are annoyed with.]
 Заблакуйце карыстачоў і падзеі, якія вам не патрэбны.
 [Set your status messages and idle reporting.]
 Усталюйце статусныя паведамленні і паведамленні адсутнасці.
+[Addons]
+Дадаткi
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
-Кіраванне ўбудовамі Miranda NG.
+Кіраванне плагiнамі Miranda NG.
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
 У вас ёсць не захаваныя змены.\n Ці жадаеце вы іх ужыць перад пераключэннем?
-[Addons]
-Убудовы
-[Window behaviour:]
-Паводзіны спісу:
-[Status bar:]
-Панэль статусу:
-[List content:]
-Утрыманне спісу:
-[Compact mode]
-Кампактны рэжым
-[Show contact time in list]
-Паказваць час кантакту
-[List sorting:]
-Сартаванне спісу:
-[Window:]
-Вакно паведамленняў:
-[Esc closes sessions (minimizes window, if disabled)]
-Esc зачыняе сесію (інакш - згортвае)
-[Always pop up and activate new windows]
-Заўсёды адкрываць новае акно паведамленняў
-[Create new windows in minimized state]
-Ствараць новыя вокны згорнутымі
-[Message sending:]
-Адпраўка паведамленняў:
-[Send message on Ctrl+Enter (always enabled)]
-Пасылаць па Ctrl+Enter (заўсёды ўключана)
-[Send on Shift+Enter]
-Пасылаць па Shift+Enter
-[Tabs:]
-Укладкі:
-[Use tabbed interface]
-Выкарыстоўваць укладкі
-[Create new tabs without activating them]
-Ствараць новыя ўкладкі без актывацыі
-[Pop up minimized window when a new tab is created]
-Адкрыць згорнутае акно пры стварэнні ўкладкі
-[Automatically switch tabs in minimized windows]
-Аўтапераключэнне ўкладак у згорнутым акне
-[Don't announce when dialog is open]
-Не апавяшчаць пры адкрытым акне
-[Message events]
-Паведамленні
-[File events]
-Файлы
-[Contact list background:]
-Фон спісу кантактаў:
-[Contact list:]
-Спіс кантактаў:
-[Ordering:]
-Сартаванне:
-[If window is partially covered, bring iy to front]
-Калі акно часткова зачынена, вывесці наперад
-[Sample Text]
-Прыклад тэксту
-[History:]
-Гісторыя:

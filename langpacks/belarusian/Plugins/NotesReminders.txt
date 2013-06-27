@@ -1,8 +1,13 @@
 ﻿#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
+;============================================================
 ;  File: NotesReminders.dll
-;  Module: Notes and Reminders
-[Notes & Reminders]
-Нататкі і напамінкі
+;  Plugin: Sticky Notes & Reminders
+;  Version: 0.0.5.1
+;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
+;============================================================
+[Sticky Notes & Reminders Implementation for Miranda NG.]
+Нататкі і напамінкі для Miranda NG.
+;file \plugins\NotesAndReminders\res\resource.rc
 [Default Note Size]
 Памер нататкі
 [Width (Pixels)]
@@ -23,6 +28,8 @@
 Налады запуску
 [Hide notes at startup]
 Хаваць нататкі на старце
+[Add Contact list menu items]
+Пункт у галоўным меню
 [(Requires Miranda restart)]
 (Патрабуе перазапуск Miranda NG)
 [Reminder options]
@@ -31,42 +38,24 @@
 Дыялог зачынення напамінкаў
 [Use MCI to play alert sounds]
 Выкарыстоўваць драйвер MCI
-[Add Contact list menu items]
-Пункт у галоўным меню
 [Note Transparency (Minimum Win 2k/XP)]
 Празрыстасць нататак (патрабуецца Win 2000 і вышэй)
 [Send Reminders through E-mail / SMS :]
 Напамінкі на e-mail / SMS:
 [Open links with this program instead:]
 Адкрываць спасылкі ў:
-[Reset to defaults]
-Скінуць
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
 Дазваляе розным гукам прайгравацца адначасова (магчымыя нежаданыя наступствы, калі ўсталяваны модуль карыстацкіх гукаў)
 [Trigger On Time && Date:]
 Дата &і час запуску:
-[Date]
-Дата
-[Time]
-Час
 [Reminder Note:]
 Напамінак:
-[None]
-Не
-[Daily]
-Дзён
-[Weekly]
-Тыдняў
-[Monthly]
-Месяцаў
 [Repeat Alert Sound]
 Паўтараць сігнал
 [Use Sound]
 Выкарыстоўваць сігнал
 [&Add Reminder]
 &Дадаць
-[&Close]
-&Зачыніць
 [&View Reminders]
 &Прагледзець напамінкаў
 [After:]
@@ -97,16 +86,10 @@
 &Выдаліць нататку
 [Custom...]
 Змяніць…
-[Reset]
-Скінуць
 [Paste Title]
 Уставіць загаловак
 [Reset Title]
 Скінуць нарыхтовак
-[Undo]
-Адкаціць
-[&Copy]
-&Капіяваць
 [&Paste]
 &Уставіць
 [C&ut]
@@ -119,14 +102,16 @@
 Перамясціць на пярэдні план
 [Edi&t Note]
 Рэдагаваць нататку
-[&Visible]
-&Бачнасць
 [Always &On Top]
 «Заўсёды &зверху»
 [Delete &All Notes]
 Выдаліць &усе нататкі
 [&Show / Hide Notes]
 &Паказаць / Схаваць нататкі
+;file \plugins\NotesAndReminders\src\globals.h
+[Notes & Reminders]
+Нататкі і напамінкі
+;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
 Новая нататка
 [Toggle Notes Visibility]
@@ -135,8 +120,7 @@
 Перамясціць нататкі на пярэдні план
 [New Reminder]
 Новы напамінак
-[StickyNotes]
-Нататкі
+;file \plugins\NotesAndReminders\src\main.cpp
 [Are you sure you want to delete all notes?]
 Упэўнены, што жадаеце выдаліць усе нататкі?!
 [Are you sure you want to delete all reminders?]
@@ -145,20 +129,30 @@
 Выдаліць усе нататкі
 [Show/Hide Notes]
 Паказаць/Схаваць нататкі
+[On Top Caption Icon]
+Прычапіць
 [Delete All Reminders]
 Выдаліць усе напамінкі
 [View Reminders]
 Прагледзець напамінкаў
+[Not on Top Caption Icon]
+Адчапіць
+[Hide Note Icon]
+Схаваць нататку
+[Remove Note Icon]
+выдаліць нататку
+[Reminder Icon]
+Напамінак
 [Bring All to Front]
 Перамясціць на пярэдні план
+[Play Sound Icon]
+Прайграть гук
 [View Notes]
 Прагледзець нататкі
 [Add New Note]
 Дадаць нататку…
 [Add New Reminder]
 Дадаць напамінак…
-[Alerts]
-Сігнал
 [Reminder triggered]
 Спрацоўванне напамінку
 [Reminder triggered (Alternative 1)]
@@ -175,38 +169,21 @@
 &Выдаліць усе нататкі
 [&Bring All to Front]
 &Перамясціць на пярэдні план
-[StickyNote]
-Нататка
+;file \plugins\NotesAndReminders\src\notes.cpp
 [Are you sure you want to delete this note?]
 Упэўнены, што жадаеце выдаліць нататку?
-[Background Color]
-Колер фону
-[Notes]
-Нататка
 [Note text]
 Нататка
 [Date/Title]
 Дата/загаловак
+;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Caption]
 Загаловак
 [Sticky Note Body]
 Акно
 [Select Executable]
 Абраць праграму…
-[Reminder]
-Напамінак
-[Minutes]
-Мінуць
-[Hours]
-Гадзін
-[Hour]
-Гадзіна
-[Day]
-Дзень
-[Days]
-Дзён
-[Week]
-Тыдзень
+;file \plugins\NotesAndReminders\src\reminders.cpp
 [The specified time is invalid due to begin of daylight saving (summer time).]
 Паказаны час несапраўдна з-за пераходу на «летні час»
 [The specified time is invalid.]
@@ -215,14 +192,6 @@
 Указанае змяшчэнне часу з'яўляецца несапраўдным.
 [&Update Reminder]
 &Абнавіць напамінак
-[Every]
-Кожныя
-[Seconds]
-Секунд
-[Never]
-Не выкарыстоўваць
-[Default]
-Стандартны
 [Alternative 1]
 Альтэрнатыўны 1
 [Alternative 2]
@@ -233,17 +202,3 @@
 Дата актывацыі
 [Are you sure you want to delete this reminder?]
 Упэўнены, што жадаеце выдаліць гэты напамінак?
-[On Top Caption Icon]
-Прычапіць
-[Not on Top Caption Icon]
-Адчапіць
-[Hide Note Icon]
-Схаваць нататку
-[Remove Note Icon]
-выдаліць нататку
-[Reminder Icon]
-Напамінак
-[Sticky Notes & Reminders Implementation for Miranda NG.]
-Нататкі і напамінкі для Miranda NG.
-[Play Sound Icon]
-Прайграть гук

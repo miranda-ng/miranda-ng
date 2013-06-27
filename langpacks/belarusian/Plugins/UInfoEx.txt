@@ -1,28 +1,117 @@
 ﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
-;  File: userinfoex.dll
-;  Module: UserInfoEx
-[UserInfoEx]
-Асабістыя дадзеныя
-[Gives extended ability to edit information about your contacts locally. It does not matter what information your contact gives about himself. If you know more you can add more.]
-Пашыранае адлюстраванне інфармацыі карыстача. Замяняе адлюстраванне асабістай інфармацыі як для вас, так і для вашых кантактаў.
-[AccountMenu]
-Меню вул. запісаў
-[Cascade:]
-Каскадны:
-[Ex-/Import items]
-Экс-/Імпарт пункты
-[This options require a contact list which supports extra icons.]
-Патрэбен модуль кантакт-ліста з падтрымкай дадатковых значкоў.
-[Replace the following default icons:]
-Замяніць наступныя значкі:
+;============================================================
+;  File: UInfoEx.dll
+;  Plugin: User info ext
+;  Version: 0.8.4.2
+;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+;============================================================
+;file \plugins\UserInfoEx\res\resource.rc
+[Edit Contact Information]
+Рэдагаваць дадзеныя кантакту
+[Origin]
+Паходжанне
+[&Update]
+&Абнаўленне
+[Second name:]
+Імя па бацьку:
+[Partner:]
+Партнёр:
+[Language skills]
+Валоданне мовамі
+[County/State:]
+Акруга/Штат:
+[Contact added to ContactList:]
+Дададзены(а) у кантакт-ліст:
+[Just from the beginning.]
+З самага пачатку.
+[Your contact's local time is:]
+Лакальны час кантакту:
+[Office:]
+Офіс:
+[Superior:]
+Начальнік:
+[Assistant:]
+Асістэнт:
+[Enter your phone number\nand don't worry about formating.]
+Увядзіце нумар тэлефона\nў любым фармаце.
+[Enter a category for this number:]
+Увядзіце катэгорыю для нумара:
+[Add E-Mail]
+Дадаць E-mail
+[Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
+Увядзіце e-mail адрас.\n(напрыклад: john.doe@provider.com)
+[Enter a representitive name for the e-mail address here.]
+Увядзіце імя для электроннага адрасу
+[Enter the e-mail address here.]
+Увядзіце электронны адрас.
+[Show menu items]
+Паказаць пункты меню
+[Remind me]
+Нагадаць
+[days before.]
+дзён.
+[Icon flashing on event]
+Мігценне значка пры падзеі
+[Perform check on each startup]
+Правяраць пры запуску
+[Time of last check:]
+Апош. праверка:
+[Birthday compatibility mode:]
+Рэжым сумяшчальнасці:
+[Automatically backup and keep protocol based birthdays up to date]
+Аўтаматычна захоўваць і рэзерваваць дні нараджэння з пратаколу
+[Use ignore list]
+Выкарыстоўваць спіс ігнаравання
+[Birthday popup colours]
+Налада дзён нараджэння
+[Show reminder messages as popups (if reminder is enabled)]
+Напамінкі ва ўсплывальных вокнах (калі дазволены)
+[Anniversary popup colours]
+Налада свят
+[Replace progress dialogs with popups]
+Замяніць дыялогі прагрэсу ўсплывальнымі вокнамі
+[Replace message boxes with popups]
+Замяніць дыялогі ўсплывальнымі вокнамі
+[Add Affiliation]
+Прыналежнасць
+[Add Past]
+Мінулае
+[Add Interest]
+Інтарэсы
+[Anniversary Editor]
+Рэдактар свята
+[Anniversary Editor\nAdd/Edit your anniversary here.]
+Рэдактар свята\nДадайце/Рэдагуйце свята тут.
+[Enter a name for the anniversary here please:]
+Увядзіце найменне свята:
+[Anniversary list]
+Спіс свят
+[Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
+Хуткія святы\nСпіс утрымоўвае ўсе святы Вашых кантактаў.
+[Statistics:]
+Статыстыка:
+[with birthday:]
+з днём нараджэння:
+[female:]
+жанчын:
+[male:]
+мужчын:
+[number of contacts:]
+лік кантактаў:
+[average age:]
+сярэдні ўзрост:
+[Show &during the next]
+Паказваць пры наступным
+[day(s)]
+дзён
+[Popup this dialog on a contact's anniversary]
+Паказваць гэты дыялог, калі свята
 [Check file version of default IconPack to prevent wrong icon display]
 Правяраць версію файла значкоў для правільнага адлюстравання
 [Display icons on each dialog button]
 Паказваць значкі на кожнай кнопцы
 [Scan SubContacts for missing information]
 Пошук адсутнай інфармацыі ў субкантактах
-[Enable extended 'GetContactInfo' module (*)]
-Уключыць пашыраны 'GetContactInfo' модуль (*)
 [Enable extended 'send/receive email' service (*)]
 Уключыць пашыраны модуль электроннай пошты (*)
 [Use Windows Timezone]
@@ -31,14 +120,6 @@
 (*) Патрабуецца перазапуск Miranda.
 [Reset factory defaults]
 Налады па змаўчанні
-[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
-Гэта функцыя выдаліць усе налады, якія вы зрабілі \nУсе налады дрэва, пазіцый акна, і інш.!\n\nВы сапраўды жадаеце працягнуць?
-[All settings are reset to default values now!]
-Усе ўсталёўкі цяпер будуць скінуты!
-[Details Dialog]
-Дыялогі
-[Enable colours to give information about information's status.]
-Уключыць колеры для паказу статусу інфармацыі
 [Protocol's information]
 Дадзеныя пратаколу
 [Custom information]
@@ -47,76 +128,71 @@
 Перазапісаная інфармацыя
 [Changed information]
 Змененыя дадзеныя
-[Info of a MetaContact's SubContact]
-Інфармацыя субкантакта Метакантакту
-[Adapt propertysheet pages to aero mode.]
-Адаптоўваць Налады да стылю Aero.
+[Enable colours to give information about information's status.]
+Уключыць колеры для паказу статусу інфармацыі
 [Make protocol based contact information readonly.]
 Забараніць змену інфармацыі, якая базуецца на пратаколе
-[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
-Змяняць мае асабістыя дадзеныя праз UserInfoEx (недаступна, калі ICQ не падтрымлівае)
-[TreeView]
-Дрэва
 [Enable groups in details dialog's treeview.]
 Укладзеныя пункты меню
 [Sort all tree items alphabetically.]
 Адсартаваць усе пункты ў алфавітным парадку
-[Reminder disabled]
-Напамінкі адключаны
-[Anniversaries only]
-Толькі святы
-[Bithdays only]
-Толькі дні нараджэння
-[everything]
-Усе напамінкі
-[Time of last check:]
-Апош. праверка:
-[Icon flashing on event]
-Мігценне значка пры падзеі
-[Show menu items]
-Паказаць пункты меню
-[Use ignore list]
-Выкарыстоўваць спіс ігнаравання
-[Perform check on each startup]
-Правяраць пры запуску
-[Automatically backup and keep protocol based birthdays up to date]
-Аўтаматычна захоўваць і рэзерваваць дні нараджэння з пратаколу
-[Remind me]
-Нагадаць
-[Birthday compatibility mode:]
-Рэжым сумяшчальнасці:
-[UserInfo (default)]
-Асабістыя дадзеныя (па змаўчанні)
-[CList extra icon:]
-Значок спісу:
-[days before.]
-дзён.
-[Replace message boxes with popups]
-Замяніць дыялогі ўсплывальнымі вокнамі
-[Replace progress dialogs with popups]
-Замяніць дыялогі прагрэсу ўсплывальнымі вокнамі
-[Show reminder messages as popups (if reminder is enabled)]
-Напамінкі ва ўсплывальных вокнах (калі дазволены)
-[Birthday popup colours]
-Налада дзён нараджэння
-[Anniversary popup colours]
-Налада свят
-[This is the reminder message]
-Паведамленне напамінку
-[Check anniversaries]
-Праверыць святы
-[Popup Anniversary list]
-Паказаць спіс свят
+[Info of a MetaContact's SubContact]
+Інфармацыя субкантакта Метакантакту
+[Common]
+Агульныя
+[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
+Змяняць мае асабістыя дадзеныя праз UserInfoEx (недаступна, калі ICQ не падтрымлівае)
+[TreeView]
+Дрэва
+[Adapt propertysheet pages to aero mode.]
+Адаптоўваць Налады да стылю Aero.
+[Show Menu Item]
+Выгляд адлюстравання меню
+[MainMenu]
+Галоўнае меню
+[Cascade:]
+Каскадны:
+[Ex-/Import items]
+Экс-/Імпарт пункты
+[ContactMenu]
+Меню кантакту
+[AccountMenu]
+Меню вул. запісаў
+[Extra Icons]
+Экстра значкі
+[Replace the following default icons:]
+Замяніць наступныя значкі:
+[Phone]
+Тэлефон
+[E-Mail]
+E-Mail
+[Show 'Restart' menu item]
+Пункт меню "Перазапуск"
+[Use &unknown flag if country can not be determined]
+Паказаць невядомы сцяг, калі краіна не вызначана
+[Zodiac:]
+Задыяк:
+[Use global reminder settings.]
+Глабальныя налады напамінкаў.
+[Don't remind me of this anniversary.]
+Не нагадваць мне пра гэта свята.
 [Refresh Contact Details]
 Абнавіць дадзеныя кантактаў
-[[b]%s (%S)...[/b]\n%d Contacts remaning]
-[b]%s (%S)...[/b]\n%d кантактаў засталося
-[Anniversary Reminder]
-Напамінак пра свята
-[IM Naming]
-Імя ў IM
-[Marital status]
-Сямейнае становішча
+[What do you want to export?]
+Што вы жадаеце экспартаваць?
+[Contact Information]
+Інфармацыя пра кантакт
+[Contact History]
+Гісторыя кантакту
+[Select Modules]
+Абярыце модулі
+[Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]
+Адзначце ў спісе тыя модулі, якія вы жадаеце экспартаваць для кантактаў. Для дадання кантакту з файла ў выглядзе новага запісу, неабходна экспартаваць хоць бы модуль пратаколу.
+[Check all]
+Абраць усё
+[Uncheck all]
+Ачысціць усё
+;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 [Aries]
 Авен
 [Taurus]
@@ -141,18 +217,60 @@
 Вадаліў
 [Pisces]
 Рыбы
-[Export: Modules]
-Экспарт: Модулі
-[Export: Folder]
-Экспарт: Тэчка
+[%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
+%s паказвае новы дзень нараджэння па пратаколе.\nНовая дата %s. Старая %s.\n\nВы жадаеце выкарыстоўваць новую дату нараджэння для гэтага кантакту?
+[Update custom birthday]
+Абнаўленне наладжаных дзён нараджэнняў
+[Keeps your custom birthday up to date.]
+Рэзервуе наладжаныя дні нараджэння.
+;file \plugins\UserInfoEx\src\classPsTree.cpp
+;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
+;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[Add a new anniversary]
+Дадаць новае свята
+[Delete an existing anniversary]
+Выдаліць існае свята
+;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Choose the item to display.]
+Абраць запіс.
+[Edit the currently displayed item.]
+Змяніць існы запіс.
+[Add a new custom item.]
+Дадаць новы запіс.
+[Delete the selected item.]
+Выдаліць дадзены запіс.
+;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
+;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[ETA]
+Засталося дзён
+[Age/Nr.]
+Узрост
+[Birthdays only]
+Толькі дні нараджэння
+[Anniversaries only]
+Толькі святы
+[Disabled reminder]
+Адкл. напамінкі
+[Popup Anniversary list]
+Паказаць спіс свят
+;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Contact (private)]
 Кантакт (асабісты)
-[Origin]
-Паходжанне
 [Anniversaries]
 Святы
 [Contact (Work)]
 Кантакт (працоўны)
+;file \plugins\UserInfoEx\src\init.cpp
+;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[IM Naming]
+Імя ў IM
+[Marital status]
+Сямейнае становішча
+[Export: Modules]
+Экспарт: Модулі
+[Export: Folder]
+Экспарт: Тэчка
 [Details Infobar]
 Дэталі
 [Phone Infobar]
@@ -169,8 +287,6 @@
 Зайсці на сайт
 [Custom Phone]
 Абраны тэлефон
-[Down arrow]
-Стрэлка ўніз
 [Ex-/Import]
 Экспарт/Імпарт
 [Backup Birthday]
@@ -217,169 +333,147 @@
 Свята праз 9 дзён
 [Anniversary later]
 Свята пазней
-[Extended UserInfo]
+;file \plugins\UserInfoEx\src\mir_icolib.h
+[UserInfoEx]
 Асабістыя дадзеныя
+;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[Ex-/Import contact]
+Экс-/Імпарт кантакт
 [Export all contacts]
 Экспартаваць усе кантакты
 [Import all contacts]
 Імпартаваць усе кантакты
 [Backup birthdays]
 Рэзерваваць дні нараджэння
-[Update custom birthday]
-Абнаўленне наладжаных дзён нараджэнняў
-[Backing up and syncing all birthdays complete!]
-Рэзерваванне і сінхранізацыя ўсіх Дзён нараджэнняў завершаны!
-[Anniversary list]
-Спіс свят
-[Ex-/Import contact]
-Экс-/Імпарт кантакт
-[&Homepage]
-Сайт
-[CheckAnniv]
+[Check anniversaries]
 Праверыць святы
-[AnnivList]
-Спіс свят
-[Edit Contact Information]
-Рэдагаваць дадзеныя кантакту
-[Second name:]
-Імя па бацьку:
-[jun.]
-мл.
-[sen.]
-сен.
-[Partner:]
-Партнёр:
-[Language skills]
-Валоданне мовамі
-[County/State:]
-Акруга/Штат:
-[Edit the currently displayed item.]
-Змяніць існы запіс.
-[Choose the item to display.]
-Абраць запіс.
-[Add a new custom item.]
-Дадаць новы запіс.
-[Delete the selected item.]
-Выдаліць дадзены запіс.
-[Enter your phone number\nand don't worry about formating.]
-Увядзіце нумар тэлефона\nў любым фармаце.
-[Enter a category for this number:]
-Увядзіце катэгорыю для нумара:
-[Add E-Mail]
-Дадаць E-mail
-[Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
-Увядзіце e-mail адрас.\n(напрыклад: john.doe@provider.com)
-[Enter a representitive name for the e-mail address here.]
-Увядзіце імя для электроннага адрасу
-[Enter the e-mail address here.]
-Увядзіце электронны адрас.
-[Open in Browser]
-Адкрыць у браўзары
-[Contact added to ContactList:]
-Дададзены(а) у кантакт-ліст:
-[Just from the beginning.]
-З самага пачатку.
-[Your contact's local time is:]
-Лакальны час кантакту:
-[Anniversary Editor\nAdd/Edit your anniversary here.]
-Рэдактар свята\nДадайце/Рэдагуйце свята тут.
-[Enter a name for the anniversary here please:]
-Увядзіце найменне свята:
-[Anniversary Editor]
-Рэдактар свята
-[Add a new anniversary]
-Дадаць новае свята
-[Delete an existing anniversary]
-Выдаліць існае свята
-[Do you really want to delete the %s?]
-Вы сапраўды жадаеце выдаліць %s?
-[Use global reminder settings.]
-Глабальныя налады напамінкаў.
-[Don't remind me of this anniversary.]
-Не нагадваць мне пра гэта свята.
-[Zodiac:]
-Задыяк:
-[Office:]
-Офіс:
-[Superior:]
-Начальнік:
-[Assistant:]
-Асістэнт:
-[Add Affiliation]
-Прыналежнасць
-[Add Past]
-Мінулае
-[Add Interest]
-Інтарэсы
-[Interest]
-Інтарэсы
-[Do you really want to delete this entry?]
-Вы сапраўды жадаеце выдаліць гэта?
-[Import User Details from vCard]
-Імпарт дэталяў карыстача з vCard
-[Import complete]
-Імпарт завершаны
-[added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
-Дададзена кантактаў: %u / %u\nДададзена налад: %u / %u\nДададзена падзей: %u / %u\nДубліруючых падзей: %u
-[Select a destination file...]
-Абярыце імя файла для экспарту
-[What do you want to export?]
-Што вы жадаеце экспартаваць?
-[Contact History]
-Гісторыя кантакту
-[Select Modules]
-Абярыце модулі
-[Check all]
-Абраць усё
-[Uncheck all]
-Ачысціць усё
-[Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]
-Адзначце ў спісе тыя модулі, якія вы жадаеце экспартаваць для кантактаў. Для дадання кантакту з файла ў выглядзе новага запісу, неабходна экспартаваць хоць бы модуль пратаколу.
-[Required modules]
-Абавязковыя модулі
-[Optional modules]
-Дадатковыя модулі
+[Extended UserInfo]
+Асабістыя дадзеныя
 [&Export Group]
 Экспартаваць групу
 [&Import Group]
 Імпартаваць групу
-[No anniversaries to remind of]
-Няма свят, пра якія трэба апавяшчаць
-[\n%s becomes %d years old.]
-\n%s выканаецца %d.
-[Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
-Хуткія святы\nСпіс утрымоўвае ўсе святы Вашых кантактаў.
-[Statistics:]
-Статыстыка:
-[number of contacts:]
-лік кантактаў:
-[with birthday:]
-з днём нараджэння:
-[female:]
-жанчын:
-[male:]
-мужчын:
-[average age:]
-сярэдні ўзрост:
-[Proto]
-Пратакол
-[Age/Nr.]
-Узрост
-[Birthdays only]
+;file \plugins\UserInfoEx\src\psp_about.cpp
+[My Notes:]
+Мае нататкі:
+;file \plugins\UserInfoEx\src\psp_anniversary.cpp
+[Do you really want to delete the %s?]
+Вы сапраўды жадаеце выдаліць %s?
+;file \plugins\UserInfoEx\src\psp_contact.cpp
+;file \plugins\UserInfoEx\src\psp_options.cpp
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
+Гэта функцыя выдаліць усе налады, якія вы зрабілі \nУсе налады дрэва, пазіцый акна, і інш.!\n\nВы сапраўды жадаеце працягнуць?
+[Ready]
+Гатова
+[All settings are reset to default values now!]
+Усе ўсталёўкі цяпер будуць скінуты!
+[Reminder disabled]
+Напамінкі адключаны
+[Bithdays only]
 Толькі дні нараджэння
-[Disabled reminder]
-Адкл. напамінкі
-[Popup this dialog on a contact's anniversary]
-Паказваць гэты дыялог, калі свята
-[Keeps your custom birthday up to date.]
-Рэзервуе наладжаныя дні нараджэння.
-[%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
-%s паказвае новы дзень нараджэння па пратаколе.\nНовая дата %s. Старая %s.\n\nВы жадаеце выкарыстоўваць новую дату нараджэння для гэтага кантакту?
+[everything]
+Усе напамінкі
+[UserInfo (default)]
+Асабістыя дадзеныя (па змаўчанні)
+[This is the reminder message]
+Паведамленне напамінку
+[Details Dialog]
+Дыялогі
+;file \plugins\UserInfoEx\src\psp_profile.cpp
+[Affiliation]
+Прыналежнасць
+[Interest]
+Інтарэсы
+[Do you really want to delete this entry?]
+Вы сапраўды жадаеце выдаліць гэта?
+;file \plugins\UserInfoEx\src\svc_constants.cpp
+[Culture & Literature]
+Культура і літаратура
+[Movies/TV]
+Кіно/ТБ
+[Outdoor Activities]
+Актыўны адпачынак
+[Pets/Animals]
+Жывёлы
+[Science/Technology]
+Навука/Тэхналогія
+[Nature and Environment]
+Прырода і навакольнае асяроддзе
+[News & Media]
+Навіны і медыя
+[Business & Economy]
+Бізнэс і эканоміка
+[Finance and corporate]
+Фінансы
+[Consumer electronics]
+Побытавыя электрапрыборы
+[Retail stores]
+Рознічны гандаль
+[Health and beauty]
+Прыгажосць і здароўе
+[Household products]
+Хатнія прадукты
+[Mail order catalog]
+Замова тавараў па пошце
+[Business services]
+Бізнэс
+[Audio and visual]
+Гук і візуалізацыя
+[Sporting and athletic]
+Спорт
+[Home automation]
+Побытавая аўтаматызацыя
+[jun.]
+мл.
+[sen.]
+сен.
+;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+;file \plugins\UserInfoEx\src\svc_email.cpp
+;file \plugins\UserInfoEx\src\svc_gender.cpp
 [Gender (uinfoex)]
 Падлога (uinfoex)
+;file \plugins\UserInfoEx\src\svc_homepage.cpp
+[View Homepage]
+Сайт
+[&Homepage]
+Сайт
 [Homepage (uinfoex)]
 Сайт (uinfoex)
+;file \plugins\UserInfoEx\src\svc_phone.cpp
+;file \plugins\UserInfoEx\src\svc_refreshci.cpp
+;file \plugins\UserInfoEx\src\svc_reminder.cpp
+[\n%s becomes %d years old.]
+\n%s выканаецца %d.
+[No anniversaries to remind of]
+Няма свят, пра якія трэба апавяшчаць
+[Backing up and syncing all birthdays complete!]
+Рэзерваванне і сінхранізацыя ўсіх Дзён нараджэнняў завершаны!
 [Reminder (uinfoex)]
 Напамінак (uinfoex)
+[Birthday reminder]
+Напамінак пра дзень нараджэння
+[Birthday reminder: it's coming]
+Напамінак пра надыходзячы дзень нараджэння
+[Anniversary Reminder]
+Напамінак пра свята
+;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
+;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
+[Required modules]
+Абавязковыя модулі
+[Optional modules]
+Дадатковыя модулі
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
+[Import complete]
+Імпарт завершаны
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
+[Select a destination file...]
+Абярыце імя файла для экспарту
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
+Дададзена кантактаў: %u / %u\nДададзена налад: %u / %u\nДададзена падзей: %u / %u\nДубліруючых падзей: %u
+;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 [Flags (uinfoex)]
 Сцягі (uinfoex)
+;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

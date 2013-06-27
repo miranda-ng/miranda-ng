@@ -1,95 +1,100 @@
-﻿#muuid {da0b09f5-9c66-488c-ae37-8a5f191c9079}
-;  File: linklist.dll
-;  Module: History Linklist Plugin for Miranda NG
+﻿#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+;============================================================
+;  File: LinkList.dll
+;  Plugin: History linklist plus
+;  Version: 0.0.0.2
+;  Authors: Thomas Wendel, gureedo
+;============================================================
 [Generates a list of extracted URIs from the history.]
 Стварае і паказвае спіс спасылак з гісторыі кантакту.
-[&Clear Search Results]
-&Ачысціць вынікі пошуку
-[&Incoming Messages Only]
-Толькі ўваходныя паведамленні
-[&Mail-Addresses Only]
-Толькі e-mail адрасы
-[&Outgoing Messages Only]
-Толькі выходныя паведамленні
-[&Webaddresses Only]
-Толькі вэб-адрасы
-[All directions]
-Усе кірункі
-[All types]
-Усе выгляды
-[Backgroundcolour]
-Фон
-[Colour Select]
-Выбар колеру
-[Deep search]
-Глыбокі пошук
-[Incoming only]
-Толькі ўваходныя
-[Linklist Plugin]
-Linklist Модуль
-[Mail addresses only]
-Толькі e-mail адрасы
-[Message &Direction]
-Кірунак &паведамленняў
-[Message &Type]
-Тып &паведамленняў
+;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search for:]
+Знайсці:
+[Message direction]
+Кірунак паведамлення
 [Message types]
 Тыпы паведамленняў
-[Open in new Window]
-Адкрыць у новым акне
-[Open links always in a new window]
-Заўсёды адкрываць спасылкі ў новым акне
+[All directions]
+Усе кірункі
+[Incoming only]
+Толькі ўваходныя
 [Outgoing only]
 Толькі выходныя
-[Parting line]
-Частка. лінію
-[Plugin Default]
-Па змаўчанні
-[Save window position individually for each contact]
-Захоўваць пазіцыю акна асобна для кожнага кантакту
-[Show Message]
-Паказаць паведамленне
-[Show whole Message on 'mouse over' event]
-Паказваць поўнае паведамленне пры навядзенні мышы
-[Show...]
-Паказваць...
-[Textcolour]
-Колер тэксту
-[Update list on new events]
-Аўтаматычнае абнаўленне спісу пры новых падзеях
-[Use Miranda Settings]
-Выкарыстоўваць налады праграмы
+[All types]
+Усе выгляды
+[Mail addresses only]
+Толькі e-mail адрасы
 [Web addresses only]
 Толькі вэб-адрасы
+[Deep search]
+Глыбокі пошук
+[Colour Select]
+Выбар колеру
+[Plugin Default]
+Па змаўчанні
+[Backgroundcolour]
+Фон
+[Use Miranda Settings]
+Выкарыстоўваць налады праграмы
+[Textcolour]
+Колер тэксту
+[Open links always in a new window]
+Заўсёды адкрываць спасылкі ў новым акне
+[Update list on new events]
+Аўтаматычнае абнаўленне спісу пры новых падзеях
+[Show whole Message on 'mouse over' event]
+Паказваць поўнае паведамленне пры навядзенні мышы
+[Save window position individually for each contact]
+Захоўваць пазіцыю акна асобна для кожнага кантакту
+[Show...]
+Паказваць...
+[Parting line]
+Частка. лінію
+[Direction]
+Кірунак
+[Message &Direction]
+Кірунак &паведамленняў
+[&Outgoing Messages Only]
+Толькі выходныя паведамленні
+[&Incoming Messages Only]
+Толькі ўваходныя паведамленні
+[Message &Type]
+Тып &паведамленняў
+[&Webaddresses Only]
+Толькі вэб-адрасы
+[&Mail-Addresses Only]
+Толькі e-mail адрасы
+[&Clear Search Results]
+&Ачысціць вынікі пошуку
+[Open in new Window]
+Адкрыць у новым акне
+[Show Message]
+Паказаць паведамленне
+;file \plugins\HistoryLinkListPlus\src\language.h
 [History Linklist]
 Гісторыя спасылак
-[&Create Linklist]
-&Стварыць Лінк-ліст
-[No Miranda Settings specified!]
-Налады праграмы не вызначаны!
-[incoming]
-уваходныя
-[mailaddresses]
-e-mail адрасы
-[Matches for searchtext]
-Выяўлена супадзенняў пры пошуку
-[Miranda Linklist]
-Спіс спасылак Miranda NG
-[outgoing]
-выходныя
-[Processing history...]
-Апрацоўка гісторыі...
-[Processing list...]
-Апрацоўка спісу...
-[search options]
-параметры пошуку
 [History is empty!]
 Гісторыя пустая!
-[Could not create window!]
-Немагчыма стварыць акно!
-[No messages found!\nPlease change current filter options.]
-Паведамленняў не знойдзена!\n Калі ласка, зменіце бягучыя параметры фільтра.
 [There are no links in history!]
 Спасылак у гісторыі не знойдзена!
-[Unable to load the Rich Edit control!]
-Сродкі рэдагавання не загружаны!
+[incoming]
+уваходныя
+[outgoing]
+выходныя
+;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[&Create Linklist]
+&Стварыць Лінк-ліст
+[Processing history...]
+Апрацоўка гісторыі...
+[Could not create window!]
+Немагчыма стварыць акно!
+;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
+[Linklist Plugin]
+Linklist Модуль
+;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[Matches for searchtext]
+Выяўлена супадзенняў пры пошуку
+[Processing list...]
+Апрацоўка спісу...
+[No messages found!\nPlease change current filter options.]
+Паведамленняў не знойдзена!\n Калі ласка, зменіце бягучыя параметры фільтра.

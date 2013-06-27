@@ -1,18 +1,23 @@
 ﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
 ;  File: Scriver.dll
-;  Module: Scriver messaging
+;  Plugin: Scriver
+;  Version: 2.10.0.2
+;  Authors: Miranda NG Development Team
+;============================================================
 [Scriver - send and receive instant messages.]
 Модуль асабістых і групавых чатаў для Miranda NG.
+;file \plugins\Scriver\res\resource.rc
 [Automatically pop up the window when]
 Аўтаматычна паказваць акно калі 
 [and stay minimized]
 і заставацца згорнутым
 [Save size and location for each contact]
 Захоўваць памер і становішча для кожнага кантакту
+[Minimize on send]
+Згортваць пасля адпраўкі
 [Hide windows on close]
 Хаваць вокны пры зачыненні
-[Auto resize input area]
-Аўт. змяняць памер поля ўводу
 [Remember unsent messages]
 Памятаць неадпраўленыя паведамленні
 [Delete temporary contacts on closing]
@@ -21,10 +26,10 @@
 Уключыць укладкі
 [Always show tab bar]
 Заўсёды паказваць панэль укладак
+[Tabs at bottom]
+Укладкі знізу
 [Limit names on tabs to]
 Абмежаваць імёны на ўкладках
-[Show close button on each tab ]
-Кнопка зачынення на ўкладках
 [Switch to active tab]
 Перамыкацца на актыўную ўкладку
 [Limit number of tabs per window to]
@@ -41,16 +46,14 @@
 Паказваць панэль інфармацыі
 [Show progress indicator]
 Паказваць індыкатар прагрэсу
-[Event Log]
-Лог падзей
+[Min input area size]
+Мін. памер поля ўводу
 [Enable IEView]
 Уключыць IEView
 [Long date format]
 Літарны фармат даты
 [Relative date]
 Адносная дата
-[Customize fonts and colors]
-Наладзіць шрыфты і колеры
 [Enable message grouping]
 Групаваць паведамленні
 [Mark follow-up msgs with timestamp]
@@ -61,14 +64,120 @@
 Лініі паміж паведамленнямі
 [Indent text]
 Водступ тэксту
+[Customize fonts and colors]
+Наладзіць шрыфты і колеры
 [Preload]
 Падгружаць гісторыю
 [Unread events only]
 Толькі непрачытаныя падзеі
+[Last]
+Апошн.
 [Events in the last]
 Падзеі атрыманыя пазней, чым
-[Appearance and functionality of chat windows]
-Інтэрфейс і функцыянальнасць вокнаў чата
+[Typing Notification Options]
+Налады апавяшчэнняў набору
+[Show typing notification switch in the status bar]
+Перамыкач "Апавяшчэнне пра набор" у панэлі статусу
+[Update message window icons when a user is typing]
+Абнавіць значок акна пры наборы паведамлення Вам
+[Send To All Tabs]
+Адправіць усім укладкам
+[You are about to send a message to all open tabs.\nAre you sure ?]
+Вы збіраецеся адправіць паведамленне ўсім адкрытым укладкам. Вы ўпэўнены?
+[Remember my choice for this container]
+Запомніць выбар для гэтага кантэйнера
+[User list row height]
+Вышыня спісу карыстачоў
+[Save logs]
+Захоўваць лог
+[Trim to]
+Ліміт
+[Group Chat]
+Чат-пакой
+[(0 means default setting, -1 means indefinite time)]
+0 = стандартныя значэнні, -1 = бясконцы час
+;file \plugins\Scriver\src\globals.cpp
+[User's details]
+Інфа кантакту
+[User's history]
+Гісторыя кантакту
+[User is typing]
+Піша паведамленне
+[Typing notification off]
+"Апавяшчэнне пра набор" выкл.
+[Unicode is on]
+Юнікод уключаны
+[Unicode is off]
+Юнікод выключаны
+[Sending]
+Адпраўка паведамлення
+[Quote button]
+Цытата
+[Close button]
+Кнопка "Зачыніць"
+;file \plugins\Scriver\src\input.cpp
+[Navigate: Previous Tab]
+Навігацыя: Папярэдняя ўкладка
+[Navigate: Next Tab]
+Навігацыя: Наступная ўкладка
+[Window: Toggle Statusbar]
+Акно: вкл./выкл. панэлі статусу
+[Window: Toggle Titlebar]
+Акно: вкл./выкл. панэлі загалоўка
+[Window: Toggle Toolbar]
+Акно: вкл./выкл. панэлі кнопак
+[Window: Toggle Infobar]
+Акно: вкл./выкл. панэлі інфармацыі
+[Window: Clear Log]
+Акно: Ачысціць лог
+[Window: Minimize]
+Акно: Згарнуць
+[Window: Close Tab]
+Акно: Зачыніць укладку
+[Action: Quote]
+Дзеянне: Цытаваць
+[Action: Send to All]
+Дзеянне: Паслаць усім
+[Action: Paste & Send]
+Дзеянне: Уставіць і адправіць
+;file \plugins\Scriver\src\msgdialog.cpp
+[Smiley]
+Смайлік
+[Quote Text]
+Цытата
+[User Menu - %s]
+Меню карыстача - %s
+[Sending in progress: %d message(s) left...]
+Адпраўка паведамлення: %d засталося...
+;file \plugins\Scriver\src\msglog.cpp
+;file \plugins\Scriver\src\msgoptions.cpp
+[Event Log]
+Лог падзей
+[Group Chat Log]
+Лог чата
+[Infobar contact name]
+Інфа-Панэль: імя кантакту
+[Infobar status message]
+Інфа-Панэль: статутнае паведамленне
+[Message background]
+Фон поля ўводу
+[User list members (online)]
+Удзельнікі спісу (далучаныя)
+[User list lines]
+Лініі спісу
+[User list background (selected)]
+Фон спісу (абрана)
+;file \plugins\Scriver\src\msgs.cpp
+;file \plugins\Scriver\src\msgtimedout.cpp
+;file \plugins\Scriver\src\msgwindow.cpp
+[Always On Top]
+Па-над усіх вокнамі
+;file \plugins\Scriver\src\sendqueue.cpp
+;file \plugins\Scriver\src\chat\clist.cpp
+;file \plugins\Scriver\src\chat\colorchooser.cpp
+;file \plugins\Scriver\src\chat\log.cpp
+;file \plugins\Scriver\src\chat\main.cpp
+;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Міргаць, калі хтосьці кажа
 [Flash when a word is highlighted]
@@ -91,10 +200,6 @@
 Паказваць значок статусу, пасля значка роляў
 [Add ':' to auto-completed names]
 Дадаваць ":" да імёнаў карыстачоў
-[User list row height]
-Вышыня спісу карыстачоў
-[Group Chat Log]
-Лог чата
 [Timestamp has same colour as event]
 Час таго ж колеры, як і падзея
 [Limit user names to 20 characters]
@@ -103,119 +208,12 @@
 Забараніць колеры паведамленняў
 [Enable 'event filter' for new rooms]
 Уключаць "фільтр падзей" для новых пакояў
-[Save logs]
-Захоўваць лог
-[Trim to]
-Ліміт
-[&Open link]
-&адчыніць спасылку
-[Show typing notification switch in the status bar]
-Перамыкач "Апавяшчэнне пра набор" у панэлі статусу
-[Update message window icons when a user is typing]
-Абнавіць значок акна пры наборы паведамлення Вам
-[(0 means default setting, -1 means indefinite time)]
-0 = стандартныя значэнні, -1 = бясконцы час
-[Quote Text]
-Цытата
-[User Menu - %s]
-Меню карыстача - %s
-[Close Other Tabs]
-Зачыніць астатнія ўкладкі
-[Always On Top]
-Па-над усіх вокнамі
-[Quote]
-Цытата
-[Smiley]
-Смайлік
+[Appearance and functionality of chat windows]
+Інтэрфейс і функцыянальнасць вокнаў чата
+;file \plugins\Scriver\src\chat\services.cpp
+[Server: %s]
+Сервер: %s
+;file \plugins\Scriver\src\chat\tools.cpp
+;file \plugins\Scriver\src\chat\window.cpp
 [Manager]
-Налады пакоя
-[while sending the following message:]
-пры пасылцы наступнага паведамлення:
-[Sending in progress: %d message(s) left...]
-Адпраўка паведамлення: %d засталося...
-[File sent]
-Пасылка файла
-[File received]
-Файл атрыманы
-[Paste && Send]
-Уставіць і адправіць
-[Send To All Tabs]
-Адправіць усім укладкам
-[You are about to send a message to all open tabs.\nAre you sure ?]
-Вы збіраецеся адправіць паведамленне ўсім адкрытым укладкам. Вы ўпэўнены?
-[Remember my choice for this container]
-Запомніць выбар для гэтага кантэйнера
-[Infobar contact name]
-Інфа-Панэль: імя кантакту
-[Infobar status message]
-Інфа-Панэль: статутнае паведамленне
-[User list members (online)]
-Удзельнікі спісу (далучаныя)
-[User list background (selected)]
-Фон спісу (абрана)
-[User list lines]
-Лініі спісу
-[Group Chats Log]
-Групавыя чаты
-[User's details]
-Інфа кантакту
-[User's history]
-Гісторыя кантакту
-[User is typing]
-Піша паведамленне
-[Typing notification off]
-"Апавяшчэнне пра набор" выкл.
-[Unicode is on]
-Юнікод уключаны
-[Unicode is off]
-Юнікод выключаны
-[Sending]
-Адпраўка паведамлення
-[Quote button]
-Цытата
-[Action: Paste & Send]
-Дзеянне: Уставіць і адправіць
-[Action: Quote]
-Дзеянне: Цытаваць
-[Action: Send to All]
-Дзеянне: Паслаць усім
-[Navigate: Next Tab]
-Навігацыя: Наступная ўкладка
-[Navigate: Previous Tab]
-Навігацыя: Папярэдняя ўкладка
-[Navigate: Tab 1]
-Навігацыя: Укладка 1
-[Navigate: Tab 2]
-Навігацыя: Укладка 2
-[Navigate: Tab 3]
-Навігацыя: Укладка 3
-[Navigate: Tab 4]
-Навігацыя: Укладка 4
-[Navigate: Tab 5]
-Навігацыя: Укладка 5
-[Navigate: Tab 6]
-Навігацыя: Укладка 6
-[Navigate: Tab 7]
-Навігацыя: Укладка 7
-[Navigate: Tab 8]
-Навігацыя: Укладка 8
-[Navigate: Tab 9]
-Навігацыя: Укладка 9
-[Window: Clear Log]
-Акно: Ачысціць лог
-[Window: Close Tab]
-Акно: Зачыніць укладку
-[Window: Minimize]
-Акно: Згарнуць
-[Window: Toggle Infobar]
-Акно: вкл./выкл. панэлі інфармацыі
-[Window: Toggle Statusbar]
-Акно: вкл./выкл. панэлі статусу
-[Window: Toggle Titlebar]
-Акно: вкл./выкл. панэлі загалоўка
-[Window: Toggle Toolbar]
-Акно: вкл./выкл. панэлі кнопак
-[Min input area size]
-Мін. памер поля ўводу
-[lines]
-ліній
+Мэнэджар

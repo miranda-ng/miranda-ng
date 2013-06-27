@@ -1,16 +1,168 @@
 ﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
+;============================================================
 ;  File: MirOTR.dll
-;  Module: OTR (Off-the-Record) plugin for Miranda NG 
-[OTR (Off-the-Record) plugin for Miranda NG\r\n(using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
-Модуль OTR (Off-the-Record) для Miranda NG\r\n(ужытыя код і ідэі з SecureIM, Pidgin-OTR і старога дадатку Miranda OTR (ад SJE).
+;  Plugin: Miranda OTR
+;  Version: 0.11.0.4
+;  Authors: ProgAndy & CHEF-KOCH
+;============================================================
+;file \plugins\MirOTR\MirOTR\res\resource.rc
+[Default Policy]
+Палітыка па змаўчанні
+[Opportunistic]
+Авантурыстычная
+[Manual]
+Ручны
+[End sessions on window close]
+Спыніць сесію пры зачыненні акна
+[End sessions when contacts go offline]
+Спыніць сесію, калі кантакт адключаецца
+[Prefix encrypted IMs:]
+Прэфікс шыфраваных IM:
+[Don't add encrypted messages to the history]
+Не запісваць шыфраваныя паведамленні ў гісторыю
 [Also remove OTR system messages]
 Выдаліць сістэмныя паведамленні OTR
+[Show OTR system messages inline]
+Паказваць сістэмныя паведамленні ў акне гутарак
+[Show OTR system messages as popup]
+Паказваць сістэмныя паведамленні ва ўсплывальным акне
+[Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
+Вяртаць завершаныя сесіі ў звычайны тэкст па тайм-аўту
+[Show verification dialog when receiving unverified fingerprint]
+Дыялог пацверджання пры атрыманні неправеранага адбітка
+[Set OTR policy per protocol]
+Усталяваць OTR-палітыку па пратаколах
+[Current policy:]
+Бягучая палітыка:
+[Generate new private key]
+Генерацыя новага прыватнага ключа
+[Forget private key]
+Забыцца прыватны ключ
+[Set OTR policy per contact]
+Усталяваць OTR-палітыку пакантактна
+[View & Modify status of known fingerprints]
+Прагляд і рэдагаванне статутаў вядомых адбіткаў
+[Set verified]
+Праверана
+[Set unknown]
+Невядома
+[Socialist Millionaires Protocol]
+Пратакол сацыялістычных мільянераў
+[Socialist Millionaires Protocol\r\nVerification progress]
+Пратакол сацыялістычных мільянераў\r\n Працэс праверкі
+[Socialist Millionaires Protocol\r\nVerification]
+Пратакол сацыялістычных мільянераў\r\n Праверка
+[OTR status]
+OTR-статут
+[&Start OTR session]
+&Запусціць OTR-сесію
+[&Refresh OTR session]
+&Абнавіць OTR-сесію
+[Sto&p OTR session]
+Спыніць& OTR-сесію
+[&Verify Fingerprint]
+&Праверка адбіткаў
+;file \plugins\MirOTR\MirOTR\src\language.h
+[Start OTR]
+Запусціць OTR
+[Stop OTR]
+Спыніць OTR
+[OTR status (Click for more options)]
+Статут OTR (націсніце для опцый)
+[OTR Encryption: Disabled]
+OTR-шыфраванне: адключана
+[OTR Encryption: UNVERIFIED]
+OTR-шыфраванне: неправерана
+[OTR Encryption: Private]
+OTR-шыфраванне: дзель
+[OTR Encryption: Finished]
+OTR-шыфраванне: завершана
+[&Convert HTML (for Pidgin)]
+Канверсаваць HTML (для Pidgin)
+[OTR encrypted session with '%s' has been terminated]
+Шыфраваная сесія з '%s' была спынена.
+[Requesting OTR encrypted session with '%s']
+Запыт шыфраванай сесіі з '%s'
+[Trying to refresh OTR encrypted session with '%s']
+Спроба абнаўлення шыфраванай сесіі з '%s'
+[OTR encrypted session was refreshed by '%s']
+Шыфраваная сесія была абноўлена '%s'.
+[OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
+Шыфраваная сесія была абноўлена '%s' (не правераны)
+[OTR encrypted session with '%s' sucessfully refreshed]
+Шыфраваная сесія з '%s' паспяхова абноўлена.
+[OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)]
+Шыфраваная сесія з '%s' паспяхова абноўлена (не правераны).
+[OTR encrypted session has been terminated by '%s'. You should do that, too!]
+Шыфраваная сесія была спынена '%s'. Вы павінны зрабіць таксама самае!
+[OTR encrypted session with '%s' could not be started]
+Шыфраваная сесія з '%s' не можа быць запушчана.
+[OTR could not encrypt when sending message]
+OTR не можа шыфраваць падчас адпраўкі паведамлення
+[Authentication from %s]
+Ідэнтыфікацыя ад %s
+[Authenticae %s]
+Ідэнтыфікацыя %s
+[OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
+Шыфраваная сесія з '%s' зараз выкарыстоўвае ПРАВЕРАНЫ адбітак.
+[OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
+Шыфраваная сесія з '%s' зараз выкарыстоўвае НЕПРАВЕРАНЫ адбітак.
+[OTR unverified]
+OTR неправераны
+[OTR finished]
+OTR завершаны
+[OTR private]
+Прыватны OTR
+[OTR not secure]
+OTR не з'яўляецца бяспечным
+[Generating new private key for protocol '%s'.\nPlease Wait...]
+Стварэнне новага прыватнага ключа для пратаколу '%s'.\n Пачакайце...
+[Fingerprints]
+Адбіткі
+[Policy]
+Палітыка
+[Verified]
+Праверана
+[Conv. HTML]
+Канв. HTML
+[Generating new key for '%s'. Continue?]
+Генерацыя новага ключа для '% s'. Працягнуць?
+[Removing key for '%s'. Continue?]
+Выдаленне ключа для '%s'. Працягнуць?
+[OTR Fingerprint Verification]
+Праверка OTR-адбітка
+[OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is NOT VERIFIED.\nDo you trust it?]
+Шыфраваная сесія з '%s'.\nOTR-адбітак выкарыстоўваны Вашым кантактаў не правераны.\n Вы яму давяраеце?
+[OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is already verified.\nDo you still trust it?]
+Шыфраваная сесія з '%s'.\nOTR-адбітак выкарыстоўваны Вашым кантактаў правераны.\n Вы яму па-ранейшаму давяраеце?
+[Your Fingerprint to tell your contact (use a trusted channel!)]
+Ваш адбітак для адпраўкі іншым кантактам (выкарыстоўвайце надзейны канал!)
+[VERIFY: Fingerprint from contact]
+Праверка: адбітак кантакту
 [OTR Authenticate: %s (%s)]
 OTR ідэнтыфікацыя: %s (%s)
-[Authentication failed]
-Ідэнтыфікацыя не атрымалася (прапусціць?)
 [Challenge Question]
 Кантрольнае пытанне
+[Known Password]
+Вядомы пароль
+[Manual fingerprint comparison]
+Ручное параўнанне адбіткаў
+[Secret Answer]
+Сакрэтны адказ:
+[Authentication sucessful.]
+Паспяховая ідэнтыфікацыя.
+[You contact authenticated you sucessful. You can send your own request to authenticate him.]
+Ваш кантакт паспяхова ідэнтыфікаваны. Вы можаце паслаць ваш уласны запыт ідэнтыфікацыі.
+[Error during authentication.]
+Памылка пры ідэнтыфікацыі
+[Authentication failed]
+Ідэнтыфікацыя не атрымалася (прапусціць?)
+[Authentication for '%s' is already in progress.]
+Ідэнтыфікацыя для '%s' ужо запушчана.
+[OTR Authenticating: %s (%s)]
+OTR-Ідэнтыфікацыя з: %s (%s)
+[Authenticating contact:\n%s (%s)]
+Ідэнтыфікацыя кантакту: \n%s (%s)
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a question only your partner can answer.]
 Шыфраваная сесія з '%s' (неправераны).\n Выкарыстоўвайце пытанне на які можа адказаць толькі Ваш суразмоўца. 
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a question only your partner can answer.]
@@ -27,171 +179,13 @@ OTR ідэнтыфікацыя: %s (%s)
 Адбітак '%s' дагэтуль выкарыстоўваецца ў гутарцы з '%s' (%s). Вы не можаце яго выдаліць!
 [Fingerprint '%s' in use in conversation with '%s' (%s). It could not be deleted!]
 Адбітак '%s' выкарыстоўваецца ў гутарцы з '%s' (%s). Ён не можа быць выдалены!
-[Authenticating contact:\n%s (%s)]
-Ідэнтыфікацыя кантакту: \n%s (%s)
-[OTR Authenticating: %s (%s)]
-OTR-Ідэнтыфікацыя з: %s (%s)
-[Authentication for '%s' is already in progress.]
-Ідэнтыфікацыя для '%s' ужо запушчана.
-[Error during authentication.]
-Памылка пры ідэнтыфікацыі
-[You contact authenticated you sucessful. You can send your own request to authenticate him.]
-Ваш кантакт паспяхова ідэнтыфікаваны. Вы можаце паслаць ваш уласны запыт ідэнтыфікацыі.
-[Authentication sucessful.]
-Паспяховая ідэнтыфікацыя.
-[Secret Answer]
-Сакрэтны адказ:
-[Manual fingerprint comparison]
-Ручное параўнанне адбіткаў
-[Known Password]
-Вядомы пароль
-[&Convert HTML (for Pidgin)]
-Канверсаваць HTML (для Pidgin)
-[Authenticae %s]
-Ідэнтыфікацыя %s
-[Fingerprint '%s' in use in conversation with '%s'. It could not be deleted!]
-Адбітак '%s' выкарыстоўваецца ў гутарцы з '%s'. Ён не можа быць выдалены!
-[Fingerprint '%s' still in use in conversation with '%s'. You cannot delete it!]
-Адбітак '%s' ужо выкарыстоўваецца ў гутарцы з '%s'. Вы не можаце яго выдаліць!
-[OTR inline]
-Убудаваны OTR:
-[Authentication from %s]
-Ідэнтыфікацыя ад %s
-[Generating new key for '%s'. Continue?]
-Генерацыя новага ключа для '% s'. Працягнуць?
-[Conv. HTML]
-Канв. HTML
-[Generating new private key for protocol '%s'.\nPlease Wait...]
-Стварэнне новага прыватнага ключа для пратаколу '%s'.\n Пачакайце...
-[OTR Encryption: Disabled]
-OTR-шыфраванне: адключана
-[OTR Encryption: Finished]
-OTR-шыфраванне: завершана
-[OTR Encryption: Private]
-OTR-шыфраванне: дзель
-[OTR Encryption: UNVERIFIED]
-OTR-шыфраванне: неправерана
-[OTR Fingerprint Verification]
-Праверка OTR-адбітка
-[OTR could not encrypt when sending message]
-OTR не можа шыфраваць падчас адпраўкі паведамлення
-[OTR encrypted session has been terminated by '%s'. You should do that, too!]
-Шыфраваная сесія была спынена '%s'. Вы павінны зрабіць таксама самае!
-[OTR encrypted session was refreshed by '%s']
-Шыфраваная сесія была абноўлена '%s'.
-[OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
-Шыфраваная сесія была абноўлена '%s' (не правераны)
-[OTR encrypted session with '%s' could not be started]
-Шыфраваная сесія з '%s' не можа быць запушчана.
-[OTR encrypted session with '%s' has been terminated]
-Шыфраваная сесія з '%s' была спынена.
-[OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
-Шыфраваная сесія з '%s' зараз выкарыстоўвае НЕПРАВЕРАНЫ адбітак.
-[OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
-Шыфраваная сесія з '%s' зараз выкарыстоўвае ПРАВЕРАНЫ адбітак.
-[OTR encrypted session with '%s' sucessfully refreshed]
-Шыфраваная сесія з '%s' паспяхова абноўлена.
-[OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)]
-Шыфраваная сесія з '%s' паспяхова абноўлена (не правераны).
-[OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is NOT VERIFIED.\nDo you trust it?]
-Шыфраваная сесія з '%s'.\nOTR-адбітак выкарыстоўваны Вашым кантактаў не правераны.\n Вы яму давяраеце?
-[OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is already verified.\nDo you still trust it?]
-Шыфраваная сесія з '%s'.\nOTR-адбітак выкарыстоўваны Вашым кантактаў правераны.\n Вы яму па-ранейшаму давяраеце?
-[OTR finished]
-OTR завершаны
-[OTR not secure]
-OTR не з'яўляецца бяспечным
-[OTR private]
-Прыватны OTR
-[OTR status (Click for more options)]
-Статут OTR (націсніце для опцый)
-[OTR unverified]
-OTR неправераны
-[Removing key for '%s'. Continue?]
-Выдаленне ключа для '%s'. Працягнуць?
-[Requesting OTR encrypted session with '%s']
-Запыт шыфраванай сесіі з '%s'
-[Trying to refresh OTR encrypted session with '%s']
-Спроба абнаўлення шыфраванай сесіі з '%s'
-[VERIFY: Fingerprint from contact]
-Праверка: адбітак кантакту
-[Verified]
-Праверана
-[Your Fingerprint to tell your contact (use a trusted channel!)]
-Ваш адбітак для адпраўкі іншым кантактам (выкарыстоўвайце надзейны канал!)
-[Generating new private key.]
-Генерацыя новага прыватнага ключа
-[Generate new private key]
-Генерацыя новага прыватнага ключа
-[Question / Answer]
-Пытанне / Адказ
 [Cannot start OTR for '%s'. SecureIM is already running]
 Немагчыма запусціць OTR для '%s'. Ужо запушчаны SecureIM.
 [OTR: SecureIM installed]
 OTR: усталяваны SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 Вы выкарыстоўваеце SecureIM. MirOTR будзе працаваць толькі з кантактамі з адключаным SecureIM.
-[Your SRMM plugin does not support status icons. Not all OTR-functions are available!]
-Ваш модуль акна паведамленняў не падтрымлівае статутных абразкоў, не ўсе функцыі OTR будуць даступныя.
+;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
+;file \plugins\MirOTR\MirOTR\src\options.cpp
 [Private Data]
 Асабістыя дадзеныя
-[&Refresh OTR session]
-&Абнавіць OTR-сесію
-[&Start OTR session]
-&Запусціць OTR-сесію
-[&Verify Fingerprint]
-&Праверка адбіткаў
-[Current policy:]
-Бягучая палітыка:
-[Don't add encrypted messages to the history]
-Не запісваць шыфраваныя паведамленні ў гісторыю
-[Forget private key]
-Забыцца прыватны ключ
-[OTR status]
-OTR-статут
-[Prefix encrypted IMs:]
-Прэфікс шыфраваных IM:
-[Set OTR policy per contact]
-Усталяваць OTR-палітыку пакантактна
-[Set OTR policy per protocol]
-Усталяваць OTR-палітыку па пратаколах
-[Set verified]
-Праверана
-[Set unknown]
-Невядома
-[Show OTR system messages as popup]
-Паказваць сістэмныя паведамленні ва ўсплывальным акне
-[Show OTR system messages inline]
-Паказваць сістэмныя паведамленні ў акне гутарак
-[Show verification dialog when receiving unverified fingerprint]
-Дыялог пацверджання пры атрыманні неправеранага адбітка
-[Socialist Millionaires Protocol]
-Пратакол сацыялістычных мільянераў
-[Socialist Millionaires Protocol\r\nVerification]
-Пратакол сацыялістычных мільянераў\r\n Праверка
-[Socialist Millionaires Protocol\r\nVerification progress]
-Пратакол сацыялістычных мільянераў\r\n Працэс праверкі
-[Sto&p OTR session]
-Спыніць& OTR-сесію
-[View & Modify status of known fingerprints]
-Прагляд і рэдагаванне статутаў вядомых адбіткаў
-[End sessions on window close]
-Спыніць сесію пры зачыненні акна
-[Policy]
-Палітыка
-[Default Policy]
-Палітыка па змаўчанні
-[Opportunistic]
-Авантурыстычная
-[End sessions when contacts go offline]
-Спыніць сесію, калі кантакт адключаецца
-[Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
-Вяртаць завершаныя сесіі ў звычайны тэкст па тайм-аўту
-[Fingerprint]
-Адбітак
-[Fingerprints]
-Адбіткі
-[Start OTR]
-Запусціць OTR
-[Stop OTR]
-Спыніць OTR

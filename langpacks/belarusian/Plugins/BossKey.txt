@@ -1,67 +1,50 @@
 ﻿#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
-;  File: bosskey.dll
-;  Module: Boss Key
-[Hide/Show Miranda]
-Схаваць/Паказаць Miranda
-[Hide Miranda when:]
-Схаваць праграму калі:
-[Workstation is Locked (2000/XP+)]
-Кампутар заблакаваны (2000/XP+)
-[Windows is inactive]
-Windows не актыўны
-[Miranda is inactive]
-Праграма неактыўная
+;============================================================
+;  File: BossKey.dll
+;  Plugin: BossKey+
+;  Version: 0.5.0.3
+;  Authors: Goblineye Entertainment, Billy_Bons
+;============================================================
 [Anti-Boss plugin.]
 Дазваляе па націску "гарачай клавішы" хаваць Міранду ад старонніх вачэй.
+;file \plugins\BossKeyPlus\res\BossKey.rc
 [BossKey]
 АнтыБос
-[(Previous Status)]
-(Папярэдні)
-[...set the status message to:]
-...змяніць статуснае паведамленне на:
-[and...]
-і...
-[When I return, change my status to...]
-Пры вяртанні змяніць статус на:
-[I'm back!]
-Я вярнуўся!
-[When I press the hotkey, change status to:]
-Пры націску клавішы змяніць статус на:
-[(Current Status)]
-(Цяперашні)
-[Be back soon!]
-Хутка вярнуся!
-[Go to Customize -> Hotkeys to change the hotkey]
-Налада ў Тонкая налада -> Гарачыя клавішы
-[Use built in to Miranda hotkey module]
-Выкарыстоўваць убудаваны модуль гарачых клавіш
-[Use built in to Miranda hotkey module (restart required)]
-Выкарыстоўваць убудаваны модуль гарачых клавіш (патрабуецца перазапуск)
-[Hide Miranda if the computer is locked]
-Блакаваць праграму, калі кампутар заблакаваны
 [When I press the hotkey:]
 Калі я націсну гарачую кнопку...
 [Change status to]
 Змяніць статус на
+[Change only if current status is Online]
+Змяняць толькі пры статусе 'Далучаны'
+[Use default status message]
+Статуснае паведамленне па змаўчанні
+[Disable Sounds]
+Адключыць гукі
 [When I return:]
 Пры вяртанні...
 [Request password:]
 Спытаць пароль:
 [Change status back]
 Вярнуць папярэдні статус
-[Miranda NG is locked. Enter password to unlock it.]
-Miranda заблакавана!\n Увядзіце пароль для разблакоўкі.
-[Use default status message]
-Статуснае паведамленне па змаўчанні
-[Hide Miranda NG]
-Схаваць Miranda NG
-[get the BossKey name]
-Атрымаць клавішу блакавання з BossKey+
-[Miranda NG is locked.\nEnter password to unlock it.]
-Miranda заблакавана.\n Увядзіце ваш пароль для разблакоўкі.
-[Password is not correct!\nPlease, enter correct password.]
-Няправільны пароль!\n Увядзіце правільны пароль.
+[Windows is inactive]
+Windows не актыўны
+[Hide Miranda when:]
+Схаваць праграму калі:
+[Miranda is inactive]
+Праграма неактыўная
+[min]
+мін.
 [Miranda is started]
 Праграма запускаецца
 [Restore hiding on startup after failure]
 Аднаўляць утойванне пры запуску пасля "падзення"
+;file \plugins\BossKeyPlus\src\BossKey.cpp
+[Miranda NG is locked.\nEnter password to unlock it.]
+Miranda заблакавана.\n Увядзіце ваш пароль для разблакоўкі.
+[Password is not correct!\nPlease, enter correct password.]
+Няправільны пароль!\n Увядзіце правільны пароль.
+[Hide Miranda NG]
+Схаваць Miranda NG
+[Hide/Show Miranda]
+Схаваць/Паказаць Miranda
+;file \plugins\BossKeyPlus\src\Options.cpp

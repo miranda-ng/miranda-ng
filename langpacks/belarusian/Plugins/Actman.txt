@@ -1,5 +1,12 @@
 ﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
+;============================================================
 ;  File: actman.dll
+;  Plugin: Action Manager
+;  Versions: 0.2.0.1
+;  URL: 
+;  Source: http://delphi-miranda-plugins.googlecode.com/svn/trunk/actman/
+;  Authors: Awkward
+;============================================================
 [Contact window]
 Вакно кантакту
 [Text insert]
@@ -8,6 +15,12 @@
 змен.
 [DWord]
 Двойкавы
+[wParam type]
+Тып wParam
+[lParam type]
+Тып lParam
+[Service name]
+Імя службы
 [Result action]
 Вынік дзеяння
 [Window option]
@@ -34,6 +47,8 @@
 Час працэсу, мсек
 [No Description]
 Няма апісання
+[Signed value]
+Значэнне са знакам
 [Process options]
 Налады працэсу
 [Do not show]
@@ -46,12 +61,10 @@
 апошні вынік
 [structure]
 структура
-[Structure]
-Структура
 [Link to action]
 Спасылка на дзеянне
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
-Убудова для кіравання "гарачымі" клавішамі і дзеяннямі, такімі як адкрыццё гутаркі, устаўка тэксту, запуск іншых праграм і выклік сэрвісаў.
+Плагiн для кіравання "гарачымі" клавішамі і дзеяннямі, такімі як адкрыццё гутаркі, устаўка тэксту, запуск іншых праграм і выклік сэрвісаў.
 [Action manager]
 Мэнэджар дзеянняў
 [Copy to]
@@ -148,12 +161,8 @@
 Выгляд выпадальнага спісу
 [Apply format]
 Ужыць фармат
-[You can use %name%, %uid%, %account% and %group% macros]
-Вы можаце выкарыстоўваць зменныя %name%, %uid%, %account% і %group%
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
 Выкарыстоўваць масіў байт/паказальнік на байты для радкоў у ANSI\n Выкарыстоўваць масіў слоў/паказальнік на словы для радкоў у Unicode\n$## замяняецца байтам з шаснаццатковым значэннем ##\n$#### замяняецца словам з шаснаццатковым значэннем #### (толькі для радкоў у Unicode)\n Уся даўжыня дадзеных вылічаецца ў байтах
-[New]
-Новы
 [Hooks]
 Хукі
 [Event]
@@ -208,8 +217,6 @@
 Падказка да кнопкі ў звычайным становішчы
 [Pressed button tooltip]
 Падказка да кнопкі ў націснутым становішчы
-[Separated]
-Падзельнік
 [Root popup:]
 Корань падменю:
 [Menu item name:]
@@ -224,8 +231,6 @@
 Абразкі меню
 [Data align]
 Выраўнаванне дадзеных
-[Native]
-Змаўчанне
 [Packed]
 Спакаваныя
 [2 bytes]
@@ -236,8 +241,6 @@
 8 байт
 [alias]
 імя
-[type]
-тып
 [length]
 даўжыня
 [data]
@@ -246,3 +249,40 @@
 Дапамога па структуры
 [Descr]
 Апісанне
+;other strings
+[Open contact window]
+Адчыніць акно кантакту
+[Call service]
+Выклік службы
+[Execute program]
+Выканаць
+[Insert text]
+Уставіць тэкст
+[Use Variables]
+Уключыць зменныя
+[number value]
+лік
+[ANSI string]
+радок ANSI
+[Unicode string]
+радок Unicode
+[current contact]
+бягучы кантакт
+[Choose Contact]
+Абраць кантакт
+[Return]
+Якое вяртаецца
+[Effect]
+Эффект
+[Start]
+Пачаць
+[action group list was changed: some was added or deleted]
+спіс дзеянняў быў зменены: былі выдалены ці дабаўнены
+[the context menu for a contact is about to be built]
+будзе зроблены ў кантэкстным меню кантакта
+[double click on the CList]
+падвойная пстрычка па спісе
+[New contact added to database]
+Новы кантакт дададзены ў базу
+[Contact deleting]
+Выдаліць кантакт

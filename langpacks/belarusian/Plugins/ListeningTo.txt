@@ -1,26 +1,21 @@
 ﻿#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
-;  File: ListeningTo
-;  Module: listeningto.dll
+;============================================================
+;  File: ListeningTo.dll
+;  Plugin: ListeningTo
+;  Version: 0.3.0.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
 [Handles listening information to/for contacts.]
 Адсылае інфармацыю пра праслухоўваемую Вамі музыку.
-[Send to all protocols]
-Адпраўляць усім пратаколам
-[Send to %s]
-Адпраўляць у %s
-[ListeningTo]
-Слухаю
-[Enable/Disable sending Listening To info (to all protocols)]
-Вкл/Выкл адпраўку інфармацыі пра музыку (усе пратаколы)
-[Listening info]
-Музыка ў статусе
-[ Listening to information ]
- Праслухоўваная музыка 
+;file \plugins\ListeningTo\res\resource.rc
 [Enable sending listening information to contacts:]
 Уключыць адпраўку інфармацыі кантактам
+[Radio]
+Радыё
 [You also have to enable it per protocol in the main menu]
 Налада па пратаколах знаходзіцца ў галоўным меню
-[ XStatus ]
- хстатус 
+[XStatus]
+хстатус
 [For protocols that don't support listening to but support XStatus:]
 Пры адсутнасці прамой падтрымкі пратаколам, але падтрымцы хстатусаў:
 [Set XStatus to Music and show listening info]
@@ -31,10 +26,22 @@
 Калі хстатус "Музыка", тое паказваць інфармацыю пра музыку
 [Apply template for info from contacts (overrides contacts template)]
 Ужыць шаблон для інфармацыі ад кантактаў
-[Show advanced icon in slot]
-Дап. значок у слоце
-[ Listening to ]
- Праслухоўваная музыка 
+[Get info from WATrack plugin]
+Атрымаць інфармацыю з модуля WATrack
+[Get info from these players:]
+Атрымліваць інфармацыю з плэераў:
+[Windows Media Player]
+Прайгравальнік Windows Media
+[foobar2000 (need to install the plugin manually)]
+foobar2000 (усталюйце модуль уручную)
+[Other players]
+Астатнія плэеры
+[Ask for new info every]
+Абнаўленне разоў у
+[Allow auto-loading plugins into players (affect players with *)]
+Аўтаматычна загружаць модулі ў плэеры (толькі для пазначаных *)
+[Template:]
+Шаблон:
 [Variables:]
 Зменныя:
 [%artist% - Artist name]
@@ -63,31 +70,49 @@
 %listening% -  наладжаная вышэй інфармацыя
 [When nothing is playing, replace %listening% with:]
 Калі нічога не грае, пісаць:
-[Players]
-Плэеры
-[Get info from WATrack plugin]
-Атрымаць інфармацыю з модуля WATrack
-[Get info from these players:]
-Атрымліваць інфармацыю з плэераў:
-[Windows Media Player]
-Прайгравальнік Windows Media
-[foobar2000 (need to install the plugin manually)]
-foobar2000 (усталюйце модуль уручную)
-[Other players]
-Астатнія плэеры
-[Ask for new info every]
-Абнаўленне разоў у
-[Allow auto-loading plugins into players (affect players with *)]
-Аўтаматычна загружаць модулі ў плэеры (толькі для пазначаных *)
-[Toggle send to all protocols]
-Вкл./выкл. адпраўляць усім пратаколам
-[Don't send to any protocols]
-Не адпраўляць усім пратаколам
+;file \plugins\ListeningTo\src\listeningto.cpp
+[Send to %s]
+Адпраўляць у %s
 [Listening to (enabled)]
 Слухаю (укл.)
 [Listening to (disabled)]
 Слухаю (адкл.)
-[<Unknown>]
-Невядома
+[ListeningTo]
+Слухаю
+[Send to all protocols]
+Адпраўляць усім пратаколам
+[Listening info]
+Музыка ў статусе
+[Listening info as set in the options]
+Інфармацыя пра праслухоўванне ўсталяваная ў наладах
+[Media type: Music, Video, etc]
+Тып: музыка, відэа і г.д.
+[Artist name]
+Выканаўца
+[Album name]
+Альбом
+[Song name]
+Песня
+[Track number]
+Нумар песні
+[Song year]
+Год
+[Song genre]
+Жанр
+[Song length]
+Працягласць
+[Player name]
+Плэер
+[Don't send to any protocols]
+Не адпраўляць усім пратаколам
+[Toggle send to all protocols]
+Вкл./выкл. адпраўляць усім пратаколам
+[Enable/Disable sending Listening To info (to all protocols)]
+Вкл/Выкл адпраўку інфармацыі пра музыку (усе пратаколы)
+;file \plugins\ListeningTo\src\options.cpp
 [<Nothing is playing now>]
 <Нічога не грае>
+[Players]
+Плэеры
+;file \plugins\ListeningTo\src\players\generic.cpp
+;file \plugins\ListeningTo\src\players\wmp.cpp

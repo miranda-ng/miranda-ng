@@ -73,7 +73,7 @@ object Form1: TForm1
   end
   object C: TBitBtn
     Left = 455
-    Top = 64
+    Top = 56
     Width = 27
     Height = 25
     Caption = 'C'
@@ -82,7 +82,7 @@ object Form1: TForm1
   end
   object X: TBitBtn
     Left = 455
-    Top = 127
+    Top = 145
     Width = 27
     Height = 25
     Caption = 'X'
@@ -91,14 +91,14 @@ object Form1: TForm1
   end
   object Edit2: TEdit
     Left = 8
-    Top = 66
+    Top = 58
     Width = 441
     Height = 21
     TabOrder = 6
   end
   object Edit3: TEdit
     Left = 8
-    Top = 129
+    Top = 111
     Width = 441
     Height = 21
     TabOrder = 7
@@ -112,6 +112,23 @@ object Form1: TForm1
     Caption = 'DUPES ON'
     TabOrder = 8
     OnClick = Button3Click
+  end
+  object B: TBitBtn
+    Left = 455
+    Top = 85
+    Width = 27
+    Height = 25
+    Caption = 'B'
+    TabOrder = 9
+    OnClick = BClick
+  end
+  object G: TBitBtn
+    Left = 455
+    Top = 114
+    Width = 27
+    Height = 25
+    Caption = 'G'
+    TabOrder = 10
   end
   object OpenDialog1: TOpenDialog
     Left = 192

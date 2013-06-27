@@ -1,42 +1,64 @@
 ﻿#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
-;  File: crashdumper.dll
-;  Module: Crash Dumper for Miranda NG by borkra
-[Crash Dumper]
-Справаздача пра памылкі
+;============================================================
+;  File: CrashDumper.dll
+;  Plugin: Crash dumper
+;  Version: 0.0.4.22
+;  Authors: borkra
+;============================================================
 [Crash Dumper for Miranda NG.]
 Модуль стварэння справаздач пра памылкі ў выпадку аварыйнага завяршэння працы праграмы. Падтрымка www.miranda-vi.org
-[Miranda Crashed. dbghelp.dll v. 6.8 required to provide a crash report]
-Miranda была завершана аварыйна. Неабходзен dbghelp.dll v6.8 для падавання справаздачы пра крытычную памылку
+;file \plugins\CrashDumper\res\crshdmp.rc
+[View Version Information]
+Інфармацыя пра версіі
+[To File]
+У файл
+[Support for miranda-vi.org]
+Падтрымка miranda-vi.org
+[Upload automatically when changed]
+Загружаць аўтаматычна пры зменах
+[Use classic dates]
+Класічны фармат часу і даты
+[Create reports in subfolders naming as current date]
+Рабіць справаздачы ў тэчкі, названыя датай
+;file \plugins\CrashDumper\src\crshdmp.cpp
 [VersionInfo stored into file %s]
 Версіі захаваны ў файле %s
 [VersionInfo file %s is inaccessible]
 Файл %s недаступны
-[Store to file]
-Захаваць у файл
-[Store to clipboard]
-Капіяваць у буфер абмену
-[Get Version Info]
-Атрымаць інфармацыю пра версіі
-[Show with DLLs]
-З бібліятэкамі
+[Version Information To Clipboard]
+Версіі ў буфер абмену
+[Version Information To File]
+Версіі ў файл
 [Show Version Information]
 Паказаць версіі
 [Upload Version Information]
 Загрузіць версіі
+[Crash Reports]
+Справаздачы пра памылкі
+[Store to file]
+Захаваць у файл
+[Show with DLLs]
+З бібліятэкамі
+[Open crash report directory]
+Тэчка захавання справаздач
+[Open miranda-vi.org]
+Адкрыць miranda-vi.org
+[Copy Version Info to clipboard]
+Капіяваць версіі ў буфер абмену
+[Show Version Info]
+Паказаць версіі
+;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Crash Dumper]
+Справаздача пра памылкі
+;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
 Шлях для запісу справаздачы пра памылку недаступны
-[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-Усталявана больш аднаго модуля справаздач пра памылкі. Гэта вядзе да немагчымасці стварэння справаздач
-[To Clipboard]
-У буфер абмену
-[To File]
-У файл
-[View Version Information]
-Інфармацыя пра версіі
+[Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
+Miranda  NG была завершана аварыйна. Справаздача захавана ў \n %s\n\nЦі жадаеце вы захаваць яе ў буфер абмену?
+;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 Інфармацыя пра версіі(з бібліятэкамі)
-[Upload automatically when changed]
-Загружаць аўтаматычна пры зменах
+;file \plugins\CrashDumper\src\upload.cpp
 [VersionInfo upload successful,\n %d old plugins]
 Версіі паспяхова загружаны,\n%d старых модуляў
 [Cannot upload VersionInfo. Incorrect username or password]
@@ -51,41 +73,6 @@ Miranda была завершана аварыйна. Неабходзен dbghe
 Нельга загрузіць інфармацыю пра версіі. Хост недаступны
 [Crash Dumper HTTP connections]
 HTTP далучэнне Crash Dumper
-[Miranda crashed. Crash report stored in the folder:\n %s]
-Крытычная памылка Miranda NG. Справаздача пра памылку захаваны ў тэчцы:\n %s
-[Miranda Crash Dumper]
-Справаздача пра памылкі
-[Version Information To Clipboard]
-Версіі ў буфер абмену
-[Version Information To File]
-Версіі ў файл
-[Support for miranda-vi.org]
-Падтрымка miranda-vi.org
-[Crash Report]
-Справаздача пра памылку
-[Crash Reports]
-Справаздачы пра памылкі
-[Trap all possible exceptions]
-Лавіць усе магчымыя выключэнні
-[Open crash report directory]
-Тэчка захавання справаздач
-[Open miranda-vi.org]
-Адкрыць miranda-vi.org
-[Use classic dates]
-Класічны фармат часу і даты
-[Caution: Do not enable this option unless there is no other way you can  get a crash report When in use you will get much more crash reports then you expect or need to worry about]
-Папярэджанне: Уключайце гэту опцыю толькі тады, калі няма іншага спосабу атрымаць справаздачу пра памылку. Вы атрымаеце на шмат больш справаздач пра памылкі чым чакалі ці пра якія трэба турбуецца.
-[Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
-Miranda  NG была завершана аварыйна. Справаздача захавана ў \n %s\n\nЦі жадаеце вы захаваць яе ў буфер абмену?
-[Disable Crash Reporting]
-Выключыць справаздачы пра памылкі
-[Notify only if crash stops Miranda]
-Апавяшчаць толькі калі Miranda "падае"
-[Copy To Clipboard]
-Капіяваць у буфер
-[Copy Version Info to clipboard]
-Капіяваць версіі ў буфер абмену
-[Show Version Info]
-Паказаць версіі
-[Create reports in subfolders naming as current date]
-Рабіць справаздачы ў тэчкі, названыя датай
+;file \plugins\CrashDumper\src\utils.cpp
+[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
+Усталявана больш аднаго модуля справаздач пра памылкі. Гэта вядзе да немагчымасці стварэння справаздач

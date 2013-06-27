@@ -1,23 +1,18 @@
 ﻿#muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
-;  File: flags.dll
-;  Module: Country Flags
-[Docs]
-Дакументацыя
-[Country Flags Plugin]
-Модуль нацыянальных сцягоў
+;============================================================
+;  File: Flags.dll
+;  Plugin: Country flags
+;  Version: 0.1.0.4
+;  Authors: H. Herkenrath
+;============================================================
+[Service offering misc country utilities as flag icons and a IP-to-Country database.]
+Служба, якая дадае нацыянальныя сцягі як значкі, і ip-у краіну базу дадзеных.
+;file \plugins\CountryFlags\res\resource.rc
 [Show country flag as &extra image on contact list]
 Паказваць сцяг, як дап. значок у кантакт-лісце
 [Use &IP-to-country database for country detection]
 Выкарыстоўваць базу IP для вызначэння краіны
-[Include &IP-to-country lookup in country detection]
-Выкарыстоўваць базу IP для вызначэння краіны
-[In following contact list &column:]
-У наступным слоце:
 [Use &unknown flag if the country can not be determined]
 Паказаць невядомы сцяг, калі краіну нельга вызначыць
-[Service offering misc country utilities as flag icons and a IP-to-Country database.]
-Служба, якая дадае нацыянальныя сцягі як значкі, і ip-у краіну базу дадзеных.
-[Advanced #%u]
-Пашыраны #%u
-[Service offering misc country utilities and especially flag icons.]
-Сэрвіс для адлюстравання сцягоў кантактаў, зыходзячы з іх IP-адрасоў.
+;file \plugins\CountryFlags\src\extraimg.cpp
+;file \plugins\CountryFlags\src\options.cpp

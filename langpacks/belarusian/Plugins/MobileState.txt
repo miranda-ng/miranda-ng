@@ -1,5 +1,0 @@
-﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
-;  File: MobileState.dll
-;  Module: Plugin shows mobile icon in contact list next to contacts which are using mobile client
-[Plugin shows mobile icon in contact list next to contacts which are using mobile client.]
-Паказвае у спісе кантактаў мабільных кліентаў.

@@ -1,9 +1,60 @@
-﻿#muuid {3503d584-6234-4bef-a553-6c1b9cd471f2}
+﻿#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+;============================================================
 ;  File: NewEventNotify.dll
-;  Module: NewEventNotify
-
-[Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the Popup-Plugin by hrk. Original plugin was written by icebreaker, modified by Prezes and some bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale.]
-Апавяшчае пра атрыманне паведамлення, URL, файла ці іншай падзеі, адлюстроўваючы інфармацыю ва ўсплывальных вокнах. Для працы неабходзен Popup ад Luca Santarelli ці аналагічны.
+;  Plugin: NewEventNotify
+;  Version: 0.2.2.3
+;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
+;============================================================
+;file \plugins\NewEventNotify\res\resource.rc
+[General Options]
+Агульныя параметры
+[Show entry in the Popups menu]
+Пункт у меню "Ўсплывальныя вокны"
+[Temporarily disable Event Popups]
+Часова забараніць паведамленне
+[Show Preview of Event in Popup]
+Прадпрагляд падзеі ў акне
+[Time to expires]
+Час затрымкі
+[Notify me of ...]
+Паведамляць мяне о ...
+[Left Click Actions]
+Па левай пстрычцы
+[Open Event]
+Адкрыць падзею
+[Dismiss Event]
+Схаваць падзею
+[Right Click Actions]
+Па правай пстрычцы
+[Time Expires Actions]
+Па заканчэнні часу
+[Don't show Popup when Message-Dialog is already open]
+Не паказваць, калі адкрыта акно
+[Hide Popup when sending new message]
+Хаваць пры адпраўцы новага паведамлення
+[Open Reply-Dialog instead of reading the Message]
+Дыялог адказу замест чытання паведамлення
+[Merge popups from one user]
+Аб'ядноўваць ад аднаго карыстача
+[Show Date]
+Дата
+[Show Time]
+Час
+[Show Headers]
+Загалоўкі
+[Number of begin shown messages]
+Колькасць паведамленняў для пачатку паказу
+[Last message display first]
+Апошняе першым
+[Last message display last]
+Апошняе апошнім
+[No popups for RSS contacts]
+Выключыць для RSS навін
+[No popups for read messages]
+Не паказваць для прачытаных паведамленняў
+;file \plugins\NewEventNotify\src\main.cpp
+;file \plugins\NewEventNotify\src\menuitem.cpp
+;file \plugins\NewEventNotify\src\neweventnotify.h
 [You were added!]
 Вас дадалі
 [Requests your authorisation]
@@ -12,61 +63,11 @@
 Невядомая падзея
 [Notify of new events]
 Паведамляць пра новыя падзеі
-[Event Notify]
-Падзеі
-[Popup Colors]
-Колер акна
-[Notify me of ...]
-Паведамляць мяне о ...
-[Show entry in the main menu]
-Пункт у галоўным меню
-[Temporarily disable Event Popups]
-Часова забараніць паведамленне
-[Show Preview of Event in Popup]
-Прадпрагляд падзеі ў акне
-[Open Event]
-Адкрыць падзею
-[Dismiss Event]
-Схаваць падзею
-[Don't show Popup when Message-Dialog is already open]
-Не паказваць, калі адкрыта акно
-[Open Reply-Dialog instead of reading the Message]
-Дыялог адказу замест чытання паведамлення
-[No popups for RSS contacts]
-Выключыць для RSS навін
-[Use OSD plugin instead of popups]
-Выкарыстоўваць модуль OSD замест Popup
-[Hide Popup when sending new message]
-Хаваць пры адпраўцы новага паведамлення
-[Last message display first]
-Апошняе першым
-[Last message display last]
-Апошняе апошнім
-[Merge popups from one user]
-Аб'ядноўваць ад аднаго карыстача
-[No popups for readed messages]
-Выключыць для прачытаных
-[Number of begin shown messages]
-Колькасць паведамленняў для пачатку паказу
-[Show entry in the Popups menu]
-Пункт у меню "Ўсплывальныя вокны"
-[Show Headers]
-Загалоўкі
-[Show newer messeges]
-Новыя паведамленні
-[Show older messeges]
-Старыя паведамленні
-[Show Time]
-Час
-[Time Expires Actions]
-Па заканчэнні часу
-[Time to expires]
-Час затрымкі
-[Disable new event notification]
-Выкл. апавяшчэнні пра падзеі
 [Enable new event notification]
 Вкл. апавяшчэнні пра падзеі
-[No popups for read messages]
-Не паказваць для прачытаных паведамленняў
-[NewEventNotify]
+[Disable new event notification]
+Выкл. апавяшчэнні пра падзеі
+;file \plugins\NewEventNotify\src\options.cpp
+[Event Notify]
 Падзеі
+;file \plugins\NewEventNotify\src\popup.cpp

@@ -1,18 +1,46 @@
 ﻿#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
-;  File: yapp.dll
-;  Module: Yet Another Popup Plugin
+;============================================================
+;  File: YAPP.dll
+;  Plugin: YAPP
+;  Version: 0.5.0.11
+;  Authors: Scott Ellis
+;============================================================
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
-Cлужба ўсплывальных паведамленняў для іншых убудоў.
-[Set timeout:]
-Працягласць:
+Cлужба ўсплывальных паведамленняў для іншых плагiнаў.
+;file \plugins\YAPP\res\yapp.rc
+[Popup history]
+Гісторыя ўсплывальных вокнаў
+[Case sensitive]
+Улік рэгістра
 [Never timeout]
 Увесь час
+[Set timeout:]
+Працягласць:
+[Width:]
+Шырыня:
+[Maximum height:]
+Макс. вышыня:
+[Transparent background]
+Празрысты фон
 [Disable when]
 Выключыць калі
-[Full-screen app running]
-Поўнаэкраннае прыкладанне
 [Global hover]
 Агульнае навядзенне
+[Padding:]
+Прамежак:
+[Set timeout]
+Усталяваць таймаўт
+[Timeout value (0 = default):]
+Таймаўт (0 = па змаўчанні):
+;file \plugins\YAPP\src\icons.cpp
+;file \plugins\YAPP\src\notify_imp.cpp
+;file \plugins\YAPP\src\options.cpp
+[Example]
+Прыклад
+[Example With a Long Title]
+Прыклад з доўгім загалоўкам
+[An avatar.]
+З аватарам
 [No time]
 Без часу
 [Time on left]
@@ -21,27 +49,12 @@ Cлужба ўсплывальных паведамленняў для іншы�
 Час справа
 [Time above avatar]
 Час над аватарам
-[Width:]
-Шырыня:
-[Maximum height:]
-Макс. вышыня:
-[Padding:]
-Прамежак:
-[Set timeout]
-Усталяваць таймаўт
-[Timeout value (0 = default):]
-Таймаўт (0 = па змаўчанні):
-[Vertical indent:]
-Вертык. водступ:
-[Example With a Long Title]
-Прыклад з доўгім загалоўкам
-[An avatar.]
-З аватарам
+[Full-screen app running]
+Поўнаэкраннае прыкладанне
+;file \plugins\YAPP\src\services.cpp
+;file \plugins\YAPP\src\yapp.cpp
 [First line]
 Першы радок
 [Title underline]
 Падкрэсленне загалоўка
-[Popup history]
-Гісторыя ўсплывальных вокнаў
-[Enable Popups]
-Уключыць усплывальныя вокны
+;file \plugins\YAPP\src\yapp_history_dlg.cpp

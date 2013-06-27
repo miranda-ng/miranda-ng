@@ -1,67 +1,32 @@
 ﻿#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
-;  File: langman.dll
-;  Module: Language Pack Manager
+;============================================================
+;  File: LangMan.dll
+;  Plugin: Language pack manager
+;  Version: 1.0.2.3
+;  Authors: H. Herkenrath
+;============================================================
 [Helps you manage Language Packs of different languages.]
 Дапамагае ў кіраванні файламі лакалізацыі.
-[%ls Language Pack]
-%ls інтэрфейс
+;file \plugins\LangMan\res\resource.rc
 [Last modified using:]
 Праверана на версіі:
-[Not included:]
-Не перакладзены:
+[Locale:]
+Мова:
 [Download more Language Packs]
 Загрузіць дадатковыя пераклады
-[English (default)]
-Ангельскі
-[Language pack manager]
-Модуль кіравання лакалізацыямі
-[Language Pack Manager Plugin]
-Модуль кіравання лакалізацыямі
-[Language Pack Update HTTP connection]
-Падлучэнне модуля лакалізацый (HTTP)
+;file \plugins\LangMan\src\main.cpp
+[Reload langpack]
+Аднавіць пераклад
+;file \plugins\LangMan\src\options.cpp
+[All installed plugins are included.]
+Усе модулі перакладзены.
+[(incompatible)]
+(несумяшчальны)
+[Current]
+Бягучы
 [Installed Languages]
 Усталяваныя лакалізацыі
 [built-in]
 убудаваны
-[(incompatible)]
-(несумяшчальны)
-[All installed plugins are included.]
-Усе модулі перакладзены.
-[Check for new &versions of Language Packs periodically]
-Перыядычна правяраць новыя версіі лакалізацый
-[&Download Language]
-Загрузіць лакалізацыі
-[Language Pack Update Now Available]
-Новая версія лакалізацыі зараз даступная!
-[A new version of a Language Pack is now available. Click the install button to download and install this new update.]
-Новая версія лакалізацыі зараз даступная. Націсніце Ўсталяваць каб загрузіць і ўсталяваць гэта абнаўленне.
-[New:]
-Новы:
-[&Install Now]
-Усталяваць
-[Language Pack Update succeeded]
-Абнаўленне лакалізацыі завершана
-[The language pack "%s" has been sucessfully downloaded and installed.]
-Лакалізацыя "%s" загружана і ўсталявана паспяхова.
-[Language Pack Update failed]
-Памылка абнаўлення лакалізацыі
-[The language pack "%s" could not be downloaded or extracted.]
-Лакалізацыя "%s" не можа быць загружана ці вынята.
-[Select your language]
-Абярыце вашу мову
-[Miranda NG is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
-Miranda даступная на шматлікіх мовах.\n Тут вы бачыце спіс даступных лакалізацый на сайце Miranda, калі ласка абярыце вашу асноўную мову:
-[Download &all languages]
-Загрузіць усе лакалізацыі
-[Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
-Нататка: З дапамогай гэтага акна, вы загрузіце і ўсталюеце найновую лакалізацыю для абранай мовы. Іншыя лакалізацыі могуць быць даступныя на сайце Miranda IM.
-[downloading]
-загружаецца
-[Language Pack Download finished]
-Загрузка лакалізацыі завершана
-[The download succeeded]
-Загрузка завершана паспяхова
-[The download failed\n\nThe language pack could not be downloaded or extracted.]
-Памылка загрузкі.\n\n Немагчыма загрузіць ці распакаваць лакалізацыю.
-[Reload langpack]
-Аднавіць пераклад
+[Languages]
+Мовы

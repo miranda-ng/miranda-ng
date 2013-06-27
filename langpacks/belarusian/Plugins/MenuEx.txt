@@ -1,49 +1,64 @@
 ﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
-;  File: menuex.dll
-;  Module: MenuItemEx
+;============================================================
+;  File: MenuEx.dll
+;  Plugin: Menu item ext
+;  Version: 1.3.0.9
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
+;============================================================
 [Adds some useful options to a contacts menu.]
 Дадае дадатковыя пункты меню кантактаў.
+;file \plugins\MenuItemEx\res\resource.rc
 [Shown menu items]
 Паказаны пункты меню
 [Show alpha icons]
 Альфа-значкі
-[Show alpha icon]
-Альфа-значок
-[Copy Status Message (SMR needed)]
-Капіяваць статут (патрэбен SMR)
-[MenuItemEx]
-Дап. пункты меню
-[Set user properties by contact menu]
-Усталёўвае налады бачнасці для карыстачоў у спісе кантактаў
-[Adds contact specific options: Browse Files, View Website, Last Online, and Copy IP Address]
-Дадае кантэкстныя меню: "Прынятыя файлы", "Сайт", "Апошняе далучэнне" і "Капіяваць IP адрас".
-[Hide menu item if directory does not exist]
-Схаваць пункт меню, калі каталог не існуе
-[Last Status]
-Апошні статуs
-[Copy to Account]
-Капіяваць ва ўліковы запіс
+[Hide from list]
+Схаваць са спісу
 [Copy to Account (Ctrl+click for move to Account)]
 Капіяваць у вул. запіс (Ctrl+клік - перасоўванне)
-[* Use Ctrl+click to see popup with the copied text]
-* Выкарыстоўвайце Ctrl+клік для паказу ўсплывальнага акна са скапіяваным тэкстам
-[Hide contact on 'Ignore all']
-Хаваць пры 'Ignore all'
-[Show in list]
-Паказваць у спісе
-[Add message name]
-Загаловак паведамлення
+[Send 'You were added']
+Адправіць "Вас дадалі"
+[Request Authorization]
+Запытаць аўтарызацыю
+[Browse Received Files]
+Прынятыя файлы
+[Copy IP]
+Капіяваць IP
+[Copy MirVer]
+Капіяваць ID кліента
+[Copy Status Message]
+Капіяваць статус
 [Add item name]
 Дадаць імя элемента
-[Do you want to send authorization request\nto new contact?]
-Ці жадаеце вы паслаць запыт аўтарызацыі\n новаму кантакту?
-[Open ignore settings]
-Адкрыць налады ігнаравання
-[Copy xStatus Message]
-Капіяваць паведамленне Хстатусу
+[Copy ID]
+Капіяваць ID
+[Add protocol name]
+Дадаць пратакол
 [Show ID in menu item]
 Паказаць ID у кантэкстным меню
 [Trim too long ID]
 Абразаць доўгі ID
+[* Use Ctrl+click to see popup with the copied text]
+* Выкарыстоўвайце Ctrl+клік для паказу ўсплывальнага акна са скапіяваным тэкстам
+[Hide contact on 'Ignore all']
+Хаваць пры 'Ignore all'
 [Automatically refresh contact's details after they come online]
 Аўтаматычна аднаўляць дэталі кантактаў пры далучэнні
+;file \plugins\MenuItemEx\src\main.cpp
+[XStatus message]
+Паведамленне xСтатуса
+[Show in list]
+Паказваць у спісе
+[Never visible]
+Заўсёды нябачны
+[Copy to Account]
+Капіяваць ва ўліковы запіс
+[Copy xStatus Message]
+Капіяваць паведамленне Хстатусу
+[Do you want to send authorization request\nto new contact?]
+Ці жадаеце вы паслаць запыт аўтарызацыі\n новаму кантакту?
+[MenuItemEx]
+Дап. пункты меню
+[Open ignore settings]
+Адкрыць налады ігнаравання
+;file \plugins\MenuItemEx\src\options.cpp

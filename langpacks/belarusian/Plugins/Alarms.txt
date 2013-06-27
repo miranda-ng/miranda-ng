@@ -1,101 +1,88 @@
 ﻿#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
-;  File: alarms.dll
-;  Plugin: Set once-off, daily, weekly and weekday alarms.
-
-[&New Alarm...]
-&Новы напамінак...
-[&Suspend]
-&Адкласці
-[Alarm Reminders]
-Напамінкі
-[Alarm: System Tray]
-Трэй
-[Alarm]
-Напамінак 
+;============================================================
+;  File: Alarms.dll
+;  Plugin: Alarms
+;  Version: 0.4.0.5
+;  Authors: Scott Ellis
+;============================================================
+[Sets once-off, daily, weekly and weekday alarms.]
+Усталёўка штодзённых, штотыднёвых і разавых апавяшчэнняў.
+;file \plugins\Alarms\res\resource.rc
 [Alarms]
 Напамінкі
+[Use popup plugin]
+Усплывальныя вокны
+[Default snooze:]
+Паўза па змаўчанні:
+[Row Height:]
+Вышыня радка
+[Reminder Frame]
+Спіс напамінкаў
+[Auto hide/show]
+Аўтаўтойванне
+[Period (hours):]
+Перыяд (гадзін):
+[Hide/show with clist]
+Схаваць/паказаць са спісам
+[Auto size vertically]
+Падганяць вышыню
+[Transparency (%):]
+Празрыстасць (%):
+[Alert Window]
+Вакно напамінку
+[Don't steal focus unless idle]
+Калі не актыўны, не перахапляць фокус
+[Alarm]
+Напамінак 
+[Run command:]
+Выканаць каманду:
+[Parameters:]
+Параметры:
 [Alert 1]
 Гук 1
 [Alert 2]
 Гук 2
 [Alert 3]
 Гук 3
-[Alert Window]
-Вакно напамінку
-[Auto hide/show]
-Аўтаўтойванне
-[Auto size vertically]
-Падганяць вышыню
-[Date and Time]
-Дата і час
-[DateTimePicker1]
-Дата Час 1
-[Default snooze:]
-Паўза па змаўчанні:
-[Disable next occurence]
-Адключыць наступны напамінак
-[Don't steal focus unless idle]
-Калі не актыўны, не перахапляць фокус
-[Don't trigger on startup]
-Не спрацоўваць пры загрузцы
-[Example Alarm]
-Прыклад напамінку
-[Hide Reminders]
-Схаваць напамінкі
-[Hide/show with clist]
-Схаваць/паказаць са спісам
-[i'm hiding]
-хаваюся
-[Menu: Set Alarm]
-Меню: Даць напамінак
-[Menu: Show/Hide Reminders]
-Меню: Паказаць/Схаваць напамінкі
-[No reminder]
-Не паказваць у спісе
+[Speak]
+Гаворка
 [Occurrence]
 Падзея
-[Period (hours):]
-Перыяд (гадзін):
-[Please enter a title for this alarm.]
-Увядзіце імя напамінку.
-[Reminder Frame Context]
-Змесціва спісу
-[Reminder Frame]
-Спіс напамінкаў
-[Reminder: Soon]
-Напамінак: хутка
-[Reminder: Very Soon]
-Напамінак: вельмі хутка
-[Row Height:]
-Вышыня радка
-[Run command:]
-Выканаць каманду:
-[Set a new alarm]
-Новы напамінак
-[Set Alarm]
-Даць напамінак
-[Show Reminders]
-Паказаць напамінкі
-[Snooze]
-Адкласці
-[Some example text. Example, example, example.]
-Прыклад тэксту. Прыклад, прыклад, прыклад.
-[The alarm time you have selected is in the past.]
-Абраны вамі час - у мінулым.
-[Transparency (%):]
-Празрыстасць (%):
-[Use popup plugin]
-Усплывальныя вокны
+[Once]
+Адзін раз
 [Weekdays]
 Па буднях
-[Alarms/Background]
-Напамінкі/Фон
-[Alarms/Selection Background]
-Напамінкі/Фон абранага
-[Snooze time:]
-Адкласці:
-[Sets once-off, daily, weekly and weekday alarms.]
-Усталёўка штодзённых, штотыднёвых і разавых апавяшчэнняў.
+[i'm hiding]
+хаваюся
+[Date and Time]
+Дата і час
+[Disable next occurence]
+Адключыць наступны напамінак
+[Don't trigger on startup]
+Не спрацоўваць пры загрузцы
+[No reminder]
+Не паказваць у спісе
+[Snooze]
+Адкласці
+[Reminder Frame Context]
+Змесціва спісу
+[&Suspend]
+&Адкласці
+[&Edit...]
+&Змяніць
+[&New Alarm...]
+&Новы напамінак...
+;file \plugins\Alarms\src\alarmlist.cpp
+;file \plugins\Alarms\src\alarms.cpp
+[Unknown command issued: "%s"]
+Выдадзена невядомая каманда: "%s"
+[Set Alarm]
+Даць напамінак
+;file \plugins\Alarms\src\alarm_win.cpp
+[Example Alarm]
+Прыклад напамінку
+[Some example text. Example, example, example.]
+Прыклад тэксту. Прыклад, прыклад, прыклад.
 [5 mins]
 5 хвілін
 [15 mins]
@@ -104,5 +91,26 @@
 30 хвілін
 [1 week]
 1 тыдзень
-[New]
-Стварыць
+;file \plugins\Alarms\src\frame.cpp
+[Hide Reminders]
+Схаваць напамінкі
+[Show Reminders]
+Паказаць напамінкі
+[Alarm Reminders]
+Напамінкі
+;file \plugins\Alarms\src\icons.cpp
+[Menu: Set Alarm]
+Меню: Даць напамінак
+[Reminder: Soon]
+Напамінак: хутка
+[Reminder: Very Soon]
+Напамінак: вельмі хутка
+[Alarm: System Tray]
+Трэй
+[Menu: Show/Hide Reminders]
+Меню: Паказаць/Схаваць напамінкі
+;file \plugins\Alarms\src\options.cpp
+[Please enter a title for this alarm.]
+Увядзіце імя напамінку.
+[The alarm time you have selected is in the past.]
+Абраны вамі час - у мінулым.

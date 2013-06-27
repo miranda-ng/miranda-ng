@@ -1,39 +1,54 @@
 ﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
-;  File: favcontacts.dll
-;  Module: Favourite Contacts
+;============================================================
+;  File: FavContacts.dll
+;  Plugin: Favourite contacts
+;  Version: 0.0.0.6
+;  Authors: Victor Pavlychko
+;============================================================
 [Favourite contacts menu.]
 Меню абраных кантактаў.
-[px.]
-пікс.
-[Hotkey shows menu centered on screen]
-Меню па гарачай кн. у цэнтры экрана 
-[Hide for transparent avatars]
-Схаваць для празрыстых аватар
-[Favourite Contacts]
-Абраныя кантакты
+;file \plugins\FavContacts\res\resource.rc
 [Draw avatar border]
 Мяжа на аватарах
+[px.]
+пікс.
+[Hide for transparent avatars]
+Схаваць для празрыстых аватар
 [Use system colors and fonts]
 Сістэмныя колеры і шрыфты
+[Hotkey shows menu centered on screen]
+Меню па гарачай кн. у цэнтры экрана 
 [Menu item preview:]
 Прадпрагляд меню:
-[Multicolumn menu]
-Некалькі слупкоў
-[Set up menu hotkey...]
-Наладзіць гор. клавішы...
+[Favourite Contacts]
+Абраныя кантакты
 [Enable groups]
 Уключыць групы
+[Multicolumn menu]
+Некалькі слупкоў
 [Configure fonts and colors...]
 Наладзіць шрыфты і колеры...
+[Align to the right]
+Выраўноўванне па правым краі
+[Dim idle contact icons]
+Зацямніць idle кантакты
+[recent contacts]
+нядаўніх кантактаў
+;file \plugins\FavContacts\src\favlist.h
+[<no group>]
+<няма групы>
+;file \plugins\FavContacts\src\main.cpp
+[Favourite Contact]
+Абраны кантакт
+[Regular Contact]
+Звычайны кантакт
 [Selected contact name (color)]
 Імя кантакту пад курсорам
 [Selected second line (color)]
 Адлюстраванне другога радка пад курсорам
-[Align to the right]
-Выраўноўванне па правым краі
-[recent contacts]
-нядаўніх кантактаў
-[Regular Contact]
-Звычайны кантакт
-[Dim idle contact icons]
-Зацямніць idle кантакты
+[Show favourite contacts]
+Паказаць абраныя кантакты
+[&Favourite Contacts...]
+Абраныя кантакты
+[<No group>]
+<Няма групы>

@@ -1,0 +1,59 @@
+﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
+;============================================================
+;  File: TooltipNotify.dll
+;  Plugin: Tooltip notify
+;  Version: 0.7.0.1
+;  Authors: perf
+;============================================================
+[Shows a small tooltip above system tray area when a contact status is changed.]
+Апавяшчэнні ў трэі пры змене статусу кантакту.
+;file \plugins\TooltipNotify\res\main.rc
+[Choose contacts...]
+Абярыце кантакты
+[Allow tooltip notifications for the following users:]
+Уключыць апавяшчэнні для адзначаных кантактаў:
+[Notify upon the following events]
+Апавяшчаць пра наступныя падзеі
+[All other]
+Іншае
+[Suppress notifications upon connection for]
+Не апавяшчаць пры падлучэнні
+[Prefix proto name]
+Імя акаўнта
+[Duration]
+Працягласць
+[Show tooltip for]
+Паказваць:
+[Duration x2 upon online event]
+У 2 разы даўжэй для "Далучаны"
+[Double click on tooltip]
+Падвойны клік:
+[Shows/Hides CList]
+Спіс кантактаў
+[Opens message dialog]
+Акно паведамленняў
+[Behavior]
+Паводзіны
+[Obey 'Suppress online notification' settings]
+Уключыць часовую забарону апавяшчэнняў
+[Auto positioning]
+Аўтапазіцыя
+[Transparent input]
+Празрысты ўваход
+[Transparent tooltip]
+Празрыстасць
+;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Tooltip Notify]
+Апавяшчэнні
+[Other Status]
+Іншы статус
+[Tooltip Notify: Online]
+Апавяшчэнні: Далучаны
+[Tooltip Notify: Offline]
+Апавяшчэнні: Адключыўся
+[Tooltip Notify: Other]
+Апавяшчэнні: Іншае
+[Tooltip Notify: Typing]
+Апавяшчэнні: Друкуе
+[is]
+зараз

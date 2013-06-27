@@ -1,375 +1,65 @@
 ﻿#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
-;  File: Aim.dll
-;  Plugin: AIM Protocol
-[(seconds)]
-(секунды)
-[*Aim must be reconnected  for some option to take effect.]
-*AIM павінен быць перадалучаны, каб змены набылі моц.
+;============================================================
+;  File: AIM.dll
+;  Plugin: AIM protocol
+;  Version: 0.11.0.1
+;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
+;============================================================
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
-Убудова пратаколу AOL Instant Messenger (AIM).
-[AIM Account Setup]
-Налады конта AIM
-[AIM Instant Idler]
-AIM Усталяваць Instant Idle
+Плагiн пратаколу AOL Instant Messenger (AIM).
+;file \protocols\AimOscar\res\aim.rc
+[AIM User Details]
+AIM Дэталі карыстача
+[Screen Name:]
+Імя AIM:
 [AIM Options]
 Налады AIM
-[Aim Profile Editing Dialog]
-Дыялог рэдагавання профіля AIM
-[Check Mail on Login]
-Правяраць пошту пры далучэнні
-[Notify about new mail]
-Апавяшчаць пра новую пошту
+[Message Delivery Confirmation]
+Пацверджанне прыёму
+[Do Not Autoreply When Away]
+Выключыць аўтаадказ калі  Адсутнічаю
 [Convert Incoming Messages to BBCode]
 Перакладаць ув. паведамлення ў BBCode
 [Convert Outgoing Messages to HTML]
 Перакладаць вын. паведамлення ў HTML
-[Disable Account Type Icons]
-Адкл. значкі тыпаў контаў
 [Disable Avatars]
 Адключыць аватары
+[Disable Account Type Icons]
+Адкл. значкі тыпаў контаў
 [Disable Extended Status Icons]
 Адкл. пашыраныя значкі статусу
-[Do Not Autoreply When Away]
-Выключыць аўтаадказ калі  Адсутнічаю
-[File Transfer Grace Period:]
-Перыяд чакання перадачы:
-[Force Proxy File Transfers]
-Перадачы файлаў праз проксі
+[Notify about new mail]
+Апавяшчаць пра новую пошту
+[Advanced Options]
+Дадаткова
 [Instant Idle on Login]
 Рэжым чакання пры ўваходзе
+[Force Proxy File Transfers]
+Перадачы файлаў праз проксі
 [Masquerade as a Sidekick/Hiptop User]
 Уяўляцца як Sidekick/Hiptop
-[Message Delivery Confirmation]
-Пацверджанне прыёму
+[*Aim must be reconnected  for some option to take effect.]
+*AIM павінен быць перадалучаны, каб змены набылі моц.
+[Disable SSL]
+Выкл. SSL
+[Manage Server Groups]
+Кіраваць групамі на серверы
+[Force Single Client]
+Толькі адна сесія
+[Save Profile]
+Захаваць профіль
+[Create a new AIM account]
+Стварыць новы конт AIM
+[AIM Instant Idler]
+AIM Усталяваць Instant Idle
 [Number of Hours:]
 Лік гадзін:
 [Number of Minutes:]
 Лік мінуць:
-[Please enter your AIM account details to continue:]
-Калі ласка, ўвядзіце Вашы дадзеныя конту AIM:
-[Save Profile]
-Захаваць профіль
-[Screenname:]
-Імя AIM:
-[Send Keep Alive Packets]
-Слаць пакеты Keep Alive
 [Set Idle]
 Усталяваць
 [Unset Idle]
 Зняць
-[Force Single Client]
-Толькі адна сесія
-[Screen Name]
-Імя AIM
-[Original]
-Стары
-[Confirm Account]
-Пацвердзіць
-[Save Changes]
-Захаваць змены
-[Create a new AIM account]
-Стварыць новы конт AIM
-[*Applied upon reconnect]
-*Патрабуецца перазапуск
-
-[Aim Protocol]
-AIM пратакол
-
-[No information has been provided by the server.]
-Сервер не падаў ніякай інфармацыі.
-[[Auto-Response]:]
-(Аўтаадказ):
-[[Auto-Response]: ]
-(Аўтаадказ):
-
-[Add To Server List]
-Дадаць у спіс на серверы
-[Check Mail]
-Праверыць пошту
-[Edit Profile]
-Рэдагаваць профіль
-[Instant Idle]
-Усталяваць Instant Idle
-[Manage Account]
-Кіраванне контамі
-[Read &HTML Away Message]
-Чытаць HTML статуснае паведамленне
-[Read Profile]
-Прагледзець профіль
-[AIM Contact Options]
-AIM Опцыі кантакту
-[AIM Contacts]
-AIM Кантакты
-[AIM Error]
-AIM Памылка
-[AIM Group Chat]
-AIM Чат
-[AIM MetaContact corrupted - the number of subcontacts is incorrect.]
-Метакантакт пашкоджаны - няслушная колькасць субкантактаў.
-[AIM Network Error]
-AIM Памылка сеткі
-[AIM Password Change]
-AIM Змена пароля
-[AIM Protocol]
-AIM Пратакол
-[AIM Support]
-Падтрымка AIM
-[AIM Account Tupe]
-Тып конта AIM
-[AIM Extended Status]
-Пашыраны статус AIM
-[AIM User Details]
-AIM Дэталі карыстача
-[AIM Warning Level Change]
-AIM Узровень папярэджанняў
-[AIM Warning]
-AIM Папярэджанне
-[Handle aim: links on websites]
-Апрацоўка: Спасылкі на вэбсайты
-[Screenname]
-Імя AIM
-[AOL® Instant Messenger server connection]
-Далучэнне да сервера AOL® Instant Messenger
-[%s - AIM Group Chat, %d user(s)]
-%s - AIM чат, %d удзельнікаў
-[%s (%s) changed status to %s.]
-%s (%s) змяняе статус на %s.
-[%s is currently offline.  Please try again later when the user is online.]
-%s цяпер адключаны. Паспрабуйце пазней.
-[&Add User to List...]
-Дадаць у спіс...
-[&Leave Channel]
-Пакінуць канал
-[&Show Channel]
-Паказаць канал
-[&User Info...]
-Інфа карыстача...
-[&Warn User]
-Апавясціць
-[(%s) AIM Contacts]
-(%s) AIM Кантакты
-[(%s) AIM Group Chat]
-(%s) AIM чат
-[(Private)]
-(Прыват)
-[*** %s has %s %s]
-*** %s ёсць %s %s
-[[%s] *** Chat session ended]
-(%s) *** Чат сесія завершана
-[[%s] *** Chat session started]
-(%s) *** Чат сесія пачата
-[[%s] Cancelling file receive request from %s]
-(%s) Адмена запыту на атрыманне файла ад %s
-[[%s] Denying file receive request from %s]
-(%s) Забарона атрымання файлаў ад %s
-[[%s] File transfer complete]
-(%s) Перадача файла завершана
-[[%s] Receieved file receive request from %s]
-(%s) Атрыманы запыт прыёму файла ад %s
-[[%s] Received file %d of %d]
-(%s) Атрымана файл %d з %d
-[[%s] Receiving %s]
-(%s) Атрыманне %s
-[A message has been dropped. You are exceeding the server speed limit.]
-Усе паведамленні скінуты. Вы перавысілі абмежаванне хуткасці сервера.
-[Administrator]
-Адміністратар
-[An unknown signon error has occurred.  Please try again later.]
-Невядомая памылка. Паспрабуйце яшчэ раз пазней.
-[Anonymous]
-Ананімна
-[AOL has reported that you have been warned by another user.]
-AOL паведамляе, што вы былі папярэджаны іншым карыстачом.
-[AOL Instant Messenger client-to-client connections]
-AIM злучэнні паміж карыстачамі
-[AOL Instant Messenger server connection]
-AIM далучэнне да сервера
-[AOL User]
-AOL кантакт
-[AOL® Instant Messenger Login]
-AOL® Лагін
-[Buddy Added Successfully!]
-Паспяхова дададзены!
-[Buddy does not exist on server!]
-Адсутнічае на серверы!
-[Buddy not avaliable.]
-Недаступны.
-[Buddy:]
-Прыяцель:
-[CANCEL]
-АДМЕНА
-[Change AIM Password]
-Памяняць пароль на AIM
-[Chat invitation from %s]
-Запрашэнне ад %s
-[Chat:]
-Чат:
-[Confirm Delete]
-Пацвердзіце выдаленне
-[Currently Offline]
-Зараз адключаны
-[Do you want to disable the AIM protocol (requires restart)?]
-Вы жадаеце выключыць пратакол AIM (патрабуецца рэстарт)?
-[Enable Warn User menu item for contacts]
-"Апавясціць" у меню кантакту
-[Exchange:]
-Абмен:
-[Flash window on activity in chat]
-Міргаць акно пры актыўнасці ў чаце
-[Formatted screenname does not match your screenname.]
-Імя не адпавядае вашаму імю.
-[Group Chat Invitatation]
-Запрашэнне ў чат
-[Group Chat Options]
-Опцыі чата
-[hrs]
-ч.
-[Ignore group chat join requests]
-Ігнараваць запрашэнне ў чат
-[Ignore join requests]
-Ігнараваць запыты
-[Import extra contacts from the server list on next login]
-Імпартаваць кантакты з сервера з наступным лагінам
-[Incorrect nickname or password.  Please change your login details and try again.]
-Імя ці пароль няслушныя. Зменіце налады і паспрабуйце зноў.
-[Invite to Group Chat...]
-Запрасіць у чат...
-[Join me in this chat.]
-Запросіце мяне ў чат.
-[Join/Create AIM Group Chat]
-Стварыць/Зайсці ў AIM чат
-[Join/Create Group Chat...]
-Стварыць/Зайсці ў чат...
-[Log chat conversations]
-Запісваць дыялогі чата
-[Lost AIM Password?]
-Забыліся пароль на AIM?
-[Lost Password?]
-Забыліся пароль?
-[Minimize chats to system tray icon]
-Мінімізаваць чаты ў трэй
-[mins]
-мінуць
-[My Date]
-Мая дата
-[My Message]
-Маё паведамленне
-[My Name]
-Маё імя
-[No User information Provided]
-Інфармацыя не паказана
-[Normal User]
-Звычайны
-[Note: Use port 0 to connect on a random port]
-Выкарыстоўвайце порт 0 для злучэння па выпадковым порце
-[Notify me when I have been warned by another user]
-Апавяшчаць мяне пра атрыманне папярэджання
-[Only reply to users in your contact list]
-Адказваць толькі кантактам са спісу
-[Parts/Joins]
-Далучыўся
-[Please enter the name of the chat you wish to join:]
-Увядзіце імя чата для далучэння:
-[Please enter your AOL® Instant Messenger login details to continue:]
-Калі ласка, увядзіце вашы AOL® Instant Messenger дэталі:
-[Please enter your old and new password:]
-Увядзіце стары і новы паролі:
-[Read Away Message]
-Чытаць паведамленне
-[Recover Lost Password]
-Аднавіць пароль
-[Register Account]
-Зарэгістраваць конт
-[Send a chat invitation to the following user:]
-Паслаць запрашэнне гутаркі:
-[Send Area]
-Поле адпраўкі
-[Send message on Ctrl+Enter]
-Пасылаць па Ctrl+Enter
-[Show change password menu item]
-Пункт меню "Змяніць пароль..."
-[Show error messages]
-Паказваць памылкі
-[Show join chat main menu item]
-Пункт меню "Ўвайсці ў чат"
-[Show join group chat main menu item]
-Пункт "Чат" ва ўсплывальным меню
-[Show joins/parts in log]
-Далучэнні ў логе
-[Show Profile]
-Профіль
-[Show sync buddy list menu item]
-Пункт сінхранізацыі ў меню
-[Show timestamp in log]
-Паказваць час
-[Show tooltip messages]
-Паказ усплыў. паведамленняў
-[Sync Buddy List with Server-side list]
-Сінхранізаваць спіс з серверам
-[Sync Buddy with Server-side list]
-Сінхранізаваць з серверам
-[The service is temporarily unavailable.  Please try again later.]
-Сэрвіс часова не даступны. Паспрабуйце пазней.
-[Unable to add buddy or group. You may have the max allowed buddies or groups or are trying to add a buddy to a group that doesn't exist and cannot be created.]
-Немагчыма дадаць кантакт ці групу. Магчыма, вы дасягнулі максімуму кантактаў ці груп, або вы спрабуеце дадаць кантакт у няісную групу, якую нельга стварыць.
-[Unconfirmed AOL User]
-Неправераны AOL карыстач
-[Unconfirmed User]
-Неправераны карыстач
-[Unknown AOL User]
-Невядомы AOL карыстач
-[Unknown User]
-Невядомы
-[User Type:]
-Тып карыстача:
-[Verify Password:]
-Пацверджанне пароля:
-[Warn %s (%s)]
-Апавяшчэнне %s (%s)
-[Warn %s]
-Апавяшчэнне %s
-[Warn User]
-Апавясціць
-[Warned By:]
-Папярэджанне ад:
-[Warning Level:]
-Узровень папярэджанняў:
-[Wireless AOL User]
-Бесправадны AOL карыстач
-[Wireless User]
-Бесправадны карыстач
-[You are sending messages too fast.  Some messages may have been dropped.]
-Вы адпраўляеце паведамленні занадта хутка. Некаторыя з іх могуць быць адкінуты.
-[You have been connecting and disconnecting too frequently.  Wait 10 minutes and try again.  If you continue to try, you will need to wait even longer.]
-Вы далучаецеся занадта часта. Пачакайце 10 мінуць і паспрабуйце зноў. Калі вы працягнеце спробы, прыйдзецца чакаць даўжэй.
-[You have been invited to the following chat:]
-Вас запрасілі ў чат:
-[You Have Been Warned]
-Вас папярэдзілі
-[You missed a message because it was sent too fast.]
-Вы прапусцілі занадта хутка пасланае паведамленне.
-[You missed a message because it was too big.]
-Вы прапусцілі занадта вялікае паведамленне
-[You were warned by %s.  Your new warning level is %d%%.]
-Вы папярэджаны %s. ваш узровень папярэджанняў %d%%.
-[Your warning level has been changed to %d%%.]
-Ваш узровень папярэджанняў змяніўся на %d%%.
-[Your warning level is currently too high to sign on.  Please try again later.]
-Ваш узровень папярэджанняў занадта высокі. Паспрабуйце пазней.
-[AIM Group Chats (%d)]
-AIM Групавыя чаты (%d)
-[Would you like to warn %s?\r\n\r\nYou must have exchanged messages with this user recently in order for this to work.]
-Вы жадаеце папярэдзіць %s?\r\n\r\nВы павінны былі абмяняцца паведамленнямі з гэтым карыстачом, каб гэта функцыя працавала.
-[AIM Chat Logs]
-AIM логы
-[AIM OSCAR Plugin]
-Пратакол AIM
-[Screen Name:]
-Імя AIM:
-[Manage Server Groups]
-Кіраваць групамі на серверы
-[Disable SSL]
-Выкл. SSL
 [Users who can contact me:]
 Тыя хто можа звязацца са мной:
 [Allow all users]
@@ -384,14 +74,39 @@ AIM логы
 Заблок. усіх са спісу ніжэй
 [Allow contacts to be notified of:]
 Апавясціць кантакты пра:
-[Please, enter a username in the options dialog.]
-Калі ласка, увядзі імя карыстача ў наладах
-[Mismatched Screen Name or password.]
-Няправільнае імя AIM ці пароль.
-[%s Client-to-client connection]
-%s  злучэнне кліент-кліент
 [Join Chat Room]
 Зайсці ў чат
+[Chat Room]
+Чат пакой
+[Original]
+Стары
+[Repeat]
+Паўтарыць
+[Confirm Account]
+Пацвердзіць
+[*Applied upon reconnect]
+*Патрабуецца перазапуск
+[Save Changes]
+Захаваць змены
+[Room]
+Чат-пакой
+;file \protocols\AimOscar\src\avatars.cpp
+;file \protocols\AimOscar\src\chat.cpp
+;file \protocols\AimOscar\src\error.cpp
+[Mismatched Screen Name or password.]
+Няправільнае імя AIM ці пароль.
+;file \protocols\AimOscar\src\file.cpp
+;file \protocols\AimOscar\src\links.cpp
+;file \protocols\AimOscar\src\popup.cpp
+;file \protocols\AimOscar\src\proto.cpp
+[%s Client-to-client connection]
+%s  злучэнне кліент-кліент
+;file \protocols\AimOscar\src\server.cpp
+[[Auto-Response]:]
+(Аўтаадказ):
+[No information has been provided by the server.]
+Сервер не падаў ніякай інфармацыі.
+;file \protocols\AimOscar\src\theme.cpp
 [AOL Mail]
 Пошта AOL
 [AIM Icon]
@@ -402,8 +117,6 @@ AIM логы
 Правераны
 [Not Confirmed]
 Неправераны
-[Profile Editor]
-Рэдактар профіля
 [Foreground Color]
 Колер пярэдняга плану
 [Not Bold]
@@ -424,5 +137,23 @@ AIM логы
 Стандартны скрыпт
 [Not Normal Script]
 Не стандартны скрыпт
-[*AimOSCAR must be reconnected  for some option to take effect.]
-* Змены адбудуцца пасля наступнага далучэння да AimOSCAR.
+[Profile Editor]
+Рэдактар профіля
+[AIM Account Type]
+Тып конта AIM
+[AIM Extended Status]
+Пашыраны статус AIM
+[Manage Account]
+Кіраванне контамі
+[Instant Idle]
+Усталяваць Instant Idle
+[Read &HTML Away Message]
+Чытаць HTML статуснае паведамленне
+[Read Profile]
+Прагледзець профіль
+[Add To Server List]
+Дадаць у спіс на серверы
+;file \protocols\AimOscar\src\ui.cpp
+;file \protocols\AimOscar\src\utility.cpp
+[Please, enter a username in the options dialog.]
+Калі ласка, увядзі імя карыстача ў наладах

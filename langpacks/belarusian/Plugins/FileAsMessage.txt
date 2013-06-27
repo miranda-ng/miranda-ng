@@ -1,16 +1,17 @@
 ﻿#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
-;  File: fileAsMessage.dll
-;  Module: Send files as a message between two Miranda NG on top of any IM protocol
-[File As Message]
-Файл праз паведамленне
+;============================================================
+;  File: FileAsMessage.dll
+;  Plugin: File as message
+;  Version: 0.0.2.4
+;  Authors: Denis Stanishevskiy
+;============================================================
 [File tranfer by using the messaging services - as plain text.]
 Перадача файлаў праз паведамленні - просты тэкст.
+;file \plugins\FileAsMessage\res\resources.rc
 [fileAsMessage]
 Файл праз паведамленні
-[File As Message...]
-Файл праз паведамленне..
-[file As Message]
-Файлы праз паведамленні
+[Filename:]
+Імя файла:
 [Chunk size]
 Памер часткі
 [Delays between sends]
@@ -29,53 +30,50 @@
 Толькі літарна-цыфравая кадоўка для перадачы
 [Extra options: Events > File Transfers, "Receiving files" group]
 Дад. налады: Падзеі> Перадача файлаў, "Прыём файлаў"
-[Revive]
-Зноўку
+;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]
 Файл ужо існуе. Перазапісаць?
-[Request sent. Awaiting of acceptance..]
-Запрос адпраулены. Чакаем...
-[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-im.org/download/details.php?action=viewfile&id=1811 for more information and download.]
-Калі вы бачаце гэты "бруд", у вас адсутнічае дадатак "fileAsMessage", з дапамогай якога карыстач дасылае вам файл. 
-[Size: %d bytes]
-Памер: %d байт
 [Couldn't open a file]
 Не аттымалася адчыніць файл
+[Size: %d bytes]
+Памер: %d байт
+[Request sent. Awaiting of acceptance..]
+Запрос адпраулены. Чакаем...
 [Received successfully]
 Прынята паспяхова
 [Requesting of missing chunks]
 Запыт адсутных частак
 [Sent successfully]
 Паслана паспяхова
-[Paused, 'coz connection dropped]
-Спынена, з-за абрыва злучэння
-[Transfer is in progress. Do you really want to close?]
-Ідзе перадача файла. Спыніць?
-[Cancelled by user]
-Адменена
-[Cancelled by remote user]
-Адменена другім кантактам
-[Recv file]
-Прыём файла
-[Select a file]
-Абярыце файл
-[Incoming file...]
-Уваходны файл...
-[Synchronizing...]
-Сінхранізацыя...
-[Paused...]
-Пауза...
-[New incoming file request. Do you want proceed?]
-Новы уваходны файл. Хочаце пацягнуць?
 [Incoming file request. Do you want proceed?]
 Уваходны файл. Хочаце працягнуць?
-[Unknown command for "file As Message" was received]
-Невядомая каманда для "file As Message"
+[Cancelled by remote user]
+Адменена другім кантактам
+[New incoming file request. Do you want proceed?]
+Новы уваходны файл. Хочаце пацягнуць?
+[Paused, 'coz connection dropped]
+Спынена, з-за абрыва злучэння
 [Failed on file initialization]
 Памылка пры ініцыялізацыі файла
-[Can't get a file size]
-Не магу атрымаць памер файла
+[Paused...]
+Пауза...
+[Synchronizing...]
+Сінхранізацыя...
+[Select a file]
+Абярыце файл
 [Save as]
 Захаваць як
-[Revive a transfer]
-Аднавіць перадачу
+[Can't get a file size]
+Не магу атрымаць памер файла
+[Cancelled by user]
+Адменена
+[Transfer is in progress. Do you really want to close?]
+Ідзе перадача файла. Спыніць?
+;file \plugins\FileAsMessage\src\main.cpp
+[Revive]
+Зноўку
+[File As Message...]
+Файл праз паведамленне..
+;file \plugins\FileAsMessage\src\main.h
+[File As Message]
+Файл праз паведамленне

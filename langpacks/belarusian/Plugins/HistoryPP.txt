@@ -1,6 +1,12 @@
 ﻿#muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
+;============================================================
 ;  File: historypp.dll
-;  Module: History++
+;  Module: History++ (Unicode + ANSI)
+;  Versions: 1.5.1.4
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2995
+;  Source: http://historypp.googlecode.com/svn/historypp/trunk
+;  Authors: theMIROn
+;============================================================
 [Voice calls]
 Званкі
 [Voice call]
@@ -113,10 +119,6 @@ WATrack: запыт забаронены
 Інфармацыя пра падзею
 [Date/Time:]
 Дата/час:
-[Copy All]
-Капіяваць усё
-[&Select All]
-&Вылучыць усё
 [SMS Message]
 Паведамленне SMS
 [WebPager]
@@ -179,8 +181,6 @@ EMail Express
 Сістэмная гісторыя
 [Searching "%s"...]
 Пошук у "%s"...
-[Stop]
-Стоп
 [Searching... Please wait.]
 Пачакайце, ідзе пошук...
 [Preparing search...]
@@ -213,24 +213,16 @@ EMail Express
 Дадаткова <
 [HotSearch: %s (F3 to find next)]
 Хуткі пошук: %s (F3 каб працягнуць)
-[You have reached the end of the history.]
-Вы дабраліся да канца гісторыі.
 [Do you want to continue searching at the beginning?]
 Працягнуць пошук з пачатку гісторыі?
 [History++ Search]
 Пошук у гісторыі
 [Saving...]
 Захаванне...
-[Searching...]
-Пошук...
 [Deleting...]
 Выдаленне...
 [Do you really want to delete selected items (%.0f)?]
 Выдаліць абраныя запісы (%.0f)?
-[Delete Selected]
-Выдаліць абранае
-[Do you really want to delete selected item?]
-Выдаліць абраны запіс?
 [%s - History++]
 Гісторыя %s
 [History is empty]
@@ -325,8 +317,6 @@ Unicode (*.txt)|*.txt
 Тэкставы (*.txt)|*.txt
 [All files (*.*)|*.*]
 Усе файлы (*.*)|*.*
-[Conversation started at %s]
-Гутарка пачата ў %s
 [Remove bookmark]
 Выдаліць закладку
 [Bookmark]
@@ -371,8 +361,6 @@ id невядомы
 Перадача файла: %s
 [Incoming file transfer: %s]
 Прыём файла: %s
-[Authorisation request by %s (%s%d): %s]
-Запыт аўтарызацыі ад %s (%s%d): %s
 [You were added by %s (%s%d)]
 Вас дадаў(а) %s (%s%d)
 [Outgoing contacts: %s]
@@ -419,8 +407,6 @@ Email express ад %s (%s): %s
 Тэкст справа налева па змаўчанні
 [Additional processing support]
 Падтрымка дадатковай апрацоўкі
-[Enable BBCodes]
-Падтрымка BBCode
 [Change Appearance]
 Змяніць вонкавы выгляд
 [To change fonts you need to install FontService plugin.]
@@ -467,8 +453,6 @@ Enter для падрабязнасцяў падзеі
 Схаваць загалоўкі гутарак
 [Save All]
 Захаваць усё
-[Delete All]
-Выдаліць усё
 [Events filter]
 Фільтр падзей
 [In-place filter wait]
@@ -487,16 +471,12 @@ Enter для падрабязнасцяў падзеі
 Падзельнік
 [Incoming url]
 Уваходная спасылка
-[Outgoing contacts]
-Выходныя кантакты
 [Outgoing file]
 Выходны файл
 [Outgoing SMS Message]
 Выходнае паведамленне SMS
 [Outgoing url]
 Выходная спасылка
-[Selected background]
-Фон вылучэння
 [SMTP Simple]
 Паведамленне SMTP Simple
 [Show sender information]
@@ -505,18 +485,12 @@ Enter для падрабязнасцяў падзеі
 Інфармацыя пра атрымальніка
 [Toggle &Processing]
 Пераключыць апрацоўку
-[Toolbar]
-Панэль кнопак
-[Incoming SMS Message]
-Уваходнае SMS паведамленне
 [Link URLs]
 Спасылкі
 [History++]
 Гісторыя
 [Unicode text file]
 Тэкст у юнікодзе
-[RTF file]
-RTF файл
 [XML file]
 XML файл
 [Appearance options]
@@ -609,8 +583,6 @@ HTML файл
 (дата і час)
 [All Items]
 Усе падзеі
-[and]
-і
 [Authorisation Request by %s (%s%s%d): %s]
 Запыт на аўтарызацыю ад %s (%s%s%d): %s
 [Authorisation Request Sample]
@@ -749,3 +721,17 @@ Wiki-старонка дадатковых параметраў
 %d мін
 [&Reset to Default]
 Змаўчанні
+[Contact history]
+Гісторыя кантакту
+[Incoming nick]
+Імя суразмоўцы
+[Outgoing nick]
+Ваша імя
+[Incoming contacts]
+Уваходныя кантакты
+[System message]
+Сістэмнае паведамленне
+[Incoming timestamp]
+Уваходны гадзіна
+[Outgoing timestamp]
+Выходныя час

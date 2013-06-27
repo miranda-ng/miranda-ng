@@ -1,24 +1,15 @@
 ﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
+;============================================================
 ;  File: Fingerprint.dll
-;  Module: Display client icons, Fingerprint, Fingerprint Plus, Fingerprint Mod+, FingerprintNG
-[Show Miranda version]
-Паказваць версію Miranda
-[Pack overlays]
-Абразкі зборак
-[Fingerprint]
-Абразкі кліентаў
-[Undetected client]
-Нязнойдзены кліент
-[Unknown client]
-Невядомы кліент
-[Platform]
-Аперацыйная сістэма
+;  Plugin: Fingerprint NG
+;  Version: 0.1.0.0
+;  Authors: faith_healer, ghazan, mataes
+;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
 Fingerprint NG адлюстроўвае абразкі кліентаў, выкарыстованых вашымі суразмоўцамі.
+;file \plugins\FingerprintNG\res\resource.rc
 [Fingerprint overlays icons]
 Аверлэі абразкоў кліентаў
-[Client icons]
-Кліенты
 [Miranda clients]
 Кліенты Miranda
 [Miranda packs overlays]
@@ -31,6 +22,8 @@ Fingerprint NG адлюстроўвае абразкі кліентаў, вык�
 Абразкі платформы
 [Protocols overlays]
 Абразкі пратаколаў
+[Unicode overlay]
+Unicode
 [Secure overlays]
 Абразкі шыфравання
 [AIM clients]
@@ -59,42 +52,51 @@ Fingerprint NG адлюстроўвае абразкі кліентаў, вык�
 Кліенты Yahoo
 [Multi-protocol clients]
 Мульты-пратакольныя кліенты
-[Multi-proto clients]
-Мульты-пратакол
 [Other (rare) protocols]
 Кліенты рэдкіх пратаколаў
 [Other icons]
 Іншыя абразкі
+[Show client icon in message window status bar]
+Паказаць абразок у статусным радку гутаркі
+;file \plugins\FingerprintNG\src\fingerprint.cpp
+;file \plugins\FingerprintNG\src\finger_groups.h
+[Client icons]
+Кліенты
+[Pack overlays]
+Абразкі зборак
+[Multi-proto clients]
+Мульты-пратакол
 [Other protocols]
 Іншыя пратаколы
-[Overlays]
-Абразкі
-[Windows overlay]
-Windows
-[iOS overlay (iPhone/iPad)]
-iOS
-[MacOS overlay]
-MacOS
-[Linux overlay]
-Linux
-[Flash overlay]
-Flash
-[Java overlay]
-Java
-[Symbian overlay]
-Symbian
-[Amiga overlay]
-Amiga
-[Android overlay]
-Android
-[SecureIM overlay]
-SecureIM
-[x64 overlay]
-x64
-[x32 overlay]
-x32
-[Unicode overlay]
-Unicode
+[Platform]
+Аперацыйная сістэма
+;file \plugins\FingerprintNG\src\masks.cpp
+[MirandaNG stable]
+Стабільная MirandaNG
+[MirandaIM (old versions)]
+MirandaIM (старая)
+[Miranda (unknown)]
+Miranda (невядома)
+[spam client]
+спам кліент
+[PHP Jabber Client]
+PHP Jabber кліент
+[Mail.Ru Agent (official)]
+Mail.Ru Агент (афіцыйны)
+[Mail.Ru (unknown client)]
+Mail.Ru (невядомы)
+[Gadu-Gadu client]
+Gadu-Gadu
+[Tlen.pl client]
+Tlen.pl
+[Jabber client]
+Jabber
+[XMPP client]
+XMPP
+[Client not found]
+Нязнойдзены кліент
+[Undetected client]
+Нязнойдзены кліент
 [AIM overlay]
 AIM
 [ICQJ Plus Mod overlay]
@@ -119,6 +121,24 @@ Tlen.pl
 Yahoo
 [Mail.Ru Agent overlay]
 Mail.Ru Agent
+[Windows overlay]
+Windows
+[iOS overlay (iPhone/iPad)]
+iOS
+[MacOS overlay]
+MacOS
+[Linux overlay]
+Linux
+[Flash overlay]
+Flash
+[Java overlay]
+Java
+[Symbian overlay]
+Symbian
+[Amiga overlay]
+Amiga
+[Android overlay]
+Android
 [debug overlay]
 debug
 [office overlay]
@@ -131,27 +151,14 @@ debug
 праца
 [notebook overlay]
 ноутбук
-[Client not found]
-Нязнойдзены кліент
-[MirandaNG stable]
-Стабільная MirandaNG
-[MirandaIM (old versions)]
-MirandaIM (старая)
-[Miranda (unknown)]
-Miranda (невядома)
-[spam client]
-спам кліент
-[PHP Jabber Client]
-PHP Jabber кліент
-[Mail.Ru Agent (official)]
-Mail.Ru Агент (афіцыйны)
-[Mail.Ru (unknown client)]
-Mail.Ru (невядомы)
-[Gadu-Gadu client]
-Gadu-Gadu
-[Tlen.pl client]
-Tlen.pl
-[Jabber client]
-Jabber
-[XMPP client]
-XMPP
+[x64 overlay]
+x64
+[x32 overlay]
+x32
+[NewGPG overlay]
+Шыфраванне NewGPG
+[MirOTR overlay]
+Шыфраванне MirOTR
+[SecureIM overlay]
+SecureIM
+;file \plugins\FingerprintNG\src\options.cpp

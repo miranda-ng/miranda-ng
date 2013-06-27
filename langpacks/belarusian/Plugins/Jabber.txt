@@ -1,74 +1,35 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
-;  File: jabber.dll
-;  Module: Jabber protocol
-[Jabber protocol support for Miranda NG.]
-Убудова падтрымкі пратакола Jabber.
-[Register new user]
-Рэгістрацыя
-[Jabber Account Registration]
-Рэгістрацыя конту Jabber
-[Register]
-Рэгістрацыя
-[No message]
-Няма паведамлення
-[Sending registration information...]
-Дасылка рэгістрацыйнай інфармацыі...
-[Requesting registration instruction...]
-Запыт рэгістрацыйнай інструкцыі...
-[Error: Not enough memory]
-Памылка: Не хапае памяці
-[Error: Cannot resolve server address]
-Памылка: Немагчыма знайсці адрас сервера
-[Error: Connection lost]
-Памылка: Злучэнне страчана
-[Registration successful]
-Рэгістрацыя паспяхова пройдзена
-[Password do not match.]
-Паролі не супадаюць
-[Forbidden]
-Забаронена
-[Current Password:]
-Бягучы пароль:
-[New Password:]
-Новы пароль:
-[Confirm New Password:]
-Пацверджанне:
-[Confirm password]
-Увядзіце пароль
-[Unregister]
-Выдаліць
-[Account removal warning]
-Выдаленне конту
-[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
-Гэта аперацыя выдаліць Ваш конт, росцер і ўсю інфармацыю захоўваемую на серверы. Вы сапраўды жадаеце выдаліць уліковы запіс?
-[Set New Password for]
-Усталёўка новага пароля
-[New password does not match.]
-Новыя паролі не супадаюць
-[Current password is incorrect.]
-Бягучы пароль няверны
-[Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
-Пароль паспяхова зменены. Не забудзьцеся абнавіць Ваш пароль у наладах уліковага запісу Jabber.
-[Password cannot be changed.]
-Пароль не можа быць зменены
-[Save password]
-Захаваць пароль
-[Remember password for this session]
-Захаваць пароль для гэтай сесіі
-[Save password permanently]
-Захаваць пароль
-[Use Domain Login]
-Даменны лагін
-[Jabber Password]
-Jabber Пароль
-[Enter password for]
-Увядзіце пароль для
-[Priority:]
-Прыярытэт:
-[Resource:]
-Рэсурс:
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\JabberG\res\jabber.rc
+[Edit Note]
+Рэдагаваць нататку
+[Tags:]
+Тэгі:
+[User:]
+Лагін:
 [Domain/Server:]
 Дамен/Сервер:
+[Resource:]
+Рэсурс:
+[Register new user]
+Рэгістрацыя
+[Use custom connection host and port:]
+Налада далучэння (вузел і порт):
+[Use Domain Login]
+Даменны лагін
+[Search service]
+Служба пошуку
+[Roster Editor]
+Рэдактар росцера
+[Roster editor\nView and modify your server-side contact list.]
+Рэдактар росцера\nПрагляд і праўка спісу кантактаў на серверы.
+[Priority:]
+Прыярытэт:
 [Use hostname as resource]
 Імя хаста ў якасці рэсурсу
 [List of public servers]
@@ -77,408 +38,48 @@ Jabber Пароль
 SSL
 [Use TLS]
 TLS
+[Unregister]
+Выдаліць
 [Manually specify connection host]
 Паказаць хост для далучэння
-[Automatically delete contacts not in my roster]
-Аўтаматычна выдаляць кантакты, якія не ў спісе
 [User directory:]
 Дырэкторыя карыстачоў:
 [Language for human-readable resources:]
 Мова для бачных чалавеку рэсурсаў:
-[You can change your password only when you are online]
-Каб змяніць пароль, вам трэба далучыцца
-[You must be online]
-Вам трэба далучыцца
-[Use custom connection host and port:]
-Налада далучэння (вузел і порт):
-[Secure XMPP Network (old style)]
-Абароненае XMPP (стары стыль)
-[Public XMPP Network]
-Публічнае XMPP
-[Secure XMPP Network]
-Абароненае XMPP
-[Click here to download OpenSSL, required for Google Talk support]
-Загрузіць OpenSSL (неабходны для падтрымкі Google Talk)
-[LiveJournal Talk]
-Чат LiveJournal
-[Facebook Chat]
-Чат Facebook
-[sent subscription request]
-адправіў запыт на падпіску
-[approved subscription request]
-прыняў запыт на падпіску
-[declined subscription]
-адхіліў падпіску
-[sent error presence]
-адправіў прысутнасць з памылкай
-[sent unknown presence type]
-адправіў невядомы тып прысутнасці
-[Chat options]
-Налады чата
-[Conferences]
-Канферэнцыі
-[Automatically join conferences on login]
-Аўтаматычна заходзіць у канферэнцыі пры ўваходзе
-[Autoaccept multiuser chat invitations]
-Аўтаматычна прымаць запрашэнні ў канферэнцыі
-[Automatically join bookmarks on login]
-Аўтаматычна заходзіць у закладкі
-[Hide conference windows at startup]
-Не адкрываць вокны чат-канферэнцый пры ўваходзе
-[Do not show multiuser chat invitations]
-Не паказваць запрашэнні ў шматкарыстальніцкі чат
-[Log events]
-Запіс падзей у журнал
-[Ban notifications]
-Апавяшчэнні пра баны
-[Room configuration changes]
-Змена налад канферэнцыі
-[Affiliation changes]
-Змена прыналежнасці
-[Role changes]
-Змена ролі
-[Filter history messages]
-Не загружаць прачытаныя паведамленні ў гісторыі
-[Custom messages]
-Свае паведамленні
-[Quit:]
-Выйсце:
-[Slap:]
-Шлёпнуць:
-[Alternate nick:]
-Альтэрнатыўны нік:
 [Allow file sending through direct peer-to-peer connection]
 Перадача файлаў праз прамое злучэнне (peer-to-peer)
-[Allow file sending through bytestream proxy server:]
-Перадача праз струменевы проксі (bytestream):
 [Specify external address:]
 Вонкавы адрас:
+[Allow file sending through bytestream proxy server:]
+Перадача праз струменевы проксі (bytestream):
 [Hint:]
 Нататка:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Адключыце ўсе опцыі, калі ў вас праблемы з адпраўкай файлаў. Могуць з'явіцца праблемы з перадачай вялікіх файлаў.
-[Log chat state changes]
-Запісваць змены стану чата
-[Log presence errors]
-Запісваць памылкі прысутнасці
-[Log presence subscription state changes]
-Запісваць змены прысутнасці
-[Enable user moods receiving]
-Уключыць прыём настрояў
-[Enable user tunes receiving]
-Уключыць прыём мелодый
-[Enable user activity receiving]
-Уключыць прыём заняткаў
-[Receive notes]
-Прымаць нататкі
-[Automatically save received notes]
-Аўтаматычна захоўваць прынятыя нататкі
-[Server options]
-Налады сервера
-[Disable SASL authentication (for old servers)]
-Адключыць аўтэнтыфікацыю SASL (старыя серверы)
-[Enable stream compression (if possible)]
-Сціскаць струмень (калі магчыма)
-[Enable XMPP server ping (XEP-0199)]
-Уключыць пінг XMPP сервера (XEP-0199)
-[Enable remote controlling (from another resource of same JID only)]
-Выдаленае кіраванне (толькі з іншага рэсурсу аднаго JID)
-[Show transport agents on contact list]
-Паказаць транспарты ў спісе кантактаў
-[Automatically add contact when accept authorization]
-Дадаваць кантакт пасля пацверджання аўтарызацыі
-[Automatically accept authorization requests]
-Аўтаматычна прымаць запыты аўтарызацыі
-[Fix incorrect timestamps in incoming messages]
-Выпраўляць час ва ўваходных паведамленнях
-[Disable frame]
-Выключыць фрэйм
-[Security]
-Бяспека
-[Enable server-side history]
-Уключыць гісторыю на серверы (XEP-0136)
-[Allow servers to request version (XEP-0092)]
-Адказваць на запыты пра версіі (XEP-0092)
-[Show information about operating system in version replies]
-Пасылаць інфармацыю пра аперацыйную сістэму ў запытах версіі
-[Accept only in band incoming filetransfers (don't disclose own IP)]
-Дазваляць перадачу файлаў толькі унутры струменя (не расчыняць свой IP)
-[Accept HTTP Authentication requests (XEP-0070)]
-Прымаць запыты аўтэнтыфікацыі HTTP  (XEP-0070)
-[Jabber Activity]
-Занятак Jabber
-[Jabber Mood]
-Настрой Jabber
-[Enable XMPP link processing (requires Association Manager)]
-Апрацоўваць XMPP спасылкі (патрабуецца модуль "Association Manager")
-[Keep contacts assigned to local groups (ignore roster group)]
-Выкарыстоўваць лакальныя групы (ігнараваць групы росцеру)
-[Frame text]
-Тэкст фрэйма
-[Frame title]
-Загаловак фрэйма
-[Background]
-Фон
-[Privacy lists]
-Спісы прыватнасці
-[Convert]
-Канвертаваць
-[Login/logout]
-Увайсці/Выйсці
-[Add to roster]
-Дадаць у росцер
-[Send Presence]
-Адправіць прысутнасць
-[Send Note]
-Адправіць нататку
-[Tags:]
-Тэгі:
-[Send note to %s]
-Адправіць нататку %s
-[&Convert to Chat Room]
-&Канвертаваць у чат
-[&Convert to Contact]
-Канвертаваць у кантакт
-[Jabber Resource]
-Jabber Рэсурс
-[Last Active]
-Апошні актыўны
-[Server's Choice]
-Выбар сервера
-[Resolve nicks]
-Вызначыць нікі
-[Add to Bookmarks]
-Дадаць у закладкі
-[Commands]
-Каманды
-[Convert to room]
-Канв. у комнату
-[AdHoc Command]
-Каманда AdHoc
-[OpenID Request]
-Запыт OpenID
-[Personal vCard]
-Асабісты vCard
-[Voice List]
-Спіс удзельнікаў
-[Set topic for]
-Вызначыць тэму для
-[Join conference]
-Увайсці на каферэнцыю
-[Open bookmarks]
-Адкрыць закладкі
-[all attributes]
-усе атрыбуты
-[Refresh Info]
-Абнавіць інфо
-[Refresh Children]
-Абнавіць службы
-[Join chatroom]
-Увайсці ў комнату
-[Contact Menu...]
-Меню кантакту...
-[Copy node information]
-Скапіраваць інфармацыю
-[Copy node name]
-Скапіраваць імя
-[Copy JID]
-Скапіраваць JID
-[Bookmark chatroom]
-Дадаць у закладкі
-[Add to favorites]
-Дадаць у абранае
-[View vCard]
-Прагляд vCard
-[Commands...]
-Каманды...
-[Jabber Ad-Hoc commands at]
-Jabber Ad-Hoc каманды на
+[Jabber Account Registration]
+Рэгістрацыя конту Jabber
 [Instruction:]
 Інструкцыя:
-[Bots Challenge Test]
-Засцярога ад ботаў
-[Select Command]
-Выберыце каманду
-[Not supported]
-Не падтрымліваецца
-[Error %s %s]
-Памылка %s %s
-[Execute]
-Выканаць
-[Use this proxy]
-Выкарыстоўваць гэты проксі
-[Bookmarks...]
-Закладкі...
-[Copy &nickname]
-Капіяваць нік
-[Copy only this value]
-Капіяваць значэнне
-[Copy real &JID]
-Капіяваць JID
-[Copy room &JID]
-Капіяваць JID пакою
-[Copy room topic]
-Капіяваць тэму
-[Change &nickname]
-Змяніць нік
-[&Admin list]
-Спіс адмінаў
-[&Affiliations]
-Прыналежнасць
-[&Destroy room]
-Выдаліць пакой
-[&Invite a user]
-Запрасіць карыстача
-[&Member list]
-Спіс карыстачоў
-[&Moderator list]
-Спіс мадэратараў
-[&Owner list]
-Спіс уладальнікаў
-[&Participant list]
-Спіс удзельнікаў
-[&Roles]
-Ролі
-[Admin List]
-Спіс адмінаў
-[Ban List]
-Спіс заблакаваных
-[Member List]
-Спіс карыстачоў
-[Moderator List]
-Спіс мадэратараў
-[Owner List]
-Спіс уладальнікаў
-[%s, %d items (%s)]
-%s, %d пункта(ў) (%s)
-[Apply filter]
-Ужыць фільтр
-[Reset filter]
-Скінуць фільтр
-[Real &JID: %s]
-Рэальны JID: %s
-[Change nickname in]
-Змяніць нік у
-[Lin&ks]
-Спасылкі
-[Copy in-room JID]
-Капіяваць JID з пакою
-[&Send presence]
-&Адправіць прысутнасць
-[&Add to roster]
-&Дадаць у росцер
-[&Admin]
-&Адмін
-[&Member]
-Карыстач
-[&Moderator]
-Мадэратар
-[&None]
-Не
-[&Owner]
-Уладальнік
-[&Participant]
-Удзельнік
-[&Room options]
-Налады пакою
-[&Visitor]
-Наведвальнік
-[Outcast (&ban)]
-Забаніць
-[Outcast list (&ban)]
-Спіс забаненых
-[Add search directory]
-Дадаць тэчку пошуку
-[Member &info]
-Правы доступу
-[Member Information]
-Правы доступу
-[Member]
-Карыстач
-[Moderator]
-Мадэратар
-[Reason to ban]
-Чыннік бана
-[Invite to room]
-Запрасіць у чат-пакой
-[from]
-з
-[Set &affiliation]
-Усталяваць прыналежнасць
-[Set &role]
-Усталяваць ролю
-[View/change &topic]
-Прагляд/змена тэмы
-[Add to &bookmarks]
-Дадаць у закладкі
-[Affiliation:]
-Прыналежнасць:
-[&Configure...]
-&Наладзіць...
-[Role:]
-Роля:
-[Visitor]
-Наведвальнік
-[Participant]
-Удзельнік
-[Affiliation:\t]
-У складзе:\t
-[Nick:\t\t]
-Нік:\t\t
-[Real JID:\t]
-Рэальны JID:\t
-[Role:\t\t]
-Роля:\t\t
-[Status text:\t]
-Тэкст статусу:\t
-[Status:\t\t]
-Статус:\t
-[Removing]
-Выдаленне
-[Real JID:]
-Дзейсны JID:
-[Send note]
-Адправіць нататку
-[Multi-User Conference]
-Канферэнцыя
-[JabberAccountChooser]
-Выбар конту Jabber
-[Activities]
-Заняткі
-[Moods]
-Настроі
-[transport]
-транспарт
-[<No photo>]
-<Няма фота>
-[both]
-у абодва бакі
-[Last logoff time]
-Адключаны:
-[Last active resource]
-Апошні актыўны рэсурс
-[<no information available>]
-<няма інфармацыі>
-[Logoff message]
-Паведамленне адключэння
-[Resource]
-Рэсурс
-[Software]
-Кліент
-[Resource priority]
-Прыярытэт рэсурсу
-[Client capabilities]
-Магчымасці кліента
-[Idle since]
-Прастойвае з
-[Jabber vCard: Add Phone Number]
-Jabber vCard: даданне тэлефона
-[Jabber vCard: Edit Email Address]
-Jabber vCard: рэдагаванне E-mail
-[Jabber vCard: Edit Phone Number]
-Jabber vCard: рэдагаванне тэлефона
+[Submit]
+Перадаць
+[Remember password for this session]
+Захаваць пароль для гэтай сесіі
+[Save password permanently]
+Захаваць пароль
+[Address1:]
+Адрас 1:
+[Address2:]
+Адрас 2:
+[ZIP:]
+Індэкс:
+[Middle:]
+Імя па бацьку:
+[YYYY-MM-DD]
+ГГГГ-ММ-ДД
 [Email address:]
 Адрас E-mail:
+[Jabber vCard: Add Phone Number]
+Jabber vCard: даданне тэлефона
 [Phone number:]
 Тэлефон:
 [Pager]
@@ -493,342 +94,447 @@ BBS
 Нумар
 [PCS]
 PCS
-[Supports private XML Storage (for bookmakrs and other)]
-Захоўванне XML (для закладак і інш.)
-[Receives information about the music to which a user is listening]
-Прыём інфармацыі пра парслухоўваемую музыку
-[Can report information about the music to which a user is listening]
-Адпраўка інфармацыі пра парслухоўваемую музыку
-[Supports Message Receipts]
-Прыём паведамленняў
-[Can block communications from particular other users using Privacy lists]
-Блакаванне карыстачоў з выкарыстаннем лістоў прыватнасці
-[Supports SecureIM plugin for Miranda NG]
-Падтрымка модуля SecureIM Miranda
-[Supports generic publish-subscribe functionality]
-Асноўная функцыянальнасць падпісак
-[Receives information about user moods]
-Прыём настрояў
-[Can report information about user moods]
-Адпраўка настрояў
-[Can request advanced processing of message stanzas]
-Запыты пашыранай апрацоўкі тыпаў падзей
-[Can negotiate options for specific features]
-Апрацоўка адмысловых магчымасцяў
-[Supports Jabber Browsing]
-Прагляд Jabber
-[Supports xHTML formatting of chat messages]
-xHTML фармат чат паведамленняў
-[Supports iq-based avatars]
-Падтрымка iq-based аватараў
-[Supports vCard]
-Падтрымка vCard
-[Can request and respond to events relating to the delivery, display, and composition of messages]
-Запыт і адказ на падзеі - дастаўка, адлюстраванне, складанне паведамленняў
-[Supports data forms]
-Формы дадзеных
-[Can send and receive ping requests]
-Прыём і адпраўка пінгаў
-[Can report local time of the user]
-Паведамленне лакальнага часу
-[Can report own version information]
-Паведамленне версій
-[Can report information about the last activity of the user]
-Паведамленне пра апошнюю актыўнасць карыстача
-[Can report information about user activity]
-Паведамленне пра актыўнасць карыстача
-[Can report chat state in a chat session]
-Паведамленне пра стан чата ў чат сесіі
-[Supports multi-user chat]
-Падтрымка чатаў
-[Supports in-band registration]
-Унутрыструменевая рэгістрацыя
-[Supports execution of Ad-Hoc commands]
-Выкананне Ad-Hoc каманд
-[Supports file transfers via Out-of-Band Bytestreams]
-Па-заструменевая перадача файлаў (OBB)
-[Supports file transfers via In-Band Bytestreams]
-Унутрыструменевая перадача файлаў (IBB)
-[Supports file transfers via SOCKS5 Bytestreams]
-Перадача файлаў праз SOCKS5 проксі
-[Supports stream initiation for file transfers]
-Ініцыяванне струменя для перадачы файлаў
-[Supports stream initiation (for filetransfers for ex.)]
-Ініцыяванне струменя (перадача файлаў вонкі)
-[Can inform about its Jabber capabilities]
-Паведамленне падтрымоўваных функцый Jabber (CAPs)
-[Supports Service Discovery items list]
-Прагляд спісу службаў
-[Supports Service Discovery info]
-Інфармацыя пра службы
-[Supports Jingle]
-Падтрымка Jingle
-[Supports attention requests ('nudge')]
-Падтрымка апавяшчэнняў увагі ('nudge')
-[Supports Miranda NG notes extension]
-Падтрымка нататак Miranda
-[Software information]
-Інфармацыя пра ПЗ
-[Operating system]
-Аперацыйная сістэма
-[Operating system version]
-Версія АС
-[Software version]
-Версія ПЗ
-[Miranda NG core version]
-Версія Miranda
-[Unicode build]
-Unicode зборка
-[Alpha build]
-Альфа зборка
-[Debug build]
-Адладкавая зборка
-[Subscription]
-Падпіска
-[Mood]
-Настрой
-[Activity]
-Занятак
-[Full name:]
-Поўнае імя:
-[Middle:]
-Імя па бацьку:
-[YYYY-MM-DD]
-ГГГГ-ММ-ДД
-[Address1:]
-Адрас 1:
-[Address2:]
-Адрас 2:
-[ZIP:]
-Індэкс:
-[Receives information about user activity]
-Прыём інфармацыі пра занятак карыстача
-[Tune]
-Мелодыя
-[Services...]
-Службы...
-[Service Discovery]
-Прагляд службаў
-[View as list]
-Як спіс
-[View as tree]
-Як дрэва
-[Navigate home]
-Перайсці ў пачатак
-[Refresh node]
-Абнавіць вузел
-[Node:]
-Вузел:
-[Node]
-Вузел
-[Node hierarchy]
-Іерархія вузла
-[Set filter...]
-Фільтр...
-[Registered Transports]
-Транспарты
-[Local Server Transports]
-Транспарты сервера
-[Browse Chatrooms]
-Агляд чат-пакояў
-[Create/Join groupchat]
-Стварыць/увайсці ў чат
-[Create or join existing conference room.]
-Стварэнне ці ўваход у чат-пакой
+[Current Password:]
+Бягучы пароль:
+[New Password:]
+Новы пароль:
+[Confirm New Password:]
+Пацверджанне:
 [Conference server:]
 Сервер:
-[Room:]
-Чат-пакой:
-[Nick name:]
-Псеўданім:
-[Recently visited chatrooms:]
-Апошнія наведаныя чаты:
-[Roster editor]
-Рэдактар росцера
-[Roster Editor]
-Рэдактар росцера
-[Server side bookmarks\nStore conference rooms and web links on server.]
-Закладкі на серверы\nЗахоўваць чат-пакоі і спасылкі на серверы.
-[Privacy Lists\nFlexible way to configure visibility and more.]
-Спісы прыватнасці\nЗручны спосаб наладзіць бачнасць і не толькі.
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Чат-пакой Jabber\nСтварэнне ці ўваход у чат-пакой.
-[Roster editor\nView and modify your server-side contact list.]
-Рэдактар росцера\nПрагляд і праўка спісу кантактаў на серверы.
-[Jabber notebook\nStore notes on server and access them from anywhere.]
-Запісная кніжка\nЗахоўванне нататак на серверы і доступ да іх адусюль.
+[Room:]
+Чат-пакой:
+[Recently visited chatrooms:]
+Апошнія наведаныя чаты:
+[Bookmarks]
+Закладкі
+[Register]
+Рэгістрацыя
+[Invite Users]
+Запрашэнне карыстачоў
 [<room jid>\nSend groupchat invitation.]
 <room jid>\nЗапрасіць у чат-пакой.
+[Other JID:]
+Іншы JID:
+[Invitation reason:]
+Чыннік запрашэння:
+[Groupchat Invitation]
+Запрашэнне ў канферэнцыю
 [<room jid>\nIncoming groupchat invitation.]
 <room jid>\nЗапрашэнне ў чат-пакой.
-[Member Information\n<user id>]
-Інфармацыя пра карыстача\n<user id>
-[Nick Name]
-Нік
+[You are invited to conference room by]
+Вас запрасіў:
+[with following reason:]
+чыннік:
+[Jabber Bookmarks]
+Закладкі
+[Server side bookmarks\nStore conference rooms and web links on server.]
+Закладкі на серверы\nЗахоўваць чат-пакоі і спасылкі на серверы.
+[Bookmark Details]
+Дэталі закладкі
+[Bookmark Type]
+Тып закладкі
+[Transport]
+Транспарт
+[Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
+Аўта-ўваход (Неабходна ўключыць аўтаматычны ўваход у наладах)
+[Room JID/ URL:]
+JID / URL:
+[Bookmark Name:]
+Імя закладкі:
 [Privacy Lists]
 Спісы прыватнасці
-[List Editor...]
-Рэдактар спісаў...
-[** Default **]
-** Па змаўчанні **
-[** Subsription: none **]
-** Падпіска: няма **
-[** Subsription: from **]
-** Падпіска: ад **
-[** Subsription: to **]
-** Падпіска: у **
-[** Subsription: both **]
-** Падпіска: абедзве **
-[invisible]
-нябачныя
-[invisible list]
-спіс нябачных
-[visible]
-бачныя
-[visible list]
-спіс бачных
-[Flexible way to configure visibility and more.]
-Зручны спосаб наладзіць бачнасць і не толькі
-[ (act., def.)]
-(акціўна, змаўч.)
+[Privacy Lists\nFlexible way to configure visibility and more.]
+Спісы прыватнасці\nЗручны спосаб наладзіць бачнасць і не толькі.
 [Lists:]
 Спісы:
 [Rules:]
 Кіравала:
-[Add list...]
-Дадаць...
-[Presence (in)]
-Прысутнасць (ув)
-[Presence (out)]
-Прысутнасць (зых)
-[Query]
-Запыт
-[Add JID]
-Дадаць
-[Simple mode]
-Просты рэжым
-[Advanced mode]
-Пашыраны рэжым
-[Ready.]
-Гатовы.
-[Sending request, please wait...]
-Адпраўка запыту, калі ласка, пачакайце...
-[Set default]
-Па змаўчанні
-[Remove list]
-Выдаліць
-[Privacy lists are not saved, discard any changes and exit?]
-Спісы прыватнасці не захаваны, адмяніць змены і выйсці?
-[No list selected]
-Спіс не абраны
 [Privacy rule]
 Налады прыватнасці
-[Warning: privacy lists were changed on server.]
-Увага: спісы прыватнасці захаваны на серверы.
 [If:]
 Калі:
 [Then:]
 Тады:
-[then]
-тады
-[Else]
-Інакш
-[allow]
-можна
-[deny]
-нельга
-[queries]
-запыты
-[incoming presences]
-уваходная прысутнасць
-[outgoing presences]
-выходная прысутнаст
+[following stanza types:]
+Наступныя тыпы з'яў:
 [Incoming presence]
 Уваходная прысутнасць
 [Outgoing presence]
 Выходная прысутнасць
-[following stanza types:]
-Наступныя тыпы з'яў:
-[Can't remove active or default list]
-Немагчыма выдаліць актыўны ці стандартны спіс
-[If group is ']
-Калі група '
-[If jabber id is ']
-Калі JID  '
-[If subscription is ']
-Калі падпіска  '
-[ and ]
- і
-[Other JID:]
-Іншы JID:
-[Active privacy list successfully declined]
-Актыўны спіс прыватнасці адхілены паспяхова
-[Default privacy list successfully declined]
-Стандартны спіс прыватнасці паспяхова адхілены
-[Error occurred while setting list %s as active]
-Памылка пры ўсталёўцы спісу %s актыўным
-[Error occurred while setting list %s as default]
-Памылка пры ўсталёўцы спісу %s па змаўчанні
-[Privacy list %s set as default]
-Спіс прыватнасці %s - асноўны
-[Privacy list %s set as active]
-Спіс прыватнасці %s - актыўны
-[ (active)]
- (актыўны)
-[ (default)]
- (асноўны)
-[ (nickname: ]
- (нік:
-[all.]
-усё.
 [New privacy list name:]
 Новае імя спісу прыватнасці:
 [Enter the name of the new list:]
 Увядзіце імя новага спісу:
-[Resource priority [%d]]
-Прыярытэт рэсурсу [%d]
-[Set mood...]
-Настрой...
-[Set activity...]
-Занятак...
-[Increase priority by 10]
-Павялічыць прыярытэт на 10
-[Increase priority by 5]
-Павялічыць прыярытэт на 5
-[Increase priority by 1]
-Павялічыць прыярытэт на 1
-[Decrease priority by 10]
-Паменшыць прыярытэт на 10
-[Decrease priority by 5]
-Паменшыць прыярытэт на 5
-[Decrease priority by 1]
-Паменшыць прыярытэт на 1
-[Mood: %s]
-Настрой: %s
-[Activity: %s]
-Занятак: %s
-[Set Mood]
-Настрой
-[Set Activity]
-Занятак
+[Service Discovery]
+Прагляд службаў
+[View as tree]
+Як дрэва
+[View as list]
+Як спіс
+[Node:]
+Вузел:
+[Member Information]
+Правы доступу
+[Member Information\n<user id>]
+Інфармацыя пра карыстача\n<user id>
+[Role:]
+Роля:
+[Affiliation:]
+Прыналежнасць:
+[Chat options]
+Налады чата
+[Alternate nick:]
+Альтэрнатыўны нік:
+[Custom messages]
+Свае паведамленні
+[Quit:]
+Выйсце:
+[Slap:]
+Шлёпнуць:
+[Deny]
+Забараніць
+[Jabber Notebook]
+Запісная кніжка
+[Jabber notebook\nStore notes on server and access them from anywhere.]
+Запісная кніжка\nЗахоўванне нататак на серверы і доступ да іх адусюль.
+[Bots Challenge Test]
+Засцярога ад ботаў
 [XML Console]
 XML Кансоль
-[Presences]
-Прысутнасць
-[Queries]
-Запыты
-[Filter mode]
-Рэжым фільтра
 [Reset log]
 Ачысціць лог
+;file \protocols\JabberG\src\jabber.cpp
+[Frame title]
+Загаловак фрэйма
+[Frame text]
+Тэкст фрэйма
+[Jabber Activity]
+Занятак Jabber
+[Jabber Mood]
+Настрой Jabber
+;file \protocols\JabberG\src\jabber.h
+;file \protocols\JabberG\src\jabber_adhoc.cpp
+[Error %s %s]
+Памылка %s %s
+[Select Command]
+Выберыце каманду
+[Done]
+Гатова
+[In progress. Please Wait...]
+У прагэсе. Пачакайце...
+[Execute]
+Выканаць
+[Requesting command list. Please wait...]
+Запыт спісу каманд. Пачакайце...
+[Jabber Ad-Hoc commands at]
+Jabber Ad-Hoc каманды на
+[Sending Ad-Hoc command to]
+Адправіць Ad-Hoc каманду
+;file \protocols\JabberG\src\jabber_agent.cpp
+[No message]
+Няма паведамлення
+;file \protocols\JabberG\src\jabber_bookmarks.cpp
+[Bookmark Name]
+Імя закладкі
+[Address (JID or URL)]
+Адрас (JID ці URL)
+[Conferences]
+Канферэнцыі
+;file \protocols\JabberG\src\jabber_byte.cpp
+;file \protocols\JabberG\src\jabber_caps.cpp
+[Supports Service Discovery info]
+Інфармацыя пра службы
+[Supports Service Discovery items list]
+Прагляд спісу службаў
+[Can inform about its Jabber capabilities]
+Паведамленне падтрымоўваных функцый Jabber (CAPs)
+[Supports stream initiation (for filetransfers for ex.)]
+Ініцыяванне струменя (перадача файлаў вонкі)
+[Supports stream initiation for file transfers]
+Ініцыяванне струменя для перадачы файлаў
+[Supports file transfers via SOCKS5 Bytestreams]
+Перадача файлаў праз SOCKS5 проксі
+[Supports file transfers via In-Band Bytestreams]
+Унутрыструменевая перадача файлаў (IBB)
+[Supports file transfers via Out-of-Band Bytestreams]
+Па-заструменевая перадача файлаў (OBB)
+[Supports execution of Ad-Hoc commands]
+Выкананне Ad-Hoc каманд
+[Supports in-band registration]
+Унутрыструменевая рэгістрацыя
+[Supports multi-user chat]
+Падтрымка чатаў
+[Can report chat state in a chat session]
+Паведамленне пра стан чата ў чат сесіі
+[Can report information about the last activity of the user]
+Паведамленне пра апошнюю актыўнасць карыстача
+[Can report own version information]
+Паведамленне версій
+[Can report local time of the user]
+Паведамленне лакальнага часу
+[Can send and receive ping requests]
+Прыём і адпраўка пінгаў
+[Supports data forms]
+Формы дадзеных
+[Can request and respond to events relating to the delivery, display, and composition of messages]
+Запыт і адказ на падзеі - дастаўка, адлюстраванне, складанне паведамленняў
+[Supports vCard]
+Падтрымка vCard
+[Supports iq-based avatars]
+Падтрымка iq-based аватараў
+[Supports Jabber Browsing]
+Прагляд Jabber
+[Can negotiate options for specific features]
+Апрацоўка адмысловых магчымасцяў
+[Can request advanced processing of message stanzas]
+Запыты пашыранай апрацоўкі тыпаў падзей
+[Can report information about user moods]
+Адпраўка настрояў
+[Receives information about user moods]
+Прыём настрояў
+[Supports generic publish-subscribe functionality]
+Асноўная функцыянальнасць падпісак
+[Supports SecureIM plugin for Miranda NG]
+Падтрымка модуля SecureIM Miranda
+[Can block communications from particular other users using Privacy lists]
+Блакаванне карыстачоў з выкарыстаннем лістоў прыватнасці
+[Supports Message Receipts]
+Прыём паведамленняў
+[Can report information about the music to which a user is listening]
+Адпраўка інфармацыі пра парслухоўваемую музыку
+[Receives information about the music to which a user is listening]
+Прыём інфармацыі пра парслухоўваемую музыку
+[Supports private XML Storage (for bookmakrs and other)]
+Захоўванне XML (для закладак і інш.)
+[Supports attention requests ('nudge')]
+Падтрымка апавяшчэнняў увагі ('nudge')
+[Can report information about user activity]
+Паведамленне пра актыўнасць карыстача
+[Receives information about user activity]
+Прыём інфармацыі пра занятак карыстача
+[Supports Miranda NG notes extension]
+Падтрымка нататак Miranda
+[Supports Jingle]
+Падтрымка Jingle
+;file \protocols\JabberG\src\jabber_captcha.cpp
+;file \protocols\JabberG\src\jabber_chat.cpp
+[Member]
+Карыстач
+[Visitor]
+Наведвальнік
+[Participant]
+Удзельнік
+[Moderator]
+Мадэратар
+[User %s in now banned.]
+Карыстач %s быў забанены.
+[User %s changed status to %s with message: %s]
+%s змяніў статус на %s: %s
+[User %s changed status to %s]
+%s змяніў статус на %s.
+[Affiliation of %s was changed to '%s'.]
+Прыналежнасць %s змянілася на %s.
+[Role of %s was changed to '%s'.]
+Роля %s змянілася на '%s'.
+[Change &nickname]
+Змяніць нік
+[&Invite a user]
+Запрасіць карыстача
+[&Roles]
+Ролі
+[&Participant list]
+Спіс удзельнікаў
+[&Moderator list]
+Спіс мадэратараў
+[&Affiliations]
+Прыналежнасць
+[&Member list]
+Спіс карыстачоў
+[&Admin list]
+Спіс адмінаў
+[&Owner list]
+Спіс уладальнікаў
+[Outcast list (&ban)]
+Спіс забаненых
+[&Room options]
+Налады пакою
+[View/change &topic]
+Прагляд/змена тэмы
+[Add to &bookmarks]
+Дадаць у закладкі
+[&Configure...]
+&Наладзіць...
+[&Destroy room]
+Выдаліць пакой
+[Lin&ks]
+Спасылкі
+[Copy room &JID]
+Капіяваць JID пакою
+[Copy room topic]
+Капіяваць тэму
+[&Send presence]
+&Адправіць прысутнасць
+[&User details]
+Інфармацыя пра кантакт
+[Member &info]
+Правы доступу
+[&Add to roster]
+&Дадаць у росцер
+[&Copy to clipboard]
+Скапіяваць у буфер абмену
+[Invite to room]
+Запрасіць у чат-пакой
+[Set &role]
+Усталяваць ролю
+[&Visitor]
+Наведвальнік
+[&Participant]
+Удзельнік
+[&Moderator]
+Мадэратар
+[Set &affiliation]
+Усталяваць прыналежнасць
+[&None]
+Не
+[&Member]
+Карыстач
+[&Admin]
+&Адмін
+[&Owner]
+Уладальнік
+[Outcast (&ban)]
+Забаніць
+[Copy &nickname]
+Капіяваць нік
+[Copy real &JID]
+Капіяваць JID
+[Copy in-room JID]
+Капіяваць JID з пакою
+[Real &JID: %s]
+Рэальны JID: %s
+[Send groupchat invitation.]
+Запрасіць у канферэнцыю.
+[Reason to kick]
+Чыннік выспятку
+[Reason to ban]
+Чыннік бана
+[Set topic for]
+Вызначыць тэму для
+[Change nickname in]
+Змяніць нік у
+[Reason to destroy]
+Чыннік знішчэння
+;file \protocols\JabberG\src\jabber_console.cpp
+[Jabber Error]
+Jabber памылка
+;file \protocols\JabberG\src\jabber_disco.cpp
+[Node hierarchy]
+Іерархія вузла
+[Node]
+Вузел
+[Registered transports]
+Транспарты
+[Browse local transports]
+Агляд лакальных транспартаў
+[Browse chatrooms]
+Агляд чат-пакояў
+[Contact Menu...]
+Меню кантакту...
+[View vCard]
+Прагляд vCard
+[Join chatroom]
+Увайсці ў комнату
+[Refresh Info]
+Абнавіць інфо
+[Refresh Children]
+Абнавіць службы
+[Add to favorites]
+Дадаць у абранае
+[Add to roster]
+Дадаць у росцер
+[Bookmark chatroom]
+Дадаць у закладкі
+[Add search directory]
+Дадаць тэчку пошуку
+[Use this proxy]
+Выкарыстоўваць гэты проксі
+[Commands...]
+Каманды...
+[Logon]
+Увайсці
+[Copy JID]
+Скапіраваць JID
+[Copy node name]
+Скапіраваць імя
+[Copy node information]
+Скапіраваць інфармацыю
+;file \protocols\JabberG\src\jabber_disco.h
+[Identities]
+Ідэнтыфікатары
+[Supported features]
+Падтрымоўваныя магчымасці
+;file \protocols\JabberG\src\jabber_form2.cpp
+;file \protocols\JabberG\src\jabber_groupchat.cpp
+[Loading...]
+Загрузка...
+[Please wait for room list to download.]
+Калі ласка, пачакайце пакуль спіс пакояў загрузіцца.
+[Bookmarks...]
+Закладкі...
+[Incoming groupchat invitation.]
+Запрашэнне ў канферэнцыю.
+;file \protocols\JabberG\src\jabber_icolib.cpp
+[transport]
+транспарт
+[Agents list]
+Спіс агентаў
 [Transports]
 Транспарты
+[Personal vCard]
+Асабісты vCard
+[Convert to room]
+Канв. у комнату
+[Login/logout]
+Увайсці/Выйсці
+[Resolve nicks]
+Вызначыць нікі
+[Send note]
+Адправіць нататку
+[AdHoc Command]
+Каманда AdHoc
+[OpenID Request]
+Запыт OpenID
+[Discovery succeeded]
+Вызначэнне завершана
+[Discovery failed]
+Вызначэнне не атрымалася
+[Discovery in progress]
+Вызначэнне...
+[Apply filter]
+Ужыць фільтр
+[Reset filter]
+Скінуць фільтр
+[Navigate home]
+Перайсці ў пачатак
+[Refresh node]
+Абнавіць вузел
+[Browse node]
+Агляд вузла
+[RSS service]
+Служба RSS
+[Storage service]
+Служба захоўвання
+[Weather service]
+Служба надвор'я
 [Generic privacy list]
 Просты спіс
-[Default privacy list]
-Спіс па змаўчанні
 [Active privacy list]
 Актыўны спіс
+[Default privacy list]
+Спіс па змаўчанні
 [Allow Messages]
 Дазволіць паведамленні
 [Allow Presences (in)]
@@ -845,16 +551,858 @@ XML Кансоль
 Забараніць прысутнасць (зых)
 [Deny Queries]
 Забараніць запыты
-[Agents list]
-Спіс агентаў
-[Downloading...]
-Загрузка...
+[Dialogs]
+Гутаркі
+[Discovery]
+Прагляд
+;file \protocols\JabberG\src\jabber_iqid.cpp
+[Registration successful]
+Рэгістрацыя паспяхова пройдзена
+[Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
+Пароль паспяхова зменены. Не забудзьцеся абнавіць Ваш пароль у наладах уліковага запісу Jabber.
+[Password cannot be changed.]
+Пароль не можа быць зменены
+;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[%s, %d items (%s)]
+%s, %d пункта(ў) (%s)
+[Voice List]
+Спіс удзельнікаў
+[Member List]
+Спіс карыстачоў
+[Moderator List]
+Спіс мадэратараў
+[Ban List]
+Спіс заблакаваных
+[Admin List]
+Спіс адмінаў
+[Owner List]
+Спіс уладальнікаў
+[Removing]
+Выдаленне
+;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+;file \protocols\JabberG\src\jabber_menu.cpp
+[Add to Bookmarks]
+Дадаць у закладкі
+[Commands]
+Каманды
+[Send Note]
+Адправіць нататку
+[Send Presence]
+Адправіць прысутнасць
+[Jabber Resource]
+Jabber Рэсурс
+[Last Active]
+Апошні актыўны
+[Server's Choice]
+Выбар сервера
+[&Convert to Contact]
+Канвертаваць у кантакт
+[&Convert to Chat Room]
+&Канвертаваць у чат
+[Registered Transports]
+Транспарты
+[Local Server Transports]
+Транспарты сервера
+[Browse Chatrooms]
+Агляд чат-пакояў
+[Create/Join groupchat]
+Стварыць/увайсці ў чат
+[Roster editor]
+Рэдактар росцера
+[Resource priority]
+Прыярытэт рэсурсу
+[Resource priority [%d]]
+Прыярытэт рэсурсу [%d]
+[Join conference]
+Увайсці на каферэнцыю
+[Open bookmarks]
+Адкрыць закладкі
+[Privacy lists]
+Спісы прыватнасці
+[Service discovery]
+Прагляд службаў
+[Last active]
+Апошні актыўны
+[No activity yet, use server's choice]
+Актыўнага няма, выкарыстоўвайце выбар сервера
+[Highest priority (server's choice)]
+Найвысокі прыярытэт (выбар сервера)
+;file \protocols\JabberG\src\jabber_message_handlers.cpp
+;file \protocols\JabberG\src\jabber_misc.cpp
+;file \protocols\JabberG\src\jabber_notes.cpp
+[Incoming note from %s]
+Уваходная нататка ад %s
+[Send note to %s]
+Адправіць нататку %s
+[All tags]
+Усе тэгі
+[Notes are not saved, close this window without uploading data to server?]
+Нататкі не захаваны, зачыніць акно без загрузкі нататак на сервер?
+[Incoming note]
+Уваходная нататка
+;file \protocols\JabberG\src\jabber_opt.cpp
+[Afar]
+Афар
+[Abkhazian]
+Абхазскі
+[Akan]
+Акан
+[Amharic]
+Амхарскі
+[Aragonese]
+Арагонскі
+[Assamese]
+Асамскі
+[Avaric]
+Аварскі
+[Avestan]
+Авестыйскі
+[Aymara]
+Аймарскі
+[Bashkir]
+Башкірскі
+[Bambara]
+Бамана
+[Basque]
+Басконскі
+[Belarusian]
+Беларускі
+[Bengali]
+Бенгальскі
+[Bihari]
+Біхары
+[Bislama]
+Біслама
+[Breton]
+Брэтонскі
+[Catalan; Valencian]
+Каталонскі
+[Chechen]
+Чачэнскі
+[Church Slavic; Old Slavonic]
+Стараславянскі
+[Chuvash]
+Чувашскі
+[Cornish]
+Карнуоллскі
+[Corsican]
+Карсіканскі
+[Cree]
+Кры
+[Divehi; Dhivehi; Maldivian]
+Мальдыўскі
+[Dutch; Flemish]
+Фламандскі
+[Dzongkha]
+Дзонгка
+[Ewe]
+Еве
+[Faroese]
+Фарэрскі
+[Fijian]
+Фіджыйскі
+[Western Frisian]
+Фрызскі
+[Fulah]
+Фула
+[Georgian]
+Грузінскі
+[Gaelic; Scottish Gaelic]
+Гэльскі
+[Irish]
+Ірландскі
+[Galician]
+Галісійскі
+[Manx]
+Мэнскі
+[Greek, Modern (1453-)]
+Грэцкі
+[Guarani]
+Гуарані
+[Haitian; Haitian Creole]
+Гаіцянскі
+[Hausa]
+Науса
+[Herero]
+Герэра
+[Hiri Motu]
+Хіры Моту
+[Igbo]
+Ігбо
+[Ido]
+Іда
+[Sichuan Yi]
+Сычуаньскі
+[Inuktitut]
+Інуктітут
+[Interlingue]
+Інтэрлінгва
+[Interlingua (International Auxiliary Language Association)]
+Інтэрлінгва (IALA)
+[Inupiaq]
+Інуіт
+[Javanese]
+Яванскі
+[Kalaallisut; Greenlandic]
+Грэнландскі
+[Kannada]
+Канада
+[Kashmiri]
+Кашмірскі
+[Kanuri]
+Кануры
+[Kazakh]
+Казахскі
+[Central Khmer]
+Кхмерскі (цэнтральны)
+[Kikuyu; Gikuyu]
+Кікую
+[Kinyarwanda]
+Кінаруанда
+[Kirghiz; Kyrgyz]
+Кіргізскі
+[Komi]
+Комі
+[Kongo]
+Конга
+[Kuanyama; Kwanyama]
+Кіньяма
+[Latin]
+Лацінскі
+[Limburgan; Limburger; Limburgish]
+Лімбургійскі
+[Lingala]
+Лінгала
+[Luxembourgish; Letzeburgesch]
+Люксембургскі
+[Luba-Katanga]
+Лубу-Катанга
+[Ganda]
+Ганда
+[Marshallese]
+Маршальскі
+[Malayalam]
+Малаялам
+[Maori]
+Маорыйскі
+[Marathi]
+Марахатскі
+[Malagasy]
+Малагасійскі
+[Maltese]
+Мальтыйскі
+[Moldavian]
+Малдаўскі
+[Navajo; Navaho]
+Наваха
+[Ndebele, South; South Ndebele]
+Ндебеле, Паўднёвы
+[Ndebele, North; North Ndebele]
+Ндебеле, Паўночны
+[Ndonga]
+Ндонга
+[Nepali]
+Непальскі
+[Norwegian Nynorsk; Nynorsk, Norwegian]
+Нарвежскі
+[Chichewa; Chewa; Nyanja]
+Ньянджа
+[Ojibwa]
+Аджыбва
+[Oriya]
+Орыя
+[Oromo]
+Орома
+[Ossetian; Ossetic]
+Асяцінскі
+[Panjabi; Punjabi]
+Панджабскі
+[Pali]
+Палі
+[Pushto]
+Пушту
+[Quechua]
+Кечуа
+[Romansh]
+Раманшскі
+[Rundi]
+Рунді
+[Sango]
+Санга
+[Sanskrit]
+Санскрыт
+[Sinhala; Sinhalese]
+Сінгальсткі
+[Northern Sami]
+Паўночнасаамскі
+[Samoan]
+Самоанскі
+[Shona]
+Шона
+[Sotho, Southern]
+Суто
+[Spanish; Castilian]
+Кастыльскі
+[Sardinian]
+Сардынскі
+[Swati]
+Сваці
+[Sundanese]
+Сунданскі
+[Tahitian]
+Таіцянскі
+[Telugu]
+Тэлугу
+[Tajik]
+Таджыкскі
+[Tibetan]
+Тыбецкі
+[Tigrinya]
+Тыгрынья
+[Tonga (Tonga Islands)]
+Танганскі
+[Tswana]
+Тсвана
+[Tsonga]
+Тсонга
+[Turkmen]
+Туркменскі
+[Twi]
+Тві
+[Uighur; Uyghur]
+Уйгурскі
+[Uzbek]
+Узбекскі
+[Venda]
+Венда
+[Walloon]
+Валонскі
+[Wolof]
+Волоф
+[Xhosa]
+Каса
+[Zhuang; Chuang]
+Чжуан
+[Zulu]
+Зулускі
+[These changes will take effect the next time you connect to the Jabber network.]
+Змены будуць ужытыя пры наступным уваходзе ў Jabber.
+[Jabber Protocol Option]
+Налады пратаколу Jabber
+[Confirm password]
+Увядзіце пароль
+[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
+Гэта аперацыя выдаліць Ваш конт, росцер і ўсю інфармацыю захоўваемую на серверы. Вы сапраўды жадаеце выдаліць уліковы запіс?
+[Account removal warning]
+Выдаленне конту
+[You can change your password only when you are online]
+Каб змяніць пароль, вам трэба далучыцца
+[You must be online]
+Вам трэба далучыцца
+[Log chat state changes]
+Запісваць змены стану чата
+[Log presence subscription state changes]
+Запісваць змены прысутнасці
+[Log presence errors]
+Запісваць памылкі прысутнасці
+[Enable user moods receiving]
+Уключыць прыём настрояў
+[Enable user tunes receiving]
+Уключыць прыём мелодый
+[Enable user activity receiving]
+Уключыць прыём заняткаў
+[Receive notes]
+Прымаць нататкі
+[Automatically save received notes]
+Аўтаматычна захоўваць прынятыя нататкі
+[Enable server-side history]
+Уключыць гісторыю на серверы (XEP-0136)
+[Server options]
+Налады сервера
+[Disable SASL authentication (for old servers)]
+Адключыць аўтэнтыфікацыю SASL (старыя серверы)
+[Enable stream compression (if possible)]
+Сціскаць струмень (калі магчыма)
+[Enable remote controlling (from another resource of same JID only)]
+Выдаленае кіраванне (толькі з іншага рэсурсу аднаго JID)
+[Show transport agents on contact list]
+Паказаць транспарты ў спісе кантактаў
+[Automatically add contact when accept authorization]
+Дадаваць кантакт пасля пацверджання аўтарызацыі
+[Automatically accept authorization requests]
+Аўтаматычна прымаць запыты аўтарызацыі
+[Fix incorrect timestamps in incoming messages]
+Выпраўляць час ва ўваходных паведамленнях
+[Disable frame]
+Выключыць фрэйм
+[Enable XMPP link processing (requires Association Manager)]
+Апрацоўваць XMPP спасылкі (патрабуецца модуль "Association Manager")
+[Keep contacts assigned to local groups (ignore roster group)]
+Выкарыстоўваць лакальныя групы (ігнараваць групы росцеру)
+[Allow servers to request version (XEP-0092)]
+Адказваць на запыты пра версіі (XEP-0092)
+[Show information about operating system in version replies]
+Пасылаць інфармацыю пра аперацыйную сістэму ў запытах версіі
+[Accept only in band incoming filetransfers (don't disclose own IP)]
+Дазваляць перадачу файлаў толькі унутры струменя (не расчыняць свой IP)
+[Accept HTTP Authentication requests (XEP-0070)]
+Прымаць запыты аўтэнтыфікацыі HTTP  (XEP-0070)
+[Autoaccept multiuser chat invitations]
+Аўтаматычна прымаць запрашэнні ў канферэнцыі
+[Automatically join bookmarks on login]
+Аўтаматычна заходзіць у закладкі
+[Automatically join conferences on login]
+Аўтаматычна заходзіць у канферэнцыі пры ўваходзе
+[Hide conference windows at startup]
+Не адкрываць вокны чат-канферэнцый пры ўваходзе
+[Do not show multiuser chat invitations]
+Не паказваць запрашэнні ў шматкарыстальніцкі чат
+[Log events]
+Запіс падзей у журнал
+[Ban notifications]
+Апавяшчэнні пра баны
+[Room configuration changes]
+Змена налад канферэнцыі
+[Affiliation changes]
+Змена прыналежнасці
+[Role changes]
+Змена ролі
+[Nick Name]
+Нік
+[Subscription]
+Падпіска
 [Uploading...]
 Выгрузка...
 [XML for MS Excel (UTF-8 encoded)]
 XML для MS Excel (кадзіроўка UTF-8)
-[Please wait for room list to download.]
-Калі ласка, пачакайце пакуль спіс пакояў загрузіцца.
+[Public XMPP Network]
+Публічнае XMPP
+[Secure XMPP Network]
+Абароненае XMPP
+[Secure XMPP Network (old style)]
+Абароненае XMPP (стары стыль)
+[LiveJournal Talk]
+Чат LiveJournal
+[Facebook Chat]
+Чат Facebook
+;file \protocols\JabberG\src\jabber_password.cpp
+[Set New Password for]
+Усталёўка новага пароля
+[New password does not match.]
+Новыя паролі не супадаюць
+[Current password is incorrect.]
+Бягучы пароль няверны
+;file \protocols\JabberG\src\jabber_privacy.cpp
+[Sending request, please wait...]
+Адпраўка запыту, калі ласка, пачакайце...
+[Warning: privacy lists were changed on server.]
+Увага: спісы прыватнасці захаваны на серверы.
+[Privacy list %s set as active]
+Спіс прыватнасці %s - актыўны
+[Active privacy list successfully declined]
+Актыўны спіс прыватнасці адхілены паспяхова
+[Privacy list %s set as default]
+Спіс прыватнасці %s - асноўны
+[Default privacy list successfully declined]
+Стандартны спіс прыватнасці паспяхова адхілены
+[Simple mode]
+Просты рэжым
+[Advanced mode]
+Пашыраны рэжым
+[Add JID]
+Дадаць
+[Activate]
+Актываваць
+[Set default]
+Па змаўчанні
+[Edit rule]
+Змяніць правіла
+[Add rule]
+Дадаць правіла
+[Delete rule]
+Выдаліць правіла
+[Add list...]
+Дадаць...
+[Remove list]
+Выдаліць
+[** Default **]
+** Па змаўчанні **
+[** Subsription: both **]
+** Падпіска: абедзве **
+[** Subsription: to **]
+** Падпіска: у **
+[** Subsription: from **]
+** Падпіска: ад **
+[** Subsription: none **]
+** Падпіска: няма **
+[all.]
+усё.
+[messages]
+паведамленняў
+[ and ]
+ і
+[incoming presences]
+уваходная прысутнасць
+[outgoing presences]
+выходная прысутнаст
+[queries]
+запыты
+[If jabber id is ']
+Калі JID  '
+[ (nickname: ]
+ (нік:
+[If group is ']
+Калі група '
+[If subscription is ']
+Калі падпіска  '
+[ (act., def.)]
+(акціўна, змаўч.)
+[ (active)]
+ (актыўны)
+[ (default)]
+ (асноўны)
+[Ready.]
+Гатовы.
+[Privacy lists are not saved, discard any changes and exit?]
+Спісы прыватнасці не захаваны, адмяніць змены і выйсці?
+[Please save list before activating]
+Перад акцівацыяй захавайце спіс
+[First, save the list]
+Спачатку захавайце спіс
+[Please save list before you make it the default list]
+Захавайце спіс перад тым, як зрабіць яго спісам па змаўчанні.
+[Unable to save list because you are currently offline.]
+Немагчыма захаваць спіс, спачатку далучыцеся.
+[List Editor...]
+Рэдактар спісаў...
+;file \protocols\JabberG\src\jabber_proto.cpp
+[No compatible file transfer machanism exist]
+Не знойдзена ні аднаго дзейснага механізма перадачы файлаў
+[Protocol is offline or no jid]
+Конт не далучаны ці няма JID.
+;file \protocols\JabberG\src\jabber_rc.cpp
+[Command completed successfully]
+Каманда выканана паспяхова
+[Error occured during processing command]
+Паўстала памылка падчас выкананні каманды
+[Set status]
+Усталяваць статус
+[Set options]
+Усталяваць налады
+[Forward unread messages]
+Перасылаць непрачытаныя паведамленні
+[Leave groupchats]
+Пакінуць чаты
+[Quit Miranda NG]
+Зачыніць Miranda
+[Choose the status and status message]
+Усталяваць статус і статуснае паведамленне
+[Extended Away (N/A)]
+Недаступны (N/A)
+[Do Not Disturb]
+Не турбаваць
+[Priority]
+Прыярытэт
+[Change global status]
+Змяніць глабальны статус
+[Set the desired options]
+Усталюйце жаданыя налады
+[Automatically Accept File Transfers]
+Аўтаматычна ўхваляць перадачы файлаў
+[Disable remote controlling (check twice what you are doing)]
+Выключыць выдаленае кіраванне (правярайце двойчы, што вы робіце)
+[There is no messages to forward]
+Няма паведамленняў для адпраўкі
+[Workstation successfully locked]
+Кампутар паспяхова заблакаваны
+[Error %d occured during workstation lock]
+Памылка %d паўстала падчас працэсу блакавання
+[Please confirm Miranda NG shutdown]
+Пацвердзіце выключэнне праграмы
+[There is no groupchats to leave]
+Няма чатаў для адключэння
+;file \protocols\JabberG\src\jabber_search.cpp
+[Error %s %s\r\nPlease select other server]
+Памылка %s %s\r\n Калі ласка абярыце іншы сервер
+[Error Unknown reply recieved\r\nPlease select other server]
+Памылка, прыняты невядомы адказ\r\n Калі ласка, абярыце іншы сервер
+[Error %s %s\r\nTry to specify more detailed]
+Памылка %s %s\r\n Паспрабуйце паказаць больш дэталяў
+[Search error]
+Памылка пошуку
+[Select/type search service URL above and press <Go>]
+Абярыце/увядзіце URL службы пошуку і націсніце >>
+[Please wait...\r\nConnecting search server...]
+Пачакайце...\r\n Падлучэнне да сервера пошуку...
+[You have to be connected to server]
+Трэба далучэнне да сервера
+;file \protocols\JabberG\src\jabber_svc.cpp
+[closed chat session]
+зачыніў акно чата
+[sent subscription request]
+адправіў запыт на падпіску
+[approved subscription request]
+прыняў запыт на падпіску
+[declined subscription]
+адхіліў падпіску
+[sent error presence]
+адправіў прысутнасць з памылкай
+[sent unknown presence type]
+адправіў невядомы тып прысутнасці
+;file \protocols\JabberG\src\jabber_thread.cpp
+[Error: Not enough memory]
+Памылка: Не хапае памяці
+[Error: Cannot connect to the server]
+Памылка: Немагчыма далучыцца ды сервера
+[Error: Connection lost]
+Памылка: Злучэнне страчана
+[Requesting registration instruction...]
+Запыт рэгістрацыйнай інструкцыі...
+[Sending registration information...]
+Дасылка рэгістрацыйнай інфармацыі...
+;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Software]
+Кліент
+[Idle since]
+Прастойвае з
+[Client capabilities]
+Магчымасці кліента
+[Software information]
+Інфармацыя пра ПЗ
+[Operating system]
+Аперацыйная сістэма
+[Operating system version]
+Версія АС
+[Software version]
+Версія ПЗ
+[Miranda NG core version]
+Версія Miranda
+[Unicode build]
+Unicode зборка
+[Alpha build]
+Альфа зборка
+[Debug build]
+Адладкавая зборка
+[Tune]
+Мелодыя
+[Last logoff time]
+Адключаны:
+[Logoff message]
+Паведамленне адключэння
+[<no information available>]
+<няма інфармацыі>
+[Last active resource]
+Апошні актыўны рэсурс
+[Copy only this value]
+Капіяваць значэнне
+[<No photo>]
+<Няма фота>
+[Photo]
+Фота
+;file \protocols\JabberG\src\jabber_util.cpp
+[Redirect]
+Перанакіраванне
+[Bad request]
+Няслушны запыт
+[Unauthorized]
+Не аўтарызаваны
+[Payment required]
+Патрабуецца аплата
+[Forbidden]
+Забаронена
+[Not found]
+Не знойдзена
+[Not allowed]
+Забаронена
+[Not acceptable]
+Непрымальна
+[Registration required]
+Патрабуецца рэгістрацыя
+[Request timeout]
+Таймаўт запыту
+[Conflict]
+Канфлікт
+[Internal server error]
+Унутраная памылка сервера
+[Not implemented]
+Не рэалізавана
+[Remote server error]
+Памылка выдаленага сервера
+[Service unavailable]
+Служба недаступная
+[Remote server timeout]
+Таймаўт выдаленага сервера
+[Set mood...]
+Настрой...
+[Set activity...]
+Занятак...
+;file \protocols\JabberG\src\jabber_vcard.cpp
+[Jabber vCard: Edit Email Address]
+Jabber vCard: рэдагаванне E-mail
+[Jabber vCard: Edit Phone Number]
+Jabber vCard: рэдагаванне тэлефона
+;file \protocols\JabberG\src\jabber_ws.cpp
+;file \protocols\JabberG\src\jabber_xstatus.cpp
+[Afraid]
+Спалоханы
+[Amazed]
+Здзіўлены
+[Amorous]
+Закаханы
+[Annoyed]
+Незадаволены
+[Anxious]
+Заклапочаны
+[Aroused]
+Абуджаны
+[Ashamed]
+Прысаромлены
+[Bored]
+Нудны
+[Brave]
+Мужны
+[Calm]
+Спакойны
+[Cautious]
+Абачлівы
+[Cold]
+Халодны
+[Confident]
+Упэўнены
+[Confused]
+Збянтэжаны
+[Contemplative]
+Задуменны
+[Contented]
+Здаволены
+[Cranky]
+Расківаны
+[Creative]
+Творчы
+[Curious]
+Цікаўны
+[Dejected]
+Прыгнечаны
+[Disgusted]
+Агіда
+[Dismayed]
+Устрывожаны
+[Distracted]
+Разгублены
+[Embarrassed]
+Абцяжараны
+[Envious]
+Зайздросны
+[Excited]
+Усхваляваны
+[Flirtatious]
+Какетлівы
+[Frustrated]
+Засмучаны
+[Grateful]
+Удзячны
+[Grieving]
+У смутку
+[Grumpy]
+Нястрыманы
+[Guilty]
+Вінаваты
+[Happy]
+Шчаслівы
+[Hopeful]
+Спадзяюся
+[Hot]
+Гарачы
+[Humbled]
+Прыніжаны
+[Humiliated]
+Зняважаны
+[Hungry]
+Галодны
+[Hurt]
+Паранены
+[Impressed]
+Уражаны
+[In awe]
+У страху
+[In love]
+У каханні
+[Indignant]
+Абураны
+[Interested]
+Зацікаўлены
+[Intoxicated]
+Ап'янёны
+[Invincible]
+Неадольны
+[Jealous]
+Раўнівы
+[Lonely]
+Самотны
+[Lost]
+Страчаны
+[Lucky]
+Шчаслівы
+[Mean]
+Жаласны
+[Moody]
+Маркотны
+[Nervous]
+Нервовы
+[Neutral]
+Нейтральная
+[Offended]
+Пакрыўджаны
+[Outraged]
+Абураны
+[Playful]
+Гуллівы
+[Proud]
+Ганарлівы
+[Relaxed]
+Паслаблены
+[Relieved]
+Дапамагае
+[Remorseful]
+Раскаянне
+[Restless]
+Клапатлівы
+[Sad]
+Сумны
+[Sarcastic]
+Саркастычны
+[Satisfied]
+Задаволены
+[Serious]
+Сур'ёзны
+[Shocked]
+Шакаваны
+[Shy]
+Сарамлівы
+[Sleepy]
+Сонны
+[Spontaneous]
+Спантаны
+[Stressed]
+Узрушаны
+[Strong]
+Рашучы
+[Surprised]
+Здзіўлены
+[Thankful]
+Удзячны
+[Thirsty]
+Прагавіты
+[Undefined]
+Нявызначана
+[Weak]
+Нерашучы
+[Worried]
+Заклапочаны
+[Mood: %s]
+Настрой: %s
+[Set Mood]
+Настрой
 [Doing chores]
 Гаспадару
 [buying groceries]
@@ -895,6 +1443,8 @@ XML для MS Excel (кадзіроўка UTF-8)
 Практыкуюся
 [cycling]
 на ровары
+[dancing]
+танчу
 [hiking]
 пешкі
 [jogging]
@@ -929,12 +1479,20 @@ XML для MS Excel (кадзіроўка UTF-8)
 выхадны
 [hanging out]
 брындаю
+[hiding]
+хаваюся
 [on vacation]
 у водпуску
+[praying]
+малюся
 [scheduled holiday]
 канікулы
 [sleeping]
 сплю
+[thinking]
+думаю
+[fishing]
+рыбалка
 [gaming]
 гуляю
 [going out]
@@ -947,6 +1505,8 @@ XML для MS Excel (кадзіроўка UTF-8)
 выступаю
 [shopping]
 раблю пакупкі
+[smoking]
+куру
 [socializing]
 маю зносіны
 [sunbathing]
@@ -955,6 +1515,8 @@ XML для MS Excel (кадзіроўка UTF-8)
 гляджу тэлевізар
 [watching a movie]
 гляджу фільм
+[Talking]
+Размаўляю
 [in real life]
 у рэальным жыцці
 [on the phone]
@@ -987,375 +1549,14 @@ XML для MS Excel (кадзіроўка UTF-8)
 вучуся
 [writing]
 пішу
-[dancing]
-танчу
-[hiding]
-хаваюся
-[praying]
-малюся
-[thinking]
-думаю
-[fishing]
-рыбалка
-[smoking]
-куру
-[Sad]
-Сумны
-[Shy]
-Сарамлівы
-[Cold]
-Халодны
-[Mean]
-Жаласны
-[Hurt]
-Паранены
-[Distracted]
-Разгублены
-[Brave]
-Мужны
-[Bored]
-Нудны
-[Proud]
-Ганарлівы
-[Moody]
-Маркотны
-[Calm]
-Спакойны
-[Flirtatious]
-Какетлівы
-[Shocked]
-Шакаваны
-[Worried]
-Заклапочаны
-[Ashamed]
-Прысаромлены
-[Humbled]
-Прыніжаны
-[Aroused]
-Абуджаны
-[In awe]
-У страху
-[Excited]
-Усхваляваны
-[Annoyed]
-Незадаволены
-[Amazed]
-Здзіўлены
-[Afraid]
-Спалоханы
-[Contented]
-Здаволены
-[Sarcastic]
-Саркастычны
-[Disgusted]
-Агіда
-[Playful]
-Гуллівы
-[Cranky]
-Расківаны
-[Lonely]
-Самотны
-[Hungry]
-Галодны
-[Sleepy]
-Сонны
-[Grumpy]
-Нястрыманы
-[Guilty]
-Вінаваты
-[Anxious]
-Заклапочаны
-[Confused]
-Збянтэжаны
-[Curious]
-Цікаўны
-[Depressed]
-Падушаны
-[Embarrassed]
-Абцяжараны
-[Frustrated]
-Засмучаны
-[Happy]
-Шчаслівы
-[Humiliated]
-Зняважаны
-[Impressed]
-Уражаны
-[In love]
-У каханні
-[Indignant]
-Абураны
-[Interested]
-Зацікаўлены
-[Intoxicated]
-Ап'янёны
-[Invincible]
-Неадольны
-[Jealous]
-Раўнівы
-[Nervous]
-Нервовы
-[Offended]
-Пакрыўджаны
-[Relieved]
-Дапамагае
-[Remorseful]
-Раскаянне
-[Restless]
-Клапатлівы
-[Serious]
-Сур'ёзны
-[Stressed]
-Узрушаны
-[Surprised]
-Здзіўлены
-[Thirsty]
-Прагавіты
-[Amorous]
-Закаханы
-[Cautious]
-Абачлівы
-[Confident]
-Упэўнены
-[Contemplative]
-Задуменны
-[Creative]
-Творчы
-[Dejected]
-Прыгнечаны
-[Dismayed]
-Устрывожаны
-[Envious]
-Зайздросны
-[Grateful]
-Удзячны
-[Grieving]
-У смутку
-[Hopeful]
-Спадзяюся
-[Lost]
-Страчаны
-[Lucky]
-Шчаслівы
-[Outraged]
-Абураны
-[Relaxed]
-Паслаблены
-[Satisfied]
-Задаволены
-[Spontaneous]
-Спантаны
-[Strong]
-Рашучы
-[Thankful]
-Удзячны
-[Weak]
-Нерашучы
-[Jabber Bookmarks]
-Закладкі
-[Bookmark Name]
-Імя закладкі
-[Address (JID or URL)]
-Адрас (JID ці URL)
-[Bookmark Details]
-Дэталі закладкі
-[Bookmark Type]
-Тып закладкі
-[Transport]
-Транспарт
-[Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
-Аўта-ўваход (Неабходна ўключыць аўтаматычны ўваход у наладах)
-[Room JID/ URL:]
-JID / URL:
-[Bookmark Name:]
-Імя закладкі:
-[All tags]
-Усе тэгі
-[Jabber Notebook]
-Запісная кніжка
-[Edit Note]
-Рэдагаваць нататку
-[Incoming note from %s]
-Уваходная нататка ад %s
-[Incoming note]
-Уваходная нататка
-[Notes are not saved, close this window without uploading data to server?]
-Нататкі не захаваны, зачыніць акно без загрузкі нататак на сервер?
-[Identities]
-Ідэнтыфікатары
-[Supported features]
-Падтрымоўваныя магчымасці
-[Logon]
-Увайсці
-[Discovery]
-Прагляд
-[Browse node]
-Агляд вузла
-[RSS service]
-Служба RSS
-[Storage service]
-Служба захоўвання
-[Weather service]
-Служба надвор'я
-[Discovery failed]
-Вызначэнне не атрымалася
-[Discovery in progress]
-Вызначэнне...
-[Discovery succeeded]
-Вызначэнне завершана
-[Registered transports]
-Транспарты
-[Browse chatrooms]
-Агляд чат-пакояў
-[Browse local transports]
-Агляд лакальных транспартаў
-[Set status]
-Усталяваць статус
-[Choose the status and status message]
-Усталяваць статус і статуснае паведамленне
-[Priority]
-Прыярытэт
-[Extended Away (N/A)]
-Недаступны (N/A)
-[Do Not Disturb]
-Не турбаваць
-[Change global status]
-Змяніць глабальны статус
-[Set options]
-Усталяваць налады
-[Set the desired options]
-Усталюйце жаданыя налады
-[Automatically Accept File Transfers]
-Аўтаматычна ўхваляць перадачы файлаў
-[Disable remote controlling (check twice what you are doing)]
-Выключыць выдаленае кіраванне (правярайце двойчы, што вы робіце)
-[Forward unread messages]
-Перасылаць непрачытаныя паведамленні
-[There is no messages to forward]
-Няма паведамленняў для адпраўкі
-[Leave groupchats]
-Пакінуць чаты
-[There is no groupchats to leave]
-Няма чатаў для адключэння
-[Workstation successfully locked]
-Кампутар паспяхова заблакаваны
-[Error %d occured during workstation lock]
-Памылка %d паўстала падчас працэсу блакавання
-[Quit Miranda NG]
-Зачыніць Miranda
-[Please confirm Miranda NG shutdown]
-Пацвердзіце выключэнне праграмы
-[I agree]
-Я згодны
-[Jabber Error]
-Jabber памылка
-[In progress. Please Wait...]
-У прагэсе. Пачакайце...
-[Command completed successfully]
-Каманда выканана паспяхова
-[Error occured during processing command]
-Паўстала памылка падчас выкананні каманды
-[Send groupchat invitation.]
-Запрасіць у канферэнцыю.
-[Invite Users]
-Запрашэнне карыстачоў
-[&Invite]
-Запрасіць
-[Invitation reason:]
-Чыннік запрашэння:
-[You are invited to conference room by]
-Вас запрасіў:
-[with following reason:]
-чыннік:
-[Groupchat Invitation]
-Запрашэнне ў канферэнцыю
-[Jabber Protocol Option]
-Налады пратаколу Jabber
-[These changes will take effect the next time you connect to the Jabber network.]
-Змены будуць ужытыя пры наступным уваходзе ў Jabber.
-[Incoming groupchat invitation.]
-Запрашэнне ў канферэнцыю.
-[Sending Ad-Hoc command to]
-Адправіць Ad-Hoc каманду
-[Requesting command list. Please wait...]
-Запыт спісу каманд. Пачакайце...
-[User %s changed status to %s]
-%s змяніў статус на %s.
-[User %s in now banned.]
-Карыстач %s быў забанены.
-[User %s changed status to %s with message: %s]
-%s змяніў статус на %s: %s
-[Affiliation of %s was changed to '%s'.]
-Прыналежнасць %s змянілася на %s.
-[Role of %s was changed to '%s'.]
-Роля %s змянілася на '%s'.
-[Submit]
-Перадаць
-[Reason to kick]
-Чыннік выспятку
-[Reason to destroy]
-Чыннік знішчэння
-[Last active]
-Апошні актыўны
-[Highest priority (server's choice)]
-Найвысокі прыярытэт (выбар сервера)
-[No activity yet, use server's choice]
-Актыўнага няма, выкарыстоўвайце выбар сервера
-[Search service]
-Служба пошуку
-[Redirect]
-Перанакіраванне
-[Bad request]
-Няслушны запыт
-[Unauthorized]
-Не аўтарызаваны
-[Payment required]
-Патрабуецца аплата
-[Not found]
-Не знойдзена
-[Not allowed]
-Забаронена
-[Not acceptable]
-Непрымальна
-[Registration required]
-Патрабуецца рэгістрацыя
-[Request timeout]
-Таймаўт запыту
-[Conflict]
-Канфлікт
-[Not implemented]
-Не рэалізавана
-[Remote server error]
-Памылка выдаленага сервера
-[Service unavailable]
-Служба недаступная
-[Remote server timeout]
-Таймаўт выдаленага сервера
-[Unknown error]
-Невядомая памылка
-[Error %s %s\r\nPlease select other server]
-Памылка %s %s\r\n Калі ласка абярыце іншы сервер
-[Error %s %s\r\nTry to specify more detailed]
-Памылка %s %s\r\n Паспрабуйце паказаць больш дэталяў
-[Error Unknown reply recieved\r\nPlease select other server]
-Памылка, прыняты невядомы адказ\r\n Калі ласка, абярыце іншы сервер
-[Please wait...\r\nConnecting search server...]
-Пачакайце...\r\n Падлучэнне да сервера пошуку...
-[Search error]
-Памылка пошуку
-[Select/type search service URL above and press <Go>]
-Абярыце/увядзіце URL службы пошуку і націсніце >>
-[You have to be connected to server]
-Трэба далучэнне да сервера
-[Please save list before activating]
-Перад акцівацыяй захавайце спіс
-[First, save the list]
-Спачатку захавайце спіс
-[Please save list before you make it the default list]
-Захавайце спіс перад тым, як зрабіць яго спісам па змаўчанні.
-[Unable to save list because you are currently offline.]
-Немагчыма захаваць спіс, спачатку далучыцеся.
-[No compatible file transfer machanism exist]
-Не знойдзена ні аднаго дзейснага механізма перадачы файлаў
-[Protocol is offline or no jid]
-Конт не далучаны ці няма JID.
+[Activity: %s]
+Занятак: %s
+[Set Activity]
+Занятак
+[Moods]
+Настроі
+[Activities]
+Заняткі
+;file \protocols\JabberG\src\ui_utils.cpp
+[Set filter...]
+Фільтр...

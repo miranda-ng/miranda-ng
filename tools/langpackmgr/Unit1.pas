@@ -21,6 +21,8 @@ type
     OpenDialog1: TOpenDialog;
     C: TBitBtn;
     X: TBitBtn;
+    B: TBitBtn;
+    G: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -31,6 +33,7 @@ type
     procedure refresh;
     procedure read;
     procedure enter(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure BClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -41,8 +44,8 @@ type
 var
   Form1: TForm1;
   openDialog : TOpenDialog;
-  full,ustring,tstring,fline,dupes: array [1..7000]  of string;
-  notranslate: array [1..7000] of integer;
+  full,ustring,tstring,fline,dupes: array [1..9999]  of string;
+  notranslate: array [1..9999] of integer;
   translate: textfile;
   bom, bomd, line:string;
   ii,i,it,ie:integer;
@@ -52,6 +55,12 @@ implementation
 
 {$R *.dfm}
 // Открытие файла
+procedure TForm1.BClick(Sender: TObject);
+begin
+ edit2.SelectAll;
+ edit2.CopyToClipboard;
+end;
+
 procedure TForm1.Button1Click(Sender: TObject);
  begin
  chdir(ExtractFilePath(Application.ExeName));
@@ -86,7 +95,7 @@ writeLn(translate, bom);
   if (copy(ustring[i],1,1)='[') and (tstring[i]<>'')
   then begin
         cores:=false;
-        if Button3.caption='DUPES ON' then
+        if Button3.visible=true then
         for idx := 1 to idm do
         if (copy(dupes[idx],1,1)='[')
         and (dupes[idx]=ustring[i])
@@ -108,14 +117,13 @@ closefile(translate);
 assignfile(translate,ExtractFilePath(opendialog.filename)+'=DUPES=.txt',CP_UTF8);
 rewrite(translate);
 writeLn(translate, bomd);
-//
 // Если строка отсутствует в =СORE=, она запишется в =DUPES=
 for idx := 1 to idm do
 if (copy(dupes[idx],1,1)='[') then
     begin cores:=false;
     for i := 1 to ie do
-    if dupes[idx]=ustring[i] then  cores:=true;
-    if cores=true then  begin
+    if dupes[idx]=ustring[i] then cores:=true;
+    if cores=false then  begin
      writeLn(translate, dupes[idx]);
      writeLn(translate, dupes[idx+1]);
                         end;
@@ -180,11 +188,11 @@ tstring[notranslate[n]]:=line;
 label2.Caption:=inttostr(ListBox1.ItemIndex+1);
 n:=strtoint(label2.caption);
 edit2.Text:=copy(ustring[notranslate[n]],2,length(ustring[notranslate[n]])-2);
-edit2.SelectAll;
-edit2.CopyToClipboard;
 edit3.Text:=tstring[notranslate[n]];
 edit3.SetFocus;
 end;
+
+
 
 procedure tform1.read;
 begin
@@ -194,7 +202,7 @@ else button3.Visible:=true;
    listbox1.Items.Clear;
    line:='';
    edit3.Text:='';
- for i:= 1 to 7000 do
+ for i:= 1 to 9999 do
  begin
    full[i]:='';
    dupes[i]:='';
@@ -328,5 +336,6 @@ notranslate[listbox1.Items.Count]:=i;
 end;
 end;
 label3.caption:='Untranslate:'+inttostr(listbox1.Items.Count)+' lines.';
+refresh;
 end;
 end.

@@ -1,5 +1,0 @@
-﻿#muuid {10896143-7249-4b36-a408-6501a6b6035a}
-;  File: OpenFolder.dll
-;  Plugin: Adds a menu/toobar item which opens the main Miranda NG folder
-[Adds a menu/toobar item which opens the main Miranda NG folder.]
-Дадае ў меню, панэль кнопак пункт, каб адчыніць тэчку Miranda NG.
