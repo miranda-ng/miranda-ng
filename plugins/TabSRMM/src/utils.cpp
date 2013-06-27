@@ -406,7 +406,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
 				DBVARIANT dbv = {0};
 
-				if (!M->GetTString(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
+				if (!db_get_ts(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
 					_tcsncpy(szTemp, dbv.ptszVal, 500);
 					szTemp[500] = 0;
 					db_free(&dbv);
@@ -428,7 +428,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
 				DBVARIANT dbv = {0};
 
-				if (!M->GetTString(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
+				if (!db_get_ts(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
 					_tcsncpy(szTemp, dbv.ptszVal, 500);
 					szTemp[500] = 0;
 					db_free(&dbv);
@@ -656,7 +656,7 @@ void Utils::CreateColorMap(TCHAR *Text)
 	for (i=0; i < RTF_CTABLE_DEFSIZE; i++)
 		rtf_ctable[i].index = 0;
 
-	default_color = (COLORREF)M->GetDword(FONTMODULE, "Font16Col", 0);
+	default_color = (COLORREF)M.GetDword(FONTMODULE, "Font16Col", 0);
 
 	while (p2 && p2 < pEnd) {
 		if (_stscanf(p2, lpszFmt, &szRed, &szGreen, &szBlue) > 0) {
@@ -796,8 +796,8 @@ void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSett
 	mir_snprintf(szCName, 40, "%s%d_theme", szSetting, pContainer->iContainerIndex);
 	if (lstrlen(pContainer->szRelThemeFile) > 1) {
 		if (pContainer->fPrivateThemeChanged == TRUE) {
-			M->pathToRelative(pContainer->szRelThemeFile, pContainer->szAbsThemeFile);
-			M->WriteTString(NULL, SRMSGMOD_T, szCName, pContainer->szAbsThemeFile);
+			M.pathToRelative(pContainer->szRelThemeFile, pContainer->szAbsThemeFile);
+			db_set_ts(NULL, SRMSGMOD_T, szCName, pContainer->szAbsThemeFile);
 			pContainer->fPrivateThemeChanged = FALSE;
 		}
 	}
@@ -882,7 +882,7 @@ HICON Utils::iconFromAvatar(const TWindowData *dat)
 
 			LONG	ix = (lIconSize - (LONG)dNewWidth) / 2;
 			LONG	iy = (lIconSize - (LONG)dNewHeight) / 2;
-			CSkin::m_default_bf.SourceConstantAlpha = M->GetByte("taskBarIconAlpha", 255);
+			CSkin::m_default_bf.SourceConstantAlpha = M.GetByte("taskBarIconAlpha", 255);
 			CMimAPI::m_MyAlphaBlend(dc, ix, iy, (LONG)dNewWidth, (LONG)dNewHeight, dcResized,
 									0, 0, (LONG)dNewWidth, (LONG)dNewHeight, CSkin::m_default_bf);
 
@@ -1237,8 +1237,8 @@ __int64 CWarning::getMask()
 {
 	__int64 mask = 0;
 
-	DWORD	dwLow = M->GetDword("cWarningsL", 0);
-	DWORD	dwHigh = M->GetDword("cWarningsH", 0);
+	DWORD	dwLow = M.GetDword("cWarningsL", 0);
+	DWORD	dwHigh = M.GetDword("cWarningsH", 0);
 
 	mask = ((((__int64)dwHigh) << 32) & 0xffffffff00000000) | dwLow;
 
@@ -1497,9 +1497,9 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 			if (::IsDlgButtonChecked(hwnd, IDC_DONTSHOWAGAIN)) {
 				DWORD val = (DWORD)(newVal & 0x00000000ffffffff);
-				M->WriteDword(SRMSGMOD_T, "cWarningsL", val);
+				db_set_dw(0, SRMSGMOD_T, "cWarningsL", val);
 				val = (DWORD)((newVal >> 32) & 0x00000000ffffffff);
-				M->WriteDword(SRMSGMOD_T, "cWarningsH", val);
+				db_set_dw(0, SRMSGMOD_T, "cWarningsH", val);
 			}
 		}
 		break;

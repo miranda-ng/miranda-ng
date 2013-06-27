@@ -55,7 +55,7 @@ int CInfoPanel::setPanelHandler(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			dat->Panel->loadHeight();
 		else {
 			if (srcDat && lParam && dat != srcDat && !dat->Panel->isPrivateHeight()) {
-				if (srcDat->bType != dat->bType && M->GetByte("syncAllPanels", 0) == 0)
+				if (srcDat->bType != dat->bType && M.GetByte("syncAllPanels", 0) == 0)
 					return 0;
 
 				if (dat->pContainer->settings->fPrivate && srcDat->pContainer != dat->pContainer)
@@ -79,9 +79,9 @@ void CInfoPanel::setActive(const int newActive)
  */
 void CInfoPanel::loadHeight()
 {
-	BYTE bSync = M->GetByte("syncAllPanels", 0);			// sync muc <> im panels
+	BYTE bSync = M.GetByte("syncAllPanels", 0);			// sync muc <> im panels
 
-	m_height = M->GetDword(m_dat->hContact, "panelheight", -1);
+	m_height = M.GetDword(m_dat->hContact, "panelheight", -1);
 
 	if (m_height == -1 || HIWORD(m_height) == 0) {
 		if (m_dat->pContainer->settings->fPrivate)
@@ -106,7 +106,7 @@ void CInfoPanel::loadHeight()
  */
 void CInfoPanel::saveHeight(bool fFlush)
 {
-	BYTE bSync = M->GetByte("syncAllPanels", 0);
+	BYTE bSync = M.GetByte("syncAllPanels", 0);
 
 	if (m_height < 110 && m_height >= MIN_PANELHEIGHT) {          // only save valid panel splitter positions
 		if (!m_fPrivateHeight) {
@@ -117,7 +117,7 @@ void CInfoPanel::saveHeight(bool fFlush)
 					PluginConfig.m_panelHeight = m_height;
 					m_defaultHeight = m_height;
 					if (fFlush)
-						M->WriteDword(SRMSGMOD_T, "panelheight", m_height);
+						db_set_dw(0, SRMSGMOD_T, "panelheight", m_height);
 				}
 			}
 			else if (m_isChat && !bSync) {
@@ -127,12 +127,12 @@ void CInfoPanel::saveHeight(bool fFlush)
 					PluginConfig.m_MUCpanelHeight = m_height;
 					m_defaultMUCHeight = m_height;
 					if (fFlush)
-						M->WriteDword("Chat", "panelheight", m_height);
+						db_set_dw(0, "Chat", "panelheight", m_height);
 				}
 			}
 		}
 		else
-			M->WriteDword(m_dat->hContact, SRMSGMOD_T, "panelheight", MAKELONG(m_height, 0xffff));
+			db_set_dw(m_dat->hContact, SRMSGMOD_T, "panelheight", MAKELONG(m_height, 0xffff));
 	}
 }
 
@@ -154,7 +154,7 @@ void CInfoPanel::setHeight(LONG newHeight, bool fBroadcast)
 	if (fBroadcast) {
 		if (!m_fPrivateHeight) {
 			if (!m_dat->pContainer->settings->fPrivate)
-				M->BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)newHeight);
+				M.BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)newHeight);
 			else
 				::BroadCastContainer(m_dat->pContainer, DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)newHeight);
 		}
@@ -194,7 +194,7 @@ void CInfoPanel::showHide() const
 		::SendMessage(hwndDlg, WM_SIZE, 0, 0);
 		::InvalidateRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
 		::SetAeroMargins(m_dat->pContainer);
-		if (M->isAero())
+		if (M.isAero())
 			::InvalidateRect(GetParent(hwndDlg), NULL, FALSE);
 		::DM_ScrollToBottom(m_dat, 0, 1);
 	}
@@ -208,7 +208,7 @@ void CInfoPanel::showHide() const
 
 		::SendMessage(hwndDlg, WM_SIZE, 0, 0);
 		::SetAeroMargins(m_dat->pContainer);
-		if (M->isAero())
+		if (M.isAero())
 			::InvalidateRect(GetParent(hwndDlg), NULL, FALSE);
 		::DM_ScrollToBottom(m_dat, 0, 1);
 	}
@@ -229,7 +229,7 @@ bool CInfoPanel::getVisibility()
 	}
 
 	BYTE 	bDefault = (m_dat->pContainer->dwFlags & CNT_INFOPANEL) ? 1 : 0;
-	BYTE 	bContact = M->GetByte(m_dat->hContact, "infopanel", 0);
+	BYTE 	bContact = M.GetByte(m_dat->hContact, "infopanel", 0);
 
 	BYTE 	visible = (bContact == 0 ? bDefault : (bContact == (BYTE)-1 ? 0 : 1));
 	setActive(visible);
@@ -511,10 +511,10 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 		}
 		else _tcscpy_s (szBuf, 256, tszUin);
 
-		if (M->GetByte("ShowClientDescription",1)) {
+		if (M.GetByte("ShowClientDescription",1)) {
 			TCHAR	temp[256];
 			DBVARIANT dbv = {0};
-			if ( !M->GetTString(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
+			if ( !db_get_ts(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
 				mir_sntprintf(temp, SIZEOF(temp), TranslateT("  Client: %s"), dbv.ptszVal);
 				::db_free(&dbv);
 			}
@@ -935,7 +935,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 
 			if ((xStatus = m_dat->cache->getXStatusId())) {
 				TCHAR	*tszXStatusName = 0;
-				if (0 == M->GetTString(m_dat->cache->getContact(), m_dat->cache->getProto(), "XStatusName", &dbv))
+				if (0 == db_get_ts(m_dat->cache->getContact(), m_dat->cache->getProto(), "XStatusName", &dbv))
 					tszXStatusName = dbv.ptszVal;
 				else if (xStatus > 0 && xStatus <= 31)
 					tszXStatusName = xStatusDescr[xStatus - 1];
@@ -955,7 +955,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 				str->append(temp);
 			}
 
-			if (0 == M->GetTString(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
+			if (0 == db_get_ts(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
 				mir_sntprintf(temp, 1024, TranslateT("\\par\\par\\ul\\b Client:\\ul0\\b0  %s"), dbv.ptszVal);
 				::db_free(&dbv);
 				str->append(temp);
@@ -1036,7 +1036,7 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 
 		HDC dcWin = (HDC)wParam;
 
-		if (M->isAero()) {
+		if (M.isAero()) {
 			HDC		hdc;
 			HBITMAP hbm, hbmOld;
 			LONG	cx = rcItem.right - rcItem.left;
@@ -1067,7 +1067,7 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 		else {
 			rc.bottom += 2;
 			rc.left -= 3; rc.right += 3;
-			dat->Panel->renderBG(dcWin, rc, &SkinItems[ID_EXTBKINFOPANELBG], M->isAero(), false);
+			dat->Panel->renderBG(dcWin, rc, &SkinItems[ID_EXTBKINFOPANELBG], M.isAero(), false);
 		}
 		if (CSkin::m_bAvatarBorderType == 1) {
 			HRGN clipRgn = 0;
@@ -1138,7 +1138,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always off"));
 			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always on"));
 
-			BYTE v = M->GetByte(m_dat->hContact, "infopanel", 0);
+			BYTE v = M.GetByte(m_dat->hContact, "infopanel", 0);
 			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_SETCURSEL, (WPARAM)(v == 0 ? 0 : (v == (BYTE)-1 ? 1 : 2)), 0);
 
 			::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use default size"));
@@ -1146,12 +1146,12 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_SETCURSEL, (WPARAM)(m_fPrivateHeight ? 1 : 0), 0);
 
-			::CheckDlgButton(hwnd, IDC_NOSYNC, M->GetByte("syncAllPanels", 0) ? BST_UNCHECKED : BST_CHECKED);
+			::CheckDlgButton(hwnd, IDC_NOSYNC, M.GetByte("syncAllPanels", 0) ? BST_UNCHECKED : BST_CHECKED);
 
 			Utils::showDlgControl(hwnd, IDC_IPCONFIG_PRIVATECONTAINER, m_dat->pContainer->settings->fPrivate ? SW_SHOW : SW_HIDE);
 
 			if (!m_isChat) {
-				v = M->GetByte(m_dat->hContact, SRMSGMOD_T, "hideavatar", -1);
+				v = db_get_b(m_dat->hContact, SRMSGMOD_T, "hideavatar", -1);
 				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use Global Setting"));
 				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Show always (if present)"));
 				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Never show it at all"));
@@ -1202,13 +1202,13 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 					LRESULT iResult = ::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_GETCURSEL, 0, 0);
 					if (iResult == 0) {
 						if (m_fPrivateHeight) {
-							M->WriteDword(m_dat->hContact, SRMSGMOD_T, "panelheight", m_height);
+							db_set_dw(m_dat->hContact, SRMSGMOD_T, "panelheight", m_height);
 							loadHeight();
 						}
 					}
 					else if (iResult == 1) {
-						M->WriteDword(m_dat->hContact, SRMSGMOD_T, "panelheight",
-							MAKELONG(M->GetDword(m_dat->hContact, "panelheight", m_height), 0xffff));
+						db_set_dw(m_dat->hContact, SRMSGMOD_T, "panelheight",
+							MAKELONG(M.GetDword(m_dat->hContact, "panelheight", m_height), 0xffff));
 						loadHeight();
 					}
 				}
@@ -1216,7 +1216,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			case IDC_PANELPICTUREVIS:
 				{
-					BYTE	vOld = M->GetByte(m_dat->hContact, SRMSGMOD_T, "hideavatar", -1);
+					BYTE	vOld = db_get_b(m_dat->hContact, SRMSGMOD_T, "hideavatar", -1);
 					LRESULT iResult = ::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_GETCURSEL, 0, 0);
 
 					BYTE vNew = (iResult == 0 ? (BYTE)-1 : (iResult == 1 ? 1 : 0));
@@ -1224,7 +1224,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 						if (vNew == (BYTE)-1)
 							db_unset(m_dat->hContact, SRMSGMOD_T, "hideavatar");
 						else
-							M->WriteByte(m_dat->hContact, SRMSGMOD_T, "hideavatar", vNew);
+							db_set_b(m_dat->hContact, SRMSGMOD_T, "hideavatar", vNew);
 						m_dat->panelWidth = -1;
 						::ShowPicture(m_dat, FALSE);
 						::SendMessage(m_dat->hwnd, WM_SIZE, 0, 0);
@@ -1235,12 +1235,12 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			case IDC_PANELVISIBILITY:
 				{
-					BYTE	vOld = M->GetByte(m_dat->hContact, SRMSGMOD_T, "infopanel", 0);
+					BYTE	vOld = db_get_b(m_dat->hContact, SRMSGMOD_T, "infopanel", 0);
 					LRESULT iResult = ::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_GETCURSEL, 0, 0);
 
 					BYTE vNew = (iResult == 0 ? 0 : (iResult == 1 ? (BYTE)-1 : 1));
 					if (vNew != vOld) {
-						M->WriteByte(m_dat->hContact, SRMSGMOD_T, "infopanel", vNew);
+						db_set_b(m_dat->hContact, SRMSGMOD_T, "infopanel", vNew);
 						getVisibility();
 						showHide();
 					}
@@ -1260,16 +1260,16 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				break;
 
 			case IDC_NOSYNC:
-				M->WriteByte(SRMSGMOD_T, "syncAllPanels", ::IsDlgButtonChecked(hwnd, IDC_NOSYNC) ? 0 : 1);
+				db_set_b(0, SRMSGMOD_T, "syncAllPanels", ::IsDlgButtonChecked(hwnd, IDC_NOSYNC) ? 0 : 1);
 				if (!IsDlgButtonChecked(hwnd, IDC_NOSYNC)) {
 					loadHeight();
 					if (!m_dat->pContainer->settings->fPrivate)
-						M->BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
+						M.BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
 					else
 						::BroadCastContainer(m_dat->pContainer, DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
 				} else {
 					if (!m_dat->pContainer->settings->fPrivate)
-						M->BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, 0);
+						M.BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, 0);
 					else
 						::BroadCastContainer(m_dat->pContainer,DM_SETINFOPANEL, (WPARAM)m_dat, 0);
 				}
@@ -1380,7 +1380,7 @@ void CInfoPanel::dismissConfig(bool fForced)
  */
 CTip::CTip(const HWND hwndParent, const HANDLE hContact, const TCHAR *pszText, const CInfoPanel* panel)
 {
-	m_hwnd = ::CreateWindowEx(WS_EX_TOOLWINDOW, _T("RichEditTipClass"), _T(""), (M->isAero() ? WS_THICKFRAME : WS_BORDER)|WS_POPUPWINDOW|WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
+	m_hwnd = ::CreateWindowEx(WS_EX_TOOLWINDOW, _T("RichEditTipClass"), _T(""), (M.isAero() ? WS_THICKFRAME : WS_BORDER)|WS_POPUPWINDOW|WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 							  0, 0, 40, 40, 0, 0, g_hInst, this);
 
 	m_hRich = ::CreateWindowEx(0, RICHEDIT_CLASS, _T(""), WS_CHILD | ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL | ES_READONLY | WS_VSCROLL | WS_TABSTOP,
@@ -1423,8 +1423,8 @@ void CTip::show(const RECT& rc, POINT& pt, const HICON hIcon, const TCHAR *szTit
 	int xBorder, yBorder;
 	m_leftWidth = (m_panel->getDat()->hClientIcon || m_panel->getDat()->hXStatusIcon ? LEFT_BAR_WIDTH : 0);
 
-	xBorder = M->isAero() ? GetSystemMetrics(SM_CXSIZEFRAME) : 1;
-	yBorder = M->isAero() ? GetSystemMetrics(SM_CYSIZEFRAME) : 1;
+	xBorder = M.isAero() ? GetSystemMetrics(SM_CXSIZEFRAME) : 1;
+	yBorder = M.isAero() ? GetSystemMetrics(SM_CYSIZEFRAME) : 1;
 
 	m_hIcon = hIcon;
 	m_szTitle = szTitle;
@@ -1591,7 +1591,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 				rc.bottom += 2;
 				rc.left -= 4;rc.right += 4;
 				HBRUSH br = ::CreateSolidBrush(PluginConfig.m_ipBackgroundGradientHigh);
-				if (M->isAero()) {
+				if (M.isAero()) {
 					::FillRect(hdcMem, &rc, reinterpret_cast<HBRUSH>(::GetStockObject(BLACK_BRUSH)));
 					CSkin::ApplyAeroEffect(hdcMem, &rcText, CSkin::AERO_EFFECT_AREA_MENUBAR, 0);
 					::FillRect(hdcMem, &m_rcRich, br);

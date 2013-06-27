@@ -274,11 +274,11 @@ void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const
 					UINT uid = GetMenuItemID(hMenu, 0);
 					if (uid) {
 						DeleteMenu(hMenu, (UINT_PTR)0, MF_BYPOSITION);
-						M->WriteDword((HANDLE)uid, SRMSGMOD_T, "isRecent", 0);
+						db_set_dw((HANDLE)uid, SRMSGMOD_T, "isRecent", 0);
 					}
 				}
 	addnew:
-				M->WriteDword(hContact, SRMSGMOD_T, "isRecent", time(NULL));
+				db_set_dw(hContact, SRMSGMOD_T, "isRecent", time(NULL));
 				AppendMenu(hMenu, MF_BYCOMMAND, (UINT_PTR)hContact, szMenuEntry);
 			}
 			else if (hMenu == PluginConfig.g_hMenuFavorites) {            // insert the item sorted...
@@ -338,9 +338,9 @@ void TSAPI LoadFavoritesAndRecent()
 		return;
 
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (M->GetByte(hContact, SRMSGMOD_T, "isFavorite", 0))
+		if (M.GetByte(hContact, "isFavorite", 0))
 			AddContactToFavorites(hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuFavorites);
-		if ((dwRecent = M->GetDword(hContact, "isRecent", 0)) != 0 && iIndex < nen_options.wMaxRecent) {
+		if ((dwRecent = M.GetDword(hContact, "isRecent", 0)) != 0 && iIndex < nen_options.wMaxRecent) {
 			recentEntries[iIndex].dwTimestamp = dwRecent;
 			recentEntries[iIndex++].hContact = hContact;
 		}

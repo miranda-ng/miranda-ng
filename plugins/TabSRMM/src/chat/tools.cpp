@@ -220,7 +220,7 @@ static int ShowPopup(HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* pszP
 		pd.colorBack = g_Settings.crPUBkgColour;
 		pd.colorText = g_Settings.crPUTextColour;
 	} else {
-		pd.colorBack = M->GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR_MUC, SRMSGDEFSET_BKGCOLOUR);
+		pd.colorBack = M.GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR_MUC, SRMSGDEFSET_BKGCOLOUR);
 		pd.colorText = crBkg;
 	}
 
@@ -537,7 +537,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 	if (bHighlight) {
 		gce->pDest->iType |= GC_EVENT_HIGHLIGHT;
 		params->sound = "ChatHighlight";
-		if (M->GetByte(si->hContact, "CList", "Hidden", 0) != 0)
+		if (db_get_b(si->hContact, "CList", "Hidden", 0) != 0)
 			db_unset(si->hContact, "CList", "Hidden");
 		if (params->bInactive) {
 			fFlagUnread = true;
@@ -705,7 +705,7 @@ void CheckColorsInModule(const char* pszModule)
 {
 	MODULEINFO * pMod = MM_FindModule(pszModule);
 	COLORREF crFG;
-	COLORREF crBG = (COLORREF)M->GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
+	COLORREF crBG = (COLORREF)M.GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
 
 	LoadLogfont(MSGFONTID_MESSAGEAREA, NULL, &crFG, FONTMODULE);
 
@@ -925,7 +925,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	GCMENUITEMS gcmi = {0};
 	int i;
 	HMENU hSubMenu = 0;
-	DWORD codepage = M->GetDword(si->hContact, "ANSIcodepage", 0);
+	DWORD codepage = M.GetDword(si->hContact, "ANSIcodepage", 0);
 	int pos;
 
 	*hMenu = GetSubMenu(g_hMenu, iIndex);
@@ -1052,7 +1052,7 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 		return FALSE;
 
 	if (!(si->dwFlags & GC_UNICODE)) {
-		DWORD dwCP = M->GetDword(si->hContact, "ANSIcodepage", 0);
+		DWORD dwCP = M.GetDword(si->hContact, "ANSIcodepage", 0);
 		gcd->pszID = t2a(pszID, 0);
 		gch->pszUID = t2a(pszUID, 0);
 		gch->pszText = t2a(pszText, dwCP);
@@ -1079,7 +1079,7 @@ BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCH
 		return FALSE;
 
 	if (!(si->dwFlags & GC_UNICODE)) {
-		DWORD dwCP = M->GetDword(si->hContact, "ANSIcodepage", 0);
+		DWORD dwCP = M.GetDword(si->hContact, "ANSIcodepage", 0);
 		gcd.pszID = t2a(pszID, 0);
 		gch.pszUID = t2a(pszUID, 0);
 		gch.pszText = t2a(pszText, dwCP);
@@ -1212,18 +1212,18 @@ void Chat_SetFilters(SESSION_INFO *si)
 	if (si == NULL)
 		return;
 
-	dwFlags_default = M->GetDword("Chat", "FilterFlags", 0x03E0);
-	dwFlags_local = M->GetDword(si->hContact, "Chat", "FilterFlags", 0x03E0);
-	dwMask = M->GetDword(si->hContact, "Chat", "FilterMask", 0);
+	dwFlags_default = M.GetDword("Chat", "FilterFlags", 0x03E0);
+	dwFlags_local = db_get_dw(si->hContact, "Chat", "FilterFlags", 0x03E0);
+	dwMask = db_get_dw(si->hContact, "Chat", "FilterMask", 0);
 
 	si->iLogFilterFlags = dwFlags_default;
 	for (int i=0; i < 32; i++)
 		if (dwMask & (1 << i))
 			si->iLogFilterFlags = (dwFlags_local & (1 << i) ? si->iLogFilterFlags | (1 << i) : si->iLogFilterFlags & ~(1 << i));
 
-	dwFlags_default = M->GetDword("Chat", "PopupFlags", 0x03E0);
-	dwFlags_local = M->GetDword(si->hContact, "Chat", "PopupFlags", 0x03E0);
-	dwMask = M->GetDword(si->hContact, "Chat", "PopupMask", 0);
+	dwFlags_default = M.GetDword("Chat", "PopupFlags", 0x03E0);
+	dwFlags_local = db_get_dw(si->hContact, "Chat", "PopupFlags", 0x03E0);
+	dwMask = db_get_dw(si->hContact, "Chat", "PopupMask", 0);
 
 	si->iLogPopupFlags = dwFlags_default;
 	for (i=0; i < 32; i++) {
@@ -1231,9 +1231,9 @@ void Chat_SetFilters(SESSION_INFO *si)
 			si->iLogPopupFlags = (dwFlags_local & (1 << i) ? si->iLogPopupFlags | (1 << i) : si->iLogPopupFlags & ~(1 << i));
 	}
 
-	dwFlags_default = M->GetDword("Chat", "TrayIconFlags", 0x03E0);
-	dwFlags_local = M->GetDword(si->hContact, "Chat", "TrayIconFlags", 0x03E0);
-	dwMask = M->GetDword(si->hContact, "Chat", "TrayIconMask", 0);
+	dwFlags_default = M.GetDword("Chat", "TrayIconFlags", 0x03E0);
+	dwFlags_local = db_get_dw(si->hContact, "Chat", "TrayIconFlags", 0x03E0);
+	dwMask = db_get_dw(si->hContact, "Chat", "TrayIconMask", 0);
 
 	si->iLogTrayFlags = dwFlags_default;
 	for (i=0; i < 32; i++) {
@@ -1241,7 +1241,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 			si->iLogTrayFlags = (dwFlags_local & (1 << i) ? si->iLogTrayFlags | (1 << i) : si->iLogTrayFlags & ~(1 << i));
 	}
 
-	dwFlags_default = M->GetDword("Chat", "DiskLogFlags", 0xFFFF);
+	dwFlags_default = M.GetDword("Chat", "DiskLogFlags", 0xFFFF);
 	si->iDiskLogFlags = dwFlags_default;
 
 
@@ -1318,8 +1318,8 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 		dat.variables = rva;
 		tszParsedName = (TCHAR*) CallService(MS_UTILS_REPLACEVARS, (WPARAM)g_Settings.pszLogDir, (LPARAM)&dat);
 
-		if (!M->pathIsAbsolute(tszParsedName))
-			mir_sntprintf(si->pszLogFileName, MAX_PATH, _T("%s%s"), M->getChatLogPath(), tszParsedName);
+		if (!M.pathIsAbsolute(tszParsedName))
+			mir_sntprintf(si->pszLogFileName, MAX_PATH, _T("%s%s"), M.getChatLogPath(), tszParsedName);
 		else
 			mir_sntprintf(si->pszLogFileName, MAX_PATH, _T("%s"), tszParsedName);
 

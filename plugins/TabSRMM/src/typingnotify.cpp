@@ -92,7 +92,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 void TN_TypingMessage(HANDLE hContact, int iMode)
 {
 	// hidden & ignored contacts check
-	if (M->GetByte(hContact, "CList", "Hidden", 0) || (M->GetDword(hContact, "Ignore", "Mask1",0) & 1)) // 9 - online notification
+	if (db_get_b(hContact, "CList", "Hidden", 0) || (db_get_dw(hContact, "Ignore", "Mask1",0) & 1)) // 9 - online notification
 		return;
 
 	if (!PluginConfig.g_PopupAvail || Disabled)
@@ -470,7 +470,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			case PSN_APPLY:
 				for (i=0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++) {
 					colorPicker[i].color = SendDlgItemMessage(hwndDlg, colorPicker[i].res, CPM_GETCOLOUR, 0, 0);
-					M->WriteDword(Module, colorPicker[i].desc, colorPicker[i].color);
+					db_set_dw(0, Module, colorPicker[i].desc, colorPicker[i].color);
 				}
 
 				Timeout = newTimeout;   TimeoutMode = newTimeoutMode;
@@ -485,14 +485,14 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				OnePopup = IsDlgButtonChecked(hwndDlg, IDC_ONEPOPUP);
 				ShowMenu = IsDlgButtonChecked(hwndDlg, IDC_SHOWMENU);
 
-				M->WriteByte(Module, SET_ONEPOPUP, OnePopup);
-				M->WriteByte(Module, SET_SHOWDISABLEMENU, ShowMenu);
-				M->WriteByte(Module, SET_DISABLED, (BYTE) (StartDisabled | StopDisabled));
-				M->WriteByte(Module, SET_COLOR_MODE, ColorMode);
-				M->WriteByte(Module, SET_TIMEOUT_MODE, TimeoutMode);
-				M->WriteByte(Module, SET_TIMEOUT, (BYTE) Timeout);
-				M->WriteByte(Module, SET_TIMEOUT_MODE2, TimeoutMode2);
-				M->WriteByte(Module, SET_TIMEOUT2, (BYTE) Timeout2);
+				db_set_b(0, Module, SET_ONEPOPUP, OnePopup);
+				db_set_b(0, Module, SET_SHOWDISABLEMENU, ShowMenu);
+				db_set_b(0, Module, SET_DISABLED, (BYTE) (StartDisabled | StopDisabled));
+				db_set_b(0, Module, SET_COLOR_MODE, ColorMode);
+				db_set_b(0, Module, SET_TIMEOUT_MODE, TimeoutMode);
+				db_set_b(0, Module, SET_TIMEOUT, (BYTE) Timeout);
+				db_set_b(0, Module, SET_TIMEOUT_MODE2, TimeoutMode2);
+				db_set_b(0, Module, SET_TIMEOUT2, (BYTE) Timeout2);
 				return TRUE;
 			}
 		}
@@ -522,23 +522,23 @@ int TN_ModuleInit()
 {
 	hPopupsList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
 
-	OnePopup = M->GetByte(Module,SET_ONEPOPUP,DEF_ONEPOPUP);
-	ShowMenu = M->GetByte(Module,SET_SHOWDISABLEMENU,DEF_SHOWDISABLEMENU);
+	OnePopup = M.GetByte(Module,SET_ONEPOPUP,DEF_ONEPOPUP);
+	ShowMenu = M.GetByte(Module,SET_SHOWDISABLEMENU,DEF_SHOWDISABLEMENU);
 
-	int i = M->GetByte(Module,SET_DISABLED,DEF_DISABLED);
+	int i = M.GetByte(Module,SET_DISABLED,DEF_DISABLED);
 	Disabled = i & 1;
 	StartDisabled = i & 2;
 	StopDisabled = i & 4;
 
-	ColorMode = M->GetByte(Module,SET_COLOR_MODE,DEF_COLOR_MODE);
-	TimeoutMode = M->GetByte(Module,SET_TIMEOUT_MODE,DEF_TIMEOUT_MODE);
-	Timeout = M->GetByte(Module,SET_TIMEOUT,DEF_TIMEOUT);
-	TimeoutMode2 = M->GetByte(Module,SET_TIMEOUT_MODE2,DEF_TIMEOUT_MODE2);
-	Timeout2 = M->GetByte(Module,SET_TIMEOUT2,DEF_TIMEOUT2);
+	ColorMode = M.GetByte(Module,SET_COLOR_MODE,DEF_COLOR_MODE);
+	TimeoutMode = M.GetByte(Module,SET_TIMEOUT_MODE,DEF_TIMEOUT_MODE);
+	Timeout = M.GetByte(Module,SET_TIMEOUT,DEF_TIMEOUT);
+	TimeoutMode2 = M.GetByte(Module,SET_TIMEOUT_MODE2,DEF_TIMEOUT_MODE2);
+	Timeout2 = M.GetByte(Module,SET_TIMEOUT2,DEF_TIMEOUT2);
 
-	if (!(M->GetDword(Module, colorPicker[0].desc, 1) && !M->GetDword(Module, colorPicker[0].desc, 0)))
+	if (!(M.GetDword(Module, colorPicker[0].desc, 1) && !M.GetDword(Module, colorPicker[0].desc, 0)))
 		for (i=0; i < SIZEOF(colorPicker); i++)
-			colorPicker[i].color = M->GetDword(Module,colorPicker[i].desc,0);
+			colorPicker[i].color = M.GetDword(Module,colorPicker[i].desc,0);
 
 	mir_sntprintf(szStart, sizeof(szStart), TranslateT("...is typing a message."));
 	mir_sntprintf(szStop, sizeof(szStop), TranslateT("...has stopped typing."));
@@ -567,6 +567,6 @@ int TN_ModuleInit()
 
 int TN_ModuleDeInit()
 {
-	M->WriteByte(Module, SET_DISABLED, (BYTE) (Disabled | StartDisabled | StopDisabled));
+	db_set_b(0, Module, SET_DISABLED, (BYTE) (Disabled | StartDisabled | StopDisabled));
 	return 0;
 }

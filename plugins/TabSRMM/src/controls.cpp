@@ -78,7 +78,7 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 
 	m_activeMenu = 0;
 	m_activeID = 0;
-	m_isAero = M->isAero();
+	m_isAero = M.isAero();
 	m_mustAutoHide = false;
 	m_activeSubMenu = 0;
 	m_fTracking = false;
@@ -241,14 +241,14 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 					m_rcItem.bottom -= 4;
 					m_hbmDraw = CSkin::CreateAeroCompatibleBitmap(m_rcItem, nmtb->nmcd.hdc);
 					m_hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(m_hdcDraw, m_hbmDraw));
-					m_hTheme = M->isAero() || M->isVSThemed() ? CMimAPI::m_pfnOpenThemeData(m_hwndToolbar, L"REBAR") : 0;
+					m_hTheme = M.isAero() || M.isVSThemed() ? CMimAPI::m_pfnOpenThemeData(m_hwndToolbar, L"REBAR") : 0;
 					m_hOldFont = reinterpret_cast<HFONT>(::SelectObject(m_hdcDraw, reinterpret_cast<HFONT>(::GetStockObject(DEFAULT_GUI_FONT))));
 					if (m_isAero) {
 						nm->rc.bottom--;
 						CSkin::ApplyAeroEffect(m_hdcDraw, &m_rcItem, CSkin::AERO_EFFECT_AREA_MENUBAR);
 						nm->rc.bottom++;
 					}
-					else if ((PluginConfig.m_fillColor || M->isVSThemed()) && !CSkin::m_skinEnabled) {
+					else if ((PluginConfig.m_fillColor || M.isVSThemed()) && !CSkin::m_skinEnabled) {
 						if (PluginConfig.m_fillColor && PluginConfig.m_tbBackgroundHigh && PluginConfig.m_tbBackgroundLow) {
 							::DrawAlpha(m_hdcDraw, &m_rcItem, PluginConfig.m_tbBackgroundHigh, 100, PluginConfig.m_tbBackgroundLow, 0,
 								GRADIENT_TB, 0, 0, 0);
@@ -257,8 +257,8 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 							m_rcItem.bottom--;
 							if (PluginConfig.m_fillColor)
 								CSkin::FillBack(m_hdcDraw, &m_rcItem);
-							else if (M->isVSThemed())
-								M->m_pfnDrawThemeBackground(m_hTheme, m_hdcDraw, 6, 1, &m_rcItem, &m_rcItem);
+							else if (M.isVSThemed())
+								M.m_pfnDrawThemeBackground(m_hTheme, m_hdcDraw, 6, 1, &m_rcItem, &m_rcItem);
 							else
 								FillRect(m_hdcDraw, &m_rcItem, GetSysColorBrush(COLOR_3DFACE));
 						}
@@ -769,7 +769,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			CSkinItem *		item = &SkinItems[ID_EXTBKSTATUSBARPANEL];
 			COLORREF		clr = 0;
 
-			BOOL			fAero = M->isAero();
+			BOOL			fAero = M.isAero();
 			HANDLE  		hTheme = fAero ? CMimAPI::m_pfnOpenThemeData(hWnd, L"ButtonStyle") : 0;
 			TWindowData* dat = 0;
 
@@ -1016,7 +1016,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 								pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
 
 						else if (sid->dwId == MSG_ICON_UTN && dat && dat->bType == SESSIONTYPE_IM) {
-							int mtnStatus = (int)M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+							int mtnStatus = db_get_b(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
 							mir_sntprintf(wBuf, SIZEOF(wBuf), TranslateT("Sending typing notifications is %s."),
 								mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
 						}
@@ -1035,7 +1035,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				if (dat && PtInRect(&rc, pt)) {
 					int iLength = 0;
 					GETTEXTLENGTHEX gtxl = {0};
-					int iQueued = M->GetDword(dat->hContact, "SendLater", "count", 0);
+					int iQueued = db_get_dw(dat->hContact, "SendLater", "count", 0);
 					gtxl.codepage = CP_UTF8;
 					gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
 					iLength = SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)& gtxl, 0);
@@ -1058,7 +1058,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 						DBVARIANT dbv={0};
 
 						if (dat->bType == SESSIONTYPE_CHAT)
-							M->GetTString(dat->hContact,dat->szProto,"Topic",&dbv);
+							db_get_ts(dat->hContact,dat->szProto,"Topic",&dbv);
 
 						tooltip_active = TRUE;
 						CallService("mToolTip/ShowTipW", (WPARAM)dbv.ptszVal, (LPARAM)&ti);

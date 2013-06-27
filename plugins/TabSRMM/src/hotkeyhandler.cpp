@@ -97,7 +97,7 @@ static INT_PTR HotkeyProcessor(WPARAM wParam, LPARAM lParam)
 
 void TSAPI HandleMenuEntryFromhContact(int iSelection)
 {
-	HWND hWnd = M->FindWindow((HANDLE)iSelection);
+	HWND hWnd = M.FindWindow((HANDLE)iSelection);
 	SESSION_INFO *si = NULL;
 
 	if (iSelection == 0)
@@ -207,7 +207,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				return TRUE;
 			}
 			else if (dis->CtlType == ODT_MENU) {
-				HWND hWnd = M->FindWindow((HANDLE)dis->itemID);
+				HWND hWnd = M.FindWindow((HANDLE)dis->itemID);
 				DWORD idle = 0;
 
 				if (hWnd == NULL) {
@@ -392,7 +392,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case DM_DOCREATETAB:
 		{
-			HWND hWnd = M->FindWindow((HANDLE)lParam);
+			HWND hWnd = M.FindWindow((HANDLE)lParam);
 			if (hWnd && IsWindow(hWnd)) {
 				TContainerData *pContainer = 0;
 				SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
@@ -453,7 +453,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			HKL    hkl = (HKL)lParam;
 			HANDLE hContact = (HANDLE)wParam;
 
-			HWND	hWnd = M->FindWindow(hContact);
+			HWND	hWnd = M.FindWindow(hContact);
 			if (hWnd) {
 				TWindowData *dat = (TWindowData *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 				if (dat) {
@@ -463,7 +463,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 
 					DBVARIANT  dbv;
-					if (0 == M->GetTString(hContact, SRMSGMOD_T, "locale", &dbv)) {
+					if (0 == db_get_ts(hContact, SRMSGMOD_T, "locale", &dbv)) {
 						GetLocaleID(dat, dbv.ptszVal);
 						db_free(&dbv);
 						UpdateReadChars(dat);
@@ -479,7 +479,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		 */
 	case WM_DWMCOMPOSITIONCHANGED:
 		{
-			bool fNewAero = M->getAeroState();					// refresh dwm state
+			bool fNewAero = M.getAeroState();					// refresh dwm state
 			SendMessage(hwndDlg, WM_THEMECHANGED, 0, 0);
 
 			for (p = pFirstContainer; p; p = p->pNext) {
@@ -487,15 +487,15 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					SetAeroMargins(p);
 				else {
 					MARGINS m = {0};
-					if (M->m_pfnDwmExtendFrameIntoClientArea)
-						M->m_pfnDwmExtendFrameIntoClientArea(p->hwnd, &m);
+					if (M.m_pfnDwmExtendFrameIntoClientArea)
+						M.m_pfnDwmExtendFrameIntoClientArea(p->hwnd, &m);
 				}
 				if (p->SideBar->isActive())
 					RedrawWindow(GetDlgItem(p->hwnd, 5000), NULL, NULL, RDW_ERASE|RDW_INVALIDATE|RDW_UPDATENOW);			// the container for the sidebar buttons
 				RedrawWindow(p->hwnd, NULL, NULL, RDW_ERASE|RDW_INVALIDATE|RDW_UPDATENOW|RDW_ALLCHILDREN);
 			}
 		}
-		M->BroadcastMessage(WM_DWMCOMPOSITIONCHANGED, 0, 0);
+		M.BroadcastMessage(WM_DWMCOMPOSITIONCHANGED, 0, 0);
 		break;
 
 		/*
@@ -505,7 +505,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		 * tabs and buttons to match the new desktop color theme.
 		 */
 	case WM_DWMCOLORIZATIONCOLORCHANGED:
-		M->getAeroState();
+		M.getAeroState();
 		Skin->setupAeroSkins();
 		CSkin::initAeroEffect();
 		break;
@@ -515,7 +515,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		 * classic Windows theme
 		 */
 	case WM_THEMECHANGED:
-		M->getAeroState();
+		M.getAeroState();
 		Skin->setupTabCloseBitmap();
 		CSkin::initAeroEffect();
 		PluginConfig.m_ncm.cbSize = sizeof(NONCLIENTMETRICS);

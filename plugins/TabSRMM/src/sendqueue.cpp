@@ -358,12 +358,12 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 
 	dat->nMax = dat->cache->getMaxMessageLength();                      // refresh length info
 
-	if (dat->sendMode & SMODE_FORCEANSI && M->GetByte(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 1))
-		M->WriteByte(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 0);
-	else if (!(dat->sendMode & SMODE_FORCEANSI) && !M->GetByte(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 0))
-		M->WriteByte(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 1);
+	if (dat->sendMode & SMODE_FORCEANSI && db_get_b(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 1))
+		db_set_b(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 0);
+	else if (!(dat->sendMode & SMODE_FORCEANSI) && !db_get_b(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 0))
+		db_set_b(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 1);
 
-	if (M->GetByte("autosplit", 0) && !(dat->sendMode & SMODE_SENDLATER)) {
+	if (M.GetByte("autosplit", 0) && !(dat->sendMode & SMODE_SENDLATER)) {
 		BOOL    fSplit = FALSE;
 		DWORD   dwOldFlags;
 
@@ -439,7 +439,7 @@ send_unsplitted:
 	if (!(dat->sendMode & SMODE_NOACK))
 		::HandleIconFeedback(dat, PluginConfig.g_IconSend);
 
-	if (M->GetByte(SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
+	if (M.GetByte(SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
 		::SendMessage(dat->pContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 	return 0;
 }
@@ -613,7 +613,7 @@ void SendQueue::UpdateSaveAndSendButton(TWindowData *dat)
 
 void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 {
-	if (M->GetByte("adv_noErrorPopups", 0))
+	if (M.GetByte("adv_noErrorPopups", 0))
 		return;
 
 	if ( CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) != 1)
@@ -624,16 +624,16 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 	lstrcpyn(ppd.lptzContactName, dat->cache->getNick(), MAX_CONTACTNAME);
 	lstrcpyn(ppd.lptzText, TranslateT("A message delivery has failed.\nClick to open the message window."), MAX_SECONDLINE);
 
-	if (!(BOOL)M->GetByte(MODULE, OPT_COLDEFAULT_ERR, TRUE)) {
-		ppd.colorText = (COLORREF)M->GetDword(MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
-		ppd.colorBack = (COLORREF)M->GetDword(MODULE, OPT_COLBACK_ERR, DEFAULT_COLBACK);
+	if (!(BOOL)M.GetByte(MODULE, OPT_COLDEFAULT_ERR, TRUE)) {
+		ppd.colorText = (COLORREF)M.GetDword(MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
+		ppd.colorBack = (COLORREF)M.GetDword(MODULE, OPT_COLBACK_ERR, DEFAULT_COLBACK);
 	}
 	else ppd.colorText = ppd.colorBack = 0;
 
 	ppd.PluginWindowProc = reinterpret_cast<WNDPROC>(Utils::PopupDlgProcError);
 	ppd.lchIcon = PluginConfig.g_iconErr;
 	ppd.PluginData = (void*)dat->hContact;
-	ppd.iSeconds = (int)M->GetDword(MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
+	ppd.iSeconds = (int)M.GetDword(MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
 	PUAddPopupT(&ppd);
 }
 
@@ -774,8 +774,8 @@ inform_and_discard:
 			handleError(dat, iNextFailed);
 		//MAD: close on send mode
 		else {
-			if (M->GetByte("AutoClose", 0)) {
-				if (M->GetByte("adv_AutoClose_2", 0))
+			if (M.GetByte("AutoClose", 0)) {
+				if (M.GetByte("adv_AutoClose_2", 0))
 					SendMessage(dat->hwnd, WM_CLOSE, 0, 1);
 				else
 					SendMessage(dat->pContainer->hwnd, WM_CLOSE, 0, 0);
@@ -892,9 +892,9 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HANDLE hContact, boo
 			mir_free(tszMsg);
 		}
 		if (fIsSendLater) {
-			int iCount = M->GetDword(hContact ? hContact : job->hOwner, "SendLater", "count", 0);
+			int iCount = db_get_dw(hContact ? hContact : job->hOwner, "SendLater", "count", 0);
 			iCount++;
-			M->WriteDword(hContact ? hContact : job->hOwner, "SendLater", "count", iCount);
+			db_set_dw(hContact ? hContact : job->hOwner, "SendLater", "count", iCount);
 			sendLater->addContact(hContact ? hContact : job->hOwner);
 		}
 		return(iJobIndex);

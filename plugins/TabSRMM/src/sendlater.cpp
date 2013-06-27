@@ -75,10 +75,10 @@ void CSendLaterJob::cleanDB()
 		char	szKey[100];
 
 		db_unset(hContact, "SendLater", szId);
-		int iCount = M->GetDword(hContact, "SendLater", "count", 0);
+		int iCount = db_get_dw(hContact, "SendLater", "count", 0);
 		if (iCount)
 			iCount--;
-		M->WriteDword(hContact, "SendLater", "count", iCount);
+		db_set_dw(hContact, "SendLater", "count", iCount);
 		/*
 		 * delete flags
 		 */
@@ -98,7 +98,7 @@ void CSendLaterJob::readFlags()
 		DWORD	localFlags;
 
 		mir_snprintf(szKey, 100, "$%s", szId);
-		localFlags = M->GetDword(hContact, "SendLater", szKey, 0);
+		localFlags = db_get_dw(hContact, "SendLater", szKey, 0);
 
 		if (localFlags & SLF_SUSPEND)
 			bCode = JOB_HOLD;
@@ -116,7 +116,7 @@ void CSendLaterJob::writeFlags()
 		char	szKey[100];
 
 		mir_snprintf(szKey, 100, "$%s", szId);
-		M->WriteDword(hContact, "SendLater", szKey, localFlags);
+		db_set_dw(hContact, "SendLater", szKey, localFlags);
 	}
 }
 
@@ -174,12 +174,12 @@ CSendLater::CSendLater()
 {
 	m_sendLaterContactList.clear();
 	m_sendLaterJobList.clear();
-	m_fAvail = M->GetByte("sendLaterAvail", 0) ? true : false;
+	m_fAvail = M.GetByte("sendLaterAvail", 0) != 0;
 	m_last_sendlater_processed = time(0);
 	m_hwndDlg = 0;
 	m_fIsInteractive = false;
-	m_fErrorPopups = M->GetByte(0, SRMSGMOD_T, "qmgrErrorPopups", 0) ? true : false;
-	m_fSuccessPopups = M->GetByte(0, SRMSGMOD_T, "qmgrSuccessPopups", 0) ? true : false;
+	m_fErrorPopups = M.GetByte("qmgrErrorPopups", 0) != 0;
+	m_fSuccessPopups = M.GetByte("qmgrSuccessPopups", 0) != 0;
 }
 
 /**
@@ -262,7 +262,7 @@ int _cdecl CSendLater::addStub(const char *szSetting, LPARAM lParam)
  */
 void CSendLater::processSingleContact(const HANDLE hContact)
 {
-	int iCount = M->GetDword(hContact, "SendLater", "count", 0);
+	int iCount = db_get_dw(hContact, "SendLater", "count", 0);
 
 	if (iCount) {
 		DBCONTACTENUMSETTINGS ces = {0};
@@ -712,7 +712,7 @@ void CSendLater::qMgrSetupColumns()
 	::GetWindowRect(m_hwndList, &rcList);
 	cxList = rcList.right - rcList.left;
 
-	if (0 == M->GetString(0, SRMSGMOD_T, "qmgrListColumns", &dbv)) {
+	if (0 == db_get_s(0, SRMSGMOD_T, "qmgrListColumns", &dbv)) {
 		sscanf(dbv.pszVal, szColFormat, &nWidths[0], &nWidths[1], &nWidths[2], &nWidths[3], &nWidths[4]);
 		db_free(&dbv);
 	}
@@ -783,7 +783,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		TranslateDialogDefault(hwnd);
 		m_hwndList = ::GetDlgItem(m_hwndDlg, IDC_QMGR_LIST);
 		m_hwndFilter = ::GetDlgItem(m_hwndDlg, IDC_QMGR_FILTER);
-		m_hFilter = reinterpret_cast<HANDLE>(M->GetDword(0, SRMSGMOD_T, "qmgrFilterContact", 0));
+		m_hFilter = reinterpret_cast<HANDLE>(db_get_dw(0, SRMSGMOD_T, "qmgrFilterContact", 0));
 
 		::SetWindowLongPtr(m_hwndList, GWL_STYLE, ::GetWindowLongPtr(m_hwndList, GWL_STYLE) | LVS_SHOWSELALWAYS);
 		::SendMessage(m_hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES|LVS_EX_LABELTIP|LVS_EX_DOUBLEBUFFER);
@@ -857,12 +857,12 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		case IDC_QMGR_SUCCESSPOPUPS:
 			m_fSuccessPopups = ::IsDlgButtonChecked(m_hwndDlg, IDC_QMGR_SUCCESSPOPUPS) ? true : false;
-			M->WriteByte(0, SRMSGMOD_T, "qmgrSuccessPopups", m_fSuccessPopups ? 1 : 0);
+			db_set_b(0, SRMSGMOD_T, "qmgrSuccessPopups", m_fSuccessPopups ? 1 : 0);
 			break;
 
 		case IDC_QMGR_ERRORPOPUPS:
 			m_fErrorPopups = ::IsDlgButtonChecked(m_hwndDlg, IDC_QMGR_ERRORPOPUPS) ? true : false;
-			M->WriteByte(0, SRMSGMOD_T, "qmgrErrorPopups", m_fErrorPopups ? 1 : 0);
+			db_set_b(0, SRMSGMOD_T, "qmgrErrorPopups", m_fErrorPopups ? 1 : 0);
 			break;
 
 		case IDC_QMGR_HELP:
@@ -934,7 +934,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_NCDESTROY:
 		m_hwndDlg = 0;
-		M->WriteDword(0, SRMSGMOD_T, "qmgrFilterContact", reinterpret_cast<DWORD>(m_hFilter));
+		db_set_dw(0, SRMSGMOD_T, "qmgrFilterContact", reinterpret_cast<DWORD>(m_hFilter));
 		break;
 	}
 	return FALSE;

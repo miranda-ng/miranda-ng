@@ -302,10 +302,10 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 					wp.length = sizeof(wp);
 					if (GetWindowPlacement(pContainer->hwnd, &wp)) {
-						M->WriteDword(SRMSGMOD_T, "splitx", wp.rcNormalPosition.left);
-						M->WriteDword(SRMSGMOD_T, "splity", wp.rcNormalPosition.top);
-						M->WriteDword(SRMSGMOD_T, "splitwidth", wp.rcNormalPosition.right - wp.rcNormalPosition.left);
-						M->WriteDword(SRMSGMOD_T, "splitheight", wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
+						db_set_dw(0, SRMSGMOD_T, "splitx", wp.rcNormalPosition.left);
+						db_set_dw(0, SRMSGMOD_T, "splity", wp.rcNormalPosition.top);
+						db_set_dw(0, SRMSGMOD_T, "splitwidth", wp.rcNormalPosition.right - wp.rcNormalPosition.left);
+						db_set_dw(0, SRMSGMOD_T, "splitheight", wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
 					}
 					break;
 				}
@@ -351,7 +351,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 						GetDlgItemText(hwndDlg, IDC_THEME, szFilename, MAX_PATH);
 						szFilename[MAX_PATH - 1] = 0;
-						M->pathToAbsolute(szFilename, szFinalThemeFile);
+						M.pathToAbsolute(szFilename, szFinalThemeFile);
 
 						if (_tcscmp(szFilename, pContainer->szRelThemeFile))
 						   pContainer->fPrivateThemeChanged = TRUE;

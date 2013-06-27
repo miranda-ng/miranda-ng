@@ -177,11 +177,11 @@ void TSAPI CacheLogFonts()
 	ReleaseDC(PluginConfig.g_hwndHotkeyHandler, hdc);
 	PluginConfig.hFontCaption = CInfoPanel::m_ipConfig.hFonts[IPFONTCOUNT - 1];
 
-	PluginConfig.crIncoming = M->GetDword(FONTMODULE, "inbg", SRMSGDEFSET_BKGINCOLOUR);
-	PluginConfig.crOutgoing = M->GetDword(FONTMODULE, "outbg", SRMSGDEFSET_BKGOUTCOLOUR);
-	PluginConfig.crStatus = M->GetDword(FONTMODULE, "statbg", SRMSGDEFSET_BKGCOLOUR);
-	PluginConfig.crOldIncoming = M->GetDword(FONTMODULE, "oldinbg", SRMSGDEFSET_BKGINCOLOUR);
-	PluginConfig.crOldOutgoing = M->GetDword(FONTMODULE, "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR);
+	PluginConfig.crIncoming = M.GetDword(FONTMODULE, "inbg", SRMSGDEFSET_BKGINCOLOUR);
+	PluginConfig.crOutgoing = M.GetDword(FONTMODULE, "outbg", SRMSGDEFSET_BKGOUTCOLOUR);
+	PluginConfig.crStatus = M.GetDword(FONTMODULE, "statbg", SRMSGDEFSET_BKGCOLOUR);
+	PluginConfig.crOldIncoming = M.GetDword(FONTMODULE, "oldinbg", SRMSGDEFSET_BKGINCOLOUR);
+	PluginConfig.crOldOutgoing = M.GetDword(FONTMODULE, "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR);
 }
 
 void FreeLogFonts()
@@ -1417,7 +1417,7 @@ static void ReplaceIcons(HWND hwndDlg, struct TWindowData *dat, LONG startAt, in
 	COLORREF crDefault;
 	struct TLogIcon theIcon;
 	char trbuffer[40];
-	DWORD dwScale = M->GetDword("iconscale", 0);
+	DWORD dwScale = M.GetDword("iconscale", 0);
 	tr.lpstrText = trbuffer;
 
 	hwndrtf = GetDlgItem(hwndDlg, IDC_LOG);

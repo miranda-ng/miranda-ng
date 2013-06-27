@@ -47,7 +47,7 @@ static HANDLE Clist_GroupExists(TCHAR *tszGroup)
 
 	do {
 		_itoa(i, str, 10);
-		result = M->GetTString(0, "CListGroups", str, &dbv);
+		result = db_get_ts(0, "CListGroups", str, &dbv);
 		if (!result) {
 			match = (!_tcscmp(tszGroup, &dbv.ptszVal[1]) && (lstrlen(tszGroup) == lstrlen(&dbv.ptszVal[1])));
 			db_free(&dbv);
@@ -67,7 +67,7 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 	TCHAR pszGroup[50];
 
 	*pszGroup = '\0';
-	if (!M->GetTString(NULL, "Chat", "AddToGroup", &dbv)) {
+	if (!db_get_ts(NULL, "Chat", "AddToGroup", &dbv)) {
 		if (lstrlen(dbv.ptszVal) > 0)
 			lstrcpyn(pszGroup, dbv.ptszVal, 50);
 		db_free(&dbv);
@@ -91,9 +91,9 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 	else
 		db_unset(hContact, "CList", "Group");
 
-	M->WriteTString(hContact, pszModule, "Nick", pszDisplayName);
-	M->WriteTString(hContact, pszModule, "ChatRoomID", pszRoom);
-	M->WriteByte(hContact, pszModule, "ChatRoom", (BYTE)iType);
+	db_set_ts(hContact, pszModule, "Nick", pszDisplayName);
+	db_set_ts(hContact, pszModule, "ChatRoomID", pszRoom);
+	db_set_b(hContact, pszModule, "ChatRoom", (BYTE)iType);
 	db_set_w(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
 	return hContact;
 }
@@ -105,7 +105,7 @@ BOOL CList_SetOffline(HANDLE hContact, BOOL bHide)
 		if (szProto == NULL)
 			return FALSE;
 
-		int i = M->GetByte(hContact, szProto, "ChatRoom", 0);
+		int i = db_get_b(hContact, szProto, "ChatRoom", 0);
 		db_set_w(hContact, szProto, "ApparentMode", (LPARAM)0);
 		db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		return TRUE;
@@ -119,7 +119,7 @@ BOOL CList_SetAllOffline(BOOL bHide, const char *pszModule)
 		char *szProto = GetContactProto(hContact);
 		if (MM_FindModule(szProto)) {
 			if (!pszModule || (pszModule && !strcmp(pszModule, szProto))) {
-				int i = M->GetByte(hContact, szProto, "ChatRoom", 0);
+				int i = db_get_b(hContact, szProto, "ChatRoom", 0);
 				if (i != 0) {
 					db_set_w(hContact, szProto, "ApparentMode", (LPARAM)(WORD) 0);
 					db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
@@ -143,15 +143,15 @@ int CList_RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
 
 	szProto = GetContactProto(hContact);
 	if (MM_FindModule(szProto)) {
-		if (M->GetByte(hContact, szProto, "ChatRoom", 0) == 0)
+		if (db_get_b(hContact, szProto, "ChatRoom", 0) == 0)
 			return 0;
 
-		if (!M->GetTString(hContact, szProto, "ChatRoomID", &dbv)) {
+		if (!db_get_ts(hContact, szProto, "ChatRoomID", &dbv)) {
 			SESSION_INFO* si = SM_FindSession(dbv.ptszVal, szProto);
 			if (si) {
 				// is the "toggle visibility option set, so we need to close the window?
 				if (si->hWnd != NULL
-						&& M->GetByte("Chat", "ToggleVisibility", 0) == 1
+						&& M.GetByte("Chat", "ToggleVisibility", 0) == 1
 						&& !CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0)
 						&& IsWindowVisible(si->hWnd)
 						&& !IsIconic(si->pContainer->hwnd)) {
@@ -218,7 +218,7 @@ int CList_PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	char *szProto = GetContactProto(hContact);
 	if ( szProto ) {
 		// display this menu item only for chats
-		if ( M->GetByte(hContact, szProto, "ChatRoom", 0 )) {
+		if ( db_get_b(hContact, szProto, "ChatRoom", 0 )) {
 			// still hide it for offline protos
 			if (CallProtoService( szProto, PS_GETSTATUS, 0, 0 ) != ID_STATUS_OFFLINE) {
 				CLISTMENUITEM clmi = { sizeof(clmi) };
@@ -292,11 +292,11 @@ BOOL CList_AddEvent(HANDLE hContact, HICON Icon, HANDLE event, int type, const T
 HANDLE CList_FindRoom(const char* pszModule, const TCHAR* pszRoom)
 {
 	for (HANDLE hContact = db_find_first(pszModule); hContact; hContact = db_find_next(hContact, pszModule)) {
-		if ( !M->GetByte(hContact, pszModule, "ChatRoom", 0))
+		if ( !db_get_b(hContact, pszModule, "ChatRoom", 0))
 			continue;
 
 		DBVARIANT dbv;
-		if (!M->GetTString(hContact, pszModule, "ChatRoomID", &dbv)) {
+		if (!db_get_ts(hContact, pszModule, "ChatRoomID", &dbv)) {
 			if (!lstrcmpi(dbv.ptszVal, pszRoom)) {
 				db_free(&dbv);
 				return hContact;

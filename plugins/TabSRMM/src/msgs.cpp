@@ -52,7 +52,7 @@ int     Chat_PreShutdown(WPARAM wParam, LPARAM lParam);
 
 int IEViewOptionsChanged(WPARAM,LPARAM)
 {
-	M->BroadcastMessage(DM_IEVIEWOPTIONSCHANGED, 0, 0);
+	M.BroadcastMessage(DM_IEVIEWOPTIONSCHANGED, 0, 0);
 	return 0;
 }
 
@@ -62,7 +62,7 @@ int IEViewOptionsChanged(WPARAM,LPARAM)
 
 int SmileyAddOptionsChanged(WPARAM,LPARAM)
 {
-	M->BroadcastMessage(DM_SMILEYOPTIONSCHANGED, 0, 0);
+	M.BroadcastMessage(DM_SMILEYOPTIONSCHANGED, 0, 0);
 	if (PluginConfig.m_chat_enabled)
 		SM_BroadcastMessage(NULL, DM_SMILEYOPTIONSCHANGED, 0, 0, FALSE);
 	return 0;
@@ -101,7 +101,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 		return 1;
 	if (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
 		return 1;
-	HWND hwnd = M->FindWindow(mwid->hContact);
+	HWND hwnd = M.FindWindow(mwid->hContact);
 	if (hwnd) {
 		mwod->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 		mwod->hwndWindow = hwnd;
@@ -139,7 +139,7 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 {
 	TContainerData *pContainer;
 
-	HWND hwnd = M->FindWindow((HANDLE)wParam);
+	HWND hwnd = M.FindWindow((HANDLE)wParam);
 	if (hwnd != NULL) {
 		TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		if (dat == NULL || (pContainer = dat->pContainer) == NULL)
@@ -203,7 +203,7 @@ static INT_PTR GetMessageWindowFlags(WPARAM wParam, LPARAM lParam)
 	HWND hwndTarget = (HWND)lParam;
 
 	if (hwndTarget == 0)
-		hwndTarget = M->FindWindow((HANDLE)wParam);
+		hwndTarget = M.FindWindow((HANDLE)wParam);
 
 	if (hwndTarget) {
 		struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwndTarget, GWLP_USERDATA);
@@ -243,7 +243,7 @@ INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 	TContainerData *pContainer = NULL;
 
 	if (wParam)
-		hwnd = M->FindWindow((HANDLE)wParam);
+		hwnd = M.FindWindow((HANDLE)wParam);
 	else if (lParam)
 		hwnd = (HWND) lParam;
 	else
@@ -282,7 +282,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 {
 	HANDLE hContact = ((CLISTEVENT *) lParam)->hContact;
 
-	HWND hwndExisting = M->FindWindow(hContact);
+	HWND hwndExisting = M.FindWindow(hContact);
 	if (hwndExisting != 0)
 		SendMessage(hwndExisting, DM_ACTIVATEME, 0, 0);
 	else {
@@ -335,7 +335,7 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 	
-	HWND hwnd = M->FindWindow(hContact);
+	HWND hwnd = M.FindWindow(hContact);
 	if (hwnd) {
 		if (lParam) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
@@ -392,7 +392,7 @@ INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 	
-	HWND hwnd = M->FindWindow(hContact);
+	HWND hwnd = M.FindWindow(hContact);
 	if (hwnd) {
 		if (lParam) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
@@ -484,10 +484,10 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 int AvatarChanged(WPARAM wParam, LPARAM lParam)
 {
 	struct avatarCacheEntry *ace = (struct avatarCacheEntry *)lParam;
-	HWND hwnd = M->FindWindow((HANDLE)wParam);
+	HWND hwnd = M.FindWindow((HANDLE)wParam);
 
 	if (wParam == 0) {			// protocol picture has changed...
-		M->BroadcastMessage(DM_PROTOAVATARCHANGED, wParam, lParam);
+		M.BroadcastMessage(DM_PROTOAVATARCHANGED, wParam, lParam);
 		return 0;
 	}
 	if (hwnd) {
@@ -528,8 +528,8 @@ int IconsChanged(WPARAM wParam, LPARAM lParam)
 {
 	CreateImageList(FALSE);
 	CacheMsgLogIcons();
-	M->BroadcastMessage(DM_OPTIONSAPPLIED, 0, 0);
-	M->BroadcastMessage(DM_UPDATEWINICON, 0, 0);
+	M.BroadcastMessage(DM_OPTIONSAPPLIED, 0, 0);
+	M.BroadcastMessage(DM_UPDATEWINICON, 0, 0);
 	if (PluginConfig.m_chat_enabled)
 		Chat_IconsChanged(wParam, lParam);
 
@@ -590,7 +590,7 @@ int LoadSendRecvMessageModule(void)
 	Win7Taskbar->updateMetrics();
 
 	ZeroMemory((void*)&nen_options, sizeof(nen_options));
-	M->m_hMessageWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	M.m_hMessageWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	PluginConfig.hUserPrefsWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	sendQueue = new SendQueue;
 	Skin = new CSkin;
@@ -604,7 +604,7 @@ int LoadSendRecvMessageModule(void)
 	ReloadTabConfig();
 	NEN_ReadOptions(&nen_options);
 
-	M->WriteByte(TEMPLATES_MODULE, "setup", 2);
+	db_set_b(0, TEMPLATES_MODULE, "setup", 2);
 	LoadDefaultTemplates();
 
 	BuildCodePageList();
@@ -692,12 +692,12 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 	int		newItem;
 	DBVARIANT dbv = {0};
 
-	if (M->FindWindow(hContact) != 0) {
+	if (M.FindWindow(hContact) != 0) {
 		_DebugPopup(hContact, _T("Warning: trying to create duplicate window"));
 		return 0;
 	}
 	// if we have a max # of tabs/container set and want to open something in the default container...
-	if (hContact != 0 && M->GetByte("limittabs", 0) &&  !_tcsncmp(pContainer->szName, _T("default"), 6)) {
+	if (hContact != 0 && M.GetByte("limittabs", 0) &&  !_tcsncmp(pContainer->szName, _T("default"), 6)) {
 		if ((pContainer = FindMatchingContainer(_T("default"), hContact)) == NULL) {
 			TCHAR szName[CONTAINER_NAMELEN + 1];
 
@@ -722,7 +722,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 	 */
 
 	if (contactName && lstrlen(contactName) > 0) {
-		if (M->GetByte("cuttitle", 0))
+		if (M.GetByte("cuttitle", 0))
 			CutContactName(contactName, newcontactname, SIZEOF(newcontactname));
 		else {
 			lstrcpyn(newcontactname, contactName, SIZEOF(newcontactname));
@@ -736,7 +736,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 	WORD wStatus = (szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE));
 	TCHAR *szStatus = (TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), GSMDF_TCHAR);
 
-	if (M->GetByte("tabstatus", 1))
+	if (M.GetByte("tabstatus", 1))
 		mir_sntprintf(tabtitle, SIZEOF(tabtitle), _T("%s (%s)  "), newcontactname, szStatus);
 	else
 		mir_sntprintf(tabtitle, SIZEOF(tabtitle), _T("%s   "), newcontactname);
@@ -752,7 +752,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 		ShowWindow(pContainer->hwndActive, SW_HIDE);
 
 	{
-		int iTabIndex_wanted = M->GetDword(hContact, "tabindex", pContainer->iChilds * 100);
+		int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->iChilds * 100);
 		int iCount = TabCtrl_GetItemCount(hwndTab);
 		TCITEM item = {0};
 		int relPos;
@@ -766,7 +766,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 				HWND hwnd = (HWND)item.lParam;
 				struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				if (dat) {
-					relPos = M->GetDword(dat->hContact, "tabindex", i * 100);
+					relPos = M.GetDword(dat->hContact, "tabindex", i * 100);
 					if (iTabIndex_wanted <= relPos)
 						pContainer->iTabIndex = i;
 				}
@@ -839,12 +839,12 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 		}
 		SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);
 	}
-	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled) // && !M->GetByte("forceAeroPeek", 0))
+	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled) // && !M.GetByte("forceAeroPeek", 0))
 		CWarning::show(CWarning::WARN_AEROPEEK_SKIN, MB_ICONWARNING|MB_OK);
 
-	if (ServiceExists(MS_HPP_EG_EVENT) && ServiceExists(MS_IEVIEW_EVENT) && M->GetByte(0, "HistoryPlusPlus", "IEViewAPI", 0)) {
+	if (ServiceExists(MS_HPP_EG_EVENT) && ServiceExists(MS_IEVIEW_EVENT) && db_get_b(0, "HistoryPlusPlus", "IEViewAPI", 0)) {
 		if (IDYES == CWarning::show(CWarning::WARN_HPP_APICHECK, MB_ICONWARNING|MB_YESNO))
-			M->WriteByte(0, "HistoryPlusPlus", "IEViewAPI", 0);
+			db_set_b(0, "HistoryPlusPlus", "IEViewAPI", 0);
 	}
 	return hwndNew;		// return handle of the new dialog
 }
@@ -857,8 +857,8 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 
 TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName, HANDLE hContact)
 {
-	int iMaxTabs = M->GetDword("maxtabs", 0);
-	if (iMaxTabs > 0 && M->GetByte("limittabs", 0) && !_tcsncmp(szName, _T("default"), 6)) {
+	int iMaxTabs = M.GetDword("maxtabs", 0);
+	if (iMaxTabs > 0 && M.GetByte("limittabs", 0) && !_tcsncmp(szName, _T("default"), 6)) {
 		// search a "default" with less than iMaxTabs opened...
 		for (TContainerData *p = pFirstContainer; p; p = p->pNext)
 			if (!_tcsncmp(p->szName, _T("default"), 6) && p->iChilds < iMaxTabs)
@@ -905,7 +905,7 @@ void TSAPI CreateImageList(BOOL bInitial)
 
 int TABSRMM_FireEvent(HANDLE hContact, HWND hwnd, unsigned int type, unsigned int subType)
 {
-	if (hContact == NULL || hwnd == NULL || !M->GetByte("_eventapi", 1))
+	if (hContact == NULL || hwnd == NULL || !M.GetByte("_eventapi", 1))
 		return 0;
 
 	struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
@@ -1118,7 +1118,7 @@ static int TSAPI LoadFromIconLib()
 	PluginConfig.g_iconClock = Skin_GetIcon("tabSRMM_clock_symbol");
 
 	CacheMsgLogIcons();
-	M->BroadcastMessage(DM_LOADBUTTONBARICONS, 0, 0);
+	M.BroadcastMessage(DM_LOADBUTTONBARICONS, 0, 0);
 	return 0;
 }
 

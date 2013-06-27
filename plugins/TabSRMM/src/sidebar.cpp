@@ -932,7 +932,7 @@ LRESULT CALLBACK CSideBar::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			else
 				CSkin::DrawItem(hdc, &rc, item);
 		}
-		else if (M->isAero() || M->isVSThemed()) {
+		else if (M.isAero() || M.isVSThemed()) {
 			HDC		hdcMem;
 			HANDLE  hbp = 0;
 			HBITMAP hbm, hbmOld;
@@ -945,7 +945,7 @@ LRESULT CALLBACK CSideBar::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcMem, hbm));
 			}
 
-			if (M->isAero())
+			if (M.isAero())
 				::FillRect(hdcMem, &rc, CSkin::m_BrushBack);
 			else
 				CSkin::FillBack(hdcMem, &rc);
@@ -1011,9 +1011,9 @@ void __fastcall CSideBar::m_DefaultBackgroundRenderer(const HDC hdc, const RECT 
 		CSkin::SkinDrawBG(hwnd, pContainer->hwnd, pContainer, const_cast<RECT *>(rc), hdc);
 		CSkin::DrawItem(hdc, rc, skinItem);
 	}
-	else if (M->isAero() || PluginConfig.m_fillColor) {
+	else if (M.isAero() || PluginConfig.m_fillColor) {
 		if (id == IDC_SIDEBARUP || id == IDC_SIDEBARDOWN) {
-			if (M->isAero())
+			if (M.isAero())
 				::FillRect(hdc, const_cast<RECT *>(rc), CSkin::m_BrushBack);
 			else
 				CSkin::FillBack(hdc, const_cast<RECT *>(rc));
@@ -1042,7 +1042,7 @@ void __fastcall CSideBar::m_DefaultBackgroundRenderer(const HDC hdc, const RECT 
  			}
 		}
 	}
-	else if (M->isVSThemed()) {
+	else if (M.isVSThemed()) {
 		RECT *rcDraw = const_cast<RECT *>(rc);
 		if (id == IDC_SIDEBARUP || id == IDC_SIDEBARDOWN) {
 			::FillRect(hdc, rc, stateId == PBS_HOT ? ::GetSysColorBrush(COLOR_HOTLIGHT) : ::GetSysColorBrush(COLOR_3DFACE));
@@ -1055,7 +1055,7 @@ void __fastcall CSideBar::m_DefaultBackgroundRenderer(const HDC hdc, const RECT 
 			if (CMimAPI::m_pfnIsThemeBackgroundPartiallyTransparent(item->m_buttonControl->hThemeToolbar, TP_BUTTON, stateId))
 				CMimAPI::m_pfnDrawThemeParentBackground(item->getHwnd(), hdc, rcDraw);
 
-			if (M->isAero() || PluginConfig.m_WinVerMajor >= 6) {
+			if (M.isAero() || PluginConfig.m_WinVerMajor >= 6) {
 				stateId = (fIsActiveItem ? PBS_PRESSED : PBS_HOT);
 				CMimAPI::m_pfnDrawThemeBackground(item->m_buttonControl->hThemeToolbar, hdc, 8, RBStateConvert2Flat(stateId), rcDraw, rcDraw);
 			}
@@ -1093,7 +1093,7 @@ void __fastcall CSideBar::m_DefaultContentRenderer(const HDC hdc, const RECT *rc
 	if (id == IDC_SIDEBARUP || id == IDC_SIDEBARDOWN) {
 		::DrawIconEx(hdc, (rcBox->left + rcBox->right) / 2 - 8, (rcBox->top + rcBox->bottom) / 2 - 8, id == IDC_SIDEBARUP ? PluginConfig.g_buttonBarIcons[26] : PluginConfig.g_buttonBarIcons[16],
 					 16, 16, 0, 0, DI_NORMAL);
-		if (!M->isAero() && stateID == PBS_HOT)
+		if (!M.isAero() && stateID == PBS_HOT)
 			::DrawEdge(hdc, const_cast<RECT *>(rcBox), BDR_INNER, BF_RECT | BF_SOFT | BF_FLAT);
 	}
 	else if (dat)

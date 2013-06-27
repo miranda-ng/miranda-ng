@@ -85,78 +85,78 @@ static void PU_CleanUp()
 
 static void CheckForRemoveMask()
 {
-	if (!M->GetByte(MODULE, "firsttime", 0) && (nen_options.maskActL & MASK_REMOVE || nen_options.maskActR & MASK_REMOVE || nen_options.maskActTE & MASK_REMOVE)) {
+	if (!M.GetByte(MODULE, "firsttime", 0) && (nen_options.maskActL & MASK_REMOVE || nen_options.maskActR & MASK_REMOVE || nen_options.maskActTE & MASK_REMOVE)) {
 		MessageBoxA(0, Translate("One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as \"new\". If you don't want this behaviour, please review the Event Notifications settings page."), "tabSRMM Warning Message", MB_OK | MB_ICONSTOP);
-		M->WriteByte(MODULE, "firsttime", 1);
+		db_set_b(0, MODULE, "firsttime", 1);
 	}
 }
 
 
 int TSAPI NEN_ReadOptions(NEN_OPTIONS *options)
 {
-	options->bPreview = (BOOL)M->GetByte(MODULE, OPT_PREVIEW, TRUE);
-	options->bDefaultColorMsg = (BOOL)M->GetByte(MODULE, OPT_COLDEFAULT_MESSAGE, TRUE);
-	options->bDefaultColorOthers = (BOOL)M->GetByte(MODULE, OPT_COLDEFAULT_OTHERS, TRUE);
-	options->bDefaultColorErr = (BOOL)M->GetByte(MODULE, OPT_COLDEFAULT_ERR, TRUE);
-	options->colBackMsg = (COLORREF)M->GetDword(MODULE, OPT_COLBACK_MESSAGE, DEFAULT_COLBACK);
-	options->colTextMsg = (COLORREF)M->GetDword(MODULE, OPT_COLTEXT_MESSAGE, DEFAULT_COLTEXT);
-	options->colBackOthers = (COLORREF)M->GetDword(MODULE, OPT_COLBACK_OTHERS, DEFAULT_COLBACK);
-	options->colTextOthers = (COLORREF)M->GetDword(MODULE, OPT_COLTEXT_OTHERS, DEFAULT_COLTEXT);
-	options->colBackErr = (COLORREF)M->GetDword(MODULE, OPT_COLBACK_ERR, DEFAULT_COLBACK);
-	options->colTextErr = (COLORREF)M->GetDword(MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
-	options->maskActL = (UINT)M->GetByte(MODULE, OPT_MASKACTL, DEFAULT_MASKACTL);
-	options->maskActR = (UINT)M->GetByte(MODULE, OPT_MASKACTR, DEFAULT_MASKACTR);
-	options->maskActTE = (UINT)M->GetByte(MODULE, OPT_MASKACTTE, DEFAULT_MASKACTR) & (MASK_OPEN | MASK_DISMISS);
-	options->bMergePopup = (BOOL)M->GetByte(MODULE, OPT_MERGEPOPUP, 0);
-	options->iDelayMsg = (int)M->GetDword(MODULE, OPT_DELAY_MESSAGE, (DWORD)DEFAULT_DELAY);
-	options->iDelayOthers = (int)M->GetDword(MODULE, OPT_DELAY_OTHERS, (DWORD)DEFAULT_DELAY);
-	options->iDelayErr = (int)M->GetDword(MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
+	options->bPreview = (BOOL)M.GetByte(MODULE, OPT_PREVIEW, TRUE);
+	options->bDefaultColorMsg = (BOOL)M.GetByte(MODULE, OPT_COLDEFAULT_MESSAGE, TRUE);
+	options->bDefaultColorOthers = (BOOL)M.GetByte(MODULE, OPT_COLDEFAULT_OTHERS, TRUE);
+	options->bDefaultColorErr = (BOOL)M.GetByte(MODULE, OPT_COLDEFAULT_ERR, TRUE);
+	options->colBackMsg = (COLORREF)M.GetDword(MODULE, OPT_COLBACK_MESSAGE, DEFAULT_COLBACK);
+	options->colTextMsg = (COLORREF)M.GetDword(MODULE, OPT_COLTEXT_MESSAGE, DEFAULT_COLTEXT);
+	options->colBackOthers = (COLORREF)M.GetDword(MODULE, OPT_COLBACK_OTHERS, DEFAULT_COLBACK);
+	options->colTextOthers = (COLORREF)M.GetDword(MODULE, OPT_COLTEXT_OTHERS, DEFAULT_COLTEXT);
+	options->colBackErr = (COLORREF)M.GetDword(MODULE, OPT_COLBACK_ERR, DEFAULT_COLBACK);
+	options->colTextErr = (COLORREF)M.GetDword(MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
+	options->maskActL = (UINT)M.GetByte(MODULE, OPT_MASKACTL, DEFAULT_MASKACTL);
+	options->maskActR = (UINT)M.GetByte(MODULE, OPT_MASKACTR, DEFAULT_MASKACTR);
+	options->maskActTE = (UINT)M.GetByte(MODULE, OPT_MASKACTTE, DEFAULT_MASKACTR) & (MASK_OPEN | MASK_DISMISS);
+	options->bMergePopup = (BOOL)M.GetByte(MODULE, OPT_MERGEPOPUP, 0);
+	options->iDelayMsg = (int)M.GetDword(MODULE, OPT_DELAY_MESSAGE, (DWORD)DEFAULT_DELAY);
+	options->iDelayOthers = (int)M.GetDword(MODULE, OPT_DELAY_OTHERS, (DWORD)DEFAULT_DELAY);
+	options->iDelayErr = (int)M.GetDword(MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
 	options->iDelayDefault = (int)DBGetContactSettingRangedWord(NULL, "Popup", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
-	options->bShowHeaders = (BYTE)M->GetByte(MODULE, OPT_SHOW_HEADERS, FALSE);
-	options->bNoRSS = (BOOL)M->GetByte(MODULE, OPT_NORSS, FALSE);
-	options->iDisable = (BYTE)M->GetByte(MODULE, OPT_DISABLE, 0);
-	options->iMUCDisable = (BYTE)M->GetByte(MODULE, OPT_MUCDISABLE, 0);
-	options->dwStatusMask = (DWORD)M->GetDword(MODULE, "statusmask", (DWORD) - 1);
-	options->bTraySupport = (BOOL)M->GetByte(MODULE, "traysupport", 0);
-	options->bWindowCheck = (BOOL)M->GetByte(MODULE, OPT_WINDOWCHECK, 0);
-	options->bNoRSS = (BOOL)M->GetByte(MODULE, OPT_NORSS, 0);
-	options->iLimitPreview = (int)M->GetDword(MODULE, OPT_LIMITPREVIEW, 0);
+	options->bShowHeaders = (BYTE)M.GetByte(MODULE, OPT_SHOW_HEADERS, FALSE);
+	options->bNoRSS = (BOOL)M.GetByte(MODULE, OPT_NORSS, FALSE);
+	options->iDisable = (BYTE)M.GetByte(MODULE, OPT_DISABLE, 0);
+	options->iMUCDisable = (BYTE)M.GetByte(MODULE, OPT_MUCDISABLE, 0);
+	options->dwStatusMask = (DWORD)M.GetDword(MODULE, "statusmask", (DWORD) - 1);
+	options->bTraySupport = (BOOL)M.GetByte(MODULE, "traysupport", 0);
+	options->bWindowCheck = (BOOL)M.GetByte(MODULE, OPT_WINDOWCHECK, 0);
+	options->bNoRSS = (BOOL)M.GetByte(MODULE, OPT_NORSS, 0);
+	options->iLimitPreview = (int)M.GetDword(MODULE, OPT_LIMITPREVIEW, 0);
 	options->wMaxFavorites = 15;
 	options->wMaxRecent = 15;
-	options->dwRemoveMask = M->GetDword(MODULE, OPT_REMOVEMASK, 0);
-	options->bDisableNonMessage = M->GetByte(MODULE, "disablenonmessage", 0);
+	options->dwRemoveMask = M.GetDword(MODULE, OPT_REMOVEMASK, 0);
+	options->bDisableNonMessage = M.GetByte(MODULE, "disablenonmessage", 0);
 	CheckForRemoveMask();
 	return 0;
 }
 
 int TSAPI NEN_WriteOptions(NEN_OPTIONS *options)
 {
-	M->WriteByte(MODULE, OPT_PREVIEW, (BYTE)options->bPreview);
-	M->WriteByte(MODULE, OPT_COLDEFAULT_MESSAGE, (BYTE)options->bDefaultColorMsg);
-	M->WriteByte(MODULE, OPT_COLDEFAULT_OTHERS, (BYTE)options->bDefaultColorOthers);
-	M->WriteByte(MODULE, OPT_COLDEFAULT_ERR, (BYTE)options->bDefaultColorErr);
-	M->WriteDword(MODULE, OPT_COLBACK_MESSAGE, (DWORD)options->colBackMsg);
-	M->WriteDword(MODULE, OPT_COLTEXT_MESSAGE, (DWORD)options->colTextMsg);
-	M->WriteDword(MODULE, OPT_COLBACK_OTHERS, (DWORD)options->colBackOthers);
-	M->WriteDword(MODULE, OPT_COLTEXT_OTHERS, (DWORD)options->colTextOthers);
-	M->WriteDword(MODULE, OPT_COLBACK_ERR, (DWORD)options->colBackErr);
-	M->WriteDword(MODULE, OPT_COLTEXT_ERR, (DWORD)options->colTextErr);
-	M->WriteByte(MODULE, OPT_MASKACTL, (BYTE)options->maskActL);
-	M->WriteByte(MODULE, OPT_MASKACTR, (BYTE)options->maskActR);
-	M->WriteByte(MODULE, OPT_MASKACTTE, (BYTE)options->maskActTE);
-	M->WriteByte(MODULE, OPT_MERGEPOPUP, (BYTE)options->bMergePopup);
-	M->WriteDword(MODULE, OPT_DELAY_MESSAGE, (DWORD)options->iDelayMsg);
-	M->WriteDword(MODULE, OPT_DELAY_OTHERS, (DWORD)options->iDelayOthers);
-	M->WriteDword(MODULE, OPT_DELAY_ERR, (DWORD)options->iDelayErr);
-	M->WriteByte(MODULE, OPT_SHOW_HEADERS, (BYTE)options->bShowHeaders);
-	M->WriteByte(MODULE, OPT_DISABLE, (BYTE)options->iDisable);
-	M->WriteByte(MODULE, OPT_MUCDISABLE, (BYTE)options->iMUCDisable);
-	M->WriteByte(MODULE, "traysupport", (BYTE)options->bTraySupport);
-	M->WriteByte(MODULE, OPT_WINDOWCHECK, (BYTE)options->bWindowCheck);
-	M->WriteByte(MODULE, OPT_NORSS, (BYTE)options->bNoRSS);
-	M->WriteDword(MODULE, OPT_LIMITPREVIEW, options->iLimitPreview);
-	M->WriteDword(MODULE, OPT_REMOVEMASK, options->dwRemoveMask);
-	M->WriteByte(MODULE, "disablenonmessage", options->bDisableNonMessage);
+	db_set_b(0, MODULE, OPT_PREVIEW, (BYTE)options->bPreview);
+	db_set_b(0, MODULE, OPT_COLDEFAULT_MESSAGE, (BYTE)options->bDefaultColorMsg);
+	db_set_b(0, MODULE, OPT_COLDEFAULT_OTHERS, (BYTE)options->bDefaultColorOthers);
+	db_set_b(0, MODULE, OPT_COLDEFAULT_ERR, (BYTE)options->bDefaultColorErr);
+	db_set_dw(0, MODULE, OPT_COLBACK_MESSAGE, (DWORD)options->colBackMsg);
+	db_set_dw(0, MODULE, OPT_COLTEXT_MESSAGE, (DWORD)options->colTextMsg);
+	db_set_dw(0, MODULE, OPT_COLBACK_OTHERS, (DWORD)options->colBackOthers);
+	db_set_dw(0, MODULE, OPT_COLTEXT_OTHERS, (DWORD)options->colTextOthers);
+	db_set_dw(0, MODULE, OPT_COLBACK_ERR, (DWORD)options->colBackErr);
+	db_set_dw(0, MODULE, OPT_COLTEXT_ERR, (DWORD)options->colTextErr);
+	db_set_b(0, MODULE, OPT_MASKACTL, (BYTE)options->maskActL);
+	db_set_b(0, MODULE, OPT_MASKACTR, (BYTE)options->maskActR);
+	db_set_b(0, MODULE, OPT_MASKACTTE, (BYTE)options->maskActTE);
+	db_set_b(0, MODULE, OPT_MERGEPOPUP, (BYTE)options->bMergePopup);
+	db_set_dw(0, MODULE, OPT_DELAY_MESSAGE, (DWORD)options->iDelayMsg);
+	db_set_dw(0, MODULE, OPT_DELAY_OTHERS, (DWORD)options->iDelayOthers);
+	db_set_dw(0, MODULE, OPT_DELAY_ERR, (DWORD)options->iDelayErr);
+	db_set_b(0, MODULE, OPT_SHOW_HEADERS, (BYTE)options->bShowHeaders);
+	db_set_b(0, MODULE, OPT_DISABLE, (BYTE)options->iDisable);
+	db_set_b(0, MODULE, OPT_MUCDISABLE, (BYTE)options->iMUCDisable);
+	db_set_b(0, MODULE, "traysupport", (BYTE)options->bTraySupport);
+	db_set_b(0, MODULE, OPT_WINDOWCHECK, (BYTE)options->bWindowCheck);
+	db_set_b(0, MODULE, OPT_NORSS, (BYTE)options->bNoRSS);
+	db_set_dw(0, MODULE, OPT_LIMITPREVIEW, options->iLimitPreview);
+	db_set_dw(0, MODULE, OPT_REMOVEMASK, options->dwRemoveMask);
+	db_set_b(0, MODULE, "disablenonmessage", options->bDisableNonMessage);
 	return 0;
 }
 
@@ -264,7 +264,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		return TRUE;
 
 	case DM_STATUSMASKSET:
-		M->WriteDword(MODULE, "statusmask", (DWORD)lParam);
+		db_set_dw(0, MODULE, "statusmask", (DWORD)lParam);
 		options->dwStatusMask = (int)lParam;
 		break;
 
@@ -277,7 +277,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 				break;
 
 			case IDC_POPUPSTATUSMODES:
-				hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), hWnd, DlgProcSetupStatusModes, M->GetDword(MODULE, "statusmask", (DWORD) - 1));
+				hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), hWnd, DlgProcSetupStatusModes, M.GetDword(MODULE, "statusmask", (DWORD) - 1));
 				SendMessage(hwndNew, DM_SETPARENTDIALOG, 0, (LPARAM)hWnd);
 				break;
 
@@ -390,13 +390,13 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 				}
 			}
 
-			M->WriteByte("Chat", "PopupStyle", (BYTE)g_Settings.iPopupStyle);
+			db_set_b(0, "Chat", "PopupStyle", (BYTE)g_Settings.iPopupStyle);
 			db_set_w(NULL, "Chat", "PopupTimeout", g_Settings.iPopupTimeout);
 
 			g_Settings.crPUBkgColour = SendDlgItemMessage(hWnd, IDC_COLBACK_MUC, CPM_GETCOLOUR, 0, 0);
-			M->WriteDword("Chat", "PopupColorBG", (DWORD)g_Settings.crPUBkgColour);
+			db_set_dw(0, "Chat", "PopupColorBG", (DWORD)g_Settings.crPUBkgColour);
 			g_Settings.crPUTextColour = SendDlgItemMessage(hWnd, IDC_COLTEXT_MUC, CPM_GETCOLOUR, 0, 0);
-			M->WriteDword("Chat", "PopupColorText", (DWORD)g_Settings.crPUTextColour);
+			db_set_dw(0, "Chat", "PopupColorText", (DWORD)g_Settings.crPUTextColour);
 
 			NEN_WriteOptions(&nen_options);
 			CheckForRemoveMask();

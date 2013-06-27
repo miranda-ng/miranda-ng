@@ -54,7 +54,7 @@ char		*pszActiveWndModule = 0;
 
 int Chat_Load()
 {
-	if (M->GetByte("forceDisableMUC", 0)) {
+	if (M.GetByte("forceDisableMUC", 0)) {
 		PluginConfig.m_chat_enabled = false;
 		return 0;
 	}

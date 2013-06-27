@@ -82,7 +82,7 @@ int TSAPI LoadTSButtonModule(void)
 
 static void TSAPI DestroyTheme(MButtonCtrl *ctl)
 {
-	if (M->isVSAPIState()) {
+	if (M.isVSAPIState()) {
 		if (ctl->hThemeButton) {
 			CMimAPI::m_pfnCloseThemeData(ctl->hThemeButton);
 			ctl->hThemeButton = NULL;
@@ -96,10 +96,10 @@ static void TSAPI DestroyTheme(MButtonCtrl *ctl)
 
 static void TSAPI LoadTheme(MButtonCtrl *ctl)
 {
-	if (M->isVSAPIState()) {
+	if (M.isVSAPIState()) {
 		DestroyTheme(ctl);
 		ctl->hThemeButton = CMimAPI::m_pfnOpenThemeData(ctl->hwnd, L"BUTTON");
-		ctl->hThemeToolbar = (M->isAero() || IsWinVerVistaPlus()) ? CMimAPI::m_pfnOpenThemeData(ctl->hwnd, L"MENU") : CMimAPI::m_pfnOpenThemeData(ctl->hwnd, L"TOOLBAR");
+		ctl->hThemeToolbar = (M.isAero() || IsWinVerVistaPlus()) ? CMimAPI::m_pfnOpenThemeData(ctl->hwnd, L"MENU") : CMimAPI::m_pfnOpenThemeData(ctl->hwnd, L"TOOLBAR");
 		ctl->bThemed = TRUE;
 	}
 }
@@ -162,8 +162,8 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 		HBITMAP 	hbmMem, hOld;
 		RECT 		rcClient;
 		RECT		rcContent;
-		bool 		fAero = M->isAero();
-		bool 		fVSThemed = (!CSkin::m_skinEnabled && M->isVSThemed());
+		bool 		fAero = M.isAero();
+		bool 		fVSThemed = (!CSkin::m_skinEnabled && M.isVSThemed());
 		HANDLE 		hbp = 0;
 
 		TWindowData *dat = (TWindowData *)GetWindowLongPtr(GetParent(ctl->hwnd), GWLP_USERDATA);

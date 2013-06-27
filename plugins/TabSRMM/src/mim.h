@@ -34,7 +34,6 @@
 #ifndef __MIM_H
 #define __MIM_H
 
-
 extern  FI_INTERFACE *FIF;
 
 /*
@@ -123,66 +122,59 @@ public:
 	 * database functions
 	 */
 
-	DWORD FASTCALL 		GetDword						(const HANDLE hContact, const char *szModule, const char *szSetting, DWORD uDefault) const;
+	static DWORD __forceinline GetDword(const char *szModule, const char *szSetting, DWORD uDefault)
+			{ return db_get_dw(0, szModule, szSetting, uDefault); }
+	static DWORD __forceinline GetDword(const char *szSetting, DWORD uDefault)
+			{ return db_get_dw(0, SRMSGMOD_T, szSetting, uDefault); }
+	static DWORD __forceinline GetDword(const HANDLE hContact, const char *szSetting, DWORD uDefault)
+			{ return db_get_dw(hContact, SRMSGMOD_T, szSetting, uDefault); }
 
-	DWORD FASTCALL 		GetDword						(const char *szModule, const char *szSetting, DWORD uDefault) const;
-	DWORD FASTCALL 		GetDword						(const char *szSetting, DWORD uDefault) const;
-	DWORD FASTCALL 		GetDword						(const HANDLE hContact, const char *szSetting, DWORD uDefault) const;
-
-	int FASTCALL 		GetByte							(const HANDLE hContact, const char *szModule, const char *szSetting, int uDefault) const;
-	int FASTCALL 		GetByte							(const char *szModule, const char *szSetting, int uDefault) const;
-	int FASTCALL 		GetByte							(const char *szSetting, int uDefault) const;
-	int FASTCALL 		GetByte							(const HANDLE hContact, const char *szSetting, int uDefault) const;
-
-	INT_PTR FASTCALL 	GetTString						(const HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv) const;
-	INT_PTR FASTCALL 	GetString						(const HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv) const;
-
-	INT_PTR FASTCALL 	WriteDword						(const HANDLE hContact, const char *szModule, const char *szSetting, DWORD value) const;
-	INT_PTR FASTCALL 	WriteDword						(const char *szModule, const char *szSetting, DWORD value) const;
-
-	INT_PTR FASTCALL 	WriteByte						(const HANDLE hContact, const char *szModule, const char *szSetting, BYTE value) const;
-	INT_PTR FASTCALL 	WriteByte						(const char *szModule, const char *szSetting, BYTE value) const;
-
-	INT_PTR FASTCALL 	WriteTString					(const HANDLE hContact, const char *szModule, const char *szSetting, const TCHAR *st) const;
+	static int __forceinline GetByte(const char *szSetting, int uDefault)
+			{ return db_get_b(0, SRMSGMOD_T, szSetting, uDefault); }
+	static int __forceinline GetByte(const char *szModule, const char *szSetting, int uDefault)
+			{ return(db_get_b(0, szModule, szSetting, uDefault)); }
+	static int __forceinline GetByte(const HANDLE hContact, const char *szSetting, int uDefault)
+			{ return db_get_b(hContact, SRMSGMOD_T, szSetting, uDefault); }
 
 	/*
 	 * path utilities
 	 */
 
-	int  				pathIsAbsolute					(const TCHAR *path) const;
-	size_t 		 		pathToAbsolute					(const TCHAR *pSrc, TCHAR *pOut, const TCHAR *szBase = 0) const;
-	size_t 				pathToRelative					(const TCHAR *pSrc, TCHAR *pOut, const TCHAR *szBase = 0) const;
+	int     pathIsAbsolute(const TCHAR *path) const;
+	size_t  pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut, const TCHAR *szBase = 0) const;
+	size_t  pathToRelative(const TCHAR *pSrc, TCHAR *pOut, const TCHAR *szBase = 0) const;
 
-	const TCHAR* 		getDataPath() const 			{ return(m_szProfilePath); }
-	const TCHAR* 		getSkinPath() const 			{ return(m_szSkinsPath); }
-	const TCHAR* 		getSavedAvatarPath() const 		{ return(m_szSavedAvatarsPath); }
-	const TCHAR* 		getChatLogPath() const 			{ return(m_szChatLogsPath); }
+	__forceinline LPCTSTR getDataPath() const { return(m_szProfilePath); }
+	__forceinline LPCTSTR getSkinPath() const { return(m_szSkinsPath); }
+	__forceinline LPCTSTR getSavedAvatarPath() const { return(m_szSavedAvatarsPath); }
+	__forceinline LPCTSTR getChatLogPath() const { return(m_szChatLogsPath); }
 
-	const TCHAR* 		getUserDir();
-	void		  		configureCustomFolders();
-	INT_PTR		  		foldersPathChanged();
+	LPCTSTR getUserDir();
+	void    configureCustomFolders();
+	INT_PTR foldersPathChanged();
 
-	void				startTimer();
-	void				stopTimer						(const char *szMsg = 0);
-	void				timerMsg						(const char *szMsg);
-	__int64				getTimerStart() const 			{ return(m_tStart); }
-	__int64				getTimerStop() const 			{ return(m_tStop); }
-	__int64				getTicks() const 				{ return(m_tStop - m_tStart); }
-	double				getFreq() const 				{ return(m_dFreq); }
-	double				getMsec() const 				{ return(1000 * ((double)(m_tStop - m_tStart) * m_dFreq)); }
+	void    startTimer();
+	void    stopTimer(const char *szMsg = 0);
+	void    timerMsg(const char *szMsg);
+
+	__forceinline __int64 getTimerStart() const { return m_tStart; }
+	__forceinline __int64 getTimerStop() const { return m_tStop; }
+	__forceinline __int64 getTicks() const { return m_tStop - m_tStart; }
+	__forceinline double  getFreq() const { return m_dFreq; }
+	__forceinline double  getMsec() const { return 1000 * ((double)(m_tStop - m_tStart) * m_dFreq); }
 
 	/*
 	 * os dependant stuff (aero, visual styles etc.)
 	 */
 
-	const bool  		isVSAPIState() const { return m_VsAPI; }
+	const bool isVSAPIState() const { return m_VsAPI; }
 	/**
 	 * return status of Vista Aero
 	 *
 	 * @return bool: true if aero active, false otherwise
 	 */
-	const bool  		isAero() const 					{ return(m_isAero); }
-	const bool  		isDwmActive() const 			{ return(m_DwmActive); }
+	const bool isAero() const { return(m_isAero); }
+	const bool isDwmActive() const { return(m_DwmActive); }
 
 	/**
 	 * Refresh Aero status.
@@ -192,92 +184,91 @@ public:
 	 *
 	 * @return
 	 */
-	bool				getAeroState();
+	bool getAeroState();
 	/**
 	 * return status of visual styles theming engine (Windows XP+)
 	 *
 	 * @return bool: themes are enabled
 	 */
-	bool				isVSThemed()
+	bool isVSThemed()
 	{
-		return(m_isVsThemed);
+		return m_isVsThemed;
 	}
 	/*
 	 * window lists
 	 */
 
-	void			 	BroadcastMessage				(UINT msg, WPARAM wParam, LPARAM lParam);
-	void			 	BroadcastMessageAsync			(UINT msg, WPARAM wParam, LPARAM lParam);
-	INT_PTR			 	AddWindow						(HWND hWnd, HANDLE h);
-	INT_PTR		 		RemoveWindow					(HWND hWnd);
-	HWND		 		FindWindow						(HANDLE h) const;
+	void    BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam);
+	void    BroadcastMessageAsync(UINT msg, WPARAM wParam, LPARAM lParam);
+	INT_PTR AddWindow(HWND hWnd, HANDLE h);
+	INT_PTR RemoveWindow(HWND hWnd);
+	HWND    FindWindow(HANDLE h) const;
 
-	static	int 										FoldersPathChanged(WPARAM wParam, LPARAM lParam);		// hook subscriber for folders plugin
-	static 	const TCHAR* TSAPI 							StriStr(const TCHAR *szString, const TCHAR *szSearchFor);
-	static	int											TypingMessage(WPARAM wParam, LPARAM lParam);
-	static	int											ProtoAck(WPARAM wParam, LPARAM lParam);
-	static	int											PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
-	static 	int											DispatchNewEvent(WPARAM wParam, LPARAM lParam);
-	static	int											MessageEventAdded(WPARAM wParam, LPARAM lParam);
+	static 	LPCTSTR StriStr(const TCHAR *szString, const TCHAR *szSearchFor);
+
+	static	int FoldersPathChanged(WPARAM wParam, LPARAM lParam);		// hook subscriber for folders plugin
+	static	int TypingMessage(WPARAM wParam, LPARAM lParam);
+	static	int ProtoAck(WPARAM wParam, LPARAM lParam);
+	static	int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
+	static 	int DispatchNewEvent(WPARAM wParam, LPARAM lParam);
+	static	int MessageEventAdded(WPARAM wParam, LPARAM lParam);
+
 public:
-	HANDLE 		m_hMessageWindowList;
+	HANDLE m_hMessageWindowList;
 	/*
 	 various function pointers
 	*/
-	static PITA 	m_pfnIsThemeActive;
-	static POTD 	m_pfnOpenThemeData;
-	static PDTB 	m_pfnDrawThemeBackground;
-	static PCTD 	m_pfnCloseThemeData;
-	static PDTT 	m_pfnDrawThemeText;
-	static PDTTE	m_pfnDrawThemeTextEx;
-	static PITBPT 	m_pfnIsThemeBackgroundPartiallyTransparent;
-	static PDTPB  	m_pfnDrawThemeParentBackground;
-	static PGTBCR 	m_pfnGetThemeBackgroundContentRect;
-	static ETDT 	m_pfnEnableThemeDialogTexture;
-	static PSLWA 	m_pSetLayeredWindowAttributes;
-	static PFWEX	m_MyFlashWindowEx;
-	static PAB		m_MyAlphaBlend;
-	static PGF		m_MyGradientFill;
-	static DEFICA	m_pfnDwmExtendFrameIntoClientArea;
-	static DICE		m_pfnDwmIsCompositionEnabled;
-	static MMFW		m_pfnMonitorFromWindow;
-	static GMIA		m_pfnGetMonitorInfoA;
-	static DRT		m_pfnDwmRegisterThumbnail;
-	static BPI		m_pfnBufferedPaintInit;
-	static BPU		m_pfnBufferedPaintUninit;
-	static BBP		m_pfnBeginBufferedPaint;
-	static EBP		m_pfnEndBufferedPaint;
-	static BBW 		m_pfnDwmBlurBehindWindow;
-	static DGC		m_pfnDwmGetColorizationColor;
-	static BPSA		m_pfnBufferedPaintSetAlpha;
-	static GLIX		m_pfnGetLocaleInfoEx;
-	static DWMSWA   m_pfnDwmSetWindowAttribute;
-	static DWMIIB	m_pfnDwmInvalidateIconicBitmaps;
-	static DWMUT	m_pfnDwmUpdateThumbnailProperties;
-	static DURT		m_pfnDwmUnregisterThumbnail;
-	static DSIT		m_pfnDwmSetIconicThumbnail;
-	static DSILP	m_pfnDwmSetIconicLivePreviewBitmap;
-	static bool		m_shutDown, m_haveBufferedPaint;
+	static PITA   m_pfnIsThemeActive;
+	static POTD   m_pfnOpenThemeData;
+	static PDTB   m_pfnDrawThemeBackground;
+	static PCTD   m_pfnCloseThemeData;
+	static PDTT   m_pfnDrawThemeText;
+	static PDTTE  m_pfnDrawThemeTextEx;
+	static PITBPT m_pfnIsThemeBackgroundPartiallyTransparent;
+	static PDTPB  m_pfnDrawThemeParentBackground;
+	static PGTBCR m_pfnGetThemeBackgroundContentRect;
+	static ETDT   m_pfnEnableThemeDialogTexture;
+	static PSLWA  m_pSetLayeredWindowAttributes;
+	static PFWEX  m_MyFlashWindowEx;
+	static PAB    m_MyAlphaBlend;
+	static PGF    m_MyGradientFill;
+	static DEFICA m_pfnDwmExtendFrameIntoClientArea;
+	static DICE   m_pfnDwmIsCompositionEnabled;
+	static MMFW   m_pfnMonitorFromWindow;
+	static GMIA   m_pfnGetMonitorInfoA;
+	static DRT    m_pfnDwmRegisterThumbnail;
+	static BPI    m_pfnBufferedPaintInit;
+	static BPU    m_pfnBufferedPaintUninit;
+	static BBP    m_pfnBeginBufferedPaint;
+	static EBP    m_pfnEndBufferedPaint;
+	static BBW    m_pfnDwmBlurBehindWindow;
+	static DGC    m_pfnDwmGetColorizationColor;
+	static BPSA   m_pfnBufferedPaintSetAlpha;
+	static GLIX   m_pfnGetLocaleInfoEx;
+	static DWMSWA m_pfnDwmSetWindowAttribute;
+	static DWMIIB m_pfnDwmInvalidateIconicBitmaps;
+	static DWMUT  m_pfnDwmUpdateThumbnailProperties;
+	static DURT   m_pfnDwmUnregisterThumbnail;
+	static DSIT   m_pfnDwmSetIconicThumbnail;
+	static DSILP  m_pfnDwmSetIconicLivePreviewBitmap;
+	static bool   m_shutDown, m_haveBufferedPaint;
 
 private:
-	TCHAR 		m_szProfilePath[MAX_PATH + 2], m_szSkinsPath[MAX_PATH + 2], m_szSavedAvatarsPath[MAX_PATH + 2], m_szChatLogsPath[MAX_PATH + 2];
-	HMODULE		m_hUxTheme, m_hDwmApi;
-	bool		m_VsAPI;
-	bool		m_isAero;
-	bool		m_DwmActive;
-	bool		m_isVsThemed;
-	HANDLE		m_hDataPath, m_hSkinsPath, m_hAvatarsPath, m_hChatLogsPath;
-	__int64		m_tStart, m_tStop, m_tFreq;
-	double		m_dFreq;
-	char		m_timerMsg[256];
-	bool		m_haveFolders;
-	HANDLE		m_hChatLogLock;
+	TCHAR   m_szProfilePath[MAX_PATH + 2], m_szSkinsPath[MAX_PATH + 2], m_szSavedAvatarsPath[MAX_PATH + 2], m_szChatLogsPath[MAX_PATH + 2];
+	HMODULE m_hUxTheme, m_hDwmApi;
+	bool    m_VsAPI, m_isAero, m_DwmActive, m_isVsThemed;
+	HANDLE  m_hDataPath, m_hSkinsPath, m_hAvatarsPath, m_hChatLogsPath;
+	__int64 m_tStart, m_tStop, m_tFreq;
+	double  m_dFreq;
+	char    m_timerMsg[256];
+	bool    m_hasFolders;
+	HANDLE  m_hChatLogLock;
 
 	void	InitAPI();
 	void 	InitPaths();
 
 private:
-	static TCHAR	m_userDir[MAX_PATH + 2];
+	static TCHAR m_userDir[MAX_PATH + 2];
 };
 
 inline void CMimAPI::startTimer()
@@ -293,6 +284,6 @@ inline void CMimAPI::stopTimer(const char *szMsg)
 		timerMsg(szMsg);
 }
 
-extern  CMimAPI		*M;
+extern  CMimAPI M;
 
 #endif /* __MIM_H */

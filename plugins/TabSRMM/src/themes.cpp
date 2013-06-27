@@ -1041,15 +1041,15 @@ HBITMAP TSAPI CImageItem::LoadPNG(const TCHAR *szFilename)
 void CSkin::setFileName()
 {
 	DBVARIANT dbv;
-	if (0 == M->GetTString(0, SRMSGMOD_T, "ContainerSkin", &dbv)) {
-		M->pathToAbsolute(dbv.ptszVal, m_tszFileName, M->getSkinPath());
+	if (0 == db_get_ts(0, SRMSGMOD_T, "ContainerSkin", &dbv)) {
+		M.pathToAbsolute(dbv.ptszVal, m_tszFileName, M.getSkinPath());
 		m_tszFileName[MAX_PATH - 1] = 0;
 		db_free(&dbv);
 	}
 	else
 		m_tszFileName[0] = 0;
 
-	m_fLoadOnStartup = M->GetByte("useskin", 0) ? true : false;
+	m_fLoadOnStartup = M.GetByte("useskin", 0) ? true : false;
 }
 /**
  * initialize the skin object
@@ -1070,10 +1070,10 @@ void CSkin::Init(bool fStartup)
 	 * read current skin name from db
 	 */
 
-	m_DisableScrollbars = M->GetByte("disableVScroll", 0) ? true : false;
+	m_DisableScrollbars = M.GetByte("disableVScroll", 0) ? true : false;
 
 	setFileName();
-	m_aeroEffect = M->GetDword("aerostyle", AERO_EFFECT_MILK);
+	m_aeroEffect = M.GetDword("aerostyle", AERO_EFFECT_MILK);
 	if (m_fLoadOnStartup && fStartup)
 		Load();
 }
@@ -1217,7 +1217,7 @@ void CSkin::Unload()
 			::DestroyIcon(*(m_skinIcons[i].phIcon));
 	mir_free(m_skinIcons);
 
-	M->getAeroState();				// refresh after unload
+	M.getAeroState();				// refresh after unload
 	::FreeTabConfig();
 	::ReloadTabConfig();
 
@@ -1225,7 +1225,7 @@ void CSkin::Unload()
 	m_avatarBorderClr = ::GetSysColor(COLOR_3DDKSHADOW);
 	m_sideBarContainerBG = ::GetSysColor(COLOR_3DFACE);
 
-	m_DisableScrollbars = M->GetByte("disableVScroll", 0) ? true : false;
+	m_DisableScrollbars = M.GetByte("disableVScroll", 0) ? true : false;
 }
 
 void CSkin::LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON *hIcon)
@@ -1419,10 +1419,10 @@ void CSkin::Load(void)
 									_tagSettings[i].defaultval, m_tszFileName);
 		switch (_tagSettings[i].size) {
 		case 1:
-			M->WriteByte(SRMSGMOD_T, _tagSettings[i].szSetting, (BYTE)data);
+			db_set_b(0, SRMSGMOD_T, _tagSettings[i].szSetting, (BYTE)data);
 			break;
 		case 4:
-			M->WriteDword(SRMSGMOD_T, _tagSettings[i].szSetting, data);
+			db_set_dw(0, SRMSGMOD_T, _tagSettings[i].szSetting, data);
 			break;
 		case 2:
 			db_set_w(NULL, SRMSGMOD_T, _tagSettings[i].szSetting, (WORD)data);
@@ -1430,13 +1430,13 @@ void CSkin::Load(void)
 		case 5:
 			GetPrivateProfileString(_tagSettings[i].szIniKey, _tagSettings[i].szIniName, _T("000000"),
 				buffer, 10, m_tszFileName);
-			M->WriteDword(SRMSGMOD_T, _tagSettings[i].szSetting, HexStringToLong(buffer));
+			db_set_dw(0, SRMSGMOD_T, _tagSettings[i].szSetting, HexStringToLong(buffer));
 			break;
 		}
 		i++;
 	}
 
-	m_DisableScrollbars = M->GetByte("disableVScroll", 0) ? true : false;
+	m_DisableScrollbars = M.GetByte("disableVScroll", 0) ? true : false;
 
 	ZeroMemory(szSections, 6000);
 	p = szSections;
@@ -1460,7 +1460,7 @@ void CSkin::Load(void)
 
 	if (j > 0) {
 		m_skinEnabled = true;
-		M->getAeroState();		// refresh aero state (set to false when a skin is successfully loaded and active)
+		M.getAeroState();		// refresh aero state (set to false when a skin is successfully loaded and active)
 	}
 
 	GetPrivateProfileString(_T("Avatars"), _T("BorderColor"), _T("000000"), buffer, 20, m_tszFileName);
@@ -1516,7 +1516,7 @@ void CSkin::Load(void)
 	_tsplitpath(m_tszFileName, szDrive, szPath, NULL, NULL);
 	mir_sntprintf(szFinalName, MAX_PATH, _T("%s\\%s\\%s"), szDrive, szPath, buffer);
 	if (PathFileExists(szFinalName)) {
-		ReadThemeFromINI(szFinalName, 0, FALSE, m_fLoadOnStartup ? 0 : M->GetByte("skin_loadmode", 0));
+		ReadThemeFromINI(szFinalName, 0, FALSE, m_fLoadOnStartup ? 0 : M.GetByte("skin_loadmode", 0));
 		CacheLogFonts();
 		CacheMsgLogIcons();
 	}
@@ -1651,15 +1651,15 @@ void CSkin::setupTabCloseBitmap(bool fDeleteOnly)
 	HDC  dc = ::GetDC(PluginConfig.g_hwndHotkeyHandler);
 	m_tabCloseHDC = ::CreateCompatibleDC(dc);
 
-	if (M->isAero())
+	if (M.isAero())
 		m_tabCloseBitmap = CreateAeroCompatibleBitmap(rc, m_tabCloseHDC);
 	else
 		m_tabCloseBitmap = ::CreateCompatibleBitmap(dc, 20, 20);
 
 	m_tabCloseOldBitmap = reinterpret_cast<HBITMAP>(::SelectObject(m_tabCloseHDC, m_tabCloseBitmap));
 
-	if (M->isVSThemed() || M->isAero()) {
-		::FillRect(m_tabCloseHDC, &rc, M->isAero() ? reinterpret_cast<HBRUSH>(::GetStockObject(BLACK_BRUSH)) : ::GetSysColorBrush(COLOR_3DFACE));
+	if (M.isVSThemed() || M.isAero()) {
+		::FillRect(m_tabCloseHDC, &rc, M.isAero() ? reinterpret_cast<HBRUSH>(::GetStockObject(BLACK_BRUSH)) : ::GetSysColorBrush(COLOR_3DFACE));
 
 		HANDLE hTheme = CMimAPI::m_pfnOpenThemeData(PluginConfig.g_hwndHotkeyHandler, L"BUTTON");
 		rc.left--; rc.right++;
@@ -1706,7 +1706,7 @@ void CSkin::setupAeroSkins()
 {
 	TCHAR	tszFilename[MAX_PATH], tszBasePath[MAX_PATH];
 
-	M->getAeroState();
+	M.getAeroState();
 	UnloadAeroTabs();
 
 	BOOL	isOpaque;
@@ -1716,7 +1716,7 @@ void CSkin::setupAeroSkins()
 	if (!m_fAeroSkinsValid)
 		return;
 
-	mir_sntprintf(tszBasePath, MAX_PATH, _T("%s"), M->getDataPath());
+	mir_sntprintf(tszBasePath, MAX_PATH, _T("%s"), M.getDataPath());
 	if (tszBasePath[lstrlen(tszBasePath) - 1] != '\\')
 		_tcscat(tszBasePath, _T("\\"));
 
@@ -1739,7 +1739,7 @@ void CSkin::setupAeroSkins()
 	if (!PathFileExists(tszFilename))
 		mir_sntprintf(tszFilename, MAX_PATH, _T("%stabskin_aero.png"), tszBasePath);
 
-	if (CMimAPI::m_pfnDwmGetColorizationColor && M->isAero())
+	if (CMimAPI::m_pfnDwmGetColorizationColor && M.isAero())
 		CMimAPI::m_pfnDwmGetColorizationColor(&m_dwmColor, &isOpaque);
 	else
 		m_dwmColor = PluginConfig.m_fillColor;
@@ -1828,7 +1828,7 @@ void CSkin::setupAeroSkins()
 
 	fib = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR | IMGL_RETURNDIB);
 
-	COLORREF glowColor = M->GetDword(FONTMODULE, "aeroGlow", RGB(40, 40, 255));
+	COLORREF glowColor = M.GetDword(FONTMODULE, "aeroGlow", RGB(40, 40, 255));
 	hbm = FIF->FI_CreateHBITMAPFromDIB(fib);
 	CImageItem::Colorize(hbm, GetRValue(glowColor), GetGValue(glowColor), GetBValue(glowColor));
 	CImageItem::PreMultiply(hbm, 1);
@@ -2160,7 +2160,7 @@ int CSkin::RenderText(HDC hdc, HANDLE hTheme, const TCHAR *szText, RECT *rc, DWO
 	if ((PluginConfig.m_bIsVista && !CSkin::m_skinEnabled && hTheme) || fForceAero) {
 		DTTOPTS dto = {0};
 		dto.dwSize = sizeof(dto);
-		if (iGlowSize && (M->isAero() || fForceAero)) {
+		if (iGlowSize && (M.isAero() || fForceAero)) {
 			dto.iGlowSize = iGlowSize;
 			dto.dwFlags = DTT_COMPOSITED|DTT_GLOWSIZE;
 		}
@@ -2301,10 +2301,10 @@ void CSkin::RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindo
 		if (dat->pContainer->dwFlags & CNT_HIDETOOLBAR)
 			return;
 
-		bool	 fAero = M->isAero();
+		bool	 fAero = M.isAero();
 		bool	 fTbColorsValid = PluginConfig.m_tbBackgroundHigh && PluginConfig.m_tbBackgroundLow;
 		BYTE	 bAlphaOffset = 0;
-		BOOL 	fMustDrawNonThemed = ((fAero || fTbColorsValid) && !M->GetByte(SRMSGMOD_T, "forceThemedToolbar", 0));
+		BOOL 	fMustDrawNonThemed = ((fAero || fTbColorsValid) && !M.GetByte(SRMSGMOD_T, "forceThemedToolbar", 0));
 		RECT 	rc, rcToolbar;;
 		POINT	pt;
 
@@ -2364,13 +2364,13 @@ void CSkin::RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindo
 		dat->pContainer->szOldToolbarSize.cx = cx;
 		dat->pContainer->szOldToolbarSize.cy = cy;
 
-		if (!fMustDrawNonThemed && M->isVSThemed()) {
+		if (!fMustDrawNonThemed && M.isVSThemed()) {
 			CMimAPI::m_pfnDrawThemeBackground(dat->hThemeToolbar, dat->pContainer->cachedToolbarDC, 6, 1,
 				&rcCachedToolbar, &rcCachedToolbar);
 			dat->pContainer->bTBRenderingMode = 1;				// tell TSButton how to render the tool bar buttons
 		}
 		else {
-			dat->pContainer->bTBRenderingMode = (M->isVSThemed() ? 1 : 0);
+			dat->pContainer->bTBRenderingMode = (M.isVSThemed() ? 1 : 0);
 			m_tmp_tb_high = PluginConfig.m_tbBackgroundHigh ? PluginConfig.m_tbBackgroundHigh :
 					((fAero && m_pCurrentAeroEffect) ? m_pCurrentAeroEffect->m_clrToolbar : ::GetSysColor(COLOR_3DFACE));
 			m_tmp_tb_low = PluginConfig.m_tbBackgroundLow ? PluginConfig.m_tbBackgroundLow :
@@ -2526,7 +2526,7 @@ void CSkin::initAeroEffect()
 void CSkin::setAeroEffect(LRESULT effect)
 {
 	if (effect == -1)
-		effect = static_cast<LRESULT>(M->GetDword(SRMSGMOD_T, "aerostyle", AERO_EFFECT_NONE));
+		effect = static_cast<LRESULT>(M.GetDword(SRMSGMOD_T, "aerostyle", AERO_EFFECT_NONE));
 
 	if (effect >= 0 && effect < AERO_EFFECT_LAST)
 		m_aeroEffect = (UINT)effect;
@@ -2534,7 +2534,7 @@ void CSkin::setAeroEffect(LRESULT effect)
 		m_aeroEffect = AERO_EFFECT_NONE;
 
 	initAeroEffect();
-	M->WriteDword(SRMSGMOD_T, "aerostyle", m_aeroEffect);
+	db_set_dw(0, SRMSGMOD_T, "aerostyle", m_aeroEffect);
 }
 
 /**
@@ -2545,7 +2545,7 @@ void CSkin::setAeroEffect(LRESULT effect)
 void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 {
 	TCHAR tszBasePath[MAX_PATH];
-	mir_sntprintf(tszBasePath, MAX_PATH, _T("%s"), M->getDataPath());
+	mir_sntprintf(tszBasePath, MAX_PATH, _T("%s"), M.getDataPath());
 	if (tszBasePath[lstrlen(tszBasePath) - 1] != '\\')
 		_tcscat(tszBasePath, _T("\\"));
 
@@ -2586,7 +2586,7 @@ void CSkin::UpdateToolbarBG(TWindowData* dat, DWORD dwRdwOptFlags)
 		rcUpdate.right = rcTmp.right;
 		rcUpdate.bottom = rcTmp.bottom;
 
-		if (M->isAero() || M->isDwmActive())
+		if (M.isAero() || M.isDwmActive())
 			dat->fLimitedUpdate = true; 	// skip unrelevant window updates when we have buffered paint avail
 		::RedrawWindow(dat->hwnd, &rcUpdate, 0, RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW);
 		::BB_RedrawButtons(dat);

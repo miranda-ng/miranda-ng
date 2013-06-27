@@ -194,7 +194,7 @@ void CTaskbarInteract::SetTabActive(const HWND hwndTab, const HWND hwndGroup) co
  */
 void CProxyWindow::add(TWindowData *dat)
 {
-	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek) // && (!CSkin::m_skinEnabled || M->GetByte("forceAeroPeek", 0)))
+	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek) // && (!CSkin::m_skinEnabled || M.GetByte("forceAeroPeek", 0)))
 		dat->pWnd = new CProxyWindow(dat);
 	else
 		dat->pWnd = 0;
@@ -279,7 +279,7 @@ CProxyWindow::~CProxyWindow()
  */
 void CProxyWindow::verifyDwmState()
 {
-	if (!M->isDwmActive()) {
+	if (!M.isDwmActive()) {
 		if (m_thumb) {
 			delete m_thumb;
 			m_thumb = 0;
@@ -405,7 +405,7 @@ void CProxyWindow::sendPreview()
 	HBITMAP hbmRich = CSkin::CreateAeroCompatibleBitmap(rcRich, hdcRich);
 	HBITMAP hbmRichOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcRich, hbmRich));
 
-	COLORREF clr = fIsChat ? M->GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR) : m_dat->pContainer->theme.inbg;
+	COLORREF clr = fIsChat ? M.GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR) : m_dat->pContainer->theme.inbg;
 	HBRUSH br = ::CreateSolidBrush(clr);
 	::FillRect(hdcRich, &rcRich, br);
 	::DeleteObject(br);

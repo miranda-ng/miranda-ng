@@ -267,7 +267,7 @@ static void DrawItemRect(struct TabControlData *tabdat, HDC dc, RECT *rcItem, in
 
 			rcItem->right += 6;
 			if (tabdat->fAeroTabs) {
-				if (M->isAero()) {
+				if (M.isAero()) {
 					InflateRect(rcItem, 2, 0);
 					FillRect(dc, rcItem, CSkin::m_BrushBack);
 				}
@@ -312,7 +312,7 @@ b_nonskinned:
 						DrawEdge(dc, rcItem, EDGE_RAISED, BF_RECT | BF_SOFT);
 				}
 			} else {
-				if (M->isAero() && !(dwStyle & TCS_BOTTOM))
+				if (M.isAero() && !(dwStyle & TCS_BOTTOM))
 					FillRect(dc, rcItem, CSkin::m_BrushBack);
 				else
 					CSkin::FillBack(dc, rcItem);
@@ -403,13 +403,13 @@ static int DWordAlign(int n)
 static HRESULT DrawThemesPartWithAero(const TabControlData *tabdat, HDC hDC, int iPartId, int iStateId, LPRECT prcBox, TWindowData* dat)
 {
 	HRESULT hResult = 0;
-	bool	fAero = M->isAero();
+	bool	fAero = M.isAero();
 
 	if (tabdat->fAeroTabs) {
 		if (tabdat->dwStyle & TCS_BOTTOM)
-			prcBox->top += (fAero ? 2 : iStateId == PBS_PRESSED ? (M->isVSThemed() ? 1 : -1) : 0);
+			prcBox->top += (fAero ? 2 : iStateId == PBS_PRESSED ? (M.isVSThemed() ? 1 : -1) : 0);
 		else if (!fAero)
-			prcBox->bottom -= (iStateId == PBS_PRESSED ? (M->isVSThemed() ? 1 : -1) : 0);
+			prcBox->bottom -= (iStateId == PBS_PRESSED ? (M.isVSThemed() ? 1 : -1) : 0);
 
 		if (fAero)
 			FillRect(hDC, prcBox, CSkin::m_BrushBack);
@@ -636,7 +636,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	UINT uiBottom = 0;
 	TCHITTESTINFO hti;
 	HBITMAP bmpMem, bmpOld;
-	bool  isAero = M->isAero();
+	bool  isAero = M.isAero();
 	HANDLE hpb = 0;
 	BOOL bClassicDraw = !isAero && (tabdat->m_VisualStyles == FALSE || CSkin::m_skinEnabled);
 	if ( GetUpdateRect(hwnd, NULL, TRUE) == 0)
@@ -1005,9 +1005,9 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		return TRUE;
 
 	case EM_THEMECHANGED:
-		tabdat->m_xpad = M->GetByte("x-pad", 3);
+		tabdat->m_xpad = M.GetByte("x-pad", 3);
 		tabdat->m_VisualStyles = FALSE;
-		if (PluginConfig.m_bIsXP && M->isVSAPIState()) {
+		if (PluginConfig.m_bIsXP && M.isVSAPIState()) {
 			if (CMimAPI::m_pfnIsThemeActive != 0)
 				if (CMimAPI::m_pfnIsThemeActive()) {
 					tabdat->m_VisualStyles = TRUE;
@@ -1300,7 +1300,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		break;
 
 	case WM_ERASEBKGND:
-		if (tabdat->pContainer && (CSkin::m_skinEnabled || M->isAero()))
+		if (tabdat->pContainer && (CSkin::m_skinEnabled || M.isAero()))
 			return TRUE;
 		return 0;
 
@@ -1309,7 +1309,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		return 0;
 
 	case WM_TIMER:
-		if (wParam == TIMERID_HOVER_T &&  M->GetByte("d_tooltips", 0)) {
+		if (wParam == TIMERID_HOVER_T &&  M.GetByte("d_tooltips", 0)) {
 			POINT pt;
 			CLCINFOTIP ti = {0};
 			ti.cbSize = sizeof(ti);
@@ -1381,7 +1381,7 @@ void TSAPI ReloadTabConfig()
 	PluginConfig.tabConfig.m_hMenuFont = CreateFontIndirect(&nclim.lfMessageFont);
 
 	while (tabcolors[i].szKey != NULL) {
-		PluginConfig.tabConfig.colors[i] = M->GetDword(CSkin::m_skinEnabled ? tabcolors[i].szSkinnedKey : tabcolors[i].szKey, GetSysColor(tabcolors[i].defclr));
+		PluginConfig.tabConfig.colors[i] = M.GetDword(CSkin::m_skinEnabled ? tabcolors[i].szSkinnedKey : tabcolors[i].szKey, GetSysColor(tabcolors[i].defclr));
 		i++;
 	}
 	PluginConfig.tabConfig.m_brushes[0] = CreateSolidBrush(PluginConfig.tabConfig.colors[4]);
@@ -1389,8 +1389,8 @@ void TSAPI ReloadTabConfig()
 	PluginConfig.tabConfig.m_brushes[2] = CreateSolidBrush(PluginConfig.tabConfig.colors[6]);
 	PluginConfig.tabConfig.m_brushes[3] = CreateSolidBrush(PluginConfig.tabConfig.colors[7]);
 
-	PluginConfig.tabConfig.m_bottomAdjust = (int)M->GetDword("bottomadjust", 0);
-	PluginConfig.tabConfig.m_fixedwidth = M->GetDword("fixedwidth", FIXED_TAB_SIZE);
+	PluginConfig.tabConfig.m_bottomAdjust = (int)M.GetDword("bottomadjust", 0);
+	PluginConfig.tabConfig.m_fixedwidth = M.GetDword("fixedwidth", FIXED_TAB_SIZE);
 
 	PluginConfig.tabConfig.m_fixedwidth = (PluginConfig.tabConfig.m_fixedwidth < 60 ? 60 : PluginConfig.tabConfig.m_fixedwidth);
 }
@@ -1436,8 +1436,8 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_USER + 100:
 		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPIN, UDM_SETRANGE, 0, MAKELONG(10, 0));
-		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPIN, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder" : "tborder", 2));
-		SetDlgItemInt(hwndDlg, IDC_TABBORDER, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder" : "tborder", 2), FALSE);;
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPIN, UDM_SETPOS, 0, (int)M.GetByte(CSkin::m_skinEnabled ? "S_tborder" : "tborder", 2));
+		SetDlgItemInt(hwndDlg, IDC_TABBORDER, (int)M.GetByte(CSkin::m_skinEnabled ? "S_tborder" : "tborder", 2), FALSE);;
 
 		SendDlgItemMessage(hwndDlg, IDC_BOTTOMTABADJUSTSPIN, UDM_SETRANGE, 0, MAKELONG(3, -3));
 		SendDlgItemMessage(hwndDlg, IDC_BOTTOMTABADJUSTSPIN, UDM_SETPOS, 0, PluginConfig.tabConfig.m_bottomAdjust);
@@ -1452,17 +1452,17 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERTOP, UDM_SETRANGE, 0, MAKELONG(40, 0));
 		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERBOTTOM, UDM_SETRANGE, 0, MAKELONG(40, 0));
 
-		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTER, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left", 2));
-		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERRIGHT, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_right" : "tborder_outer_right", 2));
-		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERTOP, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_top" : "tborder_outer_top", 2));
-		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERBOTTOM, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_bottom" : "tborder_outer_bottom", 2));
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTER, UDM_SETPOS, 0, (int)M.GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left", 2));
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERRIGHT, UDM_SETPOS, 0, (int)M.GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_right" : "tborder_outer_right", 2));
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERTOP, UDM_SETPOS, 0, (int)M.GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_top" : "tborder_outer_top", 2));
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERBOTTOM, UDM_SETPOS, 0, (int)M.GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_bottom" : "tborder_outer_bottom", 2));
 
 		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(10, 1));
 		SendDlgItemMessage(hwndDlg, IDC_SPIN3, UDM_SETRANGE, 0, MAKELONG(10, 1));
-		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETPOS, 0, (LPARAM)M->GetByte("y-pad", 3));
-		SendDlgItemMessage(hwndDlg, IDC_SPIN3, UDM_SETPOS, 0, (LPARAM)M->GetByte("x-pad", 4));
-		SetDlgItemInt(hwndDlg, IDC_TABPADDING, (int)M->GetByte("y-pad", 3), FALSE);;
-		SetDlgItemInt(hwndDlg, IDC_HTABPADDING, (int)M->GetByte("x-pad", 4), FALSE);;
+		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETPOS, 0, (LPARAM)M.GetByte("y-pad", 3));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN3, UDM_SETPOS, 0, (LPARAM)M.GetByte("x-pad", 4));
+		SetDlgItemInt(hwndDlg, IDC_TABPADDING, (int)M.GetByte("y-pad", 3), FALSE);;
+		SetDlgItemInt(hwndDlg, IDC_HTABPADDING, (int)M.GetByte("x-pad", 4), FALSE);;
 		return 0;
 
 	case WM_NOTIFY:
@@ -1473,18 +1473,18 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				{
 					BOOL translated;
 
-					M->WriteByte(SRMSGMOD_T, "y-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE)));
-					M->WriteByte(SRMSGMOD_T, "x-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE)));
-					M->WriteByte(SRMSGMOD_T, "tborder", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDER, &translated, FALSE));
-					M->WriteByte(SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTER, &translated, FALSE));
-					M->WriteByte(SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_right" : "tborder_outer_right", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERRIGHT, &translated, FALSE));
-					M->WriteByte(SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_top" : "tborder_outer_top", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERTOP, &translated, FALSE));
-					M->WriteByte(SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_bottom" : "tborder_outer_bottom", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERBOTTOM, &translated, FALSE));
-					M->WriteDword(SRMSGMOD_T, "bottomadjust", GetDlgItemInt(hwndDlg, IDC_BOTTOMTABADJUST, &translated, TRUE));
+					db_set_b(0, SRMSGMOD_T, "y-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE)));
+					db_set_b(0, SRMSGMOD_T, "x-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE)));
+					db_set_b(0, SRMSGMOD_T, "tborder", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDER, &translated, FALSE));
+					db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTER, &translated, FALSE));
+					db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_right" : "tborder_outer_right", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERRIGHT, &translated, FALSE));
+					db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_top" : "tborder_outer_top", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERTOP, &translated, FALSE));
+					db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_bottom" : "tborder_outer_bottom", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERBOTTOM, &translated, FALSE));
+					db_set_dw(0, SRMSGMOD_T, "bottomadjust", GetDlgItemInt(hwndDlg, IDC_BOTTOMTABADJUST, &translated, TRUE));
 
 					int fixedWidth = GetDlgItemInt(hwndDlg, IDC_TABWIDTH, &translated, FALSE);
 					fixedWidth = (fixedWidth < 60 ? 60 : fixedWidth);
-					M->WriteDword(SRMSGMOD_T, "fixedwidth", fixedWidth);
+					db_set_dw(0, SRMSGMOD_T, "fixedwidth", fixedWidth);
 					FreeTabConfig();
 					ReloadTabConfig();
 			

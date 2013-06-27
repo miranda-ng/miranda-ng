@@ -87,7 +87,7 @@ static void LoadTemplatesFrom(TTemplateSet *tSet, HANDLE hContact, int rtl)
 	int i;
 
 	for (i=0; i <= TMPL_ERRMSG; i++) {
-		if (M->GetTString(hContact, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[i], &dbv))
+		if (db_get_ts(hContact, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[i], &dbv))
 			continue;
 		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR)
 			mir_sntprintf(tSet->szTemplates[i], TEMPLATE_LENGTH, _T("%s"), dbv.ptszVal);
@@ -102,15 +102,15 @@ void LoadDefaultTemplates()
 	LTR_Active = LTR_Default;
 	RTL_Active = RTL_Default;
 
-	if (M->GetByte(RTLTEMPLATES_MODULE, "setup", 0) < 2) {
+	if (M.GetByte(RTLTEMPLATES_MODULE, "setup", 0) < 2) {
 		for (i=0; i <= TMPL_ERRMSG; i++)
-			M->WriteTString(NULL, RTLTEMPLATES_MODULE, TemplateNames[i], RTL_Default.szTemplates[i]);
-		M->WriteByte(RTLTEMPLATES_MODULE, "setup", 2);
+			db_set_ts(NULL, RTLTEMPLATES_MODULE, TemplateNames[i], RTL_Default.szTemplates[i]);
+		db_set_b(0, RTLTEMPLATES_MODULE, "setup", 2);
 	}
-	if (M->GetByte(TEMPLATES_MODULE, "setup", 0) < 2) {
+	if (M.GetByte(TEMPLATES_MODULE, "setup", 0) < 2) {
 		for (i=0; i <= TMPL_ERRMSG; i++)
-			M->WriteTString(NULL, TEMPLATES_MODULE, TemplateNames[i], LTR_Default.szTemplates[i]);
-		M->WriteByte(TEMPLATES_MODULE, "setup", 2);
+			db_set_ts(NULL, TEMPLATES_MODULE, TemplateNames[i], LTR_Default.szTemplates[i]);
+		db_set_b(0, TEMPLATES_MODULE, "setup", 2);
 	}
 	LoadTemplatesFrom(&LTR_Active, (HANDLE)0, 0);
 	LoadTemplatesFrom(&RTL_Active, (HANDLE)0, 1);
@@ -188,11 +188,11 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			Utils::enableDlgControl(teInfo->hwndParent, IDC_MODIFY, FALSE);
 			Utils::enableDlgControl(teInfo->hwndParent, IDC_RTLMODIFY, FALSE);
 
-			SendDlgItemMessage(hwndDlg, IDC_COLOR1, CPM_SETCOLOUR, 0, M->GetDword("cc1", SRMSGDEFSET_BKGCOLOUR));
-			SendDlgItemMessage(hwndDlg, IDC_COLOR2, CPM_SETCOLOUR, 0, M->GetDword("cc2", SRMSGDEFSET_BKGCOLOUR));
-			SendDlgItemMessage(hwndDlg, IDC_COLOR3, CPM_SETCOLOUR, 0, M->GetDword("cc3", SRMSGDEFSET_BKGCOLOUR));
-			SendDlgItemMessage(hwndDlg, IDC_COLOR4, CPM_SETCOLOUR, 0, M->GetDword("cc4", SRMSGDEFSET_BKGCOLOUR));
-			SendDlgItemMessage(hwndDlg, IDC_COLOR5, CPM_SETCOLOUR, 0, M->GetDword("cc5", SRMSGDEFSET_BKGCOLOUR));
+			SendDlgItemMessage(hwndDlg, IDC_COLOR1, CPM_SETCOLOUR, 0, M.GetDword("cc1", SRMSGDEFSET_BKGCOLOUR));
+			SendDlgItemMessage(hwndDlg, IDC_COLOR2, CPM_SETCOLOUR, 0, M.GetDword("cc2", SRMSGDEFSET_BKGCOLOUR));
+			SendDlgItemMessage(hwndDlg, IDC_COLOR3, CPM_SETCOLOUR, 0, M.GetDword("cc3", SRMSGDEFSET_BKGCOLOUR));
+			SendDlgItemMessage(hwndDlg, IDC_COLOR4, CPM_SETCOLOUR, 0, M.GetDword("cc4", SRMSGDEFSET_BKGCOLOUR));
+			SendDlgItemMessage(hwndDlg, IDC_COLOR5, CPM_SETCOLOUR, 0, M.GetDword("cc5", SRMSGDEFSET_BKGCOLOUR));
 			SendMessage(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE), EM_SETREADONLY, TRUE, 0);
 		}
 		return TRUE;
@@ -206,7 +206,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_RESETALLTEMPLATES:
 			if (MessageBox(0, TranslateT("This will reset the template set to the default built-in templates. Are you sure you want to do this?"),
 				TranslateT("Template Set Editor"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-					M->WriteByte(teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, "setup", 0);
+					db_set_b(0, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, "setup", 0);
 					LoadDefaultTemplates();
 					MessageBox(0, TranslateT("Template set was successfully reset, please close and reopen all message windows. This template editor window will now close."),
 						TranslateT("Template Set Editor"), MB_OK);
@@ -271,7 +271,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				Utils::enableDlgControl(hwndDlg, IDC_TEMPLATELIST, TRUE);
 				Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
 				InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), NULL, FALSE);
-				M->WriteTString(teInfo->hContact, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[teInfo->inEdit], newTemplate);
+				db_set_ts(teInfo->hContact, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[teInfo->inEdit], newTemplate);
 				SendMessage(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE), EM_SETREADONLY, TRUE, 0);
 			}
 			break;
@@ -384,11 +384,11 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		if (dat)
 			free(dat);
 
-		M->WriteDword(SRMSGMOD_T, "cc1", SendDlgItemMessage(hwndDlg, IDC_COLOR1, CPM_GETCOLOUR, 0, 0));
-		M->WriteDword(SRMSGMOD_T, "cc2", SendDlgItemMessage(hwndDlg, IDC_COLOR2, CPM_GETCOLOUR, 0, 0));
-		M->WriteDword(SRMSGMOD_T, "cc3", SendDlgItemMessage(hwndDlg, IDC_COLOR3, CPM_GETCOLOUR, 0, 0));
-		M->WriteDword(SRMSGMOD_T, "cc4", SendDlgItemMessage(hwndDlg, IDC_COLOR4, CPM_GETCOLOUR, 0, 0));
-		M->WriteDword(SRMSGMOD_T, "cc5", SendDlgItemMessage(hwndDlg, IDC_COLOR5, CPM_GETCOLOUR, 0, 0));
+		db_set_dw(0, SRMSGMOD_T, "cc1", SendDlgItemMessage(hwndDlg, IDC_COLOR1, CPM_GETCOLOUR, 0, 0));
+		db_set_dw(0, SRMSGMOD_T, "cc2", SendDlgItemMessage(hwndDlg, IDC_COLOR2, CPM_GETCOLOUR, 0, 0));
+		db_set_dw(0, SRMSGMOD_T, "cc3", SendDlgItemMessage(hwndDlg, IDC_COLOR3, CPM_GETCOLOUR, 0, 0));
+		db_set_dw(0, SRMSGMOD_T, "cc4", SendDlgItemMessage(hwndDlg, IDC_COLOR4, CPM_GETCOLOUR, 0, 0));
+		db_set_dw(0, SRMSGMOD_T, "cc5", SendDlgItemMessage(hwndDlg, IDC_COLOR5, CPM_GETCOLOUR, 0, 0));
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;

@@ -105,7 +105,7 @@ void TSAPI RearrangeTab(HWND hwndDlg, const TWindowData *dat, int iMode, BOOL fS
 		BroadCastContainer(dat->pContainer, DM_REFRESHTABINDEX, 0, 0);
 		ActivateTabFromHWND(hwndTab, hwndDlg);
 		if (fSavePos)
-			M->WriteDword(dat->hContact, SRMSGMOD_T, "tabindex", newIndex * 100);
+			db_set_dw(dat->hContact, SRMSGMOD_T, "tabindex", newIndex * 100);
 	}
 }
 
@@ -157,7 +157,7 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 
 	TCHAR *szProto = mir_a2t(dat->cache->getActiveProto());
 
-	mir_sntprintf(szFinalPath, MAX_PATH, _T("%s\\%s"), M->getSavedAvatarPath(), szProto);
+	mir_sntprintf(szFinalPath, MAX_PATH, _T("%s\\%s"), M.getSavedAvatarPath(), szProto);
 	mir_free(szProto);
 
 	if (CreateDirectory(szFinalPath, 0) == 0) {
@@ -282,7 +282,7 @@ void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 	if (PluginConfig.m_LimitStaticAvatarHeight > 0)
 		dat->iRealAvatarHeight = min(dat->iRealAvatarHeight, PluginConfig.m_LimitStaticAvatarHeight);
 
-	if (M->GetByte(dat->hContact, "dontscaleavatars", M->GetByte("dontscaleavatars", 0)))
+	if (M.GetByte(dat->hContact, "dontscaleavatars", M.GetByte("dontscaleavatars", 0)))
 		dat->iRealAvatarHeight = min(bminfo->bmHeight, dat->iRealAvatarHeight);
 
 	if (bminfo->bmHeight != 0)
@@ -306,12 +306,12 @@ int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 		SESSION_INFO *si = (SESSION_INFO *)dat->si;
 		int iTabs = TabCtrl_GetItemCount(GetParent(hwndDlg));
 
-		EnableMenuItem(submenu, ID_TABMENU_ATTACHTOCONTAINER, M->GetByte("useclistgroups", 0) || M->GetByte("singlewinmode", 0) ? MF_GRAYED : MF_ENABLED);
-		EnableMenuItem(submenu, ID_TABMENU_CLEARSAVEDTABPOSITION, (M->GetDword(dat->hContact, "tabindex", -1) != -1) ? MF_ENABLED : MF_GRAYED);
+		EnableMenuItem(submenu, ID_TABMENU_ATTACHTOCONTAINER, M.GetByte("useclistgroups", 0) || M.GetByte("singlewinmode", 0) ? MF_GRAYED : MF_ENABLED);
+		EnableMenuItem(submenu, ID_TABMENU_CLEARSAVEDTABPOSITION, (M.GetDword(dat->hContact, "tabindex", -1) != -1) ? MF_ENABLED : MF_GRAYED);
 	} else if (menuID == MENU_PICMENU) {
 		MENUITEMINFO mii = {0};
 		TCHAR *szText = NULL;
-		char  avOverride = (char)M->GetByte(dat->hContact, "hideavatar", -1);
+		char  avOverride = (char)M.GetByte(dat->hContact, "hideavatar", -1);
 		HMENU visMenu = GetSubMenu(submenu, 0);
 		BOOL picValid = fInfoPanel ? (dat->hOwnPic != 0) : (dat->ace && dat->ace->hbmPic && dat->ace->hbmPic != PluginConfig.g_hbmUnknown);
 		mii.cbSize = sizeof(mii);
@@ -338,7 +338,7 @@ int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 		SetMenuItemInfo(submenu, ID_PICMENU_SETTINGS, FALSE, &mii);
 	} else if (menuID == MENU_PANELPICMENU) {
 		HMENU visMenu = GetSubMenu(submenu, 0);
-		char  avOverride = (char)M->GetByte(dat->hContact, "hideavatar", -1);
+		char  avOverride = (char)M.GetByte(dat->hContact, "hideavatar", -1);
 
 		CheckMenuItem(visMenu, ID_VISIBILITY_DEFAULT, MF_BYCOMMAND | (avOverride == -1 ? MF_CHECKED : MF_UNCHECKED));
 		CheckMenuItem(visMenu, ID_VISIBILITY_HIDDENFORTHISCONTACT, MF_BYCOMMAND | (avOverride == 0 ? MF_CHECKED : MF_UNCHECKED));
@@ -373,7 +373,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 				SendMessage(hwndDlg, WM_CLOSE, 1, 0);
 				return 1;
 			case ID_TABMENU_SAVETABPOSITION:
-				M->WriteDword(dat->hContact, SRMSGMOD_T, "tabindex", dat->iTabID * 100);
+				db_set_dw(dat->hContact, SRMSGMOD_T, "tabindex", dat->iTabID * 100);
 				break;
 			case ID_TABMENU_CLEARSAVEDTABPOSITION:
 				db_unset(dat->hContact, SRMSGMOD_T, "tabindex");
@@ -400,7 +400,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 					avOverrideMode = 0;
 				else if (selection == ID_VISIBILITY_VISIBLEFORTHISCONTACT)
 					avOverrideMode = 1;
-				M->WriteByte(dat->hContact, SRMSGMOD_T, "hideavatar", avOverrideMode);
+				db_set_b(dat->hContact, SRMSGMOD_T, "hideavatar", avOverrideMode);
 				dat->panelWidth = -1;
 				ShowPicture(dat, FALSE);
 				SendMessage(hwndDlg, WM_SIZE, 0, 0);
@@ -409,8 +409,8 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 			}
 			case ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH:
 				PluginConfig.m_AlwaysFullToolbarWidth = !PluginConfig.m_AlwaysFullToolbarWidth;
-				M->WriteByte(SRMSGMOD_T, "alwaysfulltoolbar", (BYTE)PluginConfig.m_AlwaysFullToolbarWidth);
-				M->BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
+				db_set_b(0, SRMSGMOD_T, "alwaysfulltoolbar", (BYTE)PluginConfig.m_AlwaysFullToolbarWidth);
+				M.BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
 				break;
 			case ID_PICMENU_SAVETHISPICTUREAS:
 				if (dat->Panel->isActive()) {
@@ -441,8 +441,8 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 	}
 	else if (menuId == MENU_LOGMENU) {
 		int iLocalTime = 0;
-		int iRtl = (PluginConfig.m_RTLDefault == 0 ? M->GetByte(dat->hContact, "RTL", 0) : M->GetByte(dat->hContact, "RTL", 1));
-		int iLogStatus = (PluginConfig.m_LogStatusChanges != 0) && M->GetByte(dat->hContact, "logstatuschanges", 0);
+		int iRtl = (PluginConfig.m_RTLDefault == 0 ? M.GetByte(dat->hContact, "RTL", 0) : M.GetByte(dat->hContact, "RTL", 1));
+		int iLogStatus = (PluginConfig.m_LogStatusChanges != 0) && M.GetByte(dat->hContact, "logstatuschanges", 0);
 
 		DWORD dwOldFlags = dat->dwFlags;
 
@@ -451,7 +451,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 			{
 				OPENOPTIONSDIALOG	ood = { sizeof(ood) };
 				ood.pszPage = "Message Sessions";
-				M->WriteByte(SRMSGMOD_T, "opage", 3);			// force 3th tab to appear
+				db_set_b(0, SRMSGMOD_T, "opage", 3);			// force 3th tab to appear
 				Options_Open(&ood);
 			}
 			return 1;
@@ -577,7 +577,7 @@ int TSAPI GetAvatarVisibility(HWND hwndDlg, struct TWindowData *dat)
 {
 	BYTE bAvatarMode = dat->pContainer->avatarMode;
 	BYTE bOwnAvatarMode = dat->pContainer->ownAvatarMode;
-	char hideOverride = (char)M->GetByte(dat->hContact, "hideavatar", -1);
+	char hideOverride = (char)M.GetByte(dat->hContact, "hideavatar", -1);
 	// infopanel visible, consider own avatar display
 
 	dat->showPic = 0;
@@ -1254,14 +1254,14 @@ UINT TSAPI GetIEViewMode(HWND hwndDlg, HANDLE hContact)
 	if (g_HPPAvail == -1)
 		g_HPPAvail = ServiceExists("History++/ExtGrid/NewWindow");
 
-	PluginConfig.g_WantIEView = g_IEViewAvail && M->GetByte("default_ieview", 0);
-	PluginConfig.g_WantHPP = g_HPPAvail && M->GetByte("default_hpp", 0);
+	PluginConfig.g_WantIEView = g_IEViewAvail && M.GetByte("default_ieview", 0);
+	PluginConfig.g_WantHPP = g_HPPAvail && M.GetByte("default_hpp", 0);
 
-	iWantIEView = (PluginConfig.g_WantIEView) || (M->GetByte(hContact, "ieview", 0) == 1 && g_IEViewAvail);
-	iWantIEView = (M->GetByte(hContact, "ieview", 0) == (BYTE) - 1) ? 0 : iWantIEView;
+	iWantIEView = (PluginConfig.g_WantIEView) || (M.GetByte(hContact, "ieview", 0) == 1 && g_IEViewAvail);
+	iWantIEView = (M.GetByte(hContact, "ieview", 0) == (BYTE) - 1) ? 0 : iWantIEView;
 
-	iWantHPP = (PluginConfig.g_WantHPP) || (M->GetByte(hContact, "hpplog", 0) == 1 && g_HPPAvail);
-	iWantHPP = (M->GetByte(hContact, "hpplog", 0) == (BYTE) - 1) ? 0 : iWantHPP;
+	iWantHPP = (PluginConfig.g_WantHPP) || (M.GetByte(hContact, "hpplog", 0) == 1 && g_HPPAvail);
+	iWantHPP = (M.GetByte(hContact, "hpplog", 0) == (BYTE) - 1) ? 0 : iWantHPP;
 
 	return iWantHPP ? WANT_HPP_LOG : (iWantIEView ? WANT_IEVIEW_LOG : 0);
 }
@@ -1377,7 +1377,7 @@ void TSAPI SwitchMessageLog(TWindowData *dat, int iMode)
 	SendMessage(hwndDlg, WM_SIZE, 0, 0);
 
 	if (dat->hwndIEView) {
- 		if (M->GetByte("subclassIEView", 0)&&dat->oldIEViewProc == 0) {
+ 		if (M.GetByte("subclassIEView", 0)&&dat->oldIEViewProc == 0) {
  			WNDPROC wndProc = (WNDPROC)SetWindowLongPtr(dat->hwndIEView, GWLP_WNDPROC, (LONG_PTR)IEViewSubclassProc);
  			dat->oldIEViewProc = wndProc;
  		}
@@ -1392,9 +1392,9 @@ void TSAPI SwitchMessageLog(TWindowData *dat, int iMode)
 
 void TSAPI FindFirstEvent(TWindowData *dat)
 {
-	int historyMode = (int)M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_LOADHISTORY, -1);
+	int historyMode = db_get_b(dat->hContact, SRMSGMOD, SRMSGSET_LOADHISTORY, -1);
 	if (historyMode == -1)
-		historyMode = (int)M->GetByte(SRMSGMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
+		historyMode = (int)M.GetByte(SRMSGMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
 
 	dat->hDbEventFirst = db_event_firstUnread(dat->hContact);
 
@@ -1473,12 +1473,12 @@ void TSAPI SaveSplitter(TWindowData *dat)
 		dat->splitterY = DPISCALEY_S(MINSPLITTERY);
 
 	if (dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE)
-		M->WriteDword(dat->hContact, SRMSGMOD_T, "splitsplity", dat->splitterY);
+		db_set_dw(dat->hContact, SRMSGMOD_T, "splitsplity", dat->splitterY);
 	else {
 		if (dat->pContainer->settings->fPrivate)
 			dat->pContainer->settings->splitterPos = dat->splitterY;
 		else
-			M->WriteDword(SRMSGMOD_T, "splitsplity", dat->splitterY);
+			db_set_dw(0, SRMSGMOD_T, "splitsplity", dat->splitterY);
 	}
 }
 
@@ -1492,11 +1492,11 @@ void TSAPI LoadSplitter(TWindowData *dat)
 #endif
 	if (!(dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE))
 		if (!dat->pContainer->settings->fPrivate)
-			dat->splitterY = (int)M->GetDword("splitsplity", (DWORD) 60);
+			dat->splitterY = (int)M.GetDword("splitsplity", (DWORD) 60);
 		else
 			dat->splitterY = dat->pContainer->settings->splitterPos;
 	else
-		dat->splitterY = (int)M->GetDword(dat->hContact, "splitsplity", M->GetDword("splitsplity", (DWORD) 70));
+		dat->splitterY = (int)M.GetDword(dat->hContact, "splitsplity", M.GetDword("splitsplity", (DWORD) 70));
 
 	if (dat->splitterY < MINSPLITTERY || dat->splitterY < 0)
 		dat->splitterY = 150;
@@ -1525,7 +1525,7 @@ void TSAPI GetSendFormat(TWindowData *dat, int mode)
 	int i;
 
 	if (mode) {
-		dat->SendFormat = M->GetDword(dat->hContact, "sendformat", PluginConfig.m_SendFormat);
+		dat->SendFormat = M.GetDword(dat->hContact, "sendformat", PluginConfig.m_SendFormat);
 		if (dat->SendFormat == -1)          // per contact override to disable it..
 			dat->SendFormat = 0;
 		else if (dat->SendFormat == 0)
@@ -1692,7 +1692,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 	if (!dat)
 		return 0;
 
-	bool	fAero = M->isAero();
+	bool	fAero = M.isAero();
 	HWND	hwndDlg = dat->hwnd;
 
 	if (dis->CtlType == ODT_MENU && dis->hwndItem == (HWND)GetSubMenu(PluginConfig.g_hMenuContext, 7)) {
@@ -1880,7 +1880,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 		hbmDraw = CreateCompatibleBitmap(dis->hDC, cx, cy);
 		hbmOld = (HBITMAP)SelectObject(hdcDraw, hbmDraw);
 
-		bool	fAero = M->isAero();
+		bool	fAero = M.isAero();
 
 		hOldBrush = (HBRUSH)SelectObject(hdcDraw, fAero ? (HBRUSH)GetStockObject(HOLLOW_BRUSH) : GetSysColorBrush(COLOR_3DFACE));
 		rcFrame = rcClient;
@@ -2062,20 +2062,20 @@ void TSAPI LoadThemeDefaults(TContainerData *pContainer)
 	COLORREF 	colour;
 	ZeroMemory(&pContainer->theme, sizeof(TLogTheme));
 
-	pContainer->theme.bg = M->GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR, GetSysColor(COLOR_WINDOW));
+	pContainer->theme.bg = M.GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR, GetSysColor(COLOR_WINDOW));
 	pContainer->theme.statbg = PluginConfig.crStatus;
 	pContainer->theme.oldinbg = PluginConfig.crOldIncoming;
 	pContainer->theme.oldoutbg = PluginConfig.crOldOutgoing;
 	pContainer->theme.inbg = PluginConfig.crIncoming;
 	pContainer->theme.outbg = PluginConfig.crOutgoing;
-	pContainer->theme.hgrid = M->GetDword(FONTMODULE, "hgrid", RGB(224, 224, 224));
-	pContainer->theme.left_indent = M->GetDword("IndentAmount", 20) * 15;
-	pContainer->theme.right_indent = M->GetDword("RightIndent", 20) * 15;
-	pContainer->theme.inputbg = M->GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
+	pContainer->theme.hgrid = M.GetDword(FONTMODULE, "hgrid", RGB(224, 224, 224));
+	pContainer->theme.left_indent = M.GetDword("IndentAmount", 20) * 15;
+	pContainer->theme.right_indent = M.GetDword("RightIndent", 20) * 15;
+	pContainer->theme.inputbg = M.GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
 
 	for (i = 1; i <= 5; i++) {
 		_snprintf(szTemp, 10, "cc%d", i);
-		colour = M->GetDword(szTemp, RGB(224, 224, 224));
+		colour = M.GetDword(szTemp, RGB(224, 224, 224));
 		if (colour == 0)
 			colour = RGB(1, 1, 1);
 		pContainer->theme.custom_colors[i - 1] = colour;
@@ -2085,7 +2085,7 @@ void TSAPI LoadThemeDefaults(TContainerData *pContainer)
 	pContainer->theme.rtfFonts = NULL;
 	pContainer->ltr_templates = &LTR_Active;
 	pContainer->rtl_templates = &RTL_Active;
-	pContainer->theme.dwFlags = (M->GetDword("mwflags", MWF_LOG_DEFAULT) & MWF_LOG_ALL);
+	pContainer->theme.dwFlags = (M.GetDword("mwflags", MWF_LOG_DEFAULT) & MWF_LOG_ALL);
 	pContainer->theme.isPrivate = false;
 }
 

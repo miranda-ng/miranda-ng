@@ -139,7 +139,7 @@ void CB_InitCustomButtons()
 	LButtonsList = List_Create(0, 1);
 	RButtonsList = List_Create(0, 1);
 	InitializeCriticalSection(&ToolBarCS);
-	dwSepCount = M->GetDword("TabSRMM_Toolbar", "SeparatorsCount", 0);
+	dwSepCount = M.GetDword("TabSRMM_Toolbar", "SeparatorsCount", 0);
 
 	//dwSepCount = db_get_dw(NULL, "TabSRMM_Toolbar", "SeparatorsCount", 0);
 
@@ -246,13 +246,13 @@ void CB_ReInitCustomButtons()
 			i--;
 		}
 	}
-	M->BroadcastMessage(DM_BBNEEDUPDATE, 0, 0);
-	M->BroadcastMessage(DM_LOADBUTTONBARICONS, 0, 0);
+	M.BroadcastMessage(DM_BBNEEDUPDATE, 0, 0);
+	M.BroadcastMessage(DM_LOADBUTTONBARICONS, 0, 0);
 }
 
 void CB_HardReInit()
 {
-	M->BroadcastMessage(DM_CBDESTROY, 0, 0);
+	M.BroadcastMessage(DM_CBDESTROY, 0, 0);
 	EnterCriticalSection(&ToolBarCS);
 	li_ListDestruct(LButtonsList, listdestructor);
 	li_ListDestruct(RButtonsList, listdestructor);
@@ -322,7 +322,7 @@ static INT_PTR CB_AddButton(WPARAM wParam, LPARAM lParam)
 	if (cbd->dwArrowCID == LastCID)
 		LastCID++;
 
-	M->BroadcastMessage(DM_BBNEEDUPDATE, 0, 0);
+	M.BroadcastMessage(DM_BBNEEDUPDATE, 0, 0);
 	return 0;
 }
 
@@ -351,7 +351,7 @@ static INT_PTR CB_GetButtonState(WPARAM wParam, LPARAM lParam)
 		}
 
 	if (!realbutton) return 1;
-	hwndDlg = M->FindWindow((HANDLE)wParam);
+	hwndDlg = M.FindWindow((HANDLE)wParam);
 	bbdi->bbbFlags = (IsDlgButtonChecked(hwndDlg, tempCID) ? BBSF_PUSHED : BBSF_RELEASED) | (IsWindowVisible(GetDlgItem(hwndDlg, tempCID)) ? 0 : BBSF_HIDDEN) | (IsWindowEnabled(GetDlgItem(hwndDlg, tempCID)) ? 0 : BBSF_DISABLED);
 	return 0;
 }
@@ -382,7 +382,7 @@ static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam)
 	if (!realbutton || !wParam) return 1;
 
 
-	hwndDlg = M->FindWindow((HANDLE)wParam);
+	hwndDlg = M.FindWindow((HANDLE)wParam);
 	if (hwndDlg && realbutton && bbdi->hIcon)
 		SendMessage(GetDlgItem(hwndDlg, tempCID), BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(bbdi->hIcon));
 	if (hwndDlg && realbutton && bbdi->pszTooltip) {
@@ -434,7 +434,7 @@ static INT_PTR CB_RemoveButton(WPARAM wParam, LPARAM lParam)
 
 	LeaveCriticalSection(&ToolBarCS);
 	if (tempCID)
-		M->BroadcastMessage(DM_CBDESTROY, (WPARAM)tempCID, (LPARAM)dwFlags);
+		M.BroadcastMessage(DM_CBDESTROY, (WPARAM)tempCID, (LPARAM)dwFlags);
 	return 0;
 }
 
@@ -486,7 +486,7 @@ static INT_PTR CB_ModifyButton(WPARAM wParam, LPARAM lParam)
 	}
 	LeaveCriticalSection(&ToolBarCS);
 	if (bFound)
-		M->BroadcastMessage(DM_BBNEEDUPDATE, 0, (LPARAM)cbd);
+		M.BroadcastMessage(DM_BBNEEDUPDATE, 0, (LPARAM)cbd);
 	return 0;
 }
 
@@ -1186,7 +1186,7 @@ static int SaveTree(HWND hToolBarTree)
 		tvi.hItem = hItem;
 	}
 	LeaveCriticalSection(&ToolBarCS);
-	M->WriteDword("TabSRMM_Toolbar", "SeparatorsCount", loc_sepcout);
+	db_set_dw(0, "TabSRMM_Toolbar", "SeparatorsCount", loc_sepcout);
 	dwSepCount = loc_sepcout;
 	bNeedResort = TRUE;
 	return 1;
@@ -1417,7 +1417,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_RESET:
 				CB_ReInitCustomButtons();
-				dwSepCount = M->GetDword("TabSRMM_Toolbar", "SeparatorsCount", 0);
+				dwSepCount = M.GetDword("TabSRMM_Toolbar", "SeparatorsCount", 0);
 				return 1;
 
 			case PSN_APPLY:
@@ -1442,10 +1442,10 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				CB_ReInitCustomButtons();
 				PluginConfig.g_iButtonsBarGap = (BYTE)SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_GETPOS, 0, 0);
 
-				if (PluginConfig.g_iButtonsBarGap != M->GetByte("ButtonsBarGap", 1))
-					M->BroadcastMessageAsync(WM_SIZE, 0, 0);
+				if (PluginConfig.g_iButtonsBarGap != M.GetByte("ButtonsBarGap", 1))
+					M.BroadcastMessageAsync(WM_SIZE, 0, 0);
 
-				M->WriteByte(SRMSGMOD_T, "ButtonsBarGap", PluginConfig.g_iButtonsBarGap);
+				db_set_b(0, SRMSGMOD_T, "ButtonsBarGap", PluginConfig.g_iButtonsBarGap);
 
 				BuildMenuObjectsTree((HWND)hToolBarTree);
 				Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, FALSE);

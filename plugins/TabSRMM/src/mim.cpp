@@ -76,107 +76,6 @@ void CMimAPI::timerMsg(const char *szMsg)
 	mir_snprintf(m_timerMsg, 256, "%s: %d ticks = %f msec", szMsg, (int)(m_tStop - m_tStart), 1000 * ((double)(m_tStop - m_tStart) * m_dFreq));
 	_DebugTraceA(m_timerMsg);
 }
-/*
- * read a setting for a contact
- */
-
-DWORD CMimAPI::GetDword(const HANDLE hContact = 0, const char *szModule = 0, const char *szSetting = 0, DWORD uDefault = 0) const
-{
-	return((DWORD)db_get_dw(hContact, szModule, szSetting, uDefault));
-}
-
-/*
- * read a setting from our default module (Tab_SRMSG)
- */
-
-DWORD CMimAPI::GetDword(const char *szSetting = 0, DWORD uDefault = 0) const
-{
-	return((DWORD)db_get_dw(0, SRMSGMOD_T, szSetting, uDefault));
-}
-
-/*
- * read a contact setting with our default module name (Tab_SRMSG)
- */
-
-DWORD CMimAPI::GetDword(const HANDLE hContact = 0, const char *szSetting = 0, DWORD uDefault = 0) const
-{
-	return((DWORD)db_get_dw(hContact, SRMSGMOD_T, szSetting, uDefault));
-}
-
-/*
- * read a setting from module only
- */
-
-DWORD CMimAPI::GetDword(const char *szModule, const char *szSetting, DWORD uDefault) const
-{
-	return((DWORD)db_get_dw(0, szModule, szSetting, uDefault));
-}
-
-/*
- * same for bytes now
- */
-int CMimAPI::GetByte(const HANDLE hContact = 0, const char *szModule = 0, const char *szSetting = 0, int uDefault = 0) const
-{
-	return(db_get_b(hContact, szModule, szSetting, uDefault));
-}
-
-int CMimAPI::GetByte(const char *szSetting = 0, int uDefault = 0) const
-{
-	return(db_get_b(0, SRMSGMOD_T, szSetting, uDefault));
-}
-
-int CMimAPI::GetByte(const HANDLE hContact = 0, const char *szSetting = 0, int uDefault = 0) const
-{
-	return(db_get_b(hContact, SRMSGMOD_T, szSetting, uDefault));
-}
-
-int CMimAPI::GetByte(const char *szModule, const char *szSetting, int uDefault) const
-{
-	return(db_get_b(0, szModule, szSetting, uDefault));
-}
-
-INT_PTR CMimAPI::GetTString(const HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv) const
-{
-	return(db_get_ts(hContact, szModule, szSetting, dbv));
-}
-
-INT_PTR CMimAPI::GetString(const HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv) const
-{
-	return(db_get_s(hContact, szModule, szSetting, dbv));
-}
-
-/*
- * writer functions
- */
-
-INT_PTR CMimAPI::WriteDword(const HANDLE hContact = 0, const char *szModule = 0, const char *szSetting = 0, DWORD value = 0) const
-{
-	return(db_set_dw(hContact, szModule, szSetting, value));
-}
-
-/*
- * write non-contact setting
-*/
-
-INT_PTR CMimAPI::WriteDword(const char *szModule = 0, const char *szSetting = 0, DWORD value = 0) const
-{
-	return(db_set_dw(0, szModule, szSetting, value));
-}
-
-INT_PTR CMimAPI::WriteByte(const HANDLE hContact = 0, const char *szModule = 0, const char *szSetting = 0, BYTE value = 0) const
-{
-	return(db_set_b(hContact, szModule, szSetting, value));
-}
-
-INT_PTR CMimAPI::WriteByte(const char *szModule = 0, const char *szSetting = 0, BYTE value = 0) const
-{
-	return(db_set_b(0, szModule, szSetting, value));
-}
-
-INT_PTR CMimAPI::WriteTString(const HANDLE hContact, const char *szModule = 0, const char *szSetting = 0, const TCHAR *str = 0) const
-{
-	return(db_set_ts(hContact, szModule, szSetting, str));
-}
 
 /**
  * Case insensitive _tcsstr
@@ -191,25 +90,24 @@ const TCHAR* CMimAPI::StriStr(const TCHAR *szString, const TCHAR *szSearchFor)
 {
 	assert(szString != 0 && szSearchFor != 0);
 
-	if (szString && *szString) {
-		if (0 == szSearchFor || 0 == *szSearchFor)
-			return(szString);
+	if (!szString || *szString == 0)
+		return NULL;
 
-		for (; *szString; ++szString) {
-			if (_totupper(*szString) == _totupper(*szSearchFor)) {
-				const TCHAR *h, *n;
-				for (h = szString, n = szSearchFor; *h && *n; ++h, ++n) {
-					if (_totupper(*h) != _totupper(*n))
-						break;
-				}
-				if (!*n)
-					return(szString);
-			}
+	if (!szSearchFor || *szSearchFor == 0)
+		return szString;
+
+	for (; *szString; ++szString) {
+		if (_totupper(*szString) == _totupper(*szSearchFor)) {
+			const TCHAR *h, *n;
+			for (h = szString, n = szSearchFor; *h && *n; ++h, ++n)
+				if (_totupper(*h) != _totupper(*n))
+					break;
+
+			if (!*n)
+				return szString;
 		}
-		return 0;
 	}
-	else
-		return 0;
+	return NULL;
 }
 
 int CMimAPI::pathIsAbsolute(const TCHAR *path) const
@@ -231,23 +129,22 @@ size_t CMimAPI::pathToRelative(const TCHAR *pSrc, TCHAR *pOut, const TCHAR *szBa
 	if (!pathIsAbsolute(pSrc)) {
 		mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
 		return lstrlen(pOut);
-	} else {
-		TCHAR	szTmp[MAX_PATH];
-
-		mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s"), pSrc);
-		if (StriStr(szTmp, tszBase)) {
-			if (tszBase[lstrlen(tszBase) - 1] == '\\')
-				mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc + lstrlen(tszBase));
-			else {
-				mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc + lstrlen(tszBase)  + 1 );
-				//pOut[0]='.';
-			}
-			return(lstrlen(pOut));
-		} else {
-			mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
-			return(lstrlen(pOut));
-		}
 	}
+
+	TCHAR	szTmp[MAX_PATH];
+	mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s"), pSrc);
+	if (StriStr(szTmp, tszBase)) {
+		if (tszBase[lstrlen(tszBase) - 1] == '\\')
+			mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc + lstrlen(tszBase));
+		else {
+			mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc + lstrlen(tszBase)  + 1 );
+			//pOut[0]='.';
+		}
+		return(lstrlen(pOut));
+	}
+
+	mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
+	return(lstrlen(pOut));
 }
 
 /**
@@ -282,34 +179,34 @@ size_t CMimAPI::pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut, const TCHAR *szBa
  * window list functions
  */
 
-void CMimAPI::BroadcastMessage(UINT msg = 0, WPARAM wParam = 0, LPARAM lParam = 0)
+void CMimAPI::BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WindowList_Broadcast(m_hMessageWindowList, msg, wParam, lParam);
 }
 
-void CMimAPI::BroadcastMessageAsync(UINT msg = 0, WPARAM wParam = 0, LPARAM lParam = 0)
+void CMimAPI::BroadcastMessageAsync(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WindowList_BroadcastAsync(m_hMessageWindowList, msg, wParam, lParam);
 }
 
-HWND CMimAPI::FindWindow(HANDLE h = 0) const
+HWND CMimAPI::FindWindow(HANDLE h) const
 {
-	return(WindowList_Find(m_hMessageWindowList, h));
+	return WindowList_Find(m_hMessageWindowList, h);
 }
 
-INT_PTR CMimAPI::AddWindow(HWND hWnd = 0, HANDLE h = 0)
+INT_PTR CMimAPI::AddWindow(HWND hWnd, HANDLE h)
 {
-	return(WindowList_Add(m_hMessageWindowList, hWnd, h));
+	return WindowList_Add(m_hMessageWindowList, hWnd, h);
 }
 
-INT_PTR CMimAPI::RemoveWindow(HWND hWnd = 0)
+INT_PTR CMimAPI::RemoveWindow(HWND hWnd)
 {
-	return(WindowList_Remove(m_hMessageWindowList, hWnd));
+	return WindowList_Remove(m_hMessageWindowList, hWnd);
 }
 
 int CMimAPI::FoldersPathChanged(WPARAM wParam, LPARAM lParam)
 {
-	return(M->foldersPathChanged());
+	return M.foldersPathChanged();
 }
 
 void CMimAPI::configureCustomFolders()
@@ -380,7 +277,7 @@ const TCHAR* CMimAPI::getUserDir()
 
 		Utils::ensureTralingBackslash(m_userDir);
 	}
-	return(m_userDir);
+	return m_userDir;
 }
 
 void CMimAPI::InitPaths()
@@ -417,7 +314,7 @@ bool CMimAPI::getAeroState()
 
 	}
 	m_isVsThemed = (m_VsAPI && m_pfnIsThemeActive && m_pfnIsThemeActive());
-	return(m_isAero);
+	return m_isAero;
 }
 
 /**
@@ -516,7 +413,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 	BOOL   fShowOnClist = TRUE;
 
 	if (wParam) {
-		if ((hwnd = M->FindWindow((HANDLE)wParam)) && M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
+		if ((hwnd = M.FindWindow((HANDLE)wParam)) && M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
 			preTyping = SendMessage(hwnd, DM_TYPING, 0, lParam);
 
 		if (hwnd && IsWindowVisible(hwnd))
@@ -531,10 +428,10 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 				return 0;					// should never happen
 		}
 
-		if ( M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST)) {
-			if (!hwnd && !M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1))
+		if ( M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST)) {
+			if (!hwnd && !M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1))
 				fShowOnClist = FALSE;
-			if (hwnd && !M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1))
+			if (hwnd && !M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1))
 				fShowOnClist = FALSE;
 		}
 		else fShowOnClist = FALSE;
@@ -542,9 +439,9 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 		if ((!foundWin || !(pContainer->dwFlags&CNT_NOSOUND)) && preTyping != (lParam != 0))
 			SkinPlaySound((lParam) ? "TNStart" : "TNStop");
 
-		if (M->GetByte(SRMSGMOD, "ShowTypingPopup", 0)) {
+		if (M.GetByte(SRMSGMOD, "ShowTypingPopup", 0)) {
 			BOOL fShow = FALSE;
-			int  iMode = M->GetByte("MTN_PopupMode", 0);
+			int  iMode = M.GetByte("MTN_PopupMode", 0);
 
 			switch(iMode) {
 			case 0:
@@ -559,7 +456,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 					fShow = TRUE;
 				else {
 					if (PluginConfig.m_HideOnClose) {
-						struct	TContainerData *pContainer = 0;
+						TContainerData *pContainer = 0;
 						SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 						if (pContainer && pContainer->fHidden)
 							fShow = TRUE;
@@ -575,7 +472,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 			TCHAR szTip[256];
 
 			_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message."), (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR));
-			if (fShowOnClist && ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && M->GetByte(SRMSGMOD, "ShowTypingBalloon", 0)) {
+			if (fShowOnClist && ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0)) {
 				MIRANDASYSTRAYNOTIFY tn;
 				tn.szProto = NULL;
 				tn.cbSize = sizeof(tn);
@@ -586,10 +483,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 				CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)& tn);
 			}
 			if (fShowOnClist) {
-				CLISTEVENT cle;
-
-				ZeroMemory(&cle, sizeof(cle));
-				cle.cbSize = sizeof(cle);
+				CLISTEVENT cle = { sizeof(cle) };
 				cle.hContact = (HANDLE) wParam;
 				cle.hDbEvent = (HANDLE) 1;
 				cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
@@ -614,13 +508,12 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 
 int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
 {
-	ACKDATA *pAck = (ACKDATA *) lParam;
-	HWND hwndDlg = 0;
-	int i = 0, j, iFound = SendQueue::NR_SENDJOBS;
-
+	ACKDATA *pAck = (ACKDATA*)lParam;
 	if (lParam == 0)
 		return 0;
 
+	HWND hwndDlg = 0;
+	int i = 0, j, iFound = SendQueue::NR_SENDJOBS;
 	SendJob *jobs = sendQueue->getJobByIndex(0);
 
 	if (pAck->type == ACKTYPE_MESSAGE) {
@@ -663,7 +556,7 @@ int CMimAPI::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	char *szProto = GetContactProto(hContact);
 	if (szProto) {
 		// leave this menu item hidden for chats
-		if ( !M->GetByte(hContact, szProto, "ChatRoom", 0 ))
+		if ( !db_get_b(hContact, szProto, "ChatRoom", 0 ))
 			if ( CallProtoService( szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND )
 				bEnabled = true;
 	}
@@ -684,7 +577,7 @@ int CMimAPI::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 int CMimAPI::DispatchNewEvent(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam) {
-		HWND h = M->FindWindow((HANDLE)wParam);
+		HWND h = M.FindWindow((HANDLE)wParam);
 		if (h)
 			PostMessage(h, HM_DBEVENTADDED, wParam, lParam);            // was SENDMESSAGE !!! XXX
 	}
@@ -710,7 +603,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get((HANDLE)lParam, &dbei);
 
-	HWND hwnd = M->FindWindow((HANDLE)wParam);
+	HWND hwnd = M.FindWindow((HANDLE)wParam);
 
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
 	BOOL isShownCustomEvent = DbEventIsForMsgWindow(&dbei);
@@ -729,10 +622,10 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 			GetWindowPlacement(pTargetContainer->hwnd, &wp);
 			GetContainerNameForContact((HANDLE) wParam, szName, CONTAINER_NAMELEN);
 
-			bAutoPopup = M->GetByte(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
-			bAutoCreate = M->GetByte("autotabs", 1);
-			bAutoContainer = M->GetByte("autocontainer", 1);
-			dwStatusMask = M->GetDword("autopopupmask", -1);
+			bAutoPopup = M.GetByte(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
+			bAutoCreate = M.GetByte("autotabs", 1);
+			bAutoContainer = M.GetByte("autocontainer", 1);
+			dwStatusMask = M.GetDword("autopopupmask", -1);
 
 			bAllowAutoCreate = FALSE;
 
@@ -747,7 +640,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 				}
 				else {
 					bActivate = FALSE;
-					bPopup = (BOOL) M->GetByte("cpopup", 0);
+					bPopup = (BOOL) M.GetByte("cpopup", 0);
 					pContainer = FindContainerByName(szName);
 					if (pContainer != NULL) {
 						if (bAutoContainer) {
@@ -791,10 +684,10 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 
 	GetContainerNameForContact((HANDLE) wParam, szName, CONTAINER_NAMELEN);
 
-	bAutoPopup = M->GetByte(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
-	bAutoCreate = M->GetByte("autotabs", 1);
-	bAutoContainer = M->GetByte("autocontainer", 1);
-	dwStatusMask = M->GetDword("autopopupmask", -1);
+	bAutoPopup = M.GetByte(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
+	bAutoCreate = M.GetByte("autotabs", 1);
+	bAutoContainer = M.GetByte("autocontainer", 1);
+	dwStatusMask = M.GetDword("autopopupmask", -1);
 
 	bAllowAutoCreate = FALSE;
 
@@ -824,12 +717,12 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 			return 0;
 		} else {
 			bActivate = FALSE;
-			bPopup = (BOOL) M->GetByte("cpopup", 0);
+			bPopup = (BOOL) M.GetByte("cpopup", 0);
 			pContainer = FindContainerByName(szName);
 			if (pContainer != NULL) {
 				//if ((IsIconic(pContainer->hwnd)) && PluginConfig.haveAutoSwitch())
 				//	pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
-				if (M->GetByte("limittabs", 0) &&  !wcsncmp(pContainer->szName, L"default", 6)) {
+				if (M.GetByte("limittabs", 0) &&  !wcsncmp(pContainer->szName, L"default", 6)) {
 					if ((pContainer = FindMatchingContainer(L"default", (HANDLE)wParam)) != NULL) {
 						CreateNewTabForContact(pContainer, (HANDLE) wParam, 0, NULL, bActivate, bPopup, TRUE, (HANDLE)lParam);
 						return 0;
@@ -881,5 +774,5 @@ nowindowcreate:
 	return 0;
 }
 
-CMimAPI *M = 0;
+CMimAPI M;
 FI_INTERFACE *FIF = 0;

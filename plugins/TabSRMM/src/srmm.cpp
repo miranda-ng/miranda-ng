@@ -79,8 +79,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 
-	M = new CMimAPI();
-
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);
 
 	Chat_Load();
@@ -104,7 +102,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 		DestroyServiceFunction(hTypingNotify);
 		delete sendLater;
 		delete sendQueue;
-		delete M;
 #if defined(__USE_EX_HANDLERS)
 	}
 	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"SHUTDOWN_STAGE_UNLOAD", false)) {
@@ -256,8 +253,8 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda.or.at/");
 			break;
 		case IDC_RESETWARNINGS:
-			M->WriteDword(SRMSGMOD_T, "cWarningsL", 0);
-			M->WriteDword(SRMSGMOD_T, "cWarningsH", 0);
+			db_set_dw(0, SRMSGMOD_T, "cWarningsL", 0);
+			db_set_dw(0, SRMSGMOD_T, "cWarningsH", 0);
 			break;
 		}
 		break;

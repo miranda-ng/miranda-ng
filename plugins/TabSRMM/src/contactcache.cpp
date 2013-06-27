@@ -80,8 +80,8 @@ void CContactCache::initPhaseTwo()
 
 	m_Valid = (m_szProto != 0 && m_szAccount != 0) ? true : false;
 	if (m_Valid) {
-		m_isMeta = (PluginConfig.bMetaEnabled && !strcmp(m_szProto, PluginConfig.szMetaName)) ? true : false;
-		m_isSubcontact = (M->GetByte(m_hContact, PluginConfig.szMetaName, "IsSubcontact", 0) ? true : false);
+		m_isMeta = PluginConfig.bMetaEnabled && !strcmp(m_szProto, PluginConfig.szMetaName);
+		m_isSubcontact = db_get_b(m_hContact, PluginConfig.szMetaName, "IsSubcontact", 0) != 0;
 		if (m_isMeta)
 			updateMeta(true);
 		updateState();
@@ -397,7 +397,7 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
  */
 void CContactCache::allocHistory()
 {
-	m_iHistorySize = M->GetByte("historysize", 15);
+	m_iHistorySize = M.GetByte("historysize", 15);
 	if (m_iHistorySize < 10)
 		m_iHistorySize = 10;
 	m_history = (TInputHistory *)malloc(sizeof(TInputHistory) * (m_iHistorySize + 1));
@@ -458,8 +458,8 @@ void CContactCache::deletedHandler()
  */
 void CContactCache::updateFavorite()
 {
-	m_isFavorite = M->GetByte(m_hContact, SRMSGMOD_T, "isFavorite", 0) ? true : false;
-	m_isRecent = M->GetDword(m_hContact, "isRecent", 0) ? true : false;
+	m_isFavorite = db_get_b(m_hContact, SRMSGMOD_T, "isFavorite", 0) != 0;
+	m_isRecent = M.GetDword(m_hContact, "isRecent", 0) ? true : false;
 }
 
 /**
@@ -480,7 +480,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		if (m_szStatusMsg)
 			mir_free(m_szStatusMsg);
 		m_szStatusMsg = 0;
-		res = M->GetTString(m_hContact, "CList", "StatusMsg", &dbv);
+		res = db_get_ts(m_hContact, "CList", "StatusMsg", &dbv);
 		if (res == 0) {
 			m_szStatusMsg = (lstrlen(dbv.ptszVal) > 0 ? getNormalizedStatusMsg(dbv.ptszVal) : 0);
 			db_free(&dbv);
@@ -490,7 +490,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		if (m_ListeningInfo)
 			mir_free(m_ListeningInfo);
 		m_ListeningInfo = 0;
-		res = M->GetTString(m_hContact, m_szProto, "ListeningTo", &dbv);
+		res = db_get_ts(m_hContact, m_szProto, "ListeningTo", &dbv);
 		if (res == 0) {
 			m_ListeningInfo = (lstrlen(dbv.ptszVal) > 0 ? mir_tstrdup(dbv.ptszVal) : 0);
 			db_free(&dbv);
@@ -500,13 +500,13 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		if (m_xStatusMsg)
 			mir_free(m_xStatusMsg);
 		m_xStatusMsg = 0;
-		res = M->GetTString(m_hContact, m_szProto, "XStatusMsg", &dbv);
+		res = db_get_ts(m_hContact, m_szProto, "XStatusMsg", &dbv);
 		if (res == 0) {
 			m_xStatusMsg = (lstrlen(dbv.ptszVal) > 0 ? mir_tstrdup(dbv.ptszVal) : 0);
 			db_free(&dbv);
 		}
 	}
-	m_xStatus = M->GetByte(m_hContact, m_szProto, "XStatusId", 0);
+	m_xStatus = db_get_b(m_hContact, m_szProto, "XStatusId", 0);
 }
 
 /**
@@ -621,7 +621,7 @@ int CContactCache::getMaxMessageLength()
 
 		m_nMax = CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, reinterpret_cast<LPARAM>(hContact));
 		if (m_nMax) {
-			if (M->GetByte("autosplit", 0)) {
+			if (M.GetByte("autosplit", 0)) {
 				if (m_hwnd)
 					::SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_EXLIMITTEXT, 0, 20000);
 			}

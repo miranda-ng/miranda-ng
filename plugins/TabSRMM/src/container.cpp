@@ -60,7 +60,7 @@ static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, HAN
 
 void TSAPI SetAeroMargins(TContainerData *pContainer)
 {
-	if ( !M->isAero() || !pContainer || CSkin::m_skinEnabled) {
+	if ( !M.isAero() || !pContainer || CSkin::m_skinEnabled) {
 		pContainer->MenuBar->setAero(false);
 		return;
 	}
@@ -146,26 +146,26 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDLE hCont
 	_tcsncpy(pContainer->szName, name, CONTAINER_NAMELEN + 1);
 	AppendToContainerList(pContainer);
 
-	if (M->GetByte("limittabs", 0) && !_tcscmp(name, _T("default")))
+	if (M.GetByte("limittabs", 0) && !_tcscmp(name, _T("default")))
 		iTemp |= CNT_CREATEFLAG_CLONED;
 	/*
 	* save container name to the db
 	*/
 	int i = 0;
-	if (!M->GetByte("singlewinmode", 0)) {
+	if (!M.GetByte("singlewinmode", 0)) {
 		do {
 			char szCounter[10];
 			_snprintf(szCounter, 8, "%d", i);
 		
 			DBVARIANT dbv;
-			if (M->GetTString(NULL, szKey, szCounter, &dbv)) {
+			if (db_get_ts(NULL, szKey, szCounter, &dbv)) {
 				if (iFirstFree != -1) {
 					pContainer->iContainerIndex = iFirstFree;
 					_snprintf(szCounter, 8, "%d", iFirstFree);
 				}
 				else pContainer->iContainerIndex = i;
 
-				M->WriteTString(NULL, szKey, szCounter, name);
+				db_set_ts(NULL, szKey, szCounter, name);
 				BuildContainerMenu();
 				break;
 			}
@@ -572,12 +572,12 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			int i = 0;
 			ButtonItem *pbItem;
 			HWND  hwndButton = 0;
-			bool fAero = M->isAero();
-			BOOL isFlat = M->GetByte("tbflat", 1);
-			BOOL isThemed = !M->GetByte("nlflat", 0);
+			bool fAero = M.isAero();
+			BOOL isFlat = M.GetByte("tbflat", 1);
+			BOOL isThemed = !M.GetByte("nlflat", 0);
 
 			fHaveTipper = ServiceExists("mToolTip/ShowTip");
-			fForceOverlayIcons = M->GetByte("forceTaskBarStatusOverlays", 0) ? true : false;
+			fForceOverlayIcons = M.GetByte("forceTaskBarStatusOverlays", 0) ? true : false;
 
 			pContainer = (TContainerData*)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) pContainer);
@@ -650,8 +650,8 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			ws = GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSGTABS), GWL_EXSTYLE);
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSGTABS), GWL_EXSTYLE, ws | WS_EX_CONTROLPARENT);
 
-			LONG x_pad = M->GetByte("x-pad", 3) + (pContainer->dwFlagsEx & TCF_CLOSEBUTTON ? 7 : 0);
-			LONG y_pad = M->GetByte("y-pad", 3) + ((pContainer->dwFlags & CNT_TABSBOTTOM) ? 1 : 0);
+			LONG x_pad = M.GetByte("x-pad", 3) + (pContainer->dwFlagsEx & TCF_CLOSEBUTTON ? 7 : 0);
+			LONG y_pad = M.GetByte("y-pad", 3) + ((pContainer->dwFlags & CNT_TABSBOTTOM) ? 1 : 0);
 
 			if (pContainer->dwFlagsEx & TCF_FLAT)
 				y_pad += 1; //(pContainer->dwFlags & CNT_TABSBOTTOM ? 1 : 2);
@@ -669,7 +669,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			/*
 			* tab tooltips...
 			*/
-			if (!fHaveTipper || M->GetByte("d_tooltips", 0) == 0) {
+			if (!fHaveTipper || M.GetByte("d_tooltips", 0) == 0) {
 				pContainer->hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT,
 					CW_USEDEFAULT, CW_USEDEFAULT, hwndDlg, NULL, g_hInst, (LPVOID) NULL);
 
@@ -705,7 +705,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		/*
 		* prevent ugly back background being visible while tabbed clients are created
 		*/
-		if (M->isAero()) {
+		if (M.isAero()) {
 			MARGINS m = {-1};
 			CMimAPI::m_pfnDwmExtendFrameIntoClientArea(hwndDlg, &m);
 		}
@@ -833,7 +833,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			pContainer->SideBar->scrollIntoView();
 
-			if (!M->isAero()) {					// aero mode uses buffered paint, no forced redraw needed
+			if (!M.isAero()) {					// aero mode uses buffered paint, no forced redraw needed
 				RedrawWindow(hwndTab, NULL, NULL, RDW_INVALIDATE | (pContainer->bSizingLoop ? RDW_ERASE : 0));
 				RedrawWindow(hwndDlg, NULL, NULL, (bSkinned ? RDW_FRAME : 0) | RDW_INVALIDATE | ((pContainer->bSizingLoop || wParam == SIZE_RESTORED ) ? RDW_ERASE : 0));
 			}
@@ -992,7 +992,7 @@ panel_found:
 					char *szKey = "TAB_ContainersW";
 					mir_snprintf(szIndex, 8, "%d", iSelection - IDM_CONTAINERMENU);
 					if (iSelection - IDM_CONTAINERMENU >= 0) {
-						if (!M->GetTString(NULL, szKey, szIndex, &dbv)) {
+						if (!db_get_ts(NULL, szKey, szIndex, &dbv)) {
 							SendMessage((HWND)item.lParam, DM_CONTAINERSELECTED, 0, (LPARAM)dbv.ptszVal);
 							db_free(&dbv);
 						}
@@ -1010,7 +1010,7 @@ panel_found:
 					CloseOtherTabs(hwndTab, *dat);
 					break;                
 				case ID_TABMENU_SAVETABPOSITION:
-					M->WriteDword(dat->hContact, SRMSGMOD_T, "tabindex", dat->iTabID * 100);
+					db_set_dw(dat->hContact, SRMSGMOD_T, "tabindex", dat->iTabID * 100);
 					break;
 				case ID_TABMENU_CLEARSAVEDTABPOSITION:
 					db_unset(dat->hContact, SRMSGMOD_T, "tabindex");
@@ -1262,7 +1262,7 @@ panel_found:
 				dat = (struct TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 			}
 			else {
-				HWND hwnd = M->FindWindow((HANDLE)wParam);
+				HWND hwnd = M.FindWindow((HANDLE)wParam);
 				if (hwnd == 0) {
 					SESSION_INFO *si = SM_FindSessionByHCONTACT((HANDLE)wParam);
 					if (si) {
@@ -1517,7 +1517,7 @@ panel_found:
 		break;
 
 	case WM_PAINT:
-		if (bSkinned || M->isAero()) {
+		if (bSkinned || M.isAero()) {
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hwndDlg, &ps);
 			EndPaint(hwndDlg, &ps);
@@ -1534,7 +1534,7 @@ panel_found:
 			RECT rc;
 			GetClientRect(hwndDlg, &rc);
 
-			if (M->isAero()) {
+			if (M.isAero()) {
 				HDC hdcMem;
 				HANDLE  hbp = CMimAPI::m_pfnBeginBufferedPaint(hdc, &rc, BPBF_TOPDOWNDIB, 0, &hdcMem);
 				FillRect(hdcMem, &rc, CSkin::m_BrushBack);
@@ -1585,21 +1585,21 @@ panel_found:
 
 				pContainer->szRelThemeFile[0] = pContainer->szAbsThemeFile[0] = 0;
 				mir_snprintf(szCname, 40, "%s_theme", szSetting);
-				if (!M->GetTString(pContainer->hContactFrom, SRMSGMOD_T, szCname, &dbv))
+				if (!db_get_ts(pContainer->hContactFrom, SRMSGMOD_T, szCname, &dbv))
 					szThemeName = dbv.ptszVal;
 			}
 			else {
 				Utils::ReadPrivateContainerSettings(pContainer);
 				if (szThemeName == NULL) {
 					mir_snprintf(szCname, 40, "%s%d_theme", szSetting, pContainer->iContainerIndex);
-					if (!M->GetTString(NULL, SRMSGMOD_T, szCname, &dbv))
+					if (!db_get_ts(NULL, SRMSGMOD_T, szCname, &dbv))
 						szThemeName = dbv.ptszVal;
 				}
 			}
 			Utils::SettingsToContainer(pContainer);
 
 			if (szThemeName != NULL) {
-				M->pathToAbsolute(szThemeName, pContainer->szAbsThemeFile);
+				M.pathToAbsolute(szThemeName, pContainer->szAbsThemeFile);
 				mir_sntprintf(pContainer->szRelThemeFile, MAX_PATH, _T("%s"), szThemeName);
 				db_free(&dbv);
 			}
@@ -1630,7 +1630,7 @@ panel_found:
 			HANDLE hContact = 0;
 			int i = 0;
 			UINT sBarHeight;
-			bool fAero = M->isAero();
+			bool fAero = M.isAero();
 
 			ws = wsold = GetWindowLongPtr(hwndDlg, GWL_STYLE);
 			if (!CSkin::m_frameSkins) {
@@ -1641,12 +1641,12 @@ panel_found:
 
 			SetWindowLongPtr(hwndDlg, GWL_STYLE, ws);
 
-			pContainer->tBorder = M->GetByte((bSkinned ? "S_tborder" : "tborder"), 2);
-			pContainer->tBorder_outer_left = g_ButtonSet.left + M->GetByte((bSkinned ? "S_tborder_outer_left" : "tborder_outer_left"), 2);
-			pContainer->tBorder_outer_right = g_ButtonSet.right + M->GetByte((bSkinned ? "S_tborder_outer_right" : "tborder_outer_right"), 2);
-			pContainer->tBorder_outer_top = g_ButtonSet.top + M->GetByte((bSkinned ? "S_tborder_outer_top" : "tborder_outer_top"), 2);
-			pContainer->tBorder_outer_bottom = g_ButtonSet.bottom + M->GetByte((bSkinned ? "S_tborder_outer_bottom" : "tborder_outer_bottom"), 2);
-			sBarHeight = (UINT)M->GetByte((bSkinned ? "S_sbarheight" : "sbarheight"), 0);
+			pContainer->tBorder = M.GetByte((bSkinned ? "S_tborder" : "tborder"), 2);
+			pContainer->tBorder_outer_left = g_ButtonSet.left + M.GetByte((bSkinned ? "S_tborder_outer_left" : "tborder_outer_left"), 2);
+			pContainer->tBorder_outer_right = g_ButtonSet.right + M.GetByte((bSkinned ? "S_tborder_outer_right" : "tborder_outer_right"), 2);
+			pContainer->tBorder_outer_top = g_ButtonSet.top + M.GetByte((bSkinned ? "S_tborder_outer_top" : "tborder_outer_top"), 2);
+			pContainer->tBorder_outer_bottom = g_ButtonSet.bottom + M.GetByte((bSkinned ? "S_tborder_outer_bottom" : "tborder_outer_bottom"), 2);
+			sBarHeight = (UINT)M.GetByte((bSkinned ? "S_sbarheight" : "sbarheight"), 0);
 
 			if (LOBYTE(LOWORD(GetVersion())) >= 5  && CMimAPI::m_pSetLayeredWindowAttributes != NULL) {
 				BOOL  fTransAllowed = !bSkinned || PluginConfig.m_WinVerMajor >= 6;
@@ -1998,29 +1998,29 @@ panel_found:
 						item.mask = TCIF_PARAM;
 						TabCtrl_GetItem(hwndTab, TabCtrl_GetCurSel(hwndTab), &item);
 						SendMessage((HWND)item.lParam, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
-						M->WriteByte(hContact, SRMSGMOD_T, "splitmax", (BYTE)((wp.showCmd==SW_SHOWMAXIMIZED)?1:0));
+						db_set_b(hContact, SRMSGMOD_T, "splitmax", (BYTE)((wp.showCmd==SW_SHOWMAXIMIZED)?1:0));
 
 						for (i=0; i < TabCtrl_GetItemCount(hwndTab); i++) {
 							if (TabCtrl_GetItem(hwndTab, i, &item)) {
 								SendMessage((HWND)item.lParam, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
-								M->WriteDword(hContact, SRMSGMOD_T, "splitx", wp.rcNormalPosition.left);
-								M->WriteDword(hContact, SRMSGMOD_T, "splity", wp.rcNormalPosition.top);
-								M->WriteDword(hContact, SRMSGMOD_T, "splitwidth", wp.rcNormalPosition.right - wp.rcNormalPosition.left);
-								M->WriteDword(hContact, SRMSGMOD_T, "splitheight", wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
+								db_set_dw(hContact, SRMSGMOD_T, "splitx", wp.rcNormalPosition.left);
+								db_set_dw(hContact, SRMSGMOD_T, "splity", wp.rcNormalPosition.top);
+								db_set_dw(hContact, SRMSGMOD_T, "splitwidth", wp.rcNormalPosition.right - wp.rcNormalPosition.left);
+								db_set_dw(hContact, SRMSGMOD_T, "splitheight", wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
 							}
 						}
 					}
 					else {
 						_snprintf(szCName, 40, "%s%dx", szSetting, pContainer->iContainerIndex);
-						M->WriteDword(SRMSGMOD_T, szCName, wp.rcNormalPosition.left);
+						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.left);
 						_snprintf(szCName, 40, "%s%dy", szSetting, pContainer->iContainerIndex);
-						M->WriteDword(SRMSGMOD_T, szCName, wp.rcNormalPosition.top);
+						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.top);
 						_snprintf(szCName, 40, "%s%dwidth", szSetting, pContainer->iContainerIndex);
-						M->WriteDword(SRMSGMOD_T, szCName, wp.rcNormalPosition.right - wp.rcNormalPosition.left);
+						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.right - wp.rcNormalPosition.left);
 						_snprintf(szCName, 40, "%s%dheight", szSetting, pContainer->iContainerIndex);
-						M->WriteDword(SRMSGMOD_T, szCName, wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
+						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
 
-						M->WriteByte(SRMSGMOD_T, "splitmax", (BYTE)((wp.showCmd==SW_SHOWMAXIMIZED)?1:0));
+						db_set_b(0, SRMSGMOD_T, "splitmax", (BYTE)((wp.showCmd==SW_SHOWMAXIMIZED)?1:0));
 					}
 				}
 			}
@@ -2041,8 +2041,8 @@ panel_found:
 						mir_snprintf(szCName, 40, "%s_theme", szSetting);
 						if (lstrlen(pContainer->szRelThemeFile) > 1) {
 							if (pContainer->fPrivateThemeChanged == TRUE) {
-								M->pathToRelative(pContainer->szRelThemeFile, pContainer->szAbsThemeFile);
-								M->WriteTString(hContact, SRMSGMOD_T, szCName, pContainer->szRelThemeFile);
+								M.pathToRelative(pContainer->szRelThemeFile, pContainer->szAbsThemeFile);
+								db_set_ts(hContact, SRMSGMOD_T, szCName, pContainer->szRelThemeFile);
 								pContainer->fPrivateThemeChanged = FALSE;
 							}
 						}
@@ -2232,7 +2232,7 @@ TContainerData* TSAPI FindContainerByName(const TCHAR *name)
 	if (name == NULL || lstrlen(name) == 0)
 		return 0;
 
-	if (M->GetByte("singlewinmode", 0)) // single window mode - always return 0 and force a new container
+	if (M.GetByte("singlewinmode", 0)) // single window mode - always return 0 and force a new container
 		return NULL;
 
 	for (TContainerData *p = pFirstContainer; p; p = p->pNext)
@@ -2340,13 +2340,13 @@ void TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc)
 int TSAPI GetContainerNameForContact(HANDLE hContact, TCHAR *szName, int iNameLen)
 {
 	DBVARIANT dbv;
-	if (M->GetByte("singlewinmode", 0)) {           // single window mode using cloned (temporary) containers
+	if (M.GetByte("singlewinmode", 0)) {           // single window mode using cloned (temporary) containers
 		_tcsncpy(szName, _T("Message Session"), iNameLen);
 		return 0;
 	}
 
-	if (M->GetByte("useclistgroups", 0)) {       // use clist group names for containers...
-		if (M->GetTString(hContact, "CList", "Group", &dbv)) {
+	if (M.GetByte("useclistgroups", 0)) {       // use clist group names for containers...
+		if (db_get_ts(hContact, "CList", "Group", &dbv)) {
 			_tcsncpy(szName, _T("default"), iNameLen);
 			return 0;
 		}
@@ -2360,7 +2360,7 @@ int TSAPI GetContainerNameForContact(HANDLE hContact, TCHAR *szName, int iNameLe
 		}
 	}
 
-	if (M->GetTString(hContact, SRMSGMOD_T, "containerW", &dbv)) {
+	if (db_get_ts(hContact, SRMSGMOD_T, "containerW", &dbv)) {
 		_tcsncpy(szName, _T("default"), iNameLen);
 		return 0;
 	}
@@ -2383,14 +2383,14 @@ void TSAPI DeleteContainer(int iIndex)
 	_snprintf(szIndex, 8, "%d", iIndex);
 
 	DBVARIANT dbv;
-	if (!M->GetTString(NULL, szKey, szIndex, &dbv)) {
+	if (!db_get_ts(NULL, szKey, szIndex, &dbv)) {
 		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
 			TCHAR *wszContainerName = dbv.ptszVal;
-			M->WriteTString(NULL, szKey, szIndex, _T("**free**"));
+			db_set_ts(NULL, szKey, szIndex, _T("**free**"));
 
 			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				DBVARIANT dbv_c;
-				if (!M->GetTString(hContact, SRMSGMOD_T, szSubKey, &dbv_c)) {
+				if (!db_get_ts(hContact, SRMSGMOD_T, szSubKey, &dbv_c)) {
 					TCHAR *wszString = dbv_c.ptszVal;
 					if (_tcscmp(wszString, wszContainerName) && lstrlen(wszString) == lstrlen(wszContainerName))
 						db_unset(hContact, SRMSGMOD_T, "containerW");
@@ -2423,18 +2423,18 @@ void TSAPI RenameContainer(int iIndex, const TCHAR *szNew)
 	char szIndex[10];
 
 	_snprintf(szIndex, 8, "%d", iIndex);
-	if (!M->GetTString(NULL, szKey, szIndex, &dbv)) {
+	if (!db_get_ts(NULL, szKey, szIndex, &dbv)) {
 		if (szNew != NULL)
 			if (lstrlen(szNew) != 0)
-				M->WriteTString(NULL, szKey, szIndex, szNew);
+				db_set_ts(NULL, szKey, szIndex, szNew);
 
 		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			DBVARIANT dbv_c;
-			if (!M->GetTString(hContact, SRMSGMOD_T, szSubKey, &dbv_c)) {
+			if (!db_get_ts(hContact, SRMSGMOD_T, szSubKey, &dbv_c)) {
 				if (!_tcscmp(dbv.ptszVal, dbv_c.ptszVal) && lstrlen(dbv_c.ptszVal) == lstrlen(dbv.ptszVal)) {
 					if (szNew != NULL) {
 						if (lstrlen(szNew) != 0)
-							M->WriteTString(hContact, SRMSGMOD_T, szSubKey, szNew);
+							db_set_ts(hContact, SRMSGMOD_T, szSubKey, szNew);
 					}
 				}
 				db_free(&dbv_c);
@@ -2461,13 +2461,13 @@ HMENU TSAPI BuildContainerMenu()
 	}
 
 	// no container attach menu, if we are using the "clist group mode"
-	if (M->GetByte("useclistgroups", 0) || M->GetByte("singlewinmode", 0))
+	if (M.GetByte("useclistgroups", 0) || M.GetByte("singlewinmode", 0))
 		return NULL;
 
 	hMenu = CreateMenu();
 	do {
 		_snprintf(szCounter, 8, "%d", i);
-		if (M->GetTString(NULL, szKey, szCounter, &dbv))
+		if (db_get_ts(NULL, szKey, szCounter, &dbv))
 			break;
 
 		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
@@ -2516,7 +2516,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 	iDefaultProtoByNum = (int)CallService(MS_MC_GETDEFAULTCONTACTNUM, (WPARAM)dat->hContact, 0);
 	hContactMostOnline = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->hContact, 0);
 	szProtoMostOnline = GetContactProto(hContactMostOnline);
-	isForced = M->GetDword(dat->hContact, "tabSRMM_forced", -1);
+	isForced = M.GetDword(dat->hContact, "tabSRMM_forced", -1);
 
 	for (i=0; i < iNumProtos; i++) {
 		mir_snprintf(szTemp, sizeof(szTemp), "Protocol%d", i);
@@ -2528,7 +2528,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 
 		if (acc && acc->tszAccountName) {
 			mir_snprintf(szTemp, sizeof(szTemp), "Handle%d", i);
-			if ((handle = (HANDLE)M->GetDword(dat->hContact, PluginConfig.szMetaName, szTemp, 0)) != 0) {
+			if ((handle = (HANDLE)db_get_dw(dat->hContact, PluginConfig.szMetaName, szTemp, 0)) != 0) {
 				nick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)handle, GCDNF_TCHAR);
 				mir_snprintf(szTemp, sizeof(szTemp), "Status%d", i);
 				wStatus = (WORD)db_get_w(dat->hContact, PluginConfig.szMetaName, szTemp, 0);
@@ -2575,8 +2575,8 @@ void TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iCount) {
 		if (pContainer->dwFlags & CNT_FLASHALWAYS)
 			fwi.dwFlags |= FLASHW_TIMER;
 		else
-			fwi.uCount = (iCount == 0) ? M->GetByte("nrflash", 4) : iCount;
-		fwi.dwTimeout = M->GetDword("flashinterval", 1000);
+			fwi.uCount = (iCount == 0) ? M.GetByte("nrflash", 4) : iCount;
+		fwi.dwTimeout = M.GetDword("flashinterval", 1000);
 
 	}
 	else fwi.dwFlags = FLASHW_STOP;
@@ -2600,9 +2600,9 @@ void TSAPI ReflashContainer(TContainerData *pContainer)
 		FlashContainer(pContainer, 1, 0);
 	else {
 		// recalc the remaining flashes
-		DWORD dwInterval = M->GetDword("flashinterval", 1000);
+		DWORD dwInterval = M.GetDword("flashinterval", 1000);
 		int iFlashesElapsed = (GetTickCount() - dwStartTime) / dwInterval;
-		DWORD dwFlashesDesired = M->GetByte("nrflash", 4);
+		DWORD dwFlashesDesired = M.GetByte("nrflash", 4);
 		if (iFlashesElapsed < (int)dwFlashesDesired)
 			FlashContainer(pContainer, 1, dwFlashesDesired - iFlashesElapsed);
 		else {

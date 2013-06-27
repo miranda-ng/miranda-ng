@@ -56,7 +56,7 @@ static TCHAR* getMenuEntry(int i)
 	DBVARIANT 	dbv = {0};
 
 	mir_snprintf(MEntry, 255, "MenuEntry_%u", i);
-	if ( !M->GetTString(NULL, "tabmodplus",MEntry, &dbv)) {
+	if ( !db_get_ts(NULL, "tabmodplus",MEntry, &dbv)) {
 		msg = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -127,7 +127,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 				int menulimit;
 				HMENU hMenu=NULL;
 
-				menulimit = M->GetByte("tabmodplus","MenuCount", 0);
+				menulimit = M.GetByte("tabmodplus","MenuCount", 0);
 				if ( menulimit ) {
 					hMenu = CreatePopupMenu();
 					//pszMenu=malloc(menulimit*sizeof(TCHAR*));
