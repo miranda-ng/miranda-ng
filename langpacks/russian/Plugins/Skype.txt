@@ -166,10 +166,8 @@ SkypeKit не запустился.
 Аккаунт
 [Incoming call]
 Входящий звонок
-[Incoming call received]
-Принят входящий звонок
-[Incoming call from %s. Use offical skype for calling.]
-Входящий звонок от %s. Используйте официальный клиент для звонков.
+[Incoming call started]
+Входящий звонок
 [Incoming call finished]
 Входящий звонок завершен
 [Call]
@@ -280,8 +278,8 @@ Skype протокол
 Неверный пароль
 [Your application to join the conference was denied]
 Ваша просьба о присоеденении к конференции отклонена
-[Command"%s" is unsupported] 
-Команда"%s" не поддерживается
+[Command "%s" is unsupported] 
+Команда "%s" не поддерживается
 [HTTPS proxy authentication failed]
 Аутентификация по HTTP прокси не удалась
 [SOCKS proxy authentication failed]
