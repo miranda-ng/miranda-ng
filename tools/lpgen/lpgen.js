@@ -21,7 +21,7 @@
 var FSO=WScript.CreateObject("Scripting.FileSystemObject");
 //FileSystemObject vars
 var ForReading=1;
-var TristateUseDefault=-2;
+var TristateUseDefault=0;
 var overwritefile=true;
 var unicode=false;
 //disabling log by default
