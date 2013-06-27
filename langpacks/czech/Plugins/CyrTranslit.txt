@@ -6,7 +6,7 @@
 ;  Authors: ValeraVi, Ivan Krechetov
 ;============================================================
 [Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations.]
-
+Nahrazuje (pouze pro zvolené kontakty) znaky azbuky v odchozích zprávách jejich fonetickými ekvivalenty v latince.
 ;file \plugins\CyrTranslit\src\MirandaContact.cpp
-[&Transliterate (ФЫВА->FYVA)]
-
+[&Transliterate]
+&Transliterovat

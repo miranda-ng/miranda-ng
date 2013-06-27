@@ -244,7 +244,7 @@ Příchozí skupinové volání ukončeno
 Heslo není správné
 [Your application to join the conference was denied]
 Váš požadavek o připojení do konference byl zamítnut
-[Incoming group call received]
+[Incoming group call started]
 Příchozí skupinové volání
 [You did not select any contact]
 Nevybrali jste žádný kontakt
@@ -322,10 +322,8 @@ Udělit autorizaci
 [Revoke authorization]
 Odvolat autorizaci
 ;file \protocols\Skype\src\skype_messages.cpp
-[Incoming call received]
+[Incoming call started]
 Příchozí volání
-[Incoming call from %s. Use offical skype for calling.]
-Příchozí volání od %s. Použijte oficiální Skype pro hovory.
 [Incoming call finished]
 Příchozí volání ukončeno
 ;file \protocols\Skype\src\skype_netlib.cpp
@@ -359,5 +357,5 @@ Heslo je příliš jednoduché
 Hodnota začíná neplatným znakem
 [Avatars]
 Avatary
-[Command"%s" is unsupported]
+[Command "%s" is unsupported]
 Příkaz "%s" není podporován

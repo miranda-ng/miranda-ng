@@ -54,8 +54,8 @@ Ne
 Ano
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
-[Use Options->Ignore (expert mode) to unhide contacts.]
-(Skrytí kontaktů zrušíte v nastavení programu.)
+[Use Options->Contacts->Ignore to unhide contacts.]
+(Skrytí kontaktů zrušíte v Možnosti->Kontakty->Filtrování.)
 [Are you sure you want to delete %s?]
 Opravdu chcete smazat kontakt %s?
 [This will erase all history and settings for this contact!]
