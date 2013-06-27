@@ -26,7 +26,7 @@ const char* MirandaContact::SETTINGS_MODULE = "CyrTranslit";
 
 const char* MirandaContact::SETTING_SHOULD_TRANSLITERATE = "translit";
 
-char *MirandaContact::MENU_ITEM_TEXT = LPGEN("&Transliterate (ÔÛÂÀ->FYVA)");
+char *MirandaContact::MENU_ITEM_TEXT = LPGEN("&Transliterate");
 
 char *MirandaContact::MENU_COMMAND_CALLBACK_SERVICE
 	= "CyrTranslit/ContactMenuCmd";
