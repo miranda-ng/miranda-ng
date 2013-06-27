@@ -1,0 +1,20 @@
+﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
+;============================================================
+;  File: Rate.dll
+;  Plugin: Contact`s rate
+;  Version: 0.0.2.1
+;  Authors: Kildor, Thief
+;============================================================
+[Shows rating of contact in contact list (if presents).]
+Показвае рэйтынг кантакта у спісе кантакаў (калі ёсць).
+;file \plugins\Rate\src\main.cpp
+[Rate high]
+Высокі
+[Rate medium]
+Сярэдні
+[Rate low]
+Нізкі
+[Contact Rate]
+Адзнака
+[Contact rate]
+Рэйтынг кантакту

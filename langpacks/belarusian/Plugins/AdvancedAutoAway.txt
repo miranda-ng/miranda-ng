@@ -1,0 +1,25 @@
+﻿#muuid {f0fdf73a-753d-499d-8dba-336db79cdd41}
+;============================================================
+;  File: AdvancedAutoAway.dll
+;  Plugin: Advanced Auto Away
+;  Version: 0.8.0.42
+;  Authors: P Boon
+;============================================================
+[An Auto Away module with some more options than the original.]
+AutoAway - убудова з пашыраным наборам функцый.
+;file \Plugins\StatusPlugins\resource.rc
+[Enable checking]
+Правяраць
+[Disable checking]
+Не правяраць
+[Becoming active without status change]
+Не змяняць статус пры вяртанні
+[Status: The status the account will change to\r\nAccount: The account changing state]
+Статус: Статус конта зменіцца на\r\nКонт: Змяненне стану конта
+;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
+[minutes of %s mode]
+мінуць рэжыму "%s"
+[Auto Away]
+Адсутнасць
+;file \Plugins\StatusPlugins\commonstatus.cpp
+;file \Plugins\StatusPlugins\confirmdialog.cpp

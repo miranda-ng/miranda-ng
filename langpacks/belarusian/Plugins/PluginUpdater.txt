@@ -6,10 +6,10 @@
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
-Абнаўленне модуляў Miranda NG.
+Абнаўленне Miranda NG.
 ;file \plugins\PluginUpdater\res\Resource.rc
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
-Былі знойдзены абноўленыя версіі модуляў Miranda NG. Націсніце на кнопку "Дэталі" для падрабязнай інфармацыі.
+Былі знойдзены абноўленыя версіі плагінаў Miranda NG. Націсніце на кнопку "Дэталі" для падрабязнай інфармацыі.
 [Details >>]
 Дэталі >>
 [Select &all]
@@ -17,7 +17,7 @@
 [Select &none]
 Зняць выбар
 [Plugin updates options]
-Налады абнаўлення модуляў
+Налады абнаўленняў
 [Update icons]
 Абнаўляць значкі
 [Files source]
@@ -42,7 +42,7 @@
 [Succeeded.]
 Завершана.
 [Plugin Updater]
-Абнаўленне модуляў
+Абнаўленне плагінаў
 [Download complete]
 Загрузка завершана
 [Download complete. Do you want go to plugins option page?]
@@ -55,13 +55,13 @@
 [Will be deleted!]
 Выдалена!
 [You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
-Вы адмовіліся ад неадкладнай усталёўкі абнаўлення модуляў.\nВы можаце ўсталяваць гэта абнаўленне ўручную адгэтуль:\n\n%s
+Вы адмовіліся ад неадкладнай усталёўкі абнаўлення плагінаў.\nВы можаце ўсталяваць гэта абнаўленне ўручную адгэтуль:\n\n%s
 ;file \plugins\PluginUpdater\src\Options.cpp
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for plugin updates]
-Праверыць абнаўленні модуляў
+Праверыць абнаўленні
 [Show full plugin list]
-Паказаць увесь спіс плагінаў
+Увесь спіс плагінаў
 ;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Пра плагін

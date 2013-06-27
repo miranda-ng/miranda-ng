@@ -1,0 +1,16 @@
+﻿#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
+;============================================================
+;  File: AddContactPlus.dll
+;  Plugin: Add contact+
+;  Version: 0.9.9.1
+;  Authors: Bartosz 'Dezeath' Biaіek
+;============================================================
+;file \plugins\AddContactPlus\res\resource.rc
+[Add temporarily]
+Дадаць часова
+;file \plugins\AddContactPlus\src\addcontact.cpp
+;file \plugins\AddContactPlus\src\main.cpp
+[&Add contact...]
+&Дадаць кантакт...
+[AddContact+]
+Дадаць кантакт+

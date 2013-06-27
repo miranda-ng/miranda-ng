@@ -1,0 +1,34 @@
+﻿#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
+;============================================================
+;  File: Omegle.dll
+;  Plugin: Omegle Protocol
+;  Version: 0.1.2.0
+;  Authors: Robert Pösel
+;============================================================
+[Omegle protocol support for Miranda NG.]
+Убудова падтрымкі пратакола Omegle ў Miranda NG.
+;file \protocols\Omegle\res\omegle.rc
+[Visible name:]
+Бачнае імя:
+;file \protocols\Omegle\src\chat.cpp
+;file \protocols\Omegle\src\communication.cpp
+[Stranger]
+Незнаёмец
+[Stranger is typing.]
+Незнаёмец піша.
+[Error: ]
+Памылка:
+;file \protocols\Omegle\src\connection.cpp
+;file \protocols\Omegle\src\constants.h
+[Random]
+Выпадкова
+;file \protocols\Omegle\src\proto.cpp
+[Stranger typing]
+Незнаёмец піша
+[Stranger stopped typing]
+Незнаёмец скончыў пісаць
+[Visible name]
+Бачнае імя
+;file \protocols\Omegle\src\theme.cpp
+[Omegle Icon]
+Абразок Omegle

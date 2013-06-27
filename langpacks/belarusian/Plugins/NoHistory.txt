@@ -1,0 +1,27 @@
+﻿#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+;============================================================
+;  File: NoHistory.dll
+;  Plugin: NoHistory
+;  Version: 0.2.3.0
+;  Authors: Scott Ellis, NightFox
+;============================================================
+[Prevent miranda from storing any history.]
+Забараняе Мірандзе захоўваць гісторыю.
+;file \plugins\NoHistory\res\NoHistory.rc
+[Keep history for this contact]
+Захоўваць гісторыю кантакту
+[Disable history for this contact]
+Не захоўваць гісторыю кантакту
+;file \plugins\NoHistory\src\dllmain.cpp
+[Enable History]
+Уключыць гісторыю
+[Disable History]
+Адключыць гісторыю
+[History Enabled]
+Гісторыя ўключана
+[History Disabled]
+Адключыць гісторыю
+;file \plugins\NoHistory\src\icons.cpp
+[No History]
+Без гісторыі
+;file \plugins\NoHistory\src\options.cpp
