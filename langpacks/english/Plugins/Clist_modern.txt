@@ -118,7 +118,7 @@
 [No]
 [Yes]
 [Hide from list only, in order to keep their history and ignore/visibility settings]
-[Use Options->Ignore (expert mode) to unhide contacts.]
+[Use Options->Contacts->Ignore to unhide contacts.]
 [Are you sure you want to delete %s?]
 [This will erase all history and settings for this contact!]
 [Hide offline users]

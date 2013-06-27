@@ -127,7 +127,7 @@
 [Incoming group call finished]
 [The password is incorrect]
 [Your application to join the conference was denied]
-[Incoming group call received]
+[Incoming group call started]
 [You did not select any contact]
 [Hi! I'd like to add you to my contact list]
 ;file \protocols\Skype\src\skype_contacts.cpp
@@ -170,8 +170,7 @@
 [Grant authorization]
 [Revoke authorization]
 ;file \protocols\Skype\src\skype_messages.cpp
-[Incoming call received]
-[Incoming call from %s. Use offical skype for calling.]
+[Incoming call started]
 [Incoming call finished]
 ;file \protocols\Skype\src\skype_netlib.cpp
 [%s connection]
@@ -190,4 +189,4 @@
 [Password is too simple]
 [Value starts with an invalid character]
 [Avatars]
-[Command"%s" is unsupported]
+[Command "%s" is unsupported]

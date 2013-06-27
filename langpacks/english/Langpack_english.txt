@@ -19,7 +19,7 @@
 [&Yes]
 [&No]
 [Hide from list only, in order to keep their history and ignore/visibility settings]
-[Use Options->Ignore (expert mode) to unhide contacts.]
+[Use Options->Contacts->Ignore to unhide contacts.]
 [Are you sure you want to delete %s?]
 [This will erase all history and settings for this contact!]
 [Contact Display Options]
@@ -1732,7 +1732,7 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Białek
+;  Authors: Bartosz 'Dezeath' Biaek
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 ;file \plugins\AddContactPlus\res\resource.rc
@@ -3275,7 +3275,7 @@
 [Yes]
 [No]
 [Hide from list only, in order to keep their history and ignore/visibility settings]
-[Use Options->Ignore (expert mode) to unhide contacts.]
+[Use Options->Contacts->Ignore to unhide contacts.]
 [Hotkeys]
 [Show/Hide:]
 [Read Message:]
@@ -3517,7 +3517,7 @@
 [No]
 [Yes]
 [Hide from list only, in order to keep their history and ignore/visibility settings]
-[Use Options->Ignore (expert mode) to unhide contacts.]
+[Use Options->Contacts->Ignore to unhide contacts.]
 [Are you sure you want to delete %s?]
 [This will erase all history and settings for this contact!]
 [Hide offline users]
@@ -4000,7 +4000,7 @@
 [No]
 [Yes]
 [Hide from list only, in order to keep their history and ignore/visibility settings]
-[Use Options->Ignore (expert mode) to unhide contacts.]
+[Use Options->Contacts->Ignore to unhide contacts.]
 [Are you sure you want to delete %s?]
 [This will erase all history and settings for this contact!]
 [Hide offline users]
@@ -4219,7 +4219,7 @@
 [No]
 [Yes]
 [Hide from list only, in order to keep their history and ignore/visibility settings]
-[Use Options->Ignore (expert mode) to unhide contacts.]
+[Use Options->Contacts->Ignore to unhide contacts.]
 [Are you sure you want to delete %s?]
 [This will erase all history and settings for this contact!]
 [Contact List]
@@ -5044,7 +5044,7 @@
 ;============================================================
 [Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations.]
 ;file \plugins\CyrTranslit\src\MirandaContact.cpp
-[&Transliterate (ФЫВА->FYVA)]
+[&Transliterate]
 ﻿#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
 ;============================================================
 ;  File: DbChecker.dll
@@ -13806,6 +13806,7 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
 [Error occurred during site access.]
@@ -15027,7 +15028,7 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.4
-;  Authors: Bartosz 'Dezeath' Białek, Harven
+;  Authors: Bartosz 'Dezeath' Biaek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
 ;file \plugins\SimpleStatusMsg\res\resource.rc
@@ -15304,7 +15305,7 @@
 [Incoming group call finished]
 [The password is incorrect]
 [Your application to join the conference was denied]
-[Incoming group call received]
+[Incoming group call started]
 [You did not select any contact]
 [Hi! I'd like to add you to my contact list]
 ;file \protocols\Skype\src\skype_contacts.cpp
@@ -15347,8 +15348,7 @@
 [Grant authorization]
 [Revoke authorization]
 ;file \protocols\Skype\src\skype_messages.cpp
-[Incoming call received]
-[Incoming call from %s. Use offical skype for calling.]
+[Incoming call started]
 [Incoming call finished]
 ;file \protocols\Skype\src\skype_netlib.cpp
 [%s connection]
@@ -15367,7 +15367,7 @@
 [Password is too simple]
 [Value starts with an invalid character]
 [Avatars]
-[Command"%s" is unsupported]
+[Command "%s" is unsupported]
 ﻿#muuid {2925520b-6677-4658-8bad-5661d13e4692}
 ;============================================================
 ;  File: SkypeStatusChange.dll
@@ -19667,18 +19667,6 @@
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
-;file \protocols\WhatsApp\res\whatsapp.rc
-[Phone-Number]
-[Including country code, without '+' or '00']
-[Nickname]
-[Request Code]
-[Register Code]
-[SMS-Code:]
-[Will only be used for registration]
-[Use SSL connection (443 port)]
-[WhatsApp]
-[Cancel]
-[OK]
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country-code.]
 [Please enter a phone-number without country code.]
