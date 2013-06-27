@@ -767,7 +767,11 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 		}
 		else
 			return 0;
-	} else {
+	}
+	else {
+		if (dbei.eventType == EVENTTYPE_AUTHREQUEST)
+			return 0;
+
 		if (dbei.eventType == EVENTTYPE_FILE) {
 			tabSRMM_ShowPopup(wParam, lParam, dbei.eventType, 0, 0, 0, dbei.szModule, 0);
 			return 0;
