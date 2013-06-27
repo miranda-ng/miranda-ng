@@ -288,7 +288,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 		}
 #endif
-		PostMessage(hwnd, PM_INIT, (WPARAM)hwnd, 0);
+		PostMessage(hwnd, UM_INITPOPUP, (WPARAM)hwnd, 0);
 		return 0;
 	case WM_MOUSEMOVE:
 		if (pwd && !pwd->mouse_in) {
@@ -316,7 +316,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (pwd->mouse_in || (options.global_hover && global_mouse_in))
 				SetTimer(hwnd, ID_CLOSETIMER, 800, 0); // reset timer if mouse in window - allow another 800 ms
 			else {
-				PostMessage(hwnd, PM_DESTROY, 0, 0);
+				PostMessage(hwnd, UM_DESTROYPOPUP, 0, 0);
 			}
 			return TRUE;
 		} else if (wParam == ID_MOVETIMER) {
@@ -525,7 +525,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		RemoveWindowFromStack(hwnd);
 
-		SendMessage(hwnd, PM_DIENOTIFY, 0, 0);
+		SendMessage(hwnd, UM_FREEPLUGINDATA, 0, 0);
 
 		if (pd) {
 			pd->SetIcon(NULL);
@@ -729,7 +729,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return TRUE;
 		// drop through
 
-	case PM_DESTROY:
+	case UM_DESTROYPOPUP:
 		PostMPMessage(MUM_DELETEPOPUP, 0, (LPARAM)hwnd);
 		return TRUE;
 	}
@@ -739,7 +739,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 	
 	// provide a way to close popups, if no PluginWindowProc is provided
 	if (uMsg == WM_CONTEXTMENU) {
-		SendMessage(hwnd, PM_DESTROY, 0, 0);
+		SendMessage(hwnd, UM_DESTROYPOPUP, 0, 0);
 		return TRUE;
 	}
 	

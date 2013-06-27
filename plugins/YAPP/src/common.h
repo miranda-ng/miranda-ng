@@ -89,10 +89,4 @@ typedef int (CALLBACK *PFNLVCOMPARE)(LPARAM, LPARAM, LPARAM);
 
 #define PDF_TCHAR    PDF_UNICODE
 
-// windowProc messages
-#define PM_INIT			(WM_USER + 0x0202)				// message sent to your windowProc after the window has been initialized
-#define PM_DIENOTIFY	(WM_USER + 0x0200)				// message sent to your windowProc just before the window is destroyed (can be used e.g. to free your opaque data)
-
-#define PM_DESTROY		(WM_USER + 0x0201)				// send to the popup hWnd (use PostMessage generally, or SendMessage inside your windowProc) to kill it
-
 void ShowPopup(PopupData &pd_in);
