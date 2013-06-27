@@ -187,21 +187,21 @@
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\CommonLibs\CString.cpp" />
+    <ClCompile Include="src\CommonLibs\CString.cpp" />
     <ClCompile Include="src\OptDlg.cpp" />
-    <ClCompile Include="..\CommonLibs\Options.cpp" />
-    <ClCompile Include="..\CommonLibs\pcre.cpp" />
+    <ClCompile Include="src\CommonLibs\Options.cpp" />
+    <ClCompile Include="src\CommonLibs\pcre.cpp" />
     <ClCompile Include="src\ClientChangeNotify.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Common.h" />
-    <ClInclude Include="..\CommonLibs\CString.h" />
+    <ClInclude Include="src\CommonLibs\CString.h" />
     <ClInclude Include="src\Misc.h" />
-    <ClInclude Include="..\CommonLibs\Options.h" />
-    <ClInclude Include="..\CommonLibs\pcre.h" />
-    <ClInclude Include="..\CommonLibs\pcre_main.h" />
+    <ClInclude Include="src\CommonLibs\Options.h" />
+    <ClInclude Include="src\CommonLibs\pcre.h" />
+    <ClInclude Include="src\CommonLibs\pcre_main.h" />
     <ClInclude Include="src\resource.h" />
-    <ClInclude Include="..\CommonLibs\TMyArray.h" />
+    <ClInclude Include="src\CommonLibs\TMyArray.h" />
     <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>

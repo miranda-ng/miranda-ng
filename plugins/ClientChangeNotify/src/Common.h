@@ -53,10 +53,10 @@
 #include "m_metacontacts.h"
 #include "m_ContactSettings.h"
 
-#include "..\CommonLibs\TMyArray.h"
-#include "..\CommonLibs\Options.h"
-#include "..\CommonLibs\CString.h"
-#include "..\CommonLibs\pcre.h"
+#include "CommonLibs\TMyArray.h"
+#include "CommonLibs\Options.h"
+#include "CommonLibs\CString.h"
+#include "CommonLibs\pcre.h"
 
 #include "resource.h"
 #include "Misc.h"

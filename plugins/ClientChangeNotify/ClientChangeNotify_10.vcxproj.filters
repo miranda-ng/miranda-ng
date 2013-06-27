@@ -18,16 +18,16 @@
     <ClCompile Include="src\ClientChangeNotify.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\CommonLibs\CString.cpp">
+    <ClCompile Include="src\CommonLibs\CString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\OptDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\CommonLibs\Options.cpp">
+    <ClCompile Include="src\CommonLibs\Options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\CommonLibs\pcre.cpp">
+    <ClCompile Include="src\CommonLibs\pcre.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
@@ -38,25 +38,25 @@
     <ClInclude Include="src\Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\CommonLibs\CString.h">
+    <ClInclude Include="src\CommonLibs\CString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Misc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\CommonLibs\Options.h">
+    <ClInclude Include="src\CommonLibs\Options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\CommonLibs\pcre.h">
+    <ClInclude Include="src\CommonLibs\pcre.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\CommonLibs\pcre_main.h">
+    <ClInclude Include="src\CommonLibs\pcre_main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\CommonLibs\TMyArray.h">
+    <ClInclude Include="src\CommonLibs\TMyArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Version.h">
