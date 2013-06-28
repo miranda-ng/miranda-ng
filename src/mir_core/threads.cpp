@@ -231,7 +231,7 @@ static void CALLBACK KillAllThreads(HWND, UINT, UINT_PTR, DWORD)
 {
 	if ( MirandaWaitForMutex(hStackMutex)) {
 		for (int j=0; j < threads.getCount(); j++) {
-			THREAD_WAIT_ENTRY* p = threads[j];
+			THREAD_WAIT_ENTRY *p = threads[j];
 			char szModuleName[ MAX_PATH ];
 			GetModuleFileNameA(p->hOwner, szModuleName, sizeof(szModuleName));
 			TerminateThread(p->hThread, 9999);

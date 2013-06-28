@@ -46,7 +46,6 @@ pfnTryEnterCriticalSection fnTryEnterCriticalSection;
 pfnGetAncestor fnGetAncestor;
 pfnGetMenuBarInfo fnGetMenuBarInfo;
 pfnGetScrollBarInfo fnGetScrollBarInfo;
-pfnMsgWaitForMultipleObjectsEx fnMsgWaitForMultipleObjectsEx;
 
 static HRESULT SubclassClistInterface();
 static HRESULT CreateHookableEvents();
@@ -91,8 +90,6 @@ extern "C" __declspec(dllexport) int CListInitialise()
 	HMODULE hUser = GetModuleHandleA("user32.dll");
 	fnGetMenuBarInfo = ( pfnGetMenuBarInfo )GetProcAddress( hUser, "GetMenuBarInfo");
 	fnGetScrollBarInfo = ( pfnGetScrollBarInfo )GetProcAddress( hUser, "GetScrollBarInfo");
-	fnMsgWaitForMultipleObjectsEx = ( pfnMsgWaitForMultipleObjectsEx )GetProcAddress( hUser, "MsgWaitForMultipleObjectsEx");
-
 	if (( fnGetAncestor = ( pfnGetAncestor )GetProcAddress( hUser, "GetAncestor")) == NULL )
 		fnGetAncestor = MyGetAncestor;
 
