@@ -131,5 +131,5 @@ static const struct {
 // Known server messages, only to inform lpgen
 static const char *server_messages[] = {
 	LPGEN("Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)"),
-	LPGEN("You and stranger speak the same language.")
+	LPGEN("You both speak the same language.")
 };
