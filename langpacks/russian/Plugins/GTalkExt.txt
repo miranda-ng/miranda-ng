@@ -7,7 +7,7 @@
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/gtalkext/
 ;  Authors: bems
 ;============================================================
-[GTalk mail notification extensions for Jabber protocol.]
+[GTalk extensions for Jabber protocol]
 Расширение протокола Jabber для почтовых уведомлений GTalk.
 [subject\n    %s\nfrom\n%s\n%s\n]
 тема\n    %s\nот\n%s\n%s\n

@@ -53,7 +53,7 @@ UIN, E-mail и т.д.
 [Hide in status bar and status menu (*requires restart, uncheck to set proto icons)]
 Скрыть из меню статуса (*нужен рестарт, снять для установки значков)
 [History (** beware - change at your own risk **)]
-История (**ОСТОРОЖНО - ИЗМЕНЯЙТЕ НА СВОЙ РИСК")
+История (** ОСТОРОЖНО - ИЗМЕНЯЙТЕ НА СВОЙ РИСК **)
 [Copy subcontact history to MetaContact when creating or adding]
 Копировать историю Суб в Мета Контакт при создании и добавлении
 [Number of days to copy (0=all):]

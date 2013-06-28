@@ -1512,6 +1512,10 @@ ID пользователя в панели статуса
 Информация tabSRMM
 [U&se Popup colours]
 Цвета плагина Popup
+[TabSRMM fatal error]
+Критическая ошибка TabSRMM
+[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+Не установлен плагин службы изображений (advaimg.dll)\n\nTabSRMM отключен.
 ;Уведомления
 
 [Contact not on list. You may add it...]

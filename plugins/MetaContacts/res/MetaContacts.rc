@@ -162,7 +162,7 @@ CAPTION "History Copy"
 FONT 8, "MS Shell Dlg"
 BEGIN
     CONTROL         "Progress1",IDC_PROG,"msctls_progress32",0x0,28,49,130,13
-    CTEXT           "Please wait while the contact's history is copied.",IDC_STATIC,9,27,167,8
+    CTEXT           "Please wait while the contact's history is copied.",IDC_STATIC,3,27,182,8
 END
 
 IDD_DELPROGRESS DIALOG  0, 0, 186, 90
@@ -171,7 +171,7 @@ CAPTION "History Remove"
 FONT 8, "MS Shell Dlg"
 BEGIN
     CONTROL         "Progress1",IDC_PROG,"msctls_progress32",0x0,28,49,130,13
-    CTEXT           "Please wait while the contact's history is removed.",IDC_STATIC,9,27,167,8
+    CTEXT           "Please wait while the contact's history is removed.",IDC_STATIC,3,27,182,8
 END
 
 IDD_PRIORITIES DIALOGEX 0, 0, 266, 157

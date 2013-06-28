@@ -36,10 +36,14 @@
 [msecs]
 мсек.
 [Show Splash]
-Пок. Заставку
+Пок. заставку
 [Splash:]
 Заставка:
 [SplashScreen]
 Заставка
 [Graphic files]
 Графические файлы
+[Advaimg library not found. Please get it from nigtlies to be able to use images.]
+Не найдена библиотека advaimg.dll. Скачайте последнюю версию, чтобы использовать изображения.
+[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
+Библиотека advaimg.dll устарела или повреждена. Скачайте последнюю версию с сайта Miranda NG.

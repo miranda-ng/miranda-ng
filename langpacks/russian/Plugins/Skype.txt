@@ -175,7 +175,7 @@ SkypeKit не запустился.
 [Protocols]
 Протоколы
 [Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.] 
-Протокол Skype не позволяет одновременно запускать больше одной учестной записи. Запуск нескольких копий запрещен лицензионным соглашением и условиями распространения SkypeKit.
+Протокол Skype не позволяет одновременно запускать больше одной учетной записи. Запуск нескольких копий запрещен лицензионным соглашением и условиями распространения SkypeKit.
 ;file \protocols\Skype\src\skype_menus.cpp
 [Hi! I'd like to add you to my contact list]
 Привет! Я хотел бы добавить Вас в свой список контактов

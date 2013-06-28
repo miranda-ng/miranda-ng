@@ -5,7 +5,7 @@
 ;  Versions: 0.0.0.18
 ;  Authors: bems
 ;============================================================
-[GTalk mail notification extensions for Jabber protocol.]
+[GTalk extensions for Jabber protocol]
 Розширення протоколу Jabber для поштових повідомлень GTalk.
 [subject\n    %s\nfrom\n%s\n%s\n]
 тема\n %s\nвід\n%s\n%s\n

@@ -122,8 +122,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,61,163,10
     GROUPBOX        "Plugin activation",IDC_STATIC,4,82,292,82,WS_GROUP
     CONTROL         "Automatically turn off Popups and Sounds on status change",IDC_AUTODISABLE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,96,219,10
-    PUSHBUTTON      "Configure",IDC_CONFIGUREAUTODISABLE,239,94,50,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,96,232,10
+    PUSHBUTTON      "Configure",IDC_CONFIGUREAUTODISABLE,243,94,46,14
     CONTROL         "Notify me for people not in my Contact List",IDC_HIDDENCONTACTSTOO,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,109,279,10
     CONTROL         "Blink icon in the system tray",IDC_BLINKICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,135,279,10
@@ -137,7 +137,7 @@ BEGIN
     EDITTEXT        IDC_LOGFILE,72,175,154,14,ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "...",IDC_BT_CHOOSELOGFILE,229,175,18,14
     PUSHBUTTON      "Open",IDC_BT_VIEWLOG,249,175,42,14
-    CONTROL         "Status message",IDC_CHK_STATUS_MESSAGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,208,50,87,10
+    CONTROL         "Status message",IDC_CHK_STATUS_MESSAGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,208,50,84,10
 END
 
 IDD_INFO_SOUNDS DIALOGEX 0, 0, 222, 152
