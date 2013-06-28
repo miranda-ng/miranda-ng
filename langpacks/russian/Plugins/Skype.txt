@@ -267,6 +267,8 @@ Skype протокол
 Конференции
 [Conference]
 Конференция
+[Spawn conference]
+Создать конференцию
 [The password is incorrect]
 Неверный пароль
 [Your application to join the conference was denied]
