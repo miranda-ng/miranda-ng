@@ -112,8 +112,6 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 Закругліць на
 [Gap between frames]
 Прамежак фрэймаў
-[Translucency options]
-Налады празрыстасці
 [Fully transparent (like TweakUI)]
 Цалкам празрыстае (як TweakUI)
 [Use full row for selection and hottracking]

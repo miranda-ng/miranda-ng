@@ -1,0 +1,42 @@
+﻿#muuid {4bb5b4aa-c364-4f23-9746-d5b708a286a5}
+;============================================================
+;  File: ConnectionNotify.dll
+;  Plugin: ConnectionNotify
+;  Version: 0.1.0.5
+;  Authors: MaKaR
+;============================================================
+[Notify with popup if some connection established]
+Паведамляе вакном пра далучэнне
+;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
+[Set popup colours]
+Колер паведамленняў
+[Close after: ]
+Зачыніць пасля:
+[sec.(0 default, -1 disabled)]
+сек.(0 змаўчанне, -1 адключана)
+[try resolve addresses]
+спрабуе далучыцца
+[Show notification if no filter defined]
+Апавяшчаць, калі ні адзін фільтр не вызначаны
+[Attempt interval (ms.)]
+Інтэрвал спроб (ms.)
+[DN]
+ВЕРХ
+[UP]
+НІЗ
+[Rule editor]
+Кіравала
+[* and ? wildcard characters also available (for port enter number or *)]
+тут даступныя * і ? фільтры (для порта увядзіце нумар або *)
+;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Always show popup]
+Заўсёды паказваць вакно
+[Never show popup]
+Ніколі не паказваць вакно
+[Application]
+Прылада
+[ConnectionNotify: New Connection Notification]
+ConnectionNotify: Апавяшчэнне пра новыя злучэнні
+;file \plugins\ConnectionNotify\src\filter.cpp
+[First close options window]
+Спачатку зачыніць налады

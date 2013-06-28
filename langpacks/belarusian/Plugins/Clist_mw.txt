@@ -16,8 +16,6 @@
 Падзельнік
 [Rows]
 Радкі
-[Translucency options]
-Налады празрыстасці
 [MetaContacts supporting]
 Падтрымка метакантактаў
 [Show size grip]

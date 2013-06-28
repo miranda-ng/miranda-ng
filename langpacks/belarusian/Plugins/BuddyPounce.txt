@@ -1,0 +1,36 @@
+﻿#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
+;============================================================
+;  File: BuddyPounce.dll
+;  Plugin: Buddy pounce
+;  Version: 0.3.2.1
+;  Authors: Jonathan Gordon
+;============================================================
+[Allows you to send a message to contacts if they change status.]
+Дазваляе адпраўляць паведамленне, калі кантакт змяняе статус.
+;file \plugins\BuddyPounce\res\resource.rc
+[Confirm Pounce send]
+Падтвердзіце адпраўленне
+[Pounce being sent to]
+Адпраўленне адбудзецца
+[Buddy Pounce]
+Адправіць потым
+[The Message:]
+Паведамленне:
+[Delete Pounce]
+Выдаліць адпраўку
+[Load default Settings]
+Загрузіць змаўчанні
+[Setting text...........]
+Налады тэксту.....
+[<< Simple]
+<< Менш
+[The Message]
+Паведамленне
+[Default Settings]
+Змаўчанні
+;file \plugins\BuddyPounce\src\dialog.cpp
+[error......]
+памылка...
+[Times]
+Час
+;file \plugins\BuddyPounce\src\main.cpp

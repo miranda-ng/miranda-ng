@@ -1,0 +1,102 @@
+﻿#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
+;============================================================
+;  File: HTTPServer.dll
+;  Plugin: HTTPServer
+;  Version: 0.1.2.2
+;  Authors: Kennet Nielsen, modified by Vampik, Houdini
+;============================================================
+[HTTP Web Server plugin for Miranda.]
+HTTP вэб-сервер для Miranda.
+;file \plugins\HTTPServer\res\resource.rc
+[IPAddress1]
+IP адрас 1
+[IPAddress2]
+IP адрас 2
+[Max downloads]
+Макс. запампоўкі
+[Share name]
+Імя шары
+[Allowed IP]
+Дазволеныя IP
+[HTTP Server statistics view]
+Статыстыка праглядаў HTTP сервера
+[Show HTTP server statistics]
+Статыстыка НТТР сервера
+[Set to default]
+Па змаўчанні
+[External server name]
+Вонкавае імя сервера
+[This is the link pasted to the message window]
+Гэта спасылка, устаўленая ў акно паведамленняў
+[Write log file]
+Запісваць журнал
+[Enable / Disable HTTP server]
+Вкл/Выкл HTTP Сервер
+[Main menu items]
+Элементы галоўнага меню
+[Open log]
+Адкрыць лог
+[Page keyword]
+Ключавыя словы
+[URL address]
+Адрас URL
+[%ExternalIP% variable]
+%ExternalIP% зменная
+[Transfer limit (kb/sec)]
+Ліміт хуткасці (kb/sec)
+[No control when Away/NA]
+Адкл. калі недаступны/заняты
+[Connection control]
+Кантроль злучэнняў
+[Index creation]
+Стварэнне індэксу
+[Create HTML (compatibility)]
+Стварыць HTML (сумяшчальна)
+[Create XML]
+Стварыць XML
+[Total connection limit]
+Максімальна злучэнняў
+[Connections per user limit]
+Ліміт на карыстача
+[Default download limit]
+Ліміт загрузак па змаўч.
+[&Edit share]
+Зм. агульнае
+[&Remove share]
+Выдаліць агульнае
+[&Open in Browser]
+Адкрыць у браўзары
+;file \plugins\HTTPServer\src\Glob.h
+;file \plugins\HTTPServer\src\GuiElements.cpp
+[Specify a file to share]
+Файл для доступу
+[Max Downloads]
+Макс. запампоўкі
+[Allowed Mask]
+Дазволеная маска
+[Real path]
+Рэальны шлях
+[Agent]
+Агент
+[Completed]
+Завершана
+[Speed]
+Хуткасць
+[No share selected]
+Тэчка не абрана
+[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
+Ваш вонкавы ip вызначаны як %d.%d.%d.%d\r\nс: %s
+[You need to restart miranda to change the main menu]
+Змены ў меню набудуць моц пасля перазапуску праграмы.
+[HTTP Server]
+HTTP Сервер
+[HTTP Share new file]
+HTTP Новы агульны файл
+;file \plugins\HTTPServer\src\HttpUser.cpp
+[Share removed]
+Агульнае выдалена
+;file \plugins\HTTPServer\src\main.cpp
+[Disable HTTP server]
+Адключыць HTTP сервер
+[Enable HTTP server]
+Вкл. HTTP Сервер

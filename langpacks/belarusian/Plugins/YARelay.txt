@@ -1,0 +1,43 @@
+﻿#muuid {01202e6a-c1b3-42e5-838a-3e497b31f38e}
+;============================================================
+;  File: YARelay.dll
+;  Plugin: YARelay
+;  Version: 0.1.0.1
+;  Authors: Anar Ibragimoff
+;============================================================
+[Forwards messages to some contact when you are not available.]
+У вашу адсутнасць перасылае атрымованыя паведамленні іншаму кантакту. 
+;file \plugins\YARelay\res\yaRelay.rc
+[Forward messages from...]
+Перасылаць паведамленні ад...
+[Everyone]
+Усіх
+[Forward when your status is...]
+Перасылаць, калі ваш статус...
+[Forward messages to...]
+Перасылаць паведамленні да...
+[%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
+%u - нік;   %i - UIN;    %t - час;   \r%d - дата;   %m - паведамленне
+[Forwarding options]
+Налады перасылання
+[Split message (%m)]
+Падзяліць паведамленне (%m)
+[Send only first]
+Адсылаць першыя
+[Max size of split part (chars)]
+Макс. памер часткі (сімв.)
+[Mark received messages as 'read']
+Пазначаць атрыманыя паведамленні як прачытаныя
+[Save sent messages in recipient's history]
+Захоўваць адпраўленыя паведамленні ў гісторыі
+[split parts (0 = all)]
+частак (0 = усё)
+[Note: Max size - it's a size of %m parameter]
+Нататка: Максімальны памер - велічыня параметру %m
+[Note: messages from this contact will not be forwarded]
+Нататка: паведамленні ад гэтага кантакту не будуць перасылацца
+;file \plugins\YARelay\src\options.cpp
+[!EVERYONE!]
+!УСІМ!
+[!DON'T FORWARD!]
+!НЕ ПЕРАСЫЛАЦЬ!

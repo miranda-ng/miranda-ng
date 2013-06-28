@@ -3,14 +3,26 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaіek
+;  Authors: Bartosz 'Dezeath' Biaek
 ;============================================================
+[Provides the ability to quickly add new contacts.]
+Дае магчымасць хутка дадаваць новыя кантакты.
 ;file \plugins\AddContactPlus\res\resource.rc
+[Add Contact\nAdd a contact to your contact list]
+Дадаць кантакт\nДадаць кантакт у спіс кантактаў
+[Contact ID:]
+ID Кантакта:
 [Add temporarily]
 Дадаць часова
 ;file \plugins\AddContactPlus\src\addcontact.cpp
+[The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
+Кантакт не можа быць дададзены ў спіс кантактаў. Калі ласка, пераканайцеся, што  ID кантакта ўведзена правільна.
+[The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
+Кантакт не можа быць дададзены ў спіс кантактаў. Калі Вы не зарэгістраваныя ў абраным конце, калі ласка, паспрабуйце зрабіць так. Акрамя таго, пераканайцеся, што ID кантакта ўведзена правільна.
 ;file \plugins\AddContactPlus\src\main.cpp
 [&Add contact...]
 &Дадаць кантакт...
+[Open add contact dialog]
+Адкрыць дыялог 'Дадаць кантакта'
 [AddContact+]
 Дадаць кантакт+

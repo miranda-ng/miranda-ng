@@ -1,0 +1,145 @@
+﻿#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
+;============================================================
+;  File: Spamotron.dll
+;  Plugin: Spam-o-tron
+;  Version: 0.0.4.6
+;  Authors: vu1tur
+;============================================================
+[Anti-spam plugin with captcha and Bayes filtering.]
+Антыспам плагін з капчай і Баесаўскім фільтраваннем.
+;file \plugins\Spamotron\res\spamotron.rc
+[Do not send challenge request if message score above]
+Блакаваць паведамленне, калі спам-рэйтынг вышэй
+[Auto-learn messages from approved contacts as ham]
+Лічыць паведамлення ад ухваленых кантактаў не спамам
+[Filtering options]
+Налады фільтравання:
+[Learning options]
+Опцыі навучання
+[Auto-learn outgoing messages as ham]
+Лічыць выходныя паведамленні не спамам
+[Spam]
+Спам
+[Ham]
+Не спам
+[Learn message:]
+Дадаць паведамленне ў базу:
+[Auto approve contact if message score below]
+Ухваляць кантакт пры спам-рэйтынгу ніжэй
+[Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and 50 of spam messages.]
+Не ўключайце гэтыя опцыі, пакуль у базе не будзе прынамсі 20 не спам і 50 спам паведамленняў.
+[Learned ham messages:]
+Не спам паведамленняў у базе:
+[Learned spam messages:]
+Спам паведамленняў у базе:
+[Analyze]
+Праверыць
+[Auto-learn messages from contacts if not approved in]
+Лічыць паведамлення спамам, калі не ўхвалена за
+[days as spam]
+дня
+[and learn as ham]
+і лічыць не спамам
+[Enabled accounts:]
+Уключыць для:
+[Do not reply to messages with words in this list:]
+Чорны спіс слоў ва ўваходных паведамленнях:
+[Do not reply to the same message more than]
+Не адказваць на паведамленні-дублі больш
+[Flood protection]
+Абарона ад флуду
+[Do not send more than]
+Не адпраўляць больш
+[messages to one contact per day]
+кантрольных пытанняў кантакту ў дзень
+[times a day]
+раз у дзень
+[Incoming message with any word from list:]
+Уваходным паведамленні з любым са слоў:
+[Auto approve on:]
+Аўтападцверджанне пры:
+[Hide contact until verified]
+Хаваць кантакт да пацверджання
+[Add permanently to list on verified]
+Дадаваць у кантакт ліст пры пацверджанні
+[Log actions to system history]
+Весці часопіс дзеянняў
+[Mode:]
+Рэжым:
+[Responses: (saved in %response%, %response-n% variables)]
+Адказы: (знаходзяцца ў зменных %response%, %response-n%)
+[will be saved in %mathexpr%]
+знаходзіцца ў %mathexpr%
+[Reply on success:]
+Апавяшчаць пры пацверджанні:
+[Send challenge on authorization request:]
+Адпраўляць кантрольнае пытанне пры запыце аўтарызацыі:
+[Keep blocked messages in contact history]
+Захоўваць заблакаваныя паведамленні ў гісторыі
+[Case-sensitive]
+Улічваць рэгістр
+[Send challenge on incoming message:]
+Адпраўляць кантрольнае пытанне пры ўваходным паведамленні:
+[and mark them unread after approval]
+і пазначаць непрачытанымі пры пацверджанні
+[Enable popup notifications]
+Уключыць апавяшчэнні ўсплывальнымі вокнамі
+[Contact blocked]
+Кантакт заблакаваны
+[Contact approved]
+Кантакт пацверджаны
+[Foreground]
+Тэкст
+[Default timeout]
+Па змаўчанні
+[Challenge sent]
+Адпраўлены пытанне
+;file \plugins\Spamotron\src\bayes.cpp
+[Bayes database path]
+Размяшчэнне базы Байеса
+;file \plugins\Spamotron\src\common.h
+[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
+Паведамленне часова заблакавана. Напішыце "%response%" без двукоссяў.
+[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
+Паведамленне часова заблакавана. Колькі будзе %mathexpr%?
+[Verified.]
+Ухвалена.
+[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
+Запыт аўтарызацыі часова заблакаваны. Напішыце "%response%" без двукоссяў.
+[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
+Запыт аўтарызацыі часова заблакаваны. Колькі будзе %mathexpr%?
+;file \plugins\Spamotron\src\options.cpp
+[Simple]
+Просты
+[Math expression]
+Матэматычны
+[Round-robin]
+Цыклічны
+[Random]
+Выпадковы
+[Will be automatically evaluated from %mathexpr%]
+Будзе аўтаматычна вылічаны зыходзячы з %mathexpr%
+[Invalid regular expression.\nKeeping previous value.]
+Памылка ў рэгулярным выразе.\nБудзе скарыстана старое значэнне.
+[Message score]
+Спам-рэйтынг
+[Bayes]
+Байес
+;file \plugins\Spamotron\src\spamotron.cpp
+[Contact %s approved.]
+Кантакт %s пацверджаны.
+[Message from %s rejected because it reached a maximum for challenge requests per day.]
+Паведамленне ад %s заблакавана, бо перавышана максімальную колькасць кантрольных пытанняў у дзень.
+[Message from %s rejected because it reached a maximum for same responses per day.]
+Паведамленне ад %s заблакавана, бо перавышана максімальную колькасць аднолькавых паведамленняў у дзень.
+[Message from %s dropped because it has a word from black list.]
+Паведамленне ад %s заблакавана, бо ўтрымоўвае слова з чорнага спісу.
+[Message from %s dropped because of high spam score.]
+Паведамленне ад %s заблакавана, бо ў яго высокая верагоднасць спаму.
+[Sending plain challenge to %s.]
+Адпраўка кантрольнага пытання %s.
+[Sending math expression challenge to %s.]
+Адпраўка кантрольнага пытання %s.
+;file \plugins\Spamotron\src\utils.cpp
+[Their message was]
+Паведамленне было

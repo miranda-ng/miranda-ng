@@ -28,6 +28,8 @@ History++ для гісторыі вокнаў
 Таксама для напаўпразрыстых аватараў
 [Enable avatar updates]
 Абнаўленні аватараў
+[Multimonitor]
+Мультыманітор
 [Start the popups in the monitor with]
 Усплыў. вокны на маніторы, дзе
 [Miranda's window]
@@ -36,6 +38,8 @@ History++ для гісторыі вокнаў
 Актыўнае акно
 [Enable Win 9x/Me transparency]
 Празрыстасць у Win9x/ME
+[Use transparency]
+Празрыстасць
 [Opaque popups under cursor]
 Непразрыста пад курсорам
 [Slide Popup]
@@ -104,10 +108,14 @@ History++ для гісторыі вокнаў
 Адключыць, калі статус адпавядае пратаколу...
 [Colors can be configured in\r\nCustomize > Fonts && Colors]
 Настроіць колеры ў\r\nТонкая налада > Шрыфты і колеры
+[Disable if message window is open]
+Забараніць, калі адкрыта гутарка
 [Per-contact settings]
 Налады для кожнага кантакту
 [Show always]
 Заўсёды
+[Ignore fullscreen]
+Ігнараваць fullscreen
 [Never show]
 Ніколі
 [Show default]
