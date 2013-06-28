@@ -245,7 +245,7 @@ Skype протокол
 Создать с паролем
 [Password hint:]
 Подсказка пароля:
-[New mempers join with role:]
+[New members join with role:]
 Роль для новых участников:
 [Enable joining]
 Разрешить вход в чат
