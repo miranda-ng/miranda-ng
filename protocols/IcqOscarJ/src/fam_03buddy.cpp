@@ -195,10 +195,6 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 	unpackWord(&buf, &wTLVCount);
 	wLen -= 2;
 
-	// notify that the set status note & mood process is finished
-	if (m_hNotifyNameInfoEvent)
-		SetEvent(m_hNotifyNameInfoEvent);
-
 	// Ignore status notification if the user is not already on our list
 	HANDLE hContact = HContactFromUID(dwUIN, szUID, NULL);
 	if (hContact == INVALID_HANDLE_VALUE)

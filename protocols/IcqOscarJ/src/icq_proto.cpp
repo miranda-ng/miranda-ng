@@ -1897,21 +1897,8 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 		if (icqOnline())
 		{ // set offline status note (otherwise the old will remain)
 			char *szOfflineNote = PrepareStatusNote(nNewStatus);
-
-			// Create unnamed event to wait until the status note change process is completed
-			m_hNotifyNameInfoEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-
-			int bNoteChanged = SetStatusNote(szOfflineNote, 0, FALSE);
-
+			SetStatusNote(szOfflineNote, 0, FALSE);
 			SAFE_FREE(&szOfflineNote);
-
-			// Note was changed, wait until the process is over
-			if (bNoteChanged)
-				ICQWaitForSingleObject(m_hNotifyNameInfoEvent, 4000, TRUE);
-
-			// Release the event
-			CloseHandle(m_hNotifyNameInfoEvent);
-			m_hNotifyNameInfoEvent = NULL;
 		}
 
 		m_iDesiredStatus = nNewStatus;

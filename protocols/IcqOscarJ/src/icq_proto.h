@@ -270,8 +270,6 @@ struct CIcqProto : public PROTO_INTERFACE
 	void   icq_sendXtrazResponseDirect(HANDLE hContact, WORD wCookie, char* szBody, int nBodyLen, WORD wType);
 
 	//----| fam_01service.cpp |-----------------------------------------------------------
-	HANDLE m_hNotifyNameInfoEvent;
-
 	void   handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader, serverthread_info *info);
 	char*  buildUinList(int subtype, WORD wMaxLen, HANDLE *hContactResume);
 	void   sendEntireListServ(WORD wFamily, WORD wSubtype, int listType);
