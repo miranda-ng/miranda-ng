@@ -10,7 +10,7 @@ wchar_t *CSkypeProto::LogoutReasons[] =
 	LPGENW("SERVER_CONNECT_FAILED")										/* SERVER_CONNECT_FAILED		*/,
 	LPGENW("Server is overloaded")										/* SERVER_OVERLOADED			*/,
 	LPGENW("SkypeKit database already in use")							/* DB_IN_USE					*/,
-	LPGENW("Invalid skypename")											/* INVALID_SKYPENAME			*/,
+	LPGENW("Invalid Skype name")										/* INVALID_SKYPENAME			*/,
 	LPGENW("Invalid email")												/* INVALID_EMAIL				*/,
 	LPGENW("Unacceptable password")										/* UNACCEPTABLE_PASSWORD		*/,
 	LPGENW("Skype name is taken")										/* SKYPENAME_TAKEN				*/,

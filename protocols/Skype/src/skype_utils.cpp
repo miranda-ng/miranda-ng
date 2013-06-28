@@ -8,7 +8,7 @@ wchar_t *CSkypeProto::ValidationReasons[] =
 	LPGENW("The value exceeds max size limit for the given property")	/* TOO_LONG						*/,
 	LPGENW("Value contains illegal characters")							/* CONTAINS_INVALID_CHAR		*/,
 	LPGENW("Value contains whitespace")									/* CONTAINS_SPACE				*/,
-	LPGENW("Password cannot be the same as skypename")					/* SAME_AS_USERNAME				*/,
+	LPGENW("Password cannot be the same as Skype name")					/* SAME_AS_USERNAME				*/,
 	LPGENW("Value has invalid format")									/* INVALID_FORMAT				*/,
 	LPGENW("Value contains invalid word")								/* CONTAINS_INVALID_WORD		*/,
 	LPGENW("Password is too simple")									/* TOO_SIMPLE					*/,

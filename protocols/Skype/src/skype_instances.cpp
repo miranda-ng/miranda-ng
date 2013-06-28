@@ -12,7 +12,7 @@ CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* u
 	if (CSkypeProto::instanceList.getCount() > 0) 
 	{
 		CSkypeProto::ShowNotification(
-			::TranslateT("SkypeKit will only permit you to login to one account at a time.\nAdding multiple instances of SkypeKit is prohibited in the licence agreement and standard distribution terms."),
+			::TranslateT("Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit."),
 			MB_ICONERROR);
 		return NULL;
 	}
