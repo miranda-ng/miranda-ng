@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "winres.h"
+#include "afxres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -30,7 +30,7 @@ EXSTYLE WS_EX_TOPMOST
 CAPTION "Invite contacts to conference"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "sid",-1,7,128,43,9
+    LTEXT           "Skype name:",-1,7,128,43,9
     PUSHBUTTON      "&Invite",IDOK,29,159,46,14
     PUSHBUTTON      "&Cancel",IDCANCEL,112,159,45,14
     CONTROL         "",IDC_CCLIST,"CListControl",WS_TABSTOP | 0x16f,7,4,174,119,WS_EX_CLIENTEDGE
@@ -55,7 +55,7 @@ BEGIN
     LTEXT           "Guideline:",IDC_STATIC,188,31,180,8
     EDITTEXT        IDC_CHAT_GUIDLINE,188,41,180,14,ES_AUTOHSCROLL
     CONTROL         "Enable joining",IDC_CHAT_JOINING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,58,180,10
-    LTEXT           "Users joining as:",IDC_STATIC,188,73,79,8
+    LTEXT           "New mempers join with role:",IDC_STATIC,188,73,180,8
     COMBOBOX        IDC_CHAT_ROLES,188,83,180,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Create with password",IDC_CHAT_SECURED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,98,180,10
     LTEXT           "Password:",IDC_STATIC,197,111,171,8
