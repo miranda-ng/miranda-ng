@@ -17,7 +17,7 @@
 [Topic:]
 [Guideline:]
 [Enable joining]
-[New mempers join with role:]
+[New members join with role:]
 [Create with password]
 [Password:]
 [Confirmation:]

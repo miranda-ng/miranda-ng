@@ -55,7 +55,7 @@ BEGIN
     LTEXT           "Guideline:",IDC_STATIC,188,31,180,8
     EDITTEXT        IDC_CHAT_GUIDLINE,188,41,180,14,ES_AUTOHSCROLL
     CONTROL         "Enable joining",IDC_CHAT_JOINING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,58,180,10
-    LTEXT           "New mempers join with role:",IDC_STATIC,188,73,180,8
+    LTEXT           "New members join with role:",IDC_STATIC,188,73,180,8
     COMBOBOX        IDC_CHAT_ROLES,188,83,180,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Create with password",IDC_CHAT_SECURED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,98,180,10
     LTEXT           "Password:",IDC_STATIC,197,111,171,8
