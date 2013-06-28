@@ -99,7 +99,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Options",IDC_STATIC,3,0,300,229
     CONTROL         "",IDC_CHECKBOXES,"SysTreeView32",TVS_HASBUTTONS | TVS_DISABLEDRAGDROP | TVS_FULLROWSELECT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,6,9,286,192
-    LTEXT           "Add new rooms to group:",IDC_STATIC_ADD,10,208,133,8
+    LTEXT           "Add new rooms to group:",IDC_STATIC_ADD,10,209,133,10
     EDITTEXT        IDC_GROUP,152,208,142,14,ES_AUTOHSCROLL
     LTEXT           "Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.",IDC_STATIC_MESSAGE,21,52,256,74
 END

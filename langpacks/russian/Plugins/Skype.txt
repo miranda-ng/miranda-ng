@@ -183,6 +183,7 @@ SkypeKit не запустился.
 [Protocols]
 Протоколы
 [SkypeKit will only permit you to login to one account at a time. Adding multiple instances of SkypeKit is prohibited in the licence agreement and standard distribution terms.]
+SkypeKit не позволяет одновременно входить более чем в одну учестную запись. Запуск нескольких копий SkypeKit запрещен лицензионным соглашением и условиями распространения.
 ;file \protocols\Skype\src\skype_menus.cpp
 [Hi! I'd like to add you to my contact list]
 Привет! Я хотел бы добавить Вас в свой список контактов
