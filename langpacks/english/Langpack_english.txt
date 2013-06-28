@@ -1732,7 +1732,7 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaek
+;  Authors: Bartosz 'Dezeath' Biaіek
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 ;file \plugins\AddContactPlus\res\resource.rc
@@ -12056,8 +12056,9 @@
 [Protocols]
 [Enable/Disable protocols which you don't wish to be notified for:]
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
-[Wave Files]
-[All Files]
+[Sound files]
+[All files]
+[Wave files]
 [Status]
 [Sound for the status]
 [From offline]
@@ -12123,6 +12124,7 @@
 [Extra status removed]
 [Toggle status notification]
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
 [Log]
 [This is status message]
 [Do you want to reset all templates to default?]
@@ -13806,6 +13808,13 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13835,12 +13844,6 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -15028,7 +15031,7 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.4
-;  Authors: Bartosz 'Dezeath' Biaek, Harven
+;  Authors: Bartosz 'Dezeath' Biaіek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
 ;file \plugins\SimpleStatusMsg\res\resource.rc
@@ -19667,6 +19670,18 @@
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
+;file \protocols\WhatsApp\res\whatsapp.rc
+[Phone-Number]
+[Including country code, without '+' or '00']
+[Nickname]
+[Request Code]
+[Register Code]
+[SMS-Code:]
+[Will only be used for registration]
+[Use SSL connection (443 port)]
+[WhatsApp]
+[Cancel]
+[OK]
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country-code.]
 [Please enter a phone-number without country code.]
