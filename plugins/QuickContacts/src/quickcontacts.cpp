@@ -796,11 +796,11 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			mir_subclassWindow(GetWindow(GetDlgItem(hwndDlg, IDC_USERNAME),GW_CHILD), EditProc);
 
 			// Buttons
-			FillCheckbox(hwndDlg, IDC_SHOW_ALL_CONTACTS, LPGENT("Show all contacts"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+A"));
+			FillCheckbox(hwndDlg, IDC_SHOW_ALL_CONTACTS, LPGENT("Show all contacts"), hasNewHotkeyModule ? NULL : _T("Ctrl+A"));
 			FillButton(hwndDlg, IDC_MESSAGE, LPGENT("Send message"), NULL, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
 
 			if (ServiceExists(MS_VOICESERVICE_CAN_CALL))
-				FillButton(hwndDlg, IDC_VOICE, LPGENT("Make a voice call"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+V"), Skin_GetIcon("vca_call"));
+				FillButton(hwndDlg, IDC_VOICE, LPGENT("Make a voice call"), hasNewHotkeyModule ? NULL : _T("Ctrl+V"), Skin_GetIcon("vca_call"));
 			else
 			{
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_VOICE), &rc);
@@ -809,11 +809,11 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				ShowWindow(GetDlgItem(hwndDlg, IDC_VOICE), SW_HIDE);
 			}
 
-			FillButton(hwndDlg, IDC_FILE, LPGENT("Send file"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+F"), LoadSkinnedIcon(SKINICON_EVENT_FILE));
-			FillButton(hwndDlg, IDC_URL, LPGENT("Send URL"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+U"), LoadSkinnedIcon(SKINICON_EVENT_URL));
-			FillButton(hwndDlg, IDC_USERINFO, LPGENT("Open userinfo"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+I"), LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS));
-			FillButton(hwndDlg, IDC_HISTORY, LPGENT("Open history"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+H"), LoadSkinnedIcon(SKINICON_OTHER_HISTORY));
-			FillButton(hwndDlg, IDC_MENU, LPGENT("Open contact menu"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+M"), LoadSkinnedIcon(SKINICON_OTHER_DOWNARROW));
+			FillButton(hwndDlg, IDC_FILE, LPGENT("Send file"), hasNewHotkeyModule ? NULL : _T("Ctrl+F"), LoadSkinnedIcon(SKINICON_EVENT_FILE));
+			FillButton(hwndDlg, IDC_URL, LPGENT("Send URL"), hasNewHotkeyModule ? NULL : _T("Ctrl+U"), LoadSkinnedIcon(SKINICON_EVENT_URL));
+			FillButton(hwndDlg, IDC_USERINFO, LPGENT("Open userinfo"), hasNewHotkeyModule ? NULL : _T("Ctrl+I"), LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS));
+			FillButton(hwndDlg, IDC_HISTORY, LPGENT("Open history"), hasNewHotkeyModule ? NULL : _T("Ctrl+H"), LoadSkinnedIcon(SKINICON_OTHER_HISTORY));
+			FillButton(hwndDlg, IDC_MENU, LPGENT("Open contact menu"), hasNewHotkeyModule ? NULL : _T("Ctrl+M"), LoadSkinnedIcon(SKINICON_OTHER_DOWNARROW));
 
 			SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_SETEXTENDEDUI, (WPARAM)TRUE, 0);
 
