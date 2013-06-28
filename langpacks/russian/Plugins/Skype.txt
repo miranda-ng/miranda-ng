@@ -7,8 +7,6 @@
 ;============================================================
 [Skype protocol support for Miranda NG.]
 Skype протокол для Miranda NG.
-[Invite Contact To Chat]
-Пригласить в чат
 [&Invite]
 &Пригласить
 [&Cancel]
@@ -16,8 +14,6 @@ Skype протокол для Miranda NG.
 [Add]
 Добавить
 [Enter password]
-Введите пароль
-[Enter a password]
 Введите пароль
 [Remember this session password]
 Запомнить пароль этой сессии
@@ -75,8 +71,6 @@ Skype протокол для Miranda NG.
 Старый пароль:
 [New password:]
 Новый пароль:
-[Confirmation:]
-Подтвердить:
 [Password:]
 Пароль:
 [Register new account]
@@ -101,8 +95,8 @@ Skype протокол для Miranda NG.
 SkypeKit не инициализирован.
 [SkypeKit did not start.]
 SkypeKit не запустился.
-[Invalid skypename]
-Неверный Skype ID
+[Invalid Skype name]
+Неверный логин Skype
 [Invalid email]
 Неверный e-mail
 [Unacceptable password]
@@ -111,11 +105,8 @@ SkypeKit не запустился.
 Неверный пароль
 [Too many login attempts]
 Слишком много попыток входа
-[ATO (Account TakeOver) detected, account blocked]
 [Logout from another instance]
-Выйти на других устройствах
-[Password change succeeded]
-Произведена смена пароля
+Выход на других устройствах
 [Old password was incorrect]
 Старый пароль не верен
 [Failed to verify password. No connection to server]
@@ -127,6 +118,7 @@ SkypeKit не запустился.
 [The new password was unacceptable]
 Новый пароль неприемлем 
 [Account was currently not logged in]
+Учетная запись не в сети
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
 Вы не ввели Skype ID.\nНастройте это в Настройки->Сеть->%s и попробуйте снова. 
 ;file \protocols\Skype\src\skype_chat.cpp
@@ -182,8 +174,8 @@ SkypeKit не запустился.
 Авторизовать
 [Protocols]
 Протоколы
-[SkypeKit will only permit you to login to one account at a time. Adding multiple instances of SkypeKit is prohibited in the licence agreement and standard distribution terms.]
-SkypeKit не позволяет одновременно входить более чем в одну учестную запись. Запуск нескольких копий SkypeKit запрещен лицензионным соглашением и условиями распространения.
+[Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.] 
+Протокол Skype не позволяет одновременно запускать больше одной учестной записи. Запуск нескольких копий запрещен лицензионным соглашением и условиями распространения SkypeKit.
 ;file \protocols\Skype\src\skype_menus.cpp
 [Hi! I'd like to add you to my contact list]
 Привет! Я хотел бы добавить Вас в свой список контактов
@@ -198,10 +190,10 @@ SkypeKit не позволяет одновременно входить бол�
 Пароль слишком короткий
 [The value exceeds max size limit for the given property]
 [Value contains illegal characters]
-Значение имеет недопустимый знак
+Значение имеет недопустимый символ
 [Value contains whitespace]
-[Password cannot be the same as skypename]
-Пароль не может совпадать со Skype ID
+[Password cannot be the same as Skype name]
+Пароль не может совпадать с логином Skype
 [Value has invalid format]
 Значение имеет неверный формат
 [Value contains invalid word]
@@ -253,8 +245,8 @@ Skype протокол
 Создать с паролем
 [Password hint:]
 Подсказка пароля:
-[Users joining as:]
-Пользователь входит как:
+[New mempers join with role:]
+Роль для новых участников:
 [Enable joining]
 Разрешить вход в чат
 [&Request auth]
@@ -268,7 +260,7 @@ Skype протокол
 [Ignore list]
 Список игнорирования
 [Server side ignore list\nControl ignore list on server.]
-Список игнорирования сервере\nХранить список игнорирования на сервере.
+Список игнорирования на сервере\nУправление списком игнорирования на сервере.
 [Name]
 Имя
 [Conferences]
