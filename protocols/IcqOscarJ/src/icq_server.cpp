@@ -345,15 +345,14 @@ void CIcqProto::sendServPacket(icq_packet *pPacket)
 		connectionHandleMutex->Leave();
 
 		// Send error
-		if (nSendResult == SOCKET_ERROR)
-		{
-			icq_LogUsingErrorCode(LOG_ERROR, GetLastError(), LPGEN("Your connection with the ICQ server was abortively closed"));
+		if (nSendResult == SOCKET_ERROR) {
+			DWORD dwErrorCode = GetLastError();
+			if (dwErrorCode != WSAESHUTDOWN)
+				icq_LogUsingErrorCode(LOG_ERROR, GetLastError(), LPGEN("Your connection with the ICQ server was abortively closed"));
 			icq_serverDisconnect(FALSE);
 
 			if (m_iStatus != ID_STATUS_OFFLINE)
-			{
 				SetCurrentStatus(ID_STATUS_OFFLINE);
-			}
 		}
 		else
 		{ // Rates management
