@@ -1,7 +1,0 @@
-﻿[Shows ignore state of contact in contacts list.]
-[Filtered events:]
-[Use Miranda ignore settings for All Contacts]
-[Full Ignore]
-[Partial Ignore]
-[Message Ignore]
-[Ignore State]

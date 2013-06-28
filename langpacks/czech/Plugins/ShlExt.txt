@@ -6,7 +6,7 @@
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=534
 ;============================================================
 [Click 'n' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to.]
-
+Přidává podporu pro odesílání souborů z kontextové nabídky systému. Kliknutím pravým tlačítkem na soubor/složku zobrazí všechny vaše seznamy kontaktů a umožní vybrat profil/kontakt pro odeslání souboru.
 [Problem, registration missing/deleted.]
 Nalezen problém, registrace byla ztracena/smazána.
 [Successfully created shell registration.]
@@ -40,4 +40,4 @@ Nezobrazovat v nabídce ikonu stavu
 [Do not show contacts that are offline, even if my contact list does]
 Nezobrazovat offline kontakty 
 [Shell context menus for transfers]
-
+Kontextové nabídky pro přenosy souborů

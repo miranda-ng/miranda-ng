@@ -145,7 +145,7 @@ Některé ze změn nebyly potvrzeny. Chcete je potvrdit?
 [Executable files]
 
 [All files]
-Soubory celkově
+Všechny soubory
 [Failed to get the shells allocator!]
 
 [Failed to Allocate buffer space]

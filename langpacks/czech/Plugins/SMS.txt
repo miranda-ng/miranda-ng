@@ -6,7 +6,7 @@
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
 [Send SMS text messages to mobile phones through the IM networks.]
-
+Odesílá textové SMS zprávy na mobilní telefony přes IM sítě.
 ;file \plugins\SMS\res\resource.rc
 [Received SMS]
 Přijatá SMS
@@ -43,13 +43,13 @@ Znaků:
 [&Send]
 Po&slat
 [SMS Message Didn't Send]
-
+Zpráva SMS nebyla odeslána
 [&Try again]
 Zkusi&t znovu
 [&Cancel]
 &Zrušit
 [The SMS message send timed out]
-
+Vypršel čas pro odeslání SMS zprávy
 [SMS Plugin]
 SMS
 [Begining]
@@ -63,9 +63,9 @@ Přidat podpis
 [Show server notifications]
 Zobrazovat oznámení serveru
 [Auto popup on new message]
-
+Automaticky zobrazit přijaté zprávy
 [Save window position per contact]
-
+Uložit pozici okna pro každý kontakt zvlášť
 [SMS Message Sent]
 Zpráva SMS odeslána
 [&OK]
@@ -78,10 +78,10 @@ Zdroj:
 Sítě:
 ;file \plugins\SMS\src\options.cpp
 [From %s:\r\n\r\n]
-
+Od %s:\r\n\r\n
 ;file \plugins\SMS\src\receive.cpp
 [SMS message didn't send by %S to %s because: %S]
-
+Zpráva SMS nebyla odeslána %S pro %s z důvodu: %S
 [SMS Message from %s]
 Zpráva SMS od %s
 [SMS Confirmation from %s]

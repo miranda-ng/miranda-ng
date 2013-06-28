@@ -19,7 +19,6 @@
 [Contact still absent]
 [Miss you event]
 [Hide contact event]
-[Contact name]
 [has returned after being absent since %d days]
 [not detected]
 [This contact has been absent for an extended period of time.]

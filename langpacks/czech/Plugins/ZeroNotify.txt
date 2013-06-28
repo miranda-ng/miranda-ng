@@ -6,23 +6,23 @@
 ;  Authors: bidyut, Maat
 ;============================================================
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
-
+Přidává možnost automatického vypnutí upozornění, když je protokol v určitém stavu.
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
-Skrýt položku menu "Přepnout zvuk" (vyžaduje restart Mirandy)
+Skrýt položku v hlavní nabídce pro zvuky (vyžaduje restart Mirandy)
 [No sounds when:]
-
+Vypnout zvuky při:
 [No SysTray blink when:]
-
+Vypnout blikání v liště při:
 [No CLIST blink when:]
-
+Vypnout blikání v seznamu při:
 ;file \plugins\ZeroNotification\src\common.h
 [Disable &Sounds]
-
+Zakázat &zvuky
 [Enable &Sounds]
-
+Povolit &zvuky
 ;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
-
+Bez upozornění
 [Plugins]
 Doplňky

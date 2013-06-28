@@ -151,6 +151,6 @@ Hledaný řetězec nebyl nalezen!\nPodle potřeby změňte kritéria hledání.
 [RTF file]
 RTF soubor
 [All files]
-Soubory celkově
+Všechny soubory
 [Save RTF File]
 Uložit soubor ve formátu RTF

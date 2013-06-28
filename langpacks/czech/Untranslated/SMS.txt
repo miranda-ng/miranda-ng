@@ -1,7 +1,0 @@
-﻿[Send SMS text messages to mobile phones through the IM networks.]
-[SMS Message Didn't Send]
-[The SMS message send timed out]
-[Auto popup on new message]
-[Save window position per contact]
-[From %s:\r\n\r\n]
-[SMS message didn't send by %S to %s because: %S]

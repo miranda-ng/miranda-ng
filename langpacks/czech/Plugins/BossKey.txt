@@ -72,7 +72,7 @@ Skrýt
 [Hide/Show Miranda]
 Skrýt/zobrazit Mirandu
 [BossKey\tget the BossKey name]
-
+BossKey\tzískat Bosskey jméno
 ;file \plugins\BossKeyPlus\src\Options.cpp
 [Open String Formatting Help]
 Otevřít nápovědu o proměnných

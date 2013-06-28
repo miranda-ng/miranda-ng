@@ -1,2 +1,0 @@
-﻿[Click 'n' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to.]
-[Shell context menus for transfers]

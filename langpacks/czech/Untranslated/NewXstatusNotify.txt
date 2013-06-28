@@ -28,7 +28,6 @@
 [On opening ML:]
 [Ignore empty status messages]
 [Enable/Disable protocols which you don't wish to be notified for:]
-[Wave Files]
 [connecting]
 [aborting]
 [playing]

@@ -6,7 +6,7 @@
 ;  Authors: Victor Pavlychko
 ;============================================================
 [Favourite contacts menu.]
-
+Nabídka s oblíbenými kontakty.
 ;file \plugins\FavContacts\res\resource.rc
 [Customize]
 Vlastní úpravy
@@ -19,7 +19,7 @@ Orámovat avatary
 [Round corners by]
 Zaoblit rohy o
 [px.]
-
+px.
 [Hide for transparent avatars]
 Skrýt pro průhledné avatary
 [Use system colors and fonts]
@@ -46,31 +46,31 @@ Zobrazit
 posledních kontaktů
 ;file \plugins\FavContacts\src\favlist.h
 [<no group>]
-
+<žádná skupina>
 ;file \plugins\FavContacts\src\main.cpp
 [Favourite Contact]
-
+Oblíbený kontakt
 [Regular Contact]
-
+Obyčejný kontakt
 [Contact name]
-
+Jméno kontaktu
 [Second line]
 Druhý řádek
 [Selected contact name (color)]
-
+Jméno vybraného kontaktu (barva)
 [Selected second line (color)]
-
+Druhý řádek vybraného kontaktu (barva)
 [Background]
 Pozadí
 [Selected background]
 Vybrané pozadí
 [Show favourite contacts]
-
+Zobrazit oblíbené kontakty
 [Contacts]
 Kontakty
 [Favourites]
 Oblíbené
 [&Favourite Contacts...]
-
+&Oblíbené kontakty...
 [<No group>]
-
+<Žádná skupina>

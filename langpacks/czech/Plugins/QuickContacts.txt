@@ -58,19 +58,5 @@ Zobrazit nabídku kontaktu
 Zobrazit všechny kontakty
 [Quick Contacts...]
 Rychlé kontakty...
-[Ctrl+A]
-
 [Send message]
 Poslat zprávu
-[Ctrl+V]
-
-[Ctrl+F]
-
-[Ctrl+U]
-
-[Ctrl+I]
-
-[Ctrl+H]
-
-[Ctrl+M]
-

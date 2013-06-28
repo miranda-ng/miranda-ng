@@ -123,7 +123,7 @@ Nedělat nic
 [Delete the contact]
 Odstranit kontakt
 [Contact name]
-
+Jméno kontaktu
 [has returned after being absent since %d days]
 
 [Contacts]

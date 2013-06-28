@@ -104,8 +104,6 @@ Navazování spojení...
 Náhodný
 [Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
 Cizinec používá mobilní stránky Omegle (omegle.com na telefonu nebo tabletu)
-[You and stranger speak the same language.]
-Vy i cizinec mluvíte stejnou řečí.
 [You both speak the same language.]
 Oba mluvíte stejnou řečí.
 ;file \protocols\Omegle\src\proto.cpp

@@ -57,7 +57,7 @@
 ;file \protocols\Omegle\src\constants.h
 [Random]
 [Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
-[You and stranger speak the same language.]
+[You both speak the same language.]
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 [Unable to get Netlib connection for Omegle]

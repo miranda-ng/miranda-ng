@@ -1,7 +1,0 @@
-﻿[Adds options to automatically disable notifications when a protocol is in a certain status.]
-[No sounds when:]
-[No SysTray blink when:]
-[No CLIST blink when:]
-[Disable &Sounds]
-[Enable &Sounds]
-[Zero Notifications]

@@ -91,7 +91,7 @@ Z&kopírovat odkaz
 [Share Current Directory]
 
 [All files]
-Soubory celkově
+Všechny soubory
 [Specify a file to share]
 
 [Failed to share new file]

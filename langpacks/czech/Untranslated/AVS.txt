@@ -1,5 +1,0 @@
-﻿[Loads and manages contact pictures for other plugins.]
-[This uses the same additional options as in "Contact Avatars" tab]
-[Resize the avatar to fit max allowed protocol size]
-[Fatal error, image services not found. Avatar services will be disabled.]
-[Avatar Service]

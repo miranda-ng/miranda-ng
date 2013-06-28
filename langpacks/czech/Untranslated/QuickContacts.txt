@@ -1,7 +1,0 @@
-﻿[Ctrl+A]
-[Ctrl+V]
-[Ctrl+F]
-[Ctrl+U]
-[Ctrl+I]
-[Ctrl+H]
-[Ctrl+M]

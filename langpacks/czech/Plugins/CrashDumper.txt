@@ -6,7 +6,7 @@
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper for Miranda NG.]
-
+Crash Dumper pro Mirandu NG.
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Informace o verzi
@@ -29,7 +29,7 @@ Obecné
 [Use classic dates]
 Použít klasický formát data
 [Create reports in subfolders naming as current date]
-
+Vytvářet výpisy chyb v podsložkách s názvem aktuálního data
 [View]
 Zobrazit
 [&Copy]
@@ -54,7 +54,7 @@ Zobrazit Informace o verzi
 [Upload Version Information]
 Informace o verzi nahrát na server
 [Crash Reports]
-
+Výpisy chyb
 [Version Information]
 Informace o verzi
 [Copy to clipboard]
@@ -72,12 +72,12 @@ Otevřít složku s výpisem chyb
 [Open miranda-vi.org]
 Jít na miranda-vi.org
 [Copy Version Info to clipboard]
-
+Zkopírovat informace o verzi do schránky
 [Show Version Info]
-
+Zobrazit informace o verzi
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
 [Crash Dumper]
-
+Crash Dumper
 ;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
 Crash report: nedostupná lokace zápisu
@@ -85,7 +85,7 @@ Crash report: nedostupná lokace zápisu
 Miranda spadla. Crash report uložen ve složce:\n %s\n\n Chcete záznam uložit i do schránky?
 ;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
-
+Zobrazit informace o verzi (s DLL knihovnami)
 ;file \plugins\CrashDumper\src\upload.cpp
 [VersionInfo upload successful,\n %d old plugins]
 Informace o verzi: úspěšně nahráno\n%d starých pluginů

@@ -1,7 +1,0 @@
-﻿[Crash Dumper for Miranda NG.]
-[Create reports in subfolders naming as current date]
-[Crash Reports]
-[Copy Version Info to clipboard]
-[Show Version Info]
-[Crash Dumper]
-[View Version Information (with DLLs)]

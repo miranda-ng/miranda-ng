@@ -6,17 +6,17 @@
 ;  Authors: Kildor
 ;============================================================
 [Shows ignore state of contact in contacts list.]
-
+Zobrazuje stav filtrování kontaktu v seznamu kontaktů.
 ;file \plugins\IgnoreState\res\ignore.rc
 [Plugin settings]
 Nastavení doplňku
 [Filtered events:]
-
+Filtrované události:
 [Use Miranda ignore settings for All Contacts]
-
+Použít nastavení filtrování Mirandy pro všechny kontakty
 ;file \plugins\IgnoreState\src\main.cpp
 [All]
-všechno
+Všechno
 [Messages]
 Zprávy
 [URL]
@@ -32,13 +32,13 @@ Zpráva o zařazení mezi kontakty
 [Typing Notify]
 Psaní zprávy
 [Full Ignore]
-
+Kompletní filtrování
 [Partial Ignore]
-
+Částečné filtrování
 [Message Ignore]
-
+Filtrování zpráv
 [Ignore State]
-
+Stav filtrování
 ;file \plugins\IgnoreState\src\options.cpp
 [Icons]
 Ikony

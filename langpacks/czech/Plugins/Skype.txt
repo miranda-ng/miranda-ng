@@ -10,8 +10,8 @@ Skype protokol pro Mirandu NG.
 ;file \protocols\Skype\res\Resource.rc
 [Invite contacts to conference]
 Pozvat kontakty do konference
-[sid]
-SID
+[Skype name:]
+Uživatelské jméno:
 [&Invite]
 &Pozvat
 [&Cancel]
@@ -20,8 +20,6 @@ SID
 Přidat
 [Create conference]
 Vytvořit konferenci
-[Skype name:]
-Uživatelské jméno:
 [&Create]
 &Vytvořit
 [Topic:]
@@ -30,8 +28,8 @@ Téma:
 Pravidla:
 [Enable joining]
 Povolit připojování
-[Users joining as:]
-Uživatelé se připojují jako:
+[New members join with role:]
+Noví členové mají roli:
 [Create with password]
 Zabezpečit heslem
 [Password:]
@@ -51,8 +49,6 @@ Nastavit heslo
 [Hint:]
 Tip:
 [Enter password]
-Zadejte heslo
-[Enter a password]
 Zadejte heslo
 [Remember this session password]
 Zapamatovat heslo této relace
@@ -144,14 +140,14 @@ Chyba připojení k serveru
 Server je přetížen
 [SkypeKit database already in use]
 SkypeKit databáze se již používá
-[Invalid skypename]
-Neplatené uživatelské jméno
+[Invalid Skype name]
+Neplatné uživatelské jméno
 [Invalid email]
 Neplatný e-mail
 [Unacceptable password]
 Neakceptovatelné heslo
 [Skype name is taken]
-Skype jméno je již zabráno
+Uživatelské jméno je již zabráno
 [REJECTED_AS_UNDERAGE]
 Odmítnuto pro nízký věk
 [NO_SUCH_IDENTITY]
@@ -201,7 +197,7 @@ Nové heslo nebylo akceptovatelné
 [Account was currently not logged in]
 Účet nebyl aktuálně přihlášený
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
-Nezadali jste Skype jméno.\nNastavení proveďte v Možnosti->Sítě->%s a zkuste to znovu.
+Nezadali jste uživatelské jméno.\nNastavení proveďte v Možnosti->Sítě->%s a zkuste to znovu.
 ;file \protocols\Skype\src\skype_bookmarks.cpp
 [Name]
 Jméno
@@ -231,7 +227,7 @@ Vy&kopnout
 [Outlaw (&ban)]
 Zakázaný (&ban)
 [Copy &skypename]
-Zkopírovat Skype jméno
+Zkopírovat uživatelské jméno
 [Copy room &uri]
 Zkopírovat &URI místnosti
 [me]
@@ -306,8 +302,8 @@ Blokovat
 Protokoly
 ;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
-[SkypeKit will only permit you to login to one account at a time.\nAdding multiple instances of SkypeKit is prohibited in the licence agreement and standard distribution terms.]
-SkypeKit dovoluje přihlášení pouze z jednoho účtu v jednu chvíli.\nPoužití více instancí SkypeKitu je zakázáno licenčními a distribučními podmínkami.
+[Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
+Skype protokol dovoluje přihlášení pouze z jednoho účtu v jednu chvíli.\nPřidávání více účtů je zakázáno licenčními a distribučními podmínkami SkypeKitu.
 [Initialization key corrupted or not valid.]
 Inicializační klíč je poškozen nebo není platný.
 [SkypeKit did not initialize (%d).]
@@ -331,7 +327,7 @@ Příchozí volání ukončeno
 %s - spojení se serverem
 ;file \protocols\Skype\src\skype_proto.cpp
 [Skype name]
-Skype jméno
+Uživatelské jméno
 ;file \protocols\Skype\src\skype_utils.cpp
 [NOT_VALIDATED]
 Neověřeno
@@ -345,8 +341,8 @@ Hodnota přesahuje maximální délku pro danou položku
 Hodnota obsahuje zakázané znaky
 [Value contains whitespace]
 Hodnota obsahuje mezery
-[Password cannot be the same as skypename]
-Heslo nemůže být stejné jako uživatelské jméno
+[Password cannot be the same as Skype name]
+Heslo nesmí být stejné jako uživatelské jméno
 [Value has invalid format]
 Hodnota má neplatný formát
 [Value contains invalid word]

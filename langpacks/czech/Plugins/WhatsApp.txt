@@ -7,6 +7,29 @@
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
 WhatsApp protokol pro Mirandu NG.
+;file \protocols\WhatsApp\res\whatsapp.rc
+[Phone-Number]
+Telefonní číslo
+[Including country code, without '+' or '00']
+Včetně kódu oblasti, bez '+' či '00'
+[Nickname]
+Přezdívka
+[Request Code]
+Vyžádat kód
+[Register Code]
+Zaregistrovat kód
+[SMS-Code:]
+Kód ze SMS:
+[Will only be used for registration]
+Bude použit pouze pro registraci
+[Use SSL connection (443 port)]
+Použít SSL připojení (port 443)
+[WhatsApp]
+WhatsApp
+[Cancel]
+Zrušit
+[OK]
+OK
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country-code.]
 Zadejte kód oblasti.

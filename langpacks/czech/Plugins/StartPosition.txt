@@ -6,30 +6,30 @@
 ;  Authors: Felipe Brahm - souFrag
 ;============================================================
 [Plugin supports starting position of Contact List relative to the the taskbar and screen side.]
-
+Doplněk umožňuje zvolit startovní pozici seznamu kontaktů relativně vůči hlavnímu panelu a okraji obrazovky.
 ;file \plugins\StartPosition\res\resource.rc
 [Contact List Window Start Position]
-
+Startovní pozice okna seznamu kontaktů
 [Left]
 Vlevo
 [Right]
 Vpravo
 [Pixels from Top]
-
+Počet pixelů zeshora
 [Pixels from Bottom]
-
+Počet pixelů zespodu
 [Pixels from Side]
-
+Počet pixelů ze strany
 [Width]
 Šířka
 [Always start...]
-
+Vždy startovat...
 [Minimized to System Tray]
-
+Miminalizovaný do lišty
 [Opened]
-
+Zobrazený
 ;file \plugins\StartPosition\src\main.cpp
 [Contact List]
 Seznam kontaktů
 [Start position]
-
+Startovní pozice
