@@ -4019,8 +4019,6 @@ INI файлы
 Спросить
 [Use]
 Использовать
-[Ignore empty status messages]
-Игнорировать пустые сообщения
 [Use background bitmap]
 Фоновое изображение
 [>> Outgoing timestamp]

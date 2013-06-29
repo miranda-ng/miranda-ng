@@ -131,3 +131,5 @@ xСтатус удален
 Это сообщение статуса
 [New Status Notify]
 Смена статуса
+[Ignore empty status and xStatus messages]
+Игнорировать пустые сообщения
