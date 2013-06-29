@@ -123,8 +123,8 @@ xСтатус удален
 Файлы Wave
 [changed his/her status message to %n]
 сменил(а) статусное сообщение на %n
-[Enable/Disable protocols which you don't wish to be notified for:]
-Включить/Выключить уведомления для протоколов:
+[Enable/Disable accounts which you don't wish to be notified for:]
+Включить/Выключить уведомления для учётных записей:
 [These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
 Доступные переменные:\r\n\r\n%n\tНовое сообщение статуса\r\n%o\tСтарое сообщение статуса\r\n%c\tНикнейм\r\n\\n\tРазрыв строки\r\n\\t\tТабуляция
 [This is status message]
