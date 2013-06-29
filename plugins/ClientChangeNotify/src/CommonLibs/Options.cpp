@@ -153,16 +153,9 @@ int COptItem::GetIntDBVal(CString &sModule, int bSigned, CString *sDBSettingPref
 	{
 		_ASSERT(nValueSize == DBVT_BYTE || nValueSize == DBVT_WORD || nValueSize == DBVT_DWORD);
 		DBVARIANT dbv;
-		DBCONTACTGETSETTING cgs;
-		cgs.szModule = sModule;
-		//NightFox: WTF is this shit
-		//cgs.szSetting = sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting;
-		cgs.szSetting = sDBSetting;
-		cgs.pValue = &dbv;
-		if (CallService(MS_DB_CONTACT_GETSETTING, NULL, (LPARAM)&cgs))
-		{
+		if (db_get(NULL, sModule, sDBSetting, &dbv))
 			return GetDefValue();
-		}
+
 		return (nValueSize == DBVT_BYTE) ? (bSigned ? (signed char)dbv.bVal : (unsigned char)dbv.bVal) : ((nValueSize == DBVT_WORD) ? (bSigned ? (signed short)dbv.wVal : (unsigned short)dbv.wVal) : dbv.dVal);
 	}
 	return GetDefValue();

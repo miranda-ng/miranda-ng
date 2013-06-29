@@ -182,7 +182,7 @@ HANDLE CSkypeProto::GetContactFromAuthEvent(HANDLE hEvent)
 	dbei.cbBlob = sizeof(DWORD) * 2;
 	dbei.pBlob = (PBYTE)&body;
 
-	if (::CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbei))
+	if (::db_event_get(hEvent, &dbei))
 		return INVALID_HANDLE_VALUE;
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)

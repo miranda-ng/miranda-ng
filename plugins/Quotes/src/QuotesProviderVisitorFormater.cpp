@@ -48,16 +48,8 @@ namespace
 	bool get_fetch_time(HANDLE hContact,time_t& rTime)
 	{
 		DBVARIANT dbv;
-		DBCONTACTGETSETTING cgs;
-
-		cgs.szModule=QUOTES_MODULE_NAME;
-		cgs.szSetting=DB_STR_QUOTE_FETCH_TIME;
-		cgs.pValue=&dbv;
-		if(CallService(MS_DB_CONTACT_GETSETTING,reinterpret_cast<WPARAM>(hContact),reinterpret_cast<LPARAM>(&cgs))
-			|| (DBVT_DWORD != dbv.type))
-		{
+		if (db_get(hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_FETCH_TIME, &dbv) || (DBVT_DWORD != dbv.type))
 			return false;
-		}
 
 		rTime = dbv.dVal;
 		return true;

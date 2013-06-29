@@ -185,11 +185,11 @@ begin
   lvCList.Items.BeginUpdate;
   try
     lvCList.Items.Clear;
-    hCont := CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+    hCont := db_find_first();
     while hCont <> 0 do
     begin
       AddContact(lvCList,hCont);
-      hCont := CallService(MS_DB_CONTACT_FINDNEXT, hCont, 0);
+      hCont := db_find_next(hCont);
     end;
     AddContact(lvCList,0);
     lvCList.SortType := stNone;

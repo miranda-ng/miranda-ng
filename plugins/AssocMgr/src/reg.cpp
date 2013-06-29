@@ -357,12 +357,8 @@ static void WriteDbBackupData(const char *pszSetting,DWORD dwType,BYTE *pData,DW
 // mir_free() the value returned in ppData 
 static BOOL ReadDbBackupData(const char *pszSetting,DWORD *pdwType,BYTE **ppData,DWORD *pcbData)
 {
-	DBCONTACTGETSETTING dbcgs;
 	DBVARIANT dbv;
-	dbcgs.szModule="AssocMgr";
-	dbcgs.szSetting=pszSetting;
-	dbcgs.pValue=&dbv;
-	if (!CallService(MS_DB_CONTACT_GETSETTING,0,(LPARAM)&dbcgs)) {
+	if (!db_get(0, "AssocMgr", pszSetting, &dbv)) {
 		if (dbv.type==DBVT_BLOB && dbv.cpbVal>=sizeof(DWORD)) {
 			*pdwType=*(DWORD*)dbv.pbVal;
 			*ppData=dbv.pbVal;
@@ -370,7 +366,7 @@ static BOOL ReadDbBackupData(const char *pszSetting,DWORD *pdwType,BYTE **ppData
 			MoveMemory(*ppData,*ppData+sizeof(DWORD),*pcbData);
 			return TRUE;
 		}
-		CallService(MS_DB_CONTACT_FREEVARIANT,0,(LPARAM)&dbv);
+		db_free(&dbv);
 	}
 	return FALSE;
 }

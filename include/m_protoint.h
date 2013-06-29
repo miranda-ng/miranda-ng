@@ -54,7 +54,7 @@ struct  PROTO_INTERFACE : public MZeroedObject
 	char*  m_szModuleName;
 	HANDLE m_hProtoIcon;
 
-	DWORD  __forceinline ProtoBroadcastAck(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
+	INT_PTR __forceinline ProtoBroadcastAck(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
 	{
 		return ::ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam);
 	}

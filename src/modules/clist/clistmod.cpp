@@ -216,11 +216,6 @@ static void RemoveProtoIconIndex(PROTOACCOUNT* pa)
 
 static int ContactListModulesLoaded(WPARAM, LPARAM)
 {
-	if ( !ServiceExists(MS_DB_CONTACT_GETSETTING_STR)) {
-		MessageBox(NULL, TranslateT("This plugin requires db3x plugin version 0.5.1.0 or later"), _T("CList"), MB_ICONERROR | MB_OK);
-		return 1;
-	}
-
 	RebuildMenuOrder();
 	for (int i=0; i < accounts.getCount(); i++)
 		AddProtoIconIndex(accounts[i]);

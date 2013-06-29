@@ -93,7 +93,7 @@ begin
   IMExportWizard.ActivePage := Page1;
   StartExport := False;
   // Получаем список контактов
-  hContact := CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+  hContact := db_find_first();
   ContactList.Columns[0].MaxWidth := 190;
   ContactList.Columns[1].MaxWidth := 90;
   ContactList.Columns[2].MaxWidth := 140;
@@ -126,7 +126,7 @@ begin
       ListItem.Checked := False
     else
       ListItem.Checked := True;}
-    hContact := CallService(MS_DB_CONTACT_FINDNEXT, hContact, 0);
+    hContact := db_find_next(hContact);
   end;
   ContactList.Items.EndUpdate;
 end;

@@ -1,4 +1,3 @@
-{$DEFINE UseCore}
 {$INCLUDE compilers.inc}
 unit dbsettings;
 interface
@@ -47,127 +46,57 @@ implementation
 uses common;
 
 function DBReadByte(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;default:byte=0):byte;
-{$IFDEF UseCore}
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_get_b(hContact, szModule, szSetting, default);
 end;
-{$ELSE}
-var
-  dbv:TDBVARIANT;
-  cgs:TDBCONTACTGETSETTING;
-begin
-  cgs.szModule :=szModule;
-  cgs.szSetting:=szSetting;
-  cgs.pValue   :=@dbv;
-  If CallService(MS_DB_CONTACT_GETSETTING,hContact,lParam(@cgs))<>0 then
-    Result:=default
-  else
-    Result:=dbv.bVal;
-end;
-{$ENDIF}
 
 function DBReadWord(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;default:word=0):word;
-{$IFDEF UseCore}
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_get_w(hContact, szModule, szSetting, default);
 end;
-{$ELSE}
-var
-  dbv:TDBVARIANT;
-  cgs:TDBCONTACTGETSETTING;
-begin
-  cgs.szModule :=szModule;
-  cgs.szSetting:=szSetting;
-  cgs.pValue   :=@dbv;
-  If CallService(MS_DB_CONTACT_GETSETTING,hContact,lParam(@cgs))<>0 then
-    Result:=default
-  else
-    Result:=dbv.wVal;
-end;
-{$ENDIF}
 
 function DBReadDWord(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;default:dword=0):dword;
-{$IFDEF UseCore}
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_get_dw(hContact, szModule, szSetting, default);
 end;
-{$ELSE}
-var
-  dbv:TDBVARIANT;
-  cgs:TDBCONTACTGETSETTING;
-begin
-  cgs.szModule :=szModule;
-  cgs.szSetting:=szSetting;
-  cgs.pValue   :=@dbv;
-  If CallService(MS_DB_CONTACT_GETSETTING,hContact,lParam(@cgs))<>0 then
-    Result:=default
-  else
-    Result:=dbv.dVal;
-end;
-{$ENDIF}
 
 function DBReadSetting(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
-{$IFDEF UseCore}
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_get(hContact, szModule, szSetting, dbv);
 end;
-{$ELSE}
-var
-  cgs:TDBCONTACTGETSETTING;
-begin
-  cgs.szModule :=szModule;
-  cgs.szSetting:=szSetting;
-  cgs.pValue   :=dbv;
-  Result:=CallService(MS_DB_CONTACT_GETSETTING,hContact,lParam(@cgs));
-end;
-{$ENDIF}
 
 function DBReadSettingStr(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
-var
-  cgs:TDBCONTACTGETSETTING;
 begin
-  cgs.szModule :=szModule;
-  cgs.szSetting:=szSetting;
-  cgs.pValue   :=dbv;
-  Result:=CallService(MS_DB_CONTACT_GETSETTING_STR,hContact,lParam(@cgs));
+  Result:=db_get_s(hContact,szModule,szSetting,dbv,DBVT_ASCIIZ);
 end;
 
 function DBReadStringLength(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar):integer;
 var
-  cgs:TDBCONTACTGETSETTING;
   dbv:TDBVARIANT;
   i:int_ptr;
 begin
   FillChar(dbv,SizeOf(dbv),0);
-  cgs.szModule :=szModule;
-  cgs.szSetting:=szSetting;
-  cgs.pValue   :=@dbv;
-  i:=CallService(MS_DB_CONTACT_GETSETTING_STR,hContact,lParam(@cgs));
+  i:=db_get_s(hContact,szModule,szSetting,@dbv,DBVT_ASCIIZ);
   if (i<>0) or (dbv.szVal.a=nil) or (dbv.szVal.a^=#0) then
     result:=0
   else
     result:=lstrlena(dbv.szVal.a);
-//!!  if i=0 then
-    DBFreeVariant(@dbv);
+  DBFreeVariant(@dbv);
 end;
 
 function DBReadString(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;
          default:PAnsiChar=nil;enc:integer=DBVT_ASCIIZ):PAnsiChar;
 var
-  cgs:TDBCONTACTGETSETTING;
   dbv:TDBVARIANT;
   i:int_ptr;
 begin
   FillChar(dbv,SizeOf(dbv),0);
-  cgs.szModule :=szModule;
-  cgs.szSetting:=szSetting;
-  cgs.pValue   :=@dbv;
   dbv._type    :=enc;
-  i:=CallService(MS_DB_CONTACT_GETSETTING_STR,hContact,lParam(@cgs));
+  i:=db_get_s(hContact,szModule,szSetting,@dbv,DBVT_ASCIIZ);
   if i=0 then
     default:=dbv.szVal.a;
 
@@ -187,16 +116,11 @@ end;
 
 function DBReadUnicode(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;default:PWideChar=nil):PWideChar;
 var
-  cgs:TDBCONTACTGETSETTING;
   dbv:TDBVARIANT;
   i:int_ptr;
 begin
   FillChar(dbv,SizeOf(dbv),0);
-  cgs.szModule :=szModule;
-  cgs.szSetting:=szSetting;
-  cgs.pValue   :=@dbv;
-  dbv._type    :=DBVT_WCHAR;
-  i:=CallService(MS_DB_CONTACT_GETSETTING_STR,hContact,lParam(@cgs));
+  i:=db_get_s(hContact,szModule,szSetting,@dbv,DBVT_WCHAR);
   if i=0 then
     default:=dbv.szVal.w;
 
@@ -205,8 +129,7 @@ begin
   else
     StrDupW(result,default);
 
-//!!  if i=0 then
-    DBFreeVariant(@dbv);
+  DBFreeVariant(@dbv);
 end;
 
 function DBReadStruct(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;
@@ -230,23 +153,10 @@ end;
 
 function DBWriteStruct(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;
          ptr:pointer;size:dword):Integer;
-{$IFDEF UseCore}
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_set_blob(hContact, szModule, szSetting, ptr, size);
 end;
-{$ELSE}
-var
-  cws:TDBCONTACTWRITESETTING;
-begin
-  cws.szModule    :=szModule;
-  cws.szSetting   :=szSetting;
-  cws.value._type :=DBVT_BLOB;
-  cws.value.pbVal :=ptr;
-  cws.value.cpbVal:=size;
-  result:=CallService(MS_DB_CONTACT_WRITESETTING,0,lParam(@cws));
-end;
-{$ENDIF}
 
 function DBWriteSetting(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
 var
@@ -259,145 +169,53 @@ begin
 end;
 
 function DBWriteByte(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;val:Byte):int_ptr;
-{$IFDEF UseCore}
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_set_b(hContact, szModule, szSetting, val);
 end;
-{$ELSE}
-var
-  cws:TDBCONTACTWRITESETTING;
-begin
-  cws.szModule   :=szModule;
-  cws.szSetting  :=szSetting;
-  cws.value._type:=DBVT_BYTE;
-  cws.value.bVal :=val;
-  Result:=CallService(MS_DB_CONTACT_WRITESETTING,hContact,lParam(@cws));
-end;
-{$ENDIF}
 
 function DBWriteWord(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;val:Word):int_ptr;
-{$IFDEF UseCore}
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_set_w(hContact, szModule, szSetting, val);
 end;
-{$ELSE}
-var
-  cws:TDBCONTACTWRITESETTING;
-begin
-  cws.szModule   :=szModule;
-  cws.szSetting  :=szSetting;
-  cws.value._type:=DBVT_WORD;
-  cws.value.wVal :=val;
-  Result:=CallService(MS_DB_CONTACT_WRITESETTING,hContact,lParam(@cws));
-end;
-{$ENDIF}
 
 function DBWriteDWord(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;val:dword):int_ptr;
-{$IFDEF UseCore}
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_set_dw(hContact, szModule, szSetting, val);
 end;
-{$ELSE}
-var
-  cws:TDBCONTACTWRITESETTING;
-begin
-  cws.szModule   :=szModule;
-  cws.szSetting  :=szSetting;
-  cws.value._type:=DBVT_DWORD;
-  cws.value.dVal :=val;
-  Result:=CallService(MS_DB_CONTACT_WRITESETTING,hContact,lParam(@cws));
-end;
-{$ENDIF}
 
 function DBWriteString(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;
          val:PAnsiChar;enc:integer=DBVT_ASCIIZ):int_ptr;
-{$IFDEF UseCore}
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_set_s(hContact, szModule, szSetting, val);
 end;
-{$ELSE}
-var
-  cws:TDBCONTACTWRITESETTING;
-  p:dword;
-begin
-  cws.szModule     :=szModule;
-  cws.szSetting    :=szSetting;
-  cws.value._type  :=enc;
-  if val=nil then
-  begin
-    p:=0;
-    val:=@p;
-  end;
-  cws.value.szVal.a:=val;
-  Result:=CallService(MS_DB_CONTACT_WRITESETTING,hContact,lParam(@cws));
-end;
-{$ENDIF}
 
 function DBWriteUTF8(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;val:PAnsiChar):int_ptr;
-{$IFDEF UseCore}
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_set_utf(hContact, szModule, szSetting, val);
 end;
-{$ELSE}
-begin
-  result:=DBWriteString(hContact,szModule,szSetting,val,DBVT_UTF8);
-end;
-{$ENDIF}
 
 function DBWriteUnicode(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;val:PWideChar):int_ptr;
-{$IFDEF UseCore}
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_set_ws(hContact, szModule, szSetting, val);
 end;
-{$ELSE}
-begin
-  result:=DBWriteString(hContact,szModule,szSetting,PAnsiChar(val),DBVT_WCHAR);
-{
-var
-  cws:TDBCONTACTWRITESETTING;
-begin
-  cws.szModule     :=szModule;
-  cws.szSetting    :=szSetting;
-  cws.value._type  :=DBVT_WCHAR;
-  cws.value.szVal.w:=Val;
-  Result:=CallService(MS_DB_CONTACT_WRITESETTING,hContact,lParam(@cws));
-}
-end;
-{$ENDIF}
 
 function DBFreeVariant(dbv:PDBVARIANT):int_ptr;
-{$IFDEF UseCore}
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_free(dbv);
 end;
-{$ELSE}
-begin
-  Result:=CallService(MS_DB_CONTACT_FREEVARIANT,0,lParam(dbv));
-end;
-{$ENDIF}
 
 function DBDeleteSetting(hContact:THandle;szModule:PAnsiChar;szSetting:PAnsiChar):int_ptr;
-{$IFDEF UseCore}
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_unset(hContact, szModule, szSetting);
 end;
-{$ELSE}
-var
-  cgs:TDBCONTACTGETSETTING;
-begin
-  cgs.szModule :=szModule;
-  cgs.szSetting:=szSetting;
-  Result:=CallService(MS_DB_CONTACT_DELETESETTING,hContact,lParam(@cgs));
-end;
-{$ENDIF}
 
 type
   ppchar = ^pAnsiChar;
@@ -418,7 +236,6 @@ end;
 function DBDeleteGroup(hContact:THANDLE;szModule:PAnsiChar;prefix:pAnsiChar=nil):int_ptr;
 var
   ces:TDBCONTACTENUMSETTINGS;
-  cgs:TDBCONTACTGETSETTING;
   p:PAnsiChar;
   num,len:integer;
   ptr:pAnsiChar;
@@ -439,7 +256,6 @@ begin
   result:=CallService(MS_DB_CONTACT_ENUMSETTINGS,hContact,lparam(@ces));
   ptr^:=#0;
 
-  cgs.szModule:=szModule;
   ptr:=p;
   if (prefix<>nil) and (prefix^<>#0) then
     len:=StrLen(prefix)
@@ -449,8 +265,7 @@ begin
   begin
     if (len=0) or (StrCmp(prefix,ptr,len)=0) then
     begin
-      cgs.szSetting:=ptr;
-      CallService(MS_DB_CONTACT_DELETESETTING,hContact,lParam(@cgs));
+      db_unset(hContact,szModule,ptr);
     end;
     while ptr^<>#0 do inc(ptr);
     inc(ptr);

@@ -418,7 +418,7 @@ MirandaUtils::addMessageToDB(HANDLE hContact, int mirandaSendModeFlag, char* msg
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.cbBlob = (DWORD)bufSize;
 	dbei.pBlob = (PBYTE)msgBuffer;
-	CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+	db_event_add(hContact, &dbei);
 }
 
 

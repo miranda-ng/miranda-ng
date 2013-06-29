@@ -19,7 +19,7 @@ begin
   if format=nil then format:=defformat;
 
   SendMessage(list,CB_RESETCONTENT,0,0);
-  hContact:=CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+  hContact:=db_find_first();
 
   lName   :=StrPosW(format,'%name%')<>nil;
   lGroup  :=StrPosW(format,'%group%')<>nil;
@@ -92,7 +92,7 @@ begin
           SendMessageW(list,CB_ADDSTRING,0,tlparam(@buf)),
           hContact);
     end;
-    hContact:=CallService(MS_DB_CONTACT_FINDNEXT,hContact,0);
+    hContact:=db_find_next(hContact);
   end;
 end;
 

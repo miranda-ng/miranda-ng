@@ -140,44 +140,12 @@ Implemented in the dbchecker plugins, thus it might not exist
 
 /************************* Contact ********************************/
 
-/* DB/Contact/GetSetting service
-Look up the value of a named setting for a specific contact in the database
-  wParam = (WPARAM)(HANDLE)hContact
-  lParam = (LPARAM)(DBCONTACTGETSETTING*)&dbcgs
-hContact should have been returned by find*contact or addcontact
-Caller is responsible for free()ing dbcgs.pValue->pszVal and pbVal if they are
-returned. This should be done with db/contact/freevariant if you have your own
-heap (like DLLs do).
-Note that DBCONTACTGETSETTING takes a pointer to a DBVARIANT, whereas
-DBCONTACTWRITESETTING contains a DBVARIANT.
-Returns 0 on success or nonzero if the setting name was not found or hContact
-was invalid
-Because this is such a common function there are some short helper function at
-the bottom of this header that use it.
-
-(Added during 0.3.3+ development!!)
-
-If a setting is queried under for contact and it is deleted it will
-not be returned as a successful attempt, prior to 0.3.3 a *deleted*
-setting would be successfully read (which was a bug because the pValue
-was often garbage and maybe not even NULL terminated)
-
-To test for existing but 'deleted' settings, the return value will
-be 2, and pValue->type == DBVT_DELETED, at this point pValue is undefined.
-*/
 typedef struct {
 	const char *szModule;	// pointer to name of the module that wrote the
 	                        // setting to get
 	const char *szSetting;	// pointer to name of the setting to get
 	DBVARIANT *pValue;		// pointer to variant to receive the value
 } DBCONTACTGETSETTING;
-#define MS_DB_CONTACT_GETSETTING  "DB/Contact/GetSetting"
-
-/* DB/Contact/GetSettingString service  0.4.3+
-Same as DB/Contact/GetSetting, but also gets the required string type inside
-the dbcgs->type parameter
-*/
-#define MS_DB_CONTACT_GETSETTING_STR  "DB/Contact/GetSettingStr"
 
 /* DB/Contact/GetSettingStatic service
 Look up the value of a named setting for a specific contact in the database
@@ -206,24 +174,6 @@ was invalid.
 */
 #define MS_DB_CONTACT_GETSETTINGSTATIC  "DB/Contact/GetSettingStatic"
 
-/* DB/Contact/FreeVariant service
-Free the memory in a DBVARIANT that is allocated by a call to
-db/contact/getsetting
-  wParam = 0
-  lParam = (LPARAM)(DBVARIANT*)&dbv
-Returns 0 on success, nonzero otherwise
-This service is actually just a wrapper around a call to free() and a test to
-check that it is a string or a blob in the variant. It exists because DLLs have
-their own heap and cannot free the memory allocated in db/contact/getsetting.
-Thus it need not be called if you know the variant contains some form of int,
-and you will often see free() used instead in code written before I noticed
-this problem.
-Good style, of course, dictates that it should be present to match all calls to
-db/contact/getsetting, but that's not going to happen of course.
-There's a helper function for this at the bottom of this header too.
-*/
-#define MS_DB_CONTACT_FREEVARIANT  "DB/Contact/FreeVariant"
-
 /* DB/Contact/WriteSetting service
 Change the value of, or create a new value with, a named setting for a specific
 contact in the database to the given value
@@ -244,20 +194,6 @@ typedef struct {
 	DBVARIANT value;		// variant containing the value to set
 } DBCONTACTWRITESETTING;
 #define MS_DB_CONTACT_WRITESETTING  "DB/Contact/WriteSetting"
-
-/* DB/Contact/DeleteSetting service
-Removes a named setting for a specific contact from the database
-  wParam = (WPARAM)(HANDLE)hContact
-  lParam = (LPARAM)(DBCONTACTGETSETTING*)&dbcgs
-hContact should have been returned by find*contact or addcontact
-pValue from dbcgs is not used.
-Returns 0 on success or nonzero if the setting was not present or hContact was
-invalid
-Triggers a db/contact/settingchanged event before it deletes the setting. The
-'new value' of the setting is set to type = 0 and all the other fields are
-undefined.
-*/
-#define MS_DB_CONTACT_DELETESETTING  "DB/Contact/DeleteSetting"
 
 /* db/contact/enumsettings    v0.1.0.1+
 Lists all the settings a specific modules has stored in the database for a
@@ -289,25 +225,6 @@ Returns the number of contacts. They can be retrieved using contact/findfirst
 and contact/findnext
 */
 #define MS_DB_CONTACT_GETCOUNT  "DB/Contact/GetCount"
-
-/* DB/Contact/FindFirst service
-Gets the handle of the first contact in the database. This handle can be used
-with loads of functions. It does not need to be closed.
-  wParam = lParam = 0
-Returns a handle to the first contact in the db on success, or NULL if there
-are no contacts in the db.
-*/
-#define MS_DB_CONTACT_FINDFIRST  "DB/Contact/FindFirst"
-
-/* DB/Contact/FindNext service
-Gets the handle of the next contact after hContact in the database. This handle
-can be used with loads of functions. It does not need to be closed.
-  wParam = (WPARAM)(HANDLE)hContact
-  lParam = 0
-Returns a handle to the contact after hContact in the db on success or NULL if
-hContact was the last contact in the db or hContact was invalid.
-*/
-#define MS_DB_CONTACT_FINDNEXT  "DB/Contact/FindNext"
 
 /* DB/Contact/Delete
 Deletes the contact hContact from the database and all events and settings
@@ -376,7 +293,6 @@ typedef struct
 #define DETF_MSGWINDOW  2   // show event in message window
 #define DETF_NONOTIFY   4   // block event notify (e.g. Popups)
 
-
 #define MS_DB_EVENT_REGISTERTYPE  "DB/EventType/Register"
 
 /* DB/EventType/Get service (0.7+)
@@ -388,80 +304,9 @@ Returns DBEVENTTYPEDESCR* or NULL, if an event isn't found.
 
 #define MS_DB_EVENT_GETTYPE "DB/EventType/Get"
 
-/* DB/Event/GetCount service
-Gets the number of events in the chain belonging to a contact in the database.
-  wParam = (WPARAM)(HANDLE)hContact
-  lParam = 0
-Returns the number of events in the chain owned by hContact or -1 if hContact
-is invalid. They can be retrieved using the event/find* services.
-*/
-#define MS_DB_EVENT_GETCOUNT  "DB/Event/GetCount"
-
-/* DB/Event/Add
-Adds a new event to a contact's event list
-  wParam = (WPARAM)(HANDLE)hContact
-  lParam = (LPARAM)(DBEVENTINFO*)&dbe
-Returns a handle to the newly added event, or NULL on failure
-Triggers a db/event/added event just before it returns.
-Events are sorted chronologically as they are entered, so you cannot guarantee
-that the new hEvent is the last event in the chain, however if a new event is
-added that has a timestamp less than 90 seconds *before* the event that should
-be after it, it will be added afterwards, to allow for protocols that only
-store times to the nearest minute, and slight delays in transports.
-There are a few predefined eventTypes below for easier compatibility, but
-modules are free to define their own, beginning at 2000
-DBEVENTINFO.timestamp is in GMT, as returned by time(). There are services
-db/time/x below with useful stuff for dealing with it.
-*/
-
-#define EVENTTYPE_MESSAGE   0
-#define EVENTTYPE_URL       1
-#define EVENTTYPE_CONTACTS  2	//v0.1.2.2+
-#define EVENTTYPE_ADDED         1000  //v0.1.1.0+: these used to be module-
-#define EVENTTYPE_AUTHREQUEST   1001  //specific codes, hence the module-
-#define EVENTTYPE_FILE          1002  //specific limit has been raised to 2000
-#define MS_DB_EVENT_ADD  "DB/Event/Add"
-
 __forceinline HANDLE DbGetAuthEventContact(DBEVENTINFO* dbei)
 {	return (HANDLE)(*(DWORD*)&dbei->pBlob[sizeof(DWORD)]);
 }
-
-/* DB/Event/Delete
-Removes a single event from the database
-  wParam = (WPARAM)(HANDLE)hContact
-  lParam = (LPARAM)(HANDLE)hDbEvent
-hDbEvent should have been returned by db/event/add or db/event/find*event
-Returns 0 on success, or nonzero if hDbEvent was invalid
-Triggers a db/event/deleted event just *before* the event is deleted
-*/
-#define MS_DB_EVENT_DELETE  "DB/Event/Delete"
-
-/* DB/Event/GetBlobSize
-Retrieves the space in bytes required to store the blob in hDbEvent
-  wParam = (WPARAM)(HANDLE)hDbEvent
-  lParam = 0
-hDbEvent should have been returned by db/event/add or db/event/find*event
-Returns the space required in bytes, or -1 if hDbEvent is invalid
-*/
-#define MS_DB_EVENT_GETBLOBSIZE  "DB/Event/GetBlobSize"
-
-/* DB/Event/Get
-Retrieves all the information stored in hDbEvent
-  wParam = (WPARAM)(HANDLE)hDbEvent
-  lParam = (LPARAM)(DBEVENTINFO*)&dbe
-hDbEvent should have been returned by db/event/add or db/event/find*event
-Returns 0 on success or nonzero if hDbEvent is invalid
-Don't forget to set dbe.cbSize, dbe.pBlob and dbe.cbBlob before calling this
-service
-The correct value dbe.cbBlob can be got using db/event/getblobsize
-If successful, all the fields of dbe are filled. dbe.cbBlob is set to the
-actual number of bytes retrieved and put in dbe.pBlob
-If dbe.cbBlob is too small, dbe.pBlob is filled up to the size of dbe.cbBlob
-and then dbe.cbBlob is set to the required size of data to go in dbe.pBlob
-On return, dbe.szModule is a pointer to the database module's own internal list
-of modules. Look but don't touch.
-*/
-#define MS_DB_EVENT_GET  "DB/Event/Get"
 
 /* DB/Event/GetText (0.7.0+)
 Retrieves the event's text
@@ -531,81 +376,6 @@ __forceinline TCHAR* DbGetEventStringT(DBEVENTINFO* dbei, const char* str)
 {
 	return (TCHAR*)CallService(MS_DB_EVENT_GETSTRINGT, (WPARAM)dbei, (LPARAM)str);
 }
-
-/* DB/Event/MarkRead
-Changes the flags for an event to mark it as read.
-  wParam = (WPARAM)(HANDLE)hContact
-  lParam = (LPARAM)(HANDLE)hDbEvent
-hDbEvent should have been returned by db/event/add or db/event/find*event
-Returns the entire flag DWORD for the event after the change, or -1 if hDbEvent
-is invalid.
-This is the one database write operation that does not trigger an event.
-Modules should not save flags states for any length of time.
-*/
-#define MS_DB_EVENT_MARKREAD  "DB/Event/MarkRead"
-
-/* DB/Event/GetContact
-Retrieves a handle to the contact that owns hDbEvent.
-  wParam = (WPARAM)(HANDLE)hDbEvent
-  lParam = 0
-hDbEvent should have been returned by db/event/add or db/event/find*event
-NULL is a valid return value, meaning, as usual, the user.
-Returns (HANDLE)(-1) if hDbEvent is invalid, or the handle to the contact on
-success
-This service is exceptionally slow. Use only when you have no other choice at
-all.
-*/
-#define MS_DB_EVENT_GETCONTACT  "DB/Event/GetContact"
-
-/* DB/Event/FindFirst
-Retrieves a handle to the first event in the chain for hContact
-  wParam = (WPARAM)(HANDLE)hContact
-  lParam = 0
-Returns the handle, or NULL if hContact is invalid or has no events
-Events in a chain are sorted chronologically automatically
-*/
-#define MS_DB_EVENT_FINDFIRST  "DB/Event/FindFirst"
-
-/* DB/Event/FindFirstUnread
-Retrieves a handle to the first unread event in the chain for hContact
-  wParam = (WPARAM)(HANDLE)hContact
-  lParam = 0
-Returns the handle, or NULL if hContact is invalid or all its events have been
-read
-Events in a chain are sorted chronologically automatically, but this does not
-necessarily mean that all events after the first unread are unread too. They
-should be checked individually with event/findnext and event/get
-This service is designed for startup, reloading all the events that remained
-unread from last time
-*/
-#define MS_DB_EVENT_FINDFIRSTUNREAD  "DB/Event/FindFirstUnread"
-
-/* DB/Event/FindLast
-Retrieves a handle to the last event in the chain for hContact
-  wParam = (WPARAM)(HANDLE)hContact
-  lParam = 0
-Returns the handle, or NULL if hContact is invalid or has no events
-Events in a chain are sorted chronologically automatically
-*/
-#define MS_DB_EVENT_FINDLAST  "DB/Event/FindLast"
-
-/* DB/Event/FindNext
-Retrieves a handle to the next event in a chain after hDbEvent
-  wParam = (WPARAM)(HANDLE)hDbEvent
-  lParam = 0
-Returns the handle, or NULL if hDbEvent is invalid or is the last event
-Events in a chain are sorted chronologically automatically
-*/
-#define MS_DB_EVENT_FINDNEXT  "DB/Event/FindNext"
-
-/* DB/Event/FindPrev
-Retrieves a handle to the previous event in a chain before hDbEvent
-  wParam = (WPARAM)(HANDLE)hDbEvent
-  lParam = 0
-Returns the handle, or NULL if hDbEvent is invalid or is the first event
-Events in a chain are sorted chronologically automatically
-*/
-#define MS_DB_EVENT_FINDPREV  "DB/Event/FindPrev"
 
 /************************** Encryption ****************************/
 

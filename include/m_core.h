@@ -107,28 +107,181 @@ typedef struct {
 } DBEVENTINFO;
 
 MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv);
-MIR_CORE_DLL(INT_PTR) db_unset(HANDLE hContact, const char *szModule, const char *szSetting);
+
+/******************************************************************************
+ * DATABASE CONTACTS
+ */
+
+/*
+Gets the handle of the first contact in the database. This handle can be used
+with loads of functions. It does not need to be closed.
+You can specify szProto to find only its contacts
+Returns a handle to the first contact in the db on success, or NULL if there
+are no contacts in the db.
+*/
 
 #if defined(__cplusplus)
-	MIR_CORE_DLL(HANDLE)  db_find_first(const char *szProto = NULL);
-	MIR_CORE_DLL(HANDLE)  db_find_next(HANDLE hContact, const char *szProto = NULL);
+	MIR_CORE_DLL(HANDLE) db_find_first(const char *szProto = NULL);
 #else
-	MIR_CORE_DLL(HANDLE)  db_find_first(const char *szProto);
-	MIR_CORE_DLL(HANDLE)  db_find_next(HANDLE hContact, const char *szProto);
+	MIR_CORE_DLL(HANDLE) db_find_first(const char *szProto);
 #endif
 
-MIR_CORE_DLL(HANDLE)  db_event_add(HANDLE hContact, DBEVENTINFO *dbei);
-MIR_CORE_DLL(int)     db_event_count(HANDLE hContact);
-MIR_CORE_DLL(int)     db_event_delete(HANDLE hContact, HANDLE hDbEvent);
-MIR_CORE_DLL(HANDLE)  db_event_first(HANDLE hContact);
-MIR_CORE_DLL(HANDLE)  db_event_firstUnread(HANDLE hContact);
-MIR_CORE_DLL(int)     db_event_get(HANDLE hDbEvent, DBEVENTINFO *dbei);
-MIR_CORE_DLL(int)     db_event_getBlobSize(HANDLE hDbEvent);
-MIR_CORE_DLL(HANDLE)  db_event_getContact(HANDLE hDbEvent);
-MIR_CORE_DLL(HANDLE)  db_event_last(HANDLE hDbEvent);
-MIR_CORE_DLL(int)     db_event_markRead(HANDLE hContact, HANDLE hDbEvent);
-MIR_CORE_DLL(HANDLE)  db_event_next(HANDLE hDbEvent);
-MIR_CORE_DLL(HANDLE)  db_event_prev(HANDLE hDbEvent);
+/*
+Gets the handle of the next contact after hContact in the database. This handle
+can be used with loads of functions. It does not need to be closed.
+You can specify szProto to find only its contacts
+Returns a handle to the contact after hContact in the db on success or NULL if
+hContact was the last contact in the db or hContact was invalid.
+*/
+
+#if defined(__cplusplus)
+	MIR_CORE_DLL(HANDLE) db_find_next(HANDLE hContact, const char *szProto = NULL);
+#else
+	MIR_CORE_DLL(HANDLE) db_find_next(HANDLE hContact, const char *szProto);
+#endif
+
+/******************************************************************************
+ * DATABASE EVENTS
+ */
+
+/* 
+Adds a new event to a contact's event list
+Returns a handle to the newly added event, or NULL on failure
+Triggers a db/event/added event just before it returns.
+Events are sorted chronologically as they are entered, so you cannot guarantee
+that the new hEvent is the last event in the chain, however if a new event is
+added that has a timestamp less than 90 seconds *before* the event that should
+be after it, it will be added afterwards, to allow for protocols that only
+store times to the nearest minute, and slight delays in transports.
+There are a few predefined eventTypes below for easier compatibility, but
+modules are free to define their own, beginning at 2000
+DBEVENTINFO.timestamp is in GMT, as returned by time(). There are services
+db/time/x below with useful stuff for dealing with it.
+*/
+
+#define EVENTTYPE_MESSAGE         0
+#define EVENTTYPE_URL             1
+#define EVENTTYPE_CONTACTS        2   //v0.1.2.2+
+#define EVENTTYPE_ADDED         1000  //v0.1.1.0+: these used to be module-
+#define EVENTTYPE_AUTHREQUEST   1001  //specific codes, hence the module-
+#define EVENTTYPE_FILE          1002  //specific limit has been raised to 2000
+
+MIR_CORE_DLL(HANDLE) db_event_add(HANDLE hContact, DBEVENTINFO *dbei);
+
+/*
+Gets the number of events in the chain belonging to a contact in the database.
+Returns the number of events in the chain owned by hContact or -1 if hContact
+is invalid. They can be retrieved using the db_event_first/last() services.
+*/
+
+MIR_CORE_DLL(int) db_event_count(HANDLE hContact);
+
+/*
+Removes a single event from the database
+hDbEvent should have been returned by db_event_add/first/last/next/prev()
+Returns 0 on success, or nonzero if hDbEvent was invalid
+Triggers a db/event/deleted event just *before* the event is deleted
+*/
+
+MIR_CORE_DLL(int) db_event_delete(HANDLE hContact, HANDLE hDbEvent);
+
+/*
+Retrieves a handle to the first event in the chain for hContact
+Returns the handle, or NULL if hContact is invalid or has no events
+Events in a chain are sorted chronologically automatically
+*/
+
+MIR_CORE_DLL(HANDLE) db_event_first(HANDLE hContact);
+
+/* 
+Retrieves a handle to the first unread event in the chain for hContact
+Returns the handle, or NULL if hContact is invalid or all its events have been
+read
+
+Events in a chain are sorted chronologically automatically, but this does not
+necessarily mean that all events after the first unread are unread too. They
+should be checked individually with db_event_next() and db_event_get()
+This service is designed for startup, reloading all the events that remained
+unread from last time
+*/
+
+MIR_CORE_DLL(HANDLE) db_event_firstUnread(HANDLE hContact);
+
+/*
+Retrieves all the information stored in hDbEvent
+hDbEvent should have been returned by db_event_add/first/last/next/prev()
+Returns 0 on success or nonzero if hDbEvent is invalid
+Don't forget to set dbe.cbSize, dbe.pBlob and dbe.cbBlob before calling this
+service
+The correct value dbe.cbBlob can be got using db/event/getblobsize
+If successful, all the fields of dbe are filled. dbe.cbBlob is set to the
+actual number of bytes retrieved and put in dbe.pBlob
+If dbe.cbBlob is too small, dbe.pBlob is filled up to the size of dbe.cbBlob
+and then dbe.cbBlob is set to the required size of data to go in dbe.pBlob
+On return, dbe.szModule is a pointer to the database module's own internal list
+of modules. Look but don't touch.
+*/
+
+MIR_CORE_DLL(int) db_event_get(HANDLE hDbEvent, DBEVENTINFO *dbei);
+
+/*
+Retrieves the space in bytes required to store the blob in hDbEvent
+hDbEvent should have been returned by db_event_add/first/last/next/prev()
+Returns the space required in bytes, or -1 if hDbEvent is invalid
+*/
+
+MIR_CORE_DLL(int) db_event_getBlobSize(HANDLE hDbEvent);
+
+/*
+Retrieves a handle to the contact that owns hDbEvent.
+hDbEvent should have been returned by db_event_add/first/last/next/prev()
+NULL is a valid return value, meaning, as usual, the user.
+Returns (HANDLE)(-1) if hDbEvent is invalid, or the handle to the contact on
+success
+This service is exceptionally slow. Use only when you have no other choice at
+all.
+*/
+
+MIR_CORE_DLL(HANDLE) db_event_getContact(HANDLE hDbEvent);
+
+/*
+Retrieves a handle to the last event in the chain for hContact
+Returns the handle, or NULL if hContact is invalid or has no events
+Events in a chain are sorted chronologically automatically
+*/
+
+MIR_CORE_DLL(HANDLE) db_event_last(HANDLE hDbEvent);
+
+/*
+Changes the flags for an event to mark it as read.
+hDbEvent should have been returned by db_event_add/first/last/next/prev()
+Returns the entire flag DWORD for the event after the change, or -1 if hDbEvent
+is invalid.
+This is the one database write operation that does not trigger an event.
+Modules should not save flags states for any length of time.
+*/
+
+MIR_CORE_DLL(int) db_event_markRead(HANDLE hContact, HANDLE hDbEvent);
+
+/*
+Retrieves a handle to the next event in a chain after hDbEvent
+Returns the handle, or NULL if hDbEvent is invalid or is the last event
+Events in a chain are sorted chronologically automatically
+*/
+
+MIR_CORE_DLL(HANDLE) db_event_next(HANDLE hDbEvent);
+
+/*
+Retrieves a handle to the previous event in a chain before hDbEvent
+Returns the handle, or NULL if hDbEvent is invalid or is the first event
+Events in a chain are sorted chronologically automatically
+*/
+
+MIR_CORE_DLL(HANDLE) db_event_prev(HANDLE hDbEvent);
+
+/******************************************************************************
+ * DATABASE SETTINGS
+ */
 
 MIR_CORE_DLL(int)     db_get_b(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue);
 MIR_CORE_DLL(int)     db_get_w(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue);
@@ -150,6 +303,8 @@ MIR_CORE_DLL(INT_PTR) db_set_s(HANDLE hContact, const char *szModule, const char
 MIR_CORE_DLL(INT_PTR) db_set_ws(HANDLE hContact, const char *szModule, const char *szSetting, const WCHAR *val);
 MIR_CORE_DLL(INT_PTR) db_set_utf(HANDLE hContact, const char *szModule, const char *szSetting, const char *val);
 MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const char *szSetting, void *val, unsigned len);
+
+MIR_CORE_DLL(INT_PTR) db_unset(HANDLE hContact, const char *szModule, const char *szSetting);
 
 #if defined(__cplusplus)
 	MIR_CORE_DLL(BOOL) db_set_resident(const char *szModule, const char *szService, BOOL bEnable=TRUE);
@@ -191,28 +346,28 @@ typedef INT_PTR (*MIRANDASERVICEOBJPARAM)(void*, WPARAM, LPARAM, LPARAM);
 	#define CALLSERVICE_NOTFOUND      ((int)0x80000000)
 #endif
 
-MIR_CORE_DLL(HANDLE) CreateHookableEvent(const char *name);
-MIR_CORE_DLL(int)    DestroyHookableEvent(HANDLE hEvent);
-MIR_CORE_DLL(int)    SetHookDefaultForHookableEvent(HANDLE hEvent, MIRANDAHOOK pfnHook);
-MIR_CORE_DLL(int)    CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam, LPARAM lParam);
-MIR_CORE_DLL(int)    NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam);
-MIR_CORE_DLL(int)    NotifyFastHook(HANDLE hEvent, WPARAM wParam, LPARAM lParam);
+MIR_CORE_DLL(HANDLE)  CreateHookableEvent(const char *name);
+MIR_CORE_DLL(int)     DestroyHookableEvent(HANDLE hEvent);
+MIR_CORE_DLL(int)     SetHookDefaultForHookableEvent(HANDLE hEvent, MIRANDAHOOK pfnHook);
+MIR_CORE_DLL(int)     CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam, LPARAM lParam);
+MIR_CORE_DLL(int)     NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam);
+MIR_CORE_DLL(int)     NotifyFastHook(HANDLE hEvent, WPARAM wParam, LPARAM lParam);
 
-MIR_CORE_DLL(HANDLE) HookEvent(const char* name, MIRANDAHOOK hookProc);
-MIR_CORE_DLL(HANDLE) HookEventParam(const char* name, MIRANDAHOOKPARAM hookProc, LPARAM lParam);
-MIR_CORE_DLL(HANDLE) HookEventObj(const char* name, MIRANDAHOOKOBJ hookProc, void* object);
-MIR_CORE_DLL(HANDLE) HookEventObjParam(const char* name, MIRANDAHOOKOBJPARAM hookProc, void* object, LPARAM lParam);
-MIR_CORE_DLL(HANDLE) HookEventMessage(const char* name, HWND hwnd, UINT message);
-MIR_CORE_DLL(int)    UnhookEvent(HANDLE hHook);
-MIR_CORE_DLL(void)   KillObjectEventHooks(void* pObject);
-MIR_CORE_DLL(void)   KillModuleEventHooks(HINSTANCE pModule);
+MIR_CORE_DLL(HANDLE)  HookEvent(const char* name, MIRANDAHOOK hookProc);
+MIR_CORE_DLL(HANDLE)  HookEventParam(const char* name, MIRANDAHOOKPARAM hookProc, LPARAM lParam);
+MIR_CORE_DLL(HANDLE)  HookEventObj(const char* name, MIRANDAHOOKOBJ hookProc, void* object);
+MIR_CORE_DLL(HANDLE)  HookEventObjParam(const char* name, MIRANDAHOOKOBJPARAM hookProc, void* object, LPARAM lParam);
+MIR_CORE_DLL(HANDLE)  HookEventMessage(const char* name, HWND hwnd, UINT message);
+MIR_CORE_DLL(int)     UnhookEvent(HANDLE hHook);
+MIR_CORE_DLL(void)    KillObjectEventHooks(void* pObject);
+MIR_CORE_DLL(void)    KillModuleEventHooks(HINSTANCE pModule);
 
-MIR_CORE_DLL(HANDLE) CreateServiceFunction(const char *name, MIRANDASERVICE serviceProc);
-MIR_CORE_DLL(HANDLE) CreateServiceFunctionParam(const char *name, MIRANDASERVICEPARAM serviceProc, LPARAM lParam);
-MIR_CORE_DLL(HANDLE) CreateServiceFunctionObj(const char *name, MIRANDASERVICEOBJ serviceProc, void* object);
-MIR_CORE_DLL(HANDLE) CreateServiceFunctionObjParam(const char *name, MIRANDASERVICEOBJPARAM serviceProc, void* object, LPARAM lParam);
-MIR_CORE_DLL(int)    DestroyServiceFunction(HANDLE hService);
-MIR_CORE_DLL(int)    ServiceExists(const char *name);
+MIR_CORE_DLL(HANDLE)  CreateServiceFunction(const char *name, MIRANDASERVICE serviceProc);
+MIR_CORE_DLL(HANDLE)  CreateServiceFunctionParam(const char *name, MIRANDASERVICEPARAM serviceProc, LPARAM lParam);
+MIR_CORE_DLL(HANDLE)  CreateServiceFunctionObj(const char *name, MIRANDASERVICEOBJ serviceProc, void* object);
+MIR_CORE_DLL(HANDLE)  CreateServiceFunctionObjParam(const char *name, MIRANDASERVICEOBJPARAM serviceProc, void* object, LPARAM lParam);
+MIR_CORE_DLL(int)     DestroyServiceFunction(HANDLE hService);
+MIR_CORE_DLL(int)     ServiceExists(const char *name);
 
 MIR_CORE_DLL(INT_PTR) CallService(const char *name, WPARAM wParam, LPARAM lParam);
 MIR_CORE_DLL(INT_PTR) CallServiceSync(const char *name, WPARAM wParam, LPARAM lParam);

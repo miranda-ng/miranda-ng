@@ -54,57 +54,38 @@ inline int Percentile2Byte(int vPerc) { return (vPerc*255)/100; }
 inline char *db_get_s(HANDLE hContact, const char *ModuleName, const char *SettingName, const char *Default)
 {
 	DBVARIANT dbv;
-	DBCONTACTGETSETTING dbcgs;
-	dbcgs.szModule = ModuleName;
-	dbcgs.pValue = &dbv;
-	dbcgs.szSetting = SettingName;
-
-	CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&dbcgs);
+	db_get(hContact, ModuleName, SettingName, &dbv);
 
 	char *result = 0;
 	if (dbv.type == DBVT_ASCIIZ)
-	{
 		result = mir_strdup(dbv.pszVal);
-	}
 	else if (Default)
-	{
 		result = mir_strdup(Default);
-	}
 
-	CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+	db_free(&dbv);
 	return result;
 }
 
 inline INT_PTR DBGetContactSettingStringX(HANDLE hContact, const char *ModuleName, const char *SettingName, const char *Default, const int retType)
 {
 	INT_PTR ret = NULL;
-	BOOL result = 0;
-	DBVARIANT dbv;
-	DBCONTACTGETSETTING dbcgs;
-	dbcgs.szModule = ModuleName;
-	dbcgs.szSetting = SettingName;
-	dbcgs.pValue = &dbv;
-	dbv.type=(BYTE)retType;
 
-	result = CallService(MS_DB_CONTACT_GETSETTING_STR, (WPARAM)hContact, (LPARAM)&dbcgs);
+	DBVARIANT dbv;
+	BOOL result = db_get_s(hContact, ModuleName, SettingName, &dbv, retType);
 
 	switch(retType) {
-		case DBVT_ASCIIZ:
-			ret = (INT_PTR)mir_strdup(result ? Default : dbv.pszVal);
-			break;
-		case DBVT_WCHAR:
-			if (!result) {
-				ret = (INT_PTR)mir_wstrdup(dbv.pwszVal);
-			}
-			else {
-				ret = (INT_PTR)mir_a2u(Default);
-			}
-			break;
-		default:
-			break;
+	case DBVT_ASCIIZ:
+		ret = (INT_PTR)mir_strdup(result ? Default : dbv.pszVal);
+		break;
+	case DBVT_WCHAR:
+		if (!result)
+			ret = (INT_PTR)mir_wstrdup(dbv.pwszVal);
+		else
+			ret = (INT_PTR)mir_a2u(Default);
+		break;
 	}
 	if (!result)
-		CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+		db_free(&dbv);
 	return ret;
 }
 

@@ -1393,116 +1393,105 @@ void ExportGpGKeysFunc(int type)
 			std::string id = "Comment: login ";
 			const char * uid = (const char*)CallProtoService(proto, PS_GETCAPS,  (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
 			DBVARIANT dbv = {0};
-			DBCONTACTGETSETTING dbcgs = {0};
-			dbcgs.pValue = &dbv;
-			dbcgs.szModule = proto;
-			dbcgs.szSetting = uid;
-			CallService(MS_DB_CONTACT_GETSETTING, 0, (LPARAM)&dbcgs);
-			switch(dbcgs.pValue->type)
-			{
+			db_get(0, proto, uid, &dbv);
+			switch(dbv.type) {
 			case DBVT_DELETED:
 				continue;
-				break;
+
 			case DBVT_BYTE:
 				{
 					char _id[64];
-					mir_snprintf(_id, 63, "%d", dbcgs.pValue->bVal);
+					mir_snprintf(_id, 63, "%d", dbv.bVal);
 					id += _id;
 				}
 				break;
 			case DBVT_WORD:
 				{
 					char _id[64];
-					mir_snprintf(_id, 63, "%d", dbcgs.pValue->wVal);
+					mir_snprintf(_id, 63, "%d", dbv.wVal);
 					id += _id;
 				}
 				break;
 			case DBVT_DWORD:
 				{
 					char _id[64];
-					mir_snprintf(_id, 63, "%d", dbcgs.pValue->dVal);
+					mir_snprintf(_id, 63, "%d", dbv.dVal);
 					id += _id;
 				}
 				break;
 			case DBVT_ASCIIZ:
 				{
-					id += dbcgs.pValue->pszVal;
-					CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+					id += dbv.pszVal;
+					db_free(&dbv);
 				}
 				break;
 			case DBVT_UTF8:
 				{
-					char *tmp = mir_utf8decodeA(dbcgs.pValue->pszVal);
+					char *tmp = mir_utf8decodeA(dbv.pszVal);
 					if(tmp[0])
 						id += tmp;
 					mir_free(tmp);
-					CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+					db_free(&dbv);
 				}
 				break;
 			case DBVT_BLOB:
 				//TODO
-				CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+				db_free(&dbv);
 				break;
 			case DBVT_WCHAR:
 				//TODO
-				CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+				db_free(&dbv);
 				break;
 			}
 			id += " contact_id ";
 			ZeroMemory(&dbv, sizeof(dbv));
-			ZeroMemory(&dbcgs, sizeof(dbcgs));
-			dbcgs.pValue = &dbv;
-			dbcgs.szModule = proto;
-			dbcgs.szSetting = uid;
-			CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&dbcgs);
-			switch(dbcgs.pValue->type)
-			{
+			db_get(hContact, proto, uid, &dbv);
+			switch(dbv.type) {
 			case DBVT_DELETED:
 				continue;
-				break;
 			case DBVT_BYTE:
 				{
 					char _id[64];
-					mir_snprintf(_id, 63, "%d", dbcgs.pValue->bVal);
+					mir_snprintf(_id, 63, "%d", dbv.bVal);
 					id += _id;
 				}
 				break;
 			case DBVT_WORD:
 				{
 					char _id[64];
-					mir_snprintf(_id, 63, "%d", dbcgs.pValue->wVal);
+					mir_snprintf(_id, 63, "%d", dbv.wVal);
 					id += _id;
 				}
 				break;
 			case DBVT_DWORD:
 				{
 					char _id[64];
-					mir_snprintf(_id, 63, "%d", dbcgs.pValue->dVal);
+					mir_snprintf(_id, 63, "%d", dbv.dVal);
 					id += _id;			
 				}
 				break;
 			case DBVT_ASCIIZ:
 				{
-					id += dbcgs.pValue->pszVal;
-					CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+					id += dbv.pszVal;
+					db_free(&dbv);
 				}
 				break;
 			case DBVT_UTF8:
 				{
-					char *tmp = mir_utf8decodeA(dbcgs.pValue->pszVal);
+					char *tmp = mir_utf8decodeA(dbv.pszVal);
 					if(tmp[0])
 						id += tmp;
 					mir_free(tmp);
-					CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+					db_free(&dbv);
 				}
 				break;
 			case DBVT_BLOB:
 				//TODO
-				CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+				db_free(&dbv);
 				break;
 			case DBVT_WCHAR:
 				//TODO
-				CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+				db_free(&dbv);
 				break;
 			}
 			std::string::size_type p1 = key.find("-----BEGIN PGP PUBLIC KEY BLOCK-----");
@@ -1607,13 +1596,9 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 					break;
 				const char * uid = (const char*)CallProtoService(accs[i]->szModuleName, PS_GETCAPS,  (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
 				DBVARIANT dbv = {0};
-				DBCONTACTGETSETTING dbcgs = {0};
-				dbcgs.pValue = &dbv;
-				dbcgs.szModule = accs[i]->szModuleName;
-				dbcgs.szSetting = uid;
-				CallService(MS_DB_CONTACT_GETSETTING, 0, (LPARAM)&dbcgs);
+				db_get(0, accs[i]->szModuleName, uid, &dbv);
 				std::string id;
-				switch(dbcgs.pValue->type)
+				switch(dbv.type)
 				{
 				case DBVT_DELETED:
 					continue;
@@ -1621,7 +1606,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 				case DBVT_BYTE:
 					{
 						char _id[64];
-						mir_snprintf(_id, 63, "%d", dbcgs.pValue->bVal);
+						mir_snprintf(_id, 63, "%d", dbv.bVal);
 						id += _id;
 						if(id == login)
 							acc = accs[i]->szModuleName;
@@ -1630,7 +1615,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 				case DBVT_WORD:
 					{
 						char _id[64];
-						mir_snprintf(_id, 63, "%d", dbcgs.pValue->wVal);
+						mir_snprintf(_id, 63, "%d", dbv.wVal);
 						id += _id;
 						if(id == login)
 							acc = accs[i]->szModuleName;
@@ -1639,7 +1624,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 				case DBVT_DWORD:
 					{
 						char _id[64];
-						mir_snprintf(_id, 63, "%d", dbcgs.pValue->dVal);
+						mir_snprintf(_id, 63, "%d", dbv.dVal);
 						id += _id;
 						if(id == login)
 							acc = accs[i]->szModuleName;
@@ -1647,30 +1632,30 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 					break;
 				case DBVT_ASCIIZ:
 					{
-						id += dbcgs.pValue->pszVal;
-						CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+						id += dbv.pszVal;
+						db_free(&dbv);
 						if(id == login)
 							acc = accs[i]->szModuleName;
 					}
 					break;
 				case DBVT_UTF8:
 					{
-						char *tmp = mir_utf8decodeA(dbcgs.pValue->pszVal);
+						char *tmp = mir_utf8decodeA(dbv.pszVal);
 						if(tmp[0])
 							id += tmp;
 						mir_free(tmp);
-						CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+						db_free(&dbv);
 						if(id == login)
 							acc = accs[i]->szModuleName;
 					}
 					break;
 				case DBVT_BLOB:
 					//TODO
-					CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+					db_free(&dbv);
 					break;
 				case DBVT_WCHAR:
 					//TODO
-					CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+					db_free(&dbv);
 					break;
 				}
 			}
@@ -1679,14 +1664,10 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 				const char * uid = (const char*)CallProtoService(acc.c_str(), PS_GETCAPS,  (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
 				for(HANDLE hContact = db_find_first(acc.c_str()); hContact; hContact = db_find_next(hContact, acc.c_str())) {
 					DBVARIANT dbv = {0};
-					DBCONTACTGETSETTING dbcgs = {0};
-					dbcgs.pValue = &dbv;
-					dbcgs.szModule = acc.c_str();
-					dbcgs.szSetting = uid;
-					CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&dbcgs);
+					db_get(hContact, acc.c_str(), uid, &dbv);
 					std::string id;
 					bool found = false;
-					switch(dbcgs.pValue->type)
+					switch(dbv.type)
 					{
 					case DBVT_DELETED:
 						continue;
@@ -1694,7 +1675,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 					case DBVT_BYTE:
 						{
 							char _id[64];
-							mir_snprintf(_id, 63, "%d", dbcgs.pValue->bVal);
+							mir_snprintf(_id, 63, "%d", dbv.bVal);
 							id += _id;
 							if(id == contact_id)
 								found = true;
@@ -1703,7 +1684,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 					case DBVT_WORD:
 						{
 							char _id[64];
-							mir_snprintf(_id, 63, "%d", dbcgs.pValue->wVal);
+							mir_snprintf(_id, 63, "%d", dbv.wVal);
 							id += _id;
 							if(id == contact_id)
 								found = true;
@@ -1712,7 +1693,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 					case DBVT_DWORD:
 						{
 							char _id[64];
-							mir_snprintf(_id, 63, "%d", dbcgs.pValue->dVal);
+							mir_snprintf(_id, 63, "%d", dbv.dVal);
 							id += _id;
 							if(id == contact_id)
 								found = true;
@@ -1720,30 +1701,30 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 						break;
 					case DBVT_ASCIIZ:
 						{
-							id += dbcgs.pValue->pszVal;
-							CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+							id += dbv.pszVal;
+							db_free(&dbv);
 							if(id == contact_id)
 								found = true;
 						}
 						break;
 					case DBVT_UTF8:
 						{
-							char *tmp = mir_utf8decodeA(dbcgs.pValue->pszVal);
+							char *tmp = mir_utf8decodeA(dbv.pszVal);
 							if(tmp[0])
 								id += tmp;
 							mir_free(tmp);
-							CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+							db_free(&dbv);
 							if(id == contact_id)
 								found = true;
 						}
 						break;
 					case DBVT_BLOB:
 						//TODO
-						CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+						db_free(&dbv);
 						break;
 					case DBVT_WCHAR:
 						//TODO
-						CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+						db_free(&dbv);
 						break;
 					}
 					if(found)

@@ -17,15 +17,8 @@ static size_t dwBadWordsCount = 0;
 
 size_t MraAntiSpamLoadBadWordsW()
 {
-	char szSettingName[MAX_PATH];
-	size_t i = 0, dwValueSize, dwAllocatedItemsCount = MRA_ANTISPAM_PREALLOC_COUNT;
 	DBVARIANT dbv = {0};
-	DBCONTACTGETSETTING sVal = {0};
-
-	dbv.type = DBVT_WCHAR;
-	sVal.pValue = &dbv;
-	sVal.szModule = "MRA";
-	sVal.szSetting = szSettingName;
+	size_t i = 0, dwValueSize, dwAllocatedItemsCount = MRA_ANTISPAM_PREALLOC_COUNT;
 
 	if (pmabwBadWords || dwBadWordsCount)
 		MraAntiSpamFreeBadWords();
@@ -33,9 +26,9 @@ size_t MraAntiSpamLoadBadWordsW()
 	pmabwBadWords = (MRA_ANTISPAM_BAD_WORD*)mir_calloc((sizeof(MRA_ANTISPAM_BAD_WORD)*dwAllocatedItemsCount));
 
 	for (i = 0;TRUE;i++) {
+		char szSettingName[MAX_PATH];
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "AntiSpamBadWord %lu", i);
-		dbv.type = DBVT_WCHAR;
-		if (CallService(MS_DB_CONTACT_GETSETTING_STR, NULL, (LPARAM)&sVal))
+		if (db_get_ws(NULL, "MRA", szSettingName, &dbv))
 			break;
 
 		if (dwAllocatedItemsCount == i) {

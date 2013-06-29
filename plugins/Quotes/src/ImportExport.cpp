@@ -34,18 +34,10 @@ namespace
 
 	static int enum_contact_settings(const char* szSetting,LPARAM lp)
 	{
-// 		USES_CONVERSION;
 		CEnumContext* ctx = reinterpret_cast<CEnumContext*>(lp);
 
 		DBVARIANT dbv;
-		DBCONTACTGETSETTING cgs;
-
-		cgs.szModule = ctx->m_pszModule;
-		cgs.szSetting = szSetting;
-		cgs.pValue = &dbv;
-		if(0 == CallService(MS_DB_CONTACT_GETSETTING,
-							reinterpret_cast<WPARAM>(ctx->m_hContact),
-							reinterpret_cast<LPARAM>(&cgs)))
+		if(0 == db_get(ctx->m_hContact, ctx->m_pszModule, szSetting, &dbv))
 		{
 			mir_safety_dbvar sdbvar(&dbv);
 

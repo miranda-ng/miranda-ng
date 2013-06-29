@@ -29,7 +29,7 @@ void FreeSettingBlob(WORD pSize,void *pbBlob)
 	dbv.type = DBVT_BLOB;
 	dbv.cpbVal = pSize;
 	dbv.pbVal = (BYTE*)pbBlob;
-	CallService(MS_DB_CONTACT_FREEVARIANT,0,(DWORD)&dbv);
+	db_free(&dbv);
 }
 
 void WriteSettingBlob(HANDLE hContact,char *ModuleName,char *SettingName,WORD pSize,void *pbBlob)
@@ -47,13 +47,9 @@ void WriteSettingBlob(HANDLE hContact,char *ModuleName,char *SettingName,WORD pS
 
 void ReadSettingBlob(HANDLE hContact, char *ModuleName, char *SettingName, WORD *pSize, void **pbBlob)
 {
-	DBCONTACTGETSETTING cgs = {0};
 	DBVARIANT dbv = {0};
 	dbv.type = DBVT_BLOB;
-	cgs.szModule = ModuleName;
-	cgs.szSetting = SettingName;
-	cgs.pValue = &dbv;
-	if ( CallService(MS_DB_CONTACT_GETSETTING,(DWORD)hContact,(DWORD)&cgs)) {
+	if ( db_get(hContact, ModuleName, SettingName, &dbv)) {
 		*pSize = 0;
 		*pbBlob = NULL;
 	}

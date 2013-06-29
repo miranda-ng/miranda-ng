@@ -28,12 +28,7 @@ template<typename T>
 inline static T db_pod_get(HANDLE hContact,const char *module,const char *setting,T errorValue)
 {
 	DBVARIANT dbv;
-	DBCONTACTGETSETTING cgs;
-
-	cgs.szModule  = module;
-	cgs.szSetting = setting;
-	cgs.pValue    = &dbv;
-	if(CallService(MS_DB_CONTACT_GETSETTING,(WPARAM)hContact,(LPARAM)&cgs))
+	if(db_get(hContact, module, setting, &dbv))
 		return errorValue;
 
 	// TODO: remove this, it's just a temporary workaround

@@ -207,13 +207,7 @@ BOOL DB_GetStaticStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueNam
 	BOOL bRet = FALSE;
 	size_t dwReadedStringLen, dwRetBuffSizeLocal;
 	DBVARIANT dbv = {0};
-	DBCONTACTGETSETTING sVal = {0};
-
-	dbv.type = DBVT_WCHAR;
-	sVal.pValue = &dbv;
-	sVal.szModule = lpszModule;
-	sVal.szSetting = lpszValueName;
-	if (CallService(MS_DB_CONTACT_GETSETTING_STR, (WPARAM)hContact, (LPARAM)&sVal) == 0)
+	if (db_get_ws(hContact, lpszModule, lpszValueName, &dbv) == 0)
 	{
 		dwReadedStringLen = lstrlenW(dbv.pwszVal);
 		if (lpszRetBuff && (dwRetBuffSize>dwReadedStringLen))
@@ -241,13 +235,7 @@ BOOL DB_GetStaticStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueNam
 	BOOL bRet = FALSE;
 	size_t dwReadedStringLen;
 	DBVARIANT dbv = {0};
-	DBCONTACTGETSETTING sVal = {0};
-
-	dbv.type = DBVT_WCHAR;
-	sVal.pValue = &dbv;
-	sVal.szModule = lpszModule;
-	sVal.szSetting = lpszValueName;
-	if (CallService(MS_DB_CONTACT_GETSETTING_STR, (WPARAM)hContact, (LPARAM)&sVal) == 0)
+	if (db_get_ws(hContact, lpszModule, lpszValueName, &dbv) == 0)
 	{
 		dwReadedStringLen = lstrlenW(dbv.pwszVal);
 		if (lpwszRetBuff && (dwRetBuffSize>dwReadedStringLen))
@@ -344,12 +332,7 @@ BOOL DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszVal
 {
 	BOOL bRet = FALSE;
 	DBVARIANT dbv;
-	DBCONTACTGETSETTING sVal = {0};
-
-	sVal.pValue = &dbv;
-	sVal.szModule = lpszModule;
-	sVal.szSetting = lpszValueName;
-	if (CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&sVal) == 0)
+	if (db_get(hContact, lpszModule, lpszValueName, &dbv) == 0)
 	{
 		if (dbv.type == DBVT_BLOB)
 		{

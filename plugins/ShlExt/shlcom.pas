@@ -1938,7 +1938,7 @@ begin
   GetMem(pContacts, (dwContacts + 2) * sizeof(TSlotInfo));
   i := 0;
   dwOnline := 0;
-  hContact := CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+  hContact := db_find_first();
   while (hContact <> 0) do
   begin
     if i >= dwContacts then
@@ -1953,7 +1953,7 @@ begin
       dwCaps := CallService(szTmp, PFLAGNUM_1, 0);
       if (dwCaps and PF1_FILESEND) = 0 then
       begin
-        hContact := CallService(MS_DB_CONTACT_FINDNEXT, hContact, 0);
+        hContact := db_find_next(hContact);
         continue;
       end;
       dwStatus := DBGetContactSettingWord(hContact, szProto, 'Status', ID_STATUS_OFFLINE);
@@ -1961,7 +1961,7 @@ begin
         inc(dwOnline)
       else if bHideOffline then
       begin
-        hContact := CallService(MS_DB_CONTACT_FINDNEXT, hContact, 0);
+        hContact := db_find_next(hContact);
         continue;
       end; // if
       // is HIT on?
@@ -1974,7 +1974,7 @@ begin
           (CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_MESSAGE or
           IGNOREEVENT_URL or IGNOREEVENT_FILE) <> 0) then
         begin
-          hContact := CallService(MS_DB_CONTACT_FINDNEXT, hContact, 0);
+          hContact := db_find_next(hContact);
           continue;
         end; // if
       end; // if
@@ -1985,7 +1985,7 @@ begin
         if DBGetContactSettingWord(hContact, szProto, 'ApparentMode', 0) = ID_STATUS_OFFLINE
         then
         begin
-          hContact := CallService(MS_DB_CONTACT_FINDNEXT, hContact, 0);
+          hContact := db_find_next(hContact);
           continue;
         end; // if
       end; // if
@@ -1999,7 +1999,7 @@ begin
     begin
       // contact has no protocol!
     end; // if
-    hContact := CallService(MS_DB_CONTACT_FINDNEXT, hContact, 0);
+    hContact := db_find_next(hContact);
   end; // while
   // if no one is online and the CList isn't showing offliners, quit
   if (dwOnline = 0) and (bHideOffline) then
@@ -2077,14 +2077,14 @@ var
   hContact: THandle;
 begin
   begin
-    hContact := CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+    hContact := db_find_first();
     while hContact <> 0 do
     begin
       if DBGetContactSettingByte(hContact, SHLExt_Name, SHLExt_MRU, 0) > 0 then
       begin
         DBWriteContactSettingByte(hContact, SHLExt_Name, SHLExt_MRU, 0);
       end;
-      hContact := CallService(MS_DB_CONTACT_FINDNEXT, hContact, 0);
+      hContact := db_find_next(hContact);
     end;
   end;
 end;

@@ -89,15 +89,10 @@ INT_PTR CIcqProto::GetInfoSetting(WPARAM wParam, LPARAM lParam)
 	DBCONTACTGETSETTING *cgs = (DBCONTACTGETSETTING*)lParam;
 	BYTE type = cgs->pValue->type;
 
-	cgs->pValue->type = 0; // original type without conversion
-	INT_PTR rc = CallService(MS_DB_CONTACT_GETSETTING_STR, wParam, lParam);
-
+	DBVARIANT dbv = { 0 };
+	INT_PTR rc = db_get_s((HANDLE)wParam, cgs->szModule, cgs->szSetting, &dbv, 0);
 	if (!rc)
 	{ // Success
-		DBVARIANT dbv;
-
-		memcpy(&dbv, cgs->pValue, sizeof(DBVARIANT));
-
 		if (dbv.type == DBVT_BLOB)
 		{
 			cgs->pValue->pbVal = (BYTE*)mir_alloc(dbv.cpbVal);
@@ -742,23 +737,15 @@ INT_PTR __cdecl CIcqProto::IcqAddCapability(WPARAM wParam, LPARAM lParam)
 INT_PTR __cdecl CIcqProto::IcqCheckCapability(WPARAM wParam, LPARAM lParam)
 {
     int res = 0;
-    DBCONTACTGETSETTING dbcgs;
     DBVARIANT dbvariant;
     HANDLE hContact = (HANDLE)wParam;
     ICQ_CUSTOMCAP *icqCustomCap = (ICQ_CUSTOMCAP *)lParam;
-    dbcgs.pValue = &dbvariant;
-    dbcgs.szModule = m_szModuleName;
-    dbcgs.szSetting = "CapBuf";
 
-    CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&dbcgs);
-
+	 db_get(hContact, m_szModuleName, "CapBuf", &dbvariant);
     if (dbvariant.type == DBVT_BLOB)
-    {
         res = MatchCapability(dbvariant.pbVal, dbvariant.cpbVal, (const capstr*)&icqCustomCap->caps, 0x10)?1:0;	// FIXME: Why icqCustomCap->caps is not capstr?
-    }
 
-    CallService(MS_DB_CONTACT_FREEVARIANT,0,(LPARAM)(DBVARIANT*)&dbvariant);
-
+    db_free(&dbvariant);
     return res;
 }
 

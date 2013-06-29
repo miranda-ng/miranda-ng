@@ -41,10 +41,10 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-bool isReceiveMessage(LPARAM event)
+bool isReceiveMessage(HANDLE hDbEvent)
 {
 	DBEVENTINFO info = { sizeof(info) };
-	CallService(MS_DB_EVENT_GET, event, (LPARAM)&info);
+	db_event_get(hDbEvent, &info);
 	// i don't understand why it works and how it works, but it works correctly - practice way (методом тыка)
 	// so, i think correct condition would be : eventType == EVENTTYPE_MESSAGE && info.flags & DBEF_READ, but it really isn't
 	return !(((info.eventType != EVENTTYPE_MESSAGE) && !(info.flags & DBEF_READ)) || (info.flags & DBEF_SENT));
@@ -52,7 +52,7 @@ bool isReceiveMessage(LPARAM event)
 
 INT ProcessEvent(WPARAM wParam, LPARAM lParam)
 {
-	if (!isReceiveMessage(lParam))
+	if (!isReceiveMessage(HANDLE(lParam)))
 		return 0;
 
 	isIgnoreSound = db_get_b((HANDLE)wParam, SETTINGSNAME, SETTINGSIGNOREKEY, 0);

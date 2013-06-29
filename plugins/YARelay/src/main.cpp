@@ -75,7 +75,7 @@ int ProtoAck(WPARAM wparam,LPARAM lparam)
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.cbBlob = (DWORD)strlen(p->msgText) + 1;
 		dbei.pBlob = (PBYTE)p->msgText;
-		CallService(MS_DB_EVENT_ADD, (WPARAM)hForwardTo, (LPARAM)&dbei);
+		db_event_add(hForwardTo, &dbei);
 	}
 
 	mir_free(p->msgText);

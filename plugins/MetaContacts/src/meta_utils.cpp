@@ -37,15 +37,8 @@ INT_PTR MyDBWriteContactSetting(HANDLE hContact, const char *szModule, const cha
 }
 
 INT_PTR Mydb_get(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv) {
-	static BOOL strsvc, strsvcset = FALSE;
 	memset(dbv, 0, sizeof(DBVARIANT));
-
-	if ( !strsvcset) {strsvc = ServiceExists(MS_DB_CONTACT_GETSETTING_STR); strsvcset = TRUE;}
-	
-	// preserve unicode strings - this service should return other data types unchanged
-	if (strsvc) return db_get_s(hContact, szModule, szSetting, dbv, 0);
-	
-	return db_get(hContact, szModule, szSetting, dbv);
+	return db_get_s(hContact, szModule, szSetting, dbv, 0);
 }
 
 int Meta_EqualDBV(DBVARIANT *dbv, DBVARIANT *id) {

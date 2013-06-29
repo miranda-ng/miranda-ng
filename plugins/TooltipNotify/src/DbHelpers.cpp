@@ -50,16 +50,8 @@ void DeleteModuleSettings(HANDLE hContact, const char* pszModuleName)
 
 static int GetSetting(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
-	DBCONTACTGETSETTING cgs;
-
-	cgs.szModule=szModule;
-	cgs.szSetting=szSetting;
-	cgs.pValue=dbv;
-	dbv->type = 0;
-
-	int rr = CallService(MS_DB_CONTACT_GETSETTING,(WPARAM)hContact,(LPARAM)&cgs);
-
-	if 	(dbv->type != DBVT_UTF8)
+	int rr = db_get(hContact, szModule, szSetting, dbv);
+	if (dbv->type != DBVT_UTF8)
 		return rr;
 	else
 		return 1;

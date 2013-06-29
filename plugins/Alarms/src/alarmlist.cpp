@@ -681,20 +681,14 @@ void InitList()
 	SkinAddNewSoundEx("Triggered3", LPGEN("Alarms"), LPGEN("Alert 3"));
 
 	// load last checked time	
-	DBCONTACTGETSETTING dbcgs;
 	DBVARIANT dbv;
-	dbcgs.szModule = MODULE;
-	dbcgs.szSetting = "LastCheck";
-	dbcgs.pValue = &dbv;
 	dbv.type = DBVT_BLOB;
 	dbv.cpbVal = sizeof(SYSTEMTIME);
-
-	if (!CallService(MS_DB_CONTACT_GETSETTING, 0, (LPARAM)&dbcgs)) {
+	if (!db_get(NULL, MODULE, "LastCheck", &dbv)) {
 		memcpy(&last_check, dbv.pbVal, sizeof(SYSTEMTIME));
 		db_free(&dbv);
-	} else {
-		GetLocalTime(&last_check);
 	}
+	else GetLocalTime(&last_check);
 
 	last_saved_check = last_check;
 

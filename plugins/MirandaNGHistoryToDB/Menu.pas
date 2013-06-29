@@ -170,7 +170,7 @@ var
   AccountName: ^PPROTOACCOUNT;
 begin
   // Получаем список контактов
-  hContact := CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+  hContact := db_find_first();
   while hContact <> 0 do
   begin
     ContactProto := GetContactProto(hContact);
@@ -183,7 +183,7 @@ begin
       ContactID := TranslateW('Unknown Contact');
     if not ((MatchStrings(LowerCase(ContactProto), 'skype*')) or (ContactID = TranslateW('Unknown Contact')) or MatchStrings(LowerCase(ContactProto), 'metacontacts*')) then
       WriteInLog(ProfilePath, Format('%s;%s;%s;%d', [ContactID, ContactName, GroupName, StrContactProtoToInt(ContactProto)]), 3);
-    hContact := CallService(MS_DB_CONTACT_FINDNEXT, hContact, 0);
+    hContact := db_find_next(hContact);
   end;
   AccountCount := 0;
   // Выгружаем список протоколов в файл ProtoList.csv

@@ -337,8 +337,7 @@ static FORCEINLINE INT_PTR
 		const char* pszProto,
 		const char* pszSetting,
 		DBVARIANT *dbv,
-		BYTE nType
-	)
+		BYTE nType)
 {
 	INT_PTR rc;
 	DBCONTACTGETSETTING cgs;
@@ -350,9 +349,8 @@ static FORCEINLINE INT_PTR
 
 	rc = CallService(MS_DB_CONTACT_GETSETTING_STR_EX, (WPARAM)hContact, (LPARAM)&cgs);
 	if (rc == CALLSERVICE_NOTFOUND)
-	{
-		rc = CallService(MS_DB_CONTACT_GETSETTING_STR, (WPARAM)hContact, (LPARAM)&cgs);
-	}
+		rc = db_get_s(hContact, pszProto, pszSetting, dbv, nType);
+
 	return rc;
 }
 

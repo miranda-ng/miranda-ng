@@ -288,89 +288,36 @@ template class TString<WCHAR>;
 
 CString db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, const char *szDefaultValue)
 {
-	DBVARIANT dbv = {0};
-	DBCONTACTGETSETTING dbcgs;
-	dbcgs.szModule = szModule;
-	dbcgs.pValue = &dbv;
-	dbcgs.szSetting = szSetting;
-	int iRes = CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&dbcgs);
-	CString Result;
-	if (!iRes && dbv.type == DBVT_ASCIIZ)
-	{
-		Result = dbv.pszVal;
-	} else
-	{
-		Result = szDefaultValue;
-	}
-	if (!iRes)
-	{
-		CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
-	}
-	return Result;
+	ptrA p( db_get_sa(hContact, szModule, szSetting));
+	return CString(p == NULL ? szDefaultValue : p);
 }
-
-
 
 TCString db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, const TCHAR *szDefaultValue)
 {
-	DBVARIANT dbv = {0};
-	DBCONTACTGETSETTING dbcgs;
-	dbcgs.szModule = szModule;
-	dbcgs.pValue = &dbv;
-	dbcgs.szSetting = szSetting;
-	dbv.type = DBVT_WCHAR;
-	int iRes = CallService(MS_DB_CONTACT_GETSETTING_STR, (WPARAM)hContact, (LPARAM)&dbcgs);
-	TCString Result;
-	if (!iRes && dbv.type == DBVT_WCHAR)
-	{
-		Result = dbv.ptszVal;
-	} else
-	{
-		Result = szDefaultValue;
-	}
-	if (!iRes)
-	{
-		CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
-	}
-	return Result;
+	ptrT p( db_get_tsa(hContact, szModule, szSetting));
+	return TCString(p == NULL ? szDefaultValue : p);
 }
-
-
-
-int db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
-{
-	return db_get_s(hContact, szModule, szSetting, dbv, DBVT_ASCIIZ);
-}
-
-
 
 TCString DBGetContactSettingAsString(HANDLE hContact, const char *szModule, const char *szSetting, const TCHAR *szDefaultValue)
 { // also converts numeric values to a string
 	DBVARIANT dbv = {0};
-	DBCONTACTGETSETTING dbcgs;
-	dbcgs.szModule = szModule;
-	dbcgs.pValue = &dbv;
-	dbcgs.szSetting = szSetting;
-
-	dbv.type = DBVT_WCHAR;
-	int iRes = CallService(MS_DB_CONTACT_GETSETTING_STR, (WPARAM)hContact, (LPARAM)&dbcgs);
+	int iRes = db_get_ws(hContact, szModule, szSetting, &dbv);
 
 	TCString Result;
 	if (!iRes && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR))
 	{
 		Result = dbv.ptszVal;
-	} else if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD)
+	}
+	else if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD)
 	{
 		long value = (dbv.type == DBVT_DWORD) ? dbv.dVal : (dbv.type == DBVT_WORD ? dbv.wVal : dbv.bVal);
 		_ultot(value, Result.GetBuffer(64), 10);
 		Result.ReleaseBuffer();
-	} else
-	{
-		Result = szDefaultValue;
 	}
+	else Result = szDefaultValue;
+
 	if (!iRes)
-	{
-		CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
-	}
+		db_free(&dbv);
+
 	return Result;
 }

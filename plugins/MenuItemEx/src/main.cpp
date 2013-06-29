@@ -102,14 +102,7 @@ typedef struct {
 
 int GetSetting(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
-	DBCONTACTGETSETTING cgs;
-
-	cgs.szModule = szModule;
-	cgs.szSetting = szSetting;
-	cgs.pValue = dbv;
-	dbv->type = 0;
-
-	return CallService(MS_DB_CONTACT_GETSETTING_STR,(WPARAM)hContact,(LPARAM)&cgs);
+	return db_get_s(hContact, szModule, szSetting, dbv, 0);
 }
 
 int enumModulesSettingsProc( const char *szName, LPARAM lParam)

@@ -460,7 +460,7 @@ begin
       StrCopy(p,PS_SET_LISTENINGTO);
       if ServiceExists(buf)<>0 then
         status:=status or psf_tunes;
-        
+
     end;
     inc(proto);
   end;
@@ -468,7 +468,7 @@ begin
 {
   if deepscan then
   begin
-    hContact:=CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+    hContact:=db_find_first();
     while hContact<>0 do
     begin
       i:=NumProto;
@@ -479,7 +479,7 @@ begin
         dec(i);
       end;
 
-      hContact:=CallService(MS_DB_CONTACT_FINDNEXT,hContact,0);
+      hContact:=db_find_next(hContact);
     end;
   end;
 }

@@ -262,16 +262,8 @@ namespace Setting {
  **/
 BYTE	Get(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE destType)
 {
-	BYTE result;
-	DBCONTACTGETSETTING dgs;
-
-	dgs.szModule	= pszModule;
-	dgs.szSetting	= pszSetting;
-	dgs.pValue		= dbv;
-	dbv->type		= 0;
-	
 	// read value without translation to specific type
-	result = CallService(MS_DB_CONTACT_GETSETTING_STR, (WPARAM) hContact, (LPARAM) &dgs) != 0;
+	BYTE result = db_get_s(hContact, pszModule, pszSetting, dbv, 0) != 0;
 
 	// Is value read successfully and destination type set?
 	if (!result && destType) {

@@ -83,7 +83,7 @@ uses
 
 const
   clGroup = 'Group';
-// Save / Load contact 
+// Save / Load contact
 const
   opt_cproto   = 'cproto';
   opt_cuid     = 'cuid';
@@ -424,7 +424,7 @@ var
   mwod:TMessageWindowOutputData;
 begin
   wnd:=GetParent(wnd); //!!
-  hContact:=CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+  hContact:=db_find_first();
   with mwid do
   begin
     cbSize:=SizeOf(mwid);
@@ -442,7 +442,7 @@ begin
         exit;
       end
     end;
-    hContact:=CallService(MS_DB_CONTACT_FINDNEXT,hContact,0);
+    hContact:=db_find_next(hContact);
   end;
   result:=0;
 end;
@@ -645,7 +645,7 @@ begin
     if uid=pAnsiChar(CALLSERVICE_NOTFOUND) then exit;
   end;
 
-  hContact:=CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+  hContact:=db_find_first();
   while hContact<>0 do
   begin
     if is_chat then
@@ -685,7 +685,7 @@ begin
     end;
     // added 2011.04.20
     if result<>0 then break;
-    hContact:=CallService(MS_DB_CONTACT_FINDNEXT,hContact,0);
+    hContact:=db_find_next(hContact);
   end;
 end;
 
@@ -752,10 +752,8 @@ function CreateGroupW(name:pWideChar;hContact:THANDLE):integer;
 var
   groupId:integer;
   groupIdStr:array [0..10] of AnsiChar;
-  dbv:TDBVARIANT;
-  cgs:TDBCONTACTGETSETTING;
   grbuf:array [0..127] of WideChar;
-  p:pWideChar;
+  p, pw:pWideChar;
 begin
   if (name=nil) or (name^=#0) then
   begin
@@ -768,25 +766,20 @@ begin
 
   // Check for duplicate & find unused id
   groupId:=0;
-  cgs.szModule:='CListGroups';
-  cgs.pValue  :=@dbv;
   repeat
-    dbv._type:=DBVT_WCHAR;
-    cgs.szSetting:=IntToStr(groupIdStr,groupId);
-    if CallService(MS_DB_CONTACT_GETSETTING_STR,0,lParam(@cgs))<>0 then
+    pw:=DBReadUnicode(0,'CListGroups',IntToStr(groupIdStr,groupId));
+    if pw<>nil then
       break;
 
-    if StrCmpW(dbv.szVal.w+1,@grbuf[1])=0 then
+    if StrCmpW(pw+1,@grbuf[1])=0 then
     begin
       if hContact<>0 then
         DBWriteUnicode(hContact,strCList,clGroup,@grbuf[1]);
 
-      DBFreeVariant(@dbv);
       result:=0;
       exit;
     end;
 
-    DBFreeVariant(@dbv);
     inc(groupId);
   until false;
 
@@ -809,10 +802,8 @@ function CreateGroup(name:pAnsiChar;hContact:THANDLE):integer;
 var
   groupId:integer;
   groupIdStr:array [0..10] of AnsiChar;
-  dbv:TDBVARIANT;
-  cgs:TDBCONTACTGETSETTING;
   grbuf:array [0..127] of AnsiChar;
-  p:pAnsiChar;
+  p, pa:pAnsiChar;
 begin
   if (name=nil) or (name^=#0) then
   begin
@@ -825,25 +816,19 @@ begin
 
   // Check for duplicate & find unused id
   groupId:=0;
-  cgs.szModule:='CListGroups';
-  cgs.pValue  :=@dbv;
   repeat
-    dbv._type:=DBVT_ASCIIZ;
-    cgs.szSetting:=IntToStr(groupIdStr,groupId);
-    if CallService(MS_DB_CONTACT_GETSETTING_STR,0,lParam(@cgs))<>0 then
+    pa:=DBReadString(0,'CListGroups',IntToStr(groupIdStr,groupId));
+    if pa=nil then
       break;
 
-    if StrCmp(dbv.szVal.a+1,@grbuf[1])=0 then
+    if StrCmp(pa+1,@grbuf[1])=0 then
     begin
       if hContact<>0 then
       DBWriteString(hContact,strCList,clGroup,@grbuf[1]);
-
-      DBFreeVariant(@dbv);
       result:=0;
       exit;
     end;
 
-    DBFreeVariant(@dbv);
     inc(groupId);
   until false;
 

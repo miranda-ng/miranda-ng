@@ -32,13 +32,13 @@ begin
   if format=nil then format:=defformat;
 
   SendMessage(list,CB_RESETCONTENT,0,0);
-  hContact:=CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+  hContact:=db_find_first();
 
   lName   :=StrPosW(format,'%name%')<>nil;
   lGroup  :=StrPosW(format,'%group%')<>nil;
   lAccount:=StrPosW(format,'%account%')<>nil;
   lUID    :=StrPosW(format,'%uid%')<>nil;
-  
+
   while hContact<>0 do
   begin
     if ((not filter) and ((IsContactActive(hContact)+1)>=0)) or // + disabled (not deleted)
@@ -105,7 +105,7 @@ begin
           SendMessageW(list,CB_ADDSTRING,0,tlparam(@buf)),
           hContact);
     end;
-    hContact:=CallService(MS_DB_CONTACT_FINDNEXT,hContact,0);
+    hContact:=db_find_next(hContact);
   end;
 end;
 

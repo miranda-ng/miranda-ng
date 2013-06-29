@@ -95,16 +95,11 @@ static int CompareBookmarks( const void* p1, const void* p2 )
 
 static void GetBookmarks(HANDLE hContact, BEventData** books, size_t* bookcnt )
 {
-	DBVARIANT dbv;
-	DBCONTACTGETSETTING cgs;
-
 	*books = NULL;
 	*bookcnt = 0;
 
-	cgs.szModule = "HistoryPlusPlus";
-	cgs.szSetting = "Bookmarks";
-	cgs.pValue = &dbv;
-	if (CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs) == 0)
+	DBVARIANT dbv;
+	if (db_get(hContact, "HistoryPlusPlus", "Bookmarks", &dbv) == 0)
 	{
 		if (dbv.cpbVal > 2 && *(WORD*)dbv.pbVal >= sizeof(BEventData))
 		{

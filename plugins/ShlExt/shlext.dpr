@@ -198,7 +198,6 @@ var
   comReg: Integer;
   iCheck: Integer;
   szBuf: array [0 .. MAX_PATH] of Char;
-  cgs: TDBCONTACTGETSETTING;
 begin
   Result := wMsg = WM_INITDIALOG;
   case wMsg of
@@ -281,28 +280,13 @@ begin
                 'Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer'),
                 TranslateW('Disable/Remove shlext'), MB_YESNO or MB_ICONQUESTION) then
               begin
-                cgs.szModule := SHLExt_Name;
-
-                cgs.szSetting := SHLExt_UseGroups;
-                CallService(MS_DB_CONTACT_DELETESETTING, 0, TLPARAM(@cgs));
-
-                cgs.szSetting := SHLExt_UseCListSetting;
-                CallService(MS_DB_CONTACT_DELETESETTING, 0, TLPARAM(@cgs));
-
-                cgs.szSetting := SHLExt_UseHITContacts;
-                CallService(MS_DB_CONTACT_DELETESETTING, 0, TLPARAM(@cgs));
-
-                cgs.szSetting := SHLExt_UseHIT2Contacts;
-                CallService(MS_DB_CONTACT_DELETESETTING, 0, TLPARAM(@cgs));
-
-                cgs.szSetting := SHLExt_ShowNoProfile;
-                CallService(MS_DB_CONTACT_DELETESETTING, 0, TLPARAM(@cgs));
-
-                cgs.szSetting := SHLExt_ShowNoIcons;
-                CallService(MS_DB_CONTACT_DELETESETTING, 0, TLPARAM(@cgs));
-
-                cgs.szSetting := SHLExt_ShowNoOffline;
-                CallService(MS_DB_CONTACT_DELETESETTING, 0, TLPARAM(@cgs));
+                db_unset(0, SHLExt_Name, SHLExt_UseGroups);
+                db_unset(0, SHLExt_Name, SHLExt_UseCListSetting);
+                db_unset(0, SHLExt_Name, SHLExt_UseHITContacts);
+                db_unset(0, SHLExt_Name, SHLExt_UseHIT2Contacts);
+                db_unset(0, SHLExt_Name, SHLExt_ShowNoProfile);
+                db_unset(0, SHLExt_Name, SHLExt_ShowNoIcons);
+                db_unset(0, SHLExt_Name, SHLExt_ShowNoOffline);
 
                 (* remove from Explorer *)
                 // DllUnregisterServer();

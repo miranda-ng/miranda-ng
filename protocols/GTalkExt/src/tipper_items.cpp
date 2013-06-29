@@ -48,21 +48,20 @@ void ShiftTipperSettings(LPSTR buff, int count, LPSTR format)
 {
 	for (int i = count; i > 0; i--) {
 		DBCONTACTWRITESETTING cws;
-		DBCONTACTGETSETTING cgs;
-		cgs.szModule = TIPPER_ITEMS_MOD_NAME;
 		sprintf(buff, format, i - 1);
-		cgs.szSetting = buff;
-		cgs.pValue = &cws.value;
 
-		if (CallService(MS_DB_CONTACT_GETSETTING, 0, (LPARAM)&cgs)) break;
+		if (db_get(0, TIPPER_ITEMS_MOD_NAME, buff, &cws.value))
+			break;
+
 		__try {
 			if (DBVT_ASCIIZ == cws.value.type) {
 				db_free(&cws.value);
-				cws.value.type = DBVT_WCHAR;
-				if (CallService(MS_DB_CONTACT_GETSETTING_STR, 0, (LPARAM)&cgs)) break;
+				if (db_get_ws(0, TIPPER_ITEMS_MOD_NAME, buff, &cws.value))
+					break;
 			}
 
-			if (CallService(MS_DB_CONTACT_GETSETTING_STR, 0, (LPARAM)&cgs)) break;
+			if (db_get_s(0, TIPPER_ITEMS_MOD_NAME, buff, &cws.value))
+				break;
 
 			cws.szModule = TIPPER_ITEMS_MOD_NAME;
 			sprintf(buff, format, i);

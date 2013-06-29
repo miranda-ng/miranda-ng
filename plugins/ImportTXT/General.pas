@@ -266,7 +266,7 @@ begin
   tempwstr := UTF8ToWide(PAnsiChar(id), tempwstr);
   ws := tempwstr;
   FreeMem(tempwstr);
-  Contact := CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+  Contact := db_find_first();
   while (Contact <> 0) do
   begin
     otherproto := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, Contact, 0));
@@ -286,7 +286,7 @@ begin
         end; // case
       end; // if
     end; // if
-    Contact := CallService(MS_DB_CONTACT_FINDNEXT, Contact, 0);
+    Contact := db_find_next(Contact);
   end; // while
   if Contact=0 then
     result := INVALID_HANDLE_VALUE
@@ -301,7 +301,7 @@ var
   ci: TCONTACTINFO;
 begin
   result := INVALID_HANDLE_VALUE;
-  Contact := CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+  Contact := db_find_first();
   while (Contact <> 0) do
   begin
     otherproto := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, Contact, 0));
@@ -321,7 +321,7 @@ begin
         end;
       end; // if
     end; // if
-    Contact := CallService(MS_DB_CONTACT_FINDNEXT, Contact, 0);
+    Contact := db_find_next(Contact);
   end; // while
 end;
 
@@ -356,7 +356,7 @@ end;
 
 function DBFreeVariant(dbv: PDBVARIANT): integer;
 begin
-  result := CallService(MS_DB_CONTACT_FREEVARIANT, 0, lParam(dbv));
+  result := db_free(dbv);
 end;
 
 function GetContactID(hContact: THandle; proto: AnsiString = '';
@@ -364,7 +364,6 @@ function GetContactID(hContact: THandle; proto: AnsiString = '';
 var
   uid: PAnsiChar;
   dbv: TDBVARIANT;
-  cgs: TDBCONTACTGETSETTING;
   tempstr: PWideChar;
 begin
   result := '';
@@ -375,10 +374,7 @@ begin
     uid := PAnsiChar(CallProtoService(PAnsiChar(proto), PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0));
     if (uid <> pAnsiChar(CALLSERVICE_NOTFOUND)) and (uid <> nil) then
     begin
-      cgs.szModule := PAnsiChar(proto);
-      cgs.szSetting := uid;
-      cgs.pValue := @dbv;
-      if CallService(MS_DB_CONTACT_GETSETTING, hContact, lParam(@cgs)) = 0 then
+      if db_get(hContact, PAnsiChar(proto), uid, @dbv) = 0 then
       begin
         case dbv._type of
           DBVT_BYTE:
@@ -413,7 +409,6 @@ function GetContactNick(hContact: THandle; proto: AnsiString = '';
   Contact: boolean = false): WideString;
 var
   dbv: TDBVARIANT;
-  cgs: TDBCONTACTGETSETTING;
   tempstr: PWideChar;
 begin
   result := '';
@@ -421,10 +416,7 @@ begin
   begin
     if proto = '' then
       proto := GetContactProto(hContact);
-    cgs.szModule := PAnsiChar(proto);
-    cgs.szSetting := 'Nick';
-    cgs.pValue := @dbv;
-    if CallService(MS_DB_CONTACT_GETSETTING, hContact, lParam(@cgs)) = 0 then
+    if db_get(hContact, PAnsiChar(proto), 'Nick', @dbv) = 0 then
     begin
       case dbv._type of
         DBVT_BYTE:
@@ -458,12 +450,8 @@ function DBReadByte(hContact: THandle; szModule: PAnsiChar;
   szSetting: PAnsiChar; default: byte = 0): byte;
 var
   dbv: TDBVARIANT;
-  cgs: TDBCONTACTGETSETTING;
 begin
-  cgs.szModule := szModule;
-  cgs.szSetting := szSetting;
-  cgs.pValue := @dbv;
-  If CallService(MS_DB_CONTACT_GETSETTING, hContact, lParam(@cgs)) <> 0 then
+  If db_get(hContact, szModule, szSetting, @dbv) <> 0 then
     result := default
   else
     result := dbv.bVal;

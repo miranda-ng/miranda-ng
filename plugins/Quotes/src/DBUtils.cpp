@@ -49,19 +49,11 @@ bool Quotes_DBWriteDouble(HANDLE hContact,const char* szModule,const char* szSet
 bool Quotes_DBReadDouble(HANDLE hContact,const char* szModule,const char* szSetting,double& rdValue)
 {
 	DBVARIANT dbv = {0};
-	DBCONTACTGETSETTING cgs;
-	cgs.szModule=szModule;
-	cgs.szSetting=szSetting;
-	cgs.pValue = &dbv;
 	dbv.type = DBVT_BLOB;
 
-	bool bResult = ((0 == CallService(MS_DB_CONTACT_GETSETTING,(WPARAM)hContact,(LPARAM)&cgs))
-		&& (DBVT_BLOB == dbv.type));
-
+	bool bResult = ((0 == db_get(hContact, szModule, szSetting, &dbv)) && (DBVT_BLOB == dbv.type));
 	if(bResult)
-	{
 		rdValue = *reinterpret_cast<double*>(dbv.pbVal);
-	}
 
 	db_free(&dbv);
 	return bResult;

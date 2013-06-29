@@ -693,22 +693,12 @@ size_t CVCardFileVCF::packList(LPIDSTRLIST pList, UINT nList, int iID, size_t *c
  **/
 BYTE CVCardFileVCF::GetSetting(const CHAR *pszModule, const CHAR *pszSetting, DBVARIANT *dbv)
 {
-	DBCONTACTGETSETTING cgs;
-
-	cgs.szModule = pszModule;
-	cgs.szSetting = pszSetting;
-	cgs.pValue = dbv;
-	dbv->type = _useUtf8 ? DBVT_UTF8 : DBVT_ASCIIZ;
+	int type = _useUtf8 ? DBVT_UTF8 : DBVT_ASCIIZ;
 	dbv->pszVal = NULL;
-	if (!pszModule || CallService(MS_DB_CONTACT_GETSETTING_STR, (WPARAM)_hContact, (LPARAM)&cgs) || (dbv->type == DBVT_ASCIIZ && !dbv->pszVal && !*dbv->pszVal)) {
-		cgs.szModule = _pszBaseProto;
-		cgs.szSetting = pszSetting;
-		cgs.pValue = dbv;
-		dbv->type = DBVT_ASCIIZ;
-		if (!_pszBaseProto || CallService(MS_DB_CONTACT_GETSETTING_STR, (WPARAM)_hContact, (LPARAM)&cgs) || (dbv->type == DBVT_ASCIIZ && !dbv->pszVal && !*dbv->pszVal)) {
+	if (!pszModule || db_get_s(_hContact, pszModule, pszSetting, dbv, type) || (dbv->type == DBVT_ASCIIZ && !dbv->pszVal && !*dbv->pszVal))
+		if (!_pszBaseProto || db_get_s(_hContact, _pszBaseProto, pszSetting, dbv) || (dbv->type == DBVT_ASCIIZ && !dbv->pszVal && !*dbv->pszVal))
 			return DBVT_DELETED;
-		}
-	}
+
 	_hasUtf8 += _useUtf8 && !IsUSASCII(dbv->pszVal, NULL);
 	return dbv->type;
 }
