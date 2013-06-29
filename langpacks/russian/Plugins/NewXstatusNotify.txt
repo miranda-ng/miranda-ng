@@ -133,3 +133,5 @@ xСтатус удален
 Смена статуса
 [Ignore empty status and xStatus messages]
 Игнорировать пустые сообщения
+[Popups when status changes to:]
+Окна, когда статус изменился на:

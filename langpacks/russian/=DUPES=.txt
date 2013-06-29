@@ -3535,8 +3535,6 @@ Web Дизайн
 Значок статуса
 [Use standard &descriptions]
 &Стандартные описания
-[Popups on contact status change to:]
-Окна, если статус изменился на:
 [Always when changing from offline]
 Из статуса "Отключён"
 [From offline]
