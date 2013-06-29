@@ -67,7 +67,7 @@ int CLVM_EnumProc(const char *szSetting, LPARAM lParam)
 	pfnEnumCallback EnumCallback = (pfnEnumCallback)lParam;
 	if (szSetting != NULL)
 		EnumCallback((char *)szSetting);
-	return(0);
+	return 0;
 }
 
 void CLVM_EnumModes(pfnEnumCallback EnumCallback)

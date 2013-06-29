@@ -193,30 +193,29 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
-			RECT rc, rcClient;
 			HDC hdc = BeginPaint(hwnd, &ps);
-			LONG dwLeft;
-			HDC hdcMem = CreateCompatibleDC(hdc);
-			HBITMAP hbm, hbmold;
-			StatusItems_t *item;
-			int height;
-			HFONT hFontOld = 0;
 
+			RECT rc, rcClient;
 			GetClientRect(hwnd, &rc);
 			rcClient = rc;
-			hbm = CreateCompatibleBitmap(hdc, rc.right, rc.bottom);
-			hbmold = reinterpret_cast<HBITMAP>(SelectObject(hdcMem, hbm));
+
+			HDC hdcMem = CreateCompatibleDC(hdc);
+			HBITMAP hbm = CreateCompatibleBitmap(hdc, rc.right, rc.bottom);
+			HBITMAP hbmold = reinterpret_cast<HBITMAP>(SelectObject(hdcMem, hbm));
 			SetBkMode(hdcMem, TRANSPARENT);
 
-			if (cfg::clcdat)
+			HFONT hFontOld = 0;
+			if (cfg::clcdat) {
+				int height;
 				hFontOld = ChangeToFont(hdcMem, cfg::clcdat, FONTID_EVENTAREA, &height);
+			}
 
 			if (cfg::dat.bWallpaperMode)
 				SkinDrawBg(hwnd, hdcMem);
-			item = arStatusItems[ID_EXTBKEVTAREA - ID_STATUS_OFFLINE];
-			if (item->IGNORED) {
+			
+			StatusItems_t *item = arStatusItems[ID_EXTBKEVTAREA - ID_STATUS_OFFLINE];
+			if (item->IGNORED)
 				FillRect(hdcMem, &rc, GetSysColorBrush(COLOR_3DFACE));
-			}
 			else {
 				rc.top += item->MARGIN_TOP; rc.bottom -= item->MARGIN_BOTTOM;
 				rc.left += item->MARGIN_LEFT; rc.right -= item->MARGIN_RIGHT;
@@ -226,7 +225,7 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				SetTextColor(hdcMem, item->TEXTCOLOR);
 			}
 
-			dwLeft = rc.left;
+			LONG dwLeft = rc.left;
 
 			PaintNotifyArea(hdcMem, &rc);
 			if (cfg::dat.dwFlags & CLUI_FRAME_EVENTAREASUNKEN) {

@@ -215,8 +215,7 @@ static int CreateCLC(HWND parent)
 	SetButtonToSkinned();
 
 	{
-		DWORD flags;
-		CLISTFrame Frame;
+		CLISTFrame Frame = { 0 };
 		memset(&Frame, 0, sizeof(Frame));
 		Frame.cbSize = sizeof(CLISTFrame);
 		Frame.hWnd = pcli->hwndContactTree;
@@ -234,11 +233,11 @@ static int CreateCLC(HWND parent)
 		* ugly, but working hack. Prevent that annoying little scroll bar from appearing in the "My Contacts" title bar
 		*/
 
-		flags = (DWORD)CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hFrameContactTree), 0);
+		DWORD flags = (DWORD)CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hFrameContactTree), 0);
 		flags |= F_VISIBLE;
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hFrameContactTree), flags);
 	}
-	return(0);
+	return 0;
 }
 
 static int CluiModulesLoaded(WPARAM wParam, LPARAM lParam)
@@ -1777,10 +1776,10 @@ buttons_done:
 	case WM_CLOSE:
 		if (SETTING_WINDOWSTYLE_DEFAULT == cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT) && !cfg::getByte("CList", "AlwaysHideOnTB", 0)) {
 			PostMessage(hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
-			return(0);
+			return 0;
 		}
 		pcli->pfnShowHide(0, 0);
-		return(0);
+		return 0;
 
 	case CLUIINTM_REDRAW:
 		if (show_on_first_autosize) {

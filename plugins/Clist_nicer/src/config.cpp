@@ -473,7 +473,7 @@ HMODULE Utils::loadSystemLibrary(const TCHAR* szFilename, bool useGetHandle)
 	}
 	catch(CRTException& ex) {
 		ex.display();
-		return(0);
+		return 0;
 	}
 	return(_h);
 }

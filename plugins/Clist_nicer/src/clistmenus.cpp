@@ -55,7 +55,7 @@ INT_PTR CloseAction(WPARAM wParam,LPARAM lParam)
 		Sleep(0);
 	}
 
-	return(0);
+	return 0;
 }
 
 static HANDLE hWindowListIGN = 0;

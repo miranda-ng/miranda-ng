@@ -39,7 +39,7 @@ INT_PTR FreeOwnerDataFrameMenu (WPARAM wParam,LPARAM lParam)
 		FreeAndNil((void **)&cmep->szServiceName);
 		FreeAndNil((void **)&cmep);
 	}
-	return(0);
+	return 0;
 }
 
 static INT_PTR AddContextFrameMenuItem(WPARAM wParam,LPARAM lParam)
@@ -90,7 +90,7 @@ INT_PTR FrameMenuExecService(WPARAM wParam,LPARAM lParam) {
 
 	CallService(fmep->szServiceName,lParam,fmep->param1);
 	RedrawWindow(pcli->hwndContactList,NULL,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_FRAME|RDW_UPDATENOW|RDW_ALLCHILDREN);   
-	return(0);
+	return 0;
 }
 
 //true - ok,false ignore
@@ -116,7 +116,7 @@ INT_PTR FrameMenuCheckService(WPARAM wParam,LPARAM lParam) {
 static INT_PTR ContextFrameMenuNotify(WPARAM wParam,LPARAM lParam)
 {
 	NotifyEventHooks(hPreBuildFrameMenuEvent,wParam,lParam);
-	return(0);
+	return 0;
 }
 
 static INT_PTR BuildContextFrameMenu(WPARAM wParam,LPARAM lParam)
@@ -224,5 +224,5 @@ int InitFramesMenus(void)
 
 int UnitFramesMenu()
 {
-	return(0);
+	return 0;
 }
