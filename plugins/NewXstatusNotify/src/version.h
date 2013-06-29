@@ -5,9 +5,9 @@
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
-#define __PLUGIN_NAME				"xStatus Notify"
+#define __PLUGIN_NAME				"xStatus notify"
 #define __FILENAME					"NewXstatusNotify.dll"
-#define __DESCRIPTION 				"Notifies you when a contact changes his/her (X)status or status message."
+#define __DESCRIPTION				"Notifies you when a contact changes his/her (X)status or status message."
 #define __AUTHOR					"Luca Santarelli, Vasilich, yaho"
 #define __AUTHOREMAIL				"yaho@miranda-easy.net"
 #define __AUTHORWEB					"http://miranda-ng.org/"

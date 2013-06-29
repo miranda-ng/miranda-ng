@@ -310,10 +310,13 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	wsprintfA(buff, "%d", ID_STATUS_EXTRASTATUS); 
 
 	if (( db_get_b(0, MODULE, buff, 1) == 0)
-		 || (db_get_w(xsc->hContact, xsc->szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
-		 || (!opt.HiddenContactsToo && db_get_b(xsc->hContact, "CList", "Hidden", 0))
-		 || (opt.TempDisabled))
-		return;
+		|| (db_get_w(xsc->hContact, xsc->szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+		|| (!opt.HiddenContactsToo && db_get_b(xsc->hContact, "CList", "Hidden", 0))
+		|| (opt.TempDisabled)
+		|| (opt.IgnoreEmpty && (xsc->stzTitle == NULL || xsc->stzTitle[0] == '\0') && (xsc->stzText == NULL || xsc->stzText[0] == '\0'))) {
+			 FreeXSC(xsc);
+			 return;
+	}
 
 	char statusIDs[12], statusIDp[12];
 	if (opt.AutoDisable) {

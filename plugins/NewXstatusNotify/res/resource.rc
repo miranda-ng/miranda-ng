@@ -49,11 +49,6 @@ BEGIN
 
     IDD_OPT_POPUP, DIALOG
     BEGIN
-        RIGHTMARGIN, 308
-        VERTGUIDE, 6
-        VERTGUIDE, 163
-        VERTGUIDE, 288
-        BOTTOMMARGIN, 142
     END
 
     IDD_OPT_XPOPUP, DIALOG
@@ -175,69 +170,71 @@ BEGIN
     ICON            IDI_ENABLEALL,IDC_ENABLEALLICON,211,210,16,16,SS_CENTERIMAGE
 END
 
-IDD_OPT_POPUP DIALOGEX 0, 0, 309, 230
+IDD_OPT_POPUP DIALOGEX 0, 0, 309, 233
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CTEXT           "Background",IDC_STATIC,63,11,44,8
-    CTEXT           "Text",IDC_STATIC,106,11,24,8
-    CONTROL         "",IDC_OFFLINE_BG,"ColourPicker",WS_TABSTOP,72,22,24,12
-    CONTROL         "",IDC_OFFLINE_TX,"ColourPicker",WS_TABSTOP,105,22,24,12
-    CONTROL         "",IDC_ONLINE_BG,"ColourPicker",WS_TABSTOP,72,38,24,12
-    CONTROL         "",IDC_ONLINE_TX,"ColourPicker",WS_TABSTOP,105,38,24,12
-    CONTROL         "",IDC_AWAY_BG,"ColourPicker",WS_TABSTOP,72,54,24,12
-    CONTROL         "",IDC_AWAY_TX,"ColourPicker",WS_TABSTOP,105,54,24,12
-    CONTROL         "",IDC_NA_BG,"ColourPicker",WS_TABSTOP,72,70,24,12
-    CONTROL         "",IDC_NA_TX,"ColourPicker",WS_TABSTOP,105,70,24,12
-    CONTROL         "",IDC_OCCUPIED_BG,"ColourPicker",WS_TABSTOP,72,86,24,12
-    CONTROL         "",IDC_OCCUPIED_TX,"ColourPicker",WS_TABSTOP,105,86,24,12
-    CONTROL         "",IDC_DND_BG,"ColourPicker",WS_TABSTOP,72,102,24,12
-    CONTROL         "",IDC_DND_TX,"ColourPicker",WS_TABSTOP,105,102,24,12
-    CONTROL         "",IDC_FREEFORCHAT_BG,"ColourPicker",WS_TABSTOP,72,118,24,12
-    CONTROL         "",IDC_FREEFORCHAT_TX,"ColourPicker",WS_TABSTOP,105,118,24,12
-    CONTROL         "",IDC_INVISIBLE_BG,"ColourPicker",WS_TABSTOP,72,134,24,12
-    CONTROL         "",IDC_INVISIBLE_TX,"ColourPicker",WS_TABSTOP,105,134,24,12
-    CONTROL         "",IDC_OUTTOLUNCH_BG,"ColourPicker",WS_TABSTOP,72,150,24,12
-    CONTROL         "",IDC_OUTTOLUNCH_TX,"ColourPicker",WS_TABSTOP,105,150,24,12
-    CONTROL         "",IDC_ONTHEPHONE_BG,"ColourPicker",WS_TABSTOP,72,166,24,12
-    CONTROL         "",IDC_ONTHEPHONE_TX,"ColourPicker",WS_TABSTOP,105,166,24,12
+    CTEXT           "Background",IDC_STATIC,64,11,44,8
+    CTEXT           "Text",IDC_STATIC,107,11,24,8
+    CONTROL         "",IDC_OFFLINE_BG,"ColourPicker",WS_TABSTOP,73,22,24,12
+    CONTROL         "",IDC_OFFLINE_TX,"ColourPicker",WS_TABSTOP,106,22,24,12
+    CONTROL         "",IDC_ONLINE_BG,"ColourPicker",WS_TABSTOP,73,38,24,12
+    CONTROL         "",IDC_ONLINE_TX,"ColourPicker",WS_TABSTOP,106,38,24,12
+    CONTROL         "",IDC_AWAY_BG,"ColourPicker",WS_TABSTOP,73,54,24,12
+    CONTROL         "",IDC_AWAY_TX,"ColourPicker",WS_TABSTOP,106,54,24,12
+    CONTROL         "",IDC_NA_BG,"ColourPicker",WS_TABSTOP,73,70,24,12
+    CONTROL         "",IDC_NA_TX,"ColourPicker",WS_TABSTOP,106,70,24,12
+    CONTROL         "",IDC_OCCUPIED_BG,"ColourPicker",WS_TABSTOP,73,86,24,12
+    CONTROL         "",IDC_OCCUPIED_TX,"ColourPicker",WS_TABSTOP,106,86,24,12
+    CONTROL         "",IDC_DND_BG,"ColourPicker",WS_TABSTOP,73,102,24,12
+    CONTROL         "",IDC_DND_TX,"ColourPicker",WS_TABSTOP,106,102,24,12
+    CONTROL         "",IDC_FREEFORCHAT_BG,"ColourPicker",WS_TABSTOP,73,118,24,12
+    CONTROL         "",IDC_FREEFORCHAT_TX,"ColourPicker",WS_TABSTOP,106,118,24,12
+    CONTROL         "",IDC_INVISIBLE_BG,"ColourPicker",WS_TABSTOP,73,134,24,12
+    CONTROL         "",IDC_INVISIBLE_TX,"ColourPicker",WS_TABSTOP,106,134,24,12
+    CONTROL         "",IDC_OUTTOLUNCH_BG,"ColourPicker",WS_TABSTOP,73,150,24,12
+    CONTROL         "",IDC_OUTTOLUNCH_TX,"ColourPicker",WS_TABSTOP,106,150,24,12
+    CONTROL         "",IDC_ONTHEPHONE_BG,"ColourPicker",WS_TABSTOP,73,166,24,12
+    CONTROL         "",IDC_ONTHEPHONE_TX,"ColourPicker",WS_TABSTOP,106,166,24,12
     GROUPBOX        "Colours",IDC_STATIC,143,0,164,44,WS_GROUP
-    CONTROL         "Use custom colours",IDC_USEOWNCOLORS,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | BS_NOTIFY,151,8,151,13
-    CONTROL         "Use Windows colours",IDC_USEWINCOLORS,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | BS_NOTIFY,151,30,151,13
-    CONTROL         "Use Popup colours",IDC_USEPOPUPCOLORS,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | BS_NOTIFY,151,19,151,13
-    GROUPBOX        "Popup text",IDC_STATIC,144,46,164,76,WS_GROUP
-    CONTROL         "Read status message",IDC_READAWAYMSG,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,151,104,151,13
-    CONTROL         "Show previous status too",IDC_SHOWPREVIOUSSTATUS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,151,92,151,13
-    GROUPBOX        "Timeout",IDC_STATIC,144,124,164,35
-    EDITTEXT        IDC_TIMEOUT_VALUE,160,138,32,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_TIMEOUT_VALUE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,181,138,11,12
+    CONTROL         "Use custom colours",IDC_USEOWNCOLORS,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | BS_NOTIFY,149,8,151,13
+    CONTROL         "Use Windows colours",IDC_USEWINCOLORS,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | BS_NOTIFY,149,30,151,13
+    CONTROL         "Use Popup colours",IDC_USEPOPUPCOLORS,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | BS_NOTIFY,149,19,151,13
+    GROUPBOX        "Popup text",IDC_STATIC,144,44,164,85,WS_GROUP
+    CONTROL         "Read status message",IDC_READAWAYMSG,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,148,102,151,13
+    CONTROL         "Show previous status too",IDC_SHOWPREVIOUSSTATUS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,148,90,151,13
+    GROUPBOX        "Timeout",IDC_STATIC,143,129,164,35
+    EDITTEXT        IDC_TIMEOUT_VALUE,159,143,32,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_TIMEOUT_VALUE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,180,143,11,12
     PUSHBUTTON      "Preview",IDC_PREVIEW,43,206,57,15
-    GROUPBOX        "Popups on contact status change to:",IDC_STATIC,0,0,138,200,WS_GROUP
-    GROUPBOX        "Click action",IDC_STATIC,144,160,164,67,WS_GROUP
-    CONTROL         "Show contact group name",IDC_SHOWGROUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,58,151,9
-    CONTROL         "Use alternative descriptions",IDC_SHOWALTDESCS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,80,151,13
-    CTEXT           "0 = Default",IDC_STATUS_STATIC_DEFAULT,225,135,76,8
-    CTEXT           "-1 = Infinite",IDC_STATUS_STATIC_INFINITE,223,145,76,8
-    LTEXT           "Sec",IDC_STATUS_STATIC_SEC,197,140,21,8
-    COMBOBOX        IDC_STATUS_LC,151,182,150,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_STATUS_RC,151,209,150,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "On left click",IDC_STATIC,153,171,151,8
-    LTEXT           "On right click",IDC_STATIC,153,198,151,8
-    CONTROL         "",IDC_XSTATUS_TX,"ColourPicker",WS_TABSTOP,105,182,24,12
-    CONTROL         "",IDC_XSTATUS_BG,"ColourPicker",WS_TABSTOP,72,182,24,12
-    LTEXT           "Offline",IDC_STATIC,5,24,56,8
-    LTEXT           "Online",IDC_STATIC,5,40,56,8
-    LTEXT           "Away",IDC_STATIC,5,56,56,8
-    LTEXT           "NA",IDC_STATIC,5,72,56,8
-    LTEXT           "Occupied",IDC_STATIC,5,88,56,8
-    LTEXT           "DND",IDC_STATIC,5,104,56,8
-    LTEXT           "Free for chat",IDC_STATIC,5,120,56,8
-    LTEXT           "Invisible",IDC_STATIC,5,136,56,8
-    LTEXT           "Out to lunch",IDC_STATIC,5,152,56,8
-    LTEXT           "On the phone",IDC_STATIC,5,168,56,8
-    LTEXT           "Extra status",IDC_STATIC,5,184,56,8
-    CONTROL         "Show status description",IDC_SHOWSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,68,151,13
+    GROUPBOX        "Popups when status changes to:",IDC_STATIC,1,0,138,200,WS_GROUP
+    GROUPBOX        "Click action",IDC_STATIC,143,164,164,67,WS_GROUP
+    CONTROL         "Show contact group name",IDC_SHOWGROUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,56,151,9
+    CONTROL         "Use alternative descriptions",IDC_SHOWALTDESCS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,78,151,13
+    CTEXT           "0 = Default",IDC_STATUS_STATIC_DEFAULT,224,140,76,8
+    CTEXT           "-1 = Infinite",IDC_STATUS_STATIC_INFINITE,222,150,76,8
+    LTEXT           "Sec",IDC_STATUS_STATIC_SEC,196,144,21,8
+    COMBOBOX        IDC_STATUS_LC,150,185,150,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_STATUS_RC,150,212,150,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "On left click",IDC_STATIC,152,174,151,8
+    LTEXT           "On right click",IDC_STATIC,152,201,151,8
+    CONTROL         "",IDC_XSTATUS_TX,"ColourPicker",WS_TABSTOP,106,182,24,12
+    CONTROL         "",IDC_XSTATUS_BG,"ColourPicker",WS_TABSTOP,73,182,24,12
+    LTEXT           "Offline",IDC_STATIC,6,24,56,8
+    LTEXT           "Online",IDC_STATIC,6,40,56,8
+    LTEXT           "Away",IDC_STATIC,6,56,56,8
+    LTEXT           "NA",IDC_STATIC,6,72,56,8
+    LTEXT           "Occupied",IDC_STATIC,6,88,56,8
+    LTEXT           "DND",IDC_STATIC,6,104,56,8
+    LTEXT           "Free for chat",IDC_STATIC,6,120,56,8
+    LTEXT           "Invisible",IDC_STATIC,6,136,56,8
+    LTEXT           "Out to lunch",IDC_STATIC,6,152,56,8
+    LTEXT           "On the phone",IDC_STATIC,6,168,56,8
+    LTEXT           "Extra status",IDC_STATIC,6,184,56,8
+    CONTROL         "Show status description",IDC_SHOWSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,66,151,13
+    CONTROL         "Ignore empty status and xStatus messages",IDC_PUIGNOREREMOVE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,117,152,8
 END
 
 IDD_OPT_XPOPUP DIALOGEX 0, 0, 305, 230
@@ -334,9 +331,8 @@ IDD_OPT_SMPOPUP DIALOGEX 0, 0, 305, 226
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | DS_CENTER | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "General",IDC_STATIC,7,0,289,39
+    GROUPBOX        "General",IDC_STATIC,7,0,289,27
     CONTROL         "Show Popups when I connect",IDC_ONCONNECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,11,274,8
-    CONTROL         "Ignore empty status messages",IDC_PUIGNOREREMOVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,25,274,8
     GROUPBOX        "Protocols",IDC_STATIC,7,41,289,124
     CTEXT           "Enable/Disable protocols which you don't wish to be notified for:",IDC_STATIC,14,52,274,10
     CONTROL         "",IDC_PROTOCOLLIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,51,66,201,90
@@ -365,7 +361,6 @@ IDI_DISABLEALL          ICON                    "disable_all.ico"
 IDI_ENABLEALL           ICON                    "enable_all.ico"
 IDI_VARIABLES           ICON                    "variables.ico"
 IDI_STATUS_MESSAGE      ICON                    "status_message.ico"
-
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

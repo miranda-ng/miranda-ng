@@ -57,6 +57,7 @@ void LoadOptions()
 	opt.PopupTimeout = db_get_dw(0, MODULE, "PopupTimeout", 0);
 	opt.LeftClickAction= db_get_b(0, MODULE, "LeftClickAction", 5);
 	opt.RightClickAction = db_get_b(0, MODULE, "RightClickAction", 1);
+	opt.IgnoreEmpty = db_get_b(0, MODULE, "IgnoreEmpty", 1);
 	// IDD_OPT_XPOPUP
 	opt.PDisableForMusic = db_get_b(0, MODULE, "PDisableForMusic", 1);
 	opt.PTruncateMsg = db_get_b(0, MODULE, "PTruncateMsg", 0);
@@ -82,7 +83,6 @@ void LoadOptions()
 	opt.LTruncateMsg = db_get_b(0, MODULE, "LTruncateMsg", 0);
 	opt.LMsgLen = db_get_dw(0, MODULE, "LMsgLen", 128);
 	//IDD_OPT_SMPOPUP
-	opt.IgnoreEmpty = db_get_b(0, MODULE, "IgnoreEmpty", 1);
 	opt.PopupOnConnect = db_get_b(0, MODULE, "PopupOnConnect", 0);
 	// OTHER
 	opt.TempDisabled = db_get_b(0, MODULE, "TempDisable", 0);
@@ -127,6 +127,7 @@ void SaveOptions()
 	db_set_dw(0, MODULE, "PopupTimeout", opt.PopupTimeout);
 	db_set_b(0, MODULE, "LeftClickAction", opt.LeftClickAction);
 	db_set_b(0, MODULE, "RightClickAction", opt.RightClickAction);
+	db_set_b(0, MODULE, "IgnoreEmpty", opt.IgnoreEmpty);
 	// IDD_OPT_XPOPUP
 	db_set_b(0, MODULE, "PDisableForMusic", opt.PDisableForMusic);
 	db_set_b(0, MODULE, "PTruncateMsg", opt.PTruncateMsg);
@@ -152,7 +153,6 @@ void SaveOptions()
 	db_set_b(0, MODULE, "LTruncateMsg", opt.LTruncateMsg);
 	db_set_dw(0, MODULE, "LMsgLen", opt.LMsgLen);
 	//IDD_OPT_SMPOPUP
-	db_set_b(0, MODULE, "IgnoreEmpty", opt.IgnoreEmpty);
 	db_set_b(0, MODULE, "PopupOnConnect", opt.PopupOnConnect);
 }
 
@@ -312,6 +312,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			CheckDlgButton(hwndDlg, IDC_READAWAYMSG, opt.ReadAwayMsg);
 			CheckDlgButton(hwndDlg, IDC_SHOWPREVIOUSSTATUS, opt.ShowPreviousStatus);
 			CheckDlgButton(hwndDlg, IDC_SHOWGROUP, opt.ShowGroup);
+			CheckDlgButton(hwndDlg, IDC_PUIGNOREREMOVE, opt.IgnoreEmpty);
 
 			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE, EM_LIMITTEXT, 3, 0);
 			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, -1, 999);
@@ -465,6 +466,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				opt.PopupTimeout = GetDlgItemInt(hwndDlg, IDC_TIMEOUT_VALUE, 0, TRUE);
 				opt.LeftClickAction = (BYTE)SendDlgItemMessage(hwndDlg, IDC_STATUS_LC, CB_GETCURSEL, 0, 0);
 				opt.RightClickAction = (BYTE)SendDlgItemMessage(hwndDlg, IDC_STATUS_RC, CB_GETCURSEL, 0, 0);
+				opt.IgnoreEmpty = IsDlgButtonChecked(hwndDlg, IDC_PUIGNOREREMOVE);
 
 				SaveOptions();
 				return TRUE;
@@ -704,7 +706,6 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		TranslateDialogDefault(hwndDlg);
 		{
 			CheckDlgButton(hwndDlg, IDC_ONCONNECT, opt.PopupOnConnect);
-			CheckDlgButton(hwndDlg, IDC_PUIGNOREREMOVE, opt.IgnoreEmpty);
 
 			// Buttons
 			SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Show available variables"), BATF_TCHAR);
@@ -828,7 +829,6 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		}
 
 		if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
-			opt.IgnoreEmpty = IsDlgButtonChecked(hwndDlg, IDC_PUIGNOREREMOVE);
 			opt.PopupOnConnect = IsDlgButtonChecked(hwndDlg, IDC_ONCONNECT);
 
 			// Templates
