@@ -333,8 +333,8 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "General",IDC_STATIC,7,0,289,27
     CONTROL         "Show Popups when I connect",IDC_ONCONNECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,11,274,8
-    GROUPBOX        "Protocols",IDC_STATIC,7,41,289,124
-    CTEXT           "Enable/Disable protocols which you don't wish to be notified for:",IDC_STATIC,14,52,274,10
+    GROUPBOX        "Accounts",IDC_STATIC,7,41,289,124
+    CTEXT           "Enable/Disable accounts which you don't wish to be notified for:",IDC_STATIC,14,52,274,10
     CONTROL         "",IDC_PROTOCOLLIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,51,66,201,90
     GROUPBOX        "Text",IDC_STATIC,7,170,289,38
     EDITTEXT        IDC_POPUPTEXT,14,182,222,20,ES_MULTILINE | ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
