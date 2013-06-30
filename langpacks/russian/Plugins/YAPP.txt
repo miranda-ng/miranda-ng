@@ -54,6 +54,10 @@
 ;  Главное меню
 [Popup history]
 История всплывающих окон
+[Popups are enabled]
+Всплывающие окна включены
+[Popups are disabled]
+Всплывающие окна выключены
 [Enable Popups]
 Включить всплывающие окна
 [No animate]
