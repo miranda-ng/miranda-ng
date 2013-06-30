@@ -131,6 +131,18 @@ typedef struct
 	char val[256];
 } GGTOKEN;
 
+struct GGREQUESTAVATARDATA
+{
+	HANDLE hContact;
+	int iWaitFor;
+};
+
+struct GGGETAVATARDATA
+{
+	HANDLE hContact;
+	char *szAvatarURL;
+};
+
 
 // Wrappers of the old interface
 #define GGDEF_PROTO 	 "GG"        // Default Proto
@@ -285,7 +297,7 @@ typedef struct
 #define GG_USERUTIL_EMAIL	3
 
 // popup flags
-#define	GG_POPUP_ALLOW_MSGBOX	1
+#define GG_POPUP_ALLOW_MSGBOX	1
 #define GG_POPUP_ONCE			2
 #define GG_POPUP_ERROR			4
 #define GG_POPUP_WARNING		8
@@ -304,9 +316,11 @@ typedef struct
 // Global variables
 /////////////////////////////////////////////////
 
+struct GGPROTO;
+
 extern HINSTANCE hInstance;
 extern CLIST_INTERFACE *pcli;
-extern list_t g_Instances;
+extern LIST<GGPROTO> g_Instances;
 extern PLUGININFOEX pluginInfo;
 extern IconItem iconList[];
 

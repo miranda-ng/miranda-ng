@@ -41,12 +41,10 @@ static INT_PTR gg_menuchoose(WPARAM wParam, LPARAM lParam)
 static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 {
 	char *arg = (char*)lParam;
-	list_t l = g_Instances;
-	GGPROTO *gg = NULL;
 	uin_t uin;
 	int items = 0;
 
-	if (list_count(l) == 0)
+	if (g_Instances.getCount() == 0)
 		return 0;
 
 	if (arg == NULL)
@@ -63,20 +61,20 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 	if (!uin)
 		return 1;
 
-	for (; l; l = l->next) {
-		GGPROTO *gginst = (GGPROTO*)l->data;
+	GGPROTO *gg = NULL;
+	for (int i=0; i < g_Instances.getCount(); i++) {
+		gg = g_Instances[i];
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_FLAGS;
-		if (gginst->m_iStatus > ID_STATUS_OFFLINE) {
+		if (gg->m_iStatus > ID_STATUS_OFFLINE) {
 			++items;
-			gg = (GGPROTO*)l->data;
 			mi.flags |= CMIM_ICON;
 			mi.hIcon = LoadSkinnedProtoIcon(gg->m_szModuleName, gg->m_iStatus);
 		}
 		else mi.flags |= CMIF_HIDDEN;
 
-		Menu_ModifyItem(gginst->hInstanceMenuItem, &mi);
+		Menu_ModifyItem(gg->hInstanceMenuItem, &mi);
 		if (mi.hIcon)
 			Skin_ReleaseIcon(mi.hIcon);
 	}
@@ -156,7 +154,7 @@ void GGPROTO::links_instance_init()
 		TMO_MenuItem tmi = { sizeof(tmi) };
 		tmi.flags = CMIF_TCHAR;
 		tmi.ownerdata = this;
-		tmi.position = list_count(g_Instances);
+		tmi.position = g_Instances.getCount();
 		tmi.ptszName = m_tszUserName;
 		hInstanceMenuItem = (HGENMENU)CallService(MO_ADDNEWMENUITEM, (WPARAM)hInstanceMenu, (LPARAM)&tmi);
 	}

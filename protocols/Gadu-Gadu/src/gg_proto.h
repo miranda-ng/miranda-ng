@@ -144,9 +144,9 @@ struct GGPROTO : public PROTO_INTERFACE
 	void getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen);
 	void requestAvatarTransfer(HANDLE hContact, char *szAvatarURL);
 	void requestAvatarInfo(HANDLE hContact, int iWaitFor);
-	void getUserAvatar();
+	void getOwnAvatar();
 	void setAvatar(const TCHAR *szFilename);
-	void getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts);
+	bool getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts);
 
 	INT_PTR  __cdecl getavatarcaps(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl getavatarinfo(WPARAM wParam, LPARAM lParam);
@@ -154,10 +154,9 @@ struct GGPROTO : public PROTO_INTERFACE
 	INT_PTR  __cdecl setmyavatar(WPARAM wParam, LPARAM lParam);
 
 	void initavatarrequestthread();
-	void uninitavatarrequestthread();
 
 	void     __cdecl avatarrequestthread(void*);
-	void     __cdecl getuseravatarthread(void*);
+	void     __cdecl getOwnAvatarThread(void*);
 	void     __cdecl setavatarthread(void*);
 
 	/* File transfer functions */
@@ -254,7 +253,9 @@ struct GGPROTO : public PROTO_INTERFACE
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	CRITICAL_SECTION ft_mutex, sess_mutex, img_mutex, modemsg_mutex, avatar_mutex, sessions_mutex;
-	list_t watches, transfers, requests, chats, imagedlgs, avatar_requests, avatar_transfers, sessions;
+	list_t watches, transfers, requests, chats, imagedlgs, sessions;
+	LIST<GGREQUESTAVATARDATA> avatar_requests;
+	LIST<GGGETAVATARDATA> avatar_transfers;
 	int gc_enabled, gc_id, is_list_remove, check_first_conn;
 	uin_t next_uin;
 	unsigned long last_crc;

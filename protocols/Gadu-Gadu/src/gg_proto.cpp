@@ -21,7 +21,9 @@
 
 #include "gg.h"
 
-GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
+GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
+	avatar_requests(1, HandleKeySortT),
+	avatar_transfers(1, HandleKeySortT)
 {
 	ProtoConstructor(this, pszProtoName, tszUserName);
 
@@ -64,6 +66,8 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 	// Offline contacts and clear logon time
 	setalloffline();
 	db_set_dw(NULL, m_szModuleName, GG_KEY_LOGONTIME, 0);
+
+	db_set_resident(m_szModuleName, GG_KEY_AVATARREQUESTED);
 
 	TCHAR szPath[MAX_PATH];
 	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s"), (TCHAR*)VARST( _T("%miranda_avatarcache%")), m_tszUserName);
@@ -804,21 +808,15 @@ int GGPROTO::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 			block_init();
 
 			// Try to fetch user avatar
-			getUserAvatar();
+			getOwnAvatar();
 			break;
 		}
 	case EV_PROTO_ONEXIT:
 		// Stop avatar request thread
-		uninitavatarrequestthread();
+		pth_avatar.dwThreadId = 0;
 
 		// Stop main connection session thread
-#ifdef DEBUGMODE
-	netlog("OnEvent(): EV_PROTO_ONEXIT: Waiting pth_sess thread.");
-#endif
-		threadwait(&pth_sess);
-#ifdef DEBUGMODE
-	netlog("OnEvent(): EV_PROTO_ONEXIT: Waiting pth_sess thread - OK");
-#endif
+		pth_sess.dwThreadId = 0;
 
 		img_shutdown();
 		sessions_closedlg();

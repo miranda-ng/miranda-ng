@@ -41,9 +41,9 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 
 	if (_taccess(pszDest, 0)) {
 		int ret = CreateDirectoryTreeT(pszDest);
-		if (ret == 0){
+		if (ret == 0)
 			netlog("getAvatarFilename(): Created new directory for avatar cache: %S.", pszDest);
-		} else {
+		else {
 			netlog("getAvatarFilename(): Can not create directory for avatar cache: %S. errno=%d: %s", pszDest, errno, strerror(errno));
 			TCHAR error[512];
 			mir_sntprintf(error, SIZEOF(error), TranslateT("Can not create avatars cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pszDest);
@@ -69,62 +69,47 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 	else mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%S avatar.%s"), m_szModuleName, avatartype);
 }
 
-void GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
+bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 {
-	NETLIBHTTPREQUEST req = {0};
-	NETLIBHTTPREQUEST *resp;
-	char szUrl[128];
-	*avatarurl = NULL;
-	*avatarts = NULL;
+	*avatarurl = *avatarts = NULL;
 
-	req.cbSize = sizeof(req);
+	char szUrl[128];
+	mir_snprintf(szUrl, 128, "http://api.gadu-gadu.pl/avatars/%d/0.xml", uin);
+
+	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = szUrl;
-	mir_snprintf(szUrl, 128, "http://api.gadu-gadu.pl/avatars/%d/0.xml", uin);
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_REDIRECT;
-	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
-	if (resp) {
-		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-			HXML hXml;
-			TCHAR *xmlAction;
-			TCHAR *tag;
 
-			xmlAction = mir_a2t(resp->pData);
-			tag = mir_a2t("result");
-			hXml = xi.parseString(xmlAction, 0, tag);
-
-			if (hXml != NULL) {
-				HXML node;
-				char *blank;
-
-				mir_free(tag); tag = mir_a2t("users/user/avatars/avatar");
-				node = xi.getChildByPath(hXml, tag, 0);
-				mir_free(tag); tag = mir_a2t("blank");
-				blank = (node != NULL) ? mir_t2a(xi.getAttrValue(node, tag)) : NULL;
-
-				if (blank != NULL && strcmp(blank, "1")) {
-					mir_free(tag); tag = mir_a2t("users/user/avatars/avatar/originBigAvatar");
-					node = xi.getChildByPath(hXml, tag, 0);
-					*avatarurl = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
-
-					mir_free(tag); tag = mir_a2t("users/user/avatars/avatar/timestamp");
-					node = xi.getChildByPath(hXml, tag, 0);
-					*avatarts = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
-
-				} else {
-					*avatarurl = mir_strdup("");
-					*avatarts = mir_strdup("");
-				}
-				mir_free(blank);
-				xi.destroyNode(hXml);
-			}
-			mir_free(tag);
-			mir_free(xmlAction);
-		}
-		else netlog("getAvatarFileInfo(): Invalid response code from HTTP request");
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+	NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
+	if (resp == NULL) {
+		netlog("getAvatarFileInfo(): No response from HTTP request");
+		return false;
 	}
-	else netlog("getAvatarFileInfo(): No response from HTTP request");
+
+	if (resp->resultCode != 200 || !resp->dataLength || !resp->pData) {
+		netlog("getAvatarFileInfo(): Invalid response code from HTTP request");
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+		return false;
+	}
+
+	TCHAR *xmlAction = mir_a2t(resp->pData);
+	HXML hXml = xi.parseString(xmlAction, 0, _T("result"));
+	if (hXml != NULL) {
+		HXML node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar"), 0);
+		const TCHAR *blank = (node != NULL) ? xi.getAttrValue(node, _T("blank")) : NULL;
+		if (blank != NULL && _tcscmp(blank, _T("1"))) {
+			node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/originBigAvatar"), 0);
+			*avatarurl = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+
+			node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/timestamp"), 0);
+			*avatarts = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+		}
+		xi.destroyNode(hXml);
+	}
+	mir_free(xmlAction);
+	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+	return true;
 }
 
 char *gg_avatarhash(char *param)
@@ -143,125 +128,117 @@ char *gg_avatarhash(char *param)
 	return result;
 }
 
-typedef struct
-{
-	HANDLE hContact;
-	char *AvatarURL;
-} GGGETAVATARDATA;
-
 void GGPROTO::requestAvatarTransfer(HANDLE hContact, char *szAvatarURL)
 {
-#ifdef DEBUGMODE
-	netlog("requestAvatarTransfer(): start");
-#endif
-
-	if (pth_avatar.dwThreadId) {
-		GGGETAVATARDATA *data = (GGGETAVATARDATA*)mir_alloc(sizeof(GGGETAVATARDATA));
-		data->hContact = hContact;
-		data->AvatarURL = mir_strdup(szAvatarURL);
-		gg_EnterCriticalSection(&avatar_mutex, "requestAvatarTransfer", 1, "avatar_mutex", 1);
-		list_add(&avatar_transfers, data, 0);
-		gg_LeaveCriticalSection(&avatar_mutex, "requestAvatarTransfer", 1, 1, "avatar_mutex", 1);
-	} else {
+	if (pth_avatar.dwThreadId == NULL) {
 		netlog("requestAvatarTransfer(): Can not list_add element to avatar_transfers list. No pth_avatar.dwThreadId");
+		return;
 	}
-}
 
-typedef struct
-{
-	HANDLE hContact;
-	int iWaitFor;
-} GGREQUESTAVATARDATA;
+	gg_EnterCriticalSection(&avatar_mutex, "requestAvatarTransfer", 1, "avatar_mutex", 1);
+	if (avatar_transfers.getIndex((GGGETAVATARDATA*)&hContact) == -1) {
+		GGGETAVATARDATA *data = (GGGETAVATARDATA*)mir_alloc(sizeof(GGGETAVATARDATA) + strlen(szAvatarURL)+1);
+		data->hContact = hContact;
+		data->szAvatarURL = strcpy((char*)(data+1), szAvatarURL);
+		avatar_transfers.insert(data);
+	}
+	gg_LeaveCriticalSection(&avatar_mutex, "requestAvatarTransfer", 1, 1, "avatar_mutex", 1);
+}
 
 void GGPROTO::requestAvatarInfo(HANDLE hContact, int iWaitFor)
 {
-#ifdef DEBUGMODE
-	netlog("requestAvatarInfo(): start");
-#endif
-
-	if (pth_avatar.dwThreadId) {
-		if (db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)) {
-			GGREQUESTAVATARDATA *data = (GGREQUESTAVATARDATA*)mir_alloc(sizeof(GGREQUESTAVATARDATA));
-			data->hContact = hContact;
-			data->iWaitFor = iWaitFor;
-			gg_EnterCriticalSection(&avatar_mutex, "requestAvatarInfo", 2, "avatar_mutex", 1);
-			list_add(&avatar_requests, data, 0);
-			gg_LeaveCriticalSection(&avatar_mutex, "requestAvatarInfo", 2, 1, "avatar_mutex", 1);
-		}
-	} else {
+	if (pth_avatar.dwThreadId == NULL) {
 		netlog("requestAvatarInfo(): Can not list_add element to avatar_requests list. No pth_avatar.dwThreadId");
+		return;
 	}
+	
+	if (!db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS))
+		return;
+
+	GGREQUESTAVATARDATA *data = NULL;
+	gg_EnterCriticalSection(&avatar_mutex, "requestAvatarInfo", 2, "avatar_mutex", 1);
+	if (avatar_requests.getIndex((GGREQUESTAVATARDATA*)&hContact) == -1) {
+		data = (GGREQUESTAVATARDATA*)mir_alloc(sizeof(GGREQUESTAVATARDATA));
+		data->hContact = hContact;
+		data->iWaitFor = iWaitFor;
+		avatar_requests.insert(data);
+	}
+	gg_LeaveCriticalSection(&avatar_mutex, "requestAvatarInfo", 2, 1, "avatar_mutex", 1);
+
+	if (data != NULL)
+		db_set_b(hContact, m_szModuleName, GG_KEY_AVATARREQUESTED, 1);
 }
 
 void __cdecl GGPROTO::avatarrequestthread(void*)
 {
-	list_t l;
-
 	netlog("avatarrequestthread() started. Avatar Request Thread Starting");
 	while (pth_avatar.dwThreadId)
 	{
 		gg_EnterCriticalSection(&avatar_mutex, "avatarrequestthread", 3, "avatar_mutex", 1);
-		if (avatar_requests) {
-			GGREQUESTAVATARDATA *data = (GGREQUESTAVATARDATA *)avatar_requests->data;
-			char *AvatarURL;
-			char *AvatarTs;
+		if (avatar_requests.getCount()) {
+			GGREQUESTAVATARDATA *data = avatar_requests[0];
 			int iWaitFor = data->iWaitFor;
 			HANDLE hContact = data->hContact;
-
-			list_remove(&avatar_requests, data, 0);
+			avatar_requests.remove(0);
 			mir_free(data);
 			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 3, 1, "avatar_mutex", 1);
 			
 			uin_t uin = (uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0);
 			netlog("avatarrequestthread() new avatar_requests item for uin=%d.", uin);
-			getAvatarFileInfo( uin, &AvatarURL, &AvatarTs);
 
-			if (AvatarURL != NULL && strlen(AvatarURL) > 0 && AvatarTs != NULL && strlen(AvatarTs) > 0){
-				db_set_s(hContact, m_szModuleName, GG_KEY_AVATARURL, AvatarURL);
-				db_set_s(hContact, m_szModuleName, GG_KEY_AVATARTS, AvatarTs);
-			} else {
-				db_unset(hContact, m_szModuleName, GG_KEY_AVATARURL);
-				db_unset(hContact, m_szModuleName, GG_KEY_AVATARTS);
+			char *AvatarURL, *AvatarTs;
+			if (!getAvatarFileInfo(uin, &AvatarURL, &AvatarTs)) {
+				if (iWaitFor)
+					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, NULL, 0);
 			}
-			db_set_b(hContact, m_szModuleName, GG_KEY_AVATARREQUESTED, 1);
+			else {
+				if (AvatarURL == NULL && AvatarTs == NULL){
+					db_unset(hContact, m_szModuleName, GG_KEY_AVATARURL);
+					db_unset(hContact, m_szModuleName, GG_KEY_AVATARTS);
+					if (iWaitFor)
+						ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
+				}
+				else {
+					db_set_s(hContact, m_szModuleName, GG_KEY_AVATARURL, AvatarURL);
+					db_set_s(hContact, m_szModuleName, GG_KEY_AVATARTS, AvatarTs);
+					mir_free(AvatarURL); mir_free(AvatarTs);
 
-			if (iWaitFor) {
-				PROTO_AVATAR_INFORMATIONT pai = {0};
-				pai.cbSize = sizeof(pai);
-				pai.hContact = hContact;
-				INT_PTR res = getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
-				if (res == GAIR_NOAVATAR){
-					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
-				} else if (res == GAIR_SUCCESS) {
-					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
-				} //if GAIR_WAITFOR -> ignore
-			} else {
-				ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0, 0);
+					if (iWaitFor) {
+						PROTO_AVATAR_INFORMATIONT pai = {0};
+						pai.cbSize = sizeof(pai);
+						pai.hContact = hContact;
+						INT_PTR res = getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
+						if (res == GAIR_NOAVATAR)
+							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
+						else if (res == GAIR_SUCCESS)
+							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+					}
+					else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0, 0);
+					db_unset(hContact, m_szModuleName, GG_KEY_AVATARREQUESTED);
+				}
 			}
-		} else {
-			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 3, 2, "avatar_mutex", 1);
 		}
+		else gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 3, 2, "avatar_mutex", 1);
 
 		gg_EnterCriticalSection(&avatar_mutex, "avatarrequestthread", 4, "avatar_mutex", 1);
-		if (avatar_transfers) {
-			GGGETAVATARDATA *data = (GGGETAVATARDATA *)avatar_transfers->data;
-			NETLIBHTTPREQUEST req = {0};
-			NETLIBHTTPREQUEST *resp;
-			PROTO_AVATAR_INFORMATIONT pai = {0};
+		if (avatar_transfers.getCount()) {
+			GGGETAVATARDATA *data = avatar_transfers[0];
+			avatar_transfers.remove(0);
+			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 4, 1, "avatar_mutex", 1);
+			netlog("avatarrequestthread() new avatar_transfers item for url=%s.", data->szAvatarURL);
+
 			int result = 0;
 
-			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 4, 1, "avatar_mutex", 1);
-			netlog("avatarrequestthread() new avatar_transfers item for url=%s.", data->AvatarURL);
-
-			pai.cbSize = sizeof(pai);
+			PROTO_AVATAR_INFORMATIONT pai = { sizeof(pai) };
 			pai.hContact = data->hContact;
 			pai.format = db_get_b(pai.hContact, m_szModuleName, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
 
-			req.cbSize = sizeof(req);
+			NETLIBHTTPREQUEST req = { sizeof(req) };
 			req.requestType = REQUEST_GET;
-			req.szUrl = data->AvatarURL;
+			req.szUrl = data->szAvatarURL;
 			req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_REDIRECT;
-			resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
+
+			NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
 			if (resp) {
 				if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 					int file_fd;
@@ -287,7 +264,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 						_write(file_fd, resp->pData, resp->dataLength);
 						_close(file_fd);
 						result = 1;
-						netlog("avatarrequestthread() new avatar_transfers item. Saved data from url=%s to file=%S.", data->AvatarURL, pai.filename);
+						netlog("avatarrequestthread() new avatar_transfers item. Saved data from url=%s to file=%S.", data->szAvatarURL, pai.filename);
 					} else {
 						netlog("avatarrequestthread(): _topen file %S error. errno=%d: %s", pai.filename, errno, strerror(errno));
 						TCHAR error[512];
@@ -300,37 +277,26 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			}
 			else netlog("avatarrequestthread(): No response from HTTP request");
 
-			ProtoBroadcastAck(pai.hContact, ACKTYPE_AVATAR,
-				result ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&pai, 0);
+			ProtoBroadcastAck(pai.hContact, ACKTYPE_AVATAR, result ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&pai, 0);
 
 			if (!pai.hContact)
 				CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 
-			gg_EnterCriticalSection(&avatar_mutex, "avatarrequestthread", 80, "avatar_mutex", 1);
-			list_remove(&avatar_transfers, data, 0);
-			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 80, 1, "avatar_mutex", 1);
-
-			mir_free(data->AvatarURL);
 			mir_free(data);
-		} else {
-			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 4, 2, "avatar_mutex", 1);
 		}
+		else gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 4, 2, "avatar_mutex", 1);
 
 		gg_sleep(100, FALSE, "avatarrequestthread", 101, 1);
-
 	}
 
-	for (l = avatar_requests; l; l = l->next) {
-		GGREQUESTAVATARDATA *data = (GGREQUESTAVATARDATA *)l->data;
-		mir_free(data);
-	}
-	for (l = avatar_transfers; l; l = l->next) {
-		GGGETAVATARDATA *data = (GGGETAVATARDATA *)l->data;
-		mir_free(data->AvatarURL);
-		mir_free(data);
-	}
-	list_destroy(avatar_requests, 0);
-	list_destroy(avatar_transfers, 0);
+	for (int i=0; i < avatar_requests.getCount(); i++)
+		mir_free(avatar_requests[i]);
+
+	for (int k=0; k < avatar_transfers.getCount(); k++)
+		mir_free(avatar_transfers[k]);
+
+	avatar_requests.destroy();
+	avatar_transfers.destroy();
 	netlog("avatarrequestthread(): end. Avatar Request Thread Ending");
 }
 
@@ -340,7 +306,8 @@ void GGPROTO::initavatarrequestthread()
 
 	GetExitCodeThread(pth_avatar.hThread, &exitCode);
 	if (exitCode != STILL_ACTIVE) {
-		avatar_requests = avatar_transfers = NULL;
+		avatar_requests.destroy();
+		avatar_transfers.destroy();
 #ifdef DEBUGMODE
 		netlog("initavatarrequestthread(): forkthreadex 1 GGPROTO::avatarrequestthread");
 #endif
@@ -348,52 +315,39 @@ void GGPROTO::initavatarrequestthread()
 	}
 }
 
-void GGPROTO::uninitavatarrequestthread()
+void __cdecl GGPROTO::getOwnAvatarThread(void*)
 {
-	pth_avatar.dwThreadId = 0;
-#ifdef DEBUGMODE
-	netlog("initavatarrequestthread() Waiting pth_avatar thread. Waiting until Avatar Request Thread finished, if needed.");
-#endif
-	threadwait(&pth_avatar);
-#ifdef DEBUGMODE
-	netlog("initavatarrequestthread() Waiting pth_avatar thread - OK");
-#endif
-}
+	netlog("getOwnAvatarThread() started");
 
-void __cdecl GGPROTO::getuseravatarthread(void*)
-{
-	char *AvatarURL;
-	char *AvatarTs;
+	char *AvatarURL, *AvatarTs;
+	if (getAvatarFileInfo( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), &AvatarURL, &AvatarTs)) {
+		if (AvatarURL != NULL && AvatarTs != NULL > 0) {
+			db_set_s(NULL, m_szModuleName, GG_KEY_AVATARURL, AvatarURL);
+			db_set_s(NULL, m_szModuleName, GG_KEY_AVATARTS, AvatarTs);
+			mir_free(AvatarURL); mir_free(AvatarTs);
+		} else {
+			db_unset(NULL, m_szModuleName, GG_KEY_AVATARURL);
+			db_unset(NULL, m_szModuleName, GG_KEY_AVATARTS);
+		}
+		db_set_b(NULL, m_szModuleName, GG_KEY_AVATARREQUESTED, 1);
 
-	netlog("getuseravatarthread() started");
-
-	getAvatarFileInfo( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), &AvatarURL, &AvatarTs);
-	if (AvatarURL != NULL && strlen(AvatarURL) > 0 && AvatarTs != NULL && strlen(AvatarTs) > 0){
-		db_set_s(NULL, m_szModuleName, GG_KEY_AVATARURL, AvatarURL);
-		db_set_s(NULL, m_szModuleName, GG_KEY_AVATARTS, AvatarTs);
-	} else {
-		db_unset(NULL, m_szModuleName, GG_KEY_AVATARURL);
-		db_unset(NULL, m_szModuleName, GG_KEY_AVATARTS);
+		PROTO_AVATAR_INFORMATIONT pai = {0};
+		pai.cbSize = sizeof(pai);
+		getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
 	}
-	db_set_b(NULL, m_szModuleName, GG_KEY_AVATARREQUESTED, 1);
-	mir_free(AvatarURL);
-
-	PROTO_AVATAR_INFORMATIONT pai = {0};
-	pai.cbSize = sizeof(pai);
-	getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
 #ifdef DEBUGMODE
-	netlog("getuseravatarthread(): end");
+	netlog("getOwnAvatarThread(): end");
 #endif
 }
 
-void GGPROTO::getUserAvatar()
+void GGPROTO::getOwnAvatar()
 {
 	if (db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)
 		&& db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0)){
 #ifdef DEBUGMODE
-		netlog("getUserAvatar(): forkthread 2 GGPROTO::getuseravatarthread");
+		netlog("getOwnAvatar(): forkthread 2 GGPROTO::getOwnAvatarThread");
 #endif
-		forkthread(&GGPROTO::getuseravatarthread, NULL);
+		forkthread(&GGPROTO::getOwnAvatarThread, NULL);
 	}
 }
 
@@ -421,7 +375,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 		if (prevType != -1)
 			db_set_b(NULL, m_szModuleName, GG_KEY_AVATARTYPE, prevType);
 		db_unset(NULL, m_szModuleName, GG_KEY_AVATARTYPEPREV);
-		getUserAvatar();
+		getOwnAvatar();
 #ifdef DEBUGMODE
 		netlog("setavatarthread(): end. err1");
 #endif
@@ -539,7 +493,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	db_unset(NULL, m_szModuleName, GG_KEY_AVATARTYPEPREV);
 
 	mir_free(szFilename);
-	getUserAvatar();
+	getOwnAvatar();
 #ifdef DEBUGMODE
 	netlog("setavatarthread(): end.");
 #endif

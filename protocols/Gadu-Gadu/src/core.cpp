@@ -502,7 +502,7 @@ retry:
 			// Start search for user data
 			GetInfo(NULL, 0);
 			// Fetch user avatar
-			getUserAvatar();
+			getOwnAvatar();
 			check_first_conn = 0;
 		}
 	}

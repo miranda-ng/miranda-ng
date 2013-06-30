@@ -18,6 +18,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ////////////////////////////////////////////////////////////////////////////////
 
-#define __FILEVERSION_STRING        0,11,0,2
-#define __VERSION_STRING            "0.11.0.2"
-#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(0, 11, 0, 2)
+#define __FILEVERSION_STRING        0,11,0,3
+#define __VERSION_STRING            "0.11.0.3"
+#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(0, 11, 0, 3)

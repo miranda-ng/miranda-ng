@@ -206,16 +206,10 @@ int GetImageFormat(TCHAR *filename)
 INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATIONT *pai = (PROTO_AVATAR_INFORMATIONT *)lParam;
-	char *AvatarHash = NULL, *AvatarSavedHash = NULL;
-	char *AvatarURL = NULL;
-	char *AvatarTs = NULL;
-	INT_PTR result = GAIR_NOAVATAR;
-	DBVARIANT dbv;
-	uin_t uin = (uin_t)db_get_dw(pai->hContact, m_szModuleName, GG_KEY_UIN, 0);
-
 	pai->filename[0] = 0;
 	pai->format = PA_FORMAT_UNKNOWN;
 
+	uin_t uin = (uin_t)db_get_dw(pai->hContact, m_szModuleName, GG_KEY_UIN, 0);
 	if (!uin) {
 		netlog("getavatarinfo(): Incoming request for avatar information. No uin found. return GAIR_NOAVATAR");
 		return GAIR_NOAVATAR;
@@ -226,20 +220,18 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		return GAIR_NOAVATAR;
 	}
 
-
 	//directly check if contact has protected user avatar set by AVS, and if yes return it as protocol avatar
-	if (!db_get_s(pai->hContact, "ContactPhoto", "Backup", &dbv, DBVT_TCHAR)) {
+	DBVARIANT dbv;
+	if (!db_get_ts(pai->hContact, "ContactPhoto", "Backup", &dbv)) {
 		if ((_tcslen(dbv.ptszVal)>0) && db_get_b(pai->hContact, "ContactPhoto", "Locked", 0)){
 			netlog("getavatarinfo(): Incoming request for avatar information. Contact has assigned Locked ContactPhoto. return GAIR_SUCCESS");
 			_tcscpy_s(pai->filename, SIZEOF(pai->filename) ,dbv.ptszVal);
 			pai->format = GetImageFormat(pai->filename);
 			db_free(&dbv);
 			return GAIR_SUCCESS;
-		} else {
-			db_free(&dbv);
 		}
+		db_free(&dbv);
 	}
-	
 
 	if (!db_get_b(pai->hContact, m_szModuleName, GG_KEY_AVATARREQUESTED, GG_KEYDEF_AVATARREQUESTED)) {
 		requestAvatarInfo(pai->hContact, 1);
@@ -251,19 +243,13 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 			return GAIR_NOAVATAR;
 		}
 	}
-	db_unset(pai->hContact, m_szModuleName, GG_KEY_AVATARREQUESTED);
 
 	pai->format = db_get_b(pai->hContact, m_szModuleName, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
 
-	if (!db_get_s(pai->hContact, m_szModuleName, GG_KEY_AVATARURL, &dbv, DBVT_ASCIIZ)) {
-		AvatarURL = mir_strdup(dbv.pszVal);
-		db_free(&dbv);
-	}
-	if (!db_get_s(pai->hContact, m_szModuleName, GG_KEY_AVATARTS, &dbv, DBVT_ASCIIZ)) {
-		AvatarTs = mir_strdup(dbv.pszVal);
-		db_free(&dbv);
-	}
-	if (AvatarURL != NULL && strlen(AvatarURL) > 0 && AvatarTs != NULL && strlen(AvatarTs) > 0) {
+	ptrA AvatarHash(NULL);
+	ptrA AvatarURL( db_get_sa(pai->hContact, m_szModuleName, GG_KEY_AVATARURL));
+	ptrA AvatarTs( db_get_sa(pai->hContact, m_szModuleName, GG_KEY_AVATARTS));
+	if (AvatarURL != NULL && AvatarTs != NULL) {
 		char *AvatarName = strrchr(AvatarURL, '/');
 		AvatarName++;
 		char AvatarNameWithTS[128];
@@ -271,24 +257,20 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		AvatarHash = gg_avatarhash(AvatarNameWithTS);
 	}
 
-	if (!db_get_s(pai->hContact, m_szModuleName, GG_KEY_AVATARHASH, &dbv, DBVT_ASCIIZ)) {
-		AvatarSavedHash = mir_strdup(dbv.pszVal);
-		db_free(&dbv);
-	}
-
+	ptrA AvatarSavedHash( db_get_sa(pai->hContact, m_szModuleName, GG_KEY_AVATARHASH));
 	if (AvatarHash != NULL && AvatarSavedHash != NULL) {
-
 		getAvatarFilename(pai->hContact, pai->filename, SIZEOF(pai->filename));
 		if (!strcmp(AvatarHash, AvatarSavedHash)) {
 			if (_taccess(pai->filename, 0) == 0){
 				netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash unchanged. return GAIR_SUCCESS", uin);
-				result = GAIR_SUCCESS;
-			} else {
-				requestAvatarTransfer(pai->hContact, AvatarURL);
-				netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash unchanged but file %S does not exist. errno=%d: %s. requestAvatarTransfer() fired. return GAIR_WAITFOR", uin, pai->filename, errno, strerror(errno));
-				result = GAIR_WAITFOR;
+				return GAIR_SUCCESS;
 			}
-		} else if ((wParam & GAIF_FORCE) != 0) {
+
+			requestAvatarTransfer(pai->hContact, AvatarURL);
+			netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash unchanged but file %S does not exist. errno=%d: %s. requestAvatarTransfer() fired. return GAIR_WAITFOR", uin, pai->filename, errno, strerror(errno));
+			return GAIR_WAITFOR;
+		}
+		if ((wParam & GAIF_FORCE) != 0) {
 			if (_tremove(pai->filename) != 0){
 				netlog("getavatarinfo(): refresh. _tremove 1 file %S error. errno=%d: %s", pai->filename, errno, strerror(errno));
 				TCHAR error[512];
@@ -298,13 +280,10 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 			db_set_s(pai->hContact, m_szModuleName, GG_KEY_AVATARHASH, AvatarHash);
 			requestAvatarTransfer(pai->hContact, AvatarURL);
 			netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash changed, requestAvatarTransfer() fired. return GAIR_WAITFOR", uin);
-			result = GAIR_WAITFOR;
-		} else {
-			netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash changed, but no GAIF_FORCE param. return GAIR_NOAVATAR", uin);
+			return GAIR_WAITFOR;
 		}
-
-	} else if ((wParam & GAIF_FORCE) != 0) {
-
+	}
+	else if ((wParam & GAIF_FORCE) != 0) {
 		if (AvatarHash == NULL && AvatarSavedHash != NULL) {
 			getAvatarFilename(pai->hContact, pai->filename, sizeof(pai->filename));
 			if (_tremove(pai->filename) != 0){
@@ -317,24 +296,18 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 			db_unset(pai->hContact, m_szModuleName, GG_KEY_AVATARURL);
 			db_unset(pai->hContact, m_szModuleName, GG_KEY_AVATARTYPE);
 			netlog("getavatarinfo(): Incoming request for avatar information. Contact %d deleted avatar. return GAIR_NOAVATAR", uin);
-		} else if (AvatarHash != NULL && AvatarSavedHash == NULL) {
+		}
+		else if (AvatarHash != NULL && AvatarSavedHash == NULL) {
 			db_set_s(pai->hContact, m_szModuleName, GG_KEY_AVATARHASH, AvatarHash);
 			requestAvatarTransfer(pai->hContact, AvatarURL);
-			result = GAIR_WAITFOR;
 			netlog("getavatarinfo(): Incoming request for avatar information. Contact %d set avatar. requestAvatarTransfer() fired. return GAIR_WAITFOR", uin);
-		} else {
-			netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. AvatarHash==AvatarSavedHash==NULL, with GAIF_FORCE param. return GAIR_NOAVATAR", uin);
+			return GAIR_WAITFOR;
 		}
-
-	} else {
-		netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. AvatarHash==null or AvatarSavedHash==null, but no GAIF_FORCE param. return GAIR_NOAVATAR", uin);
+		else netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. AvatarHash==AvatarSavedHash==NULL, with GAIF_FORCE param. return GAIR_NOAVATAR", uin);
 	}
+	else netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. AvatarHash==null or AvatarSavedHash==null, but no GAIF_FORCE param. return GAIR_NOAVATAR", uin);
 
-	mir_free(AvatarHash);
-	mir_free(AvatarSavedHash);
-	mir_free(AvatarURL);
-
-	return result;
+	return GAIR_NOAVATAR;
 }
 
 //////////////////////////////////////////////////////////

@@ -45,7 +45,7 @@ XML_API xi;
 SSL_API si;
 CLIST_INTERFACE *pcli;
 int hLangpack;
-list_t g_Instances;
+LIST<GGPROTO> g_Instances(1, PtrKeySortT);
 
 // Event hooks
 static HANDLE hHookModulesLoaded = NULL;
@@ -212,17 +212,12 @@ static int gg_preshutdown(WPARAM wParam, LPARAM lParam)
 static GGPROTO* gg_getprotoinstance(HANDLE hContact)
 {
 	char* szProto = GetContactProto(hContact);
-	list_t l = g_Instances;
-
 	if (szProto == NULL)
 		return NULL;
 
-	for (; l; l = l->next)
-	{
-		GGPROTO* gg = (GGPROTO*)l->data;
-		if (strcmp(szProto, gg->m_szModuleName) == 0)
-			return gg;
-	}
+	for (int i=0; i < g_Instances.getCount(); i++)
+		if (strcmp(szProto, g_Instances[i]->m_szModuleName) == 0)
+			return g_Instances[i];
 
 	return NULL;
 }
@@ -333,7 +328,7 @@ void GGPROTO::menus_init()
 static GGPROTO *gg_proto_init(const char* pszProtoName, const TCHAR* tszUserName)
 {
 	GGPROTO *gg = new GGPROTO(pszProtoName, tszUserName);
-	list_add(&g_Instances, gg, 0);
+	g_Instances.insert(gg);
 	return gg;
 }
 
@@ -343,7 +338,7 @@ static GGPROTO *gg_proto_init(const char* pszProtoName, const TCHAR* tszUserName
 static int gg_proto_uninit(PROTO_INTERFACE *proto)
 {
 	GGPROTO *gg = (GGPROTO *)proto;
-	list_remove(&g_Instances, gg, 0);
+	g_Instances.remove(gg);
 	delete gg;
 	return 0;
 }
@@ -371,9 +366,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	// Register module
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM) &pd);
 	gg_links_instancemenu_init();
-
-	// Instance list
-	g_Instances = NULL;
 	return 0;
 }
 
@@ -382,6 +374,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload()
 {
+	g_Instances.destroy();
+
 	// Cleanup WinSock
 	WSACleanup();
 	return 0;
@@ -396,49 +390,49 @@ struct
 }
 static const ggdebug_eventype2string[] =
 {
-	{GG_EVENT_NONE,					"GG_EVENT_NONE"},
-	{GG_EVENT_MSG,					"GG_EVENT_MSG"},
-	{GG_EVENT_NOTIFY,				"GG_EVENT_NOTIFY"},
-	{GG_EVENT_NOTIFY_DESCR,			"GG_EVENT_NOTIFY_DESCR"},
-	{GG_EVENT_STATUS,				"GG_EVENT_STATUS"},
-	{GG_EVENT_ACK,					"GG_EVENT_ACK"},
-	{GG_EVENT_PONG,					"GG_EVENT_PONG"},
-	{GG_EVENT_CONN_FAILED,			"GG_EVENT_CONN_FAILED"},
-	{GG_EVENT_CONN_SUCCESS,			"GG_EVENT_CONN_SUCCESS"},
-	{GG_EVENT_DISCONNECT,			"GG_EVENT_DISCONNECT"},
-	{GG_EVENT_DCC_NEW,				"GG_EVENT_DCC_NEW"},
-	{GG_EVENT_DCC_ERROR,			"GG_EVENT_DCC_ERROR"},
-	{GG_EVENT_DCC_DONE,				"GG_EVENT_DCC_DONE"},
-	{GG_EVENT_DCC_CLIENT_ACCEPT,	"GG_EVENT_DCC_CLIENT_ACCEPT"},
-	{GG_EVENT_DCC_CALLBACK,			"GG_EVENT_DCC_CALLBACK"},
-	{GG_EVENT_DCC_NEED_FILE_INFO,	"GG_EVENT_DCC_NEED_FILE_INFO"},
-	{GG_EVENT_DCC_NEED_FILE_ACK,	"GG_EVENT_DCC_NEED_FILE_ACK"},
-	{GG_EVENT_DCC_NEED_VOICE_ACK,	"GG_EVENT_DCC_NEED_VOICE_ACK"},
-	{GG_EVENT_DCC_VOICE_DATA,		"GG_EVENT_DCC_VOICE_DATA"},
+	{GG_EVENT_NONE,                 "GG_EVENT_NONE"},
+	{GG_EVENT_MSG,                  "GG_EVENT_MSG"},
+	{GG_EVENT_NOTIFY,               "GG_EVENT_NOTIFY"},
+	{GG_EVENT_NOTIFY_DESCR,         "GG_EVENT_NOTIFY_DESCR"},
+	{GG_EVENT_STATUS,               "GG_EVENT_STATUS"},
+	{GG_EVENT_ACK,                  "GG_EVENT_ACK"},
+	{GG_EVENT_PONG,                 "GG_EVENT_PONG"},
+	{GG_EVENT_CONN_FAILED,          "GG_EVENT_CONN_FAILED"},
+	{GG_EVENT_CONN_SUCCESS,         "GG_EVENT_CONN_SUCCESS"},
+	{GG_EVENT_DISCONNECT,           "GG_EVENT_DISCONNECT"},
+	{GG_EVENT_DCC_NEW,              "GG_EVENT_DCC_NEW"},
+	{GG_EVENT_DCC_ERROR,            "GG_EVENT_DCC_ERROR"},
+	{GG_EVENT_DCC_DONE,             "GG_EVENT_DCC_DONE"},
+	{GG_EVENT_DCC_CLIENT_ACCEPT,    "GG_EVENT_DCC_CLIENT_ACCEPT"},
+	{GG_EVENT_DCC_CALLBACK,         "GG_EVENT_DCC_CALLBACK"},
+	{GG_EVENT_DCC_NEED_FILE_INFO,   "GG_EVENT_DCC_NEED_FILE_INFO"},
+	{GG_EVENT_DCC_NEED_FILE_ACK,    "GG_EVENT_DCC_NEED_FILE_ACK"},
+	{GG_EVENT_DCC_NEED_VOICE_ACK,   "GG_EVENT_DCC_NEED_VOICE_ACK"},
+	{GG_EVENT_DCC_VOICE_DATA,       "GG_EVENT_DCC_VOICE_DATA"},
 	{GG_EVENT_PUBDIR50_SEARCH_REPLY,"GG_EVENT_PUBDIR50_SEARCH_REPLY"},
-	{GG_EVENT_PUBDIR50_READ,		"GG_EVENT_PUBDIR50_READ"},
-	{GG_EVENT_PUBDIR50_WRITE,		"GG_EVENT_PUBDIR50_WRITE"},
-	{GG_EVENT_STATUS60,				"GG_EVENT_STATUS60"},
-	{GG_EVENT_NOTIFY60,				"GG_EVENT_NOTIFY60"},
-	{GG_EVENT_USERLIST,				"GG_EVENT_USERLIST"},
-	{GG_EVENT_IMAGE_REQUEST,		"GG_EVENT_IMAGE_REQUEST"},
-	{GG_EVENT_IMAGE_REPLY,			"GG_EVENT_IMAGE_REPLY"},
-	{GG_EVENT_DCC_ACK,				"GG_EVENT_DCC_ACK"},
-	{GG_EVENT_DCC7_NEW,				"GG_EVENT_DCC7_NEW"},
-	{GG_EVENT_DCC7_ACCEPT,			"GG_EVENT_DCC7_ACCEPT"},
-	{GG_EVENT_DCC7_REJECT,			"GG_EVENT_DCC7_REJECT"},
-	{GG_EVENT_DCC7_CONNECTED,		"GG_EVENT_DCC7_CONNECTED"},
-	{GG_EVENT_DCC7_ERROR,			"GG_EVENT_DCC7_ERROR"},
-	{GG_EVENT_DCC7_DONE,			"GG_EVENT_DCC7_DONE"},
-	{GG_EVENT_DCC7_PENDING,			"GG_EVENT_DCC7_PENDING"},
-	{GG_EVENT_XML_EVENT,			"GG_EVENT_XML_EVENT"},
-	{GG_EVENT_DISCONNECT_ACK,		"GG_EVENT_DISCONNECT_ACK"},
-	{GG_EVENT_XML_ACTION,			"GG_EVENT_XML_ACTION"},
-	{GG_EVENT_TYPING_NOTIFICATION,	"GG_EVENT_TYPING_NOTIFICATION"},
-	{GG_EVENT_USER_DATA,			"GG_EVENT_USER_DATA"},
-	{GG_EVENT_MULTILOGON_MSG,		"GG_EVENT_MULTILOGON_MSG"},
-	{GG_EVENT_MULTILOGON_INFO,		"GG_EVENT_MULTILOGON_INFO"},
-	{-1,							"<unknown event>"}
+	{GG_EVENT_PUBDIR50_READ,        "GG_EVENT_PUBDIR50_READ"},
+	{GG_EVENT_PUBDIR50_WRITE,       "GG_EVENT_PUBDIR50_WRITE"},
+	{GG_EVENT_STATUS60,             "GG_EVENT_STATUS60"},
+	{GG_EVENT_NOTIFY60,             "GG_EVENT_NOTIFY60"},
+	{GG_EVENT_USERLIST,             "GG_EVENT_USERLIST"},
+	{GG_EVENT_IMAGE_REQUEST,        "GG_EVENT_IMAGE_REQUEST"},
+	{GG_EVENT_IMAGE_REPLY,          "GG_EVENT_IMAGE_REPLY"},
+	{GG_EVENT_DCC_ACK,              "GG_EVENT_DCC_ACK"},
+	{GG_EVENT_DCC7_NEW,             "GG_EVENT_DCC7_NEW"},
+	{GG_EVENT_DCC7_ACCEPT,          "GG_EVENT_DCC7_ACCEPT"},
+	{GG_EVENT_DCC7_REJECT,          "GG_EVENT_DCC7_REJECT"},
+	{GG_EVENT_DCC7_CONNECTED,       "GG_EVENT_DCC7_CONNECTED"},
+	{GG_EVENT_DCC7_ERROR,           "GG_EVENT_DCC7_ERROR"},
+	{GG_EVENT_DCC7_DONE,            "GG_EVENT_DCC7_DONE"},
+	{GG_EVENT_DCC7_PENDING,         "GG_EVENT_DCC7_PENDING"},
+	{GG_EVENT_XML_EVENT,            "GG_EVENT_XML_EVENT"},
+	{GG_EVENT_DISCONNECT_ACK,       "GG_EVENT_DISCONNECT_ACK"},
+	{GG_EVENT_XML_ACTION,           "GG_EVENT_XML_ACTION"},
+	{GG_EVENT_TYPING_NOTIFICATION,  "GG_EVENT_TYPING_NOTIFICATION"},
+	{GG_EVENT_USER_DATA,            "GG_EVENT_USER_DATA"},
+	{GG_EVENT_MULTILOGON_MSG,       "GG_EVENT_MULTILOGON_MSG"},
+	{GG_EVENT_MULTILOGON_INFO,      "GG_EVENT_MULTILOGON_INFO"},
+	{-1,                            "<unknown event>"}
 };
 
 const char *ggdebug_eventtype(gg_event *e)
