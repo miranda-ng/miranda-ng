@@ -929,8 +929,8 @@ E-Mail
 сек.
 [second(s)]
 секунд
-[seconds.]
-секунд.
+[seconds]
+секунд
 [Select All]
 Выделить всё
 [Send file]
@@ -1379,8 +1379,6 @@ Web-страница
 Задержка
 [Permanent]
 Постоянно
-[seconds]
-секунд(ы)
 [Alerts]
 Уведомления
 [Add permanently]
@@ -3639,7 +3637,7 @@ xСтатусы
 Показывать изменения статуса
 [Message Window Event Log]
 Журнал в окне диалога
-[pixels.]
+[pixels]
 пикселей
 [Message Sessions]
 Беседы

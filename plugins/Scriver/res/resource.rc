@@ -52,7 +52,7 @@ BEGIN
     LTEXT           "Show warning when message has not been received after",
 					IDC_STATIC,8,148,211,8
     EDITTEXT        IDC_SECONDS,223,146,25,12,ES_AUTOHSCROLL
-    LTEXT           "seconds.",IDC_STATIC,253,148,44,8
+    LTEXT           "seconds",IDC_STATIC,253,148,44,8
 
 END
 

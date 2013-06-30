@@ -51,7 +51,7 @@ BEGIN
     CONTROL         "Show character count",IDC_CHARCOUNT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,192,149,10
     LTEXT           "Show warning when message has not been received after",IDC_STATIC,8,208,211,8
     EDITTEXT        IDC_SECONDS,223,206,25,12,ES_AUTOHSCROLL
-    LTEXT           "seconds.",IDC_STATIC,253,208,44,8
+    LTEXT           "seconds",IDC_STATIC,253,208,44,8
     CONTROL         "Support control up/down in message area to show previously sent messages",IDC_CTRLSUPPORT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,110,289,10
     CONTROL         "Delete temporary contacts when closing message window",IDC_DELTEMP,
@@ -60,7 +60,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,135,289,10
     CONTROL         "Limit avatar height to ",IDC_LIMITAVATARH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,149,126,10
     EDITTEXT        IDC_AVATARHEIGHT,148,148,28,13,ES_AUTOHSCROLL
-    LTEXT           "pixels.",IDC_STATIC,181,150,35,8
+    LTEXT           "pixels",IDC_STATIC,181,150,35,8
     LTEXT           "Max Number of Flashes",IDC_STATIC,7,35,141,8
     EDITTEXT        IDC_NFLASHES,148,33,25,12,ES_AUTOHSCROLL | ES_NUMBER
 END
@@ -165,7 +165,7 @@ BEGIN
     CONTROL         "Show character count",IDC_CHARCOUNT,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,59,142,22,10
     LTEXT           "Show warning when message has not been received after",IDC_STATIC,10,93,211,8
     EDITTEXT        IDC_SECONDS,226,91,25,12,ES_AUTOHSCROLL
-    LTEXT           "seconds.",IDC_STATIC,256,93,44,8
+    LTEXT           "seconds",IDC_STATIC,256,93,44,8
     CONTROL         "Support control up/down in message area to show previously sent messages",IDC_CTRLSUPPORT,
                     "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,240,131,20,10
     CONTROL         "Delete temporary contacts when closing message window",IDC_DELTEMP,
@@ -174,7 +174,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,239,155,23,10
     CONTROL         "Limit avatar height to ",IDC_LIMITAVATARH,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,236,166,26,10
     EDITTEXT        IDC_AVATARHEIGHT,242,178,12,13,ES_AUTOHSCROLL | NOT WS_VISIBLE
-    LTEXT           "pixels.",IDC_STATIC,271,177,8,8,NOT WS_VISIBLE
+    LTEXT           "pixels",IDC_STATIC,271,177,8,8,NOT WS_VISIBLE
     LTEXT           "Message window behaviour:",IDC_TXT_TITLE1,1,0,183,8
     LTEXT           "Messaging:",IDC_TXT_TITLE3,1,64,368,8
 END
