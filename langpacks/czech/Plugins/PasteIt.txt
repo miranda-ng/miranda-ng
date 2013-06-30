@@ -104,9 +104,9 @@ vietnamština
 [Korean (Johab)]
 korejština (Johab)
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
-
+Zadali jste neplatné kódování. Zvolte kódování z rozbalovacího seznamu nebo zadejte správné číslo.
 [Invalid codepage]
-
+Neplatné kódování
 [Services]
 Služby
 [Main]

@@ -1,7 +1,6 @@
 ﻿[Prevent miranda from storing any history.]
 [Keep history for this contact]
 [Disable history for this contact]
-[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 [Enable History]
 [Disable History]
 [History Enabled]

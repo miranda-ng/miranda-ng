@@ -122,6 +122,29 @@ Výchozí skupina:
 Filtrování
 [Server side ignore list\nControl ignore list on server.]
 Filtrování na serveru\nSpravujte filtrování na serveru. 
+;file \protocols\Skype\proto_skype\src\resource.h
+[NOT_VALIDATED]
+Neověřeno
+[Validation succeeded]
+Úspěšně oveřeno
+[Password is too short]
+Heslo je příliš krátké
+[The value exceeds max size limit for the given property]
+Hodnota přesahuje maximální délku pro danou položku
+[Value contains illegal characters]
+Hodnota obsahuje zakázané znaky
+[Value contains whitespace]
+Hodnota obsahuje mezery
+[Password cannot be the same as Skype name]
+Heslo nesmí být stejné jako uživatelské jméno
+[Value has invalid format]
+Hodnota má neplatný formát
+[Value contains invalid word]
+Hodnota obsahuje neplatné slovo
+[Password is too simple]
+Heslo je příliš jednoduché
+[Value starts with an invalid character]
+Hodnota začíná neplatným znakem
 ;file \protocols\Skype\src\skype.cpp
 [Did not unpack SkypeKit.exe.]
 SkypeKit.exe nebyl rozbalen
@@ -328,29 +351,28 @@ Příchozí volání ukončeno
 ;file \protocols\Skype\src\skype_proto.cpp
 [Skype name]
 Uživatelské jméno
+;file \protocols\Skype\src\skype_transfers.cpp
+[SENDER_NOT_AUTHORISED]
+
+[REMOTELY_CANCELLED]
+
+[FAILED_READ]
+
+[FAILED_REMOTE_READ]
+
+[FAILED_WRITE]
+
+[FAILED_REMOTE_WRITE]
+
+[REMOTE_DOES_NOT_SUPPORT_FT]
+
+[REMOTE_OFFLINE_FOR_TOO_LONG]
+
+[TOO_MANY_PARALLEL]
+
+[PLACEHOLDER_TIMEOUT]
+
 ;file \protocols\Skype\src\skype_utils.cpp
-[NOT_VALIDATED]
-Neověřeno
-[Validation succeeded]
-Úspěšně oveřeno
-[Password is too short]
-Heslo je příliš krátké
-[The value exceeds max size limit for the given property]
-Hodnota přesahuje maximální délku pro danou položku
-[Value contains illegal characters]
-Hodnota obsahuje zakázané znaky
-[Value contains whitespace]
-Hodnota obsahuje mezery
-[Password cannot be the same as Skype name]
-Heslo nesmí být stejné jako uživatelské jméno
-[Value has invalid format]
-Hodnota má neplatný formát
-[Value contains invalid word]
-Hodnota obsahuje neplatné slovo
-[Password is too simple]
-Heslo je příliš jednoduché
-[Value starts with an invalid character]
-Hodnota začíná neplatným znakem
 [Avatars]
 Avatary
 [Command "%s" is unsupported]

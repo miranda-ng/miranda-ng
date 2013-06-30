@@ -18,8 +18,6 @@
 [Paste It]
 [Encoding]
 [Recode]
-[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
-[Invalid codepage]
 [Paste It - Select file]
 [Paste from clipboard]
 [Paste from file]

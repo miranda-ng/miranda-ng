@@ -13,7 +13,7 @@ Zajistit spojení
 [Max. retries]
 Max. opak.
 [Account Connection]
-
+Připojování účtu
 [Delay between retries (secs)]
 Prodleva mezi obnovením (sek.)
 [Show popups]
@@ -21,7 +21,7 @@ Zobrazovat oznámení
 [General]
 Obecné
 [Accounts to check]
-
+Účty ke kontrole
 [Dial-Up]
 Vytáčené spojení
 [Don't reconnect if no internet connection seems available]
@@ -171,9 +171,9 @@ Použít následující zprávu:
 [Variables...]
 Proměnné...
 [Specify settings for each account]
-
+Určit nastavení pro každý účet zvlášť
 [Use same settings for all accounts]
-
+Použít stejné nastavení pro všechny účty
 [Ignore caps-lock, num-lock and scroll-lock keys]
 Ignorovat klávesy CAPS-, NUM- a SCROLL-LOCK
 [Check interval (secs)]
@@ -221,7 +221,7 @@ Max. prodleva (sek.)
 [Increase delay exponential]
 Prodlevu postupně zvyšovat
 [Cancel all if a account connects from another location]
-
+Zrušit vše, když je účet připojen z jiného umístění
 [Reconnect on APM resume]
 Obnovit připojení po návratu z úsporného režimu
 [Stop trying to reconnect]
@@ -233,15 +233,15 @@ Po chybě při přihlášení
 [seconds]
 sek.
 [Set account offline before a connection attempt]
-
+Přepnout účet do 'Offline' před dalším pokusem o připojení
 [Max. account connecting time (secs)]
-
+Max. čas pro připojení účtu (v sek.)
 [Timers]
 Časovače
 [Reconnecting]
 Obnovení připojení
 [Ignore locked status of accounts]
-
+Ignorovat stav uzamknutí účtů
 [Consider connection lost after]
 Považovat za odpojeno po
 [failed pings]
@@ -249,21 +249,21 @@ ztrac. pak.
 [Continuously check interval (secs)]
 Interval ověřování připojení (sek.)
 [Entering first auto-away status]
-
+Přechod do prvního automatického stavu
 [Entering second auto-away status]
-
+Přechod do druhého automatického stavu
 [Leaving first auto-away status]
-
+Návrat z prvního automatického stavu
 [Leaving second auto-away status]
-
+Návrat z druhého automatického stavu
 [Becoming active without status change]
-
+Návrat z nečinnosti bez změny stavu
 [Pre-conditions]
-
+Předpoklady
 [TriggerData]
-
+Data spouštěče
 [Status: The status the account will change to\r\nAccount: The account changing state]
-
+Stav: Stav účtu bude změněn na\r\nÚčet: Účet mění svůj stav
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp
 [<last>]
 <minulý>

@@ -9,7 +9,7 @@
 
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Accounts to check]
-
+Účty ke kontrole
 [Events to react on]
 Reagovat při událostech
 [Incoming messages]

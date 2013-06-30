@@ -2307,13 +2307,13 @@ Identifikátor
 [, %d %s, %d %s idle]
 , %d %s, %d %s nečinný
 [hours]
-hod.
+hodin
 [hour]
 hodina
 [minutes]
-min.
+minut
 [minute]
-Minuta
+minuta
 [, %d %s idle]
 , %d %s nečinný
 [The filter canoot be enabled, because there are no event types selected either global or for this chat room]

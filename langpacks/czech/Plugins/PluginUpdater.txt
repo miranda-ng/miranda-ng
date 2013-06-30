@@ -140,7 +140,7 @@ Zvolili jste nespouštět aktualizaci nyní.\n
 Kontrola aktualizací již probíhá!
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
-hod.
+hodin
 [days]
 dnů
 [Test]

@@ -24,7 +24,6 @@
 [Twitter]
 [%s avatar connection]
 [Unable to get avatar Netlib connection for Twitter]
-[%s Protocol]
 [Twitter Icon]
 [Tweet]
 [Reply to Tweet]

@@ -1076,11 +1076,11 @@ starší než
 [Newer than]
 novější než
 [Minutes]
-min.
+minut
 [Hours]
-hod.
+hodin
 [Days]
-Dnů
+dnů
 [Configuring view mode: %s]
 Konfigurace pohledu: %s
 [All contacts]

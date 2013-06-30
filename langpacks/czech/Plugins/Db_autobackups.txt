@@ -86,9 +86,9 @@ Proměnné
 [Days]
 Dnů
 [Hours]
-hod.
+hodin
 [Minutes]
-min.
+minut
 [Select Backup Folder]
 Vyberte složku pro zálohování profilů:
 [Error Creating Backup Folder]

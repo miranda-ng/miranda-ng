@@ -137,11 +137,11 @@ Odst&ranit
 
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
-sek.
+sekund
 [Minutes]
-min.
+minut
 [Hours]
-hod.
+hodin
 [Enter integer value between 1 and 60.]
 
 [Enter integer value between 1 and 24.]

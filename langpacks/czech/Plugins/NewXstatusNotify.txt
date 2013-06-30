@@ -1,7 +1,7 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
@@ -106,7 +106,7 @@ Přečíst zprávu stavu
 Zobrazit i předchozí stav
 [Timeout]
 Doba zobrazení
-[Popups on contact status change to:]
+[Popups when status changes to:]
 Oznamovat tyto změny stavu:
 [Click action]
 Při kliknutí myší
@@ -126,12 +126,14 @@ Levé tlačítko
 Pravé tlačítko
 [Show status description]
 
+[Ignore empty status and xStatus messages]
+
 [Notification]
 Oznámení
 [Disable for extra status 'Music']
 
 [Truncate message length to:]
-
+Oříznout délku zprávy na:
 [characters]
 znaků
 [Templates]
@@ -174,11 +176,9 @@ Zrušit
 Obecné
 [Show Popups when I connect]
 Zobrazit oznámení při připojení
-[Ignore empty status messages]
-
-[Protocols]
-Protokoly
-[Enable/Disable protocols which you don't wish to be notified for:]
+[Accounts]
+Účty
+[Enable/Disable accounts which you don't wish to be notified for:]
 
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]

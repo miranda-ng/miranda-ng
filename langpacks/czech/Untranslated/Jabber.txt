@@ -6,7 +6,6 @@
 [Request method is:]
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
 [Jabber Notebook]
-[Jabber Link Protocol]
 [/me slaps %s around a bit with a large trout]
 [Jabber Ad-Hoc commands at]
 [Sending Ad-Hoc command to]

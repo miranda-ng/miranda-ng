@@ -279,15 +279,15 @@ Poznámky
 
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [Minutes]
-min.
+minut
 [Hours]
-hod.
+hodin
 [Hour]
-
+hodina
 [Day]
 den
 [Days]
-Dnů
+dnů
 [Week]
 týden
 [The specified time is invalid due to begin of daylight saving (summer time).]
@@ -301,7 +301,7 @@ týden
 [Every]
 každých
 [Seconds]
-sek.
+sekund
 [Never]
 Nikdy
 [Default]

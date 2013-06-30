@@ -386,7 +386,7 @@ Odstranit seznam ze se&rveru
 E&xportovat seznam do souboru...
 ;file \protocols\Gadu-Gadu\src\links.cpp
 [Gadu-Gadu Link Protocol]
-
+Odkaz protokolu Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 

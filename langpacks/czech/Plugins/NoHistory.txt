@@ -14,7 +14,7 @@
 
 ;file \plugins\NoHistory\src\dllmain.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
-
+Tato operace ODSTRANÍ NATRVALO všechnu historii tohoto kontaktu.\nJste si jistí, že chcete pokračovat?
 [Clear History]
 Smazat historii
 [Enable History]

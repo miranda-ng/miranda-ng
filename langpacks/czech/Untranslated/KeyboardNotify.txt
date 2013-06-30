@@ -1,5 +1,4 @@
 ﻿[Flashes your keyboard LEDs when a message has arrived.]
-[Accounts to check]
 [Program]
 [Num]
 [Caps]

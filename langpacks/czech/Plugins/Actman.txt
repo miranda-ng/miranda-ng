@@ -14,9 +14,9 @@ Vložení textu
 [vars]
 
 [DWord]
-
+DWord
 [You can use %name%, %uid%, %account% and %group% macros]
-
+Můžete použít makra %name%, %uid%, %account% a %group%
 [wParam type]
 Typ wParam
 [lParam type]
@@ -172,7 +172,7 @@ Vložit z
 [Apply format]
 
 [You can use %name%, %uid%, %account% and %group% macros]
-
+Můžete použít makra %name%, %uid%, %account% a %group%
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
 
 [New]
@@ -252,13 +252,13 @@ Nativní
 [Packed]
 
 [2 bytes]
-
+2 bajty
 [4 bytes]
-
+4 bajty
 [8 bytes]
-
+8 bajtů
 [alias]
-
+alias
 [type]
 typ
 [length]
@@ -266,9 +266,9 @@ délka
 [data]
 data
 [Structure help]
-
+Nápověda pro strukturu
 [Descr]
-
+Popis
 ;other strings
 [Open contact window]
 Otevřít okno kontaktu

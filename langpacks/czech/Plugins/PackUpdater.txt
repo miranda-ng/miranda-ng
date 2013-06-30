@@ -115,7 +115,7 @@ Zavřít oznámení
 Nedělat nic
 ;file \plugins\PackUpdater\Src\Options.cpp
 [hours]
-hod.
+hodin
 [days]
 dnů
 [Test]

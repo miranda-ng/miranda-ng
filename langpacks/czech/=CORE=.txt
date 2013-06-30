@@ -1081,8 +1081,6 @@ Smazat dočasné kontakty po zavření okna pro rozhovor
 Aktivovat zobrazení avatarů v okně pro rozhovor
 [Limit avatar height to ]
 Max. výška obrázku avataru
-[pixels]
-pixelů
 [Max Number of Flashes]
 Max. počet bliknutí
 [Send Error]
@@ -2063,8 +2061,6 @@ Rozšířený stav
 [%s (locked)]
 %s (uzamčený)
 ;file \src\modules\clist\clistmod.cpp
-[This plugin requires db3x plugin version 0.5.1.0 or later]
-Tento doplněk vyžaduje doplněk db3x verze 0.5.1.0 nebo novější.
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (neznámý kontakt)

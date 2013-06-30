@@ -101,7 +101,7 @@ Oznámení
 [Unable to get avatar Netlib connection for Twitter]
 
 [%s Protocol]
-
+%s protokol
 ;file \protocols\Twitter\src\theme.cpp
 [Twitter Icon]
 

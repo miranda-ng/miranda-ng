@@ -109,7 +109,7 @@ dní předem
 [Check every]
 Projít každých
 [hours]
-hod.
+hodin
 [Icon flashing on event]
 Blikat ikonou při události
 [Enabled]

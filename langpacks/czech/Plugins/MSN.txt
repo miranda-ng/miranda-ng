@@ -161,7 +161,7 @@ MSN :: diskuse
 
 ;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
-
+Odkaz protokolu MSN
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 

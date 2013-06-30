@@ -9,7 +9,6 @@
 [MSN Alert]
 [Message delivery failed]
 [User not online]
-[MSN Link Protocol]
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 [%s protocol]
 [Custom Smileys]

@@ -134,11 +134,11 @@ Informace o uživateli
 [Copy Link to Clipboard]
 
 [%d minutes]
-%d min.
+%d minut
 [%d hours]
-%d hod.
+%d hodin
 [%d days]
-
+%d dnů
 [Do you really want to cancel all running jobs?]
 
 ;file \plugins\FTPFileYM\src\ftpfile.cpp

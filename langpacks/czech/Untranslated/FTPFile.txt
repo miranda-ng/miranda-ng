@@ -23,7 +23,6 @@
 [Automatically delete file after...]
 [Delete from List]
 [Copy Link to Clipboard]
-[%d days]
 [Do you really want to cancel all running jobs?]
 [FTP Server 1]
 [FTP Server 2]

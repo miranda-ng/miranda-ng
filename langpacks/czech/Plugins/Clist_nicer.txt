@@ -791,11 +791,11 @@ starší než
 [Newer than]
 novější než
 [Minutes]
-min.
+minut
 [Hours]
-hod.
+hodin
 [Days]
-Dnů
+dnů
 [Current view mode: %s]
 Režim zobrazení: %s
 [Filtering]

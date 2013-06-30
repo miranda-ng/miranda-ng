@@ -444,7 +444,7 @@ Vyčistit
 Poslat
 ;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
-
+Odkaz protokolu Jabber
 [Frame title]
 Záhlaví rámečku
 [Frame text]

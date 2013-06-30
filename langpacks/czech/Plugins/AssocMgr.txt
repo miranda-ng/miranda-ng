@@ -6,73 +6,73 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
-
+Spravuje asociace souborů a URL jako jsou aim, ymsgr, xmpp, wpmsg, gg, tlen.
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
-
+Asociace registrované pro Mirandu NG:
 [Miscellaneous]
 Ostatní
 [&Start Miranda NG automatically when the Computer starts (using current profile)]
-
+&Spustit Mirandu NG automaticky při startu počítače (použije se aktuální profil)
 [Only associate with Miranda NG while it is &running]
-
+Aso&ciovat s Mirandou NG jen po dobu jejího běhu
 ;file \plugins\AssocMgr\src\assoclist.cpp
 [%hs files]
-
+%hs soubory
 [Type]
 Typ
 [Description]
 Popis
 [URLs on Websites]
-
+URL na webových stránkách
 [File Types]
-
+Typy souborů
 [File Association Error]
-
+Chyba při asociaci souborů
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
-
+Nastala chyba při zápisu do registrů pro modifikaci asociací souborů/URL.\nDůvod: %s
 [Unknown]
 neznámý
 [Autostart Error]
-
+Chyba při nastavení po spuštění
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
-
+Nastala chyba při zápisu do registrů pro modifikaci seznamu automatického spuštění.\n\nDůvod: %s
 [Services]
 Služby
 [Associations]
-
+Asociace
 [Miranda NG Database]
-
+Databáze Mirandy NG
 ;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
-
+Miranda NG nemůže otevřít soubor
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
-
+Miranda NG nemohla otevřít "%S".\n\nNení zaregistrován handler pro tento typ souboru.
 [Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
-
+Miranda NG nemohla otevřít "%S".\n\nTento soubor nemohl být zpracován.
 [Miranda NG could not open URL]
-
+Miranda NG nemůže otevřít URL
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
-
+Miranda NG nemohla otevřít "%S".\n\nNení zaregistrován handler pro tento typ URL.
 [Miranda NG was not able to open "%S".\n\nThe given URL is invalid and can not be parsed.]
-
+Miranda NG nemohla otevřít "%S".\n\nZadaná URL je neplatná a nemůže být použita.
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
-
+Selhání přístupu:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
 [Registry Warning]
-
+Varování registrů
 ;file \plugins\AssocMgr\src\test.cpp
 [AIM Link Protocol]
-
+Odkaz protokolu AIM
 [ICQ Link Shortcut]
-
+Odkaz protokolu ICQ
 [&Add to Contact List...]
-
+&Přidat do seznamu kontaktů...
 [Yahoo Link Protocol]
-
+Odkaz protokolu Yahoo
 [MSN Link Protocol]
-
+Odkaz protokolu MSN
 [Gadu-Gadu Link Protocol]
-
+Odkaz protokolu Gadu-Gadu
 [Jabber Link Protocol]
-
+Odkaz protokolu Jabber

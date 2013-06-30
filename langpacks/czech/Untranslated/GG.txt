@@ -38,7 +38,6 @@
 [List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
 [List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
 [List cannot be exported because of error:\n\t%s (Error: %d)]
-[Gadu-Gadu Link Protocol]
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 [Can not remove old avatar file before refresh. ERROR: %d: %s\n%s]
 [Can not remove old avatar file. ERROR: %d: %s\n%s]

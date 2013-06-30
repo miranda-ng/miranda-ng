@@ -6,7 +6,7 @@
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
-
+AOL Instant Messenger (AIM) protokol pro Mirandu NG.
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 Informace o kontaktu
@@ -45,7 +45,7 @@ Data přenášet jen přes proxy server
 [Masquerade as a Sidekick/Hiptop User]
 Vydávat se za uživatele Sidekick/Hiptop
 [*Aim must be reconnected  for some option to take effect.]
-
+*Musíte se znovu připojit pro uvedení některých změn v platnost.
 [Connection]
 Spojení
 [Port:]
@@ -101,25 +101,25 @@ Při&jít
 [&Cancel]
 &Zrušit
 [This allows access to user defined chat rooms. To access predefined chat rooms use web links]
-
+Toto umožní přístup k uživatelským diskuzním místnostem. Pro přístup k předdefinovaným místnostem použijte webové odkazy
 [Change Password]
 Změnit heslo
 [Original]
-
+Původní
 [New]
 Nový
 [Repeat]
-
+Opakovat
 [*Passwords don't match.]
-
+*Hesla se neshodují.
 [Screen Name]
 Identifikátor
 [E-mail]
 E-mail
 [Confirm Account]
-
+Potvrdit účet
 [*Applied upon reconnect]
-
+*Platnost až po dalším připojení
 [Save Changes]
 Uložit změny
 [Invite Buddy To Chat Room]
@@ -154,140 +154,140 @@ Pozvat k d&iskusi...
 Zobrazit &historii
 ;file \protocols\AimOscar\src\error.cpp
 [Invalid Screen Name or password.]
-
+Neplatný identifikátor nebo heslo.
 [Mismatched Screen Name or password.]
-
+Neplatný identifikátor nebo heslo.
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
-
+Připojujete se příliš často. Zkuste počkat 10 minut před dalším připojením.
 [Unknown error occured when attempting to connect.]
-
+Neznámá chyba při připojení.
 [Invalid SNAC header.]
-
+Neplatná SNAC hlavička.
 [Server rate limit exceeded.]
-
+Překročen limit serveru.
 [Client rate limit exceeded]
-
+Překročen limit klienta.
 [Recipient is not logged in.]
-
+Příjemce není přihlášen.
 [Requested service is unavailable.]
-
+Požadovaná služba není dostupná,
 [Requested service is not defined.]
-
+Požadovaná služba neexistuje.
 [You sent obsolete SNAC.]
-
+Odeslali jste zastaralý SNAC.
 [Not supported by server.]
-
+Není podporováno serverem.
 [Not supported by the client.]
-
+Není podporováno klientem.
 [Refused by client.]
-
+Odmítnuto klientem.
 [Reply too big.]
-
+Odpověď je příliš velká.
 [Response lost.]
-
+Odpověď ztracena.
 [Request denied.]
-
+Požadavek zamítnut.
 [Incorrect SNAC format.]
-
+Neplatný formát SNAC.
 [Insufficient rights.]
-
+Nedostatečné oprávnění.
 [Recipient blocked.]
-
+Příjemce je zablokován.
 [Sender too evil.]
-
+Odesílatel je příliš zlý.
 [Receiver too evil.]
-
+Příjemce je příliš zlý.
 [User temporarily unavailable.]
-
+Uživatel je dočasně nedostupný.
 [No Match.]
-
+Žádná shoda.
 [List overflow.]
-
+Přetečení seznamu.
 [Request ambiguous.]
-
+Pochybný požadavek.
 [Server queue full.]
-
+Fronta na serveru je plná.
 [Not while on AOL.]
-
+Ne dokud na AOL.
 [Check your Screen Name.]
-
+Zkontrolujte váš identifikátor.
 [Check your Password.]
-
+Zkontrolujte vaše heslo.
 [Check your Email Address.]
-
+Zkontrolujte vaši e-mailovou adresu.
 [Service temporarily unavailable.]
-
+Služba je dočasně nedostupná.
 [Field change temporarily unavailable.]
-
+Změna polí je dočasně nedostupná.
 [Invalid Screen Name.]
-
+Neplatný identifikátor.
 [Invalid Password.]
-
+Neplatné heslo.
 [Invalid Email.]
-
+Neplatný e-mail.
 [Invalid Registration Preference.]
-
+Neplatná registrační preference.
 [Invalid Old Password.]
-
+Neplatné staré heslo.
 [Invalid Screen Name Length.]
-
+Neplatná délka identifikátoru.
 [Invalid Password Length.]
-
+Neplatná délka hesla.
 [Invalid Email Length.]
-
+Neplatná délka e-mailu.
 [Invalid Old Password Length.]
-
+Neplatná délka starého hesla.
 [Need Old Password.]
-
+Je vyžadováno staré heslo.
 [Read Only Field.]
-
+Pole je pouze pro čtení.
 [Write Only Field.]
-
+Pole je pouze pro zápis.
 [Unsupported Type.]
-
+Nepodporovaný typ.
 [An Error has occured.]
-
+Nastala chyba.
 [Invalid Account.]
-
+Neplatný účet.
 [Delete Account.]
-
+Smazat účet.
 [Expired Account.]
-
+Vypršený účet.
 [No Database access.]
-
+Není přístup k databázi.
 [Invalid Database fields.]
-
+Neplatné položky databáze.
 [Bad Database status.]
-
+Neplatný stav databáze.
 [Migration Cancel.]
-
+Migrace zrušena.
 [Internal Error.]
-
+Vnitřní chyba.
 [There is already a Pending Request for this Screen Name.]
-
+Požadavek na tento identifikátor již probíhá.
 [Not DT status.]
-
+Chybějící stav DT.
 [Outstanding Confirmation.]
-
+Mimořádné potvrzení.
 [No Email Address.]
-
+Chybající e-mailová adresa.
 [Over Limit.]
-
+Přes limit.
 [Email Host Fail.]
-
+Chyba hostitele e-mailu.
 [DNS Fail.]
-
+Chyba DNS.
 ;file \protocols\AimOscar\src\file.cpp
 [Failed to open file: %s : %s]
-
+Nepodařilo se otevřít soubor: %s : %s
 ;file \protocols\AimOscar\src\links.cpp
 [AIM Link Protocol]
-
+Odkaz protokolu AIM
 ;file \protocols\AimOscar\src\popup.cpp
 [%s Protocol]
-
+%s protokol
 [Open mail account?]
-
+Otevřít poštovní účet?
 ;file \protocols\AimOscar\src\proto.cpp
 [%s server connection]
 %s - spojení se serverem
@@ -297,49 +297,49 @@ Zobrazit &historii
 [[Auto-Response]:]
 Autom. odpověď: 
 [Contact tried to open an audio/video conference (currently not supported)]
-
+Kontakt se pokusil otevřít audio/video konferenci (aktuálně není podporována)
 [No information has been provided by the server.]
 Server nedodal požadované informace.
 [Item you want to delete not found in list.]
-
+Položka, kterou si přejete smazat, nebyla v seznamu nalezena.
 [Failed to add buddy to list: Item already exist.]
-
+Nepodařilo se přidat přítele do seznamu: Položka již existuje.
 [Error adding buddy(invalid id?, already in list?)]
-
+Chyba při přidávání přítele (neplatný identifikátor? již je v seznamu?)
 [Cannot add buddy. Limit for this type of item exceeded.]
-
+Nelze přidat přítele. Byl překročen limit pro tento typ položek.
 [Error? Attempting to add ICQ contact to an AIM list.]
-
+Chyba? Pokus o přidání ICQ kontaktu do AIM seznamu.
 [Cannot add this buddy because it requires authorization.]
-
+Nelze přidat tohoto přítele, je vyžadována autorizace.
 [Unknown error when adding buddy to list. Error code %#x]
-
+Neznámá chyba při přidávání přítele do seznamu. Kód chyby %#x
 [Item you want to modify not found in list.]
-
+Položka, kterou si přejete upravit, nebyla v seznamu nalezena.
 [Unknown error when attempting to modify a group. Error code %#x]
-
+Neznámá chyba při pokusu o změnu skupiny. Kód chyby %#x
 [You've got mail! Checked at]
-
+Přišla vám pošta! Podívejte se na
 [Error uploading avatar. (Too small)]
-
+Chyba při nahrávání avataru. (Příliš malý)
 [Error uploading avatar. (Too big)]
-
+Chyba při nahrávání avataru. (Příliš velký)
 [Error uploading avatar. (Wrong type)]
-
+Chyba při nahrávání avataru. (Neplatný typ)
 [Error uploading avatar. (Is banned)]
-
+Chyba při nahrávání avataru. (Je zakázán)
 [Error uploading avatar. (Unknown error)]
-
+Chyba při nahrávání avataru. (Neznámá chyba)
 [A confirmation message has been sent to the new email address. Please follow its instructions.]
-
+Potvrzovací zpráva byla odeslána na novou e-mailovou adresu. Postupujte prosím dle uvedených instrukcí.
 [A confirmation message has been sent to your email address. Please follow its instructions.]
-
+Potvrzovací zpráva byla odeslána na vaši e-mailovou adresu. Postupujte prosím dle uvedených instrukcí.
 [Unable to confirm at this time. Please try again later.]
-
+V tuto chvíli nemůže být potvrzeno. Zkuste to prosím později.
 [Your account has already been confirmed.]
-
+Váš účet je již potvrzen.
 [Can't start the confirmation procedure.]
-
+Nelze zahájit potvrzovací proceduru.
 ;file \protocols\AimOscar\src\theme.cpp
 [ICQ]
 ICQ
@@ -352,7 +352,7 @@ Pošta AOL
 [AIM Icon]
 Ikona AIM
 [Hiptop]
-
+Hiptop
 [AOL Bot]
 Robot AOL
 [Admin]
@@ -364,7 +364,7 @@ Nepotvrzeno
 [Blocked list]
 Seznam zablokovaných
 [AOL]
-
+AOL
 [Foreground Color]
 Barva popředí
 [Background Color]
@@ -421,11 +421,11 @@ Obecné
 [Privacy]
 Soukromí
 [Join me in this buddy chat!]
-
+Přidejte se k této přátelské diskuzi!
 ;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]
-
+Zadejte prosím uživatelské jméno v nastavení.
 [Please, enter a password in the options dialog.]
-
+Zadejte prosím heslo v nastavení.
 [Failed to open file: %s %s]
-
+Nelze otevřít soubor: %s %s
