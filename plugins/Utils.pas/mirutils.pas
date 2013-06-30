@@ -750,7 +750,7 @@ end;
 // Import plugin function adaptation
 function CreateGroupW(name:pWideChar;hContact:THANDLE):integer;
 var
-  groupId:integer;
+  groupId, res:integer;
   groupIdStr:array [0..10] of AnsiChar;
   grbuf:array [0..127] of WideChar;
   p, pw:pWideChar;
@@ -771,7 +771,9 @@ begin
     if pw=nil then
       break;
 
-    if StrCmpW(pw+1,@grbuf[1])=0 then
+    res:=StrCmpW(pw+1,@grbuf[1]);
+    mFreeMem(pw);
+    if res=0 then
     begin
       if hContact<>0 then
         DBWriteUnicode(hContact,strCList,clGroup,@grbuf[1]);
@@ -800,7 +802,7 @@ end;
 
 function CreateGroup(name:pAnsiChar;hContact:THANDLE):integer;
 var
-  groupId:integer;
+  groupId, res:integer;
   groupIdStr:array [0..10] of AnsiChar;
   grbuf:array [0..127] of AnsiChar;
   p, pa:pAnsiChar;
@@ -821,7 +823,9 @@ begin
     if pa=nil then
       break;
 
-    if StrCmp(pa+1,@grbuf[1])=0 then
+    res:=StrCmp(pa+1,@grbuf[1]);
+    mFreeMem(pa);
+    if res=0 then
     begin
       if hContact<>0 then
       DBWriteString(hContact,strCList,clGroup,@grbuf[1]);
