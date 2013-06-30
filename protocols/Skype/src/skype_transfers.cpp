@@ -1,6 +1,21 @@
 #include "skype.h"
 
-void CSkypeProto::OnTransferChanged(CTransfer::Ref transfer, int prop)
+wchar_t *CSkypeProto::TransferFailureReasons[] =
+{
+	LPGENW("")															/* ---							*/,
+	LPGENW("SENDER_NOT_AUTHORISED")										/* SENDER_NOT_AUTHORISED		*/,
+    LPGENW("REMOTELY_CANCELLED")										/* REMOTELY_CANCELLED			*/,
+    LPGENW("FAILED_READ")												/* FAILED_READ					*/,
+    LPGENW("FAILED_REMOTE_READ")										/* FAILED_REMOTE_READ			*/,
+    LPGENW("FAILED_WRITE")												/* FAILED_WRITE					*/,
+    LPGENW("FAILED_REMOTE_WRITE")										/* FAILED_REMOTE_WRITE			*/,
+    LPGENW("REMOTE_DOES_NOT_SUPPORT_FT")								/* REMOTE_DOES_NOT_SUPPORT_FT	*/,
+    LPGENW("REMOTE_OFFLINE_FOR_TOO_LONG")								/* REMOTE_OFFLINE_FOR_TOO_LONG	*/,
+    LPGENW("TOO_MANY_PARALLEL")											/* TOO_MANY_PARALLEL			*/,
+	LPGENW("PLACEHOLDER_TIMEOUT")										/* PLACEHOLDER_TIMEOUT			*/
+};
+
+void CSkypeProto::OnTransferChanged(const TransferRef &transfer, int prop)
 {
 	switch (prop)
 	{
@@ -9,14 +24,13 @@ void CSkypeProto::OnTransferChanged(CTransfer::Ref transfer, int prop)
 			SEBinary guid;
 			transfer->GetPropChatmsgGuid(guid);
 
-			CMessage::Ref message;
-			this->GetMessageByGuid(guid, message);
+			Transfer::FAILUREREASON reason;
 
-			uint oid = message->getOID();
+			uint oid = transfer->getOID();
 
 			SEString data;
 			transfer->GetPropPartnerHandle(data);
-			HANDLE hContact = this->GetContactBySid(mir_ptr<wchar_t>(::mir_utf8decodeW(data)));
+			HANDLE hContact = this->GetContactBySid(ptrW(::mir_utf8decodeW(data)));
 
 			Transfer::STATUS status;
 			transfer->GetPropStatus(status);
@@ -33,8 +47,9 @@ void CSkypeProto::OnTransferChanged(CTransfer::Ref transfer, int prop)
 			case CTransfer::TRANSFERRING_OVER_RELAY:
 				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)oid, 0);
 				break;
-			case CTransfer::FAILED:
-				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oid, 0);
+			case CTransfer::FAILED:				
+				transfer->GetPropFailurereason(reason);
+				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oid, (LPARAM)CSkypeProto::TransferFailureReasons[reason]);
 				this->transferList.remove_val(transfer);
 				break;
 			case CTransfer::COMPLETED:
@@ -43,7 +58,8 @@ void CSkypeProto::OnTransferChanged(CTransfer::Ref transfer, int prop)
 				break;
 			case CTransfer::CANCELLED:
 			case CTransfer::CANCELLED_BY_REMOTE:
-				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)oid, 0);
+				transfer->GetPropFailurereason(reason);
+				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)oid, (LPARAM)CSkypeProto::TransferFailureReasons[reason]);
 				this->transferList.remove_val(transfer);
 				break;
 			}
@@ -57,10 +73,7 @@ void CSkypeProto::OnTransferChanged(CTransfer::Ref transfer, int prop)
 			SEBinary guid;			
 			transfer->GetPropChatmsgGuid(guid);
 
-			CMessage::Ref message;
-			this->GetMessageByGuid(guid, message);
-
-			uint oid = message->getOID();				
+			uint oid = transfer->getOID();				
 
 			PROTOFILETRANSFERSTATUS pfts = {0};
 			pfts.cbSize = sizeof(pfts);
@@ -69,7 +82,7 @@ void CSkypeProto::OnTransferChanged(CTransfer::Ref transfer, int prop)
 			pfts.currentFileNumber = 0;
 			
 			transfer->GetPropPartnerHandle(data);
-			HANDLE hContact = this->GetContactBySid(mir_ptr<wchar_t>(::mir_utf8decodeW(data)));
+			HANDLE hContact = this->GetContactBySid(ptrW(::mir_utf8decodeW(data)));
 			pfts.hContact = hContact;
 		
 			transfer->GetPropFilename(data);
@@ -91,14 +104,12 @@ void CSkypeProto::OnTransferChanged(CTransfer::Ref transfer, int prop)
 
 void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const MessageRef &message)
 {
-	CTransfer::Refs transfers;
-	message->GetTransfers(transfers);
-	//Sid::fetch(transferList);
-
 	Transfer::TYPE transferType;
 	Transfer::STATUS transferStatus;
 
-	for (uint i = 0; i < transfers.size(); i++)
+	TransferRefs transfers;
+	message->GetTransfers(transfers);
+	for (size_t i = 0; i < transfers.size(); i++)
 	{
 		auto transfer = transfers[i];
 
@@ -113,8 +124,8 @@ void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const Message
 			transfer->GetPropType(transferType);
 			if (transferType == Transfer::INCOMING)
 			{
-				transfer.fetch();
 				this->transferList.append(transfer);
+				transfer.fetch();
 
 				uint timestamp;
 				message->GetPropTimestamp(timestamp);
@@ -124,16 +135,22 @@ void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const Message
 				HANDLE hContact = this->GetContactBySid(ptrW(::mir_utf8decodeW(data)));
 
 				transfer->GetPropFilename(data);
-				wchar_t *path = ::mir_utf8decodeW(data);
+				wchar_t *fileName = ::mir_utf8decodeW(data);
 
 				PROTORECVFILET pre = {0};
 				pre.flags = PREF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = timestamp;
-				pre.tszDescription = L" ";
-				pre.ptszFiles =  &path;
-				pre.lParam = (LPARAM)message->getOID();
+				pre.tszDescription = L"";
+				pre.ptszFiles = &fileName;
+				pre.lParam = (LPARAM)transfer->getOID();
 				::ProtoChainRecvFile(hContact, &pre);
+				::mir_free(fileName);
+			}
+			else if (transferType == Transfer::PLACEHOLDER)
+			{
+				this->transferList.append(transfer);
+				transfer.fetch();
 			}
 		}
 	}

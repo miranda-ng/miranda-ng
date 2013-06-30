@@ -22,12 +22,12 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_CONTACTS;
 	dbEventType.descr = "Skype contacts";
-	dbEventType.eventIcon = CSkypeProto::GetIconHandle("sendContacts");
+	dbEventType.eventIcon = CSkypeProto::GetSkinIconHandle("sendContacts");
 	::CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_CALL;
 	dbEventType.descr = "Skype call";
-	dbEventType.eventIcon = CSkypeProto::GetIconHandle("call");
+	dbEventType.eventIcon = CSkypeProto::GetSkinIconHandle("call");
 	::CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
 	this->InitInstanceServiceList();
@@ -149,25 +149,19 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 { 
 	uint oid = (uint)hTransfer;
 
-	MessageRef message(oid);
-
 	this->Log(L"Incoming file transfer is accepted");
-	CTransfer::Refs transfers;
-	message->GetTransfers(transfers);
-	for (uint i = 0; i < transfers.size(); i++)
-	{
-		bool success;
-		wchar_t fullPath[MAX_PATH] = {0};
 
-		SEString data;
-		transfers[i]->GetPropFilename(data);
-		ptrW name(::mir_utf8decodeW(data));
-		::mir_sntprintf(fullPath, MAX_PATH, L"%s%s", szPath, name);
-		if (!transfers[i]->Accept((char *)ptrA(::mir_utf8encodeW(fullPath)), success) || !success)
-		{
-			return 0;
-		}
-	}
+	bool success;
+	wchar_t fullPath[MAX_PATH] = {0};
+
+	SEString data;
+	TransferRef transfer(oid);
+	transfer->GetPropFilename(data);
+	ptrW name(::mir_utf8decodeW(data));
+	::mir_sntprintf(fullPath, MAX_PATH, L"%s%s", szPath, name);
+
+	if (!transfer->Accept((char *)ptrA(::mir_utf8encodeW(fullPath)), success) || !success)
+		return 0;
 
 	return hTransfer; 
 }
@@ -176,18 +170,12 @@ int    __cdecl CSkypeProto::FileCancel( HANDLE hContact, HANDLE hTransfer )
 {
 	uint oid = (uint)hTransfer;
 
-	MessageRef message(oid);
+	TransferRef transfer(oid);
+	
+	if (!transfer->Cancel())
+		return 0;
 
 	this->Log(L"Incoming file transfer is cancelled");
-	CTransfer::Refs transfers;
-	message->GetTransfers(transfers);
-	for (uint i = 0; i < transfers.size(); i++)
-	{
-		if (!transfers[i]->Cancel())
-		{
-			return 0;
-		}
-	}
 
 	return 1; 
 }
@@ -195,24 +183,50 @@ int    __cdecl CSkypeProto::FileCancel( HANDLE hContact, HANDLE hTransfer )
 int    __cdecl CSkypeProto::FileDeny( HANDLE hContact, HANDLE hTransfer, const TCHAR* szReason )
 {
 	uint oid = (uint)hTransfer;
+	
+	TransferRef transfer(oid);
+	if (!transfer->Cancel())
+		return 0;
 
-	MessageRef message(oid);
-	this->Log(L"Incoming file transfer is denied");
-	CTransfer::Refs transfers;
-	message->GetTransfers(transfers);
-	for (uint i = 0; i < transfers.size(); i++)
-	{
-		if (!transfers[i]->Cancel())
-		{
-			return 0;
-		}
-	}
+		this->Log(L"Incoming file transfer is denied");
 
 	return 1;
 }
 
 int    __cdecl CSkypeProto::FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename )
 {
+	if ( !this->IsOnline())
+		return 1;
+
+	switch (*action)
+	{
+	case FILERESUME_SKIP:
+		/*if (ft->p2p_appID != 0)
+			p2p_sendStatus(ft, 603);
+		else
+			msnftp_sendAcceptReject (ft, false);*/
+		break;
+
+	case FILERESUME_RENAME:
+		//replaceStrT(ft->std.tszCurrentFile, *szFilename);
+		break;
+
+	default:
+		/*bool fcrt = ft->create() != -1;
+		if (ft->p2p_appID != 0)
+		{
+			if (fcrt)
+				p2p_sendFeedStart(ft);
+
+			p2p_sendStatus(ft, fcrt ? 200 : 603);
+		}
+		else
+			msnftp_sendAcceptReject (ft, fcrt);*/
+
+		//ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
+		break;
+	}
+
 	return 0;
 }
 

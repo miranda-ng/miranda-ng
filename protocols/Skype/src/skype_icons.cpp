@@ -50,10 +50,18 @@ HANDLE CSkypeProto::GetIconHandle(const char* name)
 	return 0;
 }
 
+HANDLE CSkypeProto::GetSkinIconHandle(const char* name)
+{
+	char iconName[100];
+	::mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, name);
+	HANDLE hIcon = ::Skin_GetIconHandle(iconName);
+	if ( !hIcon)
+		hIcon = CSkypeProto::GetIconHandle(name);
+	return hIcon;
+}
+
 void CSkypeProto::UninitIcons()
 {
 	for (size_t i = 0; i < SIZEOF(CSkypeProto::IconList); i++)
-	{
 		::Skin_RemoveIcon(CSkypeProto::IconList[i].Name);
-	}
 }

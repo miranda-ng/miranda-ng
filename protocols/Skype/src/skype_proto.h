@@ -288,8 +288,10 @@ protected:
 	void	OnContactsReceived(const ConversationRef &conversation, const MessageRef &message);
 
 	// transfer
+	static wchar_t *TransferFailureReasons[];
+
 	void	OnFileEvent(const ConversationRef &conversation, const MessageRef &message);
-	void	OnTransferChanged(CTransfer::Ref transfer, int prop);
+	void	OnTransferChanged(const TransferRef &transfer, int prop);
 
 	// chat
 	void InitChatModule();
@@ -438,6 +440,7 @@ protected:
 	// icons
 	static _tag_iconList IconList[];
 	static HANDLE GetIconHandle(const char *name);
+	static HANDLE GetSkinIconHandle(const char *name);
 
 	// menus
 	HGENMENU m_hMenuRoot;

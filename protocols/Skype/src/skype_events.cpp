@@ -25,14 +25,14 @@ int CSkypeProto::OnProtoModulesLoaded(WPARAM, LPARAM)
 
 		bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
 		bbd.ptszTooltip = ::TranslateT("Invite contacts to conference");
-		bbd.hIcon = CSkypeProto::GetIconHandle("addContacts");
+		bbd.hIcon = CSkypeProto::GetSkinIconHandle("addContacts");
 		bbd.dwButtonID = BBB_ID_CONF_INVITE;
 		bbd.dwDefPos = 100 + bbd.dwButtonID;
 		::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON;
 		bbd.ptszTooltip = ::TranslateT("Spawn conference");
-		bbd.hIcon = CSkypeProto::GetIconHandle("conference");
+		bbd.hIcon = CSkypeProto::GetSkinIconHandle("conference");
 		bbd.dwButtonID = BBB_ID_CONF_SPAWN;
 		bbd.dwDefPos = 100 + bbd.dwButtonID;
 		::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
