@@ -198,25 +198,32 @@ void TimeStampToSysTime(DWORD Unix,SYSTEMTIME* SysTime)
 	FileTimeToSystemTime((FILETIME*)&FileReal,SysTime);
 }
 
-void GetModuleTimeStamp(TCHAR* ptszDate, TCHAR* ptszTime)
+void GetISO8061Time(SYSTEMTIME* stLocal, LPTSTR lpszString, DWORD dwSize)
+{
+	SYSTEMTIME loctime;
+	if (stLocal == NULL) 
+	{
+		stLocal = &loctime;
+		GetLocalTime(stLocal);
+	}
+
+	GetDateFormat(LOCALE_INVARIANT, 0, stLocal, TEXT("d MMM yyyy"), lpszString, dwSize);
+	int dlen = (int)_tcslen(lpszString);
+	GetTimeFormat(LOCALE_INVARIANT, 0, stLocal, TEXT(" H:mm:ss"), lpszString+dlen, dwSize-dlen);
+}
+
+void GetModuleTimeStamp(LPTSTR lpszString, DWORD dwSize)
 {
 	TCHAR tszModule[MAX_PATH];
-	HANDLE mapfile,file;
-	DWORD timestamp,filesize;
-	LPVOID mapmem;
-	SYSTEMTIME systime;
-	GetModuleFileName(NULL,tszModule,SIZEOF(tszModule));
-	file = CreateFile(tszModule,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL);
-	filesize = GetFileSize(file,NULL);
-	mapfile = CreateFileMapping(file, NULL, PAGE_READONLY, 0, filesize, NULL);
-	mapmem = MapViewOfFile(mapfile, FILE_MAP_READ, 0, 0, 0);
-	timestamp = GetTimestampForLoadedLibrary((HINSTANCE)mapmem);
-	TimeStampToSysTime(timestamp,&systime);
-	GetTimeFormat(LOCALE_USER_DEFAULT, 0, &systime, _T("HH':'mm':'ss"), ptszTime, 40 );
-	GetDateFormat(EnglishLocale, 0, &systime, _T("dd' 'MMMM' 'yyyy"), ptszDate, 40);
-	UnmapViewOfFile(mapmem);
-	CloseHandle(mapfile);
-	CloseHandle(file);
+	GetModuleFileName(NULL, tszModule, SIZEOF(tszModule));
+	WIN32_FIND_DATA fd;
+	if (FindFirstFile(tszModule, &fd) != INVALID_HANDLE_VALUE) {
+		FILETIME ftLocal;
+		SYSTEMTIME stLocal;
+		FileTimeToLocalFileTime(&fd.ftLastWriteTime, &ftLocal);
+		FileTimeToSystemTime(&ftLocal, &stLocal);
+		GetISO8061Time(&stLocal, lpszString, dwSize);
+	}
 }
 
 //From Egodust or Cyreve... I don't really know.
@@ -437,48 +444,41 @@ BOOL GetWindowsShell(TCHAR *shellPath, size_t shSize)
 BOOL GetInternetExplorerVersion(TCHAR *ieVersion, size_t ieSize)
 {
 	HKEY hKey;
-	TCHAR ieVer[1024];
-	DWORD size = SIZEOF(ieVer);
-	TCHAR ieBuild[64] = {0};
-	
-	_tcsncpy(ieVer, _T("<not installed>"), size);
+	TCHAR ieVer[1024] = {0}, ieBuild[64] = {0}, iVer[64] = {0};
 	
 	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\Microsoft\\Internet Explorer"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
 	{
-		if (RegQueryValueEx(hKey, _T("Version"), NULL, NULL, (LPBYTE) ieVer, &size) == ERROR_SUCCESS)
-		{
-			TCHAR *pos = _tcschr(ieVer, '.');
-			if (pos)
-			{
-				pos = _tcschr(pos + 1, '.');
-				if (pos) { *pos = 0; }
-				_tcsncpy(ieBuild, pos + 1, SIZEOF(ieBuild));
-				pos = _tcschr(ieBuild, '.');
-				if (pos) { *pos = 0; }
-			}
-		}
-		else{
-			size = SIZEOF(ieVer);
-			if (RegQueryValueEx(hKey, _T("Build"), NULL, NULL, (LPBYTE) ieVer, &size) == ERROR_SUCCESS)
-			{
-				TCHAR *pos = ieVer + 1;
-				_tcsncpy(ieBuild, pos, SIZEOF(ieBuild));
-				*pos = 0;
-				pos = _tcschr(ieBuild, '.');
-				if (pos) { *pos = 0; }
-			}
-			else{
-				_tcsncpy(ieVer, _T("<unknown version>"), size);
-			}
-		}
+		DWORD size;
+		if (RegQueryValueEx(hKey, _T("Version"), NULL, NULL, (LPBYTE) ieVer, &size) != ERROR_SUCCESS)
+			ieVer[0] = 0;
+		if (RegQueryValueEx(hKey, _T("Build"), NULL, NULL, (LPBYTE) ieBuild, &size) != ERROR_SUCCESS)
+			ieBuild[0] = 0;
+		if (RegQueryValueEx(hKey, _T("IVer"), NULL, NULL, (LPBYTE) iVer, &size) != ERROR_SUCCESS)
+			iVer[0] = 0;
+
 		RegCloseKey(hKey);
 	}
-	
-	_tcsncpy(ieVersion, ieVer, ieSize);
-	if ( ieBuild[0] )
+
+	if (ieVer[0] == 0)
 	{
-		_tcsncat(ieVersion, _T("."), ieSize);
+		if (iVer[0] == 0)
+			_tcsncpy(ieVersion, _T("<not installed>"), ieSize);
+		else if (_tcscmp(iVer, _T("100")) == 0)
+			_tcsncpy(ieVersion, _T("1.0"), ieSize);
+		else if (_tcscmp(iVer, _T("101")) == 0)
+			_tcsncpy(ieVersion, _T("NT"), ieSize);
+		else if (_tcscmp(iVer, _T("102")) == 0)
+			_tcsncpy(ieVersion, _T("2.0"), ieSize);
+		else if (_tcscmp(iVer, TEXT("103")) == 0)
+			_tcsncpy(ieVersion, _T("3.0"), ieSize);
+	} else 
+		_tcsncpy(ieVersion, ieVer, ieSize);
+
+	if (ieBuild[0] != 0)
+	{
+		_tcsncat(ieVersion, _T(" (build "), ieSize);
 		_tcsncat(ieVersion, ieBuild, ieSize);
+		_tcsncat(ieVersion, _T(")"), ieSize);
 	}
 	
 	return TRUE;

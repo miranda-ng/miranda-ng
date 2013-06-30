@@ -22,17 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef CPLUGIN_H
 #define CPLUGIN_H
 
-#define DEF_UUID_CHARMARK "¤"
-
-extern const int cPLUGIN_UUID_MARK;
-extern TCHAR PLUGIN_UUID_MARK[];
-
-//using namespace std;
-
-
-	#define tstring wstring
-
-
 class CPlugin {
 	private:
 		std::tstring lpzFileName;

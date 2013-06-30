@@ -76,7 +76,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitServices();
 	HookEvents();
 	
-	hiVIIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_MAIN));
+	hiVIIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_MAIN));
 	
 	//get the name of the dll itself
 	TCHAR filePath[512] = {0};

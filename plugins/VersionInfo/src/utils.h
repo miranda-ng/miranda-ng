@@ -22,7 +22,8 @@ int SplitStringInfo(const TCHAR *szWholeText, TCHAR *szStartText, TCHAR *szEndTe
 bool DoesDllExist(char *dllName);
 
 //utils.cpp
-void GetModuleTimeStamp(TCHAR*, TCHAR*);
+void GetModuleTimeStamp(LPTSTR lpszString, DWORD dwSize);
+void GetISO8061Time(SYSTEMTIME* stLocal, LPTSTR lpszString, DWORD dwSize);
 void NotifyError(DWORD, const TCHAR*, int);
 
 //utils.cpp

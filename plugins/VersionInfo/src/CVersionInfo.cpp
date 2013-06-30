@@ -94,7 +94,6 @@ CVersionInfo::~CVersionInfo()
 	lpzNightly.~basic_string();
 	lpzUnicodeBuild.~basic_string();
 	lpzBuildTime.~basic_string();
-	lpzOSVersion.~basic_string();
 	lpzMirandaPath.~basic_string();
 	lpzCPUName.~basic_string();
 	lpzCPUIdentifier.~basic_string();
@@ -146,16 +145,16 @@ bool CVersionInfo::GetMirandaVersion()
 	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)str_size, (LPARAM)str);
 	this->lpzMirandaVersion = _A2T(str);
 	//Is it a nightly?
-	if (lpzMirandaVersion.find( _T("alpha"),0) != std::string::npos)
+	if (lpzMirandaVersion.find( _T("alpha"), 0) != std::string::npos)
 		lpzNightly = _T("Yes");
 	else
 		lpzNightly = _T("No");
 
 	lpzUnicodeBuild = _T("Yes");
 
-	TCHAR time[128], date[128];
-	GetModuleTimeStamp(date, time);
-	lpzBuildTime = std::tstring(time) + _T(" (UTC) on ") + std::tstring(date);
+	TCHAR mirtime[128];
+	GetModuleTimeStamp(mirtime, 128);
+	lpzBuildTime = mirtime;
 	return TRUE;
 }
 
@@ -166,135 +165,40 @@ bool CVersionInfo::GetOSVersion()
 	osvi.dwOSVersionInfoSize = sizeof(osvi);
 	GetVersionEx(&osvi);
 
-	//Now fill the private members.
-	TCHAR aux[256];
-	wsprintf(aux, _T("%d.%d.%d %s"), osvi.dwMajorVersion, osvi.dwMinorVersion, LOWORD(osvi.dwBuildNumber), osvi.szCSDVersion);
-	lpzOSVersion = aux;
-
 	//OSName
 	//Let's read the registry.
 	HKEY hKey;
 	TCHAR szKey[MAX_PATH], szValue[MAX_PATH];
-	lstrcpyn(szKey, _T("Hardware\\Description\\System\\CentralProcessor\\0"), MAX_PATH);
-	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, szKey, 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
-		DWORD type, size, result;
-
-		lstrcpyn(szValue, _T("Identifier"), MAX_PATH);
-		result = RegQueryValueEx(hKey, szValue, 0, &type, NULL, &size);
-		if (result == ERROR_SUCCESS) {
-			TCHAR *aux = new TCHAR[size+1];
-			result = RegQueryValueEx(hKey, szValue, 0, &type, (LPBYTE) aux, &size);
-			lpzCPUIdentifier = aux;
-			delete[] aux;
-		}
-		else {
-			NotifyError(GetLastError(), _T("RegQueryValueEx()"), __LINE__);
-			lpzCPUIdentifier = _T("<Error in RegQueryValueEx()>");
-		}
-
-		lstrcpyn(szValue, _T("ProcessorNameString"), MAX_PATH);
-		result = RegQueryValueEx(hKey, szValue, 0, &type, NULL, &size); //get the size
-		if (result == ERROR_SUCCESS) {
-			TCHAR *aux = new TCHAR[size+1];
-			result = RegQueryValueEx(hKey, szValue, 0, &type, (LPBYTE) aux, &size);
-			lpzCPUName = aux;
-			delete[] aux;
-		}
-		else { //else try to use cpuid instruction to get the proc name
-			char szName[50];
-			#if (!defined(WIN64) && !defined(_WIN64))
-			__asm
-			{
-				push eax //save the registers
-				push ebx
-				push ecx
-				push edx
-
-				xor eax, eax //get simple name
-				cpuid
-				mov DWORD PTR szName[0], ebx
-				mov DWORD PTR szName[4], edx
-				mov DWORD PTR szName[8], ecx
-				mov DWORD PTR szName[12], 0
-
-				mov eax, 0x80000000 //try to get pretty name
-				cpuid
-
-				cmp eax, 0x80000004
-				jb end //if we don't have the extension end the check
-
-				mov DWORD PTR szName[0], 0 //make the string null
-
-				mov eax, 0x80000002 //first part of the string
-				cpuid
-				mov DWORD PTR szName[0], eax
-				mov DWORD PTR szName[4], ebx
-				mov DWORD PTR szName[8], ecx
-				mov DWORD PTR szName[12], edx
-
-				mov eax, 0x80000003 //second part of the string
-				cpuid
-				mov DWORD PTR szName[16], eax
-				mov DWORD PTR szName[20], ebx
-				mov DWORD PTR szName[24], ecx
-				mov DWORD PTR szName[28], edx
-
-				mov eax, 0x80000004 //third part of the string
-				cpuid
-				mov DWORD PTR szName[32], eax
-				mov DWORD PTR szName[36], ebx
-				mov DWORD PTR szName[40], ecx
-				mov DWORD PTR szName[44], edx
-
-end:
-				pop edx //load them back
-				pop ecx
-				pop ebx
-				pop eax
-			}
-			szName[SIZEOF(szName) - 1] = '\0';
-			#else
-				szName[0] = 0;
-			#endif
-
-			if ( !szName[0] )
-				lpzCPUName = _T("<name N/A>");
-			else
-				lpzCPUName = _A2T(szName);
-		}
-	}
-
-	bDEPEnabled = IsProcessorFeaturePresent(PF_NX_ENABLED);
-
 	switch (osvi.dwPlatformId) {
 	case VER_PLATFORM_WIN32_WINDOWS:
 		lstrcpyn(szKey, _T("Software\\Microsoft\\Windows\\CurrentVersion"), MAX_PATH);
 		lstrcpyn(szValue, _T("Version"), MAX_PATH);
 		break;
-	case VER_PLATFORM_WIN32_NT:
 
+	case VER_PLATFORM_WIN32_NT:
 		lstrcpyn(szKey, _T("Software\\Microsoft\\Windows NT\\CurrentVersion"), MAX_PATH);
 		lstrcpyn(szValue, _T("ProductName"), MAX_PATH);
 		break;
 	}
 
-	RegCloseKey(hKey);
-	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,szKey,0,KEY_QUERY_VALUE,&hKey) == ERROR_SUCCESS) {
+	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, szKey, 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
 		DWORD type, size, result;
 		//Get the size of the value we'll read.
-		result = RegQueryValueEx((HKEY)hKey,szValue,(LPDWORD)NULL, (LPDWORD)&type,(LPBYTE)NULL,
-				(LPDWORD)&size);
+		result = RegQueryValueEx((HKEY)hKey, szValue, (LPDWORD)NULL, (LPDWORD)&type, (LPBYTE)NULL, (LPDWORD)&size);
 		if (result == ERROR_SUCCESS) {
 			//Read it.
 			TCHAR *aux = new TCHAR[size+1];
-			result = RegQueryValueEx((HKEY)hKey,szValue,(LPDWORD)NULL, (LPDWORD)&type,(LPBYTE)aux,(LPDWORD)&size);
-			lpzOSName = aux;
+			result = RegQueryValueEx((HKEY)hKey, szValue, (LPDWORD)NULL, (LPDWORD)&type, (LPBYTE)aux, (LPDWORD)&size);
+			lpzOSName.append(_T("Microsoft "));
+			lpzOSName.append(aux);
+			lpzOSName.append(_T(" Edition"));
 			delete[] aux;
 		}
 		else {
 			NotifyError(GetLastError(), _T("RegQueryValueEx()"), __LINE__);
 			lpzOSName = _T("<Error in RegQueryValueEx()>");
 		}
+		RegCloseKey(hKey);
 	}
 	else {
 		NotifyError(GetLastError(), _T("RegOpenKeyEx()"), __LINE__);
@@ -312,7 +216,7 @@ end:
 	case 2195: lpzOSName = _T("Microsoft Windows 2000"); break; //What about service packs?
 	case 2600: lpzOSName = _T("Microsoft Windows XP"); break;
 	case 3790:
-		if ( GetSystemMetrics( 89 )) //R2 ?
+		if (GetSystemMetrics(89)) //R2 ?
 			lpzOSName = _T("Microsoft Windows 2003 R2");
 		else
 			lpzOSName = _T("Microsoft Windows 2003");
@@ -320,10 +224,71 @@ end:
 		break; //added windows 2003 info
 	}
 
+	HMODULE hKernel32 = LoadLibrary(_T("kernel32.dll"));
+	if (hKernel32) {
+		SYSTEM_INFO si = {0};
+		// Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
+		MyGetSystemInfo = (void (WINAPI *) (LPSYSTEM_INFO)) GetProcAddress(hKernel32, "GetNativeSystemInfo");
+		if (MyGetSystemInfo != NULL)
+			MyGetSystemInfo(&si);
+		else
+			GetSystemInfo(&si);
+
+		if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
+			lpzOSName.append(_T(", 64-bit "));
+		else if (si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_INTEL)
+			lpzOSName.append(_T(", 32-bit "));
+
+		lpzOSName.append(osvi.szCSDVersion);
+		lpzOSName.append(_T(" (build "));
+		TCHAR buildno[MAX_PATH];
+		_itot(osvi.dwBuildNumber, buildno, 10);
+		lpzOSName.append(buildno);
+		lpzOSName.append(_T(")"));
+		FreeLibrary(hKernel32);
+	}
+	else {
+		lpzOSName.append(_T(" "));
+		lpzOSName.append(osvi.szCSDVersion);
+		lpzOSName.append(_T(" (build "));
+		lpzOSName.append((TCHAR *)LOWORD(osvi.dwBuildNumber));
+		lpzOSName.append(_T(")"));
+	}
+
 	return TRUE;
 }
 
-bool CVersionInfo::GetHWSettings() {
+bool CVersionInfo::GetHWSettings()
+{
+	//CPU Info
+	HKEY hKey;
+	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("Hardware\\Description\\System\\CentralProcessor\\0"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
+	{
+		TCHAR cpuIdent[512] = {0}, cpuName[512] = {0};
+		DWORD size;
+		if (RegQueryValueEx(hKey, _T("ProcessorNameString"), NULL, NULL, (LPBYTE)cpuName, &size) != ERROR_SUCCESS)
+			_tcscpy(cpuName, _T("Unknown"));
+		lpzCPUName = cpuName;
+
+		if (RegQueryValueEx(hKey, TEXT("Identifier"), NULL, NULL, (LPBYTE) cpuIdent, &size) != ERROR_SUCCESS)
+			if (RegQueryValueEx(hKey, TEXT("VendorIdentifier"), NULL, NULL, (LPBYTE) cpuIdent, &size) != ERROR_SUCCESS)
+				_tcscpy(cpuIdent, _T("Unknown"));
+		lpzCPUIdentifier = cpuIdent;
+
+		RegCloseKey(hKey);
+	}
+
+	while (true)
+	{
+		std::tstring::size_type pos = lpzCPUName.find(_T("  "));
+		if (pos != std::tstring::npos)
+			lpzCPUName.replace(lpzCPUName.begin() + pos, lpzCPUName.begin() + pos + 2, _T(" "));
+		else
+			break;
+	}
+
+	bDEPEnabled = IsProcessorFeaturePresent(PF_NX_ENABLED);
+
 	//Free space on Miranda Partition.
 	TCHAR szMirandaPath[MAX_PATH] = { 0 };
 	{
@@ -402,7 +367,13 @@ bool CVersionInfo::GetProfileSettings()
 		mir_sntprintf( number, SIZEOF(number), _T("%.2f KBytes"), double(fd.nFileSizeLow) / 1024 );
 		lpzProfileSize = number;
 
-		FillLocalTime(lpzProfileCreationDate, &fd.ftCreationTime);
+		FILETIME ftLocal;
+		SYSTEMTIME stLocal;
+		TCHAR lpszString[128];
+		FileTimeToLocalFileTime(&fd.ftCreationTime, &ftLocal);
+		FileTimeToSystemTime(&ftLocal, &stLocal);
+		GetISO8061Time(&stLocal, lpszString, 128);
+		lpzProfileCreationDate = lpszString;
 	}
 	else {
 		DWORD error = GetLastError();
@@ -636,14 +607,88 @@ bool CVersionInfo::GetLangpackInfo()
 	return true;
 }
 
+/*bool CVersionInfo::GetWeatherInfo()
+{
+	TCHAR path[MAX_PATH];
+	GetModuleFileName(NULL, path, MAX_PATH);
+
+	LPTSTR fname = _tcsrchr(path, TEXT('\\'));
+	if (fname == NULL)
+		fname = path;
+	_tcscat(fname, _T("\\plugins\\weather\\*.ini"));
+
+	WIN32_FIND_DATA FindFileData;
+	HANDLE hFind = FindFirstFile(path, &FindFileData);
+	if (hFind == INVALID_HANDLE_VALUE) return;
+
+	do 
+	{
+		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
+
+		crs_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\plugins\\weather\\%s"), FindFileData.cFileName);
+		HANDLE hDumpFile = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, NULL,
+			OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+		if (hDumpFile != INVALID_HANDLE_VALUE) 
+		{
+			char buf[8192];
+
+			DWORD bytes = 0;
+			ReadFile(hDumpFile, buf, 8190, &bytes, NULL);
+			buf[bytes] = 0;
+
+			char* ver = strstr(buf, "Version=");
+			if (ver != NULL)
+			{
+				char *endid = strchr(ver, '\r');
+				if (endid != NULL) *endid = 0;
+				else
+				{
+					endid = strchr(ver, '\n');
+					if (endid != NULL) *endid = 0;
+				}
+				ver += 8;
+			}
+
+			char *id = strstr(buf, "Name=");
+			if (id != NULL)
+			{
+				char *endid = strchr(id, '\r');
+				if (endid != NULL) *endid = 0;
+				else
+				{
+					endid = strchr(id, '\n');
+					if (endid != NULL) *endid = 0;
+				}
+				id += 5; 
+			}
+
+			TCHAR timebuf[30] = TEXT("");
+			GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
+
+
+			static const TCHAR format[] = TEXT(" %s v.%s%S%s [%s] - %S\r\n");
+
+			buffer.appendfmt(format, FindFileData.cFileName, 
+				(flags & VI_FLAG_FORMAT) ? TEXT("[b]") : TEXT(""),
+				ver,
+				(flags & VI_FLAG_FORMAT) ? TEXT("[/b]") : TEXT(""),
+				timebuf, id);
+			CloseHandle(hDumpFile);
+		}
+	}
+	while (FindNextFile(hFind, &FindFileData));
+	FindClose(hFind);
+}*/
+
 std::tstring GetPluginTimestamp(FILETIME *fileTime)
 {
 	SYSTEMTIME sysTime;
-	FileTimeToSystemTime(fileTime, &sysTime); //convert the file tyme to system time
-
-	//char time[256];
+	FILETIME ftLocal;
+	FileTimeToLocalFileTime(fileTime, &ftLocal);
+	FileTimeToSystemTime(&ftLocal, &sysTime); //convert the file tyme to system time
 	TCHAR date[256]; //lovely
-	GetDateFormat(EnglishLocale, 0, &sysTime, _T("dd' 'MMM' 'yyyy"), date, SIZEOF(date));
+	GetISO8061Time(&sysTime, date, 256);
 	return date;
 }
 
@@ -662,7 +707,8 @@ bool CVersionInfo::GetPluginLists()
 	DWORD loadError;
 	//	SYSTEMTIME sysTime; //for timestamp
 
-	mirandaVersion=(DWORD)CallService(MS_SYSTEM_GETVERSION,0,0);
+	//bWeatherPlugin = false;
+	mirandaVersion = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0);
 	{
 		GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
 		TCHAR* str2 = _tcsrchr(szMirandaPath,'\\');
@@ -685,6 +731,9 @@ bool CVersionInfo::GetPluginLists()
 			if (verbose) PUShowMessageT(fd.cFileName, SM_NOTIFY);
 			if (!ValidExtension(fd.cFileName, _T("dll")))
 				continue; //do not report plugins that do not have extension .dll
+
+			//if (_tcsicmp(fd.cFileName, _T("weather.dll")) == 0)
+				//bWeatherPlugin = true;
 
 			hInstPlugin = GetModuleHandle(fd.cFileName); //try to get the handle of the module
 
@@ -755,7 +804,8 @@ bool CVersionInfo::GetPluginLists()
 				else {
 					ZeroMemory(&pluginInfo, sizeof(pluginInfo));
 					MessageBox(NULL, fd.cFileName, _T("Invalid plugin"), MB_OK);
-			}	}
+				}
+			}
 
 			//Let's get the info.
 			if (MirandaPluginInfo != NULL) {//a valid miranda plugin
@@ -800,7 +850,8 @@ bool CVersionInfo::GetPluginLists()
 					AddPlugin(thePlugin, listUnloadablePlugins);
 					if (pluginInfo)
 						FreePluginInfo(pluginInfo);
-			}	}
+				}
+			}
 		}
 			while (FindNextFile(hFind,&fd));
 		FindClose(hFind);
@@ -808,7 +859,8 @@ bool CVersionInfo::GetPluginLists()
 	return TRUE;
 }
 
-bool CVersionInfo::AddPlugin(CPlugin &aPlugin, std::list<CPlugin> &aList) {
+bool CVersionInfo::AddPlugin(CPlugin &aPlugin, std::list<CPlugin> &aList)
+{
 	std::list<CPlugin>::iterator pos = aList.begin();
 	bool inserted = FALSE;
 
@@ -961,10 +1013,11 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 	out.append( _T("Installed RAM: ") + std::tstring(szRAM) + _T(" MBytes\r\n"));
 
 	//operating system
-	out.append( _T("Operating System: ") + lpzOSName + _T(" [version: ") + lpzOSVersion + _T("]\r\n"));
+	out.append( _T("Operating System: ") + lpzOSName + _T("\r\n"));
 
 	//shell, IE, administrator
-	out.append( _T("Shell: ") + lpzShell + _T(", Internet Explorer ") + lpzIEVersion + _T("\r\n"));
+	out.append( _T("Shell: ") + lpzShell + _T("\r\n"));
+	out.append( _T("Internet Explorer: ") + lpzIEVersion + _T("\r\n"));
 	out.append( _T("Administrator privileges: ") + lpzAdministratorPrivileges + _T("\r\n"));
 
 	//languages
@@ -973,7 +1026,7 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 	//FreeDiskSpace
 	if (luiFreeDiskSpace) {
 		TCHAR szDiskSpace[64]; wsprintf(szDiskSpace, _T("%d"), luiFreeDiskSpace);
-		out.append( _T("Free disk space on Miranda partition: ") + std::tstring(szDiskSpace) + _T(" MBytes\r\n"));
+		out.append( _T("Free disk space on Miranda partition: ") + std::tstring(szDiskSpace) + _T(" MBytes\r\n\r\n"));
 	}
 
 	//Miranda
@@ -981,8 +1034,6 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 	out.append( _T("Miranda NG version: ") + lpzMirandaVersion);
 	if (bIsWOW64)
 		out.append( _T(" [running inside WOW64]"));
-	if (bServiceMode)
-		out.append( _T(" [service mode]"));
 
 	out.append( _T("\r\nBuild time: ") + lpzBuildTime + _T("\r\n"));
 	out.append( _T("Profile path: ") + lpzProfilePath + _T("\r\n"));
@@ -991,7 +1042,12 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 	out.append( _T("Language pack: ") + lpzLangpackInfo);
 	out.append((lpzLangpackModifiedDate.size() > 0) ? _T(", modified: ") + lpzLangpackModifiedDate : _T(""));
 	out.append( _T("\r\n"));
-
+	out.append(_T("Service Mode: "));
+	if (bServiceMode)
+		out.append( _T("Yes"));
+	else
+		out.append( _T("No"));
+	
 	// out.append( _T("Nightly: ") + lpzNightly + _T("\r\n"));
 	// out.append( _T("Unicode core: ") + lpzUnicodeBuild);
 
@@ -1077,7 +1133,7 @@ std::tstring CVersionInfo::GetInformationsAsString(int bDisableForumStyle) {
 		BeautifyReport(beautify, horizLine, _T("\r\n"), out);
 		GetStringFromDatabase("BeautifyInactiveHeaderBegin", _T("<b><font size=\"-1\" color=\"DarkRed\">"), buffer, SIZEOF(buffer));
 		BeautifyReport(beautify, buffer, headerHighlightStart, out);
-		AddSectionAndCount(listInactivePlugins, _T("Inactive Plugins"), out);
+		AddSectionAndCount(listInactivePlugins, _T("Unloadable Plugins"), out);
 		GetStringFromDatabase("BeautifyInactiveHeaderEnd", _T("</font></b>"), buffer, SIZEOF(buffer));
 		BeautifyReport(beautify, buffer, headerHighlightEnd, out);
 		out.append( _T("\r\n"));
@@ -1097,6 +1153,8 @@ std::tstring CVersionInfo::GetInformationsAsString(int bDisableForumStyle) {
 		out.append(GetListAsString(listUnloadablePlugins, flags, beautify));
 		BeautifyReport(beautify, normalPluginsEnd, _T(""), out);
 	}
+	//if (bWeatherPlugin)
+
 	AddInfoFooter(suppressHeader, forumStyle, beautify, out);
 	return out;
 }

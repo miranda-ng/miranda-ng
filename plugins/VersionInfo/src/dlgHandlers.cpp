@@ -487,9 +487,8 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				EnableWindow(GetDlgItem(hWnd, IDC_GETINFONOW), TRUE);
 				//Disabled plugins too?
 				db_set_b(NULL, ModuleName, "ShowInactive", IsDlgButtonChecked(hWnd, IDC_DISABLEDTOO)?TRUE:FALSE);
-
-				GetStringFromDatabase("UUIDCharMark", _T(DEF_UUID_CHARMARK), PLUGIN_UUID_MARK, cPLUGIN_UUID_MARK);
-		}	}
+			}
+		}
 
 		break;
 	}

@@ -20,9 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "common.h"
 
-const int cPLUGIN_UUID_MARK = 4;
-TCHAR PLUGIN_UUID_MARK[cPLUGIN_UUID_MARK];
-
 #define PLUGIN_UNCERTAIN_MARK "?"
 
 #define RJUST 70
@@ -118,7 +115,7 @@ std::tstring CPlugin::getInformations(DWORD flags, TCHAR *szHighlightHeader, TCH
 		UUIDToString(pluginID, aux, SIZEOF(aux));
 		lpzInformations = aux;
 	}
-	else lpzInformations = (IsUUIDNull(pluginID)) ? _T(" ") : PLUGIN_UUID_MARK;
+	else lpzInformations = _T(" ");
 
 	lpzInformations += std::tstring(_T(" ") + lpzFileName + _T(" v.") + szHighlightHeader + lpzVersion + szHighlightFooter + _T(" [") + lpzTimestamp + _T("] - ") + lpzShortName);
 	if (lpzUnicodeInfo.size() > 0)
