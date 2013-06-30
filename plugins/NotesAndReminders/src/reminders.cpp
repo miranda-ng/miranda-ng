@@ -450,7 +450,7 @@ void JustSaveReminders(void)
 
 		sprintf(ValueName, "RemindersData%d", ReminderCount - I - 1); // do not want to reverse in DB
 
-		WriteSettingBlob(0, MODULENAME, ValueName, (WORD)(n+1), Value);
+		db_set_blob(0, MODULENAME, ValueName, Value, n+1);
 
 		SAFE_FREE((void**)&Value);
 	}

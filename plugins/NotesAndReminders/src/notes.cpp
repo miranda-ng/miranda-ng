@@ -942,7 +942,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 
 		sprintf(ValueName, "NotesData%d", NotesCount - I - 1); // we do not reverse notes in DB
 
-		WriteSettingBlob(0, MODULENAME, ValueName, (WORD)(n+1), Value);
+		db_set_blob(0, MODULENAME, ValueName, Value, n+1);
 
 		SAFE_FREE((void**)&Value);
 		if (bDeleteTData)

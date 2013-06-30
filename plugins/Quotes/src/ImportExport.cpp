@@ -309,17 +309,14 @@ INT_PTR Quotes_Export(WPARAM wp,LPARAM lp)
 
 namespace
 {
-	bool set_contact_settings(HANDLE hContact,DBCONTACTWRITESETTING& dbs)
+	bool set_contact_settings(HANDLE hContact, DBCONTACTWRITESETTING& dbs)
 	{
 		assert(DBVT_DELETED != dbs.value.type);
-		return (0 == CallService(MS_DB_CONTACT_WRITESETTING,reinterpret_cast<WPARAM>(hContact),
-								 reinterpret_cast<LPARAM>(&dbs)));
+		return (0 == db_set(hContact, dbs.szModule, dbs.szSetting, &dbs.value));
 	}
 
 	bool handle_module(HANDLE hContact,const IXMLNode::TXMLNodePtr& pXmlModule,UINT nFlags)
 	{
-// 		USES_CONVERSION;
-
 		size_t cCreatedRecords = 0;
 		tstring sModuleName = pXmlModule->GetText();
 		if(false == sModuleName.empty())

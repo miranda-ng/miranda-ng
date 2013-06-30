@@ -458,14 +458,8 @@ begin
 end;
 
 function DBWriteByte(hContact: THandle; szModule: PAnsiChar; szSetting: PAnsiChar; val: byte): integer;
-var
-  cws: TDBCONTACTWRITESETTING;
 begin
-  cws.szModule := szModule;
-  cws.szSetting := szSetting;
-  cws.value._type := DBVT_BYTE;
-  cws.value.bVal := val;
-  result := CallService(MS_DB_CONTACT_WRITESETTING, hContact, lParam(@cws));
+  result := db_set_b(hContact, szModule, szSetting, val);
 end;
 
 procedure SetLastPattern(lp: byte);

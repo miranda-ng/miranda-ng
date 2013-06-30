@@ -161,24 +161,11 @@ int onModulesLoaded(WPARAM, LPARAM)
 		char priv_key[4096]; int priv_len;
 		char pub_key[4096]; int pub_len;
 
-		DBCONTACTWRITESETTING cws;
-		cws.szModule = MODULENAME;
-		cws.value.type = DBVT_BLOB;
-
 		exp->rsa_get_keypair(CPP_MODE_RSA_4096,(PBYTE)&priv_key,&priv_len,(PBYTE)&pub_key,&pub_len);
-
-		cws.szSetting = "rsa_priv";
-		cws.value.pbVal = (PBYTE)&priv_key;
-		cws.value.cpbVal = priv_len;
-		CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&cws);
-
-		cws.szSetting = "rsa_pub";
-		cws.value.pbVal = (PBYTE)&pub_key;
-		cws.value.cpbVal = pub_len;
-		CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&cws);
-
-		db_unset(0, MODULENAME, "rsa_priv_2048");
-		db_unset(0, MODULENAME, "rsa_pub_2048");
+		db_set_blob(NULL, MODULENAME, "rsa_priv", priv_key, priv_len);
+		db_set_blob(NULL, MODULENAME, "rsa_pub", &pub_key, pub_len);
+		db_unset(NULL, MODULENAME, "rsa_priv_2048");
+		db_unset(NULL, MODULENAME, "rsa_pub_2048");
 		rsa_4096 = 1;
 	}
 

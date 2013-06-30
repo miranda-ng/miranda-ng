@@ -1,7 +1,5 @@
 void ReadSettingBlob(HANDLE hContact, char *ModuleName,
 					 char *SettingName, WORD *pSize, void **pbBlob);
-void WriteSettingBlob(HANDLE hContact,char *ModuleName,
-					  char *SettingName,WORD pSize,void *pbBlob);
 void FreeSettingBlob(WORD pSize,void * pbBlob);
 BOOL ReadSettingBool(HANDLE hContact,char *ModuleName,
 					 char *SettingName,BOOL Default);

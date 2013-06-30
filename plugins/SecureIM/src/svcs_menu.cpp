@@ -76,14 +76,7 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam)
 			PVOID KeyID = pgp_select_keyid(GetForegroundWindow(),szKeyID);
 			if (szKeyID[0]) {
 				db_unset((HANDLE)wParam,MODULENAME,"pgp");
-				DBCONTACTWRITESETTING cws;
-				memset(&cws,0,sizeof(cws));
-				cws.szModule = MODULENAME;
-				cws.szSetting = "pgp";
-				cws.value.type = DBVT_BLOB;
-				cws.value.pbVal = (LPBYTE)KeyID;
-				cws.value.cpbVal = pgp_size_keyid();
-				CallService(MS_DB_CONTACT_WRITESETTING,wParam,(LPARAM)&cws);
+				db_set_blob((HANDLE)wParam, MODULENAME, "pgp", KeyID, pgp_size_keyid());
 				db_set_b((HANDLE)wParam,MODULENAME,"pgp_mode",0);
 				db_set_s((HANDLE)wParam,MODULENAME,"pgp_abbr",szKeyID);
 				del = false;

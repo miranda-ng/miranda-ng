@@ -466,26 +466,6 @@ BYTE	GetStatic(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR pszVa
 }
 
 /**
- * This function calls MS_DB_CONTACT_WRITESETTING to write a DBVARIANT structure to the database.
- * @param	hContact		- handle to the contact
- * @param	pszModule		- the module to read the setting from (e.g. USERINFO)
- * @param	pszSetting		- the setting to write
- * @param	dbv				- the DBVARIANT to store
- *
- * @retval	0 - success
- * @retval	1 - error
- **/
-BYTE	WriteVariant(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, const DBVARIANT *dbv)
-{
-	DBCONTACTWRITESETTING cws;
-
-	cws.szModule	= pszModule;
-	cws.szSetting	= pszSetting;
-	memcpy(&cws.value, dbv, sizeof(DBVARIANT));
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM) hContact, (LPARAM) &cws) != 0;
-}
-
-/**
  * This function checks for the existence of the given setting in the database
  * @param	hContact		- handle to the contact
  * @param	pszModule		- the module to read the setting from (e.g. USERINFO)

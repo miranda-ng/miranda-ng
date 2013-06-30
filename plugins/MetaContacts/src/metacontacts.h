@@ -186,7 +186,6 @@ INT_PTR MetaAPI_RemoveFromMeta(WPARAM wParam, LPARAM lParam);
 INT_PTR MetaAPI_DisableHiddenGroup(WPARAM wParam, LPARAM lParam);
 
 // extended db get/write setting functions, that handle unicode
-INT_PTR MyDBWriteContactSetting(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
 INT_PTR Mydb_get(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
 
 // IcoLib support

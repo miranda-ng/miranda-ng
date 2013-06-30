@@ -166,22 +166,11 @@ void COptItem::SetIntDBVal(CString &sModule, int Value, CString *sDBSettingPrefi
 	if (sDBSetting != NULL && !ReadOnly)
 	{
 		_ASSERT(nValueSize == DBVT_BYTE || nValueSize == DBVT_WORD || nValueSize == DBVT_DWORD);
-		DBCONTACTWRITESETTING cws;
-		cws.szModule = sModule;
-		//NightFox: WTF is this shit
-		//cws.szSetting = sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting;
-		cws.szSetting = sDBSetting;
-		
-		cws.value.type = nValueSize;
-		cws.value.dVal = Value;
-		
-//	db_set_b(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_FLAGS + StrID, Value[I].Flags);
-			
-			//itoa(Value[I].ID, StrID.GetBuffer(64), 10);
-			//StrID.ReleaseBuffer();
-		
-		CallService(MS_DB_CONTACT_WRITESETTING, NULL, (LPARAM)&cws);
-		
+
+		DBVARIANT dbv;
+		dbv.type = nValueSize;
+		dbv.dVal = Value;
+		db_set(NULL, sModule, sDBSetting, &dbv);
 	}
 }
 

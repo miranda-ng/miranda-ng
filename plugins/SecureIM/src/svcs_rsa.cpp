@@ -68,13 +68,7 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 #endif
 	}
 	if (v) {
-		DBCONTACTWRITESETTING cws;
-		cws.szModule = MODULENAME;
-		cws.szSetting = "rsa_pub";
-		cws.value.type = DBVT_BLOB;
-		cws.value.pbVal = pub;
-		cws.value.cpbVal = pubLen;
-		CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)ptr->hContact, (LPARAM)&cws);
+		db_set_blob(ptr->hContact, MODULENAME, "rsa_pub", pub, pubLen);
 		ptr->keyLoaded = true;
 	}
 	mir_free(cnm);
@@ -155,23 +149,10 @@ void sttGenerateRSA(LPVOID)
 	char pub_key[4096]; int pub_len;
 
 	exp->rsa_gen_keypair(CPP_MODE_RSA_4096);
-
-	DBCONTACTWRITESETTING cws;
-	cws.szModule = MODULENAME;
-	cws.value.type = DBVT_BLOB;
-
 	exp->rsa_get_keypair(CPP_MODE_RSA_4096,(PBYTE)&priv_key,&priv_len,(PBYTE)&pub_key,&pub_len);
 
-	cws.szSetting = "rsa_priv";
-	cws.value.pbVal = (PBYTE)&priv_key;
-	cws.value.cpbVal = priv_len;
-	CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&cws);
-
-	cws.szSetting = "rsa_pub";
-	cws.value.pbVal = (PBYTE)&pub_key;
-	cws.value.cpbVal = pub_len;
-	CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&cws);
-
+	db_set_blob(NULL, MODULENAME, "rsa_priv", priv_key, priv_len);
+	db_set_blob(NULL, MODULENAME, "rsa_pub", pub_key, pub_len);
 	rsa_4096 = 1;
 }
 

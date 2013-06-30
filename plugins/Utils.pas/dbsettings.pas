@@ -159,13 +159,9 @@ begin
 end;
 
 function DBWriteSetting(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
-var
-  cws: TDBCONTACTWRITESETTING;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
-  cws.szModule  :=szModule;
-  cws.szSetting :=szSetting;
-  move(dbv^,cws.value,SizeOf(TDBVARIANT));
-  Result := CallService(MS_DB_CONTACT_WRITESETTING, hContact, lParam(@cws));
+  Result:=db_set(hContact, szModule, szSetting, dbv);
 end;
 
 function DBWriteByte(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;val:Byte):int_ptr;

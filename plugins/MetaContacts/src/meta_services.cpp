@@ -618,7 +618,7 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 			Meta_IsEnabled() && db_get_b((HANDLE)wParam, META_PROTO, "Hidden", 0) == 0 && !Miranda_Terminated()) {
 				if ((dcws->value.type == DBVT_ASCIIZ || dcws->value.type == DBVT_UTF8) && !Meta_IsHiddenGroup(dcws->value.pszVal)) {
 					// subcontact group reassigned - copy to saved group
-					MyDBWriteContactSetting((HANDLE)wParam, META_PROTO, "OldCListGroup", &dcws->value);
+					db_set((HANDLE)wParam, META_PROTO, "OldCListGroup", &dcws->value);
 					db_set_s((HANDLE)wParam, "CList", "Group", META_HIDDEN_GROUP);
 				} else if (dcws->value.type == DBVT_DELETED) {
 					db_unset((HANDLE)wParam, META_PROTO, "OldCListGroup");
@@ -655,18 +655,18 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 			}
 		}
 		else if ( !strcmp(dcws->szSetting, "Nick") && !dcws->value.type == DBVT_DELETED) {
-			DBVARIANT dbv;
 			HANDLE most_online;
 
 			// subcontact nick has changed - update metacontact
 			strcpy(buffer, "Nick");
 			strcat(buffer, _itoa(contact_number, szId, 10));
-			MyDBWriteContactSetting(hMeta, META_PROTO, buffer, &dcws->value);
+			db_set(hMeta, META_PROTO, buffer, &dcws->value);
 
+			DBVARIANT dbv;
 			if (Mydb_get((HANDLE)wParam, "CList", "MyHandle", &dbv)) {
 				strcpy(buffer, "CListName");
 				strcat(buffer, _itoa(contact_number, szId, 10));
-				MyDBWriteContactSetting(hMeta, META_PROTO, buffer, &dcws->value);
+				db_set(hMeta, META_PROTO, buffer, &dcws->value);
 			}
 			else db_free(&dbv);
 
@@ -692,13 +692,13 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 			HANDLE most_online;
 
 			if (dcws->value.type == DBVT_DELETED) {
-				DBVARIANT dbv;
-
 				char *proto = GetContactProto((HANDLE)wParam);
 				strcpy(buffer, "CListName");
 				strcat(buffer, _itoa(contact_number, szId, 10));
+
+				DBVARIANT dbv;
 				if (proto && !Mydb_get((HANDLE)wParam, proto, "Nick", &dbv)) {
-					MyDBWriteContactSetting(hMeta, META_PROTO, buffer, &dbv);
+					db_set(hMeta, META_PROTO, buffer, &dbv);
 					db_free(&dbv);
 				} else {
 					db_unset(hMeta, META_PROTO, buffer);
@@ -708,7 +708,7 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 				strcpy(buffer, "CListName");
 				strcat(buffer, _itoa(contact_number, szId, 10));
 
-				MyDBWriteContactSetting(hMeta, META_PROTO, buffer, &dcws->value);
+				db_set(hMeta, META_PROTO, buffer, &dcws->value);
 			}
 
 			// copy nick to metacontact, if it's the most online

@@ -77,18 +77,6 @@ const
   }
   MS_DB_CONTACT_GETSETTINGSTATIC:PAnsiChar = 'DB/Contact/GetSettingStatic';
 
-  {
-    wParam : Handle to contact to write setting for
-    lParam : Pointer to TDBCONTACTWRITESETTING which must be initalised
-    affects: writes a setting under a contact -- TDBCONTACTWRITESETTING structure
-             must contain the module name writing -- the setting name, and the value
-             to write (which is NOT a pointer) .szModule, .szSetting, .Value, see notes
-    returns: 0 on success, non zero on failure
-    notes  : this service triggers 'DB/Contact/SettingChanged' before it returns
-             as always, there is a helper function to use this service.
-  }
-  MS_DB_CONTACT_WRITESETTING:PAnsiChar = 'DB/Contact/WriteSetting';
-
     {
         wParam : Handle of a contact to enum settings for
         lParam : Pointer to a TDBCONTACTENUMSETTINGS structure, must be initalised

@@ -47,29 +47,27 @@ static const LPTSTR UNREAD_THREADS_LABEL = LPGENT("Unread threads:");
 void ShiftTipperSettings(LPSTR buff, int count, LPSTR format)
 {
 	for (int i = count; i > 0; i--) {
-		DBCONTACTWRITESETTING cws;
+		DBVARIANT dbv;
 		sprintf(buff, format, i - 1);
 
-		if (db_get(0, TIPPER_ITEMS_MOD_NAME, buff, &cws.value))
+		if (db_get(0, TIPPER_ITEMS_MOD_NAME, buff, &dbv))
 			break;
 
 		__try {
-			if (DBVT_ASCIIZ == cws.value.type) {
-				db_free(&cws.value);
-				if (db_get_ws(0, TIPPER_ITEMS_MOD_NAME, buff, &cws.value))
+			if (DBVT_ASCIIZ == dbv.type) {
+				db_free(&dbv);
+				if (db_get_ws(0, TIPPER_ITEMS_MOD_NAME, buff, &dbv))
 					break;
 			}
 
-			if (db_get_s(0, TIPPER_ITEMS_MOD_NAME, buff, &cws.value))
+			if (db_get_s(0, TIPPER_ITEMS_MOD_NAME, buff, &dbv))
 				break;
 
-			cws.szModule = TIPPER_ITEMS_MOD_NAME;
 			sprintf(buff, format, i);
-			cws.szSetting = buff;
-			CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&cws);
+			db_set(NULL, TIPPER_ITEMS_MOD_NAME, buff, &dbv);
 		}
 		__finally {
-			db_free(&cws.value);
+			db_free(&dbv);
 		}
 	}
 }

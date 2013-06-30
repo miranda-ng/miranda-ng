@@ -76,11 +76,6 @@ static INT_PTR srvGetContactSettingStatic(WPARAM wParam,LPARAM lParam)
 	return (currDb) ? (INT_PTR)currDb->GetContactSettingStatic((HANDLE)wParam, (DBCONTACTGETSETTING*)lParam) : 0;
 }
 
-static INT_PTR srvWriteContactSetting(WPARAM wParam,LPARAM lParam)
-{
-	return (currDb) ? (INT_PTR)currDb->WriteContactSetting((HANDLE)wParam, (DBCONTACTWRITESETTING*)lParam) : 0;
-}
-
 static INT_PTR srvEnumContactSettings(WPARAM wParam,LPARAM lParam)
 {
 	return (currDb) ? (INT_PTR)currDb->EnumContactSettings((HANDLE)wParam, (DBCONTACTENUMSETTINGS*)lParam) : 0;
@@ -155,7 +150,6 @@ int LoadDbintfModule()
 	CreateServiceFunction(MS_DB_MODULES_ENUM, srvEnumModuleNames);
 
 	CreateServiceFunction(MS_DB_CONTACT_GETSETTINGSTATIC, srvGetContactSettingStatic);
-	CreateServiceFunction(MS_DB_CONTACT_WRITESETTING, srvWriteContactSetting);
 	CreateServiceFunction(MS_DB_CONTACT_ENUMSETTINGS, srvEnumContactSettings);
 	CreateServiceFunction("DB/ResidentSettings/Enum", srvEnumResidentSettings);
 

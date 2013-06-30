@@ -291,14 +291,12 @@ char *multiReplace(const char* value, const char *find, const char *replace, int
 
 int replaceValue(HWND hwnd, HANDLE hContact, const char *module, const char *setting, DBVARIANT *dbv, const char *find, const char *replace, int mode)
 {
-
 	int count = 0;
-
 	DWORD num = 0;
 	BOOL write = 0;
 	int isNumeric;
 	char *myreplace = NULL;
-	DBCONTACTWRITESETTING cws = {0};
+	DBVARIANT val = {0};
 
 	if (!dbv->type || dbv->type == DBVT_BLOB)
 		return 0;
@@ -308,40 +306,36 @@ int replaceValue(HWND hwnd, HANDLE hContact, const char *module, const char *set
 	else
 		isNumeric = sscanf(replace,"%d",&num);
 
-	cws.szModule=module;
-	cws.szSetting=setting;
-	cws.value.type=dbv->type;
+	val.type=dbv->type;
 
-	switch(dbv->type)
-	{
+	switch(dbv->type) {
 	case DBVT_UTF8:
 	case DBVT_ASCIIZ:
 		if (mode & RW_FULL)
-			cws.value.pszVal = (char*)replace;
-		else
-		{
+			val.pszVal = (char*)replace;
+		else {
 			myreplace = multiReplace(dbv->pszVal, find, replace, mode & RW_CASE);
-			cws.value.pszVal=myreplace;
+			val.pszVal = myreplace;
 		}
 		break;
 
 	case DBVT_BYTE:
 		if (isNumeric && num < 0x100)
-			cws.value.bVal = (BYTE)num;
+			val.bVal = (BYTE)num;
 		else
 			return 0;
 		break;
 
 	case DBVT_WORD:
 		if (isNumeric && num < 0x10000)
-			cws.value.wVal = (WORD)num;
+			val.wVal = (WORD)num;
 		else
 			return 0;
 		break;
 
 	case DBVT_DWORD:
 		if (isNumeric)
-			cws.value.dVal = num;
+			val.dVal = num;
 		else
 			return 0;
 		break;
@@ -350,16 +344,14 @@ int replaceValue(HWND hwnd, HANDLE hContact, const char *module, const char *set
 		return 0;
 	}
 
-	if ((!cws.value.pszVal && !replace[0]) || (cws.value.pszVal && !cws.value.pszVal[0]))
-	{
+	if ((!val.pszVal && !replace[0]) || (val.pszVal && !val.pszVal[0])) {
 		ItemFound(hwnd,hContact,module,setting,NULL,FW_SETTINGNAME|FW_DELETED);
 		db_unset(hContact,module,setting);
 		mir_free(myreplace);
 		return 1;
 	}
 
-	if (!CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws))
-	{
+	if (!db_set(hContact, module, setting, &val)) {
 		count++;
 		ItemFound(hwnd,hContact,module,setting,myreplace?myreplace:(char*)replace,FW_SETTINGVALUE|FW_REPLACED);
 	}
@@ -372,52 +364,35 @@ int replaceValue(HWND hwnd, HANDLE hContact, const char *module, const char *set
 
 int replaceSetting(HWND hwnd, HANDLE hContact, const char *module, const char *setting, DBVARIANT *dbv, const char *find, const char *replace, int mode)
 {
-	DBCONTACTWRITESETTING cws;
-	char *myreplace = NULL;
+	char *szSetting;
+	ptrA myreplace;
 	int count = 0;
 	DBVARIANT dbv2;
 
 	if (!dbv->type)	return 0;
 
 	if (mode & RW_FULL)
-		cws.szSetting = (char*)replace;
-	else
-	{
+		szSetting = (char*)replace;
+	else {
 		myreplace = multiReplace(setting, find, replace, mode & RW_CASE);
-		cws.szSetting = myreplace;
+		szSetting = myreplace;
 	}
 
-	if (cws.szSetting[0]==0)
-	{
+	if (szSetting[0] == 0) {
 		ItemFound(hwnd,hContact,module,setting,NULL,FW_SETTINGNAME|FW_DELETED);
-		db_unset(hContact,module,setting);
-		mir_free(myreplace);
+		db_unset(hContact, module, setting);
 		return 1;
 	}
 
 	// check & write
-	if (GetSetting(hContact, module, myreplace, &dbv2))
-	{
-		cws.szModule=module;
-		cws.value.type=dbv->type;
-		cws.value.pszVal=dbv->pszVal;
-		cws.value.bVal=dbv->bVal;
-		cws.value.wVal=dbv->wVal;
-		cws.value.dVal=dbv->dVal;
-		cws.value.pbVal = dbv->pbVal;
-		cws.value.cpbVal = dbv->cpbVal;
-
-		if (!CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws))
-		{
+	if ( GetSetting(hContact, module, myreplace, &dbv2)) {
+		if ( !db_set(hContact, module, szSetting, &dbv2)) {
 			count++;
 			db_unset(hContact,module,setting);
-			ItemFound(hwnd,hContact,module,cws.szSetting,NULL,FW_SETTINGNAME|FW_REPLACED);
+			ItemFound(hwnd, hContact, module, szSetting, NULL, FW_SETTINGNAME | FW_REPLACED);
 		}
 	}
-	else
-		db_free(&dbv2);
-
-	mir_free(myreplace);
+	else db_free(&dbv2);
 
 	return count;
 }

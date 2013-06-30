@@ -113,10 +113,8 @@ extern SMS_SETTINGS ssSMSSettings;
 #define DB_SMS_SetByte(Contact,valueName,parValue) db_set_b(Contact,PROTOCOL_NAMEA,valueName,parValue)
 BOOL	DB_GetStaticStringW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpszRetBuff,SIZE_T dwRetBuffSize,SIZE_T *pdwRetBuffSize);
 #define DB_SMS_GetStaticStringW(Contact,ValueName,Ret,RetBuffSize,pRetBuffSize) DB_GetStaticStringW(Contact,PROTOCOL_NAMEA,ValueName,Ret,RetBuffSize,pRetBuffSize)
-BOOL	DB_SetStringExW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszValue,SIZE_T dwValueSize);
 #define DB_SetStringW(Contact,Module,valueName,parValue) db_set_ws(Contact,Module,valueName,parValue)
 #define DB_SMS_SetStringW(Contact,valueName,parValue) db_set_ws(Contact,PROTOCOL_NAMEA,valueName,parValue)
-#define DB_SMS_SetStringExW(Contact,valueName,parValue,parValueSize) DB_SetStringExW(Contact,PROTOCOL_NAMEA,valueName,parValue,parValueSize)
 
 LRESULT CALLBACK MessageSubclassProc(HWND hwnd,UINT message,WPARAM wParam,LPARAM lParam);
 

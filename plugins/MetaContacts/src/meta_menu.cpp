@@ -106,27 +106,6 @@ INT_PTR Meta_Edit(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-/* DB/Contact/WriteSetting service
-Change the value of, or create a new value with, a named setting for a specific
-contact in the database to the given value
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(DBCONTACTWRITESETTING*)&dbcws
-hContact should have been returned by find*contact or addcontact
-Returns 0 on success or nonzero if hContact was invalid
-Note that DBCONTACTGETSETTING takes a pointer to a DBVARIANT, whereas
-DBCONTACTWRITESETTING contains a DBVARIANT.
-Because this is such a common function there are some short helper function at
-the bottom of this header that use it.
-Triggers a db/contact/settingchanged event just before it returns.
-*/
-//typedef struct {
-//	const char *szModule;	// pointer to name of the module that wrote the
-//	                        // setting to get
-//	const char *szSetting;	// pointer to name of the setting to get
-//	DBVARIANT value;		// variant containing the value to set
-//} DBCONTACTWRITESETTING;
-//#define MS_DB_CONTACT_WRITESETTING  "DB/Contact/WriteSetting"
-
 void Meta_RemoveContactNumber(HANDLE hMeta, int number)
 {
 	int num_contacts = db_get_dw(hMeta, META_PROTO, "NumContacts", 0);

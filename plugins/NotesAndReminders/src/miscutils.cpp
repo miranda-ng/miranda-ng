@@ -32,19 +32,6 @@ void FreeSettingBlob(WORD pSize,void *pbBlob)
 	db_free(&dbv);
 }
 
-void WriteSettingBlob(HANDLE hContact,char *ModuleName,char *SettingName,WORD pSize,void *pbBlob)
-{
-	DBCONTACTWRITESETTING cgs = {0};
-	DBVARIANT dbv = {0};
-	dbv.type = DBVT_BLOB;
-	dbv.cpbVal = pSize;
-	dbv.pbVal = (BYTE*)pbBlob;
-	cgs.szModule = ModuleName;
-	cgs.szSetting = SettingName;
-	cgs.value = dbv;
-	CallService(MS_DB_CONTACT_WRITESETTING,(DWORD)hContact,(DWORD)&cgs);
-}
-
 void ReadSettingBlob(HANDLE hContact, char *ModuleName, char *SettingName, WORD *pSize, void **pbBlob)
 {
 	DBVARIANT dbv = {0};
@@ -61,7 +48,7 @@ void ReadSettingBlob(HANDLE hContact, char *ModuleName, char *SettingName, WORD 
 
 void WriteSettingIntArray(HANDLE hContact,char *ModuleName,char *SettingName,const int *Value, int Size)
 {
-	WriteSettingBlob(hContact, ModuleName, SettingName, WORD(sizeof(int)*Size), (void*)Value);
+	db_set_blob(hContact, ModuleName, SettingName, (void*)Value, sizeof(int)*Size);
 }
 
 bool ReadSettingIntArray(HANDLE hContact,char *ModuleName,char *SettingName,int *Value, int Size)

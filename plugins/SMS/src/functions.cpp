@@ -26,36 +26,6 @@ BOOL DB_GetStaticStringW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LP
 	return(bRet);
 }
 
-
-BOOL DB_SetStringExW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszValue,SIZE_T dwValueSize)
-{
-	BOOL bRet=FALSE;
-
-	if (lpwszValue && dwValueSize)
-	{
-		LPWSTR lpwszValueLocal=(LPWSTR)MEMALLOC(((dwValueSize+MAX_PATH)*sizeof(WCHAR)));
-
-		if (lpwszValueLocal)
-		{
-			DBCONTACTWRITESETTING cws={0};
-
-			cws.szModule=lpszModule;
-			cws.szSetting=lpszValueName;
-			cws.value.type=DBVT_WCHAR;
-			cws.value.pwszVal=(WCHAR*)lpwszValueLocal;
-			CopyMemory(lpwszValueLocal,lpwszValue,(dwValueSize*sizeof(WCHAR)));
-			bRet=(CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws)==0);
-
-			MEMFREE(lpwszValueLocal);
-		}
-	}else{
-		bRet=TRUE;
-		db_unset(hContact,lpszModule,lpszValueName);
-	}
-	return(bRet);
-}
-
-
 LPSTR GetModuleName(HANDLE hContact)
 {
 	LPSTR lpszRet;

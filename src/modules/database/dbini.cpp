@@ -362,23 +362,17 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 		case 'N':
 		case 'H':
 			{
-				PBYTE buf;
 				int len;
 				char *pszValue, *pszEnd;
-				DBCONTACTWRITESETTING cws;
 
-				buf = (PBYTE)mir_alloc(lstrlenA(szValue+1));
+				PBYTE buf = (PBYTE)mir_alloc(lstrlenA(szValue+1));
 				for (len = 0, pszValue = szValue+1;;len++) {
 					buf[len] = (BYTE)strtol(pszValue, &pszEnd, 0x10);
-					if (pszValue == pszEnd) break;
+					if (pszValue == pszEnd)
+						break;
 					pszValue = pszEnd;
 				}
-				cws.szModule = szSection;
-				cws.szSetting = szName;
-				cws.value.type = DBVT_BLOB;
-				cws.value.pbVal = buf;
-				cws.value.cpbVal = len;
-				CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)(HANDLE)NULL, (LPARAM)&cws);
+				db_set_blob(NULL, szSection, szName, buf, len);
 				mir_free(buf);
 			}
 			break;

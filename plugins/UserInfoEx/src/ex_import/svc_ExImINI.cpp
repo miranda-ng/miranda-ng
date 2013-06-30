@@ -324,7 +324,7 @@ static HANDLE ImportFindContact(HANDLE hContact, LPSTR &strBuf, BYTE bCanCreate)
  **/
 int ImportSetting(HANDLE hContact, LPCSTR pszModule, LPSTR &strLine)
 {
-	DBCONTACTWRITESETTING cws;
+	DBVARIANT dbv;
 	LPSTR end, value;
 	size_t numLines = 0;
 	size_t brk;
@@ -341,10 +341,8 @@ int ImportSetting(HANDLE hContact, LPCSTR pszModule, LPSTR &strLine)
 		if (end == pszLine)
 			return 1;
 		*(end--) = 0;
-	} while (*end == '\t' || *end == ' ' || *end < 27);
-
-	cws.szModule = pszModule;
-	cws.szSetting = pszLine;
+	}
+		while (*end == '\t' || *end == ' ' || *end < 27);
 
 	// skip spaces from the beginning of the value
 	do {
@@ -360,22 +358,22 @@ int ImportSetting(HANDLE hContact, LPCSTR pszModule, LPSTR &strLine)
 		case 'B':
 			if (brk = strspn(value, "0123456789-"))
 				*(value + brk) = 0;
-			cws.value.type = DBVT_BYTE;
-			cws.value.bVal = (BYTE)atoi(value);
+			dbv.type = DBVT_BYTE;
+			dbv.bVal = (BYTE)atoi(value);
 			break;
 		case 'w':
 		case 'W':
 			if (brk = strspn(value, "0123456789-"))
 				*(value + brk) = 0;
-			cws.value.type = DBVT_WORD;
-			cws.value.wVal = (WORD)atoi(value);
+			dbv.type = DBVT_WORD;
+			dbv.wVal = (WORD)atoi(value);
 			break;
 		case 'd':
 		case 'D':
 			if (brk = strspn(value, "0123456789-"))
 				*(value + brk) = 0;
-			cws.value.type = DBVT_DWORD;
-			cws.value.dVal = (DWORD)_atoi64(value);
+			dbv.type = DBVT_DWORD;
+			dbv.dVal = (DWORD)_atoi64(value);
 			break;
 		case 's':
 		case 'S':
@@ -396,13 +394,13 @@ int ImportSetting(HANDLE hContact, LPCSTR pszModule, LPSTR &strLine)
 			switch (*(value - 1)) {
 				case 's':
 				case 'S':
-					cws.value.type = DBVT_ASCIIZ;
-					cws.value.pszVal = value;
+					dbv.type = DBVT_ASCIIZ;
+					dbv.pszVal = value;
 					break;
 				case 'u':
 				case 'U':
-					cws.value.type = DBVT_UTF8;
-					cws.value.pszVal = value;
+					dbv.type = DBVT_UTF8;
+					dbv.pszVal = value;
 					break;
 			}
 			break;
@@ -410,10 +408,10 @@ int ImportSetting(HANDLE hContact, LPCSTR pszModule, LPSTR &strLine)
 		case 'N':
 		{
 			PBYTE dest;
-			cws.value.type = DBVT_BLOB;
-			cws.value.cpbVal = (WORD)mir_strlen(value) / 3;
-			cws.value.pbVal = (PBYTE)value;
-			for ( dest = cws.value.pbVal, value = strtok(value, " ");
+			dbv.type = DBVT_BLOB;
+			dbv.cpbVal = (WORD)mir_strlen(value) / 3;
+			dbv.pbVal = (PBYTE)value;
+			for ( dest = dbv.pbVal, value = strtok(value, " ");
 					value && *value;
 					value = strtok(NULL, " "))
 				*(dest++) = (BYTE)strtol(value, NULL, 16);
@@ -421,10 +419,10 @@ int ImportSetting(HANDLE hContact, LPCSTR pszModule, LPSTR &strLine)
 			break;
 		}
 		default:
-			cws.value.type = DBVT_DELETED;
+			dbv.type = DBVT_DELETED;
 			//return 1;
 	}
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
+	return db_set(hContact, pszModule, pszLine, &dbv);
 }
 
 /**

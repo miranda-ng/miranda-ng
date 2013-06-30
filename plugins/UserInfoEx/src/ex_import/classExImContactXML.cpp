@@ -964,78 +964,71 @@ int CExImContactXML::ImportModule(TiXmlNode* xmlModule)
  **/
 int CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
 {
-	DBCONTACTWRITESETTING cws = {0};
-	TiXmlText* xval;
-	LPCSTR value;
-	
 	// validate parameter
 	if (!xmlEntry || !pszModule || !*pszModule)
 		return ERROR_INVALID_PARAMS;
 
 	// validate value
-	xval = (TiXmlText*)xmlEntry->FirstChild();
+	TiXmlText* xval = (TiXmlText*)xmlEntry->FirstChild();
 	if (!xval || xval->Type() != TiXmlText::TEXT)
 		return ERROR_INVALID_VALUE;
-	value = xval->Value();
 
-	// init write structure
-	cws.szModule = (LPSTR)pszModule;
-	cws.szSetting = xmlEntry->Attribute("key");
+	LPCSTR value = xval->Value();
+	DBVARIANT dbv = { 0 };
 	
 	// convert data
 	size_t	len		= 0;
 	INT_PTR	baselen	= NULL;
 
 	switch (value[0]) {
-		case 'b':			//'b' bVal and cVal are valid
-			cws.value.type = DBVT_BYTE;
-			cws.value.bVal = (BYTE)atoi(value + 1);
-			break;
-		case 'w':			//'w' wVal and sVal are valid
-			cws.value.type = DBVT_WORD;
-			cws.value.wVal = (WORD)atoi(value + 1);
-			break;
-		case 'd':			//'d' dVal and lVal are valid
-			cws.value.type = DBVT_DWORD;
-			cws.value.dVal = (DWORD)_atoi64(value + 1);
-//			cws.value.dVal = (DWORD)atoi(value + 1);
-			break;
-		case 's':			//'s' pszVal is valid
-			cws.value.type = DBVT_ASCIIZ;
-			cws.value.pszVal = (LPSTR)mir_utf8decodeA((LPSTR)(value + 1));
-			break;
-		case 'u':
-			cws.value.type = DBVT_UTF8;
-			cws.value.pszVal = (LPSTR)mir_strdup((LPSTR)(value + 1));
-			break;
-		case 'n':
-			len = strlen(value + 1);
-			baselen = Base64DecodeGetRequiredLength(len);
-			cws.value.type = DBVT_BLOB;
-			cws.value.pbVal = (PBYTE)mir_alloc(baselen +1);
-			if (cws.value.pbVal != NULL){
-				if (Base64Decode((value + 1), len, cws.value.pbVal, &baselen)) {
-					cws.value.cpbVal = baselen;
-				}
-				else {
-					mir_free(cws.value.pbVal);
-					return ERROR_NOT_ADDED;
-				}
+	case 'b':			//'b' bVal and cVal are valid
+		dbv.type = DBVT_BYTE;
+		dbv.bVal = (BYTE)atoi(value + 1);
+		break;
+	case 'w':			//'w' wVal and sVal are valid
+		dbv.type = DBVT_WORD;
+		dbv.wVal = (WORD)atoi(value + 1);
+		break;
+	case 'd':			//'d' dVal and lVal are valid
+		dbv.type = DBVT_DWORD;
+		dbv.dVal = (DWORD)_atoi64(value + 1);
+		break;
+	case 's':			//'s' pszVal is valid
+		dbv.type = DBVT_ASCIIZ;
+		dbv.pszVal = (LPSTR)mir_utf8decodeA((LPSTR)(value + 1));
+		break;
+	case 'u':
+		dbv.type = DBVT_UTF8;
+		dbv.pszVal = (LPSTR)mir_strdup((LPSTR)(value + 1));
+		break;
+	case 'n':
+		len = strlen(value + 1);
+		baselen = Base64DecodeGetRequiredLength(len);
+		dbv.type = DBVT_BLOB;
+		dbv.pbVal = (PBYTE)mir_alloc(baselen +1);
+		if (dbv.pbVal != NULL){
+			if (Base64Decode((value + 1), len, dbv.pbVal, &baselen))
+				dbv.cpbVal = baselen;
+			else {
+				mir_free(dbv.pbVal);
+				return ERROR_NOT_ADDED;
 			}
-			break;
-		default:
-			return ERROR_INVALID_TYPE;
+		}
+		break;
+	default:
+		return ERROR_INVALID_TYPE;
 	}
+
 	// write value to db
-	if (CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)_hContact, (LPARAM)&cws)) {
+	if (db_set(_hContact, pszModule, xmlEntry->Attribute("key"), &dbv)) {
 		//if (cws.value.pbVal>0)
-		mir_free(cws.value.pbVal);
-		if (cws.value.type == DBVT_ASCIIZ || cws.value.type == DBVT_UTF8) mir_free(cws.value.pszVal);
+		mir_free(dbv.pbVal);
+		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) mir_free(dbv.pszVal);
 		return ERROR_NOT_ADDED;
 	}
-	//if (cws.value.pbVal>0)
-	mir_free(cws.value.pbVal);
-	if (cws.value.type == DBVT_ASCIIZ || cws.value.type == DBVT_UTF8) mir_free(cws.value.pszVal);
+	//if (dbv.pbVal>0)
+	mir_free(dbv.pbVal);
+	if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) mir_free(dbv.pszVal);
 	return ERROR_OK;
 }
 

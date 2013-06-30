@@ -36,14 +36,7 @@ std::wstring Quotes_DBGetStringW(HANDLE hContact,const char* szModule,const char
 
 bool Quotes_DBWriteDouble(HANDLE hContact,const char* szModule,const char* szSetting,double dValue)
 {
-	DBCONTACTWRITESETTING cws = {0};
-
-	cws.szModule = szModule;
-	cws.szSetting = szSetting;
-	cws.value.type = DBVT_BLOB;
-	cws.value.cpbVal = sizeof(dValue);
-	cws.value.pbVal = reinterpret_cast<BYTE*>(&dValue);
-	return 0 == CallService(MS_DB_CONTACT_WRITESETTING,reinterpret_cast<WPARAM>(hContact),reinterpret_cast<LPARAM>(&cws));
+	return 0 == db_set_blob(hContact, szModule, szSetting, &dValue, sizeof(dValue));
 }
 
 bool Quotes_DBReadDouble(HANDLE hContact,const char* szModule,const char* szSetting,double& rdValue)

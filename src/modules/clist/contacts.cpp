@@ -395,23 +395,16 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 				case 0:
 					if (((LPNMHDR)lParam)->code == PSN_APPLY)
 					{
-						DBCONTACTWRITESETTING cws;
 						TVITEM tvi;
-						int i;
-						cws.szModule = "Contact";
-						cws.szSetting = "NameOrder";
-						cws.value.type = DBVT_BLOB;
-						cws.value.cpbVal = SIZEOF(nameOrderDescr);
-						cws.value.pbVal = nameOrder;
 						tvi.hItem = TreeView_GetRoot( GetDlgItem(hwndDlg, IDC_NAMEORDER));
-						i=0;
+						int i=0;
 						while (tvi.hItem != NULL) {
 							tvi.mask = TVIF_PARAM | TVIF_HANDLE;
 							TreeView_GetItem( GetDlgItem(hwndDlg, IDC_NAMEORDER), &tvi);
 							nameOrder[i++] = (BYTE)tvi.lParam;
 							tvi.hItem = TreeView_GetNextSibling( GetDlgItem(hwndDlg, IDC_NAMEORDER), tvi.hItem);
 						}
-						CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)(HANDLE)NULL, (LPARAM)&cws);
+						db_set_blob(NULL, "Contact", "NameOrder", nameOrder, SIZEOF(nameOrderDescr));
 						CallService(MS_CLIST_INVALIDATEDISPLAYNAME, (WPARAM)INVALID_HANDLE_VALUE, 0);
 					}
 					break;

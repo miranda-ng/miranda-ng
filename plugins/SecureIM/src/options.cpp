@@ -336,15 +336,8 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 				if (!LoadImportRSAKeyDlg(hDlg,pub,0)) return TRUE;
 				if (exp->rsa_import_pubkey(ptr->cntx,pub)) {
 					int len;
-					exp->rsa_get_pubkey(ptr->cntx,(PBYTE)pub,&len);
-
-					DBCONTACTWRITESETTING cws;
-					cws.szModule = MODULENAME;
-					cws.szSetting = "rsa_pub";
-					cws.value.type = DBVT_BLOB;
-					cws.value.pbVal = (PBYTE)pub;
-					cws.value.cpbVal = len;
-					CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)ptr->hContact, (LPARAM)&cws);
+					exp->rsa_get_pubkey(ptr->cntx, (PBYTE)pub, &len);
+					db_set_blob(ptr->hContact, MODULENAME, "rsa_pub", pub, len);
 
 					setListViewPUB(hLV,idx,1);
 				}

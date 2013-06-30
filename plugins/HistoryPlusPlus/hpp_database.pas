@@ -177,14 +177,8 @@ begin
 end;
 
 function WriteDBInt(const hContact: THandle; const Module,Param: AnsiString; Value: Integer): Integer;
-var
-  cws: TDBCONTACTWRITESETTING;
 begin
-  cws.szModule := PAnsiChar(Module);
-  cws.szSetting := PAnsiChar(Param);
-  cws.value._type := DBVT_DWORD;
-  cws.value.dVal := Value;
-  Result := CallService(MS_DB_CONTACT_WRITESETTING, hContact, lParam(@cws));
+  Result := db_set_dw(hContact, PAnsiChar(Module), PAnsiChar(Param), Value);
 end;
 
 function WriteDBStr(const Module,Param: AnsiString; const Value: AnsiString): Integer;
@@ -208,14 +202,8 @@ begin
 end;
 
 function DBWriteContactSettingWideString(hContact: THandle; const szModule: PAnsiChar; const szSetting: PAnsiChar; const val: PWideChar): Integer;
-var
-  cws: TDBCONTACTWRITESETTING;
 begin
-  cws.szModule := szModule;
-  cws.szSetting := szSetting;
-  cws.value._type := DBVT_WCHAR;
-  cws.value.szVal.w := val;
-  Result := CallService(MS_DB_CONTACT_WRITESETTING, hContact, lParam(@cws));
+  Result := db_set_ws(hContact, szModule, szSetting, val);
 end;
 
 function WriteDBBlob(const Module,Param: AnsiString; Value: Pointer; Size: Integer): Integer;
@@ -224,16 +212,8 @@ begin
 end;
 
 function WriteDBBlob(const hContact: THandle; const Module,Param: AnsiString; Value: Pointer; Size: Integer): Integer;
-var
-  cws: TDBContactWriteSetting;
 begin
-  ZeroMemory(@cws,SizeOf(cws));
-  cws.szModule := PAnsiChar(Module);
-  cws.szSetting := PAnsiChar(Param);
-  cws.value._type := DBVT_BLOB;
-  cws.value.pbVal := Value;
-  cws.value.cpbVal := Word(Size);
-  Result := CallService(MS_DB_CONTACT_WRITESETTING,hContact,lParam(@cws));
+  Result := db_set_blob(hContact, PAnsiChar(Module), PAnsiChar(Param), Value, Size);
 end;
 
 function WriteDBDateTime(const hContact: THandle; const Module,Param: AnsiString; Value: TDateTime): Integer; overload;

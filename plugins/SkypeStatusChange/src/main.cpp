@@ -189,7 +189,7 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 						SendMessage(wndSkypeAPIWindow,WM_COPYDATA,(WPARAM)hWnd,(LPARAM)&oCopyData);
 						if (g_Options.GetSyncStatusMsgFlag()) {
 							TCHAR* pszStatusMsg = NULL;
-							if (true == ProtoServiceExists(si.Module(), PS_GETMYAWAYMSG)) 
+							if ( ProtoServiceExists(si.Module(), PS_GETMYAWAYMSG)) 
 								pszStatusMsg = reinterpret_cast<TCHAR*>(CallProtoService(si.Module(),PS_GETMYAWAYMSG,(WPARAM)ms.m_nMirandaStatus,SGMA_TCHAR));
 
 							if ((NULL == pszStatusMsg) || (CALLSERVICE_NOTFOUND == reinterpret_cast<int>(pszStatusMsg)))

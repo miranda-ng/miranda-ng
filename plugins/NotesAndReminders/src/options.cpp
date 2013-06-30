@@ -419,7 +419,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 				SendDlgItemMessage(hdlg,IDC_EDIT_EMAILSMS ,WM_GETTEXT,SzT+1,(LPARAM)g_RemindSMS);
 			}
 			P = g_RemindSMS;
-			WriteSettingBlob(0,MODULENAME,"RemindEmail",SzT,P);
+			db_set_blob(0,MODULENAME,"RemindEmail",P,SzT);
 
 			SzT = (WORD)SendDlgItemMessage(hdlg,IDC_EDIT_ALTBROWSER,WM_GETTEXTLENGTH,0,0);
 			if (SzT != 0) 

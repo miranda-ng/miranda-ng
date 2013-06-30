@@ -43,14 +43,7 @@ inline static T db_pod_get(HANDLE hContact,const char *module,const char *settin
 template<typename T>
 inline static INT_PTR db_pod_set(HANDLE hContact,const char *module,const char *setting,T val)
 {
-	DBCONTACTWRITESETTING cws;
-
-	cws.szModule     = module;
-	cws.szSetting    = setting;
-	cws.value.type   = DBVT_BLOB;
-	cws.value.cpbVal = sizeof(T);
-	cws.value.pbVal  = reinterpret_cast<BYTE*>(&val);
-	return CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws);
+	return db_set_blob(hContact, module, setting, &val, sizeof(T));
 }
 
 void TwitterProto::SignOn(void*)

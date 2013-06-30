@@ -97,16 +97,10 @@ namespace Setting {
 
 	BYTE	GetStatic     (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR szValue, int cchValue);
 
-	/**
-	 * write values to the database.
-	 **/
-	BYTE	WriteVariant  (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, const DBVARIANT *dbv);
-
 	#define GetTString			GetWString
 	#define GetTStringEx		GetWStringEx
 	#define GetTStringCtrl		GetWStringCtrl
 	#define WriteTString		WriteWString
-
 
 	/**
 	 * misc operations

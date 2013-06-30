@@ -323,14 +323,8 @@ begin
 end;
 
 function WriteDBInt(const hContact: THandle; const Module,Param: AnsiString; Value: Integer): Integer;
-var
-  cws: TDBCONTACTWRITESETTING;
 begin
-  cws.szModule := PAnsiChar(Module);
-  cws.szSetting := PAnsiChar(Param);
-  cws.value._type := DBVT_DWORD;
-  cws.value.dVal := Value;
-  Result := CallService(MS_DB_CONTACT_WRITESETTING, hContact, lParam(@cws));
+  Result := db_set_dw(hContact, PAnsiChar(Module), PAnsiChar(Param), Value);
 end;
 
 function WriteDBStr(const Module,Param: AnsiString; Value: AnsiString): Integer;

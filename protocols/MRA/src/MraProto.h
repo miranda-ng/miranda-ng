@@ -30,7 +30,6 @@ BOOL	DB_GetStaticStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueNam
 BOOL	DB_SetStringExA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPCSTR lpszValue, size_t dwValueSize);
 BOOL	DB_SetStringExW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPCWSTR lpwszValue, size_t dwValueSize);
 
-int   DB_WriteContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpValue, size_t dwValueSize);
 BOOL  DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
 
 struct CMraProto : public PROTO_INTERFACE
@@ -140,7 +139,7 @@ struct CMraProto : public PROTO_INTERFACE
 		return DB_SetStringExW(Contact, m_szModuleName, valueName, parValue, parValueSize); }
 
 	__forceinline BOOL mraWriteContactSettingBlob(HANDLE hContact, const char *lpszValueName, LPVOID lpbValue, size_t dwValueSize) {
-		return DB_WriteContactSettingBlob(hContact, m_szModuleName, lpszValueName, lpbValue, dwValueSize); }
+		return db_set_blob(hContact, m_szModuleName, lpszValueName, lpbValue, dwValueSize); }
 	__forceinline BOOL mraGetContactSettingBlob(HANDLE hContact, const char *lpszValueName, LPVOID lpbRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize) {
 		return DB_GetContactSettingBlob(hContact, m_szModuleName, lpszValueName, lpbRet, dwRetBuffSize, pdwRetBuffSize); }
 

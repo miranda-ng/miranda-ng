@@ -581,14 +581,7 @@ void DoAlarm(ALARM *alarm)
 
 void WriteLastCheckTime() {
 	// save last-check time
-	DBCONTACTWRITESETTING dbcws;
-	dbcws.szModule = MODULE;
-	dbcws.szSetting = "LastCheck";
-	dbcws.value.type = DBVT_BLOB;
-	dbcws.value.cpbVal = sizeof(SYSTEMTIME);
-	dbcws.value.pbVal = (BYTE *)&last_check;
-	CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&dbcws);
-
+	db_set_blob(NULL, MODULE, "LastCheck", &last_check, sizeof(SYSTEMTIME));
 	last_saved_check = last_check;
 }
 

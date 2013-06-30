@@ -268,16 +268,13 @@ BOOL DB_SetStringExA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, L
 		lpwszValueLocal = (LPWSTR)mir_calloc((dwValueSizeLocal*sizeof(WCHAR)));
 
 		if (lpwszValueLocal) {
-			DBCONTACTWRITESETTING cws = {0};
-
-			cws.szModule = lpszModule;
-			cws.szSetting = lpszValueName;
-			cws.value.type = DBVT_WCHAR;
-			cws.value.pwszVal = (WCHAR*)lpwszValueLocal;
+			DBVARIANT dbv = {0};
+			dbv.type = DBVT_WCHAR;
+			dbv.pwszVal = (WCHAR*)lpwszValueLocal;
 
 			dwValueSizeLocal = MultiByteToWideChar(MRA_CODE_PAGE, 0, lpszValue, dwValueSize, lpwszValueLocal, dwValueSizeLocal);
 			lpwszValueLocal[dwValueSizeLocal] = 0;
-			bRet = (CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws) == 0);
+			bRet = (db_set(hContact, lpszModule, lpszValueName, &dbv) == 0);
 
 			mir_free(lpwszValueLocal);
 		}
@@ -297,14 +294,11 @@ BOOL DB_SetStringExW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, L
 		LPWSTR lpwszValueLocal = (LPWSTR)mir_calloc(((dwValueSize+MAX_PATH)*sizeof(WCHAR)));
 
 		if (lpwszValueLocal) {
-			DBCONTACTWRITESETTING cws = {0};
-
-			cws.szModule = lpszModule;
-			cws.szSetting = lpszValueName;
-			cws.value.type = DBVT_WCHAR;
-			cws.value.pwszVal = (WCHAR*)lpwszValueLocal;
+			DBVARIANT dbv = {0};
+			dbv.type = DBVT_WCHAR;
+			dbv.pwszVal = (WCHAR*)lpwszValueLocal;
 			memmove(lpwszValueLocal, lpwszValue, (dwValueSize*sizeof(WCHAR)));
-			bRet = (CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws) == 0);
+			bRet = (db_set(hContact, lpszModule, lpszValueName, &dbv) == 0);
 
 			mir_free(lpwszValueLocal);
 		}
@@ -314,18 +308,6 @@ BOOL DB_SetStringExW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, L
 		db_unset(hContact, lpszModule, lpszValueName);
 	}
 	return bRet;
-}
-
-int DB_WriteContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpValue, size_t dwValueSize)
-{
-	DBCONTACTWRITESETTING cws = {0};
-
-	cws.szModule = lpszModule;
-	cws.szSetting = lpszValueName;
-	cws.value.type = DBVT_BLOB;
-	cws.value.pbVal = (LPBYTE)lpValue;
-	cws.value.cpbVal = (WORD)dwValueSize;
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
 }
 
 BOOL DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize)

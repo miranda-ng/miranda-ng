@@ -208,7 +208,7 @@ void CEditCtrl::OnApply(HANDLE hContact, LPCSTR pszProto)
 					}
 					if (dbv.type != DBVT_DELETED)
 					{
-						if (!DB::Setting::WriteVariant(hContact, pszModule, _pszSetting, &dbv))
+						if (!db_set(hContact, pszModule, _pszSetting, &dbv))
 						{
 							if (!hContact)
 							{

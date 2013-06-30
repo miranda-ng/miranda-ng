@@ -341,17 +341,14 @@ static BOOL IsRegStrValueA(HKEY hKey,const TCHAR *pszValName,const char *pszCmpV
 // pData must always be Unicode data, registry supports Unicode even on Win95
 static void WriteDbBackupData(const char *pszSetting,DWORD dwType,BYTE *pData,DWORD cbData)
 {
-	DBCONTACTWRITESETTING dbcws;
-	dbcws.szModule="AssocMgr";
-	dbcws.szSetting=pszSetting;
-	dbcws.value.type=DBVT_BLOB;
-	dbcws.value.cpbVal=(WORD)(cbData+sizeof(DWORD));
-	dbcws.value.pbVal=(BYTE*)mir_alloc(cbData+sizeof(DWORD));
-	if (dbcws.value.pbVal==NULL) return;
-	*(DWORD*)dbcws.value.pbVal=dwType;
-	CopyMemory(dbcws.value.pbVal+sizeof(DWORD),pData,cbData);
-	CallService(MS_DB_CONTACT_WRITESETTING,0,(LPARAM)&dbcws);
-	mir_free(dbcws.value.pbVal);
+	size_t cbLen = cbData + sizeof(DWORD);
+	PBYTE buf = (PBYTE)mir_alloc(cbLen);
+	if (buf) {
+		*(DWORD*)buf = dwType;
+		CopyMemory(buf+sizeof(DWORD), pData, cbData);
+		db_set_blob(NULL, "AssocMgr", pszSetting, buf, cbLen);
+		mir_free(buf);
+	}
 }
 
 // mir_free() the value returned in ppData 

@@ -124,24 +124,13 @@ void SaveNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 			ptd->notification.lpzName);
 		db_set_s(NULL, szModul, setting, ptd->rightAction);
 
-		for (int i=0; i < ptd->notification.actionCount; ++i)
-		{
-			if (!lstrcmpA(ptd->leftAction, ptd->notification.lpActions[i].lpzTitle))
-			{
-				DBCONTACTWRITESETTING dbcws = {0};
-				dbcws.szModule = ptd->notification.lpActions[i].lpzLModule;
-				dbcws.szModule = ptd->notification.lpActions[i].lpzLSetting;
-				dbcws.value = ptd->notification.lpActions[i].dbvLData;
-				CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&dbcws);
-			}
-			if (!lstrcmpA(ptd->rightAction, ptd->notification.lpActions[i].lpzTitle))
-			{
-				DBCONTACTWRITESETTING dbcws = {0};
-				dbcws.szModule = ptd->notification.lpActions[i].lpzRModule;
-				dbcws.szModule = ptd->notification.lpActions[i].lpzRSetting;
-				dbcws.value = ptd->notification.lpActions[i].dbvRData;
-				CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&dbcws);
-			}
+		for (int i=0; i < ptd->notification.actionCount; ++i) {
+			POPUPNOTIFYACTION &p = ptd->notification.lpActions[i];
+			if (!lstrcmpA(ptd->leftAction, p.lpzTitle))
+				db_set(NULL, p.lpzLModule, p.lpzLSetting, &p.dbvLData);
+
+			if (!lstrcmpA(ptd->rightAction, p.lpzTitle))
+				db_set(NULL, p.lpzRModule, p.lpzRSetting, &p.dbvRData);
 		}
 	}
 }

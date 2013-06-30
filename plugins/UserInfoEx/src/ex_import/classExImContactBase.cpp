@@ -245,8 +245,6 @@ BYTE CExImContactBase::fromIni(LPSTR& row)
  **/
 HANDLE CExImContactBase::toDB()
 {
-	DBCONTACTWRITESETTING cws;
-	
 	// create new contact if none exists
 	if (_hContact == INVALID_HANDLE_VALUE && _pszProto && _pszUIDKey && _dbvUID.type != DBVT_DELETED) {
 		PROTOACCOUNT* pszAccount = 0;
@@ -271,10 +269,7 @@ HANDLE CExImContactBase::toDB()
 			return INVALID_HANDLE_VALUE;
 		}
 		// write uid to protocol module
-		cws.szModule	= _pszProto;
-		cws.szSetting	= _pszUIDKey;
-		cws.value		= _dbvUID;
-		if (CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)_hContact, (LPARAM)&cws)) {
+		if (db_set(_hContact, _pszProto, _pszUIDKey, &_dbvUID)) {
 			DB::Contact::Delete(_hContact);
 			_hContact = INVALID_HANDLE_VALUE;
 			return INVALID_HANDLE_VALUE;

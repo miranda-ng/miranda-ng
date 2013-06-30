@@ -87,21 +87,11 @@ BOOL CalculateKeyX(pUinKey ptr,HANDLE hContact) {
 		// store key
 		cpp_get_keyx(ptr->cntx,buffer);
 
-		DBCONTACTWRITESETTING cws;
-		cws.szModule = MODULENAME;
-
 		// store key in database
-		cws.szSetting = "offlineKey";
-		cws.value.type = DBVT_BLOB;
-		cws.value.cpbVal = keysize;
-		cws.value.pbVal = buffer;
-		CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
+		db_set_blob(hContact, MODULENAME, "offlineKey", buffer, keysize);
 
 		// store timeout of key in database (2 days)
-		cws.szSetting = "offlineKeyTimeout";
-		cws.value.type = DBVT_DWORD;
-		cws.value.dVal = gettime()+(60*60*24*db_get_w(0,MODULENAME,"okt",2));
-		CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
+		db_set_dw(hContact, MODULENAME, "offlineKeyTimeout", gettime()+(60*60*24*db_get_w(0,MODULENAME,"okt",2)));
 
 		// key exchange is finished
 		showPopupEC(ptr->hContact);

@@ -1656,15 +1656,9 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY)
 					{
 						TVITEM item = {0};
-						int i = 0;
-						DBCONTACTWRITESETTING cws;
-						cws.szModule = MODULE;
-						cws.szSetting = "IconOrder";
-						cws.value.type = DBVT_BLOB;
-						cws.value.cpbVal = SIZEOF(extraIconName);
-						cws.value.pbVal = opt.exIconsOrder;
-
 						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS));
+
+						int i = 0;
 						while (item.hItem != NULL)
 						{
 							item.mask = TVIF_HANDLE | TVIF_PARAM;
@@ -1672,16 +1666,10 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 							opt.exIconsOrder[i++] = ((ICONSTATE *)item.lParam)->order;
 							item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg,IDC_TREE_EXTRAICONS), item.hItem);
 						}
-						CallService(MS_DB_CONTACT_WRITESETTING, 0,(LPARAM)&cws);
+						db_set_blob(NULL, MODULE, "IconOrder", opt.exIconsOrder, SIZEOF(opt.exIconsOrder));
 
 						i = 0;
-						cws.szModule = MODULE;
-						cws.szSetting = "icons_vis";
-						cws.value.type = DBVT_BLOB;
-						cws.value.cpbVal = SIZEOF(extraIconName);
-						cws.value.pbVal = opt.exIconsVis;
 						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg,IDC_TREE_EXTRAICONS));
-
 						while (item.hItem != NULL)
 						{
 							item.mask = TVIF_HANDLE | TVIF_PARAM;
@@ -1689,7 +1677,7 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 							opt.exIconsVis[i++] = ((ICONSTATE *)item.lParam)->vis;
 							item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), item.hItem);
 						}
-						CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&cws);
+						db_set_blob(NULL, MODULE, "icons_vis", opt.exIconsVis, SIZEOF(opt.exIconsVis));
 
 						opt.iSmileyAddFlags = 0;
 						opt.iSmileyAddFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLESMILEYS)   ? SMILEYADD_ENABLE : 0) | 

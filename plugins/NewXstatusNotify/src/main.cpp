@@ -479,13 +479,9 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 
 			if (cws->value.type == DBVT_DELETED)
 				db_unset(smi.hContact, "UserOnline", "OldStatusMsg");
-			else {
-				DBCONTACTWRITESETTING cws_old;
-				cws_old.szModule = "UserOnline";
-				cws_old.szSetting = "OldStatusMsg";
-				cws_old.value = cws->value;
-				CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)smi.hContact, (LPARAM)&cws_old);
-			}
+			else
+				db_set(smi.hContact, "UserOnline", "OldStatusMsg", &cws->value);
+
 			smi.cust = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)smi.hContact, GCDNF_TCHAR);
 
 			if (opt.IgnoreEmpty && (smi.compare == 2))
