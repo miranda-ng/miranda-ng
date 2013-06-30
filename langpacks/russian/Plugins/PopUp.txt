@@ -27,8 +27,6 @@
 Зона
 [Spacing:]
 Место:
-[Pixel(s)]
-пикс.
 [pixel(s)]
 пикс.
 [Whole Screen]

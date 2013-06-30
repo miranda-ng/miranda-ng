@@ -928,7 +928,7 @@ E-Mail
 [Sec]
 сек.
 [second(s)]
-секунд
+секунд(ы)
 [seconds]
 секунд
 [Select All]

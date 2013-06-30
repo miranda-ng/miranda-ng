@@ -347,8 +347,8 @@ karakter sayısını göster
 İleti penceresinde avatar desteğini etkinleştir
 [Limit avatar height to ]
 Avatar yüksekliğini sınırla
-[pixels.]
-piksel.
+[pixels]
+piksel
 [Show timestamp]
 Zaman damgasını göster
 [Show dates]

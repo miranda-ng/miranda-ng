@@ -38,8 +38,8 @@ Poprvé upozornit
 
 [Check every]
 Projít každých
-[hours.]
-hod.
+[hours]
+hod
 [Only notify once per day.]
 Upozornit jen jednou za den
 [By default use]
@@ -54,6 +54,8 @@ v okně se seznamem narozenin
 Dialog
 [Timeout:]
 Prodleva:
+[seconds]
+sek.
 [Notify for]
 
 [afterwards]

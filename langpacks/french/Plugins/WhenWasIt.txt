@@ -12,8 +12,8 @@ Pas de popups pour les sous-contacts
 Action de la souris
 [Play sounds when there are]
 Jouer un son si y en a.
-[hours.]
-heures.
+[hours]
+heures
 [Only notify once per day.]
 Une seule fois par jour.
 [Timeout:]

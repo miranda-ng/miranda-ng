@@ -581,8 +581,6 @@ Unir à área de trabalho
 Ocultar contato quando estiver indisponível
 [seconds]
 segundos
-[seconds]
-Segundos
 [Automatically resize window to height of list]
 Redimensionar automaticamente a janela ao tamanho da lista
 [maximum]

@@ -24,8 +24,8 @@
 Нагадаць за 
 [days in advance and]
 дзён да даты
-[hours.]
-гадзін.
+[hours]
+гадзін
 [Only notify once per day.]
 Нагадваць раз у дзень
 [By default use]

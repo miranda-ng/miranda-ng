@@ -46,7 +46,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 1
     LTEXT           "seconds", IDC_STATIC, 143, 80, 35, 8, SS_LEFT
     AUTOCHECKBOX    "Force reconnect every", IDC_RECONNECT, 9, 95, 88, 9
     EDITTEXT        IDC_RECONNECT_INTERVAL, 108, 93, 27, 14, ES_AUTOHSCROLL
-    LTEXT           "minutes.", IDC_STATIC, 143, 96, 34, 8, SS_LEFT
+    LTEXT           "minutes", IDC_STATIC, 143, 96, 34, 8, SS_LEFT
     AUTOCHECKBOX    "Check server before trying to connect", IDC_USE_PORTCHECK, 9, 110, 169, 10
     LTEXT           "Try to connect", IDC_STATIC, 9, 124, 52, 8, SS_LEFT
     EDITTEXT        IDC_MAX_RETRIES, 62, 121, 20, 14, ES_AUTOHSCROLL

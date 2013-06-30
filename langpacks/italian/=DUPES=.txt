@@ -467,14 +467,6 @@ TestoBarraTitolo
 Nascondi lista dei contatti se inattiva per
 [seconds]
 secondi
-[seconds]
-secondi
-[seconds]
-secondi
-[seconds]
-secondi
-[seconds]
-secondi
 [Automatically resize window to height of list]
 Ridimensiona automaticamente altezza lista
 [maximum]

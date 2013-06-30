@@ -544,7 +544,6 @@
 [Delete temporary contacts when closing message window]
 [Enable avatar support in the message window]
 [Limit avatar height to ]
-[pixels.]
 [Max Number of Flashes]
 [Send Error]
 [An error has occured. The protocol reported the following error:]

@@ -28,9 +28,11 @@ Spojení
 
 [Check every]
 Projít každých
+[seconds] 
+sek.
 [Force reconnect every]
 
-[minutes.]
+[minutes]
 min.
 [Check server before trying to connect]
 

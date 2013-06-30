@@ -136,5 +136,6 @@
 ;[Update inactive message window icons when a user is typing]
 ;[Use the contact's status icon as the window icon]
 ;[minutes old]
-;[pixels.]
+;[pixels]
+;[seconds]
 ;[while sending the following message:]

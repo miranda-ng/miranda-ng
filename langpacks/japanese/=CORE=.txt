@@ -429,7 +429,7 @@ Miranda
 メッセージウィンドウ内でのアバターサポートを有効
 [Limit avatar height to ]
 アバターの高さを以下に制限 :
-[pixels.]
+[pixels]
 ピクセル
 [Max Number of Flashes]
 フラッシュの最大数

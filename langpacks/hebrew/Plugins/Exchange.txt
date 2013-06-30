@@ -6,8 +6,8 @@
 ;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
 ;============================================================
 ;file \plugins\Exchange\res\exchange.rc
-[minutes.]
-דקות.
+[minutes]
+דקות
 ;file \plugins\Exchange\src\dlg_handlers.cpp
 ;file \plugins\Exchange\src\emails.cpp
 ;file \plugins\Exchange\src\hooked_events.cpp

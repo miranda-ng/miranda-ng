@@ -205,8 +205,8 @@ Kuva märkide loendur
 Võimalda avatari-toetus teadete aknas
 [Limit avatar height to ]
 Limiteeri avatari kõrgus 
-[pixels.]
-pikselit.
+[pixels]
+pikselit
 [Show timestamp]
 Kuva ajatempel
 [Show dates]

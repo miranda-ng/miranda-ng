@@ -30,8 +30,8 @@ Einstellungen
 Prüfe alle
 [Force reconnect every]
 Neuverbindung alle
-[minutes.]
-Minuten.
+[minutes]
+Minuten
 [Check server before trying to connect]
 Prüfe Server vor Verbindungsversuch
 [Try to connect]

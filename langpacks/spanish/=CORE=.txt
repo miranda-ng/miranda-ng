@@ -377,8 +377,8 @@ Eliminar contactos temporales al cerrar ventana del mensaje
 Habilitar la compatibilidad con avatar en la ventana del mensaje
 [Limit avatar height to ]
 Límite de altura avatar
-[pixels.]
-Pixel.
+[pixels]
+Pixel
 [Max Number of Flashes]
 Número máximo de disparos
 [Show timestamp]

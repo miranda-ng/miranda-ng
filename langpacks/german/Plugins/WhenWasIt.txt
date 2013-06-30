@@ -38,8 +38,8 @@ Erinnere mich
 Tage im Voraus und
 [Check every]
 Prüfe alle
-[hours.]
-Stunden.
+[hours]
+Stunden
 [Only notify once per day.]
 Nur 1x am Tag benachrichtigen
 [By default use]

@@ -1077,6 +1077,8 @@ Doppel-'Enter' sendet Nachricht
 Zeichenzähler anzeigen
 [Show warning when message has not been received after]
 Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
+[seconds] 
+Sekunden
 [Support control up/down in message area to show previously sent messages]
 Zuvor gesendete Nachrichten mit Strg + Auf/Ab erneut abrufen
 [Delete temporary contacts when closing message window]
@@ -1085,8 +1087,8 @@ Temporäre Kontakte löschen, wenn Nachrichtenfenster geschlossen wird
 Avatar-Unterstützung im Nachrichtenfenster aktivieren
 [Limit avatar height to ]
 Avatarhöhe begrenzen auf
-[pixels.]
-Pixel.
+[pixels]
+Pixel
 [Max Number of Flashes]
 Max. Anzahl Blinken
 [Send Error]

@@ -237,8 +237,8 @@
 אפשר תמיכה באוואטר בחלון הודעות
 [Limit avatar height to ]
 הגבל גובה אוואטר ל
-[pixels.]
-פיקסלים.
+[pixels]
+פיקסלים
 [Show timestamp]
 הראה חותמת זמן
 [Show dates]

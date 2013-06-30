@@ -63,8 +63,6 @@ ID города
 Показывать пункты в меню
 [Update weather information every]
 Обновлять каждые
-[minutes.]
-минут
 [Display current condition on contact list]
 Показывать погоду в списке контактов
 [Hide Weather in status bar and status menu]

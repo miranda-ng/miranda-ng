@@ -22,8 +22,8 @@
 开始通知 
 [days in advance and]
 天之前且
-[hours.]
-小时.
+[hours]
+小时
 [Only notify once per day.]
 一天仅通知一次.
 [By default use]

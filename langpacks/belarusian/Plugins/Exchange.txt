@@ -20,8 +20,8 @@
 Налады
 [Force reconnect every]
 Прымушанае далучэнне
-[minutes.]
-хвілін.
+[minutes]
+хвілін
 [Check server before trying to connect]
 Праверце сервер, перш чым далучыцца
 [Try to connect]

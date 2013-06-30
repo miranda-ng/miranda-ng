@@ -1081,7 +1081,7 @@ Smazat dočasné kontakty po zavření okna pro rozhovor
 Aktivovat zobrazení avatarů v okně pro rozhovor
 [Limit avatar height to ]
 Max. výška obrázku avataru
-[pixels.]
+[pixels]
 pixelů
 [Max Number of Flashes]
 Max. počet bliknutí

@@ -333,7 +333,7 @@ Control fel/le támogatása az elõzõleg elküldött üzenetek mutatásához
 Avatarok az üzenet ablakokban
 [Limit avatar height to ]
 Avatár maximális magassága 
-[pixels.]
+[pixels]
 képpont
 [Show timestamp]
 Idõbélyeg mutatása

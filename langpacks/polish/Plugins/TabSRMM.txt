@@ -505,6 +505,8 @@ Adres e-mail ICQ
 Nieznane zdarzenie
 [Message send timeout]
 Limit czasu wysyłania wiadomości
+[seconds]
+sekund(y)
 [Input history size]
 Ilość wpisów z historii
 [entries]

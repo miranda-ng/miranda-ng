@@ -409,8 +409,8 @@ Popup за приставката Chat
 Поддръжка на аватари в прозореца за съобщения
 [Limit avatar height to ]
 Височина на аватара до
-[pixels.]
-пиксела.
+[pixels]
+пиксела
 [Max Number of Flashes]
 Максимален брой мигания
 [Show timestamp]

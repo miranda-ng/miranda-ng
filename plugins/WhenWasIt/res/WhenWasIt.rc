@@ -80,7 +80,7 @@ BEGIN
     LTEXT           "days in advance and",IDC_STATIC,83,160,91,8
     LTEXT           "Check every",IDC_STATIC,12,178,52,8
     EDITTEXT        IDC_CHECK_INTERVAL,65,175,15,14,ES_AUTOHSCROLL
-    LTEXT           "hours.",IDC_STATIC,83,178,74,8
+    LTEXT           "hours",IDC_STATIC,83,178,74,8
     CONTROL         "Only notify once per day.",IDC_ONCE_PER_DAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,159,177,112,10
     LTEXT           "By default use",IDC_STATIC,12,194,56,8
     COMBOBOX        IDC_DEFAULT_MODULE,72,192,84,44,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP

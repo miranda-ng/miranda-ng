@@ -297,8 +297,8 @@ Slett midlertidige kontakter når samtalevinduet lukkes
 Aktiver avatarstøtte i samtalevinduet
 [Limit avatar height to ]
 Begrens avatarhøyde til 
-[pixels.]
-pixler.
+[pixels]
+pixler
 [Show timestamp]
 Vis tidsmerknad
 [Show dates]

@@ -9,8 +9,6 @@
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [Age]
 Età
-[Age]
-Età
 ;file \plugins\WhenWasIt\src\hooked_events.cpp
 ;file \plugins\WhenWasIt\src\icons.cpp
 ;file \plugins\WhenWasIt\src\notifiers.cpp

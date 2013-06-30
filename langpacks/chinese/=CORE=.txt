@@ -421,8 +421,8 @@ Miranda NG 正准备重启. \n请稍候...
 启用消息窗口头像支持
 [Limit avatar height to ]
 限制头像高度为
-[pixels.]
-像素. 
+[pixels]
+像素
 [Max Number of Flashes]
 最大闪动次数
 [Show timestamp]

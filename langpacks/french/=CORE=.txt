@@ -900,7 +900,9 @@ Taper 1 fois "Entrée" pour envoyer
 [Show character count]
 Décompte des caractères
 [Show warning when message has not been received after]
-                       M'alerter quand le message n'a pas été reçu après :
+M'alerter quand le message n'a pas été reçu après
+[seconds] 
+secondes
 [Support control up/down in message area to show previously sent messages]
 Permettre navigation haut/bas dans zone de texte pour voir mess. précédents
 [Delete temporary contacts when closing message window]

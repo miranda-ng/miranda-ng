@@ -69,8 +69,6 @@
  дней или менее до ДР.
 [days in advance and]
 дней до даты
-[hours.]
-часов.
 [By default use]
 Использовать
 [to save birthday data.]
