@@ -55,7 +55,6 @@ function  GetContactStatus(hContact:THANDLE):integer;
 function  IsContactActive(hContact:THANDLE;proto:pAnsiChar=nil):integer;
 
 function CreateGroupW(name:pWideChar;hContact:THANDLE):integer;
-function CreateGroup (name:pAnsiChar;hContact:THANDLE):integer;
 
 function MakeGroupMenu(idxfrom:integer=100):HMENU;
 function GetNewGroupName(parent:HWND):pWideChar;
@@ -795,57 +794,6 @@ begin
   begin
     p^:=#0;
     CreateGroupW(grbuf+1,0);
-  end;
-
-  result:=1;
-end;
-
-function CreateGroup(name:pAnsiChar;hContact:THANDLE):integer;
-var
-  groupId, res:integer;
-  groupIdStr:array [0..10] of AnsiChar;
-  grbuf:array [0..127] of AnsiChar;
-  p, pa:pAnsiChar;
-begin
-  if (name=nil) or (name^=#0) then
-  begin
-    result:=0;
-    exit;
-  end;
-
-  StrCopy(@grbuf[1],name);
-  grbuf[0]:=CHAR(1 or GROUPF_EXPANDED);
-
-  // Check for duplicate & find unused id
-  groupId:=0;
-  repeat
-    pa:=DBReadString(0,'CListGroups',IntToStr(groupIdStr,groupId));
-    if pa=nil then
-      break;
-
-    res:=StrCmp(pa+1,@grbuf[1]);
-    mFreeMem(pa);
-    if res=0 then
-    begin
-      if hContact<>0 then
-      DBWriteString(hContact,strCList,clGroup,@grbuf[1]);
-      result:=0;
-      exit;
-    end;
-
-    inc(groupId);
-  until false;
-
-  DBWriteString(0,'CListGroups',groupIdStr,grbuf);
-
-  if hContact<>0 then
-    DBWriteString(hContact,strCList,clGroup,@grbuf[1]);
-
-  p:=StrRScan(grbuf,'\');
-  if p<>nil then
-  begin
-    p^:=#0;
-    CreateGroup(grbuf+1,0);
   end;
 
   result:=1;
