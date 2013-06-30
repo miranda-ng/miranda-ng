@@ -88,89 +88,77 @@ INT_PTR CIcqProto::GetInfoSetting(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTGETSETTING *cgs = (DBCONTACTGETSETTING*)lParam;
 	BYTE type = cgs->pValue->type;
+	INT_PTR rc = db_get_s((HANDLE)wParam, cgs->szModule, cgs->szSetting, cgs->pValue, 0);
+	if (rc)
+		return rc;
+	
+	// Success
+	DBVARIANT dbv = *cgs->pValue;
+	if (dbv.type == DBVT_BLOB) {
+		cgs->pValue->pbVal = (BYTE*)mir_alloc(dbv.cpbVal);
+		memcpy(cgs->pValue->pbVal, dbv.pbVal, dbv.cpbVal);
+	}
+	else if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) {
+		//  convert to the desired type
+		if (!type)
+			type = dbv.type;
 
-	DBVARIANT dbv = { 0 };
-	INT_PTR rc = db_get_s((HANDLE)wParam, cgs->szModule, cgs->szSetting, &dbv, 0);
-	if (!rc)
-	{ // Success
-		if (dbv.type == DBVT_BLOB)
-		{
-			cgs->pValue->pbVal = (BYTE*)mir_alloc(dbv.cpbVal);
-
-			memcpy(cgs->pValue->pbVal, dbv.pbVal, dbv.cpbVal);
-		}
-		else if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)
-		{ //  convert to the desired type
-			if (!type)
-				type = dbv.type;
-
-			if (dbv.type == type)
-			{ // type is correct, only move it to miranda's heap
-				cgs->pValue->pszVal = mir_strdup(dbv.pszVal);
-			}
-			else if (type == DBVT_WCHAR) 
-			{
-				if (dbv.type != DBVT_UTF8)
-				{
-					int len = MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, NULL, 0);
-					cgs->pValue->pwszVal = (WCHAR*)mir_alloc((len + 1)*sizeof(WCHAR));
-					if (cgs->pValue->pwszVal == NULL)
-						rc = 1;
-					else
-					{
-						MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, cgs->pValue->pwszVal, len);
-						cgs->pValue->pwszVal[len] = '\0';
-					}
-				}
-				else 
-				{
-					char *savePtr = dbv.pszVal ? strcpy((char*)_alloca(strlennull(dbv.pszVal) + 1), dbv.pszVal) : NULL;
-					if (!mir_utf8decode(savePtr, &cgs->pValue->pwszVal))
-						rc = 1;
+		// type is correct, only move it to miranda's heap
+		if (dbv.type == type)
+			cgs->pValue->pszVal = mir_strdup(dbv.pszVal);
+		else if (type == DBVT_WCHAR) {
+			if (dbv.type != DBVT_UTF8) {
+				int len = MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, NULL, 0);
+				cgs->pValue->pwszVal = (WCHAR*)mir_alloc((len + 1)*sizeof(WCHAR));
+				if (cgs->pValue->pwszVal == NULL)
+					rc = 1;
+				else {
+					MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, cgs->pValue->pwszVal, len);
+					cgs->pValue->pwszVal[len] = '\0';
 				}
 			}
-			else if (type == DBVT_UTF8) 
-			{
-				cgs->pValue->pszVal = mir_utf8encode(dbv.pszVal);
-				if (cgs->pValue->pszVal == NULL)
+			else {
+				char *savePtr = dbv.pszVal ? strcpy((char*)_alloca(strlennull(dbv.pszVal) + 1), dbv.pszVal) : NULL;
+				if (!mir_utf8decode(savePtr, &cgs->pValue->pwszVal))
 					rc = 1;
 			}
-			else if (type == DBVT_ASCIIZ)
-			{
-				cgs->pValue->pszVal = mir_strdup(dbv.pszVal);
-				mir_utf8decode(cgs->pValue->pszVal, NULL);
-			}
-
-			cgs->pValue->type = type;
 		}
-		else if (!strcmpnull(cgs->szModule, m_szModuleName) && (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD))
-		{
-			int code = (dbv.type == DBVT_BYTE) ? dbv.bVal : ((dbv.type == DBVT_WORD) ? dbv.wVal : dbv.dVal);
-
-			if (!strcmpnull(cgs->szSetting, "Language1") || !strcmpnull(cgs->szSetting, "Language2") || !strcmpnull(cgs->szSetting, "Language3"))
-				rc = LookupDatabaseSetting(languageField, code, cgs->pValue, type);
-			else if (!strcmpnull(cgs->szSetting, "Country") || !strcmpnull(cgs->szSetting, "OriginCountry") || !strcmpnull(cgs->szSetting, "CompanyCountry"))
-			{
-				if (code == 420) code = 42; // conversion of obsolete codes (OMG!)
-				else if (code == 421) code = 4201;
-				else if (code == 102) code = 1201;
-				rc = LookupDatabaseSetting(countryField, code, cgs->pValue, type);
-			}
-			else if (!strcmpnull(cgs->szSetting, "Gender"))
-				rc = LookupDatabaseSetting(genderField, code, cgs->pValue, type);
-			else if (!strcmpnull(cgs->szSetting, "MaritalStatus"))
-				rc = LookupDatabaseSetting(maritalField, code, cgs->pValue, type);
-			else if (!strcmpnull(cgs->szSetting, "StudyLevel"))
-				rc = LookupDatabaseSetting(studyLevelField, code, cgs->pValue, type);
-			else if (!strcmpnull(cgs->szSetting, "CompanyIndustry"))
-				rc = LookupDatabaseSetting(industryField, code, cgs->pValue, type);
-			else if (!strcmpnull(cgs->szSetting, "Interest0Cat") || !strcmpnull(cgs->szSetting, "Interest1Cat") || !strcmpnull(cgs->szSetting, "Interest2Cat") || !strcmpnull(cgs->szSetting, "Interest3Cat"))
-				rc = LookupDatabaseSetting(interestsField, code, cgs->pValue, type);
+		else if (type == DBVT_UTF8) {
+			cgs->pValue->pszVal = mir_utf8encode(dbv.pszVal);
+			if (cgs->pValue->pszVal == NULL)
+				rc = 1;
 		}
-		// Release database memory
-		db_free(&dbv);
+		else if (type == DBVT_ASCIIZ) {
+			cgs->pValue->pszVal = mir_strdup(dbv.pszVal);
+			mir_utf8decode(cgs->pValue->pszVal, NULL);
+		}
+
+		cgs->pValue->type = type;
 	}
+	else if (!strcmpnull(cgs->szModule, m_szModuleName) && (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD)) {
+		int code = (dbv.type == DBVT_BYTE) ? dbv.bVal : ((dbv.type == DBVT_WORD) ? dbv.wVal : dbv.dVal);
 
+		if (!strcmpnull(cgs->szSetting, "Language1") || !strcmpnull(cgs->szSetting, "Language2") || !strcmpnull(cgs->szSetting, "Language3"))
+			rc = LookupDatabaseSetting(languageField, code, cgs->pValue, type);
+		else if (!strcmpnull(cgs->szSetting, "Country") || !strcmpnull(cgs->szSetting, "OriginCountry") || !strcmpnull(cgs->szSetting, "CompanyCountry")) {
+			if (code == 420) code = 42; // conversion of obsolete codes (OMG!)
+			else if (code == 421) code = 4201;
+			else if (code == 102) code = 1201;
+			rc = LookupDatabaseSetting(countryField, code, cgs->pValue, type);
+		}
+		else if (!strcmpnull(cgs->szSetting, "Gender"))
+			rc = LookupDatabaseSetting(genderField, code, cgs->pValue, type);
+		else if (!strcmpnull(cgs->szSetting, "MaritalStatus"))
+			rc = LookupDatabaseSetting(maritalField, code, cgs->pValue, type);
+		else if (!strcmpnull(cgs->szSetting, "StudyLevel"))
+			rc = LookupDatabaseSetting(studyLevelField, code, cgs->pValue, type);
+		else if (!strcmpnull(cgs->szSetting, "CompanyIndustry"))
+			rc = LookupDatabaseSetting(industryField, code, cgs->pValue, type);
+		else if (!strcmpnull(cgs->szSetting, "Interest0Cat") || !strcmpnull(cgs->szSetting, "Interest1Cat") || !strcmpnull(cgs->szSetting, "Interest2Cat") || !strcmpnull(cgs->szSetting, "Interest3Cat"))
+			rc = LookupDatabaseSetting(interestsField, code, cgs->pValue, type);
+	}
+	// Release database memory
+	db_free(&dbv);
 	return rc;
 }
 
