@@ -165,3 +165,4 @@ ProtoServiceExists            @162
 ProtoBroadcastAck             @163
 ProtoCallService              @164
 db_set_resident               @165
+db_set                        @166

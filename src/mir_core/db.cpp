@@ -131,6 +131,17 @@ MIR_CORE_DLL(wchar_t*) db_get_wsa(HANDLE hContact, const char *szModule, const c
 /////////////////////////////////////////////////////////////////////////////////////////
 // setting data
 
+MIR_CORE_DLL(INT_PTR) db_set(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
+{
+	if (currDb == NULL) return 1;
+
+	DBCONTACTWRITESETTING cws;
+	cws.szModule = szModule;
+	cws.szSetting = szSetting;
+	cws.value = *dbv;
+	return currDb->WriteContactSetting(hContact, &cws);
+}
+
 MIR_CORE_DLL(INT_PTR) db_set_b(HANDLE hContact, const char *szModule, const char *szSetting, BYTE val)
 {
 	if (currDb == NULL) return 1;

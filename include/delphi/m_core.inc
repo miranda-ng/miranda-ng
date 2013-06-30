@@ -136,14 +136,14 @@ function db_find_first(const szModule:pAnsiChar=nil):THANDLE; stdcall;
 function db_find_next(hContact:THANDLE; const szModule:pAnsiChar=nil):THANDLE; stdcall;
                  external CoreDLL name 'db_find_next';
 
+function db_get(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT):int_ptr; stdcall;
+                 external CoreDLL name 'db_get';
 function db_get_b(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; errorValue:int):int; stdcall;
                  external CoreDLL name 'db_get_b';
 function db_get_w(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; errorValue:int):int; stdcall;
                  external CoreDLL name 'db_get_w';
 function db_get_dw(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; errorValue:dword):dword; stdcall;
                  external CoreDLL name 'db_get_dw';
-function db_get(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT):int_ptr; stdcall;
-                 external CoreDLL name 'db_get';
 function db_get_s(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT; const nType:int=DBVT_ASCIIZ):int_ptr; stdcall;
                  external CoreDLL name 'db_get_s';
 function db_get_sa(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):pAnsiChar; stdcall;
@@ -151,6 +151,8 @@ function db_get_sa(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:p
 function db_get_wsa(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):pWideChar; stdcall;
                  external CoreDLL name 'db_get_wsa';
 
+function db_set(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT):int_ptr; stdcall;
+                 external CoreDLL name 'db_set';
 function db_set_b(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:byte):int_ptr; stdcall;
                  external CoreDLL name 'db_set_b';
 function db_set_w(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:word):int_ptr; stdcall;
