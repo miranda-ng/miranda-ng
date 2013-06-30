@@ -17,7 +17,6 @@
 [Server :]
 [Preferences]
 [Check every]
-[seconds.]
 [Force reconnect every]
 [minutes.]
 [Check server before trying to connect]

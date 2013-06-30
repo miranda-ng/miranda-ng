@@ -605,8 +605,6 @@ Miranda NG 目录下有包含新数据库设置的文件.
 按 "Enter" 发送消息
 [Show warning when message has not been received after]
 显示警告当消息未能接收于
-[seconds.]
-秒. 
 [Send Error]
 发送错误
 [An error has occured. The protocol reported the following error:]

@@ -1073,8 +1073,6 @@ Odeslat zprávu klávesou ENTER
 Zobrazit počet napsaných znaků
 [Show warning when message has not been received after]
 Zobrazit upozornění v případě, že zpráva nebyla doručena do
-[seconds.]
-sek.
 [Support control up/down in message area to show previously sent messages]
 Použít kombinaci kláves CTRL+Nahoru/Dolů k zobrazení předešlých zpráv
 [Delete temporary contacts when closing message window]

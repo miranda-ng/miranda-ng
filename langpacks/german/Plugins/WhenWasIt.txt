@@ -54,8 +54,6 @@ in der Geburtstagsliste.
 Dialog
 [Timeout:]
 Dauer:
-[seconds.]
-Sekunden.
 [Notify for]
 Benachrichtige für
 [afterwards]

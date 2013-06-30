@@ -193,8 +193,6 @@ Zeige Avatar des Kontaktes:
 Erw. Einstellungen
 [Message send timeout]
 Zeitlimit für Versand
-[seconds.]
-Sekunden.
 [Input history size]
 letzte Nachrichten Eingabefeld
 [entries]

@@ -100,7 +100,6 @@
 [Show picture for this contact]
 [Advanced tweaks]
 [Message send timeout]
-[seconds.]
 [Input history size]
 [entries]
 [Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]

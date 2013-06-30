@@ -619,8 +619,6 @@ Windows
 エンターキーでメッセージ送信
 [Show warning when message has not been received after]
 次の秒数経過してもメッセージが届かない場合警告を表示
-[seconds.]
-秒
 [Send Error]
 エラーを送信
 [An error has occured. The protocol reported the following error:]

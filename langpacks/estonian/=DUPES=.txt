@@ -361,7 +361,6 @@ Saada teade topelt 'Enter' vajutamisel
 Saada teade 'Enter' vajutamisel
 [Show warning when message has not been received after]
 Kuva hoiatus, kui teadet ei ole saadud peale
-[seconds.]
 sekundit
 [Send Error]
 Saada viga

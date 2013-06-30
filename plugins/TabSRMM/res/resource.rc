@@ -303,13 +303,13 @@ BEGIN
     CONTROL         "",IDC_INDENTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,72,120,10,11
     EDITTEXT        IDC_RIGHTINDENT,94,117,29,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_RINDENTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,113,118,10,11
-    LTEXT           "px",IDC_STATIC,131,119,11,9
+    CTEXT           "px",IDC_STATIC,124,119,21,9
     GROUPBOX        "Template sets",IDC_STMSGLOGGROUP,3,138,300,26
     PUSHBUTTON      "Standard templates...",IDC_MODIFY,27,147,95,14
     PUSHBUTTON      "RTL templates...",IDC_RTLMODIFY,178,147,95,14
     GROUPBOX        "Load History Events",IDC_STATIC,3,168,300,57
-    CONTROL         "Load unread events only",IDC_LOADUNREAD,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,10,176,135,10
-    CONTROL         "Load number of previous events",IDC_LOADCOUNT,"Button",BS_AUTORADIOBUTTON,10,187,138,10
+    CONTROL         "Load unread events only",IDC_LOADUNREAD,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,10,177,135,10
+    CONTROL         "Load number of previous events",IDC_LOADCOUNT,"Button",BS_AUTORADIOBUTTON,10,188,138,10
     CONTROL         "Load previous events less than",IDC_LOADTIME,"Button",BS_AUTORADIOBUTTON,10,200,138,10
     CONTROL         "Always trim message log to",IDC_ALWAYSTRIM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,212,146,10
     EDITTEXT        IDC_LOADCOUNTN,164,185,39,12,ES_RIGHT | ES_NUMBER | WS_DISABLED
@@ -406,13 +406,13 @@ BEGIN
     LTEXT           "To set container options, please use the container settings dialog. It is available by:\n1. choosing ""container settings"" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.",IDC_STATIC,8,2,290,25
     GROUPBOX        "Tabs should be used in the following way",IDC_STATIC,4,30,294,61
     CONTROL         "Use contact list groups for organizing tabs (one window per group)",IDC_CONTAINERGROUPMODE,
-                    "Button",BS_AUTORADIOBUTTON | WS_GROUP,8,40,284,10
+                    "Button",BS_AUTORADIOBUTTON | WS_GROUP,8,40,288,10
     CONTROL         "Tabbed interface, limit the maximum number of tabs per window to:",IDC_LIMITTABS,
                     "Button",BS_AUTORADIOBUTTON,8,52,235,9
     EDITTEXT        IDC_TABLIMIT,252,51,33,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_TABLIMITSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,283,54,9,10
     CONTROL         "No tabs at all, each session has its own top level window",IDC_SINGLEWINDOWMODE,
-                    "Button",BS_AUTORADIOBUTTON,8,65,284,11
+                    "Button",BS_AUTORADIOBUTTON,8,64,284,11
     CONTROL         "Default mode (tabbed interface, manual assignments)",IDC_DEFAULTCONTAINERMODE,
                     "Button",BS_AUTORADIOBUTTON,8,76,284,12
     GROUPBOX        "Container flashing",IDC_STATIC,4,96,294,39

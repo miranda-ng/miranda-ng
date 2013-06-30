@@ -613,8 +613,6 @@ Send melding ved dobbel 'Enter'
 Send melding ved 'Enter'
 [Show warning when message has not been received after]
 Vis advarsel når meldingen ikke har blitt mottatt etter
-[seconds.]
-sekunder.
 [Send Error]
 Sendefeil
 [An error has occured. The protocol reported the following error:]

@@ -1051,8 +1051,6 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Паказваць лічыльнік знакаў
 [Show warning when message has not been received after]
 Паведамляць, калі паведамленне не атрымалася адправіць на працягу
-[seconds.]
-секунд.
 [Support control up/down in message area to show previously sent messages]
 Паказваць старыя паведамленні пры націску Ctrl+УГАРУ/УНІЗ
 [Delete temporary contacts when closing message window]

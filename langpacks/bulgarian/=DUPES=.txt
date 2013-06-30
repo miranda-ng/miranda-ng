@@ -591,8 +591,6 @@ Copyright:
 Изпращане на съобщение с "Enter"
 [Show warning when message has not been received after]
 Предупреждение, ако съобщение не е получено след
-[seconds.]
-секунди.
 [Send Error]
 Грешка при изпращането
 [An error has occured. The protocol reported the following error:]

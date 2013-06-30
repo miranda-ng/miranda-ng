@@ -193,8 +193,6 @@ Zobrazit obrázek pro tento kontakt
 Pokročilé úpravy
 [Message send timeout]
 Časový limit na odeslání
-[seconds.]
-sek.
 [Input history size]
 Uchovat v historii odesílání
 [entries]

@@ -723,8 +723,6 @@ Bericht op 'Enter' versturen
 Aantal tekens weergeven
 [Show warning when message has not been received after]
 Waarschuwing weergeven wanneer bericht niet is ontvangen na
-[seconds.]
-seconden.
 [Support control up/down in message area to show previously sent messages]
 Control omhoog/omlaag ondersteunen om eerder verstuurde berichten te zien
 [Delete temporary contacts when closing message window]

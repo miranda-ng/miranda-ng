@@ -54,8 +54,6 @@ v okně se seznamem narozenin
 Dialog
 [Timeout:]
 Prodleva:
-[seconds.]
-sek.
 [Notify for]
 
 [afterwards]

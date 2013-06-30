@@ -43,7 +43,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 1
     GROUPBOX        "Preferences", IDC_STATIC, 4, 69, 179, 81
     AUTOCHECKBOX    "Check every", IDC_CHECK_EMAILS, 9, 80, 64, 9
     EDITTEXT        IDC_INTERVAL_EDIT, 108, 76, 27, 14, ES_AUTOHSCROLL
-    LTEXT           "seconds.", IDC_STATIC, 143, 80, 35, 8, SS_LEFT
+    LTEXT           "seconds", IDC_STATIC, 143, 80, 35, 8, SS_LEFT
     AUTOCHECKBOX    "Force reconnect every", IDC_RECONNECT, 9, 95, 88, 9
     EDITTEXT        IDC_RECONNECT_INTERVAL, 108, 93, 27, 14, ES_AUTOHSCROLL
     LTEXT           "minutes.", IDC_STATIC, 143, 96, 34, 8, SS_LEFT

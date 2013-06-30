@@ -28,8 +28,6 @@ Spojení
 
 [Check every]
 Projít každých
-[seconds.]
-sek.
 [Force reconnect every]
 
 [minutes.]

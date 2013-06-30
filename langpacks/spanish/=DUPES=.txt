@@ -563,8 +563,6 @@ Enviar mensaje de doble en "Entrada"]
 Enviar mensaje de "Enter"
 [Show warning when message has not been received after]
 Mostrar alerta cuando el mensaje no se ha recibido después de
-[seconds.]
-segundos.
 [Send Error]
 Enviar Error
 [An error has occured. The protocol reported the following error:]

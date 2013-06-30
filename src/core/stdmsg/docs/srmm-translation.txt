@@ -137,5 +137,4 @@
 ;[Use the contact's status icon as the window icon]
 ;[minutes old]
 ;[pixels.]
-;[seconds.]
 ;[while sending the following message:]

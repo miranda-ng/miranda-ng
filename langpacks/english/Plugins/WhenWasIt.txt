@@ -30,7 +30,6 @@
 [in birthday list window]
 [Dialog]
 [Timeout:]
-[seconds.]
 [Notify for]
 [afterwards]
 [In background]

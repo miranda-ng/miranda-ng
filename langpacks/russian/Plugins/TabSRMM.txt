@@ -191,7 +191,7 @@ RTL по умолчанию
 [Left/Right]
 Слева|Справа
 [px]
-тчк
+точек
 [Global message log display]
 Основной журнал сообщений
 [History++ plugin]
@@ -331,7 +331,7 @@ RTL шаблоны
 [entries]
 пунктов
 [Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-Настройки, отмеченные (*) вступят в силу только после перезапуска Miranda NG.
+Настройки, отмеченные (*), вступят в силу только после перезапуска Miranda NG.
 [More about advanced tweaks]
 Подробнее о дополнительных настройках
 [Revert to (safe) defaults]

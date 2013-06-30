@@ -791,10 +791,6 @@ Enviar mensagem no Enter
 Enviar mensagem clicando em 'Enter'
 [Show warning when message has not been received after]
 Mostrar aviso quando a mensagem não for recebida após:
-[seconds.]
-segundos.
-[seconds.]
-segundoS.
 [Send Error]
 Enviar Erro
 [An error has occured. The protocol reported the following error:]

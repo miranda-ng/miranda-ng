@@ -407,8 +407,6 @@
 엔터키로 메세지 보내기
 [Show warning when message has not been received after]
 메세지가 다음 시간 이후에 도착하지 않으면 경고 보이기
-[seconds.]
-초.
 [Message Window Event Log]
 메세지 창 이벤트 로그
 [Show names]

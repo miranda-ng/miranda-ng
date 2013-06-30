@@ -540,7 +540,6 @@
 [Send message on 'Enter']
 [Show character count]
 [Show warning when message has not been received after]
-[seconds.]
 [Support control up/down in message area to show previously sent messages]
 [Delete temporary contacts when closing message window]
 [Enable avatar support in the message window]

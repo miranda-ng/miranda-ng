@@ -32,8 +32,6 @@ Ungesendete Nachrichten merken
 Temporäre Kontakte beim Schließen entfernen
 [Show warning when message has not been received after]
 Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
-[seconds.]
-Sekunden.
 [Tabs]
 Tabs
 [Enable tabs]

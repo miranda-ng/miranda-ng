@@ -655,8 +655,6 @@ Invia messaggio con un doppio 'Invio'
 Invia messaggio con 'Invio'
 [Show warning when message has not been received after]
 Mostra avviso se il messaggio non è stato ricevuto dopo
-[seconds.]
-secondi.
 [An error has occured. The protocol reported the following error:]
 C'è stato un errore. Il protocollo ha riferito l'errore seguente:
 [Try again]

@@ -28,8 +28,6 @@ Server:
 Einstellungen
 [Check every]
 Prüfe alle
-[seconds.]
-Sekunden.
 [Force reconnect every]
 Neuverbindung alle
 [minutes.]

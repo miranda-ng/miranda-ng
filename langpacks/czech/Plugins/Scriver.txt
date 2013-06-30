@@ -32,8 +32,6 @@ Uložit neodeslané zprávy
 Při zavření smazat dočasné kontakty
 [Show warning when message has not been received after]
 Zobrazit upozornění v případě, že zpráva nebyla doručena do
-[seconds.]
-sek.
 [Tabs]
 Panely
 [Enable tabs]

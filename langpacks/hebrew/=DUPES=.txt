@@ -529,8 +529,6 @@
 'שלח הודעות בלחיצה על 'אנטר
 [Show warning when message has not been received after]
 הצג אזהרה כאשר ההודעה לא התקבלה אחרי
-[seconds.]
-שניות.
 [An error has occured. The protocol reported the following error:]
 התרחשה שגיאה. הפרוטוקול דיווח את השגיאה הבאה:
 [Try again]

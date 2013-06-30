@@ -603,8 +603,6 @@ Legyen a partner állapot ikonja az párbeszéd-ablak ikonja
 Üzenet küldése 'Enter'-re
 [Show warning when message has not been received after]
 Figyelmeztetés, ha az üzenet nem érekzik meg ... idõ alatt
-[seconds.]
-másodperc
 [Send Error]
 Hiba küldése
 [An error has occured. The protocol reported the following error:]
