@@ -768,7 +768,7 @@ begin
   groupId:=0;
   repeat
     pw:=DBReadUnicode(0,'CListGroups',IntToStr(groupIdStr,groupId));
-    if pw<>nil then
+    if pw=nil then
       break;
 
     if StrCmpW(pw+1,@grbuf[1])=0 then
