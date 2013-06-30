@@ -61,7 +61,7 @@ class CVersionInfo
 		unsigned int luiEvents;
 		unsigned int luiUnreadEvents;
 		unsigned int luiDBSize;
-		//bool bWeatherPlugin;
+		bool bWeatherPlugin;
 		//Configuration
 		
 		bool GetLinkedModulesInfo(TCHAR *moduleName, std::tstring &linkedModules);
@@ -78,7 +78,7 @@ class CVersionInfo
 		bool GetLangpackInfo();
 		bool GetPluginLists();
 		bool GetEventCount(); //TODO
-		//bool GetWeatherInfo();
+		bool GetWeatherInfo();
 		//OSInformations
 		bool GetOSVersion();
 		bool GetHWSettings();

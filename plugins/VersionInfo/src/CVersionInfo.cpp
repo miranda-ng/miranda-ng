@@ -707,7 +707,7 @@ bool CVersionInfo::GetPluginLists()
 	DWORD loadError;
 	//	SYSTEMTIME sysTime; //for timestamp
 
-	//bWeatherPlugin = false;
+	bWeatherPlugin = false;
 	mirandaVersion = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0);
 	{
 		GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
@@ -732,8 +732,8 @@ bool CVersionInfo::GetPluginLists()
 			if (!ValidExtension(fd.cFileName, _T("dll")))
 				continue; //do not report plugins that do not have extension .dll
 
-			//if (_tcsicmp(fd.cFileName, _T("weather.dll")) == 0)
-				//bWeatherPlugin = true;
+			if (_tcsicmp(fd.cFileName, _T("weather.dll")) == 0)
+				bWeatherPlugin = true;
 
 			hInstPlugin = GetModuleHandle(fd.cFileName); //try to get the handle of the module
 
@@ -1153,7 +1153,9 @@ std::tstring CVersionInfo::GetInformationsAsString(int bDisableForumStyle) {
 		out.append(GetListAsString(listUnloadablePlugins, flags, beautify));
 		BeautifyReport(beautify, normalPluginsEnd, _T(""), out);
 	}
-	//if (bWeatherPlugin)
+	if (bWeatherPlugin) {
+		out.append(_T("\r\nWeather ini files:\r\n-------------------------------------------------------------------------------\r\n"));
+	}
 
 	AddInfoFooter(suppressHeader, forumStyle, beautify, out);
 	return out;
