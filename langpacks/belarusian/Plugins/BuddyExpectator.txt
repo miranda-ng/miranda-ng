@@ -18,6 +18,8 @@
 На дзеянні падзеі (дв. клік) ці клік па ўсп. акну
 [Open User Details]
 Адкрыць дэталі карыстача
+[Open message window]
+Адкрыць вакно гутаркі
 [Return notification]
 Апавяшчэнне вяртання
 [When a contact is absent for]
@@ -30,14 +32,36 @@
 Уключыць функцыю "Чакаю цябе"
 [Hide when no messages for]
 Схаваць, калі няма паведамленняў
+[Colors]
+Колеры
+[Background]
+Фон
+[Text]
+Тэкст
 [Use Popups colors]
 Колеры Popup
+[Use Windows colors]
+Колеры Windows
+[Delay]
+Затрымка
+[Default]
+Змаўчанні
+[Custom]
+Наладзіць
+[Permanent]
+Увесь час
+[sec]
+сек
+[Preview]
+Тэст
 [Last seen online:]
 Апошняе з'яўленне:
 [Last input message:]
 Апошняе паведамленне:
 [Custom absence period:]
 Перыяд адсутнасці:
+[days]
+дзён
 [Never hide this contact]
 Ніколі не хаваць гэты кантакт
 [Enable Miss You]
@@ -47,6 +71,12 @@
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 [Tray/popup icon]
 Значок у трэі/усплывальным акне
+[Enabled]
+Уключаны
+[Disabled]
+Выключаны
+[Hide]
+Схаваць
 [NeverHide]
 Ніколі не хаваць
 [Disable Miss You]
@@ -84,11 +114,21 @@
 месяцаў
 [years]
 гадоў
+[Do nothing]
+Нічога не рабіць
 [Delete the contact]
 Выдаліць кантакт
+[Contact name]
+Імя кантакту
 [has returned after being absent since %d days]
 вярнуўся пасля адсутнасці %d дзён
+[Contacts]
+Кантакты
+[Popups]
+Усплывальныя вокны
 [not detected]
 не вызначаны
+[not found]
+не знойдзена
 [This contact has been absent for an extended period of time.]
 Кантакт адсутнічаў доўгі прамежак часу.

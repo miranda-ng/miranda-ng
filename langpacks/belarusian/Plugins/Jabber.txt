@@ -10,10 +10,20 @@
 Рэдагаваць нататку
 [Tags:]
 Тэгі:
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[Type:]
+Тып:
 [User:]
 Лагін:
 [Domain/Server:]
 Дамен/Сервер:
+[Password:]
+Пароль:
+[Save password]
+Захаваць пароль
 [Resource:]
 Рэсурс:
 [Register new user]
@@ -28,40 +38,78 @@
 Рэдактар росцера
 [Roster editor\nView and modify your server-side contact list.]
 Рэдактар росцера\nПрагляд і праўка спісу кантактаў на серверы.
+[Download]
+Запампаваць
+[Upload]
+Загрузіць
+[Import from file]
+Імпарт з файла
+[Export to file]
+Экспарт
+[Username:]
+Карыстач:
+[Change password]
+Змяніць пароль
 [Priority:]
 Прыярытэт:
 [Use hostname as resource]
 Імя хаста ў якасці рэсурсу
 [List of public servers]
 Публічныя серверы
+[Port:]
+Порт:
 [Use SSL]
 SSL
 [Use TLS]
 TLS
 [Unregister]
 Выдаліць
+[Expert]
+Эксперт
 [Manually specify connection host]
 Паказаць хост для далучэння
+[Host:]
+Хост:
+[Keep connection alive]
+Падтрымліваць злучэнне
+[Automatically delete contacts not in my roster]
+Аўтаматычна выдаляць кантакты, якія не ў спісе
 [User directory:]
 Дырэкторыя карыстачоў:
 [Language for human-readable resources:]
 Мова для бачных чалавеку рэсурсаў:
+[File Transfer]
+Перадача файла
 [Allow file sending through direct peer-to-peer connection]
 Перадача файлаў праз прамое злучэнне (peer-to-peer)
 [Specify external address:]
 Вонкавы адрас:
 [Allow file sending through bytestream proxy server:]
 Перадача праз струменевы проксі (bytestream):
+[Miscellaneous]
+Іншае
 [Hint:]
 Нататка:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Адключыце ўсе опцыі, калі ў вас праблемы з адпраўкай файлаў. Могуць з'явіцца праблемы з перадачай вялікіх файлаў.
 [Jabber Account Registration]
 Рэгістрацыя конту Jabber
+[Browse]
+Агляд
+[Close]
+Зачыніць
 [Instruction:]
 Інструкцыя:
 [Submit]
 Перадаць
+[Next]
+Наперад
+[Back]
+Фон
+[Complete]
+Гатова
+[Jabber Password]
+Jabber Пароль
 [Remember password for this session]
 Захаваць пароль для гэтай сесіі
 [Save password permanently]
@@ -70,22 +118,68 @@ TLS
 Адрас 1:
 [Address2:]
 Адрас 2:
+[City:]
+Горад:
+[State:]
+Штат:
 [ZIP:]
 Індэкс:
+[Country:]
+Краіна:
+[Full name:]
+Поўнае імя:
+[Nick name:]
+Псеўданім:
+[First name:]
+Імя:
 [Middle:]
 Імя па бацьку:
+[Last name:]
+Прозвішча:
+[Date of birth:]
+Дата нараджэння:
 [YYYY-MM-DD]
 ГГГГ-ММ-ДД
+[Gender:]
+Пол:
+[Occupation:]
+Занятак:
+[Homepage:]
+Сайт:
+[Company:]
+Кампанія:
+[Department:]
+Аддзел:
+[Title:]
+Загаловак:
+[E-mail:]
+Пошта:
+[Phone:]
+Тэлефон:
 [Email address:]
 Адрас E-mail:
+[Home]
+Дома
+[Work]
+Праца
+[Internet]
+Інтэрнэт
 [Jabber vCard: Add Phone Number]
 Jabber vCard: даданне тэлефона
 [Phone number:]
 Тэлефон:
+[Voice]
+Голас
+[Fax]
+Факс
 [Pager]
 Пэйджар
 [Text/Messaging]
 Тэкставыя зносіны
+[Cellular]
+Мабільны
+[Video]
+Відэа
 [BBS]
 BBS
 [Modem]
@@ -94,6 +188,14 @@ BBS
 Нумар
 [PCS]
 PCS
+[Save]
+Захаваць
+[Delete]
+Выдаліць
+[Description:]
+Апісанне:
+[Change Password]
+Змяніць пароль
 [Current Password:]
 Бягучы пароль:
 [New Password:]
@@ -118,8 +220,12 @@ PCS
 <room jid>\nЗапрасіць у чат-пакой.
 [Other JID:]
 Іншы JID:
+[Add]
+Дадаць
 [Invitation reason:]
 Чыннік запрашэння:
+[&Invite]
+Запрасіць
 [Groupchat Invitation]
 Запрашэнне ў канферэнцыю
 [<room jid>\nIncoming groupchat invitation.]
@@ -128,16 +234,28 @@ PCS
 Вас запрасіў:
 [with following reason:]
 чыннік:
+[Nickname:]
+Нік:
+[&Accept]
+Прыняць
 [Jabber Bookmarks]
 Закладкі
 [Server side bookmarks\nStore conference rooms and web links on server.]
 Закладкі на серверы\nЗахоўваць чат-пакоі і спасылкі на серверы.
+[Remove]
+Выдаліць
+[Edit]
+Змяніць
 [Bookmark Details]
 Дэталі закладкі
 [Bookmark Type]
 Тып закладкі
+[Conference]
+Чат-пакой
 [Transport]
 Транспарт
+[URL]
+Ссылка
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
 Аўта-ўваход (Неабходна ўключыць аўтаматычны ўваход у наладах)
 [Room JID/ URL:]
@@ -160,6 +278,10 @@ JID / URL:
 Тады:
 [following stanza types:]
 Наступныя тыпы з'яў:
+[Messages]
+Паведамленні
+[Queries]
+Запыты
 [Incoming presence]
 Уваходная прысутнасць
 [Outgoing presence]
@@ -174,8 +296,18 @@ JID / URL:
 Як дрэва
 [View as list]
 Як спіс
+[Favourites]
+Абраныя
+[Refresh]
+Абнавіць
 [Node:]
 Вузел:
+[Change %s Message]
+Змяніць паведамленне "%s"
+[Closing in %d]
+Зачыніць (%d)
+[Login server:]
+Сервер:
 [Member Information]
 Правы доступу
 [Member Information\n<user id>]
@@ -184,6 +316,8 @@ JID / URL:
 Роля:
 [Affiliation:]
 Прыналежнасць:
+[Status message:]
+Статуснае паведамленне:
 [Chat options]
 Налады чата
 [Alternate nick:]
@@ -194,8 +328,12 @@ JID / URL:
 Выйсце:
 [Slap:]
 Шлёпнуць:
+[Authorization Request]
+Запыт на аўтарызацыю
 [Deny]
 Забараніць
+[Dialog]
+Гутарка
 [Jabber Notebook]
 Запісная кніжка
 [Jabber notebook\nStore notes on server and access them from anywhere.]
@@ -206,7 +344,11 @@ JID / URL:
 XML Кансоль
 [Reset log]
 Ачысціць лог
+[Send]
+Адправіць
 ;file \protocols\JabberG\src\jabber.cpp
+[Jabber Link Protocol]
+Пратакол Jabber
 [Frame title]
 Загаловак фрэйма
 [Frame text]
@@ -221,6 +363,8 @@ XML Кансоль
 Памылка %s %s
 [Select Command]
 Выберыце каманду
+[Not supported]
+Не падтрымліваецца
 [Done]
 Гатова
 [In progress. Please Wait...]
@@ -236,13 +380,19 @@ Jabber Ad-Hoc каманды на
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Няма паведамлення
+[Please wait...]
+Пачакайце, калі ласка...
 ;file \protocols\JabberG\src\jabber_bookmarks.cpp
 [Bookmark Name]
 Імя закладкі
 [Address (JID or URL)]
 Адрас (JID ці URL)
+[Nickname]
+Нік
 [Conferences]
 Канферэнцыі
+[Links]
+Спасылкі
 ;file \protocols\JabberG\src\jabber_byte.cpp
 ;file \protocols\JabberG\src\jabber_caps.cpp
 [Supports Service Discovery info]
@@ -321,14 +471,22 @@ Jabber Ad-Hoc каманды на
 Падтрымка Jingle
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+Няма
 [Member]
 Карыстач
+[Admin]
+Адмін
+[Owner]
+Уладальнік
 [Visitor]
 Наведвальнік
 [Participant]
 Удзельнік
 [Moderator]
 Мадэратар
+[Participants]
+Удзельнікі
 [User %s in now banned.]
 Карыстач %s быў забанены.
 [User %s changed status to %s with message: %s]
@@ -377,10 +535,26 @@ Jabber Ad-Hoc каманды на
 Капіяваць тэму
 [&Send presence]
 &Адправіць прысутнасць
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[NA]
+Недаступны
+[DND]
+Не турбаваць
+[Free for chat]
+Вольны
+[&Leave chat session]
+&Пакінуць сеанс
+[&Slap]
+&Аплявуха
 [&User details]
 Інфармацыя пра кантакт
 [Member &info]
 Правы доступу
+[User &details]
+Дадзеныя кантакту
 [&Add to roster]
 &Дадаць у росцер
 [&Copy to clipboard]
@@ -407,6 +581,8 @@ Jabber Ad-Hoc каманды на
 Уладальнік
 [Outcast (&ban)]
 Забаніць
+[&Kick]
+Выкінуць
 [Copy &nickname]
 Капіяваць нік
 [Copy real &JID]
@@ -417,6 +593,8 @@ Jabber Ad-Hoc каманды на
 Рэальны JID: %s
 [Send groupchat invitation.]
 Запрасіць у канферэнцыю.
+[from]
+з
 [Reason to kick]
 Чыннік выспятку
 [Reason to ban]
@@ -474,9 +652,17 @@ Jabber памылка
 ;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 Ідэнтыфікатары
+[type]
+тып
+[Type]
+Тып
 [Supported features]
 Падтрымоўваныя магчымасці
 ;file \protocols\JabberG\src\jabber_form2.cpp
+[First Name]
+Імя
+[Last Name]
+Прозвішча
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Loading...]
 Загрузка...
@@ -489,6 +675,10 @@ Jabber памылка
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
 транспарт
+[Notes]
+Нататкі
+[Multi-User Conference]
+Канферэнцыя
 [Agents list]
 Спіс агентаў
 [Transports]
@@ -525,6 +715,8 @@ Jabber памылка
 Агляд вузла
 [RSS service]
 Служба RSS
+[Server]
+Сервер
 [Storage service]
 Служба захоўвання
 [Weather service]
@@ -535,6 +727,10 @@ Jabber памылка
 Актыўны спіс
 [Default privacy list]
 Спіс па змаўчанні
+[Move up]
+Вышэй
+[Move down]
+Ніжэй
 [Allow Messages]
 Дазволіць паведамленні
 [Allow Presences (in)]
@@ -551,10 +747,14 @@ Jabber памылка
 Забараніць прысутнасць (зых)
 [Deny Queries]
 Забараніць запыты
+[Protocols]
+Пратаколы
 [Dialogs]
 Гутаркі
 [Discovery]
 Прагляд
+[Privacy]
+Прыватнасць
 ;file \protocols\JabberG\src\jabber_iqid.cpp
 [Registration successful]
 Рэгістрацыя паспяхова пройдзена
@@ -581,6 +781,14 @@ Jabber памылка
 Выдаленне
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+Запытаць аўтарызацыю
+[Grant authorization]
+Аўтарызаваць
+[Revoke authorization]
+Адклікаць аўтарызацыю
+[Convert]
+Канвертаваць
 [Add to Bookmarks]
 Дадаць у закладкі
 [Commands]
@@ -599,6 +807,10 @@ Jabber Рэсурс
 Канвертаваць у кантакт
 [&Convert to Chat Room]
 &Канвертаваць у чат
+[Options...]
+Налады...
+[Services...]
+Службы...
 [Registered Transports]
 Транспарты
 [Local Server Transports]
@@ -627,8 +839,18 @@ Jabber Рэсурс
 Актыўнага няма, выкарыстоўвайце выбар сервера
 [Highest priority (server's choice)]
 Найвысокі прыярытэт (выбар сервера)
+[Status Message]
+Статуснае паведамленне
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[Avatars]
+Аватары
+[To]
+У
+[From]
+Ад
+[Errors]
+Памылкі
 ;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 Уваходная нататка ад %s
@@ -638,6 +860,8 @@ Jabber Рэсурс
 Усе тэгі
 [Notes are not saved, close this window without uploading data to server?]
 Нататкі не захаваны, зачыніць акно без загрузкі нататак на сервер?
+[Are you sure?]
+Вы ўпэўнены?
 [Incoming note]
 Уваходная нататка
 ;file \protocols\JabberG\src\jabber_opt.cpp
@@ -645,12 +869,20 @@ Jabber Рэсурс
 Афар
 [Abkhazian]
 Абхазскі
+[Afrikaans]
+Афрыкаанс
 [Akan]
 Акан
+[Albanian]
+Албанскі
 [Amharic]
 Амхарскі
+[Arabic]
+Арабскі
 [Aragonese]
 Арагонскі
+[Armenian]
+Армянскі
 [Assamese]
 Асамскі
 [Avaric]
@@ -659,6 +891,8 @@ Jabber Рэсурс
 Авестыйскі
 [Aymara]
 Аймарскі
+[Azerbaijani]
+Азербайджанскі
 [Bashkir]
 Башкірскі
 [Bambara]
@@ -673,12 +907,22 @@ Jabber Рэсурс
 Біхары
 [Bislama]
 Біслама
+[Bosnian]
+Баснійскі
 [Breton]
 Брэтонскі
+[Bulgarian]
+Балгарскі
+[Burmese]
+Бурмескі
 [Catalan; Valencian]
 Каталонскі
+[Chamorro]
+Чаморскій
 [Chechen]
 Чачэнскі
+[Chinese]
+Кітайскі
 [Church Slavic; Old Slavonic]
 Стараславянскі
 [Chuvash]
@@ -689,24 +933,40 @@ Jabber Рэсурс
 Карсіканскі
 [Cree]
 Кры
+[Czech]
+Чэшскі
+[Danish]
+Дацкі
 [Divehi; Dhivehi; Maldivian]
 Мальдыўскі
 [Dutch; Flemish]
 Фламандскі
 [Dzongkha]
 Дзонгка
+[English]
+Ангельскі
+[Esperanto]
+Эсперанта
+[Estonian]
+Эстонскі
 [Ewe]
 Еве
 [Faroese]
 Фарэрскі
 [Fijian]
 Фіджыйскі
+[Finnish]
+Фінскі
+[French]
+Французскі
 [Western Frisian]
 Фрызскі
 [Fulah]
 Фула
 [Georgian]
 Грузінскі
+[German]
+Нямецкі
 [Gaelic; Scottish Gaelic]
 Гэльскі
 [Irish]
@@ -719,16 +979,26 @@ Jabber Рэсурс
 Грэцкі
 [Guarani]
 Гуарані
+[Gujarati]
+Гуджарацкі
 [Haitian; Haitian Creole]
 Гаіцянскі
 [Hausa]
 Науса
+[Hebrew]
+Іўрыт
 [Herero]
 Герэра
+[Hindi]
+Хінді
 [Hiri Motu]
 Хіры Моту
+[Hungarian]
+Вугорскі
 [Igbo]
 Ігбо
+[Icelandic]
+Ісландскі
 [Ido]
 Іда
 [Sichuan Yi]
@@ -739,10 +1009,16 @@ Jabber Рэсурс
 Інтэрлінгва
 [Interlingua (International Auxiliary Language Association)]
 Інтэрлінгва (IALA)
+[Indonesian]
+Інданэзійскі
 [Inupiaq]
 Інуіт
+[Italian]
+Італьянскі
 [Javanese]
 Яванскі
+[Japanese]
+Японскі
 [Kalaallisut; Greenlandic]
 Грэнландскі
 [Kannada]
@@ -765,20 +1041,32 @@ Jabber Рэсурс
 Комі
 [Kongo]
 Конга
+[Korean]
+Карэйскі
 [Kuanyama; Kwanyama]
 Кіньяма
+[Kurdish]
+Курдскі
+[Lao]
+Лаоскі
 [Latin]
 Лацінскі
+[Latvian]
+Латышскі
 [Limburgan; Limburger; Limburgish]
 Лімбургійскі
 [Lingala]
 Лінгала
+[Lithuanian]
+Літоўскі
 [Luxembourgish; Letzeburgesch]
 Люксембургскі
 [Luba-Katanga]
 Лубу-Катанга
 [Ganda]
 Ганда
+[Macedonian]
+Македонскі
 [Marshallese]
 Маршальскі
 [Malayalam]
@@ -787,12 +1075,18 @@ Jabber Рэсурс
 Маорыйскі
 [Marathi]
 Марахатскі
+[Malay]
+Малайскі
 [Malagasy]
 Малагасійскі
 [Maltese]
 Мальтыйскі
 [Moldavian]
 Малдаўскі
+[Mongolian]
+Мангольскі
+[Nauru]
+Науру
 [Navajo; Navaho]
 Наваха
 [Ndebele, South; South Ndebele]
@@ -804,6 +1098,8 @@ Jabber Рэсурс
 [Nepali]
 Непальскі
 [Norwegian Nynorsk; Nynorsk, Norwegian]
+Нарвежскі
+[Norwegian]
 Нарвежскі
 [Chichewa; Chewa; Nyanja]
 Ньянджа
@@ -817,28 +1113,50 @@ Jabber Рэсурс
 Асяцінскі
 [Panjabi; Punjabi]
 Панджабскі
+[Persian]
+Персідскі
 [Pali]
 Палі
+[Polish]
+Польскі
+[Portuguese]
+Партугальскі
 [Pushto]
 Пушту
 [Quechua]
 Кечуа
 [Romansh]
 Раманшскі
+[Romanian]
+Румынскі
 [Rundi]
 Рунді
+[Russian]
+Рускі
 [Sango]
 Санга
 [Sanskrit]
 Санскрыт
+[Serbian]
+Сербскі
+[Croatian]
+Харвацкі
 [Sinhala; Sinhalese]
 Сінгальсткі
+[Slovak]
+Славацкі
+[Slovenian]
+Славенскі
 [Northern Sami]
 Паўночнасаамскі
 [Samoan]
 Самоанскі
 [Shona]
 Шона
+[Sindhi]
+Сіндзі
+[Somali]
+Самалійскі
 [Sotho, Southern]
 Суто
 [Spanish; Castilian]
@@ -849,12 +1167,24 @@ Jabber Рэсурс
 Сваці
 [Sundanese]
 Сунданскі
+[Swahili]
+Суахілі
+[Swedish]
+Швецкі
 [Tahitian]
 Таіцянскі
+[Tamil]
+Тамільскі
+[Tatar]
+Татарскі
 [Telugu]
 Тэлугу
 [Tajik]
 Таджыкскі
+[Tagalog]
+Тагалог
+[Thai]
+Тайскі
 [Tibetan]
 Тыбецкі
 [Tigrinya]
@@ -867,20 +1197,34 @@ Jabber Рэсурс
 Тсонга
 [Turkmen]
 Туркменскі
+[Turkish]
+Турэцкі
 [Twi]
 Тві
 [Uighur; Uyghur]
 Уйгурскі
+[Ukrainian]
+Украінскі
+[Urdu]
+Урду
 [Uzbek]
 Узбекскі
 [Venda]
 Венда
+[Vietnamese]
+В'етнамскі
+[Welsh]
+Валійскі
 [Walloon]
 Валонскі
 [Wolof]
 Волоф
 [Xhosa]
 Каса
+[Yiddish]
+Ідыш
+[Yoruba]
+Ерубскі
 [Zhuang; Chuang]
 Чжуан
 [Zulu]
@@ -899,6 +1243,12 @@ Jabber Рэсурс
 Каб змяніць пароль, вам трэба далучыцца
 [You must be online]
 Вам трэба далучыцца
+[Messaging]
+Паведамленні
+[Send messages slower, but with full acknowledgement]
+Адсылаць паведамленні павольней, але з пацверджаннем
+[Enable avatars]
+Уключыць аватары
 [Log chat state changes]
 Запісваць змены стану чата
 [Log presence subscription state changes]
@@ -923,6 +1273,8 @@ Jabber Рэсурс
 Адключыць аўтэнтыфікацыю SASL (старыя серверы)
 [Enable stream compression (if possible)]
 Сціскаць струмень (калі магчыма)
+[Other]
+Іншае
 [Enable remote controlling (from another resource of same JID only)]
 Выдаленае кіраванне (толькі з іншага рэсурсу аднаго JID)
 [Show transport agents on contact list]
@@ -939,6 +1291,8 @@ Jabber Рэсурс
 Апрацоўваць XMPP спасылкі (патрабуецца модуль "Association Manager")
 [Keep contacts assigned to local groups (ignore roster group)]
 Выкарыстоўваць лакальныя групы (ігнараваць групы росцеру)
+[Security]
+Бяспека
 [Allow servers to request version (XEP-0092)]
 Адказваць на запыты пра версіі (XEP-0092)
 [Show information about operating system in version replies]
@@ -947,6 +1301,8 @@ Jabber Рэсурс
 Дазваляць перадачу файлаў толькі унутры струменя (не расчыняць свой IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Прымаць запыты аўтэнтыфікацыі HTTP  (XEP-0070)
+[General]
+Агульнае
 [Autoaccept multiuser chat invitations]
 Аўтаматычна прымаць запрашэнні ў канферэнцыі
 [Automatically join bookmarks on login]
@@ -967,14 +1323,28 @@ Jabber Рэсурс
 Змена прыналежнасці
 [Role changes]
 Змена ролі
+[Status changes]
+Змены статусу
 [Nick Name]
 Нік
+[Group]
+Група
 [Subscription]
 Падпіска
 [Uploading...]
 Выгрузка...
+[Downloading...]
+Загрузка...
 [XML for MS Excel (UTF-8 encoded)]
 XML для MS Excel (кадзіроўка UTF-8)
+[Connecting...]
+Далучэнне...
+[Network]
+Сеціва
+[Account]
+Конт
+[Advanced]
+Дадаткова
 [Public XMPP Network]
 Публічнае XMPP
 [Secure XMPP Network]
@@ -1035,6 +1405,8 @@ XML для MS Excel (кадзіроўка UTF-8)
 ** Падпіска: ад **
 [** Subsription: none **]
 ** Падпіска: няма **
+[<none>]
+<няма>
 [all.]
 усё.
 [messages]
@@ -1093,22 +1465,34 @@ XML для MS Excel (кадзіроўка UTF-8)
 Перасылаць непрачытаныя паведамленні
 [Leave groupchats]
 Пакінуць чаты
+[Lock workstation]
+Заблакаваць кампутар
 [Quit Miranda NG]
 Зачыніць Miranda
 [Choose the status and status message]
 Усталяваць статус і статуснае паведамленне
+[Status]
+Статус
 [Extended Away (N/A)]
 Недаступны (N/A)
 [Do Not Disturb]
 Не турбаваць
+[Invisible]
+Нябачны
+[Offline]
+Адключаны
 [Priority]
 Прыярытэт
+[Status message]
+Паведамленне статусу
 [Change global status]
 Змяніць глабальны статус
 [Set the desired options]
 Усталюйце жаданыя налады
 [Automatically Accept File Transfers]
 Аўтаматычна ўхваляць перадачы файлаў
+[Play sounds]
+Прайграваць гукі
 [Disable remote controlling (check twice what you are doing)]
 Выключыць выдаленае кіраванне (правярайце двойчы, што вы робіце)
 [There is no messages to forward]
@@ -1150,6 +1534,8 @@ XML для MS Excel (кадзіроўка UTF-8)
 [sent unknown presence type]
 адправіў невядомы тып прысутнасці
 ;file \protocols\JabberG\src\jabber_thread.cpp
+[Enter password for]
+Увядзіце пароль для
 [Error: Not enough memory]
 Памылка: Не хапае памяці
 [Error: Cannot connect to the server]
@@ -1161,8 +1547,20 @@ XML для MS Excel (кадзіроўка UTF-8)
 [Sending registration information...]
 Дасылка рэгістрацыйнай інфармацыі...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Resource]
+Рэсурс
+[Message]
+Паведамленне
+[<not specified>]
+<не паказана>
 [Software]
 Кліент
+[Version]
+Версія
+[System]
+Сістэма
+[unknown]
+невядома
 [Idle since]
 Прастойвае з
 [Client capabilities]
@@ -1179,12 +1577,26 @@ XML для MS Excel (кадзіроўка UTF-8)
 Версія Miranda
 [Unicode build]
 Unicode зборка
+[Yes]
+Так
+[No]
+Не
 [Alpha build]
 Альфа зборка
 [Debug build]
 Адладкавая зборка
+[Mood]
+Настрой
+[Activity]
+Занятак
 [Tune]
 Мелодыя
+[both]
+у абодва бакі
+[to]
+у
+[none]
+няма
 [Last logoff time]
 Адключаны:
 [Logoff message]
@@ -1193,6 +1605,8 @@ Unicode зборка
 <няма інфармацыі>
 [Last active resource]
 Апошні актыўны рэсурс
+[Copy]
+Капіяваць
 [Copy only this value]
 Капіяваць значэнне
 [<No photo>]
@@ -1232,16 +1646,30 @@ Unicode зборка
 Служба недаступная
 [Remote server timeout]
 Таймаўт выдаленага сервера
+[Unknown error]
+Невядомая памылка
+[Error]
+Памылка
 [Set mood...]
 Настрой...
 [Set activity...]
 Занятак...
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+Мужчынскі
+[Female]
+Жаночы
 [Jabber vCard: Edit Email Address]
 Jabber vCard: рэдагаванне E-mail
 [Jabber vCard: Edit Phone Number]
 Jabber vCard: рэдагаванне тэлефона
+[Contacts]
+Кантакты
+[Note]
+Нататка
 ;file \protocols\JabberG\src\jabber_ws.cpp
+[%s connection]
+Злучэнне %s
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]
 Спалоханы
@@ -1249,6 +1677,8 @@ Jabber vCard: рэдагаванне тэлефона
 Здзіўлены
 [Amorous]
 Закаханы
+[Angry]
+Злуюся
 [Annoyed]
 Незадаволены
 [Anxious]
@@ -1277,12 +1707,18 @@ Jabber vCard: рэдагаванне тэлефона
 Здаволены
 [Cranky]
 Расківаны
+[Crazy]
+Вар'ят
 [Creative]
 Творчы
 [Curious]
 Цікаўны
 [Dejected]
 Прыгнечаны
+[Depressed]
+Падушаны
+[Disappointed]
+Расчараваны
 [Disgusted]
 Агіда
 [Dismayed]
@@ -1379,6 +1815,8 @@ Jabber vCard: рэдагаванне тэлефона
 Шакаваны
 [Shy]
 Сарамлівы
+[Sick]
+Хворы
 [Sleepy]
 Сонны
 [Spontaneous]
@@ -1393,6 +1831,8 @@ Jabber vCard: рэдагаванне тэлефона
 Удзячны
 [Thirsty]
 Прагавіты
+[Tired]
+Стаміўся
 [Undefined]
 Нявызначана
 [Weak]
@@ -1431,6 +1871,8 @@ Jabber vCard: рэдагаванне тэлефона
 п'ю каву
 [having tea]
 п'ю гарбату
+[Eating]
+Ем
 [having a snack]
 перакусваю
 [having breakfast]
@@ -1475,6 +1917,8 @@ Jabber vCard: рэдагаванне тэлефона
 прымаю душ
 [Having appointment]
 спатканне
+[Inactive]
+Не Актыўна
 [day off]
 выхадны
 [hanging out]
@@ -1491,6 +1935,8 @@ Jabber vCard: рэдагаванне тэлефона
 сплю
 [thinking]
 думаю
+[Relaxing]
+Адпачываю
 [fishing]
 рыбалка
 [gaming]
@@ -1541,6 +1987,8 @@ Jabber vCard: рэдагаванне тэлефона
 падарожнічаю
 [walking]
 гуляю
+[Working]
+Працую
 [coding]
 праграмую
 [in a meeting]

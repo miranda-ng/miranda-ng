@@ -9,10 +9,24 @@
 ;file \plugins\LotusNotify\res\LotusNotify.rc
 [Set popup colours]
 Колер вакна
+[Popup options]
+Налады ўсплывальных вокнаў
+[Background]
+Фон
+[Text]
+Тэкст
 [Close after: ]
 Закрыць пасля:
 [version:]
 версія:
 [Sender]
 Адпраўшчык
+[Subject]
+Тэма
+[Password:]
+Пароль:
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
+[Status]
+Статус
+[Plugins]
+Плагіны

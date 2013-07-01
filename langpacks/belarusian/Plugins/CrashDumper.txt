@@ -10,21 +10,41 @@
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Інфармацыя пра версіі
+[Close]
+Зачыніць
+[Copy To Clipboard]
+Капіяваць у буфер
 [To File]
 У файл
 [Support for miranda-vi.org]
 Падтрымка miranda-vi.org
+[Username]
+Імя карыстача
+[Password]
+Пароль
 [Upload automatically when changed]
 Загружаць аўтаматычна пры зменах
+[General]
+Агульнае
 [Use classic dates]
 Класічны фармат часу і даты
 [Create reports in subfolders naming as current date]
 Рабіць справаздачы ў тэчкі, названыя датай
+[View]
+Выгляд
+[&Copy]
+&Капіяваць
+[Co&py All]
+Ка&піяваць усе
+[Select &All]
+Вылучыць &усё
 ;file \plugins\CrashDumper\src\crshdmp.cpp
 [VersionInfo stored into file %s]
 Версіі захаваны ў файле %s
 [VersionInfo file %s is inaccessible]
 Файл %s недаступны
+[Services]
+Службы
 [Version Information To Clipboard]
 Версіі ў буфер абмену
 [Version Information To File]
@@ -35,10 +55,18 @@
 Загрузіць версіі
 [Crash Reports]
 Справаздачы пра памылкі
+[Version Information]
+Версіі
+[Copy to clipboard]
+Капіяваць у буфер абмену
 [Store to file]
 Захаваць у файл
+[Show]
+Паказаць
 [Show with DLLs]
 З бібліятэкамі
+[Upload]
+Загрузіць
 [Open crash report directory]
 Тэчка захавання справаздач
 [Open miranda-vi.org]

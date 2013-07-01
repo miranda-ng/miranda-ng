@@ -8,6 +8,22 @@
 [A contact list for blind folks.]
 Спіс канатактаў для людзей з дрэнным зрокам.
 ;file \plugins\Clist_blind\res\resource.rc
+[Delete Contact]
+Выдаліць кантакт
+[Are you sure you want to delete %s?]
+Выдаліць %s са спісу?
+[This will erase all history and settings for this contact!]
+Гэта выдаліць усю гісторыю і налады для дадзенага кантакту!
+[Yes]
+Так
+[No]
+Не
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Схаваць са спісу (захаваецца гісторыя і налады бачнасці)
+[Use Options->Contacts->Ignore to unhide contacts.]
+Налады->Кантакты->Ігнараваць, каб адлюстраваць кантакты.
+[Hotkeys]
+Гарачыя клавішы
 [Show/Hide:]
 Паказаць/Схаваць:
 [Read Message:]
@@ -20,18 +36,226 @@
 Адчыніць у новым вакне
 [Show Options]
 Паказаць налады
+[Hide offline users]
+Схаваць адключаных
+[Hide empty groups]
+Схаваць пустыя групы
+[Disable groups]
+Адключыць групы
+[Ask before deleting contacts]
+Пацверджанне выдалення
+[Sort contacts by name]
+Сартаванне па імі
+[Sort contacts by status]
+Сартаванне па статусе
+[Sort contacts by protocol]
+Сартаванне па пратаколе
+[Single click interface]
+Адна пстрычка
+[Always show status in tooltip]
+Заўсёды паказваць статус у падказцы
+[Disable icon blinking]
+Выключыць мігценне
+[ms delay]
+Затрымка (мс)
+[Show]
+Паказаць
+[icon when statuses differ]
+пры розных статусах
+[Cycle icons every]
+Змяняць кожныя
+[seconds, when statuses differ]
+секунд, пры розных статусах
+[Show multiple icons]
+Некалькі абразкоў
+[Only when statuses differ]
+Пры розных статусах
+[Contact List]
+Спіс кантактаў
+[System tray icon]
+Абразок у трэі
+[System tray icon when using multiple protocols]
+Абразкі пратаколаў у сістэмным лапку
+[Contact List Sorting]
+Сартаванне спісу кантактаў
+[Window]
+Акно
+[Always on top]
+Па-над усімі вокнамі
+[Tool style main window]
+Стыль панэлі загалоўка
+[Minimize to tray]
+Схаваць у сістэмны латок
+[Hide contact list after it has been idle for]
+Схаваць спіс, калі не актыўны на працягу:
+[seconds]
+секунд(ы)
+[Automatically resize window to height of list]
+Аўтаматычна змяняць памер акна
+[maximum]
+максімум
+[% of screen]
+% ад экрана
+[Size upwards]
+Расцягваць угару
+[Title bar text:]
+Загаловак акна:
+[Translucency options]
+Налады празрыстасці
+[Fade contact list in/out]
+Плыўна схаваць спіс
+[Transparent contact list]
+Празрысты спіс кантактаў
+[Inactive opacity:]
+Акно неактыўнае:
+[Active opacity:]
+Акно актыўнае:
+[Show menu bar]
+Паказваць меню
+[Easy move]
+Простае перасоўванне
+[Show title bar]
+Паказваць загаловак
+[If window is partially covered, bring to front instead of hiding]
+Змясціць акно на пярэдні план, калі яно прычынена іншымі вокнамі
+[Show drop shadow (restart required)]
+Цень (патрэбен перазапуск)
+[Pin to desktop]
+Прымацаваць ды стала
+[Items]
+Элементы
+['Hide Offline' means to hide:]
+'Схаваць адключаных' - схаваць:
+[Groups]
+Групы
+[Show counts of number of contacts in a group]
+Паказваць колькасць карыстачоў у групах
+[Hide group counts when there are none online]
+Хаваць лічыльнік, калі няма далучаных карыстачоў
+[Sort groups alphabetically]
+Сартаваць групы па алфавіце
+[Quicksearch in open groups only]
+Хуткі пошук толькі ў адкрытых групах
+[Templates]
+Шаблоны
+[Contact:]
+Кантакт:
+[Group:]
+Група:
+[Divider:]
+Падзельнік:
 [Info:]
 Інфо:
+[Status Bar]
+Панэль статусу
+[Show status bar]
+Паказваць панэль статусу
+[Show icons]
+Паказваць абразкі
+[Show protocol names]
+Паказваць пратаколы
+[Show status text]
+Паказваць тэкст статусу
+[Right click opens status menu]
+Правая пстрычка - меню статусу
+[Right click opens Miranda NG menu]
+Правая пстрычка - галоўнае меню
+[Make sections equal width]
+Часткі роўнай шырыні
+[Show bevels on panels]
+Бардзюры на панэлях
+[Show resize grip indicator]
+Індыкатар зм. памеру
+[E&xit]
+Вы&хад
+[&Status]
+Статус
+[&Offline\tCtrl+0]
+Адключаны
+[On&line\tCtrl+1]
+Далучаны
+[&Away\tCtrl+2]
+Адышоў
+[&NA\tCtrl+3]
+Недасяжны
+[Occ&upied\tCtrl+4]
+Заняты
+[&DND\tCtrl+5]
+Не турбаваць
+[&Free for chat\tCtrl+6]
+Вольны
+[&Invisible\tCtrl+7]
+Нябачны
+[On the &Phone\tCtrl+8]
+Тэлефон
+[Out to &Lunch\tCtrl+9]
+За ежай
+[Tray]
+Трэй
+[&Hide/Show]
+С&хаваць/паказаць
+[Nowhere]
+Нідзе
+[&New Group]
+Ства&рыць групу
+[&Hide Offline Users]
+Схаваць адключаных
+[Hide &Offline Users out here]
+Схаваць адключаных па-за групай
+[Hide &Empty Groups]
+Схаваць пустыя групы
+[Disable &Groups]
+Адключыць групы
+[Hide Miranda]
+Схаваць спіс кантактаў
+[Group]
+Група
+[&New Subgroup]
+Стварыць падгрупу
+[&Hide Offline Users in here]
+Схаваць адключаных у групе
+[&Rename Group]
+Пераназваць групу
+[&Delete Group]
+Выдаліць групу
 ;file \plugins\Clist_blind\src\clcopts.cpp
+[Not focused]
+Не ў фокусе
+[Offline]
+Адключаны
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[NA]
+Недаступны
+[Occupied]
+Заняты
+[DND]
+Не турбаваць
+[Free for chat]
+Вольны
+[Invisible]
+Нябачны
+[Out to lunch]
+Абедаю
+[On the phone]
+На тэлефоне
 [Group: %name% %count% [%mode%]]
 Група: %name% %count% [%mode%]
 [Divider: %s]
 Драйвер: %s
 [Info: %s]
 Інфо: %s
+[List]
+Спіс
 ;file \plugins\Clist_blind\src\clistopts.cpp
+[Global]
+Глабальныя
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
+[Unknown Protocol]
+Невядомы пратакол
 [Expanded]
 Разгорнута
 [Colapsed]

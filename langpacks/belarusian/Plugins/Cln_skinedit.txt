@@ -8,6 +8,66 @@
 [Allows inline skin item editing for clist nicer.]
 Дазваляе рэдагаваць скуры для clist nicer.
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[Skin items]
+Элементы скіна
+[General]
+Агульнае
+[Gradient]
+Градыент
+[Left to right]
+Злева направа
+[Right to left]
+Справа налева
+[Top to bottom]
+Зверху ўніз
+[Bottom to top]
+Знізу ўгару
+[Round corners]
+Закругленыя куты
+[Top-Left]
+Левы верхні
+[Top-Right]
+Правы верхні
+[Bottom-Right]
+Правы ніжні
+[Bottom-Left]
+Левы ніжні
+[Item colors]
+Колеры
+[First color]
+Першы колер
+[Textcolor]
+Тэкст(колер)
+[Second color]
+Другі колер
+[Transparent]
+Празрыста
+[Alpha (percent)]
+Альфа (адсотак)
+[Item margins]
+Палі
+[Item borders]
+Межы 
+[Border style]
+Стыль рамкі
+[3D border (bright / dark)]
+3D рамка
+[Item ignored]
+Пункт ігнаруецца
+[Dialog]
+Гутарка
+[Not yet supported]
+Не падтрымліваецца
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
+[Copy from]
+Капіяваць з
 [<None>]
 <Няма>
+[Raised]
+Прыпадняты
+[Sunken]
+Патоплены
+[Bumped]
+Выпуклы
+[Etched]
+Вытраўлены

@@ -10,6 +10,8 @@
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 Зарэгістраваныя асацыяцыі для Miranda NG:
+[Miscellaneous]
+Іншае
 [&Start Miranda NG automatically when the Computer starts (using current profile)]
 &Загружаць праграму пры запуску кампутара (выкарыстоўваючы бягучы профіль)
 [Only associate with Miranda NG while it is &running]
@@ -17,6 +19,10 @@
 ;file \plugins\AssocMgr\src\assoclist.cpp
 [%hs files]
 %hs файлы
+[Type]
+Тып
+[Description]
+Апісанне
 [URLs on Websites]
 Спасылкі і сайты
 [File Types]
@@ -25,10 +31,14 @@
 Памылка асацыяцыі файлаў
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 Адбылася памылка запісу для мадыфікацыі асацыяцый файлаў/спасылак.\n\n Чыннік: %s
+[Unknown]
+Невядома
 [Autostart Error]
 Памылка аўтазагрузкі
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
 Адбылася памылка запісу для мадыфікацыі спісу аўтазапуску.\n\n Чыннік: %s
+[Services]
+Службы
 [Associations]
 Асацыяцыі
 [Miranda NG Database]
@@ -44,9 +54,17 @@ Miranda NG не можа адкрыць спасылку
 [Registry Warning]
 Заўвага рэестра
 ;file \plugins\AssocMgr\src\test.cpp
+[AIM Link Protocol]
+Пратакол AIM
 [ICQ Link Shortcut]
 Пратакол ICQ
 [&Add to Contact List...]
 &Дадаць у спіс кантактаў...
 [Yahoo Link Protocol]
 Пратакол Yahoo
+[MSN Link Protocol]
+Пратакол MSN
+[Gadu-Gadu Link Protocol]
+Пратакол Gadu-Gadu
+[Jabber Link Protocol]
+Пратакол Jabber

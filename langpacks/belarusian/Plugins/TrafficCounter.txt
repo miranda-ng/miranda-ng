@@ -10,14 +10,34 @@
 ;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 Вылучана ўсяго
+[Accounts]
+Конты
+[Units]
+Адзінкі
 [Clear statistics]
 Ачысціць
+[Notification]
+Апавяшчэнне
 [Notify me on every]
 Апавяшчаць кожныя
 [kilobytes]
 кілабайт
+[minutes]
+хвілін(ы)
+[Background colour:]
+Колер фону:
+[Text colour:]
+Колер тэксту:
+[Reset to default]
+Па змаўчанні
 [Popup timeout]
 Працягласць акна
+[From Popup plugin]
+Па змаўчанні
+[Custom]
+Наладзіць
+[Test]
+Тэст
 [Show now]
 Паказаць
 [Space between lines:]
@@ -27,6 +47,14 @@
 [Display traffic for current]
 Трафік за бягучы
 ;file \plugins\TrafficCounter\src\options.cpp
+[Display]
+Паказваць
+[Icon]
+Значок
+[Account name]
+Імя акаўнта
+[General]
+Агульнае
 [Draw frame as skin element]
 Адмалёўваць фрэйм як элемент скіна
 [Show tooltip in traffic window]
@@ -39,28 +67,56 @@
 Агульны трафік
 [Hide now]
 Схаваць
+[Day]
+Дзень
+[Week]
+Тыдзень
 [Month]
 Месяц
 [Year]
 Год
+[Services]
+Службы
+[Options]
+Налады
 [Traffic counter]
 Лічыльнік трафіку
 [Statistics]
 Статыстыка
+[Popups]
+Усплывальныя вокны
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 Байт
+[KB]
+Кб
 [Adaptive]
 Плывучы
 [Hourly]
 Штогадзіны
+[Daily]
+Дзён
+[Weekly]
+Тыдняў
+[Monthly]
+Месяцаў
+[Yearly]
+Штогод
 [Period]
 Перыяд
+[Incoming]
+Уваходныя
+[Outgoing]
+Выходныя
 [Sum]
 Сума
+[Online]
+Далучаны
 [Traffic Counter]
 Лічыльнік трафіку
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+Шрыфт
 [Show/Hide frame]
 Паказаць/Схаваць фрэйм
 [Hide traffic window]

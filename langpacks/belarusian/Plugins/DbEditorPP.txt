@@ -18,12 +18,20 @@
 Дакладна
 [Setting Name]
 Імя налады
+[Setting Value]
+Значэнне
+[&Search]
+&Шукаць
 [Found field]
 Знойдзена поле
 [&Replace]
 &Замяніць
+[&Cancel]
+С&касаваць
 [Search For]
 Шукаць
+[Text:]
+Тэкст:
 [In:]
 У:
 [Replace With]
@@ -60,6 +68,10 @@
 Дадаць модуль з назвай
 [Add to all contacts (Includes Settings)]
 Ва ўсе кантакты (уключаючы налады)
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [Edit Setting]
 Рэдагаваць наладу
 [Value Name:]
@@ -80,6 +92,8 @@
 Капіяваць модуль і налады ў
 [Import Module/Settings]
 Імпартаваць модуль/налады
+[Import]
+Імпартаваць
 [Insert &CR/LF]
 Уставіць &CR/LF
 [Paste the Settings to import here.]
@@ -92,6 +106,8 @@
 &Абнавіць модулі
 [Refresh &Settings]
 Абнавіць &налады
+[E&xit]
+Вы&хад
 [&Actions]
 &Дзеянні
 [&Search and Replace]
@@ -104,16 +120,22 @@
 &Глядзець усё...
 [&Delete all]
 &Выдаліць усё
+[&Export]
+&Экспарт
 [Entire &Database]
 Усю &базу...
 [All &Settings]
 Усе &налады...
 [All &Contacts]
 Усе &кантакты...
+[&Import]
+Імпарт
 [From a &file]
 З &файла...
 [From pasted &text]
 З устаўленага &тэксту...
+[&Options]
+&Налады
 [&Sort by protocol]
 Сартаваць па &пратаколе
 [Show &All]
@@ -164,14 +186,20 @@ BL&OB
 Зашыфраваць радок
 [&Watch]
 &Назіраць
+[&Delete]
+&Выдаліць
 [Null Mod context]
 Null Mod кантэкст
+[&Rename]
+&Пераназваць
 [Copy To Contact]
 Капіяваць у кантакт...
 [Export Module]
 Экспартаваць модуль...
 [Add To Known Modules]
 Дадаць у вядомыя модулі
+[Contact menu]
+Меню кантакту
 [&Clone]
 Кланаваць
 [Export Contact]
@@ -232,6 +260,8 @@ NULL меню кантакту
 [Couldnt allocate enough memory!]
 Немагчыма вылучыць памяць!
 ;file \plugins\DbEditorPP\src\copymodule.cpp
+[Settings]
+Налады
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Выдаліць модуль "%s"?
@@ -244,6 +274,10 @@ NULL меню кантакту
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 INI файлы
+[All Files]
+Усе файлы
+[Export to file]
+Экспарт
 [Error Loading Module List]
 Памылка загрузкі спісу модуляў
 [Couldn't open file for writing]
@@ -253,6 +287,8 @@ INI файлы
 ;file \plugins\DbEditorPP\src\findwindow.cpp
 [Enter a string to search the DB for]
 Увядзіце радок пошуку
+[Stop]
+Спыніць
 [Replaced with]
 Заменена на
 [Deleted]
@@ -267,6 +303,8 @@ INI файлы
 %s налада "%s" у модулі "%s" кантакту "%s"
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
 %s "%s" у наладзе "%s" у модулі "%s" кантакту "%s"
+[Searching...]
+Пошук...
 [Error Loading Setting List]
 Памылка загрузкі спісу налад
 [Finished. %d items were found, %d items were deleted.]
@@ -286,6 +324,8 @@ INI файлы
 Невядомы модуль (адкрыты)
 [Contacts Group]
 Група кантактаў
+[Unknown Contact]
+Невядомы кантакт
 [Known Contact]
 Вядомы кантакт
 ;file \plugins\DbEditorPP\src\main.cpp
@@ -306,14 +346,24 @@ INI файлы
 Загрузка кантактаў...
 [Loading modules...]
 Загрузка модуляў...
+[Contacts]
+Кантакты
 [HANDLE]
 HANDLE
 [Add module to contact "%s"]
 Дадаць модуль кантакту "%s"
 ;file \plugins\DbEditorPP\src\options.cpp
+[Database]
+Профіль
 ;file \plugins\DbEditorPP\src\settinglist.cpp
+[Name]
+Імя
 [Data]
 Дадзеныя
+[Type]
+Тып
+[Size]
+Памер
 [BYTE]
 байт
 [WORD]
@@ -326,11 +376,19 @@ HANDLE
 юнікод
 [<unsupported>]
 <не падтрымліваецца>
+[<unknown>]
+<невядома>
 [Decoded string..]
 Расшыфраваны радок
 [Encoded string..]
 Зашыфраваны радок
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
+[Contact]
+Кантакт
+[Module]
+Плагiн
+[Setting]
+Параметр
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
 Зменена налада базы: \n модуль: "%s" , налада: "%s"\n новае значэнне: (байт) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]

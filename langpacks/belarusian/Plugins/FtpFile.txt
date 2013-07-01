@@ -12,12 +12,24 @@
 FTP-акаўнты
 [Host name]
 Імя хаста
+[User]
+Карыстач
+[Password]
+Пароль
+[URL]
+Ссылка
 [Directory on server]
 Тэчка на серверы
+[Port]
+Порт
 [Command after upload]
 Каманда пасля загрузкі
 [Use passive mode]
 Пасіўны рэжым
+[Account name]
+Імя акаўнта
+[Protocol]
+Пратакол
 [Default FTP server]
 Сервер па змаўчанні
 [File download link]
@@ -26,12 +38,16 @@ FTP-акаўнты
 Зачыніць дыялог пасля запампоўкі
 [Copy download link to message log]
 Капіяваць спасылку ў лог паведамленняў
+[Autosend download link to contact]
+Адправіць спасылку аўтаматычна
 [Menu items]
 Пункты ў меню
 [Use submenu (restart required)]
 Выкарыстоўваць падменю (патрабуецца перазагрузка)
 [Hide inactive accounts]
 Хаваць неактыўныя FTP-акаўнты
+[Other]
+Іншае
 [Automatically delete file from FTP server after (experimental):]
 Аўтаматычна выдаляць файлы з FTP сервера пасля (эксп.):
 [ZIP support]
@@ -48,14 +64,46 @@ FTP-акаўнты
 Хуткасць:
 [Remaining:]
 Засталося:
+[Summary]
+Рэзюмэ
+[To:]
+Для:
+[Nick]
+Нік
+[Close]
+Зачыніць
+[Clipboard]
+Буфер абмену
+[Options]
+Налады
+[Pause]
+Паўза
+[Server:]
+Сервер:
+[Open in Browser]
+Адкрыць у браўзары
+[Select All]
+Вылучыць усё
 [Delete from list]
 Выдаліць са спісу
 [Delete from FTP]
 Выдаліць з FTP
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[Rename]
+Пераназваць
+[Overwrite]
+Перазапісаць
 [Close dialog after upload finishes]
 Зачыніць акно пасля канчатка загрузкі
 [Automatically delete file after...]
 Аўтаматычна выдаліць файл праз...
+[Disabled]
+Выключаны
+[Copy Link]
+Капіяваць спасылку
 ;file \plugins\FTPFileYM\src\dialog.cpp
 [%d minutes]
 %d хвл.
@@ -76,6 +124,12 @@ FTP сервер 3
 FTP сервер 4
 [FTP Server 5]
 FTP сервер 5
+[Send file]
+Перадаць файл
+[Resume]
+Працягнуць
+[FTP File]
+Файл на FTP
 [FTP Server %d]
 Сервер FTP %d
 [FTP File manager]
@@ -87,6 +141,8 @@ FTP файл мэнэджар
 [Upload canceled]
 Запампоўка адменена
 ;file \plugins\FTPFileYM\src\job_generic.cpp
+[All Files (*.*)]
+Усе файлы (*.*)
 [FTP File - Select files]
 Файл на FTP - Выбар файла
 [CANCELED]
@@ -115,5 +171,17 @@ FTP файл мэнэджар
 [You have to fill and enable at least one FTP server in setting.]
 Вы павінны дадаць хоць бы адзін FTP сервер у наладах.
 ;file \plugins\FTPFileYM\src\options.cpp
+[minutes]
+хвілін(ы)
+[hours]
+гадзіны(ов)
+[days]
+дзён
+[Services]
+Службы
+[Accounts]
+Конты
+[Advanced]
+Дадаткова
 ;file \plugins\FTPFileYM\src\serverlist.cpp
 ;file \plugins\FTPFileYM\src\utils.cpp

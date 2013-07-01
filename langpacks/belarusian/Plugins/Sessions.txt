@@ -14,20 +14,34 @@
 Адкрыць мэнэджар сесій
 [Restore Last Session]
 Аднавіць апошнюю сесію
+[Do nothing]
+Нічога не рабіць
 [Only if last session present]
 Толькі калі даступная апошняя сесія
 [Startup delay]
 Затрымка адкрыцця
+[ms]
+мс
 [User Sessions Management]
 Кіраванне сесіямі
+[Edit]
+Змяніць
+[Delete]
+Выдаліць
+[Save]
+Захаваць
 [Action on Exit]
 Дзеянне пры выйсці
+[Ask]
+Спытаць
 [Save Current Session]
 Захоўваць бягучую сесію
 [Save only last]
 Захаваць толькі апошнюю
 [Sessions]
 Сесіі
+[Misc]
+Іншае
 [Exclude hidden contacts from session on exit]
 Выключыць утоеныя кантакты з сесіі пры выйсці
 [Warn, when some of LastSession contacts are hidden]
@@ -40,6 +54,8 @@
 Аднавіць сесію
 [&Restore Session]
 &Аднавіць
+[&Cancel]
+С&касаваць
 [Choose session to restore from the list:]
 Абярыце сесію для аднаўлення:
 [Del]
@@ -56,6 +72,10 @@
 дап.
 [Sessions Manager]
 Мэнэджар сесій
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [Save your current session?]
 Захаваць бягучую сесію?
 ;file \plugins\Sessions\Src\Main.cpp
@@ -87,13 +107,21 @@
 Адкрыць меню абраных сесій
 [Restore last Session]
 Аднавіць апошнюю сесію
+[Close Session]
+Зачыніць сесію
 [Save session...]
 Захаваць сесію...
 [Load session...]
 Загрузіць сесію...
+[Close session]
+Зачыніць сесію
 [Load last session]
 Загрузіць апошнюю сесію
 ;file \plugins\Sessions\Src\Options.cpp
+[View]
+Выгляд
+[Message Sessions]
+Гутаркі
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
 Сесія да апошняга збою

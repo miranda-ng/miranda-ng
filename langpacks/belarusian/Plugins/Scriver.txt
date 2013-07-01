@@ -8,20 +8,34 @@
 [Scriver - send and receive instant messages.]
 Модуль асабістых і групавых чатаў для Miranda NG.
 ;file \plugins\Scriver\res\resource.rc
+[Behaviour]
+Паводзіны
 [Automatically pop up the window when]
 Аўтаматычна паказваць акно калі 
 [and stay minimized]
 і заставацца згорнутым
+[Cascade new windows]
+Размяшчаць новыя вокны каскадам
 [Save size and location for each contact]
 Захоўваць памер і становішча для кожнага кантакту
 [Minimize on send]
 Згортваць пасля адпраўкі
 [Hide windows on close]
 Хаваць вокны пры зачыненні
+[Send message on 'Enter']
+Пасылаць па "Enter"
+[Send message on double 'Enter']
+Пасылаць па падвойным "Enter"
 [Remember unsent messages]
 Памятаць неадпраўленыя паведамленні
 [Delete temporary contacts on closing]
 Пры ўключэнні выдаляць часавыя кантакты
+[Show warning when message has not been received after]
+Паведамляць, калі паведамленне не атрымалася адправіць на працягу
+[seconds.]
+секунд.
+[Tabs]
+Укладкі
 [Enable tabs]
 Уключыць укладкі
 [Always show tab bar]
@@ -30,6 +44,8 @@
 Укладкі знізу
 [Limit names on tabs to]
 Абмежаваць імёны на ўкладках
+[characters]
+знакаў
 [Switch to active tab]
 Перамыкацца на актыўную ўкладку
 [Limit number of tabs per window to]
@@ -38,22 +54,52 @@
 Асобныя вокны для чата
 [Limit number of group chats tabs per window to]
 Абмежаваць лік укладак на вокны чата
+[Layout]
+Размяшчэнне
 [Show titlebar]
 Паказаць назву
+[Show status bar]
+Паказваць панэль статусу
 [Show toolbar]
 Паказваць панэль кнопак
 [Show infobar]
 Паказваць панэль інфармацыі
+[Show avatars]
+Аватары
+[Use the contact's status icon as the window icon]
+Выкарыстоўваць у якасці абразка вакна абразок статусу кантакту
 [Show progress indicator]
 Паказваць індыкатар прагрэсу
+[Enable transparency]
+Уключыць празрыстасць
+[active]
+актыўн.
+[inactive]
+неактыўн.
 [Min input area size]
 Мін. памер поля ўводу
+[lines]
+ліній
+[Message Window Event Log]
+Журнал гутаркі
 [Enable IEView]
 Уключыць IEView
+[Log status changes]
+Запісваць змены статусаў
+[Show icons]
+Паказваць абразкі
+[Show time]
+Паказваць час
+[Show seconds]
+Секунды
+[Show date]
+Дата
 [Long date format]
 Літарны фармат даты
 [Relative date]
 Адносная дата
+[Show names]
+Паказваць імёны
 [Enable message grouping]
 Групаваць паведамленні
 [Mark follow-up msgs with timestamp]
@@ -74,33 +120,179 @@
 Апошн.
 [Events in the last]
 Падзеі атрыманыя пазней, чым
+[events]
+падзеі(й)
+[minutes]
+хвілін(ы)
 [Typing Notification Options]
 Налады апавяшчэнняў набору
+[Send typing notifications to the following users when you are typing a message to them:]
+Апавяшчаць адзначаных карыстачоў пра тое, што вы набіраеце паведамленне:
 [Show typing notification switch in the status bar]
 Перамыкач "Апавяшчэнне пра набор" у панэлі статусу
+[Show typing notifications when a user is typing a message]
+Паказваць апавяшчэнні пра набор тэксту
 [Update message window icons when a user is typing]
 Абнавіць значок акна пры наборы паведамлення Вам
+[Show typing notification when no message dialog is open]
+Апавяшчаць пра набор тэксту, пры зачыненым вакне гутаркі
+[Flash in the system tray and in the contact list]
+Міргаць у трэі і ў спісе кантактаў
+[Show balloon popup]
+Паказваць усплываючую падказку
+[Send Error]
+Памылка адпраўкі
+[An error has occured. The protocol reported the following error:]
+Пратакол вярнуў наступную памылку:
+[while sending the following message:]
+пры пасылцы наступнага паведамлення:
+[Try again]
+Яшчэ раз
+[Cancel]
+Скасаваць
+[Message Session]
+Гутарка
 [Send To All Tabs]
 Адправіць усім укладкам
 [You are about to send a message to all open tabs.\nAre you sure ?]
 Вы збіраецеся адправіць паведамленне ўсім адкрытым укладкам. Вы ўпэўнены?
 [Remember my choice for this container]
 Запомніць выбар для гэтага кантэйнера
+[Yes]
+Так
+[No]
+Не
+[Show these events only:]
+Паказваць толькі:
+[Actions]
+Дзеянні
+[Messages]
+Паведамленні
+[Nick changes]
+Змена ніка
+[Users joining]
+Уваходы ў чат
+[Users leaving]
+Выйсці з чата
+[Topic changes]
+Змены тэмы
+[Status changes]
+Змены статусу
+[Information]
+Інфармацыя
+[Disconnects]
+Адключэнні
+[User kicks]
+Выспятак
+[Notices]
+Апавяшчэнні
+[Options]
+Налады
+[Other]
+Іншае
+[Add new rooms to group:]
+Дадаваць чат-пакоі ў групу:
 [User list row height]
 Вышыня спісу карыстачоў
+[pixels]
+пікс.
+[Log Options]
+Налады лога
+[Your name]
+Ваша імя
+[Other name]
+Імёны іншых
+[Timestamp]
+Час
+[Log timestamp]
+Запісваць час
+[Limit log text to (events):]
+Абмежаваць лог да (падзей):
+[Enable highlighting]
+Уключыць вылучэнне
+[Words to highlight (wildcards allowed)]
+Словы для падсвятлення (дазволены маскі)
 [Save logs]
 Захоўваць лог
+[Location]
+Месца
 [Trim to]
 Ліміт
 [Group Chat]
 Чат-пакой
+[Use same style as in the message log]
+Той жа стыль, што і ў логе
+[Use default colours]
+Колеры па змаўчанні
+[Use custom colours]
+Задаць колеры
+[Text]
+Тэкст
+[Background]
+Фон
+[Timeout (s)]
+Працягласць (з)
 [(0 means default setting, -1 means indefinite time)]
 0 = стандартныя значэнні, -1 = бясконцы час
+[OK]
+ОК
+[Log]
+Лог
+[&Copy]
+&Капіяваць
+[Co&py All]
+Ка&піяваць усе
+[Select &All]
+Вылучыць &усё
+[Word lookup]
+Знайсці слова
+[C&lear Log]
+Ачысціць лог
+[&Open link]
+&адчыніць спасылку
+[&Copy link]
+&Капіяваць спасылку
+[Message]
+Паведамленне
+[Undo]
+Адкат
+[Redo]
+Вярнуць
+[Cut]
+Выразаць
+[Copy]
+Капіяваць
+[Paste]
+Уставіць
+[Paste && Send]
+Уставіць і адправіць
+[Delete]
+Выдаліць
+[Clear]
+Ачысціць
+[Close Other Tabs]
+Зачыніць іншыя ўкладкі
+[Close Tab]
+Зачыніць укладку
+[List]
+Спіс
+[&Message]
+&Паведамленне
+[Clear lo&g]
+Ачысціць ча&т
+[Co&py all]
+Капіяваць усё
 ;file \plugins\Scriver\src\globals.cpp
+[Add contact]
+Дадаць кантакт
 [User's details]
 Інфа кантакту
 [User's history]
 Гісторыя кантакту
+[Send message]
+Адправіць
+[Smiley button]
+Смайлы
 [User is typing]
 Піша паведамленне
 [Typing notification off]
@@ -115,7 +307,111 @@
 Цытата
 [Close button]
 Кнопка "Зачыніць"
+[Icon overlay]
+Абразок па-над
+[Incoming message (10x10)]
+Уваходнае паведамленне (10x10)
+[Outgoing message (10x10)]
+Выходнае паведамленне (10x10)
+[Notice (10x10)]
+Апавяшчэнне (10x10)
+[Window Icon]
+Абразок вакна
+[Text colour]
+Колер тэксту
+[Background colour]
+Колер фону
+[Bold]
+Тоўсты
+[Italics]
+Курсіў
+[Underlined]
+Падкрэслены
+[Room history]
+Гісторыя
+[Room settings]
+Налады
+[Event filter disabled]
+Фільтр падзей выключаны
+[Event filter enabled]
+Фільтр падзей уключаны
+[Hide userlist]
+Схаваць спіс карыстачоў
+[Show userlist]
+Паказаць спіс карыстачоў
+[Status 1 (10x10)]
+Статус 1 (10x10)
+[Status 3 (10x10)]
+Статус 3 (10x10)
+[Status 4 (10x10)]
+Статус 4 (10x10)
+[Status 5 (10x10)]
+Статус 5 (10x10)
+[Status 6 (10x10)]
+Статус 6 (10x10)
+[Message in (10x10)]
+Прынятае паведамленне (10х10)
+[Message out (10x10)]
+Адпраўленае паведамленне (10х10)
+[Action (10x10)]
+Дзеянне (10x10)
+[Add Status (10x10)]
+Дадаць статус (10х10)
+[Remove status (10x10)]
+Выдаліць статус (10х10)
+[Join (10x10)]
+Увайсці (10x10)
+[Leave (10x10)]
+Пакінуць (10х10)
+[Quit (10x10)]
+Выйсце (10х10)
+[Kick (10x10)]
+Выгнаць (10х10)
+[Nickchange (10x10)]
+Змена псеўданіма (10х10)
+[Topic (10x10)]
+Тэма (10х10)
+[Highlight (10x10)]
+Вылучыць (10х10)
+[Information (10x10)]
+Інфармацыя (10х10)
+[Single Messaging]
+Паведамленні
+[Group Chats]
+Чаты
+[Thai]
+Тайскі
+[Japanese]
+Японскі
+[Simplified Chinese]
+Кітайскі (спрошчаны)
+[Korean]
+Карэйскі
+[Traditional Chinese]
+Кітайскі (традыцыйны)
+[Central European]
+Цэнтральнаеўрапейскі
+[Cyrillic]
+Кірыліца
+[Latin I]
+Заходнееўрапейскі
+[Greek]
+Грэцкі
+[Turkish]
+Турэцкі
+[Hebrew]
+Іўрыт
+[Arabic]
+Арабскі
+[Baltic]
+Балтыйскі
+[Vietnamese]
+В'етнамскі
+[Korean (Johab)]
+Карэйскі (Johab)
 ;file \plugins\Scriver\src\input.cpp
+[Messaging]
+Паведамленні
 [Navigate: Previous Tab]
 Навігацыя: Папярэдняя ўкладка
 [Navigate: Next Tab]
@@ -141,42 +437,242 @@
 [Action: Paste & Send]
 Дзеянне: Уставіць і адправіць
 ;file \plugins\Scriver\src\msgdialog.cpp
+[Quote]
+Цытата
 [Smiley]
 Смайлік
+[Add Contact]
+Дадаць кантакт
+[User Menu]
+Меню карыстача
+[User Details]
+Пра карыстача
+[History]
+Гісторыя
+[Send]
+Адправіць
+[Look up '%s':]
+Шукаць '%s':
+[No word to look up]
+Няма слоў для пошуку
+[Add Contact Permanently to List]
+Дадаць у спіс
+[View User's Details]
+Інфармацыя пра карыстача
+[View User's History]
+Гісторыя паведамленняў
 [Quote Text]
 Цытата
+[Insert Emoticon]
+Смайлы
+[Send Message]
+Адправіць
 [User Menu - %s]
 Меню карыстача - %s
+[signed off (was %s)]
+сыходзіць (быў(а) %s)
+[signed on (%s)]
+прыходзіць (%s)
+[is now %s (was %s)]
+зараз %s (быў(а) %s)
 [Sending in progress: %d message(s) left...]
 Адпраўка паведамлення: %d засталося...
+[%s is typing a message...]
+%s набірае тэкст...
+[Last message received on %s at %s.]
+Апошняе паведамленне вы атрымалі %s у %s.
 ;file \plugins\Scriver\src\msglog.cpp
+[Unknown Contact]
+Невядомы кантакт
+[Me]
+Я
+[Today]
+Сёння
+[Yesterday]
+Учора
+[File sent]
+Пасылка файла
+[File received]
+Файл атрыманы
 ;file \plugins\Scriver\src\msgoptions.cpp
+[General]
+Агульнае
 [Event Log]
 Лог падзей
 [Group Chat Log]
 Лог чата
+[Outgoing messages]
+Выходныя паведамленні
+[Outgoing background]
+Выходны фон
+[Incoming messages]
+Уваходныя паведамленні
+[Incoming background]
+Уваходны фон
+[Outgoing name]
+Маё імя
+[Outgoing time]
+Час адпраўлення
+[Outgoing colon]
+Двукроп'е ў выходных паведамленнях
+[Incoming name]
+Імя суразмоўцы
+[Incoming time]
+Час атрымання
+[Incoming colon]
+Двукроп'е ва ўваходных паведамленнях
+[Message area]
+Вобласць паведамлення
+[Outgoing URL]
+Выходныя URL
+[Incoming URL]
+Уваходны URL
 [Infobar contact name]
 Інфа-Панэль: імя кантакту
 [Infobar status message]
 Інфа-Панэль: статутнае паведамленне
+[Others nicknames]
+Іншыя псеўданімы
+[Your nickname]
+Ваш псеўданім
+[User has joined]
+Карыстач далучыўся
+[User has left]
+Карыстач сышоў
+[User has disconnected]
+Карыстач адключыўся
+[User kicked ...]
+Выспятак
+[User is now known as ...]
+Змена псеўданіма
+[Notice from user]
+Апавяшчэнне
+[Incoming message]
+Уваходнае паведамленне
+[Outgoing message]
+Выходнае паведамленне
+[The topic is ...]
+Змена тэмы
+[Information messages]
+Інфармацыйныя паведамленні
+[User enables status for ...]
+Усталёўка статусу
+[User disables status for ...]
+Здыманне статусу
+[Action message]
+Дзеянне
+[Highlighted message]
+Падсветленае паведамленне
+[Message typing area]
+Поле набору тэксту
 [Message background]
 Фон поля ўводу
 [User list members (online)]
 Удзельнікі спісу (далучаныя)
+[User list members (away)]
+Карыстачы (адсутнічаюць)
 [User list lines]
 Лініі спісу
 [User list background (selected)]
 Фон спісу (абрана)
+[Offline]
+Адключаны
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[NA]
+Недаступны
+[Occupied]
+Заняты
+[DND]
+Не турбаваць
+[Free for chat]
+Вольны
+[Invisible]
+Нябачны
+[Out to lunch]
+Абедаю
+[On the phone]
+На тэлефоне
+[** New contacts **]
+** Новыя кантакты **
+[** Unknown contacts **]
+** Невядомыя кантакты **
+[Show balloon popup (unsupported system)]
+Паказваць падказкі (непадтрымоўваная сістэма)
+[Message Sessions]
+Гутаркі
+[Typing Notify]
+Набірае тэкст
 ;file \plugins\Scriver\src\msgs.cpp
+[Message from %s]
+Паведамленне ад %s
+[%s is typing a message]
+%s набірае тэкст
+[Typing Notification]
+Апавяшчэнне пра набор тэксту
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda не змагла загрузіць убудаваную сістэму сообпаведамленняў, бо адсутнічае riched20.dll. Калі ў вас Windows 95 або WINE, праверце наяўнасць файла riched20.dll. Нажміце "Да", каб працягнуць загрузку.
+[Instant messages]
+Паведамленні IM
+[Incoming (Focused Window)]
+Уваходныя (актыўнае акно)
+[Incoming (Unfocused Window)]
+Уваходныя (неактыўнае акно)
+[Incoming (New Session)]
+Уваходныя (новыя сеанс)
+[Outgoing]
+Выходныя
 ;file \plugins\Scriver\src\msgtimedout.cpp
+[An unknown error has occured.]
+Невядомая памылка.
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 Па-над усіх вокнамі
 ;file \plugins\Scriver\src\sendqueue.cpp
+[The message send timed out.]
+Таймаўт адпраўкі паведамлення
 ;file \plugins\Scriver\src\chat\clist.cpp
+[Join chat]
+Увайсці ў чат
+[Open chat window]
+Адчыніць вакно чата
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
+[%s has joined]
+%s увайшоў
+[You have joined %s]
+Вы прыйшлі на '%s'
+[%s has left]
+%s выйшаў
+[%s has disconnected]
+%s адключыўся
+[%s is now known as %s]
+%s змяніў імя на %s
+[You are now known as %s]
+Зараз вы вядомыя як %s
+[%s kicked %s]
+%s выкінуў %s
+[Notice from %s]
+Апавяшчэнне ад %s
+[The topic is '%s%s']
+Тэма '%s%s'
+[ (set by %s on %s)]
+ (усталявана %s %s)
+[ (set by %s)]
+ (пастаўлена %s)
+[%s enables '%s' status for %s]
+%s уключае статус '%s' для %s
+[%s disables '%s' status for %s]
+%s выключае статус '%s' для %s
+[<invalid>]
+<няверна>
 ;file \plugins\Scriver\src\chat\main.cpp
+[&Join]
+Зайсці
+[&Leave]
+&Пакінуць
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Міргаць, калі хтосьці кажа
@@ -200,20 +696,248 @@
 Паказваць значок статусу, пасля значка роляў
 [Add ':' to auto-completed names]
 Дадаваць ":" да імёнаў карыстачоў
+[Prefix all events with a timestamp]
+Падстаўляць час ва ўсе падзеі
+[Only prefix with timestamp if it has changed]
+Падстаўляць час, калі ёсць змены
 [Timestamp has same colour as event]
 Час таго ж колеры, як і падзея
+[Indent the second line of a message]
+Водступ другога радка паведамлення
 [Limit user names to 20 characters]
 Абмежаваць імёны 20-цю знакамі
 [Strip colors from messages]
 Забараніць колеры паведамленняў
 [Enable 'event filter' for new rooms]
 Уключаць "фільтр падзей" для новых пакояў
+[Show topic changes]
+Змена тэмы
+[Show users joining]
+Новыя карыстачы
+[Show users disconnecting]
+Карыстачы, якія пакінулі сервер
+[Show messages]
+Паведамленні
+[Show actions]
+Дзеянні
+[Show users leaving]
+Карыстачы, што пакінулі чат-пакой
+[Show users being kicked]
+Выспяткі з чат-пакою
+[Show notices]
+Апавяшчэнні
+[Show users changing name]
+Змена псеўданіма
+[Show information messages]
+Інфармацыйныя паведамленні
+[Show status changes of users]
+Змена статусу
+[Show icons in tray only when the chat room is not active]
+Паказваць абразкі толькі калі вакно чат-пакоя неактыўнае
+[Show icon in tray for topic changes]
+Змена тэмы
+[Show icon in tray for users joining]
+Далучэнні ўдзельнікаў
+[Show icon in tray for users disconnecting]
+Адключэнні ўдзельнікаў
+[Show icon in tray for messages]
+Паведамленні
+[Show icon in tray for actions]
+Дзеянні
+[Show icon in tray for highlights]
+Падсветленыя паведамленні
+[Show icon in tray for users leaving]
+Выйсці ўдзельнікаў
+[Show icon in tray for users kicking other user]
+Выспятак
+[Show icon in tray for notices ]
+Апавяшчэнні
+[Show icon in tray for name changes]
+Змены псеўданімаў
+[Show icon in tray for information messages]
+Інфармацыйныя паведамленні
+[Show icon in tray for status changes]
+Змены статусаў
+[Show popups only when the chat room is not active]
+Паказваць успл. вокны толькі пры не актыўным вакне чат-пакоя
+[Show popup for topic changes]
+Змена тэмы
+[Show popup for users joining]
+Далучэнні ўдзельнікаў
+[Show popup for users disconnecting]
+Адключэнні ўдзельнікаў
+[Show popup for messages]
+Паведамленні
+[Show popup for actions]
+Дзеянні
+[Show popup for highlights]
+Падсветленыя паведамленні
+[Show popup for users leaving]
+Выйсці ўдзельнікаў
+[Show popup for users kicking other user]
+Выспятак 
+[Show popup for notices ]
+Апавяшчэнні
+[Show popup for name changes]
+Змены псеўданімаў
+[Show popup for information messages]
+Інфармацыйныя паведамленні
+[Show popup for status changes]
+Змены статусаў
 [Appearance and functionality of chat windows]
 Інтэрфейс і функцыянальнасць вокнаў чата
+[Icons to display in the tray]
+Абразкі ў сістэмным латку
+[nick of current contact (if defined)]
+нік бягучага кантакту (калі вызначаны)
+[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+назва пратаколу бягучага кантакту (калі вызначана). Назва ўліковага запісу выкарыстоўваецца калі пратакол падтрымлівае шматконтнасць
+[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+ID бягучага кантакту (калі вызначаны). Напрыклад, UIN для ICQ, JID для Jabber і г.д.
+[path to root miranda folder]
+шлях да тэчкі праграмы
+[path to current miranda profile]
+шлях да тэчкі бягучага профіля
+[name of current miranda profile (filename, without extension)]
+імя бягучага профіля (толькі імя, без пашырэння)
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
+верне радок выгляду %miranda_profile%\\Profiles\\%miranda_profilename%
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+аналог зменнага асяроддзя %APPDATA% для бягучага карыстача сістэмы
+[username for currently logged-on Windows user]
+імя бягучага карыстача сістэмы
+["My Documents" folder for currently logged-on Windows user]
+тэчка "Мае дакументы" для бягучага Windows карыстача
+["Desktop" folder for currently logged-on Windows user]
+тэчка "Працоўны стол" для бягучага Windows карыстача
+[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+любая зменная асяроддзі, вызначаная ў бягучай Windows сесіі (напрыклад, %systemroot%, %allusersprofile% і г.д.)
+[day of month, 1-31]
+дзень месяца, 1-31
+[day of month, 01-31]
+дзень месяца, 01-31
+[month number, 1-12]
+нумар месяца, 1-12
+[month number, 01-12]
+нумар месяца, 01-12
+[abbreviated month name]
+скарочаная назва месяца
+[full month name]
+поўная назва месяца
+[year with century, 1901-9999]
+год з 4-х лічбаў, 1901-9999
+[abbreviated weekday name]
+скарочаная назва дня тыдня
+[full weekday name]
+поўная назва дня тыдня
+[Variables]
+Зменныя
+[Appearance]
+Знешні выгляд
+[Default events to show in new chat rooms if the 'event filter' is enabled]
+Паказаць у новым вакне, калі 'Фільтр падзей' уключаны
+[Select Folder]
+Абраць тэчку
+[Popups]
+Усплывальныя вокны
+[Group chats]
+Чаты
+[Message is highlighted]
+Паведамленне вылучана
+[User has performed an action]
+Карыстач здзейсніў дзеянне
+[User has kicked some other user]
+Карыстач штурхнуў іншага
+[User's status was changed]
+Статус карыстача змяніўся
+[User has changed name]
+Карыстач змяніў імя
+[User has sent a notice]
+Карыстач адправіў апавяшчэнне
+[The topic has been changed]
+Тэма змянілася
 ;file \plugins\Scriver\src\chat\services.cpp
 [Server: %s]
 Сервер: %s
 ;file \plugins\Scriver\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s патрабуе Вашай увагі ў %s
+[%s speaks in %s]
+%s кажа ў %s
+[%s has joined %s]
+%s увайшоў у %s
+[%s has left %s]
+%s выйшаў з %s
+[%s kicked %s from %s]
+%s выкінуў %s з %s
+[Topic change in %s]
+Змена тэмы ў %s
+[Information in %s]
+Інфармацыя ў %s
+[%s enables '%s' status for %s in %s]
+%s уключае статус '%s' для %s у %s
+[%s disables '%s' status for %s in %s]
+%s выключае статус '%s' для %s у %s
+[%s says: %s]
+%s кажа: %s
+[%s has left (%s)]
+%s выйшаў (%s)
+[%s has disconnected (%s)]
+%s адключыўся (%s)
+[%s kicked %s (%s)]
+%s выкінуў %s (%s)
+[Notice from %s: %s]
+Апавяшчэнне ад %s: %s
+[The topic is '%s']
+Тэма '%s'
+[The topic is '%s' (set by %s)]
+Тэма '%s' (усталявана %s)
 ;file \plugins\Scriver\src\chat\window.cpp
+[Italic]
+Курсіў
+[Underline]
+Падкрэсленне
+[Text color]
+Колер тэксту
+[Background color]
+Колер фону
+[Filter]
+Фільтр
 [Manager]
 Мэнэджар
+[Nick list]
+Спіс нікаў
+[Insert a smiley]
+Уставіць смайл
+[Make the text bold (CTRL+B)]
+Зрабіць тэкст тоўстым (CTRL+B)
+[Make the text italicized (CTRL+I)]
+Зрабіць тэкст курсівам (CTRL+I)
+[Make the text underlined (CTRL+U)]
+Падкрэсліць тэкст (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Абраць фон тэксту (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Абраць колер тэксту (CTRL+K)
+[Show the history (CTRL+H)]
+Паказаць гісторыю (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+Паказаць/схаваць спіс карыстачоў (CTRL+N)
+[Control this room (CTRL+O)]
+Кантраляваць гэты чат-пакой (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+Уключыць/выключыць фільтр падзей (CTRL+F)
+[Nick name]
+Мянушка
+[Unique id]
+Асабісты конт
+[Status]
+Статус
+[%s: Chat Room (%u user)]
+%s: Чат-пакой (%u карыстач)
+[%s: Chat Room (%u users)]
+%s: Чат-пакой (%u карыстачоў)
+[%s: Message Session]
+%s: гутарка
+[%s: Message Session (%u users)]
+%s: гутарка (%u карыстачоў)

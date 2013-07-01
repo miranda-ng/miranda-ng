@@ -8,19 +8,33 @@
 [Provides extended options for sound notifications.]
 Падае пашыраныя опцыі гукавых апавяшчэнняў пра ўваходныя паведамленні.
 ;file \plugins\XSoundNotify\res\XSoundNotify.rc
+[Account:]
+Уліковы запіс:
+[Nick:]
+Нік:
+[Sound:]
+Гук:
 [Not set]
 Не ўсталявана
 [Choose]
 Абраць
 [Test play]
 Тэст
+[Reset]
+Скід
 [Ignore sound for this contact]
 Ігнараваць гук для гэтага кантакту
+[OK]
+ОК
+[Cancel]
+Скасаваць
 ;file \plugins\XSoundNotify\src\xsn_main.cpp
 [Sound files]
 Гукавыя файлы
 [WAV files]
 Файлы WAV
+[Sounds]
+Гукі
 [XSound Notify]
 Карыстацкія гукі
 [Custom sound for %s (%s)]

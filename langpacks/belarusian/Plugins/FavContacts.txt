@@ -8,8 +8,16 @@
 [Favourite contacts menu.]
 Меню абраных кантактаў.
 ;file \plugins\FavContacts\res\resource.rc
+[Customize]
+Тонкая налада
+[Show second line]
+Паказваць другі радок
+[Show avatars]
+Аватары
 [Draw avatar border]
 Мяжа на аватарах
+[Round corners by]
+Акругліць куты на
 [px.]
 пікс.
 [Hide for transparent avatars]
@@ -32,6 +40,8 @@
 Выраўноўванне па правым краі
 [Dim idle contact icons]
 Зацямніць idle кантакты
+[Show]
+Паказаць
 [recent contacts]
 нядаўніх кантактаў
 ;file \plugins\FavContacts\src\favlist.h
@@ -42,12 +52,24 @@
 Абраны кантакт
 [Regular Contact]
 Звычайны кантакт
+[Contact name]
+Імя кантакту
+[Second line]
+Другі радок
 [Selected contact name (color)]
 Імя кантакту пад курсорам
 [Selected second line (color)]
 Адлюстраванне другога радка пад курсорам
+[Background]
+Фон
+[Selected background]
+Фон вылучэння
 [Show favourite contacts]
 Паказаць абраныя кантакты
+[Contacts]
+Кантакты
+[Favourites]
+Абраныя
 [&Favourite Contacts...]
 Абраныя кантакты
 [<No group>]

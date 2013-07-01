@@ -18,6 +18,12 @@
 Праграма ліцэнзавана пад умовамі GNU General Public License.
 [Miranda Database Tool]
 Прылада базы Miranda NG
+[< &Back]
+< &Назад
+[&Next >]
+&Далей >
+[Cancel]
+Скасаваць
 [Select Miranda Profile]
 Выбар профіля Miranda NG
 [You can choose the Miranda profile database to compact or repair.]
@@ -97,14 +103,20 @@
 ;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Модуль праверкі не можа знайсці падыходнага драйвера БД для адкрыцця '%s'.
+[Error]
+Памылка
 [Database driver '%s' doesn't support checking.]
 Драйвер базы '%s' не падтрымлівае праверку.
+[Database]
+Профіль
 [Total size]
 Памер
 [Wasted]
 Мёртва
 [Miranda Databases (*.dat)]
 Базы Miranda NG (*.dat)
+[All Files]
+Усе файлы
 ;file \plugins\DbChecker\src\wizard.cpp
 ;file \plugins\DbChecker\src\worker.cpp
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]

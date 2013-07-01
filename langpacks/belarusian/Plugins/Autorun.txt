@@ -15,4 +15,6 @@
 [Note: At startup Miranda NG will use current profile]
 Нататка: Пры запуску будзе скарыстаны бягучы профіль
 ;file \plugins\AutoRun\src\main.cpp
+[Services]
+Службы
 ;file \plugins\AutoRun\src\stdafx.h

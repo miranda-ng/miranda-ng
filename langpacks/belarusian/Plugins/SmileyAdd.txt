@@ -12,6 +12,16 @@
 Катэгорыі смайлаў
 [Specify Smiley Pack for each category]
 Катэгорыі з унікальнымі наборамі смайлаў
+[Name:]
+Імя:
+[Author:]
+Аўтар:
+[Version:]
+Версія:
+[Preview]
+Тэст
+[Display]
+Паказваць
 [Replace only smileys surrounded by spaces]
 Замяняць толькі смайлы акружаныя прабеламі
 [Scale smiley to textheight]
@@ -36,10 +46,14 @@
 Акно ў стылі IEView
 [Input Area]
 Поле ўводу
+[Enable Smileys]
+Уключыць смайлы
 [Don't replace at cursor]
 Не замяняць пад курсорам
 [Built-In Message Dialog Support]
 Падтрымка модуляў паведамленняў
+[Disable]
+Выключыць
 [Smiley Button]
 Кнопка смайла
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
@@ -60,8 +74,18 @@ HTTP далучэнне SmileyAdd
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 Смайлы
+[Customize]
+Тонкая налада
+[Off]
+Адкл.
+[Top]
+Угару
+[Bottom]
+Ніз
 [Smiley Packs]
 Набор смайлаў
+[All Files]
+Усе файлы
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 У адпаведнасці з пратаколам

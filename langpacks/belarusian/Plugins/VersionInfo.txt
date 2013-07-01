@@ -10,6 +10,10 @@
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 Вывесці ў:
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [Text file]
 Тэкставы файл
 [MessageBox]
@@ -18,6 +22,8 @@
 Дыялогавае вакно
 [Output Debug String]
 Выснова адладкавых радкоў
+[Clipboard]
+Буфер абмену
 [Select output:]
 Вывесці ў:
 [Upload to site]
@@ -36,6 +42,10 @@
 Скапіяваць у буфер абмену
 [Upload site settings]
 Налады сайта
+[Username]
+Імя карыстача
+[Password]
+Пароль
 [Highlight version number using]
 Вылучыць нумар версіі
 [Show disabled plugins too]
@@ -52,8 +62,12 @@ UUID плагiна
 Паказваць усталяваныя мовы
 [Miranda Version Information]
 Версіі модуляў Miranda
+[Close]
+Зачыніць
 [&Copy text]
 &Капіяваць
+[Upload]
+Загрузіць
 [&Save to file]
 &У файл
 ;file \plugins\VersionInfo\src\CVersionInfo.cpp
@@ -77,6 +91,10 @@ UUID плагiнаў
 Версіі плагiнаў
 [Output folder]
 Тэчка захавання
+[Version Information]
+Версіі
+[Services]
+Службы
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
 [Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]

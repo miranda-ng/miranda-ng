@@ -38,6 +38,8 @@
 Лічыць паведамлення спамам, калі не ўхвалена за
 [days as spam]
 дня
+[Enabled]
+Уключаны
 [and learn as ham]
 і лічыць не спамам
 [Enabled accounts:]
@@ -54,6 +56,10 @@
 кантрольных пытанняў кантакту ў дзень
 [times a day]
 раз у дзень
+[Settings]
+Налады
+[Outgoing message]
+Выходнае паведамленне
 [Incoming message with any word from list:]
 Уваходным паведамленні з любым са слоў:
 [Auto approve on:]
@@ -70,6 +76,8 @@
 Адказы: (знаходзяцца ў зменных %response%, %response-n%)
 [will be saved in %mathexpr%]
 знаходзіцца ў %mathexpr%
+[Reset to defaults]
+Скінуць
 [Reply on success:]
 Апавяшчаць пры пацверджанні:
 [Send challenge on authorization request:]
@@ -88,10 +96,22 @@
 Кантакт заблакаваны
 [Contact approved]
 Кантакт пацверджаны
+[Appearance]
+Знешні выгляд
 [Foreground]
 Тэкст
+[Background]
+Фон
+[Timeout]
+Таймаўт
+[Default colors]
+Па змаўчанні
 [Default timeout]
 Па змаўчанні
+[Preview]
+Тэст
+[Windows colors]
+Колеры Windows
 [Challenge sent]
 Адпраўлены пытанне
 ;file \plugins\Spamotron\src\bayes.cpp
@@ -123,8 +143,14 @@
 Памылка ў рэгулярным выразе.\nБудзе скарыстана старое значэнне.
 [Message score]
 Спам-рэйтынг
+[Message Sessions]
+Гутаркі
+[Messages]
+Паведамленні
 [Bayes]
 Байес
+[Popups]
+Усплывальныя вокны
 ;file \plugins\Spamotron\src\spamotron.cpp
 [Contact %s approved.]
 Кантакт %s пацверджаны.

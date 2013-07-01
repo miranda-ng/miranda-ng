@@ -6,10 +6,18 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\Yahoo\res\Yahoo.rc
+[Password:]
+Пароль:
+[Nick:]
+Нік:
 [Create a new Yahoo account using the Yahoo website]
 Стварыць конт на сайце Yahoo
+[Expert]
+Эксперт
 [Use Yahoo Address Book (YAB)]
 Выкарыстоўваць адрасную кнігу Yahoo (YAB)
+[Show Avatars]
+Паказваць аватары
 [AutoLogin to Yahoo Website(s)]
 Аўтаматычна далучацца да Yahoo сайту(ам)
 [Display Yahoo notifications]
@@ -22,29 +30,91 @@ Yahoo Японія
 Стварыць новы конт Yahoo
 [Connection Settings]
 Налады злучэнняў
+[Login server:]
+Сервер:
+[Port:]
+Порт:
+[Reset]
+Скід
 [Yahoo Ignore List]
 Ігнараваць на Yahoo
 [Ignore anyone who is not on my Yahoo buddy list ]
 Ігнараваць усіх, хто не ў маім спісе сяброў
 [Ignore only the people below: ]
 Ігнараваць абраных:
+[&Add]
+&Дадаць
+[&Remove]
+Ачысціць
 [Set Custom Status]
 Усталёўка xСтатуса
 [Show as busy]
 Паказаць як "заняты"
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[Protocol:]
+Пратакол:
+[Client:]
+Кліент:
+[Chat Room Invitation Request]
+Запрашэнее ў чат
+[&Join]
+Зайсці
+[&Deny]
+&Забараніць
+[Denial Message]
+Паведамленне аб адмове
+[Invitation Message]
+Запрашэнне
 [Host]
 Хост
+[Invite Buddy To Chat Room]
+Запрашэнне ў чат-пакой
+[Screen Name]
+Мянушка
+[&Invite]
+Запрасіць
+[&Cancel]
+С&касаваць
+[Invitation reason]
+Мэта запрашэння
+[Add]
+Дадаць
 ;file \protocols\Yahoo\src\avatar.cpp
+[Avatars]
+Аватары
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 (Miranda NG) Атрымана запрашэнне ў пакой %s:%s
+[%s denied invitation with message: %s]
+%s адмаўляе запрашэнне з паведамленнем: %s
+[Me]
+Я
+[Others]
+Іншае
+[&Invite user...]
+Запрасіць карыстача...
+[&Leave chat session]
+&Пакінуць сеанс
+[User &details]
+Дадзеныя кантакту
+[User &history]
+Гісторыя карыстача
 [Join My Conference...]
 Заходзь ў мой чат-пакой...
 [No, thank you...]
 Не, дзякуй ...
 ;file \protocols\Yahoo\src\icolib.cpp
+[Main]
+Галоўны
 [Mail]
 Пошта
+[Profile]
+Профіль
+[Refresh]
+Абнавіць
 [Address Book]
 Адрасная кніга
 [Set Status]
@@ -54,6 +124,8 @@ Yahoo Японія
 ;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Yahoo памылка
+[The message send timed out.]
+Таймаўт адпраўкі паведамлення
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 Паведамленне занадта доўгае: Yahoo абмежавана ў 800 UTF8 знакаў
 ;file \protocols\Yahoo\src\links.cpp
@@ -79,9 +151,19 @@ Yahoo Ігнор
 Вы павінны далучыцца для выдалення са спісу ігнаравання.
 [Please select a buddy on the ignore list to remove.]
 Абярыце кантакт для выдалення са спісу ігнаравання.
+[Network]
+Сеціва
+[Account]
+Конт
+[Connection]
+Далучэнне
 [Ignore List]
 Чорны спіс
 ;file \protocols\Yahoo\src\proto.cpp
+[New E-mail available in Inbox]
+Новая пошта ў тэчцы "Ўваходныя"
+[%s plugin connections]
+%s злучэнне з серверам
 [Please enter your yahoo id in Options/Network/Yahoo]
 Увядзіце ваш yahoo ID - Налады/Сеціва/Yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]
@@ -123,6 +205,8 @@ Yahoo Ігнор
 ID, якога вы сабраліся дадаць, несапраўдны.
 [Unknown Error??.]
 Невядомая памылка??.
+[New Mail]
+Новая пошта
 [You Have %i unread msgs]
 У вас %i не прачытаных паведамленняў
 [New Mail (%i msgs)]

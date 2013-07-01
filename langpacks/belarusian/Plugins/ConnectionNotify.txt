@@ -10,22 +10,38 @@
 ;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
 [Set popup colours]
 Колер паведамленняў
+[Popup options]
+Налады ўсплывальных вокнаў
+[Background]
+Фон
+[Text]
+Тэкст
 [Close after: ]
 Зачыніць пасля:
 [sec.(0 default, -1 disabled)]
 сек.(0 змаўчанне, -1 адключана)
+[Settings]
+Налады
 [try resolve addresses]
 спрабуе далучыцца
+[Version:]
+Версія:
 [Show notification if no filter defined]
 Апавяшчаць, калі ні адзін фільтр не вызначаны
 [Attempt interval (ms.)]
 Інтэрвал спроб (ms.)
+[Filters]
+Фільтры
 [DN]
 ВЕРХ
 [UP]
 НІЗ
 [Rule editor]
 Кіравала
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [* and ? wildcard characters also available (for port enter number or *)]
 тут даступныя * і ? фільтры (для порта увядзіце нумар або *)
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
@@ -33,8 +49,14 @@
 Заўсёды паказваць вакно
 [Never show popup]
 Ніколі не паказваць вакно
+[Status]
+Статус
 [Application]
 Прылада
+[Action]
+Дзеянне
+[Plugins]
+Плагіны
 [ConnectionNotify: New Connection Notification]
 ConnectionNotify: Апавяшчэнне пра новыя злучэнні
 ;file \plugins\ConnectionNotify\src\filter.cpp

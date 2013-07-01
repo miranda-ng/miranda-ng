@@ -8,11 +8,29 @@
 [Shows ignore state of contact in contacts list.]
 Паказвае стан ігнаравання ў кантакту ў спісе кантактаў.
 ;file \plugins\IgnoreState\res\ignore.rc
+[Plugin settings]
+Налады
 [Filtered events:]
 Фільтр падзей:
 [Use Miranda ignore settings for All Contacts]
 Выкарыстоўваць налады ігнаравання для ўсіх кантактаў
 ;file \plugins\IgnoreState\src\main.cpp
+[All]
+Усё
+[Messages]
+Паведамленні
+[URL]
+Ссылка
+[Files]
+Файлы
+[User Online]
+Карыстач далучаны
+[Authorization]
+Аўтарызацыя
+[You Were Added]
+Вас дадалі
+[Typing Notify]
+Набірае тэкст
 [Full Ignore]
 Поўнае ігнараванне
 [Partial Ignore]
@@ -22,3 +40,5 @@
 [Ignore State]
 Стан ігнаравання
 ;file \plugins\IgnoreState\src\options.cpp
+[Icons]
+Абразкі

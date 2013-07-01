@@ -8,12 +8,26 @@
 ;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 Нумар ICQ:
+[Password:]
+Пароль:
 [Create a new ICQ account]
 Стварыць новы конт ICQ
+[Enter an authorization request]
+Тэкст запыту аўтарызацыі
+[&Send]
+&Адправіць
+[&Cancel]
+С&касаваць
 [Enter ICQ Password]
 Увядзіце пароль ICQ
 [Enter a password for UIN %d:]
 Увядзіце пароль для нумара %d:
+[Remember this session password]
+Запомніць пароль сеансу
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [ICQ number:]
 Нумар ICQ:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -22,6 +36,14 @@
 Нагадаць пароль ці нумар ICQ
 [Create a new ICQ account using the ICQ website]
 Стварыць конт на сайце ICQ
+[Connection settings]
+Налады далучэння
+[Login Server:]
+Сервер:
+[Port:]
+Порт:
+[Default]
+Змаўчанні
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
 Для далучэння да выпадковага порта пакажыце порт 0. Спрабуйце порты 443 ці 80, калі ў вас праблемы з далучэннем праз проксі.
 [Secure Connection (SSL)]
@@ -62,6 +84,8 @@
 Немагчыма ўключыць/выключыць спіс на серверы падчас далучэння да ICQ.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
 Заўвага: Налады, адзначаныя зорачкай, маюць пабочныя эфекты, якія могуць быць не дакументаваны ў даведцы.
+[Messaging]
+Паведамленні
 [Enable unicode messaging support]
 Уключыць падтрымку Unicode
 [Send all messages in unicode if possible]
@@ -122,46 +146,130 @@
 Адказваць на запыт статуснага паведамлення толькі бачным кантактам
 [Some options are greyed out because they can only be changed when you are online.]
 Некаторыя налады можна змяняць толькі пасля далучэння да ICQ.
+[Options]
+Налады
 [Enable popup support]
 Уключыць усплывальныя вокны
+[Display errors using popups]
+Паказваць памылкі ў вокнах
 [Display popup when spambot is detected]
 Акно пры выяўленні спамбота
 [Look && Feel]
 Адлюстраванне
+[Back Color]
+Колер фону
+[Text Color]
+Колер тэксту
+[Timeout]
+Таймаўт
+[Note]
+Нататка
+[Warning]
+Папярэджанне
+[Error]
+Памылка
 [Fatal]
 Фатальная памылка
 [Spam detected]
 Выяўлены спам
+[&Use Windows colors]
+&Колеры Windows
 [Use system &icons]
 Сістэмныя значкі
+[Previe&w]
+&Тэст
+[Use default colours]
+Колеры па змаўчанні
 [UIN:]
 Нумар:
 [External IP:]
 Вонкавы IP:
+[Internal IP:]
+Унутраны IP:
 [Protocol Version:]
 Версія пратаколу:
 [User Client:]
 Кліент:
+[Online since:]
+Далучаны:
 [System up since:]
 Уключаны з:
 [Idle since:]
 Прастойвае з:
+[Status:]
+Статус:
+[Summary]
+Рэзюмэ
+[Nickname:]
+Нік:
+[First name:]
+Імя:
+[Last name:]
+Прозвішча:
+[E-mail:]
+Пошта:
+[Gender:]
+Пол:
+[Age:]
+Узрост:
+[Marital status:]
+Сямейнае становішча:
 [Keywords:]
 Тэгі:
+[Work]
+Праца
+[Occupation:]
+Занятак:
+[Company:]
+Кампанія:
+[Department:]
+Аддзел:
+[Position:]
+Пасада:
 [Organisation:]
 Арганізацыя:
+[Location]
+Месца
+[Language:]
+Мова:
+[Country:]
+Краіна:
+[State:]
+Штат:
+[City:]
+Горад:
+[Background info]
+Біяграфія
 [Interests]
 Інтарэсы:
 [Category:]
 Катэгорыя:
+[Past]
+Мінулае
+[Homepage]
+Сайт
+[Other]
+Іншае
+[Search online users only]
+Толькі далучоных карыстачоў
 [Manage ICQ Server Contacts]
 Кіраванне кантактамі на серверы
 [Select contacts to store:]
 Кантакты для запампоўкі:
 [Synchronize]
 Сінхранізаваць
+[Custom Status "%s" Details]
+xСтатус "%s"
+[Closing in %d]
+Зачыніць (%d)
+[Title:]
+Загаловак:
+[Message:]
+паведамленне:
 [Retrieving custom status details...]
 Запыт тэксту хстатуса...
+[&Save changes]
+Захаваць змены
 [Confirm Password Change]
 Пацвердзіць змену пароля
 [Please re-type your new password:]
@@ -273,6 +381,8 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
 [Are you sure you want to revoke user's authorization (this will remove you from his/her list on some clients) ?]
 Вы ўпэўнены, што жадаеце адклікаць аўтарызацыю? (выдаліць вас са спісу кантактаў на некаторых кліентах)?
+[Confirmation]
+Пацверджанне
 [** This message was blocked by the ICQ server ** The message was invalid.]
 ** Гэта паведамленне было заблакавана серверам ICQ ** Паведамленне мела няслушны фармат.
 [** This message was blocked by the ICQ server ** The message was too long.]
@@ -284,12 +394,36 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 [** Unknown missed message event.]
 ** Невядомая страчаная падзея.
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
+[Avatars]
+Аватары
 [Error uploading avatar to server, server temporarily unavailable.]
 Памылка загрузкі аватара на сервер. Сервер часова недаступны.
 [Error uploading avatar to server, server refused to accept the image.]
 Памылка загрузкі аватара на сервер, сервер не прыняў малюнак.
 ;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Afghanistan]
+Афганістан
+[Albania]
+Албанія
+[Algeria]
+Алжыр
+[Andorra]
+Андора
+[Angola]
+Ангола
+[Anguilla]
+Ангілья
+[Antigua and Barbuda]
+Антыгуа і Барбуда
+[Argentina]
+Аргенціна
+[Armenia]
+Арменія
+[Aruba]
+Аруба
+[Australia]
+Аўстралія
 [Australia, Antarctic Territory]
 Аўстралія (антаркціка)
 [Australia, Christmas Island]
@@ -298,98 +432,676 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 Какосавыя выспы
 [Australia, Norfolk Island]
 Востраў Норфолк
+[Austria]
+Аўстрыя
+[Azerbaijan]
+Азербайджан
+[Bahamas]
+Багамы
+[Bahrain]
+Бахрэйн
+[Bangladesh]
+Бангладэш
+[Barbados]
+Барбадас
+[Belarus]
+Беларусь
+[Belgium]
+Бельгія
+[Belize]
+Беліз
+[Benin]
+Бенін
+[Bermuda]
+Бярмуды
+[Bhutan]
+Бутан
 [Bolivia]
 Балівія
+[Bosnia and Herzegovina]
+Боснія і Герцагавіна
+[Botswana]
+Батсвана
+[Brazil]
+Бразілія
 [British Virgin Islands]
 Брытанскія Віргінскія выспы
 [Brunei]
 Бруней
+[Bulgaria]
+Балгарыя
+[Burkina Faso]
+Буркіна-Фасо
+[Burundi]
+Бурундзі
+[Cambodia]
+Камбоджа
+[Cameroon]
+Камерун
+[Canada]
+Канада
 [Canary Islands]
 Канарскія выспы
+[Cayman Islands]
+Кайманавы астравы
+[Central African Republic]
+ЦАР
+[Chad]
+Чад
 [Chile, Republic of]
 Чылі
+[China]
+КНР
+[Colombia]
+Калумбія
+[Comoros]
+Каморы
 [Congo, Democratic Republic of (Zaire)]
 ДР Конга - ДРК і Конга (Кіншасы)
 [Congo, Republic of the]
 Конга (Бразавіль)
+[Cook Islands]
+Выспы Кука
+[Costa Rica]
+Коста-Рыка
 [Cote d'Ivoire (Ivory Coast)]
 Кот-д'Івуар
+[Croatia]
+Харватыя
+[Cuba]
+Куба
 [Greek, Republic of South Cyprus]
 Кіпр
+[Czech Republic]
+Чэхія
+[Denmark]
+Данія
+[Djibouti]
+Джыбуці
+[Dominica]
+Дамініка
+[Dominican Republic]
+Дамініканская Рэспубліка
+[Ecuador]
+Эквадор
+[Egypt]
+Егіпет
+[El Salvador]
+Сальвадор
+[Equatorial Guinea]
+Экватарыяльная Гвінея
+[Eritrea]
+Эрытрэя
+[Estonia]
+Эстонія
+[Ethiopia]
+Эфіопія
 [Europe]
 Еўропа
 [Falkland Islands]
 Фолклендскія выспы
+[Fiji]
+Фіджы
+[Finland]
+Фінляндыя
+[France]
+Францыя
+[French Guiana]
+Французская Гвіяна
+[French Polynesia]
+Французская Палінезія
+[Gabon]
+Габон
+[Gambia]
+Гамбія
+[Georgia]
+Грузія
+[Germany]
+Германія
+[Ghana]
+Гана
+[Gibraltar]
+Гібралтар
+[Greece]
+Грэцыя
+[Greenland]
+Грэнландыя
+[Grenada]
+Грэнада
+[Guadeloupe]
+Гвадэлупа
 [Guam, US Territory of]
 Гуам (ЗША)
+[Guatemala]
+Гватэмала
+[Guinea]
+Гвінея
+[Guinea-Bissau]
+Гвінея-Бісау
+[Guyana]
+Гаяна
+[Haiti]
+Гаіці
+[Honduras]
+Гандурас
+[Hong Kong]
+Ганконг
+[Hungary]
+Венгрыя
+[Iceland]
+Ісландыя
+[India]
+Індыя
+[Indonesia]
+Інданезія
 [Iran (Islamic Republic of)]
 Іран
+[Iraq]
+Ірак
+[Ireland]
+Ірландыя
+[Israel]
+Ізраіль
+[Italy]
+Італія
+[Jamaica]
+Ямайка
+[Japan]
+Японія
+[Jordan]
+Іарданія
+[Kazakhstan]
+Казахстан
+[Kenya]
+Кенія
+[Kiribati]
+Кірыбаці
 [Korea, North]
 КНДР
 [Korea, South]
 Рэспубліка Карэя
+[Kuwait]
+Кувейт
+[Kyrgyzstan]
+Кіргізія
 [Laos]
 Лаос
+[Latvia]
+Латвія
+[Lebanon]
+Ліван
+[Lesotho]
+Лесота
+[Liberia]
+Ліберыя
 [Libyan Arab Jamahiriya]
 Ливія
+[Liechtenstein]
+Ліхтэнштэйн
+[Lithuania]
+Літва
+[Luxembourg]
+Люксембург
 [Macau]
 Макао (Аомынь)
 [Macedonia, Republic of]
 Македонія
+[Madagascar]
+Мадагаскар
+[Malawi]
+Малаві
+[Malaysia]
+Малайзія
+[Maldives]
+Мальдывы
+[Mali]
+Малі
+[Malta]
+Мальта
+[Marshall Islands]
+Маршалавы выспы
+[Martinique]
+Марцініка
+[Mauritania]
+Маўрытанія
+[Mauritius]
+Маўрыкій
 [Mayotte Island]
 Майотта
+[Mexico]
+Мексіка
+[Micronesia, Federated States of]
+Мікранезія
+[Moldova, Republic of]
+Малдова
+[Monaco]
+Манака
+[Mongolia]
+Манголія
+[Montserrat]
+Монтсеррат
+[Morocco]
+Марока
+[Mozambique]
+Мазамбік
+[Myanmar]
+М'янма
+[Namibia]
+Намібія
+[Nauru]
+Науру
+[Nepal]
+Непал
+[Netherlands]
+Нідэрланды
+[Curacao]
+Кюрасао
+[New Caledonia]
+Новая Каледонія
+[New Zealand]
+Новая Зеландыя
+[Nicaragua]
+Нікарагуа
+[Niger]
+Нігер
+[Nigeria]
+Нігерыя
+[Niue]
+Ніуэ
 [Northern Mariana Islands, US Territory of]
 Паўночныя Марыянскія выспы (ЗША)
+[Norway]
+Нарвегія
+[Oman]
+Аман
+[Pakistan]
+Пакістан
+[Palau]
+Палау
+[Panama]
+Панама
+[Papua New Guinea]
+Папуа - Новая Гвінея
+[Paraguay]
+Парагвай
+[Peru]
+Перу
+[Philippines]
+ФіліпіныФилиппины
+[Poland]
+Польшча
+[Portugal]
+Партугалія
+[Puerto Rico]
+Пуэрта-Рыка
+[Qatar]
+Катар
 [Reunion Island]
 Рэюньён
+[Romania]
+Румынія
 [Russia]
 Расія
+[Rwanda]
+Руанда
+[Saint Kitts and Nevis]
+Сэнт-Кітс і Нэвіс
+[Saint Lucia]
+Сэнт-Люсія
+[Saint Pierre and Miquelon]
+Сен-П'ер і Микелон
+[Saint Vincent and the Grenadines]
+Сэнт-Вінсэнт і Грэнадыны
+[San Marino]
+Сан-Марына
+[Sao Tome and Principe]
+Сан-Томе і Прынсэп
+[Saudi Arabia]
+Саудаўская Аравія
+[Senegal]
+Сенегал
+[Seychelles]
+Сейшэлы
+[Sierra Leone]
+Сьера-Леонэ
+[Singapore]
+Сінгапур
+[Slovakia]
+Славакія
+[Slovenia]
+Славенія
+[Solomon Islands]
+Саламонавы выспы
+[Somalia]
+Самалі
+[South Africa]
+ПАР
+[Spain]
+Іспанія
+[Sri Lanka]
+Шры Ланка
+[Sudan]
+Судан
+[Suriname]
+Сурынам
+[Swaziland]
+Свазіленд
+[Sweden]
+Швецыя
+[Switzerland]
+Швейцарыя
+[Syrian Arab Republic]
+Сірыйская Арабская Рэспубліка
 [Taiwan]
 Тайвань
+[Tajikistan]
+Таджыкістан
 [Tanzania]
 Танзанія
+[Thailand]
+Тайланд
+[Togo]
+Того
+[Tokelau]
+Токелау
+[Tonga]
+Тонга
+[Trinidad and Tobago]
+Трынідад і Табага
+[Tunisia]
+Туніс
+[Turkey]
+Турцыя
+[Turkmenistan]
+Туркменістан
+[Turks and Caicos Islands]
+Астравы Тэркс і Кайкас
+[Tuvalu]
+Тувалу
+[Uganda]
+Уганда
+[Ukraine]
+Украіна
+[United Arab Emirates]
+ААЭ
+[United Kingdom]
+Вялікабрытанія
+[Uruguay]
+Уругвай
 [USA]
 ЗША
+[Uzbekistan]
+Узбекістан
+[Vanuatu]
+Вануату
+[Yemen]
+Емен
+[Zambia]
+Замбія
+[Zimbabwe]
+Зімбабвэ
+[50's]
+50-е
+[60's]
+60-е
+[70's]
+70-е
+[80's]
+80-е
+[Art]
+Мастацтва
+[Astronomy]
+Астраномія
 [Audio and Visual]
 Гук і візуалізацыя
 [Business]
 Справы
 [Business Services]
 Бізнэс паслугі
+[Cars]
+Машыны
+[Celebrity Fans]
+Фанат знакамітасцей
+[Clothing]
+Адзежа
+[Collections]
+Калекцыянаванне
+[Computers]
+Кампутары
 [Culture]
 Культура
 [Ecology]
 Экалогія
+[Entertainment]
+Забаўкі
 [Finance and Corporate]
 Фінансы і карпарацыя
+[Fitness]
+Фітнэс
 [Health and Beauty]
 Здароўе і прыгажосць
+[Hobbies]
+Хобі
 [Home Automation]
 Хатняя аўтаматызацыя
 [Household Products]
 Хатнія прадукты
+[Games]
+Гульні
+[Government]
+Урад
 [ICQ - Help]
 ICQ-дапамога
+[Internet]
+Інтэрнэт
+[Lifestyle]
+Лад жыцця
 [Mail Order Catalog]
 Заказ тавараў па пошце
+[Media]
+Медыя
 [Movies and TV]
 Кіно і ТБ
+[Music]
+Музыка
+[Mystics]
+Містыка
 [News and Media]
 Навіны і СМІ
 [Outdoors]
 Адпачынак на прыродзе
+[Parenting]
+Выхаванне
+[Parties]
+Вечарыны
 [Pets and Animals]
 Жывёлы
+[Publishing]
+Публікацыі
+[Religion]
+Рэлігія
 [Retail Stores]
 Раздробны гандаль
 [Science]
 Навука
+[Skills]
+Навыкі
+[Social science]
+Сацыялогія
+[Space]
+Космас
 [Sporting and Athletic]
 Спорт і атлетыка
+[Sports]
+Спорт
+[Travel]
+Вандроўкі
+[Web Design]
+Web Дызайн
+[Women]
+Жанчыны
+[Afrikaans]
+Афрыкаанс
+[Albanian]
+Албанскі
+[Arabic]
+Арабскі
+[Armenian]
+Армянскі
+[Azerbaijani]
+Азербайджанскі
+[Belorussian]
+Беларускі
+[Bhojpuri]
+Хайпурыйскі
+[Bosnian]
+Баснійскі
+[Bulgarian]
+Балгарскі
+[Burmese]
+Бурмескі
+[Cantonese]
+Катанезійскі
+[Catalan]
+Каталанскі
+[Chamorro]
+Чаморскій
+[Chinese]
+Кітайскі
+[Croatian]
+Харвацкі
+[Czech]
+Чэшскі
+[Danish]
+Дацкі
+[Dutch]
+Галандскі
+[English]
+Ангельскі
+[Esperanto]
+Эсперанта
+[Estonian]
+Эстонскі
+[Farsi]
+Фарсі
+[Finnish]
+Фінскі
+[French]
+Французскі
+[Gaelic]
+Гайскі
+[German]
+Нямецкі
+[Greek]
+Грэцкі
+[Gujarati]
+Гуджарацкі
+[Hebrew]
+Іўрыт
+[Hindi]
+Хінді
+[Hungarian]
+Вугорскі
+[Icelandic]
+Ісландскі
+[Indonesian]
+Інданэзійскі
+[Italian]
+Італьянскі
+[Japanese]
+Японскі
+[Khmer]
+Кхмерскі
+[Korean]
+Карэйскі
+[Kurdish]
+Курдскі
+[Lao]
+Лаоскі
+[Latvian]
+Латышскі
+[Lithuanian]
+Літоўскі
+[Macedonian]
+Македонскі
+[Malay]
+Малайскі
+[Mandarin]
+Мандарын
+[Mongolian]
+Мангольскі
+[Norwegian]
+Нарвежскі
+[Persian]
+Персідскі
+[Polish]
+Польскі
+[Portuguese]
+Партугальскі
+[Punjabi]
+Панджабскі
+[Romanian]
+Румынскі
+[Russian]
+Рускі
+[Serbian]
+Сербскі
+[Sindhi]
+Сіндзі
+[Slovak]
+Славацкі
+[Slovenian]
+Славенскі
+[Somali]
+Самалійскі
+[Spanish]
+Гішпанскі
+[Swahili]
+Суахілі
+[Swedish]
+Швецкі
+[Tagalog]
+Тагалог
+[Taiwanese]
+Тайваньскі
+[Tamil]
+Тамільскі
+[Tatar]
+Татарскі
+[Thai]
+Тайскі
+[Turkish]
+Турэцкі
+[Ukrainian]
+Украінскі
+[Urdu]
+Урду
+[Vietnamese]
+В'етнамскі
+[Welsh]
+Валійскі
+[Yiddish]
+Ідыш
+[Yoruba]
+Ерубскі
+[Elementary School]
+Пачатковая школа
+[High School]
+Сярэдняя школа
+[College]
+ВНУ
+[University]
+Універсітэт
+[Military]
+Вайсковец
 [Past Work Place]
 Мінулая праца
 [Past Organization]
 Мінулая арганізацыя
+[Female]
+Жаночы
+[Male]
+Мужчынскі
 [Associated degree]
 Сярэднеспецыяльнае
 [Bachelor's degree]
@@ -416,12 +1128,16 @@ ICQ-дапамога
 Спажывецкія тавары
 [Corporate Services]
 Карпаратыўныя паслугі
+[Education]
+Адукацыя
 [Finance]
 Фінансы
 [High Tech]
 Высокія тэхналогіі
 [Legal]
 Юрыспрудэнцыя
+[Manufacturing]
+Вытворчасць
 [Medical & Health Care]
 Медыцына і ахова здароўя
 [Non-Profit Organization Management]
@@ -432,17 +1148,121 @@ ICQ-дапамога
 Сфера абслугоўвання
 [Transportation]
 Транспарт
+[Academic]
+Акадэмія
+[Administrative]
+Адміністрацыя
+[Art/Entertainment]
+Забаўкі
+[College Student]
+Студэнт каледжа
+[Community & Social]
+Грамадства і соцыюм
+[Engineering]
+Інжынер
+[Financial Services]
+Фінансы
+[High School Student]
+Вучань сярэдняй школы
+[Home]
+Дома
+[ICQ - Providing Help]
+ICQ - падтрымка
+[Law]
+Закон
+[Managerial]
+Кіраванне
+[Medical/Health]
+Медыцына/Здароўе
+[Non-Government Organization]
+Няўрадавая арганізацыя
+[Professional]
+Прафесіянал
+[Retail]
+Рознічны гандляр
+[Retired]
+У адстаўцы
+[Science & Research]
+Навука і даследаванні
+[Technical]
+Тэхнічны
+[University Student]
+Студэнт універсітэта
+[Web Building]
+Web-службы
+[Other Services]
+Іншае
+[Alumni Org.]
+Выпускнікі
+[Charity Org.]
+Дабрачынная арганізацыя
+[Club/Social Org.]
+Клуб
+[Community Org.]
+Грамадскае аб'яднанне
+[Cultural Org.]
+Культурнае аб'яднанне
+[Fan Clubs]
+Фан-клуб
+[Fraternity/Sorority]
+Клуб па інтарэсах/Жаночы клуб
+[Hobbyists Org.]
+Арганізацыя па захапленнях
+[International Org.]
+Міжнародная арганізацыя
+[Nature and Environment Org.]
+Прыродаахоўная арганізацыя
+[Professional Org.]
+Прафсаюз
+[Scientific/Technical Org.]
+Навукова-тэхнічная арганізацыя
+[Self Improvement Group]
+Група самаўдасканальвання
+[Spiritual/Religious Org.]
+Рэлігійная арганізацыя
+[Sports Org.]
+Спартовая арганізацыя
+[Support Org.]
+Арганізацыя падтрымкі
+[Trade and Business Org.]
+Гандлевая арганізацыя
+[Union]
+Аб'яднанне
+[Volunteer Org.]
+Добраахвотніцкая арганізацыя
 [60-above]
 60 і больш
+[Single]
+Самотны
+[Close relationships]
+У блізкіх стасунках
+[Engaged]
+Заручаны
+[Married]
+У шлюбе
+[Divorced]
+У разводзе
+[Separated]
+Падзельнік
+[Widowed]
+Удавец/Удава
 [Open relationship]
 У актыўным пошуку
 ;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
+[No description given]
+Без апісання
 ;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 Перадача файла была адменена, таму што адзін з абраных файлаў не чытаецца з дыска, бо быў перамешчаны ці выдалены.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 Перадача файла была адменена, таму што немагчыма адкрыць лакальны файл на запіс. Хутчэй за ўсё, вы спрабуеце захаваць файл у тэчку дзе няма права на запіс.
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Request authorization]
+Запытаць аўтарызацыю
+[Grant authorization]
+Аўтарызаваць
+[Revoke authorization]
+Адклікаць аўтарызацыю
 [Add to server list]
 Дадаць у спіс на серверы
 [Show custom status details]
@@ -460,9 +1280,37 @@ ICQ-дапамога
 Патрабуецца ўмяшанне карыстача
 [Do not display any problems (not recommended)]
 Схаваць усе памылкі (не рэкамендуецца)
+[Simplified Chinese]
+Кітайскі (спрошчаны)
+[Traditional Chinese]
+Кітайскі (традыцыйны)
+[Central European]
+Цэнтральнаеўрапейскі
+[Cyrillic]
+Кірыліца
+[Latin I]
+Заходнееўрапейскі
+[Baltic]
+Балтыйскі
+[Korean (Johab)]
+Карэйскі (Johab)
 [System default codepage]
 Сістэмная кадоўка
+[Network]
+Сеціва
+[Account]
+Конт
+[Contacts]
+Кантакты
+[Features]
+Магчымасці
+[Privacy]
+Прыватнасць
+[Popups]
+Усплывальныя вокны
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
+[Popup Title]
+Загаловак акна
 [Sample Note]
 Прыклад нататкі
 [Sample Warning]
@@ -474,6 +1322,12 @@ ICQ-дапамога
 [Sample Spambot]
 Прыклад спамбота
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
+[%s server connection]
+Далучэнне да сервера %s
+[%s client-to-client connections]
+Злучэнні паміж кліентамі %s
+[User ID]
+ID карыстача
 [You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 Вы не ўвялі нумар ICQ.\nНаладзьце яго ў частцы Налады->Сетка->ICQ і паспрабуйце зноў.
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
@@ -535,21 +1389,41 @@ ICQ-дапамога
 Выдаляю групу "%s"...
 [All operations complete]
 Усе аперацыі завершаны
+[Close]
+Зачыніць
 [You have to be online to sychronize the server-list !]
 Вы павінны быць далучаны для сінхранізацыі спісу на серверы
+[** All contacts **]
+** Усе кантакты **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[Angry]
+Злуюся
 [Taking a bath]
 У ваннай
+[Tired]
+Стаміўся
+[Birthday]
+Дзень нараджэння
 [Drinking beer]
 П'ю піва
 [Thinking]
 Думаю
+[Eating]
+Ем
 [Watching TV]
 Гляджу тэлевізар
+[Meeting]
+Сустрэча
+[Coffee]
+П'ю каву
+[Listening to music]
+Слухаю музыку
 [Shooting]
 Фатаграфую
 [Having fun]
 Весялюся
+[On the phone]
+На тэлефоне
 [Gaming]
 Гуляю
 [Studying]
@@ -558,16 +1432,30 @@ ICQ-дапамога
 Магазін
 [Feeling sick]
 Хварэю
+[Sleeping]
+Сплю
 [Surfing]
 Серфінг
+[Working]
+Працую
+[Typing]
+Набор тэксту
 [Picnic]
 Пікнік
+[Cooking]
+Гатую 
+[Smoking]
+Палю
 [I'm high]
 Дзьмухаю
+[On WC]
+У туалеце
 [To be or not to be]
 Быць альбо не быць?
 [Watching pro7 on TV]
 Гляджу тэлевізар
+[Love]
+Каханне
 [Hot Dog]
 Хот-дог
 [Rough]
@@ -590,8 +1478,12 @@ ICQ-дапамога
 Круты
 [Evil]
 Дэман
+[Alien]
+Іншапланецянін
 [Scooter]
 Скутар
+[Mask]
+Маска
 [Money]
 Грошы
 [Pilot]
@@ -610,6 +1502,8 @@ ICQ-дапамога
 Ружовая
 [Up yours]
 Ідзі ты
+[Laughing]
+Смяюся
 [Dog]
 Сабака
 [Candy]
@@ -652,6 +1546,8 @@ ICQ-дапамога
 Храпу
 [On my mobile]
 З мабільніка
+[Depressed]
+Падушаны
 [Beetle]
 Жук
 [Double Rainbow]
@@ -664,10 +1560,16 @@ ICQ-дапамога
 Святкую
 [Sushi]
 Сушы
+[Playing]
+Грае
 [Writing]
 Пішу
 [%s Custom Status]
 xСтатус %s
+[None]
+Няма
+[Custom Status]
+хстатус
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 Паштоўка:
@@ -683,8 +1585,12 @@ xСтатус %s
 Фатальная памылка ICQ
 [The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
 Сервер не адказаў на спробу далучэння. Магчыма, ён часова недаступны. Паспрабуйце пазней.
+[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+Спроба далучэння з серверам перапынілася з памылкай. Магчыма, знікла далучэнне да лакальнай сеткі.
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
 Не атрымалася дазволіць імя сервера ў IP адрас. Хутчэй за ўсё гэта злучана з адсутнасцю далучэння да Інтэрнэту (напрыклад, ваш мадэм адключыўся). Калі вы выкарыстоўваеце проксі, паспрабуйце ўключыць опцыю "Вызначаць імёны хастоў праз проксі": Налады->Сетка.
+[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
+Не атрымалася далучыцца да сервера. Магчыма, сервер не працуе. Калі ласка, паспрабуйце далучыцца пазней.
 [Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
 Ваш проксі сервер адпрэчыў імя і пароль. Калі ласка, праверце іх: Налады->Сетка.
 [The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
@@ -692,6 +1598,8 @@ xСтатус %s
 [error]
 памылка
 ;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+[%d Files]
+%d файлаў
 [The file transfer was aborted by the other user.]
 Перадача файла перапынена карыстачом на тым боку.
 [The file transfer failed: Proxy error]
@@ -713,6 +1621,8 @@ xСтатус %s
 [The checksum of file "%s" does not match, the file is probably damaged.]
 Кантрольная сума файла "%s" не супадае, файл можа быць пашкоджаны.
 ;file \protocols\IcqOscarJ\src\utilities.cpp
+[<invalid>]
+<няверна>
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12:00 Эневеток, Кваджалейн
@@ -774,16 +1684,58 @@ GMT+10:00 Уладзівасток; Гуам; Усходняя Аўстралі�
 GMT+11:00 Магадан, Сахалін, Саламонавы в-пы
 [GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
 GMT+12:00 Камчатка, Фіджы, Маршалавы в-пы, Окленд, Велінгтон
+[January]
+Студзень
+[February]
+Люты
+[March]
+Сакавік
+[April]
+Красавік
+[May]
+Травень
+[June]
+Чэрвень
+[July]
+Ліпень
+[August]
+Жнівень
+[September]
+Верасень
+[October]
+Кастрычнік
+[November]
+Лістапад
+[December]
+Снежань
 [Personal]
 Асабістае
+[Nickname]
+Нік
 [First name]
 Імя
 [Last name]
 Прозвішча
+[Gender]
+Пол
+[About]
+Інфармацыя
+[Password]
+Пароль
+[Contact]
+Кантакт
+[Primary e-mail]
+Асноўны e-mail
+[Secondary e-mail]
+Другасны e-mail
+[Tertiary e-mail]
+Трэці e-mail
 [Street]
 Вуліца
 [City]
 Горад
+[State]
+Стан
 [ZIP/postcode]
 Індэкс
 [Country]
@@ -796,6 +1748,8 @@ GMT+12:00 Камчатка, Фіджы, Маршалавы в-пы, Окленд
 Мабільны тэлефон
 [Personal Detail]
 Асабістыя дадзеныя
+[Timezone]
+Гадзінны пояс
 [Year of birth]
 Год нараджэння
 [Month of birth]
@@ -874,6 +1828,8 @@ GMT+12:00 Камчатка, Фіджы, Маршалавы в-пы, Окленд
 ;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
 [<unremovable once applied>]
 <нельга выдаліць пасля ўводу>
+[<empty>]
+<не>
 [Unknown value]
 Невядомае значэнне
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
@@ -888,6 +1844,8 @@ GMT+12:00 Камчатка, Фіджы, Маршалавы в-пы, Окленд
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Вы не далучаны да ICQ. Каб абнаўляць дадзеныя, трэба далучыцца.
 ;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
+[Please authorize me to add you to my contact list.]
+Дазволіце, калі ласка, дадаць Вас у спіс.
 ;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
 Увядзіце пароль для %u:
@@ -896,6 +1854,8 @@ GMT+12:00 Камчатка, Фіджы, Маршалавы в-пы, Окленд
  (DC усталявана)
 [ScreenName:]
 Імя AIM:
+[<not specified>]
+<не паказана>
 [Member since:]
 Удзельнік з:
 [%s Details]

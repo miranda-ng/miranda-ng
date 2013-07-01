@@ -8,6 +8,10 @@
 [Generates a list of extracted URIs from the history.]
 Стварае і паказвае спіс спасылак з гісторыі кантакту.
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search]
+Пошук
+[Close]
+Зачыніць
 [Search for:]
 Знайсці:
 [Message direction]
@@ -28,16 +32,26 @@
 Толькі вэб-адрасы
 [Deep search]
 Глыбокі пошук
+[Static]
+Статычны
 [Colour Select]
 Выбар колеру
+[Incoming messages]
+Уваходныя паведамленні
 [Plugin Default]
 Па змаўчанні
+[Preview]
+Тэст
+[Outgoing messages]
+Выходныя паведамленні
 [Backgroundcolour]
 Фон
 [Use Miranda Settings]
 Выкарыстоўваць налады праграмы
 [Textcolour]
 Колер тэксту
+[General Settings]
+Асноўныя налады
 [Open links always in a new window]
 Заўсёды адкрываць спасылкі ў новым акне
 [Update list on new events]
@@ -48,10 +62,24 @@
 Захоўваць пазіцыю акна асобна для кожнага кантакту
 [Show...]
 Паказваць...
+[Date]
+Дата
 [Parting line]
 Частка. лінію
+[Timestamp]
+Час
 [Direction]
 Кірунак
+[Type]
+Тып
+[&File]
+&Файл
+[&Save]
+&Захаваць
+[&Close]
+&Зачыніць
+[&Options]
+&Налады
 [Message &Direction]
 Кірунак &паведамленняў
 [&Outgoing Messages Only]
@@ -66,8 +94,14 @@
 Толькі e-mail адрасы
 [&Clear Search Results]
 &Ачысціць вынікі пошуку
+[&Search]
+&Шукаць
+[Open]
+Адкрыць
 [Open in new Window]
 Адкрыць у новым акне
+[Copy to Clipboard]
+Капіяваць у буфер
 [Show Message]
 Паказаць паведамленне
 ;file \plugins\HistoryLinkListPlus\src\language.h
@@ -77,13 +111,19 @@
 Гісторыя пустая!
 [There are no links in history!]
 Спасылак у гісторыі не знойдзена!
+[Error]
+Памылка
 [incoming]
 уваходныя
 [outgoing]
 выходныя
+[Filter]
+Фільтр
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
 [&Create Linklist]
 &Стварыць Лінк-ліст
+[History]
+Гісторыя
 [Processing history...]
 Апрацоўка гісторыі...
 [Could not create window!]
@@ -98,3 +138,7 @@ Linklist Модуль
 Апрацоўка спісу...
 [No messages found!\nPlease change current filter options.]
 Паведамленняў не знойдзена!\n Калі ласка, зменіце бягучыя параметры фільтра.
+[RTF file]
+RTF файл
+[All files]
+Усе файлы

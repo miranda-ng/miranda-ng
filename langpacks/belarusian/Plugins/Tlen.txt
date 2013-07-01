@@ -1,12 +1,28 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
+[Username:]
+Карыстач:
+[Password:]
+Пароль:
+[Save password]
+Захаваць пароль
+[Create new account]
+Новы конт
+[Options]
+Налады
+[Automatically reconnect after unintentional disconnection]
+Перападключыцца пасля нечаканага парыву
 [Leave status message after disconnection]
 Пакінуць паведамленне статусу пасля адключэння
 [Ignore advertisements]
 Ігнараваць рэкламу
+[Automatically delete contacts not in my roster]
+Аўтаматычна выдаляць кантакты, якія не ў спісе
 [Show offline users with status messages as invisible in contact list]
 Паказваць адключаных карыстачоў з паведамленнямі статусу як нябачныя
+[Enable avatars]
+Уключыць аватары
 [Send and receive client version information]
 Адпраўляць і атрымліваць версіі кліентаў
 [Alert policy]
@@ -27,8 +43,14 @@
 Прылада прайгр.
 [Expert Options]
 Налады Эксперта
+[Login server:]
+Сервер:
 [Connection Host:]
 Вузел далучэння:
+[Port:]
+Порт:
+[Keep connection alive]
+Падтрымліваць злучэнне
 [Enable Always Visible and Never Visible]
 Вкл. Заўсёды бачны і Заўсёды нябачны
 [P2P Connections]
@@ -37,36 +59,92 @@ P2P далучэнні
 Ужыв. проксі для ўваходных далучэнняў
 [Enable incoming mail notification]
 Укл. апавяшчэнне пра ўваходную пошту
+[Colours]
+Колеры
+[Background]
+Фон
+[Text]
+Тэкст
+[Delay]
+Затрымка
 [&From Popup plugin]
 Усталёўкі Popup
 [&Custom]
 Наладзіць
 [P&ermanent]
 Увесь час
+[Preview]
+Тэст
+[Jabber Password]
+Jabber Пароль
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[Nick name:]
+Псеўданім:
+[First name:]
+Імя:
+[Last name:]
+Прозвішча:
+[E-mail:]
+Пошта:
+[Gender:]
+Пол:
 [Year of birth:]
 Год нараджэння:
+[City:]
+Горад:
 [School:]
 Школа:
+[Occupation:]
+Занятак:
 [Looking for:]
 Шукаю:
 [Voice chats]
 Галасавыя чаты
+[Avatar]
+Аватар
 [Tlen login:]
 Уваход Tlen:
 [Subscription:]
 Падпіска:
+[Version:]
+Версія:
 [Personal Information]
 Персанальныя дадзеныя
+[Nickname:]
+Нік:
+[Age:]
+Узрост:
+[to]
+у
 [Extra Search Criterias]
 Дап. крытэры пошуку
+[Status:]
+Статус:
 [Plan:]
 План:
+[Finish]
+Завяршыць
 [Tlen Voice Chat Invitation]
 Tlen запрашэнне галасавога чата
+[&Accept]
+Прыняць
+[From:]
+Ад:
 [The following invitation to join a voice chat is received.]
 Атрымана запрашэнне ўвайсці ў галасавы чат.
 ;file \protocols\Tlen\src\jabber_iqid.cpp
 ;file \protocols\Tlen\src\jabber_opt.cpp
+[General]
+Агульнае
+[Advanced]
+Дадаткова
+[Notifications]
+Апавяшчэнні
+[Network]
+Сеціва
 [These changes will take effect the next time you connect to the Tlen network.]
 Змены набудуць моц, пасля таго як Вы перападключыцеся Tlen.
 [Tlen Protocol Option]
@@ -93,23 +171,47 @@ Tlen запрашэнне галасавога чата
 Перанакіраванне
 ;file \protocols\Tlen\src\jabber_svc.cpp
 ;file \protocols\Tlen\src\jabber_thread.cpp
+[Enter password for]
+Увядзіце пароль для
 [%s Web Messages]
 %s Web паведамленняў
+[From]
+Ад
+[E-mail]
+Пошта
 [An alert has been received.]
 Апавяшчэнне прынята.
 [Private conference]
 Асабістая канферэнцыя
+[Subject]
+Тэма
 ;file \protocols\Tlen\src\jabber_ws.cpp
+[%s connection]
+Злучэнне %s
 ;file \protocols\Tlen\src\tlen.cpp
+[Protocol icon]
+Абразок пратаколу
+[Group chats]
+Чаты
 [Voice chat]
 Галасавы чат
+[Send image]
+Адправіць
 [Incoming mail]
 Уваходная пошта
 [Alert]
 Папярэджанні
+[Multi-User Conference]
+Канферэнцыя
 [Voice Chat]
 Галасавы чат
+[Request authorization]
+Запытаць аўтарызацыю
+[Grant authorization]
+Аўтарызаваць
 ;file \protocols\Tlen\src\tlen_file.cpp
+[%d Files]
+%d файлаў
 ;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
 Вас выкінулі. Чыннік: %s
@@ -139,6 +241,14 @@ Tlen запрашэнне галасавога чата
 Невядомая памылка: %d
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
+[Account]
+Конт
+[both]
+у абодва бакі
+[from]
+з
+[none]
+няма
 ;file \protocols\Tlen\src\tlen_voice.cpp
 [...Connecting...]
 ...далучэнне...
@@ -150,3 +260,5 @@ Tlen запрашэнне галасавога чата
 ...Памылка...
 [...Denied...]
 ...Забаронена...
+[Default]
+Змаўчанні

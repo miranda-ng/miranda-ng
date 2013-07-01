@@ -8,6 +8,16 @@
 [Take a screenshot and send it to a contact.]
 Стварэння здымкаў і адсылка кантакту.
 ;file \plugins\SendScreenshotPlus\res\resource.rc
+[Dialog]
+Гутарка
+[OK]
+ОК
+[All]
+Усё
+[None]
+Няма
+[Cancel]
+Скасаваць
 [Ti&med capture]
 Затрымка захопу
 [Time (secs) :]
@@ -26,6 +36,14 @@
 Адкрыць ізноў
 [&Capture]
 Захоп
+[About]
+Інфармацыя
+[Credits >]
+Аўтары >
+[&Close]
+&Зачыніць
+[Edit]
+Змяніць
 [C&lient Area]
 Змесціва
 [Caption :]
@@ -33,6 +51,10 @@
 [Size (HxW) :]
 Памер (HxW) :
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[An unknown error has occured.]
+Невядомая памылка.
+[Error]
+Памылка
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
@@ -41,6 +63,14 @@
 Не магу запусціць модуль HTTP Сервер.
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
+[Retry]
+Яшчэ раз
+[Yes]
+Так
+[No]
+Не
+[Ignore]
+Ігнараваць
 ;file \plugins\SendScreenshotPlus\src\global.h
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [SendSS]
@@ -54,12 +84,44 @@
 [Take a screenshot]
 Зрабіць скрыншот
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Default]
+Змаўчанні
+[Help]
+Даведка
+[Open Folder]
+Адкрыць тэчку
 [Prev]
 Назад
+[Next]
+Наперад
+[Update]
+Абнавіць
+[Ok]
+Ок
+[Apply]
+Ужыць
+[Down arrow]
+Стрэлка ўніз
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Buttons]
+Кнопкі
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
+[< Copyright]
+< Правы
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&&Drop the target on the desired window.]
 Перацягнеце прыцэл на патрэбнае акно.
+[Window]
+Акно
+[Desktop]
+Працоўны стол
+[File Transfer]
+Перадача файла
+[E-mail]
+Пошта
+[FTP File]
+Файл на FTP
+[Information]
+Інфармацыя
 [Select a target window.]
 Абярыце акно для адпраўкі.

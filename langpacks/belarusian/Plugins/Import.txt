@@ -38,6 +38,12 @@ Miranda знайшла наступныя профілі. Абярыце про�
 Імпартуецца...
 [Import Information Wizard]
 Майстар імпартавання
+[&Next >]
+&Далей >
+[Cancel]
+Скасаваць
+[< &Back]
+< &Назад
 [Import all contacts and all messages]
 Імпартаваць усе кантакты і паведамленні
 [Only import contacts]
@@ -56,8 +62,20 @@ Miranda знайшла наступныя профілі. Абярыце про�
 Сістэмная гісторыя
 [Select items to import:]
 Абярыце, што імпартаваць:
+[Incoming]
+Уваходныя
+[Outgoing]
+Выходныя
 [Only since:]
 Толькі з:
+[Messages]
+Паведамленні
+[URLs]
+Спасылкі
+[File Transfers]
+Перадача файлаў
+[Other]
+Іншае
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 Прапускаю падзею ад самога сябе
@@ -98,6 +116,8 @@ Miranda знайшла наступныя профілі. Абярыце про�
 [Skipped %d duplicates.]
 Прапушчана %d дублікатаў.
 ;file \plugins\Import\src\main.cpp
+[Import...]
+Імпарт...
 [&Import...]
 &Імпарт
 ;file \plugins\Import\src\miranda.cpp
@@ -107,7 +127,11 @@ Miranda знайшла наступныя профілі. Абярыце про�
 Імпарт Miranda
 [Miranda NG database]
 База Miranda NG/IM
+[All Files]
+Усе файлы
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Пропуск дубліката групы %s
 ;file \plugins\Import\src\wizard.cpp
+[Finish]
+Завяршыць

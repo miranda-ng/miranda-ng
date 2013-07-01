@@ -10,18 +10,34 @@
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Мой нік
+[Nickname:]
+Нік:
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[General]
+Агульнае
+[...avatar]
+...аватар
 [RTL]
 RTL
 [Align text to right]
 Выраўнаваць справа
+[...nickname]
+...імя
 [Auto-resize frame]
 Выраўноўваць фрэйм
 [Use contact list smileys]
 Смайлікі спісу кантактаў
+[...status]
+...статус
 [Replace Smileys]
 Замяняць смайлы
 [Resize Smileys]
 Змяняць памер смайлаў
+[...status message]
+...паведамленне статуса
 [Top:]
 Верх:
 [Bottom:]
@@ -30,14 +46,36 @@ RTL
 Лева:
 [Right:]
 Права:
+[Avatar]
+Аватар
 [Custom size:]
 Памер аватара:
+[pixels]
+пікс.
 [Allow it to grow]
 Расцягнуць аватар
+[Draw border]
+Паказваць рамку
+[Round corners]
+Закругленыя куты
+[Custom corner size:]
+Памер кута:
 [Use free space (under avatar) to other texts]
 Ужыв. вольнае месца (пад аватарамі) для тэксту
+[Global On...]
+Глабальна для...
 [Frame Options]
 Налады вакна
+[Cycle through accounts every:]
+Змяняць конты кожныя:
+[seconds]
+секунд(ы)
+[Account]
+Конт
+[Show account name]
+Імя конта
+[Show account cycle button]
+Кнопка змены контаў
 [Set My Status Message for All Status]
 Статуснае паведамленне для ўсіх статусаў
 [Status Message:]
@@ -74,6 +112,14 @@ RTL
 Змяніць статутнае паведамленне...
 [Enable Listening To]
 Уключыць Цяпер слухаю
+[Show next account]
+Наступны конт
+[Show previous account]
+Папярэдні конт
+[Cycle through accounts]
+Змяняць конты
+[Don't cycle through accounts]
+Не змяняць конты
 [Nick popup]
 Нік
 [Status message popup]
@@ -84,8 +130,18 @@ RTL
 [<no status name>]
 <няма імя статусу>
 ;file \plugins\MyDetails\src\frame.cpp
+[Nickname]
+Нік
+[Status]
+Статус
+[Status Message]
+Статуснае паведамленне
+[Listening To]
+Слухаю
 [My Details]
 Мае дэталі
+[Background]
+Фон
 [Avatar Border]
 Мяжа аватара
 [Show My Details]
@@ -101,6 +157,8 @@ RTL
 [Hide My Details]
 Схаваць мае дэталі
 ;file \plugins\MyDetails\src\mydetails.cpp
+[Listening to]
+Слухаю
 [Previous protocol]
 Папярэдні пратакол
 [Next protocol]
@@ -111,4 +169,6 @@ RTL
 Усталяваць статус для %s
 [Show next protocol]
 Паказаць наступны пратакол
+[Contact List]
+Спіс кантактаў
 ;file \plugins\MyDetails\src\options.cpp

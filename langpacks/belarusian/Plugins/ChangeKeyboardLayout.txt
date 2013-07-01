@@ -8,6 +8,8 @@
 [Plugin for changing keyboard layout of text (multilayout).]
 Плагiн для змены раскладак тэксту.
 ;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
+[Hotkeys]
+Гарачыя клавішы
 [Changing layout:]
 Змена раскладкі:
 ["Current word" mode]
@@ -16,6 +18,8 @@
 Змена раскладкі (альтэрнатыўна):
 [Inverting lettercase:]
 Інвертаваць рэгістр:
+[Options]
+Налады
 [Two-way changing layout (experimental)]
 Двухбаковая змена раскладкі
 [Log operations]
@@ -26,6 +30,10 @@
 Паказаць вынік у акне
 [Strings for keyboard layouts]
 Радкі для раскладак клавіятуры
+[EN]
+EN
+[Default]
+Змаўчанні
 [Invert current state]
 Інвертаваць бягучы стан
 [Switch off]
@@ -36,17 +44,47 @@
 Усталяваць стан Caps Lock пры інвертаванні рэгістра:
 [Change active keyboard layout in system]
 Змяняць актыўную раскладку клавіятуры
+[Colours]
+Колеры
 [Popup colours]
 Колеры успл. вокнаў
 [Windows colours]
 Колеры Windows
 [Custom colours]
 Наладзіць колеры
+[Back]
+Фон
+[Text]
+Тэкст
+[Timeout]
+Таймаўт
+[From Popup plugin]
+Па змаўчанні
+[Permanent]
+Увесь час
+[Custom]
+Наладзіць
+[On left click]
+Левая пстрычка
+[Copy to clipboard]
+Капіяваць у буфер абмену
+[Dismiss]
+Прыбраць
+[On right click]
+Правая пстрычка
+[Preview]
+Тэст
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 [ChangeKeyboardLayout]
 Змена раскладкі
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
+[Popup]
+Вакно
 [Changing Layout]
 Змена раскладкі
 [Changing Case]
 Інвертаваць рэгістр
+[Message Sessions]
+Гутаркі
+[Popups]
+Усплывальныя вокны

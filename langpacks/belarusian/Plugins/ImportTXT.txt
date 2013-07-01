@@ -21,6 +21,8 @@
 Абярыце файл для імпарту...
 [Text files (*.txt)]
 Тэкставыя файлы (*.txt)
+[All files (*.*)]
+Усе файлы (*.*)
 [Error in cfg file: ]
 Памылка ў cfg файле:
 [No Files Patterns Found]
@@ -39,6 +41,8 @@
 Імпарт не скончаны. Вы сапраўды жадаеце зачыніць?
 [Error adding message to DB]
 Памылка дадання паведамлення ў Базу
+[Error opening file]
+Памылка адкрыцця файла
 [Error mapping file]
 Памылка адлюстравання файла
 [Error mapping]

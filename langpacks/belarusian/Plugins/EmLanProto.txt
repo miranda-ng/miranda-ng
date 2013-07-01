@@ -14,6 +14,8 @@
 Налады сеціва
 [Use computer name]
 Імя камп'ьютэра
+[Your name]
+Ваша імя
 [Select your name]
 Абярыце ваша імя
 ;file \protocols\EmLanProto\src\amdproto.cpp
@@ -21,3 +23,5 @@
 Імя карыстача ці  '*'
 [E-mage LAN protocol]
 Пратакол E-mage LAN 
+[Network]
+Сеціва

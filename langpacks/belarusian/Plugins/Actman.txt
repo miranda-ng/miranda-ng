@@ -15,12 +15,16 @@
 змен.
 [DWord]
 Двойкавы
+[You can use %name%, %uid%, %account% and %group% macros]
+Вы можаце выкарыстоўваць зменныя %name%, %uid%, %account% і %group%
 [wParam type]
 Тып wParam
 [lParam type]
 Тып lParam
 [Service name]
 Імя службы
+[Structure]
+Структура
 [Result action]
 Вынік дзеяння
 [Window option]
@@ -61,6 +65,8 @@
 апошні вынік
 [structure]
 структура
+[Structure]
+Структура
 [Link to action]
 Спасылка на дзеянне
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
@@ -161,8 +167,12 @@
 Выгляд выпадальнага спісу
 [Apply format]
 Ужыць фармат
+[You can use %name%, %uid%, %account% and %group% macros]
+Вы можаце выкарыстоўваць зменныя %name%, %uid%, %account% і %group%
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
 Выкарыстоўваць масіў байт/паказальнік на байты для радкоў у ANSI\n Выкарыстоўваць масіў слоў/паказальнік на словы для радкоў у Unicode\n$## замяняецца байтам з шаснаццатковым значэннем ##\n$#### замяняецца словам з шаснаццатковым значэннем #### (толькі для радкоў у Unicode)\n Уся даўжыня дадзеных вылічаецца ў байтах
+[New]
+Стварыць
 [Hooks]
 Хукі
 [Event]
@@ -217,6 +227,8 @@
 Падказка да кнопкі ў звычайным становішчы
 [Pressed button tooltip]
 Падказка да кнопкі ў націснутым становішчы
+[Separated]
+Падзельнік
 [Root popup:]
 Корань падменю:
 [Menu item name:]
@@ -231,6 +243,8 @@
 Абразкі меню
 [Data align]
 Выраўнаванне дадзеных
+[Native]
+Убудаваны
 [Packed]
 Спакаваныя
 [2 bytes]
@@ -241,6 +255,8 @@
 8 байт
 [alias]
 імя
+[type]
+тып
 [length]
 даўжыня
 [data]

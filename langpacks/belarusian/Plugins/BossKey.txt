@@ -10,6 +10,8 @@
 ;file \plugins\BossKeyPlus\res\BossKey.rc
 [BossKey]
 АнтыБос
+[Go to Customize -> Hotkeys to change the hotkey]
+Налада ў Тонкая налада -> Гарачыя клавішы
 [When I press the hotkey:]
 Калі я націсну гарачую кнопку...
 [Change status to]
@@ -20,12 +22,26 @@
 Статуснае паведамленне па змаўчанні
 [Disable Sounds]
 Адключыць гукі
+[Show the Tray Icon]
+Паказваць абразок у трэі
 [When I return:]
 Пры вяртанні...
 [Request password:]
 Спытаць пароль:
 [Change status back]
 Вярнуць папярэдні статус
+[Hotkey]
+Гарачая клавіша
+[Password:]
+Пароль:
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[EN]
+EN
+[Screen Saver is running]
+Запушчана застаўка
 [Windows is inactive]
 Windows не актыўны
 [Hide Miranda when:]
@@ -36,6 +52,10 @@ Windows не актыўны
 мін.
 [Miranda is started]
 Праграма запускаецца
+[Others]
+Іншае
+[Create a main menu item]
+Пункт у галоўным меню
 [Restore hiding on startup after failure]
 Аднаўляць утойванне пры запуску пасля "падзення"
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
@@ -45,6 +65,16 @@ Miranda заблакавана.\n Увядзіце ваш пароль для р
 Няправільны пароль!\n Увядзіце правільны пароль.
 [Hide Miranda NG]
 Схаваць Miranda NG
+[Hide]
+Схаваць
 [Hide/Show Miranda]
 Схаваць/Паказаць Miranda
 ;file \plugins\BossKeyPlus\src\Options.cpp
+[Open String Formatting Help]
+Дапамога па фармаце радкоў
+[Events]
+Падзеі
+[Main]
+Галоўны
+[Advanced]
+Дадаткова

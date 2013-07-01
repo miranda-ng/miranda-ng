@@ -10,14 +10,22 @@
 ;file \plugins\RecentContacts\res\resource.rc
 [Recent Contacts]
 Апошнія кантакты
+[Plugin settings]
+Налады
 [Number shown contacts:\n (0 to show all)]
 Колькасць кантактаў\n (0 - паказвае ўсе)
 [Format of date and time\n(Look to readme for placeholders help)]
 Формат часу і даты\n(Фармат глядзіце ў readme)
+[Hide offline contacts]
+Схаваць адключаных
 ;file \plugins\RecentContacts\src\options.cpp
+[Contacts]
+Кантакты
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Main icon]
 Галоўны значок
+[Contact]
+Кантакт
 [Ignore Contact]
 Ігнараваць кантакт
 [Show Contact]

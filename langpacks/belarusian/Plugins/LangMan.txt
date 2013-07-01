@@ -8,12 +8,22 @@
 [Helps you manage Language Packs of different languages.]
 Дапамагае ў кіраванні файламі лакалізацыі.
 ;file \plugins\LangMan\res\resource.rc
+[Author(s):]
+Аўтар(ы):
+[E-mail:]
+Пошта:
 [Last modified using:]
 Праверана на версіі:
+[Date:]
+Дата:
+[Version:]
+Версія:
 [Locale:]
 Мова:
 [Download more Language Packs]
 Загрузіць дадатковыя пераклады
+[Please restart Miranda NG for your changes to take effect.]
+Змены запрацуюць пасля перазапуску праграмы.
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
 Аднавіць пераклад
@@ -22,11 +32,19 @@
 Усе модулі перакладзены.
 [(incompatible)]
 (несумяшчальны)
+[Unknown]
+Невядома
 [Current]
 Бягучы
 [Installed Languages]
 Усталяваныя лакалізацыі
+[File]
+Файл
 [built-in]
 убудаваны
+[&Remove...]
+Выдаліць...
 [Languages]
 Мовы
+[Customize]
+Тонкая налада

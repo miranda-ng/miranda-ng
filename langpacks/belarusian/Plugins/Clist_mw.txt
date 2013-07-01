@@ -8,16 +8,230 @@
 [Displays contacts, event notifications, protocol status with MW modifications.]
 Паказвае кантакты, з'явы, статусы протоколаў. MW мадыфікацыя.
 ;file \plugins\Clist_mw\res\resource.rc
+[Settings]
+Налады
+[Background colour:]
+Колер фону:
+[Selection colour:]
+Колер вылучэння:
+[Use background bitmap]
+Фонавая выява
+[Stretch to width]
+Расцягнуць па шырыні
+[Stretch to height]
+Расцягнуць па вышыні
+[Tile horizontally]
+Гарызантальная мазаіка
+[Tile vertically]
+Вертыкальная мазаіка
+[Scroll with text]
+Пракручваць з тэкстам
+[Stretch proportionally]
+Расцягнуць
+[Tile vertically according to Row Height]
+Расцягваць вертыкальна па вышыні
+[Warning!\r\nThis MenuObject not support user defined options.]
+Увага!\r\nГэтыя пункты меню не паддаюцца наладзе.
 [MenuObjects]
 Аб'екты меню
 [MenuItems]
 Пункты меню
 [InsertSeparator]
 Падзельнік
+[Service:]
+Cлужба:
+[Name:]
+Імя:
+[Set]
+Абраць
+[Default]
+Змаўчанні
+[Delete Contact]
+Выдаліць кантакт
+[No]
+Не
+[Yes]
+Так
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Схаваць са спісу (захаваецца гісторыя і налады бачнасці)
+[Use Options->Contacts->Ignore to unhide contacts.]
+Налады->Кантакты->Ігнараваць, каб адлюстраваць кантакты.
+[Are you sure you want to delete %s?]
+Выдаліць %s са спісу?
+[This will erase all history and settings for this contact!]
+Гэта выдаліць усю гісторыю і налады для дадзенага кантакту!
+[Hide offline users]
+Схаваць адключаных
+[Hide empty groups]
+Схаваць пустыя групы
+[Disable groups]
+Адключыць групы
+[Ask before deleting contacts]
+Пацверджанне выдалення
+[Always on top]
+Па-над усімі вокнамі
+[Hide contact list after it has been idle for]
+Схаваць спіс, калі не актыўны на працягу:
+[seconds]
+секунд(ы)
+[Sort contacts by name]
+Сартаванне па імі
+[Sort contacts by status]
+Сартаванне па статусе
+[Sort contacts by protocol]
+Сартаванне па пратаколе
+[Single click interface]
+Адна пстрычка
+[Always show status in tooltip]
+Заўсёды паказваць статус у падказцы
+[Disable icon blinking]
+Выключыць мігценне
+[ms, delay between icon blinking]
+мс, паміж мігценнямі значка
+[Show]
+Паказаць
+[icon when statuses differ]
+пры розных статусах
+[Cycle icons every]
+Змяняць кожныя
+[seconds, when statuses differ]
+секунд, пры розных статусах
+[Show multiple icons]
+Некалькі абразкоў
+[Only when statuses differ]
+Пры розных статусах
+[Contact List]
+Спіс кантактаў
+[System tray icon]
+Абразок у трэі
+[System tray icon when using multiple protocols]
+Абразкі пратаколаў у сістэмным лапку
+[Contact List Sorting]
+Сартаванне спісу кантактаў
+[Dont move offline user to bottom]
+Не перасоўваць адключаных уніз
+[Pin to desktop]
+Прымацаваць ды стала
 [Rows]
 Радкі
+[Row height:]
+Вышыня радка:
+[pixels]
+пікс.
+[Gamma correction]
+Карэкцыя гамы
+[Window]
+Акно
+[Tool style main window]
+Стыль панэлі загалоўка
+[Minimize to tray]
+Схаваць у сістэмны латок
+[Automatically resize window to height of list]
+Аўтаматычна змяняць памер акна
+[maximum]
+максімум
+[% of screen]
+% ад экрана
+[Size upwards]
+Расцягваць угару
+[Title bar text:]
+Загаловак акна:
+[Translucency options]
+Налады празрыстасці
+[Fade contact list in/out]
+Плыўна схаваць спіс
+[Transparent contact list]
+Празрысты спіс кантактаў
+[Inactive opacity:]
+Акно неактыўнае:
+[Active opacity:]
+Акно актыўнае:
+[Show menu bar]
+Паказваць меню
+[Easy move]
+Простае перасоўванне
+[Show title bar]
+Паказваць загаловак
+[If window is partially covered, bring to front instead of hiding]
+Змясціць акно на пярэдні план, калі яно прычынена іншымі вокнамі
+[Enable drop shadow (restart required)]
+Уключыць цень (патрэбен перазапуск)
+[Items]
+Элементы
+[Show divider between online and offline contacts]
+Мяжа паміж злуч. і адкл. карыстачамі
+[Hot track items as mouse passes over]
+Падсвятленне пад курсорам мышы
+[Disable drag and drop of items]
+Адключыць перацягванне элементаў
+[Disable rename of items by clicking twice]
+Адключыць пераназванне па дзвюх пстрычках
+[Show selection even when list is not focused]
+Вылучэнне, нават калі акно неактыўнае
+[Make selection highlight translucent]
+Напаўпразрыстае вылучэнне
+['Hide Offline' means to hide:]
+'Схаваць адключаных' - схаваць:
+[Groups]
+Групы
+[Draw a line alongside group names]
+Лінія ўздоўж назваў груп
+[Show counts of number of contacts in a group]
+Паказваць колькасць карыстачоў у групах
+[Hide group counts when there are none online]
+Хаваць лічыльнік, калі няма далучаных карыстачоў
+[Sort groups alphabetically]
+Сартаваць групы па алфавіце
+[Quicksearch in open groups only]
+Хуткі пошук толькі ў адкрытых групах
+[Indent groups by:]
+Водступ для груп:
+[Visual]
+Візуальныя налады
+[Scroll list smoothly]
+Плыўная прагортка
+[Time:]
+Час:
+[milliseconds]
+мс
+[Left margin:]
+Левае поле:
+[Grey out entire list when:]
+Зрабіць шэрым, калі:
+[Dim idle contacts]
+Прыцьміць неактыўных карыстачоў
+[Hide vertical scrollbar]
+Схаваць паласу прагорткі
+[Contact List Background]
+Фон спісу
+[Use 'Meta' protocol icons for Metacontacts]
+'Мета' значкі для метакантактаў
+[Avoid doubleclick expand]
+Не разгортваць па падвойным кліку
+[Hide all 'Extra icons' for subcontacts]
+Схаваць дадатковыя значкі для субкантактаў
 [MetaContacts supporting]
 Падтрымка метакантактаў
+[Ignore Empty Extra icons places (arrange to right).]
+Ігнараваць пустыя дадатковыя значкі (справа)
+[Hide offline subcontacts.]
+Хаваць адключаныя субкантакты
+[Status Bar]
+Панэль статусу
+[Show status bar]
+Паказваць панэль статусу
+[Show icons]
+Паказваць абразкі
+[Show protocol names]
+Паказваць пратаколы
+[Show status text]
+Паказваць тэкст статусу
+[Right click opens status menu]
+Правая пстрычка - меню статусу
+[Right click opens Miranda menu]
+Правая пстрычка - галоўнае меню
+[Make sections equal width]
+Часткі роўнай шырыні
 [Show size grip]
 Індыкатар змены памеру
 [Show bevel effect on panels]
@@ -26,29 +240,195 @@
 Значок злучэння
 [Use New Drawer for StatusBar]
 Новы стыль панэлі статусу
+[E&xit]
+Вы&хад
+[&Status]
+Статус
+[&Offline\tCtrl+0]
+Адключаны
+[On&line\tCtrl+1]
+Далучаны
+[&Away\tCtrl+2]
+Адышоў
+[&NA\tCtrl+3]
+Недасяжны
+[Occ&upied\tCtrl+4]
+Заняты
+[&DND\tCtrl+5]
+Не турбаваць
+[&Free for chat\tCtrl+6]
+Вольны
+[&Invisible\tCtrl+7]
+Нябачны
+[On the &Phone\tCtrl+8]
+Тэлефон
+[Out to &Lunch\tCtrl+9]
+За ежай
+[Tray]
+Трэй
+[&Hide/Show]
+С&хаваць/паказаць
+[Nowhere]
+Нідзе
+[&New Group]
+Ства&рыць групу
+[&Hide Offline Users]
+Схаваць адключаных
+[Hide &Offline Users out here]
+Схаваць адключаных па-за групай
+[Hide &Empty Groups]
+Схаваць пустыя групы
+[Disable &Groups]
+Адключыць групы
+[Hide Miranda]
+Схаваць спіс кантактаў
+[Group]
+Група
+[&New Subgroup]
+Стварыць падгрупу
+[&Hide Offline Users in here]
+Схаваць адключаных у групе
+[&Rename Group]
+Пераназваць групу
+[&Delete Group]
+Выдаліць групу
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
+[Customize]
+Тонкая налада
 [Backgrounds]
 Фоны
 ;file \plugins\Clist_mw\src\clcfonts.cpp
+[Standard contacts]
+Стандартныя кантакты
+[Online contacts to whom you have a different visibility]
+Са змененай бачнасцю (далучаны)
+[Offline contacts]
+Адключаныя кантакты
+[Contacts which are 'not on list']
+Кантакты 'не ў спісе'
+[Group member counts]
+Лічыльнікі груп
+[Dividers]
+Падзельнікі
+[Offline contacts to whom you have a different visibility]
+Са змененай бачнасцю (адключаныя)
 [Status messages]
 Статусныя паведамленні
 [Group Closed]
 Зачыненая група
 [Hover Contacts]
 Кантакты пад паказальнікам
+[Background]
+Фон
+[Selected Text]
+Вылучаны тэкст
+[Hottrack Text]
+Пад курсорам
+[Quicksearch Text]
+Хуткі пошук
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[List]
+Спіс
+[List Background]
+Фон спісу
 [List MetaContacts]
 Спіс метакантактаў
 [StatusBar Background]
 Фон панэлі статусу
+[Not focused]
+Не ў фокусе
+[Offline]
+Адключаны
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[NA]
+Недаступны
+[Occupied]
+Заняты
+[DND]
+Не турбаваць
+[Free for chat]
+Вольны
+[Invisible]
+Нябачны
+[Out to lunch]
+Абедаю
+[On the phone]
+На тэлефоне
 ;file \plugins\Clist_mw\src\clistopts.cpp
+[Global]
+Глабальныя
 ;file \plugins\Clist_mw\src\clistsettings.cpp
 [_NoProtocol_]
 _Безпротокола_
+[(Unknown Contact)]
+(Невядомы кантакт)
 ;file \plugins\Clist_mw\src\clisttray.cpp
+[&Find/Add Contacts...]
+Дадаць &кантакты
+[&Main Menu]
+Галоўнае меню
+[&Options...]
+&Налады
+[&About]
+Пра праграму
 ;file \plugins\Clist_mw\src\clui.cpp
+[My Contacts]
+Мае кантакты
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
+[&New SubGroup]
+Стварыць падгрупу
 ;file \plugins\Clist_mw\src\keyboard.cpp
+[Close Miranda]
+Зачыніць праграму
+[Restore last status]
+Аднавіць апошні стан статусу
 ;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[&FrameTitle]
+&Загаловак фрэйма
+[&Visible]
+&Бачнасць
+[&Show TitleBar]
+Паказваць назву
+[&Locked]
+Замацаваць
+[&Collapsed]
+Згорнутае
+[&Floating Mode]
+Плывучы рэжым
+[&Border]
+&Рамка
+[&Align]
+Выраўноўванне
+[&Top]
+Верх
+[&Client]
+Уручную
+[&Bottom]
+Ніз
+[&Position]
+Становішча
+[&Up]
+&Уверх
+[&Down]
+У&ніз
+[Frames]
+Фрэймы
+[Show All Frames]
+Паказаць усе фрэймы
+[Show All Titlebars]
+Паказваць назвы
+[Hide All Titlebars]
+Схаваць назвы
+[Lock Frame]
+Замацаваць фрэйм
+[Visible]
+Мабыць
+[Show TitleBar]
+Паказаць загаловак
+[Floating]
+Плывучае
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

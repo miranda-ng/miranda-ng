@@ -26,6 +26,8 @@ Miranda была зачынена ці адбылася памылка пры ч
 [Unknown command '%s'.\n]
 Невядомая каманда '%s'.\n
 ;file \plugins\CmdLine\src\CmdLine.cpp
+[Error]
+Памылка
 ;file \plugins\CmdLine\src\mimcmd_data.h
 ;file \plugins\CmdLine\src\mimcmd_handlers.cpp
 [Command '%s' is not currently supported.]
@@ -86,3 +88,7 @@ Miranda была зачынена ці адбылася памылка пры ч
 [You can only run one instance of CmdLine plugin.]
 Вы можаце запускаць толькі адну копію модуля CmdLine.
 ;file \plugins\CmdLine\src\utils.cpp
+[Notify]
+Апавяшчэнне
+[Warning]
+Папярэджанне

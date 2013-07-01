@@ -8,10 +8,38 @@
 [Change status when you send/receive an event.]
 Змяняе статус пры атрыманні ці адпраўкі падзеі.
 ;file \plugins\StatusChange\res\resource.rc
+[Offline]
+Адключаны
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[NA]
+Недаступны
+[Occupied]
+Заняты
+[DND]
+Не турбаваць
+[Free for chat]
+Вольны
+[Invisible]
+Нябачны
+[On the phone]
+На тэлефоне
+[Out to lunch]
+Абедаю
 [On events...]
 Пры падзеях...
+[Send]
+Адправіць
 [Receive]
 Атрыманне
+[Message]
+Паведамленне
+[URL]
+Ссылка
+[File transfer]
+Перадача файла
 [...change status to...]
 ...змяніць статус на...
 [... if status is...]
@@ -19,3 +47,5 @@
 ;file \plugins\StatusChange\src\main.cpp
 [Status Change]
 Змена статусу
+[Status]
+Статус

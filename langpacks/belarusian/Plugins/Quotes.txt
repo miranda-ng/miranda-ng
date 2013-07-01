@@ -8,8 +8,16 @@
 [Shows currency rates and economic quotes.]
 Дадатак адлюстроўвае курсывалют і каціровак.
 ;file \plugins\Quotes\res\Forex.rc
+[Variable List]
+Зменныя
+[OK]
+ОК
+[Edit Settings]
+Змяніць налады
 [Use contact specific settings]
 Уласныя налады ў кантакту
+[Log]
+Лог
 [Use &Internal History]
 Выкарыстоўваць унутраную гісторыю
 [&Format:]
@@ -36,16 +44,40 @@
 Паказваць усплывальнае акно
 [Show Popup Window Only if Value &Changed]
 Паказваць усплывальнае акно толькі, калі змянілася значэнне
+[Cancel]
+Скасаваць
 [Popup settings...]
 Налады успл. вокнаў...
 [Currency Converter]
 Канвертар валют
 [&to:]
 у:
+[Convert]
+Канвертаваць
+[Close]
+Зачыніць
 [Popup Window Settings]
 Налады ўсплывальных вокнаў
+[Colours]
+Колеры
+[Use default colours]
+Колеры па змаўчанні
 [Use user-defined colours]
 Наладзіць колеры
+[Background colour]
+Колер фону
+[Text colour]
+Колер тэксту
+[Delay]
+Затрымка
+[From Popup plugin]
+Па змаўчанні
+[Custom]
+Наладзіць
+[Permanent]
+Увесь час
+[Preview]
+Тэст
 [&Choose Quotes to watch in contact list:]
 &Абярыце катыроўкі для назірання ў спісе кантактаў:
 [&Refresh Quotes Every:]
@@ -58,6 +90,8 @@
 &Тэндэнцыя:
 [&Advanced Settings...]
 Дадатковыя налады...
+[Static]
+Статычны
 [Current Rate:]
 Бягучае значэнне:
 [Rate Fetch Time:]
@@ -66,8 +100,12 @@
 Папярэдняе значэнне:
 [&Convert:]
 З:
+[&Add]
+&Дадаць
 [&Watched currency rates:]
 &Адсочваныя курсы валют:
+[&Remove]
+Ачысціць
 [&Refresh Rates Every:]
 &Абнаўляць курсы кожныя:
 [Quote\\Rate Info]
@@ -80,6 +118,12 @@
 Паведамленне &статусу:
 ;file \plugins\Quotes\src\Chart.h
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
+[Seconds]
+Секунд
+[Minutes]
+Мінуць
+[Hours]
+Гадзін
 ;file \plugins\Quotes\src\CurrencyConverter.cpp
 [Info provided by]
 Інфармацыя прадстаўлена
@@ -96,16 +140,22 @@
 Экспарт усіх катыровак
 [Import All Quotes]
 Імпарт усіх катыровак
+[Refresh]
+Абнавіць
 [Open Log File...]
 Адкрыць файл гісторыі...
 [Chart...]
 Дыяграма...
 [Edit Settings...]
 Налады...
+[Network]
+Сеціва
 ;file \plugins\Quotes\src\HTTPSession.cpp
 [Quotes HTTP connections]
 HTTP далучэнне Quotes
 ;file \plugins\Quotes\src\IconLib.cpp
+[Protocol icon]
+Абразок пратаколу
 [Quote/Rate up]
 Значэнне вырасла
 [Quote/Rate down]
@@ -114,12 +164,23 @@ HTTP далучэнне Quotes
 Значэнне не змянілася
 [Quote Section]
 Частка катыровак
+[Quote]
+Цытата
+[Export]
+Экспарт
 [Swap button]
 Памяняць месцамі
+[Import]
+Імпартаваць
 ;file \plugins\Quotes\src\ImportExport.cpp
+[All files (*.*)]
+Усе файлы (*.*)
 ;file \plugins\Quotes\src\ModuleInfo.cpp
 ;file \plugins\Quotes\src\QuoteChart.cpp
+[All]
+Усё
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during site access.]
 Памылка пры доступе да сайта.
@@ -168,4 +229,6 @@ HTTP далучэнне Quotes
 Мінімальнае значэнне за дзень
 [Previous Close]
 Значэнне на папярэдняе зачыненне
+[Change]
+Змена
 ;file \plugins\Quotes\src\SettingsDlg.cpp

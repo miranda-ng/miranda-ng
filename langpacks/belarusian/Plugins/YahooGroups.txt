@@ -8,6 +8,8 @@
 [This plugin imports and creates the Yahoo groups defined in Yahoo Messenger.]
 Імпартуе і стварае групы Yahoo, існыя ў Yahoo Messenger.
 ;file \plugins\YahooGroups\res\YahooGroups.rc
+[Dialog]
+Гутарка
 [Move yahoo contacts to groups now]
 Перамясціць кантакты ў групы
 [Move Yahoo contacts automatically on startup]
@@ -15,4 +17,10 @@
 ;file \plugins\YahooGroups\src\hooked_events.cpp
 [Yahoo Groups]
 Групы Yahoo
+[Plugins]
+Плагіны
 ;file \plugins\YahooGroups\src\utils.cpp
+[Notify]
+Апавяшчэнне
+[Warning]
+Папярэджанне

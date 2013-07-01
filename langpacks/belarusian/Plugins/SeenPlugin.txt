@@ -16,6 +16,8 @@
 Паказаць абразок
 [Userinfo tab]
 Закладка ў інфармацыі пра кантакт
+[Log to file]
+Запіс у файл
 [Log to history]
 Запісваць гісторыю
 [Maximum size]
@@ -34,12 +36,38 @@
 Пратаколы для назірання:
 [Use popups]
 Успл. акна
+[Title]
+Загаловак
+[Text]
+Тэкст
 [Popup Colors]
 Колеры вокнаў
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[NA]
+Недаступны
+[Occupied]
+Заняты
+[DND]
+Не турбаваць
+[On the phone]
+На тэлефоне
+[Out to lunch]
+Абедаю
+[Free for chat]
+Вольны
+[Invisible]
+Нябачны
+[Offline]
+Адключаны
 [Reset colors]
 Скід кветак
 [Last seen plugin]
 Апошняе з'яўленне
+[OK]
+ОК
 [You missed following contacts:]
 Прапушчаны наступныя кантакты:
 [Alert when user status changes]
@@ -47,6 +75,10 @@
 ;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]
 гісторыя апошняй сустрэчы
+[View User's Details]
+Інфармацыя пра карыстача
+[User Menu]
+Меню карыстача
 [Send Instant Message]
 Адправіць імгненнае паведамленне
 ;file \plugins\SeenPlugin\src\main.cpp
@@ -63,9 +95,17 @@
 [Last seen]
 Апошняе з'яўленне
 ;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+<невядома>
+[<none>]
+<няма>
 ;file \plugins\SeenPlugin\src\options.cpp
 [Last Seen Variables]
 Зменныя
+[Contacts]
+Кантакты
+[Popups]
+Усплывальныя вокны
 ;file \plugins\SeenPlugin\src\seen.h
 [%n is %s (%u)]
 %n %s (%u)
@@ -97,6 +137,10 @@
 гадзіны (24)
 [hours (12)]
 гадзіны (12)
+[minutes]
+хвілін(ы)
+[seconds]
+секунд(ы)
 [-- User --]
 -- Карыстач --
 [username]
@@ -105,6 +149,12 @@
 нік
 [UIN/handle]
 нумар/апрацоўнік
+[Group]
+Група
+[Status]
+Статус
+[Status message]
+Паведамленне статусу
 [Old status]
 Стары статус
 [external IP]
@@ -113,6 +163,10 @@
 унутраны IP
 [Client info]
 Кліент
+[Protocol]
+Пратакол
+[Account]
+Конт
 [-- Format --]
 -- Фармат --
 [tabulator]
@@ -129,6 +183,20 @@
 замест
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
+[Sunday]
+Нядзеля
+[Monday]
+Панядзелак
+[Tuesday]
+Аўторак
+[Wednesday]
+Асяроддзе
+[Thursday]
+Чацвер
+[Friday]
+Пятніца
+[Saturday]
+Субота
 [Sun.]
 Нд.
 [Mon.]
@@ -143,5 +211,33 @@
 Пт.
 [Sat.]
 Сб.
+[January]
+Студзень
+[February]
+Люты
+[March]
+Сакавік
+[April]
+Красавік
+[May]
+Травень
+[June]
+Чэрвень
+[July]
+Ліпень
+[August]
+Жнівень
+[September]
+Верасень
+[October]
+Кастрычнік
+[November]
+Лістапад
+[December]
+Снежань
 [<never seen>]
 <ніколі не з'яўляўся>
+[Idle]
+Чаканне
+[Unknown]
+Невядома

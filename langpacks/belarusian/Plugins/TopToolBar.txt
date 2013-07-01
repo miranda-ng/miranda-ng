@@ -32,9 +32,19 @@
 Выдаліць падзельнік/кнопку
 [Name: ]
 Імя:
+[Path:]
+Шлях:
+[Set]
+Абраць
 ;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+Змаўчанні
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org]
 Ваш спіс кантактаў не подтрымлівае сервіс фрэймаў, таму модуль панэлі кнопак быў выключаны.\nДля працы панэлі кнопак патрабуецца адзін з дадаткаў:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nВы можаце іх знайсці на http://miranda-ng.org
 [TopToolBar]
 Панэль кнопак
 ;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+Спіс кантактаў
+[Toolbar]
+Панэль кнопак

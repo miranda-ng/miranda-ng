@@ -14,6 +14,10 @@ IP адрас 1
 IP адрас 2
 [Max downloads]
 Макс. запампоўкі
+[Address]
+Адрас
+[Mask]
+Маска
 [Share name]
 Імя шары
 [Allowed IP]
@@ -36,12 +40,16 @@ IP адрас 2
 Элементы галоўнага меню
 [Open log]
 Адкрыць лог
+[Show popups]
+Паказваць вокны
 [Page keyword]
 Ключавыя словы
 [URL address]
 Адрас URL
 [%ExternalIP% variable]
 %ExternalIP% зменная
+[Test]
+Тэст
 [Transfer limit (kb/sec)]
 Ліміт хуткасці (kb/sec)
 [No control when Away/NA]
@@ -50,10 +58,14 @@ IP адрас 2
 Кантроль злучэнняў
 [Index creation]
 Стварэнне індэксу
+[Disable]
+Выключыць
 [Create HTML (compatibility)]
 Стварыць HTML (сумяшчальна)
 [Create XML]
 Стварыць XML
+[Notifications]
+Апавяшчэнні
 [Total connection limit]
 Максімальна злучэнняў
 [Connections per user limit]
@@ -66,8 +78,12 @@ IP адрас 2
 Выдаліць агульнае
 [&Open in Browser]
 Адкрыць у браўзары
+[&Copy link]
+&Капіяваць спасылку
 ;file \plugins\HTTPServer\src\Glob.h
 ;file \plugins\HTTPServer\src\GuiElements.cpp
+[All files]
+Усе файлы
 [Specify a file to share]
 Файл для доступу
 [Max Downloads]
@@ -76,6 +92,8 @@ IP адрас 2
 Дазволеная маска
 [Real path]
 Рэальны шлях
+[User]
+Карыстач
 [Agent]
 Агент
 [Completed]
@@ -90,6 +108,8 @@ IP адрас 2
 Змены ў меню набудуць моц пасля перазапуску праграмы.
 [HTTP Server]
 HTTP Сервер
+[Network]
+Сеціва
 [HTTP Share new file]
 HTTP Новы агульны файл
 ;file \plugins\HTTPServer\src\HttpUser.cpp

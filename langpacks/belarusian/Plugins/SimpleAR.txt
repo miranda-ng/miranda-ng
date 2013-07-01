@@ -46,3 +46,5 @@
 ;file \plugins\SimpleAR\src\Options.cpp
 [Simple Auto Replier]
 Аўтаадказнік
+[Plugins]
+Плагіны

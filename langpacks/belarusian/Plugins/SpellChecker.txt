@@ -12,8 +12,14 @@
 Замены
 [Enable auto-replacements]
 Уключыць аўтазамену
+[Language:]
+Мова:
+[Add...]
+Дадаць...
 [Edit...]
 Праўка...
+[Remove]
+Выдаліць
 [Add auto-replace word]
 Дадатак аўтазамены слова
 [Wrong word:]
@@ -24,6 +30,10 @@
 Выпраўленне:
 [Use variables in correction]
 Выкарыстоўваць зменныя для замены
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [Spell Checker]
 Арфаграфія
 [Default language:]
@@ -38,6 +48,8 @@
 Пытаць перад дасылкай паведамлення з памылкамі
 [Download more dictionaries]
 Загрузіць іншыя слоўнікі
+[Advanced]
+Дадаткова
 [Underline type:]
 Тып падкрэслення:
 [Show corrections in submenu]
@@ -59,6 +71,8 @@
 Няслушнае выпраўленне
 ;file \plugins\SpellChecker\src\dictionary.cpp
 ;file \plugins\SpellChecker\src\options.cpp
+[Message Sessions]
+Гутаркі
 [Auto-replacements]
 Аўтазамена
 [Line]
@@ -88,11 +102,17 @@
 Бібліятэка са сцягамі (DLL)
 [Enable/disable spell checker]
 Уключыць/выключыць праверку арфаграфіі
+[Enabled]
+Уключаны
+[Disabled]
+Выключаны
 ;file \plugins\SpellChecker\src\utils.cpp
 [Other...]
 Іншае...
 [Always replace with]
 Заўсёды замяняць на
+[Ignore all]
+Ігнараваць усё
 [Add to dictionary]
 Дадаць у слоўнік
 [Corrections]

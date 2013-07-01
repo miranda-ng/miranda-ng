@@ -8,6 +8,8 @@
 [Uploads the text to web page and sends the URL to your friends.]
 Загружае тэкст на вэб-старонку і адпраўляе URL сябрам.
 ;file \plugins\PasteIt\res\PasteIt.rc
+[Settings]
+Налады
 [Default web page]
 Стандартная web-старонка
 [Default file encoding]
@@ -16,10 +18,14 @@
 Аўтавызначэнне UTF-8
 [Show confirmation dialog box]
 Паказваць дыялогавае акно пацверджання
+[Autosend download link to contact]
+Адправіць спасылку аўтаматычна
 [Web page settings]
 Налады web-старонкі
 [Web page to configure]
 Web-старонка для налады
+[Configure]
+Наладзіць
 [Default formatting]
 Фарматаванне па змаўчанні
 [Auto-detect format from file extension]
@@ -34,24 +40,86 @@ Web-старонка для налады
 Атрымаць ключ карыстача
 [Configure formatting]
 Наладзіць фарматаванне
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[Up]
+Угару
+[Down]
+Уніз
+[Delete]
+Выдаліць
+[Restore defaults]
+Скінуць
 [Download more]
 Загрузіць больш
 [Login to pastebin.com]
 Увайсці на pastebin.com
 [User name]
 Лагін
+[Password]
+Пароль
 [Paste It]
 Paste It
+[Format]
+Фармат
 [Encoding]
 Кадаванне
 [Recode]
 Запіс
 ;file \plugins\PasteIt\src\Options.cpp
+[Use default codepage]
+Кадоўка па змаўчанні
+[Thai]
+Тайскі
+[Japanese]
+Японскі
+[Simplified Chinese]
+Кітайскі (спрошчаны)
+[Korean]
+Карэйскі
+[Traditional Chinese]
+Кітайскі (традыцыйны)
+[Central European]
+Цэнтральнаеўрапейскі
+[Cyrillic]
+Кірыліца
+[Cyrillic KOI8-R]
+Кірыліца KOI8-R
+[Latin I]
+Заходнееўрапейскі
+[Greek]
+Грэцкі
+[Turkish]
+Турэцкі
+[Hebrew]
+Іўрыт
+[Arabic]
+Арабскі
+[Baltic]
+Балтыйскі
+[Vietnamese]
+В'етнамскі
+[Korean (Johab)]
+Карэйскі (Johab)
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+Вы ўвялі няслушную кодавую старонку. Абярыце кодавую старонку з выпадальнага спісу ці ўвядзіце правільнае імя.
+[Invalid codepage]
+Няслушная кодавая старонка
+[Services]
+Службы
+[Main]
+Галоўны
 [Web page]
 Web старонка
 ;file \plugins\PasteIt\src\PasteIt.cpp
+[All Files (*.*)]
+Усе файлы (*.*)
 [Paste It - Select file]
 Paste It - Абраць файл
+[Error]
+Памылка
 [Paste from clipboard]
 Уставіць з буфера
 [Paste from file]
@@ -65,6 +133,8 @@ HTTP далучэнне Paste It
 Не магчыма атрымаць дадзеныя з буфера абмену
 [File size is %dKB, do you realy want to paste such large file?]
 Памер файла %dKB, вы сапраўды жадаеце змесцаваць такі вялікі файл?
+[Are You sure?]
+Вы ўпэўнены?
 [Cannot read file '%s']
 Немагчыма прачытаць файл '%s'
 [File size is larger then 10MB, cannot be send]
@@ -82,8 +152,14 @@ HTTP далучэнне Paste It
 Памылка пры атрыманні ключа карыстача ад web-старонкі: %s
 [Paste expire date]
 Уставіць на тэрмін
+[Never]
+Не выкарыстоўваць
 [10 minutes]
 10 хвілін
+[1 hour]
+1 гадзіна
+[1 day]
+1 дзень
 [1 month]
 1 месяц
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp

@@ -14,12 +14,28 @@
 Часова забараніць паведамленне
 [Show Preview of Event in Popup]
 Прадпрагляд падзеі ў акне
+[Popup Options]
+Налады ўсплывальных вокнаў
+[Message]
+Паведамленне
+[URL]
+Ссылка
+[File]
+Файл
+[Others]
+Іншае
+[Text]
+Тэкст
+[Background]
+Фон
 [Time to expires]
 Час затрымкі
 [Notify me of ...]
 Паведамляць мяне о ...
 [Left Click Actions]
 Па левай пстрычцы
+[Dismiss Popup]
+Убраць вакно
 [Open Event]
 Адкрыць падзею
 [Dismiss Event]
@@ -28,6 +44,8 @@
 Па правай пстрычцы
 [Time Expires Actions]
 Па заканчэнні часу
+[Message-Event only]
+Толькі для паведамленняў
 [Don't show Popup when Message-Dialog is already open]
 Не паказваць, калі адкрыта акно
 [Hide Popup when sending new message]
@@ -36,6 +54,8 @@
 Дыялог адказу замест чытання паведамлення
 [Merge popups from one user]
 Аб'ядноўваць ад аднаго карыстача
+[Preview]
+Тэст
 [Show Date]
 Дата
 [Show Time]
@@ -48,13 +68,21 @@
 Апошняе першым
 [Last message display last]
 Апошняе апошнім
+[Edit]
+Змяніць
 [No popups for RSS contacts]
 Выключыць для RSS навін
 [No popups for read messages]
 Не паказваць для прачытаных паведамленняў
 ;file \plugins\NewEventNotify\src\main.cpp
+[Message Session]
+Гутарка
 ;file \plugins\NewEventNotify\src\menuitem.cpp
+[Popups]
+Усплывальныя вокны
 ;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+Кантакты
 [You were added!]
 Вас дадалі
 [Requests your authorisation]

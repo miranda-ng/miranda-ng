@@ -8,31 +8,59 @@
 [Shows new message/status change info using onscreen display.]
 Адлюстроўвае новыя паведамленні/змены статусу, выкарыстоўваючы OSD.
 ;file \plugins\wbOSD\res\wbOSD.rc
+[Dialog]
+Гутарка
 [Select font]
 Шрыфт
+[Text color]
+Колер тэксту
+[Background color]
+Колер фону
+[Transparent]
+Празрыста
 [Shadow color]
 Колер ценю
 [Alternative shadow]
 Альтэрнатыўны цень
 [Shadow align]
 Становішча
+[General]
+Агульнае
+[Shadow]
+Цень
+[Align]
+Выраўноўванне
 [Shadow distance:]
 Зрух ценю:
+[Other]
+Іншае
 [Alpha:]
 Альфа:
+[Announce]
+Аб'яўленьне
 [Timeout (ms):]
 Працягласць (мс):
+[Show]
+Паказаць
 [Show events]
 Паказваць падзеі
+[Status changes]
+Змены статусу
 [Show testing OSD]
 Прадпрагляд
 [Show my status changes]
 Паказваць змены майго статусу
 [Show message window after click]
 Націск адкрывае акно паведамлення
+[Static]
+Статычны
 [Format:]
 Фармат:
 [Show when my status is:]
 Паказваць OSD, калі мой статус:
 ;file \plugins\wbOSD\src\events.cpp
+[%s is %s]
+%s гэта %s
 ;file \plugins\wbOSD\src\options.cpp
+[Plugins]
+Плагіны

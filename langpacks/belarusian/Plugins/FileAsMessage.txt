@@ -12,12 +12,20 @@
 Файл праз паведамленні
 [Filename:]
 Імя файла:
+[Size:]
+Памер:
 [Chunk size]
 Памер часткі
+[ms]
+мс
 [Delays between sends]
 Пауза паміж перадачамі
+[bytes]
+байт
 [Transfer settings]
 налады перадачы
+[Appearance]
+Знешні выгляд
 [Unsent]
 Не перадана
 [Sent]
@@ -39,10 +47,14 @@
 Памер: %d байт
 [Request sent. Awaiting of acceptance..]
 Запрос адпраулены. Чакаем...
+[Sending...]
+Перадача...
 [Received successfully]
 Прынята паспяхова
 [Requesting of missing chunks]
 Запыт адсутных частак
+[Receiving...]
+Атрыманне...
 [Sent successfully]
 Паслана паспяхова
 [Incoming file request. Do you want proceed?]
@@ -70,8 +82,18 @@
 [Transfer is in progress. Do you really want to close?]
 Ідзе перадача файла. Спыніць?
 ;file \plugins\FileAsMessage\src\main.cpp
+[Play]
+Пуск
+[Pause]
+Паўза
 [Revive]
 Зноўку
+[Stop]
+Спыніць
+[Main]
+Галоўны
+[Plugins]
+Плагіны
 [File As Message...]
 Файл праз паведамленне..
 ;file \plugins\FileAsMessage\src\main.h

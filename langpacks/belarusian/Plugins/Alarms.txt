@@ -8,18 +8,30 @@
 [Sets once-off, daily, weekly and weekday alarms.]
 Усталёўка штодзённых, штотыднёвых і разавых апавяшчэнняў.
 ;file \plugins\Alarms\res\resource.rc
+[New]
+Стварыць
+[Delete]
+Выдаліць
+[Edit]
+Змяніць
 [Alarms]
 Напамінкі
 [Use popup plugin]
 Усплывальныя вокны
 [Default snooze:]
 Паўза па змаўчанні:
+[minutes]
+хвілін(ы)
 [Row Height:]
 Вышыня радка
+[Indent:]
+Водступ:
 [Reminder Frame]
 Спіс напамінкаў
 [Auto hide/show]
 Аўтаўтойванне
+[Loop sound]
+Паўтараць гук
 [Period (hours):]
 Перыяд (гадзін):
 [Hide/show with clist]
@@ -30,10 +42,28 @@
 Празрыстасць (%):
 [Alert Window]
 Вакно напамінку
+[Round corners]
+Закругленыя куты
 [Don't steal focus unless idle]
 Калі не актыўны, не перахапляць фокус
+[Preview]
+Тэст
 [Alarm]
 Напамінак 
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[Title:]
+Загаловак:
+[Description:]
+Апісанне:
+[Actions]
+Дзеянні
+[Popup window]
+Усплывальнае акно
+[Sound:]
+Гук:
 [Run command:]
 Выканаць каманду:
 [Parameters:]
@@ -50,8 +80,16 @@
 Падзея
 [Once]
 Адзін раз
+[Weekly]
+Тыдняў
+[Daily]
+Дзён
 [Weekdays]
 Па буднях
+[Monthly]
+Месяцаў
+[Yearly]
+Штогод
 [i'm hiding]
 хаваюся
 [Date and Time]
@@ -62,14 +100,22 @@
 Не спрацоўваць пры загрузцы
 [No reminder]
 Не паказваць у спісе
+[Dismiss]
+Прыбраць
 [Snooze]
 Адкласці
+[Static]
+Статычны
 [Reminder Frame Context]
 Змесціва спісу
 [&Suspend]
 &Адкласці
 [&Edit...]
 &Змяніць
+[&Delete]
+&Выдаліць
+[&Options...]
+&Налады
 [&New Alarm...]
 &Новы напамінак...
 ;file \plugins\Alarms\src\alarmlist.cpp
@@ -89,13 +135,25 @@
 15 хвілін
 [30 mins]
 30 хвілін
+[1 hour]
+1 гадзіна
+[1 day]
+1 дзень
 [1 week]
 1 тыдзень
+[Title]
+Загаловак
+[Background]
+Фон
+[Window]
+Акно
 ;file \plugins\Alarms\src\frame.cpp
 [Hide Reminders]
 Схаваць напамінкі
 [Show Reminders]
 Паказаць напамінкі
+[Frames]
+Фрэймы
 [Alarm Reminders]
 Напамінкі
 ;file \plugins\Alarms\src\icons.cpp
@@ -110,7 +168,25 @@
 [Menu: Show/Hide Reminders]
 Меню: Паказаць/Схаваць напамінкі
 ;file \plugins\Alarms\src\options.cpp
+[Sunday]
+Нядзеля
+[Monday]
+Панядзелак
+[Tuesday]
+Аўторак
+[Wednesday]
+Асяроддзе
+[Thursday]
+Чацвер
+[Friday]
+Пятніца
+[Saturday]
+Субота
 [Please enter a title for this alarm.]
 Увядзіце імя напамінку.
+[Error]
+Памылка
 [The alarm time you have selected is in the past.]
 Абраны вамі час - у мінулым.
+[Events]
+Падзеі

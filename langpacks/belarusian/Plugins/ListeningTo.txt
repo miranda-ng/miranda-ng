@@ -10,8 +10,14 @@
 ;file \plugins\ListeningTo\res\resource.rc
 [Enable sending listening information to contacts:]
 Уключыць адпраўку інфармацыі кантактам
+[Music]
+Музыка
 [Radio]
 Радыё
+[Video]
+Відэа
+[Others]
+Іншае
 [You also have to enable it per protocol in the main menu]
 Налада па пратаколах знаходзіцца ў галоўным меню
 [XStatus]
@@ -24,6 +30,10 @@
 Калі ёсць хстатус, але ён не "Музыка", тое выканаць папярэдні пункт
 [If XStatus is Music, show listening info]
 Калі хстатус "Музыка", тое паказваць інфармацыю пра музыку
+[Do nothing]
+Нічога не рабіць
+[Contacts]
+Кантакты
 [Apply template for info from contacts (overrides contacts template)]
 Ужыць шаблон для інфармацыі ад кантактаў
 [Get info from WATrack plugin]
@@ -38,8 +48,12 @@ foobar2000 (усталюйце модуль уручную)
 Астатнія плэеры
 [Ask for new info every]
 Абнаўленне разоў у
+[seconds]
+секунд(ы)
 [Allow auto-loading plugins into players (affect players with *)]
 Аўтаматычна загружаць модулі ў плэеры (толькі для пазначаных *)
+[Listening to]
+Слухаю
 [Template:]
 Шаблон:
 [Variables:]
@@ -64,6 +78,10 @@ foobar2000 (усталюйце модуль уручную)
 %type% - тып прайграванага (музыка, відэа, радыё і г.д.)
 [When variable not found, use:]
 Калі зменная невядомая, адсылаць:
+[Title:]
+Загаловак:
+[Message:]
+паведамленне:
 [Other Variables:]
 Астатнія зменныя:
 [%listening% - Listening to info (as set above)]
@@ -79,6 +97,8 @@ foobar2000 (усталюйце модуль уручную)
 Слухаю (адкл.)
 [ListeningTo]
 Слухаю
+[Listening to music]
+Слухаю музыку
 [Send to all protocols]
 Адпраўляць усім пратаколам
 [Listening info]
@@ -110,8 +130,16 @@ foobar2000 (усталюйце модуль уручную)
 [Enable/Disable sending Listening To info (to all protocols)]
 Вкл/Выкл адпраўку інфармацыі пра музыку (усе пратаколы)
 ;file \plugins\ListeningTo\src\options.cpp
+[<Unknown>]
+Невядома
 [<Nothing is playing now>]
 <Нічога не грае>
+[Status]
+Статус
+[General]
+Агульнае
+[Format]
+Фармат
 [Players]
 Плэеры
 ;file \plugins\ListeningTo\src\players\generic.cpp

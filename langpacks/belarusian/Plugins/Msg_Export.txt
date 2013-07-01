@@ -6,6 +6,8 @@
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 ;file \plugins\Msg_Export\res\resource.rc
+[Browse]
+Агляд
 [Use internal viewer]
 Унутраны прагляд
 [Replace miranda history]
@@ -18,6 +20,10 @@ UTF8 у новых файлах
 Знакі << і >>
 [Auto filename]
 Аўта імёны
+[Clear all]
+Ачысціць
+[Help]
+Даведка
 [Export all history]
 Экспарт гісторыі
 [Export directory]
@@ -36,22 +42,34 @@ UTF8 у новых файлах
 Экспарт старых паведамленняў
 [History file for %s (%s format %s)]
 Файл гісторыі для  %s (%s фармат %s)
+[&Find...]
+&Знайсці
 [&External]
 Вонкавае
+[&Close]
+&Зачыніць
 [When filename changes]
 Пры пераназванні файла
 [Prompt for action]
 Спытаць
 [Rename file]
 Пераназваць файл
+[Do nothing]
+Нічога не рабіць
 [When user is deleted]
 Пры выдаленні карыстача
 [Delete file]
 Выдаліць файл
+[Debug]
+Адладка
+[User &Details]
+&Інфармацыя
 [Export selected]
 Экспарт абранага
 [Set to default filename]
 Імя файла па змаўчанні
+[Copy]
+Капіяваць
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Search string was not found !]
 Радок не знойдзена!
@@ -61,6 +79,8 @@ UTF8 у новых файлах
 Шрыфт
 [Syntax highlight]
 Падсвятленне сінтаксісу
+[Failed to create file]
+Памылка стварэння файла
 ;file \plugins\Msg_Export\src\Glob.h
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
@@ -78,19 +98,35 @@ UTF8 у новых файлах
 Змены функцыі гісторыі набудуць моц пасля перазапуску Miranda
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
 Не атрымалася атрымаць шлях да Msg_Export.dll\n Калі ласка знайдзіце Msg_Export.txt самастойна
+[File]
+Файл
+[Nick]
+Нік
+[Proto]
+Пратакол
+[UIN]
+Нумар
 [You have unapplyed changes do you wish to apply these first ?]
 Ёсць незахаваныя змены, ужыць?
 [Executable files]
 Прыкладанні
+[All files]
+Усе файлы
 [Select Destination Directory]
 Абраць тэчку для запісу
 [Export Protocols]
 Экспарт пратаколаў
 [Message export]
 Экспарт паведамленняў
+[History]
+Гісторыя
+[General]
+Агульнае
 [Additional]
 Дадаткова
 ;file \plugins\Msg_Export\src\utils.cpp
+[(Unknown Contact)]
+(Невядомы кантакт)
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Не атрымалася пераназваць файл\n\n старое імя:\t%s\n новае імя:\t%s\n\n Памылка: %s
 [Failed to open or create file :\n]

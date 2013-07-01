@@ -12,6 +12,8 @@
 Паказваць значок "Запыт"
 [Show Grant icon]
 Паказваць значок "Дазволіць"
+[Plugin settings]
+Налады
 [Enable Menu Item (*)]
 Дадаць пункт меню (*)
 [Show icons only for recently added contacts]
@@ -21,6 +23,8 @@
 Выкл. значкі стану аўтарызацыі
 [Enable AuthState icons]
 Вкл. значкі стану аўтарызацыі
+[Auth]
+Аўтарызацыя
 [Grant]
 Дазволіць
 [Auth & Grant]
@@ -28,3 +32,5 @@
 [Auth State]
 Стан аўтарызацыі
 ;file \plugins\AuthState\src\options.cpp
+[Icons]
+Абразкі

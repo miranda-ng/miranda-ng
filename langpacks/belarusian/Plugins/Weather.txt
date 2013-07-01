@@ -8,14 +8,22 @@
 [Retrieves weather information and displays it in your contact list.]
 Запыт і адлюстраванне інфармацыі пра надвор'е ў вашым спісе кантактаў.
 ;file \plugins\Weather\res\resource.rc
+[Update]
+Абнавіць
 [Brief Info]
 Коратка
 [Webpage]
 Сайт
+[Close]
+Зачыніць
+[Options]
+Налады
 [Update weather information on startup]
 Абнаўляць надвор'е пры запуску Miranda NG
 [Update weather information every]
 Абнаўляць кожныя
+[minutes]
+хвілін(ы)
 [Consider weather info updated only when condition and temperature are changed]
 Паведамляць пра абнаўленне надвор'я толькі пры змене тэмпературы
 [Remove old data when updating]
@@ -28,6 +36,8 @@
 Стан надвор'я як статут пратаколу
 [Avatar only mode]
 Толькі аватар
+[Units]
+Адзінкі
 [Temperature]
 Тэмпература
 [Celsius]
@@ -46,6 +56,8 @@
 м/г
 [knots]
 вузлы
+[Visibility]
+Бачнасць
 [km]
 км
 [miles]
@@ -62,6 +74,8 @@
 мм рт. слупа
 [Day/Month]
 Дзень/Месяц
+[No change]
+без зм.
 [2 chars]
 2 знака
 [3 chars]
@@ -94,6 +108,10 @@
 Вонкавы файл
 [Overwrite file upon update]
 Перазапіс пры абнаўленні
+[Path:]
+Шлях:
+[Link Settings]
+Налада спасылак
 [More Info URL]
 URL дап. інфармацыі
 [Weather Map]
@@ -106,8 +124,24 @@ URL дап. інфармацыі
 Адключыць аўтаабнаўленне з гэтай станцыі
 [Disable Popup for this station]
 Не выводзіць усплывальнае акно
+[Change]
+Змена
+[Cancel]
+Скасаваць
+[Popup Options]
+Налады ўсплывальных вокнаў
+[Enable popups]
+Уключыць вокны
 [Popup only when condition changes]
 Толькі пры змене надвор'я
+[Colours]
+Колеры
+[Background colour]
+Колер фону
+[Text colour]
+Колер тэксту
+[Use Windows colours]
+Колеры Windows
 [Popup Actions]
 Кнопкі мышы
 [Left Click]
@@ -116,10 +150,32 @@ URL дап. інфармацыі
 Правая
 [Popup Delay]
 Затрымка акна
+[Delay]
+Затрымка
+[seconds]
+секунд(ы)
+[From Popup plugin]
+Па змаўчанні
+[Permanent]
+Увесь час
 [Popup Text]
 Усплывальны тэкст
+[Popup Title]
+Загаловак акна
+[Variables]
+Зменныя
+[Default]
+Змаўчанні
+[Preview]
+Тэст
 [Updates]
 Абнаўленні
+[Alerts]
+Апавяшчэнні
+[Errors]
+Памылкі
+[Contact List]
+Спіс кантактаў
 [Brief Info Title]
 Загаловак
 [Note Text]
@@ -128,8 +184,16 @@ URL дап. інфармацыі
 Дап. тэкст
 [External Log]
 Вонкавая гісторыя
+[History Log]
+Прагляд гісторыі
+[Variable List]
+Зменныя
 [More Variables]
 Яшчэ зменныя
+[Reset]
+Скід
+[Status Message]
+Статуснае паведамленне
 [Sunset]
 Заход
 [Feel-like]
@@ -144,6 +208,8 @@ URL дап. інфармацыі
 Кропка расы
 [Humidity]
 Вільготнасць
+[More...]
+Яшчэ...
 [Weather Protocol INI Setup]
 Налады INI файла плагiна "Надвор'е"
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
@@ -164,6 +230,12 @@ URL дап. інфармацыі
 Скарыстана памяці
 [Reload INI]
 Перазагрузіць
+[City:]
+Горад:
+[Menu]
+Меню
+[Dismiss Popup]
+Убраць вакно
 [Open brief information]
 Кароткая інфармацыя
 [Open complete forecast]
@@ -172,6 +244,10 @@ URL дап. інфармацыі
 Карта надвор'я
 [View history]
 Гісторыя
+[Open log file]
+Адкрыць лог
+[Show user menu]
+Меню карыстача
 [Show user detail]
 Паказаць дэталі
 [To old setting]
@@ -179,11 +255,19 @@ URL дап. інфармацыі
 [To default]
 Па змаўчанні
 ;file \plugins\Weather\src\weather.cpp
+[Enable/disable auto update]
+Аднаўляць аўтаматычна
+[Auto Update Enabled]
+Аўтаабнаўленне ўключана
+[Auto Update Disabled]
+Аўтаабнаўленне выключана
 [Weather Condition Changed]
 Weather: Надвор'е змянілася
 [Weather Alert Issued]
 Weather: Пагоднае папярэджанне
 ;file \plugins\Weather\src\weather.h
+[N/A]
+Недаступны
 [Invalid ID format, missing "/" (10)]
 Няправільны фармат ID, не "/" (10)
 [Invalid service (11)]
@@ -270,8 +354,16 @@ URL поўнага прагнозу надвор'я не ўсталяваны. �
 Атрымаць назву горада па ID
 [Weather INI information]
 Інфармацыя о INI файле надвор'я
+[Browse]
+Агляд
 [View webpage]
 На сайт
+[Reset to default]
+Па змаўчанні
+[Text Files]
+Тэкставыя файлы
+[All Files]
+Усе файлы
 ;file \plugins\Weather\src\weather_conv.cpp
 [mb]
 мбар
@@ -294,8 +386,12 @@ URL поўнага прагнозу надвор'я не ўсталяваны. �
 [Weather HTTP connections]
 HTTP падлучэнне Weather
 ;file \plugins\Weather\src\weather_icons.cpp
+[Protocol icon]
+Абразок пратаколу
 [Update Disabled]
 Абнаўленні выкл
+[View Log]
+Лог
 [Update with Clear]
 Выдаліць і абнавіць
 [View Brief]
@@ -304,15 +400,25 @@ HTTP падлучэнне Weather
 Поўны прагноз
 [Weather Update]
 Абнаўленне прагнозу
+[Popup]
+Вакно
 [No Popup]
 Без вокнаў
+[Edit Settings]
+Змяніць налады
 ;file \plugins\Weather\src\weather_info.cpp
 [The corresponding INI file for "%s" is not found.]
 Адпаведны INI файл для "%s" не знойдзены.
 [Weather INI information for "%s":]
 Інфармацыя о INI файле надвор'я для "%s":
+[Name:]
+Імя:
 [Internal Name:]
 Унутранае імя:
+[Author:]
+Аўтар:
+[Version:]
+Версія:
 [INI Version:]
 Версія INI:
 [File Name:]
@@ -321,6 +427,10 @@ HTTP падлучэнне Weather
 Пунктаў:
 [Memory Used:]
 Памер:
+[bytes]
+байт
+[Description:]
+Апісанне:
 [Here is a list of custom variables that are currently available]
 Спіс дадатковых зменных, даступных на дадзены момант
 ;file \plugins\Weather\src\weather_ini.cpp
@@ -335,7 +445,17 @@ HTTP падлучэнне Weather
 Шрыфт фрэйма
 [Frame Title Font]
 Шрыфт загалоўка фрэйма
+[Frame Background]
+Фон фрэйма
 ;file \plugins\Weather\src\weather_opt.cpp
+[Network]
+Сеціва
+[General]
+Агульнае
+[Display]
+Паказваць
+[Popups]
+Усплывальныя вокны
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c   прагноз на сёння\n%d   бягучая дата\n%e   раса\n%f   адчуванне\n%h   максімум\n%i   кірунак ветра\n%l   мінімум\n%m   вільготнасць\n%n   горад\n%p   ціск\n%r   узыход\n%s   ID гарады\n%t   тэмпература\n%u   абнаўленне\n%v   бачнасць\n%w   хуткасць ветра\n%y   заход
 [Weather Protocol Text Preview]
@@ -382,6 +502,8 @@ ID гарады
 Апошняе абнаўленне: %u
 [Variable]
 Зменная
+[Information]
+Інфармацыя
 [Retrieving new data, please wait...]
 Атрымліваю новыя дадзеныя. Пачакайце калі ласка...
 [More Info]

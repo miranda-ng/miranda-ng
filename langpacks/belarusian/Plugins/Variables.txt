@@ -34,10 +34,22 @@
 Усталяваць кантакту
 [The token %subject% is translated into a special contact, which depends on the situation in which the string is parsed. Use this dialog to simulate the contact to which %subject% translates. An example for using this token is: !cinfo(%subject%,display).]
 Маркер %subject% будзе прыняты як адмысловы кантакт, які залежыць ад сітуацыі, як і дзе гэты радок скарыстана. Выкарыстоўвайце гэты дыялог, каб сімуляваць кантакт, які будзе падстаўляцца ў %subject%. Прыклад выкарыстання гэтага маркера: !cinfo(%subject%,display).
+[Description]
+Апісанне
+[Setting]
+Параметр
 [The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
 Маркер %extratext% будзе прыняты, як адмысловы радок, якая залежыць ад сітуацыі, як і дзе гэты радок скарыстана. Выкарыстоўвайце гэты дыялог, каб сімуляваць радок, якая будзе падстаўляцца ў %extratext%
+[Close]
+Зачыніць
+[OK]
+ОК
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 Служба зменных падстаўляе розным маркерам адпаведныя значэнні. Прыклад: Я выкарыстоўваю Miranda NG версіі %mirandaversion%. У маркер %mirandaversion% будзе падстаўлены адпаведны нумар версіі вашай Miranda IM. Наступны спіс паказвае ўсе даступныя маркеры.
+[Notes]
+Нататкі
+[Variables...]
+Зменныя...
 ;file \plugins\Variables\src\help.cpp
 [Token]
 Маркер
@@ -47,10 +59,22 @@
 Маркеры
 [Input]
 Увод
+[Cancel]
+Скасаваць
+[Help]
+Даведка
 [Variables Help]
 Дапамога па зменных
+[Open String Formatting Help]
+Дапамога па фармаце радкоў
 ;file \plugins\Variables\src\options.cpp
+[Services]
+Службы
+[Variables]
+Зменныя
 ;file \plugins\Variables\src\parse_alias.cpp
+[Alias]
+Аліас
 [user defined]
 вызначана карыстачом
 [stores y as alias named x]
@@ -58,6 +82,8 @@
 ;file \plugins\Variables\src\parse_external.cpp
 [Stopped]
 Спынена
+[Paused]
+Паўза
 [External Applications]
 Знешнія прыкладанні
 [retrieves song name of the song currently playing in Winamp]
@@ -140,6 +166,8 @@ x памножанае на y дзеленае на z
 [x - y - ...]
 x - y - ...
 ;file \plugins\Variables\src\parse_metacontacts.cpp
+[MetaContacts]
+Метакантакты
 [get parent metacontact of contact x]
 вяртае бацькоўскі метакантакт субкантакту x
 [get default subcontact x]
@@ -149,12 +177,28 @@ x - y - ...
 ;file \plugins\Variables\src\parse_miranda.cpp
 [Miranda Core Global]
 Зменныя ядра Miranda
+[path to root miranda folder]
+шлях да тэчкі праграмы
+[path to current miranda profile]
+шлях да тэчкі бягучага профіля
+[name of current miranda profile (filename, without extension)]
+імя бягучага профіля (толькі імя, без пашырэння)
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
+верне радок выгляду %miranda_profile%\\Profiles\\%miranda_profilename%
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache]
 вяртае шлях %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs]
 вяртае шлях %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs
 [Miranda Core OS]
 Зменныя АС ў Miranda
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+аналог зменнага асяроддзя %APPDATA% для бягучага карыстача сістэмы
+[username for currently logged-on Windows user]
+імя бягучага карыстача сістэмы
+["My Documents" folder for currently logged-on Windows user]
+тэчка "Мае дакументы" для бягучага Windows карыстача
+["Desktop" folder for currently logged-on Windows user]
+тэчка "Працоўны стол" для бягучага Windows карыстача
 [Miranda Related]
 Адносіцца да Miranda
 [translates status code x into a status description]
@@ -320,6 +364,8 @@ z, калі y роўна x, дапушчальныя множныя аргуме
 y > 0: радок нумар y з файла x, y = 0: цэлы файл, y < 0: радок y ад канца файла, y = r: выпадковы радок
 [uptime in seconds]
 час працы сістэмы (секунд)
+[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+любая зменная асяроддзі, вызначаная ў бягучай Windows сесіі (напрыклад, %systemroot%, %allusersprofile% і г.д.)
 [expand environment variable x]
 пашырае зменную асяроддзі x
 [user name]

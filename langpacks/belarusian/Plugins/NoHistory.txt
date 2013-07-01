@@ -13,6 +13,10 @@
 [Disable history for this contact]
 Не захоўваць гісторыю кантакту
 ;file \plugins\NoHistory\src\dllmain.cpp
+[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
+Гэта аперацыя цалкам выдаліць гісторыю гэтага кантакту.\nВы ўпэўнены?
+[Clear History]
+Ачысціць
 [Enable History]
 Уключыць гісторыю
 [Disable History]
@@ -22,6 +26,18 @@
 [History Disabled]
 Адключыць гісторыю
 ;file \plugins\NoHistory\src\icons.cpp
+[Disable]
+Выключыць
+[Enable]
+Уключана
+[Clear]
+Ачысціць
 [No History]
 Без гісторыі
 ;file \plugins\NoHistory\src\options.cpp
+[** All contacts **]
+** Усе кантакты **
+[History]
+Гісторыя
+[Logging]
+Гісторыя

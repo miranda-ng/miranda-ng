@@ -12,5 +12,13 @@
 GnuPG плагін - ключ
 [Enter passphrase for the secret key of user:]
 Увядзіце пароль для сакрэтнага ключа для:
+[User ID]
+ID карыстача
+[Ok]
+Ок
+[Cancel]
+Скасаваць
 [GnuPG Plugin - Select public key]
 GnuPG плагін - Абярыце адкрыты ключ:
+[Refresh]
+Абнавіць

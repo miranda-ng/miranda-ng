@@ -6,10 +6,20 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
+[E-mail:]
+Пошта:
+[Password:]
+Пароль:
 [Create a new Mail.ru account]
 Ставрыць новы конт Mail.ru
 [Configuration]
 Канфігурацыя
+[Login Server:]
+Сервер:
+[Port:]
+Порт:
+[Default]
+Змаўчанні
 [Automatically request authorization on logon]
 Аўтаматычна запытваць аўтарызацыю пры далучэнні
 [Automatically add contacts to server list on logon]
@@ -20,6 +30,8 @@
 Аўтаматычна аўтарызоўваць новых карыстачоў
 [Disable spam check]
 Не правяраць на спам
+[Notify me when a message delivery has failed]
+Апавясціць, калі паведамленне не дайшло
 [Notify about new mail if increment]
 Апавяшчаць толькі пра новую пошту
 [Notify about new mail tray icon]
@@ -30,8 +42,46 @@
 Паказваць прыняты фарматаваны тэкст
 [Send formatted text (send RTF)]
 Адпраўляць Фарматаваны тэкст
+[Background colour]
+Колер фону
+[Font]
+Шрыфт
+[Summary]
+Рэзюмэ
+[Nickname:]
+Нік:
+[First name:]
+Імя:
+[Last name:]
+Прозвішча:
+[Gender:]
+Пол:
+[Age:]
+Узрост:
+[from:]
+для:
+[to:]
+да:
+[Birthday:]
+Дзень нараджэння:
+[Zodiak:]
+Задыяк:
+[Location]
+Месца
+[Country:]
+Краіна:
+[State:]
+Штат:
+[Search online users only]
+Толькі далучоных карыстачоў
+[City:]
+Горад:
+[Remember]
+Напамінак:
 [Enable avatars support (loading)]
 Уключыць падтрымку выяў (загружаць)
+[Server:]
+Сервер:
 [Updates check interval, min]
 Інтэрвал праверкі абнаўленняў, мінуць
 [Return absolute path]
@@ -52,6 +102,8 @@
 Хаваць мае IP адрасы
 [Add extra address]
 Дадаць дадатковыя адрасы
+[Your host (or router):]
+Ваш хост (ці роўтар):
 [File send block size:]
 Памер блока пры адпраўцы:
 [512 - 65536 bytes]
@@ -76,6 +128,26 @@
 Тып акна
 [Popup settings]
 Налады ўсплывальнага акна
+[Enable]
+Уключана
+[&Use Windows colors]
+&Колеры Windows
+[Back Color]
+Колер фону
+[Text Color]
+Колер тэксту
+[Timeout]
+Таймаўт
+[Previe&w]
+&Тэст
+[Custom Status "%s" Details]
+xСтатус "%s"
+[Closing in %d]
+Зачыніць (%d)
+[Title:]
+Загаловак:
+[Message:]
+паведамленне:
 [Enable Anti Spam]
 Уключыць антыспам
 [Check temp contacts]
@@ -92,8 +164,20 @@
 Пажаліцца на спам
 [Bad words list]
 Спіс дрэнных слоў
+[Add]
+Дадаць
+[Remove]
+Выдаліць
 [Ignory non AlphaNumeric characters]
 Ігнараваць знакі не якія з'яўляюцца літарай/лічбай пры праверцы
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[Notify]
+Апавяшчэнне
+[Writed:]
+Напісаў:
 [Select e-mail]
 Выбар электроннай пошты
 ;file \protocols\MRA\src\MraAntiSpam.cpp
@@ -102,9 +186,15 @@
 [Spam bot contact deleted]
 Кантакт спам бота выдалены са спісу
 ;file \protocols\MRA\src\MraAvatars.cpp
+[Avatars]
+Аватары
 [Avatars: server return HTTP code: %lu]
 Аватары: сервер вярнуў HTTP код: %lu
 ;file \protocols\MRA\src\MraChat.cpp
+[invite sender]
+адпраўшчык запрашэння
+[invite new members]
+запрасіць новых удзельнікаў
 ;file \protocols\MRA\src\MraConstans.h
 [Your contact wakes you]
 Ваш суразмоўца будзіць вас
@@ -118,6 +208,8 @@
 Мой альбом
 [My Blog]
 Мой блог
+[My Blog Status]
+Мой блог статус
 [My Video]
 Маё відэа
 [My Answers]
@@ -134,18 +226,26 @@
 Праверыць абнаўленні выяў карыстачоў
 [Request authorization for all]
 Запытаць аўтарызацыю ва ўсіх
+[Request authorization]
+Запытаць аўтарызацыю
+[Grant authorization]
+Аўтарызаваць
 [&Send postcard]
 Адправіць паштоўку
 [&View Album]
 Паглядзець альбом
 [&Read Blog]
 Блог
+[Reply Blog Status]
+Адказаць на статус блога
 [View Video]
 Паглядзець  відэа
 [Answers]
 Адказы
 [World]
 Свет
+[Send &Nudge]
+Абудзіць
 [Mail box deleted]
 Скрыня выдалена
 [Contact not on server]
@@ -156,15 +256,55 @@
 Тэлефонны/SMS кантакт
 [Blog status message]
 Статус блога
+[New E-mail available in Inbox]
+Новая пошта ў тэчцы "Ўваходныя"
+[Please authorize me]
+Калі ласка, аўтарызуй
 ;file \protocols\MRA\src\MraFilesQueue.cpp
+[Receive files: request for file %s not sended, error]
+Атрыманне файлаў:запыт для файла %sне адпраўлены, памылка
+[Send files: cant open file %s, error]
+Адпраўка файла: немагчыма адкрыць файл %s, памылка
 [Send files: requested file: %S - not found in send files list.]
 Адпраўка файлаў: запытаны файл: %S - не знойдзены сярод файлаў падрыхтаваных да адпраўкі
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
+[No description given]
+Без апісання
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main Menu]
+Галоўнае меню
+[Contact Menu]
+Меню кантакту
+[Extra status]
+Дап. статус
+[Custom Status]
+хстатус
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+Няма
+[Debug]
+Адладка
+[Information]
+Інфармацыя
+[Question]
+Пытанне
+[Warning]
+Папярэджанне
+[Error]
+Памылка
 [NewMail]
 Новая пошта
+[Popups]
+Усплывальныя вокны
 ;file \protocols\MRA\src\MraProto.cpp
+[%s connection]
+Злучэнне %s
+[Mail.ru Xstatus]
+Mail.ru Хстатус
+[Mail.ru extra info]
+Mail.ru дадаткова
+[E-mail address]
+Адрас e-mail
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
 Непрачытаная пошта: %lu/%lu паведамленняў
@@ -172,11 +312,25 @@
 Ад: %s\r\nТэма: %s\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
 Непрачытанай пошты няма\r\nУсiх паведамленняў: %lu
+[Closing in]
+Зачынена
+[Reply to %s blog status]
+Адказаць на статус блога %s
+[Set my blog status]
+Мой блог статус
+[Writed]
+Напісаў
 ;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+Сеціва
+[Account]
+Конт
 [Connections]
 Злучэнні
 [Anti spam]
 Антыспам
+[Files]
+Файлы
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
 Калі ласка, увядзіце e-mail у наладах
@@ -207,40 +361,78 @@ MRIM_CS_SMS_ACK: не знойдзены ў чэргі
 [Mail.ru System notify]
 Сістэмнае апавяшчэнне ад адміністрацыі Mail.ru
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[Sick]
+Хворы
+[Home]
+Дома
+[Eating]
+Ем
 [Compass]
 Компас
+[On WC]
+У туалеце
+[Cooking]
+Гатую 
 [Walking]
 Гуляю
+[Alien]
+Іншапланецянін
 [Shrimp]
 Крэветка
 [Got lost]
 Заблудзіўся
+[Crazy]
+Вар'ят
 [Duck]
 У ваннай
+[Playing]
+Грае
+[Smoking]
+Палю
 [Office]
 Офіс
+[Meeting]
+Сустрэча
 [Beer]
 П'ю піва
+[Coffee]
+П'ю каву
+[Working]
+Працую
+[Relaxing]
+Адпачываю
+[On the phone]
+На тэлефоне
 [In institute]
 У інстытуце
 [At school]
 У школе
 [Wrong number]
 Памыліліся нумарам
+[Laughing]
+Смяюся
 [Malicious]
 Яхідны
 [Imp]
 Чарцяня
 [Blind]
 Сляпы
+[Disappointed]
+Расчараваны
 [Almost crying]
 Стрымліваю слёзы
 [Fearful]
 Спалоханы
+[Angry]
+Злуюся
 [Vampire]
 Вампір
 [Ass]
 Задніца
+[Love]
+Каханне
+[Sleeping]
+Сплю
 [Cool!]
 Клас!
 [Peace!]
@@ -263,5 +455,9 @@ MRIM_CS_SMS_ACK: не знойдзены ў чэргі
 Вавёрка
 [Star]
 Зорка
+[Music]
+Музыка
 [Dating]
 Сустрэча
+[Are you sure?]
+Вы ўпэўнены?

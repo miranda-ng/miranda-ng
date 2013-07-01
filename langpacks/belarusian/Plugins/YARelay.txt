@@ -12,10 +12,30 @@
 Перасылаць паведамленні ад...
 [Everyone]
 Усіх
+[Contact]
+Кантакт
 [Forward when your status is...]
 Перасылаць, калі ваш статус...
+[Offline]
+Адключаны
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[NA]
+Недаступны
+[Occupied]
+Заняты
+[DND]
+Не турбаваць
+[Free for chat]
+Вольны
+[Invisible]
+Нябачны
 [Forward messages to...]
 Перасылаць паведамленні да...
+[Template]
+Шаблон
 [%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
 %u - нік;   %i - UIN;    %t - час;   \r%d - дата;   %m - паведамленне
 [Forwarding options]
@@ -41,3 +61,5 @@
 !УСІМ!
 [!DON'T FORWARD!]
 !НЕ ПЕРАСЫЛАЦЬ!
+[Plugins]
+Плагіны

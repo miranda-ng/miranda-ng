@@ -8,13 +8,263 @@
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
 Пачатковы статус, дазваляе вам усталёўваць, які статус будзе выстаўлены пры запуску Miranda у кожнага пратаколу.
 ;file \Plugins\StatusPlugins\resource.rc
+[Check connection]
+Правяраць
+[Max. retries]
+Макс. спроб
+[Account Connection]
+Далучэнне конту
+[Delay between retries (secs)]
+Затрымка паміж спробамі (сек)
+[Show popups]
+Паказваць вокны
+[General]
+Агульнае
+[Accounts to check]
+Правяраць наступныя:
+[Dial-Up]
+Выдалены доступ
+[Don't reconnect if no internet connection seems available]
+Не далучацца, калі няма злучэння з Інтэрнэтам
+[Continuously check for internet connection]
+Увесь час правяраць далучэнне да Інтэрнэту
+[Do so by pinging host]
+Пінгаваць хост
+[Confirm Status]
+Пацвердзіце статус
+[Close]
+Зачыніць
+[Cancel]
+Скасаваць
+[Profile]
+Профіль
+[Message]
+Паведамленне
+[after]
+праз
+[minutes of inactivity]
+хвілін неактыўнасці
+[minutes of level 1 mode]
+мінуць рэжыму 1
+[Confirm resetting status]
+Пацвердзіць скід статуту
+[Account]
+Конт
+[Only set if current status is]
+Толькі калі статут:
+[Monitor Miranda's activity only]
+Сачыць толькі за Miranda
+[Reset status on return]
+Аднавіць статут пры вяртанні
+[when screen saver engages]
+пры запуску застаўкі
+[Set]
+Абраць
+[only set when inactive]
+толькі пры неактыўнасці
+[when workstation is locked]
+пры блакаванні кампутара
+[Command Line]
+Камандны радок
+[OK]
+ОК
+[Copy to Clipboard]
+Капіяваць у буфер
+[Command Line:]
+Кам. радок:
+[Create Shortcut]
+Стварыць цэтлік
+[Add new profile]
+Дадаць профіль
+[Profile name]
+Імя профіля
+[Set window state]
+Стан акна
+[Show dialog]
+Паказваць дыялог
+[Set status to offline before exit]
+"Адключаны" пры выйсці
+[Show CMDL]
+Кам. радок
+[Activate status profile]
+Статус-профіль
+[Set docked]
+Паркаваць
+[Other]
+Іншае
+[Status on startup]
+Статус пры запуску
+[ms]
+мс
+[Set after]
+праз
+[Timeout]
+Таймаўт
+[s]
+з
+[Set window location]
+Пазіцыя акна
+[Set window size]
+Памер акна
+[Allow override]
+Змяняць
+[Note: status profiles can be created in the 'Status Profiles' options screen]
+статус-профіль можна стварыць ва ўкладцы "Профілі статусаў".
+[Window on startup]
+Вакно пры запуску
+[Automatically dial on startup]
+далучацца пры старце
+[Automatically hang up on exit]
+Раздзіраць сувязь пры выйсці
+[Dial-up (experimental)]
+Dial-up (эксперыментальна)
+[Background colour]
+Колер фону
+[Text colour]
+Колер тэксту
+[Use Windows colours]
+Колеры Windows
+[Use default colours]
+Колеры па змаўчанні
+[Delay]
+Затрымка
+[On left click]
+Левая пстрычка
+[On right click]
+Правая пстрычка
+[Do nothing]
+Нічога не рабіць
+[Close popup]
+Зачыніць акно
+[Cancel reconnecting]
+Адмена далучэння
+[Colours]
+Колеры
+[Preview]
+Тэст
+[Events]
+Падзеі
+[Show when connection is lost]
+Абрыў злучэння
+[Show when a connection attempt is made]
+Спроба далучэння
+[Show when reconnection has finished]
+Паспяховае далучэнне
+[Show other messages]
+Іншыя
+[From Popup plugin]
+Па змаўчанні
+[Custom]
+Наладзіць
+[Permanent]
+Увесь час
+[Show additional information in popups]
+Дадатковая інфармацыя
+[Use Miranda's message setting]
+Выкарыстоўваць налады Miranda
+[Use this message:]
+Выкарыстоўваць паведамленне:
+[Use %time% for the current time, %date% for the current date]
+%date% - сенняшняя дата; %time% - бягучы час
+[Variables...]
+Зменныя...
+[Specify settings for each account]
+Асабіста для кожнага конту
+[Use same settings for all accounts]
+Агульна для ўсіх контаў
+[Ignore caps-lock, num-lock and scroll-lock keys]
+Ігнараваць клавішы caps-lock, num-lock і scroll-lock
+[Check interval (secs)]
+Інтэрвал праверкі (сек):
+[Confirm dialog timeout (secs)]
+Інтэрвал пацверджання (сек)
+[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+Вы ўключылі функцыю змены статуту ў частцы налад "Рэжым чакання", налады ААА будуць ігнаравацца.
+[Monitor keyboard activity]
+Сачыць за актыўнасцю клавіятуры
+[Monitor mouse activity]
+Сачыць за актыўнасцю мышы
+[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+Ігнараваць клавішы Ctrl, Alt, Shift, Tab, Esc, Win
+[Ignore any key combination with above keys]
+Ігнараваць камбінацыі са згаданымі клавішамі
+[Accounts]
+Конты
+[Set status message]
+Усталяваць статутнае паведамленне
+[Status]
+Статус
+[Add...]
+Дадаць...
+[Delete]
+Выдаліць
+[Create a TopToolBar button]
+Стварыць кнопку Панэлі кнопак
+[Show confirm dialog when loading]
+Пацвярджаць пры загрузцы
+[Create a main menu item]
+Пункт у галоўным меню
+[Status Profiles]
+Профілі статусаў
+[Hotkey]
+Гарачая клавіша
+[In submenu]
+У падменю
+[Max. delay (secs)]
+Макс. затрымка (сек)
+[Increase delay exponential]
+Павялічыць экспанентна
+[Cancel all if a account connects from another location]
+Адмяніць, калі конт далучаны з другога месца
+[Reconnect on APM resume]
+Перадалучыцца пасля спячага рэжыму
+[Stop trying to reconnect]
+Спыніць далучэнне
+[Set delay to]
+Пачакаць
+[React on login errors]
+Улічваць памылкі ўваходу
+[seconds]
+секунд(ы)
+[Set account offline before a connection attempt]
+Адключыць конт перад далучэннем
+[Max. account connecting time (secs)]
+Спрабаваць далучацца (сек):
+[Timers]
+Таймеры
+[Reconnecting]
+Перадалучэнне
+[Ignore locked status of accounts]
+Ігнараваць блакаваныя конты
+[Consider connection lost after]
+Сувязь страчана пасля
+[failed pings]
+незад. пінг.
+[Continuously check interval (secs)]
+Інтэрвал праверкі (сек)
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[<last>]
+<апошні>
+[<current>]
+<бягучы>
+[Left]
+Злева
+[Right]
+Справа
+[None]
+Няма
+[Hidden]
+Утоены
 [Minimized]
 Згорнута
+[Normal]
+Звычайны
 [Create a status menu item]
 Стварыць пункт у меню
 [default]
 па змаўчанні
+[unknown]
+невядома
 [At least one profile must exist]
 Мінімум адзін профіль павінен існаваць
 [StartupStatus]
@@ -30,4 +280,34 @@
 [Released toolbar icon]
 Адпушчаны абразок панэлі
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+Адышоў %time%. Хутка буду.
+[Give it up, I'm not in!]
+Мяне няма
+[Not right now.]
+Не зараз.
+[Give a guy some peace, would ya?]
+Не чапайце пакуль, га?
+[I'm a chatbot!]
+Вольны
+[Yep, I'm here.]
+Так, я тут.
+[Nope, not here.]
+Не, я не тут.
+[I'm hiding from the mafia.]
+Я хаваюся ад мафіі.
+[That'll be the phone.]
+Гавару па тэлефоне...
+[Mmm...food.]
+Ммм... е-е-ежа...
+[idleeeeeeee]
+чаканне...
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Set %s message for %s.]
+Уст. %s паведамленне для %s.
+[<n/a>]
+<невядома>
+[Protocol]
+Пратакол
+[Closing in %d]
+Зачыніць (%d)

@@ -6,6 +6,8 @@
 ;  Authors: sss
 ;============================================================
 ;file \plugins\New_GPG\res\new_gpg.rc
+[OK]
+ОК
 [Load from file]
 Імпарт з файла
 [Select existing]
@@ -24,22 +26,40 @@
 Пароль ключа:
 [Load other]
 Загрузіць
+[Delete key]
+Выдаліць ключ
 [Generate and use random key]
 Згенераваць і выкарыстоўваць ключ
+[Account:]
+Уліковы запіс:
+[Change password]
+Змяніць пароль
 [Set GPG bin path and keyring home dir.]
 Задайце шлях да выкананага файла GnuPG і дырэкторыі з ключамі
+[Continue]
+Працягнуць
 [Home directory:]
 Хатні каталог:
 [GnuPG binary:]
 Шлях да exe:
+[Browse]
+Агляд
 [Turn on key autoexchange]
 Ўключыць автообмен ключамі
 [The new public key was recieved]
 Атрыманы новы адкрыты ключ.
+[Import key]
+Імпартаваць ключ
 [Accept and enable encryption]
 Прыняць і ўключыць шыфраванне
+[Ignore]
+Ігнараваць
+[Static]
+Статычны
 [Key Generation dialog]
 Стварэнне прыватнага ключа
+[Cancel]
+Скасаваць
 [Key type:]
 Тып ключа:
 [Key length:]
@@ -60,12 +80,18 @@
 0 - ніколі не сканчаецца
 [Select existing public key from list]
 Выбраць адкрыты ключ з спісу
+[Password:]
+Пароль:
 [Save password to database]
 Захаваць пароль у базу
 [Default password]
 Пароль па змаўчанні
+[Import]
+Імпартаваць
 [Select keyserver for key search:]
 Выбраць сервер ключоў для пошуку:
+[Ok]
+Ок
 [Userlist:]
 Ліст карыстальнікаў:
 [Export PubKey]
@@ -98,16 +124,28 @@
 [GPG encryption status]
 Статус шыфравання GPG
 ;file \plugins\New_GPG\src\main.cpp
+[Name]
+Імя
 [Creation date]
 Дата стварэння
 [Key length]
 Доўгая ключа
+[Accounts]
+Конты
+[Default]
+Змаўчанні
 [Default private key id]
 Асноўны прыватны ключ
+[Error]
+Памылка
+[Warning]
+Папярэджанне
 [This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn.]
 Абраны вамі exe не GnuPG!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагiнам.
 [Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn.]
 Ваша версія GnuPG не падтрымліваецца і можа працаваць не правільна!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагiнам.
+[Info]
+Інфа
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Ваша версія GPG падтрымліваецца. Моўныя файлы знойдзеныя.\nGPG Павінен працаваць нармальна.\nНацісьніце ОК.
 [please choose gpg binary location]
@@ -128,10 +166,24 @@
 Папярэджанне! Не вылучаны прыватны ключ.
 ;file \plugins\New_GPG\src\messages.cpp
 ;file \plugins\New_GPG\src\options.cpp
+[Services]
+Службы
+[Main]
+Галоўны
 [GnuPG Variables]
 Шляхі да GPG
+[Messages]
+Паведамленні
+[Advanced]
+Дадаткова
+[Contact]
+Кантакт
 [Key ID]
 Ключ
+[Protocol]
+Пратакол
 [Do you want to remove key from entire metacontact (all subcontacts) ?]
 Вы хочаце прыбраць ключ для метаконтакта (усіх субконтактаў)?
 ;file \plugins\New_GPG\src\utilities.cpp
+[and]
+і

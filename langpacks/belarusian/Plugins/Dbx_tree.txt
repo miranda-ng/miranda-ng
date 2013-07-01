@@ -10,6 +10,8 @@
 ;file \plugins\Dbx_tree\res\dbConfig.rc
 [dbxTree Profile Wizard]
 dbxTree майстар профіля
+[Cancel]
+Скасаваць
 [Next >]
 Наступны >
 [< Prev]

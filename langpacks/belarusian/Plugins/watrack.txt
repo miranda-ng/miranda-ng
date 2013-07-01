@@ -463,6 +463,8 @@ VBR ці няма
 Акустыка
 [Use ICQ XStatus]
 Выкарыстоўваць xCтатус ICQ
+[Winamp Track]
+Цяпер гуляе (WATrack)
 [Pause Pushed]
 Паўза націснута
 [-default-]
@@ -525,6 +527,8 @@ VBR ці няма
 Артыст
 [Album]
 Альбом
+[Track]
+Трэк
 [Get Artist Info]
 Інфа пра артыста
 [Get Track Info]
@@ -561,6 +565,8 @@ VBR ці няма
 Фрэйм (тэкст)
 [Manual element placement]
 Размясціць элементы ўручную
+[Alpha]
+Альфа
 [Hide when no player]
 Хаваць калі плэер не знойдзены
 [Hide when no music]
@@ -571,6 +577,10 @@ VBR ці няма
 Левая пстрычка
 [Right click]
 Правая пстрычка
+[Default colors]
+Па змаўчанні
+[Windows colors]
+Колеры Windows
 [Custom colors]
 Задаць колеры
 [artist]
@@ -587,9 +597,13 @@ VBR ці няма
 Мегабайт
 [Precision]
 знакаў пасля коскі
+[none]
+няма
 [kb]
 кб
 [Kb]
+Кб
+[KB]
 Кб
 [Color]
 Колер
@@ -632,3 +646,5 @@ VBR ці няма
 ;other strings
 [Slider]
 Лятунок
+[WATrack status]
+WATrack статус

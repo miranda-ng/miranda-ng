@@ -12,12 +12,20 @@
 Атрыманае SMS
 [&Reply]
 Адказ
+[&Close]
+&Зачыніць
 [Read Next]
 Наступнае
+[From:]
+Ад:
 [Message received:]
 Паведамленне прынята:
+[Number:]
+Нумар:
 [Send SMS]
 Адправіць SMS
+[To:]
+Для:
 [Add number to list]
 Дадаць нумар да спісу
 [Save number]
@@ -28,10 +36,14 @@
 Паведамленне
 [Chars:]
 Знакі:
+[&Send]
+&Адправіць
 [SMS Message Didn't Send]
 СМС паведамленне не паслана
 [&Try again]
 Паспрабаваць яшчэ
+[&Cancel]
+С&касаваць
 [The SMS message send timed out]
 Ліміт часу адпраўкі SMS
 [SMS Plugin]
@@ -68,6 +80,8 @@ SMS пацверджанне ад %s
 [Received SMS Confirmation]
 Атрыманае SMS пацверджанні
 ;file \plugins\SMS\src\senddlg.cpp
+[View User's History]
+Гісторыя паведамленняў
 [Add Number To The Multiple List]
 Дадаць нумар да спісу тэлефонаў для адпраўкі
 [Save Number To The User's Details Phonebook]
@@ -78,6 +92,8 @@ SMS пацверджанне ад %s
 Паказвае, колькі знакаў набрана
 [The SMS message send to %s timed out.]
 Мінуў час пасылкі SMS да %s,
+[Invalid Phone Number]
+Няслушны нумар тэлефона
 [Message is too long, press OK to continue.]
 Паведамленне занадта доўгае, націсніце OK для працягу
 [Error - Message too long]
@@ -91,5 +107,7 @@ SMS пацверджанне ад %s
 [<< Single]
 <<Аднаму
 ;file \plugins\SMS\src\SMS_svc.cpp
+[Incoming SMS Message]
+Уваходнае SMS паведамленне
 [Incoming SMS Confirmation]
 Пацверджанне SMS дастаўкі

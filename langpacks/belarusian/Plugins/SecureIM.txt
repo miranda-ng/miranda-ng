@@ -32,8 +32,16 @@
 Рэжым праз кантэкстнае меню
 [Key Exchange Timeout :]
 Час абмену ключамі :
+[sec]
+сек
 [Offline Key Timeout :]
 Захоўваць ключ :
+[days]
+дзён
+[Reset All]
+Скід
+[Protocols]
+Пратаколы
 [Split Messages]
 Падзяляць паведамленні
 [Online:]
@@ -48,20 +56,34 @@
 &Копія SHA1
 [E&xport]
 Экспарт
+[Private]
+Канфідэнцыйны
+[&Export]
+&Экспарт
+[&Import]
+Імпарт
 [Set &keyrings...]
 Усталяваць keyring
 [Disable keyrings use]
 Адключыць keyrings
 [Load &Private key]
 Загрузіць зачынены ключ
+[Basic]
+Асноўныя
 [Executable:]
 Выкананыя:
 [Home Directory:]
 Хатні каталог:
 [Key Assignment]
 Прызначэнне ключоў
+[Debug]
+Адладка
 [Save Pass]
 Захаваць
+[Back]
+Фон
+[Text]
+Тэкст
 [Key agreement colors]
 Абмен ключамі
 [Secure connection colors]
@@ -70,6 +92,10 @@
 Колеры шыфраваных паведамленняў
 [SecureIM Popup Colors]
 Колеры ўсплывальных паведамленняў SecureIM
+[Preview]
+Тэст
+[Events]
+Падзеі
 [Popup Timeout]
 Працягласць
 [Time in Seconds]
@@ -90,16 +116,30 @@
 Прыём зашыфраванага паведамлення
 [Please type in your password]
 Увядзіце ваш пароль
+[Username:]
+Карыстач:
+[Password:]
+Пароль:
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [SecureIM plugin Passphrase of private key]
 Модуль SecureIM. Фраза-пароль для прыватнага ключа 
 [Enter passphrase for the secret key:]
 Увядзіце фразу-пароль для сакрэтнага ключа:
+[Ok]
+Ок
+[Mode]
+Рэжым
 [Native SecureIM]
 Убудаваны ў SecureIM
 [PGP SecureIM]
 PGP у SecureIM
 [GPG SecureIM]
 GPG у SecureIM
+[Status]
+Статус
 [Always Try to Establish Secure IM]
 Спрабаваць падлучаць Secure IM
 [Secure IM Enabled]
@@ -110,10 +150,14 @@ Secure IM Выключаны
 Наладзіць ключ
 [Set key]
 Усталяваць ключ
+[Delete key]
+Выдаліць ключ
 [Public key]
 Адкрыты ключ
 [Export key]
 Экспартаваць ключ
+[Import key]
+Імпартаваць ключ
 ;file \plugins\SecureIM\src\language.cpp
 [SecureIM established...]
 Бяспечнае злучэнне ўсталявана...
@@ -169,6 +213,16 @@ SecureIM не можа адправіць шыфраванае паведамл�
 Немагчыма экспартаваць публічны ключ RSA!
 [Can't import RSA public key!]
 Немагчыма імпартаваць публічны ключ RSA!
+[General]
+Агульнае
+[Nickname]
+Нік
+[Name]
+Імя
+[Password is too short!]
+Пароль надта кароткі!
+[Off]
+Адкл.
 [Keyrings loaded.]
 Keyrings загружаны.
 [Keyrings not loaded!]
@@ -187,6 +241,12 @@ PGP SDK не знойдзены!
 Змены набудуць моц пасля перазагрузкі Miranda NG!
 [Keyrings disabled!]
 Keyrings адключаны!
+[Native]
+Убудаваны
+[Disabled]
+Выключаны
+[Enabled]
+Уключаны
 [Always try]
 Заўсёды спрабаваць
 [Create SecureIM connection]
@@ -240,16 +300,22 @@ SecureIM: атрымана шыфраванае паведамленне:\n
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 Аўтаматычна прыняты публічны ключ RSA ад: %s uin: %s Новы SHA1: %s Стары SHA1: %s
 ;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+Спіс кантактаў
 [Connection Disabled]
 Няма злучэння
 [Connection Established]
 Злучана
+[Contact Menu]
+Меню кантакту
 [Disable Secure Connection]
 Выключыць абароненае злучэнне
 [Establishe Secure Connection]
 Ініцыяваць абароненае злучэнне
 [Message Window]
 Вакно паведамленняў
+[Popups]
+Усплывальныя вокны
 [Secure Connection Disabled]
 Абароненае злучэнне выключана
 [Secure Connection Established]
@@ -264,6 +330,8 @@ SecureIM: атрымана шыфраванае паведамленне:\n
 Статус у меню
 [Always Try]
 Заўсёды спрабаваць
+[Overlays]
+Аверлэі
 [Native mode]
 Па змаўчанні
 [PGP mode]
@@ -275,6 +343,8 @@ SecureIM: атрымана шыфраванае паведамленне:\n
 ;file \plugins\SecureIM\src\main.cpp
 [SecureIM]
 Шыфраванне
+[Icons]
+Абразкі
 [Incoming Secure Message]
 Уваходнае шыфраванае паведамленне
 [Outgoing Secure Message]
@@ -282,12 +352,18 @@ SecureIM: атрымана шыфраванае паведамленне:\n
 [SecureIM status]
 Статус шыфравання
 ;file \plugins\SecureIM\src\options.cpp
+[Executable Files]
+Выкананыя файлы
+[All files]
+Усе файлы
 [Save Private Key File]
 Захаванне прыватнага ключа
 [Save Public Key File]
 Захаванне публічнага ключа
 [Load Private Key File]
 Загрузка прыватнага ключа
+[Services]
+Службы
 ;file \plugins\SecureIM\src\popupOptions.cpp
 [Key Popup]
 Усплывальнае акно ключа

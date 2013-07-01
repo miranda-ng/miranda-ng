@@ -26,6 +26,28 @@
 загрузіць бібліятэку bass
 [Play only if]
 Граць, калі
+[Offline]
+Адключаны
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[NA]
+Недаступны
+[Occupied]
+Заняты
+[DND]
+Не турбаваць
+[Free for chat]
+Вольны
+[Invisible]
+Нябачны
+[On the phone]
+На тэлефоне
+[Out to lunch]
+Абедаю
+[Preview]
+Тэст
 ;file \plugins\BASS_interface\src\Bass_interface.h
 [Bass Interface]
 Бібліятэка BASS
@@ -34,6 +56,14 @@
 Версія бібліятэкі BASS: %d.%d.%d.%d
 [--default device--]
 --прылада па змаўчанні--
+[Sounds]
+Гукі
+[Disable sounds]
+Адключыць гукі
+[Enable sounds]
+Уключыць гукі
+[Frame Background]
+Фон фрэйма
 [Bass library]
 Бібліятэка Bass
 [Sounds enabled]

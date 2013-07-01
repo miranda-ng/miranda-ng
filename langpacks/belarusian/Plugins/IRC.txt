@@ -8,8 +8,14 @@
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Плагiн падтрымкі пратаколу IRC.
 ;file \protocols\IRCG\res\IRC.rc
+[&Add]
+&Дадаць
+[&Edit]
+Кіраваць
 [&Del]
 Выдаліць
+[Enable]
+Уключана
 [only while connecting]
 Толькі на час злучэння
 [Force visible (-i)]
@@ -26,6 +32,8 @@
 Выкарыстоўваць акно сервера
 [Show server window on startup]
 Акно сервера пры запуску
+[Keep connection alive]
+Падтрымліваць злучэнне
 [Automatically join on invite]
 Заходзіць па запрашэнні
 ['Old style' mode changes]
@@ -38,20 +46,30 @@
 Сеткавы адрас
 [Port range]
 Дыяпазон портаў
+[Nick]
+Нік
 [User ID (Ident)]
 ID карыстача
 [Full name (e-mail)]
 Поўнае імя
+[Password]
+Пароль
 [Server name]
 Імя сервера
 [Alternative nick]
 Альтэрн. нік
 [Ident]
 Ідэнтыфікацыя
+[System]
+Сістэма
+[Port]
+Порт
 [Default network]
 Сетка па змаўчанні
 [User info - Required]
 Інфа карыстача - Неабходна
+[Other]
+Іншае
 [Reconnect]
 Перападключенне
 [Wait (s)]
@@ -66,24 +84,48 @@ ID карыстача
 Не правяраць, калі больш (карысцяў):
 [User information]
 Інфармацыя
+[Ping]
+Пінг
+[Version]
+Версія
+[Time]
+Час
 [Userinfo]
 Інфа
 [&Refresh]
 Абнавіць
 [&Query]
 Запыт
+[&Close]
+&Зачыніць
+[Name]
+Імя
+[Address]
+Адрас
 [Channels]
 Каналы
+[Auth]
+Аўтарызацыя
+[Server]
+Сервер
+[User]
+Карыстач
 [Away Info]
 Інфармацыя пра адсутнасць
 [The server returned the following information. Please note that this information might be misleading and/or falsified]
 Сервер вярнуў наступную інфармацыю. Увага, інфармацыя можа быць недакладнай!
 [CTCP information]
 Інфармацыя CTCP
+[Question]
+Пытанне
+[&Cancel]
+С&касаваць
 [Perform]
 Выканаць
 [&Set]
 Усталяваць
+[Alias]
+Аліас
 [Perform on event:]
 Выканаць пры падзеі:
 [Scripting support]
@@ -96,20 +138,36 @@ ID карыстача
 Уключыць аўтавызначэнне UTF8
 [Add server]
 Дадаць сервер
+[On]
+Укл
+[Auto]
+Аўта
+[Off]
+Адкл.
+[Network]
+Сеціва
 [Channels on server]
 Чат-пакоі сервера
+[&Join]
+Зайсці
 [Filter by]
 Фільтр па
 [C&onnect]
 Злучэнне
+[&Save]
+&Захаваць
 [Hostmask]
 Маска
 [&Clear all]
 Ачысціць усё
 [Online detection mode]
 Рэжым выяўлення далучаных
+[Basic]
+Асноўныя
 [Wildcard enabled network search]
 Wildcard пошук па сетцы
+[Channel manager]
+Кіраванне каналам
 [Bans]
 Баны
 [Invites]
@@ -128,6 +186,8 @@ Wildcard пошук па сетцы
 Ключ:
 [User limit:]
 Ліміт:
+[Private]
+Канфідэнцыйны
 [Secret]
 Сакрэтны
 [Topic]
@@ -136,14 +196,20 @@ Wildcard пошук па сетцы
 Рэжымы карыстача
 [Channel modes]
 Рэжымы чат-пакоі
+[Hidden]
+Утоены
 [Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
 Опцыі налады чат-пакоі. Для налады чат-пакоі патрэбныя правы адміністратара.
 [Strip colors]
 Колеры палос
+[Normal]
+Звычайны
 [Send-ahead]
 Папераджальны
 [Attempt reverse DCC (good if firewalled)]
 Рэверсіўнае DCC (для брандмаўараў)
+[none]
+няма
 [everyone on the contact list]
 усё ў спісе
 [everyone]
@@ -170,6 +236,10 @@ Wildcard пошук па сетцы
 Пасылаць апавяшчэнне
 [CTCP Chat Request]
 Запыт на CTCP-чат
+[&Accept]
+Прыняць
+[&Deny]
+&Забараніць
 [Enable (*)]
 Актываваць (*)
 [Ignore channel messages by default]
@@ -184,6 +254,12 @@ Wildcard пошук па сетцы
 Ігнараваць карыстачоў
 [(*) Queries from users on your contactlist are never ignored]
 (*) Не ігнараваць запыты ад карыстачоў са спісу
+[Queries]
+Запыты
+[Messages]
+Паведамленні
+[Notices]
+Апавяшчэнні
 [Ignore mask ( nick!user@host )]
 Маска ігнаравання( nick!user@host )
 [Network (*)]
@@ -192,6 +268,10 @@ Wildcard пошук па сетцы
 Падзеі
 [(*) blank to set this mask for all networks]
 (*) Пакіньце пустым каб ужыць маску для ўсіх сетак
+[Server:]
+Сервер:
+[Password:]
+Пароль:
 [Alternate nick]
 Альтэрнатыўны нік
 ;file \protocols\IRCG\src\clist.cpp
@@ -244,8 +324,12 @@ CTCP %s адказ ад %s: %s
 Змяніць нік
 [IRC error]
 Памылка IRC
+[Unknown]
+Невядома
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 Увядзіце маску вузла (псеўданім!карыстач@вузел)\nУвага! Кантакты ў вашым спісе ніколі не ігнаруюцца
+[Ignore]
+Ігнараваць
 [Please enter the reason]
 Пакажыце чыннік
 [Ban'n Kick]
@@ -303,8 +387,16 @@ CTCP %s запыт пасланы для %s
 [DCC ERROR: Unable to bind local port for passive filetransfer]
 Памылка DCC: Немагчыма адкрыць лакальны порт для пасіўнай перадачы файлаў
 ;file \protocols\IRCG\src\ircproto.cpp
+[%s server connection]
+Далучэнне да сервера %s
+[%s client-to-client connections]
+Злучэнні паміж кліентамі %s
 [The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
 Гэты пратакол патрабуе наяўнасці модуля chat.\n\n Загрузіць яго з сайта Miranda NG?
+[Information]
+Інфармацыя
+[Nickname]
+Нік
 [DCC ERROR: No valid files specified]
 Памылка DCC: Няма даступных файлаў
 [DCC reversed file transfer request sent to %s [%s]]
@@ -322,20 +414,62 @@ DCC-запыт на перадачу файла пасланы %s [%s]
 [Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Немагчыма ўсталяваць далучэнне. Вы не ўвялі ўсе неабходныя дадзеныя (нік, User ID і імя)
 ;file \protocols\IRCG\src\options.cpp
+[Main]
+Галоўны
+[Add]
+Дадаць
+[Apply]
+Ужыць
+[Rename]
+Пераназваць
+[Edit]
+Змяніць
+[Cancel]
+Скасаваць
 [Channel list]
 Спіс каналаў
 [Quick connect]
 Хуткае злучэнне
+[Server window]
+Вакно сервера
 [Show channel]
 Паказаць канал
 [Incoming DCC Chat]
 Уваходны DCC-чат
 [Logo (48x48)]
 Лога (48x48)
+[Thai]
+Тайскі
+[Japanese]
+Японскі
+[Simplified Chinese]
+Кітайскі (спрошчаны)
+[Korean]
+Карэйскі
+[Traditional Chinese]
+Кітайскі (традыцыйны)
+[Central European]
+Цэнтральнаеўрапейскі
 [Cyrillic (Windows)]
 Кірыліца Windows
 [Cyrillic (KOI8R)]
 Кірыліца KOI8-R
+[Latin I]
+Заходнееўрапейскі
+[Greek]
+Грэцкі
+[Turkish]
+Турэцкі
+[Hebrew]
+Іўрыт
+[Arabic]
+Арабскі
+[Baltic]
+Балтыйскі
+[Vietnamese]
+В'етнамскі
+[Korean (Johab)]
+Карэйскі (Johab)
 [Please complete all fields]
 Запоўніце ўсе палі
 [Add a new network]
@@ -376,6 +510,10 @@ DCC-запыт на перадачу файла пасланы %s [%s]
 Даданне правіла
 [Edit ignore]
 Змяніць ігнор
+[Account]
+Конт
+[Advanced]
+Дадаткова
 ;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 WallOps ад %s:
@@ -436,6 +574,8 @@ CTCP %s адказ пасланы для %s: %s
 Ідэнтыфікаваць
 [Please enter your password]
 Увядзіце пароль
+[Please enter your new password]
+Калі ласка, увядзіце новы пароль
 [Set new password]
 Усталяваць новы пароль
 [Please enter desired languageID (numeric value, depends on server)]
@@ -522,6 +662,8 @@ CTCP %s адказ пасланы для %s: %s
 Запрасіць
 [Send &notice]
 Пасылаць апавяшчэнне
+[&Slap]
+&Аплявуха
 [Nickserv info]
 Nickserv інфа
 [Nickserv kill ghost]
@@ -548,6 +690,8 @@ Nickserv забіць фантому
 Рэжым +v
 [Take V&oice]
 Рэжым -v
+[&Kick]
+Выкінуць
 [Ki&ck (reason)]
 Выгнаць (з чыннікам)
 [&Ban]
@@ -571,12 +715,18 @@ Nickserv забіць фантому
 [Reconnecting to]
 далучаюся да
 ;file \protocols\IRCG\src\tools.cpp
+[Offline]
+Адключаны
 ;file \protocols\IRCG\src\userinfo.cpp
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
 Налады не захаваны.\n\n Поле "Псеўданім" павінна ўтрымоўваць прынамсі чатыры знака (уключаючы маскі), і супадаць з псеўданімам па змаўчанні для гэтага кантакту.
 ;file \protocols\IRCG\src\windows.cpp
+[Please wait...]
+Пачакайце, калі ласка...
 [Channel]
 Канал
+[Mode]
+Рэжым
 [---- Not listed server ----]
 ----Сервер па-за спісам---
 [Type new server address here]

@@ -10,9 +10,17 @@
 ;file \plugins\Watrack_MPD\res\watrack_mpd.rc
 [MPD Host]
 MPD Хост
+[Port]
+Порт
+[Password]
+Пароль
 ;file \plugins\Watrack_MPD\src\init.cpp
 [Watrack MPD connection]
 Watrack MPD злучэнне
 ;file \plugins\Watrack_MPD\src\options.cpp
+[Winamp Track]
+Цяпер гуляе (WATrack)
+[Plugins]
+Плагіны
 [Watrack MPD]
 Watrack MPD

@@ -8,14 +8,20 @@
 [Flashes your keyboard LEDs when a message has arrived.]
 Дадае мігценне святлодыёдаў клавіятуры пры прыбылых паведамленнях.
 ;file \plugins\KeyboardNotify\res\resources.rc
+[Accounts to check]
+Правяраць наступныя:
 [Events to react on]
 Падзеі
+[Incoming messages]
+Уваходныя паведамленні
 [Incoming files]
 Уваходныя файлы
 [Incoming URLs]
 Уваходныя URL
 [Everything else]
 Усе іншыя
+[Message-Event only]
+Толькі для паведамленняў
 [Blink if message window is open]
 Мігаць, калі вакно гутаркі ачынена
 [     ... and not in foreground]
@@ -26,6 +32,8 @@
 сек. назад
 [Flash until]
 Міргаць так:
+[seconds]
+секунд(ы)
 [is re-attended]
 звароты
 [Events are opened]
@@ -36,16 +44,40 @@
 Апавяшчаць, калі
 [Full Screen mode]
 Поўнаэкранны рэжым
+[Screen Saver is running]
+Запушчана застаўка
 [Defined programs are running]
 Запушчана ўказ. праграма
 [All other situations]
 Усе іншыя сітуацыі
 [Only notify if status is]
 Паказваць, калі статус
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[Occupied]
+Заняты
+[NA]
+Недаступны
+[DND]
+Не турбаваць
+[Free for chat]
+Вольны
+[Invisible]
+Нябачны
+[On the phone]
+На тэлефоне
+[Out to lunch]
+Абедаю
 [Pending Events]
 Чаканыя падзеі
 [Remind me every]
 Напам. кожныя
+[minutes]
+хвілін(ы)
+[Offline]
+Адключаны
 [xStatuses]
 хстатусы
 [Keys to flash]
@@ -70,26 +102,54 @@
 Хутка
 [Slow]
 Павольна
+[&Preview]
+&Тэст
 [Emulate keypresses (Use this option if you are using an USB keyboard)]
 Эмуляваць націскі клавіш (Толькі для USB клавіятур)
 [Create/Edit Themes]
 Стварыць/Рэдагаваць тэму
 [Theme]
 Тэма
+[Test]
+Тэст
+[Add]
+Дадаць
+[Update]
+Абнавіць
+[Delete]
+Выдаліць
 [Import/Export]
 Імпарт/Экспарт
+[Export...]
+Экспарт
+[Import...]
+Імпарт...
 [Override existing]
 Замяніць наяўнае
 [Set program list]
 Спіс праграм
 [Program]
 Праграма
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [Set LEDs for events]
 Усталяваць па падзеі
+[Message events]
+Паведамленні
+[File events]
+Файлы
+[URL events]
+Спасылкі (URL)
+[Other events]
+Іншыя падзеі
 [Consider event opened after]
 Дзейнічаць праз
 [Use custom theme]
 Ужыв. сваю тэму
+[The following events are being ignored:]
+Наступныя падзеі будуць праігнараваны:
 [Ignore messages]
 Паведамленні
 [Ignore URLs]
@@ -98,9 +158,19 @@
 Перадачы файлаў
 [Ignore others]
 Астатнія падзеі
+[Ignore all]
+Ігнараваць усё
+[Ignore none]
+Ніякія падзеі
+[Ignore]
+Ігнараваць
 [Set xStatus list]
 Спіс хстатусаў
 ;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** Усе кантакты **
+[** Unknown contacts **]
+** Невядомыя кантакты **
 ;file \plugins\KeyboardNotify\src\options.cpp
 [left->right]
 лева->права
@@ -108,5 +178,21 @@
 права->лева
 [left<->right]
 лева<->права
+[Keyboard Flash]
+Мігценне клавіятуры
+[Events]
+Падзеі
+[Accounts]
+Конты
+[Rules]
+Кіравала
+[Flashing]
+Мігценне
 [Themes]
 Тэмы
+[Protocol]
+Пратакол
+[All Files]
+Усе файлы
+[None]
+Няма

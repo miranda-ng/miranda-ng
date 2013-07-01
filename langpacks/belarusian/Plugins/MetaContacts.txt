@@ -12,10 +12,22 @@
 Дадаць да метакантакту
 [Please select a MetaContact:]
 Абярыце метакантакт
+[&Cancel]
+С&касаваць
 [Sort Alphabetically]
 Па алфавіце
 [Editing]
 Рэдагаванне
+[Name:]
+Імя:
+[Information]
+Інфармацыя
+[Contacts]
+Кантакты
+[&Apply]
+Ужыць
+[&Remove]
+Ачысціць
 [&Set as Default]
 &Па змаўчанні
 [Move &Up]
@@ -30,6 +42,8 @@
 Рабіць асноўным кантактам па прыбыцці паведамлення
 [Always send to default contact if not offline]
 Заўсёды слаць субкантакту па змаўчанні, калі не афлайн
+[Options]
+Налады
 [Suppress status notification for subcontacts]
 Забараніць апавяшчэнне пра змену статуту субкантактаў
 [Context Menu]
@@ -48,6 +62,8 @@ UIN, E-mail і г.д.
 Паказваць кантэкстнае меню
 [Show user information]
 Паказваць інфа карыстача
+[Contact List]
+Спіс кантактаў
 [Display subcontact nickname]
 Выкарыстоўваць нік субкантакту
 [Display subcontact display name]
@@ -72,6 +88,14 @@ UIN, E-mail і г.д.
 Прыярытэты субкантактаў
 [Rank:]
 Ранг:
+[Status:]
+Статус:
+[Protocol:]
+Пратакол:
+[Reset All]
+Скід
+[Default]
+Змаўчанні
 [(Lower ranks are preferred)]
 (Пераважныя ніжэйшыя рангі)
 [Copy subcontact history to MetaContact when creating or adding]
@@ -87,6 +111,8 @@ UIN, E-mail і г.д.
 ;file \plugins\MetaContacts\src\addto.cpp
 [Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
 Няма яшчэ ніводнага метакантакту ў базе (у гэтым выпадку трэба спачатку канверсаваць адзін просты кантакт у метакантакт).\n Як варыянт пераўтварыце гэты кантакт у новы метакантакт.\n\n Пераўтварыць гэты кантакт у метакантакт?
+[This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
+Гэты кантакт з'яўлецца МетаКантактам.\nВы не можаце дадаць МетаКантакт у іншы.\n\nКалі ласка, абярыце іншы.
 [MetaContact Conflict]
 Канфлікт метакантактаў
 [This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
@@ -108,8 +134,18 @@ UIN, E-mail і г.д.
 [Assignment failure]
 Няўдалае прызначэнне
 ;file \plugins\MetaContacts\src\edit.cpp
+[(Unknown Contact)]
+(Невядомы кантакт)
+[Yes]
+Так
+[No]
+Не
+[Contact]
+Кантакт
 [Id]
 Id
+[Protocol]
+Пратакол
 [Send Offline]
 Адпраўка ў афлайн
 [Delete MetaContact?]
@@ -123,19 +159,29 @@ Id
 Зрабіць метакантактам
 [Add to Existing]
 Дадаць
+[Edit]
+Змяніць
 [Set to Default]
 Па змаўчанні
+[Remove]
+Выдаліць
 ;file \plugins\MetaContacts\src\metacontacts.h
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 Выдаліць метакантакт?
 ;file \plugins\MetaContacts\src\meta_main.cpp
 [Error - Database corruption.\nPlugin disabled.]
 Памылка - база пашкоджана.\n Модуль адключаны.
+[MetaContacts]
+Метакантакты
 ;file \plugins\MetaContacts\src\meta_menu.cpp
 [There was a problem in assigning the contact to the MetaContact]
 Выяўлена праблема дадання кантакту да метакантакту
+[Error]
+Памылка
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
 Выдаленне метакантакту.\n\n Працягнуць?
+[Are you sure?]
+Вы ўпэўнены?
 [Remove from MetaContact]
 Выдаліць з метакантакту
 ;file \plugins\MetaContacts\src\meta_options.cpp
@@ -146,6 +192,8 @@ Id
 Meta ID
 [No online contacts found.]
 Няма далучаных кантактаў.
+[Message from %s]
+Паведамленне ад %s
 [Toggle MetaContacts Off]
 Выключыць метакантакты
 [Add to existing MetaContact...]
@@ -160,9 +208,15 @@ Meta ID
 Кантэкст
 [Toggle MetaContacts On]
 Уключыць метакантакты
+[General]
+Агульнае
 [Priorities]
 Прыярытэты
+[History]
+Гісторыя
 ;file \plugins\MetaContacts\src\meta_utils.cpp
+[Sender]
+Адпраўшчык
 [Could not get MetaContact id]
 Не магу атрымаць ID метакантакту
 [Assignment Error]

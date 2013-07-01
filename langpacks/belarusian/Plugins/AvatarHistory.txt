@@ -16,28 +16,58 @@
 Выдаліць гэты запіс і файл малюнка
 [Avatar History]
 Гісторыя аватараў
+[Static]
+Статычны
+[Open Folder]
+Адкрыць тэчку
 [Store this user's old avatars in disk]
 Захоўваць старыя аватары на дыску
 [Log this user's avatars changes to history]
 Захоўваць змену аватараў у гісторыі
 [Show popups for this user]
 Успл. акна для гэтага карыстача
+[OK]
+ОК
+[Protocols]
+Пратаколы
 [Enable tracking for these protocols:]
 Адсочваць наступныя пратаколы:
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
 Метакантакты апрацоўваюцца асоба: інфармацыя заўсёды капіюецца з субкантактаў (апавяшчэнні ад метакантактаў ігнаруюцца)
 [Show popup when a contact change his avatar]
 Усплывальнае акно пры змене аватара
+[Colours]
+Колеры
+[Background colour]
+Колер фону
+[Text colour]
+Колер тэксту
+[Use Windows colours]
+Колеры Windows
+[Use default colours]
+Колеры па змаўчанні
+[Delay]
+Затрымка
 [From popup plugin]
 Па змаўчанні
+[Custom]
+Наладзіць
+[Permanent]
+Увесь час
+[Actions]
+Дзеянні
 [On right click:]
 Правая пстрычка:
 [On left click:]
 Левая пстрычка:
+[Track]
+Трэк
 [Avatar change:]
 Змена аватара:
 [Avatar removal:]
 Выдаленне аватара:
+[Preview]
+Тэст
 [Avatar History: Select how to store history avatars]
 Гісторыя аватараў: абярыце, як захоўваць гісторыю аватараў
 [Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
@@ -80,6 +110,8 @@
 [View Avatar History]
 Паказаць гісторыю аватараў
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
+[Avatars]
+Аватары
 [Contact changed avatar]
 Кантакт змяніў выяву
 [Contact removed avatar]
@@ -90,7 +122,15 @@
 [changed his/her avatar]
 змяніў(а) свой аватар
 ;file \plugins\AvatarHistory\src\icolib.cpp
+[History]
+Гісторыя
+[Avatar Overlay]
+Аверлэй аватара
 ;file \plugins\AvatarHistory\src\options.cpp
+[Do nothing]
+Нічога не рабіць
+[Close popup]
+Зачыніць акно
 [Show avatar history]
 Паказаць гісторыю аватараў
 [Show contact history]
@@ -99,8 +139,14 @@
 Тэставы кантакт
 [Test description]
 Тэставае апісанне
+[Avatar]
+Аватар
+[Popups]
+Усплывальныя вокны
 [Avatar Change]
 Змена аватара
 ;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]
 Невядомы нумар
+[Unknown Protocol]
+Невядомы пратакол

@@ -12,6 +12,8 @@
 Карыстацкі спіс статусаў
 [No items available in the database.\nClick the Add button to define some.]
 Няма запісаў у базе дадзеных.\n Націсніце на кнопку "Дадаць новы пункт" для запаўнення спісу.
+[Cancel]
+Скасаваць
 [List settings]
 Налады
 [Confirm deletion of items]
@@ -23,30 +25,64 @@
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 Нататка: Пункты меню адлюстроўваюцца толькі пры наяўнасці хоць бы аднаго правільна ўсталяванага ўліковага запісу ICQ. Праверце, калі ў вас ёсць прынамсі адзін уліковы запіс з UIN.
 ;file \plugins\CSList\src\cslist.cpp
+[Status]
+Статус
 [Add new item]
 Дадаць новы пункт
+[Add]
+Дадаць
 [Modify item]
 Змяніць пункт
+[Modify]
+Змяніць
+[Warning]
+Папярэджанне
+[Favourites]
+Абраныя
 [Regular statuses]
 Частыя статуты
+[Title]
+Загаловак
+[Message]
+Паведамленне
+[Do you really want to delete selected item?]
+Выдаліць абраны запіс?
 [Do you want old database entries to be deleted after Import?]
 Вы жадаеце выдаліць запісы старой базы дадзеных пасля імпарту?
 ;file \plugins\CSList\src\cslist.h
+[Main Menu]
+Галоўнае меню
+[Main Icon]
+Галоўны значок
 [Modify selected item]
 Змяніць абраны пункт
 [Delete selected item]
 Выдаліць абраны пункт
+[Remove]
+Выдаліць
 [Set/unset current item as favorite]
 Усталяваць/прыбраць абраны пункт як абраны
+[Favourite]
+Абранае
 [Undo changes]
 Адмяніць змены
 [Import statuses from database]
 Імпарт статутаў з базы дадзеных
+[Import]
+Імпартаваць
 [Filter list]
+Фільтр
+[Filter]
 Фільтр
 [Close without changing custom status]
 Зачыніць без змен
+[No change]
+без зм.
 [Clear custom status (reset to None) and close]
 Ачысціць хстатус (паставіць у Няма) і зачыніць
+[Clear]
+Ачысціць
 [Set custom status to selected one and close]
 Вуснаў. хстатус на абраны і зачыніць
+[Set]
+Абраць

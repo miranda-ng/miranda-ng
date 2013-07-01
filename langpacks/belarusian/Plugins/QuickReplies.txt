@@ -14,6 +14,8 @@
 Адразу адсылаць
 [- Add your replies, one per line.]
 - Дадайые адказы, па адному у радок.
+[Variables]
+Зменныя
 [Hints:]
 Падказкі:
 [- Add "---" for separator.]
@@ -26,3 +28,5 @@
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 Хуткія паведамленні\r\nЛевай кнопкай - меню\r\nПравай кнопкай - налады
 ;file \plugins\QuickReplies\src\options.cpp
+[Message Sessions]
+Гутаркі

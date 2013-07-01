@@ -8,8 +8,32 @@
 [RSS/Atom news aggregator.]
 Каналы навін RSS/Atom.
 ;file \plugins\NewsAggregator\Res\Resource.rc
+[Add]
+Дадаць
+[Change]
+Змена
+[Remove]
+Выдаліць
+[Import]
+Імпартаваць
+[Export]
+Экспарт
 [Retrieve news at startup]
 Атрымліваць пры запуску
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[General Settings]
+Асноўныя налады
+[Title]
+Загаловак
+[URL]
+Ссылка
+[Check every]
+Прав. кожныя
+[minutes]
+хвілін(ы)
 [Check Feed]
 Праверыць
 [Authentication]
@@ -18,15 +42,21 @@
 Выкарыстоўваць аўтэнтыфікацыю
 [Login]
 Імя карыстача
+[Password]
+Пароль
 [Visualization]
 Адлюстраванне
 [Display news using the following format:]
 Адлюстроўваць навіны, выкарыстоўваючы фармат:
 [All item's tags are valid. Put them between #. Example: #<author>#]
 Усе тэгі навін сапраўдныя. Змесціце іх паміж #, напрыклад: #<author>#
+[Reset]
+Скід
 [0 - check manually]
 0 - правяраць уручную
 ;file \plugins\NewsAggregator\Src\Icons.cpp
+[Protocol icon]
+Абразок пратаколу
 [Check All Feeds]
 Праверыць усе каналы
 [Add Feed]
@@ -35,6 +65,10 @@
 Імпарт каналаў
 [Export Feeds]
 Экспарт каналаў
+[Auto Update Enabled]
+Аўтаабнаўленне ўключана
+[Auto Update Disabled]
+Аўтаабнаўленне выключана
 [News Aggregator]
 Каналы навін
 ;file \plugins\NewsAggregator\Src\Menus.cpp
@@ -43,6 +77,8 @@
 [Change feed]
 Змяніць канал
 ;file \plugins\NewsAggregator\Src\Options.cpp
+[Error]
+Памылка
 [The title of the item.]
 Загаловак навіны.
 [The item synopsis.]
@@ -59,11 +95,19 @@ ID навіны.
 Катэгорыі навіны.
 [Feed Tag Help]
 Дапамога па тэгам
+[Are you sure?]
+Вы ўпэўнены?
 [Wait...]
 Чакайце...
 [Change Feed]
 Змяніць канал
+[Network]
+Сеціва
 ;file \plugins\NewsAggregator\Src\Services.cpp
+[Avatars]
+Аватары
+[Enable/disable auto update]
+Аднаўляць аўтаматычна
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [Feed]
 Канал

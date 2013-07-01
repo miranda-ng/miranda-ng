@@ -20,6 +20,8 @@
 Папярэджваць пра гутарку з Балбатуном
 [Mark replied messages as read]
 Адзначаць паведамленні як прачытаныя
+[sec]
+сек
 [Warning text]
 Тэкст папярэджання
 [Time before the answer]
@@ -49,6 +51,8 @@
 Гутаркі
 [Mind Files]
 Mind файлы
+[All Files]
+Усе файлы
 [Boltun/Auto Chat]
 Балбатун/Аўта гутарка
 [Boltun/Not to Chat]
@@ -63,5 +67,7 @@ Mind файлы
 Памылка загрузкі базы рэплік. Памылка ў радку %d з %s. (Ці некалькі радкоў да таго).
 [Failed to save base of remarks to %s]
 Не атрымалася захаваць базу рэплік %s
+[General Settings]
+Асноўныя налады
 [Engine Settings]
 Налады рухавіка

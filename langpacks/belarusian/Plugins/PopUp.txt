@@ -12,20 +12,36 @@
 Стыль вокнаў
 [Go to Customize > Fonts && Colors for fonts and colors options]
 Налады шрыфтоў і колеры: Тонкая налада>Шрыфты і колеры
+[Miscellaneous]
+Іншае
+[Effects]
+Эфекты
 [Live Preview]
 Прадпрагляд
 [Size && Position]
 Месца і памер
+[History]
+Гісторыя
 [Enable popup history]
 Гісторыя ўсплывальных вокнаў
 [Store last]
 Захоўваць
+[events]
+падзеі(й)
 [Use History++ to render log]
 History++ для гісторыі вокнаў
+[Avatars]
+Аватары
 [Draw avatar borders]
 Маляваць рамкі аватараў
 [Draw borders for semitransparent avatars too]
 Таксама для напаўпразрыстых аватараў
+[Round corners by]
+Акругліць куты на
+[pixels]
+пікс.
+[Avatar size:]
+Аватар:
 [Enable avatar updates]
 Абнаўленні аватараў
 [Multimonitor]
@@ -36,24 +52,42 @@ History++ для гісторыі вокнаў
 Вакно Miranda NG
 [the active window]
 Актыўнае акно
+[Transparency]
+Празрыстасць
 [Enable Win 9x/Me transparency]
 Празрыстасць у Win9x/ME
 [Use transparency]
 Празрыстасць
+[opacity:]
+непразрыстасць:
 [Opaque popups under cursor]
 Непразрыста пад курсорам
 [Slide Popup]
 Слізгаценне
+[Effect:]
+Эфект:
 [Time (in):]
 Час (з'яўленне):
+[ms]
+мс
 [Time (out):]
 Час (знікненне):
 [Limit window amount to:]
 Абмежаваць колькасць да:
+[Skins]
+Скіны
 [* - built-in skins]
 * - убудаваныя
+[Skin options]
+Налады скіна
+[Preview]
+Тэст
 [Download more skins]
 Запампаваць скіны
+[Popup History]
+Гісторыя успл.вокнаў
+[Desktop]
+Працоўны стол
 [Popup Area]
 Зона
 [pixel(s)]
@@ -62,6 +96,10 @@ History++ для гісторыі вокнаў
 Адлегласць паміж успл. вокнамі
 [Configure popup area]
 Зона ўсплывальных вокнаў
+[Close]
+Зачыніць
+[General]
+Агульнае
 [Enable popup actions]
 Уключыць дзеянні
 [Popup Actions are those tiny buttons below notification text.]
@@ -96,8 +134,14 @@ History++ для гісторыі вокнаў
 Сярэдняя кнопка
 [RightButton]
 Правая кнопка
+[Notifications]
+Апавяшчэнні
+[General options]
+Агульныя параметры
 [Enable this notification]
 Уключыць гэта апавяшчэнне
+[Popup timeout:]
+Працягласць:
 [Left click action:]
 Левая кнопка:
 [Right click action:]
@@ -108,8 +152,16 @@ History++ для гісторыі вокнаў
 Адключыць, калі статус адпавядае пратаколу...
 [Colors can be configured in\r\nCustomize > Fonts && Colors]
 Настроіць колеры ў\r\nТонкая налада > Шрыфты і колеры
+[More...]
+Яшчэ...
 [Disable if message window is open]
 Забараніць, калі адкрыта гутарка
+[Sec]
+сек.
+[0 = Default]
+0=Змаўчанне
+[-1 = Infinite]
+-1=Бясконца
 [Per-contact settings]
 Налады для кожнага кантакту
 [Show always]
@@ -120,10 +172,14 @@ History++ для гісторыі вокнаў
 Ніколі
 [Show default]
 Па змаўчанні
+[Default Timeout]
+Працягласць па змаўчанні
 [Infinite popup delay]
 Не зачыняць вокны
 [Popup delay:]
 Затрымка:
+[seconds]
+секунд(ы)
 [Do not close hovered popups]
 Не зачыняць вокны пад курсорам
 [Dynamically resize the popups]
@@ -132,6 +188,8 @@ History++ для гісторыі вокнаў
 Мінімум
 [Maximum width]
 Максімум
+[Position:]
+Пасада:
 [Layout:]
 Парадак:
 [Reorder Popups]
@@ -142,15 +200,27 @@ History++ для гісторыі вокнаў
 Заўсёды (мае прыярытэт)
 [Fullscreen mode]
 Поўны экран
+[Debug]
+Адладка
 ;file \plugins\Popup\src\actions.cpp
 [no overwrite]
 няма дзеяння
+[Send message]
+Адправіць
 [Quick reply]
 Хуткі адказ
 [User details]
 Інфармацыя пра карыстача
+[Contact menu]
+Меню кантакту
+[Dismiss popup]
+Зачыніць вакно
 [Pin popup]
 Замацаваць
+[Copy to clipboard]
+Капіяваць у буфер абмену
+[Action]
+Дзеянне
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 Пустаслоўе
@@ -176,6 +246,10 @@ History++ для гісторыі вокнаў
 [Popup History message]
 Гісторыя ўсплывальных вокнаў
 ;file \plugins\Popup\src\icons.cpp
+[Popups are enabled]
+Вокны ўключаны
+[Popups are disabled]
+Вокны выключаны
 [With "favourite" overlay]
 З накладаннем "Абраны"
 [With "fullscreen" overlay]
@@ -184,6 +258,10 @@ History++ для гісторыі вокнаў
 Абнавіць спіс
 [Popup Placement]
 Становішча
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [Popup Group]
 Група вокнаў
 [Favorite Contact]
@@ -198,18 +276,44 @@ History++ для гісторыі вокнаў
 Замацаваць
 [Pinned Popup]
 Замацаванае
+[Send Message]
+Адправіць
+[User Details]
+Пра карыстача
+[Contact Menu]
+Меню кантакту
 [Add Contact Permanently]
 Дадаць кантакт увесь час
+[Dismiss Popup]
+Убраць вакно
 ;file \plugins\Popup\src\main.cpp
+[Classes]
+Класы
+[Actions]
+Дзеянні
+[Contacts]
+Кантакты
+[Advanced]
+Дадаткова
+[Toggle Popups]
+Вкл/Выкл успл. вакна
+[Enable Popups]
+Уключыць усплывальныя вокны
+[Disable Popups]
+Адключыць усплывальныя вокны
 [Popup Plus]
 Усплывальныя вокны
 ;file \plugins\Popup\src\opt_adv.cpp
+[No effect]
+Без эфекту
 [Fade in/out]
 Плыўны паказ
 ;file \plugins\Popup\src\opt_class.cpp
 [CLASS Plugins]
 Групы модуляў
 ;file \plugins\Popup\src\opt_gen.cpp
+[Width]
+Шырыня
 [upper left corner]
 злева зверху
 [lower left corner]
@@ -218,12 +322,16 @@ History++ для гісторыі вокнаў
 справа знізу
 [upper right corner]
 справа зверху
+[horizontal]
+гарызанталь
 [vertical]
 вертыкаль
 [Global Status]
 Агульны статус
 [Protocol Status]
 Статус пратаколу
+[You cannot specify a value lower than %d and higher than %d.]
+Значэнне меншае %d ці большае %d не дапушчаецца.
 [Popup Plus Warning]
 Папярэджанне Popup Plus
 ;file \plugins\Popup\src\opt_skins.cpp
@@ -239,6 +347,8 @@ History++ для гісторыі вокнаў
 не прастакутныя
 [Enable Aero Glass (Vista+)]
 Эфект Aero Glass (Vista+)
+[Use Windows colours]
+Колеры Windows
 [Use advanced text render]
 Пашыраная апрацоўка тэксту
 [Global settings]
@@ -248,6 +358,12 @@ History++ для гісторыі вокнаў
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp
+[Error]
+Памылка
+[Warning]
+Папярэджанне
+[Notify]
+Апавяшчэнне
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]
@@ -256,3 +372,9 @@ History++ для гісторыі вокнаў
 Рэжым усплывальных вокнаў: ігнараваць поўнаэкранныя прыкладанні
 [Popup Mode: Block contact]
 Рэжым усплывальных вокнаў: блакаваць
+[Auto]
+Аўта
+[Favourite]
+Абранае
+[Block]
+Заблакаваць

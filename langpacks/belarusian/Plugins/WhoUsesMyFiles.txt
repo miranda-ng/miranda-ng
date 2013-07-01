@@ -5,13 +5,23 @@
 ;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
+[Scans for network users of your shared files and notify you with popups.]
+Сканіраванне сеткавых карыстальнікаў вашых агульных файлаў, а адпаведнае апавяшчэнне усплывальнымі вокнамі.
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
 WUMF: Бягучыя злучэнні
+[OK]
+ОК
 [Popup delay settings]
 Налады паказу Popup
 [Popup Delay (seconds)]
 Акно бачнае (секунд)
+[Background color]
+Колер фону
+[Text color]
+Колер тэксту
+[Previe&w]
+&Тэст
 [Show infinitely]
 Увесь час
 [Default Popup delay]
@@ -28,6 +38,8 @@ WUMF: Бягучыя злучэнні
 Абраць колер
 [File access filter && logging settings]
 Налады фільтраў часопіса
+[Please note that this settings has effect only with Popups Interoperability plugin version 1.0.1.9 or higher]
+Звярніце ўвагу, што гэтыя налады дзейнічаюць толькі пры ўзаемадзеянні плагіна Popup версіі 1.0.1.9 або вышэй
 [Log into text file]
 Пісаць у файл
 [Log folders access]
@@ -47,10 +59,32 @@ WUMF: Бягучыя злучэнні
 [Show current connections]
 Паказаць злучэнні
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[User]
+Карыстач
+[File]
+Файл
+[Access]
+Доступ
+[Plugin WhoUsesMyFiles requires admin privileges in order to work.]
+Плагін WhoUsesMyFiles патрабуе правоў адміністратара для працы.
+[Error opening file]
+Памылка адкрыцця файла
+[Error memory allocation]
+Памылка размеркавання памяці
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Popup plugin not found!]
+Popup плагін не знойдзены!
 [Enable WUMF popups]
 Уключыць WUMF вокны
 [Disable WUMF popups]
 Выключыць WUMF вокны
+[Not implemented yet...]
+Пакуль не рэалізавана...
+[Show connections list]
+Паказаць спіс далучэнняў
+[Services]
+Службы
+[Popups]
+Усплывальныя вокны
 [WUMF: Show connections]
 WUMF: Паказаць падлучэнні

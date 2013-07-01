@@ -14,6 +14,8 @@
 Спытаць перад выключэннем
 [&Countdown starts at:]
 Адлік пачнецца:
+[seconds]
+секунд(ы)
 [Shutdown Events]
 З'ява аўтавыключэння
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
@@ -42,6 +44,8 @@
 Выключыць пры атрыманні паведамлення, якое змяшчае наступны тэкст:
 [Shutdown when Miranda NG becomes &idle]
 Пераход Miranda NG у рэжым чакання
+[Configure]
+Наладзіць
 [Shutdown when &prozessor usage drops below:]
 Выключыць, калі карыстанне працэсара падзе да:
 [(current: 0%)]
@@ -52,6 +56,10 @@
 Выключыць, калі ўсе перадачы файлаў завяршыліся
 [&Action:]
 Дзеянне:
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [Unsaved data in open applications except Miranda NG might get lost.]
 Ўсе не захаваныя дадзеныя ў іншых прыкладаннях могуць быць згублены.
 [Please click "Cancel" if you would like to abort the process.]
@@ -63,6 +71,8 @@
 Выключыць у:
 [Time left:]
 Засталося часу:
+[Paused]
+Паўза
 [&Unpause Countdown]
 Узнавіць адлік
 [&Pause Countdown]
@@ -73,10 +83,20 @@
 Аўтавыключэнне
 [Countdown on Frame]
 Адлік
+[Background]
+Фон
 [Progress Bar]
 Радок стана
 ;file \plugins\AutoShutdown\src\main.cpp
+[Header]
+Загаловак
+[Active]
+Актыўна
+[Inactive]
+Не Актыўна
 ;file \plugins\AutoShutdown\src\options.cpp
+[Events]
+Падзеі
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp
 [(current: %u%%)]
 (бягучае %u%%)
@@ -107,6 +127,8 @@
 Памылка аўтавыключэння
 [The shutdown process failed!\nReason: %s]
 Памылка працэсу аўтавыключэння!\nЧыннік: %s
+[Unknown]
+Невядома
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda NG аўтаматычна зачынецца праз %u секунд(ы).
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
@@ -141,6 +163,8 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 Рэжым чакання
 [Hibernate mode]
 Рэжым гібернацыі
+[Lock workstation]
+Заблакаваць кампутар
 [Hang up dialup connections]
 Адключыць тэлефонныя злучэнні
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
@@ -161,8 +185,12 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 Заблакаваць кампутар. Для разблакоўкі неабходна ўвайсці ў сістэму.
 [Sets all protocols to offline and closes all RAS connections.]
 Адключыць усе пратаколы і разарваць усе тэлефонныя злучэнні.
+[Alerts]
+Апавяшчэнні
 [Automatic Shutdown Countdown]
 Зваротны адлік аўтавыключэння
 ;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle Automatic Shutdown]
 Пераключыць аўтавыключэнне
+[Main]
+Галоўны

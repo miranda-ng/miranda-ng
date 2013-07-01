@@ -44,20 +44,38 @@
 Напамінкі на e-mail / SMS:
 [Open links with this program instead:]
 Адкрываць спасылкі ў:
+[Reset to defaults]
+Скінуць
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
 Дазваляе розным гукам прайгравацца адначасова (магчымыя нежаданыя наступствы, калі ўсталяваны модуль карыстацкіх гукаў)
 [Trigger On Time && Date:]
 Дата &і час запуску:
+[Date]
+Дата
+[Time]
+Час
 [Reminder Note:]
 Напамінак:
+[None]
+Няма
+[Daily]
+Дзён
+[Weekly]
+Тыдняў
+[Monthly]
+Месяцаў
 [Repeat Alert Sound]
 Паўтараць сігнал
 [Use Sound]
 Выкарыстоўваць сігнал
 [&Add Reminder]
 &Дадаць
+[&Close]
+&Зачыніць
 [&View Reminders]
 &Прагледзець напамінкаў
+[Reminder]
+Напамінак
 [After:]
 Пасля:
 [On Time && Date:]
@@ -84,12 +102,26 @@
 Новая нататка
 [&Delete Note]
 &Выдаліць нататку
+[Appearance]
+Знешні выгляд
+[Background Color]
+Колер фону
 [Custom...]
 Змяніць…
+[Reset]
+Скід
+[Text Color]
+Колер тэксту
+[Font]
+Шрыфт
 [Paste Title]
 Уставіць загаловак
 [Reset Title]
 Скінуць нарыхтовак
+[Undo]
+Адкат
+[&Copy]
+&Капіяваць
 [&Paste]
 &Уставіць
 [C&ut]
@@ -102,6 +134,8 @@
 Перамясціць на пярэдні план
 [Edi&t Note]
 Рэдагаваць нататку
+[&Visible]
+&Бачнасць
 [Always &On Top]
 «Заўсёды &зверху»
 [Delete &All Notes]
@@ -149,10 +183,14 @@
 Прайграть гук
 [View Notes]
 Прагледзець нататкі
+[Plugins]
+Плагіны
 [Add New Note]
 Дадаць нататку…
 [Add New Reminder]
 Дадаць напамінак…
+[Alerts]
+Апавяшчэнні
 [Reminder triggered]
 Спрацоўванне напамінку
 [Reminder triggered (Alternative 1)]
@@ -170,8 +208,22 @@
 [&Bring All to Front]
 &Перамясціць на пярэдні план
 ;file \plugins\NotesAndReminders\src\notes.cpp
+[Black]
+Чорны
+[Green]
+Зялены
+[Red]
+Чырвоны
+[Yellow]
+Жоўты
+[Blue]
+Сіні
+[White]
+Белы
 [Are you sure you want to delete this note?]
 Упэўнены, што жадаеце выдаліць нататку?
+[Notes]
+Нататкі
 [Note text]
 Нататка
 [Date/Title]
@@ -184,6 +236,18 @@
 [Select Executable]
 Абраць праграму…
 ;file \plugins\NotesAndReminders\src\reminders.cpp
+[Minutes]
+Мінуць
+[Hours]
+Гадзін
+[Hour]
+Гадзіна
+[Day]
+Дзень
+[Days]
+Дзён
+[Week]
+Тыдзень
 [The specified time is invalid due to begin of daylight saving (summer time).]
 Паказаны час несапраўдна з-за пераходу на «летні час»
 [The specified time is invalid.]
@@ -192,6 +256,14 @@
 Указанае змяшчэнне часу з'яўляецца несапраўдным.
 [&Update Reminder]
 &Абнавіць напамінак
+[Every]
+Кожныя
+[Seconds]
+Секунд
+[Never]
+Не выкарыстоўваць
+[Default]
+Змаўчанні
 [Alternative 1]
 Альтэрнатыўны 1
 [Alternative 2]

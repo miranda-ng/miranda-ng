@@ -16,12 +16,16 @@
 Паказаць спіс кантактаў
 [Enable contact list shaking]
 Трэсці спіс кантактаў
+[Open message window]
+Адкрыць вакно гутаркі
 [Enable message window shaking]
 Трэсці акно паведамленняў
 [Show as status change]
 Паказваць як змену статусу
 [Auto resend nudge after]
 Паўтараць трасенне кожныя
+[s]
+з
 [Enable popup notification]
 Уключыць усплывальныя вокны
 [Respect ignore settings (status changes)]
@@ -30,20 +34,48 @@
 Тэкст адпраўкі
 [Receiving text]
 Тэкст прыёму
+[Privacy]
+Прыватнасць
 [Allow sending* one nudge to the same contact every :]
 Трэсці той жа кантакт адзін раз кожныя:
 [Allow receiving one nudge from the same contact every :]
 Прыём трасяніны ад аднаго кантакту кожныя:
 [* Nudge sending delay is hardcoded and cannot be changed.]
 * Гэту лічбу нельга змяняць, яна ў кодзе модуля.
+[Preview]
+Тэст
+[Text]
+Тэкст
 [Allow nudges when you're:]
 Дазваляць трасяніну калі Вы:
+[Offline]
+Адключаны
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[NA]
+Недаступны
+[Occupied]
+Заняты
+[DND]
+Не турбаваць
+[Free for chat]
+Вольны
+[Invisible]
+Нябачны
+[On the phone]
+На тэлефоне
+[Out to lunch]
+Абедаю
 [Shaking Clist Options]
 Трасенне спісу кантактаў
 [Number of moves]
 Колькасць рухаў
 [Width of move]
 Шырыня рухаў
+[Static]
+Статычны
 [Shaking Message Window Options]
 Трасенне вакна паведамленняў
 ;file \plugins\Nudge\src\main.cpp
@@ -55,15 +87,21 @@
 Буздільнік па змаўчанні
 [Nudge as Default]
 Абудзіць (па змаўчанні)
+[Send Nudge]
+Страсянуць
 [Show Nudge]
 Патрэсці
 [Nudge for %s]
 Будзільнік для %s
+[Send &Nudge]
+Абудзіць
 ;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]
 Вас падтрэслі
 [You sent a nudge]
 Вы падтрэслі
 ;file \plugins\Nudge\src\options.cpp
+[Events]
+Падзеі
 [Window Shaking]
 Трасенне акна

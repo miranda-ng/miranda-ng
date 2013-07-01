@@ -10,12 +10,18 @@
 ;file \plugins\StartPosition\res\resource.rc
 [Contact List Window Start Position]
 Пачатковае становішча спісу кантактаў
+[Left]
+Злева
+[Right]
+Справа
 [Pixels from Top]
 Кропак зверху
 [Pixels from Bottom]
 Кропак знізу
 [Pixels from Side]
 Кропак збоку
+[Width]
+Шырыня
 [Always start...]
 Пры запуску...
 [Minimized to System Tray]
@@ -23,5 +29,7 @@
 [Opened]
 Адчынена
 ;file \plugins\StartPosition\src\main.cpp
+[Contact List]
+Спіс кантактаў
 [Start position]
 Пачатковае становішча

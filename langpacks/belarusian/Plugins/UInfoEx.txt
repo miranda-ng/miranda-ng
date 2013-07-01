@@ -12,30 +12,82 @@
 Паходжанне
 [&Update]
 &Абнаўленне
+[Updating]
+Абнаўленне
+[Ok]
+Ок
+[Cancel]
+Скасаваць
+[Apply]
+Ужыць
+[Nick:]
+Нік:
+[Display Name:]
+Паказваць імя:
+[Title:]
+Загаловак:
+[First name:]
+Імя:
 [Second name:]
 Імя па бацьку:
+[Last name:]
+Прозвішча:
+[Prefix:]
+Прэфікс:
+[Female]
+Жаночы
+[Male]
+Мужчынскі
+[Marital status:]
+Сямейнае становішча:
 [Partner:]
 Партнёр:
 [Language skills]
 Валоданне мовамі
+[Street:]
+Вуліца:
+[Postal code:]
+Індэкс:
+[City:]
+Горад:
 [County/State:]
 Акруга/Штат:
+[Country:]
+Краіна:
 [Contact added to ContactList:]
 Дададзены(а) у кантакт-ліст:
 [Just from the beginning.]
 З самага пачатку.
 [Your contact's local time is:]
 Лакальны час кантакту:
+[Timezone:]
+Гадзінны пояс:
+[Company:]
+Кампанія:
+[Department:]
+Аддзел:
 [Office:]
 Офіс:
+[Position:]
+Пасада:
+[Occupation:]
+Занятак:
 [Superior:]
 Начальнік:
 [Assistant:]
 Асістэнт:
+[Add Phone Number]
+Дадаць тэлефон
 [Enter your phone number\nand don't worry about formating.]
 Увядзіце нумар тэлефона\nў любым фармаце.
 [Enter a category for this number:]
 Увядзіце катэгорыю для нумара:
+[Enter country, area code and phone number:]
+Увядзіце краіну, код горада і нумар тэлефона:
+[Or enter a full international number:]
+Ці ўвядзіце міжнародны нумар:
+[Phone can receive SMS text messages]
+Тэлефон можа атрымліваць SMS
 [Add E-Mail]
 Дадаць E-mail
 [Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
@@ -50,8 +102,14 @@
 Нагадаць
 [days before.]
 дзён.
+[Check every]
+Прав. кожныя
+[hours]
+гадзіны(ов)
 [Icon flashing on event]
 Мігценне значка пры падзеі
+[Enabled]
+Уключаны
 [Perform check on each startup]
 Правяраць пры запуску
 [Time of last check:]
@@ -60,10 +118,28 @@
 Рэжым сумяшчальнасці:
 [Automatically backup and keep protocol based birthdays up to date]
 Аўтаматычна захоўваць і рэзерваваць дні нараджэння з пратаколу
+[Play sound]
+Прайграць гук
 [Use ignore list]
 Выкарыстоўваць спіс ігнаравання
 [Birthday popup colours]
 Налада дзён нараджэння
+[Background colour]
+Колер фону
+[Text colour]
+Колер тэксту
+[Use Windows colours]
+Колеры Windows
+[Use default colours]
+Колеры па змаўчанні
+[Delay]
+Затрымка
+[From Popup plugin]
+Па змаўчанні
+[Custom]
+Наладзіць
+[Permanent]
+Увесь час
 [Show reminder messages as popups (if reminder is enabled)]
 Напамінкі ва ўсплывальных вокнах (калі дазволены)
 [Anniversary popup colours]
@@ -72,12 +148,18 @@
 Замяніць дыялогі прагрэсу ўсплывальнымі вокнамі
 [Replace message boxes with popups]
 Замяніць дыялогі ўсплывальнымі вокнамі
+[Preview]
+Тэст
+[Homepage:]
+Сайт:
 [Add Affiliation]
 Прыналежнасць
 [Add Past]
 Мінулае
 [Add Interest]
 Інтарэсы
+[Delete]
+Выдаліць
 [Anniversary Editor]
 Рэдактар свята
 [Anniversary Editor\nAdd/Edit your anniversary here.]
@@ -100,16 +182,24 @@
 лік кантактаў:
 [average age:]
 сярэдні ўзрост:
+[View]
+Выгляд
 [Show &during the next]
 Паказваць пры наступным
 [day(s)]
 дзён
+[Reminder]
+Напамінак
 [Popup this dialog on a contact's anniversary]
 Паказваць гэты дыялог, калі свята
+[Icons]
+Абразкі
 [Check file version of default IconPack to prevent wrong icon display]
 Правяраць версію файла значкоў для правільнага адлюстравання
 [Display icons on each dialog button]
 Паказваць значкі на кожнай кнопцы
+[MetaContacts]
+Метакантакты
 [Scan SubContacts for missing information]
 Пошук адсутнай інфармацыі ў субкантактах
 [Enable extended 'send/receive email' service (*)]
@@ -138,6 +228,8 @@
 Адсартаваць усе пункты ў алфавітным парадку
 [Info of a MetaContact's SubContact]
 Інфармацыя субкантакта Метакантакту
+[Colours]
+Колеры
 [Common]
 Агульныя
 [Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
@@ -146,38 +238,74 @@
 Дрэва
 [Adapt propertysheet pages to aero mode.]
 Адаптоўваць Налады да стылю Aero.
+[Import]
+Імпартаваць
+[Dialog]
+Гутарка
+[OK]
+ОК
+[All]
+Усё
+[None]
+Няма
 [Show Menu Item]
 Выгляд адлюстравання меню
 [MainMenu]
 Галоўнае меню
 [Cascade:]
 Каскадны:
+[Off]
+Адкл.
 [Ex-/Import items]
 Экс-/Імпарт пункты
 [ContactMenu]
 Меню кантакту
+[GroupMenu]
+Меню груп
+[SubGroupMenu]
+Меню падгруп
 [AccountMenu]
 Меню вул. запісаў
 [Extra Icons]
 Экстра значкі
+[Gender:]
+Пол:
 [Replace the following default icons:]
 Замяніць наступныя значкі:
+[Homepage]
+Сайт
 [Phone]
 Тэлефон
 [E-Mail]
 E-Mail
+[Gender]
+Пол
+[Misc]
+Іншае
 [Show 'Restart' menu item]
 Пункт меню "Перазапуск"
+[Country Flags]
+Сцягі краін
 [Use &unknown flag if country can not be determined]
 Паказаць невядомы сцяг, калі краіна не вызначана
+[Show country flag as &status icon on message window]
+Паказваць сцяг, як абразок статусу ў вакне гутаркі
+[Birthday]
+Дзень нараджэння
+[Age:]
+Узрост:
 [Zodiac:]
 Задыяк:
+[not found]
+не знойдзена
 [Use global reminder settings.]
 Глабальныя налады напамінкаў.
 [Don't remind me of this anniversary.]
 Не нагадваць мне пра гэта свята.
 [Refresh Contact Details]
 Абнавіць дадзеныя кантактаў
+[Hide]
+Схаваць
 [What do you want to export?]
 Што вы жадаеце экспартаваць?
 [Contact Information]
@@ -192,6 +320,8 @@ E-Mail
 Абраць усё
 [Uncheck all]
 Ачысціць усё
+[&Export]
+&Экспарт
 ;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 [Aries]
 Авен
@@ -224,13 +354,19 @@ E-Mail
 [Keeps your custom birthday up to date.]
 Рэзервуе наладжаныя дні нараджэння.
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
+[Reset to defaults]
+Скінуць
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Дадаць новае свята
 [Delete an existing anniversary]
 Выдаліць існае свята
+[Unspecified]
+Не паказана
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Edit Phone Number]
+Змяніць тэлефонны нумар
 [Choose the item to display.]
 Абраць запіс.
 [Edit the currently displayed item.]
@@ -239,12 +375,24 @@ E-Mail
 Дадаць новы запіс.
 [Delete the selected item.]
 Выдаліць дадзены запіс.
+[Other]
+Іншае
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 Засталося дзён
+[Contact]
+Кантакт
+[Proto]
+Пратакол
 [Age/Nr.]
 Узрост
+[Anniversary]
+Свята 
+[Date]
+Дата
+[All contacts]
+Усе кантакты
 [Birthdays only]
 Толькі дні нараджэння
 [Anniversaries only]
@@ -254,23 +402,57 @@ E-Mail
 [Popup Anniversary list]
 Паказаць спіс свят
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Retry]
+Яшчэ раз
+[Yes]
+Так
+[No]
+Не
+[Ignore]
+Ігнараваць
+[Error]
+Памылка
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[General]
+Агульнае
 [Contact (private)]
 Кантакт (асабісты)
 [Anniversaries]
 Святы
+[Work]
+Праца
 [Contact (Work)]
 Кантакт (працоўны)
+[About]
+Інфармацыя
+[Profile]
+Профіль
+[Notes]
+Нататкі
+[Export to file]
+Экспарт
+[Import from file]
+Імпарт з файла
+[Owner]
+Уладальнік
 ;file \plugins\UserInfoEx\src\init.cpp
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM Naming]
 Імя ў IM
+[Password]
+Пароль
+[Timezone]
+Гадзінны пояс
 [Marital status]
 Сямейнае становішча
+[Address]
+Адрас
 [Export: Modules]
 Экспарт: Модулі
 [Export: Folder]
 Экспарт: Тэчка
+[Default]
+Змаўчанні
 [Details Infobar]
 Дэталі
 [Phone Infobar]
@@ -283,14 +465,32 @@ E-Mail
 Імпарт VCard
 [Anniversary Infobar]
 Юбілей
+[Update]
+Абнавіць
+[Export]
+Экспарт
 [Goto]
 Зайсці на сайт
+[Fax]
+Факс
+[Cellular]
+Мабільны
 [Custom Phone]
 Абраны тэлефон
+[Down arrow]
+Стрэлка ўніз
+[Add]
+Дадаць
+[Edit]
+Змяніць
+[Search]
+Пошук
 [Ex-/Import]
 Экспарт/Імпарт
 [Backup Birthday]
 Рэзерваваць Д.Н.
+[Birthday today]
+Дзень нараджэння сёння
 [Birthday tomorrow]
 Дзень нараджэння заўтра
 [Birthday in 2 days]
@@ -339,6 +539,12 @@ E-Mail
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 Экс-/Імпарт кантакт
+[User &Details]
+&Інфармацыя
+[&Import]
+Імпарт
+[View/Change My &Details...]
+Асабістыя &дадзеныя
 [Export all contacts]
 Экспартаваць усе кантакты
 [Import all contacts]
@@ -356,11 +562,25 @@ E-Mail
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 Мае нататкі:
+[About:]
+Інфармацыя:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Do you really want to delete the %s?]
 Вы сапраўды жадаеце выдаліць %s?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
+[Home]
+Дома
+[Open in Browser]
+Адкрыць у браўзары
+[Primary e-mail]
+Асноўны e-mail
+[Secondary e-mail]
+Другасны e-mail
+[Tertiary e-mail]
+Трэці e-mail
 ;file \plugins\UserInfoEx\src\psp_options.cpp
+[Question]
+Пытанне
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
 Гэта функцыя выдаліць усе налады, якія вы зрабілі \nУсе налады дрэва, пазіцый акна, і інш.!\n\nВы сапраўды жадаеце працягнуць?
 [Ready]
@@ -377,40 +597,304 @@ E-Mail
 Асабістыя дадзеныя (па змаўчанні)
 [This is the reminder message]
 Паведамленне напамінку
+[Contacts]
+Кантакты
+[Advanced]
+Дадаткова
 [Details Dialog]
 Дыялогі
+[Popups]
+Усплывальныя вокны
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
+[Past]
+Мінулае
 [Affiliation]
 Прыналежнасць
 [Interest]
 Інтарэсы
+[<empty>]
+<не>
 [Do you really want to delete this entry?]
 Вы сапраўды жадаеце выдаліць гэта?
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
+[Afrikaans]
+Афрыкаанс
+[Albanian]
+Албанскі
+[Arabic]
+Арабскі
+[Armenian]
+Армянскі
+[Azerbaijani]
+Азербайджанскі
+[Belorussian]
+Беларускі
+[Bhojpuri]
+Хайпурыйскі
+[Bosnian]
+Баснійскі
+[Bulgarian]
+Балгарскі
+[Burmese]
+Бурмескі
+[Cantonese]
+Катанезійскі
+[Catalan]
+Каталанскі
+[Chamorro]
+Чаморскій
+[Chinese]
+Кітайскі
+[Croatian]
+Харвацкі
+[Czech]
+Чэшскі
+[Danish]
+Дацкі
+[Dutch]
+Галандскі
+[English]
+Ангельскі
+[Esperanto]
+Эсперанта
+[Estonian]
+Эстонскі
+[Farsi]
+Фарсі
+[Finnish]
+Фінскі
+[French]
+Французскі
+[Gaelic]
+Гайскі
+[German]
+Нямецкі
+[Greek]
+Грэцкі
+[Gujarati]
+Гуджарацкі
+[Hebrew]
+Іўрыт
+[Hindi]
+Хінді
+[Hungarian]
+Вугорскі
+[Icelandic]
+Ісландскі
+[Indonesian]
+Інданэзійскі
+[Italian]
+Італьянскі
+[Japanese]
+Японскі
+[Khmer]
+Кхмерскі
+[Korean]
+Карэйскі
+[Kurdish]
+Курдскі
+[Lao]
+Лаоскі
+[Latvian]
+Латышскі
+[Lithuanian]
+Літоўскі
+[Macedonian]
+Македонскі
+[Malay]
+Малайскі
+[Mandarin]
+Мандарын
+[Mongolian]
+Мангольскі
+[Norwegian]
+Нарвежскі
+[Persian]
+Персідскі
+[Polish]
+Польскі
+[Portuguese]
+Партугальскі
+[Punjabi]
+Панджабскі
+[Romanian]
+Румынскі
+[Russian]
+Рускі
+[Serbo-Croatian]
+Сербахарвацкі
+[Sindhi]
+Сіндзі
+[Slovak]
+Славацкі
+[Slovenian]
+Славенскі
+[Somali]
+Самалійскі
+[Spanish]
+Гішпанскі
+[Swahili]
+Суахілі
+[Swedish]
+Швецкі
+[Tagalog]
+Тагалог
+[Taiwanese]
+Тайваньскі
+[Tamil]
+Тамільскі
+[Tatar]
+Татарскі
+[Thai]
+Тайскі
+[Turkish]
+Турэцкі
+[Ukrainian]
+Украінскі
+[Urdu]
+Урду
+[Vietnamese]
+В'етнамскі
+[Welsh]
+Валійскі
+[Yiddish]
+Ідыш
+[Yoruba]
+Ерубскі
+[Academic]
+Акадэмія
+[Administrative]
+Адміністрацыя
+[Art/Entertainment]
+Забаўкі
+[College Student]
+Студэнт каледжа
+[Computers]
+Кампутары
+[Community & Social]
+Грамадства і соцыюм
+[Education]
+Адукацыя
+[Engineering]
+Інжынер
+[Financial Services]
+Фінансы
+[Government]
+Урад
+[High School Student]
+Вучань сярэдняй школы
+[ICQ - Providing Help]
+ICQ - падтрымка
+[Law]
+Закон
+[Managerial]
+Кіраванне
+[Manufacturing]
+Вытворчасць
+[Medical/Health]
+Медыцына/Здароўе
+[Military]
+Вайсковец
+[Non-Government Organization]
+Няўрадавая арганізацыя
+[Professional]
+Прафесіянал
+[Retail]
+Рознічны гандляр
+[Retired]
+У адстаўцы
+[Science & Research]
+Навука і даследаванні
+[Sports]
+Спорт
+[Technical]
+Тэхнічны
+[University Student]
+Студэнт універсітэта
+[Web Building]
+Web-службы
+[Other Services]
+Іншае
+[Art]
+Мастацтва
+[Cars]
+Машыны
+[Celebrity Fans]
+Фанат знакамітасцей
+[Collections]
+Калекцыянаванне
 [Culture & Literature]
 Культура і літаратура
+[Fitness]
+Фітнэс
+[Games]
+Гульні
+[Hobbies]
+Хобі
+[Internet]
+Інтэрнэт
+[Lifestyle]
+Лад жыцця
 [Movies/TV]
 Кіно/ТБ
+[Music]
+Музыка
 [Outdoor Activities]
 Актыўны адпачынак
+[Parenting]
+Выхаванне
 [Pets/Animals]
 Жывёлы
+[Religion]
+Рэлігія
 [Science/Technology]
 Навука/Тэхналогія
+[Skills]
+Навыкі
+[Web Design]
+Web Дызайн
 [Nature and Environment]
 Прырода і навакольнае асяроддзе
 [News & Media]
 Навіны і медыя
 [Business & Economy]
 Бізнэс і эканоміка
+[Mystics]
+Містыка
+[Travel]
+Вандроўкі
+[Astronomy]
+Астраномія
+[Space]
+Космас
+[Clothing]
+Адзежа
+[Parties]
+Вечарыны
+[Women]
+Жанчыны
+[Social science]
+Сацыялогія
+[60's]
+60-е
+[70's]
+70-е
+[80's]
+80-е
+[50's]
+50-е
 [Finance and corporate]
 Фінансы
+[Entertainment]
+Забаўкі
 [Consumer electronics]
 Побытавыя электрапрыборы
 [Retail stores]
 Рознічны гандаль
 [Health and beauty]
 Прыгажосць і здароўе
+[Media]
+Медыя
 [Household products]
 Хатнія прадукты
 [Mail order catalog]
@@ -421,14 +905,80 @@ E-Mail
 Гук і візуалізацыя
 [Sporting and athletic]
 Спорт
+[Publishing]
+Публікацыі
 [Home automation]
 Побытавая аўтаматызацыя
+[Alumni Org.]
+Выпускнікі
+[Charity Org.]
+Дабрачынная арганізацыя
+[Club/Social Org.]
+Клуб
+[Community Org.]
+Грамадскае аб'яднанне
+[Cultural Org.]
+Культурнае аб'яднанне
+[Fan Clubs]
+Фан-клуб
+[Fraternity/Sorority]
+Клуб па інтарэсах/Жаночы клуб
+[Hobbyists Org.]
+Арганізацыя па захапленнях
+[International Org.]
+Міжнародная арганізацыя
+[Nature and Environment Org.]
+Прыродаахоўная арганізацыя
+[Professional Org.]
+Прафсаюз
+[Scientific/Technical Org.]
+Навукова-тэхнічная арганізацыя
+[Self Improvement Group]
+Група самаўдасканальвання
+[Spiritual/Religious Org.]
+Рэлігійная арганізацыя
+[Sports Org.]
+Спартовая арганізацыя
+[Support Org.]
+Арганізацыя падтрымкі
+[Trade and Business Org.]
+Гандлевая арганізацыя
+[Union]
+Аб'яднанне
+[Volunteer Org.]
+Добраахвотніцкая арганізацыя
+[Elementary School]
+Пачатковая школа
+[High School]
+Сярэдняя школа
+[College]
+ВНУ
+[University]
+Універсітэт
+[Single]
+Самотны
+[Close relationships]
+У блізкіх стасунках
+[Engaged]
+Заручаны
+[Married]
+У шлюбе
+[Divorced]
+У разводзе
+[Separated]
+Падзельнік
+[Widowed]
+Удавец/Удава
 [jun.]
 мл.
 [sen.]
 сен.
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+'(Невядомы кантакт)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+Адправіць e-mail
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 [Gender (uinfoex)]
 Падлога (uinfoex)
@@ -442,6 +992,18 @@ E-Mail
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 ;file \plugins\UserInfoEx\src\svc_reminder.cpp
+[He]
+Яму
+[She]
+Ёй
+[He/She]
+Ёй/яму
+[%s has birthday today.]
+%s адзначае Дзень нараджэння сёння.
+[%s has birthday tomorrow.]
+%s адзначае Дзень нараджэння заўтра.
+[%s has birthday in %d days.]
+%s адзначае дзень нараджэння праз %d дзён.
 [\n%s becomes %d years old.]
 \n%s выканаецца %d.
 [No anniversaries to remind of]
@@ -459,6 +1021,8 @@ E-Mail
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
+[All Contacts]
+Усе кантакты
 [Required modules]
 Абавязковыя модулі
 [Optional modules]
@@ -471,6 +1035,8 @@ E-Mail
 [Select a destination file...]
 Абярыце імя файла для экспарту
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[Complete]
+Гатова
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 Дададзена кантактаў: %u / %u\nДададзена налад: %u / %u\nДададзена падзей: %u / %u\nДубліруючых падзей: %u
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp

@@ -8,10 +8,26 @@
 [Facebook protocol support for Miranda NG.]
 Падтрымка пратаколу  Facebook.
 ;file \protocols\FacebookRM\res\facebook.rc
+[E-mail:]
+Пошта:
+[Password:]
+Пароль:
 [Create a new Facebook account]
 Стварыць новы конт Facebook
 [What's on your mind?]
 Пра што вы думаеце?
+[Text:]
+Тэкст:
+[Place:]
+Месца:
+[Visibility:]
+Бачнасць:
+[Cancel]
+Скасаваць
+[User Details]
+Пра карыстача
+[Default group:]
+Група:
 [Automatically set 'Ignore status change' flag]
 Аўтаматычна ўключаць ігнараванне змены статутаў
 [Contacts Settings]
@@ -20,14 +36,30 @@
 Вялікія аватары
 [Load contacts with 'On the Mobile' status]
 Загружаць кантакты "з мабільнага"
+[Event notifications]
+Апавяшчэнні
+[Colors]
+Колеры
+[Back]
+Фон
+[Text]
+Тэкст
+[Notifications]
+Апавяшчэнні
+[Default]
+Змаўчанні
 [News feeds]
 Навіны
+[Other events]
+Іншыя падзеі
 [Client notifications]
 Апавяшчэнні кліента
 [Timeout (sec.)]
 Працягласць (сек.)
 [(0 = default, -1 = infinite)]
 (0 = змаўчанне, -1 = бясконца)
+[Preview]
+Тэст
 [Use balloon notifications in system tray instead of popups]
 Апавяшчаць падказкай у трэі замест усплывальных вокнаў
 [News Feed types to notify:]
@@ -38,6 +70,8 @@
 Бяспечнае злучэнне (HTTPS)
 [Post Miranda statuses to Wall]
 Публікаваць статусы Miranda на сцяну
+[Enable logging for debugging purposes]
+Журналяванне для адладкі
 [Use secure connection also for channel requests]
 Бяспечнае злучэнне таксама для запытаў канала
 [Also disconnect chat when going to offline]
@@ -47,6 +81,8 @@
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 Падтрымка карыстацкіх смайлаў (Эксперыментальна!)
 ;file \protocols\FacebookRM\src\communication.cpp
+[Unknown error]
+Невядомая памылка
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Калі ласка, увядзіце імя карыстача.
@@ -61,6 +97,8 @@
 Папулярныя навіны
 [Photos]
 Фатаграфіі
+[Links]
+Спасылкі
 [Apps and Games]
 Прыкладанні і гульні
 [Classic website]
@@ -93,10 +131,26 @@
 Вы не можаце адпраўляць паведамленні без далучэння.
 ;file \protocols\FacebookRM\src\process.cpp
 ;file \protocols\FacebookRM\src\proto.cpp
+[%s server connection]
+Далучэнне да сервера %s
+[Notification]
+Апавяшчэнне
 [News Feed]
 Навіны
 [Other Event]
 Іншая падзея
+[Avatars]
+Аватары
+[Network]
+Сеціва
+[Account]
+Конт
+[Advanced]
+Дадаткова
+[Popups]
+Усплывальныя вокны
+[Events]
+Падзеі
 [Loading newsfeeds...]
 Загрузка навін...
 [Checking friend requests...]
@@ -118,8 +172,12 @@
 Дадаць ў сябры
 [Mind...]
 Думаю...
+[Services...]
+Службы...
 [Refresh Buddy List]
 Абнавіць спіс сяброў
+[Services]
+Службы
 [Check Friends Requests]
 Праверыць запыты сяброўства
 [Check Newsfeeds]

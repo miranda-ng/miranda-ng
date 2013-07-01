@@ -26,6 +26,8 @@ Fingerprint NG адлюстроўвае абразкі кліентаў, вык�
 Unicode
 [Secure overlays]
 Абразкі шыфравання
+[Select protocols]
+Пратаколы
 [AIM clients]
 Кліенты AIM
 [Gadu-Gadu clients]
@@ -59,6 +61,8 @@ Unicode
 [Show client icon in message window status bar]
 Паказаць абразок у статусным радку гутаркі
 ;file \plugins\FingerprintNG\src\fingerprint.cpp
+[Fingerprint]
+Адбітак
 ;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons]
 Кліенты
@@ -68,8 +72,16 @@ Unicode
 Мульты-пратакол
 [Other protocols]
 Іншыя пратаколы
+[Overlays]
+Аверлэі
+[Resource]
+Рэсурс
 [Platform]
 Аперацыйная сістэма
+[Security]
+Бяспека
+[Protocol]
+Пратакол
 ;file \plugins\FingerprintNG\src\masks.cpp
 [MirandaNG stable]
 Стабільная MirandaNG
@@ -95,6 +107,8 @@ Jabber
 XMPP
 [Client not found]
 Нязнойдзены кліент
+[Unknown client]
+Невядомы кліент
 [Undetected client]
 Нязнойдзены кліент
 [AIM overlay]
@@ -162,3 +176,5 @@ x32
 [SecureIM overlay]
 SecureIM
 ;file \plugins\FingerprintNG\src\options.cpp
+[Icons]
+Абразкі

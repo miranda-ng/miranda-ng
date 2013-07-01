@@ -1,8 +1,12 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+Пароль:
 [Loginname:]
 Лагін
+[Nick:]
+Нік:
 [Current Protocolversion:]
 Бягучая версія пратаколу:
 [Note: You can only change these settings, if you are connected to Xfire.]
@@ -31,6 +35,10 @@
 Паказваць нікі калі даступна
 [Show friends of my friends]
 Паказваць сяброў маіх сяброў
+[Options]
+Налады
+[More options]
+Яшчэ налады
 [Gameicon:]
 Значок гульні:
 [Voiceicon:]
@@ -43,6 +51,8 @@
 Аўтаматычны пошук гульняў:
 [Main group for Friends of Friends:]
 Асноўная група для сяброў сяброў:
+[Files]
+Файлы
 [Blocked User List]
 Заблакаваны спіс карыстачоў
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
@@ -55,26 +65,56 @@
 Гэты файл утрымоўвае арыгінальныя значкі гульняў. Вы можаце гэтак жа актываваць аўтаматычную загрузку, калі гэтага файла ў вас няма.
 [Be sure you put these files in following folder:]
 Будзьце ўважлівыя, вы змесціце файлы ў гэту тэчку:
+[Status Message]
+Статуснае паведамленне
+[Enable]
+Уключана
 [With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.]
 З гэтай магчымасцю, наступнае статуснае паведамленне будзе ўсталявана на іншы пратакол, калі вы ў гульні. Так вашы сябры будуць бачыць, што вы гуляеце. Гэта гэтак жа зменіць ваш статус на "заняты", калі вы ўключылі гэту функцыю.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Даступныя наступныя зменныя: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
+[Status message:]
+Статуснае паведамленне:
 [Change the status to occupied or dnd]
 Змяняць статус на Заняты ці Не турбаваць
 [The status message and status will be reset, if you close the game.]
 Статуснае паведамленне і статус будуць скінуты, калі вы зачыніце гульню.
+[Games]
+Гульні
 [Dont detect this game as running]
 Не выяўляць гульню калі запушчана
+[Apply]
+Ужыць
 [Dont set status message for other protocols]
 Не ставіць паведамленне статусу іншым пратаколам
+[Remove]
+Выдаліць
+[Username:]
+Карыстач:
 [Game]
 Гульня
 [Voicechat]
 Галасавы чат
+[Name:]
+Імя:
+[Port:]
+Порт:
 [Userdetails]
 Дэталі карыстача
+[Copy]
+Капіяваць
+[Set Nickname]
+Увод ніка
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[Update]
+Абнавіць
 [Add Game]
 Дадаць
+[Search:]
+Шукаць:
 [Browse ...]
 Агляд...
 [Add a new game]
@@ -83,15 +123,35 @@
 Пошук гульняў ...
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+Усе файлы
 [XFire Options]
 Налады XFire
 [Please choose one game in the list!]
 Калі ласка, абярыце гульню са спісу!
 ;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+Так, я тут.
+[I've been away since %time%.]
+Адышоў %time%. Хутка буду.
+[Give it up, I'm not in!]
+Мяне няма
+[Not right now.]
+Не зараз.
+[Give a guy some peace, would ya?]
+Не чапайце пакуль, га?
+[That'll be the phone.]
+Гавару па тэлефоне...
+[Mmm...food.]
+Ммм... е-е-ежа...
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
+[Protocol icon]
+Абразок пратаколу
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
 Старая версія пратаколу. Зменіце бягучую версію %d на %d. Вы павінны перадалучыцца.
+[Voice]
+Голас
 [Buddy start a game]
 Пачатак гульні
 [&XFire Online Profile]
@@ -114,23 +174,33 @@
 Мой профіль XFire
 [&Rescan my Games ...]
 Перасканаваць мае гульні...
+[Set &Nickname]
+Псеўданім...
 [XFire game icon]
 Абразок гульні XFire
 [XFire voice icon]
 Абразок голаса XFire
+[Username]
+Імя карыстача
 [Unable to connect to XFire.]
 Не магу далучыцца да XFire.
 [No Loginname is set!]
 Лагін не ўсталяваны!
+[Playing]
+Грае
 [Do you really want delete your friend %s?]
 Вы сапраўды жадаеце выдаліць %s?
 [Confirm Delete]
 Пацвердзіце выдаленне
 ;file \protocols\Xfire\src\options.cpp
+[Avatars]
+Аватары
 [Disable avatars]
 Выключыць аватары
 [Use alternate way for Avatar download]
 Выкарыстоўваць альтэрнатыўны шлях спампоўкі аватараў
+[General]
+Агульнае
 [Automatically reconnect on protocol version changes]
 Аўтаматычна пяры далучацца пры змене версіі пратаколу
 [No Ip/Port in StatusMsg]
@@ -173,10 +243,28 @@
 Абнаўляць фон
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 Зробленыя вамі змены будуць дзейнічаць пры наступным далучэнні да XFire.
+[Hidden]
+Утоены
 [Messagebox]
 Акно паведамленняў
+[Popup]
+Вакно
+[No]
+Не
 [On every start]
 Пры кожным запуску
+[Daily]
+Дзён
+[<Root Group>]
+<Каранёвая група>
+[Not supported]
+Не падтрымліваецца
+[Network]
+Сеціва
+[Account]
+Конт
+[Features]
+Магчымасці
 [Blocklist / Games]
 Блакаваныя / Гульні
 [StatusMsg]
@@ -185,6 +273,8 @@
 [Games found:%s%s]
 Знойдзены гульні:%s%s
 ;file \protocols\Xfire\src\userdetails.cpp
+[<not specified>]
+<не паказана>
 ;file \protocols\Xfire\src\Xfire_game.cpp
 [Start game]
 Пачаць гульню

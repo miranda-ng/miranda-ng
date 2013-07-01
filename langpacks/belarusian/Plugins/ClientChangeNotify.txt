@@ -10,6 +10,8 @@
 ;file \plugins\ClientChangeNotify\res\Resources.rc
 [ClientChangeNotify error]
 Памылка ClientChangeNotify
+[OK]
+ОК
 [Fingerprint plugin not found.]
 Плагiн Fingerprint не знойдзены.
 [ClientChangeNotify requires it to work properly.]
@@ -26,6 +28,30 @@
 Паказаць версію кліента 
 [Don't notify for contacts with disabled status notification]
 Не апавяшчаць для кантактаў з адключаным апавяшчэннем статуту
+[Click action]
+Дзеянні па пстрычцы
+[On left click]
+Левая пстрычка
+[On right click]
+Правая пстрычка
+[Delay]
+Затрымка
+[Sec]
+сек.
+[0 = Default]
+0=Змаўчанне
+[-1 = Infinite]
+-1=Бясконца
+[Colours]
+Колеры
+[Background]
+Фон
+[Use default]
+Па змаўчанні
+[Text]
+Тэкст
+[Preview]
+Тэст
 [Ignore these clients (separated by semicolons):]
 Ігнараваць гэтыя кліенты (праз кропку з коскі):
 [(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
@@ -39,6 +65,8 @@
 Выключыць апавяшчэнні пра змену кліента
 [Enable c&lient change notification]
 Уключыць апавяшчэнні пра змену кліента
+[Popups]
+Усплывальныя вокны
 [ClientChangeNotify: Client changed]
 Апавяшчэнне пра змену кліента: Кліент змяніўся
 [ClientChangeNotify]
@@ -51,3 +79,17 @@
 ;file \plugins\ClientChangeNotify\src\OptDlg.cpp
 [(you can use regular expressions here)]
 (Вы можаце выкарыстоўваць тут рэгулярныя выразы)
+[Open message window]
+Адкрыць вакно гутаркі
+[Close popup]
+Зачыніць акно
+[Open contact details window]
+Адчыніць акно дэталяў кантакту
+[Open contact menu]
+Адкрыць меню кантакту
+[Open contact history]
+Адкрыць гісторыю кантакту
+[Open log file]
+Адкрыць лог
+[Do nothing]
+Нічога не рабіць

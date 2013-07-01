@@ -12,6 +12,8 @@
 Функцыя правай кнопкі мышы
 [Button Left-Click menu]
 Меню левай кнопкі мышы
+[Buttons]
+Кнопкі
 [Menu entry value:]
 Найменне меню:
 [Misc.]
@@ -60,4 +62,8 @@
 Новая кнопка
 [New Menu Entry]
 Новы пункт меню
+[Message Sessions]
+Гутаркі
 ;file \plugins\QuickMessages\src\Utils.cpp
+[Quick Messages Button %u]
+Кнопка хуткага паведамлення %u

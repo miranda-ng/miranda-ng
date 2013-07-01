@@ -12,22 +12,52 @@
 Паслаць кантакты
 [Choose contacts to be send:]
 Абраць кантакты для адпраўкі:
+[&Send]
+&Адправіць
+[Cancel]
+Скасаваць
+[&Select All]
+&Вылучыць усё
 [Received contacts]
 Прынятыя кантакты
 [Add to &group:]
 Дадаць у групу:
+[&Add]
+&Дадаць
 [&Details]
 Дэталі
+[Close]
+Зачыніць
 [Contacts send error]
 Памылка адпраўкі кантактаў
+[An error has occured. The protocol reported the following error:]
+Пратакол вярнуў наступную памылку:
+[Try again]
+Яшчэ раз
+[Popup]
+Вакно
 [Add to List]
 Дадаць
+[User Details]
+Пра карыстача
+[Send Message]
+Адправіць
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]
 Атрыманы кантакты ад
+[Contacts]
+Кантакты
 [Incoming Contacts]
 Уваходныя кантакты
 [Outgoing Contacts]
 Выходныя кантакты
 ;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+Дадаць у спіс
+[View User's Details]
+Інфармацыя пра карыстача
+[View User's History]
+Гісторыя паведамленняў
+[User Menu]
+Меню карыстача
 ;file \plugins\ContactsPlus\src\send.cpp

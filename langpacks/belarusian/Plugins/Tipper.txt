@@ -8,10 +8,20 @@
 [Tool Tip notification windows.]
 Усплывальныя падказкi для іншых плагiнаў.
 ;file \plugins\TipperYM\res\resource.rc
+[Options]
+Налады
+[Layout]
+Размяшчэнне
+[Text indent:]
+Водступ тэксту:
+[Window]
+Акно
 [Max width:]
 Макс. шырыня:
 [Max height:]
 Макс. вышыня:
+[Avatar size:]
+Аватар:
 [Show if list not focused]
 Спіс не ў фокусе
 [General padding:]
@@ -20,6 +30,8 @@
 Затрымка:
 [Status bar tips]
 Падказкі ў панэлі статусу
+[Alignment]
+Выраўноўванне
 [Labels:]
 Назвы:
 [Values:]
@@ -28,10 +40,14 @@
 Мін. шырыня:
 [Min height:]
 Мін. вышыня:
+[Sidebar width:]
+Шырыня ўрэзкі:
 [Text padding:]
 Міжрадковы водступ:
 [Outer avatar padding:]
 Зн. водступ аватара:
+[Round corners (avatar)]
+Акругляць куты аватара
 [Keep original avatar size]
 Захоўваць памер аватара
 [Avatar border]
@@ -44,6 +60,8 @@
 Унут. водступ аватара:
 [Substitution]
 Падстанова
+[Label:]
+Пазнака:
 [Contact protocol module]
 Модуль пратаколу кантакту
 [Module:]
@@ -52,6 +70,10 @@
 Параметр, прэфікс:
 [Translation:]
 Пераўтварэнне:
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [Item]
 Элемент
 [Value:]
@@ -62,22 +84,40 @@
 Значэнне з новага радка
 [Preset items:]
 Зададзеныя элементы:
+[Variables]
+Зменныя
 [Parse Tipper variables first]
 Апрацоўваць зменныя падказак першымі
+[Items]
+Элементы
 [Substitutions]
 Падстановы
+[Add]
+Дадаць
+[Remove]
+Выдаліць
+[Up]
+Угару
+[Down]
+Уніз
+[Edit]
+Змяніць
 [Separator]
 Падзельнік
 [Advanced options]
 Дадаткова
 [Retrieve XStatus details if auto-retrieve is disabled]
 Запытваць падрабязны xСтатус, калі аўтазапыт выключаны
+[Extra icons]
+Экстра абразкі
 [Smileys support]
 Смайлікі
 [Enable SmileyAdd support]
 Падтрымка смайлікаў
 [Resize smileys]
 Маштабаваць смайлы
+[Use protocol smileys]
+Смайлікі пратаколу
 [Replace only isolated smileys]
 Толькі смайлы праз прабел
 [Retrieve new status message]
@@ -88,12 +128,30 @@
 Панэль статусу і падказка ў трэі
 [Limit status messages in status bar and tray tooltips to:]
 Абмежаваць паведамленне ў панэлі статусу і ў падказцы трэя да:
+[characters]
+знакаў
 [Disable in invisible status]
 Адключыць запыт, калі нябачны
+[Skins]
+Скіны
+[Opacity(%):]
+Непразрыстасць (%):
+[Transparency]
+Празрыстасць
+[Effects]
+Эфекты
+[Border]
+Рамка
+[Shadow]
+Цень
+[Round corners (window)]
+Акругляць куты акна
 [Aero Glass (Vista+)]
 Эфект Aero Glass (Vista+)
 [Animation speed:]
 Хуткасць анімацыі:
+[Preview]
+Тэст
 [No preview]
 Няма прэв'ю
 [Skin option]
@@ -118,6 +176,8 @@
 Абраныя кантакты
 [Expand to second level after:]
 Другі ўзровень падказкі праз:
+[ms]
+мс
 [First level tooltip]
 Падказка першага ўзроўня
 [Second level tooltip]
@@ -142,18 +202,56 @@
 Дадаць
 [Add separator]
 Дадаць падзельнік
+[Move up]
+Вышэй
+[Move down]
+Ніжэй
+[Icon on left]
+Абразок злева
+[Icon on right]
+Абразок справа
 [No icon]
 Без значка
 [No title]
 Без загалоўка
+[Bottom right]
+Унізе справа
+[Bottom left]
+Унізе злева
+[Top right]
+Наверсе справа
+[Top left]
+Наверсе злева
+[Top]
+Угару
 [Centre]
 Цэнтр
+[Bottom]
+Ніз
+[Left]
+Злева
+[Right]
+Справа
+[No avatar]
+Без аватара
+[Left avatar]
+Аватар злева
+[Right avatar]
+Аватар справа
 [Max avatar size:]
 Памер (макс.):
+[None]
+Няма
 [Animation]
 Анімацыя
 [Fade]
 Згасанне
+[Appearance]
+Знешні выгляд
+[Tooltips]
+Падказкі
+[Customize]
+Тонкая налада
 [Content]
 Змесціва
 [Tray tooltip]
@@ -167,21 +265,43 @@
 Заблакаваны статус
 [Logon time]
 Час уваходу
+[Unread emails]
+Непрачытаныя лісты
+[Status]
+Статус
+[Status message]
+Паведамленне статусу
+[Extra status]
+Дап. статус
+[Listening to]
+Слухаю
 [Miranda uptime]
 Час працы Miranda
 [Clist event]
 Падзея спісу
 [Jabber activity]
 Занятак Jabber
+[Gender]
+Пол
+[Country flag]
+Сцяг краіны
 [Client]
 Кліент
 ;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (заблакаваны)
 [ ago]
  назад
 [Log on:]
 Далучаны:
 [Unread emails:]
 Непрачытаных лістоў:
+[Status:]
+Статус:
+[Status message:]
+Статуснае паведамленне:
+[Mood:]
+Настрой:
 [XStatus:]
 хстатус:
 [Activity:]
@@ -196,11 +316,27 @@
 Капіяваць аватар
 [Fav. contacts]
 Абраныя
+[Other]
+Іншае
 [Miranda uptime:]
 Час працы Miranda:
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Birthday]
+Дзень нараджэння
+[Birthday:]
+Дзень нараджэння:
+[Client:]
+Кліент:
+[Gender:]
+Пол:
+[Homepage]
+Сайт
+[Homepage:]
+Сайт:
 [Identifier]
 Ідэнтыфікатар
+[Idle]
+Чаканне
 [Idle:]
 У чаканні:
 [IP internal]
@@ -211,6 +347,10 @@
 Апош. паведамл.
 [Last message: (%sys:last_msg_reltime% ago)]
 Апошнія паведамленне: (%sys:last_msg_reltime% назад)
+[Name]
+Імя
+[Name:]
+Імя:
 [Number of received messages]
 Колькасць атрыманых паведамленняў
 [Number of msg [IN]:]
@@ -219,6 +359,12 @@
 Колькасць адпраўленых паведамленняў
 [Number of msg [OUT]:]
 Колькасць адпраўленых паведамленняў:
+[Contact time]
+Час кантакту
+[Time:]
+Час:
+[XStatus title]
+Загаловак хстатуса
 [XStatus title:]
 Загаловак хстатуса:
 [XStatus text]
@@ -291,6 +437,8 @@
 Індэкс УХ:
 [[weather.dll] Visibility]
 (weather.dll) Бачнасць
+[Visibility:]
+Бачнасць:
 [[weather.dll] Wind]
 (weather.dll) Вецер
 [Wind:]
@@ -299,6 +447,14 @@
 [# Solid color fill]
 # заліванне колерам
 ;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+Фон
+[Dividers]
+Падзельнікі
+[Sidebar]
+Урэзка
+[Title]
+Загаловак
 [Labels]
 Пазнакі
 [Values]
@@ -308,6 +464,10 @@
 [Tipper]
 Падказкі
 ;file \plugins\TipperYM\src\translations.cpp
+[Female]
+Жаночы
+[Male]
+Мужчынскі
 [[No translation]]
 (без пераўтварэння)
 [WORD to status description]
@@ -355,3 +515,185 @@
 [BYTE to language (ICQ)]
 Байт - у мову (ICQ)
 ;file \plugins\TipperYM\src\translations.h
+[Afrikaans]
+Афрыкаанс
+[Albanian]
+Албанскі
+[Arabic]
+Арабскі
+[Armenian]
+Армянскі
+[Azerbaijani]
+Азербайджанскі
+[Belorussian]
+Беларускі
+[Bhojpuri]
+Хайпурыйскі
+[Bosnian]
+Баснійскі
+[Bulgarian]
+Балгарскі
+[Burmese]
+Бурмескі
+[Cantonese]
+Катанезійскі
+[Catalan]
+Каталанскі
+[Chamorro]
+Чаморскій
+[Chinese]
+Кітайскі
+[Croatian]
+Харвацкі
+[Czech]
+Чэшскі
+[Danish]
+Дацкі
+[Dutch]
+Галандскі
+[English]
+Ангельскі
+[Esperanto]
+Эсперанта
+[Estonian]
+Эстонскі
+[Farsi]
+Фарсі
+[Finnish]
+Фінскі
+[French]
+Французскі
+[Gaelic]
+Гайскі
+[German]
+Нямецкі
+[Greek]
+Грэцкі
+[Gujarati]
+Гуджарацкі
+[Hebrew]
+Іўрыт
+[Hindi]
+Хінді
+[Hungarian]
+Вугорскі
+[Icelandic]
+Ісландскі
+[Indonesian]
+Інданэзійскі
+[Italian]
+Італьянскі
+[Japanese]
+Японскі
+[Khmer]
+Кхмерскі
+[Korean]
+Карэйскі
+[Kurdish]
+Курдскі
+[Lao]
+Лаоскі
+[Latvian]
+Латышскі
+[Lithuanian]
+Літоўскі
+[Macedonian]
+Македонскі
+[Malay]
+Малайскі
+[Mandarin]
+Мандарын
+[Mongolian]
+Мангольскі
+[Norwegian]
+Нарвежскі
+[Persian]
+Персідскі
+[Polish]
+Польскі
+[Portuguese]
+Партугальскі
+[Punjabi]
+Панджабскі
+[Romanian]
+Румынскі
+[Russian]
+Рускі
+[Serbo-Croatian]
+Сербахарвацкі
+[Sindhi]
+Сіндзі
+[Slovak]
+Славацкі
+[Slovenian]
+Славенскі
+[Somali]
+Самалійскі
+[Spanish]
+Гішпанскі
+[Swahili]
+Суахілі
+[Swedish]
+Швецкі
+[Tagalog]
+Тагалог
+[Taiwanese]
+Тайваньскі
+[Tamil]
+Тамільскі
+[Tatar]
+Татарскі
+[Thai]
+Тайскі
+[Turkish]
+Турэцкі
+[Ukrainian]
+Украінскі
+[Urdu]
+Урду
+[Vietnamese]
+В'етнамскі
+[Welsh]
+Валійскі
+[Yiddish]
+Ідыш
+[Yoruba]
+Ерубскі
+[Sunday]
+Нядзеля
+[Monday]
+Панядзелак
+[Tuesday]
+Аўторак
+[Wednesday]
+Асяроддзе
+[Thursday]
+Чацвер
+[Friday]
+Пятніца
+[Saturday]
+Субота
+[January]
+Студзень
+[February]
+Люты
+[March]
+Сакавік
+[April]
+Красавік
+[May]
+Травень
+[June]
+Чэрвень
+[July]
+Ліпень
+[August]
+Жнівень
+[September]
+Верасень
+[October]
+Кастрычнік
+[November]
+Лістапад
+[December]
+Снежань

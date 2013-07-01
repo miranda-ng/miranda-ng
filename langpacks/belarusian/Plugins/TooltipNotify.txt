@@ -8,22 +8,40 @@
 [Shows a small tooltip above system tray area when a contact status is changed.]
 Апавяшчэнні ў трэі пры змене статусу кантакту.
 ;file \plugins\TooltipNotify\res\main.rc
+[Select protocols]
+Пратаколы
+[OK]
+ОК
 [Choose contacts...]
 Абярыце кантакты
 [Allow tooltip notifications for the following users:]
 Уключыць апавяшчэнні для адзначаных кантактаў:
+[Cancel]
+Скасаваць
 [Notify upon the following events]
 Апавяшчаць пра наступныя падзеі
+[Online]
+Далучаны
+[Offline]
+Адключаны
 [All other]
 Іншае
+[Typing]
+Набор тэксту
+[Protocols]
+Пратаколы
 [Suppress notifications upon connection for]
 Не апавяшчаць пры падлучэнні
+[sec]
+сек
 [Prefix proto name]
 Імя акаўнта
 [Duration]
 Працягласць
 [Show tooltip for]
 Паказваць:
+[ms]
+мс
 [Duration x2 upon online event]
 У 2 разы даўжэй для "Далучаны"
 [Double click on tooltip]
@@ -34,14 +52,24 @@
 Акно паведамленняў
 [Behavior]
 Паводзіны
+[Misc]
+Іншае
 [Obey 'Suppress online notification' settings]
 Уключыць часовую забарону апавяшчэнняў
 [Auto positioning]
 Аўтапазіцыя
 [Transparent input]
 Празрысты ўваход
+[Preview]
+Тэст
+[Translucency options]
+Налады празрыстасці
 [Transparent tooltip]
 Празрыстасць
+[Contacts]
+Кантакты
+[Idle]
+Чаканне
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 Апавяшчэнні
@@ -55,5 +83,13 @@
 Апавяшчэнні: Іншае
 [Tooltip Notify: Typing]
 Апавяшчэнні: Друкуе
+[Popups]
+Усплывальныя вокны
+[** New contacts **]
+** Новыя кантакты **
+[** Unknown contacts **]
+** Невядомыя кантакты **
+[Unknown]
+Невядома
 [is]
 зараз

@@ -10,27 +10,61 @@
 ;file \plugins\BuddyPounce\res\resource.rc
 [Confirm Pounce send]
 Падтвердзіце адпраўленне
+[Send]
+Адправіць
+[Cancel]
+Скасаваць
 [Pounce being sent to]
 Адпраўленне адбудзецца
 [Buddy Pounce]
 Адправіць потым
+[OK]
+ОК
 [The Message:]
 Паведамленне:
 [Delete Pounce]
 Выдаліць адпраўку
 [Load default Settings]
 Загрузіць змаўчанні
+[Setting Value]
+Значэнне
 [Setting text...........]
 Налады тэксту.....
+[Settings]
+Налады
 [<< Simple]
 << Менш
+[Advanced >>]
+Дадаткова >
 [The Message]
 Паведамленне
+[Dialog]
+Гутарка
+[Status]
+Статус
 [Default Settings]
 Змаўчанні
 ;file \plugins\BuddyPounce\src\dialog.cpp
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[NA]
+Недаступны
+[Occupied]
+Заняты
+[DND]
+Не турбаваць
+[Invisible]
+Нябачны
 [error......]
 памылка...
 [Times]
 Час
+[Days]
+Дзён
+[Retry]
+Яшчэ раз
 ;file \plugins\BuddyPounce\src\main.cpp
+[Message Sessions]
+Гутаркі

@@ -14,8 +14,18 @@
 Застаўка
 [Show random splash]
 Паказваць выпадковую застаўку
+[Play sound]
+Прайграць гук
+[Loop sound]
+Паўтараць гук
 [Show Miranda Version]
 Паказваць версію Miranda NG
+[Enable]
+Уключана
+[Prefix:]
+Прэфікс:
+[Appearance]
+Знешні выгляд
 [Display time:]
 Адлюстроўваць:
 [msec]
@@ -26,12 +36,22 @@
 крокаў
 [Fade out:]
 Знікненне:
+[Advaimg library not found. Please get it from nigtlies to be able to use images.]
+Advaimg плагін не знойдзены. Калі ласка, уключыце яго, каб мець магчымасць выкарыстоўваць выявы.
 [Preview...]
 Прагляд...
 ;file \plugins\SplashScreen\src\main.cpp
+[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
+Ваша advaimg.dll састарэлла, ці пашкоджана. Яна ёсць у апошніх зборках Miranda NG.
+[Error]
+Памылка
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Графічныя файлы
+[Sound Files]
+Файлы гукаў
+[Skins]
+Скіны
 [Splash Screen]
 Застаўка
 ;file \plugins\SplashScreen\src\services.cpp

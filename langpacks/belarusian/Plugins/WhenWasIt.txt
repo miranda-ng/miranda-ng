@@ -10,12 +10,24 @@
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays:]
 Паведаміць пра дзень нараджэння:
+[Popups]
+Усплывальныя вокны
+[Popup timeout:]
+Працягласць:
+[Preview]
+Тэст
 [Don't show popups for subcontacts]
 Не паказваць для sub-кантактаў
 [Show popup when no birthdays are near]
 Паведамляць, нават калі блізкіх дзён нараджэння няма
 [Popup mouse click]
 Пстрычка па вакне кнопкай
+[Left]
+Злева
+[Right]
+Справа
+[Sounds]
+Гукі
 [Play sounds when there are]
 Прайграць, калі засталося
 [days or less to birthday.]
@@ -24,6 +36,8 @@
 Нагадаць за 
 [days in advance and]
 дзён да даты
+[Check every]
+Прав. кожныя
 [hours]
 гадзін
 [Only notify once per day.]
@@ -32,16 +46,44 @@
 Выкарыстоўваць
 [to save birthday data.]
 для захоўвання дадзеных.
+[Show]
+Паказаць
 [in birthday list window]
 у спісе дзён нараджэнняў
+[Dialog]
+Гутарка
 [Timeout:]
 Таймаўт:
+[seconds.]
+секунд.
 [Notify for]
 Апавяшчэнні
 [afterwards]
  пасля
+[In background]
+У фоне
 [Birthday list]
 Спіс дзён нараджэння
+[Close]
+Зачыніць
+[Show all contacts]
+Паказаць усе кантакты
+[Set birthday:]
+Вызначыць Дзень нараджэння:
+[OK]
+ОК
+[Manage anniversaries]
+Кіраванне юбілеямі
+[Title:]
+Загаловак:
+[Description:]
+Апісанне:
+[Date:]
+Дата:
+[Save]
+Захаваць
+[Delete]
+Выдаліць
 [Upcoming birthdays]
 Надыходзячыя дні нараджэння
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
@@ -55,6 +97,14 @@
 Модуль пратаколу
 [mBirthday module]
 Модуль mBirthday
+[Nothing]
+Нічога
+[Dismiss]
+Прыбраць
+[Message window]
+Гутарка
+[All contacts]
+Усе кантакты
 [All contacts except hidden ones]
 Усё, акрамя ўтоеных
 [All contacts except ignored ones]
@@ -67,12 +117,26 @@
 Абярыце модуль захоўвання дзён нараджэнняў.\r\n"UserInfo" па змаўчанні.\r\n Выкарыстоўваць "Модуль пратаколу" каб бачыць дадзеныя ў дадзеных кантакту\n"mBirthday модуль" захоўвае таксама, як і модуль mBirthday
 [Set birthday for %s:]
 Дзень нараджэння %s
+[%S protocol]
+%S пратакол
+[N/A]
+Недаступны
+[Unknown]
+Невядома
 [Birthday list (%d)]
 Спіс дзён нараджэння (%d)
+[Protocol]
+Пратакол
+[Contact]
+Кантакт
 [DTB]
 Дзён да ДН
+[Birthday]
+Дзень нараджэння
 [Age]
 Узрост
+[Module]
+Плагiн
 [Closing in %d seconds]
 Закрыецца праз %d секунд...
 [Closing in %d second]
@@ -82,10 +146,14 @@
 Праверыць дні нараджэння
 [Birthdays]
 Дні нараджэння
+[Contacts]
+Кантакты
 [WhenWasIt]
 Дні нараджэння
 [Birthday near]
 Дзень нараджэння хутка
+[Birthday today]
+Дзень нараджэння сёння
 [Birthdays (When Was It)]
 Дні нараджэння
 [Refresh user details]
@@ -114,12 +182,24 @@
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]
 Блізкіх дзён нараджэння няма.
+[%s has birthday in %d days.]
+%s адзначае дзень нараджэння праз %d дзён.
+[%s has birthday tomorrow.]
+%s адзначае Дзень нараджэння заўтра.
+[%s has birthday today.]
+%s адзначае Дзень нараджэння сёння.
 [%s had birthday %d days ago.]
 У %s быў дзень нараджэння %d дзён назад.
 [%s had birthday yesterday.]
 У %s учора быў дзень нараджэння.
 [Birthday - %s]
 Дзень нараджэння %s
+[He]
+Яму
+[She]
+Ёй
+[He/She]
+Ёй/яму
 [%s\n%s will be %d years old.]
 %s\n%s будзе %d .
 [%s\n%s just turned %d.]
@@ -129,6 +209,8 @@
 Пачатак абнаўлення інфармацыі пра карыстачоў
 [Done refreshing user details]
 Абнаўленне інфармацыі пра карыстачоў завершана
+[Error]
+Памылка
 [Birthdays files]
 Файлы дзён нараджэнняў
 [Please select a file to import birthdays from ...]
@@ -137,10 +219,14 @@
 Ідзе імпарт у файл %s
 [Done importing birthdays]
 Імпарт завершаны
+[All Files]
+Усе файлы
 [Please select a file to export birthdays to ...]
 Абярыце файл для экспарту дзён нараджэння
 [Exporting birthdays to file: %s]
 Ідзе экспарт у файл %s
 [Done exporting birthdays]
 Экспарт завершаны
+[Warning]
+Папярэджанне
 ;file \plugins\WhenWasIt\src\services.h

@@ -8,12 +8,16 @@
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Backup progress]
 Ход працэсу рэзервавання
+[Cancel]
+Скасаваць
 [Automatic Backups]
 Аўтаматычнае рэзерваванне
 [Number of backups to keep:]
 Колькасць рэзервовых копяў:
 [Backup NOW]
 Захаваць ЦЯПЕР
+[Disabled]
+Выключаны
 [When Miranda starts]
 Пры запуску Miranda
 [When Miranda exits]
@@ -22,13 +26,19 @@
 Кожныя:
 [Backup to folder:]
 Захоўваць у тэчку:
+[Browse...]
+Адкрыць...
 [Go to the "Customize -> Folders" to change settings]
 Адкрыйце "Тонкая налада -> Тэчкі" для змены налад
 [Disable progress bar]
 Адключыць індыкатар выканання
+[Disable Popups]
+Адключыць усплывальныя вокны
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda Databases]
 Базы данных Miranda NG
+[All Files]
+Усе файлы
 [Backup in Progress]
 Рэзерваванне падчас
 [Rotating backup files...]
@@ -46,7 +56,35 @@
 Рэзерваванне профіля
 [Backup Folder]
 Тэчка рэзервавання
+[Database]
+Профіль
 ;file \plugins\Db_autobackups\src\options.cpp
+[path to root miranda folder]
+шлях да тэчкі праграмы
+[path to current miranda profile]
+шлях да тэчкі бягучага профіля
+[name of current miranda profile (filename, without extension)]
+імя бягучага профіля (толькі імя, без пашырэння)
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
+верне радок выгляду %miranda_profile%\\Profiles\\%miranda_profilename%
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+аналог зменнага асяроддзя %APPDATA% для бягучага карыстача сістэмы
+[username for currently logged-on Windows user]
+імя бягучага карыстача сістэмы
+["My Documents" folder for currently logged-on Windows user]
+тэчка "Мае дакументы" для бягучага Windows карыстача
+["Desktop" folder for currently logged-on Windows user]
+тэчка "Працоўны стол" для бягучага Windows карыстача
+[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+любая зменная асяроддзі, вызначаная ў бягучай Windows сесіі (напрыклад, %systemroot%, %allusersprofile% і г.д.)
+[Variables]
+Зменныя
+[Days]
+Дзён
+[Hours]
+Гадзін
+[Minutes]
+Мінуць
 [Select Backup Folder]
 Абярыце тэчку для рэзервовых копій
 [Database AutoBackups]

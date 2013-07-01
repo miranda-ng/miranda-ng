@@ -8,9 +8,17 @@
 [Omegle protocol support for Miranda NG.]
 Убудова падтрымкі пратакола Omegle ў Miranda NG.
 ;file \protocols\Omegle\res\omegle.rc
+[Server:]
+Сервер:
+[Language:]
+Мова:
 [Visible name:]
 Бачнае імя:
+[Enable logging for debugging purposes]
+Журналяванне для адладкі
 ;file \protocols\Omegle\src\chat.cpp
+[Server]
+Сервер
 ;file \protocols\Omegle\src\communication.cpp
 [Stranger]
 Незнаёмец
@@ -19,16 +27,24 @@
 [Error: ]
 Памылка:
 ;file \protocols\Omegle\src\connection.cpp
+[Connecting...]
+Далучэнне...
 ;file \protocols\Omegle\src\constants.h
 [Random]
 Выпадкова
 ;file \protocols\Omegle\src\proto.cpp
+[%s server connection]
+Далучэнне да сервера %s
 [Stranger typing]
 Незнаёмец піша
 [Stranger stopped typing]
 Незнаёмец скончыў пісаць
 [Visible name]
 Бачнае імя
+[Network]
+Сеціва
+[Account]
+Конт
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
 Абразок Omegle

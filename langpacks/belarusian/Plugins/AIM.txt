@@ -12,6 +12,12 @@
 AIM Дэталі карыстача
 [Screen Name:]
 Імя AIM:
+[Display Name:]
+Паказваць імя:
+[Password:]
+Пароль:
+[Login Server:]
+Сервер:
 [AIM Options]
 Налады AIM
 [Message Delivery Confirmation]
@@ -40,6 +46,12 @@ AIM Дэталі карыстача
 Уяўляцца як Sidekick/Hiptop
 [*Aim must be reconnected  for some option to take effect.]
 *AIM павінен быць перадалучаны, каб змены набылі моц.
+[Connection]
+Далучэнне
+[Port:]
+Порт:
+[Reset]
+Скід
 [Disable SSL]
 Выкл. SSL
 [Manage Server Groups]
@@ -72,33 +84,79 @@ AIM Усталяваць Instant Idle
 Заблакаваць усіх
 [Block only users below]
 Заблок. усіх са спісу ніжэй
+[Add]
+Дадаць
+[Remove]
+Выдаліць
+[Idle]
+Чаканне
 [Allow contacts to be notified of:]
 Апавясціць кантакты пра:
 [Join Chat Room]
 Зайсці ў чат
 [Chat Room]
 Чат пакой
+[&Join]
+Зайсці
+[&Cancel]
+С&касаваць
+[Change Password]
+Змяніць пароль
 [Original]
 Стары
+[New]
+Стварыць
 [Repeat]
 Паўтарыць
+[Screen Name]
+Мянушка
+[E-mail]
+Пошта
 [Confirm Account]
 Пацвердзіць
 [*Applied upon reconnect]
 *Патрабуецца перазапуск
 [Save Changes]
 Захаваць змены
+[Invite Buddy To Chat Room]
+Запрашэнне ў чат-пакой
+[&Invite]
+Запрасіць
+[Invitation reason]
+Мэта запрашэння
+[&Deny]
+&Забараніць
+[Message]
+Паведамленне
 [Room]
 Чат-пакой
 ;file \protocols\AimOscar\src\avatars.cpp
+[Avatars]
+Аватары
 ;file \protocols\AimOscar\src\chat.cpp
+[Me]
+Я
+[Others]
+Іншае
+[&Invite user...]
+Запрасіць карыстача...
+[&Leave chat session]
+&Пакінуць сеанс
+[User &details]
+Дадзеныя кантакту
+[User &history]
+Гісторыя карыстача
 ;file \protocols\AimOscar\src\error.cpp
 [Mismatched Screen Name or password.]
 Няправільнае імя AIM ці пароль.
 ;file \protocols\AimOscar\src\file.cpp
 ;file \protocols\AimOscar\src\links.cpp
+[AIM Link Protocol]
+Пратакол AIM
 ;file \protocols\AimOscar\src\popup.cpp
 ;file \protocols\AimOscar\src\proto.cpp
+[%s server connection]
+Далучэнне да сервера %s
 [%s Client-to-client connection]
 %s  злучэнне кліент-кліент
 ;file \protocols\AimOscar\src\server.cpp
@@ -107,22 +165,38 @@ AIM Усталяваць Instant Idle
 [No information has been provided by the server.]
 Сервер не падаў ніякай інфармацыі.
 ;file \protocols\AimOscar\src\theme.cpp
+[Block]
+Заблакаваць
+[Profile]
+Профіль
 [AOL Mail]
 Пошта AOL
 [AIM Icon]
 Значок AIM
 [AOL Bot]
 Бот AOL
+[Admin]
+Адмін
 [Confirmed]
 Правераны
 [Not Confirmed]
 Неправераны
+[Blocked list]
+Спіс заблакаваных
 [Foreground Color]
 Колер пярэдняга плану
+[Background Color]
+Колер фону
+[Bold]
+Тоўсты
 [Not Bold]
 Не тоўсты
+[Italic]
+Курсіў
 [Not Italic]
 Не курсіў
+[Underline]
+Падкрэсленне
 [Not Underline]
 Не падкрэслены
 [Subscript]
@@ -143,6 +217,10 @@ AIM Усталяваць Instant Idle
 Тып конта AIM
 [AIM Extended Status]
 Пашыраны статус AIM
+[&Block]
+Блакаваць
+[&Unblock]
+Разблакаваць
 [Manage Account]
 Кіраванне контамі
 [Instant Idle]
@@ -154,6 +232,12 @@ AIM Усталяваць Instant Idle
 [Add To Server List]
 Дадаць у спіс на серверы
 ;file \protocols\AimOscar\src\ui.cpp
+[Network]
+Сеціва
+[Basic]
+Асноўныя
+[Privacy]
+Прыватнасць
 ;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]
 Калі ласка, увядзі імя карыстача ў наладах

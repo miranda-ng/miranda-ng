@@ -8,6 +8,10 @@
 [History viewer for Miranda NG.]
 Праглядчык гісторыі для Miranda NG.
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
+Гісторыя паведамленняў
+[Settings]
+Налады
 [Always show contact list]
 Заўсёды паказваць спіс кантактаў
 [Show groups in contact list]
@@ -34,10 +38,26 @@
 Новыя паведамленні зверху
 [Show event icons]
 Абразкі падзей
+[Show timestamps]
+Паказваць час
+[Show names]
+Паказваць імёны
+[Show messages]
+Паведамленні
+[Truncate message length to:]
+Абразаць паведамленне да:
 [Delta time to group messages:]
 Абмежаваць час для паведамленняў:
+[hours]
+гадзіны(ов)
 [Limit messages to:]
 Абмежаваць паведамленні да:
+[Show date in timestamps]
+Паказваць дату 
+[Show seconds in timestamps]
+Паказваць секунды
+[Enable Smileys]
+Уключыць смайлы
 [Search forward in list group]
 Шукаць далей у групе
 [Search forward in message window]
@@ -52,6 +72,8 @@
 Толькі выходныя паведамленні
 [Only Selected Group]
 Толькі абраная група
+[All Contacts]
+Усе кантакты
 [Export To Txt]
 Экспарт у тэкст
 [File encoding*]
@@ -70,22 +92,36 @@
 Рэд. задачу
 [Delete task]
 Выд. задачу
+[Display errors using popups]
+Паказваць памылкі ў вокнах
 [Save errors to system history]
 Захоўваць памылкі ў сістэмнай гісторыі
 [Task]
 Заданне
+[Name]
+Імя
+[Active]
+Актыўна
 [Action type]
 Тып дзеяння
+[Filter]
+Фільтр
 [Events older than*]
 Падзеі старэй чым*
 [Triger type]
 Паводзіны
+[Time]
+Час
 [Delta time]
 Праз час
+[Day]
+Дзень
 [Export to]
 Экспартаваць у
 [Compress output files]
 Сціснуць файлы
+[Password]
+Пароль
 [Upload to FTP (WinSCP requred)]
 Заліць на FTP (патрабуецца WinSCP)
 [Session name]
@@ -98,11 +134,21 @@
 * Адмоўныя значэнні для фільтравання ранніх падзей
 [Execute task for specified contacts]
 Выконваць задачу для вызначаных кантактаў
+[OK]
+ОК
+[Cancel]
+Скасаваць
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
 Адчыніць гісторыю
+[View &History]
+&Гісторыя
 [Delete All User History]
 Выдаліць усю гісторыю карыстача
+[Incoming message]
+Уваходнае паведамленне
+[Outgoing message]
+Выходнае паведамленне
 [Status change]
 Змена статусу
 [Show Contacts]
@@ -117,15 +163,59 @@
 Плюс у экспарце
 [Minus in export]
 Мінус у экспарце
+[History]
+Гісторыя
 ;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 Усе падзеі
 [Default history events]
 Падзеі па змаўчанні
+[History for %s]
+Гісторыя для %s
+[System]
+Сістэма
+[Me]
+Я
+[Invalid Message]
+Паведамленне пашкоджана
+[Authorisation request by %s (%s%d): %s]
+Запыт аўтарызацыі ад %s (%s%d): %s
 ;file \plugins\BasicHistory\src\ExportManager.cpp
+[Import]
+Імпартаваць
+[Export]
+Экспарт
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
+Гэта аперацыя цалкам выдаліць гісторыю гэтага кантакту.\nВы ўпэўнены?
+[Are You sure?]
+Вы ўпэўнены?
+[Open in &new window]
+&Адкрыць у новым акне
+[&Open in existing window]
+Адкрыць у &бягучым акне
+[&Copy link]
+&Капіяваць спасылку
+[Copy]
+Капіяваць
+[Delete]
+Выдаліць
+[Send Message]
+Адправіць
 [Reply &Quoted]
 Адказаць з &цытатай
+[Delete Group]
+Выдаленне групы
+[Options]
+Налады
+[Filters]
+Фільтры
+[Fonts & Colors]
+Шрыфты і колеры
+[Icons]
+Абразкі
+[Hotkeys]
+Гарачыя клавішы
 [Rich Html]
 Паўнавартасны HTML
 [Plain Html]
@@ -138,9 +228,19 @@ Dat (мКантакты)
 Захаваць становішча акна
 [Save window position for all contacts]
 Захаваць становішча акна для ўсіх кантактаў
+[Error]
+Памылка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Колькасць выдаляных пунктаў гісторыі: %d.\n Вы сапраўды гэтага жадаеце?
 ;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+Паведамленне
+[File transfer]
+Перадача файла
+[Link]
+Спасылка
+[Authorization request]
+Запыт аўтарызацыі
 [You were added]
 Вас дадалі
 [Contacts recieved]
@@ -151,8 +251,30 @@ Dat (мКантакты)
 Паведамленне SMS
 [Group list]
 Спіс груп
+[Messages]
+Паведамленні
+[Searching]
+Пошук
 [Scheduler]
 Планоўшчык
+[Advanced]
+Дадаткова
+[>> Outgoing timestamp]
+Выходны час
+[Outgoing background]
+Выходны фон
+[<< Incoming timestamp]
+Уваходны час
+[Incoming background]
+Уваходны фон
+[>> Outgoing name]
+Выходнае імя
+[<< Incoming name]
+Уваходнае імя
+[>> Outgoing messages]
+Выходнае паведамленне
+[<< Incoming messages]
+Уваходнае паведамленне
 [Find window]
 Вакно пошуку
 [Window background]
@@ -161,6 +283,8 @@ Dat (мКантакты)
 Фон спісу кантактаў
 [Open global history]
 Глабальная гісторыя
+[Find]
+Знайсці
 [Switch Match Case]
 Улічваць рэгістр
 [Switch Match Whole Word]
@@ -193,26 +317,54 @@ Dat (мКантакты)
 Файл адсутнічае. Увядзі дакладны шлях да файла.
 [Invalid file]
 Няслушны файл
+[All Files (*.*)]
+Усе файлы (*.*)
 [Enter filter name]
 Увядзіце імя фільтра
 [Filter name exists]
 Назва фільтра існуе
 [Event already exists]
 Падзея ўжо існуе
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+Вы ўвялі няслушную кодавую старонку. Абярыце кодавую старонку з выпадальнага спісу ці ўвядзіце правільнае імя.
+[Invalid codepage]
+Няслушная кодавая старонка
 [Export and Delete]
 Экспартаваць і выдаліць
 [Import and Marge]
 Імпарт і зьліцьцё
 [Minute]
 Хвіліны
+[Hour]
+Гадзіна
 [At Start]
 Пры запуску
 [At Finish]
 Пры выйсці
+[Daily]
+Дзён
+[Weekly]
+Тыдняў
+[Monthly]
+Месяцаў
 [Delta time (minutes)]
 Праз час (хвіліны)
 [Delta time (hours)]
 Праз час (гадзіны)
+[Monday]
+Панядзелак
+[Tuesday]
+Аўторак
+[Wednesday]
+Асяроддзе
+[Thursday]
+Чацвер
+[Friday]
+Пятніца
+[Saturday]
+Субота
+[Sunday]
+Нядзеля
 [Invalid '%s' value.]
 Няслушнае значэнне '%s'.
 [Events older than]
@@ -231,19 +383,33 @@ Dat (мКантакты)
 ** <date> - устаўляе дату, <ext> - пашырэнне, <contact> - імя кантакту
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
+[History Log]
+Прагляд гісторыі
+[Conversation started at %s]
+Гутарка пачата ў %s
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
+[Menu]
+Меню
 ;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
 Гісторыя
+[Contacts]
+Кантакты
 [At least one contact should be selected.]
 Павінен быць абраны, хоць бы адзін кантакт
 [Upload to FTP]
 Заліць на FTP
 [Path to output file]
 Шлях да файла
+[Unknown error]
+Невядомая памылка
 ;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 "%s" не знойдзена
+[Search]
+Пошук
 [You have reached the end of the group.]
 Вы дасягнулі канца групы
+[You have reached the end of the history.]
+Вы дабраліся да канца гісторыі.
 ;file \plugins\BasicHistory\src\TxtExport.cpp

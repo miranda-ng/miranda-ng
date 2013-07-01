@@ -10,23 +10,49 @@
 ;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 Афіцыйны сайт Miranda NG
+[Sample page]
+Прыклад старонкі
+[Miranda NG Options]
+Налады Miranda
+[Use arrow keys to choose category]
+Выкарыстоўвайце клавішы са стрэлкамі, каб выбраць катэгорыю
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[Apply]
+Ужыць
 [Switch to classic options]
 Класічны выгляд налад
+[Advanced]
+Дадаткова
 ;file \plugins\ModernOpt\src\modernopt.cpp
+[Home]
+Дома
+[Miranda NG configuration center]
+Міранда NG цэнтр налад
+[Accounts]
+Конты
 [Setup your account information to start messaging.]
 Наладзьце ўліковыя запісы для пачатку зносін.
 [Style]
 Стыль
 [Change the look of Miranda NG according to your taste.]
 Змяняйце вонкавы выгляд праграмы на свой густ.
+[Contacts]
+Кантакты
 [Configure behaviour of your contact list.]
 Наладзьце паводзіны вашага спісу кантактаў.
 [Chats]
 Чаты
 [Customize look&&feel of your chat windows here.]
 Наладзьце вонкавы выгляд вашага вакна гутаркі.
+[Ignore]
+Ігнараваць
 [Ban those users and events, you are annoyed with.]
 Заблакуйце карыстачоў і падзеі, якія вам не патрэбны.
+[Status]
+Статус
 [Set your status messages and idle reporting.]
 Усталюйце статусныя паведамленні і паведамленні адсутнасці.
 [Addons]

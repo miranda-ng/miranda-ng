@@ -37,8 +37,8 @@
 &Няма
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Схаваць са спісу (захаваецца гісторыя і налады бачнасці)
-[Use Options->Ignore (expert mode) to unhide contacts.]
-Утоеныя кантакты: "Падзеі-> Ігнараваць"
+[Use Options->Contacts->Ignore to unhide contacts.]
+Налады->Кантакты->Ігнараваць, каб адлюстраваць кантакты.
 [Are you sure you want to delete %s?]
 Выдаліць %s са спісу?
 [This will erase all history and settings for this contact!]
@@ -483,8 +483,6 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Пераназваць групу
 [&Delete Group]
 Выдаліць групу
-[IconOptions]
-Налады абразка
 [&Reset to default]
 &Скінуць
 [find/add]
@@ -743,6 +741,8 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Змясціць акно на пярэдні план, калі яно прычынена іншымі вокнамі
 [Enable docking]
 Паркаваць
+[Translucency options]
+Налады празрыстасці
 [Fade contact list in/out]
 Плыўна схаваць спіс
 [Transparent contact list]
@@ -1051,6 +1051,8 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Паказваць лічыльнік знакаў
 [Show warning when message has not been received after]
 Паведамляць, калі паведамленне не атрымалася адправіць на працягу
+[seconds.]
+секунд.
 [Support control up/down in message area to show previously sent messages]
 Паказваць старыя паведамленні пры націску Ctrl+УГАРУ/УНІЗ
 [Delete temporary contacts when closing message window]
@@ -2703,6 +2705,8 @@ ANSI плагін
 Гуам
 [Guatemala]
 Гватэмала
+[Guernsey]
+Гернсі
 [Guinea]
 Гвінея
 [Guinea-Bissau]

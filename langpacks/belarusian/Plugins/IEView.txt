@@ -8,12 +8,24 @@
 [IE Based Chat Log.]
 Журнал на IE рухавічку.
 ;file \plugins\IEView\res\ieview.rc
+[Copy]
+Капіяваць
+[Copy Link]
+Капіяваць спасылку
+[Select All]
+Вылучыць усё
 [Save Image As...]
 Захаваць малюнак...
 [Print]
 Друк
+[Clear Log]
+Ачысціць гісторыю
 [Show source]
 Зыходнік шаблону
+[Options]
+Налады
+[Enable BBCodes]
+Падтрымка BBCode
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
 Падтрымліваюцца [b][i][u][s][img][size][color][url] BBCodes
 [Enable support for Flash files in smileys and BBCodes]
@@ -28,6 +40,10 @@
 Схаваць межы акна
 [Embed YouTube videos]
 Убудоўваць відэа з YouTube
+[Size:]
+Памер:
+[Mode]
+Рэжым
 [Compatibility Mode]
 Рэжым сумяшчальнасці
 [Use External CSS]
@@ -36,18 +52,30 @@
 Шаблон
 [Background image]
 Фонавы малюнак
+[Scroll with text]
+Пракручваць з тэкстам
 [Template Options]
 Налады шаблону
 [Use message grouping]
 Групоўка паведамленняў
 [Show nicknames]
 Паказваць нікі
+[Show time]
+Паказваць час
+[Show seconds]
+Секунды
+[Show date]
+Дата
 [Use long date format]
 Літарны фармат даты
 [Use relative timestamp]
 Адносны час
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Incoming File Transfer]
+Уваходны файл
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(Невядомы кантакт)
 ;file \plugins\IEView\src\IEView.cpp
 [ERROR]
 ПАМЫЛКА
@@ -58,13 +86,41 @@
 %s выйшаў.
 [The topic is %s.]
 Тэма %s
+[Error]
+Памылка
 ;file \plugins\IEView\src\Options.cpp
+[General]
+Агульнае
+[Message Log]
+Журнал
+[Group Chats]
+Чаты
+[History]
+Гісторыя
+[Default]
+Змаўчанні
+[Message Sessions]
+Гутаркі
 [IEView]
 Журнал IEView
+[Skins]
+Скіны
+[Template]
+Шаблон
+[All Files]
+Усе файлы
 [All Images]
 Усе малюнкі
 [Style Sheet]
 Табліца стыляў
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[Today]
+Сёння
+[Yesterday]
+Учора
+[File sent]
+Пасылка файла
+[File received]
+Файл атрыманы
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

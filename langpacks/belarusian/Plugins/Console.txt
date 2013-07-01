@@ -61,10 +61,18 @@
 *** Кансоль ачышчана ***
 [Miranda Console]
 Кансоль Міранды
+[Services]
+Службы
 [Console]
 Кансоль
+[Text]
+Тэкст
+[&Help]
+&Даведка
 [Text Files (*.txt)]
 Тэкставыя файлы (*.txt)
+[All Files]
+Усе файлы
 [Save selection to file]
 Захаваць абранае
 [Save log to file]

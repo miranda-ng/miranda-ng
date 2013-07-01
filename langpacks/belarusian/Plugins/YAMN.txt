@@ -5,17 +5,37 @@
 ;  Version: 0.1.2.6
 ;  Authors: y_b, tweety, majvan
 ;============================================================
+[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
+Апавяшчэнне і прагляд новай пошты для Miranda NG. Убудаваны пратакол POP3.
 ;file \plugins\YAMN\res\YAMN.rc
+[OK]
+ОК
 [Installed plugins]
 Усталяваныя плагiны
+[Version:]
+Версія:
+[Description:]
+Апісанне:
+[Copyright:]
+Правы:
+[Contact:]
+Кантакт:
 [WWW:]
 сайт:
 [Check this account]
 Правяраць гэты конт
 [Check interval [min]:]
 Інтэрвал праверкі (мін):
+[Notifications]
+Апавяшчэнні
+[Sound]
+Гук
+[Message]
+Паведамленне
 [Tray Icon]
 Абразок у трэі
+[Keyboard Flash]
+Мігценне клавіятуры
 [Execute Application]
 Запуск прыкладання
 [Use contact notification for this account]
@@ -24,10 +44,16 @@
 Замяніць нік
 [Disable Events]
 Выключыць падзеі
+[Server:]
+Сервер:
 [User Name:]
 Лагін:
+[Password:]
+Пароль:
 [Codepage:]
 Кадоўка:
+[Port:]
+Порт:
 [Disable STLS]
 Выключыць STLS
 [Startup check]
@@ -46,8 +72,46 @@
 Апавяшчэнне ў трэі пры памылцы
 [Reset counter]
 Скід лічыльніка
+[Default]
+Змаўчанні
+[Status:]
+Статус:
+[Account]
+Конт
+[Name:]
+Імя:
+[Options]
+Налады
+[New Mail]
+Новая пошта
+[Errors]
+Памылкі
 [Check while ...]
 Правяраць, калі...
+[Cancel]
+Скасаваць
+[Choose modes]
+Рэжымы статусу
+[Offline]
+Адключаны
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[N/A]
+Недаступны
+[Occupied]
+Заняты
+[DND]
+Не турбаваць
+[Free for chat]
+Вольны
+[Invisible]
+Нябачны
+[On the phone]
+На тэлефоне
+[Out to lunch]
+Абедаю
 [YAMN General Options]
 Асноўныя налады
 [TopToolBar button "Check mail"]
@@ -70,6 +134,8 @@
 Не паказваць секунды
 [Mail Notifications]
 Апавяшчэнні пра пошту
+[Popup]
+Вакно
 [Single popup]
 Адно акно
 [Multi popup]
@@ -88,6 +154,12 @@
 Усплываць пры памылцы
 [..s Popup duration]
 сек (працягласць)
+[Preview]
+Тэст
+[Background colour]
+Колер фону
+[Text colour]
+Колер тэксту
 ;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]
 Праверыць пошту
@@ -109,6 +181,8 @@ YAMN: новы ліст
 [YAMN: connect failed]
 YAMN: збой далучэння
 ;file \plugins\YAMN\src\services.cpp
+[Nick]
+Нік
 [No new mail message]
 Няма новых лістоў
 ;file \plugins\YAMN\src\browser\badconnect.cpp
@@ -116,6 +190,8 @@ YAMN: збой далучэння
 %s - памылка злучэння
 [An error occured. Error code: %d]
 Адбылася памылка. Код памылкі:%d
+[Unknown error]
+Невядомая памылка
 [ - connection error]
  - памылка далучэння
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
@@ -131,27 +207,47 @@ YAMN: збой далучэння
 Няма новых лістоў,%d спаму
 [Invalid]
 Няслушна
+[Header]
+Загаловак
 [Value]
 Значэнне
 [Copy Selected]
 Капіяваць вылучанае
+[Copy All]
+Капіяваць усё
 [Run application]
 Запусціць прыкладанне
 [Delete selected]
 Выдаліць абранае
+[Select All]
+Вылучыць усё
+[From]
+Ад
+[Subject]
+Тэма
+[Size]
+Памер
+[Date]
+Дата
 [Do you really want to delete %d selected mails?]
 Выдаліць %d лістоў?
 [Delete confirmation]
 Пацверджанне выдалення
 ;file \plugins\YAMN\src\mails\mime.cpp
+[Translate header error]
+Перавесці памылак загалоўка
 [Part]
 Частка
 ;file \plugins\YAMN\src\proto\netlib.cpp
+[%s connection]
+Злучэнне %s
 ;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Адключаны
 [POP3 protocol (internal)]
 Пратакол POP3 (убудаваны)
+[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
+Апавяшчэнне і прагляд новай пошты для Miranda NG. Убудаваны пратакол POP3.
 [Found new version of account book, not compatible with this version of YAMN.]
 Знойдзена новая версія файла з контамі - яна несумяшчальная з бягучай версіяй YAMN.
 [YAMN (internal POP3) read error]
@@ -172,6 +268,10 @@ POP3 модуль - памылка пры запісе ў файл
 Аўтарызацыя...
 [Searching for new mail message]
 Пошук новай пошты
+[Reading body %s]
+Чытанне ліста %s
+[Reading new mail messages (%d%% done)]
+Чытанне новых лістоў (%d%% завершана)
 [Deleting requested mails]
 Выдаленне запытаных лістоў
 [Deleting spam]
@@ -221,6 +321,16 @@ OpenSSL не загружаны
 [Error %d-%d-%d-%d:]
 Памылка %d-%d-%d-%d:
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+Сеціва
+[Accounts]
+Конты
+[General]
+Агульнае
+[Plugins]
+Плагіны
+[Popups]
+Усплывальныя вокны
 [No account selected]
 Не абраны конт
 [Time left to next check [s]: %d]
@@ -229,8 +339,12 @@ OpenSSL не загружаны
 Новы Конт
 [Executables]
 Якія запускаюцца
+[All Files]
+Усе файлы
 [Select executable used for notification]
 Выбар праграмы для апавяшчэння
+[Failed]
+Не атрымалася
 [Do you really want to delete this account?]
 Вы сапраўды жадаеце выдаліць гэты конт?
 [Delete account confirmation]

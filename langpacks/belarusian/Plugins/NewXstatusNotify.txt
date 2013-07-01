@@ -10,12 +10,34 @@
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Паведамляць, калі статус кантакту змяняецца на:
+[Online]
+Далучаны
+[Offline]
+Адключаны
+[Invisible]
+Нябачны
+[Free for chat]
+Вольны
+[Away]
+Адсутнічаю
+[NA]
+Недаступны
+[Occupied]
+Заняты
+[DND]
+Не турбаваць
+[Out to lunch]
+Абедаю
+[On the phone]
+На тэлефоне
 [Always when changing from offline]
 Са статусу "Адключаны"
 [Plugin activation]
 Актывізацыя плагiна
 [Automatically turn off Popups and Sounds on status change]
 Выключаць успл. акна і гукі пры змене статусу
+[Configure]
+Наладзіць
 [Notify me for people not in my Contact List]
 Апавяшчаць мяне пра кантакты не ў спісе
 [Blink icon in the system tray]
@@ -24,10 +46,34 @@
 Абразок статусу
 [Use individual sounds]
 Індывідуальныя гукі
+[Log to file]
+Запіс у файл
+[Enable]
+Уключана
+[Extra status]
+Дап. статус
+[Open]
+Адкрыць
+[Status message]
+Паведамленне статусу
+[Change]
+Змена
+[Preview]
+Тэст
+[Delete]
+Выдаліць
+[Enable sounds]
+Уключыць гукі
+[Enable popups]
+Уключыць вокны
 [Status Notify]
 Змена статусу
 [Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
 Асабістыя гукі выключаны.\n\nКаб іх уключыць, ідзіце ў Налады - Статус - Апавяшчэнне, уключыце \n"Індывідуальныя гукі", і зноў адчыніце гэта вакно.
+[Sounds]
+Гукі
+[Popups]
+Усплывальныя вокны
 [Extra status notify]
 Дап. статусы
 [Extra status logging]
@@ -36,6 +82,16 @@
 Адключыць усё
 [Enable all]
 Уключыць усё
+[Background]
+Фон
+[Text]
+Тэкст
+[Colours]
+Колеры
+[Use custom colours]
+Задаць колеры
+[Use Windows colours]
+Колеры Windows
 [Use Popup colours]
 Колеры ўсплывальных вокнаў
 [Popup text]
@@ -44,16 +100,38 @@
 Чытаць статуснае паведамленне
 [Show previous status too]
 Паказваць папярэдні cтатус
+[Timeout]
+Таймаўт
 [Popups on contact status change to:]
 Вокны, калі статус змяніўся на:
+[Click action]
+Дзеянні па пстрычцы
 [Show contact group name]
 Паказваць імя групы кантакту
 [Use alternative descriptions]
 Выкарыстоўваць альтэрнатыўнае апісанне
+[0 = Default]
+0=Змаўчанне
+[-1 = Infinite]
+-1=Бясконца
+[Sec]
+сек.
+[On left click]
+Левая пстрычка
+[On right click]
+Правая пстрычка
 [Show status description]
 Паказваць апісанне статусу
+[Notification]
+Апавяшчэнне
 [Disable for extra status 'Music']
 Адключыць для дап. статусу "Музыка"
+[Truncate message length to:]
+Абразаць паведамленне да:
+[characters]
+знакаў
+[Templates]
+Шаблоны
 [Title - text delimiter:]
 Загаловак-тэкст падзельнік:
 [Remove:]
@@ -62,6 +140,16 @@
 Новае паведамленне:
 [New status:]
 Новы статус:
+[Variables]
+Зменныя
+[Reset]
+Скід
+[Disable notifications]
+Выключыць апавяшчэнні
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [Disable globally]
 Адключыць цалкам
 [Disable only if I change global status]
@@ -78,25 +166,41 @@
 Прадухіляць аднолькавыя запісы
 [On opening ML:]
 Адкрыццё акна:
+[General]
+Агульнае
 [Show Popups when I connect]
 Вокны пры злучэнні
 [Ignore empty status messages]
 Ігнараваць пустыя паведамленні
+[Protocols]
+Пратаколы
 [Enable/Disable protocols which you don't wish to be notified for:]
 Выключыць/Уключыць апавяшчэнні для пратаколаў:
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Wave Files]
 Wave файлы
+[All Files]
+Усе файлы
+[Status]
+Статус
 [Sound for the status]
 Гук для статусу
 [From offline]
 Далучаецца
+[** All contacts **]
+** Усе кантакты **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (па змаўчанні)
 ;file \plugins\NewXstatusNotify\src\main.cpp
 [<no status message>]
 <няма паведамлення статусу>
+[Contact]
+Кантакт
+[connecting]
+далучаецца
+[aborting]
+адключаецца
 [playing]
 грае
 [%s is now %s]
@@ -202,6 +306,8 @@ Wave файлы
 [Toggle status notification]
 Вкл/Выкл апавяшчэнні пра змену статусу
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[Log]
+Лог
 [This is status message]
 Гэта паведамленне статусу
 [Do you want to reset all templates to default?]
@@ -212,15 +318,41 @@ Wave файлы
 Даступныя зменныя
 [Reset all templates to default]
 Скінуць усе шаблоны на стандартныя
+[Protocol]
+Пратакол
+[Filtering]
+Фільтраванне
+[Message log]
+Лог
 ;file \plugins\NewXstatusNotify\src\popup.h
+[Open message window]
+Адкрыць вакно гутаркі
+[Close popup]
+Зачыніць акно
+[Open contact details window]
+Адчыніць акно дэталяў кантакту
+[Open contact menu]
+Адкрыць меню кантакту
+[Open contact history]
+Адкрыць гісторыю кантакту
+[Do nothing]
+Нічога не рабіць
 ;file \plugins\NewXstatusNotify\src\utils.cpp
+[You cannot specify a value lower than %d and higher than %d.]
+Значэнне меншае %d ці большае %d не дапушчаецца.
 [Can't open the log file!]
 Не магу адкрыць файл лога!
 [NewXstatusNotify]
 Апавяшчэнне пра змену статусаў
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[Mood]
+Настрой
+[Activity]
+Занятак
 [Xstatus]
 хстатус
+[<unknown>]
+<невядома>
 ;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %N to: %T%D%I]
 змяніў(а) %N на: %T%D%I

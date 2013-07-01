@@ -10,23 +10,71 @@
 ;file \plugins\FloatingContacts\res\fltcnt.rc
 [Hiding contacts]
 Утойванне кантактаў
+[Hide offline contacts]
+Схаваць адключаных
 [Stick together]
 Склейваць кантакты
 [Use fixed width]
 Шырыня
+[pixels]
+пікс.
 [Hide all contacts]
 Хаваць усе кантакты
 [Hide when a fulscreen app is active]
 Хаваць калі прыкладанне разгорнута
+[ms]
+мс
+[Tooltips]
+Падказкі
+[Miscellaneous]
+Іншае
+[0 = Default]
+0=Змаўчанне
 [Bring to front]
 На пярэдні план
 [Bring to front every]
 Перасоўваць на ўгару кожныя
+[seconds]
+секунд(ы)
 [Hide when contact list is shown]
 Хаваць калі спіс кантактаў бачны
+[Single click interface]
+Адна пстрычка
+[Dim idle contacts]
+Прыцьміць неактыўных карыстачоў
+[Border]
+Рамка
+[Draw border]
+Паказваць рамку
+[Background]
+Фон
+[Background colour:]
+Колер фону:
+[Use background bitmap]
+Фонавая выява
+[Stretch to width]
+Расцягнуць па шырыні
+[Stretch to height]
+Расцягнуць па вышыні
+[Tile horizontally]
+Гарызантальная мазаіка
+[Tile vertically]
+Вертыкальная мазаіка
+[Stretch proportionally]
+Расцягнуць
 [Opacity:]
 Непразрыстасць:
 ;file \plugins\FloatingContacts\src\main.cpp
+[Standard contacts]
+Стандартныя кантакты
+[Online contacts to whom you have a different visibility]
+Са змененай бачнасцю (далучаны)
+[Offline contacts]
+Адключаныя кантакты
+[Offline contacts to whom you have a different visibility]
+Са змененай бачнасцю (адключаныя)
+[Contacts which are 'not on list']
+Кантакты 'не ў спісе'
 [Floating contacts]
 Плывучыя кантакты
 [Show all thumbs]
@@ -40,5 +88,9 @@
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 Плывучыя кантакты
+[Contact List]
+Спіс кантактаў
 [Main Features]
 Галоўнае
+[Appearance]
+Знешні выгляд

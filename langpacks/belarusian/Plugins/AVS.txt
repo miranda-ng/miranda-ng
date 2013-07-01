@@ -40,8 +40,16 @@
 Зрабіць аватар квадратным
 [Resize the avatar to fit max allowed protocol size]
 Змяніць памер аватара да максімальна магчымага памеру
+[Dialog]
+Гутарка
 [Contact picture]
 Аватар кантакту
+[Change]
+Змена
+[Delete]
+Выдаліць
+[Reset]
+Скід
 [Picture options]
 Налады малюнка
 [Protect the picture]
@@ -52,10 +60,22 @@
 Паспрабаваць зрабіць фон празрыстым
 [Use defaults]
 Стандартныя
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[Options]
+Налады
+[Background]
+Фон
+[Transparent]
+Празрыста
 [Points:]
 Кропкі:
 [Color diff:]
 Зм.колеры:
+[Set]
+Абраць
 [Use per protocol avatars]
 Розныя аватары пратаколаў
 ;file \plugins\AVS\src\acc.cpp
@@ -64,6 +84,16 @@
 ;file \plugins\AVS\src\main.cpp
 [Grow avatar to fit max allowed protocol size]
 Павялічваць аватар да максімальнага памеру
+[All Files]
+Усе файлы
+[Windows Bitmaps]
+Малюнкі Windows Bitmap
+[JPEG Bitmaps]
+Выявы JPEG
+[GIF Bitmaps]
+Малюнкі GIF
+[PNG Bitmaps]
+Выявы PNG
 [Flash Animations]
 Flash анімацыя
 [XML Files]
@@ -76,14 +106,22 @@ XML файлы
 Глабальны аватар
 [Global avatar for %s accounts]
 Аватар для ўсіх акаўнтаў %s
+[Avatars]
+Аватары
 [My Avatars]
 Мае аватары
 [My Global Avatar Cache]
 Мой глабальны кэш аватараў
+[Contacts]
+Кантакты
+[Protocols]
+Пратаколы
 [Contact Avatars]
 Аватары кантактаў
 [Own Avatars]
 Свае аватары
+[Avatar]
+Аватар
 [Fatal error, image services not found. Avatar services will be disabled.]
 Фатальная памылка, служба малюнкаў не знойдзена. Служба аватараў будзе адключана.
 [Avatar Service]
@@ -97,6 +135,8 @@ XML файлы
 Скід аватара кантакту
 [Contact has no avatar]
 У кантакту няма аватара
+[No avatar]
+Без аватара
 [Are you sure you want to remove your avatar?]
 Вы жадаеце выдаліць ваш аватар?
 [Global Avatar]

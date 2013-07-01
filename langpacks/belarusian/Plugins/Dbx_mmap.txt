@@ -5,7 +5,57 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda-NG project
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Падтрымка базы Miranda NG.
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
+[Install Database Settings]
+Усталяваць налады базы дадзеных
+[Yes]
+Так
+[No]
+Не
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Файл з новымі наладамі базы дадзеных быў змешчаны ў тэчку Міранды.
+[Do you want to import the settings now?]
+Імпартаваць налады цяпер?
+[No to all]
+Няма для ўсіх
+[&View contents]
+&Змест
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Сістэма бяспекі для прадухілення непажаданых змен актыўная і вы будзеце папярэджаны перад небяспечнымі зменамі.
+[Database Setting Change]
+Змена налад базы дадзеных
+[Database settings are being imported from]
+Налады імпартуюцца з
+[This file wishes to change the setting]
+Гэты файл змяняе наладу
+[to the value]
+на значэнне
+[Do you want to allow this change?]
+Дазволіць змену?
+[&Allow all further changes to this section]
+&Дазволіць усезмены ў гэтай секцыі
+[&Yes]
+&Так
+[&No]
+&Няма
+[Cancel Import]
+Адмяніць імпарт
+[Database Import Complete]
+Імпарт базы завершаны
+[The import has completed from]
+Імпарт завершаны з
+[What do you want to do with the file now?]
+Што вы жадаеце зрабіць з файлам?
+[&Recycle]
+&Выкарыстоўваць ізноў
+[&Delete]
+&Выдаліць
+[&Move/Rename]
+&Перамясціць/пераназваць
+[&Leave]
+&Пакінуць
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shutdown.]
 Дыск перапоўнены. Miranda будзе зачынена.
@@ -75,6 +125,8 @@
 ;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
 [Database signature is corrupted, automatic repair is impossible]
 Загаловак базы дадзеных пашкоджаны, аўтаматычнае выпраўленне немагчыма
+[Database is marked as belonging to an unknown version of Miranda]
+База дадзеных пазначана як прыналежная невядомай версіі Miranda NG
 [Database is newly created and has no data to process]
 База дадзеных новая, і ў ёй няма дадзеных для апрацоўкі
 [Processing completed successfully]

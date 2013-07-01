@@ -3,15 +3,23 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.4
-;  Authors: Bartosz 'Dezeath' Biaіek, Harven
+;  Authors: Bartosz 'Dezeath' Biaek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
 Хуткая зьмена статусаў і статусных паведамленьняў.
 ;file \plugins\SimpleStatusMsg\res\resource.rc
+[%s Message for %s]
+%s (%s)
+[&Cancel]
+С&касаваць
+[Retrieving %s message...]
+Загрузка паведамлення "%s"...
 [Co&py to Clipboard]
 Скапіяваць у буфер
 [%s Message (%s)]
 Паведамленне "%s" (%s)
+[OK]
+ОК
 [Retrieving status message for %s...]
 Атрыманне паведамлення статусу для %s...
 [Behaviour on status change]
@@ -28,6 +36,8 @@
 Заўсёды ўсталёўваць гэта паведамленне
 [Do not set status message]
 Не усталёўваць статуснае паведамленне
+[Status Messages]
+Паведамленні статусу
 [Pop up dialog asking for new message]
 Дыялог для новых паведамленняў
 [Set an empty message]
@@ -42,8 +52,12 @@
 Вуснаў. наступнае паведамленне:
 [Put default message in message list]
 Стандартнае паведамленне ў спіс
+[Variables]
+Зменныя
 [Update variables in status messages every]
 Абнаўляць зменныя ў паведамленнях кожныя
+[seconds]
+секунд(ы)
 [Do not update variables during idle]
 Не абнаўляць зьменныя ў рэжыме чакання
 [Do not update variables on ICQ status message requests]
@@ -54,6 +68,8 @@
 Дазволіць апрацоўку статуснага паведамлення плагінам Variables
 [Exclude %date% token from parsing (restart required)]
 Выключыць маркер  %date% з апрацоўкі (патрабуецца перазапуск)
+[Layout]
+Размяшчэнне
 [Show status list]
 Спіс статусаў
 [Show status profiles in status list]
@@ -64,6 +80,8 @@
 Кнопкі:
 [Show icons in message list]
 Значкі ў спісе паведамленняў
+[Other]
+Іншае
 [Store up to]
 Захоўваць
 [recent messages (0 = disable)]
@@ -80,6 +98,8 @@
 Паказваць 'Адкрыць спасылку' у меню кантакту
 [Show 'Status Message...' item in status menu]
 Паказваць 'Паведамленне статусу' у кантэкстным меню
+[Clear History]
+Ачысціць
 [Clear Predefined]
 Ачысціць
 [* This feature is available only when using StartupStatus plugin.]
@@ -90,11 +110,29 @@
 Усталяваць праз
 [miliseconds]
 мс
+[Protocol:]
+Пратакол:
+[Status:]
+Статус:
 [Independent setting for each protocol]
 Незалежна для кожнага пратакола
 [Pop up dialog asking for status message]
 Паказваць дыялог запытання смены статуса
+[Cut]
+Выразаць
+[Copy]
+Капіяваць
+[Paste]
+Уставіць
+[Delete]
+Выдаліць
+[Select All]
+Вылучыць усё
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[&Close]
+&Зачыніць
+[Re&ad %s Message]
+&Прачытаць паведамленне "%s"
 [Re&ad Away Message]
 Пра&чытаць паведамленне "Адсутнічаю"
 [Copy Away Message]
@@ -106,11 +144,23 @@
 Змяніць паведамленне статуса
 [Open Status Message Dialog]
 Адчыніць дыялог статуснага паведамлення
+[Status Message]
+Статуснае паведамленне
 [Status Message...]
 Паведамленне статусу...
+[%s (locked)]
+%s (заблакаваны)
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[<current>]
+<бягучы>
 [Add to Predefined]
 У Прадусталяваныя
+[Delete Selected]
+Удаліць абранае
+[Global]
+Глабальныя
+[Closing in %d]
+Зачыніць (%d)
 [Are you sure you want to clear status message history?]
 Вы ўпэўнены, што хочаце удаліць гісторыю статусных паведамленняў?
 [Confirm clearing history]
@@ -118,6 +168,10 @@
 ;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
 Глабальны статус
+[Open String Formatting Help]
+Дапамога па фармаце радкоў
+[Hide]
+Схаваць
 [Show next to cancel button]
 Паказаць за кнопкай Адмена
 [Flat, next to cancel button]
@@ -130,6 +184,12 @@
 Пацвярджэнне выдалення наладжаных паведамленняў
 [<Last status>]
 <Апошні>
+[Status]
+Статус
+[General]
+Агульнае
+[Advanced]
+Дадаткова
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
 [Recent Message]
 Апошняе паведамленне
@@ -139,3 +199,25 @@
 Перайсці па ссылцы ў паведамленні адсутнасці
 [Simple Status Message]
 Статуснае паведамленне
+[I've been away since %time%.]
+Адышоў %time%. Хутка буду.
+[Give it up, I'm not in!]
+Мяне няма
+[Not right now.]
+Не зараз.
+[Give a guy some peace, would ya?]
+Не чапайце пакуль, га?
+[I'm a chatbot!]
+Вольны
+[Yep, I'm here.]
+Так, я тут.
+[Nope, not here.]
+Не, я не тут.
+[I'm hiding from the mafia.]
+Я хаваюся ад мафіі.
+[That'll be the phone.]
+Гавару па тэлефоне...
+[Mmm...food.]
+Ммм... е-е-ежа...
+[idleeeeeeee]
+чаканне...

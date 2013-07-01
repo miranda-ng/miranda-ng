@@ -8,8 +8,16 @@
 [Notifies you if you have unread email on an exchange server.]
 Апавяшчае, калі ў вас ёсць непрачытаныя электроннай пошты на Exchange Server.
 ;file \plugins\Exchange\res\exchange.rc
+[Unread emails]
+Непрачытаныя лісты
+[Close]
+Зачыніць
 [Mark as read]
 Адзначыць як прачытанае
+[Dialog]
+Гутарка
+[Connection]
+Далучэнне
 [Username :]
 Логін :
 [Password :]
@@ -18,6 +26,10 @@
 Сервер :
 [Preferences]
 Налады
+[Check every]
+Прав. кожныя
+[seconds]
+секунд
 [Force reconnect every]
 Прымушанае далучэнне
 [minutes]
@@ -31,6 +43,8 @@
 [Show email notifications using popup module]
 Паказаць апавяшчэнні праз усплывальнае вакно
 ;file \plugins\Exchange\src\dlg_handlers.cpp
+[Subject]
+Тэма
 [Sender]
 Адпраўшчык
 ;file \plugins\Exchange\src\emails.cpp
@@ -47,3 +61,5 @@
 Праверыць скрыню exchange
 [Exchange notify]
 Паведамленне Exchange
+[Plugins]
+Плагіны

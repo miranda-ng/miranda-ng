@@ -10,8 +10,20 @@
 Інфармацыя пра карыстача Gadu-Gadu
 [Gadu-Gadu Number:]
 Нумар Gadu-Gadu:
+[Password:]
+Пароль:
+[E-mail:]
+Пошта:
+[Create new account]
+Новы конт
+[Remove account]
+Выдаліць
+[Change password]
+Змяніць пароль
 [Retrieve password]
 Аднавіць пароль
+[Options]
+Налады
 [Friends only]
 Толькі сябры
 [Show offline users with status message as invisible in contact list]
@@ -22,6 +34,10 @@
 Пасля атрымання малюнка:
 [Show links from unknown contacts]
 Паказваць спасылкі ад невядомых кантактаў
+[Enable avatars]
+Уключыць аватары
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Змены запрацуюць пры наступным далучэнні.
 [Conference policy]
 Палітыка канферэнцый
 [if total participant count greater than:]
@@ -32,26 +48,60 @@
 у іншых выпадках
 [Advanced Configuration]
 Дадатковая налада
+[Keep connection alive]
+Падтрымліваць злучэнне
 [Show connection errors]
 Паказваць памылкі злучэння
+[Automatically reconnect after unintentional disconnection]
+Перападключыцца пасля нечаканага парыву
+[Send messages slower, but with full acknowledgement]
+Адсылаць паведамленні павольней, але з пацверджаннем
 [Manually specify connection servers' hosts]
 Паказаць серверы ўручную
 [* new line is separator\n** hostname:port format]
 * перавод радка падзельнік\n** хост:порт
 [Use SSL secure connection]
 Бяспечнае далучэнне (SSL)
+[File Transfer]
+Перадача файла
 [Use direct connections]
 Выкарыстоўваць прамое злучэнне
+[Port:]
+Порт:
 [Use forwarding]
 Выкарыстоўваць перанакіраванне
+[Host:]
+Хост:
+[Number:]
+Нумар:
+[Internal IP:]
+Унутраны IP:
+[First name:]
+Імя:
+[Last name:]
+Прозвішча:
 [Family name:]
 Прозвішча:
+[Nickname:]
+Нік:
+[Gender:]
+Пол:
+[City:]
+Горад:
 [Origin city:]
 Месца жыхарства:
 [Birth year:]
 Год нараджэння:
+[Description:]
+Апісанне:
+[&Save changes]
+Захаваць змены
 [Enter token to continue]
 Увядзіце маркер для працягу
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [Create Gadu-Gadu account]
 Стварыць нумар Gadu-Gadu
 [Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
@@ -62,18 +112,32 @@
 Пацвердзіць пароль:
 [New e-mail:]
 Новы e-mail:
+[&Create]
+Стварыць
 [Remove Gadu-Gadu account]
 Выдаліць нумар Gadu-Gadu
 [Yes, I want to remove my account]
 Так, выдаліце мой конт
+[Remove]
+Выдаліць
 [Change Gadu-Gadu password]
 Змяніць пароль Gadu-Gadu
 [Change Gadu-Gadu e-mail]
 Змяніць e-mail Gadu-Gadu
 [Age from:]
 Узрост:
+[to:]
+да:
+[Search online users only]
+Толькі далучоных карыстачоў
+[&Close]
+&Зачыніць
+[&Send]
+&Адправіць
 [Open new conference]
 Пачаць канферэнцыю
+[Open]
+Адкрыць
 [Concurrent Sessions]
 Адначасовыя сесіі
 [Concurrent %s Login Sessions\nView information on active concurrent sessions]
@@ -84,27 +148,57 @@
 ;file \protocols\Gadu-Gadu\src\core.cpp
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
 Miranda не можа распазнаць імя сервера Gadu-Gadu па IP-адрасу.
+[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
+Не атрымалася далучыцца да сервера. Магчыма, сервер не працуе. Калі ласка, паспрабуйце далучыцца пазней.
 [Received invalid server response.]
 Атрыманы няслушны адказ сервера.
+[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+Спроба далучэння з серверам перапынілася з памылкай. Магчыма, знікла далучэнне да лакальнай сеткі.
 [Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
 Ваш лагін ці пароль не прыняты серверам Gadu-Gadu. Калі ласка, праверце іх правільнасць Меню->Налады->Сетка->Gadu-Gadu і паспрабуйце яшчэ раз.
 [Connecting to Gadu-Gadu hub failed.]
 Злучэнне з Gadu-Gadu разарвана.
 [Cannot establish secure connection.]
 Немагчыма ўсталяваць SSL злучэнне.
+[Unknown]
+Невядома
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
 Вонкавы хост для прамых далучэнняў %s няслушны. Перанакіраванне на вонкавы хост выключана.
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Імя сервера %s няслушна. Выкарыстоўваю імя сервера па змаўчанні.
+[Age:]
+Узрост:
 [List import successful.]
 Спіс імпартаваны.
 [List remove successful.]
 Спіс выдалены.
 [List export successful.]
 Спіс экспартаваны.
+[Me]
+Я
+[Unknown client]
+Невядомы кліент
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[Male]
+Мужчынскі
+[Female]
+Жаночы
+[<not specified>]
+<не паказана>
+[Network]
+Сеціва
+[General]
+Агульнае
+[Conference]
+Чат-пакой
+[Advanced]
+Дадаткова
 [<Last Status>]
 <Апошні статус>
+[System tray icon]
+Абразок у трэі
+[Popup window]
+Усплывальнае акно
 [Message with [img] BBCode]
 Паведамленне з [img] BB-кодам
 [You need to specify your registration e-mail first.]
@@ -115,6 +209,10 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Вы павінны адключыцца перад зменай параметраў карыстача.\nВырабіць адключэнне?
 [Allow]
 Дазволіць
+[Ask]
+Спытаць
+[Ignore]
+Ігнараваць
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed connecting]
@@ -127,7 +225,17 @@ HTTP памылка чытання
 HTTP памылка запісу
 [Unknown HTTP error]
 HTTP невядомая памылка
+[&Unblock]
+Разблакаваць
+[&Block]
+Блакаваць
+[Contact list]
+Спіс кантактаў
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[%s connection]
+Злучэнне %s
+[Avatars]
+Аватары
 [Gadu-Gadu Number]
 Нумар Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
@@ -141,6 +249,8 @@ HTTP невядомая памылка
 %s пачаў(а) канферэнцыю.
 [This is my own conference.]
 Гэта мая канферэнцыя.
+[Participants]
+Удзельнікі
 ['Unknown']
 'Невядома'
 [You have to be connected to open new conference.]
@@ -150,6 +260,8 @@ HTTP невядомая памылка
 [There are no ignored conferences.]
 Ігнаруемых канферэнцый няма.
 ;file \protocols\Gadu-Gadu\src\icolib.cpp
+[Protocol icon]
+Абразок пратаколу
 [Import list from server]
 Імпарт з сервера
 [Import list from text file]
@@ -162,10 +274,14 @@ HTTP невядомая памылка
 Экспарт у файл
 [Account settings]
 Налады
+[Block user]
+Заблакаваць
 [Previous image]
 Папярэдні малюнак
 [Next image]
 Наступны малюнак
+[Send image]
+Адправіць
 [Save image]
 Захаваць
 [Delete image]
@@ -188,6 +304,8 @@ HTTP невядомая памылка
 Усталюйце злучэнне перад імпартам/экспартам кантактаў з/на сервер.
 [Text files]
 Тэкставы файл
+[All Files]
+Усе файлы
 [contacts]
 кантакту(аў)
 [Import List From &Server]
@@ -201,16 +319,24 @@ HTTP невядомая памылка
 [Export List To &Text File...]
 Экспартаваць спіс у &Файл...
 ;file \protocols\Gadu-Gadu\src\links.cpp
+[Gadu-Gadu Link Protocol]
+Пратакол Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password was sent to your e-mail.]
 Пароль высланы на ваш e-mail.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
+[Notify]
+Апавяшчэнне
+[Error]
+Памылка
 ;file \protocols\Gadu-Gadu\src\services.cpp
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 [Client Name]
 Імя кліента
 [Login Time]
 Час далучэння
+[Action]
+Дзеянне
 [sign out]
 выйсці
 [There are no active concurrent sessions for this account.]

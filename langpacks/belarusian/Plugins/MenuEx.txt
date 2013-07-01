@@ -8,12 +8,22 @@
 [Adds some useful options to a contacts menu.]
 Дадае дадатковыя пункты меню кантактаў.
 ;file \plugins\MenuItemEx\res\resource.rc
+[Enter an authorization request]
+Тэкст запыту аўтарызацыі
+[&Send]
+&Адправіць
+[&Cancel]
+С&касаваць
 [Shown menu items]
 Паказаны пункты меню
+[Visibility]
+Бачнасць
 [Show alpha icons]
 Альфа-значкі
 [Hide from list]
 Схаваць са спісу
+[Ignore]
+Ігнараваць
 [Copy to Account (Ctrl+click for move to Account)]
 Капіяваць у вул. запіс (Ctrl+клік - перасоўванне)
 [Send 'You were added']
@@ -42,23 +52,59 @@
 * Выкарыстоўвайце Ctrl+клік для паказу ўсплывальнага акна са скапіяваным тэкстам
 [Hide contact on 'Ignore all']
 Хаваць пры 'Ignore all'
+[Other options]
+Іншыя параметры
 [Automatically refresh contact's details after they come online]
 Аўтаматычна аднаўляць дэталі кантактаў пры далучэнні
 ;file \plugins\MenuItemEx\src\main.cpp
+[Status message]
+Паведамленне статусу
+[XStatus title]
+Загаловак хстатуса
 [XStatus message]
 Паведамленне xСтатуса
+[Listening to]
+Слухаю
+[Activity title]
+Актыўная назва
+[Activity text]
+Актыўны тэкст
 [Show in list]
 Паказваць у спісе
+[Always visible]
+Заўсёды бачны
 [Never visible]
 Заўсёды нябачны
 [Copy to Account]
 Капіяваць ва ўліковы запіс
 [Copy xStatus Message]
 Капіяваць паведамленне Хстатусу
+[All]
+Усё
+[Messages]
+Паведамленні
+[URL]
+Ссылка
+[Files]
+Файлы
+[User Online]
+Карыстач далучаны
+[Authorization]
+Аўтарызацыя
+[You Were Added]
+Вас дадалі
+[Typing Notify]
+Набірае тэкст
+[Please authorize me to add you to my contact list.]
+Дазволіце, калі ласка, дадаць Вас у спіс.
 [Do you want to send authorization request\nto new contact?]
 Ці жадаеце вы паслаць запыт аўтарызацыі\n новаму кантакту?
 [MenuItemEx]
 Дап. пункты меню
 [Open ignore settings]
 Адкрыць налады ігнаравання
+[Request authorization]
+Запытаць аўтарызацыю
 ;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+Тонкая налада

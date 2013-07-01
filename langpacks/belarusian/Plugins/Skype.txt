@@ -10,10 +10,18 @@ Skype пратакол для Miranda NG.
 ;file \protocols\Skype\res\Resource.rc
 [Invite contacts to conference]
 Запрасіць у канферэнцыю
+[&Invite]
+Запрасіць
+[&Cancel]
+С&касаваць
+[Add]
+Дадаць
 [Create conference]
 Стварыць канферэнцыю
 [Skype name:]
 Лагін Skype:
+[&Create]
+Стварыць
 [Topic:]
 Тэма:
 [Guideline:]
@@ -24,6 +32,8 @@ Skype пратакол для Miranda NG.
 Карыстач уваходзіць як:
 [Create with password]
 Стварыць з паролем
+[Password:]
+Пароль:
 [Confirmation:]
 Пацверджанне:
 [Password hint:]
@@ -32,12 +42,34 @@ Skype пратакол для Miranda NG.
 Увядзіце пароль
 [Enter a password]
 Увядзіце пароль
+[Remember this session password]
+Запомніць пароль сеансу
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [Status text:]
 Тэкст статусу:
+[Online since:]
+Далучаны:
 [Last event date:]
 Дата апошняй падзеі:
 [Last profile change:]
 Дата апошняй змены профіля:
+[Full name:]
+Поўнае імя:
+[Date of birth:]
+Дата нараджэння:
+[Gender:]
+Пол:
+[Homepage:]
+Сайт:
+[Language:]
+Мова:
+[About:]
+Інфармацыя:
+[Mood:]
+Настрой:
 [E-mail 1:]
 Пошта 1:
 [E-mail 2:]
@@ -50,18 +82,34 @@ Skype пратакол для Miranda NG.
 Хатні тэлефон:
 [Office phone:]
 Офіс. тэлефон:
+[City:]
+Горад:
+[State:]
+Штат:
+[Country:]
+Краіна:
+[Timezone:]
+Гадзінны пояс:
+[Change password]
+Змяніць пароль
 [Old password:]
 Стары пароль:
 [New password:]
 Новы пароль:
 [Register new account]
 Зарэгістравацца
+[Account]
+Конт
+[Connection]
+Далучэнне
 [Use port]
 Порт
 [for incoming connections]
 для ўваходных далучэнняў
 [Use ports 80 and 443 as alternative incoming]
 Выкарыстоўваць порты 80 і 443 як уваходныя
+[Default group:]
+Група:
 [Ignore list]
 Спіс ігнаравання
 [Server side ignore list\nControl ignore list on server.]
@@ -115,6 +163,8 @@ Skype пратакол для Miranda NG.
 [The new password was unacceptable]
 Новы пароль непрымальны 
 ;file \protocols\Skype\src\skype_bookmarks.cpp
+[Name]
+Імя
 [Conferences]
 Канферэнцыі
 ;file \protocols\Skype\src\skype_chat.cpp
@@ -132,6 +182,10 @@ Skype пратакол для Miranda NG.
 &Карыстач
 [&Listener]
 &Слухач
+[&Add]
+&Дадаць
+[&Kick]
+Выкінуць
 [Outlaw (&ban)]
 Забаніць
 [Copy &skypename]
@@ -147,6 +201,8 @@ Skype пратакол для Miranda NG.
 [Hi! I'd like to add you to my contact list]
 Прывітанне! Я жадаў бы дадаць Вас у свой спіс кантактаў
 ;file \protocols\Skype\src\skype_contacts.cpp
+[Contact already in your contact list]
+Кантакт ужо ў вашым спісе
 [Contacts received]
 Кантакты адасланы
 ;file \protocols\Skype\src\skype_dialogs.cpp
@@ -156,14 +212,42 @@ Skype пратакол для Miranda NG.
 Пароль не можа быць пустым.
 [Old password is not correct.]
 Стары пароль несапраўдны
+[<not specified>]
+<не паказана>
+[Male]
+Мужчынскі
+[Female]
+Жаночы
 [You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
 Вы не падлучаны ў наш час. Вы павінны быць анлайн, каб абнавіць Вашу інфармацыю на серверы.
 ;file \protocols\Skype\src\skype_events.cpp
+[Network]
+Сеціва
+[Contacts]
+Кантакты
+[Home]
+Дома
+[General]
+Агульнае
 ;file \protocols\Skype\src\skype_icons.cpp
+[Protocol icon]
+Абразок пратаколу
 [Call]
 Званок
+[Conference]
+Чат-пакой
 [Send contact]
 Адаслаць кантакт
+[Contact]
+Кантакт
+[Delete]
+Выдаліць
+[Ignore]
+Ігнараваць
+[Block]
+Заблакаваць
+[Protocols]
+Пратаколы
 ;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
 [Initialization key corrupted or not valid.]
@@ -171,12 +255,20 @@ Skype пратакол для Miranda NG.
 [SkypeKit did not start.]
 SkypeKit не запусціўся.
 ;file \protocols\Skype\src\skype_menus.cpp
+[Request authorization]
+Запытаць аўтарызацыю
+[Grant authorization]
+Аўтарызаваць
+[Revoke authorization]
+Адклікаць аўтарызацыю
 ;file \protocols\Skype\src\skype_messages.cpp
 [Incoming call started]
 Уваходны званок
 [Incoming call finished]
 Уваходны званок завершаны
 ;file \protocols\Skype\src\skype_netlib.cpp
+[%s connection]
+Злучэнне %s
 ;file \protocols\Skype\src\skype_proto.cpp
 [Skype name]
 Имя Скайп
@@ -191,5 +283,7 @@ SkypeKit не запусціўся.
 Значэнне мае недапушчальнае слова
 [Password is too simple]
 Пароль занадта простай
+[Avatars]
+Аватары
 [Command "%s" is unsupported]
 Каманда "%s" не падтрымліваецца

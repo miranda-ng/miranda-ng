@@ -8,10 +8,20 @@
 [Twitter protocol support for Miranda NG.]
 Падтрымка пратакола Twitter.
 ;file \protocols\Twitter\res\twitter.rc
+[Server:]
+Сервер:
 [Create a new Twitter account]
 Стварыць новы ўліковы запіс Twitter
+[Default group:]
+Група:
+[Username:]
+Карыстач:
 [Send Tweet]
 Паслаць Tweet
+[Send]
+Адправіць
+[Cancel]
+Скасаваць
 [Misc. Options]
 Дап. налады
 [Use group chat for Twitter feed]
@@ -22,30 +32,60 @@ URL:
 Апытваць
 [Once every]
 кожныя
+[sec]
+сек
 [Please cycle your connection for these changes to take effect]
 Змены ўступяць у сілу пры наступным далучэнні
 [Treat tweets as messages]
 Твіты як паведамленні
 [Enable popup notifications for Tweets]
 Усплывальныя вокны для Tweets
+[Colors]
+Колеры
+[Use Windows colors]
+Колеры Windows
 [Use Popup colors]
 Колеры успл. вокнаў
 [Use custom colors]
 Вык. іншыя колеры
+[Back]
+Фон
+[Text]
+Тэкст
 [Timeouts]
 Перапынкі
+[Use default]
+Па змаўчанні
+[Custom]
+Наладзіць
+[Permanent]
+Увесь час
+[Preview]
+Тэст
 [But not during sign-on]
 Але не падчас уваходу
 [Enter Twitter PIN]
 Увядзіце PIN-код з Twitter-а
+[OK]
+ОК
 [Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
 Увядзіце PIN-код, прадстаўлены  Twitter-ом, каб завяршыць працэс уваходу. Гэта патрабуецца зрабіць адзін раз, пакуль вы не перастворыце ваш уліковы запіс  Miranda Twitter.
 ;file \protocols\Twitter\src\connection.cpp
 [OAuth variables are out of sequence, they have been reset.  Please reconnect and reauthorise Miranda to Twitter.com (do the PIN stuff again)]
 Зменныя OAuth страцілі паслядоўнасць і былі абнулены. Калі ласка, далучыцеся зноў і аўтарызуйце Miranda на Twitter.com (яшчэ раз з PIN-кодам)
 ;file \protocols\Twitter\src\proto.cpp
+[Avatars]
+Аватары
 [Send Tweet...]
 Паслаць твіт...
+[Network]
+Сеціва
+[Basic]
+Асноўныя
+[Popups]
+Усплывальныя вокны
+[%s server connection]
+Далучэнне да сервера %s
 [%s avatar connection]
 далучэнне аватараў %s
 ;file \protocols\Twitter\src\theme.cpp
