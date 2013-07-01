@@ -48,7 +48,7 @@
 对此列表变更将于下次 Miranda 启动时生效
 [Popup timeout (0 for infinite)]
 弹出窗口超时 (0 代表无限)
-[Background Colour]
+[Background colour]
 背景颜色
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 如模块名称含空格, 请在空格前放置 \\. 例如 "aaa\\ bbb"

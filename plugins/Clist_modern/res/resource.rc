@@ -493,15 +493,15 @@ BEGIN
     CONTROL         "Cycle icons every",IDC_CYCLE,"Button",BS_AUTORADIOBUTTON,10,110,97,10
     EDITTEXT        IDC_CYCLETIME,107,110,29,12,ES_RIGHT | ES_NUMBER
     CONTROL         "",IDC_CYCLETIMESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,136,109,11,14
-    LTEXT           "seconds, when statuses differ",IDC_STATIC,151,110,132,8,NOT WS_GROUP
+    LTEXT           "seconds, when statuses differ",IDC_STATIC,151,111,132,8,NOT WS_GROUP
     CONTROL         "Show multiple icons",IDC_MULTITRAY,"Button",BS_AUTORADIOBUTTON,10,126,97,10
     CONTROL         "Only when statuses differ",IDC_ALWAYSMULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,107,126,181,10
     GROUPBOX        "System tray icon",IDC_STATIC,2,6,292,73
     GROUPBOX        "System tray icon mode",IDC_STATIC,2,80,292,61
     CONTROL         "Use xStatus icon",IDC_SHOWXSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,171,19,117,10
-    CONTROL         "Show normal status as overlay",IDC_SHOWNORMAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,171,30,117,10
+    CONTROL         "Show normal status as overlay",IDC_SHOWNORMAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,171,32,117,10
     CONTROL         "Status overlay opacity is 75% ",IDC_TRANSPARENTOVERLAY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,171,43,117,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,171,45,117,10
     CONTROL         "only when statuses differ",IDC_ALWAYSPRIMARY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,190,94,98,10
 END
 
@@ -581,7 +581,7 @@ BEGIN
     CONTROL         "Enable drop shadow (restart required)",IDC_DROPSHADOW,
                     "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,130,178,166,10
     GROUPBOX        "Frames",-1,124,11,179,49
-    RTEXT           "Between frames:",-1,152,30,86,10
+    RTEXT           "Between frames:",-1,151,30,86,10
     EDITTEXT        IDC_FRAMESGAP,238,27,26,12,ES_RIGHT | ES_NUMBER
     CONTROL         "",IDC_FRAMESSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,233,27,10,14
     RTEXT           "After captions:",-1,152,41,86,10
@@ -737,7 +737,7 @@ BEGIN
     RTEXT           "(Variables will be replaced)",IDC_VARIABLES_L,141,136,108,8
 END
 
-IDD_OPT_ITEM_THIRD_LINE DIALOGEX 0, 0, 256, 227
+IDD_OPT_ITEM_THIRD_LINE DIALOGEX 0, 0, 256, 231
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -755,7 +755,7 @@ BEGIN
     CONTROL         "Listening to",IDC_LISTENING_TO,"Button",BS_AUTORADIOBUTTON,18,112,118,8
     CONTROL         "Contact time",IDC_CONTACT_TIME,"Button",BS_AUTORADIOBUTTON,18,123,118,8
     CONTROL         "Text:",IDC_TEXT,"Button",BS_AUTORADIOBUTTON,18,134,118,8
-    EDITTEXT        IDC_VARIABLE_TEXT,32,150,217,73,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    EDITTEXT        IDC_VARIABLE_TEXT,32,149,217,73,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
     CONTROL         "Show status if there is no status message",IDC_SHOW_STATUS_IF_NOAWAY,
                     "Button",BS_AUTOCHECKBOX | BS_LEFT | BS_TOP | BS_MULTILINE | WS_TABSTOP,150,76,99,18
     CONTROL         "Show listening to if there is no status message",IDC_SHOW_LISTENING_IF_NOAWAY,

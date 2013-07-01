@@ -1666,7 +1666,7 @@ GMT-09:00 Аляска
 [Gamma correction]
 Коррекция гаммы
 [Show counts of number of contacts in a group]
-Показывать количество пользователей в группах
+Показать количество пользователей в группах
 [Hide group counts when there are none online]
 Скрыть счётчик, если нет пользователей в сети
 [Last message received on %s at %s.]

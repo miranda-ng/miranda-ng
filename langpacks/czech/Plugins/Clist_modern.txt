@@ -492,7 +492,7 @@ Ikona kontaktu
 výška
 [Max width]
 Max.šířka
-[Use old render method (Fast, but has artefacts)]
+[Use old render method (fast, but has artefacts)]
 Použít staré vykreslování (rychlé, ale zanechává stopy)
 [Hide icon when showing avatar]
 Skrýt ikonu při zobrazeném avataru

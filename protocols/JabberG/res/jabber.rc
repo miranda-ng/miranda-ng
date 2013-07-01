@@ -122,9 +122,9 @@ BEGIN
     PUSHBUTTON      "Unregister",IDC_UNREGISTER,235,16,56,13
     GROUPBOX        "Expert",IDC_STATIC,4,120,295,105
     CONTROL         "Manually specify connection host",IDC_MANUAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,134,223,10
-    LTEXT           "Host:",IDC_STATIC,26,147,30,8
+    RTEXT           "Host:",IDC_STATIC,26,147,30,8
     EDITTEXT        IDC_HOST,57,145,90,12,ES_AUTOHSCROLL | WS_DISABLED
-    LTEXT           "Port:",IDC_STATIC,156,148,27,8
+    RTEXT           "Port:",IDC_STATIC,156,148,27,8
     EDITTEXT        IDC_HOSTPORT,186,145,31,12,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
     CONTROL         "Keep connection alive",IDC_KEEPALIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,158,221,10
     CONTROL         "Automatically delete contacts not in my roster",IDC_ROSTER_SYNC,

@@ -253,8 +253,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 
 [Animate Avatars]
 Анимация аватаров
-[Use old render method (Fast, but has artefacts)]
-Старый метод отрисовки (Быстрее, но могут быть "артефакты")
+[Use old render method (fast, but has artefacts)]
+Старый метод отрисовки (быстрее, но могут быть "артефакты")
 [Draw border on avatar]
 Рамки на аватарах
 [Border Color:]

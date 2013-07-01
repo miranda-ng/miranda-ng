@@ -190,7 +190,7 @@ Partner ikon
 magasság
 [Max width]
 Max szélesség
-[Use old render method (Fast, but has artefacts)]
+[Use old render method (fast, but has artefacts)]
 Régi renderelési módszer (gyors, de kezdetleges)
 [Hide icon when showing avatar]
 Ikon elrejtése az avatár mutatásakor

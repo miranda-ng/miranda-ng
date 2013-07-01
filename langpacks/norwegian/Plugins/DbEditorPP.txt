@@ -20,7 +20,7 @@ Moduler som ALLTID merkes som gjenkjent (eks. kjernemoduler)
 Sett et mellomrom eller komma mellom hvert modulnavn
 [Changes to this list will take effect next time miranda starts]
 Endringer i denne listen vil synes neste gang Miranda starter
-[Background Colour]
+[Background colour]
 Bakgrunnsfarge
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 ;file \plugins\DbEditorPP\src\copymodule.cpp

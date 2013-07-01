@@ -877,8 +877,8 @@ Ustaw opcje dla każdego konta
 Włącz własne ustawienia dla konta
 [Hide account completely]
 Ukryj konto całkowicie
-[Use old render method (Fast, but has artefacts)]
-Użyj starej metody renederowania (Szybko, ale z artefaktami)
+[Use old render method (fast, but has artefacts)]
+Użyj starej metody renederowania (szybko, ale z artefaktami)
 [Display contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
 Wyświetla kontakty, powiadomienia zdarzeń, statusy protokołów z dobrymi modyfikacjami wizualnymi. Wspierane zmiany z MW, rozszerzona współpraca z metakontaktami.
 [View help online]

@@ -208,7 +208,7 @@ Aero Glass (Vista) を有効
 高さ
 [Max width]
 最大幅
-[Use old render method (Fast, but has artefacts)]
+[Use old render method (fast, but has artefacts)]
 古いレンダリング方式を使用 ( 高速だがノイズが発生する )
 [Hide icon when showing avatar]
 アバター表示中はアイコンを非表示

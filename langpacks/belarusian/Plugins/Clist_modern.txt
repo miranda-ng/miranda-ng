@@ -486,8 +486,8 @@
 вышыня
 [Max width]
 Шырыня
-[Use old render method (Fast, but has artefacts)]
-Стары метад адмалёўкі (Хутчэй, але могуць быць "артэфакты")
+[Use old render method (fast, but has artefacts)]
+Стары метад адмалёўкі (хутчэй, але могуць быць "артэфакты")
 [Hide icon when showing avatar]
 Хаваць значок пратаколу
 [Draw icon in avatar space]

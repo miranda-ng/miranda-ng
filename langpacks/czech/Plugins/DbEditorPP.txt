@@ -58,7 +58,7 @@ Známé moduly (např. moduly jádra)
 Pozn.: Provedené změny se projeví až po restartu Mirandy
 [Popup timeout (0 for infinite)]
 Doba zobrazení (0 = stále)
-[Background Colour]
+[Background colour]
 Barva pozadí
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 - je-li v názvu modulu mezera, před mezeru zadejte znak '\\' (např. 'aaa\\ bbb')

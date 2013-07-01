@@ -206,7 +206,7 @@ Póngase en contacto con el icono
 altura
 [Max width]
 Anchura máxima
-[Use old render method (Fast, but has artefacts)]
+[Use old render method (fast, but has artefacts)]
 Use el método de hacer de edad (rápido, pero ha artefactos)
 [Hide icon when showing avatar]
 Ocultar icono cuando se muestra avatar

@@ -174,7 +174,7 @@ x100 מילי שניות
 גובה
 [Max width]
 רוחב מקסימלי
-[Use old render method (Fast, but has artefacts)]
+[Use old render method (fast, but has artefacts)]
 השתמש בשיטת רינדור ישנה מהיר אבל יש תופעות לוואי
 [Hide icon when showing avatar]
 החבא אייקון כאשר מראים אוואטר

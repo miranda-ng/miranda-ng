@@ -44,7 +44,7 @@ Ponga un espacio o una coma entre cada nombre del módulo
 Los cambios en esta lista tendrá efecto la próxima vez miranda comienza
 [Popup timeout (0 for infinite)]
 tiempo de espera de pop-ups (0 para infinito)
-[Background Colour]
+[Background colour]
 Colores de fondo
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 Si el nombre del módulo tiene un espacio en él, poner un \\ antes de que el espacio. por ejemplo, "aaa\\ bbb"

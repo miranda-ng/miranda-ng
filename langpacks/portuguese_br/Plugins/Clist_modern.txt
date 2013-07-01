@@ -382,8 +382,8 @@ altura
 altura
 [Max width]
 Largura máxima
-[Use old render method (Fast, but has artefacts)]
-Use velho método render (Fast, mas tem artefatos)
+[Use old render method (fast, but has artefacts)]
+Use velho método render (fast, mas tem artefatos)
 [Use old render method (Fast, but has artefacts)]
 Use velho método render (Melhor, mas tem artefatos)
 [Hide icon when showing avatar]

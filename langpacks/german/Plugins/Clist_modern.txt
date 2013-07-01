@@ -492,7 +492,7 @@ Kontakticon
 Höhe
 [Max width]
 Max. Breite
-[Use old render method (Fast, but has artefacts)]
+[Use old render method (fast, but has artefacts)]
 Nutze alte Methode (Schnell, aber mit Artefakten)
 [Hide icon when showing avatar]
 Icon ausblenden bei Avatar

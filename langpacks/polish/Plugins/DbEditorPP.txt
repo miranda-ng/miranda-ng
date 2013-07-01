@@ -42,7 +42,7 @@ Potwierdź usunięcie modułu
 [Delete module from Database]
 Usuń moduł z bazy danych
 [Delete module from Database... Loading]
-Skasuj moduł z Bazy danych... �?adowanie
+Skasuj moduł z Bazy danych... ÿadowanie
 [Delete module from all contacts (Includes Setting)]
 Usuń moduł ze wszystkich kontaktów (razem z ustawieniami)
 [Error Loading Module List]
@@ -72,7 +72,7 @@ Znaleziono
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
 %s "%s" w ustawieniu "%s" modułu "%s" kontaktu "%s"
 [Error Loading Setting List]
-Błąd �?adowania Listy Ustawień
+Błąd ÿadowania Listy Ustawień
 [Finished. %d items were found, %d items were deleted.]
 Zakończono. Znaleziono %d rzeczy, %d usunięto.
 [Finished. %d items were found, %d items were replaced.]
@@ -157,7 +157,7 @@ Umieść spację lub przecinek między nazwami modułów
 Zmiany na tej liście przyniosą efekt po ponownym uruchomieniu Mirandy
 [Popup timeout (0 for infinite)]
 Czas wyświetlania popupu (0 = nieskończoność)
-[Background Colour]
+[Background colour]
 Kolor tła
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 Jeśli moduł ma w nazwie spację, umieść \\ przed spacją, np. "aaa\\ bbb"

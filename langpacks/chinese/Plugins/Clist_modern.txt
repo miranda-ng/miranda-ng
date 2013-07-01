@@ -210,7 +210,7 @@ x100 毫秒
 高度
 [Max width]
 最大宽度
-[Use old render method (Fast, but has artefacts)]
+[Use old render method (fast, but has artefacts)]
 使用旧式绘制方法 (速度快, 但有缺陷)
 [Hide icon when showing avatar]
 显示头像时隐藏图标

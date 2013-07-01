@@ -190,7 +190,7 @@ Kişi simgesi
 yükseklik
 [Max width]
 En çok genişlik
-[Use old render method (Fast, but has artefacts)]
+[Use old render method (fast, but has artefacts)]
 Eski çizim yöntemini kullan (hızlı fakat girişimsiz)
 [Hide icon when showing avatar]
 Avatar görünürken simgeyi gizler
