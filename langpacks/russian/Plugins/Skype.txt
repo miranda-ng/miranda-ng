@@ -255,12 +255,22 @@ Skype протокол
 Удалить
 [Ignore]
 Игнорировать
+[Bloked contacts]
+Блокированные контакты
 [Block]
-Заблокировать
-[Ignore list]
-Список игнорирования
-[Server side ignore list\nControl ignore list on server.]
-Список игнорирования на сервере\nУправление списком игнорирования на сервере.
+Блокировать
+[Block this person]
+Блокировать этого пользователя
+[Remove from your Contact List]
+Удалить из контактного листа
+[Abuse]
+Нарушение
+[You can also report abuse from this user.]
+Вы также можете сообщить о нарущении правил этим пользователем.
+[Report abuse]
+Сообщить о нарушении
+[Are you sure you want to block %s?\nThey won't be able to contact you\nand won't appear in your Contact List.]
+Вы действительно хотите блокировать %s?\nБлокированные пользователи не смогут связаться с вами\nи не бужут показываться в вашем списке контактов.
 [Name]
 Имя
 [Conferences]
