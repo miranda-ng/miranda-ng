@@ -72,8 +72,8 @@ enum
 	CMI_AUTH_REQUEST,
 	CMI_AUTH_GRANT,
 	CMI_AUTH_REVOKE,
-	CMI_IGNORE,
 	CMI_BLOCK,
+	CMI_HISTORY,
 	CMI_MAX   // this item shall be the last one
 };
 

@@ -208,3 +208,130 @@ void CSkypeProto::OnMessageEvent(const ConversationRef &conversation, const Mess
 		break;
 	}
 }
+
+void CSkypeProto::SyncMessageHystory(const ConversationRef &conversation, const time_t timestamp)
+{
+	if (conversation)
+	{
+		conversation->SetConsumedHorizon(timestamp);
+		MessageRefs oldMessages, newMessages;
+		conversation->GetLastMessages(oldMessages, newMessages, timestamp);
+		for (size_t i = 0; i < oldMessages.size(); i++)
+			this->OnMessageEvent(conversation, oldMessages[i]);
+		for (size_t i = 0; i < newMessages.size(); i++)
+			this->OnMessageEvent(conversation, newMessages[i]);
+		conversation->SetConsumedHorizon(time(NULL));
+	}
+}
+
+int CSkypeProto::SyncLastDayHistoryCommand(WPARAM wParam, LPARAM lParam)
+{
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact)
+	{
+		ptrW sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID);
+
+		ConversationRef conversation;
+		if ( !this->IsChatRoom(hContact))
+		{
+			SEStringList target;
+			target.append((char *)ptrA(::mir_utf8encodeW(sid)));
+			this->GetConversationByParticipants(target, conversation);
+		}
+		else
+			this->GetConversationByIdentity((char *)ptrA(::mir_utf8encodeW(sid)), conversation);
+
+		if (conversation)
+		{
+			time_t timestamp = time(NULL);
+			timestamp -= 60*60*24;
+
+			this->SyncMessageHystory(conversation, timestamp);
+		}
+	}
+	return 0;
+}
+
+int CSkypeProto::SyncLastWeekHistoryCommand(WPARAM wParam, LPARAM lParam)
+{
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact)
+	{
+		ptrW sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID);
+
+		ConversationRef conversation;
+		if ( !this->IsChatRoom(hContact))
+		{
+			SEStringList target;
+			target.append((char *)ptrA(::mir_utf8encodeW(sid)));
+			this->GetConversationByParticipants(target, conversation);
+		}
+		else
+			this->GetConversationByIdentity((char *)ptrA(::mir_utf8encodeW(sid)), conversation);
+
+		if (conversation)
+		{
+			time_t timestamp = time(NULL);
+			timestamp -= 60*60*24*7;
+
+			this->SyncMessageHystory(conversation, timestamp);
+		}
+	}
+	return 0;
+}
+
+int CSkypeProto::SyncLastMonthHistoryCommand(WPARAM wParam, LPARAM lParam)
+{
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact)
+	{
+		ptrW sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID);
+
+		ConversationRef conversation;
+		if ( !this->IsChatRoom(hContact))
+		{
+			SEStringList target;
+			target.append((char *)ptrA(::mir_utf8encodeW(sid)));
+			this->GetConversationByParticipants(target, conversation);
+		}
+		else
+			this->GetConversationByIdentity((char *)ptrA(::mir_utf8encodeW(sid)), conversation);
+
+		if (conversation)
+		{
+			time_t timestamp = time(NULL);
+			timestamp -= 60*60*24*30;
+
+			this->SyncMessageHystory(conversation, timestamp);
+		}
+	}
+	return 0;
+}
+
+int CSkypeProto::SyncLast3MonthHistoryCommand(WPARAM wParam, LPARAM lParam)
+{
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact)
+	{
+		ptrW sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID);
+
+		ConversationRef conversation;
+		if ( !this->IsChatRoom(hContact))
+		{
+			SEStringList target;
+			target.append((char *)ptrA(::mir_utf8encodeW(sid)));
+			this->GetConversationByParticipants(target, conversation);
+		}
+		else
+			this->GetConversationByIdentity((char *)ptrA(::mir_utf8encodeW(sid)), conversation);
+
+		if (conversation)
+		{
+			time_t timestamp = time(NULL);
+			timestamp -= 60*60*24*90;
+
+			this->SyncMessageHystory(conversation, timestamp);
+		}
+	}
+	return 0;
+}

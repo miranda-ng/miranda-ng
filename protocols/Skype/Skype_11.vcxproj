@@ -245,7 +245,7 @@
     <ClCompile Include="src\skype_events.cpp" />
     <ClCompile Include="src\skype_hooks.cpp" />
     <ClCompile Include="src\skype_icons.cpp" />
-    <ClCompile Include="src\skype_ignore_list.cpp" />
+    <ClCompile Include="src\skype_blocked.cpp" />
     <ClCompile Include="src\skype_instances.cpp" />
     <ClCompile Include="src\skype_menus.cpp" />
     <ClCompile Include="src\skype_messages.cpp" />
@@ -276,8 +276,13 @@
     <None Include="res\block.ico" />
     <None Include="res\bookmark.ico" />
     <None Include="res\delete.ico" />
-    <None Include="res\ignore.ico" />
     <None Include="res\send_contacts.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\add_contacts.ico" />
+    <Image Include="res\conference.ico" />
+    <Image Include="res\contact.ico" />
+    <Image Include="res\skype.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

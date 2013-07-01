@@ -120,7 +120,7 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skype_ignore_list.cpp">
+    <ClCompile Include="src\skype_blocked.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -207,13 +207,7 @@
     <None Include="res\block.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
-    <None Include="res\bookmark.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
     <None Include="res\delete.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\ignore.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
   </ItemGroup>

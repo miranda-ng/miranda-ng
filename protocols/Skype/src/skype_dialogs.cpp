@@ -13,11 +13,11 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 			proto = (CSkypeProto *)lParam;
 			::SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 			{
-				mir_ptr<wchar_t> sid( ::db_get_wsa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_SID));
+				ptrW sid( ::db_get_wsa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_SID));
 				SetDlgItemText(hwnd, IDC_SL, sid);
 			}
 			{
-				mir_ptr<char> pwd( ::db_get_sa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD));
+				ptrA pwd( ::db_get_sa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD));
 				if (pwd)
 					::CallService(MS_DB_CRYPT_DECODESTRING, ::strlen(pwd), pwd);
 
@@ -48,7 +48,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 
 			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, SKYPE_GROUP_NAME_LIMIT, 0);
 
-			mir_ptr<wchar_t> defgroup( db_get_wsa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP));
+			ptrW defgroup( db_get_wsa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP));
 			SetDlgItemText(hwnd, IDC_GROUP, defgroup);
 		}
 		return TRUE;
@@ -378,7 +378,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 					if (!szProto)
 						break;
 
-					::SetDlgItemText(hwndDlg, IDC_SID, mir_ptr<wchar_t>(::db_get_wsa(hContact, ppro->m_szModuleName, SKYPE_SETTINGS_SID)));
+					::SetDlgItemText(hwndDlg, IDC_SID, ptrW(::db_get_wsa(hContact, ppro->m_szModuleName, SKYPE_SETTINGS_SID)));
 
 					DBVARIANT dbv;
 					if ( !::db_get_ts(hContact, ppro->m_szModuleName, "XStatusMsg", &dbv)) {
@@ -724,7 +724,7 @@ INT_PTR CALLBACK CSkypeProto::HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 			else
 				::SetDlgItemText(hwndDlg, IDC_STATE, _T(""));
 
-			mir_ptr<wchar_t> countr(::db_get_wsa(NULL, ppro->m_szModuleName, "Country"));
+			ptrW countr(::db_get_wsa(NULL, ppro->m_szModuleName, "Country"));
 			for (int i = 0; i < g_cbCountries; i++)
 			{
 				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0)

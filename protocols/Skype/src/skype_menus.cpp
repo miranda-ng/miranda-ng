@@ -26,21 +26,32 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 		
 		bool authNeed = ::db_get_b(hContact, this->m_szModuleName, "Auth", 0) > 0;
 		bool grantNeed = ::db_get_b(hContact, this->m_szModuleName, "Grant", 0) > 0;
-		bool ignored = ::db_get_b(hContact, this->m_szModuleName, "Ignore", 0) > 0;
-
+		
 		::Menu_ShowItem(CSkypeProto::contactMenuItems[CMI_AUTH_REQUEST], ctrlPressed || authNeed);
 		::Menu_ShowItem(CSkypeProto::contactMenuItems[CMI_AUTH_GRANT], ctrlPressed || grantNeed);
 		::Menu_ShowItem(CSkypeProto::contactMenuItems[CMI_AUTH_REVOKE], ctrlPressed || (!grantNeed && !authNeed));
-		::Menu_ShowItem(CSkypeProto::contactMenuItems[CMI_BLOCK], ctrlPressed);
+		::Menu_ShowItem(CSkypeProto::contactMenuItems[CMI_HISTORY], TRUE);
 
-		CLISTMENUITEM clmi = { sizeof(clmi) };
-		clmi.cbSize = sizeof(CLISTMENUITEM);
-		clmi.flags = CMIM_FLAGS;
-		//::CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_ALL);
-		if (::db_get_b(hContact, this->m_szModuleName, "Ignore", 0) == 1)
-			//clmi.flags |= CMIF_CHECKED;
-			clmi.icolibItem = CSkypeProto::GetSkinIconHandle("contact");
-		::CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)CSkypeProto::contactMenuItems[CMI_IGNORE], (LPARAM)&clmi);
+		{
+			SEString sid(_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));
+			
+			ContactRef contact;
+			this->GetContact(sid, contact);
+
+			bool isBlocked = false;
+			contact->IsMemberOfHardwiredGroup(ContactGroup::CONTACTS_BLOCKED_BY_ME, isBlocked);
+		
+			CLISTMENUITEM clmi = { sizeof(clmi) };
+			clmi.cbSize = sizeof(CLISTMENUITEM);
+			clmi.flags = CMIM_FLAGS;
+			if (isBlocked)
+			{
+				clmi.flags |= CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
+				clmi.icolibItem = CSkypeProto::GetSkinIconHandle("contact");
+				clmi.ptszName = LPGENT("Unblock this person...");
+			}
+			::CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)CSkypeProto::contactMenuItems[CMI_BLOCK], (LPARAM)&clmi);
+		}
 	}
 
 	return 0;
@@ -138,22 +149,58 @@ void  CSkypeProto::InitMenus()
 	CSkypeProto::contactMenuItems[CMI_AUTH_REVOKE] = ::Menu_AddContactMenuItem(&mi);
 	::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::RevokeAuth>);
 
-	// "Ignore"
-	mi.pszService = MODULE"/Ignore";
-	mi.ptszName = LPGENT("Ignore");
-	mi.position = -200001000 + CMI_IGNORE;
-	mi.icolibItem = CSkypeProto::GetSkinIconHandle("ignore");
-	CSkypeProto::contactMenuItems[CMI_IGNORE] = ::Menu_AddContactMenuItem(&mi);
-	::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::IgnoreCommand>);
-
 	// "Block"
 	mi.pszService = MODULE"/Block";
-	mi.ptszName = LPGENT("Block");
-	//mi.flags |= CMIF_HIDDEN;
+	mi.ptszName = LPGENT("Block this person...");
 	mi.position = -200001000 + CMI_BLOCK;
 	mi.icolibItem = CSkypeProto::GetSkinIconHandle("block");
 	CSkypeProto::contactMenuItems[CMI_BLOCK] = ::Menu_AddContactMenuItem(&mi);
 	::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::BlockCommand>);
+
+	mi.pszService = MODULE"/SyncHistory";
+	mi.ptszName = LPGENT("View old messages...");
+	mi.flags = CMIF_TCHAR | CMIF_ROOTPOPUP;
+	mi.position = -200001000 + CMI_HISTORY;
+	mi.icolibItem = ::LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
+	CSkypeProto::contactMenuItems[CMI_HISTORY] = ::Menu_AddContactMenuItem(&mi);
+	
+	mi.flags &= ~CMIF_ROOTPOPUP;
+
+	mi.pszService = MODULE"/SyncHistoryDay";
+	mi.ptszName = LPGENT("...by last day");
+	mi.flags |= CMIF_CHILDPOPUP;
+	mi.position = -200001000 + CMI_HISTORY + 1;
+	mi.hParentMenu = CSkypeProto::contactMenuItems[CMI_HISTORY];
+	//mi.icolibItem = CSkypeProto::GetSkinIconHandle("block");
+	/*CSkypeProto::contactMenuItems[CMI_HISTORY] = */::Menu_AddContactMenuItem(&mi);
+	//::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::BlockCommand>);
+
+	mi.pszService = MODULE"/SyncHistoryWeek";
+	mi.ptszName = LPGENT("...by last week");
+	mi.flags |= CMIF_CHILDPOPUP;
+	mi.position = -200001000 + CMI_HISTORY + 2;
+	mi.hParentMenu = CSkypeProto::contactMenuItems[CMI_HISTORY];
+	//mi.icolibItem = CSkypeProto::GetSkinIconHandle("block");
+	/*CSkypeProto::contactMenuItems[CMI_HISTORY] = */::Menu_AddContactMenuItem(&mi);
+	::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::SyncLastWeekHistoryCommand>);
+
+	mi.pszService = MODULE"/SyncHistoryMonth";
+	mi.ptszName = LPGENT("...by last month");
+	mi.flags |= CMIF_CHILDPOPUP;
+	mi.position = -200001000 + CMI_HISTORY + 3;
+	mi.hParentMenu = CSkypeProto::contactMenuItems[CMI_HISTORY];
+	//mi.icolibItem = CSkypeProto::GetSkinIconHandle("block");
+	/*CSkypeProto::contactMenuItems[CMI_HISTORY] = */::Menu_AddContactMenuItem(&mi);
+	//::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::BlockCommand>);
+
+	mi.pszService = MODULE"/SyncHistory3Month";
+	mi.ptszName = LPGENT("...by last 3 month");
+	mi.flags |= CMIF_CHILDPOPUP;
+	mi.position = -200001000 + CMI_HISTORY + 4;
+	mi.hParentMenu = CSkypeProto::contactMenuItems[CMI_HISTORY];
+	//mi.icolibItem = CSkypeProto::GetSkinIconHandle("block");
+	/*CSkypeProto::contactMenuItems[CMI_HISTORY] = */::Menu_AddContactMenuItem(&mi);
+	::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::SyncLast3MonthHistoryCommand>);
 }
 
 void  CSkypeProto::UninitMenus()
@@ -198,10 +245,10 @@ void CSkypeProto::OnInitStatusMenu()
 	::Menu_AddProtoMenuItem(&mi);
 
 	// Invite Command
-	::strcpy(tDest, "/IgnoreList");
-	this->CreateServiceObj(tDest, &CSkypeProto::OpenIgnoreListCommand);
-	mi.ptszName = LPGENT("Ignore list");
+	::strcpy(tDest, "/BlockedeList");
+	this->CreateServiceObj(tDest, &CSkypeProto::OpenBlockedListCommand);
+	mi.ptszName = LPGENT("Blocked contacts");
 	mi.position = 200000 + SMI_IGNORE_LIST;
-	mi.icolibItem = CSkypeProto::GetSkinIconHandle("ignore");
+	mi.icolibItem = CSkypeProto::GetSkinIconHandle("block");
 	::Menu_AddProtoMenuItem(&mi);
 }

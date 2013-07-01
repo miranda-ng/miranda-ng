@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Projects\CPlusPlus\MirandaNG\protocols\Skype\res\Resource.rc
+// Used by E:\Projects\C++\MirandaNG\protocols\Skype\res\Resource.rc
 //
 #define IDD_ACCMGR                      9
 #define IDD_OPT_MAIN                    10
@@ -21,7 +21,6 @@
 #define IDD_CHATROOM_CREATE             111
 #define IDD_CHATROOM_CONFIG             112
 #define IDI_DELETE                      112
-#define IDI_IGNORE                      114
 #define IDI_BLOCK                       115
 #define IDI_CONFERENCE                  116
 #define IDI_CONTACT                     117
@@ -77,6 +76,7 @@
 #define IDC_ROLES                       1047
 #define IDC_CHAT_ROLES                  1047
 #define IDC_CHAT_GUIDLINE3              1047
+#define IDC_CONTACTS                    1047
 #define IDC_CHAT_JOINING2               1048
 #define IDC_CHAT_SECURED                1048
 #define IDC_CHAT_GUIDLINE4              1048
@@ -90,10 +90,19 @@
 #define IDC_CHECK1                      1052
 #define IDC_COMBO2                      1053
 #define IDC_CHECK2                      1054
+#define IDC_BLOCK                       1054
+#define ID_CANCEL                       1055
+#define IDC_REPORT_ABUSE                1057
+#define IDC_REMOVE_FROM_CL              1058
+#define IDC_MESSAGE                     1060
 #define IDC_HEADERBAR                   1320
 #define IDD_BOOKMARKS                   3001
 #define IDD_IGNORE_LIST                 3001
+#define IDD_BLOCK                       3001
 #define IDC_BM_LIST                     3002
+#define IDC_BC_LIST                     3002
+#define IDC_LIST                        3002
+#define IDD_OPT_BLOCKED                 3002
 
 // Next default values for new objects
 // 
@@ -101,7 +110,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1054
+#define _APS_NEXT_CONTROL_VALUE         1061
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -10,7 +10,6 @@ _tag_iconList CSkypeProto::IconList[] =
 	{ LPGENT("Send contact"),			"sendContacts",		IDI_SEND_CONTACTS },
 	{ LPGENT("Contact"),				"contact",			IDI_CONTACT },
 	{ LPGENT("Delete"),					"delete",			IDI_DELETE },
-	{ LPGENT("Ignore"),					"ignore",			IDI_IGNORE },
 	{ LPGENT("Block"),					"block",			IDI_BLOCK },
 };
 

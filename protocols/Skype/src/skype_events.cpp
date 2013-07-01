@@ -102,15 +102,19 @@ int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = g_hInstance;
-	odp.ptszTitle = m_tszUserName;
+	odp.ptszTitle = this->m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-
-	odp.position = 271828;
 	odp.ptszGroup = LPGENT("Network");
+
 	odp.ptszTab = LPGENT("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
-	odp.pfnDlgProc = SkypeMainOptionsProc;
+	odp.pfnDlgProc = CSkypeProto::SkypeMainOptionsProc;
+	::Options_AddPage(wParam, &odp);
+
+	odp.ptszTab = LPGENT("Bloked contacts");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_BLOCKED);
+	odp.pfnDlgProc = CSkypeProto::SkypeBlockedOptionsProc;
 	::Options_AddPage(wParam, &odp);
 
 	return 0;

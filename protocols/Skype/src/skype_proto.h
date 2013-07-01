@@ -19,6 +19,19 @@ struct ReadMessageParam
 	CMessage::TYPE msgType;
 };
 
+struct BlockParam
+{
+	HANDLE hContact;
+	CSkypeProto *ppro;
+	bool remove;
+	bool abuse;
+
+	BlockParam(HANDLE hContact, CSkypeProto *ppro) : ppro(ppro) 
+	{
+		this->hContact = hContact;
+	}
+};
+
 struct ChatRoomParam
 {
 	wchar_t		*id;
@@ -282,6 +295,13 @@ protected:
 	void	OnMessageSent(const ConversationRef &conversation, const MessageRef &message);
 	void	OnMessageReceived(const ConversationRef &conversation, const MessageRef &message);
 
+	void	SyncMessageHystory(const ConversationRef &conversation, const time_t timestamp);
+
+	int __cdecl SyncLastDayHistoryCommand(WPARAM wParam, LPARAM lParam);
+	int __cdecl SyncLastWeekHistoryCommand(WPARAM wParam, LPARAM lParam);
+	int __cdecl SyncLastMonthHistoryCommand(WPARAM wParam, LPARAM lParam);
+	int __cdecl SyncLast3MonthHistoryCommand(WPARAM wParam, LPARAM lParam);
+
 	// contacts
 	void	OnContactsEvent(const ConversationRef &conversation, const MessageRef &message);
 	void	OnContactsSent(const ConversationRef &conversation, const MessageRef &message);
@@ -456,12 +476,12 @@ protected:
 	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 	int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
 
-	// ignore list
-	int __cdecl IgnoreCommand(WPARAM, LPARAM);
+	// blocked list
 	int __cdecl BlockCommand(WPARAM, LPARAM);
-	INT_PTR __cdecl OpenIgnoreListCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl OpenBlockedListCommand(WPARAM, LPARAM);
 
-	static INT_PTR CALLBACK IgnoreListWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK SkypeBlockProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK SkypeBlockedOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// database
 	bool IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid, int flag = 0);

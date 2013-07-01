@@ -240,6 +240,7 @@
     </ClCompile>
     <ClCompile Include="src\skype_account.cpp" />
     <ClCompile Include="src\skype_avatars.cpp" />
+    <ClCompile Include="src\skype_blocked.cpp" />
     <ClCompile Include="src\skype_chat.cpp" />
     <ClCompile Include="src\skype_contacts.cpp" />
     <ClCompile Include="src\skype_database.cpp" />
@@ -247,7 +248,6 @@
     <ClCompile Include="src\skype_events.cpp" />
     <ClCompile Include="src\skype_hooks.cpp" />
     <ClCompile Include="src\skype_icons.cpp" />
-    <ClCompile Include="src\skype_ignore_list.cpp" />
     <ClCompile Include="src\skype_instances.cpp" />
     <ClCompile Include="src\skype_menus.cpp" />
     <ClCompile Include="src\skype_messages.cpp" />
@@ -276,9 +276,7 @@
     <None Include="res\conf_spawn.ico" />
     <None Include="res\main.ico" />
     <None Include="res\block.ico" />
-    <None Include="res\bookmark.ico" />
     <None Include="res\delete.ico" />
-    <None Include="res\ignore.ico" />
     <None Include="res\send_contacts.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
