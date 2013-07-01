@@ -68,25 +68,23 @@ MIR_CORE_DLL(char*) mir_base64_encode(const BYTE *input, unsigned inputLen)
 
 	BYTE chr[3];
 
-	size_t length = inputLen;
-	size_t nLength = 4 * ((length + 2) / 3) + 1;
-
-	char *output = (char *)mir_alloc(nLength);
+	char *output = (char*)mir_alloc(4 * ((inputLen + 2) / 3) + 1);
 	char *p = output;
 
-	for (size_t i=0; i < length; )
+	for (unsigned i=0; i < inputLen; )
 	{
+		int rest = 0;
 		chr[0] = input[i++];
-		chr[1] = input[i++];
-		chr[2] = input[i++];
+		chr[1] = (i < inputLen) ? input[i++] : rest++, 0;
+		chr[2] = (i < inputLen) ? input[i++] : rest++, 0;
 
 		*p++ = cb64[ chr[0] >> 2 ];
 		*p++ = cb64[ ((chr[0] & 0x03) << 4) | (chr[1] >> 4) ];
-		BYTE b2 = ((chr[1] & 0x0F) << 2) | (chr[2] >> 6),
-		     b3 = chr[2] & 0x3F;
+		int b2 = ((chr[1] & 0x0F) << 2) | (chr[2] >> 6),
+		    b3 = chr[2] & 0x3F;
 
-		if (i - 2 >= length) { *p++ = '='; *p++ = '='; }
-		else if (i - 1 >= length) { *p++ = cb64[b2]; *p++ = '='; }
+		if (rest == 2) { *p++ = '='; *p++ = '='; }
+		else if (rest == 1) { *p++ = cb64[b2]; *p++ = '='; }
 		else { *p++ = cb64[b2]; *p++ = cb64[b3]; }
 	}
 
