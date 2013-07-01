@@ -312,7 +312,7 @@ EMail Express
 [Do you really want to delete ALL items (%.0f) for this contact?]
 Выдаліць УСЕ запісы (%.0f) для гэтага кантакту?
 [Note: It can take several minutes for large history.]
-Увага: гэта можа заняць некалькі мінуць для вялікай гісторыі
+Увага: гэта можа заняць некалькі хвілін для вялікай гісторыі
 [Empty History]
 Ачысціць гісторыю
 [Search Up (Ctrl+Up)]
@@ -430,13 +430,13 @@ Email express ад %s (%s): %s
 [Change Appearance]
 Змяніць вонкавы выгляд
 [To change fonts you need to install FontService plugin.]
-Для змены шрыфтоў неабходзен модуль FontService.
+Для змены шрыфтоў неабходны модуль FontService.
 [FontService is installed. Go to Customize -> Fonts to change settings.]
 FontService усталяваны. Налады: "Тонкая налада -> Шрыфты і колеры"
 [Download FontService plugin]
 Загрузіць модуль FontService
 [To change icons you need to install IcoLib plugin.]
-Для змены значкоў неабходзен модуль IcoLib.
+Для змены значкоў неабходны модуль IcoLib.
 [IcoLib is installed. Go to Customize -> Icons to change icons.]
 IcoLib усталяваны. Налады: "Тонкая налада -> Значкі"
 [Download IcoLib plugin]
@@ -586,7 +586,7 @@ HTML файл
 [Do you really want to delete ALL items for this contact?]
 Вы сапраўды жадаеце выдаліць усе запісы для гэтага кантакту?
 [Note: It can take several minutes for large histories]
-Нататка: гэта можа заняць некалькі мінуць для вялікай гісторыі
+Нататка: гэта можа заняць некалькі хвілін для вялікай гісторыі
 [Empty history of subcontacts also]
 Таксама выдаліць гісторыю субкантактаў
 [History of this contact is password protected]

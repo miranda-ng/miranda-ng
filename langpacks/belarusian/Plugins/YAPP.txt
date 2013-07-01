@@ -130,7 +130,7 @@ YAPP вокны
 Уключыць усплывальныя вокны
 ;file \plugins\YAPP\src\yapp.cpp
 [Toggle Popups]
-Вкл/Выкл успл. вакна
+Укл/Выкл Вокны
 [First line]
 Першы радок
 [Second line]

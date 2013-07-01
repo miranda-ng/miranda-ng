@@ -298,13 +298,13 @@ Wave файлы
 [User: from offline (has priority!)]
 Карыстач:  далучаецца (мае прыярытэт!)
 [Extra status changed]
-Дап. статус зменены
+Дадатковы статус зменены
 [Extra status message changed]
-Зменена паведамленне дап. статусу
+Зменена дадатковага статусу
 [Extra status removed]
-Дап. статус выдалены
+Дадатковы статус выдалены
 [Toggle status notification]
-Вкл/Выкл апавяшчэнні пра змену статусу
+Укл/Выкл апавяшчэнні пра змену статусу
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [Log]
 Лог

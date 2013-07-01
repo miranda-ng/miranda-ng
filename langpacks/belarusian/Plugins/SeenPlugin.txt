@@ -25,7 +25,7 @@
 [Variable list]
 Зменныя
 [Enable Idle support]
-Вкл. рэжым чакання
+Уключыць чаканне
 [Ignore contacts going offline]
 Ігнараваць кантакты, што адключаюцца
 [Enable 'Missed Ones' feature]

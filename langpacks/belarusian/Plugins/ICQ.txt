@@ -292,7 +292,7 @@ xСтатус "%s"
 [Connection failed.\nServer has too many connections from your IP (%d).]
 Няўдалае далучэнне.\nВельмі шмат далучэнняў з вашага IP (%d).
 [Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
-Няўдалае далучэнне.\nВы занадта часта далучаецеся,\nпаспрабуйце праз 10-20 мінуць (%d).
+Няўдалае далучэнне.\nВы занадта часта далучаецеся,\nпаспрабуйце праз 10-20 хвілін (%d).
 [Connection failed.\nThe server did not accept this client version.]
 Няўдалае далучэнне.\nСервер не прыняў гэту версію кліента.
 [The server sent warning, this version is getting old.\nTry to look for a new one.]
@@ -635,7 +635,7 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 [Liberia]
 Ліберыя
 [Libyan Arab Jamahiriya]
-Ливія
+Лівія
 [Liechtenstein]
 Ліхтэнштэйн
 [Lithuania]
@@ -727,7 +727,7 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 [Peru]
 Перу
 [Philippines]
-ФіліпіныФилиппины
+Філіпіны
 [Poland]
 Польшча
 [Portugal]
@@ -749,7 +749,7 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 [Saint Lucia]
 Сэнт-Люсія
 [Saint Pierre and Miquelon]
-Сен-П'ер і Микелон
+Сен-П'ер і Мікелон
 [Saint Vincent and the Grenadines]
 Сэнт-Вінсэнт і Грэнадыны
 [San Marino]

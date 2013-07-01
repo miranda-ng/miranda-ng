@@ -6,7 +6,7 @@
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates and economic quotes.]
-Дадатак адлюстроўвае курсывалют і каціровак.
+Дадатак адлюстроўвае курсы валют і каціровак.
 ;file \plugins\Quotes\res\Forex.rc
 [Variable List]
 Зменныя
@@ -79,9 +79,9 @@
 [Preview]
 Тэст
 [&Choose Quotes to watch in contact list:]
-&Абярыце катыроўкі для назірання ў спісе кантактаў:
+&Абярыце каціроўкі для назірання ў спісе кантактаў:
 [&Refresh Quotes Every:]
-&Абнаўляць катыроўкі кожныя:
+&Абнаўляць каціроўкі кожныя:
 [&Display in Contact List as:]
 &Паказваць у спісе як:
 [&Status Message:]
@@ -109,11 +109,11 @@
 [&Refresh Rates Every:]
 &Абнаўляць курсы кожныя:
 [Quote\\Rate Info]
-Інфармацыя пра катыроўку\\курсе валют
+Інфармацыя пра каціроўку\\курс валюты
 [Type &Stock Name or Symbol:]
-Назва катыроўкі:
+Назва каціроўкі:
 [&Watched Quotes:]
-&Адсочваныя катыроўкі:
+&Адсочваныя каціроўкі:
 [Status &Message:]
 Паведамленне &статусу:
 ;file \plugins\Quotes\src\Chart.h
@@ -121,7 +121,7 @@
 [Seconds]
 Секунд
 [Minutes]
-Мінуць
+Хвілін
 [Hours]
 Гадзін
 ;file \plugins\Quotes\src\CurrencyConverter.cpp
@@ -131,15 +131,15 @@
 Увядзіце станоўчую лічбу.
 ;file \plugins\Quotes\src\Forex.cpp
 [Quotes]
-Катыроўкі
+Каціроўкі
 [Refresh All Quotes\\Rates]
-Абнавіць усе катыроўкі\\курсы валют
+Абнавіць усе каціроўкі\\курсы валют
 [Currency Converter...]
 Канвертар валют...
 [Export All Quotes]
-Экспарт усіх катыровак
+Экспарт усіх каціровак
 [Import All Quotes]
-Імпарт усіх катыровак
+Імпарт усіх каціровак
 [Refresh]
 Абнавіць
 [Open Log File...]
@@ -163,7 +163,7 @@ HTTP далучэнне Quotes
 [Quote/Rate not changed]
 Значэнне не змянілася
 [Quote Section]
-Частка катыровак
+Частка каціровак
 [Quote]
 Цытата
 [Export]
@@ -186,9 +186,9 @@ HTTP далучэнне Quotes
 Памылка пры доступе да сайта.
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Symbol]
-Знак катыроўкі
+Знак каціроўкі
 [Quote Name]
-Назва катыроўкі
+Назва каціроўкі
 [From Currency Full Name]
 Поўная назва зыходнай валюты
 [From Currency Short Name]
@@ -202,9 +202,9 @@ HTTP далучэнне Quotes
 [Source of Information]
 Крыніца інфармацыі
 [Rate Value]
-Бягучае значэнне катыроўкі/курсу
+Бягучае значэнне каціроўкі/курсу
 [Previous Rate Value]
-Папярэдняе значэнне катыроўкі/курсу
+Папярэдняе значэнне каціроўкі/курсу
 [Fetch Time]
 Час абнаўлення
 [Fetch Date]

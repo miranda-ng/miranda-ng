@@ -271,7 +271,7 @@ SkypeKit не запусціўся.
 Злучэнне %s
 ;file \protocols\Skype\src\skype_proto.cpp
 [Skype name]
-Имя Скайп
+Імя Скайп
 ;file \protocols\Skype\src\skype_utils.cpp
 [Validation succeeded]
 Валідацыя пройдзена

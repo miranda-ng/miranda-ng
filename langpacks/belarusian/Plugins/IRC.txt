@@ -346,7 +346,7 @@ CTCP %s адказ ад %s: %s
 [The buddy check function is disabled]
 Функцыя праверкі прыяцеляў выключана
 [Ignore system is enabled]
-Сістэма ігнаравання вкл
+Сістэма ігнаравання укл
 [Ignore system is disabled]
 Сістэма ігнаравання выкл
 [%s on %s is now ignored (+%s)]
@@ -364,7 +364,7 @@ CTCP %s адказ ад %s: %s
 [The time interval for the buddy check function is now %u seconds]
 Інтэрвал праверкі прыяцеляў роўны %u секунд(ам)
 [This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
-Гэта каманда не рэкамендавана для сеткі такога памеру!\r\nГэта можа заняць рэсурсы сістэмы прыкладна ад %u да %u мінуць.\r\n Жадаеце працягнуць?
+Гэта каманда не рэкамендавана для сеткі такога памеру!\r\nГэта можа заняць рэсурсы сістэмы прыкладна ад %u да %u хвілін.\r\n Жадаеце працягнуць?
 [IRC warning]
 Папярэджанне IRC
 [Aborted]
@@ -647,7 +647,7 @@ CTCP %s адказ пасланы для %s: %s
 [Kill unauthorized: off]
 Забіць забароненых: выкл
 [Kill unauthorized: on]
-Забіць забароненых: вкл
+Забіць забароненых: укл
 [Kill unauthorized: quick]
 Забіць забароненых: хутка
 [Hide nick from list]

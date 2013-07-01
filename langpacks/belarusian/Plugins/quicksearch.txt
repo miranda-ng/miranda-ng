@@ -110,7 +110,7 @@ E-mail:
 [ABOUT]
 Пра сябе
 [GENDER]
-Падлога
+ПОЛ
 [AGE]
 Узрост
 [FIRSTLAST]

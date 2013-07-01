@@ -84,7 +84,7 @@
 [Hours]
 Гадзін
 [Minutes]
-Мінуць
+Хвілін
 [Select Backup Folder]
 Абярыце тэчку для рэзервовых копій
 [Database AutoBackups]

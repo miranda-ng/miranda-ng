@@ -36,13 +36,13 @@ MirFox/Error
 [mirfox.options.tab2.allcontacts]
 ** Усе кантакты **
 [mirfox.options.tab3.accounts]
-Паказаць аккуант у опцыі Firefox 'Статус паведамленне'
+Паказаць конт у опцыі Firefox 'Статус паведамленне'
 [mirfox.options.tab1]
 Опцыі
 [mirfox.options.tab2]
 Кантакты
 [mirfox.options.tab3]
-Аккуанты
+Конты
 ;file \plugins\MirFox\src\MirandaUtils.cpp
 [mirfox.netlib.name]
 MirFox log

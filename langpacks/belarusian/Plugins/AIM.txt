@@ -67,7 +67,7 @@ AIM Усталяваць Instant Idle
 [Number of Hours:]
 Лік гадзін:
 [Number of Minutes:]
-Лік мінуць:
+Лік хвілін:
 [Set Idle]
 Усталяваць
 [Unset Idle]

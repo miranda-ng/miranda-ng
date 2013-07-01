@@ -29,7 +29,7 @@
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
 Калі вам у будучыні спатрэбіцца гэты майстар, адзначце модуль import.dll у наладах (частка "Модулі").
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
-Miranda знайшла наступныя профілі. Абярыце профіль са спісу, ці націсніце "Іншы профіль", калі Вашага профіля няма ў спісе ці спіс пустой.
+Miranda знайшла наступныя профілі. Абярыце профіль са спісу, ці націсніце "Іншы профіль", калі Вашага профіля няма ў спісе ці спіс пусты.
 [&Other Profile...]
 &Іншы профіль..
 [&Filename:]

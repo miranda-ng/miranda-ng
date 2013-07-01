@@ -7,7 +7,7 @@
 [Status Message Change Notify]
 Апавяшчэнне пра змену статутнага паведамлення
 [Enable &status message change notification]
-Вкл. апавяшчэнне пра змену статутнага паведамлення
+Укл. апавяшчэнне пра змену статутнага паведамлення
 [Disable &status message change notification]
 Выкл. апавяшчэнне пра змену статутнага паведамлення
 [View Status Message History]
@@ -15,9 +15,9 @@
 [List Contacts with Status Message]
 Статус.паведамленні кантактаў
 [Disable SMCN Popups]
-Выкл. успл. акна пра змену статусу
+Выкл. Вокны пра змену статусу
 [Enable SMCN Popups]
-Вкл. успл. акна пра змену статусу
+Укл. Вокны пра змену статусу
 [Status Message Changed]
 Статутнае паведамленне змянілася
 [changes his/her status message to:]

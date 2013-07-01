@@ -15,7 +15,7 @@
 [Fingerprint plugin not found.]
 Плагiн Fingerprint не знойдзены.
 [ClientChangeNotify requires it to work properly.]
-Ён неабходзен для працы ClientChangeNotify.
+Ён неабходны для працы ClientChangeNotify.
 [Don't remind me anymore]
 Больш не нагадваць
 [Enable notification]

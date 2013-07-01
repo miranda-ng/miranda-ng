@@ -52,7 +52,7 @@
 [Icon]
 Значок
 [Account name]
-Імя акаўнта
+Імя конта
 [General]
 Агульнае
 [Draw frame as skin element]
@@ -62,7 +62,7 @@
 ["Toggle traffic counter" in main menu]
 "Перамыкач лічыльніка трафіку" ў галоўным меню
 [Summary traffic for visible accounts]
-Сумарны трафік для бачных акаўнтаў
+Сумарны трафік для бачных контаў
 [Overall traffic]
 Агульны трафік
 [Hide now]

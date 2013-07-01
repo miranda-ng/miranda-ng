@@ -93,7 +93,7 @@
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
 УВАГА: \tСкіны могуць змяняць Ваш профіль. Адкат немагчымы. \n\t\tКалі ласка, зрабіце РЭЗЕРВОВУЮ КОПІЮ профіля.
 [* Restart may be required for all changes to take effect]
-* Неабходзен рэстарт для ўступа змен у сілу
+* Для змяненняў патрэбны перазапуск
 [Available objects]
 Даступныя аб'екты
 [Copy]
@@ -183,15 +183,15 @@
 [Multiline status bar:]
 Шматрадковая панэль статусу:
 [Accounts per line]
-Акаўнтаў у радку
+Контаў у радку
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
 * Змена вышыні радка статусу: "Галоўнае меню->Фрэймы->Панэль статусу->Плывучы рэжым" і расцягніце панэль.
 [Set options per account]
-Паакаўнтная налада
+Паконтная налада
 [Enable custom account settings]
-Наладзіць уліковы запіс
+Наладзіць конт
 [Hide account completely]
-Схаваць акаўнт
+Схаваць конт
 [Show status name]
 Імя Статуса
 [Show xStatus name]
@@ -451,9 +451,9 @@
 [Variable row height]
 Зменная вышыня радка
 [Align left items to left]
-Выраўноўваць значкі злева
+Выраўняць значкі злева
 [Align right items to right]
-Выраўноўваць значкі справа
+Выраўняць значкі справа
 [Up]
 Угару
 [Down]
@@ -511,7 +511,7 @@
 [Resize smileys and 'Listining to' icon]
 Змяніць памеры смайлікаў і значка 'Зараз слухаю'
 [Align to right]
-Выраўнаваць справа
+Выраўняць справа
 [Append nick if different from custom name]
 Дадаваць нік, калі ён выдатны ад імя ў спісе
 [Trim long text with ellipsis]
@@ -557,7 +557,7 @@
 [Position (vertical)]
 Палажэнне (вертыкальна)
 [Align]
-Выраўноўванне
+Выраўняць
 [Options]
 Налады
 [Visible]
@@ -886,7 +886,7 @@
 [&Border]
 &Рамка
 [&Align]
-Выраўноўванне
+Выраўняць
 [&Top]
 Верх
 [&Client]
@@ -900,7 +900,7 @@
 [&Down]
 У&ніз
 [Show All Frames]
-Паказаць усе фрэймы
+Паказаць усе
 [Show All Titlebars]
 Паказваць назвы
 [Hide All Titlebars]
@@ -1025,7 +1025,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 [Accounts]
 Конты
 [Accounts...]
-Уліковыя запісы...
+Конты...
 [Show/Hide offline contacts]
 Паказаць/схаваць адключаных
 [Hide offline contacts]
@@ -1035,7 +1035,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 [Find User]
 Знайсці
 [Use/Disable groups]
-Укл/Выкл групы
+Уключыць/Выключыць групы
 [Use groups]
 Уключыць сартаванне па групах
 [Disable Groups]
@@ -1064,7 +1064,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 [Newer than]
 навей, чым
 [Minutes]
-Мінуць
+Хвілін
 [Hours]
 Гадзін
 [Days]

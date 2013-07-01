@@ -22,7 +22,7 @@
 [Disable AuthState icons]
 Выкл. значкі стану аўтарызацыі
 [Enable AuthState icons]
-Вкл. значкі стану аўтарызацыі
+Укл. значкі стану аўтарызацыі
 [Auth]
 Аўтарызацыя
 [Grant]

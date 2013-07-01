@@ -237,7 +237,7 @@
 Абраць праграму…
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [Minutes]
-Мінуць
+Хвілін
 [Hours]
 Гадзін
 [Hour]

@@ -92,7 +92,7 @@
 [Notify of new events]
 Паведамляць пра новыя падзеі
 [Enable new event notification]
-Вкл. апавяшчэнні пра падзеі
+Укл. апавяшчэнні пра падзеі
 [Disable new event notification]
 Выкл. апавяшчэнні пра падзеі
 ;file \plugins\NewEventNotify\src\options.cpp

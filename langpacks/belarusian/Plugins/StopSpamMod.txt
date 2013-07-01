@@ -21,9 +21,9 @@
 [Vars]
 Зменныя
 [Available accounts:]
-Даступныя акаўнты:
+Даступныя конты:
 [Filtered accounts:]
-Засцярожаныя акаўнты:
+Засцярожаныя конты:
 [Do not send more than ]
 Не адпраўляць больш 
 [ questions to one contact (0 - for no limit)]

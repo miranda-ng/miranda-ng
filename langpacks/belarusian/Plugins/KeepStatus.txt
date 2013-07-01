@@ -45,7 +45,7 @@
 [minutes of inactivity]
 хвілін неактыўнасці
 [minutes of level 1 mode]
-мінуць рэжыму 1
+хвілін рэжыму 1
 [Confirm resetting status]
 Пацвердзіць скід статуту
 [Account]

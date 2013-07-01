@@ -35,7 +35,7 @@ IP адрас 2
 [Write log file]
 Запісваць журнал
 [Enable / Disable HTTP server]
-Вкл/Выкл HTTP Сервер
+Укл/Выкл HTTP Сервер
 [Main menu items]
 Элементы галоўнага меню
 [Open log]
@@ -119,4 +119,4 @@ HTTP Новы агульны файл
 [Disable HTTP server]
 Адключыць HTTP сервер
 [Enable HTTP server]
-Вкл. HTTP Сервер
+Укл. HTTP Сервер

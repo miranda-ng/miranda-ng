@@ -52,7 +52,7 @@
 [Keep connection alive]
 Падтрымліваць злучэнне
 [Enable Always Visible and Never Visible]
-Вкл. Заўсёды бачны і Заўсёды нябачны
+Уключыць Заўсёды бачны і Заўсёды нябачны
 [P2P Connections]
 P2P далучэнні
 [Use proxy for incoming connections]

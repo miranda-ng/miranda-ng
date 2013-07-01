@@ -476,7 +476,7 @@ VBR ці няма
 [WATrack popup hotkey]
 Усплывальнае акно
 [Switch ON these modules]
-Вкл./выкл. модуляў Watrack
+Укл./выкл. модуляў Watrack
 [Modules]
 Модулі
 [Statistic]

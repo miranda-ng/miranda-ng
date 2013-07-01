@@ -105,7 +105,7 @@ XML файлы
 [Global avatar]
 Глабальны аватар
 [Global avatar for %s accounts]
-Аватар для ўсіх акаўнтаў %s
+Аватар для ўсіх контаў %s
 [Avatars]
 Аватары
 [My Avatars]

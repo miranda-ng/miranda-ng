@@ -981,7 +981,7 @@ Web Дызайн
 Адправіць e-mail
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 [Gender (uinfoex)]
-Падлога (uinfoex)
+Пол (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [View Homepage]
 Сайт

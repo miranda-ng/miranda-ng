@@ -6,7 +6,7 @@
 ;  Authors: Bethoven
 ;============================================================
 [ToptoolBar adds buttons in top frame for fast access.]
-Модуль дадае панэль кнопак для хуткага доступу да функцый Miranda і Вашых праграм.
+Плагін дадае панэль кнопак для хуткага доступу да функцый Miranda і Вашых праграм.
 ;file \plugins\TopToolBar\res\main.rc
 [Buttons Order && Visibility]
 Паслядоўнасць і бачнасць кнопак

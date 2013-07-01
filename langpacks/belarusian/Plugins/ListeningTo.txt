@@ -126,9 +126,9 @@ foobar2000 (усталюйце модуль уручную)
 [Don't send to any protocols]
 Не адпраўляць усім пратаколам
 [Toggle send to all protocols]
-Вкл./выкл. адпраўляць усім пратаколам
+Укл./выкл. адпраўку Ўсім пратаколам
 [Enable/Disable sending Listening To info (to all protocols)]
-Вкл/Выкл адпраўку інфармацыі пра музыку (усе пратаколы)
+Укл/Выкл адпраўку інфармацыі пра музыку (усе пратаколы)
 ;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 Невядома

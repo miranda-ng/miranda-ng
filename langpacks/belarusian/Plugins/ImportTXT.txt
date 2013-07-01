@@ -66,7 +66,7 @@
 [All previous chosen files will try to import to this protocol.]
 Усё раней абраныя файлы будуць імпартаваны ў гэты пратакол.
 [Select protocol or account:]
-Абярыце пратакол ці акаўнт:
+Абярыце пратакол ці конт:
 [Click "Next" to start Import or "Cancel" to Abort.]
 Націсніце "Далей" для пачатку Імпарту ці "Адмена" для выйсця.
 [Select folder for import...]

@@ -146,7 +146,7 @@ URL станцыі/плэйліста
 [Current status]
 Бягучы статус
 [Broadcast ON]
-Вяшчанне вкл.
+Вяшчанне укл.
 [Broadcast OFF]
 Вяшчанне выкл.
 [Add EQ preset]
@@ -158,7 +158,7 @@ URL станцыі/плэйліста
 [Tries to connect]
 Спроб далучэнняў
 [Mute]
-Вкл/выкл гук
+Выкл гук
 [mRadio volume control]
 Узровень гучнасці mRadio
 [Import File]

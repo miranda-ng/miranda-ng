@@ -9,7 +9,7 @@
 Дадатак дазваляе загрузіць файл на FTP сервер з дапамогай Miranda NG і паслаць спасылку сваім кантактам.
 ;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP account]
-FTP-акаўнты
+FTP-конты
 [Host name]
 Імя хаста
 [User]
@@ -27,7 +27,7 @@ FTP-акаўнты
 [Use passive mode]
 Пасіўны рэжым
 [Account name]
-Імя акаўнта
+Імя конта
 [Protocol]
 Пратакол
 [Default FTP server]
@@ -45,7 +45,7 @@ FTP-акаўнты
 [Use submenu (restart required)]
 Выкарыстоўваць падменю (патрабуецца перазагрузка)
 [Hide inactive accounts]
-Хаваць неактыўныя FTP-акаўнты
+Хаваць неактыўныя FTP-конты
 [Other]
 Іншае
 [Automatically delete file from FTP server after (experimental):]

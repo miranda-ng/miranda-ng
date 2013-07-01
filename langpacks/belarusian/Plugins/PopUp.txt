@@ -296,13 +296,13 @@ History++ для гісторыі вокнаў
 [Advanced]
 Дадаткова
 [Toggle Popups]
-Вкл/Выкл успл. вакна
+Укл/Выкл Вокны
 [Enable Popups]
-Уключыць усплывальныя вокны
+Уключыць Вокны
 [Disable Popups]
-Адключыць усплывальныя вокны
+Адключыць Вокны
 [Popup Plus]
-Усплывальныя вокны
+Вокны
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Без эфекту
