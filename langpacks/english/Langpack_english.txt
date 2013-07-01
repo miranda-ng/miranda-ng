@@ -541,12 +541,10 @@
 [Send message on 'Enter']
 [Show character count]
 [Show warning when message has not been received after]
-[seconds.]
 [Support control up/down in message area to show previously sent messages]
 [Delete temporary contacts when closing message window]
 [Enable avatar support in the message window]
 [Limit avatar height to ]
-[pixels.]
 [Max Number of Flashes]
 [Send Error]
 [An error has occured. The protocol reported the following error:]
@@ -1060,7 +1058,6 @@
 [Custom status]
 [%s (locked)]
 ;file \src\modules\clist\clistmod.cpp
-[This plugin requires db3x plugin version 0.5.1.0 or later]
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 ;file \src\modules\clist\clisttray.cpp
@@ -5647,9 +5644,9 @@
 [Server :]
 [Preferences]
 [Check every]
-[seconds.]
+[seconds]
 [Force reconnect every]
-[minutes.]
+[minutes]
 [Check server before trying to connect]
 [Try to connect]
 [times before giving up.]
@@ -6337,7 +6334,7 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
@@ -11963,7 +11960,7 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
@@ -12018,7 +12015,7 @@
 [Read status message]
 [Show previous status too]
 [Timeout]
-[Popups on contact status change to:]
+[Popups when status changes to:]
 [Click action]
 [Show contact group name]
 [Use alternative descriptions]
@@ -12028,6 +12025,7 @@
 [On left click]
 [On right click]
 [Show status description]
+[Ignore empty status and xStatus messages]
 [Notification]
 [Disable for extra status 'Music']
 [Truncate message length to:]
@@ -12052,9 +12050,8 @@
 [On opening ML:]
 [General]
 [Show Popups when I connect]
-[Ignore empty status messages]
-[Protocols]
-[Enable/Disable protocols which you don't wish to be notified for:]
+[Accounts]
+[Enable/Disable accounts which you don't wish to be notified for:]
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
 [All files]
@@ -13802,12 +13799,9 @@
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
 ;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
+[Please enter a title for this alarm.]
+[Error]
+[The alarm time you have selected is in the past.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13837,6 +13831,12 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -13907,7 +13907,7 @@
 [Remember unsent messages]
 [Delete temporary contacts on closing]
 [Show warning when message has not been received after]
-[seconds.]
+[seconds]
 [Tabs]
 [Enable tabs]
 [Always show tab bar]
@@ -15236,8 +15236,14 @@
 [for incoming connections]
 [Use ports 80 and 443 as alternative incoming]
 [Default group:]
-[Ignore list]
-[Server side ignore list\nControl ignore list on server.]
+[Block]
+[Block this person]
+[%s]
+[Are you sure you want to block %s?\nThey won't be able to contact you\nand won't appear in your Contact List.]
+[Remove from your Contact List]
+[Abuse]
+[You can also report abuse from this user.]
+[Report abuse]
 ;file \protocols\Skype\src\skype.cpp
 [Did not unpack SkypeKit.exe.]
 ;file \protocols\Skype\src\skype_account.cpp
@@ -15277,8 +15283,9 @@
 [The new password was unacceptable]
 [Account was currently not logged in]
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
-;file \protocols\Skype\src\skype_bookmarks.cpp
+;file \protocols\Skype\src\skype_blocked.cpp
 [Name]
+;file \protocols\Skype\src\skype_bookmarks.cpp
 [Conferences]
 ;file \protocols\Skype\src\skype_chat.cpp
 [&User details]
@@ -15318,6 +15325,7 @@
 ;file \protocols\Skype\src\skype_events.cpp
 [Spawn conference]
 [Network]
+[Bloked contacts]
 [Contacts]
 [Home]
 [General]
@@ -15328,8 +15336,6 @@
 [Send contact]
 [Contact]
 [Delete]
-[Ignore]
-[Block]
 [Protocols]
 ;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
@@ -15338,9 +15344,17 @@
 [SkypeKit did not initialize (%d).]
 [SkypeKit did not start.]
 ;file \protocols\Skype\src\skype_menus.cpp
+[Unblock this person...]
 [Request authorization]
 [Grant authorization]
 [Revoke authorization]
+[Block this person...]
+[View old messages...]
+[...by last day]
+[...by last week]
+[...by last month]
+[...by last 3 month]
+[Blocked contacts]
 ;file \protocols\Skype\src\skype_messages.cpp
 [Incoming call started]
 [Incoming call finished]
@@ -15348,6 +15362,17 @@
 [%s connection]
 ;file \protocols\Skype\src\skype_proto.cpp
 [Skype name]
+;file \protocols\Skype\src\skype_transfers.cpp
+[SENDER_NOT_AUTHORISED]
+[REMOTELY_CANCELLED]
+[FAILED_READ]
+[FAILED_REMOTE_READ]
+[FAILED_WRITE]
+[FAILED_REMOTE_WRITE]
+[REMOTE_DOES_NOT_SUPPORT_FT]
+[REMOTE_OFFLINE_FOR_TOO_LONG]
+[TOO_MANY_PARALLEL]
+[PLACEHOLDER_TIMEOUT]
 ;file \protocols\Skype\src\skype_utils.cpp
 [NOT_VALIDATED]
 [Validation succeeded]
@@ -16187,7 +16212,7 @@
 [Show picture for this contact]
 [Advanced tweaks]
 [Message send timeout]
-[seconds.]
+[seconds]
 [Input history size]
 [entries]
 [Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
@@ -19719,7 +19744,7 @@
 [Start notifying ]
 [days in advance and]
 [Check every]
-[hours.]
+[hours]
 [Only notify once per day.]
 [By default use]
 [to save birthday data.]
@@ -19727,7 +19752,7 @@
 [in birthday list window]
 [Dialog]
 [Timeout:]
-[seconds.]
+[seconds]
 [Notify for]
 [afterwards]
 [In background]

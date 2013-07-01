@@ -249,7 +249,7 @@
 [Contact icon]
 [height]
 [Max width]
-[Use old render method (fast, but has artefacts)]
+[Use old render method (Fast, but has artefacts)]
 [Hide icon when showing avatar]
 [Draw icon in avatar space]
 [Hide groups icon]

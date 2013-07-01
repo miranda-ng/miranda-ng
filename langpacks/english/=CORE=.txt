@@ -1057,7 +1057,6 @@
 [Custom status]
 [%s (locked)]
 ;file \src\modules\clist\clistmod.cpp
-[This plugin requires db3x plugin version 0.5.1.0 or later]
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 ;file \src\modules\clist\clisttray.cpp

@@ -62,8 +62,14 @@
 [for incoming connections]
 [Use ports 80 and 443 as alternative incoming]
 [Default group:]
-[Ignore list]
-[Server side ignore list\nControl ignore list on server.]
+[Block]
+[Block this person]
+[%s]
+[Are you sure you want to block %s?\nThey won't be able to contact you\nand won't appear in your Contact List.]
+[Remove from your Contact List]
+[Abuse]
+[You can also report abuse from this user.]
+[Report abuse]
 ;file \protocols\Skype\src\skype.cpp
 [Did not unpack SkypeKit.exe.]
 ;file \protocols\Skype\src\skype_account.cpp
@@ -103,8 +109,9 @@
 [The new password was unacceptable]
 [Account was currently not logged in]
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
-;file \protocols\Skype\src\skype_bookmarks.cpp
+;file \protocols\Skype\src\skype_blocked.cpp
 [Name]
+;file \protocols\Skype\src\skype_bookmarks.cpp
 [Conferences]
 ;file \protocols\Skype\src\skype_chat.cpp
 [&User details]
@@ -144,6 +151,7 @@
 ;file \protocols\Skype\src\skype_events.cpp
 [Spawn conference]
 [Network]
+[Bloked contacts]
 [Contacts]
 [Home]
 [General]
@@ -154,8 +162,6 @@
 [Send contact]
 [Contact]
 [Delete]
-[Ignore]
-[Block]
 [Protocols]
 ;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
@@ -164,9 +170,17 @@
 [SkypeKit did not initialize (%d).]
 [SkypeKit did not start.]
 ;file \protocols\Skype\src\skype_menus.cpp
+[Unblock this person...]
 [Request authorization]
 [Grant authorization]
 [Revoke authorization]
+[Block this person...]
+[View old messages...]
+[...by last day]
+[...by last week]
+[...by last month]
+[...by last 3 month]
+[Blocked contacts]
 ;file \protocols\Skype\src\skype_messages.cpp
 [Incoming call started]
 [Incoming call finished]
@@ -174,6 +188,17 @@
 [%s connection]
 ;file \protocols\Skype\src\skype_proto.cpp
 [Skype name]
+;file \protocols\Skype\src\skype_transfers.cpp
+[SENDER_NOT_AUTHORISED]
+[REMOTELY_CANCELLED]
+[FAILED_READ]
+[FAILED_REMOTE_READ]
+[FAILED_WRITE]
+[FAILED_REMOTE_WRITE]
+[REMOTE_DOES_NOT_SUPPORT_FT]
+[REMOTE_OFFLINE_FOR_TOO_LONG]
+[TOO_MANY_PARALLEL]
+[PLACEHOLDER_TIMEOUT]
 ;file \protocols\Skype\src\skype_utils.cpp
 [NOT_VALIDATED]
 [Validation succeeded]
