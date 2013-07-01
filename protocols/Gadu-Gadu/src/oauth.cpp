@@ -231,36 +231,28 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 	if (signmethod == NULL) return -1;
 
 	if (!strcmp(signmethod, "HMAC-SHA1")) {
-		char *text = oauth_generate_signature(params, httpmethod, url);
-		char *csenc = oauth_uri_escape(consumer_secret);
-		char *tsenc = oauth_uri_escape(token_secret);
-		char *key = (char *)mir_alloc(strlen(csenc) + strlen(tsenc) + 2);
+		ptrA text( oauth_generate_signature(params, httpmethod, url));
+		ptrA csenc( oauth_uri_escape(consumer_secret));
+		ptrA tsenc( oauth_uri_escape(token_secret));
+		ptrA key((char *)mir_alloc(strlen(csenc) + strlen(tsenc) + 2));
 		strcpy(key, csenc);
 		strcat(key, "&");
 		strcat(key, tsenc);
-		mir_free(csenc);
-		mir_free(tsenc);
 
 		mir_sha1_byte_t digest[MIR_SHA1_HASH_SIZE];
-		hmacsha1_hash((BYTE*)text, (int)strlen(text), (BYTE*)key, (int)strlen(key), digest);
-
+		hmacsha1_hash((BYTE*)(char*)text, (int)strlen(text), (BYTE*)(char*)key, (int)strlen(key), digest);
 		sign = mir_base64_encode(digest, MIR_SHA1_HASH_SIZE);
-
-		mir_free(text);
-		mir_free(key);
 	}
 //	else if (!strcmp(signmethod, "RSA-SHA1")) { // unimplemented
 //	}
 	else { // PLAINTEXT
-		char *csenc = oauth_uri_escape(consumer_secret);
-		char *tsenc = oauth_uri_escape(token_secret);
+		ptrA csenc( oauth_uri_escape(consumer_secret));
+		ptrA tsenc( oauth_uri_escape(token_secret));
 
 		sign = (char *)mir_alloc(strlen(csenc) + strlen(tsenc) + 2);
 		strcpy(sign, csenc);
 		strcat(sign, "&");
 		strcat(sign, tsenc);
-		mir_free(csenc);
-		mir_free(tsenc);
 	}
 
 	oauth_setparam(params, "oauth_signature", sign);
@@ -271,23 +263,20 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 
 char *oauth_generate_nonce()
 {
-	mir_md5_byte_t digest[16];
-	char *result, *str, timestamp[22], randnum[16];
-	int i;
-
+	char timestamp[22], randnum[16];
 	mir_snprintf(timestamp, sizeof(timestamp), "%ld", time(NULL)); 
 	CallService(MS_UTILS_GETRANDOM, (WPARAM)sizeof(randnum), (LPARAM)randnum);
 
-	str = (char *)mir_alloc(strlen(timestamp) + strlen(randnum) + 1);
+	ptrA str((char *)mir_alloc(strlen(timestamp) + strlen(randnum) + 1));
 	strcpy(str, timestamp);
 	strcat(str, randnum);
-	mir_md5_hash((BYTE*)str, (int)strlen(str), digest);
-	mir_free(str);
 
-	result = (char *)mir_alloc(32 + 1);
-	for (i = 0; i < 16; i++)
+	mir_md5_byte_t digest[16];
+	mir_md5_hash((BYTE*)(char*)str, (int)strlen(str), digest);
+
+	char *result = (char *)mir_alloc(32 + 1);
+	for (int i = 0; i < 16; i++)
 		sprintf(result + (i<<1), "%02x", digest[i]);
-
 	return result;
 }
 
@@ -348,38 +337,21 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 
 char* GGPROTO::oauth_header(const char *httpmethod, const char *url)
 {
-	char *res, uin[32], *password = NULL, *token = NULL, *token_secret = NULL;
-	DBVARIANT dbv;
-
+	char uin[32];
 	UIN2IDA( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
-	if (!db_get_s(NULL, m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
-		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)(int)strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
-		password = mir_strdup(dbv.pszVal);
-		db_free(&dbv);
-	}
-	if (!db_get_s(NULL, m_szModuleName, GG_KEY_TOKEN, &dbv, DBVT_ASCIIZ)) {
-		token = mir_strdup(dbv.pszVal);
-		db_free(&dbv);
-	}
-	if (!db_get_s(NULL, m_szModuleName, GG_KEY_TOKENSECRET, &dbv, DBVT_ASCIIZ)) {
-		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)(int)strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
-		token_secret = mir_strdup(dbv.pszVal);
-		db_free(&dbv);
-	}
+	ptrA token( db_get_sa(NULL, m_szModuleName, GG_KEY_TOKEN));
+	ptrA password( db_get_sa(NULL, m_szModuleName, GG_KEY_PASSWORD));
+	if (password != NULL)
+		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)strlen(password) + 1, (LPARAM)password);
+	ptrA token_secret( db_get_sa(NULL, m_szModuleName, GG_KEY_TOKENSECRET));
+	if (token_secret != NULL)
+		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)strlen(token_secret) + 1, (LPARAM)token_secret);
 
-	res = oauth_auth_header(httpmethod, url, HMACSHA1, uin, password, token, token_secret);
-	mir_free(password);
-	mir_free(token);
-	mir_free(token_secret);
-
-	return res;
+	return oauth_auth_header(httpmethod, url, HMACSHA1, uin, password, token, token_secret);
 }
 
 int GGPROTO::oauth_receivetoken()
 {
-	NETLIBHTTPHEADER httpHeaders[3];
-	NETLIBHTTPREQUEST req = {0};
-	NETLIBHTTPREQUEST *resp;
 	char szUrl[256], uin[32], *password = NULL, *str, *token = NULL, *token_secret = NULL;
 	DBVARIANT dbv;
 	int res = 0;
@@ -397,12 +369,7 @@ int GGPROTO::oauth_receivetoken()
 	strcpy(szUrl, "http://api.gadu-gadu.pl/request_token");
 	str = oauth_auth_header("POST", szUrl, HMACSHA1, uin, password, NULL, NULL);
 
-	req.cbSize = sizeof(req);
-	req.requestType = REQUEST_POST;
-	req.szUrl = szUrl;
-	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT;
-	req.headersCount = 3;
-	req.headers = httpHeaders;
+	NETLIBHTTPHEADER httpHeaders[3];
 	httpHeaders[0].szName   = "User-Agent";
 	httpHeaders[0].szValue = GG8_VERSION;
 	httpHeaders[1].szName  = "Authorization";
@@ -410,31 +377,28 @@ int GGPROTO::oauth_receivetoken()
 	httpHeaders[2].szName  = "Accept";
 	httpHeaders[2].szValue = "*/*";
 
-	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
+	NETLIBHTTPREQUEST req = { sizeof(req) };
+	req.requestType = REQUEST_POST;
+	req.szUrl = szUrl;
+	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT;
+	req.headersCount = 3;
+	req.headers = httpHeaders;
+
+	NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
 	if (resp) {
 		nlc = resp->nlc; 
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-			HXML hXml;
-			TCHAR *xmlAction;
-			TCHAR *tag;
-
-			xmlAction = mir_a2t(resp->pData);
-			tag = mir_a2t("result");
-			hXml = xi.parseString(xmlAction, 0, tag);
+			TCHAR *xmlAction = mir_a2t(resp->pData);
+			HXML hXml = xi.parseString(xmlAction, 0, _T("result"));
 			if (hXml != NULL) {
-				HXML node;
-
-				mir_free(tag); tag = mir_a2t("oauth_token");
-				node = xi.getChildByPath(hXml, tag, 0);
+				HXML node = xi.getChildByPath(hXml, _T("oauth_token"), 0);
 				token = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 
-				mir_free(tag); tag = mir_a2t("oauth_token_secret");
-				node = xi.getChildByPath(hXml, tag, 0);
+				node = xi.getChildByPath(hXml, _T("oauth_token_secret"), 0);
 				token_secret = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 
 				xi.destroyNode(hXml);
 			}
-			mir_free(tag);
 			mir_free(xmlAction);
 		}
 		else netlog("oauth_receivetoken(): Invalid response code from HTTP request");
@@ -493,27 +457,17 @@ int GGPROTO::oauth_receivetoken()
 	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
 	if (resp) {
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-			HXML hXml;
-			TCHAR *xmlAction;
-			TCHAR *tag;
-
-			xmlAction = mir_a2t(resp->pData);
-			tag = mir_a2t("result");
-			hXml = xi.parseString(xmlAction, 0, tag);
+			TCHAR *xmlAction = mir_a2t(resp->pData);
+			HXML hXml = xi.parseString(xmlAction, 0, _T("result"));
 			if (hXml != NULL) {
-				HXML node;
+				HXML node = xi.getChildByPath(hXml, _T("oauth_token"), 0);
+				token = mir_t2a(xi.getText(node));
 
-				mir_free(tag); tag = mir_a2t("oauth_token");
-				node = xi.getChildByPath(hXml, tag, 0);
-				token = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
-
-				mir_free(tag); tag = mir_a2t("oauth_token_secret");
-				node = xi.getChildByPath(hXml, tag, 0);
-				token_secret = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+				node = xi.getChildByPath(hXml, _T("oauth_token_secret"), 0);
+				token_secret = mir_t2a(xi.getText(node));
 
 				xi.destroyNode(hXml);
 			}
-			mir_free(tag);
 			mir_free(xmlAction);
 		}
 		else netlog("oauth_receivetoken(): Invalid response code from HTTP request");
@@ -545,30 +499,13 @@ int GGPROTO::oauth_receivetoken()
 
 int GGPROTO::oauth_checktoken(int force)
 {
-	if (!force) {
-		char *token = NULL, *token_secret = NULL;
-		DBVARIANT dbv;
-		int res = 1;
+	if (force)
+		return oauth_receivetoken();
 
-		if (!db_get_s(NULL, m_szModuleName, GG_KEY_TOKEN, &dbv, DBVT_ASCIIZ)) {
-			token = mir_strdup(dbv.pszVal);
-			db_free(&dbv);
-		}
-		if (!db_get_s(NULL, m_szModuleName, GG_KEY_TOKENSECRET, &dbv, DBVT_ASCIIZ)) {
-			CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)(int)strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
-			token_secret = mir_strdup(dbv.pszVal);
-			db_free(&dbv);
-		}
+	ptrA token( db_get_sa(NULL, m_szModuleName, GG_KEY_TOKEN));
+	ptrA token_secret( db_get_sa(NULL, m_szModuleName, GG_KEY_TOKENSECRET));
+	if (token == NULL || token_secret == NULL)
+		return oauth_receivetoken();
 
-		if (token == NULL || token_secret == NULL) {
-			res = oauth_receivetoken();
-		}
-
-		mir_free(token);
-		mir_free(token_secret);
-
-		return res;
-	}
-
-	return oauth_receivetoken();
+	return 1;
 }
