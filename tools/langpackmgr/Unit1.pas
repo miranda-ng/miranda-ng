@@ -12,21 +12,16 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Edit1: TEdit;
-    Edit2: TEdit;
-    Edit3: TEdit;
     Button1: TButton;
     Button2: TButton;
-    Button3: TButton;
     ListBox1: TListBox;
     OpenDialog1: TOpenDialog;
-    C: TBitBtn;
     X: TBitBtn;
-    B: TBitBtn;
-    G: TBitBtn;
+    Memo1: TMemo;
+    Memo2: TMemo;
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
     procedure ListBox1Click(Sender: TObject);
     procedure CClick(Sender: TObject);
     procedure XClick(Sender: TObject);
@@ -57,8 +52,7 @@ implementation
 // Открытие файла
 procedure TForm1.BClick(Sender: TObject);
 begin
- edit2.SelectAll;
- edit2.CopyToClipboard;
+//
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
@@ -94,18 +88,9 @@ writeLn(translate, bom);
   if copy(ustring[i],1,1)=';' then  writeln(translate,ustring[i]);
   if (copy(ustring[i],1,1)='[') and (tstring[i]<>'')
   then begin
-        cores:=false;
-        if Button3.visible=true then
-        for idx := 1 to idm do
-        if (copy(dupes[idx],1,1)='[')
-        and (dupes[idx]=ustring[i])
-        then cores:=true;
-       if cores=false then
-         begin
           writeln(translate,ustring[i]);
           writeln(translate,tstring[i]);
          end;
-  end;
    end;
 closefile(translate);
 
@@ -134,24 +119,15 @@ closefile(translate);
   read;
 end;
 
-// Выключение фильтра повторяющихся строк
-procedure TForm1.Button3Click(Sender: TObject);
-begin
-if edit1.Text<>'' then
-If Button3.Caption='DUPES OFF'
-then Button3.Caption:='DUPES ON'
-else Button3.Caption:='DUPES OFF';
-refresh;read;refresh;
-end;
 
 procedure TForm1.CClick(Sender: TObject);
 begin
-  Edit3.text:=edit2.text;
+//
 end;
 
 procedure TForm1.XClick(Sender: TObject);
 begin
-  Edit3.text:='';
+  memo2.Lines.Clear;
   tstring[notranslate[strtoint(label2.caption)]]:='';
   refresh;
 end;
@@ -160,12 +136,11 @@ procedure TForm1.enter(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
 case key of
-    vk_return,vk_down: if listbox1.ItemIndex<listbox1.Items.Count then
-    listbox1.ItemIndex:=listbox1.ItemIndex+1;
+    vk_down: if listbox1.ItemIndex<listbox1.Items.Count then
+    begin listbox1.ItemIndex:=listbox1.ItemIndex+1; refresh; end;
     vk_up: if listbox1.ItemIndex>0 then
-    listbox1.ItemIndex:=listbox1.ItemIndex-1;
+    begin listbox1.ItemIndex:=listbox1.ItemIndex-1; refresh; end;
 end;
-refresh;
 end;
 
 procedure TForm1.ListBox1Click(Sender: TObject);
@@ -179,29 +154,65 @@ begin
 end;
 
 procedure tform1.refresh;
-var n:integer;
+var m,n:integer;
 begin
+memo1.Lines.Clear;
 n:=strtoint(label2.caption);
-line:=edit3.Text;
-if length(line)<>0 then
-tstring[notranslate[n]]:=line;
+//
+if memo2.Lines.Count=memo1.Lines.Count then
+tstring[notranslate[n]]:='';
+for I := 0 to memo2.Lines.Count-1 do
+begin
+tstring[notranslate[n]]:=tstring[notranslate[n]]+memo2.Lines[i];
+if i<memo2.Lines.Count-1 then
+tstring[notranslate[n]]:=tstring[notranslate[n]]+'\n';
+end;
+
+
+//
 label2.Caption:=inttostr(ListBox1.ItemIndex+1);
 n:=strtoint(label2.caption);
-edit2.Text:=copy(ustring[notranslate[n]],2,length(ustring[notranslate[n]])-2);
-edit3.Text:=tstring[notranslate[n]];
-edit3.SetFocus;
+memo2.Lines.Clear;
+//
+if tstring[notranslate[n]]<>'' then
+begin
+m:=1;
+for i := 1 to length(copy(tstring[notranslate[n]],2,length(tstring[notranslate[n]])-2))-1 do
+begin
+  if copy(copy(tstring[notranslate[n]],2,length(tstring[notranslate[n]])-2),i,2)='\n' then
+  begin
+  memo2.Lines.Add(copy(copy(tstring[notranslate[n]],2,length(tstring[notranslate[n]])-2),m,i-m));
+  m:=i+2;
+  end;
+end;
+  if m=1 then   memo2.Lines.Add(copy(tstring[notranslate[n]],2,length(tstring[notranslate[n]])-2))
+  else memo2.Lines.Add(copy(copy(tstring[notranslate[n]],2,length(tstring[notranslate[n]])-2),
+  m,length(copy(tstring[notranslate[n]],2,length(tstring[notranslate[n]])-2))-m+1));
+end;
+//
+m:=1;
+for i := 1 to length(copy(ustring[notranslate[n]],2,length(ustring[notranslate[n]])-2))-1 do
+begin
+  if copy(copy(ustring[notranslate[n]],2,length(ustring[notranslate[n]])-2),i,2)='\n' then
+  begin
+  memo1.Lines.Add(copy(copy(ustring[notranslate[n]],2,length(ustring[notranslate[n]])-2),m,i-m));
+  m:=i+2;
+  end;
+end;
+  if m=1 then   memo1.Lines.Add(copy(ustring[notranslate[n]],2,length(ustring[notranslate[n]])-2))
+  else memo1.Lines.Add(copy(copy(ustring[notranslate[n]],2,length(ustring[notranslate[n]])-2),
+  m,length(copy(ustring[notranslate[n]],2,length(ustring[notranslate[n]])-2))-m+1));
+//
+
+memo2.SetFocus;
 end;
 
 
 
 procedure tform1.read;
 begin
-if extractfilename(opendialog.filename)='=CORE=.txt'
-then button3.Visible:=false
-else button3.Visible:=true;
    listbox1.Items.Clear;
    line:='';
-   edit3.Text:='';
  for i:= 1 to 9999 do
  begin
    full[i]:='';
@@ -326,8 +337,7 @@ if (extractfilename(opendialog.filename)='=CORE=.txt') and (idm>0) then
      for idx := 1 to idm do
        if dupes[idx]=ustring[i] then tstring[i]:=dupes[idx+1];
 if (extractfilename(opendialog.filename)<>'=CORE=.txt') and (idm>0)
-and (button3.Caption='DUPES ON') then
-   for idx := 1 to idm do
+then for idx := 1 to idm do
        if dupes[idx]=ustring[i] then tstring[i]:=dupes[idx+1];
 if tstring[i]='' then
 begin

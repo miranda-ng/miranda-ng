@@ -3,8 +3,8 @@ object Form1: TForm1
   Top = 0
   BorderIcons = [biSystemMenu]
   Caption = 'Miranda NG Langpack Manager'
-  ClientHeight = 219
-  ClientWidth = 684
+  ClientHeight = 293
+  ClientWidth = 710
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -32,15 +32,15 @@ object Form1: TForm1
   end
   object Label3: TLabel
     Left = 8
-    Top = 188
-    Width = 3
+    Top = 276
+    Width = 30
     Height = 13
   end
   object ListBox1: TListBox
-    Left = 488
-    Top = 3
-    Width = 193
-    Height = 214
+    Left = 544
+    Top = 8
+    Width = 161
+    Height = 281
     ItemHeight = 13
     TabOrder = 0
     OnClick = ListBox1Click
@@ -63,75 +63,41 @@ object Form1: TForm1
     OnClick = Button1Click
   end
   object Button2: TButton
-    Left = 336
-    Top = 176
+    Left = 392
+    Top = 264
     Width = 146
     Height = 25
     Caption = 'SAVE AND REFRESH'
     TabOrder = 3
     OnClick = Button2Click
   end
-  object C: TBitBtn
-    Left = 455
-    Top = 56
-    Width = 27
-    Height = 25
-    Caption = 'C'
-    TabOrder = 4
-    OnClick = CClick
-  end
   object X: TBitBtn
-    Left = 455
-    Top = 145
+    Left = 511
+    Top = 127
     Width = 27
     Height = 25
     Caption = 'X'
-    TabOrder = 5
+    TabOrder = 4
     OnClick = XClick
   end
-  object Edit2: TEdit
+  object Memo1: TMemo
     Left = 8
-    Top = 58
-    Width = 441
-    Height = 21
+    Top = 32
+    Width = 537
+    Height = 89
+    ScrollBars = ssBoth
+    TabOrder = 5
+  end
+  object Memo2: TMemo
+    Left = 8
+    Top = 160
+    Width = 537
+    Height = 89
+    ScrollBars = ssBoth
     TabOrder = 6
   end
-  object Edit3: TEdit
-    Left = 8
-    Top = 111
-    Width = 441
-    Height = 21
-    TabOrder = 7
-    OnEnter = FormCreate
-  end
-  object Button3: TButton
-    Left = 240
-    Top = 176
-    Width = 75
-    Height = 25
-    Caption = 'DUPES ON'
-    TabOrder = 8
-    OnClick = Button3Click
-  end
-  object B: TBitBtn
-    Left = 455
-    Top = 85
-    Width = 27
-    Height = 25
-    Caption = 'B'
-    TabOrder = 9
-    OnClick = BClick
-  end
-  object G: TBitBtn
-    Left = 455
-    Top = 114
-    Width = 27
-    Height = 25
-    Caption = 'G'
-    TabOrder = 10
-  end
   object OpenDialog1: TOpenDialog
-    Left = 192
-    Top = 176
+    Left = 352
+    Top = 265
   end
 end

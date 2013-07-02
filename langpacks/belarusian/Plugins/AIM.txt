@@ -100,6 +100,8 @@ AIM Усталяваць Instant Idle
 Зайсці
 [&Cancel]
 С&касаваць
+[This allows access to user defined chat rooms. To access predefined chat rooms use web links]
+Гэта дазваляе атрымаць доступ да карыстацкіх чатаў. Каб атрымаць доступ, выкарыстоўвайце спасылкі
 [Change Password]
 Змяніць пароль
 [Original]
@@ -108,6 +110,8 @@ AIM Усталяваць Instant Idle
 Стварыць
 [Repeat]
 Паўтарыць
+[*Passwords don't match.]
+* Паролі не супадаюць.
 [Screen Name]
 Мянушка
 [E-mail]
@@ -149,6 +153,8 @@ AIM Усталяваць Instant Idle
 ;file \protocols\AimOscar\src\error.cpp
 [Mismatched Screen Name or password.]
 Няправільнае імя AIM ці пароль.
+[Unknown error occured when attempting to connect.]
+Пры спробе падлучэння адбылася невядомая памылка.
 ;file \protocols\AimOscar\src\file.cpp
 ;file \protocols\AimOscar\src\links.cpp
 [AIM Link Protocol]
@@ -238,6 +244,12 @@ AIM Усталяваць Instant Idle
 Асноўныя
 [Privacy]
 Прыватнасць
+[Join me in this buddy chat!]
+Далучайцеся да мяне ў гэтым чаце!
 ;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]
 Калі ласка, увядзі імя карыстача ў наладах
+[Please, enter a password in the options dialog.]
+Калі ласка, увядзіце пароль у наладах.
+[Failed to open file: %s %s]
+Памылка адкрыцця файла: %s %s

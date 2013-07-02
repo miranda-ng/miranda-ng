@@ -22,6 +22,8 @@
 Месца:
 [Visibility:]
 Бачнасць:
+[Share]
+Падзяліцца
 [Cancel]
 Скасаваць
 [User Details]
@@ -80,9 +82,21 @@
 Нестандартныя статусы, як Нябачны (замест 'Далучаны')
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 Падтрымка карыстацкіх смайлаў (Эксперыментальна!)
+[Use local time for received messages]
+Выкарыстоўваць мясцовы час для прынятых паведамленняў
+[Send "Seen" info when marking messages as read]
+"Заўважаны", калі пазначаць паведамленні як прачытаныя
+[Use this server for opening links:]
+Выкарыстоўваць гэты сервер для адкрыцця спасылкі:
 ;file \protocols\FacebookRM\src\communication.cpp
+[Login error: %s]
+Памылка далучэння: %s
 [Unknown error]
 Невядомая памылка
+[Login error: Invalid request.]
+Памылка далучэння: Памылковы запрос.
+[Your account requires HTTPS connection. Activating.]
+Ваш конт патрабуе HTTPS злучэння. Актывацыя.
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Калі ласка, увядзіце імя карыстача.
@@ -130,9 +144,15 @@
 [You cannot send messages when you are offline.]
 Вы не можаце адпраўляць паведамленні без далучэння.
 ;file \protocols\FacebookRM\src\process.cpp
+[Attachments:]
+Дадаткі:
 ;file \protocols\FacebookRM\src\proto.cpp
+[Show Mind Window]
+Статус Facebook
 [%s server connection]
 Далучэнне да сервера %s
+[Unable to get Netlib connection for Facebook]
+Не атрымалася Netlib злучэнне да Facebook
 [Notification]
 Апавяшчэнне
 [News Feed]
@@ -157,11 +177,23 @@
 Праверка запытаў сяброўства...
 [Refreshing buddy list...]
 Абнаўленне спісу сяброў...
+[Do you want to cancel your friendship with '%s'?]
+Хочаце адмяніць сяброўства з '%s'?
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 Абразок Facebook
 [Mind]
 Меркаванне
+[Poke]
+Тыкнуць
+[Newsfeed]
+Навіны
+[Friendship details]
+Дэталі сяброўства
+[Visit profile]
+Профіль
+[Visit friendship details]
+Дэталі сяброўства
 [Cancel friendship]
 Выдаліць з сяброў
 [Cancel friendship request]
