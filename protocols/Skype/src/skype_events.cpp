@@ -112,7 +112,7 @@ int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = CSkypeProto::SkypeMainOptionsProc;
 	::Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Bloked contacts");
+	odp.ptszTab = LPGENT("Blocked contacts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_BLOCKED);
 	odp.pfnDlgProc = CSkypeProto::SkypeBlockedOptionsProc;
 	::Options_AddPage(wParam, &odp);

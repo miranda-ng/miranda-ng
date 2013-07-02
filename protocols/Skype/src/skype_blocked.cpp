@@ -48,7 +48,7 @@ INT_PTR CSkypeProto::OpenBlockedListCommand(WPARAM, LPARAM)
 	ood.cbSize = sizeof(ood);
 	ood.pszGroup = "Network";
 	ood.pszPage = _T2A(this->m_tszUserName);
-	ood.pszTab = "Bloked contacts";
+	ood.pszTab = "Blocked contacts";
 	return ::Options_Open(&ood);
 }
 

@@ -255,7 +255,7 @@ Skype протокол
 Удалить
 [Ignore]
 Игнорировать
-[Bloked contacts]
+[Blocked contacts]
 Блокированные контакты
 [Block]
 Блокировать
