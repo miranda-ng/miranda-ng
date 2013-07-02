@@ -263,6 +263,7 @@ Skype протокол
 Блокировать пользователя
 [Block this person...]
 Блокировать пользователя...
+[Unblock this person...]
 Разблокировать пользователя...
 [Remove from your Contact List]
 Удалить из контактного листа
