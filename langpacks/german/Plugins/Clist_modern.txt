@@ -478,7 +478,7 @@ Avatare mit Icons überlagern
 Avatarecken abrunden
 [Ignore size for row height calcs]
 Höhe für Höhenanpassung ignorieren
-[Border Color:]
+[Border color:]
 Randfarbe:
 [Custom corner size:]
 Radius:

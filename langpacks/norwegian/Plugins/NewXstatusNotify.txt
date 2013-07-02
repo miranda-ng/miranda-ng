@@ -24,7 +24,7 @@ Bruk Popupfarger
 Les statusmelding
 [Show previous status too]
 Vis tidligere status også
-[Popups on contact status change to:]
+[Popups when status changes to:]
 Popups når kontakten endrer til:
 [Show contact group name]
 Vis kontakt gruppenavn

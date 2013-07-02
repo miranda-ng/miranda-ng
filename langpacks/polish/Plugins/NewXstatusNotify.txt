@@ -119,7 +119,7 @@ Użyj indywidualnych dźwięków
 Użyj ikon statusu
 [Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n\"Use individual sounds\" checkbox, and then reopen this dialog.]
 Indywidualne dźwięki są wyłączone.\n\nAby je aktywować, idź do Opcje -> Status -> Powiadamianie, włącz\nopcję "Użyj indywidualnych dźwięków" i wróć tutaj.
-[Popups on contact status change to:]
+[Popups when status changes to:]
 Pokazuj po zmianie statusu na:
 [Popup title]
 Tytuł popupu

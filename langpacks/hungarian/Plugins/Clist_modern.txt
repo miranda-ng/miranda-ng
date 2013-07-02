@@ -178,7 +178,7 @@ Ikonok felugró buborékban
 Avatarok sarkainak lekerekítése
 [Ignore size for row height calcs]
 Sormagasság számítások mérete nem számít
-[Border Color:]
+[Border color:]
 Keretszín:
 [Normal overlay icon]
 Sima felsõlap ikon

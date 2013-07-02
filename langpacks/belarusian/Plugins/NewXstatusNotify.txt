@@ -102,7 +102,7 @@
 Паказваць папярэдні cтатус
 [Timeout]
 Таймаўт
-[Popups on contact status change to:]
+[Popups when status changes to:]
 Вокны, калі статус змяніўся на:
 [Click action]
 Дзеянні па пстрычцы

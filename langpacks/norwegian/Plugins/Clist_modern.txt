@@ -150,7 +150,7 @@ Tegn overlappende ikoner
 Runde hjørner på avatarer
 [Ignore size for row height calcs]
 Ignorer størrelse ved utregning av radhøyde
-[Border Color:]
+[Border color:]
 Rammefarge:
 [Normal overlay icon]
 Vanlig overlappende ikon

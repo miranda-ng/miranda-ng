@@ -194,7 +194,7 @@ Dibuje los iconos sobreimpresionados
 Ronda de las esquinas de los avatares
 [Ignore size for row height calcs]
 Ignorar el tamaño de calculadoras altura de la fila
-[Border Color:]
+[Border color:]
 color de borde
 [Normal overlay icon]
 Normal icono sobreimpresionado

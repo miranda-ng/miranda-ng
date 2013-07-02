@@ -196,7 +196,7 @@ Aero Glass (Vista) を有効
 アバターの角を丸める
 [Ignore size for row height calcs]
 行の高さの演算結果を無視する
-[Border Color:]
+[Border color:]
 枠線の色 :
 [Normal overlay icon]
 標準オーバーレイアイコン

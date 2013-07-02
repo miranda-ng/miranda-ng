@@ -162,7 +162,7 @@ x100 מילי שניות
 עגל פינות של אוואטרים
 [Ignore size for row height calcs]
 התעלם מגודל בשביל שורה גובה מחשבון
-[Border Color:]
+[Border color:]
 צבע גבול:
 [Normal overlay icon]
 אייקון פרוש רגיל

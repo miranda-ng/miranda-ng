@@ -36,7 +36,7 @@
 Показване на текста за състояние
 [Show previous status too]
 Показване и на предишното състояние
-[Popups on contact status change to:]
+[Popups when status changes to:]
 При променено състояние на:
 [Show contact group name]
 Показване на групата (в която е контакта)

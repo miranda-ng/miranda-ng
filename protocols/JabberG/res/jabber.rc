@@ -124,7 +124,7 @@ BEGIN
     CONTROL         "Manually specify connection host",IDC_MANUAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,134,223,10
     RTEXT           "Host:",IDC_STATIC,26,147,30,8
     EDITTEXT        IDC_HOST,57,145,90,12,ES_AUTOHSCROLL | WS_DISABLED
-    RTEXT           "Port:",IDC_STATIC,156,148,27,8
+    RTEXT           "Port:",IDC_STATIC,156,147,27,8
     EDITTEXT        IDC_HOSTPORT,186,145,31,12,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
     CONTROL         "Keep connection alive",IDC_KEEPALIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,158,221,10
     CONTROL         "Automatically delete contacts not in my roster",IDC_ROSTER_SYNC,

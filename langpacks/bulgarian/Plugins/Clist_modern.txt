@@ -186,7 +186,7 @@ MetaContacts - настройки
 Наслагване на икони
 [Round corners of avatars]
 Закръглени ъгли на аватарите
-[Border Color:]
+[Border color:]
 Рамка (цвят):
 [Normal overlay icon]
 Нормална икона за наслагване

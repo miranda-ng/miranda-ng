@@ -198,7 +198,7 @@ x100 毫秒
 头像圆边
 [Ignore size for row height calcs]
 忽略计算列高
-[Border Color:]
+[Border color:]
 背景颜色: 
 [Normal overlay icon]
 标准层叠图标

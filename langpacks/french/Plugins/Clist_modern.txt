@@ -172,7 +172,7 @@ Superposer l'icône d'état
 Arrondir les coins des avatars
 [Ignore size for row height calcs]
 Ignorer cette dimension pour la hauteur des lignes
-[Border Color:]
+[Border color:]
 Coul. bordures :
 [Normal overlay icon]
 Icône normal overlay

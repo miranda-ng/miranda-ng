@@ -360,10 +360,8 @@ Cantos arrendados do avatar
 Ignorar tamanho para calcular altura da linha
 [Ignore size for row height calcs]
 Ignorar tamanho para calcular altura da linha
-[Border Color:]
+[Border color:]
 Cor da Borda:
-[Border Color:]
-Cor da Bord:
 [Normal overlay icon]
 Ícone normal de sobreposição
 [Normal overlay icon]
@@ -384,8 +382,6 @@ altura
 Largura máxima
 [Use old render method (fast, but has artefacts)]
 Use velho método render (fast, mas tem artefatos)
-[Use old render method (Fast, but has artefacts)]
-Use velho método render (Melhor, mas tem artefatos)
 [Hide icon when showing avatar]
 Ocultar ícone quando mostrando avatar
 [Hide icon when showing avatar]

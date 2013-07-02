@@ -108,7 +108,7 @@ Overlay iconen tekenen
 Hoeken van avatars afronden
 [Ignore size for row height calcs]
 Grootte voor rij hoogte berekeningen negeren
-[Border Color:]
+[Border color:]
 Rand kleur:
 [Normal overlay icon]
 Normaal overlay icoon

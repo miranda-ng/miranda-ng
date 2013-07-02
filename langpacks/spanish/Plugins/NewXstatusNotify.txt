@@ -36,7 +36,7 @@ Habilitar todas las
 Utilice colores Popup
 [Read status message]
 Lea el mensaje de estado
-[Popups on contact status change to:]
+[Popups when status changes to:]
 Pop-ups en el cambio de estado en contacto con:
 [Show contact group name]
 Mostrar el nombre del grupo de contacto

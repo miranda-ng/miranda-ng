@@ -478,7 +478,7 @@ Překrývat upřesňujícími ikonami
 Zaoblit rohy avatarů
 [Ignore size for row height calcs]
 Ignorovat vypočtenou výšku řádku
-[Border Color:]
+[Border color:]
 Barva rámečku:
 [Custom corner size:]
 Velikost zakulacení:

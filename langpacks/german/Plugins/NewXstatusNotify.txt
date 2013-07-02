@@ -106,8 +106,8 @@ Statusnachricht lesen
 Vorherigen Status ebenfalls anzeigen
 [Timeout]
 Timeout
-[Popups on contact status change to:]
-Popup, wenn Kontakt Status ändert in:
+[Popups when status changes to:]
+Popup, wenn Status ändert in:
 [Click action]
 Aktion bei Klick
 [Show contact group name]

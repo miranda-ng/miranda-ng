@@ -178,7 +178,7 @@ Simgeleri üstüne yerleştir
 Avatar köşelerini yuvarlat
 [Ignore size for row height calcs]
 Satır yüksekliği hesapları için boyutu yoksay
-[Border Color:]
+[Border color:]
 Sınır Rengi:
 [Normal overlay icon]
 Normal üstüste simgesi

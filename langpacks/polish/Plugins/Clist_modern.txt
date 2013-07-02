@@ -637,7 +637,7 @@ Rysuj nakładki ikon
 Zaokrąglone rogi awatarów
 [Ignore size for row height calcs]
 Ignoruj wysokość wiersza
-[Border Color:]
+[Border color:]
 Kolor ramki:
 [Custom corner size:]
 Rozmiar rogów:

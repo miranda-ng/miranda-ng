@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: gg.dll
 ;  Module: Gadu-Gadu protocol
-;  Versions: 0.10.0.2
+;  Versions: 0.10.0.3
 ;  URL: http://code.google.com/p/miranda/downloads/list
 ;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/Gadu-Gadu/
 ;  Authors: dezred

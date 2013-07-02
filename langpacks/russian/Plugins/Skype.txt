@@ -266,7 +266,7 @@ Skype протокол
 [Unblock this person...]
 Разблокировать пользователя...
 [Remove from your Contact List]
-Удалить из контактного листа
+Удалить из списка контактов
 [Abuse]
 Нарушение
 [You can also report abuse from this user.]
