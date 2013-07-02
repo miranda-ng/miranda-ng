@@ -41,7 +41,7 @@ http::response facebook_client::flap(const int request_type, std::string* reques
 	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
 		nlhr.timeout = 1000 * 65; break;
 	default:
-		nlhr.timeout = 1000 * 15; break;
+		nlhr.timeout = 1000 * 20; break;
 	}
 
 	if (request_data != NULL)
