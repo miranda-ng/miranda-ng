@@ -1675,15 +1675,20 @@ void CSkypeProto::OnChatEvent(const ConversationRef &conversation, const Message
 	{
 		room->OnEvent(conversation, message);
 	}
-	else if(messageType != Message::RETIRED && messageType != Message::RETIRED_OTHERS)
+	else
 	{
-		SEString data;
+		Conversation::MY_STATUS status;
+		conversation->GetPropMyStatus(status);
+		if (status != Conversation::RETIRED_FORCEFULLY || status != Conversation::RETIRED_FORCEFULLY)
+		{
+			SEString data;
 
-		conversation->GetPropDisplayname(data);
-		ptrW name = ::mir_utf8decodeW(data);
+			conversation->GetPropDisplayname(data);
+			ptrW name = ::mir_utf8decodeW(data);
 
-		ChatRoom *room = new ChatRoom(cid, name, this);
-		room->Start(conversation, true);
+			ChatRoom *room = new ChatRoom(cid, name, this);
+			room->Start(conversation, true);
+		}
 	}
 }
 

@@ -346,11 +346,21 @@ int __cdecl CSkypeProto::SendContacts(HANDLE hContact, int flags, int nContacts,
 	if (this->IsOnline() && hContact && hContactsList)
 	{
 		this->Log(L"Outcoming contacts");
-		SEStringList targets;
-		targets.append((char *)_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));
 
-		CConversation::Ref conversation;
-		this->GetConversationByParticipants(targets, conversation);
+		ConversationRef conversation;
+		if ( !this->IsChatRoom(hContact))
+		{
+			SEStringList targets;
+			targets.append((char *)_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));
+
+			this->GetConversationByParticipants(targets, conversation);
+		}
+		else
+		{
+			this->GetConversationByIdentity((char *)_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)), conversation);
+		}
+		if ( !conversation)
+			return 0; 
 
 		ContactRefs contacts;
 		for (int i = 0; i < nContacts; i++)
@@ -387,19 +397,29 @@ HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription
 	if (this->IsOnline() && hContact && ppszFiles)
 	{
 		this->Log(L"Outcoming file transfer");
-		SEStringList targets;
-		targets.append((char *)_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));
 
-		CConversation::Ref conversation;
-		this->GetConversationByParticipants(targets, conversation);
+		ConversationRef conversation;
+		if ( !this->IsChatRoom(hContact))
+		{
+			SEStringList targets;
+			targets.append((char *)_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));
+
+			this->GetConversationByParticipants(targets, conversation);
+		}
+		else
+		{
+			this->GetConversationByIdentity((char *)_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)), conversation);
+		}
+		if ( !conversation)
+			return 0; 
 
 		SEFilenameList fileList;
 		for (int i = 0; ppszFiles[i]; i++)
 			fileList.append((char *)ptrA(::mir_utf8encodeW(ppszFiles[i])));
 
 		auto error = TRANSFER_OPEN_SUCCESS;
-		SEFilename errFile; MessageRef msgRef;
-		//(char *)mir_ptr<char>(::mir_utf8encodeW(szDescription))
+		SEFilename errFile;
+		MessageRef msgRef;
 		if ( !conversation->PostFiles(fileList, " ", error, errFile, msgRef) || error)
 			return 0;
 

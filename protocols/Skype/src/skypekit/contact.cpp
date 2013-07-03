@@ -12,7 +12,7 @@ SEString CContact::GetSid()
 	SEString result;
 	CContact::AVAILABILITY availability;
 	this->GetPropAvailability(availability);
-	if (availability == CContact::SKYPEOUT)
+	if (availability == Contact::SKYPEOUT || availability == Contact::BLOCKED_SKYPEOUT)
 		this->GetPropPstnnumber(result);
 	else
 		this->GetPropSkypename(result);

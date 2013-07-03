@@ -65,7 +65,14 @@ INT_PTR CALLBACK CSkypeProto::SkypeBlockProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		{
 			param = (BlockParam *)lParam;
 			::SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-			::TranslateDialogDefault(hwndDlg);
+			::TranslateDialogDefault(hwndDlg);			
+
+			wchar_t *nick = (wchar_t *)::CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)param->hContact, GCDNF_TCHAR);
+
+			TCHAR oldTitle[256], newTitle[256];
+			::GetDlgItemText(hwndDlg, IDC_HEADERBAR, oldTitle, SIZEOF(oldTitle));
+			::mir_sntprintf(newTitle, SIZEOF(newTitle), ::TranslateTS(oldTitle), nick);
+			::SetDlgItemText(hwndDlg, IDC_HEADERBAR, newTitle);
 
 			::SendMessage(hwndDlg, WM_SETICON, ICON_BIG,	(LPARAM)::Skin_GetIcon("Skype_block", ICON_BIG));
 			::SendMessage(hwndDlg, WM_SETICON, ICON_SMALL,	(LPARAM)::Skin_GetIcon("Skype_block"));
@@ -74,8 +81,8 @@ INT_PTR CALLBACK CSkypeProto::SkypeBlockProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			::mir_sntprintf(
 				text, 
 				SIZEOF(text), 
-				L"Are you sure you want to block %s (%s)?\nThey won't be able to contact you\nand won't appear in your Contact List.", 
-				ptrW(::db_get_wsa(param->hContact, param->ppro->m_szModuleName, "Nick")),
+				TranslateT("Are you sure you want to block \"%s\" (%s)? They won't be able to contact you and won't appear in your Contact List."),
+				nick,
 				ptrW(::db_get_wsa(param->hContact, param->ppro->m_szModuleName, SKYPE_SETTINGS_SID)));
 			::SetDlgItemText(hwndDlg, IDC_MESSAGE, text), 
 
@@ -292,6 +299,8 @@ INT_PTR CALLBACK CSkypeProto::SkypeBlockedOptionsProc(HWND hwndDlg, UINT msg, WP
 						break;
 
 					contact->SetBlocked(true, param.abuse);
+					if (::db_get_b(hContact, ppro->m_szModuleName, "IsSkypeOut", 0) > 0)
+						::db_set_w(hContact, ppro->m_szModuleName, "Status", ID_STATUS_ONTHEPHONE);
 
 					if (param.remove)
 					{

@@ -26,7 +26,10 @@ void CSkypeProto::OnTransferChanged(const TransferRef &transfer, int prop)
 
 			Transfer::FAILUREREASON reason;
 
-			uint oid = transfer->getOID();
+			MessageRef msgRef;
+			this->GetMessageByGuid(guid, msgRef);
+			
+			uint oid = msgRef->getOID();
 
 			SEString data;
 			transfer->GetPropPartnerHandle(data);
@@ -40,24 +43,24 @@ void CSkypeProto::OnTransferChanged(const TransferRef &transfer, int prop)
 				break;*/
 			/*case CTransfer::WAITING_FOR_ACCEPT:
 				break;*/
-			case CTransfer::CONNECTING:
+			case Transfer::CONNECTING:
 				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)oid, 0);
 				break;
-			case CTransfer::TRANSFERRING:
-			case CTransfer::TRANSFERRING_OVER_RELAY:
+			case Transfer::TRANSFERRING:
+			case Transfer::TRANSFERRING_OVER_RELAY:
 				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)oid, 0);
 				break;
-			case CTransfer::FAILED:				
+			case Transfer::FAILED:				
 				transfer->GetPropFailurereason(reason);
 				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oid, (LPARAM)CSkypeProto::TransferFailureReasons[reason]);
 				this->transferList.remove_val(transfer);
 				break;
-			case CTransfer::COMPLETED:
+			case Transfer::COMPLETED:
 				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)oid, 0);
 				this->transferList.remove_val(transfer);
 				break;
-			case CTransfer::CANCELLED:
-			case CTransfer::CANCELLED_BY_REMOTE:
+			case Transfer::CANCELLED:
+			case Transfer::CANCELLED_BY_REMOTE:
 				transfer->GetPropFailurereason(reason);
 				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)oid, (LPARAM)CSkypeProto::TransferFailureReasons[reason]);
 				this->transferList.remove_val(transfer);
@@ -73,7 +76,10 @@ void CSkypeProto::OnTransferChanged(const TransferRef &transfer, int prop)
 			SEBinary guid;			
 			transfer->GetPropChatmsgGuid(guid);
 
-			uint oid = transfer->getOID();				
+			MessageRef msgRef;
+			this->GetMessageByGuid(guid, msgRef);
+			
+			uint oid = msgRef->getOID();			
 
 			PROTOFILETRANSFERSTATUS pfts = {0};
 			pfts.cbSize = sizeof(pfts);
