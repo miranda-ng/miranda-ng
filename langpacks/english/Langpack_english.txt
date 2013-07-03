@@ -3638,14 +3638,14 @@
 [Draw overlay icons]
 [Round corners of avatars]
 [Ignore size for row height calcs]
-[Border Color:]
+[Border color:]
 [Custom corner size:]
 [Normal overlay icon]
 [Protocol status icon]
 [Contact icon]
 [height]
 [Max width]
-[Use old render method (Fast, but has artefacts)]
+[Use old render method (fast, but has artefacts)]
 [Hide icon when showing avatar]
 [Draw icon in avatar space]
 [Hide groups icon]
@@ -5157,7 +5157,7 @@
 [Put a space or comma between each module name]
 [Changes to this list will take effect next time miranda starts]
 [Popup timeout (0 for infinite)]
-[Background Colour]
+[Background colour]
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 [Add a module to contact]
 [Add a module named]
@@ -5639,9 +5639,9 @@
 [Mark as read]
 [Dialog]
 [Connection]
-[Username :]
-[Password :]
-[Server :]
+[Username:]
+[Password:]
+[Server:]
 [Preferences]
 [Check every]
 [seconds]
@@ -5649,7 +5649,7 @@
 [minutes]
 [Check server before trying to connect]
 [Try to connect]
-[times before giving up.]
+[times before giving up]
 [Show email notifications using popup module]
 ;file \plugins\Exchange\src\dlg_handlers.cpp
 [Entry ID]
@@ -5659,7 +5659,7 @@
 [You have %d unread emails ...]
 [You have one unread email ...]
 [Exchange email]
-[Do you want to see the email headers ?]
+[Do you want to see the email headers?]
 ;file \plugins\Exchange\src\hooked_events.cpp
 [Check exchange mailbox]
 [Exchange notify]
@@ -13799,9 +13799,12 @@
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
 ;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Please enter a title for this alarm.]
-[Error]
-[The alarm time you have selected is in the past.]
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13831,12 +13834,6 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -15325,7 +15322,7 @@
 ;file \protocols\Skype\src\skype_events.cpp
 [Spawn conference]
 [Network]
-[Bloked contacts]
+[Blocked contacts]
 [Contacts]
 [Home]
 [General]
@@ -15354,7 +15351,6 @@
 [...by last week]
 [...by last month]
 [...by last 3 month]
-[Blocked contacts]
 ;file \protocols\Skype\src\skype_messages.cpp
 [Incoming call started]
 [Incoming call finished]

@@ -32,7 +32,7 @@
 [Put a space or comma between each module name]
 [Changes to this list will take effect next time miranda starts]
 [Popup timeout (0 for infinite)]
-[Background Colour]
+[Background colour]
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 [Add a module to contact]
 [Add a module named]

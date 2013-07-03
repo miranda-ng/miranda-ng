@@ -151,7 +151,7 @@
 ;file \protocols\Skype\src\skype_events.cpp
 [Spawn conference]
 [Network]
-[Bloked contacts]
+[Blocked contacts]
 [Contacts]
 [Home]
 [General]
@@ -180,7 +180,6 @@
 [...by last week]
 [...by last month]
 [...by last 3 month]
-[Blocked contacts]
 ;file \protocols\Skype\src\skype_messages.cpp
 [Incoming call started]
 [Incoming call finished]
