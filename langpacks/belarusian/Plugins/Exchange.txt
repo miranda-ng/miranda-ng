@@ -18,12 +18,12 @@
 Гутарка
 [Connection]
 Далучэнне
-[Username :]
-Логін :
-[Password :]
-Пароль :
-[Server :]
-Сервер :
+[Username:]
+Логін:
+[Password:]
+Пароль:
+[Server:]
+Сервер:
 [Preferences]
 Налады
 [Check every]
@@ -38,8 +38,8 @@
 Праверце сервер, перш чым далучыцца
 [Try to connect]
 Спроба далучыцца
-[times before giving up.]
-разоў, перш чым здацца.
+[times before giving up]
+разоў, перш чым здацца
 [Show email notifications using popup module]
 Паказаць апавяшчэнні праз усплывальнае вакно
 ;file \plugins\Exchange\src\dlg_handlers.cpp
@@ -54,7 +54,7 @@
 У вас непрачытаныя паведамленніl ...
 [Exchange email]
 Пошта Exchange
-[Do you want to see the email headers ?]
+[Do you want to see the email headers?]
 Паказаць загалоўкі электроннай пошты?
 ;file \plugins\Exchange\src\hooked_events.cpp
 [Check exchange mailbox]

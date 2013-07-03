@@ -18,11 +18,11 @@ Als gelesen markieren
 Dialog
 [Connection]
 Verbindung
-[Username :]
+[Username:]
 Benutzername:
-[Password :]
+[Password:]
 Passwort:
-[Server :]
+[Server:]
 Server:
 [Preferences]
 Einstellungen
@@ -36,7 +36,7 @@ Minuten
 Prüfe Server vor Verbindungsversuch
 [Try to connect]
 Versuche zu verbinden
-[times before giving up.]
+[times before giving up]
 Mal bevor Aufgeben
 [Show email notifications using popup module]
 Zeige E-Mail Benachrichtigungen mit Popup-Modul.
@@ -54,7 +54,7 @@ Sie haben %d ungelesene E-Mails...
 Sie haben eine ungelesene E-Mail...
 [Exchange email]
 Exchange E-Mail
-[Do you want to see the email headers ?]
+[Do you want to see the email headers?]
 Wollen Sie die E-Mail Header sehen?
 ;file \plugins\Exchange\src\hooked_events.cpp
 [Check exchange mailbox]

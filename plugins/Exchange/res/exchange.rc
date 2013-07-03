@@ -33,13 +33,13 @@ CAPTION "Dialog"
 FONT 8, "MS Shell Dlg", 400, 0, 1
 {
     GROUPBOX        "Connection", IDC_STATIC, 4, 4, 179, 65
-    LTEXT           "Username :", IDC_STATIC, 7, 21, 58, 8, SS_LEFT
+    LTEXT           "Username:", IDC_STATIC, 7, 19, 58, 8, SS_LEFT
     EDITTEXT        IDC_USER_EDIT, 65, 16, 113, 14, ES_AUTOHSCROLL
-    LTEXT           "Password :", IDC_STATIC, 7, 36, 58, 8, SS_LEFT
+    LTEXT           "Password:", IDC_STATIC, 7, 35, 58, 8, SS_LEFT
     EDITTEXT        IDC_PASSWORD_EDIT, 65, 32, 113, 14, ES_AUTOHSCROLL | ES_PASSWORD
-    LTEXT           "Server :", IDC_STATIC, 7, 54, 27, 8, SS_LEFT
-    EDITTEXT        IDC_SERVER_EDIT, 65, 51, 83, 14, ES_AUTOHSCROLL
-    EDITTEXT        IDC_PORT_EDIT, 150, 51, 28, 14, ES_AUTOHSCROLL
+    LTEXT           "Server:", IDC_STATIC, 7, 51, 27, 8, SS_LEFT
+    EDITTEXT        IDC_SERVER_EDIT, 65, 48, 83, 14, ES_AUTOHSCROLL
+    EDITTEXT        IDC_PORT_EDIT, 150, 48, 28, 14, ES_AUTOHSCROLL
     GROUPBOX        "Preferences", IDC_STATIC, 4, 69, 179, 81
     AUTOCHECKBOX    "Check every", IDC_CHECK_EMAILS, 9, 80, 64, 9
     EDITTEXT        IDC_INTERVAL_EDIT, 108, 76, 27, 14, ES_AUTOHSCROLL
@@ -50,7 +50,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 1
     AUTOCHECKBOX    "Check server before trying to connect", IDC_USE_PORTCHECK, 9, 110, 169, 10
     LTEXT           "Try to connect", IDC_STATIC, 9, 124, 52, 8, SS_LEFT
     EDITTEXT        IDC_MAX_RETRIES, 62, 121, 20, 14, ES_AUTOHSCROLL
-    LTEXT           "times before giving up.", IDC_STATIC, 86, 124, 92, 8, SS_LEFT
+    LTEXT           "times before giving up", IDC_STATIC, 86, 124, 92, 8, SS_LEFT
     AUTOCHECKBOX    "Show email notifications using popup module", IDC_USE_POPUPS, 9, 137, 169, 10
 }
 
