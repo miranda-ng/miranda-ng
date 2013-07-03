@@ -81,10 +81,10 @@ INT_PTR CALLBACK CSkypeProto::SkypeBlockProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			::mir_sntprintf(
 				text, 
 				SIZEOF(text), 
-				TranslateT("Are you sure you want to block \"%s\" (%s)? They won't be able to contact you and won't appear in your Contact List."),
+				::TranslateT("Are you sure you want to block \"%s\" (%s)? They won't be able to contact you and won't appear in your Contact List."),
 				nick,
 				ptrW(::db_get_wsa(param->hContact, param->ppro->m_szModuleName, SKYPE_SETTINGS_SID)));
-			::SetDlgItemText(hwndDlg, IDC_MESSAGE, text), 
+			::SetDlgItemText(hwndDlg, IDC_MESSAGE, text);
 
 			::Utils_RestoreWindowPosition(hwndDlg, 0, MODULE, "BlockWindow");
 		}

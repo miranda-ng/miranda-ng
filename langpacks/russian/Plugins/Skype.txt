@@ -273,8 +273,8 @@ Skype протокол
 Вы также можете сообщить о нарущении правил этим пользователем.
 [Report abuse]
 Сообщить о нарушении
-[Are you sure you want to block %s?\nThey won't be able to contact you\nand won't appear in your Contact List.]
-Вы действительно хотите блокировать %s?\nБлокированные пользователи не смогут связаться с вами\nи не будут показываться в вашем списке контактов.
+[Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
+Вы действительно хотите блокировать "%s" (%s)? Блокированные пользователи не смогут связаться с вами и не будут показываться в вашем списке контактов.
 [View old messages...]
 Просмотреть историю...
 [...by last day]

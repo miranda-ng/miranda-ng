@@ -65,7 +65,6 @@
 [Block]
 [Block this person]
 [%s]
-[Are you sure you want to block %s?\nThey won't be able to contact you\nand won't appear in your Contact List.]
 [Remove from your Contact List]
 [Abuse]
 [You can also report abuse from this user.]
@@ -110,6 +109,7 @@
 [Account was currently not logged in]
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
 ;file \protocols\Skype\src\skype_blocked.cpp
+[Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
 [Name]
 ;file \protocols\Skype\src\skype_bookmarks.cpp
 [Conferences]
@@ -171,18 +171,22 @@
 [SkypeKit did not start.]
 ;file \protocols\Skype\src\skype_menus.cpp
 [Unblock this person...]
+[Block this person...]
 [Request authorization]
 [Grant authorization]
 [Revoke authorization]
-[Block this person...]
 [View old messages...]
-[...by last day]
-[...by last week]
-[...by last month]
-[...by last 3 month]
+[for last day]
+[for last week]
+[for last month]
+[for last 3 month]
+[for last year]
+[for all time]
 ;file \protocols\Skype\src\skype_messages.cpp
 [Incoming call started]
 [Incoming call finished]
+[history synchronization]
+[Done!]
 ;file \protocols\Skype\src\skype_netlib.cpp
 [%s connection]
 ;file \protocols\Skype\src\skype_proto.cpp
