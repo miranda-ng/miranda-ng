@@ -99,10 +99,12 @@ INT_PTR __cdecl CSkypeProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
 
 int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
+	char *title = ::mir_t2a(this->m_tszUserName);
+
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = g_hInstance;
-	odp.pszTitle = ::mir_t2a(this->m_tszUserName);
+	odp.pszTitle = title;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszGroup = LPGEN("Network");
@@ -117,6 +119,7 @@ int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = CSkypeProto::SkypeBlockedOptionsProc;
 	::Options_AddPage(wParam, &odp);
 
+	::mir_free(title);
 	return 0;
 }
 

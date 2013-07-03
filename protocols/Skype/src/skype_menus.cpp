@@ -171,17 +171,15 @@ void  CSkypeProto::InitMenus()
 	mi.flags |= CMIF_CHILDPOPUP;
 	mi.position = -200001000 + CMI_HISTORY + 1;
 	mi.hParentMenu = CSkypeProto::contactMenuItems[CMI_HISTORY];
-	//mi.icolibItem = CSkypeProto::GetSkinIconHandle("block");
-	/*CSkypeProto::contactMenuItems[CMI_HISTORY] = */::Menu_AddContactMenuItem(&mi);
-	//::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::BlockCommand>);
+	::Menu_AddContactMenuItem(&mi);
+	::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::SyncLastDayHistoryCommand>);
 
 	mi.pszService = MODULE"/SyncHistoryWeek";
 	mi.ptszName = LPGENT("...by last week");
 	mi.flags |= CMIF_CHILDPOPUP;
 	mi.position = -200001000 + CMI_HISTORY + 2;
 	mi.hParentMenu = CSkypeProto::contactMenuItems[CMI_HISTORY];
-	//mi.icolibItem = CSkypeProto::GetSkinIconHandle("block");
-	/*CSkypeProto::contactMenuItems[CMI_HISTORY] = */::Menu_AddContactMenuItem(&mi);
+	::Menu_AddContactMenuItem(&mi);
 	::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::SyncLastWeekHistoryCommand>);
 
 	mi.pszService = MODULE"/SyncHistoryMonth";
@@ -189,18 +187,32 @@ void  CSkypeProto::InitMenus()
 	mi.flags |= CMIF_CHILDPOPUP;
 	mi.position = -200001000 + CMI_HISTORY + 3;
 	mi.hParentMenu = CSkypeProto::contactMenuItems[CMI_HISTORY];
-	//mi.icolibItem = CSkypeProto::GetSkinIconHandle("block");
-	/*CSkypeProto::contactMenuItems[CMI_HISTORY] = */::Menu_AddContactMenuItem(&mi);
-	//::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::BlockCommand>);
+	::Menu_AddContactMenuItem(&mi);
+	::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::SyncLastMonthHistoryCommand>);
 
 	mi.pszService = MODULE"/SyncHistory3Month";
 	mi.ptszName = LPGENT("...by last 3 month");
 	mi.flags |= CMIF_CHILDPOPUP;
 	mi.position = -200001000 + CMI_HISTORY + 4;
 	mi.hParentMenu = CSkypeProto::contactMenuItems[CMI_HISTORY];
-	//mi.icolibItem = CSkypeProto::GetSkinIconHandle("block");
-	/*CSkypeProto::contactMenuItems[CMI_HISTORY] = */::Menu_AddContactMenuItem(&mi);
+	::Menu_AddContactMenuItem(&mi);
 	::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::SyncLast3MonthHistoryCommand>);
+
+	mi.pszService = MODULE"/SyncHistoryYear";
+	mi.ptszName = LPGENT("...by last year");
+	mi.flags |= CMIF_CHILDPOPUP;
+	mi.position = -200001000 + CMI_HISTORY + 5;
+	mi.hParentMenu = CSkypeProto::contactMenuItems[CMI_HISTORY];
+	::Menu_AddContactMenuItem(&mi);
+	::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::SyncLastYearHistoryCommand>);
+
+	mi.pszService = MODULE"/SyncHistoryAllTime";
+	mi.ptszName = LPGENT("...by all time");
+	mi.flags |= CMIF_CHILDPOPUP;
+	mi.position = -200001000 + CMI_HISTORY + 6;
+	mi.hParentMenu = CSkypeProto::contactMenuItems[CMI_HISTORY];
+	::Menu_AddContactMenuItem(&mi);
+	::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::SyncAllTimeHistoryCommand>);
 }
 
 void  CSkypeProto::UninitMenus()

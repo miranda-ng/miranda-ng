@@ -224,9 +224,8 @@ void CSkypeProto::SyncMessageHystory(const ConversationRef &conversation, const 
 	}
 }
 
-int CSkypeProto::SyncLastDayHistoryCommand(WPARAM wParam, LPARAM lParam)
+void CSkypeProto::SyncHistoryCommand(HANDLE hContact, time_t timestamp)
 {
-	HANDLE hContact = (HANDLE)wParam;
 	if (hContact)
 	{
 		ptrW sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID);
@@ -243,72 +242,53 @@ int CSkypeProto::SyncLastDayHistoryCommand(WPARAM wParam, LPARAM lParam)
 
 		if (conversation)
 		{
-			time_t timestamp = time(NULL);
-			timestamp -= 60*60*24;
-
 			this->SyncMessageHystory(conversation, timestamp);
+			CSkypeProto::ShowNotification(TranslateT("history synchronization"), TranslateT("Done!"), MB_ICONINFORMATION, hContact);
 		}
 	}
+}
+
+int CSkypeProto::SyncLastDayHistoryCommand(WPARAM wParam, LPARAM lParam)
+{
+	time_t timestamp = time(NULL);
+	timestamp -= 60*60*24;
+	this->SyncHistoryCommand((HANDLE)wParam, timestamp);
 	return 0;
 }
 
 int CSkypeProto::SyncLastWeekHistoryCommand(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
-	if (hContact)
-	{
-		ptrW sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID);
-
-		ConversationRef conversation;
-		if ( !this->IsChatRoom(hContact))
-		{
-			SEStringList target;
-			target.append((char *)ptrA(::mir_utf8encodeW(sid)));
-			this->GetConversationByParticipants(target, conversation);
-		}
-		else
-			this->GetConversationByIdentity((char *)ptrA(::mir_utf8encodeW(sid)), conversation);
-
-		if (conversation)
-		{
-			time_t timestamp = time(NULL);
-			timestamp -= 60*60*24*7;
-
-			this->SyncMessageHystory(conversation, timestamp);
-		}
-	}
+	time_t timestamp = time(NULL);
+	timestamp -= 60*60*24*7;
+	this->SyncHistoryCommand((HANDLE)wParam, timestamp);
 	return 0;
 }
 
 int CSkypeProto::SyncLastMonthHistoryCommand(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
-	if (hContact)
-	{
-		ptrW sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID);
-
-		ConversationRef conversation;
-		if ( !this->IsChatRoom(hContact))
-		{
-			SEStringList target;
-			target.append((char *)ptrA(::mir_utf8encodeW(sid)));
-			this->GetConversationByParticipants(target, conversation);
-		}
-		else
-			this->GetConversationByIdentity((char *)ptrA(::mir_utf8encodeW(sid)), conversation);
-
-		if (conversation)
-		{
-			time_t timestamp = time(NULL);
-			timestamp -= 60*60*24*30;
-
-			this->SyncMessageHystory(conversation, timestamp);
-		}
-	}
+	time_t timestamp = time(NULL);
+	timestamp -= 60*60*24*30;
+	this->SyncHistoryCommand((HANDLE)wParam, timestamp);
 	return 0;
 }
 
 int CSkypeProto::SyncLast3MonthHistoryCommand(WPARAM wParam, LPARAM lParam)
+{
+	time_t timestamp = time(NULL);
+	timestamp -= 60*60*24*90;
+	this->SyncHistoryCommand((HANDLE)wParam, timestamp);
+	return 0;
+}
+
+int CSkypeProto::SyncLastYearHistoryCommand(WPARAM wParam, LPARAM lParam)
+{
+	time_t timestamp = time(NULL);
+	timestamp -= 60*60*24*365;
+	this->SyncHistoryCommand((HANDLE)wParam, timestamp);
+	return 0;
+}
+
+int CSkypeProto::SyncAllTimeHistoryCommand(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact)
@@ -327,10 +307,10 @@ int CSkypeProto::SyncLast3MonthHistoryCommand(WPARAM wParam, LPARAM lParam)
 
 		if (conversation)
 		{
-			time_t timestamp = time(NULL);
-			timestamp -= 60*60*24*90;
-
+			uint timestamp;
+			conversation->GetPropCreationTimestamp(timestamp);
 			this->SyncMessageHystory(conversation, timestamp);
+			CSkypeProto::ShowNotification(TranslateT("history synchronization"), TranslateT("Done!"), MB_ICONINFORMATION, hContact);
 		}
 	}
 	return 0;

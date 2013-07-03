@@ -349,14 +349,11 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 	{
 		POPUPDATAW ppd = {0};
 		ppd.lchContact = hContact;
-		if ( !hContact)
-		{
-			::wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
-		}
+		::wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
 		::wcsncpy(ppd.lpwzText, message, MAX_SECONDLINE);
 		ppd.lchIcon = ::Skin_GetIcon("Skype_main");
 
-		if ( !PUAddPopupW(&ppd))
+		if ( !::PUAddPopupW(&ppd))
 			return;
 			
 	}

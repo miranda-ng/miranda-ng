@@ -44,12 +44,14 @@ int CSkypeProto::BlockCommand(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CSkypeProto::OpenBlockedListCommand(WPARAM, LPARAM)
 {
+	char *title = ::mir_t2a(this->m_tszUserName);
 	OPENOPTIONSDIALOG ood;
 	ood.cbSize = sizeof(OPENOPTIONSDIALOG);
 	ood.pszGroup = "Network";
-	ood.pszPage = ::mir_t2a(this->m_tszUserName);
+	ood.pszPage = title;
 	ood.pszTab = "Blocked contacts";
 	return ::Options_Open(&ood);
+	::mir_free(title);
 }
 
 INT_PTR CALLBACK CSkypeProto::SkypeBlockProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

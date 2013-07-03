@@ -296,11 +296,13 @@ protected:
 	void	OnMessageReceived(const ConversationRef &conversation, const MessageRef &message);
 
 	void	SyncMessageHystory(const ConversationRef &conversation, const time_t timestamp);
-
+	void	SyncHistoryCommand(HANDLE hContact, time_t timestamp);
 	int __cdecl SyncLastDayHistoryCommand(WPARAM wParam, LPARAM lParam);
 	int __cdecl SyncLastWeekHistoryCommand(WPARAM wParam, LPARAM lParam);
 	int __cdecl SyncLastMonthHistoryCommand(WPARAM wParam, LPARAM lParam);
 	int __cdecl SyncLast3MonthHistoryCommand(WPARAM wParam, LPARAM lParam);
+	int __cdecl SyncLastYearHistoryCommand(WPARAM wParam, LPARAM lParam);
+	int __cdecl SyncAllTimeHistoryCommand(WPARAM wParam, LPARAM lParam);
 
 	// contacts
 	void	OnContactsEvent(const ConversationRef &conversation, const MessageRef &message);
