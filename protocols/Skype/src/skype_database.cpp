@@ -81,7 +81,7 @@ void CSkypeProto::RaiseAuthRequestEvent(DWORD timestamp, CContact::Ref contact)
 	pCurBlob += ::strlen(sid) + 1;
 	::strcpy((char *)pCurBlob, reason);
 
-	this->AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), PREF_UTF, cbBlob, pBlob);
+	this->AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), DBEF_UTF, cbBlob, pBlob);
 }
 
 void CSkypeProto::RaiseMessageSentEvent(HANDLE hContact, DWORD timestamp, SEBinary &guid, const char *message, bool isUnread)
