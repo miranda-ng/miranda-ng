@@ -155,13 +155,18 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 	wchar_t fullPath[MAX_PATH] = {0};
 
 	SEString data;
-	TransferRef transfer(oid);
-	transfer->GetPropFilename(data);
-	ptrW name(::mir_utf8decodeW(data));
-	::mir_sntprintf(fullPath, MAX_PATH, L"%s%s", szPath, name);
+	MessageRef msgRef(oid);
+	TransferRefs transfers;
+	msgRef->GetTransfers(transfers);
+	for (uint i = 0; i < transfers.size(); i++)
+	{
+		transfers[i]->GetPropFilename(data);
+		ptrW name(::mir_utf8decodeW(data));
+		::mir_sntprintf(fullPath, MAX_PATH, L"%s%s", szPath, name);
 
-	if (!transfer->Accept((char *)ptrA(::mir_utf8encodeW(fullPath)), success) || !success)
-		return 0;
+		if ( !transfers[i]->Accept((char *)ptrA(::mir_utf8encodeW(fullPath)), success) || !success)
+			return 0;
+	}
 
 	return hTransfer; 
 }
@@ -170,10 +175,13 @@ int    __cdecl CSkypeProto::FileCancel( HANDLE hContact, HANDLE hTransfer )
 {
 	uint oid = (uint)hTransfer;
 
-	TransferRef transfer(oid);
-	
-	if (!transfer->Cancel())
-		return 0;
+	SEString data;
+	MessageRef msgRef(oid);
+	TransferRefs transfers;
+	msgRef->GetTransfers(transfers);
+	for (uint i = 0; i < transfers.size(); i++)
+		if ( !transfers[i]->Cancel())
+			return 0;
 
 	this->Log(L"Incoming file transfer is cancelled");
 
@@ -184,11 +192,15 @@ int    __cdecl CSkypeProto::FileDeny( HANDLE hContact, HANDLE hTransfer, const T
 {
 	uint oid = (uint)hTransfer;
 	
-	TransferRef transfer(oid);
-	if (!transfer->Cancel())
-		return 0;
+	SEString data;
+	MessageRef msgRef(oid);
+	TransferRefs transfers;
+	msgRef->GetTransfers(transfers);
+	for (uint i = 0; i < transfers.size(); i++)
+		if ( !transfers[i]->Cancel())
+			return 0;
 
-		this->Log(L"Incoming file transfer is denied");
+	this->Log(L"Incoming file transfer is denied");
 
 	return 1;
 }

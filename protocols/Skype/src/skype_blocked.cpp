@@ -120,7 +120,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeBlockProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 static WNDPROC oldWndProc = NULL;
 
-static LRESULT CALLBACK SkypeBlockedOptionsSubProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK CSkypeProto::SkypeBlockedOptionsSubProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_LBUTTONDOWN)
 	{
@@ -135,20 +135,31 @@ static LRESULT CALLBACK SkypeBlockedOptionsSubProc(HWND hwnd, UINT msg, WPARAM w
 			lvi.iItem = hi.iItem;
 			if (ListView_GetItem(hwnd, &lvi))
 			{
-				CContact *contact = (CContact *)lvi.lParam;
+				ContactParam *param = (ContactParam *)lvi.lParam;
 					
-				if (contact->SetBlocked(false))
+				if (param->contact->SetBlocked(false))
 				{
 					SEString data;
-					contact->GetIdentity(data);
+					param->contact->GetIdentity(data);
+					ptrW sid(::mir_utf8decodeW(data));
+					
+					HANDLE hContact = param->ppro->GetContactBySid(sid);
+					if (::db_get_b(hContact, param->ppro->m_szModuleName, "IsSkypeOut", 0) > 0)
+						::db_set_w(hContact, param->ppro->m_szModuleName, "Status", ID_STATUS_ONTHEPHONE);
 
 					ListView_DeleteItem(hwnd, lvi.iItem);
 					
-					::SendMessage(
+					int nItem = ::SendMessage(
 						::GetDlgItem(GetParent(hwnd), IDC_CONTACTS), 
 						CB_ADDSTRING, 
 						0, 
-						(LPARAM)ptrW(::Utf8DecodeW(data)));
+						(LPARAM)sid);
+
+					::SendMessage(
+							::GetDlgItem(GetParent(hwnd), IDC_CONTACTS), 
+							CB_SETITEMDATA, 
+							nItem, 
+							(LPARAM)hContact);
 				}
 			}
 		}
@@ -220,12 +231,14 @@ INT_PTR CALLBACK CSkypeProto::SkypeBlockedOptionsProc(HWND hwndDlg, UINT msg, WP
 				{
 					auto contact = contacts[i];
 
+					ptrW sid(::mir_utf8decodeW(contact->GetSid()));
+
 					LVITEM lvi = {0};
 					lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 					lvi.iItem = (int)i;
 					lvi.iImage = 0;
-					lvi.lParam = (LPARAM)contact.fetch();
-					lvi.pszText = ptrW(::mir_utf8decodeW(contact->GetSid()));
+					lvi.lParam = (LPARAM)new ContactParam(contact, ppro);
+					lvi.pszText = sid;
 					int iRow = ListView_InsertItem(hwndList, &lvi);
 
 					if (iRow != -1)
@@ -300,7 +313,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeBlockedOptionsProc(HWND hwndDlg, UINT msg, WP
 
 					contact->SetBlocked(true, param.abuse);
 					if (::db_get_b(hContact, ppro->m_szModuleName, "IsSkypeOut", 0) > 0)
-						::db_set_w(hContact, ppro->m_szModuleName, "Status", ID_STATUS_ONTHEPHONE);
+						::db_set_w(hContact, ppro->m_szModuleName, "Status", ID_STATUS_OFFLINE);
 
 					if (param.remove)
 					{
@@ -315,7 +328,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeBlockedOptionsProc(HWND hwndDlg, UINT msg, WP
 						lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 						lvi.iItem = (int)i;
 						lvi.iImage = 0;
-						lvi.lParam = (LPARAM)contact.fetch();
+						lvi.lParam = (LPARAM)new ContactParam(contact, ppro);
 						lvi.pszText = sid;
 						int iRow = ListView_InsertItem(::GetDlgItem(hwndDlg, IDC_LIST), &lvi);
 
@@ -344,7 +357,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeBlockedOptionsProc(HWND hwndDlg, UINT msg, WP
 
 		switch(LOWORD(wParam))
         {
-        case IDC_BM_LIST:
+        case IDC_LIST:
             if (((LPNMHDR)lParam)->code == NM_DBLCLK)
             {
 				HWND hwndList = ::GetDlgItem(hwndDlg, IDC_BM_LIST);
@@ -359,9 +372,9 @@ INT_PTR CALLBACK CSkypeProto::SkypeBlockedOptionsProc(HWND hwndDlg, UINT msg, WP
 					SEString data;
 					if (lvi.iGroupId == 1)
 					{
-						CContact *contact = (CContact *)lvi.lParam;
+						ContactParam *param = (ContactParam *)lvi.lParam;
 
-						contact->GetIdentity(data);
+						param->contact->GetIdentity(data);
 						ptrW sid(::mir_utf8decodeW(data));
 						::CallService(MS_MSG_SENDMESSAGE, (WPARAM)ppro->GetContactBySid(sid), 0);
 					}

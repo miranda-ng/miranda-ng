@@ -19,6 +19,16 @@ struct ReadMessageParam
 	CMessage::TYPE msgType;
 };
 
+struct ContactParam
+{
+	ContactRef contact;
+	CSkypeProto *ppro;
+	
+	ContactParam(const ContactRef &contact, CSkypeProto *ppro) : contact(contact), ppro(ppro) 
+	{
+	}
+};
+
 struct BlockParam
 {
 	HANDLE hContact;
@@ -361,7 +371,7 @@ protected:
 	bool	IsProtoContact(HANDLE hContact);
 	HANDLE	GetContactBySid(const wchar_t* sid);
 	HANDLE	GetContactFromAuthEvent(HANDLE hEvent);
-	HANDLE	AddContact(CContact::Ref contact);
+	HANDLE	AddContact(CContact::Ref contact, bool isTemporary = false);
 
 	bool	IsContactOnline(HANDLE hContact);
 	void	SetAllContactStatus(int status);
@@ -375,7 +385,6 @@ protected:
 	void __cdecl SearchByEmailAsync(void*);
 
 	// profile
-
 	void	UpdateProfileAvatar(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileAboutText(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileBirthday(SEObject *obj, HANDLE hContact = NULL);
@@ -484,6 +493,7 @@ protected:
 
 	static INT_PTR CALLBACK SkypeBlockProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK SkypeBlockedOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK SkypeBlockedOptionsSubProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// database
 	bool IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid, int flag = 0);

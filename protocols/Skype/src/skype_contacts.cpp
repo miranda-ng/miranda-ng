@@ -194,7 +194,7 @@ HANDLE CSkypeProto::GetContactFromAuthEvent(HANDLE hEvent)
 	return ::DbGetAuthEventContact(&dbei);
 }
 
-HANDLE CSkypeProto::AddContact(CContact::Ref contact)
+HANDLE CSkypeProto::AddContact(CContact::Ref contact, bool isTemporary)
 {
 	ptrW sid(::mir_utf8decodeW(contact->GetSid()));
 

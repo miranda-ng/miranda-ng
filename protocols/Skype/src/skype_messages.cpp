@@ -37,24 +37,23 @@ void CSkypeProto::OnMessageReceived(const ConversationRef &conversation, const M
 {
 	SEString data;
 
-	CMessage::TYPE messageType;
+	Message::TYPE messageType;
 	message->GetPropType(messageType);
 
 	uint timestamp;
 	message->GetPropTimestamp(timestamp);
 
-	CMessage::CONSUMPTION_STATUS status;
+	Message::CONSUMPTION_STATUS status;
 	message->GetPropConsumptionStatus(status);
 		
 	message->GetPropBodyXml(data);
 	char *text = CSkypeProto::RemoveHtml(data);
 
+	ContactRef author;
 	message->GetPropAuthor(data);
-		
-	CContact::Ref author;
 	this->GetContact(data, author);
 
-	HANDLE hContact = this->AddContact(author);
+	HANDLE hContact = this->AddContact(author, true);
 	this->UserIsTyping(hContact, PROTOTYPE_SELFTYPING_OFF);
 
 	SEBinary guid;
@@ -102,10 +101,9 @@ void CSkypeProto::OnMessageSent(const ConversationRef &conversation, const Messa
 	conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);
 	participants[0]->GetPropIdentity(data);
 		
-	CContact::Ref receiver;
-	this->GetContact(data, receiver);
+	ptrW sid(::mir_utf8decodeW(data));
 
-	HANDLE hContact = this->AddContact(receiver);
+	HANDLE hContact = this->GetContactBySid(sid);
 	this->SendBroadcast(
 		hContact,
 		ACKTYPE_MESSAGE,

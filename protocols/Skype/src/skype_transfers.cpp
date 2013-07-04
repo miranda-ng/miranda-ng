@@ -21,10 +21,10 @@ void CSkypeProto::OnTransferChanged(const TransferRef &transfer, int prop)
 	{
 	case Transfer::P_STATUS:
 		{
-			SEBinary guid;
-			transfer->GetPropChatmsgGuid(guid);
-
 			Transfer::FAILUREREASON reason;
+
+			SEBinary guid;
+			transfer->GetPropChatmsgGuid(guid);			
 
 			MessageRef msgRef;
 			this->GetMessageByGuid(guid, msgRef);
@@ -39,10 +39,6 @@ void CSkypeProto::OnTransferChanged(const TransferRef &transfer, int prop)
 			transfer->GetPropStatus(status);
 			switch(status)
 			{
-			/*case CTransfer::NEW:
-				break;*/
-			/*case CTransfer::WAITING_FOR_ACCEPT:
-				break;*/
 			case Transfer::CONNECTING:
 				this->SendBroadcast(hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)oid, 0);
 				break;
@@ -110,14 +106,20 @@ void CSkypeProto::OnTransferChanged(const TransferRef &transfer, int prop)
 
 void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const MessageRef &message)
 {
+	SEString data;
+	bool isRecvFiles = false;
 	Transfer::TYPE transferType;
 	Transfer::STATUS transferStatus;
 
 	TransferRefs transfers;
 	message->GetTransfers(transfers);
+	wchar_t **files = new wchar_t*[transfers.size()];
 	for (size_t i = 0; i < transfers.size(); i++)
 	{
 		auto transfer = transfers[i];
+
+		transfer->GetPropFilename(data);
+		files[i] = ::mir_utf8decodeW(data);
 
 		// For incomings, we need to check for transfer status, just to be sure.
 		// In some cases, a transfer can appear with STATUS == PLACEHOLDER
@@ -130,28 +132,10 @@ void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const Message
 			transfer->GetPropType(transferType);
 			if (transferType == Transfer::INCOMING)
 			{
+				isRecvFiles = true;
+
 				this->transferList.append(transfer);
 				transfer.fetch();
-
-				uint timestamp;
-				message->GetPropTimestamp(timestamp);
-
-				SEString data;
-				transfer->GetPropPartnerHandle(data);
-				HANDLE hContact = this->GetContactBySid(ptrW(::mir_utf8decodeW(data)));
-
-				transfer->GetPropFilename(data);
-				wchar_t *fileName = ::mir_utf8decodeW(data);
-
-				PROTORECVFILET pre = {0};
-				pre.flags = PREF_TCHAR;
-				pre.fileCount = 1;
-				pre.timestamp = timestamp;
-				pre.tszDescription = L"";
-				pre.ptszFiles = &fileName;
-				pre.lParam = (LPARAM)transfer->getOID();
-				::ProtoChainRecvFile(hContact, &pre);
-				::mir_free(fileName);
 			}
 			else if (transferType == Transfer::PLACEHOLDER)
 			{
@@ -159,5 +143,27 @@ void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const Message
 				transfer.fetch();
 			}
 		}
+	}
+	files[transfers.size()] = NULL;
+
+	if (isRecvFiles)
+	{
+		uint timestamp;
+		message->GetPropTimestamp(timestamp);
+
+		ContactRef author;
+		message->GetPropAuthor(data);
+		this->GetContact(data, author);
+
+		HANDLE hContact = this->AddContact(author, true);
+
+		PROTORECVFILET pre = {0};
+		pre.flags = PREF_TCHAR;
+		pre.fileCount = transfers.size();
+		pre.timestamp = timestamp;
+		pre.tszDescription = L"";
+		pre.ptszFiles = files;
+		pre.lParam = (LPARAM)message->getOID();
+		::ProtoChainRecvFile(hContact, &pre);
 	}
 }
