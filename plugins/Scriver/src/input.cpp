@@ -98,10 +98,10 @@ void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, HANDLE hConta
 		SendMessage(hwnd, WM_COPY, 0, 0);
 		break;
 	case IDM_PASTE:
-		SendMessage(hwnd, EM_PASTESPECIAL, CF_UNICODETEXT, 0);
+		SendMessage(hwnd, EM_PASTESPECIAL, CF_TEXT, 0);
 		break;
 	case IDM_PASTESEND:
-		SendMessage(hwnd, EM_PASTESPECIAL, CF_UNICODETEXT, 0);
+		SendMessage(hwnd, EM_PASTESPECIAL, CF_TEXT, 0);
 		PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
 		break;
 	case IDM_DELETE:

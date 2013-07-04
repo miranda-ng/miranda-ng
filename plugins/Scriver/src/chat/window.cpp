@@ -339,124 +339,122 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		break;
 
 	case WM_KEYDOWN:
-		{
-			if (wParam == VK_RETURN) {
-				mir_free(dat->szSearchQuery);
-				dat->szSearchQuery = NULL;
-				mir_free(dat->szSearchResult);
-				dat->szSearchResult = NULL;
-				if (( isCtrl != 0 ) ^ (0 != db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))) {
+		if (wParam == VK_RETURN) {
+			mir_free(dat->szSearchQuery);
+			dat->szSearchQuery = NULL;
+			mir_free(dat->szSearchResult);
+			dat->szSearchResult = NULL;
+			if (( isCtrl != 0 ) ^ (0 != db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))) {
+				PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
+				return 0;
+			}
+			if (db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER)) {
+				if (dat->lastEnterTime + 2 < time(NULL))
+					dat->lastEnterTime = time(NULL);
+				else {
+					SendMessage(hwnd, WM_KEYDOWN, VK_BACK, 0);
+					SendMessage(hwnd, WM_KEYUP, VK_BACK, 0);
 					PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
 					return 0;
 				}
-				if (db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER)) {
-					if (dat->lastEnterTime + 2 < time(NULL))
-						dat->lastEnterTime = time(NULL);
-					else {
-						SendMessage(hwnd, WM_KEYDOWN, VK_BACK, 0);
-						SendMessage(hwnd, WM_KEYUP, VK_BACK, 0);
-						PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
-						return 0;
-					}
-				}
 			}
-			else dat->lastEnterTime = 0;
+		}
+		else dat->lastEnterTime = 0;
 
-			if (wParam == VK_TAB && isShift && !isCtrl) { // SHIFT-TAB (go to nick list)
-				SetFocus(GetDlgItem(GetParent(hwnd), IDC_CHAT_LIST));
-				return TRUE;
-			}
+		if (wParam == VK_TAB && isShift && !isCtrl) { // SHIFT-TAB (go to nick list)
+			SetFocus(GetDlgItem(GetParent(hwnd), IDC_CHAT_LIST));
+			return TRUE;
+		}
 
-			if (wParam == VK_TAB && !isCtrl && !isShift) {    //tab-autocomplete
-				SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
-				TabAutoComplete(hwnd, dat, Parentsi);
-				SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
-				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
-				return 0;
-			}
-			if (wParam != VK_RIGHT && wParam != VK_LEFT) {
-				mir_free(dat->szSearchQuery);
-				dat->szSearchQuery = NULL;
-				mir_free(dat->szSearchResult);
-				dat->szSearchResult = NULL;
-			}
-			if (wParam == 0x49 && isCtrl && !isAlt) { // ctrl-i (italics)
-				CheckDlgButton(GetParent(hwnd), IDC_CHAT_ITALICS, IsDlgButtonChecked(GetParent(hwnd), IDC_CHAT_ITALICS) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
-				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_ITALICS, 0), 0);
-				return TRUE;
-			}
+		if (wParam == VK_TAB && !isCtrl && !isShift) {    //tab-autocomplete
+			SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
+			TabAutoComplete(hwnd, dat, Parentsi);
+			SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
+			RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
+			return 0;
+		}
+		if (wParam != VK_RIGHT && wParam != VK_LEFT) {
+			mir_free(dat->szSearchQuery);
+			dat->szSearchQuery = NULL;
+			mir_free(dat->szSearchResult);
+			dat->szSearchResult = NULL;
+		}
+		if (wParam == 0x49 && isCtrl && !isAlt) { // ctrl-i (italics)
+			CheckDlgButton(GetParent(hwnd), IDC_CHAT_ITALICS, IsDlgButtonChecked(GetParent(hwnd), IDC_CHAT_ITALICS) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_ITALICS, 0), 0);
+			return TRUE;
+		}
 
-			if (wParam == 0x42 && isCtrl && !isAlt) { // ctrl-b (bold)
-				CheckDlgButton(GetParent(hwnd), IDC_CHAT_BOLD, IsDlgButtonChecked(GetParent(hwnd), IDC_CHAT_BOLD) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
-				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_BOLD, 0), 0);
-				return TRUE;
-			}
+		if (wParam == 0x42 && isCtrl && !isAlt) { // ctrl-b (bold)
+			CheckDlgButton(GetParent(hwnd), IDC_CHAT_BOLD, IsDlgButtonChecked(GetParent(hwnd), IDC_CHAT_BOLD) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_BOLD, 0), 0);
+			return TRUE;
+		}
 
-			if (wParam == 0x55 && isCtrl && !isAlt) { // ctrl-u (paste clean text)
-				CheckDlgButton(GetParent(hwnd), IDC_CHAT_UNDERLINE, IsDlgButtonChecked(GetParent(hwnd), IDC_CHAT_UNDERLINE) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
-				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_UNDERLINE, 0), 0);
-				return TRUE;
-			}
+		if (wParam == 0x55 && isCtrl && !isAlt) { // ctrl-u (paste clean text)
+			CheckDlgButton(GetParent(hwnd), IDC_CHAT_UNDERLINE, IsDlgButtonChecked(GetParent(hwnd), IDC_CHAT_UNDERLINE) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_UNDERLINE, 0), 0);
+			return TRUE;
+		}
 
-			if (wParam == 0x4b && isCtrl && !isAlt) { // ctrl-k (paste clean text)
-				CheckDlgButton(GetParent(hwnd), IDC_CHAT_COLOR, IsDlgButtonChecked(GetParent(hwnd), IDC_CHAT_COLOR) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
-				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_COLOR, 0), 0);
-				return TRUE;
-			}
+		if (wParam == 0x4b && isCtrl && !isAlt) { // ctrl-k (paste clean text)
+			CheckDlgButton(GetParent(hwnd), IDC_CHAT_COLOR, IsDlgButtonChecked(GetParent(hwnd), IDC_CHAT_COLOR) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_COLOR, 0), 0);
+			return TRUE;
+		}
 
-			if (wParam == VK_SPACE && isCtrl && !isAlt) { // ctrl-space (paste clean text)
-				CheckDlgButton(GetParent(hwnd), IDC_CHAT_BKGCOLOR, BST_UNCHECKED);
-				CheckDlgButton(GetParent(hwnd), IDC_CHAT_COLOR, BST_UNCHECKED);
-				CheckDlgButton(GetParent(hwnd), IDC_CHAT_BOLD, BST_UNCHECKED);
-				CheckDlgButton(GetParent(hwnd), IDC_CHAT_UNDERLINE, BST_UNCHECKED);
-				CheckDlgButton(GetParent(hwnd), IDC_CHAT_ITALICS, BST_UNCHECKED);
-				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_BKGCOLOR, 0), 0);
-				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_COLOR, 0), 0);
-				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_BOLD, 0), 0);
-				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_UNDERLINE, 0), 0);
-				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_ITALICS, 0), 0);
-				return TRUE;
-			}
+		if (wParam == VK_SPACE && isCtrl && !isAlt) { // ctrl-space (paste clean text)
+			CheckDlgButton(GetParent(hwnd), IDC_CHAT_BKGCOLOR, BST_UNCHECKED);
+			CheckDlgButton(GetParent(hwnd), IDC_CHAT_COLOR, BST_UNCHECKED);
+			CheckDlgButton(GetParent(hwnd), IDC_CHAT_BOLD, BST_UNCHECKED);
+			CheckDlgButton(GetParent(hwnd), IDC_CHAT_UNDERLINE, BST_UNCHECKED);
+			CheckDlgButton(GetParent(hwnd), IDC_CHAT_ITALICS, BST_UNCHECKED);
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_BKGCOLOR, 0), 0);
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_COLOR, 0), 0);
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_BOLD, 0), 0);
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_UNDERLINE, 0), 0);
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_ITALICS, 0), 0);
+			return TRUE;
+		}
 
-			if (wParam == 0x4c && isCtrl && !isAlt) { // ctrl-l (paste clean text)
-				CheckDlgButton(GetParent(hwnd), IDC_CHAT_BKGCOLOR, IsDlgButtonChecked(GetParent(hwnd), IDC_CHAT_BKGCOLOR) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
-				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_BKGCOLOR, 0), 0);
-				return TRUE;
-			}
+		if (wParam == 0x4c && isCtrl && !isAlt) { // ctrl-l (paste clean text)
+			CheckDlgButton(GetParent(hwnd), IDC_CHAT_BKGCOLOR, IsDlgButtonChecked(GetParent(hwnd), IDC_CHAT_BKGCOLOR) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_BKGCOLOR, 0), 0);
+			return TRUE;
+		}
 
-			if (wParam == 0x46 && isCtrl && !isAlt) { // ctrl-f (paste clean text)
-				if (IsWindowEnabled(GetDlgItem(GetParent(hwnd), IDC_CHAT_FILTER)))
-					SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_FILTER, 0), 0);
-				return TRUE;
-			}
+		if (wParam == 0x46 && isCtrl && !isAlt) { // ctrl-f (paste clean text)
+			if (IsWindowEnabled(GetDlgItem(GetParent(hwnd), IDC_CHAT_FILTER)))
+				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_FILTER, 0), 0);
+			return TRUE;
+		}
 
-			if (wParam == 0x4e && isCtrl && !isAlt) { // ctrl-n (nicklist)
-				if (IsWindowEnabled(GetDlgItem(GetParent(hwnd), IDC_CHAT_SHOWNICKLIST)))
-					SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_SHOWNICKLIST, 0), 0);
-				return TRUE;
-			}
+		if (wParam == 0x4e && isCtrl && !isAlt) { // ctrl-n (nicklist)
+			if (IsWindowEnabled(GetDlgItem(GetParent(hwnd), IDC_CHAT_SHOWNICKLIST)))
+				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_SHOWNICKLIST, 0), 0);
+			return TRUE;
+		}
 
-			if (wParam == 0x48 && isCtrl && !isAlt) { // ctrl-h (history)
-				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_HISTORY, 0), 0);
-				return TRUE;
-			}
+		if (wParam == 0x48 && isCtrl && !isAlt) { // ctrl-h (history)
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_HISTORY, 0), 0);
+			return TRUE;
+		}
 
-			if (wParam == 0x4f && isCtrl && !isAlt) { // ctrl-o (options)
-				if (IsWindowEnabled(GetDlgItem(GetParent(hwnd), IDC_CHAT_CHANMGR)))
-					SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_CHANMGR, 0), 0);
-				return TRUE;
-			}
+		if (wParam == 0x4f && isCtrl && !isAlt) { // ctrl-o (options)
+			if (IsWindowEnabled(GetDlgItem(GetParent(hwnd), IDC_CHAT_CHANMGR)))
+				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_CHANMGR, 0), 0);
+			return TRUE;
+		}
 
-			if (((wParam == VK_INSERT && isShift) || (wParam == 'V' && isCtrl)) && !isAlt) { // ctrl-v (paste clean text)
-				SendMessage(hwnd, EM_PASTESPECIAL, CF_UNICODETEXT, 0);
-				return TRUE;
-			}
+		if (((wParam == VK_INSERT && isShift) || (wParam == 'V' && isCtrl)) && !isAlt) { // ctrl-v (paste clean text)
+			SendMessage(hwnd, EM_PASTESPECIAL, CF_TEXT, 0);
+			return TRUE;
+		}
 
-			if (wParam == VK_NEXT || wParam == VK_PRIOR) {
-				HWND htemp = GetParent(hwnd);
-				SendDlgItemMessage(htemp, IDC_CHAT_LOG, msg, wParam, lParam);
-				return TRUE;
-			}
+		if (wParam == VK_NEXT || wParam == VK_PRIOR) {
+			HWND htemp = GetParent(hwnd);
+			SendDlgItemMessage(htemp, IDC_CHAT_LOG, msg, wParam, lParam);
+			return TRUE;
 		}
 		break;
 
