@@ -406,13 +406,13 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					char was_id[32];
 					lltoa(sender_fbid.Value(), was_id, 10);
 
-					// ignore duplicits or messages sent from miranda
-					if (ignore_duplicits(proto, mid.Value(), text.Value()))
-						continue;
-
 					// Ignore messages from myself
 					if (was_id == proto->facy.self_.user_id)
 						continue;
+					
+					// Ignore duplicits or messages sent from miranda
+					if (ignore_duplicits(proto, mid.Value(), text.Value()))
+						continue;					
 
 					std::string message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value())), true);
 					if (message_text.empty())
@@ -442,12 +442,12 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
   				const String& text = messageContent["text"];
 				const String& mid = messageContent["messageId"];
 
-				// ignore duplicits or messages sent from miranda
-				if (ignore_duplicits(proto, mid.Value(), text.Value()))
-					continue;
-
 				// Ignore messages from myself
 				if (was_id == proto->facy.self_.user_id)
+					continue;
+				
+				// Ignore duplicits or messages sent from miranda
+				if (ignore_duplicits(proto, mid.Value(), text.Value()))
 					continue;
 
 				std::string message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value())), true);
