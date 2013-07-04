@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtDlgs, Vcl.StdCtrls, Vcl.Buttons;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtDlgs, Vcl.StdCtrls, Vcl.Buttons, ShellApi;
 
 type
   TForm1 = class(TForm)
@@ -17,8 +17,11 @@ type
     ListBox1: TListBox;
     OpenDialog1: TOpenDialog;
     X: TBitBtn;
+    C: TBitBtn;
+    G: TBitBtn;
     Memo1: TMemo;
     Memo2: TMemo;
+    T: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -28,7 +31,9 @@ type
     procedure refresh;
     procedure read;
     procedure enter(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure BClick(Sender: TObject);
+    procedure GClick(Sender: TObject);
+    procedure TClick(Sender: TObject);
+
 
   private
     { Private declarations }
@@ -39,21 +44,20 @@ type
 var
   Form1: TForm1;
   openDialog : TOpenDialog;
-  full,ustring,tstring,fline,dupes: array [1..9999]  of string;
+  full,ustring,tstring,fline: array [1..9999]  of string;
   notranslate: array [1..9999] of integer;
   translate: textfile;
-  bom, bomd, line:string;
+  bom, line:string;
   ii,i,it,ie:integer;
-  idx,idm:integer;
-  cores:boolean;
 implementation
 
 {$R *.dfm}
 // Открытие файла
-procedure TForm1.BClick(Sender: TObject);
-begin
-//
-end;
+
+
+
+
+
 
 procedure TForm1.Button1Click(Sender: TObject);
  begin
@@ -93,28 +97,6 @@ writeLn(translate, bom);
          end;
    end;
 closefile(translate);
-
-// Процедура пересохранения файла =DUPES=
- if (extractfilename(openDialog.filename)='=CORE=.txt')
- and  (FileExists(ExtractFilePath(opendialog.filename)+'=DUPES=.txt')=true)
- then
-  begin
-assignfile(translate,ExtractFilePath(opendialog.filename)+'=DUPES=.txt',CP_UTF8);
-rewrite(translate);
-writeLn(translate, bomd);
-// Если строка отсутствует в =СORE=, она запишется в =DUPES=
-for idx := 1 to idm do
-if (copy(dupes[idx],1,1)='[') then
-    begin cores:=false;
-    for i := 1 to ie do
-    if dupes[idx]=ustring[i] then cores:=true;
-    if cores=false then  begin
-     writeLn(translate, dupes[idx]);
-     writeLn(translate, dupes[idx+1]);
-                        end;
-    end;
-closefile(translate);
-  end;
 //
   read;
 end;
@@ -122,7 +104,7 @@ end;
 
 procedure TForm1.CClick(Sender: TObject);
 begin
-//
+memo2.Lines:=memo1.Lines;
 end;
 
 procedure TForm1.XClick(Sender: TObject);
@@ -153,13 +135,18 @@ begin
    KeyPreview := True;
 end;
 
+procedure TForm1.GClick(Sender: TObject);
+ begin
+   ShellExecute( Handle, 'open', 'http://translate.google.ru/#auto/', nil, nil, SW_NORMAL );
+end;
+
 procedure tform1.refresh;
 var m,n:integer;
 begin
-memo1.Lines.Clear;
 n:=strtoint(label2.caption);
 //
 if memo2.Lines.Count=memo1.Lines.Count then
+begin
 tstring[notranslate[n]]:='';
 for I := 0 to memo2.Lines.Count-1 do
 begin
@@ -167,29 +154,29 @@ tstring[notranslate[n]]:=tstring[notranslate[n]]+memo2.Lines[i];
 if i<memo2.Lines.Count-1 then
 tstring[notranslate[n]]:=tstring[notranslate[n]]+'\n';
 end;
-
-
-//
+end;
+memo1.Lines.Clear;
+////////////////////////////////////////////////////////////
 label2.Caption:=inttostr(ListBox1.ItemIndex+1);
 n:=strtoint(label2.caption);
 memo2.Lines.Clear;
-//
 if tstring[notranslate[n]]<>'' then
 begin
 m:=1;
-for i := 1 to length(copy(tstring[notranslate[n]],2,length(tstring[notranslate[n]])-2))-1 do
+for i := 1 to length(tstring[notranslate[n]])-1 do
 begin
-  if copy(copy(tstring[notranslate[n]],2,length(tstring[notranslate[n]])-2),i,2)='\n' then
+  if copy(tstring[notranslate[n]],i,2)='\n' then
   begin
-  memo2.Lines.Add(copy(copy(tstring[notranslate[n]],2,length(tstring[notranslate[n]])-2),m,i-m));
+  memo2.Lines.Add(copy(tstring[notranslate[n]],m,i-m));
   m:=i+2;
   end;
 end;
-  if m=1 then   memo2.Lines.Add(copy(tstring[notranslate[n]],2,length(tstring[notranslate[n]])-2))
-  else memo2.Lines.Add(copy(copy(tstring[notranslate[n]],2,length(tstring[notranslate[n]])-2),
-  m,length(copy(tstring[notranslate[n]],2,length(tstring[notranslate[n]])-2))-m+1));
+  if m=1
+  then memo2.Lines.Add(tstring[notranslate[n]])
+  else memo2.Lines.Add(copy(tstring[notranslate[n]],
+  m,length(tstring[notranslate[n]])-m+2));
 end;
-//
+////////////////////////////////////////////////////////////
 m:=1;
 for i := 1 to length(copy(ustring[notranslate[n]],2,length(ustring[notranslate[n]])-2))-1 do
 begin
@@ -202,12 +189,25 @@ end;
   if m=1 then   memo1.Lines.Add(copy(ustring[notranslate[n]],2,length(ustring[notranslate[n]])-2))
   else memo1.Lines.Add(copy(copy(ustring[notranslate[n]],2,length(ustring[notranslate[n]])-2),
   m,length(copy(ustring[notranslate[n]],2,length(ustring[notranslate[n]])-2))-m+1));
-//
-
 memo2.SetFocus;
 end;
 
 
+
+procedure TForm1.TClick(Sender: TObject);
+begin
+if form1.formstyle=fsnormal
+then
+ begin
+t.Hint:='Disable On Top';
+form1.formstyle:=fsstayontop;
+ end
+else
+ begin
+t.Hint:='Enable On Top';
+form1.formstyle:=fsnormal;
+ end;
+end;
 
 procedure tform1.read;
 begin
@@ -216,7 +216,6 @@ begin
  for i:= 1 to 9999 do
  begin
    full[i]:='';
-   dupes[i]:='';
    notranslate[i]:=0;
    ustring[i]:='';
    tstring[i]:='';
@@ -245,48 +244,6 @@ begin
  end;
 closefile(translate);
 
-// Считывание файла повторяющихся строк в dupes[idm]
-  idm:=0;
-if FileExists(ExtractFilePath(opendialog.filename)+'=DUPES=.txt')=true then
-begin
-assignfile(translate,ExtractFilePath(opendialog.filename)+'=DUPES=.txt',CP_UTF8);
-reset(translate);
-  ReadLn(translate, bomd);
- while not Eof(translate) do
- begin
-  ReadLn(translate, line);
-   if (copy(line,1,1)='[') and (not Eof(translate)) then
-  begin
-    idm:=idm+1;
-    dupes[idm]:=line;
-    ReadLn(translate, line);
-    if (copy(line,1,1)<>'')and(copy(line,1,1)<>';')and(copy(line,1,1)<>'[')then
-    begin idm:=idm+1; dupes[idm]:=line; end
-    else idm:=idm-1;
-  end;
-end;
-closefile(translate);
-end;
-// то же, если =DUPES= находится на директорию выше
-if FileExists(ExtractFilePath(opendialog.filename)+'\..\=DUPES=.txt')=true then
-begin
-assignfile(translate,ExtractFilePath(opendialog.filename)+'\..\=DUPES=.txt',CP_UTF8);
-reset(translate);
- while not Eof(translate) do
- begin
-  ReadLn(translate, line);
-   if (copy(line,1,1)='[') and (not Eof(translate)) then
-  begin
-    idm:=idm+1;
-    dupes[idm]:=line;
-    ReadLn(translate, line);
-    if (copy(line,1,1)<>'')and(copy(line,1,1)<>';')and(copy(line,1,1)<>'[')then
-    begin idm:=idm+1; dupes[idm]:=line; end
-    else idm:=idm-1;
-  end;
-end;
-closefile(translate);
-end;
 if extractfilename(opendialog.filename)='=CORE=.txt' then
 begin
 assignfile(translate,ExtractFilePath(Application.ExeName)+
@@ -294,25 +251,6 @@ assignfile(translate,ExtractFilePath(Application.ExeName)+
 end
 else
 begin
-// если обрабатываемый файл - не =CORE=, повторяющиеся строки считываются и из него.
-assignfile(translate,ExtractFilePath(opendialog.filename)+'\..\=CORE=.txt',CP_UTF8);
-reset(translate);
- while not Eof(translate) do
- begin
-  ReadLn(translate, line);
-   if (copy(line,1,1)='[') and (not Eof(translate)) then
-  begin
-    idm:=idm+1;
-    dupes[idm]:=line;
-    ReadLn(translate, line);
-    if (copy(line,1,1)<>'')and(copy(line,1,1)<>';')and(copy(line,1,1)<>'[')then
-    begin
-    idm:=idm+1;
-    dupes[idm]:=line;
-    end else idm:=idm-1;
-     end;
- end;
-closefile(translate);
 assignfile(translate,ExtractFilePath(Application.ExeName)+
 '\..\english\plugins\'+extractfilename(opendialog.filename),CP_UTF8);
 end;
@@ -333,19 +271,10 @@ for i := 1 to ie do
 for i := 1 to ie do
 if (copy(ustring[i],1,1)='[') and (tstring[i]='') then
 begin
-if (extractfilename(opendialog.filename)='=CORE=.txt') and (idm>0) then
-     for idx := 1 to idm do
-       if dupes[idx]=ustring[i] then tstring[i]:=dupes[idx+1];
-if (extractfilename(opendialog.filename)<>'=CORE=.txt') and (idm>0)
-then for idx := 1 to idm do
-       if dupes[idx]=ustring[i] then tstring[i]:=dupes[idx+1];
-if tstring[i]='' then
-begin
 listbox1.Items.Add(ustring[i]);
 notranslate[listbox1.Items.Count]:=i;
 end;
-end;
-label3.caption:='Untranslate:'+inttostr(listbox1.Items.Count)+' lines.';
+label3.caption:=' of '+inttostr(listbox1.Items.Count)+' untranslate lines.';
 refresh;
 end;
 end.
