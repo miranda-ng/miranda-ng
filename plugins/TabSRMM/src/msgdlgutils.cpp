@@ -1675,7 +1675,7 @@ void TSAPI HandlePasteAndSend(const TWindowData *dat)
 		return;                                     // feature disabled
 	}
 
-	SendMessage(GetDlgItem(dat->hwnd, ctrlID), EM_PASTESPECIAL, CF_TEXTT, 0);
+	SendMessage(GetDlgItem(dat->hwnd, ctrlID), EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 	if (GetWindowTextLengthA(GetDlgItem(dat->hwnd, ctrlID)) > 0)
 		SendMessage(dat->hwnd, WM_COMMAND, IDOK, 0);
 }

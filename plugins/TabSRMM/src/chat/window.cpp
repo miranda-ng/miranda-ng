@@ -705,7 +705,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			case IDM_PASTE:
 			case IDM_PASTEFORMATTED:
 				if (idFrom == IDC_CHAT_MESSAGE)
-					SendMessage(hwnd, EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_TEXTT : 0, 0);
+					SendMessage(hwnd, EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_UNICODETEXT : 0, 0);
 				break;
 			case IDM_COPYALL:
 				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)& all);
@@ -2687,7 +2687,7 @@ LABEL_SHOWWINDOW:
 					}
 					if (msg == WM_KEYDOWN) {
 						if ((wp == VK_INSERT && isShift && !isCtrl && !isMenu) || (wp == 'V' && !isShift && !isMenu && isCtrl)) {
-							SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_PASTESPECIAL, CF_TEXTT, 0);
+							SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 							((MSGFILTER *) lParam)->msg = WM_NULL;
 							((MSGFILTER *) lParam)->wParam = 0;
 							((MSGFILTER *) lParam)->lParam = 0;

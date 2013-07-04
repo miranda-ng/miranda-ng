@@ -42,8 +42,6 @@
  * required for MingW32 compatibility
  */
 
-#define CF_TEXTT CF_UNICODETEXT
-
 #define MSGERROR_CANCEL	0
 #define MSGERROR_RETRY	    1
 #define MSGERROR_SENDLATER  2

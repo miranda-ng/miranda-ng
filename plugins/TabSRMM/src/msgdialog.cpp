@@ -192,7 +192,7 @@ static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 			case IDM_PASTE:
 			case IDM_PASTEFORMATTED:
 				if (idFrom == IDC_MESSAGE)
-					SendMessage(hwndFrom, EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_TEXTT : 0, 0);
+					SendMessage(hwndFrom, EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_UNICODETEXT : 0, 0);
 				break;
 			case IDM_COPYALL:
 				SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)& all);
@@ -2001,7 +2001,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					}
 					if (msg == WM_KEYDOWN) {
 						if ((wp == VK_INSERT && isShift && !isCtrl) || (wp == 'V' && isCtrl && !isShift && !isAlt)) {
-							SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_PASTESPECIAL, CF_TEXTT, 0);
+							SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 							_clrMsgFilter(lParam);
 							return(_dlgReturn(hwndDlg, 1));
 						}
