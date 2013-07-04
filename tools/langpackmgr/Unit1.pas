@@ -136,8 +136,16 @@ begin
 end;
 
 procedure TForm1.GClick(Sender: TObject);
+var str:string;
  begin
-   ShellExecute( Handle, 'open', 'http://translate.google.ru/#auto/', nil, nil, SW_NORMAL );
+ str:='http://translate.google.com/?hl=&ie=&langpair=auto&text=';
+for I := 0 to memo1.Lines.Count-1 do
+begin
+str:=str+memo1.Lines[i];
+if i<memo1.Lines.Count-1 then
+str:=str+'+%0A+';
+end;
+   ShellExecute(0, 'open',PChar(str), nil, nil, SW_SHOW);
 end;
 
 procedure tform1.refresh;
