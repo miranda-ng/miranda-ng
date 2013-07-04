@@ -6,7 +6,7 @@
 ;  Authors: P Boon
 ;============================================================
 [KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
-
+KeepStatus kontroluje připojení. Pro použití s (nebo bez) StartupStatusu a/nebo AdvancedAutoAway.
 ;file \Plugins\StatusPlugins\resource.rc
 [Check connection]
 Zajistit spojení
@@ -278,7 +278,7 @@ Chyba stavu (%s), další pokus (č.%d) za %d sek.
 [Status error (next retry (%d) in %ds)]
 Chyba stavu (další pokus (č.%d) za %d sek.)
 [will be set to]
-
+bude nastaven na
 [Resetting status... (last try (%d))%s]
 Reset stavu... (poslední pokus (č.%d))%s
 [Resetting status... (next retry (%d) in %ds)%s]

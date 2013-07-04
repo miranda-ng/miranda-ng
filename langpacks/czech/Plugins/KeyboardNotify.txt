@@ -6,7 +6,7 @@
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
-
+Bliká LEDkami vaší klávesnice při příchozí zprávě.
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Accounts to check]
 Účty ke kontrole
@@ -137,7 +137,7 @@ Přepsat existující
 [Set program list]
 Seznam vybraných programů
 [Program]
-
+Program
 [OK]
 OK
 [Cancel]
@@ -145,11 +145,11 @@ Zrušit
 [Set LEDs for events]
 Zvolit LEDky pro události
 [Num]
-
+Num
 [Caps]
-
+Caps
 [Scroll]
-
+Scroll
 [Message events]
 Zprávy
 [File events]
@@ -159,9 +159,9 @@ Příchozí odkazy
 [Other events]
 Jiné události
 [Consider event opened after]
-
+Brát v úvahu události otevřené po
 [Use custom theme]
-
+Použít vlastní téma
 [The following events are being ignored:]
 Následující události budou ignorovány:
 [Ignore messages]
@@ -211,8 +211,8 @@ Sekvence blikání klávesnicí
 [All Files]
 Všechny soubory
 [\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-
+\n; Automaticky generovaný soubor s tématem pro upozornění klávesnicí\n\n\n
 [\n; End of automatically generated Keyboard Notify Theme file\n]
-
+\n; Konec automaticky generovaného souboru s tématem pro upozornění klávesnicí\n
 [None]
 ---

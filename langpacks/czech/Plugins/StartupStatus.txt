@@ -276,9 +276,9 @@ Vpravo
 [None]
 ---
 [size: %d x %d]
-
+velikost: %d x %d
 [loc: %d x %d]
-
+pozice: %d x %d
 [Hidden]
 Skrytý
 [Minimized]
@@ -299,14 +299,14 @@ Stav při spuštění
 Výchozí profil bude změněn.
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
 [Status profiles]
-
+Stavové profily
 [There is a maximum of 6 menu items]
 Max. počet položek menu je 6.
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 [Pressed toolbar icon]
-
+Stisknutá ikona tlačitkové lišty
 [Released toolbar icon]
-
+Nestisknutá ikona tlačítkové lišty
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Jsem pryč od %time%

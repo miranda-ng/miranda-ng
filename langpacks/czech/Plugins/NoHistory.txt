@@ -6,25 +6,25 @@
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent miranda from storing any history.]
-
+Umožňuje zabránit Mirandě ukládat jakoukoliv historii.
 ;file \plugins\NoHistory\res\NoHistory.rc
 [Keep history for this contact]
-
+Uchovávat historii tohoto kontaktu
 [Disable history for this contact]
-
+Zakázat historii tohoto kontakt
 ;file \plugins\NoHistory\src\dllmain.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Tato operace ODSTRANÍ NATRVALO všechnu historii tohoto kontaktu.\nJste si jistí, že chcete pokračovat?
 [Clear History]
 Smazat historii
 [Enable History]
-
+Povolit historii
 [Disable History]
-
+Zakázat historii
 [History Enabled]
-
+Historie povolena
 [History Disabled]
-
+Historie zakázána
 ;file \plugins\NoHistory\src\icons.cpp
 [Disable]
 Vypnout
@@ -33,7 +33,7 @@ Aktivovat
 [Clear]
 Vymazat
 [No History]
-
+Bez historie
 ;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
 ** všechny kontakty **

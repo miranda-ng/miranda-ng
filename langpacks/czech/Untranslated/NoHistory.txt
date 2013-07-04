@@ -1,8 +1,0 @@
-﻿[Prevent miranda from storing any history.]
-[Keep history for this contact]
-[Disable history for this contact]
-[Enable History]
-[Disable History]
-[History Enabled]
-[History Disabled]
-[No History]

@@ -1,5 +1,0 @@
-﻿[size: %d x %d]
-[loc: %d x %d]
-[Status profiles]
-[Pressed toolbar icon]
-[Released toolbar icon]

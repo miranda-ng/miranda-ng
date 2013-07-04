@@ -1,2 +1,0 @@
-﻿[KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
-[will be set to]
