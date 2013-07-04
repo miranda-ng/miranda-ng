@@ -32,8 +32,8 @@
 Всегда показывать панель вкладок
 [Limit names on tabs to]
 Ограничить имена на вкладках
-[Show close button on each tab ]
-Кнопка закрытия на вкладках
+[Show close button on each tab]
+Кнопка закрытия на каждой вкладке
 [Switch to active tab]
 Переключаться на активную вкладку
 [Limit number of tabs per window to]
@@ -95,7 +95,7 @@
 [Show topic on your contact list (if supported)]
 Показывать тему в списке контактов (если поддерживается)
 [Do not play sounds when focused]
-Не играть звук, когда комната на переднем плане
+Не воспроизводить звук, когда окно чата на переднем плане
 [Do not pop up when joining]
 Не показывать всплывающие окна, когда кто-то заходит
 [Show and hide by double clicking in the contact list]
@@ -124,6 +124,8 @@
 Сохранять журнал
 [Trim to]
 Лимит
+[kB]
+кБ
 [&Open link]
 &Открыть ссылку
 
@@ -245,6 +247,6 @@
 [Window: Toggle Toolbar]
 Окно: вкл./выкл. панели кнопок
 [Min input area size]
-Мин. размер поля ввода
+Минимальный размер поля ввода
 [lines]
 линий

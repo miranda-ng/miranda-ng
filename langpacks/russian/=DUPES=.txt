@@ -3814,7 +3814,7 @@ xСтатусы
 [%s: Chat Room (%u users)]
 %s: Чат-комната (%u пользователей)
 [Log status changes]
-Записывать изменения статусов в журнал
+Запись изменений статусов в журнал
 [Indent the second line of a message]
 Отступ второй строки сообщения
 [Show Date]

@@ -300,7 +300,7 @@
 [Show local time]
 Локальное время
 [Show menu and status buttons]
-Показывать кнопки меню и статуса
+Показ. кнопки меню и статуса
 [Show number of contacts in a group]
 Показать число контактов в группе
 [Show second text line]

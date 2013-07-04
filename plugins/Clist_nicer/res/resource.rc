@@ -92,8 +92,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,77,147,10
     GROUPBOX        "Contact list layout",IDC_STATIC,169,0,133,91
     CONTROL         "Show menu and status buttons",IDC_SHOWBOTTOMBUTTONS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,176,25,121,10
-    CONTROL         "Draw sunken edge",IDC_CLISTSUNKEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,176,38,121,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,176,12,121,10
+    CONTROL         "Draw sunken edge",IDC_CLISTSUNKEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,176,25,121,10
     GROUPBOX        "System tray icon",IDC_STATIC,1,91,163,63
     CONTROL         "Single click interface",IDC_ONECLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,101,147,10
     CONTROL         "Always show status in tooltip",IDC_ALWAYSSTATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,10,113,147,10
@@ -102,7 +102,7 @@ BEGIN
     CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,114,137,11,16
     LTEXT           "ms",IDC_STATIC,130,138,24,8
     GROUPBOX        "Event area",IDC_STATIC,169,91,133,63
-    LTEXT           "Set base visiblity on the frames menu",IDC_STATIC,176,102,121,15
+    LTEXT           "Set base visiblity on the frames menu",IDC_STATIC,176,102,121,20
     CONTROL         "Auto mode",IDC_EVENTAREAAUTOHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,176,125,121,10
     CONTROL         "Draw sunken edge",IDC_EVENTAREASUNKEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,176,136,121,10
     GROUPBOX        "System tray icon when using multiple protocols",IDC_STATIC,1,154,302,71
@@ -288,7 +288,7 @@ BEGIN
     LTEXT           "000%",IDC_ACTIVEPERC,130,207,24,8,SS_NOPREFIX
     CONTROL         "Fade contact list in/out",IDC_FADEINOUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,159,190,139,10
     CONTROL         "Fully transparent (like TweakUI)",IDC_FULLTRANSPARENT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,159,205,139,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,159,205,142,10
 END
 
 IDD_OPT_CLC DIALOGEX 0, 0, 305, 226
