@@ -6,62 +6,62 @@
 ;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
 ;============================================================
 [Notifies you if you have unread email on an exchange server.]
-
+Informuje o nepřečtených e-mailech na serveru Exchange.
 ;file \plugins\Exchange\res\exchange.rc
 [Unread emails]
 Nepřečtené e-maily
 [Close]
 Zavřít
 [Mark as read]
-
+Označit jako přečtený
 [Dialog]
 Dialog
 [Connection]
 Spojení
 [Username:]
-
+Uživatel:
 [Password:]
-
+Heslo:
 [Server:]
-
+Server:
 [Preferences]
-
+Předvolby
 [Check every]
 Projít každých
 [seconds]
 sekund
 [Force reconnect every]
-
+Vynutit připojení každých
 [minutes]
 minut
 [Check server before trying to connect]
-
+Zkontrolovat server před pokusem o připojení
 [Try to connect]
-
+Pokusit se připojit
 [times before giving up]
-
+krát a až pak to vzdát
 [Show email notifications using popup module]
-
+Zobrazit upozornění na e-mailu použitím modulu Oznámení
 ;file \plugins\Exchange\src\dlg_handlers.cpp
 [Entry ID]
-
+Identifikátor
 [Subject]
 Předmět
 [Sender]
 Odesílatel
 ;file \plugins\Exchange\src\emails.cpp
 [You have %d unread emails ...]
-
+Máte %d nepřečtených e-mailů...
 [You have one unread email ...]
-
+Máte nepřečtený e-mail...
 [Exchange email]
-
+Exchange e-mail
 [Do you want to see the email headers?]
-
+Přejete si zobrazit hlavičky e-mailu
 ;file \plugins\Exchange\src\hooked_events.cpp
 [Check exchange mailbox]
-
+Zkontrolovat schránku Exchange
 [Exchange notify]
-
+Upozornění Exchange
 [Plugins]
 Doplňky

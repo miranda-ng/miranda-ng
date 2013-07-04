@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
@@ -105,7 +105,7 @@ Zrušit
 [Create Gadu-Gadu account]
 Zřídit nový účet Gadu-Gadu
 [Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
-
+Vytvořit účet Gadu-Gadu\nToto vytvoří nový účet Gadu-Gadu
 [New password:]
 Nové heslo:
 [Confirm password:]
@@ -117,7 +117,7 @@ Nový e-mail:
 [Remove Gadu-Gadu account]
 Zrušit účet Gadu-Gadu
 [Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
-
+Zrušit účet Gadu-Gadu\nToto zruší váš účet Gadu-Gadu
 [Yes, I want to remove my account]
 Ano, opravdu chci svůj účet zrušit
 [Remove]
@@ -125,11 +125,11 @@ Odebrat
 [Change Gadu-Gadu password]
 Změnit heslo Gadu-Gadu
 [Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
-
+Změnit heslo Gadu-Gadu\nZmění aktuální heslo uživatele Gadu-Gadu
 [Change Gadu-Gadu e-mail]
 Změnit e-mail Gadu-Gadu
 [Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
-
+Změnit e-mail Gadu-Gadu\nZmění aktuální e-mail uživatele Gadu-Gadu
 [Age from:]
 Min. věk:
 [to:]
@@ -143,22 +143,22 @@ Po&slat
 [Open new conference]
 Založit novou konferenci
 [Open new conference\nSelect conference participants]
-
+Založit novou konferenci\nVybrat účastníky konference
 [Open]
 Otevřít
 [Concurrent Sessions]
 Přehled relací
 [Concurrent %s Login Sessions\nView information on active concurrent sessions]
-
+Přehled přihlášených relací %s\nZobrazí informace o aktivních relacích
 [Sign out all sessions]
 Odhlásit všechny relace
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 [Can not create avatars cache directory. ERROR: %d: %s\n%s]
-
+Nelze vytvořit složku pro cache avatarů. CHYBA: %d: %s\n%s
 [Can not create avatar file. ERROR: %d: %s\n%s]
-
+Nelze vytvořit soubor s avatarem. CHYBA: %d: %s\n%s
 [Can not open avatar file. ERROR: %d: %s\n%s]
-
+Nelze otevřít soubor s avatarem. CHYBA: %d: %s\n%s
 ;file \protocols\Gadu-Gadu\src\core.cpp
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
 Nelze přeložit název serveru Gadu-Gadu na IP adresu.
@@ -175,11 +175,11 @@ Nelze připojit k požadovanému serveru Gadu-Gadu.
 [Cannot establish secure connection.]
 Nelze navázat zabezpečené spojení.
 [Server disconnected asking you for changing your e-mail.]
-
+Server vás odpojil s požadavkem o změnu vašeho e-mailu.
 [Too many login attempts with invalid password.]
-
+Příliš mnoho pokusů o připojení s neplatným heslem.
 [Gadu-Gadu servers are now down. Try again later.]
-
+Servery Gadu-Gadu nyní nejsou dostupné. Opakujte později.
 [Unknown]
 neznámý
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
@@ -187,7 +187,7 @@ Adresa externího hostitele pro připojení (%s) je neplatná. Přeposílání p
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Název serveru (%s) je neplatný. Použit výchozí server zjištěný ze sítě Gadu-Gadu.
 [Connection cannot be established. errno=%d: %s]
-
+Připojení nemůže být navázáno. Chyba č. %d: %s
 [Age:]
 Věk:
 [List import successful.]
@@ -201,11 +201,11 @@ Já
 [Unknown client]
 neznámý klient
 [You have logged in at another location]
-
+Přihlásili jste se z jiného místa
 [You are logged in at another location]
-
+Jste přihlášeni z jiného místa
 [Incoming image]
-
+Příchozí obrázek
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
 [Male]
 muž
@@ -242,27 +242,27 @@ Zeptat se
 [Ignore]
 Filtrování
 [Your details has been uploaded to the public directory.]
-
+Vaše údaje byly nahrány na veřejného adresáře.
 [You have to be logged in before you can change your details.]
-
+Musíte být přihlášeni pro změnu vašich údajů.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Can not create transfer file. ERROR: %d: %s (dcc)\n%s]
-
+Nelze vytvořit soubor pro přenos. CHYBA: %d: %s (dcc)\n%s
 [Can not create transfer file. ERROR: %d: %s (dcc7)\n%s]
-
+Nelze vytvořit soubor pro přenos. CHYBA: %d: %s (dcc7)\n%s
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
-
+HTTP - chyba paměti
 [HTTP failed connecting]
-
+HTTP - připojení selhalo
 [HTTP failed resolving]
-
+HTTP - analýza selhala
 [HTTP failed reading]
-
+HTTP - čtení selhalo
 [HTTP failed writing]
-
+HTTP - zápis selhal
 [Unknown HTTP error]
-
+HTTP - Neznámá chyba
 [&Unblock]
 Od&blokovat
 [&Block]
@@ -275,7 +275,7 @@ Seznam kontaktů
 [Avatars]
 Avatary
 [Images]
-
+Obrázky
 [Gadu-Gadu Number]
 Identifikátor
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
@@ -292,7 +292,7 @@ Moje vlastní konference.
 [Participants]
 Účastníci
 ['Unknown']
-
+'Neznámý'
 [You have to be connected to open new conference.]
 Novou konferenci lze zahájit až po připojení.
 [All ignored conferences are now unignored and the conference policy will act again.]
@@ -334,13 +334,13 @@ Přehled relací
 [&Image]
 &Obrázek
 [Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
-
+Soubory obrázků (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
 [Image cannot be written to disk.]
 Obrázek nelze uložit na disk.
 [Delete image from the list]
-
+Smazat obrázek ze seznamu
 [Save image to disk]
-
+Uložit obrázek na disk
 [Image from %s]
 Obrázek od %s
 [Image for %s]
@@ -348,32 +348,32 @@ Obrázek pro %s
 [Select picture to send]
 Vybrat obrázek k odeslání
 [Can not create image cache directory. ERROR: %d: %s\n%s]
-
+Nelze vytvořit složku pro cache obrázků. CHYBA: %d: %s\n%s
 [Cannot save received image to file. ERROR: %d: %s\n%s]
-
+Nelze uložit přijatý obrázek do souboru. CHYBA: %d: %s\n%s
 [Can not open image file. ERROR: %d: %s\n%s]
-
+Nelte otevřít soubor s obrázkem. CHYBA: %d: %s\n%s
 [Image exceeds maximum allowed size of 255 KB.]
-
+Obrázek překračuje maximální povolenou veilkost 255 KB.
 ;file \protocols\Gadu-Gadu\src\import.cpp
 [You have to be connected before you can import/export contacts from/to server.]
 Aktualizovat seznam kontaktů na serveru lze pouze po připojení k síti Gadu-Gadu.
 [List cannot be imported because of error:\n\t%s (Error: %d)]
-
+Seznam nemůže být importován z důvodu chyby:\n\t%s (Chyba: %d)
 [List cannot be removeed because of error: %s (Error: %d)]
-
+Seznam nemůže být odstraněn z důvodu chyby: %s (Chyba: %d)
 [Text files]
 Textové soubory
 [All Files]
 Všechny soubory
 [List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
-
+Seznam nemůže být importován ze souboru "%s" z důvodu chyby:\n\t%s (Chyba: %d)
 [contacts]
 kontakty
 [List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
-
+Seznam nemůže být exportován do souboru "%s" z důvodu chyby:\n\t%s (Chyba: %d)
 [List cannot be exported because of error:\n\t%s (Error: %d)]
-
+Seznam nemůže být exportován z důvodu chyby:\n\t%s (Chyba: %d)
 [Import List From &Server]
 Importovat seznam ze &serveru
 [Import List From &Text File...]
@@ -389,7 +389,7 @@ E&xportovat seznam do souboru...
 Odkaz protokolu Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
-
+Heslo vám nemůže být připomenuto z důvodu chyby:\n\t%s (Chyba: %d)
 [Password was sent to your e-mail.]
 Heslo bylo odesláno na Váš e-mail.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
@@ -399,11 +399,11 @@ Oznámení
 Chyba
 ;file \protocols\Gadu-Gadu\src\services.cpp
 [Can not remove old avatar file before refresh. ERROR: %d: %s\n%s]
-
+Nelze odstranit starý soubor s avatarem před obnovením. CHYBA: %d: %s\n%s
 [Can not remove old avatar file. ERROR: %d: %s\n%s]
-
+Nelze odstranit starý soubor s avatarem. CHYBA: %d: %s\n%s
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
-
+Pro zrušení vašeho avataru Gadu-Gadu musíte použít stránku gg.pl.
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 [Client Name]
 Klient
@@ -414,29 +414,29 @@ IP adresa
 [Action]
 Akce
 [sign out]
-
+odhlásit
 [There are no active concurrent sessions for this account.]
 Momentálně nejste souběžně přihlášení na více místech.
 [You have to be logged in to view concurrent sessions.]
-
+Musíte být připojeni pro zobrazení přehledu relací.
 [Copy Text]
-
+Zkopírovat text
 [Whois]
-
+Whois
 [Concurrent &sessions]
 Zobrazit &relace...
 ;file \protocols\Gadu-Gadu\src\token.cpp
 [Token retrieval failed because of error:\n\t%s]
 Chyba při stahování tokenu. Popis problému:\n\t%s
 [Could not load token image.]
-
+Nelze načíst obrázkový token.
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 Nový účet nelze založit. Chyba:\n\t%s
 [Registration rejected]
 Registrace odmítnuta
 [You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
-
+Založili jste nový účet.\nZadejte vaše osobní informace v "Menu->Informace o sobě"
 [Your account cannot be removed because of error:\n\t%s]
 Požadovaný účet nelze zrušit. Chyba:\n\t%s
 [Bad number or password]

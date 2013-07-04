@@ -6,7 +6,7 @@
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
-
+Zobrazuje kontakty, upozornění na události, stavy protokolů a umožňuje pokročilé úpravy vzhledu. Podporuje MW modifikace a rozšířenou práci s metakontakty.
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Průhlednost:
@@ -189,7 +189,7 @@ Víceřádková stavová lišta
 [Hold [Shift] to inverse [Right Click] behaviour]
 Pomocí [Shift] obrátíte funkci [pravého tlačítka].
 [[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
-
+Ctrl+Levé tlačítko pro zobrazení konkrétního protokolu. Klikněte na prázdnou plochu pro zobrazení všech
 [Set options per account]
 Nastavit pro každý účet zvlášť
 [Enable custom account settings]
@@ -197,13 +197,13 @@ Povolit vlastní nastavení účtu
 [Hide account completely]
 Skýt účet úplně
 [Show status name]
-
+Zobrazit název stavu
 [Show xStatus name]
-
+Zobrazit název rozšířeného stavu
 [Show protocol icon]
 Zobrazit ikonu protokolu
 [Use connecting icon]
-
+Použít připojovací ikonu
 [Show xStatus icon]
 Zobrazit ikonu rozš. stavu
 [Show both icons]
@@ -393,15 +393,15 @@ Další možnosti metakontaktů
 [Additional stuff]
 Další možnosti
 [For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
-
+Pro další funkce je potřeba mít doplněk MetaContacts.\n\nhttp://miranda-ng.org
 [Allow internal requesting of status message text]
-
+Povolit interní požadavky o text stavové zprávy
 [Subcontacts indent:]
 Odsazení podkontaktů:
 [Remove status message if contact became offline]
-
+Odstranit stavovou zprávu při odpojení kontaktu
 [Use improved search method in contactlist]
-
+Použít vylepšené vyhledávání v seznamu kontaktů
 [Show time only if it is different from current time]
 Zobrazit čas pouze když se liší od místního
 [Show contact time as row item]
@@ -469,7 +469,7 @@ Levý okraj:
 [Right margin:]
 Pravý okraj:
 [Compact mode\n(Show avatars and additional text on selected contacts only)]
-
+Kompaktní reýim\n(Zobrazí avatary a další informace pouze u vybraného kontaktu)
 [Draw border on avatar]
 Orámovat avatary
 [Draw overlay icons]
@@ -541,9 +541,9 @@ Poslech hudby
 [Contact time]
 Čas
 [Show status if there is no status message]
-
+Zobrazit stav pokud není zadána stavová zpráva
 [Show listening to if there is no status message]
-
+Zobrazit informace o hudbě pokud není zadána stavová zpráva
 [XStatus has priority]
 Preferovat rozšířený stav
 [Use 'XStatus: XMessage']
@@ -603,7 +603,7 @@ Přesunout nahoru
 [Move down]
 Přesunout dolů
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-
+STRÁNKA S NASTAVENÍM JE VE VÝSTAVBĚ. Nevšímejte si zde žádných problémů.\nPouze vysokoúrovňové komentáře k designu jsou užitečné.
 [E&xit]
 U&končit
 [&Status]
@@ -660,7 +660,7 @@ Př&ejmenovat skupinu
 [Skins]
 Skiny
 [Modern contact list]
-
+Moderní seznam kontaktů
 [Avatar Overlay]
 Překrytí avataru
 [Status Overlay]
@@ -888,11 +888,11 @@ Seznam kontaktů
 [&Visible]
 &Viditelný
 [&Show title]
-
+&Zobrazit titulek
 [&Locked]
 Zamkn&utý
 [&Expanded]
-
+&Rozbalený
 [&Floating Mode]
 &Plovoucí
 [&Border]
@@ -936,20 +936,20 @@ Hlavní
 [Restore last status]
 Obnovit předchozí stav
 [Show/Hide Offline Users]
-
+Zobrazit/skrýt uživatele offline
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
-
+Prázdná buňka %s
 [column]
-
+sloupec
 [line]
 řádek
 [columns]
-
+sloupce
 [lines]
 řádky
 [%s, contain %s]
-
+%s, obsahuje %s
 [ layered]
  moderní
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
@@ -1057,13 +1057,13 @@ Povolit/zakázat zvuky
 [Enable sounds]
 Povolit zvuky
 [Disable sounds]
-
+Zakázat zvuky
 [Minimize]
 Minimalizovat
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
-
+Pro zobrazení lišty tlačítek v seznamu kontaktů potřebujete doplněk TopToolBar. Klikněte na Ano pro stažení nebo Zrušit pro pokračování
 [Toolbar upgrade]
-
+Aktualizace lišty tlačítek
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
 Nesdružené kontakty

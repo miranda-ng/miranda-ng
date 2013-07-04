@@ -118,10 +118,20 @@ pro příchozí připojení
 Alternativně použít porty 80 a 443 pro příchozí připojení
 [Default group:]
 Výchozí skupina:
-[Ignore list]
-Filtrování
-[Server side ignore list\nControl ignore list on server.]
-Filtrování na serveru\nSpravujte filtrování na serveru. 
+[Block]
+Blokovat
+[Block this person]
+Blkovat tohoto uživatele
+[%s]
+%s
+[Remove from your Contact List]
+Odstranit ze seznamu kontaktů
+[Abuse]
+Zneužití
+[You can also report abuse from this user.]
+Můžete nahlásit tohoto uživatele pro zneužití.
+[Report abuse]
+Nahlásit zneužití
 ;file \protocols\Skype\proto_skype\src\resource.h
 [NOT_VALIDATED]
 Neověřeno
@@ -221,9 +231,12 @@ Nové heslo nebylo akceptovatelné
 Účet nebyl aktuálně přihlášený
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
 Nezadali jste uživatelské jméno.\nNastavení proveďte v Možnosti->Sítě->%s a zkuste to znovu.
-;file \protocols\Skype\src\skype_bookmarks.cpp
+;file \protocols\Skype\src\skype_blocked.cpp
+[Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
+Přejete si blokovat "%s" (%s)? Nebude vás moci kontaktovat a nezobrazí se ve vašem seznamu kontaktů.
 [Name]
 Jméno
+;file \protocols\Skype\src\skype_bookmarks.cpp
 [Conferences]
 Diskusní skupiny
 ;file \protocols\Skype\src\skype_chat.cpp
@@ -298,6 +311,8 @@ Nyní nejste připojeni k síti Skype. Musíte být připojeni pro aktualizaci v
 Vytvořit konferenci
 [Network]
 Sítě
+[Blocked contacts]
+Blokované kontakty
 [Contacts]
 Kontakty
 [Home]
@@ -317,10 +332,6 @@ Odeslat kontakt
 Kontakt
 [Delete]
 Smazat
-[Ignore]
-Filtrování
-[Block]
-Blokovat
 [Protocols]
 Protokoly
 ;file \protocols\Skype\src\skype_ignore_list.cpp
@@ -334,17 +345,39 @@ SkypeKit nebyl inicializován (%d).
 [SkypeKit did not start.]
 SkypeKit nebyl spuštěn.
 ;file \protocols\Skype\src\skype_menus.cpp
+[Unblock this person...]
+Odblokovat tohoto uživatele...
+[Block this person...]
+Zablokvoat tohoto uživatele...
 [Request authorization]
 Požádat o autorizaci
 [Grant authorization]
 Udělit autorizaci
 [Revoke authorization]
 Odvolat autorizaci
+[View old messages...]
+Zobrazit staré zprávy...
+[for last day]
+z posledního dne
+[for last week]
+z posledního týdne
+[for last month]
+z posledního měsíce
+[for last 3 month]
+z posledních 3 měsíců
+[for last year]
+z posledního roku
+[for all time]
+všechny
 ;file \protocols\Skype\src\skype_messages.cpp
 [Incoming call started]
 Příchozí volání
 [Incoming call finished]
 Příchozí volání ukončeno
+[history synchronization]
+synchronizace historie
+[Done!]
+Hotovo!
 ;file \protocols\Skype\src\skype_netlib.cpp
 [%s connection]
 %s - spojení se serverem
@@ -353,25 +386,25 @@ Příchozí volání ukončeno
 Uživatelské jméno
 ;file \protocols\Skype\src\skype_transfers.cpp
 [SENDER_NOT_AUTHORISED]
-
+Odesílatel není autorizován
 [REMOTELY_CANCELLED]
-
+Vzdáleně zrušeno
 [FAILED_READ]
-
+Chyba čtení
 [FAILED_REMOTE_READ]
-
+Chyba vzdáleného čtení
 [FAILED_WRITE]
-
+Chyba zápisu
 [FAILED_REMOTE_WRITE]
-
+Chyba vzdáleného zápisu
 [REMOTE_DOES_NOT_SUPPORT_FT]
-
+Vzdálený nepodporuje přenos souborů
 [REMOTE_OFFLINE_FOR_TOO_LONG]
-
+Vzdálený je offline příliš dlouho
 [TOO_MANY_PARALLEL]
-
+Příliš mnoho paralelních
 [PLACEHOLDER_TIMEOUT]
-
+Vypršení času
 ;file \protocols\Skype\src\skype_utils.cpp
 [Avatars]
 Avatary
