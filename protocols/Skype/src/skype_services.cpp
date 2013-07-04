@@ -1,4 +1,5 @@
 #include "skype.h"
+#include <m_chat.h>
 
 void CSkypeProto::InitServiceList()
 {
@@ -19,4 +20,6 @@ void CSkypeProto::InitInstanceServiceList()
 	this->CreateServiceObj(PS_GETAVATARCAPS, &CSkypeProto::GetAvatarCaps);
 	this->CreateServiceObj(PS_GETMYAVATART, &CSkypeProto::GetMyAvatar);
 	this->CreateServiceObj(PS_SETMYAVATART, &CSkypeProto::SetMyAvatar);
+	// service to get from protocol chat buddy info
+	this->CreateServiceObj(MS_GC_PROTO_GETTOOLTIPTEXT, &CSkypeProto::SkypeGCGetToolTipText);
 }

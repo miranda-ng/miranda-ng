@@ -1720,3 +1720,58 @@ void CSkypeProto::OnConversationListChange(
 void CSkypeProto::ChatRoomParseUriComands(const wchar_t *commands)
 {
 }
+
+static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tszValue, TCHAR* buf, size_t bufSize)
+{
+	if (*buf) {
+		const TCHAR *szSeparator = (bIsTipper) ? _T("\n") : ((IsWinVerMEPlus()) ? _T("\r\n") : _T(" | "));
+ 		_tcsncat(buf, szSeparator, bufSize);
+	}
+
+	size_t len = _tcslen(buf);
+	buf += len;
+	bufSize -= len;
+
+	if (bIsTipper)
+		mir_sntprintf(buf, bufSize, _T("%s%s%s%s"), _T("<b>"), TranslateTS(tszTitle), _T("</b>\t"), tszValue);
+	else {
+		TCHAR* p = TranslateTS(tszTitle);
+		mir_sntprintf(buf, bufSize, _T("%s%s\t%s"), p, _tcslen(p)<=7 ? _T("\t") : _T(""), tszValue);
+	}
+}
+
+INT_PTR __cdecl CSkypeProto::SkypeGCGetToolTipText(WPARAM wParam, LPARAM lParam)
+{
+	if ( !wParam || !lParam)
+		return 0; //room global tooltip not supported yet
+
+	ChatRoom *room = this->FindChatRoom((TCHAR *)wParam);
+	if (room == NULL)
+		return 0;  //no room found
+
+	ChatMember *member = room->FindChatMember((TCHAR *)lParam);
+	if (member == NULL)
+		return 0;  //no contact found
+
+	// ok process info output will be:
+	// Skype name:	sid
+	// Nick:		Nickname
+	// Status:		StatusText
+	// Role:		Moderator
+
+	TCHAR outBuf[2048];
+	outBuf[0]=_T('\0');
+
+	bool bIsTipper = db_get_b(NULL, "Tab_SRMsg", "adv_TipperTooltip", 0) && ServiceExists("mToolTip/HideTip");
+
+	//sid
+	appendString(bIsTipper, _T("Skype name:"), member->GetSid(), outBuf, SIZEOF(outBuf));
+	//nick
+	appendString(bIsTipper, _T("Nick:"), member->GetNick(), outBuf, SIZEOF(outBuf));
+	//status
+	appendString(bIsTipper, _T("Status:"), (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)member->GetStatus(),GSMDF_TCHAR), outBuf, SIZEOF(outBuf));
+	//role
+	appendString(bIsTipper, _T("Role:"), ::TranslateW(ChatRoom::Roles[member->GetRank()]), outBuf, SIZEOF(outBuf));
+
+	return (INT_PTR)(outBuf[0] == 0 ? NULL : mir_tstrdup(outBuf));
+}
