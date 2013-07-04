@@ -93,8 +93,6 @@
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;$(ProfileDir)..\..\..\SkypeKit\SDK\lib\Debug</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>comctl32.lib;Shlwapi.lib;Ws2_32.lib;Advapi32.lib;skypekit-cyassl_lib_x86.lib;skypekit-cppwrapper_2_lib_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreAllDefaultLibraries>
-      </IgnoreAllDefaultLibraries>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalOptions>/PDBALTPATH:%_PDB% %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -123,8 +121,6 @@
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;$(ProfileDir)..\..\..\SkypeKit\SDK\lib\Debug</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>comctl32.lib;Shlwapi.lib;Ws2_32.lib;Advapi32.lib;skypekit-cyassl_lib_x64.lib;skypekit-cppwrapper_2_lib_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreAllDefaultLibraries>
-      </IgnoreAllDefaultLibraries>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalOptions>/PDBALTPATH:%_PDB% %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -240,7 +236,6 @@
     </ClCompile>
     <ClCompile Include="src\skype_account.cpp" />
     <ClCompile Include="src\skype_avatars.cpp" />
-    <ClCompile Include="src\skype_blocked.cpp" />
     <ClCompile Include="src\skype_chat.cpp" />
     <ClCompile Include="src\skype_contacts.cpp" />
     <ClCompile Include="src\skype_database.cpp" />
@@ -248,6 +243,7 @@
     <ClCompile Include="src\skype_events.cpp" />
     <ClCompile Include="src\skype_hooks.cpp" />
     <ClCompile Include="src\skype_icons.cpp" />
+    <ClCompile Include="src\skype_blocked.cpp" />
     <ClCompile Include="src\skype_instances.cpp" />
     <ClCompile Include="src\skype_menus.cpp" />
     <ClCompile Include="src\skype_messages.cpp" />
@@ -278,6 +274,12 @@
     <None Include="res\block.ico" />
     <None Include="res\delete.ico" />
     <None Include="res\send_contacts.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\add_contacts.ico" />
+    <Image Include="res\conference.ico" />
+    <Image Include="res\contact.ico" />
+    <Image Include="res\skype.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

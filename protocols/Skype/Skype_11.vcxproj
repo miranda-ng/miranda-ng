@@ -274,7 +274,6 @@
     <None Include="res\conf_spawn.ico" />
     <None Include="res\main.ico" />
     <None Include="res\block.ico" />
-    <None Include="res\bookmark.ico" />
     <None Include="res\delete.ico" />
     <None Include="res\send_contacts.ico" />
   </ItemGroup>

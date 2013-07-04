@@ -211,4 +211,18 @@
       <Filter>Resource Files\Icons</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\add_contacts.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\conference.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\contact.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\skype.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

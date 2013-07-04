@@ -531,6 +531,11 @@ void ChatRoom::UpdateMemberStatus(ChatMember *member, int status, DWORD timestam
 {
 	if (member->GetStatus() != status)
 	{
+		if (status == ID_STATUS_AWAY || status == ID_STATUS_DND)
+			this->SendEvent(*member, GC_EVENT_SETSTATUSEX, timestamp, 0, 3, (const wchar_t*)0, member->GetSid());
+		else
+			this->SendEvent(*member, GC_EVENT_SETSTATUSEX, timestamp, 0, 1, (const wchar_t*)0, member->GetSid());
+
 		this->SendEvent(*member, GC_EVENT_SETCONTACTSTATUS, timestamp, 0, status);
 		member->SetStatus(status);
 	}
