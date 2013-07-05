@@ -209,7 +209,7 @@
     <Image Include="res\send_contacts.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
-    <None Include="res\block.ico">
+    <Image Include="res\block.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
     <Image Include="res\delete.ico">
