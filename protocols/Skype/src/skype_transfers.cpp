@@ -23,13 +23,15 @@ void CSkypeProto::OnTransferChanged(const TransferRef &transfer, int prop)
 		{
 			Transfer::FAILUREREASON reason;
 
-			SEBinary guid;
+			/*SEBinary guid;
 			transfer->GetPropChatmsgGuid(guid);			
 
 			MessageRef msgRef;
 			this->GetMessageByGuid(guid, msgRef);
 			
-			uint oid = msgRef->getOID();
+			uint oid = msgRef->getOID();*/
+
+			uint oid = transfer->getOID();
 
 			SEString data;
 			transfer->GetPropPartnerHandle(data);
@@ -69,13 +71,7 @@ void CSkypeProto::OnTransferChanged(const TransferRef &transfer, int prop)
 		{
 			SEString data;
 
-			SEBinary guid;			
-			transfer->GetPropChatmsgGuid(guid);
-
-			MessageRef msgRef;
-			this->GetMessageByGuid(guid, msgRef);
-			
-			uint oid = msgRef->getOID();			
+			uint oid = transfer->getOID();
 
 			PROTOFILETRANSFERSTATUS pfts = {0};
 			pfts.cbSize = sizeof(pfts);
@@ -107,7 +103,7 @@ void CSkypeProto::OnTransferChanged(const TransferRef &transfer, int prop)
 void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const MessageRef &message)
 {
 	SEString data;
-	bool isRecvFiles = false;
+	//bool isRecvFiles = false;
 	Transfer::TYPE transferType;
 	Transfer::STATUS transferStatus;
 
@@ -132,10 +128,28 @@ void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const Message
 			transfer->GetPropType(transferType);
 			if (transferType == Transfer::INCOMING)
 			{
-				isRecvFiles = true;
+				//isRecvFiles = true;
 
 				this->transferList.append(transfer);
 				transfer.fetch();
+
+				uint timestamp;
+				message->GetPropTimestamp(timestamp);
+
+				ContactRef author;
+				message->GetPropAuthor(data);
+				this->GetContact(data, author);
+
+				HANDLE hContact = this->AddContact(author, true);
+
+				PROTORECVFILET pre = {0};
+				pre.flags = PREF_TCHAR;
+				pre.fileCount = transfers.size();
+				pre.timestamp = timestamp;
+				pre.tszDescription = L"";
+				pre.ptszFiles = files;
+				pre.lParam = (LPARAM)transfer->getOID();
+				::ProtoChainRecvFile(hContact, &pre);
 			}
 			else if (transferType == Transfer::PLACEHOLDER)
 			{
@@ -144,7 +158,7 @@ void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const Message
 			}
 		}
 	}
-	files[transfers.size()] = NULL;
+	/*files[transfers.size()] = NULL;
 
 	if (isRecvFiles)
 	{
@@ -165,5 +179,5 @@ void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const Message
 		pre.ptszFiles = files;
 		pre.lParam = (LPARAM)message->getOID();
 		::ProtoChainRecvFile(hContact, &pre);
-	}
+	}*/
 }

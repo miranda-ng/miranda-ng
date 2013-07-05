@@ -155,16 +155,35 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 	wchar_t fullPath[MAX_PATH] = {0};
 
 	SEString data;
-	MessageRef msgRef(oid);
-	TransferRefs transfers;
-	msgRef->GetTransfers(transfers);
-	for (uint i = 0; i < transfers.size(); i++)
+	TransferRef transfer(oid);
+	//TransferRefs transfers;
+	//msgRef->GetTransfers(transfers);
+	//for (uint i = 0; i < transfers.size(); i++)
 	{
-		transfers[i]->GetPropFilename(data);
+		transfer->GetPropFilename(data);
 		ptrW name(::mir_utf8decodeW(data));
 		::mir_sntprintf(fullPath, MAX_PATH, L"%s%s", szPath, name);
 
-		if ( !transfers[i]->Accept((char *)ptrA(::mir_utf8encodeW(fullPath)), success) || !success)
+		//PROTOFILETRANSFERSTATUS pfts = {0};
+		//ZeroMemory(&pfts, sizeof(PROTOFILETRANSFERSTATUS));
+		//pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
+		//pfts.hContact = hContact;
+		//pfts.flags = PFTS_TCHAR | PFTS_RECEIVING; /* Standard FT is Ansi only */
+		//pfts.pszFiles = NULL;  /* FIXME */
+		//pfts.totalFiles = transfers.size();
+		//pfts.currentFileNumber = i;
+		////pfts.totalBytes = transfers[i]->GetUintProp(Transfer::P_FILESIZE);
+		////pfts->totalProgress = ft->dwBytesDone;
+		////pfts->szWorkingDir = ft->szSavePath;
+		//pfts.tszCurrentFile = fullPath;
+		//pfts.currentFileSize = transfers[i]->GetUintProp(Transfer::P_FILESIZE);
+		////pfts->currentFileTime = ft->dwThisFileDate;
+		////pfts->currentFileProgress = ft->dwFileBytesDone;
+
+		/*if (ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)oid, (LPARAM)&pfts))
+			return 0;*/
+
+		if ( !transfer->Accept((char *)ptrA(::mir_utf8encodeW(fullPath)), success) || !success)
 			return 0;
 	}
 
@@ -175,13 +194,14 @@ int    __cdecl CSkypeProto::FileCancel( HANDLE hContact, HANDLE hTransfer )
 {
 	uint oid = (uint)hTransfer;
 
-	SEString data;
-	MessageRef msgRef(oid);
+	//SEString data;
+	/*MessageRef msgRef(oid);
 	TransferRefs transfers;
 	msgRef->GetTransfers(transfers);
-	for (uint i = 0; i < transfers.size(); i++)
-		if ( !transfers[i]->Cancel())
-			return 0;
+	for (uint i = 0; i < transfers.size(); i++)*/
+	TransferRef transfer(oid);
+	if ( !transfer->Cancel())
+		return 0;
 
 	this->Log(L"Incoming file transfer is cancelled");
 
@@ -192,13 +212,16 @@ int    __cdecl CSkypeProto::FileDeny( HANDLE hContact, HANDLE hTransfer, const T
 {
 	uint oid = (uint)hTransfer;
 	
-	SEString data;
-	MessageRef msgRef(oid);
+	//SEString data;
+	/*MessageRef msgRef(oid);
 	TransferRefs transfers;
 	msgRef->GetTransfers(transfers);
 	for (uint i = 0; i < transfers.size(); i++)
 		if ( !transfers[i]->Cancel())
-			return 0;
+			return 0;*/
+	TransferRef transfer(oid);
+	if ( !transfer->Cancel())
+		return 0;
 
 	this->Log(L"Incoming file transfer is denied");
 
@@ -253,7 +276,7 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 	case PFLAGNUM_3:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_INVISIBLE | PF2_ONTHEPHONE;
 	case PFLAGNUM_4:
-		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS |
+		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS | 
 			/*PF4_OFFLINEFILES | */PF4_IMSENDUTF | PF4_IMSENDOFFLINE | PF4_NOAUTHDENYREASON;
 	case PFLAGNUM_5:
 		return PF2_ONTHEPHONE;
@@ -426,8 +449,8 @@ HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription
 			return 0; 
 
 		SEFilenameList fileList;
-		for (int i = 0; ppszFiles[i]; i++)
-			fileList.append((char *)ptrA(::mir_utf8encodeW(ppszFiles[i])));
+		//for (int i = 0; ppszFiles[i]; i++)
+			fileList.append((char *)ptrA(::mir_utf8encodeW(ppszFiles[0])));
 
 		auto error = TRANSFER_OPEN_SUCCESS;
 		SEFilename errFile;
@@ -435,18 +458,20 @@ HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription
 		if ( !conversation->PostFiles(fileList, " ", error, errFile, msgRef) || error)
 			return 0;
 
-		CTransfer::Refs transfers;
+		TransferRefs transfers;
 		if (msgRef->GetTransfers(transfers))
 		{
-			for (uint i = 0; i < transfers.size(); i++)
+			//for (uint i = 0; i < transfers.size(); i++)
 			{
-				auto transfer = transfers[i];
+				auto transfer = transfers[0];
 				transfer.fetch();
 				this->transferList.append(transfer);
+
+				return (HANDLE)transfer->getOID();
 			}
 		}
 
-		return (HANDLE)msgRef->getOID();
+		//return (HANDLE)msgRef->getOID();
 	}
 
 	return 0; 

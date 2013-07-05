@@ -60,7 +60,7 @@ void CSkypeProto::OnMessageReceived(const ConversationRef &conversation, const M
 	message->GetPropGuid(guid);
 	ReadMessageParam param = { guid, messageType };
 
-	if (status != CMessage::UNCONSUMED_NORMAL)
+	//if (status != CMessage::UNCONSUMED_NORMAL)
 		if (this->IsMessageInDB(hContact, timestamp, guid))
 			return;
 
