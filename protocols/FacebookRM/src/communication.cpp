@@ -244,6 +244,7 @@ DWORD facebook_client::choose_security_level(int request_type)
 //	case FACEBOOK_REQUEST_ASYNC:
 //	case FACEBOOK_REQUEST_MARK_READ:
 //	case FACEBOOK_REQUEST_NOTIFICATIONS_READ:
+//	case FACEBOOK_REQUEST_UNREAD_THREADS:
 //	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
 //	case FACEBOOK_REQUEST_TYPING_SEND:
 	default:
@@ -284,6 +285,7 @@ int facebook_client::choose_method(int request_type)
 //	case FACEBOOK_REQUEST_LOAD_FRIENDS:		
 //	case FACEBOOK_REQUEST_LOAD_REQUESTS:
 //	case FACEBOOK_REQUEST_SEARCH:
+//	case FACEBOOK_REQUEST_UNREAD_THREADS:
 //	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
 	default:
 		return REQUEST_GET;
@@ -318,6 +320,7 @@ std::string facebook_client::choose_server(int request_type, std::string* data, 
 	case FACEBOOK_REQUEST_APPROVE_FRIEND:
 	case FACEBOOK_REQUEST_LOAD_REQUESTS:
 	case FACEBOOK_REQUEST_SEARCH:
+	case FACEBOOK_REQUEST_UNREAD_THREADS:
 	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
 		return FACEBOOK_SERVER_MOBILE;
 
@@ -389,9 +392,18 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 		return action;
 	}
 
-	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
+	case FACEBOOK_REQUEST_UNREAD_THREADS:
 	{
 		std::string action = "/messages/?folder=unread";
+		if (get_data != NULL) {
+			action += *get_data;
+		}
+		return action;
+	}
+	
+	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
+	{
+		std::string action = "/messages/read/?";
 		if (get_data != NULL) {
 			action += *get_data;
 		}

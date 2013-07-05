@@ -273,7 +273,7 @@ void FacebookProto::ProcessUnreadMessages(void*)
 	{
 		std::string get_data = "&page=" + page;
 
-		http::response resp = facy.flap(FACEBOOK_REQUEST_UNREAD_MESSAGES, NULL, &get_data);
+		http::response resp = facy.flap(FACEBOOK_REQUEST_UNREAD_THREADS, NULL, &get_data);
 
 		// Process result data
 		facy.validate_response(&resp);
@@ -310,119 +310,85 @@ void FacebookProto::ProcessUnreadMessage(void *tid_data)
 	if (tid_data == NULL)
 		return;
 
-	std::string* tid = (std::string*)tid_data;
+	// TODO: get them from /ajax/mercury/thread_info.php
 
-	std::string data = "&fb_dtsg=" + facy.dtsg_;
-	data += "&lsd=&phstamp=" + utils::time::mili_timestamp();
-	data += "&__user=" + facy.self_.user_id;
+	std::string get_data = "tid=" + *(std::string*)tid_data;
+	delete (std::string*)tid_data;
 
-	std::string get_data = "sk=inbox&query=is%3Aunread&thread_query=is%3Aunread&action=read&tid=" + *tid;
-	http::response resp = facy.flap(FACEBOOK_REQUEST_ASYNC, &data, &get_data);
-	// TODO: move this to new thread...
-
+	http::response resp = facy.flap(FACEBOOK_REQUEST_UNREAD_MESSAGES, NULL, &get_data);
 	facy.validate_response(&resp);
 
 	if (resp.code != HTTP_CODE_OK) {
 		LOG(" !! !! Error when getting messages list");
-		delete tid;
 		return;
 	}
-		
-	std::string messageslist = utils::text::slashu_to_utf8(resp.data);		
-		
-	std::string user_id = utils::text::source_get_value(&messageslist, 2, "single_thread_id\":", ",");
-	if (user_id.empty()) {
-		LOG(" !! !! Thread id is empty - this is groupchat message."); // TODO: remove as this is not such 'error'
-		delete tid;
+
+	if (resp.data.find("<option value=\"leave_conversation\">") != std::string::npos) {
+		LOG(" !! !! This is multi user chat");
 		return;
 	}
+
+	std::string messageslist = utils::text::source_get_value(&resp.data, 2, "id=\"messageGroup\">", "</form>");
 
 	facebook_user fbu;
-	fbu.user_id = user_id;
-	fbu.real_name = utils::text::source_get_value(&messageslist, 2, "sender_name\":\"", "\"");
+	HANDLE hContact;
 
-	HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE);
-	// TODO: if contact is newly added, get his user info
-	// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
+	std::string::size_type pos, pos2 = 0;
+	while ((pos2 = messageslist.find("class=\"acw apl abt", pos2)) != std::string::npos) {
+		pos2 += 19;
+		std::string group = messageslist.substr(pos2, messageslist.find("class=\"actions ", pos2) - pos2);
 
-	std::string::size_type pos2 = 0;
-	while ((pos2 = messageslist.find("class=\\\"MessagingMessage ", pos2)) != std::string::npos) {
-		pos2 += 8;
-		std::string strclass = messageslist.substr(pos2, messageslist.find("\\\"", pos2) - pos2);
+		if (group.find("has_attachment&quot;:true") != std::string::npos) {
+			// TODO: do something different for attachements? (inspiration in revision <5236)
+		}
 
-		if (strclass.find("MessagingMessageUnread") == std::string::npos)
-			continue; // ignoring old messages
+		while ((pos = group.find("<div data-store=", pos)) != std::string::npos) {
+			std::string message = group.substr(pos, group.find("</div>", pos) - pos);
+			pos++;
 
-		//std::string::size_type pos3 = messageslist.find("/li>", pos2); // TODO: ne proti tomuhle li, protože i přílohy mají li...
-		std::string::size_type pos3 = messageslist.find("class=\\\"MessagingMessage ", pos2);
-		std::string messagesgroup = messageslist.substr(pos2, pos3 - pos2);
+			std::string author = utils::text::source_get_value2(&message, "author&quot;:", ",}");
 
-		DWORD timestamp = utils::conversion::to_timestamp(utils::text::source_get_value(&messagesgroup, 2, "data-utime=\\\"", "\\\""));
-
-		pos3 = 0;
-		while ((pos3 = messagesgroup.find("class=\\\"content noh", pos3)) != std::string::npos)
-		{
-			std::string message_attachments = "";
-			std::string::size_type pos4 = 0;
-			if ((pos4 = messagesgroup.find("class=\\\"attachments\\\"", pos4)) != std::string::npos) {
-				std::string attachments = messagesgroup.substr(pos4, messagesgroup.find("<\\/ul", pos4) - pos4);
-
-				pos4 = 0;
-				while ((pos4 = attachments.find("<li", pos4)) != std::string::npos) {
-					std::string attachment = attachments.substr(pos4, attachments.find("<\\/li>", pos4) - pos4);
-					std::string link = utils::text::source_get_value(&attachment, 4, "<a class=", "attachment", "href=\\\"", "\\\"");
-
-					link = utils::text::trim(
-							utils::text::special_expressions_decode(link));
-
-					// or first: std::string name = utils::text::source_get_value(&attachment, 4, "<a class=", "attachment", ">", "<\\/a>");
-					std::string name = utils::text::trim(
-							utils::text::special_expressions_decode(
-								utils::text::remove_html(attachment)));
-
-					if (link.find("/ajax/messaging/attachments/photo/dialog.php?uri=") != std::string::npos) {
-						link = link.substr(49);
-						link = utils::url::decode(link);
-					}
-
-					message_attachments += "< " + name + " > " + FACEBOOK_URL_HOMEPAGE;
-					message_attachments += link + "\r\n";
-
-					pos4++;
-				}
-
-			}
-
-			std::string message_text = messagesgroup.substr(pos3, messagesgroup.find("<\\/div", pos3) + 6 - pos3);
-			message_text = utils::text::source_get_value(&message_text, 2, "\\\">", "<\\/div");
-			message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::remove_html(message_text)), true);
-			pos3++;
-
-			if (message_text.empty())
+			// Ignore our messages
+			if (author == facy.self_.user_id)
 				continue;
 
-			LOG("Got unread message: \"%s\"", message_text.c_str());
-
-			ParseSmileys(message_text, hContact);
-
-			if (!message_attachments.empty()) {
-				if (!message_text.empty())
-					message_text += "\r\n\r\n";
-
-				message_text += Translate("Attachments:");
-				message_text += "\r\n" + message_attachments;
+			// Get/create contact
+			if (hContact == NULL) {
+				fbu.user_id = author;
+				fbu.real_name = utils::text::slashu_to_utf8(utils::text::source_get_value(&group, 2, "name&quot;:&quot;", "&quot;"));
+				hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE);
+				// TODO: if contact is newly added, get his user info
+				// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
 			}
+
+			DWORD timestamp = utils::conversion::to_timestamp(utils::text::source_get_value2(&message, "timestamp&quot;:", ",}"));
+			std::string text = utils::text::source_get_value(&message, 2, "<span>", "</span>");
+
+			text = utils::text::trim(utils::text::special_expressions_decode(utils::text::remove_html(text)));
+			// TODO: fix smileys in text
+			/*
+			<img src="https://fbstatic-a.akamaihd.net/rsrc.php/v2/yH/r/SOe5wIZyutW.png" width="16" height="16" class="img"/>
+
+			"yH/r/viyyiQhRqLr.png" -> :-P
+			"yo/r/X8YPpi6kcyo.png" -> :-)
+			"yH/r/SOe5wIZyutW.png" -> :-D
+			...
+			*/
+
+			if (text.empty() || hContact == NULL)
+				continue;
+
+			LOG("Got unread message: \"%s\"", text.c_str());
+
+			ParseSmileys(text, hContact);
 
 			PROTORECVEVENT recv = {0};
 			recv.flags = PREF_UTF;
-			recv.szMessage = const_cast<char*>(message_text.c_str());
+			recv.szMessage = const_cast<char*>(text.c_str());
 			recv.timestamp = timestamp;
 			ProtoChainRecvMsg(hContact, &recv);
 		}
-
 	}
-
-	delete tid;
 }
 
 void FacebookProto::ProcessMessages(void* data)
