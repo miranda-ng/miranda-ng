@@ -9,17 +9,19 @@
 #define IDD_OWNINFO_HOME                13
 #define IDD_OWNINFO_CONTACT             14
 #define IDD_PASSWORD_CHANGE             15
-#define IDD_CHATROOM_INVITE             40
+#define IDD_CHATROOM_INVITE             16
+#define IDD_PASSWORD_REQUEST            17
+#define IDD_CHATROOM_CREATE             18
+#define IDD_CHATROOM_CONFIG             19
+#define IDD_OPT_BLOCKED                 20
+#define IDD_IGNORE_LIST                 21
+#define IDD_BLOCK                       22
 #define IDI_SKYPE                       101
 #define IDR_RUNTIME                     102
-#define IDD_PASSWORD_REQUEST            106
 #define IDR_KEY                         107
 #define IDI_CALL                        108
-#define IDI_CONF_INVITE                 109
 #define IDI_ADD_CONTACTS                109
-#define IDI_SEND_CONTACTS               111
-#define IDD_CHATROOM_CREATE             111
-#define IDD_CHATROOM_CONFIG             112
+#define IDI_SEND_CONTACTS               110
 #define IDI_DELETE                      112
 #define IDI_BLOCK                       115
 #define IDI_CONFERENCE                  116
@@ -71,38 +73,25 @@
 #define IDC_CHAT_TOPIC                  1044
 #define IDC_CHAT_GUIDLINE               1045
 #define IDC_CHAT_JOINING                1046
-#define IDC_CHAT_GUIDLINE2              1046
-#define IDC_COMBO1                      1047
-#define IDC_ROLES                       1047
-#define IDC_CHAT_ROLES                  1047
-#define IDC_CHAT_GUIDLINE3              1047
-#define IDC_CONTACTS                    1047
-#define IDC_CHAT_JOINING2               1048
-#define IDC_CHAT_SECURED                1048
-#define IDC_CHAT_GUIDLINE4              1048
-#define IDC_EDIT1                       1049
-#define IDC_CHAT_PASSWORD               1049
-#define IDC_CHAT_GUIDLINE5              1049
-#define IDC_EDIT2                       1050
-#define IDC_CHAT_CONFIRMATION           1050
-#define IDC_EDIT3                       1051
-#define IDC_CHAT_HINT                   1051
-#define IDC_CHECK1                      1052
-#define IDC_COMBO2                      1053
-#define IDC_CHECK2                      1054
-#define IDC_BLOCK                       1054
-#define ID_CANCEL                       1055
-#define IDC_REPORT_ABUSE                1057
-#define IDC_REMOVE_FROM_CL              1058
-#define IDC_MESSAGE                     1060
-#define IDC_HEADERBAR                   1320
-#define IDD_BOOKMARKS                   3001
-#define IDD_IGNORE_LIST                 3001
-#define IDD_BLOCK                       3001
-#define IDC_BM_LIST                     3002
-#define IDC_BC_LIST                     3002
-#define IDC_LIST                        3002
-#define IDD_OPT_BLOCKED                 3002
+#define IDC_CHAT_GUIDLINE2              1047
+#define IDC_CHAT_ROLES                  1048
+#define IDC_CHAT_GUIDLINE3              1049
+#define IDC_CONTACTS                    1050
+#define IDC_CHAT_SECURED                1051
+#define IDC_CHAT_GUIDLINE4              1052
+#define IDC_CHAT_PASSWORD               1053
+#define IDC_CHAT_CONFIRMATION           1054
+#define IDC_CHAT_HINT                   1055
+#define IDC_CHECK1                      1056
+#define IDC_COMBO2                      1057
+#define IDC_CHECK2                      1058
+#define IDC_BLOCK                       1059
+#define IDC_REPORT_ABUSE                1060
+#define IDC_REMOVE_FROM_CL              1061
+#define IDC_MESSAGE                     1062
+#define IDC_HEADERBAR                   1063
+#define IDC_BM_LIST                     1064
+#define IDC_LIST                        1065
 
 // Next default values for new objects
 // 
@@ -110,7 +99,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1061
+#define _APS_NEXT_CONTROL_VALUE         1066
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -269,19 +269,16 @@
   <ItemGroup>
     <None Include="..\..\..\SkypeKit\keypair.bin" />
     <None Include="..\..\..\SkypeKit\SDK\bin\windows-x86\windows-x86-skypekit.exe" />
-    <None Include="res\call.ico" />
-    <None Include="res\conf_invite.ico" />
-    <None Include="res\conf_spawn.ico" />
-    <None Include="res\main.ico" />
-    <None Include="res\block.ico" />
-    <None Include="res\delete.ico" />
-    <None Include="res\send_contacts.ico" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\add_contacts.ico" />
     <Image Include="res\conference.ico" />
     <Image Include="res\contact.ico" />
     <Image Include="res\skype.ico" />
+    <Image Include="res\call.ico" />
+    <Image Include="res\block.ico" />
+    <Image Include="res\delete.ico" />
+    <Image Include="res\send_contacts.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

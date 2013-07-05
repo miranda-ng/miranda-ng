@@ -21,6 +21,30 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_SKYPE               ICON                    "skype.ico"
+IDI_CALL                ICON                    "call.ico"
+IDI_ADD_CONTACTS        ICON                    "add_contacts.ico"
+IDI_SEND_CONTACTS       ICON                    "send_contacts.ico"
+IDI_DELETE              ICON                    "delete.ico"
+IDI_BLOCK               ICON                    "block.ico"
+IDI_CONFERENCE          ICON                    "conference.ico"
+IDI_CONTACT             ICON                    "contact.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// BIN
+//
+
+IDR_RUNTIME             BIN                     "..\\..\\..\\..\\SkypeKit\\SDK\\bin\\windows-x86\\windows-x86-skypekit.exe"
+IDR_KEY                 BIN                     "..\\..\\..\\..\\SkypeKit\\keypair.bin"
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // Dialog
 //
 
@@ -322,14 +346,6 @@ BEGIN
         VERTGUIDE, 216
     END
 
-    IDD_OWNINFO_CONTACT, DIALOG
-    BEGIN
-    END
-
-    IDD_OWNINFO_HOME, DIALOG
-    BEGIN
-    END
-
     IDD_PASSWORD_CHANGE, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -389,40 +405,6 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Neutral (Default) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Russian (Russia) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
-#pragma code_page(1251)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_SKYPE               ICON                    "skype.ico"
-IDI_CALL                ICON                    "call.ico"
-IDI_ADD_CONTACTS        ICON                    "add_contacts.ico"
-IDI_SEND_CONTACTS       ICON                    "send_contacts.ico"
-IDI_DELETE              ICON                    "delete.ico"
-IDI_BLOCK               ICON                    "block.ico"
-IDI_CONFERENCE          ICON                    "conference.ico"
-IDI_CONTACT             ICON                    "contact.ico"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// BIN
-//
-
-IDR_RUNTIME             BIN                     "..\\..\\..\\..\\SkypeKit\\SDK\\bin\\windows-x86\\windows-x86-skypekit.exe"
-IDR_KEY                 BIN                     "..\\..\\..\\..\\SkypeKit\\keypair.bin"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -449,7 +431,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Russian (Russia) resources
+#endif    // Neutral (Default) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
