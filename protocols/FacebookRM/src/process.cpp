@@ -69,7 +69,7 @@ void FacebookProto::ProcessBuddyList(void* data)
 		{
 			HANDLE hContact = fbu->handle;
 			if (!hContact)
-				hContact = AddToContactList(fbu, FACEBOOK_CONTACT_FRIEND);
+				hContact = AddToContactList(fbu, CONTACT_FRIEND);
 			
 			DBVARIANT dbv;
 			TCHAR* client = on_mobile ? _T(FACEBOOK_MOBILE) : _T(FACEBOOK_NAME);
@@ -94,7 +94,7 @@ void FacebookProto::ProcessBuddyList(void* data)
 			i = i->next;
 
 			if (!fbu->handle) // just been added
-				fbu->handle = AddToContactList(fbu, FACEBOOK_CONTACT_FRIEND);
+				fbu->handle = AddToContactList(fbu, CONTACT_FRIEND);
 
 			if (db_get_w(fbu->handle, m_szModuleName, "Status", 0) != fbu->status_id)
 				db_set_w(fbu->handle, m_szModuleName, "Status", fbu->status_id);
@@ -106,8 +106,8 @@ void FacebookProto::ProcessBuddyList(void* data)
 					db_unset(fbu->handle, m_szModuleName, "LastActiveTS");
 			}
 
-			if (db_get_b(fbu->handle, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != FACEBOOK_CONTACT_FRIEND) {
-				db_set_b(fbu->handle, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_FRIEND);
+			if (db_get_b(fbu->handle, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
+				db_set_b(fbu->handle, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
 				// TODO: remove that popup and use "Contact added you" event?
 			}
 
@@ -195,8 +195,8 @@ void FacebookProto::ProcessFriendList(void* data)
 					db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
 				}
 
-				if (db_get_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != FACEBOOK_CONTACT_FRIEND) {
-					db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_FRIEND);
+				if (db_get_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
+					db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
 					// TODO: remove that popup and use "Contact added you" event?
 				}
 
@@ -221,11 +221,11 @@ void FacebookProto::ProcessFriendList(void* data)
 
 				// Wasnt we already been notified about this contact? And was this real friend?
 				if (!db_get_dw(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, 0) 
-					&& db_get_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) == FACEBOOK_CONTACT_FRIEND)
+					&& db_get_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) == CONTACT_FRIEND)
 				{
 
 					db_set_dw(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, ::time(NULL));
-					db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_NONE);
+					db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 
 					std::string contactname = id;
 					if (!db_get_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv)) {
@@ -247,7 +247,7 @@ void FacebookProto::ProcessFriendList(void* data)
 	for (std::map< std::string, facebook_user* >::iterator iter = friends.begin(); iter != friends.end(); ++iter) {
 		facebook_user *fbu = iter->second;
 		
-		HANDLE hContact = AddToContactList(fbu, FACEBOOK_CONTACT_FRIEND, true); // This contact is surely new ...are you sure?
+		HANDLE hContact = AddToContactList(fbu, CONTACT_FRIEND, true); // This contact is surely new ...are you sure?
 //		db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
 	}
 
@@ -273,7 +273,7 @@ void FacebookProto::ProcessUnreadMessages(void*)
 	{
 		std::string get_data = "&page=" + page;
 
-		http::response resp = facy.flap(FACEBOOK_REQUEST_UNREAD_THREADS, NULL, &get_data);
+		http::response resp = facy.flap(REQUEST_UNREAD_THREADS, NULL, &get_data);
 
 		// Process result data
 		facy.validate_response(&resp);
@@ -315,7 +315,7 @@ void FacebookProto::ProcessUnreadMessage(void *tid_data)
 	std::string get_data = "tid=" + *(std::string*)tid_data;
 	delete (std::string*)tid_data;
 
-	http::response resp = facy.flap(FACEBOOK_REQUEST_UNREAD_MESSAGES, NULL, &get_data);
+	http::response resp = facy.flap(REQUEST_UNREAD_MESSAGES, NULL, &get_data);
 	facy.validate_response(&resp);
 
 	if (resp.code != HTTP_CODE_OK) {
@@ -331,9 +331,9 @@ void FacebookProto::ProcessUnreadMessage(void *tid_data)
 	std::string messageslist = utils::text::source_get_value(&resp.data, 2, "id=\"messageGroup\">", "</form>");
 
 	facebook_user fbu;
-	HANDLE hContact;
+	HANDLE hContact = NULL;
 
-	std::string::size_type pos, pos2 = 0;
+	std::string::size_type pos = 0, pos2 = 0;
 	while ((pos2 = messageslist.find("class=\"acw apl abt", pos2)) != std::string::npos) {
 		pos2 += 19;
 		std::string group = messageslist.substr(pos2, messageslist.find("class=\"actions ", pos2) - pos2);
@@ -356,7 +356,7 @@ void FacebookProto::ProcessUnreadMessage(void *tid_data)
 			if (hContact == NULL) {
 				fbu.user_id = author;
 				fbu.real_name = utils::text::slashu_to_utf8(utils::text::source_get_value(&group, 2, "name&quot;:&quot;", "&quot;"));
-				hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE);
+				hContact = AddToContactList(&fbu, CONTACT_NONE);
 				// TODO: if contact is newly added, get his user info
 				// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
 			}
@@ -423,7 +423,7 @@ void FacebookProto::ProcessMessages(void* data)
 			fbu.user_id = messages[i]->user_id;
 			fbu.real_name = messages[i]->sender_name;
 
-			HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE);
+			HANDLE hContact = AddToContactList(&fbu, CONTACT_NONE);
 			db_set_s(hContact, m_szModuleName, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
 
 			// TODO: if contact is newly added, get his user info
@@ -477,7 +477,7 @@ void FacebookProto::ProcessNotifications(void*)
 	facy.handle_entry("notifications");
 
 	// Get notifications
-	http::response resp = facy.flap(FACEBOOK_REQUEST_NOTIFICATIONS);
+	http::response resp = facy.flap(REQUEST_NOTIFICATIONS);
 
 	// Process result data
 	facy.validate_response(&resp);
@@ -526,7 +526,7 @@ void FacebookProto::ProcessFriendRequests(void*)
 	facy.handle_entry("friendRequests");
 
 	// Get notifications
-	http::response resp = facy.flap(FACEBOOK_REQUEST_LOAD_REQUESTS);
+	http::response resp = facy.flap(REQUEST_LOAD_REQUESTS);
 
 	// Process result data
 	facy.validate_response(&resp);
@@ -562,8 +562,8 @@ void FacebookProto::ProcessFriendRequests(void*)
 
 		if (fbu->user_id.length() && fbu->real_name.length())
 		{
-			HANDLE hContact = AddToContactList(fbu, FACEBOOK_CONTACT_APPROVE);
-			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_APPROVE);
+			HANDLE hContact = AddToContactList(fbu, CONTACT_APPROVE);
+			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_APPROVE);
 
 			bool seen = false;
 
@@ -735,7 +735,7 @@ void FacebookProto::SearchAckThread(void *targ)
 		if (!ssid.empty())
 			get_data += "&ssid=" + ssid;
 
-		http::response resp = facy.flap(FACEBOOK_REQUEST_SEARCH, NULL, &get_data);
+		http::response resp = facy.flap(REQUEST_SEARCH, NULL, &get_data);
 
 		// Process result data
 		facy.validate_response(&resp);

@@ -83,9 +83,6 @@
     <ClInclude Include="src\JSON_CAJUN\writer.h">
       <Filter>Source Files\JSON_CAJUN</Filter>
     </ClInclude>
-    <ClInclude Include="src\avatars.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\client.h">
       <Filter>Header Files</Filter>
     </ClInclude>

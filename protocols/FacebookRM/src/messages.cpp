@@ -90,7 +90,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 			post_data += "&__user=" + facy.self_.user_id;
 			post_data += "&phstamp=0";
 
-			http::response resp = facy.flap(FACEBOOK_REQUEST_THREAD_INFO, &post_data);
+			http::response resp = facy.flap(REQUEST_THREAD_INFO, &post_data);
 			facy.validate_response(&resp);
 
 			tid = utils::text::source_get_value(&resp.data, 2, "\"thread_id\":\"", "\"");
@@ -133,7 +133,7 @@ void FacebookProto::SendTypingWorker(void *p)
 
 	// Dont send typing notifications to contacts, that are offline or not friends
 	if (db_get_w(typing->hContact,m_szModuleName,"Status", 0) == ID_STATUS_OFFLINE
-		|| db_get_b(typing->hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != FACEBOOK_CONTACT_FRIEND)
+		|| db_get_b(typing->hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND)
 		return;
 
 	// TODO RM: maybe better send typing optimalization
@@ -155,7 +155,7 @@ void FacebookProto::SendTypingWorker(void *p)
 		data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
 		data += "&lsd=&phstamp=0&__user=" + facy.self_.user_id;
 		
-		http::response resp = facy.flap(FACEBOOK_REQUEST_TYPING_SEND, &data);
+		http::response resp = facy.flap(REQUEST_TYPING_SEND, &data);
 
 		db_free(&dbv);
 	}		
@@ -180,7 +180,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 		data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
 		data += "&lsd=&__user=" + facy.self_.user_id;
 	
-		facy.flap(FACEBOOK_REQUEST_ASYNC, &data);
+		facy.flap(REQUEST_ASYNC, &data);
 	} else {
 		// new variant - with seen info
 		ptrA mid( db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_MESSAGE_ID));
@@ -191,7 +191,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 		data += "&__user=" + facy.self_.user_id;
 		data += "&__a=1&__dyn=&__req=j&phstamp=0";
 
-		facy.flap(FACEBOOK_REQUEST_MARK_READ, &data);
+		facy.flap(REQUEST_MARK_READ, &data);
 	}
 }
 

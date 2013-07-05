@@ -65,7 +65,6 @@ class FacebookProto;
 
 #include "definitions.h"
 #include "entities.h"
-#include "avatars.h"
 #include "http.h"
 #include "list.hpp"
 #include "utils.h"

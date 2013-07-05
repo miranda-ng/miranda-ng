@@ -80,52 +80,56 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_EVENT_OTHER					0x80000000 // Facebook other event - friend requests/new messages
 
 // Facebook request types // TODO: Provide MS_ and release in FB plugin API?
-#define FACEBOOK_REQUEST_LOGIN					100 // connecting physically
-#define FACEBOOK_REQUEST_LOGOUT					101 // disconnecting physically
-#define FACEBOOK_REQUEST_SETUP_MACHINE			102 // setting machine name
-#define FACEBOOK_REQUEST_HOME					103 // getting own name, avatar, ...
-#define FACEBOOK_REQUEST_DTSG					104 // getting __fb_dtsg__
-#define FACEBOOK_REQUEST_RECONNECT				105 // getting __sequence_num__ and __channel_id__
-#define FACEBOOK_REQUEST_VISIBILITY				305 // setting chat visibility
+enum RequestType {
+	REQUEST_LOGIN,				// connecting physically
+	REQUEST_LOGOUT,				// disconnecting physically
+	REQUEST_SETUP_MACHINE,		// setting machine name
+	REQUEST_HOME,				// getting own name, avatar, ...
+	REQUEST_DTSG,				// getting __fb_dtsg__
+	REQUEST_RECONNECT,			// getting __sequence_num__ and __channel_id__
+	REQUEST_VISIBILITY,			// setting chat visibility
 
-#define FACEBOOK_REQUEST_FEEDS					120 // getting feeds
-#define FACEBOOK_REQUEST_NOTIFICATIONS			121 // getting notifications
-#define FACEBOOK_REQUEST_LOAD_REQUESTS			122 // getting friend requests
+	REQUEST_FEEDS,				// getting feeds
+	REQUEST_NOTIFICATIONS,		// getting notifications
+	REQUEST_LOAD_REQUESTS,		// getting friend requests
 
-#define FACEBOOK_REQUEST_STATUS_SET				130 // setting my "What's on my mind?"
-#define FACEBOOK_REQUEST_SEARCH					140 // searching 
-#define FACEBOOK_REQUEST_POKE					150 // sending pokes
-#define FACEBOOK_REQUEST_NOTIFICATIONS_READ		151 // marking notifications read
+	REQUEST_STATUS_SET,			// setting my "What's on my mind?"
+	REQUEST_SEARCH,				// searching 
+	REQUEST_POKE,				// sending pokes
+	REQUEST_NOTIFICATIONS_READ, // marking notifications read
 
-#define FACEBOOK_REQUEST_BUDDY_LIST				200 // getting regular updates (friends online, ...)
-#define FACEBOOK_REQUEST_LOAD_FRIENDS			201 // getting list of all friends
-#define FACEBOOK_REQUEST_REQUEST_FRIEND			210 // requesting friends
-#define FACEBOOK_REQUEST_APPROVE_FRIEND			211 // approving friends
-#define FACEBOOK_REQUEST_DELETE_FRIEND			212 // deleting friends
-#define FACEBOOK_REQUEST_CANCEL_REQUEST			213 // canceling friends request
+	REQUEST_BUDDY_LIST,			// getting regular updates (friends online, ...)
+	REQUEST_LOAD_FRIENDS,		// getting list of all friends
+	REQUEST_REQUEST_FRIEND,		// requesting friends
+	REQUEST_APPROVE_FRIEND,		// approving friends
+	REQUEST_DELETE_FRIEND,		// deleting friends
+	REQUEST_CANCEL_REQUEST,		// canceling friends request
 
-#define FACEBOOK_REQUEST_MESSAGE_SEND			300 // sending message
-#define FACEBOOK_REQUEST_MESSAGE_SEND2			301	// sending message through inbox
-#define FACEBOOK_REQUEST_MESSAGES_RECEIVE		302 // receiving messages
-#define FACEBOOK_REQUEST_TYPING_SEND			303 // sending typing notification
+	REQUEST_MESSAGE_SEND,		// sending message
+	REQUEST_MESSAGE_SEND2,		// sending message through inbox
+	REQUEST_MESSAGES_RECEIVE,	// receiving messages
+	REQUEST_TYPING_SEND,		// sending typing notification
 
-#define FACEBOOK_REQUEST_THREAD_INFO			400 // getting thread info
-#define FACEBOOK_REQUEST_UNREAD_THREADS			401	// getting unread threads
-#define FACEBOOK_REQUEST_UNREAD_MESSAGES		402	// getting unread messages
-#define	FACEBOOK_REQUEST_ASYNC					403 // marking messages read and getting other things
-#define FACEBOOK_REQUEST_MARK_READ				404 // marking messages read (new)
+	REQUEST_THREAD_INFO,		// getting thread info
+	REQUEST_UNREAD_THREADS,		// getting unread threads
+	REQUEST_UNREAD_MESSAGES,	// getting unread messages
+	REQUEST_ASYNC,				// marking messages read and getting other things
+	REQUEST_MARK_READ,			// marking messages read (new)
+};
 
-// Send message types
-#define MESSAGE_INBOX							0
-#define MESSAGE_MERCURY							1
-#define MESSAGE_TID								2
-#define MESSAGE_ASYNC							3
+enum MessageMethod {
+	MESSAGE_INBOX,
+	MESSAGE_MERCURY,
+	MESSAGE_TID,
+	MESSAGE_ASYNC
+};
 
-// Contact types
-#define FACEBOOK_CONTACT_FRIEND					1 // contact that IS on our server list
-#define FACEBOOK_CONTACT_NONE					2 // contact that ISN'T on our server list
-#define FACEBOOK_CONTACT_REQUEST				3 // contact that we asked for friendship
-#define FACEBOOK_CONTACT_APPROVE				4 // contact that is asking us for approval of friendship
+enum ContactType {
+	CONTACT_FRIEND	= 1,	// contact that IS on our server list
+	CONTACT_NONE	= 2,	// contact that ISN'T on our server list
+	CONTACT_REQUEST	= 3,	// contact that we asked for friendship
+	CONTACT_APPROVE	= 4		// contact that is asking us for approval of friendship
+};
 
 typedef struct {
 	const char *name;

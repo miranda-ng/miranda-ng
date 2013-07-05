@@ -247,7 +247,7 @@ HANDLE FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	fbu.real_name += " ";
 	fbu.real_name += surname;
 
-	HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE);
+	HANDLE hContact = AddToContactList(&fbu, CONTACT_NONE);
 	if (hContact) {
 		if (flags & PALF_TEMPORARY) {
 			db_set_b(hContact, "Clist", "Hidden", 1);
@@ -544,7 +544,7 @@ int FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 
 	// Ignore groupchats and, if deleting, also not-friends
 	if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0)
-		|| (deleting && db_get_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != FACEBOOK_CONTACT_FRIEND))
+		|| (deleting && db_get_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND))
 		return 0;
 
 	ptrT tname = db_get_tsa(hContact, m_szModuleName, FACEBOOK_KEY_NAME);
@@ -668,7 +668,7 @@ void FacebookProto::ReadNotificationWorker(void *p)
 	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
 	data += "&__user=" + facy.self_.user_id;
 
-	facy.flap(FACEBOOK_REQUEST_NOTIFICATIONS_READ, NULL, &data);
+	facy.flap(REQUEST_NOTIFICATIONS_READ, NULL, &data);
 	
 	delete p;
 }

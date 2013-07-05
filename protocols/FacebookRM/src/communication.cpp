@@ -27,18 +27,22 @@ void facebook_client::client_notify(TCHAR* message)
 	parent->NotifyEvent(parent->m_tszUserName, message, NULL, FACEBOOK_EVENT_CLIENT);
 }
 
-http::response facebook_client::flap(const int request_type, std::string* request_data, std::string* request_get_data, int method)
+http::response facebook_client::flap(RequestType request_type, std::string* request_data, std::string* request_get_data, int method)
 {
 	NETLIBHTTPREQUEST nlhr = {sizeof(NETLIBHTTPREQUEST)};
 	nlhr.requestType = !method ? choose_method(request_type) : method;
-	std::string url = choose_request_url(request_type, request_data, request_get_data);
+	
+	std::string url = choose_proto(request_type);
+	url.append(choose_server(request_type, request_data, request_get_data));
+	url.append(choose_action(request_type, request_data, request_get_data));
+
 	nlhr.szUrl = (char*)url.c_str();
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_NODUMP | choose_security_level(request_type);
 	nlhr.headers = get_request_headers(nlhr.requestType, &nlhr.headersCount);
 	
 	switch (request_type)
 	{
-	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
+	case REQUEST_MESSAGES_RECEIVE:
 		nlhr.timeout = 1000 * 65; break;
 	default:
 		nlhr.timeout = 1000 * 20; break;
@@ -54,11 +58,11 @@ http::response facebook_client::flap(const int request_type, std::string* reques
 
 	switch (request_type)
 	{
-	case FACEBOOK_REQUEST_LOGIN:
+	case REQUEST_LOGIN:
 		nlhr.nlc = NULL;
 		break;
 
-	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
+	case REQUEST_MESSAGES_RECEIVE:
 		nlhr.nlc = hMsgCon;
 		nlhr.flags |= NLHRF_PERSISTENT;
 		break;
@@ -79,11 +83,11 @@ http::response facebook_client::flap(const int request_type, std::string* reques
 
 	switch (request_type)
 	{
-	case FACEBOOK_REQUEST_LOGIN:
-	case FACEBOOK_REQUEST_SETUP_MACHINE:
+	case REQUEST_LOGIN:
+	case REQUEST_SETUP_MACHINE:
 		break;
 
-	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
+	case REQUEST_MESSAGES_RECEIVE:
 		hMsgCon = pnlhr ? pnlhr->nlc : NULL;
 		break;
 
@@ -205,94 +209,94 @@ bool facebook_client::handle_error(std::string method, int action)
 
 //////////////////////////////////////////////////////////////////////////////
 
-DWORD facebook_client::choose_security_level(int request_type)
+DWORD facebook_client::choose_security_level(RequestType request_type)
 {
 	if (this->https_)
 	{
-		if (request_type != FACEBOOK_REQUEST_MESSAGES_RECEIVE
+		if (request_type != REQUEST_MESSAGES_RECEIVE
 			|| db_get_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS_CHANNEL, DEFAULT_FORCE_HTTPS_CHANNEL))
 			return NLHRF_SSL;
 	}
 
 	switch (request_type)
 	{
-	case FACEBOOK_REQUEST_LOGIN:
-	case FACEBOOK_REQUEST_SETUP_MACHINE:
+	case REQUEST_LOGIN:
+	case REQUEST_SETUP_MACHINE:
 		return NLHRF_SSL;
 
-//	case FACEBOOK_REQUEST_LOGOUT:
-//	case FACEBOOK_REQUEST_HOME:
-//	case FACEBOOK_REQUEST_DTSG:
-//	case FACEBOOK_REQUEST_BUDDY_LIST:
-//	case FACEBOOK_REQUEST_LOAD_FRIENDS:
-//	case FACEBOOK_REQUEST_LOAD_REQUESTS:
-//	case FACEBOOK_REQUEST_SEARCH:
-//  case FACEBOOK_REQUEST_DELETE_FRIEND:
-//	case FACEBOOK_REQUEST_REQUEST_FRIEND:
-//	case FACEBOOK_REQUEST_APPROVE_FRIEND:
-//	case FACEBOOK_REQUEST_CANCEL_REQUEST:
-//	case FACEBOOK_REQUEST_FEEDS:
-//	case FACEBOOK_REQUEST_NOTIFICATIONS:
-//	case FACEBOOK_REQUEST_RECONNECT:
-//	case FACEBOOK_REQUEST_STATUS_SET:
-//	case FACEBOOK_REQUEST_MESSAGE_SEND:
-//	case FACEBOOK_REQUEST_MESSAGE_SEND2:
-//	case FACEBOOK_REQUEST_THREAD_INFO:
-//	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
-//	case FACEBOOK_REQUEST_VISIBILITY:
-//	case FACEBOOK_REQUEST_POKE:
-//	case FACEBOOK_REQUEST_ASYNC:
-//	case FACEBOOK_REQUEST_MARK_READ:
-//	case FACEBOOK_REQUEST_NOTIFICATIONS_READ:
-//	case FACEBOOK_REQUEST_UNREAD_THREADS:
-//	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
-//	case FACEBOOK_REQUEST_TYPING_SEND:
+//	case REQUEST_LOGOUT:
+//	case REQUEST_HOME:
+//	case REQUEST_DTSG:
+//	case REQUEST_BUDDY_LIST:
+//	case REQUEST_LOAD_FRIENDS:
+//	case REQUEST_LOAD_REQUESTS:
+//	case REQUEST_SEARCH:
+//  case REQUEST_DELETE_FRIEND:
+//	case REQUEST_REQUEST_FRIEND:
+//	case REQUEST_APPROVE_FRIEND:
+//	case REQUEST_CANCEL_REQUEST:
+//	case REQUEST_FEEDS:
+//	case REQUEST_NOTIFICATIONS:
+//	case REQUEST_RECONNECT:
+//	case REQUEST_STATUS_SET:
+//	case REQUEST_MESSAGE_SEND:
+//	case REQUEST_MESSAGE_SEND2:
+//	case REQUEST_THREAD_INFO:
+//	case REQUEST_MESSAGES_RECEIVE:
+//	case REQUEST_VISIBILITY:
+//	case REQUEST_POKE:
+//	case REQUEST_ASYNC:
+//	case REQUEST_MARK_READ:
+//	case REQUEST_NOTIFICATIONS_READ:
+//	case REQUEST_UNREAD_THREADS:
+//	case REQUEST_UNREAD_MESSAGES:
+//	case REQUEST_TYPING_SEND:
 	default:
 		return (DWORD)0;
 	}
 }
 
-int facebook_client::choose_method(int request_type)
+int facebook_client::choose_method(RequestType request_type)
 {
 	switch (request_type)
 	{
-	case FACEBOOK_REQUEST_LOGIN:
-	case FACEBOOK_REQUEST_SETUP_MACHINE:
-	case FACEBOOK_REQUEST_BUDDY_LIST:
-	case FACEBOOK_REQUEST_STATUS_SET:
-	case FACEBOOK_REQUEST_MESSAGE_SEND:
-	case FACEBOOK_REQUEST_MESSAGE_SEND2:
-	case FACEBOOK_REQUEST_THREAD_INFO:
-	case FACEBOOK_REQUEST_VISIBILITY:
-	case FACEBOOK_REQUEST_POKE:
-	case FACEBOOK_REQUEST_ASYNC:
-	case FACEBOOK_REQUEST_MARK_READ:
-	case FACEBOOK_REQUEST_NOTIFICATIONS_READ:
-	case FACEBOOK_REQUEST_TYPING_SEND:
-	case FACEBOOK_REQUEST_LOGOUT:
-	case FACEBOOK_REQUEST_DELETE_FRIEND:
-	case FACEBOOK_REQUEST_REQUEST_FRIEND:
-	case FACEBOOK_REQUEST_APPROVE_FRIEND:
-	case FACEBOOK_REQUEST_CANCEL_REQUEST:
+	case REQUEST_LOGIN:
+	case REQUEST_SETUP_MACHINE:
+	case REQUEST_BUDDY_LIST:
+	case REQUEST_STATUS_SET:
+	case REQUEST_MESSAGE_SEND:
+	case REQUEST_MESSAGE_SEND2:
+	case REQUEST_THREAD_INFO:
+	case REQUEST_VISIBILITY:
+	case REQUEST_POKE:
+	case REQUEST_ASYNC:
+	case REQUEST_MARK_READ:
+	case REQUEST_NOTIFICATIONS_READ:
+	case REQUEST_TYPING_SEND:
+	case REQUEST_LOGOUT:
+	case REQUEST_DELETE_FRIEND:
+	case REQUEST_REQUEST_FRIEND:
+	case REQUEST_APPROVE_FRIEND:
+	case REQUEST_CANCEL_REQUEST:
 		return REQUEST_POST;
 
-//	case FACEBOOK_REQUEST_HOME:
-//	case FACEBOOK_REQUEST_DTSG:
-//	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
-//	case FACEBOOK_REQUEST_FEEDS:
-//	case FACEBOOK_REQUEST_NOTIFICATIONS:
-//	case FACEBOOK_REQUEST_RECONNECT:
-//	case FACEBOOK_REQUEST_LOAD_FRIENDS:		
-//	case FACEBOOK_REQUEST_LOAD_REQUESTS:
-//	case FACEBOOK_REQUEST_SEARCH:
-//	case FACEBOOK_REQUEST_UNREAD_THREADS:
-//	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
+//	case REQUEST_HOME:
+//	case REQUEST_DTSG:
+//	case REQUEST_MESSAGES_RECEIVE:
+//	case REQUEST_FEEDS:
+//	case REQUEST_NOTIFICATIONS:
+//	case REQUEST_RECONNECT:
+//	case REQUEST_LOAD_FRIENDS:		
+//	case REQUEST_LOAD_REQUESTS:
+//	case REQUEST_SEARCH:
+//	case REQUEST_UNREAD_THREADS:
+//	case REQUEST_UNREAD_MESSAGES:
 	default:
 		return REQUEST_GET;
 	}
 }
 
-std::string facebook_client::choose_proto(int request_type)
+std::string facebook_client::choose_proto(RequestType request_type)
 {
 	if (choose_security_level(request_type) == NLHRF_SSL)
 		return HTTP_PROTO_SECURE;
@@ -300,14 +304,14 @@ std::string facebook_client::choose_proto(int request_type)
 		return HTTP_PROTO_REGULAR;	
 }
 
-std::string facebook_client::choose_server(int request_type, std::string* data, std::string* get_data)
+std::string facebook_client::choose_server(RequestType request_type, std::string* data, std::string* get_data)
 {
 	switch (request_type)
 	{
-	case FACEBOOK_REQUEST_LOGIN:
+	case REQUEST_LOGIN:
 		return FACEBOOK_SERVER_LOGIN;
 
-	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
+	case REQUEST_MESSAGES_RECEIVE:
 	{
 		std::string server = FACEBOOK_SERVER_CHAT;
 		utils::text::replace_first(&server, "%s", "0");
@@ -315,75 +319,75 @@ std::string facebook_client::choose_server(int request_type, std::string* data, 
 		return server;
 	}
 
-	case FACEBOOK_REQUEST_HOME:
-	case FACEBOOK_REQUEST_DTSG:
-	case FACEBOOK_REQUEST_APPROVE_FRIEND:
-	case FACEBOOK_REQUEST_LOAD_REQUESTS:
-	case FACEBOOK_REQUEST_SEARCH:
-	case FACEBOOK_REQUEST_UNREAD_THREADS:
-	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
+	case REQUEST_HOME:
+	case REQUEST_DTSG:
+	case REQUEST_APPROVE_FRIEND:
+	case REQUEST_LOAD_REQUESTS:
+	case REQUEST_SEARCH:
+	case REQUEST_UNREAD_THREADS:
+	case REQUEST_UNREAD_MESSAGES:
 		return FACEBOOK_SERVER_MOBILE;
 
-//	case FACEBOOK_REQUEST_LOGOUT:
-//	case FACEBOOK_REQUEST_BUDDY_LIST:
-//	case FACEBOOK_REQUEST_LOAD_FRIENDS:
-//	case FACEBOOK_REQUEST_FEEDS:
-//	case FACEBOOK_REQUEST_NOTIFICATIONS:
-//	case FACEBOOK_REQUEST_RECONNECT:
-//	case FACEBOOK_REQUEST_STATUS_SET:
-//	case FACEBOOK_REQUEST_MESSAGE_SEND:
-//	case FACEBOOK_REQUEST_MESSAGE_SEND2:
-//	case FACEBOOK_REQUEST_THREAD_INFO:
-//	case FACEBOOK_REQUEST_VISIBILITY:
-//	case FACEBOOK_REQUEST_POKE:
-//	case FACEBOOK_REQUEST_ASYNC:
-//	case FACEBOOK_REQUEST_MARK_READ:
-//	case FACEBOOK_REQUEST_NOTIFICATIONS_READ:
-//	case FACEBOOK_REQUEST_TYPING_SEND:
-//	case FACEBOOK_REQUEST_SETUP_MACHINE:
-//  case FACEBOOK_REQUEST_DELETE_FRIEND:
-//	case FACEBOOK_REQUEST_REQUEST_FRIEND:
-//	case FACEBOOK_REQUEST_CANCEL_REQUEST:
+//	case REQUEST_LOGOUT:
+//	case REQUEST_BUDDY_LIST:
+//	case REQUEST_LOAD_FRIENDS:
+//	case REQUEST_FEEDS:
+//	case REQUEST_NOTIFICATIONS:
+//	case REQUEST_RECONNECT:
+//	case REQUEST_STATUS_SET:
+//	case REQUEST_MESSAGE_SEND:
+//	case REQUEST_MESSAGE_SEND2:
+//	case REQUEST_THREAD_INFO:
+//	case REQUEST_VISIBILITY:
+//	case REQUEST_POKE:
+//	case REQUEST_ASYNC:
+//	case REQUEST_MARK_READ:
+//	case REQUEST_NOTIFICATIONS_READ:
+//	case REQUEST_TYPING_SEND:
+//	case REQUEST_SETUP_MACHINE:
+//  case REQUEST_DELETE_FRIEND:
+//	case REQUEST_REQUEST_FRIEND:
+//	case REQUEST_CANCEL_REQUEST:
 	default:
 		return FACEBOOK_SERVER_REGULAR;
 	}
 }
 
-std::string facebook_client::choose_action(int request_type, std::string* data, std::string* get_data)
+std::string facebook_client::choose_action(RequestType request_type, std::string* data, std::string* get_data)
 {
 	switch (request_type)
 	{
-	case FACEBOOK_REQUEST_LOGIN:
+	case REQUEST_LOGIN:
 		return "/login.php?login_attempt=1";
 
-	case FACEBOOK_REQUEST_SETUP_MACHINE:
+	case REQUEST_SETUP_MACHINE:
 		return "/checkpoint/";
 
-	case FACEBOOK_REQUEST_LOGOUT:
+	case REQUEST_LOGOUT:
 		return "/logout.php";
 
-	case FACEBOOK_REQUEST_HOME:
+	case REQUEST_HOME:
 		return "/profile.php?v=edit";
 
-	case FACEBOOK_REQUEST_DTSG:
+	case REQUEST_DTSG:
 		return "/editprofile.php?edit=current_city&type=basic";
 
-	case FACEBOOK_REQUEST_BUDDY_LIST:
+	case REQUEST_BUDDY_LIST:
 		return "/ajax/chat/buddy_list.php?__a=1";
 
-	case FACEBOOK_REQUEST_LOAD_FRIENDS:
+	case REQUEST_LOAD_FRIENDS:
 	{
 		std::string action = "/ajax/chat/user_info_all.php?__a=1&viewer=%s&__user=%s";
 		utils::text::replace_all(&action, "%s", self_.user_id);
 		return action;
 	}
 
-	case FACEBOOK_REQUEST_LOAD_REQUESTS:
+	case REQUEST_LOAD_REQUESTS:
 	{
 		return "/friends/";
 	}
 
-	case FACEBOOK_REQUEST_SEARCH:
+	case REQUEST_SEARCH:
 	{
 		std::string action = "/search/?search=people&query=";
 		if (get_data != NULL) {
@@ -392,7 +396,7 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 		return action;
 	}
 
-	case FACEBOOK_REQUEST_UNREAD_THREADS:
+	case REQUEST_UNREAD_THREADS:
 	{
 		std::string action = "/messages/?folder=unread";
 		if (get_data != NULL) {
@@ -401,7 +405,7 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 		return action;
 	}
 	
-	case FACEBOOK_REQUEST_UNREAD_MESSAGES:
+	case REQUEST_UNREAD_MESSAGES:
 	{
 		std::string action = "/messages/read/?";
 		if (get_data != NULL) {
@@ -410,7 +414,7 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 		return action;
 	}
 
-	case FACEBOOK_REQUEST_DELETE_FRIEND:
+	case REQUEST_DELETE_FRIEND:
 	{
 		std::string action = "/ajax/profile/removefriendconfirm.php?__a=1";
 		if (get_data != NULL) {
@@ -419,12 +423,12 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 		return action;
 	}
 
-	case FACEBOOK_REQUEST_REQUEST_FRIEND:
+	case REQUEST_REQUEST_FRIEND:
 	{
 		return "/ajax/add_friend/action.php?__a=1";
 	}
 
-	case FACEBOOK_REQUEST_APPROVE_FRIEND:
+	case REQUEST_APPROVE_FRIEND:
 	{
 		std::string action = "/a/notifications.php?__a=1";
 		if (get_data != NULL) {
@@ -433,12 +437,12 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 		return action;
 	}
 
-	case FACEBOOK_REQUEST_CANCEL_REQUEST:
+	case REQUEST_CANCEL_REQUEST:
 	{
 		return "/ajax/friends/requests/cancel.php?__a=1";
 	}
 
-	case FACEBOOK_REQUEST_FEEDS:
+	case REQUEST_FEEDS:
 	{
 		std::string action = "/ajax/intent.php?filter=";
 		action += get_newsfeed_type();
@@ -449,14 +453,14 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 		return action;
 	}
 
-	case FACEBOOK_REQUEST_NOTIFICATIONS:
+	case REQUEST_NOTIFICATIONS:
 	{
 		std::string action = "/ajax/notifications/get.php?__a=1&user=%s&time=0&version=2&__user=%s";
 		utils::text::replace_all(&action, "%s", self_.user_id);
 		return action;
 	}
 	
-	case FACEBOOK_REQUEST_RECONNECT:
+	case REQUEST_RECONNECT:
 	{
 		std::string action = "/ajax/presence/reconnect.php?__a=1&reason=%s&fb_dtsg=%s&__user=%s";
 		
@@ -469,19 +473,19 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 		return action;
 	}
 
-	case FACEBOOK_REQUEST_STATUS_SET:
+	case REQUEST_STATUS_SET:
 		return "/ajax/updatestatus.php?__a=1";
 
-	case FACEBOOK_REQUEST_MESSAGE_SEND:
+	case REQUEST_MESSAGE_SEND:
 		return "/ajax/mercury/send_messages.php?__a=1";
 
-	case FACEBOOK_REQUEST_MESSAGE_SEND2:
+	case REQUEST_MESSAGE_SEND2:
 		return "/ajax/messaging/send.php";
 
-	case FACEBOOK_REQUEST_THREAD_INFO:
+	case REQUEST_THREAD_INFO:
 		return "/ajax/mercury/thread_info.php?__a=1";
 
-	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
+	case REQUEST_MESSAGES_RECEIVE:
 	{
 		std::string action = "/pull?channel=" + (this->chat_channel_.empty() ? "p_" + self_.user_id : this->chat_channel_);
 		action += "&seq=" + (this->chat_sequence_num_.empty() ? "0" : this->chat_sequence_num_);
@@ -490,13 +494,13 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 		return action;
 	}
 
-	case FACEBOOK_REQUEST_VISIBILITY:
+	case REQUEST_VISIBILITY:
 		return "/ajax/chat/privacy/visibility.php?__a=1";
 
-	case FACEBOOK_REQUEST_POKE:
+	case REQUEST_POKE:
 		return "/ajax/poke_dialog.php?__a=1";
 
-	case FACEBOOK_REQUEST_ASYNC:
+	case REQUEST_ASYNC:
 	{
 		std::string action = "/ajax/messaging/async.php?__a=1";
 		if (get_data != NULL) {
@@ -505,10 +509,10 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 		return action;
 	}
 
-	case FACEBOOK_REQUEST_MARK_READ:
+	case REQUEST_MARK_READ:
 		return "/ajax/mercury/change_read_status.php?__a=1";
 
-	case FACEBOOK_REQUEST_NOTIFICATIONS_READ:
+	case REQUEST_NOTIFICATIONS_READ:
 	{
 		std::string action = "/ajax/notifications/mark_read.php?__a=1";
 		if (get_data != NULL) {
@@ -517,20 +521,12 @@ std::string facebook_client::choose_action(int request_type, std::string* data, 
 		return action;
 	}
 
-	case FACEBOOK_REQUEST_TYPING_SEND:
+	case REQUEST_TYPING_SEND:
 		return "/ajax/messaging/typ.php?__a=1";
 
 	default:
 		return "/?_fb_noscript=1";
 	}
-}
-
-std::string facebook_client::choose_request_url(int request_type, std::string* data, std::string* get_data)
-{
-	std::string url = choose_proto(request_type);
-	url.append(choose_server(request_type, data, get_data));
-	url.append(choose_action(request_type, data, get_data));
-	return url;
 }
 
 NETLIBHTTPHEADER* facebook_client::get_request_headers(int request_type, int* headers_count)
@@ -663,7 +659,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 	password_ = password;
 
 	// Get initial cookies
-	flap(FACEBOOK_REQUEST_LOGIN);
+	flap(REQUEST_LOGIN);
 
 	// Prepare login data
 	std::string data = "charset_test=%e2%82%ac%2c%c2%b4%2c%e2%82%ac%2c%c2%b4%2c%e6%b0%b4%2c%d0%94%2c%d0%84&pass_placeHolder=Password&login=Login&persistent=1";
@@ -675,7 +671,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 		data += "&locale=" + std::string(locale);
 
 	// Send validation
-	http::response resp = flap(FACEBOOK_REQUEST_LOGIN, &data);
+	http::response resp = flap(REQUEST_LOGIN, &data);
 
 	// Process result data
 	validate_response(&resp);
@@ -712,7 +708,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 		// Check whether setting Machine name is required
 		if (resp.headers["Location"].find("/checkpoint/") != std::string::npos)
 		{
-			resp = flap(FACEBOOK_REQUEST_SETUP_MACHINE, NULL, NULL, REQUEST_GET);
+			resp = flap(REQUEST_SETUP_MACHINE, NULL, NULL, REQUEST_GET);
 
 			if (resp.data.find("login_approvals_no_phones") != std::string::npos) {
 				// Code approval - but no phones in account
@@ -727,21 +723,21 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 				inner_data = "submit[Continue]=Continue";
 				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 				inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
-				resp = flap(FACEBOOK_REQUEST_SETUP_MACHINE, &inner_data);
+				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 
 				// 2) Approve last unknown login
 				// inner_data = "submit[I%20don't%20recognize]=I%20don't%20recognize"; // Don't recognize - this will force to change account password
 				inner_data = "submit[This%20is%20Okay]=This%20is%20Okay"; // Recognize
 				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 				inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
-				resp = flap(FACEBOOK_REQUEST_SETUP_MACHINE, &inner_data);
+				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 
 				// 3) Save device
 				inner_data = "submit[Continue]=Continue";
 				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 				inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
 				inner_data += "&name_action_selected=save_device"; // Save device - or "dont_save"
-				resp = flap(FACEBOOK_REQUEST_SETUP_MACHINE, &inner_data);
+				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 			}
 
 			// Save actual machine name
@@ -751,7 +747,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 			inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 			inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
 
-			resp = flap(FACEBOOK_REQUEST_SETUP_MACHINE, &inner_data);
+			resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 			validate_response(&resp);
 		}
 	}
@@ -809,7 +805,7 @@ bool facebook_client::logout()
 	std::string data = "fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
 	data += "&ref=mb&h=" + this->logout_hash_;
 
-	http::response resp = flap(FACEBOOK_REQUEST_LOGOUT, &data);
+	http::response resp = flap(REQUEST_LOGOUT, &data);
 
 	if (hFcbCon)
 		Netlib_CloseHandle(hFcbCon);
@@ -834,7 +830,7 @@ bool facebook_client::home()
 	handle_entry("home");
 
 	// get fb_dtsg
-	http::response resp = flap(FACEBOOK_REQUEST_DTSG);
+	http::response resp = flap(REQUEST_DTSG);
 
 	this->dtsg_ = utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
 	parent->Log("      Got self dtsg: %s", this->dtsg_.c_str());
@@ -842,7 +838,7 @@ bool facebook_client::home()
 	if (this->dtsg_.empty())
 		return false;
 		
-	resp = flap(FACEBOOK_REQUEST_HOME);
+	resp = flap(REQUEST_HOME);
 
 	// Process result data
 	validate_response(&resp);
@@ -891,7 +887,7 @@ bool facebook_client::chat_state(bool online)
 	data += "&window_id=0";
 	data += "&fb_dtsg=" + (dtsg_.length() ? dtsg_ : "0");
 	data += "&phstamp=0&__user=" + self_.user_id;
-	http::response resp = flap(FACEBOOK_REQUEST_VISIBILITY, &data);
+	http::response resp = flap(REQUEST_VISIBILITY, &data);
   
 	return handle_success("chat_state");
 }
@@ -901,7 +897,7 @@ bool facebook_client::reconnect()
 	handle_entry("reconnect");
 
 	// Request reconnect
-	http::response resp = flap(FACEBOOK_REQUEST_RECONNECT);
+	http::response resp = flap(REQUEST_RECONNECT);
 
 	// Process result data
 	validate_response(&resp);
@@ -949,7 +945,7 @@ bool facebook_client::buddy_list()
 	}
 
 	// Get buddy list
-	http::response resp = flap(FACEBOOK_REQUEST_BUDDY_LIST, &data);
+	http::response resp = flap(REQUEST_BUDDY_LIST, &data);
 
 	// Process result data
 	validate_response(&resp);
@@ -975,7 +971,7 @@ bool facebook_client::load_friends()
 	handle_entry("load_friends");
 
 	// Get buddy list
-	http::response resp = flap(FACEBOOK_REQUEST_LOAD_FRIENDS);
+	http::response resp = flap(REQUEST_LOAD_FRIENDS);
 
 	// Process result data
 	validate_response(&resp);
@@ -1000,7 +996,7 @@ bool facebook_client::feeds()
 	handle_entry("feeds");
 
 	// Get feeds
-	http::response resp = flap(FACEBOOK_REQUEST_FEEDS);
+	http::response resp = flap(REQUEST_FEEDS);
 
 	// Process result data
 	validate_response(&resp);
@@ -1026,7 +1022,7 @@ bool facebook_client::channel()
 	handle_entry("channel");
 
 	// Get update
-	http::response resp = flap(FACEBOOK_REQUEST_MESSAGES_RECEIVE);
+	http::response resp = flap(REQUEST_MESSAGES_RECEIVE);
 
 	// Process result data
 	validate_response(&resp);
@@ -1086,7 +1082,7 @@ bool facebook_client::channel()
 	}
 }
 
-bool facebook_client::send_message(std::string message_recipient, std::string message_text, std::string *error_text, int method)
+bool facebook_client::send_message(std::string message_recipient, std::string message_text, std::string *error_text, MessageMethod method)
 {
 	handle_entry("send_message");
 
@@ -1104,7 +1100,7 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 			data += "&fb_dtsg=" + (dtsg_.length() ? dtsg_ : "0");
 			data += "&phstamp=0";
 
-			resp = flap(FACEBOOK_REQUEST_MESSAGE_SEND2, &data);
+			resp = flap(REQUEST_MESSAGE_SEND2, &data);
 			break;
 		}
 		case MESSAGE_MERCURY:
@@ -1138,7 +1134,7 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 			data += "&__a=1";
 			data += "&phstamp=0";
 
-			resp = flap(FACEBOOK_REQUEST_MESSAGE_SEND, &data);
+			resp = flap(REQUEST_MESSAGE_SEND, &data);
 			break;
 		}
 		case MESSAGE_TID:
@@ -1162,7 +1158,7 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 			data += "&__user=" + this->self_.user_id;
 			data += "&phstamp=0";
 
-			resp = flap(FACEBOOK_REQUEST_MESSAGE_SEND, &data);
+			resp = flap(REQUEST_MESSAGE_SEND, &data);
 			break;
 		}
 		case MESSAGE_ASYNC:
@@ -1174,7 +1170,7 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 			data += "&lsd=";
 			data += "&fb_dtsg=" + (dtsg_.length() ? dtsg_ : "0");
 
-			resp = flap(FACEBOOK_REQUEST_ASYNC, &data);
+			resp = flap(REQUEST_ASYNC, &data);
 			break;
 		}
 	}
@@ -1247,7 +1243,7 @@ bool facebook_client::set_status(const std::string &status_text)
 	data += "&composertags_place_name=";
 	data += ptrA(mir_urlEncode(place));
 
-	http::response resp = flap(FACEBOOK_REQUEST_STATUS_SET, &data);
+	http::response resp = flap(REQUEST_STATUS_SET, &data);
 
 	validate_response(&resp);
 

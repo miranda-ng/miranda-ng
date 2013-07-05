@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+#include "constants.h"
+
 #pragma once
 
 #define FORCE_DISCONNECT 1
@@ -153,7 +155,7 @@ public:
 	std::map<std::string, bool> messages_ignore;
 
 	bool    channel();
-	bool    send_message(std::string message_recipient, std::string message_text, std::string *error_text, int method);
+	bool    send_message(std::string message_recipient, std::string message_text, std::string *error_text, MessageMethod method);
 	////////////////////////////////////////////////////////////
 
 	// Status handling
@@ -164,15 +166,14 @@ public:
 
 	// HTTP communication
 
-	http::response  flap(const int request_type, std::string* request_data = NULL, std::string* request_get_data = NULL, int method = 0);
+	http::response flap(RequestType request_type, std::string* request_data = NULL, std::string* request_get_data = NULL, int method = 0);
 	bool    save_url(const std::string &url,const std::tstring &filename, HANDLE &nlc);
 
-	DWORD   choose_security_level(int);
-	int     choose_method(int);
-	std::string choose_proto(int);
-	std::string choose_server(int, std::string* data = NULL, std::string* get_data = NULL);
-	std::string choose_action(int, std::string* data = NULL, std::string* get_data = NULL);
-	std::string choose_request_url(int, std::string* data = NULL, std::string* get_data = NULL);
+	DWORD   choose_security_level(RequestType);
+	int     choose_method(RequestType);
+	std::string choose_proto(RequestType);
+	std::string choose_server(RequestType, std::string* data = NULL, std::string* get_data = NULL);
+	std::string choose_action(RequestType, std::string* data = NULL, std::string* get_data = NULL);
 
 	NETLIBHTTPHEADER*   get_request_headers(int request_type, int* headers_count);
 

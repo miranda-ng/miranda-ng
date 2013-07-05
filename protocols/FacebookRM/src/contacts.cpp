@@ -62,7 +62,7 @@ HANDLE FacebookProto::ContactIDToHContact(std::string user_id)
 	return 0;
 }
 
-HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_check)
+HANDLE FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, bool dont_check)
 {
 	HANDLE hContact;
 
@@ -164,7 +164,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 	std::string get_query = "norefresh=true&unref=button_dropdown&uid=" + id;
 	
 	// Get unread inbox threads
-	http::response resp = facy.flap(FACEBOOK_REQUEST_DELETE_FRIEND, &query, &get_query);
+	http::response resp = facy.flap(REQUEST_DELETE_FRIEND, &query, &get_query);
 
 	// Process result data
 	facy.validate_response(&resp);
@@ -180,7 +180,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 		// If contact wasn't deleted from database
 		if (hContact != NULL) {
 			db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
-			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_NONE);
+			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 			db_set_dw(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, ::time(NULL));
 		}
 		
@@ -209,7 +209,7 @@ void FacebookProto::AddContactToServer(void *data)
 	query += "&__user=" + facy.self_.user_id;
 
 	// Get unread inbox threads
-	http::response resp = facy.flap(FACEBOOK_REQUEST_REQUEST_FRIEND, &query);
+	http::response resp = facy.flap(REQUEST_REQUEST_FRIEND, &query);
 
 	// Process result data
 	facy.validate_response(&resp);
@@ -219,7 +219,7 @@ void FacebookProto::AddContactToServer(void *data)
 		
 		// If contact wasn't deleted from database
 		if (hContact != NULL)
-			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_REQUEST);
+			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_REQUEST);
 				
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was sent."), NULL, FACEBOOK_EVENT_OTHER);
 	} else {
@@ -249,12 +249,12 @@ void FacebookProto::ApproveContactToServer(void *data)
 	ptrA id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
 	get_data += id;
 
-	http::response resp = facy.flap(FACEBOOK_REQUEST_APPROVE_FRIEND, &post_data, &get_data);
+	http::response resp = facy.flap(REQUEST_APPROVE_FRIEND, &post_data, &get_data);
 
 	// Process result data
 	facy.validate_response(&resp);
 
-	db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_FRIEND);
+	db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
 }
 
 void FacebookProto::CancelFriendsRequest(void *data)
@@ -275,14 +275,14 @@ void FacebookProto::CancelFriendsRequest(void *data)
 	query += "&friend=" + std::string(id);
 
 	// Get unread inbox threads
-	http::response resp = facy.flap(FACEBOOK_REQUEST_CANCEL_REQUEST, &query);
+	http::response resp = facy.flap(REQUEST_CANCEL_REQUEST, &query);
 
 	// Process result data
 	facy.validate_response(&resp);
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
 	{		
-		db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_NONE);
+		db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was canceled."), NULL, FACEBOOK_EVENT_OTHER);
 	} else {
 		facy.client_notify(TranslateT("Error occured when canceling friendship request."));
@@ -308,7 +308,7 @@ void FacebookProto::SendPokeWorker(void *p)
 	data += "&__user=" + facy.self_.user_id;
 
 	// Send poke
-	http::response resp = facy.flap(FACEBOOK_REQUEST_POKE, &data);
+	http::response resp = facy.flap(REQUEST_POKE, &data);
 
 	// Process result data
 	facy.validate_response(&resp);

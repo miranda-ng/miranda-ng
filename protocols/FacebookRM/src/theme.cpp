@@ -156,10 +156,10 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 		bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 		BYTE type = db_get_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0);
 
-		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_ASK], ctrlPressed || type == FACEBOOK_CONTACT_NONE || !type);
-		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_GRANT], ctrlPressed || type == FACEBOOK_CONTACT_APPROVE);
-		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_REVOKE], ctrlPressed || type == FACEBOOK_CONTACT_FRIEND);
-		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_CANCEL], ctrlPressed || type == FACEBOOK_CONTACT_REQUEST);		
+		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_ASK], ctrlPressed || type == CONTACT_NONE || !type);
+		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_GRANT], ctrlPressed || type == CONTACT_APPROVE);
+		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_REVOKE], ctrlPressed || type == CONTACT_FRIEND);
+		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_CANCEL], ctrlPressed || type == CONTACT_REQUEST);		
 
 		Menu_ShowItem(g_hContactMenuItems[CMI_POKE], true);
 	}

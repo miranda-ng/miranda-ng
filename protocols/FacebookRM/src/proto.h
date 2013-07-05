@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+#include "constants.h"
+
 #pragma once
 
 class FacebookProto : public PROTO_INTERFACE
@@ -168,7 +170,7 @@ public:
 	bool    IsMyContact(HANDLE, bool include_chat = false);
 	HANDLE  ContactIDToHContact(std::string);
 	HANDLE  ChatIDToHContact(std::string);
-	HANDLE  AddToContactList(facebook_user*, BYTE type, bool dont_check = false);
+	HANDLE  AddToContactList(facebook_user*, ContactType type, bool dont_check = false);
 	void    SetAllContactStatuses(int status, bool reset_client = false);
 	HANDLE  HContactFromAuthEvent(HANDLE hEvent);
 

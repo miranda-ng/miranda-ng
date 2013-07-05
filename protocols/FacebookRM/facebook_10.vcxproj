@@ -198,7 +198,6 @@
     <ClInclude Include="src\JSON_CAJUN\reader.h" />
     <ClInclude Include="src\JSON_CAJUN\visitor.h" />
     <ClInclude Include="src\JSON_CAJUN\writer.h" />
-    <ClInclude Include="src\avatars.h" />
     <ClInclude Include="src\client.h" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\constants.h" />
