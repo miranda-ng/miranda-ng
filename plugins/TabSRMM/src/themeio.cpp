@@ -345,7 +345,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 				else if (i == 6)
 					defclr = GetSysColor(COLOR_HIGHLIGHTTEXT);
 				else
-					defclr = g_Settings.crUserListColor;
+					defclr = g_Settings.UserListColors[CHAT_STATUS_NORMAL];
 				g_Settings.nickColors[i] = GetPrivateProfileIntA("Nick Colors", _itoa(i, szTemp, 10), defclr, szIniFilename);
 				sprintf(szTemp, "NickColor%d", i);
 				db_set_dw(0, "Chat", szTemp, g_Settings.nickColors[i]);

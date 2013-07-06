@@ -1863,19 +1863,17 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
  * precise than using GetTextExtentPoint...()
  */
 
-int GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth)
+int GetTextPixelSize(TCHAR* pszText, HFONT hFont, bool bWidth)
 {
-	HDC hdc;
-	HFONT hOldFont;
-	RECT rc = {0};
-	int i;
-
 	if (!pszText || !hFont)
 		return 0;
 
-	hdc = GetDC(NULL);
-	hOldFont = (HFONT)SelectObject(hdc, hFont);
-	i = DrawText(hdc, pszText , -1, &rc, DT_CALCRECT);
+	HDC hdc = GetDC(NULL);
+	HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
+
+	RECT rc = {0};
+	int i = DrawText(hdc, pszText , -1, &rc, DT_CALCRECT);
+
 	SelectObject(hdc, hOldFont);
 	ReleaseDC(NULL, hdc);
 	return bWidth ? rc.right - rc.left : rc.bottom - rc.top;
@@ -2335,8 +2333,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			}
 			else {
 				if (dis->CtlID == IDC_LIST) {
-					HFONT  hFont, hOldFont;
-					HICON  hIcon;
 					int offset, x_offset = 0;
 					int height;
 					int index = dis->itemID;
@@ -2352,38 +2348,39 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 							offset = 0;
 						else
 							offset = height / 2;
-						hIcon = SM_GetStatusIcon(si, ui, &szIndicator);
-						hFont = (ui->iStatusEx == 0) ? g_Settings.UserListFont : g_Settings.UserListHeadingsFont;
-						hOldFont = (HFONT) SelectObject(dis->hDC, hFont);
+						HICON hIcon = SM_GetStatusIcon(si, ui, &szIndicator);
+						HFONT hFont = g_Settings.UserListFonts[ui->iStatusEx];
+						HFONT hOldFont = (HFONT) SelectObject(dis->hDC, hFont);
 						SetBkMode(dis->hDC, TRANSPARENT);
 
 						if (dis->itemState & ODS_SELECTED) {
 							FillRect(dis->hDC, &dis->rcItem, g_Settings.SelectionBGBrush);
 							SetTextColor(dis->hDC, g_Settings.nickColors[6]);
-						} else {
+						}
+						else {
 							FillRect(dis->hDC, &dis->rcItem, hListBkgBrush);
 							if (g_Settings.ColorizeNicks && szIndicator != 0) {
 								COLORREF clr;
-
 								switch (szIndicator) {
-									case '@':
-										clr = g_Settings.nickColors[0];
-										break;
-									case '%':
-										clr = g_Settings.nickColors[1];
-										break;
-									case '+':
-										clr = g_Settings.nickColors[2];
-										break;
-									case '!':
-										clr = g_Settings.nickColors[3];
-										break;
-									case '*':
-										clr = g_Settings.nickColors[4];
-										break;
+								case '@':
+									clr = g_Settings.nickColors[0];
+									break;
+								case '%':
+									clr = g_Settings.nickColors[1];
+									break;
+								case '+':
+									clr = g_Settings.nickColors[2];
+									break;
+								case '!':
+									clr = g_Settings.nickColors[3];
+									break;
+								case '*':
+									clr = g_Settings.nickColors[4];
+									break;
 								}
 								SetTextColor(dis->hDC, clr);
-							} else SetTextColor(dis->hDC, ui->iStatusEx == 0 ? g_Settings.crUserListColor : g_Settings.crUserListHeadingsColor);
+							}
+							else SetTextColor(dis->hDC, g_Settings.UserListColors[ui->iStatusEx]);
 						}
 						x_offset = 2;
 
@@ -2617,7 +2614,7 @@ LABEL_SHOWWINDOW:
 		case GC_SHOWCOLORCHOOSER: {
 			HWND ColorWindow;
 			RECT rc;
-			BOOL bFG = lParam == IDC_COLOR ? TRUE : FALSE;
+			bool bFG = (lParam == IDC_COLOR);
 			COLORCHOOSER *pCC = (COLORCHOOSER *)mir_alloc(sizeof(COLORCHOOSER));
 
 			GetWindowRect(GetDlgItem(hwndDlg, bFG ? IDC_COLOR : IDC_BKGCOLOR), &rc);

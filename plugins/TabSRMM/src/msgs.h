@@ -31,13 +31,6 @@
 #ifndef _MSGS_H
 #define _MSGS_H
 
-#ifdef _MSC_VER
-#if _MSC_VER < 1400
-#define uintptr_t UINT_PTR
-#define _localtime32 localtime
-#define __time32_t time_t
-#endif
-#endif
 /*
  * required for MingW32 compatibility
  */
@@ -239,13 +232,13 @@ struct TContainerData
 	CSideBar *SideBar;
 };
 
-struct SESSIONINFO_TYPE;
+struct SESSION_INFO;
 
 struct TWindowData
 {
    UINT    cbSize;
    BYTE    bType;
-   struct  TContainerData *pContainer;		// parent container description structure
+   TContainerData *pContainer;		// parent container description structure
    HWND    hwnd;
    DWORD   dwFlags;
    DWORD   dwFlagsEx;
@@ -270,7 +263,7 @@ struct TWindowData
    UINT    bbRSideWidth;    //MAD
    BYTE    kstate[256];
 
-	SESSIONINFO_TYPE* si;
+	SESSION_INFO* si;
 
 	RECT     rcNick, rcUIN, rcStatus, rcPic;
 	HANDLE  hDbEventFirst, hDbEventLast;
@@ -353,17 +346,19 @@ struct TWindowData
 
 #define MESSAGE_WINDOW_DATA_SIZE offsetof(_MessageWindowData, hdbEventFirst);
 
-typedef struct _recentinfo {
+struct RECENTINFO
+{
 	DWORD dwFirst, dwMostRecent;        // timestamps
 	int   iFirstIndex, iMostRecent;     // tab indices
 	HWND  hwndFirst, hwndMostRecent;    // client window handles
-} RECENTINFO;
+};
 
 /*
  * configuration data for custom tab ctrl
  */
 
-struct myTabCtrl {
+struct myTabCtrl
+{
 	HPEN    m_hPenShadow, m_hPenItemShadow, m_hPenLight;
 	HFONT   m_hMenuFont;
 	COLORREF colors[10];
@@ -372,7 +367,8 @@ struct myTabCtrl {
 	int     m_bottomAdjust;
 };
 
-struct TIconDesc {
+struct TIconDesc
+{
 	char    *szName;
 	char    *szDesc;
 	HICON   *phIcon;       // where the handle is saved...
@@ -380,7 +376,8 @@ struct TIconDesc {
 	BOOL    bForceSmall;   // true: force 16x16
 };
 
-struct TIconDescW {
+struct TIconDescW
+{
 	TCHAR    *szName;
 	TCHAR    *szDesc;
 	HICON   *phIcon;       // where the handle is saved...
@@ -417,7 +414,8 @@ struct TIconDescW {
 
 #define MIN_PANELHEIGHT 20
 
-struct TNewWindowData {
+struct TNewWindowData
+{
 	HANDLE  		hContact;
 	int     		isWchar;
 	const   char*	szInitialText;

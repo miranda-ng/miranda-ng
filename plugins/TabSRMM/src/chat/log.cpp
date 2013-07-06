@@ -954,7 +954,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 	return 0;
 }
 
-void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, BOOL bRedraw, BOOL bPhaseTwo)
+void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, bool bRedraw, bool bPhaseTwo)
 {
 	EDITSTREAM stream;
 	LOGSTREAMDATA streamData;
@@ -979,7 +979,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, BOOL bRedr
 	//	bPhaseTwo = bRedraw && bPhaseTwo;
 
 	if (bRedraw || si->iType != GCW_CHATROOM || !si->bFilterEnabled || (si->iLogFilterFlags&lin->iType) != 0) {
-		BOOL bFlag = FALSE, fDoReplace;
+		bool bFlag = false, fDoReplace;
 
 		ZeroMemory(&stream, sizeof(stream));
 		stream.pfnCallback = Log_StreamCallback;
@@ -1013,7 +1013,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, BOOL bRedr
 			logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
 			ReleaseDC(NULL, hdc);
 			SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
-			bFlag = TRUE;
+			bFlag = true;
 			//			SetCursor(LoadCursor(NULL, IDC_ARROW));
 		}
 
@@ -1222,7 +1222,7 @@ char * Log_CreateRtfHeader(MODULEINFO * mi)
 			szString[0] = 0x28;
 			LoadMsgDlgFont(FONTSECTION_CHAT, 17, &lf, NULL, CHAT_FONTMODULE);
 			hFont = CreateFontIndirect(&lf);
-			iText = GetTextPixelSize(szString, hFont, TRUE) + 3;
+			iText = GetTextPixelSize(szString, hFont, true) + 3;
 			DeleteObject(hFont);
 			iIndent += (iText * 1440) / logPixelSX;
 			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);

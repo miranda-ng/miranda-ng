@@ -27,7 +27,7 @@ void UpgradeCheck(void);
 INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //log.c
-void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO* si, BOOL bRedraw, BOOL bPhaseTwo);
+void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO* si, bool bRedraw, bool bPhaseTwo);
 void   LoadMsgLogBitmaps(void);
 void   FreeMsgLogBitmaps(void);
 TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime);
@@ -36,7 +36,7 @@ char*  Log_CreateRtfHeader(MODULEINFO * mi);
 
 //window.c
 INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam);
-int GetTextPixelSize( TCHAR* pszText, HFONT hFont, BOOL bWidth);
+int GetTextPixelSize( TCHAR* pszText, HFONT hFont, bool bWidth);
 
 //options.c
 enum { FONTSECTION_AUTO, FONTSECTION_CHAT, FONTSECTION_IM, FONTSECTION_IP };

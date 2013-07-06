@@ -173,12 +173,12 @@ INT_PTR Service_Register(WPARAM wParam, LPARAM lParam)
 	if (mi) {
 		mi->ptszModDispName = a2tf( gcr->ptszModuleDispName, gcr->dwFlags);
 		mi->bBold = gcr->dwFlags & GC_BOLD;
-		mi->bUnderline = gcr->dwFlags & GC_UNDERLINE ;
-		mi->bItalics = gcr->dwFlags & GC_ITALICS ;
-		mi->bColor = gcr->dwFlags & GC_COLOR ;
-		mi->bBkgColor = gcr->dwFlags & GC_BKGCOLOR ;
-		mi->bAckMsg = gcr->dwFlags & GC_ACKMSG ;
-		mi->bChanMgr = gcr->dwFlags & GC_CHANMGR ;
+		mi->bUnderline = (gcr->dwFlags & GC_UNDERLINE) != 0;
+		mi->bItalics = (gcr->dwFlags & GC_ITALICS) != 0;
+		mi->bColor = (gcr->dwFlags & GC_COLOR) != 0;
+		mi->bBkgColor = (gcr->dwFlags & GC_BKGCOLOR) != 0;
+		mi->bAckMsg = (gcr->dwFlags & GC_ACKMSG) != 0;
+		mi->bChanMgr = (gcr->dwFlags & GC_CHANMGR) != 0 ;
 		mi->iMaxText = gcr->iMaxText;
 		mi->nColorCount = gcr->nColors;
 		if (gcr->nColors > 0) {
@@ -226,8 +226,8 @@ INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 			si->ptszName = a2tf(gcw->ptszName, gcw->dwFlags);
 			si->ptszStatusbarText = a2tf(gcw->ptszStatusbarText, gcw->dwFlags);
 			si->iSplitterX = g_Settings.iSplitterX;
-			si->bFilterEnabled = db_get_b(si->hContact, "Chat", "FilterEnabled", M.GetByte("Chat", "FilterEnabled", 0));
-			si->bNicklistEnabled = M.GetByte("Chat", "ShowNicklist", 1);
+			si->bFilterEnabled = db_get_b(si->hContact, "Chat", "FilterEnabled", M.GetByte("Chat", "FilterEnabled", 0)) != 0;
+			si->bNicklistEnabled = M.GetByte("Chat", "ShowNicklist", 1) != 0;
 			if (!(gcw->dwFlags & GC_UNICODE)) {
 				si->pszID = mir_strdup(gcw->pszID);
 				si->pszName = mir_strdup(gcw->pszName);

@@ -313,9 +313,9 @@ BOOL SM_AddEvent(const TCHAR* pszID, const char* pszModule, GCEVENT * gce, BOOL 
 			li->ptszStatus = mir_tstrdup(gce->ptszStatus);
 			li->ptszUserInfo = mir_tstrdup(gce->ptszUserInfo);
 
-			li->bIsMe = gce->bIsMe;
+			li->bIsMe = gce->bIsMe != 0;
+			li->bIsHighlighted = bIsHighlighted != 0;
 			li->time = gce->time;
-			li->bIsHighlighted = bIsHighlighted;
 
 			if (g_Settings.iEventLimit > 0 && pTemp->iEventCount > g_Settings.iEventLimit + g_Settings.iEventLimitThreshold) {
 				LM_TrimLog(&pTemp->pLog, &pTemp->pLogEnd, pTemp->iEventCount - g_Settings.iEventLimit);
@@ -1363,28 +1363,30 @@ USERINFO* UM_SetContactStatus(USERINFO* pUserList, const TCHAR* pszUID, WORD sta
 
 BOOL UM_SetStatusEx(USERINFO* pUserList, const TCHAR* pszText, int flags)
 {
-	USERINFO *pTemp = pUserList, *pLast = NULL;
-	int bOnlyMe = (flags & GC_SSE_ONLYLISTED) != 0, bSetStatus = (flags & GC_SSE_ONLINE) != 0;
+	bool bOnlyMe = (flags & GC_SSE_ONLYLISTED) != 0, bAwaySetStatus = (flags & GC_SSE_ONLINE) != 0, bOfflineSetStatus = (flags & GC_SSE_OFFLINE) != 0;
 	char cDelimiter = (flags & GC_SSE_TABDELIMITED) ? '\t' : ' ';
 
-	while (pTemp != NULL) {
+	for (USERINFO *p = pUserList; p != NULL; p = p->next) {
 		if (!bOnlyMe)
-			pTemp->iStatusEx = 0;
+			p->iStatusEx = CHAT_STATUS_NORMAL;
 
-		if (pszText != NULL) {
-			TCHAR* s = (TCHAR *)_tcsstr(pszText, pTemp->pszUID);
-			if (s) {
-				pTemp->iStatusEx = 0;
-				if (s == pszText || s[-1] == cDelimiter) {
-					int len = lstrlen(pTemp->pszUID);
-					if (s[len] == cDelimiter || s[len] == '\0')
-						pTemp->iStatusEx = (!bOnlyMe || bSetStatus) ? 1 : 0;
-				}
+		if (pszText == NULL)
+			continue;
+			
+		TCHAR* s = (TCHAR *)_tcsstr(pszText, p->pszUID);
+		if (s == NULL)
+			continue;
+
+		p->iStatusEx = CHAT_STATUS_NORMAL;
+		if (s == pszText || s[-1] == cDelimiter) {
+			int len = lstrlen(p->pszUID);
+			if (s[len] == cDelimiter || s[len] == '\0') {
+				if (!bOnlyMe || bAwaySetStatus)
+					p->iStatusEx = CHAT_STATUS_AWAY;
+				else if (bOfflineSetStatus)
+					p->iStatusEx = CHAT_STATUS_OFFLINE;
 			}
 		}
-
-		pLast = pTemp;
-		pTemp = pTemp->next;
 	}
 	return TRUE;
 }
