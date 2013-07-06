@@ -428,6 +428,7 @@ typedef struct {
 #define GC_SSE_ONLYLISTED     0x0001  // processes only listed contacts, resets all contacts otherwise
 #define GC_SSE_ONLINE         0x0002  // displays a contact online, otherwise away
 #define GC_SSE_TABDELIMITED   0x0004  // use tabs as delimiters
+#define GC_SSE_OFFLINE        0x0008  // displays a contact offline, otherwise away
 
 #define GC_EVENT_SETSTATUSEX	0x1009
 
