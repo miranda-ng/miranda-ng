@@ -282,7 +282,7 @@ BOOL SM_AddEventToAllMatchingUID(GCEVENT * gce, BOOL bIsHighLight)
 					if (!(gce->dwFlags & GCEF_NOTNOTIFY))
 						DoSoundsFlashPopupTrayStuff(pTemp, gce, bIsHighLight, bManyFix);
 					bManyFix ++;
-					if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings.LoggingEnabled)
+					if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings.bLoggingEnabled)
 						LogToFile(pTemp, gce);
 				}
 			}
@@ -1192,7 +1192,7 @@ static int UM_CompareItem(USERINFO * u1, const TCHAR* pszNick, WORD wStatus)
 		if ((dw1 & 1) && (dw2 & 1))
 			//
 		{
-			if (g_Settings.AlternativeSorting)
+			if (g_Settings.bAlternativeSorting)
 				return sttCompareNicknames(u1->pszNick, pszNick);
 			else
 				return lstrcmp(u1->pszNick, pszNick);
@@ -1200,7 +1200,7 @@ static int UM_CompareItem(USERINFO * u1, const TCHAR* pszNick, WORD wStatus)
 		dw1 = dw1 >> 1;
 		dw2 = dw2 >> 1;
 	}
-	if (g_Settings.AlternativeSorting)
+	if (g_Settings.bAlternativeSorting)
 		//
 		return sttCompareNicknames(u1->pszNick, pszNick);
 	else

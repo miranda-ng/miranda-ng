@@ -322,7 +322,7 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 		UpdateTrayMenuState(dat, FALSE);
 		DM_SetDBButtonStates(hwndDlg, dat);
 
-		if (g_Settings.MathMod) {
+		if (g_Settings.bMathMod) {
 			CallService(MTH_Set_ToolboxEditHwnd, 0, (LPARAM)GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 			MTH_updateMathWindow(dat);
 		}
@@ -607,7 +607,7 @@ LBL_SkipEnd:
 		dat->szSearchResult = mir_tstrdup(pszName);
 		if (end != start) {
 			ptrT szReplace;
-			if (!isRoom && !isTopic && g_Settings.AddColonToAutoComplete && start == 0) {
+			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
 				szReplace = (TCHAR*)Utils::safeMirAlloc((wcslen(pszName) + 4) * sizeof(TCHAR));
 				wcscpy(szReplace, pszName);
 				wcscat(szReplace, L": ");
@@ -1308,7 +1308,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		return DM_WMCopyHandler(hwnd, LogSubclassProc, msg, wParam, lParam);
 
 	case WM_SETCURSOR:
-		if (g_Settings.ClickableNicks && (LOWORD(lParam) == HTCLIENT)) {
+		if (g_Settings.bClickableNicks && (LOWORD(lParam) == HTCLIENT)) {
 			POINT pt;
 			GetCursorPos(&pt);
 			ScreenToClient(hwnd,&pt);
@@ -1321,14 +1321,14 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	case WM_RBUTTONUP:
 	case WM_RBUTTONDOWN:
 	case WM_RBUTTONDBLCLK:
-		if (g_Settings.ClickableNicks) {
+		if (g_Settings.bClickableNicks) {
 			POINT pt={LOWORD(lParam), HIWORD(lParam)};
 			CheckCustomLink(hwnd, &pt, msg, wParam, lParam, TRUE);
 		}
 		break;
 
 	case WM_LBUTTONUP:
-		if (g_Settings.ClickableNicks) {
+		if (g_Settings.bClickableNicks) {
 			POINT pt={LOWORD(lParam), HIWORD(lParam)};
 			CheckCustomLink(hwnd, &pt, msg, wParam, lParam, TRUE);
 		}
@@ -2277,10 +2277,10 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		case GC_ADDLOG: {
 			BOOL	fInactive = (GetForegroundWindow() != dat->pContainer->hwnd || GetActiveWindow() != dat->pContainer->hwnd);
 
-			if (g_Settings.UseDividers && g_Settings.DividersUsePopupConfig) {
+			if (g_Settings.bUseDividers && g_Settings.bDividersUsePopupConfig) {
 				if (!MessageWindowOpened(0, (LPARAM)hwndDlg))
 					SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
-			} else if (g_Settings.UseDividers) {
+			} else if (g_Settings.bUseDividers) {
 				if (fInactive)
 					SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
 				else {
@@ -2359,7 +2359,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 						}
 						else {
 							FillRect(dis->hDC, &dis->rcItem, hListBkgBrush);
-							if (g_Settings.ColorizeNicks && szIndicator != 0) {
+							if (g_Settings.bColorizeNicks && szIndicator != 0) {
 								COLORREF clr;
 								switch (szIndicator) {
 								case '@':
@@ -2384,14 +2384,14 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 						}
 						x_offset = 2;
 
-						if (g_Settings.ShowContactStatus && g_Settings.ContactStatusFirst && ui->ContactStatus) {
+						if (g_Settings.bShowContactStatus && g_Settings.bContactStatusFirst && ui->ContactStatus) {
 							HICON hIcon = LoadSkinnedProtoIcon(si->pszModule, ui->ContactStatus);
 							DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 8, hIcon, 16, 16, 0, NULL, DI_NORMAL);
 							Skin_ReleaseIcon(hIcon);
 							x_offset += 18;
 						}
 
-						if (g_Settings.ClassicIndicators) {
+						if (g_Settings.bClassicIndicators) {
 							char szTemp[3];
 							SIZE szUmode;
 
@@ -2407,7 +2407,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 							x_offset += 12;
 						}
 
-						if (g_Settings.ShowContactStatus && !g_Settings.ContactStatusFirst && ui->ContactStatus) {
+						if (g_Settings.bShowContactStatus && !g_Settings.bContactStatusFirst && ui->ContactStatus) {
 							HICON hIcon = LoadSkinnedProtoIcon(si->pszModule, ui->ContactStatus);
 							DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 8, hIcon, 16, 16, 0, NULL, DI_NORMAL);
 							Skin_ReleaseIcon(hIcon);
@@ -2854,7 +2854,7 @@ LABEL_SHOWWINDOW:
 						switch (((ENLINK *) lParam)->msg) {
 							case WM_SETCURSOR:
 
-								if (g_Settings.ClickableNicks) {
+								if (g_Settings.bClickableNicks) {
 									if (!hCurHyperlinkHand)
 										hCurHyperlinkHand = LoadCursor(NULL, IDC_HAND);
 									if (hCurHyperlinkHand != GetCursor())
@@ -2921,7 +2921,7 @@ LABEL_SHOWWINDOW:
 										mir_free(tr.lpstrText);
 										return TRUE;
 									}
-								} else if (g_Settings.ClickableNicks) {                    // clicked a nick name
+								} else if (g_Settings.bClickableNicks) {                    // clicked a nick name
 									CHARRANGE chr;
 									TEXTRANGE tr2;
 									TCHAR tszAplTmpl[] = _T("%s:"),
@@ -3074,7 +3074,7 @@ LABEL_SHOWWINDOW:
 						ui = UM_FindUserFromIndex(si->pUsers, item);
 						//ui = SM_GetUserFromIndex(si->pszID, si->pszModule, item);
 						if (ui) {
-							if (g_Settings.DoubleClick4Privat ? GetKeyState(VK_SHIFT) & 0x8000 : !(GetKeyState(VK_SHIFT) & 0x8000)) {
+							if (g_Settings.bDoubleClick4Privat ? GetKeyState(VK_SHIFT) & 0x8000 : !(GetKeyState(VK_SHIFT) & 0x8000)) {
 								LRESULT lResult = (LRESULT)SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_GETSEL, 0, 0);
 								int start = LOWORD(lResult);
 								TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR) * (lstrlen(ui->pszUID) + 3));
@@ -3153,7 +3153,7 @@ LABEL_SHOWWINDOW:
 					break;
 
 				case IDC_CHAT_MESSAGE:
-					if (g_Settings.MathMod)
+					if (g_Settings.bMathMod)
 						MTH_updateMathWindow(dat);
 
 					if (HIWORD(wParam) == EN_CHANGE) {
@@ -3624,7 +3624,7 @@ LABEL_SHOWWINDOW:
 		}
 
 		case DM_ADDDIVIDER:
-			if (!(dat->dwFlags & MWF_DIVIDERSET) && g_Settings.UseDividers) {
+			if (!(dat->dwFlags & MWF_DIVIDERSET) && g_Settings.bUseDividers) {
 				if (GetWindowTextLengthA(GetDlgItem(hwndDlg, IDC_CHAT_LOG)) > 0) {
 					dat->dwFlags |= MWF_DIVIDERWANTED;
 					dat->dwFlags |= MWF_DIVIDERSET;

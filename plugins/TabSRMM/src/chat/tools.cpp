@@ -300,7 +300,7 @@ static BOOL DoPopup(SESSION_INFO* si, GCEVENT* gce, struct TWindowData* dat)
 	char *szProto = dat ? dat->szProto : si->pszModule;
 
 	TCHAR *bbStart, *bbEnd;
-	if (g_Settings.BBCodeInPopups) {
+	if (g_Settings.bBBCodeInPopups) {
 		bbStart = _T("[b]");
 		bbEnd = _T("[/b]");
 	}
@@ -546,10 +546,10 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 
 		/* TODO fix for 3.0 final !!! */
 #if !defined(__DELAYED_FOR_3_1)
-		if (g_Settings.CreateWindowOnHighlight && 0 == dat)
+		if (g_Settings.bCreateWindowOnHighlight && 0 == dat)
 			wParamForHighLight = 1;
 
-		if (dat && g_Settings.AnnoyingHighlight && params->bInactive && dat->pContainer->hwnd != GetForegroundWindow()) {
+		if (dat && g_Settings.bAnnoyingHighlight && params->bInactive && dat->pContainer->hwnd != GetForegroundWindow()) {
 			wParamForHighLight = 2;
 			params->hWnd = dat->hwnd;
 		}
@@ -558,13 +558,13 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 			DoPopup(si, gce, dat);
 		if (params->bInactive && si && si->hWnd)
 			SendMessage(si->hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si);
-		if (g_Settings.FlashWindowHightlight && params->bInactive)
+		if (g_Settings.bFlashWindowHightlight && params->bInactive)
 			params->bMustFlash = TRUE;
 		params->bMustAutoswitch = TRUE;
 		params->hNotifyIcon = hIcons[ICON_HIGHLIGHT];
 	} else {
 		// do blinking icons in tray
-		if (params->bInactive || !g_Settings.TrayIconInactiveOnly) {
+		if (params->bInactive || !g_Settings.bTrayIconInactiveOnly) {
 			DoTrayIcon(si, gce);
 			if (params->iEvent == GC_EVENT_MESSAGE)
 				fFlagUnread = true;
@@ -669,7 +669,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 
 		if (params->iEvent == GC_EVENT_MESSAGE) {
 			params->bMustAutoswitch = TRUE;
-			if (g_Settings.FlashWindow)
+			if (g_Settings.bFlashWindow)
 				params->bMustFlash = TRUE;
 			params->hNotifyIcon = hIcons[ICON_MESSAGE];
 		}
@@ -780,7 +780,7 @@ BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
 		if (bFileJustCreated)
 			fputws((const wchar_t*)"\377\376", hFile);		//UTF-16 LE BOM == FF FE
 		if (gce->ptszNick) {
-			if (g_Settings.LogLimitNames && lstrlen(gce->ptszNick) > 20) {
+			if (g_Settings.bLogLimitNames && lstrlen(gce->ptszNick) > 20) {
 				lstrcpyn(szTemp2, gce->ptszNick, 20);
 				lstrcpyn(szTemp2 + 20, _T("..."), 4);
 			}

@@ -118,7 +118,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **
 
 			case 'c':
 			case 'f':
-				if (!g_Settings.StripFormat && !streamData->bStripFormat) {
+				if (!g_Settings.bStripFormat && !streamData->bStripFormat) {
 					if ( line[1] != '\0' && line[2] != '\0') {
 						TCHAR szTemp3[3], c = *line;
 						int col;
@@ -133,7 +133,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **
 				break;
 			case 'C':
 			case 'F':
-				if ( !g_Settings.StripFormat && !streamData->bStripFormat) {
+				if ( !g_Settings.bStripFormat && !streamData->bStripFormat) {
 					mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%%c"), *line );
 				}
 				break;
@@ -324,7 +324,7 @@ static void LogEventIEView(LOGSTREAMDATA *streamData, TCHAR *ptszNick)
 			ied.iType = IEED_GC_EVENT_REMOVESTATUS;
 			break;
 	}
-	ied.dwData |= g_Settings.ShowTime ? IEEDD_GC_SHOW_TIME : 0;
+	ied.dwData |= g_Settings.bShowTime ? IEEDD_GC_SHOW_TIME : 0;
 	ied.dwData |= IEEDD_GC_SHOW_ICON;
 	ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
 	ied.next = NULL;
@@ -557,7 +557,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 
 			case 'c':
 			case 'f':
-				if (g_Settings.StripFormat || streamData->bStripFormat)
+				if (g_Settings.bStripFormat || streamData->bStripFormat)
 					line += 2;
 
 				else if (line[1] != '\0' && line[2] != '\0') {
@@ -575,7 +575,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 				break;
 			case 'C':
 			case 'F':
-				if (!g_Settings.StripFormat && !streamData->bStripFormat) {
+				if (!g_Settings.bStripFormat && !streamData->bStripFormat) {
 					int j = streamData->lin->bIsHighlighted ? 16 : EventToIndex(streamData->lin);
 					if (*line == 'C')
 						mir_snprintf(szTemp, SIZEOF(szTemp), "\\cf%u ", j + 1);
@@ -640,12 +640,12 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 		return;
 
 	if (streamData->lin->ptszNick) {
-		if (g_Settings.LogLimitNames && lstrlen(streamData->lin->ptszNick) > 20) {
+		if (g_Settings.bLogLimitNames && lstrlen(streamData->lin->ptszNick) > 20) {
 			lstrcpyn(szTemp, streamData->lin->ptszNick, 20);
 			lstrcpyn(szTemp + 20, _T("..."), 4);
 		} else lstrcpyn(szTemp, streamData->lin->ptszNick, 511);
 
-		if (g_Settings.ClickableNicks)
+		if (g_Settings.bClickableNicks)
 			mir_sntprintf(szTemp2, SIZEOF(szTemp2), _T("~~++#%s#++~~"), szTemp);
 		else
 			_tcscpy(szTemp2, szTemp);
@@ -795,7 +795,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\v~-+%d+-~\\v0 ", lin);
 
 			// Insert icon
-			if (g_Settings.LogSymbols)                // use symbols
+			if (g_Settings.bLogSymbols)                // use symbols
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s %c", Log_SetStyle(17, 17), EventToSymbol(lin));
 			else if (g_Settings.dwIconFlags) {
 				int iIndex = lin->bIsHighlighted ? ICON_HIGHLIGHT : EventToIcon(lin);
@@ -807,7 +807,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				bufferEnd += logIconBmpSize[iIndex];
 			}
 
-			if (g_Settings.TimeStampEventColour) {
+			if (g_Settings.bTimeStampEventColour) {
 				// colored timestamps
 				static char szStyle[256];
 				int iii;
@@ -827,12 +827,12 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tab ");
 
 			//insert timestamp
-			if (g_Settings.ShowTime) {
+			if (g_Settings.bShowTime) {
 				TCHAR szTimeStamp[30], szOldTimeStamp[30];
 
 				lstrcpyn(szTimeStamp, MakeTimeStamp(g_Settings.pszTimeStamp, lin->time), 30);
 				lstrcpyn(szOldTimeStamp, MakeTimeStamp(g_Settings.pszTimeStamp, streamData->si->LastTime), 30);
-				if (!g_Settings.ShowTimeIfChanged || streamData->si->LastTime == 0 || lstrcmp(szTimeStamp, szOldTimeStamp)) {
+				if (!g_Settings.bShowTimeIfChanged || streamData->si->LastTime == 0 || lstrcmp(szTimeStamp, szOldTimeStamp)) {
 					streamData->si->LastTime = lin->time;
 					Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, _T("%s"), szTimeStamp);
 				}
@@ -846,7 +846,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				char pszIndicator[3] = "\0\0";
 				int  crNickIndex = 0;
 													//mad
-				if (g_Settings.LogClassicIndicators/*g_Settings.ClassicIndicators */||g_Settings.ColorizeNicksInLog) {
+				if (g_Settings.bLogClassicIndicators/*g_Settings.bClassicIndicators */||g_Settings.bColorizeNicksInLog) {
 					USERINFO *ui = streamData->si->pUsers;
 					while (ui) {
 						if (!lstrcmp(ui->pszNick, lin->ptszNick)) {
@@ -886,7 +886,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1, lin->bIsMe ? 2 : 1));
 													//MAD
-				if (g_Settings.LogClassicIndicators /*g_Settings.ClassicIndicators*/)
+				if (g_Settings.bLogClassicIndicators /*g_Settings.bClassicIndicators*/)
 					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s", pszIndicator);
 
 				lstrcpyn(pszTemp, lin->bIsMe ? g_Settings.pszOutgoingNick : g_Settings.pszIncomingNick, 299);
@@ -895,12 +895,12 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 					p1[1] = 's';
 
 				if (!lin->bIsMe) {
-					if (g_Settings.ClickableNicks) {
+					if (g_Settings.bClickableNicks) {
 						_tcsnrplc(pszTemp, 300, _T("%s"), _T("~~++#%s#++~~"));
 						pszTemp[299] = 0;
 					}
 					//Log_Append(&buffer, &bufferEnd, &bufferAlloced, "~~++#");
-					if (g_Settings.ColorizeNicksInLog && pszIndicator[0])
+					if (g_Settings.bColorizeNicksInLog && pszIndicator[0])
 						Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\cf%u ", OPTIONS_FONTCOUNT + streamData->crCount + crNickIndex + 1);
 				}
 
@@ -1036,7 +1036,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, bool bRedr
 		/*
 		 * use mathmod to replace formulas
 		 */
-		if (g_Settings.MathMod && fDoReplace) {
+		if (g_Settings.bMathMod && fDoReplace) {
 			TMathRicheditInfo mathReplaceInfo;
 			CHARRANGE mathNewSel;
 			mathNewSel.cpMin = sel.cpMin;
@@ -1063,7 +1063,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, bool bRedr
 		 * clickable
 		 */
 
-		if (g_Settings.ClickableNicks) {
+		if (g_Settings.bClickableNicks) {
 			CHARFORMAT2 cf2;
 			FINDTEXTEX fi, fi2;
 
@@ -1212,7 +1212,7 @@ char * Log_CreateRtfHeader(MODULEINFO * mi)
 	{
 		int iIndent = 0;
 
-		if (g_Settings.LogSymbols) {
+		if (g_Settings.bLogSymbols) {
 			TCHAR szString[2];
 			LOGFONT lf;
 			HFONT hFont;
@@ -1227,10 +1227,10 @@ char * Log_CreateRtfHeader(MODULEINFO * mi)
 			iIndent += (iText * 1440) / logPixelSX;
 			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
 		} else if (g_Settings.dwIconFlags) {
-			iIndent += ((g_Settings.ScaleIcons ? 14 : 20) * 1440) / logPixelSX;
+			iIndent += ((g_Settings.bScaleIcons ? 14 : 20) * 1440) / logPixelSX;
 			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
 		}
-		if (g_Settings.ShowTime) {
+		if (g_Settings.bShowTime) {
 			int iSize = (g_Settings.LogTextIndent * 1440) / logPixelSX;
 			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent + iSize);
 			if (g_Settings.LogIndentEnabled)
@@ -1262,7 +1262,7 @@ void LoadMsgLogBitmaps(void)
 		sizeX = 16;
 
 	if (sizeX >= 12)
-		iIconSize = g_Settings.ScaleIcons ? 12 : 16;
+		iIconSize = g_Settings.bScaleIcons ? 12 : 16;
 	else
 		iIconSize = sizeX;
 

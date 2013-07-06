@@ -241,16 +241,16 @@ struct LOGSTREAMDATA
 struct TMUCSettings
 {
 	HICON       hIconOverlay;
-	bool        ShowTime, ShowTimeIfChanged, LoggingEnabled;
-	bool        FlashWindow, FlashWindowHightlight;
-	bool        OpenInDefault;
-	bool        HighlightEnabled, LogIndentEnabled;
-	bool        StripFormat;
-	bool        BBCodeInPopups;
-	bool        TrayIconInactiveOnly;
-	bool        AddColonToAutoComplete;
-	bool        LogLimitNames;
-	bool        TimeStampEventColour;
+	bool        bShowTime, bShowTimeIfChanged, bLoggingEnabled;
+	bool        bFlashWindow, bFlashWindowHightlight;
+	bool        bOpenInDefault;
+	bool        bHighlightEnabled, LogIndentEnabled;
+	bool        bStripFormat;
+	bool        bBBCodeInPopups;
+	bool        bTrayIconInactiveOnly;
+	bool        bAddColonToAutoComplete;
+	bool        bLogLimitNames;
+	bool        bTimeStampEventColour;
 	DWORD       dwIconFlags;
 	int         LogTextIndent;
 	long        LoggingLimit;
@@ -270,29 +270,18 @@ struct TMUCSettings
 	COLORREF    crUserListBGColor;
 	COLORREF    crPUTextColour;
 	COLORREF    crPUBkgColour;
-	BYTE        ClassicIndicators;
 
 	HFONT       UserListFonts[CHAT_STATUS_MAX];
 	COLORREF    UserListColors[CHAT_STATUS_MAX];
 
-	BYTE        LogClassicIndicators;
-	BYTE        AlternativeSorting;
-	BYTE        AnnoyingHighlight;
-	BYTE        CreateWindowOnHighlight;
-
-	BYTE        LogSymbols;
-	BYTE        ClickableNicks;
-	BYTE        ColorizeNicks;
-	BYTE        ColorizeNicksInLog;
-	BYTE        ScaleIcons;
-	BYTE        UseDividers;
-	BYTE        DividersUsePopupConfig;
-	BYTE        MathMod;
 	COLORREF    nickColors[8];
 	HBRUSH      SelectionBGBrush;
-	bool        DoubleClick4Privat;
-	bool        ShowContactStatus;
-	bool        ContactStatusFirst;
+	bool        bDoubleClick4Privat, bShowContactStatus, bContactStatusFirst;
+
+	bool        bLogClassicIndicators, bAlternativeSorting, bAnnoyingHighlight, bCreateWindowOnHighlight;
+	bool        bLogSymbols, bClassicIndicators, bClickableNicks, bColorizeNicks, bColorizeNicksInLog;
+	bool        bScaleIcons, bUseDividers, bDividersUsePopupConfig, bMathMod;
+
 	HANDLE      hGroup;
 	CMUCHighlight* Highlight;
 };

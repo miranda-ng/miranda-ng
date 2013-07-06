@@ -82,7 +82,7 @@ int Chat_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	CList_SetAllOffline(TRUE, NULL);
 
-	g_Settings.MathMod = ServiceExists(MATH_RTF_REPLACE_FORMULAE) && M.GetByte("Chat", "MathModSupport", 0);
+	g_Settings.bMathMod = ServiceExists(MATH_RTF_REPLACE_FORMULAE) && M.GetByte("Chat", "MathModSupport", 0);
 	return 0;
 }
 
@@ -576,7 +576,7 @@ void ShowRoom(SESSION_INFO* si, WPARAM wp, BOOL bSetForeground)
 	szName[0] = 0;
 	if (pContainer == NULL) {
 		GetContainerNameForContact(si->hContact, szName, CONTAINER_NAMELEN);
-		if (!g_Settings.OpenInDefault && !_tcscmp(szName, _T("default")))
+		if (!g_Settings.bOpenInDefault && !_tcscmp(szName, _T("default")))
 			_tcsncpy(szName, _T("Chat Rooms"), CONTAINER_NAMELEN);
 		szName[CONTAINER_NAMELEN] = 0;
 		pContainer = FindContainerByName(szName);
@@ -769,7 +769,7 @@ INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 			}
 			if (!(gce->dwFlags & GCEF_NOTNOTIFY))
 				DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
-			if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings.LoggingEnabled)
+			if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings.bLoggingEnabled)
 				LogToFile(si, gce);
 		}
 
