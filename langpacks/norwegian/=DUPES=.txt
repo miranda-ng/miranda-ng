@@ -103,8 +103,6 @@ Hva ønsker du å gjøre med filen nå?
 Vis
 [File]
 Fil
-[Ok]
-OK
 [Sounds]
 Lyder
 [&Preview]

@@ -328,8 +328,6 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 Уключыць групы
 [Include status modes]
 Уключыць статусы
-[Ok]
-Ок
 [Cancel]
 Скасаваць
 [Apply]

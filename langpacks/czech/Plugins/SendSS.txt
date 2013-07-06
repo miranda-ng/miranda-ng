@@ -180,8 +180,6 @@ Předchozí
 Další
 [Update]
 Aktualizovat
-[Ok]
-OK
 [Apply]
 Použít
 [Down arrow]

@@ -99,8 +99,6 @@ Mozgat/átnevez
 Mutat
 [File]
 Fájl
-[Ok]
-Ok
 [Sounds]
 Hangok
 [&Preview]

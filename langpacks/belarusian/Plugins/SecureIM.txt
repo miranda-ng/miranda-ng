@@ -128,8 +128,6 @@
 Модуль SecureIM. Фраза-пароль для прыватнага ключа 
 [Enter passphrase for the secret key:]
 Увядзіце фразу-пароль для сакрэтнага ключа:
-[Ok]
-Ок
 [Mode]
 Рэжым
 [Native SecureIM]

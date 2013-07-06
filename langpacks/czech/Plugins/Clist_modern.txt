@@ -144,7 +144,7 @@ Včetně skupin
 Zobrazit kontakty ve skupinách
 [Include status modes]
 Včetně stavu
-[Ok]
+[OK]
 OK
 [Cancel]
 Zrušit

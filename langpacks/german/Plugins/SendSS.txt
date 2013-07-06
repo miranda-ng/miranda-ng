@@ -180,8 +180,6 @@ Zurück
 Weiter
 [Update]
 Aktualisieren
-[Ok]
-Ok
 [Apply]
 Übernehmen
 [Down arrow]

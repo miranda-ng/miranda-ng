@@ -18,7 +18,7 @@ Původ
 Akt&ualizovat
 [Updating]
 Aktualizace
-[Ok]
+[OK]
 OK
 [Cancel]
 Zrušit
@@ -254,8 +254,6 @@ Importovat
 
 [Dialog]
 Dialog
-[OK]
-OK
 [All]
 všechno
 [None]

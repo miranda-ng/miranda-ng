@@ -114,8 +114,6 @@ Wählen Sie den Keyserver für die Schlüsselsuche aus:
 
 [Choose which  keys to export]
 
-[Ok]
-Ok
 [Export public keys (only set for contacts)]
 
 [Export all private keys]

@@ -96,8 +96,6 @@
 Наперад
 [Update]
 Абнавіць
-[Ok]
-Ок
 [Apply]
 Ужыць
 [Down arrow]

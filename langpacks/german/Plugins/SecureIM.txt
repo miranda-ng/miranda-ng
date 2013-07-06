@@ -138,8 +138,6 @@ Abbrechen
 SecureIM: Passphrase des privaten Schlüssels
 [Enter passphrase for the secret key:]
 'Passphrase' für den geheimen Schlüssel eingeben:
-[Ok]
-Ok
 [Mode]
 Modus
 [Native SecureIM]

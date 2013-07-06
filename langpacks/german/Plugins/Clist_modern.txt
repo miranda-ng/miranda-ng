@@ -144,8 +144,8 @@ Gruppen auswählen
 Kontakte gruppiert anzeigen
 [Include status modes]
 Statusmodus auswählen
-[Ok]
-ok
+[OK]
+OK
 [Cancel]
 Abbrechen
 [Sticky contacts]

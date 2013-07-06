@@ -147,8 +147,6 @@ Lancer...
 Toujours afficher au démarrage de Miranda NG
 [Save as default]
 Enregistrer par défaut
-[Ok]
-OK
 [Sounds]
 Sons
 [&Change...]

@@ -18,8 +18,8 @@ Herkunft
 Akt&ualisieren
 [Updating]
 Aktualisieren
-[Ok]
-Ok
+[OK]
+OK
 [Cancel]
 Abbrechen
 [Apply]
@@ -256,8 +256,6 @@ Fortschritt1
 
 [Dialog]
 
-[OK]
-OK
 [All]
 Alle
 [None]

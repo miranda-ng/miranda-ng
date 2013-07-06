@@ -12,7 +12,7 @@ Fügt mehrer Kontakte zu einem zusammen.
 Zu Metakontakt hinzufügen
 [Please select a MetaContact:]
 Bitte einen Metakontakt wählen:
-[&Ok]
+[&OK]
 &OK
 [&Cancel]
 Abbre&chen
@@ -20,8 +20,6 @@ Abbre&chen
 Alphabetisch sortieren
 [Editing]
 Bearbeiten
-[&OK]
-&OK
 [Name:]
 Name:
 [Information]

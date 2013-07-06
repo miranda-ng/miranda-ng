@@ -10,7 +10,7 @@
 加至已存在中继联系人
 [Please select a MetaContact:]
 请选择一位中继联系人: 
-[&Ok]
+[&OK]
 确定(&O)
 [Sort Alphabetically]
 按字母顺序排序

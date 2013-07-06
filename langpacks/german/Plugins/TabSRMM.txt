@@ -591,8 +591,6 @@ Sie können alle Ihre Farben sowie die Schriftart-Einstellungen exportieren und 
 Exportiere in eine Datei ...
 [Import from a file...]
 Importiere aus einer Datei ...
-[Ok]
-Ok
 [Icons]
 Icons
 [Event type icons in the message log]

@@ -138,8 +138,6 @@ Zrušit
 
 [Enter passphrase for the secret key:]
 
-[Ok]
-OK
 [Mode]
 Mód
 [Native SecureIM]

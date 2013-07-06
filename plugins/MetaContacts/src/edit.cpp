@@ -320,7 +320,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_COMMAND:
 		switch(HIWORD(wParam)) {
-		case BN_CLICKED:	// A button ('Remove', 'Ok', 'Cancel' or 'Apply', normally) has been clicked
+		case BN_CLICKED:	// A button ('Remove', 'OK', 'Cancel' or 'Apply', normally) has been clicked
 			switch(LOWORD(wParam)) {
 			case IDC_VALIDATE: // Apply changes, if there is still one contact attached to the metacontact.
 				if (changes.num_contacts == 0) { // Otherwise, delete the metacontact.

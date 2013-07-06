@@ -107,8 +107,6 @@ Ayrı&l
 Göster
 [File]
 Dosya
-[Ok]
-Tamam
 [Sounds]
 Sesler
 [&Preview]

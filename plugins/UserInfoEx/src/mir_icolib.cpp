@@ -78,7 +78,7 @@ static ICODESC icoDesc[] =
 	{ ICO_BTN_UPDATE,		LPGEN("Update"),					SECT_BUTTONS,	IDI_BTN_UPDATE,			0	},
 	{ ICO_BTN_IMPORT,		LPGEN("Import"),					SECT_BUTTONS,	IDI_IMPORT,				0	},
 	{ ICO_BTN_EXPORT,		LPGEN("Export"),					SECT_BUTTONS,	IDI_EXPORT,				0	},
-	{ ICO_BTN_OK,			LPGEN("Ok"),						SECT_BUTTONS,	IDI_BTN_OK,				0	},
+	{ ICO_BTN_OK,			LPGEN("OK"),						SECT_BUTTONS,	IDI_BTN_OK,				0	},
 	{ ICO_BTN_CANCEL,		LPGEN("Cancel"),					SECT_BUTTONS,	IDI_BTN_CLOSE,			0	},
 	{ ICO_BTN_APPLY,		LPGEN("Apply"),						SECT_BUTTONS,	IDI_BTN_APPLY,			0	},
 	{ ICO_BTN_GOTO,			LPGEN("Goto"),						SECT_BUTTONS,	IDI_BTN_GOTO,			0	},

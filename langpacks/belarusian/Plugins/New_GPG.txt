@@ -90,8 +90,6 @@
 Імпартаваць
 [Select keyserver for key search:]
 Выбраць сервер ключоў для пошуку:
-[Ok]
-Ок
 [Userlist:]
 Ліст карыстальнікаў:
 [Export PubKey]

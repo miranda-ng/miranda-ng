@@ -114,8 +114,6 @@ Importovat
 
 [Choose which  keys to export]
 
-[Ok]
-OK
 [Export public keys (only set for contacts)]
 
 [Export all private keys]

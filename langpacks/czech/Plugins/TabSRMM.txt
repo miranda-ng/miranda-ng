@@ -593,8 +593,6 @@ Zde můžete exportovat či nahrát všechna vaše nastavení barev a písem. Um
 Exportovat do souboru...
 [Import from a file...]
 Importovat ze souboru...
-[Ok]
-OK
 [Icons]
 Ikony
 [Event type icons in the message log]

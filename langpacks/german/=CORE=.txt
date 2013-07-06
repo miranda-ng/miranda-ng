@@ -165,8 +165,6 @@ Starten
 Diesen Dialog zeigen, wenn Miranda NG startet
 [Save as default]
 Als Standard speichern
-[Ok]
-Ok
 [SSL Traffic]
 SSL-Verkehr
 [Sounds]

@@ -330,8 +330,6 @@ Nový
 Včetně skupin
 [Include status modes]
 Včetně stavu
-[Ok]
-OK
 [Cancel]
 Zrušit
 [Apply]

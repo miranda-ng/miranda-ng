@@ -144,8 +144,8 @@
 Паказваць кантакты ў групах
 [Include status modes]
 Уключыць статусы
-[Ok]
-Ок
+[OK]
+ОK
 [Cancel]
 Скасаваць
 [Sticky contacts]

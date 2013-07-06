@@ -14,7 +14,7 @@ Doplněk GnuPG - heslo
 Zadejte heslo pro privatní klíč uživatele
 [User ID]
 Identifikátor
-[Ok]
+[OK]
 OK
 [Cancel]
 Zrušit

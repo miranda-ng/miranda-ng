@@ -2125,6 +2125,8 @@ Miranda пытается обновить вашу структуру хране
 Текстовые файлы
 [Sound Files]
 Звуковые файлы
+[WAV Files]
+Файлы WAV
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG перезапускается.\nПожалуйста, подождите...
 [Open Logging Options]

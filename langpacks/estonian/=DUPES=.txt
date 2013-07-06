@@ -51,8 +51,6 @@ Lahku
 Kuva
 [File]
 Fail
-[Ok]
-Ok
 [Sounds]
 Helid
 [Name:]

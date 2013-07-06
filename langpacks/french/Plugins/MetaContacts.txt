@@ -10,7 +10,7 @@
 Ajouter à un MetaContact existant
 [Please select a MetaContact:]
 Veuillez choisir un MetaContact :
-[&Ok]
+[&OK]
 OK
 [Sort Alphabetically]
 Trier alphabétiquement

@@ -101,8 +101,6 @@ Cancel(&C)
 表示
 [File]
 ファイル
-[Ok]
-Ok
 [Sounds]
 音声
 [&Preview]

@@ -165,8 +165,6 @@
 Паказаць гэты дыялог пры запуску Miranda NG
 [Save as default]
 Захаваць налады
-[Ok]
-Ок
 [SSL Traffic]
 Трафік SSL
 [Sounds]

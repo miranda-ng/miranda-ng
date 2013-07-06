@@ -12,7 +12,7 @@
 Přidat k existujícímu metakontaktu
 [Please select a MetaContact:]
 Prosím vyberte metakontakt:
-[&Ok]
+[&OK]
 &OK
 [&Cancel]
 &Zrušit
@@ -20,8 +20,6 @@ Prosím vyberte metakontakt:
 Seřadit abecedně
 [Editing]
 Úprava
-[&OK]
-&OK
 [Name:]
 Název:
 [Information]

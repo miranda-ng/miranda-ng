@@ -165,8 +165,6 @@ Spustit
 Zobrazit toto okno při spuštění Mirandy
 [Save as default]
 Uložit jako výchozí
-[Ok]
-OK
 [SSL Traffic]
 Včetně dat SSL
 [Sounds]

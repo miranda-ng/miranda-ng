@@ -103,8 +103,6 @@ Miranda NG 目录下有包含新数据库设置的文件.
 状态不同时显示
 [File]
 文件
-[Ok]
-确定
 [Sounds]
 声音
 [&Preview]

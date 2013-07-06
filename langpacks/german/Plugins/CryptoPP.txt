@@ -14,8 +14,8 @@ Crypto++ Bibliothek für SecureIM.
 Passwort des geheimen Schlüssels des Users eingeben:
 [User ID]
 Nutzer-ID
-[Ok]
-Ok
+[OK]
+OK
 [Cancel]
 Abbrechen
 [GnuPG Plugin - Select public key]

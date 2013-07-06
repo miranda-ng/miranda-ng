@@ -1,6 +1,6 @@
 
 [OK]
-Ok
+OK
 [Cancel]
 Cancelar
 [Cancel]

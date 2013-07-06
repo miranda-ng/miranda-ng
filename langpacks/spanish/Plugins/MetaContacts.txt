@@ -6,7 +6,7 @@
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
 ;file \plugins\MetaContacts\res\MetaContacts.rc
-[&Ok]
+[&OK]
 &OK
 [Function]
 Función
