@@ -487,7 +487,15 @@ void ChatRoom::AddMember(const ChatMember &item, const ChatMember &author, DWORD
 			else
 				this->SendEvent(item, GC_EVENT_JOIN, timestamp, GCEF_ADDTOLOG, 0, ::TranslateW(ChatRoom::Roles[item.GetRank()]));
 
-			this->SendEvent(item, GC_EVENT_SETCONTACTSTATUS, timestamp, 0, item.GetStatus());
+			int status = item.GetStatus();
+			if (status == ID_STATUS_AWAY || status == ID_STATUS_DND)
+				this->SendEvent(item, GC_EVENT_SETSTATUSEX, timestamp, 0, GC_SSE_ONLYLISTED | GC_SSE_ONLINE, (const wchar_t*)0, item.GetSid());
+			else if (status == ID_STATUS_OFFLINE)
+				this->SendEvent(item, GC_EVENT_SETSTATUSEX, timestamp, 0, GC_SSE_ONLYLISTED | GC_SSE_OFFLINE, (const wchar_t*)0, item.GetSid());
+			else
+				this->SendEvent(item, GC_EVENT_SETSTATUSEX, timestamp, 0, GC_SSE_ONLYLISTED, (const wchar_t*)0, item.GetSid());
+
+			this->SendEvent(item, GC_EVENT_SETCONTACTSTATUS, timestamp, 0, status);
 		}
 	}
 	else
@@ -532,9 +540,11 @@ void ChatRoom::UpdateMemberStatus(ChatMember *member, int status, DWORD timestam
 	if (member->GetStatus() != status)
 	{
 		if (status == ID_STATUS_AWAY || status == ID_STATUS_DND)
-			this->SendEvent(*member, GC_EVENT_SETSTATUSEX, timestamp, 0, 3, (const wchar_t*)0, member->GetSid());
+			this->SendEvent(*member, GC_EVENT_SETSTATUSEX, timestamp, 0, GC_SSE_ONLYLISTED | GC_SSE_ONLINE, (const wchar_t*)0, member->GetSid());
+		else if (status == ID_STATUS_OFFLINE)
+			this->SendEvent(*member, GC_EVENT_SETSTATUSEX, timestamp, 0, GC_SSE_ONLYLISTED | GC_SSE_OFFLINE, (const wchar_t*)0, member->GetSid());
 		else
-			this->SendEvent(*member, GC_EVENT_SETSTATUSEX, timestamp, 0, 1, (const wchar_t*)0, member->GetSid());
+			this->SendEvent(*member, GC_EVENT_SETSTATUSEX, timestamp, 0, GC_SSE_ONLYLISTED, (const wchar_t*)0, member->GetSid());
 
 		this->SendEvent(*member, GC_EVENT_SETCONTACTSTATUS, timestamp, 0, status);
 		member->SetStatus(status);
