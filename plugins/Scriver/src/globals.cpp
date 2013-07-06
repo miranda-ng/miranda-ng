@@ -75,7 +75,7 @@ static IconItem iconList[] =
 	{ LPGEN("Show userlist"),          "chat_nicklist2",       IDI_NICKLIST2   }, // 13
 	{ LPGEN("Icon overlay"),           "chat_overlay",         IDI_OVERLAY     }, // 14
 	{ LPGEN("Status 1 (10x10)"),       "chat_status0",         IDI_STATUS0, 10}, // 15
-	{ LPGEN("Status 2 (10x10"),        "chat_status1",         IDI_STATUS1, 10}, // 16
+	{ LPGEN("Status 2 (10x10)"),       "chat_status1",         IDI_STATUS1, 10}, // 16
 	{ LPGEN("Status 3 (10x10)"),       "chat_status2",         IDI_STATUS2, 10}, // 17
 	{ LPGEN("Status 4 (10x10)"),       "chat_status3",         IDI_STATUS3, 10}, // 18
 	{ LPGEN("Status 5 (10x10)"),       "chat_status4",         IDI_STATUS4, 10}, // 19
