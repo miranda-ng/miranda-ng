@@ -96,7 +96,6 @@
 ;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
 [Contact is no longer on server-list.]
-[Attachments:]
 ;file \protocols\FacebookRM\src\proto.cpp
 [Show Mind Window]
 [%s server connection]

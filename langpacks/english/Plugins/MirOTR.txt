@@ -39,7 +39,6 @@
 [Socialist Millionaires Protocol\r\nVerification]
 [&No]
 [&Yes]
-[MirOTR]
 [OTR status]
 [&Start OTR session]
 [&Refresh OTR session]

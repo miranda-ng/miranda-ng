@@ -98,7 +98,6 @@
 [Prev]
 [Next]
 [Update]
-[Ok]
 [Apply]
 [Down arrow]
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h

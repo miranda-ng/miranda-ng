@@ -75,7 +75,7 @@
 [Include groups]
 [Show contacts in groups]
 [Include status modes]
-[Ok]
+[OK]
 [Cancel]
 [Sticky contacts]
 [Clear all]

@@ -43,7 +43,6 @@
 [Show account cycle button]
 [Set My Status Message for All Status]
 [Status Message:]
-[Status popup]
 [&Offline]
 [On&line]
 [&Away]
@@ -54,7 +53,6 @@
 [&Invisible]
 [On the &Phone]
 [Out to &Lunch]
-[Context popup]
 [Set My Avatar...]
 [Set My Nickname...]
 [Set My Status Message...]
@@ -63,10 +61,6 @@
 [Show previous account]
 [Cycle through accounts]
 [Don't cycle through accounts]
-[Nick popup]
-[Status message popup]
-[Avatar popup]
-[ListeningTo popup]
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 ;file \plugins\MyDetails\src\frame.cpp

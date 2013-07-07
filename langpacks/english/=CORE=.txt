@@ -82,7 +82,6 @@
 [Run now]
 [Show this dialog box when Miranda NG starts]
 [Save as default]
-[Ok]
 [SSL Traffic]
 [Sounds]
 [&Change...]

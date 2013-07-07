@@ -72,7 +72,6 @@
 [Cancel]
 [SecureIM plugin Passphrase of private key]
 [Enter passphrase for the secret key:]
-[Ok]
 [Mode]
 [Native SecureIM]
 [PGP SecureIM]

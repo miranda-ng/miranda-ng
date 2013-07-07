@@ -168,7 +168,6 @@
 [New]
 [Include groups]
 [Include status modes]
-[Ok]
 [Cancel]
 [Apply]
 [Sticky contacts]

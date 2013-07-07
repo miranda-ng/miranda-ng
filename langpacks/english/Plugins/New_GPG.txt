@@ -60,7 +60,6 @@
 [Recieved encrypted file form contact whith disabled encryption.]
 [Remember choice]
 [Choose which  keys to export]
-[Ok]
 [Export public keys (only set for contacts)]
 [Export all private keys]
 [Export public and private keys]

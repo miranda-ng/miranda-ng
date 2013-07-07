@@ -10,7 +10,7 @@
 [GnuPG Plugin - Passphrase]
 [Enter passphrase for the secret key of user:]
 [User ID]
-[Ok]
+[OK]
 [Cancel]
 [GnuPG Plugin - Select public key]
 [Refresh]

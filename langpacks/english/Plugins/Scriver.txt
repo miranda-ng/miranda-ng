@@ -189,7 +189,7 @@
 [Hide userlist]
 [Show userlist]
 [Status 1 (10x10)]
-[Status 2 (10x10]
+[Status 2 (10x10)]
 [Status 3 (10x10)]
 [Status 4 (10x10)]
 [Status 5 (10x10)]

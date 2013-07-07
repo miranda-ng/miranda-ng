@@ -9,11 +9,10 @@
 ;file \plugins\MetaContacts\res\MetaContacts.rc
 [Add to Existing MetaContact]
 [Please select a MetaContact:]
-[&Ok]
+[&OK]
 [&Cancel]
 [Sort Alphabetically]
 [Editing]
-[&OK]
 [Name:]
 [Information]
 [Contacts]
