@@ -791,8 +791,6 @@ Globální nastavení
 Vždy vypnout
 [Unread Menu]
 
-[Traycontext]
-
 [Recent Sessions]
 Poslední rozhovory
 [Favorites]
@@ -843,8 +841,6 @@ Přidat kontakt do oblíbených
 Ostranit kontakt z oblíbených
 [dummy]
 
-[Splitter context]
-Kontext oddělovače
 [Set Position for this Session]
 Nastavit pozici pro tento rozhovor
 [Set and Save for all Sessions]

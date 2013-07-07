@@ -6,12 +6,12 @@
 ;  Authors: Andrej Krutak
 ;============================================================
 [Shows new message/status change info using onscreen display.]
-
+Zobrazuje informace o nových zprávách/změnách stavu přímo na obrazovce.
 ;file \plugins\wbOSD\res\wbOSD.rc
 [Dialog]
 Dialog
 [Select font]
-
+Zvolit písmo
 [Text color]
 Barva textu
 [Background color]
@@ -19,11 +19,11 @@ Barva pozadí
 [Transparent]
 Průhlednost
 [Shadow color]
-
+Barva stínu
 [Alternative shadow]
-
+Alternativní stín
 [Shadow align]
-
+Zarovnání stínu
 [General]
 Obecné
 [Shadow]
@@ -31,33 +31,33 @@ Stín
 [Align]
 Zarovnání
 [Shadow distance:]
-
+Vzdálenost stínu:
 [Other]
 Ostatní
 [Alpha:]
-
+Průhlednost:
 [Announce]
 Oznámení
 [Timeout (ms):]
-
+Časový limit (ms):
 [Show]
 Zobrazit
 [Show events]
-
+Zobrazit události
 [Status changes]
 Změny stavu
 [Show testing OSD]
-
+Zobrazit testovací OSD
 [Show my status changes]
-
+Zobrazit změny mého stavu
 [Show message window after click]
-
+Po kliknutí zobrazit komunikační okno
 [Static]
 Statický
 [Format:]
 Formát:
 [Show when my status is:]
-
+Zobrazit když je můj stav:
 ;file \plugins\wbOSD\src\events.cpp
 [%s is %s]
 %s je %s
@@ -65,4 +65,4 @@ Formát:
 [Plugins]
 Doplňky
 [OSD]
-
+OSD

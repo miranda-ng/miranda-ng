@@ -132,29 +132,6 @@ Zneužití
 Můžete nahlásit tohoto uživatele pro zneužití.
 [Report abuse]
 Nahlásit zneužití
-;file \protocols\Skype\proto_skype\src\resource.h
-[NOT_VALIDATED]
-Neověřeno
-[Validation succeeded]
-Úspěšně oveřeno
-[Password is too short]
-Heslo je příliš krátké
-[The value exceeds max size limit for the given property]
-Hodnota přesahuje maximální délku pro danou položku
-[Value contains illegal characters]
-Hodnota obsahuje zakázané znaky
-[Value contains whitespace]
-Hodnota obsahuje mezery
-[Password cannot be the same as Skype name]
-Heslo nesmí být stejné jako uživatelské jméno
-[Value has invalid format]
-Hodnota má neplatný formát
-[Value contains invalid word]
-Hodnota obsahuje neplatné slovo
-[Password is too simple]
-Heslo je příliš jednoduché
-[Value starts with an invalid character]
-Hodnota začíná neplatným znakem
 ;file \protocols\Skype\src\skype.cpp
 [Did not unpack SkypeKit.exe.]
 SkypeKit.exe nebyl rozbalen
@@ -406,6 +383,28 @@ Příliš mnoho paralelních
 [PLACEHOLDER_TIMEOUT]
 Vypršení času
 ;file \protocols\Skype\src\skype_utils.cpp
+[NOT_VALIDATED]
+Neověřeno
+[Validation succeeded]
+Úspěšně oveřeno
+[Password is too short]
+Heslo je příliš krátké
+[The value exceeds max size limit for the given property]
+Hodnota přesahuje maximální délku pro danou položku
+[Value contains illegal characters]
+Hodnota obsahuje zakázané znaky
+[Value contains whitespace]
+Hodnota obsahuje mezery
+[Password cannot be the same as Skype name]
+Heslo nesmí být stejné jako uživatelské jméno
+[Value has invalid format]
+Hodnota má neplatný formát
+[Value contains invalid word]
+Hodnota obsahuje neplatné slovo
+[Password is too simple]
+Heslo je příliš jednoduché
+[Value starts with an invalid character]
+Hodnota začíná neplatným znakem
 [Avatars]
 Avatary
 [Command "%s" is unsupported]

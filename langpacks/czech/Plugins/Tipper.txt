@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Tool Tip notification windows.]
-
+Informační bubliny.
 ;file \plugins\TipperYM\res\resource.rc
 [Options]
 Možnosti
@@ -334,9 +334,9 @@ Narozeniny:
 [Client:]
 Klient:
 [Email]
-
+E-mail
 [Email:]
-
+E-mail:
 [Gender:]
 Pohlaví:
 [Homepage]
@@ -352,7 +352,7 @@ Nečinnost
 [Idle:]
 Nečinnost:
 [IP]
-
+IP
 [IP:]
 IP:
 [IP internal]

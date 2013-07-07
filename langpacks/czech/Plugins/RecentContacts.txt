@@ -6,16 +6,16 @@
 ;  Authors: ValeraVi, Kildor
 ;============================================================
 [Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
-
+Přidává položku do hlavního menu pro zobrazení okna se seznamem jmen posledních použitých kontaktů, seřazených od nejnovějších po nejstarší.
 ;file \plugins\RecentContacts\res\resource.rc
 [Recent Contacts]
 Nedávné kontakty
 [Plugin settings]
 Nastavení doplňku
 [Number shown contacts:\n (0 to show all)]
-
+Počet kontaktů pro zobrazení:\n (0 pro zobrazení všech)
 [Format of date and time\n(Look to readme for placeholders help)]
-
+Formát data a času\n(Podívejte se do nápovědy pro zástupné symboly)
 [Hide offline contacts]
 Skrýt uživatele offline
 ;file \plugins\RecentContacts\src\options.cpp
@@ -23,15 +23,15 @@ Skrýt uživatele offline
 Kontakty
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Main icon]
-
+Hlavní ikona
 [Contact]
 Kontakt
 [Toggle Ignore]
-
+Přepnout ignorování
 [Ignore Contact]
 Ignorovat kontakt
 [Show Contact]
-
+Zobrazit kontakt
 [Show Recent Contacts]
-
+Zobrazit nedávné kontakty
 ;file \plugins\RecentContacts\src\RecentContacts.h

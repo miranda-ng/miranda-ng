@@ -77,7 +77,7 @@ Zrušit
 [Real name:]
 
 [Email:]
-
+E-mail:
 [Comment:]
 Poznámka:
 [Expire date:]
@@ -181,7 +181,7 @@ Importovat
 
 ;file \plugins\New_GPG\src\main.cpp
 [Email]
-
+E-mail
 [Name]
 Jméno
 [Creation date]

@@ -6,7 +6,7 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
-
+Záznam komunikace založený na Internet Exploreru.
 ;file \plugins\IEView\res\ieview.rc
 [Copy]
 Zkopírovat
@@ -39,7 +39,7 @@ Nahrazovat i smajlíky ve jménech
 [Hide window border]
 Skrýt okraj okna
 [Embed YouTube videos]
-
+Zobrazit YouTube videa
 [Size:]
 Velikost:
 [Mode]
@@ -83,24 +83,24 @@ Přijatý odkaz
 [(Unknown Contact)]
 (neznámý kontakt)
 [ requested authorisation]
-
+ žádá o autorizaci
 [ was added.]
-
+ byl přidán
 ;file \plugins\IEView\src\IEView.cpp
 [IID_IOleObject failed.]
-
+Selhání IID_IOleObject.
 [RESULT]
-
+VÝSLEDEK
 [IID_IOleInPlaceObject failed.]
-
+Selhání IID_IOleInPlaceObject.
 [Failed to Advise]
-
+Selhání sdělení
 [C++ Event Sink]
-
+Potopení C++ události
 [OleInitialize failed.]
-
+Inicializace Ole selhala.
 [ERROR]
-
+CHYBA
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 Příchod: %s
@@ -124,25 +124,17 @@ Výchozí
 [Message Sessions]
 Komunikace
 [IEView]
-
+IEView
 [Skins]
 Skiny
-[320 x 205]
-
-[480 x 385]
-
-[560 x 349]
-
-[640 x 390]
-
 [Template]
 Šablona
 [All Files]
 Všechny soubory
 [All Images]
-
+Všechny obrázky
 [Style Sheet]
-
+Styly
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
 Dnes

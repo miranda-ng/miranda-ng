@@ -72,8 +72,6 @@ Socialistický milionářský protokol\r\nOvěření
 &Ne
 [&Yes]
 &Ano
-[MirOTR]
-MirOTR
 [OTR status]
 Stav šifrování (OTR)
 [&Start OTR session]

@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
-
+Scriver - doplněk pro odesílání a přijímání zpráv.
 ;file \plugins\Scriver\res\resource.rc
 [Behaviour]
 Chování
@@ -47,7 +47,7 @@ Omezit délku jména na panelu na
 [characters]
 znaků
 [Show close button on each tab]
-
+Zobrazit tlačítko Zavřít na každé záložce
 [Switch to active tab]
 Přepínat na aktivní panel
 [Limit number of tabs per window to]
@@ -165,11 +165,11 @@ Rozhovor
 [&Q]
 &Q
 [Send To All Tabs]
-
+Odeslat všem otevřeným
 [You are about to send a message to all open tabs.\nAre you sure ?]
-
+Zpráva bude odeslána do všech otevřených panelů.\nPřejete si pokračovat?
 [Remember my choice for this container]
-
+Pamatovat si mou volbu pro tento kontejner
 [Yes]
 Ano
 [No]
@@ -231,7 +231,7 @@ Umístění
 [Trim to]
 Max.
 [kB]
-
+kB
 [Group Chat]
 Skupinový rozhovor
 [Use same style as in the message log]
@@ -263,19 +263,19 @@ Vyhledávání slova
 [Google]
 Google
 [Bing]
-
+Bing
 [Yandex]
-
+Yandex
 [Wikipedia (en)]
-
+Wikipedia (en)
 [Google Maps]
-
+Mapy Google
 [Google Translate]
-
+Překladač Google
 [Yahoo]
 Yahoo
 [Foodnetwork]
-
+Foodnetwork
 [C&lear Log]
 Vy&mazat záznam
 [&Open link]
@@ -371,8 +371,8 @@ Skrýt seznam účastníků
 Zobrazit seznam účastníků 
 [Status 1 (10x10)]
 Stav č.1 (10x10)
-[Status 2 (10x10]
-
+[Status 2 (10x10)]
+Stav č.2 (10x10)
 [Status 3 (10x10)]
 Stav č.3 (10x10)
 [Status 4 (10x10)]
@@ -521,15 +521,15 @@ Neznámý kontakt
 [Me]
 Já
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-
+O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies
 [to tiny bits, in Thy mercy]
-
+to tiny bits, in Thy mercy
 [My Contact]
-
+Můj kontakt
 [Lorem ipsum dolor sit amet,]
-
+Lorem ipsum dolor sit amet,
 [consectetur adipisicing elit]
-
+consectetur adipisicing elit
 [Today]
 Dnes
 [Yesterday]
@@ -580,7 +580,7 @@ Příchozí odkaz
 [Infobar contact name]
 Jméno v informační liště
 [Infobar background]
-
+Pozadí informační lišty
 [Infobar status message]
 Stav v informační liště
 [Others nicknames]
@@ -749,7 +749,7 @@ Zobrazit stav účastníků (je-li to podporováno)
 [Display contact status icon before role icon]
 Zobrazit ikonu stavu kontaktu před ikonou jeho role
 [Add ':' to auto-completed names]
-
+Přidat ':' k automaticky doplněným jménům
 [Prefix all events with a timestamp]
 Před každou událost přidat informaci o čase
 [Only prefix with timestamp if it has changed]
@@ -763,7 +763,7 @@ Omezit délku jmen v záznamu na 20 znaků
 [Strip colors from messages]
 Záznam ukládat bez kódů definující barvy
 [Enable 'event filter' for new rooms]
-
+Aktivovat filtrování událostí pro nové místnosti
 [Show topic changes]
 Zobrazit informaci o změně tématu
 [Show users joining]
@@ -879,7 +879,7 @@ zkrácené jméno měsíce
 [full month name]
 celé jméno mesíce
 [year without century, 01-  99]
-
+rok bez století, 01-99
 [year with century, 1901-9999]
 rok včetně století, 1901-9999
 [abbreviated weekday name]
@@ -914,7 +914,7 @@ Odeslání poznámky
 Změna tématu diskuse
 ;file \plugins\Scriver\src\chat\services.cpp
 [Server: %s]
-
+Server: %s
 ;file \plugins\Scriver\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s žádá o pozornost na kanále %s

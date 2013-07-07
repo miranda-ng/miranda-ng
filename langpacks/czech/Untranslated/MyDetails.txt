@@ -13,4 +13,3 @@
 [Show previous account]
 [Cycle through accounts]
 [Don't cycle through accounts]
-[ListeningTo popup]

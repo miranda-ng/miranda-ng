@@ -58,13 +58,13 @@ Přesunout/Přej&menovat
 Ode&jít
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shutdown.]
-
+Disk je plný. Miranda bude nyní ukončena.
 [Database failure. Miranda will now shutdown.]
-
+Selhání databáze. Miranda bude nyní ukončena.
 [Database Error]
-
+Chyba databáze.
 [Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from http://miranda-ng.org/. Miranda will now shutdown.]
-
+Miranda zjistila poškození vaší databáze. Toto poškození může být možná opraveno doplňkem DbChecker. Stáhněte si jej z http://miranda-ng.org/. Miranda bude nyní ukončena.
 [Database Panic]
 Poškození databáze
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp

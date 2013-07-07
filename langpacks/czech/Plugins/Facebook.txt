@@ -178,8 +178,6 @@ Ve stavu offline nelze odesílat zprávy.
 Kontakt je zpět mezi vašimi přáteli.
 [Contact is no longer on server-list.]
 Kontakt již není mezi vašimi přáteli.
-[Attachments:]
-Přílohy:
 ;file \protocols\FacebookRM\src\proto.cpp
 [Show Mind Window]
 Zobrazit dialog stavu

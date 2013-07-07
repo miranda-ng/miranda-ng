@@ -6,7 +6,7 @@
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
-
+Pokročilý editor databáze.
 ;file \plugins\DbEditorPP\res\resource.rc
 [Database Editor++ Search and Replace]
 Editor databáze :: Hledání a nahrazení
@@ -89,7 +89,7 @@ Zkopírovat modul do kontaktu
 [Copy to all contacts (Includes Settings)]
 Zkopírovat všem kontaktům (včetně nastavení)
 [Contact to copy module and settings to]
-
+Zkopírovat modul a nastavení do kontaktu
 [Import Module/Settings]
 Importovat modul/nastavení
 [Import]
@@ -153,9 +153,7 @@ Upravovat &Dwords v hexa
 [&Restore position]
 &Obnovit pozici
 [&Open Options]
-
-[Item context]
-
+Otevřít &nastavení
 [&Edit / Rename]
 &Upravit...
 [NEW]
@@ -188,8 +186,6 @@ Zašifrovat řetězec
 Sl&edovat
 [&Delete]
 &Smazat
-[Null Mod context]
-
 [&Rename]
 Př&ejmenovat
 [Copy To Contact]
@@ -198,8 +194,6 @@ Př&ejmenovat
 &Exportovat modul...
 [Add To Known Modules]
 Přidat mezi známé moduly
-[Contact menu]
-Menu kontaktu
 [&Clone]
 Dup&likovat
 [Export Contact]
@@ -212,22 +206,14 @@ Dup&likovat
 Z&e schránky...
 [&Add Module]
 Přid&at modul...
-[NULL contact menu]
-
 [Export Settings]
 &Exportovat nastavení
-[Contacts menu]
-Menu kontaktů
 [Export Contacts]
 &Exportovat kontakty
 [Import Contacts]
 &Importovat kontakty
-[Contact Mod context]
-
 [Export Module from all contacts]
 &Exportovat modul ze všech kontaktů...
-[new item]
-nová položka
 [Watch Window]
 Sledování
 [Reload Watch List]
@@ -236,19 +222,19 @@ Aktualizovat seznam sledovaných
 [Cannot Convert!]
 Vybranou položku nelze zkonvertovat.
 [New BYTE value]
-
+Nová hodnota BYTE
 [Edit BYTE value]
 Změnit hodnotu typu BYTE
 [New WORD value]
-
+Nová hodnota WORD
 [Edit WORD value]
 Změnit hodnotu typu WORD
 [New DWORD value]
-
+Nová hodnota DWORD
 [Edit DWORD value]
 Změnit hodnotu typu DWORD
 [New STRING value]
-
+Nová hodnota STRING
 [Edit STRING value]
 Změnit hodnotu typu STRING
 [New UNICODE value]
@@ -260,7 +246,7 @@ Nová hodnota BLOB
 [Edit BLOB value]
 Upravit hodnotu BLOB
 [Couldnt allocate enough memory!]
-
+Nelze alokovat dostatek paměti!
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 [Settings]
 Nastavení
@@ -281,7 +267,7 @@ Všechny soubory
 [Export to file]
 Exportovat...
 [Error Loading Module List]
-
+Chyba při načítání seznamu modulů
 [Couldn't open file for writing]
 Nelze otevřít soubor pro zápis
 [Import from files]
@@ -334,7 +320,7 @@ Známý kontakt
 [Database Editor++]
 Editor databáze ++
 [Open Database Editor]
-
+Otevřít editor databáze
 [Open user tree in DBE++]
 Upravit položky v DBE++
 ;file \plugins\DbEditorPP\src\main_window.cpp
@@ -349,7 +335,7 @@ Načítání seznamu kontaktů...
 [Loading modules...]
 Načítání modulů...
 [Module tree not found]
-
+Nebyl nalezen strom modulu
 [Contacts]
 Kontakty
 [HANDLE]

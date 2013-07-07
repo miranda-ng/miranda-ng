@@ -6,10 +6,10 @@
 ;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
-
+Umožňuje čtení a zápis dat do uživatelského profilu: globální nastavení, kontakty, historii a další položky. Vylepšená modifikace s podporou šifrování.
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
 [Login to Miranda NG]
-
+Přihlášení do Mirandy NG
 [EN]
 EN
 [OK]
@@ -83,16 +83,16 @@ Autor:
 [Site:]
 Stránka:
 [Email:]
-
+E-mail:
 [Unique ID:]
-ID:
+Unikátní ID:
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
 [Database is Secured MMAP database]
-
+Databáze je typu Secured MMAP
 [You are not authorized for access to Database]
-
+Nejste autorizován pro přístup k databázi
 [Secured MMAP: authorization successful]
-
+Secured MMAP: autorizace byla úspěšná
 [Database is marked as belonging to an unknown version of Miranda]
 Vybraná databáze není kompatibilní s vaší verzí Mirandy
 ;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
@@ -105,15 +105,15 @@ Změnit heslo
 [Set password]
 Nastavit heslo
 [Dll]
-
+Dll
 [Name]
-Jméno
+Název
 [Version]
 Verze
 [Please type in your password for]
-
+Zadejte vaše heslo pro
 [Too many errors!]
-
+Příliš mnoho chybných pokusů!
 [Password is not correct!]
 Zadané heslo není správné!
 [Please enter your new password]
@@ -123,17 +123,17 @@ Heslo je příliš krátké!
 [Passwords do not match!]
 Zadaná hesla se neshodují!
 [Wrong password!]
-
+Špatné heslo!
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
 [Sorry, but your database encrypted with unknown module]
-
+Vaše databáze je zašifrována neznámým modulem
 [Error]
 Chyba
 [Crypto modules not found]
-
+Šifrovací moduly nebyly nalezeny
 [DB is already secured!]
-
+DB je již zašifrována!
 [current database]
-
+aktuální databáze
 [Set Password]
-
+Nastavit heslo

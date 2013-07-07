@@ -80,8 +80,6 @@ sek.
 Nastavit zprávu pro všechny stavy
 [Status Message:]
 Stavová zpráva:
-[Status popup]
-Nabídka stavů
 [&Offline]
 &Offline
 [On&line]
@@ -102,8 +100,6 @@ Nev&iditelný
 Na &telefonu
 [Out to &Lunch]
 Na &obědě
-[Context popup]
-Kontextová nabídka
 [Set My Avatar...]
 Nastavit avatar...
 [Set My Nickname...]
@@ -119,14 +115,6 @@ Povolit doplněk Listening To
 [Cycle through accounts]
 
 [Don't cycle through accounts]
-
-[Nick popup]
-Nabídka přezdívky
-[Status message popup]
-Nabídka stavové zprávy
-[Avatar popup]
-Nabídka avataru
-[ListeningTo popup]
 
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]

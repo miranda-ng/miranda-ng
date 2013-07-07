@@ -6,17 +6,17 @@
 ;  Authors: Big Muscle
 ;============================================================
 [Loads and displays flash avatars.]
-
+Načítá a zobrazuje flashové avatary.
 ;file \plugins\FlashAvatars\src\cflash.cpp
 [Flash.ocx not registered!]
-
+Flash.ocx není zaregistrován!
 [You don't have installed ShockwaveFlash interface in your system.]
-
+Nemáte nainstalované rozhraní ShockwaveFlash ve vašem systému.
 [Bugged Flash detected!]
-
+Detekován Flash obsahující chyby!
 [You have installed Flash 8.\r\nThis version of Flash contains a bug which can causes random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library]
-
+Máte nainstalován Flash 8.\r\nTato verze Flashe obsahuje chybu, která způsobuje náhodné pády.\r\nDoporučujeme aktualizovat vaši knihovnu Flash
 [Flash Avatars]
-
+Flashové avatary
 [Avatars]
 Avatary
