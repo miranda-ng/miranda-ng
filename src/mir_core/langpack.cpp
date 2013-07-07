@@ -208,8 +208,6 @@ static void LoadLangPackFile(FILE* fp, char* line, UINT fileCp)
 		if (IsEmpty(line) || line[0] == ';' || line[0] == 0)
 			continue;
 
-		rtrim(line);
-
 		if (line[0] == '#') {
 			strlwr(line);
 
