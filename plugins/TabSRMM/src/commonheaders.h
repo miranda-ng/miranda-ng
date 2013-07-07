@@ -240,7 +240,6 @@ extern HINSTANCE g_hInst;
 extern CSkinItem SkinItems[];
 extern TContainerData *pFirstContainer, *pLastActiveContainer;
 extern HANDLE hTypingNotify;
-extern SESSION_INFO *m_WndList;
 extern ButtonSet g_ButtonSet;
 extern HANDLE g_hEvent;
 extern RECT rcLastStatusBarClick;

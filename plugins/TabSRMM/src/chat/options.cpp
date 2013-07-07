@@ -1257,7 +1257,6 @@ void LoadGlobalSettings(void)
 	g_Settings.bOpenInDefault = M.GetBool("Chat", "DefaultContainer", true);
 	g_Settings.bFlashWindow = M.GetBool("Chat", "FlashWindow", false);
 	g_Settings.bFlashWindowHightlight = M.GetBool("Chat", "FlashWindowHighlight", false);
-	g_Settings.bHighlightEnabled = M.GetBool("Chat", "HighlightEnabled", true);
 	g_Settings.UserListColors[CHAT_STATUS_NORMAL] = M.GetDword(CHAT_FONTMODULE, "Font18Col", RGB(0, 0, 0));
 	g_Settings.UserListColors[CHAT_STATUS_AWAY] = M.GetDword(CHAT_FONTMODULE, "Font19Col", RGB(170, 170, 170));
 	g_Settings.UserListColors[CHAT_STATUS_OFFLINE] = M.GetDword(CHAT_FONTMODULE, "Font5Col", RGB(160, 90, 90));

@@ -233,7 +233,7 @@ struct LOGSTREAMDATA
 	HWND          hwnd;
 	LOGINFO*      lin;
 	bool          bStripFormat, bRedraw;
-	SESSION_INFO* si;
+	SESSION_INFO *si;
 	int           crCount;
 	TWindowData*  dat;
 };
@@ -244,7 +244,7 @@ struct TMUCSettings
 	bool        bShowTime, bShowTimeIfChanged, bLoggingEnabled;
 	bool        bFlashWindow, bFlashWindowHightlight;
 	bool        bOpenInDefault;
-	bool        bHighlightEnabled, bLogIndentEnabled;
+	bool        bLogIndentEnabled;
 	bool        bStripFormat;
 	bool        bBBCodeInPopups;
 	bool        bTrayIconInactiveOnly;
@@ -305,7 +305,7 @@ struct COLORCHOOSER
 	int           yPosition;
 	HWND          hWndTarget;
 	bool          bForeground;
-	SESSION_INFO* si;
+	SESSION_INFO *si;
 };
 
 #pragma comment(lib,"comctl32.lib")

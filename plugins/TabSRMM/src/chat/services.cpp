@@ -38,22 +38,9 @@
 
 CRITICAL_SECTION  cs;
 
-HANDLE hSendEvent;
-HANDLE hBuildMenuEvent;
+HANDLE hSendEvent, hBuildMenuEvent;
 
 HGENMENU hJoinMenuItem, hLeaveMenuItem;
-
-static HANDLE
-	hServiceRegister = NULL,
-	hServiceNewChat = NULL,
-	hServiceAddEvent = NULL,
-	hServiceGetAddEventPtr = NULL,
-	hServiceGetInfo = NULL,
-	hServiceGetCount = NULL,
-	hEventPrebuildMenu = NULL,
-	hEventDoubleclicked = NULL,
-	hEventJoinChat = NULL,
-	hEventLeaveChat = NULL;
 
 int Chat_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
@@ -122,7 +109,7 @@ INT_PTR Service_GetCount(WPARAM wParam, LPARAM lParam)
 INT_PTR Service_GetInfo(WPARAM wParam, LPARAM lParam)
 {
 	GC_INFO * gci = (GC_INFO *) lParam;
-	SESSION_INFO* si = NULL;
+	SESSION_INFO *si = NULL;
 
 	if (!gci || !gci->pszModule)
 		return 1;
@@ -212,7 +199,7 @@ INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 
 	if ((mi = MM_FindModule(gcw->pszModule)) != NULL) {
 		TCHAR* ptszID = a2tf(gcw->ptszID, gcw->dwFlags);
-		SESSION_INFO* si = SM_AddSession(ptszID, gcw->pszModule);
+		SESSION_INFO *si = SM_AddSession(ptszID, gcw->pszModule);
 
 		// create a new session and set the defaults
 		if (si != NULL) {
@@ -281,9 +268,9 @@ INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 	return GC_NEWSESSION_ERROR;
 }
 
-static int DoControl(GCEVENT * gce, WPARAM wp)
+static int DoControl(GCEVENT *gce, WPARAM wp)
 {
-	SESSION_INFO* si;
+	SESSION_INFO *si;
 
 	switch(gce->pDest->iType) {
 	case GC_EVENT_CONTROL:
@@ -396,12 +383,12 @@ static int DoControl(GCEVENT * gce, WPARAM wp)
 	return 0;
 }
 
-static void AddUser(GCEVENT * gce)
+static void AddUser(GCEVENT *gce)
 {
-	SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+	SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 	if (si) {
 		WORD status = TM_StringToWord(si->pStatuses, gce->ptszStatus);
-		USERINFO * ui = SM_AddUser(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszNick, status);
+		USERINFO *ui = SM_AddUser(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszNick, status);
 		if (ui) {
 			ui->pszNick = mir_tstrdup(gce->ptszNick);
 
@@ -560,7 +547,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	return hwndNew;		// return handle of the new dialog
 }
 
-void ShowRoom(SESSION_INFO* si, WPARAM wp, BOOL bSetForeground)
+void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 {
 	if (!si)
 		return;
@@ -726,7 +713,7 @@ INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		pMod = gcd->pszModule;
 	}
 	else if ( gcd->iType == GC_EVENT_NOTICE || gcd->iType == GC_EVENT_INFORMATION ) {
-		SESSION_INFO* si = GetActiveSession();
+		SESSION_INFO *si = GetActiveSession();
 		if (si && !lstrcmpA(si->pszModule, gcd->pszModule)) {
 			pWnd = si->ptszID;
 			pMod = si->pszModule;
@@ -835,32 +822,18 @@ int CreateServiceFunctions(void)
 	}
 	PluginConfig.m_chat_enabled = true;
 
-	hServiceRegister       = CreateServiceFunction(MS_GC_REGISTER,        Service_Register);
-	hServiceNewChat        = CreateServiceFunction(MS_GC_NEWSESSION,      Service_NewChat);
-	hServiceAddEvent       = CreateServiceFunction(MS_GC_EVENT,           Service_AddEvent);
-	hServiceGetAddEventPtr = CreateServiceFunction(MS_GC_GETEVENTPTR,     Service_GetAddEventPtr);
-	hServiceGetInfo        = CreateServiceFunction(MS_GC_GETINFO,         Service_GetInfo);
-	hServiceGetCount       = CreateServiceFunction(MS_GC_GETSESSIONCOUNT, Service_GetCount);
+	CreateServiceFunction(MS_GC_REGISTER,        Service_Register);
+	CreateServiceFunction(MS_GC_NEWSESSION,      Service_NewChat);
+	CreateServiceFunction(MS_GC_EVENT,           Service_AddEvent);
+	CreateServiceFunction(MS_GC_GETEVENTPTR,     Service_GetAddEventPtr);
+	CreateServiceFunction(MS_GC_GETINFO,         Service_GetInfo);
+	CreateServiceFunction(MS_GC_GETSESSIONCOUNT, Service_GetCount);
 
-	hEventDoubleclicked    = CreateServiceFunction("GChat/DblClickEvent",     CList_EventDoubleclicked);
-	hEventPrebuildMenu     = CreateServiceFunction("GChat/PrebuildMenuEvent", CList_PrebuildContactMenuSvc);
-	hEventJoinChat         = CreateServiceFunction("GChat/JoinChat",          CList_JoinChat);
-	hEventLeaveChat        = CreateServiceFunction("GChat/LeaveChat",         CList_LeaveChat);
+	CreateServiceFunction("GChat/DblClickEvent",     CList_EventDoubleclicked);
+	CreateServiceFunction("GChat/PrebuildMenuEvent", CList_PrebuildContactMenuSvc);
+	CreateServiceFunction("GChat/JoinChat",          CList_JoinChat);
+	CreateServiceFunction("GChat/LeaveChat",         CList_LeaveChat);
 	return 1;
-}
-
-void DestroyServiceFunctions(void)
-{
-	DestroyServiceFunction(hServiceRegister);
-	DestroyServiceFunction(hServiceNewChat);
-	DestroyServiceFunction(hServiceAddEvent);
-	DestroyServiceFunction(hServiceGetAddEventPtr);
-	DestroyServiceFunction(hServiceGetInfo);
-	DestroyServiceFunction(hServiceGetCount);
-	DestroyServiceFunction(hEventDoubleclicked);
-	DestroyServiceFunction(hEventPrebuildMenu);
-	DestroyServiceFunction(hEventJoinChat);
-	DestroyServiceFunction(hEventLeaveChat);
 }
 
 void CreateHookableEvents(void)

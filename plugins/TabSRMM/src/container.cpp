@@ -1910,14 +1910,7 @@ panel_found:
 		RemoveContainerFromList(pContainer);
 		if (PluginConfig.m_MathModAvail)
 			CallService(MTH_HIDE, 0, 0);
-		{
-			SESSION_INFO *node = m_WndList;
-			while (node) {
-				if (node->pContainer == pContainer)
-					node->pContainer = 0;
-				node = node->next;
-			}
-		}
+		SM_RemoveContainer(pContainer);
 		if (pContainer->cachedDC) {
 			SelectObject(pContainer->cachedDC, pContainer->oldHBM);
 			DeleteObject(pContainer->cachedHBM);

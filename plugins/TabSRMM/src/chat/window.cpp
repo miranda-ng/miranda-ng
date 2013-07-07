@@ -349,7 +349,7 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
  * initialize button bar, set all the icons and ensure proper button state
  */
 
-static void	InitButtons(HWND hwndDlg, SESSION_INFO* si)
+static void	InitButtons(HWND hwndDlg, SESSION_INFO *si)
 {
 	BOOL isFlat = M.GetByte("tbflat", 1);
 	BOOL isThemed = PluginConfig.m_bIsXP;
@@ -403,7 +403,7 @@ static void Chat_ResizeIeView(const TWindowData *dat)
 static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 {
 	RECT rc, rcTabs;
-	SESSION_INFO* si = (SESSION_INFO*)lParam;
+	SESSION_INFO *si = (SESSION_INFO*)lParam;
 	struct      TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	int			TabHeight;
 	BOOL		bToolbar = !(dat->pContainer->dwFlags & CNT_HIDETOOLBAR);
@@ -1676,7 +1676,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			TVHITTESTINFO hti;
 			int item;
 			int height;
-			USERINFO * ui;
+			USERINFO *ui;
 			struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
 			SESSION_INFO *parentdat = (SESSION_INFO *)dat->si;
 
@@ -1881,7 +1881,7 @@ int GetTextPixelSize(TCHAR* pszText, HFONT hFont, bool bWidth)
 
 static void __cdecl phase2(void * lParam)
 {
-	SESSION_INFO* si = (SESSION_INFO*) lParam;
+	SESSION_INFO *si = (SESSION_INFO*) lParam;
 	Sleep(30);
 	if (si && si->hWnd)
 		PostMessage(si->hWnd, GC_REDRAWLOG3, 0, 0);
@@ -2338,7 +2338,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					int offset, x_offset = 0;
 					int height;
 					int index = dis->itemID;
-					USERINFO * ui = UM_FindUserFromIndex(si->pUsers, index);
+					USERINFO *ui = UM_FindUserFromIndex(si->pUsers, index);
 					char szIndicator = 0;
 
 					if (ui) {
@@ -3066,7 +3066,7 @@ LABEL_SHOWWINDOW:
 					if (HIWORD(wParam) == LBN_DBLCLK) {
 						TVHITTESTINFO hti;
 						int item;
-						USERINFO * ui;
+						USERINFO *ui;
 
 						hti.pt.x = (short)LOWORD(GetMessagePos());
 						hti.pt.y = (short)HIWORD(GetMessagePos());

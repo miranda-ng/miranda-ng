@@ -147,7 +147,7 @@ int CList_RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		if (!db_get_ts(hContact, szProto, "ChatRoomID", &dbv)) {
-			SESSION_INFO* si = SM_FindSession(dbv.ptszVal, szProto);
+			SESSION_INFO *si = SM_FindSession(dbv.ptszVal, szProto);
 			if (si) {
 				// is the "toggle visibility option set, so we need to close the window?
 				if (si->hWnd != NULL

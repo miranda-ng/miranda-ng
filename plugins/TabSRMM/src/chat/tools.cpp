@@ -137,17 +137,17 @@ TCHAR* RemoveFormatting(const TCHAR* pszWord, bool fToLower, bool fStripCR, TCHA
 
 static void __stdcall ShowRoomFromPopup(void * pi)
 {
-	SESSION_INFO* si = (SESSION_INFO*) pi;
+	SESSION_INFO *si = (SESSION_INFO*) pi;
 	ShowRoom(si, WINDOW_VISIBLE, TRUE);
 }
 
-static void TSAPI Chat_OpenPopup(SESSION_INFO* si, HWND hwndPopup)
+static void TSAPI Chat_OpenPopup(SESSION_INFO *si, HWND hwndPopup)
 {
 	CallFunctionAsync(ShowRoomFromPopup, si);
 	PUDeletePopup(hwndPopup);
 }
 
-static void TSAPI Chat_DismissPopup(const SESSION_INFO* si, HWND hwndPopup)
+static void TSAPI Chat_DismissPopup(const SESSION_INFO *si, HWND hwndPopup)
 {
 	if (si->hContact)
 		if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
@@ -161,7 +161,7 @@ static void TSAPI Chat_DismissPopup(const SESSION_INFO* si, HWND hwndPopup)
 
 static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	SESSION_INFO* si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);;
+	SESSION_INFO *si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);;
 
 	switch (message) {
 	case WM_COMMAND:
@@ -188,7 +188,7 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-static int ShowPopup(HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* pszProtoName,  TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
+static int ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon,  char* pszProtoName,  TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
 {
 	POPUPDATAT pd = {0};
 	va_list marker;
@@ -229,7 +229,7 @@ static int ShowPopup(HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* pszP
 	return PUAddPopupT(&pd);
 }
 
-static BOOL DoTrayIcon(SESSION_INFO* si, GCEVENT * gce)
+static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 {
 	int iEvent = gce->pDest->iType;
 
@@ -293,7 +293,7 @@ static BOOL DoTrayIcon(SESSION_INFO* si, GCEVENT * gce)
 	return TRUE;
 }
 
-static BOOL DoPopup(SESSION_INFO* si, GCEVENT* gce, struct TWindowData* dat)
+static BOOL DoPopup(SESSION_INFO *si, GCEVENT* gce, struct TWindowData* dat)
 {
 	int iEvent = gce->pDest->iType;
 	TContainerData *pContainer = dat ? dat->pContainer : NULL;
@@ -512,7 +512,7 @@ void TSAPI DoFlashAndSoundWorker(FLASH_PARAMS* p)
 	free(p);
 }
 
-BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighlight, int bManyFix)
+BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix)
 {
 	FLASH_PARAMS*	params;
 	struct			TWindowData *dat = 0;
@@ -739,7 +739,7 @@ TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
  * log the event to the log file
  * allows selective logging of wanted events
  */
-BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
+BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 {
 	TCHAR szBuffer[4096];
 	TCHAR szLine[4096];
@@ -920,7 +920,7 @@ BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
 	return FALSE;
 }
 
-UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO* si, TCHAR* pszUID, TCHAR* pszWordText)
+UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText)
 {
 	GCMENUITEMS gcmi = {0};
 	int i;
@@ -1040,7 +1040,7 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
 
 BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem)
 {
-	SESSION_INFO* si;
+	SESSION_INFO *si;
 	GCHOOK* gch = (GCHOOK*)mir_alloc(sizeof(GCHOOK));
 	GCDEST* gcd = (GCDEST*)mir_alloc(sizeof(GCDEST));
 
@@ -1070,7 +1070,7 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 
 BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem)
 {
-	SESSION_INFO* si;
+	SESSION_INFO *si;
 	GCHOOK gch = {0};
 	GCDEST gcd = {0};
 

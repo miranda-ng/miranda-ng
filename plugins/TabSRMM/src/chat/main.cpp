@@ -85,7 +85,6 @@ int Chat_Unload(void)
 	mir_free(pszActiveWndModule);
 
 	DestroyMenu(g_hMenu);
-	DestroyServiceFunctions();
 	DestroyHookableEvents();
 	FreeIcons();
 	OptionsUnInit();

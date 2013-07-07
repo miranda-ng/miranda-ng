@@ -263,7 +263,7 @@ struct TWindowData
    UINT    bbRSideWidth;    //MAD
    BYTE    kstate[256];
 
-	SESSION_INFO* si;
+	SESSION_INFO *si;
 
 	RECT     rcNick, rcUIN, rcStatus, rcPic;
 	HANDLE  hDbEventFirst, hDbEventLast;

@@ -2320,7 +2320,7 @@ void TSAPI ClearLog(TWindowData *dat)
 		dat->hDbEventFirst = NULL;
 	}
 	else if (dat && dat->bType == SESSIONTYPE_CHAT && dat->si) {
-		SESSION_INFO* si = reinterpret_cast<SESSION_INFO *>(dat->si);
+		SESSION_INFO *si = reinterpret_cast<SESSION_INFO *>(dat->si);
 		SESSION_INFO* s = SM_FindSession(si->ptszID, si->pszModule);
 		if (s) {
 			SetDlgItemText(dat->hwnd, IDC_CHAT_LOG, _T(""));
