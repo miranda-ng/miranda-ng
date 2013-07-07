@@ -2258,8 +2258,10 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					}
 					Log_StreamInEvent(hwndDlg, pLog, si, TRUE, FALSE);
 					mir_forkthread(phase2, si);
-				} else Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE, FALSE);
-			} else SendMessage(hwndDlg, GC_EVENT_CONTROL + WM_USER + 500, WINDOW_CLEARLOG, 0);
+				}
+				else Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE, FALSE);
+			}
+			else SendMessage(hwndDlg, GC_EVENT_CONTROL + WM_USER + 500, WINDOW_CLEARLOG, 0);
 			break;
 
 		case GC_REDRAWLOG2:
@@ -2274,27 +2276,27 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE, TRUE);
 			break;
 
-		case GC_ADDLOG: {
-			BOOL	fInactive = (GetForegroundWindow() != dat->pContainer->hwnd || GetActiveWindow() != dat->pContainer->hwnd);
+		case GC_ADDLOG:
+			{
+				bool fInactive = (GetForegroundWindow() != dat->pContainer->hwnd || GetActiveWindow() != dat->pContainer->hwnd);
 
-			if (g_Settings.bUseDividers && g_Settings.bDividersUsePopupConfig) {
-				if (!MessageWindowOpened(0, (LPARAM)hwndDlg))
-					SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
-			} else if (g_Settings.bUseDividers) {
-				if (fInactive)
-					SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
-				else {
-					if (dat->pContainer->hwndActive != hwndDlg)
+				if (g_Settings.bUseDividers && g_Settings.bDividersUsePopupConfig) {
+					if (!MessageWindowOpened(0, (LPARAM)hwndDlg))
 						SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
 				}
-			}
+				else if (g_Settings.bUseDividers) {
+					if (fInactive)
+						SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
+					else if (dat->pContainer->hwndActive != hwndDlg)
+						SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
+				}
 
-			if (si->pLogEnd)
-				Log_StreamInEvent(hwndDlg, si->pLog, si, FALSE, FALSE);
-			else
-				SendMessage(hwndDlg, GC_EVENT_CONTROL + WM_USER + 500, WINDOW_CLEARLOG, 0);
+				if (si->pLogEnd)
+					Log_StreamInEvent(hwndDlg, si->pLog, si, FALSE, FALSE);
+				else
+					SendMessage(hwndDlg, GC_EVENT_CONTROL + WM_USER + 500, WINDOW_CLEARLOG, 0);
+			}
 			break;
-		}
 
 		case GC_ACKMESSAGE:
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, FALSE, 0);
@@ -2312,7 +2314,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				if (dat->Panel->isHovered()) {
 					mis->itemHeight = 0;
 					mis->itemWidth  = 6;
-					return(TRUE);
+					return TRUE;
 				}
 				return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
 			}
@@ -2327,7 +2329,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (dis->CtlType == ODT_MENU) {
 				if (dat->Panel->isHovered()) {
 					DrawMenuItem(dis, (HICON)dis->itemData, 0);
-					return(TRUE);
+					return TRUE;
 				}
 				return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
 			}
@@ -3466,10 +3468,10 @@ LABEL_SHOWWINDOW:
 			if (wParam == 0 && lParam == 0) {
 				if (PluginConfig.m_EscapeCloses == 1) {
 					SendMessage(dat->pContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
-					return(TRUE);
+					return TRUE;
 				} else if (PluginConfig.m_HideOnClose && PluginConfig.m_EscapeCloses == 2) {
 					ShowWindow(dat->pContainer->hwnd, SW_HIDE);
-					return(TRUE);
+					return TRUE;
 				}
 				_dlgReturn(hwndDlg, TRUE);
 			}

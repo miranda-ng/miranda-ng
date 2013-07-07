@@ -2050,7 +2050,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 	}
 	else if (dis->CtlType == ODT_MENU && dat->Panel->isHovered()) {
 		DrawMenuItem(dis, (HICON)dis->itemData, 0);
-		return(TRUE);
+		return TRUE;
 	}
 	return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
 }

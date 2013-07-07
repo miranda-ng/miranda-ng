@@ -1232,7 +1232,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		if (tabdat->fCloseButton) {
 			GetCursorPos(&pt);
 			if (TabCtrl_TestForCloseButton(tabdat, hwnd, pt) != -1)
-				return(TRUE);
+				return TRUE;
 		}
 		break;
 

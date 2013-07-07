@@ -341,7 +341,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			char *pszName = Translate(TemplateNames[iItem]);
 			TextOutA(dis->hDC, dis->rcItem.left, dis->rcItem.top, pszName, lstrlenA(pszName));
 		}
-		return(TRUE);
+		return TRUE;
 
 	case DM_UPDATETEMPLATEPREVIEW: {
 		DBEVENTINFO dbei = {0};

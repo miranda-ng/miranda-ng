@@ -244,7 +244,7 @@ struct TMUCSettings
 	bool        bShowTime, bShowTimeIfChanged, bLoggingEnabled;
 	bool        bFlashWindow, bFlashWindowHightlight;
 	bool        bOpenInDefault;
-	bool        bHighlightEnabled, LogIndentEnabled;
+	bool        bHighlightEnabled, bLogIndentEnabled;
 	bool        bStripFormat;
 	bool        bBBCodeInPopups;
 	bool        bTrayIconInactiveOnly;

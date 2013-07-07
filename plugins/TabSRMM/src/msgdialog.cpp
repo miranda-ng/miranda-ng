@@ -1313,7 +1313,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->pWnd = 0;
 			CProxyWindow::add(dat);
 			dat->szProto = const_cast<char *>(dat->cache->getProto());
-			dat->bIsMeta = dat->cache->isMeta() ? TRUE : FALSE;
+			dat->bIsMeta = dat->cache->isMeta();
 			if (dat->bIsMeta)
 				dat->cache->updateMeta(true);
 			dat->cache->updateUIN();
@@ -2907,7 +2907,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (dat->Panel->isHovered()) {
 			lpmi->itemHeight = 0;
 			lpmi->itemWidth  = 6;
-			return(TRUE);
+			return TRUE;
 		}
 		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
 								}
@@ -3537,11 +3537,11 @@ quote_from_last:
 			if (wParam == 0 && lParam == 0) {
 				if (PluginConfig.m_EscapeCloses == 1) {
 					SendMessage(hwndContainer, WM_SYSCOMMAND, SC_MINIMIZE, 0);
-					return(TRUE);
+					return TRUE;
 				}
 				else if (PluginConfig.m_HideOnClose && PluginConfig.m_EscapeCloses == 2) {
 					ShowWindow(hwndContainer, SW_HIDE);
-					return(TRUE);
+					return TRUE;
 				}
 				_dlgReturn(hwndDlg, TRUE);
 			}

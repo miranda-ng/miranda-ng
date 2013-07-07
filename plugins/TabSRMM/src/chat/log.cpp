@@ -846,7 +846,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				char pszIndicator[3] = "\0\0";
 				int  crNickIndex = 0;
 													//mad
-				if (g_Settings.bLogClassicIndicators/*g_Settings.bClassicIndicators */||g_Settings.bColorizeNicksInLog) {
+				if (g_Settings.bLogClassicIndicators || g_Settings.bColorizeNicksInLog) {
 					USERINFO *ui = streamData->si->pUsers;
 					while (ui) {
 						if (!lstrcmp(ui->pszNick, lin->ptszNick)) {
@@ -885,8 +885,8 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				}
 
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1, lin->bIsMe ? 2 : 1));
-													//MAD
-				if (g_Settings.bLogClassicIndicators /*g_Settings.bClassicIndicators*/)
+
+				if (g_Settings.bLogClassicIndicators)
 					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s", pszIndicator);
 
 				lstrcpyn(pszTemp, lin->bIsMe ? g_Settings.pszOutgoingNick : g_Settings.pszIncomingNick, 299);
@@ -1233,7 +1233,7 @@ char * Log_CreateRtfHeader(MODULEINFO * mi)
 		if (g_Settings.bShowTime) {
 			int iSize = (g_Settings.LogTextIndent * 1440) / logPixelSX;
 			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent + iSize);
-			if (g_Settings.LogIndentEnabled)
+			if (g_Settings.bLogIndentEnabled)
 				iIndent += iSize;
 		}
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\fi-%u\\li%u", iIndent, iIndent);

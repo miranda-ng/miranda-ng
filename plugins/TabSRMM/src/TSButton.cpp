@@ -642,7 +642,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, 
 
 			if (bct->sitem) {
 				if (bct->sitem->testCloseButton() != -1)
-					return(TRUE);
+					return TRUE;
 				bct->stateId = PBS_PRESSED;
 				InvalidateRect(bct->hwnd, NULL, TRUE);
 				bct->sitem->activateSession();
@@ -671,7 +671,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, 
 			if (bct->sitem) {
 				if (bct->sitem->testCloseButton() != -1) {
 					SendMessage(bct->sitem->getDat()->hwnd, WM_CLOSE, 1, 0);
-					return(TRUE);
+					return TRUE;
 				}
 			}
 			if (bct->pushBtn) {
