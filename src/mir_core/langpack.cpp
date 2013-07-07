@@ -68,11 +68,13 @@ static int IsEmpty(const char *str)
 	return 1;
 }
 
-static void ConvertBackslashes(char *str, UINT fileCp)
+static int ConvertBackslashes(char *str, UINT fileCp)
 {
+	int shift = 0;
 	char *pstr;
 	for (pstr = str; *pstr; pstr = CharNextExA(fileCp, pstr, 0)) {
 		if (*pstr == '\\') {
+			shift++; 
 			switch(pstr[1]) {
 				case 'n': *pstr = '\n'; break;
 				case 't': *pstr = '\t'; break;
@@ -80,7 +82,10 @@ static void ConvertBackslashes(char *str, UINT fileCp)
 				default:  *pstr = pstr[1]; break;
 			}
 			memmove(pstr+1, pstr+2, strlen(pstr+2) + 1);
-}	}	}
+		}
+	}	
+	return shift;
+}
 
 #ifdef _DEBUG
 //#pragma optimize("gt", on)
@@ -254,20 +259,20 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 			continue;
 		}
 
-		ConvertBackslashes(line, fileCp);
+		cbLen -= ConvertBackslashes(line, fileCp);
 
 		if (line[0] == '[' && line[cbLen] == ']') {
 			if (langPack.entryCount && langPack.entry[ langPack.entryCount-1].wszLocal == NULL)
 				langPack.entryCount--;
 
 			char *pszLine = line+1;
-			line[ lstrlenA(line)-1 ] = '\0';
+			line[cbLen] = '\0';
 			if (++langPack.entryCount > langPack.entriesAlloced) {
 				langPack.entriesAlloced += 128;
 				langPack.entry = (LangPackEntry*)mir_realloc(langPack.entry, sizeof(LangPackEntry)*langPack.entriesAlloced);
 			}
 
-			LangPackEntry *E = &langPack.entry[ langPack.entryCount-1 ];
+			LangPackEntry *E = &langPack.entry[langPack.entryCount-1];
 			E->englishHash = mir_hashstr(pszLine);
 			E->szLocal = NULL;
 			E->wszLocal = NULL;
