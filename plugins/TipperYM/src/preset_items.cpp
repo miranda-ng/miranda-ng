@@ -27,7 +27,7 @@ PRESETITEM presetItems[] =
 	"email", LPGENT("Email"), LPGENT("Email:"), _T("%raw:/e-mail%"), 0, 0, 0,
 	"gender", LPGENT("Gender"), LPGENT("Gender:"), _T("%gender%"), 0, 0, 0,
 	"homepage", LPGENT("Homepage"), LPGENT("Homepage:"), _T("%raw:/Homepage%"), 0, 0, 0,
-	"id", LPGENT("Identifier"), LPGENT("%sys:uidname|UID^!MetaContacts%:"), _T("%sys:uid%"), 0, 0, 0,
+	"id", LPGENT("Identifier"), _T("%sys:uidname|UID^!MetaContacts%:"), _T("%sys:uid%"), 0, 0, 0,
 	"idle", LPGENT("Idle"), LPGENT("Idle:"), _T("%idle% (%idle_diff% ago)"), "idle", "idlediff", 0,
 	"ip", LPGENT("IP"), LPGENT("IP:"), _T("%ip%"), "ip", 0, 0,
 	"ipint", LPGENT("IP internal"), LPGENT("IP internal:"), _T("%ip_internal%"), "ipint", 0, 0,
