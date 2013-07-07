@@ -1,0 +1,294 @@
+﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
+;============================================================
+;  File: ICQ.dll
+;  Plugin: ICQ
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\IcqOscarJ\res\resources.rc
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[&Send]
+Odoslať
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Create a new ICQ account using the ICQ website]
+Vytvoriť nový ICQ účet pomocou ICQ stránok
+[Login Server:]
+Pripájací server:
+[Login Server:]
+Prihlasovací server:
+[Port:]
+Port:
+[Port:]
+Port:
+[Port:]
+Port:
+[Default]
+Prednastavené
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+K dokončeniu zmien ktoré ste urobili sa bude treba odpojiť a znovu pripojiť do siete ICQ.
+[Messaging]
+Rozhovor
+[Timeout]
+Časový limit
+[Note]
+Poznámka:
+[Warning]
+Varovanie
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Previe&w]
+Ukázať
+[Previe&w]
+Zobraziť
+[Previe&w]
+Zobraziť
+[UIN:]
+UIN:
+[External IP:]
+Externá IP:
+[Internal IP:]
+Interná IP:
+[Status:]
+Stav:
+[Status:]
+Stav
+[Summary]
+Obecné
+[Nickname:]
+Prezívka:
+[Nickname:]
+Prezívka:
+[Nickname:]
+Prezívka
+[First name:]
+Meno:
+[First name:]
+Meno:
+[First name:]
+Meno:
+[Last name:]
+Priezvisko:
+[Last name:]
+Priezvisko:
+[Last name:]
+Priezvisko
+[E-mail:]
+E-mail:
+[Gender:]
+Pohlavie:
+[Gender:]
+Stav:
+[Age:]
+Vek:
+[Keywords:]
+Kľúčové slová:
+[Work]
+Práca
+[Work]
+Práca
+[Company:]
+Firma:
+[Company:]
+Spoločnosť:
+[Department:]
+Oddelenie:
+[Department:]
+Odvetvie:
+[Position:]
+Pozícia:
+[Organisation:]
+Organizácia:
+[Location]
+Miesto
+[Language:]
+Jazyk:
+[Country:]
+Krajina:
+[Country:]
+Krajina:
+[State:]
+Štát:
+[State:]
+Štát:
+[City:]
+Mesto:
+[City:]
+Mesto:
+[Interests]
+Záujmy
+[Category:]
+Kategória:
+[Past]
+Okolie
+[Homepage]
+Domovská stránka
+[Search online users only]
+Hľadať iba pripojených užívatelov
+[Closing in %d]
+Zavrieť (za %d s)
+[Title:]
+Názov:
+;file \protocols\IcqOscarJ\src\chan_04close.cpp
+[Unable to connect to ICQ communication server]
+Nemožno sa pripojiť na ICQ server
+[You could not sign on because the server returned invalid data. Try again.]
+Nepripojený, lebo server vrátil chybné informácie. Skúste ešte raz.
+[You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
+Ste odpojený z ICQ siete, lebo vaše ICQ číslo je už prihlásené
+[Unknown runtime error: 0x%02x]
+Neznáma spúšťacia chyba: 0x%02x
+;file \protocols\IcqOscarJ\src\fam_01service.cpp
+;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
+;file \protocols\IcqOscarJ\src\fam_04message.cpp
+[ICQ Note]
+ICQ poznámka
+;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
+;file \protocols\IcqOscarJ\src\fam_17signon.cpp
+;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
+;file \protocols\IcqOscarJ\src\icq_avatar.cpp
+;file \protocols\IcqOscarJ\src\icq_constants.h
+;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Art]
+Umenie
+[Astronomy]
+Astrológia
+[Cars]
+Autá
+[Celebrity Fans]
+Fanúšik slávnej/slávneho
+[Collections]
+Kolekcie
+[Computers]
+Počítače
+[Hobbies]
+Koníčky
+[Games]
+Hry
+[Lifestyle]
+Životný štýl
+[Music]
+Hudba
+[Religion]
+Naboženstvo
+[Skills]
+Zručnosť
+[Sports]
+Šport
+[Travel]
+Cestovanie
+[Web Design]
+Návrh webov
+[Women]
+Ženy
+[Female]
+Žena
+[Female]
+Žena
+[Male]
+Muž
+[Male]
+Muž
+[Home]
+Domov
+[Home]
+Domov
+;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
+;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Prenos súboru byl zrušený, pretože jeden z vybraných súborov nieje možné uložiť na disk.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Prijatie súboru je zrušené Mirandou, lebo nemožno zapísať súbor do cieľoveho adresára.
+;file \protocols\IcqOscarJ\src\icq_menu.cpp
+;file \protocols\IcqOscarJ\src\icq_opts.cpp
+[Display all problems]
+Zobraziť všetky problémy
+[Display problems causing possible loss of data]
+Zobraziť problémy ktoré spôsobili stratu dát
+[Display explanations for disconnection]
+Zobraziť vysvetlenie k nechceným odpojeniam
+[Display problems requiring user intervention]
+Zobraziť problémy vyžadujúce môj zásah
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Contacts]
+Kontakty
+;file \protocols\IcqOscarJ\src\icq_popups.cpp
+;file \protocols\IcqOscarJ\src\icq_proto.cpp
+;file \protocols\IcqOscarJ\src\icq_server.cpp
+[Unable to connect to ICQ login server]
+Nemožno sa pripojiť na ICQ server.
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
+Miranda nemôže alokovať port pre priame pripojenie s kientmi. Ak to chcete zapnúť, musíte si vypnút voľbu odosielania/prijímania súborov.\n\nAk máte firewall co blokuje mirande porty, povoľte v konfigúrácii firewallu porty, ktore ste si zadali vo Voľby->ICQ->Sieť.
+[Your connection with the ICQ server was abortively closed]
+Vaše pripojenie na ICQ server bolo nečakane ukončené
+;file \protocols\IcqOscarJ\src\icq_servlist.cpp
+;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
+[Close]
+Zavrieť
+[Close]
+Zavrieť
+[Close]
+Zatvoriť
+[** All contacts **]
+** Všetky kontakty **
+;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[On the phone]
+Telefonuje
+[None]
+Žiadne
+;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
+;file \protocols\IcqOscarJ\src\init.cpp
+;file \protocols\IcqOscarJ\src\log.cpp
+[ICQ Warning]
+ICQ varovanie
+[ICQ Error]
+ICQ chyba
+[ICQ Fatal]
+ICQ "fatalita"
+[error]
+chyba
+;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+;file \protocols\IcqOscarJ\src\utilities.cpp
+;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+[Personal]
+Osoba
+[Nickname]
+Prezívka
+[About]
+O
+[Contact]
+Kontakt
+;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
+;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
+;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
+;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
+;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
+;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+[<not specified>]
+<nešpecifikované>

@@ -1,0 +1,19 @@
+﻿#muuid {23d4f302-d513-45b7-9027-445f29557311}
+;============================================================
+;  File: Console.dll
+;  Plugin: Console
+;  Version: 0.0.7.3
+;  Authors: Bio
+;============================================================
+;file \plugins\Console\res\resource.rc
+;file \plugins\Console\src\Console.cpp
+[Text]
+Text
+[Text]
+Text
+[&Help]
+Pomoc
+[&Help]
+Pomoc
+[All Files]
+Všetky súbory

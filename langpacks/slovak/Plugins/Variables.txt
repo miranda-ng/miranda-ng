@@ -1,0 +1,49 @@
+﻿#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
+;============================================================
+;  File: Variables.dll
+;  Plugin: Variables
+;  Version: 0.2.3.9
+;  Authors: P Boon
+;============================================================
+;file \plugins\Variables\res\Variables.rc
+[Description]
+Udalosť
+[Description]
+Popis
+[Close]
+Zavrieť
+[Close]
+Zavrieť
+[Close]
+Zatvoriť
+[OK]
+OK
+[Notes]
+Poznámky
+;file \plugins\Variables\src\help.cpp
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Help]
+Pomoc
+[Help]
+Pomoc
+;file \plugins\Variables\src\options.cpp
+;file \plugins\Variables\src\parse_alias.cpp
+;file \plugins\Variables\src\parse_external.cpp
+;file \plugins\Variables\src\parse_inet.cpp
+;file \plugins\Variables\src\parse_logic.cpp
+;file \plugins\Variables\src\parse_math.cpp
+;file \plugins\Variables\src\parse_metacontacts.cpp
+;file \plugins\Variables\src\parse_miranda.cpp
+;file \plugins\Variables\src\parse_regexp.cpp
+;file \plugins\Variables\src\parse_str.cpp
+;file \plugins\Variables\src\parse_system.cpp
+[computer name]
+meno počítača
+[user name]
+užívateľské meno
+;file \plugins\Variables\src\parse_variables.cpp
+;file \plugins\Variables\src\parse_xml.cpp
+;file \plugins\Variables\src\variables.cpp

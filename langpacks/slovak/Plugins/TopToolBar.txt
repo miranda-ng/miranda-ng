@@ -1,0 +1,14 @@
+﻿#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
+;============================================================
+;  File: TopToolbar.dll
+;  Plugin: TopToolBar
+;  Version: 0.8.0.3
+;  Authors: Bethoven
+;============================================================
+;file \plugins\TopToolBar\res\main.rc
+;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+Prednastavené
+;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+Zoznam kontaktov

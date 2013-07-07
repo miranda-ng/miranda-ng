@@ -1,0 +1,1128 @@
+﻿;file \src\resource.rc
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Authorization Request]
+Požiadavka na autorizáciu
+[Delete Contact]
+Zmazať kontakt
+[&Yes]
+Áno
+[&Yes]
+Áno
+[&No]
+Nie
+[&No]
+Nie
+[Find/Add Contacts]
+Nájsť/Pridať kontakt
+[Name]
+Meno
+[Name]
+Meno
+[Nick:]
+Prezívka:
+[First:]
+Meno:
+[Last:]
+Priezvisko:
+[Advanced]
+Podrobne
+[Advanced >>]
+Podrobne >>
+[&Search]
+Hľadať
+[More options]
+Ďalšie nastavenia
+[Add to list]
+Pridať do zoznamu
+[Apply]
+Aplikovať
+[Apply]
+Použi
+[Please select a subentry from the list]
+Prosím vyberte zo zoznamu jednu z podkategórií
+[Install Database Settings]
+Aplikovať nastavenia databázy
+[Yes]
+Áno
+[No]
+Nie
+[Do you want to import the settings now?]
+Chcete importovať nastavenia?
+[No to all]
+Nie pre všetko
+[&View contents]
+Zobraziť obsah
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Bezpečnostný systém sa zmení, budete varovaný pred nebezpečiami.
+[Database Setting Change]
+Zmena nastavenia databázy
+[Database settings are being imported from]
+Nastavenie databázy je importované z
+[This file wishes to change the setting]
+Tento súbor zmení nastavenie
+[to the value]
+hodnotu
+[Do you want to allow this change?]
+Prajete si umožniť túto zmenu?
+[&Allow all further changes to this section]
+Umožniť všetky budúce zmeny v tejto sekcii
+[Cancel Import]
+Zrušiť importovanie
+[Database Import Complete]
+Databáza kompletne importovaná
+[The import has completed from]
+Import je kompletný z
+[What do you want to do with the file now?]
+Čo ďalej robiť so súborom?
+[&Recycle]
+Recyklovať
+[&Delete]
+Vymazať
+[&Delete]
+Vymazať
+[&Move/Rename]
+Presunúť/Premenovať
+[&Leave]
+Opustiť
+[Show]
+Zobraziť
+[File]
+Súbor
+[Sounds]
+Zvuky
+[&Change...]
+Zmeniť...
+[&Preview]
+Prehrať
+[&Preview]
+Zobraziť
+[Download more sounds]
+Stiahnuť viac zvukov
+[Icons]
+Ikony
+[Show category:]
+Kategória:
+[&Load icon set...]
+Načítať súbor ikon...
+[&Import icons >>]
+Importovať ikony >>
+[Download more icons]
+Stiahnuť viac ikon
+[The following events are being ignored:]
+Nasledujúce udalosti budú ignorované:
+[None]
+Žiadne
+[Only the ticked contacts will be shown on the main contact list]
+V zozname kontaktov budú iba označené kontakty
+[Ignore]
+Ignorovať
+[Visibility]
+Viditeľnosť
+[You are visible to this person even when in invisible mode]
+Pre túto osobu ste viditelný pokiaľ neprejdete do stavu "Neviditelný"
+[You are never visible to this person]
+Pre túto osobu ste VŽDY neviditelný
+[Icon Index]
+Zoznam ikon
+[Icon library:]
+Knižnica ikon:
+[Drag icons to main list to assign them:]
+Pretiahnite ikony do hlavného zoznamu a priraďte ich:
+[Import multiple]
+Importovať viac ikon
+[To main icons]
+Medzi moje ikony
+[To]
+Do
+[<< &Import]
+Importovať
+[Use proxy server]
+Použi proxy server
+[Type:]
+Typ:
+[Host:]
+Server:
+[Port:]
+Port:
+[Port:]
+Port:
+[Port:]
+Port:
+[(often %d)]
+(asi %d)
+[Username:]
+Užív. meno:
+[Username:]
+Uživ. meno:
+[Username:]
+Užív.meno:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Resolve hostnames through proxy]
+Resolvuj mená cez proxy
+[Resolve hostnames through proxy]
+resulvuj mená cez proxy
+[Example: 1050-1070, 2000-2010, 2500]
+Napr: 1050-1070, 2000-2010, 2500
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Musíte sa odpojiť a pripojiť na aplikovanie týchto zmien.
+[Download more plugins]
+Získať ďalšie plug-iny
+[Description:]
+Popis:
+[Description:]
+Popis:
+[Description:]
+Popis:
+[E-mail:]
+E-mail:
+[Homepage:]
+WWW:
+[Homepage:]
+Domáca stránka:
+[Copyright:]
+Copyright:
+[Undo]
+Späť
+[Reset]
+Reset
+[Effects]
+Efekty
+[Sample]
+Príklad
+[&Help]
+Pomoc
+[&Help]
+Pomoc
+[Default]
+Prednastavené
+[Hotkeys]
+Klávesové skratky
+[&Hide/Show]
+Skryť/Zobraziť
+[E&xit]
+Koniec
+[E&xit]
+Koniec
+[&New Group]
+Nová skupina
+[&Hide Offline Users]
+Skryť nepripojených užívatelov
+[Hide &Offline Users out here]
+Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
+[Hide &Empty Groups]
+Skryť prázdne skupiny
+[Disable &Groups]
+Skryť názvy skupín
+[&New Subgroup]
+Nová podskupina
+[&Hide Offline Users in here]
+Skryť nepripojených užívatelov v tejto skupine
+[&Rename Group]
+Premenovať skupinu
+[&Delete Group]
+Zmazať skupinu
+[&Reset to default]
+Vrátiť sa k pôvodnemu nastaveniu
+[&Add to List]
+Pridať do zoznamu
+[User &Details]
+Informácie o užívatelovi
+[User &Details]
+Detaily užívateľa
+[Send &Message]
+Odoslať správu
+[Log]
+Log
+[&Copy]
+Kopírovať
+[&Copy]
+Kopírovať
+[Co&py All]
+Kopírovať všetko
+[Select &All]
+Vybrať všetko
+[C&lear Log]
+Odstrániť záznamy v Logu
+[Open in &new window]
+Otvoriť v novom okne
+[&Open in existing window]
+Otvoriť v tomto okne
+[&Copy link]
+Kopírovať odkaz
+;file \src\core\stdauth\resource.rc
+[&Authorize]
+Autorizovať
+[Reason:]
+Dôvod:
+[&Close]
+Zavrieť
+;file \src\core\stdaway\resource.rc
+[%s Message for %s]
+%s správa pre %s
+[Retrieving %s message...]
+Prijímam %s správu
+[Do not reply to requests for this message]
+Neodpovedať automaticky na túto správu
+[Do not pop up dialog asking for new message]
+Nepožadovať zadanie novej správy
+[By default, use the same message as last time]
+Ako prednastavenú použiť rovnakú správu ako naposledy
+[By default, use this message:]
+Ako prednastavenú použi túto správu:
+[Use %time% for the current time, %date% for the current date]
+Použi %time% pre aktuálny čas, %date% pre aktuálny dátum
+[Change %s Message]
+Zmeniť %s správu
+[Closing in %d]
+Zavrieť (za %d s)
+;file \src\core\stdchat\res\chat.rc
+[&Send]
+Odoslať
+[Your name]
+Vaše meno
+[Text]
+Text
+[Text]
+Text
+[Background]
+Pozadie
+[Background]
+Pozadie
+[List]
+Zoznam
+[&Message]
+&Správa
+;file \src\core\stdclist\res\resource.rc
+[Hide offline users]
+Skryť nepripojených užívateľov
+[Hide empty groups]
+Skryť prázdne skupiny
+[Disable groups]
+Skryť skupiny
+[Sort contacts by name]
+Triediť kontakty podľa mena
+[Sort contacts by status]
+Triediť kontakty podľa stavu
+[Single click interface]
+Nepoužívať dvojklik myšou
+[Cycle icons every]
+Cyklovať každú ikonu
+[seconds, when statuses differ]
+sekund, ked su stavy rozdielne
+[Show multiple icons]
+Zobraziť mnohonásobné ikony
+[Only when statuses differ]
+Iba pri rozdielnych stavoch
+[Contact List]
+Zoznam kontaktov
+[System tray icon]
+Ikona v oznamovacej oblasti
+[System tray icon when using multiple protocols]
+Ikona v oznamovacej oblasti pri použití viacerých protokolov
+[Window]
+Okno
+[Always on top]
+Vždy navrchu
+[Tool style main window]
+Okno v štýle palety nástrojov
+[Minimize to tray]
+Minimalizovať do oznamovacej oblasti
+[Show menu bar]
+Zobraziť menu
+[Easy move]
+Jednoduchý presun
+[Show title bar]
+Zobraziť nadpis
+[Title bar text:]
+Text nadpisu:
+[Hide contact list after it has been idle for]
+Skryť zoznam kontaktov ak nebude používaný po
+[seconds]
+sekúnd
+[Automatically resize window to height of list]
+Prispôsobiť veľkosť okna dlžke zoznamu
+[maximum]
+maximálne
+[% of screen]
+% z obrazovky
+[Size upwards]
+Zväčšovať smerom hore
+[Fade contact list in/out]
+Plynule spriehľadňovať/zobrazovať
+[Transparent contact list]
+Priehľadný zoznam kontaktov
+[Inactive opacity:]
+Priehľadnosť neaktívneho okna:
+[Active opacity:]
+Priehľadnosť aktívneho okna:
+[Items]
+Položky
+[Show divider between online and offline contacts]
+Oddeliť v zozname pripojených a nepripojených užívatelov
+[Hot track items as mouse passes over]
+Zvýrazňovať položky po prejdení myšou
+[Disable drag and drop of items]
+Neumožniť preťahovanie položiek
+[Disable rename of items by clicking twice]
+Nepremenovávať položky pomocou dvoch klikov
+[Show selection even when list is not focused]
+Zvýrazňovať výber i keď je zoznam neaktívny
+[Make selection highlight translucent]
+Použiť priehladné označenie výberu
+['Hide Offline' means to hide:]
+'Skryť nepripojených' = skryť týchto:
+[Groups]
+Skupiny
+[Groups]
+Skupiny
+[Draw a line alongside group names]
+Zvýrazniť názvy skupín oddelovacou čiarou
+[Show counts of number of contacts in a group]
+Zobrazovať počet kontaktov v skupine za názvom skupiny
+[Hide group counts when there are none online]
+Skryť počet kontaktov v skupine ak sú všetci odpojený
+[Sort groups alphabetically]
+Triediť skupiny podľa abecedy
+[Quicksearch in open groups only]
+Rýchle hľadanie iba v otvorených skupinách
+[Indent groups by:]
+Odsadzovanie skupín:
+[pixels]
+pixelov
+[pixels]
+bodov
+[Visual]
+Vzhľad
+[Scroll list smoothly]
+Plynule posúvať zoznam
+[Time:]
+Čas:
+[milliseconds]
+milisekúnd
+[Left margin:]
+јavý okraj
+[Row height:]
+Výška riadku:
+[Gamma correction]
+Gamma korekcia
+[Grey out entire list when:]
+Potlačiť intenzitu u týchto položiek:
+[Contact List Background]
+Pozadie zoznamu kontaktov
+[Background colour]
+Farba pozadia
+[Stretch to width]
+Roztiahnúť na šírku
+[Stretch to height]
+Roztiahnúť na výšku
+[Tile horizontally]
+Vedľa seba
+[Tile vertically]
+Nad sebou
+[Scroll with text]
+Posúvať s textom
+[Stretch proportionally]
+Roztiahnúť veľkosť
+[Status Bar]
+Stavový riadok
+[Show status bar]
+Zobraziť stavový riadok
+[Show icons]
+Zobraziť ikony
+[Show icons]
+Zobraziť ikony
+[Show protocol names]
+Zobraziť meno protokolu
+[Show status text]
+Zobraziť stavový text
+[Right click opens status menu]
+Pravé tlačítko myši otvára stavové menu
+[Make sections equal width]
+Rovnaká šírka oddielov
+[&Status]
+Stav
+[&Offline\tCtrl+0]
+Odpojený\tCtrl+0
+[On&line\tCtrl+1]
+Pripojený
+[&Away\tCtrl+2]
+Preč
+[&NA\tCtrl+3]
+Nedostupný
+[Occ&upied\tCtrl+4]
+Zaneprázdnený
+[&DND\tCtrl+5]
+Nerušiť
+[&Free for chat\tCtrl+6]
+Prístupný k rozhovoru
+[&Invisible\tCtrl+7]
+Neviditelný
+[On the &Phone\tCtrl+8]
+Telefonujem
+[Out to &Lunch\tCtrl+9]
+Na obede
+;file \src\core\stdfile\resource.rc
+[Send File(s)]
+Odoslať súbor(y)
+[To:]
+Pre:
+[File(s):]
+Súbor(y):
+[&Choose Again...]
+Znovu vybrať
+[Total size:]
+Celková veľkosť:
+[Incoming File Transfer]
+Príchádzajúci súbor
+[Incoming File Transfer]
+Príchádzajúci súbor
+[A&ccept]
+Prijať
+[&Decline]
+Odmietnúť
+[From:]
+Od:
+[Date:]
+Dátum:
+[Date:]
+Dátum:
+[Files:]
+Súbory:
+[Save to:]
+Uložiť do:
+[Open folder]
+Otvoriť zložku
+[File Already Exists]
+Súbor už existuje
+[Resume]
+Výsledok
+[Resume all]
+Výsledok všetkého
+[Overwrite]
+Prepísať
+[Overwrite all]
+Prepísať všetko
+[Save as...]
+Uložiť ako...
+[Skip]
+Vynechať
+[Cancel transfer]
+Prerušiť prenos
+[You are about to receive the file]
+Prijať súbor
+[Existing file]
+Súbor existuje
+[Size:]
+Veľkosť:
+[Size:]
+Veľkosť:
+[Last modified:]
+Posledná modifikácia:
+[Open file]
+Otvoriť súbor
+[File properties]
+Vlastnosti súboru
+[File being received]
+Súbor na prijatie
+[File Transfers]
+Prenos súboru
+[Close]
+Zavrieť
+[Close]
+Zavrieť
+[Close]
+Zatvoriť
+[Receiving files]
+Prijať súbory
+[Received files folder:]
+Zlozka pre prijaté súbory:
+[Auto-accept incoming files from people on my contact list]
+Automaticky príjmy súbory od ľudí v mojom zozname
+[Minimize the file transfer window]
+Minimalizuj okno prenosu súboru
+[Close window when transfer completes]
+Zatvor okno ked je prenos kompletný
+[Virus scanner]
+Vírusové skenovanie
+[Scan files:]
+Skenovať súbory:
+[Never, do not use virus scanning]
+Nikdy, nepoužívať vírusové skenovanie
+[When all files have been downloaded]
+Až keď sú všetky súbory stiahnuté
+[As each file finishes downloading]
+Po každom stiahnutí súboru
+[Command line:]
+Príkazový riadok:
+[%f will be replaced by the file or folder name to be scanned]
+%f je premiestnený súbor alebo zložka na oskenovanie
+[Warn me before opening a file that has not been scanned]
+varuj pred otvorením ak je súbor neoskenovaný
+[If incoming files already exist]
+Ak prichádzajúci súbor existuje
+[Ask me]
+Opýtaj sa ma
+[Rename (append " (1)", etc.)]
+Premenovať (pripojiť "(1)", a atď)
+[You will always be asked about files from people not on your contact list]
+Odpoveď ľuďom ktorý niesu vo vašom zozname kontaktov
+;file \src\core\stdhelp\resource.rc
+;file \src\core\stdidle\resource.rc
+;file \src\core\stdmsg\res\resource.rc
+[Save the window size and location individually for each contact]
+Uložiť pozíciu a veľkosť okna individuálne pre každý kontakt
+[Try again]
+Skús znovu
+[Message Session]
+Rozhovor
+[Show names]
+Zobraziť mená
+[Show dates]
+Zobraziť dátumy
+[Load unread events only]
+Nahrať doposiaľ neprečítané udalosti
+[Load number of previous events]
+Nahrať počet posledných udalostí
+[Load previous events less than]
+Nahrať iba udalosti, ktoré sú menšie než
+[minutes old]
+minút staré
+;file \src\core\stduihist\resource.rc
+[Find]
+Hľadať
+[&Find Next]
+Hľadať ďalšie
+[Find What:]
+Čo hľadať:
+[Message History]
+História správ
+[&Find...]
+Nájsť...
+;file \src\core\stduserinfo\resource.rc
+[Add Phone Number]
+Pridať telefónne číslo
+[Enter country, area code and phone number:]
+Uveďte krajinu, predvoľbu a telefónne číslo:
+[Or enter a full international number:]
+Alebo uveďte telefónne číslo v medzinárodnom tvare:
+[Phone can receive SMS text messages]
+Na toto číslo môžete posielať SMS správy
+[%s: User Details]
+%s: Užívatelove informácie
+[Update Now]
+Aktualizovať
+[Update Now]
+Aktualizovať
+[Updating]
+Aktualizujem
+[Updating]
+Aktualizujem
+[Nickname:]
+Prezívka:
+[Nickname:]
+Prezívka:
+[Nickname:]
+Prezívka
+[First name:]
+Meno:
+[First name:]
+Meno:
+[First name:]
+Meno:
+[Gender:]
+Pohlavie:
+[Gender:]
+Stav:
+[Last name:]
+Priezvisko:
+[Last name:]
+Priezvisko:
+[Last name:]
+Priezvisko
+[Age:]
+Vek:
+[Date of birth:]
+Dátum narodenia:
+[Date of birth:]
+Dátum narodenia:
+[Phone:]
+Telefón:
+[Phone:]
+Telefón:
+[Web page:]
+Webová stránka:
+[Past background:]
+Okolné pozadia
+[Interests:]
+Záujmy:
+[About:]
+O sebe:
+[My notes:]
+Moje poznámky:
+[Street:]
+Ulica:
+[City:]
+Mesto:
+[City:]
+Mesto:
+[State:]
+Štát:
+[State:]
+Štát:
+[Postal code:]
+PSČ/ZIP kód:
+[Country:]
+Krajina:
+[Country:]
+Krajina:
+[Spoken languages:]
+Jazyky:
+[Timezone:]
+Časové pásmo:
+[Local time:]
+Miestny čas:
+[Company:]
+Firma:
+[Company:]
+Spoločnosť:
+[Department:]
+Oddelenie:
+[Department:]
+Odvetvie:
+[Position:]
+Pozícia:
+[Website:]
+WWW stránky:
+;file \src\core\stdauth\auth.cpp
+;file \src\core\stdauth\authdialogs.cpp
+[View User's Details]
+Zobraziť informácie o užívatelovi
+[Add Contact Permanently to List]
+Pridať kontakt do zoznamu
+;file \src\core\stdaway\awaymsg.cpp
+[Re&ad %s Message]
+Čítať %s správu
+;file \src\core\stdaway\sendmsg.cpp
+[I've been away since %time%.]
+Som preč od %time%.
+[Not right now.]
+Prepáč, teraz nemám čas.
+[Yep, I'm here.]
+Je tu.
+[Nope, not here.]
+Nieje tu.
+[I'm hiding from the mafia.]
+Schováva sa pred mafiou
+[That'll be the phone.]
+Telefonuje
+[Mmm...food.]
+Mmm...obed.
+[Status]
+Stav
+[Status]
+Stav
+[Status]
+Stav
+;file \src\core\stdchat\src\clist.cpp
+;file \src\core\stdchat\src\colorchooser.cpp
+[Text colour]
+Fraba textu
+;file \src\core\stdchat\src\log.cpp
+;file \src\core\stdchat\src\options.cpp
+[Bold]
+Tučné
+[Messaging]
+Rozhovor
+[Select Folder]
+Vyber zložku
+;file \src\core\stdchat\src\services.cpp
+;file \src\core\stdchat\src\tools.cpp
+;file \src\core\stdchat\src\window.cpp
+;file \src\core\stdclist\src\clcfonts.cpp
+[Standard contacts]
+Štandardné kontakty
+[Online contacts to whom you have a different visibility]
+Pripojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Offline contacts]
+Odpojený užívatelia
+[Contacts which are 'not on list']
+Užívatelia ktorí niesu v zozname
+[Group member counts]
+Počet členov skupiny
+[Dividers]
+Oddelovače
+[Offline contacts to whom you have a different visibility]
+Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+;file \src\core\stdclist\src\clcopts.cpp
+[Not focused]
+Neoznačené
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+[List Background]
+Pozadie zoznamu
+;file \src\core\stdclist\src\clistopts.cpp
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdemail\email.cpp
+[User has not registered an e-mail address]
+Užívatel nemá zaregistrovnú e-mailovú adresu\nMôžete ju pridať v podrobných informáciách o užívatelovi v záložke "kontakt".
+[Send e-mail]
+Odoslať e-mail
+;file \src\core\stdfile\file.cpp
+[File from %s]
+Súbor od %s
+[File from %s]
+Súbor od %s
+[bytes]
+bytov
+[&File]
+&Súbor
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+;file \src\core\stdfile\fileexistsdlg.cpp
+[All Files]
+Všetky súbory
+;file \src\core\stdfile\fileopts.cpp
+[Executable Files]
+Spustitelné súbory
+[Events]
+Udalosti
+;file \src\core\stdfile\filerecvdlg.cpp
+[View User's History]
+Zobraziť históriu 
+[User Menu]
+Menu užívatela
+;file \src\core\stdfile\filesenddlg.cpp
+[%d files]
+%d súbory
+[%d directories]
+%d adresáre
+;file \src\core\stdfile\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Tento súbor nebol skenovaný proti vírusom. Chcete ho otvoriť?
+[File Received]
+Prijať súbor
+[Request sent, waiting for acceptance...]
+Požiadavka zaslaná, čakajte na akceptáciu...
+[Request sent, waiting for acceptance...]
+Požiadavka odoslaná, čakám na prijatie...
+[Waiting for connection...]
+Čakajte na pripojenie...
+[sec]
+sek
+[remaining]
+prijímam
+[Decision sent]
+Rozhodnutie odoslané
+[Connecting...]
+Pripájam ...
+[Connecting...]
+Pripájam ...
+[Connected]
+Pripojený
+[Initialising...]
+Inicializujem...
+[Moving to next file...]
+presuň do ďalšieho suboru ...
+[File already exists]
+Súbor už existuje
+[Sending...]
+Odosielam...
+[Receiving...]
+Prijímam...
+[File transfer failed]
+Chybný prenos súboru
+[Scanning for viruses...]
+Skenovať na vírusy
+[Transfer and virus scan complete]
+Prenos a oskenovanie je kompletné
+;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\help.cpp
+[&About...]
+O programe &Miranda...
+;file \src\core\stdidle\idle.cpp
+;file \src\core\stdmsg\src\cmdlist.cpp
+;file \src\core\stdmsg\src\globals.cpp
+;file \src\core\stdmsg\src\msgdialog.cpp
+;file \src\core\stdmsg\src\msglog.cpp
+;file \src\core\stdmsg\src\msgoptions.cpp
+[** Unknown contacts **]
+** Neznáme kontakty **
+[Messaging Log]
+Záznam rozhovorov
+;file \src\core\stdmsg\src\msgs.cpp
+[Message from %s]
+Správa od %s
+[Message from %s]
+Správa od %s
+;file \src\core\stdmsg\src\msgtimedout.cpp
+;file \src\core\stduihist\history.cpp
+[Incoming Message]
+Prichádzajúca správa
+[Incoming URL]
+Prichádzajúca URL
+[Incoming File]
+Prichádzajúci súbor
+[History for %s]
+História pre %s
+[View &History]
+Zobraziť &históriu
+;file \src\core\stdurl\url.cpp
+[URL from %s]
+URL od %s
+[URL from %s]
+URL od %s
+[Web Page Address (&URL)]
+Adresa www stránky (&URL)
+;file \src\core\stdurl\urldialogs.cpp
+;file \src\core\stduserinfo\contactinfo.cpp
+[Edit Phone Number]
+Zmena telefónneho čísla
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Telefónne číslo by malo začínať znakom "+". Nasledujúce znaky môžu byť iba číslice, zátvorky alebo pomlčka.
+[Invalid Phone Number]
+Neplatné telefónne číslo
+[Primary]
+Primárny
+[Custom %d]
+Nový %d
+[Fax]
+Fax:
+[Mobile]
+Mobil:
+;file \src\core\stduserinfo\stdinfo.cpp
+[Male]
+Muž
+[Male]
+Muž
+[Female]
+Žena
+[Female]
+Žena
+[<not specified>]
+<nešpecifikované>
+[Summary]
+Obecné
+[Contact]
+Kontakt
+[Location]
+Miesto
+[Work]
+Práca
+[Work]
+Práca
+[Notes]
+Poznámky
+;file \src\core\stduserinfo\userinfo.cpp
+[View/Change My &Details...]
+Zobraziť/Zmeniť moje informácie...
+;file \src\core\stduseronline\useronline.cpp
+[%s is Online]
+%s je pripojený
+;file \src\modules\addcontact\addcontact.cpp
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clistmenus.cpp
+;file \src\modules\clist\clistmod.cpp
+;file \src\modules\clist\clistsettings.cpp
+[(Unknown Contact)]
+(neznámý kontakt)
+;file \src\modules\clist\clisttray.cpp
+;file \src\modules\clist\clui.cpp
+[This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
+Tento kontakt patrí do IM systému ktorý ukladá svoje zoznamy kontaktov na centrálny server. Tento kontakt bude odstranený zo servera a z vášho zoznamu kontaktov pri vašom dalšom pripojení do tejto IM siete.
+[De&lete]
+Zmazať
+[&Rename]
+&Premenovať
+[&Add permanently to list]
+Pridať do zoznamu kontaktov
+;file \src\modules\clist\contacts.cpp
+[My custom name (not moveable)]
+Moje vlastné označenie (nepresúvatelné)
+[Nick]
+Prezívka
+[Nick]
+Prezívka
+[FirstName]
+Meno
+[LastName]
+Priezvisko
+[FirstName LastName]
+Meno Priezvisko
+['(Unknown Contact)' (not moveable)]
+'(neznámý kontakt)' (nepresúvatelné)
+;file \src\modules\clist\genmenu.cpp
+;file \src\modules\clist\genmenuopt.cpp
+;file \src\modules\clist\groups.cpp
+[New Group]
+Nová skupina
+[You already have a group with that name. Please enter a unique name for the group.]
+Skupina s týmto menom už existuje. Zadajte prosím nové unikátne meno pre túto skupinu.
+[Rename Group]
+Premenovať skupinu
+[This group]
+Táto skupina
+;file \src\modules\clist\keyboard.cpp
+;file \src\modules\clist\movetogroup.cpp
+;file \src\modules\database\database.cpp
+;file \src\modules\database\dbini.cpp
+[Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
+Bezpečnostný systém zmien je zapojený a budete varovaný pred každou zmenou.
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+Bezpečnostný systém zmien je zapojený a budete varovaný pred nebezpečnou zmenou.
+[Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+Bezpečnostný systém zmien je odpojený. Nebudete prijímať žiadne varovania.
+[This change is known to be safe.]
+Táto zmena je bezpečná.
+[This change is known to be potentially hazardous.]
+Táto zmena je potencialne nebezpečná.
+[This change is not known to be safe.]
+Táto zmena je nebezpečná.
+;file \src\modules\database\profilemanager.cpp
+[Size]
+Veľkosť
+[Size]
+Veľkosť
+[Size]
+Veľkosť
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
+;file \src\modules\extraicons\extraicons.cpp
+;file \src\modules\extraicons\options_ei.cpp
+;file \src\modules\findadd\findadd.cpp
+[You haven't filled in the search field. Please enter a search term and try again.]
+Vyhľadávacie pole nesmie byť prázdne. Prosím zadajte hľadaný výraz a skúste to znovu.
+[Search]
+Hľadať
+[Results]
+Výsledok
+[There are no results to display.]
+Žiadny výsledok na zobrazenie.
+[Searching]
+Vyhľadávam
+[All Networks]
+Všetky siete
+[Handle]
+Hlavička
+[&Find/Add Contacts...]
+Nájsť/Pridať kontakty...
+;file \src\modules\findadd\searchresults.cpp
+[1 %s user found]
+1 %s užívatel nájdený
+[%d %s users found]
+Nájdených %d %s užívatelov.
+[%d users found (]
+Nájdených %d užívatelov
+[No users found]
+Nenájdený užívatelia
+;file \src\modules\fonts\FontOptions.cpp
+[<none>]
+<nič>
+[Fonts]
+Písmo
+;file \src\modules\fonts\FontService.cpp
+;file \src\modules\icolib\skin2opts.cpp
+[Icon Sets]
+Súbor ikon
+;file \src\modules\ignore\ignore.cpp
+[** All contacts **]
+** Všetky kontakty **
+[Contacts]
+Kontakty
+;file \src\modules\netlib\netliblog.cpp
+;file \src\modules\netlib\netlibopts.cpp
+[<All connections>]
+Všetky pripojenia
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+;file \src\modules\netlib\netlibssl.cpp
+;file \src\modules\options\options.cpp
+[&Options...]
+Nastavenia...
+;file \src\modules\plugins\newplugins.cpp
+;file \src\modules\plugins\pluginopts.cpp
+;file \src\modules\protocols\protoopts.cpp
+[Configure]
+Konfigurovať
+;file \src\modules\skin\hotkey_opts.cpp
+;file \src\modules\skin\skinicons.cpp
+[User Online]
+Pripojený užívatel
+[Group (Open)]
+Skupina (otvoriť)
+[Group (Closed)]
+Skupina (zavrieť)
+[Connecting]
+Pripájam sa
+[Help]
+Pomoc
+[Help]
+Pomoc
+[%s Icons]
+%s ikon
+[Main Icons]
+Moje ikony
+;file \src\modules\skin\sounds.cpp
+;file \src\modules\utils\bmpfilter.cpp
+[All Bitmaps]
+Všetky obrázky
+[All Bitmaps]
+Všetky obrázky
+[Windows Bitmaps]
+Windows obrázky
+[JPEG Bitmaps]
+JPEG obrázky
+[GIF Bitmaps]
+GIF obrázky
+;file \src\modules\utils\timezones.cpp
+;file \src\modules\utils\utils.cpp
+[Unknown]
+neznáme
+;file \src\modules\visibility\visibility.cpp

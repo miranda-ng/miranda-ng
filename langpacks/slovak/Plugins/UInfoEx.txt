@@ -1,0 +1,243 @@
+﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
+;============================================================
+;  File: UInfoEx.dll
+;  Plugin: User info ext
+;  Version: 0.8.4.2
+;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+;============================================================
+;file \plugins\UserInfoEx\res\resource.rc
+[Updating]
+Aktualizujem
+[Updating]
+Aktualizujem
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Apply]
+Aplikovať
+[Apply]
+Použi
+[Nick:]
+Prezívka:
+[Title:]
+Názov:
+[First name:]
+Meno:
+[First name:]
+Meno:
+[First name:]
+Meno:
+[Last name:]
+Priezvisko:
+[Last name:]
+Priezvisko:
+[Last name:]
+Priezvisko
+[Female]
+Žena
+[Female]
+Žena
+[Male]
+Muž
+[Male]
+Muž
+[Street:]
+Ulica:
+[Postal code:]
+PSČ/ZIP kód:
+[City:]
+Mesto:
+[City:]
+Mesto:
+[Country:]
+Krajina:
+[Country:]
+Krajina:
+[Timezone:]
+Časové pásmo:
+[Company:]
+Firma:
+[Company:]
+Spoločnosť:
+[Department:]
+Oddelenie:
+[Department:]
+Odvetvie:
+[Position:]
+Pozícia:
+[Add Phone Number]
+Pridať telefónne číslo
+[Enter country, area code and phone number:]
+Uveďte krajinu, predvoľbu a telefónne číslo:
+[Or enter a full international number:]
+Alebo uveďte telefónne číslo v medzinárodnom tvare:
+[Phone can receive SMS text messages]
+Na toto číslo môžete posielať SMS správy
+[Background colour]
+Farba pozadia
+[Text colour]
+Fraba textu
+[Homepage:]
+WWW:
+[Homepage:]
+Domáca stránka:
+[Reminder]
+Pripomienka
+[Icons]
+Ikony
+[Colours]
+Farby
+[Colours]
+Farby
+[None]
+Žiadne
+[Gender:]
+Pohlavie:
+[Gender:]
+Stav:
+[Homepage]
+Domovská stránka
+[Age:]
+Vek:
+;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
+;file \plugins\UserInfoEx\src\classPsTree.cpp
+[Reset to defaults]
+Späť na prednastavené
+;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
+;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Edit Phone Number]
+Zmena telefónneho čísla
+;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
+;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[Contact]
+Kontakt
+[Date]
+Dátum
+;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Yes]
+Áno
+[No]
+Nie
+[Ignore]
+Ignorovať
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[Work]
+Práca
+[Work]
+Práca
+[About]
+O
+[Notes]
+Poznámky
+;file \plugins\UserInfoEx\src\init.cpp
+;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Default]
+Prednastavené
+[Fax]
+Fax:
+[e-mail]
+e-mail
+[Search]
+Hľadať
+;file \plugins\UserInfoEx\src\mir_icolib.h
+;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[User &Details]
+Informácie o užívatelovi
+[User &Details]
+Detaily užívateľa
+[View/Change My &Details...]
+Zobraziť/Zmeniť moje informácie...
+;file \plugins\UserInfoEx\src\psp_about.cpp
+[About:]
+O sebe:
+;file \plugins\UserInfoEx\src\psp_anniversary.cpp
+;file \plugins\UserInfoEx\src\psp_contact.cpp
+[Home]
+Domov
+[Home]
+Domov
+;file \plugins\UserInfoEx\src\psp_options.cpp
+[Contacts]
+Kontakty
+[Advanced]
+Podrobne
+;file \plugins\UserInfoEx\src\psp_profile.cpp
+[Past]
+Okolie
+;file \plugins\UserInfoEx\src\svc_constants.cpp
+[Computers]
+Počítače
+[Sports]
+Šport
+[Art]
+Umenie
+[Cars]
+Autá
+[Celebrity Fans]
+Fanúšik slávnej/slávneho
+[Collections]
+Kolekcie
+[Culture & Literature]
+Kultúra a literatúra
+[Games]
+Hry
+[Hobbies]
+Koníčky
+[Lifestyle]
+Životný štýl
+[Movies/TV]
+Filmy/TV
+[Music]
+Hudba
+[Pets/Animals]
+Mazlíčkovia/Zvieratká
+[Religion]
+Naboženstvo
+[Science/Technology]
+Veda/Technológie
+[Skills]
+Zručnosť
+[Web Design]
+Návrh webov
+[Nature and Environment]
+Príroda
+[Travel]
+Cestovanie
+[Astronomy]
+Astrológia
+[Women]
+Ženy
+[Finance and corporate]
+Financie
+[Sporting and athletic]
+Šport a atletika
+;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+Odoslať e-mail
+;file \plugins\UserInfoEx\src\svc_gender.cpp
+;file \plugins\UserInfoEx\src\svc_homepage.cpp
+;file \plugins\UserInfoEx\src\svc_phone.cpp
+;file \plugins\UserInfoEx\src\svc_refreshci.cpp
+;file \plugins\UserInfoEx\src\svc_reminder.cpp
+;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
+;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
+;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

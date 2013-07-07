@@ -1,0 +1,105 @@
+﻿#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+;============================================================
+;  File: YAMN.dll
+;  Plugin: Mail Notifier
+;  Version: 0.1.2.6
+;  Authors: y_b, tweety, majvan
+;============================================================
+;file \plugins\YAMN\res\YAMN.rc
+[OK]
+OK
+[Version:]
+Verzia:
+[Description:]
+Popis:
+[Description:]
+Popis:
+[Description:]
+Popis:
+[Copyright:]
+Copyright:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Port:]
+Port:
+[Port:]
+Port:
+[Port:]
+Port:
+[Default]
+Prednastavené
+[Status:]
+Stav:
+[Status:]
+Stav
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Online]
+Pripojený
+[Away]
+Preč
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[On the phone]
+Telefonuje
+[Out to lunch]
+Na obede
+[Background colour]
+Farba pozadia
+[Text colour]
+Fraba textu
+;file \plugins\YAMN\src\main.cpp
+;file \plugins\YAMN\src\main.h
+;file \plugins\YAMN\src\services.cpp
+[Nick]
+Prezívka
+[Nick]
+Prezívka
+;file \plugins\YAMN\src\browser\badconnect.cpp
+[Unknown error]
+Neznáma chyba
+;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[Size]
+Veľkosť
+[Size]
+Veľkosť
+[Size]
+Veľkosť
+[Date]
+Dátum
+;file \plugins\YAMN\src\mails\mime.cpp
+;file \plugins\YAMN\src\proto\netlib.cpp
+;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
+;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[All Files]
+Všetky súbory

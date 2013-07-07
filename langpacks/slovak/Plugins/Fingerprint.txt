@@ -1,0 +1,14 @@
+﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
+;============================================================
+;  File: Fingerprint.dll
+;  Plugin: Fingerprint NG
+;  Version: 0.1.0.0
+;  Authors: faith_healer, ghazan, mataes
+;============================================================
+;file \plugins\FingerprintNG\res\resource.rc
+;file \plugins\FingerprintNG\src\fingerprint.cpp
+;file \plugins\FingerprintNG\src\finger_groups.h
+;file \plugins\FingerprintNG\src\masks.cpp
+;file \plugins\FingerprintNG\src\options.cpp
+[Icons]
+Ikony

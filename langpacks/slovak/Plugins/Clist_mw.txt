@@ -1,0 +1,284 @@
+﻿#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
+;============================================================
+;  File: Clist_mw.dll
+;  Plugin: MultiWindow contact list
+;  Version: 0.9.0.0
+;  Authors: 
+;============================================================
+;file \plugins\Clist_mw\res\resource.rc
+[Background colour:]
+Farba pozadia:
+[Selection colour:]
+Vyber farbu:
+[Use background bitmap]
+Použiť obrázok na pozadí
+[Stretch to width]
+Roztiahnúť na šírku
+[Stretch to height]
+Roztiahnúť na výšku
+[Tile horizontally]
+Vedľa seba
+[Tile vertically]
+Nad sebou
+[Scroll with text]
+Posúvať s textom
+[Stretch proportionally]
+Roztiahnúť veľkosť
+[Default]
+Prednastavené
+[Delete Contact]
+Zmazať kontakt
+[No]
+Nie
+[Yes]
+Áno
+[Hide offline users]
+Skryť nepripojených užívateľov
+[Hide empty groups]
+Skryť prázdne skupiny
+[Disable groups]
+Skryť skupiny
+[Always on top]
+Vždy navrchu
+[Hide contact list after it has been idle for]
+Skryť zoznam kontaktov ak nebude používaný po
+[seconds]
+sekúnd
+[Sort contacts by name]
+Triediť kontakty podľa mena
+[Sort contacts by status]
+Triediť kontakty podľa stavu
+[Single click interface]
+Nepoužívať dvojklik myšou
+[Show]
+Zobraziť
+[Cycle icons every]
+Cyklovať každú ikonu
+[seconds, when statuses differ]
+sekund, ked su stavy rozdielne
+[Show multiple icons]
+Zobraziť mnohonásobné ikony
+[Only when statuses differ]
+Iba pri rozdielnych stavoch
+[Contact List]
+Zoznam kontaktov
+[System tray icon]
+Ikona v oznamovacej oblasti
+[System tray icon when using multiple protocols]
+Ikona v oznamovacej oblasti pri použití viacerých protokolov
+[Rows]
+Riadky
+[Row height:]
+Výška riadku:
+[pixels]
+pixelov
+[pixels]
+bodov
+[Gamma correction]
+Gamma korekcia
+[Window]
+Okno
+[Tool style main window]
+Okno v štýle palety nástrojov
+[Minimize to tray]
+Minimalizovať do oznamovacej oblasti
+[Automatically resize window to height of list]
+Prispôsobiť veľkosť okna dlžke zoznamu
+[maximum]
+maximálne
+[% of screen]
+% z obrazovky
+[Size upwards]
+Zväčšovať smerom hore
+[Title bar text:]
+Text nadpisu:
+[Fade contact list in/out]
+Plynule spriehľadňovať/zobrazovať
+[Transparent contact list]
+Priehľadný zoznam kontaktov
+[Inactive opacity:]
+Priehľadnosť neaktívneho okna:
+[Active opacity:]
+Priehľadnosť aktívneho okna:
+[Show menu bar]
+Zobraziť menu
+[Easy move]
+Jednoduchý presun
+[Show title bar]
+Zobraziť nadpis
+[Items]
+Položky
+[Show divider between online and offline contacts]
+Oddeliť v zozname pripojených a nepripojených užívatelov
+[Hot track items as mouse passes over]
+Zvýrazňovať položky po prejdení myšou
+[Disable drag and drop of items]
+Neumožniť preťahovanie položiek
+[Disable rename of items by clicking twice]
+Nepremenovávať položky pomocou dvoch klikov
+[Show selection even when list is not focused]
+Zvýrazňovať výber i keď je zoznam neaktívny
+[Make selection highlight translucent]
+Použiť priehladné označenie výberu
+['Hide Offline' means to hide:]
+'Skryť nepripojených' = skryť týchto:
+[Groups]
+Skupiny
+[Groups]
+Skupiny
+[Draw a line alongside group names]
+Zvýrazniť názvy skupín oddelovacou čiarou
+[Show counts of number of contacts in a group]
+Zobrazovať počet kontaktov v skupine za názvom skupiny
+[Hide group counts when there are none online]
+Skryť počet kontaktov v skupine ak sú všetci odpojený
+[Sort groups alphabetically]
+Triediť skupiny podľa abecedy
+[Quicksearch in open groups only]
+Rýchle hľadanie iba v otvorených skupinách
+[Indent groups by:]
+Odsadzovanie skupín:
+[Visual]
+Vzhľad
+[Scroll list smoothly]
+Plynule posúvať zoznam
+[Time:]
+Čas:
+[milliseconds]
+milisekúnd
+[Left margin:]
+јavý okraj
+[Grey out entire list when:]
+Potlačiť intenzitu u týchto položiek:
+[Contact List Background]
+Pozadie zoznamu kontaktov
+[Status Bar]
+Stavový riadok
+[Show status bar]
+Zobraziť stavový riadok
+[Show icons]
+Zobraziť ikony
+[Show icons]
+Zobraziť ikony
+[Show protocol names]
+Zobraziť meno protokolu
+[Show status text]
+Zobraziť stavový text
+[Right click opens status menu]
+Pravé tlačítko myši otvára stavové menu
+[Right click opens Miranda menu]
+Pravé tlačítko myši otvára hlavné menu
+[Make sections equal width]
+Rovnaká šírka oddielov
+[E&xit]
+Koniec
+[E&xit]
+Koniec
+[&Status]
+Stav
+[&Offline\tCtrl+0]
+Odpojený\tCtrl+0
+[On&line\tCtrl+1]
+Pripojený
+[&Away\tCtrl+2]
+Preč
+[&NA\tCtrl+3]
+Nedostupný
+[Occ&upied\tCtrl+4]
+Zaneprázdnený
+[&DND\tCtrl+5]
+Nerušiť
+[&Free for chat\tCtrl+6]
+Prístupný k rozhovoru
+[&Invisible\tCtrl+7]
+Neviditelný
+[On the &Phone\tCtrl+8]
+Telefonujem
+[Out to &Lunch\tCtrl+9]
+Na obede
+[&Hide/Show]
+Skryť/Zobraziť
+[&New Group]
+Nová skupina
+[&Hide Offline Users]
+Skryť nepripojených užívatelov
+[Hide &Offline Users out here]
+Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
+[Hide &Empty Groups]
+Skryť prázdne skupiny
+[Disable &Groups]
+Skryť názvy skupín
+[&New Subgroup]
+Nová podskupina
+[&Hide Offline Users in here]
+Skryť nepripojených užívatelov v tejto skupine
+[&Rename Group]
+Premenovať skupinu
+[&Delete Group]
+Zmazať skupinu
+;file \plugins\Clist_mw\src\BkgrCfg.cpp
+;file \plugins\Clist_mw\src\clcfonts.cpp
+[Standard contacts]
+Štandardné kontakty
+[Online contacts to whom you have a different visibility]
+Pripojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Offline contacts]
+Odpojený užívatelia
+[Contacts which are 'not on list']
+Užívatelia ktorí niesu v zozname
+[Group member counts]
+Počet členov skupiny
+[Dividers]
+Oddelovače
+[Offline contacts to whom you have a different visibility]
+Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Background]
+Pozadie
+[Background]
+Pozadie
+;file \plugins\Clist_mw\src\clcopts.cpp
+[List]
+Zoznam
+[List Background]
+Pozadie zoznamu
+[Not focused]
+Neoznačené
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+;file \plugins\Clist_mw\src\clistopts.cpp
+;file \plugins\Clist_mw\src\clistsettings.cpp
+[(Unknown Contact)]
+(neznámý kontakt)
+;file \plugins\Clist_mw\src\clisttray.cpp
+[&Find/Add Contacts...]
+Nájsť/Pridať kontakty...
+[&Options...]
+Nastavenia...
+;file \plugins\Clist_mw\src\clui.cpp
+;file \plugins\Clist_mw\src\cluiopts.cpp
+;file \plugins\Clist_mw\src\groupmenu.cpp
+;file \plugins\Clist_mw\src\keyboard.cpp
+;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

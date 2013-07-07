@@ -1,0 +1,81 @@
+﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
+;langpack template for Xfire
+;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Nick:]
+Prezívka:
+[More options]
+Ďalšie nastavenia
+[Games]
+Hry
+[Apply]
+Aplikovať
+[Apply]
+Použi
+[Username:]
+Užív. meno:
+[Username:]
+Uživ. meno:
+[Username:]
+Užív.meno:
+[Port:]
+Port:
+[Port:]
+Port:
+[Port:]
+Port:
+[Set Nickname]
+Nastav prezívku
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+;file \protocols\Xfire\res\resource.rc
+;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+Všetky súbory
+;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+Je tu.
+[I've been away since %time%.]
+Som preč od %time%.
+[Not right now.]
+Prepáč, teraz nemám čas.
+[That'll be the phone.]
+Telefonuje
+[Mmm...food.]
+Mmm...obed.
+;file \protocols\Xfire\src\iniupdater.cpp
+;file \protocols\Xfire\src\main.cpp
+[Set &Nickname]
+Nastav prezívku 
+;file \protocols\Xfire\src\options.cpp
+[No]
+Nie
+[Daily]
+Denne
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+;file \protocols\Xfire\src\searching4games.cpp
+;file \protocols\Xfire\src\userdetails.cpp
+[<not specified>]
+<nešpecifikované>
+;file \protocols\Xfire\src\Xfire_game.cpp
+;file \protocols\Xfire\src\Xfire_gamelist.cpp

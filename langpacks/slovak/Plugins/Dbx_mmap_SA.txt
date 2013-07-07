@@ -1,0 +1,83 @@
+﻿#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
+;============================================================
+;  File: Dbx_mmap_SA.dll
+;  Plugin: Miranda NG mmap secure database driver
+;  Version: 0.7.5.4
+;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
+;============================================================
+;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Install Database Settings]
+Aplikovať nastavenia databázy
+[Yes]
+Áno
+[No]
+Nie
+[Do you want to import the settings now?]
+Chcete importovať nastavenia?
+[No to all]
+Nie pre všetko
+[&View contents]
+Zobraziť obsah
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Bezpečnostný systém sa zmení, budete varovaný pred nebezpečiami.
+[Database Setting Change]
+Zmena nastavenia databázy
+[Database settings are being imported from]
+Nastavenie databázy je importované z
+[This file wishes to change the setting]
+Tento súbor zmení nastavenie
+[to the value]
+hodnotu
+[Do you want to allow this change?]
+Prajete si umožniť túto zmenu?
+[&Allow all further changes to this section]
+Umožniť všetky budúce zmeny v tejto sekcii
+[&Yes]
+Áno
+[&Yes]
+Áno
+[&No]
+Nie
+[&No]
+Nie
+[Cancel Import]
+Zrušiť importovanie
+[Database Import Complete]
+Databáza kompletne importovaná
+[The import has completed from]
+Import je kompletný z
+[What do you want to do with the file now?]
+Čo ďalej robiť so súborom?
+[&Recycle]
+Recyklovať
+[&Delete]
+Vymazať
+[&Delete]
+Vymazať
+[&Move/Rename]
+Presunúť/Premenovať
+[&Leave]
+Opustiť
+[Author:]
+Autor:
+;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
+;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
+[Name]
+Meno
+[Name]
+Meno
+;file \plugins\Dbx_mmap_SA\src\security.cpp
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba

@@ -1,0 +1,60 @@
+﻿#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+;============================================================
+;  File: WhenWasIt.dll
+;  Plugin: Birthday reminder
+;  Version: 0.3.3.4
+;  Authors: Cristian Libotean
+;============================================================
+;file \plugins\WhenWasIt\res\WhenWasIt.rc
+[Sounds]
+Zvuky
+[Show]
+Zobraziť
+[seconds]
+sekúnd
+[Close]
+Zavrieť
+[Close]
+Zavrieť
+[Close]
+Zatvoriť
+[OK]
+OK
+[Title:]
+Názov:
+[Description:]
+Popis:
+[Description:]
+Popis:
+[Description:]
+Popis:
+[Date:]
+Dátum:
+[Date:]
+Dátum:
+;file \plugins\WhenWasIt\src\dlg_handlers.cpp
+[Dismiss]
+Zrušiť
+[Unknown]
+neznáme
+[Contact]
+Kontakt
+;file \plugins\WhenWasIt\src\hooked_events.cpp
+[Contacts]
+Kontakty
+;file \plugins\WhenWasIt\src\icons.cpp
+;file \plugins\WhenWasIt\src\notifiers.cpp
+;file \plugins\WhenWasIt\src\services.cpp
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[All Files]
+Všetky súbory
+[Warning]
+Varovanie
+;file \plugins\WhenWasIt\src\services.h

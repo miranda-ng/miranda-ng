@@ -1,0 +1,182 @@
+﻿#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+;============================================================
+;  File: TabSRMM.dll
+;  Plugin: TabSRMM
+;  Version: 3.1.99.8
+;  Authors: The Miranda developers team and contributors
+;============================================================
+;file \plugins\TabSRMM\res\chat.rc
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Your name]
+Vaše meno
+[List]
+Zoznam
+[&Message]
+&Správa
+[Log]
+Log
+[&Copy link]
+Kopírovať odkaz
+;file \plugins\TabSRMM\res\resource.rc
+[seconds]
+sekúnd
+[Popup Options]
+Popup nastavenia
+[Text]
+Text
+[Text]
+Text
+[Background]
+Pozadie
+[Background]
+Pozadie
+[Events]
+Udalosti
+[Apply]
+Aplikovať
+[Apply]
+Použi
+[Load unread events only]
+Nahrať doposiaľ neprečítané udalosti
+[Load number of previous events]
+Nahrať počet posledných udalostí
+[Load previous events less than]
+Nahrať iba udalosti, ktoré sú menšie než
+[minutes old]
+minút staré
+[Reset]
+Reset
+[milliseconds]
+milisekúnd
+[Back]
+Späť
+[&Use Windows colours]
+Použi farby Windowsu
+[&Use Windows colours]
+Použiť Windows farby
+[&Use Windows colours]
+Použi farby Windowsu
+[Close]
+Zavrieť
+[Close]
+Zavrieť
+[Close]
+Zatvoriť
+[Icons]
+Ikony
+[Yes]
+Áno
+[No]
+Nie
+[Send message on Enter]
+Odoslať správu po stlačení Enter
+[Send message on double Enter]
+Odoslať správu po dvojitom stlačení Enter
+[&Copy]
+Kopírovať
+[&Copy]
+Kopírovať
+[&Quote]
+Požiadavka
+[Co&py All]
+Kopírovať všetko
+[Select &All]
+Vybrať všetko
+[Open in &new window]
+Otvoriť v novom okne
+[&Open in existing window]
+Otvoriť v tomto okne
+[Default]
+Prednastavené
+[&File]
+&Súbor
+[Help]
+Pomoc
+[Help]
+Pomoc
+;file \plugins\TabSRMM\src\buttonsbar.cpp
+[View User's History]
+Zobraziť históriu 
+;file \plugins\TabSRMM\src\container.cpp
+;file \plugins\TabSRMM\src\containeroptions.cpp
+;file \plugins\TabSRMM\src\controls.cpp
+;file \plugins\TabSRMM\src\eventpopups.cpp
+;file \plugins\TabSRMM\src\generic_msghandlers.cpp
+;file \plugins\TabSRMM\src\globals.cpp
+[Message from %s]
+Správa od %s
+[Message from %s]
+Správa od %s
+;file \plugins\TabSRMM\src\hotkeyhandler.cpp
+;file \plugins\TabSRMM\src\infopanel.cpp
+;file \plugins\TabSRMM\src\mim.cpp
+;file \plugins\TabSRMM\src\modplus.cpp
+;file \plugins\TabSRMM\src\msgdialog.cpp
+[The message send timed out]
+Čas k odoslaniu správy vypršal
+;file \plugins\TabSRMM\src\msgdlgutils.cpp
+;file \plugins\TabSRMM\src\msglog.cpp
+;file \plugins\TabSRMM\src\msgoptions.cpp
+[** Unknown contacts **]
+** Neznáme kontakty **
+;file \plugins\TabSRMM\src\msgs.cpp
+[Background colour]
+Farba pozadia
+;file \plugins\TabSRMM\src\msgs.h
+;file \plugins\TabSRMM\src\selectcontainer.cpp
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+;file \plugins\TabSRMM\src\sendlater.cpp
+[Contact]
+Kontakt
+[Status]
+Stav
+[Status]
+Stav
+[Status]
+Stav
+;file \plugins\TabSRMM\src\sendqueue.cpp
+;file \plugins\TabSRMM\src\sidebar.cpp
+;file \plugins\TabSRMM\src\srmm.cpp
+;file \plugins\TabSRMM\src\taskbar.cpp
+;file \plugins\TabSRMM\src\templates.cpp
+;file \plugins\TabSRMM\src\themeio.cpp
+;file \plugins\TabSRMM\src\themes.cpp
+;file \plugins\TabSRMM\src\translator.cpp
+[System tray icon]
+Ikona v oznamovacej oblasti
+;file \plugins\TabSRMM\src\trayicon.cpp
+;file \plugins\TabSRMM\src\typingnotify.cpp
+;file \plugins\TabSRMM\src\userprefs.cpp
+;file \plugins\TabSRMM\src\utils.cpp
+;file \plugins\TabSRMM\src\chat\clist.cpp
+;file \plugins\TabSRMM\src\chat\colorchooser.cpp
+;file \plugins\TabSRMM\src\chat\log.cpp
+;file \plugins\TabSRMM\src\chat\muchighlight.cpp
+;file \plugins\TabSRMM\src\chat\options.cpp
+[Nickname]
+Prezívka
+[All Files]
+Všetky súbory
+[Select Folder]
+Vyber zložku
+;file \plugins\TabSRMM\src\chat\services.cpp
+[&Leave]
+Opustiť
+;file \plugins\TabSRMM\src\chat\tools.cpp
+;file \plugins\TabSRMM\src\chat\window.cpp
+[Nick]
+Prezívka
+[Nick]
+Prezívka

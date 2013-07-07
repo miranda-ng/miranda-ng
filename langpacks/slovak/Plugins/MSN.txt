@@ -1,0 +1,92 @@
+﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\MSN\res\msn.rc
+[MSN]
+MSN
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Nickname:]
+Prezívka:
+[Nickname:]
+Prezívka:
+[Nickname:]
+Prezívka
+[Expert]
+Expertné nastavenia
+[Expert]
+Expert
+[Reset]
+Reset
+[Your host (or router):]
+Vaše PC (alebo router):
+[Hotmail]
+Hotmail
+[Set Nickname]
+Nastav prezívku
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[First Name]
+Meno
+[Last Name]
+Priezvisko
+[Nickname]
+Prezívka
+;file \protocols\MSN\src\msn_chat.cpp
+;file \protocols\MSN\src\msn_commands.cpp
+;file \protocols\MSN\src\msn_errors.cpp
+;file \protocols\MSN\src\msn_links.cpp
+;file \protocols\MSN\src\msn_lists.cpp
+;file \protocols\MSN\src\msn_mail.cpp
+[Subject: %s]
+Predmet: %s
+[Subject: %s]
+Predmet: %s
+[Hotmail from %s]
+Hotmail od %s
+;file \protocols\MSN\src\msn_menu.cpp
+[Set &Nickname]
+Nastav prezívku 
+;file \protocols\MSN\src\msn_misc.cpp
+[Notify]
+Notifikácia
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+;file \protocols\MSN\src\msn_msgqueue.cpp
+;file \protocols\MSN\src\msn_opts.cpp
+[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+Pre uplatnenie zmien sa musite nanovio prihlásiť do siete MSN Messenger.
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+;file \protocols\MSN\src\msn_p2p.cpp
+;file \protocols\MSN\src\msn_proto.cpp
+;file \protocols\MSN\src\msn_svcs.cpp
+;file \protocols\MSN\src\msn_ws.cpp

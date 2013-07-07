@@ -1,0 +1,65 @@
+﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
+;============================================================
+;  File: DbEditorPP.dll
+;  Plugin: Database editor++
+;  Version: 3.2.0.0
+;  Authors: Bio, Jonathan Gordon
+;============================================================
+;file \plugins\DbEditorPP\res\resource.rc
+[&Search]
+Hľadať
+[Background colour]
+Farba pozadia
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[E&xit]
+Koniec
+[E&xit]
+Koniec
+[&Delete]
+Vymazať
+[&Delete]
+Vymazať
+[&Rename]
+&Premenovať
+;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
+[Edit STRING value]
+Editovať STRING hodnotu
+;file \plugins\DbEditorPP\src\copymodule.cpp
+;file \plugins\DbEditorPP\src\deletemodule.cpp
+;file \plugins\DbEditorPP\src\exportimport.cpp
+[All Files]
+Všetky súbory
+;file \plugins\DbEditorPP\src\findwindow.cpp
+;file \plugins\DbEditorPP\src\icons.cpp
+;file \plugins\DbEditorPP\src\main.cpp
+;file \plugins\DbEditorPP\src\main_window.cpp
+[Confirm Contact Delete]
+Potvrď vymazanie kontaktu
+;file \plugins\DbEditorPP\src\modules.cpp
+;file \plugins\DbEditorPP\src\moduletree.cpp
+[Contacts]
+Kontakty
+;file \plugins\DbEditorPP\src\options.cpp
+;file \plugins\DbEditorPP\src\settinglist.cpp
+[Name]
+Meno
+[Name]
+Meno
+[Data]
+Dáta
+[Type]
+typ
+[Size]
+Veľkosť
+[Size]
+Veľkosť
+[Size]
+Veľkosť
+;file \plugins\DbEditorPP\src\watchedvars.cpp
+[Contact]
+Kontakt

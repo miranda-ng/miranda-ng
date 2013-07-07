@@ -1,0 +1,39 @@
+﻿#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+;============================================================
+;  File: Twitter.dll
+;  Plugin: Twitter
+;  Version: 1.1.0.1
+;  Authors: dentist, omniwolf, Thief
+;============================================================
+;file \protocols\Twitter\res\twitter.rc
+[Username:]
+Užív. meno:
+[Username:]
+Uživ. meno:
+[Username:]
+Užív.meno:
+[Cancel]
+Storno
+[Cancel]
+Storno
+[sec]
+sek
+[Back]
+Späť
+[Text]
+Text
+[Text]
+Text
+[OK]
+OK
+;file \protocols\Twitter\src\connection.cpp
+;file \protocols\Twitter\src\proto.cpp
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+;file \protocols\Twitter\src\theme.cpp

@@ -1,0 +1,21 @@
+﻿#muuid {08b86253-ec6e-4d09-b7a9-64acdf0627b8}
+;============================================================
+;  File: XSoundNotify.dll
+;  Plugin: XSoundNotify
+;  Version: 1.0.0.1
+;  Authors: Roman Torsten
+;============================================================
+;file \plugins\XSoundNotify\res\XSoundNotify.rc
+[Nick:]
+Prezívka:
+[Reset]
+Reset
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+;file \plugins\XSoundNotify\src\xsn_main.cpp
+[Sounds]
+Zvuky

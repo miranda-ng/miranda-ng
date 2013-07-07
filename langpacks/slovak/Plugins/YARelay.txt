@@ -1,0 +1,31 @@
+﻿#muuid {01202e6a-c1b3-42e5-838a-3e497b31f38e}
+;============================================================
+;  File: YARelay.dll
+;  Plugin: YARelay
+;  Version: 0.1.0.1
+;  Authors: Anar Ibragimoff
+;============================================================
+;file \plugins\YARelay\res\yaRelay.rc
+[Contact]
+Kontakt
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+;file \plugins\YARelay\src\options.cpp

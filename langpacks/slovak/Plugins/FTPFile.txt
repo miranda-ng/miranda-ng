@@ -1,0 +1,45 @@
+﻿#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
+;============================================================
+;  File: FTPFile.dll
+;  Plugin: FTP File YM
+;  Version: 0.5.0.0
+;  Authors: yaho
+;============================================================
+;file \plugins\FTPFileYM\res\ftpfile.rc
+[Speed:]
+Rýchlosť
+[Summary]
+Obecné
+[To:]
+Pre:
+[Nick]
+Prezívka
+[Nick]
+Prezívka
+[Close]
+Zavrieť
+[Close]
+Zavrieť
+[Close]
+Zatvoriť
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Overwrite]
+Prepísať
+;file \plugins\FTPFileYM\src\dialog.cpp
+;file \plugins\FTPFileYM\src\ftpfile.cpp
+[Resume]
+Výsledok
+;file \plugins\FTPFileYM\src\job_generic.cpp
+;file \plugins\FTPFileYM\src\job_packer.cpp
+;file \plugins\FTPFileYM\src\job_upload.cpp
+;file \plugins\FTPFileYM\src\manager.cpp
+;file \plugins\FTPFileYM\src\options.cpp
+[Advanced]
+Podrobne
+;file \plugins\FTPFileYM\src\serverlist.cpp
+;file \plugins\FTPFileYM\src\utils.cpp

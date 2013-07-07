@@ -1,0 +1,53 @@
+﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: Quotes.dll
+;  Plugin: Quotes
+;  Version: 0.0.24.0
+;  Authors: Dioksin
+;============================================================
+;file \plugins\Quotes\res\Forex.rc
+[OK]
+OK
+[Log]
+Log
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Close]
+Zavrieť
+[Close]
+Zavrieť
+[Close]
+Zatvoriť
+[Colours]
+Farby
+[Colours]
+Farby
+[Background colour]
+Farba pozadia
+[Text colour]
+Fraba textu
+;file \plugins\Quotes\src\Chart.h
+;file \plugins\Quotes\src\CommonOptionDlg.cpp
+;file \plugins\Quotes\src\CurrencyConverter.cpp
+;file \plugins\Quotes\src\Forex.cpp
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+;file \plugins\Quotes\src\HTTPSession.cpp
+;file \plugins\Quotes\src\IconLib.cpp
+;file \plugins\Quotes\src\ImportExport.cpp
+;file \plugins\Quotes\src\ModuleInfo.cpp
+;file \plugins\Quotes\src\QuoteChart.cpp
+;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
+;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
+;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
+;file \plugins\Quotes\src\SettingsDlg.cpp

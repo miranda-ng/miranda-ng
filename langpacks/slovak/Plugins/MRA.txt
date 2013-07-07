@@ -1,0 +1,141 @@
+﻿#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+;============================================================
+;  File: MRA.dll
+;  Plugin: MRA
+;  Version: 2.0.0.1
+;  Authors: 
+;============================================================
+;file \protocols\MRA\res\resource.rc
+[E-mail:]
+E-mail:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Login Server:]
+Pripájací server:
+[Login Server:]
+Prihlasovací server:
+[Port:]
+Port:
+[Port:]
+Port:
+[Port:]
+Port:
+[Default]
+Prednastavené
+[Background colour]
+Farba pozadia
+[Summary]
+Obecné
+[Nickname:]
+Prezívka:
+[Nickname:]
+Prezívka:
+[Nickname:]
+Prezívka
+[First name:]
+Meno:
+[First name:]
+Meno:
+[First name:]
+Meno:
+[Last name:]
+Priezvisko:
+[Last name:]
+Priezvisko:
+[Last name:]
+Priezvisko
+[Gender:]
+Pohlavie:
+[Gender:]
+Stav:
+[Age:]
+Vek:
+[Location]
+Miesto
+[Country:]
+Krajina:
+[Country:]
+Krajina:
+[State:]
+Štát:
+[State:]
+Štát:
+[Search online users only]
+Hľadať iba pripojených užívatelov
+[City:]
+Mesto:
+[City:]
+Mesto:
+[Your host (or router):]
+Vaše PC (alebo router):
+[Full e-mail:]
+Celý e-mail:
+[Timeout]
+Časový limit
+[Previe&w]
+Ukázať
+[Previe&w]
+Zobraziť
+[Previe&w]
+Zobraziť
+[Closing in %d]
+Zavrieť (za %d s)
+[Title:]
+Názov:
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Notify]
+Notifikácia
+;file \protocols\MRA\src\MraAntiSpam.cpp
+;file \protocols\MRA\src\MraAvatars.cpp
+;file \protocols\MRA\src\MraChat.cpp
+;file \protocols\MRA\src\MraConstans.h
+;file \protocols\MRA\src\MraFilesQueue.cpp
+;file \protocols\MRA\src\MraFilesQueue_mod.cpp
+;file \protocols\MRA\src\MraIcons.cpp
+;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+Žiadne
+[Warning]
+Varovanie
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+;file \protocols\MRA\src\MraProto.cpp
+;file \protocols\MRA\src\Mra_functions.cpp
+;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+;file \protocols\MRA\src\Mra_proto.cpp
+;file \protocols\MRA\src\Mra_svcs.cpp
+[Home]
+Domov
+[Home]
+Domov
+[On the phone]
+Telefonuje
+[Music]
+Hudba

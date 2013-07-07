@@ -1,0 +1,70 @@
+﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
+;============================================================
+;  File: KeepStatus.dll
+;  Plugin: Keep Status
+;  Version: 0.8.0.97
+;  Authors: P Boon
+;============================================================
+;file \Plugins\StatusPlugins\resource.rc
+[Close]
+Zavrieť
+[Close]
+Zavrieť
+[Close]
+Zatvoriť
+[Cancel]
+Storno
+[Cancel]
+Storno
+[minutes of inactivity]
+minutách neaktivity
+[OK]
+OK
+[Timeout]
+Časový limit
+[Background colour]
+Farba pozadia
+[Text colour]
+Fraba textu
+[On left click]
+јavým klikom
+[On right click]
+Pravým klikom
+[Colours]
+Farby
+[Colours]
+Farby
+[Events]
+Udalosti
+[Use %time% for the current time, %date% for the current date]
+Použi %time% pre aktuálny čas, %date% pre aktuálny dátum
+[Status]
+Stav
+[Status]
+Stav
+[Status]
+Stav
+[seconds]
+sekúnd
+;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
+;file \plugins\StatusPlugins\KeepStatus\options.cpp
+[Advanced]
+Podrobne
+;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+Som preč od %time%.
+[Not right now.]
+Prepáč, teraz nemám čas.
+[Yep, I'm here.]
+Je tu.
+[Nope, not here.]
+Nieje tu.
+[I'm hiding from the mafia.]
+Schováva sa pred mafiou
+[That'll be the phone.]
+Telefonuje
+[Mmm...food.]
+Mmm...obed.
+;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Closing in %d]
+Zavrieť (za %d s)

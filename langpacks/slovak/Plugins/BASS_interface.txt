@@ -1,0 +1,36 @@
+﻿#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
+;============================================================
+;  File: BASS_interface.dll
+;  Plugin: BASS interface
+;  Version: 0.0.0.14
+;  Authors: tico-tico
+;============================================================
+;file \plugins\BASS_interface\res\Bass.rc
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[On the phone]
+Telefonuje
+[Out to lunch]
+Na obede
+;file \plugins\BASS_interface\src\Bass_interface.h
+;file \plugins\BASS_interface\src\Main.cpp
+[Sounds]
+Zvuky

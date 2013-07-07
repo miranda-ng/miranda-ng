@@ -1,0 +1,92 @@
+﻿#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
+;============================================================
+;  File: NotesReminders.dll
+;  Plugin: Sticky Notes & Reminders
+;  Version: 0.0.5.1
+;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
+;============================================================
+;file \plugins\NotesAndReminders\res\resource.rc
+[Default Note Size]
+Prednastavená veľkosť znaku
+[Width (Pixels)]
+Šírka (pixely)
+[Height (Pixels)]
+Výška (pixely)
+[Startup options]
+Voľby po štarte
+[Add Contact list menu items]
+Pridať kontakt menu
+[Reset to defaults]
+Späť na prednastavené
+[Add Reminder]
+Pridať pripomienku
+[Trigger On Time && Date:]
+Spustiť v čase a dátume:
+[Date]
+Dátum
+[Time]
+Čas
+[Reminder Note:]
+Text pripomienky:
+[None]
+Žiadne
+[Daily]
+Denne
+[Weekly]
+Týždenne
+[Monthly]
+Mesačne
+[&Add Reminder]
+Pridať pripomienku
+[&Close]
+Zavrieť
+[&View Reminders]
+Zobraziť pripomienku
+[Reminder]
+Pripomienka
+[&Dismiss]
+&Zrušiť
+[Add New]
+Pridať novú
+[&New Note]
+Nová poznámka
+[Reset]
+Reset
+[Undo]
+Späť
+[&Copy]
+Kopírovať
+[&Copy]
+Kopírovať
+[&Paste]
+Vložiť
+[C&ut]
+V&ybrať
+[C&lear]
+Vyč&istiť
+[&Show / Hide Notes]
+Zobraziť/Skryť poznámky
+;file \plugins\NotesAndReminders\src\globals.h
+[Notes & Reminders]
+Poznámky & Pripomienky
+;file \plugins\NotesAndReminders\src\hotkeys.cpp
+;file \plugins\NotesAndReminders\src\main.cpp
+[Delete All Reminders]
+Vymazať všetky pripomienky
+[Add New Reminder]
+Pridať novú pripomienku
+[Notes && Reminders]
+Poznámky && Pripomienky
+[&Delete All Notes]
+Vymazať všetky poznámky
+;file \plugins\NotesAndReminders\src\notes.cpp
+[Notes]
+Poznámky
+;file \plugins\NotesAndReminders\src\options.cpp
+;file \plugins\NotesAndReminders\src\reminders.cpp
+[Default]
+Prednastavené
+[Reminder text]
+Text pripomienky
+[Date of activation]
+Dátum aktivácie

@@ -1,0 +1,53 @@
+﻿#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+;============================================================
+;  File: SimpleStatusMsg.dll
+;  Plugin: Simple status message
+;  Version: 1.9.0.4
+;  Authors: Bartosz 'Dezeath' Bialek, Harven
+;============================================================
+;file \plugins\SimpleStatusMsg\res\resource.rc
+[%s Message for %s]
+%s správa pre %s
+[Retrieving %s message...]
+Prijímam %s správu
+[OK]
+OK
+[seconds]
+sekúnd
+[Status:]
+Stav:
+[Status:]
+Stav
+;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[&Close]
+Zavrieť
+[Re&ad %s Message]
+Čítať %s správu
+;file \plugins\SimpleStatusMsg\src\main.cpp
+;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[Closing in %d]
+Zavrieť (za %d s)
+;file \plugins\SimpleStatusMsg\src\options.cpp
+[Status]
+Stav
+[Status]
+Stav
+[Status]
+Stav
+[Advanced]
+Podrobne
+;file \plugins\SimpleStatusMsg\src\utils.cpp
+[I've been away since %time%.]
+Som preč od %time%.
+[Not right now.]
+Prepáč, teraz nemám čas.
+[Yep, I'm here.]
+Je tu.
+[Nope, not here.]
+Nieje tu.
+[I'm hiding from the mafia.]
+Schováva sa pred mafiou
+[That'll be the phone.]
+Telefonuje
+[Mmm...food.]
+Mmm...obed.

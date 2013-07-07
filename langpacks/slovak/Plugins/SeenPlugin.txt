@@ -1,0 +1,65 @@
+﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last seen
+;  Version: 5.0.4.8
+;  Authors: Heiko Schillinger, YB
+;============================================================
+;file \plugins\SeenPlugin\res\resource.rc
+[Text]
+Text
+[Text]
+Text
+[Online]
+Pripojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[On the phone]
+Telefonuje
+[Out to lunch]
+Na obede
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+[OK]
+OK
+;file \plugins\SeenPlugin\src\history.cpp
+[View User's Details]
+Zobraziť informácie o užívatelovi
+[User Menu]
+Menu užívatela
+;file \plugins\SeenPlugin\src\main.cpp
+;file \plugins\SeenPlugin\src\menu.cpp
+[<none>]
+<nič>
+;file \plugins\SeenPlugin\src\options.cpp
+[Contacts]
+Kontakty
+;file \plugins\SeenPlugin\src\seen.h
+[seconds]
+sekúnd
+[Status]
+Stav
+[Status]
+Stav
+[Status]
+Stav
+[Note:]
+Poznámka:
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp
+[Unknown]
+neznáme

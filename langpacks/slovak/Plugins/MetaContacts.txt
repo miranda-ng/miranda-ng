@@ -1,0 +1,49 @@
+﻿#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+;============================================================
+;  File: MetaContacts.dll
+;  Plugin: MetaContacts
+;  Version: 0.14.0.13
+;  Authors: J. Schaal & S. Ellis
+;============================================================
+;file \plugins\MetaContacts\res\MetaContacts.rc
+[Contacts]
+Kontakty
+[Function]
+Funkcia
+[Contact List]
+Zoznam kontaktov
+[Status:]
+Stav:
+[Status:]
+Stav
+[Default]
+Prednastavené
+;file \plugins\MetaContacts\src\addto.cpp
+;file \plugins\MetaContacts\src\edit.cpp
+[(Unknown Contact)]
+(neznámý kontakt)
+[Yes]
+Áno
+[No]
+Nie
+[Contact]
+Kontakt
+;file \plugins\MetaContacts\src\icons.cpp
+;file \plugins\MetaContacts\src\metacontacts.h
+;file \plugins\MetaContacts\src\meta_main.cpp
+;file \plugins\MetaContacts\src\meta_menu.cpp
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+;file \plugins\MetaContacts\src\meta_options.cpp
+;file \plugins\MetaContacts\src\meta_services.cpp
+[Message from %s]
+Správa od %s
+[Message from %s]
+Správa od %s
+;file \plugins\MetaContacts\src\meta_utils.cpp

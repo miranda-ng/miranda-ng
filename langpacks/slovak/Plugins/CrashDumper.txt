@@ -1,0 +1,30 @@
+﻿#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
+;============================================================
+;  File: CrashDumper.dll
+;  Plugin: Crash dumper
+;  Version: 0.0.4.22
+;  Authors: borkra
+;============================================================
+;file \plugins\CrashDumper\res\crshdmp.rc
+[Close]
+Zavrieť
+[Close]
+Zavrieť
+[Close]
+Zatvoriť
+[&Copy]
+Kopírovať
+[&Copy]
+Kopírovať
+[Co&py All]
+Kopírovať všetko
+[Select &All]
+Vybrať všetko
+;file \plugins\CrashDumper\src\crshdmp.cpp
+[Show]
+Zobraziť
+;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+;file \plugins\CrashDumper\src\exhndlr.cpp
+;file \plugins\CrashDumper\src\ui.cpp
+;file \plugins\CrashDumper\src\upload.cpp
+;file \plugins\CrashDumper\src\utils.cpp

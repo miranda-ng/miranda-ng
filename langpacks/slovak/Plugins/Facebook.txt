@@ -1,0 +1,56 @@
+﻿#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook RM
+;  Version: 0.1.1.1
+;  Authors: Michal Zelinka, Robert Pösel
+;============================================================
+;file \protocols\FacebookRM\res\facebook.rc
+[E-mail:]
+E-mail:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Back]
+Späť
+[Text]
+Text
+[Text]
+Text
+[Default]
+Prednastavené
+;file \protocols\FacebookRM\src\communication.cpp
+[Unknown error]
+Neznáma chyba
+;file \protocols\FacebookRM\src\connection.cpp
+;file \protocols\FacebookRM\src\constants.h
+;file \protocols\FacebookRM\src\contacts.cpp
+;file \protocols\FacebookRM\src\dialogs.cpp
+;file \protocols\FacebookRM\src\json.cpp
+;file \protocols\FacebookRM\src\messages.cpp
+;file \protocols\FacebookRM\src\process.cpp
+;file \protocols\FacebookRM\src\proto.cpp
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Advanced]
+Podrobne
+[Events]
+Udalosti
+;file \protocols\FacebookRM\src\theme.cpp

@@ -1,0 +1,139 @@
+﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+;============================================================
+;  File: GG.dll
+;  Plugin: GG
+;  Version: 0.11.0.3
+;  Authors: 
+;============================================================
+;file \protocols\Gadu-Gadu\res\resource.rc
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[E-mail:]
+E-mail:
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Musíte sa odpojiť a pripojiť na aplikovanie týchto zmien.
+[Keep connection alive]
+Navždy zachovať pripojenie
+[Keep connection alive]
+Obnovovanie spojenia
+[Send messages slower, but with full acknowledgement]
+Odoslať správy s overením (pomalšie odoslanie)
+[Port:]
+Port:
+[Port:]
+Port:
+[Port:]
+Port:
+[Host:]
+Server:
+[Internal IP:]
+Interná IP:
+[First name:]
+Meno:
+[First name:]
+Meno:
+[First name:]
+Meno:
+[Last name:]
+Priezvisko:
+[Last name:]
+Priezvisko:
+[Last name:]
+Priezvisko
+[Nickname:]
+Prezívka:
+[Nickname:]
+Prezívka:
+[Nickname:]
+Prezívka
+[Gender:]
+Pohlavie:
+[Gender:]
+Stav:
+[City:]
+Mesto:
+[City:]
+Mesto:
+[Description:]
+Popis:
+[Description:]
+Popis:
+[Description:]
+Popis:
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Search online users only]
+Hľadať iba pripojených užívatelov
+[&Close]
+Zavrieť
+[&Send]
+Odoslať
+;file \protocols\Gadu-Gadu\src\avatar.cpp
+;file \protocols\Gadu-Gadu\src\core.cpp
+[Unknown]
+neznáme
+[Age:]
+Vek:
+;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[Male]
+Muž
+[Male]
+Muž
+[Female]
+Žena
+[Female]
+Žena
+[<not specified>]
+<nešpecifikované>
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Advanced]
+Podrobne
+[System tray icon]
+Ikona v oznamovacej oblasti
+[Ignore]
+Ignorovať
+;file \protocols\Gadu-Gadu\src\filetransfer.cpp
+;file \protocols\Gadu-Gadu\src\gg.cpp
+;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+;file \protocols\Gadu-Gadu\src\groupchat.cpp
+;file \protocols\Gadu-Gadu\src\icolib.cpp
+;file \protocols\Gadu-Gadu\src\image.cpp
+;file \protocols\Gadu-Gadu\src\import.cpp
+[All Files]
+Všetky súbory
+;file \protocols\Gadu-Gadu\src\links.cpp
+;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
+;file \protocols\Gadu-Gadu\src\popups.cpp
+[Notify]
+Notifikácia
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+;file \protocols\Gadu-Gadu\src\services.cpp
+;file \protocols\Gadu-Gadu\src\sessions.cpp
+;file \protocols\Gadu-Gadu\src\token.cpp
+;file \protocols\Gadu-Gadu\src\userutils.cpp

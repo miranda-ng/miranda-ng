@@ -1,0 +1,37 @@
+﻿#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
+;============================================================
+;  File: NewsAggregator.dll
+;  Plugin: News aggregator
+;  Version: 0.0.0.1
+;  Authors: Mataes, FREAK_THEMIGHTY
+;============================================================
+;file \plugins\NewsAggregator\Res\Resource.rc
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Reset]
+Reset
+;file \plugins\NewsAggregator\Src\Icons.cpp
+;file \plugins\NewsAggregator\Src\Menus.cpp
+;file \plugins\NewsAggregator\Src\Options.cpp
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+;file \plugins\NewsAggregator\Src\Services.cpp
+;file \plugins\NewsAggregator\Src\Utils.cpp

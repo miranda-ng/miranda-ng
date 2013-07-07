@@ -1,0 +1,198 @@
+﻿#muuid {53e095a3-2695-490a-9dad-d20479093831}
+;============================================================
+;  File: Clist_blind.dll
+;  Plugin: BClist
+;  Version: 0.8.0.1
+;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
+;============================================================
+;file \plugins\Clist_blind\res\resource.rc
+[Delete Contact]
+Zmazať kontakt
+[Yes]
+Áno
+[No]
+Nie
+[Hotkeys]
+Klávesové skratky
+[Show/Hide:]
+Zobraziť/Skryť:
+[URL:]
+URL:
+[URL:]
+URL:
+[Open in new browser window]
+Otvoríť v novom prehliadacom okne
+[Hide offline users]
+Skryť nepripojených užívateľov
+[Hide empty groups]
+Skryť prázdne skupiny
+[Disable groups]
+Skryť skupiny
+[Sort contacts by name]
+Triediť kontakty podľa mena
+[Sort contacts by status]
+Triediť kontakty podľa stavu
+[Single click interface]
+Nepoužívať dvojklik myšou
+[Show]
+Zobraziť
+[Cycle icons every]
+Cyklovať každú ikonu
+[seconds, when statuses differ]
+sekund, ked su stavy rozdielne
+[Show multiple icons]
+Zobraziť mnohonásobné ikony
+[Only when statuses differ]
+Iba pri rozdielnych stavoch
+[Contact List]
+Zoznam kontaktov
+[System tray icon]
+Ikona v oznamovacej oblasti
+[System tray icon when using multiple protocols]
+Ikona v oznamovacej oblasti pri použití viacerých protokolov
+[Window]
+Okno
+[Always on top]
+Vždy navrchu
+[Tool style main window]
+Okno v štýle palety nástrojov
+[Minimize to tray]
+Minimalizovať do oznamovacej oblasti
+[Hide contact list after it has been idle for]
+Skryť zoznam kontaktov ak nebude používaný po
+[seconds]
+sekúnd
+[Automatically resize window to height of list]
+Prispôsobiť veľkosť okna dlžke zoznamu
+[maximum]
+maximálne
+[% of screen]
+% z obrazovky
+[Size upwards]
+Zväčšovať smerom hore
+[Title bar text:]
+Text nadpisu:
+[Fade contact list in/out]
+Plynule spriehľadňovať/zobrazovať
+[Transparent contact list]
+Priehľadný zoznam kontaktov
+[Inactive opacity:]
+Priehľadnosť neaktívneho okna:
+[Active opacity:]
+Priehľadnosť aktívneho okna:
+[Show menu bar]
+Zobraziť menu
+[Easy move]
+Jednoduchý presun
+[Show title bar]
+Zobraziť nadpis
+[Items]
+Položky
+['Hide Offline' means to hide:]
+'Skryť nepripojených' = skryť týchto:
+[Groups]
+Skupiny
+[Groups]
+Skupiny
+[Show counts of number of contacts in a group]
+Zobrazovať počet kontaktov v skupine za názvom skupiny
+[Hide group counts when there are none online]
+Skryť počet kontaktov v skupine ak sú všetci odpojený
+[Sort groups alphabetically]
+Triediť skupiny podľa abecedy
+[Quicksearch in open groups only]
+Rýchle hľadanie iba v otvorených skupinách
+[Status Bar]
+Stavový riadok
+[Show status bar]
+Zobraziť stavový riadok
+[Show icons]
+Zobraziť ikony
+[Show icons]
+Zobraziť ikony
+[Show protocol names]
+Zobraziť meno protokolu
+[Show status text]
+Zobraziť stavový text
+[Right click opens status menu]
+Pravé tlačítko myši otvára stavové menu
+[Make sections equal width]
+Rovnaká šírka oddielov
+[E&xit]
+Koniec
+[E&xit]
+Koniec
+[&Status]
+Stav
+[&Offline\tCtrl+0]
+Odpojený\tCtrl+0
+[On&line\tCtrl+1]
+Pripojený
+[&Away\tCtrl+2]
+Preč
+[&NA\tCtrl+3]
+Nedostupný
+[Occ&upied\tCtrl+4]
+Zaneprázdnený
+[&DND\tCtrl+5]
+Nerušiť
+[&Free for chat\tCtrl+6]
+Prístupný k rozhovoru
+[&Invisible\tCtrl+7]
+Neviditelný
+[On the &Phone\tCtrl+8]
+Telefonujem
+[Out to &Lunch\tCtrl+9]
+Na obede
+[&Hide/Show]
+Skryť/Zobraziť
+[&New Group]
+Nová skupina
+[&Hide Offline Users]
+Skryť nepripojených užívatelov
+[Hide &Offline Users out here]
+Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
+[Hide &Empty Groups]
+Skryť prázdne skupiny
+[Disable &Groups]
+Skryť názvy skupín
+[&New Subgroup]
+Nová podskupina
+[&Hide Offline Users in here]
+Skryť nepripojených užívatelov v tejto skupine
+[&Rename Group]
+Premenovať skupinu
+[&Delete Group]
+Zmazať skupinu
+;file \plugins\Clist_blind\src\clcopts.cpp
+[Not focused]
+Neoznačené
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+[List]
+Zoznam
+;file \plugins\Clist_blind\src\clistopts.cpp
+;file \plugins\Clist_blind\src\cluiopts.cpp
+;file \plugins\Clist_blind\src\init.cpp

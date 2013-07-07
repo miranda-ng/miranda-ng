@@ -1,0 +1,18 @@
+﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
+;============================================================
+;  File: FavContacts.dll
+;  Plugin: Favourite contacts
+;  Version: 0.0.0.6
+;  Authors: Victor Pavlychko
+;============================================================
+;file \plugins\FavContacts\res\resource.rc
+[Show]
+Zobraziť
+;file \plugins\FavContacts\src\favlist.h
+;file \plugins\FavContacts\src\main.cpp
+[Background]
+Pozadie
+[Background]
+Pozadie
+[Contacts]
+Kontakty

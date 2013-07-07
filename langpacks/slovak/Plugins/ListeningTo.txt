@@ -1,0 +1,26 @@
+﻿#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
+;============================================================
+;  File: ListeningTo.dll
+;  Plugin: ListeningTo
+;  Version: 0.3.0.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+;file \plugins\ListeningTo\res\resource.rc
+[Music]
+Hudba
+[Contacts]
+Kontakty
+[seconds]
+sekúnd
+[Title:]
+Názov:
+;file \plugins\ListeningTo\src\listeningto.cpp
+;file \plugins\ListeningTo\src\options.cpp
+[Status]
+Stav
+[Status]
+Stav
+[Status]
+Stav
+;file \plugins\ListeningTo\src\players\generic.cpp
+;file \plugins\ListeningTo\src\players\wmp.cpp

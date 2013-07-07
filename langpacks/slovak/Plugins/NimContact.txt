@@ -1,0 +1,22 @@
+﻿#muuid {2e0d2ae3-e123-4607-8539-d4448d675ddb}
+;============================================================
+;  File: NimContact.dll
+;  Plugin: Non-IM Contact
+;  Version: 0.6.0.1
+;  Authors: Jonathan Gordon
+;============================================================
+;file \plugins\Non-IM Contact\res\resource.rc
+[Help]
+Pomoc
+[Help]
+Pomoc
+[OK]
+OK
+;file \plugins\Non-IM Contact\src\contactinfo.cpp
+[Select Folder]
+Vyber zložku
+;file \plugins\Non-IM Contact\src\dialog.cpp
+;file \plugins\Non-IM Contact\src\files.cpp
+;file \plugins\Non-IM Contact\src\http.cpp
+;file \plugins\Non-IM Contact\src\main.cpp
+;file \plugins\Non-IM Contact\src\namereplacing.cpp

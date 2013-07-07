@@ -1,0 +1,41 @@
+﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+;============================================================
+;  File: Nudge.dll
+;  Plugin: Nudge
+;  Version: 0.0.2.0
+;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
+;============================================================
+;file \plugins\Nudge\res\resource.rc
+[Text]
+Text
+[Text]
+Text
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[On the phone]
+Telefonuje
+[Out to lunch]
+Na obede
+;file \plugins\Nudge\src\main.cpp
+;file \plugins\Nudge\src\nudge.cpp
+;file \plugins\Nudge\src\options.cpp
+[Events]
+Udalosti

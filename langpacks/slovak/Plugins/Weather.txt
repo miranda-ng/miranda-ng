@@ -1,0 +1,86 @@
+﻿#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.1
+;  Authors: Miranda NG Team
+;============================================================
+;file \plugins\Weather\res\resource.rc
+[Close]
+Zavrieť
+[Close]
+Zavrieť
+[Close]
+Zatvoriť
+[Visibility]
+Viditeľnosť
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Popup Options]
+Popup nastavenia
+[Colours]
+Farby
+[Colours]
+Farby
+[Background colour]
+Farba pozadia
+[Text colour]
+Fraba textu
+[seconds]
+sekúnd
+[Default]
+Prednastavené
+[Contact List]
+Zoznam kontaktov
+[Reset]
+Reset
+[City:]
+Mesto:
+[City:]
+Mesto:
+;file \plugins\Weather\src\weather.cpp
+;file \plugins\Weather\src\weather.h
+;file \plugins\Weather\src\weather_addstn.cpp
+;file \plugins\Weather\src\weather_contacts.cpp
+[Browse]
+Listovať
+[Browse]
+Cesta
+[Browse]
+Listovať
+[All Files]
+Všetky súbory
+;file \plugins\Weather\src\weather_conv.cpp
+;file \plugins\Weather\src\weather_data.cpp
+;file \plugins\Weather\src\weather_http.cpp
+;file \plugins\Weather\src\weather_icons.cpp
+;file \plugins\Weather\src\weather_info.cpp
+[Author:]
+Autor:
+[Version:]
+Verzia:
+[bytes]
+bytov
+[Description:]
+Popis:
+[Description:]
+Popis:
+[Description:]
+Popis:
+;file \plugins\Weather\src\weather_ini.cpp
+;file \plugins\Weather\src\weather_mwin.cpp
+;file \plugins\Weather\src\weather_opt.cpp
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+;file \plugins\Weather\src\weather_popup.cpp
+;file \plugins\Weather\src\weather_svcs.cpp
+;file \plugins\Weather\src\weather_update.cpp
+;file \plugins\Weather\src\weather_userinfo.cpp

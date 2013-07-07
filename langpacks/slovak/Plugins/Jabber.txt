@@ -1,0 +1,386 @@
+﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber
+;  Version: 0.11.0.2
+;  Authors: 
+;============================================================
+;file \protocols\JabberG\res\jabber.rc
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Type:]
+Typ:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Save password]
+Uložiť heslo
+[Resource:]
+Zdroj:
+[Username:]
+Užív. meno:
+[Username:]
+Uživ. meno:
+[Username:]
+Užív.meno:
+[List of public servers]
+Zoznam verejných serverov
+[Port:]
+Port:
+[Port:]
+Port:
+[Port:]
+Port:
+[Unregister]
+Neregistrovaný
+[Expert]
+Expertné nastavenia
+[Expert]
+Expert
+[Manually specify connection host]
+Manuálne nastavenie pripojenia k serveru
+[Host:]
+Server:
+[Keep connection alive]
+Navždy zachovať pripojenie
+[Keep connection alive]
+Obnovovanie spojenia
+[Jabber Account Registration]
+Jabber registrácia konta
+[Jabber Agents]
+Jabber agenti
+[Register/Search Jabber Agents]
+Registrácia/Hľadanie jabber agentov
+[Jabber server:]
+Jabber server:
+[Browse]
+Listovať
+[Browse]
+Cesta
+[Browse]
+Listovať
+[Registered Jabber Transports]
+registrovať jabber transport
+[Log on]
+Prihlásiť
+[Log off]
+Odhlásiť
+[Close]
+Zavrieť
+[Close]
+Zavrieť
+[Close]
+Zatvoriť
+[Instruction:]
+Inštrukcie:
+[Back]
+Späť
+[Address1:]
+Adresa1:
+[Address2:]
+Adresa2:
+[City:]
+Mesto:
+[City:]
+Mesto:
+[State:]
+Štát:
+[State:]
+Štát:
+[ZIP:]
+PSČ:
+[Country:]
+Krajina:
+[Country:]
+Krajina:
+[Full name:]
+Plné meno:
+[Nick name:]
+Prezívka:
+[First name:]
+Meno:
+[First name:]
+Meno:
+[First name:]
+Meno:
+[Middle:]
+Stredné
+[Last name:]
+Priezvisko:
+[Last name:]
+Priezvisko:
+[Last name:]
+Priezvisko
+[Date of birth:]
+Dátum narodenia:
+[Date of birth:]
+Dátum narodenia:
+[YYYY-MM-DD]
+RRRR-MM-DD
+[Gender:]
+Pohlavie:
+[Gender:]
+Stav:
+[Homepage:]
+WWW:
+[Homepage:]
+Domáca stránka:
+[Company:]
+Firma:
+[Company:]
+Spoločnosť:
+[Department:]
+Oddelenie:
+[Department:]
+Odvetvie:
+[Title:]
+Názov:
+[E-mail:]
+E-mail:
+[Phone:]
+Telefón:
+[Phone:]
+Telefón:
+[Home]
+Domov
+[Home]
+Domov
+[Work]
+Práca
+[Work]
+Práca
+[Fax]
+Fax:
+[Description:]
+Popis:
+[Description:]
+Popis:
+[Description:]
+Popis:
+[Jabber Agent Registration]
+Registrácia jabber agenta
+[Register]
+Registrovať
+[Register]
+Registrovať
+[Nickname:]
+Prezívka:
+[Nickname:]
+Prezívka:
+[Nickname:]
+Prezívka
+[Change %s Message]
+Zmeniť %s správu
+[Closing in %d]
+Zavrieť (za %d s)
+[Login server:]
+Prihlasovací server
+[Login server:]
+Prihlasovací server
+[Authorization Request]
+Požiadavka na autorizáciu
+;file \protocols\JabberG\src\jabber.cpp
+;file \protocols\JabberG\src\jabber.h
+;file \protocols\JabberG\src\jabber_adhoc.cpp
+[Done]
+Žiadna
+;file \protocols\JabberG\src\jabber_agent.cpp
+[No message]
+Žiadna správa
+[Please wait...]
+Prosím čakaj ...
+;file \protocols\JabberG\src\jabber_bookmarks.cpp
+[Nickname]
+Prezívka
+;file \protocols\JabberG\src\jabber_byte.cpp
+;file \protocols\JabberG\src\jabber_caps.cpp
+;file \protocols\JabberG\src\jabber_captcha.cpp
+;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+Žiadne
+[Online]
+Pripojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[from]
+od
+;file \protocols\JabberG\src\jabber_console.cpp
+;file \protocols\JabberG\src\jabber_disco.cpp
+;file \protocols\JabberG\src\jabber_disco.h
+[Type]
+typ
+;file \protocols\JabberG\src\jabber_form2.cpp
+[First Name]
+Meno
+[Last Name]
+Priezvisko
+;file \protocols\JabberG\src\jabber_groupchat.cpp
+;file \protocols\JabberG\src\jabber_icolib.cpp
+[Notes]
+Poznámky
+[Personal vCard]
+Osobná karta
+;file \protocols\JabberG\src\jabber_iqid.cpp
+[Registration successful]
+Úspešná registrácia
+;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+;file \protocols\JabberG\src\jabber_menu.cpp
+;file \protocols\JabberG\src\jabber_message_handlers.cpp
+;file \protocols\JabberG\src\jabber_misc.cpp
+[To]
+Do
+;file \protocols\JabberG\src\jabber_notes.cpp
+;file \protocols\JabberG\src\jabber_opt.cpp
+[These changes will take effect the next time you connect to the Jabber network.]
+Tieto zmeny sa prejavia pri nasledujúcom prihlásení sa do Jabber siete.
+[Jabber Protocol Option]
+Voľby jabber protokolu
+[Messaging]
+Rozhovor
+[Send messages slower, but with full acknowledgement]
+Odoslať správy s overením (pomalšie odoslanie)
+[JID]
+Jabber ID
+[JID]
+JID
+[Connecting...]
+Pripájam ...
+[Connecting...]
+Pripájam ...
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Advanced]
+Podrobne
+;file \protocols\JabberG\src\jabber_password.cpp
+;file \protocols\JabberG\src\jabber_privacy.cpp
+[<none>]
+<nič>
+;file \protocols\JabberG\src\jabber_proto.cpp
+;file \protocols\JabberG\src\jabber_rc.cpp
+[Status]
+Stav
+[Status]
+Stav
+[Status]
+Stav
+[Invisible]
+Neviditelný
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+;file \protocols\JabberG\src\jabber_search.cpp
+;file \protocols\JabberG\src\jabber_svc.cpp
+;file \protocols\JabberG\src\jabber_thread.cpp
+[Enter password for]
+Zadať heslo pre
+[Error: Not enough memory]
+Chyba: málo pamäte
+[Error: Cannot connect to the server]
+Chyba: nemožno sa pripojiť k serveru
+[Error: Connection lost]
+Chyba: pripojenie stratené
+[Requesting registration instruction...]
+Prijať registračné informácie
+[Sending registration information...]
+Zaslať registračné informácie
+;file \protocols\JabberG\src\jabber_userinfo.cpp
+[<not specified>]
+<nešpecifikované>
+[Yes]
+Áno
+[No]
+Nie
+[to]
+pre
+[none]
+žiadne
+[Photo]
+Fotografia
+;file \protocols\JabberG\src\jabber_util.cpp
+[Redirect]
+Presmerovanie
+[Bad request]
+Zlý dotaz
+[Unauthorized]
+Neautorizovaný
+[Forbidden]
+Zakázaný
+[Not found]
+Nenájdený
+[Not allowed]
+Nepovolený
+[Not acceptable]
+Neakceptovaný
+[Registration required]
+Potrebná registrácia
+[Request timeout]
+Požiadavka bez odozvy
+[Conflict]
+konflikt
+[Internal server error]
+Interná chyba servera
+[Not implemented]
+Neimplementované
+[Remote server error]
+Chyba vzdialeného servera
+[Service unavailable]
+Nedostupná služba
+[Remote server timeout]
+Vzdialený server bez odozvy
+[Unknown error]
+Neznáma chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+Muž
+[Male]
+Muž
+[Female]
+Žena
+[Female]
+Žena
+[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
+Podporujú sa iba JPG, GIF a BMP obrázky menšie než 40kB.
+[Jabber vCard]
+Jabber karta
+[Contacts]
+Kontakty
+[Note]
+Poznámka:
+;file \protocols\JabberG\src\jabber_ws.cpp
+;file \protocols\JabberG\src\jabber_xstatus.cpp
+;file \protocols\JabberG\src\ui_utils.cpp

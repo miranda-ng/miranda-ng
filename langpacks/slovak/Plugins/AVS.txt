@@ -1,0 +1,33 @@
+﻿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.11.0.1
+;  Authors: Nightwish, Pescuma
+;============================================================
+;file \plugins\AVS\res\avs.rc
+[Reset]
+Reset
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Background]
+Pozadie
+[Background]
+Pozadie
+;file \plugins\AVS\src\acc.cpp
+;file \plugins\AVS\src\main.cpp
+[All Files]
+Všetky súbory
+[Windows Bitmaps]
+Windows obrázky
+[JPEG Bitmaps]
+JPEG obrázky
+[GIF Bitmaps]
+GIF obrázky
+[Contacts]
+Kontakty
+;file \plugins\AVS\src\options.cpp

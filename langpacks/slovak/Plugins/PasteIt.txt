@@ -1,0 +1,29 @@
+﻿#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
+;============================================================
+;  File: PasteIt.dll
+;  Plugin: Paste it
+;  Version: 1.0.0.3
+;  Authors: Krzysztof Kral
+;============================================================
+;file \plugins\PasteIt\res\PasteIt.rc
+[Configure]
+Konfigurovať
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+;file \plugins\PasteIt\src\Options.cpp
+;file \plugins\PasteIt\src\PasteIt.cpp
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+;file \plugins\PasteIt\src\PasteToWeb.cpp
+;file \plugins\PasteIt\src\PasteToWeb1.cpp
+;file \plugins\PasteIt\src\PasteToWeb2.cpp

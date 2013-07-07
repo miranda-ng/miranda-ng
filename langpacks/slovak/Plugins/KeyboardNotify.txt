@@ -1,0 +1,70 @@
+﻿#muuid {119d7288-2050-448d-9900-d86ac70426bf}
+;============================================================
+;  File: KeyboardNotify.dll
+;  Plugin: Keyboard notify ext.
+;  Version: 1.5.7.7
+;  Authors: TioDuke
+;============================================================
+;file \plugins\KeyboardNotify\res\resources.rc
+[seconds]
+sekúnd
+[Online]
+Pripojený
+[Online]
+Pripojený
+[Away]
+Preč
+[Occupied]
+Zaneprázdnený
+[NA]
+Nedostupný
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[On the phone]
+Telefonuje
+[Out to lunch]
+Na obede
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+[&Preview]
+Prehrať
+[&Preview]
+Zobraziť
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[The following events are being ignored:]
+Nasledujúce udalosti budú ignorované:
+[Ignore messages]
+Ignorovať správy
+[Ignore URLs]
+Ignorovať URL
+[Ignore files]
+Ignorovať súbory
+[Ignore all]
+Všetko ignorovať
+[Ignore none]
+Neignorovať
+[Ignore]
+Ignorovať
+;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** Všetky kontakty **
+[** Unknown contacts **]
+** Neznáme kontakty **
+;file \plugins\KeyboardNotify\src\options.cpp
+[Events]
+Udalosti
+[All Files]
+Všetky súbory
+[None]
+Žiadne

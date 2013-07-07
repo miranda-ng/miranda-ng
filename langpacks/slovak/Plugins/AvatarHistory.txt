@@ -1,0 +1,24 @@
+﻿#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
+;============================================================
+;  File: AvatarHistory.dll
+;  Plugin: Avatar history
+;  Version: 0.1.0.1
+;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
+;============================================================
+;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[OK]
+OK
+[Colours]
+Farby
+[Colours]
+Farby
+[Background colour]
+Farba pozadia
+[Text colour]
+Fraba textu
+;file \plugins\AvatarHistory\src\AvatarDlg.cpp
+;file \plugins\AvatarHistory\src\AvatarHistory.cpp
+;file \plugins\AvatarHistory\src\AvatarHistory.h
+;file \plugins\AvatarHistory\src\icolib.cpp
+;file \plugins\AvatarHistory\src\options.cpp
+;file \plugins\AvatarHistory\src\utils.cpp

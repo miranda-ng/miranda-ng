@@ -1,0 +1,12 @@
+﻿#muuid {fc718bc7-abc8-43cd-aad9-761614617738}
+;============================================================
+;  File: wbOSD.dll
+;  Plugin: WannaBe OSD
+;  Version: 0.2.1.0
+;  Authors: Andrej Krutak
+;============================================================
+;file \plugins\wbOSD\res\wbOSD.rc
+[Show]
+Zobraziť
+;file \plugins\wbOSD\src\events.cpp
+;file \plugins\wbOSD\src\options.cpp

@@ -1,0 +1,45 @@
+﻿#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+;============================================================
+;  File: Ping.dll
+;  Plugin: Ping
+;  Version: 0.9.1.1
+;  Authors: Scott Ellis
+;============================================================
+;file \plugins\Ping\res\ping.rc
+[Timeout]
+Časový limit
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Row height:]
+Výška riadku:
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Port:]
+Port:
+[Port:]
+Port:
+[Port:]
+Port:
+[Contact]
+Kontakt
+;file \plugins\Ping\src\menu.cpp
+;file \plugins\Ping\src\options.cpp
+[<none>]
+<nič>
+;file \plugins\Ping\src\ping.cpp
+;file \plugins\Ping\src\pinggraph.cpp
+;file \plugins\Ping\src\pingthread.cpp
+;file \plugins\Ping\src\rawping.cpp
+;file \plugins\Ping\src\utils.cpp
+[Unknown]
+neznáme

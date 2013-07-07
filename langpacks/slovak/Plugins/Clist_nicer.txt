@@ -1,0 +1,282 @@
+﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.1
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+;file \plugins\Clist_nicer\res\resource.rc
+[OK]
+OK
+[Delete Contact]
+Zmazať kontakt
+[No]
+Nie
+[Yes]
+Áno
+[Contact List]
+Zoznam kontaktov
+[Hide offline users]
+Skryť nepripojených užívateľov
+[Hide empty groups]
+Skryť prázdne skupiny
+[Disable groups]
+Skryť skupiny
+[System tray icon]
+Ikona v oznamovacej oblasti
+[Single click interface]
+Nepoužívať dvojklik myšou
+[System tray icon when using multiple protocols]
+Ikona v oznamovacej oblasti pri použití viacerých protokolov
+[Show]
+Zobraziť
+[Cycle icons every]
+Cyklovať každú ikonu
+[seconds, when statuses differ]
+sekund, ked su stavy rozdielne
+[Show multiple icons]
+Zobraziť mnohonásobné ikony
+[Only when statuses differ]
+Iba pri rozdielnych stavoch
+[Groups]
+Skupiny
+[Groups]
+Skupiny
+[Draw a line alongside group names]
+Zvýrazniť názvy skupín oddelovacou čiarou
+[Sort groups alphabetically]
+Triediť skupiny podľa abecedy
+[Quicksearch in open groups only]
+Rýchle hľadanie iba v otvorených skupinách
+[Indent groups by:]
+Odsadzovanie skupín:
+[Icons]
+Ikony
+[Window]
+Okno
+[Always on top]
+Vždy navrchu
+[Show menu bar]
+Zobraziť menu
+[Easy move]
+Jednoduchý presun
+[Title bar text:]
+Text nadpisu:
+[Hide contact list after it has been idle for]
+Skryť zoznam kontaktov ak nebude používaný po
+[seconds]
+sekúnd
+[Automatically resize window to height of list]
+Prispôsobiť veľkosť okna dlžke zoznamu
+[maximum]
+maximálne
+[% of screen]
+% z obrazovky
+[Size upwards]
+Zväčšovať smerom hore
+[Transparent contact list]
+Priehľadný zoznam kontaktov
+[Inactive opacity:]
+Priehľadnosť neaktívneho okna:
+[Active opacity:]
+Priehľadnosť aktívneho okna:
+[Fade contact list in/out]
+Plynule spriehľadňovať/zobrazovať
+[Items]
+Položky
+[Show divider between online and offline contacts]
+Oddeliť v zozname pripojených a nepripojených užívatelov
+[Hot track items as mouse passes over]
+Zvýrazňovať položky po prejdení myšou
+[Disable drag and drop of items]
+Neumožniť preťahovanie položiek
+[Disable rename of items by clicking twice]
+Nepremenovávať položky pomocou dvoch klikov
+[Show selection even when list is not focused]
+Zvýrazňovať výber i keď je zoznam neaktívny
+[Make selection highlight translucent]
+Použiť priehladné označenie výberu
+[Visual]
+Vzhľad
+[Scroll list smoothly]
+Plynule posúvať zoznam
+[Time:]
+Čas:
+[milliseconds]
+milisekúnd
+[Grey out entire list when:]
+Potlačiť intenzitu u týchto položiek:
+[Contact List Background]
+Pozadie zoznamu kontaktov
+[Background colour]
+Farba pozadia
+[Stretch to width]
+Roztiahnúť na šírku
+[Stretch to height]
+Roztiahnúť na výšku
+[Tile horizontally]
+Vedľa seba
+[Tile vertically]
+Nad sebou
+[Scroll with text]
+Posúvať s textom
+[Stretch proportionally]
+Roztiahnúť veľkosť
+[Status Bar]
+Stavový riadok
+[Show status bar]
+Zobraziť stavový riadok
+[Show icons]
+Zobraziť ikony
+[Show icons]
+Zobraziť ikony
+[Show protocol names]
+Zobraziť meno protokolu
+[Show status text]
+Zobraziť stavový text
+[Right click opens status menu]
+Pravé tlačítko myši otvára stavové menu
+[Make sections equal width]
+Rovnaká šírka oddielov
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Apply]
+Aplikovať
+[Apply]
+Použi
+[Clear all]
+Všetko vyčistiť
+[Ignore all]
+Všetko ignorovať
+[Ignore none]
+Neignorovať
+[Visibility]
+Viditeľnosť
+[E&xit]
+Koniec
+[E&xit]
+Koniec
+[&Status]
+Stav
+[&Offline\tCtrl+0]
+Odpojený\tCtrl+0
+[On&line\tCtrl+1]
+Pripojený
+[&Away\tCtrl+2]
+Preč
+[&NA\tCtrl+3]
+Nedostupný
+[Occ&upied\tCtrl+4]
+Zaneprázdnený
+[&DND\tCtrl+5]
+Nerušiť
+[&Free for chat\tCtrl+6]
+Prístupný k rozhovoru
+[&Invisible\tCtrl+7]
+Neviditelný
+[On the &Phone\tCtrl+8]
+Telefonujem
+[Out to &Lunch\tCtrl+9]
+Na obede
+[&Hide/Show]
+Skryť/Zobraziť
+[&New Group]
+Nová skupina
+[&Hide Offline Users]
+Skryť nepripojených užívatelov
+[Hide &Offline Users out here]
+Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
+[Hide &Empty Groups]
+Skryť prázdne skupiny
+[Disable &Groups]
+Skryť názvy skupín
+[&New Subgroup]
+Nová podskupina
+[&Hide Offline Users in here]
+Skryť nepripojených užívatelov v tejto skupine
+[&Rename Group]
+Premenovať skupinu
+[&Delete Group]
+Zmazať skupinu
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
+;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Status menu]
+Menu stavov
+;file \plugins\Clist_nicer\src\clcopts.cpp
+[Not focused]
+Neoznačené
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+[Name]
+Meno
+[Name]
+Meno
+[Status]
+Stav
+[Status]
+Stav
+[Status]
+Stav
+[Background]
+Pozadie
+[Background]
+Pozadie
+[Contacts]
+Kontakty
+[Advanced]
+Podrobne
+;file \plugins\Clist_nicer\src\clistmenus.cpp
+;file \plugins\Clist_nicer\src\clistopts.cpp
+;file \plugins\Clist_nicer\src\clui.cpp
+[Warning]
+Varovanie
+[Standard contacts]
+Štandardné kontakty
+[Online contacts to whom you have a different visibility]
+Pripojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Offline contacts]
+Odpojený užívatelia
+[Offline contacts to whom you have a different visibility]
+Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Contacts which are 'not on list']
+Užívatelia ktorí niesu v zozname
+[Group member counts]
+Počet členov skupiny
+[Dividers]
+Oddelovače
+;file \plugins\Clist_nicer\src\cluiopts.cpp
+;file \plugins\Clist_nicer\src\Docking.cpp
+;file \plugins\Clist_nicer\src\extBackg.cpp
+;file \plugins\Clist_nicer\src\init.cpp
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[&Find/Add Contacts...]
+Nájsť/Pridať kontakty...
+[&Options...]
+Nastavenia...

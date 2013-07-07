@@ -1,0 +1,66 @@
+﻿#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
+;============================================================
+;  File: SecureIM.dll
+;  Plugin: SecureIM
+;  Version: 1.0.12.4
+;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
+;============================================================
+;file \plugins\SecureIM\res\resource.rc
+[sec]
+sek
+[Back]
+Späť
+[Text]
+Text
+[Text]
+Text
+[Events]
+Udalosti
+[Username:]
+Užív. meno:
+[Username:]
+Uživ. meno:
+[Username:]
+Užív.meno:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Status]
+Stav
+[Status]
+Stav
+[Status]
+Stav
+;file \plugins\SecureIM\src\language.cpp
+[Nickname]
+Prezívka
+[Name]
+Meno
+[Name]
+Meno
+;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+Zoznam kontaktov
+;file \plugins\SecureIM\src\main.cpp
+[Icons]
+Ikony
+;file \plugins\SecureIM\src\options.cpp
+[Executable Files]
+Spustitelné súbory
+[All files]
+Všetky súbory
+;file \plugins\SecureIM\src\popupOptions.cpp
+;file \plugins\SecureIM\src\svcs_srmm.cpp

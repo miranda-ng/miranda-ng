@@ -1,0 +1,48 @@
+﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
+;============================================================
+;  File: FltContacts.dll
+;  Plugin: Floating contacts
+;  Version: 0.7.0.0
+;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
+;============================================================
+;file \plugins\FloatingContacts\res\fltcnt.rc
+[pixels]
+pixelov
+[pixels]
+bodov
+[seconds]
+sekúnd
+[Single click interface]
+Nepoužívať dvojklik myšou
+[Background]
+Pozadie
+[Background]
+Pozadie
+[Background colour:]
+Farba pozadia:
+[Use background bitmap]
+Použiť obrázok na pozadí
+[Stretch to width]
+Roztiahnúť na šírku
+[Stretch to height]
+Roztiahnúť na výšku
+[Tile horizontally]
+Vedľa seba
+[Tile vertically]
+Nad sebou
+[Stretch proportionally]
+Roztiahnúť veľkosť
+;file \plugins\FloatingContacts\src\main.cpp
+[Standard contacts]
+Štandardné kontakty
+[Online contacts to whom you have a different visibility]
+Pripojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Offline contacts]
+Odpojený užívatelia
+[Offline contacts to whom you have a different visibility]
+Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Contacts which are 'not on list']
+Užívatelia ktorí niesu v zozname
+;file \plugins\FloatingContacts\src\options.cpp
+[Contact List]
+Zoznam kontaktov

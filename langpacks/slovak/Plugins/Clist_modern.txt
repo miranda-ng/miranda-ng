@@ -1,0 +1,319 @@
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+;file \plugins\Clist_modern\res\resource.rc
+[Show counts of number of contacts in a group]
+Zobrazovať počet kontaktov v skupine za názvom skupiny
+[Hide group counts when there are none online]
+Skryť počet kontaktov v skupine ak sú všetci odpojený
+[Always on top]
+Vždy navrchu
+[seconds]
+sekúnd
+[Fade contact list in/out]
+Plynule spriehľadňovať/zobrazovať
+[Transparent contact list]
+Priehľadný zoznam kontaktov
+[Inactive opacity:]
+Priehľadnosť neaktívneho okna:
+[Active opacity:]
+Priehľadnosť aktívneho okna:
+[Show protocol names]
+Zobraziť meno protokolu
+[Show status text]
+Zobraziť stavový text
+[Background colour:]
+Farba pozadia:
+[Selection colour:]
+Vyber farbu:
+[Use background bitmap]
+Použiť obrázok na pozadí
+[Stretch to width]
+Roztiahnúť na šírku
+[Stretch to height]
+Roztiahnúť na výšku
+[Tile horizontally]
+Vedľa seba
+[Tile vertically]
+Nad sebou
+[Scroll with text]
+Posúvať s textom
+[Stretch proportionally]
+Roztiahnúť veľkosť
+[Apply]
+Aplikovať
+[Apply]
+Použi
+[Type]
+typ
+[Colour]
+Farba
+[File]
+Súbor
+[Position:]
+Pozícia:
+[Size:]
+Veľkosť:
+[Size:]
+Veľkosť:
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Clear all]
+Všetko vyčistiť
+[Status Bar]
+Stavový riadok
+[Show status bar]
+Zobraziť stavový riadok
+[Make sections equal width]
+Rovnaká šírka oddielov
+[Right click opens status menu]
+Pravé tlačítko myši otvára stavové menu
+[Right click opens Miranda menu]
+Pravé tlačítko myši otvára hlavné menu
+[Delete Contact]
+Zmazať kontakt
+[No]
+Nie
+[Yes]
+Áno
+[Hide offline users]
+Skryť nepripojených užívateľov
+[Hide empty groups]
+Skryť prázdne skupiny
+[Disable groups]
+Skryť skupiny
+[Contact List]
+Zoznam kontaktov
+[Gamma correction]
+Gamma korekcia
+[Default]
+Prednastavené
+[Automatically resize window to height of list]
+Prispôsobiť veľkosť okna dlžke zoznamu
+[maximum]
+maximálne
+[% of screen]
+% z obrazovky
+[Size upwards]
+Zväčšovať smerom hore
+[Easy move]
+Jednoduchý presun
+[pixels]
+pixelov
+[pixels]
+bodov
+[Items]
+Položky
+[Show divider between online and offline contacts]
+Oddeliť v zozname pripojených a nepripojených užívatelov
+[Hot track items as mouse passes over]
+Zvýrazňovať položky po prejdení myšou
+[Disable drag and drop of items]
+Neumožniť preťahovanie položiek
+[Disable rename of items by clicking twice]
+Nepremenovávať položky pomocou dvoch klikov
+[Show selection even when list is not focused]
+Zvýrazňovať výber i keď je zoznam neaktívny
+[Make selection highlight translucent]
+Použiť priehladné označenie výberu
+['Hide Offline' means to hide:]
+'Skryť nepripojených' = skryť týchto:
+[Groups]
+Skupiny
+[Groups]
+Skupiny
+[Draw a line alongside group names]
+Zvýrazniť názvy skupín oddelovacou čiarou
+[Sort groups alphabetically]
+Triediť skupiny podľa abecedy
+[Quicksearch in open groups only]
+Rýchle hľadanie iba v otvorených skupinách
+[Indent groups by:]
+Odsadzovanie skupín:
+[Visual]
+Vzhľad
+[Scroll list smoothly]
+Plynule posúvať zoznam
+[Time:]
+Čas:
+[milliseconds]
+milisekúnd
+[Single click interface]
+Nepoužívať dvojklik myšou
+[Show]
+Zobraziť
+[Cycle icons every]
+Cyklovať každú ikonu
+[seconds, when statuses differ]
+sekund, ked su stavy rozdielne
+[Show multiple icons]
+Zobraziť mnohonásobné ikony
+[Only when statuses differ]
+Iba pri rozdielnych stavoch
+[System tray icon]
+Ikona v oznamovacej oblasti
+[Show menu bar]
+Zobraziť menu
+[Show title bar]
+Zobraziť nadpis
+[Title bar text:]
+Text nadpisu:
+[Tool style main window]
+Okno v štýle palety nástrojov
+[Minimize to tray]
+Minimalizovať do oznamovacej oblasti
+[Left margin:]
+јavý okraj
+[Status]
+Stav
+[Status]
+Stav
+[Status]
+Stav
+[Nickname]
+Prezívka
+[E&xit]
+Koniec
+[E&xit]
+Koniec
+[&Status]
+Stav
+[&Offline\tCtrl+0]
+Odpojený\tCtrl+0
+[On&line\tCtrl+1]
+Pripojený
+[&Away\tCtrl+2]
+Preč
+[&NA\tCtrl+3]
+Nedostupný
+[Occ&upied\tCtrl+4]
+Zaneprázdnený
+[&DND\tCtrl+5]
+Nerušiť
+[&Free for chat\tCtrl+6]
+Prístupný k rozhovoru
+[&Invisible\tCtrl+7]
+Neviditelný
+[On the &Phone\tCtrl+8]
+Telefonujem
+[Out to &Lunch\tCtrl+9]
+Na obede
+[&Hide/Show]
+Skryť/Zobraziť
+[&New Group]
+Nová skupina
+[&Hide Offline Users]
+Skryť nepripojených užívatelov
+[Hide &Offline Users out here]
+Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
+[Hide &Empty Groups]
+Skryť prázdne skupiny
+[Disable &Groups]
+Skryť názvy skupín
+[&New Subgroup]
+Nová podskupina
+[&Hide Offline Users in here]
+Skryť nepripojených užívatelov v tejto skupine
+[&Rename Group]
+Premenovať skupinu
+[&Delete Group]
+Zmazať skupinu
+;file \plugins\Clist_modern\src\modern_clc.cpp
+;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Standard contacts]
+Štandardné kontakty
+[Offline contacts]
+Odpojený užívatelia
+[Online contacts to whom you have a different visibility]
+Pripojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Offline contacts to whom you have a different visibility]
+Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Dividers]
+Oddelovače
+[Background]
+Pozadie
+[Background]
+Pozadie
+[List]
+Zoznam
+[Window]
+Okno
+[List Background]
+Pozadie zoznamu
+[Not focused]
+Neoznačené
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+[Name]
+Meno
+[Name]
+Meno
+;file \plugins\Clist_modern\src\modern_clistevents.cpp
+;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[None]
+Žiadne
+;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Text]
+Text
+[Text]
+Text
+;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+[(Unknown Contact)]
+(neznámý kontakt)
+;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[&Find/Add Contacts...]
+Nájsť/Pridať kontakty...
+[&Options...]
+Nastavenia...
+;file \plugins\Clist_modern\src\modern_clui.cpp
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\modern_keyboard.cpp
+;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+;file \plugins\Clist_modern\src\modern_skineditor.cpp
+;file \plugins\Clist_modern\src\modern_skinengine.cpp
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Status menu]
+Menu stavov
+;file \plugins\Clist_modern\src\modern_viewmodebar.cpp

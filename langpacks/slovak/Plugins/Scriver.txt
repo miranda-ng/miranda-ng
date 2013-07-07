@@ -1,0 +1,149 @@
+﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
+;  File: Scriver.dll
+;  Plugin: Scriver
+;  Version: 2.10.0.2
+;  Authors: Miranda NG Development Team
+;============================================================
+;file \plugins\Scriver\res\resource.rc
+[seconds]
+sekúnd
+[Show status bar]
+Zobraziť stavový riadok
+[Show icons]
+Zobraziť ikony
+[Show icons]
+Zobraziť ikony
+[Show names]
+Zobraziť mená
+[Try again]
+Skús znovu
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Message Session]
+Rozhovor
+[Yes]
+Áno
+[No]
+Nie
+[pixels]
+pixelov
+[pixels]
+bodov
+[Your name]
+Vaše meno
+[Location]
+Miesto
+[Text]
+Text
+[Text]
+Text
+[Background]
+Pozadie
+[Background]
+Pozadie
+[OK]
+OK
+[Log]
+Log
+[&Copy]
+Kopírovať
+[&Copy]
+Kopírovať
+[Co&py All]
+Kopírovať všetko
+[Select &All]
+Vybrať všetko
+[C&lear Log]
+Odstrániť záznamy v Logu
+[&Copy link]
+Kopírovať odkaz
+[Undo]
+Späť
+[List]
+Zoznam
+[&Message]
+&Správa
+;file \plugins\Scriver\src\globals.cpp
+[Text colour]
+Fraba textu
+[Background colour]
+Farba pozadia
+[Bold]
+Tučné
+;file \plugins\Scriver\src\input.cpp
+[Messaging]
+Rozhovor
+;file \plugins\Scriver\src\msgdialog.cpp
+[User Menu]
+Menu užívatela
+[Add Contact Permanently to List]
+Pridať kontakt do zoznamu
+[View User's Details]
+Zobraziť informácie o užívatelovi
+[View User's History]
+Zobraziť históriu 
+[Send Message]
+Odoslať správu
+;file \plugins\Scriver\src\msglog.cpp
+;file \plugins\Scriver\src\msgoptions.cpp
+[Incoming URL]
+Prichádzajúca URL
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+[** Unknown contacts **]
+** Neznáme kontakty **
+;file \plugins\Scriver\src\msgs.cpp
+[Message from %s]
+Správa od %s
+[Message from %s]
+Správa od %s
+;file \plugins\Scriver\src\msgtimedout.cpp
+;file \plugins\Scriver\src\msgwindow.cpp
+;file \plugins\Scriver\src\sendqueue.cpp
+;file \plugins\Scriver\src\chat\clist.cpp
+;file \plugins\Scriver\src\chat\colorchooser.cpp
+;file \plugins\Scriver\src\chat\log.cpp
+;file \plugins\Scriver\src\chat\main.cpp
+[&Leave]
+Opustiť
+;file \plugins\Scriver\src\chat\options.cpp
+[Select Folder]
+Vyber zložku
+;file \plugins\Scriver\src\chat\services.cpp
+;file \plugins\Scriver\src\chat\tools.cpp
+;file \plugins\Scriver\src\chat\window.cpp
+[Italic]
+Kurzíva
+[Underline]
+Podtrhnuté
+[Status]
+Stav
+[Status]
+Stav
+[Status]
+Stav

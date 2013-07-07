@@ -1,0 +1,23 @@
+﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
+;============================================================
+;  File: TrafficCounter.dll
+;  Plugin: Traffic counter
+;  Version: 0.1.1.8
+;  Authors: Ghost, Mironych
+;============================================================
+;file \plugins\TrafficCounter\res\resource.rc
+[Background colour:]
+Farba pozadia:
+;file \plugins\TrafficCounter\src\options.cpp
+;file \plugins\TrafficCounter\src\statistics.cpp
+[Daily]
+Denne
+[Weekly]
+Týždenne
+[Monthly]
+Mesačne
+[Online]
+Pripojený
+[Online]
+Pripojený
+;file \plugins\TrafficCounter\src\TrafficCounter.cpp

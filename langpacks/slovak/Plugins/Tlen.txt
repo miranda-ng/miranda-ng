@@ -1,0 +1,140 @@
+﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
+;langpack template for Tlen
+;file \protocols\Tlen\res\tlen.rc
+[Username:]
+Užív. meno:
+[Username:]
+Uživ. meno:
+[Username:]
+Užív.meno:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Save password]
+Uložiť heslo
+[Login server:]
+Prihlasovací server
+[Login server:]
+Prihlasovací server
+[Port:]
+Port:
+[Port:]
+Port:
+[Port:]
+Port:
+[Keep connection alive]
+Navždy zachovať pripojenie
+[Keep connection alive]
+Obnovovanie spojenia
+[Proxy type:]
+Typ proxy:
+[Proxy server:]
+Proxy server:
+[Proxy requires authorization]
+Proxy potrebuje autorizáciu
+[Colours]
+Farby
+[Colours]
+Farby
+[Background]
+Pozadie
+[Background]
+Pozadie
+[Text]
+Text
+[Text]
+Text
+[&From Popup plugin]
+Z Popup pluginu
+[&Custom]
+Voliteľné
+[P&ermanent]
+Permanentne
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Nick name:]
+Prezívka:
+[First name:]
+Meno:
+[First name:]
+Meno:
+[First name:]
+Meno:
+[Last name:]
+Priezvisko:
+[Last name:]
+Priezvisko:
+[Last name:]
+Priezvisko
+[E-mail:]
+E-mail:
+[Gender:]
+Pohlavie:
+[Gender:]
+Stav:
+[City:]
+Mesto:
+[City:]
+Mesto:
+[Save changes]
+Uložiť zmeny
+[Version:]
+Verzia:
+[Nickname:]
+Prezívka:
+[Nickname:]
+Prezívka:
+[Nickname:]
+Prezívka
+[Age:]
+Vek:
+[to]
+pre
+[Status:]
+Stav:
+[Status:]
+Stav
+[From:]
+Od:
+;file \protocols\Tlen\src\jabber_iqid.cpp
+;file \protocols\Tlen\src\jabber_opt.cpp
+[Advanced]
+Podrobne
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+;file \protocols\Tlen\src\jabber_svc.cpp
+;file \protocols\Tlen\src\jabber_thread.cpp
+[Enter password for]
+Zadať heslo pre
+[Jabber Connection Error]
+Jabber pripájacia chyba
+;file \protocols\Tlen\src\jabber_ws.cpp
+;file \protocols\Tlen\src\tlen.cpp
+;file \protocols\Tlen\src\tlen_file.cpp
+;file \protocols\Tlen\src\tlen_muc.cpp
+;file \protocols\Tlen\src\tlen_picture.cpp
+;file \protocols\Tlen\src\tlen_userinfo.cpp
+[from]
+od
+[none]
+žiadne
+;file \protocols\Tlen\src\tlen_voice.cpp
+[Default]
+Prednastavené

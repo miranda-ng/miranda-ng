@@ -1,0 +1,22 @@
+﻿#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
+;============================================================
+;  File: LangMan.dll
+;  Plugin: Language pack manager
+;  Version: 1.0.2.3
+;  Authors: H. Herkenrath
+;============================================================
+;file \plugins\LangMan\res\resource.rc
+[E-mail:]
+E-mail:
+[Date:]
+Dátum:
+[Date:]
+Dátum:
+[Version:]
+Verzia:
+;file \plugins\LangMan\src\main.cpp
+;file \plugins\LangMan\src\options.cpp
+[Unknown]
+neznáme
+[File]
+Súbor

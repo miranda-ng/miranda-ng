@@ -1,0 +1,20 @@
+﻿#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
+;============================================================
+;  File: AssocMgr.dll
+;  Plugin: File association manager
+;  Version: 0.1.1.0
+;  Authors: H. Herkenrath
+;============================================================
+;file \plugins\AssocMgr\res\resource.rc
+;file \plugins\AssocMgr\src\assoclist.cpp
+[Type]
+typ
+[Description]
+Udalosť
+[Description]
+Popis
+[Unknown]
+neznáme
+;file \plugins\AssocMgr\src\dde.cpp
+;file \plugins\AssocMgr\src\reg.cpp
+;file \plugins\AssocMgr\src\test.cpp

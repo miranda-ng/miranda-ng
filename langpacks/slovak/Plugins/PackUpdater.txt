@@ -1,0 +1,38 @@
+﻿#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+;============================================================
+;  File: PackUpdater.dll
+;  Plugin: Pack updater
+;  Version: 0.0.1.1
+;  Authors: Mataes, ZERO_BiT
+;============================================================
+;file \plugins\PackUpdater\Res\Resource.rc
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Description]
+Udalosť
+[Description]
+Popis
+[Back]
+Späť
+[Text]
+Text
+[Text]
+Text
+[Colours]
+Farby
+[Colours]
+Farby
+[On left click]
+јavým klikom
+[On right click]
+Pravým klikom
+[Timeout]
+Časový limit
+;file \plugins\PackUpdater\Src\Events.cpp
+;file \plugins\PackUpdater\Src\Notifications.cpp
+;file \plugins\PackUpdater\Src\Notifications.h
+;file \plugins\PackUpdater\Src\Options.cpp
+;file \plugins\PackUpdater\Src\PackUpdater.cpp
+;file \plugins\PackUpdater\Src\Utils.cpp

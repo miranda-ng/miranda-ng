@@ -1,0 +1,38 @@
+﻿#muuid {23eacc0d-bab0-49c0-8f37-5e259ece527f}
+;============================================================
+;  File: LotusNotify.dll
+;  Plugin: LotusNotify
+;  Version: 0.1.21.0
+;  Version: 0.1.21.0
+;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
+;============================================================
+;file \plugins\LotusNotify\res\LotusNotify.rc
+[Background]
+Pozadie
+[Background]
+Pozadie
+[Text]
+Text
+[Text]
+Text
+[min.]
+min.
+[min.]
+min.
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+;file \plugins\LotusNotify\src\LotusNotify.cpp
+[Status]
+Stav
+[Status]
+Stav
+[Status]
+Stav

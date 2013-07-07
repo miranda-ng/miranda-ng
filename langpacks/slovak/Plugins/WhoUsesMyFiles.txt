@@ -1,0 +1,22 @@
+﻿#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+;============================================================
+;  File: WhoUsesMyFiles.dll
+;  Plugin: Who Use My Files
+;  Version: 0.1.0.2
+;  Authors: Nikolay Redko
+;============================================================
+;file \plugins\WhoUsesMyFiles\res\resource.rc
+[OK]
+OK
+[Popup Delay (seconds)]
+Popup dlžka (sekundy)
+[Previe&w]
+Ukázať
+[Previe&w]
+Zobraziť
+[Previe&w]
+Zobraziť
+;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[File]
+Súbor
+;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp

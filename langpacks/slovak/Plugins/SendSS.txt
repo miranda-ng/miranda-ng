@@ -1,0 +1,59 @@
+﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
+;============================================================
+;  File: SendSS.dll
+;  Plugin: Send screenshot+
+;  Version: 0.8.0.0
+;  Authors: Merlin
+;============================================================
+;file \plugins\SendScreenshotPlus\res\resource.rc
+[OK]
+OK
+[None]
+Žiadne
+[Cancel]
+Storno
+[Cancel]
+Storno
+[About]
+O
+[&Close]
+Zavrieť
+;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+;file \plugins\SendScreenshotPlus\src\CSend.h
+;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
+;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
+[Yes]
+Áno
+[No]
+Nie
+[Ignore]
+Ignorovať
+;file \plugins\SendScreenshotPlus\src\global.h
+;file \plugins\SendScreenshotPlus\src\Main.cpp
+;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Default]
+Prednastavené
+[Help]
+Pomoc
+[Help]
+Pomoc
+[Apply]
+Aplikovať
+[Apply]
+Použi
+;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
+;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
+[Window]
+Okno

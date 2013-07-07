@@ -1,0 +1,19 @@
+﻿#muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
+;============================================================
+;  File: EmLanProto.dll
+;  Plugin: E-mage LAN protocol
+;  Version: 0.0.1.1
+;  Authors: kva
+;============================================================
+;file \protocols\EmLanProto\res\amdproto.rc
+[Your name]
+Vaše meno
+;file \protocols\EmLanProto\src\amdproto.cpp
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť

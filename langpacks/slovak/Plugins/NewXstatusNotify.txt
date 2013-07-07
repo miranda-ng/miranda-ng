@@ -1,0 +1,176 @@
+﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: xStatus notify
+;  Version: 1.4.0.9
+;  Authors: Luca Santarelli, Vasilich, yaho
+;============================================================
+;file \plugins\NewXstatusNotify\res\resource.rc
+[Notify when a contact changes to one of these statuses]
+Oznám keď sa kontakt zmení na jeden zo stavov
+[Online]
+Pripojený
+[Online]
+Pripojený
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+[Invisible]
+Neviditelný
+[Free for chat]
+Voľný k rozhovoru
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+[Plugin activation]
+Aktivácia pluginu
+[Automatically turn off Popups and Sounds on status change]
+Automaticky vypni oznamy a zvuky pri zmene štatútu
+[Configure]
+Konfigurovať
+[Status Notify]
+Oznámenie stavu
+[Sounds]
+Zvuky
+[Background]
+Pozadie
+[Background]
+Pozadie
+[Text]
+Text
+[Text]
+Text
+[Colours]
+Farby
+[Colours]
+Farby
+[Timeout]
+Časový limit
+[On left click]
+јavým klikom
+[On right click]
+Pravým klikom
+[Reset]
+Reset
+[OK]
+OK
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Show Popups when I connect]
+Zobraz oznámenie ak je pripojený
+;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[All files]
+Všetky súbory
+[Status]
+Stav
+[Status]
+Stav
+[Status]
+Stav
+[Sound for the status]
+Zvuk pre stav
+[** All contacts **]
+** Všetky kontakty **
+;file \plugins\NewXstatusNotify\src\indsnd.h
+[(default sound)]
+(prednastavený zvuk)
+;file \plugins\NewXstatusNotify\src\main.cpp
+[Contact]
+Kontakt
+[(M) is back online!]
+je opäť pripojený!
+[(F) is back online!]
+je opäť pripojená!
+[(U) is back online!]
+je opäť pripojený!
+[User: Online]
+Užívateľ: pripojený
+[(M) went offline! :(]
+je odpojený! :(
+[(F) went offline! :(]
+je odpojená! :(
+[(U) went offline! :(]
+je odpojený! :(
+[User: Offline]
+Užívateľ: odpojený
+[User: Invisible]
+Užívateľ: neviditeľný
+[(M) feels talkative!]
+je voľný pre rozhovor!
+[(F) feels talkative!]
+je voľná pre rozhovor!
+[(U) feels talkative!]
+je voľný pre rozhovor!
+[User: Free For Chat]
+Užívateľ: voľný na rozhovor
+[(M) went Away]
+je preč
+[(F) went Away]
+je preč
+[(U) went Away]
+je preč
+[User: Away]
+Užívateľ: vonku
+[(M) isn't there anymore!]
+je nedostupný!
+[(F) isn't there anymore!]
+je nedostupná!
+[(U) isn't there anymore!]
+je nedostupný!
+[User: Not Available]
+Užívateľ: nedostupný
+[(M) has something else to do.]
+je zaneprázdnený.
+[(F) has something else to do.]
+je zaneprázdnená.
+[(U) has something else to do.]
+je zaneprázdnený.
+[User: Occupied]
+Užívateľ: zaneprázdnený
+[(M) doesn't want to be disturbed!]
+nemá sa rušiť!
+[(F) doesn't want to be disturbed!]
+nemá sa rušiť!
+[(U) doesn't want to be disturbed!]
+nemá sa rušiť!
+[User: Do Not Disturb]
+Užívateľ: nerušiť
+[(M) is eating something]
+je na obede
+[(F) is eating something]
+je na obede
+[(U) is eating something]
+je na obede
+[User: Out To Lunch]
+Užívateľ: na obede
+[(M) had to answer the phone]
+telefonuje
+[(F) had to answer the phone]
+telefonuje
+[(U) had to answer the phone]
+telefonuje
+[User: On The Phone]
+Užívateľ: telefonuje
+;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Všetky súbory
+[Log]
+Log
+;file \plugins\NewXstatusNotify\src\popup.h
+;file \plugins\NewXstatusNotify\src\utils.cpp
+[You cannot specify a value lower than %d and higher than %d.]
+Nezadali ste hodnotu menšiu alebo väčšiu ako %d.
+;file \plugins\NewXstatusNotify\src\xstatus.cpp
+;file \plugins\NewXstatusNotify\src\xstatus.h

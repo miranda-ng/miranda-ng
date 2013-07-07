@@ -1,0 +1,69 @@
+﻿#muuid {f0fdf73a-753d-499d-8dba-336db79cdd41}
+;============================================================
+;  File: AdvancedAutoAway.dll
+;  Plugin: Advanced Auto Away
+;  Version: 0.8.0.42
+;  Authors: P Boon
+;============================================================
+;file \Plugins\StatusPlugins\resource.rc
+[Close]
+Zavrieť
+[Close]
+Zavrieť
+[Close]
+Zatvoriť
+[Cancel]
+Storno
+[Cancel]
+Storno
+[minutes of inactivity]
+minutách neaktivity
+[OK]
+OK
+[Timeout]
+Časový limit
+[Background colour]
+Farba pozadia
+[Text colour]
+Fraba textu
+[On left click]
+јavým klikom
+[On right click]
+Pravým klikom
+[Colours]
+Farby
+[Colours]
+Farby
+[Events]
+Udalosti
+[Use %time% for the current time, %date% for the current date]
+Použi %time% pre aktuálny čas, %date% pre aktuálny dátum
+[Status]
+Stav
+[Status]
+Stav
+[Status]
+Stav
+[seconds]
+sekúnd
+;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
+[Auto Away]
+Automaticky 'Preč'
+;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+Som preč od %time%.
+[Not right now.]
+Prepáč, teraz nemám čas.
+[Yep, I'm here.]
+Je tu.
+[Nope, not here.]
+Nieje tu.
+[I'm hiding from the mafia.]
+Schováva sa pred mafiou
+[That'll be the phone.]
+Telefonuje
+[Mmm...food.]
+Mmm...obed.
+;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Closing in %d]
+Zavrieť (za %d s)

@@ -1,0 +1,37 @@
+﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.5.2.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+;file \plugins\ContactsPlus\res\contacts.rc
+[&Send]
+Odoslať
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Close]
+Zavrieť
+[Close]
+Zavrieť
+[Close]
+Zatvoriť
+[Try again]
+Skús znovu
+[Send Message]
+Odoslať správu
+;file \plugins\ContactsPlus\src\main.cpp
+[Contacts]
+Kontakty
+;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+Pridať kontakt do zoznamu
+[View User's Details]
+Zobraziť informácie o užívatelovi
+[View User's History]
+Zobraziť históriu 
+[User Menu]
+Menu užívatela
+;file \plugins\ContactsPlus\src\send.cpp

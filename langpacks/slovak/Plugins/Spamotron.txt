@@ -1,0 +1,21 @@
+﻿#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
+;============================================================
+;  File: Spamotron.dll
+;  Plugin: Spam-o-tron
+;  Version: 0.0.4.6
+;  Authors: vu1tur
+;============================================================
+;file \plugins\Spamotron\res\spamotron.rc
+[Reset to defaults]
+Späť na prednastavené
+[Background]
+Pozadie
+[Background]
+Pozadie
+[Timeout]
+Časový limit
+;file \plugins\Spamotron\src\bayes.cpp
+;file \plugins\Spamotron\src\common.h
+;file \plugins\Spamotron\src\options.cpp
+;file \plugins\Spamotron\src\spamotron.cpp
+;file \plugins\Spamotron\src\utils.cpp

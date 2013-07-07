@@ -1,0 +1,77 @@
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+;file \protocols\IRCG\res\IRC.rc
+[Keep connection alive]
+Navždy zachovať pripojenie
+[Keep connection alive]
+Obnovovanie spojenia
+[Nick]
+Prezívka
+[Nick]
+Prezívka
+[Time]
+Čas
+[&Close]
+Zavrieť
+[Name]
+Meno
+[Name]
+Meno
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[Network]
+Sieť
+[none]
+žiadne
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+[Password:]
+Heslo:
+;file \protocols\IRCG\src\clist.cpp
+;file \protocols\IRCG\src\commandmonitor.cpp
+[Unknown]
+neznáme
+[Ignore]
+Ignorovať
+;file \protocols\IRCG\src\input.cpp
+;file \protocols\IRCG\src\irclib.cpp
+;file \protocols\IRCG\src\ircproto.cpp
+[Nickname]
+Prezívka
+;file \protocols\IRCG\src\options.cpp
+[Apply]
+Aplikovať
+[Apply]
+Použi
+[Cancel]
+Storno
+[Cancel]
+Storno
+[Advanced]
+Podrobne
+;file \protocols\IRCG\src\output.cpp
+;file \protocols\IRCG\src\services.cpp
+;file \protocols\IRCG\src\tools.cpp
+[Offline]
+Odpojený
+[Offline]
+Odpojený
+;file \protocols\IRCG\src\userinfo.cpp
+;file \protocols\IRCG\src\windows.cpp
+[Please wait...]
+Prosím čakaj ...

@@ -1,0 +1,40 @@
+﻿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.4.0.0
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
+;file \plugins\IEView\res\ieview.rc
+[Size:]
+Veľkosť:
+[Size:]
+Veľkosť:
+[Scroll with text]
+Posúvať s textom
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Incoming File Transfer]
+Príchádzajúci súbor
+[Incoming File Transfer]
+Príchádzajúci súbor
+;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(neznámý kontakt)
+;file \plugins\IEView\src\IEView.cpp
+;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+[Error]
+Chyba
+;file \plugins\IEView\src\Options.cpp
+[Default]
+Prednastavené
+[All Files]
+Všetky súbory
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

@@ -1,0 +1,16 @@
+﻿#muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
+;============================================================
+;  File: MsgPopup.dll
+;  Plugin: Message popup
+;  Version: 0.1.1.3
+;  Authors: StDenis
+;============================================================
+;file \plugins\MsgPopup\res\MsgPopup.rc
+[Background]
+Pozadie
+[Background]
+Pozadie
+[Timeout]
+Časový limit
+;file \plugins\MsgPopup\src\main.cpp
+;file \plugins\MsgPopup\src\options.cpp

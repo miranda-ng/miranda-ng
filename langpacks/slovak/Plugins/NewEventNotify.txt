@@ -1,0 +1,31 @@
+﻿#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+;============================================================
+;  File: NewEventNotify.dll
+;  Plugin: NewEventNotify
+;  Version: 0.2.2.3
+;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
+;============================================================
+;file \plugins\NewEventNotify\res\resource.rc
+[General Options]
+Základné nastavenia
+[Popup Options]
+Popup nastavenia
+[File]
+Súbor
+[Text]
+Text
+[Text]
+Text
+[Background]
+Pozadie
+[Background]
+Pozadie
+;file \plugins\NewEventNotify\src\main.cpp
+[Message Session]
+Rozhovor
+;file \plugins\NewEventNotify\src\menuitem.cpp
+;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+Kontakty
+;file \plugins\NewEventNotify\src\options.cpp
+;file \plugins\NewEventNotify\src\popup.cpp

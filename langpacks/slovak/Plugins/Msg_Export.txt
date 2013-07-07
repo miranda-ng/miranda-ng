@@ -1,0 +1,145 @@
+﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+;============================================================
+;  File: Msg_Export.dll
+;  Plugin: Message export
+;  Version: 3.1.0.3
+;  Authors: Kennet Nielsen, mod by ring0
+;============================================================
+;file \plugins\Msg_Export\res\resource.rc
+[Browse]
+Listovať
+[Browse]
+Cesta
+[Browse]
+Listovať
+[Use internal viewer]
+Použiť interný prehliadač
+[Replace miranda history]
+Prepísať históriu mirandy
+[Append extra new line]
+Pridať extra nový riadok
+[Auto filename]
+Automatické meno súboru
+[Clear all]
+Všetko vyčistiť
+[Help]
+Pomoc
+[Help]
+Pomoc
+[Export all history]
+Exportovať celú históriu
+[Export directory]
+Adresaár exportu
+[Max column width]
+Dľžka riadku
+[Time format]
+Formát času
+[Export format]
+Formát exportu
+[Default file]
+Prednastavený súbor
+[File viewer]
+Prehliadač súborov
+[Exporting old messages]
+Exportujem staré správy
+[&Find...]
+Nájsť...
+[&Close]
+Zavrieť
+[User &Details]
+Informácie o užívatelovi
+[User &Details]
+Detaily užívateľa
+[Export selected]
+Výber exportu
+[Set to default filename]
+Prednastaviť meno súboru
+;file \plugins\Msg_Export\src\FileViewer.cpp
+[Search string was not found !]
+Hľadaný reťazec nebol nájdený!
+[Color...]
+Farba...
+[Font...]
+Typ písma...
+[Syntax highlight]
+Zoznam syntax-u
+;file \plugins\Msg_Export\src\Glob.h
+;file \plugins\Msg_Export\src\main.cpp
+[Open E&xported History]
+Otvoriť exportovanú históriu
+;file \plugins\Msg_Export\src\options.cpp
+[No contacts found to export]
+Žiadne kontakty na export.
+[Failed to export at least one contact]
+Chyba pri exporte kontaktu
+[Sorting and writing database information ( Phase 2 of 2 )]
+Triedim a zapisujem databázové informácie (Časť 2 z 2)
+[Max line width must be at least %d]
+Maximálna dľžka riadku musí byť do %d
+[You need to restart miranda to change the history function]
+Musíte reštartovať mirandu pre zmenu funkcií histórie
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+Chyba v ceste ku Msg_Export.dll
+[File]
+Súbor
+[Nick]
+Prezívka
+[Nick]
+Prezívka
+[You have unapplyed changes do you wish to apply these first ?]
+Neaplikované zmeny sa majú aplikovať ako prvé?
+[All files]
+Všetky súbory
+[Select Destination Directory]
+Vyber cieľový adresár
+[Message export]
+Exportovať správu 
+;file \plugins\Msg_Export\src\utils.cpp
+[(Unknown Contact)]
+(neznámý kontakt)
+[Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
+Chyba pri premenovávaní súboru\n\nz:\t%s\nna:\t%s\n\nChyba: %s
+[Failed to open or create file :\n]
+Chyba v otvorení alebo vytvorení súboru :\n
+[Failed to move to the end of the file :\n]
+Chyba v ukončení súboru :\n
+[Failed to write message to the file :\n]
+Chyba pri zápise správy do súboru :\n
+[File: ]
+Súbor:
+[Description: ]
+Popis:
+[Failed to write URL/File to the file :\n]
+Chyba pri zápise URL/Súboru do súboru :\n
+[Nick      :]
+Prezívka   :
+[FirstName :]
+Meno       :
+[LastName  :]
+Priezvisko :
+[e-mail    :]
+E-mail     :
+[Reason    :]
+Dôvod      :
+[The following user made an authorization request:]
+Vybraný užívateľ požaduje autorizáciu:
+[The following user made an authorization request:]
+Vybraný užívateľ požaduje autorizáciu:
+[The following user added you to their contact list:]
+Tento užívatel si vás pridal do svojho zoznamu kontaktov:
+[The following user added you to their contact list:]
+Vybraný užívateľ bol pridaný do vášho zoznamu kontaktov:
+[The following user added you to their contact list:]
+Vybraný užívateľ bol pridaný do vášho zoznamu kontaktov:
+[EmailExpress from:]
+EmailExpres od:
+[WebPager from:]
+WebPager od:
+[No from address]
+Bez odosielatela
+[Failed to write EmailExpress to the file :\n]
+Chyba pri zapise EmailExpres do súboru: \n
+[Failed to write SMS to the file :\n]
+Chyba pri zápise SMS do súboru :\n
+[Failed to delete the file]
+Chyba pri mazaní súboru
