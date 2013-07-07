@@ -497,7 +497,7 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ENABLE_MATHMODULE), Options::isMathModule());
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SMILEYS_IN_NAMES), Options::isSmileyAdd());
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EMBED_SIZE), IsDlgButtonChecked(hwndDlg, IDC_ENABLE_EMBED));
-			TCHAR* size[] = {  LPGENT("320 x 205"), LPGENT("480 x 385") , LPGENT("560 x 349"), LPGENT("640 x 390")};
+			TCHAR* size[] = {  _T("320 x 205"), _T("480 x 385") , _T("560 x 349"), _T("640 x 390")};
 			for (i = 0; i < SIZEOF(size); ++i){
 				int item=SendDlgItemMessage(hwndDlg,IDC_EMBED_SIZE,CB_ADDSTRING,0,(LPARAM)TranslateTS(size[i]));
 				SendDlgItemMessage(hwndDlg,IDC_EMBED_SIZE,CB_SETITEMDATA,item,0);
