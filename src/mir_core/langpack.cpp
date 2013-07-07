@@ -208,8 +208,11 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 		if (IsEmpty(line) || line[0] == ';' || line[0] == 0)
 			continue;
 
+		size_t cbLen = strlen(line)-1;
+		if (line[cbLen] == '\n')
+			line[cbLen--] = 0;
+
 		if (line[0] == '#') {
-			rtrim(line);
 			strlwr(line);
 
 			if ( !memcmp(line+1, "include", 7)) {
@@ -253,7 +256,7 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 
 		ConvertBackslashes(line, fileCp);
 
-		if (line[0] == '[' && line[ lstrlenA(line)-1 ] == ']') {
+		if (line[0] == '[' && line[cbLen] == ']') {
 			if (langPack.entryCount && langPack.entry[ langPack.entryCount-1].wszLocal == NULL)
 				langPack.entryCount--;
 
