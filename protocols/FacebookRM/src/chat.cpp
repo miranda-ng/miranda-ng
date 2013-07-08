@@ -71,7 +71,7 @@ int FacebookProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
 	
 		if (isOnline()) {
 			LOG("**Chat - Outgoing message: %s", text);
-			ForkThread(&FacebookProto::SendChatMsgWorker, this, new send_chat(chat_id, msg));
+			ForkThread(&FacebookProto::SendChatMsgWorker, new send_chat(chat_id, msg));
 		}
 	
 		break;
@@ -228,7 +228,7 @@ void FacebookProto::AddChat(const char *id, const char *name)
 }
 */
 
-int FacebookProto::OnJoinChat(WPARAM,LPARAM suppress)
+INT_PTR FacebookProto::OnJoinChat(WPARAM,LPARAM suppress)
 {	
 /*	GCSESSION gcw = {sizeof(gcw)};
 
@@ -268,7 +268,7 @@ int FacebookProto::OnJoinChat(WPARAM,LPARAM suppress)
 	return 0;
 }
 
-int FacebookProto::OnLeaveChat(WPARAM,LPARAM)
+INT_PTR FacebookProto::OnLeaveChat(WPARAM,LPARAM)
 {
 	GCDEST gcd = { m_szModuleName };
 	gcd.ptszID = NULL;

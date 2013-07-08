@@ -156,14 +156,14 @@ struct GGGETAVATARDATA
 #define GG_SEQ_CHINFO			400
 
 // Services
-#define GGS_IMPORT_SERVER		"%s/ImportFromServer"
-#define GGS_REMOVE_SERVER		"%s/RemoveFromServer"
-#define GGS_IMPORT_TEXT 		"%s/ImportFromText"
-#define GGS_EXPORT_SERVER		"%s/ExportFromServer"
-#define GGS_EXPORT_TEXT 		"%s/ExportFromText"
+#define GGS_IMPORT_SERVER		"/ImportFromServer"
+#define GGS_REMOVE_SERVER		"/RemoveFromServer"
+#define GGS_IMPORT_TEXT 		"/ImportFromText"
+#define GGS_EXPORT_SERVER		"/ExportFromServer"
+#define GGS_EXPORT_TEXT 		"/ExportFromText"
 
-#define GGS_SENDIMAGE			"%s/SendImage"
-#define GGS_RECVIMAGE			"%s/RecvImage"
+#define GGS_SENDIMAGE			"/SendImage"
+#define GGS_RECVIMAGE			"/RecvImage"
 
 // Keys
 #define GG_PLUGINVERSION		"Version"		// Plugin version.. user for cleanup from previous versions

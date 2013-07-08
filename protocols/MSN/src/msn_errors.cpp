@@ -64,7 +64,7 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 	case ERR_NOT_ONLINE:
 		if (info->mInitialContactWLID)
 			ProtoBroadcastAck(MSN_HContactFromEmail(info->mInitialContactWLID), ACKTYPE_MESSAGE, ACKRESULT_FAILED,
-				(HANDLE)999999, (LPARAM)MSN_Translate("User not online"));
+				(HANDLE)999999, (LPARAM)Translate("User not online"));
 		else
 			MSN_ShowError("User not online");
 

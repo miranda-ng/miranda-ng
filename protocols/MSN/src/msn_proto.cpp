@@ -34,6 +34,7 @@ static int CompareLists(const MsnContact* p1, const MsnContact* p2)
 }
 
 CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
+	PROTO<CMsnProto>(aProtoName, aUserName),
 	contList(10, CompareLists),
 	grpList(10, CompareId),
 	sttThreads(10, PtrKeySortT),
@@ -43,8 +44,6 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	lsAvatarQueue(1),
 	msgCache(5, CompareId)
 {
-	ProtoConstructor(this, aProtoName, aUserName);
-
 	db_set_resident(m_szModuleName, "Status");
 	db_set_resident(m_szModuleName, "IdleTS");
 	db_set_resident(m_szModuleName, "p2pMsgId");
@@ -52,32 +51,32 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	db_set_resident(m_szModuleName, "MobileAllowed");
 
 	// Protocol services and events...
-	hMSNNudge = CreateProtoEvent("/Nudge");
+	hMSNNudge = CreateHookableEvent("/Nudge");
 
-	CreateProtoService(PS_CREATEACCMGRUI,        &CMsnProto::SvcCreateAccMgrUI);
+	CreateService(PS_CREATEACCMGRUI,        &CMsnProto::SvcCreateAccMgrUI);
 
-	CreateProtoService(PS_GETAVATARINFOT,        &CMsnProto::GetAvatarInfo);
-	CreateProtoService(PS_GETMYAWAYMSG,          &CMsnProto::GetMyAwayMsg);
+	CreateService(PS_GETAVATARINFOT,        &CMsnProto::GetAvatarInfo);
+	CreateService(PS_GETMYAWAYMSG,          &CMsnProto::GetMyAwayMsg);
 
-	CreateProtoService(PS_LEAVECHAT,             &CMsnProto::OnLeaveChat);
+	CreateService(PS_LEAVECHAT,             &CMsnProto::OnLeaveChat);
 
-	CreateProtoService(PS_GETMYAVATART,          &CMsnProto::GetAvatar);
-	CreateProtoService(PS_SETMYAVATART,          &CMsnProto::SetAvatar);
-	CreateProtoService(PS_GETAVATARCAPS,         &CMsnProto::GetAvatarCaps);
+	CreateService(PS_GETMYAVATART,          &CMsnProto::GetAvatar);
+	CreateService(PS_SETMYAVATART,          &CMsnProto::SetAvatar);
+	CreateService(PS_GETAVATARCAPS,         &CMsnProto::GetAvatarCaps);
 
-	CreateProtoService(PS_GET_LISTENINGTO,       &CMsnProto::GetCurrentMedia);
-	CreateProtoService(PS_SET_LISTENINGTO,       &CMsnProto::SetCurrentMedia);
+	CreateService(PS_GET_LISTENINGTO,       &CMsnProto::GetCurrentMedia);
+	CreateService(PS_SET_LISTENINGTO,       &CMsnProto::SetCurrentMedia);
 
-	CreateProtoService(PS_SETMYNICKNAME,         &CMsnProto::SetNickName);
-	CreateProtoService(MSN_SEND_NUDGE,           &CMsnProto::SendNudge);
+	CreateService(PS_SETMYNICKNAME,         &CMsnProto::SetNickName);
+	CreateService(MSN_SEND_NUDGE,           &CMsnProto::SendNudge);
 
-	CreateProtoService(MSN_GETUNREAD_EMAILCOUNT, &CMsnProto::GetUnreadEmailCount);
+	CreateService(MSN_GETUNREAD_EMAILCOUNT, &CMsnProto::GetUnreadEmailCount);
 
 	// event hooks
-	HookProtoEvent(ME_MSG_WINDOWPOPUP,           &CMsnProto::OnWindowPopup);
-	HookProtoEvent(ME_CLIST_GROUPCHANGE,         &CMsnProto::OnGroupChange);
-	HookProtoEvent(ME_OPT_INITIALISE,            &CMsnProto::OnOptionsInit);
-	HookProtoEvent(ME_CLIST_DOUBLECLICKED,       &CMsnProto::OnContactDoubleClicked);
+	HookEvent(ME_MSG_WINDOWPOPUP,           &CMsnProto::OnWindowPopup);
+	HookEvent(ME_CLIST_GROUPCHANGE,         &CMsnProto::OnGroupChange);
+	HookEvent(ME_OPT_INITIALISE,            &CMsnProto::OnOptionsInit);
+	HookEvent(ME_CLIST_DOUBLECLICKED,       &CMsnProto::OnContactDoubleClicked);
 
 	LoadOptions();
 
@@ -178,9 +177,7 @@ CMsnProto::~CMsnProto()
 	mir_free(storageCacheKey);
 
 	FreeAuthTokens();
-	ProtoDestructor(this);
 }
-
 
 int CMsnProto::OnModulesLoaded(WPARAM, LPARAM)
 {
@@ -195,11 +192,11 @@ int CMsnProto::OnModulesLoaded(WPARAM, LPARAM)
 		gcr.pszModule = m_szModuleName;
 		CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
 
-		HookProtoEvent(ME_GC_EVENT, &CMsnProto::MSN_GCEventHook);
-		HookProtoEvent(ME_GC_BUILDMENU, &CMsnProto::MSN_GCMenuHook);
+		HookEvent(ME_GC_EVENT, &CMsnProto::MSN_GCEventHook);
+		HookEvent(ME_GC_BUILDMENU, &CMsnProto::MSN_GCMenuHook);
 	}
 
-	HookProtoEvent(ME_IDLE_CHANGED, &CMsnProto::OnIdleChanged);
+	HookEvent(ME_IDLE_CHANGED, &CMsnProto::OnIdleChanged);
 	InitPopups();
 	return 0;
 }
@@ -666,7 +663,7 @@ void __cdecl CMsnProto::MsnGetAwayMsgThread(void* arg)
 	DBVARIANT dbv;
 	if (!db_get_ts(inf->hContact, "CList", "StatusMsg", &dbv)) {
 		ProtoBroadcastAck(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, (LPARAM)dbv.ptszVal);
-		MSN_FreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else ProtoBroadcastAck(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, 0);
 
@@ -708,7 +705,7 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, HANDLE hContact)
         return PF2_ONTHEPHONE;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (UINT_PTR)MSN_Translate("Live ID");
+		return (UINT_PTR)Translate("Live ID");
 
 	case PFLAG_UNIQUEIDSETTING:
 		return (UINT_PTR)"e-mail";
@@ -862,7 +859,7 @@ int __cdecl CMsnProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 
 	if (!msnLoggedIn)
 	{
-		errMsg = MSN_Translate("Protocol is offline");
+		errMsg = Translate("Protocol is offline");
 		ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, 999999, errMsg, this));
 		return 999999;
 	}
@@ -870,7 +867,7 @@ int __cdecl CMsnProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 	char tEmail[MSN_MAX_EMAIL_LEN];
 	if (MSN_IsMeByContact(hContact, tEmail))
 	{
-		errMsg = MSN_Translate("You cannot send message to yourself");
+		errMsg = Translate("You cannot send message to yourself");
 		ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, 999999, errMsg, this));
 		return 999999;
 	}
@@ -901,7 +898,7 @@ int __cdecl CMsnProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 	case NETID_MOB:
 		if (strlen(msg) > 133)
 		{
-			errMsg = MSN_Translate("Message is too long: SMS page limited to 133 UTF8 chars");
+			errMsg = Translate("Message is too long: SMS page limited to 133 UTF8 chars");
 			seq = 999997;
 		}
 		else
@@ -916,7 +913,7 @@ int __cdecl CMsnProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 		if (strlen(msg) > 1202)
 		{
 			seq = 999996;
-			errMsg = MSN_Translate("Message is too long: MSN messages are limited by 1202 UTF8 chars");
+			errMsg = Translate("Message is too long: MSN messages are limited by 1202 UTF8 chars");
 			ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
 		}
 		else
@@ -930,7 +927,7 @@ int __cdecl CMsnProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 		if (strlen(msg) > 1202)
 		{
 			seq = 999996;
-			errMsg = MSN_Translate("Message is too long: MSN messages are limited by 1202 UTF8 chars");
+			errMsg = Translate("Message is too long: MSN messages are limited by 1202 UTF8 chars");
 			ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
 		}
 		else
@@ -950,7 +947,7 @@ int __cdecl CMsnProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 					else
 					{
 						seq = 999993;
-						errMsg = MSN_Translate("Offline messaging is not allowed for LCS contacts");
+						errMsg = Translate("Offline messaging is not allowed for LCS contacts");
 						ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
 					}
 				}

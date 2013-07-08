@@ -22,10 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username)
+OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username) :
+	PROTO<OmegleProto>(proto_name, username)
 {
-	ProtoConstructor(this, proto_name, username);
-
 	this->facy.parent = this;
 
 	this->signon_lock_ = CreateMutex( NULL, FALSE, NULL );
@@ -34,13 +33,13 @@ OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username)
 	this->facy.connection_lock_ = CreateMutex( NULL, FALSE, NULL );
 
 	// Group chats
-	CreateProtoService(m_szModuleName, PS_JOINCHAT, &OmegleProto::OnJoinChat, this);
-	CreateProtoService(m_szModuleName, PS_LEAVECHAT, &OmegleProto::OnLeaveChat, this);
+	CreateService(PS_JOINCHAT, &OmegleProto::OnJoinChat);
+	CreateService(PS_LEAVECHAT, &OmegleProto::OnLeaveChat);
 
-	CreateProtoService(m_szModuleName, PS_CREATEACCMGRUI, &OmegleProto::SvcCreateAccMgrUI, this);
+	CreateService(PS_CREATEACCMGRUI, &OmegleProto::SvcCreateAccMgrUI);
 
-	HookProtoEvent(ME_OPT_INITIALISE, &OmegleProto::OnOptionsInit, this);
-	HookProtoEvent(ME_GC_EVENT, &OmegleProto::OnChatEvent, this);
+	HookEvent(ME_OPT_INITIALISE, &OmegleProto::OnOptionsInit);
+	HookEvent(ME_GC_EVENT, &OmegleProto::OnChatEvent);
 
 	// Create standard network connection
 	TCHAR descr[512];
@@ -169,9 +168,9 @@ int OmegleProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
 //////////////////////////////////////////////////////////////////////////////
 // EVENTS
 
-int OmegleProto::SvcCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
+INT_PTR OmegleProto::SvcCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
 {
-	return (int)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_OmegleACCOUNT),
+	return (INT_PTR)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_OmegleACCOUNT),
 		(HWND)lParam, OmegleAccountProc, (LPARAM)this );
 }
 

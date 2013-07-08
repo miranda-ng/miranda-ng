@@ -603,7 +603,7 @@ void CYahooProto::ext_got_file7info(const char *me, const char *who, const char 
 	
 	ft->url = strdup(url);
 	
-	YForkThread(&CYahooProto::recv_filethread, ft);
+	ForkThread(&CYahooProto::recv_filethread, ft);
 }
 
 void ext_yahoo_send_file7info(int id, const char *me, const char *who, const char *ft_token)
@@ -670,7 +670,7 @@ void CYahooProto::ext_ft7_send_file(const char *me, const char *who, const char 
 	s->token = strdup(token);
 	s->sf = sf;
 	
-	YForkThread(&CYahooProto::send_filethread, s);
+	ForkThread(&CYahooProto::send_filethread, s);
 }
 
 /**************** Send File ********************/
@@ -799,7 +799,7 @@ HANDLE __cdecl CYahooProto::FileAllow( HANDLE /*hContact*/, HANDLE hTransfer, co
 		return hTransfer;
 	}
 
-	YForkThread(&CYahooProto::recv_filethread, ft);
+	ForkThread(&CYahooProto::recv_filethread, ft);
 	return hTransfer;
 }
 

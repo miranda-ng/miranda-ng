@@ -120,18 +120,18 @@ struct MRA_ADDR_LIST
 // структура содержащая информацию по построению меню или расширеных иконок
 struct GUI_DISPLAY_ITEM
 {
-	LPSTR       lpszName;    // имя сервиса, оно же имя в иколибе
-	LPWSTR      lpwszDescr;  // текстовое описание отображаемое юзеру
-	LONG        defIcon;     // иконка из ресурсов
-	ServiceFunc	lpFunc;      // функция вызываемая меню
-	HANDLE      hIconHandle;
+	LPSTR         lpszName;    // имя сервиса, оно же имя в иколибе
+	LPWSTR        lpwszDescr;  // текстовое описание отображаемое юзеру
+	LONG          defIcon;     // иконка из ресурсов
+	CMraProto::MyServiceFunc lpFunc;      // функция вызываемая меню
+	HANDLE        hIconHandle;
 };
 
 // структура содержащая информацию о сервисах/функциях
 struct SERVICE_ITEM
 {
-	LPSTR			lpszName;		// имя сервиса, оно же имя в иколибе
-	ServiceFunc	lpFunc;			// функция вызываемая
+	LPSTR         lpszName;		// имя сервиса, оно же имя в иколибе
+	CMraProto::MyServiceFunc lpFunc;			// функция вызываемая
 };
 
 extern GUI_DISPLAY_ITEM gdiMenuItems[];

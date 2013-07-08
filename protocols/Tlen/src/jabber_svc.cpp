@@ -1264,10 +1264,9 @@ void TlenInitServicesVTbl(TlenProtocol *proto) {
 
 }
 
-TlenProtocol::TlenProtocol( const char* aProtoName, const TCHAR* aUserName )
+TlenProtocol::TlenProtocol( const char *aProtoName, const TCHAR *aUserName) :
+	PROTO<TlenProtocol>(aProtoName, aUserName)
 {
-	ProtoConstructor(this, aProtoName, aUserName);
-
 	TlenInitServicesVTbl(this);
 
 	InitializeCriticalSection(&modeMsgMutex);
@@ -1304,7 +1303,6 @@ TlenProtocol::TlenProtocol( const char* aProtoName, const TCHAR* aUserName )
 	JabberSerialInit(this);
 	JabberIqInit(this);
 	JabberListInit(this);
-
 }
 
 TlenProtocol::~TlenProtocol()
@@ -1330,6 +1328,4 @@ TlenProtocol::~TlenProtocol()
 	mir_free(modeMsgs.szDnd);
 	mir_free(modeMsgs.szFreechat);
 	mir_free(modeMsgs.szInvisible);
-
-	ProtoDestructor(this);
 }

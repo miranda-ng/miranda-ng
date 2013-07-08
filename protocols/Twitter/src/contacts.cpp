@@ -48,7 +48,7 @@ HANDLE TwitterProto::AddToList(int flags,PROTOSEARCHRESULT *result)
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
-	ForkThread(&TwitterProto::AddToListWorker,this,mir_utf8encodeT(result->nick));
+	ForkThread(&TwitterProto::AddToListWorker, mir_utf8encodeT(result->nick));
 	return AddToClientList( _T2A(result->nick),"");
 }
 
@@ -87,7 +87,7 @@ int TwitterProto::GetInfo(HANDLE hContact,int info_type)
 
 	if(info_type == 0) // From clicking "Update" in the Userinfo dialog
 	{
-		ForkThread(&TwitterProto::UpdateInfoWorker,this,hContact);
+		ForkThread(&TwitterProto::UpdateInfoWorker, hContact);
 		return 0;
 	}
 
@@ -152,13 +152,13 @@ void TwitterProto::DoSearch(void *p)
 
 HANDLE TwitterProto::SearchBasic(const TCHAR *username)
 {
-	ForkThread(&TwitterProto::DoSearch,this,new search_query(username,false));
+	ForkThread(&TwitterProto::DoSearch, new search_query(username,false));
 	return (HANDLE)1;
 }
 
 HANDLE TwitterProto::SearchByEmail(const TCHAR *email)
 {
-	ForkThread(&TwitterProto::DoSearch,this,new search_query(email,true));
+	ForkThread(&TwitterProto::DoSearch, new search_query(email,true));
 	return (HANDLE)1;
 }
 
@@ -179,7 +179,7 @@ void TwitterProto::GetAwayMsgWorker(void *hContact)
 
 HANDLE TwitterProto::GetAwayMsg(HANDLE hContact)
 {
-	ForkThread(&TwitterProto::GetAwayMsgWorker, this,hContact);
+	ForkThread(&TwitterProto::GetAwayMsgWorker, hContact);
 	return (HANDLE)1;
 }
 

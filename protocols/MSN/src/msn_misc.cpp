@@ -235,7 +235,7 @@ void  CMsnProto::MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t c
 				deleteSetting(hContact, "PictContext");
 				if (cbLen) pszDest[0] = 0;
 			}
-			MSN_FreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else if (cbLen)
 			pszDest[0] = 0;
@@ -517,7 +517,7 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 
 				if (*p == 0) {
 					UrlEncode(dbv.pszVal, tFontName, sizeof(tFontName));
-					MSN_FreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 
@@ -806,7 +806,7 @@ void  CMsnProto::MSN_SetServerStatus(int newStatus)
 			if (!getStringUtf("Nick", &dbv)) {
 				if (dbv.pszVal[0])
 					MSN_SetNicknameUtf(dbv.pszVal);
-				MSN_FreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 

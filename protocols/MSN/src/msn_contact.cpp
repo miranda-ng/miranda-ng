@@ -188,7 +188,7 @@ bool CMsnProto::MSN_AddUser(HANDLE hContact, const char* email, int netId, int f
 				if (!db_get_utf(hContact, "CList", "Group", &dbv))
 				{
 					MSN_MoveContactToGroup(hContact, dbv.pszVal);
-					MSN_FreeVariant(&dbv);
+					db_free(&dbv);
 				}
 
 				char szContactID[100];
@@ -205,7 +205,7 @@ bool CMsnProto::MSN_AddUser(HANDLE hContact, const char* email, int netId, int f
 				if (netId == 1 && strstr(email, "@yahoo.com") != 0)
 					MSN_FindYahooUser(email);
 			}
-			MSN_FreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	else if (flags == LIST_LL)

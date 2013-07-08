@@ -94,9 +94,9 @@ int GGPROTO::refreshstatus(int status)
 		threadwait(&pth_sess);
 #ifdef DEBUGMODE
 		netlog("refreshstatus(): Waiting pth_sess thread - OK");
-		netlog("refreshstatus(): forkthreadex 21 GGPROTO::mainthread");
+		netlog("refreshstatus(): ForkThreadEx 21 GGPROTO::mainthread");
 #endif
-		pth_sess.hThread = forkthreadex(&GGPROTO::mainthread, NULL, &pth_sess.dwThreadId);
+		pth_sess.hThread = ForkThreadEx(&GGPROTO::mainthread, NULL, &pth_sess.dwThreadId);
 	}
 	else
 	{

@@ -334,7 +334,7 @@ void CIcqProto::servlistQueueAddGroupItem(servlistgroupitem* pGroupItem, int dwT
 	if (!servlistQueueThreadHandle)
 	{
 		// create new board thread
-		servlistQueueThreadHandle = ForkThreadEx( &CIcqProto::servlistQueueThread, &servlistQueueState );
+		servlistQueueThreadHandle = ForkThreadEx(&CIcqProto::servlistQueueThread, &servlistQueueState, 0);
 	}
 	else // signal thread, that queue was changed during sleep
 		servlistQueueState = TRUE;
@@ -444,7 +444,7 @@ void CIcqProto::servlistProcessLogin()
 
 	// if the server-list queue contains items and thread is not running, start it
 	if (servlistQueueCount && !servlistQueueThreadHandle)
-		servlistQueueThreadHandle = ForkThreadEx( &CIcqProto::servlistQueueThread, &servlistQueueState );
+		servlistQueueThreadHandle = ForkThreadEx(&CIcqProto::servlistQueueThread, &servlistQueueState, 0);
 }
 
 // HERE ENDS SERVER-LIST UPDATE BOARD IMPLEMENTATION //

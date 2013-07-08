@@ -605,6 +605,22 @@ MIR_CORE_DLL(void) ProtoConstructor(struct PROTO_INTERFACE *pThis, const char *p
 // Call it in the very end of your proto's destructor
 MIR_CORE_DLL(void) ProtoDestructor(struct PROTO_INTERFACE *pThis);
 
+#if defined( __cplusplus )
+typedef void (__cdecl PROTO_INTERFACE::*ProtoThreadFunc)(void*);
+MIR_CORE_DLL(void)   ProtoForkThread(PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param);
+MIR_CORE_DLL(HANDLE) ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param, UINT* threadID);
+
+typedef int (__cdecl PROTO_INTERFACE::*ProtoEventFunc)(WPARAM, LPARAM);
+MIR_CORE_DLL(void)   ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szName, ProtoEventFunc pFunc);
+MIR_CORE_DLL(HANDLE) ProtoCreateHookableEvent(PROTO_INTERFACE *pThis, const char* szService);
+
+typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFunc)(WPARAM, LPARAM);
+MIR_CORE_DLL(void)   ProtoCreateService(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc);
+
+typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFuncParam)(WPARAM, LPARAM, LPARAM);
+MIR_CORE_DLL(void)   ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam, LPARAM);
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////
 // sha1 functions
 

@@ -183,7 +183,7 @@ BOOL CJabberIqManager::Start()
 	if (m_hExpirerThread || m_bExpirerThreadShutdownRequest)
 		return FALSE;
 
-	m_hExpirerThread = ppro->JForkThreadEx(&CJabberProto::ExpirerThread, this);
+	m_hExpirerThread = ppro->ForkThreadEx(&CJabberProto::ExpirerThread, this, 0);
 	if ( !m_hExpirerThread)
 		return FALSE;
 

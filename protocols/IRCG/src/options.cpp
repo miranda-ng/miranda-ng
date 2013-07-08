@@ -955,7 +955,7 @@ void CCtcpPrefsDlg::OnApply()
 		m_ip.GetTextA( szTemp, sizeof( szTemp ));
 		lstrcpynA(m_proto->m_mySpecifiedHost, GetWord(szTemp, 0).c_str(), 499);
 		if ( lstrlenA( m_proto->m_mySpecifiedHost ))
-			m_proto->ircFork( &CIrcProto::ResolveIPThread, new IPRESOLVE( m_proto->m_mySpecifiedHost, IP_MANUAL ));
+			m_proto->ForkThread( &CIrcProto::ResolveIPThread, new IPRESOLVE( m_proto->m_mySpecifiedHost, IP_MANUAL ));
 	}
 	else m_proto->m_mySpecifiedHost[0] = 0;
 

@@ -195,12 +195,6 @@ using namespace irc;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CIrcProto;
-typedef void    ( __cdecl CIrcProto::*IrcThreadFunc )( void* param );
-typedef int     ( __cdecl CIrcProto::*IrcEventFunc )( WPARAM, LPARAM );
-typedef INT_PTR ( __cdecl CIrcProto::*IrcServiceFunc )( WPARAM, LPARAM );
-typedef INT_PTR ( __cdecl CIrcProto::*IrcServiceFuncParam )( WPARAM, LPARAM, LPARAM );
-
 typedef bool (CIrcProto::*PfnIrcMessageHandler)(const CIrcMessage* pmsg);
 
 struct CIrcHandler
@@ -214,9 +208,9 @@ struct CIrcHandler
 	PfnIrcMessageHandler m_handler;
 };
 
-struct CIrcProto : public PROTO_INTERFACE
+struct CIrcProto : public PROTO<CIrcProto>
 {
-				CIrcProto( const char*, const TCHAR* );
+				CIrcProto(const char*, const TCHAR*);
 			   ~CIrcProto();
 
 				// Protocol interface
@@ -483,11 +477,7 @@ struct CIrcProto : public PROTO_INTERFACE
 	void   ConnectToServer(void);
 	void   DisconnectFromServer(void);
 	void   DoNetlibLog( const char* fmt, ... );
-	void   IrcHookEvent( const char*, IrcEventFunc );
 	void   InitMainMenus(void);
-
-	void   ircFork( IrcThreadFunc, void* arg );
-	HANDLE ircForkEx( IrcThreadFunc, void* arg );
 
 	UINT_PTR  RetryTimer;
 
@@ -498,11 +488,10 @@ struct CIrcProto : public PROTO_INTERFACE
 	void     AddToJTemp(TCHAR op, CMString& sCommand);
 	bool     AddWindowItemData(CMString window, const TCHAR* pszLimit, const TCHAR* pszMode, const TCHAR* pszPassword, const TCHAR* pszTopic);
 	INT_PTR  CallChatEvent(WPARAM wParam, LPARAM lParam);
-	void     CreateProtoService( const char* serviceName, IrcServiceFunc pFunc );
 	INT_PTR  DoEvent(int iEvent, const TCHAR* pszWindow, const TCHAR* pszNick, const TCHAR* pszText, const TCHAR* pszStatus, const TCHAR* pszUserInfo, DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe,time_t timestamp = 1);
 	void     FindLocalIP(HANDLE con);
 	bool     FreeWindowItemData(CMString window, CHANNELINFO* wis);
-	bool  IsChannel(const char* sName);
+	bool     IsChannel(const char* sName);
 	bool     IsChannel(const TCHAR* sName);
 	void     KillChatTimer(UINT_PTR &nIDEvent);
 	CMString MakeWndID(const TCHAR* sWindow);

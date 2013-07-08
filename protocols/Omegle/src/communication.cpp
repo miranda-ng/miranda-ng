@@ -701,10 +701,9 @@ bool Omegle_client::events( )
 					db_free(&dbv);
 	
 					parent->Log("**Chat - saying Hi! message");
-					ForkThread(&OmegleProto::SendMsgWorker, parent, (void*)message);
-				} else {
-					parent->Log("**Chat - Hi message is enabled but not used");
+					parent->ForkThread(&OmegleProto::SendMsgWorker, message);
 				}
+				else parent->Log("**Chat - Hi message is enabled but not used");
 			}
 		}
 

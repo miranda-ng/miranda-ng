@@ -292,7 +292,7 @@ DWORD CMraProto::MraFilesQueueAccept(HANDLE hFilesQueueHandle, DWORD dwIDRequest
 		pmftpp->hFilesQueueHandle = hFilesQueueHandle;
 		pmftpp->dat = dat;
 
-		dat->hThread = ForkThreadEx(&CMraProto::MraFilesQueueRecvThreadProc, pmftpp);
+		dat->hThread = ForkThreadEx(&CMraProto::MraFilesQueueRecvThreadProc, pmftpp, 0);
 	}
 	return dwRetErrorCode;
 }
@@ -1002,7 +1002,7 @@ DWORD CMraProto::MraFilesQueueAddSend(HANDLE hFilesQueueHandle, DWORD dwFlags, H
 	MRA_FILES_THREADPROC_PARAMS *pmftpp = (MRA_FILES_THREADPROC_PARAMS*)mir_calloc(sizeof(MRA_FILES_THREADPROC_PARAMS));
 	pmftpp->hFilesQueueHandle = hFilesQueueHandle;
 	pmftpp->dat = dat;
-	dat->hThread = ForkThreadEx(&CMraProto::MraFilesQueueSendThreadProc, pmftpp);
+	dat->hThread = ForkThreadEx(&CMraProto::MraFilesQueueSendThreadProc, pmftpp, 0);
 
 	return NO_ERROR;
 }

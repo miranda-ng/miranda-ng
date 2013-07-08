@@ -37,23 +37,17 @@
 
 #define XSTATUS_COUNT 86
 
-struct CIcqProto;
-typedef void    ( __cdecl CIcqProto::*IcqThreadFunc )( void* );
-typedef int     ( __cdecl CIcqProto::*IcqEventFunc )( WPARAM, LPARAM );
-typedef INT_PTR ( __cdecl CIcqProto::*IcqServiceFunc )( WPARAM, LPARAM );
-typedef INT_PTR ( __cdecl CIcqProto::*IcqServiceFuncParam )( WPARAM, LPARAM, LPARAM );
-
 // for InfoUpdate
 struct userinfo
 {
-  DWORD dwUin;
+	DWORD dwUin;
 	HANDLE hContact;
-  time_t queued;
+	time_t queued;
 };
 
-struct CIcqProto : public PROTO_INTERFACE
+struct CIcqProto : public PROTO<CIcqProto>
 {
-				CIcqProto( const char*, const TCHAR* );
+				CIcqProto(const char*, const TCHAR*);
 				~CIcqProto();
 
 	//====================================================================================
@@ -898,16 +892,8 @@ struct CIcqProto : public PROTO_INTERFACE
 	DWORD  ReportGenericSendError(HANDLE hContact, int nType, const char* szErrorMsg);
 	void   SetCurrentStatus(int nStatus);
 
-	void   ForkThread( IcqThreadFunc pFunc, void* arg );
-	HANDLE ForkThreadEx( IcqThreadFunc pFunc, void* arg, UINT* threadID = NULL );
-
 	void   __cdecl ProtocolAckThread(icq_ack_args* pArguments);
 	void   SendProtoAck(HANDLE hContact, DWORD dwCookie, int nAckResult, int nAckType, char* pszMessage);
-
-	HANDLE CreateProtoEvent(const char* szEvent);
-	void   CreateProtoService(const char* szService, IcqServiceFunc serviceProc);
-	void   CreateProtoServiceParam(const char* szService, IcqServiceFuncParam serviceProc, LPARAM lParam);
-	HANDLE HookProtoEvent(const char* szEvent, IcqEventFunc pFunc);
 
 	int    NetLog_Server(const char *fmt,...);
 	int    NetLog_Direct(const char *fmt,...);

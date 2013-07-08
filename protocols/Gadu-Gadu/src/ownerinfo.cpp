@@ -81,7 +81,7 @@ void GGPROTO::remindpassword(uin_t uin, const char *email)
 	rp->uin = uin;
 	rp->email = email;
 #ifdef DEBUGMODE
-	netlog("remindpassword(): forkthreadex 20 GGPROTO::remindpasswordthread");
+	netlog("remindpassword(): ForkThreadEx 20 GGPROTO::remindpasswordthread");
 #endif
-	forkthread(&GGPROTO::remindpasswordthread, rp);
+	ForkThread(&GGPROTO::remindpasswordthread, rp);
 }

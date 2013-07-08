@@ -155,7 +155,7 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo* pInfo)
 								jbt->ft = ft;
 								ft->type = FT_BYTESTREAM;
 								ft->jbt = jbt;
-								JForkThread((JThreadFunc)&CJabberProto::ByteSendThread, jbt);
+								ForkThread((MyThreadFunc)&CJabberProto::ByteSendThread, jbt);
 							} else if ( !_tcscmp(xmlGetText(valueNode), _T(JABBER_FEAT_IBB))) {
 								JABBER_IBB_TRANSFER *jibb = (JABBER_IBB_TRANSFER *) mir_alloc(sizeof (JABBER_IBB_TRANSFER));
 								ZeroMemory(jibb, sizeof(JABBER_IBB_TRANSFER));
@@ -167,7 +167,7 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo* pInfo)
 								jibb->ft = ft;
 								ft->type = FT_IBB;
 								ft->jibb = jibb;
-								JForkThread((JThreadFunc)&CJabberProto::IbbSendThread, jibb);
+								ForkThread((MyThreadFunc)&CJabberProto::IbbSendThread, jibb);
 	}	}	}	}	}	}	}
 	else {
 		Log("File transfer stream initiation request denied or failed");
@@ -443,7 +443,7 @@ BOOL CJabberProto::FtHandleBytestreamRequest(HXML iqNode, CJabberIqInfo* pInfo)
 		jbt->pfnFinal = &CJabberProto::FtReceiveFinal;
 		jbt->ft = item->ft;
 		item->ft->jbt = jbt;
-		JForkThread((JThreadFunc)&CJabberProto::ByteReceiveThread, jbt);
+		ForkThread((MyThreadFunc)&CJabberProto::ByteReceiveThread, jbt);
 		ListRemove(LIST_FTRECV, sid);
 		return TRUE;
 	}
@@ -490,7 +490,7 @@ BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
 			jibb->ft = item->ft;
 			item->ft->jibb = jibb;
 			item->jibb = jibb;
-			JForkThread((JThreadFunc)&CJabberProto::IbbReceiveThread, jibb);
+			ForkThread((MyThreadFunc)&CJabberProto::IbbReceiveThread, jibb);
 
 			m_ThreadInfo->send( XmlNodeIq(_T("result"), id, from));
 			return TRUE;

@@ -385,7 +385,7 @@ void CIcqProto::sendServPacketAsync(icq_packet *packet)
 	pPacket = (icq_packet*)SAFE_MALLOC(sizeof(icq_packet)); // This will be freed in the new thread
 	memcpy(pPacket, packet, sizeof(icq_packet));
 
-	ForkThread(( IcqThreadFunc )&CIcqProto::SendPacketAsyncThread, pPacket);
+	ForkThread((MyThreadFunc)&CIcqProto::SendPacketAsyncThread, pPacket);
 }
 
 
@@ -438,5 +438,5 @@ void CIcqProto::icq_login(const char* szPassword)
 	// Initialize members
 	m_avatarsConnectionPending = TRUE;
 
-	serverThreadHandle = ForkThreadEx(( IcqThreadFunc )&CIcqProto::ServerThread, stsi, &serverThreadId);
+	serverThreadHandle = ForkThreadEx((MyThreadFunc)&CIcqProto::ServerThread, stsi, &serverThreadId);
 }

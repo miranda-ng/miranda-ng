@@ -46,12 +46,12 @@ public:
 		timestamp = time(0);
 		szModule = 0;
 		cbSize = 0;
-		cbBlob = strlen(msg)+1;
+		cbBlob = DWORD(strlen(msg)+1);
 		pBlob = (PBYTE)msg;
 	}
 	db_event(char* msg, DWORD time)
 	{
-		cbBlob = strlen(msg)+1;
+		cbBlob = DWORD(strlen(msg)+1);
 		pBlob = (PBYTE)msg;
 		eventType = EVENTTYPE_MESSAGE;
 		flags = 0;
@@ -61,7 +61,7 @@ public:
 	}
 	db_event(char* msg, DWORD time, int type)
 	{
-		cbBlob = strlen(msg)+1;
+		cbBlob = DWORD(strlen(msg)+1);
 		pBlob = (PBYTE)msg;
 		if(type)
 			eventType = type;
@@ -74,7 +74,7 @@ public:
 	}
 	db_event(char* msg, int type)
 	{
-		cbBlob = strlen(msg)+1;
+		cbBlob = DWORD(strlen(msg)+1);
 		pBlob = (PBYTE)msg;
 		flags = 0;
 		if(type)
@@ -87,7 +87,7 @@ public:
 	}
 	db_event(char* msg, DWORD time, int type, DWORD _flags)
 	{
-		cbBlob = strlen(msg)+1;
+		cbBlob = DWORD(strlen(msg)+1);
 		pBlob = (PBYTE)msg;
 		if(type)
 			eventType = type;

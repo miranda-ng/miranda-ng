@@ -162,7 +162,7 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			ShowWindow(hwndDlg,SW_HIDE);
 
 			char *narrow = mir_t2a_cp(msg,CP_UTF8);
-			ForkThread(&TwitterProto::SendTweetWorker, proto,narrow);
+			proto->ForkThread(&TwitterProto::SendTweetWorker, narrow);
 
 			EndDialog(hwndDlg, wParam); 
 			return true;

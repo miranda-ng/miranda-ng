@@ -87,7 +87,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 	DBVARIANT dbv;
 	if ( getString(AI->hContact, AI->hContact ? "PictContext" : "PictObject", &dbv) == 0) {
 		szContext = (char*)NEWSTR_ALLOCA(dbv.pszVal);
-		MSN_FreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else return GAIR_NOAVATAR;
 
@@ -98,7 +98,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 		bool needupdate = true;
 		if (getString(AI->hContact, "PictSavedContext", &dbv) == 0) {
 			needupdate = strcmp(dbv.pszVal, szContext) != 0;
-			MSN_FreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		if (needupdate) {
@@ -392,7 +392,7 @@ int CMsnProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 		DBVARIANT dbv;
 		if (!getTString(hContact, "ChatRoomID", &dbv)) {
 			MSN_KillChatSession(dbv.ptszVal);
-			MSN_FreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	else
@@ -630,7 +630,7 @@ INT_PTR CMsnProto::OnLeaveChat(WPARAM wParam,LPARAM lParam)
 		if (getTString(hContact, "ChatRoomID", &dbv) == 0)
 		{
 			MSN_KillChatSession(dbv.ptszVal);
-			MSN_FreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	return 0;

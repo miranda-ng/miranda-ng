@@ -100,7 +100,7 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 			if (pmraaqAvatarsQueue->iThreadsCount > MAXIMUM_WAIT_OBJECTS)
 				pmraaqAvatarsQueue->iThreadsCount = MAXIMUM_WAIT_OBJECTS;
 			for (int i=0; i < pmraaqAvatarsQueue->iThreadsCount; i++)
-				pmraaqAvatarsQueue->hThread[i] = ForkThreadEx(&CMraProto::MraAvatarsThreadProc, pmraaqAvatarsQueue);
+				pmraaqAvatarsQueue->hThread[i] = ForkThreadEx(&CMraProto::MraAvatarsThreadProc, pmraaqAvatarsQueue, 0);
 
 			*phAvatarsQueueHandle = (HANDLE)pmraaqAvatarsQueue;
 		}

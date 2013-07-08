@@ -52,9 +52,9 @@ void GGPROTO::dccstart()
 
 	// Start thread
 #ifdef DEBUGMODE
-	netlog("dccstart(): forkthreadex 4 GGPROTO::dccmainthread");
+	netlog("dccstart(): ForkThreadEx 4 GGPROTO::dccmainthread");
 #endif
-	pth_dcc.hThread = forkthreadex(&GGPROTO::dccmainthread, NULL, &pth_dcc.dwThreadId);
+	pth_dcc.hThread = ForkThreadEx(&GGPROTO::dccmainthread, NULL, &pth_dcc.dwThreadId);
 }
 
 void GGPROTO::dccconnect(uin_t uin)
@@ -113,9 +113,9 @@ HANDLE ftfail(GGPROTO *gg, HANDLE hContact)
 	ft->hProcess = (HANDLE)rand();
 	ft->hContact = hContact;
 #ifdef DEBUGMODE
-	gg->netlog("ftfail(): forkthread 5 GGPROTO::ftfailthread");
+	gg->netlog("ftfail(): ForkThread 5 GGPROTO::ftfailthread");
 #endif
-	gg->forkthread(&GGPROTO::ftfailthread, ft);
+	gg->ForkThread(&GGPROTO::ftfailthread, ft);
 	return ft->hProcess;
 }
 

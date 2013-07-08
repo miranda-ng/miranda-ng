@@ -277,46 +277,6 @@ INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 }
 
 //////////////////////////////////////////////////////////
-// Hooks protocol event
-
-HANDLE GGPROTO::hookProtoEvent(const char* szEvent, GGEventFunc handler)
-{
-	return ::HookEventObj(szEvent, ( MIRANDAHOOKOBJ )*( void** )&handler, this);
-}
-
-//////////////////////////////////////////////////////////
-// Adds a new protocol specific service function
-
-void GGPROTO::createObjService(const char* szService, GGServiceFunc serviceProc)
-{
-	CreateServiceFunctionObj(szService, (MIRANDASERVICEOBJ)*( void** )&serviceProc, this);
-}
-
-void GGPROTO::createProtoService(const char* szService, GGServiceFunc serviceProc)
-{
-	char str[MAXMODULELABELLENGTH];
-	mir_snprintf(str, sizeof(str), "%s%s", m_szModuleName, szService);
-	CreateServiceFunctionObj(str, (MIRANDASERVICEOBJ)*( void** )&serviceProc, this);
-}
-
-//////////////////////////////////////////////////////////
-// Forks a thread
-
-void GGPROTO::forkthread(GGThreadFunc pFunc, void *param)
-{
-	UINT threadId;
-	CloseHandle( mir_forkthreadowner((pThreadFuncOwner)*(void**)&pFunc, this, param, &threadId));
-}
-
-//////////////////////////////////////////////////////////
-// Forks a thread and returns a pseudo handle for it
-
-HANDLE GGPROTO::forkthreadex(GGThreadFunc pFunc, void *param, UINT *threadId)
-{
-	return mir_forkthreadowner((pThreadFuncOwner)*(void**)&pFunc, this, param, threadId);
-}
-
-//////////////////////////////////////////////////////////
 // Wait for thread to stop
 
 void GGPROTO::threadwait(GGTHREAD *thread)

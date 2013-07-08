@@ -140,7 +140,7 @@ std::tstring FacebookProto::GetAvatarFolder()
 	return path;
 }
 
-int FacebookProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
+INT_PTR FacebookProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 {
 	int res = 0;
 
@@ -177,7 +177,7 @@ int FacebookProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	return res;
 }
 
-int FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
+INT_PTR FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	if (!lParam)
 		return GAIR_NOAVATAR;
@@ -203,7 +203,7 @@ int FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 				bool is_empty = avatar_queue.empty();
 				avatar_queue.push_back(AI->hContact);
 				if (is_empty)
-					ForkThread(&FacebookProto::UpdateAvatarWorker, this, NULL);
+					ForkThread(&FacebookProto::UpdateAvatarWorker, NULL);
 			}
 			return GAIR_WAITFOR;
 		}
@@ -214,7 +214,7 @@ int FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	return GAIR_NOAVATAR;
 }
 
-int FacebookProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
+INT_PTR FacebookProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	LOG("***** GetMyAvatar");
 
@@ -225,8 +225,7 @@ int FacebookProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	int  size = (int)lParam;
 
 	PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai)};
-	switch (GetAvatarInfo(0, (LPARAM)&ai))
-	{
+	switch (GetAvatarInfo(0, (LPARAM)&ai)) {
 	case GAIR_SUCCESS:
 		_tcsncpy(buf, ai.filename, size);
 		buf[size-1] = 0;

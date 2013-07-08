@@ -65,7 +65,7 @@ static TwitterProto * GetInstanceByHContact(HANDLE hContact)
 	return 0;
 }
 
-template<int (__cdecl TwitterProto::*Fcn)(WPARAM,LPARAM)>
+template<INT_PTR (__cdecl TwitterProto::*Fcn)(WPARAM,LPARAM)>
 INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
 {
 	TwitterProto *proto = GetInstanceByHContact(reinterpret_cast<HANDLE>(wParam));

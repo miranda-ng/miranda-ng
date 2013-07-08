@@ -127,7 +127,7 @@ bool bOpenLogFile() {
 
 bool bWriteToFile(HANDLE hFile, const char * pszSrc, int nLen = -1) {
 	if (nLen < 0)
-		nLen = strlen(pszSrc);
+		nLen = (int)strlen(pszSrc);
 	DWORD dwBytesWritten;
 	return WriteFile(hFile, pszSrc, nLen, &dwBytesWritten, NULL) && (dwBytesWritten == (DWORD)nLen);
 }
@@ -162,9 +162,9 @@ void LogEvent(const TCHAR * pszTitle, const char * pszLog) {
 	char szTmp[128];
 	time_t now;
 	time(&now);
-	int nLen = strftime(szTmp, sizeof(szTmp), "%d-%m-%Y %H:%M:%S -- ", localtime(&now));
+	int nLen = (int)strftime(szTmp, sizeof(szTmp), "%d-%m-%Y %H:%M:%S -- ", localtime(&now));
 
-	int nLogLen = strlen(pszLog);
+	int nLogLen = (int)strlen(pszLog);
 	while (nLogLen > 0 && (pszLog[nLogLen-1] == '\r' || pszLog[nLogLen-1] == '\n'))
 		nLogLen--;
 
@@ -242,7 +242,7 @@ bool bReadConfigurationFile() {
 		
 		// move rest of buffer to front
 		if (pszCurPos && pszCurPos != szBuf) {
-			dwBytesInBuffer = sizeof(szBuf) - (pszCurPos - szBuf);
+			dwBytesInBuffer = DWORD(sizeof(szBuf) - (pszCurPos - szBuf));
 			memmove(szBuf, pszCurPos, dwBytesInBuffer);
 		}
 		
@@ -915,7 +915,7 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 			return 1;
 		}
 
-		nPluginPathLen = strlen(szPluginPath);
+		nPluginPathLen = (int)strlen(szPluginPath);
 
 		sLogFilePath = szPluginPath;
 		sLogFilePath += "HTTPServer.log";

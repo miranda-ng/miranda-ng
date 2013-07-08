@@ -176,7 +176,7 @@ void __cdecl CYahooProto::im_sendackfail_longmsg(HANDLE hContact)
 int __cdecl CYahooProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc )
 {
 	if (!m_bLoggedIn) {/* don't send message if we not connected! */
-		YForkThread( &CYahooProto::im_sendackfail, hContact );
+		ForkThread( &CYahooProto::im_sendackfail, hContact );
 		return 1;
 	}
 
@@ -189,7 +189,7 @@ int __cdecl CYahooProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc
 		msg = mir_utf8encode(pszSrc);
 
 	if (lstrlenA(msg) > 800) {
-		YForkThread( &CYahooProto::im_sendackfail_longmsg, hContact );
+		ForkThread( &CYahooProto::im_sendackfail_longmsg, hContact );
 		return 1;
 	}
 
@@ -197,7 +197,7 @@ int __cdecl CYahooProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc
 	if (!GetString( hContact, YAHOO_LOGINID, &dbv)) {
 		send_msg(dbv.pszVal, GetWord( hContact, "yprotoid", 0), msg, 1);
 
-		YForkThread( &CYahooProto::im_sendacksuccess, hContact );
+		ForkThread( &CYahooProto::im_sendacksuccess, hContact );
 
 		db_free(&dbv);
 		return 1;
@@ -234,7 +234,7 @@ INT_PTR __cdecl CYahooProto::SendNudge(WPARAM wParam, LPARAM lParam)
 	DebugLog("[YAHOO_SENDNUDGE]");
 
 	if (!m_bLoggedIn) {/* don't send nudge if we not connected! */
-		YForkThread( &CYahooProto::im_sendackfail, hContact );
+		ForkThread( &CYahooProto::im_sendackfail, hContact );
 		return 1;
 	}
 
@@ -243,7 +243,7 @@ INT_PTR __cdecl CYahooProto::SendNudge(WPARAM wParam, LPARAM lParam)
 		send_msg(dbv.pszVal, GetWord(hContact, "yprotoid", 0), "<ding>", 0);
 		db_free(&dbv);
 
-		YForkThread( &CYahooProto::im_sendacksuccess, hContact );
+		ForkThread( &CYahooProto::im_sendacksuccess, hContact );
 		return 1;
 	}
 

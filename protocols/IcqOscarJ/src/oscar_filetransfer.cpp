@@ -809,7 +809,7 @@ static void oft_newConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, v
 	otsi->listener = listener;
 
 	// Start a new thread for the incomming connection
-	listener->ppro->ForkThread(( IcqThreadFunc )&CIcqProto::oft_connectionThread, otsi );
+	listener->ppro->ForkThread((CIcqProto::MyThreadFunc)&CIcqProto::oft_connectionThread, otsi );
 }
 
 
@@ -1241,7 +1241,7 @@ void CIcqProto::OpenOscarConnection(HANDLE hContact, oscar_filetransfer *ft, int
 	otsi->type = type;
 	otsi->ft = ft;
 
-	ForkThread(( IcqThreadFunc )&CIcqProto::oft_connectionThread, otsi );
+	ForkThread((MyThreadFunc)&CIcqProto::oft_connectionThread, otsi );
 }
 
 

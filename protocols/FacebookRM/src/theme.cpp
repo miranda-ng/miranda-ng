@@ -66,7 +66,7 @@ static FacebookProto * GetInstanceByHContact(HANDLE hContact)
 	return 0;
 }
 
-template<int (__cdecl FacebookProto::*Fcn)(WPARAM,LPARAM)>
+template<INT_PTR (__cdecl FacebookProto::*Fcn)(WPARAM,LPARAM)>
 INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
 {
 	FacebookProto *proto = GetInstanceByHContact(reinterpret_cast<HANDLE>(wParam));
@@ -193,14 +193,14 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	mi.flags = CMIF_CHILDPOPUP | (this->isOnline() ? 0 : CMIF_GRAYED);
 	mi.position = 201001;
 
-	//CreateProtoService(m_szModuleName,"/Mind",&FacebookProto::OnMind,this);
+	//CreateService(m_szModuleName,"/Mind",&FacebookProto::OnMind,this);
 	strcpy(tDest,"/Mind");
 	mi.hParentMenu = hRoot;
 	mi.pszName = LPGEN("Mind...");
 	mi.icolibItem = GetIconHandle("mind");
 	m_hStatusMind = Menu_AddProtoMenuItem(&mi);
 
-	CreateProtoService(m_szModuleName,"/VisitProfile",&FacebookProto::VisitProfile,this);
+	CreateService("/VisitProfile",&FacebookProto::VisitProfile);
 	strcpy(tDest,"/VisitProfile");
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszName = LPGEN("Visit profile");
@@ -215,7 +215,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	mi.icolibItem = NULL;
 	m_hMenuServicesRoot = Menu_AddProtoMenuItem(&mi);
 
-	CreateProtoService(m_szModuleName,"/RefreshBuddyList",&FacebookProto::RefreshBuddyList,this);
+	CreateService("/RefreshBuddyList",&FacebookProto::RefreshBuddyList);
 	strcpy(tDest,"/RefreshBuddyList");
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Refresh Buddy List");
@@ -224,7 +224,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	mi.hParentMenu = m_hMenuServicesRoot;
 	Menu_AddProtoMenuItem(&mi);
 
-	CreateProtoService(m_szModuleName,"/CheckFriendRequests",&FacebookProto::CheckFriendRequests,this);
+	CreateService("/CheckFriendRequests",&FacebookProto::CheckFriendRequests);
 	strcpy(tDest,"/CheckFriendRequests");
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Check Friends Requests");
@@ -232,7 +232,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	mi.hParentMenu = m_hMenuServicesRoot;
 	Menu_AddProtoMenuItem(&mi);
 
-	CreateProtoService(m_szModuleName,"/CheckNewsfeeds",&FacebookProto::CheckNewsfeeds,this);
+	CreateService("/CheckNewsfeeds",&FacebookProto::CheckNewsfeeds);
 	strcpy(tDest,"/CheckNewsfeeds");
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Check Newsfeeds");

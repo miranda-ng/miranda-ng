@@ -53,7 +53,7 @@ HANDLE __cdecl CYahooProto::SearchBasic( const TCHAR* nick )
 	if ( !m_bLoggedIn )
 		return 0;
 
-	YForkThread(&CYahooProto::search_simplethread, _tcsdup( nick ));
+	ForkThread(&CYahooProto::search_simplethread, _tcsdup( nick ));
 	return ( HANDLE )1;
 }
 
@@ -202,6 +202,6 @@ HWND __cdecl CYahooProto::SearchAdvanced( HWND owner )
 	if ( !m_bLoggedIn )
 		return 0;
 
-	YForkThread( &CYahooProto::searchadv_thread, owner );
+	ForkThread( &CYahooProto::searchadv_thread, owner );
 	return ( HWND )1;
 }

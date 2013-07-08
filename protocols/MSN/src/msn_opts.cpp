@@ -105,7 +105,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (!proto->getTString("Nick", &dbv))
 			{
 				SetWindowText(wnd, dbv.ptszVal);
-				MSN_FreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			EnableWindow(wnd, proto->msnLoggedIn);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MOBILESEND), proto->msnLoggedIn &&
@@ -260,7 +260,7 @@ LBL_Continue:
 					reconnectRequired = true;
 					proto->setString("Password", password);
 				}
-				MSN_FreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 			{
@@ -273,7 +273,7 @@ LBL_Continue:
 			{
 				if (_tcscmp(dbv.ptszVal, screenStr))
 					proto->MSN_SendNickname(screenStr);
-				MSN_FreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 			{
@@ -333,7 +333,7 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			if (!proto->getString(NULL, "DirectServer", &dbv))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_DIRECTSERVER, dbv.pszVal);
-				MSN_FreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 				SetDlgItemTextA(hwndDlg, IDC_DIRECTSERVER,  MSN_DEFAULT_LOGIN_SERVER);
@@ -341,7 +341,7 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			if (!proto->getString(NULL, "GatewayServer", &dbv))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_GATEWAYSERVER, dbv.pszVal);
-				MSN_FreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 				SetDlgItemTextA(hwndDlg, IDC_GATEWAYSERVER,  MSN_DEFAULT_GATEWAY);
@@ -585,7 +585,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (!proto->getTString("Place", &dbv))
 			{
 				SetDlgItemText(hwndDlg, IDC_PLACE, dbv.ptszVal);
-				MSN_FreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			return TRUE;
 		}
@@ -628,7 +628,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			{
 				if (strcmp(password, dbv.pszVal))
 					proto->setString("Password", password);
-				MSN_FreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 				proto->setString("Password", password);

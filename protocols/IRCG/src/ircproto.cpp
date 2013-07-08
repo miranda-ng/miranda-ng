@@ -32,40 +32,39 @@ static int CompareSessions( const CDccSession* p1, const CDccSession* p2 )
 }
 
 CIrcProto::CIrcProto(const char* szModuleName, const TCHAR* tszUserName) :
+	PROTO<CIrcProto>(szModuleName, tszUserName),
 	m_dcc_chats( 10, CompareSessions ),
 	m_dcc_xfers( 10, CompareSessions ),
 	m_ignoreItems( 10 ),
 	vUserhostReasons( 10 ),
 	vWhoInProgress( 10 )
 {
-	ProtoConstructor(this, szModuleName, tszUserName);
-
 	InitializeCriticalSection(&cs);
 	InitializeCriticalSection(&m_gchook);
 	m_evWndCreate = ::CreateEvent( NULL, FALSE, FALSE, NULL );
 
-	CreateProtoService( PS_GETMYAWAYMSG,   &CIrcProto::GetMyAwayMsg );
+	CreateService( PS_GETMYAWAYMSG,   &CIrcProto::GetMyAwayMsg );
 
-	CreateProtoService( PS_CREATEACCMGRUI, &CIrcProto::SvcCreateAccMgrUI );
-	CreateProtoService( PS_JOINCHAT,       &CIrcProto::OnJoinChat );
-	CreateProtoService( PS_LEAVECHAT,      &CIrcProto::OnLeaveChat );
+	CreateService( PS_CREATEACCMGRUI, &CIrcProto::SvcCreateAccMgrUI );
+	CreateService( PS_JOINCHAT,       &CIrcProto::OnJoinChat );
+	CreateService( PS_LEAVECHAT,      &CIrcProto::OnLeaveChat );
 
-	CreateProtoService( IRC_JOINCHANNEL,   &CIrcProto::OnJoinMenuCommand );
-	CreateProtoService( IRC_QUICKCONNECT,  &CIrcProto::OnQuickConnectMenuCommand);
-	CreateProtoService( IRC_CHANGENICK,    &CIrcProto::OnChangeNickMenuCommand );
-	CreateProtoService( IRC_SHOWLIST,      &CIrcProto::OnShowListMenuCommand );
-	CreateProtoService( IRC_SHOWSERVER,    &CIrcProto::OnShowServerMenuCommand );
-	CreateProtoService( IRC_UM_CHANSETTINGS, &CIrcProto::OnMenuChanSettings );
-	CreateProtoService( IRC_UM_WHOIS,      &CIrcProto::OnMenuWhois );
-	CreateProtoService( IRC_UM_DISCONNECT, &CIrcProto::OnMenuDisconnect );
-	CreateProtoService( IRC_UM_IGNORE,     &CIrcProto::OnMenuIgnore );
+	CreateService( IRC_JOINCHANNEL,   &CIrcProto::OnJoinMenuCommand );
+	CreateService( IRC_QUICKCONNECT,  &CIrcProto::OnQuickConnectMenuCommand);
+	CreateService( IRC_CHANGENICK,    &CIrcProto::OnChangeNickMenuCommand );
+	CreateService( IRC_SHOWLIST,      &CIrcProto::OnShowListMenuCommand );
+	CreateService( IRC_SHOWSERVER,    &CIrcProto::OnShowServerMenuCommand );
+	CreateService( IRC_UM_CHANSETTINGS, &CIrcProto::OnMenuChanSettings );
+	CreateService( IRC_UM_WHOIS,      &CIrcProto::OnMenuWhois );
+	CreateService( IRC_UM_DISCONNECT, &CIrcProto::OnMenuDisconnect );
+	CreateService( IRC_UM_IGNORE,     &CIrcProto::OnMenuIgnore );
 
-	CreateProtoService( "/DblClickEvent",  &CIrcProto::OnDoubleclicked );
-	CreateProtoService( "/InsertRawIn",    &CIrcProto::Scripting_InsertRawIn );
-	CreateProtoService( "/InsertRawOut",   &CIrcProto::Scripting_InsertRawOut );
-	CreateProtoService( "/InsertGuiIn",    &CIrcProto::Scripting_InsertGuiIn );
-	CreateProtoService( "/InsertGuiOut",   &CIrcProto::Scripting_InsertGuiOut);
-	CreateProtoService( "/GetIrcData",     &CIrcProto::Scripting_GetIrcData);
+	CreateService( "/DblClickEvent",  &CIrcProto::OnDoubleclicked );
+	CreateService( "/InsertRawIn",    &CIrcProto::Scripting_InsertRawIn );
+	CreateService( "/InsertRawOut",   &CIrcProto::Scripting_InsertRawOut );
+	CreateService( "/InsertGuiIn",    &CIrcProto::Scripting_InsertGuiIn );
+	CreateService( "/InsertGuiOut",   &CIrcProto::Scripting_InsertGuiOut);
+	CreateService( "/GetIrcData",     &CIrcProto::Scripting_GetIrcData);
 
 	codepage = CP_ACP;
 	InitializeCriticalSection(&m_resolve);
@@ -169,8 +168,6 @@ CIrcProto::~CIrcProto()
 	DeleteCriticalSection(&m_dcc);
 	KillChatTimer(OnlineNotifTimer);
 	KillChatTimer(OnlineNotifTimer3);
-
-	ProtoDestructor(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -232,8 +229,8 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 		gcr.ptszModuleDispName = m_tszUserName;
 		gcr.pszModule = m_szModuleName;
 		CallServiceSync( MS_GC_REGISTER, NULL, (LPARAM)&gcr );
-		IrcHookEvent( ME_GC_EVENT, &CIrcProto::GCEventHook );
-		IrcHookEvent( ME_GC_BUILDMENU, &CIrcProto::GCMenuHook );
+		HookEvent( ME_GC_EVENT, &CIrcProto::GCEventHook );
+		HookEvent( ME_GC_BUILDMENU, &CIrcProto::GCMenuHook );
 
 		GCSESSION gcw = { sizeof(GCSESSION) };
 		gcw.dwFlags = GC_TCHAR;
@@ -312,8 +309,8 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 
 	InitIgnore();
 
-	IrcHookEvent( ME_USERINFO_INITIALISE, &CIrcProto::OnInitUserInfo );
-	IrcHookEvent( ME_OPT_INITIALISE, &CIrcProto::OnInitOptionsPages );
+	HookEvent( ME_USERINFO_INITIALISE, &CIrcProto::OnInitUserInfo );
+	HookEvent( ME_OPT_INITIALISE, &CIrcProto::OnInitOptionsPages );
 
 	if (m_nick[0]) {
 		TCHAR szBuf[ 40 ];
@@ -579,7 +576,7 @@ HANDLE __cdecl CIrcProto::SearchBasic( const PROTOCHAR* szId )
 			szId && szId[0] && !IsChannel(szId)) {
 			AckBasicSearchParam* param = new AckBasicSearchParam;
 			lstrcpyn( param->buf, szId, 50 );
-			ircFork( &CIrcProto::AckBasicSearch, param );
+			ForkThread( &CIrcProto::AckBasicSearch, param );
 			return ( HANDLE )1;
 	}	}
 
@@ -825,11 +822,11 @@ int __cdecl CIrcProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 	BYTE bDcc = getByte(hContact, "DCC", 0);
 	WORD wStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 	if (bDcc && wStatus != ID_STATUS_ONLINE) {
-		ircFork(&CIrcProto::AckMessageFailDcc, hContact);
+		ForkThread(&CIrcProto::AckMessageFailDcc, hContact);
 		return 0;
 	}
 	if (!bDcc && (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)) {
-		ircFork(&CIrcProto::AckMessageFail, hContact);
+		ForkThread(&CIrcProto::AckMessageFail, hContact);
 		return 0;
 	}
 
@@ -854,7 +851,7 @@ int __cdecl CIrcProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 	mir_free(result);
 
 	int seq = InterlockedIncrement(&g_msgid);
-	ircFork(&CIrcProto::AckMessageSuccess, new TFakeAckParam(hContact, seq));
+	ForkThread(&CIrcProto::AckMessageSuccess, new TFakeAckParam(hContact, seq));
 	return seq;
 }
 

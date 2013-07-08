@@ -20,7 +20,7 @@
 
 #include "gg.h"
 
-#define GGS_CONCUR_SESS "%s/ConcurSess"
+#define GGS_CONCUR_SESS "/ConcurSess"
 
 static void gg_clearsessionslist(HWND hwndDlg)
 {
@@ -426,8 +426,8 @@ BOOL GGPROTO::sessions_closedlg()
 void GGPROTO::sessions_menus_init(HGENMENU hRoot)
 {
 	char service[64];
-	mir_snprintf(service, sizeof(service), GGS_CONCUR_SESS, m_szModuleName);
-	createObjService(service, &GGPROTO::sessions_view);
+	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_CONCUR_SESS);
+	CreateService(service, &GGPROTO::sessions_view);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;

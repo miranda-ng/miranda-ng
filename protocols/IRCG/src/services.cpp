@@ -1091,7 +1091,7 @@ void __cdecl CIrcProto::ConnectServerThread( void* )
 			KillChatTimer( RetryTimer );
 
 			if ( m_mySpecifiedHost[0] )
-				ircFork( &CIrcProto::ResolveIPThread, new IPRESOLVE( m_mySpecifiedHost, IP_MANUAL ));
+				ForkThread( &CIrcProto::ResolveIPThread, new IPRESOLVE( m_mySpecifiedHost, IP_MANUAL ));
 
 			DoEvent(GC_EVENT_CHANGESESSIONAME, SERVERWINDOW, NULL, m_info.sNetwork.c_str(), NULL, NULL, NULL, FALSE, TRUE);
 		}
@@ -1151,7 +1151,7 @@ void CIrcProto::ConnectToServer(void)
 	sChannelModes = "btnimklps";
 
 	if (!m_bConnectThreadRunning)
-		ircFork( &CIrcProto::ConnectServerThread, 0 );
+		ForkThread( &CIrcProto::ConnectServerThread, 0 );
 	else if (m_bConnectRequested < 1)
 		InterlockedIncrement((long *) &m_bConnectRequested);
 
@@ -1176,7 +1176,7 @@ void CIrcProto::DisconnectFromServer(void)
 	gce.pDest = &gcd;
 
 	CallChatEvent( SESSION_TERMINATE, (LPARAM)&gce);
-	ircFork( &CIrcProto::DisconnectServerThread, 0 );
+	ForkThread( &CIrcProto::DisconnectServerThread, 0 );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1214,7 +1214,7 @@ VOID CALLBACK RetryTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 		ppro->DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
 
 		if ( !ppro->m_bConnectThreadRunning )
-			ppro->ircFork( &CIrcProto::ConnectServerThread, 0 );
+			ppro->ForkThread( &CIrcProto::ConnectServerThread, 0 );
 		else
 			ppro->m_bConnectRequested = true;
 

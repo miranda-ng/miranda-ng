@@ -191,7 +191,7 @@ void CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMain
 	for (size_t i = 0; i < dwCount; i++) {
 		memmove(pszServiceFunctionName, pgdiItems[i].lpszName, lstrlenA(pgdiItems[i].lpszName)+1);
 		if (pgdiItems[i].lpFunc)
-			CreateObjectSvc(pgdiItems[i].lpszName, pgdiItems[i].lpFunc);
+			CreateService(pgdiItems[i].lpszName, pgdiItems[i].lpFunc);
 		mi.position = int(lPosition + i);
 		mi.icolibItem = pgdiItems[i].hIconHandle;
 		mi.ptszName = pgdiItems[i].lpwszDescr;

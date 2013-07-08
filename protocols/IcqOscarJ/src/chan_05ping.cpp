@@ -78,7 +78,7 @@ void CIcqProto::StartKeepAlive(serverthread_info *info)
 		return;
 
 	if (getSettingByte(NULL, "KeepAlive", DEFAULT_KEEPALIVE_ENABLED))
-		CloseHandle( ForkThreadEx(&CIcqProto::KeepAliveThread, info));
+		CloseHandle( ForkThreadEx(&CIcqProto::KeepAliveThread, info, 0));
 }
 
 

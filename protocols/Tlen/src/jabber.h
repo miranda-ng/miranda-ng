@@ -210,11 +210,8 @@ struct JABBER_IQ_FUNC_STRUCT;
 struct JABBER_LIST_ITEM_STRUCT;
 struct TLEN_VOICE_CONTROL_STRUCT;
 
-
-struct TlenProtocol : public PROTO_INTERFACE
+struct TlenProtocol : public PROTO<TlenProtocol>
 {
-	typedef PROTO_INTERFACE CSuper;
-
 	TlenProtocol( const char*, const TCHAR* );
 	~TlenProtocol();
 

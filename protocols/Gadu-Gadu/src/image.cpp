@@ -69,8 +69,8 @@ int gg_img_remove(GGIMAGEDLGDATA *dat);
 int GGPROTO::img_init()
 {
 	char service[64];
-	mir_snprintf(service, sizeof(service), GGS_SENDIMAGE, m_szModuleName);
-	createObjService(service, &GGPROTO::img_sendimg);
+	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_SENDIMAGE);
+	CreateService(GGS_SENDIMAGE, &GGPROTO::img_sendimg);
 
 	// Send image contact menu item
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -83,9 +83,7 @@ int GGPROTO::img_init()
 	hImageMenuItem = Menu_AddContactMenuItem(&mi);
 
 	// Receive image
-	mir_snprintf(service, sizeof(service), GGS_RECVIMAGE, m_szModuleName);
-	createObjService(service, &GGPROTO::img_recvimage);
-
+	CreateService(GGS_RECVIMAGE, &GGPROTO::img_recvimage);
 	return FALSE;
 }
 
@@ -744,9 +742,9 @@ GGIMAGEDLGDATA *gg_img_recvdlg(GGPROTO *gg, HANDLE hContact)
 	dat->gg = gg;
 	ResetEvent(dat->hEvent);
 #ifdef DEBUGMODE
-	gg->netlog("gg_img_recvdlg(): forkthread 18 GGPROTO::img_dlgcallthread");
+	gg->netlog("gg_img_recvdlg(): ForkThread 18 GGPROTO::img_dlgcallthread");
 #endif
-	gg->forkthread(&GGPROTO::img_dlgcallthread, dat);
+	gg->ForkThread(&GGPROTO::img_dlgcallthread, dat);
 	return dat;
 }
 
@@ -1198,9 +1196,9 @@ INT_PTR GGPROTO::img_sendimg(WPARAM wParam, LPARAM lParam)
 
 		// Create new dialog
 #ifdef DEBUGMODE
-		netlog("img_sendimg(): forkthread 19 GGPROTO::img_dlgcallthread");
+		netlog("img_sendimg(): ForkThread 19 GGPROTO::img_dlgcallthread");
 #endif
-		forkthread(&GGPROTO::img_dlgcallthread, dat);
+		ForkThread(&GGPROTO::img_dlgcallthread, dat);
 
 		while (WaitForSingleObjectEx(dat->hEvent, INFINITE, TRUE) != WAIT_OBJECT_0);
 		CloseHandle(dat->hEvent);

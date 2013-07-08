@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 int FacebookProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
 {
-	ForkThread(&FacebookProto::ReadMessageWorker, this, hContact);
+	ForkThread(&FacebookProto::ReadMessageWorker, hContact);
 	CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 
 	return Proto_RecvMessage(hContact, pre);
@@ -112,14 +112,14 @@ int FacebookProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 		msg = mir_utf8encode(msg);
   
 	facy.msgid_ = (facy.msgid_ % 1024)+1;
-	ForkThread(&FacebookProto::SendMsgWorker, this, new send_direct(hContact, msg, (HANDLE)facy.msgid_));
+	ForkThread(&FacebookProto::SendMsgWorker, new send_direct(hContact, msg, (HANDLE)facy.msgid_));
 	return facy.msgid_;
 }
 
 int FacebookProto::UserIsTyping(HANDLE hContact,int type)
 { 
 	if (hContact && isOnline())
-		ForkThread(&FacebookProto::SendTypingWorker, this, new send_typing(hContact, type));
+		ForkThread(&FacebookProto::SendTypingWorker, new send_typing(hContact, type));
 
 	return 0;
 }

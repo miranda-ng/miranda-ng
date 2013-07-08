@@ -75,7 +75,7 @@ int TwitterProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
 			replaceAll(tweet, "%%", "%"); // the chat plugin will turn "%" into "%%", so we have to change it back :/
 
 			char *varTweet = mir_strdup( tweet.c_str());
-			ForkThread(&TwitterProto::SendTweetWorker, this, varTweet);
+			ForkThread(&TwitterProto::SendTweetWorker, varTweet);
 		}
 		break;
 
@@ -128,7 +128,7 @@ void TwitterProto::DeleteChatContact(const char *name)
 	mir_free(const_cast<TCHAR*>(gce.ptszNick));
 }
 
-int TwitterProto::OnJoinChat(WPARAM,LPARAM suppress)
+INT_PTR TwitterProto::OnJoinChat(WPARAM,LPARAM suppress)
 {
 	GCSESSION gcw = {sizeof(gcw)};
 
@@ -156,7 +156,7 @@ int TwitterProto::OnJoinChat(WPARAM,LPARAM suppress)
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 
 	// ***** Hook events
-	HookProtoEvent(ME_GC_EVENT,&TwitterProto::OnChatOutgoing,this);
+	HookEvent(ME_GC_EVENT, &TwitterProto::OnChatOutgoing);
 
 	// Note: Initialization will finish up in SetChatStatus, called separately
 	if(!suppress)
@@ -166,7 +166,7 @@ int TwitterProto::OnJoinChat(WPARAM,LPARAM suppress)
 	return 0;
 }
 
-int TwitterProto::OnLeaveChat(WPARAM,LPARAM)
+INT_PTR TwitterProto::OnLeaveChat(WPARAM,LPARAM)
 {
 	in_chat_ = false;
 

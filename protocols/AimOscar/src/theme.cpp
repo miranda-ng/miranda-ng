@@ -270,21 +270,21 @@ void CAimProto::InitMainMenus(void)
 	mi.flags = CMIF_CHILDPOPUP;
 
 	mir_snprintf(service_name, sizeof(service_name), "%s%s", m_szModuleName, "/ManageAccount");
-	CreateProtoService("/ManageAccount", &CAimProto::ManageAccount);
+	CreateService("/ManageAccount", &CAimProto::ManageAccount);
 	mi.position = 201001;
 	mi.icolibItem = GetIconHandle("aim");
 	mi.pszName = LPGEN("Manage Account");
 	hMainMenu[0] = Menu_AddProtoMenuItem(&mi);
 
 	mir_snprintf(service_name, sizeof(service_name), "%s%s", m_szModuleName, "/InstantIdle");
-	CreateProtoService("/InstantIdle",&CAimProto::InstantIdle);
+	CreateService("/InstantIdle",&CAimProto::InstantIdle);
 	mi.position = 201002;
 	mi.icolibItem = GetIconHandle("idle");
 	mi.pszName = LPGEN("Instant Idle");
 	hMainMenu[1] = Menu_AddProtoMenuItem(&mi);
 
 	mir_snprintf(service_name, sizeof(service_name), "%s%s", m_szModuleName, "/JoinChatRoom");
-	CreateProtoService("/JoinChatRoom", &CAimProto::JoinChatUI);
+	CreateService("/JoinChatRoom", &CAimProto::JoinChatUI);
 	mi.position = 201003;
 	mi.icolibItem = GetIconHandle("aol");
 	mi.pszName = LPGEN( "Join Chat Room" );
@@ -301,7 +301,7 @@ void CAimProto::InitContactMenus(void)
 	mi.pszContactOwner = m_szModuleName;
 
 	mir_snprintf(service_name, sizeof(service_name), "%s%s", m_szModuleName, "/GetHTMLAwayMsg");
-	CreateProtoService("/GetHTMLAwayMsg",&CAimProto::GetHTMLAwayMsg);
+	CreateService("/GetHTMLAwayMsg",&CAimProto::GetHTMLAwayMsg);
 	mi.position = -2000006000;
 	mi.icolibItem = GetIconHandle("away");
 	mi.pszName = LPGEN("Read &HTML Away Message");
@@ -309,7 +309,7 @@ void CAimProto::InitContactMenus(void)
 	hHTMLAwayContextMenuItem = Menu_AddContactMenuItem(&mi);
 
 	mir_snprintf(service_name, sizeof(service_name), "%s%s", m_szModuleName, "/GetProfile");
-	CreateProtoService("/GetProfile", &CAimProto::GetProfile);
+	CreateService("/GetProfile", &CAimProto::GetProfile);
 	mi.position = -2000005090;
 	mi.icolibItem = GetIconHandle("profile");
 	mi.pszName = LPGEN("Read Profile");
@@ -317,7 +317,7 @@ void CAimProto::InitContactMenus(void)
 	hReadProfileMenuItem = Menu_AddContactMenuItem(&mi);
 
 	mir_snprintf(service_name, sizeof(service_name), "%s%s", m_szModuleName, "/AddToServerList");
-	CreateProtoService("/AddToServerList", &CAimProto::AddToServerList); 
+	CreateService("/AddToServerList", &CAimProto::AddToServerList); 
 	mi.position = -2000005080;
 	mi.icolibItem = GetIconHandle("add");
 	mi.pszName = LPGEN("Add To Server List");
@@ -325,7 +325,7 @@ void CAimProto::InitContactMenus(void)
 	hAddToServerListContextMenuItem = Menu_AddContactMenuItem(&mi);
 
 	mir_snprintf(service_name, sizeof(service_name), "%s%s", m_szModuleName, "/BlockCommand");
-	CreateProtoService("/BlockCommand", &CAimProto::BlockBuddy);
+	CreateService("/BlockCommand", &CAimProto::BlockBuddy);
 	mi.position = -2000005060;
 	mi.icolibItem = GetIconHandle("block");
 	mi.pszName = LPGEN("&Block");

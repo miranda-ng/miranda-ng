@@ -1,10 +1,5 @@
 #pragma once
 
-typedef void    (__cdecl CSkypeProto::* SkypeThreadFunc) (void*);
-typedef int     (__cdecl CSkypeProto::* SkypeEventFunc)(WPARAM, LPARAM);
-typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFunc)(WPARAM, LPARAM);
-typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFuncParam)(WPARAM, LPARAM, LPARAM);
-
 struct _tag_iconList
 {
 	wchar_t*	Description;
@@ -127,7 +122,7 @@ struct PasswordChangeBoxParam
 class ChatMember;
 class ChatRoom;
 
-struct CSkypeProto : public PROTO_INTERFACE, private Skype
+struct CSkypeProto : public PROTO<CSkypeProto>, private Skype
 {
 	friend class ChatRoom;
 	friend class CAccount;
@@ -445,14 +440,8 @@ protected:
 	int SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam);
 	int SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 
-	void	CreateServiceObj(const char* szService, SkypeServiceFunc serviceProc);
-	void	CreateServiceObjParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam);
-
 	HANDLE	CreateEvent(const char* szService);
 	
-	void	ForkThread(SkypeThreadFunc, void*);
-	HANDLE	ForkThreadEx(SkypeThreadFunc, void*, UINT* threadID = NULL);
-
 	// netlib
 	HANDLE	hNetLibUser;
 	
@@ -465,8 +454,6 @@ protected:
 	void InitInstanceServiceList();
 
 	// hooks
-	HANDLE HookEvent(const char*, SkypeEventFunc);
-
 	void InitInstanceHookList();
 
 	// icons

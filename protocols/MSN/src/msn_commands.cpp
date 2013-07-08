@@ -1378,7 +1378,7 @@ LBL_InvalidCommand:
 				if (lastStatus == ID_STATUS_OFFLINE) {
 					DBVARIANT dbv;
 					bool always = getString(hContact, "MirVer", &dbv) != 0;
-					if (!always) MSN_FreeVariant(&dbv);
+					if (!always) db_free(&dbv);
 					sttSetMirVer(hContact, cont->cap1, always);
 				}
 
@@ -1602,7 +1602,7 @@ remove:
 			if (info->mJoinedContactsWLID.getCount() > 0 && MyOptions.SlowSend)
 				ProtoBroadcastAck(info->getContactHandle(),
 					ACKTYPE_MESSAGE, ACKRESULT_FAILED,
-					(HANDLE)trid, (LPARAM)MSN_Translate("Message delivery failed"));
+					(HANDLE)trid, (LPARAM)Translate("Message delivery failed"));
 			MSN_DebugLog("Message send failed (trid=%d)", trid);
 			break;
 

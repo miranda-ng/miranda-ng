@@ -158,7 +158,7 @@ void  CMsnProto::MsgQueue_Clear(const char* wlid, bool msg)
 			{
 				HANDLE hContact = MSN_HContactFromEmail(E.wlid);
 				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
-					(HANDLE)E.seq, (LPARAM)MSN_Translate("Message delivery failed"));
+					(HANDLE)E.seq, (LPARAM)Translate("Message delivery failed"));
 			}
 			mir_free(E.message);
 			mir_free(E.wlid);
@@ -189,7 +189,7 @@ void  CMsnProto::MsgQueue_Clear(const char* wlid, bool msg)
 					LeaveCriticalSection(&csMsgQueue);
 					HANDLE hContact = MSN_HContactFromEmail(wlid);
 					ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)seq,
-						(LPARAM)MSN_Translate("Message delivery failed"));
+						(LPARAM)Translate("Message delivery failed"));
 					i = 0;
 					EnterCriticalSection(&csMsgQueue);
 				}

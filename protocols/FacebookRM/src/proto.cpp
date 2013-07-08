@@ -22,10 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username)
+FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
+	PROTO<FacebookProto>(proto_name, username)
 {
-	ProtoConstructor(this, proto_name, username);
-
 	facy.parent = this;
 
 	signon_lock_ = CreateMutex(NULL, FALSE, NULL);
@@ -36,22 +35,22 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username)
 	facy.send_message_lock_ = CreateMutex(NULL, FALSE, NULL);
 	facy.fcb_conn_lock_ = CreateMutex(NULL, FALSE, NULL);
 
-	CreateProtoService(m_szModuleName, PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI, this);
-	CreateProtoService(m_szModuleName, PS_GETMYAWAYMSG,   &FacebookProto::GetMyAwayMsg,      this);
-	CreateProtoService(m_szModuleName, PS_GETMYAVATART,   &FacebookProto::GetMyAvatar,       this);
-	CreateProtoService(m_szModuleName, PS_GETAVATARINFOT, &FacebookProto::GetAvatarInfo,     this);
-	CreateProtoService(m_szModuleName, PS_GETAVATARCAPS,  &FacebookProto::GetAvatarCaps,     this);
+	CreateService(PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI);
+	CreateService(PS_GETMYAWAYMSG,   &FacebookProto::GetMyAwayMsg);
+	CreateService(PS_GETMYAVATART,   &FacebookProto::GetMyAvatar);
+	CreateService(PS_GETAVATARINFOT, &FacebookProto::GetAvatarInfo);
+	CreateService(PS_GETAVATARCAPS,  &FacebookProto::GetAvatarCaps);
 
-	CreateProtoService(m_szModuleName, PS_JOINCHAT,  &FacebookProto::OnJoinChat,  this);
-	CreateProtoService(m_szModuleName, PS_LEAVECHAT, &FacebookProto::OnLeaveChat, this);
+	CreateService(PS_JOINCHAT,  &FacebookProto::OnJoinChat);
+	CreateService(PS_LEAVECHAT, &FacebookProto::OnLeaveChat);
 
-	CreateProtoService(m_szModuleName, "/Mind", &FacebookProto::OnMind, this);
+	CreateService("/Mind", &FacebookProto::OnMind);
 
-	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &FacebookProto::OnBuildStatusMenu, this);
-	HookProtoEvent(ME_OPT_INITIALISE,           &FacebookProto::OnOptionsInit,     this);
-	HookProtoEvent(ME_GC_EVENT,                 &FacebookProto::OnChatOutgoing,    this);
-	HookProtoEvent(ME_IDLE_CHANGED,             &FacebookProto::OnIdleChanged,     this);
-	HookProtoEvent(ME_TTB_MODULELOADED,         &FacebookProto::OnToolbarInit,     this);
+	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, &FacebookProto::OnBuildStatusMenu);
+	HookEvent(ME_OPT_INITIALISE,           &FacebookProto::OnOptionsInit);
+	HookEvent(ME_GC_EVENT,                 &FacebookProto::OnChatOutgoing);
+	HookEvent(ME_IDLE_CHANGED,             &FacebookProto::OnIdleChanged);
+	HookEvent(ME_TTB_MODULELOADED,         &FacebookProto::OnToolbarInit);
 
 	char module[512];
 	mir_snprintf(module, sizeof(module), "%s/Mind", m_szModuleName);
@@ -201,7 +200,7 @@ int FacebookProto::SetAwayMsg(int status, const PROTOCHAR *msg)
 	utils::mem::detract(narrow);
 
 	if (isOnline() && getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS))
-		ForkThread(&FacebookProto::SetAwayMsgWorker, this, NULL);
+		ForkThread(&FacebookProto::SetAwayMsgWorker, NULL);
 
 	return 0;
 }
@@ -218,8 +217,7 @@ HANDLE FacebookProto::SearchBasic(const PROTOCHAR* id)
 		return 0;
 
 	TCHAR* email = mir_tstrdup(id);
-	ForkThread(&FacebookProto::SearchAckThread, this, (void*)email);
-
+	ForkThread(&FacebookProto::SearchAckThread, email);
 	return email;
 }
 
@@ -303,7 +301,7 @@ int FacebookProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 //////////////////////////////////////////////////////////////////////////////
 // SERVICES
 
-int FacebookProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
+INT_PTR FacebookProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv = { DBVT_TCHAR };
 	if (!getTString("StatusMsg", &dbv) && lstrlen(dbv.ptszVal) != 0)
@@ -363,7 +361,7 @@ int FacebookProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 //////////////////////////////////////////////////////////////////////////////
 // EVENTS
 
-int FacebookProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
+INT_PTR FacebookProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 {
 	return (int)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_FACEBOOKACCOUNT),
 		 (HWND)lParam, FBAccountProc, (LPARAM)this);
@@ -438,7 +436,7 @@ int FacebookProto::OnToolbarInit(WPARAM, LPARAM)
 	return 0;
 }
 
-int FacebookProto::OnMind(WPARAM, LPARAM)
+INT_PTR FacebookProto::OnMind(WPARAM, LPARAM)
 {
 	if (isOnline()) {
 		HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MIND), (HWND)0, FBMindProc, reinterpret_cast<LPARAM>(this));
@@ -448,7 +446,7 @@ int FacebookProto::OnMind(WPARAM, LPARAM)
 	return 0;
 }
 
-int FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)
+INT_PTR FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
 		facy.client_notify(TranslateT("Loading newsfeeds..."));
@@ -457,7 +455,7 @@ int FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)
 	return 0;
 }
 
-int FacebookProto::CheckFriendRequests(WPARAM, LPARAM)
+INT_PTR FacebookProto::CheckFriendRequests(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
 		facy.client_notify(TranslateT("Checking friend requests..."));
@@ -466,7 +464,7 @@ int FacebookProto::CheckFriendRequests(WPARAM, LPARAM)
 	return 0;
 }
 
-int FacebookProto::RefreshBuddyList(WPARAM, LPARAM)
+INT_PTR FacebookProto::RefreshBuddyList(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
 		facy.client_notify(TranslateT("Refreshing buddy list..."));
@@ -476,7 +474,7 @@ int FacebookProto::RefreshBuddyList(WPARAM, LPARAM)
 }
 
 
-int FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
+INT_PTR FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 {
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
@@ -501,7 +499,7 @@ int FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int FacebookProto::VisitFriendship(WPARAM wParam,LPARAM lParam)
+INT_PTR FacebookProto::VisitFriendship(WPARAM wParam,LPARAM lParam)
 {
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
@@ -518,7 +516,7 @@ int FacebookProto::VisitFriendship(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int FacebookProto::Poke(WPARAM wParam,LPARAM lParam)
+INT_PTR FacebookProto::Poke(WPARAM wParam,LPARAM lParam)
 {
 	if (wParam == NULL || isOffline())
 		return 1;
@@ -529,11 +527,11 @@ int FacebookProto::Poke(WPARAM wParam,LPARAM lParam)
 	if (id == NULL)
 		return 1;
 	
-	ForkThread(&FacebookProto::SendPokeWorker, this, new std::string(id));
+	ForkThread(&FacebookProto::SendPokeWorker, new std::string(id));
 	return 0;
 }
 
-int FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
+INT_PTR FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 {
 	if (wParam == NULL || isOffline())
 		return 1;
@@ -567,13 +565,13 @@ int FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 				fbu->handle = NULL;
 		}
 
-		ForkThread(&FacebookProto::DeleteContactFromServer, this, (void*)val);
+		ForkThread(&FacebookProto::DeleteContactFromServer, val);
 	}
 
 	return 0;
 }
 
-int FacebookProto::RequestFriendship(WPARAM wParam,LPARAM lParam)
+INT_PTR FacebookProto::RequestFriendship(WPARAM wParam,LPARAM lParam)
 {
 	if (wParam == NULL || isOffline())
 		return 1;
@@ -584,29 +582,29 @@ int FacebookProto::RequestFriendship(WPARAM wParam,LPARAM lParam)
 	if (id == NULL)
 		return 1;
 	
-	ForkThread(&FacebookProto::AddContactToServer, this, new std::string(id));
+	ForkThread(&FacebookProto::AddContactToServer, new std::string(id));
 	return 0;
 }
 
-int FacebookProto::ApproveFriendship(WPARAM wParam,LPARAM lParam)
+INT_PTR FacebookProto::ApproveFriendship(WPARAM wParam,LPARAM lParam)
 {
 	if (wParam == NULL || isOffline())
 		return 1;
 
 	HANDLE *hContact = new HANDLE(reinterpret_cast<HANDLE>(wParam));
 
-	ForkThread(&FacebookProto::ApproveContactToServer, this, (void*)hContact);
+	ForkThread(&FacebookProto::ApproveContactToServer, hContact);
 	return 0;
 }
 
-int FacebookProto::OnCancelFriendshipRequest(WPARAM wParam,LPARAM lParam)
+INT_PTR FacebookProto::OnCancelFriendshipRequest(WPARAM wParam,LPARAM lParam)
 {
 	if (wParam == NULL || isOffline())
 		return 1;
 
 	HANDLE *hContact = new HANDLE(reinterpret_cast<HANDLE>(wParam));
 
-	ForkThread(&FacebookProto::CancelFriendsRequest, this, (void*)hContact);
+	ForkThread(&FacebookProto::CancelFriendsRequest, hContact);
 	return 0;
 }
 

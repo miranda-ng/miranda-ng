@@ -266,7 +266,7 @@ bool CMsnProto::MSN_SharingFindMembership(bool deltas, bool allowRecurse)
 		if (!getString("SharingLastChange", &dbv) && dbv.pszVal[0])
 		{
 			szLastChange = NEWSTR_ALLOCA(dbv.pszVal);
-			MSN_FreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		deltas &= (szLastChange != NULL);
 	}
@@ -630,7 +630,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 		if (!getString("ABFullLastChange", &dbv) && dbv.pszVal[0])
 		{
 			szLastChange = NEWSTR_ALLOCA(dbv.pszVal);
-			MSN_FreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		deltas &= (szLastChange != NULL);
 	}
@@ -641,7 +641,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 		if (!getString("ABFullDynLastChange", &dbv) && dbv.pszVal[0])
 		{
 			szDynLastChange = NEWSTR_ALLOCA(dbv.pszVal);
-			MSN_FreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		deltas &= (szDynLastChange != NULL);
 	}

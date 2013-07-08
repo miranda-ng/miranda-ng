@@ -393,7 +393,7 @@ void CYahooProto::MenuMainInit( void )
 	
 	// Show custom status menu    
 	lstrcpyA( tDest, YAHOO_SET_CUST_STAT );
-	YCreateService( YAHOO_SET_CUST_STAT, &CYahooProto::SetCustomStatCommand );
+	CreateService( YAHOO_SET_CUST_STAT, &CYahooProto::SetCustomStatCommand );
 	
 	mi.position = 290000;
 	mi.icolibItem = GetIconHandle( IDI_SET_STATUS );
@@ -403,7 +403,7 @@ void CYahooProto::MenuMainInit( void )
 
 	// Edit My profile
 	lstrcpyA( tDest, YAHOO_EDIT_MY_PROFILE );
-	YCreateService( YAHOO_EDIT_MY_PROFILE, &CYahooProto::OnEditMyProfile );
+	CreateService( YAHOO_EDIT_MY_PROFILE, &CYahooProto::OnEditMyProfile );
 
 	mi.position = 290005;
 	mi.icolibItem = GetIconHandle( IDI_PROFILE );
@@ -412,7 +412,7 @@ void CYahooProto::MenuMainInit( void )
 
 	// Show My profile
 	lstrcpyA( tDest, YAHOO_SHOW_MY_PROFILE );
-	YCreateService( YAHOO_SHOW_MY_PROFILE, &CYahooProto::OnShowMyProfileCommand );
+	CreateService( YAHOO_SHOW_MY_PROFILE, &CYahooProto::OnShowMyProfileCommand );
 
 	mi.position = 290006;
 	mi.icolibItem = GetIconHandle( IDI_PROFILE );
@@ -421,7 +421,7 @@ void CYahooProto::MenuMainInit( void )
 
 	// Show Yahoo mail 
 	strcpy( tDest, YAHOO_YAHOO_MAIL );
-	YCreateService( YAHOO_YAHOO_MAIL, &CYahooProto::OnGotoMailboxCommand );
+	CreateService( YAHOO_YAHOO_MAIL, &CYahooProto::OnGotoMailboxCommand );
 
 	mi.position = 290010;
 	mi.icolibItem = GetIconHandle( IDI_INBOX );
@@ -430,7 +430,7 @@ void CYahooProto::MenuMainInit( void )
 
 	// Show Address Book    
 	strcpy( tDest, YAHOO_AB );
-	YCreateService( YAHOO_AB, &CYahooProto::OnABCommand );
+	CreateService( YAHOO_AB, &CYahooProto::OnABCommand );
 
 	mi.position = 290015;
 	mi.icolibItem = GetIconHandle( IDI_YAB );
@@ -439,14 +439,14 @@ void CYahooProto::MenuMainInit( void )
 
 	// Show Calendar
 	strcpy( tDest, YAHOO_CALENDAR );
-	YCreateService( YAHOO_CALENDAR, &CYahooProto::OnCalendarCommand );
+	CreateService( YAHOO_CALENDAR, &CYahooProto::OnCalendarCommand );
 
 	mi.position = 290017;
 	mi.icolibItem = GetIconHandle( IDI_CALENDAR );
 	mi.pszName = LPGEN("&Calendar");
 	menuItemsAll[5] = Menu_AddProtoMenuItem(&mi);
 	strcpy( tDest, "/JoinChatRoom");
-	YCreateService("/JoinChatRoom", &CYahooProto::CreateConference);
+	CreateService("/JoinChatRoom", &CYahooProto::CreateConference);
 
 	mi.position = 290018;
 	mi.icolibItem = GetIconHandle(IDI_YAHOO);
@@ -456,7 +456,7 @@ void CYahooProto::MenuMainInit( void )
 
 	// Show Refresh     
 	/*strcpy( tDest, YAHOO_REFRESH );
-	YCreateService( YAHOO_REFRESH, &CYahooProto::OnRefreshCommand );
+	CreateService( YAHOO_REFRESH, &CYahooProto::OnRefreshCommand );
 
 	mi.position = 500090015;
 	mi.icolibItem = GetIconHandle( IDI_REFRESH );
@@ -477,7 +477,7 @@ void CYahooProto::MenuContactInit( void )
 
 	// Show Profile 
 	strcpy( tDest, YAHOO_SHOW_PROFILE );
-	YCreateService( YAHOO_SHOW_PROFILE, &CYahooProto::OnShowProfileCommand );
+	CreateService( YAHOO_SHOW_PROFILE, &CYahooProto::OnShowProfileCommand );
 
 	mi.position = -2000006000;
 	mi.icolibItem = GetIconHandle( IDI_PROFILE );
@@ -515,24 +515,24 @@ void CYahooProto::LoadYahooServices( void )
 	char path[MAX_PATH];
 	
 	//----| Events hooking |--------------------------------------------------------------
-	YHookEvent( ME_OPT_INITIALISE, &CYahooProto::OnOptionsInit );
+	HookEvent( ME_OPT_INITIALISE, &CYahooProto::OnOptionsInit );
 
 	//----| Create nudge event |----------------------------------------------------------
 	mir_snprintf(path, SIZEOF(path), "%s/Nudge", m_szModuleName);
 	hYahooNudge = CreateHookableEvent( path );
 
 	//----| Service creation |------------------------------------------------------------
-	YCreateService( PS_CREATEACCMGRUI, &CYahooProto::SvcCreateAccMgrUI);
+	CreateService( PS_CREATEACCMGRUI, &CYahooProto::SvcCreateAccMgrUI);
 	
-	YCreateService( PS_GETAVATARINFOT, &CYahooProto::GetAvatarInfo );
-	YCreateService( PS_GETMYAVATART,   &CYahooProto::GetMyAvatar );
-	YCreateService( PS_SETMYAVATART,   &CYahooProto::SetMyAvatar );
-	YCreateService( PS_GETAVATARCAPS,  &CYahooProto::GetAvatarCaps );
+	CreateService( PS_GETAVATARINFOT, &CYahooProto::GetAvatarInfo );
+	CreateService( PS_GETMYAVATART,   &CYahooProto::GetMyAvatar );
+	CreateService( PS_SETMYAVATART,   &CYahooProto::SetMyAvatar );
+	CreateService( PS_GETAVATARCAPS,  &CYahooProto::GetAvatarCaps );
 
-	YCreateService(	PS_GETMYAWAYMSG, &CYahooProto::GetMyAwayMsg);
-	YCreateService( YAHOO_SEND_NUDGE, &CYahooProto::SendNudge );
+	CreateService(	PS_GETMYAWAYMSG, &CYahooProto::GetMyAwayMsg);
+	CreateService( YAHOO_SEND_NUDGE, &CYahooProto::SendNudge );
 	
-	YCreateService( YAHOO_GETUNREAD_EMAILCOUNT, &CYahooProto::GetUnreadEmailCount);
+	CreateService( YAHOO_GETUNREAD_EMAILCOUNT, &CYahooProto::GetUnreadEmailCount);
 
 	//----| Set resident variables |------------------------------------------------------
 	

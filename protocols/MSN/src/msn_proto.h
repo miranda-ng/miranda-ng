@@ -23,13 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <m_protoint.h>
 
-struct CMsnProto;
-typedef void    (__cdecl CMsnProto::*MsnThreadFunc)(void*);
-typedef int     (__cdecl CMsnProto::*MsnEventFunc)(WPARAM, LPARAM);
-typedef INT_PTR (__cdecl CMsnProto::*MsnServiceFunc)(WPARAM, LPARAM);
-typedef INT_PTR (__cdecl CMsnProto::*MsnServiceFuncParam)(WPARAM, LPARAM, LPARAM);
-
-struct CMsnProto : public PROTO_INTERFACE
+struct CMsnProto : public PROTO<CMsnProto>
 {
 	CMsnProto(const char*, const TCHAR*);
 	~CMsnProto();
@@ -569,12 +563,6 @@ struct CMsnProto : public PROTO_INTERFACE
 	char photoid[64];
 
 	//////////////////////////////////////////////////////////////////////////////////////
-
-	HANDLE CreateProtoEvent(const char* szEvent);
-	void   CreateProtoService(const char* szService, MsnServiceFunc serviceProc);
-	void   CreateProtoServiceParam(const char* szService, MsnServiceFuncParam serviceProc, LPARAM lParam);
-	void   HookProtoEvent(const char* szEvent, MsnEventFunc pFunc);
-	void   ForkThread(MsnThreadFunc pFunc, void* param);
 
 	TCHAR* GetContactNameT(HANDLE hContact);
 	void   deleteSetting(HANDLE hContact, const char* valueName);

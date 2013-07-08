@@ -21,9 +21,9 @@
 #include "gg.h"
 #include "m_metacontacts.h"
 
-#define GG_GC_GETCHAT "%s/GCGetChat"
-#define GGS_OPEN_CONF "%s/OpenConf"
-#define GGS_CLEAR_IGNORED "%s/ClearIgnored"
+#define GG_GC_GETCHAT "/GCGetChat"
+#define GGS_OPEN_CONF "/OpenConf"
+#define GGS_CLEAR_IGNORED "/ClearIgnored"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Inits Gadu-Gadu groupchat module using chat.dll
@@ -44,7 +44,7 @@ int GGPROTO::gc_init()
 		gcr.ptszModuleDispName = m_tszUserName;
 		gcr.pszModule = m_szModuleName;
 		CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
-		hookProtoEvent(ME_GC_EVENT, &GGPROTO::gc_event);
+		HookEvent(ME_GC_EVENT, &GGPROTO::gc_event);
 		gc_enabled = TRUE;
 		// create & hook event
 		mir_snprintf(service, 64, GG_GC_GETCHAT, m_szModuleName);
@@ -69,8 +69,8 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 		mi.hParentMenu = hRoot;
 
 		// Conferencing
-		mir_snprintf(service, sizeof(service), GGS_OPEN_CONF, m_szModuleName);
-		createObjService(service, &GGPROTO::gc_openconf);
+		mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_OPEN_CONF);
+		CreateService(GGS_OPEN_CONF, &GGPROTO::gc_openconf);
 		mi.position = 2000050001;
 		mi.icolibItem = iconList[14].hIcolib;
 		mi.ptszName = LPGENT("Open &conference...");
@@ -78,8 +78,8 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 		hMainMenu[0] = Menu_AddProtoMenuItem(&mi);
 
 		// Clear ignored conferences
-		mir_snprintf(service, sizeof(service), GGS_CLEAR_IGNORED, m_szModuleName);
-		createObjService(service, &GGPROTO::gc_clearignored);
+		mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_CLEAR_IGNORED);
+		CreateService(GGS_CLEAR_IGNORED, &GGPROTO::gc_clearignored);
 		mi.position = 2000050002;
 		mi.icolibItem = iconList[15].hIcolib;
 		mi.ptszName = LPGENT("&Clear ignored conferences");

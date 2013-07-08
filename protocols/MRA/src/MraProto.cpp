@@ -8,29 +8,28 @@ static int MraExtraIconsApplyAll(WPARAM, LPARAM)
 }
 
 CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
+	PROTO<CMraProto>(_module, _displayName),
 	m_bLoggedIn(false)
 {
-	ProtoConstructor(this, _module, _displayName);
-
 	InitializeCriticalSectionAndSpinCount(&csCriticalSectionSend, 0);
 	MraSendQueueInitialize(0, &hSendQueueHandle);
 	MraFilesQueueInitialize(0, &hFilesQueueHandle);
 	MraMPopSessionQueueInitialize(&hMPopSessionQueue);
 	MraAvatarsQueueInitialize(&hAvatarsQueueHandle);
 
-	CreateObjectSvc(PS_SETCUSTOMSTATUSEX,   &CMraProto::MraSetXStatusEx);
-	CreateObjectSvc(PS_GETCUSTOMSTATUSEX,   &CMraProto::MraGetXStatusEx);
-	CreateObjectSvc(PS_GETCUSTOMSTATUSICON, &CMraProto::MraGetXStatusIcon);
+	CreateService(PS_SETCUSTOMSTATUSEX,   &CMraProto::MraSetXStatusEx);
+	CreateService(PS_GETCUSTOMSTATUSEX,   &CMraProto::MraGetXStatusEx);
+	CreateService(PS_GETCUSTOMSTATUSICON, &CMraProto::MraGetXStatusIcon);
 
-	CreateObjectSvc(PS_SET_LISTENINGTO,     &CMraProto::MraSetListeningTo);
+	CreateService(PS_SET_LISTENINGTO,     &CMraProto::MraSetListeningTo);
 
-	CreateObjectSvc(PS_CREATEACCMGRUI,      &CMraProto::MraCreateAccMgrUI);
-	CreateObjectSvc(PS_GETAVATARCAPS,       &CMraProto::MraGetAvatarCaps);
-	CreateObjectSvc(PS_GETAVATARINFOT,      &CMraProto::MraGetAvatarInfo);
-	CreateObjectSvc(PS_GETMYAVATART,        &CMraProto::MraGetMyAvatar);
+	CreateService(PS_CREATEACCMGRUI,      &CMraProto::MraCreateAccMgrUI);
+	CreateService(PS_GETAVATARCAPS,       &CMraProto::MraGetAvatarCaps);
+	CreateService(PS_GETAVATARINFOT,      &CMraProto::MraGetAvatarInfo);
+	CreateService(PS_GETMYAVATART,        &CMraProto::MraGetMyAvatar);
 
-	CreateObjectSvc(MS_ICQ_SENDSMS,         &CMraProto::MraSendSMS);
-	CreateObjectSvc(MRA_SEND_NUDGE,         &CMraProto::MraSendNudge);
+	CreateService(MS_ICQ_SENDSMS,         &CMraProto::MraSendSMS);
+	CreateService(MRA_SEND_NUDGE,         &CMraProto::MraSendNudge);
 
 	if ( ServiceExists(MS_NUDGE_SEND))
 		heNudgeReceived = CreateHookableEvent(MS_NUDGE);
@@ -52,7 +51,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	for (size_t i = 0; i < MRA_XSTATUS_COUNT; i++) {
 		char szServiceName[100];
 		mir_snprintf(szServiceName, SIZEOF(szServiceName), "/menuXStatus%ld", i);
-		CreateObjectSvcParam(szServiceName, &CMraProto::MraXStatusMenu, i);
+		CreateServiceParam(szServiceName, &CMraProto::MraXStatusMenu, i);
 	}
 
 	mir_snprintf(szNewMailSound, SIZEOF(szNewMailSound), "%s: %s", m_szModuleName, MRA_SOUND_NEW_EMAIL);
@@ -94,7 +93,7 @@ INT_PTR CMraProto::MraCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
 
 int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	hHookExtraIconsApply = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, &CMraProto::MraExtraIconsApply);
+	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, &CMraProto::MraExtraIconsApply);
 	HookEvent(ME_OPT_INITIALISE, &CMraProto::OnOptionsInit);
 	HookEvent(ME_DB_CONTACT_DELETED, &CMraProto::MraContactDeleted);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, &CMraProto::MraDbSettingChanged);
@@ -141,49 +140,6 @@ int CMraProto::OnPreShutdown(WPARAM, LPARAM)
 	}
 
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CMraProto::CreateObjectSvc(const char *szService, ServiceFunc serviceProc)
-{
-	char str[ MAXMODULELABELLENGTH ];
-	strcpy( str, m_szModuleName );
-	strcat( str, szService );
-	::CreateServiceFunctionObj( str, ( MIRANDASERVICEOBJ )*( void** )&serviceProc, this );
-}
-
-void CMraProto::CreateObjectSvcParam( const char *szService, ServiceFuncParam serviceProc, LPARAM lParam )
-{
-	char str[ MAXMODULELABELLENGTH ];
-	strcpy( str, m_szModuleName );
-	strcat( str, szService );
-	::CreateServiceFunctionObjParam( str, ( MIRANDASERVICEOBJPARAM )*( void** )&serviceProc, this, lParam );
-}
-
-HANDLE CMraProto::HookEvent(const char* szEvent, EventFunc handler)
-{
-	return ::HookEventObj( szEvent, ( MIRANDAHOOKOBJ )*( void** )&handler, this );
-}
-
-HANDLE CMraProto::CreateHookableEvent(const char *szService)
-{
-	char str[ MAXMODULELABELLENGTH ];
-	strcpy( str, m_szModuleName );
-	strcat( str, szService );
-	return ::CreateHookableEvent( str );
-}
-
-void CMraProto::ForkThread(ThreadFunc pFunc, void *param)
-{
-	UINT threadID;
-	CloseHandle(( HANDLE )::mir_forkthreadowner(( pThreadFuncOwner ) *( void** )&pFunc, this, param, &threadID ));
-}
-
-HANDLE CMraProto::ForkThreadEx(ThreadFunc pFunc, void *param, UINT* threadID)
-{
-	UINT lthreadID;
-	return ( HANDLE )::mir_forkthreadowner(( pThreadFuncOwner ) *( void** )&pFunc, this, param, threadID ? threadID : &lthreadID);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

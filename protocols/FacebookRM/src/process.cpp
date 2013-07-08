@@ -293,8 +293,7 @@ void FacebookProto::ProcessUnreadMessages(void*)
 				if (tid.empty())
 					continue;
 
-				std::string* data = new std::string(tid);
-				ForkThread(&FacebookProto::ProcessUnreadMessage, this, (void*)data);
+				ForkThread(&FacebookProto::ProcessUnreadMessage, new std::string(tid));
 			}
 
 			page = utils::text::source_get_value(&items, 3, "id=\"see_older_threads\"", "page=", "&");

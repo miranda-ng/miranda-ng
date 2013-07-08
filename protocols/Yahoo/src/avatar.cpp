@@ -141,7 +141,7 @@ void CYahooProto::SendAvatar(const TCHAR *szFile)
 
 	DebugLog("[Uploading avatar] filename: %s size: %ld", sf->filename, sf->filesize);
 
-	YForkThread(&CYahooProto::send_avt_thread, sf);
+	ForkThread(&CYahooProto::send_avt_thread, sf);
 }
 
 struct avatar_info{
@@ -365,7 +365,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 					avt->pic_url = strdup(pic_url);
 					avt->cksum = cksum;
 
-					YForkThread(&CYahooProto::recv_avatarthread, avt);
+					ForkThread(&CYahooProto::recv_avatarthread, avt);
 				}
 			}
 

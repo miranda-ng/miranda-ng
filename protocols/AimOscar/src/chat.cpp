@@ -31,8 +31,8 @@ void CAimProto::chat_register(void)
 	gcr.pszModule = m_szModuleName;
 	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
 
-	HookProtoEvent(ME_GC_EVENT, &CAimProto::OnGCEvent);
-	HookProtoEvent(ME_GC_BUILDMENU, &CAimProto::OnGCMenuHook );
+	HookEvent(ME_GC_EVENT, &CAimProto::OnGCEvent);
+	HookEvent(ME_GC_BUILDMENU, &CAimProto::OnGCMenuHook );
 }
 
 void CAimProto::chat_start(const char* id, unsigned short exchange)

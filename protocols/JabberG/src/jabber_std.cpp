@@ -23,47 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "jabber.h"
 
-void CJabberProto::JCreateService(const char* szService, JServiceFunc serviceProc)
-{
-	char str[ MAXMODULELABELLENGTH ];
-	strcpy(str, m_szModuleName);
-	strcat(str, szService);
-	::CreateServiceFunctionObj(str, (MIRANDASERVICEOBJ)*(void**)&serviceProc, this);
-}
-
-void CJabberProto::JCreateServiceParam(const char* szService, JServiceFuncParam serviceProc, LPARAM lParam)
-{
-	char str[ MAXMODULELABELLENGTH ];
-	strcpy(str, m_szModuleName);
-	strcat(str, szService);
-	::CreateServiceFunctionObjParam(str, (MIRANDASERVICEOBJPARAM)*(void**)&serviceProc, this, lParam);
-}
-
-void CJabberProto::JHookEvent(const char* szEvent, JEventFunc handler)
-{
-	::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*(void**)&handler, this);
-}
-
-HANDLE CJabberProto::JCreateHookableEvent(const char* szService)
-{
-	char str[ MAXMODULELABELLENGTH ];
-	strcpy(str, m_szModuleName);
-	strcat(str, szService);
-	return CreateHookableEvent(str);
-}
-
-void CJabberProto::JForkThread(JThreadFunc pFunc, void *param)
-{
-	UINT threadID;
-	CloseHandle((HANDLE)::mir_forkthreadowner((pThreadFuncOwner) *(void**)&pFunc, this, param, &threadID));
-}
-
-HANDLE CJabberProto::JForkThreadEx(JThreadFunc pFunc, void *param, UINT* threadID)
-{
-	UINT lthreadID;
-	return (HANDLE)::mir_forkthreadowner((pThreadFuncOwner) *(void**)&pFunc, this, param, threadID ? threadID : &lthreadID);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CJabberProto::JDeleteSetting(HANDLE hContact, const char* valueName)

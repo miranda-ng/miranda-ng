@@ -159,7 +159,7 @@ INT_PTR Service_Register(WPARAM wParam, LPARAM lParam)
 	mi = MM_AddModule(gcr->pszModule);
 	if (mi) {
 		mi->ptszModDispName = a2tf( gcr->ptszModuleDispName, gcr->dwFlags);
-		mi->bBold = gcr->dwFlags & GC_BOLD;
+		mi->bBold = (gcr->dwFlags & GC_BOLD) != 0;
 		mi->bUnderline = (gcr->dwFlags & GC_UNDERLINE) != 0;
 		mi->bItalics = (gcr->dwFlags & GC_ITALICS) != 0;
 		mi->bColor = (gcr->dwFlags & GC_COLOR) != 0;

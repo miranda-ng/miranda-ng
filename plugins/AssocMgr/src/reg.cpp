@@ -346,7 +346,7 @@ static void WriteDbBackupData(const char *pszSetting,DWORD dwType,BYTE *pData,DW
 	if (buf) {
 		*(DWORD*)buf = dwType;
 		CopyMemory(buf+sizeof(DWORD), pData, cbData);
-		db_set_blob(NULL, "AssocMgr", pszSetting, buf, cbLen);
+		db_set_blob(NULL, "AssocMgr", pszSetting, buf, (unsigned)cbLen);
 		mir_free(buf);
 	}
 }

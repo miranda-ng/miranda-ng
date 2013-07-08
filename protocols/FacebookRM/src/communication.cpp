@@ -950,14 +950,10 @@ bool facebook_client::buddy_list()
 	// Process result data
 	validate_response(&resp);
 
-	switch (resp.code)
-	{
+	switch (resp.code) {
 	case HTTP_CODE_OK:
-	{
-		std::string* response_data = new std::string(resp.data);
-		ForkThread(&FacebookProto::ProcessBuddyList, this->parent, (void*)response_data);
+		parent->ForkThread(&FacebookProto::ProcessBuddyList, new std::string(resp.data));
 		return handle_success("buddy_list");
-	}
 
 	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
@@ -976,14 +972,11 @@ bool facebook_client::load_friends()
 	// Process result data
 	validate_response(&resp);
 
-	switch (resp.code)
-	{
+	switch (resp.code) {
 	case HTTP_CODE_OK:
-	{
-		std::string* response_data = new std::string(resp.data);
-		ForkThread(&FacebookProto::ProcessFriendList, this->parent, (void*)response_data);
+		parent->ForkThread(&FacebookProto::ProcessFriendList, new std::string(resp.data));
 		return handle_success("load_friends");
-	}
+
 	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	default:
@@ -1001,13 +994,11 @@ bool facebook_client::feeds()
 	// Process result data
 	validate_response(&resp);
   
-	switch (resp.code)
-	{
+	switch (resp.code) {
 	case HTTP_CODE_OK:
-		if (resp.data.find("\"num_stories\":0") == std::string::npos) {
-			std::string* response_data = new std::string(resp.data);
-		    ForkThread(&FacebookProto::ProcessFeeds, this->parent, (void*)response_data);
-		}
+		if (resp.data.find("\"num_stories\":0") == std::string::npos)
+			parent->ForkThread(&FacebookProto::ProcessFeeds, new std::string(resp.data));
+
 		return handle_success("feeds");
 
 	case HTTP_CODE_FAKE_ERROR:
@@ -1062,7 +1053,7 @@ bool facebook_client::channel()
 	} else {
 		// Something has been received, throw to new thread to process
 		std::string* response_data = new std::string(resp.data);
-		ForkThread(&FacebookProto::ProcessMessages, this->parent, (void*)response_data);
+		parent->ForkThread(&FacebookProto::ProcessMessages, response_data);
 
 		// Increment sequence number
 		this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");

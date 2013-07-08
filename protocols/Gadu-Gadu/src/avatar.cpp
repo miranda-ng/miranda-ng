@@ -309,9 +309,9 @@ void GGPROTO::initavatarrequestthread()
 		avatar_requests.destroy();
 		avatar_transfers.destroy();
 #ifdef DEBUGMODE
-		netlog("initavatarrequestthread(): forkthreadex 1 GGPROTO::avatarrequestthread");
+		netlog("initavatarrequestthread(): ForkThreadEx 1 GGPROTO::avatarrequestthread");
 #endif
-		pth_avatar.hThread = forkthreadex(&GGPROTO::avatarrequestthread, NULL, &pth_avatar.dwThreadId);
+		pth_avatar.hThread = ForkThreadEx(&GGPROTO::avatarrequestthread, NULL, &pth_avatar.dwThreadId);
 	}
 }
 
@@ -345,9 +345,9 @@ void GGPROTO::getOwnAvatar()
 	if (db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)
 		&& db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0)){
 #ifdef DEBUGMODE
-		netlog("getOwnAvatar(): forkthread 2 GGPROTO::getOwnAvatarThread");
+		netlog("getOwnAvatar(): ForkThread 2 GGPROTO::getOwnAvatarThread");
 #endif
-		forkthread(&GGPROTO::getOwnAvatarThread, NULL);
+		ForkThread(&GGPROTO::getOwnAvatarThread, NULL);
 	}
 }
 
@@ -502,7 +502,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 void GGPROTO::setAvatar(const TCHAR *szFilename)
 {
 #ifdef DEBUGMODE
-	netlog("setAvatar(): forkthread 3 GGPROTO::setavatarthread");
+	netlog("setAvatar(): ForkThread 3 GGPROTO::setavatarthread");
 #endif
-	forkthread(&GGPROTO::setavatarthread, mir_tstrdup(szFilename));
+	ForkThread(&GGPROTO::setavatarthread, mir_tstrdup(szFilename));
 }

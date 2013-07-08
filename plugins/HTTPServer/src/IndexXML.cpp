@@ -116,7 +116,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 		strcpy(szBuffer, "index.xsl");
 	}
 
-	WriteFile(hFile, szBuffer, strlen(szBuffer), &dwBytesWritten, NULL);
+	WriteFile(hFile, szBuffer, (DWORD)strlen(szBuffer), &dwBytesWritten, NULL);
 
 	WriteFile(hFile, szXmlHeader2, sizeof(szXmlHeader2) - 1, &dwBytesWritten, NULL);
 

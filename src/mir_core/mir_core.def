@@ -168,3 +168,9 @@ db_set_resident               @165
 db_set                        @166
 ProtoConstructor              @167
 ProtoDestructor               @168
+ProtoCreateService            @169
+ProtoCreateServiceParam       @170
+ProtoHookEvent                @171
+ProtoCreateHookableEvent      @172
+ProtoForkThread               @173
+ProtoForkThreadEx             @174

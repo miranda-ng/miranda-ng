@@ -1260,7 +1260,7 @@ void CMsnProto::p2p_InitFileTransfer(
 
 				ezxml_free(xmlcon);
 				ezxml_free(xmldb);
-				MSN_FreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			if (pictmatch)
 			{

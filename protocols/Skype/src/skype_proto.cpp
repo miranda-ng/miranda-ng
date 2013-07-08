@@ -1,11 +1,10 @@
 ﻿#include "skype.h"
 
-CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) : 
+CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
+	PROTO<CSkypeProto>(protoName, userName),
 	Skype(1), 
 	skypeKitPort(8963)
 {
-	::ProtoConstructor(this, protoName, userName);
-
 	this->rememberPassword = false;
 
 	::InitializeCriticalSection(&this->contact_search_lock);

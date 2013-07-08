@@ -246,7 +246,7 @@ void  CMsnProto::MSN_UploadServerGroups(char* group)
 			{
 				MSN_MoveContactToGroup(msc->hContact, dbv.pszVal);
 			}
-			MSN_FreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 }
@@ -267,17 +267,17 @@ void CMsnProto::MSN_SyncContactToServerGroup(HANDLE hContact, const char* szCont
 	{
 		if (strcmp(dbv.pszVal, "MetaContacts Hidden Group") == 0)
 		{
-			MSN_FreeVariant(&dbv);
+			db_free(&dbv);
 			if (!db_get_utf(hContact, "MetaContacts", "OldCListGroup", &dbv))
 			{
 				szGrpName = NEWSTR_ALLOCA(dbv.pszVal);
-				MSN_FreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 		else
 		{
 			szGrpName = NEWSTR_ALLOCA(dbv.pszVal);
-			MSN_FreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 
@@ -401,5 +401,5 @@ void CMsnProto::msn_storeProfileThread(void* param)
 	//	MSN_ABUpdateNick(nickname, NULL);
 	}
 
-	if (needFree) MSN_FreeVariant(&dbv);
+	if (needFree) db_free(&dbv);
 }

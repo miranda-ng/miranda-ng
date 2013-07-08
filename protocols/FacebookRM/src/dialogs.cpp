@@ -182,7 +182,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			utils::mem::detract(narrow);
 
 			//char *narrow = mir_t2a_cp(mindMessage,CP_UTF8);
-			ForkThread(&FacebookProto::SetAwayMsgWorker, proto, NULL);
+			proto->ForkThread(&FacebookProto::SetAwayMsgWorker, NULL);
 
 			EndDialog(hwnd, wparam); 
 			return TRUE;
@@ -368,9 +368,7 @@ INT_PTR CALLBACK FBOptionsAdvancedProc(HWND hwnd, UINT message, WPARAM wparam, L
 			{
 				db_set_b(NULL, proto->m_szModuleName, FACEBOOK_KEY_SET_MIRANDA_STATUS, setStatus);
 				if (setStatus && proto->isOnline())
-				{
-					ForkThread(&FacebookProto::SetAwayMsgWorker, proto, NULL);
-				}
+					proto->ForkThread(&FacebookProto::SetAwayMsgWorker, NULL);
 			}
 
 			return TRUE;

@@ -31,23 +31,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static volatile LONG g_msgid = 1;
 
-TwitterProto::TwitterProto(const char *proto_name,const TCHAR *username)
+TwitterProto::TwitterProto(const char *proto_name,const TCHAR *username) :
+	PROTO<TwitterProto>(proto_name, username)
 {
-	ProtoConstructor(this, proto_name, username);
+	CreateService(PS_CREATEACCMGRUI, &TwitterProto::SvcCreateAccMgrUI);
+	CreateService(PS_GETNAME, &TwitterProto::GetName);
+	CreateService(PS_GETSTATUS, &TwitterProto::GetStatus);
 
-	CreateProtoService(m_szModuleName,PS_CREATEACCMGRUI, &TwitterProto::SvcCreateAccMgrUI,this);
-	CreateProtoService(m_szModuleName,PS_GETNAME,  &TwitterProto::GetName,    this);
-	CreateProtoService(m_szModuleName,PS_GETSTATUS,&TwitterProto::GetStatus,  this);
+	CreateService(PS_JOINCHAT, &TwitterProto::OnJoinChat);
+	CreateService(PS_LEAVECHAT, &TwitterProto::OnLeaveChat);
 
-	CreateProtoService(m_szModuleName,PS_JOINCHAT, &TwitterProto::OnJoinChat, this);
-	CreateProtoService(m_szModuleName,PS_LEAVECHAT,&TwitterProto::OnLeaveChat,this);
+	CreateService(PS_GETMYAVATAR, &TwitterProto::GetAvatar);
+	CreateService(PS_SETMYAVATAR, &TwitterProto::SetAvatar);
 
-	CreateProtoService(m_szModuleName,PS_GETMYAVATAR,&TwitterProto::GetAvatar,this);
-	CreateProtoService(m_szModuleName,PS_SETMYAVATAR,&TwitterProto::SetAvatar,this);
-
-	HookProtoEvent(ME_DB_CONTACT_DELETED,       &TwitterProto::OnContactDeleted,     this);
-	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &TwitterProto::OnBuildStatusMenu,    this);
-	HookProtoEvent(ME_OPT_INITIALISE,           &TwitterProto::OnOptionsInit,        this);
+	HookEvent(ME_DB_CONTACT_DELETED,       &TwitterProto::OnContactDeleted);
+	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, &TwitterProto::OnBuildStatusMenu);
+	HookEvent(ME_OPT_INITIALISE,           &TwitterProto::OnOptionsInit);
 
 	tstring defFolder = std::tstring( _T("%miranda_avatarcache%\\")) + m_tszUserName;
 	hAvatarFolder_ = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, defFolder.c_str(), m_tszUserName);
@@ -173,7 +172,7 @@ int TwitterProto::SendMsg(HANDLE hContact,int flags,const char *msg)
 		tszMsg = mir_a2t( msg );
 
 	int seq = InterlockedIncrement(&g_msgid);
-	ForkThread(&TwitterProto::SendSuccess, this,new send_direct(hContact, msg, seq));
+	ForkThread(&TwitterProto::SendSuccess, new send_direct(hContact, msg, seq));
 	return seq;
 }
 
@@ -235,23 +234,23 @@ int TwitterProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
 
 // *************************
 
-int TwitterProto::SvcCreateAccMgrUI(WPARAM,LPARAM lParam)
+INT_PTR TwitterProto::SvcCreateAccMgrUI(WPARAM,LPARAM lParam)
 {
 	return (int)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_TWITTERACCOUNT),(HWND)lParam, first_run_dialog, (LPARAM)this );
 }
 
-int TwitterProto::GetName(WPARAM wParam,LPARAM lParam)
+INT_PTR TwitterProto::GetName(WPARAM wParam,LPARAM lParam)
 {
 	lstrcpynA(reinterpret_cast<char*>(lParam), m_szModuleName, (int)wParam);
 	return 0;
 }
 
-int TwitterProto::GetStatus(WPARAM,LPARAM)
+INT_PTR TwitterProto::GetStatus(WPARAM,LPARAM)
 {
 	return m_iStatus;
 }
 
-int TwitterProto::ReplyToTweet(WPARAM wParam,LPARAM)
+INT_PTR TwitterProto::ReplyToTweet(WPARAM wParam,LPARAM)
 {
 	// TODO: support replying to tweets instead of just users
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
@@ -270,7 +269,7 @@ int TwitterProto::ReplyToTweet(WPARAM wParam,LPARAM)
 	return 0;
 }
 
-int TwitterProto::VisitHomepage(WPARAM wParam,LPARAM)
+INT_PTR TwitterProto::VisitHomepage(WPARAM wParam,LPARAM)
 {
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
@@ -311,7 +310,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM,LPARAM)
 
 	// TODO: Disable this menu item when offline
 	// "Send Tweet..."
-	CreateProtoService(m_szModuleName,"/Tweet",&TwitterProto::OnTweet,this);
+	CreateService("/Tweet", &TwitterProto::OnTweet);
 	strcpy(tDest,"/Tweet");
 	mi.ptszName = LPGENT("Send Tweet...");
 	mi.popupPosition = 200001;
@@ -346,7 +345,7 @@ int TwitterProto::OnOptionsInit(WPARAM wParam,LPARAM)
 	return 0;
 }
 
-int TwitterProto::OnTweet(WPARAM,LPARAM)
+INT_PTR TwitterProto::OnTweet(WPARAM,LPARAM)
 {
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 1;
@@ -520,12 +519,12 @@ std::tstring TwitterProto::GetAvatarFolder()
 	return path;
 }
 
-int TwitterProto::GetAvatar(WPARAM,LPARAM)
+INT_PTR TwitterProto::GetAvatar(WPARAM,LPARAM)
 {
 	return 0;
 }
 
-int TwitterProto::SetAvatar(WPARAM,LPARAM)
+INT_PTR TwitterProto::SetAvatar(WPARAM,LPARAM)
 {
 	return 0;
 }

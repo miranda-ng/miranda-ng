@@ -132,23 +132,6 @@ void CIrcProto::AddToJTemp(TCHAR op, CMString& sCommand)
 	setTString("JTemp", res.c_str());
 }
 
-void CIrcProto::ircFork( IrcThreadFunc pFunc, void* arg )
-{
-	unsigned threadID;
-	CloseHandle(( HANDLE )::mir_forkthreadowner(( pThreadFuncOwner )( *( void** )&pFunc ), this, arg, &threadID ));
-}
-
-HANDLE CIrcProto::ircForkEx( IrcThreadFunc pFunc, void* arg )
-{
-	unsigned threadID;
-	return (HANDLE)::mir_forkthreadowner(( pThreadFuncOwner )( *( void** )&pFunc ), this, arg, &threadID );
-}
-
-void CIrcProto::IrcHookEvent( const char* szEvent, IrcEventFunc pFunc )
-{
-	::HookEventObj( szEvent, ( MIRANDAHOOKOBJ )*( void** )&pFunc, this );
-}
-
 CMString __stdcall GetWord(const TCHAR* text, int index)
 {
 	if ( text && *text ) {
@@ -789,13 +772,6 @@ bool CIrcProto::AddWindowItemData(CMString window, const TCHAR* pszLimit, const 
 		return true;
 	}
 	return false;
-}
-
-void CIrcProto::CreateProtoService( const char* serviceName, IrcServiceFunc pFunc )
-{
-	char temp[MAXMODULELABELLENGTH];
-	mir_snprintf( temp, sizeof(temp), "%s%s", m_szModuleName, serviceName );
-	CreateServiceFunctionObj( temp, ( MIRANDASERVICEOBJ )*( void** )&pFunc, this );
 }
 
 void CIrcProto::FindLocalIP(HANDLE con) // inspiration from jabber

@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-class FacebookProto : public PROTO_INTERFACE
+class FacebookProto : public PROTO<FacebookProto>
 {
 public:
 	FacebookProto(const char *proto_name, const TCHAR *username);
@@ -101,22 +101,27 @@ public:
 	////////////////////////
 
 	// Services
-	int  __cdecl GetMyAwayMsg(WPARAM, LPARAM);
-	int  __cdecl SetMyAwayMsg(WPARAM, LPARAM);
-	int  __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
-	int  __cdecl GetMyAvatar(WPARAM, LPARAM);
-	int  __cdecl GetAvatarInfo(WPARAM, LPARAM);
-	int  __cdecl GetAvatarCaps(WPARAM, LPARAM);
-	int  __cdecl VisitProfile(WPARAM, LPARAM);
-	int  __cdecl VisitFriendship(WPARAM, LPARAM);
-	int  __cdecl Poke(WPARAM, LPARAM);
-	int  __cdecl CancelFriendship(WPARAM, LPARAM);
-	int  __cdecl RequestFriendship(WPARAM, LPARAM);
-	int  __cdecl ApproveFriendship(WPARAM, LPARAM);
-	int  __cdecl OnCancelFriendshipRequest(WPARAM, LPARAM);
-	int  __cdecl CheckNewsfeeds(WPARAM, LPARAM);
-	int  __cdecl CheckFriendRequests(WPARAM, LPARAM);
-	int  __cdecl RefreshBuddyList(WPARAM, LPARAM);
+	INT_PTR __cdecl GetMyAwayMsg(WPARAM, LPARAM);
+	INT_PTR __cdecl SetMyAwayMsg(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
+	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
+	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
+	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl VisitProfile(WPARAM, LPARAM);
+	INT_PTR __cdecl VisitFriendship(WPARAM, LPARAM);
+	INT_PTR __cdecl Poke(WPARAM, LPARAM);
+	INT_PTR __cdecl CancelFriendship(WPARAM, LPARAM);
+	INT_PTR __cdecl RequestFriendship(WPARAM, LPARAM);
+	INT_PTR __cdecl ApproveFriendship(WPARAM, LPARAM);
+	INT_PTR __cdecl OnCancelFriendshipRequest(WPARAM, LPARAM);
+	INT_PTR __cdecl CheckNewsfeeds(WPARAM, LPARAM);
+	INT_PTR __cdecl CheckFriendRequests(WPARAM, LPARAM);
+	INT_PTR __cdecl RefreshBuddyList(WPARAM, LPARAM);
+
+	INT_PTR __cdecl OnJoinChat(WPARAM,LPARAM);
+	INT_PTR __cdecl OnLeaveChat(WPARAM,LPARAM);
+
+	INT_PTR __cdecl OnMind(WPARAM,LPARAM);
 
 	// Events
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
@@ -124,13 +129,10 @@ public:
 	int  __cdecl OnToolbarInit(WPARAM, LPARAM);
 	int  __cdecl OnBuildStatusMenu(WPARAM,LPARAM);
 	int  __cdecl OnContactDeleted(WPARAM,LPARAM);
-	int  __cdecl OnMind(WPARAM,LPARAM);
 	int  __cdecl OnPreShutdown(WPARAM,LPARAM);
 	int  __cdecl OnPrebuildContactMenu(WPARAM,LPARAM);
 	int  __cdecl OnIdleChanged(WPARAM,LPARAM);
 	int  __cdecl OnChatOutgoing(WPARAM,LPARAM);
-	int  __cdecl OnJoinChat(WPARAM,LPARAM);
-	int  __cdecl OnLeaveChat(WPARAM,LPARAM);
 
 	// Loops
 	bool    NegotiateConnection();

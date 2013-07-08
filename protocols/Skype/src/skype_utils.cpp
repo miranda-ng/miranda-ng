@@ -255,30 +255,6 @@ void CSkypeProto::InitCustomFolders()
 
 // ---
 
-void CSkypeProto::CreateServiceObj(const char* szService, SkypeServiceFunc serviceProc)
-{
-	char moduleName[MAXMODULELABELLENGTH];
-
-	::mir_snprintf(moduleName, sizeof(moduleName), "%s%s", this->m_szModuleName, szService);
-	::CreateServiceFunctionObj(moduleName, (MIRANDASERVICEOBJ)*(void**)&serviceProc, this);
-}
-
-void CSkypeProto::CreateServiceObjParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam)
-{
-	char moduleName[MAXMODULELABELLENGTH];
-
-	::mir_snprintf(moduleName, sizeof(moduleName), "%s%s", this->m_szModuleName, szService);
-	::CreateServiceFunctionObjParam(moduleName, (MIRANDASERVICEOBJPARAM)*(void**)&serviceProc, this, lParam);
-}
-
-HANDLE CSkypeProto::CreateEvent(const char* szService)
-{
-	char moduleName[MAXMODULELABELLENGTH];
-
-	::mir_snprintf(moduleName, sizeof(moduleName), "%s%s", this->m_szModuleName, szService);
-	return ::CreateHookableEvent(moduleName);
-}
-
 int CSkypeProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
 	return ::ProtoBroadcastAck(this->m_szModuleName, hContact, type, result, hProcess, lParam);
@@ -287,26 +263,6 @@ int CSkypeProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hPr
 int CSkypeProto::SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam)
 {
 	return this->SendBroadcast(NULL, type, result, hProcess, lParam);
-}
-
-void CSkypeProto::ForkThread(SkypeThreadFunc pFunc, void *param)
-{
-	UINT threadID;
-	::CloseHandle((HANDLE)::mir_forkthreadowner(
-		(pThreadFuncOwner)*(void**)&pFunc,
-		this,
-		param,
-		&threadID));
-}
-
-HANDLE CSkypeProto::ForkThreadEx(SkypeThreadFunc pFunc, void *param, UINT* threadID)
-{
-	UINT lthreadID;
-	return (HANDLE)::mir_forkthreadowner(
-		(pThreadFuncOwner)*(void**)&pFunc,
-		this,
-		param,
-		threadID ? threadID : &lthreadID);
 }
 
 //

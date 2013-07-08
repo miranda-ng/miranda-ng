@@ -79,8 +79,8 @@ MIR_CORE_DLL(int) ProtoServiceExists(const char *szModule, const char *szService
 		return false;
 
 	char str[MAXMODULELABELLENGTH * 2];
-	strncpy_s(str,szModule,strlen(szModule));
-	strncat_s(str,szService,strlen(szService));
+	strncpy_s(str, szModule, strlen(szModule));
+	strncat_s(str, szService, strlen(szService));
 	return ServiceExists(str);
 }
 
@@ -99,4 +99,45 @@ MIR_CORE_DLL(void) ProtoDestructor(PROTO_INTERFACE *pThis)
 {
 	mir_free(pThis->m_szModuleName);
 	mir_free(pThis->m_tszUserName);
+}
+
+MIR_CORE_DLL(void) ProtoCreateService(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc serviceProc)
+{
+	char str[MAXMODULELABELLENGTH * 2];
+	strncpy_s(str, pThis->m_szModuleName, strlen(pThis->m_szModuleName));
+	strncat_s(str, szService, strlen(szService));
+	::CreateServiceFunctionObj(str, (MIRANDASERVICEOBJ)*(void**)&serviceProc, pThis);
+}
+
+MIR_CORE_DLL(void) ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam serviceProc, LPARAM lParam)
+{
+	char str[MAXMODULELABELLENGTH * 2];
+	strncpy_s(str, pThis->m_szModuleName, strlen(pThis->m_szModuleName));
+	strncat_s(str, szService, strlen(szService));
+	::CreateServiceFunctionObjParam(str, (MIRANDASERVICEOBJPARAM)*(void**)&serviceProc, pThis, lParam);
+}
+
+MIR_CORE_DLL(void) ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szEvent, ProtoEventFunc handler)
+{
+	::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*(void**)&handler, pThis);
+}
+
+MIR_CORE_DLL(HANDLE) ProtoCreateHookableEvent(PROTO_INTERFACE *pThis, const char* szName)
+{
+	char str[MAXMODULELABELLENGTH * 2];
+	strncpy_s(str, pThis->m_szModuleName, strlen(pThis->m_szModuleName));
+	strncat_s(str, szName, strlen(szName));
+	return CreateHookableEvent(str);
+}
+
+MIR_CORE_DLL(void) ProtoForkThread(PROTO_INTERFACE *pThis, ProtoThreadFunc pFunc, void *param)
+{
+	UINT threadID;
+	CloseHandle((HANDLE)::mir_forkthreadowner((pThreadFuncOwner) *(void**)&pFunc, pThis, param, &threadID));
+}
+
+MIR_CORE_DLL(HANDLE) ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc pFunc, void *param, UINT* threadID)
+{
+	UINT lthreadID;
+	return (HANDLE)::mir_forkthreadowner((pThreadFuncOwner) *(void**)&pFunc, pThis, param, threadID ? threadID : &lthreadID);
 }

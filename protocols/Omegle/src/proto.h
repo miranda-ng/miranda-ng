@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-class OmegleProto : public PROTO_INTERFACE
+class OmegleProto : public PROTO<OmegleProto>
 {
 public:
 	OmegleProto( const char *proto_name, const TCHAR *username );
@@ -91,7 +91,7 @@ public:
 	virtual	int       __cdecl OnEvent( PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam );
 
 	// Services
-	int  __cdecl SvcCreateAccMgrUI( WPARAM, LPARAM );
+	INT_PTR __cdecl SvcCreateAccMgrUI( WPARAM, LPARAM );
 
 	// Events
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
@@ -101,10 +101,10 @@ public:
 	int  __cdecl OnPrebuildContactMenu(WPARAM,LPARAM);
 
 	// Chat handling
-	int  __cdecl OnChatEvent(WPARAM,LPARAM);
-	int  __cdecl OnJoinChat(WPARAM,LPARAM);
-	int  __cdecl OnLeaveChat(WPARAM,LPARAM);
-
+	int     __cdecl OnChatEvent(WPARAM,LPARAM);
+	INT_PTR __cdecl OnJoinChat(WPARAM,LPARAM);
+	INT_PTR __cdecl OnLeaveChat(WPARAM,LPARAM);
+		  
 	// Loops
 	void __cdecl EventsLoop(void*);
 

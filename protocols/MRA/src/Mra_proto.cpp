@@ -22,7 +22,7 @@ DWORD CMraProto::StartConnect()
 
 		if (dwEMailSize > 5 && GetPassDB(szPass, sizeof(szPass), &dwPasswordSize)) {
 			InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, GetTickCount());
-			hThreadWorker = ForkThreadEx(&CMraProto::MraThreadProc, NULL);
+			hThreadWorker = ForkThreadEx(&CMraProto::MraThreadProc, NULL, 0);
 			if (hThreadWorker == NULL) {
 				DWORD dwRetErrorCode = GetLastError();
 				InterlockedExchange((volatile LONG*)&dwThreadWorkerRunning, FALSE);

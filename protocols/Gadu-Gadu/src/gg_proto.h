@@ -22,12 +22,7 @@
 #ifndef GGPROTO_H
 #define GGPROTO_H
 
-struct GGPROTO;
-typedef void    ( __cdecl GGPROTO::*GGThreadFunc )( void* );
-typedef int     ( __cdecl GGPROTO::*GGEventFunc )( WPARAM, LPARAM );
-typedef INT_PTR ( __cdecl GGPROTO::*GGServiceFunc )( WPARAM, LPARAM );
-
-struct GGPROTO : public PROTO_INTERFACE
+struct GGPROTO : public PROTO<GGPROTO>
 {
 				GGPROTO( const char*, const TCHAR* );
 				~GGPROTO();
@@ -106,8 +101,6 @@ struct GGPROTO : public PROTO_INTERFACE
 	void checknewuser(uin_t uin, const char* passwd);
 
 	/* Thread functions */
-	void forkthread(GGThreadFunc pFunc, void *param);
-	HANDLE forkthreadex(GGThreadFunc pFunc, void *param, UINT *threadId);
 	void threadwait(GGTHREAD *thread);
 
 #ifdef DEBUGMODE
@@ -236,13 +229,6 @@ struct GGPROTO : public PROTO_INTERFACE
 	void sessions_updatedlg();
 	BOOL sessions_closedlg();
 	void sessions_menus_init(HGENMENU hRoot);
-
-	/* Event helpers */
-	void   createObjService(const char* szService, GGServiceFunc serviceProc);
-	void   createProtoService(const char* szService, GGServiceFunc serviceProc);
-	HANDLE hookProtoEvent(const char*, GGEventFunc);
-	void   forkThread(GGThreadFunc, void* );
-	HANDLE forkThreadEx(GGThreadFunc, void*, UINT* threadID = NULL);
 
 	// Debug functions
 	int netlog(const char *fmt, ...);

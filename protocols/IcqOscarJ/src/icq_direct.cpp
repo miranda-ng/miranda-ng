@@ -178,7 +178,7 @@ void icq_newConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, void *pE
 {
 	// Start a new thread for the incomming connection
 	CIcqProto* ppro = (CIcqProto*)pExtra;
-	ppro->ForkThread(( IcqThreadFunc )&CIcqProto::icq_directThread, CreateDTSI(NULL, hNewConnection, -1));
+	ppro->ForkThread((CIcqProto::MyThreadFunc)&CIcqProto::icq_directThread, CreateDTSI(NULL, hNewConnection, -1));
 }
 
 // Opens direct connection of specified type to specified contact
@@ -187,7 +187,7 @@ void CIcqProto::OpenDirectConnection(HANDLE hContact, int type, void* pvExtra)
 	// Create a new connection
 	directthreadstartinfo* dtsi = CreateDTSI(hContact, NULL, type);
 	dtsi->pvExtra = pvExtra;
-	ForkThread(( IcqThreadFunc )&CIcqProto::icq_directThread, dtsi);
+	ForkThread((MyThreadFunc)&CIcqProto::icq_directThread, dtsi);
 }
 
 // Safely close NetLib connection - do not corrupt direct connection list

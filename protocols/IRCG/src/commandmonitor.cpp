@@ -276,7 +276,7 @@ bool CIrcProto::OnIrc_WELCOME(const CIrcMessage* pmsg)
 				lstrcpyn( host, word.c_str(), SIZEOF(host));
 				TCHAR* p1 = _tcschr( host, '@' );
 				if ( p1 )
-					ircFork( &CIrcProto::ResolveIPThread, new IPRESOLVE( _T2A(p1+1), IP_AUTO ));
+					ForkThread( &CIrcProto::ResolveIPThread, new IPRESOLVE( _T2A(p1+1), IP_AUTO ));
 			}
 			
 			word = GetWord(pmsg->parameters[1].c_str(), ++i);
@@ -2039,7 +2039,7 @@ bool CIrcProto::OnIrc_WHO_REPLY(const CIrcMessage* pmsg)
 		if ( lstrcmpi( pmsg->parameters[5].c_str(), m_info.sNick.c_str()) == 0 ) {
 			TCHAR host[1024];
 			lstrcpyn( host, pmsg->parameters[3].c_str(), 1024 );
-			ircFork( &CIrcProto::ResolveIPThread, new IPRESOLVE( _T2A(host), IP_AUTO ));
+			ForkThread( &CIrcProto::ResolveIPThread, new IPRESOLVE( _T2A(host), IP_AUTO ));
 	}	}
 
 	if ( command[0] == 'U' )

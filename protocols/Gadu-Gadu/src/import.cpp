@@ -612,8 +612,8 @@ void GGPROTO::import_init(HGENMENU hRoot)
 {
 	// Import from server item
 	char service[64];
-	mir_snprintf(service, sizeof(service), GGS_IMPORT_SERVER, m_szModuleName);
-	createObjService(service, &GGPROTO::import_server);
+	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_IMPORT_SERVER);
+	CreateService(GGS_IMPORT_SERVER, &GGPROTO::import_server);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
@@ -625,8 +625,8 @@ void GGPROTO::import_init(HGENMENU hRoot)
  	hMainMenu[2] = Menu_AddProtoMenuItem(&mi);
 
 	// Import from textfile
-	mir_snprintf(service, sizeof(service), GGS_IMPORT_TEXT, m_szModuleName);
-	createObjService(service, &GGPROTO::import_text);
+	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_IMPORT_TEXT);
+	CreateService(GGS_IMPORT_TEXT, &GGPROTO::import_text);
 
 	mi.position = 2000500002;
 	mi.icolibItem = iconList[2].hIcolib;
@@ -635,8 +635,8 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	hMainMenu[3] = Menu_AddProtoMenuItem(&mi);
 
 	// Remove from server
-	mir_snprintf(service, sizeof(service), GGS_REMOVE_SERVER, m_szModuleName);
-	createObjService(service, &GGPROTO::remove_server);
+	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_REMOVE_SERVER);
+	CreateService(GGS_REMOVE_SERVER, &GGPROTO::remove_server);
 
 	mi.position = 2000500003;
 	mi.icolibItem = iconList[3].hIcolib;
@@ -645,8 +645,8 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	hMainMenu[4] = Menu_AddProtoMenuItem(&mi);
 
 	// Export to server
-	mir_snprintf(service, sizeof(service), GGS_EXPORT_SERVER, m_szModuleName);
-	createObjService(service, &GGPROTO::export_server);
+	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_EXPORT_SERVER);
+	CreateService(GGS_EXPORT_SERVER, &GGPROTO::export_server);
 
 	mi.position = 2005000001;
 	mi.icolibItem = iconList[4].hIcolib;
@@ -655,8 +655,8 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	hMainMenu[5] = Menu_AddProtoMenuItem(&mi);
 
 	// Export to textfile
-	mir_snprintf(service, sizeof(service), GGS_EXPORT_TEXT, m_szModuleName);
-	createObjService(service, &GGPROTO::export_text);
+	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_EXPORT_TEXT);
+	CreateService(GGS_EXPORT_TEXT, &GGPROTO::export_text);
 
 	mi.position = 2005000002;
 	mi.icolibItem = iconList[5].hIcolib;

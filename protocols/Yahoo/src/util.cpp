@@ -22,33 +22,6 @@
 
 #include "resource.h"
 
-void CYahooProto::YCreateService( const char* szService, YServiceFunc serviceProc )
-{
-	char str[ 255 ];
-	unsigned int len;
-	
-	len = snprintf(str, sizeof(str), "%s%s", m_szModuleName, szService);
-	
-	if (len >= sizeof(str)) {
-		DebugLog("[YCreateService] Failed Registering Service: %s. Reason: buffer too small?", szService);
-		return;
-	}
-	
-	::CreateServiceFunctionObj( str, ( MIRANDASERVICEOBJ )*( void** )&serviceProc, this );
-}
-
-void CYahooProto::YForkThread( YThreadFunc pFunc, void *param )
-{
-	UINT lthreadID;
-	
-	CloseHandle(( HANDLE )::mir_forkthreadowner(( pThreadFuncOwner ) *( void** )&pFunc, this, param, &lthreadID));
-}
-
-void CYahooProto::YHookEvent( const char* szEvent, YEventFunc handler )
-{
-	::HookEventObj( szEvent, ( MIRANDAHOOKOBJ )*( void** )&handler, this );
-}
-
 int CYahooProto::DebugLog( const char *fmt, ... )
 {
 	char str[ 4096 ];

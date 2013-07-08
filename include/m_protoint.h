@@ -106,4 +106,36 @@ struct  PROTO_INTERFACE : public MZeroedObject
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) = 0;
 };
 
+template<class T> class PROTO : public PROTO_INTERFACE
+{
+
+public:
+	__forceinline PROTO(const char *szProto, const TCHAR *tszUserName)
+	{
+		::ProtoConstructor(this, szProto, tszUserName);
+	}
+
+	__forceinline ~PROTO()
+	{
+		::ProtoDestructor(this);
+	}
+
+	typedef int (__cdecl T::*MyEventFunc)(WPARAM, LPARAM);
+	void __forceinline HookEvent(const char* name, MyEventFunc pFunc)
+	{	::ProtoHookEvent(this, name, (ProtoEventFunc)pFunc); } 
+
+	typedef void (__cdecl T::*MyThreadFunc)(void*);
+	void __forceinline ForkThread(MyThreadFunc pFunc, void *param)
+	{	::ProtoForkThread(this, (ProtoThreadFunc)pFunc, param); } 
+	HANDLE __forceinline ForkThreadEx(MyThreadFunc pFunc, void *param, UINT *pThreadId)
+	{	return ::ProtoForkThreadEx(this, (ProtoThreadFunc)pFunc, param, pThreadId); } 
+
+	typedef INT_PTR (__cdecl T::*MyServiceFunc)(WPARAM, LPARAM);
+	void __forceinline CreateService(const char *name, MyServiceFunc pFunc)
+	{  ::ProtoCreateService(this, name, (ProtoServiceFunc)pFunc); }
+
+	typedef INT_PTR (__cdecl T::*MyServiceFuncParam)(WPARAM, LPARAM, LPARAM);
+	void __forceinline CreateServiceParam(const char *name, MyServiceFuncParam pFunc, LPARAM param)
+	{  ::ProtoCreateServiceParam(this, name, (ProtoServiceFuncParam)pFunc, param); }
+};
 #endif // M_PROTOINT_H__

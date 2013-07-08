@@ -25,10 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <m_protoint.h>
 
-class TwitterProto : public PROTO_INTERFACE
+class TwitterProto : public PROTO<TwitterProto>
 {
 public:
-	TwitterProto(const char *,const TCHAR *);
+	TwitterProto(const char*,const TCHAR*);
 	~TwitterProto();
 
 	inline const char * ModuleName() const
@@ -87,25 +87,27 @@ public:
 	void UpdateSettings();
 
 	// Services
-	int  __cdecl SvcCreateAccMgrUI(WPARAM,LPARAM);
-	int  __cdecl GetName(WPARAM,LPARAM);
-	int  __cdecl GetStatus(WPARAM,LPARAM);
-	int  __cdecl ReplyToTweet(WPARAM,LPARAM);
-	int  __cdecl VisitHomepage(WPARAM,LPARAM);
-	int  __cdecl GetAvatar(WPARAM,LPARAM);
-	int  __cdecl SetAvatar(WPARAM,LPARAM);
+	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM,LPARAM);
+	INT_PTR __cdecl GetName(WPARAM,LPARAM);
+	INT_PTR __cdecl GetStatus(WPARAM,LPARAM);
+	INT_PTR __cdecl ReplyToTweet(WPARAM,LPARAM);
+	INT_PTR __cdecl VisitHomepage(WPARAM,LPARAM);
+	INT_PTR __cdecl GetAvatar(WPARAM,LPARAM);
+	INT_PTR __cdecl SetAvatar(WPARAM,LPARAM);
+
+	INT_PTR __cdecl OnJoinChat(WPARAM,LPARAM);
+	INT_PTR __cdecl OnLeaveChat(WPARAM,LPARAM);
+
+	INT_PTR __cdecl OnTweet(WPARAM,LPARAM);
 
 	// Events
 	int  __cdecl OnContactDeleted(WPARAM,LPARAM);
 	int  __cdecl OnBuildStatusMenu(WPARAM,LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM,LPARAM);
-	int  __cdecl OnTweet(WPARAM,LPARAM);
 	int  __cdecl OnModulesLoaded(WPARAM,LPARAM);
 	int  __cdecl OnPreShutdown(WPARAM,LPARAM);
 	int  __cdecl OnPrebuildContactMenu(WPARAM,LPARAM);
 	int  __cdecl OnChatOutgoing(WPARAM,LPARAM);
-	int  __cdecl OnJoinChat(WPARAM,LPARAM);
-	int  __cdecl OnLeaveChat(WPARAM,LPARAM);
 
 	void __cdecl SendTweetWorker(void *);
 private:

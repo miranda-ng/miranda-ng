@@ -84,23 +84,22 @@ void FacebookProto::ChangeStatus(void*)
 			facy.load_friends();
 
 			// Process Friends requests
-			ForkThread(&FacebookProto::ProcessFriendRequests, this, NULL);
+			ForkThread(&FacebookProto::ProcessFriendRequests, NULL);
 
 			// Get unread messages
-			ForkThread(&FacebookProto::ProcessUnreadMessages, this);
+			ForkThread(&FacebookProto::ProcessUnreadMessages, NULL);
 
 			// Get notifications
-			ForkThread(&FacebookProto::ProcessNotifications, this);
+			ForkThread(&FacebookProto::ProcessNotifications, NULL);
 
 			setDword("LogonTS", (DWORD)time(NULL));
-			ForkThread(&FacebookProto::UpdateLoop,  this);
-			ForkThread(&FacebookProto::MessageLoop, this);
+			ForkThread(&FacebookProto::UpdateLoop,  NULL);
+			ForkThread(&FacebookProto::MessageLoop, NULL);
 
 			if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS))
-			{
-				ForkThread(&FacebookProto::SetAwayMsgWorker, this, NULL);
-			}
-		} else {
+				ForkThread(&FacebookProto::SetAwayMsgWorker, NULL);
+		}
+		else {
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)old_status, m_iStatus);
 
 			if (facy.hFcbCon)
@@ -212,7 +211,7 @@ void FacebookProto::UpdateLoop(void *)
 				break;
 
 		if (i == 49)
-			ForkThread(&FacebookProto::ProcessFriendRequests, this, NULL);
+			ForkThread(&FacebookProto::ProcessFriendRequests, NULL);
 
 		LOG("***** FacebookProto::UpdateLoop[%d] going to sleep...", tim);
 		if (WaitForSingleObjectEx(update_loop_lock_, GetPollRate() * 1000, true) != WAIT_TIMEOUT)

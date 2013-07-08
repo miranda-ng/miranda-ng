@@ -27,12 +27,11 @@
 #endif
 
 CYahooProto::CYahooProto( const char* aProtoName, const TCHAR* aUserName ) :
+	PROTO<CYahooProto>(aProtoName, aUserName),
 	m_bLoggedIn( FALSE ),
 	poll_loop( 0),
 	m_chatrooms(3, ChatRoom::compare)
 {
-	ProtoConstructor(this, aProtoName, aUserName);
-
 	m_connections = NULL;
 	m_connection_tags = 0;
 
@@ -62,8 +61,6 @@ CYahooProto::~CYahooProto()
 	FREE(m_pw_token);
 
 	Netlib_CloseHandle( m_hNetlibUser );
-
-	ProtoDestructor(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -71,9 +68,9 @@ CYahooProto::~CYahooProto()
 
 int CYahooProto::OnModulesLoadedEx( WPARAM, LPARAM )
 {
-	YHookEvent( ME_USERINFO_INITIALISE, 		&CYahooProto::OnUserInfoInit );
-	YHookEvent( ME_IDLE_CHANGED, 				&CYahooProto::OnIdleEvent);
-	YHookEvent( ME_CLIST_PREBUILDCONTACTMENU, 	&CYahooProto::OnPrebuildContactMenu );
+	HookEvent( ME_USERINFO_INITIALISE, 		&CYahooProto::OnUserInfoInit );
+	HookEvent( ME_IDLE_CHANGED, 				&CYahooProto::OnIdleEvent);
+	HookEvent( ME_CLIST_PREBUILDCONTACTMENU, 	&CYahooProto::OnPrebuildContactMenu );
 
 	TCHAR tModuleDescr[ 100 ];
 	mir_sntprintf(tModuleDescr, SIZEOF(tModuleDescr), TranslateT("%s plugin connections"), m_tszUserName);
@@ -345,7 +342,7 @@ void __cdecl CYahooProto::get_info_thread(HANDLE hContact)
 
 int __cdecl CYahooProto::GetInfo( HANDLE hContact, int /*infoType*/ )
 {
-	YForkThread(&CYahooProto::get_info_thread, hContact);
+	ForkThread(&CYahooProto::get_info_thread, hContact);
 	return 0;
 }
 
@@ -505,7 +502,7 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 		BroadcastStatus(ID_STATUS_CONNECTING);
 
 		iNewStatus = (iNewStatus == ID_STATUS_INVISIBLE) ? YAHOO_STATUS_INVISIBLE: YAHOO_STATUS_AVAILABLE;
-		YForkThread(&CYahooProto::server_main, (void *)iNewStatus);
+		ForkThread(&CYahooProto::server_main, (void *)iNewStatus);
 	}
 	else if (iNewStatus == ID_STATUS_INVISIBLE) { /* other normal away statuses are set via setaway */
 		BroadcastStatus(iNewStatus);
@@ -594,7 +591,7 @@ HANDLE __cdecl CYahooProto::GetAwayMsg( HANDLE hContact )
 		if (GetWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 			return 0; /* user offline, what Status message? */
 
-		YForkThread(&CYahooProto::get_status_thread, hContact);
+		ForkThread(&CYahooProto::get_status_thread, hContact);
 		return (HANDLE)1; //Success
 	}
 

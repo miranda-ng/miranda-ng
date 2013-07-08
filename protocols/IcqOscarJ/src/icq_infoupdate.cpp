@@ -46,7 +46,7 @@ void CIcqProto::icq_InitInfoUpdate(void)
 			m_infoUpdateList[i].queued = 0;
 		}
 
-		CloseHandle( ForkThreadEx( &CIcqProto::InfoUpdateThread, NULL));
+		ForkThread(&CIcqProto::InfoUpdateThread, 0);
 	}
 
 	bInfoPendingUsers = 0;

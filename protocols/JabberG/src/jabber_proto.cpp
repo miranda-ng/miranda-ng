@@ -64,6 +64,7 @@ static int compareListItems(const JABBER_LIST_ITEM *p1, const JABBER_LIST_ITEM *
 }
 
 CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
+	PROTO<CJabberProto>(aProtoName, aUserName),
 	m_options(this),
 	m_lstTransports(50, compareTransports),
 	m_lstRoster(50, compareListItems),
@@ -83,8 +84,6 @@ CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
 	m_lstJabberFeatCapPairsDynamic(2),
 	m_uEnabledFeatCapsDynamic(0)
 {
-	ProtoConstructor(this, aProtoName, aUserName);
-
 	InitializeCriticalSection(&m_csModeMsgMutex);
 	InitializeCriticalSection(&m_csLists);
 	InitializeCriticalSection(&m_csLastResourceMap);
@@ -102,50 +101,50 @@ CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
 	m_windowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 	// Protocol services and events...
-	m_hEventNudge = JCreateHookableEvent(JE_NUDGE);
-	m_hEventXStatusIconChanged = JCreateHookableEvent(JE_CUSTOMSTATUS_EXTRAICON_CHANGED);
-	m_hEventXStatusChanged = JCreateHookableEvent(JE_CUSTOMSTATUS_CHANGED);
+	m_hEventNudge = CreateHookableEvent(JE_NUDGE);
+	m_hEventXStatusIconChanged = CreateHookableEvent(JE_CUSTOMSTATUS_EXTRAICON_CHANGED);
+	m_hEventXStatusChanged = CreateHookableEvent(JE_CUSTOMSTATUS_CHANGED);
 
-	JCreateService(PS_CREATEACCMGRUI, &CJabberProto::SvcCreateAccMgrUI);
+	CreateService(PS_CREATEACCMGRUI, &CJabberProto::SvcCreateAccMgrUI);
 
-	JCreateService(PS_GETAVATARINFOT, &CJabberProto::JabberGetAvatarInfo);
-	JCreateService(PS_GETMYAWAYMSG, &CJabberProto::GetMyAwayMsg);
-	JCreateService(PS_SET_LISTENINGTO, &CJabberProto::OnSetListeningTo);
+	CreateService(PS_GETAVATARINFOT, &CJabberProto::JabberGetAvatarInfo);
+	CreateService(PS_GETMYAWAYMSG, &CJabberProto::GetMyAwayMsg);
+	CreateService(PS_SET_LISTENINGTO, &CJabberProto::OnSetListeningTo);
 
-	JCreateService(PS_JOINCHAT, &CJabberProto::OnJoinChat);
-	JCreateService(PS_LEAVECHAT, &CJabberProto::OnLeaveChat);
+	CreateService(PS_JOINCHAT, &CJabberProto::OnJoinChat);
+	CreateService(PS_LEAVECHAT, &CJabberProto::OnLeaveChat);
 
-	JCreateService(PS_GETCUSTOMSTATUSEX, &CJabberProto::OnGetXStatusEx);
-	JCreateService(PS_SETCUSTOMSTATUSEX, &CJabberProto::OnSetXStatusEx);
-	JCreateService(PS_GETCUSTOMSTATUSICON, &CJabberProto::OnGetXStatusIcon);
-	JCreateService(PS_GETADVANCEDSTATUSICON, &CJabberProto::JGetAdvancedStatusIcon);
+	CreateService(PS_GETCUSTOMSTATUSEX, &CJabberProto::OnGetXStatusEx);
+	CreateService(PS_SETCUSTOMSTATUSEX, &CJabberProto::OnSetXStatusEx);
+	CreateService(PS_GETCUSTOMSTATUSICON, &CJabberProto::OnGetXStatusIcon);
+	CreateService(PS_GETADVANCEDSTATUSICON, &CJabberProto::JGetAdvancedStatusIcon);
 
-	JCreateService(JS_HTTP_AUTH, &CJabberProto::OnHttpAuthRequest);
-	JCreateService(JS_INCOMING_NOTE_EVENT, &CJabberProto::OnIncomingNoteEvent);
+	CreateService(JS_HTTP_AUTH, &CJabberProto::OnHttpAuthRequest);
+	CreateService(JS_INCOMING_NOTE_EVENT, &CJabberProto::OnIncomingNoteEvent);
 
-	JCreateService(JS_SENDXML, &CJabberProto::ServiceSendXML);
-	JCreateService(PS_GETMYAVATART, &CJabberProto::JabberGetAvatar);
-	JCreateService(PS_GETAVATARCAPS, &CJabberProto::JabberGetAvatarCaps);
-	JCreateService(PS_SETMYAVATART, &CJabberProto::JabberSetAvatar);
-	JCreateService(PS_SETMYNICKNAME, &CJabberProto::JabberSetNickname);
+	CreateService(JS_SENDXML, &CJabberProto::ServiceSendXML);
+	CreateService(PS_GETMYAVATART, &CJabberProto::JabberGetAvatar);
+	CreateService(PS_GETAVATARCAPS, &CJabberProto::JabberGetAvatarCaps);
+	CreateService(PS_SETMYAVATART, &CJabberProto::JabberSetAvatar);
+	CreateService(PS_SETMYNICKNAME, &CJabberProto::JabberSetNickname);
 
-	JCreateService(JS_DB_GETEVENTTEXT_CHATSTATES, &CJabberProto::OnGetEventTextChatStates);
-	JCreateService(JS_DB_GETEVENTTEXT_PRESENCE, &CJabberProto::OnGetEventTextPresence);
+	CreateService(JS_DB_GETEVENTTEXT_CHATSTATES, &CJabberProto::OnGetEventTextChatStates);
+	CreateService(JS_DB_GETEVENTTEXT_PRESENCE, &CJabberProto::OnGetEventTextPresence);
 
-	JCreateService(JS_GETJABBERAPI, &CJabberProto::JabberGetApi);
+	CreateService(JS_GETJABBERAPI, &CJabberProto::JabberGetApi);
 
 	// XEP-0224 support (Attention/Nudge)
-	JCreateService(JS_SEND_NUDGE, &CJabberProto::JabberSendNudge);
+	CreateService(JS_SEND_NUDGE, &CJabberProto::JabberSendNudge);
 
 	// service to get from protocol chat buddy info
-	JCreateService(MS_GC_PROTO_GETTOOLTIPTEXT, &CJabberProto::JabberGCGetToolTipText);
+	CreateService(MS_GC_PROTO_GETTOOLTIPTEXT, &CJabberProto::JabberGCGetToolTipText);
 
 	// XMPP URI parser service for "File Association Manager" plugin
-	JCreateService(JS_PARSE_XMPP_URI, &CJabberProto::JabberServiceParseXmppURI);
+	CreateService(JS_PARSE_XMPP_URI, &CJabberProto::JabberServiceParseXmppURI);
 
-	JHookEvent(ME_MODERNOPT_INITIALIZE, &CJabberProto::OnModernOptInit);
-	JHookEvent(ME_OPT_INITIALISE, &CJabberProto::OnOptionsInit);
-	JHookEvent(ME_SKIN2_ICONSCHANGED, &CJabberProto::OnReloadIcons);
+	HookEvent(ME_MODERNOPT_INITIALIZE, &CJabberProto::OnModernOptInit);
+	HookEvent(ME_OPT_INITIALISE, &CJabberProto::OnOptionsInit);
+	HookEvent(ME_SKIN2_ICONSCHANGED, &CJabberProto::OnReloadIcons);
 
 	m_iqManager.FillPermanentHandlers();
 	m_iqManager.Start();
@@ -251,8 +250,6 @@ CJabberProto::~CJabberProto()
 	}
 	m_lstJabberFeatCapPairsDynamic.destroy();
 	m_hPrivacyMenuItems.destroy();
-
-	ProtoDestructor(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -262,7 +259,7 @@ static COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 
 int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 {
-	JHookEvent(ME_USERINFO_INITIALISE, &CJabberProto::OnUserInfoInit);
+	HookEvent(ME_USERINFO_INITIALISE, &CJabberProto::OnUserInfoInit);
 	XStatusInit();
 	m_pepServices.InitGui();
 
@@ -281,8 +278,8 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 		gcr.pszModule = m_szModuleName;
 		CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
 
-		JHookEvent(ME_GC_EVENT, &CJabberProto::JabberGcEventHook);
-		JHookEvent(ME_GC_BUILDMENU, &CJabberProto::JabberGcMenuHook);
+		HookEvent(ME_GC_EVENT, &CJabberProto::JabberGcEventHook);
+		HookEvent(ME_GC_BUILDMENU, &CJabberProto::JabberGcMenuHook);
 	}
 
 	HICON hIcon = LoadIconEx("main");
@@ -294,8 +291,8 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	Srmm_AddIcon(&sid);
 	Skin_ReleaseIcon(hIcon);
 
-	JHookEvent(ME_MSG_ICONPRESSED, &CJabberProto::OnProcessSrmmIconClick);
-	JHookEvent(ME_MSG_WINDOWEVENT, &CJabberProto::OnProcessSrmmEvent);
+	HookEvent(ME_MSG_ICONPRESSED, &CJabberProto::OnProcessSrmmIconClick);
+	HookEvent(ME_MSG_WINDOWEVENT, &CJabberProto::OnProcessSrmmEvent);
 
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
 	dbEventType.module = m_szModuleName;
@@ -307,7 +304,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	dbEventType.descr = "Presence notifications";
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
-	JHookEvent(ME_IDLE_CHANGED, &CJabberProto::OnIdleChanged);
+	HookEvent(ME_IDLE_CHANGED, &CJabberProto::OnIdleChanged);
 
 	CheckAllContactsAreTransported();
 
@@ -593,7 +590,7 @@ HANDLE __cdecl CJabberProto::FileAllow(HANDLE /*hContact*/, HANDLE hTransfer, co
 
 	switch (ft->type) {
 	case FT_OOB:
-		JForkThread((JThreadFunc)&CJabberProto::FileReceiveThread, ft);
+		ForkThread((MyThreadFunc)&CJabberProto::FileReceiveThread, ft);
 		break;
 	case FT_BYTESTREAM:
 		FtAcceptSiRequest(ft);
@@ -869,7 +866,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 
 	Log("Adding '%s' without validation", jsb->jid);
 	jsb->hSearch = SerialNext();
-	JForkThread((JThreadFunc)&CJabberProto::BasicSearchThread, jsb);
+	ForkThread((MyThreadFunc)&CJabberProto::BasicSearchThread, jsb);
 	return (HANDLE)jsb->hSearch;
 }
 
@@ -1108,7 +1105,7 @@ HANDLE __cdecl CJabberProto::SendFile(HANDLE hContact, const TCHAR *szDescriptio
 	if (jcb & JABBER_CAPS_SI_FT)
 		FtInitiate(item->jid, ft);
 	else if (jcb & JABBER_CAPS_OOB)
-		JForkThread((JThreadFunc)&CJabberProto::FileServerThread, ft);
+		ForkThread((MyThreadFunc)&CJabberProto::FileServerThread, ft);
 
 	return ft;
 }
@@ -1146,7 +1143,7 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 	ptrT ptszJid( db_get_tsa(hContact, m_szModuleName, "jid"));
 	if ( !m_bJabberOnline || ptszJid == NULL) {
 		TFakeAckParams *param = new TFakeAckParams(hContact, Translate("Protocol is offline or no jid"));
-		JForkThread(&CJabberProto::SendMessageAckThread, param);
+		ForkThread(&CJabberProto::SendMessageAckThread, param);
 		return 1;
 	}
 
@@ -1223,7 +1220,7 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 		}
 		m_ThreadInfo->send(m);
 
-		JForkThread(&CJabberProto::SendMessageAckThread, new TFakeAckParams(hContact, 0, id));
+		ForkThread(&CJabberProto::SendMessageAckThread, new TFakeAckParams(hContact, 0, id));
 	}
 	else {
 		xmlAddAttr(m, _T("to"), szClientJid); xmlAddAttrID(m, id);
@@ -1326,7 +1323,7 @@ int __cdecl CJabberProto::SetStatus(int iNewStatus)
 		m_iStatus = ID_STATUS_CONNECTING;
 		ThreadData* thread = new ThreadData(this, JABBER_SESSION_NORMAL);
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-		thread->hThread = JForkThreadEx((JThreadFunc)&CJabberProto::ServerThread, thread);
+		thread->hThread = ForkThreadEx((MyThreadFunc)&CJabberProto::ServerThread, thread, 0);
 
 		RebuildInfoFrame();
 	}
@@ -1394,7 +1391,7 @@ HANDLE __cdecl CJabberProto::GetAwayMsg(HANDLE hContact)
 {
 	Log("GetAwayMsg called, hContact=%08X", hContact);
 
-	JForkThread(&CJabberProto::GetAwayMsgThread, hContact);
+	ForkThread(&CJabberProto::GetAwayMsgThread, hContact);
 	return (HANDLE)1;
 }
 

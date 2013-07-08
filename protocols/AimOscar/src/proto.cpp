@@ -17,35 +17,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "aim.h"
 
-CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName)
-	: chat_rooms(5)
+CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName) :
+	PROTO<CAimProto>(aProtoName, aUserName),
+	chat_rooms(5)
 {
-	ProtoConstructor(this, aProtoName, aUserName);
 	LOG("Setting protocol/module name to '%s'", m_szModuleName);
 
 	//create some events
 	hAvatarEvent  = CreateEvent(NULL, TRUE, FALSE, NULL);
 	hChatNavEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-	hAdminEvent  = CreateEvent(NULL, TRUE, FALSE, NULL);
+	hAdminEvent   = CreateEvent(NULL, TRUE, FALSE, NULL);
 
 	InitializeCriticalSection(&SendingMutex);
 	InitializeCriticalSection(&connMutex);
 
-	CreateProtoService(PS_CREATEACCMGRUI, &CAimProto::SvcCreateAccMgrUI);
+	CreateService(PS_CREATEACCMGRUI, &CAimProto::SvcCreateAccMgrUI);
 
-	CreateProtoService(PS_GETMYAWAYMSG,   &CAimProto::GetMyAwayMsg);
+	CreateService(PS_GETMYAWAYMSG,   &CAimProto::GetMyAwayMsg);
 
-	CreateProtoService(PS_GETAVATARINFOT,  &CAimProto::GetAvatarInfo);
-	CreateProtoService(PS_GETMYAVATART,   &CAimProto::GetAvatar);
-	CreateProtoService(PS_SETMYAVATART,   &CAimProto::SetAvatar);
-	CreateProtoService(PS_GETAVATARCAPS,  &CAimProto::GetAvatarCaps);
+	CreateService(PS_GETAVATARINFOT, &CAimProto::GetAvatarInfo);
+	CreateService(PS_GETMYAVATART,   &CAimProto::GetAvatar);
+	CreateService(PS_SETMYAVATART,   &CAimProto::SetAvatar);
+	CreateService(PS_GETAVATARCAPS,  &CAimProto::GetAvatarCaps);
 
-	CreateProtoService(PS_JOINCHAT,       &CAimProto::OnJoinChat);
-	CreateProtoService(PS_LEAVECHAT,      &CAimProto::OnLeaveChat);
+	CreateService(PS_JOINCHAT,       &CAimProto::OnJoinChat);
+	CreateService(PS_LEAVECHAT,      &CAimProto::OnLeaveChat);
 
-	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CAimProto::OnPreBuildContactMenu);
-	HookProtoEvent(ME_CLIST_GROUPCHANGE,         &CAimProto::OnGroupChange);
-	HookProtoEvent(ME_OPT_INITIALISE,            &CAimProto::OnOptionsInit);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CAimProto::OnPreBuildContactMenu);
+	HookEvent(ME_CLIST_GROUPCHANGE,         &CAimProto::OnGroupChange);
+	HookEvent(ME_OPT_INITIALISE,            &CAimProto::OnOptionsInit);
 
 	init_custom_folders();
 	offline_contacts();
@@ -109,8 +109,6 @@ CAimProto::~CAimProto()
 	mir_free(CHATNAV_COOKIE);
 	mir_free(ADMIN_COOKIE);
 	mir_free(username);
-
-	ProtoDestructor(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -118,9 +116,9 @@ CAimProto::~CAimProto()
 
 int CAimProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	HookProtoEvent(ME_USERINFO_INITIALISE,      &CAimProto::OnUserInfoInit);
-	HookProtoEvent(ME_IDLE_CHANGED,             &CAimProto::OnIdleChanged);
-	HookProtoEvent(ME_MSG_WINDOWEVENT,          &CAimProto::OnWindowEvent);
+	HookEvent(ME_USERINFO_INITIALISE,      &CAimProto::OnUserInfoInit);
+	HookEvent(ME_IDLE_CHANGED,             &CAimProto::OnIdleChanged);
+	HookEvent(ME_MSG_WINDOWEVENT,          &CAimProto::OnWindowEvent);
 
 	chat_register();
 	InitContactMenus();

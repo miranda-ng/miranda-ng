@@ -16,26 +16,9 @@
 
 #include <m_protoint.h>
 
-struct CYahooProto;
-
-#ifdef __GNUC__
-extern "C"
+struct CYahooProto : public PROTO<CYahooProto>
 {
-	typedef void    ( CYahooProto::*YThreadFunc )( void* );
-	typedef INT_PTR ( CYahooProto::*YEventFunc )( WPARAM, LPARAM );
-	typedef INT_PTR ( CYahooProto::*YServiceFunc )( WPARAM, LPARAM );
-	typedef INT_PTR ( CYahooProto::*YServiceFuncParam )( WPARAM, LPARAM, LPARAM );
-}
-#else
-	typedef void    ( __cdecl CYahooProto::*YThreadFunc )( void* );
-	typedef int     ( __cdecl CYahooProto::*YEventFunc )( WPARAM, LPARAM );
-	typedef INT_PTR ( __cdecl CYahooProto::*YServiceFunc )( WPARAM, LPARAM );
-	typedef INT_PTR ( __cdecl CYahooProto::*YServiceFuncParam )( WPARAM, LPARAM, LPARAM );
-#endif
-
-struct CYahooProto : public PROTO_INTERFACE
-{
-				CYahooProto( const char*, const TCHAR* );
+				CYahooProto(const char*, const TCHAR*);
 				virtual ~CYahooProto();
 
 	//====================================================================================
@@ -339,12 +322,6 @@ private:
 	HANDLE hYahooAvatarsFolder;
 	bool   InitCstFldRan;
 	void   InitCustomFolders(void);
-
-	void   YCreateService( const char* szService, YServiceFunc serviceProc );
-	void   YCreateServiceParam( const char* szService, YServiceFuncParam serviceProc, LPARAM lParam );
-	HANDLE YCreateHookableEvent( const char* szService );
-	void   YForkThread( YThreadFunc pFunc, void *param );
-	void   YHookEvent( const char* szEvent, YEventFunc handler );
 };
 
 extern LIST<CYahooProto> g_instances;

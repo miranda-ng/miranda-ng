@@ -18,12 +18,6 @@
 
 struct MRA_FILES_QUEUE_ITEM;
 
-struct CMraProto;
-typedef void    (__cdecl CMraProto::*ThreadFunc)(void*);
-typedef int     (__cdecl CMraProto::*EventFunc)(WPARAM, LPARAM);
-typedef INT_PTR (__cdecl CMraProto::*ServiceFunc)(WPARAM, LPARAM);
-typedef INT_PTR (__cdecl CMraProto::*ServiceFuncParam)(WPARAM, LPARAM, LPARAM);
-
 BOOL	DB_GetStaticStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
 BOOL	DB_GetStaticStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPWSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
 
@@ -32,7 +26,7 @@ BOOL	DB_SetStringExW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, L
 
 BOOL  DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
 
-struct CMraProto : public PROTO_INTERFACE
+struct CMraProto : public PROTO<CMraProto>
 {
 				CMraProto(const char*, const TCHAR*);
 				~CMraProto();
@@ -86,13 +80,6 @@ struct CMraProto : public PROTO_INTERFACE
 	virtual	int    __cdecl UserIsTyping(HANDLE hContact, int type);
 
 	virtual	int    __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
-
-	void   CreateObjectSvc(const char* szService, ServiceFunc serviceProc);
-	void   CreateObjectSvcParam(const char* szService, ServiceFuncParam serviceProc, LPARAM lParam);
-	HANDLE CreateHookableEvent(const char* szService);
-	void   ForkThread(ThreadFunc, void*);
-	HANDLE ForkThreadEx(ThreadFunc, void*, UINT* threadID = NULL);
-	HANDLE HookEvent(const char*, EventFunc);
 
 	void   ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode);
 	void   MraPopupShowW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWSTR lpszTitle, LPWSTR lpszMessage);
@@ -200,7 +187,7 @@ struct CMraProto : public PROTO_INTERFACE
 
 	HANDLE  hSendQueueHandle, hFilesQueueHandle, hMPopSessionQueue;
 
-	HANDLE  hNetlibUser, heNudgeReceived, hHookExtraIconsApply;
+	HANDLE  hNetlibUser, heNudgeReceived;
 	HANDLE  hThreadWorker;
 	HANDLE  hConnection;
 	DWORD   dwThreadWorkerLastPingTime;

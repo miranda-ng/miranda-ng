@@ -292,7 +292,7 @@ private:
 		thread->port = m_regInfo->port;
 		thread->useSSL = m_regInfo->useSSL;
 		thread->reg_hwndDlg= m_hwnd;
-		m_proto->JForkThread((JThreadFunc)&CJabberProto::ServerThread, thread);
+		m_proto->ForkThread((CJabberProto::MyThreadFunc)&CJabberProto::ServerThread, thread);
 
 		m_btnOk.SetText(TranslateT("Cancel"));
 		m_bProcessStarted = true;

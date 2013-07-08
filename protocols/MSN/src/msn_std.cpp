@@ -141,38 +141,6 @@ void CMsnProto::setWord(HANDLE hContact, const char* name, WORD value)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMsnProto::CreateProtoService(const char* szService, MsnServiceFunc serviceProc)
-{
-	char str[MAXMODULELABELLENGTH];
-
-	mir_snprintf(str, sizeof(str), "%s%s", m_szModuleName, szService);
-	::CreateServiceFunctionObj(str, (MIRANDASERVICEOBJ)*(void**)&serviceProc, this);
-}
-
-void CMsnProto::CreateProtoServiceParam(const char* szService, MsnServiceFuncParam serviceProc, LPARAM lParam)
-{
-	char str[MAXMODULELABELLENGTH];
-	mir_snprintf(str, sizeof(str), "%s%s", m_szModuleName, szService);
-	::CreateServiceFunctionObjParam(str, (MIRANDASERVICEOBJPARAM)*(void**)&serviceProc, this, lParam);
-}
-
-HANDLE CMsnProto::CreateProtoEvent(const char* szService)
-{
-	char str[MAXMODULELABELLENGTH];
-	mir_snprintf(str, sizeof(str), "%s%s", m_szModuleName, szService);
-	return ::CreateHookableEvent(str);
-}
-
-void CMsnProto::HookProtoEvent(const char* szEvent, MsnEventFunc pFunc)
-{  ::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*(void**)&pFunc, this);
-}
-
-void CMsnProto::ForkThread(MsnThreadFunc pFunc, void* param)
-{
-	UINT threadID;
-	CloseHandle((HANDLE)mir_forkthreadowner((pThreadFuncOwner)*(void**)&pFunc, this, param, &threadID));
-}
-
 TCHAR* CMsnProto::GetContactNameT(HANDLE hContact)
 {
 	if (hContact)
@@ -188,16 +156,6 @@ TCHAR* CMsnProto::GetContactNameT(HANDLE hContact)
 		else
 			return _T("Me");
 	}
-}
-
-void MSN_FreeVariant(DBVARIANT* dbv)
-{
-	db_free(dbv);
-}
-
-char* MSN_Translate(const char* str)
-{
-	return Translate(str);
 }
 
 unsigned MSN_GenRandom(void)

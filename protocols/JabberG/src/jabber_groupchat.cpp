@@ -1345,7 +1345,7 @@ void CJabberProto::GroupchatProcessInvite(const TCHAR *roomJid, const TCHAR *fro
 		inviteInfo->from     = mir_tstrdup(from);
 		inviteInfo->reason   = mir_tstrdup(reason);
 		inviteInfo->password = mir_tstrdup(password);
-		JForkThread((JThreadFunc)&CJabberProto::GroupchatInviteAcceptThread, inviteInfo);
+		ForkThread((MyThreadFunc)&CJabberProto::GroupchatInviteAcceptThread, inviteInfo);
 	}
 	else {
 		TCHAR* myNick = JabberNickFromJID(m_szJabberJID);

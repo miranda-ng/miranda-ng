@@ -68,7 +68,7 @@ void TwitterProto::SignOn(void*)
 			OnJoinChat(0,true);
 		
 		SetAllContactStatuses(ID_STATUS_ONLINE);
-		hMsgLoop_ = ForkThreadEx(&TwitterProto::MessageLoop,this);
+		hMsgLoop_ = ForkThreadEx(&TwitterProto::MessageLoop, NULL, 0);
 	}
 
 	ReleaseMutex(signon_lock_);
@@ -474,7 +474,7 @@ void TwitterProto::UpdateAvatar(HANDLE hContact,const std::string &url,bool forc
 		}
 		else
 		{
-			ForkThread(&TwitterProto::UpdateAvatarWorker, this,new update_avatar(hContact,url));
+			ForkThread(&TwitterProto::UpdateAvatarWorker, new update_avatar(hContact,url));
 		}
 	}
 

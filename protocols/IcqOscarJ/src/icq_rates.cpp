@@ -365,7 +365,7 @@ void rates_queue::initDelay(int nDelay, IcqRateFunc delaycode)
 	pArgs->nDelay = nDelay;
 	pArgs->delaycode = delaycode;
 
-	ppro->ForkThread((IcqThreadFunc)&CIcqProto::rateDelayThread, pArgs);
+	ppro->ForkThread((CIcqProto::MyThreadFunc)&CIcqProto::rateDelayThread, pArgs);
 }
 
 

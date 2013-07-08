@@ -999,7 +999,7 @@ isLoggedIn(FALSE), stopThread(FALSE), isActive(FALSE)
 	m_ratesMutex = new icq_critical_section();
 
 	// Create connection thread
-	ppro->ForkThread(( IcqThreadFunc )&CIcqProto::AvatarThread, this);
+	ppro->ForkThread((CIcqProto::MyThreadFunc)&CIcqProto::AvatarThread, this);
 }
 
 

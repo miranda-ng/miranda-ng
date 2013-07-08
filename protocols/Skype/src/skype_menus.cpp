@@ -256,7 +256,7 @@ void CSkypeProto::OnInitStatusMenu()
 
 	// Invite Command
 	::strcpy(tDest, "/CreateChatRoom");
-	this->CreateServiceObj(tDest, &CSkypeProto::CreateChatRoomCommand);
+	this->CreateService(tDest, &CSkypeProto::CreateChatRoomCommand);
 	mi.ptszName = LPGENT("Create conference");
 	mi.position = 200000 + SMI_CHAT_CREATE;
 	mi.icolibItem = CSkypeProto::GetSkinIconHandle("conference");
@@ -264,7 +264,7 @@ void CSkypeProto::OnInitStatusMenu()
 
 	// Invite Command
 	::strcpy(tDest, "/BlockedeList");
-	this->CreateServiceObj(tDest, &CSkypeProto::OpenBlockedListCommand);
+	this->CreateService(tDest, &CSkypeProto::OpenBlockedListCommand);
 	mi.ptszName = LPGENT("Blocked contacts");
 	mi.position = 200000 + SMI_IGNORE_LIST;
 	mi.icolibItem = CSkypeProto::GetSkinIconHandle("block");

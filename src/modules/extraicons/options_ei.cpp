@@ -546,14 +546,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					CallService(MS_DB_MODULE_DELETE, 0, (LPARAM) MODULE_NAME "Groups");
 					db_set_w(NULL, MODULE_NAME "Groups", "Count", (WORD)groups.size());
-					for (i = 0; i < groups.size(); i++) {
-						ExtraIconGroup *group = groups[i];
+					for (unsigned k = 0; k < groups.size(); k++) {
+						ExtraIconGroup *group = groups[k];
 
 						char setting[512];
 						mir_snprintf(setting, SIZEOF(setting), "%d_count", i);
 						db_set_w(NULL, MODULE_NAME "Groups", setting, (WORD)group->items.size());
 
-						for (unsigned int j = 0; j < group->items.size(); j++) {
+						for (unsigned j = 0; j < group->items.size(); j++) {
 							BaseExtraIcon *extra = group->items[j];
 
 							mir_snprintf(setting, SIZEOF(setting), "%d_%d", i, j);
@@ -567,8 +567,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					// Apply icons to new slots
 					RebuildListsBasedOnGroups(groups);
-					for (i = 0; i < extraIconsBySlot.size(); i++) {
-						ExtraIcon *extra = extraIconsBySlot[i];
+					for (unsigned n = 0; n < extraIconsBySlot.size(); n++) {
+						ExtraIcon *extra = extraIconsBySlot[n];
 
 						if (extra->getType() != EXTRAICON_TYPE_GROUP)
 							if (oldSlots[((BaseExtraIcon *) extra)->getID() - 1] == extra->getSlot())

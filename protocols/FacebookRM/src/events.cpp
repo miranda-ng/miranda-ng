@@ -53,7 +53,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		popup_data *data = (popup_data *)PUGetPluginData(hwnd);
 		if (data != NULL) {
 			if (!data->notification_id.empty())
-				ForkThread(&FacebookProto::ReadNotificationWorker, data->proto, new std::string(data->notification_id));
+				data->proto->ForkThread(&FacebookProto::ReadNotificationWorker, new std::string(data->notification_id));
 
 			if (message == WM_COMMAND && !data->url.empty())
 				data->proto->OpenUrl(data->url);

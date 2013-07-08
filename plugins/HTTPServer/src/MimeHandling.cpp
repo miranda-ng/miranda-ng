@@ -9,7 +9,6 @@ int bInitMimeHandling() {
 	FILE *mimeDB;
 	char line[LINE_MAX_SIZE];
 	char *tok = NULL;
-	int lenght;
 	ContentType *pDBCell = NULL;
 	ContentTypeDB pDB = NULL;
 	ExtensionList extListCur = NULL;
@@ -32,10 +31,10 @@ int bInitMimeHandling() {
 					*tok = '\0';
 				}
 				/* remove trailing \n */
-				lenght = strlen(line);
-				if (lenght > 0 && line[lenght - 1] == '\n') {
+				int lenght = (int)strlen(line);
+				if (lenght > 0 && line[lenght - 1] == '\n')
 					line[lenght - 1] = '\0';
-				}
+
 				/* first token = mime type */
 				tok = (char*)strtok(line, " \t");
 				/*create and fill a cell*/

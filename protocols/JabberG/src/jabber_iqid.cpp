@@ -525,7 +525,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 	}
 
 	if (httpavatars->getCount())
-		JForkThread(&CJabberProto::LoadHttpAvatars, httpavatars);
+		ForkThread(&CJabberProto::LoadHttpAvatars, httpavatars);
 	else
 		delete httpavatars;
 

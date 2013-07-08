@@ -804,24 +804,3 @@ void CAimProto::setWord(const char* name, WORD value)
 void CAimProto::setWord(HANDLE hContact, const char* name, WORD value)
 {	db_set_w(hContact, m_szModuleName, name, value);
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CAimProto::CreateProtoService(const char* szService, AimServiceFunc serviceProc)
-{
-	char temp[MAX_PATH*2];
-
-	mir_snprintf(temp, sizeof(temp), "%s%s", m_szModuleName, szService);
-	CreateServiceFunctionObj(temp, (MIRANDASERVICEOBJ)*(void**)&serviceProc, this);
-}
-
-void CAimProto::HookProtoEvent(const char* szEvent, AimEventFunc pFunc)
-{
-	::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*(void**)&pFunc, this);
-}
-
-void CAimProto::ForkThread(AimThreadFunc pFunc, void* param)
-{
-	UINT threadID;
-	CloseHandle((HANDLE)mir_forkthreadowner((pThreadFuncOwner)*(void**)&pFunc, this, param, &threadID));
-}

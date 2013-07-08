@@ -1082,7 +1082,7 @@ void CIcqProto::SendProtoAck(HANDLE hContact, DWORD dwCookie, int nAckResult, in
 	pArgs->nAckType = nAckType;
 	pArgs->pszMessage = (LPARAM)null_strdup(pszMessage);
 
-	ForkThread(( IcqThreadFunc )&CIcqProto::ProtocolAckThread, pArgs );
+	ForkThread((MyThreadFunc)&CIcqProto::ProtocolAckThread, pArgs );
 }
 
 void CIcqProto::SetCurrentStatus(int nStatus)
@@ -1829,17 +1829,6 @@ char* __fastcall ICQTranslateUtfStatic(const char *src, char *buf, size_t bufsiz
 	return buf;
 }
 
-void CIcqProto::ForkThread( IcqThreadFunc pFunc, void* arg )
-{
-	CloseHandle(( HANDLE )mir_forkthreadowner(( pThreadFuncOwner )*( void** )&pFunc, this, arg, NULL ));
-}
-
-HANDLE CIcqProto::ForkThreadEx( IcqThreadFunc pFunc, void* arg, UINT* threadID )
-{
-	return ( HANDLE )mir_forkthreadowner(( pThreadFuncOwner )*( void** )&pFunc, this, arg, threadID );
-}
-
-
 char* CIcqProto::GetUserStoredPassword(char *szBuffer, int cbSize)
 {
 	if (!getSettingStringStatic(NULL, "Password", szBuffer, cbSize))
@@ -2116,37 +2105,4 @@ DWORD CIcqProto::ReportGenericSendError(HANDLE hContact, int nType, const char* 
 	DWORD dwCookie = GenerateCookie(0);
 	SendProtoAck(hContact, dwCookie, ACKRESULT_FAILED, nType, Translate(szErrorMsg));
 	return dwCookie;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CIcqProto::CreateProtoService(const char* szService, IcqServiceFunc serviceProc)
-{
-	char temp[MAX_PATH*2];
-
-	null_snprintf(temp, sizeof(temp), "%s%s", m_szModuleName, szService);
-	CreateServiceFunctionObj( temp, ( MIRANDASERVICEOBJ )*( void** )&serviceProc, this );
-}
-
-void CIcqProto::CreateProtoServiceParam(const char* szService, IcqServiceFuncParam serviceProc, LPARAM lParam)
-{
-	char temp[MAX_PATH*2];
-
-	null_snprintf(temp, sizeof(temp), "%s%s", m_szModuleName, szService);
-	CreateServiceFunctionObjParam( temp, ( MIRANDASERVICEOBJPARAM )*( void** )&serviceProc, this, lParam );
-}
-
-
-HANDLE CIcqProto::HookProtoEvent(const char* szEvent, IcqEventFunc pFunc)
-{
-	return ::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*(void**)&pFunc, this);
-}
-
-
-HANDLE CIcqProto::CreateProtoEvent(const char* szEvent)
-{
-	char str[MAX_PATH + 32];
-	strcpy(str, m_szModuleName);
-	strcat(str, szEvent);
-	return CreateHookableEvent(str);
 }

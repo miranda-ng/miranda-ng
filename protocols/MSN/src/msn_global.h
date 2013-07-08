@@ -179,8 +179,6 @@ bool		MSN_MsgWndExist(HANDLE hContact);
 
 #define		MSN_SendNickname(a) MSN_SendNicknameUtf(UTF8(a))
 
-void		MSN_FreeVariant(DBVARIANT* dbv);
-char*       MSN_Translate(const char* str);
 unsigned    MSN_GenRandom(void);
 
 void        MSN_InitContactMenu(void);

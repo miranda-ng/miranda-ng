@@ -35,7 +35,7 @@ HANDLE CMsnProto::MSN_GetChatInernalHandle(HANDLE hContact)
 		if (getString(hContact, "ChatRoomID", &dbv) == 0)
 		{
 			result = (HANDLE)(-atol(dbv.pszVal));
-			MSN_FreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	return result;
@@ -368,7 +368,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 
 					mir_free((void*)gce.ptszUID);
 					if (!bError)
-						MSN_FreeVariant(&dbv);
+						db_free(&dbv);
 				}
 			}
 			break;

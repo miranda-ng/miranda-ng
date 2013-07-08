@@ -85,12 +85,12 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 				facy.spy_mode_ = false;
 				facy.question_ = "";
 
-				ForkThread(&OmegleProto::NewChatWorker, this, NULL);
+				ForkThread(&OmegleProto::NewChatWorker, NULL);
 				break;
 			}
 			else if (!stricmp(command.c_str(), "quit"))
 			{
-				ForkThread(&OmegleProto::StopChatWorker, this, NULL);
+				ForkThread(&OmegleProto::StopChatWorker, NULL);
 				break;
 			}
 			else if (!stricmp(command.c_str(), "spy"))
@@ -98,7 +98,7 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 				facy.spy_mode_ = true;
 				facy.question_ = "";
 				
-				ForkThread(&OmegleProto::NewChatWorker, this, NULL);
+				ForkThread(&OmegleProto::NewChatWorker, NULL);
 				break;
 			}
 			else if (!stricmp(command.c_str(), "ask"))
@@ -131,7 +131,7 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 
 				facy.spy_mode_ = true;
 				facy.question_ = params;
-				ForkThread(&OmegleProto::NewChatWorker, this, NULL);
+				ForkThread(&OmegleProto::NewChatWorker, NULL);
 				break;
 			}
 			else if (!stricmp(command.c_str(), "asl"))
@@ -177,7 +177,7 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 
 			case STATE_ACTIVE:
 				LOG("**Chat - Outgoing message: %s", text.c_str());
-				ForkThread(&OmegleProto::SendMsgWorker, this, (void*)new std::string(text));
+				ForkThread(&OmegleProto::SendMsgWorker, new std::string(text));
 				break;
 
 			case STATE_INACTIVE:
@@ -199,13 +199,13 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 
 	case GC_USER_TYPNOTIFY:
 		if ( facy.state_ == STATE_ACTIVE )
-			ForkThread(&OmegleProto::SendTypingWorker, this, (void*)mir_tstrdup(hook->ptszText));
+			ForkThread(&OmegleProto::SendTypingWorker, mir_tstrdup(hook->ptszText));
 		break;
 
 	case GC_USER_LEAVE:
 	case GC_SESSION_TERMINATE:
 		mir_free( facy.nick_ );
-		ForkThread(&OmegleProto::StopChatWorker, this, NULL);
+		ForkThread(&OmegleProto::StopChatWorker, NULL);
 		break;
 	}
 
@@ -271,7 +271,7 @@ void OmegleProto::DeleteChatContact(const TCHAR *name)
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 }
 
-int OmegleProto::OnJoinChat(WPARAM,LPARAM suppress)
+INT_PTR OmegleProto::OnJoinChat(WPARAM,LPARAM suppress)
 {	
 	GCSESSION gcw = {sizeof(gcw)};
 
@@ -330,7 +330,7 @@ void OmegleProto::SetTopic(const TCHAR *topic)
 	CallServiceSync(MS_GC_EVENT,0,  reinterpret_cast<LPARAM>(&gce));
 }
 
-int OmegleProto::OnLeaveChat(WPARAM,LPARAM)
+INT_PTR OmegleProto::OnLeaveChat(WPARAM,LPARAM)
 {
 	GCDEST gcd = { m_szModuleName };
 	gcd.ptszID = const_cast<TCHAR*>(m_tszUserName);

@@ -38,10 +38,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_send_manager.h"
 
 struct CJabberProto;
-typedef void    (__cdecl CJabberProto::*JThreadFunc)(void*);
-typedef int     (__cdecl CJabberProto::*JEventFunc)(WPARAM, LPARAM);
-typedef INT_PTR (__cdecl CJabberProto::*JServiceFunc)(WPARAM, LPARAM);
-typedef INT_PTR (__cdecl CJabberProto::*JServiceFuncParam)(WPARAM, LPARAM, LPARAM);
 
 enum TJabberGcLogInfoType { INFO_BAN, INFO_STATUS, INFO_CONFIG, INFO_AFFILIATION, INFO_ROLE };
 
@@ -147,10 +143,8 @@ struct CJabberInterface: public IJabberInterface
 	CJabberProto *m_psProto;
 };
 
-struct CJabberProto : public PROTO_INTERFACE
+struct CJabberProto : public PROTO<CJabberProto>
 {
-	typedef PROTO_INTERFACE CSuper;
-
 				CJabberProto(const char*, const TCHAR*);
 				~CJabberProto();
 
@@ -789,12 +783,6 @@ struct CJabberProto : public PROTO_INTERFACE
 
 	//---- jabber_std.cpp ----------------------------------------------
 
-	void   JCreateService(const char* szService, JServiceFunc serviceProc);
-	void   JCreateServiceParam(const char* szService, JServiceFuncParam serviceProc, LPARAM lParam);
-	HANDLE JCreateHookableEvent(const char* szService);
-	void   JForkThread(JThreadFunc, void*);
-	HANDLE JForkThreadEx(JThreadFunc, void*, UINT* threadID = NULL);
-
 	void   JDeleteSetting(HANDLE hContact, const char* valueName);
 	DWORD  JGetByte(HANDLE hContact, const char* valueName, int parDefltValue);
 	DWORD  JGetDword(HANDLE hContact, const char* valueName, DWORD parDefltValue);
@@ -805,7 +793,6 @@ struct CJabberProto : public PROTO_INTERFACE
 	TCHAR *JGetStringT(HANDLE hContact, char* valueName, TCHAR *&out);
 	TCHAR *JGetStringT(HANDLE hContact, char* valueName, TCHAR *buf, int size);
 	WORD   JGetWord(HANDLE hContact, const char* valueName, int parDefltValue);
-	void   JHookEvent(const char*, JEventFunc);
 	void   JLoginFailed(int errorCode);
 	DWORD  JSetByte(HANDLE hContact, const char* valueName, int parValue);
 	DWORD  JSetDword(HANDLE hContact, const char* valueName, DWORD parValue);

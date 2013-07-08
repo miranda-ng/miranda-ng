@@ -221,7 +221,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	m_info = info;
 
 	// start receiving messages from host
-	ircFork( &CIrcProto::ThreadProc, NULL );
+	ForkThread( &CIrcProto::ThreadProc, NULL );
 	Sleep( 100 );
 	if ( info.sPassword.GetLength())
 		NLSend( "PASS %s\r\n", info.sPassword.c_str());

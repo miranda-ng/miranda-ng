@@ -22,11 +22,10 @@
 #include "gg.h"
 
 GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
+	PROTO<GGPROTO>(pszProtoName, tszUserName),
 	avatar_requests(1, HandleKeySortT),
 	avatar_transfers(1, HandleKeySortT)
 {
-	ProtoConstructor(this, pszProtoName, tszUserName);
-
 #ifdef DEBUGMODE
 	extendedLogging = 0;
 #endif
@@ -52,16 +51,16 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
 	netlib = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	// Register services
-	createProtoService(PS_GETAVATARCAPS, &GGPROTO::getavatarcaps);
-	createProtoService(PS_GETAVATARINFOT, &GGPROTO::getavatarinfo);
-	createProtoService(PS_GETMYAVATART, &GGPROTO::getmyavatar);
-	createProtoService(PS_SETMYAVATART, &GGPROTO::setmyavatar);
+	CreateService(PS_GETAVATARCAPS, &GGPROTO::getavatarcaps);
+	CreateService(PS_GETAVATARINFOT, &GGPROTO::getavatarinfo);
+	CreateService(PS_GETMYAVATART, &GGPROTO::getmyavatar);
+	CreateService(PS_SETMYAVATART, &GGPROTO::setmyavatar);
 
-	createProtoService(PS_GETMYAWAYMSG, &GGPROTO::getmyawaymsg);
-	createProtoService(PS_SETAWAYMSGT, (GGServiceFunc)&GGPROTO::SetAwayMsg);
-	createProtoService(PS_CREATEACCMGRUI, &GGPROTO::get_acc_mgr_gui);
+	CreateService(PS_GETMYAWAYMSG, &GGPROTO::getmyawaymsg);
+	CreateService(PS_SETAWAYMSGT, (MyServiceFunc)&GGPROTO::SetAwayMsg);
+	CreateService(PS_CREATEACCMGRUI, &GGPROTO::get_acc_mgr_gui);
 
-	createProtoService(PS_LEAVECHAT, &GGPROTO::leavechat);
+	CreateService(PS_LEAVECHAT, &GGPROTO::leavechat);
 
 	// Offline contacts and clear logon time
 	setalloffline();
@@ -82,7 +81,6 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
 
 	links_instance_init();
 	initavatarrequestthread();
-
 }
 
 GGPROTO::~GGPROTO()
@@ -124,8 +122,6 @@ GGPROTO::~GGPROTO()
 	if (modemsg.freechat)  mir_free(modemsg.freechat);
 	if (modemsg.invisible) mir_free(modemsg.invisible);
 	if (modemsg.offline)   mir_free(modemsg.offline);
-
-	ProtoDestructor(this);
 }
 
 //////////////////////////////////////////////////////////
@@ -212,9 +208,9 @@ int GGPROTO::GetInfo(HANDLE hContact, int infoType)
 		if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH)))
 		{
 #ifdef DEBUGMODE
-			netlog("GetInfo(): forkthread 6 GGPROTO::cmdgetinfothread");
+			netlog("GetInfo(): ForkThread 6 GGPROTO::cmdgetinfothread");
 #endif
-			forkthread(&GGPROTO::cmdgetinfothread, hContact);
+			ForkThread(&GGPROTO::cmdgetinfothread, hContact);
 			return 1;
 		}
 
@@ -230,9 +226,9 @@ int GGPROTO::GetInfo(HANDLE hContact, int infoType)
 			{
 				gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 48, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
-				netlog("GetInfo(): forkthread 7 GGPROTO::cmdgetinfothread");
+				netlog("GetInfo(): ForkThread 7 GGPROTO::cmdgetinfothread");
 #endif
-				forkthread(&GGPROTO::cmdgetinfothread, hContact);
+				ForkThread(&GGPROTO::cmdgetinfothread, hContact);
 				return 1;
 			}
 			gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 48, 2, "sess_mutex", 1);
@@ -244,9 +240,9 @@ int GGPROTO::GetInfo(HANDLE hContact, int infoType)
 		if (!(req = gg_pubdir50_new(GG_PUBDIR50_READ)))
 		{
 #ifdef DEBUGMODE
-			netlog("GetInfo(): forkthread 8 GGPROTO::cmdgetinfothread");
+			netlog("GetInfo(): ForkThread 8 GGPROTO::cmdgetinfothread");
 #endif
-			forkthread(&GGPROTO::cmdgetinfothread, hContact);
+			ForkThread(&GGPROTO::cmdgetinfothread, hContact);
 			return 1;
 		}
 
@@ -261,9 +257,9 @@ int GGPROTO::GetInfo(HANDLE hContact, int infoType)
 			{
 				gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 49, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
-				netlog("GetInfo(): forkthread 9 GGPROTO::cmdgetinfothread");
+				netlog("GetInfo(): ForkThread 9 GGPROTO::cmdgetinfothread");
 #endif
-				forkthread(&GGPROTO::cmdgetinfothread, hContact);
+				ForkThread(&GGPROTO::cmdgetinfothread, hContact);
 				return 1;
 			}
 			gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 49, 2, "sess_mutex", 1);
@@ -296,9 +292,9 @@ HANDLE GGPROTO::SearchBasic(const PROTOCHAR *id)
 	gg_pubdir50_t req;
 	if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH))) {
 #ifdef DEBUGMODE
-		netlog("SearchBasic(): forkthread 10 GGPROTO::searchthread");
+		netlog("SearchBasic(): ForkThread 10 GGPROTO::searchthread");
 #endif
-		forkthread(&GGPROTO::searchthread, NULL);
+		ForkThread(&GGPROTO::searchthread, NULL);
 		return (HANDLE)1;
 	}
 
@@ -315,9 +311,9 @@ HANDLE GGPROTO::SearchBasic(const PROTOCHAR *id)
 	{
 		gg_LeaveCriticalSection(&sess_mutex, "SearchBasic", 50, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
-		netlog("SearchBasic(): forkthread 11 GGPROTO::searchthread");
+		netlog("SearchBasic(): ForkThread 11 GGPROTO::searchthread");
 #endif
-		forkthread(&GGPROTO::searchthread, NULL);
+		ForkThread(&GGPROTO::searchthread, NULL);
 		return (HANDLE)1;
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "SearchBasic", 50, 2, "sess_mutex", 1);
@@ -346,9 +342,9 @@ HANDLE GGPROTO::SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, 
 	if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH)))
 	{
 #ifdef DEBUGMODE
-		netlog("SearchByName(): forkthread 12 GGPROTO::searchthread");
+		netlog("SearchByName(): ForkThread 12 GGPROTO::searchthread");
 #endif
-		forkthread(&GGPROTO::searchthread, NULL);
+		ForkThread(&GGPROTO::searchthread, NULL);
 		return (HANDLE)1;
 	}
 
@@ -394,9 +390,9 @@ HANDLE GGPROTO::SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, 
 	{
 		gg_LeaveCriticalSection(&sess_mutex, "SearchByName", 51, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
-		netlog("SearchByName(): forkthread 13 GGPROTO::searchthread");
+		netlog("SearchByName(): ForkThread 13 GGPROTO::searchthread");
 #endif
-		forkthread(&GGPROTO::searchthread, NULL);
+		ForkThread(&GGPROTO::searchthread, NULL);
 		return (HANDLE)1;
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "SearchByName", 51, 2, "sess_mutex", 1);
@@ -422,9 +418,9 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH)))
 	{
 #ifdef DEBUGMODE
-		netlog("SearchAdvanced(): forkthread 14 GGPROTO::searchthread");
+		netlog("SearchAdvanced(): ForkThread 14 GGPROTO::searchthread");
 #endif
-		forkthread(&GGPROTO::searchthread, NULL);
+		ForkThread(&GGPROTO::searchthread, NULL);
 		return (HWND)1;
 	}
 
@@ -540,9 +536,9 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 		{
 			gg_LeaveCriticalSection(&sess_mutex, "SearchAdvanced", 52, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
-			netlog("SearchAdvanced(): forkthread 15 GGPROTO::searchthread");
+			netlog("SearchAdvanced(): ForkThread 15 GGPROTO::searchthread");
 #endif
-			forkthread(&GGPROTO::searchthread, NULL);
+			ForkThread(&GGPROTO::searchthread, NULL);
 			return (HWND)1;
 		}
 		gg_LeaveCriticalSection(&sess_mutex, "SearchAdvanced", 52, 2, "sess_mutex", 1);
@@ -637,9 +633,9 @@ int GGPROTO::SendMsg(HANDLE hContact, int flags, const char *msg)
 			ack->seq = seq;
 			ack->hContact = hContact;
 #ifdef DEBUGMODE
-			netlog("SendMsg(): forkthread 16 GGPROTO::sendackthread");
+			netlog("SendMsg(): ForkThread 16 GGPROTO::sendackthread");
 #endif
-			forkthread(&GGPROTO::sendackthread, ack);
+			ForkThread(&GGPROTO::sendackthread, ack);
 		}
 	}
 	mir_free(msg_utf8);
@@ -700,9 +696,9 @@ void __cdecl GGPROTO::getawaymsgthread(void *hContact)
 HANDLE GGPROTO::GetAwayMsg(HANDLE hContact)
 {
 #ifdef DEBUGMODE
-	netlog("GetAwayMsg(): forkthread 17 GGPROTO::getawaymsgthread");
+	netlog("GetAwayMsg(): ForkThread 17 GGPROTO::getawaymsgthread");
 #endif
-	forkthread(&GGPROTO::getawaymsgthread, hContact);
+	ForkThread(&GGPROTO::getawaymsgthread, hContact);
 	return (HANDLE)1;
 }
 
@@ -796,8 +792,8 @@ int GGPROTO::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 	switch( eventType ) {
 	case EV_PROTO_ONLOAD:
 		{
-			hookProtoEvent(ME_OPT_INITIALISE, &GGPROTO::options_init);
-			hookProtoEvent(ME_USERINFO_INITIALISE, &GGPROTO::details_init);
+			HookEvent(ME_OPT_INITIALISE, &GGPROTO::options_init);
+			HookEvent(ME_USERINFO_INITIALISE, &GGPROTO::details_init);
 
 			// Init misc stuff
 			gg_icolib_init();

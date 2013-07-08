@@ -123,9 +123,6 @@ const LPWSTR lpcszXStatusNameDef[] =
 
 void CMraProto::SetExtraIcons(HANDLE hContact)
 {
-	if (!hHookExtraIconsApply)
-		return;
-
 	DWORD dwID, dwGroupID, dwContactSeverFlags;
 	if ( GetContactBasicInfoW(hContact, &dwID, &dwGroupID, NULL, &dwContactSeverFlags, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL))
 		return;

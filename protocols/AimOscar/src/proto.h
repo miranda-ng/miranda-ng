@@ -19,15 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _AIM_PROTO_H_
 #define _AIM_PROTO_H_
 
-struct CAimProto;
-typedef void    ( __cdecl CAimProto::*AimThreadFunc )( void* );
-typedef int     ( __cdecl CAimProto::*AimEventFunc )( WPARAM, LPARAM );
-typedef INT_PTR ( __cdecl CAimProto::*AimServiceFunc )( WPARAM, LPARAM );
-typedef INT_PTR ( __cdecl CAimProto::*AimServiceFuncParam )( WPARAM, LPARAM, LPARAM );
-
-struct CAimProto : public PROTO_INTERFACE
+struct CAimProto : public PROTO<CAimProto>
 {
-	CAimProto( const char*, const TCHAR* );
+	CAimProto(const char*, const TCHAR*);
 	~CAimProto();
 
 	//====================================================================================
@@ -461,10 +455,6 @@ struct CAimProto : public PROTO_INTERFACE
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	HANDLE CreateProtoEvent(const char* szEvent);
-	void   CreateProtoService(const char* szService, AimServiceFunc serviceProc);
-	void   CreateProtoServiceParam(const char* szService, AimServiceFuncParam serviceProc, LPARAM lParam);
-	void   HookProtoEvent(const char* szEvent, AimEventFunc pFunc);
-	void   ForkThread(AimThreadFunc, void*);
 
 	int    deleteSetting(HANDLE hContact, const char* setting);
 

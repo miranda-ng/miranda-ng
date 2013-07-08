@@ -256,12 +256,12 @@ INT_PTR GGPROTO::blockuser(WPARAM wParam, LPARAM lParam)
 //////////////////////////////////////////////////////////
 // Contact blocking initialization
 
-#define GGS_BLOCKUSER "%s/BlockUser"
+#define GGS_BLOCKUSER "/BlockUser"
 void GGPROTO::block_init()
 {
 	char service[64];
-	mir_snprintf(service, sizeof(service), GGS_BLOCKUSER, m_szModuleName);
-	createObjService(service, &GGPROTO::blockuser);
+	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_BLOCKUSER);
+	CreateService(GGS_BLOCKUSER, &GGPROTO::blockuser);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR;
@@ -272,7 +272,7 @@ void GGPROTO::block_init()
 	mi.pszContactOwner = m_szModuleName;
 	hBlockMenuItem = Menu_AddContactMenuItem(&mi);
 
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, gg_prebuildcontactmenu);
+	::HookEvent(ME_CLIST_PREBUILDCONTACTMENU, gg_prebuildcontactmenu);
 }
 
 //////////////////////////////////////////////////////////
