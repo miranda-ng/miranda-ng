@@ -622,28 +622,6 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR srvProtoConstructor(WPARAM wParam, LPARAM lParam)
-{
-	PROTO_INTERFACE *ppi = (PROTO_INTERFACE*)wParam;
-	LPCSTR szProtoName = (LPCSTR)lParam;
-
-	ppi->m_iVersion = 2;
-	ppi->m_iStatus = ppi->m_iDesiredStatus = ID_STATUS_OFFLINE;
-	ppi->m_szModuleName = mir_strdup(szProtoName);
-	ppi->m_hProtoIcon = (HANDLE)CallService(MS_SKIN2_ISMANAGEDICON, (WPARAM)LoadSkinnedProtoIcon(szProtoName, ID_STATUS_ONLINE), 0);
-	return 0;
-}
-
-static INT_PTR srvProtoDestructor(WPARAM wParam, LPARAM)
-{
-	PROTO_INTERFACE *ppi = (PROTO_INTERFACE*)wParam;
-	mir_free(ppi->m_szModuleName);
-	mir_free(ppi->m_tszUserName);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 static void InsertServiceListItem(int id, const char* szName)
 {
 	TServiceListItem* p = (TServiceListItem*)mir_alloc(sizeof(TServiceListItem));
@@ -723,9 +701,6 @@ int LoadProtocolsModule(void)
 	CreateServiceFunction("Proto/EnumProtocols",     Proto_EnumAccounts);
 	CreateServiceFunction(MS_PROTO_ENUMACCOUNTS,     Proto_EnumAccounts);
 	CreateServiceFunction(MS_PROTO_GETACCOUNT,       srvProto_GetAccount);
-
-	CreateServiceFunction("Proto/Constructor",       srvProtoConstructor);
-	CreateServiceFunction("Proto/Destructor",        srvProtoDestructor);
 
 	CreateServiceFunction(MS_PROTO_ISACCOUNTENABLED, srvProto_IsAccountEnabled);
 	CreateServiceFunction(MS_PROTO_ISACCOUNTLOCKED,  srvProto_IsAccountLocked);

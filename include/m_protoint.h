@@ -106,17 +106,4 @@ struct  PROTO_INTERFACE : public MZeroedObject
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) = 0;
 };
 
-// Call it in the very beginning of your proto's constructor
-__forceinline void ProtoConstructor(PROTO_INTERFACE *pThis, LPCSTR pszModuleName, LPCTSTR ptszUserName)
-{
-	CallService("Proto/Constructor", (WPARAM)pThis, (LPARAM)pszModuleName);
-	pThis->m_tszUserName = mir_tstrdup(ptszUserName);
-}
-
-// Call it in the very end of your proto's destructor
-__forceinline void ProtoDestructor(PROTO_INTERFACE *pThis)
-{
-	CallService("Proto/Destructor", (WPARAM)pThis, 0);
-}
-
 #endif // M_PROTOINT_H__

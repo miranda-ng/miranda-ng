@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 #include <m_protomod.h>
+#include <m_protoint.h>
+#include <m_skin.h>
 
 static HANDLE hAckEvent;
 
@@ -80,4 +82,21 @@ MIR_CORE_DLL(int) ProtoServiceExists(const char *szModule, const char *szService
 	strncpy_s(str,szModule,strlen(szModule));
 	strncat_s(str,szService,strlen(szService));
 	return ServiceExists(str);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_CORE_DLL(void) ProtoConstructor(PROTO_INTERFACE *pThis, LPCSTR pszModuleName, LPCTSTR ptszUserName)
+{
+	pThis->m_iVersion = 2;
+	pThis->m_iStatus = pThis->m_iDesiredStatus = ID_STATUS_OFFLINE;
+	pThis->m_szModuleName = mir_strdup(pszModuleName);
+	pThis->m_hProtoIcon = (HANDLE)CallService("Skin2/Icons/IsManaged", (WPARAM)LoadSkinnedProtoIcon(pszModuleName, ID_STATUS_ONLINE), 0);
+	pThis->m_tszUserName = mir_tstrdup(ptszUserName);
+}
+
+MIR_CORE_DLL(void) ProtoDestructor(PROTO_INTERFACE *pThis)
+{
+	mir_free(pThis->m_szModuleName);
+	mir_free(pThis->m_tszUserName);
 }

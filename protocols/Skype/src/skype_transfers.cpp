@@ -144,7 +144,7 @@ void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const Message
 
 				PROTORECVFILET pre = {0};
 				pre.flags = PREF_TCHAR;
-				pre.fileCount = transfers.size();
+				pre.fileCount = (int)transfers.size();
 				pre.timestamp = timestamp;
 				pre.tszDescription = L"";
 				pre.ptszFiles = files;
