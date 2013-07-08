@@ -1011,6 +1011,10 @@ BOOL TM_RemoveAll(STATUSINFO** ppStatusList)
 //MAD: alternative sorting by Nullbie
 static int sttCompareNicknames(const TCHAR *s1, const TCHAR *s2)
 {
+	if (!s1 && !s2) return 0;
+	if (!s1 && s2) return +1;
+	if (s1 && !s2) return -1;
+
 	// skip rubbish
 	while (*s1 && !_istalpha(*s1)) ++s1;
 	while (*s2 && !_istalpha(*s2)) ++s2;
