@@ -5,6 +5,8 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda NG project
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+
 ;file \plugins\Db3x\res\resource.rc
 [Install Database Settings]
 Aplikovať nastavenia databázy
@@ -12,6 +14,8 @@ Aplikovať nastavenia databázy
 Áno
 [No]
 Nie
+[A file containing new database settings has been placed in the Miranda NG directory.]
+
 [Do you want to import the settings now?]
 Chcete importovať nastavenia?
 [No to all]
@@ -34,10 +38,6 @@ Prajete si umožniť túto zmenu?
 Umožniť všetky budúce zmeny v tejto sekcii
 [&Yes]
 Áno
-[&Yes]
-Áno
-[&No]
-Nie
 [&No]
 Nie
 [Cancel Import]
@@ -50,8 +50,6 @@ Import je kompletný z
 Čo ďalej robiť so súborom?
 [&Recycle]
 Recyklovať
-[&Delete]
-Vymazať
 [&Delete]
 Vymazať
 [&Move/Rename]

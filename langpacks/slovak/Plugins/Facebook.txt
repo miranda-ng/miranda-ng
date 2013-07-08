@@ -5,52 +5,244 @@
 ;  Version: 0.1.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[Facebook protocol support for Miranda NG.]
+
 ;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 E-mail:
 [Password:]
 Heslo:
-[Password:]
-Heslo:
-[Password:]
-Heslo:
-[Password:]
-Heslo:
-[Password:]
-Heslo:
+[Create a new Facebook account]
+
+[What's on your mind?]
+
+[Text:]
+
+[Place:]
+
+[Visibility:]
+
+[Share]
+
 [Cancel]
 Storno
-[Cancel]
-Storno
+[User Details]
+
+[Default group:]
+
+[Automatically set 'Ignore status change' flag]
+
+[Contacts Settings]
+
+[Use bigger avatars]
+
+[Load contacts with 'On the Mobile' status]
+
+[Event notifications]
+
+[Colors]
+
 [Back]
 Späť
 [Text]
 Text
-[Text]
-Text
+[Notifications]
+
 [Default]
 Prednastavené
+[News feeds]
+
+[Other events]
+
+[Client notifications]
+
+[Timeout (sec.)]
+
+[(0 = default, -1 = infinite)]
+
+[Preview]
+
+[Use balloon notifications in system tray instead of popups]
+
+[News Feed types to notify:]
+
+[Advanced Settings]
+
+[Force secure (HTTPS) connection]
+
+[Post Miranda statuses to Wall]
+
+[Enable logging for debugging purposes]
+
+[Use secure connection also for channel requests]
+
+[Also disconnect chat when going to offline]
+
+[Map non-standard statuses to Invisible (instead of Online)]
+
+[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+
+[Use local time for received messages]
+
+[Send "Seen" info when marking messages as read]
+
+[Use this server for opening links:]
+
 ;file \protocols\FacebookRM\src\communication.cpp
+[Login error: %s]
+
 [Unknown error]
 Neznáma chyba
+[Login error: Invalid request.]
+
+[Your account requires HTTPS connection. Activating.]
+
+[Login error: Some Facebook things are required.]
+
+[Login error: Captcha code is required. Bad login credentials?]
+
+[Login error, probably bad login credentials.]
+
+[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
+
+[Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
+
+[Timeout when sending message.]
+
 ;file \protocols\FacebookRM\src\connection.cpp
+[Please enter a username.]
+
+[Please enter a password.]
+
 ;file \protocols\FacebookRM\src\constants.h
+[Most Recent]
+
+[Wall Posts]
+
+[Top News]
+
+[Photos]
+
+[Links]
+
+[Apps and Games]
+
+[Classic website]
+
+[Mobile website]
+
+[Smartphone website]
+
+[For everyone]
+
+[For friends of friends]
+
+[For friends]
+
+[Only for me]
+
 ;file \protocols\FacebookRM\src\contacts.cpp
+[Contact was removed from your server list.]
+
+[Error occured when removing contact from server.]
+
+[Request for friendship was sent.]
+
+[Error occured when requesting friendship.]
+
+[Request for friendship was canceled.]
+
+[Error occured when canceling friendship request.]
+
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[What's on your mind, %s?]
+
+[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
+
+[Sample event]
+
+[Sample request]
+
+[Sample newsfeed]
+
+[Sample notification]
+
 ;file \protocols\FacebookRM\src\json.cpp
+[Message read: %s]
+
 ;file \protocols\FacebookRM\src\messages.cpp
+[You cannot send messages when you are offline.]
+
 ;file \protocols\FacebookRM\src\process.cpp
+[Contact is back on server-list.]
+
+[Contact is no longer on server-list.]
+
 ;file \protocols\FacebookRM\src\proto.cpp
+[Show Mind Window]
+
+[%s server connection]
+
+[Unable to get Netlib connection for Facebook]
+
+[Notification]
+
+[News Feed]
+
+[Other Event]
+
+[Avatars]
+
 [Network]
 Sieť
-[Network]
-Sieť
-[Network]
-Sieť
-[Network]
-Sieť
+[Account]
+
 [Advanced]
 Podrobne
+[Popups]
+
 [Events]
 Udalosti
+[Loading newsfeeds...]
+
+[Checking friend requests...]
+
+[Refreshing buddy list...]
+
+[Do you want to cancel your friendship with '%s'?]
+
 ;file \protocols\FacebookRM\src\theme.cpp
+[Facebook icon]
+
+[Mind]
+
+[Poke]
+
+[Newsfeed]
+
+[Friendship details]
+
+[Visit profile]
+
+[Visit friendship details]
+
+[Cancel friendship]
+
+[Cancel friendship request]
+
+[Request friendship]
+
+[Approve friendship]
+
+[Mind...]
+
+[Services...]
+
+[Refresh Buddy List]
+
+[Services]
+
+[Check Friends Requests]
+
+[Check Newsfeeds]
+

@@ -5,19 +5,35 @@
 ;  Version: 0.7.5.4
 ;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
+
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
+[Login to Miranda NG]
+
+[EN]
+
 [OK]
 OK
 [Cancel]
 Storno
-[Cancel]
-Storno
+[New password]
+
+[Change password]
+
+[Change]
+
+[Remove]
+
+[Old password]
+
 [Install Database Settings]
 Aplikovať nastavenia databázy
 [Yes]
 Áno
 [No]
 Nie
+[A file containing new database settings has been placed in the Miranda NG directory.]
+
 [Do you want to import the settings now?]
 Chcete importovať nastavenia?
 [No to all]
@@ -40,10 +56,6 @@ Prajete si umožniť túto zmenu?
 Umožniť všetky budúce zmeny v tejto sekcii
 [&Yes]
 Áno
-[&Yes]
-Áno
-[&No]
-Nie
 [&No]
 Nie
 [Cancel Import]
@@ -58,26 +70,70 @@ Import je kompletný z
 Recyklovať
 [&Delete]
 Vymazať
-[&Delete]
-Vymazať
 [&Move/Rename]
 Presunúť/Premenovať
 [&Leave]
 Opustiť
+[Database encryption]
+
+[Info:]
+
 [Author:]
 Autor:
+[Site:]
+
+[Email:]
+
+[Unique ID:]
+
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
+[Database is Secured MMAP database]
+
+[You are not authorized for access to Database]
+
+[Secured MMAP: authorization successful]
+
+[Database is marked as belonging to an unknown version of Miranda]
+
 ;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
+[Database Features]
+
+[Database]
+
+[Change Password]
+
+[Set password]
+
+[Dll]
+
 [Name]
 Meno
-[Name]
-Meno
+[Version]
+
+[Please type in your password for]
+
+[Too many errors!]
+
+[Password is not correct!]
+
+[Please enter your new password]
+
+[Password is too short!]
+
+[Passwords do not match!]
+
+[Wrong password!]
+
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
+[Sorry, but your database encrypted with unknown module]
+
 [Error]
 Chyba
-[Error]
-Chyba
-[Error]
-Chyba
-[Error]
-Chyba
+[Crypto modules not found]
+
+[DB is already secured!]
+
+[current database]
+
+[Set Password]
+

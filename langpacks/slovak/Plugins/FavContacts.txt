@@ -5,14 +5,72 @@
 ;  Version: 0.0.0.6
 ;  Authors: Victor Pavlychko
 ;============================================================
+[Favourite contacts menu.]
+
 ;file \plugins\FavContacts\res\resource.rc
+[Customize]
+
+[Show second line]
+
+[Show avatars]
+
+[Draw avatar border]
+
+[Round corners by]
+
+[px.]
+
+[Hide for transparent avatars]
+
+[Use system colors and fonts]
+
+[Hotkey shows menu centered on screen]
+
+[Menu item preview:]
+
+[Favourite Contacts]
+
+[Enable groups]
+
+[Multicolumn menu]
+
+[Configure fonts and colors...]
+
+[Align to the right]
+
+[Dim idle contact icons]
+
 [Show]
 Zobraziť
+[recent contacts]
+
 ;file \plugins\FavContacts\src\favlist.h
+[<no group>]
+
 ;file \plugins\FavContacts\src\main.cpp
+[Favourite Contact]
+
+[Regular Contact]
+
+[Contact name]
+
+[Second line]
+
+[Selected contact name (color)]
+
+[Selected second line (color)]
+
 [Background]
 Pozadie
-[Background]
-Pozadie
+[Selected background]
+
+[Show favourite contacts]
+
 [Contacts]
 Kontakty
+[Favourites]
+
+[&Favourite Contacts...]
+
+[<No group>]
+

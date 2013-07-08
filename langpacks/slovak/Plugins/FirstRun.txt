@@ -5,3 +5,5 @@
 ;  Version: 0.0.0.2
 ;  Authors: Yasnovidyashii
 ;============================================================
+[Displays the Accounts window at the first start.]
+

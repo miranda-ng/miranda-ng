@@ -1,0 +1,3343 @@
+Miranda Language Pack Version 1
+Language: Slovak (SK)
+Locale:
+Last-Modified-Using: Miranda 0.2.0.0
+Authors: RaRo
+Author-email: raro@raro.sk
+Plugins-included: Database Editor 0.0.0.2, dbExport 1.0.0.1, History Sweeper 0.1.0.3, Jabber 0.1.0.9, Message Export 2.7.0.0, Msn 0.1.4.9, Net Send Protocol 0.0.3.6, NewStatusNotify 1.1.1.8, Nosound 0.4.3.0, Notes&Reminders 0.0.3.1, PopUp 1.0.1.9, RSS v0.0.1.2, UINBackup 0.4.2.1, Unified Messaging Center Plugin 0.1.4.1, Yahoo 0.0.5.3
+
+
+;General stuff:
+[OK]
+OK
+[Cancel]
+Storno
+[Close]
+Zavrie
+[Yes]
+Áno
+[No]
+Nie
+[Apply]
+Aplikova
+
+;database/database.c
+[Your profile database is subtlly but terminally corrupted. You will almost certainly have to delete it. Miranda will now kill itself.]
+Súbor s vašim profilom je pravdepodobne poškodenı. Budete ho musiet asi zmaza. Miranda bude ukonèená.
+[Very Very Bad]
+Ve¾mi zle
+
+;database/dbini.c
+[Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
+Bezpeènostnı systém zmien je zapojenı a budete varovanı pred kadou zmenou.
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+Bezpeènostnı systém zmien je zapojenı a budete varovanı pred nebezpeènou zmenou.
+[Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+Bezpeènostnı systém zmien je odpojenı. Nebudete prijíma iadne varovania.
+[This change is known to be safe.]
+Táto zmena je bezpeèná.
+[This change is known to be potentially hazardous.]
+Táto zmena je potencialne nebezpeèná.
+[This change is not known to be safe.]
+Táto zmena je nebezpeèná.
+[Invalid setting type. The first character of every value must be b, w, d, l, s or n.]
+Chybné nastavenie. Prvı znak musí by jeden z hodnôt b, w, d, l, s alebo n.
+
+;protocols/icqoscar/icq_opts.c
+[Network]
+Sie
+[Display all problems]
+Zobrazi všetky problémy
+[Display problems causing possible loss of data]
+Zobrazi problémy ktoré spôsobili stratu dát
+[Display explanations for disconnection]
+Zobrazi vysvetlenie k nechcenım odpojeniam
+[Display problems requiring user intervention]
+Zobrazi problémy vyadujúce môj zásah
+[tomorrow]
+zajtra
+[in 2 days]
+za 2 dni
+[in 3 days]
+za 3 dni
+[next week]
+budúci tıden
+[next fortnight]
+za 14 dní
+[never]
+nikdy
+
+;protocols/icqoscar/icqosc_svcs.c
+[ICQ number]
+ICQ èíslo
+
+;protocols/icqoscar/init.c
+[ICQ server connection]
+ICQ pripojovací server
+[ICQ client-to-client connections]
+ICQ klient-klient pripojenie
+
+;protocols/icqoscar/log.c
+[ICQ Note]
+ICQ poznámka
+[ICQ Warning]
+ICQ varovanie
+[ICQ Error]
+ICQ chyba
+[ICQ Fatal]
+ICQ "fatalita"
+[error]
+chyba
+[The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
+[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
+[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
+[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
+[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
+
+;protocols/icqoscar/chan_04close.c
+[Your ICQ password is blank. Please go to M->Options->ICQ and enter it correctly.]
+Vaše ICQ heslo je prázdne. Prosím choïte do M->Nastavenia->ICQ a opravte to.
+[Rate limit exceeded during sign-on.\nPlease wait a while and retry 10 to 20 minutes later.]
+èas platnosti presahuje vaše prihlásenie.\nProsím èakajte a opakujte to o 10 a 20 minút.
+[Your ICQ number and password combination was rejected by the ICQ server. Please go to M->Options->ICQ and try again.]
+Vaša kombinácia ICQ èíslo a heslo nieje spravna. Prosím, choïte do M->Nastavenia->ICQ a opravte to.
+[Unknown error during sign on: 0x%02x]
+Néznáma chyba na: 0x%02x
+[You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
+Ste odpojenı z ICQ siete, lebo vaše ICQ èíslo je u prihlásené
+[Unknown runtime error: 0x%02x]
+Neznáma spúšacia chyba: 0x%02x
+[You could not sign on because the server returned invalid data. Try again.]
+Nepripojenı, lebo server vrátil chybné informácie. Skúste ešte raz.
+[Unable to connect to ICQ communication server]
+Nemono sa pripoji na ICQ server
+
+;protocols/icqoscar/icq_http.c
+[Unexpected extra data has been received from HTTP proxy.]
+Boli prijaté neznáme informácie z HTTP proxy servera
+[Miranda was unable to prepare to connect to your HTTP proxy server. You are probably running low on system resources.]
+Miranda sa nemôe pripoji na váš HTTP proxy server.
+[Miranda was unable to make a connection with your HTTP proxy server. It is likely that the server is down, in which case you should disconnect and try again later. If you stay online you will likely receive no more information updates from the ICQ server.]
+Miranda nemôe vytvori pripojenie s vaším HTTP proxy serverom. Ak je server vypnutı, odpojte sa a skúste sa pripoji neskôr. Ak je server zapnutı, pravdepodobne ste neprijali viac informácií z ICQ servera.
+[Miranda was unable to make a connection with your HTTP proxy server in order to send some data. It is likely that the proxy server is down, in which case you should disconnect from the ICQ network at try to reconnect later.]
+Miranda nemôe vytvori pripojenie s vaším HTTP proxy serverom a zasla data. Ak je server vypnutı, odpojte sa z ICQ siete a skúste to neskôr.
+[No information was received from the ICQ HTTP proxy bridge server. This could be either an issue with your proxy or with the ICQ HTTP server.]
+Neboli prijaté informácie z vášho HTTP proxy servera. Problém je buï na vašom proxy servery alebo na ICQ HTTP servery
+
+;protocols/icqoscar/icq_filetransfer.c
+[File Transfer Aborted]
+Prenos súboru bol zrušenı
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Prenos súboru byl zrušenı, pretoe jeden z vybranıch súborov nieje moné uloi na disk.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Prijatie súboru je zrušené Mirandou, lebo nemono zapísa súbor do cie¾oveho adresára.
+
+;protocols/icqoscar/icq_fieldnames.c
+[Art]
+Umenie
+[Cars]
+Autá
+[Celebrity Fans]
+Fanúšik slávnej/slávneho
+[Collections]
+Kolekcie
+[Computers]
+Poèítaèe
+[Culture & Literature]
+Kultúra a literatúra
+;[Fitness]
+[Games]
+Hry
+[Hobbies]
+Koníèky
+;[ICQ - Providing Help]
+;[Internet]
+[Lifestyle]
+ivotnı štıl
+[Movies/TV]
+Filmy/TV
+[Music]
+Hudba
+;[Outdoor Activities]
+;[Parenting]
+[Pets/Animals]
+Mazlíèkovia/Zvieratká
+[Religion]
+Naboenstvo
+[Science/Technology]
+Veda/Technológie
+[Skills]
+Zruènos
+[Sports]
+Šport
+[Web Design]
+Návrh webov
+[Nature and Environment]
+Príroda
+;[News & Media]
+;[Government]
+;[Business & Economy]
+;[Mystics]
+[Travel]
+Cestovanie
+[Astronomy]
+Astrológia
+;[Space]
+;[Clothing]
+;[Parties]
+[Women]
+eny
+;[Social science]
+[Finance and corporate]
+Financie
+;[Entertainment]
+;[Consumer electronics]
+;[Retail stores]
+;[Health and beauty]
+;[Media]
+;[Household products]
+;[Mail order catalog]
+;[Business services]
+;[Audio and visual]
+[Sporting and athletic]
+Šport a atletika
+;[Publishing]
+;[Home automation]
+;[Elementary School]
+;[High School]
+;[College]
+;[University]
+;[Military]
+;[Past Work Place]
+;[Past Organization]
+;[Other]
+;[Academic]
+;[Administrative]
+;[Art/Entertainment]
+;[College Student]
+;[Computers]
+;[Community & Social]
+;[Education]
+;[Engineering]
+;[Financial Services]
+;[Government]
+;[High School Student]
+[Home]
+Domov
+;[ICQ - Providing Help]
+;[Law]
+;[Managerial]
+;[Manufacturing]
+;[Medical/Health]
+;[Alumni Org.]
+;[Charity Org.]
+;[Club/Social Org.]
+;[Community Org.]
+;[Cultural Org.]
+;[Fan Clubs]
+;[Fraternity/Sorority]
+;[Hobbyists Org.]
+;[International Org.]
+;[Nature and Environment Org.]
+;[Professional Org.]
+;[Scientific/Technical Org.]
+;[Self Improvement Group]
+;[Spiritual/Religious Org.]
+;[Sports Org.]
+;[Support Org.]
+;[Trade and Business Org.]
+;[Union]
+;[Volunteer Org.]
+;[60-above]
+
+;protocols/icqoscar/icq_server.c
+[Miranda was unable to make a connection with the ICQ server. More detail can be found by increasing the amount of logging in M->Options->ICQ.]
+Miranda sa nemôe pripoji na ICQ server. Viac informácií najdete v log súbore, menu Vo¾by->ICQ.
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
+Miranda nemôe alokova port pre priame pripojenie s kientmi. Ak to chcete zapnú, musíte si vypnút vo¾bu odosielania/prijímania súborov.\n\nAk máte firewall co blokuje mirande porty, povo¾te v konfigúrácii firewallu porty, ktore ste si zadali vo Vo¾by->ICQ->Sie.
+[Your connection with the ICQ server was abortively closed]
+Vaše pripojenie na ICQ server bolo neèakane ukonèené
+[Unable to connect to ICQ login server]
+Nemono sa pripoji na ICQ server.
+[Your connection with the ICQ server was abortively closed because:\n\n%s]
+Vaše pripojenie na ICQ server bolo neèakane ukonèene pre:\n\n%s
+[Unknown error code (%u)]
+Neznáma chyba (%u)
+
+;protocols/icqoscar/icq_socket.c
+;[The server did not respond to the connection attempt within 30 seconds, it may be temporarily down. Try again later.]
+;[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+;[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->ICQ->Network.]
+;[ICQ Unable to Connect]
+;[Miranda was unable to prepare to connect to a server. You are probably running low on system resources.]
+;[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
+;[ICQ Proxy Connection]
+;[Your proxy gave an invalid response to the connection attempt. Contact your proxy administrator.]
+;[Your proxy requested the use of a method of authorisation that is not supported by Miranda. Contact your proxy administrator.]
+;[Your proxy rejected the user name and password that you provided. Please check them in M->Options->ICQ->Network.]
+
+;protocols/netlib/netlibopts.c
+[<All connections>]
+Všetky pripojenia
+[<mixed>]
+<mix>
+
+;sendrecv/message/msgs.c
+[Message from %s]
+Správa od %s
+[Incoming Message]
+Prichádzajúca správa
+[&Message]
+&Správa
+
+;sendrecv/message/msgdialog.c
+[Reply &Quoted]
+Odpovedat s &citáciou
+[&Reply]
+&Odpoveda
+[User Menu]
+Menu uívatela
+[Add Contact Permanently to List]
+Prida kontakt do zoznamu
+[View User's Details]
+Zobrazi informácie o uívatelovi
+[View User's History]
+Zobrazi históriu 
+[Display Time in Message Log]
+Zobrazova èas v kadej správe
+[You haven't selected any contacts from the list. Click the white box next to a name to send the message to that person.]
+Nieje vybranı iadny príjemca správy. Zaškrtnite biele políèko u mien uívatelov ktorım chcete správu odosla.
+[Send Message]
+Odosla správu
+
+;sendrecv/message/msgoptions.c
+[My messages]
+Moje správy
+[My URLs]
+Moje URL
+[My files]
+Moje súbory
+[Your messages]
+Vaše správy
+[Your URLs]
+Vaše URL
+[Your files]
+Vaše súbory
+[My name]
+Moje meno
+[My time]
+Môj èas
+[My colon]
+Moja dvojbodka
+[Your name]
+Vaše meno
+[Your time]
+Váš èas
+[Your colon]
+Vaša dvojbodka
+[Messaging]
+Rozhovor
+[Messaging Log]
+Záznam rozhovorov
+
+;sendrecv/url/url.c
+[URL from %s]
+URL od %s
+[Incoming URL]
+Prichádzajúca URL
+[Web Page Address (&URL)]
+Adresa www stránky (&URL)
+
+;sendrecv/file/file.c
+[File from %s]
+Súbor od %s
+[Incoming File Transfer]
+Príchádzajúci súbor
+[&File]
+&Súbor
+[Executable Files]
+Spustitelné súbory
+[File Transfers]
+Prenos súboru
+[File Transfer Complete]
+Prenos súboru kompletnı
+
+;sendrecv/file/filedialogs.c
+[Received Files]
+Prija súbory
+[bytes]
+bytov
+[Current file (%d of %d)]
+Aktuálny súbor (%d z %d)]
+[Select Folder]
+Vyber zloku
+[Select Destination Folder]
+Vyber cie¾ovı adresár
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Tento súbor nebol skenovanı proti vírusom. Chcete ho otvori?
+[File Received]
+Prija súbor
+[Request sent, waiting for acceptance...]
+Poiadavka zaslaná, èakajte na akceptáciu...
+[Waiting for connection...]
+Èakajte na pripojenie...ÿ
+;sec=short for seconds as in KB/sec
+[sec]
+sek
+[remaining]
+prijímam
+[Decision sent]
+[Connecting...]
+Pripájam ...
+[Connected]
+Pripojenı
+[Initialising...]
+Inicializujem...
+[Moving to next file...]
+presuò do ïalšieho suboru ...
+[File already exists]
+Súbor u existuje
+[Receiving...]
+Prijímam...
+[Sending...]
+Odosielam...
+[of file]
+súboru
+[Sending file]
+Posla súbor
+[Sending files]
+Posla súbory
+[Receiving file]
+Prija súbor
+[Receiving files]
+Prija súbory
+[Transfer completed]
+Prenos ukonèenı
+[Scanning for viruses...]
+Skenova na vírusy
+[File transfer failed]
+Chybnı prenos súboru
+[Transfer and virus scan complete]
+Prenos a oskenovanie je kompletné
+[%d file]
+%d súbor
+[%d files]
+%d súbory
+[%d directory]
+%d adresár
+[%d directories]
+%d adresáre
+[Waiting for acceptance...]
+Èakám na prijatie...
+[Request sent, waiting for acceptance...]
+Poiadavka odoslaná, èakám na prijatie...
+[Transfer accepted, initiating...]
+Prenos prijatı, inicializujem...
+[Decision sent]
+Rozhodnutie odoslané
+[Negotiations completed]
+Zjednanie prenosu ukonèené
+[Negotiations failed]
+Zjednanie prenosu chybné
+[Progress]
+Priebeh
+[Average Speed: %.3f KBps]
+Priemerná rıchlos: %.3f KBps
+[Current Speed: %.3f KBps]
+Aktuálna rıchlos: %.3f KBps
+[Time left (est): %02d:%02d]
+Zostávajúci èas: %02d:%02d
+
+;sendrecv/email/email.c
+[Send e-mail]
+Odosla e-mail
+[User has not registered an e-mail address]
+Uívatel nemá zaregistrovnú e-mailovú adresu\nMôete ju prida v podrobnıch informáciách o uívatelovi v záloke "kontakt".
+[&e-mail]
+&e-mail
+
+;sendrecv/awaymsg/awaymsg.c
+[Re&ad %s Message]
+Èíta %s správu
+
+;sendrecv/awaymsg/sendmsg.c
+;**note: don't translate "%time%" and "%date%"
+;**note: you can change these to whatever you want - they're only the default messages
+[I've been away since %time%.]
+Som preè od %time%.
+;[Give it up, I'm not in!]
+[Not right now.]
+Prepáè, teraz nemám èas.
+;[Give a guy some peace, would ya?]
+;[Well, I would talk to you if Miranda ICQ supported chat]
+[Yep, I'm here.]
+Je tu.
+[Nope, not here.]
+Nieje tu.
+[I'm hiding from the mafia.]
+Schováva sa pred mafiou
+[That'll be the phone.]
+Telefonuje
+[Mmm...food.]
+Mmm...obed.
+[Away Messages]
+Správy o nedostupnosti
+
+;ui/clc/clcopts.c
+[List]
+Zoznam
+[List Background]
+Pozadie zoznamu
+[List Text]
+Písmo zoznamu
+[Not focused]
+Neoznaèené
+[Standard contacts]
+Štandardné kontakty
+[Online contacts to whom you have a different visibility]
+Pripojenı uívatelia ku ktorım máte nastavenú odlišnú viditelnos
+[Offline contacts to whom you have a different visibility]
+Odpojenı uívatelia ku ktorım máte nastavenú odlišnú viditelnos
+[Offline contacts]
+Odpojenı uívatelia
+[Contacts which are 'not on list']
+Uívatelia ktorí niesu v zozname
+[Groups]
+Skupiny
+[Group member counts]
+Poèet èlenov skupiny
+[Dividers]
+Oddelovaèe
+[Sample]
+Príklad
+[<none>]
+<niè>
+
+;ui/contactlist/clistmod.c
+[Offline]
+Odpojenı
+[Connecting]
+Pripájam sa
+[Online]
+Pripojenı
+[Away]
+Preè
+[DND]
+Neruši
+[NA]
+Nedostupnı
+[Occupied]
+Zaneprázdnenı
+[Free for chat]
+Vo¾nı k rozhovoru
+[Invisible]
+Neviditelnı
+[On the phone]
+Telefonuje
+[Out to lunch]
+Na obede
+[Connecting (attempt %d)]
+Pripájam sa (%d. pokus)
+[De&lete]
+Zmaza
+[&Add permanently to list]
+Prida do zoznamu kontaktov
+[This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
+Tento kontakt patrí do IM systému ktorı ukladá svoje zoznamy kontaktov na centrálny server. Tento kontakt bude odstranenı zo servera a z vášho zoznamu kontaktov pri vašom dalšom pripojení do tejto IM siete.
+[Delete Contact]
+Zmaza kontakt
+
+;ui/contactlist/clistopts.c
+[Hotkeys]
+Klávesové skratky
+[Contact List]
+Zoznam kontaktov
+[My custom name (not moveable)]
+Moje vlastné oznaèenie (nepresúvatelné)
+[FirstName]
+Meno
+[LastName]
+Priezvisko
+[FirstName LastName]
+Meno Priezvisko
+['(Unknown Contact)' (not moveable)]
+'(neznámı kontakt)' (nepresúvatelné)
+
+;ui/contactlist/clistsettings.c
+[(Unknown Contact)]
+(neznámı kontakt)
+
+;ui/contactlist/contactlist.c
+;;[New Group] is the default name of a new group
+[New Group]
+Nová skupina
+
+;ui/contactlist/groups.c
+[You already have a group with that name. Please enter a unique name for the group.]
+Skupina s tımto menom u existuje. Zadajte prosím nové unikátne meno pre túto skupinu.
+[Rename Group]
+Premenova skupinu
+[This group]
+Táto skupina
+
+;ui/clui/clui.c
+[&Rename]
+&Premenova
+
+;ui/clui/cluiopts.c
+[Window]
+Okno
+[Status Bar]
+Stavovı riadok
+
+;ui/userinfo/contactinfo.c
+[Edit e-mail Address]
+Zmena e-mail adresy
+[Edit Phone Number]
+Zmena telefónneho èísla
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Telefónne èíslo by malo zaèína znakom "+". Nasledujúce znaky môu by iba èíslice, zátvorky alebo pomlèka.
+[Invalid Phone Number]
+Neplatné telefónne èíslo
+[Custom %d]
+Novı %d
+[Primary]
+Primárny
+[Fax]
+Fax:
+[Mobile]
+Mobil:
+
+;ui/userinfo/userinfo.c
+[User &Details]
+Informácie o uívatelovi
+[View/Change My &Details...]
+Zobrazi/Zmeni moje informácie...
+
+;ui/userinfo/stdinfo.c
+[Summary]
+Obecné
+[Contact]
+Kontakt
+[Location]
+Miesto
+[Work]
+Práca
+[Background]
+Pozadie
+[Notes]
+Poznámky
+[<not specified>]
+<nešpecifikované>
+[Male]
+Mu
+[Female]
+ena
+[<error>]
+<chyba>
+[ICQ98 / old clones]
+ICQ98 / staršie klony
+[Some clones]
+Nejakı klon
+[Unknown]
+neznáme
+
+;ui/options/options.c
+[Miranda Options]
+Nastavenia Mirandy
+[&Options...]
+Nastavenia...
+
+;ui/history/history.c
+[View &History]
+Zobrazi &históriu
+[Message to %s]
+Správa pre %s
+[Message from %s]
+Správa od %s
+[URL to %s]
+URL pre %s
+[URL from %s]
+URL od %s
+[File to %s]
+Súbor pre %s
+[File from %s]
+Súbor od %s
+[History for %s]
+História pre %s
+
+;ui/help/about.c
+[Version %s]
+Verzia %s
+[Built %s %s]
+Zostavenie  %s %s
+
+;ui/help/help.c
+[&Help]
+Pomoc
+[&About...]
+O programe &Miranda...
+[&Index\tF1]
+Index\tF1
+[&Miranda Website]
+Domovská stránka Mirandy
+
+;ui/findadd/findadd.c
+[There are no results to display.]
+iadny vısledok na zobrazenie.
+[Searching]
+Vyh¾adávam
+[All Networks]
+Všetky siete
+[&Find/Add Contacts...]
+Nájs/Prida kontakty...
+[You haven't filled in the search field. Please enter a search term and try again.]
+Vyh¾adávacie pole nesmie by prázdne. Prosím zadajte h¾adanı vıraz a skúste to znovu.
+[Results]
+Vısledok
+
+;ui/findadd/searchresults.c
+;[None of the messaging protocols were able to initiate the search. Please correct the fault and try again.]
+;[One or more of the messaging protocols failed to initiate the search, however some were successful. Please correct the fault if you wish to search using the other protocols.]
+;[The messaging protocol reported an error initiating the search. Please correct the fault and try again.]
+;[Idle]
+[No users found]
+Nenájdenı uívatelia
+[1 %s user found]
+1 %s uívatel nájdenı
+[%d %s users found]
+Nájdenıch %d %s uívatelov.
+[%d users found (]
+Nájdenıch %d uívatelov
+[Nick]
+Prezívka
+[First Name]
+Meno
+[Last Name]
+Priezvisko
+[e-mail]
+e-mail
+
+;ui/visibility/visibility.c
+[Visibility]
+Vidite¾nos
+
+;random/checkupdates/checkupdates.c
+[Check for &Updates]
+Overi &aktuálnos tejto verzie
+
+;random/firstrun/firstrun.c
+[Your ICQ number must be a positive integer]
+Vaše ICQ èíslo musí by kladné celé èíslo
+[ICQ Number and Password]
+ICQ èíslo a heslo
+
+;random/plugins/newplugins.c
+[Plugins]
+[ICQ protocol support]
+Podpora ICQ protokolu
+[MSN protocol support]
+Podpora protokolu MSN
+[Find/Add Contacts functionality]
+Funkcia Nájs/Prida kontakt
+;[User Info context menu item and dialog]
+;[Send/Receive Instant Messages functionality]
+;[Send/Receive URLs functionality]
+;[Send e-mail functionality]
+;[ICQ Authorization send and receive functionality]
+;[Send/Receive Files functionality]
+;[Help menu items]
+;[History functionality]
+;[Check for Updates menu item]
+;[ICQ Database importing functionality]
+;[Auto-Away capability]
+;[User online notifications functionality]
+;[Encryption functionality]
+;[Sending and receiving of away messages]
+;[Ignore options and functionality]
+;[Visible/invisible list options page]
+
+;random/plugins/pluginopts.c
+[Filename]
+Meno súboru
+[Function]
+Funkcia
+[About plugin]
+O plug-ine
+[About %s]
+O %s
+
+;random/skin/skin.c
+[Events]
+Udalosti
+[Sounds]
+Zvuky
+[Icons]
+Ikony
+
+;random/skin/skinicons.c
+[User Online]
+Pripojenı uívatel
+[Group (Open)]
+Skupina (otvori)
+[Group (Closed)]
+Skupina (zavrie)
+[Default]
+Prednastavené
+[Incoming File]
+Prichádzajúci súbor
+[%s Icons]
+%s ikon
+[Icon Sets]
+Súbor ikon
+[All Files]
+Všetky súbory
+[Main Icons]
+Moje ikony
+
+;random/skin/sounds.c
+[Description]
+Udalos
+
+;random/autoaway/autoaway.c
+[Auto Away]
+Automaticky 'Preè'
+[Status]
+Stav
+
+;random/useronline/useronline.c
+[%s is Online]
+%s je pripojenı
+[Online alert]
+upozornenia o pripojení
+
+;random/ignore/ignore.c
+;random/ignore/ignore.c
+[** Unknown contacts **]
+** neznáme kontakty **
+[** All contacts **]
+** všetky kontakty **
+[Ignore]
+Ignorova
+
+;random/utils/bmpfilter.c
+[All Bitmaps]
+Všetky obrázky
+[Windows Bitmaps]
+Windows obrázky
+[JPEG Bitmaps]
+JPEG obrázky
+[GIF Bitmaps]
+GIF obrázky
+
+;IDD_ABOUT
+[About]
+O
+[Miranda is brought to you by:]
+Mirandu pre vás vytvorily:
+[This software is released under the terms of the\nGNU General Public Licence]
+Tento program je šírenı pod¾a obecne verejnej licencie GNU/GPL
+
+;IDD_ADDCONTACT1
+[Handle]
+Hlavièka
+
+;IDD_ADDCONTACT2
+[E-mail Address]
+E-mailová adresa
+
+;IDD_ADDCONTACT3
+[Nickname:]
+Prezívka:
+[First name:]
+Meno:
+[Last name:]
+Priezvisko:
+
+;IDD_ADDED
+[You were added]
+Boli ste pridanı
+[The following user added you to their contact list:]
+Tento uívatel si vás pridal do svojho zoznamu kontaktov:
+[&Add To Contact List]
+Prida do zoznamu kontaktov
+
+;IDD_ADDEMAIL
+[Add e-mail Address]
+Prida e-mail adresu
+
+;IDD_ADDPHONE
+[Add Phone Number]
+Prida telefónne èíslo
+[Enter country, area code and phone number:]
+Uveïte krajinu, predvo¾bu a telefónne èíslo:
+[Or enter a full international number:]
+Alebo uveïte telefónne èíslo v medzinárodnom tvare:
+[Phone can receive SMS text messages]
+Na toto èíslo môete posiela SMS správy
+
+;IDD_AUTHREQ
+[Authorization Request]
+Poiadavka na autorizáciu
+[From:]
+Od:
+[Reason:]
+Dôvod:
+[&Authorize]
+Autorizova
+
+;IDD_DETAILS
+[%s: User Details]
+%s: Uívatelove informácie
+[View personal user details and more.]
+Zobrazi informácie o uívatelovi ...
+[Updating]
+Aktualizujem
+[Update Now]
+Aktualizova
+
+;IDD_FILEEXISTS
+[File Already Exists]
+Súbor u existuje
+[You are about to receive the file]
+Prija súbor
+[Existing file]
+Súbor existuje
+[Size:]
+Ve¾kos:
+[Last modified:]
+Posledná modifikácia:
+[Type:]
+Typ:
+[File properties]
+Vlastnosti súboru
+[File being received]
+Súbor na prijatie
+[Resume]
+Vısledok
+[Resume all]
+Vısledok všetkého
+[Overwrite]
+Prepísa
+[Overwrite all]
+Prepísa všetko
+[Save as...]
+Uloi ako...
+[Skip]
+Vynecha
+[Cancel transfer]
+Preruši prenos
+
+;IDD_FILERECV
+[Incoming File Transfer]
+Príchádzajúci súbor
+[Date:]
+Dátum:
+[Files:]
+Súbory:
+[Status:]
+Stav:
+[Save to:]
+Uloi do:
+[Waiting for accept/decline]
+Èakám na prijatie/odmietnutie zo strany príjemcu
+[A&ccept]
+Prija
+[&Decline]
+Odmietnú
+[Date:]
+Dátum:
+
+;IDD_FILESEND
+[Send File(s)]
+Odosla súbor(y)
+[File(s):]
+Súbor(y):
+[&Choose Again...]
+Znovu vybra
+[Total size:]
+Celková ve¾kos:
+[Description:]
+Popis:
+[Waiting for Send command]
+Èakat na príkaz Odosla
+
+;IDD_FILETRANSFERINFO
+[Status:]
+Stav
+[Current file]
+Aktuálny súbor
+[Transferred:]
+Prenášané:
+[Speed:]
+Rıchlos
+[All files]
+Všetky súbory
+[Open folder]
+Otvori zloku
+[Open file]
+Otvori súbor
+
+;IDD_FINDADD
+[Find/Add Contacts]
+Nájs/Prida kontakt
+[Search on]
+H¾ada v
+[e-mail address]
+e-mail adresa
+[Name]
+Meno
+[Nick:]
+Prezívka:
+[First:]
+Meno:
+[Last:]
+Priezvisko:
+[Advanced]
+Podrobne
+[Advanced >>]
+Podrobne >>
+[&Search]
+H¾ada
+[More options]
+Ïalšie nastavenia
+[Add to list]
+Prida do zoznamu
+
+;IDD_GNUPL
+[Accept]
+Súhlas
+[Decline]
+Nesúhlas
+
+;IDD_HISTORY
+[Message History]
+História správ
+[&Find...]
+Nájs...
+
+;IDD_HISTORY_FIND
+[Find]
+H¾ada
+[Find What:]
+Èo h¾ada:
+[&Find Next]
+H¾ada ïalšie
+
+;IDD_ICONINDEX
+[Icon Index]
+Zoznam ikon
+[Drag icons to main list to assign them:]
+Pretiahnite ikony do hlavného zoznamu a priraïte ich:
+[Icon library:]
+Kninica ikon:
+[Import multiple]
+Importova viac ikon
+[To main icons]
+Medzi moje ikony
+[To]
+Do
+[<< &Import]
+Importova
+[Download more icons]
+Stiahnu viac ikon
+
+;IDD_ICQADVANCEDSEARCH
+[Field:]
+Oblas
+[Organisation:]
+Organizácia:
+[Keywords:]
+K¾úèové slová:
+[Language:]
+Jazyk:
+[Interests]
+Záujmy
+[Category:]
+Kategória:
+[Past]
+Okolie
+[Homepage]
+Domovská stránka
+[Search online users only]
+H¾ada iba pripojenıch uívatelov
+
+;IDD_INFO_BACKGROUND
+[Web page:]
+Webová stránka:
+[Past background:]
+Okolné pozadia
+[Interests:]
+Záujmy:
+
+;IDD_INFO_CONTACT
+[e-mail:]
+e-mail:
+[Phone:]
+Telefón:
+
+;IDD_INFO_ICQ
+[UIN:]
+UIN:
+[External IP:]
+Externá IP:
+[Ping:]
+Ping
+[Internal IP:]
+Interná IP:
+[Port:]
+Port:
+[ICQ Version:]
+Verzia ICQ:
+[Miranda Version:]
+Verzia Mirandy:
+[Change my details using the ICQ website]
+Zmeni moje informácie pomocou ICQ webu
+
+;IDD_INFO_LOCATION
+[Street:]
+Ulica:
+[City:]
+Mesto:
+[State:]
+Štát:
+[Postal code:]
+PSÈ/ZIP kód:
+[Country:]
+Krajina:
+[Spoken languages:]
+Jazyky:
+[Timezone:]
+Èasové pásmo:
+[Local time:]
+Miestny èas:
+
+;IDD_INFO_NOTES
+[About:]
+O sebe:
+[My notes:]
+Moje poznámky:
+
+;IDD_INFO_SUMMARY
+[Nickname:]
+Prezívka:
+[First name:]
+Meno:
+[Last name:]
+Priezvisko:
+[Gender:]
+Pohlavie:
+[Age:]
+Vek:
+[Date of birth:]
+Dátum narodenia:
+
+;IDD_INFO_WORK
+[Company:]
+Firma:
+[Department:]
+Oddelenie:
+[Position:]
+Pozícia:
+[Website:]
+WWW stránky:
+
+;IDD_INIIMPORTDONE
+[Database Import Complete]
+Databáza kompletne importovaná
+[The import has completed from]
+Import je kompletnı z
+[What do you want to do with the file now?]
+Èo ïalej robi so súborom?
+[&Recycle]
+Recyklova
+[&Delete]
+Vymaza
+[&Leave]
+Opusti
+[&Move/Rename]
+Presunú/Premenova
+
+;IDD_INSTALLINI
+[Install Database Settings]
+Aplikova nastavenia databázy
+[A file containing new database settings has been placed in the Miranda directory.]
+Súbor obsahuje nové nastavenie databázy a umiestni ich do adresára Mirandy.
+[&View contents]
+Zobrazi obsah
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Bezpeènostnı systém sa zmení, budete varovanı pred nebezpeèiami.
+[Do you want to import the settings now?]
+Chcete importova nastavenia?
+[No to all]
+Nie pre všetko
+
+;IDD_MSGSPLIT
+[Message Session]
+Rozhovor
+[&Multiple >>]
+Hromadná >>
+[Enter message:]
+Správa:
+[Chars:]
+Znaky:
+[&Quote]
+Poiadavka
+[&Send]
+Odosla
+[Read &Next (%u)]
+Èíta ïalšie (%u)
+
+;IDD_MSGTIMEDOUT
+[Send Timed Out]
+Èas k odoslaniu vypršal
+[The message send timed out]
+Èas k odoslaniu správy vypršal
+[Try again]
+Skús znovu
+
+;IDD_NEWVERSION
+[New Miranda Available]
+Je dostupná nová verzia Mirandy
+[%s is using Miranda %s]
+%s pouíva verziu %s
+[You are using Miranda %s]
+Vy pouívate verziu %s
+[Download the latest version from]
+Stiahnu najnovšiu verziu z
+[Notify me again]
+Upozorni ma neskôr
+
+;IDD_OPT_AUTOAWAY
+[Set Away mode when screen saver engages]
+Nastavi stav 'Preè' pri spustení šetrièa obrazovky
+[Set Away mode after]
+Nastav stav 'Preè' po
+[minutes without mouse movement]
+minutách bez pohybu myšou
+[minutes of inactivity]
+minutách neaktivity
+[Set N/A mode after]
+Nastav stav 'Nedostupnı' po
+[minutes of away mode]
+minutách v stave 'Preè'
+
+;IDD_OPT_AWAYMSG
+[Do not reply to requests for this message]
+Neodpoveda automaticky na túto správu
+[Do not pop up dialog asking for new message]
+Nepoadova zadanie novej správy
+[By default, use the same message as last time]
+Ako prednastavenú poui rovnakú správu ako naposledy
+[By default, use this message:]
+Ako prednastavenú poui túto správu:
+;don't translate "%time%" or "%date%"
+[Use %time% for the current time, %date% for the current date]
+Poui %time% pre aktuálny èas, %date% pre aktuálny dátum
+
+;IDD_OPT_CLC
+[Items]
+Poloky
+[Left margin:]
+¼avı okraj
+[pixels]
+pixelov
+[Time:]
+Èas:
+[milliseconds]
+milisekúnd
+[Indent groups by:]
+Odsadzovanie skupín:
+[Grey out entire list when:]
+Potlaèi intenzitu u tıchto poloiek:
+['Hide Offline' means to hide:]
+'Skry nepripojenıch' = skry tıchto:
+[Groups]
+Skupiny
+[Visual]
+Vzh¾ad
+[Disable drag and drop of items]
+Neumoni preahovanie poloiek
+[Disable rename of items by clicking twice]
+Nepremenováva poloky pomocou dvoch klikov
+[Show selection even when list is not focused]
+Zvırazòova vıber i keï je zoznam neaktívny
+[Hot track items as mouse passes over]
+Zvırazòova poloky po prejdení myšou
+[Show counts of number of contacts in a group]
+Zobrazova poèet kontaktov v skupine za názvom skupiny
+[Hide group counts when there are none online]
+Skry poèet kontaktov v skupine ak sú všetci odpojenı
+[Show divider between online and offline contacts]
+Oddeli v zozname pripojenıch a nepripojenıch uívatelov
+[Make selection highlight translucent]
+Poui priehladné oznaèenie vıberu
+[Draw a line alongside group names]
+Zvırazni názvy skupín oddelovacou èiarou
+[Quicksearch in open groups only]
+Rıchle h¾adanie iba v otvorenıch skupinách
+[Sort groups alphabetically]
+Triedi skupiny pod¾a abecedy
+[Scroll list smoothly]
+Plynule posúva zoznam
+
+;IDD_OPT_CLCBKG
+[Contact List Background]
+Pozadie zoznamu kontaktov
+[Background colour:]
+Farba pozadia:
+[Use background bitmap]
+Poui obrázok na pozadí
+[Stretch to width]
+Roztiahnú na šírku
+[Stretch to height]
+Roztiahnú na vıšku
+[Tile horizontally]
+Ved¾a seba
+[Tile vertically]
+Nad sebou
+[Scroll with text]
+Posúva s textom
+[Stretch proportionally]
+Roztiahnú ve¾kos
+[Selection colour:]
+Vyber farbu:
+
+;IDD_OPT_CLCTEXT
+[Fonts]
+Písmo
+[same]
+rovnaké
+[Typeface]
+Typ písma
+[Size]
+Ve¾kos
+[Style]
+Štıl
+[Colour]
+Farba
+[as:]
+ako:
+[Bold]
+Tuèné
+[Italic]
+Kurzíva
+[Underline]
+Podtrhnuté
+[Additional Colours]
+Ïalšie farby
+[Selected text:]
+Vybranı text:
+[Hottrack text:]
+Pri prechode myšou:
+[Gamma correction]
+Gamma korekcia
+[Quicksearch text:]
+Text rıchleho h¾adania:
+[Rows]
+Riadky
+[Row height:]
+Vıška riadku:
+[based on:]
+zaloené na:
+[Size:]
+Ve¾kos:
+[Colour:]
+Farba:
+
+;IDD_OPT_CLIST
+[Always on top]
+Vdy navrchu
+[Hide offline users]
+Skry nepripojenıch uívate¾ov
+[Sort contacts by name]
+Triedi kontakty pod¾a mena
+[Sort contacts by status]
+Triedi kontakty pod¾a stavu
+[Hide empty groups]
+Skry prázdne skupiny
+[Disable groups]
+Skry skupiny
+[Contact Names]
+Mená kontaktov
+[Instead of displaying contacts by their nickname, drag to choose another order:]
+Akou polokou identifikova kontakt v zozname? Pouitá bude vdy prvá dostupná:
+Pod¾a zadanıch kritérií bude triedenı zoznam kontaktov, kde prví má najvyššiu prioritu:
+[Hide contact list after it has been idle for]
+Skry zoznam kontaktov ak nebude pouívanı po
+[seconds]
+sekúnd
+[System tray icon]
+Ikona v oznamovacej oblasti
+[Single click interface]
+Nepouíva dvojklik myšou
+[Show status text in tooltip even when there is a message]
+Zobrazi text stavu v tipoch ak su nastavená v správach
+[When using multiple protocols and statuses differ:]
+Ak je pouitıch viac protokolov a rozdielne stavy:
+[Show icon for]
+Zobrazi ikonu pre
+[Cycle icons every]
+Cyklova kadú ikonu
+[Show multiple icons]
+Zobrazi mnohonásobné ikony
+[Only when statuses differ]
+Iba pri rozdielnych stavoch
+[System tray icon when using multiple protocols]
+Ikona v oznamovacej oblasti pri pouití viacerıch protokolov
+[when statuses differ]
+ak su stavy rozdielne
+[seconds, when statuses differ]
+sekund, ked su stavy rozdielne
+
+;IDD_OPT_CLUI
+[Tool style main window]
+Okno v štıle palety nástrojov
+[Minimize to tray]
+Minimalizova do oznamovacej oblasti
+[Show menu bar]
+Zobrazi menu
+[Show title bar]
+Zobrazi nadpis
+[Easy move]
+Jednoduchı presun
+[Fade contact list in/out]
+Plynule sprieh¾adòova/zobrazova
+[Automatically resize window to height of list]
+Prispôsobi ve¾kos okna dlke zoznamu
+[maximum]
+maximálne
+[% of screen]
+% z obrazovky
+[Size upwards]
+Zväèšova smerom hore
+[Title bar text:]
+Text nadpisu:
+[Translucency options (Windows 2000/XP only)]
+Nastavenie priehladnosti (Windows 2000/XP)
+[Transparent contact list]
+Prieh¾adnı zoznam kontaktov
+[Inactive opacity:]
+Prieh¾adnos neaktívneho okna:
+[Active opacity:]
+Prieh¾ednos aktívneho okna:
+
+;IDD_OPT_FILETRANSFER
+[Received files folder:]
+Zlozka pre prijaté súbory:
+[Create subfolders according to the sender's nick]
+Vytvori podzloku s odosielate¾ovou prezívkouÿ
+[Auto-accept incoming files from people on my contact list]
+Automaticky príjmy súbory od ¾udí v mojom zozname
+[Minimize the file transfer window]
+Minimalizuj okno prenosu súboru
+[Close window when transfer completes]
+Zatvor okno ked je prenos kompletnı
+[Virus scanner]
+Vírusové skenovanie
+[Scan files:]
+Skenova súbory:
+[Never, do not use virus scanning]
+Nikdy, nepouíva vírusové skenovanie
+[When all files have been downloaded]
+A keï sú všetky súbory stiahnuté
+[As each file finishes downloading]
+Po kadom stiahnutí súboru
+[Command line:]
+Príkazovı riadok:
+[%f will be replaced by the file or folder name to be scanned]
+%f je premiestnenı súbor alebo zloka na oskenovanie
+[Warn me before opening a file that has not been scanned]
+varuj pred otvorením ak je súbor neoskenovanı
+[If incoming files already exist]
+Ak prichádzajúci súbor existuje
+[Ask me]
+Opıtaj sa ma
+[Rename (append " (1)", etc.)]
+Premenova (pripoji "(1)", a atï)
+[You will always be asked about files from people not on your contact list]
+Odpoveï ¾uïom ktorı niesu vo vašom zozname kontaktov
+
+;IDD_OPT_HOTKEY
+[Show/Hide:]
+Zobrazi/Skry:
+[Read Msg:]
+Èíta správu:
+[Net Search:]
+H¾ada v sieti:
+[URL:]
+URL:
+[Open in new browser window]
+Otvorí v novom prehliadacom okne
+
+;IDD_OPT_ICONS
+[Show category:]
+Kategória:
+[&Import icons >>]
+Importova ikony >>
+;[The icons from the protocol at the top of the list will be used for the Status menu.]
+[&Load icon set...]
+Naèíta súbor ikon...
+
+;IDD_OPT_ICQ
+[Use &ICQ protocol]
+Poui ICQ protokol
+[ICQ#:]
+ICQ:
+[Password:]
+Heslo:
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+K dokonèeniu zmien ktoré ste urobili sa bude treba odpoji a znovu pripoji do siete ICQ.
+[Show network activity &log...]
+Zobraz sieové aktivíty Mirandy...
+[Send messages slower, but with full acknowledgement]
+Odosla správy s overením (pomalšie odoslanie)
+[Notify me if any of my friends are using a newer version of Miranda than me]
+Upozorni ma, ak niekto z priate¾ov pouíva novšiu verziu Mirandy ne ja
+[Show error messages:]
+Zobrazi chybové správy
+[Expert]
+Expertné nastavenia
+[Lost your ICQ number]
+Zabudli ste svoje ICQ èíslo
+[or password?]
+alebo heslo?
+[Create a new ICQ account using the ICQ website]
+Vytvori novı ICQ úèet pomocou ICQ stránok
+
+;IDD_OPT_ICQNETWORK
+[Server Connection]
+Pripojenie k serveru
+[Login Server:]
+Pripájací server:
+[Port:]
+Port:
+[Reset]
+Reset
+[Keep connection alive (send a blank packet every minute to prevent some proxies idling out)]
+Udriava spojenie (pošle prázdny paket kazdú minútu)
+[Proxy]
+Proxy
+[Use Proxy Server]
+Poui proxy server
+[Proxy Server:]
+Proxy server:
+[Proxy Type:]
+Protokol:
+[Proxy Requires Authorization]
+Proxy vyaduje autorizáciu
+[Username:]
+Uív. meno:
+[Resolve hostnames through proxy]
+Resolvuj mená cez proxy
+[Direct Connections]
+Priame pripojenie
+[Specify ports used for direct connections]
+Porty pre priame pripojenie
+[From port:]
+Od portu:
+[To port:]
+Do portu:
+[Keep connection alive]
+Navdy zachova pripojenie
+
+;IDD_OPT_IGNORE
+[The following events are being ignored:]
+Nasledujúce udalosti budú ignorované:
+[Ignore messages]
+Ignorova správy
+[Ignore URLs]
+Ignorova URL
+[Ignore files]
+Ignorova súbory
+[Suppress online notification]
+Neupozoròova na stav "pripojenı"
+[Ignore all]
+Všetko ignorova
+[Ignore none]
+Neignorova
+[Only the ticked contacts will be shown on the main contact list]
+V zozname kontaktov budú iba oznaèené kontakty
+
+;IDD_OPT_MSGDLG
+[Presets]
+Predvo¾by
+[To quickly change all the options to commonly used presets, click a button:]
+K rıchlej zmene nastavenia môete poui tieto nejpouívanejšie predvo¾by:
+[Split mode]
+Rozdelenı mód
+[Single mode]
+Jednoduchı mód
+[Note:]
+Poznámka:
+[You can achieve more fine-grained control using the options below]
+Vlastnosti rozhovoru môete nastavi podrobnejšie nišie
+[These buttons will also alter some options on the 'Messaging Log' page]
+Tieto prepínaèe môu zmeni nastavenie na karte 'Záznam rozhovorov'
+[Message windows]
+Okná správ
+[Show the send message area (split mode window)]
+Zobrazi oblas odoslanıch a príjatıch správ (rozdelenı reim)
+[Automatically pop up the window when a message is received]
+Automaticky zobrazi okno s novou prijatou správou
+[Save the window size and location individually for each contact]
+Uloi pozíciu a ve¾kos okna individuálne pre kadı kontakt
+[Cascade new windows so they aren't placed directly on top of each other]
+Umiestni nové okno tak, aby nikdy úplne neprekrylo ostatné okná
+[Show button line]
+Zobrazi riadok tlaèítok
+[Show user info line]
+Zobrazi riadok informácií o uívatelovi
+[Send message on Enter]
+Odosla správu po stlaèení Enter
+[Send message on double Enter]
+Odosla správu po dvojitom stlaèení Enter
+[Show 'Quote' button]
+Zobrazi 'Quote' tlaèítko
+[Close the window on clicking 'Send']
+Zavrie okno po odoslaní správy
+[Minimize the window on clicking 'Send']
+Minimalizova okno po odoslaní správy
+[Close the window on clicking 'Reply']
+Uzavrie okno po odoslaní odpovedi
+
+;IDD_OPT_MSGLOG
+[Message window event log]
+Záznam o prijatıch/odoslanıch dátach
+[Event log]
+Zaznamena udalosti
+[Show events singly (with 'Read Next')]
+Zobrazi udalosti samostatne (s 'Èíta ïalšie')
+[Show sent events]
+Zobrazi udalosti odoslania
+[Show file events]
+Zobrazi súborové udalosti
+[Show URL events]
+Zobrazi udalosti URL
+[Show icons]
+Zobrazi ikony
+[Show names]
+Zobrazi mená
+[Show times]
+Zobrazi èasy
+[Show dates]
+Zobrazi dátumy
+[Load history events]
+Nahra udalosti histórie
+[Load unread events only]
+Nahra doposia¾ nepreèítané udalosti
+[Load number of previous events]
+Nahra poèet poslednıch udalostí
+[Load previous events less than]
+Nahra iba udalosti, ktoré sú menšie ne
+[minutes old]
+minút staré
+[Choose font...]
+Vıber písma...
+[Select multiple fonts by dragging or by using the control key]
+Viac poloiek môete vybra ahaním myši alebo pouitím klávesy Ctrl
+
+;IDD_OPT_NETLIB
+[Proxies]
+Proxies
+[Log Options...]
+Vo¾by logovania...
+[Outgoing connections]
+Odchádzajúce pripojenia
+[Use proxy server]
+Poui proxy server
+[Proxy type:]
+Typ proxy:
+[Proxy server:]
+Proxy server:
+[(often %d)]
+(asi %d)
+[Proxy requires authorization]
+Proxy potrebuje autorizáciu
+[Username:]
+Uiv. meno:
+[Password:]
+Heslo:
+[Use NTLM authentication]
+Poui NTLM authentizáciu
+[Resolve hostnames through proxy]
+resulvuj mená cez proxy
+[Incoming connections]
+Prichádzajúce pripojenia
+[Specify ports to be used for incoming connections]
+Vybra porty pre prichádzajúce pripojenia
+[Range:]
+Rozsah:
+[Example: 1050-1070, 2000-2010, 2500]
+Napr: 1050-1070, 2000-2010, 2500
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Musíte sa odpoji a pripoji na aplikovanie tıchto zmien.
+
+;IDD_OPT_PLUGINS
+[Version:]
+Verzia:
+[Description:]
+Popis:
+[Author:]
+Autor:
+[Copyright:]
+Copyright:
+[Homepage:]
+WWW:
+[Download more plugins]
+Získa ïalšie plug-iny
+[Note: Miranda will have to be restarted for changes to take effect.]
+Poznámka: K uplatneniu zmien v nastavení musíte reštartova Mirandu.
+
+;IDD_OPT_SBAR
+[Show status bar]
+Zobrazi stavovı riadok
+[Show icons]
+Zobrazi ikony
+[Show protocol names]
+Zobrazi meno protokolu
+[Show status text]
+Zobrazi stavovı text
+[Right click opens status menu]
+Pravé tlaèítko myši otvára stavové menu
+[Right click opens Miranda menu]
+Pravé tlaèítko myši otvára hlavné menu
+[Show]
+Zobrazi
+[Protocol names]
+Meno protokolu
+[Status text]
+Text stavuÿ
+[Right click opens]
+Pravé tlaèítko otvára
+[Status menu]
+Menu stavovÿ
+[Miranda menu]
+Miranda menu
+[Make sections equal width]
+Rovnaká šírka oddielov
+
+;IDD_OPT_SOUND
+[&Enable Sounds]
+Zapnú &zvuky
+[&Change...]
+Zmeni...
+[&Preview]
+Prehra
+[Download more sounds]
+Stiahnu viac zvukov
+
+;IDD_OPT_VISIBILITY
+[You are visible to this person even when in invisible mode]
+Pre túto osobu ste viditelnı pokia¾ neprejdete do stavu "Neviditelnı"
+[You are never visible to this person]
+Pre túto osobu ste VDY neviditelnı
+
+;IDD_OPTIONS
+[Please select a subentry from the list]
+Prosím vyberte zo zoznamu jednu z podkategórií
+[Show expert options]
+Expertné nastavenia
+[Apply]
+Poui
+
+;IDD_PASSWORD
+[ICQ# & Password]
+ICQ a heslo
+
+;IDD_PLUGINCONFLICT
+[Plugin Conflict]
+Kolízia plug-inov
+[The following plugins all report that they perform the same function. Only one can be active at any time. Please select which you wish to use and click OK. Click Cancel if you wish to use the functionality built in to Miranda.]
+Tieto plug-iny hlásia, e zastávajú rovnaku funkciu. Pre túto funkciu však môe by pouitı iba jeden z nich. Vyberte ten, ktorı si prajete pouíva a stlaète OK. Stlaète Storno ak si prajete aby danú funkciu zaisovala Miranda sama.
+[The feature that they all implement is %s]
+Funkcia ktorú zaisujú je %s
+[You may change your selection at a later time in the Plugins tab of the Options dialog box.]
+Vašu vo¾bu môete zmeni neskôr v Menu/Nastavenie... na karte Plug-iny
+
+;IDD_READAWAYMSG
+[%s Message for %s]
+%s správa pre %s
+[Retrieving %s message...]
+Prijímam %s správu
+
+;IDD_SETAWAYMSG
+[Change %s Message]
+Zmeni %s správu
+[Closing in %d]
+Zavrie (za %d s)
+
+;IDD_URLRECV
+[URL Recieved]
+Prija URL
+[URL:]
+URL:
+[&Open URL]
+Otvori URL
+
+;IDD_URLSEND
+[Send URL]
+Odosla URL
+[To:]
+Pre:
+
+;IDD_WARNINICHANGE
+[Database Setting Change]
+Zmena nastavenia databázy
+[Database settings are being imported from]
+Nastavenie databázy je importované z
+[This file wishes to change the setting]
+Tento súbor zmení nastavenie
+[to the value]
+hodnotu
+[Do you want to allow this change?]
+Prajete si umoni túto zmenu?
+[&Allow all further changes to this section]
+Umoni všetky budúce zmeny v tejto sekcii
+[&Yes]
+Áno
+[&No]
+Nie
+[Cancel Import]
+Zruši importovanie
+
+;IDR_CLISTMENU
+[E&xit]
+Koniec
+[&Status]
+Stav
+[&Offline\tCtrl+0]
+Odpojenı\tCtrl+0
+[On&line\tCtrl+1]
+Pripojenı
+[&Away\tCtrl+2]
+Preè
+[&NA\tCtrl+3]
+Nedostupnı
+[Occ&upied\tCtrl+4]
+Zaneprázdnenı
+[&DND\tCtrl+5]
+Neruši
+[&Free for chat\tCtrl+6]
+Prístupnı k rozhovoru
+[&Invisible\tCtrl+7]
+Neviditelnı
+[On the &Phone\tCtrl+8]
+Telefonujem
+[Out to &Lunch\tCtrl+9]
+Na obede
+
+;IDR_CONTEXT
+[&Hide/Show]
+Skry/Zobrazi
+[&New Group]
+Nová skupina
+[&Hide Offline Users]
+Skry nepripojenıch uívatelov
+[Hide &Empty Groups]
+Skry prázdne skupiny
+[Hide &Offline Users out here]
+Skry nepripojenıch uívatelov nepatriacich do iadnej skupiny
+[Disable &Groups]
+Skry názvy skupín
+[&New Subgroup]
+Nová podskupina
+[&Hide Offline Users in here]
+Skry nepripojenıch uívatelov v tejto skupine
+[&Rename Group]
+Premenova skupinu
+[&Delete Group]
+Zmaza skupinu
+[&Reset to default]
+Vráti sa k pôvodnemu nastaveniu
+[&Add to List]
+Prida do zoznamu
+[Add to &Group]
+&Prida do skupiny
+[Send &Message]
+Odosla správu
+[&Copy]
+Kopírova
+[Co&py All]
+Kopírova všetko
+[Select &All]
+Vybra všetko
+[C&lear Log]
+Odstráni záznamy v Logu
+[Open in &new window]
+Otvori v novom okne
+[&Open in existing window]
+Otvori v tomto okne
+[&Copy link]
+Kopírova odkaz
+
+;HOMERIC ADDED
+[&System History]
+História systému
+
+
+; /----------------------------------------------------------\
+; |  Database Editor 0.0.0.2                                 |
+; \----------------------------------------------------------/
+
+[STRING]
+[BINARY]
+[DWORD]
+[WORD]
+[BYTE]
+[Miranda]
+[Current user]
+Aktuálny uívatel
+[Name]
+Meno
+[Data]
+Dáta
+[Type]
+typ
+[Size]
+Ve¾kos
+[Error]
+Chyba
+[Please enter value name!]
+Zadaj meno hodnoty!
+[Value name already existed!]
+Hodnota u existuje!
+[Enter %s Value]
+Zadaj %s hodnotu
+[Enter STRING Value]
+Zadaj STRING hodnotu
+[Confirm Contact Delete]
+Potvrï vymazanie kontaktu
+[Confirm Module Delete]
+Potvrï vymazanie modulu
+[Confirm Setting Delete]
+Potvrï vymazanie nastavenia
+[Delete contact "%s"?]
+Vymaza kontakt "%s"?
+[Delete module "%s"?]
+Vymaza modul "%s"?
+[Delete module "%s" from all of the contacts?]
+Vymaza modul "%s" zo všetkıch kontaktov?
+[Delete these settings?]
+Vymaza tieto nastavenia?
+[Database &Editor]
+Editor databázy
+[Database Editor]
+Editor databázy
+[Value name:]
+Hodnota name:
+[Value data:]
+Hodnota data:
+[Edit STRING value]
+Editova STRING hodnotu
+[Base]
+[&Hexadecimal]
+Šestnástkovo
+[&Decimal]
+Desiatkovo
+[&Database]
+Databáza
+[Refresh &modules]
+Obnovi moduly
+[Refresh &settings]
+Obnovi nastavenie
+[E&xit]
+Koniec
+[D&elete]
+Vymaza
+[&New]
+Novı
+
+
+; /----------------------------------------------------------\
+; |  dbExport v1.0.0.1                                       |
+; \----------------------------------------------------------/
+
+[I could not open file '%s' for writing.\nCheck disk space and your write privileges.]
+Nemôem otvori súbor '%s' pre zápis.\nSkontrolujte miesto na disku a zapisovacie práva. 
+[&Export to autoexec.ini...]
+Exportova do autoexec.ini ...
+[Exports your settings into an autoexec_<yourname>.ini file.]
+Exportuje vaše nastavenia do autoexec_<vašemeno>.ini súboru.
+
+
+; /----------------------------------------------------------\
+; |  History Sweeper 0.1.0.8                                 |
+; \----------------------------------------------------------/
+
+[History Sweeper]
+Èistiè histórie
+[Sweep history message(s)?]
+Vyèisti históriu správ?
+[Sweep system history?]
+Vyèisti systémovú históriu?
+[Sweep all history?]
+Vyèisti všetku históriu?
+[Sweep history for selected contacts?]
+Vyèisti históriu pre vybrané kontakty?
+[History message(s) succefully deleted.]
+Správy v histórii su zmazané.
+[Sweep history]
+Èistiè histórie
+[Sweep system history]
+Èisti systémovú históriu
+[Sweep all history]
+Èisti všetky histórie
+[Sweep history from selected contacts]
+Èisti históriu vybranıch kontaktov
+[Sweep history for this contacts:]
+Èisti históriu tıchto kontaktov:
+[Sweep history at Miranda startup]
+Vymaza históriu pri štarte Mirandy
+[Sweep history at Miranda shutdown]
+Vymazat históriu pred ukonèením Mirandy
+[Put an item in the main menu*]
+V mojom menu*
+[Put an item in the contact menu*]
+V menu kontaktov*
+[Main menu item action:*]
+Moje menu akcii:*
+[Startup/Shutdown action:]
+Štartové/Ukonèovacie akcie:
+[* Note: Miranda IM will have to be restarted for changes to take effect.]
+* Poznámka: Zmeny sa prejavia a po restarte Mirandy IM.
+
+
+; /----------------------------------------------------------\
+; |  Jabber v0.1.0.9                                         |
+; \----------------------------------------------------------/
+
+[Ok]
+OK
+[Cancel]
+Storno
+[Close]
+Zavrie
+[Agents...]
+Agenti...
+[Personal vCard...]
+Osobná karta...
+[JID]
+Jabber ID
+[Error]
+Chyba
+[Redirect]
+Presmerovanie
+[Bad request]
+Zlı dotaz
+[Unauthorized]
+Neautorizovanı
+[Payment required]
+[Forbidden]
+Zakázanı
+[Not found]
+Nenájdenı
+[Not allowed]
+Nepovolenı
+[Not acceptable]
+Neakceptovanı
+[Registration required]
+Potrebná registrácia
+[Request timeout]
+Poiadavka bez odozvy
+[Conflict]
+konflikt
+[Internal server error]
+Interná chyba servera
+[Not implemented]
+Neimplementované
+[Remote server error]
+Chyba vzdialeného servera
+[Service unavailable]
+Nedostupná sluba
+[Remote server timeout]
+Vzdialenı server bez odozvy
+[Unknown error]
+Neznáma chyba
+[Unknwon error message]
+Neznáma chybová správa
+[Jabber Connection Error]
+Jabber pripájacia chyba
+[Enter password for]
+Zada heslo pre
+[Jabber Account Registration]
+Jabber registrácia konta
+[Register]
+Registrova
+[No message]
+iadna správa
+[Connecting...]
+Pripájam ...
+[Sending registration information...]
+Zasla registraèné informácie
+[Requesting registration instruction...]
+Prija registraèné informácie
+[Error: Not enough memory]
+Chyba: málo pamäte
+[Error: Cannot resolve server address]
+Chyba: nemono nájs serverovú adresu
+[Error: Cannot connect to the server]
+Chyba: nemono sa pripoji k serveru
+[Error: Connection lost]
+Chyba: pripojenie stratené
+[Registration successful]
+Úspešná registrácia
+[connection]
+pripája
+[Username:]
+Uív.meno:
+[Password:]
+Heslo:
+[Resource:]
+Zdroj:
+[Save password]
+Uloi heslo
+[Login Server:]
+Prihlasovací server:
+[Port:]
+Port:
+[Register New User]
+Registrova nového uívate¾a
+[Jabber Protocol Option]
+Vo¾by jabber protokolu
+[List of public servers]
+Zoznam verejnıch serverov
+[Expert]
+Expert
+[Manually specify connection host]
+Manuálne nastavenie pripojenia k serveru
+[Host:]
+Server:
+[Manually specify external address for file transfer in proxy mode]
+Manuálne nastavenie externej adresy pre prenos súboru v proxy móde
+[Keep connection alive]
+Obnovovanie spojenia
+[User Directory:]
+Adresár uívate¾a:
+[Messaging Language:]
+Jazyk správ:
+[System default]
+Prednastavenı systém
+[These changes will take effect the next time you connect to the Jabber network.]
+Tieto zmeny sa prejavia pri nasledujúcom prihlásení sa do Jabber siete.
+[Jabber Agents]
+Jabber agenti
+[Register/Search Jabber Agents]
+Registrácia/H¾adanie jabber agentov
+[Jabber server:]
+Jabber server:
+[Browse]
+Listova
+[JID]
+JID
+[Description]
+Popis
+[Register]
+Registrova
+[Search]
+H¾ada
+[Registered Jabber Transports]
+registrova jabber transport
+[Status]
+Stav
+[Online]
+Pripojenı
+[Offline]
+Odpojenı
+[Log on]
+Prihlási
+[Log off]
+Odhlási
+[Unregister]
+Neregistrovanı
+[Jabber Agent Registration]
+Registrácia jabber agenta
+[Instruction:]
+Inštrukcie:
+[Please wait...]
+Prosím èakaj ...
+[Resources:]
+Zdroje:
+;[Subscription type:]
+[both]
+[to]
+pre
+[from]
+od
+[none]
+iadne
+[Male]
+Mu
+[Female]
+ena
+; [JABBER] Personal vCard
+[Personal vCard]
+Osobná karta
+[Jabber vCard]
+Jabber karta
+[Personal]
+Osoba
+[Full name:]
+Plné meno:
+[Nick name:]
+Prezívka:
+[First name:]
+Meno:
+[Middle:]
+Stredné
+[Last name:]
+Priezvisko
+[Date of birth:]
+Dátum narodenia:
+[YYYY-MM-DD]
+RRRR-MM-DD
+[Gender:]
+Stav:
+[Occupation:]
+[Homepage:]
+Domáca stránka:
+[Contacts]
+Kontakty
+[E-mail:]
+E-mail:
+[Phone:]
+Telefón:
+[Home]
+Domov
+[Work]
+Práca
+[Company:]
+Spoloènos:
+[Department:]
+Odvetvie:
+[Title:]
+Názov:
+[Address1:]
+Adresa1:
+[Address2:]
+Adresa2:
+[City:]
+Mesto:
+[State:]
+Štát:
+[ZIP:]
+PSÈ:
+[Country:]
+Krajina:
+[Photo]
+Fotografia
+[Note]
+Poznámka:
+[Description:]
+Popis:
+[All Bitmaps]
+Všetky obrázky
+[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
+Podporujú sa iba JPG, GIF a BMP obrázky menšie ne 40kB.
+[Update Now]
+Aktualizova
+[Save changes]
+Uloi zmeny
+[Updating]
+Aktualizujem
+[Saving]
+Ukladám
+; [JABBER] Tlen plugin specific
+[Show invisible users]
+Zobraz neviditelnıch uívate¾ov
+
+
+; /----------------------------------------------------------\
+; |  Message Export 2.7.0.0                                  |
+; \----------------------------------------------------------/
+
+[Open E&xported History]
+Otvori exportovanú históriu
+[Plugins]
+[Message export]
+Exportova správu 
+[Export directory]
+Adresaár exportu
+[Browse]
+Cesta
+[Default file]
+Prednastavenı súbor
+[Export format]
+Formát exportu
+[Max column width]
+D¾ka riadku
+[Time format]
+Formát èasu
+[File]
+Súbor
+[Nick]
+Prezívka
+[UIN]
+[Auto filename]
+Automatické meno súboru
+[Clear all]
+Všetko vyèisti
+[Help]
+Pomoc
+[Export all history]
+Exportova celú históriu
+[You have unapplyed changes do you wish to apply these first ?]
+Neaplikované zmeny sa majú aplikova ako prvé?
+[No contacts found to export]
+iadne kontakty na export.
+[Failed to export at least one contact]
+Chyba pri exporte kontaktu
+[Max line width must be at least %d]
+Maximálna d¾ka riadku musí by do %d
+[Exporting old messages]
+Exportujem staré správy
+[Reading database information ( Phase 1 of 2 )]
+Èítam databázové informácie (Èas 1 z 2)
+[Sorting and writing database information ( Phase 2 of 2 )]
+Triedim a zapisujem databázové informácie (Èas 2 z 2)
+[Select Destination Directory]
+Vyber cie¾ovı adresár
+[The following user added you to their contact list:]
+Vybranı uívate¾ bol pridanı do vášho zoznamu kontaktov:
+[The following user made an authorization request:]
+Vybranı uívate¾ poaduje autorizáciu:
+[Message has not been saved !]
+Správa nebola uloená!
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+Chyba v ceste ku Msg_Export.dll
+[Failed to move to the end of the file :\n]
+Chyba v ukonèení súboru :\n
+[Failed to open or create file :\n]
+Chyba v otvorení alebo vytvorení súboru :\n
+[The following user added you to their contact list:]
+Vybranı uívate¾ bol pridanı do vášho zoznamu kontaktov:
+[The following user made an authorization request:]
+Vybranı uívate¾ poaduje autorizáciu:
+[Nick      :]
+Prezívka   :
+[FirstName :]
+Meno       :
+[LastName  :]
+Priezvisko :
+[e-mail    :]
+E-mail     :
+[Reason    :]
+Dôvod      :
+[Failed to write message to the file :\n]
+Chyba pri zápise správy do súboru :\n
+[Failed to write URL/File to the file :\n]
+Chyba pri zápise URL/Súboru do súboru :\n
+[URL: ]
+[File: ]
+Súbor:
+[Description: ]
+Popis:
+[EmailExpress from:]
+EmailExpres od:
+[No from address]
+Bez odosielatela
+[Failed to write EmailExpress to the file :\n]
+Chyba pri zapise EmailExpres do súboru: \n
+[Failed to write SMS to the file :\n]
+Chyba pri zápise SMS do súboru :\n
+[Replace miranda history]
+Prepísa históriu mirandy
+[Use internal viewer]
+Poui internı prehliadaè
+[You need to restart miranda to change the history function]
+Musíte reštartova mirandu pre zmenu funkcií histórie
+[History file for %s (%s)]
+Súbor histórie pre %s (%s)
+[Find...]
+H¾ada ...
+[Close]
+Zatvori
+[External]
+Externı
+[Search string was not found !]
+H¾adanı reazec nebol nájdenı!
+[File name for the user \"%s\" has changed !\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file ?]
+Meno suboru uívate¾a \"%s\" je zmenené!\n\nz:\t%s\nna:\t%s\nPremenova súbor?
+[Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
+Chyba pri premenovávaní súboru\n\nz:\t%s\nna:\t%s\n\nChyba: %s
+[&Yes]
+Áno
+[Yes to &All]
+Áno pre všetko
+[&No]
+Nie
+[No to A&ll]
+Nie pre všetko
+[Color...]
+Farba...
+[Font...]
+Typ písma...
+[Failed to delete the file]
+Chyba pri mazaní súboru
+[Prompt to delete file]
+Vymaza súbor
+[Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.]
+Nemono premiestni Mirandu Historiu.\r\nVyaduje to dve zmeny v Mirande.
+[User has been deleted do you want to delete the file ?]
+Uívate¾ môe maza tieto súbory?
+[Syntax highlight]
+Zoznam syntax-u
+[File viewer]
+Prehliadaè súborov
+[Append extra new line]
+Prida extra novı riadok
+[WebPager from:]
+WebPager od:
+[User &Details]
+Detaily uívate¾a
+[Export selected]
+Vıber exportu
+[Set to default filename]
+Prednastavi meno súboru
+
+
+; /----------------------------------------------------------\
+; |  MSN 0.1.4.9                                             |
+; \----------------------------------------------------------/
+
+[Set Nickname]
+Nastav prezívku
+[Set &Nickname]
+Nastav prezívku 
+[MSN Messenger]
+MSN Messenger
+[Network]
+Sie
+[MSN]
+MSN
+[Full e-mail:]
+Celı e-mail:
+[Password:]
+Heslo:
+[Login server:]
+Prihlasovací server
+[Nickname:]
+Prezívka
+[Create a new MSN messenger account using the MSN website]
+Vytvor nové MSN konto s pouitím MSN web stránky
+[Keep connection alive (send a ping packet every minute)]
+Zabezpeèi stálu konektivitu (posle paket kadú minútu)
+[Disable to notify receiving hotmail]
+Vypnú notifikáciu došlého hotmailu
+[Automatically get your host for file sending to below]
+Automaticky pridá váš host k suboru pre odoslanie
+[Your host (or router):]
+Vaše PC (alebo router):
+[Disable Set Nickname Menu]
+Zakáza menu na nastavenie prezívky
+; for multichat
+[%s (%s) has joined the chat]
+%s (%s) chce keca
+[%s (%s) has joined the chat with %s]
+%s (%s) chce keca s %S
+; Blocking
+[(Blocking)]
+(Blokovanie)
+[&Block/Unblock]
+Zablokuj/Odblokuj
+;
+;opts Hotmail Notify
+[Hotmail Notify]
+Hotmail notifikácia
+[Hotmail Notify - PopUp Options]
+Hotmail notifikácia - PopUp vo¾by
+[PopUps]
+PopUps
+[Colours]
+Farby
+[Background colour]
+Farba pozadia
+[Text colour]
+Fraba textu
+[&Use Windows colours]
+Poui farby Windowsu
+[Previe&w]
+Ukáza
+;
+;hotmail recieved
+[A new mail has come from %s (title: %s).]
+Máte novı mail od %s (predmet: %s)
+[A new mail has come from %s (%s) (title: %s).]
+Máte novı mail od %s (%s) (predmet: %s).)
+[Unread mail is available.]
+Nepreèítanı mail je dostupnı
+;
+;for popup.dll
+[A New Hotmail has come!]
+Maáte novı Hotmail!
+[Test: Arrival Hotmail]
+Test: Doruènı Hotmail
+[Hotmail from %s]
+Hotmail od %s
+[Subject: %s]
+Predmet: %s
+[Hotmail from %s (%s)]
+Hotmail od %s (%s)
+;
+;hotmail's sound opts
+[Hotmail]
+Hotmail
+;
+;error
+[The MSN protocol does not allow you to communicate with others when you are invisible]
+MSN protokol nepovoluje komunikovat s ostatnımi èo sú neviditelnı
+[Your username or password is incorrect]
+Vaše meno alebo heslo je chybné
+[Unrecognised error %d. The server has closed our connection]
+Chyba %d. Server vás odpojil
+;contact
+[You must be online to add MSN contacts]
+Musíte by pripojeny na pridanie MSN kontaktu
+;opts
+[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+Pre uplatnenie zmien sa musite nanovio prihlási do siete MSN Messenger.
+
+
+; /----------------------------------------------------------\
+; |  Net Send Protocol 0.0.3.6                               |
+; \----------------------------------------------------------/
+
+[User/Computer/IP]
+Uívate¾/Poèítaè/IP
+[Can't register netbios names.\nPlease stop the messenger service and try again.]
+Nemono registrova netbios meno.\nZastavte slubu messenger a skuste to znovu.
+[Can't register netbios names.\n Please exit winpopup and try again.]
+Nemono registrova netbios meno.\nUkonèite winpopup okno a skuste to znovu.
+[Net send protocol]
+Net send protocol
+[Network]
+Sie
+
+[On sending msg identify with:]
+Zasla identifikaènú správu s:
+[computer name]
+meno poèítaèa
+[user name]
+uívatelské meno
+[Min status check interval:]
+Interval kontroly stavu:
+[min.]
+min.
+[Use name lookup on msg receiving]
+Poui meno z došlej správy
+[Turn off when offline]
+Vypnú keï si offline
+[Security:]
+Bezpeènos:
+[Don't trust on names in message]
+Nemono overi meno v správe
+[Don't listen on mailslot (needs restart)]
+Nemono listova v doruèenıch správach (treba reštart)
+[Use name cache when:]
+Poui meno cahce keï:
+[adding contacts]
+prida kontakt
+[receive message]
+prija správu
+
+; /----------------------------------------------------------\
+; |  NewStatusNotify 1.1.1.8                                 |
+; \----------------------------------------------------------/
+
+;ONLINE
+[(M) is back online!]
+je opä pripojenı!
+[(F) is back online!]
+je opä pripojená!
+[(U) is back online!]
+je opä pripojenı!
+
+;OFFLINE
+[(M) went offline! :(]
+je odpojenı! :(
+[(F) went offline! :(]
+je odpojená! :(
+[(U) went offline! :(]
+je odpojenı! :(
+
+;INVISIBLE
+[(M) hide in shadows...]
+je nevidite¾nı...
+[(F) hide in shadows...]
+je nevidite¾ná...
+[(U) hide in shadows...]
+je nevidite¾nı...
+
+;FREEFORCHAT
+[(M) feels talkative!]
+je vo¾nı pre rozhovor!
+[(F) feels talkative!]
+je vo¾ná pre rozhovor!
+[(U) feels talkative!]
+je vo¾nı pre rozhovor!
+
+;AWAY
+[(M) went Away]
+je preè
+[(F) went Away]
+je preè
+[(U) went Away]
+je preè
+
+;NA, NotAvailable
+[(M) isn't there anymore!]
+je nedostupnı!
+[(F) isn't there anymore!]
+je nedostupná!
+[(U) isn't there anymore!]
+ije nedostupnı!
+
+;OCCUPIED, BUSY
+[(M) has something else to do.]
+je zaneprázdnenı.
+[(F) has something else to do.]
+je zaneprázdnená.
+[(U) has something else to do.]
+je zaneprázdnenı.
+
+;DND, Do Not Disturb
+[(M) doesn't want to be disturbed!]
+nemá sa ruši!
+[(F) doesn't want to be disturbed!]
+nemá sa ruši!
+[(U) doesn't want to be disturbed!]
+nemá sa ruši!
+
+;OUTTOLUNCH
+[(M) is eating something]
+je na obede
+[(F) is eating something]
+je na obede
+[(U) is eating something]
+je na obede
+
+;ONTHEPHONE
+[(M) had to answer the phone]
+telefonuje
+[(F) had to answer the phone]
+telefonuje
+[(U) had to answer the phone]
+telefonuje
+
+;
+;General options
+;
+[Notify]
+Notifikácia
+[Notify when a contact changes to one of these statuses]
+Oznám keï sa kontakt zmení na jeden zo stavov
+[&When people go offline too]
+Keï je èlovek odpojenı
+[Plugin activation]
+Aktivácia pluginu
+[Temporarily disable NewStatusNotify (disables popups and sounds)]
+Doèasne odpoji NewStatusNotify (odpoji okná a zvuky)
+[Put an item in the main menu to easily enable/disable the plugin (note: requires a restart of Miranda)]
+Umoni jednoduché spúštanie/ukonèenie pluginu (je nutnı reštart Mirandy)
+[Show PopUps when I connect]
+Zobraz oznámenie ak je pripojenı
+[Sound options]
+Nastavenia zvuku
+[Use Internal &Speaker]
+Poui vnútornı speaker
+[&Avoid clipping]
+Zruši zobrazenia
+[On left click]
+¼avım klikom
+[Dismiss]
+Zruši
+[Open message]
+Otvori správu
+[On right click]
+Pravım klikom
+[Open user menu]
+Otvor uívate¾ské menu
+:
+;Individual sounds
+;
+[Individual Sounds]
+Individuálne zvuky
+[Nickname]
+Prezívka
+[Instructions]
+Inštrukcie
+[Double click on a nickname to configure his/hers sounds for each status. Note that you can use the same sound for more than one status or more than one contact if you wish.]
+Dvojklik na prezívku konfiguruje zvuky stavov. Pouite ak pouívate rovnakı zvuk pre viac ako jeden stav vo vašom zozname kontaktov.
+[When the Individual Sounds page gets opened, you can:]
+Ak je individuálny zvuk otvorenı :
+[- configure a sound either by selecting a status and then clicking on ""Change"", or by double clicking on the status itself.]
+- konfigurova zvuk ak je vybranı a stlaè ""Zmeni"", alebo dva krát kliknite na stav.
+[- delete a sound either by selecting a status and then clicking on ""Delete"" or by pressing the DEL key. When you delete a sound, the default one will be used.]
+- vymaza zvuk ak je vybratı a stlaè ""Vymaza"", alebo stlaète DEL klavesu. Ak vymaete zvuk, nastaví sa na prednastavenı.
+[Status]
+Stav
+[Sound for the status]
+Zvuk pre stav
+[(default sound)]
+(prednastavenı zvuk)
+[&Change]
+Zmeni
+[&Preview]
+Zobrazi
+[&Delete]
+Vymaza
+;
+;PopUp Options
+;
+[Status Notify]
+Oznámenie stavu
+[&Use Windows colours]
+Poui Windows farby
+[Use standard status &descriptions]
+Poui štandardné nastavenia stavov
+[Hey, it's you!]
+Test, ste to vy!
+[Hey, it *was* you!]
+Test, boli ste to vy!
+[Previe&w]
+Zobrazi
+;
+;Status sounds
+;
+[User: Online]
+Uívate¾: pripojenı
+[User: Offline]
+Uívate¾: odpojenı
+[User: Away]
+Uívate¾: vonku
+[User: Not Available]
+Uívate¾: nedostupnı
+[User: Occupied]
+Uívate¾: zaneprázdnenı
+[User: Do Not Disturb]
+Uívate¾: neruši
+[User: Free For Chat]
+Uívate¾: vo¾nı na rozhovor
+[User: Invisible]
+Uívate¾: nevidite¾nı
+[User: Out To Lunch]
+Uívate¾: na obede
+[User: On The Phone]
+Uívate¾: telefonuje
+
+;
+;Menu item
+;
+;These work only with 0.1.2.2 nightly.
+[Disable status &notification]
+Vypni oznamovanie stavov
+[Enable status &notification]
+Zapni oznamovanie stavov
+;For people with 0.1.2.1 there is:
+[Enable/Disable status &notification]
+Zapnú/Vypnú oznamovanie stavov
+[Automatically turn off PopUps and Sounds on status change]
+Automaticky vypni oznamy a zvuky pri zmene štatútu
+[Configure]
+Konfigurova
+[Automatically disable sounds or popups when I change to:]
+Automaticky odpoj zvuky alebo oznamy ak sa zmení na:
+[Do not warn me for people not in my Contact List]
+Neinformuj ma, ak èlovek nieje v zozname kontaktov
+[Read status &message]
+Èíta stav správy
+[Back]
+Spä
+[Text]
+Text
+[Colours]
+Farby
+[Sounds (Individual Statuses)]
+Zvuky (jednotlivé statusy)
+[(was %)]
+(co %)
+[Show &previous status too]
+Zobraz predchádzajúci stav
+[Log]
+Log
+[&Log status changes to file]
+Zapíš zmenu stavu do súboru
+[Timeout]
+Èasovı limit
+[&From PopUp plugin]
+Z PopUp pluginu
+[&Custom]
+Volite¾né
+[P&ermanent]
+Permanentne
+
+
+; /----------------------------------------------------------\
+; |  Nosound 0.4.3.0                                         |
+; \----------------------------------------------------------/
+
+[&Disable all sounds]
+Vypnú zvuky
+[&Enable sounds]
+Zapnú zvuky
+[Online mode]
+Pripojenı
+[Away mode]
+Preè
+[DND mode]
+Neruši
+[NA mode]
+Nedostupnı
+[Occupied mode]
+Zaneprázdnenı
+[Free for chat mode]
+Prístupnı k rozhovoru
+[Invisible mode]
+Neviditelnı
+[Enable sounds in]
+Aktivova zvuky v
+[Hide the "toggle sound" menu item (requires restart of Miranda)]
+Skry poloku v systémovom menu (vyaduje reštart Mirandy)
+[Flash systray icon in]
+Blikajúca ikona v oznamovacej oblasti
+
+
+; /----------------------------------------------------------\
+; |    Notes & Reminders 0.0.3.1                             |
+; \----------------------------------------------------------/
+
+[&Close]
+Zavrie
+[Notes & Reminders]
+Poznámky & Pripomienky
+[Plugins]
+[Notes && Reminders]
+Poznámky && Pripomienky
+[&New Note]
+Nová poznámka
+[&Show / Hide Notes]
+Zobrazi/Skry poznámky
+[&Delete All Notes]
+Vymaza všetky poznámky
+[&New Reminder]
+Nová pripomienka
+[&View Reminders]
+Zobrazi pripomienku
+[&Delete All Reminders]
+Vymaza všetky pripomienky
+[Remove Note]
+Vymaza poznámku
+[Hide Note]
+Skry poznámku
+[Togle On Top]
+Vdy na vrchu
+[Undo]
+Spä
+[&Copy]
+Kopírova
+[&Paste]
+Vloi
+[C&ut]
+V&ybra
+[C&lear]
+Vyè&isti
+[&Add Reminder]
+Prida pripomienku
+[Add Reminder]
+Prida pripomienku
+[Trigger On Time && Date:]
+Spusti v èase a dátume:
+[Date]
+Dátum
+[Time]
+Èas
+[Reminder Note:]
+Text pripomienky:
+[Reoccurence]
+Opakovanie
+[None]
+iadne
+[Daily]
+Denne
+[Weekly]
+Tıdenne
+[Monthly]
+Mesaène
+[Reminders List]
+Zoznam pripomienok
+[Date of activation]
+Dátum aktivácie
+[Reminder text]
+Text pripomienky
+[Add New]
+Prida novú
+[Add New Reminder]
+Prida novú pripomienku
+[Delete Reminder]
+Vymaza pripomienku
+[Delete All Reminders]
+Vymaza všetky pripomienky
+[&Dismiss]
+&Zruši
+[Notify me Again in]
+Pripomeò znovu v
+[Reminder]
+Pripomienka
+[min.]
+min.
+[After :]
+po :
+[]
+[Note Colors]
+Farby znakov
+[Note Caption Color]
+Farba hlavièky
+[Note Body Color]
+Farba textu
+[Note Fonts]
+Font textu
+[Sample Text Caption]
+Testovacia hlavièka
+[Sample Text Body]
+Testovací text
+[Pick Font for Caption]
+Vybra font pre hlavièku
+[Pick Font for Body]
+Vybra font pre text
+[Hot Keys]
+Rıchle klávesy
+[New note Hot Key]
+Nová rıchla klávesa
+[Show/Hide Notes Hot Key]
+Zobraz/Skry rıchle klávesy
+[New Reminder Hot Key]
+Nová pripomienka rıchlej klávesy
+[Note Transparency (Windows 2K && XP)]
+Transparentnı znak (Windows 2K && XP)
+[Default Note Size]
+Prednastavená ve¾kos znaku
+[Width (Pixels)]
+Šírka (pixely)
+[Height (Pixels)]
+Vıška (pixely)
+[Startup options]
+Vo¾by po štarte
+[Reset to defaults]
+Spä na prednastavené
+[Show notes at startup]
+Zobraz text po štarte
+[Add Contact list menu items]
+Prida kontakt menu
+[(Require restart of Miranda)]
+(musíte reštartova Mirandu)
+[Use this sound for reminders :]
+Poui zvuk pre pripomienku :
+[Sound...]
+Zvuk...
+
+
+; /----------------------------------------------------------\
+; |  PopUp 1.0.1.9                                           |
+; \----------------------------------------------------------/
+
+;
+;Group
+;
+[PopUp]
+PopUp
+;
+;General Options
+;
+[General Options]
+Základné nastavenia
+[PopUp Options]
+PopUp nastavenia
+[Sample text]
+Vzorovı text
+[Set &Font]
+Nastavi font
+[Contents]
+Obsah
+[Use &bold font for nick]
+Poui hrubı font pre prezívku
+[Display &Time]
+Zobrazi èas
+[Show s&econd line]
+Zobrazi sekundovı riadok
+[Size]
+Ve¾kos
+[En&large PopUps by]
+Zväèši okná pod¾a
+[You cannot specify a value lower than %d and higher than %d.]
+Nezadali ste hodnotu menšiu alebo väèšiu ako %d.
+[&Dynamically resize the popups]
+Dynamicky meni ve¾kos okna
+[Effects]
+Efekty
+[A&nimate PopUps (98/ME/2000/XP)]
+Animova PopUps (98/ME/2000/XP)
+[Fade &in/out (2000/XP)]
+Miznú do/z (2000/XP)
+[Use Tr&ansparency]
+Poui transparentné
+[Transparency options (2000/XP)]
+Transparentné nastavenia (2000/XP)
+[Start windows in the...]
+Pusti okná v ...
+[... upper left corner]
+... v¾avo hore v rohu
+[... lower left corner]
+... v¾avo dolu v rohu
+[... lower right corner]
+... vpravo dolu v rohu
+[... upper right corner]
+... vpravo hore v rohu
+[... center]
+... v strede
+[Spread...]
+Radenie
+[... horizontally]
+... vodorovne
+[... vertically]
+... zvislo
+[Use a...]
+Poui ako ...
+[... beveled style]
+... šikmı štıl
+[... flat style]
+... plochı štıl
+[Miscellanea]
+Rozmanitos
+[PopUp Delay (seconds)]
+PopUp dlka (sekundy)
+[Background]
+Pozadie
+[Text]
+Text
+[&Use Windows colours]
+Poui farby Windowsu
+[Previe&w]
+Zobrazi
+[Hey, this is a status message!]
+Test, to je správa štatútu!
+[Hey, this is a... real message!]
+Test, to je reálna správa!
+;1.0.0.2
+[Reorder PopUps]
+Preradi popups
+;1.0.0.4
+[&Minimum width]
+Minimálna šírka
+;1.0.0.5
+[This is a notifying message (for developers)]
+Toto je notifikaèná správa (pre vıvojárov)
+[This is a warning message (for developers)]
+Toto je varovacia správa (pre vıvojárov)
+[Ok, something went wrong in the "On Top" setting. Report back this error value: %d]
+Ok, nieèo je zlé v "On Top" nastavení. Spätnı report tejto chyby: %d
+;1.0.0.7
+[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+Ok, nieèo je zlé v "%s" nastavení. Spätnı report má hodnoty:\nFacility: %X\nKód chyby: %X\nÈíslo riadku: %d
+[Ma&ximum width]
+Maximálna šírka
+[pixels]
+bodov
+[Advanced Options]
+Rozšírené nastavenia
+;[Multimonitor (98/ME/2000/XP)]
+[Start the popups in the monitor that contains]
+Start PopUp s monitorovaním 
+[Miranda's window]
+Okno Mirandy
+[the active window]
+aktívne okno
+;1.0.1.2
+[Disable &popup module]
+Odpoj popup modul
+[Enable &popup module]
+Zapoj popup modul
+;[Concurrent PopUps]
+[Use multiple threads]
+Poui viaceré thready
+[Note: this option may (and may not) cause some unexpected crashes, be sure to disable it before reporting a bug.]
+Poznámka: toto nastavenie moze spôsobi pady programu. Pred odoslaním reportu alebo bugu ho vypnite.
+[Multiline &popups]
+Viacradkové popup okná
+[Hey, this is a two lined message!\nCool, isn't it?]
+Hej, to je dvojriadková správa!\nSuperm èi nie?
+[opacity: %d%%]
+neprieh¾adnos: %d%%
+
+
+; /----------------------------------------------------------\
+; |  RSS v0.0.1.2                                            |
+; \----------------------------------------------------------/
+
+[connection]
+pripojenie
+[&Help]
+Pomoc
+[&Store news in database]
+Zobraz novinky v databaze
+[Open history]
+Otvori históriu
+[Save the windows size and location &individually for each feed]
+[Feed enabled]
+[Feed disabled]
+[Do not show warning, help and &error messages]
+[Feed ID]
+[RSS plugin can't connect to the server %s, it may be temporarily down. Please try again later.]
+[RSS plugin is unable to resolve the name of the server %s.]
+[View Feed's History]
+[Read &Next (%u)]
+[RSSNews plugin can't find windows sockets version 1.1. This plugin doesn't will work.]
+[News]
+Novinky
+[No description given]
+[Feed]
+[Link]
+[Select a feed to manage.]
+[Select a feed to delete.]
+[Warning]
+[Enter a value in Title field.]
+[Enter a value in Server field.]
+[Enter a value in Location field.]
+[Manage feed]
+[Adding new feed]
+[Feed options]
+[Title :]
+[Server :]
+[Location :]
+[Port :]
+[Check every]
+[minutes]
+[Maximum news displayed]
+[(0 = no limit)]
+[Example]
+[Real URL :]
+[http://www.mynewsserver.com/news/feed.xml]
+[goes to]
+[www.mynewsserver.com]
+[/news/feed.xml]
+[&Ok]
+[&Cancel]
+[&Add new feed...]
+[&Manage feed...]
+[&Delete feed]
+[Notification]
+[Show &PopUp]
+[Show contact &list event]
+[Feed enabled]
+[Feed disabled]
+[Retrieve news at &startup]
+[Open URLs in &new browser window]
+[Do not show warning and &error messages]
+[Save the windows size and location &individually for each feed]
+[Colours]
+[Background colour]
+[Text colour]
+[Use default &background colour]
+[Use default &text colour]
+[&Use Windows colours]
+[Previe&w]
+[Icon]
+[Use default &icon]
+[On left click]
+[On right click]
+[Open link]
+[Open history]
+[Close popup]
+[Link :]
+[Description]
+[&Read more]
+[&Close]
+[Read &Next (%u)]
+[connection]
+[&Help]
+[&Store news in database]
+[Plugins]
+[RSSNews]
+[PopUps]
+[Retrieve &news]
+Prija novinky
+[Incoming RSS news]
+Prichádzajúca RSS novinka
+[News received]
+Novinka prijatá
+[View Feed's History]
+[Error]
+Chyba
+[Help]
+Pomoc
+[RSS plugin can't connect to the server %s, it may be temporarily down. Please try again later.]
+[RSS plugin is unable to resolve the name of the server %s.]
+[Error creating RSSNews window]
+[RSSNews plugin can't find windows sockets version 1.1. This plugin doesn't will work.]
+[Icon File]
+Súbor ikon
+;[Feed ID]
+
+
+; /----------------------------------------------------------\
+; |  UINBackup 0.4.2.1                                       |
+; \----------------------------------------------------------/
+
+[Export contacts]
+Export kontaktov
+[Import contacts]
+Import kontaktov
+[Show the export menuitem (requires restart of Miranda)]
+Zobrazi export zoznam(treba reštartova Mirandu)
+[Show the import menuitem (requires restart of Miranda)]
+Zobrazi import zoznam(treba reštartova Mirandu)
+[Browse]
+Listova
+[Autoimport a clb file on startup]
+Automaticky importuj clb súbor pri štarte
+[Error writing to the file. Is the disk full?]
+Chyba pri zápise do súboru.
+[Error]
+Chyba
+[One contact had too long nickname or groupname.\nThe contact was not saved.]
+Jeden kontakt ma pridlhı nick alebo skupinu. Kontakt sa neuloí.
+[No contacts found]
+iadne kontakty
+[%d contact saved\nThere are %d contacts in the database]
+%d kontakt je uloenı. Je %d kontaktov v databáze
+[%d contacts saved\nThere are %d contacts in the database]
+%d kontaktov je uloenıch. Je %d kontaktov v databáze
+[Backup done]
+Nezálohova
+[Done]
+iadna
+[No contacts found]
+Nenašiel som kontakty
+[%s on line %d]
+%s na riadku %d
+[Too many errors, no more error messages will be shown.]
+Prive¾a chıb, viac chybovıch správ nezobrazím.
+[Warning]
+Varovanie
+[Insufficient memory available]
+Nedostatok vo¾nej pamäte
+[A critical error occured.\nTry to do the operation one more time.]
+Kritická chyba. Skúste operáciu neskôr.
+[Critical error]
+Kritická chyba
+[Warning, strange sequence]
+Pozor, neobvyklá sekvencia
+[Syntax error, early line break]
+Syntaktická chyba, konèím
+[Syntax error, too many \";\" characters]
+Syntaktická chyba, prive¾a \";\" znakov
+[Warning, strange character sequence]
+Pozor, neobvyklé znaky
+[Error, too many characters]
+Chyba, prive¾a znakov
+[Too long UIN]
+Dlhé UIN
+[%d contact imported\nThere are %d contacts in the database]
+%d kontakt importovanı. Je %d kontaktov v databáze
+[%d contacts imported\nThere are %d contacts in the database]
+%d kontaktov importovanıch. Je %d kontaktov v databáze
+[Import successfull]
+Import ukonèenı
+[No contacts imported]
+iadny kontakt nebol importovanı
+
+
+; /----------------------------------------------------------\
+; |  Unified Messaging Center Plugin v0.1.4.1                |
+; \----------------------------------------------------------/
+
+;[http://wwp.icq.com/%u]
+; currently only available in English
+;[http://web.icq.com/whitepages/search]
+; currently only available in English, French, Italian, Spanish, German, Portuguese
+;[http://web.icq.com/whitepages/webfront_dir]
+; currently only available in English, French, Italian, Spanish, German, Portuguese
+[http://members.msn.com/%s]
+http://members.msn.com/default.msnw?mem=%s&pgmarket=en-ca
+[http://members.msn.com/find.msnw]
+http://members.msn.com/find.msnw?pgmarket=en-ca
+[http://profiles.yahoo.com/%s]
+http://ca.profiles.yahoo.com/%s
+[http://members.yahoo.com/interests?.oc=a]
+http://ca.members.yahoo.com/interests?.oc=a
+;ICQmail
+;[http://www.icq.com/icqmail/]
+; no need to translate
+;ICQ Network Status
+;[http://web.icq.com/status]
+; no need to translate
+;MSN Network Status
+;[http://messenger.msn.ca/support/status.asp]
+; no need to translate
+
+
+; /----------------------------------------------------------\
+; |  Yahoo 0.0.5.3                                           |
+; \----------------------------------------------------------/
+
+[Set Custom State]
+Vyber štát
+[Set &Custom State]
+Vyber štát
+[Show Busy Icon]
+Zobrazi ikonu obsadenia
+[YAHOO Messenger]
+YAHOO Messenger
+[Network]
+Sie
+[YAHOO]
+YAHOO
+[ID:]
+Id:
+[Password:]
+Heslo:
+[Login server:]
+Prihlasovací server
+[Create a new YAHOO messenger account using the YAHOO!JAPAN website]
+Vytvori novı YAHOO messenger s pouitím japonskej web stránky
+[Create a new YAHOO messenger account using the YAHOO!US website]
+Vytvori novı YAHOO messenger s pouitím americkej stránky
+[Set JP Server]
+Nastavi JP server
+[Set US Server]
+Nastavi US server
+[Keep connection alive (send a packet every minute)]
+Obnovovanie spojenia (kadú minútu pošle paket)
+[Disable to notify receiving yahoo mail]
+Vypni notifikáciu došláho mailu
+[Ignore displaying unhandled service]
+Ignoruj zobrazovanie bezhlaviskovych správ
+[Disable Set Custom State Menu]
+Zakáza nastavenie štátu
+[The changes you have made require you to reconnect to the YAHOO Messenger network before they take effect]
+Na uplatnenie zmien sa musíte odhlási a znovu prihláso do siete YAHOO Messenger
+[A new mail has come from %s (%s) (title: %s).]
+Novı mail od %s (%s) (text: %s).
+[Yahoo mail from %s (%s)]
+Yahoo mail od %s (%s)
+[Subject: %s]
+Predmet: %s
+[A new mail has come from %s (title: %s).]
+Novı mail od %s (text: %s).
+[Yahoo mail from %s]
+Yahoo mail od %s
+[Unread %i mail(s)]
+Nepreèítanıch %i mailov
+[Yahoo mail]
+Yahoo mail
+[Please wait a miniute...]
+Prosím èakajte ...
+;Yahoo mail opt
+[Yahoo mail Notify]
+Notifikácia yahoo mailu
+[Yahoo mail Notify - PopUp Options]
+Notifikácia yahoo mailu - PopUp vo¾by
+[Test: Arrival Yahoo mail]
+Test: Skúška Yahoo mailu
+[A New Yahoo mail has come!]
+Prišiel novı yahoo mail!

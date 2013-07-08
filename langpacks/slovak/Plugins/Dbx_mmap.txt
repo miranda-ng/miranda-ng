@@ -5,6 +5,8 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda-NG project
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Install Database Settings]
 Aplikovať nastavenia databázy
@@ -12,6 +14,8 @@ Aplikovať nastavenia databázy
 Áno
 [No]
 Nie
+[A file containing new database settings has been placed in the Miranda NG directory.]
+
 [Do you want to import the settings now?]
 Chcete importovať nastavenia?
 [No to all]
@@ -34,10 +38,6 @@ Prajete si umožniť túto zmenu?
 Umožniť všetky budúce zmeny v tejto sekcii
 [&Yes]
 Áno
-[&Yes]
-Áno
-[&No]
-Nie
 [&No]
 Nie
 [Cancel Import]
@@ -52,19 +52,111 @@ Import je kompletný z
 Recyklovať
 [&Delete]
 Vymazať
-[&Delete]
-Vymazať
 [&Move/Rename]
 Presunúť/Premenovať
 [&Leave]
 Opustiť
 ;file \plugins\Db3x_mmap\src\database.cpp
+[Disk is full. Miranda will now shutdown.]
+
+[Database failure. Miranda will now shutdown.]
+
+[Database Error]
+
+[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from http://miranda-ng.org/. Miranda will now shutdown.]
+
+[Database Panic]
+
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
+[Performing aggressive pass]
+
+[Aggressive: random junk at %08X: skipping]
+
+[Aggressive: unlinked data at %08X: can't automatically place]
+
 ;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
+[Processing contact chain]
+
+[Contact count marked wrongly: correcting]
+
+[Contact chain corrupted, further entries ignored]
+
 ;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
+[Invalid offset found (database truncated?)]
+
+[Invalid offset found]
+
+[Error reading, database truncated? (%u)]
+
+[Can't write to working file, aggressive mode may be too aggressive now]
+
+[Can't write to output file - disk full? (%u)]
+
 ;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
+[Event count marked wrongly: correcting]
+
+[Event chain corrupted, trying to recover...]
+
+[Event chain corrupted, further entries ignored]
+
+[First event not marked as such: correcting]
+
+[Event marked as first which is not: correcting]
+
+[Extra flags found in event: removing]
+
+[First unread event marked wrong: fixing]
+
+[Infeasibly large event blob: skipping]
+
+[Event not backlinked correctly: fixing]
+
+[Duplicate event was found: skipping]
+
+[Event position in chain is not correct]
+
+[Event position in chain is not correct: fixing]
+
+[Event position in chain is not correct: unable to fix]
+
 ;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
+[Processing final tasks]
+
 ;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
+[Database signature is corrupted, automatic repair is impossible]
+
+[Database is marked as belonging to an unknown version of Miranda]
+
+[Database is newly created and has no data to process]
+
+[Processing completed successfully]
+
+[Can't create file mapping (%u)]
+
+[Can't create map view of file (%u)]
+
 ;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
+[Processing module name chain]
+
+[Module chain corrupted, further entries ignored]
+
+[Unreasonably long module name, skipping]
+
+[Module name '%s' is not unique: %d duplicates found)]
+
+[Invalid module name offset, skipping data]
+
 ;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
+[Settings chain corrupted, further entries ignored]
+
+[Infeasibly large settings blob: skipping]
+
+[Empty settings group at %08X: skipping]
+
 ;file \plugins\Db3x_mmap\src\dbtool\user.cpp
+[Processing user data]
+
+[User corrupted, this could cause major problems]
+
+[More than one user contact: keeping only first]
+

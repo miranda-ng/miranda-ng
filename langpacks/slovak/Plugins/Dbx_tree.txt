@@ -5,9 +5,23 @@
 ;  Version: 0.0.0.18
 ;  Authors: Michael 'Protogenes' Kunz
 ;============================================================
+[Provides extended Miranda database support.]
+
 ;file \plugins\Dbx_tree\res\dbConfig.rc
+[dbxTree Profile Wizard]
+
 [Cancel]
 Storno
-[Cancel]
-Storno
+[Next >]
+
+[< Prev]
+
 ;file \plugins\Dbx_tree\src\FileAccess.cpp
+[Journal "%s" was found on start.\nBackup "%s"%s created and backup "%s"%s created.\nYou may delete these file(s) after successful start from "%s".]
+
+[ was successfully]
+
+[ could not be]
+
+[Journal "%s" was found on start.\nBackups "%s"and "%s" could not be created in "%s".]
+

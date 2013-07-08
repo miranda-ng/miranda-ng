@@ -1,0 +1,2 @@
+﻿[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+[A file containing new database settings has been placed in the Miranda NG directory.]

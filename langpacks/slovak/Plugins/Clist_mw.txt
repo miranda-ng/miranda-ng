@@ -5,7 +5,11 @@
 ;  Version: 0.9.0.0
 ;  Authors: 
 ;============================================================
+[Displays contacts, event notifications, protocol status with MW modifications.]
+
 ;file \plugins\Clist_mw\res\resource.rc
+[Settings]
+
 [Background colour:]
 Farba pozadia:
 [Selection colour:]
@@ -24,6 +28,22 @@ Nad sebou
 Posúvať s textom
 [Stretch proportionally]
 Roztiahnúť veľkosť
+[Tile vertically according to Row Height]
+
+[Warning!\r\nThis MenuObject not support user defined options.]
+
+[MenuObjects]
+
+[MenuItems]
+
+[InsertSeparator]
+
+[Service:]
+
+[Name:]
+
+[Set]
+
 [Default]
 Prednastavené
 [Delete Contact]
@@ -32,12 +52,22 @@ Zmazať kontakt
 Nie
 [Yes]
 Áno
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+
+[Use Options->Contacts->Ignore to unhide contacts.]
+
+[Are you sure you want to delete %s?]
+
+[This will erase all history and settings for this contact!]
+
 [Hide offline users]
 Skryť nepripojených užívateľov
 [Hide empty groups]
 Skryť prázdne skupiny
 [Disable groups]
 Skryť skupiny
+[Ask before deleting contacts]
+
 [Always on top]
 Vždy navrchu
 [Hide contact list after it has been idle for]
@@ -48,10 +78,20 @@ sekúnd
 Triediť kontakty podľa mena
 [Sort contacts by status]
 Triediť kontakty podľa stavu
+[Sort contacts by protocol]
+
 [Single click interface]
 Nepoužívať dvojklik myšou
+[Always show status in tooltip]
+
+[Disable icon blinking]
+
+[ms, delay between icon blinking]
+
 [Show]
 Zobraziť
+[icon when statuses differ]
+
 [Cycle icons every]
 Cyklovať každú ikonu
 [seconds, when statuses differ]
@@ -66,14 +106,18 @@ Zoznam kontaktov
 Ikona v oznamovacej oblasti
 [System tray icon when using multiple protocols]
 Ikona v oznamovacej oblasti pri použití viacerých protokolov
+[Contact List Sorting]
+
+[Dont move offline user to bottom]
+
+[Pin to desktop]
+
 [Rows]
 Riadky
 [Row height:]
 Výška riadku:
 [pixels]
 pixelov
-[pixels]
-bodov
 [Gamma correction]
 Gamma korekcia
 [Window]
@@ -92,6 +136,8 @@ maximálne
 Zväčšovať smerom hore
 [Title bar text:]
 Text nadpisu:
+[Translucency options]
+
 [Fade contact list in/out]
 Plynule spriehľadňovať/zobrazovať
 [Transparent contact list]
@@ -106,6 +152,10 @@ Zobraziť menu
 Jednoduchý presun
 [Show title bar]
 Zobraziť nadpis
+[If window is partially covered, bring to front instead of hiding]
+
+[Enable drop shadow (restart required)]
+
 [Items]
 Položky
 [Show divider between online and offline contacts]
@@ -122,8 +172,6 @@ Zvýrazňovať výber i keď je zoznam neaktívny
 Použiť priehladné označenie výberu
 ['Hide Offline' means to hide:]
 'Skryť nepripojených' = skryť týchto:
-[Groups]
-Skupiny
 [Groups]
 Skupiny
 [Draw a line alongside group names]
@@ -150,14 +198,28 @@ milisekúnd
 јavý okraj
 [Grey out entire list when:]
 Potlačiť intenzitu u týchto položiek:
+[Dim idle contacts]
+
+[Hide vertical scrollbar]
+
 [Contact List Background]
 Pozadie zoznamu kontaktov
+[Use 'Meta' protocol icons for Metacontacts]
+
+[Avoid doubleclick expand]
+
+[Hide all 'Extra icons' for subcontacts]
+
+[MetaContacts supporting]
+
+[Ignore Empty Extra icons places (arrange to right).]
+
+[Hide offline subcontacts.]
+
 [Status Bar]
 Stavový riadok
 [Show status bar]
 Zobraziť stavový riadok
-[Show icons]
-Zobraziť ikony
 [Show icons]
 Zobraziť ikony
 [Show protocol names]
@@ -170,8 +232,14 @@ Pravé tlačítko myši otvára stavové menu
 Pravé tlačítko myši otvára hlavné menu
 [Make sections equal width]
 Rovnaká šírka oddielov
-[E&xit]
-Koniec
+[Show size grip]
+
+[Show bevel effect on panels]
+
+[Use connecting Icon]
+
+[Use New Drawer for StatusBar]
+
 [E&xit]
 Koniec
 [&Status]
@@ -196,8 +264,12 @@ Neviditelný
 Telefonujem
 [Out to &Lunch\tCtrl+9]
 Na obede
+[Tray]
+
 [&Hide/Show]
 Skryť/Zobraziť
+[Nowhere]
+
 [&New Group]
 Nová skupina
 [&Hide Offline Users]
@@ -208,6 +280,10 @@ Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
 Skryť prázdne skupiny
 [Disable &Groups]
 Skryť názvy skupín
+[Hide Miranda]
+
+[Group]
+
 [&New Subgroup]
 Nová podskupina
 [&Hide Offline Users in here]
@@ -217,6 +293,10 @@ Premenovať skupinu
 [&Delete Group]
 Zmazať skupinu
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
+[Customize]
+
+[Backgrounds]
+
 ;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 Štandardné kontakty
@@ -232,23 +312,33 @@ Počet členov skupiny
 Oddelovače
 [Offline contacts to whom you have a different visibility]
 Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Status messages]
+
+[Group Closed]
+
+[Hover Contacts]
+
 [Background]
 Pozadie
-[Background]
-Pozadie
+[Selected Text]
+
+[Hottrack Text]
+
+[Quicksearch Text]
+
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Zoznam
 [List Background]
 Pozadie zoznamu
+[List MetaContacts]
+
+[StatusBar Background]
+
 [Not focused]
 Neoznačené
 [Offline]
 Odpojený
-[Offline]
-Odpojený
-[Online]
-Pripojený
 [Online]
 Pripojený
 [Away]
@@ -268,17 +358,77 @@ Na obede
 [On the phone]
 Telefonuje
 ;file \plugins\Clist_mw\src\clistopts.cpp
+[Global]
+
 ;file \plugins\Clist_mw\src\clistsettings.cpp
+[_NoProtocol_]
+
 [(Unknown Contact)]
 (neznámý kontakt)
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 Nájsť/Pridať kontakty...
+[&Main Menu]
+
 [&Options...]
 Nastavenia...
+[&About]
+
 ;file \plugins\Clist_mw\src\clui.cpp
+[My Contacts]
+
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
+[&New SubGroup]
+
 ;file \plugins\Clist_mw\src\keyboard.cpp
+[Close Miranda]
+
+[Restore last status]
+
 ;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[&FrameTitle]
+
+[&Visible]
+
+[&Show TitleBar]
+
+[&Locked]
+
+[&Collapsed]
+
+[&Floating Mode]
+
+[&Border]
+
+[&Align]
+
+[&Top]
+
+[&Client]
+
+[&Bottom]
+
+[&Position]
+
+[&Up]
+
+[&Down]
+
+[Frames]
+
+[Show All Frames]
+
+[Show All Titlebars]
+
+[Hide All Titlebars]
+
+[Lock Frame]
+
+[Visible]
+
+[Show TitleBar]
+
+[Floating]
+
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
