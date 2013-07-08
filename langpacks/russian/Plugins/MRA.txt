@@ -104,7 +104,7 @@
 Сообщение не доставлено, неизвестная ошибка, код: %lu
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
 MRIM_CS_MESSAGE_STATUS: не найден в очереди
-[Sended data is invalid]
+[Sent data is invalid]
 Переданные данные были некорректны
 [User does not registred]
 Пользователь не зарегистрирован

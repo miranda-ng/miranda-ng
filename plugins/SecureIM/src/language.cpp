@@ -4,7 +4,7 @@
 LPCSTR sim001 = LPGEN("SecureIM established...");
 LPCSTR sim002 = LPGEN("Key exchange failed...");
 LPCSTR sim003 = LPGEN("Key from disabled...");
-LPCSTR sim004 = LPGEN("Sended back message received...");
+LPCSTR sim004 = LPGEN("Sent back message received...");
 LPCSTR sim005 = LPGEN("Sending back secure message...");
 LPCSTR sim006 = LPGEN("SecureIM disabled...");
 LPCSTR sim007 = LPGEN("Sending Key...");

@@ -836,7 +836,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 				if (pmaHeader->msg == MRIM_CS_ADD_CONTACT_ACK) SetContactBasicInfoW(hContact, 0, (SCBIF_ID|SCBIF_SERVER_FLAG), GetUL(&lpbDataCurrent), 0, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, 0, NULL, 0, NULL, 0, NULL, 0);
 				break;
 			case CONTACT_OPER_ERROR:// ## переданные данные были некорректны
-				ShowFormattedErrorMessage(L"Sended data is invalid", NO_ERROR);
+				ShowFormattedErrorMessage(L"Sent data is invalid", NO_ERROR);
 				break;
 			case CONTACT_OPER_INTERR:// ## при обработке запроса произошла внутренн€€ ошибка
 				ShowFormattedErrorMessage(L"Internal server error", NO_ERROR);

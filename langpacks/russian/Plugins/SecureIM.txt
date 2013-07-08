@@ -41,8 +41,8 @@ PGP ключ
 Обмен ключами не состоялся
 [Key from disabled...]
 Ключ был отвергнут
-[Sended back message received...]
-Обратное сообщение отправлено...
+[Sent back message received...]
+Обратное сообщение принято...
 [Sending back secure message...]
 Отправка обратного сообщения...
 [SecureIM disabled...]
