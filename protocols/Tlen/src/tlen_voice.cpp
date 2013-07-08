@@ -806,10 +806,10 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)proto);
 			proto->voiceDlgHWND = hwndDlg;
 			TranslateDialogDefault(hwndDlg);
-			SendDlgItemMessage(hwndDlg, IDC_VCQUALITY, CB_ADDSTRING, 0, (LPARAM) TranslateT("8000 Hz / 13.8 kbps"));
-			SendDlgItemMessage(hwndDlg, IDC_VCQUALITY, CB_ADDSTRING, 0, (LPARAM) TranslateT("11025 Hz / 19.1 kbps"));
-			SendDlgItemMessage(hwndDlg, IDC_VCQUALITY, CB_ADDSTRING, 0, (LPARAM) TranslateT("22050 Hz / 36.8 kbps"));
-			SendDlgItemMessage(hwndDlg, IDC_VCQUALITY, CB_ADDSTRING, 0, (LPARAM) TranslateT("44100 Hz / 72 kbps"));
+			SendDlgItemMessage(hwndDlg, IDC_VCQUALITY, CB_ADDSTRING, 0, (LPARAM) _T("8000 Hz / 13.8 kbps"));
+			SendDlgItemMessage(hwndDlg, IDC_VCQUALITY, CB_ADDSTRING, 0, (LPARAM) _T("11025 Hz / 19.1 kbps"));
+			SendDlgItemMessage(hwndDlg, IDC_VCQUALITY, CB_ADDSTRING, 0, (LPARAM) _T("22050 Hz / 36.8 kbps"));
+			SendDlgItemMessage(hwndDlg, IDC_VCQUALITY, CB_ADDSTRING, 0, (LPARAM) _T("44100 Hz / 72 kbps"));
 			SendDlgItemMessage(hwndDlg, IDC_VCQUALITY, CB_SETCURSEL, 1, 0);
 			SendDlgItemMessage(hwndDlg, IDC_MICROPHONE, BUTTONSETASFLATBTN, TRUE, 0);
 			SendDlgItemMessage(hwndDlg, IDC_SPEAKER, BUTTONSETASFLATBTN, TRUE, 0);

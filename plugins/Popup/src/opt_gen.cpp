@@ -52,18 +52,19 @@ int AddStatusMode (OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flag)
 	options[pos].iconIndex = 0;
 
 	lstrcpy(options[pos].pszOptionName, prefix);
+	lstrcat(options[pos].pszOptionName, _T("/"));
 	switch (flag)
 	{
-		case PF2_IDLE:		lstrcat(options[pos].pszOptionName, LPGENT("/Offline")); break;
-		case PF2_ONLINE:	lstrcat(options[pos].pszOptionName, LPGENT("/Online")); break;
-		case PF2_INVISIBLE:	lstrcat(options[pos].pszOptionName, LPGENT("/Invisible")); break;
-		case PF2_SHORTAWAY:	lstrcat(options[pos].pszOptionName, LPGENT("/Away")); break;
-		case PF2_LONGAWAY:	lstrcat(options[pos].pszOptionName, LPGENT("/NA")); break;
-		case PF2_LIGHTDND:	lstrcat(options[pos].pszOptionName, LPGENT("/Occupied")); break;
-		case PF2_HEAVYDND:	lstrcat(options[pos].pszOptionName, LPGENT("/DND")); break;
-		case PF2_FREECHAT:	lstrcat(options[pos].pszOptionName, LPGENT("/Free for chat")); break;
-		case PF2_OUTTOLUNCH:lstrcat(options[pos].pszOptionName, LPGENT("/Out to lunch")); break;
-		case PF2_ONTHEPHONE:lstrcat(options[pos].pszOptionName, LPGENT("/On the phone")); break;
+		case PF2_IDLE:		lstrcat(options[pos].pszOptionName, LPGENT("Offline")); break;
+		case PF2_ONLINE:	lstrcat(options[pos].pszOptionName, LPGENT("Online")); break;
+		case PF2_INVISIBLE:	lstrcat(options[pos].pszOptionName, LPGENT("Invisible")); break;
+		case PF2_SHORTAWAY:	lstrcat(options[pos].pszOptionName, LPGENT("Away")); break;
+		case PF2_LONGAWAY:	lstrcat(options[pos].pszOptionName, LPGENT("NA")); break;
+		case PF2_LIGHTDND:	lstrcat(options[pos].pszOptionName, LPGENT("Occupied")); break;
+		case PF2_HEAVYDND:	lstrcat(options[pos].pszOptionName, LPGENT("DND")); break;
+		case PF2_FREECHAT:	lstrcat(options[pos].pszOptionName, LPGENT("Free for chat")); break;
+		case PF2_OUTTOLUNCH:lstrcat(options[pos].pszOptionName, LPGENT("Out to lunch")); break;
+		case PF2_ONTHEPHONE:lstrcat(options[pos].pszOptionName, LPGENT("On the phone")); break;
 	}
 	return pos+1;
 }

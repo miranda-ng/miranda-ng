@@ -199,7 +199,7 @@
 [Hide offline subcontacts.]
 [MetaContacts stuff]
 [Additional stuff]
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
+[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
 [Allow internal requesting of status message text]
 [Subcontacts indent:]
 [Remove status message if contact became offline]

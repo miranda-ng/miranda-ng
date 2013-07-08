@@ -35,7 +35,7 @@
 [Disk is full. Miranda will now shutdown.]
 [Database failure. Miranda will now shutdown.]
 [Database Error]
-[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from http://miranda-ng.org/. Miranda will now shutdown.]
+[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
 [Database Panic]
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
 [Performing aggressive pass]

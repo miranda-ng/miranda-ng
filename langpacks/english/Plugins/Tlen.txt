@@ -184,8 +184,4 @@
 [...Finished...]
 [...Error...]
 [...Denied...]
-[8000 Hz / 13.8 kbps]
-[11025 Hz / 19.1 kbps]
-[22050 Hz / 36.8 kbps]
-[44100 Hz / 72 kbps]
 [Default]

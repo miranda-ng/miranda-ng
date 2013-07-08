@@ -3594,7 +3594,7 @@
 [Hide offline subcontacts.]
 [MetaContacts stuff]
 [Additional stuff]
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
+[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
 [Allow internal requesting of status message text]
 [Subcontacts indent:]
 [Remove status message if contact became offline]
@@ -5398,7 +5398,7 @@
 [Disk is full. Miranda will now shutdown.]
 [Database failure. Miranda will now shutdown.]
 [Database Error]
-[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from http://miranda-ng.org/. Miranda will now shutdown.]
+[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
 [Database Panic]
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
 [Performing aggressive pass]
@@ -5888,7 +5888,7 @@
 [File As Message...]
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]
-[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-ng.org/ for more information and download.]
+[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-ng.org/p/FileAsMessage/ for more information and download.]
 ﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
 ;============================================================
 ;  File: Fingerprint.dll
@@ -13376,16 +13376,16 @@
 [CLASS Plugins]
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 ;file \plugins\Popup\src\opt_gen.cpp
-[/Offline]
-[/Online]
-[/Invisible]
-[/Away]
-[/NA]
-[/Occupied]
-[/DND]
-[/Free for chat]
-[/Out to lunch]
-[/On the phone]
+[Offline]
+[Online]
+[Invisible]
+[Away]
+[NA]
+[Occupied]
+[DND]
+[Free for chat]
+[Out to lunch]
+[On the phone]
 [Width]
 [upper left corner]
 [lower left corner]
@@ -13490,17 +13490,11 @@
 [- Text from Clipboard]
 [- Contacts Protocol name (upper case)]
 [- Contact display name]
-[%t]
-[%c]
-[%P]
-[%n]
 [Tips:]
 [*Rename menu item into "---" to insert separator]
 [*Use drag'n'drop for arranging menu items]
 [- Contact first name]
-[%F]
 [- Contact last name]
-[%L]
 ;file \plugins\QuickMessages\src\main.cpp
 [Quick Messages]
 ;file \plugins\QuickMessages\src\options.cpp
@@ -13773,6 +13767,13 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13802,12 +13803,6 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -15052,16 +15047,7 @@
 [Status:]
 [Independent setting for each protocol]
 [Pop up dialog asking for status message]
-[%time%]
-[%date%]
-[%winampsong%]
-[%rand(x,y)%]
-[%randmsg%]
-[%randdefmsg%]
 [Fortune]
-[%fortunemsg%]
-[%protofortunemsg%]
-[%statusfortunemsg%]
 [?cinfo(contact,property)]
 [?contact(string,property)]
 [?mstatus(protocol)]
@@ -15207,7 +15193,6 @@
 [Default group:]
 [Block]
 [Block this person]
-[%s]
 [Remove from your Contact List]
 [Abuse]
 [You can also report abuse from this user.]
@@ -17815,10 +17800,6 @@
 [...Finished...]
 [...Error...]
 [...Denied...]
-[8000 Hz / 13.8 kbps]
-[11025 Hz / 19.1 kbps]
-[22050 Hz / 36.8 kbps]
-[44100 Hz / 72 kbps]
 [Default]
 ﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
 ;============================================================
@@ -17875,7 +17856,7 @@
 [is]
 ﻿#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
 ;============================================================
-;  File: TopToolbar.dll
+;  File: TopToolBar.dll
 ;  Plugin: TopToolBar
 ;  Version: 0.8.0.3
 ;  Authors: Bethoven

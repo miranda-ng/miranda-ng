@@ -64,7 +64,6 @@
 [Default group:]
 [Block]
 [Block this person]
-[%s]
 [Remove from your Contact List]
 [Abuse]
 [You can also report abuse from this user.]
