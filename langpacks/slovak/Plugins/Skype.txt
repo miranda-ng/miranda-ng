@@ -132,12 +132,9 @@ Krajina:
 
 [Report abuse]
 
-;file \protocols\Skype\proto_skype\src\resource.h
-[Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
-
+;file \protocols\Skype\src\skype.cpp
 [Did not unpack SkypeKit.exe.]
 
-;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
 [LOGOUT_CALLED]
 
@@ -316,6 +313,8 @@ Kontakt
 
 ;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
+[Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
+
 [Initialization key corrupted or not valid.]
 
 [SkypeKit did not initialize (%d).]

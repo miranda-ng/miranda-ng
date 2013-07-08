@@ -224,19 +224,7 @@ Sieť
 [User-Defined]
 
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Log Files (*.txt,*.log)]
-
-[Enter integer value]
-
-[Enter log file name.]
-
-[Enter log file format.]
-
-[Enter history format.]
-
-[Enter popup window format.]
-
+;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
 
@@ -290,3 +278,15 @@ Sieť
 [Change]
 
 ;file \plugins\Quotes\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+
+[Enter integer value]
+
+[Enter log file name.]
+
+[Enter log file format.]
+
+[Enter history format.]
+
+[Enter popup window format.]
+

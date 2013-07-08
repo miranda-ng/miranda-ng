@@ -101,5 +101,5 @@ Prijímam...
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]
 
-[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 "http://miranda-ng.org/ for more information and download.]
+[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-ng.org/ for more information and download.]
 
