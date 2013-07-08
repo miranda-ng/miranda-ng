@@ -296,7 +296,7 @@ stream.LoadFromFile(file);
 //read file into var
 var translatefiletext=stream.ReadText();
 //"find" - RegularExpression, first string have to start with [ and end with]. Next string - translation
-var find=/(^\[.+?\](?=$))\r\n(^(?!\[|;file|\r|\n).+?(?=$))/mg;
+var find=/(^\[.+?\](?=$))\r\n(^(?!;file|\r|\n).+?(?=$))/mg;
 //While our "find" RegExp return a results, add strings into dictionary.
 while ((string = find.exec(translatefiletext)) != null) {
     //first, init empty var
@@ -304,6 +304,9 @@ while ((string = find.exec(translatefiletext)) != null) {
     //first match as original string [....], is a key of dictionary, second match is a translation - item of key in dictionary 
     var key=string[1];
     var item=string[2];
+	//ignore "translations" (wrongly parsed untranslated strings) begining and ending with []
+	if (item.match(/^\[.*\]$/))
+		continue;
     //add key-item pair into dictionary, if not exists already
     if (!dictionary.Exists(key))
         dictionary.Add(key,item);
